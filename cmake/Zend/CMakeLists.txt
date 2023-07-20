@@ -128,7 +128,7 @@ target_compile_definitions(Zend PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE=1)
 check_gcc_global_register_vars()
 
 # Check for fibers support.
-include("${CMAKE_SOURCE_DIR}/cmake/fibers.cmake")
+include(CheckFibers)
 
 if(FIBER_ASM)
   add_library(ZendAsm

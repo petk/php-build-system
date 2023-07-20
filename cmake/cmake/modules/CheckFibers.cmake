@@ -1,6 +1,12 @@
+#[=============================================================================[
+Check for Fibers support.
+]=============================================================================]#
+
 include(CheckCSourceRuns)
 
 option(FIBER_ASM "Enable the use of boost fiber assembly files" ON)
+
+message(STATUS "Checking fibers support")
 
 message(STATUS "Discovering system processor")
 if(${CMAKE_HOST_SYSTEM_PROCESSOR} MATCHES "x86_64.*|amd64.*")
