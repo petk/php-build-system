@@ -1,3 +1,4 @@
 [submodule "php-src"]
 	path = php-src
 	url = https://github.com/php/php-src
+	shallow = true
