@@ -1,0 +1,88 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+    paths-ignore:
+      - 'autotools/**'
+      - 'docs/**'
+      - 'windows/**'
+      - 'README.md'
+      - '.editorconfig'
+      - '.gitignore'
+
+jobs:
+  linux:
+    name: Linux.${{ matrix.os.label }}.${{ matrix.compiler.name }}.${{ matrix.generator }}
+    runs-on: ${{ matrix.os.label }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os:
+          - { label: ubuntu-latest }
+        compiler:
+          - { name: GNU13,  CC: gcc-13,   CXX: g++-13,     packages: gcc-13 g++-13 }
+          - { name: LLVM15, CC: clang-15, CXX: clang++-15, packages: clang-15 libomp-15-dev llvm-15-dev libc++-15-dev libc++abi1-15 lld-15 clang-tools-15 mlir-15-tools libmlir-15-dev }
+        build_type:
+          - Release
+        target:
+          - build
+        generator:
+          - Unix Makefiles
+    env:
+      CC: ${{ matrix.compiler.CC }}
+      CXX: ${{ matrix.compiler.CXX }}
+      SRC_DIR: ${{ github.workspace }}/php-src
+      BUILD_DIR: ${{ github.workspace }}/php-src
+      INSTALL_PREFIX: ${{ github.workspace }}/php-src/install
+      CMAKE_BUILD_TYPE: ${{ matrix.build_type }}
+      GENERATOR: ${{ matrix.generator }}
+      TARGET: ${{ matrix.target }}
+    steps:
+      - name: Install compiler ${{ matrix.compiler.name }}
+        run: |
+          # Remove azure mirror because it is unreliable and sometimes unpredictably leads to failed CI
+          sudo sed -i 's/azure\.//' /etc/apt/sources.list
+          sudo add-apt-repository ppa:ubuntu-toolchain-r/test
+          sudo add-apt-repository -y universe
+          sudo add-apt-repository -y multiverse
+          sudo apt-get update
+          sudo apt-get -y install \
+            ${{ matrix.compiler.packages }}
+      - name: Install base dependencies
+        run: |
+          sudo apt-get -y install \
+            build-essential \
+            re2c \
+            bison \
+            libxml2-dev \
+            libssl-dev \
+            libpcre++-dev \
+            libsqlite3-dev \
+            libbz2-dev \
+            libcurl4-openssl-dev \
+            libdb5.3++-dev \
+            libdb-dev \
+            libenchant-2-dev \
+            libpng-dev \
+            libgmp-dev \
+            libc-client-dev \
+            libkrb5-dev \
+            libjpeg-dev \
+            libxpm-dev \
+            libfreetype6-dev \
+            libldap2-dev \
+            unixodbc-dev \
+            libodbc1 \
+            freetds-dev \
+            libsnmp-dev \
+            snmp \
+            apache2-dev \
+            firebird-dev;
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 2
+          submodules: true
+      - name: Build and install
+        run: ./init --cmake
