@@ -1,0 +1,13 @@
+diff --git a/.editorconfig b/.editorconfig
+index 7911bf8490..3348d7dde7 100644
+--- a/.editorconfig
++++ b/.editorconfig
+@@ -17,7 +17,7 @@ indent_style             = tab
+ indent_size              = 4
+ indent_style             = space
+ 
+-[*.{ac,m4,sh,yml}]
++[{CMakeLists.txt,*.{ac,cmake,m4,sh,yml}}]
+ indent_size              = 2
+ indent_style             = space
+ 

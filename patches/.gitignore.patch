@@ -1,0 +1,15 @@
+diff --git a/.gitignore b/.gitignore
+index 49acc9f2e1..ab0b7eb2ce 100644
+--- a/.gitignore
++++ b/.gitignore
+@@ -297,3 +297,10 @@ tmp-php.ini
+ !/ext/fileinfo/magicdata.patch
+ !/ext/pcre/pcre2lib/config.h
+ !/win32/build/Makefile
++
++# ------------------------------------------------------------------------------
++# CMake generated files
++# ------------------------------------------------------------------------------
++CMakeCache.txt
++CMakeFiles/
++cmake_install.cmake
