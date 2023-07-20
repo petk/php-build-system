@@ -478,7 +478,7 @@ git clone --recurse-submodules https://github.com/petk/php-build-system
 cd php-build-system
 
 # Patch php-src repository and run CMake commands to build PHP
-./init.sh --update --cmake
+./init --update --cmake
 ```
 
 ### 8.2. Why using CMake?

@@ -4,7 +4,6 @@
 
 update=0
 cmake=0
-debug=0
 
 # Go to project root.
 cd $(CDPATH= cd -- "$(dirname -- "$0")" && pwd -P)
@@ -15,16 +14,12 @@ while test $# -gt 0; do
 PHP CMake initialization helper
 
 SYNOPSIS:
-  init.sh [<options>]
+  init [<options>]
 
 OPTIONS:
   -u, --update    Clone and/or pull the php-src Git repository.
   -c, --cmake     Run cmake configuration and build commands.
-  --debug         Display warnings.
   -h, --help      Display this help.
-
-ENVIRONMENT:
-  The following optional variables are supported:
 HELP
     exit 0
   fi
@@ -35,10 +30,6 @@ HELP
 
   if test "$1" = "-c" || test "$1" = "--cmake"; then
     cmake=1
-  fi
-
-  if test "$1" = "--debug"; then
-    debug=1
   fi
 
   shift
@@ -74,7 +65,6 @@ if test "$cmake" = "1"; then
   cd php-src
   cmake .
   cmake --build . -- --jobs $(nproc)
-  #cmake --build .
 else
   echo "Now run:
     cmake .
