@@ -1,0 +1,27 @@
+# https://editorconfig.org/
+
+root = true
+
+[*]
+trim_trailing_whitespace = true
+insert_final_newline     = true
+indent_style             = space
+end_of_line              = lf
+indent_size              = 4
+tab_width                = 4
+charset                  = utf-8
+
+[*.{md,sh,yaml,yml}]
+indent_size              = 2
+
+[Makefile]
+indent_style             = tab
+
+[*.patch]
+trim_trailing_whitespace = false
+
+[COMMIT_EDITMSG]
+max_line_length          = 80
+
+[{*.cmake,CMakeLists.txt}]
+indent_size              = 2
