@@ -4,8 +4,6 @@
 # This script is intended to follow the changes in the build system and
 # integrate them in the CMake system.
 
-update=0
-
 # Go to project root.
 cd $(CDPATH= cd -- "$(dirname -- "$0")" && pwd -P)
 
@@ -14,18 +12,22 @@ while test $# -gt 0; do
     cat << HELP
 PHP build system downloader
 
+Helper script that fetches latest php-src repository changes and copies PHP
+build files from the php-src repository for easier following of the upstream
+build system changes.
+
 SYNOPSIS:
   update [<options>]
 
 OPTIONS:
-  -u, --update    Update php-src repository.
   -h, --help      Display this help.
+
+HELP:
+  To fetch latest php-src changes and copy build system files run:
+
+    ./update
 HELP
     exit 0
-  fi
-
-  if test "$1" = "-u" || test "$1" = "--update"; then
-    update=1
   fi
 
   shift
@@ -36,13 +38,17 @@ if test ! -d "php-src"; then
   git clone --depth 1 https://github.com/php/php-src ./php-src
 fi
 
-if test "$update" = "1"; then
-  cd php-src
-  git checkout .
-  git clean -dffx .
-  git pull --rebase
-  cd ..
-fi
+cd php-src
+
+# Fetch latest php-src repository changes.
+git checkout .
+git clean -dffx .
+git pull --rebase
+
+# Create main/php_config.h.in.
+./buildconf
+
+cd ..
 
 # Autotools build system files.
 autotools="
@@ -53,6 +59,8 @@ ext/*/config0.m4
 ext/*/config.m4
 ext/*/config9.m4
 ext/*/Makefile.frag
+main/build-defs.h.in
+main/php_config.h.in
 pear/*
 sapi/*/config0.m4
 sapi/*/config.m4

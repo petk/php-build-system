@@ -64,6 +64,6 @@ This is a monolithic repository consisting of the following files:
     └─ ...
  ├─ .editorconfig  # EditorConfig https://editorconfig.org
  ├─ init           # Initialization command line helper
- ├─ update         # Command line helper for downloading latest build files
+ ├─ update         # Command line helper for downloading latest PHP build files
  └─ ...
 ```
