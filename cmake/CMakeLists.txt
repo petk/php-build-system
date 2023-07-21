@@ -1,5 +1,12 @@
 cmake_minimum_required(VERSION 3.25 FATAL_ERROR)
 
+# Set the module path to include the directory containing custom modules.
+list(APPEND CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake/modules/")
+list(APPEND CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake/")
+
+# Define some CMake defaults.
+include(DefineCMakeDefaults)
+
 project(
   PHP
   VERSION 8.3.0
@@ -12,18 +19,14 @@ set(CMAKE_C_STANDARD 99)
 set(CMAKE_C_STANDARD_REQUIRED True)
 
 # Set PHP version variables.
-set(PHP_VERSION_LABEL "-dev")
+set(PHP_VERSION_LABEL "-dev" CACHE STRING "Extra PHP version label suffix, e.g. '-dev', 'rc1', '-acme'")
 string(CONCAT PHP_VERSION "${PHP_VERSION_MAJOR}" "." "${PHP_VERSION_MINOR}" "." "${PHP_VERSION_PATCH}" "${PHP_VERSION_LABEL}")
 math(EXPR PHP_VERSION_ID "${PHP_VERSION_MAJOR} * 10000 + ${PHP_VERSION_MINOR} * 100 + ${PHP_VERSION_PATCH}")
 
-# Set the module path to include the directory containing custom modules.
-list(APPEND CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake/modules/")
-list(APPEND CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake/")
-
 # Create a list of extensions.
-include(cmake/extension.cmake)
+include(PHPExtension)
 
-include(cmake/ConfigureChecks.cmake)
+include(ConfigureChecks)
 
 # Parser and lexer generators.
 find_package(BISON 3.0.0 REQUIRED)
@@ -99,7 +102,7 @@ add_subdirectory(sapi/phpdbg)
 link_libraries(main Zend ext_pcre)
 
 ## Add PHP extensions.
-include(cmake/includeExtensions.cmake)
+include(IncludeExtensions)
 
 # Add PHP engine.
 add_subdirectory(main)

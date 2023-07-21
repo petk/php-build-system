@@ -6,15 +6,14 @@ set(EXT_INCLUDE_CODE "")
 set(EXT_MODULE_PTRS "")
 
 # Add artefacts of static enabled PHP extensions to symbol definitions.
-foreach(item IN LISTS PHP_EXTENSIONS)
-  if(${${item}} EQUAL ON)
-    set(EXT_INCLUDE_CODE "${EXT_INCLUDE_CODE}\n#include \"ext/${item}/php_${item}.h\"")
-
-    set(EXT_MODULE_PTRS "${EXT_MODULE_PTRS}\n\tphpext_${item}_ptr,")
+foreach(extension IN LISTS PHP_EXTENSIONS)
+  # Skip if extension is shared.
+  if(extension IN_LIST PHP_EXTENSIONS_SHARED)
+    continue()
   endif()
-  continue()
 
-  #string(TOLOWER ${${item}} ${item}_lower)
+  set(EXT_INCLUDE_CODE "${EXT_INCLUDE_CODE}\n#include \"ext/${extension}/php_${extension}.h\"")
+  set(EXT_MODULE_PTRS "${EXT_MODULE_PTRS}\n\tphpext_${extension}_ptr,")
 endforeach()
 
 message(STATUS "Creating main/internal_functions.c")

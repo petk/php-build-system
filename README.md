@@ -474,7 +474,7 @@ is a prerequisite to follow the files in this repository.
 
 ```sh
 # Clone this repository
-git clone --recurse-submodules https://github.com/petk/php-build-system
+git clone --recurse-submodules --shallow-submodules https://github.com/petk/php-build-system
 cd php-build-system
 
 # Patch php-src repository and run CMake commands to build PHP
@@ -585,8 +585,6 @@ List of configure command line options and their CMake alternatives:
 
 | configure                        | CMake                 | Default value |
 | -------------------------------- | --------------------- | ------------- |
-| `--enable-cli` / `--disable-cli` | `-Dcli`               | ON            |
-|  `--disable-cli`                 | `-Dcli=OFF`           |               |
 | `--enable-gcc-global-regs`       | `-DGCC_GLOBAL_REGS`   | ON            |
 | `--enable-debug`                 | `-DDEBUG`             |               |
 | `--enable-fiber-asm`             | `-DFIBER_ASM`         |               |
@@ -597,9 +595,27 @@ List of configure command line options and their CMake alternatives:
 | `--enable-short-tags`            | `-DSHORT_TAGS`        | ON            |
 |   `--disable-short-tags`         | `-DSHORT_TAGS=OFF`    |               |
 | `--enable-zts`                   | `-DZTS`               |               |
-| `--with-external-pcre`           | `-DEXTERNAL_LIBCRYPT` | OFF           |
+| **PHP sapi modules**             |                       |               |
+| `--enable-cli` / `--disable-cli` | `-Dcli`               | ON            |
+|  `--disable-cli`                 | `-Dcli=OFF`           |               |
+| **PHP extensions**               |                       |               |
+| `--enable-calendar`              | `-Dcalendar=ON`       | OFF           |
+| `--enable-calendar=shared`       | `-Dcalendar=shared`   |               |
+| `--enable-filter`                | `-Dfilter=ON`         | ON            |
+| `--enable-filter=shared`         | `-Dfilter=shared`     |               |
 | `--enable-pcre-jit`              | `-DPCRE_JIT`          | ON            |
+| `--with-external-pcre`           | `-DEXTERNAL_LIBCRYPT` | OFF           |
 | `--enable-phar`                  | `-Dphar`              | ON            |
+
+List of configure environment variables:
+
+These are passed as `./configure VAR=VALUE`.
+
+| configure                        | CMake                               | Default value   |
+| -------------------------------- | ----------------------------------- | --------------- |
+| `LDFLAGS="..."`                  | `-DCMAKE_EXE_LINKER_FLAGS="..."`    |                 |
+|                                  | `-DCMAKE_SHARED_LINKER_FLAGS="..."` |                 |
+| `PHP_EXTRA_VERSION="-foo"`       | `-DPHP_VERSION_LABEL="-foo"`        | `-dev` or empty |
 
 ## 9. See more
 
