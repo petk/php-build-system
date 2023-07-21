@@ -1260,6 +1260,9 @@
 /* Define to 1 if you have the `posix_pathconf' function. */
 #undef HAVE_POSIX_PATHCONF
 
+/* */
+#cmakedefine HAVE_POSIX_SPAWN_FILE_ACTIONS_ADDCHDIR_NP @HAVE_POSIX_SPAWN_FILE_ACTIONS_ADDCHDIR_NP@
+
 /* do we have prctl? */
 #undef HAVE_PRCTL
 
@@ -1292,6 +1295,9 @@
 
 /* Define to 1 if you have the `pthread_jit_write_protect_np' function. */
 #cmakedefine HAVE_PTHREAD_JIT_WRITE_PROTECT_NP @HAVE_PTHREAD_JIT_WRITE_PROTECT_NP@
+
+/* Define to 1 if you have the `pthread_stackseg_np' function. */
+#cmakedefine HAVE_PTHREAD_STACKSEG_NP @HAVE_PTHREAD_STACKSEG_NP@
 
 /* do we have ptrace? */
 #undef HAVE_PTRACE
