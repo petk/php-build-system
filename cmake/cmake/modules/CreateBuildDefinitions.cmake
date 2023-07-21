@@ -1,5 +1,5 @@
 #[=============================================================================[
-Create build definitions header file.
+Create build definitions header file main/build-defs.h.
 
 Function: create_build_definitions()
 ]=============================================================================]#

@@ -106,13 +106,13 @@ add_subdirectory(main)
 add_subdirectory(TSRM)
 add_subdirectory(Zend)
 
-# Generate internal_functions* files.
-include(cmake/internalFunctions.cmake)
+# Create main/internal_functions* files.
+include(CreateInternalFunctions)
 
 message(STATUS "Creating main/php_version.h")
 configure_file(main/php_version.h.in main/php_version.h @ONLY)
 
-include(cmake/CreateBuildDefinitions.cmake)
+include(CreateBuildDefinitions)
 create_build_definitions()
 
 message(STATUS "Creating main/php_config.h")
