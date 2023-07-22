@@ -59,6 +59,7 @@ ext/*/config0.m4
 ext/*/config.m4
 ext/*/config9.m4
 ext/*/Makefile.frag
+ext/*/*/Makefile.frag
 main/build-defs.h.in
 main/php_config.h.in
 pear/*
@@ -88,6 +89,9 @@ done
 windows="
 buildconf.bat
 ext/*/config.w32
+ext/*/*/Makefile.frag.w32
+ext/*/Makefile.frag.w32
+ext/*/*.def
 pear/fetch.php
 sapi/*/config.w32
 TSRM/*.w32
