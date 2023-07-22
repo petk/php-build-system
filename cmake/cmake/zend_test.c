@@ -8,9 +8,9 @@ typedef union _mm_align_test {
 } mm_align_test;
 
 #if (defined (__GNUC__) && __GNUC__ >= 2)
-#  define ZEND_MM_ALIGNMENT (__alignof__ (mm_align_test))
+# define ZEND_MM_ALIGNMENT (__alignof__ (mm_align_test))
 #else
-#  define ZEND_MM_ALIGNMENT (sizeof(mm_align_test))
+# define ZEND_MM_ALIGNMENT (sizeof(mm_align_test))
 #endif
 
 int main(void)

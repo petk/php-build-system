@@ -645,10 +645,10 @@
 #undef HAVE_FPM_ACL
 
 /* whether fpsetprec is present and usable */
-#undef HAVE_FPSETPREC
+#cmakedefine HAVE_FPSETPREC @HAVE_FPSETPREC@
 
 /* whether FPU control word can be manipulated by inline assembler */
-#undef HAVE_FPU_INLINE_ASM_X86
+#cmakedefine HAVE_FPU_INLINE_ASM_X86 @HAVE_FPU_INLINE_ASM_X86@
 
 /* Define to 1 if you have the `ftok' function. */
 #cmakedefine HAVE_FTOK @HAVE_FTOK@
@@ -759,7 +759,7 @@
 #undef HAVE_GETPGID
 
 /* Define to 1 if you have the `getpid' function. */
-#undef HAVE_GETPID
+#cmakedefine HAVE_GETPID @HAVE_GETPID@
 
 /* Define to 1 if you have the `getpriority' function. */
 #undef HAVE_GETPRIORITY
@@ -792,7 +792,7 @@
 #undef HAVE_GETSID
 
 /* Define to 1 if you have the `gettid' function. */
-#undef HAVE_GETTID
+#cmakedefine HAVE_GETTID @HAVE_GETTID@
 
 /* Define to 1 if you have the `gettimeofday' function. */
 #cmakedefine HAVE_GETTIMEOFDAY @HAVE_GETTIMEOFDAY@
@@ -918,7 +918,7 @@
 #cmakedefine HAVE_JSON @HAVE_JSON@
 
 /* Define to 1 if you have the `kill' function. */
-#undef HAVE_KILL
+#cmakedefine HAVE_KILL @HAVE_KILL@
 
 /* do we have kqueue? */
 #undef HAVE_KQUEUE
@@ -1128,7 +1128,7 @@
 #undef HAVE_MPROTECT
 
 /* Define to 1 if you have the `mremap' function. */
-#undef HAVE_MREMAP
+#cmakedefine HAVE_MREMAP @HAVE_MREMAP@
 
 /* Whether you have MySQL */
 #undef HAVE_MYSQL
@@ -1282,16 +1282,16 @@
 #cmakedefine HAVE_PS_STRINGS @HAVE_PS_STRINGS@
 
 /* Define to 1 if you have the `pthread_attr_getstack' function. */
-#undef HAVE_PTHREAD_ATTR_GETSTACK
+#cmakedefine HAVE_PTHREAD_ATTR_GETSTACK @HAVE_PTHREAD_ATTR_GETSTACK@
 
 /* Define to 1 if you have the `pthread_attr_get_np' function. */
-#undef HAVE_PTHREAD_ATTR_GET_NP
+#cmakedefine HAVE_PTHREAD_ATTR_GET_NP @HAVE_PTHREAD_ATTR_GET_NP@
 
 /* Define to 1 if you have the `pthread_getattr_np' function. */
-#undef HAVE_PTHREAD_GETATTR_NP
+#cmakedefine HAVE_PTHREAD_GETATTR_NP @HAVE_PTHREAD_GETATTR_NP@
 
 /* Define to 1 if you have the `pthread_get_stackaddr_np' function. */
-#undef HAVE_PTHREAD_GET_STACKADDR_NP
+#cmakedefine HAVE_PTHREAD_GET_STACKADDR_NP @HAVE_PTHREAD_GET_STACKADDR_NP@
 
 /* Define to 1 if you have the `pthread_jit_write_protect_np' function. */
 #cmakedefine HAVE_PTHREAD_JIT_WRITE_PROTECT_NP @HAVE_PTHREAD_JIT_WRITE_PROTECT_NP@
@@ -1426,13 +1426,13 @@
 #undef HAVE_SHUTDOWN_SNMP_LOGGING
 
 /* Define to 1 if you have the `sigaction' function. */
-#undef HAVE_SIGACTION
+#cmakedefine HAVE_SIGACTION @HAVE_SIGACTION@
 
 /* Define to 1 if you have the `sigprocmask' function. */
 #cmakedefine HAVE_SIGPROCMASK @HAVE_SIGPROCMASK@
 
 /* Define to 1 if you have the `sigsetjmp' function. */
-#undef HAVE_SIGSETJMP
+#cmakedefine HAVE_SIGSETJMP @HAVE_SIGSETJMP@
 
 /* Define to 1 if you have the `sigtimedwait' function. */
 #undef HAVE_SIGTIMEDWAIT
@@ -1853,13 +1853,13 @@
 #undef HAVE_ZLIB
 
 /* whether _controlfp is present usable */
-#undef HAVE__CONTROLFP
+#cmakedefine HAVE__CONTROLFP @HAVE__CONTROLFP@
 
 /* whether _controlfp_s is present and usable */
-#undef HAVE__CONTROLFP_S
+#cmakedefine HAVE__CONTROLFP_S @HAVE__CONTROLFP_S@
 
 /* whether _FPU_SETCW is present and usable */
-#undef HAVE__FPU_SETCW
+#cmakedefine HAVE__FPU_SETCW @HAVE__FPU_SETCW@
 
 /* iconv() is aliased to libiconv() in -liconv */
 #undef ICONV_ALIASED_LIBICONV
@@ -2236,7 +2236,7 @@
 #cmakedefine WORDS_BIGENDIAN
 
 /* Define if checking the stack limit is supported */
-#undef ZEND_CHECK_STACK_LIMIT
+#cmakedefine ZEND_CHECK_STACK_LIMIT @ZEND_CHECK_STACK_LIMIT@
 
 /* */
 #cmakedefine01 ZEND_DEBUG
@@ -2260,7 +2260,7 @@
 #cmakedefine ZEND_MM_NEED_EIGHT_BYTE_REALIGNMENT @ZEND_MM_NEED_EIGHT_BYTE_REALIGNMENT@
 
 /* Use zend signal handling */
-#undef ZEND_SIGNALS
+#cmakedefine ZEND_SIGNALS @ZEND_SIGNALS@
 
 /* Define if the stack grows downwards */
 #undef ZEND_STACK_GROWS_DOWNWARDS

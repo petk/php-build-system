@@ -9,6 +9,8 @@ bison_target(ZendIniParser zend_ini_parser.y ${CMAKE_CURRENT_BINARY_DIR}/zend_in
   DEFINES_FILE ${CMAKE_CURRENT_BINARY_DIR}/zend_ini_parser.h
 )
 
+# TODO: generated zend_language_parser.c and zend_language_parser.h should be
+# also patched. See Zend/Makefile.frag for more info.
 message(STATUS "Generating zend_language_parser.c")
 bison_target(ZendLanguageParser zend_language_parser.y ${CMAKE_CURRENT_BINARY_DIR}/zend_language_parser.c
   COMPILE_FLAGS "-v -d"
@@ -144,3 +146,7 @@ if(FIBER_ASM)
 
   target_link_libraries(Zend PUBLIC ZendAsm)
 endif()
+
+include(CheckFloatPrecision)
+include(CheckStackLimit)
+include(CheckZendSignals)

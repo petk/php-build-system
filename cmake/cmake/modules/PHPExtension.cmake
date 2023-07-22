@@ -1,7 +1,7 @@
 #[=============================================================================[
 Creates a new PHP extension.
 
-The module defines the following variables
+The module defines the following variables:
 
 ``PHP_EXTENSIONS``
   a list of all enabled extensions
@@ -9,7 +9,7 @@ The module defines the following variables
 ``PHP_EXTENSIONS_SHARED``
   a list of all enabled shared extensions
 
-php_extension(NAME <name> [SHARED])
+php_extension(NAME <name> [SHARED | STATIC])
 ]=============================================================================]#
 
 set(PHP_EXTENSIONS "" CACHE INTERNAL "")

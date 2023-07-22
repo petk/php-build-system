@@ -595,9 +595,10 @@ List of configure command line options and their CMake alternatives:
 | `--enable-short-tags`            | `-DSHORT_TAGS`        | ON            |
 |   `--disable-short-tags`         | `-DSHORT_TAGS=OFF`    |               |
 | `--enable-zts`                   | `-DZTS`               |               |
+| `--enable-zend-signals`          | `-Dzend_signals=ON`   | ON            |
 | **PHP sapi modules**             |                       |               |
 | `--enable-cli` / `--disable-cli` | `-Dcli`               | ON            |
-|  `--disable-cli`                 | `-Dcli=OFF`           |               |
+| `--disable-cli`                  | `-Dcli=OFF`           |               |
 | **PHP extensions**               |                       |               |
 | `--enable-calendar`              | `-Dcalendar=ON`       | OFF           |
 | `--enable-calendar=shared`       | `-Dcalendar=shared`   |               |
