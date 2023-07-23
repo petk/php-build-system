@@ -2262,9 +2262,6 @@
 /* Use zend signal handling */
 #undef ZEND_SIGNALS
 
-/* Define if the stack grows downwards */
-#undef ZEND_STACK_GROWS_DOWNWARDS
-
 /* */
 #undef ZTS
 
