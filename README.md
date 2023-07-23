@@ -623,6 +623,9 @@ List of configure command line options and their CMake alternatives:
 | **PHP extensions**               |                       |               |
 | `--enable-calendar`              | `-Dcalendar=ON`       | OFF           |
 | `--enable-calendar=shared`       | `-Dcalendar=shared`   |               |
+| `--enable-exif`                  | `-Dexif=ON`           | OFF           |
+| `--enable-exif=shared`           | `-Dexif=shared`       |               |
+| `--disable-exif`                 | `-Dexif=OFF`          | OFF           |
 | `--enable-filter`                | `-Dfilter=ON`         | ON            |
 | `--enable-filter=shared`         | `-Dfilter=shared`     |               |
 | `--enable-pcre-jit`              | `-DPCRE_JIT`          | ON            |
