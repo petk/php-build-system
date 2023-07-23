@@ -1255,7 +1255,7 @@
 #undef HAVE_PORT
 
 /* whether to include POSIX-like functions */
-#undef HAVE_POSIX
+#cmakedefine HAVE_POSIX @HAVE_POSIX@
 
 /* Define to 1 if you have the `pathconf' function. */
 #cmakedefine HAVE_PATHCONF @HAVE_PATHCONF@

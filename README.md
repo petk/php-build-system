@@ -621,8 +621,12 @@ List of configure command line options and their CMake alternatives:
 | `--enable-cli` / `--disable-cli` | `-Dcli`               | ON            |
 | `--disable-cli`                  | `-Dcli=OFF`           |               |
 | **PHP extensions**               |                       |               |
-| `--enable-calendar`              | `-Dcalendar=ON`       | OFF           |
+| `--enable-calendar`              | `-Dcalendar=ON`       |               |
 | `--enable-calendar=shared`       | `-Dcalendar=shared`   |               |
+| `--disable-calendar`             | `-Dcalendar=OFF`      | OFF           |
+| `--enable-ctype`                 | `-Dctype=ON`          | ON            |
+| `--enable-ctype=shared`          | `-Dctype=shared`      |               |
+| `--disable-ctype`                | `-Dctype=OFF`         |               |
 | `--enable-dl-test`               | `-Ddl_test=ON`        | OFF           |
 | `--enable-dl-test=shared`        | `-Ddl_test=shared`    |               |
 | `--disable-dl-test`              | `-Ddl_test=OFF`       |               |
