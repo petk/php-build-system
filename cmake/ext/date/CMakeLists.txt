@@ -48,3 +48,5 @@ file(WRITE "lib/timelib_config.h"
 #define timelib_strndup estrndup
 #define timelib_free    efree
 ")
+
+add_dependencies(ext_date main Zend)

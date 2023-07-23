@@ -88,6 +88,9 @@ if(CMAKE_UNAME)
           ERROR_QUIET)
 endif()
 
+## Add PHP extensions.
+include(IncludeExtensions)
+
 # Add SAPI modules.
 add_subdirectory(sapi/apache2handler)
 add_subdirectory(sapi/cgi)
@@ -97,12 +100,6 @@ add_subdirectory(sapi/fpm)
 add_subdirectory(sapi/fuzzer)
 add_subdirectory(sapi/litespeed)
 add_subdirectory(sapi/phpdbg)
-
-# Todo: fix this.
-link_libraries(main Zend ext_pcre)
-
-## Add PHP extensions.
-include(IncludeExtensions)
 
 # Add PHP engine.
 add_subdirectory(main)

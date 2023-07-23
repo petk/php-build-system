@@ -25,217 +25,217 @@
 #undef CDB_INCLUDE_FILE
 
 /* Whether to build bcmath as dynamic module */
-#undef COMPILE_DL_BCMATH
+#cmakedefine COMPILE_DL_BCMATH @COMPILE_DL_BCMATH@
 
 /* Whether to build bz2 as dynamic module */
-#undef COMPILE_DL_BZ2
+#cmakedefine COMPILE_DL_BZ2 @COMPILE_DL_BZ2@
 
 /* Whether to build calendar as dynamic module */
-#undef COMPILE_DL_CALENDAR
+#cmakedefine COMPILE_DL_CALENDAR @COMPILE_DL_CALENDAR@
 
 /* Whether to build ctype as dynamic module */
-#undef COMPILE_DL_CTYPE
+#cmakedefine COMPILE_DL_CTYPE @COMPILE_DL_CTYPE@
 
 /* Whether to build curl as dynamic module */
-#undef COMPILE_DL_CURL
+#cmakedefine COMPILE_DL_CURL @COMPILE_DL_CURL@
 
 /* Whether to build date as dynamic module */
-#undef COMPILE_DL_DATE
+#cmakedefine COMPILE_DL_DATE @COMPILE_DL_DATE@
 
 /* Whether to build dba as dynamic module */
-#undef COMPILE_DL_DBA
+#cmakedefine COMPILE_DL_DBA @COMPILE_DL_DBA@
 
 /* Whether to build dl_test as dynamic module */
-#undef COMPILE_DL_DL_TEST
+#cmakedefine COMPILE_DL_DL_TEST @COMPILE_DL_DL_TEST@
 
 /* Whether to build dom as dynamic module */
-#undef COMPILE_DL_DOM
+#cmakedefine COMPILE_DL_DOM @COMPILE_DL_DOM@
 
 /* Whether to build enchant as dynamic module */
-#undef COMPILE_DL_ENCHANT
+#cmakedefine COMPILE_DL_ENCHANT @COMPILE_DL_ENCHANT@
 
 /* Whether to build exif as dynamic module */
-#undef COMPILE_DL_EXIF
+#cmakedefine COMPILE_DL_EXIF @COMPILE_DL_EXIF@
 
 /* Whether to build ffi as dynamic module */
-#undef COMPILE_DL_FFI
+#cmakedefine COMPILE_DL_FFI @COMPILE_DL_FFI@
 
 /* Whether to build fileinfo as dynamic module */
-#undef COMPILE_DL_FILEINFO
+#cmakedefine COMPILE_DL_FILEINFO @COMPILE_DL_FILEINFO@
 
 /* Whether to build filter as dynamic module */
-#undef COMPILE_DL_FILTER
+#cmakedefine COMPILE_DL_FILTER @COMPILE_DL_FILTER@
 
 /* Whether to build ftp as dynamic module */
-#undef COMPILE_DL_FTP
+#cmakedefine COMPILE_DL_FTP @COMPILE_DL_FTP@
 
 /* Whether to build gd as dynamic module */
-#undef COMPILE_DL_GD
+#cmakedefine COMPILE_DL_GD @COMPILE_DL_GD@
 
 /* Whether to build gettext as dynamic module */
-#undef COMPILE_DL_GETTEXT
+#cmakedefine COMPILE_DL_GETTEXT @COMPILE_DL_GETTEXT@
 
 /* Whether to build gmp as dynamic module */
-#undef COMPILE_DL_GMP
+#cmakedefine COMPILE_DL_GMP @COMPILE_DL_GMP@
 
 /* Whether to build hash as dynamic module */
-#undef COMPILE_DL_HASH
+#cmakedefine COMPILE_DL_HASH @COMPILE_DL_HASH@
 
 /* Whether to build iconv as dynamic module */
-#undef COMPILE_DL_ICONV
+#cmakedefine COMPILE_DL_ICONV @COMPILE_DL_ICONV@
 
 /* Whether to build imap as dynamic module */
-#undef COMPILE_DL_IMAP
+#cmakedefine COMPILE_DL_IMAP @COMPILE_DL_IMAP@
 
 /* Whether to build intl as dynamic module */
-#undef COMPILE_DL_INTL
+#cmakedefine COMPILE_DL_INTL @COMPILE_DL_INTL@
 
 /* Whether to build json as dynamic module */
-#undef COMPILE_DL_JSON
+#cmakedefine COMPILE_DL_JSON @COMPILE_DL_JSON@
 
 /* Whether to build ldap as dynamic module */
-#undef COMPILE_DL_LDAP
+#cmakedefine COMPILE_DL_LDAP @COMPILE_DL_LDAP@
 
 /* Whether to build libxml as dynamic module */
-#undef COMPILE_DL_LIBXML
+#cmakedefine COMPILE_DL_LIBXML @COMPILE_DL_LIBXML@
 
 /* Whether to build mbstring as dynamic module */
-#undef COMPILE_DL_MBSTRING
+#cmakedefine COMPILE_DL_MBSTRING @COMPILE_DL_MBSTRING@
 
 /* Whether to build mysqli as dynamic module */
-#undef COMPILE_DL_MYSQLI
+#cmakedefine COMPILE_DL_MYSQLI @COMPILE_DL_MYSQLI@
 
 /* Whether to build mysqlnd as dynamic module */
-#undef COMPILE_DL_MYSQLND
+#cmakedefine COMPILE_DL_MYSQLND @COMPILE_DL_MYSQLND@
 
 /* Whether to build oci8 as dynamic module */
-#undef COMPILE_DL_OCI8
+#cmakedefine COMPILE_DL_OCI8 @COMPILE_DL_OCI8@
 
 /* Whether to build odbc as dynamic module */
-#undef COMPILE_DL_ODBC
+#cmakedefine COMPILE_DL_ODBC @COMPILE_DL_ODBC@
 
 /* Whether to build opcache as dynamic module */
-#undef COMPILE_DL_OPCACHE
+#cmakedefine COMPILE_DL_OPCACHE @COMPILE_DL_OPCACHE@
 
 /* Whether to build openssl as dynamic module */
-#undef COMPILE_DL_OPENSSL
+#cmakedefine COMPILE_DL_OPENSSL @COMPILE_DL_OPENSSL@
 
 /* Whether to build pcntl as dynamic module */
-#undef COMPILE_DL_PCNTL
+#cmakedefine COMPILE_DL_PCNTL @COMPILE_DL_PCNTL@
 
 /* Whether to build pcre as dynamic module */
-#undef COMPILE_DL_PCRE
+#cmakedefine COMPILE_DL_PCRE @COMPILE_DL_PCRE@
 
 /* Whether to build pdo as dynamic module */
-#undef COMPILE_DL_PDO
+#cmakedefine COMPILE_DL_PDO @COMPILE_DL_PDO@
 
 /* Whether to build pdo_dblib as dynamic module */
-#undef COMPILE_DL_PDO_DBLIB
+#cmakedefine COMPILE_DL_PDO_DBLIB @COMPILE_DL_PDO_DBLIB@
 
 /* Whether to build pdo_firebird as dynamic module */
-#undef COMPILE_DL_PDO_FIREBIRD
+#cmakedefine COMPILE_DL_PDO_FIREBIRD @COMPILE_DL_PDO_FIREBIRD@
 
 /* Whether to build pdo_mysql as dynamic module */
-#undef COMPILE_DL_PDO_MYSQL
+#cmakedefine COMPILE_DL_PDO_MYSQL @COMPILE_DL_PDO_MYSQL@
 
 /* Whether to build pdo_oci as dynamic module */
-#undef COMPILE_DL_PDO_OCI
+#cmakedefine COMPILE_DL_PDO_OCI @COMPILE_DL_PDO_OCI@
 
 /* Whether to build pdo_odbc as dynamic module */
-#undef COMPILE_DL_PDO_ODBC
+#cmakedefine COMPILE_DL_PDO_ODBC @COMPILE_DL_PDO_ODBC@
 
 /* Whether to build pdo_pgsql as dynamic module */
-#undef COMPILE_DL_PDO_PGSQL
+#cmakedefine COMPILE_DL_PDO_PGSQL @COMPILE_DL_PDO_PGSQL@
 
 /* Whether to build pdo_sqlite as dynamic module */
-#undef COMPILE_DL_PDO_SQLITE
+#cmakedefine COMPILE_DL_PDO_SQLITE @COMPILE_DL_PDO_SQLITE@
 
 /* Whether to build pgsql as dynamic module */
-#undef COMPILE_DL_PGSQL
+#cmakedefine COMPILE_DL_PGSQL @COMPILE_DL_PGSQL@
 
 /* Whether to build phar as dynamic module */
-#undef COMPILE_DL_PHAR
+#cmakedefine COMPILE_DL_PHAR @COMPILE_DL_PHAR@
 
 /* Whether to build posix as dynamic module */
-#undef COMPILE_DL_POSIX
+#cmakedefine COMPILE_DL_POSIX @COMPILE_DL_POSIX@
 
 /* Whether to build pspell as dynamic module */
-#undef COMPILE_DL_PSPELL
+#cmakedefine COMPILE_DL_PSPELL @COMPILE_DL_PSPELL@
 
 /* Whether to build random as dynamic module */
-#undef COMPILE_DL_RANDOM
+#cmakedefine COMPILE_DL_RANDOM @COMPILE_DL_RANDOM@
 
 /* Whether to build readline as dynamic module */
-#undef COMPILE_DL_READLINE
+#cmakedefine COMPILE_DL_READLINE @COMPILE_DL_READLINE@
 
 /* Whether to build reflection as dynamic module */
-#undef COMPILE_DL_REFLECTION
+#cmakedefine COMPILE_DL_REFLECTION @COMPILE_DL_REFLECTION@
 
 /* Whether to build session as dynamic module */
-#undef COMPILE_DL_SESSION
+#cmakedefine COMPILE_DL_SESSION @COMPILE_DL_SESSION@
 
 /* Whether to build shmop as dynamic module */
-#undef COMPILE_DL_SHMOP
+#cmakedefine COMPILE_DL_SHMOP @COMPILE_DL_SHMOP@
 
 /* Whether to build simplexml as dynamic module */
-#undef COMPILE_DL_SIMPLEXML
+#cmakedefine COMPILE_DL_SIMPLEXML @COMPILE_DL_SIMPLEXML@
 
 /* Whether to build snmp as dynamic module */
-#undef COMPILE_DL_SNMP
+#cmakedefine COMPILE_DL_SNMP @COMPILE_DL_SNMP@
 
 /* Whether to build soap as dynamic module */
-#undef COMPILE_DL_SOAP
+#cmakedefine COMPILE_DL_SOAP @COMPILE_DL_SOAP@
 
 /* Whether to build sockets as dynamic module */
-#undef COMPILE_DL_SOCKETS
+#cmakedefine COMPILE_DL_SOCKETS @COMPILE_DL_SOCKETS@
 
 /* Whether to build sodium as dynamic module */
-#undef COMPILE_DL_SODIUM
+#cmakedefine COMPILE_DL_SODIUM @COMPILE_DL_SODIUM@
 
 /* Whether to build spl as dynamic module */
-#undef COMPILE_DL_SPL
+#cmakedefine COMPILE_DL_SPL @COMPILE_DL_SPL@
 
 /* Whether to build sqlite3 as dynamic module */
-#undef COMPILE_DL_SQLITE3
+#cmakedefine COMPILE_DL_SQLITE3 @COMPILE_DL_SQLITE3@
 
 /* Whether to build standard as dynamic module */
-#undef COMPILE_DL_STANDARD
+#cmakedefine COMPILE_DL_STANDARD @COMPILE_DL_STANDARD@
 
 /* Whether to build sysvmsg as dynamic module */
-#undef COMPILE_DL_SYSVMSG
+#cmakedefine COMPILE_DL_SYSVMSG @COMPILE_DL_SYSVMSG@
 
 /* Whether to build sysvsem as dynamic module */
-#undef COMPILE_DL_SYSVSEM
+#cmakedefine COMPILE_DL_SYSVSEM @COMPILE_DL_SYSVSEM@
 
 /* Whether to build sysvshm as dynamic module */
-#undef COMPILE_DL_SYSVSHM
+#cmakedefine COMPILE_DL_SYSVSHM @COMPILE_DL_SYSVSHM@
 
 /* Whether to build tidy as dynamic module */
-#undef COMPILE_DL_TIDY
+#cmakedefine COMPILE_DL_TIDY @COMPILE_DL_TIDY@
 
 /* Whether to build tokenizer as dynamic module */
-#undef COMPILE_DL_TOKENIZER
+#cmakedefine COMPILE_DL_TOKENIZER @COMPILE_DL_TOKENIZER@
 
 /* Whether to build xml as dynamic module */
-#undef COMPILE_DL_XML
+#cmakedefine COMPILE_DL_XML @COMPILE_DL_XML@
 
 /* Whether to build xmlreader as dynamic module */
-#undef COMPILE_DL_XMLREADER
+#cmakedefine COMPILE_DL_XMLREADER @COMPILE_DL_XMLREADER@
 
 /* Whether to build xmlwriter as dynamic module */
-#undef COMPILE_DL_XMLWRITER
+#cmakedefine COMPILE_DL_XMLWRITER @COMPILE_DL_XMLWRITER@
 
 /* Whether to build xsl as dynamic module */
-#undef COMPILE_DL_XSL
+#cmakedefine COMPILE_DL_XSL @COMPILE_DL_XSL@
 
 /* Whether to build zend_test as dynamic module */
-#undef COMPILE_DL_ZEND_TEST
+#cmakedefine COMPILE_DL_ZEND_TEST @COMPILE_DL_ZEND_TEST@
 
 /* Whether to build zip as dynamic module */
-#undef COMPILE_DL_ZIP
+#cmakedefine COMPILE_DL_ZIP @COMPILE_DL_ZIP@
 
 /* Whether to build zlib as dynamic module */
-#undef COMPILE_DL_ZLIB
+#cmakedefine COMPILE_DL_ZLIB @COMPILE_DL_ZLIB@
 
 /* */
 #undef COOKIE_IO_FUNCTIONS_T

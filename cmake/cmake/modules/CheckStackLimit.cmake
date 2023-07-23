@@ -29,7 +29,7 @@ check_c_source_runs("
   }
 " ZEND_CHECK_STACK_LIMIT)
 
-if (CMAKE_CROSSCOMPILING)
+if(CMAKE_CROSSCOMPILING)
   message(STATUS "Cross-compiling: No")
 elseif(NOT ZEND_CHECK_STACK_LIMIT)
   message(STATUS "no")

@@ -4,12 +4,17 @@ Check if flush should be called explicitly after buffered io.
 Function: check_flush_io()
 ]=============================================================================]#
 
-include(CheckCSourceCompiles)
+include(CheckCSourceRuns)
 
 function(check_flush_io)
   message(STATUS "Checking whether flush should be called explicitly after a buffered io")
 
-  check_c_source_compiles("
+  if(CMAKE_CROSSCOMPILING)
+    message(STATUS "Cross compiling: no")
+    return()
+  endif()
+
+  check_c_source_runs("
   #include <stdio.h>
   #include <stdlib.h>
   #ifdef HAVE_UNISTD_H
@@ -50,6 +55,9 @@ function(check_flush_io)
   " HAVE_FLUSHIO)
 
   if(HAVE_FLUSHIO)
+    message(STATUS "yes")
     set(HAVE_FLUSHIO 1 CACHE STRING "Define if flush should be called explicitly after a buffered io.")
+  else()
+    message(STATUS "no")
   endif()
 endfunction()

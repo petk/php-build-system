@@ -45,7 +45,7 @@ check_c_source_runs("
   }
 " HAVE__FPU_SETCW)
 
-if (CMAKE_CROSSCOMPILING)
+if(CMAKE_CROSSCOMPILING)
   message(STATUS "Cross-compiling: No")
 elseif(NOT HAVE__FPU_SETCW)
   message(STATUS "_FPU_SETCW is not usable")
@@ -75,7 +75,7 @@ check_c_source_runs("
   }
 " HAVE_FPSETPREC)
 
-if (CMAKE_CROSSCOMPILING)
+if(CMAKE_CROSSCOMPILING)
   message(STATUS "Cross-compiling: No")
 elseif(NOT HAVE_FPSETPREC)
   message(STATUS "fpsetprec is not present")

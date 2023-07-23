@@ -4,6 +4,7 @@ include(CheckFlushIo)
 
 check_flush_io()
 
+check_symbol_exists(res_search "resolv.h" HAVE_RES_SEARCH)
 check_symbol_exists(posix_spawn_file_actions_addchdir_np "spawn.h" HAVE_POSIX_SPAWN_FILE_ACTIONS_ADDCHDIR_NP)
 
 php_extension(NAME "standard")
@@ -118,17 +119,25 @@ else()
   set(PHP_USE_PHP_CRYPT_R 0 CACHE STRING "Whether PHP has to use its own crypt_r")
 endif()
 
+# Check for __attribute__ ((__aligned__)) support in the compiler.
 message(STATUS "Checking whether the compiler supports aligned attribute")
-check_c_source_compiles("
-    int main() {
-        unsigned char test[32] __attribute__ ((__aligned__ (__alignof__ (int))));
-        return 0;
-    }
-" HAS_ATTRIBUTE_ALIGNED)
 
-if(HAS_ATTRIBUTE_ALIGNED)
-  message(STATUS "Compiler supports __attribute__ ((__aligned__))")
-  set(HAVE_ATTRIBUTE_ALIGNED 1 CACHE STRING "Whether the compiler supports __attribute__ ((__aligned__))")
+if(CMAKE_CROSSCOMPILING)
+  message(STATUS "Cross compiling: no")
 else()
-  message(STATUS "Compiler doesn't support aligned attribute")
+  check_c_source_compiles("
+    int main() {
+      unsigned char test[32] __attribute__ ((__aligned__ (__alignof__ (int))));
+      return 0;
+    }
+  " HAS_ATTRIBUTE_ALIGNED)
+
+  if(HAS_ATTRIBUTE_ALIGNED)
+    message(STATUS "Compiler supports __attribute__ ((__aligned__))")
+    set(HAVE_ATTRIBUTE_ALIGNED 1 CACHE STRING "Whether the compiler supports __attribute__ ((__aligned__))")
+  else()
+    message(STATUS "Compiler doesn't support aligned attribute")
+  endif()
 endif()
+
+target_link_libraries(ext_standard PUBLIC main)

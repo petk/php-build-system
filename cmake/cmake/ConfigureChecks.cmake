@@ -85,7 +85,6 @@ check_symbol_exists(sigsetjmp "setjmp.h" HAVE_SIGSETJMP)
 check_symbol_exists(pthread_getattr_np "pthread.h" HAVE_PTHREAD_GETATTR_NP)
 check_symbol_exists(pthread_attr_get_np "pthread.h" HAVE_PTHREAD_ATTR_GET_NP)
 check_symbol_exists(pthread_get_stackaddr_np "pthread.h" HAVE_PTHREAD_GET_STACKADDR_NP)
-# TODO: The following constant is not used anywhere.
 check_symbol_exists(pthread_attr_getstack "pthread.h" HAVE_PTHREAD_ATTR_GETSTACK)
 check_symbol_exists(pthread_stackseg_np "pthread.h" HAVE_PTHREAD_STACKSEG_NP)
 check_symbol_exists(gettid "unistd.h" HAVE_GETTID)
@@ -160,7 +159,6 @@ check_symbol_exists(explicit_bzero "string.h" HAVE_EXPLICIT_BZERO)
 
 # ext/standard
 check_symbol_exists(crypt "crypt.h" HAVE_CRYPT)
-check_symbol_exists(res_search "resolv.h" HAVE_RES_SEARCH)
 check_symbol_exists(dns_search "resolv.h" HAVE_DNS_SEARCH)
 check_symbol_exists(res_nsearch "resolv.h" HAVE_RES_NSEARCH)
 check_symbol_exists(res_ndestroy "resolv.h" HAVE_RES_NDESTROY)

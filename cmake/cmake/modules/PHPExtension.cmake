@@ -32,6 +32,9 @@ function(php_extension)
 
     list(APPEND PHP_EXTENSIONS_SHARED ${PHP_EXTENSION_NAME})
     set(PHP_EXTENSIONS_SHARED ${PHP_EXTENSIONS_SHARED} CACHE INTERNAL "")
+
+    string(TOUPPER "COMPILE_DL_${PHP_EXTENSION_NAME}" DYNAMIC_NAME)
+    set(${DYNAMIC_NAME} 1 CACHE STRING "Whether to build ${PHP_EXTENSION_NAME} as dynamic module")
   else()
     message(STATUS "Enabling extension ${PHP_EXTENSION_NAME} as static.")
   endif()

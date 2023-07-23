@@ -60,7 +60,7 @@ function(check_gcc_global_register_vars)
     }
   " HAVE_GCC_GLOBAL_REGS)
 
-  if (CMAKE_CROSSCOMPILING OR NOT ZEND_CHECK_STACK_LIMIT)
+  if(CMAKE_CROSSCOMPILING OR NOT ZEND_CHECK_STACK_LIMIT)
     message(STATUS "Global register variables not available")
     return()
   endif()
