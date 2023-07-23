@@ -12,7 +12,8 @@ function(check_mm_alignment)
     try_run(
       RUN_RESULT_VAR
       COMPILE_RESULT_VAR
-      ${CMAKE_BINARY_DIR} "${CMAKE_SOURCE_DIR}/cmake/zend_test.c"
+      ${CMAKE_BINARY_DIR}
+      "${CMAKE_SOURCE_DIR}/cmake/zend_test.c"
       RUN_OUTPUT_STDOUT_VARIABLE PHP_ZEND_MM_ALIGNMENT
     )
 

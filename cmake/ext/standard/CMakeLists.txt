@@ -23,11 +23,14 @@ RE2C_TARGET(
 )
 
 message(STATUS "Checking for usable getifaddrs")
-try_run(RUN_RESULT_VAR COMPILE_RESULT_VAR
-  ${CMAKE_BINARY_DIR} "${CMAKE_SOURCE_DIR}/cmake/test_standard_getifaddrs.c"
+try_run(
+  RUN_RESULT_VAR
+  COMPILE_RESULT_VAR
+  ${CMAKE_BINARY_DIR}
+  "${CMAKE_SOURCE_DIR}/cmake/test_standard_getifaddrs.c"
 )
 
-if(RUN_RESULT_VAR EQUAL 0 AND COMPILE_RESULT_VAR EQUAL 0)
+if(RUN_RESULT_VAR EQUAL 0 AND COMPILE_RESULT_VAR)
   message(STATUS "getifaddrs is present and usable")
   set(HAVE_GETIFADDRS 1 CACHE STRING "Whether getifaddrs is present and usable")
 else()

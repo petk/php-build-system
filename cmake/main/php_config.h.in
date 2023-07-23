@@ -484,7 +484,7 @@
 #cmakedefine HAVE_CRYPT_R @HAVE_CRYPT_R@
 
 /* Define to 1 if you have the `ctermid' function. */
-#undef HAVE_CTERMID
+#cmakedefine HAVE_CTERMID @HAVE_CTERMID@
 
 /* Define to 1 if you have the `ctime_r' function. */
 #cmakedefine HAVE_CTIME_R @HAVE_CTIME_R@
@@ -555,7 +555,7 @@
 #undef HAVE_DTRACE
 
 /* Define to 1 if you have the `eaccess' function. */
-#undef HAVE_EACCESS
+#cmakedefine HAVE_EACCESS @HAVE_EACCESS@
 
 /* */
 #undef HAVE_EMPRESS
@@ -726,13 +726,13 @@
 #cmakedefine HAVE_GETCWD @HAVE_GETCWD@
 
 /* Define to 1 if you have the `getgrgid_r' function. */
-#undef HAVE_GETGRGID_R
+#cmakedefine HAVE_GETGRGID_R @HAVE_GETGRGID_R@
 
 /* Define to 1 if you have the `getgrnam_r' function. */
 #cmakedefine HAVE_GETGRNAM_R @HAVE_GETGRNAM_R@
 
 /* Define to 1 if you have the `getgroups' function. */
-#undef HAVE_GETGROUPS
+#cmakedefine HAVE_GETGROUPS @HAVE_GETGROUPS@
 
 /* */
 #undef HAVE_GETHOSTBYADDR
@@ -756,7 +756,7 @@
 #undef HAVE_GETOPT
 
 /* Define to 1 if you have the `getpgid' function. */
-#undef HAVE_GETPGID
+#cmakedefine HAVE_GETPGID @HAVE_GETPGID@
 
 /* Define to 1 if you have the `getpid' function. */
 #cmakedefine HAVE_GETPID @HAVE_GETPID@
@@ -777,7 +777,7 @@
 #cmakedefine HAVE_GETPWUID_R @HAVE_GETPWUID_R@
 
 /* Define to 1 if you have the `getrlimit' function. */
-#undef HAVE_GETRLIMIT
+#cmakedefine HAVE_GETRLIMIT @HAVE_GETRLIMIT@
 
 /* Define to 1 if you have the `getrusage' function. */
 #cmakedefine HAVE_GETRUSAGE @HAVE_GETRUSAGE@
@@ -789,7 +789,7 @@
 #cmakedefine HAVE_GETSERVBYPORT @HAVE_GETSERVBYPORT@
 
 /* Define to 1 if you have the `getsid' function. */
-#undef HAVE_GETSID
+#cmakedefine HAVE_GETSID @HAVE_GETSID@
 
 /* Define to 1 if you have the `gettid' function. */
 #cmakedefine HAVE_GETTID @HAVE_GETTID@
@@ -885,7 +885,7 @@
 #cmakedefine HAVE_INET_PTON @HAVE_INET_PTON@
 
 /* Define to 1 if you have the `initgroups' function. */
-#undef HAVE_INITGROUPS
+#cmakedefine HAVE_INITGROUPS @HAVE_INITGROUPS@
 
 /* Whether intmax_t is available */
 #undef HAVE_INTMAX_T
@@ -1080,7 +1080,7 @@
 #undef HAVE_MACH_VM_READ
 
 /* Define to 1 if you have the `makedev' function. */
-#undef HAVE_MAKEDEV
+#cmakedefine HAVE_MAKEDEV @HAVE_MAKEDEV@
 
 /* Define to 1 if you have the <malloc.h> header file. */
 #cmakedefine HAVE_MALLOC_H @HAVE_MALLOC_H@
@@ -1113,10 +1113,10 @@
 #undef HAVE_MINIX_CONFIG_H
 
 /* Define to 1 if you have the `mkfifo' function. */
-#undef HAVE_MKFIFO
+#cmakedefine HAVE_MKFIFO @HAVE_MKFIFO@
 
 /* Define to 1 if you have the `mknod' function. */
-#undef HAVE_MKNOD
+#cmakedefine HAVE_MKNOD @HAVE_MKNOD@
 
 /* Define to 1 if you have the `mkstemp' function. */
 #cmakedefine HAVE_MKSTEMP @HAVE_MKSTEMP@
@@ -1143,7 +1143,7 @@
 #undef HAVE_NETINET_TCP_H
 
 /* Define to 1 if you have the <net/if.h> header file. */
-#undef HAVE_NET_IF_H
+#cmakedefine HAVE_NET_IF_H @HAVE_NET_IF_H@
 
 /* Whether utf8_mime2text() has new signature */
 #undef HAVE_NEW_MIME2TEXT
@@ -1257,8 +1257,8 @@
 /* whether to include POSIX-like functions */
 #undef HAVE_POSIX
 
-/* Define to 1 if you have the `posix_pathconf' function. */
-#undef HAVE_POSIX_PATHCONF
+/* Define to 1 if you have the `pathconf' function. */
+#cmakedefine HAVE_PATHCONF @HAVE_PATHCONF@
 
 /* */
 #cmakedefine HAVE_POSIX_SPAWN_FILE_ACTIONS_ADDCHDIR_NP @HAVE_POSIX_SPAWN_FILE_ACTIONS_ADDCHDIR_NP@
@@ -1369,13 +1369,13 @@
 #undef HAVE_SEMUN
 
 /* Define to 1 if you have the `setegid' function. */
-#undef HAVE_SETEGID
+#cmakedefine HAVE_SETEGID @HAVE_SETEGID@
 
 /* Define to 1 if you have the `setenv' function. */
 #cmakedefine HAVE_SETENV @HAVE_SETENV@
 
 /* Define to 1 if you have the `seteuid' function. */
-#undef HAVE_SETEUID
+#cmakedefine HAVE_SETEUID @HAVE_SETEUID@
 
 /* Define to 1 if you have the `setitimer' function. */
 #cmakedefine HAVE_SETITIMER @HAVE_SETITIMER@
@@ -1393,10 +1393,10 @@
 #undef HAVE_SETPROCTITLE_FAST
 
 /* Define to 1 if you have the `setrlimit' function. */
-#undef HAVE_SETRLIMIT
+#cmakedefine HAVE_SETRLIMIT @HAVE_SETRLIMIT@
 
 /* Define to 1 if you have the `setsid' function. */
-#undef HAVE_SETSID
+#cmakedefine HAVE_SETSID @HAVE_SETSID@
 
 /* */
 #undef HAVE_SETSOCKOPT
@@ -1652,7 +1652,7 @@
 #cmakedefine HAVE_SYS_LOADAVG_H @HAVE_SYS_LOADAVG_H@
 
 /* Define to 1 if you have the <sys/mkdev.h> header file. */
-#undef HAVE_SYS_MKDEV_H
+#cmakedefine HAVE_SYS_MKDEV_H @HAVE_SYS_MKDEV_H@
 
 /* Define to 1 if you have the <sys/mman.h> header file. */
 #cmakedefine HAVE_SYS_MMAN_H @HAVE_SYS_MMAN_H@
@@ -1700,7 +1700,7 @@
 #cmakedefine HAVE_SYS_SYSEXITS_H @HAVE_SYS_SYSEXITS_H@
 
 /* Define to 1 if you have the <sys/sysmacros.h> header file. */
-#undef HAVE_SYS_SYSMACROS_H
+#cmakedefine HAVE_SYS_SYSMACROS_H @HAVE_SYS_SYSMACROS_H@
 
 /* Define to 1 if you have the <sys/time.h> header file. */
 #cmakedefine HAVE_SYS_TIME_H @HAVE_SYS_TIME_H@
@@ -1758,7 +1758,7 @@
 #undef HAVE_TM_ZONE
 
 /* Whether you have a working ttyname_r */
-#undef HAVE_TTYNAME_R
+#cmakedefine HAVE_TTYNAME_R @HAVE_TTYNAME_R@
 
 /* Define to 1 if you don't have `tm_zone' but do have the external array
    `tzname'. */
@@ -1805,7 +1805,7 @@
 #cmakedefine HAVE_UTIME_H @HAVE_UTIME_H@
 
 /* Whether struct utsname has domainname */
-#undef HAVE_UTSNAME_DOMAINNAME
+#cmakedefine HAVE_UTSNAME_DOMAINNAME @HAVE_UTSNAME_DOMAINNAME@
 
 /* */
 #undef HAVE_VALGRIND
@@ -2261,9 +2261,6 @@
 
 /* Use zend signal handling */
 #cmakedefine ZEND_SIGNALS @ZEND_SIGNALS@
-
-/* Define if the stack grows downwards */
-#undef ZEND_STACK_GROWS_DOWNWARDS
 
 /* */
 #cmakedefine ZTS @ZTS@

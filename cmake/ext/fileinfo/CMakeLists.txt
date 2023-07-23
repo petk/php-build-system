@@ -34,14 +34,15 @@ if(fileinfo)
   try_run(
     RUN_RESULT_VAR
     COMPILE_RESULT_VAR
-    ${CMAKE_BINARY_DIR} "${CMAKE_SOURCE_DIR}/cmake/fileinfo_test.c"
+    ${CMAKE_BINARY_DIR}
+    "${CMAKE_SOURCE_DIR}/cmake/fileinfo_test.c"
   )
 
-  if(RUN_RESULT_VAR EQUAL 0 AND COMPILE_RESULT_VAR EQUAL 0)
+  if(RUN_RESULT_VAR EQUAL 0 AND COMPILE_RESULT_VAR)
     message("using the platform implementation of strcasestr")
   else()
     target_sources(ext_fileinfo PRIVATE libmagic/strcasestr.c)
-    message("using libmagic strcasestr implementation")
+    message(STATUS "using libmagic strcasestr implementation")
   endif()
 
   target_include_directories(
