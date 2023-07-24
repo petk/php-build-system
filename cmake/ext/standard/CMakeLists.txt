@@ -23,6 +23,17 @@ RE2C_TARGET(
   OPTIONS "--no-generation-date -b"
 )
 
+message(STATUS "Checking for fork/CreateProcess")
+check_symbol_exists(fork "unistd.h" HAVE_FORK)
+check_symbol_exists(CreateProcess "windows.h" HAVE_CREATEPROCESS)
+message(STATUS "Checking if your OS can spawn processes with inherited handles")
+if(HAVE_FORK OR HAVE_CREATEPROCESS)
+  message(STATUS "yes")
+  set(PHP_CAN_SUPPORT_PROC_OPEN 1 CACHE STRING "Define if your system has fork/vfork/CreateProcess")
+else()
+  message(STATUS "no")
+endif()
+
 message(STATUS "Checking for usable getifaddrs")
 try_run(
   RUN_RESULT_VAR

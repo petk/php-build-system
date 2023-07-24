@@ -75,6 +75,9 @@ check_include_file(nmmintrin.h HAVE_NMMINTRIN_H)
 check_include_file(wmmintrin.h HAVE_WMMINTRIN_H)
 check_include_file(immintrin.h HAVE_IMMINTRIN_H)
 
+include(PHPCheckPrctl)
+include(PHPCheckProcctl)
+
 # Zend
 check_include_file(cpuid.h HAVE_CPUID_H)
 check_symbol_exists(__cpuid_count "cpuid.h" HAVE_CPUID_COUNT)
@@ -174,6 +177,8 @@ check_symbol_exists(strtoll "stdlib.h" HAVE_STRTOLL)
 if(CMAKE_C_BYTE_ORDER STREQUAL "BIG_ENDIAN")
   set(WORDS_BIGENDIAN 1)
 endif()
+
+include(PHPCheckWriteStdout)
 
 # Check for required libraries.
 CHECK_LIBRARY_EXISTS(m sin "" HAVE_LIB_M)
