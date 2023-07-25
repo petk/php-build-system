@@ -80,6 +80,9 @@ check_include_file(nmmintrin.h HAVE_NMMINTRIN_H)
 check_include_file(wmmintrin.h HAVE_WMMINTRIN_H)
 check_include_file(immintrin.h HAVE_IMMINTRIN_H)
 
+# Check fopencookie.
+include(PHPCheckFopencookie)
+
 # Check for missing fclose declaration.
 include(PHPCheckMissingFcloseDeclaration)
 

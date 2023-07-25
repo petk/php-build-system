@@ -238,10 +238,10 @@
 #cmakedefine COMPILE_DL_ZLIB @COMPILE_DL_ZLIB@
 
 /* */
-#undef COOKIE_IO_FUNCTIONS_T
+#cmakedefine COOKIE_IO_FUNCTIONS_T @COOKIE_IO_FUNCTIONS_T@
 
 /* */
-#undef COOKIE_SEEKER_USES_OFF64_T
+#cmakedefine COOKIE_SEEKER_USES_OFF64_T @COOKIE_SEEKER_USES_OFF64_T@
 
 /* Define if crypt_r has uses CRYPTD */
 #undef CRYPT_R_CRYPTD
@@ -633,7 +633,7 @@
 #undef HAVE_FNMATCH
 
 /* */
-#undef HAVE_FOPENCOOKIE
+#cmakedefine HAVE_FOPENCOOKIE @HAVE_FOPENCOOKIE@
 
 /* Define to 1 if you have the `fork' function. */
 #cmakedefine HAVE_FORK @HAVE_FORK@
