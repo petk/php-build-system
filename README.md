@@ -563,6 +563,7 @@ With CMake the minimum required version is defined in the top project file
 
 Currently the CMake minimum version is set to:
 
+* 3.20 (to have CMAKE_C_BYTE_ORDER, otherwise manual check should be done)
 * 3.25
 
 ### 8.6. CMake code style

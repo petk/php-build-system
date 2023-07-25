@@ -6,6 +6,11 @@ include(CheckLibraryExists)
 include(FindSendmail)
 include(CheckIPv6)
 
+# Check whether the system byte ordering is bigendian - requires CMake 3.20.
+if(CMAKE_C_BYTE_ORDER STREQUAL "BIG_ENDIAN")
+  set(WORDS_BIGENDIAN 1)
+endif()
+
 # Check C headers and types.
 check_type_size("size_t" SIZEOF_SIZE_T)
 
@@ -75,7 +80,16 @@ check_include_file(nmmintrin.h HAVE_NMMINTRIN_H)
 check_include_file(wmmintrin.h HAVE_WMMINTRIN_H)
 check_include_file(immintrin.h HAVE_IMMINTRIN_H)
 
+# Check for missing fclose declaration.
+include(PHPCheckMissingFcloseDeclaration)
+
+# Check struct flock.
+include(PHPCheckStructFlock)
+
+# Check prctl.
 include(PHPCheckPrctl)
+
+# Check procctl.
 include(PHPCheckProcctl)
 
 # Zend
@@ -173,11 +187,7 @@ check_include_file(io.h HAVE_IO_H)
 check_symbol_exists(atoll "stdlib.h" HAVE_ATOLL)
 check_symbol_exists(strtoll "stdlib.h" HAVE_STRTOLL)
 
-# Check byte ordering - requires CMake 3.20.
-if(CMAKE_C_BYTE_ORDER STREQUAL "BIG_ENDIAN")
-  set(WORDS_BIGENDIAN 1)
-endif()
-
+# Check whether writing to stdout works.
 include(PHPCheckWriteStdout)
 
 # Check for required libraries.
@@ -190,5 +200,5 @@ endif()
 # Check for IPv6 support.
 ipv6()
 
-# Check for sendmail.
+# Find sendmail binary.
 php_prog_sendmail()

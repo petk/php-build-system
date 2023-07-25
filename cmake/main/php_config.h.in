@@ -1585,7 +1585,7 @@
 #cmakedefine HAVE_STRTOLL @HAVE_STRTOLL@
 
 /* whether you have struct flock */
-#undef HAVE_STRUCT_FLOCK
+#cmakedefine HAVE_STRUCT_FLOCK @HAVE_STRUCT_FLOCK@
 
 /* Define to 1 if `st_blksize' is a member of `struct stat'. */
 #undef HAVE_STRUCT_STAT_ST_BLKSIZE
@@ -1880,7 +1880,7 @@
 #undef MISSING_CTIME_R_DECL
 
 /* */
-#undef MISSING_FCLOSE_DECL
+#cmakedefine01 MISSING_FCLOSE_DECL
 
 /* Whether gmtime_r is declared */
 #undef MISSING_GMTIME_R_DECL
