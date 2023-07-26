@@ -48,7 +48,6 @@ else()
 
   target_compile_options(ext_pcre
     PRIVATE -Wno-implicit-fallthrough
-    PRIVATE -DZEND_ENABLE_STATIC_TSRMLS_CACHE=1
   )
 
   target_compile_definitions(ext_pcre

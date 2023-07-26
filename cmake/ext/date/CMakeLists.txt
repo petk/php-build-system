@@ -1,6 +1,16 @@
+include(CheckIncludeFile)
+include(CheckSymbolExists)
+
 php_extension(NAME "date")
 
-add_library(ext_date
+# Check for headers needed by timelib.
+check_include_file(io.h HAVE_IO_H)
+
+# Check for strtoll, atoll.
+check_symbol_exists(atoll "stdlib.h" HAVE_ATOLL)
+check_symbol_exists(strtoll "stdlib.h" HAVE_STRTOLL)
+
+add_library(ext_date STATIC
   php_date.c
   lib/astro.c
   lib/dow.c
@@ -21,13 +31,13 @@ target_include_directories(ext_date
 
 target_compile_options(ext_date PRIVATE
   -Wno-implicit-fallthrough
-  -DHAVE_TIMELIB_CONFIG_H=1
 )
 
 target_compile_definitions(ext_date PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE=1)
 
-# TODO: HAVE_TIMELIB_CONFIG_H is defined 2 times here (one above in the compile options and this). Fix this.
-set(HAVE_TIMELIB_CONFIG_H 1 PARENT_SCOPE)
+set_target_properties(ext_date PROPERTIES PUBLIC_HEADER "php_date.h;lib/timelib.h;lib/timelib_config.h")
+
+set(HAVE_TIMELIB_CONFIG_H 1 CACHE STRING "Have timelib_config.h")
 
 message(STATUS "Creating ext/date/lib/timelib_config.h")
 file(WRITE "lib/timelib_config.h"

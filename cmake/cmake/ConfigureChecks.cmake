@@ -185,11 +185,6 @@ check_symbol_exists(res_ndestroy "resolv.h" HAVE_RES_NDESTROY)
 check_symbol_exists(dn_expand "resolv.h" HAVE_DN_EXPAND)
 check_symbol_exists(dn_skipname "resolv.h" HAVE_DN_SKIPNAME)
 
-# ext/date
-check_include_file(io.h HAVE_IO_H)
-check_symbol_exists(atoll "stdlib.h" HAVE_ATOLL)
-check_symbol_exists(strtoll "stdlib.h" HAVE_STRTOLL)
-
 # Check whether writing to stdout works.
 include(PHPCheckWriteStdout)
 

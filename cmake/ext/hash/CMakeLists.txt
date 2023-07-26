@@ -1,4 +1,4 @@
-option(mhash "Whether mhash support should be enabled" OFF)
+option(mhash "Whether mhash support should be included" OFF)
 
 if(mhash)
   set(PHP_MHASH_BC 1 PARENT_SCOPE)
@@ -6,7 +6,7 @@ endif()
 
 php_extension(NAME "hash")
 
-add_library(ext_hash
+add_library(ext_hash STATIC
   hash.c
   hash_md.c
   hash_sha.c
@@ -53,14 +53,19 @@ if(CMAKE_C_BYTE_ORDER STREQUAL "LITTLE_ENDIAN")
   target_include_directories(ext_hash PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/${SHA3_DIR}")
 
   # Add -Wno-implicit-fallthrough flag as it happens on 32-bit builds.
-  target_compile_options(ext_hash PRIVATE
-    -Wno-implicit-fallthrough
-    -DKeccakP200_excluded
-    -DKeccakP400_excluded
-    -DKeccakP800_excluded
-    -DZEND_ENABLE_STATIC_TSRMLS_CACHE=1
+  target_compile_options(ext_hash
+    PRIVATE -Wno-implicit-fallthrough
+  )
+
+  target_compile_definitions(ext_hash
+    PRIVATE KeccakP200_excluded
+    PRIVATE KeccakP400_excluded
+    PRIVATE KeccakP800_excluded
+    PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE=1
   )
 else()
-  set(HAVE_SLOW_HASH3 1 PARENT_SCOPE)
+  set(HAVE_SLOW_HASH3 1 CACHE STRING "Define if hash3 algo is available")
   message(WARNING "Using SHA3 slow implementation on bigendian")
 endif()
+
+set_target_properties(ext_hash PROPERTIES PUBLIC_HEADER "php_hash.h;php_hash_md.h;php_hash_sha.h;php_hash_ripemd.h;php_hash_haval.h;php_hash_tiger.h;php_hash_gost.h;php_hash_snefru.h;php_hash_whirlpool.h;php_hash_adler32.h;php_hash_crc32.h;php_hash_fnv.hM;php_hash_joaat.h;php_hash_sha3.h;php_hash_murmur.h;php_hash_xxhash.h")

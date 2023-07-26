@@ -636,6 +636,8 @@ List of configure command line options and their CMake alternatives:
 | `--disable-exif`                 | `-Dexif=OFF`          | OFF           |
 | `--enable-filter`                | `-Dfilter=ON`         | ON            |
 | `--enable-filter=shared`         | `-Dfilter=shared`     |               |
+| `--without-mhash` (default)      | `-Dmhash=OFF`         | OFF           |
+| `--with-mhash`                   | `-Dmhash=ON`          |               |
 | `--enable-pcre-jit`              | `-DPCRE_JIT`          | ON            |
 | `--enable-posix`                 | `-Dposix=ON`          | ON            |
 | `--enable-posix=shared`          | `-Dposix=shared`      |               |
