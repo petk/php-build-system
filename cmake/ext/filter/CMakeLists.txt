@@ -1,9 +1,15 @@
 option(filter "Whether to enable the filter extension" ON)
 
 if(filter)
-  php_extension(NAME filter)
+  string(TOLOWER ${filter} extension_lower)
+  set(extension_library_type "STATIC")
+  if(extension_lower STREQUAL "shared")
+    set(extension_library_type "SHARED")
+  endif()
 
-  add_library(ext_filter
+  php_extension(NAME filter ${extension_library_type})
+
+  add_library(ext_filter ${extension_library_type}
     filter.c
     sanitizing_filters.c
     logical_filters.c

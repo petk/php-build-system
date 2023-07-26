@@ -634,8 +634,9 @@ List of configure command line options and their CMake alternatives:
 | `--enable-exif`                  | `-Dexif=ON`           | OFF           |
 | `--enable-exif=shared`           | `-Dexif=shared`       |               |
 | `--disable-exif`                 | `-Dexif=OFF`          | OFF           |
-| `--enable-filter`                | `-Dfilter=ON`         | ON            |
+| `--enable-filter` (default)      | `-Dfilter=ON`         | ON            |
 | `--enable-filter=shared`         | `-Dfilter=shared`     |               |
+| `--disable-filter`               | `-Dfilter=OFF`        |               |
 | `--without-mhash` (default)      | `-Dmhash=OFF`         | OFF           |
 | `--with-mhash`                   | `-Dmhash=ON`          |               |
 | `--enable-pcre-jit`              | `-DPCRE_JIT`          | ON            |
@@ -644,6 +645,12 @@ List of configure command line options and their CMake alternatives:
 | `--disable-posix`                | `-Dposix=OFF`         |               |
 | `--with-external-pcre`           | `-DEXTERNAL_LIBCRYPT` | OFF           |
 | `--enable-phar`                  | `-Dphar`              | ON            |
+| `--enable-tokenizer` (default)   | `-Dtokenizer=ON`      |               |
+| `--enable-tokenizer=shared`      | `-Dtokenizer=shared`  |               |
+| `--disable-tokenizer`            | `-Dtokenizer=OFF`     |               |
+| `--disable-zend-test` (default)  | `-Dzend_test=OFF`     | OFF           |
+| `--enable-zend-test`             | `-Dzend_test=ON`      |               |
+| `--enable-zend-test=shared`      | `-Dzend_test=shared`  |               |
 
 List of configure environment variables:
 
