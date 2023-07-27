@@ -60,9 +60,9 @@ endif()
 option(SHORT_TAGS "Whether to enable short tags by default" ON)
 
 if(SHORT_TAGS)
-  set(DEFAULT_SHORT_OPEN_TAG 1 CACHE STRING "Whether to enable the short-form <? start tag by default")
+  set(DEFAULT_SHORT_OPEN_TAG "1" CACHE STRING "Whether to enable the short-form <? start tag by default")
 else()
-  set(DEFAULT_SHORT_OPEN_TAG 0 CACHE STRING "Whether to enable the short-form <? start tag by default")
+  set(DEFAULT_SHORT_OPEN_TAG "0" CACHE STRING "Whether to enable the short-form <? start tag by default")
 endif()
 
 option(ZTS "Enable thread safety" OFF)

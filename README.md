@@ -622,6 +622,9 @@ List of configure command line options and their CMake alternatives:
 | `--enable-cli` / `--disable-cli` | `-Dcli`               | ON            |
 | `--disable-cli`                  | `-Dcli=OFF`           |               |
 | **PHP extensions**               |                       |               |
+| `--disable-bcmath` (default)     | `-Dbcmath=OFF`        | OFF           |
+| `--enable-bcmath`                | `-Dbcmath=ON`         |               |
+| `--enable-bcmath=shared`         | `-Dbcmath=shared`     |               |
 | `--enable-calendar`              | `-Dcalendar=ON`       |               |
 | `--enable-calendar=shared`       | `-Dcalendar=shared`   |               |
 | `--disable-calendar`             | `-Dcalendar=OFF`      | OFF           |
@@ -645,6 +648,18 @@ List of configure command line options and their CMake alternatives:
 | `--disable-posix`                | `-Dposix=OFF`         |               |
 | `--with-external-pcre`           | `-DEXTERNAL_LIBCRYPT` | OFF           |
 | `--enable-phar`                  | `-Dphar`              | ON            |
+| `--disable-shmop` (default)      | `-Dshmop=OFF`         | OFF           |
+| `--enable-shmop`                 | `-Dshmop=ON`          |               |
+| `--enable-shmop=shared`          | `-Dshmop=shared`      |               |
+| `--disable-sysvmsg` (default)    | `-Dsysvmsg=OFF`       | OFF           |
+| `--enable-sysvmsg`               | `-Dsysvmsg=ON`        |               |
+| `--enable-sysvmsg=shared`        | `-Dsysvmsg=shared`    |               |
+| `--disable-sysvsem` (default)    | `-Dsysvsem=OFF`       | OFF           |
+| `--enable-sysvsem`               | `-Dsysvsem=ON`        |               |
+| `--enable-sysvsem=shared`        | `-Dsysvsem=shared`    |               |
+| `--disable-sysvshm` (default)    | `-Dsysvshm=OFF`       | OFF           |
+| `--enable-sysvshm`               | `-Dsysvshm=ON`        |               |
+| `--enable-sysvshm=shared`        | `-Dsysvshm=shared`    |               |
 | `--enable-tokenizer` (default)   | `-Dtokenizer=ON`      |               |
 | `--enable-tokenizer=shared`      | `-Dtokenizer=shared`  |               |
 | `--disable-tokenizer`            | `-Dtokenizer=OFF`     |               |

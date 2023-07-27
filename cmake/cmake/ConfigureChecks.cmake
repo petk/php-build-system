@@ -1,10 +1,11 @@
 # Include required modules.
 include(CheckIncludeFile)
+include(CheckLibraryExists)
 include(CheckSymbolExists)
 include(CheckTypeSize)
-include(CheckLibraryExists)
-include(FindSendmail)
 include(CheckIPv6)
+include(CMakePushCheckState)
+include(FindSendmail)
 
 # Check whether the system byte ordering is bigendian - requires CMake 3.20.
 if(CMAKE_C_BYTE_ORDER STREQUAL "BIG_ENDIAN")
@@ -12,15 +13,49 @@ if(CMAKE_C_BYTE_ORDER STREQUAL "BIG_ENDIAN")
 endif()
 
 # Check C headers and types.
-check_type_size("size_t" SIZEOF_SIZE_T)
+check_type_size("short" SIZEOF_SHORT)
+if(NOT SIZEOF_SHORT)
+  message(FATAL_ERROR "Cannot determine size of short.")
+endif()
 
-if(NOT HAVE_SIZEOF_SIZE_T)
-  message(FATAL_ERROR "Cannot determine size of size_t.")
+check_type_size("int" SIZEOF_INT)
+if(NOT SIZEOF_INT)
+  message(FATAL_ERROR "Cannot determine size of int.")
 endif()
 
 check_type_size("long" SIZEOF_LONG)
 if(NOT SIZEOF_LONG)
   message(FATAL_ERROR "Cannot determine size of long.")
+endif()
+
+check_type_size("long long" SIZEOF_LONG_LONG)
+if(NOT SIZEOF_LONG_LONG)
+  message(FATAL_ERROR "Cannot determine size of long long.")
+endif()
+
+check_type_size("size_t" SIZEOF_SIZE_T)
+if(NOT HAVE_SIZEOF_SIZE_T)
+  message(FATAL_ERROR "Cannot determine size of size_t.")
+endif()
+
+check_type_size("off_t" SIZEOF_OFF_T)
+if(NOT SIZEOF_OFF_T)
+  message(FATAL_ERROR "Cannot determine size of off_t.")
+endif()
+
+check_type_size("intmax_t" SIZEOF_INTMAX_T)
+if(NOT SIZEOF_INTMAX_T)
+  message(FATAL_ERROR "Cannot determine size of intmax_t.")
+endif()
+
+check_type_size("ssize_t" SIZEOF_SSIZE_T)
+if(NOT SIZEOF_SSIZE_T)
+  message(FATAL_ERROR "Cannot determine size of ssize_t.")
+endif()
+
+check_type_size("ptrdiff_t" SIZEOF_PTRDIFF_T)
+if(NOT SIZEOF_PTRDIFF_T)
+  message(FATAL_ERROR "Cannot determine size of ptrdiff_t.")
 endif()
 
 check_include_file(alloca.h HAVE_ALLOCA_H)
@@ -160,7 +195,12 @@ check_symbol_exists(statvfs "sys/statvfs.h" HAVE_STATVFS)
 check_symbol_exists(std_syslog "sys/syslog.h" HAVE_STD_SYSLOG)
 check_symbol_exists(strcasecmp "strings.h" HAVE_STRCASECMP)
 check_symbol_exists(strnlen "string.h" HAVE_STRNLEN)
-check_symbol_exists(strptime "time.h" HAVE_STRPTIME)
+
+cmake_push_check_state()
+  set(CMAKE_REQUIRED_DEFINITIONS "${CMAKE_REQUIRED_DEFINITIONS} -D_XOPEN_SOURCE")
+  check_symbol_exists(strptime "time.h" HAVE_STRPTIME)
+cmake_pop_check_state()
+
 check_symbol_exists(strtok_r "string.h" HAVE_STRTOK_R)
 check_symbol_exists(symlink "unistd.h" HAVE_SYMLINK)
 check_symbol_exists(tzset "time.h" HAVE_TZSET)

@@ -1,9 +1,15 @@
-option(bcmath "Whether to enable bcmath extension" ON)
+option(bcmath "Whether to enable bc style precision math functions extension" OFF)
 
 if(bcmath)
-  php_extension(NAME "bcmath")
+  string(TOLOWER ${bcmath} extension_lower)
+  set(extension_library_type "STATIC")
+  if(extension_lower STREQUAL "shared")
+    set(extension_library_type "SHARED")
+  endif()
 
-  add_library(ext_bcmath
+  php_extension(NAME "bcmath" ${extension_library_type})
+
+  add_library(ext_bcmath ${extension_library_type}
     bcmath.c
     libbcmath/src/add.c
     libbcmath/src/div.c

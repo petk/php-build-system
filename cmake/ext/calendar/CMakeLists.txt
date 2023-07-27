@@ -3,15 +3,15 @@ option(calendar "Whether to enable the calendar extension" OFF)
 if(calendar)
   project(ext_calendar VERSION ${CMAKE_PROJECT_VERSION} DESCRIPTION "Calendar PHP extension")
 
-  string(TOLOWER ${calendar} calendar_lower)
-  set(calendar_library_type "STATIC")
-  if(calendar_lower STREQUAL "shared")
-    set(calendar_library_type "SHARED")
+  string(TOLOWER ${calendar} extension_lower)
+  set(extension_library_type "STATIC")
+  if(extension_lower STREQUAL "shared")
+    set(extension_library_type "SHARED")
   endif()
 
-  php_extension(NAME "calendar" ${calendar_library_type})
+  php_extension(NAME "calendar" ${extension_library_type})
 
-  add_library(ext_calendar ${calendar_library_type}
+  add_library(ext_calendar ${extension_library_type}
     calendar.c
     dow.c
     french.c

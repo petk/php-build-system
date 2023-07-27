@@ -16,13 +16,13 @@
 
 
 /* Uses cmsgcred struct */
-#undef ANC_CREDS_CMSGCRED
+#cmakedefine ANC_CREDS_CMSGCRED
 
 /* Uses ucred struct */
-#undef ANC_CREDS_UCRED
+#cmakedefine ANC_CREDS_UCRED
 
 /* */
-#undef CDB_INCLUDE_FILE
+#cmakedefine CDB_INCLUDE_FILE
 
 /* Whether to build bcmath as dynamic module */
 #cmakedefine COMPILE_DL_BCMATH @COMPILE_DL_BCMATH@
@@ -244,124 +244,124 @@
 #cmakedefine COOKIE_SEEKER_USES_OFF64_T @COOKIE_SEEKER_USES_OFF64_T@
 
 /* Define if crypt_r has uses CRYPTD */
-#undef CRYPT_R_CRYPTD
+#cmakedefine CRYPT_R_CRYPTD
 
 /* Define if struct crypt_data requires _GNU_SOURCE */
-#undef CRYPT_R_GNU_SOURCE
+#cmakedefine CRYPT_R_GNU_SOURCE
 
 /* Define if crypt_r uses struct crypt_data */
-#undef CRYPT_R_STRUCT_CRYPT_DATA
+#cmakedefine CRYPT_R_STRUCT_CRYPT_DATA
 
 /* Define to 1 if using 'alloca.c'. */
-#undef C_ALLOCA
+#cmakedefine C_ALLOCA
 
 /* Define if the target system is darwin */
-#undef DARWIN
+#cmakedefine DARWIN
 
 /* */
-#undef DB1_INCLUDE_FILE
+#cmakedefine DB1_INCLUDE_FILE
 
 /* */
-#undef DB1_VERSION
+#cmakedefine DB1_VERSION
 
 /* */
-#undef DB2_INCLUDE_FILE
+#cmakedefine DB2_INCLUDE_FILE
 
 /* */
-#undef DB3_INCLUDE_FILE
+#cmakedefine DB3_INCLUDE_FILE
 
 /* */
-#undef DB4_INCLUDE_FILE
+#cmakedefine DB4_INCLUDE_FILE
 
 /* */
-#undef DBA_CDB
+#cmakedefine DBA_CDB
 
 /* */
-#undef DBA_CDB_BUILTIN
+#cmakedefine DBA_CDB_BUILTIN
 
 /* */
-#undef DBA_CDB_MAKE
+#cmakedefine DBA_CDB_MAKE
 
 /* */
-#undef DBA_DB1
+#cmakedefine DBA_DB1
 
 /* */
-#undef DBA_DB2
+#cmakedefine DBA_DB2
 
 /* */
-#undef DBA_DB3
+#cmakedefine DBA_DB3
 
 /* */
-#undef DBA_DB4
+#cmakedefine DBA_DB4
 
 /* */
-#undef DBA_DBM
+#cmakedefine DBA_DBM
 
 /* */
-#undef DBA_FLATFILE
+#cmakedefine DBA_FLATFILE
 
 /* */
-#undef DBA_GDBM
+#cmakedefine DBA_GDBM
 
 /* */
-#undef DBA_INIFILE
+#cmakedefine DBA_INIFILE
 
 /* */
-#undef DBA_LMDB
+#cmakedefine DBA_LMDB
 
 /* */
-#undef DBA_NDBM
+#cmakedefine DBA_NDBM
 
 /* */
-#undef DBA_QDBM
+#cmakedefine DBA_QDBM
 
 /* */
-#undef DBA_TCADB
+#cmakedefine DBA_TCADB
 
 /* */
-#undef DBM_INCLUDE_FILE
+#cmakedefine DBM_INCLUDE_FILE
 
 /* */
-#undef DBM_VERSION
+#cmakedefine DBM_VERSION
 
 /* */
-#cmakedefine01 DEFAULT_SHORT_OPEN_TAG
+#cmakedefine DEFAULT_SHORT_OPEN_TAG "@DEFAULT_SHORT_OPEN_TAG@"
 
 /* Define if dlsym() requires a leading underscore in symbol names. */
-#undef DLSYM_NEEDS_UNDERSCORE
+#cmakedefine DLSYM_NEEDS_UNDERSCORE
 
 /* Whether to enable chroot() function */
-#undef ENABLE_CHROOT_FUNC
+#cmakedefine ENABLE_CHROOT_FUNC
 
 /* */
-#undef GDBM_INCLUDE_FILE
+#cmakedefine GDBM_INCLUDE_FILE
 
 /* Define to 1 if `TIOCGWINSZ' requires <sys/ioctl.h>. */
-#undef GWINSZ_IN_SYS_IOCTL
+#cmakedefine GWINSZ_IN_SYS_IOCTL
 
 /* Whether 3 arg set_rebind_proc() */
-#undef HAVE_3ARG_SETREBINDPROC
+#cmakedefine HAVE_3ARG_SETREBINDPROC
 
 /* Define when aarch64 CRC32 API is available. */
-#undef HAVE_AARCH64_CRC32
+#cmakedefine HAVE_AARCH64_CRC32
 
 /* */
-#undef HAVE_ADABAS
+#cmakedefine HAVE_ADABAS
 
 /* Whether you have AI_ALL */
-#undef HAVE_AI_ALL
+#cmakedefine HAVE_AI_ALL
 
 /* Whether you have AI_IDN */
-#undef HAVE_AI_IDN
+#cmakedefine HAVE_AI_IDN
 
 /* Whether you have AI_V4MAPPED */
-#undef HAVE_AI_V4MAPPED
+#cmakedefine HAVE_AI_V4MAPPED
 
 /* whether the compiler supports __alignof__ */
-#undef HAVE_ALIGNOF
+#cmakedefine HAVE_ALIGNOF
 
 /* Define to 1 if you have 'alloca', as a function or macro. */
-#undef HAVE_ALLOCA
+#cmakedefine HAVE_ALLOCA
 
 /* Define to 1 if <alloca.h> works. */
 #cmakedefine HAVE_ALLOCA_H @HAVE_ALLOCA_H@
@@ -370,10 +370,10 @@
 #cmakedefine HAVE_ALPHASORT @HAVE_ALPHASORT@
 
 /* AppArmor confinement available */
-#undef HAVE_APPARMOR
+#cmakedefine HAVE_APPARMOR
 
 /* */
-#undef HAVE_ARGON2LIB
+#cmakedefine HAVE_ARGON2LIB
 
 /* Define to 1 if you have the <arpa/inet.h> header file. */
 #cmakedefine HAVE_ARPA_INET_H @HAVE_ARPA_INET_H@
@@ -385,7 +385,7 @@
 #cmakedefine HAVE_ASCTIME_R @HAVE_ASCTIME_R@
 
 /* Define if asm goto support */
-#undef HAVE_ASM_GOTO
+#cmakedefine HAVE_ASM_GOTO
 
 /* Define to 1 if you have the `asprintf' function. */
 #cmakedefine HAVE_ASPRINTF @HAVE_ASPRINTF@
@@ -400,19 +400,19 @@
 #cmakedefine HAVE_BCMATH @HAVE_BCMATH@
 
 /* */
-#undef HAVE_BIND_TEXTDOMAIN_CODESET
+#cmakedefine HAVE_BIND_TEXTDOMAIN_CODESET
 
 /* Define if system has broken getcwd */
-#undef HAVE_BROKEN_GETCWD
+#cmakedefine HAVE_BROKEN_GETCWD
 
 /* Konstantin Chuguev's iconv implementation */
-#undef HAVE_BSD_ICONV
+#cmakedefine HAVE_BSD_ICONV
 
 /* */
 #cmakedefine HAVE_BUILD_DEFS_H @HAVE_BUILD_DEFS_H@
 
 /* Define to 1 if gcc supports __sync_bool_compare_and_swap() a.o. */
-#undef HAVE_BUILTIN_ATOMIC
+#cmakedefine HAVE_BUILTIN_ATOMIC
 
 /* */
 #cmakedefine HAVE_BUNDLED_PCRE @HAVE_BUNDLED_PCRE@
@@ -424,46 +424,46 @@
 #cmakedefine HAVE_CALENDAR @HAVE_CALENDAR@
 
 /* Libzip >= 1.6.0 with zip_register_cancel_callback_with_state function */
-#undef HAVE_CANCEL_CALLBACK
+#cmakedefine HAVE_CANCEL_CALLBACK
 
 /* Capstone is available */
-#undef HAVE_CAPSTONE
+#cmakedefine HAVE_CAPSTONE
 
 /* Define to 1 if you have the `chroot' function. */
 #cmakedefine HAVE_CHROOT @HAVE_CHROOT@
 
 /* Define to 1 if you have the `clearenv' function. */
-#undef HAVE_CLEARENV
+#cmakedefine HAVE_CLEARENV
 
 /* */
-#undef HAVE_CLI0CLI_H
+#cmakedefine HAVE_CLI0CLI_H
 
 /* */
-#undef HAVE_CLI0CORE_H
+#cmakedefine HAVE_CLI0CORE_H
 
 /* */
-#undef HAVE_CLI0DEFS_H
+#cmakedefine HAVE_CLI0DEFS_H
 
 /* */
-#undef HAVE_CLI0ENV_H
+#cmakedefine HAVE_CLI0ENV_H
 
 /* */
-#undef HAVE_CLI0EXT_H
+#cmakedefine HAVE_CLI0EXT_H
 
 /* do we have clock_gettime? */
-#undef HAVE_CLOCK_GETTIME
+#cmakedefine HAVE_CLOCK_GETTIME
 
 /* do we have clock_get_time? */
-#undef HAVE_CLOCK_GET_TIME
+#cmakedefine HAVE_CLOCK_GET_TIME
 
 /* */
-#undef HAVE_CODBC
+#cmakedefine HAVE_CODBC
 
 /* Define to 1 if you have the <CommonCrypto/CommonRandom.h> header file. */
 #cmakedefine HAVE_COMMONCRYPTO_COMMONRANDOM_H @HAVE_COMMONCRYPTO_COMMONRANDOM_H@
 
 /* Define if copy_file_range support */
-#undef HAVE_COPY_FILE_RANGE
+#cmakedefine HAVE_COPY_FILE_RANGE
 
 /* whether __cpuid_count is available */
 #cmakedefine HAVE_CPUID_COUNT @HAVE_CPUID_COUNT@
@@ -496,16 +496,16 @@
 #cmakedefine HAVE_CURL @HAVE_CURL@
 
 /* Have cURL with old OpenSSL */
-#undef HAVE_CURL_OLD_OPENSSL
+#cmakedefine HAVE_CURL_OLD_OPENSSL
 
 /* */
 #cmakedefine HAVE_DBA @HAVE_DBA@
 
 /* Whether you want DBMaker */
-#undef HAVE_DBMAKER
+#cmakedefine HAVE_DBMAKER
 
 /* */
-#undef HAVE_DCNGETTEXT
+#cmakedefine HAVE_DCNGETTEXT
 
 /* Define to 1 if you have the declaration of `arc4random_buf', and to 0 if
    you don't. */
@@ -513,10 +513,10 @@
 
 /* Define to 1 if you have the declaration of `tzname', and to 0 if you don't.
    */
-#undef HAVE_DECL_TZNAME
+#cmakedefine HAVE_DECL_TZNAME
 
 /* do we have /dev/poll? */
-#undef HAVE_DEVPOLL
+#cmakedefine HAVE_DEVPOLL
 
 /* Define to 1 if you have the <dirent.h> header file. */
 #cmakedefine HAVE_DIRENT_H @HAVE_DIRENT_H@
@@ -525,16 +525,16 @@
 #cmakedefine HAVE_DLFCN_H @HAVE_DLFCN_H@
 
 /* */
-#undef HAVE_DLOPEN
+#cmakedefine HAVE_DLOPEN
 
 /* */
-#undef HAVE_DLSYM
+#cmakedefine HAVE_DLSYM
 
 /* Whether you have dmalloc */
-#undef HAVE_DMALLOC
+#cmakedefine HAVE_DMALLOC
 
 /* */
-#undef HAVE_DNGETTEXT
+#cmakedefine HAVE_DNGETTEXT
 
 /* Define to 1 if you have the <dns.h> header file. */
 #cmakedefine HAVE_DNS_H @HAVE_DNS_H@
@@ -552,31 +552,31 @@
 #cmakedefine HAVE_DOM @HAVE_DOM@
 
 /* Whether to enable DTrace support */
-#undef HAVE_DTRACE
+#cmakedefine HAVE_DTRACE
 
 /* Define to 1 if you have the `eaccess' function. */
 #cmakedefine HAVE_EACCESS @HAVE_EACCESS@
 
 /* */
-#undef HAVE_EMPRESS
+#cmakedefine HAVE_EMPRESS
 
 /* */
 #cmakedefine HAVE_ENCHANT @HAVE_ENCHANT@
 
 /* enchant_broker_set_param since 1.5.0 and removed in 2.x */
-#undef HAVE_ENCHANT_BROKER_SET_PARAM
+#cmakedefine HAVE_ENCHANT_BROKER_SET_PARAM
 
 /* enchant_get_version since 1.6.0 */
-#undef HAVE_ENCHANT_GET_VERSION
+#cmakedefine HAVE_ENCHANT_GET_VERSION
 
 /* Libzip >= 1.2.0 with encryption support */
-#undef HAVE_ENCRYPTION
+#cmakedefine HAVE_ENCRYPTION
 
 /* do we have epoll? */
-#undef HAVE_EPOLL
+#cmakedefine HAVE_EPOLL
 
 /* */
-#undef HAVE_ESOOB
+#cmakedefine HAVE_ESOOB
 
 /* Whether you want EXIF (metadata from images) support */
 #cmakedefine HAVE_EXIF @HAVE_EXIF@
@@ -588,7 +588,7 @@
 #cmakedefine HAVE_EXPLICIT_MEMSET @HAVE_EXPLICIT_MEMSET@
 
 /* Define to 1 if you have the `fabsf' function. */
-#undef HAVE_FABSF
+#cmakedefine HAVE_FABSF
 
 /* Define to 1 if you have the <fcntl.h> header file. */
 #cmakedefine HAVE_FCNTL_H @HAVE_FCNTL_H@
@@ -600,37 +600,37 @@
 #cmakedefine HAVE_FFI @HAVE_FFI@
 
 /* Whether libffi supports fastcall calling convention */
-#undef HAVE_FFI_FASTCALL
+#cmakedefine HAVE_FFI_FASTCALL
 
 /* Whether libffi supports ms_cdecl calling convention */
-#undef HAVE_FFI_MS_CDECL
+#cmakedefine HAVE_FFI_MS_CDECL
 
 /* Whether libffi supports pascal calling convention */
-#undef HAVE_FFI_PASCAL
+#cmakedefine HAVE_FFI_PASCAL
 
 /* Whether libffi supports register calling convention */
-#undef HAVE_FFI_REGISTER
+#cmakedefine HAVE_FFI_REGISTER
 
 /* Whether libffi supports stdcall calling convention */
-#undef HAVE_FFI_STDCALL
+#cmakedefine HAVE_FFI_STDCALL
 
 /* Whether libffi supports sysv calling convention */
-#undef HAVE_FFI_SYSV
+#cmakedefine HAVE_FFI_SYSV
 
 /* Whether libffi supports thiscall calling convention */
-#undef HAVE_FFI_THISCALL
+#cmakedefine HAVE_FFI_THISCALL
 
 /* Define to 1 if you have the `flock' function. */
 #cmakedefine HAVE_FLOCK @HAVE_FLOCK@
 
 /* Define to 1 if you have the `floorf' function. */
-#undef HAVE_FLOORF
+#cmakedefine HAVE_FLOORF
 
 /* Define if flush should be called explicitly after a buffered io. */
 #cmakedefine HAVE_FLUSHIO @HAVE_FLUSHIO@
 
 /* Define to 1 if your system has a working POSIX `fnmatch' function. */
-#undef HAVE_FNMATCH
+#cmakedefine HAVE_FNMATCH
 
 /* */
 #cmakedefine HAVE_FOPENCOOKIE @HAVE_FOPENCOOKIE@
@@ -639,10 +639,10 @@
 #cmakedefine HAVE_FORK @HAVE_FORK@
 
 /* Define to 1 if you have the `forkx' function. */
-#undef HAVE_FORKX
+#cmakedefine HAVE_FORKX
 
 /* do we have acl support? */
-#undef HAVE_FPM_ACL
+#cmakedefine HAVE_FPM_ACL
 
 /* whether fpsetprec is present and usable */
 #cmakedefine HAVE_FPSETPREC @HAVE_FPSETPREC@
@@ -657,22 +657,22 @@
 #cmakedefine HAVE_FTP @HAVE_FTP@
 
 /* Whether FTP over SSL is supported */
-#undef HAVE_FTP_SSL
+#cmakedefine HAVE_FTP_SSL
 
 /* Define to 1 if the system has the `ifunc' function attribute */
-#undef HAVE_FUNC_ATTRIBUTE_IFUNC
+#cmakedefine HAVE_FUNC_ATTRIBUTE_IFUNC
 
 /* Define to 1 if the system has the `target' function attribute */
-#undef HAVE_FUNC_ATTRIBUTE_TARGET
+#cmakedefine HAVE_FUNC_ATTRIBUTE_TARGET
 
 /* Define to 1 if you have the three-argument form of gethostbyname_r(). */
-#undef HAVE_FUNC_GETHOSTBYNAME_R_3
+#cmakedefine HAVE_FUNC_GETHOSTBYNAME_R_3
 
 /* Define to 1 if you have the five-argument form of gethostbyname_r(). */
-#undef HAVE_FUNC_GETHOSTBYNAME_R_5
+#cmakedefine HAVE_FUNC_GETHOSTBYNAME_R_5
 
 /* Define to 1 if you have the six-argument form of gethostbyname_r(). */
-#undef HAVE_FUNC_GETHOSTBYNAME_R_6
+#cmakedefine HAVE_FUNC_GETHOSTBYNAME_R_6
 
 /* Define to 1 if you have the `funopen' function. */
 #cmakedefine HAVE_FUNOPEN @HAVE_FUNOPEN@
@@ -684,43 +684,43 @@
 #cmakedefine HAVE_GCC_GLOBAL_REGS @HAVE_GCC_GLOBAL_REGS@
 
 /* Whether you have gcov */
-#undef HAVE_GCOV
+#cmakedefine HAVE_GCOV
 
 /* */
-#undef HAVE_GD_AVIF
+#cmakedefine HAVE_GD_AVIF
 
 /* */
-#undef HAVE_GD_BMP
+#cmakedefine HAVE_GD_BMP
 
 /* */
-#undef HAVE_GD_BUNDLED
+#cmakedefine HAVE_GD_BUNDLED
 
 /* */
-#undef HAVE_GD_FREETYPE
+#cmakedefine HAVE_GD_FREETYPE
 
 /* */
-#undef HAVE_GD_GET_INTERPOLATION
+#cmakedefine HAVE_GD_GET_INTERPOLATION
 
 /* */
-#undef HAVE_GD_JPG
+#cmakedefine HAVE_GD_JPG
 
 /* */
-#undef HAVE_GD_LIBVERSION
+#cmakedefine HAVE_GD_LIBVERSION
 
 /* */
-#undef HAVE_GD_PNG
+#cmakedefine HAVE_GD_PNG
 
 /* */
-#undef HAVE_GD_TGA
+#cmakedefine HAVE_GD_TGA
 
 /* */
-#undef HAVE_GD_WEBP
+#cmakedefine HAVE_GD_WEBP
 
 /* */
-#undef HAVE_GD_XPM
+#cmakedefine HAVE_GD_XPM
 
 /* Define if you have the getaddrinfo function */
-#undef HAVE_GETADDRINFO
+#cmakedefine HAVE_GETADDRINFO
 
 /* Define to 1 if you have the `getcwd' function. */
 #cmakedefine HAVE_GETCWD @HAVE_GETCWD@
@@ -735,13 +735,13 @@
 #cmakedefine HAVE_GETGROUPS @HAVE_GETGROUPS@
 
 /* */
-#undef HAVE_GETHOSTBYADDR
+#cmakedefine HAVE_GETHOSTBYADDR
 
 /* Define to 1 if you have some form of gethostbyname_r(). */
-#undef HAVE_GETHOSTBYNAME_R
+#cmakedefine HAVE_GETHOSTBYNAME_R
 
 /* */
-#undef HAVE_GETHOSTNAME
+#cmakedefine HAVE_GETHOSTNAME
 
 /* whether getifaddrs is present and usable */
 #cmakedefine HAVE_GETIFADDRS @HAVE_GETIFADDRS@
@@ -753,7 +753,7 @@
 #cmakedefine HAVE_GETLOGIN @HAVE_GETLOGIN@
 
 /* Define to 1 if you have the `getopt' function. */
-#undef HAVE_GETOPT
+#cmakedefine HAVE_GETOPT
 
 /* Define to 1 if you have the `getpgid' function. */
 #cmakedefine HAVE_GETPGID @HAVE_GETPGID@
@@ -762,7 +762,7 @@
 #cmakedefine HAVE_GETPID @HAVE_GETPID@
 
 /* Define to 1 if you have the `getpriority' function. */
-#undef HAVE_GETPRIORITY
+#cmakedefine HAVE_GETPRIORITY
 
 /* Define to 1 if you have the `getprotobyname' function. */
 #cmakedefine HAVE_GETPROTOBYNAME @HAVE_GETPROTOBYNAME@
@@ -801,7 +801,7 @@
 #cmakedefine HAVE_GETWD @HAVE_GETWD@
 
 /* glibc's iconv implementation */
-#undef HAVE_GLIBC_ICONV
+#cmakedefine HAVE_GLIBC_ICONV
 
 /* Define to 1 if you have the `glob' function. */
 #cmakedefine HAVE_GLOB @HAVE_GLOB@
@@ -816,22 +816,22 @@
 #cmakedefine HAVE_GRP_H @HAVE_GRP_H@
 
 /* */
-#undef HAVE_HISTORY_LIST
+#cmakedefine HAVE_HISTORY_LIST
 
 /* Define to 1 if you have the `hstrerror' function. */
-#undef HAVE_HSTRERROR
+#cmakedefine HAVE_HSTRERROR
 
 /* */
-#undef HAVE_HTONL
+#cmakedefine HAVE_HTONL
 
 /* Define to enable copying PHP CODE pages into HUGE PAGES (experimental) */
-#undef HAVE_HUGE_CODE_PAGES
+#cmakedefine HAVE_HUGE_CODE_PAGES
 
 /* */
-#undef HAVE_IBMDB2
+#cmakedefine HAVE_IBMDB2
 
 /* IBM iconv implementation */
-#undef HAVE_IBM_ICONV
+#cmakedefine HAVE_IBM_ICONV
 
 /* */
 #cmakedefine HAVE_ICONV @HAVE_ICONV@
@@ -840,40 +840,40 @@
 #cmakedefine HAVE_IEEEFP_H @HAVE_IEEEFP_H@
 
 /* Define to 1 if you have the `if_indextoname' function. */
-#undef HAVE_IF_INDEXTONAME
+#cmakedefine HAVE_IF_INDEXTONAME
 
 /* Define to 1 if you have the `if_nametoindex' function. */
-#undef HAVE_IF_NAMETOINDEX
+#cmakedefine HAVE_IF_NAMETOINDEX
 
 /* */
 #cmakedefine HAVE_IMAP @HAVE_IMAP@
 
 /* */
-#undef HAVE_IMAP2000
+#cmakedefine HAVE_IMAP2000
 
 /* */
-#undef HAVE_IMAP2001
+#cmakedefine HAVE_IMAP2001
 
 /* */
-#undef HAVE_IMAP2004
+#cmakedefine HAVE_IMAP2004
 
 /* */
-#undef HAVE_IMAP_AUTH_GSS
+#cmakedefine HAVE_IMAP_AUTH_GSS
 
 /* Whether IMAP extension has Kerberos support */
-#undef HAVE_IMAP_KRB
+#cmakedefine HAVE_IMAP_KRB
 
 /* */
-#undef HAVE_IMAP_MUTF7
+#cmakedefine HAVE_IMAP_MUTF7
 
 /* */
-#undef HAVE_IMAP_SSL
+#cmakedefine HAVE_IMAP_SSL
 
 /* Define to 1 if you have the <immintrin.h> header file. */
 #cmakedefine HAVE_IMMINTRIN_H @HAVE_IMMINTRIN_H@
 
 /* */
-#undef HAVE_INET_ATON
+#cmakedefine HAVE_INET_ATON
 
 /* Define to 1 if you have the `inet_ntoa' function. */
 #cmakedefine HAVE_INET_NTOA @HAVE_INET_NTOA@
@@ -888,16 +888,16 @@
 #cmakedefine HAVE_INITGROUPS @HAVE_INITGROUPS@
 
 /* Whether intmax_t is available */
-#undef HAVE_INTMAX_T
+#cmakedefine HAVE_INTMAX_T
 
 /* Define to 1 if you have the <inttypes.h> header file. */
-#undef HAVE_INTTYPES_H
+#cmakedefine HAVE_INTTYPES_H
 
 /* */
-#undef HAVE_IODBC
+#cmakedefine HAVE_IODBC
 
 /* */
-#undef HAVE_IODBC_H
+#cmakedefine HAVE_IODBC_H
 
 /* Define to 1 if you have the <io.h> header file. */
 #cmakedefine HAVE_IO_H @HAVE_IO_H@
@@ -906,13 +906,13 @@
 #cmakedefine HAVE_IPV6 @HAVE_IPV6@
 
 /* */
-#undef HAVE_ISQLEXT_H
+#cmakedefine HAVE_ISQLEXT_H
 
 /* */
-#undef HAVE_ISQL_H
+#cmakedefine HAVE_ISQL_H
 
 /* Define to enable JIT */
-#undef HAVE_JIT
+#cmakedefine HAVE_JIT
 
 /* whether to enable JavaScript Object Serialization support */
 #cmakedefine HAVE_JSON @HAVE_JSON@
@@ -921,7 +921,7 @@
 #cmakedefine HAVE_KILL @HAVE_KILL@
 
 /* do we have kqueue? */
-#undef HAVE_KQUEUE
+#cmakedefine HAVE_KQUEUE
 
 /* Define to 1 if you have the <langinfo.h> header file. */
 #cmakedefine HAVE_LANGINFO_H @HAVE_LANGINFO_H@
@@ -933,127 +933,127 @@
 #cmakedefine HAVE_LDAP @HAVE_LDAP@
 
 /* Define to 1 if you have the `ldap_control_find' function. */
-#undef HAVE_LDAP_CONTROL_FIND
+#cmakedefine HAVE_LDAP_CONTROL_FIND
 
 /* Define to 1 if you have the `ldap_extended_operation' function. */
-#undef HAVE_LDAP_EXTENDED_OPERATION
+#cmakedefine HAVE_LDAP_EXTENDED_OPERATION
 
 /* Define to 1 if you have the `ldap_extended_operation_s' function. */
-#undef HAVE_LDAP_EXTENDED_OPERATION_S
+#cmakedefine HAVE_LDAP_EXTENDED_OPERATION_S
 
 /* Define to 1 if you have the `ldap_parse_extended_result' function. */
-#undef HAVE_LDAP_PARSE_EXTENDED_RESULT
+#cmakedefine HAVE_LDAP_PARSE_EXTENDED_RESULT
 
 /* Define to 1 if you have the `ldap_parse_reference' function. */
-#undef HAVE_LDAP_PARSE_REFERENCE
+#cmakedefine HAVE_LDAP_PARSE_REFERENCE
 
 /* Define to 1 if you have the `ldap_parse_result' function. */
-#undef HAVE_LDAP_PARSE_RESULT
+#cmakedefine HAVE_LDAP_PARSE_RESULT
 
 /* Define to 1 if you have the `ldap_passwd' function. */
-#undef HAVE_LDAP_PASSWD
+#cmakedefine HAVE_LDAP_PASSWD
 
 /* Define to 1 if you have the `ldap_refresh_s' function. */
-#undef HAVE_LDAP_REFRESH_S
+#cmakedefine HAVE_LDAP_REFRESH_S
 
 /* LDAP SASL support */
-#undef HAVE_LDAP_SASL
+#cmakedefine HAVE_LDAP_SASL
 
 /* Define to 1 if you have the `ldap_start_tls_s' function. */
-#undef HAVE_LDAP_START_TLS_S
+#cmakedefine HAVE_LDAP_START_TLS_S
 
 /* Define to 1 if you have the `ldap_whoami_s' function. */
-#undef HAVE_LDAP_WHOAMI_S
+#cmakedefine HAVE_LDAP_WHOAMI_S
 
 /* */
-#undef HAVE_LIBAVIF
+#cmakedefine HAVE_LIBAVIF
 
 /* */
-#undef HAVE_LIBBIND
+#cmakedefine HAVE_LIBBIND
 
 /* */
-#undef HAVE_LIBBSD
+#cmakedefine HAVE_LIBBSD
 
 /* */
-#undef HAVE_LIBCRYPT
+#cmakedefine HAVE_LIBCRYPT
 
 /* */
-#undef HAVE_LIBDL
+#cmakedefine HAVE_LIBDL
 
 /* */
-#undef HAVE_LIBEDIT
+#cmakedefine HAVE_LIBEDIT
 
 /* */
-#undef HAVE_LIBEXPAT
+#cmakedefine HAVE_LIBEXPAT
 
 /* */
-#undef HAVE_LIBFREETYPE
+#cmakedefine HAVE_LIBFREETYPE
 
 /* */
-#undef HAVE_LIBGD
+#cmakedefine HAVE_LIBGD
 
 /* Whether libiconv is used */
-#undef HAVE_LIBICONV
+#cmakedefine HAVE_LIBICONV
 
 /* */
-#undef HAVE_LIBINTL
+#cmakedefine HAVE_LIBINTL
 
 /* */
-#undef HAVE_LIBJPEG
+#cmakedefine HAVE_LIBJPEG
 
 /* Define to 1 if you have the `m' library (-lm). */
-#undef HAVE_LIBM
+#cmakedefine HAVE_LIBM
 
 /* Whether you have libmm */
-#undef HAVE_LIBMM
+#cmakedefine HAVE_LIBMM
 
 /* */
-#undef HAVE_LIBNETWORK
+#cmakedefine HAVE_LIBNETWORK
 
 /* */
-#undef HAVE_LIBNSL
+#cmakedefine HAVE_LIBNSL
 
 /* */
-#undef HAVE_LIBPAM
+#cmakedefine HAVE_LIBPAM
 
 /* */
-#undef HAVE_LIBPNG
+#cmakedefine HAVE_LIBPNG
 
 /* Define to 1 if you have the `pq' library (-lpq). */
-#undef HAVE_LIBPQ
+#cmakedefine HAVE_LIBPQ
 
 /* */
-#undef HAVE_LIBRARYMANAGER_H
+#cmakedefine HAVE_LIBRARYMANAGER_H
 
 /* */
-#undef HAVE_LIBREADLINE
+#cmakedefine HAVE_LIBREADLINE
 
 /* */
-#undef HAVE_LIBRESOLV
+#cmakedefine HAVE_LIBRESOLV
 
 /* */
-#undef HAVE_LIBROOT
+#cmakedefine HAVE_LIBROOT
 
 /* */
-#undef HAVE_LIBRT
+#cmakedefine HAVE_LIBRT
 
 /* */
-#undef HAVE_LIBSOCKET
+#cmakedefine HAVE_LIBSOCKET
 
 /* */
-#undef HAVE_LIBSODIUMLIB
+#cmakedefine HAVE_LIBSODIUMLIB
 
 /* */
-#undef HAVE_LIBUTIL
+#cmakedefine HAVE_LIBUTIL
 
 /* */
-#undef HAVE_LIBWEBP
+#cmakedefine HAVE_LIBWEBP
 
 /* */
 #cmakedefine HAVE_LIBXML @HAVE_LIBXML@
 
 /* Libzip >= 1.3.1 with zip_libzip_version function */
-#undef HAVE_LIBZIP_VERSION
+#cmakedefine HAVE_LIBZIP_VERSION
 
 /* Define to 1 if you have the <linux/filter.h> header file. */
 #cmakedefine HAVE_LINUX_FILTER_H @HAVE_LINUX_FILTER_H@
@@ -1065,19 +1065,19 @@
 #cmakedefine HAVE_LOCALTIME_R @HAVE_LOCALTIME_R@
 
 /* Define to 1 if the system has the type `long double'. */
-#undef HAVE_LONG_DOUBLE
+#cmakedefine HAVE_LONG_DOUBLE
 
 /* do we have SO_LISTENQxxx? */
-#undef HAVE_LQ_SO_LISTENQ
+#cmakedefine HAVE_LQ_SO_LISTENQ
 
 /* do we have TCP_CONNECTION_INFO? */
-#undef HAVE_LQ_TCP_CONNECTION_INFO
+#cmakedefine HAVE_LQ_TCP_CONNECTION_INFO
 
 /* do we have TCP_INFO? */
-#undef HAVE_LQ_TCP_INFO
+#cmakedefine HAVE_LQ_TCP_INFO
 
 /* do we have mach_vm_read? */
-#undef HAVE_MACH_VM_READ
+#cmakedefine HAVE_MACH_VM_READ
 
 /* Define to 1 if you have the `makedev' function. */
 #cmakedefine HAVE_MAKEDEV @HAVE_MAKEDEV@
@@ -1086,7 +1086,7 @@
 #cmakedefine HAVE_MALLOC_H @HAVE_MALLOC_H@
 
 /* whether to have multibyte regex support */
-#undef HAVE_MBREGEX
+#cmakedefine HAVE_MBREGEX
 
 /* whether to have multibyte string support */
 #cmakedefine HAVE_MBSTRING @HAVE_MBSTRING@
@@ -1095,7 +1095,7 @@
 #cmakedefine HAVE_MEMCNTL @HAVE_MEMCNTL@
 
 /* Define to 1 if you have the `memfd_create' function. */
-#undef HAVE_MEMFD_CREATE
+#cmakedefine HAVE_MEMFD_CREATE
 
 /* Define to 1 if you have the `memmem' function. */
 #cmakedefine HAVE_MEMMEM @HAVE_MEMMEM@
@@ -1107,10 +1107,10 @@
 #cmakedefine HAVE_MEMRCHR @HAVE_MEMRCHR@
 
 /* Libzip >= 1.7.0 with zip_*_method_supported functions */
-#undef HAVE_METHOD_SUPPORTED
+#cmakedefine HAVE_METHOD_SUPPORTED
 
 /* Define to 1 if you have the <minix/config.h> header file. */
-#undef HAVE_MINIX_CONFIG_H
+#cmakedefine HAVE_MINIX_CONFIG_H
 
 /* Define to 1 if you have the `mkfifo' function. */
 #cmakedefine HAVE_MKFIFO @HAVE_MKFIFO@
@@ -1125,13 +1125,13 @@
 #cmakedefine HAVE_MMAP @HAVE_MMAP@
 
 /* Define to 1 if you have the `mprotect' function. */
-#undef HAVE_MPROTECT
+#cmakedefine HAVE_MPROTECT
 
 /* Define to 1 if you have the `mremap' function. */
 #cmakedefine HAVE_MREMAP @HAVE_MREMAP@
 
 /* Whether you have MySQL */
-#undef HAVE_MYSQL
+#cmakedefine HAVE_MYSQL
 
 /* */
 #cmakedefine HAVE_NANOSLEEP @HAVE_NANOSLEEP@
@@ -1140,16 +1140,16 @@
 #cmakedefine HAVE_NETINET_IN_H @HAVE_NETINET_IN_H@
 
 /* Define to 1 if you have the <netinet/tcp.h> header file. */
-#undef HAVE_NETINET_TCP_H
+#cmakedefine HAVE_NETINET_TCP_H
 
 /* Define to 1 if you have the <net/if.h> header file. */
 #cmakedefine HAVE_NET_IF_H @HAVE_NET_IF_H@
 
 /* Whether utf8_mime2text() has new signature */
-#undef HAVE_NEW_MIME2TEXT
+#cmakedefine HAVE_NEW_MIME2TEXT
 
 /* */
-#undef HAVE_NGETTEXT
+#cmakedefine HAVE_NGETTEXT
 
 /* Define to 1 if you have the `nice' function. */
 #cmakedefine HAVE_NICE @HAVE_NICE@
@@ -1164,44 +1164,44 @@
 #cmakedefine HAVE_OCI8 @HAVE_OCI8@
 
 /* Defined to 1 if PHP OCI8 DTrace support was enabled during configuration */
-#undef HAVE_OCI8_DTRACE
+#cmakedefine HAVE_OCI8_DTRACE
 
 /* */
-#undef HAVE_OCIENVCREATE
+#cmakedefine HAVE_OCIENVCREATE
 
 /* */
-#undef HAVE_OCIENVNLSCREATE
+#cmakedefine HAVE_OCIENVNLSCREATE
 
 /* */
-#undef HAVE_OCILOBREAD2
+#cmakedefine HAVE_OCILOBREAD2
 
 /* */
-#undef HAVE_OCISTMTFETCH2
+#cmakedefine HAVE_OCISTMTFETCH2
 
 /* Defined to 1 if OCI8 configuration located Oracle's Instant Client
    libraries */
-#undef HAVE_OCI_INSTANT_CLIENT
+#cmakedefine HAVE_OCI_INSTANT_CLIENT
 
 /* */
-#undef HAVE_ODBC2
+#cmakedefine HAVE_ODBC2
 
 /* */
-#undef HAVE_ODBCSDK_H
+#cmakedefine HAVE_ODBCSDK_H
 
 /* */
-#undef HAVE_ODBC_H
+#cmakedefine HAVE_ODBC_H
 
 /* */
-#undef HAVE_OPENPTY
+#cmakedefine HAVE_OPENPTY
 
 /* Define to 1 if you have the <openssl/crypto.h> header file. */
-#undef HAVE_OPENSSL_CRYPTO_H
+#cmakedefine HAVE_OPENSSL_CRYPTO_H
 
 /* */
 #cmakedefine HAVE_OPENSSL_EXT @HAVE_OPENSSL_EXT@
 
 /* */
-#undef HAVE_ORALDAP
+#cmakedefine HAVE_ORALDAP
 
 /* Define to 1 if you have the <os/signpost.h> header file. */
 #cmakedefine HAVE_OS_SIGNPOST_H @HAVE_OS_SIGNPOST_H@
@@ -1210,40 +1210,40 @@
 #cmakedefine HAVE_PCRE_JIT_SUPPORT @HAVE_PCRE_JIT_SUPPORT@
 
 /* */
-#undef HAVE_PCRE_VALGRIND_SUPPORT
+#cmakedefine HAVE_PCRE_VALGRIND_SUPPORT
 
 /* */
-#undef HAVE_PDO_DBLIB
+#cmakedefine HAVE_PDO_DBLIB
 
 /* */
-#undef HAVE_PDO_FIREBIRD
+#cmakedefine HAVE_PDO_FIREBIRD
 
 /* Whether to build PostgreSQL for PDO support or not */
-#undef HAVE_PDO_PGSQL
+#cmakedefine HAVE_PDO_PGSQL
 
 /* Define to 1 if you have the pdo_sqlite extension enabled. */
-#undef HAVE_PDO_SQLITELIB
+#cmakedefine HAVE_PDO_SQLITELIB
 
 /* Whether to build PostgreSQL support or not */
-#undef HAVE_PGSQL
+#cmakedefine HAVE_PGSQL
 
 /* Whether libpq is compiled with --enable-multibyte */
-#undef HAVE_PGSQL_WITH_MULTIBYTE_SUPPORT
+#cmakedefine HAVE_PGSQL_WITH_MULTIBYTE_SUPPORT
 
 /* PostgreSQL 9.6 or later */
-#undef HAVE_PG_CONTEXT_VISIBILITY
+#cmakedefine HAVE_PG_CONTEXT_VISIBILITY
 
 /* PostgreSQL 9.3 or later */
-#undef HAVE_PG_LO64
+#cmakedefine HAVE_PG_LO64
 
 /* */
-#undef HAVE_PHPDBG
+#cmakedefine HAVE_PHPDBG
 
 /* */
-#undef HAVE_PHPDBG_READLINE
+#cmakedefine HAVE_PHPDBG_READLINE
 
 /* */
-#undef HAVE_PHP_SESSION
+#cmakedefine HAVE_PHP_SESSION
 
 /* Define to 1 if you have the `poll' function. */
 #cmakedefine HAVE_POLL @HAVE_POLL@
@@ -1252,7 +1252,7 @@
 #cmakedefine HAVE_POLL_H @HAVE_POLL_H@
 
 /* do we have port framework? */
-#undef HAVE_PORT
+#cmakedefine HAVE_PORT
 
 /* whether to include POSIX-like functions */
 #cmakedefine HAVE_POSIX @HAVE_POSIX@
@@ -1267,16 +1267,16 @@
 #cmakedefine HAVE_PRCTL @HAVE_PRCTL@
 
 /* */
-#undef HAVE_PREAD
+#cmakedefine HAVE_PREAD
 
 /* do we have procctl? */
 #cmakedefine HAVE_PROCCTL @HAVE_PROCCTL@
 
 /* Libzip >= 1.3.0 with zip_register_progress_callback_with_state function */
-#undef HAVE_PROGRESS_CALLBACK
+#cmakedefine HAVE_PROGRESS_CALLBACK
 
 /* */
-#undef HAVE_PSPELL
+#cmakedefine HAVE_PSPELL
 
 /* Define to 1 if the PS_STRINGS thing exists. */
 #cmakedefine HAVE_PS_STRINGS @HAVE_PS_STRINGS@
@@ -1300,10 +1300,10 @@
 #cmakedefine HAVE_PTHREAD_STACKSEG_NP @HAVE_PTHREAD_STACKSEG_NP@
 
 /* do we have ptrace? */
-#undef HAVE_PTRACE
+#cmakedefine HAVE_PTRACE
 
 /* Whether ptrdiff_t is available */
-#undef HAVE_PTRDIFF_T
+#cmakedefine HAVE_PTRDIFF_T
 
 /* Define to 1 if you have the <pty.h> header file. */
 #cmakedefine HAVE_PTY_H @HAVE_PTY_H@
@@ -1315,10 +1315,10 @@
 #cmakedefine HAVE_PWD_H @HAVE_PWD_H@
 
 /* */
-#undef HAVE_PWRITE
+#cmakedefine HAVE_PWRITE
 
 /* Define to 1 if you have the `RAND_egd' function. */
-#undef HAVE_RAND_EGD
+#cmakedefine HAVE_RAND_EGD
 
 /* Define to 1 if you have the <resolv.h> header file. */
 #cmakedefine HAVE_RESOLV_H @HAVE_RESOLV_H@
@@ -1333,40 +1333,40 @@
 #cmakedefine HAVE_RES_SEARCH @HAVE_RES_SEARCH@
 
 /* */
-#undef HAVE_RFC822_OUTPUT_ADDRESS_LIST
+#cmakedefine HAVE_RFC822_OUTPUT_ADDRESS_LIST @HAVE_RFC822_OUTPUT_ADDRESS_LIST@
 
 /* Define to 1 if you have the `rfork' function. */
-#undef HAVE_RFORK
+#cmakedefine HAVE_RFORK
 
 /* */
-#undef HAVE_RL_CALLBACK_READ_CHAR
+#cmakedefine HAVE_RL_CALLBACK_READ_CHAR
 
 /* */
-#undef HAVE_RL_COMPLETION_MATCHES
+#cmakedefine HAVE_RL_COMPLETION_MATCHES
 
 /* */
-#undef HAVE_RL_ON_NEW_LINE
+#cmakedefine HAVE_RL_ON_NEW_LINE
 
 /* */
-#undef HAVE_SAPDB
+#cmakedefine HAVE_SAPDB
 
 /* Whether you have sockaddr_storage.ss_family */
-#undef HAVE_SA_SS_FAMILY
+#cmakedefine HAVE_SA_SS_FAMILY
 
 /* Define to 1 if you have the `scandir' function. */
 #cmakedefine HAVE_SCANDIR @HAVE_SCANDIR@
 
 /* do we have select? */
-#undef HAVE_SELECT
+#cmakedefine HAVE_SELECT
 
 /* SElinux available */
-#undef HAVE_SELINUX
+#cmakedefine HAVE_SELINUX
 
 /* Define to 1 if you have the <selinux/selinux.h> header file. */
-#undef HAVE_SELINUX_SELINUX_H
+#cmakedefine HAVE_SELINUX_SELINUX_H
 
 /* */
-#undef HAVE_SEMUN
+#cmakedefine HAVE_SEMUN @HAVE_SEMUN@
 
 /* Define to 1 if you have the `setegid' function. */
 #cmakedefine HAVE_SETEGID @HAVE_SETEGID@
@@ -1381,16 +1381,16 @@
 #cmakedefine HAVE_SETITIMER @HAVE_SETITIMER@
 
 /* do we have setpflags? */
-#undef HAVE_SETPFLAGS
+#cmakedefine HAVE_SETPFLAGS
 
 /* Define to 1 if you have the `setpriority' function. */
-#undef HAVE_SETPRIORITY
+#cmakedefine HAVE_SETPRIORITY
 
 /* Define to 1 if you have the `setproctitle' function. */
 #cmakedefine HAVE_SETPROCTITLE @HAVE_SETPROCTITLE@
 
 /* Define to 1 if you have the `setproctitle_fast' function. */
-#undef HAVE_SETPROCTITLE_FAST
+#cmakedefine HAVE_SETPROCTITLE_FAST
 
 /* Define to 1 if you have the `setrlimit' function. */
 #cmakedefine HAVE_SETRLIMIT @HAVE_SETRLIMIT@
@@ -1399,31 +1399,31 @@
 #cmakedefine HAVE_SETSID @HAVE_SETSID@
 
 /* */
-#undef HAVE_SETSOCKOPT
+#cmakedefine HAVE_SETSOCKOPT
 
 /* Libzip >= 1.0.0 with zip_file_set_mtime */
-#undef HAVE_SET_MTIME
+#cmakedefine HAVE_SET_MTIME
 
 /* */
-#undef HAVE_SHMOP
+#cmakedefine HAVE_SHMOP @HAVE_SHMOP@
 
 /* Define if you have SysV IPC SHM support */
-#undef HAVE_SHM_IPC
+#cmakedefine HAVE_SHM_IPC
 
 /* Define if you have mmap(MAP_ANON) SHM support */
-#undef HAVE_SHM_MMAP_ANON
+#cmakedefine HAVE_SHM_MMAP_ANON
 
 /* Define if you have POSIX mmap() SHM support */
-#undef HAVE_SHM_MMAP_POSIX
+#cmakedefine HAVE_SHM_MMAP_POSIX
 
 /* */
-#undef HAVE_SHM_OPEN
+#cmakedefine HAVE_SHM_OPEN
 
 /* Define to 1 if you have the `shutdown' function. */
 #cmakedefine HAVE_SHUTDOWN @HAVE_SHUTDOWN@
 
 /* */
-#undef HAVE_SHUTDOWN_SNMP_LOGGING
+#cmakedefine HAVE_SHUTDOWN_SNMP_LOGGING
 
 /* Define to 1 if you have the `sigaction' function. */
 #cmakedefine HAVE_SIGACTION @HAVE_SIGACTION@
@@ -1435,100 +1435,100 @@
 #cmakedefine HAVE_SIGSETJMP @HAVE_SIGSETJMP@
 
 /* Define to 1 if you have the `sigtimedwait' function. */
-#undef HAVE_SIGTIMEDWAIT
+#cmakedefine HAVE_SIGTIMEDWAIT
 
 /* Define to 1 if you have the `sigwaitinfo' function. */
-#undef HAVE_SIGWAITINFO
+#cmakedefine HAVE_SIGWAITINFO
 
 /* */
-#undef HAVE_SIMPLEXML
+#cmakedefine HAVE_SIMPLEXML
 
 /* Define if hash3 algo is available */
 #cmakedefine HAVE_SLOW_HASH3 @HAVE_SLOW_HASH3@
 
 /* */
-#undef HAVE_SNMP
+#cmakedefine HAVE_SNMP
 
 /* */
-#undef HAVE_SNMP_SHA256
+#cmakedefine HAVE_SNMP_SHA256
 
 /* */
-#undef HAVE_SNMP_SHA512
+#cmakedefine HAVE_SNMP_SHA512
 
 /* */
-#undef HAVE_SOAP
+#cmakedefine HAVE_SOAP
 
 /* Whether struct sockaddr has field sa_len */
-#undef HAVE_SOCKADDR_SA_LEN
+#cmakedefine HAVE_SOCKADDR_SA_LEN
 
 /* Whether you have struct sockaddr_storage */
-#undef HAVE_SOCKADDR_STORAGE
+#cmakedefine HAVE_SOCKADDR_STORAGE
 
 /* Define if sockaddr_un in sys/un.h contains a sun_len component */
-#undef HAVE_SOCKADDR_UN_SUN_LEN
+#cmakedefine HAVE_SOCKADDR_UN_SUN_LEN
 
 /* Define to 1 if you have the `sockatmark' function. */
-#undef HAVE_SOCKATMARK
+#cmakedefine HAVE_SOCKATMARK
 
 /* */
-#undef HAVE_SOCKET
+#cmakedefine HAVE_SOCKET
 
 /* */
-#undef HAVE_SOCKETPAIR
+#cmakedefine HAVE_SOCKETPAIR
 
 /* */
-#undef HAVE_SOCKETS
+#cmakedefine HAVE_SOCKETS
 
 /* Define to 1 if the system has the type `socklen_t'. */
-#undef HAVE_SOCKLEN_T
+#cmakedefine HAVE_SOCKLEN_T
 
 /* */
-#undef HAVE_SOLID
+#cmakedefine HAVE_SOLID
 
 /* */
-#undef HAVE_SOLID_30
+#cmakedefine HAVE_SOLID_30
 
 /* */
-#undef HAVE_SOLID_35
+#cmakedefine HAVE_SOLID_35
 
 /* */
-#undef HAVE_SQLCLI1_H
+#cmakedefine HAVE_SQLCLI1_H
 
 /* */
-#undef HAVE_SQLDATASOURCES
+#cmakedefine HAVE_SQLDATASOURCES
 
 /* */
-#undef HAVE_SQLEXT_H
+#cmakedefine HAVE_SQLEXT_H
 
 /* Define to 1 if you have the sqlite3 extension enabled. */
-#undef HAVE_SQLITE3
+#cmakedefine HAVE_SQLITE3
 
 /* have sqlite3_close_v2 */
-#undef HAVE_SQLITE3_CLOSE_V2
+#cmakedefine HAVE_SQLITE3_CLOSE_V2
 
 /* have sqlite3_column_table_name */
-#undef HAVE_SQLITE3_COLUMN_TABLE_NAME
+#cmakedefine HAVE_SQLITE3_COLUMN_TABLE_NAME
 
 /* have sqlite3_errstr function */
-#undef HAVE_SQLITE3_ERRSTR
+#cmakedefine HAVE_SQLITE3_ERRSTR
 
 /* have sqlite3_expanded_sql function */
-#undef HAVE_SQLITE3_EXPANDED_SQL
+#cmakedefine HAVE_SQLITE3_EXPANDED_SQL
 
 /* */
-#undef HAVE_SQLTYPES_H
+#cmakedefine HAVE_SQLTYPES_H
 
 /* */
-#undef HAVE_SQLUCODE_H
+#cmakedefine HAVE_SQLUCODE_H
 
 /* */
-#undef HAVE_SQLUNIX_H
+#cmakedefine HAVE_SQLUNIX_H
 
 /* */
-#undef HAVE_SQL_H
+#cmakedefine HAVE_SQL_H
 
 /* Whether ssize_t is available */
-#undef HAVE_SSIZE_T
+#cmakedefine HAVE_SSIZE_T
 
 /* Define to 1 if you have the `statfs' function. */
 #cmakedefine HAVE_STATFS @HAVE_STATFS@
@@ -1540,10 +1540,10 @@
 #cmakedefine HAVE_STDINT_H @HAVE_STDINT_H@
 
 /* Define to 1 if you have the <stdio.h> header file. */
-#undef HAVE_STDIO_H
+#cmakedefine HAVE_STDIO_H
 
 /* Define to 1 if you have the <stdlib.h> header file. */
-#undef HAVE_STDLIB_H
+#cmakedefine HAVE_STDLIB_H
 
 /* Define to 1 if you have the `std_syslog' function. */
 #cmakedefine HAVE_STD_SYSLOG @HAVE_STD_SYSLOG@
@@ -1558,7 +1558,7 @@
 #cmakedefine HAVE_STRINGS_H @HAVE_STRINGS_H@
 
 /* Define to 1 if you have the <string.h> header file. */
-#undef HAVE_STRING_H
+#cmakedefine HAVE_STRING_H
 
 /* Define to 1 if you have the `strlcat' function. */
 #cmakedefine HAVE_STRLCAT @HAVE_STRLCAT@
@@ -1576,7 +1576,7 @@
 #cmakedefine HAVE_STRPTIME @HAVE_STRPTIME@
 
 /* whether strptime() declaration fails */
-#undef HAVE_STRPTIME_DECL_FAILS
+#cmakedefine HAVE_STRPTIME_DECL_FAILS
 
 /* Define to 1 if you have the `strtok_r' function. */
 #cmakedefine HAVE_STRTOK_R @HAVE_STRTOK_R@
@@ -1588,29 +1588,29 @@
 #cmakedefine HAVE_STRUCT_FLOCK @HAVE_STRUCT_FLOCK@
 
 /* Define to 1 if `st_blksize' is a member of `struct stat'. */
-#undef HAVE_STRUCT_STAT_ST_BLKSIZE
+#cmakedefine HAVE_STRUCT_STAT_ST_BLKSIZE
 
 /* Define to 1 if `st_blocks' is a member of `struct stat'. */
-#undef HAVE_STRUCT_STAT_ST_BLOCKS
+#cmakedefine HAVE_STRUCT_STAT_ST_BLOCKS
 
 /* Define to 1 if `st_rdev' is a member of `struct stat'. */
-#undef HAVE_STRUCT_STAT_ST_RDEV
+#cmakedefine HAVE_STRUCT_STAT_ST_RDEV
 
 /* Define to 1 if `tm_gmtoff' is a member of `struct tm'. */
-#undef HAVE_STRUCT_TM_TM_GMTOFF
+#cmakedefine HAVE_STRUCT_TM_TM_GMTOFF
 
 /* Define to 1 if `tm_zone' is a member of `struct tm'. */
-#undef HAVE_STRUCT_TM_TM_ZONE
+#cmakedefine HAVE_STRUCT_TM_TM_ZONE
 
 /* Define to 1 if your `struct stat' has `st_blocks'. Deprecated, use
    `HAVE_STRUCT_STAT_ST_BLOCKS' instead. */
-#undef HAVE_ST_BLOCKS
+#cmakedefine HAVE_ST_BLOCKS
 
 /* Define to 1 if you have the `symlink' function. */
 #cmakedefine HAVE_SYMLINK @HAVE_SYMLINK@
 
 /* do we have sysconf? */
-#undef HAVE_SYSCONF
+#cmakedefine HAVE_SYSCONF
 
 /* Define to 1 if you have the <sysexits.h> header file. */
 #cmakedefine HAVE_SYSEXITS_H @HAVE_SYSEXITS_H@
@@ -1619,25 +1619,25 @@
 #cmakedefine HAVE_SYSLOG_H @HAVE_SYSLOG_H@
 
 /* FPM use systemd integration */
-#undef HAVE_SYSTEMD
+#cmakedefine HAVE_SYSTEMD
 
 /* Define to 1 if you have the <systemd/sd-daemon.h> header file. */
-#undef HAVE_SYSTEMD_SD_DAEMON_H
+#cmakedefine HAVE_SYSTEMD_SD_DAEMON_H
 
 /* */
-#undef HAVE_SYSVMSG
+#cmakedefine HAVE_SYSVMSG @HAVE_SYSVMSG@
 
 /* */
-#undef HAVE_SYSVSEM
+#cmakedefine HAVE_SYSVSEM @HAVE_SYSVSEM@
 
 /* */
-#undef HAVE_SYSVSHM
+#cmakedefine HAVE_SYSVSHM @HAVE_SYSVSHM@
 
 /* Define to 1 if you have the <sys/acl.h> header file. */
-#undef HAVE_SYS_ACL_H
+#cmakedefine HAVE_SYS_ACL_H
 
 /* Define to 1 if you have the <sys/apparmor.h> header file. */
-#undef HAVE_SYS_APPARMOR_H
+#cmakedefine HAVE_SYS_APPARMOR_H
 
 /* Define to 1 if you have the <sys/file.h> header file. */
 #cmakedefine HAVE_SYS_FILE_H @HAVE_SYS_FILE_H@
@@ -1685,7 +1685,7 @@
 #cmakedefine HAVE_SYS_SOCKET_H @HAVE_SYS_SOCKET_H@
 
 /* Define to 1 if you have the <sys/sockio.h> header file. */
-#undef HAVE_SYS_SOCKIO_H
+#cmakedefine HAVE_SYS_SOCKIO_H
 
 /* Define to 1 if you have the <sys/statfs.h> header file. */
 #cmakedefine HAVE_SYS_STATFS_H @HAVE_SYS_STATFS_H@
@@ -1712,7 +1712,7 @@
 #cmakedefine HAVE_SYS_UIO_H @HAVE_SYS_UIO_H@
 
 /* Define to 1 if you have the <sys/un.h> header file. */
-#undef HAVE_SYS_UN_H
+#cmakedefine HAVE_SYS_UN_H
 
 /* Define to 1 if you have the <sys/utsname.h> header file. */
 #cmakedefine HAVE_SYS_UTSNAME_H @HAVE_SYS_UTSNAME_H@
@@ -1724,57 +1724,57 @@
 #cmakedefine HAVE_SYS_WAIT_H @HAVE_SYS_WAIT_H@
 
 /* */
-#undef HAVE_TIDY
+#cmakedefine HAVE_TIDY
 
 /* defined if tidybuffio.h exists */
-#undef HAVE_TIDYBUFFIO_H
+#cmakedefine HAVE_TIDYBUFFIO_H
 
 /* */
-#undef HAVE_TIDYOPTGETDOC
+#cmakedefine HAVE_TIDYOPTGETDOC
 
 /* defined if tidyp.h exists */
-#undef HAVE_TIDYP_H
+#cmakedefine HAVE_TIDYP_H
 
 /* */
-#undef HAVE_TIDYRELEASEDATE
+#cmakedefine HAVE_TIDYRELEASEDATE
 
 /* defined if tidy.h exists */
-#undef HAVE_TIDY_H
+#cmakedefine HAVE_TIDY_H
 
 /* Have timelib_config.h */
 #cmakedefine HAVE_TIMELIB_CONFIG_H @HAVE_TIMELIB_CONFIG_H@
 
 /* */
-#undef HAVE_TIMER_CREATE
+#cmakedefine HAVE_TIMER_CREATE
 
 /* do we have times? */
-#undef HAVE_TIMES
+#cmakedefine HAVE_TIMES
 
 /* Define to 1 if you have the <tmmintrin.h> header file. */
 #cmakedefine HAVE_TMMINTRIN_H @HAVE_TMMINTRIN_H@
 
 /* Define to 1 if your `struct tm' has `tm_zone'. Deprecated, use
    `HAVE_STRUCT_TM_TM_ZONE' instead. */
-#undef HAVE_TM_ZONE
+#cmakedefine HAVE_TM_ZONE
 
 /* Whether you have a working ttyname_r */
 #cmakedefine HAVE_TTYNAME_R @HAVE_TTYNAME_R@
 
 /* Define to 1 if you don't have `tm_zone' but do have the external array
    `tzname'. */
-#undef HAVE_TZNAME
+#cmakedefine HAVE_TZNAME
 
 /* Define to 1 if you have the `tzset' function. */
 #cmakedefine HAVE_TZSET @HAVE_TZSET@
 
 /* */
-#undef HAVE_UDBCEXT_H
+#cmakedefine HAVE_UDBCEXT_H
 
 /* Define to 1 if you have the <unistd.h> header file. */
 #cmakedefine HAVE_UNISTD_H @HAVE_UNISTD_H@
 
 /* */
-#undef HAVE_UNIXODBC
+#cmakedefine HAVE_UNIXODBC
 
 /* Define to 1 if you have the <unix.h> header file. */
 #cmakedefine HAVE_UNIX_H @HAVE_UNIX_H@
@@ -1783,14 +1783,14 @@
 #cmakedefine HAVE_UNSETENV @HAVE_UNSETENV@
 
 /* Define to 1 if you have the `unshare' function. */
-#undef HAVE_UNSHARE
+#cmakedefine HAVE_UNSHARE
 
 /* */
-#undef HAVE_UODBC
+#cmakedefine HAVE_UODBC
 
 /* Whether faulting on write-protected memory support can be compiled for
    userfaultfd */
-#undef HAVE_USERFAULTFD_WRITEFAULT
+#cmakedefine HAVE_USERFAULTFD_WRITEFAULT
 
 /* Define to 1 if you have the `usleep' function. */
 #cmakedefine HAVE_USLEEP @HAVE_USLEEP@
@@ -1808,49 +1808,49 @@
 #cmakedefine HAVE_UTSNAME_DOMAINNAME @HAVE_UTSNAME_DOMAINNAME@
 
 /* */
-#undef HAVE_VALGRIND
+#cmakedefine HAVE_VALGRIND
 
 /* Define to 1 if you have the `vasprintf' function. */
 #cmakedefine HAVE_VASPRINTF @HAVE_VASPRINTF@
 
 /* Define to 1 if you have the `wait3' function. */
-#undef HAVE_WAIT3
+#cmakedefine HAVE_WAIT3
 
 /* Define to 1 if you have the `wait4' function. */
-#undef HAVE_WAIT4
+#cmakedefine HAVE_WAIT4
 
 /* Define to 1 if you have the `waitpid' function. */
-#undef HAVE_WAITPID
+#cmakedefine HAVE_WAITPID
 
 /* Define to 1 if you have the <wchar.h> header file. */
-#undef HAVE_WCHAR_H
+#cmakedefine HAVE_WCHAR_H
 
 /* Define to 1 if you have the <wmmintrin.h> header file. */
 #cmakedefine HAVE_WMMINTRIN_H @HAVE_WMMINTRIN_H@
 
 /* */
-#undef HAVE_XML
+#cmakedefine HAVE_XML
 
 /* */
-#undef HAVE_XMLREADER
+#cmakedefine HAVE_XMLREADER
 
 /* */
-#undef HAVE_XMLWRITER
+#cmakedefine HAVE_XMLWRITER
 
 /* */
-#undef HAVE_XPM
+#cmakedefine HAVE_XPM
 
 /* */
-#undef HAVE_XSL
+#cmakedefine HAVE_XSL
 
 /* */
-#undef HAVE_XSL_EXSLT
+#cmakedefine HAVE_XSL_EXSLT
 
 /* */
-#undef HAVE_ZIP
+#cmakedefine HAVE_ZIP
 
 /* */
-#undef HAVE_ZLIB
+#cmakedefine HAVE_ZLIB
 
 /* whether _controlfp is present usable */
 #cmakedefine HAVE__CONTROLFP @HAVE__CONTROLFP@
@@ -1862,199 +1862,199 @@
 #cmakedefine HAVE__FPU_SETCW @HAVE__FPU_SETCW@
 
 /* iconv() is aliased to libiconv() in -liconv */
-#undef ICONV_ALIASED_LIBICONV
+#cmakedefine ICONV_ALIASED_LIBICONV
 
 /* Whether iconv supports IGNORE */
-#undef ICONV_BROKEN_IGNORE
+#cmakedefine ICONV_BROKEN_IGNORE
 
 /* */
-#undef JISX0208
+#cmakedefine JISX0208
 
 /* */
-#undef LMDB_INCLUDE_FILE
+#cmakedefine LMDB_INCLUDE_FILE
 
 /* Whether asctime_r is declared */
-#undef MISSING_ASCTIME_R_DECL
+#cmakedefine MISSING_ASCTIME_R_DECL
 
 /* Whether ctime_r is declared */
-#undef MISSING_CTIME_R_DECL
+#cmakedefine MISSING_CTIME_R_DECL
 
 /* */
 #cmakedefine01 MISSING_FCLOSE_DECL
 
 /* Whether gmtime_r is declared */
-#undef MISSING_GMTIME_R_DECL
+#cmakedefine MISSING_GMTIME_R_DECL
 
 /* Whether localtime_r is declared */
-#undef MISSING_LOCALTIME_R_DECL
+#cmakedefine MISSING_LOCALTIME_R_DECL
 
 /* Whether strtok_r is declared */
-#undef MISSING_STRTOK_R_DECL
+#cmakedefine MISSING_STRTOK_R_DECL
 
 /* Enable compressed protocol support */
-#undef MYSQLND_COMPRESSION_ENABLED
+#cmakedefine MYSQLND_COMPRESSION_ENABLED
 
 /* Enable mysqlnd code that uses OpenSSL directly */
-#undef MYSQLND_HAVE_SSL
+#cmakedefine MYSQLND_HAVE_SSL
 
 /* Enable core mysqlnd SSL code */
-#undef MYSQLND_SSL_SUPPORTED
+#cmakedefine MYSQLND_SSL_SUPPORTED
 
 /* */
-#undef NDBM_INCLUDE_FILE
+#cmakedefine NDBM_INCLUDE_FILE
 
 /* The highest supported ODBC version */
-#undef ODBCVER
+#cmakedefine ODBCVER
 
 /* Define to the address where bug reports for this package should be sent. */
-#undef PACKAGE_BUGREPORT
+#cmakedefine PACKAGE_BUGREPORT
 
 /* Define to the full name of this package. */
-#undef PACKAGE_NAME
+#cmakedefine PACKAGE_NAME
 
 /* Define to the full name and version of this package. */
-#undef PACKAGE_STRING
+#cmakedefine PACKAGE_STRING
 
 /* Define to the one symbol short name of this package. */
-#undef PACKAGE_TARNAME
+#cmakedefine PACKAGE_TARNAME
 
 /* Define to the home page for this package. */
-#undef PACKAGE_URL
+#cmakedefine PACKAGE_URL
 
 /* Define to the version of this package. */
-#undef PACKAGE_VERSION
+#cmakedefine PACKAGE_VERSION
 
 /* */
 #cmakedefine PCRE2_CODE_UNIT_WIDTH @PCRE2_CODE_UNIT_WIDTH@
 
 /* */
-#undef PDO_MYSQL_UNIX_ADDR
+#cmakedefine PDO_MYSQL_UNIX_ADDR
 
 /* Whether pdo_mysql uses mysqlnd */
-#undef PDO_USE_MYSQLND
+#cmakedefine PDO_USE_MYSQLND
 
 /* */
 #cmakedefine PHAR_HAVE_OPENSSL @PHAR_HAVE_OPENSSL@
 
 /* */
-#undef PHPDBG_DEBUG
+#cmakedefine PHPDBG_DEBUG
 
 /* build architecture */
-#undef PHP_BUILD_ARCH
+#cmakedefine PHP_BUILD_ARCH
 
 /* used compiler for build */
-#undef PHP_BUILD_COMPILER
+#cmakedefine PHP_BUILD_COMPILER
 
 /* build provider */
-#undef PHP_BUILD_PROVIDER
+#cmakedefine PHP_BUILD_PROVIDER
 
 /* builder uname output */
-#undef PHP_BUILD_SYSTEM
+#cmakedefine PHP_BUILD_SYSTEM
 
 /* Define if your system has fork/vfork/CreateProcess */
 #cmakedefine PHP_CAN_SUPPORT_PROC_OPEN @PHP_CAN_SUPPORT_PROC_OPEN@
 
 /* fpm group name */
-#undef PHP_FPM_GROUP
+#cmakedefine PHP_FPM_GROUP
 
 /* fpm systemd service type */
-#undef PHP_FPM_SYSTEMD
+#cmakedefine PHP_FPM_SYSTEMD
 
 /* fpm user name */
-#undef PHP_FPM_USER
+#cmakedefine PHP_FPM_USER
 
 /* Whether the compiler supports AVX512 */
-#undef PHP_HAVE_AVX512_SUPPORTS
+#cmakedefine PHP_HAVE_AVX512_SUPPORTS
 
 /* Whether the compiler supports AVX512 VBMI */
-#undef PHP_HAVE_AVX512_VBMI_SUPPORTS
+#cmakedefine PHP_HAVE_AVX512_VBMI_SUPPORTS
 
 /* Whether the compiler supports __builtin_clz */
-#undef PHP_HAVE_BUILTIN_CLZ
+#cmakedefine PHP_HAVE_BUILTIN_CLZ
 
 /* Whether the compiler supports __builtin_clzl */
-#undef PHP_HAVE_BUILTIN_CLZL
+#cmakedefine PHP_HAVE_BUILTIN_CLZL
 
 /* Whether the compiler supports __builtin_clzll */
-#undef PHP_HAVE_BUILTIN_CLZLL
+#cmakedefine PHP_HAVE_BUILTIN_CLZLL
 
 /* Whether the compiler supports __builtin_cpu_init */
-#undef PHP_HAVE_BUILTIN_CPU_INIT
+#cmakedefine PHP_HAVE_BUILTIN_CPU_INIT
 
 /* Whether the compiler supports __builtin_cpu_supports */
-#undef PHP_HAVE_BUILTIN_CPU_SUPPORTS
+#cmakedefine PHP_HAVE_BUILTIN_CPU_SUPPORTS
 
 /* Whether the compiler supports __builtin_ctzl */
-#undef PHP_HAVE_BUILTIN_CTZL
+#cmakedefine PHP_HAVE_BUILTIN_CTZL
 
 /* Whether the compiler supports __builtin_ctzll */
-#undef PHP_HAVE_BUILTIN_CTZLL
+#cmakedefine PHP_HAVE_BUILTIN_CTZLL
 
 /* Whether the compiler supports __builtin_expect */
-#undef PHP_HAVE_BUILTIN_EXPECT
+#cmakedefine PHP_HAVE_BUILTIN_EXPECT
 
 /* Whether the compiler supports __builtin_frame_address */
-#undef PHP_HAVE_BUILTIN_FRAME_ADDRESS
+#cmakedefine PHP_HAVE_BUILTIN_FRAME_ADDRESS
 
 /* Whether the compiler supports __builtin_saddll_overflow */
-#undef PHP_HAVE_BUILTIN_SADDLL_OVERFLOW
+#cmakedefine PHP_HAVE_BUILTIN_SADDLL_OVERFLOW
 
 /* Whether the compiler supports __builtin_saddl_overflow */
-#undef PHP_HAVE_BUILTIN_SADDL_OVERFLOW
+#cmakedefine PHP_HAVE_BUILTIN_SADDL_OVERFLOW
 
 /* Whether the compiler supports __builtin_smulll_overflow */
-#undef PHP_HAVE_BUILTIN_SMULLL_OVERFLOW
+#cmakedefine PHP_HAVE_BUILTIN_SMULLL_OVERFLOW
 
 /* Whether the compiler supports __builtin_smull_overflow */
-#undef PHP_HAVE_BUILTIN_SMULL_OVERFLOW
+#cmakedefine PHP_HAVE_BUILTIN_SMULL_OVERFLOW
 
 /* Whether the compiler supports __builtin_ssubll_overflow */
-#undef PHP_HAVE_BUILTIN_SSUBLL_OVERFLOW
+#cmakedefine PHP_HAVE_BUILTIN_SSUBLL_OVERFLOW
 
 /* Whether the compiler supports __builtin_ssubl_overflow */
-#undef PHP_HAVE_BUILTIN_SSUBL_OVERFLOW
+#cmakedefine PHP_HAVE_BUILTIN_SSUBL_OVERFLOW
 
 /* Whether the compiler supports __builtin_usub_overflow */
-#undef PHP_HAVE_BUILTIN_USUB_OVERFLOW
+#cmakedefine PHP_HAVE_BUILTIN_USUB_OVERFLOW
 
 /* Whether you have HP-UX 10.x */
-#undef PHP_HPUX_TIME_R
+#cmakedefine PHP_HPUX_TIME_R
 
 /* Which iconv implementation to use */
-#undef PHP_ICONV_IMPL
+#cmakedefine PHP_ICONV_IMPL
 
 /* Whether you have IRIX-style functions */
-#undef PHP_IRIX_TIME_R
+#cmakedefine PHP_IRIX_TIME_R
 
 /* */
 #cmakedefine PHP_MHASH_BC @PHP_MHASH_BC@
 
 /* */
-#undef PHP_MYSQL_UNIX_SOCK_ADDR
+#cmakedefine PHP_MYSQL_UNIX_SOCK_ADDR
 
 /* */
-#undef PHP_OCI8_DEF_DIR
+#cmakedefine PHP_OCI8_DEF_DIR
 
 /* */
-#undef PHP_OCI8_DEF_SHARED_LIBADD
+#cmakedefine PHP_OCI8_DEF_SHARED_LIBADD
 
 /* define to 1 if oniguruma has an invalid entry for KOI8 encoding */
-#undef PHP_ONIG_BAD_KOI8_ENTRY
+#cmakedefine PHP_ONIG_BAD_KOI8_ENTRY
 
 /* uname output */
 #cmakedefine PHP_OS "@PHP_OS@"
 
 /* */
-#undef PHP_PDO_OCI_CLIENT_VERSION
+#cmakedefine PHP_PDO_OCI_CLIENT_VERSION
 
 /* whether pread64 is default */
-#undef PHP_PREAD_64
+#cmakedefine PHP_PREAD_64
 
 /* whether pwrite64 is default */
-#undef PHP_PWRITE_64
+#cmakedefine PHP_PWRITE_64
 
 /* */
-#undef PHP_SIGCHILD
+#cmakedefine PHP_SIGCHILD
 
 /* uname -a output */
 #cmakedefine PHP_UNAME "@PHP_UNAME@"
@@ -2069,52 +2069,52 @@
 #cmakedefine PHP_WRITE_STDOUT @PHP_WRITE_STDOUT@
 
 /* /proc/pid/mem interface */
-#undef PROC_MEM_FILE
+#cmakedefine PROC_MEM_FILE
 
 /* Whether to use Pthreads */
-#undef PTHREADS
+#cmakedefine PTHREADS
 
 /* */
-#undef QDBM_INCLUDE_FILE
+#cmakedefine QDBM_INCLUDE_FILE
 
 /* */
 #cmakedefine SHADOW_STACK_SYSCALL @SHADOW_STACK_SYSCALL@
 
 /* The size of `int', as computed by sizeof. */
-#undef SIZEOF_INT
+#cmakedefine SIZEOF_INT @SIZEOF_INT@
 
 /* Size of intmax_t */
-#undef SIZEOF_INTMAX_T
+#cmakedefine SIZEOF_INTMAX_T @SIZEOF_INTMAX_T@
 
 /* The size of `long', as computed by sizeof. */
 #cmakedefine SIZEOF_LONG @SIZEOF_LONG@
 
 /* The size of `long long', as computed by sizeof. */
-#undef SIZEOF_LONG_LONG
+#cmakedefine SIZEOF_LONG_LONG @SIZEOF_LONG_LONG@
 
 /* The size of `off_t', as computed by sizeof. */
-#undef SIZEOF_OFF_T
+#cmakedefine SIZEOF_OFF_T @SIZEOF_OFF_T@
 
 /* Size of ptrdiff_t */
-#undef SIZEOF_PTRDIFF_T
+#cmakedefine SIZEOF_PTRDIFF_T @SIZEOF_PTRDIFF_T@
 
 /* The size of `short', as computed by sizeof. */
-#undef SIZEOF_SHORT
+#cmakedefine SIZEOF_SHORT @SIZEOF_SHORT@
 
 /* The size of `size_t', as computed by sizeof. */
 #cmakedefine SIZEOF_SIZE_T @SIZEOF_SIZE_T@
 
 /* Size of ssize_t */
-#undef SIZEOF_SSIZE_T
+#cmakedefine SIZEOF_SSIZE_T @SIZEOF_SSIZE_T@
 
 /* have sqlite3 with extension support */
-#undef SQLITE_OMIT_LOAD_EXTENSION
+#cmakedefine SQLITE_OMIT_LOAD_EXTENSION
 
 /* Needed in sqlunix.h for wchar defs */
-#undef SS_FBX
+#cmakedefine SS_FBX
 
 /* Needed in sqlunix.h */
-#undef SS_LINUX
+#cmakedefine SS_LINUX
 
 /* If using the C implementation of alloca, define if you know the
    direction of stack growth for your system; otherwise it will be
@@ -2122,27 +2122,27 @@
 	STACK_DIRECTION > 0 => grows toward higher addresses
 	STACK_DIRECTION < 0 => grows toward lower addresses
 	STACK_DIRECTION = 0 => direction of growth unknown */
-#undef STACK_DIRECTION
+#cmakedefine STACK_DIRECTION
 
 /* Define to 1 if all of the C90 standard headers exist (not just the ones
    required in a freestanding environment). This macro is provided for
    backward compatibility; new code need not use it. */
-#undef STDC_HEADERS
+#cmakedefine STDC_HEADERS
 
 /* */
-#undef TCADB_INCLUDE_FILE
+#cmakedefine TCADB_INCLUDE_FILE
 
 /* Define to 1 if your <sys/time.h> declares `struct tm'. */
-#undef TM_IN_SYS_TIME
+#cmakedefine TM_IN_SYS_TIME
 
 /* */
-#undef USE_GD_JISX0208
+#cmakedefine USE_GD_JISX0208
 
 /* Define if cross-process locking is required by accept() */
-#undef USE_LOCKING
+#cmakedefine USE_LOCKING
 
 /* Use system default cipher list instead of hardcoded value */
-#undef USE_OPENSSL_SYSTEM_CIPHERS
+#cmakedefine USE_OPENSSL_SYSTEM_CIPHERS
 
 /* Enable extensions on AIX 3, Interix.  */
 #ifndef _ALL_SOURCE
@@ -2228,7 +2228,7 @@
 /* Enable X/Open extensions.  Define to 500 only if necessary
    to make mbstate_t available.  */
 #ifndef _XOPEN_SOURCE
-# undef _XOPEN_SOURCE
+# cmakedefine _XOPEN_SOURCE
 #endif
 
 
@@ -2248,7 +2248,7 @@
 #cmakedefine ZEND_FIBER_UCONTEXT @ZEND_FIBER_UCONTEXT@
 
 /* Use zend max execution timers */
-#undef ZEND_MAX_EXECUTION_TIMERS
+#cmakedefine ZEND_MAX_EXECUTION_TIMERS
 
 /* */
 #cmakedefine ZEND_MM_ALIGNMENT @ZEND_MM_ALIGNMENT@
@@ -2269,25 +2269,25 @@
 #cmakedefine _XOPEN_SOURCE @_XOPEN_SOURCE@
 
 /* Define when using musl libc */
-#undef __MUSL__
+#cmakedefine __MUSL__
 
 /* Define to `int' if <sys/types.h> doesn't define. */
-#undef gid_t
+#cmakedefine gid_t
 
 /* */
-#undef in_addr_t
+#cmakedefine in_addr_t
 
 /* Define to `__inline__' or `__inline' if that's what the C compiler
    calls it, or to nothing if 'inline' is not supported under any name.  */
 #ifndef __cplusplus
-#undef inline
+#cmakedefine inline
 #endif
 
 /* Define to `unsigned int' if <sys/types.h> does not define. */
-#undef size_t
+#cmakedefine size_t
 
 /* Define to `int' if <sys/types.h> doesn't define. */
-#undef uid_t
+#cmakedefine uid_t
 
 
 #include <stdlib.h>
