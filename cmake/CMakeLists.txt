@@ -18,6 +18,9 @@ project(
 set(CMAKE_C_STANDARD 99)
 set(CMAKE_C_STANDARD_REQUIRED True)
 
+add_compile_options("$<$<COMPILE_LANGUAGE:C>:--std=c99>")
+add_compile_definitions("$<$<COMPILE_LANGUAGE:C>:_GNU_SOURCE>")
+
 # Set PHP version variables.
 set(PHP_VERSION_LABEL "-dev" CACHE STRING "Extra PHP version label suffix, e.g. '-dev', 'rc1', '-acme'")
 string(CONCAT PHP_VERSION "${PHP_VERSION_MAJOR}" "." "${PHP_VERSION_MINOR}" "." "${PHP_VERSION_PATCH}" "${PHP_VERSION_LABEL}")
@@ -68,9 +71,7 @@ endif()
 option(ZTS "Enable thread safety" OFF)
 
 if(ZTS)
-  set(ZTS 1)
-else()
-  set(ZTS 0)
+  set(ZTS 1 CACHE STRING "Whether thread safety is enabled")
 endif()
 
 option(RTLD_NOW "Whether to dlopen extensions with RTLD_NOW instead of RTLD_LAZY" OFF)

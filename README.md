@@ -14,7 +14,8 @@ to build PHP with CMake.
 * [5. Parser and lexer files](#5-parser-and-lexer-files)
 * [6. \*nix build system](#6-nix-build-system)
   * [6.1. \*nix build system diagram](#61-nix-build-system-diagram)
-  * [6.2. The configure command line options](#62-the-configure-command-line-options)
+  * [6.2. Build requirements](#62-build-requirements)
+  * [6.3. The configure command line options](#63-the-configure-command-line-options)
 * [7. Windows build system](#7-windows-build-system)
   * [7.1. Windows prerequisites](#71-windows-prerequisites)
 * [8. CMake](#8-cmake)
@@ -394,7 +395,25 @@ Build system is a collection of various files across the php-src repository:
 
 ![PHP *nix build system using Autotools](docs/autotools.svg)
 
-### 6.2. The configure command line options
+### 6.2. Build requirements
+
+Before being able to built PHP on Linux and other \*nix systems, there are some
+3rd party requirements that need to be installed:
+
+Required:
+* autoconf
+* make
+* bison
+* re2c
+* gcc
+* g++
+* libxml
+
+Optional:
+
+* libcapstone (for the OPcache `--with-capstone` option)
+
+### 6.3. The configure command line options
 
 With Autoconf, there are two main types of command line options for the
 `configure` script (`--enable-FEATURE` and `--with-PACKAGE`):
@@ -605,67 +624,77 @@ This repository is following some best practices from the CMake ecosystem:
 
 List of configure command line options and their CMake alternatives:
 
-| configure                        | CMake                 | Default value |
-| -------------------------------- | --------------------- | ------------- |
-| `--enable-gcc-global-regs`       | `-DGCC_GLOBAL_REGS`   | ON            |
-| `--enable-debug`                 | `-DDEBUG`             |               |
-| `--enable-fiber-asm`             | `-DFIBER_ASM`         |               |
-| `--enable-ipv6`                  | `-DIPV6`              | ON            |
-|   `--disable-ipv6`               |   `-DIPV6=OFF`        |               |
-| `--disable-rtld-now`             | `-DRTLD_NOW=OFF`      | OFF           |
-|   `--enable-rtld-now`            | `-DRTLD_NOW=ON`       |               |
-| `--enable-short-tags`            | `-DSHORT_TAGS`        | ON            |
-|   `--disable-short-tags`         | `-DSHORT_TAGS=OFF`    |               |
-| `--enable-zts`                   | `-DZTS`               |               |
-| `--enable-zend-signals`          | `-Dzend_signals=ON`   | ON            |
-| **PHP sapi modules**             |                       |               |
-| `--enable-cli` / `--disable-cli` | `-Dcli`               | ON            |
-| `--disable-cli`                  | `-Dcli=OFF`           |               |
-| **PHP extensions**               |                       |               |
-| `--disable-bcmath` (default)     | `-Dbcmath=OFF`        | OFF           |
-| `--enable-bcmath`                | `-Dbcmath=ON`         |               |
-| `--enable-bcmath=shared`         | `-Dbcmath=shared`     |               |
-| `--enable-calendar`              | `-Dcalendar=ON`       |               |
-| `--enable-calendar=shared`       | `-Dcalendar=shared`   |               |
-| `--disable-calendar`             | `-Dcalendar=OFF`      | OFF           |
-| `--enable-ctype`                 | `-Dctype=ON`          | ON            |
-| `--enable-ctype=shared`          | `-Dctype=shared`      |               |
-| `--disable-ctype`                | `-Dctype=OFF`         |               |
-| `--enable-dl-test`               | `-Ddl_test=ON`        | OFF           |
-| `--enable-dl-test=shared`        | `-Ddl_test=shared`    |               |
-| `--disable-dl-test`              | `-Ddl_test=OFF`       |               |
-| `--enable-exif`                  | `-Dexif=ON`           | OFF           |
-| `--enable-exif=shared`           | `-Dexif=shared`       |               |
-| `--disable-exif`                 | `-Dexif=OFF`          | OFF           |
-| `--enable-filter` (default)      | `-Dfilter=ON`         | ON            |
-| `--enable-filter=shared`         | `-Dfilter=shared`     |               |
-| `--disable-filter`               | `-Dfilter=OFF`        |               |
-| `--without-mhash` (default)      | `-Dmhash=OFF`         | OFF           |
-| `--with-mhash`                   | `-Dmhash=ON`          |               |
-| `--enable-pcre-jit`              | `-DPCRE_JIT`          | ON            |
-| `--enable-posix`                 | `-Dposix=ON`          | ON            |
-| `--enable-posix=shared`          | `-Dposix=shared`      |               |
-| `--disable-posix`                | `-Dposix=OFF`         |               |
-| `--with-external-pcre`           | `-DEXTERNAL_LIBCRYPT` | OFF           |
-| `--enable-phar`                  | `-Dphar`              | ON            |
-| `--disable-shmop` (default)      | `-Dshmop=OFF`         | OFF           |
-| `--enable-shmop`                 | `-Dshmop=ON`          |               |
-| `--enable-shmop=shared`          | `-Dshmop=shared`      |               |
-| `--disable-sysvmsg` (default)    | `-Dsysvmsg=OFF`       | OFF           |
-| `--enable-sysvmsg`               | `-Dsysvmsg=ON`        |               |
-| `--enable-sysvmsg=shared`        | `-Dsysvmsg=shared`    |               |
-| `--disable-sysvsem` (default)    | `-Dsysvsem=OFF`       | OFF           |
-| `--enable-sysvsem`               | `-Dsysvsem=ON`        |               |
-| `--enable-sysvsem=shared`        | `-Dsysvsem=shared`    |               |
-| `--disable-sysvshm` (default)    | `-Dsysvshm=OFF`       | OFF           |
-| `--enable-sysvshm`               | `-Dsysvshm=ON`        |               |
-| `--enable-sysvshm=shared`        | `-Dsysvshm=shared`    |               |
-| `--enable-tokenizer` (default)   | `-Dtokenizer=ON`      |               |
-| `--enable-tokenizer=shared`      | `-Dtokenizer=shared`  |               |
-| `--disable-tokenizer`            | `-Dtokenizer=OFF`     |               |
-| `--disable-zend-test` (default)  | `-Dzend_test=OFF`     | OFF           |
-| `--enable-zend-test`             | `-Dzend_test=ON`      |               |
-| `--enable-zend-test=shared`      | `-Dzend_test=shared`  |               |
+| configure                            | CMake                   | Default value/notes |
+| ------------------------------------ | ----------------------- | ------------------  |
+| `--enable-gcc-global-regs`           | `-DGCC_GLOBAL_REGS`     | `ON`                |
+| `--enable-debug`                     | `-DDEBUG`               |                     |
+| `--enable-fiber-asm`                 | `-DFIBER_ASM`           |                     |
+| `--enable-ipv6`                      | `-DIPV6`                | `ON`                |
+|   `--disable-ipv6`                   |   `-DIPV6=OFF`          |                     |
+| `--disable-rtld-now`                 | `-DRTLD_NOW=OFF`        | `OFF`               |
+|   `--enable-rtld-now`                | `-DRTLD_NOW=ON`         |                     |
+| `--enable-short-tags`                | `-DSHORT_TAGS`          | `ON`                |
+|   `--disable-short-tags`             | `-DSHORT_TAGS=OFF`      |                     |
+| `--disable-zts` (default)            | `-DZTS=OFF`             | `OFF`               |
+| `--enable-zts`                       | `-DZTS=ON`              |                     |
+| `--enable-zend-signals`              | `-Dzend_signals=ON`     | `ON`                |
+| **PHP sapi modules**                 |                         |                     |
+| `--enable-cli` / `--disable-cli`     | `-Dcli`                 | `ON`                |
+| `--disable-cli`                      | `-Dcli=OFF`             |                     |
+| **PHP extensions**                   |                         |                     |
+| `--disable-bcmath` (default)         | `-Dbcmath=OFF`          | `OFF`               |
+| `--enable-bcmath`                    | `-Dbcmath=ON`           |                     |
+| `--enable-bcmath=shared`             | `-Dbcmath=shared`       |                     |
+| `--enable-calendar`                  | `-Dcalendar=ON`         |                     |
+| `--enable-calendar=shared`           | `-Dcalendar=shared`     |                     |
+| `--disable-calendar`                 | `-Dcalendar=OFF`        | `OFF`               |
+| `--enable-ctype`                     | `-Dctype=ON`            | `ON`                |
+| `--enable-ctype=shared`              | `-Dctype=shared`        |                     |
+| `--disable-ctype`                    | `-Dctype=OFF`           |                     |
+| `--enable-dl-test`                   | `-Ddl_test=ON`          | `OFF`               |
+| `--enable-dl-test=shared`            | `-Ddl_test=shared`      |                     |
+| `--disable-dl-test`                  | `-Ddl_test=OFF`         |                     |
+| `--enable-exif`                      | `-Dexif=ON`             | `OFF`               |
+| `--enable-exif=shared`               | `-Dexif=shared`         |                     |
+| `--disable-exif`                     | `-Dexif=OFF`            | `OFF`               |
+| `--enable-filter` (default)          | `-Dfilter=ON`           | `ON`                |
+| `--enable-filter=shared`             | `-Dfilter=shared`       |                     |
+| `--disable-filter`                   | `-Dfilter=OFF`          |                     |
+| `--without-mhash` (default)          | `-Dmhash=OFF`           | `OFF`               |
+| `--with-mhash`                       | `-Dmhash=ON`            |                     |
+| `--enable-opcache=shared` (default)  | `-Dopcache=shared`      | `"shared"`          |
+| `--enable-opcache`                   | `-Dopcache=ON`          | will be shared      |
+| `--disable-opcache`                  | `-Dopcache=OFF`         |                     |
+| `--enable-huge-code-pages` (default) | `-Dhuge_code_pages=ON`  | `ON`                |
+| `--disable-huge-code-pages`          | `-Dhuge_code_pages=OFF` |                     |
+| `--enable-opcache-jit` (default)     | `-Dopcache_jit=ON`      | `ON`                |
+| `--disable-opcache-jit`              | `-Dopcache_jit=OFF`     |                     |
+| `--without-capstone` (default)       | `-Dcapstone=OFF`        | `OFF`               |
+| `--with-capstone`                    | `-Dcapstone=ON`         |                     |
+| `--enable-pcre-jit`                  | `-DPCRE_JIT`            | `ON`                |
+| `--enable-posix`                     | `-Dposix=ON`            | `ON`                |
+| `--enable-posix=shared`              | `-Dposix=shared`        |                     |
+| `--disable-posix`                    | `-Dposix=OFF`           |                     |
+| `--with-external-pcre`               | `-DEXTERNAL_LIBCRYPT`   | `OFF`               |
+| `--enable-phar`                      | `-Dphar`                | `ON`                |
+| `--disable-shmop` (default)          | `-Dshmop=OFF`           | `OFF`               |
+| `--enable-shmop`                     | `-Dshmop=ON`            |                     |
+| `--enable-shmop=shared`              | `-Dshmop=shared`        |                     |
+| `--disable-sysvmsg` (default)        | `-Dsysvmsg=OFF`         | `OFF`               |
+| `--enable-sysvmsg`                   | `-Dsysvmsg=ON`          |                     |
+| `--enable-sysvmsg=shared`            | `-Dsysvmsg=shared`      |                     |
+| `--disable-sysvsem` (default)        | `-Dsysvsem=OFF`         | `OFF`               |
+| `--enable-sysvsem`                   | `-Dsysvsem=ON`          |                     |
+| `--enable-sysvsem=shared`            | `-Dsysvsem=shared`      |                     |
+| `--disable-sysvshm` (default)        | `-Dsysvshm=OFF`         | `OFF`               |
+| `--enable-sysvshm`                   | `-Dsysvshm=ON`          |                     |
+| `--enable-sysvshm=shared`            | `-Dsysvshm=shared`      |                     |
+| `--enable-tokenizer` (default)       | `-Dtokenizer=ON`        |                     |
+| `--enable-tokenizer=shared`          | `-Dtokenizer=shared`    |                     |
+| `--disable-tokenizer`                | `-Dtokenizer=OFF`       |                     |
+| `--disable-zend-test` (default)      | `-Dzend_test=OFF`       | `OFF`               |
+| `--enable-zend-test`                 | `-Dzend_test=ON`        |                     |
+| `--enable-zend-test=shared`          | `-Dzend_test=shared`    |                     |
 
 List of configure environment variables:
 

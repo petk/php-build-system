@@ -825,7 +825,7 @@
 #cmakedefine HAVE_HTONL
 
 /* Define to enable copying PHP CODE pages into HUGE PAGES (experimental) */
-#cmakedefine HAVE_HUGE_CODE_PAGES
+#cmakedefine HAVE_HUGE_CODE_PAGES @HAVE_HUGE_CODE_PAGES@
 
 /* */
 #cmakedefine HAVE_IBMDB2
@@ -912,7 +912,7 @@
 #cmakedefine HAVE_ISQL_H
 
 /* Define to enable JIT */
-#cmakedefine HAVE_JIT
+#cmakedefine HAVE_JIT @HAVE_JIT@
 
 /* whether to enable JavaScript Object Serialization support */
 #cmakedefine HAVE_JSON @HAVE_JSON@
@@ -1095,7 +1095,7 @@
 #cmakedefine HAVE_MEMCNTL @HAVE_MEMCNTL@
 
 /* Define to 1 if you have the `memfd_create' function. */
-#cmakedefine HAVE_MEMFD_CREATE
+#cmakedefine HAVE_MEMFD_CREATE @HAVE_MEMFD_CREATE@
 
 /* Define to 1 if you have the `memmem' function. */
 #cmakedefine HAVE_MEMMEM @HAVE_MEMMEM@
@@ -1125,7 +1125,7 @@
 #cmakedefine HAVE_MMAP @HAVE_MMAP@
 
 /* Define to 1 if you have the `mprotect' function. */
-#cmakedefine HAVE_MPROTECT
+#cmakedefine HAVE_MPROTECT @HAVE_MPROTECT@
 
 /* Define to 1 if you have the `mremap' function. */
 #cmakedefine HAVE_MREMAP @HAVE_MREMAP@
@@ -1408,13 +1408,13 @@
 #cmakedefine HAVE_SHMOP @HAVE_SHMOP@
 
 /* Define if you have SysV IPC SHM support */
-#cmakedefine HAVE_SHM_IPC
+#cmakedefine HAVE_SHM_IPC @HAVE_SHM_IPC@
 
 /* Define if you have mmap(MAP_ANON) SHM support */
-#cmakedefine HAVE_SHM_MMAP_ANON
+#cmakedefine HAVE_SHM_MMAP_ANON @HAVE_SHM_MMAP_ANON@
 
 /* Define if you have POSIX mmap() SHM support */
-#cmakedefine HAVE_SHM_MMAP_POSIX
+#cmakedefine HAVE_SHM_MMAP_POSIX @HAVE_SHM_MMAP_POSIX@
 
 /* */
 #cmakedefine HAVE_SHM_OPEN
@@ -2158,7 +2158,7 @@
 #endif
 /* Enable GNU extensions on systems that have them.  */
 #ifndef _GNU_SOURCE
-# undef _GNU_SOURCE
+# cmakedefine _GNU_SOURCE @_GNU_SOURCE@
 #endif
 /* Enable X/Open compliant socket functions that do not require linking
    with -lxnet on HP-UX 11.11.  */
