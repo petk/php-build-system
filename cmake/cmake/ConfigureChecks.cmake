@@ -3,7 +3,6 @@ include(CheckIncludeFile)
 include(CheckLibraryExists)
 include(CheckSymbolExists)
 include(CheckTypeSize)
-include(CheckIPv6)
 include(CMakePushCheckState)
 include(FindSendmail)
 
@@ -281,7 +280,9 @@ if(HAVE_LIB_M)
 endif()
 
 # Check for IPv6 support.
-ipv6()
+if(IPV6)
+  include(PHPCheckIPv6)
+endif()
 
 # Find sendmail binary.
 php_prog_sendmail()

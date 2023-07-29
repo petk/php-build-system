@@ -3,6 +3,7 @@ Check for Fibers support.
 ]=============================================================================]#
 
 include(CheckCSourceRuns)
+include(CheckIncludeFile)
 
 option(FIBER_ASM "Enable the use of boost fiber assembly files" ON)
 
@@ -68,7 +69,7 @@ elseif(${fiber_os} STREQUAL "aix")
   set(fiber_asm_file "${fiber_asm_file_prefix}_xcoff_gas")
 elseif(${fiber_os} STREQUAL "freebsd")
   if(${fiber_cpu} STREQUAL "i386")
-    set(FIBER_ASM OFF)
+    set(FIBER_ASM OFF PARENT_SCOPE)
   else()
     set(fiber_asm_file "${fiber_asm_file_prefix}_elf_gas")
   endif()

@@ -3,21 +3,17 @@ Checks for IPv6 support.
 
 Function: ipv6()
 
-Command line option: -DIPV6
+Sets the following variables if IPv6 support is available:
+``HAVE_IPV6``
+  Defined to 1 if IPv6 support should be enabled.
 ]=============================================================================]#
 
-include(CheckCSourceRuns)
+include(CheckCSourceCompiles)
 
 function(ipv6)
-  option(IPV6 "Whether to enable IPv6 support" ON)
   message(STATUS "Checking for IPv6 support")
 
-  if(NOT IPV6)
-    message(STATUS "IPv6 support not enabled")
-    return()
-  endif()
-
-  check_c_source_runs("
+  check_c_source_compiles("
     #include <sys/types.h>
     #include <sys/socket.h>
     #include <netinet/in.h>
@@ -41,3 +37,5 @@ function(ipv6)
 
   message(STATUS "IPv6 support enabled")
 endfunction()
+
+ipv6()

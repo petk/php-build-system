@@ -26,6 +26,9 @@ math(EXPR PHP_VERSION_ID "${PHP_VERSION_MAJOR} * 10000 + ${PHP_VERSION_MINOR} * 
 add_compile_options("$<$<COMPILE_LANGUAGE:C>:--std=c99>")
 add_compile_definitions("$<$<COMPILE_LANGUAGE:C>:_GNU_SOURCE>")
 
+# Define PHP configuration options.
+include(PHPOptions)
+
 # Create a list of extensions.
 include(PHPExtension)
 
@@ -51,8 +54,6 @@ include_directories("${CMAKE_CURRENT_SOURCE_DIR}/ext/random")
 include_directories("${CMAKE_CURRENT_SOURCE_DIR}/ext/reflection")
 include_directories("${CMAKE_CURRENT_SOURCE_DIR}/ext/spl")
 include_directories("${CMAKE_CURRENT_SOURCE_DIR}/ext/standard")
-
-include(PHPOptions)
 
 set(PHP_OS "${CMAKE_SYSTEM_NAME}" CACHE STRING "uname output")
 

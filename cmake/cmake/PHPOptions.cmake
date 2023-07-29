@@ -6,6 +6,8 @@ option(ZTS "Enable thread safety" OFF)
 
 option(RTLD_NOW "Whether to dlopen extensions with RTLD_NOW instead of RTLD_LAZY" OFF)
 
+option(IPV6 "Whether to enable IPv6 support" ON)
+
 if(DEBUG)
   set(ZEND_DEBUG 1)
 else()
