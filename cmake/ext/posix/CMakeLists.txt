@@ -23,8 +23,8 @@ if(posix)
   check_symbol_exists(ctermid "stdio.h" HAVE_CTERMID)
 
   cmake_push_check_state()
-  set(CMAKE_REQUIRED_DEFINITIONS "${CMAKE_REQUIRED_DEFINITIONS} -D_GNU_SOURCE")
-  check_symbol_exists(eaccess "unistd.h" HAVE_EACCESS)
+    set(CMAKE_REQUIRED_DEFINITIONS "${CMAKE_REQUIRED_DEFINITIONS} -D_GNU_SOURCE")
+    check_symbol_exists(eaccess "unistd.h" HAVE_EACCESS)
   cmake_pop_check_state()
 
   check_symbol_exists(getgrgid_r "grp.h" HAVE_GETGRGID_R)

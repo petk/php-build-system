@@ -17,8 +17,8 @@ set(PHP_EXTENSIONS_SHARED "" CACHE INTERNAL "")
 
 function(php_extension)
   # No additional options needed.
-  set(options SHARED STATIC)
   set(oneValueArgs NAME)
+  set(options SHARED STATIC)
 
   cmake_parse_arguments(PHP_EXTENSION "${options}" "${oneValueArgs}" "" ${ARGN})
 

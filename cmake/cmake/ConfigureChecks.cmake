@@ -12,52 +12,6 @@ if(CMAKE_C_BYTE_ORDER STREQUAL "BIG_ENDIAN")
   set(WORDS_BIGENDIAN 1)
 endif()
 
-# Check C headers and types.
-check_type_size("short" SIZEOF_SHORT)
-if(NOT SIZEOF_SHORT)
-  message(FATAL_ERROR "Cannot determine size of short.")
-endif()
-
-check_type_size("int" SIZEOF_INT)
-if(NOT SIZEOF_INT)
-  message(FATAL_ERROR "Cannot determine size of int.")
-endif()
-
-check_type_size("long" SIZEOF_LONG)
-if(NOT SIZEOF_LONG)
-  message(FATAL_ERROR "Cannot determine size of long.")
-endif()
-
-check_type_size("long long" SIZEOF_LONG_LONG)
-if(NOT SIZEOF_LONG_LONG)
-  message(FATAL_ERROR "Cannot determine size of long long.")
-endif()
-
-check_type_size("size_t" SIZEOF_SIZE_T)
-if(NOT HAVE_SIZEOF_SIZE_T)
-  message(FATAL_ERROR "Cannot determine size of size_t.")
-endif()
-
-check_type_size("off_t" SIZEOF_OFF_T)
-if(NOT SIZEOF_OFF_T)
-  message(FATAL_ERROR "Cannot determine size of off_t.")
-endif()
-
-check_type_size("intmax_t" SIZEOF_INTMAX_T)
-if(NOT SIZEOF_INTMAX_T)
-  message(FATAL_ERROR "Cannot determine size of intmax_t.")
-endif()
-
-check_type_size("ssize_t" SIZEOF_SSIZE_T)
-if(NOT SIZEOF_SSIZE_T)
-  message(FATAL_ERROR "Cannot determine size of ssize_t.")
-endif()
-
-check_type_size("ptrdiff_t" SIZEOF_PTRDIFF_T)
-if(NOT SIZEOF_PTRDIFF_T)
-  message(FATAL_ERROR "Cannot determine size of ptrdiff_t.")
-endif()
-
 check_include_file(alloca.h HAVE_ALLOCA_H)
 check_include_file(arpa/inet.h HAVE_ARPA_INET_H)
 check_include_file(arpa/nameser.h HAVE_ARPA_NAMESER_H)
@@ -115,8 +69,65 @@ check_include_file(nmmintrin.h HAVE_NMMINTRIN_H)
 check_include_file(wmmintrin.h HAVE_WMMINTRIN_H)
 check_include_file(immintrin.h HAVE_IMMINTRIN_H)
 
+# Check for missing declarations of reentrant functions.
+include(PHPCheckMissingTimeR)
+
+# Check size of symbols - these are defined elsewhere than stdio.h.
+check_type_size("intmax_t" SIZEOF_INTMAX_T)
+if(NOT SIZEOF_INTMAX_T)
+  set(SIZEOF_INTMAX_T 0 CACHE STRING "Size of intmax_t")
+  message(WARNING "Couldn't determine size of intmax_t, setting to 0.")
+endif()
+
+check_type_size("ssize_t" SIZEOF_SSIZE_T)
+if(NOT SIZEOF_SSIZE_T)
+  set(SIZEOF_SSIZE_T 8 CACHE STRING "Size of ssize_t")
+  message(WARNING "Couldn't determine size of ssize_t, setting to 8.")
+endif()
+
+check_type_size("ptrdiff_t" SIZEOF_PTRDIFF_T)
+set(HAVE_PTRDIFF_T 1 CACHE STRING "Whether ptrdiff_t is available")
+if(NOT SIZEOF_PTRDIFF_T)
+  set(SIZEOF_PTRDIFF_T 8 CACHE STRING "Size of ptrdiff_t")
+  message(WARNING "Couldn't determine size of ptrdiff_t, setting to 8.")
+endif()
+
+# Check stdint types.
+check_type_size("short" SIZEOF_SHORT)
+if(NOT SIZEOF_SHORT)
+  message(FATAL_ERROR "Cannot determine size of short.")
+endif()
+
+check_type_size("int" SIZEOF_INT)
+if(NOT SIZEOF_INT)
+  message(FATAL_ERROR "Cannot determine size of int.")
+endif()
+
+check_type_size("long" SIZEOF_LONG)
+if(NOT SIZEOF_LONG)
+  message(FATAL_ERROR "Cannot determine size of long.")
+endif()
+
+check_type_size("long long" SIZEOF_LONG_LONG)
+if(NOT SIZEOF_LONG_LONG)
+  message(FATAL_ERROR "Cannot determine size of long long.")
+endif()
+
+check_type_size("size_t" SIZEOF_SIZE_T)
+if(NOT HAVE_SIZEOF_SIZE_T)
+  message(FATAL_ERROR "Cannot determine size of size_t.")
+endif()
+
+check_type_size("off_t" SIZEOF_OFF_T)
+if(NOT SIZEOF_OFF_T)
+  message(FATAL_ERROR "Cannot determine size of off_t.")
+endif()
+
 # Check fopencookie.
 include(PHPCheckFopencookie)
+
+# Check for broken getcwd().
+include(PHPCheckBrokenGetCwd)
 
 # Check for missing fclose declaration.
 include(PHPCheckMissingFcloseDeclaration)
@@ -124,11 +135,68 @@ include(PHPCheckMissingFcloseDeclaration)
 # Check struct flock.
 include(PHPCheckStructFlock)
 
+# Check for __builtin_expect.
+include(PHPCheckBuiltinExpect)
+
+# Check for __builtin_clz.
+include(PHPCheckBuiltinClz)
+
+# Check for __builtin_clzl.
+include(PHPCheckBuiltinClzl)
+
+# Check for __builtin_clzll.
+include(PHPCheckBuiltinClzll)
+
+# Check for __builtin_ctzl.
+include(PHPCheckBuiltinCtzl)
+
+# Check for __builtin_ctzll.
+include(PHPCheckBuiltinCtzll)
+
+# Check for __builtin_smull_overflow.
+include(PHPCheckBuiltinSmullOverflow)
+
+# Check for __builtin_smulll_overflow.
+include(PHPCheckBuiltinSmulllOverflow)
+
+# Check for __builtin_saddl_overflow.
+include(PHPCheckBuiltinSaddlOverflow)
+
+# Check for __builtin_saddll_overflow.
+include(PHPCheckBuiltinSaddllOverflow)
+
+# Check for __builtin_usub_overflow.
+include(PHPCheckBuiltinUsubOverflow)
+
+# Check for __builtin_ssubl_overflow.
+include(PHPCheckBuiltinSsublOverflow)
+
+# Check for __builtin_ssubll_overflow.
+include(PHPCheckBuiltinSsubllOverflow)
+
+# Check for __builtin_cpu_init.
+include(PHPCheckBuiltinCpuInit)
+
+# Check for __builtin_cpu_supports.
+include(PHPCheckBuiltinCpuSupports)
+
+# Check for __builtin_frame_address.
+include(PHPCheckBuiltinFrameAddress)
+
+# Check AVX512.
+include(PHPCheckAVX512)
+
+# Check AVX512 VBMI.
+include(PHPCheckAVX512VBMI)
+
 # Check prctl.
 include(PHPCheckPrctl)
 
 # Check procctl.
 include(PHPCheckProcctl)
+
+# Check for __alignof__.
+include(PHPCheckAlignof)
 
 # Zend
 check_include_file(cpuid.h HAVE_CPUID_H)

@@ -1,6 +1,7 @@
 include(CheckCSourceRuns)
 include(CheckSymbolExists)
 include(CMakePushCheckState)
+include(PHPFindPackage)
 
 # Opcache extension can be built either as shared or disabled.
 set(opcache "shared" CACHE STRING "Whether to enable the opcache extension")
@@ -47,11 +48,6 @@ if(opcache_jit)
 
   if(ZTS)
     set(DASM_FLAGS "${DASM_FLAGS} -D ZTS=1")
-  endif()
-
-  # TODO: Check for capstone.
-  if(capstone)
-    # ...
   endif()
 endif()
 
@@ -133,4 +129,15 @@ if(opcache_jit)
   )
 
   add_dependencies(ext_opcache BuildZendJitForArchitecture)
+
+  # Check for capstone.
+  if(capstone)
+    php_find_package(NAME capstone VERSION 3.0.0)
+
+    if(capstone_FOUND)
+      set(HAVE_CAPSTONE 1 CACHE STRING "Capstone is available")
+      target_link_libraries(ext_opcache ${capstone_LIBRARIES})
+      target_compile_options(ext_opcache PRIVATE ${capstone_CFLAGS})
+    endif()
+  endif()
 endif()

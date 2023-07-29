@@ -358,7 +358,7 @@
 #cmakedefine HAVE_AI_V4MAPPED
 
 /* whether the compiler supports __alignof__ */
-#cmakedefine HAVE_ALIGNOF
+#cmakedefine HAVE_ALIGNOF @HAVE_ALIGNOF@
 
 /* Define to 1 if you have 'alloca', as a function or macro. */
 #cmakedefine HAVE_ALLOCA
@@ -403,7 +403,7 @@
 #cmakedefine HAVE_BIND_TEXTDOMAIN_CODESET
 
 /* Define if system has broken getcwd */
-#cmakedefine HAVE_BROKEN_GETCWD
+#cmakedefine HAVE_BROKEN_GETCWD @HAVE_BROKEN_GETCWD@
 
 /* Konstantin Chuguev's iconv implementation */
 #cmakedefine HAVE_BSD_ICONV
@@ -427,7 +427,7 @@
 #cmakedefine HAVE_CANCEL_CALLBACK
 
 /* Capstone is available */
-#cmakedefine HAVE_CAPSTONE
+#cmakedefine HAVE_CAPSTONE @HAVE_CAPSTONE@
 
 /* Define to 1 if you have the `chroot' function. */
 #cmakedefine HAVE_CHROOT @HAVE_CHROOT@
@@ -1874,22 +1874,22 @@
 #cmakedefine LMDB_INCLUDE_FILE
 
 /* Whether asctime_r is declared */
-#cmakedefine MISSING_ASCTIME_R_DECL
+#cmakedefine MISSING_ASCTIME_R_DECL @MISSING_ASCTIME_R_DECL@
 
 /* Whether ctime_r is declared */
-#cmakedefine MISSING_CTIME_R_DECL
+#cmakedefine MISSING_CTIME_R_DECL @MISSING_CTIME_R_DECL@
 
 /* */
 #cmakedefine01 MISSING_FCLOSE_DECL
 
 /* Whether gmtime_r is declared */
-#cmakedefine MISSING_GMTIME_R_DECL
+#cmakedefine MISSING_GMTIME_R_DECL @MISSING_GMTIME_R_DECL@
 
 /* Whether localtime_r is declared */
-#cmakedefine MISSING_LOCALTIME_R_DECL
+#cmakedefine MISSING_LOCALTIME_R_DECL @MISSING_LOCALTIME_R_DECL@
 
 /* Whether strtok_r is declared */
-#cmakedefine MISSING_STRTOK_R_DECL
+#cmakedefine MISSING_STRTOK_R_DECL @MISSING_STRTOK_R_DECL@
 
 /* Enable compressed protocol support */
 #cmakedefine MYSQLND_COMPRESSION_ENABLED
@@ -1964,58 +1964,58 @@
 #cmakedefine PHP_FPM_USER
 
 /* Whether the compiler supports AVX512 */
-#cmakedefine PHP_HAVE_AVX512_SUPPORTS
+#cmakedefine01 PHP_HAVE_AVX512_SUPPORTS
 
 /* Whether the compiler supports AVX512 VBMI */
-#cmakedefine PHP_HAVE_AVX512_VBMI_SUPPORTS
+#cmakedefine01 PHP_HAVE_AVX512_VBMI_SUPPORTS
 
 /* Whether the compiler supports __builtin_clz */
-#cmakedefine PHP_HAVE_BUILTIN_CLZ
+#cmakedefine01 PHP_HAVE_BUILTIN_CLZ
 
 /* Whether the compiler supports __builtin_clzl */
-#cmakedefine PHP_HAVE_BUILTIN_CLZL
+#cmakedefine01 PHP_HAVE_BUILTIN_CLZL
 
 /* Whether the compiler supports __builtin_clzll */
-#cmakedefine PHP_HAVE_BUILTIN_CLZLL
+#cmakedefine01 PHP_HAVE_BUILTIN_CLZLL
 
 /* Whether the compiler supports __builtin_cpu_init */
-#cmakedefine PHP_HAVE_BUILTIN_CPU_INIT
+#cmakedefine01 PHP_HAVE_BUILTIN_CPU_INIT
 
 /* Whether the compiler supports __builtin_cpu_supports */
-#cmakedefine PHP_HAVE_BUILTIN_CPU_SUPPORTS
+#cmakedefine01 PHP_HAVE_BUILTIN_CPU_SUPPORTS
 
 /* Whether the compiler supports __builtin_ctzl */
-#cmakedefine PHP_HAVE_BUILTIN_CTZL
+#cmakedefine01 PHP_HAVE_BUILTIN_CTZL
 
 /* Whether the compiler supports __builtin_ctzll */
-#cmakedefine PHP_HAVE_BUILTIN_CTZLL
+#cmakedefine01 PHP_HAVE_BUILTIN_CTZLL
 
 /* Whether the compiler supports __builtin_expect */
-#cmakedefine PHP_HAVE_BUILTIN_EXPECT
+#cmakedefine01 PHP_HAVE_BUILTIN_EXPECT
 
 /* Whether the compiler supports __builtin_frame_address */
-#cmakedefine PHP_HAVE_BUILTIN_FRAME_ADDRESS
+#cmakedefine01 PHP_HAVE_BUILTIN_FRAME_ADDRESS
 
 /* Whether the compiler supports __builtin_saddll_overflow */
-#cmakedefine PHP_HAVE_BUILTIN_SADDLL_OVERFLOW
+#cmakedefine01 PHP_HAVE_BUILTIN_SADDLL_OVERFLOW
 
 /* Whether the compiler supports __builtin_saddl_overflow */
-#cmakedefine PHP_HAVE_BUILTIN_SADDL_OVERFLOW
+#cmakedefine01 PHP_HAVE_BUILTIN_SADDL_OVERFLOW
 
 /* Whether the compiler supports __builtin_smulll_overflow */
-#cmakedefine PHP_HAVE_BUILTIN_SMULLL_OVERFLOW
+#cmakedefine01 PHP_HAVE_BUILTIN_SMULLL_OVERFLOW
 
 /* Whether the compiler supports __builtin_smull_overflow */
-#cmakedefine PHP_HAVE_BUILTIN_SMULL_OVERFLOW
+#cmakedefine01 PHP_HAVE_BUILTIN_SMULL_OVERFLOW
 
 /* Whether the compiler supports __builtin_ssubll_overflow */
-#cmakedefine PHP_HAVE_BUILTIN_SSUBLL_OVERFLOW
+#cmakedefine01 PHP_HAVE_BUILTIN_SSUBLL_OVERFLOW
 
 /* Whether the compiler supports __builtin_ssubl_overflow */
-#cmakedefine PHP_HAVE_BUILTIN_SSUBL_OVERFLOW
+#cmakedefine01 PHP_HAVE_BUILTIN_SSUBL_OVERFLOW
 
 /* Whether the compiler supports __builtin_usub_overflow */
-#cmakedefine PHP_HAVE_BUILTIN_USUB_OVERFLOW
+#cmakedefine01 PHP_HAVE_BUILTIN_USUB_OVERFLOW
 
 /* Whether you have HP-UX 10.x */
 #cmakedefine PHP_HPUX_TIME_R
@@ -2084,7 +2084,7 @@
 #cmakedefine SIZEOF_INT @SIZEOF_INT@
 
 /* Size of intmax_t */
-#cmakedefine SIZEOF_INTMAX_T @SIZEOF_INTMAX_T@
+#define SIZEOF_INTMAX_T @SIZEOF_INTMAX_T@
 
 /* The size of `long', as computed by sizeof. */
 #cmakedefine SIZEOF_LONG @SIZEOF_LONG@
