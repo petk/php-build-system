@@ -20,7 +20,7 @@ If ``re2c`` is found, the module defines the macro::
 
   RE2C_TARGET(NAME <name> INPUT <input> OUTPUT <output>
               [OPTIONS <options>]
-             )
+  )
 
 #]=============================================================================]
 

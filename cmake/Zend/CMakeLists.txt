@@ -1,7 +1,30 @@
-include(CheckGccGlobalRegisterVars)
-include(CheckMMAlignment)
+include(CheckIncludeFile)
+include(CheckSymbolExists)
 
 message(STATUS "Building Zend Engine library")
+
+check_include_file(cpuid.h HAVE_CPUID_H)
+
+check_symbol_exists(__cpuid_count "cpuid.h" HAVE_CPUID_COUNT)
+check_symbol_exists(getpid "unistd.h" HAVE_GETPID)
+check_symbol_exists(kill "signal.h" HAVE_KILL)
+check_symbol_exists(sigsetjmp "setjmp.h" HAVE_SIGSETJMP)
+check_symbol_exists(pthread_getattr_np "pthread.h" HAVE_PTHREAD_GETATTR_NP)
+check_symbol_exists(pthread_attr_get_np "pthread.h" HAVE_PTHREAD_ATTR_GET_NP)
+check_symbol_exists(pthread_get_stackaddr_np "pthread.h" HAVE_PTHREAD_GET_STACKADDR_NP)
+check_symbol_exists(pthread_attr_getstack "pthread.h" HAVE_PTHREAD_ATTR_GETSTACK)
+check_symbol_exists(pthread_stackseg_np "pthread.h" HAVE_PTHREAD_STACKSEG_NP)
+check_symbol_exists(gettid "unistd.h" HAVE_GETTID)
+check_symbol_exists(mremap "sys/mman.h" HAVE_MREMAP)
+
+include(CheckFloatPrecision)
+include(PHPCheckMMAlignment)
+
+# Check for global register variables.
+include(PHPCheckGccGlobalRegisterVars)
+
+include(CheckStackLimit)
+include(CheckZendSignals)
 
 message(STATUS "Generating zend_ini_parser.c")
 bison_target(ZendIniParser zend_ini_parser.y ${CMAKE_CURRENT_BINARY_DIR}/zend_ini_parser.c
@@ -30,8 +53,6 @@ RE2C_TARGET(
   OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/zend_ini_scanner.c
   OPTIONS "--no-generation-date --case-inverted -cbdFt ${CMAKE_CURRENT_BINARY_DIR}/zend_ini_scanner_defs.h"
 )
-
-check_mm_alignment()
 
 message(STATUS "Creating Zend/zend_config.h")
 file(WRITE zend_config.h "#include <../main/php_config.h>\n")
@@ -126,9 +147,6 @@ target_include_directories(
 
 target_compile_definitions(Zend PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE=1)
 
-# Check for global register variables.
-check_gcc_global_register_vars()
-
 # Check for fibers support.
 include(CheckFibers)
 
@@ -146,7 +164,3 @@ if(FIBER_ASM)
 
   target_link_libraries(Zend PUBLIC ZendAsm)
 endif()
-
-include(CheckFloatPrecision)
-include(CheckStackLimit)
-include(CheckZendSignals)

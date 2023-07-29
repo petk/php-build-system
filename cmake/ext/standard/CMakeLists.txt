@@ -4,8 +4,14 @@ include(CheckFlushIo)
 
 check_flush_io()
 
-check_symbol_exists(res_search "resolv.h" HAVE_RES_SEARCH)
+check_symbol_exists(crypt "crypt.h" HAVE_CRYPT)
+check_symbol_exists(dn_expand "resolv.h" HAVE_DN_EXPAND)
+check_symbol_exists(dn_skipname "resolv.h" HAVE_DN_SKIPNAME)
+check_symbol_exists(dns_search "resolv.h" HAVE_DNS_SEARCH)
 check_symbol_exists(posix_spawn_file_actions_addchdir_np "spawn.h" HAVE_POSIX_SPAWN_FILE_ACTIONS_ADDCHDIR_NP)
+check_symbol_exists(res_ndestroy "resolv.h" HAVE_RES_NDESTROY)
+check_symbol_exists(res_nsearch "resolv.h" HAVE_RES_NSEARCH)
+check_symbol_exists(res_search "resolv.h" HAVE_RES_SEARCH)
 
 php_extension(NAME "standard")
 

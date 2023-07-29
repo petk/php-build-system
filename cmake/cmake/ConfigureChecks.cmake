@@ -198,21 +198,6 @@ include(PHPCheckProcctl)
 # Check for __alignof__.
 include(PHPCheckAlignof)
 
-# Zend
-check_include_file(cpuid.h HAVE_CPUID_H)
-check_symbol_exists(__cpuid_count "cpuid.h" HAVE_CPUID_COUNT)
-
-check_symbol_exists(getpid "unistd.h" HAVE_GETPID)
-check_symbol_exists(kill "signal.h" HAVE_KILL)
-check_symbol_exists(sigsetjmp "setjmp.h" HAVE_SIGSETJMP)
-check_symbol_exists(pthread_getattr_np "pthread.h" HAVE_PTHREAD_GETATTR_NP)
-check_symbol_exists(pthread_attr_get_np "pthread.h" HAVE_PTHREAD_ATTR_GET_NP)
-check_symbol_exists(pthread_get_stackaddr_np "pthread.h" HAVE_PTHREAD_GET_STACKADDR_NP)
-check_symbol_exists(pthread_attr_getstack "pthread.h" HAVE_PTHREAD_ATTR_GETSTACK)
-check_symbol_exists(pthread_stackseg_np "pthread.h" HAVE_PTHREAD_STACKSEG_NP)
-check_symbol_exists(gettid "unistd.h" HAVE_GETTID)
-check_symbol_exists(mremap "sys/mman.h" HAVE_MREMAP)
-
 # Check functions and symbols.
 check_symbol_exists(alphasort "dirent.h" HAVE_ALPHASORT)
 check_symbol_exists(asctime_r "time.h" HAVE_ASCTIME_R)
@@ -285,19 +270,11 @@ check_symbol_exists(strlcat "string.h" HAVE_STRLCAT)
 check_symbol_exists(strlcpy "string.h" HAVE_STRLCPY)
 check_symbol_exists(explicit_bzero "string.h" HAVE_EXPLICIT_BZERO)
 
-# ext/standard
-check_symbol_exists(crypt "crypt.h" HAVE_CRYPT)
-check_symbol_exists(dns_search "resolv.h" HAVE_DNS_SEARCH)
-check_symbol_exists(res_nsearch "resolv.h" HAVE_RES_NSEARCH)
-check_symbol_exists(res_ndestroy "resolv.h" HAVE_RES_NDESTROY)
-check_symbol_exists(dn_expand "resolv.h" HAVE_DN_EXPAND)
-check_symbol_exists(dn_skipname "resolv.h" HAVE_DN_SKIPNAME)
-
 # Check whether writing to stdout works.
 include(PHPCheckWriteStdout)
 
 # Check for required libraries.
-CHECK_LIBRARY_EXISTS(m sin "" HAVE_LIB_M)
+check_library_exists(m sin "" HAVE_LIB_M)
 
 if(HAVE_LIB_M)
   set(EXTRA_LIBS ${EXTRA_LIBS} m)
@@ -308,3 +285,6 @@ ipv6()
 
 # Find sendmail binary.
 php_prog_sendmail()
+
+# Check for aarch64 CRC32 API.
+include(PHPCheckAarch64CRC32)

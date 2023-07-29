@@ -21,12 +21,12 @@ The module defines the following variables:
   Defined to 1 if FPU control word can be manipulated by inline assembler.
 ]=============================================================================]#
 
-include(CheckCSourceRuns)
+include(CheckCSourceCompiles)
 
 # _FPU_SETCW
 message(STATUS "Checking for usable _FPU_SETCW")
 
-check_c_source_runs("
+check_c_source_compiles("
   #include <fpu_control.h>
 
   int main() {
@@ -45,9 +45,7 @@ check_c_source_runs("
   }
 " HAVE__FPU_SETCW)
 
-if(CMAKE_CROSSCOMPILING)
-  message(STATUS "Cross-compiling: No")
-elseif(NOT HAVE__FPU_SETCW)
+if(NOT HAVE__FPU_SETCW)
   message(STATUS "_FPU_SETCW is not usable")
 else()
   set(HAVE__FPU_SETCW 1 CACHE STRING "whether _FPU_SETCW is present and usable")
@@ -57,7 +55,7 @@ endif()
 # fpsetprec
 message(STATUS "Checking for usable fpsetprec")
 
-check_c_source_runs("
+check_c_source_compiles("
   #include <machine/ieeefp.h>
 
   int main() {
@@ -75,9 +73,7 @@ check_c_source_runs("
   }
 " HAVE_FPSETPREC)
 
-if(CMAKE_CROSSCOMPILING)
-  message(STATUS "Cross-compiling: No")
-elseif(NOT HAVE_FPSETPREC)
+if(NOT HAVE_FPSETPREC)
   message(STATUS "fpsetprec is not present")
 else()
   set(HAVE_FPSETPREC 1 CACHE STRING "whether fpsetprec is present and usable")
@@ -87,7 +83,7 @@ endif()
 #_controlfp
 message(STATUS "Checking for usable _controlfp")
 
-check_c_source_runs("
+check_c_source_compiles("
   #include <float.h>
 
   int main() {
@@ -105,9 +101,7 @@ check_c_source_runs("
   }
 " HAVE__CONTROLFP)
 
-if(CMAKE_CROSSCOMPILING)
-  message(STATUS "Cross-compiling: No")
-elseif(NOT HAVE__CONTROLFP)
+if(NOT HAVE__CONTROLFP)
   message(STATUS "_controlfp is not present")
 else()
   set(HAVE__CONTROLFP 1 CACHE STRING "whether _controlfp is present and usable")
@@ -117,7 +111,7 @@ endif()
 # _controlfp_s
 message(STATUS "Checking for usable _controlfp_s")
 
-check_c_source_runs("
+check_c_source_compiles("
   #include <float.h>
 
   int main() {
@@ -136,9 +130,7 @@ check_c_source_runs("
   }
 " HAVE__CONTROLFP_S)
 
-if(CMAKE_CROSSCOMPILING)
-  message(STATUS "Cross-compiling: No")
-elseif(NOT HAVE__CONTROLFP_S)
+if(NOT HAVE__CONTROLFP_S)
   message(STATUS "_controlfp_s is not present")
 else()
   set(HAVE__CONTROLFP_S 1 CACHE STRING "whether _controlfp_s is present and usable")
@@ -148,7 +140,7 @@ endif()
 # FPU control word manipulation
 message(STATUS "Checking whether FPU control word can be manipulated by inline assembler")
 
-check_c_source_runs("
+check_c_source_compiles("
   int main() {
     unsigned int oldcw, cw;
     volatile double result;
@@ -167,9 +159,7 @@ check_c_source_runs("
   }
 " HAVE_FPU_INLINE_ASM_X86)
 
-if(CMAKE_CROSSCOMPILING)
-  message(STATUS "Cross-compiling: No")
-elseif(NOT HAVE_FPU_INLINE_ASM_X86)
+if(NOT HAVE_FPU_INLINE_ASM_X86)
   message(STATUS "No")
 else()
   set(HAVE_FPU_INLINE_ASM_X86 1 CACHE STRING "whether FPU control word can be manipulated by inline assembler")

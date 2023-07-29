@@ -343,7 +343,7 @@
 #cmakedefine HAVE_3ARG_SETREBINDPROC
 
 /* Define when aarch64 CRC32 API is available. */
-#cmakedefine HAVE_AARCH64_CRC32
+#cmakedefine HAVE_AARCH64_CRC32 @HAVE_AARCH64_CRC32@
 
 /* */
 #cmakedefine HAVE_ADABAS

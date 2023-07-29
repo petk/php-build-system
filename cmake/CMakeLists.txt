@@ -18,13 +18,13 @@ project(
 set(CMAKE_C_STANDARD 99)
 set(CMAKE_C_STANDARD_REQUIRED True)
 
-add_compile_options("$<$<COMPILE_LANGUAGE:C>:--std=c99>")
-add_compile_definitions("$<$<COMPILE_LANGUAGE:C>:_GNU_SOURCE>")
-
 # Set PHP version variables.
 set(PHP_VERSION_LABEL "-dev" CACHE STRING "Extra PHP version label suffix, e.g. '-dev', 'rc1', '-acme'")
 string(CONCAT PHP_VERSION "${PHP_VERSION_MAJOR}" "." "${PHP_VERSION_MINOR}" "." "${PHP_VERSION_PATCH}" "${PHP_VERSION_LABEL}")
 math(EXPR PHP_VERSION_ID "${PHP_VERSION_MAJOR} * 10000 + ${PHP_VERSION_MINOR} * 100 + ${PHP_VERSION_PATCH}")
+
+add_compile_options("$<$<COMPILE_LANGUAGE:C>:--std=c99>")
+add_compile_definitions("$<$<COMPILE_LANGUAGE:C>:_GNU_SOURCE>")
 
 # Create a list of extensions.
 include(PHPExtension)
@@ -52,33 +52,7 @@ include_directories("${CMAKE_CURRENT_SOURCE_DIR}/ext/reflection")
 include_directories("${CMAKE_CURRENT_SOURCE_DIR}/ext/spl")
 include_directories("${CMAKE_CURRENT_SOURCE_DIR}/ext/standard")
 
-option(DEBUG "Whether to include debugging symbols" OFF)
-
-if(DEBUG)
-  set(ZEND_DEBUG 1)
-else()
-  set(ZEND_DEBUG 0)
-endif()
-
-option(SHORT_TAGS "Whether to enable short tags by default" ON)
-
-if(SHORT_TAGS)
-  set(DEFAULT_SHORT_OPEN_TAG "1" CACHE STRING "Whether to enable the short-form <? start tag by default")
-else()
-  set(DEFAULT_SHORT_OPEN_TAG "0" CACHE STRING "Whether to enable the short-form <? start tag by default")
-endif()
-
-option(ZTS "Enable thread safety" OFF)
-
-if(ZTS)
-  set(ZTS 1 CACHE STRING "Whether thread safety is enabled")
-endif()
-
-option(RTLD_NOW "Whether to dlopen extensions with RTLD_NOW instead of RTLD_LAZY" OFF)
-
-if(RTLD_NOW)
-  set(PHP_USE_RTLD_NOW 1 CACHE STRING "Use dlopen with RTLD_NOW instead of RTLD_LAZY")
-endif()
+include(PHPOptions)
 
 set(PHP_OS "${CMAKE_SYSTEM_NAME}" CACHE STRING "uname output")
 

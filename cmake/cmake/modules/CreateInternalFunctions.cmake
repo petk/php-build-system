@@ -20,7 +20,7 @@ foreach(extension IN LISTS PHP_EXTENSIONS)
     file(READ "${extension_header}" file_content)
     string(FIND "${file_content}" "phpext_" pattern_index)
 
-    if (NOT pattern_index EQUAL -1)
+    if(NOT pattern_index EQUAL -1)
       get_filename_component(file_name "${extension_header}" NAME)
       set(EXT_INCLUDE_CODE "${EXT_INCLUDE_CODE}\n#include \"ext/${extension}/${file_name}\"")
     endif()

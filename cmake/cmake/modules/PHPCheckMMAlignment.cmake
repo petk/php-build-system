@@ -43,3 +43,5 @@ function(check_mm_alignment)
   message(STATUS "ZEND_MM_ALIGNMENT_LOG2 = ${ZEND_MM_ALIGNMENT_LOG2}")
   message(STATUS "ZEND_MM_NEED_EIGHT_BYTE_REALIGNMENT = ${ZEND_MM_NEED_EIGHT_BYTE_REALIGNMENT}")
 endfunction()
+
+check_mm_alignment()
