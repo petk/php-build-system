@@ -26,6 +26,7 @@ to build PHP with CMake.
   * [8.5. CMake minimum version for PHP](#85-cmake-minimum-version-for-php)
   * [8.6. CMake code style](#86-cmake-code-style)
   * [8.7. Command line options](#87-command-line-options)
+  * [8.8. CMake presets](#88-cmake-presets)
 * [9. See more](#9-see-more)
 
 ## 2. Introduction
@@ -582,6 +583,7 @@ With CMake the minimum required version is defined in the top project file
 
 Currently the CMake minimum version is set to:
 
+* 3.19 (to be able to use CMakePresets.json for sharing build configurations)
 * 3.20 (to have CMAKE_C_BYTE_ORDER, otherwise manual check should be done)
 * 3.25
 
@@ -705,6 +707,11 @@ These are passed as `./configure VAR=VALUE`.
 | `LDFLAGS="..."`                  | `-DCMAKE_EXE_LINKER_FLAGS="..."`    |                 |
 |                                  | `-DCMAKE_SHARED_LINKER_FLAGS="..."` |                 |
 | `PHP_EXTRA_VERSION="-foo"`       | `-DPHP_VERSION_LABEL="-foo"`        | `-dev` or empty |
+
+### 8.8. CMake presets
+
+The `CMakePresets.json` and `CMakeUserPresets.json` files are available since
+CMake 3.19 for sharing build configurations.
 
 ## 9. See more
 
