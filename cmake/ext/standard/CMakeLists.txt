@@ -1,8 +1,7 @@
 include(CheckCSourceCompiles)
 include(CheckSymbolExists)
-include(CheckFlushIo)
 
-check_flush_io()
+include(PHPCheckFlushIo)
 
 check_symbol_exists(crypt "crypt.h" HAVE_CRYPT)
 check_symbol_exists(dn_expand "resolv.h" HAVE_DN_EXPAND)

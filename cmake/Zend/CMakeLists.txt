@@ -17,13 +17,13 @@ check_symbol_exists(pthread_stackseg_np "pthread.h" HAVE_PTHREAD_STACKSEG_NP)
 check_symbol_exists(gettid "unistd.h" HAVE_GETTID)
 check_symbol_exists(mremap "sys/mman.h" HAVE_MREMAP)
 
-include(CheckFloatPrecision)
+include(PHPCheckFloatPrecision)
 include(PHPCheckMMAlignment)
 
 # Check for global register variables.
 include(PHPCheckGccGlobalRegisterVars)
 
-include(CheckStackLimit)
+include(PHPCheckStackLimit)
 include(CheckZendSignals)
 
 message(STATUS "Generating zend_ini_parser.c")

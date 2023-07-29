@@ -6,7 +6,7 @@ Function: check_flush_io()
 
 include(CheckCSourceRuns)
 
-function(check_flush_io)
+function(php_check_flush_io)
   message(STATUS "Checking whether flush should be called explicitly after a buffered io")
 
   if(CMAKE_CROSSCOMPILING)
@@ -61,3 +61,5 @@ function(check_flush_io)
     message(STATUS "no")
   endif()
 endfunction()
+
+php_check_flush_io()
