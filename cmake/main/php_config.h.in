@@ -385,7 +385,7 @@
 #cmakedefine HAVE_ASCTIME_R @HAVE_ASCTIME_R@
 
 /* Define if asm goto support */
-#cmakedefine HAVE_ASM_GOTO
+#cmakedefine HAVE_ASM_GOTO @HAVE_ASM_GOTO@
 
 /* Define to 1 if you have the `asprintf' function. */
 #cmakedefine HAVE_ASPRINTF @HAVE_ASPRINTF@
@@ -463,7 +463,7 @@
 #cmakedefine HAVE_COMMONCRYPTO_COMMONRANDOM_H @HAVE_COMMONCRYPTO_COMMONRANDOM_H@
 
 /* Define if copy_file_range support */
-#cmakedefine HAVE_COPY_FILE_RANGE
+#cmakedefine HAVE_COPY_FILE_RANGE @HAVE_COPY_FILE_RANGE@
 
 /* whether __cpuid_count is available */
 #cmakedefine HAVE_CPUID_COUNT @HAVE_CPUID_COUNT@
@@ -720,7 +720,7 @@
 #cmakedefine HAVE_GD_XPM
 
 /* Define if you have the getaddrinfo function */
-#cmakedefine HAVE_GETADDRINFO
+#cmakedefine HAVE_GETADDRINFO @HAVE_GETADDRINFO@
 
 /* Define to 1 if you have the `getcwd' function. */
 #cmakedefine HAVE_GETCWD @HAVE_GETCWD@
@@ -1459,10 +1459,10 @@
 #cmakedefine HAVE_SOAP
 
 /* Whether struct sockaddr has field sa_len */
-#cmakedefine HAVE_SOCKADDR_SA_LEN
+#cmakedefine HAVE_SOCKADDR_SA_LEN @HAVE_SOCKADDR_SA_LEN@
 
 /* Whether you have struct sockaddr_storage */
-#cmakedefine HAVE_SOCKADDR_STORAGE
+#cmakedefine HAVE_SOCKADDR_STORAGE @HAVE_SOCKADDR_STORAGE@
 
 /* Define if sockaddr_un in sys/un.h contains a sun_len component */
 #cmakedefine HAVE_SOCKADDR_UN_SUN_LEN
@@ -2018,13 +2018,13 @@
 #cmakedefine01 PHP_HAVE_BUILTIN_USUB_OVERFLOW
 
 /* Whether you have HP-UX 10.x */
-#cmakedefine PHP_HPUX_TIME_R
+#cmakedefine PHP_HPUX_TIME_R @PHP_HPUX_TIME_R@
 
 /* Which iconv implementation to use */
 #cmakedefine PHP_ICONV_IMPL
 
 /* Whether you have IRIX-style functions */
-#cmakedefine PHP_IRIX_TIME_R
+#cmakedefine PHP_IRIX_TIME_R @PHP_IRIX_TIME_R@
 
 /* */
 #cmakedefine PHP_MHASH_BC @PHP_MHASH_BC@

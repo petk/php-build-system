@@ -40,14 +40,14 @@ bison_target(ZendLanguageParser zend_language_parser.y ${CMAKE_CURRENT_BINARY_DI
   DEFINES_FILE ${CMAKE_CURRENT_BINARY_DIR}/zend_language_parser.h
 )
 
-RE2C_TARGET(
+re2c_target(
   NAME ZendLanguageScanner
   INPUT ${CMAKE_CURRENT_BINARY_DIR}/zend_language_scanner.l
   OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/zend_language_scanner.c
   OPTIONS "--no-generation-date --case-inverted -cbdFt ${CMAKE_CURRENT_BINARY_DIR}/zend_language_scanner_defs.h"
 )
 
-RE2C_TARGET(
+re2c_target(
   NAME ZendIniScanner
   INPUT ${CMAKE_CURRENT_BINARY_DIR}/zend_ini_scanner.l
   OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/zend_ini_scanner.c

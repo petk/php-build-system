@@ -11,7 +11,7 @@ if(phar)
     message(STATUS "PHP extension openssl is shared or disabled, skipping")
   endif()
 
-  RE2C_TARGET(
+  re2c_target(
     NAME PharLexer
     INPUT ${CMAKE_CURRENT_BINARY_DIR}/phar_path_check.re
     OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/phar_path_check.c

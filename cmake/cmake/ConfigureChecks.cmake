@@ -128,6 +128,9 @@ include(PHPCheckFopencookie)
 # Check for broken getcwd().
 include(PHPCheckBrokenGetCwd)
 
+# Check for broken gcc optimize-strlen.
+include(PHPCheckBrokenGccStrlenOpt)
+
 # Check for missing fclose declaration.
 include(PHPCheckMissingFcloseDeclaration)
 
@@ -197,6 +200,9 @@ include(PHPCheckProcctl)
 # Check for __alignof__.
 include(PHPCheckAlignof)
 
+# Checks for sockaddr_storage and sockaddr.sa_len.
+include(PHPCheckSockaddr)
+
 # Check functions and symbols.
 check_symbol_exists(alphasort "dirent.h" HAVE_ALPHASORT)
 check_symbol_exists(asctime_r "time.h" HAVE_ASCTIME_R)
@@ -265,9 +271,22 @@ check_symbol_exists(nanosleep "time.h" HAVE_NANOSLEEP)
 check_symbol_exists(memmem "string.h" HAVE_MEMMEM)
 check_symbol_exists(memrchr "string.h" HAVE_MEMRCHR)
 check_symbol_exists(strerror_r "string.h" HAVE_STRERROR_R)
+
+# Check getaddrinfo().
+include(PHPCheckGetaddrinfo)
+
+# Check copy_file_range().
+include(PHPCheckCopyFileRange)
+
+# Check for asm goto.
+include(PHPCheckAsmGoto)
+
 check_symbol_exists(strlcat "string.h" HAVE_STRLCAT)
 check_symbol_exists(strlcpy "string.h" HAVE_STRLCPY)
 check_symbol_exists(explicit_bzero "string.h" HAVE_EXPLICIT_BZERO)
+
+# Check type of reentrant time-related functions.
+include(PHPCheckTimeR)
 
 # Check whether writing to stdout works.
 include(PHPCheckWriteStdout)

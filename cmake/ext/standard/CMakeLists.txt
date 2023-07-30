@@ -14,14 +14,14 @@ check_symbol_exists(res_search "resolv.h" HAVE_RES_SEARCH)
 
 php_extension(NAME "standard")
 
-RE2C_TARGET(
+re2c_target(
   NAME VarUnserializer
   INPUT ${CMAKE_CURRENT_BINARY_DIR}/var_unserializer.re
   OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/var_unserializer.c
   OPTIONS "--no-generation-date -b"
 )
 
-RE2C_TARGET(
+re2c_target(
   NAME UrlScannerEx
   INPUT ${CMAKE_CURRENT_BINARY_DIR}/url_scanner_ex.re
   OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/url_scanner_ex.c
@@ -157,3 +157,5 @@ else()
 endif()
 
 target_link_libraries(ext_standard PUBLIC main)
+
+add_dependencies(ext_standard Zend)
