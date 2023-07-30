@@ -27,6 +27,9 @@ to build PHP with CMake.
   * [8.6. CMake code style](#86-cmake-code-style)
   * [8.7. Command line options](#87-command-line-options)
   * [8.8. CMake presets](#88-cmake-presets)
+  * [8.9. CMake generators for building PHP](#89-cmake-generators-for-building-php)
+    * [8.9.1. Unix Makefiles (default)](#891-unix-makefiles-default)
+    * [8.9.2. Ninja](#892-ninja)
 * [9. See more](#9-see-more)
 
 ## 2. Introduction
@@ -712,6 +715,82 @@ These are passed as `./configure VAR=VALUE`.
 
 The `CMakePresets.json` and `CMakeUserPresets.json` files are available since
 CMake 3.19 for sharing build configurations.
+
+### 8.9. CMake generators for building PHP
+
+When using CMake to build PHP, you have the flexibility to choose from various
+build systems through the concept of _generators_. CMake generators determine
+the type of project files or build scripts that CMake generates from your
+`CMakeLists.txt` file. In this example, we will check the following generators:
+Unix Makefiles and Ninja.
+
+#### 8.9.1. Unix Makefiles (default)
+
+The Unix Makefiles generator is the most common and widely used generator for
+building projects on Unix-like systems, including Linux and macOS. It generates
+traditional `Makefile` that can be processed by the `make` command. To use the
+Unix Makefiles generator, you simply specify it as an argument when running
+CMake in your build directory.
+
+To generate the `Makefile` for building PHP, create a new directory (often
+called `build` or `cmake-build`) and navigate to it using the terminal. Then,
+execute the following CMake command:
+
+```sh
+cmake -G "Unix Makefiles" /path/to/php-src
+```
+
+Replace `/path/to/php-src` with the actual path to the PHP source code on
+your system (in case build directory is the same as the source directory, use
+`.`). CMake will process the `CMakeLists.txt` file in the source directory and
+generate the `Makefile` in the current build directory.
+
+After the Makefiles are generated, you can use the make command to build PHP:
+
+```sh
+make
+```
+
+The make command will build the PHP binaries and libraries according to the
+configuration specified in the `CMakeLists.txt` file. If you want to speed up
+the build process, you can use the `-j` option to enable parallel builds, taking
+advantage of multiple CPU cores:
+
+```sh
+make -j$(nproc) # number of CPU cores you want to utilize.
+```
+
+#### 8.9.2. Ninja
+
+[Ninja](https://ninja-build.org/) is another build system supported by CMake and
+is known for its fast build times due to its minimalistic design. To use the
+Ninja generator, you need to have Ninja installed on your system. Most package
+managers on Unix systems offer Ninja as a package, so you can install it easily.
+
+To generate Ninja build files for building PHP, navigate to your build directory
+in the terminal and run the following CMake command:
+
+```sh
+cmake -G "Ninja" /path/to/php-src
+```
+
+Again, replace `/path/to/php/src` with the actual path to the PHP source code.
+CMake will generate the Ninja build files in the current directory.
+
+To build PHP with Ninja, execute the following command:
+
+```sh
+ninja
+```
+
+Ninja will then handle the build process based on the CMake configuration.
+Similar to the Unix Makefiles generator, you can use the `-j` option to enable
+parallel builds with Ninja (by default, however, `-j` is already set to the
+number of available CPU cores on your system):
+
+```sh
+ninja -j$(nproc)
+```
 
 ## 9. See more
 

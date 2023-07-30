@@ -5,6 +5,7 @@
 update=0
 cmake=0
 options=""
+generator=UnixMakefiles
 
 # Go to project root.
 cd $(CDPATH= cd -- "$(dirname -- "$0")" && pwd -P)
@@ -18,11 +19,12 @@ SYNOPSIS:
   init [<options>]
 
 OPTIONS:
-  -u, --update         Clone and/or pull the php-src Git repository.
-  -c, --cmake          Run cmake configuration and build commands.
-  -o, --options VALUE  CMake options which are appended to the CMake command.
-                         cmake -DOPTION .
-  -h, --help           Display this help.
+  -u, --update           Clone and/or pull the php-src Git repository.
+  -c, --cmake            Run cmake configuration and build commands.
+  -o, --options VALUE    CMake options which are appended to the CMake command.
+                           cmake -DOPTION .
+  -g, --generator VALUE  CMake generator (UnixMakefiles|Ninja)
+  -h, --help             Display this help.
 HELP
     exit 0
   fi
@@ -37,6 +39,11 @@ HELP
 
   if test "$1" = "-o" || test "$1" = "--options"; then
     options=$2
+    shift
+  fi
+
+  if test "$1" = "-g" || test "$1" = "--generator"; then
+    generator=$2
     shift
   fi
 
@@ -71,8 +78,13 @@ done
 # Run cmake configuration and build.
 if test "$cmake" = "1"; then
   cd php-src
-  cmake . ${options}
-  cmake --build . --verbose -- --jobs $(nproc)
+  if test "$generator" = "UnixMakefiles"; then
+    cmake . ${options}
+    cmake --build . --verbose -- --jobs $(nproc)
+  elif test "$generator" = "Ninja"; then
+    cmake . ${options} -G Ninja
+    ninja -j $(nproc)
+  fi
 else
   echo "Now run:
     cmake .
