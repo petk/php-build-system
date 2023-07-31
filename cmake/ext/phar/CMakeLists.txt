@@ -13,8 +13,8 @@ if(phar)
 
   re2c_target(
     NAME PharLexer
-    INPUT ${CMAKE_CURRENT_BINARY_DIR}/phar_path_check.re
-    OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/phar_path_check.c
+    INPUT "${CMAKE_CURRENT_SOURCE_DIR}/phar_path_check.re"
+    OUTPUT "${CMAKE_CURRENT_SOURCE_DIR}/phar_path_check.c"
     OPTIONS "--no-generation-date -b"
   )
 

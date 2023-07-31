@@ -44,6 +44,7 @@ else()
     ext_pcre
     PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}"
     PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/pcre2lib"
+    PUBLIC "${CMAKE_SOURCE_DIR}"
   )
 
   target_compile_options(ext_pcre

@@ -325,7 +325,7 @@
 #cmakedefine DBM_VERSION
 
 /* */
-#cmakedefine DEFAULT_SHORT_OPEN_TAG "@DEFAULT_SHORT_OPEN_TAG@"
+#define DEFAULT_SHORT_OPEN_TAG "@DEFAULT_SHORT_OPEN_TAG@"
 
 /* Define if dlsym() requires a leading underscore in symbol names. */
 #cmakedefine DLSYM_NEEDS_UNDERSCORE

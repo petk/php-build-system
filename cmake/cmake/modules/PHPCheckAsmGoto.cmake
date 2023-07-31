@@ -37,7 +37,3 @@ else()
     }
   " HAVE_ASM_GOTO)
 endif()
-
-if(HAVE_ASM_GOTO)
-  set(HAVE_ASM_GOTO 1 CACHE STRING "Define if asm goto support")
-endif()

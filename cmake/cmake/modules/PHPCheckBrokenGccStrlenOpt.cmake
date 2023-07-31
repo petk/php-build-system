@@ -44,3 +44,5 @@ if(have_broken_optimize_strlen)
 else()
   message(STATUS "no")
 endif()
+
+unset(have_broken_optimize_strlen)

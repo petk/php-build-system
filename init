@@ -6,6 +6,7 @@ update=0
 cmake=0
 options=""
 generator=UnixMakefiles
+debug=0
 
 # Go to project root.
 cd $(CDPATH= cd -- "$(dirname -- "$0")" && pwd -P)
@@ -24,6 +25,7 @@ OPTIONS:
   -o, --options VALUE    CMake options which are appended to the CMake command.
                            cmake -DOPTION .
   -g, --generator VALUE  CMake generator (UnixMakefiles|Ninja)
+  -d, --debug            Debug mode.
   -h, --help             Display this help.
 HELP
     exit 0
@@ -45,6 +47,10 @@ HELP
   if test "$1" = "-g" || test "$1" = "--generator"; then
     generator=$2
     shift
+  fi
+
+  if test "$1" = "-d" || test "$1" = "--debug"; then
+    debug=1
   fi
 
   shift
@@ -75,14 +81,18 @@ for file in $patches; do
   esac
 done
 
+if test "${debug}" = "1"; then
+  cmake_debug_options="--debug-trycompile"
+fi
+
 # Run cmake configuration and build.
 if test "$cmake" = "1"; then
   cd php-src
   if test "$generator" = "UnixMakefiles"; then
-    cmake . ${options}
+    cmake .  ${cmake_debug_options} ${options}
     cmake --build . --verbose -- --jobs $(nproc)
   elif test "$generator" = "Ninja"; then
-    cmake . ${options} -G Ninja
+    cmake . ${cmake_debug_options} ${options} -G Ninja
     ninja -j $(nproc)
   fi
 else

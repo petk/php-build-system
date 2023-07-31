@@ -14,51 +14,30 @@ function(php_check_flush_io)
     return()
   endif()
 
-  check_c_source_runs("
-  #include <stdio.h>
-  #include <stdlib.h>
-  #ifdef HAVE_UNISTD_H
-  #include <unistd.h>
-  #endif
-  #include <string.h>
+  if(HAVE_UNISTD_H)
+    set(UNISTD_DEFINED_MACRO "-DHAVE_UNISTD_H=1")
+  else()
+    set(UNISTD_DEFINED_MACRO)
+  endif()
 
-  int main(int argc, char **argv)
-  {
-    char *filename = tmpnam(NULL);
-    char buffer[64];
-    int result = 0;
+  try_run(
+    RUN_RESULT_VAR
+    COMPILE_RESULT_VAR
+    ${CMAKE_BINARY_DIR}
+    "${CMAKE_CURRENT_FUNCTION_LIST_DIR}/PHPCheckFlushIo/check_flush_io.c"
+    COMPILE_DEFINITIONS ${UNISTD_DEFINED_MACRO}
+    OUTPUT_VARIABLE RUN_OUTPUT
+  )
 
-    FILE *fp = fopen(filename, \"wb\");
-    if (NULL == fp)
-      return 0;
-    fputs(\"line 1\\\\n\", fp);
-    fputs(\"line 2\\\\n\", fp);
-    fclose(fp);
+  if(NOT COMPILE_RESULT_VAR)
+    message(FATAL_ERROR "Error when compiling the check_flush_io.c program:\n${RUN_OUTPUT}")
+  endif()
 
-    fp = fopen(filename, \"rb+\");
-    if (NULL == fp)
-      return 0;
-    fgets(buffer, sizeof(buffer), fp);
-    fputs(\"line 3\\\\n\", fp);
-    rewind(fp);
-    fgets(buffer, sizeof(buffer), fp);
-    if (0 != strcmp(buffer, \"line 1\\\\n\"))
-      result = 1;
-    fgets(buffer, sizeof(buffer), fp);
-    if (0 != strcmp(buffer, \"line 3\\\\n\"))
-      result = 1;
-    fclose(fp);
-    unlink(filename);
-
-    exit(result);
-  }
-  " HAVE_FLUSHIO)
-
-  if(HAVE_FLUSHIO)
+  if(RUN_RESULT_VAR EQUAL 0)
+    message(STATUS "no")
+  else()
     message(STATUS "yes")
     set(HAVE_FLUSHIO 1 CACHE STRING "Define if flush should be called explicitly after a buffered io.")
-  else()
-    message(STATUS "no")
   endif()
 endfunction()
 

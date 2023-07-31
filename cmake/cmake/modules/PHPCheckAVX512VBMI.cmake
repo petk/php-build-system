@@ -32,3 +32,5 @@ else()
 endif()
 
 set(PHP_HAVE_AVX512_VBMI_SUPPORTS ${have_avx512_vbmi_support} CACHE STRING "Whether the compiler supports AVX512 VBMI")
+
+unset(have_avx512_vbmi_support)

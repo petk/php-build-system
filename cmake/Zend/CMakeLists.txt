@@ -42,16 +42,16 @@ bison_target(ZendLanguageParser zend_language_parser.y ${CMAKE_CURRENT_BINARY_DI
 
 re2c_target(
   NAME ZendLanguageScanner
-  INPUT ${CMAKE_CURRENT_BINARY_DIR}/zend_language_scanner.l
-  OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/zend_language_scanner.c
-  OPTIONS "--no-generation-date --case-inverted -cbdFt ${CMAKE_CURRENT_BINARY_DIR}/zend_language_scanner_defs.h"
+  INPUT "${CMAKE_CURRENT_SOURCE_DIR}/zend_language_scanner.l"
+  OUTPUT "${CMAKE_CURRENT_SOURCE_DIR}/zend_language_scanner.c"
+  OPTIONS "--no-generation-date --case-inverted -cbdFt ${CMAKE_CURRENT_SOURCE_DIR}/zend_language_scanner_defs.h"
 )
 
 re2c_target(
   NAME ZendIniScanner
-  INPUT ${CMAKE_CURRENT_BINARY_DIR}/zend_ini_scanner.l
-  OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/zend_ini_scanner.c
-  OPTIONS "--no-generation-date --case-inverted -cbdFt ${CMAKE_CURRENT_BINARY_DIR}/zend_ini_scanner_defs.h"
+  INPUT "${CMAKE_CURRENT_SOURCE_DIR}/zend_ini_scanner.l"
+  OUTPUT "${CMAKE_CURRENT_SOURCE_DIR}/zend_ini_scanner.c"
+  OPTIONS "--no-generation-date --case-inverted -cbdFt ${CMAKE_CURRENT_SOURCE_DIR}/zend_ini_scanner_defs.h"
 )
 
 message(STATUS "Creating Zend/zend_config.h")
@@ -143,6 +143,7 @@ add_library(Zend
 target_include_directories(
   Zend
   INTERFACE ${CMAKE_CURRENT_SOURCE_DIR}
+  PUBLIC "${CMAKE_SOURCE_DIR}"
 )
 
 target_compile_definitions(Zend PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE=1)

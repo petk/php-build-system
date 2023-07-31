@@ -17,8 +17,4 @@ check_c_source_compiles("
     __crc32d(0, 0);
     return 0;
   }
-" have_crc32d)
-
-if(have_crc32d)
-  set(HAVE_AARCH64_CRC32 1 CACHE STRING "Define when aarch64 CRC32 API is available.")
-endif()
+" HAVE_AARCH64_CRC32)

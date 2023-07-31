@@ -2,9 +2,9 @@
 #include <stdlib.h>
 
 typedef union _mm_align_test {
-  void *ptr;
-  double dbl;
-  long lng;
+	void *ptr;
+	double dbl;
+	long lng;
 } mm_align_test;
 
 #if (defined (__GNUC__) && __GNUC__ >= 2)
@@ -15,15 +15,15 @@ typedef union _mm_align_test {
 
 int main(void)
 {
-  size_t i = ZEND_MM_ALIGNMENT;
-  int zeros = 0;
+	size_t i = ZEND_MM_ALIGNMENT;
+	int zeros = 0;
 
-  while (i & ~0x1) {
-    zeros++;
-    i = i >> 1;
-  }
+	while (i & ~0x1) {
+		zeros++;
+		i = i >> 1;
+	}
 
-  printf("(size_t)%zu (size_t)%d %d\n", ZEND_MM_ALIGNMENT, zeros, ZEND_MM_ALIGNMENT < 4);
+	printf("(size_t)%zu (size_t)%d %d\n", ZEND_MM_ALIGNMENT, zeros, ZEND_MM_ALIGNMENT < 4);
 
-  return 0;
+	return 0;
 }

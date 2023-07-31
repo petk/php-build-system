@@ -1,6 +1,6 @@
 option(DEBUG "Whether to include debugging symbols" OFF)
 
-option(SHORT_TAGS "Whether to enable short tags by default" ON)
+option(SHORT_TAGS "Whether to enable the short-form <? start tag by default" ON)
 
 option(ZTS "Enable thread safety" OFF)
 
@@ -15,15 +15,15 @@ else()
 endif()
 
 if(SHORT_TAGS)
-  set(DEFAULT_SHORT_OPEN_TAG "1" CACHE STRING "Whether to enable the short-form <? start tag by default")
+  set(DEFAULT_SHORT_OPEN_TAG "1")
 else()
-  set(DEFAULT_SHORT_OPEN_TAG "0" CACHE STRING "Whether to enable the short-form <? start tag by default")
+  set(DEFAULT_SHORT_OPEN_TAG "0")
 endif()
 
 if(ZTS)
-  set(ZTS 1 CACHE STRING "Whether thread safety is enabled")
+  set(ZTS 1 CACHE BOOL "Whether thread safety is enabled" FORCE)
 endif()
 
 if(RTLD_NOW)
-  set(PHP_USE_RTLD_NOW 1 CACHE STRING "Use dlopen with RTLD_NOW instead of RTLD_LAZY")
+  set(PHP_USE_RTLD_NOW 1 CACHE BOOL "Use dlopen with RTLD_NOW instead of RTLD_LAZY")
 endif()

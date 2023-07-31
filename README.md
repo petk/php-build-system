@@ -22,14 +22,15 @@ to build PHP with CMake.
   * [8.1. Installation](#81-installation)
   * [8.2. Why using CMake?](#82-why-using-cmake)
   * [8.3. Directory structure](#83-directory-structure)
-  * [8.4. CMake usage](#84-cmake-usage)
-  * [8.5. CMake minimum version for PHP](#85-cmake-minimum-version-for-php)
-  * [8.6. CMake code style](#86-cmake-code-style)
-  * [8.7. Command line options](#87-command-line-options)
-  * [8.8. CMake presets](#88-cmake-presets)
-  * [8.9. CMake generators for building PHP](#89-cmake-generators-for-building-php)
-    * [8.9.1. Unix Makefiles (default)](#891-unix-makefiles-default)
-    * [8.9.2. Ninja](#892-ninja)
+  * [8.4. CMake build system diagram](#84-cmake-build-system-diagram)
+  * [8.5. CMake usage](#85-cmake-usage)
+  * [8.6. CMake minimum version for PHP](#86-cmake-minimum-version-for-php)
+  * [8.7. CMake code style](#87-cmake-code-style)
+  * [8.8. Command line options](#88-command-line-options)
+  * [8.9. CMake presets](#89-cmake-presets)
+  * [8.10. CMake generators for building PHP](#810-cmake-generators-for-building-php)
+    * [8.10.1. Unix Makefiles (default)](#8101-unix-makefiles-default)
+    * [8.10.2. Ninja](#8102-ninja)
 * [9. See more](#9-see-more)
 
 ## 2. Introduction
@@ -572,25 +573,30 @@ Directory structure from the CMake perspective looks like this:
  └─ ...
 ```
 
-### 8.4. CMake usage
+### 8.4. CMake build system diagram
+
+![PHP build system using CMake](docs/cmake.svg)
+
+### 8.5. CMake usage
 
 ```sh
 cmake .
 cmake --build .
 ```
 
-### 8.5. CMake minimum version for PHP
+### 8.6. CMake minimum version for PHP
 
 With CMake the minimum required version is defined in the top project file
 `CMakeLists.txt` using the `cmake_minimum_required()`.
 
 Currently the CMake minimum version is set to:
 
+* 3.17 (to have CMAKE_CURRENT_FUNCTION_LIST_DIR available)
 * 3.19 (to be able to use CMakePresets.json for sharing build configurations)
 * 3.20 (to have CMAKE_C_BYTE_ORDER, otherwise manual check should be done)
 * 3.25
 
-### 8.6. CMake code style
+### 8.7. CMake code style
 
 This repository is following some best practices from the CMake ecosystem:
 
@@ -625,7 +631,7 @@ This repository is following some best practices from the CMake ecosystem:
   endif(BARVAR)
   ```
 
-### 8.7. Command line options
+### 8.8. Command line options
 
 List of configure command line options and their CMake alternatives:
 
@@ -638,7 +644,7 @@ List of configure command line options and their CMake alternatives:
 |   `--disable-ipv6`                   |   `-DIPV6=OFF`          |                     |
 | `--disable-rtld-now`                 | `-DRTLD_NOW=OFF`        | `OFF`               |
 |   `--enable-rtld-now`                | `-DRTLD_NOW=ON`         |                     |
-| `--enable-short-tags`                | `-DSHORT_TAGS`          | `ON`                |
+| `--enable-short-tags` (default)      | `-DSHORT_TAGS=ON`       | `ON`                |
 |   `--disable-short-tags`             | `-DSHORT_TAGS=OFF`      |                     |
 | `--disable-zts` (default)            | `-DZTS=OFF`             | `OFF`               |
 | `--enable-zts`                       | `-DZTS=ON`              |                     |
@@ -711,12 +717,12 @@ These are passed as `./configure VAR=VALUE`.
 |                                  | `-DCMAKE_SHARED_LINKER_FLAGS="..."` |                 |
 | `PHP_EXTRA_VERSION="-foo"`       | `-DPHP_VERSION_LABEL="-foo"`        | `-dev` or empty |
 
-### 8.8. CMake presets
+### 8.9. CMake presets
 
 The `CMakePresets.json` and `CMakeUserPresets.json` files are available since
 CMake 3.19 for sharing build configurations.
 
-### 8.9. CMake generators for building PHP
+### 8.10. CMake generators for building PHP
 
 When using CMake to build PHP, you have the flexibility to choose from various
 build systems through the concept of _generators_. CMake generators determine
@@ -724,7 +730,7 @@ the type of project files or build scripts that CMake generates from your
 `CMakeLists.txt` file. In this example, we will check the following generators:
 Unix Makefiles and Ninja.
 
-#### 8.9.1. Unix Makefiles (default)
+#### 8.10.1. Unix Makefiles (default)
 
 The Unix Makefiles generator is the most common and widely used generator for
 building projects on Unix-like systems, including Linux and macOS. It generates
@@ -760,7 +766,7 @@ advantage of multiple CPU cores:
 make -j$(nproc) # number of CPU cores you want to utilize.
 ```
 
-#### 8.9.2. Ninja
+#### 8.10.2. Ninja
 
 [Ninja](https://ninja-build.org/) is another build system supported by CMake and
 is known for its fast build times due to its minimalistic design. To use the

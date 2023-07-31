@@ -15,8 +15,4 @@ check_c_source_compiles("
     int align = __alignof__(int);
     return 0;
   }
-" have_alignof)
-
-if(have_alignof)
-  set(HAVE_ALIGNOF 1 CACHE STRING "whether the compiler supports __alignof__")
-endif()
+" HAVE_ALIGNOF)

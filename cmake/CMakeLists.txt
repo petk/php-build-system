@@ -29,10 +29,11 @@ add_compile_definitions("$<$<COMPILE_LANGUAGE:C>:_GNU_SOURCE>")
 # Define PHP configuration options.
 include(PHPOptions)
 
+# Configuration checks.
+include(ConfigureChecks)
+
 # Create a list of extensions.
 include(PHPExtension)
-
-include(ConfigureChecks)
 
 # Parser and lexer generators.
 find_package(BISON 3.0.0 REQUIRED)
