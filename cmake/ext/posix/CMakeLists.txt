@@ -9,13 +9,13 @@ option(posix "Whether to enable POSIX-like functions" ON)
 if(posix)
   project(ext_posix VERSION ${CMAKE_PROJECT_VERSION} DESCRIPTION "POSIX PHP extension")
 
-  string(TOLOWER ${posix} posix_lower)
-  set(posix_library_type "STATIC")
-  if(posix_lower STREQUAL "shared")
-    set(posix_library_type "SHARED")
+  string(TOLOWER ${posix} extension_lower)
+  set(extension_library_type "STATIC")
+  if(extension_lower STREQUAL "shared")
+    set(extension_library_type "SHARED")
   endif()
 
-  php_extension(NAME "posix" ${posix_library_type})
+  php_extension(NAME "posix" ${extension_library_type})
 
   check_include_file(sys/mkdev.h HAVE_SYS_MKDEV_H)
   check_include_file(sys/sysmacros.h HAVE_SYS_SYSMACROS_H)
@@ -46,44 +46,37 @@ if(posix)
   if(CMAKE_CROSSCOMPILING)
     message(STATUS "no, cannot detect working ttyname_r() when cross compiling. posix_ttyname() will be thread-unsafe")
   else()
-    try_run(
-      RUN_RESULT_VAR
-      COMPILE_RESULT_VAR
-      ${CMAKE_BINARY_DIR}
-      "${CMAKE_SOURCE_DIR}/cmake/posix_ttyname_test.c"
-    )
+    check_c_source_runs("
+      #include <unistd.h>
 
-    if(RUN_RESULT_VAR EQUAL 0 AND COMPILE_RESULT_VAR)
-      set(HAVE_TTYNAME_R 1 CACHE STRING "Whether you have a working ttyname_r")
-      message(STATUS "yes")
-    else()
-      message(STATUS "no, posix_ttyname() will be thread-unsafe")
-    endif()
+      int main(int argc, char *argv[])
+      {
+        char buf[64];
+
+        /*
+          TODO: remove this comment
+          Autoconf implementation uses a different return due to Autoconf's
+          configure using the file descriptor 0 which results below in an error.
+          The file descriptor 0 with CMake script execution is available and
+          doesn't result in and error when calling ttyname_r.
+        */
+        return ttyname_r(0, buf, 64) ? 1 : 0;
+      }
+    " HAVE_TTYNAME_R)
   endif()
 
   message(STATUS "Checking for utsname.domainname")
-  if(CMAKE_CROSSCOMPILING)
-    message(STATUS "no (cross compiling)")
-  else()
-    check_c_source_compiles("
-      #define _GNU_SOURCE
-      #include <sys/utsname.h>
+  check_c_source_compiles("
+    #define _GNU_SOURCE
+    #include <sys/utsname.h>
 
-      int main()
-      {
-        return sizeof(((struct utsname *)0)->domainname);
-      }
-    " HAVE_UTSNAME_DOMAINNAME)
+    int main()
+    {
+      return sizeof(((struct utsname *)0)->domainname);
+    }
+  " HAVE_UTSNAME_DOMAINNAME)
 
-    if(HAVE_UTSNAME_DOMAINNAME)
-      set(HAVE_UTSNAME_DOMAINNAME 1 CACHE STRING "Whether struct utsname has domainname")
-      message(STATUS "yes")
-    else()
-      message(STATUS "no")
-    endif()
-  endif()
-
-  add_library(ext_posix ${posix_library_type}
+  add_library(ext_posix ${extension_library_type}
     posix.c
   )
 

@@ -68,8 +68,10 @@ else()
 endif()
 
 if(have_shm_mmap_anon)
-  set(HAVE_SHM_MMAP_ANON 1 CACHE STRING "Define if you have mmap(MAP_ANON) SHM support")
+  set(HAVE_SHM_MMAP_ANON 1 CACHE INTERNAL "Define if you have mmap(MAP_ANON) SHM support")
   message(STATUS "yes")
 else()
   message(STATUS "no")
 endif()
+
+unset(have_shm_mmap_anon)

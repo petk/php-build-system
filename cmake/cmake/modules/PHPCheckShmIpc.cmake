@@ -11,7 +11,7 @@ include(CheckCSourceRuns)
 message(STATUS "Checking for sysvipc shared memory support")
 
 if(CMAKE_CROSSCOMPILING)
-  message(STATUS "no")
+  message(STATUS "no (cross-compiling)")
 else()
   check_c_source_runs("
     #include <sys/types.h>
@@ -77,12 +77,5 @@ else()
       }
       return 0;
     }
-  " have_shm_ipc)
-
-  if(have_shm_ipc)
-    message(STATUS "yes")
-    set(HAVE_SHM_IPC 1 CACHE STRING "Define if you have SysV IPC SHM support")
-  else()
-    message(STATUS "no")
-  endif()
+  " HAVE_SHM_IPC)
 endif()

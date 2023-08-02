@@ -4,6 +4,10 @@ Checks for global register variables support.
 Function: check_gcc_global_register_vars()
 
 Command line option: -DGCC_GLOBAL_REGS
+
+Sets the following variables:
+``HAVE_GCC_GLOBAL_REGS``
+  Set to 1 if the target system has support for global register variables.
 ]=============================================================================]#
 
 include(CheckCSourceCompiles)
@@ -62,15 +66,6 @@ function(check_gcc_global_register_vars)
       return 0;
     }
   " HAVE_GCC_GLOBAL_REGS)
-
-  if(NOT ZEND_CHECK_STACK_LIMIT)
-    message(STATUS "Global register variables not available")
-    return()
-  endif()
-
-  set(HAVE_GCC_GLOBAL_REGS 1 CACHE STRING "Define if the target system has support for global register variables")
-
-  message(STATUS "Global register variables enabled")
 endfunction()
 
 check_gcc_global_register_vars()

@@ -1,3 +1,5 @@
+include(CheckCSourceRuns)
+
 option(fileinfo "Whether to enable the fileinfo extension" ON)
 
 if(fileinfo)
@@ -5,8 +7,6 @@ if(fileinfo)
 
   check_symbol_exists(utimes "sys/time.h" HAVE_UTIMES)
   check_symbol_exists(strndup "string.h" HAVE_STRNDUP)
-
-  message(STATUS "Checking for strcasestr")
 
   add_library(ext_fileinfo
     fileinfo.c
@@ -31,19 +31,43 @@ if(fileinfo)
     libmagic/is_csv.c
   )
 
-  try_run(
-    RUN_RESULT_VAR
-    COMPILE_RESULT_VAR
-    ${CMAKE_BINARY_DIR}
-    "${CMAKE_SOURCE_DIR}/cmake/fileinfo_test.c"
-  )
+  message(STATUS "Checking for strcasestr")
 
-  if(RUN_RESULT_VAR EQUAL 0 AND COMPILE_RESULT_VAR)
-    message("using the platform implementation of strcasestr")
+  check_c_source_runs("
+    #include <string.h>
+    #include <strings.h>
+    #include <stdlib.h>
+
+    int main(void)
+    {
+      char *s0, *s1, *ret;
+
+      s0 = (char *) malloc(42);
+      s1 = (char *) malloc(8);
+
+      memset(s0, 'X', 42);
+      s0[24] = 'Y';
+      s0[26] = 'Z';
+      s0[41] = '\\\\0';
+      memset(s1, 'x', 8);
+      s1[0] = 'y';
+      s1[2] = 'Z';
+      s1[7] = '\\\\0';
+
+      ret = strcasestr(s0, s1);
+
+      return !(NULL != ret);
+    }
+  " successful)
+
+  if(successful)
+    message(STATUS "using the platform implementation of strcasestr")
   else()
     target_sources(ext_fileinfo PRIVATE libmagic/strcasestr.c)
     message(STATUS "using libmagic strcasestr implementation")
   endif()
+
+  unset(successful)
 
   target_include_directories(
     ext_fileinfo
@@ -51,5 +75,5 @@ if(fileinfo)
     PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/libmagic"
   )
 
-  target_compile_definitions(ext_fileinfo PUBLIC HAVE_CONFIG_H)
+  target_compile_definitions(ext_fileinfo PRIVATE HAVE_CONFIG_H)
 endif()

@@ -2,6 +2,11 @@
 Check if flush should be called explicitly after buffered io.
 
 Function: check_flush_io()
+
+Sets the following variables:
+
+``HAVE_FLUSHIO``
+  Set to 1 if flush should be called explicitly after a buffered io.
 ]=============================================================================]#
 
 include(CheckCSourceRuns)
@@ -10,7 +15,7 @@ function(php_check_flush_io)
   message(STATUS "Checking whether flush should be called explicitly after a buffered io")
 
   if(CMAKE_CROSSCOMPILING)
-    message(STATUS "Cross compiling: no")
+    message(STATUS "no (cross-compiling)")
     return()
   endif()
 
@@ -37,7 +42,7 @@ function(php_check_flush_io)
     message(STATUS "no")
   else()
     message(STATUS "yes")
-    set(HAVE_FLUSHIO 1 CACHE STRING "Define if flush should be called explicitly after a buffered io.")
+    set(HAVE_FLUSHIO 1 CACHE INTERNAL "Define if flush should be called explicitly after a buffered io.")
   endif()
 endfunction()
 

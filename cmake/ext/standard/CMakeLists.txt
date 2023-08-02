@@ -1,4 +1,5 @@
 include(CheckCSourceCompiles)
+include(CheckCSourceRuns)
 include(CheckSymbolExists)
 
 include(PHPCheckFlushIo)
@@ -40,19 +41,21 @@ else()
 endif()
 
 message(STATUS "Checking for usable getifaddrs")
-try_run(
-  RUN_RESULT_VAR
-  COMPILE_RESULT_VAR
-  ${CMAKE_BINARY_DIR}
-  "${CMAKE_SOURCE_DIR}/cmake/test_standard_getifaddrs.c"
-)
+check_c_source_runs("
+  #include <sys/types.h>
+  #include <ifaddrs.h>
 
-if(RUN_RESULT_VAR EQUAL 0 AND COMPILE_RESULT_VAR)
-  message(STATUS "getifaddrs is present and usable")
-  set(HAVE_GETIFADDRS 1 CACHE STRING "Whether getifaddrs is present and usable")
-else()
-  message(STATUS "getifaddrs is not present")
-endif()
+  struct ifaddrs *interfaces;
+
+  int main ()
+  {
+    if (!getifaddrs(&interfaces)) {
+      freeifaddrs(interfaces);
+    }
+
+    return 0;
+  }
+" HAVE_GETIFADDRS)
 
 add_library(ext_standard
   array.c
@@ -130,31 +133,20 @@ option(EXTERNAL_LIBCRYPT "Whether to use external libcrypt library" OFF)
 
 if(NOT EXTERNAL_LIBCRYPT)
   target_sources(ext_standard PRIVATE crypt_freesec.c crypt_blowfish.c crypt_sha512.c crypt_sha256.c php_crypt_r.c)
-  set(PHP_USE_PHP_CRYPT_R 1 CACHE STRING "Whether PHP has to use its own crypt_r")
+  set(PHP_USE_PHP_CRYPT_R 1 CACHE INTERNAL "Whether PHP has to use its own crypt_r")
 else()
-  set(PHP_USE_PHP_CRYPT_R 0 CACHE STRING "Whether PHP has to use its own crypt_r")
+  set(PHP_USE_PHP_CRYPT_R 0 CACHE INTERNAL "Whether PHP has to use its own crypt_r")
 endif()
 
 # Check for __attribute__ ((__aligned__)) support in the compiler.
 message(STATUS "Checking whether the compiler supports aligned attribute")
 
-if(CMAKE_CROSSCOMPILING)
-  message(STATUS "Cross compiling: no")
-else()
-  check_c_source_compiles("
-    int main() {
-      unsigned char test[32] __attribute__ ((__aligned__ (__alignof__ (int))));
-      return 0;
-    }
-  " HAS_ATTRIBUTE_ALIGNED)
-
-  if(HAS_ATTRIBUTE_ALIGNED)
-    message(STATUS "Compiler supports __attribute__ ((__aligned__))")
-    set(HAVE_ATTRIBUTE_ALIGNED 1 CACHE STRING "Whether the compiler supports __attribute__ ((__aligned__))")
-  else()
-    message(STATUS "Compiler doesn't support aligned attribute")
-  endif()
-endif()
+check_c_source_compiles("
+  int main() {
+    unsigned char test[32] __attribute__ ((__aligned__ (__alignof__ (int))));
+    return 0;
+  }
+" HAVE_ATTRIBUTE_ALIGNED)
 
 target_link_libraries(ext_standard PUBLIC main)
 

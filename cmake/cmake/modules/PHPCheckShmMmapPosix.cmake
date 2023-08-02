@@ -5,16 +5,41 @@ The module defines the following variables if support is found:
 
 ``HAVE_SHM_MMAP_POSIX``
   Defined to 1 if POSIX mmap() SHM support is found.
+
+``SHM_MMAP_POSIX_REQUIRED_LIBRARIES``
+  Required libraries that needs to be appended to the shared extension target.
 ]=============================================================================]#
 include(CheckCSourceRuns)
-
-# TODO: add PHP_CHECK_FUNC_LIB(shm_open, rt, root)
+include(CMakePushCheckState)
 
 message(STATUS "Checking for mmap() using shm_open() shared memory support")
 
-if(CMAKE_CROSSCOMPILING)
-  message(STATUS "no")
-else()
+# First, check for shm_open() and link required libraries.
+check_symbol_exists(shm_open sys/mman.h HAVE_SHM_OPEN)
+
+if(NOT HAVE_SHM_OPEN)
+  # Check if librt library is required for shm_open to work.
+  check_library_exists(rt shm_open "" HAVE_SHM_OPEN)
+
+  if(HAVE_SHM_OPEN)
+    set(SHM_OPEN_REQUIRED_LIBRARIES "rt")
+  endif()
+
+  # Check for Haiku system where shm_open is available with libroot library.
+  check_library_exists(root shm_open "" HAVE_SHM_OPEN)
+
+  if(HAVE_SHM_OPEN)
+    set(SHM_OPEN_REQUIRED_LIBRARIES "root")
+  endif()
+endif()
+
+# Append the required libraries to EXTRA_LIBS.
+if(SHM_OPEN_REQUIRED_LIBRARIES)
+  set(EXTRA_LIBS ${EXTRA_LIBS} ${SHM_OPEN_REQUIRED_LIBRARIES})
+endif()
+
+cmake_push_check_state()
+  set(CMAKE_REQUIRED_LIBRARIES "${CMAKE_REQUIRED_LIBRARIES} ${SHM_OPEN_REQUIRED_LIBRARIES}")
   check_c_source_compiles("
     #include <sys/types.h>
     #include <sys/wait.h>
@@ -78,13 +103,16 @@ else()
       }
       return 0;
     }
-  " have_shm_mmap_posix)
+  " HAVE_SHM_MMAP_POSIX)
+cmake_pop_check_state()
 
-  if(have_shm_mmap_posix)
-    message(STATUS "yes")
-    set(HAVE_SHM_MMAP_POSIX 1 CACHE STRING "Define if you have POSIX mmap() SHM support")
-    # TODO: Add PHP_CHECK_LIBRARY(rt, shm_unlink, [PHP_ADD_LIBRARY(rt,1,OPCACHE_SHARED_LIBADD)])
-  else()
-    message(STATUS "no")
+if(HAVE_SHM_MMAP_POSIX)
+  check_symbol_exists(shm_unlink "sys/mman.h" HAVE_SHM_UNLINK)
+  if(NOT HAVE_SHM_UNLINK)
+    check_library_exists(rt shm_unlink "" HAVE_SHM_UNLINK)
+  endif()
+
+  if(HAVE_SHM_UNLINK)
+    set(SHM_MMAP_POSIX_REQUIRED_LIBRARIES "rt")
   endif()
 endif()

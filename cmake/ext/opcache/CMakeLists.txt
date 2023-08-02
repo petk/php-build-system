@@ -1,23 +1,26 @@
 include(CheckCSourceRuns)
 include(CheckSymbolExists)
+include(CMakeDependentOption)
 include(CMakePushCheckState)
 include(PHPFindPackage)
 
 # Opcache extension can be built either as shared or disabled.
-set(opcache "shared" CACHE STRING "Whether to enable the opcache extension")
+option(opcache "Whether to enable the opcache extension" ON)
 
-option(huge_code_pages "Whether to enable copying PHP CODE pages into HUGE PAGES" ON)
+cmake_dependent_option(huge_code_pages "Whether to enable copying PHP CODE pages into HUGE PAGES" ON "opcache" OFF)
 
-option(opcache_jit "Whether to enable JIT" ON)
+if(huge_code_pages)
+  set(HAVE_HUGE_CODE_PAGES 1 CACHE INTERNAL "Define to enable copying PHP CODE pages into HUGE PAGES (experimental)")
+else()
+  set(HAVE_HUGE_CODE_PAGES 0 CACHE INTERNAL "Define to enable copying PHP CODE pages into HUGE PAGES (experimental)")
+endif()
 
-set(capstone OFF CACHE STRING "Support opcache JIT disassembly through capstone")
+cmake_dependent_option(opcache_jit "Whether to enable JIT" ON "opcache" OFF)
+
+cmake_dependent_option(capstone "Support opcache JIT disassembly through capstone" OFF "opcache" OFF)
 
 if(NOT opcache)
   return()
-endif()
-
-if(huge_code_pages)
-  set(HAVE_HUGE_CODE_PAGES 1 CACHE STRING "Define to enable copying PHP CODE pages into HUGE PAGES (experimental)")
 endif()
 
 if(opcache_jit)
@@ -71,6 +74,7 @@ if(NOT HAVE_SHM_IPC AND NOT HAVE_SHM_MMAP_ANON AND NOT HAVE_SHM_MMAP_POSIX)
   message(FATAL_ERROR "No supported shared memory caching support was found when configuring opcache. Check config.log for any errors or missing dependencies.")
 endif()
 
+# OPcache extension can be either disabled or built as shared.
 php_extension(NAME "opcache" SHARED)
 
 if(opcache_jit)
@@ -135,9 +139,13 @@ if(opcache_jit)
     php_find_package(NAME capstone VERSION 3.0.0)
 
     if(capstone_FOUND)
-      set(HAVE_CAPSTONE 1 CACHE STRING "Capstone is available")
+      set(HAVE_CAPSTONE 1 CACHE INTERNAL "Capstone is available")
       target_link_libraries(ext_opcache ${capstone_LIBRARIES})
       target_compile_options(ext_opcache PRIVATE ${capstone_CFLAGS})
     endif()
   endif()
+endif()
+
+if(SHM_MMAP_POSIX_REQUIRED_LIBRARIES)
+  target_link_libraries(ext_opcache ${SHM_MMAP_POSIX_REQUIRED_LIBRARIES})
 endif()
