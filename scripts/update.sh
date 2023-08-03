@@ -5,7 +5,7 @@
 # integrate them in the CMake system.
 
 # Go to project root.
-cd $(CDPATH= cd -- "$(dirname -- "$0")" && pwd -P)
+cd $(CDPATH= cd -- "$(dirname -- "$0")/.." && pwd -P)
 
 while test $# -gt 0; do
   if test "$1" = "-h" || test "$1" = "--help"; then
