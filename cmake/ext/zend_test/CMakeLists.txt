@@ -13,6 +13,7 @@ if(zend_test)
     test.c
     observer.c
     fiber.c
+    object_handlers.c
   )
 
   target_compile_definitions(ext_zend_test PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE=1)
