@@ -39,7 +39,7 @@ function(php_find_package)
   endif()
 
   # First, try if it can be found using CMake packages.
-  find_package(capstone ${PHP_PACKAGE_VERSION} ${PHP_PACKAGE_QUIET})
+  find_package(${PHP_PACKAGE_NAME} ${PHP_PACKAGE_VERSION} ${PHP_PACKAGE_QUIET})
 
   # Then resort to pkg-config.
   if(NOT ${PHP_PACKAGE_NAME}_FOUND)

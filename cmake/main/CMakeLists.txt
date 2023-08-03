@@ -49,3 +49,7 @@ target_include_directories(
 )
 
 target_compile_definitions(main PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE=1)
+
+if(HAVE_DTRACE)
+  add_dependencies(main zend_dtrace)
+endif()

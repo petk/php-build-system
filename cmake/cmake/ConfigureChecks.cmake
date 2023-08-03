@@ -4,7 +4,10 @@ include(CheckLibraryExists)
 include(CheckSymbolExists)
 include(CheckTypeSize)
 include(CMakePushCheckState)
-include(FindSendmail)
+include(FindSENDMAIL)
+
+# Check whether the system uses EBCDIC (not ASCII) as its native codeset.
+include(PHPCheckEbcdic)
 
 # Check whether the system byte ordering is bigendian - requires CMake 3.20.
 if(CMAKE_C_BYTE_ORDER STREQUAL "BIG_ENDIAN")
@@ -308,3 +311,6 @@ php_prog_sendmail()
 
 # Check for aarch64 CRC32 API.
 include(PHPCheckAarch64CRC32)
+
+# Check DTrace.
+include(PHPCheckDTrace)

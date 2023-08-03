@@ -552,7 +552,7 @@
 #cmakedefine HAVE_DOM @HAVE_DOM@
 
 /* Whether to enable DTrace support */
-#cmakedefine HAVE_DTRACE
+#cmakedefine HAVE_DTRACE @HAVE_DTRACE@
 
 /* Define to 1 if you have the `eaccess' function. */
 #cmakedefine HAVE_EACCESS @HAVE_EACCESS@
@@ -1210,7 +1210,7 @@
 #cmakedefine HAVE_PCRE_JIT_SUPPORT @HAVE_PCRE_JIT_SUPPORT@
 
 /* */
-#cmakedefine HAVE_PCRE_VALGRIND_SUPPORT
+#cmakedefine HAVE_PCRE_VALGRIND_SUPPORT @HAVE_PCRE_VALGRIND_SUPPORT@
 
 /* */
 #cmakedefine HAVE_PDO_DBLIB

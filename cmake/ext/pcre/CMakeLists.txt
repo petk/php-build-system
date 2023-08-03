@@ -1,15 +1,69 @@
+include(CheckCSourceCompiles)
+include(CheckCSourceRuns)
+include(PHPFindPackage)
+
 option(EXTERNAL_PCRE "Use external library for PCRE support" OFF)
 option(PCRE_JIT "Whether to enable PCRE JIT functionality" ON)
 
 if(EXTERNAL_PCRE)
-  # TODO: implement external PCRE library usage.
-else()
-  message(STATUS "Checking for PCRE library to use")
-  message(STATUS "Bundled PCRE library")
+  php_find_package(NAME libpcre2-8 VERSION 10.30)
+
+  if(NOT libpcre2-8_FOUND)
+    message(FATAL_ERROR "libpcre2-8 not found")
+  endif()
+
+  set(PCRE2_CODE_UNIT_WIDTH 8 CACHE INTERNAL "Number of bits in non-UTF mode for PCRE library")
+
+  if(PCRE_JIT)
+    message(STATUS "Checking for JIT support in PCRE2")
+
+    if(CMAKE_CROSSCOMPILING)
+      string(TOLOWER "${CMAKE_HOST_SYSTEM_NAME}" host_os)
+
+      if(${host_os} MATCHES "arm.*|i[34567]86|x86_64|mips.*|powerpc.*|sparc")
+        set(successful ON)
+      else()
+        set(successful OFF)
+      endif()
+    else()
+      check_c_source_runs("
+        #include <pcre2.h>
+        #include <stdlib.h>
+        int main(void) {
+          uint32_t have_jit;
+          pcre2_config_8(PCRE2_CONFIG_JIT, &have_jit);
+          return !have_jit;
+        }
+      " successful)
+    endif()
+
+    if(successful)
+      set(HAVE_PCRE_JIT_SUPPORT 1 CACHE INTERNAL "Whether to enable the PCRE JIT support")
+    endif()
+
+    unset(successful)
+  endif()
 
   php_extension(NAME "pcre")
 
-  add_library(ext_pcre
+  add_library(ext_pcre STATIC
+    php_pcre.c
+  )
+
+  target_compile_definitions(ext_pcre
+    PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE=1
+  )
+
+  set_target_properties(ext_pcre PROPERTIES PUBLIC_HEADER "php_pcre.h")
+
+  target_link_libraries(ext_pcre ${libpcre2-8_LIBRARIES})
+  target_compile_options(ext_pcre PRIVATE ${libpcre2-8_CFLAGS})
+else()
+  message(STATUS "Using bundled PCRE library")
+
+  php_extension(NAME "pcre")
+
+  add_library(ext_pcre STATIC
     pcre2lib/pcre2_auto_possess.c
     pcre2lib/pcre2_chartables.c
     pcre2lib/pcre2_compile.c
@@ -56,18 +110,18 @@ else()
     PRIVATE HAVE_CONFIG_H
   )
 
-  set(HAVE_BUNDLED_PCRE 1 CACHE STRING "Whether the bundled PCRE library is used")
-  set(PCRE2_CODE_UNIT_WIDTH 8 CACHE STRING "Number of bits in non-UTF mode for PCRE library")
+  set(HAVE_BUNDLED_PCRE 1 CACHE INTERNAL "Whether the bundled PCRE library is used")
+  set(PCRE2_CODE_UNIT_WIDTH 8 CACHE INTERNAL "Number of bits in non-UTF mode for PCRE library")
 
   message(STATUS "Checking whether to enable PCRE JIT functionality")
 
   if(PCRE_JIT)
-    set(HAVE_PCRE_JIT_SUPPORT 1 CACHE STRING "Whether to enable the PCRE JIT support")
+    set(HAVE_PCRE_JIT_SUPPORT 1 CACHE INTERNAL "Whether to enable the PCRE JIT support")
 
     message(STATUS "PCRE JIT enabled")
 
     message(STATUS "Checking whether Intel CET is enabled")
-    include(CheckCSourceCompiles)
+
     check_c_source_compiles("
       #ifndef __CET__
       # error CET is not enabled
@@ -77,21 +131,26 @@ else()
         ;
         return 0;
       }
-      " HAVE_PCRE2_INTEL_CET
+      " have_pcre2_intel_cet
     )
 
-    if(HAVE_PCRE2_INTEL_CET)
+    if(have_pcre2_intel_cet)
       message(STATUS "Intel CET is enabled")
       target_compile_options(ext_pcre PRIVATE -mshstk)
     else()
       message(STATUS "Intel CET is disabled")
     endif()
+
+    unset(have_pcre2_intel_cet)
   else()
     message(STATUS "PCRE JIT disabled")
   endif()
 
-  # TODO: Add all headers of the bundled PCRE library.
-  set_target_properties(ext_pcre PROPERTIES PUBLIC_HEADER "php_pcre.h;pcre2lib/")
+  file(GLOB PCRE_HEADER_FILES "${CMAKE_CURRENT_SOURCE_DIR}/pcre2lib/*.h")
+  list(APPEND PCRE_HEADER_FILES "${CMAKE_CURRENT_SOURCE_DIR}/php_pcre.h")
+  set_target_properties(ext_pcre PROPERTIES PUBLIC_HEADER "${PCRE_HEADER_FILES}")
 
-  # TODO: ADD valgrind.
+  if(VALGRIND AND ZEND_DEBUG)
+    set(HAVE_PCRE_VALGRIND_SUPPORT 1 CACHE INTERNAL "Whether to enable the Valgrind support in PCRE")
+  endif()
 endif()

@@ -1,0 +1,36 @@
+name: Run cmakelint check
+
+on:
+  push:
+    branches: [ main ]
+    paths-ignore:
+      - 'autotools/**'
+      - 'docs/**'
+      - 'windows/**'
+      - 'README.md'
+      - '.editorconfig'
+      - '.gitignore'
+  pull_request:
+    branches: [ main ]
+    paths-ignore:
+      - 'autotools/**'
+      - 'docs/**'
+      - 'windows/**'
+      - 'README.md'
+      - '.editorconfig'
+      - '.gitignore'
+
+jobs:
+  check:
+    name: CMakeLint check
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Setup Python
+        uses: actions/setup-python@v4
+        run: pipx install cmakelint
+
+      - name: Run CMakeLint
+        run: ./scripts/cmakelint.sh

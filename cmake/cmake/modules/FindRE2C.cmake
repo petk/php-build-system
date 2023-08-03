@@ -18,7 +18,7 @@ CMake syntax, e.g. :command:`find_package(RE2C 0.15.3)`.
 
 If ``re2c`` is found, the module defines the macro::
 
-  RE2C_TARGET(NAME <name> INPUT <input> OUTPUT <output>
+  re2c_target(NAME <name> INPUT <input> OUTPUT <output>
               [OPTIONS <options>]
   )
 
@@ -38,29 +38,29 @@ math(EXPR RE2C_VERSION_MINOR "(${RE2C_VERSION_RAW} - ${RE2C_VERSION_MAJOR} * 100
 math(EXPR RE2C_VERSION_PATCH "${RE2C_VERSION_RAW} - ${RE2C_VERSION_MAJOR} * 10000 - ${RE2C_VERSION_MINOR} * 100")
 set(RE2C_VERSION "${RE2C_VERSION_MAJOR}.${RE2C_VERSION_MINOR}.${RE2C_VERSION_PATCH}")
 
-macro(RE2C_TARGET)
+macro(re2c_target)
   cmake_parse_arguments(PARSED_ARGS "" "NAME;INPUT;OUTPUT;OPTIONS" "DEPENDS" ${ARGN})
 
   if(NOT PARSED_ARGS_OUTPUT)
-    message(FATAL_ERROR "RE2C_TARGET expects an output filename")
+    message(FATAL_ERROR "re2c_target expects an output filename")
   endif()
 
   if(NOT PARSED_ARGS_INPUT)
-    message(FATAL_ERROR "RE2C_TARGET expects an input filename")
+    message(FATAL_ERROR "re2c_target expects an input filename")
   endif()
 
   if(NOT PARSED_ARGS_NAME)
-    message(FATAL_ERROR "RE2C_TARGET expects a target name")
+    message(FATAL_ERROR "re2c_target expects a target name")
   endif()
 
-  set(RE2C_TARGET_cmdopt "")
-  set(RE2C_TARGET_extraopts "${PARSED_ARGS_OPTIONS}")
-  separate_arguments(RE2C_TARGET_extraopts)
-  list(APPEND RE2C_TARGET_cmdopt ${RE2C_TARGET_extraopts})
+  set(re2c_target_cmdopt "")
+  set(re2c_target_extraopts "${PARSED_ARGS_OPTIONS}")
+  separate_arguments(re2c_target_extraopts)
+  list(APPEND re2c_target_cmdopt ${re2c_target_extraopts})
 
   add_custom_command(
     OUTPUT ${PARSED_ARGS_OUTPUT}
-    COMMAND ${RE2C_EXECUTABLE} ${RE2C_TARGET_cmdopt} -o ${PARSED_ARGS_OUTPUT} ${PARSED_ARGS_INPUT}
+    COMMAND ${RE2C_EXECUTABLE} ${re2c_target_cmdopt} -o ${PARSED_ARGS_OUTPUT} ${PARSED_ARGS_INPUT}
     DEPENDS ${PARSED_ARGS_INPUT} ${PARSED_ARGS_DEPENDS}
     COMMENT "[RE2C][${PARSED_ARGS_NAME}] Building lexer with re2c ${RE2C_VERSION}"
   )

@@ -649,6 +649,8 @@ List of configure command line options and their CMake alternatives:
 | `--disable-zts` (default)            | `-DZTS=OFF`             | `OFF`               |
 | `--enable-zts`                       | `-DZTS=ON`              |                     |
 | `--enable-zend-signals`              | `-Dzend_signals=ON`     | `ON`                |
+| `--disable-dtrace` (default)         | `-DDTRACE=OFF`          | `OFF`               |
+| `--enable-dtrace`                    | `-DDTRACE=ON`           |                     |
 | **PHP sapi modules**                 |                         |                     |
 | `--enable-cli` / `--disable-cli`     | `-Dcli`                 | `ON`                |
 | `--disable-cli`                      | `-Dcli=OFF`             |                     |
@@ -682,7 +684,10 @@ List of configure command line options and their CMake alternatives:
 | `--disable-opcache-jit`              | `-Dopcache_jit=OFF`     |                     |
 | `--without-capstone` (default)       | `-Dcapstone=OFF`        | `OFF`               |
 | `--with-capstone`                    | `-Dcapstone=ON`         |                     |
-| `--enable-pcre-jit`                  | `-DPCRE_JIT`            | `ON`                |
+| `--without-external-pcre` (default)  | `-DEXTERNAL_PCRE=OFF`   | `OFF`               |
+| `--with-external-pcre`               | `-DEXTERNAL_PCRE=ON`    |                     |
+| `--with-pcre-jit` (default)          | `-DPCRE_JIT=ON`         | `ON`                |
+| `--without-pcre-jit`                 | `-DPCRE_JIT=OFF`        |                     |
 | `--enable-posix`                     | `-Dposix=ON`            | `ON`                |
 | `--enable-posix=shared`              | `-Dposix=shared`        |                     |
 | `--disable-posix`                    | `-Dposix=OFF`           |                     |

@@ -31,11 +31,11 @@ if(opcache_jit)
 endif()
 
 if(opcache_jit)
-  set(HAVE_JIT 1 CACHE STRING "Define to enable JIT")
+  set(HAVE_JIT 1 CACHE INTERNAL "Define to enable JIT")
 
   string(TOLOWER "${PHP_UNAME}" host_os)
   if(${host_os} MATCHES "x86_64-.*-darwin.*")
-    set(DASM_FLAGS "-D X64APPLE=1 -D X64=1")
+    set(DASM_FLAGS -D X64APPLE=1 -D X64=1)
     set(DASM_ARCH "x86")
   elseif(${host_os} MATCHES "x86_64.*")
     set(DASM_FLAGS -D X64=1)
@@ -45,12 +45,12 @@ if(opcache_jit)
   elseif(${host_os} MATCHES "x86.*")
     set(DASM_ARCH "x86")
   elseif(${host_os} MATCHES "aarch64.*")
-    set(DASM_FLAGS "-D ARM64=1")
+    set(DASM_FLAGS -D ARM64=1)
     set(DASM_ARCH "arm64")
   endif()
 
   if(ZTS)
-    set(DASM_FLAGS "${DASM_FLAGS} -D ZTS=1")
+    list(APPEND DASM_FLAGS -D ZTS=1)
   endif()
 endif()
 
@@ -88,7 +88,7 @@ if(opcache_jit)
     OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/jit/zend_jit_${DASM_ARCH}.c
     COMMAND minilua ${CMAKE_CURRENT_BINARY_DIR}/jit/dynasm/dynasm.lua ${DASM_FLAGS} -o ${CMAKE_CURRENT_BINARY_DIR}/jit/zend_jit_${DASM_ARCH}.c ${CMAKE_CURRENT_SOURCE_DIR}/jit/zend_jit_${DASM_ARCH}.dasc
     DEPENDS minilua
-    COMMAND_EXPAND_LISTS
+    COMMENT "Generating ext/opcache/jit/zend_jit_${DASM_ARCH}.c"
   )
 
   add_custom_target(

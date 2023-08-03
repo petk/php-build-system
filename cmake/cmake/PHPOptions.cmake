@@ -8,6 +8,10 @@ option(RTLD_NOW "Whether to dlopen extensions with RTLD_NOW instead of RTLD_LAZY
 
 option(IPV6 "Whether to enable IPv6 support" ON)
 
+option(DTRACE "Whether to enable DTrace support" OFF)
+
+option(VALGRIND "Whether to enable the valgring support" OFF)
+
 if(DEBUG)
   set(ZEND_DEBUG 1)
 else()
