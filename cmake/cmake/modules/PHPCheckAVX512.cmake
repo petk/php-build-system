@@ -33,6 +33,6 @@ else()
   set(have_avx512_supports 0)
 endif()
 
-set(PHP_HAVE_AVX512_SUPPORTS ${have_avx512_supports} CACHE STRING "Whether the compiler supports AVX512")
+set(PHP_HAVE_AVX512_SUPPORTS ${have_avx512_supports} CACHE INTERNAL "Whether the compiler supports AVX512")
 
 unset(have_avx512_supports)

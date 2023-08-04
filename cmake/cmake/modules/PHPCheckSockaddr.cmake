@@ -23,10 +23,6 @@ check_c_source_compiles("
   }
 " HAVE_SOCKADDR_STORAGE)
 
-if(HAVE_SOCKADDR_STORAGE)
-  set(HAVE_SOCKADDR_STORAGE 1 CACHE STRING "Whether you have struct sockaddr_storage")
-endif()
-
 message(STATUS "Checking for field sa_len in struct sockaddr")
 
 check_c_source_compiles("
@@ -39,7 +35,3 @@ check_c_source_compiles("
     return n;
   }
 " HAVE_SOCKADDR_SA_LEN)
-
-if(HAVE_SOCKADDR_SA_LEN)
-  set(HAVE_SOCKADDR_SA_LEN 1 CACHE STRING "Whether struct sockaddr has field sa_len")
-endif()

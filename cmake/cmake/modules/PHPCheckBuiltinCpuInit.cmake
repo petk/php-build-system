@@ -22,4 +22,6 @@ else()
   set(have_builtin_cpu_init 0)
 endif()
 
-set(PHP_HAVE_BUILTIN_CPU_INIT ${have_builtin_cpu_init} CACHE STRING "Whether the compiler supports __builtin_cpu_init")
+set(PHP_HAVE_BUILTIN_CPU_INIT ${have_builtin_cpu_init} CACHE INTERNAL "Whether the compiler supports __builtin_cpu_init")
+
+unset(have_builtin_cpu_init)

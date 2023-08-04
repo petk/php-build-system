@@ -20,13 +20,6 @@ if(cli)
   }
   " HAVE_PS_STRINGS)
 
-  if(HAVE_PS_STRINGS)
-    message(STATUS "PS_STRINGS found")
-    set(HAVE_PS_STRINGS 1 CACHE STRING "Define to 1 if the PS_STRINGS thing exists.")
-  else()
-    message(STATUS "PS_STRINGS not present")
-  endif()
-
   add_executable(php
     php_cli.c
     php_http_parser.c

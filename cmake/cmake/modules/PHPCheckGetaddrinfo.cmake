@@ -20,9 +20,9 @@ check_c_source_compiles("
     struct addrinfo *g,h;g=&h;getaddrinfo(\"\",\"\",g,&g);
     return 0;
   }
-" HAVE_GETADDRINFO)
+" have_getaddrinfo)
 
-if(HAVE_GETADDRINFO AND NOT CMAKE_CROSSCOMPILING)
+if(have_getaddrinfo AND NOT CMAKE_CROSSCOMPILING)
   check_c_source_runs("
     #include <string.h>
     #include <netdb.h>
@@ -63,18 +63,20 @@ if(HAVE_GETADDRINFO AND NOT CMAKE_CROSSCOMPILING)
       freeaddrinfo(ai);
       return 0;
     }
-  " HAVE_GETADDRINFO)
+  " have_getaddrinfo)
 endif()
 
 if(CMAKE_CROSSCOMPILING)
   string(TOLOWER "${CMAKE_HOST_SYSTEM}" host_os)
-  if(${host_os} MATCHES "*.linux.*")
-    set(HAVE_GETADDRINFO ON)
+  if(${host_os} MATCHES ".*linux.*")
+    set(have_getaddrinfo ON)
   else()
-    set(HAVE_GETADDRINFO OFF)
+    set(have_getaddrinfo OFF)
   endif()
 endif()
 
-if(HAVE_GETADDRINFO)
-  set(HAVE_GETADDRINFO 1 CACHE STRING "Define if you have the getaddrinfo function")
+if(have_getaddrinfo)
+  set(HAVE_GETADDRINFO 1 CACHE INTERNAL "Define if you have the getaddrinfo function")
 endif()
+
+unset(have_getaddrinfo)

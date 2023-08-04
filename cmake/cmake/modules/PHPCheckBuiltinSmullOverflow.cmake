@@ -23,4 +23,6 @@ else()
   set(have_builtin_smull_overflow 0)
 endif()
 
-set(PHP_HAVE_BUILTIN_SMULL_OVERFLOW ${have_builtin_smull_overflow} CACHE STRING "Whether the compiler supports __builtin_smull_overflow")
+set(PHP_HAVE_BUILTIN_SMULL_OVERFLOW ${have_builtin_smull_overflow} CACHE INTERNAL "Whether the compiler supports __builtin_smull_overflow")
+
+unset(have_builtin_smull_overflow)

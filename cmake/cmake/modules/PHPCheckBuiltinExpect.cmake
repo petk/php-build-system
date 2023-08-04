@@ -22,4 +22,6 @@ else()
   set(have_builtin_expect 0)
 endif()
 
-set(PHP_HAVE_BUILTIN_EXPECT ${have_builtin_expect} CACHE STRING "Whether the compiler supports __builtin_expect")
+set(PHP_HAVE_BUILTIN_EXPECT ${have_builtin_expect} CACHE INTERNAL "Whether the compiler supports __builtin_expect")
+
+unset(have_builtin_expect)

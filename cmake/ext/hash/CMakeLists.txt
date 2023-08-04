@@ -64,7 +64,7 @@ if(CMAKE_C_BYTE_ORDER STREQUAL "LITTLE_ENDIAN")
     PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE=1
   )
 else()
-  set(HAVE_SLOW_HASH3 1 CACHE STRING "Define if hash3 algo is available")
+  set(HAVE_SLOW_HASH3 1 CACHE INTERNAL "Define if hash3 algo is available")
   message(WARNING "Using SHA3 slow implementation on bigendian")
 endif()
 

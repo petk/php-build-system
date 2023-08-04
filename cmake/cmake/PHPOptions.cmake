@@ -12,6 +12,11 @@ option(DTRACE "Whether to enable DTrace support" OFF)
 
 option(VALGRIND "Whether to enable the valgring support" OFF)
 
+# Zend options
+option(GCC_GLOBAL_REGS "Whether to enable GCC global register variables" ON)
+
+option(ZEND_SIGNALS "Whether to enable Zend signal handling" ON)
+
 if(DEBUG)
   set(ZEND_DEBUG 1)
 else()
@@ -29,5 +34,5 @@ if(ZTS)
 endif()
 
 if(RTLD_NOW)
-  set(PHP_USE_RTLD_NOW 1 CACHE BOOL "Use dlopen with RTLD_NOW instead of RTLD_LAZY")
+  set(PHP_USE_RTLD_NOW 1 CACHE INTERNAL "Use dlopen with RTLD_NOW instead of RTLD_LAZY")
 endif()

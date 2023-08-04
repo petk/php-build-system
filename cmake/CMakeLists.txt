@@ -56,7 +56,7 @@ include_directories("${CMAKE_CURRENT_SOURCE_DIR}/ext/reflection")
 include_directories("${CMAKE_CURRENT_SOURCE_DIR}/ext/spl")
 include_directories("${CMAKE_CURRENT_SOURCE_DIR}/ext/standard")
 
-set(PHP_OS "${CMAKE_SYSTEM_NAME}" CACHE STRING "uname output")
+set(PHP_OS "${CMAKE_SYSTEM_NAME}" CACHE INTERNAL "uname output")
 
 if(CMAKE_UNAME)
   execute_process(COMMAND ${CMAKE_UNAME} -a

@@ -26,16 +26,7 @@ function(ipv6)
 
       return 0;
     }
-  " IPV6_SUPPORT)
-
-  if(NOT IPV6_SUPPORT)
-    message(STATUS "IPv6 support not enabled")
-    return()
-  endif()
-
-  set(HAVE_IPV6 1 CACHE STRING "Whether to enable IPv6 support")
-
-  message(STATUS "IPv6 support enabled")
+  " HAVE_IPV6)
 endfunction()
 
 ipv6()

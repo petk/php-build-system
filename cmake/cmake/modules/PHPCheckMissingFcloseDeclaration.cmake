@@ -19,12 +19,15 @@ check_c_source_compiles("
     int (*func)() = fclose;
     return 0;
   }
-" COMPILATION_RESULT)
+" compilation_result)
 
-if(COMPILATION_RESULT)
-  message(STATUS "ok")
-  set(MISSING_FCLOSE_DECL 0 CACHE STRING "fclose declaration is ok")
+if(compilation_result)
+  set(missing 0)
 else()
-  message(STATUS "missing")
-  set(MISSING_FCLOSE_DECL 1 CACHE STRING "fclose declaration is missing")
+  set(missing 1)
 endif()
+
+set(MISSING_FCLOSE_DECL ${missing} CACHE INTERNAL "fclose declaration is ok")
+
+unset(compilation_result)
+unset(missing)

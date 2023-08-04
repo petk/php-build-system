@@ -22,4 +22,6 @@ else()
   set(have_builtin_ctzll 0)
 endif()
 
-set(PHP_HAVE_BUILTIN_CTZLL ${have_builtin_ctzll} CACHE STRING "Whether the compiler supports __builtin_ctzll")
+set(PHP_HAVE_BUILTIN_CTZLL ${have_builtin_ctzll} CACHE INTERNAL "Whether the compiler supports __builtin_ctzll")
+
+unset(have_builtin_ctzll)

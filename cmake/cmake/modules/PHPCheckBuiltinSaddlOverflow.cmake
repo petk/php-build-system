@@ -23,4 +23,6 @@ else()
   set(have_builtin_saddl_overflow 0)
 endif()
 
-set(PHP_HAVE_BUILTIN_SADDL_OVERFLOW ${have_builtin_saddl_overflow} CACHE STRING "Whether the compiler supports __builtin_saddl_overflow")
+set(PHP_HAVE_BUILTIN_SADDL_OVERFLOW ${have_builtin_saddl_overflow} CACHE INTERNAL "Whether the compiler supports __builtin_saddl_overflow")
+
+unset(have_builtin_saddl_overflow)

@@ -14,12 +14,6 @@ include(CheckCSourceCompiles)
 
 function(check_gcc_global_register_vars)
   message(STATUS "Checking for global register variables support")
-  option(GCC_GLOBAL_REGS "Whether to enable GCC global register variables" ON)
-
-  if(NOT GCC_GLOBAL_REGS)
-    message(STATUS "Global register variables disabled")
-    return()
-  endif()
 
   check_c_source_compiles("
     #if defined(__GNUC__)

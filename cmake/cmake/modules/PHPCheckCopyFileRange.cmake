@@ -12,9 +12,7 @@ include(CheckCSourceRuns)
 
 message(STATUS "Checking for copy_file_range")
 
-if(CMAKE_CROSSCOMPILING)
-  set(HAVE_COPY_FILE_RANGE OFF)
-else()
+if(NOT CMAKE_CROSSCOMPILING)
   check_c_source_runs("
     #ifdef __linux__
     #ifndef _GNU_SOURCE
@@ -35,8 +33,4 @@ else()
     #error \"unsupported platform\"
     #endif
   " HAVE_COPY_FILE_RANGE)
-endif()
-
-if(HAVE_COPY_FILE_RANGE)
-  set(HAVE_COPY_FILE_RANGE 1 CACHE STRING "Define if copy_file_range support")
 endif()

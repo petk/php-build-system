@@ -85,5 +85,7 @@ else()
 endif()
 
 if(cookie_io_functions_use_off64_t)
-  set(COOKIE_SEEKER_USES_OFF64_T 1 CACHE STRING "Whether newer fopencookie seeker definition is available")
+  set(COOKIE_SEEKER_USES_OFF64_T 1 CACHE INTERNAL "Whether newer fopencookie seeker definition is available")
 endif()
+
+unset(cookie_io_functions_use_off64_t)

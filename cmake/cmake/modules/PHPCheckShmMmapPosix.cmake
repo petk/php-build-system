@@ -10,6 +10,8 @@ The module defines the following variables if support is found:
   Required libraries that needs to be appended to the shared extension target.
 ]=============================================================================]#
 include(CheckCSourceRuns)
+include(CheckLibraryExists)
+include(CheckSymbolExists)
 include(CMakePushCheckState)
 
 message(STATUS "Checking for mmap() using shm_open() shared memory support")

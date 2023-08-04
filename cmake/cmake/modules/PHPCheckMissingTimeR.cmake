@@ -23,7 +23,7 @@ check_c_source_compiles("
 " have_localtime_r)
 
 if(NOT have_localtime_r)
-  set(MISSING_LOCALTIME_R_DECL 1 CACHE STRING "Whether localtime_r is declared")
+  set(MISSING_LOCALTIME_R_DECL 1 CACHE INTERNAL "Whether localtime_r is declared")
 endif()
 
 check_c_source_compiles("
@@ -36,7 +36,7 @@ check_c_source_compiles("
 " have_gm_time_r)
 
 if(NOT have_gm_time_r)
-  set(MISSING_GMTIME_R_DECL 1 CACHE STRING "Whether gmtime_r is declared")
+  set(MISSING_GMTIME_R_DECL 1 CACHE INTERNAL "Whether gmtime_r is declared")
 endif()
 
 check_c_source_compiles("
@@ -49,7 +49,7 @@ check_c_source_compiles("
 " have_asctime_r)
 
 if(NOT have_asctime_r)
-  set(MISSING_ASCTIME_R_DECL 1 CACHE STRING "Whether asctime_r is declared")
+  set(MISSING_ASCTIME_R_DECL 1 CACHE INTERNAL "Whether asctime_r is declared")
 endif()
 
 check_c_source_compiles("
@@ -62,7 +62,7 @@ check_c_source_compiles("
 " have_ctime_r)
 
 if(NOT have_ctime_r)
-  set(MISSING_CTIME_R_DECL 1 CACHE STRING "Whether ctime_r is declared")
+  set(MISSING_CTIME_R_DECL 1 CACHE INTERNAL "Whether ctime_r is declared")
 endif()
 
 check_c_source_compiles("
@@ -75,5 +75,5 @@ check_c_source_compiles("
 " have_strtok_r)
 
 if(NOT have_strtok_r)
-  set(MISSING_STRTOK_R_DECL 1 CACHE STRING "Whether strtok_r is declared")
+  set(MISSING_STRTOK_R_DECL 1 CACHE INTERNAL "Whether strtok_r is declared")
 endif()

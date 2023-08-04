@@ -108,7 +108,7 @@ else()
 endif()
 
 if(FIBER_ASM)
-  set(ZEND_FIBER_ASM 1 CACHE STRING "Enable Zend fiber ASM")
+  set(ZEND_FIBER_ASM 1 CACHE INTERNAL "Enable Zend fiber ASM")
 else()
   if(${fiber_os} STREQUAL "mac")
     set(_XOPEN_SOURCE 1)

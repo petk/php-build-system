@@ -22,4 +22,6 @@ else()
   set(have_builtin_clz 0)
 endif()
 
-set(PHP_HAVE_BUILTIN_CLZ ${have_builtin_clz} CACHE STRING "Whether the compiler supports __builtin_clz")
+set(PHP_HAVE_BUILTIN_CLZ ${have_builtin_clz} CACHE INTERNAL "Whether the compiler supports __builtin_clz")
+
+unset(have_builtin_clz)

@@ -24,11 +24,4 @@ else()
       return 0;
     }
   " HAVE_PROCCTL)
-
-  if(HAVE_PROCCTL)
-    set(HAVE_PROCCTL 1 CACHE STRING "do we have procctl?")
-    message(STATUS "yes")
-  else()
-    message(STATUS "no")
-  endif()
 endif()

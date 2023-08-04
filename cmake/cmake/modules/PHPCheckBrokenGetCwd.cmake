@@ -12,7 +12,7 @@ message(STATUS "Checking for broken getcwd")
 
 string(TOLOWER "${CMAKE_HOST_SYSTEM}" host_os)
 if(${host_os} MATCHES "SunOS.*")
-  set(HAVE_BROKEN_GETCWD 1 CACHE STRING "Define if system has broken getcwd")
+  set(HAVE_BROKEN_GETCWD 1 CACHE INTERNAL "Define if system has broken getcwd")
   message(STATUS "yes")
 else()
   message(STATUS "no")

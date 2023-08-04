@@ -37,7 +37,7 @@ target_compile_definitions(ext_date PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE=1)
 
 set_target_properties(ext_date PROPERTIES PUBLIC_HEADER "php_date.h;lib/timelib.h;lib/timelib_config.h")
 
-set(HAVE_TIMELIB_CONFIG_H 1 CACHE STRING "Have timelib_config.h")
+set(HAVE_TIMELIB_CONFIG_H 1 CACHE INTERNAL "Have timelib_config.h")
 
 message(STATUS "Creating ext/date/lib/timelib_config.h")
 file(WRITE "lib/timelib_config.h"

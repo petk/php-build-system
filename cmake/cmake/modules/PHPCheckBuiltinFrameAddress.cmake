@@ -22,4 +22,6 @@ else()
   set(have_builtin_frame_address 0)
 endif()
 
-set(PHP_HAVE_BUILTIN_FRAME_ADDRESS ${have_builtin_frame_address} CACHE STRING "Whether the compiler supports __builtin_frame_address")
+set(PHP_HAVE_BUILTIN_FRAME_ADDRESS ${have_builtin_frame_address} CACHE INTERNAL "Whether the compiler supports __builtin_frame_address")
+
+unset(have_builtin_frame_address)

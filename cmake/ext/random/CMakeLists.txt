@@ -19,7 +19,7 @@ if(HAVE_COMMONCRYPTO_COMMONRANDOM_H)
     }
   " COMMONCRYPTO_HEADERS_WORK)
   if(COMMONCRYPTO_HEADERS_WORK)
-    set(HAVE_COMMONCRYPTO_COMMONRANDOM_H 1 CACHE STRING "Define to 1 if you have the <CommonCrypto/CommonRandom.h> header file.")
+    set(HAVE_COMMONCRYPTO_COMMONRANDOM_H 1 CACHE INTERNAL "Define to 1 if you have the <CommonCrypto/CommonRandom.h> header file.")
   else()
     unset(HAVE_COMMONCRYPTO_COMMONRANDOM_H CACHE)
   endif()

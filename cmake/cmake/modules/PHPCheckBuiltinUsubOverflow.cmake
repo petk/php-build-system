@@ -23,4 +23,6 @@ else()
   set(have_builtin_usub_overflow 0)
 endif()
 
-set(PHP_HAVE_BUILTIN_USUB_OVERFLOW ${have_builtin_usub_overflow} CACHE STRING "Whether the compiler supports __builtin_usub_overflow")
+set(PHP_HAVE_BUILTIN_USUB_OVERFLOW ${have_builtin_usub_overflow} CACHE INTERNAL "Whether the compiler supports __builtin_usub_overflow")
+
+unset(have_builtin_usub_overflow)

@@ -35,5 +35,5 @@ set_target_properties(ext_json PROPERTIES PUBLIC_HEADER "php_json.h;php_json_par
 # Note that HAVE_JSON was never defined for Windows builds.
 # TODO: Remove this in the future PHP versions.
 if(NOT WIN32)
-  set(HAVE_JSON 1 CACHE STRING "Whether to enable JavaScript Object Serialization support")
+  set(HAVE_JSON 1 CACHE INTERNAL "Whether to enable JavaScript Object Serialization support")
 endif()

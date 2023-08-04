@@ -21,10 +21,3 @@ int main (void)
   return 0;
 }
 " HAVE_STRUCT_FLOCK)
-
-if(HAVE_STRUCT_FLOCK)
-  message(STATUS "yes")
-  set(HAVE_STRUCT_FLOCK 1 CACHE STRING "whether you have struct flock")
-else()
-  message(STATUS "no")
-endif()

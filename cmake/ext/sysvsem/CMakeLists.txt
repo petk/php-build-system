@@ -19,9 +19,9 @@ if(sysvsem)
   " HAVE_SEMUN)
 
   if(HAVE_SEMUN)
-    set(HAVE_SEMUN 1 CACHE STRING "Whether union semun is supported")
+    set(HAVE_SEMUN 1 CACHE INTERNAL "Whether union semun is supported")
   else()
-    set(HAVE_SEMUN 0 CACHE STRING "Whether union semun is supported")
+    set(HAVE_SEMUN 0 CACHE INTERNAL "Whether union semun is supported")
   endif()
 
   string(TOLOWER ${sysvsem} extension_lower)

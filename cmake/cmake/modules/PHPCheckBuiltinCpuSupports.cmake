@@ -22,4 +22,6 @@ else()
   set(have_builtin_cpu_supports 0)
 endif()
 
-set(PHP_HAVE_BUILTIN_CPU_SUPPORTS ${have_builtin_cpu_supports} CACHE STRING "Whether the compiler supports __builtin_cpu_supports")
+set(PHP_HAVE_BUILTIN_CPU_SUPPORTS ${have_builtin_cpu_supports} CACHE INTERNAL "Whether the compiler supports __builtin_cpu_supports")
+
+unset(have_builtin_cpu_supports)

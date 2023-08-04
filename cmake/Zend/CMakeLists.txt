@@ -1,3 +1,4 @@
+include(CheckCSourceCompiles)
 include(CheckIncludeFile)
 include(CheckSymbolExists)
 
@@ -5,7 +6,6 @@ message(STATUS "Building Zend Engine library")
 
 check_include_file(cpuid.h HAVE_CPUID_H)
 
-check_symbol_exists(__cpuid_count "cpuid.h" HAVE_CPUID_COUNT)
 check_symbol_exists(getpid "unistd.h" HAVE_GETPID)
 check_symbol_exists(kill "signal.h" HAVE_KILL)
 check_symbol_exists(sigsetjmp "setjmp.h" HAVE_SIGSETJMP)
@@ -17,14 +17,36 @@ check_symbol_exists(pthread_stackseg_np "pthread.h" HAVE_PTHREAD_STACKSEG_NP)
 check_symbol_exists(gettid "unistd.h" HAVE_GETTID)
 check_symbol_exists(mremap "sys/mman.h" HAVE_MREMAP)
 
-include(PHPCheckFloatPrecision)
+message(STATUS "Checking whether __cpuid_count is available")
+check_c_source_compiles("
+  #include <cpuid.h>
+  int main() {
+    unsigned eax, ebx, ecx, edx;
+    __cpuid_count(0, 0, eax, ebx, ecx, edx);
+
+    return 0;
+  }
+" HAVE_CPUID_COUNT)
+
+# Check if dlsym() needs underscore.
+include(PHPCheckDlsym)
+
+# Check MM alignment.
 include(PHPCheckMMAlignment)
 
 # Check for global register variables.
-include(PHPCheckGccGlobalRegisterVars)
+if(GCC_GLOBAL_REGS)
+  include(PHPCheckGccGlobalRegisterVars)
+endif()
 
+# Check if stack grows downward.
 include(PHPCheckStackLimit)
-include(CheckZendSignals)
+
+# Check float precision.
+include(PHPCheckFloatPrecision)
+
+# Check Zend signals.
+include(PHPCheckZendSignals)
 
 message(STATUS "Generating zend_ini_parser.c")
 bison_target(ZendIniParser zend_ini_parser.y ${CMAKE_CURRENT_BINARY_DIR}/zend_ini_parser.c
@@ -149,7 +171,7 @@ target_include_directories(
 target_compile_definitions(Zend PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE=1)
 
 # Check for fibers support.
-include(CheckFibers)
+include(PHPCheckFibers)
 
 if(FIBER_ASM)
   add_library(ZendAsm
