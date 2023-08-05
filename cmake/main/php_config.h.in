@@ -639,7 +639,7 @@
 #cmakedefine HAVE_FORK @HAVE_FORK@
 
 /* Define to 1 if you have the `forkx' function. */
-#cmakedefine HAVE_FORKX
+#cmakedefine HAVE_FORKX @HAVE_FORKX@
 
 /* do we have acl support? */
 #cmakedefine HAVE_FPM_ACL
@@ -762,7 +762,7 @@
 #cmakedefine HAVE_GETPID @HAVE_GETPID@
 
 /* Define to 1 if you have the `getpriority' function. */
-#cmakedefine HAVE_GETPRIORITY
+#cmakedefine HAVE_GETPRIORITY @HAVE_GETPRIORITY@
 
 /* Define to 1 if you have the `getprotobyname' function. */
 #cmakedefine HAVE_GETPROTOBYNAME @HAVE_GETPROTOBYNAME@
@@ -1336,7 +1336,7 @@
 #cmakedefine HAVE_RFC822_OUTPUT_ADDRESS_LIST @HAVE_RFC822_OUTPUT_ADDRESS_LIST@
 
 /* Define to 1 if you have the `rfork' function. */
-#cmakedefine HAVE_RFORK
+#cmakedefine HAVE_RFORK @HAVE_RFORK@
 
 /* */
 #cmakedefine HAVE_RL_CALLBACK_READ_CHAR
@@ -1384,7 +1384,7 @@
 #cmakedefine HAVE_SETPFLAGS
 
 /* Define to 1 if you have the `setpriority' function. */
-#cmakedefine HAVE_SETPRIORITY
+#cmakedefine HAVE_SETPRIORITY @HAVE_SETPRIORITY@
 
 /* Define to 1 if you have the `setproctitle' function. */
 #cmakedefine HAVE_SETPROCTITLE @HAVE_SETPROCTITLE@
@@ -1435,10 +1435,10 @@
 #cmakedefine HAVE_SIGSETJMP @HAVE_SIGSETJMP@
 
 /* Define to 1 if you have the `sigtimedwait' function. */
-#cmakedefine HAVE_SIGTIMEDWAIT
+#cmakedefine HAVE_SIGTIMEDWAIT @HAVE_SIGTIMEDWAIT@
 
 /* Define to 1 if you have the `sigwaitinfo' function. */
-#cmakedefine HAVE_SIGWAITINFO
+#cmakedefine HAVE_SIGWAITINFO @HAVE_SIGWAITINFO@
 
 /* */
 #cmakedefine HAVE_SIMPLEXML
@@ -1783,7 +1783,7 @@
 #cmakedefine HAVE_UNSETENV @HAVE_UNSETENV@
 
 /* Define to 1 if you have the `unshare' function. */
-#cmakedefine HAVE_UNSHARE
+#cmakedefine HAVE_UNSHARE @HAVE_UNSHARE@
 
 /* */
 #cmakedefine HAVE_UODBC
@@ -1814,13 +1814,13 @@
 #cmakedefine HAVE_VASPRINTF @HAVE_VASPRINTF@
 
 /* Define to 1 if you have the `wait3' function. */
-#cmakedefine HAVE_WAIT3
+#cmakedefine HAVE_WAIT3 @HAVE_WAIT3@
 
 /* Define to 1 if you have the `wait4' function. */
-#cmakedefine HAVE_WAIT4
+#cmakedefine HAVE_WAIT4 @HAVE_WAIT4@
 
 /* Define to 1 if you have the `waitpid' function. */
-#cmakedefine HAVE_WAITPID
+#cmakedefine HAVE_WAITPID @HAVE_WAITPID@
 
 /* Define to 1 if you have the <wchar.h> header file. */
 #cmakedefine HAVE_WCHAR_H

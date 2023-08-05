@@ -690,6 +690,9 @@ List of configure command line options and their CMake alternatives:
 | `--disable-opcache-jit`                         | `-Dopcache_jit=OFF`               |                     |
 | `--without-capstone` (default)                  | `-Dcapstone=OFF`                  | `OFF`               |
 | `--with-capstone`                               | `-Dcapstone=ON`                   |                     |
+| `--disable-pcntl` (default)                     | `-Dpcntl=OFF`                     | `OFF`               |
+| `--enable-pcntl`                                | `-Dpcntl=ON`                      |                     |
+| `--enable-pcntl=shared`                         | `-Dpcntl=shared`                  |                     |
 | `--without-external-pcre` (default)             | `-DEXTERNAL_PCRE=OFF`             | `OFF`               |
 | `--with-external-pcre`                          | `-DEXTERNAL_PCRE=ON`              |                     |
 | `--with-pcre-jit` (default)                     | `-DPCRE_JIT=ON`                   | `ON`                |
