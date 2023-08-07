@@ -273,7 +273,9 @@ check_symbol_exists(asprintf "stdio.h" HAVE_ASPRINTF)
 check_symbol_exists(nanosleep "time.h" HAVE_NANOSLEEP)
 check_symbol_exists(memmem "string.h" HAVE_MEMMEM)
 check_symbol_exists(memrchr "string.h" HAVE_MEMRCHR)
-check_symbol_exists(strerror_r "string.h" HAVE_STRERROR_R)
+
+# Check for strerror_r, and if its a POSIX-compatible or a GNU specific version.
+include(PHPCheckStrerrorR)
 
 # Check getaddrinfo().
 include(PHPCheckGetaddrinfo)
