@@ -12,6 +12,7 @@ The module sets the following variables:
 
 include(CheckCSourceCompiles)
 include(CheckSymbolExists)
+include(CMakePushCheckState)
 
 check_symbol_exists(strerror_r "string.h" HAVE_STRERROR_R)
 
@@ -19,13 +20,16 @@ if(NOT HAVE_STRERROR_R)
   return()
 endif()
 
-check_c_source_compiles("
-  #include <string.h>
+cmake_push_check_state()
+  set(CMAKE_REQUIRED_DEFINITIONS "${CMAKE_REQUIRED_DEFINITIONS} -D_GNU_SOURCE")
+  check_c_source_compiles("
+    #include <string.h>
 
-  int main() {
-    char buf[100];
-    char x = *strerror_r (0, buf, sizeof buf);
-    char *p = strerror_r (0, buf, sizeof buf);
-    return !p || x;
-  }
-" STRERROR_R_CHAR_P)
+    int main() {
+      char buf[100];
+      char x = *strerror_r (0, buf, sizeof buf);
+      char *p = strerror_r (0, buf, sizeof buf);
+      return !p || x;
+    }
+  " STRERROR_R_CHAR_P)
+cmake_pop_check_state()
