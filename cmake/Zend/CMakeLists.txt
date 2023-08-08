@@ -31,6 +31,9 @@ check_c_source_compiles("
 # Check if dlsym() needs underscore.
 include(PHPCheckDlsym)
 
+# Check which inline keyword compiler supports.
+include(PHPCheckInline)
+
 # Check MM alignment.
 include(PHPCheckMMAlignment)
 
