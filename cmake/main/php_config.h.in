@@ -16,10 +16,10 @@
 
 
 /* Uses cmsgcred struct */
-#cmakedefine ANC_CREDS_CMSGCRED
+#cmakedefine ANC_CREDS_CMSGCRED @ANC_CREDS_CMSGCRED@
 
 /* Uses ucred struct */
-#cmakedefine ANC_CREDS_UCRED
+#cmakedefine ANC_CREDS_UCRED @ANC_CREDS_UCRED@
 
 /* */
 #cmakedefine CDB_INCLUDE_FILE
@@ -349,13 +349,13 @@
 #cmakedefine HAVE_ADABAS
 
 /* Whether you have AI_ALL */
-#cmakedefine HAVE_AI_ALL
+#cmakedefine HAVE_AI_ALL @HAVE_AI_ALL@
 
 /* Whether you have AI_IDN */
-#cmakedefine HAVE_AI_IDN
+#cmakedefine HAVE_AI_IDN @HAVE_AI_IDN@
 
 /* Whether you have AI_V4MAPPED */
-#cmakedefine HAVE_AI_V4MAPPED
+#cmakedefine HAVE_AI_V4MAPPED @HAVE_AI_V4MAPPED@
 
 /* whether the compiler supports __alignof__ */
 #cmakedefine HAVE_ALIGNOF @HAVE_ALIGNOF@
@@ -819,7 +819,7 @@
 #cmakedefine HAVE_HISTORY_LIST
 
 /* Define to 1 if you have the `hstrerror' function. */
-#cmakedefine HAVE_HSTRERROR
+#cmakedefine HAVE_HSTRERROR @HAVE_HSTRERROR@
 
 /* */
 #cmakedefine HAVE_HTONL
@@ -840,10 +840,10 @@
 #cmakedefine HAVE_IEEEFP_H @HAVE_IEEEFP_H@
 
 /* Define to 1 if you have the `if_indextoname' function. */
-#cmakedefine HAVE_IF_INDEXTONAME
+#cmakedefine HAVE_IF_INDEXTONAME @HAVE_IF_INDEXTONAME@
 
 /* Define to 1 if you have the `if_nametoindex' function. */
-#cmakedefine HAVE_IF_NAMETOINDEX
+#cmakedefine HAVE_IF_NAMETOINDEX @HAVE_IF_NAMETOINDEX@
 
 /* */
 #cmakedefine HAVE_IMAP @HAVE_IMAP@
@@ -1140,7 +1140,7 @@
 #cmakedefine HAVE_NETINET_IN_H @HAVE_NETINET_IN_H@
 
 /* Define to 1 if you have the <netinet/tcp.h> header file. */
-#cmakedefine HAVE_NETINET_TCP_H
+#cmakedefine HAVE_NETINET_TCP_H @HAVE_NETINET_TCP_H@
 
 /* Define to 1 if you have the <net/if.h> header file. */
 #cmakedefine HAVE_NET_IF_H @HAVE_NET_IF_H@
@@ -1351,7 +1351,7 @@
 #cmakedefine HAVE_SAPDB
 
 /* Whether you have sockaddr_storage.ss_family */
-#cmakedefine HAVE_SA_SS_FAMILY
+#cmakedefine HAVE_SA_SS_FAMILY @HAVE_SA_SS_FAMILY@
 
 /* Define to 1 if you have the `scandir' function. */
 #cmakedefine HAVE_SCANDIR @HAVE_SCANDIR@
@@ -1468,7 +1468,7 @@
 #cmakedefine HAVE_SOCKADDR_UN_SUN_LEN
 
 /* Define to 1 if you have the `sockatmark' function. */
-#cmakedefine HAVE_SOCKATMARK
+#cmakedefine HAVE_SOCKATMARK @HAVE_SOCKATMARK@
 
 /* */
 #cmakedefine HAVE_SOCKET
@@ -1477,7 +1477,7 @@
 #cmakedefine HAVE_SOCKETPAIR
 
 /* */
-#cmakedefine HAVE_SOCKETS
+#cmakedefine HAVE_SOCKETS @HAVE_SOCKETS@
 
 /* Define to 1 if the system has the type `socklen_t'. */
 #cmakedefine HAVE_SOCKLEN_T
@@ -1685,7 +1685,7 @@
 #cmakedefine HAVE_SYS_SOCKET_H @HAVE_SYS_SOCKET_H@
 
 /* Define to 1 if you have the <sys/sockio.h> header file. */
-#cmakedefine HAVE_SYS_SOCKIO_H
+#cmakedefine HAVE_SYS_SOCKIO_H @HAVE_SYS_SOCKIO_H@
 
 /* Define to 1 if you have the <sys/statfs.h> header file. */
 #cmakedefine HAVE_SYS_STATFS_H @HAVE_SYS_STATFS_H@
@@ -1712,7 +1712,7 @@
 #cmakedefine HAVE_SYS_UIO_H @HAVE_SYS_UIO_H@
 
 /* Define to 1 if you have the <sys/un.h> header file. */
-#cmakedefine HAVE_SYS_UN_H
+#cmakedefine HAVE_SYS_UN_H @HAVE_SYS_UN_H@
 
 /* Define to 1 if you have the <sys/utsname.h> header file. */
 #cmakedefine HAVE_SYS_UTSNAME_H @HAVE_SYS_UTSNAME_H@

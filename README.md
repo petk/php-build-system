@@ -708,6 +708,9 @@ List of configure command line options and their CMake alternatives:
 | `--disable-shmop` (default)                     | `-Dshmop=OFF`                     | `OFF`               |
 | `--enable-shmop`                                | `-Dshmop=ON`                      |                     |
 | `--enable-shmop=shared`                         | `-Dshmop=shared`                  |                     |
+| `--disable-sockets` (default)                   | `-Dsockets=OFF`                   | `OFF`               |
+| `--enable-sockets`                              | `-Dsockets=ON`                    |                     |
+| `--enable-sockets=shared`                       | `-Dsockets=shared`                |                     |
 | `--disable-sysvmsg` (default)                   | `-Dsysvmsg=OFF`                   | `OFF`               |
 | `--enable-sysvmsg`                              | `-Dsysvmsg=ON`                    |                     |
 | `--enable-sysvmsg=shared`                       | `-Dsysvmsg=shared`                |                     |
