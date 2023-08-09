@@ -3,12 +3,18 @@ include(CheckCSourceRuns)
 option(fileinfo "Whether to enable the fileinfo extension" ON)
 
 if(fileinfo)
-  php_extension(NAME fileinfo)
-
   check_symbol_exists(utimes "sys/time.h" HAVE_UTIMES)
   check_symbol_exists(strndup "string.h" HAVE_STRNDUP)
 
-  add_library(ext_fileinfo
+  string(TOLOWER ${fileinfo} extension_lower)
+  set(extension_library_type "STATIC")
+  if(extension_lower STREQUAL "shared")
+    set(extension_library_type "SHARED")
+  endif()
+
+  php_extension(NAME fileinfo ${extension_library_type})
+
+  add_library(ext_fileinfo ${extension_library_type}
     fileinfo.c
     php_libmagic.c
     libmagic/apprentice.c
@@ -33,32 +39,34 @@ if(fileinfo)
 
   message(STATUS "Checking for strcasestr")
 
-  check_c_source_runs("
-    #include <string.h>
-    #include <strings.h>
-    #include <stdlib.h>
+  if(NOT CMAKE_CROSSCOMPILING)
+    check_c_source_runs("
+      #include <string.h>
+      #include <strings.h>
+      #include <stdlib.h>
 
-    int main(void)
-    {
-      char *s0, *s1, *ret;
+      int main(void)
+      {
+        char *s0, *s1, *ret;
 
-      s0 = (char *) malloc(42);
-      s1 = (char *) malloc(8);
+        s0 = (char *) malloc(42);
+        s1 = (char *) malloc(8);
 
-      memset(s0, 'X', 42);
-      s0[24] = 'Y';
-      s0[26] = 'Z';
-      s0[41] = '\\\\0';
-      memset(s1, 'x', 8);
-      s1[0] = 'y';
-      s1[2] = 'Z';
-      s1[7] = '\\\\0';
+        memset(s0, 'X', 42);
+        s0[24] = 'Y';
+        s0[26] = 'Z';
+        s0[41] = '\\\\0';
+        memset(s1, 'x', 8);
+        s1[0] = 'y';
+        s1[2] = 'Z';
+        s1[7] = '\\\\0';
 
-      ret = strcasestr(s0, s1);
+        ret = strcasestr(s0, s1);
 
-      return !(NULL != ret);
-    }
-  " successful)
+        return !(NULL != ret);
+      }
+    " successful)
+  endif()
 
   if(successful)
     message(STATUS "using the platform implementation of strcasestr")
