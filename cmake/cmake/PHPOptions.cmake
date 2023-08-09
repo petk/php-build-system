@@ -1,3 +1,5 @@
+option(RE2C_CGOTO "Whether to enable computed goto gcc extension with re2c" OFF)
+
 option(DEBUG "Whether to include debugging symbols" OFF)
 
 option(DEBUG_ASSERTIONS "Whether to enable debug assertions in release mode" OFF)

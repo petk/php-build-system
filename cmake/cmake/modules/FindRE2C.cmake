@@ -24,6 +24,8 @@ If ``re2c`` is found, the module defines the macro::
 
 #]=============================================================================]
 
+include(CheckCSourceCompiles)
+
 find_program(RE2C_EXECUTABLE re2c DOC "path to the re2c executable")
 mark_as_advanced(RE2C_EXECUTABLE)
 
@@ -37,6 +39,27 @@ math(EXPR RE2C_VERSION_MAJOR "${RE2C_VERSION_RAW} / 10000")
 math(EXPR RE2C_VERSION_MINOR "(${RE2C_VERSION_RAW} - ${RE2C_VERSION_MAJOR} * 10000) / 100")
 math(EXPR RE2C_VERSION_PATCH "${RE2C_VERSION_RAW} - ${RE2C_VERSION_MAJOR} * 10000 - ${RE2C_VERSION_MINOR} * 100")
 set(RE2C_VERSION "${RE2C_VERSION_MAJOR}.${RE2C_VERSION_MINOR}.${RE2C_VERSION_PATCH}")
+
+# Check for re2c -g flag.
+if(RE2C_CGOTO)
+  message(STATUS "Checking whether re2c -g works")
+  check_c_source_compiles("
+    int main(int argc, const char **argv) {
+      argc = argc;
+      argv = argv;
+    label1:
+    label2:
+      static void *adr[] = { &&label1, &&label2};
+      goto *adr[0];
+      return 0;
+    }
+  " HAVE_RE2C_CGOTO)
+
+  if(HAVE_RE2C_CGOTO)
+    message(STATUS "Adding flag -g to re2c for using computed goto gcc extension")
+    set(RE2C_FLAGS "-g" CACHE INTERNAL "Whether to use computed goto gcc extension with re2c")
+  endif()
+endif()
 
 macro(re2c_target)
   cmake_parse_arguments(PARSED_ARGS "" "NAME;INPUT;OUTPUT;OPTIONS" "DEPENDS" ${ARGN})
@@ -57,6 +80,7 @@ macro(re2c_target)
   set(re2c_target_extraopts "${PARSED_ARGS_OPTIONS}")
   separate_arguments(re2c_target_extraopts)
   list(APPEND re2c_target_cmdopt ${re2c_target_extraopts})
+  list(APPEND re2c_target_cmdopt ${RE2C_FLAGS})
 
   add_custom_command(
     OUTPUT ${PARSED_ARGS_OUTPUT}
