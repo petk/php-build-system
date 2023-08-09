@@ -2051,7 +2051,7 @@
 #cmakedefine PHP_PWRITE_64
 
 /* */
-#cmakedefine PHP_SIGCHILD
+#cmakedefine01 PHP_SIGCHILD
 
 /* uname -a output */
 #cmakedefine PHP_UNAME "@PHP_UNAME@"

@@ -637,6 +637,10 @@ List of configure command line options and their CMake alternatives:
 
 | configure                                       | CMake                             | Default value/notes |
 | ----------------------------------------------- | --------------------------------- | ------------------  |
+| `--disable-debug-assertions` (default)          | `-DDEBUG_ASSERTIONS=OFF`          | `OFF`               |
+| `--enable-debug-assertions`                     | `-DDEBUG_ASSERTIONS=ON`           |                     |
+| `--disable-sigchild` (default)                  | `-DSIGCHILD=OFF`                  | `OFF`               |
+| `--enable-sigchild`                             | `-DSIGCHILD=ON`                   |                     |
 | `--enable-gcc-global-regs` (default)            | `-DGCC_GLOBAL_REGS=ON`            | `ON`                |
 | `--disable-gcc-global-regs`                     | `-DGCC_GLOBAL_REGS=OFF`           |                     |
 | `--disable-debug` (default)                     | `-DDEBUG=OFF`                     | `OFF`               |
