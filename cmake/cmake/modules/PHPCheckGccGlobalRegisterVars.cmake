@@ -54,9 +54,8 @@ function(check_gcc_global_register_vars)
       FP = orig_fp;
       IP = orig_ip;
     }
-    int main()
-    {
-      ;
+
+    int main(void) {
       return 0;
     }
   " HAVE_GCC_GLOBAL_REGS)

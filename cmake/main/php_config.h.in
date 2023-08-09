@@ -256,7 +256,7 @@
 #cmakedefine C_ALLOCA
 
 /* Define if the target system is darwin */
-#cmakedefine DARWIN
+#cmakedefine DARWIN @DARWIN@
 
 /* */
 #cmakedefine DB1_INCLUDE_FILE
@@ -328,7 +328,7 @@
 #define DEFAULT_SHORT_OPEN_TAG "@DEFAULT_SHORT_OPEN_TAG@"
 
 /* Define if dlsym() requires a leading underscore in symbol names. */
-#cmakedefine DLSYM_NEEDS_UNDERSCORE
+#cmakedefine DLSYM_NEEDS_UNDERSCORE @DLSYM_NEEDS_UNDERSCORE@
 
 /* Whether to enable chroot() function */
 #cmakedefine ENABLE_CHROOT_FUNC
@@ -526,9 +526,6 @@
 
 /* */
 #cmakedefine HAVE_DLOPEN
-
-/* */
-#cmakedefine HAVE_DLSYM
 
 /* Whether you have dmalloc */
 #cmakedefine HAVE_DMALLOC
@@ -1745,7 +1742,7 @@
 #cmakedefine HAVE_TIMELIB_CONFIG_H @HAVE_TIMELIB_CONFIG_H@
 
 /* */
-#cmakedefine HAVE_TIMER_CREATE
+#cmakedefine HAVE_TIMER_CREATE @HAVE_TIMER_CREATE@
 
 /* do we have times? */
 #cmakedefine HAVE_TIMES
@@ -2251,7 +2248,7 @@
 #cmakedefine ZEND_FIBER_UCONTEXT @ZEND_FIBER_UCONTEXT@
 
 /* Use zend max execution timers */
-#cmakedefine ZEND_MAX_EXECUTION_TIMERS
+#cmakedefine ZEND_MAX_EXECUTION_TIMERS @ZEND_MAX_EXECUTION_TIMERS@
 
 /* */
 #cmakedefine ZEND_MM_ALIGNMENT @ZEND_MM_ALIGNMENT@

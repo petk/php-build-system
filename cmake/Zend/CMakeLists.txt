@@ -1,6 +1,8 @@
+include(CheckCCompilerFlag)
 include(CheckCSourceCompiles)
 include(CheckIncludeFile)
 include(CheckSymbolExists)
+include(CMakePushCheckState)
 
 message(STATUS "Building Zend Engine library")
 
@@ -9,7 +11,10 @@ check_include_file(cpuid.h HAVE_CPUID_H)
 check_symbol_exists(getpid "unistd.h" HAVE_GETPID)
 check_symbol_exists(kill "signal.h" HAVE_KILL)
 check_symbol_exists(sigsetjmp "setjmp.h" HAVE_SIGSETJMP)
-check_symbol_exists(pthread_getattr_np "pthread.h" HAVE_PTHREAD_GETATTR_NP)
+cmake_push_check_state()
+  set(CMAKE_REQUIRED_DEFINITIONS "${CMAKE_REQUIRED_DEFINITIONS} -D_GNU_SOURCE")
+  check_symbol_exists(pthread_getattr_np "pthread.h" HAVE_PTHREAD_GETATTR_NP)
+cmake_pop_check_state()
 check_symbol_exists(pthread_attr_get_np "pthread.h" HAVE_PTHREAD_ATTR_GET_NP)
 check_symbol_exists(pthread_get_stackaddr_np "pthread.h" HAVE_PTHREAD_GET_STACKADDR_NP)
 check_symbol_exists(pthread_attr_getstack "pthread.h" HAVE_PTHREAD_ATTR_GETSTACK)
@@ -34,6 +39,15 @@ include(PHPCheckDlsym)
 # Check which inline keyword compiler supports.
 include(PHPCheckInline)
 
+message(STATUS "Checking if target system is Darwin")
+string(TOLOWER "${CMAKE_HOST_SYSTEM_NAME}" host_os)
+if(${host_os} MATCHES ".*darwin.*")
+  message(STATUS "yes")
+  set(DARWIN 1 CACHE INTERNAL "Define if the target system is darwin")
+else()
+  message(STATUS "no")
+endif()
+
 # Check MM alignment.
 include(PHPCheckMMAlignment)
 
@@ -50,6 +64,9 @@ include(PHPCheckFloatPrecision)
 
 # Check Zend signals.
 include(PHPCheckZendSignals)
+
+# Check Zend max execution timers.
+include(PHPCheckZendMaxExecutionTimers)
 
 message(STATUS "Generating zend_ini_parser.c")
 bison_target(ZendIniParser zend_ini_parser.y ${CMAKE_CURRENT_BINARY_DIR}/zend_ini_parser.c
@@ -167,7 +184,7 @@ add_library(Zend
 
 target_include_directories(
   Zend
-  INTERFACE ${CMAKE_CURRENT_SOURCE_DIR}
+  INTERFACE "${CMAKE_CURRENT_SOURCE_DIR}"
   PUBLIC "${CMAKE_SOURCE_DIR}"
 )
 
@@ -189,4 +206,71 @@ if(FIBER_ASM)
   endif()
 
   target_link_libraries(Zend PUBLIC ZendAsm)
+endif()
+
+if(CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
+  target_compile_options(Zend BEFORE PRIVATE -Wall -Wextra -Wno-unused-parameter -Wno-sign-compare)
+endif()
+
+# Check if compiler supports -Wno-clobbered (only GCC).
+check_c_compiler_flag(-Wno-clobbered HAVE_WNO_CLOBBERED)
+if(HAVE_WNO_CLOBBERED)
+  target_compile_options(Zend BEFORE PRIVATE -Wno-clobbered)
+  unset(HAVE_WNO_CLOBBERED)
+endif()
+
+# Check for support for implicit fallthrough level 1, also add after previous
+# CFLAGS as level 3 is enabled in -Wextra.
+check_c_compiler_flag(-Wimplicit-fallthrough=1 HAVE_WIMPLICIT_FALLTHROUGH)
+if(HAVE_WIMPLICIT_FALLTHROUGH)
+  target_compile_options(Zend PRIVATE -Wimplicit-fallthrough=1)
+  unset(HAVE_WIMPLICIT_FALLTHROUGH)
+endif()
+
+check_c_compiler_flag(-Wduplicated-cond HAVE_WDUPLICATED_COND)
+if(HAVE_WDUPLICATED_COND)
+  target_compile_options(Zend BEFORE PRIVATE -Wduplicated-cond)
+  unset(HAVE_WDUPLICATED_COND)
+endif()
+
+check_c_compiler_flag(-Wlogical-op HAVE_WLOGICAL_OP)
+if(HAVE_WLOGICAL_OP)
+  target_compile_options(Zend BEFORE PRIVATE -Wlogical-op)
+  unset(HAVE_WLOGICAL_OP)
+endif()
+
+check_c_compiler_flag(-Wformat-truncation HAVE_WFORMAT_TRUNCATION)
+if(HAVE_WFORMAT_TRUNCATION)
+  target_compile_options(Zend BEFORE PRIVATE -Wformat-truncation)
+  unset(HAVE_WFORMAT_TRUNCATION)
+endif()
+
+check_c_compiler_flag(-Wstrict-prototypes HAVE_WSTRICT_PROTOTYPES)
+if(HAVE_WSTRICT_PROTOTYPES)
+  target_compile_options(Zend BEFORE PRIVATE -Wstrict-prototypes)
+  unset(HAVE_WSTRICT_PROTOTYPES)
+endif()
+
+check_c_compiler_flag(-fno-common HAVE_FNO_COMMON)
+if(HAVE_FNO_COMMON)
+  target_compile_options(Zend BEFORE PRIVATE -fno-common)
+  unset(HAVE_FNO_COMMON)
+endif()
+
+if(ZEND_DEBUG)
+  target_compile_options(Zend PRIVATE -g)
+endif()
+
+# TODO: zend_config.h (or its parent php_config.h) isn't included in some zend_*
+# files, therefore we need to add compilation definitions also like this here.
+if(ZTS)
+  target_compile_definitions(Zend PRIVATE ZTS)
+endif()
+
+if(ZEND_SIGNALS)
+  target_compile_definitions(Zend PRIVATE ZEND_SIGNALS)
+endif()
+
+if(ZEND_MAX_EXECUTION_TIMERS)
+  target_compile_definitions(Zend PRIVATE ZEND_MAX_EXECUTION_TIMERS)
 endif()

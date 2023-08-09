@@ -17,6 +17,8 @@ option(GCC_GLOBAL_REGS "Whether to enable GCC global register variables" ON)
 
 option(ZEND_SIGNALS "Whether to enable Zend signal handling" ON)
 
+option(ZEND_MAX_EXECUTION_TIMERS "Whether to enable Zend max execution timers" ${ZTS})
+
 if(DEBUG)
   set(ZEND_DEBUG 1)
 else()
