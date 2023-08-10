@@ -151,11 +151,11 @@ endif()
 option(PASSWORD_ARGON2 "Whether to include the Argon2 support in password_*" OFF)
 
 if(PASSWORD_ARGON2)
-  php_find_package(NAME libargon2)
+  php_find_package(NAME libargon2 VERSION 20171227)
 
   if(libargon2_FOUND)
     set(HAVE_ARGON2LIB 1 CACHE INTERNAL "Whether to use the libargon2")
-    target_link_libraries(ext_standard ${libargon2_LIBRARIES})
+    target_link_libraries(ext_standard PUBLIC ${libargon2_LIBRARIES})
     target_compile_options(ext_opcache PRIVATE ${libargon2_CFLAGS})
   endif()
 endif()

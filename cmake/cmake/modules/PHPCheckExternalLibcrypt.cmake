@@ -3,6 +3,7 @@ Checks if PHP can use external libcrypt.
 ]=============================================================================]#
 
 include(CheckCSourceRuns)
+include(CMakePushCheckState)
 
 function(php_check_external_libcrypt)
   set(EXTRA_DEFINITIONS "")
