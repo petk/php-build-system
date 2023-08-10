@@ -83,6 +83,7 @@ done
 
 if test "${debug}" = "1"; then
   cmake_debug_options="--debug-trycompile"
+  cmake_verbose="--verbose"
 fi
 
 # Run cmake configuration and build.
@@ -90,7 +91,7 @@ if test "$cmake" = "1"; then
   cd php-src
   if test "$generator" = "UnixMakefiles"; then
     cmake .  ${cmake_debug_options} ${options}
-    cmake --build . --verbose -- --jobs $(nproc)
+    cmake --build . $cmake_verbose -- --jobs $(nproc)
   elif test "$generator" = "Ninja"; then
     cmake . ${cmake_debug_options} ${options} -G Ninja
     ninja -j $(nproc)
