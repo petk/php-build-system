@@ -11,7 +11,7 @@ Module sets the following variables:
 message(STATUS "Checking for broken getcwd")
 
 string(TOLOWER "${CMAKE_HOST_SYSTEM}" host_os)
-if(${host_os} MATCHES "SunOS.*")
+if(${host_os} MATCHES "sunos.*")
   set(HAVE_BROKEN_GETCWD 1 CACHE INTERNAL "Define if system has broken getcwd")
   message(STATUS "yes")
 else()
