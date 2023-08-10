@@ -373,7 +373,7 @@
 #cmakedefine HAVE_APPARMOR
 
 /* */
-#cmakedefine HAVE_ARGON2LIB
+#cmakedefine HAVE_ARGON2LIB @HAVE_ARGON2LIB@
 
 /* Define to 1 if you have the <arpa/inet.h> header file. */
 #cmakedefine HAVE_ARPA_INET_H @HAVE_ARPA_INET_H@
@@ -627,7 +627,7 @@
 #cmakedefine HAVE_FLUSHIO @HAVE_FLUSHIO@
 
 /* Define to 1 if your system has a working POSIX `fnmatch' function. */
-#cmakedefine HAVE_FNMATCH
+#cmakedefine HAVE_FNMATCH @HAVE_FNMATCH@
 
 /* */
 #cmakedefine HAVE_FOPENCOOKIE @HAVE_FOPENCOOKIE@
@@ -1573,7 +1573,7 @@
 #cmakedefine HAVE_STRPTIME @HAVE_STRPTIME@
 
 /* whether strptime() declaration fails */
-#cmakedefine HAVE_STRPTIME_DECL_FAILS
+#cmakedefine HAVE_STRPTIME_DECL_FAILS @HAVE_STRPTIME_DECL_FAILS@
 
 /* Define to 1 if you have the `strtok_r' function. */
 #cmakedefine HAVE_STRTOK_R @HAVE_STRTOK_R@

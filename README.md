@@ -711,6 +711,8 @@ List of configure command line options and their CMake alternatives:
 | `--disable-posix`                               | `-Dposix=OFF`                     |                     |
 | `--without-external-libcrypt` (default)         | `-DEXTERNAL_LIBCRYPT=OFF`         | `OFF`               |
 | `--with-external-libcrypt`                      | `-DEXTERNAL_LIBCRYPT=ON`          |                     |
+| `--without-password-argon2` (default)           | `-DPASSWORD_ARGON2=OFF`           | `OFF`               |
+| `--with-password-argon2`                        | `-DPASSWORD_ARGON2=ON`            |                     |
 | `--enable-phar` (default)                       | `-Dphar=ON`                       | `ON`                |
 | `--enable-phar=shared`                          | `-Dphar=shared`                   |                     |
 | `--disable-phar`                                | `-Dphar=OFF`                      |                     |

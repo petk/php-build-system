@@ -1,8 +1,7 @@
 include(CheckCSourceCompiles)
 include(CheckCSourceRuns)
 include(CheckSymbolExists)
-
-include(PHPCheckFlushIo)
+include(PHPFindPackage)
 
 check_symbol_exists(crypt "crypt.h" HAVE_CRYPT)
 check_symbol_exists(dn_expand "resolv.h" HAVE_DN_EXPAND)
@@ -13,7 +12,43 @@ check_symbol_exists(res_ndestroy "resolv.h" HAVE_RES_NDESTROY)
 check_symbol_exists(res_nsearch "resolv.h" HAVE_RES_NSEARCH)
 check_symbol_exists(res_search "resolv.h" HAVE_RES_SEARCH)
 
-php_extension(NAME "standard")
+# Check how flush should be called.
+include(PHPCheckFlushIo)
+
+# Check if OS can spawn processes with inherited handles.
+include(PHPCheckProcOpenSupport)
+
+# Check whether the strptime() declaration fails.
+include(PHPCheckStrptime)
+
+# Check for fnmatch() implementation.
+include(PHPCheckFnMatch)
+
+message(STATUS "Checking for usable getifaddrs")
+check_c_source_runs("
+  #include <sys/types.h>
+  #include <ifaddrs.h>
+
+  int main(void) {
+    struct ifaddrs *interfaces;
+
+    if (!getifaddrs(&interfaces)) {
+      freeifaddrs(interfaces);
+    }
+
+    return 0;
+  }
+" HAVE_GETIFADDRS)
+
+# Check for __attribute__ ((__aligned__)) support in the compiler.
+message(STATUS "Checking whether the compiler supports aligned attribute")
+
+check_c_source_compiles("
+  int main(void) {
+    unsigned char test[32] __attribute__ ((__aligned__ (__alignof__ (int))));
+    return 0;
+  }
+" HAVE_ATTRIBUTE_ALIGNED)
 
 re2c_target(
   NAME VarUnserializer
@@ -29,35 +64,9 @@ re2c_target(
   OPTIONS "--no-generation-date -b"
 )
 
-message(STATUS "Checking for fork/CreateProcess")
-check_symbol_exists(fork "unistd.h" HAVE_FORK)
-check_symbol_exists(CreateProcess "windows.h" HAVE_CREATEPROCESS)
-message(STATUS "Checking if your OS can spawn processes with inherited handles")
-if(HAVE_FORK OR HAVE_CREATEPROCESS)
-  message(STATUS "yes")
-  set(PHP_CAN_SUPPORT_PROC_OPEN 1 CACHE INTERNAL "Define if your system has fork/vfork/CreateProcess")
-else()
-  message(STATUS "no")
-endif()
+php_extension(NAME "standard" STATIC)
 
-message(STATUS "Checking for usable getifaddrs")
-check_c_source_runs("
-  #include <sys/types.h>
-  #include <ifaddrs.h>
-
-  struct ifaddrs *interfaces;
-
-  int main ()
-  {
-    if (!getifaddrs(&interfaces)) {
-      freeifaddrs(interfaces);
-    }
-
-    return 0;
-  }
-" HAVE_GETIFADDRS)
-
-add_library(ext_standard
+add_library(ext_standard STATIC
   array.c
   base64.c
   basic_functions.c
@@ -135,19 +144,27 @@ if(NOT EXTERNAL_LIBCRYPT)
   target_sources(ext_standard PRIVATE crypt_freesec.c crypt_blowfish.c crypt_sha512.c crypt_sha256.c php_crypt_r.c)
   set(PHP_USE_PHP_CRYPT_R 1 CACHE INTERNAL "Whether PHP has to use its own crypt_r")
 else()
+  include(PHPCheckExternalLibcrypt)
   set(PHP_USE_PHP_CRYPT_R 0 CACHE INTERNAL "Whether PHP has to use its own crypt_r")
 endif()
 
-# Check for __attribute__ ((__aligned__)) support in the compiler.
-message(STATUS "Checking whether the compiler supports aligned attribute")
+option(PASSWORD_ARGON2 "Whether to include the Argon2 support in password_*" OFF)
 
-check_c_source_compiles("
-  int main() {
-    unsigned char test[32] __attribute__ ((__aligned__ (__alignof__ (int))));
-    return 0;
-  }
-" HAVE_ATTRIBUTE_ALIGNED)
+if(PASSWORD_ARGON2)
+  php_find_package(NAME libargon2)
+
+  if(libargon2_FOUND)
+    set(HAVE_ARGON2LIB 1 CACHE INTERNAL "Whether to use the libargon2")
+    target_link_libraries(ext_standard ${libargon2_LIBRARIES})
+    target_compile_options(ext_opcache PRIVATE ${libargon2_CFLAGS})
+  endif()
+endif()
+
+target_compile_definitions(ext_standard PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE=1)
 
 target_link_libraries(ext_standard PUBLIC main)
+
+file(GLOB EXT_STANDARD_HEADER_FILES "${CMAKE_CURRENT_SOURCE_DIR}/*.h")
+set_target_properties(ext_standard PROPERTIES PUBLIC_HEADER "${EXT_STANDARD_HEADER_FILES}")
 
 add_dependencies(ext_standard Zend)
