@@ -297,6 +297,26 @@ include(PHPCheckTimeR)
 include(PHPCheckWriteStdout)
 
 # Check for required libraries.
+check_symbol_exists(dlopen "dlfcn.h" HAVE_LIBDL)
+
+# TODO: Use CMAKE_DL_LIBS.
+if(NOT HAVE_LIBDL)
+  check_library_exists(dl dlopen "" HAVE_LIBDL)
+
+  if(HAVE_LIBDL)
+    set(EXTRA_LIBS ${EXTRA_LIBS} dl)
+  endif()
+
+  if(NOT HAVE_LIBDL)
+    check_library_exists(root dlopen "" HAVE_LIBDL)
+
+    if(HAVE_LIBDL)
+      set(EXTRA_LIBS ${EXTRA_LIBS} root)
+    endif()
+  endif()
+endif()
+
+# Check for required libraries.
 check_library_exists(m sin "" HAVE_LIB_M)
 
 if(HAVE_LIB_M)

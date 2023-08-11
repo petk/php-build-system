@@ -524,9 +524,6 @@
 /* Define to 1 if you have the <dlfcn.h> header file. */
 #cmakedefine HAVE_DLFCN_H @HAVE_DLFCN_H@
 
-/* */
-#cmakedefine HAVE_DLOPEN
-
 /* Whether you have dmalloc */
 #cmakedefine HAVE_DMALLOC
 
@@ -597,25 +594,25 @@
 #cmakedefine HAVE_FFI @HAVE_FFI@
 
 /* Whether libffi supports fastcall calling convention */
-#cmakedefine HAVE_FFI_FASTCALL
+#cmakedefine HAVE_FFI_FASTCALL @HAVE_FFI_FASTCALL@
 
 /* Whether libffi supports ms_cdecl calling convention */
-#cmakedefine HAVE_FFI_MS_CDECL
+#cmakedefine HAVE_FFI_MS_CDECL @HAVE_FFI_MS_CDECL@
 
 /* Whether libffi supports pascal calling convention */
-#cmakedefine HAVE_FFI_PASCAL
+#cmakedefine HAVE_FFI_PASCAL @HAVE_FFI_PASCAL@
 
 /* Whether libffi supports register calling convention */
-#cmakedefine HAVE_FFI_REGISTER
+#cmakedefine HAVE_FFI_REGISTER @HAVE_FFI_REGISTER@
 
 /* Whether libffi supports stdcall calling convention */
-#cmakedefine HAVE_FFI_STDCALL
+#cmakedefine HAVE_FFI_STDCALL @HAVE_FFI_STDCALL@
 
 /* Whether libffi supports sysv calling convention */
-#cmakedefine HAVE_FFI_SYSV
+#cmakedefine HAVE_FFI_SYSV @HAVE_FFI_SYSV@
 
 /* Whether libffi supports thiscall calling convention */
-#cmakedefine HAVE_FFI_THISCALL
+#cmakedefine HAVE_FFI_THISCALL @HAVE_FFI_THISCALL@
 
 /* Define to 1 if you have the `flock' function. */
 #cmakedefine HAVE_FLOCK @HAVE_FLOCK@
@@ -975,7 +972,7 @@
 #cmakedefine HAVE_LIBCRYPT
 
 /* */
-#cmakedefine HAVE_LIBDL
+#cmakedefine HAVE_LIBDL @HAVE_LIBDL@
 
 /* */
 #cmakedefine HAVE_LIBEDIT
@@ -1062,7 +1059,7 @@
 #cmakedefine HAVE_LOCALTIME_R @HAVE_LOCALTIME_R@
 
 /* Define to 1 if the system has the type `long double'. */
-#cmakedefine HAVE_LONG_DOUBLE
+#cmakedefine HAVE_LONG_DOUBLE @HAVE_LONG_DOUBLE@
 
 /* do we have SO_LISTENQxxx? */
 #cmakedefine HAVE_LQ_SO_LISTENQ

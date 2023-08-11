@@ -682,6 +682,9 @@ List of configure command line options and their CMake alternatives:
 | `--disable-exif` (default)                      | `-Dexif=OFF`                      | `OFF`               |
 | `--enable-exif`                                 | `-Dexif=ON`                       |                     |
 | `--enable-exif=shared`                          | `-Dexif=shared`                   |                     |
+| `--without-ffi` (default)                       | `-Dffi=OFF`                       | `OFF`               |
+| `--with-ffi`                                    | `-Dffi=ON`                        |                     |
+| `--with-ffi=shared`                             | `-Dffi=shared`                    |                     |
 | `--enable-fileinfo` (default)                   | `-Dfileinfo=ON`                   | `ON`                |
 | `--enable-fileinfo=shared`                      | `-Dfileinfo=shared`               |                     |
 | `--disable-fileinfo`                            | `-Dfileinfo=OFF`                  |                     |
