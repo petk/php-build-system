@@ -740,6 +740,9 @@ List of configure command line options and their CMake alternatives:
 | `--disable-zend-test` (default)                 | `-Dzend_test=OFF`                 | `OFF`               |
 | `--enable-zend-test`                            | `-Dzend_test=ON`                  |                     |
 | `--enable-zend-test=shared`                     | `-Dzend_test=shared`              |                     |
+| `--without-zlib` (default)                      | `-Dzlib=OFF`                      | `OFF`               |
+| `--with-zlib`                                   | `-Dzlib=ON`                       |                     |
+| `--with-zlib=shared`                            | `-Dzlib=shared`                   |                     |
 
 List of configure environment variables:
 

@@ -1844,7 +1844,7 @@
 #cmakedefine HAVE_ZIP
 
 /* */
-#cmakedefine HAVE_ZLIB
+#cmakedefine HAVE_ZLIB @HAVE_ZLIB@
 
 /* whether _controlfp is present usable */
 #cmakedefine HAVE__CONTROLFP @HAVE__CONTROLFP@
