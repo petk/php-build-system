@@ -719,6 +719,11 @@ List of configure command line options and their CMake alternatives:
 | `--enable-phar` (default)                       | `-Dphar=ON`                       | `ON`                |
 | `--enable-phar=shared`                          | `-Dphar=shared`                   |                     |
 | `--disable-phar`                                | `-Dphar=OFF`                      |                     |
+| `--enable-session` (default)                    | `-Dsession=ON`                    | `ON`                |
+| `--enable-session=shared`                       | `-Dsession=shared`                |                     |
+| `--disable-session`                             | `-Dsession=OFF`                   |                     |
+| `--without-mm` (default)                        | `-Dsession_mm=OFF`                | `OFF`               |
+| `--with-mm[=DIR]`                               | `-Dsession_mm=[ON|path/to/mm]`    |                     |
 | `--disable-shmop` (default)                     | `-Dshmop=OFF`                     | `OFF`               |
 | `--enable-shmop`                                | `-Dshmop=ON`                      |                     |
 | `--enable-shmop=shared`                         | `-Dshmop=shared`                  |                     |

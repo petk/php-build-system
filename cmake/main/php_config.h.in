@@ -999,7 +999,7 @@
 #cmakedefine HAVE_LIBM
 
 /* Whether you have libmm */
-#cmakedefine HAVE_LIBMM
+#cmakedefine HAVE_LIBMM @HAVE_LIBMM@
 
 /* */
 #cmakedefine HAVE_LIBNETWORK
@@ -1237,7 +1237,7 @@
 #cmakedefine HAVE_PHPDBG_READLINE
 
 /* */
-#cmakedefine HAVE_PHP_SESSION
+#cmakedefine HAVE_PHP_SESSION @HAVE_PHP_SESSION@
 
 /* Define to 1 if you have the `poll' function. */
 #cmakedefine HAVE_POLL @HAVE_POLL@
@@ -1261,7 +1261,7 @@
 #cmakedefine HAVE_PRCTL @HAVE_PRCTL@
 
 /* */
-#cmakedefine HAVE_PREAD
+#cmakedefine HAVE_PREAD @HAVE_PREAD@
 
 /* do we have procctl? */
 #cmakedefine HAVE_PROCCTL @HAVE_PROCCTL@
@@ -1309,7 +1309,7 @@
 #cmakedefine HAVE_PWD_H @HAVE_PWD_H@
 
 /* */
-#cmakedefine HAVE_PWRITE
+#cmakedefine HAVE_PWRITE @HAVE_PWRITE@
 
 /* Define to 1 if you have the `RAND_egd' function. */
 #cmakedefine HAVE_RAND_EGD
@@ -2042,10 +2042,10 @@
 #cmakedefine PHP_PDO_OCI_CLIENT_VERSION
 
 /* whether pread64 is default */
-#cmakedefine PHP_PREAD_64
+#cmakedefine PHP_PREAD_64 @PHP_PREAD_64@
 
 /* whether pwrite64 is default */
-#cmakedefine PHP_PWRITE_64
+#cmakedefine PHP_PWRITE_64 @PHP_PWRITE_64@
 
 /* */
 #cmakedefine01 PHP_SIGCHILD
