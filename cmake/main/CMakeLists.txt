@@ -53,3 +53,8 @@ target_compile_definitions(main PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE=1)
 if(HAVE_DTRACE)
   add_dependencies(main zend_dtrace)
 endif()
+
+# Target main needs includes from the libxml library.
+if(HAVE_LIBXML)
+  target_link_libraries(main ext_libxml)
+endif()

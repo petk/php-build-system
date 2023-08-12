@@ -693,6 +693,8 @@ List of configure command line options and their CMake alternatives:
 | `--disable-filter`                              | `-Dfilter=OFF`                    |                     |
 | `--without-mhash` (default)                     | `-Dmhash=OFF`                     | `OFF`               |
 | `--with-mhash`                                  | `-Dmhash=ON`                      |                     |
+| `--with-libxml` (default)                       | `-Dlibxml=ON`                     | `ON`                |
+| `--without-libxml`                              | `-Dlibxml=OFF`                    |                     |
 | `--enable-opcache=shared` (default)             | `-Dopcache=shared`                | `"shared"`          |
 | `--enable-opcache`                              | `-Dopcache=ON`                    | will be shared      |
 | `--disable-opcache`                             | `-Dopcache=OFF`                   |                     |
