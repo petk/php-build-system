@@ -732,6 +732,9 @@ List of configure command line options and their CMake alternatives:
 | `--disable-shmop` (default)                     | `-Dshmop=OFF`                     | `OFF`               |
 | `--enable-shmop`                                | `-Dshmop=ON`                      |                     |
 | `--enable-shmop=shared`                         | `-Dshmop=shared`                  |                     |
+| `--enable-simplexml` (default)                  | `-Dsimplexml=ON`                  | `ON`                |
+| `--enable-simplexml=shared`                     | `-Dsimplexml=shared`              |                     |
+| `--disable-simplexml`                           | `-Dsimplexml=OFF`                 |                     |
 | `--disable-sockets` (default)                   | `-Dsockets=OFF`                   | `OFF`               |
 | `--enable-sockets`                              | `-Dsockets=ON`                    |                     |
 | `--enable-sockets=shared`                       | `-Dsockets=shared`                |                     |

@@ -1435,7 +1435,7 @@
 #cmakedefine HAVE_SIGWAITINFO @HAVE_SIGWAITINFO@
 
 /* */
-#cmakedefine HAVE_SIMPLEXML
+#cmakedefine HAVE_SIMPLEXML @HAVE_SIMPLEXML@
 
 /* Define if hash3 algo is available */
 #cmakedefine HAVE_SLOW_HASH3 @HAVE_SLOW_HASH3@
