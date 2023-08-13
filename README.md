@@ -599,38 +599,8 @@ Currently the CMake minimum version is set to:
 
 ### 8.7. CMake code style
 
-This repository is following some best practices from the CMake ecosystem:
-
-* In general the all-lowercase style is preferred.
-
-  ```cmake
-  add_library(ctype ctype.c)
-  ```
-
-* End commands
-
-  To make the code easier to read, use empty commands for `endif()`,
-  `endfunction()`, `endforeach()`, `endmacro()` and `endwhile()`, `else()`, and
-  similar end commands. The optional argument in these is legacy CMake and not
-  recommended anymore.
-
-  For example, do this:
-
-  ```cmake
-  if(FOOVAR)
-    some_command(...)
-  else()
-    another_command(...)
-  endif()
-  ```
-
-  and not this:
-
-  ```cmake
-  if(BARVAR)
-    some_other_command(...)
-  endif(BARVAR)
-  ```
+To sync the code style of the CMake files there are a couple of tools available.
+See [docs/cmake-code-style.md](docs/cmake-code-style.md) for more info.
 
 ### 8.8. Command line options
 

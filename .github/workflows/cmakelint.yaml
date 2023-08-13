@@ -1,4 +1,4 @@
-name: Run cmakelint check
+name: Run CMake checks
 
 on:
   push:
@@ -22,7 +22,7 @@ on:
 
 jobs:
   check:
-    name: CMakeLint check
+    name: CMake check
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -34,5 +34,8 @@ jobs:
       - name: Install CMakeLint
         run: pipx install cmakelint
 
+      - name: Install cmake-format
+        run: pipx install cmake-format
+
       - name: Run CMakeLint
-        run: ./scripts/cmakelint.sh
+        run: ./scripts/check-cmake.sh
