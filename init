@@ -25,7 +25,8 @@ OPTIONS:
   -o, --options VALUE    CMake options which are appended to the CMake command.
                            cmake -DOPTION .
   -g, --generator VALUE  CMake generator (UnixMakefiles|Ninja)
-  -d, --debug            Debug mode.
+  -d, --debug            Debug mode. Here CMake profiling is enabled and debug
+                         info displayed.
   -h, --help             Display this help.
 HELP
     exit 0
@@ -82,7 +83,7 @@ for file in $patches; do
 done
 
 if test "${debug}" = "1"; then
-  cmake_debug_options="--debug-trycompile"
+  cmake_debug_options="--debug-trycompile --profiling-output ./profile.json --profiling-format google-trace"
   cmake_verbose="--verbose"
 fi
 

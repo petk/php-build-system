@@ -1,8 +1,8 @@
 diff --git a/.gitignore b/.gitignore
-index 49acc9f2e1..dc482c0a68 100644
+index 49acc9f2e1..10472c57bc 100644
 --- a/.gitignore
 +++ b/.gitignore
-@@ -297,3 +297,11 @@ tmp-php.ini
+@@ -297,3 +297,12 @@ tmp-php.ini
  !/ext/fileinfo/magicdata.patch
  !/ext/pcre/pcre2lib/config.h
  !/win32/build/Makefile
@@ -14,3 +14,4 @@ index 49acc9f2e1..dc482c0a68 100644
 +CMakeFiles/
 +cmake_install.cmake
 +CMakeUserPresets.json
++/profile.json

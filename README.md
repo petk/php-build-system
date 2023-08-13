@@ -31,6 +31,7 @@ to build PHP with CMake.
   * [8.10. CMake generators for building PHP](#810-cmake-generators-for-building-php)
     * [8.10.1. Unix Makefiles (default)](#8101-unix-makefiles-default)
     * [8.10.2. Ninja](#8102-ninja)
+  * [8.11. Performance](#811-performance)
 * [9. See more](#9-see-more)
 
 ## 2. Introduction
@@ -864,6 +865,17 @@ number of available CPU cores on your system):
 ```sh
 ninja -j$(nproc)
 ```
+
+### 8.11. Performance
+
+When CMake is doing configuration phase, the profiling options can be used to do
+build system performance analysis of CMake script.
+
+```sh
+cmake . --profiling-output ./profile.json --profiling-format google-trace
+```
+
+![CMake profiling](docs/cmake-profiling.png)
 
 ## 9. See more
 
