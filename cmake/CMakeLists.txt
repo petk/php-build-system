@@ -7,6 +7,12 @@ list(APPEND CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake/")
 # Define some CMake defaults.
 include(DefineCMakeDefaults)
 
+message("
++--------------------------------------------------------------------+
+| Running system checks                                              |
++--------------------------------------------------------------------+
+")
+
 project(
   PHP
   VERSION 8.3.0
@@ -66,9 +72,19 @@ if(CMAKE_UNAME)
 endif()
 
 ## Add PHP extensions.
+message("
++--------------------------------------------------------------------+
+| Configuring extensions                                             |
++--------------------------------------------------------------------+
+")
 include(IncludeExtensions)
 
 # Add SAPI modules.
+message("
++--------------------------------------------------------------------+
+| Configuring SAPI modules                                           |
++--------------------------------------------------------------------+
+")
 add_subdirectory(sapi/apache2handler)
 add_subdirectory(sapi/cgi)
 add_subdirectory(sapi/cli)
@@ -79,10 +95,26 @@ add_subdirectory(sapi/litespeed)
 add_subdirectory(sapi/phpdbg)
 
 # Add PHP engine.
+message("
++--------------------------------------------------------------------+
+| Configuring PHP                                                    |
++--------------------------------------------------------------------+
+")
 add_subdirectory(main)
 add_subdirectory(TSRM)
+
+message("
++--------------------------------------------------------------------+
+| Configuring Zend                                                   |
++--------------------------------------------------------------------+
+")
 add_subdirectory(Zend)
 
+message("
++--------------------------------------------------------------------+
+| Generating files                                                   |
++--------------------------------------------------------------------+
+")
 # Create main/internal_functions* files.
 include(CreateInternalFunctions)
 
