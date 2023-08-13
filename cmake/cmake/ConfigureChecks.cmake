@@ -4,7 +4,6 @@ include(CheckLibraryExists)
 include(CheckSymbolExists)
 include(CheckTypeSize)
 include(CMakePushCheckState)
-include(FindSENDMAIL)
 
 # Check whether the system uses EBCDIC (not ASCII) as its native codeset.
 include(PHPCheckEbcdic)
@@ -327,9 +326,6 @@ endif()
 if(IPV6)
   include(PHPCheckIPv6)
 endif()
-
-# Find sendmail binary.
-php_prog_sendmail()
 
 # Check for aarch64 CRC32 API.
 include(PHPCheckAarch64CRC32)

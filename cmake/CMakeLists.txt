@@ -38,8 +38,8 @@ include(PHPOptions)
 # Configuration checks.
 include(ConfigureChecks)
 
-# Create a list of extensions.
-include(PHPExtension)
+# Find sendmail binary.
+find_package(SENDMAIL)
 
 # Parser and lexer generators.
 find_package(BISON 3.0.0 REQUIRED)
@@ -77,6 +77,7 @@ message("
 | Configuring extensions                                             |
 +--------------------------------------------------------------------+
 ")
+include(PHPExtension)
 include(IncludeExtensions)
 
 # Add SAPI modules.

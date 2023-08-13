@@ -25,20 +25,26 @@ If ``re2c`` is found, the module defines the macro::
 #]=============================================================================]
 
 include(CheckCSourceCompiles)
+include(FindPackageHandleStandardArgs)
 
 find_program(RE2C_EXECUTABLE re2c DOC "path to the re2c executable")
 mark_as_advanced(RE2C_EXECUTABLE)
 
-if(NOT RE2C_EXECUTABLE)
-  message(FATAL_ERROR "re2c not found. Please install re2c.")
+if(RE2C_EXECUTABLE)
+  execute_process(COMMAND ${RE2C_EXECUTABLE} --vernum OUTPUT_VARIABLE RE2C_VERSION_RAW OUTPUT_STRIP_TRAILING_WHITESPACE)
+
+  math(EXPR RE2C_VERSION_MAJOR "${RE2C_VERSION_RAW} / 10000")
+  math(EXPR RE2C_VERSION_MINOR "(${RE2C_VERSION_RAW} - ${RE2C_VERSION_MAJOR} * 10000) / 100")
+  math(EXPR RE2C_VERSION_PATCH "${RE2C_VERSION_RAW} - ${RE2C_VERSION_MAJOR} * 10000 - ${RE2C_VERSION_MINOR} * 100")
+  set(RE2C_VERSION "${RE2C_VERSION_MAJOR}.${RE2C_VERSION_MINOR}.${RE2C_VERSION_PATCH}")
 endif()
 
-execute_process(COMMAND ${RE2C_EXECUTABLE} --vernum OUTPUT_VARIABLE RE2C_VERSION_RAW OUTPUT_STRIP_TRAILING_WHITESPACE)
-
-math(EXPR RE2C_VERSION_MAJOR "${RE2C_VERSION_RAW} / 10000")
-math(EXPR RE2C_VERSION_MINOR "(${RE2C_VERSION_RAW} - ${RE2C_VERSION_MAJOR} * 10000) / 100")
-math(EXPR RE2C_VERSION_PATCH "${RE2C_VERSION_RAW} - ${RE2C_VERSION_MAJOR} * 10000 - ${RE2C_VERSION_MINOR} * 100")
-set(RE2C_VERSION "${RE2C_VERSION_MAJOR}.${RE2C_VERSION_MINOR}.${RE2C_VERSION_PATCH}")
+find_package_handle_standard_args(
+  RE2C
+  REQUIRED_VARS RE2C_EXECUTABLE RE2C_VERSION
+  VERSION_VAR RE2C_VERSION
+  REASON_FAILURE_MESSAGE "re2c not found. Please install re2c."
+)
 
 # Check for re2c -g flag.
 if(RE2C_CGOTO)
@@ -61,7 +67,7 @@ if(RE2C_CGOTO)
   endif()
 endif()
 
-macro(re2c_target)
+function(re2c_target)
   cmake_parse_arguments(PARSED_ARGS "" "NAME;INPUT;OUTPUT;OPTIONS" "DEPENDS" ${ARGN})
 
   if(NOT PARSED_ARGS_OUTPUT)
@@ -94,4 +100,4 @@ macro(re2c_target)
     SOURCES ${PARSED_ARGS_INPUT}
     DEPENDS ${PARSED_ARGS_OUTPUT}
   )
-endmacro()
+endfunction()
