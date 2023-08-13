@@ -58,3 +58,7 @@ endif()
 if(HAVE_LIBXML)
   target_link_libraries(main ext_libxml)
 endif()
+
+if(HAVE_LIBEXPAT)
+  target_link_libraries(main ext_xml)
+endif()

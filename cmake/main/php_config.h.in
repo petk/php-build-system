@@ -978,7 +978,7 @@
 #cmakedefine HAVE_LIBEDIT
 
 /* */
-#cmakedefine HAVE_LIBEXPAT
+#cmakedefine HAVE_LIBEXPAT @HAVE_LIBEXPAT@
 
 /* */
 #cmakedefine HAVE_LIBFREETYPE
@@ -1823,7 +1823,7 @@
 #cmakedefine HAVE_WMMINTRIN_H @HAVE_WMMINTRIN_H@
 
 /* */
-#cmakedefine HAVE_XML
+#cmakedefine HAVE_XML @HAVE_XML@
 
 /* */
 #cmakedefine HAVE_XMLREADER @HAVE_XMLREADER@

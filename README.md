@@ -750,6 +750,11 @@ List of configure command line options and their CMake alternatives:
 | `--enable-tokenizer` (default)                  | `-Dtokenizer=ON`                  | `ON`                |
 | `--enable-tokenizer=shared`                     | `-Dtokenizer=shared`              |                     |
 | `--disable-tokenizer`                           | `-Dtokenizer=OFF`                 |                     |
+| `--enable-xml` (default)                        | `-Dxml=ON`                        | `ON`                |
+| `--enable-xml=shared`                           | `-Dxml=shared`                    |                     |
+| `--disable-xml`                                 | `-Dxml=OFF`                       |                     |
+| `--without-expat` (default)                     | `-Dxml_expat=OFF`                 | `OFF`               |
+| `--with-expat`                                  | `-Dxml_expat=ON`                  |                     |
 | `--enable-xmlreader` (default)                  | `-Dxmlreader=ON`                  | `ON`                |
 | `--enable-xmlreader=shared`                     | `-Dxmlreader=shared`              |                     |
 | `--disable-xmlreader`                           | `-Dxmlreader=OFF`                 |                     |
