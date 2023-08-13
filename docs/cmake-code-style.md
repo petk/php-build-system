@@ -1,6 +1,8 @@
 # CMake code style
 
-This repository is following some best practices from the CMake ecosystem:
+This repository is following some best practices from the CMake ecosystem.
+
+## Code style
 
 * In general the all-lowercase style is preferred.
 
@@ -33,9 +35,17 @@ This repository is following some best practices from the CMake ecosystem:
   endif(BAR)
   ```
 
-There are some tools that can help with formatting and linting CMake files.
+## Macros vs. functions
 
-## cmake-format
+Functions are preferred over macros because functions have their own variable
+scope. Variables inside macros are visible from the outside scope.
+
+## Tools
+
+There are some tools in different state of maintenance but they can be relevant
+as they can help with formatting and linting CMake files.
+
+### cmake-format
 
 The [`cmake-format`](https://cmake-format.readthedocs.io/en/latest/) tool can
 find formatting issues and sync the CMake code style:
@@ -58,7 +68,7 @@ dumping the formatted content to STDOUT:
 cmake-format -i path/to/cmake/file
 ```
 
-## cmake-lint
+### cmake-lint
 
 The [`cmake-lint`](https://cmake-format.readthedocs.io/en/latest/cmake-lint.html)
 tool is part of the cmakelang project and can help with linting CMake files:
@@ -67,7 +77,7 @@ tool is part of the cmakelang project and can help with linting CMake files:
 cmake-lint <cmake/CMakeLists.txt cmake/...>
 ```
 
-## cmakelint
+### cmakelint
 
 For linting there is also a separate and useful
 [cmakelint](https://github.com/cmake-lint/cmake-lint) tool which similarly lints

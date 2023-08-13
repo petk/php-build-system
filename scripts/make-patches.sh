@@ -44,9 +44,7 @@ files="
 .gitignore
 "
 
-if test ! -d ../${current_repo}/patches; then
-  mkdir -p ../${current_repo}/patches
-fi
+test ! -d ../${current_repo}/patches && mkdir -p ../${current_repo}/patches
 
 for file in $files; do
   if test -f ${file}; then

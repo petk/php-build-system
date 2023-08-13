@@ -22,7 +22,7 @@ on:
 
 jobs:
   check:
-    name: CMake check
+    name: Check CMake files
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -31,11 +31,10 @@ jobs:
       - name: Setup Python
         uses: actions/setup-python@v4
 
-      - name: Install CMakeLint
-        run: pipx install cmakelint
+      - name: Install CMakeLint and cmakelang
+        run: |
+          pipx install cmakelint
+          pipx install cmakelang
 
-      - name: Install cmake-format
-        run: pipx install cmake-format
-
-      - name: Run CMakeLint
+      - name: Run CMake checks
         run: ./scripts/check-cmake.sh

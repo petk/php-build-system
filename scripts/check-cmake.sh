@@ -42,38 +42,30 @@ for module in $modules; do
   fi
 done
 
-if test "$exit_code" = "0"; then
-  echo "OK"
-fi
-
-echo
+test "$exit_code" = "0" && echo "OK"
 
 # Get a list of all CMake files.
 files=$(find ./cmake -type f -name "*.cmake" -o -name "CMakeLists.txt")
 
 # Run cmakelint. Some options are disabled and cmake-format checks them instead.
-echo "Running cmakelint"
+echo "\nRunning cmakelint"
 $cmakelint --filter=-linelength,-whitespace/indent $files
 status=$?
 
-if test "$status" != "0"; then
-  exit_code=$status
-fi
+test "$status" != "0" && exit_code=$status
 
 # Run cmake-lint from the cmakelang project.
+echo "\Running cmake-lint (cmakelang)"
 cmake-lint $files
 status=$?
 
-if test "$status" != "0"; then
-  exit_code=$status
-fi
+test "$status" != "0" && exit_code=$status
 
 # Run cmake-format. Configuration file cmake-format.json is taken into account.
+echo "\Running cmake-format (cmakelang)"
 $cmakeformat --check $files
 status=$?
 
-if test "$status" != "0"; then
-  exit_code=$status
-fi
+test "$status" != "0" && exit_code=$status
 
 exit $exit_code
