@@ -735,6 +735,9 @@ List of configure command line options and their CMake alternatives:
 | `--enable-simplexml` (default)                  | `-Dsimplexml=ON`                  | `ON`                |
 | `--enable-simplexml=shared`                     | `-Dsimplexml=shared`              |                     |
 | `--disable-simplexml`                           | `-Dsimplexml=OFF`                 |                     |
+| `--disable-soap` (default)                      | `-Dsoap=OFF`                      | `OFF`               |
+| `--enable-soap`                                 | `-Dsoap=ON`                       |                     |
+| `--enable-soap=shared`                          | `-Dsoap=shared`                   |                     |
 | `--disable-sockets` (default)                   | `-Dsockets=OFF`                   | `OFF`               |
 | `--enable-sockets`                              | `-Dsockets=ON`                    |                     |
 | `--enable-sockets=shared`                       | `-Dsockets=shared`                |                     |

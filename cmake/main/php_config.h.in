@@ -1450,7 +1450,7 @@
 #cmakedefine HAVE_SNMP_SHA512
 
 /* */
-#cmakedefine HAVE_SOAP
+#cmakedefine HAVE_SOAP @HAVE_SOAP@
 
 /* Whether struct sockaddr has field sa_len */
 #cmakedefine HAVE_SOCKADDR_SA_LEN @HAVE_SOCKADDR_SA_LEN@
