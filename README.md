@@ -750,6 +750,9 @@ List of configure command line options and their CMake alternatives:
 | `--enable-xmlreader` (default)                  | `-Dxmlreader=ON`                  | `ON`                |
 | `--enable-xmlreader=shared`                     | `-Dxmlreader=shared`              |                     |
 | `--disable-xmlreader`                           | `-Dxmlreader=OFF`                 |                     |
+| `--enable-xmlwriter` (default)                  | `-Dxmlwriter=ON`                  | `ON`                |
+| `--enable-xmlwriter=shared`                     | `-Dxmlwriter=shared`              |                     |
+| `--disable-xmlwriter`                           | `-Dxmlwriter=OFF`                 |                     |
 | `--disable-zend-test` (default)                 | `-Dzend_test=OFF`                 | `OFF`               |
 | `--enable-zend-test`                            | `-Dzend_test=ON`                  |                     |
 | `--enable-zend-test=shared`                     | `-Dzend_test=shared`              |                     |

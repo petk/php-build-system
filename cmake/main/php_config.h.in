@@ -1829,7 +1829,7 @@
 #cmakedefine HAVE_XMLREADER @HAVE_XMLREADER@
 
 /* */
-#cmakedefine HAVE_XMLWRITER
+#cmakedefine HAVE_XMLWRITER @HAVE_XMLWRITER@
 
 /* */
 #cmakedefine HAVE_XPM
