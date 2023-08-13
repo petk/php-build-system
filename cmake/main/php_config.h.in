@@ -1826,7 +1826,7 @@
 #cmakedefine HAVE_XML
 
 /* */
-#cmakedefine HAVE_XMLREADER
+#cmakedefine HAVE_XMLREADER @HAVE_XMLREADER@
 
 /* */
 #cmakedefine HAVE_XMLWRITER
