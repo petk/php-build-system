@@ -1835,10 +1835,10 @@
 #cmakedefine HAVE_XPM
 
 /* */
-#cmakedefine HAVE_XSL
+#cmakedefine HAVE_XSL @HAVE_XSL@
 
 /* */
-#cmakedefine HAVE_XSL_EXSLT
+#cmakedefine HAVE_XSL_EXSLT @HAVE_XSL_EXSLT@
 
 /* */
 #cmakedefine HAVE_ZIP

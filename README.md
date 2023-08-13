@@ -755,6 +755,9 @@ List of configure command line options and their CMake alternatives:
 | `--disable-xml`                                 | `-Dxml=OFF`                       |                     |
 | `--without-expat` (default)                     | `-Dxml_expat=OFF`                 | `OFF`               |
 | `--with-expat`                                  | `-Dxml_expat=ON`                  |                     |
+| `--without-xsl` (default)                       | `-Dxsl=OFF`                       | `OFF`               |
+| `--with-xsl`                                    | `-Dxsl=ON`                        | `ON`                |
+| `--with-xsl=shared`                             | `-Dxsl=shared`                    |                     |
 | `--enable-xmlreader` (default)                  | `-Dxmlreader=ON`                  | `ON`                |
 | `--enable-xmlreader=shared`                     | `-Dxmlreader=shared`              |                     |
 | `--disable-xmlreader`                           | `-Dxmlreader=OFF`                 |                     |

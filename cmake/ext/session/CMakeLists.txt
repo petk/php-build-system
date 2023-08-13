@@ -1,3 +1,5 @@
+include(CMakeDependentOption)
+
 option(session "Whether to enable the session extension" ON)
 cmake_dependent_option(session_mm "SESSION: Include libmm support for session storage" OFF "session" OFF)
 
