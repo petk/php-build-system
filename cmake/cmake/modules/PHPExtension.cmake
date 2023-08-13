@@ -9,7 +9,15 @@ The module defines the following variables:
 ``PHP_EXTENSIONS_SHARED``
   a list of all enabled shared extensions
 
-php_extension(NAME <name> [SHARED | STATIC])
+php_extension(NAME <name> [SHARED | STATIC]
+              [PRIORITY <value>]
+              [DEPENDS depends...])
+
+PRIORITY number can be used to indicate to add the extension subdirectory prior
+to other extensions. Due to CMake nature, directory that is added via
+add_subdirectory later won't be visible in the configuration phase for
+extensions added before. This enables setting some extension variables to other
+extensions.
 ]=============================================================================]#
 
 set(PHP_EXTENSIONS "" CACHE INTERNAL "")
@@ -17,10 +25,11 @@ set(PHP_EXTENSIONS_SHARED "" CACHE INTERNAL "")
 
 function(php_extension)
   # No additional options needed.
-  set(oneValueArgs NAME)
+  set(oneValueArgs NAME PRIORITY)
+  set(multiValueArgs DEPENDS)
   set(options SHARED STATIC)
 
-  cmake_parse_arguments(PHP_EXTENSION "${options}" "${oneValueArgs}" "" ${ARGN})
+  cmake_parse_arguments(PHP_EXTENSION "${options}" "${oneValueArgs}" "${multiValueArgs}" "" ${ARGN})
 
   # Check if the NAME argument is provided
   if(NOT PHP_EXTENSION_NAME)
@@ -37,6 +46,10 @@ function(php_extension)
     set(${DYNAMIC_NAME} 1 CACHE INTERNAL "Whether to build ${PHP_EXTENSION_NAME} as dynamic module")
   else()
     message(STATUS "Enabling extension ${PHP_EXTENSION_NAME} as static.")
+  endif()
+
+  if(NOT PHP_EXTENSION_PRIORITY)
+    set(PHP_EXTENSION_PRIORITY 999)
   endif()
 
   list(APPEND PHP_EXTENSIONS ${PHP_EXTENSION_NAME})

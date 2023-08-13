@@ -679,6 +679,9 @@ List of configure command line options and their CMake alternatives:
 | `--disable-dl-test` (default)                   | `-Ddl_test=OFF`                   | `OFF`               |
 | `--enable-dl-test`                              | `-Ddl_test=ON`                    |                     |
 | `--enable-dl-test=shared`                       | `-Ddl_test=shared`                |                     |
+| `--enable-dom` (default)                        | `-Ddom=ON`                        | `ON`                |
+| `--enable-dom=shared`                           | `-Ddom=shared`                    |                     |
+| `--disable-dom`                                 | `-Ddom=OFF`                       |                     |
 | `--disable-exif` (default)                      | `-Dexif=OFF`                      | `OFF`               |
 | `--enable-exif`                                 | `-Dexif=ON`                       |                     |
 | `--enable-exif=shared`                          | `-Dexif=shared`                   |                     |

@@ -7,7 +7,6 @@ function(get_php_extensions result directory level)
   set(directories "")
   foreach(subdirectory ${SUBDIRECTORIES})
     if(EXISTS "${subdirectory}/CMakeLists.txt")
-      # Get the directory depth
       # Get the relative path of the subdirectory
       file(RELATIVE_PATH relative_path ${directory} ${subdirectory})
       # Get the directory depth
@@ -19,10 +18,31 @@ function(get_php_extensions result directory level)
       endif()
     endif()
   endforeach()
-  set(${result} ${directories} PARENT_SCOPE)
+
+  # Sort extension directories by the PRIORITY value in the php_extension().
+  set(sorted_directories ${directories})
+
+  foreach(directory ${directories})
+    file(READ "${directory}/CMakeLists.txt" content)
+
+    # The dummy _ variable name is used because entire content matched is not
+    # important, only the group match.
+    string(REGEX MATCH "php_extension[\\r\\n\\t ]*\\(.*PRIORITY[\\r\\n\\t ]+([0-9]+)" _ ${content})
+
+    if(${CMAKE_MATCH_1})
+      set(priority ${CMAKE_MATCH_1})
+
+      if(priority LESS 999)
+        list(REMOVE_ITEM sorted_directories "${directory}")
+        list(PREPEND sorted_directories "${directory}")
+      endif()
+    endif()
+  endforeach()
+
+  set(${result} ${sorted_directories} PARENT_SCOPE)
 endfunction()
 
-# Usage example: Include subdirectories within 'ext/' up to a depth of 1
+# Include subdirectories within 'ext/' up to a depth of 1.
 get_php_extensions(SUBDIRECTORIES "${CMAKE_CURRENT_SOURCE_DIR}/ext" 1)
 
 # Process the list of directories

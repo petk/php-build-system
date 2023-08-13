@@ -2,7 +2,7 @@ option(libxml "Whether to enable the libxml extension" ON)
 
 if(libxml)
   # This extension can be build only as STATIC.
-  php_extension(NAME "libxml" STATIC)
+  php_extension(NAME "libxml" STATIC PRIORITY 1)
 
   add_library(ext_libxml STATIC
     libxml.c
