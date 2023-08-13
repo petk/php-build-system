@@ -18,10 +18,17 @@ if test -z "$cmakelint"; then
   exit 1
 fi
 
+# Check if cmake-lint (cmakelang) is installed.
+cmakelang_cmakelint=$(which cmake-lint 2>/dev/null)
+if test -z "$cmakelang_cmakelint"; then
+  echo "check-cmake.sh: cmake-lint from cmakelang not found." >&2
+  exit 1
+fi
+
 # Check if cmake-format is installed.
-cmakeformat=$(which cmake-format 2>/dev/null)
-if test -z "$cmakeformat"; then
-  echo "check-cmake.sh: cmake-format tool not found." >&2
+cmakelang_cmakeformat=$(which cmake-format 2>/dev/null)
+if test -z "$cmakelang_cmakeformat"; then
+  echo "check-cmake.sh: cmake-format from cmakelang not found." >&2
   exit 1
 fi
 
@@ -56,14 +63,14 @@ test "$status" != "0" && exit_code=$status
 
 # Run cmake-lint from the cmakelang project.
 echo "\Running cmake-lint (cmakelang)"
-cmake-lint $files
+$cmakelang_cmakelint $files
 status=$?
 
 test "$status" != "0" && exit_code=$status
 
 # Run cmake-format. Configuration file cmake-format.json is taken into account.
 echo "\Running cmake-format (cmakelang)"
-$cmakeformat --check $files
+$cmakelang_cmakeformat --check $files
 status=$?
 
 test "$status" != "0" && exit_code=$status
