@@ -558,10 +558,10 @@
 #cmakedefine HAVE_ENCHANT @HAVE_ENCHANT@
 
 /* enchant_broker_set_param since 1.5.0 and removed in 2.x */
-#cmakedefine HAVE_ENCHANT_BROKER_SET_PARAM
+#cmakedefine HAVE_ENCHANT_BROKER_SET_PARAM @HAVE_ENCHANT_BROKER_SET_PARAM@
 
 /* enchant_get_version since 1.6.0 */
-#cmakedefine HAVE_ENCHANT_GET_VERSION
+#cmakedefine HAVE_ENCHANT_GET_VERSION @HAVE_ENCHANT_GET_VERSION@
 
 /* Libzip >= 1.2.0 with encryption support */
 #cmakedefine HAVE_ENCRYPTION

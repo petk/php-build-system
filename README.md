@@ -655,6 +655,9 @@ List of configure command line options and their CMake alternatives:
 | `--enable-dom` (default)                        | `-Ddom=ON`                        | `ON`                |
 | `--enable-dom=shared`                           | `-Ddom=shared`                    |                     |
 | `--disable-dom`                                 | `-Ddom=OFF`                       |                     |
+| `--without-enchant` (default)                   | `-Denchant=OFF`                   | `OFF`               |
+| `--with-enchant`                                | `-Denchant=ON`                    |                     |
+| `--with-enchant=shared`                         | `-Denchant=shared`                |                     |
 | `--disable-exif` (default)                      | `-Dexif=OFF`                      | `OFF`               |
 | `--enable-exif`                                 | `-Dexif=ON`                       |                     |
 | `--enable-exif=shared`                          | `-Dexif=shared`                   |                     |
