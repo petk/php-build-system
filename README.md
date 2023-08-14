@@ -685,6 +685,9 @@ List of configure command line options and their CMake alternatives:
 | `--with-external-pcre`                          | `-DEXTERNAL_PCRE=ON`              |                     |
 | `--with-pcre-jit` (default)                     | `-DPCRE_JIT=ON`                   | `ON`                |
 | `--without-pcre-jit`                            | `-DPCRE_JIT=OFF`                  |                     |
+| `--enable-pdo` (default)                        | `-Dpdo=ON`                        | `ON`                |
+| `--enable-pdo=shared`                           | `-Dpdo=shared`                    |                     |
+| `--disable-pdo`                                 | `-Dpdo=OFF`                       |                     |
 | `--enable-posix` (default)                      | `-Dposix=ON`                      | `ON`                |
 | `--enable-posix=shared`                         | `-Dposix=shared`                  |                     |
 | `--disable-posix`                               | `-Dposix=OFF`                     |                     |
