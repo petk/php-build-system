@@ -46,5 +46,9 @@ if(cli)
     target_link_libraries(php PUBLIC ${EXTRA_LIBS})
   endif()
 
+  if(EXTRA_DEFINITIONS)
+    target_compile_definitions(php PUBLIC ${EXTRA_DEFINITIONS})
+  endif()
+
   set_target_properties(php PROPERTIES PUBLIC_HEADER "sapi/cli/cli.h")
 endif()

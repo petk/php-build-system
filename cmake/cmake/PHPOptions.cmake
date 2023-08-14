@@ -16,6 +16,8 @@ option(IPV6 "Whether to enable IPv6 support" ON)
 
 option(DTRACE "Whether to enable DTrace support" OFF)
 
+set(FD_SETSIZE "" CACHE STRING "Size of descriptor sets")
+
 option(VALGRIND "Whether to enable the valgring support" OFF)
 
 # Zend options
@@ -49,4 +51,8 @@ if(SHORT_TAGS)
   set(DEFAULT_SHORT_OPEN_TAG "1")
 else()
   set(DEFAULT_SHORT_OPEN_TAG "0")
+endif()
+
+if(FD_SETSIZE GREATER 0)
+  set(EXTRA_DEFINITIONS -DFD_SETSIZE=${FD_SETSIZE})
 endif()

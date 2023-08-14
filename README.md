@@ -634,6 +634,8 @@ List of configure command line options and their CMake alternatives:
 | `--enable-zend-max-execution-timers`            | `-DZEND_MAX_EXECUTION_TIMERS=ON`  |                     |
 | `--disable-dtrace` (default)                    | `-DDTRACE=OFF`                    | `OFF`               |
 | `--enable-dtrace`                               | `-DDTRACE=ON`                     |                     |
+| `--disable-fd-setsize` (default)                | `-DFD_SETSIZE=OFF`                | `OFF`               |
+| `--enable-fd-setsize=[NUM]`                     | `-DFD_SETSIZE=[NUM]`              |                     |
 | **PHP sapi modules**                            |                                   |                     |
 | `--enable-cli` (default)                        | `-Dcli=ON`                        | `ON`                |
 | `--disable-cli`                                 | `-Dcli=OFF`                       |                     |
