@@ -51,14 +51,14 @@ check_c_source_compiles("
 " HAVE_ATTRIBUTE_ALIGNED)
 
 re2c_target(
-  NAME VarUnserializer
+  NAME var_unserializer.c
   INPUT "${CMAKE_CURRENT_SOURCE_DIR}/var_unserializer.re"
   OUTPUT "${CMAKE_CURRENT_SOURCE_DIR}/var_unserializer.c"
   OPTIONS "--no-generation-date -b"
 )
 
 re2c_target(
-  NAME UrlScannerEx
+  NAME url_scanner_ex.c
   INPUT "${CMAKE_CURRENT_SOURCE_DIR}/url_scanner_ex.re"
   OUTPUT "${CMAKE_CURRENT_SOURCE_DIR}/url_scanner_ex.c"
   OPTIONS "--no-generation-date -b"

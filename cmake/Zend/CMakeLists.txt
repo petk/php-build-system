@@ -68,29 +68,34 @@ include(PHPCheckZendSignals)
 # Check Zend max execution timers.
 include(PHPCheckZendMaxExecutionTimers)
 
-message(STATUS "Generating zend_ini_parser.c")
-bison_target(ZendIniParser zend_ini_parser.y ${CMAKE_CURRENT_BINARY_DIR}/zend_ini_parser.c
+bison_target(ZendIniParser zend_ini_parser.y "${CMAKE_CURRENT_SOURCE_DIR}/zend_ini_parser.c"
   COMPILE_FLAGS "-v -d"
-  DEFINES_FILE ${CMAKE_CURRENT_BINARY_DIR}/zend_ini_parser.h
+  DEFINES_FILE "${CMAKE_CURRENT_SOURCE_DIR}/zend_ini_parser.h"
 )
 
-# TODO: generated zend_language_parser.c and zend_language_parser.h should be
-# also patched. See Zend/Makefile.frag for more info.
-message(STATUS "Generating zend_language_parser.c")
-bison_target(ZendLanguageParser zend_language_parser.y ${CMAKE_CURRENT_BINARY_DIR}/zend_language_parser.c
+bison_target(ZendLanguageParser zend_language_parser.y "${CMAKE_CURRENT_SOURCE_DIR}/zend_language_parser.c"
   COMPILE_FLAGS "-v -d"
-  DEFINES_FILE ${CMAKE_CURRENT_BINARY_DIR}/zend_language_parser.h
+  DEFINES_FILE "${CMAKE_CURRENT_SOURCE_DIR}/zend_language_parser.h"
+)
+
+# Tweak zendparse to be exported through ZEND_API. This has to be revisited once
+# bison supports foreign skeletons and that bison version is used. Read
+# https://git.savannah.gnu.org/cgit/bison.git/tree/data/README.md for more.
+add_custom_target(
+  patch_zend_language_parser_files
+  COMMAND ${CMAKE_COMMAND} -P "${CMAKE_SOURCE_DIR}/cmake/modules/Zend/patch_zend_language_parser_file.cmake"
+  DEPENDS ${BISON_ZendLanguageParser_OUTPUTS}
 )
 
 re2c_target(
-  NAME ZendLanguageScanner
+  NAME zend_language_scanner.c
   INPUT "${CMAKE_CURRENT_SOURCE_DIR}/zend_language_scanner.l"
   OUTPUT "${CMAKE_CURRENT_SOURCE_DIR}/zend_language_scanner.c"
   OPTIONS "--no-generation-date --case-inverted -cbdFt ${CMAKE_CURRENT_SOURCE_DIR}/zend_language_scanner_defs.h"
 )
 
 re2c_target(
-  NAME ZendIniScanner
+  NAME zend_ini_scanner.c
   INPUT "${CMAKE_CURRENT_SOURCE_DIR}/zend_ini_scanner.l"
   OUTPUT "${CMAKE_CURRENT_SOURCE_DIR}/zend_ini_scanner.c"
   OPTIONS "--no-generation-date --case-inverted -cbdFt ${CMAKE_CURRENT_SOURCE_DIR}/zend_ini_scanner_defs.h"
@@ -179,8 +184,9 @@ add_library(Zend
   Optimizer/compact_vars.c
   Optimizer/zend_dump.c
   ${BISON_ZendIniParser_OUTPUTS}
-  ${BISON_ZendLanguageParser_OUTPUTS}
 )
+
+add_dependencies(Zend patch_zend_language_parser_files)
 
 target_include_directories(
   Zend
