@@ -1,19 +1,62 @@
 #[=============================================================================[
 Checks if PHP can use external libcrypt.
+
+Module sets the following variables:
+
+HAVE_CRYPT
+  Set to 1 if crypt function is available.
+
+CRYPT_EXTRA_LIBRARIES
+  A list of additional libraries for building the target.
+
+HAVE_CRYPT_R
+  Set to 1 if crypt_r is available.
 ]=============================================================================]#
 
 include(CheckCSourceRuns)
+include(CheckIncludeFile)
+include(CheckSymbolExists)
 include(CMakePushCheckState)
 
 function(php_check_external_libcrypt)
-  set(EXTRA_DEFINITIONS "")
+  set(CRYPT_EXTRA_LIBRARIES "" CACHE INTERNAL "Additional libraries to pass to target")
+
+  check_symbol_exists(crypt "crypt.h" HAVE_CRYPT)
+
+  if(NOT HAVE_CRYPT)
+    check_library_exists(crypt crypt "" HAVE_CRYPT)
+    if(NOT HAVE_CRYPT)
+      message(FATAL_ERROR "Crypt library not found")
+    endif()
+
+    list(APPEND CRYPT_EXTRA_LIBRARIES ${CRYPT_EXTRA_LIBRARIES} crypt)
+  endif()
+
+  check_symbol_exists(crypt_r "crypt.h" HAVE_CRYPT_R)
+
+  if(NOT HAVE_CRYPT_R)
+    check_library_exists(crypt crypt_r "" HAVE_CRYPT_R)
+
+    if(HAVE_CRYPT_R)
+      list(APPEND CRYPT_EXTRA_LIBRARIES ${CRYPT_EXTRA_LIBRARIES} crypt)
+    endif()
+  endif()
+
+  # Check crypt_r() style.
+  if(HAVE_CRYPT_R)
+    include("${CMAKE_CURRENT_FUNCTION_LIST_DIR}/PHPCheckExternalLibcrypt/PHPCheckCryptRStyle.cmake")
+  endif()
+
+  check_include_file(crypt.h HAVE_CRYPT_H)
+
+  set(LIBCRYPT_EXTRA_DEFINITIONS "")
 
   if(HAVE_UNISTD_H)
-    list(APPEND EXTRA_DEFINITIONS -DHAVE_UNISTD_H=1)
+    list(APPEND LIBCRYPT_EXTRA_DEFINITIONS -DHAVE_UNISTD_H=1)
   endif()
 
   if(HAVE_CRYPT_H)
-    list(APPEND EXTRA_DEFINITIONS -DHAVE_CRYPT_H=1)
+    list(APPEND LIBCRYPT_EXTRA_DEFINITIONS -DHAVE_CRYPT_H=1)
   endif()
 
   message(STATUS "Checking for standard DES crypt")
@@ -23,7 +66,7 @@ function(php_check_external_libcrypt)
     set(crypt_des ON)
   else()
     cmake_push_check_state()
-      set(CMAKE_REQUIRED_DEFINITIONS "${CMAKE_REQUIRED_DEFINITIONS} ${EXTRA_DEFINITIONS}")
+      set(CMAKE_REQUIRED_DEFINITIONS "${CMAKE_REQUIRED_DEFINITIONS} ${LIBCRYPT_EXTRA_DEFINITIONS}")
 
       check_c_source_runs("
         #include <string.h>
@@ -57,7 +100,7 @@ function(php_check_external_libcrypt)
     message(STATUS "no (cross-compiling)")
   else()
     cmake_push_check_state()
-      set(CMAKE_REQUIRED_DEFINITIONS "${CMAKE_REQUIRED_DEFINITIONS} ${EXTRA_DEFINITIONS}")
+      set(CMAKE_REQUIRED_DEFINITIONS "${CMAKE_REQUIRED_DEFINITIONS} ${LIBCRYPT_EXTRA_DEFINITIONS}")
 
       check_c_source_runs("
         #include <string.h>
@@ -91,7 +134,7 @@ function(php_check_external_libcrypt)
     message(STATUS "no (cross-compiling)")
   else()
     cmake_push_check_state()
-      set(CMAKE_REQUIRED_DEFINITIONS "${CMAKE_REQUIRED_DEFINITIONS} ${EXTRA_DEFINITIONS}")
+      set(CMAKE_REQUIRED_DEFINITIONS "${CMAKE_REQUIRED_DEFINITIONS} ${LIBCRYPT_EXTRA_DEFINITIONS}")
 
       check_c_source_runs("
         #include <string.h>
@@ -135,7 +178,7 @@ function(php_check_external_libcrypt)
     message(STATUS "no (cross-compiling)")
   else()
     cmake_push_check_state()
-      set(CMAKE_REQUIRED_DEFINITIONS "${CMAKE_REQUIRED_DEFINITIONS} ${EXTRA_DEFINITIONS}")
+      set(CMAKE_REQUIRED_DEFINITIONS "${CMAKE_REQUIRED_DEFINITIONS} ${LIBCRYPT_EXTRA_DEFINITIONS}")
 
       check_c_source_runs("
         #include <string.h>
@@ -176,7 +219,7 @@ function(php_check_external_libcrypt)
     message(STATUS "no (cross-compiling)")
   else()
     cmake_push_check_state()
-      set(CMAKE_REQUIRED_DEFINITIONS "${CMAKE_REQUIRED_DEFINITIONS} ${EXTRA_DEFINITIONS}")
+      set(CMAKE_REQUIRED_DEFINITIONS "${CMAKE_REQUIRED_DEFINITIONS} ${LIBCRYPT_EXTRA_DEFINITIONS}")
 
       check_c_source_runs("
         #include <string.h>
@@ -216,7 +259,7 @@ function(php_check_external_libcrypt)
     message(STATUS "no (cross-compiling)")
   else()
     cmake_push_check_state()
-      set(CMAKE_REQUIRED_DEFINITIONS "${CMAKE_REQUIRED_DEFINITIONS} ${EXTRA_DEFINITIONS}")
+      set(CMAKE_REQUIRED_DEFINITIONS "${CMAKE_REQUIRED_DEFINITIONS} ${LIBCRYPT_EXTRA_DEFINITIONS}")
 
       check_c_source_compiles("
         #include <string.h>
@@ -250,9 +293,11 @@ function(php_check_external_libcrypt)
     cmake_pop_check_state()
   endif()
 
-  if(NOT crypt_des OR NOT crypt_ext_des OR NOT crypt_md5 OR NOT crypt_blowfish OR NOT crypt_sha512 OR NOT crypt_sha256)
+  if(NOT crypt_des OR NOT crypt_ext_des OR NOT crypt_md5 OR NOT crypt_blowfish OR NOT crypt_sha512 OR NOT crypt_sha256 OR NOT HAVE_CRYPT_R)
     message(FATAL_ERROR "Cannot use external libcrypt as some algos are missing")
   endif()
+
+  list(REMOVE_DUPLICATES ${CRYPT_EXTRA_LIBRARIES})
 endfunction()
 
 php_check_external_libcrypt()

@@ -1,16 +1,99 @@
 include(CheckCSourceCompiles)
 include(CheckCSourceRuns)
+include(CheckLibraryExists)
 include(CheckSymbolExists)
 include(PHPFindPackage)
 
-check_symbol_exists(crypt "crypt.h" HAVE_CRYPT)
-check_symbol_exists(dn_expand "resolv.h" HAVE_DN_EXPAND)
-check_symbol_exists(dn_skipname "resolv.h" HAVE_DN_SKIPNAME)
-check_symbol_exists(dns_search "resolv.h" HAVE_DNS_SEARCH)
+# Detect library functions needed by php dns_xxx functions.
+# ext/standard/php_dns.h will collect these in a single define
+# HAVE_FULL_DNS_FUNCS.
+set(STANDARD_EXTRA_LIBRARIES "")
+
 check_symbol_exists(posix_spawn_file_actions_addchdir_np "spawn.h" HAVE_POSIX_SPAWN_FILE_ACTIONS_ADDCHDIR_NP)
-check_symbol_exists(res_ndestroy "resolv.h" HAVE_RES_NDESTROY)
+
 check_symbol_exists(res_nsearch "resolv.h" HAVE_RES_NSEARCH)
+if(NOT HAVE_RES_NSEARCH)
+  set(LIBRARIES_TO_CHECK resolv bind socket)
+
+  foreach(LIBRARY ${LIBRARIES_TO_CHECK})
+    check_library_exists(${LIBRARY} res_nsearch "" HAVE_RES_NSEARCH)
+
+    if(HAVE_RES_NSEARCH)
+      list(APPEND STANDARD_EXTRA_LIBRARIES ${LIBRARY})
+      break()
+    endif()
+  endforeach()
+endif()
+
+check_symbol_exists(res_ndestroy "resolv.h" HAVE_RES_NDESTROY)
+if(NOT HAVE_RES_NDESTROY)
+  set(LIBRARIES_TO_CHECK resolv bind socket)
+
+  foreach(LIBRARY ${LIBRARIES_TO_CHECK})
+    check_library_exists(${LIBRARY} res_ndestroy "" HAVE_RES_NDESTROY)
+
+    if(HAVE_RES_NDESTROY)
+      list(APPEND STANDARD_EXTRA_LIBRARIES ${LIBRARY})
+      break()
+    endif()
+  endforeach()
+endif()
+
+check_symbol_exists(dns_search "resolv.h" HAVE_DNS_SEARCH)
+if(NOT HAVE_DNS_SEARCH)
+  set(LIBRARIES_TO_CHECK resolv bind socket)
+
+  foreach(LIBRARY ${LIBRARIES_TO_CHECK})
+    check_library_exists(${LIBRARY} res_ndestroy "" HAVE_DNS_SEARCH)
+
+    if(HAVE_DNS_SEARCH)
+      list(APPEND STANDARD_EXTRA_LIBRARIES ${LIBRARY})
+      break()
+    endif()
+  endforeach()
+endif()
+
+check_symbol_exists(dn_expand "resolv.h" HAVE_DN_EXPAND)
+if(NOT HAVE_DN_EXPAND)
+  set(LIBRARIES_TO_CHECK resolv bind socket)
+
+  foreach(LIBRARY ${LIBRARIES_TO_CHECK})
+    check_library_exists(${LIBRARY} res_ndestroy "" HAVE_DN_EXPAND)
+
+    if(HAVE_DN_EXPAND)
+      list(APPEND STANDARD_EXTRA_LIBRARIES ${LIBRARY})
+      break()
+    endif()
+  endforeach()
+endif()
+
+check_symbol_exists(dn_skipname "resolv.h" HAVE_DN_SKIPNAME)
+if(NOT HAVE_DN_SKIPNAME)
+  set(LIBRARIES_TO_CHECK resolv bind socket)
+
+  foreach(LIBRARY ${LIBRARIES_TO_CHECK})
+    check_library_exists(${LIBRARY} res_ndestroy "" HAVE_DN_SKIPNAME)
+
+    if(HAVE_DN_SKIPNAME)
+      list(APPEND STANDARD_EXTRA_LIBRARIES ${LIBRARY})
+      break()
+    endif()
+  endforeach()
+endif()
+
 check_symbol_exists(res_search "resolv.h" HAVE_RES_SEARCH)
+if(NOT HAVE_RES_SEARCH)
+  set(LIBRARIES_TO_CHECK resolv bind socket)
+
+  foreach(LIBRARY ${LIBRARIES_TO_CHECK})
+    check_library_exists(${LIBRARY} res_ndestroy "" HAVE_RES_SEARCH)
+
+    if(HAVE_RES_SEARCH)
+      list(APPEND STANDARD_EXTRA_LIBRARIES ${LIBRARY})
+      break()
+    endif()
+  endforeach()
+endif()
 
 # Check how flush should be called.
 include(PHPCheckFlushIo)
@@ -22,7 +105,7 @@ include(PHPCheckProcOpenSupport)
 include(PHPCheckStrptime)
 
 # Check for fnmatch() implementation.
-include(PHPCheckFnMatch)
+include(PHPCheckFnmatch)
 
 message(STATUS "Checking for usable getifaddrs")
 check_c_source_runs("
@@ -49,6 +132,10 @@ check_c_source_compiles("
     return 0;
   }
 " HAVE_ATTRIBUTE_ALIGNED)
+
+# TODO: Check whether to enable the chroot() function by checking which SAPI is
+# being built.
+set(ENABLE_CHROOT_FUNC 1 CACHE INTERNAL "Whether to enable chroot() function")
 
 re2c_target(
   NAME var_unserializer.c
@@ -145,6 +232,11 @@ if(NOT EXTERNAL_LIBCRYPT)
   set(PHP_USE_PHP_CRYPT_R 1 CACHE INTERNAL "Whether PHP has to use its own crypt_r")
 else()
   include(PHPCheckExternalLibcrypt)
+
+  if(CRYPT_EXTRA_LIBRARIES)
+    list(APPEND STANDARD_EXTRA_LIBRARIES ${CRYPT_EXTRA_LIBRARIES})
+  endif()
+
   set(PHP_USE_PHP_CRYPT_R 0 CACHE INTERNAL "Whether PHP has to use its own crypt_r")
 endif()
 
@@ -155,7 +247,7 @@ if(PASSWORD_ARGON2)
 
   if(libargon2_FOUND)
     set(HAVE_ARGON2LIB 1 CACHE INTERNAL "Whether to use the libargon2")
-    target_link_libraries(ext_standard PUBLIC ${libargon2_LIBRARIES})
+    target_link_libraries(ext_standard PRIVATE ${libargon2_LIBRARIES})
     target_compile_options(ext_opcache PRIVATE ${libargon2_CFLAGS})
   endif()
 endif()
@@ -168,3 +260,8 @@ file(GLOB EXT_STANDARD_HEADER_FILES "${CMAKE_CURRENT_SOURCE_DIR}/*.h")
 set_target_properties(ext_standard PROPERTIES PUBLIC_HEADER "${EXT_STANDARD_HEADER_FILES}")
 
 add_dependencies(ext_standard Zend)
+
+if(STANDARD_EXTRA_LIBRARIES)
+  list(REMOVE_DUPLICATES ${STANDARD_EXTRA_LIBRARIES})
+  target_link_libraries(ext_standard PRIVATE ${STANDARD_EXTRA_LIBRARIES})
+endif()

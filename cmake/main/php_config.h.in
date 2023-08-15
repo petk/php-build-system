@@ -244,13 +244,13 @@
 #cmakedefine COOKIE_SEEKER_USES_OFF64_T @COOKIE_SEEKER_USES_OFF64_T@
 
 /* Define if crypt_r has uses CRYPTD */
-#cmakedefine CRYPT_R_CRYPTD
+#cmakedefine CRYPT_R_CRYPTD @CRYPT_R_CRYPTD@
 
 /* Define if struct crypt_data requires _GNU_SOURCE */
-#cmakedefine CRYPT_R_GNU_SOURCE
+#cmakedefine CRYPT_R_GNU_SOURCE @CRYPT_R_GNU_SOURCE@
 
 /* Define if crypt_r uses struct crypt_data */
-#cmakedefine CRYPT_R_STRUCT_CRYPT_DATA
+#cmakedefine CRYPT_R_STRUCT_CRYPT_DATA @CRYPT_R_STRUCT_CRYPT_DATA@
 
 /* Define to 1 if using 'alloca.c'. */
 #cmakedefine C_ALLOCA
@@ -331,7 +331,7 @@
 #cmakedefine DLSYM_NEEDS_UNDERSCORE @DLSYM_NEEDS_UNDERSCORE@
 
 /* Whether to enable chroot() function */
-#cmakedefine ENABLE_CHROOT_FUNC
+#cmakedefine ENABLE_CHROOT_FUNC @ENABLE_CHROOT_FUNC@
 
 /* */
 #cmakedefine GDBM_INCLUDE_FILE
