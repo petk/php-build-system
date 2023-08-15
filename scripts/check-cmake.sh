@@ -62,14 +62,14 @@ status=$?
 test "$status" != "0" && exit_code=$status
 
 # Run cmake-lint from the cmakelang project.
-echo "\Running cmake-lint (cmakelang)"
+echo "\nRunning cmake-lint (cmakelang)"
 $cmakelang_cmakelint $files
 status=$?
 
 test "$status" != "0" && exit_code=$status
 
 # Run cmake-format. Configuration file cmake-format.json is taken into account.
-echo "\Running cmake-format (cmakelang)"
+echo "\nRunning cmake-format (cmakelang)"
 $cmakelang_cmakeformat --check $files
 status=$?
 
