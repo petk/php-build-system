@@ -11,6 +11,7 @@ filename="php_config.h.in"
 patterns="
 #undef\sHAVE_DLSYM
 #undef\sHAVE_DLOPEN
+#undef\sPTHREADS
 "
 
 # Go to project root.

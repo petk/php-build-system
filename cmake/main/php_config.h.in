@@ -2065,9 +2065,6 @@
 /* /proc/pid/mem interface */
 #cmakedefine PROC_MEM_FILE
 
-/* Whether to use Pthreads */
-#cmakedefine PTHREADS
-
 /* */
 #cmakedefine QDBM_INCLUDE_FILE
 

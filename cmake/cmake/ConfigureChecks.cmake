@@ -352,3 +352,23 @@ include(PHPCheckAarch64CRC32)
 
 # Check DTrace.
 include(PHPCheckDTrace)
+
+# Check POSIX Threads flags.
+if(ZTS)
+  string(TOLOWER "${CMAKE_HOST_SYSTEM}" host_os)
+  if(${host_os} MATCHES ".*solaris.*")
+    set(EXTRA_DEFINITIONS ${EXTRA_DEFINITIONS} -D_POSIX_PTHREAD_SEMANTICS -D_REENTRANT)
+  elseif(${host_os} MATCHES ".*freebsd.*")
+    set(EXTRA_DEFINITIONS ${EXTRA_DEFINITIONS} -D_REENTRANT -D_THREAD_SAFE)
+  elseif(${host_os} MATCHES ".*linux.*")
+    set(EXTRA_DEFINITIONS ${EXTRA_DEFINITIONS} -D_REENTRANT)
+  elseif(${host_os} MATCHES ".*aix.*")
+    set(EXTRA_DEFINITIONS ${EXTRA_DEFINITIONS} -D_THREAD_SAFE)
+  elseif(${host_os} MATCHES ".*irix.*")
+    set(EXTRA_DEFINITIONS ${EXTRA_DEFINITIONS} -D_POSIX_THREAD_SAFE_FUNCTIONS)
+  elseif(${host_os} MATCHES ".*hpux.*")
+    set(EXTRA_DEFINITIONS ${EXTRA_DEFINITIONS} -D_REENTRANT)
+  elseif(${host_os} MATCHES ".*sco.*")
+    set(EXTRA_DEFINITIONS ${EXTRA_DEFINITIONS} -D_REENTRANT)
+  endif()
+endif()
