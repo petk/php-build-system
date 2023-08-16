@@ -643,6 +643,9 @@ List of configure command line options and their CMake alternatives:
 | `--disable-bcmath` (default)                    | `-Dbcmath=OFF`                    | `OFF`               |
 | `--enable-bcmath`                               | `-Dbcmath=ON`                     |                     |
 | `--enable-bcmath=shared`                        | `-Dbcmath=shared`                 |                     |
+| `--without-bz2` (default)                       | `-Dbz2=OFF`                       | `OFF`               |
+| `--with-bz2[=DIR]`                              | `-Dbz2=[ON\|path/to/bz2]`         |                     |
+| `--with-bz2=shared`                             | `-Dbz2=shared`                    |                     |
 | `--disable-calendar` (default)                  | `-Dcalendar=OFF`                  | `OFF`               |
 | `--enable-calendar`                             | `-Dcalendar=ON`                   |                     |
 | `--enable-calendar=shared`                      | `-Dcalendar=shared`               |                     |
