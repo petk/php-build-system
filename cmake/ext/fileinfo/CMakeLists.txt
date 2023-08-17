@@ -85,5 +85,3 @@ target_include_directories(
   PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}"
   PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/libmagic"
 )
-
-target_compile_definitions(ext_fileinfo PRIVATE HAVE_CONFIG_H)
