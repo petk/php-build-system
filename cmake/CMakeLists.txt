@@ -1,11 +1,7 @@
 cmake_minimum_required(VERSION 3.25 FATAL_ERROR)
 
-# Set the module path to include the directory containing custom modules.
-list(APPEND CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake/modules/")
-list(APPEND CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake/")
-
-# Define some CMake defaults.
-include(DefineCMakeDefaults)
+# Set some CMake defaults.
+include(cmake/CMakeDefaults.cmake)
 
 message("
 +--------------------------------------------------------------------+
