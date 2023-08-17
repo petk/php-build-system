@@ -42,7 +42,7 @@ modules=$(find ./cmake/cmake/modules -type f -name "PHP*.cmake")
 
 for module in $modules; do
   module_name=$(basename $module | sed -e "s/.cmake$//")
-  found=$(grep -Er "include\(${module_name}\)" cmake)
+  found=$(grep -Er "include\(.*${module_name}(\.cmake)?.?\)" cmake)
   if test -z "$found"; then
     echo "E: ${module_name} is not used" >&2
     exit_code=1
