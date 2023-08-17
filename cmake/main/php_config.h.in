@@ -1312,7 +1312,7 @@
 #cmakedefine HAVE_PWRITE @HAVE_PWRITE@
 
 /* Define to 1 if you have the `RAND_egd' function. */
-#cmakedefine HAVE_RAND_EGD
+#cmakedefine HAVE_RAND_EGD @HAVE_RAND_EGD@
 
 /* Define to 1 if you have the <resolv.h> header file. */
 #cmakedefine HAVE_RESOLV_H @HAVE_RESOLV_H@
@@ -2136,7 +2136,7 @@
 #cmakedefine USE_LOCKING
 
 /* Use system default cipher list instead of hardcoded value */
-#cmakedefine USE_OPENSSL_SYSTEM_CIPHERS
+#cmakedefine USE_OPENSSL_SYSTEM_CIPHERS @USE_OPENSSL_SYSTEM_CIPHERS@
 
 /* Enable extensions on AIX 3, Interix.  */
 #ifndef _ALL_SOURCE

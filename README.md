@@ -418,6 +418,8 @@ Required:
 Optional:
 
 * libcapstone (for the OPcache `--with-capstone` option)
+* libssl-dev (for OpenSSL `--with-openssl`)
+* libkrb5-dev (for the OpenSSL `--with-kerberos` option)
 
 ### 6.3. The configure command line options
 
@@ -697,6 +699,13 @@ List of configure command line options and their CMake alternatives:
 | `--disable-opcache-jit`                         | `-Dopcache_jit=OFF`               |                     |
 | `--without-capstone` (default)                  | `-Dcapstone=OFF`                  | `OFF`               |
 | `--with-capstone`                               | `-Dcapstone=ON`                   |                     |
+| `--without-openssl` (default)                   | `-Dopenssl=OFF`                   | `OFF`               |
+| `--with-openssl`                                | `-Dopenssl=ON`                    |                     |
+| `--with-openssl=shared`                         | `-Dopenssl=shared`                |                     |
+| `--without-kerberos` (default)                  | `-Dopenssl_kerberos=OFF`          | `OFF`               |
+| `--with-kerberos`                               | `-Dopenssl_kerberos=ON`           |                     |
+| `--without-system-ciphers` (default)            | `-Dopenssl_system_ciphers=OFF`    | `OFF`               |
+| `--with-system-ciphers`                         | `-Dopenssl_system_ciphers=ON`     |                     |
 | `--disable-pcntl` (default)                     | `-Dpcntl=OFF`                     | `OFF`               |
 | `--enable-pcntl`                                | `-Dpcntl=ON`                      |                     |
 | `--enable-pcntl=shared`                         | `-Dpcntl=shared`                  |                     |

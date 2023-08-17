@@ -1,6 +1,8 @@
+include(CMakeDependentOption)
+
 option(ftp "Whether to enable the ftp extension" OFF)
 
-option(ftp_ssl "Whether to explicitly enable FTP SSL support when not using ext/openssl" OFF)
+cmake_dependent_option(ftp_ssl "Whether to explicitly enable FTP SSL support when not using ext/openssl" OFF "ftp" OFF)
 
 if(NOT ftp)
   return()
