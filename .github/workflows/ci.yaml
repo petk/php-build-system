@@ -86,3 +86,8 @@ jobs:
           submodules: true
       - name: Build and install
         run: ./init --cmake
+
+      - name: Run tests
+        run: |
+          cd php-src
+          ./sapi/cli/php run-tests.php -j$(/usr/bin/nproc)
