@@ -496,7 +496,7 @@
 #cmakedefine HAVE_CURL @HAVE_CURL@
 
 /* Have cURL with old OpenSSL */
-#cmakedefine HAVE_CURL_OLD_OPENSSL
+#cmakedefine HAVE_CURL_OLD_OPENSSL @HAVE_CURL_OLD_OPENSSL@
 
 /* */
 #cmakedefine HAVE_DBA @HAVE_DBA@
@@ -1189,7 +1189,7 @@
 #cmakedefine HAVE_OPENPTY
 
 /* Define to 1 if you have the <openssl/crypto.h> header file. */
-#cmakedefine HAVE_OPENSSL_CRYPTO_H
+#cmakedefine HAVE_OPENSSL_CRYPTO_H @HAVE_OPENSSL_CRYPTO_H@
 
 /* */
 #cmakedefine HAVE_OPENSSL_EXT @HAVE_OPENSSL_EXT@

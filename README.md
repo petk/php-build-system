@@ -652,6 +652,9 @@ List of configure command line options and their CMake alternatives:
 | `--enable-ctype` (default)                      | `-Dctype=ON`                      | `ON`                |
 | `--enable-ctype=shared`                         | `-Dctype=shared`                  |                     |
 | `--disable-ctype`                               | `-Dctype=OFF`                     |                     |
+| `--without-curl` (default)                      | `-Dcurl=OFF `                     | `OFF`               |
+| `--with-curl`                                   | `-Dcurl=ON`                       |                     |
+| `--with-curl=shared`                            | `-Dcurl=shared`                   |                     |
 | `--disable-dl-test` (default)                   | `-Ddl_test=OFF`                   | `OFF`               |
 | `--enable-dl-test`                              | `-Ddl_test=ON`                    |                     |
 | `--enable-dl-test=shared`                       | `-Ddl_test=shared`                |                     |
