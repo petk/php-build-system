@@ -31,7 +31,7 @@ if(openssl_kerberos)
 
   if(KERBEROS_FOUND)
     target_link_libraries(ext_openssl PRIVATE ${KERBEROS_LIBRARIES})
-    #target_include_directories(ext_openssl PRIVATE ${KERBEROS_INCLUDE_DIRS})
+    target_include_directories(ext_openssl PRIVATE ${KERBEROS_INCLUDE_DIRS})
   endif()
 endif()
 
