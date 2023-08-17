@@ -676,6 +676,11 @@ List of configure command line options and their CMake alternatives:
 | `--enable-filter` (default)                     | `-Dfilter=ON`                     | `ON`                |
 | `--enable-filter=shared`                        | `-Dfilter=shared`                 |                     |
 | `--disable-filter`                              | `-Dfilter=OFF`                    |                     |
+| `--disable-ftp` (default)                       | `-Dftp=OFF`                       | `OFF`               |
+| `--enable-ftp`                                  | `-Dftp=ON`                        |                     |
+| `--enable-ftp=shared`                           | `-Dftp=shared`                    |                     |
+| `--without-openssl-dir`                         | `-Dftp_ssl=OFF`                   | `OFF`               |
+| `--with-openssl-dir`                            | `-Dftp_ssl=ON`                    |                     |
 | `--without-gettext` (default)                   | `-Dgettext=OFF`                   | `OFF`               |
 | `--with-gettext[=DIR]`                          | `-Dgettext=ON`                    |                     |
 | `--with-gettext=shared`                         | `-Dgettext=shared`                |                     |

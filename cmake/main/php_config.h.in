@@ -651,7 +651,7 @@
 #cmakedefine HAVE_FTP @HAVE_FTP@
 
 /* Whether FTP over SSL is supported */
-#cmakedefine HAVE_FTP_SSL
+#cmakedefine HAVE_FTP_SSL @HAVE_FTP_SSL@
 
 /* Define to 1 if the system has the `ifunc' function attribute */
 #cmakedefine HAVE_FUNC_ATTRIBUTE_IFUNC
