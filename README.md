@@ -673,6 +673,9 @@ List of configure command line options and their CMake alternatives:
 | `--enable-filter` (default)                     | `-Dfilter=ON`                     | `ON`                |
 | `--enable-filter=shared`                        | `-Dfilter=shared`                 |                     |
 | `--disable-filter`                              | `-Dfilter=OFF`                    |                     |
+| `--without-gettext` (default)                   | `-Dgettext=OFF`                   | `OFF`               |
+| `--with-gettext[=DIR]`                          | `-Dgettext=ON`                    |                     |
+| `--with-gettext=shared`                         | `-Dgettext=shared`                |                     |
 | `--without-mhash` (default)                     | `-Dmhash=OFF`                     | `OFF`               |
 | `--with-mhash`                                  | `-Dmhash=ON`                      |                     |
 | `--with-libxml` (default)                       | `-Dlibxml=ON`                     | `ON`                |

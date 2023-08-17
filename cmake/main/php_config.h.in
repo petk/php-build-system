@@ -400,7 +400,7 @@
 #cmakedefine HAVE_BCMATH @HAVE_BCMATH@
 
 /* */
-#cmakedefine HAVE_BIND_TEXTDOMAIN_CODESET
+#cmakedefine HAVE_BIND_TEXTDOMAIN_CODESET @HAVE_BIND_TEXTDOMAIN_CODESET@
 
 /* Define if system has broken getcwd */
 #cmakedefine HAVE_BROKEN_GETCWD @HAVE_BROKEN_GETCWD@
@@ -505,7 +505,7 @@
 #cmakedefine HAVE_DBMAKER
 
 /* */
-#cmakedefine HAVE_DCNGETTEXT
+#cmakedefine HAVE_DCNGETTEXT @HAVE_DCNGETTEXT@
 
 /* Define to 1 if you have the declaration of `arc4random_buf', and to 0 if
    you don't. */
@@ -528,7 +528,7 @@
 #cmakedefine HAVE_DMALLOC
 
 /* */
-#cmakedefine HAVE_DNGETTEXT
+#cmakedefine HAVE_DNGETTEXT @HAVE_DNGETTEXT@
 
 /* Define to 1 if you have the <dns.h> header file. */
 #cmakedefine HAVE_DNS_H @HAVE_DNS_H@
@@ -990,7 +990,7 @@
 #cmakedefine HAVE_LIBICONV
 
 /* */
-#cmakedefine HAVE_LIBINTL
+#cmakedefine HAVE_LIBINTL @HAVE_LIBINTL@
 
 /* */
 #cmakedefine HAVE_LIBJPEG
@@ -1143,7 +1143,7 @@
 #cmakedefine HAVE_NEW_MIME2TEXT
 
 /* */
-#cmakedefine HAVE_NGETTEXT
+#cmakedefine HAVE_NGETTEXT @HAVE_NGETTEXT@
 
 /* Define to 1 if you have the `nice' function. */
 #cmakedefine HAVE_NICE @HAVE_NICE@
