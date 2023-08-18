@@ -38,11 +38,8 @@ if test -z $(git rev-parse --verify ${BRANCH} 2>/dev/null); then
   echo "Branch ${BRANCH} is missing." >&2
 fi
 
-# A list of patched files.
-files="
-.editorconfig
-.gitignore
-"
+# Get a list of patched files.
+files=$(git diff master ${branch} --name-only)
 
 test ! -d ../${current_repo}/patches && mkdir -p ../${current_repo}/patches
 
