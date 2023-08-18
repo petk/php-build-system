@@ -41,7 +41,12 @@ fi
 # Get a list of patched files.
 files=$(git --no-pager diff master ${branch} --name-only)
 
-test ! -d ../${current_repo}/patches && mkdir -p ../${current_repo}/patches
+if test -d ../${current_repo}/patches; then
+  # Clean existing patches.
+  rm ../${current_repo}/patches/*.patch
+else
+  mkdir -p ../${current_repo}/patches
+fi
 
 for file in $files; do
   if test -f ${file}; then
