@@ -686,6 +686,9 @@ List of configure command line options and their CMake alternatives:
 | `--without-gettext` (default)                   | `-Dgettext=OFF`                   | `OFF`               |
 | `--with-gettext[=DIR]`                          | `-Dgettext=ON`                    |                     |
 | `--with-gettext=shared`                         | `-Dgettext=shared`                |                     |
+| `--without-gmp` (default)                       | `-Dgmp=OFF`                       | `OFF`               |
+| `--with-gmp`                                    | `-Dgmp=ON`                        |                     |
+| `--with-gmp=shared`                             | `-Dgmp=shared`                    |                     |
 | `--without-mhash` (default)                     | `-Dmhash=OFF`                     | `OFF`               |
 | `--with-mhash`                                  | `-Dmhash=ON`                      |                     |
 | `--with-libxml` (default)                       | `-Dlibxml=ON`                     | `ON`                |

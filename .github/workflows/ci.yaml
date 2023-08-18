@@ -86,7 +86,7 @@ jobs:
           fetch-depth: 2
           submodules: true
       - name: Build and install
-        run: ./init --cmake
+        run: ./init --cmake --options "-Dgmp=ON"
 
       - name: Run tests
         run: |
