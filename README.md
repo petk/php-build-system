@@ -743,6 +743,9 @@ List of configure command line options and their CMake alternatives:
 | `--disable-sockets` (default)                   | `-Dsockets=OFF`                   | `OFF`               |
 | `--enable-sockets`                              | `-Dsockets=ON`                    |                     |
 | `--enable-sockets=shared`                       | `-Dsockets=shared`                |                     |
+| `--with-sodium` (default)                       | `-Dsodium=ON`                     | `ON`                |
+| `--with-sodium=shared`                          | `-Dsodium=shared`                 |                     |
+| `--without-sodium`                              | `-Dsodium=OFF`                    |                     |
 | `--disable-sysvmsg` (default)                   | `-Dsysvmsg=OFF`                   | `OFF`               |
 | `--enable-sysvmsg`                              | `-Dsysvmsg=ON`                    |                     |
 | `--enable-sysvmsg=shared`                       | `-Dsysvmsg=shared`                |                     |

@@ -1035,7 +1035,7 @@
 #cmakedefine HAVE_LIBSOCKET
 
 /* */
-#cmakedefine HAVE_LIBSODIUMLIB
+#cmakedefine HAVE_LIBSODIUMLIB @HAVE_LIBSODIUMLIB@
 
 /* */
 #cmakedefine HAVE_LIBUTIL
