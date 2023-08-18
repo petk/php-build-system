@@ -78,7 +78,8 @@ jobs:
             libsnmp-dev \
             snmp \
             apache2-dev \
-            firebird-dev;
+            firebird-dev \
+            libsodium-dev;
       - name: Checkout
         uses: actions/checkout@v3
         with:
