@@ -40,16 +40,17 @@ check_symbol_exists(rfork "unistd.h" HAVE_RFORK)
 check_symbol_exists(forkx "sys/fork.h" HAVE_FORKX)
 
 message(STATUS "Checking for siginfo_t")
-check_c_source_compiles("
-  #include <signal.h>
-  #ifdef HAVE_SIGINFO_H
-    #include <siginfo.h>
-  #endif
-  int main() {
-    siginfo_t info;
-    return 0;
-  }
-" HAVE_STRUCT_SIGINFO_T)
+cmake_push_check_state()
+  set(CMAKE_REQUIRED_DEFINITIONS "${CMAKE_REQUIRED_DEFINITIONS} -D_GNU_SOURCE")
+  check_c_source_compiles("
+    #include <signal.h>
+
+    int main(void) {
+      siginfo_t info;
+      return 0;
+    }
+  " HAVE_STRUCT_SIGINFO_T)
+cmake_pop_check_state()
 
 string(TOLOWER ${pcntl} extension_lower)
 set(extension_library_type "STATIC")
