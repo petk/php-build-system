@@ -39,14 +39,14 @@ if test -z $(git rev-parse --verify ${BRANCH} 2>/dev/null); then
 fi
 
 # Get a list of patched files.
-files=$(git diff master ${branch} --name-only)
+files=$(git --no-pager diff master ${branch} --name-only)
 
 test ! -d ../${current_repo}/patches && mkdir -p ../${current_repo}/patches
 
 for file in $files; do
   if test -f ${file}; then
     echo "Creating patch for ${file}"
-    git diff master ${branch} -- ${file} > ../${current_repo}/patches/${file}.patch
+    git --no-pager diff master ${branch} -- ${file} > ../${current_repo}/patches/${file}.patch
   else
     echo "${file} is missing" >&2
   fi
