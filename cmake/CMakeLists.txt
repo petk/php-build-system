@@ -14,7 +14,7 @@ project(
   VERSION 8.3.0
   DESCRIPTION "Widely-used general-purpose scripting language"
   HOMEPAGE_URL "https://www.php.net"
-  LANGUAGES C ASM
+  LANGUAGES C ASM CXX
 )
 
 set(CMAKE_C_STANDARD 99)
@@ -25,7 +25,6 @@ set(PHP_VERSION_LABEL "-dev" CACHE STRING "Extra PHP version label suffix, e.g. 
 string(CONCAT PHP_VERSION "${PHP_VERSION_MAJOR}" "." "${PHP_VERSION_MINOR}" "." "${PHP_VERSION_PATCH}" "${PHP_VERSION_LABEL}")
 math(EXPR PHP_VERSION_ID "${PHP_VERSION_MAJOR} * 10000 + ${PHP_VERSION_MINOR} * 100 + ${PHP_VERSION_PATCH}")
 
-add_compile_options("$<$<COMPILE_LANGUAGE:C>:--std=c99>")
 add_compile_definitions("$<$<COMPILE_LANGUAGE:C>:_GNU_SOURCE>")
 
 # Define PHP configuration options.

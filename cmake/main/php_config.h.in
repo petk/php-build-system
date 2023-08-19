@@ -424,7 +424,7 @@
 #cmakedefine HAVE_CALENDAR @HAVE_CALENDAR@
 
 /* Libzip >= 1.6.0 with zip_register_cancel_callback_with_state function */
-#cmakedefine HAVE_CANCEL_CALLBACK
+#cmakedefine HAVE_CANCEL_CALLBACK @HAVE_CANCEL_CALLBACK@
 
 /* Capstone is available */
 #cmakedefine HAVE_CAPSTONE @HAVE_CAPSTONE@
@@ -564,7 +564,7 @@
 #cmakedefine HAVE_ENCHANT_GET_VERSION @HAVE_ENCHANT_GET_VERSION@
 
 /* Libzip >= 1.2.0 with encryption support */
-#cmakedefine HAVE_ENCRYPTION
+#cmakedefine HAVE_ENCRYPTION @HAVE_ENCRYPTION@
 
 /* do we have epoll? */
 #cmakedefine HAVE_EPOLL
@@ -1047,7 +1047,7 @@
 #cmakedefine HAVE_LIBXML @HAVE_LIBXML@
 
 /* Libzip >= 1.3.1 with zip_libzip_version function */
-#cmakedefine HAVE_LIBZIP_VERSION
+#cmakedefine HAVE_LIBZIP_VERSION @HAVE_LIBZIP_VERSION@
 
 /* Define to 1 if you have the <linux/filter.h> header file. */
 #cmakedefine HAVE_LINUX_FILTER_H @HAVE_LINUX_FILTER_H@
@@ -1101,7 +1101,7 @@
 #cmakedefine HAVE_MEMRCHR @HAVE_MEMRCHR@
 
 /* Libzip >= 1.7.0 with zip_*_method_supported functions */
-#cmakedefine HAVE_METHOD_SUPPORTED
+#cmakedefine HAVE_METHOD_SUPPORTED @HAVE_METHOD_SUPPORTED@
 
 /* Define to 1 if you have the <minix/config.h> header file. */
 #cmakedefine HAVE_MINIX_CONFIG_H
@@ -1267,7 +1267,7 @@
 #cmakedefine HAVE_PROCCTL @HAVE_PROCCTL@
 
 /* Libzip >= 1.3.0 with zip_register_progress_callback_with_state function */
-#cmakedefine HAVE_PROGRESS_CALLBACK
+#cmakedefine HAVE_PROGRESS_CALLBACK @HAVE_PROGRESS_CALLBACK@
 
 /* */
 #cmakedefine HAVE_PSPELL
@@ -1396,7 +1396,7 @@
 #cmakedefine HAVE_SETSOCKOPT
 
 /* Libzip >= 1.0.0 with zip_file_set_mtime */
-#cmakedefine HAVE_SET_MTIME
+#cmakedefine HAVE_SET_MTIME @HAVE_SET_MTIME@
 
 /* */
 #cmakedefine HAVE_SHMOP @HAVE_SHMOP@
@@ -1841,7 +1841,7 @@
 #cmakedefine HAVE_XSL_EXSLT @HAVE_XSL_EXSLT@
 
 /* */
-#cmakedefine HAVE_ZIP
+#cmakedefine HAVE_ZIP @HAVE_ZIP@
 
 /* */
 #cmakedefine HAVE_ZLIB @HAVE_ZLIB@

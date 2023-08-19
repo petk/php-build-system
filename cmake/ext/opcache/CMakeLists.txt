@@ -140,12 +140,14 @@ if(opcache_jit)
 
     if(capstone_FOUND)
       set(HAVE_CAPSTONE 1 CACHE INTERNAL "Capstone is available")
-      target_link_libraries(ext_opcache ${capstone_LIBRARIES})
+      target_link_libraries(ext_opcache PRIVATE ${capstone_LIBRARIES})
       target_compile_options(ext_opcache PRIVATE ${capstone_CFLAGS})
     endif()
   endif()
 endif()
 
 if(SHM_MMAP_POSIX_REQUIRED_LIBRARIES)
-  target_link_libraries(ext_opcache ${SHM_MMAP_POSIX_REQUIRED_LIBRARIES})
+  target_link_libraries(ext_opcache PRIVATE ${SHM_MMAP_POSIX_REQUIRED_LIBRARIES})
 endif()
+
+target_link_libraries(ext_opcache PRIVATE Zend main ext_standard)

@@ -687,10 +687,13 @@ List of configure command line options and their CMake alternatives:
 | `--with-gettext[=DIR]`                          | `-Dgettext=ON`                    |                     |
 | `--with-gettext=shared`                         | `-Dgettext=shared`                |                     |
 | `--without-gmp` (default)                       | `-Dgmp=OFF`                       | `OFF`               |
-| `--with-gmp`                                    | `-Dgmp=ON`                        |                     |
+| `--with-gmp[=DIR]`                              | `-Dgmp=ON`                        |                     |
 | `--with-gmp=shared`                             | `-Dgmp=shared`                    |                     |
 | `--without-mhash` (default)                     | `-Dmhash=OFF`                     | `OFF`               |
 | `--with-mhash`                                  | `-Dmhash=ON`                      |                     |
+| `--enable-intl` (default)                       | `-Dintl=ON`                       | `ON`                |
+| `--enable-intl=shared`                          | `-Dintl=shared`                   |                     |
+| `--disable-intl`                                | `-Dintl=OFF`                      |                     |
 | `--with-libxml` (default)                       | `-Dlibxml=ON`                     | `ON`                |
 | `--without-libxml`                              | `-Dlibxml=OFF`                    |                     |
 | `--enable-opcache=shared` (default)             | `-Dopcache=shared`                | `"shared"`          |
@@ -778,6 +781,9 @@ List of configure command line options and their CMake alternatives:
 | `--disable-zend-test` (default)                 | `-Dzend_test=OFF`                 | `OFF`               |
 | `--enable-zend-test`                            | `-Dzend_test=ON`                  |                     |
 | `--enable-zend-test=shared`                     | `-Dzend_test=shared`              |                     |
+| `--without-zip` (default)                       | `-Dzip=OFF`                       | `OFF`               |
+| `--with-zip`                                    | `-Dzip=ON`                        |                     |
+| `--with-zip=shared`                             | `-Dzip=shared`                    |                     |
 | `--without-zlib` (default)                      | `-Dzlib=OFF`                      | `OFF`               |
 | `--with-zlib`                                   | `-Dzlib=ON`                       |                     |
 | `--with-zlib=shared`                            | `-Dzlib=shared`                   |                     |
@@ -894,6 +900,10 @@ To learn more about Autoconf and Autotools in general:
 Useful resources to learn more about PHP internals:
 
 * [PHP Internals Book](https://www.phpinternalsbook.com/)
+
+Useful resources to learn more about CMake:
+
+* [Effective Modern CMake](https://gist.github.com/mbinna/c61dbb39bca0e4fb7d1f73b0d66a4fd1)
 
 CMake and PHP:
 
