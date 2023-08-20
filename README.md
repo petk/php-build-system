@@ -774,9 +774,9 @@ List of configure command line options and their CMake alternatives:
 | `--disable-sockets` (default)                    | `-Dsockets=OFF`                    | `OFF`               |
 | `--enable-sockets`                               | `-Dsockets=ON`                     |                     |
 | `--enable-sockets=shared`                        | `-Dsockets=shared`                 |                     |
-| `--with-sodium` (default)                        | `-Dsodium=ON`                      | `ON`                |
+| `--without-sodium` (default)                     | `-Dsodium=OFF`                     | `OFF`               |
+| `--with-sodium`                                  | `-Dsodium=ON`                      |                     |
 | `--with-sodium=shared`                           | `-Dsodium=shared`                  |                     |
-| `--without-sodium`                               | `-Dsodium=OFF`                     |                     |
 | `--with-sqlite3` (default)                       | `-Dsqlite3=ON`                     | `ON`                |
 | `--with-sqlite3=shared`                          | `-Dsqlite3=shared`                 |                     |
 | `--without-sqlite3`                              | `-Dsqlite3=OFF`                    |                     |

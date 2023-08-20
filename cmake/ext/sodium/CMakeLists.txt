@@ -1,6 +1,6 @@
 include(CheckCCompilerFlag)
 
-option(sodium "Whether to enable the sodium extension" ON)
+option(sodium "Whether to enable the sodium extension" OFF)
 
 if(NOT sodium)
   return()
