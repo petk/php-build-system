@@ -52,7 +52,7 @@ done
 test "$exit_code" = "0" && echo "OK"
 
 # Get a list of all CMake files.
-files=$(find ./cmake -type f -name "*.cmake" -o -name "CMakeLists.txt")
+files=$(find ./cmake ./scripts -type f -name "*.cmake" -o -name "CMakeLists.txt")
 
 # Run cmakelint. Some options are disabled and cmake-format checks them instead.
 echo "\nRunning cmakelint"
