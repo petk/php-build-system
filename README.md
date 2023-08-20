@@ -625,191 +625,196 @@ See [docs/cmake-code-style.md](docs/cmake-code-style.md) for more info.
 
 List of configure command line options and their CMake alternatives:
 
-| configure                                       | CMake                             | Default value/notes |
-| ----------------------------------------------- | --------------------------------- | ------------------  |
-| `--disable-re2c-cgoto` (default)                | `-DRE2C_CGOTO=OFF`                | `OFF`               |
-| `--enable-re2c-cgoto`                           | `-DRE2C_CGOTO=ON`                 |                     |
-| `--disable-debug-assertions` (default)          | `-DDEBUG_ASSERTIONS=OFF`          | `OFF`               |
-| `--enable-debug-assertions`                     | `-DDEBUG_ASSERTIONS=ON`           |                     |
-| `--disable-sigchild` (default)                  | `-DSIGCHILD=OFF`                  | `OFF`               |
-| `--enable-sigchild`                             | `-DSIGCHILD=ON`                   |                     |
-| `--enable-gcc-global-regs` (default)            | `-DGCC_GLOBAL_REGS=ON`            | `ON`                |
-| `--disable-gcc-global-regs`                     | `-DGCC_GLOBAL_REGS=OFF`           |                     |
-| `--disable-debug` (default)                     | `-DDEBUG=OFF`                     | `OFF`               |
-| `--enable-debug`                                | `-DDEBUG=ON`                      |                     |
-| `--enable-fiber-asm` (default)                  | `-DFIBER_ASM=ON`                  | `ON`                |
-| `--disable-fiber-asm`                           | `-DFIBER_ASM=OFF`                 |                     |
-| `--enable-ipv6` (default)                       | `-DIPV6=ON`                       | `ON`                |
-|   `--disable-ipv6`                              |   `-DIPV6=OFF`                    |                     |
-| `--disable-rtld-now` (default)                  | `-DRTLD_NOW=OFF`                  | `OFF`               |
-|   `--enable-rtld-now`                           | `-DRTLD_NOW=ON`                   |                     |
-| `--enable-short-tags` (default)                 | `-DSHORT_TAGS=ON`                 | `ON`                |
-|   `--disable-short-tags`                        | `-DSHORT_TAGS=OFF`                |                     |
-| `--disable-zts` (default)                       | `-DZTS=OFF`                       | `OFF`               |
-| `--enable-zts`                                  | `-DZTS=ON`                        |                     |
-| `--enable-zend-signals` (default)               | `-DZEND_SIGNALS=ON`               | `ON`                |
-| `--disable-zend-signals`                        | `-DZEND_SIGNALS=OFF`              |                     |
-| `--disable-zend-max-execution-timers` (default) | `-DZEND_MAX_EXECUTION_TIMERS=OFF` | `OFF`               |
-| `--enable-zend-max-execution-timers`            | `-DZEND_MAX_EXECUTION_TIMERS=ON`  |                     |
-| `--disable-dtrace` (default)                    | `-DDTRACE=OFF`                    | `OFF`               |
-| `--enable-dtrace`                               | `-DDTRACE=ON`                     |                     |
-| `--disable-fd-setsize` (default)                | `-DFD_SETSIZE=OFF`                | `OFF`               |
-| `--enable-fd-setsize=[NUM]`                     | `-DFD_SETSIZE=[NUM]`              |                     |
-| **PHP sapi modules**                            |                                   |                     |
-| `--enable-cli` (default)                        | `-Dcli=ON`                        | `ON`                |
-| `--disable-cli`                                 | `-Dcli=OFF`                       |                     |
-| **PHP extensions**                              |                                   |                     |
-| `--disable-bcmath` (default)                    | `-Dbcmath=OFF`                    | `OFF`               |
-| `--enable-bcmath`                               | `-Dbcmath=ON`                     |                     |
-| `--enable-bcmath=shared`                        | `-Dbcmath=shared`                 |                     |
-| `--without-bz2` (default)                       | `-Dbz2=OFF`                       | `OFF`               |
-| `--with-bz2[=DIR]`                              | `-Dbz2=[ON\|path/to/bz2]`         |                     |
-| `--with-bz2=shared`                             | `-Dbz2=shared`                    |                     |
-| `--disable-calendar` (default)                  | `-Dcalendar=OFF`                  | `OFF`               |
-| `--enable-calendar`                             | `-Dcalendar=ON`                   |                     |
-| `--enable-calendar=shared`                      | `-Dcalendar=shared`               |                     |
-| `--enable-ctype` (default)                      | `-Dctype=ON`                      | `ON`                |
-| `--enable-ctype=shared`                         | `-Dctype=shared`                  |                     |
-| `--disable-ctype`                               | `-Dctype=OFF`                     |                     |
-| `--without-curl` (default)                      | `-Dcurl=OFF `                     | `OFF`               |
-| `--with-curl`                                   | `-Dcurl=ON`                       |                     |
-| `--with-curl=shared`                            | `-Dcurl=shared`                   |                     |
-| `--disable-dl-test` (default)                   | `-Ddl_test=OFF`                   | `OFF`               |
-| `--enable-dl-test`                              | `-Ddl_test=ON`                    |                     |
-| `--enable-dl-test=shared`                       | `-Ddl_test=shared`                |                     |
-| `--enable-dom` (default)                        | `-Ddom=ON`                        | `ON`                |
-| `--enable-dom=shared`                           | `-Ddom=shared`                    |                     |
-| `--disable-dom`                                 | `-Ddom=OFF`                       |                     |
-| `--without-enchant` (default)                   | `-Denchant=OFF`                   | `OFF`               |
-| `--with-enchant`                                | `-Denchant=ON`                    |                     |
-| `--with-enchant=shared`                         | `-Denchant=shared`                |                     |
-| `--disable-exif` (default)                      | `-Dexif=OFF`                      | `OFF`               |
-| `--enable-exif`                                 | `-Dexif=ON`                       |                     |
-| `--enable-exif=shared`                          | `-Dexif=shared`                   |                     |
-| `--without-ffi` (default)                       | `-Dffi=OFF`                       | `OFF`               |
-| `--with-ffi`                                    | `-Dffi=ON`                        |                     |
-| `--with-ffi=shared`                             | `-Dffi=shared`                    |                     |
-| `--enable-fileinfo` (default)                   | `-Dfileinfo=ON`                   | `ON`                |
-| `--enable-fileinfo=shared`                      | `-Dfileinfo=shared`               |                     |
-| `--disable-fileinfo`                            | `-Dfileinfo=OFF`                  |                     |
-| `--enable-filter` (default)                     | `-Dfilter=ON`                     | `ON`                |
-| `--enable-filter=shared`                        | `-Dfilter=shared`                 |                     |
-| `--disable-filter`                              | `-Dfilter=OFF`                    |                     |
-| `--disable-ftp` (default)                       | `-Dftp=OFF`                       | `OFF`               |
-| `--enable-ftp`                                  | `-Dftp=ON`                        |                     |
-| `--enable-ftp=shared`                           | `-Dftp=shared`                    |                     |
-| `--without-openssl-dir`                         | `-Dftp_ssl=OFF`                   | `OFF`               |
-| `--with-openssl-dir`                            | `-Dftp_ssl=ON`                    |                     |
-| `--without-gettext` (default)                   | `-Dgettext=OFF`                   | `OFF`               |
-| `--with-gettext[=DIR]`                          | `-Dgettext=ON`                    |                     |
-| `--with-gettext=shared`                         | `-Dgettext=shared`                |                     |
-| `--without-gmp` (default)                       | `-Dgmp=OFF`                       | `OFF`               |
-| `--with-gmp[=DIR]`                              | `-Dgmp=ON`                        |                     |
-| `--with-gmp=shared`                             | `-Dgmp=shared`                    |                     |
-| `--without-mhash` (default)                     | `-Dmhash=OFF`                     | `OFF`               |
-| `--with-mhash`                                  | `-Dmhash=ON`                      |                     |
-| `--enable-intl` (default)                       | `-Dintl=ON`                       | `ON`                |
-| `--enable-intl=shared`                          | `-Dintl=shared`                   |                     |
-| `--disable-intl`                                | `-Dintl=OFF`                      |                     |
-| `--with-libxml` (default)                       | `-Dlibxml=ON`                     | `ON`                |
-| `--without-libxml`                              | `-Dlibxml=OFF`                    |                     |
-| `--enable-opcache=shared` (default)             | `-Dopcache=shared`                | `"shared"`          |
-| `--enable-opcache`                              | `-Dopcache=ON`                    | will be shared      |
-| `--disable-opcache`                             | `-Dopcache=OFF`                   |                     |
-| `--enable-huge-code-pages` (default)            | `-Dhuge_code_pages=ON`            | `ON`                |
-| `--disable-huge-code-pages`                     | `-Dhuge_code_pages=OFF`           |                     |
-| `--enable-opcache-jit` (default)                | `-Dopcache_jit=ON`                | `ON`                |
-| `--disable-opcache-jit`                         | `-Dopcache_jit=OFF`               |                     |
-| `--without-capstone` (default)                  | `-Dcapstone=OFF`                  | `OFF`               |
-| `--with-capstone`                               | `-Dcapstone=ON`                   |                     |
-| `--without-openssl` (default)                   | `-Dopenssl=OFF`                   | `OFF`               |
-| `--with-openssl`                                | `-Dopenssl=ON`                    |                     |
-| `--with-openssl=shared`                         | `-Dopenssl=shared`                |                     |
-| `--without-kerberos` (default)                  | `-Dopenssl_kerberos=OFF`          | `OFF`               |
-| `--with-kerberos`                               | `-Dopenssl_kerberos=ON`           |                     |
-| `--without-system-ciphers` (default)            | `-Dopenssl_system_ciphers=OFF`    | `OFF`               |
-| `--with-system-ciphers`                         | `-Dopenssl_system_ciphers=ON`     |                     |
-| `--disable-pcntl` (default)                     | `-Dpcntl=OFF`                     | `OFF`               |
-| `--enable-pcntl`                                | `-Dpcntl=ON`                      |                     |
-| `--enable-pcntl=shared`                         | `-Dpcntl=shared`                  |                     |
-| `--without-external-pcre` (default)             | `-DEXTERNAL_PCRE=OFF`             | `OFF`               |
-| `--with-external-pcre`                          | `-DEXTERNAL_PCRE=ON`              |                     |
-| `--with-pcre-jit` (default)                     | `-DPCRE_JIT=ON`                   | `ON`                |
-| `--without-pcre-jit`                            | `-DPCRE_JIT=OFF`                  |                     |
-| `--enable-pdo` (default)                        | `-Dpdo=ON`                        | `ON`                |
-| `--enable-pdo=shared`                           | `-Dpdo=shared`                    |                     |
-| `--disable-pdo`                                 | `-Dpdo=OFF`                       |                     |
-| `--with-pdo-sqlite` (default)                   | `-Dpdo_sqlite=ON`                 | `ON`                |
-| `--with-pdo-sqlite=shared`                      | `-Dpdo_sqlite=shared`             |                     |
-| `--without-pdo-sqlite`                          | `-Dpdo=OFF`                       |                     |
-| `--enable-posix` (default)                      | `-Dposix=ON`                      | `ON`                |
-| `--enable-posix=shared`                         | `-Dposix=shared`                  |                     |
-| `--disable-posix`                               | `-Dposix=OFF`                     |                     |
-| `--without-external-libcrypt` (default)         | `-DEXTERNAL_LIBCRYPT=OFF`         | `OFF`               |
-| `--with-external-libcrypt`                      | `-DEXTERNAL_LIBCRYPT=ON`          |                     |
-| `--without-password-argon2` (default)           | `-DPASSWORD_ARGON2=OFF`           | `OFF`               |
-| `--with-password-argon2`                        | `-DPASSWORD_ARGON2=ON`            |                     |
-| `--enable-phar` (default)                       | `-Dphar=ON`                       | `ON`                |
-| `--enable-phar=shared`                          | `-Dphar=shared`                   |                     |
-| `--disable-phar`                                | `-Dphar=OFF`                      |                     |
-| `--enable-session` (default)                    | `-Dsession=ON`                    | `ON`                |
-| `--enable-session=shared`                       | `-Dsession=shared`                |                     |
-| `--disable-session`                             | `-Dsession=OFF`                   |                     |
-| `--without-mm` (default)                        | `-Dsession_mm=OFF`                | `OFF`               |
-| `--with-mm[=DIR]`                               | `-Dsession_mm=[ON\|path/to/mm]`   |                     |
-| `--disable-shmop` (default)                     | `-Dshmop=OFF`                     | `OFF`               |
-| `--enable-shmop`                                | `-Dshmop=ON`                      |                     |
-| `--enable-shmop=shared`                         | `-Dshmop=shared`                  |                     |
-| `--enable-simplexml` (default)                  | `-Dsimplexml=ON`                  | `ON`                |
-| `--enable-simplexml=shared`                     | `-Dsimplexml=shared`              |                     |
-| `--disable-simplexml`                           | `-Dsimplexml=OFF`                 |                     |
-| `--disable-soap` (default)                      | `-Dsoap=OFF`                      | `OFF`               |
-| `--enable-soap`                                 | `-Dsoap=ON`                       |                     |
-| `--enable-soap=shared`                          | `-Dsoap=shared`                   |                     |
-| `--disable-sockets` (default)                   | `-Dsockets=OFF`                   | `OFF`               |
-| `--enable-sockets`                              | `-Dsockets=ON`                    |                     |
-| `--enable-sockets=shared`                       | `-Dsockets=shared`                |                     |
-| `--with-sodium` (default)                       | `-Dsodium=ON`                     | `ON`                |
-| `--with-sodium=shared`                          | `-Dsodium=shared`                 |                     |
-| `--without-sodium`                              | `-Dsodium=OFF`                    |                     |
-| `--with-sqlite3` (default)                      | `-Dsqlite3=ON`                    | `ON`                |
-| `--with-sqlite3=shared`                         | `-Dsqlite3=shared`                |                     |
-| `--without-sqlite3`                             | `-Dsqlite3=OFF`                   |                     |
-| `--disable-sysvmsg` (default)                   | `-Dsysvmsg=OFF`                   | `OFF`               |
-| `--enable-sysvmsg`                              | `-Dsysvmsg=ON`                    |                     |
-| `--enable-sysvmsg=shared`                       | `-Dsysvmsg=shared`                |                     |
-| `--disable-sysvsem` (default)                   | `-Dsysvsem=OFF`                   | `OFF`               |
-| `--enable-sysvsem`                              | `-Dsysvsem=ON`                    |                     |
-| `--enable-sysvsem=shared`                       | `-Dsysvsem=shared`                |                     |
-| `--disable-sysvshm` (default)                   | `-Dsysvshm=OFF`                   | `OFF`               |
-| `--enable-sysvshm`                              | `-Dsysvshm=ON`                    |                     |
-| `--enable-sysvshm=shared`                       | `-Dsysvshm=shared`                |                     |
-| `--enable-tokenizer` (default)                  | `-Dtokenizer=ON`                  | `ON`                |
-| `--enable-tokenizer=shared`                     | `-Dtokenizer=shared`              |                     |
-| `--disable-tokenizer`                           | `-Dtokenizer=OFF`                 |                     |
-| `--enable-xml` (default)                        | `-Dxml=ON`                        | `ON`                |
-| `--enable-xml=shared`                           | `-Dxml=shared`                    |                     |
-| `--disable-xml`                                 | `-Dxml=OFF`                       |                     |
-| `--without-expat` (default)                     | `-Dxml_expat=OFF`                 | `OFF`               |
-| `--with-expat`                                  | `-Dxml_expat=ON`                  |                     |
-| `--without-xsl` (default)                       | `-Dxsl=OFF`                       | `OFF`               |
-| `--with-xsl`                                    | `-Dxsl=ON`                        | `ON`                |
-| `--with-xsl=shared`                             | `-Dxsl=shared`                    |                     |
-| `--enable-xmlreader` (default)                  | `-Dxmlreader=ON`                  | `ON`                |
-| `--enable-xmlreader=shared`                     | `-Dxmlreader=shared`              |                     |
-| `--disable-xmlreader`                           | `-Dxmlreader=OFF`                 |                     |
-| `--enable-xmlwriter` (default)                  | `-Dxmlwriter=ON`                  | `ON`                |
-| `--enable-xmlwriter=shared`                     | `-Dxmlwriter=shared`              |                     |
-| `--disable-xmlwriter`                           | `-Dxmlwriter=OFF`                 |                     |
-| `--disable-zend-test` (default)                 | `-Dzend_test=OFF`                 | `OFF`               |
-| `--enable-zend-test`                            | `-Dzend_test=ON`                  |                     |
-| `--enable-zend-test=shared`                     | `-Dzend_test=shared`              |                     |
-| `--without-zip` (default)                       | `-Dzip=OFF`                       | `OFF`               |
-| `--with-zip`                                    | `-Dzip=ON`                        |                     |
-| `--with-zip=shared`                             | `-Dzip=shared`                    |                     |
-| `--without-zlib` (default)                      | `-Dzlib=OFF`                      | `OFF`               |
-| `--with-zlib`                                   | `-Dzlib=ON`                       |                     |
-| `--with-zlib=shared`                            | `-Dzlib=shared`                   |                     |
+| configure                                        | CMake                              | Default value/notes |
+| ------------------------------------------------ | ---------------------------------- | ------------------  |
+| `--disable-re2c-cgoto` (default)                 | `-DRE2C_CGOTO=OFF`                 | `OFF`               |
+| `--enable-re2c-cgoto`                            | `-DRE2C_CGOTO=ON`                  |                     |
+| `--disable-debug-assertions` (default)           | `-DDEBUG_ASSERTIONS=OFF`           | `OFF`               |
+| `--enable-debug-assertions`                      | `-DDEBUG_ASSERTIONS=ON`            |                     |
+| `--disable-sigchild` (default)                   | `-DSIGCHILD=OFF`                   | `OFF`               |
+| `--enable-sigchild`                              | `-DSIGCHILD=ON`                    |                     |
+| `--enable-gcc-global-regs` (default)             | `-DGCC_GLOBAL_REGS=ON`             | `ON`                |
+| `--disable-gcc-global-regs`                      | `-DGCC_GLOBAL_REGS=OFF`            |                     |
+| `--disable-debug` (default)                      | `-DDEBUG=OFF`                      | `OFF`               |
+| `--enable-debug`                                 | `-DDEBUG=ON`                       |                     |
+| `--enable-fiber-asm` (default)                   | `-DFIBER_ASM=ON`                   | `ON`                |
+| `--disable-fiber-asm`                            | `-DFIBER_ASM=OFF`                  |                     |
+| `--enable-ipv6` (default)                        | `-DIPV6=ON`                        | `ON`                |
+|   `--disable-ipv6`                               |   `-DIPV6=OFF`                     |                     |
+| `--disable-rtld-now` (default)                   | `-DRTLD_NOW=OFF`                   | `OFF`               |
+|   `--enable-rtld-now`                            | `-DRTLD_NOW=ON`                    |                     |
+| `--enable-short-tags` (default)                  | `-DSHORT_TAGS=ON`                  | `ON`                |
+|   `--disable-short-tags`                         | `-DSHORT_TAGS=OFF`                 |                     |
+| `--disable-zts` (default)                        | `-DZTS=OFF`                        | `OFF`               |
+| `--enable-zts`                                   | `-DZTS=ON`                         |                     |
+| `--enable-zend-signals` (default)                | `-DZEND_SIGNALS=ON`                | `ON`                |
+| `--disable-zend-signals`                         | `-DZEND_SIGNALS=OFF`               |                     |
+| `--disable-zend-max-execution-timers` (default)  | `-DZEND_MAX_EXECUTION_TIMERS=OFF`  | `OFF`               |
+| `--enable-zend-max-execution-timers`             | `-DZEND_MAX_EXECUTION_TIMERS=ON`   |                     |
+| `--disable-dtrace` (default)                     | `-DDTRACE=OFF`                     | `OFF`               |
+| `--enable-dtrace`                                | `-DDTRACE=ON`                      |                     |
+| `--disable-fd-setsize` (default)                 | `-DFD_SETSIZE=OFF`                 | `OFF`               |
+| `--enable-fd-setsize=[NUM]`                      | `-DFD_SETSIZE=[NUM]`               |                     |
+| **PHP sapi modules**                             |                                    |                     |
+| `--enable-cli` (default)                         | `-Dcli=ON`                         | `ON`                |
+| `--disable-cli`                                  | `-Dcli=OFF`                        |                     |
+| **PHP extensions**                               |                                    |                     |
+| `--disable-bcmath` (default)                     | `-Dbcmath=OFF`                     | `OFF`               |
+| `--enable-bcmath`                                | `-Dbcmath=ON`                      |                     |
+| `--enable-bcmath=shared`                         | `-Dbcmath=shared`                  |                     |
+| `--without-bz2` (default)                        | `-Dbz2=OFF`                        | `OFF`               |
+| `--with-bz2[=DIR]`                               | `-Dbz2=[ON\|path/to/bz2]`          |                     |
+| `--with-bz2=shared`                              | `-Dbz2=shared`                     |                     |
+| `--disable-calendar` (default)                   | `-Dcalendar=OFF`                   | `OFF`               |
+| `--enable-calendar`                              | `-Dcalendar=ON`                    |                     |
+| `--enable-calendar=shared`                       | `-Dcalendar=shared`                |                     |
+| `--enable-ctype` (default)                       | `-Dctype=ON`                       | `ON`                |
+| `--enable-ctype=shared`                          | `-Dctype=shared`                   |                     |
+| `--disable-ctype`                                | `-Dctype=OFF`                      |                     |
+| `--without-curl` (default)                       | `-Dcurl=OFF `                      | `OFF`               |
+| `--with-curl`                                    | `-Dcurl=ON`                        |                     |
+| `--with-curl=shared`                             | `-Dcurl=shared`                    |                     |
+| `--disable-dl-test` (default)                    | `-Ddl_test=OFF`                    | `OFF`               |
+| `--enable-dl-test`                               | `-Ddl_test=ON`                     |                     |
+| `--enable-dl-test=shared`                        | `-Ddl_test=shared`                 |                     |
+| `--enable-dom` (default)                         | `-Ddom=ON`                         | `ON`                |
+| `--enable-dom=shared`                            | `-Ddom=shared`                     |                     |
+| `--disable-dom`                                  | `-Ddom=OFF`                        |                     |
+| `--without-enchant` (default)                    | `-Denchant=OFF`                    | `OFF`               |
+| `--with-enchant`                                 | `-Denchant=ON`                     |                     |
+| `--with-enchant=shared`                          | `-Denchant=shared`                 |                     |
+| `--disable-exif` (default)                       | `-Dexif=OFF`                       | `OFF`               |
+| `--enable-exif`                                  | `-Dexif=ON`                        |                     |
+| `--enable-exif=shared`                           | `-Dexif=shared`                    |                     |
+| `--without-ffi` (default)                        | `-Dffi=OFF`                        | `OFF`               |
+| `--with-ffi`                                     | `-Dffi=ON`                         |                     |
+| `--with-ffi=shared`                              | `-Dffi=shared`                     |                     |
+| `--enable-fileinfo` (default)                    | `-Dfileinfo=ON`                    | `ON`                |
+| `--enable-fileinfo=shared`                       | `-Dfileinfo=shared`                |                     |
+| `--disable-fileinfo`                             | `-Dfileinfo=OFF`                   |                     |
+| `--enable-filter` (default)                      | `-Dfilter=ON`                      | `ON`                |
+| `--enable-filter=shared`                         | `-Dfilter=shared`                  |                     |
+| `--disable-filter`                               | `-Dfilter=OFF`                     |                     |
+| `--disable-ftp` (default)                        | `-Dftp=OFF`                        | `OFF`               |
+| `--enable-ftp`                                   | `-Dftp=ON`                         |                     |
+| `--enable-ftp=shared`                            | `-Dftp=shared`                     |                     |
+| `--without-openssl-dir`                          | `-Dftp_ssl=OFF`                    | `OFF`               |
+| `--with-openssl-dir`                             | `-Dftp_ssl=ON`                     |                     |
+| `--without-gettext` (default)                    | `-Dgettext=OFF`                    | `OFF`               |
+| `--with-gettext[=DIR]`                           | `-Dgettext=ON`                     |                     |
+| `--with-gettext=shared`                          | `-Dgettext=shared`                 |                     |
+| `--without-gmp` (default)                        | `-Dgmp=OFF`                        | `OFF`               |
+| `--with-gmp[=DIR]`                               | `-Dgmp=ON`                         |                     |
+| `--with-gmp=shared`                              | `-Dgmp=shared`                     |                     |
+| `--without-mhash` (default)                      | `-Dmhash=OFF`                      | `OFF`               |
+| `--with-mhash`                                   | `-Dmhash=ON`                       |                     |
+| `--enable-intl` (default)                        | `-Dintl=ON`                        | `ON`                |
+| `--enable-intl=shared`                           | `-Dintl=shared`                    |                     |
+| `--disable-intl`                                 | `-Dintl=OFF`                       |                     |
+| `--with-libxml` (default)                        | `-Dlibxml=ON`                      | `ON`                |
+| `--without-libxml`                               | `-Dlibxml=OFF`                     |                     |
+| `--disable-mysqlnd` (default)                    | `-Dmysqlnd=OFF`                    | `OFF`               |
+| `--enable-mysqlnd`                               | `-Dmysqlnd=ON`                     |                     |
+| `--enable-mysqlnd=shared`                        | `-Dmysqlnd=shared`                 |                     |
+| `--enable-mysqlnd-compression-support` (default) | `-Dmysqlnd_compression=ON`         | `ON`                |
+| `--disable-mysqlnd-compression-support`          | `-Dmysqlnd_compression=OFF`        |                     |
+| `--enable-opcache=shared` (default)              | `-Dopcache=shared`                 | `"shared"`          |
+| `--enable-opcache`                               | `-Dopcache=ON`                     | will be shared      |
+| `--disable-opcache`                              | `-Dopcache=OFF`                    |                     |
+| `--enable-huge-code-pages` (default)             | `-Dhuge_code_pages=ON`             | `ON`                |
+| `--disable-huge-code-pages`                      | `-Dhuge_code_pages=OFF`            |                     |
+| `--enable-opcache-jit` (default)                 | `-Dopcache_jit=ON`                 | `ON`                |
+| `--disable-opcache-jit`                          | `-Dopcache_jit=OFF`                |                     |
+| `--without-capstone` (default)                   | `-Dcapstone=OFF`                   | `OFF`               |
+| `--with-capstone`                                | `-Dcapstone=ON`                    |                     |
+| `--without-openssl` (default)                    | `-Dopenssl=OFF`                    | `OFF`               |
+| `--with-openssl`                                 | `-Dopenssl=ON`                     |                     |
+| `--with-openssl=shared`                          | `-Dopenssl=shared`                 |                     |
+| `--without-kerberos` (default)                   | `-Dopenssl_kerberos=OFF`           | `OFF`               |
+| `--with-kerberos`                                | `-Dopenssl_kerberos=ON`            |                     |
+| `--without-system-ciphers` (default)             | `-Dopenssl_system_ciphers=OFF`     | `OFF`               |
+| `--with-system-ciphers`                          | `-Dopenssl_system_ciphers=ON`      |                     |
+| `--disable-pcntl` (default)                      | `-Dpcntl=OFF`                      | `OFF`               |
+| `--enable-pcntl`                                 | `-Dpcntl=ON`                       |                     |
+| `--enable-pcntl=shared`                          | `-Dpcntl=shared`                   |                     |
+| `--without-external-pcre` (default)              | `-DEXTERNAL_PCRE=OFF`              | `OFF`               |
+| `--with-external-pcre`                           | `-DEXTERNAL_PCRE=ON`               |                     |
+| `--with-pcre-jit` (default)                      | `-DPCRE_JIT=ON`                    | `ON`                |
+| `--without-pcre-jit`                             | `-DPCRE_JIT=OFF`                   |                     |
+| `--enable-pdo` (default)                         | `-Dpdo=ON`                         | `ON`                |
+| `--enable-pdo=shared`                            | `-Dpdo=shared`                     |                     |
+| `--disable-pdo`                                  | `-Dpdo=OFF`                        |                     |
+| `--with-pdo-sqlite` (default)                    | `-Dpdo_sqlite=ON`                  | `ON`                |
+| `--with-pdo-sqlite=shared`                       | `-Dpdo_sqlite=shared`              |                     |
+| `--without-pdo-sqlite`                           | `-Dpdo=OFF`                        |                     |
+| `--enable-posix` (default)                       | `-Dposix=ON`                       | `ON`                |
+| `--enable-posix=shared`                          | `-Dposix=shared`                   |                     |
+| `--disable-posix`                                | `-Dposix=OFF`                      |                     |
+| `--without-external-libcrypt` (default)          | `-DEXTERNAL_LIBCRYPT=OFF`          | `OFF`               |
+| `--with-external-libcrypt`                       | `-DEXTERNAL_LIBCRYPT=ON`           |                     |
+| `--without-password-argon2` (default)            | `-DPASSWORD_ARGON2=OFF`            | `OFF`               |
+| `--with-password-argon2`                         | `-DPASSWORD_ARGON2=ON`             |                     |
+| `--enable-phar` (default)                        | `-Dphar=ON`                        | `ON`                |
+| `--enable-phar=shared`                           | `-Dphar=shared`                    |                     |
+| `--disable-phar`                                 | `-Dphar=OFF`                       |                     |
+| `--enable-session` (default)                     | `-Dsession=ON`                     | `ON`                |
+| `--enable-session=shared`                        | `-Dsession=shared`                 |                     |
+| `--disable-session`                              | `-Dsession=OFF`                    |                     |
+| `--without-mm` (default)                         | `-Dsession_mm=OFF`                 | `OFF`               |
+| `--with-mm[=DIR]`                                | `-Dsession_mm=[ON\|path/to/mm]`    |                     |
+| `--disable-shmop` (default)                      | `-Dshmop=OFF`                      | `OFF`               |
+| `--enable-shmop`                                 | `-Dshmop=ON`                       |                     |
+| `--enable-shmop=shared`                          | `-Dshmop=shared`                   |                     |
+| `--enable-simplexml` (default)                   | `-Dsimplexml=ON`                   | `ON`                |
+| `--enable-simplexml=shared`                      | `-Dsimplexml=shared`               |                     |
+| `--disable-simplexml`                            | `-Dsimplexml=OFF`                  |                     |
+| `--disable-soap` (default)                       | `-Dsoap=OFF`                       | `OFF`               |
+| `--enable-soap`                                  | `-Dsoap=ON`                        |                     |
+| `--enable-soap=shared`                           | `-Dsoap=shared`                    |                     |
+| `--disable-sockets` (default)                    | `-Dsockets=OFF`                    | `OFF`               |
+| `--enable-sockets`                               | `-Dsockets=ON`                     |                     |
+| `--enable-sockets=shared`                        | `-Dsockets=shared`                 |                     |
+| `--with-sodium` (default)                        | `-Dsodium=ON`                      | `ON`                |
+| `--with-sodium=shared`                           | `-Dsodium=shared`                  |                     |
+| `--without-sodium`                               | `-Dsodium=OFF`                     |                     |
+| `--with-sqlite3` (default)                       | `-Dsqlite3=ON`                     | `ON`                |
+| `--with-sqlite3=shared`                          | `-Dsqlite3=shared`                 |                     |
+| `--without-sqlite3`                              | `-Dsqlite3=OFF`                    |                     |
+| `--disable-sysvmsg` (default)                    | `-Dsysvmsg=OFF`                    | `OFF`               |
+| `--enable-sysvmsg`                               | `-Dsysvmsg=ON`                     |                     |
+| `--enable-sysvmsg=shared`                        | `-Dsysvmsg=shared`                 |                     |
+| `--disable-sysvsem` (default)                    | `-Dsysvsem=OFF`                    | `OFF`               |
+| `--enable-sysvsem`                               | `-Dsysvsem=ON`                     |                     |
+| `--enable-sysvsem=shared`                        | `-Dsysvsem=shared`                 |                     |
+| `--disable-sysvshm` (default)                    | `-Dsysvshm=OFF`                    | `OFF`               |
+| `--enable-sysvshm`                               | `-Dsysvshm=ON`                     |                     |
+| `--enable-sysvshm=shared`                        | `-Dsysvshm=shared`                 |                     |
+| `--enable-tokenizer` (default)                   | `-Dtokenizer=ON`                   | `ON`                |
+| `--enable-tokenizer=shared`                      | `-Dtokenizer=shared`               |                     |
+| `--disable-tokenizer`                            | `-Dtokenizer=OFF`                  |                     |
+| `--enable-xml` (default)                         | `-Dxml=ON`                         | `ON`                |
+| `--enable-xml=shared`                            | `-Dxml=shared`                     |                     |
+| `--disable-xml`                                  | `-Dxml=OFF`                        |                     |
+| `--without-expat` (default)                      | `-Dxml_expat=OFF`                  | `OFF`               |
+| `--with-expat`                                   | `-Dxml_expat=ON`                   |                     |
+| `--without-xsl` (default)                        | `-Dxsl=OFF`                        | `OFF`               |
+| `--with-xsl`                                     | `-Dxsl=ON`                         | `ON`                |
+| `--with-xsl=shared`                              | `-Dxsl=shared`                     |                     |
+| `--enable-xmlreader` (default)                   | `-Dxmlreader=ON`                   | `ON`                |
+| `--enable-xmlreader=shared`                      | `-Dxmlreader=shared`               |                     |
+| `--disable-xmlreader`                            | `-Dxmlreader=OFF`                  |                     |
+| `--enable-xmlwriter` (default)                   | `-Dxmlwriter=ON`                   | `ON`                |
+| `--enable-xmlwriter=shared`                      | `-Dxmlwriter=shared`               |                     |
+| `--disable-xmlwriter`                            | `-Dxmlwriter=OFF`                  |                     |
+| `--disable-zend-test` (default)                  | `-Dzend_test=OFF`                  | `OFF`               |
+| `--enable-zend-test`                             | `-Dzend_test=ON`                   |                     |
+| `--enable-zend-test=shared`                      | `-Dzend_test=shared`               |                     |
+| `--without-zip` (default)                        | `-Dzip=OFF`                        | `OFF`               |
+| `--with-zip`                                     | `-Dzip=ON`                         |                     |
+| `--with-zip=shared`                              | `-Dzip=shared`                     |                     |
+| `--without-zlib` (default)                       | `-Dzlib=OFF`                       | `OFF`               |
+| `--with-zlib`                                    | `-Dzlib=ON`                        |                     |
+| `--with-zlib=shared`                             | `-Dzlib=shared`                    |                     |
 
 List of configure environment variables:
 

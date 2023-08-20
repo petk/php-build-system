@@ -4,7 +4,7 @@ if(NOT zlib)
   return()
 endif()
 
-php_find_package(NAME zlib VERSION 1.2.0.4)
+find_package(ZLIB 1.2.0.4)
 
 string(TOLOWER ${zlib} extension_lower)
 set(extension_library_type "STATIC")
@@ -22,5 +22,5 @@ add_library(ext_zlib ${extension_library_type}
 
 target_compile_definitions(ext_zlib PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE=1)
 
-target_link_libraries(ext_zlib PRIVATE ${zlib_LIBRARIES})
-target_compile_options(ext_zlib PRIVATE ${zlib_CFLAGS})
+target_link_libraries(ext_zlib PRIVATE ${ZLIB_LIBRARIES})
+target_include_directories(ext_zlib PRIVATE ${ZLIB_INCLUDE_DIRS})

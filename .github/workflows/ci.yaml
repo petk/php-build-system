@@ -88,7 +88,7 @@ jobs:
           fetch-depth: 2
           submodules: true
       - name: Build and install
-        run: ./scripts/init.sh --cmake --options "-Dgmp=ON -Dintl=ON -Dzip=ON"
+        run: ./scripts/init.sh --cmake --options "-Dgmp=ON -Dintl=ON -Dzip=ON -Dzlib=ON"
 
       - name: Run tests
         run: |

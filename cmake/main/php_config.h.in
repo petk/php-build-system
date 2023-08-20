@@ -1886,13 +1886,13 @@
 #cmakedefine MISSING_STRTOK_R_DECL @MISSING_STRTOK_R_DECL@
 
 /* Enable compressed protocol support */
-#cmakedefine MYSQLND_COMPRESSION_ENABLED
+#cmakedefine MYSQLND_COMPRESSION_ENABLED @MYSQLND_COMPRESSION_ENABLED@
 
 /* Enable mysqlnd code that uses OpenSSL directly */
-#cmakedefine MYSQLND_HAVE_SSL
+#cmakedefine MYSQLND_HAVE_SSL @MYSQLND_HAVE_SSL@
 
 /* Enable core mysqlnd SSL code */
-#cmakedefine MYSQLND_SSL_SUPPORTED
+#cmakedefine MYSQLND_SSL_SUPPORTED @MYSQLND_SSL_SUPPORTED@
 
 /* */
 #cmakedefine NDBM_INCLUDE_FILE
