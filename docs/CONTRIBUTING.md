@@ -65,6 +65,5 @@ This is a monolithic repository consisting of the following files:
  └─ windows/       # Windows build system
     └─ ...
  ├─ .editorconfig  # EditorConfig https://editorconfig.org
- ├─ init           # Initialization command line helper
  └─ ...
 ```

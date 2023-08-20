@@ -520,13 +520,29 @@ is a prerequisite to follow the files in this repository.
 
 ### 8.1. Installation
 
+Follow these steps to use CMake build system in PHP using this repository:
+
 ```sh
 # Clone this repository
-git clone --recurse-submodules --shallow-submodules https://github.com/petk/php-build-system
+git clone https://github.com/petk/php-build-system
 cd php-build-system
 
-# Patch php-src repository and run CMake commands to build PHP
-./init --update --cmake
+# Download latest PHP sources and add CMake files to them
+cmake -P scripts/php.cmake
+
+# Go into newly created directory, for example
+cd php-8.3.0beta
+
+# Generate build system
+cmake .
+
+# Build PHP binaries and libraries
+cmake --build . -- --jobs $(nproc)
+
+./sapi/cli/php -v
+
+# Run tests
+./sapi/cli/php run-tests.php -j$(nproc)
 ```
 
 ### 8.2. Why using CMake?
