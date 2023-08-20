@@ -1,6 +1,6 @@
 include(CheckLibraryExists)
 
-option(zip "Whether to enable the zip extension" ON)
+option(zip "Whether to enable the zip extension" OFF)
 
 if(NOT zip)
   return()

@@ -1216,7 +1216,7 @@
 #cmakedefine HAVE_PDO_PGSQL
 
 /* Define to 1 if you have the pdo_sqlite extension enabled. */
-#cmakedefine HAVE_PDO_SQLITELIB
+#cmakedefine HAVE_PDO_SQLITELIB @HAVE_PDO_SQLITELIB@
 
 /* Whether to build PostgreSQL support or not */
 #cmakedefine HAVE_PGSQL
@@ -1495,19 +1495,19 @@
 #cmakedefine HAVE_SQLEXT_H
 
 /* Define to 1 if you have the sqlite3 extension enabled. */
-#cmakedefine HAVE_SQLITE3
+#cmakedefine HAVE_SQLITE3 @HAVE_SQLITE3@
 
 /* have sqlite3_close_v2 */
-#cmakedefine HAVE_SQLITE3_CLOSE_V2
+#cmakedefine HAVE_SQLITE3_CLOSE_V2 @HAVE_SQLITE3_CLOSE_V2@
 
 /* have sqlite3_column_table_name */
-#cmakedefine HAVE_SQLITE3_COLUMN_TABLE_NAME
+#cmakedefine HAVE_SQLITE3_COLUMN_TABLE_NAME @HAVE_SQLITE3_COLUMN_TABLE_NAME@
 
 /* have sqlite3_errstr function */
-#cmakedefine HAVE_SQLITE3_ERRSTR
+#cmakedefine HAVE_SQLITE3_ERRSTR @HAVE_SQLITE3_ERRSTR@
 
 /* have sqlite3_expanded_sql function */
-#cmakedefine HAVE_SQLITE3_EXPANDED_SQL
+#cmakedefine HAVE_SQLITE3_EXPANDED_SQL @HAVE_SQLITE3_EXPANDED_SQL@
 
 /* */
 #cmakedefine HAVE_SQLTYPES_H
@@ -2099,7 +2099,7 @@
 #cmakedefine SIZEOF_SSIZE_T @SIZEOF_SSIZE_T@
 
 /* have sqlite3 with extension support */
-#cmakedefine SQLITE_OMIT_LOAD_EXTENSION
+#cmakedefine SQLITE_OMIT_LOAD_EXTENSION @SQLITE_OMIT_LOAD_EXTENSION@
 
 /* Needed in sqlunix.h for wchar defs */
 #cmakedefine SS_FBX

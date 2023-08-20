@@ -414,6 +414,7 @@ Required:
 * gcc
 * g++
 * libxml
+* libsqlite3
 
 Optional:
 
@@ -738,6 +739,9 @@ List of configure command line options and their CMake alternatives:
 | `--enable-pdo` (default)                        | `-Dpdo=ON`                        | `ON`                |
 | `--enable-pdo=shared`                           | `-Dpdo=shared`                    |                     |
 | `--disable-pdo`                                 | `-Dpdo=OFF`                       |                     |
+| `--with-pdo-sqlite` (default)                   | `-Dpdo_sqlite=ON`                 | `ON`                |
+| `--with-pdo-sqlite=shared`                      | `-Dpdo_sqlite=shared`             |                     |
+| `--without-pdo-sqlite`                          | `-Dpdo=OFF`                       |                     |
 | `--enable-posix` (default)                      | `-Dposix=ON`                      | `ON`                |
 | `--enable-posix=shared`                         | `-Dposix=shared`                  |                     |
 | `--disable-posix`                               | `-Dposix=OFF`                     |                     |
@@ -768,6 +772,9 @@ List of configure command line options and their CMake alternatives:
 | `--with-sodium` (default)                       | `-Dsodium=ON`                     | `ON`                |
 | `--with-sodium=shared`                          | `-Dsodium=shared`                 |                     |
 | `--without-sodium`                              | `-Dsodium=OFF`                    |                     |
+| `--with-sqlite3` (default)                      | `-Dsqlite3=ON`                    | `ON`                |
+| `--with-sqlite3=shared`                         | `-Dsqlite3=shared`                |                     |
+| `--without-sqlite3`                             | `-Dsqlite3=OFF`                   |                     |
 | `--disable-sysvmsg` (default)                   | `-Dsysvmsg=OFF`                   | `OFF`               |
 | `--enable-sysvmsg`                              | `-Dsysvmsg=ON`                    |                     |
 | `--enable-sysvmsg=shared`                       | `-Dsysvmsg=shared`                |                     |
