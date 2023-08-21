@@ -27,6 +27,15 @@ math(EXPR PHP_VERSION_ID "${PHP_VERSION_MAJOR} * 10000 + ${PHP_VERSION_MINOR} * 
 
 add_compile_definitions("$<$<COMPILE_LANGUAGE:C>:_GNU_SOURCE>")
 
+set(PHP_OS "${CMAKE_SYSTEM_NAME}" CACHE INTERNAL "uname output")
+
+if(CMAKE_UNAME)
+  execute_process(COMMAND ${CMAKE_UNAME} -a
+          OUTPUT_VARIABLE PHP_UNAME
+          OUTPUT_STRIP_TRAILING_WHITESPACE
+          ERROR_QUIET)
+endif()
+
 # Define PHP configuration options.
 include(PHPOptions)
 
@@ -56,15 +65,6 @@ include_directories("${CMAKE_CURRENT_SOURCE_DIR}/ext/random")
 include_directories("${CMAKE_CURRENT_SOURCE_DIR}/ext/reflection")
 include_directories("${CMAKE_CURRENT_SOURCE_DIR}/ext/spl")
 include_directories("${CMAKE_CURRENT_SOURCE_DIR}/ext/standard")
-
-set(PHP_OS "${CMAKE_SYSTEM_NAME}" CACHE INTERNAL "uname output")
-
-if(CMAKE_UNAME)
-  execute_process(COMMAND ${CMAKE_UNAME} -a
-          OUTPUT_VARIABLE PHP_UNAME
-          OUTPUT_STRIP_TRAILING_WHITESPACE
-          ERROR_QUIET)
-endif()
 
 ## Add PHP extensions.
 message("

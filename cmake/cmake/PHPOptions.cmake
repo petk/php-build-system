@@ -1,3 +1,13 @@
+# Customizable variables.
+set(PHP_BUILD_SYSTEM "${PHP_UNAME}" CACHE STRING "Build system uname")
+
+set(PHP_BUILD_PROVIDER "" CACHE STRING "Build provider")
+
+set(PHP_BUILD_COMPILER "" CACHE STRING "Compiler used for build")
+
+set(PHP_BUILD_ARCH "" CACHE STRING "Build architecture")
+
+# General options.
 option(RE2C_CGOTO "Whether to enable computed goto gcc extension with re2c" OFF)
 
 option(DEBUG "Whether to include debugging symbols" OFF)

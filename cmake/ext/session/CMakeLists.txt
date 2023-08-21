@@ -34,7 +34,7 @@ target_compile_definitions(ext_session PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE=1
 set(SESSION_HEADERS "php_session.h;mod_files.h;mod_user.h")
 
 # The HAVE_SESSION should be used but for BC reasons this is additionally set.
-set(HAVE_PHP_SESSION 1 "Define to 1 if session extension is enabled")
+set(HAVE_PHP_SESSION 1 CACHE INTERNAL "Define to 1 if session extension is enabled")
 
 if(session_mm)
   foreach(DIR "${session_mm}" /usr/local /usr)

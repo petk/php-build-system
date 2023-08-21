@@ -656,8 +656,36 @@ List of configure command line options and their CMake alternatives:
 | `--disable-fd-setsize` (default)                 | `-DFD_SETSIZE=OFF`                 | `OFF`               |
 | `--enable-fd-setsize=[NUM]`                      | `-DFD_SETSIZE=[NUM]`               |                     |
 | **PHP sapi modules**                             |                                    |                     |
+| `--without-apxs2` (default)                      | `-Dapache=OFF`                     | `OFF`               |
+| `--with-apxs2[=FILE]`                            | `-Dapache=ON`                      |                     |
+| `--enable-cgi` (default)                         | `-Dcgi=ON`                         | `ON`                |
+| `--disable-cgi`                                  | `-Dcgi=OFF`                        |                     |
 | `--enable-cli` (default)                         | `-Dcli=ON`                         | `ON`                |
 | `--disable-cli`                                  | `-Dcli=OFF`                        |                     |
+| `--disable-embed` (default)                      | `-Dembed=OFF`                      | `OFF`               |
+| `--enable-embed`                                 | `-Dembed=ON`                       |                     |
+| `--disable-fpm` (default)                        | `-Dfpm=OFF`                        | `OFF`               |
+| `--enable-fpm`                                   | `-Dfpm=ON`                         |                     |
+| `--with-fpm-user[=USER]` (default: `"nobody"`)   | `-Dfpm_user=nobody`                | `"nobody"`          |
+| `--with-fpm-group[=GROUP]` (default: `"nobody"`) | `-Dfpm_group=nobody`               | `"nobody"`          |
+| `--without-fpm-systemd` (default)                | `-Dfpm_systemd=OFF`                | `OFF`               |
+| `--with-fpm-systemd`                             | `-Dfpm_systemd=ON`                 |                     |
+| `--without-fpm-acl` (default)                    | `-Dfpm_acl=OFF`                    | `OFF`               |
+| `--with-fpm-acl`                                 | `-Dfpm_acl=ON`                     |                     |
+| `--without-fpm-apparmor` (default)               | `-Dfpm_apparmor=OFF`               | `OFF`               |
+| `--with-fpm-apparmor`                            | `-Dfpm_apparmor=ON`                |                     |
+| `--without-fpm-selinux` (default)                | `-Dfpm_selinux=OFF`                | `OFF`               |
+| `--with-fpm-selinux`                             | `-Dfpm_selinux=ON`                 |                     |
+| `--disable-fuzzer` (default)                     | `-Dfuzzer=OFF`                     | `OFF`               |
+| `--enable-fuzzer`                                | `-Dfuzzer=ON`                      |                     |
+| `--disable-litespeed` (default)                  | `-Dlitespeed=OFF`                  | `OFF`               |
+| `--enable-litespeed`                             | `-Dlitespeed=ON`                   |                     |
+| `--enable-phpdbg` (default)                      | `-Dphpdbg=ON`                      | `ON`                |
+| `--disable-phpdbg`                               | `-Dphpdbg=OFF`                     |                     |
+| `--disable-phpdbg-debug` (default)               | `-Dphpdbg_debug=OFF`               | `OFF`               |
+| `--enable-phpdbg-debug`                          | `-Dphpdbg_debug=ON`                |                     |
+| `--disable-phpdbg-readline` (default)            | `-Dphpdbg_readline=OFF`            | `OFF`               |
+| `--enable-phpdbg-readline`                       | `-Dphpdbg_readline=ON`             |                     |
 | **PHP extensions**                               |                                    |                     |
 | `--disable-bcmath` (default)                     | `-Dbcmath=OFF`                     | `OFF`               |
 | `--enable-bcmath`                                | `-Dbcmath=ON`                      |                     |
@@ -823,11 +851,15 @@ List of configure environment variables:
 
 These are passed as `./configure VAR=VALUE`.
 
-| configure                        | CMake                               | Default value   |
-| -------------------------------- | ----------------------------------- | --------------- |
-| `LDFLAGS="..."`                  | `-DCMAKE_EXE_LINKER_FLAGS="..."`    |                 |
-|                                  | `-DCMAKE_SHARED_LINKER_FLAGS="..."` |                 |
-| `PHP_EXTRA_VERSION="-foo"`       | `-DPHP_VERSION_LABEL="-foo"`        | `-dev` or empty |
+| configure                       | CMake                               | Default value/notes          |
+| ------------------------------- | ----------------------------------- | ---------------------------- |
+| `LDFLAGS="..."`                 | `-DCMAKE_EXE_LINKER_FLAGS="..."`    |                              |
+|                                 | `-DCMAKE_SHARED_LINKER_FLAGS="..."` |                              |
+| `PHP_EXTRA_VERSION="-foo"`      | `-DPHP_VERSION_LABEL="-foo"`        | `-dev` or empty              |
+| `PHP_BUILD_SYSTEM="ACME Linux"` | `-DPHP_BUILD_SYSTEM="ACME Linux"`   | `uname -a` ouput             |
+| `PHP_BUILD_PROVIDER="ACME"`     | `-DPHP_BUILD_PROVIDER="ACME"`       | Additional build system info |
+| `PHP_BUILD_COMPILER="ACME"`     | `-DPHP_BUILD_COMPILER="ACME"`       | Additional build system info |
+| `PHP_BUILD_ARCH="ACME"`         | `-DPHP_BUILD_ARCH="ACME"`           | Additional build system info |
 
 ### 8.9. CMake presets
 

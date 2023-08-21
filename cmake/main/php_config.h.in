@@ -1934,16 +1934,16 @@
 #cmakedefine PHPDBG_DEBUG
 
 /* build architecture */
-#cmakedefine PHP_BUILD_ARCH
+#cmakedefine PHP_BUILD_ARCH "@PHP_BUILD_ARCH@"
 
 /* used compiler for build */
-#cmakedefine PHP_BUILD_COMPILER
+#cmakedefine PHP_BUILD_COMPILER "@PHP_BUILD_COMPILER@"
 
 /* build provider */
-#cmakedefine PHP_BUILD_PROVIDER
+#cmakedefine PHP_BUILD_PROVIDER "@PHP_BUILD_PROVIDER@"
 
 /* builder uname output */
-#cmakedefine PHP_BUILD_SYSTEM
+#cmakedefine PHP_BUILD_SYSTEM "@PHP_BUILD_SYSTEM@"
 
 /* Define if your system has fork/vfork/CreateProcess */
 #cmakedefine PHP_CAN_SUPPORT_PROC_OPEN @PHP_CAN_SUPPORT_PROC_OPEN@
