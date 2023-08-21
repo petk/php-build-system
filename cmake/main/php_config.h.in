@@ -406,7 +406,7 @@
 #cmakedefine HAVE_BROKEN_GETCWD @HAVE_BROKEN_GETCWD@
 
 /* Konstantin Chuguev's iconv implementation */
-#cmakedefine HAVE_BSD_ICONV
+#cmakedefine HAVE_BSD_ICONV @HAVE_BSD_ICONV@
 
 /* */
 #cmakedefine HAVE_BUILD_DEFS_H @HAVE_BUILD_DEFS_H@
@@ -795,7 +795,7 @@
 #cmakedefine HAVE_GETWD @HAVE_GETWD@
 
 /* glibc's iconv implementation */
-#cmakedefine HAVE_GLIBC_ICONV
+#cmakedefine HAVE_GLIBC_ICONV @HAVE_GLIBC_ICONV@
 
 /* Define to 1 if you have the `glob' function. */
 #cmakedefine HAVE_GLOB @HAVE_GLOB@
@@ -825,7 +825,7 @@
 #cmakedefine HAVE_IBMDB2
 
 /* IBM iconv implementation */
-#cmakedefine HAVE_IBM_ICONV
+#cmakedefine HAVE_IBM_ICONV @HAVE_IBM_ICONV@
 
 /* */
 #cmakedefine HAVE_ICONV @HAVE_ICONV@
@@ -987,7 +987,7 @@
 #cmakedefine HAVE_LIBGD
 
 /* Whether libiconv is used */
-#cmakedefine HAVE_LIBICONV
+#cmakedefine HAVE_LIBICONV @HAVE_LIBICONV@
 
 /* */
 #cmakedefine HAVE_LIBINTL @HAVE_LIBINTL@
@@ -1856,10 +1856,10 @@
 #cmakedefine HAVE__FPU_SETCW @HAVE__FPU_SETCW@
 
 /* iconv() is aliased to libiconv() in -liconv */
-#cmakedefine ICONV_ALIASED_LIBICONV
+#cmakedefine ICONV_ALIASED_LIBICONV @ICONV_ALIASED_LIBICONV@
 
 /* Whether iconv supports IGNORE */
-#cmakedefine ICONV_BROKEN_IGNORE
+#cmakedefine01 ICONV_BROKEN_IGNORE
 
 /* */
 #cmakedefine JISX0208
@@ -2015,7 +2015,7 @@
 #cmakedefine PHP_HPUX_TIME_R @PHP_HPUX_TIME_R@
 
 /* Which iconv implementation to use */
-#cmakedefine PHP_ICONV_IMPL
+#cmakedefine PHP_ICONV_IMPL "@PHP_ICONV_IMPL@"
 
 /* Whether you have IRIX-style functions */
 #cmakedefine PHP_IRIX_TIME_R @PHP_IRIX_TIME_R@

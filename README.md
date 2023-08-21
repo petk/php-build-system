@@ -708,6 +708,9 @@ List of configure command line options and their CMake alternatives:
 | `--with-gmp=shared`                              | `-Dgmp=shared`                     |                     |
 | `--without-mhash` (default)                      | `-Dmhash=OFF`                      | `OFF`               |
 | `--with-mhash`                                   | `-Dmhash=ON`                       |                     |
+| `--with-iconv` (default)                         | `-Diconv=ON`                       | `ON`                |
+| `--with-iconv=shared`                            | `-Diconv=shared`                   |                     |
+| `--without-iconv`                                | `-Diconv=OFF`                      |                     |
 | `--enable-intl` (default)                        | `-Dintl=ON`                        | `ON`                |
 | `--enable-intl=shared`                           | `-Dintl=shared`                    |                     |
 | `--disable-intl`                                 | `-Dintl=OFF`                       |                     |
