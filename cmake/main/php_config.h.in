@@ -1718,22 +1718,22 @@
 #cmakedefine HAVE_SYS_WAIT_H @HAVE_SYS_WAIT_H@
 
 /* */
-#cmakedefine HAVE_TIDY
+#cmakedefine HAVE_TIDY @HAVE_TIDY@
 
 /* defined if tidybuffio.h exists */
-#cmakedefine HAVE_TIDYBUFFIO_H
+#cmakedefine HAVE_TIDYBUFFIO_H @HAVE_TIDYBUFFIO_H@
 
 /* */
-#cmakedefine HAVE_TIDYOPTGETDOC
+#cmakedefine HAVE_TIDYOPTGETDOC @HAVE_TIDYOPTGETDOC@
 
 /* defined if tidyp.h exists */
-#cmakedefine HAVE_TIDYP_H
+#cmakedefine HAVE_TIDYP_H @HAVE_TIDYP_H@
 
 /* */
-#cmakedefine HAVE_TIDYRELEASEDATE
+#cmakedefine HAVE_TIDYRELEASEDATE @HAVE_TIDYRELEASEDATE@
 
 /* defined if tidy.h exists */
-#cmakedefine HAVE_TIDY_H
+#cmakedefine HAVE_TIDY_H @HAVE_TIDY_H@
 
 /* Have timelib_config.h */
 #cmakedefine HAVE_TIMELIB_CONFIG_H @HAVE_TIMELIB_CONFIG_H@

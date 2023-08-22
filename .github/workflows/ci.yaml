@@ -95,6 +95,7 @@ jobs:
             -Dintl=ON \
             -Dpspell=ON \
             -Dsodium=ON \
+            -Dtidy=ON \
             -Dzip=ON \
             -Dzlib=ON \
           "

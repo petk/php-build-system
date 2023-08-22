@@ -824,6 +824,9 @@ List of configure command line options and their CMake alternatives:
 | `--disable-sysvshm` (default)                    | `-Dsysvshm=OFF`                    | `OFF`               |
 | `--enable-sysvshm`                               | `-Dsysvshm=ON`                     |                     |
 | `--enable-sysvshm=shared`                        | `-Dsysvshm=shared`                 |                     |
+| `--without-tidy` (default)                       | `-Dtidy=OFF`                       | `OFF`               |
+| `--with-tidy[=DIR]`                              | `-Dtidy=ON`                        |                     |
+| `--with-tidy=shared`                             | `-Dtidy=shared`                    |                     |
 | `--enable-tokenizer` (default)                   | `-Dtokenizer=ON`                   | `ON`                |
 | `--enable-tokenizer=shared`                      | `-Dtokenizer=shared`               |                     |
 | `--disable-tokenizer`                            | `-Dtokenizer=OFF`                  |                     |
