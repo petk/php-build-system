@@ -421,6 +421,7 @@ Optional:
 * libcapstone (for the OPcache `--with-capstone` option)
 * libssl-dev (for OpenSSL `--with-openssl`)
 * libkrb5-dev (for the OpenSSL `--with-kerberos` option)
+* libaspell-dev and libpspell-dev (for the ext/pspell `--with-pspell` option)
 
 ### 6.3. The configure command line options
 
@@ -788,6 +789,9 @@ List of configure command line options and their CMake alternatives:
 | `--enable-phar` (default)                        | `-Dphar=ON`                        | `ON`                |
 | `--enable-phar=shared`                           | `-Dphar=shared`                    |                     |
 | `--disable-phar`                                 | `-Dphar=OFF`                       |                     |
+| `--without-pspell` (default)                     | `-Dpspell=OFF`                     | `OFF`               |
+| `--with-pspell`                                  | `-Dpspell=ON`                      |                     |
+| `--with-pspell=shared`                           | `-Dpspell=shared`                  |                     |
 | `--enable-session` (default)                     | `-Dsession=ON`                     | `ON`                |
 | `--enable-session=shared`                        | `-Dsession=shared`                 |                     |
 | `--disable-session`                              | `-Dsession=OFF`                    |                     |

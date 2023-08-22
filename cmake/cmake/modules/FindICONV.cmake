@@ -31,6 +31,7 @@ include(CheckCSourceCompiles)
 include(CheckCSourceRuns)
 include(CheckSymbolExists)
 include(CMakePushCheckState)
+include(FindPackageHandleStandardArgs)
 
 find_package(Iconv REQUIRED)
 
@@ -175,12 +176,11 @@ else()
         iconv_close( cd );
         return 2;
       }
-    " errno_works)
+    " _errno_works)
   cmake_pop_check_state()
 endif()
 
-if(NOT errno_works)
-  message(FATAL_ERROR "iconv does not support errno")
-endif()
-
-unset(errno_works)
+find_package_handle_standard_args(
+  ICONV
+  REQUIRED_VARS PHP_ICONV_IMPL _errno_works
+)

@@ -1270,7 +1270,7 @@
 #cmakedefine HAVE_PROGRESS_CALLBACK @HAVE_PROGRESS_CALLBACK@
 
 /* */
-#cmakedefine HAVE_PSPELL
+#cmakedefine HAVE_PSPELL @HAVE_PSPELL@
 
 /* Define to 1 if the PS_STRINGS thing exists. */
 #cmakedefine HAVE_PS_STRINGS @HAVE_PS_STRINGS@

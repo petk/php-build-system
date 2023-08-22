@@ -81,14 +81,23 @@ jobs:
             firebird-dev \
             libsodium-dev \
             libicu-dev \
-            libzip-dev;
+            libzip-dev \
+            libaspell-dev;
       - name: Checkout
         uses: actions/checkout@v3
         with:
           fetch-depth: 2
           submodules: true
       - name: Build and install
-        run: ./scripts/init.sh --cmake --options "-Dgmp=ON -Dintl=ON -Dsodium=ON -Dzip=ON -Dzlib=ON"
+        run: |
+          ./scripts/init.sh --cmake --options "\
+            -Dgmp=ON \
+            -Dintl=ON \
+            -Dpspell=ON \
+            -Dsodium=ON \
+            -Dzip=ON \
+            -Dzlib=ON \
+          "
 
       - name: Run tests
         run: |
