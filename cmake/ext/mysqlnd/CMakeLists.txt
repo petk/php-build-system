@@ -47,9 +47,16 @@ file(GLOB MYSQLND_HEADER_FILES "${CMAKE_CURRENT_SOURCE_DIR}/*.h")
 set_target_properties(ext_mysqlnd PROPERTIES PUBLIC_HEADER "${MYSQLND_HEADER_FILES}")
 
 if(mysqlnd_compression)
-  find_package(ZLIB)
-  target_link_libraries(ext_mysqlnd PRIVATE ${ZLIB_LIBRARIES})
-  target_include_directories(ext_mysqlnd PRIVATE ${ZLIB_INCLUDE_DIRS})
+  find_package(ZLIB REQUIRED)
+
+  if(ZLIB_LIBRARIES)
+    target_link_libraries(ext_mysqlnd PRIVATE ${ZLIB_LIBRARIES})
+  endif()
+
+  if(ZLIB_INCLUDE_DIRS)
+    target_include_directories(ext_mysqlnd PRIVATE ${ZLIB_INCLUDE_DIRS})
+  endif()
+
   set(MYSQLND_COMPRESSION_ENABLED 1 CACHE INTERNAL "Enable compressed protocol support")
 endif()
 

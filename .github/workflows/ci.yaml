@@ -70,7 +70,7 @@ jobs:
             libkrb5-dev \
             libjpeg-dev \
             libxpm-dev \
-            libfreetype6-dev \
+            libfreetype-dev \
             libldap2-dev \
             unixodbc-dev \
             libodbc1 \
@@ -82,7 +82,10 @@ jobs:
             libsodium-dev \
             libicu-dev \
             libzip-dev \
-            libaspell-dev;
+            libaspell-dev \
+            libavif-dev \
+            libwebp-dev \
+            libxpm-dev;
       - name: Checkout
         uses: actions/checkout@v3
         with:
@@ -91,6 +94,13 @@ jobs:
       - name: Build and install
         run: |
           ./scripts/init.sh --cmake --options "\
+            -Dgd=ON \
+              -Dgd_avif=ON \
+              -Dgd_webp=ON \
+              -Dgd_jpeg=ON \
+              -Dgd_xpm=ON \
+              -Dgd_freetype=ON \
+              -Dgd_jis=ON \
             -Dgmp=ON \
             -Dintl=ON \
             -Dpspell=ON \

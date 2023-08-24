@@ -582,7 +582,7 @@
 #cmakedefine HAVE_EXPLICIT_MEMSET @HAVE_EXPLICIT_MEMSET@
 
 /* Define to 1 if you have the `fabsf' function. */
-#cmakedefine HAVE_FABSF
+#cmakedefine HAVE_FABSF @HAVE_FABSF@
 
 /* Define to 1 if you have the <fcntl.h> header file. */
 #cmakedefine HAVE_FCNTL_H @HAVE_FCNTL_H@
@@ -618,7 +618,7 @@
 #cmakedefine HAVE_FLOCK @HAVE_FLOCK@
 
 /* Define to 1 if you have the `floorf' function. */
-#cmakedefine HAVE_FLOORF
+#cmakedefine HAVE_FLOORF @HAVE_FLOORF@
 
 /* Define if flush should be called explicitly after a buffered io. */
 #cmakedefine HAVE_FLUSHIO @HAVE_FLUSHIO@
@@ -681,37 +681,37 @@
 #cmakedefine HAVE_GCOV
 
 /* */
-#cmakedefine HAVE_GD_AVIF
+#cmakedefine HAVE_GD_AVIF @HAVE_GD_AVIF@
 
 /* */
-#cmakedefine HAVE_GD_BMP
+#cmakedefine HAVE_GD_BMP @HAVE_GD_BMP@
 
 /* */
-#cmakedefine HAVE_GD_BUNDLED
+#cmakedefine HAVE_GD_BUNDLED @HAVE_GD_BUNDLED@
 
 /* */
-#cmakedefine HAVE_GD_FREETYPE
+#cmakedefine HAVE_GD_FREETYPE @HAVE_GD_FREETYPE@
 
 /* */
-#cmakedefine HAVE_GD_GET_INTERPOLATION
+#cmakedefine HAVE_GD_GET_INTERPOLATION @HAVE_GD_GET_INTERPOLATION@
 
 /* */
-#cmakedefine HAVE_GD_JPG
+#cmakedefine HAVE_GD_JPG @HAVE_GD_JPG@
 
 /* */
-#cmakedefine HAVE_GD_LIBVERSION
+#cmakedefine HAVE_GD_LIBVERSION @HAVE_GD_LIBVERSION@
 
 /* */
-#cmakedefine HAVE_GD_PNG
+#cmakedefine HAVE_GD_PNG @HAVE_GD_PNG@
 
 /* */
-#cmakedefine HAVE_GD_TGA
+#cmakedefine HAVE_GD_TGA @HAVE_GD_TGA@
 
 /* */
-#cmakedefine HAVE_GD_WEBP
+#cmakedefine HAVE_GD_WEBP @HAVE_GD_WEBP@
 
 /* */
-#cmakedefine HAVE_GD_XPM
+#cmakedefine HAVE_GD_XPM @HAVE_GD_XPM@
 
 /* Define if you have the getaddrinfo function */
 #cmakedefine HAVE_GETADDRINFO @HAVE_GETADDRINFO@
@@ -960,7 +960,7 @@
 #cmakedefine HAVE_LDAP_WHOAMI_S
 
 /* */
-#cmakedefine HAVE_LIBAVIF
+#cmakedefine HAVE_LIBAVIF @HAVE_LIBAVIF@
 
 /* */
 #cmakedefine HAVE_LIBBIND
@@ -981,10 +981,10 @@
 #cmakedefine HAVE_LIBEXPAT @HAVE_LIBEXPAT@
 
 /* */
-#cmakedefine HAVE_LIBFREETYPE
+#cmakedefine HAVE_LIBFREETYPE @HAVE_LIBFREETYPE@
 
 /* */
-#cmakedefine HAVE_LIBGD
+#cmakedefine HAVE_LIBGD @HAVE_LIBGD@
 
 /* Whether libiconv is used */
 #cmakedefine HAVE_LIBICONV @HAVE_LIBICONV@
@@ -993,7 +993,7 @@
 #cmakedefine HAVE_LIBINTL @HAVE_LIBINTL@
 
 /* */
-#cmakedefine HAVE_LIBJPEG
+#cmakedefine HAVE_LIBJPEG @HAVE_LIBJPEG@
 
 /* Define to 1 if you have the `m' library (-lm). */
 #cmakedefine HAVE_LIBM
@@ -1011,7 +1011,7 @@
 #cmakedefine HAVE_LIBPAM
 
 /* */
-#cmakedefine HAVE_LIBPNG
+#cmakedefine HAVE_LIBPNG @HAVE_LIBPNG@
 
 /* Define to 1 if you have the `pq' library (-lpq). */
 #cmakedefine HAVE_LIBPQ
@@ -1041,7 +1041,7 @@
 #cmakedefine HAVE_LIBUTIL
 
 /* */
-#cmakedefine HAVE_LIBWEBP
+#cmakedefine HAVE_LIBWEBP @HAVE_LIBWEBP@
 
 /* */
 #cmakedefine HAVE_LIBXML @HAVE_LIBXML@
@@ -1832,7 +1832,7 @@
 #cmakedefine HAVE_XMLWRITER @HAVE_XMLWRITER@
 
 /* */
-#cmakedefine HAVE_XPM
+#cmakedefine HAVE_XPM @HAVE_XPM@
 
 /* */
 #cmakedefine HAVE_XSL @HAVE_XSL@
@@ -1862,7 +1862,7 @@
 #cmakedefine01 ICONV_BROKEN_IGNORE
 
 /* */
-#cmakedefine JISX0208
+#cmakedefine JISX0208 @JISX0208@
 
 /* */
 #cmakedefine LMDB_INCLUDE_FILE
@@ -2130,7 +2130,7 @@
 #cmakedefine TM_IN_SYS_TIME
 
 /* */
-#cmakedefine USE_GD_JISX0208
+#cmakedefine USE_GD_JISX0208 @USE_GD_JISX0208@
 
 /* Define if cross-process locking is required by accept() */
 #cmakedefine USE_LOCKING

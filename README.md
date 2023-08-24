@@ -422,6 +422,25 @@ Optional:
 * libssl-dev (for OpenSSL `--with-openssl`)
 * libkrb5-dev (for the OpenSSL `--with-kerberos` option)
 * libaspell-dev and libpspell-dev (for the ext/pspell `--with-pspell` option)
+* zlib
+  * when using `--enable-gd` with bundled libgd
+  * when using `--with-zlib`
+  * when using `--with-pdo-mysql` or `--with-mysqli` (option
+    `--enable-mysqlnd-compression-support` needs it)
+* libpng
+  * when using `--enable-gd` with bundled libgd
+* libavif
+  * when using `--enable-gd` with bundled libgd and `--with-avif` option.
+* libwebp
+  * when using `--enable-gd` with bundled libgd and `--with-webp` option.
+* libjpeg
+  * when using `--enable-gd` with bundled libgd and `--with-jpeg` option.
+* libxpm
+  * when using `--enable-gd` with bundled libgd and `--with-xpm` option.
+* libfretype
+  * when using `--enable-gd` with bundled libgd and `--with-freetype` option.
+* libgd
+  * when using `--enable-gd` with external libgd `--with-external-gd`.
 
 ### 6.3. The configure command line options
 
@@ -700,7 +719,7 @@ List of configure command line options and their CMake alternatives:
 | `--enable-ctype` (default)                       | `-Dctype=ON`                       | `ON`                |
 | `--enable-ctype=shared`                          | `-Dctype=shared`                   |                     |
 | `--disable-ctype`                                | `-Dctype=OFF`                      |                     |
-| `--without-curl` (default)                       | `-Dcurl=OFF `                      | `OFF`               |
+| `--without-curl` (default)                       | `-Dcurl=OFF`                       | `OFF`               |
 | `--with-curl`                                    | `-Dcurl=ON`                        |                     |
 | `--with-curl=shared`                             | `-Dcurl=shared`                    |                     |
 | `--disable-dl-test` (default)                    | `-Ddl_test=OFF`                    | `OFF`               |
@@ -729,6 +748,23 @@ List of configure command line options and their CMake alternatives:
 | `--enable-ftp=shared`                            | `-Dftp=shared`                     |                     |
 | `--without-openssl-dir`                          | `-Dftp_ssl=OFF`                    | `OFF`               |
 | `--with-openssl-dir`                             | `-Dftp_ssl=ON`                     |                     |
+| `--disable-gd` (default)                         | `-Dgd=OFF`                         | `OFF`               |
+| `--enable-gd`                                    | `-Dgd=ON`                          |                     |
+| `--enable-gd=shared`                             | `-Dgd=shared`                      |                     |
+| `--without-external-gd` (default)                | `-Dgd_external=OFF`                | `OFF`               |
+| `--with-external-gd`                             | `-Dgd_external=ON`                 |                     |
+| `--without-avif` (default)                       | `-Dgd_avif=OFF`                    | `OFF`               |
+| `--with-avif`                                    | `-Dgd_avif=ON`                     |                     |
+| `--without-webp` (default)                       | `-Dgd_webp=OFF`                    | `OFF`               |
+| `--with-webp`                                    | `-Dgd_webp=ON`                     |                     |
+| `--without-jpeg` (default)                       | `-Dgd_jpeg=OFF`                    | `OFF`               |
+| `--with-jpeg`                                    | `-Dgd_jpeg=ON`                     |                     |
+| `--without-xpm` (default)                        | `-Dgd_xpm=OFF`                     | `OFF`               |
+| `--with-xpm`                                     | `-Dgd_xpm=ON`                      |                     |
+| `--without-freetype` (default)                   | `-Dgd_freetype=OFF`                | `OFF`               |
+| `--with-freetype`                                | `-Dgd_freetype=ON`                 |                     |
+| `--disable-gd-jis-conv` (default)                | `-Dgd_jis=OFF`                     | `OFF`               |
+| `--enable-gd-jis-conv`                           | `-Dgd_jis=ON`                      |                     |
 | `--without-gettext` (default)                    | `-Dgettext=OFF`                    | `OFF`               |
 | `--with-gettext[=DIR]`                           | `-Dgettext=ON`                     |                     |
 | `--with-gettext=shared`                          | `-Dgettext=shared`                 |                     |

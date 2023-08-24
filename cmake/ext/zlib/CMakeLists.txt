@@ -4,8 +4,6 @@ if(NOT zlib)
   return()
 endif()
 
-find_package(ZLIB 1.2.0.4)
-
 string(TOLOWER ${zlib} extension_lower)
 set(extension_library_type "STATIC")
 if(extension_lower STREQUAL "shared")
@@ -22,5 +20,12 @@ add_library(ext_zlib ${extension_library_type}
 
 target_compile_definitions(ext_zlib PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE=1)
 
-target_link_libraries(ext_zlib PRIVATE ${ZLIB_LIBRARIES})
-target_include_directories(ext_zlib PRIVATE ${ZLIB_INCLUDE_DIRS})
+find_package(ZLIB 1.2.0.4 REQUIRED)
+
+if(ZLIB_LIBRARIES)
+  target_link_libraries(ext_zlib PRIVATE ${ZLIB_LIBRARIES})
+endif()
+
+if(ZLIB_INCLUDE_DIRS)
+  target_include_directories(ext_zlib PRIVATE ${ZLIB_INCLUDE_DIRS})
+endif()
