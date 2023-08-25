@@ -1,5 +1,121 @@
-option(mbstring "Whether to enable the mbstring extension" OFF)
+include(CheckCSourceCompiles)
+include(CMakeDependentOption)
+include(CMakePushCheckState)
+
+option(mbstring "Whether to enable the multibyte string support extension" OFF)
+cmake_dependent_option(mbstring_mbregex "Whether to enable multibyte regex support (requires oniguruma)" ON "mbstring" OFF)
 
 if(NOT mbstring)
   return()
 endif()
+
+string(TOLOWER ${mbstring} extension_lower)
+set(extension_library_type "STATIC")
+if(extension_lower STREQUAL "shared")
+  set(extension_library_type "SHARED")
+endif()
+
+php_extension(NAME "mbstring" ${extension_library_type})
+
+add_library(ext_mbstring ${extension_library_type}
+  mbstring.c
+  php_unicode.c
+  mb_gpc.c
+  libmbfl/filters/html_entities.c
+  libmbfl/filters/mbfilter_7bit.c
+  libmbfl/filters/mbfilter_base64.c
+  libmbfl/filters/mbfilter_cjk.c
+  libmbfl/filters/mbfilter_htmlent.c
+  libmbfl/filters/mbfilter_qprint.c
+  libmbfl/filters/mbfilter_singlebyte.c
+  libmbfl/filters/mbfilter_ucs2.c
+  libmbfl/filters/mbfilter_ucs4.c
+  libmbfl/filters/mbfilter_utf16.c
+  libmbfl/filters/mbfilter_utf32.c
+  libmbfl/filters/mbfilter_utf7.c
+  libmbfl/filters/mbfilter_utf7imap.c
+  libmbfl/filters/mbfilter_utf8.c
+  libmbfl/filters/mbfilter_utf8_mobile.c
+  libmbfl/filters/mbfilter_uuencode.c
+  libmbfl/mbfl/mbfilter.c
+  libmbfl/mbfl/mbfilter_8bit.c
+  libmbfl/mbfl/mbfilter_pass.c
+  libmbfl/mbfl/mbfilter_wchar.c
+  libmbfl/mbfl/mbfl_convert.c
+  libmbfl/mbfl/mbfl_encoding.c
+  libmbfl/mbfl/mbfl_filter_output.c
+  libmbfl/mbfl/mbfl_language.c
+  libmbfl/mbfl/mbfl_memory_device.c
+  libmbfl/mbfl/mbfl_string.c
+  libmbfl/nls/nls_de.c
+  libmbfl/nls/nls_en.c
+  libmbfl/nls/nls_ja.c
+  libmbfl/nls/nls_kr.c
+  libmbfl/nls/nls_neutral.c
+  libmbfl/nls/nls_ru.c
+  libmbfl/nls/nls_uni.c
+  libmbfl/nls/nls_zh.c
+  libmbfl/nls/nls_hy.c
+  libmbfl/nls/nls_tr.c
+  libmbfl/nls/nls_ua.c
+)
+
+message(STATUS "Creating ext/mbstring/libmbfl/config.h")
+file(WRITE "${CMAKE_CURRENT_SOURCE_DIR}/libmbfl/config.h" "#include \"php_config.h\"\n")
+
+file(GLOB MBSTRING_HEADER_FILES "${CMAKE_CURRENT_SOURCE_DIR}/libmbfl/mbfl/*.h")
+list(APPEND MBSTRING_HEADER_FILES "${CMAKE_CURRENT_SOURCE_DIR}/libmbfl/config.h")
+list(APPEND MBSTRING_HEADER_FILES "${CMAKE_CURRENT_SOURCE_DIR}/mbstring.h")
+
+if(mbstring_mbregex)
+  find_package(ONIGURUMA REQUIRED)
+
+  if(ONIGURUMA_LIBRARIES)
+    target_link_libraries(ext_mbstring PRIVATE ${ONIGURUMA_LIBRARIES})
+  endif()
+
+  if(ONIGURUMA_INCLUDE_DIRS)
+    target_include_directories(ext_mbstring PRIVATE ${ONIGURUMA_INCLUDE_DIRS})
+  endif()
+
+  cmake_push_check_state()
+    set(CMAKE_REQUIRED_LIBRARIES "${CMAKE_REQUIRED_LIBRARIES} ${ONIGURUMA_LIBRARIES}")
+    check_c_source_compiles("
+      #include <oniguruma.h>
+
+      int main(void) {
+        return (int)(ONIG_ENCODING_KOI8 + 1);
+      }
+    " _has_invalid_entry)
+  cmake_pop_check_state()
+
+  if(NOT _has_invalid_entry)
+    set(PHP_ONIG_BAD_KOI8_ENTRY 1 CACHE INTERNAL "Define to 1 if oniguruma has an invalid entry for KOI8 encoding")
+  endif()
+
+  unset(_has_invalid_entry)
+
+  target_compile_definitions(
+    ext_mbstring
+    PRIVATE
+      ONIG_ESCAPE_UCHAR_COLLISION=1
+      UChar=OnigUChar
+  )
+
+  set(HAVE_MBREGEX 1 CACHE STRING "Whether to have multibyte regex support")
+
+  target_sources(ext_mbstring PRIVATE php_mbregex.c)
+  list(APPEND MBSTRING_HEADER_FILES "php_mbregex.h;php_onig_compat.h")
+endif()
+
+target_compile_definitions(ext_mbstring PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE=1)
+
+set_target_properties(ext_mbstring PROPERTIES PUBLIC_HEADER "${MBSTRING_HEADER_FILES}")
+
+target_include_directories(
+  ext_mbstring
+  PRIVATE
+    "${CMAKE_CURRENT_SOURCE_DIR}"
+    "${CMAKE_CURRENT_SOURCE_DIR}/libmbfl"
+    "${CMAKE_CURRENT_SOURCE_DIR}/libmbfl/mbfl"
+)

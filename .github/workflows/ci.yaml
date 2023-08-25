@@ -85,7 +85,8 @@ jobs:
             libaspell-dev \
             libavif-dev \
             libwebp-dev \
-            libxpm-dev;
+            libxpm-dev \
+            libonig-dev;
       - name: Checkout
         uses: actions/checkout@v3
         with:
@@ -103,6 +104,7 @@ jobs:
               -Dgd_jis=ON \
             -Dgmp=ON \
             -Dintl=ON \
+            -Dmbstring=ON \
             -Dpspell=ON \
             -Dsodium=ON \
             -Dtidy=ON \

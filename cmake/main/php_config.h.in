@@ -1080,7 +1080,7 @@
 #cmakedefine HAVE_MALLOC_H @HAVE_MALLOC_H@
 
 /* whether to have multibyte regex support */
-#cmakedefine HAVE_MBREGEX
+#cmakedefine HAVE_MBREGEX @HAVE_MBREGEX@
 
 /* whether to have multibyte string support */
 #cmakedefine HAVE_MBSTRING @HAVE_MBSTRING@
@@ -2033,7 +2033,7 @@
 #cmakedefine PHP_OCI8_DEF_SHARED_LIBADD
 
 /* define to 1 if oniguruma has an invalid entry for KOI8 encoding */
-#cmakedefine PHP_ONIG_BAD_KOI8_ENTRY
+#cmakedefine PHP_ONIG_BAD_KOI8_ENTRY @PHP_ONIG_BAD_KOI8_ENTRY@
 
 /* uname output */
 #cmakedefine PHP_OS "@PHP_OS@"

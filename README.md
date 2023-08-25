@@ -441,6 +441,8 @@ Optional:
   * when using `--enable-gd` with bundled libgd and `--with-freetype` option.
 * libgd
   * when using `--enable-gd` with external libgd `--with-external-gd`.
+* libonig
+  * when using `--enable-mbstring`
 
 ### 6.3. The configure command line options
 
@@ -781,6 +783,11 @@ List of configure command line options and their CMake alternatives:
 | `--disable-intl`                                 | `-Dintl=OFF`                       |                     |
 | `--with-libxml` (default)                        | `-Dlibxml=ON`                      | `ON`                |
 | `--without-libxml`                               | `-Dlibxml=OFF`                     |                     |
+| `--disable-mbstring` (default)                   | `-Dmbstring=OFF`                   | `OFF`               |
+| `--enable-mbstring`                              | `-Dmbstring=ON`                    |                     |
+| `--enable-mbstring=shared`                       | `-Dmbstring=shared`                |                     |
+| `--enable-mbregex` (default)                     | `-Dmbstring_mbregex=ON`            | `ON`                |
+| `--disable-mbregex`                              | `-Dmbstring_mbregex=OFF`           |                     |
 | `--disable-mysqlnd` (default)                    | `-Dmysqlnd=OFF`                    | `OFF`               |
 | `--enable-mysqlnd`                               | `-Dmysqlnd=ON`                     |                     |
 | `--enable-mysqlnd=shared`                        | `-Dmysqlnd=shared`                 |                     |
