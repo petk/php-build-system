@@ -110,6 +110,7 @@ jobs:
             -Dtidy=ON \
             -Dzip=ON \
             -Dzlib=ON \
+            -Dlitespeed=ON \
           "
 
       - name: Run tests

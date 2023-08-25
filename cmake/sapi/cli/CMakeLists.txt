@@ -39,6 +39,8 @@ target_include_directories(
   PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}
 )
 
+target_compile_definitions(php PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE=1)
+
 target_link_libraries(php PUBLIC main)
 target_link_libraries(php PUBLIC TSRM)
 target_link_libraries(php PUBLIC Zend)
