@@ -7,20 +7,18 @@ include(PHPFindPackage)
 # Opcache extension can be built either as shared or disabled.
 option(opcache "Whether to enable the opcache extension" ON)
 
-cmake_dependent_option(huge_code_pages "Whether to enable copying PHP CODE pages into HUGE PAGES" ON "opcache" OFF)
-
-if(huge_code_pages)
-  set(HAVE_HUGE_CODE_PAGES 1 CACHE INTERNAL "Define to enable copying PHP CODE pages into HUGE PAGES (experimental)")
-else()
-  set(HAVE_HUGE_CODE_PAGES 0 CACHE INTERNAL "Define to enable copying PHP CODE pages into HUGE PAGES (experimental)")
-endif()
+cmake_dependent_option(opcache_huge_code_pages "Whether to enable copying PHP CODE pages into HUGE PAGES" ON "opcache" OFF)
 
 cmake_dependent_option(opcache_jit "Whether to enable JIT" ON "opcache" OFF)
 
-cmake_dependent_option(capstone "Support opcache JIT disassembly through capstone" OFF "opcache" OFF)
+cmake_dependent_option(opcache_capstone "Support opcache JIT disassembly through capstone" OFF "opcache" OFF)
 
 if(NOT opcache)
   return()
+endif()
+
+if(opcache_huge_code_pages)
+  set(HAVE_HUGE_CODE_PAGES 1 CACHE INTERNAL "Define to enable copying PHP CODE pages into HUGE PAGES (experimental)")
 endif()
 
 if(opcache_jit)
@@ -33,20 +31,21 @@ endif()
 if(opcache_jit)
   set(HAVE_JIT 1 CACHE INTERNAL "Define to enable JIT")
 
-  string(TOLOWER "${PHP_UNAME}" host_os)
-  if(${host_os} MATCHES "x86_64-.*-darwin.*")
-    set(DASM_FLAGS -D X64APPLE=1 -D X64=1)
-    set(DASM_ARCH "x86")
-  elseif(${host_os} MATCHES "x86_64.*")
+  if(${CMAKE_HOST_SYSTEM_PROCESSOR} MATCHES "x86_64.*")
     set(DASM_FLAGS -D X64=1)
     set(DASM_ARCH "x86")
-  elseif(${host_os} MATCHES "i[34567]86.*")
+  elseif(${CMAKE_HOST_SYSTEM_PROCESSOR} MATCHES "i[34567]86.*")
     set(DASM_ARCH "x86")
-  elseif(${host_os} MATCHES "x86.*")
+  elseif(${CMAKE_HOST_SYSTEM_PROCESSOR} MATCHES "x86.*")
     set(DASM_ARCH "x86")
-  elseif(${host_os} MATCHES "aarch64.*")
+  elseif(${CMAKE_HOST_SYSTEM_PROCESSOR} MATCHES "aarch64.*")
     set(DASM_FLAGS -D ARM64=1)
     set(DASM_ARCH "arm64")
+  endif()
+
+  string(TOLOWER "${CMAKE_HOST_SYSTEM_NAME}" _host_system_name)
+  if(${CMAKE_HOST_SYSTEM_PROCESSOR} MATCHES "x86_64.*" AND ${_host_system_name} MATCHES "darwin.*")
+    list(APPEND DASM_FLAGS -D X64APPLE=1)
   endif()
 
   if(ZTS)
@@ -135,7 +134,7 @@ if(opcache_jit)
   add_dependencies(ext_opcache BuildZendJitForArchitecture)
 
   # Check for capstone.
-  if(capstone)
+  if(opcache_capstone)
     php_find_package(NAME capstone VERSION 3.0.0)
 
     if(capstone_FOUND)

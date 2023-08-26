@@ -138,14 +138,14 @@ check_c_source_compiles("
 set(ENABLE_CHROOT_FUNC 1 CACHE INTERNAL "Whether to enable chroot() function")
 
 re2c_target(
-  NAME var_unserializer.c
+  NAME varUnserializer
   INPUT "${CMAKE_CURRENT_SOURCE_DIR}/var_unserializer.re"
   OUTPUT "${CMAKE_CURRENT_SOURCE_DIR}/var_unserializer.c"
   OPTIONS "--no-generation-date -b"
 )
 
 re2c_target(
-  NAME url_scanner_ex.c
+  NAME urlScannerEx
   INPUT "${CMAKE_CURRENT_SOURCE_DIR}/url_scanner_ex.re"
   OUTPUT "${CMAKE_CURRENT_SOURCE_DIR}/url_scanner_ex.c"
   OPTIONS "--no-generation-date -b"

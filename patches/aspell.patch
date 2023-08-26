@@ -23,13 +23,13 @@ index 879300f992..de820684fb 100644
            libsasl2-dev:i386 \
            libsodium-dev:i386 \
 diff --git a/.github/actions/apt-x64/action.yml b/.github/actions/apt-x64/action.yml
-index 704388fee8..4de2fb813a 100644
+index 8f2f608278..c3ae0ada63 100644
 --- a/.github/actions/apt-x64/action.yml
 +++ b/.github/actions/apt-x64/action.yml
-@@ -20,7 +20,6 @@ runs:
-           libtidy-dev \
+@@ -34,7 +34,6 @@ runs:
            libenchant-2-dev \
            libaspell-dev \
+           libbz2-dev \
 -          libpspell-dev \
            libsasl2-dev \
            libxpm-dev \

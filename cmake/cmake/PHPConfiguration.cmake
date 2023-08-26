@@ -1,4 +1,20 @@
-# Customizable variables.
+#[=============================================================================[
+Project-wide configuration options and variables that can be overridden at the
+configuration phase (cmake . -D...).
+#]=============================================================================]
+
+#[=============================================================================[
+Customizable variables.
+#]=============================================================================]
+set(PHP_UNAME "" CACHE STRING "Build system uname")
+
+if(CMAKE_UNAME AND NOT PHP_UNAME)
+  execute_process(COMMAND ${CMAKE_UNAME} -a
+          OUTPUT_VARIABLE PHP_UNAME
+          OUTPUT_STRIP_TRAILING_WHITESPACE
+          ERROR_QUIET)
+endif()
+
 set(PHP_BUILD_SYSTEM "${PHP_UNAME}" CACHE STRING "Build system uname")
 
 set(PHP_BUILD_PROVIDER "" CACHE STRING "Build provider")
@@ -7,7 +23,9 @@ set(PHP_BUILD_COMPILER "" CACHE STRING "Compiler used for build")
 
 set(PHP_BUILD_ARCH "" CACHE STRING "Build architecture")
 
-# General options.
+#[=============================================================================[
+General options.
+#]=============================================================================]
 option(RE2C_CGOTO "Whether to enable computed goto gcc extension with re2c" OFF)
 
 option(DEBUG "Whether to include debugging symbols" OFF)
@@ -30,7 +48,9 @@ set(FD_SETSIZE "" CACHE STRING "Size of descriptor sets")
 
 option(VALGRIND "Whether to enable the valgring support" OFF)
 
-# Zend options
+#[=============================================================================[
+Zend options
+#]=============================================================================]
 option(GCC_GLOBAL_REGS "Whether to enable GCC global register variables" ON)
 
 option(ZEND_SIGNALS "Whether to enable Zend signal handling" ON)

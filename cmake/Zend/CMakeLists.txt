@@ -88,14 +88,14 @@ add_custom_target(
 )
 
 re2c_target(
-  NAME zend_language_scanner.c
+  NAME zendLanguageScanner
   INPUT "${CMAKE_CURRENT_SOURCE_DIR}/zend_language_scanner.l"
   OUTPUT "${CMAKE_CURRENT_SOURCE_DIR}/zend_language_scanner.c"
   OPTIONS "--no-generation-date --case-inverted -cbdFt ${CMAKE_CURRENT_SOURCE_DIR}/zend_language_scanner_defs.h"
 )
 
 re2c_target(
-  NAME zend_ini_scanner.c
+  NAME zendIniScanner
   INPUT "${CMAKE_CURRENT_SOURCE_DIR}/zend_ini_scanner.l"
   OUTPUT "${CMAKE_CURRENT_SOURCE_DIR}/zend_ini_scanner.c"
   OPTIONS "--no-generation-date --case-inverted -cbdFt ${CMAKE_CURRENT_SOURCE_DIR}/zend_ini_scanner_defs.h"

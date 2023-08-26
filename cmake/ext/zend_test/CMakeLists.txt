@@ -20,3 +20,8 @@ add_library(ext_zend_test ${zend_test_library_type}
 )
 
 target_compile_definitions(ext_zend_test PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE=1)
+
+# If ext/libxml is enabled, link it.
+if(HAVE_LIBXML)
+  target_link_libraries(ext_zend_test PRIVATE ext_libxml)
+endif()

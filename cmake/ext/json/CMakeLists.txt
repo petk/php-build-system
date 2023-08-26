@@ -8,7 +8,7 @@ bison_target(JsonParser
 )
 
 re2c_target(
-  NAME json_scanner.c
+  NAME jsonScanner
   INPUT "${CMAKE_CURRENT_SOURCE_DIR}/json_scanner.re"
   OUTPUT "${CMAKE_CURRENT_SOURCE_DIR}/json_scanner.c"
   OPTIONS "--no-generation-date -bci -t ${CMAKE_CURRENT_SOURCE_DIR}/php_json_scanner_defs.h"

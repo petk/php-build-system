@@ -5,7 +5,7 @@
 update=0
 cmake=0
 options=""
-generator=UnixMakefiles
+preset="default"
 debug=0
 
 # Go to project root.
@@ -24,7 +24,8 @@ OPTIONS:
   -c, --cmake            Run cmake configuration and build commands.
   -o, --options VALUE    CMake options which are appended to the CMake command.
                            cmake -DOPTION .
-  -g, --generator VALUE  CMake generator (UnixMakefiles|Ninja)
+  -p, --preset VALUE     Use CMake preset with name VALUE, otherwise "default"
+                         is used (see CMakePresets.json).
   -d, --debug            Debug mode. Here CMake profiling is enabled and debug
                          info displayed.
   -h, --help             Display this help.
@@ -45,8 +46,8 @@ HELP
     shift
   fi
 
-  if test "$1" = "-g" || test "$1" = "--generator"; then
-    generator=$2
+  if test "$1" = "-p" || test "$1" = "--preset"; then
+    preset=$2
     shift
   fi
 
@@ -82,24 +83,22 @@ for file in $patches; do
   esac
 done
 
+# CMake wasn't specified.
+if test "x$cmake" = "x0"; then
+  echo
+  echo "PHP sources are ready to be built. Inside php-src, you can now run:
+    cmake .
+    cmake --build .
+  "
+  exit
+fi
+
 if test "${debug}" = "1"; then
   cmake_debug_options="--debug-trycompile --profiling-output ./profile.json --profiling-format google-trace"
   cmake_verbose="--verbose"
 fi
 
-# Run cmake configuration and build.
-if test "$cmake" = "1"; then
-  cd php-src
-  if test "$generator" = "UnixMakefiles"; then
-    cmake .  ${cmake_debug_options} ${options}
-    cmake --build . $cmake_verbose -- --jobs $(nproc)
-  elif test "$generator" = "Ninja"; then
-    cmake . ${cmake_debug_options} ${options} -G Ninja
-    ninja -j $(nproc)
-  fi
-else
-  echo "Now run:
-    cmake .
-    cmake --build .
-  "
-fi
+# Run CMake preset configuration and build.
+cd php-src
+cmake --preset ${preset} ${cmake_debug_options} ${options}
+cmake --build --preset ${preset} $cmake_verbose -- -j $(nproc)

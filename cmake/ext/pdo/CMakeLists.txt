@@ -5,7 +5,7 @@ if(NOT pdo)
 endif()
 
 re2c_target(
-  NAME pdo_sql_parser.c
+  NAME pdoSqlParser
   INPUT "${CMAKE_CURRENT_SOURCE_DIR}/pdo_sql_parser.re"
   OUTPUT "${CMAKE_CURRENT_SOURCE_DIR}/pdo_sql_parser.c"
   OPTIONS "--no-generation-date"

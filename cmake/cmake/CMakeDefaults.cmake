@@ -1,5 +1,7 @@
-# Setting CMake defaults to manage how CMake works. These can be set before
-# calling the project().
+#[=============================================================================[
+Setting CMake defaults to manage how CMake works. These can be set before
+calling the project().
+#]=============================================================================]
 
 # Set the module path to include the directory containing custom modules.
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake/modules/")

@@ -56,9 +56,9 @@ endif()
 
 # Target main needs includes from the libxml library.
 if(HAVE_LIBXML)
-  target_link_libraries(main ext_libxml)
+  target_link_libraries(main PRIVATE ext_libxml)
 endif()
 
 if(HAVE_LIBEXPAT)
-  target_link_libraries(main ext_xml)
+  target_link_libraries(main PRIVATE ext_xml)
 endif()

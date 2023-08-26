@@ -17,7 +17,7 @@ bison_target(PhpDbgParser phpdbg_parser.y ${CMAKE_CURRENT_BINARY_DIR}/phpdbg_par
 )
 
 re2c_target(
-  NAME phpdbg_lexer.c
+  NAME phpdbgLexer
   INPUT "${CMAKE_CURRENT_SOURCE_DIR}/phpdbg_lexer.l"
   OUTPUT "${CMAKE_CURRENT_SOURCE_DIR}/phpdbg_lexer.c"
   OPTIONS "--no-generation-date -cbdF"

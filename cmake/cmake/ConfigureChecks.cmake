@@ -1,3 +1,7 @@
+#[=============================================================================[
+Project-wide configuration checks.
+#]=============================================================================]
+
 # Include required modules.
 include(CheckIncludeFile)
 include(CheckIncludeFiles)

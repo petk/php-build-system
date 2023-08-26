@@ -15,7 +15,7 @@ else()
 endif()
 
 re2c_target(
-  NAME phar_path_check.c
+  NAME pharPathCheck
   INPUT "${CMAKE_CURRENT_SOURCE_DIR}/phar_path_check.re"
   OUTPUT "${CMAKE_CURRENT_SOURCE_DIR}/phar_path_check.c"
   OPTIONS "--no-generation-date -b"

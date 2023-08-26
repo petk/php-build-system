@@ -29,15 +29,8 @@ add_compile_definitions("$<$<COMPILE_LANGUAGE:C>:_GNU_SOURCE>")
 
 set(PHP_OS "${CMAKE_SYSTEM_NAME}" CACHE INTERNAL "uname output")
 
-if(CMAKE_UNAME)
-  execute_process(COMMAND ${CMAKE_UNAME} -a
-          OUTPUT_VARIABLE PHP_UNAME
-          OUTPUT_STRIP_TRAILING_WHITESPACE
-          ERROR_QUIET)
-endif()
-
 # Define PHP configuration options.
-include(PHPOptions)
+include(PHPConfiguration)
 
 # Configuration checks.
 include(ConfigureChecks)

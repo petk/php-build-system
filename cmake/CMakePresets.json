@@ -1,3 +1,70 @@
 {
-  "version": 1
+  "version": 2,
+  "configurePresets": [
+    {
+      "name": "default",
+      "displayName": "Default PHP configuration",
+      "description": "Default PHP build using Unix Makefiles generator",
+      "generator": "Unix Makefiles",
+      "binaryDir": "${sourceDir}",
+      "cacheVariables": {
+        "bcmath": {
+          "type": "BOOL",
+          "value": "ON"
+        },
+        "bz2": "ON",
+        "calendar": "ON",
+        "curl": "ON",
+        "dl_test": "ON",
+        "enchant": "ON",
+        "exif": "ON",
+        "ffi": "ON",
+        "ftp": "ON",
+        "gd": "ON",
+        "gd_avif": "ON",
+        "gd_webp": "ON",
+        "gd_jpeg": "ON",
+        "gd_xpm": "ON",
+        "gd_freetype": "ON",
+        "gd_jis": "ON",
+        "gettext": "ON",
+        "gmp": "ON",
+        "intl": "ON",
+        "mbstring": "ON",
+        "openssl": "ON",
+        "pcntl": "ON",
+        "pspell": "ON",
+        "shmop": "ON",
+        "sockets": "ON",
+        "sodium": "ON",
+        "sysvmsg": "ON",
+        "sysvsem": "ON",
+        "sysvshm": "ON",
+        "tidy": "ON",
+        "xsl": "ON",
+        "zend_test": "ON",
+        "zip": "ON",
+        "zlib": "ON",
+
+        "litespeed": "ON"
+      }
+    },
+    {
+      "name": "ninja",
+      "inherits": "default",
+      "displayName": "Ninja PHP configuration",
+      "description": "Default PHP build using Ninja generator",
+      "generator": "Ninja"
+    }
+  ],
+  "buildPresets": [
+    {
+      "name": "default",
+      "configurePreset": "default"
+    },
+    {
+      "name": "ninja",
+      "configurePreset": "ninja"
+    }
+  ]
 }
