@@ -970,6 +970,9 @@
 #undef HAVE_LDAP_WHOAMI_S
 
 /* */
+#undef HAVE_LIBATOMIC
+
+/* */
 #undef HAVE_LIBAVIF
 
 /* */
@@ -1864,6 +1867,9 @@
 
 /* whether _FPU_SETCW is present and usable */
 #undef HAVE__FPU_SETCW
+
+/* */
+#undef HAVE___ATOMIC_EXCHANGE_1
 
 /* iconv() is aliased to libiconv() in -liconv */
 #undef ICONV_ALIASED_LIBICONV

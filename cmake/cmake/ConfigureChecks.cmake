@@ -346,6 +346,14 @@ if(HAVE_LIB_M)
   set(EXTRA_LIBS ${EXTRA_LIBS} m)
 endif()
 
+if(${CMAKE_HOST_SYSTEM_PROCESSOR} MATCHES "riscv64.*")
+  find_package(ATOMICS)
+
+  if(ATOMICS_FOUND AND ATOMICS_LIBRARIES)
+    list(APPEND EXTRA_LIBS ${ATOMICS_LIBRARIES})
+  endif()
+endif()
+
 # Check for IPv6 support.
 if(IPV6)
   include(PHPCheckIPv6)

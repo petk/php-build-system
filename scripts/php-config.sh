@@ -12,6 +12,8 @@ patterns="
 #undef\sHAVE_DLSYM
 #undef\sHAVE_DLOPEN
 #undef\sPTHREADS
+#undef\sHAVE_LIBATOMIC
+#undef\sHAVE___ATOMIC_EXCHANGE_1
 "
 
 # Go to project root.
