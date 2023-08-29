@@ -1,5 +1,5 @@
-option(skeleton "Whether to enable the skeleton extension" OFF)
+option(EXT_SKELETON "Whether to enable the skeleton extension" OFF)
 
-if(NOT skeleton)
+if(NOT EXT_SKELETON)
   return()
 endif()

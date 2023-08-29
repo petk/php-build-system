@@ -57,6 +57,8 @@ foreach(LIBRARY ${TIDY_LIBRARIES})
   endif()
 endforeach()
 
+mark_as_advanced(TIDY_INCLUDE_DIRS TIDY_LIBRARIES)
+
 find_package_handle_standard_args(
   TIDY
   REQUIRED_VARS TIDY_INCLUDE_DIRS TIDY_LIBRARIES

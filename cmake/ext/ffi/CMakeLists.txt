@@ -1,10 +1,13 @@
 include(CheckCSourceCompiles)
 include(CheckTypeSize)
 include(PHPFindPackage)
+include(CMakeDependentOption)
 
-option(ffi "Whether to build the ffi extension" OFF)
+option(EXT_FFI "Whether to build the FFI extension" OFF)
 
-if(NOT ffi)
+cmake_dependent_option(EXT_FFI_SHARED "Whether to build the FFI extension as shared object" OFF "EXT_FFI;NOT BUILD_SHARED_LIBS" OFF)
+
+if(NOT EXT_FFI)
   return()
 endif()
 
@@ -83,15 +86,13 @@ check_c_source_compiles("
   }
 " HAVE_FFI_SYSV)
 
-string(TOLOWER ${ffi} extension_lower)
-set(extension_library_type "STATIC")
-if(extension_lower STREQUAL "shared")
-  set(extension_library_type "SHARED")
+if(EXT_FFI_SHARED OR BUILD_SHARED_LIBS)
+  set(_library_type "SHARED")
 endif()
 
-php_extension(NAME ffi ${extension_library_type})
+php_extension(NAME ffi ${_library_type})
 
-add_library(ext_ffi ${extension_library_type}
+add_library(ext_ffi ${_library_type}
   ffi.c
   ffi_parser.c
 )

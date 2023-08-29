@@ -1,10 +1,13 @@
 include(CheckCSourceCompiles)
 include(CheckSymbolExists)
+include(CMakeDependentOption)
 include(CMakePushCheckState)
 
-option(pcntl "Whether to enable the pcntl extension (CLI/CGI only)" OFF)
+option(EXT_PCNTL "Whether to enable the pcntl extension (CLI/CGI only)" OFF)
 
-if(NOT pcntl)
+cmake_dependent_option(EXT_PCNTL_SHARED "Whether to build the pcntl extension as shared object" OFF "EXT_PCNTL;NOT BUILD_SHARED_LIBS" OFF)
+
+if(NOT EXT_PCNTL)
   return()
 endif()
 
@@ -52,15 +55,13 @@ cmake_push_check_state()
   " HAVE_STRUCT_SIGINFO_T)
 cmake_pop_check_state()
 
-string(TOLOWER ${pcntl} extension_lower)
-set(extension_library_type "STATIC")
-if(extension_lower STREQUAL "shared")
-  set(extension_library_type "SHARED")
+if(EXT_PCNTL_SHARED OR BUILD_SHARED_LIBS)
+  set(_library_type "SHARED")
 endif()
 
-php_extension(NAME pcntl ${extension_library_type})
+php_extension(NAME pcntl ${_library_type})
 
-add_library(ext_pcntl ${extension_library_type}
+add_library(ext_pcntl ${_library_type}
   pcntl.c
   php_signal.c
 )

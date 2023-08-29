@@ -2,22 +2,23 @@ include(CheckCSourceCompiles)
 include(CMakeDependentOption)
 include(CMakePushCheckState)
 
-option(mbstring "Whether to enable the multibyte string support extension" OFF)
-cmake_dependent_option(mbstring_mbregex "Whether to enable multibyte regex support (requires oniguruma)" ON "mbstring" OFF)
+option(EXT_MBSTRING "Whether to enable the multibyte string support extension" OFF)
 
-if(NOT mbstring)
+cmake_dependent_option(EXT_MBSTRING_SHARED "Whether to build the mbstring extension as shared object" OFF "EXT_MBSTRING;NOT BUILD_SHARED_LIBS" OFF)
+
+cmake_dependent_option(EXT_MBSTRING_MBREGEX "Whether to enable multibyte regex support (requires oniguruma)" ON "EXT_MBSTRING" OFF)
+
+if(NOT EXT_MBSTRING)
   return()
 endif()
 
-string(TOLOWER ${mbstring} extension_lower)
-set(extension_library_type "STATIC")
-if(extension_lower STREQUAL "shared")
-  set(extension_library_type "SHARED")
+if(EXT_MBSTRING_SHARED OR BUILD_SHARED_LIBS)
+  set(_library_type "SHARED")
 endif()
 
-php_extension(NAME "mbstring" ${extension_library_type})
+php_extension(NAME "mbstring" ${_library_type})
 
-add_library(ext_mbstring ${extension_library_type}
+add_library(ext_mbstring ${_library_type}
   mbstring.c
   php_unicode.c
   mb_gpc.c
@@ -102,7 +103,7 @@ if(mbstring_mbregex)
       UChar=OnigUChar
   )
 
-  set(HAVE_MBREGEX 1 CACHE STRING "Whether to have multibyte regex support")
+  set(HAVE_MBREGEX 1 CACHE INTERNAL "Whether to have multibyte regex support")
 
   target_sources(ext_mbstring PRIVATE php_mbregex.c)
   list(APPEND MBSTRING_HEADER_FILES "php_mbregex.h;php_onig_compat.h")

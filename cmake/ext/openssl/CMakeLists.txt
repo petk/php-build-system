@@ -1,32 +1,32 @@
 include(CheckSymbolExists)
 include(CMakeDependentOption)
 
-option(openssl "Whether to enable the openssl extension" OFF)
+option(EXT_OPENSSL "Whether to enable the openssl extension" OFF)
 
-cmake_dependent_option(openssl_kerberos "Whether to include Kerberos support for OpenSSL" OFF "openssl" OFF)
+cmake_dependent_option(EXT_OPENSSL_SHARED "Whether to build the openssl extension as shared object" OFF "EXT_OPENSSL;NOT BUILD_SHARED_LIBS" OFF)
 
-cmake_dependent_option(openssl_system_ciphers "Whether to use system default cipher list instead of hardcoded value for OpenSSL" OFF "openssl" OFF)
+cmake_dependent_option(EXT_OPENSSL_KERBEROS "Whether to include Kerberos support for OpenSSL" OFF "EXT_OPENSSL" OFF)
 
-if(NOT openssl)
+cmake_dependent_option(EXT_OPENSSL_SYSTEM_CIPHERS "Whether to use system default cipher list instead of hardcoded value for OpenSSL" OFF "EXT_OPENSSL" OFF)
+
+if(NOT EXT_OPENSSL)
   return()
 endif()
 
-string(TOLOWER ${openssl} extension_lower)
-set(extension_library_type "STATIC")
-if(extension_lower STREQUAL "shared")
-  set(extension_library_type "SHARED")
+if(EXT_OPENSSL_SHARED OR BUILD_SHARED_LIBS)
+  set(_library_type "SHARED")
 endif()
 
-php_extension(NAME "openssl" ${extension_library_type} PRIORITY 2)
+php_extension(NAME "openssl" ${_library_type} PRIORITY 2)
 
-add_library(ext_openssl ${extension_library_type}
+add_library(ext_openssl ${_library_type}
   openssl.c
   xp_ssl.c
 )
 
 check_symbol_exists(RAND_egd "openssl/rand.h" HAVE_RAND_EGD)
 
-if(openssl_kerberos)
+if(EXT_OPENSSL_KERBEROS)
   find_package(KERBEROS)
 
   if(KERBEROS_FOUND)
@@ -44,6 +44,6 @@ if(OPENSSL_FOUND)
   target_include_directories(ext_openssl PRIVATE ${OPENSSL_INCLUDE_DIRS})
 endif()
 
-if(openssl_system_ciphers)
+if(EXT_OPENSSL_SYSTEM_CIPHERS)
   set(USE_OPENSSL_SYSTEM_CIPHERS 1 CACHE INTERNAL "Use system default cipher list instead of hardcoded value")
 endif()

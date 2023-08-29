@@ -1,20 +1,22 @@
-option(intl "Whether to enable the intl extension" OFF)
+include(CMakeDependentOption)
 
-if(NOT intl)
+option(EXT_INTL "Whether to enable the intl extension" OFF)
+
+cmake_dependent_option(EXT_INTL_SHARED "Whether to build the intl extension as shared object" OFF "EXT_INTL;NOT BUILD_SHARED_LIBS" OFF)
+
+if(NOT EXT_INTL)
   return()
 endif()
 
 find_package(ICU 50.1 REQUIRED COMPONENTS io uc i18n)
 
-string(TOLOWER ${intl} extension_lower)
-set(extension_library_type "STATIC")
-if(extension_lower STREQUAL "shared")
-  set(extension_library_type "SHARED")
+if(EXT_INTL_SHARED OR BUILD_SHARED_LIBS)
+  set(_library_type "SHARED")
 endif()
 
-php_extension(NAME "intl" ${extension_library_type})
+php_extension(NAME "intl" ${_library_type})
 
-add_library(ext_intl ${extension_library_type}
+add_library(ext_intl ${_library_type}
   php_intl.c
   intl_error.c
   intl_convert.c

@@ -1,22 +1,24 @@
-option(dom "Whether to enable the DOM extension" ON)
+include(CMakeDependentOption)
 
-if(NOT dom)
+option(EXT_DOM "Whether to enable the DOM extension" ON)
+
+cmake_dependent_option(EXT_DOM_SHARED "Whether to build the DOM extension as shared object" OFF "EXT_DOM;NOT BUILD_SHARED_LIBS" OFF)
+
+if(NOT EXT_DOM)
   return()
 endif()
 
-if(NOT libxml)
+if(NOT EXT_LIBXML)
   message(FATAL_ERROR "DOM extension requires LIBXML extension, add -Dlibxml=ON")
 endif()
 
-string(TOLOWER ${dom} extension_lower)
-set(extension_library_type "STATIC")
-if(extension_lower STREQUAL "shared")
-  set(extension_library_type "SHARED")
+if(EXT_DOM_SHARED OR BUILD_SHARED_LIBS)
+  set(_library_type "SHARED")
 endif()
 
-php_extension(NAME "dom" ${extension_library_type})
+php_extension(NAME "dom" ${_library_type})
 
-add_library(ext_dom ${extension_library_type}
+add_library(ext_dom ${_library_type}
   php_dom.c
   attr.c
   document.c

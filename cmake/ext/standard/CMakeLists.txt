@@ -4,6 +4,10 @@ include(CheckLibraryExists)
 include(CheckSymbolExists)
 include(PHPFindPackage)
 
+option(EXT_STANDARD_EXTERNAL_LIBCRYPT "Whether to use external libcrypt library" OFF)
+
+option(EXT_STANDARD_PASSWORD_ARGON2 "Whether to include the Argon2 support in password_*" OFF)
+
 # Detect library functions needed by php dns_xxx functions.
 # ext/standard/php_dns.h will collect these in a single define
 # HAVE_FULL_DNS_FUNCS.
@@ -225,9 +229,7 @@ target_include_directories(
   PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/libavifinfo"
 )
 
-option(EXTERNAL_LIBCRYPT "Whether to use external libcrypt library" OFF)
-
-if(NOT EXTERNAL_LIBCRYPT)
+if(NOT EXT_STANDARD_EXTERNAL_LIBCRYPT)
   target_sources(ext_standard PRIVATE crypt_freesec.c crypt_blowfish.c crypt_sha512.c crypt_sha256.c php_crypt_r.c)
   set(PHP_USE_PHP_CRYPT_R 1 CACHE INTERNAL "Whether PHP has to use its own crypt_r")
 else()
@@ -240,9 +242,7 @@ else()
   set(PHP_USE_PHP_CRYPT_R 0 CACHE INTERNAL "Whether PHP has to use its own crypt_r")
 endif()
 
-option(PASSWORD_ARGON2 "Whether to include the Argon2 support in password_*" OFF)
-
-if(PASSWORD_ARGON2)
+if(EXT_STANDARD_PASSWORD_ARGON2)
   php_find_package(NAME libargon2 VERSION 20171227)
 
   if(libargon2_FOUND)

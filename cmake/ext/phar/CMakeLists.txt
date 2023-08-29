@@ -1,13 +1,21 @@
-option(phar "Whether to enable the phar extension" ON)
+include(CMakeDependentOption)
 
-if(NOT phar)
+option(EXT_PHAR "Whether to enable the phar extension" ON)
+
+cmake_dependent_option(EXT_PHAR_SHARED "Whether to build the phar extension as shared object" OFF "EXT_PHAR;NOT BUILD_SHARED_LIBS" OFF)
+
+if(NOT EXT_PHAR)
   return()
 endif()
 
-php_extension(NAME "phar")
+if(EXT_PHAR_SHARED OR BUILD_SHARED_LIBS)
+  set(_library_type "SHARED")
+endif()
+
+php_extension(NAME "phar" ${_library_type})
 
 message(STATUS "Checking for phar openssl support")
-if(openssl)
+if(EXT_OPENSSL)
   message(STATUS "Openssl support enabled")
   set(PHAR_HAVE_OPENSSL 1 CACHE INTERNAL "Define to 1 if PHP extension openssl is enabled")
 else()
@@ -21,7 +29,7 @@ re2c_target(
   OPTIONS "--no-generation-date -b"
 )
 
-add_library(ext_phar
+add_library(ext_phar ${_library_type}
   util.c
   tar.c
   zip.c

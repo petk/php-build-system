@@ -1,6 +1,10 @@
-option(pdo "Whether to enable the PDO extension" ON)
+include(CMakeDependentOption)
 
-if(NOT pdo)
+option(EXT_PDO "Whether to enable the PDO extension" ON)
+
+cmake_dependent_option(EXT_PDO_SHARED "Whether to build the PDO extension as shared object" OFF "EXT_PDO;NOT BUILD_SHARED_LIBS" OFF)
+
+if(NOT EXT_PDO)
   return()
 endif()
 
@@ -11,15 +15,13 @@ re2c_target(
   OPTIONS "--no-generation-date"
 )
 
-string(TOLOWER ${pdo} extension_lower)
-set(extension_library_type "STATIC")
-if(extension_lower STREQUAL "shared")
-  set(extension_library_type "SHARED")
+if(EXT_PDO_SHARED OR BUILD_SHARED_LIBS)
+  set(_library_type "SHARED")
 endif()
 
-php_extension(NAME "pdo" ${extension_library_type})
+php_extension(NAME "pdo" ${_library_type})
 
-add_library(ext_pdo ${extension_library_type}
+add_library(ext_pdo ${_library_type}
   pdo.c
   pdo_dbh.c
   pdo_stmt.c

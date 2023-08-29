@@ -1,18 +1,20 @@
-option(zend_test "Whether to enable the zend_test extension" OFF)
+include(CMakeDependentOption)
 
-if(NOT zend_test)
+option(EXT_ZEND_TEST "Whether to enable the zend_test extension" OFF)
+
+cmake_dependent_option(EXT_ZEND_TEST_SHARED "Whether to build the zend_test extension as shared object" OFF "EXT_ZEND_TEST;NOT BUILD_SHARED_LIBS" OFF)
+
+if(NOT EXT_ZEND_TEST)
   return()
 endif()
 
-string(TOLOWER ${zend_test} zend_test_lower)
-set(zend_test_library_type "STATIC")
-if(zend_test_lower STREQUAL "shared")
-  set(zend_test_library_type "SHARED")
+if(EXT_ZEND_TEST_SHARED OR BUILD_SHARED_LIBS)
+  set(_library_type "SHARED")
 endif()
 
-php_extension(NAME "zend_test" ${zend_test_library_type})
+php_extension(NAME "zend_test" ${_library_type})
 
-add_library(ext_zend_test ${zend_test_library_type}
+add_library(ext_zend_test ${_library_type}
   test.c
   observer.c
   fiber.c

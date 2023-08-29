@@ -1,18 +1,20 @@
-option(bcmath "Whether to enable bc style precision math functions extension" OFF)
+include(CMakeDependentOption)
 
-if(NOT bcmath)
+option(EXT_BCMATH "Whether to enable bc style precision math functions extension" OFF)
+
+cmake_dependent_option(EXT_BCMATH_SHARED "Whether to build the BCMATH extension as shared object" OFF "EXT_BCMATH;NOT BUILD_SHARED_LIBS" OFF)
+
+if(NOT EXT_BCMATH)
   return()
 endif()
 
-string(TOLOWER ${bcmath} extension_lower)
-set(extension_library_type "STATIC")
-if(extension_lower STREQUAL "shared")
-  set(extension_library_type "SHARED")
+if(EXT_BCMATH_SHARED OR BUILD_SHARED_LIBS)
+  set(_library_type "SHARED")
 endif()
 
-php_extension(NAME "bcmath" ${extension_library_type})
+php_extension(NAME "bcmath" ${_library_type})
 
-add_library(ext_bcmath ${extension_library_type}
+add_library(ext_bcmath ${_library_type}
   bcmath.c
   libbcmath/src/add.c
   libbcmath/src/div.c

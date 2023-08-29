@@ -1,17 +1,19 @@
-option(sysvshm "Whether to enable the sysvshm extension" OFF)
+include(CMakeDependentOption)
 
-if(NOT sysvshm)
+option(EXT_SYSVSHM "Whether to enable the sysvshm extension" OFF)
+
+cmake_dependent_option(EXT_SYSVSHM_SHARED "Whether to build the sysvshm extension as shared object" OFF "EXT_SYSVSHM;NOT BUILD_SHARED_LIBS" OFF)
+
+if(NOT EXT_SYSVSHM)
   return()
 endif()
 
-string(TOLOWER ${sysvshm} extension_lower)
-set(extension_library_type "STATIC")
-if(extension_lower STREQUAL "shared")
-  set(extension_library_type "SHARED")
+if(EXT_SYSVSHM_SHARED OR BUILD_SHARED_LIBS)
+  set(_library_type "SHARED")
 endif()
 
-php_extension(NAME "sysvshm" ${extension_library_type})
+php_extension(NAME "sysvshm" ${_library_type})
 
-add_library(ext_sysvshm ${extension_library_type}
+add_library(ext_sysvshm ${_library_type}
   sysvshm.c
 )

@@ -1,28 +1,28 @@
 include(CMakeDependentOption)
 
-cmake_dependent_option(xsl "Whether to enable the XSL extension" OFF "dom" OFF)
+cmake_dependent_option(EXT_XSL "Whether to enable the XSL extension" OFF "EXT_DOM" OFF)
 
-if(NOT xsl)
+cmake_dependent_option(EXT_XSL_SHARED "Whether to build the XSL extension as shared object" OFF "EXT_XSL;NOT BUILD_SHARED_LIBS" OFF)
+
+if(NOT EXT_XSL)
   return()
 endif()
 
-if(NOT libxml)
-  message(FATAL_ERROR "XSL extension requires LIBXML extension, add -Dlibxml=ON")
+if(NOT EXT_LIBXML)
+  message(FATAL_ERROR "XSL extension requires LIBXML extension, add -DEXT_LIBXML=ON")
 endif()
 
-if(NOT dom)
+if(NOT EXT_DOM)
   message(FATAL_ERROR "XSL extension requires DOM extension, add -Ddom=ON")
 endif()
 
-string(TOLOWER ${xsl} extension_lower)
-set(extension_library_type "STATIC")
-if(extension_lower STREQUAL "shared")
-  set(extension_library_type "SHARED")
+if(EXT_XSL_SHARED OR BUILD_SHARED_LIBS)
+  set(_library_type "SHARED")
 endif()
 
-php_extension(NAME "xsl" ${extension_library_type})
+php_extension(NAME "xsl" ${_library_type})
 
-add_library(ext_xsl ${extension_library_type}
+add_library(ext_xsl ${_library_type}
   php_xsl.c
   xsltprocessor.c
 )

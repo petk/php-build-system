@@ -104,7 +104,7 @@ re2c_target(
 message(STATUS "Creating Zend/zend_config.h")
 file(WRITE zend_config.h "#include <../main/php_config.h>\n")
 
-add_library(Zend
+add_library(Zend STATIC
   zend_language_parser.c
   zend_language_scanner.c
   zend_ini_parser.c
@@ -200,7 +200,7 @@ target_compile_definitions(Zend PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE=1)
 include(PHPCheckFibers)
 
 if(FIBER_ASM)
-  add_library(ZendAsm
+  add_library(ZendAsm STATIC
     "asm/make_${fiber_asm_file}.S"
     "asm/jump_${fiber_asm_file}.S"
   )

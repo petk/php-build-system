@@ -1,28 +1,30 @@
-option(xml "Whether to enable the XML extension" ON)
+include(CMakeDependentOption)
 
-option(xml_expat "Whether to build with expat support instead of libxml2" OFF)
+option(EXT_XML "Whether to enable the XML extension" ON)
 
-if(NOT xml)
+cmake_dependent_option(EXT_XML_SHARED "Whether to build the XML extension as shared object" OFF "EXT_XML;NOT BUILD_SHARED_LIBS" OFF)
+
+cmake_dependent_option(EXT_XML_EXPAT "Whether to build with expat support instead of libxml2" OFF "EXT_XML" OFF)
+
+if(NOT EXT_XML)
   return()
 endif()
 
-string(TOLOWER ${xml} extension_lower)
-set(extension_library_type "STATIC")
-if(extension_lower STREQUAL "shared")
-  set(extension_library_type "SHARED")
+if(EXT_XML_SHARED OR BUILD_SHARED_LIBS)
+  set(_library_type "SHARED")
 endif()
 
-php_extension(NAME "xml" ${extension_library_type})
+php_extension(NAME "xml" ${_library_type})
 
-add_library(ext_xml ${extension_library_type}
+add_library(ext_xml ${_library_type}
   xml.c
 )
 
-if(NOT xml_expat AND NOT libxml)
-  message(FATAL_ERROR "XML extension requires LIBXML extension, add -Dlibxml=ON")
+if(NOT EXT_XML_EXPAT AND NOT EXT_LIBXML)
+  message(FATAL_ERROR "XML extension requires LIBXML extension, add -DEXT_LIBXML=ON")
 endif()
 
-if(NOT xml_expat)
+if(NOT EXT_XML_EXPAT)
   target_sources(ext_xml PRIVATE compat.c)
 
   target_link_libraries(ext_xml ext_libxml)

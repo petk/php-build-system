@@ -7,9 +7,9 @@ The module defines the following variables if writing to STDOUT works:
   Defined to 1 if write(2) works.
 ]=============================================================================]#
 
-message(STATUS "Checking whether writing to stdout works")
-
 include(CheckCSourceRuns)
+
+message(STATUS "Checking whether writing to stdout works")
 
 if(CMAKE_CROSSCOMPILING)
   string(TOLOWER "${CMAKE_HOST_SYSTEM_NAME}" host_os)

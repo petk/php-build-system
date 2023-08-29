@@ -1,20 +1,21 @@
 include(CheckLibraryExists)
+include(CMakeDependentOption)
 
-option(sqlite3 "Whether to enable the sqlite3 extension" ON)
+option(EXT_SQLITE3 "Whether to enable the sqlite3 extension" ON)
 
-if(NOT sqlite3)
+cmake_dependent_option(EXT_SQLITE3_SHARED "Whether to build the sqlite3 extension as shared object" OFF "EXT_SQLITE3;NOT BUILD_SHARED_LIBS" OFF)
+
+if(NOT EXT_SQLITE3)
   return()
 endif()
 
-string(TOLOWER ${sqlite3} extension_lower)
-set(extension_library_type "STATIC")
-if(extension_lower STREQUAL "shared")
-  set(extension_library_type "SHARED")
+if(EXT_SQLITE3_SHARED OR BUILD_SHARED_LIBS)
+  set(_library_type "SHARED")
 endif()
 
-php_extension(NAME "sqlite3" ${extension_library_type})
+php_extension(NAME "sqlite3" ${_library_type})
 
-add_library(ext_sqlite3 ${extension_library_type}
+add_library(ext_sqlite3 ${_library_type}
   sqlite3.c
 )
 

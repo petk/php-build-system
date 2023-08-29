@@ -1,20 +1,22 @@
-option(ctype "Whether to enable the ctype extension" ON)
+include(CMakeDependentOption)
 
-if(NOT ctype)
+option(EXT_CTYPE "Whether to enable the ctype extension" ON)
+
+cmake_dependent_option(EXT_CTYPE_SHARED "Whether to build the ctype extension as shared object" OFF "EXT_CTYPE;NOT BUILD_SHARED_LIBS" OFF)
+
+if(NOT EXT_CTYPE)
   return()
 endif()
 
 project(ext_ctype VERSION ${CMAKE_PROJECT_VERSION} DESCRIPTION "Ctype PHP extension")
 
-string(TOLOWER ${ctype} ctype_lower)
-set(ctype_library_type "STATIC")
-if(ctype_lower STREQUAL "shared")
-  set(ctype_library_type "SHARED")
+if(EXT_CTYPE_SHARED OR BUILD_SHARED_LIBS)
+  set(_library_type "SHARED")
 endif()
 
-php_extension(NAME "ctype" ${ctype_library_type})
+php_extension(NAME "ctype" ${_library_type})
 
-add_library(ext_ctype ${ctype_library_type}
+add_library(ext_ctype ${_library_type}
   ctype.c
 )
 

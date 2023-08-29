@@ -1,6 +1,8 @@
-option(com_dotnet "Whether to enable the com_dotnet extension" OFF)
+include(CMakeDependentOption)
 
-if(NOT com_dotnet)
+option(EXT_COM_DOTNET "Whether to enable the com_dotnet extension" OFF)
+
+if(NOT EXT_COM_DOTNET)
   return()
 endif()
 

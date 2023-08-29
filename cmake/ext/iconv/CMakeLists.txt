@@ -1,18 +1,20 @@
-option(iconv "Whether to enable the iconv extension" ON)
+include(CMakeDependentOption)
 
-if(NOT iconv)
+option(EXT_ICONV "Whether to enable the iconv extension" ON)
+
+cmake_dependent_option(EXT_ICONV_SHARED "Whether to build the iconv extension as shared object" OFF "EXT_ICONV;NOT BUILD_SHARED_LIBS" OFF)
+
+if(NOT EXT_ICONV)
   return()
 endif()
 
-string(TOLOWER ${iconv} extension_lower)
-set(extension_library_type "STATIC")
-if(extension_lower STREQUAL "shared")
-  set(extension_library_type "SHARED")
+if(EXT_ICONV_SHARED OR BUILD_SHARED_LIBS)
+  set(_library_type "SHARED")
 endif()
 
-php_extension(NAME "iconv" ${extension_library_type})
+php_extension(NAME "iconv" ${_library_type})
 
-add_library(ext_iconv ${extension_library_type}
+add_library(ext_iconv ${_library_type}
   iconv.c
 )
 

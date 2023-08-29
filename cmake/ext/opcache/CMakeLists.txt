@@ -5,30 +5,30 @@ include(CMakePushCheckState)
 include(PHPFindPackage)
 
 # Opcache extension can be built either as shared or disabled.
-option(opcache "Whether to enable the opcache extension" ON)
+option(EXT_OPCACHE "Whether to enable the opcache extension" ON)
 
-cmake_dependent_option(opcache_huge_code_pages "Whether to enable copying PHP CODE pages into HUGE PAGES" ON "opcache" OFF)
+cmake_dependent_option(EXT_OPCACHE_HUGE_CODE_PAGES "Whether to enable copying PHP CODE pages into HUGE PAGES" ON "EXT_OPCACHE" OFF)
 
-cmake_dependent_option(opcache_jit "Whether to enable JIT" ON "opcache" OFF)
+cmake_dependent_option(EXT_OPCACHE_JIT "Whether to enable JIT" ON "EXT_OPCACHE" OFF)
 
-cmake_dependent_option(opcache_capstone "Support opcache JIT disassembly through capstone" OFF "opcache" OFF)
+cmake_dependent_option(EXT_OPCACHE_CAPSTONE "Support opcache JIT disassembly through capstone" OFF "EXT_OPCACHE" OFF)
 
-if(NOT opcache)
+if(NOT EXT_OPCACHE)
   return()
 endif()
 
-if(opcache_huge_code_pages)
+if(EXT_OPCACHE_HUGE_CODE_PAGES)
   set(HAVE_HUGE_CODE_PAGES 1 CACHE INTERNAL "Define to enable copying PHP CODE pages into HUGE PAGES (experimental)")
 endif()
 
-if(opcache_jit)
+if(EXT_OPCACHE_JIT)
   if(NOT ${CMAKE_HOST_SYSTEM_PROCESSOR} MATCHES "i[34567]86.*|x86.*|aarch64")
     message(WARNING "JIT not supported by host architecture")
-    set(opcache_jit OFF)
+    set(EXT_OPCACHE_JIT OFF)
   endif()
 endif()
 
-if(opcache_jit)
+if(EXT_OPCACHE_JIT)
   set(HAVE_JIT 1 CACHE INTERNAL "Define to enable JIT")
 
   if(${CMAKE_HOST_SYSTEM_PROCESSOR} MATCHES "x86_64.*")
@@ -76,7 +76,7 @@ endif()
 # OPcache extension can be either disabled or built as shared.
 php_extension(NAME "opcache" SHARED)
 
-if(opcache_jit)
+if(EXT_OPCACHE_JIT)
   add_executable(minilua
     jit/dynasm/minilua.c
   )
@@ -124,7 +124,7 @@ target_compile_options(ext_opcache PRIVATE
 
 target_compile_definitions(ext_opcache PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE=1)
 
-if(opcache_jit)
+if(EXT_OPCACHE_JIT)
   target_sources(ext_opcache PRIVATE
     jit/zend_jit.c
     jit/zend_jit_gdb.c
@@ -134,7 +134,7 @@ if(opcache_jit)
   add_dependencies(ext_opcache BuildZendJitForArchitecture)
 
   # Check for capstone.
-  if(opcache_capstone)
+  if(EXT_OPCACHE_CAPSTONE)
     php_find_package(NAME capstone VERSION 3.0.0)
 
     if(capstone_FOUND)

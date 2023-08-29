@@ -1,20 +1,22 @@
-option(dl_test "Whether to enable the dl_test extension" OFF)
+include(CMakeDependentOption)
 
-if(NOT dl_test)
+option(EXT_DL_TEST "Whether to enable the dl_test extension" OFF)
+
+cmake_dependent_option(EXT_DL_TEST_SHARED "Whether to build the dl_test extension as shared object" OFF "EXT_DL_TEST;NOT BUILD_SHARED_LIBS" OFF)
+
+if(NOT EXT_DL_TEST)
   return()
 endif()
 
 project(ext_dl_test VERSION ${CMAKE_PROJECT_VERSION} DESCRIPTION "The dl_test extension intended for testing dl()")
 
-string(TOLOWER ${dl_test} dl_test_lower)
-set(dl_test_library_type "STATIC")
-if(dl_test_lower STREQUAL "shared")
-  set(dl_test_library_type "SHARED")
+if(EXT_DL_TEST_SHARED OR BUILD_SHARED_LIBS)
+  set(_library_type "SHARED")
 endif()
 
-php_extension(NAME dl_test ${dl_test_library_type})
+php_extension(NAME dl_test ${_library_type})
 
-add_library(ext_dl_test ${dl_test_library_type}
+add_library(ext_dl_test ${_library_type}
   dl_test.c
 )
 

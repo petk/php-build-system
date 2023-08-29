@@ -10,6 +10,12 @@ This repository is following some best practices from the CMake ecosystem.
   add_library(ctype ctype.c)
   ```
 
+* Variable names
+
+  * Variables starting with underscore (`_`) indicate they are meant for
+    temporary use only.
+  * Cache variables should usually be all UPPER_CASE.
+
 * End commands
 
   To make the code easier to read, use empty commands for `endif()`,

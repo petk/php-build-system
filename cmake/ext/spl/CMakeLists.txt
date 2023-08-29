@@ -1,6 +1,6 @@
-php_extension(NAME "spl")
+php_extension(NAME "spl" STATIC)
 
-add_library(ext_spl
+add_library(ext_spl STATIC
   php_spl.c
   spl_functions.c
   spl_iterators.c

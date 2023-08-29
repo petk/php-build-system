@@ -1,20 +1,21 @@
 include(PHPFindPackage)
+include(CMakeDependentOption)
 
-option(enchant "Whether to build the enchant extension" OFF)
+option(EXT_ENCHANT "Whether to build the enchant extension" OFF)
 
-if(NOT enchant)
+cmake_dependent_option(EXT_ENCHANT_SHARED "Whether to build the enchant extension as shared object" OFF "EXT_ENCHANT;NOT BUILD_SHARED_LIBS" OFF)
+
+if(NOT EXT_ENCHANT)
   return()
 endif()
 
-string(TOLOWER ${enchant} extension_lower)
-set(extension_library_type "STATIC")
-if(extension_lower STREQUAL "shared")
-  set(extension_library_type "SHARED")
+if(EXT_ENCHANT_SHARED OR BUILD_SHARED_LIBS)
+  set(_library_type "SHARED")
 endif()
 
-php_extension(NAME enchant ${extension_library_type})
+php_extension(NAME enchant ${_library_type})
 
-add_library(ext_enchant ${extension_library_type}
+add_library(ext_enchant ${_library_type}
   enchant.c
 )
 

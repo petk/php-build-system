@@ -1,11 +1,14 @@
 include(CheckCSourceCompiles)
 include(CheckIncludeFile)
 include(CheckSymbolExists)
+include(CMakeDependentOption)
 include(CMakePushCheckState)
 
-option(sockets "Whether to enable the sockets extension" OFF)
+option(EXT_SOCKETS "Whether to enable the sockets extension" OFF)
 
-if(NOT sockets)
+cmake_dependent_option(EXT_SOCKETS_SHARED "Whether to build the sockets extension as shared object" OFF "EXT_SOCKETS;NOT BUILD_SHARED_LIBS" OFF)
+
+if(NOT EXT_SOCKETS)
   return()
 endif()
 
@@ -100,15 +103,13 @@ check_c_source_compiles("
   }
 " ANC_CREDS_CMSGCRED)
 
-string(TOLOWER ${sockets} extension_lower)
-set(extension_library_type "STATIC")
-if(extension_lower STREQUAL "shared")
-  set(extension_library_type "SHARED")
+if(EXT_SOCKETS_SHARED OR BUILD_SHARED_LIBS)
+  set(_library_type "SHARED")
 endif()
 
-php_extension(NAME sockets ${extension_library_type})
+php_extension(NAME sockets ${_library_type})
 
-add_library(ext_sockets ${extension_library_type}
+add_library(ext_sockets ${_library_type}
   sockets.c
   multicast.c
   conversions.c

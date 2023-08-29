@@ -1,10 +1,10 @@
-option(mhash "Whether mhash support should be included" OFF)
+option(EXT_HASH_MHASH "Whether mhash support should be included" OFF)
 
-if(mhash)
-  set(PHP_MHASH_BC 1 PARENT_SCOPE)
+if(EXT_HASH_MHASH)
+  set(PHP_MHASH_BC 1 CACHE INTERNAL "Whether mhash support should be included")
 endif()
 
-php_extension(NAME "hash")
+php_extension(NAME "hash" STATIC)
 
 add_library(ext_hash STATIC
   hash.c

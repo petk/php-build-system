@@ -1,22 +1,24 @@
-option(simplexml "Whether to enable the simplexml extension" ON)
+include(CMakeDependentOption)
 
-if(NOT simplexml)
+option(EXT_SIMPLEXML "Whether to enable the simplexml extension" ON)
+
+cmake_dependent_option(EXT_SIMPLEXML_SHARED "Whether to build the simplexml extension as shared object" OFF "EXT_SIMPLEXML;NOT BUILD_SHARED_LIBS" OFF)
+
+if(NOT EXT_SIMPLEXML)
   return()
 endif()
 
-if(NOT libxml)
-  message(FATAL_ERROR "SimpleXML extension requires LIBXML extension, add -Dlibxml=ON")
+if(NOT EXT_LIBXML)
+  message(FATAL_ERROR "SimpleXML extension requires LIBXML extension, add -DEXT_LIBXML=ON")
 endif()
 
-string(TOLOWER ${simplexml} extension_lower)
-set(extension_library_type "STATIC")
-if(extension_lower STREQUAL "shared")
-  set(extension_library_type "SHARED")
+if(EXT_SIMPLEXML_SHARED OR BUILD_SHARED_LIBS)
+  set(_library_type "SHARED")
 endif()
 
-php_extension(NAME "simplexml" ${extension_library_type})
+php_extension(NAME "simplexml" ${_library_type})
 
-add_library(ext_simplexml ${extension_library_type}
+add_library(ext_simplexml ${_library_type}
   simplexml.c
 )
 

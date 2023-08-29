@@ -87,7 +87,8 @@ jobs:
             libavif-dev \
             libwebp-dev \
             libxpm-dev \
-            libonig-dev;
+            libonig-dev \
+            libtidy-dev;
 
       - name: Checkout
         uses: actions/checkout@v3
@@ -97,7 +98,7 @@ jobs:
 
       - name: Build and install
         run: |
-          ./scripts/init.sh --cmake --preset default
+          ./scripts/init.sh --cmake --preset unix-full
 
       - name: Run tests
         run: |

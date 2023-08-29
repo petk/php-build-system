@@ -1,20 +1,21 @@
 include(CheckCCompilerFlag)
+include(CMakeDependentOption)
 
-option(sodium "Whether to enable the sodium extension" OFF)
+option(EXT_SODIUM "Whether to enable the sodium extension" OFF)
 
-if(NOT sodium)
+cmake_dependent_option(EXT_SODIUM_SHARED "Whether to build the sodium extension as shared object" OFF "EXT_SODIUM;NOT BUILD_SHARED_LIBS" OFF)
+
+if(NOT EXT_SODIUM)
   return()
 endif()
 
-string(TOLOWER ${sodium} extension_lower)
-set(extension_library_type "STATIC")
-if(extension_lower STREQUAL "shared")
-  set(extension_library_type "SHARED")
+if(EXT_SODIUM_SHARED OR BUILD_SHARED_LIBS)
+  set(_library_type "SHARED")
 endif()
 
-php_extension(NAME "sodium" ${extension_library_type})
+php_extension(NAME "sodium" ${_library_type})
 
-add_library(ext_sodium ${extension_library_type}
+add_library(ext_sodium ${_library_type}
   libsodium.c
   sodium_pwhash.c
 )

@@ -1,6 +1,6 @@
-option(libxml "Whether to enable the libxml extension" ON)
+option(EXT_LIBXML "Whether to enable the libxml extension" ON)
 
-if(NOT libxml)
+if(NOT EXT_LIBXML)
   return()
 endif()
 

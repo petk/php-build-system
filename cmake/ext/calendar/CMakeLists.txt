@@ -1,20 +1,22 @@
-option(calendar "Whether to enable the calendar extension" OFF)
+include(CMakeDependentOption)
 
-if(NOT calendar)
+option(EXT_CALENDAR "Whether to enable the calendar extension" OFF)
+
+cmake_dependent_option(EXT_CALENDAR_SHARED "Whether to build the calendar extension as shared object" OFF "EXT_CALENDAR;NOT BUILD_SHARED_LIBS" OFF)
+
+if(NOT EXT_CALENDAR)
   return()
 endif()
 
 project(ext_calendar VERSION ${CMAKE_PROJECT_VERSION} DESCRIPTION "Calendar PHP extension")
 
-string(TOLOWER ${calendar} extension_lower)
-set(extension_library_type "STATIC")
-if(extension_lower STREQUAL "shared")
-  set(extension_library_type "SHARED")
+if(EXT_CALENDAR_SHARED OR BUILD_SHARED_LIBS)
+  set(_extension_library_type "SHARED")
 endif()
 
-php_extension(NAME "calendar" ${extension_library_type})
+php_extension(NAME "calendar" ${_extension_library_type})
 
-add_library(ext_calendar ${extension_library_type}
+add_library(ext_calendar ${_extension_library_type}
   calendar.c
   dow.c
   french.c

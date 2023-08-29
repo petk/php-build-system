@@ -1,4 +1,4 @@
-add_library(main
+add_library(main STATIC
   main.c
   snprintf.c
   spprintf.c

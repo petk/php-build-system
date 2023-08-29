@@ -2,23 +2,24 @@ include(CheckCSourceCompiles)
 include(CheckCSourceRuns)
 include(CheckIncludeFile)
 include(CheckSymbolExists)
+include(CMakeDependentOption)
 include(CMakePushCheckState)
 
-option(posix "Whether to enable POSIX-like functions" ON)
+option(EXT_POSIX "Whether to enable POSIX-like functions" ON)
 
-if(NOT posix)
+cmake_dependent_option(EXT_POSIX_SHARED "Whether to build the POSIX extension as shared object" OFF "EXT_POSIX;NOT BUILD_SHARED_LIBS" OFF)
+
+if(NOT EXT_POSIX)
   return()
 endif()
 
 project(ext_posix VERSION ${CMAKE_PROJECT_VERSION} DESCRIPTION "POSIX PHP extension")
 
-string(TOLOWER ${posix} extension_lower)
-set(extension_library_type "STATIC")
-if(extension_lower STREQUAL "shared")
-  set(extension_library_type "SHARED")
+if(EXT_POSIX_SHARED OR BUILD_SHARED_LIBS)
+  set(_library_type "SHARED")
 endif()
 
-php_extension(NAME "posix" ${extension_library_type})
+php_extension(NAME "posix" ${_library_type})
 
 check_include_file(sys/mkdev.h HAVE_SYS_MKDEV_H)
 check_include_file(sys/sysmacros.h HAVE_SYS_SYSMACROS_H)
@@ -79,7 +80,7 @@ check_c_source_compiles("
   }
 " HAVE_UTSNAME_DOMAINNAME)
 
-add_library(ext_posix ${extension_library_type}
+add_library(ext_posix ${_library_type}
   posix.c
 )
 

@@ -1,18 +1,20 @@
-option(tokenizer "Whether to enable the tokenizer extension" ON)
+include(CMakeDependentOption)
 
-if(NOT tokenizer)
+option(EXT_TOKENIZER "Whether to enable the tokenizer extension" ON)
+
+cmake_dependent_option(EXT_TOKENIZER_SHARED "Whether to build the tokenizer extension as shared object" OFF "EXT_TOKENIZER;NOT BUILD_SHARED_LIBS" OFF)
+
+if(NOT EXT_TOKENIZER)
   return()
 endif()
 
-string(TOLOWER ${tokenizer} extension_lower)
-set(extension_library_type "STATIC")
-if(extension_lower STREQUAL "shared")
-  set(extension_library_type "SHARED")
+if(EXT_TOKENIZER_SHARED OR BUILD_SHARED_LIBS)
+  set(_library_type "SHARED")
 endif()
 
-php_extension(NAME "tokenizer" ${extension_library_type})
+php_extension(NAME "tokenizer" ${_library_type})
 
-add_library(ext_tokenizer ${extension_library_type}
+add_library(ext_tokenizer ${_library_type}
   tokenizer.c
   tokenizer_data.c
 )

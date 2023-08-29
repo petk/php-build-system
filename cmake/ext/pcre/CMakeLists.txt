@@ -2,10 +2,12 @@ include(CheckCSourceCompiles)
 include(CheckCSourceRuns)
 include(PHPFindPackage)
 
-option(EXTERNAL_PCRE "Use external library for PCRE support" OFF)
-option(PCRE_JIT "Whether to enable PCRE JIT functionality" ON)
+option(EXT_PCRE_EXTERNAL "Use external library for PCRE support" OFF)
+option(EXT_PCRE_JIT "Whether to enable PCRE JIT functionality" ON)
 
-if(EXTERNAL_PCRE)
+php_extension(NAME "pcre" STATIC)
+
+if(EXT_PCRE_EXTERNAL)
   php_find_package(NAME libpcre2-8 VERSION 10.30)
 
   if(NOT libpcre2-8_FOUND)
@@ -14,7 +16,7 @@ if(EXTERNAL_PCRE)
 
   set(PCRE2_CODE_UNIT_WIDTH 8 CACHE INTERNAL "Number of bits in non-UTF mode for PCRE library")
 
-  if(PCRE_JIT)
+  if(EXT_PCRE_JIT)
     message(STATUS "Checking for JIT support in PCRE2")
 
     if(CMAKE_CROSSCOMPILING)
@@ -44,8 +46,6 @@ if(EXTERNAL_PCRE)
     unset(successful)
   endif()
 
-  php_extension(NAME "pcre")
-
   add_library(ext_pcre STATIC
     php_pcre.c
   )
@@ -60,8 +60,6 @@ if(EXTERNAL_PCRE)
   target_compile_options(ext_pcre PRIVATE ${libpcre2-8_CFLAGS})
 else()
   message(STATUS "Using bundled PCRE library")
-
-  php_extension(NAME "pcre")
 
   add_library(ext_pcre STATIC
     pcre2lib/pcre2_auto_possess.c
@@ -115,7 +113,7 @@ else()
 
   message(STATUS "Checking whether to enable PCRE JIT functionality")
 
-  if(PCRE_JIT)
+  if(EXT_PCRE_JIT)
     set(HAVE_PCRE_JIT_SUPPORT 1 CACHE INTERNAL "Whether to enable the PCRE JIT support")
 
     message(STATUS "PCRE JIT enabled")

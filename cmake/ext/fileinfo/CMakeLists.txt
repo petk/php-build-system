@@ -1,23 +1,24 @@
 include(CheckCSourceRuns)
+include(CMakeDependentOption)
 
-option(fileinfo "Whether to enable the fileinfo extension" ON)
+option(EXT_FILEINFO "Whether to enable the fileinfo extension" ON)
 
-if(NOT fileinfo)
+cmake_dependent_option(EXT_FILEINFO_SHARED "Whether to build the fileinfo extension as shared object" OFF "EXT_FILEINFO;NOT BUILD_SHARED_LIBS" OFF)
+
+if(NOT EXT_FILEINFO)
   return()
 endif()
 
 check_symbol_exists(utimes "sys/time.h" HAVE_UTIMES)
 check_symbol_exists(strndup "string.h" HAVE_STRNDUP)
 
-string(TOLOWER ${fileinfo} extension_lower)
-set(extension_library_type "STATIC")
-if(extension_lower STREQUAL "shared")
-  set(extension_library_type "SHARED")
+if(EXT_FILEINFO_SHARED OR BUILD_SHARED_LIBS)
+  set(_library_type "SHARED")
 endif()
 
-php_extension(NAME fileinfo ${extension_library_type})
+php_extension(NAME fileinfo ${_library_type})
 
-add_library(ext_fileinfo ${extension_library_type}
+add_library(ext_fileinfo ${_library_type}
   fileinfo.c
   php_libmagic.c
   libmagic/apprentice.c

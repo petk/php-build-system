@@ -1,18 +1,18 @@
-option(gmp "Whether to enable the gmp extension" OFF)
+option(EXT_GMP "Whether to enable the GMP extension" OFF)
 
-if(NOT gmp)
+cmake_dependent_option(EXT_GMP_SHARED "Whether to build the GMP extension as shared object" OFF "EXT_GMP;NOT BUILD_SHARED_LIBS" OFF)
+
+if(NOT EXT_GMP)
   return()
 endif()
 
-string(TOLOWER ${gmp} extension_lower)
-set(extension_library_type "STATIC")
-if(extension_lower STREQUAL "shared")
-  set(extension_library_type "SHARED")
+if(EXT_GMP_SHARED OR BUILD_SHARED_LIBS)
+  set(_library_type "SHARED")
 endif()
 
-php_extension(NAME "gmp" ${extension_library_type})
+php_extension(NAME "gmp" ${_library_type})
 
-add_library(ext_gmp ${extension_library_type}
+add_library(ext_gmp ${_library_type}
   gmp.c
 )
 

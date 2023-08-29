@@ -1,20 +1,22 @@
-option(exif "Whether to enable exif (metadata from images) support" OFF)
+include(CMakeDependentOption)
 
-if(NOT exif)
+option(EXT_EXIF "Whether to enable exif (metadata from images) support" OFF)
+
+cmake_dependent_option(EXT_EXIF_SHARED "Whether to build the exif extension as shared object" OFF "EXT_EXIF;NOT BUILD_SHARED_LIBS" OFF)
+
+if(NOT EXT_EXIF)
   return()
 endif()
 
 project(ext_exif VERSION ${CMAKE_PROJECT_VERSION} DESCRIPTION "Exif PHP extension")
 
-string(TOLOWER ${exif} exif_lower)
-set(exif_library_type "STATIC")
-if(exif_lower STREQUAL "shared")
-  set(exif_library_type "SHARED")
+if(EXT_EXIF_SHARED OR BUILD_SHARED_LIBS)
+  set(_library_type "SHARED")
 endif()
 
-php_extension(NAME exif ${exif_library_type})
+php_extension(NAME exif ${_library_type})
 
-add_library(ext_exif ${exif_library_type}
+add_library(ext_exif ${_library_type}
   exif.c
 )
 

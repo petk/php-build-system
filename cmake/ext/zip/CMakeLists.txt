@@ -1,8 +1,11 @@
 include(CheckLibraryExists)
+include(CMakeDependentOption)
 
-option(zip "Whether to enable the zip extension" OFF)
+option(EXT_ZIP "Whether to enable the zip extension" OFF)
 
-if(NOT zip)
+cmake_dependent_option(EXT_ZIP_SHARED "Whether to build the zip extension as shared object" OFF "EXT_ZIP;NOT BUILD_SHARED_LIBS" OFF)
+
+if(NOT EXT_ZIP)
   return()
 endif()
 
@@ -16,15 +19,13 @@ if(ZIP_VERSION VERSION_EQUAL 1.7.0)
   message(FATAL_ERROR "ext/zip: libzip ${ZIP_VERSION} is not supported. Try upgrading libzip")
 endif()
 
-string(TOLOWER ${zip} extension_lower)
-set(extension_library_type "STATIC")
-if(extension_lower STREQUAL "shared")
-  set(extension_library_type "SHARED")
+if(EXT_ZIP_SHARED OR BUILD_SHARED_LIBS)
+  set(_library_type "SHARED")
 endif()
 
-php_extension(NAME "zip" ${extension_library_type})
+php_extension(NAME "zip" ${_library_type})
 
-add_library(ext_zip ${extension_library_type}
+add_library(ext_zip ${_library_type}
   php_zip.c
   zip_stream.c
 )

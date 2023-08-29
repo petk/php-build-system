@@ -1,24 +1,25 @@
 include(CheckCSourceRuns)
 include(CheckIncludeFile)
+include(CMakeDependentOption)
 include(CMakePushCheckState)
 
-option(curl "Whether to enable the curl extension" OFF)
+option(EXT_CURL "Whether to enable the curl extension" OFF)
 
-if(NOT curl)
+cmake_dependent_option(EXT_CURL_SHARED "Whether to build the curl extension as shared object" OFF "EXT_CURL;NOT BUILD_SHARED_LIBS" OFF)
+
+if(NOT EXT_CURL)
   return()
 endif()
 
 find_package(CURL 7.29.0 OPTIONAL_COMPONENTS SSL)
 
-string(TOLOWER ${curl} ctype_lower)
-set(ctype_library_type "STATIC")
-if(ctype_lower STREQUAL "shared")
-  set(ctype_library_type "SHARED")
+if(EXT_CURL_SHARED OR BUILD_SHARED_LIBS)
+  set(_library_type "SHARED")
 endif()
 
-php_extension(NAME "curl" ${extension_library_type})
+php_extension(NAME "curl" ${_library_type})
 
-add_library(ext_curl ${extension_library_type}
+add_library(ext_curl ${_library_type}
   interface.c
   multi.c
   share.c

@@ -1,6 +1,6 @@
-php_extension(NAME "reflection")
+php_extension(NAME "reflection" STATIC)
 
-add_library(ext_reflection php_reflection.c)
+add_library(ext_reflection STATIC php_reflection.c)
 
 target_include_directories(
   ext_reflection

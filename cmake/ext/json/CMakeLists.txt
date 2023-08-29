@@ -1,4 +1,4 @@
-php_extension(NAME "json")
+php_extension(NAME "json" STATIC)
 
 bison_target(JsonParser
   "${CMAKE_CURRENT_BINARY_DIR}/json_parser.y"
@@ -14,7 +14,7 @@ re2c_target(
   OPTIONS "--no-generation-date -bci -t ${CMAKE_CURRENT_SOURCE_DIR}/php_json_scanner_defs.h"
 )
 
-add_library(ext_json
+add_library(ext_json STATIC
   json.c
   json_encoder.c
   json_parser.tab.c

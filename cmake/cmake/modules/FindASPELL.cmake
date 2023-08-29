@@ -24,11 +24,13 @@ if(_pspell_include_dir)
   list(APPEND ASPELL_INCLUDE_DIRS "${_pspell_include_dir}")
 endif()
 
-unset(_pspell_include_dir)
+unset(_pspell_include_dir CACHE)
 
 find_library(ASPELL_LIBRARIES NAMES aspell)
 
 check_library_exists(aspell new_aspell_config "" _have_aspell)
+
+mark_as_advanced(ASPELL_LIBRARIES ASPELL_INCLUDE_DIRS)
 
 find_package_handle_standard_args(
   ASPELL

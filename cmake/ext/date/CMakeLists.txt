@@ -1,7 +1,7 @@
 include(CheckIncludeFile)
 include(CheckSymbolExists)
 
-php_extension(NAME "date")
+php_extension(NAME "date" STATIC)
 
 # Check for headers needed by timelib.
 check_include_file(io.h HAVE_IO_H)

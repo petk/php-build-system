@@ -1,18 +1,20 @@
-option(zlib "Whether to enable the zlib extension (requires zlib >= 1.2.0.4)" OFF)
+include(CMakeDependentOption)
 
-if(NOT zlib)
+option(EXT_ZLIB "Whether to enable the zlib extension (requires zlib >= 1.2.0.4)" OFF)
+
+cmake_dependent_option(EXT_ZLIB_SHARED "Whether to build the zlib extension as shared object" OFF "EXT_ZLIB;NOT BUILD_SHARED_LIBS" OFF)
+
+if(NOT EXT_ZLIB)
   return()
 endif()
 
-string(TOLOWER ${zlib} extension_lower)
-set(extension_library_type "STATIC")
-if(extension_lower STREQUAL "shared")
-  set(extension_library_type "SHARED")
+if(EXT_ZLIB_SHARED OR BUILD_SHARED_LIBS)
+  set(_library_type "SHARED")
 endif()
 
-php_extension(NAME zlib ${extension_library_type})
+php_extension(NAME zlib ${_library_type})
 
-add_library(ext_zlib ${extension_library_type}
+add_library(ext_zlib ${_library_type}
   zlib.c
   zlib_fopen_wrapper.c
   zlib_filter.c

@@ -29,6 +29,9 @@ add_compile_definitions("$<$<COMPILE_LANGUAGE:C>:_GNU_SOURCE>")
 
 set(PHP_OS "${CMAKE_SYSTEM_NAME}" CACHE INTERNAL "uname output")
 
+# Define GNU standard installation directories.
+include(GNUInstallDirs)
+
 # Define PHP configuration options.
 include(PHPConfiguration)
 
@@ -66,7 +69,7 @@ message("
 +--------------------------------------------------------------------+
 ")
 include(PHPExtension)
-include(IncludeExtensions)
+include(PHPIncludeExtensions)
 
 # Add SAPI modules.
 message("
@@ -104,14 +107,15 @@ message("
 | Generating files                                                   |
 +--------------------------------------------------------------------+
 ")
+
 # Create main/internal_functions* files.
-include(CreateInternalFunctions)
+include(PHPCreateInternalFunctions)
 
 message(STATUS "Creating main/php_version.h")
 configure_file(main/php_version.h.in main/php_version.h @ONLY)
 
-include(CreateBuildDefinitions)
-create_build_definitions()
+# Create main/build-defs.h file.
+include(PHPCreateBuildDefinitions)
 
 message(STATUS "Creating main/php_config.h")
 configure_file(main/php_config.h.in main/php_config.h @ONLY)

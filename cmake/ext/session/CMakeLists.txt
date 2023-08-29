@@ -1,9 +1,12 @@
 include(CMakeDependentOption)
 
-option(session "Whether to enable the session extension" ON)
-cmake_dependent_option(session_mm "SESSION: Include libmm support for session storage" OFF "session" OFF)
+option(EXT_SESSION "Whether to enable the session extension" ON)
 
-if(NOT session)
+cmake_dependent_option(EXT_SESSION_SHARED "Whether to build the session extension as shared object" OFF "EXT_SESSION;NOT BUILD_SHARED_LIBS" OFF)
+
+cmake_dependent_option(EXT_SESSION_MM "SESSION: Include libmm support for session storage" OFF "EXT_SESSION" OFF)
+
+if(NOT EXT_SESSION)
   return()
 endif()
 
@@ -13,15 +16,13 @@ include(PHPCheckPwrite)
 # Checks whether pread() works.
 include(PHPCheckPread)
 
-string(TOLOWER ${session} extension_lower)
-set(extension_library_type "STATIC")
-if(extension_lower STREQUAL "shared")
-  set(extension_library_type "SHARED")
+if(EXT_SESSION_SHARED OR BUILD_SHARED_LIBS)
+  set(_library_type "SHARED")
 endif()
 
-php_extension(NAME "session" ${extension_library_type})
+php_extension(NAME "session" ${_library_type})
 
-add_library(ext_session ${extension_library_type}
+add_library(ext_session ${_library_type}
   mod_user_class.c
   session.c
   mod_files.c
@@ -36,8 +37,9 @@ set(SESSION_HEADERS "php_session.h;mod_files.h;mod_user.h")
 # The HAVE_SESSION should be used but for BC reasons this is additionally set.
 set(HAVE_PHP_SESSION 1 CACHE INTERNAL "Define to 1 if session extension is enabled")
 
-if(session_mm)
-  foreach(DIR "${session_mm}" /usr/local /usr)
+if(EXT_SESSION_MM)
+  # TODO: Check if EXT_SESSION_MM needs to be manually overrideable path.
+  foreach(DIR "${EXT_SESSION_MM}" /usr/local /usr)
     if(EXISTS "${DIR}/include/mm.h")
       set(MM_DIR "${DIR}")
       break()

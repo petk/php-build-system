@@ -1,22 +1,22 @@
 include(CMakeDependentOption)
 
-option(mysqlnd "Whether to enable the mysqlnd extension" OFF)
+option(EXT_MYSQLND "Whether to enable the mysqlnd extension" OFF)
 
-cmake_dependent_option(mysqlnd_compression "Whether to enable compressed protocol support in mysqlnd" ON "mysqlnd" OFF)
+cmake_dependent_option(EXT_MYSQLND_SHARED "Whether to build the mysqlnd extension as shared object" OFF "EXT_MYSQLND;NOT BUILD_SHARED_LIBS" OFF)
 
-if(NOT mysqlnd)
+cmake_dependent_option(EXT_MYSQLND_COMPRESSION "Whether to enable compressed protocol support in mysqlnd" ON "EXT_MYSQLND" OFF)
+
+if(NOT EXT_MYSQLND)
   return()
 endif()
 
-string(TOLOWER ${mysqlnd} extension_lower)
-set(extension_library_type "STATIC")
-if(extension_lower STREQUAL "shared")
-  set(extension_library_type "SHARED")
+if(EXT_MYSQLND_SHARED OR BUILD_SHARED_LIBS)
+  set(_library_type "SHARED")
 endif()
 
-php_extension(NAME mysqlnd ${extension_library_type})
+php_extension(NAME mysqlnd ${_library_type})
 
-add_library(ext_mysqlnd ${extension_library_type}
+add_library(ext_mysqlnd ${_library_type}
   mysqlnd_connection.c
   mysqlnd_alloc.c
   mysqlnd_charset.c
@@ -46,7 +46,7 @@ target_compile_definitions(ext_mysqlnd PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE=1
 file(GLOB MYSQLND_HEADER_FILES "${CMAKE_CURRENT_SOURCE_DIR}/*.h")
 set_target_properties(ext_mysqlnd PROPERTIES PUBLIC_HEADER "${MYSQLND_HEADER_FILES}")
 
-if(mysqlnd_compression)
+if(EXT_MYSQLND_COMPRESSION)
   find_package(ZLIB REQUIRED)
 
   if(ZLIB_LIBRARIES)
@@ -62,7 +62,7 @@ endif()
 
 set(MYSQLND_SSL_SUPPORTED 1 CACHE INTERNAL "Enable core mysqlnd SSL code")
 
-if(openssl)
+if(EXT_OPENSSL)
   find_package(OpenSSL 1.0.2)
 
   if(OPENSSL_FOUND)

@@ -2,35 +2,35 @@ include(CheckLibraryExists)
 include(CMakeDependentOption)
 include(CMakePushCheckState)
 
-option(gd "Whether to enable the GD extension" OFF)
+option(EXT_GD "Whether to enable the GD extension" OFF)
 
-cmake_dependent_option(gd_external "Whether to use external libgd" OFF "gd" OFF)
-cmake_dependent_option(gd_avif "GD: Whether to enable AVIF support (only for bundled libgd)" OFF "gd;NOT gd_external" OFF)
-cmake_dependent_option(gd_webp "GD: Whether to enable WEBP support (only for bundled libgd)" OFF "gd; NOT gd_external" OFF)
-cmake_dependent_option(gd_jpeg "GD: Whether to enable JPEG support (only for bundled libgd)" OFF "gd; NOT gd_external" OFF)
-cmake_dependent_option(gd_xpm "GD: Whether to enable XPM support (only for bundled libgd)" OFF "gd;NOT gd_external" OFF)
-cmake_dependent_option(gd_freetype "GD: Whether to enable FreeType 2 support (only for bundled libgd)" OFF "gd; NOT gd_external" OFF)
-cmake_dependent_option(gd_jis "GD: Whether to enable JIS-mapped Japanese font support (only for bundled libgd)" OFF "gd; NOT gd_external" OFF)
+cmake_dependent_option(EXT_GD_SHARED "Whether to build the GD extension as shared object" OFF "EXT_GD;NOT BUILD_SHARED_LIBS" OFF)
 
-if(NOT gd)
+cmake_dependent_option(EXT_GD_EXTERNAL "Whether to use external libgd" OFF "EXT_GD" OFF)
+cmake_dependent_option(EXT_GD_AVIF "GD: Whether to enable AVIF support (only for bundled libgd)" OFF "EXT_GD;NOT EXT_GD_EXTERNAL" OFF)
+cmake_dependent_option(EXT_GD_WEBP "GD: Whether to enable WEBP support (only for bundled libgd)" OFF "EXT_GD;NOT EXT_GD_EXTERNAL" OFF)
+cmake_dependent_option(EXT_GD_JPEG "GD: Whether to enable JPEG support (only for bundled libgd)" OFF "EXT_GD;NOT EXT_GD_EXTERNAL" OFF)
+cmake_dependent_option(EXT_GD_XPM "GD: Whether to enable XPM support (only for bundled libgd)" OFF "EXT_GD;NOT EXT_GD_EXTERNAL" OFF)
+cmake_dependent_option(EXT_GD_FREETYPE "GD: Whether to enable FreeType 2 support (only for bundled libgd)" OFF "EXT_GD;NOT EXT_GD_EXTERNAL" OFF)
+cmake_dependent_option(EXT_GD_JIS "GD: Whether to enable JIS-mapped Japanese font support (only for bundled libgd)" OFF "EXT_GD;NOT EXT_GD_EXTERNAL" OFF)
+
+if(NOT EXT_GD)
   return()
 endif()
 
-string(TOLOWER ${gd} extension_lower)
-set(extension_library_type "STATIC")
-if(extension_lower STREQUAL "shared")
-  set(extension_library_type "SHARED")
+if(EXT_GD_SHARED OR BUILD_SHARED_LIBS)
+  set(_library_type "SHARED")
 endif()
 
-php_extension(NAME gd ${extension_library_type})
+php_extension(NAME gd ${_library_type})
 
-add_library(ext_gd ${extension_library_type}
+add_library(ext_gd ${_library_type}
   gd.c
 )
 
 file(GLOB GD_HEADER_FILES "${CMAKE_CURRENT_SOURCE_DIR}/*.h")
 
-if(NOT gd_external)
+if(NOT EXT_GD_EXTERNAL)
   target_sources(ext_gd PRIVATE
     libgd/gd.c
     libgd/gd_gd.c
@@ -122,7 +122,7 @@ if(NOT gd_external)
     set(HAVE_LIBPNG 1 CACHE INTERNAL "Whether the libpng is available")
   endif()
 
-  if(gd_avif)
+  if(EXT_GD_AVIF)
     find_package(AVIF 0.8.2 REQUIRED)
 
     if(AVIF_FOUND)
@@ -140,7 +140,7 @@ if(NOT gd_external)
     endif()
   endif()
 
-  if(gd_webp)
+  if(EXT_GD_WEBP)
     find_package(WEBP 0.2.0 REQUIRED)
 
     if(WEBP_FOUND)
@@ -158,7 +158,7 @@ if(NOT gd_external)
     endif()
   endif()
 
-  if(gd_jpeg)
+  if(EXT_GD_JPEG)
     find_package(JPEG REQUIRED)
 
     if(JPEG_FOUND)
@@ -176,7 +176,7 @@ if(NOT gd_external)
     endif()
   endif()
 
-  if(gd_xpm)
+  if(EXT_GD_XPM)
     find_package(XPM REQUIRED)
 
     if(XPM_FOUND)
@@ -194,7 +194,7 @@ if(NOT gd_external)
     endif()
   endif()
 
-  if(gd_freetype)
+  if(EXT_GD_FREETYPE)
     find_package(Freetype REQUIRED)
 
     if(FREETYPE_FOUND)
@@ -212,7 +212,7 @@ if(NOT gd_external)
     endif()
   endif()
 
-  if(gd_jis)
+  if(EXT_GD_JIS)
     set(JISX0208 1 CACHE INTERNAL "Whether to use the JIS-mapped Japanese font support in GD")
     set(USE_GD_JISX0208 1 CACHE INTERNAL "Whether the GD JIS-mapped Japanese font support is enabled")
   endif()

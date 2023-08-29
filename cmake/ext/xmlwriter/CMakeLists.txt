@@ -1,22 +1,24 @@
-option(xmlwriter "Whether to enable the xmlwriter extension" ON)
+include(CMakeDependentOption)
 
-if(NOT xmlwriter)
+option(EXT_XMLWRITER "Whether to enable the xmlwriter extension" ON)
+
+cmake_dependent_option(EXT_XMLWRITER_SHARED "Whether to build the xmlwriter extension as shared object" OFF "EXT_XMLWRITER;NOT BUILD_SHARED_LIBS" OFF)
+
+if(NOT EXT_XMLWRITER)
   return()
 endif()
 
-if(NOT libxml)
-  message(FATAL_ERROR "XMLWriter extension requires LIBXML extension, add -Dlibxml=ON")
+if(NOT EXT_LIBXML)
+  message(FATAL_ERROR "XMLWriter extension requires LIBXML extension, add -DEXT_LIBXML=ON")
 endif()
 
-string(TOLOWER ${xmlwriter} extension_lower)
-set(extension_library_type "STATIC")
-if(extension_lower STREQUAL "shared")
-  set(extension_library_type "SHARED")
+if(EXT_XMLWRITER_SHARED OR BUILD_SHARED_LIBS)
+  set(_library_type "SHARED")
 endif()
 
-php_extension(NAME "xmlwriter" ${extension_library_type})
+php_extension(NAME "xmlwriter" ${_library_type})
 
-add_library(ext_xmlwriter ${extension_library_type}
+add_library(ext_xmlwriter ${_library_type}
   php_xmlwriter.c
 )
 

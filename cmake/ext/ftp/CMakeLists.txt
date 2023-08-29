@@ -1,27 +1,27 @@
 include(CMakeDependentOption)
 
-option(ftp "Whether to enable the ftp extension" OFF)
+option(EXT_FTP "Whether to enable the FTP extension" OFF)
 
-cmake_dependent_option(ftp_ssl "Whether to explicitly enable FTP SSL support when not using ext/openssl" OFF "ftp" OFF)
+cmake_dependent_option(EXT_FTP_SHARED "Whether to build the FTP extension as shared object" OFF "EXT_FTP;NOT BUILD_SHARED_LIBS" OFF)
 
-if(NOT ftp)
+cmake_dependent_option(EXT_FTP_SSL "Whether to explicitly enable FTP SSL support when not using ext/openssl" OFF "EXT_FTP" OFF)
+
+if(NOT EXT_FTP)
   return()
 endif()
 
-string(TOLOWER ${ftp} extension_lower)
-set(extension_library_type "STATIC")
-if(extension_lower STREQUAL "shared")
-  set(extension_library_type "SHARED")
+if(EXT_FTP_SHARED OR BUILD_SHARED_LIBS)
+  set(_library_type "SHARED")
 endif()
 
-php_extension(NAME ftp ${extension_library_type})
+php_extension(NAME ftp ${_library_type})
 
-add_library(ext_ftp ${extension_library_type}
+add_library(ext_ftp ${_library_type}
   php_ftp.c
   ftp.c
 )
 
-if(ftp_ssl OR openssl)
+if(EXT_FTP_SSL OR EXT_OPENSSL)
   find_package(OpenSSL 1.0.2)
 
   if(OPENSSL_FOUND)

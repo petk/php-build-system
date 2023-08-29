@@ -23,6 +23,13 @@ set(PHP_BUILD_COMPILER "" CACHE STRING "Compiler used for build")
 
 set(PHP_BUILD_ARCH "" CACHE STRING "Build architecture")
 
+set(PHP_LAYOUT "PHP" CACHE STRING
+    "Set how installed files will be laid out. Type can be either PHP (default) or GNU")
+set_property(CACHE PHP_LAYOUT PROPERTY STRINGS
+             "GNU" "PHP")
+
+set(PHP_EXTENSION_DIR "" CACHE STRING "The extension_dir PHP INI directive path")
+
 #[=============================================================================[
 General options.
 #]=============================================================================]
@@ -47,6 +54,8 @@ option(DTRACE "Whether to enable DTrace support" OFF)
 set(FD_SETSIZE "" CACHE STRING "Size of descriptor sets")
 
 option(VALGRIND "Whether to enable the valgring support" OFF)
+
+option(BUILD_SHARED_LIBS "Whether to build all enabled optional PHP extensions as shared objects" OFF)
 
 #[=============================================================================[
 Zend options

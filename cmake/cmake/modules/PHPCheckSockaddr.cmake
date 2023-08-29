@@ -9,6 +9,7 @@ The module sets the following variables if support is found:
 ``HAVE_SOCKADDR_SA_LEN``
   Set to 1 if struct sockaddr has field sa_len.
 ]=============================================================================]#
+
 include(CheckCSourceCompiles)
 
 message(STATUS "Checking for struct sockaddr_storage")

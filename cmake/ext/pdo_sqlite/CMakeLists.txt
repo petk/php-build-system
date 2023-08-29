@@ -1,21 +1,21 @@
 include(CheckLibraryExists)
 include(CMakeDependentOption)
 
-cmake_dependent_option(pdo_sqlite "Whether to enable the pdo_sqlite extension" ON "pdo" OFF)
+cmake_dependent_option(EXT_PDO_SQLITE "Whether to enable the pdo_sqlite extension" ON "EXT_PDO" OFF)
 
-if(NOT pdo_sqlite)
+cmake_dependent_option(EXT_PDO_SQLITE_SHARED "Whether to build the pdo_sqlite extension as shared object" OFF "EXT_PDO_SQLITE;NOT BUILD_SHARED_LIBS" OFF)
+
+if(NOT EXT_PDO_SQLITE)
   return()
 endif()
 
-string(TOLOWER ${pdo_sqlite} extension_lower)
-set(extension_library_type "STATIC")
-if(extension_lower STREQUAL "shared")
-  set(extension_library_type "SHARED")
+if(EXT_PDO_SQLITE_SHARED OR BUILD_SHARED_LIBS)
+  set(_library_type "SHARED")
 endif()
 
-php_extension(NAME "pdo_sqlite" ${extension_library_type})
+php_extension(NAME "pdo_sqlite" ${_library_type})
 
-add_library(ext_pdo_sqlite ${extension_library_type}
+add_library(ext_pdo_sqlite ${_library_type}
   pdo_sqlite.c
   sqlite_driver.c
   sqlite_statement.c
@@ -29,7 +29,7 @@ if(${SQLite3_INCLUDE_DIRS})
   target_include_directories(ext_pdo_sqlite PRIVATE ${SQLite3_INCLUDE_DIRS})
 endif()
 
-set(HAVE_PDO_SQLITELIB 1 CACHE STRING "Define to 1 if you have the pdo_sqlite extension enabled.")
+set(HAVE_PDO_SQLITELIB 1 CACHE INTERNAL "Define to 1 if you have the pdo_sqlite extension enabled.")
 
 check_library_exists(sqlite3 sqlite3_close_v2 "" HAVE_SQLITE3_CLOSE_V2)
 check_library_exists(sqlite3 sqlite3_column_table_name "" HAVE_SQLITE3_COLUMN_TABLE_NAME)

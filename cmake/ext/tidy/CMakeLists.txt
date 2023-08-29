@@ -1,18 +1,20 @@
-option(tidy "Whether to enable the tidy extension" OFF)
+include(CMakeDependentOption)
 
-if(NOT tidy)
+option(EXT_TIDY "Whether to enable the tidy extension" OFF)
+
+cmake_dependent_option(EXT_TIDY_SHARED "Whether to build the tidy extension as shared object" OFF "EXT_TIDY;NOT BUILD_SHARED_LIBS" OFF)
+
+if(NOT EXT_TIDY)
   return()
 endif()
 
-string(TOLOWER ${tidy} extension_lower)
-set(extension_library_type "STATIC")
-if(extension_lower STREQUAL "shared")
-  set(extension_library_type "SHARED")
+if(EXT_TIDY_SHARED OR BUILD_SHARED_LIBS)
+  set(_library_type "SHARED")
 endif()
 
-php_extension(NAME "tidy" ${extension_library_type})
+php_extension(NAME "tidy" ${_library_type})
 
-add_library(ext_tidy ${extension_library_type}
+add_library(ext_tidy ${_library_type}
   tidy.c
 )
 
