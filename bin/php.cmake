@@ -1,3 +1,5 @@
+#!/usr/bin/env -S cmake -P
+#
 #[=============================================================================[
 Standalone CMake helper script that downloads PHP tarball, applies PHP source
 code patches and adds CMake files for running CMake commands on the PHP sources.
@@ -14,7 +16,7 @@ Variables:
     PHP version to download in form of {MAJOR}.{MINOR}.{PATCH}{EXTRA}
 
 Usage examples:
-  cmake -DPHP=8.3.0beta3 -P scripts/php.cmake
+  cmake -DPHP=8.3.0beta3 -P bin/php.cmake
 #]=============================================================================]
 
 set(PHP "8.3.0beta3" CACHE STRING "PHP version")

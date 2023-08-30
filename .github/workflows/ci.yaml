@@ -88,7 +88,8 @@ jobs:
             libwebp-dev \
             libxpm-dev \
             libonig-dev \
-            libtidy-dev;
+            libtidy-dev \
+            libargon2-dev;
 
       - name: Checkout
         uses: actions/checkout@v3
@@ -98,7 +99,7 @@ jobs:
 
       - name: Build and install
         run: |
-          ./scripts/init.sh --cmake --preset unix-full
+          ./bin/init.sh --cmake --preset unix-full
 
       - name: Run tests
         run: |

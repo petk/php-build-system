@@ -37,4 +37,4 @@ jobs:
           pipx install cmakelang
 
       - name: Run CMake checks
-        run: ./scripts/check-cmake.sh
+        run: ./bin/check-cmake.sh

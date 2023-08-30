@@ -35,6 +35,10 @@ to build PHP with CMake.
   * [9.11. CMake GUI](#911-cmake-gui)
   * [9.12. Performance](#912-performance)
 * [10. See more](#10-see-more)
+  * [10.1. Autotools](#101-autotools)
+  * [10.2. CMake](#102-cmake)
+  * [10.3. CMake and PHP](#103-cmake-and-php)
+  * [10.4. PHP Internals](#104-php-internals)
 
 ## 2. Introduction
 
@@ -440,6 +444,7 @@ Required:
 * re2c
 * gcc
 * g++
+* pkg-config
 * libxml
 * libsqlite3
 
@@ -597,7 +602,7 @@ git clone https://github.com/petk/php-build-system
 cd php-build-system
 
 # Download latest PHP sources and add CMake files to them
-cmake -P scripts/php.cmake
+./bin/php.cmake
 
 # Go into newly created directory, for example
 cd php-8.3.0beta
@@ -1123,21 +1128,31 @@ cmake . --profiling-output ./profile.json --profiling-format google-trace
 
 ## 10. See more
 
-To learn more about Autoconf and Autotools in general:
+### 10.1. Autotools
+
+Useful resources to learn more about Autoconf and Autotools in general:
 
 * [Autoconf documentation](https://www.gnu.org/software/autoconf/manual/index.html)
 * [Autotools Mythbuster](https://autotools.info/) - guide to Autotools
+* [GNU Autoconf Archive](https://github.com/autoconf-archive/autoconf-archive) -
+  community collection of Autoconf macros.
 
-Useful resources to learn more about PHP internals:
-
-* [PHP Internals Book](https://www.phpinternalsbook.com/)
+### 10.2. CMake
 
 Useful resources to learn more about CMake:
 
 * [CMake documentation](https://cmake.org/documentation/)
 * [Effective Modern CMake](https://gist.github.com/mbinna/c61dbb39bca0e4fb7d1f73b0d66a4fd1)
 
-CMake and PHP:
+### 10.3. CMake and PHP
+
+Existing CMake and PHP discussions and resources:
 
 * [php-cmake](https://github.com/gloob/php-cmake) - CMake implementation in PHP.
-* [Latest CMake discussion](https://externals.io/message/116655)
+* [CMake discussion on PHP mailing list](https://externals.io/message/116655)
+
+### 10.4. PHP Internals
+
+Useful resources to learn more about PHP internals:
+
+* [PHP Internals Book](https://www.phpinternalsbook.com/)

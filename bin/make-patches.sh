@@ -11,9 +11,9 @@
 #   The following optional variables are supported:
 #
 #   BRANCH  Overrides the branch name containing patches.
-#           BRANCH=my-branch ./scripts/make-patches.sh
+#           BRANCH=my-branch ./bin/make-patches.sh
 #   REPO    Overrides the location to the locally patched php-src repository.
-#           REPO=php-src-repo ./scripts/make-patches.sh
+#           REPO=php-src-repo ./bin/make-patches.sh
 
 REPO="php-src"
 MAIN_BRANCH="patch-cmake"
