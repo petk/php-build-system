@@ -89,7 +89,8 @@ jobs:
             libxpm-dev \
             libonig-dev \
             libtidy-dev \
-            libargon2-dev;
+            libargon2-dev \
+            libxslt1-dev;
 
       - name: Checkout
         uses: actions/checkout@v3

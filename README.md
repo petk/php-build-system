@@ -477,6 +477,10 @@ Optional:
   * when using `--enable-mbstring`
 * libtidy
   * when using `--with-tidy`
+* libxslt
+  * when using `--with-xsl`
+* libzip
+  * when using `--with-zip`
 
 ### 7.3. The configure command line options
 
