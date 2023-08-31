@@ -11,26 +11,32 @@ This script is not part of the CMake build system itself but is only a simple
 wrapper to be able to use CMake in PHP sources and written in CMake way to be
 as portable as possible on different systems.
 
-Variables:
-  PHP
+SYNOPSIS:
+  ./bin/php.cmake [<PHP_VERSION>]
+
     PHP version to download in form of {MAJOR}.{MINOR}.{PATCH}{EXTRA}
 
 Usage examples:
-  cmake -DPHP=8.3.0beta3 -P bin/php.cmake
+  cmake -P bin/php.cmake 8.3.0RC1
+  ./bin/php.cmake 8.3.0RC1
 #]=============================================================================]
 
-set(PHP "8.3.0beta3" CACHE STRING "PHP version")
+# Set default variables.
+set(PHP_VERSION "8.3.0RC1")
 
-if(NOT PHP MATCHES "^8\\.[0-9]\\.[0-9]+[a-zA-Z0-9\\-]*$")
+if(CMAKE_ARGV3)
+  set(PHP_VERSION "${CMAKE_ARGV3}")
+endif()
+
+if(NOT PHP_VERSION MATCHES "^8\\.[0-9]\\.[0-9]+[a-zA-Z0-9\\-]*$")
   message(FATAL_ERROR "PHP version should match pattern {MAJOR}.{MINOR}.{PATCH}{EXTRA}")
 endif()
 
-set(PHP_VERSION "${PHP}")
-
+# Determine the download URL.
 if(PHP_VERSION MATCHES ".*-dev")
   set(URL "https://github.com/php/php-src/archive/refs/heads/master.tar.gz")
 else()
-  set(URL "https://downloads.php.net/~eric/php-${PHP_VERSION}.tar.gz")
+  set(URL "https://downloads.php.net/~jakub/php-${PHP_VERSION}.tar.gz")
 endif()
 
 set(PHP_TARBALL "php-${PHP_VERSION}.tar.gz")
