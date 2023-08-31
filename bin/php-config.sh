@@ -5,6 +5,7 @@
 
 # PHP configuration header file.
 filename="php_config.h.in"
+branch="PHP-8.3"
 
 # Patterns of unused defines to remove from the configuration header file. One
 # line above and after the pattern will be also removed.
@@ -19,6 +20,30 @@ patterns="
 # Go to project root.
 cd $(CDPATH= cd -- "$(dirname -- "$0")/.." && pwd -P)
 
+while test $# -gt 0; do
+  if test "$1" = "-h" || test "$1" = "--help"; then
+    cat << HELP
+Helper that displays diff of the main/php_config.h.in file for comparing it with
+CMake's one. It additionally removes some redundant constants.
+
+SYNOPSIS:
+  php-config.sh [<options>]
+
+OPTIONS:
+  -b, --branch VALUE     PHP branch to checkout. Defaults to PHP-8.3.
+  -h, --help             Display this help.
+HELP
+    exit 0
+  fi
+
+  if test "$1" = "-b" || test "$1" = "--branch"; then
+    branch=$2
+    shift
+  fi
+
+  shift
+done
+
 # Clone a fresh latest php-src repo.
 if test ! -d "php-src"; then
   git clone --depth 1 https://github.com/php/php-src ./php-src
@@ -26,9 +51,16 @@ fi
 
 cd php-src
 
-# Fetch latest php-src repository changes.
-git checkout .
-git clean -dffx .
+# Check if given branch is available.
+if test -z "$(git rev-parse --verify ${branch} 2>/dev/null)"; then
+  echo "Branch ${branch} is missing." >&2
+  exit 1
+fi
+
+# Reset php-src repository and fetch latest changes.
+git reset --hard
+git clean -dffx
+git checkout ${branch}
 git pull --rebase
 
 # Create main/php_config.h.in.

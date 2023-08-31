@@ -7,6 +7,7 @@ cmake=0
 options=""
 preset="default"
 debug=0
+branch="PHP-8.3"
 
 # Go to project root.
 cd $(CDPATH= cd -- "$(dirname -- "$0")/.." && pwd -P)
@@ -26,6 +27,7 @@ OPTIONS:
                            cmake -DOPTION .
   -p, --preset VALUE     Use CMake preset with name VALUE, otherwise "default"
                          is used (see CMakePresets.json).
+  -b, --branch VALUE     PHP branch to checkout. Defaults to PHP-8.3.
   -d, --debug            Debug mode. Here CMake profiling is enabled and debug
                          info displayed.
   -h, --help             Display this help.
@@ -51,6 +53,11 @@ HELP
     shift
   fi
 
+  if test "$1" = "-b" || test "$1" = "--branch"; then
+    branch=$2
+    shift
+  fi
+
   if test "$1" = "-d" || test "$1" = "--debug"; then
     debug=1
   fi
@@ -63,13 +70,21 @@ if test ! -d "php-src"; then
   git clone --depth 1 https://github.com/php/php-src ./php-src
 fi
 
-if test "$update" = "1"; then
-  cd php-src
-  git checkout .
-  git clean -dffx .
-  git pull --rebase
-  cd ..
+# Check if given branch is available.
+cd php-src
+if test -z "$(git rev-parse --verify ${branch} 2>/dev/null)"; then
+  echo "Branch ${branch} is missing." >&2
+  exit 1
 fi
+
+# Reset php-src repository and fetch latest changes.
+if test "$update" = "1"; then
+  git reset --hard
+  git clean -dffx
+  git checkout ${branch}
+  git pull --rebase
+fi
+cd ..
 
 cp -r cmake/* php-src/
 

@@ -2,23 +2,19 @@ name: Run CMake checks
 
 on:
   push:
-    branches: [ main ]
+    branches: [main]
     paths-ignore:
-      - 'autotools/**'
       - 'docs/**'
-      - 'windows/**'
-      - 'README.md'
       - '.editorconfig'
       - '.gitignore'
+      - 'README.md'
   pull_request:
-    branches: [ main ]
+    branches: [main]
     paths-ignore:
-      - 'autotools/**'
       - 'docs/**'
-      - 'windows/**'
-      - 'README.md'
       - '.editorconfig'
       - '.gitignore'
+      - 'README.md'
 
 jobs:
   check:
