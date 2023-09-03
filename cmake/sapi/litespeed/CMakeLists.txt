@@ -1,6 +1,6 @@
-option(litespeed "Whether to build PHP as litespeed SAPI module" OFF)
+option(SAPI_LITESPEED "Whether to build PHP as litespeed SAPI module" OFF)
 
-if(NOT litespeed)
+if(NOT SAPI_LITESPEED)
   return()
 endif()
 

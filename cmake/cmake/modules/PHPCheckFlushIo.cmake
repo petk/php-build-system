@@ -11,6 +11,7 @@ Sets the following variables:
 
 include(CheckCSourceRuns)
 
+# php_check_flush_io: Checks how flush call should be done
 function(php_check_flush_io)
   message(STATUS "Checking whether flush should be called explicitly after a buffered io")
 
@@ -20,9 +21,7 @@ function(php_check_flush_io)
   endif()
 
   if(HAVE_UNISTD_H)
-    set(UNISTD_DEFINED_MACRO "-DHAVE_UNISTD_H=1")
-  else()
-    set(UNISTD_DEFINED_MACRO)
+    set(unistd_defined_macro "-DHAVE_UNISTD_H=1")
   endif()
 
   try_run(
@@ -30,7 +29,7 @@ function(php_check_flush_io)
     COMPILE_RESULT_VAR
     ${CMAKE_BINARY_DIR}
     "${CMAKE_CURRENT_FUNCTION_LIST_DIR}/PHPCheckFlushIo/check_flush_io.c"
-    COMPILE_DEFINITIONS ${UNISTD_DEFINED_MACRO}
+    COMPILE_DEFINITIONS ${unistd_defined_macro}
     OUTPUT_VARIABLE RUN_OUTPUT
   )
 

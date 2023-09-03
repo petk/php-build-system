@@ -1,13 +1,13 @@
 include(CMakeDependentOption)
 
-option(phpdbg "Whether to use the PHP PHPDBG SAPI module" ON)
+option(SAPI_PHPDBG "Whether to use the PHP PHPDBG SAPI module" ON)
 
-# TODO: Check if this can be simplified and removed in favor of main debug option.
-cmake_dependent_option(phpdbg_debug "" OFF "phpdbg" OFF)
-# TODO: Check if this can be simplified and removed in favor of main readline option.
-cmake_dependent_option(phpdbg_readline "" OFF "phpdbg" OFF)
+# TODO: Check if this can be simplified and removed in favor of the PHP_DEBUG option.
+cmake_dependent_option(SAPI_PHPDBG_DEBUG "" OFF "SAPI_PHPDBG" OFF)
+# TODO: Check if this can be simplified and removed in favor of the readline option.
+cmake_dependent_option(SAPI_PHPDBG_READLINE "" OFF "SAPI_PHPDBG" OFF)
 
-if(NOT phpdbg)
+if(NOT SAPI_PHPDBG)
   return()
 endif()
 

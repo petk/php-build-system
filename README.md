@@ -33,7 +33,8 @@ to build PHP with CMake.
     * [9.9.2. Ninja](#992-ninja)
   * [9.10. CMake presets](#910-cmake-presets)
   * [9.11. CMake GUI](#911-cmake-gui)
-  * [9.12. Performance](#912-performance)
+  * [9.12. Testing](#912-testing)
+  * [9.13. Performance](#913-performance)
 * [10. See more](#10-see-more)
   * [10.1. Autotools](#101-autotools)
   * [10.2. CMake](#102-cmake)
@@ -634,6 +635,7 @@ Directory structure from the CMake perspective looks like this:
        ├─ */              # Directories with parts belonging to PHP modules
        ├─ Find*.cmake     # CMake find modules that support the find_package()
        └─ PHP*.cmake      # PHP custom CMake utility modules
+    ├─ cmake-format.json  # Configuration for cmake-lint and cmake-format tools
     └─ ...
  └─ ext/
     └─ bcmath/
@@ -663,6 +665,7 @@ Directory structure from the CMake perspective looks like this:
     ├─ CMakeLists.txt     # Zend engine CMake file
     └─ ...
  ├─ CMakeLists.txt        # Root CMake file
+ ├─ CMakePresets.json     # Main CMake presets file
  └─ ...
 ```
 
@@ -695,6 +698,15 @@ Currently, the CMake minimum version is set to **3.25** without looking at CMake
 available version on the current systems out there. This will be updated more
 properly in the future.
 
+**Available CMake versions across the systems:**
+
+| System            | CMake version |
+| ----------------- | ------------- |
+| Alpine Linux 3.18 | 3.26          |
+| Debian Bullseye   | 3.18          |
+| Fedora 38         | 3.27          |
+| Ubuntu 22.04      | 3.22          |
+
 ### 9.7. CMake code style
 
 To sync the code style of the CMake files there are a couple of tools available.
@@ -706,67 +718,68 @@ List of configure command line options and their CMake alternatives:
 
 | configure                                        | CMake                                  | Default value/notes |
 | ------------------------------------------------ | -------------------------------------- | ------------------  |
-| `--disable-re2c-cgoto` (default)                 | `-DRE2C_CGOTO=OFF`                     | `OFF`               |
-| `--enable-re2c-cgoto`                            | `-DRE2C_CGOTO=ON`                      |                     |
-| `--disable-debug-assertions` (default)           | `-DDEBUG_ASSERTIONS=OFF`               | `OFF`               |
-| `--enable-debug-assertions`                      | `-DDEBUG_ASSERTIONS=ON`                |                     |
-| `--disable-sigchild` (default)                   | `-DSIGCHILD=OFF`                       | `OFF`               |
-| `--enable-sigchild`                              | `-DSIGCHILD=ON`                        |                     |
-| `--enable-gcc-global-regs` (default)             | `-DGCC_GLOBAL_REGS=ON`                 | `ON`                |
-| `--disable-gcc-global-regs`                      | `-DGCC_GLOBAL_REGS=OFF`                |                     |
-| `--disable-debug` (default)                      | `-DDEBUG=OFF`                          | `OFF`               |
-| `--enable-debug`                                 | `-DDEBUG=ON`                           |                     |
-| `--enable-fiber-asm` (default)                   | `-DFIBER_ASM=ON`                       | `ON`                |
-| `--disable-fiber-asm`                            | `-DFIBER_ASM=OFF`                      |                     |
-| `--enable-ipv6` (default)                        | `-DIPV6=ON`                            | `ON`                |
-|   `--disable-ipv6`                               |   `-DIPV6=OFF`                         |                     |
-| `--disable-rtld-now` (default)                   | `-DRTLD_NOW=OFF`                       | `OFF`               |
-|   `--enable-rtld-now`                            | `-DRTLD_NOW=ON`                        |                     |
-| `--enable-short-tags` (default)                  | `-DSHORT_TAGS=ON`                      | `ON`                |
-|   `--disable-short-tags`                         | `-DSHORT_TAGS=OFF`                     |                     |
-| `--disable-zts` (default)                        | `-DZTS=OFF`                            | `OFF`               |
-| `--enable-zts`                                   | `-DZTS=ON`                             |                     |
+| `--disable-re2c-cgoto` (default)                 | `-DPHP_RE2C_CGOTO=OFF`                 | `OFF`               |
+| `--enable-re2c-cgoto`                            | `-DPHP_RE2C_CGOTO=ON`                  |                     |
+| `--disable-debug-assertions` (default)           | `-DPHP_DEBUG_ASSERTIONS=OFF`           | `OFF`               |
+| `--enable-debug-assertions`                      | `-DPHP_DEBUG_ASSERTIONS=ON`            |                     |
+| `--disable-sigchild` (default)                   | `-DPHP_SIGCHILD=OFF`                   | `OFF`               |
+| `--enable-sigchild`                              | `-DPHP_SIGCHILD=ON`                    |                     |
+| `--disable-debug` (default)                      | `-DPHP_DEBUG=OFF`                      | `OFF`               |
+| `--enable-debug`                                 | `-DPHP_DEBUG=ON`                       |                     |
+| `--enable-ipv6` (default)                        | `-DPHP_IPV6=ON`                        | `ON`                |
+|   `--disable-ipv6`                               |   `-DPHP_IPV6=OFF`                     |                     |
+| `--disable-rtld-now` (default)                   | `-DPHP_RTLD_NOW=OFF`                   | `OFF`               |
+|   `--enable-rtld-now`                            | `-DPHP_RTLD_NOW=ON`                    |                     |
+| `--enable-short-tags` (default)                  | `-DPHP_SHORT_TAGS=ON`                  | `ON`                |
+|   `--disable-short-tags`                         | `-DPHP_SHORT_TAGS=OFF`                 |                     |
+| `--disable-zts` (default)                        | `-DPHP_ZTS=OFF`                        | `OFF`               |
+| `--enable-zts`                                   | `-DPHP_ZTS=ON`                         |                     |
+| `--disable-dtrace` (default)                     | `-DPHP_DTRACE=OFF`                     | `OFF`               |
+| `--enable-dtrace`                                | `-DPHP_DTRACE=ON`                      |                     |
+| `--disable-fd-setsize` (default)                 | `-DPHP_FD_SETSIZE=OFF`                 | `OFF`               |
+| `--enable-fd-setsize=[NUM]`                      | `-DPHP_FD_SETSIZE=[NUM]`               |                     |
+| `--with-libdir=[NAME]`                           | `-DCMAKE_INSTALL_LIBDIR=[NAME]`        | See GNUInstallDirs  |
+| `--with-layout=[TYPE]`                           | `-DPHP_LAYOUT=[TYPE]`                  | `TYPE=PHP`          |
+| **Zend specific configuration**                  |                                        |                     |
+| `--enable-gcc-global-regs` (default)             | `-DZEND_GCC_GLOBAL_REGS=ON`            | `ON`                |
+| `--disable-gcc-global-regs`                      | `-DZEND_GCC_GLOBAL_REGS=OFF`           |                     |
+| `--enable-fiber-asm` (default)                   | `-DZEND_FIBER_ASM=ON`                  | `ON`                |
+| `--disable-fiber-asm`                            | `-DZEND_FIBER_ASM=OFF`                 |                     |
 | `--enable-zend-signals` (default)                | `-DZEND_SIGNALS=ON`                    | `ON`                |
 | `--disable-zend-signals`                         | `-DZEND_SIGNALS=OFF`                   |                     |
 | `--disable-zend-max-execution-timers` (default)  | `-DZEND_MAX_EXECUTION_TIMERS=OFF`      | `OFF`               |
 | `--enable-zend-max-execution-timers`             | `-DZEND_MAX_EXECUTION_TIMERS=ON`       |                     |
-| `--disable-dtrace` (default)                     | `-DDTRACE=OFF`                         | `OFF`               |
-| `--enable-dtrace`                                | `-DDTRACE=ON`                          |                     |
-| `--disable-fd-setsize` (default)                 | `-DFD_SETSIZE=OFF`                     | `OFF`               |
-| `--enable-fd-setsize=[NUM]`                      | `-DFD_SETSIZE=[NUM]`                   |                     |
-| `--with-libdir=[NAME]`                           | `-DCMAKE_INSTALL_LIBDIR=[NAME]`        | See GNUInstallDirs  |
-| `--with-layout=[TYPE]`                           | `-DPHP_LAYOUT=[TYPE]`                  | `TYPE=PHP`          |
 | **PHP sapi modules**                             |                                        |                     |
-| `--without-apxs2` (default)                      | `-Dapache=OFF`                         | `OFF`               |
-| `--with-apxs2[=FILE]`                            | `-Dapache=ON`                          |                     |
-| `--enable-cgi` (default)                         | `-Dcgi=ON`                             | `ON`                |
-| `--disable-cgi`                                  | `-Dcgi=OFF`                            |                     |
-| `--enable-cli` (default)                         | `-Dcli=ON`                             | `ON`                |
-| `--disable-cli`                                  | `-Dcli=OFF`                            |                     |
-| `--disable-embed` (default)                      | `-Dembed=OFF`                          | `OFF`               |
-| `--enable-embed`                                 | `-Dembed=ON`                           |                     |
-| `--disable-fpm` (default)                        | `-Dfpm=OFF`                            | `OFF`               |
-| `--enable-fpm`                                   | `-Dfpm=ON`                             |                     |
-| `--with-fpm-user[=USER]` (default: `"nobody"`)   | `-Dfpm_user=nobody`                    | `"nobody"`          |
-| `--with-fpm-group[=GROUP]` (default: `"nobody"`) | `-Dfpm_group=nobody`                   | `"nobody"`          |
-| `--without-fpm-systemd` (default)                | `-Dfpm_systemd=OFF`                    | `OFF`               |
-| `--with-fpm-systemd`                             | `-Dfpm_systemd=ON`                     |                     |
-| `--without-fpm-acl` (default)                    | `-Dfpm_acl=OFF`                        | `OFF`               |
-| `--with-fpm-acl`                                 | `-Dfpm_acl=ON`                         |                     |
-| `--without-fpm-apparmor` (default)               | `-Dfpm_apparmor=OFF`                   | `OFF`               |
-| `--with-fpm-apparmor`                            | `-Dfpm_apparmor=ON`                    |                     |
-| `--without-fpm-selinux` (default)                | `-Dfpm_selinux=OFF`                    | `OFF`               |
-| `--with-fpm-selinux`                             | `-Dfpm_selinux=ON`                     |                     |
-| `--disable-fuzzer` (default)                     | `-Dfuzzer=OFF`                         | `OFF`               |
-| `--enable-fuzzer`                                | `-Dfuzzer=ON`                          |                     |
-| `--disable-litespeed` (default)                  | `-Dlitespeed=OFF`                      | `OFF`               |
-| `--enable-litespeed`                             | `-Dlitespeed=ON`                       |                     |
-| `--enable-phpdbg` (default)                      | `-Dphpdbg=ON`                          | `ON`                |
-| `--disable-phpdbg`                               | `-Dphpdbg=OFF`                         |                     |
-| `--disable-phpdbg-debug` (default)               | `-Dphpdbg_debug=OFF`                   | `OFF`               |
-| `--enable-phpdbg-debug`                          | `-Dphpdbg_debug=ON`                    |                     |
-| `--disable-phpdbg-readline` (default)            | `-Dphpdbg_readline=OFF`                | `OFF`               |
-| `--enable-phpdbg-readline`                       | `-Dphpdbg_readline=ON`                 |                     |
+| `--without-apxs2` (default)                      | `-DSAPI_APACHE=OFF`                    | `OFF`               |
+| `--with-apxs2[=FILE]`                            | `-DSAPI_APACHE=ON`                     |                     |
+| `--enable-cgi` (default)                         | `-DSAPI_CGI=ON`                        | `ON`                |
+| `--disable-cgi`                                  | `-DSAPI_CGI=OFF`                       |                     |
+| `--enable-cli` (default)                         | `-DCAPI_CLI=ON`                        | `ON`                |
+| `--disable-cli`                                  | `-DSAPI_CLI=OFF`                       |                     |
+| `--disable-embed` (default)                      | `-DSAPI_EMBED=OFF`                     | `OFF`               |
+| `--enable-embed`                                 | `-DSAPI_EMBED=ON`                      |                     |
+| `--disable-fpm` (default)                        | `-DSAPI_FPM=OFF`                       | `OFF`               |
+| `--enable-fpm`                                   | `-DSAPI_FPM=ON`                        |                     |
+| `--with-fpm-user[=USER]` (default: `"nobody"`)   | `-DSAPI_FPM_USER=nobody`               | `"nobody"`          |
+| `--with-fpm-group[=GROUP]` (default: `"nobody"`) | `-DSAPI_FPM_GROUP=nobody`              | `"nobody"`          |
+| `--without-fpm-systemd` (default)                | `-DSAPI_FPM_SYSTEMD=OFF`               | `OFF`               |
+| `--with-fpm-systemd`                             | `-DSAPI_FPM_SYSTEMD=ON`                |                     |
+| `--without-fpm-acl` (default)                    | `-DSAPI_FPM_ACL=OFF`                   | `OFF`               |
+| `--with-fpm-acl`                                 | `-DSAPI_FPM_ACL=ON`                    |                     |
+| `--without-fpm-apparmor` (default)               | `-DSAPI_FPM_APPARMOR=OFF`              | `OFF`               |
+| `--with-fpm-apparmor`                            | `-DSAPI_FPM_APPARMOR=ON`               |                     |
+| `--without-fpm-selinux` (default)                | `-DSAPI_FPM_SELINUX=OFF`               | `OFF`               |
+| `--with-fpm-selinux`                             | `-DSAPI_FPM_SELINUX=ON`                |                     |
+| `--disable-fuzzer` (default)                     | `-DSAPI_FUZZER=OFF`                    | `OFF`               |
+| `--enable-fuzzer`                                | `-DSAPI_FUZZER=ON`                     |                     |
+| `--disable-litespeed` (default)                  | `-DSAPI_LITESPEED=OFF`                 | `OFF`               |
+| `--enable-litespeed`                             | `-DSAPI_LITESPEED=ON`                  |                     |
+| `--enable-phpdbg` (default)                      | `-DSAPI_PHPDBG=ON`                     | `ON`                |
+| `--disable-phpdbg`                               | `-DSAPI_PHPDBG=OFF`                    |                     |
+| `--disable-phpdbg-debug` (default)               | `-DSAPI_PHPDBG_DEBUG=OFF`              | `OFF`               |
+| `--enable-phpdbg-debug`                          | `-DSAPI_PHPDBG_DEBUG=ON`               |                     |
+| `--disable-phpdbg-readline` (default)            | `-DSAPI_PHPDBG_READLINE=OFF`           | `OFF`               |
+| `--enable-phpdbg-readline`                       | `-DSAPI_PHPDBG_READLINE=ON`            |                     |
 | **PHP extensions**                               |                                        |                     |
 | `--disable-bcmath` (default)                     | `-DEXT_BCMATH=OFF`                     | `OFF`               |
 | `--enable-bcmath`                                | `-DEXT_BCMATH=ON`                      |                     |
@@ -784,8 +797,8 @@ List of configure command line options and their CMake alternatives:
 | `--with-curl`                                    | `-DEXT_CURL=ON`                        |                     |
 | `--with-curl=shared`                             | `-DEXT_CURL_SHARED=ON`                 |                     |
 | `--disable-dl-test` (default)                    | `-DEXT_DL_TEST=OFF`                    | `OFF`               |
-| `--enable-dl-test`                               | `-DEXT_DL_TEST=ON`                     |                     |
-| `--enable-dl-test=shared`                        | `-DEXT_DL_TEST_SHARED=ON`              |                     |
+| `--enable-dl-test`                               | `-DEXT_DL_TEST=ON`                     | will be shared      |
+| `--enable-dl-test=shared`                        | `-DEXT_DL_TEST=ON`                     | will be shared      |
 | `--enable-dom` (default)                         | `-DEXT_DOM=ON`                         | `ON`                |
 | `--enable-dom=shared`                            | `-DEXT_DOM_SHARED=ON`                  |                     |
 | `--disable-dom`                                  | `-DEXT_DOM=OFF`                        |                     |
@@ -807,7 +820,7 @@ List of configure command line options and their CMake alternatives:
 | `--disable-ftp` (default)                        | `-DEXT_FTP=OFF`                        | `OFF`               |
 | `--enable-ftp`                                   | `-DEXT_FTP=ON`                         |                     |
 | `--enable-ftp=shared`                            | `-DEXT_FTP_SHARED=ON`                  |                     |
-| `--without-openssl-dir`                          | `-DEXT_FTP_SSL=OFF`                    | `OFF`               |
+| `--without-openssl-dir` (default)                | `-DEXT_FTP_SSL=OFF`                    | `OFF`               |
 | `--with-openssl-dir`                             | `-DEXT_FTP_SSL=ON`                     |                     |
 | `--disable-gd` (default)                         | `-DEXT_GD=OFF`                         | `OFF`               |
 | `--enable-gd`                                    | `-DEXT_GD=ON`                          |                     |
@@ -1119,7 +1132,39 @@ Building the sources to binaries can be then done in command line or IDE.
 cmake --build --preset default
 ```
 
-### 9.12. Performance
+### 9.12. Testing
+
+PHP source code tests (`*.phpt` files) are written in PHP and are executed with
+`run-tests.php` script from the very beginning of the PHP development. When
+building PHP with Autotools the tests are usually run by:
+
+```sh
+make TEST_PHP_ARGS=-j10 test
+```
+
+CMake ships with a `ctest` utility that can run also this in a similar way.
+
+To enable testing the `enable_testing()` is added to CMakeLists.txt file.and
+then the tests are added with `add_test()`.
+
+To run the tests using CMake in command line:
+
+```sh
+ctest --progress --verbose
+```
+
+The `--progress` option displays a progress if there's more tests set, and
+`--verbose` option outputs additional info to the STDOUT. In PHP case the
+`--verbose` is needed so the output of the `run-tests.php` script is displayed.
+
+CMake testing also supports presets so configuration can be coded and shared
+using the `CMakePresets.json` file and its `testPresets` field.
+
+```sh
+ctest --preset unix-full
+```
+
+### 9.13. Performance
 
 When CMake is doing configuration phase, the profiling options can be used to do
 build system performance analysis of CMake script.

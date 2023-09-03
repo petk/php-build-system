@@ -51,7 +51,7 @@ if(EXT_SESSION_MM)
   endif()
 
   # The mm library is not thread-safe, and mod_mm.c refuses to compile.
-  if(ZTS)
+  if(PHP_ZTS)
     message(FATAL_ERROR "Enabling ZTS and libmm cannot be done together.")
   endif()
 

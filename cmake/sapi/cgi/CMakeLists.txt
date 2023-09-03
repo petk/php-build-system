@@ -1,6 +1,6 @@
-option(cgi "Whether to enable building CGI version of PHP" ON)
+option(SAPI_CGI "Whether to enable building CGI version of PHP" ON)
 
-if(NOT cgi)
+if(NOT SAPI_CGI)
   return()
 endif()
 

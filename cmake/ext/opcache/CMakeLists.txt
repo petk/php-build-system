@@ -48,7 +48,7 @@ if(EXT_OPCACHE_JIT)
     list(APPEND DASM_FLAGS -D X64APPLE=1)
   endif()
 
-  if(ZTS)
+  if(PHP_ZTS)
     list(APPEND DASM_FLAGS -D ZTS=1)
   endif()
 endif()

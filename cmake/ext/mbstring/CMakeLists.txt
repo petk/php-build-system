@@ -68,7 +68,7 @@ file(GLOB MBSTRING_HEADER_FILES "${CMAKE_CURRENT_SOURCE_DIR}/libmbfl/mbfl/*.h")
 list(APPEND MBSTRING_HEADER_FILES "${CMAKE_CURRENT_SOURCE_DIR}/libmbfl/config.h")
 list(APPEND MBSTRING_HEADER_FILES "${CMAKE_CURRENT_SOURCE_DIR}/mbstring.h")
 
-if(mbstring_mbregex)
+if(EXT_MBSTRING_MBREGEX)
   find_package(ONIGURUMA REQUIRED)
 
   if(ONIGURUMA_LIBRARIES)
@@ -80,6 +80,7 @@ if(mbstring_mbregex)
   endif()
 
   cmake_push_check_state()
+    set(CMAKE_REQUIRED_DEFINITIONS "${CMAKE_REQUIRED_DEFINITIONS} -D_GNU_SOURCE")
     set(CMAKE_REQUIRED_LIBRARIES "${CMAKE_REQUIRED_LIBRARIES} ${ONIGURUMA_LIBRARIES}")
     check_c_source_compiles("
       #include <oniguruma.h>

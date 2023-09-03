@@ -120,6 +120,19 @@ include(PHPCreateBuildDefinitions)
 message(STATUS "Creating main/php_config.h")
 configure_file(main/php_config.h.in main/php_config.h @ONLY)
 
+enable_testing()
+
+include(ProcessorCount)
+ProcessorCount(N)
+if(NOT N EQUAL 0)
+  set(_run_tests_jobs -j${N})
+endif()
+
+add_test(
+  NAME php_test
+  COMMAND ./sapi/cli/php run-tests.php ${_run_tests_jobs} -q
+)
+
 message("
 +--------------------------------------------------------------------+
 | License:                                                           |

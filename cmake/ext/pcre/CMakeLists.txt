@@ -148,7 +148,7 @@ else()
   list(APPEND PCRE_HEADER_FILES "${CMAKE_CURRENT_SOURCE_DIR}/php_pcre.h")
   set_target_properties(ext_pcre PROPERTIES PUBLIC_HEADER "${PCRE_HEADER_FILES}")
 
-  if(VALGRIND AND ZEND_DEBUG)
+  if(VALGRIND AND PHP_DEBUG)
     set(HAVE_PCRE_VALGRIND_SUPPORT 1 CACHE INTERNAL "Whether to enable the Valgrind support in PCRE")
   endif()
 endif()

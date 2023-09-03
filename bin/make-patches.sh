@@ -58,7 +58,8 @@ files=$(git --no-pager show --format= ${MAIN_BRANCH} --name-only)
 for file in $files; do
   if test -f ${file}; then
     echo "Creating patch for ${file}"
-    git --no-pager show --format= ${MAIN_BRANCH} -- ${file} > ../${current_repo}/patches/${file}.patch
+    patch_filename="$(echo ${file} | tr '/' _)"
+    git --no-pager show --format= ${MAIN_BRANCH} -- ${file} > ../${current_repo}/patches/${patch_filename}.patch
   else
     echo "${file} is missing" >&2
   fi
@@ -66,14 +67,14 @@ done
 
 # Additional patches.
 for branch in $EXTRA_BRANCHES; do
-  patch="$(echo $branch | sed 's/patch-\(.*\)/\1/').patch"
-  patch_path="../${current_repo}/patches/${patch}"
+  patch_filename="${branch}.patch"
+  patch_path="../${current_repo}/patches/${patch_filename}"
 
   if test -f $patch_path; then
-    echo "Patch ${patch} already exists. Rename the branch." >&2
+    echo "Patch ${patch_filename} already exists. Rename the branch ${branch}." >&2
     exit 1
   fi
 
-  echo "Creating patch $patch"
+  echo "Creating patch $patch_filename"
   git --no-pager show --format= ${branch} > ${patch_path}
 done

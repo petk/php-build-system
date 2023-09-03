@@ -1,6 +1,5 @@
 include(CheckCSourceCompiles)
 include(CheckTypeSize)
-include(PHPFindPackage)
 include(CMakeDependentOption)
 
 option(EXT_FFI "Whether to build the FFI extension" OFF)
@@ -11,9 +10,22 @@ if(NOT EXT_FFI)
   return()
 endif()
 
-check_type_size("long double" LONG_DOUBLE)
-if(NOT HAVE_LONG_DOUBLE)
-  message(FATAL_ERROR "Cannot determine size of long double.")
+if(EXT_FFI_SHARED OR BUILD_SHARED_LIBS)
+  set(_library_type "SHARED")
+endif()
+
+php_extension(NAME ffi ${_library_type})
+
+add_library(ext_ffi ${_library_type}
+  ffi.c
+  ffi_parser.c
+)
+
+check_type_size("long double" SIZEOF_LONG_DOUBLE)
+if(HAVE_SIZEOF_LONG_DOUBLE)
+  set(HAVE_LONG_DOUBLE 1 CACHE INTERNAL "Define to 1 if the system has the type `long double'.")
+else()
+  message(WARNING "Cannot determine size of long double.")
 endif()
 
 message(STATUS "Checking for fastcall calling convention")
@@ -86,20 +98,14 @@ check_c_source_compiles("
   }
 " HAVE_FFI_SYSV)
 
-if(EXT_FFI_SHARED OR BUILD_SHARED_LIBS)
-  set(_library_type "SHARED")
+find_package(FFI 3.0.11)
+
+if(FFI_LIBRARIES)
+  target_link_libraries(ext_ffi PRIVATE ${FFI_LIBRARIES})
 endif()
 
-php_extension(NAME ffi ${_library_type})
-
-add_library(ext_ffi ${_library_type}
-  ffi.c
-  ffi_parser.c
-)
-
-php_find_package(NAME libffi VERSION 3.0.11)
-
-target_link_libraries(ext_ffi PRIVATE ${libffi_LIBRARIES})
-target_compile_options(ext_ffi PRIVATE ${libffi_CFLAGS})
+if(FFI_INCLUDE_DIRS)
+  target_include_directories(ext_ffi PRIVATE ${FFI_INCLUDE_DIRS})
+endif()
 
 target_compile_definitions(ext_ffi PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE=1)

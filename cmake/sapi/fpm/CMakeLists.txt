@@ -1,15 +1,15 @@
 include(CMakeDependentOption)
 
-option(fpm "Whether to use the PHP FPM SAPI module" OFF)
+option(SAPI_FPM "Whether to use the PHP FPM SAPI module" OFF)
 
-cmake_dependent_option(fpm_user "Set the user for php-fpm to run as. (default: nobody)" "nobody" "fpm" "")
-cmake_dependent_option(fpm_group "Set the group for php-fpm to run as. For a system user, this should
-usually be set to match the fpm username (default: nobody)" "nobody" "fpm" "")
-cmake_dependent_option(fpm_systemd "Whether to activate systemd integration" OFF "fpm" OFF)
-cmake_dependent_option(fpm_acl "Use POSIX Access Control Lists" OFF "fpm" OFF)
-cmake_dependent_option(fpm_apparmor "Support AppArmor confinement through libapparmor" OFF "fpm" OFF)
-cmake_dependent_option(fpm_selinux "Support SELinux policy library" OFF "fpm" OFF)
+cmake_dependent_option(SAPI_FPM_USER "Set the user for php-fpm to run as. (default: nobody)" "nobody" "SAPI_FPM" "")
+cmake_dependent_option(SAPI_FPM_GROUP "Set the group for php-fpm to run as. For a system user, this should
+usually be set to match the fpm username (default: nobody)" "nobody" "SAPI_FPM" "")
+cmake_dependent_option(SAPI_FPM_SYSTEMD "Whether to activate systemd integration" OFF "SAPI_FPM" OFF)
+cmake_dependent_option(SAPI_FPM_ACL "Use POSIX Access Control Lists" OFF "SAPI_FPM" OFF)
+cmake_dependent_option(SAPI_FPM_APPARMOR "Support AppArmor confinement through libapparmor" OFF "SAPI_FPM" OFF)
+cmake_dependent_option(SAPI_FPM_SELINUX "Support SELinux policy library" OFF "SAPI_FPM" OFF)
 
-if(NOT fpm)
+if(NOT SAPI_FPM)
   return()
 endif()

@@ -29,10 +29,10 @@ add_library(ext_hash STATIC
 
 target_include_directories(
   ext_hash
-  PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}
-  PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/murmur"
-  PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/xxhash"
-  PUBLIC "${CMAKE_SOURCE_DIR}"
+  PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}"
+         "${CMAKE_CURRENT_SOURCE_DIR}/murmur"
+         "${CMAKE_CURRENT_SOURCE_DIR}/xxhash"
+         "${CMAKE_SOURCE_DIR}"
 )
 
 if(CMAKE_C_BYTE_ORDER STREQUAL "LITTLE_ENDIAN")
@@ -59,9 +59,9 @@ if(CMAKE_C_BYTE_ORDER STREQUAL "LITTLE_ENDIAN")
 
   target_compile_definitions(ext_hash
     PRIVATE KeccakP200_excluded
-    PRIVATE KeccakP400_excluded
-    PRIVATE KeccakP800_excluded
-    PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE=1
+            KeccakP400_excluded
+            KeccakP800_excluded
+            ZEND_ENABLE_STATIC_TSRMLS_CACHE=1
   )
 else()
   set(HAVE_SLOW_HASH3 1 CACHE INTERNAL "Define if hash3 algo is available")

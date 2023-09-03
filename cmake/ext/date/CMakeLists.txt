@@ -25,15 +25,19 @@ add_library(ext_date STATIC
 )
 
 target_include_directories(ext_date
-  PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}
-  PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/lib
+  PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}"
+         "${CMAKE_CURRENT_SOURCE_DIR}/lib"
 )
 
 target_compile_options(ext_date PRIVATE
   -Wno-implicit-fallthrough
 )
 
-target_compile_definitions(ext_date PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE=1)
+target_compile_definitions(ext_date
+  PRIVATE
+    ZEND_ENABLE_STATIC_TSRMLS_CACHE=1
+    HAVE_TIMELIB_CONFIG_H=1
+)
 
 set_target_properties(ext_date PROPERTIES PUBLIC_HEADER "php_date.h;lib/timelib.h;lib/timelib_config.h")
 

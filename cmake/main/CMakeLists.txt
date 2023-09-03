@@ -39,13 +39,13 @@ add_library(main STATIC
 target_include_directories(
   main
   PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}
-  PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/streams"
-  PUBLIC "${CMAKE_SOURCE_DIR}/ext/date"
-  PUBLIC "${CMAKE_SOURCE_DIR}/ext/hash"
-  PUBLIC "${CMAKE_SOURCE_DIR}/ext/pcre"
-  PUBLIC "${CMAKE_SOURCE_DIR}/ext/pcre/pcre2lib"
-  PUBLIC "${CMAKE_SOURCE_DIR}/TSRM"
-  PUBLIC "${CMAKE_SOURCE_DIR}/Zend"
+         "${CMAKE_CURRENT_SOURCE_DIR}/streams"
+         "${CMAKE_SOURCE_DIR}/ext/date"
+         "${CMAKE_SOURCE_DIR}/ext/hash"
+         "${CMAKE_SOURCE_DIR}/ext/pcre"
+         "${CMAKE_SOURCE_DIR}/ext/pcre/pcre2lib"
+         "${CMAKE_SOURCE_DIR}/TSRM"
+         "${CMAKE_SOURCE_DIR}/Zend"
 )
 
 target_compile_definitions(main PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE=1)

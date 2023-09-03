@@ -25,9 +25,9 @@ check_c_source_compiles("
 " HAVE_SEMUN)
 
 if(HAVE_SEMUN)
-  set(HAVE_SEMUN 1 CACHE INTERNAL "Whether union semun is supported")
+  set(HAVE_SEMUN 1 CACHE INTERNAL "Whether union semun is supported" FORCE)
 else()
-  set(HAVE_SEMUN 0 CACHE INTERNAL "Whether union semun is supported")
+  set(HAVE_SEMUN 0 CACHE INTERNAL "Whether union semun is supported" FORCE)
 endif()
 
 if(EXT_SYSVSEM_SHARED OR BUILD_SHARED_LIBS)

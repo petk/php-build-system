@@ -1,6 +1,6 @@
-option(embed "Whether to use the PHP Embed SAPI module" OFF)
+option(SAPI_EMBED "Whether to use the PHP Embed SAPI module" OFF)
 
-if(NOT embed)
+if(NOT SAPI_EMBED)
   return()
 endif()
 

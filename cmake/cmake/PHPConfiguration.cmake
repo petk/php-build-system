@@ -33,25 +33,25 @@ set(PHP_EXTENSION_DIR "" CACHE STRING "The extension_dir PHP INI directive path"
 #[=============================================================================[
 General options.
 #]=============================================================================]
-option(RE2C_CGOTO "Whether to enable computed goto gcc extension with re2c" OFF)
+option(PHP_RE2C_CGOTO "Whether to enable computed goto gcc extension with re2c" OFF)
 
-option(DEBUG "Whether to include debugging symbols" OFF)
+option(PHP_DEBUG "Whether to include debugging symbols" OFF)
 
-option(DEBUG_ASSERTIONS "Whether to enable debug assertions in release mode" OFF)
+option(PHP_DEBUG_ASSERTIONS "Whether to enable debug assertions in release mode" OFF)
 
-option(ZTS "Enable thread safety" OFF)
+option(PHP_ZTS "Enable thread safety" OFF)
 
-option(RTLD_NOW "Whether to dlopen extensions with RTLD_NOW instead of RTLD_LAZY" OFF)
+option(PHP_RTLD_NOW "Whether to dlopen extensions with RTLD_NOW instead of RTLD_LAZY" OFF)
 
-option(SIGCHILD "Whether to enable PHP's own SIGCHLD handler" OFF)
+option(PHP_SIGCHILD "Whether to enable PHP's own SIGCHLD handler" OFF)
 
-option(SHORT_TAGS "Whether to enable the short-form <? start tag by default" ON)
+option(PHP_SHORT_TAGS "Whether to enable the short-form <? start tag by default" ON)
 
-option(IPV6 "Whether to enable IPv6 support" ON)
+option(PHP_IPV6 "Whether to enable IPv6 support" ON)
 
-option(DTRACE "Whether to enable DTrace support" OFF)
+option(PHP_DTRACE "Whether to enable DTrace support" OFF)
 
-set(FD_SETSIZE "" CACHE STRING "Size of descriptor sets")
+set(PHP_FD_SETSIZE "" CACHE STRING "Size of descriptor sets")
 
 option(VALGRIND "Whether to enable the valgring support" OFF)
 
@@ -60,38 +60,32 @@ option(BUILD_SHARED_LIBS "Whether to build all enabled optional PHP extensions a
 #[=============================================================================[
 Zend options
 #]=============================================================================]
-option(GCC_GLOBAL_REGS "Whether to enable GCC global register variables" ON)
+option(ZEND_GCC_GLOBAL_REGS "Whether to enable GCC global register variables" ON)
 
 option(ZEND_SIGNALS "Whether to enable Zend signal handling" ON)
 
-option(ZEND_MAX_EXECUTION_TIMERS "Whether to enable Zend max execution timers" ${ZTS})
+option(ZEND_MAX_EXECUTION_TIMERS "Whether to enable Zend max execution timers" ${PHP_ZTS})
 
-if(DEBUG OR DEBUG_ASSERTIONS)
+if(PHP_DEBUG OR PHP_DEBUG_ASSERTIONS)
   set(ZEND_DEBUG 1)
 else()
   set(ZEND_DEBUG 0)
 endif()
 
-if(ZTS)
+if(PHP_ZTS)
   set(ZTS 1 CACHE BOOL "Whether thread safety is enabled" FORCE)
 endif()
 
-if(RTLD_NOW)
+if(PHP_RTLD_NOW)
   set(PHP_USE_RTLD_NOW 1 CACHE INTERNAL "Use dlopen with RTLD_NOW instead of RTLD_LAZY")
 endif()
 
-if(SIGCHILD)
-  set(PHP_SIGCHILD 1)
-else()
-  set(PHP_SIGCHILD 0)
-endif()
-
-if(SHORT_TAGS)
+if(PHP_SHORT_TAGS)
   set(DEFAULT_SHORT_OPEN_TAG "1")
 else()
   set(DEFAULT_SHORT_OPEN_TAG "0")
 endif()
 
-if(FD_SETSIZE GREATER 0)
-  set(EXTRA_DEFINITIONS ${EXTRA_DEFINITIONS} -DFD_SETSIZE=${FD_SETSIZE})
+if(PHP_FD_SETSIZE GREATER 0)
+  set(EXTRA_DEFINITIONS ${EXTRA_DEFINITIONS} -DPHP_FD_SETSIZE=${PHP_FD_SETSIZE})
 endif()

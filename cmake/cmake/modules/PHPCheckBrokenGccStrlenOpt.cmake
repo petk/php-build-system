@@ -40,7 +40,7 @@ endif()
 if(have_broken_optimize_strlen)
   message(STATUS "Appending -fno-optimize-strlen")
   # TODO: Fix this better.
-  set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -fno-optimize-strlen" CACHE STRING "C Compiler Flags" APPEND)
+  set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -fno-optimize-strlen" CACHE STRING "C Compiler Flags")
 else()
   message(STATUS "no")
 endif()

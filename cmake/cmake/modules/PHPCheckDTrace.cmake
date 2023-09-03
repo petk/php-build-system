@@ -12,7 +12,7 @@ HAVE_DTRACE
 include(CheckIncludeFile)
 
 function(php_check_dtrace)
-  if(NOT DTRACE)
+  if(NOT PHP_DTRACE)
     return()
   endif()
 

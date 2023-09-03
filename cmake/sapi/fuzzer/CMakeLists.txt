@@ -1,5 +1,5 @@
-option(fuzzer "Whether to use the PHP Fuzzer SAPI module" OFF)
+option(SAPI_FUZZER "Whether to use the PHP Fuzzer SAPI module" OFF)
 
-if(NOT fuzzer)
+if(NOT SAPI_FUZZER)
   return()
 endif()

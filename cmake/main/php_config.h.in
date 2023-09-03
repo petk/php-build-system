@@ -1,6 +1,3 @@
-/* main/php_config.h.in.  Generated from configure.ac by autoheader.  */
-
-
 #ifndef PHP_CONFIG_H
 #define PHP_CONFIG_H
 
@@ -13,7 +10,6 @@
 #endif
 
 #define ZEND_DLIMPORT
-
 
 /* Uses cmsgcred struct */
 #cmakedefine ANC_CREDS_CMSGCRED @ANC_CREDS_CMSGCRED@
@@ -337,7 +333,7 @@
 #cmakedefine GDBM_INCLUDE_FILE
 
 /* Define to 1 if `TIOCGWINSZ' requires <sys/ioctl.h>. */
-#cmakedefine GWINSZ_IN_SYS_IOCTL
+#cmakedefine GWINSZ_IN_SYS_IOCTL @GWINSZ_IN_SYS_IOCTL@
 
 /* Whether 3 arg set_rebind_proc() */
 #cmakedefine HAVE_3ARG_SETREBINDPROC
@@ -361,7 +357,7 @@
 #cmakedefine HAVE_ALIGNOF @HAVE_ALIGNOF@
 
 /* Define to 1 if you have 'alloca', as a function or macro. */
-#cmakedefine HAVE_ALLOCA
+#cmakedefine HAVE_ALLOCA @HAVE_ALLOCA@
 
 /* Define to 1 if <alloca.h> works. */
 #cmakedefine HAVE_ALLOCA_H @HAVE_ALLOCA_H@
@@ -588,7 +584,7 @@
 #cmakedefine HAVE_FCNTL_H @HAVE_FCNTL_H@
 
 /* Define to 1 if you have the `fdatasync' function. */
-#cmakedefine @HAVE_FDATASYNC@
+#cmakedefine HAVE_FDATASYNC @HAVE_FDATASYNC@
 
 /* Have ffi support */
 #cmakedefine HAVE_FFI @HAVE_FFI@
@@ -654,19 +650,19 @@
 #cmakedefine HAVE_FTP_SSL @HAVE_FTP_SSL@
 
 /* Define to 1 if the system has the `ifunc' function attribute */
-#cmakedefine HAVE_FUNC_ATTRIBUTE_IFUNC
+#cmakedefine HAVE_FUNC_ATTRIBUTE_IFUNC @HAVE_FUNC_ATTRIBUTE_IFUNC@
 
 /* Define to 1 if the system has the `target' function attribute */
-#cmakedefine HAVE_FUNC_ATTRIBUTE_TARGET
+#cmakedefine HAVE_FUNC_ATTRIBUTE_TARGET @HAVE_FUNC_ATTRIBUTE_TARGET@
 
 /* Define to 1 if you have the three-argument form of gethostbyname_r(). */
-#cmakedefine HAVE_FUNC_GETHOSTBYNAME_R_3
+#cmakedefine HAVE_FUNC_GETHOSTBYNAME_R_3 @HAVE_FUNC_GETHOSTBYNAME_R_3@
 
 /* Define to 1 if you have the five-argument form of gethostbyname_r(). */
-#cmakedefine HAVE_FUNC_GETHOSTBYNAME_R_5
+#cmakedefine HAVE_FUNC_GETHOSTBYNAME_R_5 @HAVE_FUNC_GETHOSTBYNAME_R_5@
 
 /* Define to 1 if you have the six-argument form of gethostbyname_r(). */
-#cmakedefine HAVE_FUNC_GETHOSTBYNAME_R_6
+#cmakedefine HAVE_FUNC_GETHOSTBYNAME_R_6 @HAVE_FUNC_GETHOSTBYNAME_R_6@
 
 /* Define to 1 if you have the `funopen' function. */
 #cmakedefine HAVE_FUNOPEN @HAVE_FUNOPEN@
@@ -729,13 +725,13 @@
 #cmakedefine HAVE_GETGROUPS @HAVE_GETGROUPS@
 
 /* */
-#cmakedefine HAVE_GETHOSTBYADDR
+#cmakedefine HAVE_GETHOSTBYADDR @HAVE_GETHOSTBYADDR@
 
 /* Define to 1 if you have some form of gethostbyname_r(). */
-#cmakedefine HAVE_GETHOSTBYNAME_R
+#cmakedefine HAVE_GETHOSTBYNAME_R @HAVE_GETHOSTBYNAME_R@
 
 /* */
-#cmakedefine HAVE_GETHOSTNAME
+#cmakedefine HAVE_GETHOSTNAME @HAVE_GETHOSTNAME@
 
 /* whether getifaddrs is present and usable */
 #cmakedefine HAVE_GETIFADDRS @HAVE_GETIFADDRS@
@@ -747,7 +743,7 @@
 #cmakedefine HAVE_GETLOGIN @HAVE_GETLOGIN@
 
 /* Define to 1 if you have the `getopt' function. */
-#cmakedefine HAVE_GETOPT
+#cmakedefine HAVE_GETOPT @HAVE_GETOPT@
 
 /* Define to 1 if you have the `getpgid' function. */
 #cmakedefine HAVE_GETPGID @HAVE_GETPGID@
@@ -815,9 +811,6 @@
 /* Define to 1 if you have the `hstrerror' function. */
 #cmakedefine HAVE_HSTRERROR @HAVE_HSTRERROR@
 
-/* */
-#cmakedefine HAVE_HTONL
-
 /* Define to enable copying PHP CODE pages into HUGE PAGES (experimental) */
 #cmakedefine HAVE_HUGE_CODE_PAGES @HAVE_HUGE_CODE_PAGES@
 
@@ -867,7 +860,7 @@
 #cmakedefine HAVE_IMMINTRIN_H @HAVE_IMMINTRIN_H@
 
 /* */
-#cmakedefine HAVE_INET_ATON
+#cmakedefine HAVE_INET_ATON @HAVE_INET_ATON@
 
 /* Define to 1 if you have the `inet_ntoa' function. */
 #cmakedefine HAVE_INET_NTOA @HAVE_INET_NTOA@
@@ -881,11 +874,8 @@
 /* Define to 1 if you have the `initgroups' function. */
 #cmakedefine HAVE_INITGROUPS @HAVE_INITGROUPS@
 
-/* Whether intmax_t is available */
-#cmakedefine HAVE_INTMAX_T
-
 /* Define to 1 if you have the <inttypes.h> header file. */
-#cmakedefine HAVE_INTTYPES_H
+#cmakedefine HAVE_INTTYPES_H @HAVE_INTTYPES_H@
 
 /* */
 #cmakedefine HAVE_IODBC
@@ -995,9 +985,6 @@
 /* */
 #cmakedefine HAVE_LIBJPEG @HAVE_LIBJPEG@
 
-/* Define to 1 if you have the `m' library (-lm). */
-#cmakedefine HAVE_LIBM
-
 /* Whether you have libmm */
 #cmakedefine HAVE_LIBMM @HAVE_LIBMM@
 
@@ -1027,9 +1014,6 @@
 
 /* */
 #cmakedefine HAVE_LIBROOT
-
-/* */
-#cmakedefine HAVE_LIBRT
 
 /* */
 #cmakedefine HAVE_LIBSOCKET
@@ -1186,7 +1170,7 @@
 #cmakedefine HAVE_ODBC_H
 
 /* */
-#cmakedefine HAVE_OPENPTY
+#cmakedefine HAVE_OPENPTY @HAVE_OPENPTY@
 
 /* Define to 1 if you have the <openssl/crypto.h> header file. */
 #cmakedefine HAVE_OPENSSL_CRYPTO_H @HAVE_OPENSSL_CRYPTO_H@
@@ -1231,7 +1215,7 @@
 #cmakedefine HAVE_PG_LO64
 
 /* */
-#cmakedefine HAVE_PHPDBG
+#cmakedefine HAVE_PHPDBG @HAVE_PHPDBG@
 
 /* */
 #cmakedefine HAVE_PHPDBG_READLINE
@@ -1297,7 +1281,7 @@
 #cmakedefine HAVE_PTRACE
 
 /* Whether ptrdiff_t is available */
-#cmakedefine HAVE_PTRDIFF_T
+#cmakedefine HAVE_PTRDIFF_T @HAVE_PTRDIFF_T@
 
 /* Define to 1 if you have the <pty.h> header file. */
 #cmakedefine HAVE_PTY_H @HAVE_PTY_H@
@@ -1360,7 +1344,7 @@
 #cmakedefine HAVE_SELINUX_SELINUX_H
 
 /* */
-#cmakedefine HAVE_SEMUN @HAVE_SEMUN@
+#cmakedefine01 HAVE_SEMUN
 
 /* Define to 1 if you have the `setegid' function. */
 #cmakedefine HAVE_SETEGID @HAVE_SETEGID@
@@ -1465,16 +1449,16 @@
 #cmakedefine HAVE_SOCKATMARK @HAVE_SOCKATMARK@
 
 /* */
-#cmakedefine HAVE_SOCKET
+#cmakedefine HAVE_SOCKET @HAVE_SOCKET@
 
 /* */
-#cmakedefine HAVE_SOCKETPAIR
+#cmakedefine HAVE_SOCKETPAIR @HAVE_SOCKETPAIR@
 
 /* */
 #cmakedefine HAVE_SOCKETS @HAVE_SOCKETS@
 
 /* Define to 1 if the system has the type `socklen_t'. */
-#cmakedefine HAVE_SOCKLEN_T
+#cmakedefine HAVE_SOCKLEN_T @HAVE_SOCKLEN_T@
 
 /* */
 #cmakedefine HAVE_SOLID
@@ -1521,9 +1505,6 @@
 /* */
 #cmakedefine HAVE_SQL_H
 
-/* Whether ssize_t is available */
-#cmakedefine HAVE_SSIZE_T
-
 /* Define to 1 if you have the `statfs' function. */
 #cmakedefine HAVE_STATFS @HAVE_STATFS@
 
@@ -1532,12 +1513,6 @@
 
 /* Define to 1 if you have the <stdint.h> header file. */
 #cmakedefine HAVE_STDINT_H @HAVE_STDINT_H@
-
-/* Define to 1 if you have the <stdio.h> header file. */
-#cmakedefine HAVE_STDIO_H
-
-/* Define to 1 if you have the <stdlib.h> header file. */
-#cmakedefine HAVE_STDLIB_H
 
 /* Define to 1 if you have the `std_syslog' function. */
 #cmakedefine HAVE_STD_SYSLOG @HAVE_STD_SYSLOG@
@@ -1552,7 +1527,7 @@
 #cmakedefine HAVE_STRINGS_H @HAVE_STRINGS_H@
 
 /* Define to 1 if you have the <string.h> header file. */
-#cmakedefine HAVE_STRING_H
+#cmakedefine HAVE_STRING_H @HAVE_STRING_H@
 
 /* Define to 1 if you have the `strlcat' function. */
 #cmakedefine HAVE_STRLCAT @HAVE_STRLCAT@
@@ -1582,23 +1557,19 @@
 #cmakedefine HAVE_STRUCT_FLOCK @HAVE_STRUCT_FLOCK@
 
 /* Define to 1 if `st_blksize' is a member of `struct stat'. */
-#cmakedefine HAVE_STRUCT_STAT_ST_BLKSIZE
+#cmakedefine HAVE_STRUCT_STAT_ST_BLKSIZE @HAVE_STRUCT_STAT_ST_BLKSIZE@
 
 /* Define to 1 if `st_blocks' is a member of `struct stat'. */
-#cmakedefine HAVE_STRUCT_STAT_ST_BLOCKS
+#cmakedefine HAVE_STRUCT_STAT_ST_BLOCKS @HAVE_STRUCT_STAT_ST_BLOCKS@
 
 /* Define to 1 if `st_rdev' is a member of `struct stat'. */
-#cmakedefine HAVE_STRUCT_STAT_ST_RDEV
+#cmakedefine HAVE_STRUCT_STAT_ST_RDEV @HAVE_STRUCT_STAT_ST_RDEV@
 
 /* Define to 1 if `tm_gmtoff' is a member of `struct tm'. */
-#cmakedefine HAVE_STRUCT_TM_TM_GMTOFF
+#cmakedefine HAVE_STRUCT_TM_TM_GMTOFF @HAVE_STRUCT_TM_TM_GMTOFF@
 
 /* Define to 1 if `tm_zone' is a member of `struct tm'. */
-#cmakedefine HAVE_STRUCT_TM_TM_ZONE
-
-/* Define to 1 if your `struct stat' has `st_blocks'. Deprecated, use
-   `HAVE_STRUCT_STAT_ST_BLOCKS' instead. */
-#cmakedefine HAVE_ST_BLOCKS
+#cmakedefine HAVE_STRUCT_TM_TM_ZONE @HAVE_STRUCT_TM_TM_ZONE@
 
 /* Define to 1 if you have the `symlink' function. */
 #cmakedefine HAVE_SYMLINK @HAVE_SYMLINK@
@@ -1747,10 +1718,6 @@
 /* Define to 1 if you have the <tmmintrin.h> header file. */
 #cmakedefine HAVE_TMMINTRIN_H @HAVE_TMMINTRIN_H@
 
-/* Define to 1 if your `struct tm' has `tm_zone'. Deprecated, use
-   `HAVE_STRUCT_TM_TM_ZONE' instead. */
-#cmakedefine HAVE_TM_ZONE
-
 /* Whether you have a working ttyname_r */
 #cmakedefine HAVE_TTYNAME_R @HAVE_TTYNAME_R@
 
@@ -1784,7 +1751,7 @@
 
 /* Whether faulting on write-protected memory support can be compiled for
    userfaultfd */
-#cmakedefine HAVE_USERFAULTFD_WRITEFAULT
+#cmakedefine HAVE_USERFAULTFD_WRITEFAULT @HAVE_USERFAULTFD_WRITEFAULT@
 
 /* Define to 1 if you have the `usleep' function. */
 #cmakedefine HAVE_USLEEP @HAVE_USLEEP@
@@ -1817,7 +1784,7 @@
 #cmakedefine HAVE_WAITPID @HAVE_WAITPID@
 
 /* Define to 1 if you have the <wchar.h> header file. */
-#cmakedefine HAVE_WCHAR_H
+#cmakedefine HAVE_WCHAR_H @HAVE_WCHAR_H@
 
 /* Define to 1 if you have the <wmmintrin.h> header file. */
 #cmakedefine HAVE_WMMINTRIN_H @HAVE_WMMINTRIN_H@
@@ -1898,7 +1865,7 @@
 #cmakedefine NDBM_INCLUDE_FILE
 
 /* The highest supported ODBC version */
-#cmakedefine ODBCVER
+#cmakedefine ODBCVER @ODBCVER@
 
 /* Define to the address where bug reports for this package should be sent. */
 #cmakedefine PACKAGE_BUGREPORT
@@ -1931,7 +1898,7 @@
 #cmakedefine PHAR_HAVE_OPENSSL @PHAR_HAVE_OPENSSL@
 
 /* */
-#cmakedefine PHPDBG_DEBUG
+#cmakedefine01 PHPDBG_DEBUG
 
 /* build architecture */
 #cmakedefine PHP_BUILD_ARCH "@PHP_BUILD_ARCH@"
@@ -2118,7 +2085,7 @@
 /* Define to 1 if all of the C90 standard headers exist (not just the ones
    required in a freestanding environment). This macro is provided for
    backward compatibility; new code need not use it. */
-#cmakedefine STDC_HEADERS
+#cmakedefine STDC_HEADERS @STDC_HEADERS@
 
 /* Define to 1 if strerror_r returns char *. */
 #cmakedefine STRERROR_R_CHAR_P @STRERROR_R_CHAR_P@
@@ -2140,15 +2107,15 @@
 
 /* Enable extensions on AIX 3, Interix.  */
 #ifndef _ALL_SOURCE
-# undef _ALL_SOURCE
+# cmakedefine _ALL_SOURCE @_ALL_SOURCE@
 #endif
 /* Enable general extensions on macOS.  */
 #ifndef _DARWIN_C_SOURCE
-# undef _DARWIN_C_SOURCE
+# cmakedefine _DARWIN_C_SOURCE @_DARWIN_C_SOURCE@
 #endif
 /* Enable general extensions on Solaris.  */
 #ifndef __EXTENSIONS__
-# undef __EXTENSIONS__
+# cmakedefine __EXTENSIONS__ @__EXTENSIONS__@
 #endif
 /* Enable GNU extensions on systems that have them.  */
 #ifndef _GNU_SOURCE
@@ -2157,67 +2124,67 @@
 /* Enable X/Open compliant socket functions that do not require linking
    with -lxnet on HP-UX 11.11.  */
 #ifndef _HPUX_ALT_XOPEN_SOCKET_API
-# undef _HPUX_ALT_XOPEN_SOCKET_API
+# cmakedefine _HPUX_ALT_XOPEN_SOCKET_API @_HPUX_ALT_XOPEN_SOCKET_API@
 #endif
 /* Identify the host operating system as Minix.
    This macro does not affect the system headers' behavior.
    A future release of Autoconf may stop defining this macro.  */
 #ifndef _MINIX
-# undef _MINIX
+# cmakedefine _MINIX @_MINIX@
 #endif
 /* Enable general extensions on NetBSD.
    Enable NetBSD compatibility extensions on Minix.  */
 #ifndef _NETBSD_SOURCE
-# undef _NETBSD_SOURCE
+# cmakedefine _NETBSD_SOURCE @_NETBSD_SOURCE@
 #endif
 /* Enable OpenBSD compatibility extensions on NetBSD.
    Oddly enough, this does nothing on OpenBSD.  */
 #ifndef _OPENBSD_SOURCE
-# undef _OPENBSD_SOURCE
+# cmakedefine _OPENBSD_SOURCE @_OPENBSD_SOURCE@
 #endif
 /* Define to 1 if needed for POSIX-compatible behavior.  */
 #ifndef _POSIX_SOURCE
-# undef _POSIX_SOURCE
+# cmakedefine _POSIX_SOURCE @_POSIX_SOURCE@
 #endif
 /* Define to 2 if needed for POSIX-compatible behavior.  */
 #ifndef _POSIX_1_SOURCE
-# undef _POSIX_1_SOURCE
+# cmakedefine _POSIX_1_SOURCE @_POSIX_1_SOURCE@
 #endif
 /* Enable POSIX-compatible threading on Solaris.  */
 #ifndef _POSIX_PTHREAD_SEMANTICS
-# undef _POSIX_PTHREAD_SEMANTICS
+# cmakedefine _POSIX_PTHREAD_SEMANTICS @_POSIX_PTHREAD_SEMANTICS@
 #endif
 /* Enable extensions specified by ISO/IEC TS 18661-5:2014.  */
 #ifndef __STDC_WANT_IEC_60559_ATTRIBS_EXT__
-# undef __STDC_WANT_IEC_60559_ATTRIBS_EXT__
+# cmakedefine __STDC_WANT_IEC_60559_ATTRIBS_EXT__ @__STDC_WANT_IEC_60559_ATTRIBS_EXT__@
 #endif
 /* Enable extensions specified by ISO/IEC TS 18661-1:2014.  */
 #ifndef __STDC_WANT_IEC_60559_BFP_EXT__
-# undef __STDC_WANT_IEC_60559_BFP_EXT__
+# cmakedefine __STDC_WANT_IEC_60559_BFP_EXT__ @__STDC_WANT_IEC_60559_BFP_EXT__@
 #endif
 /* Enable extensions specified by ISO/IEC TS 18661-2:2015.  */
 #ifndef __STDC_WANT_IEC_60559_DFP_EXT__
-# undef __STDC_WANT_IEC_60559_DFP_EXT__
+# cmakedefine __STDC_WANT_IEC_60559_DFP_EXT__ @__STDC_WANT_IEC_60559_DFP_EXT__@
 #endif
 /* Enable extensions specified by ISO/IEC TS 18661-4:2015.  */
 #ifndef __STDC_WANT_IEC_60559_FUNCS_EXT__
-# undef __STDC_WANT_IEC_60559_FUNCS_EXT__
+# cmakedefine __STDC_WANT_IEC_60559_FUNCS_EXT__ @__STDC_WANT_IEC_60559_FUNCS_EXT__@
 #endif
 /* Enable extensions specified by ISO/IEC TS 18661-3:2015.  */
 #ifndef __STDC_WANT_IEC_60559_TYPES_EXT__
-# undef __STDC_WANT_IEC_60559_TYPES_EXT__
+# cmakedefine __STDC_WANT_IEC_60559_TYPES_EXT__ @__STDC_WANT_IEC_60559_TYPES_EXT__@
 #endif
 /* Enable extensions specified by ISO/IEC TR 24731-2:2010.  */
 #ifndef __STDC_WANT_LIB_EXT2__
-# undef __STDC_WANT_LIB_EXT2__
+# cmakedefine __STDC_WANT_LIB_EXT2__ @__STDC_WANT_LIB_EXT2__@
 #endif
 /* Enable extensions specified by ISO/IEC 24747:2009.  */
 #ifndef __STDC_WANT_MATH_SPEC_FUNCS__
-# undef __STDC_WANT_MATH_SPEC_FUNCS__
+# cmakedefine __STDC_WANT_MATH_SPEC_FUNCS__ @__STDC_WANT_MATH_SPEC_FUNCS__@
 #endif
 /* Enable extensions on HP NonStop.  */
 #ifndef _TANDEM_SOURCE
-# undef _TANDEM_SOURCE
+# cmakedefine _TANDEM_SOURCE @_TANDEM_SOURCE@
 #endif
 /* Enable X/Open extensions.  Define to 500 only if necessary
    to make mbstate_t available.  */
@@ -2282,7 +2249,6 @@
 
 /* Define to `int' if <sys/types.h> doesn't define. */
 #cmakedefine uid_t
-
 
 #include <stdlib.h>
 

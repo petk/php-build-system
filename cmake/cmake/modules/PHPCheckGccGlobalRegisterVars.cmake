@@ -3,8 +3,6 @@ Checks for global register variables support.
 
 Function: check_gcc_global_register_vars()
 
-Command line option: -DGCC_GLOBAL_REGS
-
 Sets the following variables:
 ``HAVE_GCC_GLOBAL_REGS``
   Set to 1 if the target system has support for global register variables.

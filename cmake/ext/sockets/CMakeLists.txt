@@ -14,7 +14,7 @@ endif()
 
 cmake_push_check_state()
   set(CMAKE_REQUIRED_DEFINITIONS "${CMAKE_REQUIRED_DEFINITIONS} -D_GNU_SOURCE")
-  check_symbol_exists(hstrerror "sys/socket.h" HAVE_HSTRERROR)
+  check_symbol_exists(hstrerror "netdb.h;sys/socket.h" HAVE_HSTRERROR)
 cmake_pop_check_state()
 
 check_symbol_exists(if_nametoindex "net/if.h" HAVE_IF_NAMETOINDEX)

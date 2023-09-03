@@ -53,7 +53,7 @@
         "EXT_ZIP": true,
         "EXT_ZLIB": true,
 
-        "litespeed": true
+        "SAPI_LITESPEED": true
       }
     },
     {
@@ -76,6 +76,23 @@
     {
       "name": "ninja",
       "configurePreset": "ninja"
+    }
+  ],
+  "testPresets": [
+    {
+      "name": "default",
+      "configurePreset": "default",
+      "output": {"verbosity": "verbose"}
+    },
+    {
+      "name": "unix-full",
+      "configurePreset": "unix-full",
+      "output": {"verbosity": "verbose"}
+    },
+    {
+      "name": "ninja",
+      "configurePreset": "ninja",
+      "output": {"verbosity": "verbose"}
     }
   ]
 }

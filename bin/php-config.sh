@@ -15,6 +15,21 @@ patterns="
 #undef\sPTHREADS
 #undef\sHAVE_LIBATOMIC
 #undef\sHAVE___ATOMIC_EXCHANGE_1
+#undef\sHAVE_LIBM
+#undef\sHAVE_LIBRT
+#undef\sHAVE_HTONL
+#undef\sHAVE_INTMAX_T
+#undef\sHAVE_SSIZE_T
+#undef\sHAVE_STDIO_H
+#undef\sHAVE_STDLIB_H
+#undef\sHAVE_DECL_STRERROR_R
+"
+
+# Similar to the above patters except the two lines above and one after the
+# pattern will be also removed.
+patterns_2="
+#undef\sHAVE_ST_BLOCKS
+#undef\sHAVE_TM_ZONE
 "
 
 # Go to project root.
@@ -73,10 +88,21 @@ cp php-src/main/$filename $filename
 # Remove patterns with one line above and one line below them.
 for pattern in $patterns; do
   echo "Removing pattern $pattern"
-  line=$(sed -n "/$pattern/=" "$filename")
+  line=$(sed -n "/$pattern$/=" "$filename")
   previous_line=$((line - 1))
   next_line=$((line + 1))
   lines="${previous_line}d;${line}d;${next_line}d"
+  sed -i "${lines}" "$filename"
+done
+
+# Remove patterns with two lines above and one line below them.
+for pattern in $patterns_2; do
+  echo "Removing pattern $pattern"
+  line=$(sed -n "/$pattern$/=" "$filename")
+  previous_line_1=$((line - 1))
+  previous_line_2=$((line - 2))
+  next_line=$((line + 1))
+  lines="${previous_line_2}d;${previous_line_1}d;${line}d;${next_line}d"
   sed -i "${lines}" "$filename"
 done
 

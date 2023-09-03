@@ -1,9 +1,9 @@
 include(CheckCSourceCompiles)
 include(CheckIncludeFile)
 
-option(cli "Whether to use the PHP CLI SAPI module" ON)
+option(SAPI_CLI "Whether to use the PHP CLI SAPI module" ON)
 
-if(NOT cli)
+if(NOT SAPI_CLI)
   return()
 endif()
 

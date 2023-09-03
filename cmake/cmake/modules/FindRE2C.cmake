@@ -47,7 +47,7 @@ find_package_handle_standard_args(
 )
 
 # Check for re2c -g flag.
-if(RE2C_CGOTO)
+if(PHP_RE2C_CGOTO)
   message(STATUS "Checking whether re2c -g works")
   check_c_source_compiles("
     int main(int argc, const char **argv) {

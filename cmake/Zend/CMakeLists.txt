@@ -11,16 +11,26 @@ check_include_file(cpuid.h HAVE_CPUID_H)
 check_symbol_exists(getpid "unistd.h" HAVE_GETPID)
 check_symbol_exists(kill "signal.h" HAVE_KILL)
 check_symbol_exists(sigsetjmp "setjmp.h" HAVE_SIGSETJMP)
+
 cmake_push_check_state()
   set(CMAKE_REQUIRED_DEFINITIONS "${CMAKE_REQUIRED_DEFINITIONS} -D_GNU_SOURCE")
   check_symbol_exists(pthread_getattr_np "pthread.h" HAVE_PTHREAD_GETATTR_NP)
 cmake_pop_check_state()
+
 check_symbol_exists(pthread_attr_get_np "pthread.h" HAVE_PTHREAD_ATTR_GET_NP)
 check_symbol_exists(pthread_get_stackaddr_np "pthread.h" HAVE_PTHREAD_GET_STACKADDR_NP)
 check_symbol_exists(pthread_attr_getstack "pthread.h" HAVE_PTHREAD_ATTR_GETSTACK)
 check_symbol_exists(pthread_stackseg_np "pthread.h" HAVE_PTHREAD_STACKSEG_NP)
-check_symbol_exists(gettid "unistd.h" HAVE_GETTID)
-check_symbol_exists(mremap "sys/mman.h" HAVE_MREMAP)
+
+cmake_push_check_state()
+  set(CMAKE_REQUIRED_DEFINITIONS "${CMAKE_REQUIRED_DEFINITIONS} -D_GNU_SOURCE")
+  check_symbol_exists(gettid "unistd.h" HAVE_GETTID)
+cmake_pop_check_state()
+
+cmake_push_check_state()
+  set(CMAKE_REQUIRED_DEFINITIONS "${CMAKE_REQUIRED_DEFINITIONS} -D_GNU_SOURCE")
+  check_symbol_exists(mremap "sys/mman.h" HAVE_MREMAP)
+cmake_pop_check_state()
 
 message(STATUS "Checking whether __cpuid_count is available")
 check_c_source_compiles("
@@ -52,7 +62,7 @@ endif()
 include(PHPCheckMMAlignment)
 
 # Check for global register variables.
-if(GCC_GLOBAL_REGS)
+if(ZEND_GCC_GLOBAL_REGS)
   include(PHPCheckGccGlobalRegisterVars)
 endif()
 
@@ -85,6 +95,7 @@ add_custom_target(
   patch_zend_language_parser_files
   COMMAND ${CMAKE_COMMAND} -P "${CMAKE_SOURCE_DIR}/cmake/modules/Zend/patch_zend_language_parser_file.cmake"
   DEPENDS ${BISON_ZendLanguageParser_OUTPUTS}
+  COMMENT "Patching Zend language parser files"
 )
 
 re2c_target(
@@ -199,7 +210,7 @@ target_compile_definitions(Zend PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE=1)
 # Check for fibers support.
 include(PHPCheckFibers)
 
-if(FIBER_ASM)
+if(ZEND_FIBER_ASM)
   add_library(ZendAsm STATIC
     "asm/make_${fiber_asm_file}.S"
     "asm/jump_${fiber_asm_file}.S"
@@ -269,7 +280,7 @@ endif()
 
 # TODO: zend_config.h (or its parent php_config.h) isn't included in some zend_*
 # files, therefore we need to add compilation definitions also like this here.
-if(ZTS)
+if(PHP_ZTS)
   target_compile_definitions(Zend PRIVATE ZTS)
 endif()
 

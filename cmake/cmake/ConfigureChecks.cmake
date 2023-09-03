@@ -6,6 +6,7 @@ Project-wide configuration checks.
 include(CheckIncludeFile)
 include(CheckIncludeFiles)
 include(CheckLibraryExists)
+include(CheckStructHasMember)
 include(CheckSymbolExists)
 include(CheckTypeSize)
 include(CMakePushCheckState)
@@ -82,6 +83,12 @@ check_include_file(nmmintrin.h HAVE_NMMINTRIN_H)
 check_include_file(wmmintrin.h HAVE_WMMINTRIN_H)
 check_include_file(immintrin.h HAVE_IMMINTRIN_H)
 
+check_struct_has_member("struct tm" tm_gmtoff time.h HAVE_STRUCT_TM_TM_GMTOFF)
+check_struct_has_member("struct tm" tm_zone time.h HAVE_STRUCT_TM_TM_ZONE)
+check_struct_has_member("struct stat" st_blksize sys/stat.h HAVE_STRUCT_STAT_ST_BLKSIZE)
+check_struct_has_member("struct stat" st_blocks sys/stat.h HAVE_STRUCT_STAT_ST_BLOCKS)
+check_struct_has_member("struct stat" st_rdev sys/stat.h HAVE_STRUCT_STAT_ST_RDEV)
+
 # Check for missing declarations of reentrant functions.
 include(PHPCheckMissingTimeR)
 
@@ -135,6 +142,16 @@ check_type_size("off_t" SIZEOF_OFF_T)
 if(NOT SIZEOF_OFF_T)
   message(FATAL_ERROR "Cannot determine size of off_t.")
 endif()
+
+cmake_push_check_state()
+  if(HAVE_SYS_SOCKET_H)
+    set(CMAKE_EXTRA_INCLUDE_FILES sys/socket.h)
+  endif()
+  check_type_size("socklen_t" SIZEOF_SOCKLEN_T)
+  if(HAVE_SIZEOF_SOCKLEN_T)
+    set(HAVE_SOCKLEN_T 1 CACHE INTERNAL "Define to 1 if the system has the type `socklen_t'.")
+  endif()
+cmake_pop_check_state()
 
 # Check fopencookie.
 include(PHPCheckFopencookie)
@@ -241,7 +258,7 @@ check_symbol_exists(ftok "sys/ipc.h" HAVE_FTOK)
 check_symbol_exists(funopen "stdio.h" HAVE_FUNOPEN)
 check_symbol_exists(gai_strerror "netdb.h" HAVE_GAI_STRERROR)
 check_symbol_exists(getcwd "unistd.h" HAVE_GETCWD)
-check_symbol_exists(getloadavg "unistd.h" HAVE_GETLOADAVG)
+check_symbol_exists(getloadavg "stdlib.h" HAVE_GETLOADAVG)
 check_symbol_exists(getlogin "unistd.h" HAVE_GETLOGIN)
 check_symbol_exists(getprotobyname "netdb.h" HAVE_GETPROTOBYNAME)
 check_symbol_exists(getprotobynumber "netdb.h" HAVE_GETPROTOBYNUMBER)
@@ -291,11 +308,28 @@ check_symbol_exists(tzset "time.h" HAVE_TZSET)
 check_symbol_exists(unsetenv "stdlib.h" HAVE_UNSETENV)
 check_symbol_exists(usleep "unistd.h" HAVE_USLEEP)
 check_symbol_exists(utime "utime.h" HAVE_UTIME)
-check_symbol_exists(vasprintf "stdio.h" HAVE_VASPRINTF)
-check_symbol_exists(asprintf "stdio.h" HAVE_ASPRINTF)
+
+cmake_push_check_state()
+  set(CMAKE_REQUIRED_DEFINITIONS "${CMAKE_REQUIRED_DEFINITIONS} -D_GNU_SOURCE")
+  check_symbol_exists(vasprintf "stdio.h" HAVE_VASPRINTF)
+cmake_pop_check_state()
+
+cmake_push_check_state()
+  set(CMAKE_REQUIRED_DEFINITIONS "${CMAKE_REQUIRED_DEFINITIONS} -D_GNU_SOURCE")
+  check_symbol_exists(asprintf "stdio.h" HAVE_ASPRINTF)
+cmake_pop_check_state()
+
 check_symbol_exists(nanosleep "time.h" HAVE_NANOSLEEP)
-check_symbol_exists(memmem "string.h" HAVE_MEMMEM)
-check_symbol_exists(memrchr "string.h" HAVE_MEMRCHR)
+
+cmake_push_check_state()
+  set(CMAKE_REQUIRED_DEFINITIONS "${CMAKE_REQUIRED_DEFINITIONS} -D_GNU_SOURCE")
+  check_symbol_exists(memmem "string.h" HAVE_MEMMEM)
+cmake_pop_check_state()
+
+cmake_push_check_state()
+  set(CMAKE_REQUIRED_DEFINITIONS "${CMAKE_REQUIRED_DEFINITIONS} -D_GNU_SOURCE")
+  check_symbol_exists(memrchr "string.h" HAVE_MEMRCHR)
+cmake_pop_check_state()
 
 # Check for strerror_r, and if its a POSIX-compatible or a GNU specific version.
 include(PHPCheckStrerrorR)
@@ -355,7 +389,7 @@ if(${CMAKE_HOST_SYSTEM_PROCESSOR} MATCHES "riscv64.*")
 endif()
 
 # Check for IPv6 support.
-if(IPV6)
+if(PHP_IPV6)
   include(PHPCheckIPv6)
 endif()
 
@@ -366,7 +400,7 @@ include(PHPCheckAarch64CRC32)
 include(PHPCheckDTrace)
 
 # Check POSIX Threads flags.
-if(ZTS)
+if(PHP_ZTS)
   string(TOLOWER "${CMAKE_HOST_SYSTEM}" host_os)
   if(${host_os} MATCHES ".*solaris.*")
     set(EXTRA_DEFINITIONS ${EXTRA_DEFINITIONS} -D_POSIX_PTHREAD_SEMANTICS -D_REENTRANT)
@@ -384,3 +418,153 @@ if(ZTS)
     set(EXTRA_DEFINITIONS ${EXTRA_DEFINITIONS} -D_REENTRANT)
   endif()
 endif()
+
+# TODO: Check if further adjustment are needed here.
+if(HAVE_ALLOCA_H)
+  check_symbol_exists(alloca "alloca.h" HAVE_ALLOCA)
+else()
+  check_symbol_exists(alloca "stdlib.h;malloc.h" HAVE_ALLOCA)
+endif()
+
+check_symbol_exists(socket "sys/socket.h" HAVE_SOCKET)
+if(NOT HAVE_SOCKET)
+  set(LIBRARIES_TO_CHECK socket network)
+
+  foreach(LIBRARY ${LIBRARIES_TO_CHECK})
+    check_library_exists(${LIBRARY} socket "" HAVE_SOCKET)
+
+    if(HAVE_SOCKET)
+      list(APPEND EXTRA_LIBS ${LIBRARY})
+      break()
+    endif()
+  endforeach()
+endif()
+
+check_symbol_exists(socketpair "sys/socket.h" HAVE_SOCKETPAIR)
+if(NOT HAVE_SOCKETPAIR)
+  set(LIBRARIES_TO_CHECK socket network)
+
+  foreach(LIBRARY ${LIBRARIES_TO_CHECK})
+    check_library_exists(${LIBRARY} socket "" HAVE_SOCKETPAIR)
+
+    if(HAVE_SOCKETPAIR)
+      list(APPEND EXTRA_LIBS ${LIBRARY})
+      break()
+    endif()
+  endforeach()
+endif()
+
+check_symbol_exists(gethostname "unistd.h" HAVE_GETHOSTNAME)
+if(NOT HAVE_GETHOSTNAME)
+  set(LIBRARIES_TO_CHECK nsl network)
+
+  foreach(LIBRARY ${LIBRARIES_TO_CHECK})
+    check_library_exists(${LIBRARY} gethostname "" HAVE_GETHOSTNAME)
+
+    if(HAVE_GETHOSTNAME)
+      list(APPEND EXTRA_LIBS ${LIBRARY})
+      break()
+    endif()
+  endforeach()
+endif()
+
+# TODO: Fix this better.
+check_symbol_exists(gethostbyaddr "netdb.h;sys/socket.h" HAVE_GETHOSTBYADDR)
+if(NOT HAVE_GETHOSTBYADDR)
+  set(LIBRARIES_TO_CHECK nsl network)
+
+  foreach(LIBRARY ${LIBRARIES_TO_CHECK})
+    check_library_exists(${LIBRARY} gethostbyaddr "" HAVE_GETHOSTBYADDR)
+
+    if(HAVE_GETHOSTBYADDR)
+      list(APPEND EXTRA_LIBS ${LIBRARY})
+      break()
+    endif()
+  endforeach()
+endif()
+
+check_symbol_exists(openpty "pty.h" HAVE_OPENPTY)
+if(NOT HAVE_OPENPTY)
+  set(LIBRARIES_TO_CHECK util bsd)
+
+  foreach(LIBRARY ${LIBRARIES_TO_CHECK})
+    check_library_exists(${LIBRARY} openpty "" HAVE_OPENPTY)
+
+    if(HAVE_OPENPTY)
+      list(APPEND EXTRA_LIBS ${LIBRARY})
+      break()
+    endif()
+  endforeach()
+endif()
+
+check_symbol_exists(inet_aton "sys/socket.h;netinet/in.h;arpa/inet.h" HAVE_INET_ATON)
+if(NOT HAVE_INET_ATON)
+  set(LIBRARIES_TO_CHECK resolv bind)
+
+  foreach(LIBRARY ${LIBRARIES_TO_CHECK})
+    check_library_exists(${LIBRARY} inet_aton "" HAVE_INET_ATON)
+
+    if(HAVE_INET_ATON)
+      list(APPEND EXTRA_LIBS ${LIBRARY})
+      break()
+    endif()
+  endforeach()
+endif()
+
+# Check target attribute.
+string(TOLOWER "${CMAKE_HOST_SYSTEM}" host_os)
+if(NOT ${host_os} MATCHES ".*android.*|.*uclibc.*|.*musl.*|.*freebsd.*|.*openbsd.*")
+  check_c_source_compiles("
+    static int bar( void ) __attribute__((target(\"sse2\")));
+
+    int main(void) {
+      return 0;
+    }
+  " HAVE_FUNC_ATTRIBUTE_TARGET)
+
+  check_c_source_compiles("
+    int my_foo( void ) { return 0; }
+    static int (*resolve_foo(void))(void) { return my_foo; }
+    int foo( void ) __attribute__((ifunc(\"resolve_foo\")));
+
+    int main(void) {
+      return 0;
+    }
+  " HAVE_FUNC_ATTRIBUTE_IFUNC)
+endif()
+
+include(PHPCheckGethostbynameR)
+
+# wchar.h is always available as part of C99 standard. The libmagic still
+# includes it conditionally.
+set(HAVE_WCHAR_H 1 CACHE INTERNAL "Define to 1 if you have the <wchar.h> header file.")
+
+# string.h is always available as part of C89 standard. The opcache/jit/libudis86
+# bundled forked code still includes it conditionally.
+set(HAVE_STRING_H 1 CACHE INTERNAL "Define to 1 if you have the <string.h> header file.")
+
+# inttypes.h is always available as part of C99 standard. The libmagic still
+# includes it conditionally.
+set(HAVE_INTTYPES_H 1 CACHE INTERNAL "Define to 1 if you have the <inttypes.h> header file.")
+
+# TODO: Fix these properly if really needed.
+set(_TANDEM_SOURCE 1 CACHE INTERNAL "")
+set(__STDC_WANT_MATH_SPEC_FUNCS__ 1 CACHE INTERNAL "")
+set(__STDC_WANT_LIB_EXT2__ 1 CACHE INTERNAL "")
+set(__STDC_WANT_IEC_60559_FUNCS_EXT__ 1 CACHE INTERNAL "")
+set(HAVE_PHPDBG 1 CACHE INTERNAL "")
+set(HAVE_USERFAULTFD_WRITEFAULT 1 CACHE INTERNAL "")
+set(ODBCVER 0x0350 CACHE INTERNAL "")
+set(STDC_HEADERS 1 CACHE INTERNAL "")
+set(_ALL_SOURCE 1 CACHE INTERNAL "")
+set(_DARWIN_C_SOURCE 1 CACHE INTERNAL "")
+set(__EXTENSIONS__ 1 CACHE INTERNAL "")
+set(_GNU_SOURCE 1 CACHE INTERNAL "")
+set(_POSIX_PTHREAD_SEMANTICS 1 CACHE INTERNAL "")
+set(__STDC_WANT_IEC_60559_ATTRIBS_EXT__ 1 CACHE INTERNAL "")
+set(__STDC_WANT_IEC_60559_BFP_EXT__ 1 CACHE INTERNAL "")
+set(__STDC_WANT_IEC_60559_DFP_EXT__ 1 CACHE INTERNAL "")
+set(__STDC_WANT_IEC_60559_TYPES_EXT__ 1 CACHE INTERNAL "")
+set(_OPENBSD_SOURCE 1 CACHE INTERNAL "")
+set(_NETBSD_SOURCE 1 CACHE INTERNAL "")
+set(_HPUX_ALT_XOPEN_SOCKET_API 1 CACHE INTERNAL "")

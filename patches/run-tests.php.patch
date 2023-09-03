@@ -1,5 +1,5 @@
 diff --git a/run-tests.php b/run-tests.php
-index 1bcc6aa7b2..862523781f 100755
+index d6c84c667d..e7604cc69e 100755
 --- a/run-tests.php
 +++ b/run-tests.php
 @@ -885,10 +885,12 @@ function write_information(): void

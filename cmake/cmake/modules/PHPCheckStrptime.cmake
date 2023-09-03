@@ -13,6 +13,7 @@ include(CMakePushCheckState)
 message(STATUS "Checking whether strptime() declaration fails")
 
 cmake_push_check_state()
+  set(CMAKE_REQUIRED_DEFINITIONS "${CMAKE_REQUIRED_DEFINITIONS} -D_GNU_SOURCE")
   if(HAVE_STRPTIME)
     set(CMAKE_REQUIRED_DEFINITIONS "${CMAKE_REQUIRED_DEFINITIONS} -DHAVE_STRPTIME")
   endif()
@@ -26,6 +27,8 @@ cmake_push_check_state()
     /* use invalid strptime() declaration to see if it fails to compile */
     int strptime(const char *s, const char *format, struct tm *tm);
     #endif
+
+    return 0;
   }
   " strptime_decl)
 cmake_pop_check_state()
