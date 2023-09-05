@@ -30,8 +30,8 @@ set(ATOMIC_LIBRARIES "" CACHE INTERNAL "A list of libraries needed to use atomic
 check_c_source_compiles("${_atomic_test}" _have_atomic)
 
 if(NOT _have_atomic)
-  cmake_push_check_state()
-    set(CMAKE_REQUIRED_LIBRARIES "${CMAKE_REQUIRED_LIBRARIES} atomic")
+  cmake_push_check_state(RESET)
+    set(CMAKE_REQUIRED_LIBRARIES atomic)
     check_c_source_compiles("${_atomic_test}" _have_atomic_in_library)
   cmake_pop_check_state()
 endif()

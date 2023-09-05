@@ -37,8 +37,8 @@ find_library(TIDY_LIBRARIES NAMES tidy tidy5)
 # Check for tidybuffio.h (as opposed to simply buffio.h) which indicates that we
 # are building against tidy-html5 and not the legacy htmltidy. The two are
 # compatible, except for with regard to this header file.
-cmake_push_check_state()
-  set(CMAKE_REQUIRED_INCLUDES "${CMAKE_REQUIRED_INCLUDES} ${TIDY_INCLUDE_DIRS}")
+cmake_push_check_state(RESET)
+  set(CMAKE_REQUIRED_INCLUDES ${TIDY_INCLUDE_DIRS})
   check_include_file(tidybuffio.h HAVE_TIDYBUFFIO_H)
   check_include_file(tidy.h HAVE_TIDY_H)
 cmake_pop_check_state()

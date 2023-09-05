@@ -20,8 +20,8 @@ if(NOT HAVE_STRERROR_R)
   return()
 endif()
 
-cmake_push_check_state()
-  set(CMAKE_REQUIRED_DEFINITIONS "${CMAKE_REQUIRED_DEFINITIONS} -D_GNU_SOURCE")
+cmake_push_check_state(RESET)
+  set(CMAKE_REQUIRED_DEFINITIONS -D_GNU_SOURCE)
   check_c_source_compiles("
     #include <string.h>
 

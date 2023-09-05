@@ -42,8 +42,8 @@ if(SHM_OPEN_REQUIRED_LIBRARIES)
 endif()
 
 if(NOT CMAKE_CROSSCOMPILING)
-  cmake_push_check_state()
-    set(CMAKE_REQUIRED_LIBRARIES "${CMAKE_REQUIRED_LIBRARIES} ${SHM_OPEN_REQUIRED_LIBRARIES}")
+  cmake_push_check_state(RESET)
+    set(CMAKE_REQUIRED_LIBRARIES ${SHM_OPEN_REQUIRED_LIBRARIES})
     check_c_source_runs("
       #include <sys/types.h>
       #include <sys/wait.h>

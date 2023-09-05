@@ -35,16 +35,16 @@ check_symbol_exists(wait3 "sys/wait.h" HAVE_WAIT3)
 check_symbol_exists(wait4 "sys/wait.h" HAVE_WAIT4)
 check_symbol_exists(sigwaitinfo "signal.h" HAVE_SIGWAITINFO)
 check_symbol_exists(sigtimedwait "signal.h" HAVE_SIGTIMEDWAIT)
-cmake_push_check_state()
-  set(CMAKE_REQUIRED_DEFINITIONS "${CMAKE_REQUIRED_DEFINITIONS} -D_GNU_SOURCE")
+cmake_push_check_state(RESET)
+  set(CMAKE_REQUIRED_DEFINITIONS -D_GNU_SOURCE)
   check_symbol_exists(unshare "sched.h" HAVE_UNSHARE)
 cmake_pop_check_state()
 check_symbol_exists(rfork "unistd.h" HAVE_RFORK)
 check_symbol_exists(forkx "sys/fork.h" HAVE_FORKX)
 
 message(STATUS "Checking for siginfo_t")
-cmake_push_check_state()
-  set(CMAKE_REQUIRED_DEFINITIONS "${CMAKE_REQUIRED_DEFINITIONS} -D_GNU_SOURCE")
+cmake_push_check_state(RESET)
+  set(CMAKE_REQUIRED_DEFINITIONS -D_GNU_SOURCE)
   check_c_source_compiles("
     #include <signal.h>
 

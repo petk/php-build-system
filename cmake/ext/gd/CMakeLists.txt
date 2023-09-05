@@ -85,8 +85,8 @@ if(NOT EXT_GD_EXTERNAL)
 
   # TODO: Check for fabsf and floorf which are available since C99. Are these
   # checks still needed?
-  cmake_push_check_state()
-    set(CMAKE_REQUIRED_LIBRARIES "${CMAKE_REQUIRED_LIBRARIES} m")
+  cmake_push_check_state(RESET)
+    set(CMAKE_REQUIRED_LIBRARIES m)
     check_symbol_exists(fabsf "math.h" HAVE_FABSF)
     check_symbol_exists(floorf "math.h" HAVE_FLOORF)
   cmake_pop_check_state()

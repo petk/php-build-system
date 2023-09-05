@@ -12,8 +12,8 @@ if(NOT EXT_SOCKETS)
   return()
 endif()
 
-cmake_push_check_state()
-  set(CMAKE_REQUIRED_DEFINITIONS "${CMAKE_REQUIRED_DEFINITIONS} -D_GNU_SOURCE")
+cmake_push_check_state(RESET)
+  set(CMAKE_REQUIRED_DEFINITIONS -D_GNU_SOURCE)
   check_symbol_exists(hstrerror "netdb.h;sys/socket.h" HAVE_HSTRERROR)
 cmake_pop_check_state()
 
@@ -64,8 +64,8 @@ check_c_source_compiles("
 
 message(STATUS "Checking if getaddrinfo supports AI_IDN")
 
-cmake_push_check_state()
-  set(CMAKE_REQUIRED_DEFINITIONS "${CMAKE_REQUIRED_DEFINITIONS} -D_GNU_SOURCE")
+cmake_push_check_state(RESET)
+  set(CMAKE_REQUIRED_DEFINITIONS -D_GNU_SOURCE)
   check_c_source_compiles("
     #include <netdb.h>
 

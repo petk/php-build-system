@@ -79,9 +79,9 @@ if(EXT_MBSTRING_MBREGEX)
     target_include_directories(ext_mbstring PRIVATE ${ONIGURUMA_INCLUDE_DIRS})
   endif()
 
-  cmake_push_check_state()
-    set(CMAKE_REQUIRED_DEFINITIONS "${CMAKE_REQUIRED_DEFINITIONS} -D_GNU_SOURCE")
-    set(CMAKE_REQUIRED_LIBRARIES "${CMAKE_REQUIRED_LIBRARIES} ${ONIGURUMA_LIBRARIES}")
+  cmake_push_check_state(RESET)
+    set(CMAKE_REQUIRED_DEFINITIONS -D_GNU_SOURCE)
+    set(CMAKE_REQUIRED_LIBRARIES ${ONIGURUMA_LIBRARIES})
     check_c_source_compiles("
       #include <oniguruma.h>
 

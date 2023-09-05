@@ -120,8 +120,8 @@ endif()
 unset(_have_iconv_library)
 
 if(NOT CMAKE_CROSSCOMPILING)
-  cmake_push_check_state()
-    set(CMAKE_REQUIRED_LIBRARIES "${CMAKE_REQUIRED_LIBRARIES} ${ICONV_LIBRARIES}")
+  cmake_push_check_state(RESET)
+    set(CMAKE_REQUIRED_LIBRARIES ${ICONV_LIBRARIES})
     check_c_source_runs("
       #include <iconv.h>
       #include <stdlib.h>
@@ -157,8 +157,8 @@ unset(ignore_works)
 if(CMAKE_CROSSCOMPILING)
   set(_errno_works 1)
 else()
-  cmake_push_check_state()
-    set(CMAKE_REQUIRED_LIBRARIES "${CMAKE_REQUIRED_LIBRARIES} ${ICONV_LIBRARIES}")
+  cmake_push_check_state(RESET)
+    set(CMAKE_REQUIRED_LIBRARIES ${ICONV_LIBRARIES})
     check_c_source_runs("
       #include <iconv.h>
       #include <errno.h>

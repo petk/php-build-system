@@ -64,8 +64,8 @@ if(CMAKE_CROSSCOMPILING)
   message(STATUS "yes (cross-compiling)")
   set(_crypt_des ON)
 else()
-  cmake_push_check_state()
-    set(CMAKE_REQUIRED_DEFINITIONS "${CMAKE_REQUIRED_DEFINITIONS} ${_libcrypt_extra_definitions}")
+  cmake_push_check_state(RESET)
+    set(CMAKE_REQUIRED_DEFINITIONS ${_libcrypt_extra_definitions})
 
     check_c_source_runs("
       #include <string.h>
@@ -98,8 +98,8 @@ message(STATUS "Checking for extended DES crypt")
 if(CMAKE_CROSSCOMPILING)
   message(STATUS "no (cross-compiling)")
 else()
-  cmake_push_check_state()
-    set(CMAKE_REQUIRED_DEFINITIONS "${CMAKE_REQUIRED_DEFINITIONS} ${_libcrypt_extra_definitions}")
+  cmake_push_check_state(RESET)
+    set(CMAKE_REQUIRED_DEFINITIONS ${_libcrypt_extra_definitions})
 
     check_c_source_runs("
       #include <string.h>
@@ -132,8 +132,8 @@ message(STATUS "Checking for MD5 crypt")
 if(CMAKE_CROSSCOMPILING)
   message(STATUS "no (cross-compiling)")
 else()
-  cmake_push_check_state()
-    set(CMAKE_REQUIRED_DEFINITIONS "${CMAKE_REQUIRED_DEFINITIONS} ${_libcrypt_extra_definitions}")
+  cmake_push_check_state(RESET)
+    set(CMAKE_REQUIRED_DEFINITIONS ${_libcrypt_extra_definitions})
 
     check_c_source_runs("
       #include <string.h>
@@ -176,8 +176,8 @@ message(STATUS "Checking for Blowfish crypt")
 if(CMAKE_CROSSCOMPILING)
   message(STATUS "no (cross-compiling)")
 else()
-  cmake_push_check_state()
-    set(CMAKE_REQUIRED_DEFINITIONS "${CMAKE_REQUIRED_DEFINITIONS} ${_libcrypt_extra_definitions}")
+  cmake_push_check_state(RESET)
+    set(CMAKE_REQUIRED_DEFINITIONS ${_libcrypt_extra_definitions})
 
     check_c_source_runs("
       #include <string.h>
@@ -217,8 +217,8 @@ message(STATUS "Checking for SHA512 crypt")
 if(CMAKE_CROSSCOMPILING)
   message(STATUS "no (cross-compiling)")
 else()
-  cmake_push_check_state()
-    set(CMAKE_REQUIRED_DEFINITIONS "${CMAKE_REQUIRED_DEFINITIONS} ${_libcrypt_extra_definitions}")
+  cmake_push_check_state(RESET)
+    set(CMAKE_REQUIRED_DEFINITIONS ${_libcrypt_extra_definitions})
 
     check_c_source_runs("
       #include <string.h>
@@ -257,8 +257,8 @@ message(STATUS "Checking for SHA256 crypt")
 if(CMAKE_CROSSCOMPILING)
   message(STATUS "no (cross-compiling)")
 else()
-  cmake_push_check_state()
-    set(CMAKE_REQUIRED_DEFINITIONS "${CMAKE_REQUIRED_DEFINITIONS} ${_libcrypt_extra_definitions}")
+  cmake_push_check_state(RESET)
+    set(CMAKE_REQUIRED_DEFINITIONS ${_libcrypt_extra_definitions})
 
     check_c_source_compiles("
       #include <string.h>

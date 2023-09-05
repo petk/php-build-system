@@ -11,8 +11,8 @@ include(CMakePushCheckState)
 
 message(STATUS "Checking for AVX512 support in compiler")
 
-cmake_push_check_state()
-  set(CMAKE_REQUIRED_FLAGS "-mavx512f -mavx512cd -mavx512vl -mavx512dq -mavx512bw ${CMAKE_REQUIRED_FLAGS}")
+cmake_push_check_state(RESET)
+  set(CMAKE_REQUIRED_FLAGS "-mavx512f -mavx512cd -mavx512vl -mavx512dq -mavx512bw")
   check_c_source_compiles("
     #include <immintrin.h>
 

@@ -31,8 +31,8 @@ set_target_properties(ext_curl PROPERTIES PUBLIC_HEADER "php_curl.h")
 # Checking if libcurl is linked against old openssl.
 if(CURL_SSL_FOUND)
   if(NOT CMAKE_CROSSCOMPILING)
-    cmake_push_check_state()
-      set(CMAKE_REQUIRED_LIBRARIES "${CMAKE_REQUIRED_LIBRARIES} ${CURL_LIBRARIES}")
+    cmake_push_check_state(RESET)
+      set(CMAKE_REQUIRED_LIBRARIES ${CURL_LIBRARIES})
       check_c_source_runs("
         #include <strings.h>
         #include <curl/curl.h>

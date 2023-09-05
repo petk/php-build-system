@@ -12,8 +12,8 @@ include(CMakePushCheckState)
 
 message(STATUS "Checking whether strptime() declaration fails")
 
-cmake_push_check_state()
-  set(CMAKE_REQUIRED_DEFINITIONS "${CMAKE_REQUIRED_DEFINITIONS} -D_GNU_SOURCE")
+cmake_push_check_state(RESET)
+  set(CMAKE_REQUIRED_DEFINITIONS -D_GNU_SOURCE)
   if(HAVE_STRPTIME)
     set(CMAKE_REQUIRED_DEFINITIONS "${CMAKE_REQUIRED_DEFINITIONS} -DHAVE_STRPTIME")
   endif()

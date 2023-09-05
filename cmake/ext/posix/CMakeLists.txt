@@ -26,8 +26,8 @@ check_include_file(sys/sysmacros.h HAVE_SYS_SYSMACROS_H)
 
 check_symbol_exists(ctermid "stdio.h" HAVE_CTERMID)
 
-cmake_push_check_state()
-  set(CMAKE_REQUIRED_DEFINITIONS "${CMAKE_REQUIRED_DEFINITIONS} -D_GNU_SOURCE")
+cmake_push_check_state(RESET)
+  set(CMAKE_REQUIRED_DEFINITIONS -D_GNU_SOURCE)
   check_symbol_exists(eaccess "unistd.h" HAVE_EACCESS)
 cmake_pop_check_state()
 
