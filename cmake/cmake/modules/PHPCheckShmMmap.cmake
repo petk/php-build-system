@@ -13,9 +13,9 @@ message(STATUS "Checking for mmap() using MAP_ANON shared memory support")
 if(CMAKE_CROSSCOMPILING)
   string(TOLOWER "${CMAKE_HOST_SYSTEM_NAME}" host_os)
   if(${host_os} MATCHES ".*linux.*")
-    set(have_shm_mmap_anon ON)
+    set(_have_shm_mmap_anon ON)
   else()
-    set(have_shm_mmap_anon OFF)
+    set(_have_shm_mmap_anon OFF)
   endif()
 else()
   check_c_source_runs("
@@ -64,14 +64,14 @@ else()
       }
       return 0;
     }
-  " have_shm_mmap_anon)
+  " _have_shm_mmap_anon)
 endif()
 
-if(have_shm_mmap_anon)
+if(_have_shm_mmap_anon)
   set(HAVE_SHM_MMAP_ANON 1 CACHE INTERNAL "Define if you have mmap(MAP_ANON) SHM support")
   message(STATUS "yes")
 else()
   message(STATUS "no")
 endif()
 
-unset(have_shm_mmap_anon)
+unset(_have_shm_mmap_anon)

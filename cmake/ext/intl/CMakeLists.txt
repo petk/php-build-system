@@ -87,7 +87,7 @@ endif()
 
 target_include_directories(ext_intl PRIVATE ${CMAKE_CURRENT_SOURCE_DIR} ${ICU_INCLUDE_DIRS})
 
-set(ext_intl_cxx_sources
+set(_ext_intl_cxx_sources
   intl_convertcpp.cpp
   common/common_enum.cpp
   common/common_date.cpp
@@ -111,7 +111,7 @@ set(ext_intl_cxx_sources
   breakiterator/codepointiterator_methods.cpp
 )
 
-add_library(ext_intl_cxx STATIC ${ext_intl_cxx_sources})
+add_library(ext_intl_cxx STATIC ${_ext_intl_cxx_sources})
 
 set_target_properties(ext_intl_cxx PROPERTIES LANGUAGE CXX CXX_STANDARD 11)
 

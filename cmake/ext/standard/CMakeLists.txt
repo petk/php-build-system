@@ -2,11 +2,10 @@ include(CheckCSourceCompiles)
 include(CheckCSourceRuns)
 include(CheckLibraryExists)
 include(CheckSymbolExists)
-include(PHPFindPackage)
 
 option(EXT_STANDARD_EXTERNAL_LIBCRYPT "Whether to use external libcrypt library" OFF)
 
-option(EXT_STANDARD_PASSWORD_ARGON2 "Whether to include the Argon2 support in password_*" OFF)
+option(EXT_STANDARD_ARGON2 "Whether to include the Argon2 support in password_*" OFF)
 
 # Detect library functions needed by php dns_xxx functions.
 # ext/standard/php_dns.h will collect these in a single define
@@ -226,7 +225,7 @@ add_library(ext_standard STATIC
 target_include_directories(
   ext_standard
   PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}"
-  PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/libavifinfo"
+         "${CMAKE_CURRENT_SOURCE_DIR}/libavifinfo"
 )
 
 if(NOT EXT_STANDARD_EXTERNAL_LIBCRYPT)
@@ -242,13 +241,19 @@ else()
   set(PHP_USE_PHP_CRYPT_R 0 CACHE INTERNAL "Whether PHP has to use its own crypt_r")
 endif()
 
-if(EXT_STANDARD_PASSWORD_ARGON2)
-  php_find_package(NAME libargon2 VERSION 20171227)
+if(EXT_STANDARD_ARGON2)
+  find_package(ARGON 20171227 REQUIRED)
 
-  if(libargon2_FOUND)
+  if(ARGON_FOUND)
     set(HAVE_ARGON2LIB 1 CACHE INTERNAL "Whether to use the libargon2")
-    target_link_libraries(ext_standard PRIVATE ${libargon2_LIBRARIES})
-    target_compile_options(ext_opcache PRIVATE ${libargon2_CFLAGS})
+
+    if(ARGON_LIBRARIES)
+      target_link_libraries(ext_standard PRIVATE ${ARGON_LIBRARIES})
+    endif()
+
+    if(ARGON_INCLUDE_DIRS)
+      target_include_directories(ext_opcache PRIVATE ${ARGON_INCLUDE_DIRS})
+    endif()
   endif()
 endif()
 

@@ -3,8 +3,8 @@ Module for finding the sendmail program.
 
 The module sets the following variables:
 
-``PROG_SENDMAIL``
-  path to the ``sendmail`` program
+PROG_SENDMAIL
+  Path to the sendmail program.
 #]=============================================================================]
 
 include(FindPackageHandleStandardArgs)
@@ -14,12 +14,12 @@ function(php_find_sendmail)
   mark_as_advanced(SENDMAIL_EXECUTABLE)
 
   if(SENDMAIL_EXECUTABLE)
-    set(PROG_SENDMAIL ${SENDMAIL_EXECUTABLE})
+    set(sendmail ${SENDMAIL_EXECUTABLE})
   else()
-    set(PROG_SENDMAIL "/usr/sbin/sendmail")
+    set(sendmail "/usr/sbin/sendmail")
   endif()
 
-  set(PROG_SENDMAIL "${PROG_SENDMAIL}" CACHE INTERNAL "Path to sendmail executable" FORCE)
+  set(PROG_SENDMAIL "${sendmail}" CACHE INTERNAL "Path to sendmail executable" FORCE)
 
   find_package_handle_standard_args(
     SENDMAIL

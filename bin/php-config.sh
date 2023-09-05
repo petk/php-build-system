@@ -23,9 +23,10 @@ patterns="
 #undef\sHAVE_STDIO_H
 #undef\sHAVE_STDLIB_H
 #undef\sHAVE_DECL_STRERROR_R
+#undef\sZEND_FIBER_ASM
 "
 
-# Similar to the above patters except the two lines above and one after the
+# Similar to the above patterns except the two lines above and one after the
 # pattern will be also removed.
 patterns_2="
 #undef\sHAVE_ST_BLOCKS

@@ -4,7 +4,7 @@ getaddrinfo.
 
 If successful the module sets the following variables:
 
-``HAVE_GETADDRINFO``
+HAVE_GETADDRINFO
   Set to 1 if getaddrinfo function is working as expected.
 ]=============================================================================]#
 
@@ -20,9 +20,9 @@ check_c_source_compiles("
     struct addrinfo *g,h;g=&h;getaddrinfo(\"\",\"\",g,&g);
     return 0;
   }
-" have_getaddrinfo)
+" _have_getaddrinfo)
 
-if(have_getaddrinfo AND NOT CMAKE_CROSSCOMPILING)
+if(_have_getaddrinfo AND NOT CMAKE_CROSSCOMPILING)
   check_c_source_runs("
     #include <string.h>
     #include <netdb.h>
@@ -63,20 +63,20 @@ if(have_getaddrinfo AND NOT CMAKE_CROSSCOMPILING)
       freeaddrinfo(ai);
       return 0;
     }
-  " have_getaddrinfo)
+  " _have_getaddrinfo)
 endif()
 
 if(CMAKE_CROSSCOMPILING)
   string(TOLOWER "${CMAKE_HOST_SYSTEM}" host_os)
   if(${host_os} MATCHES ".*linux.*")
-    set(have_getaddrinfo ON)
+    set(_have_getaddrinfo ON)
   else()
-    set(have_getaddrinfo OFF)
+    set(_have_getaddrinfo OFF)
   endif()
 endif()
 
-if(have_getaddrinfo)
+if(_have_getaddrinfo)
   set(HAVE_GETADDRINFO 1 CACHE INTERNAL "Define if you have the getaddrinfo function")
 endif()
 
-unset(have_getaddrinfo)
+unset(_have_getaddrinfo)

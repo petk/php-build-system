@@ -62,6 +62,8 @@ Zend options
 #]=============================================================================]
 option(ZEND_GCC_GLOBAL_REGS "Whether to enable GCC global register variables" ON)
 
+option(ZEND_FIBER_ASM "Enable the use of boost fiber assembly files" ON)
+
 option(ZEND_SIGNALS "Whether to enable Zend signal handling" ON)
 
 option(ZEND_MAX_EXECUTION_TIMERS "Whether to enable Zend max execution timers" ${PHP_ZTS})

@@ -42,12 +42,14 @@ function(php_check_dtrace)
   add_custom_target(
     GenerateDTraceHeader
     DEPENDS ${CMAKE_SOURCE_DIR}/Zend/zend_dtrace_gen.h
+    COMMENT "Generating DTrace header Zend/zend_dtrace_gen.h"
   )
 
   add_custom_target(
     patch_dtrace_file
     COMMAND ${CMAKE_COMMAND} -P "${CMAKE_CURRENT_FUNCTION_LIST_DIR}/PHPCheckDTrace/patch_dtrace_file.cmake"
     DEPENDS GenerateDTraceHeader
+    COMMENT "Patching DTrace header Zend/zend_dtrace_gen.h"
   )
 
   add_library(zend_dtrace

@@ -2203,9 +2203,6 @@
 #cmakedefine01 ZEND_DEBUG
 
 /* */
-#cmakedefine ZEND_FIBER_ASM @ZEND_FIBER_ASM@
-
-/* */
 #cmakedefine ZEND_FIBER_UCONTEXT @ZEND_FIBER_UCONTEXT@
 
 /* Use zend max execution timers */
@@ -2226,9 +2223,6 @@
 /* */
 #cmakedefine ZTS @ZTS@
 
-/* */
-#cmakedefine _XOPEN_SOURCE @_XOPEN_SOURCE@
-
 /* Define when using musl libc */
 #cmakedefine __MUSL__
 
@@ -2241,7 +2235,7 @@
 /* Define to `__inline__' or `__inline' if that's what the C compiler
    calls it, or to nothing if 'inline' is not supported under any name.  */
 #ifndef __cplusplus
-#cmakedefine inline @inline@
+#cmakedefine inline @INLINE_KEYWORD@
 #endif
 
 /* Define to `unsigned int' if <sys/types.h> does not define. */

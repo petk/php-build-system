@@ -1,8 +1,8 @@
 diff --git a/.gitignore b/.gitignore
-index 49acc9f2e1..a889706309 100644
+index 49acc9f2e1..376e729f64 100644
 --- a/.gitignore
 +++ b/.gitignore
-@@ -297,3 +297,14 @@ tmp-php.ini
+@@ -297,3 +297,16 @@ tmp-php.ini
  !/ext/fileinfo/magicdata.patch
  !/ext/pcre/pcre2lib/config.h
  !/win32/build/Makefile
@@ -12,7 +12,9 @@ index 49acc9f2e1..a889706309 100644
 +# ------------------------------------------------------------------------------
 +/.ninja*
 +/build.ninja
++/CTestTestfile.cmake
 +/profile.json
++/Testing/
 +cmake_install.cmake
 +CMakeCache.txt
 +CMakeFiles/

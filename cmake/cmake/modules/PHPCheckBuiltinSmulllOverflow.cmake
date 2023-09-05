@@ -3,8 +3,8 @@ Checks whether compiler supports __builtin_smulll_overflow.
 
 Module sets the following variables:
 
-``PHP_HAVE_BUILTIN_SMULLL_OVERFLOW``
-  Set to 1 if compiler supports __builtin_smulll_overflow, 0 otherwise.
+PHP_HAVE_BUILTIN_SMULLL_OVERFLOW
+  Set to true if compiler supports __builtin_smulll_overflow, false otherwise.
 ]=============================================================================]#
 include(CheckCSourceCompiles)
 
@@ -15,14 +15,4 @@ check_c_source_compiles("
     long long tmpvar;
     return __builtin_smulll_overflow(3, 7, &tmpvar);
   }
-" have_builtin_smulll_overflow)
-
-if(have_builtin_smulll_overflow)
-  set(have_builtin_smulll_overflow 1)
-else()
-  set(have_builtin_smulll_overflow 0)
-endif()
-
-set(PHP_HAVE_BUILTIN_SMULLL_OVERFLOW ${have_builtin_smulll_overflow} CACHE INTERNAL "Whether the compiler supports __builtin_smulll_overflow")
-
-unset(have_builtin_smulll_overflow)
+" PHP_HAVE_BUILTIN_SMULLL_OVERFLOW)

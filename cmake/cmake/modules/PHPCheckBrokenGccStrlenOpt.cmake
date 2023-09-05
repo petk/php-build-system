@@ -16,7 +16,7 @@ endif()
 message(STATUS "Checking for broken gcc optimize-strlen")
 
 if(CMAKE_CROSSCOMPILING)
-  set(have_broken_optimize_strlen OFF)
+  set(_have_broken_optimize_strlen OFF)
 else()
   check_c_source_runs("
     #include <stdlib.h>
@@ -34,10 +34,10 @@ else()
       strcpy(s->c, \"foo\");
       return strlen(s->c+1) == 2;
     }
-  " have_broken_optimize_strlen)
+  " _have_broken_optimize_strlen)
 endif()
 
-if(have_broken_optimize_strlen)
+if(_have_broken_optimize_strlen)
   message(STATUS "Appending -fno-optimize-strlen")
   # TODO: Fix this better.
   set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -fno-optimize-strlen" CACHE STRING "C Compiler Flags")
@@ -45,4 +45,4 @@ else()
   message(STATUS "no")
 endif()
 
-unset(have_broken_optimize_strlen)
+unset(_have_broken_optimize_strlen)

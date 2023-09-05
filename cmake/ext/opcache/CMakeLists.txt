@@ -2,7 +2,6 @@ include(CheckCSourceRuns)
 include(CheckSymbolExists)
 include(CMakeDependentOption)
 include(CMakePushCheckState)
-include(PHPFindPackage)
 
 # Opcache extension can be built either as shared or disabled.
 option(EXT_OPCACHE "Whether to enable the opcache extension" ON)
@@ -93,6 +92,7 @@ if(EXT_OPCACHE_JIT)
   add_custom_target(
     BuildZendJitForArchitecture
     DEPENDS ${CMAKE_CURRENT_BINARY_DIR}/jit/zend_jit_${DASM_ARCH}.c
+    COMMENT "Building Zend JIT for architecture ${DASM_ARCH}"
   )
 endif()
 
@@ -114,8 +114,8 @@ add_library(ext_opcache SHARED
 
 target_include_directories(
   ext_opcache
-  PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}
-  PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/jit"
+  PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}"
+         "${CMAKE_CURRENT_SOURCE_DIR}/jit"
 )
 
 target_compile_options(ext_opcache PRIVATE
@@ -135,12 +135,18 @@ if(EXT_OPCACHE_JIT)
 
   # Check for capstone.
   if(EXT_OPCACHE_CAPSTONE)
-    php_find_package(NAME capstone VERSION 3.0.0)
+    find_package(CAPSTONE 3.0.0)
 
-    if(capstone_FOUND)
+    if(CAPSTONE_FOUND)
       set(HAVE_CAPSTONE 1 CACHE INTERNAL "Capstone is available")
-      target_link_libraries(ext_opcache PRIVATE ${capstone_LIBRARIES})
-      target_compile_options(ext_opcache PRIVATE ${capstone_CFLAGS})
+
+      if(CAPSTONE_LIBRARIES)
+        target_link_libraries(ext_opcache PRIVATE ${CAPSTONE_LIBRARIES})
+      endif()
+
+      if(CAPSTONE_INCLUDE_DIRS)
+        target_include_directories(ext_opcache PRIVATE ${CAPSTONE_INCLUDE_DIRS})
+      endif()
     endif()
   endif()
 endif()

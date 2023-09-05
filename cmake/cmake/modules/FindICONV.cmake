@@ -155,7 +155,7 @@ unset(ignore_works)
 
 # Check if iconv supports errno.
 if(CMAKE_CROSSCOMPILING)
-  set(errno_works 1)
+  set(_errno_works 1)
 else()
   cmake_push_check_state()
     set(CMAKE_REQUIRED_LIBRARIES "${CMAKE_REQUIRED_LIBRARIES} ${ICONV_LIBRARIES}")

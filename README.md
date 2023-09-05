@@ -482,6 +482,8 @@ Optional:
   * when using `--with-xsl`
 * libzip
   * when using `--with-zip`
+* libargon2
+  * when using `--with-password-argon2`
 
 ### 7.3. The configure command line options
 
@@ -928,8 +930,8 @@ List of configure command line options and their CMake alternatives:
 | `--without-sqlite3`                              | `-DEXT_SQLITE3=OFF`                    |                     |
 | `--without-external-libcrypt` (default)          | `-DEXT_STANDARD_EXTERNAL_LIBCRYPT=OFF` | `OFF`               |
 | `--with-external-libcrypt`                       | `-DEXT_STANDARD_EXTERNAL_LIBCRYPT=ON`  |                     |
-| `--without-password-argon2` (default)            | `-DEXT_STANDARD_PASSWORD_ARGON2=OFF`   | `OFF`               |
-| `--with-password-argon2`                         | `-DEXT_STANDARD_PASSWORD_ARGON2=ON`    |                     |
+| `--without-password-argon2` (default)            | `-DEXT_STANDARD_ARGON2=OFF`            | `OFF`               |
+| `--with-password-argon2`                         | `-DEXT_STANDARD_ARGON2=ON`             |                     |
 | `--disable-sysvmsg` (default)                    | `-DEXT_SYSVMSG=OFF`                    | `OFF`               |
 | `--enable-sysvmsg`                               | `-DEXT_SYSVMSG=ON`                     |                     |
 | `--enable-sysvmsg=shared`                        | `-DEXT_SYSVMSG_SHARED=ON`              |                     |
@@ -1192,6 +1194,7 @@ Useful resources to learn more about CMake:
 
 * [CMake documentation](https://cmake.org/documentation/)
 * [Effective Modern CMake](https://gist.github.com/mbinna/c61dbb39bca0e4fb7d1f73b0d66a4fd1)
+* [Awesome CMake](https://github.com/onqtam/awesome-cmake)
 
 ### 10.3. CMake and PHP
 

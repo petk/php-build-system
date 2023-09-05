@@ -39,9 +39,9 @@ set(HAVE_PHP_SESSION 1 CACHE INTERNAL "Define to 1 if session extension is enabl
 
 if(EXT_SESSION_MM)
   # TODO: Check if EXT_SESSION_MM needs to be manually overrideable path.
-  foreach(DIR "${EXT_SESSION_MM}" /usr/local /usr)
-    if(EXISTS "${DIR}/include/mm.h")
-      set(MM_DIR "${DIR}")
+  foreach(dir "${EXT_SESSION_MM}" /usr/local /usr)
+    if(EXISTS "${dir}/include/mm.h")
+      set(MM_DIR "${dir}")
       break()
     endif()
   endforeach()

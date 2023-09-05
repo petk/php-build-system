@@ -36,9 +36,9 @@ check_c_source_compiles("
     cookie_io_functions_t cookie;
     return 0;
   }
-" COMPILATION_RESULT)
+" _compilation_result)
 
-if(COMPILATION_RESULT)
+if(_compilation_result)
   set(COOKIE_IO_FUNCTIONS_T "cookie_io_functions_t")
 endif()
 
@@ -46,7 +46,7 @@ endif()
 if(CMAKE_CROSSCOMPILING)
   string(TOLOWER "${CMAKE_HOST_SYSTEM_NAME}" host_os)
   if(${host_os} MATCHES ".*linux.*")
-    set(cookie_io_functions_use_off64_t ON)
+    set(_cookie_io_functions_use_off64_t ON)
   endif()
 else()
   check_c_source_runs("
@@ -80,12 +80,12 @@ else()
   " RUN_RESULT)
 
   if(RUN_RESULT)
-    set(cookie_io_functions_use_off64_t ON)
+    set(_cookie_io_functions_use_off64_t ON)
   endif()
 endif()
 
-if(cookie_io_functions_use_off64_t)
+if(_cookie_io_functions_use_off64_t)
   set(COOKIE_SEEKER_USES_OFF64_T 1 CACHE INTERNAL "Whether newer fopencookie seeker definition is available")
 endif()
 
-unset(cookie_io_functions_use_off64_t)
+unset(_cookie_io_functions_use_off64_t)

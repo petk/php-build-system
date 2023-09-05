@@ -123,7 +123,8 @@ configure_file(main/php_config.h.in main/php_config.h @ONLY)
 enable_testing()
 
 include(ProcessorCount)
-ProcessorCount(N)
+processorcount(N)
+
 if(NOT N EQUAL 0)
   set(_run_tests_jobs -j${N})
 endif()

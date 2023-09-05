@@ -46,8 +46,8 @@ endfunction()
 get_php_extensions(SUBDIRECTORIES "${CMAKE_CURRENT_SOURCE_DIR}/ext" 1)
 
 # Process the list of directories
-foreach(SUBDIRECTORY ${SUBDIRECTORIES})
-  string(REPLACE ${CMAKE_CURRENT_SOURCE_DIR}/ext/ "" EXTENSION_NAME ${SUBDIRECTORY})
+foreach(subdirectory ${SUBDIRECTORIES})
+  string(REPLACE ${CMAKE_CURRENT_SOURCE_DIR}/ext/ "" EXTENSION_NAME ${subdirectory})
   string(REPLACE /CMakeLists.txt "" EXTENSION_NAME ${EXTENSION_NAME})
   add_subdirectory("ext/${EXTENSION_NAME}")
 endforeach()

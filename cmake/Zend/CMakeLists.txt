@@ -212,8 +212,8 @@ include(PHPCheckFibers)
 
 if(ZEND_FIBER_ASM)
   add_library(ZendAsm STATIC
-    "asm/make_${fiber_asm_file}.S"
-    "asm/jump_${fiber_asm_file}.S"
+    "asm/make_${FIBER_ASM_FILE}.S"
+    "asm/jump_${FIBER_ASM_FILE}.S"
   )
 
   # The asm file can't see macro from defined constant, workaround this via cflag.

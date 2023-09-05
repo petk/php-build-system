@@ -3,8 +3,8 @@ Checks whether compiler supports __builtin_ssubl_overflow.
 
 Module sets the following variables:
 
-``PHP_HAVE_BUILTIN_SSUBL_OVERFLOW``
-  Set to 1 if compiler supports __builtin_ssubl_overflow, 0 otherwise.
+PHP_HAVE_BUILTIN_SSUBL_OVERFLOW
+  Set to true if compiler supports __builtin_ssubl_overflow, false otherwise.
 ]=============================================================================]#
 include(CheckCSourceCompiles)
 
@@ -15,14 +15,4 @@ check_c_source_compiles("
     long tmpvar;
     return __builtin_ssubl_overflow(3, 7, &tmpvar);
   }
-" have_builtin_ssubl_overflow)
-
-if(have_builtin_ssubl_overflow)
-  set(have_builtin_ssubl_overflow 1)
-else()
-  set(have_builtin_ssubl_overflow 0)
-endif()
-
-set(PHP_HAVE_BUILTIN_SSUBL_OVERFLOW ${have_builtin_ssubl_overflow} CACHE INTERNAL "Whether the compiler supports __builtin_ssubl_overflow")
-
-unset(have_builtin_ssubl_overflow)
+" PHP_HAVE_BUILTIN_SSUBL_OVERFLOW)

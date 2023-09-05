@@ -1,4 +1,3 @@
-include(PHPFindPackage)
 include(CMakeDependentOption)
 
 option(EXT_ENCHANT "Whether to build the enchant extension" OFF)
@@ -19,23 +18,14 @@ add_library(ext_enchant ${_library_type}
   enchant.c
 )
 
-php_find_package(NAME enchant-2 VERSION 2.0)
+find_package(ENCHANT 2.0)
 
-if(${enchant-2_FOUND})
-  set(enchant_libraries "${enchant-2_LIBRARIES}")
-  set(enchant_cflags "${enchant-2_CFLAGS}")
+if(ENCHANT_FOUND)
   set(HAVE_ENCHANT_GET_VERSION 1 CACHE INTERNAL "enchant_get_version since 1.6.0")
 else()
-  message(WARNING "libenchant-2 not found, trying with libenchant 1")
+  message(WARNING "enchant library 2 not found, trying with enchant 1")
 
-  php_find_package(NAME enchant VERSION 1.4.2)
-
-  if(NOT ${enchant_FOUND})
-    message(FATAL_ERROR "Enchant not found")
-  endif()
-
-  set(enchant_libraries ${enchant_LIBRARIES})
-  set(enchant_cflags "${enchant_CFLAGS}")
+  find_package(ENCHANT 1.4.2 REQUIRED)
 
   # enchant_get_version since 1.6.0.
   check_library_exists(enchant enchant_get_version "" HAVE_ENCHANT_GET_VERSION)
@@ -44,5 +34,10 @@ else()
   check_library_exists(enchant enchant_broker_set_param "" HAVE_ENCHANT_BROKER_SET_PARAM)
 endif()
 
-target_link_libraries(ext_enchant PRIVATE ${enchant_libraries})
-target_compile_options(ext_enchant PRIVATE ${enchant_cflags})
+if(ENCHANT_LIBRARIES)
+  target_link_libraries(ext_enchant PRIVATE ${ENCHANT_LIBRARIES})
+endif()
+
+if(ENCHANT_INCLUDE_DIRS)
+  target_include_directories(ext_enchant PRIVATE ${ENCHANT_INCLUDE_DIRS})
+endif()

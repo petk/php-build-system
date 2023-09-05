@@ -34,16 +34,16 @@ endif()
 
 # Determine the download URL.
 if(PHP_VERSION MATCHES ".*-dev")
-  set(URL "https://github.com/php/php-src/archive/refs/heads/master.tar.gz")
+  set(_download_url "https://github.com/php/php-src/archive/refs/heads/master.tar.gz")
 else()
-  set(URL "https://downloads.php.net/~jakub/php-${PHP_VERSION}.tar.gz")
+  set(_download_url "https://downloads.php.net/~jakub/php-${PHP_VERSION}.tar.gz")
 endif()
 
-set(PHP_TARBALL "php-${PHP_VERSION}.tar.gz")
-set(PHP_DIRECTORY "php-${PHP_VERSION}")
+set(_php_tarball "php-${PHP_VERSION}.tar.gz")
+set(_php_directory "php-${PHP_VERSION}")
 
-if(EXISTS "${PHP_DIRECTORY}")
-  message(FATAL_ERROR "To continue, please remove previous existing directory ${PHP_DIRECTORY}")
+if(EXISTS "${_php_directory}")
+  message(FATAL_ERROR "To continue, please remove previous existing directory ${_php_directory}")
 endif()
 
 function(check_url)
@@ -65,26 +65,26 @@ function(check_url)
 endfunction()
 
 # Download PHP tarball.
-if(NOT EXISTS ${PHP_TARBALL})
+if(NOT EXISTS ${_php_tarball})
   message(STATUS "Downloading PHP ${PHP_VERSION}")
 
-  check_url(${URL})
+  check_url(${_download_url})
 
   if(NOT URL_FOUND)
-    message(FATAL_ERROR "URL ${URL} returned error")
+    message(FATAL_ERROR "URL ${_download_url} returned error")
   endif()
 
-  file(DOWNLOAD ${URL} ${PHP_TARBALL} SHOW_PROGRESS)
+  file(DOWNLOAD ${_download_url} ${_php_tarball} SHOW_PROGRESS)
 endif()
 
-file(ARCHIVE_EXTRACT INPUT ${PHP_TARBALL})
+file(ARCHIVE_EXTRACT INPUT ${_php_tarball})
 
 if(EXISTS php-src-master)
-  file(RENAME php-src-master ${PHP_DIRECTORY})
+  file(RENAME php-src-master ${_php_directory})
 endif()
 
 # Add CMake files.
-file(INSTALL cmake/ DESTINATION ${PHP_DIRECTORY})
+file(INSTALL cmake/ DESTINATION ${_php_directory})
 
 # Apply patches for php-src.
 file(GLOB_RECURSE patches "patches/*.patch")
@@ -99,39 +99,40 @@ endif()
 # Add .git directory to be able to apply patches.
 execute_process(
   COMMAND ${GIT_EXECUTABLE} init
-  WORKING_DIRECTORY ${PHP_DIRECTORY}
-  RESULT_VARIABLE result
-  ERROR_VARIABLE error
+  WORKING_DIRECTORY ${_php_directory}
+  RESULT_VARIABLE _result
+  OUTPUT_VARIABLE _output
+  ERROR_VARIABLE _error
   ERROR_STRIP_TRAILING_WHITESPACE
   OUTPUT_QUIET
 )
 
-if(NOT result EQUAL 0)
-  message(FATAL_ERROR "${output}\n${error}")
+if(NOT _result EQUAL 0)
+  message(FATAL_ERROR "${_output}\n${_error}")
 endif()
 
 # Define the command to apply the patches using git.
-set(patch_command ${GIT_EXECUTABLE} apply --ignore-whitespace)
+set(_patch_command ${GIT_EXECUTABLE} apply --ignore-whitespace)
 
 foreach(patch ${patches})
   # Execute the patch command.
   execute_process(
-    COMMAND ${patch_command} "${patch}"
-    WORKING_DIRECTORY ${PHP_DIRECTORY}
-    RESULT_VARIABLE patch_result
+    COMMAND ${_patch_command} "${patch}"
+    WORKING_DIRECTORY ${_php_directory}
+    RESULT_VARIABLE _patch_result
   )
 
-  cmake_path(GET patch FILENAME patch_filename)
+  cmake_path(GET patch FILENAME _patch_filename)
 
-  if(patch_result EQUAL 0)
-    message(STATUS "Patch ${patch_filename} applied successfully.")
+  if(_patch_result EQUAL 0)
+    message(STATUS "Patch ${_patch_filename} applied successfully.")
   else()
-    message(WARNING "Failed to apply patch ${patch_filename}.")
+    message(WARNING "Failed to apply patch ${_patch_filename}.")
   endif()
 endforeach()
 
 # Patch PHP version in main CMakeLists.txt file to match the one downloaded.
-message(STATUS "Patching version in ${PHP_DIRECTORY}/CMakeLists.txt")
+message(STATUS "Patching version in ${_php_directory}/CMakeLists.txt")
 
 string(REGEX MATCH "([0-9]+)\\.([0-9]+)\\.([0-9]+)([a-zA-Z0-9\\-]*)$" _ ${PHP_VERSION})
 
@@ -142,10 +143,10 @@ set(PHP_VERSION_LABEL ${CMAKE_MATCH_4})
 
 string(CONCAT PHP_VERSION_MAIN "${PHP_VERSION_MAJOR}" "." "${PHP_VERSION_MINOR}" "." "${PHP_VERSION_PATCH}")
 
-file(READ "${PHP_DIRECTORY}/CMakeLists.txt" file_contents)
-string(REPLACE "VERSION 8.3.0" "VERSION ${PHP_VERSION_MAIN}" file_contents ${file_contents})
-string(REPLACE "set(PHP_VERSION_LABEL \"-dev\"" "set(PHP_VERSION_LABEL \"${PHP_VERSION_LABEL}\"" file_contents ${file_contents})
-file(WRITE "${PHP_DIRECTORY}/CMakeLists.txt" "${file_contents}")
+file(READ "${_php_directory}/CMakeLists.txt" _file_contents)
+string(REPLACE "VERSION 8.3.0" "VERSION ${PHP_VERSION_MAIN}" _file_contents "${_file_contents}")
+string(REPLACE "set(PHP_VERSION_LABEL \"-dev\"" "set(PHP_VERSION_LABEL \"${PHP_VERSION_LABEL}\"" _file_contents ${_file_contents})
+file(WRITE "${_php_directory}/CMakeLists.txt" "${_file_contents}")
 
 message("
-${PHP_DIRECTORY} directory is now ready to use")
+${_php_directory} directory is now ready to use")

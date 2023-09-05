@@ -16,17 +16,17 @@ if(NOT Intl_FOUND)
 endif()
 
 if(Intl_IS_BUILT_IN)
-  set(intl_library "c")
+  set(_intl_library "c")
 else()
-  set(intl_library ${Intl_LIBRARIES})
+  set(_intl_library ${Intl_LIBRARIES})
 endif()
 
 set(HAVE_LIBINTL 1 CACHE INTERNAL "Whether gettext library is available")
 
-check_library_exists(${intl_library} ngettext "" HAVE_NGETTEXT)
-check_library_exists(${intl_library} dngettext "" HAVE_DNGETTEXT)
-check_library_exists(${intl_library} dcngettext "" HAVE_DCNGETTEXT)
-check_library_exists(${intl_library} bind_textdomain_codeset "" HAVE_BIND_TEXTDOMAIN_CODESET)
+check_library_exists(${_intl_library} ngettext "" HAVE_NGETTEXT)
+check_library_exists(${_intl_library} dngettext "" HAVE_DNGETTEXT)
+check_library_exists(${_intl_library} dcngettext "" HAVE_DCNGETTEXT)
+check_library_exists(${_intl_library} bind_textdomain_codeset "" HAVE_BIND_TEXTDOMAIN_CODESET)
 
 if(EXT_GETTEXT_SHARED OR BUILD_SHARED_LIBS)
   set(_library_type "SHARED")

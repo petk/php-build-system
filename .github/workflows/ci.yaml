@@ -95,7 +95,8 @@ jobs:
             libonig-dev \
             libtidy-dev \
             libargon2-dev \
-            libxslt1-dev;
+            libxslt1-dev \
+            libcapstone-dev;
 
       - name: Checkout
         uses: actions/checkout@v3

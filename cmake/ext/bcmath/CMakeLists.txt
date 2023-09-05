@@ -41,8 +41,8 @@ add_library(ext_bcmath ${_library_type}
 
 target_include_directories(
   ext_bcmath
-  PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}
-  PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/libbcmath/src"
+  PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}"
+         "${CMAKE_CURRENT_SOURCE_DIR}/libbcmath/src"
 )
 
 target_compile_definitions(ext_bcmath PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE=1)

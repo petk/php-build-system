@@ -18,6 +18,7 @@ add_library(ext_zend_test ${_library_type}
   test.c
   observer.c
   fiber.c
+  iterators.c
   object_handlers.c
 )
 

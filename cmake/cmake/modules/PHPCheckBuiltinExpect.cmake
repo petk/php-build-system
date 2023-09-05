@@ -3,8 +3,8 @@ Checks whether compiler supports __builtin_expect.
 
 Module sets the following variables:
 
-``PHP_HAVE_BUILTIN_EXPECT``
-  Set to 1 if compiler supports __builtin_expect, 0 otherwise.
+PHP_HAVE_BUILTIN_EXPECT
+  Set to true if compiler supports __builtin_expect, false otherwise.
 ]=============================================================================]#
 include(CheckCSourceCompiles)
 
@@ -14,14 +14,4 @@ check_c_source_compiles("
   int main (void) {
     return __builtin_expect(1,1) ? 1 : 0;
   }
-" have_builtin_expect)
-
-if(have_builtin_expect)
-  set(have_builtin_expect 1)
-else()
-  set(have_builtin_expect 0)
-endif()
-
-set(PHP_HAVE_BUILTIN_EXPECT ${have_builtin_expect} CACHE INTERNAL "Whether the compiler supports __builtin_expect")
-
-unset(have_builtin_expect)
+" PHP_HAVE_BUILTIN_EXPECT)

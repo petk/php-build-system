@@ -16,39 +16,41 @@ function(php_create_build_definitions)
   if(NOT PHP_EXTENSION_DIR)
     file(READ "${CMAKE_SOURCE_DIR}/Zend/zend_modules.h" content)
     string(REGEX MATCH "#define ZEND_MODULE_API_NO ([0-9]*)" _ "${content}")
-    set(_zend_module_api_no ${CMAKE_MATCH_1})
+    set(zend_module_api_no ${CMAKE_MATCH_1})
 
-    set(PHP_EXTENSION_DIR "${CMAKE_INSTALL_PREFIX}/${CMAKE_INSTALL_LIBDIR}/php")
+    set(php_extension_dir "${CMAKE_INSTALL_PREFIX}/${CMAKE_INSTALL_LIBDIR}/php")
 
     if(PHP_LAYOUT STREQUAL "GNU")
-      set(PHP_EXTENSION_DIR "${PHP_EXTENSION_DIR}/${_zend_module_api_no}")
+      set(php_extension_dir "${php_extension_dir}/${zend_module_api_no}")
 
       if(PHP_ZTS)
-        set(PHP_EXTENSION_DIR "${PHP_EXTENSION_DIR}-zts")
+        set(php_extension_dir "${php_extension_dir}-zts")
       endif()
 
       if(PHP_DEBUG)
-        set(PHP_EXTENSION_DIR "${PHP_EXTENSION_DIR}-debug")
+        set(php_extension_dir "${php_extension_dir}-debug")
       endif()
     else()
-      set(PHP_EXTENSION_DIR "${PHP_EXTENSION_DIR}/extensions")
+      set(php_extension_dir "${php_extension_dir}/extensions")
 
       if(PHP_DEBUG)
-        set(PHP_EXTENSION_DIR "${PHP_EXTENSION_DIR}/debug")
+        set(php_extension_dir "${php_extension_dir}/debug")
       else()
-        set(PHP_EXTENSION_DIR "${PHP_EXTENSION_DIR}/no-debug")
+        set(php_extension_dir "${php_extension_dir}/no-debug")
       endif()
 
       if(PHP_ZTS)
-        set(PHP_EXTENSION_DIR "${PHP_EXTENSION_DIR}-zts")
+        set(php_extension_dir "${php_extension_dir}-zts")
       else()
-        set(PHP_EXTENSION_DIR "${PHP_EXTENSION_DIR}-non-zts")
+        set(php_extension_dir "${php_extension_dir}-non-zts")
       endif()
 
-      set(PHP_EXTENSION_DIR "${PHP_EXTENSION_DIR}-${_zend_module_api_no}")
+      set(php_extension_dir "${php_extension_dir}-${zend_module_api_no}")
     endif()
 
-    set(EXPANDED_EXTENSION_DIR "${PHP_EXTENSION_DIR}" CACHE INTERNAL "")
+    set(PHP_EXTENSION_DIR "${php_extension_dir}" CACHE STRING "PHP extensions directory" FORCE)
+
+    set(EXPANDED_EXTENSION_DIR "${PHP_EXTENSION_DIR}" CACHE INTERNAL "" FORCE)
   endif()
 
   # Set shared library object extension.

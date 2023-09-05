@@ -48,10 +48,6 @@ function(php_extension)
     message(STATUS "Enabling extension ${PHP_EXTENSION_NAME} as static.")
   endif()
 
-  if(NOT PHP_EXTENSION_PRIORITY)
-    set(PHP_EXTENSION_PRIORITY 999)
-  endif()
-
   list(APPEND PHP_EXTENSIONS ${PHP_EXTENSION_NAME})
   set(PHP_EXTENSIONS ${PHP_EXTENSIONS} CACHE INTERNAL "")
 

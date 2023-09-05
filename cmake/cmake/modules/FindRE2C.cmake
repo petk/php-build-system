@@ -82,9 +82,7 @@ function(re2c_target)
     message(FATAL_ERROR "re2c_target expects a target name")
   endif()
 
-  set(re2c_target_cmdopt "")
-  set(re2c_target_extraopts "${PARSED_ARGS_OPTIONS}")
-  separate_arguments(re2c_target_extraopts)
+  separate_arguments(re2c_target_extraopts NATIVE_COMMAND "${PARSED_ARGS_OPTIONS}")
   list(APPEND re2c_target_cmdopt ${re2c_target_extraopts})
   list(APPEND re2c_target_cmdopt ${RE2C_FLAGS})
 
@@ -99,5 +97,6 @@ function(re2c_target)
     ${PARSED_ARGS_NAME}
     SOURCES ${PARSED_ARGS_INPUT}
     DEPENDS ${PARSED_ARGS_OUTPUT}
+    COMMENT "[RE2C] Building lexer with re2c ${RE2C_VERSION}"
   )
 endfunction()
