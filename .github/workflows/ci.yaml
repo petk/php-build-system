@@ -35,7 +35,7 @@ jobs:
         generator:
           - Unix Makefiles
         php:
-          - 8.3.0RC1
+          - 8.3-dev
     env:
       CC: ${{ matrix.compiler.CC }}
       CXX: ${{ matrix.compiler.CXX }}

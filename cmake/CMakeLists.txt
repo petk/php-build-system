@@ -9,21 +9,23 @@ message("
 +--------------------------------------------------------------------+
 ")
 
+include(PHPVersion)
+
+message(STATUS "PHP version: ${PHP_VERSION}")
+
 project(
   PHP
-  VERSION 8.3.0
+  VERSION "${PHP_VERSION_MAJOR}.${PHP_VERSION_MINOR}.${PHP_VERSION_PATCH}"
   DESCRIPTION "Widely-used general-purpose scripting language"
   HOMEPAGE_URL "https://www.php.net"
   LANGUAGES C ASM CXX
 )
 
+# Set the project version to include additional optional version label.
+string(CONCAT PHP_VERSION "${PHP_VERSION_MAJOR}" "." "${PHP_VERSION_MINOR}" "." "${PHP_VERSION_PATCH}" "${PHP_VERSION_LABEL}")
+
 set(CMAKE_C_STANDARD 99)
 set(CMAKE_C_STANDARD_REQUIRED True)
-
-# Set PHP version variables.
-set(PHP_VERSION_LABEL "-dev" CACHE STRING "Extra PHP version label suffix, e.g. '-dev', 'rc1', '-acme'")
-string(CONCAT PHP_VERSION "${PHP_VERSION_MAJOR}" "." "${PHP_VERSION_MINOR}" "." "${PHP_VERSION_PATCH}" "${PHP_VERSION_LABEL}")
-math(EXPR PHP_VERSION_ID "${PHP_VERSION_MAJOR} * 10000 + ${PHP_VERSION_MINOR} * 100 + ${PHP_VERSION_PATCH}")
 
 add_compile_definitions("$<$<COMPILE_LANGUAGE:C>:_GNU_SOURCE>")
 

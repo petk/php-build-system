@@ -17,8 +17,17 @@ SYNOPSIS:
     PHP version to download in form of {MAJOR}.{MINOR}.{PATCH}{EXTRA}
 
 Usage examples:
-  cmake -P bin/php.cmake 8.3.0RC1
-  ./bin/php.cmake 8.3.0RC1
+  Downloads specific version from downloads.php.net:
+    cmake -P bin/php.cmake 8.3.0RC1
+
+  Or:
+    ./bin/php.cmake 8.3.0RC1
+
+  Downloads the current Git PHP-8.3 branch:
+    ./bin/php.cmake 8.3-dev
+
+  Downloads the current Git master branch:
+    ./bin/php.cmake 8.4-dev
 #]=============================================================================]
 
 # Set default variables.
@@ -28,18 +37,29 @@ if(CMAKE_ARGV3)
   set(PHP_VERSION "${CMAKE_ARGV3}")
 endif()
 
-if(NOT PHP_VERSION MATCHES "^8\\.[0-9]\\.[0-9]+[a-zA-Z0-9\\-]*$")
+if(
+  NOT PHP_VERSION MATCHES "^8\\.[0-9]\\.[0-9]+[a-zA-Z0-9\\-]*$"
+  AND NOT PHP_VERSION MATCHES "^8\\.[0-9]-dev$"
+)
   message(FATAL_ERROR "PHP version should match pattern {MAJOR}.{MINOR}.{PATCH}{EXTRA}")
 endif()
 
 # Determine the download URL.
-if(PHP_VERSION MATCHES ".*-dev")
-  set(_download_url "https://github.com/php/php-src/archive/refs/heads/master.tar.gz")
+if(PHP_VERSION MATCHES "8.4-dev")
+  set(_php_branch "master")
+
+  set(_download_url "https://github.com/php/php-src/archive/refs/heads/${_php_branch}.tar.gz")
+elseif(PHP_VERSION MATCHES "^.*-dev$")
+  string(REGEX MATCH "([0-9]+)\\.([0-9]+).*$" _ ${PHP_VERSION})
+
+  set(_php_branch "PHP-${CMAKE_MATCH_1}.${CMAKE_MATCH_2}")
+  message(STATUS "Status: ${_php_branch}")
+
+  set(_download_url "https://github.com/php/php-src/archive/refs/heads/${_php_branch}.tar.gz")
 else()
   set(_download_url "https://downloads.php.net/~jakub/php-${PHP_VERSION}.tar.gz")
 endif()
 
-set(_php_tarball "php-${PHP_VERSION}.tar.gz")
 set(_php_directory "php-${PHP_VERSION}")
 
 if(EXISTS "${_php_directory}")
@@ -65,6 +85,8 @@ function(check_url)
 endfunction()
 
 # Download PHP tarball.
+set(_php_tarball "php-${PHP_VERSION}.tar.gz")
+
 if(NOT EXISTS ${_php_tarball})
   message(STATUS "Downloading PHP ${PHP_VERSION}")
 
@@ -79,8 +101,8 @@ endif()
 
 file(ARCHIVE_EXTRACT INPUT ${_php_tarball})
 
-if(EXISTS php-src-master)
-  file(RENAME php-src-master ${_php_directory})
+if(EXISTS php-src-${_php_branch})
+  file(RENAME php-src-${_php_branch} ${_php_directory})
 endif()
 
 # Add CMake files.
@@ -130,23 +152,6 @@ foreach(patch ${patches})
     message(WARNING "Failed to apply patch ${_patch_filename}.")
   endif()
 endforeach()
-
-# Patch PHP version in main CMakeLists.txt file to match the one downloaded.
-message(STATUS "Patching version in ${_php_directory}/CMakeLists.txt")
-
-string(REGEX MATCH "([0-9]+)\\.([0-9]+)\\.([0-9]+)([a-zA-Z0-9\\-]*)$" _ ${PHP_VERSION})
-
-set(PHP_VERSION_MAJOR ${CMAKE_MATCH_1})
-set(PHP_VERSION_MINOR ${CMAKE_MATCH_2})
-set(PHP_VERSION_PATCH ${CMAKE_MATCH_3})
-set(PHP_VERSION_LABEL ${CMAKE_MATCH_4})
-
-string(CONCAT PHP_VERSION_MAIN "${PHP_VERSION_MAJOR}" "." "${PHP_VERSION_MINOR}" "." "${PHP_VERSION_PATCH}")
-
-file(READ "${_php_directory}/CMakeLists.txt" _file_contents)
-string(REPLACE "VERSION 8.3.0" "VERSION ${PHP_VERSION_MAIN}" _file_contents "${_file_contents}")
-string(REPLACE "set(PHP_VERSION_LABEL \"-dev\"" "set(PHP_VERSION_LABEL \"${PHP_VERSION_LABEL}\"" _file_contents ${_file_contents})
-file(WRITE "${_php_directory}/CMakeLists.txt" "${_file_contents}")
 
 message("
 ${_php_directory} directory is now ready to use")
