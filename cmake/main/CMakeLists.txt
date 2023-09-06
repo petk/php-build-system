@@ -62,3 +62,7 @@ endif()
 if(HAVE_LIBEXPAT)
   target_link_libraries(main PRIVATE ext_xml)
 endif()
+
+if(HAVE_ZEND_TEST)
+  target_link_libraries(main PRIVATE ext_zend_test)
+endif()
