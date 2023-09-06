@@ -22,11 +22,6 @@ add_library(ext_json STATIC
   ${BISON_JsonParser_OUTPUTS}
 )
 
-target_include_directories(
-  ext_json
-  PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}
-)
-
 target_compile_definitions(ext_json PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE=1)
 
 set_target_properties(ext_json PROPERTIES PUBLIC_HEADER "php_json.h;php_json_parser.h;php_json_scanner.h")

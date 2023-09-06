@@ -1,13 +1,28 @@
 # CMake code style
 
+## Introduction
+
 CMake is pretty forgiving when it comes to code style. Yet, using some frame on
 how to code CMake files can improve overall code quality and understanding of
 the build system when used by multiple developers.
 
-This repository is following some of the established code style practices from
-the CMake ecosystem.
+For example, all CMake functions, macros, and commands are case insensitive.
+These two are the same:
+
+```cmake
+add_library(foo foo.c bar.c)
+```
+
+```cmake
+ADD_LIBRARY(foo foo.c bar.c)
+```
+
+Variables are on the other hand case sensitive.
 
 ## Code style
+
+This repository is following some of the established code style practices from
+the CMake ecosystem.
 
 * In general the **all-lowercase style** is preferred.
 
@@ -54,12 +69,12 @@ the CMake ecosystem.
 
     Since there is no way to limit the scope of such directory variables to only
     current CMake file, the convention is to prefix them with underscore (`_`)
-    to indicate they are meant for temporary use only.
+    to indicate they are meant for temporary use only inside current CMake file.
 
 * **End commands**
 
   To make the code easier to read, use empty commands for `endif()`,
-  `endfunction()`, `endforeach()`, `endmacro()` and `endwhile()`, `else()`, and
+  `endfunction()`, `endforeach()`, `endmacro()`, `endwhile()`, `else()`, and
   similar end commands. The optional argument in these is legacy CMake and not
   recommended anymore.
 
@@ -83,9 +98,30 @@ the CMake ecosystem.
 
 * **Module naming conventions**
 
-The find nodules are in this repository named in form of `FindUPPERCASE.cmake`.
-The utility modules are for convenience prefixed with `PHP` and then mostly
-following the form of `PHPFooBar.cmake` pattern.
+The find modules in this repository are named in form of `FindUPPERCASE.cmake`.
+The utility modules are prefixed with `PHP` and then mostly following the form
+of `PHPFooBar.cmake` pattern for convenience to not collide with upstream CMake
+modules.
+
+* **Booleans**
+
+CMake treats the `1`, `ON`, `YES`, `TRUE`, `Y` as boolean true values and
+`0`, `OFF`, `NO`, `FALSE`, `N`, `IGNORE`, `NOTFOUND`, the empty string, or if
+value ends in the suffix `-NOTFOUND` as boolean false values. The named
+constants are case-insensitive.
+
+Possible simplifications for this repository and to not collide too much with
+existing C code and configuration header `php_config.h`:
+
+```cmake
+# Options have ON/OFF values.
+option(FOO "Documentation string" ON)
+
+# Conditional variables have 1/0 values.
+set(HAVE_FOO_H 1 CACHE INTERNAL "Documentation string")
+
+# Elsewhere in commands, functions etc. TRUE/FALSE.
+```
 
 ## Macros vs. functions
 
@@ -106,7 +142,7 @@ find formatting issues and sync the CMake code style:
 cmake-format --check <cmake/CMakeLists.txt cmake/...>
 ```
 
-It can utilize the configuration file (default `cmake-format.[py|json|yaml]`) or
+It can utilize the configuration file (default `cmake-format.[json|py|yaml]`) or
 by passing the `--config-files` or `-c` option:
 
 ```sh
@@ -135,6 +171,9 @@ tool is part of the cmakelang project and can help with linting CMake files:
 cmake-lint <cmake/CMakeLists.txt cmake/...>
 ```
 
+This tool can also utilize the `cmake-format.[json|py|yaml]` file using the `-c`
+option.
+
 ### cmakelint
 
 For linting there is also a separate and useful
@@ -153,5 +192,26 @@ checks CMake files:
 ```sh
 ./bin/check-cmake.sh
 ```
+
+### The cmake-format.json
+
+The `cmake-format.json` file is used to configure how `cmake-lint` and
+`cmake-format` tools work.
+
+There is `cmake/cmake/cmake-format.json` added to this repository and is used by
+the custom `bin/check-cmake.sh` script. It includes only changed configuration
+values from the upstream defaults.
+
+* `disabled_codes`
+
+  This option disables certain cmake-lint checks. This repository has simplified
+  code style by disabling the following codes:
+
+  * `C0111` - Missing docstring on function or macro declaration
+  * `C0301` - Line too long
+  * `C0307` - Bad indentation
+
+  The cmake-lint checks codes are specified at
+  [cmakelang documentation](https://cmake-format.readthedocs.io/en/latest/lint-implemented.html#)
 
 * [CMake developers docs](https://cmake.org/cmake/help/latest/manual/cmake-developer.7.html)

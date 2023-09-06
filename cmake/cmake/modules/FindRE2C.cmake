@@ -4,14 +4,14 @@ https://re2c.org/
 
 The module defines the following variables
 
-``RE2C_EXECUTABLE``
-  path to the ``re2c`` program
+RE2C_EXECUTABLE
+  Path to the re2c program.
 
-``RE2C_VERSION``
-  version of ``re2c``
+RE2C_VERSION
+  Version of re2c program.
 
-``RE2C_FOUND``
-  "True" if the program was found
+RE2C_FOUND
+  Set to true if the program was found, false otherwise.
 
 The minimum required version of ``re2c`` can be specified using the standard
 CMake syntax, e.g. :command:`find_package(RE2C 0.15.3)`.

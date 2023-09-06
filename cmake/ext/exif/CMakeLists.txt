@@ -20,9 +20,4 @@ add_library(ext_exif ${_library_type}
   exif.c
 )
 
-target_include_directories(
-  ext_exif
-  PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}
-)
-
 target_compile_definitions(ext_exif PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE=1)

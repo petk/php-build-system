@@ -15,9 +15,4 @@ add_library(ext_dl_test SHARED
   dl_test.c
 )
 
-target_include_directories(
-  ext_dl_test
-  PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}
-)
-
 target_compile_definitions(ext_dl_test PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE=1)

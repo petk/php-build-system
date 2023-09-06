@@ -3,7 +3,7 @@ Traverses all PHP extensions and processes the CMakeLists.txt files in them.
 ]=============================================================================]#
 
 function(get_php_extensions result directory level)
-  file(GLOB_RECURSE SUBDIRECTORIES LIST_DIRECTORIES true "${directory}/*/" "ext/*/CMakeLists.txt")
+  file(GLOB_RECURSE SUBDIRECTORIES LIST_DIRECTORIES TRUE "${directory}/*/" "ext/*/CMakeLists.txt")
   set(directories "")
   foreach(subdirectory ${SUBDIRECTORIES})
     if(EXISTS "${subdirectory}/CMakeLists.txt")

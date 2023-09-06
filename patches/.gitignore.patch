@@ -1,5 +1,5 @@
 diff --git a/.gitignore b/.gitignore
-index 49acc9f2e1..376e729f64 100644
+index 49acc9f2e1..a6191d1d72 100644
 --- a/.gitignore
 +++ b/.gitignore
 @@ -297,3 +297,16 @@ tmp-php.ini
@@ -12,10 +12,10 @@ index 49acc9f2e1..376e729f64 100644
 +# ------------------------------------------------------------------------------
 +/.ninja*
 +/build.ninja
++/CMakeUserPresets.json
 +/CTestTestfile.cmake
 +/profile.json
 +/Testing/
 +cmake_install.cmake
 +CMakeCache.txt
 +CMakeFiles/
-+CMakeUserPresets.json

@@ -155,4 +155,5 @@ if(SHM_MMAP_POSIX_REQUIRED_LIBRARIES)
   target_link_libraries(ext_opcache PRIVATE ${SHM_MMAP_POSIX_REQUIRED_LIBRARIES})
 endif()
 
+# TODO: Check and refactore these.
 target_link_libraries(ext_opcache PRIVATE Zend main ext_standard)

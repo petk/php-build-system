@@ -9,7 +9,7 @@
     }
   },
   "lint": {
-    "disabled_codes": ["C0301", "C0111", "C0307"],
+    "disabled_codes": ["C0111", "C0301", "C0307"],
     "internal_var_pattern": "[0-9A-Z_]+"
   }
 }

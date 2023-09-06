@@ -26,8 +26,3 @@ add_library(ext_calendar ${_extension_library_type}
   easter.c
   cal_unix.c
 )
-
-target_include_directories(
-  ext_calendar
-  PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}
-)

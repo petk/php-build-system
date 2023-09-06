@@ -19,8 +19,3 @@ php_extension(NAME "ctype" ${_library_type})
 add_library(ext_ctype ${_library_type}
   ctype.c
 )
-
-target_include_directories(
-  ext_ctype
-  PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}
-)
