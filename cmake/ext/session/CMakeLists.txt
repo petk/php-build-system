@@ -32,7 +32,7 @@ add_library(ext_session ${_library_type}
 
 target_compile_definitions(ext_session PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE=1)
 
-set(SESSION_HEADERS "php_session.h;mod_files.h;mod_user.h")
+set(_ext_session_headers "php_session.h;mod_files.h;mod_user.h")
 
 # The HAVE_SESSION should be used but for BC reasons this is additionally set.
 set(HAVE_PHP_SESSION 1 CACHE INTERNAL "Define to 1 if session extension is enabled")
@@ -55,8 +55,6 @@ if(EXT_SESSION_MM)
     message(FATAL_ERROR "Enabling ZTS and libmm cannot be done together.")
   endif()
 
-  list(APPEND SESSION_HEADERS "${CMAKE_CURRENT_SOURCE_DIR}/mod_mm.h")
-
   target_include_directories(
     ext_session
     PUBLIC "${MM_DIR}/include"
@@ -66,6 +64,19 @@ if(EXT_SESSION_MM)
   target_link_libraries(ext_session PRIVATE mm)
 
   set(HAVE_LIBMM 1 CACHE INTERNAL "Whether you have libmm")
+
+  list(APPEND _ext_session_headers "${CMAKE_CURRENT_SOURCE_DIR}/mod_mm.h")
 endif()
 
-set_target_properties(ext_session PROPERTIES PUBLIC_HEADER "${SESSION_HEADERS}")
+target_sources(
+  ext_session
+  PUBLIC FILE_SET ext_session_headers
+  TYPE HEADERS
+  FILES ${_ext_session_headers}
+)
+
+install(
+  TARGETS ext_session
+  FILE_SET ext_session_headers
+  DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/php/ext/session
+)

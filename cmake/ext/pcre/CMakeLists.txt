@@ -10,6 +10,12 @@ add_library(ext_pcre STATIC
   php_pcre.c
 )
 
+target_compile_definitions(ext_pcre
+  PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE=1
+)
+
+set(PCRE2_CODE_UNIT_WIDTH 8 CACHE INTERNAL "Number of bits in non-UTF mode for PCRE library")
+
 if(EXT_PCRE_EXTERNAL)
   find_package(PCRE 10.30 REQUIRED)
 
@@ -20,8 +26,6 @@ if(EXT_PCRE_EXTERNAL)
   if(PCRE_INCLUDE_DIRS)
     target_include_directories(ext_pcre PRIVATE ${PCRE_INCLUDE_DIRS})
   endif()
-
-  set(PCRE2_CODE_UNIT_WIDTH 8 CACHE INTERNAL "Number of bits in non-UTF mode for PCRE library")
 
   if(EXT_PCRE_JIT)
     message(STATUS "Checking for JIT support in PCRE2")
@@ -50,12 +54,6 @@ if(EXT_PCRE_EXTERNAL)
 
     unset(_successful)
   endif()
-
-  target_compile_definitions(ext_pcre
-    PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE=1
-  )
-
-  set_target_properties(ext_pcre PROPERTIES PUBLIC_HEADER "php_pcre.h")
 else()
   message(STATUS "Using bundled PCRE library")
 
@@ -101,12 +99,10 @@ else()
   )
 
   target_compile_definitions(ext_pcre
-    PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE=1
-            HAVE_CONFIG_H
+    PRIVATE HAVE_CONFIG_H
   )
 
   set(HAVE_BUNDLED_PCRE 1 CACHE INTERNAL "Whether the bundled PCRE library is used")
-  set(PCRE2_CODE_UNIT_WIDTH 8 CACHE INTERNAL "Number of bits in non-UTF mode for PCRE library")
 
   message(STATUS "Checking whether to enable PCRE JIT functionality")
 
@@ -141,11 +137,24 @@ else()
     message(STATUS "PCRE JIT disabled")
   endif()
 
-  file(GLOB PCRE_HEADER_FILES "${CMAKE_CURRENT_SOURCE_DIR}/pcre2lib/*.h")
-  list(APPEND PCRE_HEADER_FILES "${CMAKE_CURRENT_SOURCE_DIR}/php_pcre.h")
-  set_target_properties(ext_pcre PROPERTIES PUBLIC_HEADER "${PCRE_HEADER_FILES}")
-
   if(VALGRIND AND PHP_DEBUG)
     set(HAVE_PCRE_VALGRIND_SUPPORT 1 CACHE INTERNAL "Whether to enable the Valgrind support in PCRE")
   endif()
+
+  file(GLOB _ext_pcre_headers "${CMAKE_CURRENT_SOURCE_DIR}/pcre2lib/*.h")
 endif()
+
+list(APPEND _ext_pcre_headers "${CMAKE_CURRENT_SOURCE_DIR}/php_pcre.h")
+
+target_sources(
+  ext_pcre
+  PUBLIC FILE_SET ext_pcre_headers
+  TYPE HEADERS
+  FILES ${_ext_pcre_headers}
+)
+
+install(
+  TARGETS ext_pcre
+  FILE_SET ext_pcre_headers
+  DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/php/ext/pcre
+)

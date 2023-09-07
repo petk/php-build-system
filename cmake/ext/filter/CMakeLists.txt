@@ -23,4 +23,15 @@ add_library(ext_filter ${_library_type}
 
 target_compile_definitions(ext_filter PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE=1)
 
-set_target_properties(ext_filter PROPERTIES PUBLIC_HEADER "php_filter.h")
+target_sources(
+  ext_filter
+  PUBLIC FILE_SET ext_filter_headers
+  TYPE HEADERS
+  FILES php_filter.h
+)
+
+install(
+  TARGETS ext_filter
+  FILE_SET ext_filter_headers
+  DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/php/ext/filter
+)

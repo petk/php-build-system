@@ -66,3 +66,9 @@ endif()
 if(HAVE_ZEND_TEST)
   target_link_libraries(main PRIVATE ext_zend_test)
 endif()
+
+file(GLOB_RECURSE _main_headers "${PROJECT_SOURCE_DIR}/main/*.h")
+install(FILES ${_main_headers} DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/php/main)
+
+file(GLOB_RECURSE _main_streams_headers "${PROJECT_SOURCE_DIR}/main/streams/*.h")
+install(FILES ${_main_streams_headers} DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/php/main/streams)

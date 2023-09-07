@@ -35,6 +35,7 @@ to build PHP with CMake.
   * [9.11. CMake GUI](#911-cmake-gui)
   * [9.12. Testing](#912-testing)
   * [9.13. Performance](#913-performance)
+  * [9.14. Installing PHP with CMake](#914-installing-php-with-cmake)
 * [10. See more](#10-see-more)
   * [10.1. Autotools](#101-autotools)
   * [10.2. CMake](#102-cmake)
@@ -42,6 +43,26 @@ to build PHP with CMake.
   * [10.4. PHP Internals](#104-php-internals)
 
 ## 2. Introduction
+
+PHP developers typically opt for convenient methods to set up PHP on their
+machines, such as utilizing prebuilt Linux packages available in their Linux
+distribution repositories, deploying Docker images, or relying on user-friendly
+stacks that bundle PHP, its extensions, web server, and database into a unified
+installation package.
+
+```sh
+# Debian-based distributions:
+sudo apt install php...
+
+# Fedora-based distributions:
+sudo dnf install php...
+```
+
+In contrast, the practice of building PHP from source code is primarily reserved
+for specific purposes, such as PHP source code development or extensive
+customization of PHP configurations on a particular system. This approach is
+less commonly employed by everyday PHP developers due to its intricate and
+time-consuming nature.
 
 In the realm of software development, a build system is a collection of tools
 and files that automate the process of compiling, linking, and assembling the
@@ -346,7 +367,8 @@ The `buildconf` is a simple shell script wrapper around `autoconf` and
 command line script and `main/php_config.h.in` header template.
 
 When running the `./configure`, many checks are done based on the running
-system. Things like C headers availability, C symbols, etc.
+system. Things like C headers availability, C symbols, required library
+dependencies etc.
 
 The `configure` script creates `Makefile` where the `make` command then builds
 binary files from C source files. You can optionally pass the `-j` option which
@@ -356,11 +378,10 @@ is the number of threads on current system, so it builds faster.
 make -j $(nproc)
 ```
 
-When compiling is done, you can install the needed files across the \*nix system
-with:
+When compiling is done, the tests can be run with:
 
 ```sh
-make install
+make TEST_PHP_ARGS=-j10 test
 ```
 
 PHP \*nix build system is pretty much standard GNU Autotools build system with
@@ -693,7 +714,13 @@ With CMake the minimum required version is defined in the top project file
   * To be able to use `CMakePresets.json` for sharing build configurations
 * 3.20
   * To have CMAKE_C_BYTE_ORDER, otherwise manual check should be done
-  * To be able to use `"version": "2"` in `CMakePresets.json`
+  * To be able to use `"version": 2` in `CMakePresets.json`
+* 3.21
+  * To be able to use `"version": 3` in `CMakePresets.json` (for the
+    `installDir` option).
+* 3.23
+  * To be able to use `target_sources(FILE_SET)`, otherwise `install(FILES)`
+    should be used, when installing PHP built files to their destinations.
 * 3.25
 
 Currently, the CMake minimum version is set to **3.25** without looking at CMake
@@ -1146,8 +1173,8 @@ make TEST_PHP_ARGS=-j10 test
 
 CMake ships with a `ctest` utility that can run also this in a similar way.
 
-To enable testing the `enable_testing()` is added to CMakeLists.txt file.and
-then the tests are added with `add_test()`.
+To enable testing the `enable_testing()` is added to the `CMakeLists.txt` file
+and the tests are added with `add_test()`.
 
 To run the tests using CMake in command line:
 
@@ -1156,7 +1183,7 @@ ctest --progress --verbose
 ```
 
 The `--progress` option displays a progress if there's more tests set, and
-`--verbose` option outputs additional info to the STDOUT. In PHP case the
+`--verbose` option outputs additional info to the stdout. In PHP case the
 `--verbose` is needed so the output of the `run-tests.php` script is displayed.
 
 CMake testing also supports presets so configuration can be coded and shared
@@ -1176,6 +1203,10 @@ cmake . --profiling-output ./profile.json --profiling-format google-trace
 ```
 
 ![CMake profiling](docs/images/cmake-profiling.png)
+
+### 9.14. Installing PHP with CMake
+
+See [PHP installation](/docs/php-installation.md) chapter.
 
 ## 10. See more
 

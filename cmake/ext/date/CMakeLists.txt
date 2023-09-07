@@ -39,8 +39,6 @@ target_compile_definitions(ext_date
     HAVE_TIMELIB_CONFIG_H=1
 )
 
-set_target_properties(ext_date PROPERTIES PUBLIC_HEADER "php_date.h;lib/timelib.h;lib/timelib_config.h")
-
 set(HAVE_TIMELIB_CONFIG_H 1 CACHE INTERNAL "Have timelib_config.h")
 
 message(STATUS "Creating ext/date/lib/timelib_config.h")
@@ -64,3 +62,19 @@ file(WRITE "lib/timelib_config.h"
 ")
 
 add_dependencies(ext_date main Zend)
+
+target_sources(
+  ext_date
+  PUBLIC FILE_SET ext_date_headers
+  TYPE HEADERS
+  FILES
+    lib/timelib.h
+    lib/timelib_config.h
+    php_date.h
+)
+
+install(
+  TARGETS ext_date
+  FILE_SET ext_date_headers
+  DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/php/ext/date
+)

@@ -26,8 +26,6 @@ add_library(ext_curl ${_library_type}
   curl_file.c
 )
 
-set_target_properties(ext_curl PROPERTIES PUBLIC_HEADER "php_curl.h")
-
 # Checking if libcurl is linked against old openssl.
 if(CURL_SSL_FOUND)
   if(NOT CMAKE_CROSSCOMPILING)
@@ -86,3 +84,16 @@ unset(HAVE_CURL_LIB)
 target_include_directories(ext_curl PRIVATE ${CURL_INCLUDE_DIRS})
 
 target_link_libraries(ext_curl PRIVATE ${CURL_LIBRARIES})
+
+target_sources(
+  ext_curl
+  PUBLIC FILE_SET ext_curl_headers
+  TYPE HEADERS
+  FILES php_curl.h
+)
+
+install(
+  TARGETS ext_curl
+  FILE_SET ext_curl_headers
+  DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/php/ext/curl
+)

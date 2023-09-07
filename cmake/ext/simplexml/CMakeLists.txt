@@ -22,6 +22,19 @@ add_library(ext_simplexml ${_library_type}
   simplexml.c
 )
 
-set_target_properties(ext_simplexml PROPERTIES PUBLIC_HEADER "php_simplexml.h;php_simplexml_exports.h")
-
 target_link_libraries(ext_simplexml ext_libxml)
+
+target_sources(
+  ext_simplexml
+  PUBLIC FILE_SET ext_simplexml_headers
+  TYPE HEADERS
+  FILES
+    php_simplexml.h
+    php_simplexml_exports.h
+)
+
+install(
+  TARGETS ext_simplexml
+  FILE_SET ext_simplexml_headers
+  DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/php/ext/simplexml
+)

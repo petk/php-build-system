@@ -1,10 +1,10 @@
 #[=============================================================================[
 Checks whether writing to stdout works.
 
-The module defines the following variables if writing to STDOUT works:
+The module defines the following variables if writing to stdout works:
 
-``PHP_WRITE_STDOUT``
-  Defined to 1 if write(2) works.
+PHP_WRITE_STDOUT
+  Set to 1 if write(2) works.
 ]=============================================================================]#
 
 include(CheckCSourceRuns)

@@ -41,7 +41,19 @@ else()
   target_include_directories(ext_xml PUBLIC "${EXPAT_INCLUDE_DIRS}")
 endif()
 
-file(GLOB XML_HEADER_FILES "${CMAKE_CURRENT_SOURCE_DIR}/*.h")
-set_target_properties(ext_xml PROPERTIES PUBLIC_HEADER "${XML_HEADER_FILES}")
-
 target_compile_definitions(ext_xml PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE=1)
+
+file(GLOB _ext_xml_headers "${CMAKE_CURRENT_SOURCE_DIR}/*.h")
+
+target_sources(
+  ext_xml
+  PUBLIC FILE_SET ext_xml_headers
+  TYPE HEADERS
+  FILES ${_ext_xml_headers}
+)
+
+install(
+  TARGETS ext_xml
+  FILE_SET ext_xml_headers
+  DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/php/ext/xml
+)

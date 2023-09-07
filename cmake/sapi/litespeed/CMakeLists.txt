@@ -25,3 +25,5 @@ endif()
 if(EXTRA_DEFINITIONS)
   target_compile_definitions(lsphp PUBLIC ${EXTRA_DEFINITIONS})
 endif()
+
+install(TARGETS lsphp DESTINATION ${CMAKE_INSTALL_BINDIR})

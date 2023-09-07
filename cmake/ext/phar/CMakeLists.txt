@@ -48,8 +48,27 @@ target_include_directories(
 
 target_compile_definitions(ext_phar PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE=1)
 
-set_target_properties(ext_phar PROPERTIES PUBLIC_HEADER "php_phar.h")
-
-# Man pages.
+# Man documentation.
 configure_file(phar.1.in phar.1 @ONLY)
 configure_file(phar.1.in phar.phar.1 @ONLY)
+
+target_sources(
+  ext_phar
+  PUBLIC FILE_SET ext_phar_headers
+  TYPE HEADERS
+  FILES
+    php_phar.h
+)
+
+install(
+  TARGETS ext_phar
+  FILE_SET ext_phar_headers
+  DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/php/ext/phar
+)
+
+install(
+  FILES
+    phar.1
+    phar.phar.1
+  DESTINATION ${CMAKE_INSTALL_MANDIR}/man1
+)

@@ -43,6 +43,17 @@ add_library(ext_dom ${_library_type}
   namednodemap.c
 )
 
-set_target_properties(ext_dom PROPERTIES PUBLIC_HEADER "xml_common.h")
-
 target_link_libraries(ext_dom ext_libxml)
+
+target_sources(
+  ext_dom
+  PUBLIC FILE_SET ext_dom_headers
+  TYPE HEADERS
+  FILES xml_common.h
+)
+
+install(
+  TARGETS ext_dom
+  FILE_SET ext_dom_headers
+  DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/php/ext/dom
+)

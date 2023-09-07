@@ -48,4 +48,16 @@ target_include_directories(
 
 target_compile_definitions(ext_random PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE=1)
 
-set_target_properties(ext_random PROPERTIES PUBLIC_HEADER "php_random.h")
+target_sources(
+  ext_random
+  PUBLIC FILE_SET ext_random_headers
+  TYPE HEADERS
+  FILES
+    php_random.h
+)
+
+install(
+  TARGETS ext_random
+  FILE_SET ext_random_headers
+  DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/php/ext/random
+)

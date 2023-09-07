@@ -29,4 +29,18 @@ add_library(ext_pdo ${_library_type}
   pdo_sqlstate.c
 )
 
-set_target_properties(ext_pdo PROPERTIES PUBLIC_HEADER "php_pdo.h;php_pdo_driver.h;php_pdo_error.h")
+target_sources(
+  ext_pdo
+  PUBLIC FILE_SET ext_pdo_headers
+  TYPE HEADERS
+  FILES
+    php_pdo.h
+    php_pdo_driver.h
+    php_pdo_error.h
+)
+
+install(
+  TARGETS ext_pdo
+  FILE_SET ext_pdo_headers
+  DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/php/ext/pdo
+)

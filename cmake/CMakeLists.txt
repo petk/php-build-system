@@ -136,6 +136,40 @@ add_test(
   COMMAND ./sapi/cli/php run-tests.php ${_run_tests_jobs} -q
 )
 
+# Man documentation.
+configure_file(
+  ${CMAKE_SOURCE_DIR}/scripts/man1/php-config.1.in
+  ${CMAKE_BINARY_DIR}/scripts/man1/php-config.1
+  @ONLY
+)
+
+configure_file(
+  ${CMAKE_SOURCE_DIR}/scripts/man1/phpize.1.in
+  ${CMAKE_BINARY_DIR}/scripts/man1/phpize.1
+  @ONLY
+)
+
+# The php-config script.
+configure_file(
+  ${CMAKE_SOURCE_DIR}/scripts/php-config.in
+  ${CMAKE_BINARY_DIR}/scripts/php-config
+  @ONLY
+)
+
+install(
+  FILES
+    ${CMAKE_BINARY_DIR}/scripts/man1/php-config.1
+    ${CMAKE_BINARY_DIR}/scripts/man1/phpize.1
+  DESTINATION ${CMAKE_INSTALL_MANDIR}/man1
+)
+
+install(
+  FILES
+    ${CMAKE_BINARY_DIR}/scripts/php-config
+  DESTINATION ${CMAKE_INSTALL_BINDIR}
+)
+
+
 message("
 +--------------------------------------------------------------------+
 | License:                                                           |

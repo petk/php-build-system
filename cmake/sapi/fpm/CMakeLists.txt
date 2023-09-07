@@ -13,3 +13,14 @@ cmake_dependent_option(SAPI_FPM_SELINUX "Support SELinux policy library" OFF "SA
 if(NOT SAPI_FPM)
   return()
 endif()
+
+#install(TARGETS fpm DESTINATION ${CMAKE_INSTALL_BINDIR})
+
+# Man documentation.
+configure_file(php-fpm.8.in php-fpm.8 @ONLY)
+
+install(
+  FILES
+    php-fpm.8
+  DESTINATION ${CMAKE_INSTALL_MANDIR}/man8
+)

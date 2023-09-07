@@ -1,10 +1,11 @@
 #[=============================================================================[
-Checks whether writing to stdout works.
+Check Zend max execution timers.
 
-The module defines the following variables if writing to STDOUT works:
+The module defines the following variables if Zend max execution timers should
+be enabled:
 
-``PHP_WRITE_STDOUT``
-  Defined to 1 if write(2) works.
+ZEND_MAX_EXECUTION_TIMERS
+  Set to 1 if Zend max execution timers should be enabled.
 ]=============================================================================]#
 
 include(CheckLibraryExists)

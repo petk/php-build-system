@@ -18,8 +18,6 @@ add_library(ext_gmp ${_library_type}
 
 target_compile_definitions(ext_gmp PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE=1)
 
-set_target_properties(ext_gmp PROPERTIES PUBLIC_HEADER "php_gmp_int.h")
-
 find_package(GMP 4.2 REQUIRED)
 
 if(GMP_LIBRARIES)
@@ -29,3 +27,16 @@ endif()
 if(GMP_INCLUDE_DIRS)
   target_include_directories(ext_gmp PRIVATE ${GMP_INCLUDE_DIRS})
 endif()
+
+target_sources(
+  ext_gmp
+  PUBLIC FILE_SET ext_gmp_headers
+  TYPE HEADERS
+  FILES php_gmp_int.h
+)
+
+install(
+  TARGETS ext_gmp
+  FILE_SET ext_gmp_headers
+  DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/php/ext/gmp
+)

@@ -261,12 +261,24 @@ target_compile_definitions(ext_standard PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE=
 
 target_link_libraries(ext_standard PUBLIC main)
 
-file(GLOB EXT_STANDARD_HEADER_FILES "${CMAKE_CURRENT_SOURCE_DIR}/*.h")
-set_target_properties(ext_standard PROPERTIES PUBLIC_HEADER "${EXT_STANDARD_HEADER_FILES}")
-
 add_dependencies(ext_standard Zend)
 
 if(STANDARD_EXTRA_LIBRARIES)
   list(REMOVE_DUPLICATES ${STANDARD_EXTRA_LIBRARIES})
   target_link_libraries(ext_standard PRIVATE ${STANDARD_EXTRA_LIBRARIES})
 endif()
+
+file(GLOB _ext_standard_headers "${CMAKE_CURRENT_SOURCE_DIR}/*.h")
+
+target_sources(
+  ext_standard
+  PUBLIC FILE_SET ext_standard_headers
+  TYPE HEADERS
+  FILES ${_ext_standard_headers}
+)
+
+install(
+  TARGETS ext_standard
+  FILE_SET ext_standard_headers
+  DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/php/ext/standard
+)

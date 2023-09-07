@@ -291,3 +291,20 @@ endif()
 if(ZEND_MAX_EXECUTION_TIMERS)
   target_compile_definitions(Zend PRIVATE ZEND_MAX_EXECUTION_TIMERS)
 endif()
+
+file(GLOB_RECURSE _zend_headers "${PROJECT_SOURCE_DIR}/Zend/*.h")
+install(FILES ${_zend_headers} DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/php/Zend)
+
+install(
+  FILES
+    Optimizer/zend_call_graph.h
+    Optimizer/zend_cfg.h
+    Optimizer/zend_dfg.h
+    Optimizer/zend_dump.h
+    Optimizer/zend_func_info.h
+    Optimizer/zend_inference.h
+    Optimizer/zend_optimizer.h
+    Optimizer/zend_ssa.h
+    DESTINATION
+      ${CMAKE_INSTALL_INCLUDEDIR}/php/Zend/Optimizer
+)

@@ -43,9 +43,6 @@ add_library(ext_mysqlnd ${_library_type}
 
 target_compile_definitions(ext_mysqlnd PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE=1)
 
-file(GLOB MYSQLND_HEADER_FILES "${CMAKE_CURRENT_SOURCE_DIR}/*.h")
-set_target_properties(ext_mysqlnd PROPERTIES PUBLIC_HEADER "${MYSQLND_HEADER_FILES}")
-
 if(EXT_MYSQLND_COMPRESSION)
   find_package(ZLIB REQUIRED)
 
@@ -71,3 +68,18 @@ if(EXT_OPENSSL)
     target_include_directories(ext_mysqlnd PRIVATE ${OPENSSL_INCLUDE_DIRS})
   endif()
 endif()
+
+file(GLOB _ext_mysqlnd_headers "${CMAKE_CURRENT_SOURCE_DIR}/*.h")
+
+target_sources(
+  ext_mysqlnd
+  PUBLIC FILE_SET ext_mysqlnd_headers
+  TYPE HEADERS
+  FILES ${_ext_mysqlnd_headers}
+)
+
+install(
+  TARGETS ext_mysqlnd
+  FILE_SET ext_mysqlnd_headers
+  DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/php/ext/mysqlnd
+)

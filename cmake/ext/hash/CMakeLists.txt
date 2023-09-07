@@ -68,4 +68,31 @@ else()
   message(WARNING "Using SHA3 slow implementation on bigendian")
 endif()
 
-set_target_properties(ext_hash PROPERTIES PUBLIC_HEADER "php_hash.h;php_hash_md.h;php_hash_sha.h;php_hash_ripemd.h;php_hash_haval.h;php_hash_tiger.h;php_hash_gost.h;php_hash_snefru.h;php_hash_whirlpool.h;php_hash_adler32.h;php_hash_crc32.h;php_hash_fnv.hM;php_hash_joaat.h;php_hash_sha3.h;php_hash_murmur.h;php_hash_xxhash.h")
+target_sources(
+  ext_hash
+  PUBLIC FILE_SET ext_hash_headers
+  TYPE HEADERS
+  FILES
+    php_hash.h
+    php_hash_md.h
+    php_hash_sha.h
+    php_hash_ripemd.h
+    php_hash_haval.h
+    php_hash_tiger.h
+    php_hash_gost.h
+    php_hash_snefru.h
+    php_hash_whirlpool.h
+    php_hash_adler32.h
+    php_hash_crc32.h
+    php_hash_fnv.h
+    php_hash_joaat.h
+    php_hash_sha3.h
+    php_hash_murmur.h
+    php_hash_xxhash.h
+)
+
+install(
+  TARGETS ext_hash
+  FILE_SET ext_hash_headers
+  DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/php/ext/hash
+)

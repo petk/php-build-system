@@ -1,12 +1,13 @@
 {
-  "version": 2,
+  "version": 3,
   "configurePresets": [
     {
       "name": "default",
       "displayName": "Default PHP configuration",
       "description": "Default PHP build using Unix Makefiles generator",
       "generator": "Unix Makefiles",
-      "binaryDir": "${sourceDir}"
+      "binaryDir": "${sourceDir}",
+      "installDir": "/tmp"
     },
     {
       "name": "unix-full",

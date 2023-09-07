@@ -68,3 +68,14 @@ endif()
 if(EXTRA_DEFINITIONS)
   target_compile_definitions(phpdbg PUBLIC ${EXTRA_DEFINITIONS})
 endif()
+
+# Man documentation.
+configure_file(phpdbg.1.in phpdbg.1 @ONLY)
+
+install(TARGETS phpdbg DESTINATION ${CMAKE_INSTALL_BINDIR})
+
+install(
+  FILES
+    phpdbg.1
+  DESTINATION ${CMAKE_INSTALL_MANDIR}/man1
+)

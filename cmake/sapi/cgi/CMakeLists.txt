@@ -26,3 +26,14 @@ endif()
 if(EXTRA_DEFINITIONS)
   target_compile_definitions(php-cgi PUBLIC ${EXTRA_DEFINITIONS})
 endif()
+
+# Man documentation.
+configure_file(php-cgi.1.in php-cgi.1 @ONLY)
+
+install(TARGETS php-cgi DESTINATION ${CMAKE_INSTALL_BINDIR})
+
+install(
+  FILES
+    php-cgi.1
+  DESTINATION ${CMAKE_INSTALL_MANDIR}/man1
+)

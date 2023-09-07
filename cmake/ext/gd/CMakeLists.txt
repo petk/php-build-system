@@ -28,7 +28,7 @@ add_library(ext_gd ${_library_type}
   gd.c
 )
 
-file(GLOB GD_HEADER_FILES "${CMAKE_CURRENT_SOURCE_DIR}/*.h")
+file(GLOB _ext_gd_headers "${CMAKE_CURRENT_SOURCE_DIR}/*.h")
 
 if(NOT EXT_GD_EXTERNAL)
   target_sources(ext_gd PRIVATE
@@ -81,7 +81,8 @@ if(NOT EXT_GD_EXTERNAL)
   set(HAVE_GD_BMP 1 CACHE INTERNAL "Whether the BMP functionality can be used with libgd")
   set(HAVE_GD_TGA 1 CACHE INTERNAL "Whether the TGA functionality can be used with libgd")
 
-  list(APPEND GD_HEADER_FILES "${CMAKE_CURRENT_SOURCE_DIR}/libgd/*.h")
+  file(GLOB _ext_gd_libgd_headers "${CMAKE_CURRENT_SOURCE_DIR}/libgd/*.h")
+  list(APPEND _ext_gd_headers ${_ext_gd_libgd_headers})
 
   # TODO: Check for fabsf and floorf which are available since C99. Are these
   # checks still needed?
@@ -246,4 +247,15 @@ else()
   check_library_exists(gd gdImageGetInterpolationMethod "" HAVE_GD_GET_INTERPOLATION)
 endif()
 
-set_target_properties(ext_gd PROPERTIES PUBLIC_HEADER "${GD_HEADER_FILES}")
+target_sources(
+  ext_gd
+  PUBLIC FILE_SET ext_gd_headers
+  TYPE HEADERS
+  FILES ${_ext_gd_headers}
+)
+
+install(
+  TARGETS ext_gd
+  FILE_SET ext_gd_headers
+  DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/php/ext/gd
+)

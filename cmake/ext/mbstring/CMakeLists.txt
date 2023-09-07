@@ -64,9 +64,9 @@ add_library(ext_mbstring ${_library_type}
 message(STATUS "Creating ext/mbstring/libmbfl/config.h")
 file(WRITE "${CMAKE_CURRENT_SOURCE_DIR}/libmbfl/config.h" "#include \"php_config.h\"\n")
 
-file(GLOB MBSTRING_HEADER_FILES "${CMAKE_CURRENT_SOURCE_DIR}/libmbfl/mbfl/*.h")
-list(APPEND MBSTRING_HEADER_FILES "${CMAKE_CURRENT_SOURCE_DIR}/libmbfl/config.h")
-list(APPEND MBSTRING_HEADER_FILES "${CMAKE_CURRENT_SOURCE_DIR}/mbstring.h")
+file(GLOB _ext_mbstring_headers "${CMAKE_CURRENT_SOURCE_DIR}/libmbfl/mbfl/*.h")
+list(APPEND _ext_mbstring_headers "${CMAKE_CURRENT_SOURCE_DIR}/libmbfl/config.h")
+list(APPEND _ext_mbstring_headers "${CMAKE_CURRENT_SOURCE_DIR}/mbstring.h")
 
 if(EXT_MBSTRING_MBREGEX)
   find_package(ONIGURUMA REQUIRED)
@@ -107,12 +107,11 @@ if(EXT_MBSTRING_MBREGEX)
   set(HAVE_MBREGEX 1 CACHE INTERNAL "Whether to have multibyte regex support")
 
   target_sources(ext_mbstring PRIVATE php_mbregex.c)
-  list(APPEND MBSTRING_HEADER_FILES "php_mbregex.h;php_onig_compat.h")
+
+  list(APPEND _ext_mbstring_headers "php_mbregex.h;php_onig_compat.h")
 endif()
 
 target_compile_definitions(ext_mbstring PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE=1)
-
-set_target_properties(ext_mbstring PROPERTIES PUBLIC_HEADER "${MBSTRING_HEADER_FILES}")
 
 target_include_directories(
   ext_mbstring
@@ -120,4 +119,17 @@ target_include_directories(
     "${CMAKE_CURRENT_SOURCE_DIR}"
     "${CMAKE_CURRENT_SOURCE_DIR}/libmbfl"
     "${CMAKE_CURRENT_SOURCE_DIR}/libmbfl/mbfl"
+)
+
+target_sources(
+  ext_mbstring
+  PUBLIC FILE_SET ext_mbstring_headers
+  TYPE HEADERS
+  FILES ${_ext_mbstring_headers}
+)
+
+install(
+  TARGETS ext_mbstring
+  FILE_SET ext_mbstring_headers
+  DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/php/ext/mbstring
 )

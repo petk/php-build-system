@@ -13,9 +13,20 @@ add_library(ext_libxml STATIC
 
 target_compile_definitions(ext_libxml PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE=1)
 
-set_target_properties(ext_libxml PROPERTIES PUBLIC_HEADER "php_libxml.h")
-
 find_package(LibXml2 2.9.0 REQUIRED GLOBAL)
 
 target_link_libraries(ext_libxml PUBLIC "${LIBXML2_LIBRARIES}")
 target_include_directories(ext_libxml PUBLIC "${LIBXML2_INCLUDE_DIRS}")
+
+target_sources(
+  ext_libxml
+  PUBLIC FILE_SET ext_libxml_headers
+  TYPE HEADERS
+  FILES php_libxml.h
+)
+
+install(
+  TARGETS ext_libxml
+  FILE_SET ext_libxml_headers
+  DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/php/ext/libxml
+)

@@ -58,4 +58,26 @@ if(EXTRA_DEFINITIONS)
   target_compile_definitions(php PUBLIC ${EXTRA_DEFINITIONS})
 endif()
 
-set_target_properties(php PROPERTIES PUBLIC_HEADER "cli.h")
+# Man documentation.
+configure_file(php.1.in php.1 @ONLY)
+
+install(TARGETS php RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR})
+
+target_sources(
+  php
+  PUBLIC FILE_SET sapi_php_headers
+  TYPE HEADERS
+  FILES cli.h
+)
+
+install(
+  TARGETS php
+  FILE_SET sapi_php_headers
+  DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/php/sapi/php
+)
+
+install(
+  FILES
+    php.1
+  DESTINATION ${CMAKE_INSTALL_MANDIR}/man1
+)

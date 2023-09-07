@@ -124,5 +124,17 @@ if(${host_os} MATCHES ".*darwin.*")
   target_compile_definitions(ext_sockets PRIVATE __APPLE_USE_RFC_3542)
 endif()
 
-file(GLOB SOCKETS_HEADER_FILES "${CMAKE_CURRENT_SOURCE_DIR}/*.h")
-set_target_properties(ext_sockets PROPERTIES PUBLIC_HEADER "${SOCKETS_HEADER_FILES}")
+file(GLOB _ext_sockets_headers "${CMAKE_CURRENT_SOURCE_DIR}/*.h")
+
+target_sources(
+  ext_sockets
+  PUBLIC FILE_SET ext_sockets_headers
+  TYPE HEADERS
+  FILES ${_ext_sockets_headers}
+)
+
+install(
+  TARGETS ext_sockets
+  FILE_SET ext_sockets_headers
+  DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/php/ext/sockets
+)
