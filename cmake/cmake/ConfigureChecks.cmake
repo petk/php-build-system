@@ -38,7 +38,6 @@ check_include_file(poll.h HAVE_POLL_H)
 check_include_file(pty.h HAVE_PTY_H)
 check_include_file(pwd.h HAVE_PWD_H)
 check_include_file(resolv.h HAVE_RESOLV_H)
-check_include_file(stdint.h HAVE_STDINT_H)
 check_include_file(strings.h HAVE_STRINGS_H)
 check_include_file(sys/file.h HAVE_SYS_FILE_H)
 check_include_file(sys/ioctl.h HAVE_SYS_IOCTL_H)
@@ -546,6 +545,10 @@ set(HAVE_STRING_H 1 CACHE INTERNAL "Define to 1 if you have the <string.h> heade
 # inttypes.h is always available as part of C99 standard. The libmagic still
 # includes it conditionally.
 set(HAVE_INTTYPES_H 1 CACHE INTERNAL "Define to 1 if you have the <inttypes.h> header file.")
+
+# stdint.h is always available as part of C99 standard. The libmagic,
+# ext/date/lib still include it conditionally.
+set(HAVE_STDINT_H 1 CACHE INTERNAL "Define to 1 if you have the <stdint.h> header file.")
 
 # TODO: Fix these properly if really needed.
 set(_TANDEM_SOURCE 1 CACHE INTERNAL "")
