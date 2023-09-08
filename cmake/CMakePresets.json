@@ -43,6 +43,7 @@
         "EXT_PSPELL": true,
         "EXT_READLINE": true,
         "EXT_SHMOP": true,
+        "EXT_SNMP": true,
         "EXT_SOAP": true,
         "EXT_SOCKETS": true,
         "EXT_SODIUM": true,

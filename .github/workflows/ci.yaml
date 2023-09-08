@@ -100,7 +100,10 @@ jobs:
             libxslt1-dev \
             libcapstone-dev \
             libreadline-dev \
-            libedit-dev;
+            libedit-dev \
+            libsnmp-dev \
+            snmpd \
+            snmp-mibs-downloader;
 
       - name: Checkout
         uses: actions/checkout@v3
@@ -113,6 +116,13 @@ jobs:
           cd php-${{ matrix.php }}
           cmake --preset unix-full
           cmake --build --preset unix-full -- -j$(/usr/bin/nproc)
+
+      - name: Setup SNMP agents
+        run: |
+          cd php-${{ matrix.php }}
+          cp ext/snmp/tests/snmpd.conf /etc/snmp
+          cp ext/snmp/tests/bigtest /etc/snmp
+          service snmpd restart
 
       - name: Run tests
         run: |

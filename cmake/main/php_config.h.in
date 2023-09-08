@@ -1401,7 +1401,7 @@
 #cmakedefine HAVE_SHUTDOWN @HAVE_SHUTDOWN@
 
 /* */
-#cmakedefine HAVE_SHUTDOWN_SNMP_LOGGING
+#cmakedefine HAVE_SHUTDOWN_SNMP_LOGGING @HAVE_SHUTDOWN_SNMP_LOGGING@
 
 /* Define to 1 if you have the `sigaction' function. */
 #cmakedefine HAVE_SIGACTION @HAVE_SIGACTION@
@@ -1425,13 +1425,13 @@
 #cmakedefine HAVE_SLOW_HASH3 @HAVE_SLOW_HASH3@
 
 /* */
-#cmakedefine HAVE_SNMP
+#cmakedefine HAVE_SNMP @HAVE_SNMP@
 
 /* */
-#cmakedefine HAVE_SNMP_SHA256
+#cmakedefine HAVE_SNMP_SHA256 @HAVE_SNMP_SHA256@
 
 /* */
-#cmakedefine HAVE_SNMP_SHA512
+#cmakedefine HAVE_SNMP_SHA512 @HAVE_SNMP_SHA512@
 
 /* */
 #cmakedefine HAVE_SOAP @HAVE_SOAP@

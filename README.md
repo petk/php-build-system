@@ -518,6 +518,13 @@ Optional:
   * when using `--with-libedit`
 * libreadline
   * when using `--with-readline`
+* libsnmp-dev
+  * when using `--with-snmp`
+
+When PHP is built, the development libraries are no longer required to be
+installed and only libraries without development files are needed to run newly
+built PHP. In example of `ext/zip` extension, the `libzip` package is needed and
+so on.
 
 ### 7.3. The configure command line options
 
@@ -960,6 +967,9 @@ List of configure command line options and their CMake alternatives:
 | `--enable-simplexml` (default)                   | `EXT_SIMPLEXML=ON`                            | `ON`                |
 | `--enable-simplexml=shared`                      | `EXT_SIMPLEXML_SHARED=ON`                     |                     |
 | `--disable-simplexml`                            | `EXT_SIMPLEXML=OFF`                           |                     |
+| `--without-snmp` (default)                       | `EXT_SNMP=OFF`                                | `OFF`               |
+| `--with-snmp`                                    | `EXT_SNMP=ON`                                 |                     |
+| `--with-snmp=shared`                             | `EXT_SNMP_SHARED=ON`                          |                     |
 | `--disable-soap` (default)                       | `EXT_SOAP=OFF`                                | `OFF`               |
 | `--enable-soap`                                  | `EXT_SOAP=ON`                                 |                     |
 | `--enable-soap=shared`                           | `EXT_SOAP_SHARED=ON`                          |                     |

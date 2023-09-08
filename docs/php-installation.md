@@ -2,8 +2,8 @@
 
 Installation of built files is a simple copy to a predefined directory structure
 of given system. In this phase the executable binary files, dynamic library
-objects, header files, *nix man pages, and similar files are copied to system
-directories.
+objects, header files, *nix man documentation pages, and similar files are
+copied to system directories.
 
 Please note that PHP installation on *nix systems is typically handled by system
 package managers through automated scripts. Additionally, it is common practice
@@ -37,8 +37,8 @@ make INSTALL_ROOT="/install/path/prefix" install
 
 Above, the optional `INSTALL_ROOT` environment variable can prefix the locations
 where the files will be copied. The name is customized for PHP and software from
-the early Autotools days. In Automake, a pracitce is otherwise to use the
-variable [`DESTDIR`](https://www.gnu.org/software/automake/manual/html_node/DESTDIR.html),
+the early Autotools days. In Automake, there is more common variable
+[`DESTDIR`](https://www.gnu.org/software/automake/manual/html_node/DESTDIR.html),
 however for historical reasons and since PHP doesn't use Automake, the
 `INSTALL_ROOT` variable name is used in PHP instead.
 
@@ -61,7 +61,7 @@ default it is set to PHP style directory structure:
     └─ php/                   # PHP shared libraries and other build files
        ├─ build/              # Various PHP development scripts and build files
        └─ extensions/
-          └─ {EXTENSION_DIR}/ # PHP shared extensions (*.so files)
+          └─ no-debug-non-zts-20230831/ # PHP shared extensions (*.so files)
  └─ php/
     └─ man/
        └─ man1/               # PHP man section 1 pages for *nix systems
@@ -87,7 +87,7 @@ This is how the GNU layout directory structure looks like (`--with-layout=GNU`):
        └─ lib/
           └─ php/                # PHP shared libraries and other build files
              ├─ build/           # Various PHP development scripts and build files
-             └─ {EXTENSION_DIR}/ # PHP shared extensions (*.so files)
+             └─ 20230831/        # PHP shared extensions (*.so files)
        └─ share/
           └─ man/
              └─ man1/            # PHP man section 1 pages for *nix systems
@@ -109,6 +109,10 @@ Directory locations can be adjusted with several Autoconf default options:
 When packaging the PHP built files for certain *nix system, many times some
 additional environment variables help customize the installation locations and
 PHP package information:
+
+* `EXTENSION_DIR` - absolute path that overrides path to extensions shared
+  objects (`.so` files). By default as noted above it is set to
+  `/usr/lib/php/extensions/...` or `/usr/local/lib/php/20230831`.
 
 ```sh
 ./configure \
