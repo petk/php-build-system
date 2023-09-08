@@ -1,3 +1,4 @@
+include(CheckLibraryExists)
 include(CMakeDependentOption)
 
 option(EXT_ENCHANT "Whether to build the enchant extension" OFF)
@@ -28,10 +29,10 @@ else()
   find_package(ENCHANT 1.4.2 REQUIRED)
 
   # enchant_get_version since 1.6.0.
-  check_library_exists(enchant enchant_get_version "" HAVE_ENCHANT_GET_VERSION)
+  check_library_exists(${ENCHANT_LIBRARIES} enchant_get_version "" HAVE_ENCHANT_GET_VERSION)
 
   # enchant_broker_set_param since 1.5.0 and removed in 2.x.
-  check_library_exists(enchant enchant_broker_set_param "" HAVE_ENCHANT_BROKER_SET_PARAM)
+  check_library_exists(${ENCHANT_LIBRARIES} enchant_broker_set_param "" HAVE_ENCHANT_BROKER_SET_PARAM)
 endif()
 
 if(ENCHANT_LIBRARIES)

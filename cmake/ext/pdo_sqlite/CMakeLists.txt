@@ -31,8 +31,8 @@ endif()
 
 set(HAVE_PDO_SQLITELIB 1 CACHE INTERNAL "Define to 1 if you have the pdo_sqlite extension enabled.")
 
-check_library_exists(sqlite3 sqlite3_close_v2 "" HAVE_SQLITE3_CLOSE_V2)
-check_library_exists(sqlite3 sqlite3_column_table_name "" HAVE_SQLITE3_COLUMN_TABLE_NAME)
+check_library_exists(${SQLite3_LIBRARIES} sqlite3_close_v2 "" HAVE_SQLITE3_CLOSE_V2)
+check_library_exists(${SQLite3_LIBRARIES} sqlite3_column_table_name "" HAVE_SQLITE3_COLUMN_TABLE_NAME)
 
 # TODO: Check if this can be done better.
 target_include_directories(ext_pdo_sqlite PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/../")

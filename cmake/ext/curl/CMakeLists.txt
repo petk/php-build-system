@@ -1,5 +1,6 @@
 include(CheckCSourceRuns)
 include(CheckIncludeFile)
+include(CheckLibraryExists)
 include(CMakeDependentOption)
 include(CMakePushCheckState)
 

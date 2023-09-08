@@ -29,12 +29,12 @@ if(SNMP_INCLUDE_DIRS)
   target_include_directories(ext_snmp PRIVATE ${SNMP_INCLUDE_DIRS})
 endif()
 
-check_library_exists("${SNMP_LIBRARIES}" init_snmp "" _have_init_snmp)
+check_library_exists(${SNMP_LIBRARIES} init_snmp "" _have_init_snmp)
 
 if(NOT _have_init_snmp)
   message(FATAL_ERROR "SNMP sanity check failed. The init_snmp was not found in library ${SNMP_LIBRARIES}")
 endif()
 
-check_library_exists("${SNMP_LIBRARIES}" shutdown_snmp_logging "" HAVE_SHUTDOWN_SNMP_LOGGING)
-check_library_exists("${SNMP_LIBRARIES}" usmHMAC192SHA256AuthProtocol "" HAVE_SNMP_SHA256)
-check_library_exists("${SNMP_LIBRARIES}" usmHMAC384SHA512AuthProtocol "" HAVE_SNMP_SHA512)
+check_library_exists(${SNMP_LIBRARIES} shutdown_snmp_logging "" HAVE_SHUTDOWN_SNMP_LOGGING)
+check_library_exists(${SNMP_LIBRARIES} usmHMAC192SHA256AuthProtocol "" HAVE_SNMP_SHA256)
+check_library_exists(${SNMP_LIBRARIES} usmHMAC384SHA512AuthProtocol "" HAVE_SNMP_SHA512)

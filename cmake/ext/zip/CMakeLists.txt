@@ -36,22 +36,22 @@ if(ZIP_INCLUDE_DIRS)
   target_include_directories(ext_zip PRIVATE ${ZIP_INCLUDE_DIRS})
 endif()
 
-check_library_exists(zip zip_file_set_mtime "" HAVE_SET_MTIME)
+check_library_exists(${ZIP_LIBRARIES} zip_file_set_mtime "" HAVE_SET_MTIME)
 
 if(NOT HAVE_SET_MTIME)
   message(WARNING "Libzip >= 1.0.0 needed for setting mtime")
 endif()
 
-check_library_exists(zip zip_file_set_encryption "" HAVE_ENCRYPTION)
+check_library_exists(${ZIP_LIBRARIES} zip_file_set_encryption "" HAVE_ENCRYPTION)
 
 if(NOT HAVE_ENCRYPTION)
   message(WARNING "Libzip >= 1.2.0 needed for encryption support")
 endif()
 
-check_library_exists(zip zip_libzip_version "" HAVE_LIBZIP_VERSION)
+check_library_exists(${ZIP_LIBRARIES} zip_libzip_version "" HAVE_LIBZIP_VERSION)
 
-check_library_exists(zip zip_register_progress_callback_with_state "" HAVE_PROGRESS_CALLBACK)
+check_library_exists(${ZIP_LIBRARIES} zip_register_progress_callback_with_state "" HAVE_PROGRESS_CALLBACK)
 
-check_library_exists(zip zip_register_cancel_callback_with_state "" HAVE_CANCEL_CALLBACK)
+check_library_exists(${ZIP_LIBRARIES} zip_register_cancel_callback_with_state "" HAVE_CANCEL_CALLBACK)
 
-check_library_exists(zip zip_compression_method_supported "" HAVE_METHOD_SUPPORTED)
+check_library_exists(${ZIP_LIBRARIES} zip_compression_method_supported "" HAVE_METHOD_SUPPORTED)

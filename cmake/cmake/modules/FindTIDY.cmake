@@ -43,19 +43,8 @@ cmake_push_check_state(RESET)
   check_include_file(tidy.h HAVE_TIDY_H)
 cmake_pop_check_state()
 
-foreach(library ${TIDY_LIBRARIES})
-  check_library_exists(${library} tidyOptGetDoc "" HAVE_TIDYOPTGETDOC)
-  if(HAVE_TIDYOPTGETDOC)
-    break()
-  endif()
-endforeach()
-
-foreach(library ${TIDY_LIBRARIES})
-  check_library_exists(${library} tidyReleaseDate "" HAVE_TIDYRELEASEDATE)
-  if(HAVE_TIDYRELEASEDATE)
-    break()
-  endif()
-endforeach()
+check_library_exists(${TIDY_LIBRARIES} tidyOptGetDoc "" HAVE_TIDYOPTGETDOC)
+check_library_exists(${TIDY_LIBRARIES} tidyReleaseDate "" HAVE_TIDYRELEASEDATE)
 
 mark_as_advanced(TIDY_INCLUDE_DIRS TIDY_LIBRARIES)
 

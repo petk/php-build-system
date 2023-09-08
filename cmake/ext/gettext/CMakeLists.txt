@@ -9,11 +9,17 @@ if(NOT EXT_GETTEXT)
   return()
 endif()
 
-find_package(Intl)
-
-if(NOT Intl_FOUND)
-  message(FATAL_ERROR "libintl not found")
+if(EXT_GETTEXT_SHARED OR BUILD_SHARED_LIBS)
+  set(_library_type "SHARED")
 endif()
+
+php_extension(NAME "gettext" ${_library_type})
+
+add_library(ext_gettext ${_library_type}
+  gettext.c
+)
+
+find_package(Intl REQUIRED)
 
 if(Intl_IS_BUILT_IN)
   set(_intl_library "c")
@@ -27,16 +33,6 @@ check_library_exists(${_intl_library} ngettext "" HAVE_NGETTEXT)
 check_library_exists(${_intl_library} dngettext "" HAVE_DNGETTEXT)
 check_library_exists(${_intl_library} dcngettext "" HAVE_DCNGETTEXT)
 check_library_exists(${_intl_library} bind_textdomain_codeset "" HAVE_BIND_TEXTDOMAIN_CODESET)
-
-if(EXT_GETTEXT_SHARED OR BUILD_SHARED_LIBS)
-  set(_library_type "SHARED")
-endif()
-
-php_extension(NAME "gettext" ${_library_type})
-
-add_library(ext_gettext ${_library_type}
-  gettext.c
-)
 
 if(${Intl_LIBRARIES})
   target_link_libraries(ext_gettext ${Intl_LIBRARIES})

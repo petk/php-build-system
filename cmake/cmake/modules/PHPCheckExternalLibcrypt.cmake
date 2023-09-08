@@ -15,6 +15,7 @@ HAVE_CRYPT_R
 
 include(CheckCSourceRuns)
 include(CheckIncludeFile)
+include(CheckLibraryExists)
 include(CheckSymbolExists)
 include(CMakePushCheckState)
 

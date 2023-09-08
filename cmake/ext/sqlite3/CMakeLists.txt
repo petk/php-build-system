@@ -29,9 +29,9 @@ if(${SQLite3_INCLUDE_DIRS})
   target_include_directories(ext_sqlite3 PRIVATE ${SQLite3_INCLUDE_DIRS})
 endif()
 
-check_library_exists(sqlite3 sqlite3_errstr "" HAVE_SQLITE3_ERRSTR)
-check_library_exists(sqlite3 sqlite3_expanded_sql "" HAVE_SQLITE3_EXPANDED_SQL)
-check_library_exists(sqlite3 sqlite3_load_extension "" HAVE_SQLITE3_LOAD_EXTENSION)
+check_library_exists(${SQLite3_LIBRARIES} sqlite3_errstr "" HAVE_SQLITE3_ERRSTR)
+check_library_exists(${SQLite3_LIBRARIES} sqlite3_expanded_sql "" HAVE_SQLITE3_EXPANDED_SQL)
+check_library_exists(${SQLite3_LIBRARIES} sqlite3_load_extension "" HAVE_SQLITE3_LOAD_EXTENSION)
 
 if(NOT HAVE_SQLITE3_LOAD_EXTENSION)
   set(SQLITE_OMIT_LOAD_EXTENSION 1 CACHE STRING "Have sqlite3 with extension support")
