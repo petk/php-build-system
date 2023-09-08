@@ -120,9 +120,9 @@ jobs:
       - name: Setup SNMP agents
         run: |
           cd php-${{ matrix.php }}
-          cp ext/snmp/tests/snmpd.conf /etc/snmp
-          cp ext/snmp/tests/bigtest /etc/snmp
-          service snmpd restart
+          sudo cp ext/snmp/tests/snmpd.conf /etc/snmp
+          sudo cp ext/snmp/tests/bigtest /etc/snmp
+          sudo service snmpd restart
 
       - name: Run tests
         run: |
