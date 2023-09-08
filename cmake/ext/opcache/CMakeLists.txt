@@ -157,3 +157,9 @@ endif()
 
 # TODO: Check and refactore these.
 target_link_libraries(ext_opcache PRIVATE Zend main ext_standard)
+
+install(
+  TARGETS ext_opcache
+  TYPE LIBRARY
+  DESTINATION ${PHP_EXTENSION_DIR}
+)

@@ -28,7 +28,7 @@ set(PHP_LAYOUT "PHP" CACHE STRING
 set_property(CACHE PHP_LAYOUT PROPERTY STRINGS
              "GNU" "PHP")
 
-set(PHP_EXTENSION_DIR "" CACHE STRING "The extension_dir PHP INI directive path")
+set(PHP_EXTENSION_DIR "" CACHE STRING "The extension_dir PHP INI directive absolute path")
 
 #[=============================================================================[
 General options.

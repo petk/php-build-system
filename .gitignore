@@ -3,4 +3,8 @@
 # to exclude them using the .git/info/exclude in the cloned repository or a
 # global .gitignore file.
 
+# Customizable CMake presets file.
+/cmake/CMakeUserPresets.json
+
+# All PHP downloaded archives and extracted directories.
 /php-8*

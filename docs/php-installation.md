@@ -10,8 +10,8 @@ package managers through automated scripts. Additionally, it is common practice
 to apply additional patches to tailor the PHP package from the repository to
 suit the specific requirements of the *nix distribution in use.
 
-**Before running the `make install` command, be aware that files will be copied
-outside of your current build directory.**
+**Before running the `make install` or `cmake --install` command, be aware that
+files will be copied outside of your current build directory.**
 
 ## Installing PHP with default Autotools
 
@@ -31,7 +31,7 @@ make -j$(nproc)
 # Run tests with enabled multithreading:
 make TEST_PHP_ARGS=-j$(nproc) test
 
-# Finally, copy built files to their system locations.
+# Finally, copy built files to their system locations:
 make INSTALL_ROOT="/install/path/prefix" install
 ```
 
@@ -43,7 +43,9 @@ however for historical reasons and since PHP doesn't use Automake, the
 `INSTALL_ROOT` variable name is used in PHP instead.
 
 The files are then copied to a predefined directory structure (GNU or PHP
-style):
+style). The optional PHP Autotools configuration option
+`--with-layout=[GNU|PHP]` defines the installation directory structure. By
+default it is set to PHP style directory structure:
 
 ```sh
 /install/path/prefix/
@@ -68,9 +70,7 @@ style):
     └─ run/                   # Runtime data directory
 ```
 
-The optional PHP `--with-layout=[GNU|PHP]` Autotools configuration option
-defines the directory structure. By default it is set to PHP style directory
-structure.
+This is how the GNU layout directory structure looks like (`--with-layout=GNU`):
 
 ```sh
 /install/path/prefix/
@@ -130,44 +130,86 @@ See `./configure --help` for more information on how to adjust these locations.
 In this repository, installing PHP with CMake can be done in a similar way:
 
 ```sh
-# Configuration
+# Configuration and generation of build system files:
 cmake -DCMAKE_INSTALL_PREFIX="/install/path/prefix" .
-# Build
-cmake --build .
-# Tests
-ctest
-# Installation
+
+# Build PHP with enabled multithreading:
+cmake --build . -- -j $(nproc)
+
+# Run tests using ctest utility:
+ctest --progress -V
+
+# Finally, copy built files to their system locations:
 cmake --install
 
 # Or
 cmake .
 cmake --build .
-ctest
+ctest --progress -V
 cmake --install . --prefix "/install/path/prefix"
 ```
+
+To adjust the installation locations, the
+[GNUInstallDirs](https://cmake.org/cmake/help/latest/module/GNUInstallDirs.html)
+is used in the root `CMakeLists.txt` file which sets some additional
+`CMAKE_INSTALL_*` variables. These variables are all relative path names.
+
+* `CMAKE_INSTALL_BINDIR` - location to the executable binary files directory.
+  Default: `bin`.
+* ...
 
 Instead of setting the `CMAKE_INSTALL_PREFIX` variable at the configuration
 phase, or using the `--prefix` installation option, there is also `installDir`
 option which can be set in the `CMakePresets.json` or `CMakeUserPresets.json`
 file.
 
+Example `CMakeUserPresets.json` file, which can be added to the PHP source code
+root directory:
+
 ```json
 {
   "version": 3,
   "configurePresets": [
     {
-      "name": "default",
+      "name": "acme-php",
+      "inherits": "unix-full",
+      "displayName": "Acme PHP configuration",
+      "description": "Customized PHP build",
       "installDir": "/install/path/prefix",
       "cacheVariables": {
         "PHP_BUILD_SYSTEM": "Acme Linux",
         "PHP_BUILD_PROVIDER": "Acme",
         "PHP_BUILD_COMPILER": "GCC",
-        "PHP_EXTRA_VERSION": "-acme",
         "PHP_BUILD_ARCH": "x86",
-        "PHP_EXTRA_VERSION": "-acme",
-        "PHP_EXTENSION_DIR": "/path/to/php/extensions"
+        "PHP_VERSION_LABEL": "-acme",
+        "PHP_EXTENSION_DIR": "/install/path/prefix/lib/php83/extensions"
       }
+    }
+  ],
+  "buildPresets": [
+    {
+      "name": "acme-php",
+      "configurePreset": "acme-php"
+    }
+  ],
+  "testPresets": [
+    {
+      "name": "acme-php",
+      "configurePreset": "acme-php",
+      "output": {"verbosity": "verbose"}
     }
   ]
 }
+```
+
+Above file *inherits* from the `unix-full` configuration preset of the root
+default `CMakePresets.json` file and adjusts the PHP installation.
+
+To build and install using the new preset:
+
+```sh
+cmake --preset acme-php
+cmake --build --preset acme-php -- -j $(nproc)
+ctest --preset acme-php
+cmake --install .
 ```

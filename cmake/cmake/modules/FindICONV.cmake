@@ -29,6 +29,7 @@ module additionally sets the following variables needed by PHP.
 
 include(CheckCSourceCompiles)
 include(CheckCSourceRuns)
+include(CheckLibraryExists)
 include(CheckSymbolExists)
 include(CMakePushCheckState)
 include(FindPackageHandleStandardArgs)

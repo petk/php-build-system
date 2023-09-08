@@ -169,7 +169,6 @@ install(
   DESTINATION ${CMAKE_INSTALL_BINDIR}
 )
 
-
 message("
 +--------------------------------------------------------------------+
 | License:                                                           |
