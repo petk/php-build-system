@@ -806,7 +806,7 @@
 #cmakedefine HAVE_GRP_H @HAVE_GRP_H@
 
 /* */
-#cmakedefine HAVE_HISTORY_LIST
+#cmakedefine HAVE_HISTORY_LIST @HAVE_HISTORY_LIST@
 
 /* Define to 1 if you have the `hstrerror' function. */
 #cmakedefine HAVE_HSTRERROR @HAVE_HSTRERROR@
@@ -965,7 +965,7 @@
 #cmakedefine HAVE_LIBDL @HAVE_LIBDL@
 
 /* */
-#cmakedefine HAVE_LIBEDIT
+#cmakedefine HAVE_LIBEDIT @HAVE_LIBEDIT@
 
 /* */
 #cmakedefine HAVE_LIBEXPAT @HAVE_LIBEXPAT@
@@ -1007,7 +1007,7 @@
 #cmakedefine HAVE_LIBRARYMANAGER_H
 
 /* */
-#cmakedefine HAVE_LIBREADLINE
+#cmakedefine HAVE_LIBREADLINE @HAVE_LIBREADLINE@
 
 /* */
 #cmakedefine HAVE_LIBRESOLV
@@ -1317,13 +1317,13 @@
 #cmakedefine HAVE_RFORK @HAVE_RFORK@
 
 /* */
-#cmakedefine HAVE_RL_CALLBACK_READ_CHAR
+#cmakedefine HAVE_RL_CALLBACK_READ_CHAR @HAVE_RL_CALLBACK_READ_CHAR@
 
 /* */
-#cmakedefine HAVE_RL_COMPLETION_MATCHES
+#cmakedefine HAVE_RL_COMPLETION_MATCHES @HAVE_RL_COMPLETION_MATCHES@
 
 /* */
-#cmakedefine HAVE_RL_ON_NEW_LINE
+#cmakedefine HAVE_RL_ON_NEW_LINE @HAVE_RL_ON_NEW_LINE@
 
 /* */
 #cmakedefine HAVE_SAPDB

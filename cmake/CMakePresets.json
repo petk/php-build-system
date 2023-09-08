@@ -41,6 +41,7 @@
         "EXT_OPENSSL": true,
         "EXT_PCNTL": true,
         "EXT_PSPELL": true,
+        "EXT_READLINE": true,
         "EXT_SHMOP": true,
         "EXT_SOAP": true,
         "EXT_SOCKETS": true,

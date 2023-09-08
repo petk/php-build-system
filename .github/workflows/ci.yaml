@@ -98,7 +98,9 @@ jobs:
             libtidy-dev \
             libargon2-dev \
             libxslt1-dev \
-            libcapstone-dev;
+            libcapstone-dev \
+            libreadline-dev \
+            libedit-dev;
 
       - name: Checkout
         uses: actions/checkout@v3
