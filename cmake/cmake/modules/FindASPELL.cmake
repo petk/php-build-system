@@ -28,11 +28,17 @@ unset(_pspell_include_dir CACHE)
 
 find_library(ASPELL_LIBRARIES NAMES aspell)
 
+# Sanity check.
 check_library_exists(aspell new_aspell_config "" _have_aspell)
+if(NOT _have_aspell)
+  unset(ASPELL_LIBRARIES CACHE)
+endif()
+
+unset(_have_aspell CACHE)
 
 mark_as_advanced(ASPELL_LIBRARIES ASPELL_INCLUDE_DIRS)
 
 find_package_handle_standard_args(
   ASPELL
-  REQUIRED_VARS ASPELL_LIBRARIES ASPELL_INCLUDE_DIRS _have_aspell
+  REQUIRED_VARS ASPELL_LIBRARIES ASPELL_INCLUDE_DIRS
 )

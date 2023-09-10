@@ -100,8 +100,8 @@ the CMake ecosystem.
 
 The find modules in this repository are named in form of `FindUPPERCASE.cmake`.
 The utility modules are prefixed with `PHP` and then mostly following the form
-of `PHPFooBar.cmake` pattern for convenience to not collide with upstream CMake
-modules.
+of `PHPPascalCase.cmake` pattern for convenience to not collide with upstream
+CMake modules.
 
 * **Booleans**
 

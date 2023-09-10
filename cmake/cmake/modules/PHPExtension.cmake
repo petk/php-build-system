@@ -3,11 +3,14 @@ Creates a new PHP extension.
 
 The module defines the following variables:
 
-``PHP_EXTENSIONS``
-  a list of all enabled extensions
+PHP_EXTENSIONS
+  A list of all enabled extensions.
 
-``PHP_EXTENSIONS_SHARED``
-  a list of all enabled shared extensions
+PHP_EXTENSIONS_STATIC
+  A list of all enabled static extensions.
+
+PHP_EXTENSIONS_SHARED
+  A list of all enabled shared extensions.
 
 php_extension(NAME <name> [SHARED | STATIC]
               [PRIORITY <value>]
@@ -21,6 +24,7 @@ extensions.
 ]=============================================================================]#
 
 set(PHP_EXTENSIONS "" CACHE INTERNAL "")
+set(PHP_EXTENSIONS_STATIC "" CACHE INTERNAL "")
 set(PHP_EXTENSIONS_SHARED "" CACHE INTERNAL "")
 
 function(php_extension)
@@ -39,17 +43,29 @@ function(php_extension)
   if(PHP_EXTENSION_SHARED)
     message(STATUS "Enabling extension ${PHP_EXTENSION_NAME} as shared.")
 
-    list(APPEND PHP_EXTENSIONS_SHARED ${PHP_EXTENSION_NAME})
-    set(PHP_EXTENSIONS_SHARED ${PHP_EXTENSIONS_SHARED} CACHE INTERNAL "")
+    set(
+      PHP_EXTENSIONS_SHARED
+      ${PHP_EXTENSIONS_SHARED} ${PHP_EXTENSION_NAME}
+      CACHE INTERNAL ""
+    )
 
     string(TOUPPER "COMPILE_DL_${PHP_EXTENSION_NAME}" DYNAMIC_NAME)
     set(${DYNAMIC_NAME} 1 CACHE INTERNAL "Whether to build ${PHP_EXTENSION_NAME} as dynamic module")
   else()
     message(STATUS "Enabling extension ${PHP_EXTENSION_NAME} as static.")
+
+    set(
+      PHP_EXTENSIONS_STATIC
+      ${PHP_EXTENSIONS_STATIC} ${PHP_EXTENSION_NAME}
+      CACHE INTERNAL ""
+    )
   endif()
 
-  list(APPEND PHP_EXTENSIONS ${PHP_EXTENSION_NAME})
-  set(PHP_EXTENSIONS ${PHP_EXTENSIONS} CACHE INTERNAL "")
+  set(
+    PHP_EXTENSIONS
+    ${PHP_EXTENSIONS} ${PHP_EXTENSION_NAME}
+    CACHE INTERNAL ""
+  )
 
   # Define constant for php_config.h. Some extensions are always available so
   # they don't have HAVE_* constants.

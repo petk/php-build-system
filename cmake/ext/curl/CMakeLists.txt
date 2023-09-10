@@ -12,8 +12,6 @@ if(NOT EXT_CURL)
   return()
 endif()
 
-find_package(CURL 7.29.0 OPTIONAL_COMPONENTS SSL)
-
 if(EXT_CURL_SHARED OR BUILD_SHARED_LIBS)
   set(_library_type "SHARED")
 endif()
@@ -26,6 +24,16 @@ add_library(ext_curl ${_library_type}
   share.c
   curl_file.c
 )
+
+find_package(CURL 7.29.0 REQUIRED OPTIONAL_COMPONENTS SSL)
+
+if(CURL_LIBRARIES)
+  target_link_libraries(ext_curl PRIVATE ${CURL_LIBRARIES})
+endif()
+
+if(CURL_INCLUDE_DIRS)
+  target_include_directories(ext_curl PRIVATE ${CURL_INCLUDE_DIRS})
+endif()
 
 # Checking if libcurl is linked against old openssl.
 if(CURL_SSL_FOUND)
@@ -74,17 +82,13 @@ if(HAVE_CURL_OLD_OPENSSL)
   endif()
 endif()
 
-check_library_exists(curl curl_easy_perform "" HAVE_CURL_LIB)
+check_library_exists(${CURL_LIBRARIES} curl_easy_perform "" _have_curl_lib)
 
-if(NOT HAVE_CURL_LIB)
+if(NOT _have_curl_lib)
   message(FATAL_ERROR "The curl_easy_perform() couldn't be found. Please check logs for more information.")
 endif()
 
-unset(HAVE_CURL_LIB)
-
-target_include_directories(ext_curl PRIVATE ${CURL_INCLUDE_DIRS})
-
-target_link_libraries(ext_curl PRIVATE ${CURL_LIBRARIES})
+unset(_have_curl_lib CACHE)
 
 target_sources(
   ext_curl

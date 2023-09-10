@@ -252,7 +252,7 @@ if(EXT_STANDARD_ARGON2)
     endif()
 
     if(ARGON_INCLUDE_DIRS)
-      target_include_directories(ext_opcache PRIVATE ${ARGON_INCLUDE_DIRS})
+      target_include_directories(ext_standard PRIVATE ${ARGON_INCLUDE_DIRS})
     endif()
   endif()
 endif()

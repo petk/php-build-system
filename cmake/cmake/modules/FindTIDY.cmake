@@ -38,13 +38,17 @@ find_library(TIDY_LIBRARIES NAMES tidy tidy5)
 # are building against tidy-html5 and not the legacy htmltidy. The two are
 # compatible, except for with regard to this header file.
 cmake_push_check_state(RESET)
-  set(CMAKE_REQUIRED_INCLUDES ${TIDY_INCLUDE_DIRS})
+  if(TIDY_INCLUDE_DIRS)
+    set(CMAKE_REQUIRED_INCLUDES ${TIDY_INCLUDE_DIRS})
+  endif()
   check_include_file(tidybuffio.h HAVE_TIDYBUFFIO_H)
   check_include_file(tidy.h HAVE_TIDY_H)
 cmake_pop_check_state()
 
-check_library_exists(${TIDY_LIBRARIES} tidyOptGetDoc "" HAVE_TIDYOPTGETDOC)
-check_library_exists(${TIDY_LIBRARIES} tidyReleaseDate "" HAVE_TIDYRELEASEDATE)
+if(TIDY_LIBRARIES)
+  check_library_exists(${TIDY_LIBRARIES} tidyOptGetDoc "" HAVE_TIDYOPTGETDOC)
+  check_library_exists(${TIDY_LIBRARIES} tidyReleaseDate "" HAVE_TIDYRELEASEDATE)
+endif()
 
 mark_as_advanced(TIDY_INCLUDE_DIRS TIDY_LIBRARIES)
 

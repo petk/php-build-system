@@ -49,9 +49,9 @@ function(php_create_build_definitions)
     endif()
 
     set(PHP_EXTENSION_DIR "${php_extension_dir}" CACHE STRING "PHP extensions directory" FORCE)
-
-    set(EXPANDED_EXTENSION_DIR "${PHP_EXTENSION_DIR}" CACHE INTERNAL "" FORCE)
   endif()
+
+  set(EXPANDED_EXTENSION_DIR "${PHP_EXTENSION_DIR}" CACHE INTERNAL "" FORCE)
 
   # Set shared library object extension.
   string(REPLACE "." "" SHLIB_DL_SUFFIX_NAME ${CMAKE_SHARED_LIBRARY_SUFFIX})

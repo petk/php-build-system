@@ -725,8 +725,10 @@ cmake --build .
 
 ### 9.6. CMake minimum version for PHP
 
-With CMake the minimum required version is defined in the top project file
-`CMakeLists.txt` using the `cmake_minimum_required()`.
+The minimum required version of CMake is defined in the top project file
+`CMakeLists.txt` using the `cmake_minimum_required()`. Picking the minimum
+required build system version is a compromise between build system
+functionalities and version available on the operating system.
 
 * 3.17
   * To have `CMAKE_CURRENT_FUNCTION_LIST_DIR` variable available
@@ -747,14 +749,8 @@ Currently, the CMake minimum version is set to **3.25** without looking at CMake
 available version on the current systems out there. This will be updated more
 properly in the future.
 
-**Available CMake versions across the systems:**
-
-| System            | CMake version |
-| ----------------- | ------------- |
-| Alpine Linux 3.18 | 3.26          |
-| Debian Bullseye   | 3.18          |
-| Fedora 38         | 3.27          |
-| Ubuntu 22.04      | 3.22          |
+CMake versions scheme across the systems is available at
+[pkgs.org](https://pkgs.org/download/cmake).
 
 ### 9.7. CMake code style
 
@@ -763,7 +759,17 @@ See [docs/cmake-code-style.md](docs/cmake-code-style.md) for more info.
 
 ### 9.8. Command line options
 
-List of configure command line options and their CMake alternatives:
+List of configure command line options and their CMake alternatives.
+
+These can be passed like this:
+
+```sh
+# With Autotools:
+./configure --enable-FEATURE --with-PACKAGE ...
+
+# With CMake at the configuration phase:
+cmake . -DEXT_NAME=ON -DPHP_OPTION=ON ...
+```
 
 | configure                                        | CMake                                         | Default value/notes |
 | ------------------------------------------------ | --------------------------------------------- | ------------------  |
@@ -1029,27 +1035,28 @@ List of configure environment variables:
 
 These are passed as `./configure VAR=VALUE`.
 
-| configure                       | CMake                               | Default value/notes            |
-| ------------------------------- | ----------------------------------- | ------------------------------ |
-| **3rd party variables**         |                                     |                                |
-| `LDFLAGS="..."`                 | `-DCMAKE_EXE_LINKER_FLAGS="..."`    |                                |
-|                                 | `-DCMAKE_SHARED_LINKER_FLAGS="..."` |                                |
-| **PHP variables**               |                                     |                                |
-| `PHP_EXTRA_VERSION="-acme"`     | `-DPHP_VERSION_LABEL="-acme"`       | `-dev` or empty                |
-| `PHP_UNAME="ACME Linux"`        | `-DPHP_UNAME="ACME Linux"`          | `uname -a` ouput override      |
-| `PHP_BUILD_SYSTEM="ACME Linux"` | `-DPHP_BUILD_SYSTEM="ACME Linux"`   | `uname -a` ouput               |
-| `PHP_BUILD_PROVIDER="ACME"`     | `-DPHP_BUILD_PROVIDER="ACME"`       | Additional build system info   |
-| `PHP_BUILD_COMPILER="ACME"`     | `-DPHP_BUILD_COMPILER="ACME"`       | Additional build system info   |
-| `PHP_BUILD_ARCH="ACME"`         | `-DPHP_BUILD_ARCH="ACME"`           | Additional build system info   |
-| `EXTENSION_DIR="path/to/ext"`   | `-DPHP_EXTENSION_DIR="path/to/ext"` | Override the INI extension_dir |
-| **Available only in CMake**     |                                     |                                |
-|                                 | `-DBUILD_SHARED_LIBS=ON`            | Build all extensions as shared |
+| configure                       | CMake                             | Default value/notes            |
+| ------------------------------- | --------------------------------- | ------------------------------ |
+| **3rd party variables**         |                                   |                                |
+| `LDFLAGS="..."`                 | `CMAKE_EXE_LINKER_FLAGS="..."`    |                                |
+|                                 | `CMAKE_SHARED_LINKER_FLAGS="..."` |                                |
+| **PHP variables**               |                                   |                                |
+| `PHP_EXTRA_VERSION="-acme"`     | `PHP_VERSION_LABEL="-acme"`       | `-dev` or empty                |
+| `PHP_UNAME="ACME Linux"`        | `PHP_UNAME="ACME Linux"`          | `uname -a` ouput override      |
+| `PHP_BUILD_SYSTEM="ACME Linux"` | `PHP_BUILD_SYSTEM="ACME Linux"`   | `uname -a` ouput               |
+| `PHP_BUILD_PROVIDER="ACME"`     | `PHP_BUILD_PROVIDER="ACME"`       | Additional build system info   |
+| `PHP_BUILD_COMPILER="ACME"`     | `PHP_BUILD_COMPILER="ACME"`       | Additional build system info   |
+| `PHP_BUILD_ARCH="ACME"`         | `PHP_BUILD_ARCH="ACME"`           | Additional build system info   |
+| `EXTENSION_DIR="path/to/ext"`   | `PHP_EXTENSION_DIR="path/to/ext"` | Override the INI extension_dir |
+| **Available only in CMake**     |                                   |                                |
+|                                 | `BUILD_SHARED_LIBS=ON`            | Build all extensions as shared |
 
 When running `make VAR=VALUE` commands, the following environment variables are available:
 
-| make with PHP                   | CMake                               | Default value/notes            |
-| ------------------------------- | ----------------------------------- | ------------------------------ |
-| `INSTALL_ROOT="..."`            | `-DCMAKE_INSTALL_PREFIX="..."`      | Override the installation dir  |
+| make with PHP                   | CMake                             | Default value/notes            |
+| ------------------------------- | --------------------------------- | ------------------------------ |
+| `INSTALL_ROOT="..."`            | `CMAKE_INSTALL_PREFIX="..."`      | Override the installation dir  |
+|                                 | or `cmake --install --prefix`     |                                |
 
 ### 9.9. CMake generators for building PHP
 
