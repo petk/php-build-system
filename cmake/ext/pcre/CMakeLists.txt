@@ -20,7 +20,7 @@ if(EXT_PCRE_EXTERNAL)
   find_package(PCRE 10.30 REQUIRED)
 
   if(PCRE_LIBRARIES)
-    target_link_libraries(ext_pcre ${PCRE_LIBRARIES})
+    target_link_libraries(ext_pcre PRIVATE ${PCRE_LIBRARIES})
   endif()
 
   if(PCRE_INCLUDE_DIRS)
@@ -89,9 +89,7 @@ else()
 
   target_include_directories(
     ext_pcre
-    PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}"
-           "${CMAKE_CURRENT_SOURCE_DIR}/pcre2lib"
-           "${CMAKE_SOURCE_DIR}"
+    PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/pcre2lib
   )
 
   target_compile_options(ext_pcre

@@ -13,15 +13,7 @@ add_library(ext_spl STATIC
   spl_fixedarray.c
 )
 
-target_include_directories(
-  ext_spl
-  PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}
-)
-
 target_compile_definitions(ext_spl PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE=1)
-
-# TODO: check if this is really needed.
-target_link_libraries(ext_spl PUBLIC ext_pcre ext_standard ext_json)
 
 target_sources(
   ext_spl

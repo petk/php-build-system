@@ -96,7 +96,8 @@ if(NOT EXT_GD_EXTERNAL)
     target_link_libraries(ext_gd PRIVATE m)
   endif()
 
-  target_include_directories(ext_gd PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/libgd")
+  target_include_directories(ext_gd PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/libgd)
+
   target_compile_options(ext_gd PRIVATE -Wno-strict-prototypes)
 
   find_package(ZLIB REQUIRED)

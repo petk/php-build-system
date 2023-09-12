@@ -224,8 +224,7 @@ add_library(ext_standard STATIC
 
 target_include_directories(
   ext_standard
-  PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}"
-         "${CMAKE_CURRENT_SOURCE_DIR}/libavifinfo"
+  PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/libavifinfo
 )
 
 if(NOT EXT_STANDARD_EXTERNAL_LIBCRYPT)
@@ -259,9 +258,10 @@ endif()
 
 target_compile_definitions(ext_standard PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE=1)
 
-target_link_libraries(ext_standard PUBLIC main)
-
 add_dependencies(ext_standard Zend)
+
+# TODO: Can this be fixed better?
+target_link_libraries(ext_standard PRIVATE main)
 
 if(STANDARD_EXTRA_LIBRARIES)
   list(REMOVE_DUPLICATES ${STANDARD_EXTRA_LIBRARIES})

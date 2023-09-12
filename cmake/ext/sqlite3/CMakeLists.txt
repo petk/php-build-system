@@ -23,7 +23,9 @@ target_compile_definitions(ext_sqlite3 PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE=1
 
 find_package(SQLite3 3.7.7 REQUIRED)
 
-target_link_libraries(ext_sqlite3 PRIVATE ${SQLite3_LIBRARIES})
+if(SQLite3_LIBRARIES)
+  target_link_libraries(ext_sqlite3 PRIVATE ${SQLite3_LIBRARIES})
+endif()
 
 if(${SQLite3_INCLUDE_DIRS})
   target_include_directories(ext_sqlite3 PRIVATE ${SQLite3_INCLUDE_DIRS})

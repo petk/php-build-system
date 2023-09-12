@@ -57,7 +57,7 @@ if(EXT_SESSION_MM)
 
   target_include_directories(
     ext_session
-    PUBLIC "${MM_DIR}/include"
+    PRIVATE "${MM_DIR}/include"
   )
 
   # TODO: Add also library path.

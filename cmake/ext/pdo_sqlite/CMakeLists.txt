@@ -23,9 +23,11 @@ add_library(ext_pdo_sqlite ${_library_type}
 
 find_package(SQLite3 3.7.7 REQUIRED)
 
-target_link_libraries(ext_pdo_sqlite PRIVATE ${SQLite3_LIBRARIES})
+if(SQLite3_LIBRARIES)
+  target_link_libraries(ext_pdo_sqlite PRIVATE ${SQLite3_LIBRARIES})
+endif()
 
-if(${SQLite3_INCLUDE_DIRS})
+if(SQLite3_INCLUDE_DIRS)
   target_include_directories(ext_pdo_sqlite PRIVATE ${SQLite3_INCLUDE_DIRS})
 endif()
 

@@ -74,9 +74,15 @@ endif()
 if(HAVE_CURL_OLD_OPENSSL)
   find_package(OpenSSL)
 
+  # TODO: Is OpenSSL package required in this case?
   if(OPENSSL_FOUND)
-    target_include_directories(ext_curl PRIVATE ${OPENSSL_INCLUDE_DIRS})
-    target_link_libraries(ext_curl PRIVATE ${OPENSSL_LIBRARIES})
+    if(OPENSSL_LIBRARIES)
+      target_link_libraries(ext_curl PRIVATE ${OPENSSL_LIBRARIES})
+    endif()
+
+    if(OPENSSL_INCLUDE_DIRS)
+      target_include_directories(ext_curl PRIVATE ${OPENSSL_INCLUDE_DIRS})
+    endif()
 
     check_include_file(openssl/crypto.h HAVE_OPENSSL_CRYPTO_H)
   endif()
@@ -84,6 +90,7 @@ endif()
 
 check_library_exists(${CURL_LIBRARIES} curl_easy_perform "" _have_curl_lib)
 
+# Sanity check.
 if(NOT _have_curl_lib)
   message(FATAL_ERROR "The curl_easy_perform() couldn't be found. Please check logs for more information.")
 endif()

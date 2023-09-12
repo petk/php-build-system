@@ -29,18 +29,27 @@ check_symbol_exists(RAND_egd "openssl/rand.h" HAVE_RAND_EGD)
 if(EXT_OPENSSL_KERBEROS)
   find_package(KERBEROS)
 
+  # TODO: Fix this better. Is Kerberos required in such case?
   if(KERBEROS_FOUND)
-    target_link_libraries(ext_openssl PRIVATE ${KERBEROS_LIBRARIES})
-    target_include_directories(ext_openssl PRIVATE ${KERBEROS_INCLUDE_DIRS})
+    if(KERBEROS_LIBRARIES)
+      target_link_libraries(ext_openssl PRIVATE ${KERBEROS_LIBRARIES})
+    endif()
+
+    if(KERBEROS_INCLUDE_DIRS)
+      target_include_directories(ext_openssl PRIVATE ${KERBEROS_INCLUDE_DIRS})
+    endif()
   endif()
 endif()
 
 find_package(OpenSSL 1.0.2 REQUIRED)
 
-if(OPENSSL_FOUND)
-  set(HAVE_OPENSSL_EXT 1 CACHE INTERNAL "Whether the OpenSSL extension is available")
+set(HAVE_OPENSSL_EXT 1 CACHE INTERNAL "Whether the OpenSSL extension is available")
 
+if(OPENSSL_LIBRARIES)
   target_link_libraries(ext_openssl PRIVATE ${OPENSSL_LIBRARIES})
+endif()
+
+if(OPENSSL_INCLUDE_DIRS)
   target_include_directories(ext_openssl PRIVATE ${OPENSSL_INCLUDE_DIRS})
 endif()
 

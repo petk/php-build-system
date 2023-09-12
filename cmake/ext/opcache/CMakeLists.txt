@@ -80,7 +80,7 @@ if(EXT_OPCACHE_JIT)
     jit/dynasm/minilua.c
   )
 
-  target_link_libraries(minilua PUBLIC m)
+  target_link_libraries(minilua PRIVATE m)
 
   add_custom_command(
     OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/jit/zend_jit_${DASM_ARCH}.c
@@ -114,8 +114,8 @@ add_library(ext_opcache SHARED
 
 target_include_directories(
   ext_opcache
-  PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}"
-         "${CMAKE_CURRENT_SOURCE_DIR}/jit"
+  PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}
+          ${CMAKE_CURRENT_SOURCE_DIR}/jit
 )
 
 target_compile_options(ext_opcache PRIVATE
@@ -154,9 +154,6 @@ endif()
 if(SHM_MMAP_POSIX_REQUIRED_LIBRARIES)
   target_link_libraries(ext_opcache PRIVATE ${SHM_MMAP_POSIX_REQUIRED_LIBRARIES})
 endif()
-
-# TODO: Check and refactore these.
-target_link_libraries(ext_opcache PRIVATE Zend main ext_standard)
 
 install(
   TARGETS ext_opcache

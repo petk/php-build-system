@@ -10,6 +10,17 @@ add_library(embed
 
 target_compile_definitions(embed PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE=1)
 
+if(EXTRA_LIBS)
+  target_link_libraries(embed PRIVATE ${EXTRA_LIBS})
+endif()
+
+if(EXTRA_DEFINITIONS)
+  target_compile_definitions(embed PRIVATE ${EXTRA_DEFINITIONS})
+endif()
+
+# TODO: Check if there's a better solution here.
+set_target_properties(embed PROPERTIES ENABLE_EXPORTS TRUE)
+
 install(TARGETS embed DESTINATION ${CMAKE_INSTALL_LIBDIR})
 
 target_sources(

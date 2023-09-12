@@ -10,11 +10,36 @@
       "installDir": "/tmp"
     },
     {
+      "name": "all-disabled",
+      "inherits": "default",
+      "displayName": "Basic PHP configuration",
+      "description": "Basic PHP build using Unix Makefiles generator and only required extensions enabled",
+      "cacheVariables": {
+        "EXT_CTYPE": false,
+        "EXT_DOM": false,
+        "EXT_FILEINFO": false,
+        "EXT_FILTER": false,
+        "EXT_ICONV": false,
+        "EXT_LIBXML": false,
+        "EXT_OPCACHE": false,
+        "EXT_PDO": false,
+        "EXT_PDO_SQLITE": false,
+        "EXT_PHAR": false,
+        "EXT_POSIX": false,
+        "EXT_SESSION": false,
+        "EXT_SIMPLEXML": false,
+        "EXT_SQLITE3": false,
+        "EXT_TOKENIZER": false,
+        "EXT_XML": false,
+        "EXT_XMLREADER": false,
+        "EXT_XMLWRITER": false
+      }
+    },
+    {
       "name": "unix-full",
       "inherits": "default",
       "displayName": "PHP configuration with all extensions enabled",
-      "description": "Default PHP build using Unix Makefiles generator",
-      "generator": "Unix Makefiles",
+      "description": "PHP build using Unix Makefiles generator and all extensions enabled",
       "cacheVariables": {
         "EXT_BCMATH": true,
         "EXT_BZ2": true,
@@ -57,7 +82,17 @@
         "EXT_ZIP": true,
         "EXT_ZLIB": true,
 
+        "SAPI_FPM": true,
         "SAPI_LITESPEED": true
+      }
+    },
+    {
+      "name": "unix-full-2",
+      "inherits": "unix-full",
+      "displayName": "PHP configuration with all extensions enabled with variations",
+      "description": "PHP build with all extensions enabled and different variation of options set",
+      "cacheVariables": {
+        "EXT_XML_EXPAT": true
       }
     },
     {
@@ -78,6 +113,10 @@
       "configurePreset": "unix-full"
     },
     {
+      "name": "unix-full-2",
+      "configurePreset": "unix-full-2"
+    },
+    {
       "name": "ninja",
       "configurePreset": "ninja"
     }
@@ -91,6 +130,11 @@
     {
       "name": "unix-full",
       "configurePreset": "unix-full",
+      "output": {"verbosity": "verbose"}
+    },
+    {
+      "name": "unix-full-2",
+      "configurePreset": "unix-full-2",
       "output": {"verbosity": "verbose"}
     },
     {

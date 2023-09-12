@@ -15,8 +15,16 @@ target_compile_definitions(ext_libxml PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE=1)
 
 find_package(LibXml2 2.9.0 REQUIRED GLOBAL)
 
-target_link_libraries(ext_libxml PUBLIC "${LIBXML2_LIBRARIES}")
-target_include_directories(ext_libxml PUBLIC "${LIBXML2_INCLUDE_DIRS}")
+if(LIBXML2_LIBRARIES)
+  target_link_libraries(ext_libxml PRIVATE ${LIBXML2_LIBRARIES})
+endif()
+
+if(LIBXML2_INCLUDE_DIRS)
+  target_include_directories(ext_libxml
+    PRIVATE ${LIBXML2_INCLUDE_DIRS}
+    INTERFACE ${LIBXML2_INCLUDE_DIRS}
+  )
+endif()
 
 target_sources(
   ext_libxml

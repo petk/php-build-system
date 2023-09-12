@@ -51,29 +51,7 @@ include_directories(${CMAKE_SOURCE_DIR})
 include_directories("${CMAKE_CURRENT_SOURCE_DIR}/main")
 include_directories("${CMAKE_CURRENT_SOURCE_DIR}/TSRM")
 include_directories("${CMAKE_CURRENT_SOURCE_DIR}/Zend")
-include_directories("${CMAKE_CURRENT_SOURCE_DIR}/ext/date")
-include_directories("${CMAKE_CURRENT_SOURCE_DIR}/ext/date/lib")
-include_directories("${CMAKE_CURRENT_SOURCE_DIR}/ext/hash")
-include_directories("${CMAKE_CURRENT_SOURCE_DIR}/ext/hash/murmur")
-include_directories("${CMAKE_CURRENT_SOURCE_DIR}/ext/hash/xxhash")
-include_directories("${CMAKE_CURRENT_SOURCE_DIR}/ext/json")
-include_directories("${CMAKE_CURRENT_SOURCE_DIR}/ext/pcre")
-include_directories("${CMAKE_CURRENT_SOURCE_DIR}/ext/pcre/pcre2lib")
-include_directories("${CMAKE_CURRENT_SOURCE_DIR}/ext/random")
-include_directories("${CMAKE_CURRENT_SOURCE_DIR}/ext/reflection")
-include_directories("${CMAKE_CURRENT_SOURCE_DIR}/ext/spl")
-include_directories("${CMAKE_CURRENT_SOURCE_DIR}/ext/standard")
 
-## Add PHP extensions.
-message("
-+--------------------------------------------------------------------+
-| Configuring extensions                                             |
-+--------------------------------------------------------------------+
-")
-include(PHPExtension)
-include(PHPIncludeExtensions)
-
-# Add SAPI modules.
 message("
 +--------------------------------------------------------------------+
 | Configuring SAPI modules                                           |
@@ -88,14 +66,13 @@ add_subdirectory(sapi/fuzzer)
 add_subdirectory(sapi/litespeed)
 add_subdirectory(sapi/phpdbg)
 
-# Add PHP engine.
 message("
 +--------------------------------------------------------------------+
-| Configuring PHP                                                    |
+| Configuring extensions                                             |
 +--------------------------------------------------------------------+
 ")
-add_subdirectory(main)
-add_subdirectory(TSRM)
+include(PHPExtension)
+include(PHPIncludeExtensions)
 
 message("
 +--------------------------------------------------------------------+
@@ -103,6 +80,14 @@ message("
 +--------------------------------------------------------------------+
 ")
 add_subdirectory(Zend)
+
+message("
++--------------------------------------------------------------------+
+| Configuring PHP                                                    |
++--------------------------------------------------------------------+
+")
+add_subdirectory(main)
+add_subdirectory(TSRM)
 
 message("
 +--------------------------------------------------------------------+

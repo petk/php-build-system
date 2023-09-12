@@ -87,16 +87,16 @@ function(re2c_target)
   list(APPEND re2c_target_cmdopt ${RE2C_FLAGS})
 
   add_custom_command(
-    OUTPUT ${PARSED_ARGS_OUTPUT}
-    COMMAND ${RE2C_EXECUTABLE} ${re2c_target_cmdopt} -o ${PARSED_ARGS_OUTPUT} ${PARSED_ARGS_INPUT}
-    DEPENDS ${PARSED_ARGS_INPUT} ${PARSED_ARGS_DEPENDS}
+    OUTPUT "${PARSED_ARGS_OUTPUT}"
+    COMMAND ${RE2C_EXECUTABLE} ${re2c_target_cmdopt} -o "${PARSED_ARGS_OUTPUT}" "${PARSED_ARGS_INPUT}"
+    DEPENDS "${PARSED_ARGS_INPUT}" ${PARSED_ARGS_DEPENDS}
     COMMENT "[RE2C][${PARSED_ARGS_NAME}] Building lexer with re2c ${RE2C_VERSION}"
   )
 
   add_custom_target(
     ${PARSED_ARGS_NAME}
-    SOURCES ${PARSED_ARGS_INPUT}
-    DEPENDS ${PARSED_ARGS_OUTPUT}
+    SOURCES "${PARSED_ARGS_INPUT}"
+    DEPENDS "${PARSED_ARGS_OUTPUT}"
     COMMENT "[RE2C] Building lexer with re2c ${RE2C_VERSION}"
   )
 endfunction()

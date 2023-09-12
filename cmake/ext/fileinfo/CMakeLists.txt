@@ -83,6 +83,6 @@ unset(successful)
 
 target_include_directories(
   ext_fileinfo
-  PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}"
-         "${CMAKE_CURRENT_SOURCE_DIR}/libmagic"
+  PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}
+          ${CMAKE_CURRENT_SOURCE_DIR}/libmagic
 )

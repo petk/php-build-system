@@ -1,3 +1,4 @@
+include(CheckSymbolExists)
 include(CMakeDependentOption)
 
 option(SAPI_FPM "Whether to use the PHP FPM SAPI module" OFF)
@@ -13,6 +14,8 @@ cmake_dependent_option(SAPI_FPM_SELINUX "Support SELinux policy library" OFF "SA
 if(NOT SAPI_FPM)
   return()
 endif()
+
+#check_symbol_exists()
 
 #install(TARGETS fpm DESTINATION ${CMAKE_INSTALL_BINDIR})
 

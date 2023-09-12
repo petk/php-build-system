@@ -48,6 +48,10 @@ if(NOT HAVE_BZ2_LIB)
   message(FATAL_ERROR "bz2 module requires libbz2 >= 1.0.0")
 endif()
 
-target_include_directories(ext_bz2 PRIVATE "${BZIP2_INCLUDE_DIRS}")
+if(BZIP2_LIBRARIES)
+  target_link_libraries(ext_bz2 PRIVATE ${BZIP2_LIBRARIES})
+endif()
 
-target_link_libraries(ext_bz2 PRIVATE ${BZIP2_LIBRARIES})
+if(BZIP2_INCLUDE_DIRS)
+  target_include_directories(ext_bz2 PRIVATE ${BZIP2_INCLUDE_DIRS})
+endif()

@@ -11,7 +11,7 @@ re2c_target(
   NAME jsonScanner
   INPUT "${CMAKE_CURRENT_SOURCE_DIR}/json_scanner.re"
   OUTPUT "${CMAKE_CURRENT_SOURCE_DIR}/json_scanner.c"
-  OPTIONS "--no-generation-date -bci -t ${CMAKE_CURRENT_SOURCE_DIR}/php_json_scanner_defs.h"
+  OPTIONS "--no-generation-date -bci -t \"${CMAKE_CURRENT_SOURCE_DIR}/php_json_scanner_defs.h\""
 )
 
 add_library(ext_json STATIC

@@ -43,7 +43,7 @@ add_library(ext_dom ${_library_type}
   namednodemap.c
 )
 
-target_link_libraries(ext_dom ext_libxml)
+target_link_libraries(ext_dom PRIVATE ext_libxml)
 
 target_sources(
   ext_dom

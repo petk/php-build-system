@@ -102,14 +102,14 @@ re2c_target(
   NAME zendLanguageScanner
   INPUT "${CMAKE_CURRENT_SOURCE_DIR}/zend_language_scanner.l"
   OUTPUT "${CMAKE_CURRENT_SOURCE_DIR}/zend_language_scanner.c"
-  OPTIONS "--no-generation-date --case-inverted -cbdFt ${CMAKE_CURRENT_SOURCE_DIR}/zend_language_scanner_defs.h"
+  OPTIONS "--no-generation-date --case-inverted -cbdFt \"${CMAKE_CURRENT_SOURCE_DIR}/zend_language_scanner_defs.h\""
 )
 
 re2c_target(
   NAME zendIniScanner
   INPUT "${CMAKE_CURRENT_SOURCE_DIR}/zend_ini_scanner.l"
   OUTPUT "${CMAKE_CURRENT_SOURCE_DIR}/zend_ini_scanner.c"
-  OPTIONS "--no-generation-date --case-inverted -cbdFt ${CMAKE_CURRENT_SOURCE_DIR}/zend_ini_scanner_defs.h"
+  OPTIONS "--no-generation-date --case-inverted -cbdFt \"${CMAKE_CURRENT_SOURCE_DIR}/zend_ini_scanner_defs.h\""
 )
 
 message(STATUS "Creating Zend/zend_config.h")
@@ -201,9 +201,12 @@ add_dependencies(Zend patch_zend_language_parser_files)
 
 target_include_directories(
   Zend
-  INTERFACE "${CMAKE_CURRENT_SOURCE_DIR}"
-  PUBLIC "${CMAKE_SOURCE_DIR}"
+  PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}
+          ${CMAKE_SOURCE_DIR}
+  INTERFACE ${CMAKE_CURRENT_SOURCE_DIR}
 )
+
+target_link_libraries(Zend PRIVATE TSRM)
 
 target_compile_definitions(Zend PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE=1)
 
@@ -219,10 +222,10 @@ if(ZEND_FIBER_ASM)
   # The asm file can't see macro from defined constant, workaround this via cflag.
   if(SYSCALL_SHADOW_STACK_EXISTS)
     message(STATUS "Adding compile definition for Zend: SHADOW_STACK_SYSCALL")
-    target_compile_definitions(ZendAsm PUBLIC SHADOW_STACK_SYSCALL=1)
+    target_compile_definitions(ZendAsm PRIVATE SHADOW_STACK_SYSCALL=1)
   endif()
 
-  target_link_libraries(Zend PUBLIC ZendAsm)
+  target_link_libraries(Zend PRIVATE ZendAsm)
 endif()
 
 if(CMAKE_CXX_COMPILER_ID STREQUAL "GNU")

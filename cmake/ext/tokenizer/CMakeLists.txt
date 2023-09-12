@@ -19,10 +19,6 @@ add_library(ext_tokenizer ${_library_type}
   tokenizer_data.c
 )
 
-target_include_directories(
-  ext_tokenizer
-  PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}
-)
-
-# TODO: Fix this.
+# The tokenizer depends on the created Zend language scanner definitions header.
+# TODO: Check if this can be moved elsewhere.
 add_dependencies(ext_tokenizer Zend)

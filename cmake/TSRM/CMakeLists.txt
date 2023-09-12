@@ -2,6 +2,11 @@ message(STATUS "Checking for POSIX threads")
 
 add_library(TSRM STATIC TSRM.c)
 
+target_include_directories(TSRM
+  PRIVATE ${CMAKE_SOURCE_DIR}
+  INTERFACE ${CMAKE_CURRENT_SOURCE_DIR}
+)
+
 target_compile_definitions(TSRM PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE=1)
 
 file(GLOB_RECURSE _tsrm_headers "${PROJECT_SOURCE_DIR}/TSRM/*.h")

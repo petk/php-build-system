@@ -29,10 +29,8 @@ add_library(ext_hash STATIC
 
 target_include_directories(
   ext_hash
-  PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}"
-         "${CMAKE_CURRENT_SOURCE_DIR}/murmur"
-         "${CMAKE_CURRENT_SOURCE_DIR}/xxhash"
-         "${CMAKE_SOURCE_DIR}"
+  PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/murmur
+          ${CMAKE_CURRENT_SOURCE_DIR}/xxhash
 )
 
 if(CMAKE_C_BYTE_ORDER STREQUAL "LITTLE_ENDIAN")
@@ -48,9 +46,9 @@ if(CMAKE_C_BYTE_ORDER STREQUAL "LITTLE_ENDIAN")
     target_sources(ext_hash PRIVATE "${SHA3_DIR}/KeccakP-1600-opt64.c")
   endif()
 
-  target_sources(ext_hash PRIVATE "${SHA3_DIR}/KeccakHash.c" "${SHA3_DIR}/KeccakSponge.c")
+  target_sources(ext_hash PRIVATE ${SHA3_DIR}/KeccakHash.c ${SHA3_DIR}/KeccakSponge.c)
 
-  target_include_directories(ext_hash PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/${SHA3_DIR}")
+  target_include_directories(ext_hash PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/${SHA3_DIR})
 
   # Add -Wno-implicit-fallthrough flag as it happens on 32-bit builds.
   target_compile_options(ext_hash

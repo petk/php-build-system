@@ -52,22 +52,17 @@ target_compile_definitions(
     ZEND_ENABLE_STATIC_TSRMLS_CACHE=1
 )
 
-target_link_libraries(phpdbg PUBLIC main)
-target_link_libraries(phpdbg PUBLIC TSRM)
-target_link_libraries(phpdbg PUBLIC Zend)
-
-foreach(item IN LISTS PHP_EXTENSIONS)
-  message(STATUS "Linking ${item}")
-  target_link_libraries(phpdbg PUBLIC ext_${item})
-endforeach()
+target_link_libraries(phpdbg PRIVATE main)
 
 if(EXTRA_LIBS)
-  target_link_libraries(phpdbg PUBLIC ${EXTRA_LIBS})
+  target_link_libraries(phpdbg PRIVATE ${EXTRA_LIBS})
 endif()
 
 if(EXTRA_DEFINITIONS)
-  target_compile_definitions(phpdbg PUBLIC ${EXTRA_DEFINITIONS})
+  target_compile_definitions(phpdbg PRIVATE ${EXTRA_DEFINITIONS})
 endif()
+
+set_target_properties(phpdbg PROPERTIES ENABLE_EXPORTS TRUE)
 
 # Man documentation.
 configure_file(phpdbg.1.in phpdbg.1 @ONLY)

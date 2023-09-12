@@ -62,10 +62,17 @@ set(MYSQLND_SSL_SUPPORTED 1 CACHE INTERNAL "Enable core mysqlnd SSL code")
 if(EXT_OPENSSL)
   find_package(OpenSSL 1.0.2)
 
+  # TODO: Can OpenSSL be retrieved differently (from one place) here?
   if(OPENSSL_FOUND)
     set(MYSQLND_HAVE_SSL 1 CACHE INTERNAL "Enable mysqlnd code that uses OpenSSL directly")
-    target_link_libraries(ext_mysqlnd PRIVATE ${OPENSSL_LIBRARIES})
-    target_include_directories(ext_mysqlnd PRIVATE ${OPENSSL_INCLUDE_DIRS})
+
+    if(OPENSSL_LIBRARIES)
+      target_link_libraries(ext_mysqlnd PRIVATE ${OPENSSL_LIBRARIES})
+    endif()
+
+    if(OPENSSL_INCLUDE_DIRS)
+      target_include_directories(ext_mysqlnd PRIVATE ${OPENSSL_INCLUDE_DIRS})
+    endif()
   endif()
 endif()
 

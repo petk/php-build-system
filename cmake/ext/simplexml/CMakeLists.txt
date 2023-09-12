@@ -22,7 +22,7 @@ add_library(ext_simplexml ${_library_type}
   simplexml.c
 )
 
-target_link_libraries(ext_simplexml ext_libxml)
+target_link_libraries(ext_simplexml PRIVATE ext_libxml)
 
 target_sources(
   ext_simplexml

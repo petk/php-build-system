@@ -85,8 +85,3 @@ add_library(ext_posix ${_library_type}
 )
 
 target_compile_definitions(ext_posix PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE=1)
-
-target_include_directories(
-  ext_posix
-  PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}
-)

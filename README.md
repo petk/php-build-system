@@ -187,6 +187,8 @@ PHP tests and other files:
  └─ ...
 ```
 
+![Diagram how PHP libraries are linked together](docs/images/links.svg)
+
 ## 4. PHP extensions
 
 PHP has several ways to install PHP extensions:
@@ -520,6 +522,8 @@ Optional:
   * when using `--with-readline`
 * libsnmp-dev
   * when using `--with-snmp`
+* libexpat1-dev
+  * when using the `--with-expat`
 
 When PHP is built, the development libraries are no longer required to be
 installed and only libraries without development files are needed to run newly

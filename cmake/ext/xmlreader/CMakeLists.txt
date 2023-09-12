@@ -22,4 +22,4 @@ add_library(ext_xmlreader ${_library_type}
   php_xmlreader.c
 )
 
-target_link_libraries(ext_xmlreader ext_libxml)
+target_link_libraries(ext_xmlreader PRIVATE ext_libxml)

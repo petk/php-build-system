@@ -27,18 +27,19 @@ endif()
 if(NOT EXT_XML_EXPAT)
   target_sources(ext_xml PRIVATE compat.c)
 
-  target_link_libraries(ext_xml ext_libxml)
+  target_link_libraries(ext_xml PRIVATE ext_libxml)
 else()
   find_package(EXPAT REQUIRED GLOBAL)
 
-  if(NOT EXPAT_FOUND)
-    message(FATAL_ERROR "Expat library not found")
-  endif()
-
   set(HAVE_LIBEXPAT 1 CACHE INTERNAL "Whether libexpat is used")
 
-  target_link_libraries(ext_xml PUBLIC "${EXPAT_LIBRARIES}")
-  target_include_directories(ext_xml PUBLIC "${EXPAT_INCLUDE_DIRS}")
+  if(EXPAT_LIBRARIES)
+    target_link_libraries(ext_xml PRIVATE ${EXPAT_LIBRARIES})
+  endif()
+
+  if(EXPAT_INCLUDE_DIRS)
+    target_include_directories(ext_xml PRIVATE ${EXPAT_INCLUDE_DIRS})
+  endif()
 endif()
 
 target_compile_definitions(ext_xml PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE=1)

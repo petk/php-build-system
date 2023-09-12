@@ -34,29 +34,21 @@ add_executable(php
   php_cli_process_title.c
 )
 
-target_include_directories(
-  php
-  PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}
-)
-
 target_compile_definitions(php PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE=1)
 
-target_link_libraries(php PUBLIC main)
-target_link_libraries(php PUBLIC TSRM)
-target_link_libraries(php PUBLIC Zend)
-
-foreach(item IN LISTS PHP_EXTENSIONS)
-  message(STATUS "Linking ${item}")
-  target_link_libraries(php PUBLIC ext_${item})
-endforeach()
+target_link_libraries(php PRIVATE main)
 
 if(EXTRA_LIBS)
-  target_link_libraries(php PUBLIC ${EXTRA_LIBS})
+  target_link_libraries(php PRIVATE ${EXTRA_LIBS})
 endif()
 
 if(EXTRA_DEFINITIONS)
-  target_compile_definitions(php PUBLIC ${EXTRA_DEFINITIONS})
+  target_compile_definitions(php PRIVATE ${EXTRA_DEFINITIONS})
 endif()
+
+# TODO: Check if there's a better solution here.
+set_target_properties(php PROPERTIES ENABLE_EXPORTS TRUE)
+#target_compile_options(php PRIVATE -fvisibility=hidden)
 
 # Man documentation.
 configure_file(php.1.in php.1 @ONLY)

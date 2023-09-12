@@ -35,7 +35,7 @@ check_library_exists(${_intl_library} dcngettext "" HAVE_DCNGETTEXT)
 check_library_exists(${_intl_library} bind_textdomain_codeset "" HAVE_BIND_TEXTDOMAIN_CODESET)
 
 if(${Intl_LIBRARIES})
-  target_link_libraries(ext_gettext ${Intl_LIBRARIES})
+  target_link_libraries(ext_gettext PRIVATE ${Intl_LIBRARIES})
 endif()
 
 if(${Intl_INCLUDE_DIRS})

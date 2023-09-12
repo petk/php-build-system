@@ -116,9 +116,9 @@ target_compile_definitions(ext_mbstring PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE=
 target_include_directories(
   ext_mbstring
   PRIVATE
-    "${CMAKE_CURRENT_SOURCE_DIR}"
-    "${CMAKE_CURRENT_SOURCE_DIR}/libmbfl"
-    "${CMAKE_CURRENT_SOURCE_DIR}/libmbfl/mbfl"
+    ${CMAKE_CURRENT_SOURCE_DIR}
+    ${CMAKE_CURRENT_SOURCE_DIR}/libmbfl
+    ${CMAKE_CURRENT_SOURCE_DIR}/libmbfl/mbfl
 )
 
 target_sources(

@@ -41,11 +41,6 @@ add_library(ext_phar ${_library_type}
   phar_path_check.c
 )
 
-target_include_directories(
-  ext_phar
-  PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}
-)
-
 target_compile_definitions(ext_phar PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE=1)
 
 # Man documentation.

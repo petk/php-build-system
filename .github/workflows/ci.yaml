@@ -103,10 +103,11 @@ jobs:
             libedit-dev \
             libsnmp-dev \
             snmpd \
-            snmp-mibs-downloader;
+            snmp-mibs-downloader \
+            libexpat1-dev;
 
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           fetch-depth: 2
 

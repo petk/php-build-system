@@ -8,8 +8,6 @@ if(NOT EXT_INTL)
   return()
 endif()
 
-find_package(ICU 50.1 REQUIRED COMPONENTS io uc i18n)
-
 if(EXT_INTL_SHARED OR BUILD_SHARED_LIBS)
   set(_library_type "SHARED")
 endif()
@@ -68,7 +66,11 @@ add_library(ext_intl ${_library_type}
   spoofchecker/spoofchecker_main.c
 )
 
-target_link_libraries(ext_intl PRIVATE ${ICU_LIBRARIES})
+find_package(ICU 50.1 REQUIRED COMPONENTS io uc i18n)
+
+if(ICU_LIBRARIES)
+  target_link_libraries(ext_intl PRIVATE ${ICU_LIBRARIES})
+endif()
 
 target_compile_options(ext_intl PRIVATE -Wno-write-strings)
 
@@ -85,7 +87,17 @@ if(ICU_VERSION VERSION_GREATER_EQUAL 60)
   target_compile_definitions(ext_intl PRIVATE U_HIDE_OBSOLETE_UTF_OLD_H=1)
 endif()
 
-target_include_directories(ext_intl PRIVATE ${CMAKE_CURRENT_SOURCE_DIR} ${ICU_INCLUDE_DIRS})
+target_include_directories(
+  ext_intl
+  PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}
+)
+
+if(ICU_INCLUDE_DIRS)
+  target_include_directories(
+    ext_intl
+    PRIVATE ${ICU_INCLUDE_DIRS}
+  )
+endif()
 
 set(_ext_intl_cxx_sources
   intl_convertcpp.cpp
@@ -115,7 +127,9 @@ add_library(ext_intl_cxx STATIC ${_ext_intl_cxx_sources})
 
 set_target_properties(ext_intl_cxx PROPERTIES LANGUAGE CXX CXX_STANDARD 11)
 
-target_link_libraries(ext_intl_cxx PRIVATE ${ICU_LIBRARIES})
+if(ICU_LIBRARIES)
+  target_link_libraries(ext_intl_cxx PRIVATE ${ICU_LIBRARIES})
+endif()
 
 target_compile_definitions(ext_intl_cxx
   PRIVATE
@@ -134,8 +148,10 @@ endif()
 
 target_compile_options(ext_intl_cxx PRIVATE -Wno-write-strings)
 
-target_include_directories(ext_intl_cxx PRIVATE ${CMAKE_CURRENT_SOURCE_DIR} ${ICU_INCLUDE_DIRS})
+target_include_directories(ext_intl_cxx PRIVATE ${CMAKE_CURRENT_SOURCE_DIR})
+
+if(ICU_INCLUDE_DIRS)
+  target_include_directories(ext_intl_cxx PRIVATE ${ICU_INCLUDE_DIRS})
+endif()
 
 target_link_libraries(ext_intl PRIVATE ext_intl_cxx)
-
-target_link_libraries(ext_intl PRIVATE Zend)

@@ -27,15 +27,26 @@ add_library(ext_xsl ${_library_type}
   xsltprocessor.c
 )
 
-target_link_libraries(ext_xsl PUBLIC ext_libxml)
+target_link_libraries(ext_xsl PRIVATE ext_libxml)
 
 find_package(LibXslt 1.1.0 REQUIRED)
 
-target_link_libraries(ext_xsl PUBLIC "${LIBXSLT_LIBRARIES}")
-target_include_directories(ext_xsl PUBLIC "${LIBXSLT_INCLUDE_DIR}")
+if(LIBXSLT_LIBRARIES)
+  target_link_libraries(ext_xsl PRIVATE ${LIBXSLT_LIBRARIES})
+endif()
+
+if(LIBXSLT_INCLUDE_DIR)
+  target_include_directories(ext_xsl PRIVATE ${LIBXSLT_INCLUDE_DIR})
+endif()
 
 if(LIBXSLT_EXSLT_LIBRARIES OR LIBXSLT_EXSLT_INCLUDE_DIR)
-  target_link_libraries(ext_xsl PUBLIC "${LIBXSLT_EXSLT_LIBRARIES}")
-  target_include_directories(ext_xsl PUBLIC "${LIBXSLT_EXSLT_INCLUDE_DIR}")
   set(HAVE_XSL_EXSLT 1 CACHE INTERNAL "Whether the libexslt library is available")
+endif()
+
+if(LIBXSLT_EXSLT_LIBRARIES)
+  target_link_libraries(ext_xsl PRIVATE ${LIBXSLT_EXSLT_LIBRARIES})
+endif()
+
+if(LIBXSLT_EXSLT_INCLUDE_DIR)
+  target_include_directories(ext_xsl PRIVATE ${LIBXSLT_EXSLT_INCLUDE_DIR})
 endif()

@@ -9,21 +9,17 @@ add_executable(lsphp
   lsapilib.c
 )
 
-target_link_libraries(lsphp PUBLIC main)
-target_link_libraries(lsphp PUBLIC TSRM)
-target_link_libraries(lsphp PUBLIC Zend)
-
-foreach(item IN LISTS PHP_EXTENSIONS)
-  message(STATUS "Linking ${item}")
-  target_link_libraries(lsphp PUBLIC ext_${item})
-endforeach()
+target_link_libraries(lsphp PRIVATE main)
 
 if(EXTRA_LIBS)
-  target_link_libraries(lsphp PUBLIC ${EXTRA_LIBS})
+  target_link_libraries(lsphp PRIVATE ${EXTRA_LIBS})
 endif()
 
 if(EXTRA_DEFINITIONS)
-  target_compile_definitions(lsphp PUBLIC ${EXTRA_DEFINITIONS})
+  target_compile_definitions(lsphp PRIVATE ${EXTRA_DEFINITIONS})
 endif()
+
+# TODO: Check if there's a better solution here.
+set_target_properties(lsphp PROPERTIES ENABLE_EXPORTS TRUE)
 
 install(TARGETS lsphp DESTINATION ${CMAKE_INSTALL_BINDIR})

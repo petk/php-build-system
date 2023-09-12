@@ -40,12 +40,6 @@ add_library(ext_random STATIC
   randomizer.c
 )
 
-target_include_directories(
-  ext_random
-  PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}"
-         "${CMAKE_SOURCE_DIR}"
-)
-
 target_compile_definitions(ext_random PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE=1)
 
 target_sources(

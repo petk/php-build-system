@@ -25,8 +25,7 @@ add_library(ext_date STATIC
 )
 
 target_include_directories(ext_date
-  PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}"
-         "${CMAKE_CURRENT_SOURCE_DIR}/lib"
+  PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/lib
 )
 
 target_compile_options(ext_date PRIVATE

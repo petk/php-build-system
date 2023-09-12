@@ -38,14 +38,9 @@ add_library(main STATIC
 
 target_include_directories(
   main
-  PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}
-         "${CMAKE_CURRENT_SOURCE_DIR}/streams"
-         "${CMAKE_SOURCE_DIR}/ext/date"
-         "${CMAKE_SOURCE_DIR}/ext/hash"
-         "${CMAKE_SOURCE_DIR}/ext/pcre"
-         "${CMAKE_SOURCE_DIR}/ext/pcre/pcre2lib"
-         "${CMAKE_SOURCE_DIR}/TSRM"
-         "${CMAKE_SOURCE_DIR}/Zend"
+  PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}
+          ${CMAKE_CURRENT_SOURCE_DIR}/../Zend
+  INTERFACE ${CMAKE_CURRENT_SOURCE_DIR}
 )
 
 target_compile_definitions(main PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE=1)
@@ -54,18 +49,56 @@ if(HAVE_DTRACE)
   add_dependencies(main zend_dtrace)
 endif()
 
-# Target main needs includes from the libxml library.
-if(HAVE_LIBXML)
-  target_link_libraries(main PRIVATE ext_libxml)
+target_link_libraries(main PRIVATE Zend)
+
+if(EXTRA_LIBS)
+  target_link_libraries(main PRIVATE ${EXTRA_LIBS})
 endif()
 
-if(HAVE_LIBEXPAT)
-  target_link_libraries(main PRIVATE ext_xml)
+if(EXTRA_DEFINITIONS)
+  target_compile_definitions(main PRIVATE ${EXTRA_DEFINITIONS})
 endif()
 
-if(HAVE_ZEND_TEST)
-  target_link_libraries(main PRIVATE ext_zend_test)
-endif()
+foreach(item IN LISTS PHP_EXTENSIONS_STATIC)
+  message(STATUS "Linking ${item}")
+  target_include_directories(
+    ext_${item}
+    PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}
+            ${CMAKE_SOURCE_DIR}
+            ${CMAKE_SOURCE_DIR}/TSRM
+            ${CMAKE_SOURCE_DIR}/Zend
+  )
+  target_link_libraries(main PRIVATE ext_${item})
+
+  if(EXTRA_LIBS)
+    target_link_libraries(ext_${item} PRIVATE ${EXTRA_LIBS})
+  endif()
+
+  if(EXTRA_DEFINITIONS)
+    target_compile_definitions(ext_${item} PRIVATE ${EXTRA_DEFINITIONS})
+  endif()
+endforeach()
+
+foreach(item IN LISTS PHP_EXTENSIONS_SHARED)
+  target_include_directories(
+    ext_${item}
+    PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}
+            ${CMAKE_SOURCE_DIR}
+            ${CMAKE_SOURCE_DIR}/main
+            ${CMAKE_SOURCE_DIR}/TSRM
+            ${CMAKE_CURRENT_SOURCE_DIR}/../Zend
+  )
+
+  set_property(TARGET ext_${item} PROPERTY POSITION_INDEPENDENT_CODE TRUE)
+
+  if(EXTRA_LIBS)
+    target_link_libraries(ext_${item} PRIVATE ${EXTRA_LIBS})
+  endif()
+
+  if(EXTRA_DEFINITIONS)
+    target_compile_definitions(ext_${item} PRIVATE ${EXTRA_DEFINITIONS})
+  endif()
+endforeach()
 
 file(GLOB_RECURSE _main_headers "${PROJECT_SOURCE_DIR}/main/*.h")
 install(FILES ${_main_headers} DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/php/main)

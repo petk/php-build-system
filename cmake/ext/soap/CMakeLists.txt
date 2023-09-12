@@ -30,4 +30,4 @@ add_library(ext_soap ${_library_type}
 
 target_compile_definitions(ext_soap PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE=1)
 
-target_link_libraries(ext_soap ext_libxml)
+target_link_libraries(ext_soap PRIVATE ext_libxml)

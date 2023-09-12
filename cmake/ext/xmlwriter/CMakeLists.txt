@@ -22,4 +22,4 @@ add_library(ext_xmlwriter ${_library_type}
   php_xmlwriter.c
 )
 
-target_link_libraries(ext_xmlwriter ext_libxml)
+target_link_libraries(ext_xmlwriter PRIVATE ext_libxml)
