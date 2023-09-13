@@ -366,7 +366,7 @@
 #cmakedefine HAVE_ALPHASORT @HAVE_ALPHASORT@
 
 /* AppArmor confinement available */
-#cmakedefine HAVE_APPARMOR
+#cmakedefine HAVE_APPARMOR @HAVE_APPARMOR@
 
 /* */
 #cmakedefine HAVE_ARGON2LIB @HAVE_ARGON2LIB@
@@ -408,7 +408,7 @@
 #cmakedefine HAVE_BUILD_DEFS_H @HAVE_BUILD_DEFS_H@
 
 /* Define to 1 if gcc supports __sync_bool_compare_and_swap() a.o. */
-#cmakedefine HAVE_BUILTIN_ATOMIC
+#cmakedefine HAVE_BUILTIN_ATOMIC @HAVE_BUILTIN_ATOMIC@
 
 /* */
 #cmakedefine HAVE_BUNDLED_PCRE @HAVE_BUNDLED_PCRE@
@@ -429,7 +429,7 @@
 #cmakedefine HAVE_CHROOT @HAVE_CHROOT@
 
 /* Define to 1 if you have the `clearenv' function. */
-#cmakedefine HAVE_CLEARENV
+#cmakedefine HAVE_CLEARENV @HAVE_CLEARENV@
 
 /* */
 #cmakedefine HAVE_CLI0CLI_H
@@ -447,10 +447,10 @@
 #cmakedefine HAVE_CLI0EXT_H
 
 /* do we have clock_gettime? */
-#cmakedefine HAVE_CLOCK_GETTIME
+#cmakedefine HAVE_CLOCK_GETTIME @HAVE_CLOCK_GETTIME@
 
 /* do we have clock_get_time? */
-#cmakedefine HAVE_CLOCK_GET_TIME
+#cmakedefine HAVE_CLOCK_GET_TIME @HAVE_CLOCK_GET_TIME@
 
 /* */
 #cmakedefine HAVE_CODBC
@@ -512,7 +512,7 @@
 #cmakedefine HAVE_DECL_TZNAME
 
 /* do we have /dev/poll? */
-#cmakedefine HAVE_DEVPOLL
+#cmakedefine HAVE_DEVPOLL @HAVE_DEVPOLL@
 
 /* Define to 1 if you have the <dirent.h> header file. */
 #cmakedefine HAVE_DIRENT_H @HAVE_DIRENT_H@
@@ -563,7 +563,7 @@
 #cmakedefine HAVE_ENCRYPTION @HAVE_ENCRYPTION@
 
 /* do we have epoll? */
-#cmakedefine HAVE_EPOLL
+#cmakedefine HAVE_EPOLL @HAVE_EPOLL@
 
 /* */
 #cmakedefine HAVE_ESOOB
@@ -632,7 +632,7 @@
 #cmakedefine HAVE_FORKX @HAVE_FORKX@
 
 /* do we have acl support? */
-#cmakedefine HAVE_FPM_ACL
+#cmakedefine HAVE_FPM_ACL @HAVE_FPM_ACL@
 
 /* whether fpsetprec is present and usable */
 #cmakedefine HAVE_FPSETPREC @HAVE_FPSETPREC@
@@ -905,7 +905,7 @@
 #cmakedefine HAVE_KILL @HAVE_KILL@
 
 /* do we have kqueue? */
-#cmakedefine HAVE_KQUEUE
+#cmakedefine HAVE_KQUEUE @HAVE_KQUEUE@
 
 /* Define to 1 if you have the <langinfo.h> header file. */
 #cmakedefine HAVE_LANGINFO_H @HAVE_LANGINFO_H@
@@ -1046,16 +1046,16 @@
 #cmakedefine HAVE_LONG_DOUBLE @HAVE_LONG_DOUBLE@
 
 /* do we have SO_LISTENQxxx? */
-#cmakedefine HAVE_LQ_SO_LISTENQ
+#cmakedefine HAVE_LQ_SO_LISTENQ @HAVE_LQ_SO_LISTENQ@
 
 /* do we have TCP_CONNECTION_INFO? */
-#cmakedefine HAVE_LQ_TCP_CONNECTION_INFO
+#cmakedefine HAVE_LQ_TCP_CONNECTION_INFO @HAVE_LQ_TCP_CONNECTION_INFO@
 
 /* do we have TCP_INFO? */
-#cmakedefine HAVE_LQ_TCP_INFO
+#cmakedefine HAVE_LQ_TCP_INFO @HAVE_LQ_TCP_INFO@
 
 /* do we have mach_vm_read? */
-#cmakedefine HAVE_MACH_VM_READ
+#cmakedefine HAVE_MACH_VM_READ @HAVE_MACH_VM_READ@
 
 /* Define to 1 if you have the `makedev' function. */
 #cmakedefine HAVE_MAKEDEV @HAVE_MAKEDEV@
@@ -1230,7 +1230,7 @@
 #cmakedefine HAVE_POLL_H @HAVE_POLL_H@
 
 /* do we have port framework? */
-#cmakedefine HAVE_PORT
+#cmakedefine HAVE_PORT @HAVE_PORT@
 
 /* whether to include POSIX-like functions */
 #cmakedefine HAVE_POSIX @HAVE_POSIX@
@@ -1278,7 +1278,7 @@
 #cmakedefine HAVE_PTHREAD_STACKSEG_NP @HAVE_PTHREAD_STACKSEG_NP@
 
 /* do we have ptrace? */
-#cmakedefine HAVE_PTRACE
+#cmakedefine HAVE_PTRACE @HAVE_PTRACE@
 
 /* Whether ptrdiff_t is available */
 #cmakedefine HAVE_PTRDIFF_T @HAVE_PTRDIFF_T@
@@ -1335,13 +1335,13 @@
 #cmakedefine HAVE_SCANDIR @HAVE_SCANDIR@
 
 /* do we have select? */
-#cmakedefine HAVE_SELECT
+#cmakedefine HAVE_SELECT @HAVE_SELECT@
 
 /* SElinux available */
-#cmakedefine HAVE_SELINUX
+#cmakedefine HAVE_SELINUX @HAVE_SELINUX@
 
 /* Define to 1 if you have the <selinux/selinux.h> header file. */
-#cmakedefine HAVE_SELINUX_SELINUX_H
+#cmakedefine HAVE_SELINUX_SELINUX_H @HAVE_SELINUX_SELINUX_H@
 
 /* */
 #cmakedefine01 HAVE_SEMUN
@@ -1359,7 +1359,7 @@
 #cmakedefine HAVE_SETITIMER @HAVE_SETITIMER@
 
 /* do we have setpflags? */
-#cmakedefine HAVE_SETPFLAGS
+#cmakedefine HAVE_SETPFLAGS @HAVE_SETPFLAGS@
 
 /* Define to 1 if you have the `setpriority' function. */
 #cmakedefine HAVE_SETPRIORITY @HAVE_SETPRIORITY@
@@ -1368,7 +1368,7 @@
 #cmakedefine HAVE_SETPROCTITLE @HAVE_SETPROCTITLE@
 
 /* Define to 1 if you have the `setproctitle_fast' function. */
-#cmakedefine HAVE_SETPROCTITLE_FAST
+#cmakedefine HAVE_SETPROCTITLE_FAST @HAVE_SETPROCTITLE_FAST@
 
 /* Define to 1 if you have the `setrlimit' function. */
 #cmakedefine HAVE_SETRLIMIT @HAVE_SETRLIMIT@
@@ -1575,7 +1575,7 @@
 #cmakedefine HAVE_SYMLINK @HAVE_SYMLINK@
 
 /* do we have sysconf? */
-#cmakedefine HAVE_SYSCONF
+#cmakedefine HAVE_SYSCONF @HAVE_SYSCONF@
 
 /* Define to 1 if you have the <sysexits.h> header file. */
 #cmakedefine HAVE_SYSEXITS_H @HAVE_SYSEXITS_H@
@@ -1584,7 +1584,7 @@
 #cmakedefine HAVE_SYSLOG_H @HAVE_SYSLOG_H@
 
 /* FPM use systemd integration */
-#cmakedefine HAVE_SYSTEMD
+#cmakedefine HAVE_SYSTEMD @HAVE_SYSTEMD@
 
 /* Define to 1 if you have the <systemd/sd-daemon.h> header file. */
 #cmakedefine HAVE_SYSTEMD_SD_DAEMON_H
@@ -1599,10 +1599,10 @@
 #cmakedefine HAVE_SYSVSHM @HAVE_SYSVSHM@
 
 /* Define to 1 if you have the <sys/acl.h> header file. */
-#cmakedefine HAVE_SYS_ACL_H
+#cmakedefine HAVE_SYS_ACL_H @HAVE_SYS_ACL_H@
 
 /* Define to 1 if you have the <sys/apparmor.h> header file. */
-#cmakedefine HAVE_SYS_APPARMOR_H
+#cmakedefine HAVE_SYS_APPARMOR_H @HAVE_SYS_APPARMOR_H@
 
 /* Define to 1 if you have the <sys/file.h> header file. */
 #cmakedefine HAVE_SYS_FILE_H @HAVE_SYS_FILE_H@
@@ -1713,7 +1713,7 @@
 #cmakedefine HAVE_TIMER_CREATE @HAVE_TIMER_CREATE@
 
 /* do we have times? */
-#cmakedefine HAVE_TIMES
+#cmakedefine HAVE_TIMES @HAVE_TIMES@
 
 /* Define to 1 if you have the <tmmintrin.h> header file. */
 #cmakedefine HAVE_TMMINTRIN_H @HAVE_TMMINTRIN_H@
@@ -1916,13 +1916,13 @@
 #cmakedefine PHP_CAN_SUPPORT_PROC_OPEN @PHP_CAN_SUPPORT_PROC_OPEN@
 
 /* fpm group name */
-#cmakedefine PHP_FPM_GROUP
+#cmakedefine PHP_FPM_GROUP @SAPI_FPM_GROUP@
 
 /* fpm systemd service type */
-#cmakedefine PHP_FPM_SYSTEMD
+#cmakedefine PHP_FPM_SYSTEMD "@PHP_FPM_SYSTEMD@"
 
 /* fpm user name */
-#cmakedefine PHP_FPM_USER
+#cmakedefine PHP_FPM_USER @SAPI_FPM_USER@
 
 /* Whether the compiler supports AVX512 */
 #cmakedefine01 PHP_HAVE_AVX512_SUPPORTS
@@ -2030,7 +2030,7 @@
 #cmakedefine PHP_WRITE_STDOUT @PHP_WRITE_STDOUT@
 
 /* /proc/pid/mem interface */
-#cmakedefine PROC_MEM_FILE
+#cmakedefine PROC_MEM_FILE "@PROC_MEM_FILE@"
 
 /* */
 #cmakedefine QDBM_INCLUDE_FILE
