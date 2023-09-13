@@ -1,26 +1,29 @@
 php_extension(NAME "json" STATIC)
 
-bison_target(JsonParser
-  "${CMAKE_CURRENT_BINARY_DIR}/json_parser.y"
-  "${CMAKE_CURRENT_BINARY_DIR}/json_parser.tab.c"
-  COMPILE_FLAGS "--defines -l"
-  DEFINES_FILE "${CMAKE_CURRENT_BINARY_DIR}/json_parser.tab.h"
-)
-
-re2c_target(
-  NAME jsonScanner
-  INPUT "${CMAKE_CURRENT_SOURCE_DIR}/json_scanner.re"
-  OUTPUT "${CMAKE_CURRENT_SOURCE_DIR}/json_scanner.c"
-  OPTIONS "--no-generation-date -bci -t \"${CMAKE_CURRENT_SOURCE_DIR}/php_json_scanner_defs.h\""
-)
-
 add_library(ext_json STATIC
   json.c
   json_encoder.c
   json_parser.tab.c
   json_scanner.c
-  ${BISON_JsonParser_OUTPUTS}
 )
+
+if(BISON_FOUND)
+  bison_target(JsonParser
+    "${CMAKE_CURRENT_BINARY_DIR}/json_parser.y"
+    "${CMAKE_CURRENT_BINARY_DIR}/json_parser.tab.c"
+    COMPILE_FLAGS "--defines -l"
+    DEFINES_FILE "${CMAKE_CURRENT_BINARY_DIR}/json_parser.tab.h"
+  )
+endif()
+
+if(RE2C_FOUND)
+  re2c_target(
+    NAME jsonScanner
+    INPUT "${CMAKE_CURRENT_SOURCE_DIR}/json_scanner.re"
+    OUTPUT "${CMAKE_CURRENT_SOURCE_DIR}/json_scanner.c"
+    OPTIONS "--no-generation-date -bci -t \"${CMAKE_CURRENT_SOURCE_DIR}/php_json_scanner_defs.h\""
+  )
+endif()
 
 target_compile_definitions(ext_json PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE=1)
 

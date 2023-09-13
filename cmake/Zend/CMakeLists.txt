@@ -78,40 +78,6 @@ include(PHPCheckZendSignals)
 # Check Zend max execution timers.
 include(PHPCheckZendMaxExecutionTimers)
 
-bison_target(ZendIniParser zend_ini_parser.y "${CMAKE_CURRENT_SOURCE_DIR}/zend_ini_parser.c"
-  COMPILE_FLAGS "-v -d"
-  DEFINES_FILE "${CMAKE_CURRENT_SOURCE_DIR}/zend_ini_parser.h"
-)
-
-bison_target(ZendLanguageParser zend_language_parser.y "${CMAKE_CURRENT_SOURCE_DIR}/zend_language_parser.c"
-  COMPILE_FLAGS "-v -d"
-  DEFINES_FILE "${CMAKE_CURRENT_SOURCE_DIR}/zend_language_parser.h"
-)
-
-# Tweak zendparse to be exported through ZEND_API. This has to be revisited once
-# bison supports foreign skeletons and that bison version is used. Read
-# https://git.savannah.gnu.org/cgit/bison.git/tree/data/README.md for more.
-add_custom_target(
-  patch_zend_language_parser_files
-  COMMAND ${CMAKE_COMMAND} -P "${CMAKE_SOURCE_DIR}/cmake/modules/Zend/patch_zend_language_parser_file.cmake"
-  DEPENDS ${BISON_ZendLanguageParser_OUTPUTS}
-  COMMENT "Patching Zend language parser files"
-)
-
-re2c_target(
-  NAME zendLanguageScanner
-  INPUT "${CMAKE_CURRENT_SOURCE_DIR}/zend_language_scanner.l"
-  OUTPUT "${CMAKE_CURRENT_SOURCE_DIR}/zend_language_scanner.c"
-  OPTIONS "--no-generation-date --case-inverted -cbdFt \"${CMAKE_CURRENT_SOURCE_DIR}/zend_language_scanner_defs.h\""
-)
-
-re2c_target(
-  NAME zendIniScanner
-  INPUT "${CMAKE_CURRENT_SOURCE_DIR}/zend_ini_scanner.l"
-  OUTPUT "${CMAKE_CURRENT_SOURCE_DIR}/zend_ini_scanner.c"
-  OPTIONS "--no-generation-date --case-inverted -cbdFt \"${CMAKE_CURRENT_SOURCE_DIR}/zend_ini_scanner_defs.h\""
-)
-
 message(STATUS "Creating Zend/zend_config.h")
 file(WRITE zend_config.h "#include <../main/php_config.h>\n")
 
@@ -194,10 +160,47 @@ add_library(Zend STATIC
   Optimizer/escape_analysis.c
   Optimizer/compact_vars.c
   Optimizer/zend_dump.c
-  ${BISON_ZendIniParser_OUTPUTS}
 )
 
-add_dependencies(Zend patch_zend_language_parser_files)
+if(BISON_FOUND)
+  bison_target(ZendIniParser zend_ini_parser.y "${CMAKE_CURRENT_SOURCE_DIR}/zend_ini_parser.c"
+    COMPILE_FLAGS "-v -d"
+    DEFINES_FILE "${CMAKE_CURRENT_SOURCE_DIR}/zend_ini_parser.h"
+  )
+
+  bison_target(ZendLanguageParser zend_language_parser.y "${CMAKE_CURRENT_SOURCE_DIR}/zend_language_parser.c"
+    COMPILE_FLAGS "-v -d"
+    DEFINES_FILE "${CMAKE_CURRENT_SOURCE_DIR}/zend_language_parser.h"
+  )
+
+  # Tweak zendparse to be exported through ZEND_API. This has to be revisited once
+  # bison supports foreign skeletons and that bison version is used. Read
+  # https://git.savannah.gnu.org/cgit/bison.git/tree/data/README.md for more.
+  add_custom_target(
+    patch_zend_language_parser_files
+    COMMAND ${CMAKE_COMMAND} -P "${CMAKE_SOURCE_DIR}/cmake/modules/Zend/patch_zend_language_parser_file.cmake"
+    DEPENDS ${BISON_ZendLanguageParser_OUTPUTS}
+    COMMENT "Patching Zend language parser files"
+  )
+
+  add_dependencies(Zend patch_zend_language_parser_files)
+endif()
+
+if(RE2C_FOUND)
+  re2c_target(
+    NAME zendLanguageScanner
+    INPUT "${CMAKE_CURRENT_SOURCE_DIR}/zend_language_scanner.l"
+    OUTPUT "${CMAKE_CURRENT_SOURCE_DIR}/zend_language_scanner.c"
+    OPTIONS "--no-generation-date --case-inverted -cbdFt \"${CMAKE_CURRENT_SOURCE_DIR}/zend_language_scanner_defs.h\""
+  )
+
+  re2c_target(
+    NAME zendIniScanner
+    INPUT "${CMAKE_CURRENT_SOURCE_DIR}/zend_ini_scanner.l"
+    OUTPUT "${CMAKE_CURRENT_SOURCE_DIR}/zend_ini_scanner.c"
+    OPTIONS "--no-generation-date --case-inverted -cbdFt \"${CMAKE_CURRENT_SOURCE_DIR}/zend_ini_scanner_defs.h\""
+  )
+endif()
 
 target_include_directories(
   Zend

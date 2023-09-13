@@ -14,21 +14,6 @@ endif()
 
 php_extension(NAME "phar" ${_library_type})
 
-message(STATUS "Checking for phar openssl support")
-if(EXT_OPENSSL)
-  message(STATUS "Openssl support enabled")
-  set(PHAR_HAVE_OPENSSL 1 CACHE INTERNAL "Define to 1 if PHP extension openssl is enabled")
-else()
-  message(STATUS "PHP extension openssl is shared or disabled, skipping")
-endif()
-
-re2c_target(
-  NAME pharPathCheck
-  INPUT "${CMAKE_CURRENT_SOURCE_DIR}/phar_path_check.re"
-  OUTPUT "${CMAKE_CURRENT_SOURCE_DIR}/phar_path_check.c"
-  OPTIONS "--no-generation-date -b"
-)
-
 add_library(ext_phar ${_library_type}
   util.c
   tar.c
@@ -41,7 +26,25 @@ add_library(ext_phar ${_library_type}
   phar_path_check.c
 )
 
+if(RE2C_FOUND)
+  re2c_target(
+    NAME pharPathCheck
+    INPUT "${CMAKE_CURRENT_SOURCE_DIR}/phar_path_check.re"
+    OUTPUT "${CMAKE_CURRENT_SOURCE_DIR}/phar_path_check.c"
+    OPTIONS "--no-generation-date -b"
+  )
+endif()
+
 target_compile_definitions(ext_phar PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE=1)
+
+message(STATUS "Checking for phar openssl support")
+
+if(EXT_OPENSSL)
+  message(STATUS "Openssl support enabled")
+  set(PHAR_HAVE_OPENSSL 1 CACHE INTERNAL "Define to 1 if PHP extension openssl is enabled")
+else()
+  message(STATUS "PHP extension openssl is shared or disabled, skipping")
+endif()
 
 # Man documentation.
 configure_file(phar.1.in phar.1 @ONLY)

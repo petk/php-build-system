@@ -11,18 +11,6 @@ if(NOT SAPI_PHPDBG)
   return()
 endif()
 
-bison_target(PhpDbgParser phpdbg_parser.y ${CMAKE_CURRENT_BINARY_DIR}/phpdbg_parser.c
-  COMPILE_FLAGS "-v -d"
-  DEFINES_FILE ${CMAKE_CURRENT_BINARY_DIR}/phpdbg_parser.h
-)
-
-re2c_target(
-  NAME phpdbgLexer
-  INPUT "${CMAKE_CURRENT_SOURCE_DIR}/phpdbg_lexer.l"
-  OUTPUT "${CMAKE_CURRENT_SOURCE_DIR}/phpdbg_lexer.c"
-  OPTIONS "--no-generation-date -cbdF"
-)
-
 add_executable(phpdbg
   phpdbg.c
   phpdbg_parser.c
@@ -44,6 +32,22 @@ add_executable(phpdbg
   phpdbg_io.c
   phpdbg_out.c
 )
+
+if(BISON_FOUND)
+  bison_target(PhpDbgParser phpdbg_parser.y ${CMAKE_CURRENT_BINARY_DIR}/phpdbg_parser.c
+    COMPILE_FLAGS "-v -d"
+    DEFINES_FILE ${CMAKE_CURRENT_BINARY_DIR}/phpdbg_parser.h
+  )
+endif()
+
+if(RE2C_FOUND)
+  re2c_target(
+    NAME phpdbgLexer
+    INPUT "${CMAKE_CURRENT_SOURCE_DIR}/phpdbg_lexer.l"
+    OUTPUT "${CMAKE_CURRENT_SOURCE_DIR}/phpdbg_lexer.c"
+    OPTIONS "--no-generation-date -cbdF"
+  )
+endif()
 
 target_compile_definitions(
   phpdbg

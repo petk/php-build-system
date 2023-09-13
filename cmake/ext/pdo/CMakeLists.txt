@@ -8,13 +8,6 @@ if(NOT EXT_PDO)
   return()
 endif()
 
-re2c_target(
-  NAME pdoSqlParser
-  INPUT "${CMAKE_CURRENT_SOURCE_DIR}/pdo_sql_parser.re"
-  OUTPUT "${CMAKE_CURRENT_SOURCE_DIR}/pdo_sql_parser.c"
-  OPTIONS "--no-generation-date"
-)
-
 if(EXT_PDO_SHARED OR BUILD_SHARED_LIBS)
   set(_library_type "SHARED")
 endif()
@@ -28,6 +21,15 @@ add_library(ext_pdo ${_library_type}
   pdo_sql_parser.c
   pdo_sqlstate.c
 )
+
+if(RE2C_FOUND)
+  re2c_target(
+    NAME pdoSqlParser
+    INPUT "${CMAKE_CURRENT_SOURCE_DIR}/pdo_sql_parser.re"
+    OUTPUT "${CMAKE_CURRENT_SOURCE_DIR}/pdo_sql_parser.c"
+    OPTIONS "--no-generation-date"
+  )
+endif()
 
 target_sources(
   ext_pdo

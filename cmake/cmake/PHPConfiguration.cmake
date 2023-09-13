@@ -1,6 +1,6 @@
 #[=============================================================================[
 Project-wide configuration options and variables that can be overridden at the
-configuration phase (cmake . -D...).
+configuration phase (cmake . -DPHP_OPTION=... -DZEND_OPTION=...).
 #]=============================================================================]
 
 #[=============================================================================[

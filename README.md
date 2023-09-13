@@ -187,6 +187,9 @@ PHP tests and other files:
  └─ ...
 ```
 
+The following diagram briefly displays, how PHP libraries (in terms of a build
+system) are linked together:
+
 ![Diagram how PHP libraries are linked together](docs/images/links.svg)
 
 ## 4. PHP extensions
@@ -657,7 +660,7 @@ cd php-build-system
 ./bin/php.cmake
 
 # Go into newly created directory, for example
-cd php-8.3.0beta
+cd php-8.4-dev
 
 # Generate build system
 cmake .

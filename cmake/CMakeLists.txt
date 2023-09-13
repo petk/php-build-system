@@ -34,6 +34,9 @@ set(PHP_OS "${CMAKE_SYSTEM_NAME}" CACHE INTERNAL "uname output")
 # Define GNU standard installation directories.
 include(GNUInstallDirs)
 
+# Lexer and parser generators.
+include(PHPLexerParser)
+
 # Define PHP configuration options.
 include(PHPConfiguration)
 
@@ -43,10 +46,7 @@ include(ConfigureChecks)
 # Find sendmail binary.
 find_package(SENDMAIL)
 
-# Parser and lexer generators.
-find_package(BISON 3.0.0 REQUIRED)
-find_package(RE2C 1.0.3 REQUIRED)
-
+# TODO: Check if this can be fixed better.
 include_directories(${CMAKE_SOURCE_DIR})
 include_directories("${CMAKE_CURRENT_SOURCE_DIR}/main")
 include_directories("${CMAKE_CURRENT_SOURCE_DIR}/TSRM")

@@ -140,20 +140,6 @@ check_c_source_compiles("
 # being built.
 set(ENABLE_CHROOT_FUNC 1 CACHE INTERNAL "Whether to enable chroot() function")
 
-re2c_target(
-  NAME varUnserializer
-  INPUT "${CMAKE_CURRENT_SOURCE_DIR}/var_unserializer.re"
-  OUTPUT "${CMAKE_CURRENT_SOURCE_DIR}/var_unserializer.c"
-  OPTIONS "--no-generation-date -b"
-)
-
-re2c_target(
-  NAME urlScannerEx
-  INPUT "${CMAKE_CURRENT_SOURCE_DIR}/url_scanner_ex.re"
-  OUTPUT "${CMAKE_CURRENT_SOURCE_DIR}/url_scanner_ex.c"
-  OPTIONS "--no-generation-date -b"
-)
-
 php_extension(NAME "standard" STATIC)
 
 add_library(ext_standard STATIC
@@ -221,6 +207,22 @@ add_library(ext_standard STATIC
   crc32_x86.c
   libavifinfo/avifinfo.c
 )
+
+if(RE2C_FOUND)
+  re2c_target(
+    NAME varUnserializer
+    INPUT "${CMAKE_CURRENT_SOURCE_DIR}/var_unserializer.re"
+    OUTPUT "${CMAKE_CURRENT_SOURCE_DIR}/var_unserializer.c"
+    OPTIONS "--no-generation-date -b"
+  )
+
+  re2c_target(
+    NAME urlScannerEx
+    INPUT "${CMAKE_CURRENT_SOURCE_DIR}/url_scanner_ex.re"
+    OUTPUT "${CMAKE_CURRENT_SOURCE_DIR}/url_scanner_ex.c"
+    OPTIONS "--no-generation-date -b"
+  )
+endif()
 
 target_include_directories(
   ext_standard

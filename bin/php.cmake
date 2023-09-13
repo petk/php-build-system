@@ -17,11 +17,11 @@ SYNOPSIS:
     PHP version to download in form of {MAJOR}.{MINOR}.{PATCH}{EXTRA}
 
 Usage examples:
-  Downloads specific version from downloads.php.net:
-    cmake -P bin/php.cmake 8.3.0RC1
+  Downloads specific version from php.net:
+    cmake -P bin/php.cmake 8.3.0RC2
 
   Or:
-    ./bin/php.cmake 8.3.0RC1
+    ./bin/php.cmake 8.3.0RC2
 
   Downloads the current Git PHP-8.3 branch:
     ./bin/php.cmake 8.3-dev
@@ -30,44 +30,9 @@ Usage examples:
     ./bin/php.cmake 8.4-dev
 #]=============================================================================]
 
-# Set default variables.
-set(PHP_VERSION "8.3.0RC1")
-
-if(CMAKE_ARGV3)
-  set(PHP_VERSION "${CMAKE_ARGV3}")
-endif()
-
-if(
-  NOT PHP_VERSION MATCHES "^8\\.[0-9]\\.[0-9]+[a-zA-Z0-9\\-]*$"
-  AND NOT PHP_VERSION MATCHES "^8\\.[0-9]-dev$"
-)
-  message(FATAL_ERROR "PHP version should match pattern {MAJOR}.{MINOR}.{PATCH}{EXTRA}")
-endif()
-
-# Determine the download URL.
-if(PHP_VERSION MATCHES "8.4-dev")
-  set(_php_branch "master")
-
-  set(_download_url "https://github.com/php/php-src/archive/refs/heads/${_php_branch}.tar.gz")
-elseif(PHP_VERSION MATCHES "^.*-dev$")
-  string(REGEX MATCH "([0-9]+)\\.([0-9]+).*$" _ ${PHP_VERSION})
-
-  set(_php_branch "PHP-${CMAKE_MATCH_1}.${CMAKE_MATCH_2}")
-  message(STATUS "Status: ${_php_branch}")
-
-  set(_download_url "https://github.com/php/php-src/archive/refs/heads/${_php_branch}.tar.gz")
-else()
-  set(_download_url "https://downloads.php.net/~jakub/php-${PHP_VERSION}.tar.gz")
-endif()
-
-set(_php_directory "php-${PHP_VERSION}")
-
-if(EXISTS "${_php_directory}")
-  message(FATAL_ERROR "To continue, please remove previous existing directory ${_php_directory}")
-endif()
-
+# Helper that checks if given URL is found.
 function(check_url)
-  unset(URL_FOUND)
+  unset(URL_FOUND CACHE)
 
   set(check_url_command curl --silent --head --fail ${ARGN})
 
@@ -84,32 +49,71 @@ function(check_url)
   endif()
 endfunction()
 
+# Set default variables.
+set(PHP_VERSION "8.4-dev")
+
+if(CMAKE_ARGV3)
+  set(PHP_VERSION "${CMAKE_ARGV3}")
+endif()
+
+if(
+  NOT PHP_VERSION MATCHES "^8\\.[0-9]\\.[0-9]+[a-zA-Z0-9\\-]*$"
+  AND NOT PHP_VERSION MATCHES "^8\\.[0-9]-dev$"
+)
+  message(FATAL_ERROR "PHP version should match pattern {MAJOR}.{MINOR}.{PATCH}{EXTRA}")
+endif()
+
+if(
+  PHP_VERSION MATCHES "^8\\.[0-2].*$"
+)
+  message(FATAL_ERROR "Only PHP 8.3 or greater is supported.")
+endif()
+
+set(_php_directory "php-${PHP_VERSION}")
+
+if(EXISTS "${_php_directory}")
+  message(FATAL_ERROR "To continue, please remove previous existing directory ${_php_directory}")
+endif()
+
+# Determine the download URL.
+if(PHP_VERSION MATCHES "8.4-dev")
+  set(_php_branch "master")
+
+  list(APPEND _urls "https://github.com/php/php-src/archive/refs/heads/${_php_branch}.tar.gz")
+elseif(PHP_VERSION MATCHES "^.*-dev$")
+  string(REGEX MATCH "([0-9]+)\\.([0-9]+).*$" _ ${PHP_VERSION})
+
+  set(_php_branch "PHP-${CMAKE_MATCH_1}.${CMAKE_MATCH_2}")
+  message(STATUS "Status: ${_php_branch}")
+
+  list(APPEND _urls "https://github.com/php/php-src/archive/refs/heads/${_php_branch}.tar.gz")
+else()
+  list(APPEND _urls "https://downloads.php.net/~eric/php-${PHP_VERSION}.tar.gz")
+  list(APPEND _urls "https://downloads.php.net/~jakub/php-${PHP_VERSION}.tar.gz")
+  list(APPEND _urls "https://www.php.net/distributions/php-${PHP_VERSION}.tar.gz")
+endif()
+
 # Download PHP tarball.
 set(_php_tarball "php-${PHP_VERSION}.tar.gz")
 
 if(NOT EXISTS ${_php_tarball})
-  message(STATUS "Downloading PHP ${PHP_VERSION}")
+  foreach(url ${_urls})
+    check_url(${url})
 
-  check_url(${_download_url})
+    if(URL_FOUND)
+      set(_download_url ${url})
+      break()
+    endif()
+  endforeach()
 
-  if(NOT URL_FOUND)
-    message(FATAL_ERROR "URL ${_download_url} returned error")
+  if(NOT _download_url)
+    message(FATAL_ERROR "Download URL for PHP ${PHP_VERSION} could not be found")
   endif()
+
+  message(STATUS "Downloading PHP ${PHP_VERSION}")
 
   file(DOWNLOAD ${_download_url} ${_php_tarball} SHOW_PROGRESS)
 endif()
-
-file(ARCHIVE_EXTRACT INPUT ${_php_tarball})
-
-if(EXISTS php-src-${_php_branch})
-  file(RENAME php-src-${_php_branch} ${_php_directory})
-endif()
-
-# Add CMake files.
-file(INSTALL cmake/ DESTINATION ${_php_directory})
-
-# Apply patches for php-src.
-file(GLOB_RECURSE patches "patches/*.patch")
 
 # Check if git command is available.
 find_program(GIT_EXECUTABLE git)
@@ -117,6 +121,22 @@ find_program(GIT_EXECUTABLE git)
 if(NOT GIT_EXECUTABLE)
   message(FATAL_ERROR "Git executable not found. Cannot apply patches for PHP source code.")
 endif()
+
+message("")
+message(STATUS "Extracting ${_php_tarball}")
+file(ARCHIVE_EXTRACT INPUT ${_php_tarball})
+
+if(EXISTS php-src-${_php_branch})
+  file(RENAME php-src-${_php_branch} ${_php_directory})
+endif()
+
+# Add CMake files.
+message("")
+message(STATUS "Adding CMake source files to ${_php_directory}")
+file(INSTALL cmake/ DESTINATION ${_php_directory})
+
+# Apply patches for php-src.
+file(GLOB_RECURSE patches "patches/*.patch")
 
 # Add .git directory to be able to apply patches.
 execute_process(
@@ -132,6 +152,9 @@ execute_process(
 if(NOT _result EQUAL 0)
   message(FATAL_ERROR "${_output}\n${_error}")
 endif()
+
+message("")
+message(STATUS "Applying patches to ${_php_directory}")
 
 # Define the command to apply the patches using git.
 set(_patch_command ${GIT_EXECUTABLE} apply --ignore-whitespace)
@@ -153,5 +176,19 @@ foreach(patch ${patches})
   endif()
 endforeach()
 
-message("
-${_php_directory} directory is now ready to use")
+# Clean temporary .git directory.
+if(
+  _php_directory MATCHES "php-8\\.[0-9][\\.-].*"
+  AND IS_DIRECTORY ${_php_directory}/.git/
+)
+  file(REMOVE_RECURSE ${_php_directory}/.git/)
+endif()
+
+message("")
+message("${_php_directory} directory is now ready to use.
+
+For example:
+  cd ${_php_directory}
+  cmake .
+  cmake --build . -- -j$(nproc)
+")

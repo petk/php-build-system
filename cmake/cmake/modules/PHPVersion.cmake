@@ -5,7 +5,7 @@ PHP version variables.
 
 file(READ "${CMAKE_SOURCE_DIR}/configure.ac" _content)
 
-string(REGEX MATCH "AC_INIT\\(\\[PHP\\],\\[([0-9])\\.([0-9]+)\\.([0-9]*)(-dev)?.*" _ "${_content}")
+string(REGEX MATCH "AC_INIT\\(\\[PHP\\],\\[([0-9])\\.([0-9]+)\\.([0-9]*)([A-Za-z0-9\\-]*)" _ "${_content}")
 
 # Set PHP version variables.
 set(PHP_VERSION_MAJOR ${CMAKE_MATCH_1})
