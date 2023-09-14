@@ -4,20 +4,29 @@ include(CheckIncludeFile)
 include(CheckLibraryExists)
 include(CheckSymbolExists)
 include(CMakeDependentOption)
+include(CMakePushCheckState)
 
 option(SAPI_FPM "Whether to use the PHP FPM SAPI module" OFF)
 
 if(SAPI_FPM)
   set(SAPI_FPM_USER "nobody" CACHE STRING "Set the user for php-fpm to run as. (default: nobody)")
+
+  # For the configuration header with differently named constant.
+  set(PHP_FPM_USER ${SAPI_FPM_USER} CACHE INTERNAL "")
 else()
   unset(SAPI_FPM_USER CACHE)
+  unset(PHP_FPM_USER CACHE)
 endif()
 
 if(SAPI_FPM)
   set(SAPI_FPM_GROUP "nobody" CACHE STRING "Set the group for php-fpm to run as. For a system user, this should
   usually be set to match the fpm username (default: nobody)")
+
+  # For the configuration header with differently named constant.
+  set(PHP_FPM_GROUP ${SAPI_FPM_GROUP} CACHE INTERNAL "")
 else()
   unset(SAPI_FPM_GROUP CACHE)
+  unset(PHP_FPM_GROUP CACHE)
 endif()
 
 cmake_dependent_option(SAPI_FPM_SYSTEMD "Whether to activate systemd integration" OFF "SAPI_FPM" OFF)
@@ -260,11 +269,13 @@ check_c_source_compiles("
 if(SAPI_FPM_SYSTEMD)
   find_package(SYSTEMD 209 REQUIRED)
 
-  check_include_file(systemd/sd-daemon.h HAVE_SYSTEMD)
+  check_include_file(systemd/sd-daemon.h HAVE_SYSTEMD_SD_DAEMON_H)
 
-  if(NOT HAVE_SYSTEMD)
+  if(NOT HAVE_SYSTEMD_SD_DAEMON_H)
     message(FATAL_ERROR "Your system does not support systemd.")
   endif()
+
+  set(HAVE_SYSTEMD 1 CACHE INTERNAL "Set to 1 if FPM is using systemd integration")
 
   target_sources(php-fpm PRIVATE fpm/fpm_systemd.c)
 
@@ -282,68 +293,100 @@ else()
 endif()
 
 if(SAPI_FPM_ACL)
+  find_package(ACL REQUIRED)
+
+  if(ACL_LIBRARIES)
+    target_link_libraries(php-fpm PRIVATE ${ACL_LIBRARIES})
+  endif()
+
   check_include_file(sys/acl.h HAVE_SYS_ACL_H)
 
-  check_c_source_compiles("
-    #include <sys/acl.h>
+  cmake_push_check_state(RESET)
+    if(ACL_LIBRARIES)
+      set(CMAKE_REQUIRED_LIBRARIES ${ACL_LIBRARIES})
+    endif()
 
-    int main(void) {
-      acl_t acl;
-      acl_entry_t user, group;
-      acl = acl_init(1);
-      acl_create_entry(&acl, &user);
-      acl_set_tag_type(user, ACL_USER);
-      acl_create_entry(&acl, &group);
-      acl_set_tag_type(user, ACL_GROUP);
-      acl_free(acl);
-      return 0;
-    }
-  " _acl_successful)
+    check_c_source_compiles("
+      #include <sys/acl.h>
 
-  if(_acl_successful)
-    check_library_exists(acl acl_free "" HAVE_FPM_ACL)
+      int main(void) {
+        acl_t acl;
+        acl_entry_t user, group;
+        acl = acl_init(1);
+        acl_create_entry(&acl, &user);
+        acl_set_tag_type(user, ACL_USER);
+        acl_create_entry(&acl, &group);
+        acl_set_tag_type(user, ACL_GROUP);
+        acl_free(acl);
+        return 0;
+      }
+    " _acl_successful)
+  cmake_pop_check_state()
+
+  if(_acl_successful AND ACL_LIBRARIES)
+    check_library_exists(${ACL_LIBRARIES} acl_free "" HAVE_FPM_ACL)
   endif()
 
   unset(_acl_successful CACHE)
 
   if(NOT HAVE_FPM_ACL)
     if(NOT CMAKE_CROSSCOMPILING)
-      check_c_source_runs("
-        #include <sys/acl.h>
-            int main(void)
-            {
-              acl_t acl;
-              acl_entry_t user, group;
-              acl = acl_init(1);
-              acl_create_entry(&acl, &user);
-              acl_set_tag_type(user, ACL_USER);
-              acl_create_entry(&acl, &group);
-              acl_set_tag_type(user, ACL_GROUP);
-              acl_free(acl);
-              return 0;
-            }
-      " HAVE_FPM_ACL)
+      cmake_push_check_state(RESET)
+        if(ACL_LIBRARIES)
+          set(CMAKE_REQUIRED_LIBRARIES ${ACL_LIBRARIES})
+        endif()
+
+        check_c_source_runs("
+          #include <sys/acl.h>
+
+          int main(void) {
+            acl_t acl;
+            acl_entry_t user, group;
+            acl = acl_init(1);
+            acl_create_entry(&acl, &user);
+            acl_set_tag_type(user, ACL_USER);
+            acl_create_entry(&acl, &group);
+            acl_set_tag_type(user, ACL_GROUP);
+            acl_free(acl);
+            return 0;
+          }
+        " HAVE_FPM_ACL)
+      cmake_pop_check_state()
     endif()
   endif()
 endif()
 
 if(SAPI_FPM_APPARMOR)
+  find_package(APPARMOR REQUIRED)
+
+  if(APPARMOR_LIBRARIES)
+    target_link_libraries(php-fpm PRIVATE ${APPARMOR_LIBRARIES})
+  endif()
+
   check_include_file(sys/apparmor.h HAVE_SYS_APPARMOR_H)
 
-  check_library_exists(apparmor aa_change_profile "" HAVE_APPARMOR)
+  # Sanity check.
+  check_library_exists(${APPARMOR_LIBRARIES} aa_change_profile "" HAVE_APPARMOR)
 
-  if(HAVE_APPARMOR)
-    target_link_libraries(php-fpm PRIVATE apparmor)
+  if(NOT HAVE_APPARMOR)
+    message(FATAL_ERROR "The aa_change_profile() could not be found in the AppArmor library.")
   endif()
 endif()
 
 if(SAPI_FPM_SELINUX)
+  find_package(SELINUX REQUIRED)
+
+  if(SELINUX_LIBRARIES)
+    target_link_libraries(php-fpm PRIVATE ${SELINUX_LIBRARIES})
+  endif()
+
   check_include_file(selinux/selinux.h HAVE_SELINUX_SELINUX_H)
 
-  check_library_exists(selinux security_setenforce "" HAVE_SELINUX)
+  # Sanity check.
+  check_library_exists(${SELINUX_LIBRARIES} security_setenforce "" HAVE_SELINUX)
 
-  if(HAVE_SELINUX)
-    target_link_libraries(php-fpm PRIVATE selinux)
+  if(NOT HAVE_SELINUX)
+    message(FATAL_ERROR "The security_setenforce() could not be found in the SELinux library.")
   endif()
 endif()
 

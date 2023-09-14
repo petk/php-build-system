@@ -104,7 +104,10 @@ jobs:
             libsnmp-dev \
             snmpd \
             snmp-mibs-downloader \
-            libexpat1-dev;
+            libexpat1-dev \
+            libacl1-dev \
+            libapparmor-dev \
+            libselinux1-dev;
 
       - name: Checkout
         uses: actions/checkout@v4

@@ -123,6 +123,8 @@ endif()
 unset(_have_ptrace CACHE)
 unset(_ptrace_works CACHE)
 
+# TODO: Check if /proc/self is sufficient location instead of the /proc/$$ as in
+# Autoconf.
 if(EXISTS /proc/self/mem)
   set(_proc_mem_file "mem")
 elseif(EXISTS /proc/self/as)

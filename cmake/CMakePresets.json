@@ -83,6 +83,10 @@
         "EXT_ZLIB": true,
 
         "SAPI_FPM": true,
+        "SAPI_FPM_SYSTEMD": true,
+        "SAPI_FPM_ACL": true,
+        "SAPI_FPM_APPARMOR": true,
+        "SAPI_FPM_SELINUX": true,
         "SAPI_LITESPEED": true
       }
     },
@@ -109,6 +113,10 @@
       "configurePreset": "default"
     },
     {
+      "name": "all-disabled",
+      "configurePreset": "all-disabled"
+    },
+    {
       "name": "unix-full",
       "configurePreset": "unix-full"
     },
@@ -125,6 +133,11 @@
     {
       "name": "default",
       "configurePreset": "default",
+      "output": {"verbosity": "verbose"}
+    },
+    {
+      "name": "all-disabled",
+      "configurePreset": "all-disabled",
       "output": {"verbosity": "verbose"}
     },
     {

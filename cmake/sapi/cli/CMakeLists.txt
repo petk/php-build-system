@@ -1,5 +1,6 @@
 include(CheckCSourceCompiles)
 include(CheckIncludeFile)
+include(CheckSymbolExists)
 
 option(SAPI_CLI "Whether to use the PHP CLI SAPI module" ON)
 
@@ -7,24 +8,22 @@ if(NOT SAPI_CLI)
   return()
 endif()
 
-check_include_file(sys/pstat.h HAVE_SYS_PSTAT_H)
 check_symbol_exists(setproctitle "unistd.h;stdlib.h" HAVE_SETPROCTITLE)
+check_include_file(sys/pstat.h HAVE_SYS_PSTAT_H)
 
 message(STATUS "Checking for PS_STRINGS")
 
-if(NOT CMAKE_CROSSCOMPILING)
-  check_c_source_runs("
-    #include <machine/vmparam.h>
-    #include <sys/exec.h>
+check_c_source_compiles("
+  #include <machine/vmparam.h>
+  #include <sys/exec.h>
 
-    int main() {
-      PS_STRINGS->ps_nargvstr = 1;
-      PS_STRINGS->ps_argvstr = \"foo\";
+  int main(void) {
+    PS_STRINGS->ps_nargvstr = 1;
+    PS_STRINGS->ps_argvstr = \"foo\";
 
-      return 0;
-    }
-  " HAVE_PS_STRINGS)
-endif()
+    return 0;
+  }
+" HAVE_PS_STRINGS)
 
 add_executable(php
   php_cli.c
@@ -51,7 +50,11 @@ set_target_properties(php PROPERTIES ENABLE_EXPORTS TRUE)
 #target_compile_options(php PRIVATE -fvisibility=hidden)
 
 # Man documentation.
-configure_file(php.1.in php.1 @ONLY)
+function(php_cli_configure_file)
+  # TODO: Add @program_prefix@
+  set(program_prefix "")
+  configure_file(php.1.in php.1 @ONLY)
+endfunction()
 
 install(TARGETS php RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR})
 
@@ -65,7 +68,7 @@ target_sources(
 install(
   TARGETS php
   FILE_SET sapi_php_headers
-  DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/php/sapi/php
+  DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/php/sapi/cli
 )
 
 install(

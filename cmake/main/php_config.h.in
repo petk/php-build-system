@@ -1587,7 +1587,7 @@
 #cmakedefine HAVE_SYSTEMD @HAVE_SYSTEMD@
 
 /* Define to 1 if you have the <systemd/sd-daemon.h> header file. */
-#cmakedefine HAVE_SYSTEMD_SD_DAEMON_H
+#cmakedefine HAVE_SYSTEMD_SD_DAEMON_H @HAVE_SYSTEMD_SD_DAEMON_H@
 
 /* */
 #cmakedefine HAVE_SYSVMSG @HAVE_SYSVMSG@
@@ -1916,13 +1916,13 @@
 #cmakedefine PHP_CAN_SUPPORT_PROC_OPEN @PHP_CAN_SUPPORT_PROC_OPEN@
 
 /* fpm group name */
-#cmakedefine PHP_FPM_GROUP @SAPI_FPM_GROUP@
+#cmakedefine PHP_FPM_GROUP "@PHP_FPM_GROUP@"
 
 /* fpm systemd service type */
 #cmakedefine PHP_FPM_SYSTEMD "@PHP_FPM_SYSTEMD@"
 
 /* fpm user name */
-#cmakedefine PHP_FPM_USER @SAPI_FPM_USER@
+#cmakedefine PHP_FPM_USER "@PHP_FPM_USER@"
 
 /* Whether the compiler supports AVX512 */
 #cmakedefine01 PHP_HAVE_AVX512_SUPPORTS

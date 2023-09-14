@@ -487,9 +487,9 @@ Additionally required when building from Git repository source code:
 Optional:
 
 * libcapstone (for the OPcache `--with-capstone` option)
-* libssl-dev (for OpenSSL `--with-openssl`)
-* libkrb5-dev (for the OpenSSL `--with-kerberos` option)
-* libaspell-dev and libpspell-dev (for the ext/pspell `--with-pspell` option)
+* libssl (for OpenSSL `--with-openssl`)
+* libkrb5 (for the OpenSSL `--with-kerberos` option)
+* libaspell and libpspell (for the ext/pspell `--with-pspell` option)
 * zlib
   * when using `--enable-gd` with bundled libgd
   * when using `--with-zlib`
@@ -523,10 +523,16 @@ Optional:
   * when using `--with-libedit`
 * libreadline
   * when using `--with-readline`
-* libsnmp-dev
+* libsnmp
   * when using `--with-snmp`
-* libexpat1-dev
+* libexpat1
   * when using the `--with-expat`
+* libacl
+  * when using the `--with-fpm-acl`
+* libapparmor
+  * when using the `--with-fpm-apparmor`
+* libselinux1
+  * when using the `--with-fpm-selinux`
 
 When PHP is built, the development libraries are no longer required to be
 installed and only libraries without development files are needed to run newly
