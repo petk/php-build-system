@@ -5,19 +5,19 @@ See: https://wiki.php.net/rfc/rounding
 
 The module defines the following variables:
 
-``HAVE__FPU_SETCW``
+HAVE__FPU_SETCW
   Defined to 1 if _FPU_SETCW is usable.
 
-``HAVE_FPSETPREC``
+HAVE_FPSETPREC
   Defined to 1 if fpsetprec is present and usable.
 
-``HAVE__CONTROLFP``
+HAVE__CONTROLFP
   Defined to 1 if _controlfp is present and usable.
 
-``HAVE__CONTROLFP_S``
+HAVE__CONTROLFP_S
   Defined to 1 if _controlfp_s is present and usable.
 
-``HAVE_FPU_INLINE_ASM_X86``
+HAVE_FPU_INLINE_ASM_X86
   Defined to 1 if FPU control word can be manipulated by inline assembler.
 ]=============================================================================]#
 

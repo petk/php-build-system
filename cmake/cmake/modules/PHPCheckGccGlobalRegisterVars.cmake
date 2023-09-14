@@ -1,16 +1,15 @@
 #[=============================================================================[
 Checks for global register variables support.
 
-Function: check_gcc_global_register_vars()
+Module sets the following variables:
 
-Sets the following variables:
-``HAVE_GCC_GLOBAL_REGS``
+HAVE_GCC_GLOBAL_REGS
   Set to 1 if the target system has support for global register variables.
 ]=============================================================================]#
 
 include(CheckCSourceCompiles)
 
-function(check_gcc_global_register_vars)
+function(_php_check_gcc_global_register_vars)
   message(STATUS "Checking for global register variables support")
 
   check_c_source_compiles("
@@ -59,4 +58,4 @@ function(check_gcc_global_register_vars)
   " HAVE_GCC_GLOBAL_REGS)
 endfunction()
 
-check_gcc_global_register_vars()
+_php_check_gcc_global_register_vars()

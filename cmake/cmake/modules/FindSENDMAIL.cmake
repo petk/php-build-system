@@ -9,7 +9,7 @@ PROG_SENDMAIL
 
 include(FindPackageHandleStandardArgs)
 
-function(php_find_sendmail)
+function(_php_find_sendmail)
   find_program(SENDMAIL_EXECUTABLE sendmail PATHS /usr/bin /usr/sbin /usr/etc /etc /usr/ucblib /usr/lib)
   mark_as_advanced(SENDMAIL_EXECUTABLE)
 
@@ -28,4 +28,4 @@ function(php_find_sendmail)
   )
 endfunction()
 
-php_find_sendmail()
+_php_find_sendmail()

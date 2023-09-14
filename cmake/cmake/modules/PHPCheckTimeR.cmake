@@ -4,9 +4,9 @@ POSIX.
 
 The module defines the following variables if checks are successful:
 
-``PHP_HPUX_TIME_R``
+PHP_HPUX_TIME_R
   Defined to 1 if HP-UX 10.x is used.
-``PHP_IRIX_TIME_R``
+PHP_IRIX_TIME_R
   Defined to 1 if IRIX-style functions are used.
 ]=============================================================================]#
 

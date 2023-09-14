@@ -9,7 +9,7 @@ if(NOT EXT_DOM)
 endif()
 
 if(NOT EXT_LIBXML)
-  message(FATAL_ERROR "DOM extension requires LIBXML extension, add -Dlibxml=ON")
+  message(FATAL_ERROR "DOM extension requires LIBXML extension, add EXT_LIBXML=ON")
 endif()
 
 if(EXT_DOM_SHARED OR BUILD_SHARED_LIBS)

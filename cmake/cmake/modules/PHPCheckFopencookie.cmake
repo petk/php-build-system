@@ -3,13 +3,13 @@ Checks if fopencookie is working as expected.
 
 The module defines the following variables if checks are successful:
 
-``HAVE_FOPENCOOKIE``
+HAVE_FOPENCOOKIE
   Defined to 1 if fopencookie is present.
 
-``COOKIE_IO_FUNCTIONS_T``
+COOKIE_IO_FUNCTIONS_T
   The type for struct due to older glibc versions.
 
-``COOKIE_SEEKER_USES_OFF64_T``
+COOKIE_SEEKER_USES_OFF64_T
   Whether a newer seeker definition for fopencookie is available.
 ]=============================================================================]#
 

@@ -9,11 +9,11 @@ if(NOT EXT_XSL)
 endif()
 
 if(NOT EXT_LIBXML)
-  message(FATAL_ERROR "XSL extension requires LIBXML extension, add -DEXT_LIBXML=ON")
+  message(FATAL_ERROR "XSL extension requires LIBXML extension, add EXT_LIBXML=ON")
 endif()
 
 if(NOT EXT_DOM)
-  message(FATAL_ERROR "XSL extension requires DOM extension, add -Ddom=ON")
+  message(FATAL_ERROR "XSL extension requires DOM extension, add EXT_DOM=ON")
 endif()
 
 if(EXT_XSL_SHARED OR BUILD_SHARED_LIBS)

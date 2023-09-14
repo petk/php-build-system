@@ -3,7 +3,7 @@ Check for asm goto support.
 
 If checks pass the module sets the following variables:
 
-``HAVE_ASM_GOTO``
+HAVE_ASM_GOTO
   Set to 1 if asm goto is supported.
 ]=============================================================================]#
 

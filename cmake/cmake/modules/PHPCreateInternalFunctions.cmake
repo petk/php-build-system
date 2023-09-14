@@ -21,7 +21,7 @@ foreach(extension IN LISTS PHP_EXTENSIONS)
     string(FIND "${file_content}" "phpext_" pattern_index)
 
     if(NOT pattern_index EQUAL -1)
-      get_filename_component(file_name "${extension_header}" NAME)
+      cmake_path(GET extension_header FILENAME file_name)
       set(EXT_INCLUDE_CODE "${EXT_INCLUDE_CODE}\n#include \"ext/${extension}/${file_name}\"")
     endif()
   endforeach()
@@ -34,3 +34,6 @@ configure_file(main/internal_functions.c.in main/internal_functions.c)
 
 message(STATUS "Creating main/internal_functions_cli.c")
 configure_file(main/internal_functions.c.in main/internal_functions_cli.c)
+
+unset(EXT_INCLUDE_CODE)
+unset(EXT_MODULE_PTRS)

@@ -390,7 +390,7 @@ if(SAPI_FPM_SELINUX)
   endif()
 endif()
 
-function(php_fpm_configure_files)
+function(_php_fpm_configure_files)
   # Man documentation.
   configure_file(php-fpm.8.in php-fpm.8 @ONLY)
 
@@ -425,7 +425,7 @@ function(php_fpm_configure_files)
   configure_file(status.html.in status.html @ONLY)
 endfunction()
 
-php_fpm_configure_files()
+_php_fpm_configure_files()
 
 install(TARGETS php-fpm DESTINATION ${CMAKE_INSTALL_SBINDIR})
 

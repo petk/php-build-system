@@ -1,18 +1,16 @@
 #[=============================================================================[
 Check if flush should be called explicitly after buffered io.
 
-Function: check_flush_io()
+Module sets the following variables:
 
-Sets the following variables:
-
-``HAVE_FLUSHIO``
+HAVE_FLUSHIO
   Set to 1 if flush should be called explicitly after a buffered io.
 ]=============================================================================]#
 
 include(CheckCSourceRuns)
 
-# php_check_flush_io: Checks how flush call should be done
-function(php_check_flush_io)
+# Checks how flush call should be done.
+function(_php_check_flush_io)
   message(STATUS "Checking whether flush should be called explicitly after a buffered io")
 
   if(CMAKE_CROSSCOMPILING)
@@ -45,4 +43,4 @@ function(php_check_flush_io)
   endif()
 endfunction()
 
-php_check_flush_io()
+_php_check_flush_io()

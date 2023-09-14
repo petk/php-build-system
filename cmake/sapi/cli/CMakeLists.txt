@@ -50,11 +50,13 @@ set_target_properties(php PROPERTIES ENABLE_EXPORTS TRUE)
 #target_compile_options(php PRIVATE -fvisibility=hidden)
 
 # Man documentation.
-function(php_cli_configure_file)
+function(_php_cli_configure_file)
   # TODO: Add @program_prefix@
   set(program_prefix "")
   configure_file(php.1.in php.1 @ONLY)
 endfunction()
+
+_php_cli_configure_file()
 
 install(TARGETS php RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR})
 

@@ -4,9 +4,10 @@ sockaddr.
 
 The module sets the following variables if support is found:
 
-``HAVE_SOCKADDR_STORAGE``
+HAVE_SOCKADDR_STORAGE
   Set to 1 if struct sockaddr_storage is available.
-``HAVE_SOCKADDR_SA_LEN``
+
+HAVE_SOCKADDR_SA_LEN
   Set to 1 if struct sockaddr has field sa_len.
 ]=============================================================================]#
 

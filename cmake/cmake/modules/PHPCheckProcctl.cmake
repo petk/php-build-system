@@ -3,7 +3,7 @@ Checks if we have procctl.
 
 The module defines the following variables:
 
-``HAVE_PROCCTL``
+HAVE_PROCCTL
   Defined to 1 if we have working procctl.
 ]=============================================================================]#
 

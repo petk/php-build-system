@@ -2,7 +2,7 @@
 Create build definitions header file main/build-defs.h.
 ]=============================================================================]#
 
-function(php_create_build_definitions)
+function(_php_create_build_definitions)
   message(STATUS "Creating main/build-defs.h")
 
   set(HAVE_BUILD_DEFS_H 1 CACHE INTERNAL "Define to 1 if you have the build-defs.h header file.")
@@ -60,4 +60,4 @@ function(php_create_build_definitions)
   configure_file(main/build-defs.h.in main/build-defs.h @ONLY)
 endfunction()
 
-php_create_build_definitions()
+_php_create_build_definitions()

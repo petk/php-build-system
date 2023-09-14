@@ -533,6 +533,8 @@ Optional:
   * when using the `--with-fpm-apparmor`
 * libselinux1
   * when using the `--with-fpm-selinux`
+* libsystemd
+  * when using the `--with-fpm-systemd`
 
 When PHP is built, the development libraries are no longer required to be
 installed and only libraries without development files are needed to run newly
@@ -928,6 +930,11 @@ cmake . -DEXT_NAME=ON -DPHP_OPTION=ON ...
 | `--enable-mbstring=shared`                       | `EXT_MBSTRING_SHARED=ON`                      |                     |
 | `--enable-mbregex` (default)                     | `EXT_MBSTRING_MBREGEX=ON`                     | `ON`                |
 | `--disable-mbregex`                              | `EXT_MBSTRING_MBREGEX=OFF`                    |                     |
+| `--without-mysqli` (default)                     | `EXT_MYSQLI=OFF`                              | `OFF`               |
+| `--with-mysqli`                                  | `EXT_MYSQLI=ON`                               |                     |
+| `--with-mysqli=shared`                           | `EXT_MYSQLI_SHARED=ON`                        |                     |
+| `--without-mysql-sock` (default)                 | `EXT_MYSQLI_SOCK=OFF`                         | `OFF`               |
+| `--with-mysql-sock[=SOCKET]`                     | `EXT_MYSQLI_SOCK=ON`                          |                     |
 | `--disable-mysqlnd` (default)                    | `EXT_MYSQLND=OFF`                             | `OFF`               |
 | `--enable-mysqlnd`                               | `EXT_MYSQLND=ON`                              |                     |
 | `--enable-mysqlnd=shared`                        | `EXT_MYSQLND_SHARED=ON`                       |                     |
@@ -962,6 +969,9 @@ cmake . -DEXT_NAME=ON -DPHP_OPTION=ON ...
 | `--with-pdo-sqlite` (default)                    | `EXT_PDO_SQLITE=ON`                           | `ON`                |
 | `--with-pdo-sqlite=shared`                       | `EXT_PDO_SQLITE_SHARED=ON`                    |                     |
 | `--without-pdo-sqlite`                           | `EXT_PDO_SQLITE=OFF`                          |                     |
+| `--without-pdo-mysql` (default)                  | `EXT_PDO_MYSQL=OFF`                           | `OFF`               |
+| `--with-pdo-mysql`                               | `EXT_PDO_MYSQL=ON`                            |                     |
+| `--with-pdo-mysql=shared`                        | `EXT_PDO_MYSQL_SHARED=ON`                     |                     |
 | `--enable-phar` (default)                        | `EXT_PHAR=ON`                                 | `ON`                |
 | `--enable-phar=shared`                           | `EXT_PHAR_SHARED=ON`                          |                     |
 | `--disable-phar`                                 | `EXT_PHAR=OFF`                                |                     |

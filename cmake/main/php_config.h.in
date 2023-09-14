@@ -1109,7 +1109,7 @@
 #cmakedefine HAVE_MREMAP @HAVE_MREMAP@
 
 /* Whether you have MySQL */
-#cmakedefine HAVE_MYSQL
+#cmakedefine HAVE_MYSQL @HAVE_MYSQL@
 
 /* */
 #cmakedefine HAVE_NANOSLEEP @HAVE_NANOSLEEP@
@@ -1892,7 +1892,7 @@
 #cmakedefine PDO_MYSQL_UNIX_ADDR
 
 /* Whether pdo_mysql uses mysqlnd */
-#cmakedefine PDO_USE_MYSQLND
+#cmakedefine PDO_USE_MYSQLND @PDO_USE_MYSQLND@
 
 /* */
 #cmakedefine PHAR_HAVE_OPENSSL @PHAR_HAVE_OPENSSL@
@@ -1991,7 +1991,7 @@
 #cmakedefine PHP_MHASH_BC @PHP_MHASH_BC@
 
 /* */
-#cmakedefine PHP_MYSQL_UNIX_SOCK_ADDR
+#cmakedefine PHP_MYSQL_UNIX_SOCK_ADDR "@PHP_MYSQL_UNIX_SOCK_ADDR@"
 
 /* */
 #cmakedefine PHP_OCI8_DEF_DIR

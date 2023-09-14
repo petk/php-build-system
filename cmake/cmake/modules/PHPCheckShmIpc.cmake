@@ -3,7 +3,7 @@ Checks for sysvipc shared memory support.
 
 The module defines the following variables if sysvipc support is found:
 
-``HAVE_SHM_IPC``
+HAVE_SHM_IPC
   Defined to 1 if SysV IPC SHM support is available.
 ]=============================================================================]#
 include(CheckCSourceRuns)

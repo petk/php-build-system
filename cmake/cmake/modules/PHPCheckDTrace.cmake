@@ -1,9 +1,7 @@
 #[=============================================================================[
 Check for DTrace.
 
-Function: php_check_dtrace()
-
-Sets the following variables:
+Module sets the following variables:
 
 HAVE_DTRACE
   Set to 1 if DTrace support is enabled.
@@ -11,7 +9,7 @@ HAVE_DTRACE
 
 include(CheckIncludeFile)
 
-function(php_check_dtrace)
+function(_php_check_dtrace)
   if(NOT PHP_DTRACE)
     return()
   endif()
@@ -68,4 +66,4 @@ function(php_check_dtrace)
   message(STATUS "DTrace enabled")
 endfunction()
 
-php_check_dtrace()
+_php_check_dtrace()

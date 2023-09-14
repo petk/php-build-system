@@ -4,7 +4,7 @@ of the path has execute but not read permissions.
 
 Module sets the following variables:
 
-``HAVE_BROKEN_GETCWD``
+HAVE_BROKEN_GETCWD
   Set to 1 if system has broken getcwd().
 ]=============================================================================]#
 

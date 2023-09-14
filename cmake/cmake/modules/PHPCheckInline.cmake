@@ -7,7 +7,7 @@ INLINE_KEYWORD
   Set inline to __inline__ or __inline if one of those work, otherwise not set.
 ]=============================================================================]#
 
-function(php_check_inline)
+function(_php_check_inline)
   message(STATUS "Checking inline keyword for compiler")
 
   foreach(keyword "inline" "__inline__" "__inline")
@@ -36,4 +36,4 @@ function(php_check_inline)
   endif()
 endfunction()
 
-php_check_inline()
+_php_check_inline()

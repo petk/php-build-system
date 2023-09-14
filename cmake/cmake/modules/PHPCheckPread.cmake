@@ -3,9 +3,9 @@ Checks whether pread() works.
 
 The module sets the following variables:
 
-``HAVE_PREAD``
+HAVE_PREAD
   Set to 1 if pread() is available.
-``PHP_PREAD_64``
+PHP_PREAD_64
   Set to 1 if pread64 is default.
 ]=============================================================================]#
 
@@ -13,7 +13,7 @@ include(CheckCSourceRuns)
 
 message(STATUS "Checking whether pread() works")
 
-function(php_check_pread)
+function(_php_check_pread)
   if(NOT CMAKE_CROSSCOMPILING)
     file(WRITE "${CMAKE_BINARY_DIR}/conftest_in" "test\n")
 
@@ -79,4 +79,4 @@ function(php_check_pread)
   endif()
 endfunction()
 
-php_check_pread()
+_php_check_pread()

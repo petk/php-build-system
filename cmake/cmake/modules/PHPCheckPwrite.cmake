@@ -3,9 +3,9 @@ Checks whether pwrite() works.
 
 The module sets the following variables:
 
-``HAVE_PWRITE``
+HAVE_PWRITE
   Set to 1 if pwrite() is available.
-``PHP_PWRITE_64``
+PHP_PWRITE_64
   Set to 1 if pwrite64 is default.
 ]=============================================================================]#
 
@@ -13,7 +13,7 @@ include(CheckCSourceRuns)
 
 message(STATUS "Checking whether pwrite() works")
 
-function(php_check_pwrite)
+function(_php_check_pwrite)
   if(NOT CMAKE_CROSSCOMPILING)
     check_c_source_runs("
       #include <sys/types.h>
@@ -75,4 +75,4 @@ function(php_check_pwrite)
   endif()
 endfunction()
 
-php_check_pwrite()
+_php_check_pwrite()

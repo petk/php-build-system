@@ -3,7 +3,7 @@ Checks if we have working prctl.
 
 The module defines the following variables:
 
-``HAVE_PRCTL``
+HAVE_PRCTL
   Defined to 1 if we have working prctl.
 ]=============================================================================]#
 

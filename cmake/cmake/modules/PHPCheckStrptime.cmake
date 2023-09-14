@@ -3,7 +3,7 @@ Checks whether the strptime() declaration fails.
 
 The module sets the following variables:
 
-``HAVE_STRPTIME_DECL_FAILS``
+HAVE_STRPTIME_DECL_FAILS
   Set to 1 if strptime() declaration fails.
 ]=============================================================================]#
 

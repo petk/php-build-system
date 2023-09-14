@@ -3,9 +3,10 @@ Checks for strerror_r, and if its a POSIX-compatible or a GNU specific version.
 
 The module sets the following variables:
 
-``HAVE_STRERROR_R``
+HAVE_STRERROR_R
   Set to 1 if strerror_r is available.
-``STRERROR_R_CHAR_P``
+
+STRERROR_R_CHAR_P
   Set to 1 if strerror_r returns a char * message, otherwise it returns an int
   error number.
 ]=============================================================================]#

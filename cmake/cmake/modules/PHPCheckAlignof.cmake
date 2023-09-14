@@ -3,7 +3,7 @@ Checks for __alignof__ support in the compiler.
 
 Module sets the following variables:
 
-``HAVE_ALIGNOF``
+HAVE_ALIGNOF
   Set to 1 if compiler supports __alignof__.
 ]=============================================================================]#
 include(CheckCSourceCompiles)

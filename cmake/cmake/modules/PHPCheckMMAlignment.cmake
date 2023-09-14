@@ -2,10 +2,16 @@
 Test and set the alignment define for ZEND_MM. This also does the logarithmic
 test for ZEND_MM.
 
-Function: check_mm_alignment()
+Module sets the following variables:
+
+ZEND_MM_ALIGNMENT
+
+ZEND_MM_ALIGNMENT_LOG2
+
+ZEND_MM_NEED_EIGHT_BYTE_REALIGNMENT
 ]=============================================================================]#
 
-function(check_mm_alignment)
+function(_php_check_mm_alignment)
   message(STATUS "Check for MM alignment and log values")
 
   if(NOT CMAKE_CROSSCOMPILING)
@@ -44,4 +50,4 @@ function(check_mm_alignment)
   message(STATUS "ZEND_MM_NEED_EIGHT_BYTE_REALIGNMENT = ${ZEND_MM_NEED_EIGHT_BYTE_REALIGNMENT}")
 endfunction()
 
-check_mm_alignment()
+_php_check_mm_alignment()

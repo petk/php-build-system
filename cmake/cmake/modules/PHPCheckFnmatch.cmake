@@ -5,11 +5,12 @@ Some versions of Solaris, SCO, and the GNU C Library have a broken or
 incompatible fnmatch. When cross-compiling we only enable it for Linux systems.
 
 Module sets the following variables:
+
 HAVE_FNMATCH
   Set to 1 if fnmatch is a working POSIX variant.
 ]=============================================================================]#
 
-function(php_check_fnmatch)
+function(_php_check_fnmatch)
   if(CMAKE_CROSSCOMPILING)
     string(TOLOWER "${CMAKE_HOST_SYSTEM}" host_os)
     if(${host_os} MATCHES ".*linux.*")
@@ -34,4 +35,4 @@ function(php_check_fnmatch)
   endif()
 endfunction()
 
-php_check_fnmatch()
+_php_check_fnmatch()

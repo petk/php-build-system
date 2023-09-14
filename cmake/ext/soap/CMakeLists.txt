@@ -9,7 +9,7 @@ if(NOT EXT_SOAP)
 endif()
 
 if(NOT EXT_LIBXML)
-  message(FATAL_ERROR "SOAP extension requires LIBXML extension, add -DEXT_LIBXML=ON")
+  message(FATAL_ERROR "SOAP extension requires LIBXML extension, add EXT_LIBXML=ON")
 endif()
 
 if(EXT_SOAP_SHARED OR BUILD_SHARED_LIBS)

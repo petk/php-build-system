@@ -4,7 +4,7 @@ properly handle the `char val[1]` struct hack. See bug #76510.
 
 If check is successful the module adds the following compiler flags:
 
-``-fno-optimize-strlen``
+-fno-optimize-strlen
 ]=============================================================================]#
 
 include(CheckCSourceRuns)

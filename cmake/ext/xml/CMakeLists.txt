@@ -21,7 +21,7 @@ add_library(ext_xml ${_library_type}
 )
 
 if(NOT EXT_XML_EXPAT AND NOT EXT_LIBXML)
-  message(FATAL_ERROR "XML extension requires LIBXML extension, add -DEXT_LIBXML=ON")
+  message(FATAL_ERROR "XML extension requires LIBXML extension, add EXT_LIBXML=ON")
 endif()
 
 if(NOT EXT_XML_EXPAT)

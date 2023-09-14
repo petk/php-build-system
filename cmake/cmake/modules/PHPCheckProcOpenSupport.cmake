@@ -3,11 +3,13 @@ Checks if OS can spawn processes with inherited handles.
 
 The module sets the following variables:
 
-``HAVE_FORK``
+HAVE_FORK
   Set to 1 if fork() function is available.
-``HAVE_CREATEPROCESS``
+
+HAVE_CREATEPROCESS
   Set to 1 if CreateProcess() function is available.
-``PHP_CAN_SUPPORT_PROC_OPEN``
+
+PHP_CAN_SUPPORT_PROC_OPEN
   Set to 1 if system has fork/vfork/CreateProcess
 ]=============================================================================]#
 

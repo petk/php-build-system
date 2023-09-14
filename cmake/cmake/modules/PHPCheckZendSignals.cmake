@@ -3,10 +3,10 @@ Checks whether to enable Zend signal handling.
 
 The module defines the following variables:
 
-``ZEND_SIGNALS``
+ZEND_SIGNALS
   Set to 1 when using zend signal handling.
 
-  ``HAVE_SIGACTION``
+HAVE_SIGACTION
   Set to 1 if the sigaction symbol is available.
 ]=============================================================================]#
 

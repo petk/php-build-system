@@ -9,7 +9,7 @@ if(NOT EXT_XMLWRITER)
 endif()
 
 if(NOT EXT_LIBXML)
-  message(FATAL_ERROR "XMLWriter extension requires LIBXML extension, add -DEXT_LIBXML=ON")
+  message(FATAL_ERROR "XMLWriter extension requires LIBXML extension, add EXT_LIBXML=ON")
 endif()
 
 if(EXT_XMLWRITER_SHARED OR BUILD_SHARED_LIBS)

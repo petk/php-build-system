@@ -3,7 +3,7 @@ Checks whether you have struct flock.
 
 The module defines the following variables if compilation is successful:
 
-``HAVE_STRUCT_FLOCK``
+HAVE_STRUCT_FLOCK
   Defined to 1 if struct flock is availabe.
 ]=============================================================================]#
 

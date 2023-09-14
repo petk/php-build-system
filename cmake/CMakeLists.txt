@@ -71,8 +71,7 @@ message("
 | Configuring extensions                                             |
 +--------------------------------------------------------------------+
 ")
-include(PHPExtension)
-include(PHPIncludeExtensions)
+include(PHPExtensions)
 
 message("
 +--------------------------------------------------------------------+

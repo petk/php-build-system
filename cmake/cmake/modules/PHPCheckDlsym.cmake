@@ -1,16 +1,15 @@
 #[=============================================================================[
 Check if dlsym() requires a leading underscore in symbol name.
 
-function php_check_dlsym_needs_underscore()
+Module sets the following variables:
 
-Function sets the following variables:
 DLSYM_NEEDS_UNDERSCORE
   Set to 1 if dlsym() requires a leading underscore in symbol names.
 ]=============================================================================]#
 
 message(STATUS "Checking whether dlsym() requires a leading underscore in symbol names")
 
-function(php_check_dlsym_needs_underscore)
+function(_php_check_dlsym_needs_underscore)
   if(NOT CMAKE_CROSSCOMPILING)
     if(HAVE_DLFCN_H)
       set(dlfcn_defined_macro "-DHAVE_DLFCN_H=1")
@@ -31,4 +30,4 @@ function(php_check_dlsym_needs_underscore)
   endif()
 endfunction()
 
-php_check_dlsym_needs_underscore()
+_php_check_dlsym_needs_underscore()
