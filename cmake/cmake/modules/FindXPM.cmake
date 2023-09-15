@@ -1,14 +1,14 @@
 #[=============================================================================[
-CMake module to find and use XPM library.
+Find the XPM library.
 
 If xpm library is found, the following variables are set:
 
 XPM_FOUND
   Set to 1 if xpm library is found.
-XPM_LIBRARIES
-  A list of libraries for using xpm.
 XPM_INCLUDE_DIRS
   A list of include directories for using xpm library.
+XPM_LIBRARIES
+  A list of libraries for using xpm.
 XPM_VERSION
   Version string of found xpm.
 #]=============================================================================]

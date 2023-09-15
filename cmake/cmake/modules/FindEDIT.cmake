@@ -34,5 +34,5 @@ find_package_handle_standard_args(
   EDIT
   REQUIRED_VARS EDIT_LIBRARIES
   VERSION_VAR EDIT_VERSION
-  REASON_FAILURE_MESSAGE "EDIT not found. Please install libedit."
+  REASON_FAILURE_MESSAGE "Editline not found. Please install Editline library (libedit)."
 )

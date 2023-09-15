@@ -67,6 +67,9 @@ add_library(ext_intl ${_library_type}
 )
 
 find_package(ICU 50.1 REQUIRED COMPONENTS io uc i18n)
+# Upstream CMake module doesn't set this as advanced variable.
+# TODO: Remove this once CMake fixes this.
+mark_as_advanced(ICU_INCLUDE_DIR)
 
 if(ICU_LIBRARIES)
   target_link_libraries(ext_intl PRIVATE ${ICU_LIBRARIES})

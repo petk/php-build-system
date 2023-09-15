@@ -1,30 +1,31 @@
 #[=============================================================================[
-CMake module that overrides the default CMake Iconv find module.
+Find the Iconv library.
 
-In addition to:
+Module overrides the default CMake Iconv find module.
 
-  ICONV_LIBRARIES
-  ICONV_INCLUDE_DIRS
+The following variables are set:
 
-module additionally sets the following variables needed by PHP.
+ICONV_INCLUDE_DIRS
+  A list of include directories for Iconv library.
+ICONV_LIBRARIES
+  A list of Iconv libraries for linking to.
 
-  HAVE_GLIBC_ICONV
-    Set to 1 if glibc implementation is used.
+The following cache variables are set for using in PHP:
 
-  PHP_ICONV_IMPL
-    String of the Iconv implementation.
-
-  HAVE_LIBICONV
-    Set to 1 if GNU libiconv is used.
-
-  HAVE_BSD_ICONV
-    Set to 1 if Konstantin Chuguev's iconv implementation is used.
-
-  HAVE_IBM_ICONV
-    Set to 1 if IBM iconv implementation is used.
-
-  ICONV_BROKEN_IGNORE
-    Set to 1 if //IGNORE is not supported in found libiconv.
+HAVE_GLIBC_ICONV
+  Set to 1 if glibc implementation is used.
+PHP_ICONV_IMPL
+  String of the Iconv implementation.
+HAVE_LIBICONV
+  Set to 1 if GNU libiconv is used.
+HAVE_BSD_ICONV
+  Set to 1 if Konstantin Chuguev's iconv implementation is used.
+HAVE_IBM_ICONV
+  Set to 1 if IBM iconv implementation is used.
+ICONV_ALIASED_LIBICONV
+  Set to 1 if iconv() is aliased to libiconv() in -liconv.
+ICONV_BROKEN_IGNORE
+  Set to 1 if //IGNORE is not supported in found libiconv.
 #]=============================================================================]
 
 include(CheckCSourceCompiles)
@@ -37,11 +38,11 @@ include(FindPackageHandleStandardArgs)
 find_package(Iconv REQUIRED)
 
 if(Iconv_LIBRARIES)
-  set(ICONV_LIBRARIES "${Iconv_LIBRARIES}" CACHE INTERNAL "")
+  set(ICONV_LIBRARIES "${Iconv_LIBRARIES}")
 endif()
 
 if(Iconv_INCLUDE_DIRS)
-  set(ICONV_INCLUDE_DIRS "${Iconv_INCLUDE_DIRS}" CACHE INTERNAL "")
+  set(ICONV_INCLUDE_DIRS "${Iconv_INCLUDE_DIRS}")
 endif()
 
 check_c_source_compiles("
@@ -142,17 +143,17 @@ if(NOT CMAKE_CROSSCOMPILING)
         }
         return 0;
       }
-    " ignore_works)
+    " _ignore_works)
   cmake_pop_check_state()
 endif()
 
-if(ignore_works)
+if(_ignore_works)
   set(ICONV_BROKEN_IGNORE 0 CACHE INTERNAL "Whether iconv supports IGNORE")
 else()
   set(ICONV_BROKEN_IGNORE 1 CACHE INTERNAL "Whether iconv supports IGNORE")
 endif()
 
-unset(ignore_works)
+unset(_ignore_works CACHE)
 
 # Check if iconv supports errno.
 if(CMAKE_CROSSCOMPILING)
@@ -185,3 +186,6 @@ find_package_handle_standard_args(
   ICONV
   REQUIRED_VARS PHP_ICONV_IMPL _errno_works
 )
+
+unset(_errno_works)
+unset(_errno_works CACHE)

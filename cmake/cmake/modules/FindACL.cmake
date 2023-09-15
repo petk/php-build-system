@@ -1,15 +1,15 @@
 #[=============================================================================[
-CMake module to find and use the ACL library.
+Find the ACL library.
 https://savannah.nongnu.org/projects/acl/
 
 If ACL library is found, the following variables are set:
 
 ACL_FOUND
   Set to 1 if ACL library is found.
-ACL_LIBRARIES
-  A list of libraries for using ACL library.
 ACL_INCLUDE_DIRS
   A list of include directories for using ACL library.
+ACL_LIBRARIES
+  A list of libraries for using ACL library.
 ACL_VERSION
   Version string of found ACL library.
 #]=============================================================================]

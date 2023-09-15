@@ -1,5 +1,13 @@
 #[=============================================================================[
-CMake module to find and use Sodium library (libsodium).
+Find the Sodium library (libsodium).
+https://libsodium.org/
+
+Module sets the following variables:
+
+SODIUM_INCLUDE_DIRS
+  A list of include directories for using Sodium library.
+SODIUM_LIBRARIES
+  A list of libraries for linking when using Sodium library.
 #]=============================================================================]
 
 include(FindPackageHandleStandardArgs)

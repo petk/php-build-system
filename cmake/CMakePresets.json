@@ -62,7 +62,7 @@
         "EXT_INTL": true,
         "EXT_MBSTRING": true,
         "EXT_MYSQLI": true,
-        "EXT_MYSQLI_SOCK": true,
+        "EXT_MYSQL_SOCK": true,
         "EXT_MYSQLND": true,
         "EXT_OPCACHE_CAPSTONE": true,
         "EXT_OPENSSL": true,

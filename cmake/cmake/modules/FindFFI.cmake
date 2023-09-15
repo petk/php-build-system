@@ -1,5 +1,5 @@
 #[=============================================================================[
-CMake module to find and use the FFI library.
+Find the FFI library.
 https://sourceware.org/libffi/
 
 If the FFI library is found, the following variables are set:

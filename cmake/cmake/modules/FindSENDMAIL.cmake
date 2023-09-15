@@ -1,5 +1,5 @@
 #[=============================================================================[
-Module for finding the sendmail program.
+Find the sendmail program.
 
 The module sets the following variables:
 

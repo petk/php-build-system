@@ -30,6 +30,12 @@ add_library(ext_xsl ${_library_type}
 target_link_libraries(ext_xsl PRIVATE ext_libxml)
 
 find_package(LibXslt 1.1.0 REQUIRED)
+# Upstream CMake module doesn't mark these as advanced variables.
+# TODO: Remove once fixed upstream.
+# https://gitlab.kitware.com/cmake/cmake/-/merge_requests/8807
+if(CMAKE_VERSION VERSION_LESS 3.28)
+  mark_as_advanced(LIBXSLT_EXSLT_INCLUDE_DIR LIBXSLT_LIBRARY)
+endif()
 
 if(LIBXSLT_LIBRARIES)
   target_link_libraries(ext_xsl PRIVATE ${LIBXSLT_LIBRARIES})

@@ -1,5 +1,5 @@
 #[=============================================================================[
-CMake module to find and use GMP library.
+Find the GMP library.
 https://gmplib.org/
 
 If GMP library is found, the following variables are set:
@@ -34,5 +34,5 @@ find_package_handle_standard_args(
   GMP
   REQUIRED_VARS GMP_LIBRARIES
   VERSION_VAR GMP_VERSION
-  REASON_FAILURE_MESSAGE "GMP not found. Please install libgmp."
+  REASON_FAILURE_MESSAGE "GMP not found. Please install GMP library (libgmp)."
 )

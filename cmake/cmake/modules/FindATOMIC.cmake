@@ -1,5 +1,5 @@
 #[=============================================================================[
-CMake module to find and use the atomic instructions.
+Find the atomic instructions.
 
 ATOMIC_FOUND
   Set to 1 if atomic instructions are available.
@@ -25,8 +25,6 @@ set(_atomic_test "
   }
 ")
 
-set(ATOMIC_LIBRARIES "" CACHE INTERNAL "A list of libraries needed to use atomic")
-
 check_c_source_compiles("${_atomic_test}" _have_atomic)
 
 if(NOT _have_atomic)
@@ -37,17 +35,16 @@ if(NOT _have_atomic)
 endif()
 
 if(_have_atomic OR _have_atomic_in_library)
-  set(ATOMIC_FOUND 1 CACHE INTERNAL "Whether the atomic instructions are available")
+  set(ATOMIC_FOUND TRUE)
 endif()
 
 if(_have_atomic_in_library)
   list(APPEND ATOMIC_LIBRARIES atomic)
 endif()
 
+unset(_atomic_test)
 unset(_have_atomic CACHE)
 unset(_have_atomic_in_library CACHE)
-
-mark_as_advanced(ATOMIC_FOUND ATOMIC_LIBRARIES)
 
 find_package_handle_standard_args(
   ATOMIC

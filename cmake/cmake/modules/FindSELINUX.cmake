@@ -1,5 +1,5 @@
 #[=============================================================================[
-CMake module to find and use the SELinux library.
+Find the SELinux library.
 http://selinuxproject.org/
 
 If SELinux library is found, the following variables are set:
@@ -34,5 +34,5 @@ find_package_handle_standard_args(
   SELINUX
   REQUIRED_VARS SELINUX_LIBRARIES
   VERSION_VAR SELINUX_VERSION
-  REASON_FAILURE_MESSAGE "SELINUX not found. Please install SELinux library."
+  REASON_FAILURE_MESSAGE "SELinux not found. Please install SELinux library (libselinux)."
 )

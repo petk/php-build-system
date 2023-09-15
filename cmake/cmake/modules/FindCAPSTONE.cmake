@@ -1,15 +1,15 @@
 #[=============================================================================[
-CMake module to find and use the Capstone library.
+Find the Capstone library.
 https://www.capstone-engine.org
 
 If Capstone library is found, the following variables are set:
 
 CAPSTONE_FOUND
   Set to 1 if Capstone library is found.
-CAPSTONE_LIBRARIES
-  A list of libraries for using Capstone library.
 CAPSTONE_INCLUDE_DIRS
   A list of include directories for using Capstone library.
+CAPSTONE_LIBRARIES
+  A list of libraries for using Capstone library.
 CAPSTONE_VERSION
   Version string of found Capstone library.
 #]=============================================================================]
@@ -34,5 +34,5 @@ find_package_handle_standard_args(
   CAPSTONE
   REQUIRED_VARS CAPSTONE_LIBRARIES
   VERSION_VAR CAPSTONE_VERSION
-  REASON_FAILURE_MESSAGE "CAPSTONE not found. Please install Capstone library."
+  REASON_FAILURE_MESSAGE "Capstone not found. Please install Capstone library."
 )

@@ -1,5 +1,5 @@
 #[=============================================================================[
-CMake module to find and use GD library.
+Find the GD library.
 
 If libgd is found, the following variables are set:
 
@@ -33,5 +33,5 @@ find_package_handle_standard_args(
   GD
   REQUIRED_VARS GD_LIBRARIES
   VERSION_VAR GD_VERSION
-  REASON_FAILURE_MESSAGE "GD not found. Please install libgd."
+  REASON_FAILURE_MESSAGE "GD not found. Please install GD library (libgd)."
 )

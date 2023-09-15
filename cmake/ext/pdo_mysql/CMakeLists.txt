@@ -8,6 +8,7 @@ if(NOT EXT_PDO_MYSQL)
   return()
 endif()
 
+# TODO: Check if ext/mysqlnd can be enabled from other extensions.
 if(NOT EXT_MYSQLND)
   message(FATAL_ERROR "The pdo_mysql extension requires mysqlnd extension enabled, add EXT_MYSQLND=ON.")
 endif()
@@ -29,3 +30,12 @@ target_compile_definitions(ext_pdo_mysql PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE
 target_include_directories(ext_pdo_mysql PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/..")
 
 set(PDO_USE_MYSQLND 1 CACHE INTERNAL "")
+
+# For BC compatibility.
+set(HAVE_MYSQL 1 CACHE INTERNAL "")
+
+if(EXT_MYSQL_SOCK OR EXT_MYSQL_SOCK_PATH)
+  include(PHPMysqlSocket)
+endif()
+
+# TODO: Add MySQL configuration script usage.

@@ -1,15 +1,15 @@
 #[=============================================================================[
-CMake module to find and use PCRE library.
+Find the PCRE library.
 https://www.pcre.org/
 
 If PCRE library is found, the following variables are set:
 
 PCRE_FOUND
   Set to 1 if PCRE library is found.
-PCRE_LIBRARIES
-  A list of libraries for using PCRE library.
 PCRE_INCLUDE_DIRS
   A list of include directories for using PCRE library.
+PCRE_LIBRARIES
+  A list of libraries for using PCRE library.
 PCRE_VERSION
   Version string of found PCRE library.
 #]=============================================================================]
@@ -34,5 +34,5 @@ find_package_handle_standard_args(
   PCRE
   REQUIRED_VARS PCRE_LIBRARIES
   VERSION_VAR PCRE_VERSION
-  REASON_FAILURE_MESSAGE "PCRE not found. Please install PCRE library."
+  REASON_FAILURE_MESSAGE "PCRE not found. Please install PCRE library (libpcre2)."
 )

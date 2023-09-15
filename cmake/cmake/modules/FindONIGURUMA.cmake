@@ -1,16 +1,17 @@
 #[=============================================================================[
-CMake module to find and use oniguruma library.
+Find the Oniguruma library.
+https://github.com/kkos/oniguruma
 
-If oniguruma library is found, the following variables are set:
+If Oniguruma library is found, the following variables are set:
 
 ONIGURUMA_FOUND
-  Set to 1 if oniguruma library is found.
-ONIGURUMA_LIBRARIES
-  A list of libraries for using oniguruma library.
+  Set to 1 if Oniguruma library is found.
 ONIGURUMA_INCLUDE_DIRS
-  A list of include directories for using oniguruma library.
+  A list of include directories for using Oniguruma library.
+ONIGURUMA_LIBRARIES
+  A list of libraries for using Oniguruma library.
 ONIGURUMA_VERSION
-  Version string of found oniguruma library.
+  Version string of found Oniguruma library.
 #]=============================================================================]
 
 include(FindPackageHandleStandardArgs)
@@ -33,5 +34,5 @@ find_package_handle_standard_args(
   ONIGURUMA
   REQUIRED_VARS ONIGURUMA_LIBRARIES
   VERSION_VAR ONIGURUMA_VERSION
-  REASON_FAILURE_MESSAGE "ONIGURUMA not found. Please install oniguruma library."
+  REASON_FAILURE_MESSAGE "Oniguruma not found. Please install Oniguruma library (libonig)."
 )

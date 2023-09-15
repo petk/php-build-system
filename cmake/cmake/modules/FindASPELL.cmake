@@ -1,5 +1,5 @@
 #[=============================================================================[
-CMake module to find and use the GNU Aspell library.
+Find the GNU Aspell library.
 
 In the past there was also a pspell library which has been superseded by GNU's
 Aspell library. The Aspell library provides a simple pspell interface (pspell.h)
@@ -9,8 +9,11 @@ however relying on it is not encouraged.
 If Aspell has been found, the following variables are set:
 
 ASPELL_FOUND
+  Set to 1 if Aspell has been found.
 ASPELL_INCLUDE_DIRS
+  A list of include directories for using Aspell library.
 ASPELL_LIBRARIES
+  A list of libraries for linking when using Aspell library.
 #]=============================================================================]
 
 include(CheckLibraryExists)

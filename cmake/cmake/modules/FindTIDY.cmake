@@ -1,26 +1,21 @@
 #[=============================================================================[
-Module for finding the tidy library.
+Find the tidy library.
+https://www.html-tidy.org/
 
 The module sets the following variables:
 
 TIDY_FOUND
   Set to 1 if tidy library has been found.
-
 TIDY_INCLUDE_DIRS
   A list of Tidy library include directories.
-
 TIDY_LIBRARIES
   A list of Tidy libraries.
-
 HAVE_TIDYBUFFIO_H
   Set to 1 if tidybuffio.h header is available.
-
 HAVE_TIDY_H
   Set to 1 if tidy.h is available.
-
 HAVE_TIDYOPTGETDOC
   Set to 1 if tidyOptGetDoc is available in one of tidy libraries.
-
 HAVE_TIDYRELEASEDATE
   Set to 1 if tidyReleaseDate is available in one of tidy libraries.
 #]=============================================================================]

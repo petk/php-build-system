@@ -4,12 +4,18 @@ option(EXT_MYSQLI "Whether to enable the mysqli extension" OFF)
 
 cmake_dependent_option(EXT_MYSQLI_SHARED "Whether to build the mysqli extension as shared object" OFF "EXT_MYSQLI;NOT BUILD_SHARED_LIBS" OFF)
 
-cmake_dependent_option(EXT_MYSQLI_SOCK "MySQLi/PDO_MYSQL: Location of the MySQL unix socket pointer. If unspecified, the default locations are searched." OFF "EXT_MYSQLI" OFF)
+# Common configuration option for ext/mysqli and ext/pdo_mysql.
+cmake_dependent_option(EXT_MYSQL_SOCK "MySQLi/PDO_MYSQL: Whether to use the MySQL Unix socket. Default locations for the MySQL Unix socket pointer are searched." OFF "EXT_MYSQLI OR EXT_PDO_MYSQL" OFF)
+
+if(EXT_MYSQLI OR EXT_PDO_MYSQL)
+  set(EXT_MYSQL_SOCK_PATH "" CACHE FILEPATH "MySQLi/PDO_MYSQL: Optional location of the MySQL unix socket pointer.")
+endif()
 
 if(NOT EXT_MYSQLI)
   return()
 endif()
 
+# TODO: Check if ext/mysqlnd can be enabled from other extensions.
 if(NOT EXT_MYSQLND)
   message(FATAL_ERROR "The mysqli extension requires mysqlnd extension enabled, add EXT_MYSQLND=ON.")
 endif()
@@ -34,7 +40,7 @@ add_library(ext_mysqli ${_library_type}
 
 target_compile_definitions(ext_mysqli PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE=1)
 
-if(EXT_MYSQLI_SOCK)
+if(EXT_MYSQL_SOCK OR EXT_MYSQL_SOCK_PATH)
   include(PHPMysqlSocket)
 endif()
 
@@ -42,7 +48,9 @@ target_sources(
   ext_mysqli
   PUBLIC FILE_SET ext_mysqli_headers
   TYPE HEADERS
-  FILES php_mysqli_structs.h
+  FILES
+    mysqli_mysqlnd.h
+    php_mysqli_structs.h
 )
 
 install(

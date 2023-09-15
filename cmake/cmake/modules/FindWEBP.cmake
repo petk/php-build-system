@@ -1,14 +1,14 @@
 #[=============================================================================[
-CMake module to find and use WEBP library.
+Find the WEBP library.
 
 If libwebp is found, the following variables are set:
 
 WEBP_FOUND
   Set to 1 if libwebp is found.
-WEBP_LIBRARIES
-  A list of libraries for using libwebp.
 WEBP_INCLUDE_DIRS
   A list of include directories for using libwebp.
+WEBP_LIBRARIES
+  A list of libraries for using libwebp.
 WEBP_VERSION
   Version string of found libwebp.
 #]=============================================================================]

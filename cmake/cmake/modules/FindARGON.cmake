@@ -1,17 +1,17 @@
 #[=============================================================================[
-CMake module to find and use the Argon2 library.
+Find the Argon2 library.
 https://github.com/P-H-C/phc-winner-argon2/
 
 If Argon2 library is found, the following variables are set:
 
 ARGON_FOUND
   Set to 1 if Argon2 library is found.
-ARGON_LIBRARIES
-  A list of libraries for using Argon2 library.
 ARGON_INCLUDE_DIRS
   A list of include directories for using Argon2 library.
+ARGON_LIBRARIES
+  A list of libraries for using Argon2 library.
 ARGON_VERSION
-  Version string of found Argon2 library.
+  Version string of Argon2 library.
 #]=============================================================================]
 
 include(FindPackageHandleStandardArgs)
@@ -34,5 +34,5 @@ find_package_handle_standard_args(
   ARGON
   REQUIRED_VARS ARGON_LIBRARIES
   VERSION_VAR ARGON_VERSION
-  REASON_FAILURE_MESSAGE "ARGON not found. Please install Argon2 library."
+  REASON_FAILURE_MESSAGE "Argon2 not found. Please install Argon2 library."
 )

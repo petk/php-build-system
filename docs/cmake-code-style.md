@@ -1,7 +1,7 @@
 # CMake code style
 
-This repository is following some of the established code style practices from
-the CMake ecosystem.
+This repository adheres to established code style practices within the CMake
+ecosystem.
 
 * [1. Introduction](#1-introduction)
 * [2. Code style](#2-code-style)
@@ -22,12 +22,13 @@ the CMake ecosystem.
 
 ## 1. Introduction
 
-CMake is pretty forgiving when it comes to code style. Yet, using some frame on
-how to code CMake files can improve overall code quality and understanding of
-the build system when used by multiple developers.
+CMake is quite lenient regarding code style, but applying a certain framework
+for writing CMake files can enhance both code quality and comprehension of the
+build system, especially when multiple developers are involved.
 
-For example, all CMake functions, macros, and commands are case insensitive.
-These two are the same:
+For instance, it's important to note that CMake functions, macros, and commands
+are not case-sensitive. In other words, the following two expressions are
+equivalent:
 
 ```cmake
 add_library(foo foo.c bar.c)
@@ -37,13 +38,13 @@ add_library(foo foo.c bar.c)
 ADD_LIBRARY(foo foo.c bar.c)
 ```
 
-Variables are on the other hand case sensitive.
+On the contrary, variable names are case-sensitive.
 
 ## 2. Code style
 
 ### 2.1. General guidelines
 
-* In general the **all-lowercase style** is preferred.
+* In most cases, the preferred style is to use *all lowercase letters*.
 
   ```cmake
   add_library(foo foo.c bar_baz.c)
@@ -51,14 +52,12 @@ Variables are on the other hand case sensitive.
 
 ### 2.2. Variable names
 
-CMake variables can be categorized into several types:
+CMake variables can be classified into various categories:
 
 * Cache internal variables
 
-  These are set like this:
-
   ```cmake
-  set(VAR <value> CACHE INTERNAL "Documentation string)
+  set(VAR <value> CACHE INTERNAL "<help_text>")
   ```
 
   These should be UPPER_CASE.
@@ -66,29 +65,38 @@ CMake variables can be categorized into several types:
 * Cache variables
 
   ```cmake
-  set(VAR 1 CACHE BOOL "Documentation string")
-  option(FOO "Documentation string" ON)
+  set(VAR <value> CACHE <type> "<help_text>")
+  option(FOO "<help_text>" [value])
   ```
 
   These should be UPPER_CASE.
 
 * Local variables
 
-  Variables with a scope inside functions.
+  Variables with a scope inside functions. These should be lower_case.
 
-  These should be lower_case.
+  ```cmake
+  function(foo)
+    set(variable_name <value>)
+    # ...
+  endfunction()
+  ```
 
 * Directory variables
 
-  Variables with a scope inside the current `CMakeLists.txt` and its child
-  directories with CMake files.
+  Directory variables are those within the scope of the current `CMakeLists.txt`
+  and its child directories with CMake files.
 
   If variable is meant to be used within other child directories these should
   be UPPER_CASE.
 
-  Since there is no way to limit the scope of such directory variables to only
-  current CMake file, the convention is to prefix them with underscore (`_`)
-  to indicate they are meant for temporary use only inside current CMake file:
+  Variables intended for use within the current CMake file and other directories
+  should be UPPER_CASE.
+
+  Since it's not possible to restrict the scope of these directory-specific
+  variables solely to the current CMake file, it's customary to prefix them with
+  an underscore (`_`) to signify that they are intended for temporary use only
+  within the current file:
 
   ```cmake
   set(_temporary_variable "Foo")
@@ -101,6 +109,37 @@ CMake variables can be categorized into several types:
   string(REGEX MATCH "foo\\(([0-9]+)\\)" _ ${content})
   message(STATUS ${CMAKE_MATCH_1})
   ```
+
+* Configuration variables at the PHP level:
+
+  These variables are designed to be adjusted by the user during the
+  configuration phase, either through the command line or by using cmake-gui. It
+  is recommended to prefix them with `PHP_` to facilitate their grouping within
+  cmake-gui.
+
+  ```cmake
+  set(PHP_FOO_BAR <value>... CACHE <type> "<help_text>")
+  option(PHP_ENABLE_FOO "<help_text>" [value])
+  cmake_dependent_option(PHP_ENABLE_BAR "<help_text>" <value> <depends> <force>)
+  ```
+
+* Configuration variables for PHP extensions:
+
+  These variables follow a similar pattern to PHP configuration variables, but
+  they are prefixed with `EXT_`. While it's a good practice to consider grouping
+  these variables by the extension name for clarity, it's important to note that
+  cmake-gui may not distinguish this subgrouping. Therefore, the decision to
+  group them by extension name can be optional and context-dependent.
+
+  ```cmake
+  option(EXT_GD "<help_text>" [value])
+  cmake_dependent_option(EXT_GD_AVIF "<help_text>" OFF "EXT_GD" OFF)
+  ```
+
+* Configuration variables for Zend:
+
+  These variables share the same characteristics as PHP configuration variables,
+  but they are prefixed with `ZEND_`.
 
 ### 2.3. End commands
 
@@ -129,47 +168,50 @@ endif(BAR)
 
 ### 2.4. Module naming conventions
 
-The find modules in this repository are named in form of `FindUPPERCASE.cmake`.
-The utility modules are prefixed with `PHP` and then mostly following the form
-of `PHPPascalCase.cmake` pattern for convenience to not collide with upstream
-CMake modules.
+In this repository, the naming convention for find modules is in the format of
+`FindUPPERCASE.cmake`. For utility modules, they are prefixed with `PHP` and
+typically adhere to the `PHPPascalCase.cmake` pattern. This approach is adopted
+for convenience to prevent any potential conflicts with upstream CMake modules.
 
 ### 2.5. Booleans
 
-CMake treats the `1`, `ON`, `YES`, `TRUE`, `Y` as boolean true values and
-`0`, `OFF`, `NO`, `FALSE`, `N`, `IGNORE`, `NOTFOUND`, the empty string, or if
-value ends in the suffix `-NOTFOUND` as boolean false values. The named
-constants are case-insensitive.
+CMake interprets `1`, `ON`, `YES`, `TRUE`, and `Y` as representing boolean true
+values, while `0`, `OFF`, `NO`, `FALSE`, `N`, `IGNORE`, `NOTFOUND`, an empty
+string, or a value ending with the suffix `-NOTFOUND` are considered as boolean
+false values. It's important to note that these named constants are
+case-insensitive.
 
-Possible simplifications for this repository and to not collide too much with
-existing C code and configuration header `php_config.h`:
+To ensure compatibility with existing C code and the configuration header
+`php_config.h`, some potential simplifications may be considered for this
+repository:
 
 ```cmake
 # Options have ON/OFF values.
-option(FOO "Documentation string" ON)
+option(FOO "<help_text>" ON)
 
 # Conditional variables have 1/0 values.
-set(HAVE_FOO_H 1 CACHE INTERNAL "Documentation string")
+set(HAVE_FOO_H 1 CACHE INTERNAL "<help_text>")
 
 # Elsewhere in commands, functions etc. TRUE/FALSE.
 ```
 
 ### 2.6. Functions and macros
 
-Functions are preferred over macros because functions have their own variable
-scope. Variables inside macros are visible from the outside scope.
+Functions are generally favored over macros due to their ability to establish
+their own variable scope, while variables within macros remain visible from the
+outer scope.
 
-Functions naming convention should follow the snake_case style.
+When naming functions, it is recommended to adhere to the snake_case style.
 
-Functions in CMake have global scope. Similarly as variables, functions that are
-used only within a single CMake module or `CMakeLists.txt` file, can be prefixed
-with underscore (`_`). Such prefix serves as an indicator to outer code "not to
-use me."
+CMake functions possess global scope. Likewise, just like variables, functions
+that are exclusively used within a single CMake module or `CMakeLists.txt` file
+should be prefixed with an underscore (`_`). This prefix serves as a signal to
+external code to refrain from using them.
 
 ## 3. Tools
 
-There are some tools in different state of maintenance but they can be relevant
-as they can help with formatting and linting CMake files.
+Several tools for formatting and linting CMake files are available, and while
+their maintenance status may vary, they can still prove valuable.
 
 ### 3.1. cmake-format (by cmakelang project)
 

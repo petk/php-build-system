@@ -1,15 +1,15 @@
 #[=============================================================================[
-CMake module to find and use the AppArmor library.
+Find the AppArmor library.
 https://apparmor.net/
 
 If AppArmor library is found, the following variables are set:
 
 APPARMOR_FOUND
   Set to 1 if AppArmor library is found.
-APPARMOR_LIBRARIES
-  A list of libraries for using AppArmor library.
 APPARMOR_INCLUDE_DIRS
   A list of include directories for using AppArmor library.
+APPARMOR_LIBRARIES
+  A list of libraries for using AppArmor library.
 APPARMOR_VERSION
   Version string of found AppArmor library.
 #]=============================================================================]
@@ -34,5 +34,5 @@ find_package_handle_standard_args(
   APPARMOR
   REQUIRED_VARS APPARMOR_LIBRARIES
   VERSION_VAR APPARMOR_VERSION
-  REASON_FAILURE_MESSAGE "APPARMOR not found. Please install AppArmor library."
+  REASON_FAILURE_MESSAGE "AppArmor not found. Please install AppArmor library."
 )

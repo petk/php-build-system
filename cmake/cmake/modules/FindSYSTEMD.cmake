@@ -1,5 +1,5 @@
 #[=============================================================================[
-CMake module to find and use systemd library (libsystemd).
+Find the systemd library (libsystemd).
 
 If systemd library is found, the following variables are set:
 
@@ -33,5 +33,5 @@ find_package_handle_standard_args(
   SYSTEMD
   REQUIRED_VARS SYSTEMD_LIBRARIES
   VERSION_VAR SYSTEMD_VERSION
-  REASON_FAILURE_MESSAGE "SYSTEMD not found. Please install systemd library."
+  REASON_FAILURE_MESSAGE "The systemd not found. Please install systemd library."
 )

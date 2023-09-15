@@ -1,17 +1,17 @@
 #[=============================================================================[
-CMake module to find and use the Enchant library.
+Find the Enchant library.
 https://abiword.github.io/enchant/
 
-If enchant library is found, the following variables are set:
+If Enchant library is found, the following variables are set:
 
 ENCHANT_FOUND
-  Set to 1 if enchant library is found.
-ENCHANT_LIBRARIES
-  A list of libraries for using enchant library.
+  Set to 1 if Enchant library is found.
 ENCHANT_INCLUDE_DIRS
-  A list of include directories for using enchant library.
+  A list of include directories for using Enchant library.
+ENCHANT_LIBRARIES
+  A list of libraries for using Enchant library.
 ENCHANT_VERSION
-  Version string of found enchant library.
+  Version string of found Enchant library.
 #]=============================================================================]
 
 include(FindPackageHandleStandardArgs)
@@ -36,5 +36,5 @@ find_package_handle_standard_args(
   ENCHANT
   REQUIRED_VARS ENCHANT_LIBRARIES
   VERSION_VAR ENCHANT_VERSION
-  REASON_FAILURE_MESSAGE "ENCHANT not found. Please install enchant library."
+  REASON_FAILURE_MESSAGE "Enchant not found. Please install enchant library."
 )

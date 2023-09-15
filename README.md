@@ -755,6 +755,8 @@ functionalities and version available on the operating system.
 * 3.21
   * To be able to use `"version": 3` in `CMakePresets.json` (for the
     `installDir` option).
+* 3.22
+  * To be able to use full condition syntax in `cmake_dependent_option()`.
 * 3.23
   * To be able to use `target_sources(FILE_SET)`, otherwise `install(FILES)`
     should be used, when installing PHP built files to their destinations.
@@ -933,8 +935,9 @@ cmake . -DEXT_NAME=ON -DPHP_OPTION=ON ...
 | `--without-mysqli` (default)                     | `EXT_MYSQLI=OFF`                              | `OFF`               |
 | `--with-mysqli`                                  | `EXT_MYSQLI=ON`                               |                     |
 | `--with-mysqli=shared`                           | `EXT_MYSQLI_SHARED=ON`                        |                     |
-| `--without-mysql-sock` (default)                 | `EXT_MYSQLI_SOCK=OFF`                         | `OFF`               |
-| `--with-mysql-sock[=SOCKET]`                     | `EXT_MYSQLI_SOCK=ON`                          |                     |
+| `--without-mysql-sock` (default)                 | `EXT_MYSQL_SOCK=OFF`                          | `OFF`               |
+| `--with-mysql-sock`                              | `EXT_MYSQL_SOCK=ON`                           |                     |
+| `--with-mysql-sock=SOCKET`                       | `EXT_MYSQL_SOCK_PATH=/path/to/mysql.sock`     |                     |
 | `--disable-mysqlnd` (default)                    | `EXT_MYSQLND=OFF`                             | `OFF`               |
 | `--enable-mysqlnd`                               | `EXT_MYSQLND=ON`                              |                     |
 | `--enable-mysqlnd=shared`                        | `EXT_MYSQLND_SHARED=ON`                       |                     |

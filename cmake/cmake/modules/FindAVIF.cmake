@@ -1,14 +1,14 @@
 #[=============================================================================[
-CMake module to find and use AVIF library.
+Find the AVIF library.
 
-If libavif is found, the following variables are set:
+If AVIF library is found, the following variables are set:
 
 AVIF_FOUND
   Set to 1 if libavif is found.
-AVIF_LIBRARIES
-  A list of libraries for using libavif.
 AVIF_INCLUDE_DIRS
   A list of include directories for using libavif.
+AVIF_LIBRARIES
+  A list of libraries for using libavif.
 AVIF_VERSION
   Version string of found libavif.
 #]=============================================================================]
@@ -33,5 +33,5 @@ find_package_handle_standard_args(
   AVIF
   REQUIRED_VARS AVIF_LIBRARIES
   VERSION_VAR AVIF_VERSION
-  REASON_FAILURE_MESSAGE "AVIF not found. Please install libavif."
+  REASON_FAILURE_MESSAGE "AVIF not found. Please install AVIF library (libavif)."
 )

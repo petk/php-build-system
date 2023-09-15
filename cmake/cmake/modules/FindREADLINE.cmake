@@ -1,15 +1,15 @@
 #[=============================================================================[
-CMake module to find and use GNU Readline library.
+Find the GNU Readline library.
 https://tiswww.case.edu/php/chet/readline/rltop.html
 
 If GNU Readline library is found, the following variables are set:
 
 READLINE_FOUND
   Set to 1 if GNU Readline library is found.
-READLINE_LIBRARIES
-  A list of libraries for using GNU Readline library.
 READLINE_INCLUDE_DIRS
   A list of include directories for using GNU Readline library.
+READLINE_LIBRARIES
+  A list of libraries for using GNU Readline library.
 READLINE_VERSION
   Version string of found GNU Readline library.
 #]=============================================================================]
@@ -34,5 +34,5 @@ find_package_handle_standard_args(
   READLINE
   REQUIRED_VARS READLINE_LIBRARIES
   VERSION_VAR READLINE_VERSION
-  REASON_FAILURE_MESSAGE "READLINE not found. Please install libreadline."
+  REASON_FAILURE_MESSAGE "Readline not found. Please install Readline library (libreadline)."
 )

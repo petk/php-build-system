@@ -1,5 +1,5 @@
 #[=============================================================================[
-CMake module to find and use the NET SNMP library.
+Find the NET SNMP library.
 http://www.net-snmp.org/
 
 If NET SNMP library is found, the following variables are set:
@@ -34,5 +34,5 @@ find_package_handle_standard_args(
   SNMP
   REQUIRED_VARS SNMP_LIBRARIES
   VERSION_VAR SNMP_VERSION
-  REASON_FAILURE_MESSAGE "SNMP not found. Please install NET SNMP library."
+  REASON_FAILURE_MESSAGE "SNMP not found. Please install NET SNMP library (libsnmp)."
 )
