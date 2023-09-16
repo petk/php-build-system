@@ -60,6 +60,8 @@
         "EXT_GETTEXT": true,
         "EXT_GMP": true,
         "EXT_INTL": true,
+        "EXT_LDAP": true,
+        "EXT_LDAP_SASL": true,
         "EXT_MBSTRING": true,
         "EXT_MYSQLI": true,
         "EXT_MYSQL_SOCK": true,

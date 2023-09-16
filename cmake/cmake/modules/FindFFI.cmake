@@ -6,10 +6,10 @@ If the FFI library is found, the following variables are set:
 
 FFI_FOUND
   Set to 1 if FFI library is found.
-FFI_LIBRARIES
-  A list of libraries to link when using FFI library.
 FFI_INCLUDE_DIRS
   A list of include directories for using FFI library.
+FFI_LIBRARIES
+  A list of libraries to link when using FFI library.
 FFI_VERSION
   Version string of found FFI library.
 #]=============================================================================]

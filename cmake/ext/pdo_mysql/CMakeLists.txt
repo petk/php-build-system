@@ -31,9 +31,6 @@ target_include_directories(ext_pdo_mysql PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/..
 
 set(PDO_USE_MYSQLND 1 CACHE INTERNAL "")
 
-# For BC compatibility.
-set(HAVE_MYSQL 1 CACHE INTERNAL "")
-
 if(EXT_MYSQL_SOCK OR EXT_MYSQL_SOCK_PATH)
   include(PHPMysqlSocket)
 endif()

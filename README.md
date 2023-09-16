@@ -535,6 +535,10 @@ Optional:
   * when using the `--with-fpm-selinux`
 * libsystemd
   * when using the `--with-fpm-systemd`
+* libldap2
+  * when using the `--with-ldap`
+* libsasl2
+  * when using the `--with-ldap-sasl`
 
 When PHP is built, the development libraries are no longer required to be
 installed and only libraries without development files are needed to run newly
@@ -925,6 +929,11 @@ cmake . -DEXT_NAME=ON -DPHP_OPTION=ON ...
 | `--disable-intl` (default)                       | `EXT_INTL=OFF`                                | `OFF`               |
 | `--enable-intl`                                  | `EXT_INTL=ON`                                 |                     |
 | `--enable-intl=shared`                           | `EXT_INTL_SHARED=ON`                          |                     |
+| `--without-ldap` (default)                       | `EXT_LDAP=OFF`                                | `OFF`               |
+| `--with-ldap`                                    | `EXT_LDAP=ON`                                 |                     |
+| `--with-ldap=shared`                             | `EXT_LDAP_SHARED=ON`                          |                     |
+| `--without-ldap-sasl` (default)                  | `EXT_LDAP_SASL=OFF`                           | `OFF`               |
+| `--with-ldap-sasl`                               | `EXT_LDAP_SASL=ON`                            |                     |
 | `--with-libxml` (default)                        | `EXT_LIBXML=ON`                               | `ON`                |
 | `--without-libxml`                               | `EXT_LIBXML=OFF`                              |                     |
 | `--disable-mbstring` (default)                   | `EXT_MBSTRING=OFF`                            | `OFF`               |

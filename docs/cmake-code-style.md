@@ -44,7 +44,7 @@ On the contrary, variable names are case-sensitive.
 
 ### 2.1. General guidelines
 
-* In most cases, the preferred style is to use *all lowercase letters*.
+* In most cases, the preferred style is to use **all lowercase letters**.
 
   ```cmake
   add_library(foo foo.c bar_baz.c)

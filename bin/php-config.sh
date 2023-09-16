@@ -24,6 +24,7 @@ patterns="
 #undef\sHAVE_STDLIB_H
 #undef\sHAVE_DECL_STRERROR_R
 #undef\sZEND_FIBER_ASM
+#undef\sHAVE_MYSQL
 "
 
 # Similar to the above patterns except the two lines above and one after the

@@ -6,10 +6,10 @@ If NET SNMP library is found, the following variables are set:
 
 SNMP_FOUND
   Set to 1 if NET SNMP library is found.
-SNMP_LIBRARIES
-  A list of libraries for using NET SNMP library.
 SNMP_INCLUDE_DIRS
   A list of include directories for using NET SNMP library.
+SNMP_LIBRARIES
+  A list of libraries for using NET SNMP library.
 SNMP_VERSION
   Version string of found NET SNMP library.
 #]=============================================================================]

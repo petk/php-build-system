@@ -108,7 +108,9 @@ jobs:
             libacl1-dev \
             libapparmor-dev \
             libselinux1-dev \
-            libsystemd-dev;
+            libsystemd-dev \
+            libldap2-dev \
+            libsasl2-dev;
 
       - name: Checkout
         uses: actions/checkout@v4

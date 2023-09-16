@@ -6,10 +6,10 @@ If GMP library is found, the following variables are set:
 
 GMP_FOUND
   Set to 1 if GMP library is found.
-GMP_LIBRARIES
-  A list of libraries for using GMP library.
 GMP_INCLUDE_DIRS
   A list of include directories for using GMP library.
+GMP_LIBRARIES
+  A list of libraries for using GMP library.
 GMP_VERSION
   Version string of found GMP library.
 #]=============================================================================]

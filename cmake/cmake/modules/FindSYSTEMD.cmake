@@ -5,10 +5,10 @@ If systemd library is found, the following variables are set:
 
 SYSTEMD_FOUND
   Set to 1 if systemd library is found.
-SYSTEMD_LIBRARIES
-  A list of libraries for using systemd library.
 SYSTEMD_INCLUDE_DIRS
   A list of include directories for using systemd library.
+SYSTEMD_LIBRARIES
+  A list of libraries for using systemd library.
 SYSTEMD_VERSION
   Version string of found systemd library.
 #]=============================================================================]

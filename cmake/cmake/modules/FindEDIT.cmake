@@ -6,10 +6,10 @@ If Editline library is found, the following variables are set:
 
 EDIT_FOUND
   Set to 1 if Editline library is found.
-EDIT_LIBRARIES
-  A list of libraries for using Editline library.
 EDIT_INCLUDE_DIRS
   A list of include directories for using Editline library.
+EDIT_LIBRARIES
+  A list of libraries for using Editline library.
 EDIT_VERSION
   Version string of found Editline library.
 #]=============================================================================]

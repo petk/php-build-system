@@ -6,10 +6,10 @@ If SELinux library is found, the following variables are set:
 
 SELINUX_FOUND
   Set to 1 if SELinux library is found.
-SELINUX_LIBRARIES
-  A list of libraries for using SELinux library.
 SELINUX_INCLUDE_DIRS
   A list of include directories for using SELinux library.
+SELINUX_LIBRARIES
+  A list of libraries for using SELinux library.
 SELINUX_VERSION
   Version string of found SELinux library.
 #]=============================================================================]

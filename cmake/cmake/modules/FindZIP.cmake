@@ -1,12 +1,17 @@
 #[=============================================================================[
-Find the libzip library.
+Find the Zip library.
+https://libzip.org/
 
 Modules sets the following variables:
 
+ZIP_FOUND
+  Set to 1 if Zip library has been found.
 ZIP_INCLUDE_DIRS
-  A list of include directories for using libzip library.
+  A list of include directories for using Zip library.
 ZIP_LIBRARIES
-  A list of libraries for linking when using libzip library.
+  A list of libraries for linking when using Zip library.
+ZIP_VERSION
+  Version string of the found Zip library.
 #]=============================================================================]
 
 include(FindPackageHandleStandardArgs)

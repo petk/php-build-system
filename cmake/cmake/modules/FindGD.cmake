@@ -5,10 +5,10 @@ If libgd is found, the following variables are set:
 
 GD_FOUND
   Set to 1 if libgd is found.
-GD_LIBRARIES
-  A list of libraries for using libgd.
 GD_INCLUDE_DIRS
   A list of include directories for using libgd.
+GD_LIBRARIES
+  A list of libraries for using libgd.
 GD_VERSION
   Version string of found libgd.
 #]=============================================================================]

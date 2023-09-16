@@ -4,10 +4,14 @@ https://libsodium.org/
 
 Module sets the following variables:
 
+SODIUM_FOUND
+  Set to 1 if Sodium library is found.
 SODIUM_INCLUDE_DIRS
   A list of include directories for using Sodium library.
 SODIUM_LIBRARIES
   A list of libraries for linking when using Sodium library.
+SODIUM_VERSION
+  Version string of found Sodium library.
 #]=============================================================================]
 
 include(FindPackageHandleStandardArgs)
