@@ -41,7 +41,7 @@ add_library(ext_mysqli ${_library_type}
 target_compile_definitions(ext_mysqli PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE=1)
 
 if(EXT_MYSQL_SOCK OR EXT_MYSQL_SOCK_PATH)
-  include(PHPMysqlSocket)
+  include(PHP/MysqlSocket)
 endif()
 
 target_sources(

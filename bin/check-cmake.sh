@@ -38,13 +38,33 @@ cd $(CDPATH= cd -- "$(dirname -- "$0")/.." && pwd -P)
 # Check for unused utility modules.
 echo "Checking for unused modules"
 
-modules=$(find ./cmake/cmake/modules -type f -name "PHP*.cmake")
+modules=$(find ./cmake/cmake/modules -maxdepth 2 -name "*.cmake" ! -name "Find*.cmake")
+modules="${modules} "$(find ./cmake/cmake -maxdepth 1 -name "*.cmake")
 
 for module in $modules; do
   module_name=$(basename $module | sed -e "s/.cmake$//")
   found=$(grep -Er "include\(.*${module_name}(\.cmake)?.?\)" cmake)
+
   if test -z "$found"; then
-    echo "E: ${module_name} is not used" >&2
+    echo "E: ${module} is not used" >&2
+    exit_code=1
+  fi
+done
+
+# Check for unused module artefacts.
+module_items=$(find ./cmake/cmake/modules/PHP -mindepth 2)
+
+for item in $module_items; do
+  # Check if item is submodule.
+  module_name=$(basename $item | sed -e "s/.cmake$//")
+  found_included=$(grep -Er "include\(.*${module_name}(\.cmake)?.?\)" cmake)
+
+  # Check if item is any other file.
+  item_name=$(basename $item)
+  found=$(grep -Er "${item_name}" cmake)
+
+  if test -z "$found_included" && test -z "$found"; then
+    echo "E: ${item} is not used" >&2
     exit_code=1
   fi
 done
@@ -56,6 +76,7 @@ for module in $find_modules; do
   module_name=$(basename $module)
   package_name=$(echo ${module_name} | sed -e "s/Find\(.*\).cmake$/\1/")
   found=$(grep -Er "find_package\([[:space:]]*${package_name}.*" cmake)
+
   if test -z "$found"; then
     echo "E: ${module_name} is not used" >&2
     exit_code=1

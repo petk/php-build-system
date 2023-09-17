@@ -19,7 +19,7 @@ function(_php_check_mm_alignment)
       RUN_RESULT_VAR
       COMPILE_RESULT_VAR
       ${CMAKE_BINARY_DIR}
-      "${CMAKE_CURRENT_FUNCTION_LIST_DIR}/PHPCheckMMAlignment/test_mm_alignment.c"
+      "${CMAKE_CURRENT_FUNCTION_LIST_DIR}/CheckMMAlignment/test_mm_alignment.c"
       RUN_OUTPUT_STDOUT_VARIABLE PHP_ZEND_MM_ALIGNMENT
     )
 

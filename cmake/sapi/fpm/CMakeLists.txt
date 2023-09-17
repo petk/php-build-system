@@ -119,13 +119,13 @@ check_c_source_compiles("
   }
 " HAVE_SETPFLAGS)
 
-include(PHPCheckFpmClock)
+include(PHP/CheckFpmClock)
 
 if(FPM_CLOCK_LIBRARIES)
   target_link_libraries(php-fpm PRIVATE ${FPM_CLOCK_LIBRARIES})
 endif()
 
-include(PHPCheckFpmPtrace)
+include(PHP/CheckFpmPtrace)
 
 if(
   FPM_TRACE_TYPE
@@ -147,7 +147,7 @@ check_c_source_compiles("
   }
 " HAVE_BUILTIN_ATOMIC)
 
-include(PHPCheckFpmLq)
+include(PHP/CheckFpmLq)
 
 check_c_source_compiles("
   #include <unistd.h>

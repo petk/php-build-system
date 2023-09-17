@@ -26,7 +26,7 @@ function(_php_check_flush_io)
     RUN_RESULT_VAR
     COMPILE_RESULT_VAR
     ${CMAKE_BINARY_DIR}
-    "${CMAKE_CURRENT_FUNCTION_LIST_DIR}/PHPCheckFlushIo/check_flush_io.c"
+    "${CMAKE_CURRENT_FUNCTION_LIST_DIR}/CheckFlushIo/check_flush_io.c"
     COMPILE_DEFINITIONS ${unistd_defined_macro}
     OUTPUT_VARIABLE RUN_OUTPUT
   )

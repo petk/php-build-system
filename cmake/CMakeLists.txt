@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.25 FATAL_ERROR)
 
-# Set some CMake defaults.
+# Configure CMake behavior.
 include(cmake/CMakeDefaults.cmake)
 
 message("
@@ -9,9 +9,8 @@ message("
 +--------------------------------------------------------------------+
 ")
 
-include(PHPVersion)
-
-message(STATUS "PHP version: ${PHP_VERSION}")
+# Set the PHP_VERSION_* variables from configure.ac.
+include(PHP/Version)
 
 project(
   PHP
@@ -21,30 +20,25 @@ project(
   LANGUAGES C ASM CXX
 )
 
-# Set the project version to include additional optional version label.
-string(CONCAT PHP_VERSION "${PHP_VERSION_MAJOR}" "." "${PHP_VERSION_MINOR}" "." "${PHP_VERSION_PATCH}" "${PHP_VERSION_LABEL}")
+# Append extra version label suffix to PHP_VERSION.
+set(PHP_VERSION "${PHP_VERSION}${PHP_VERSION_LABEL}")
 
 set(CMAKE_C_STANDARD 99)
 set(CMAKE_C_STANDARD_REQUIRED TRUE)
 
 add_compile_definitions("$<$<COMPILE_LANGUAGE:C>:_GNU_SOURCE>")
 
-set(PHP_OS "${CMAKE_SYSTEM_NAME}" CACHE INTERNAL "uname output")
-
-# Define GNU standard installation directories.
+# Set GNU standard installation directories.
 include(GNUInstallDirs)
 
-# Lexer and parser generators.
-include(PHPLexerParser)
+# Set PHP configuration options and variables.
+include(cmake/Configuration.cmake)
 
-# Define PHP configuration options.
-include(PHPConfiguration)
+# Check system requirements.
+include(cmake/Requirements.cmake)
 
-# Configuration checks.
-include(ConfigureChecks)
-
-# Find sendmail binary.
-find_package(SENDMAIL)
+# Run PHP configuration checks.
+include(cmake/ConfigureChecks.cmake)
 
 # TODO: Check if this can be fixed better.
 include_directories(${CMAKE_SOURCE_DIR})
@@ -68,10 +62,10 @@ add_subdirectory(sapi/phpdbg)
 
 message("
 +--------------------------------------------------------------------+
-| Configuring extensions                                             |
+| Configuring PHP extensions                                         |
 +--------------------------------------------------------------------+
 ")
-include(PHPExtensions)
+include(PHP/Extensions)
 
 message("
 +--------------------------------------------------------------------+
@@ -90,21 +84,10 @@ add_subdirectory(TSRM)
 
 message("
 +--------------------------------------------------------------------+
-| Generating files                                                   |
+| Creating files from templates                                      |
 +--------------------------------------------------------------------+
 ")
-
-# Create main/internal_functions* files.
-include(PHPCreateInternalFunctions)
-
-message(STATUS "Creating main/php_version.h")
-configure_file(main/php_version.h.in main/php_version.h @ONLY)
-
-# Create main/build-defs.h file.
-include(PHPCreateBuildDefinitions)
-
-message(STATUS "Creating main/php_config.h")
-configure_file(main/php_config.h.in main/php_config.h @ONLY)
+include(cmake/CreateFiles.cmake)
 
 enable_testing()
 
@@ -118,26 +101,6 @@ endif()
 add_test(
   NAME php_test
   COMMAND ./sapi/cli/php run-tests.php ${_run_tests_jobs} -q
-)
-
-# Man documentation.
-configure_file(
-  ${CMAKE_SOURCE_DIR}/scripts/man1/php-config.1.in
-  ${CMAKE_BINARY_DIR}/scripts/man1/php-config.1
-  @ONLY
-)
-
-configure_file(
-  ${CMAKE_SOURCE_DIR}/scripts/man1/phpize.1.in
-  ${CMAKE_BINARY_DIR}/scripts/man1/phpize.1
-  @ONLY
-)
-
-# The php-config script.
-configure_file(
-  ${CMAKE_SOURCE_DIR}/scripts/php-config.in
-  ${CMAKE_BINARY_DIR}/scripts/php-config
-  @ONLY
 )
 
 install(

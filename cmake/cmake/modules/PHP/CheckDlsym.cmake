@@ -19,7 +19,7 @@ function(_php_check_dlsym_needs_underscore)
       RUN_RESULT_VAR
       COMPILE_RESULT_VAR
       ${CMAKE_BINARY_DIR}
-      "${CMAKE_CURRENT_FUNCTION_LIST_DIR}/PHPCheckDlsym/check_dlsym_needs_underscore.c"
+      "${CMAKE_CURRENT_FUNCTION_LIST_DIR}/CheckDlsym/check_dlsym_needs_underscore.c"
       COMPILE_DEFINITIONS ${dlfcn_defined_macro}
       OUTPUT_VARIABLE RUN_OUTPUT
     )

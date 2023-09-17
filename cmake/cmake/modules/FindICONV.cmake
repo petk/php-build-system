@@ -35,6 +35,8 @@ include(CheckSymbolExists)
 include(CMakePushCheckState)
 include(FindPackageHandleStandardArgs)
 
+# TODO: Fix this, when iconv is not found. CMake errors due to conflicting
+# variable names.
 find_package(Iconv REQUIRED)
 
 if(Iconv_LIBRARIES)

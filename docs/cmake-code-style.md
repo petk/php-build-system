@@ -168,10 +168,24 @@ endif(BAR)
 
 ### 2.4. Module naming conventions
 
-In this repository, the naming convention for find modules is in the format of
-`FindUPPERCASE.cmake`. For utility modules, they are prefixed with `PHP` and
-typically adhere to the `PHPPascalCase.cmake` pattern. This approach is adopted
-for convenience to prevent any potential conflicts with upstream CMake modules.
+Modules are located in the `cmake/modules` directory.
+
+Naming convention for find modules is `FindUPPERCASE.cmake`.
+
+```cmake
+find_package(UPPERCASE)
+```
+
+Utility modules typically adhere to the `PascalCase.cmake` pattern. They are
+prefixed with `PHP` by residing in the PHP directory and can be included like
+this:
+
+```cmake
+include(PHP/PascalCase.cmake)
+```
+
+This approach is adopted for convenience to prevent any potential conflicts with
+upstream CMake modules.
 
 ### 2.5. Booleans
 

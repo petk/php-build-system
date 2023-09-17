@@ -60,13 +60,13 @@ cmake_push_check_state(RESET)
 cmake_pop_check_state()
 
 # Check for HAVE_SHM_IPC.
-include(PHPCheckShmIpc)
+include(PHP/CheckShmIpc)
 
 # Check for HAVE_SHM_MMAP_ANON.
-include(PHPCheckShmMmap)
+include(PHP/CheckShmMmap)
 
 # Check for HAVE_SHM_MMAP_POSIX.
-include(PHPCheckShmMmapPosix)
+include(PHP/CheckShmMmapPosix)
 
 if(NOT HAVE_SHM_IPC AND NOT HAVE_SHM_MMAP_ANON AND NOT HAVE_SHM_MMAP_POSIX)
   message(FATAL_ERROR "No supported shared memory caching support was found when configuring opcache. Check config.log for any errors or missing dependencies.")

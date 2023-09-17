@@ -21,7 +21,7 @@ function(_php_check_fnmatch)
       RUN_RESULT_VAR
       COMPILE_RESULT_VAR
       ${CMAKE_BINARY_DIR}
-      "${CMAKE_CURRENT_FUNCTION_LIST_DIR}/PHPCheckFnmatch/check_fnmatch.c"
+      "${CMAKE_CURRENT_FUNCTION_LIST_DIR}/CheckFnmatch/check_fnmatch.c"
       OUTPUT_VARIABLE RUN_OUTPUT
     )
 

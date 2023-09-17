@@ -44,10 +44,10 @@ check_c_source_compiles("
 " HAVE_CPUID_COUNT)
 
 # Check if dlsym() needs underscore.
-include(PHPCheckDlsym)
+include(PHP/CheckDlsym)
 
 # Check which inline keyword compiler supports.
-include(PHPCheckInline)
+include(PHP/CheckInline)
 
 message(STATUS "Checking if target system is Darwin")
 string(TOLOWER "${CMAKE_HOST_SYSTEM_NAME}" host_os)
@@ -59,24 +59,24 @@ else()
 endif()
 
 # Check MM alignment.
-include(PHPCheckMMAlignment)
+include(PHP/CheckMMAlignment)
 
 # Check for global register variables.
 if(ZEND_GCC_GLOBAL_REGS)
-  include(PHPCheckGccGlobalRegisterVars)
+  include(PHP/CheckGccGlobalRegisterVars)
 endif()
 
 # Check if stack grows downward.
-include(PHPCheckStackLimit)
+include(PHP/CheckStackLimit)
 
 # Check float precision.
-include(PHPCheckFloatPrecision)
+include(PHP/CheckFloatPrecision)
 
 # Check Zend signals.
-include(PHPCheckZendSignals)
+include(PHP/CheckZendSignals)
 
 # Check Zend max execution timers.
-include(PHPCheckZendMaxExecutionTimers)
+include(PHP/CheckZendMaxExecutionTimers)
 
 message(STATUS "Creating Zend/zend_config.h")
 file(WRITE zend_config.h "#include <../main/php_config.h>\n")
@@ -178,7 +178,7 @@ if(BISON_FOUND)
   # https://git.savannah.gnu.org/cgit/bison.git/tree/data/README.md for more.
   add_custom_target(
     patch_zend_language_parser_files
-    COMMAND ${CMAKE_COMMAND} -P "${CMAKE_SOURCE_DIR}/cmake/modules/Zend/patch_zend_language_parser_file.cmake"
+    COMMAND ${CMAKE_COMMAND} -P "${CMAKE_SOURCE_DIR}/cmake/Zend/PatchZendLanguageParserFiles.cmake"
     DEPENDS ${BISON_ZendLanguageParser_OUTPUTS}
     COMMENT "Patching Zend language parser files"
   )
@@ -214,7 +214,7 @@ target_link_libraries(Zend PRIVATE TSRM)
 target_compile_definitions(Zend PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE=1)
 
 # Check for fibers support.
-include(PHPCheckFibers)
+include(PHP/CheckFibers)
 
 if(ZEND_FIBER_ASM)
   add_library(ZendAsm STATIC

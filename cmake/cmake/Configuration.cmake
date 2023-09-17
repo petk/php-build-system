@@ -1,6 +1,13 @@
 #[=============================================================================[
 Project-wide configuration options and variables that can be overridden at the
-configuration phase (cmake . -DPHP_OPTION=... -DZEND_OPTION=...).
+configuration phase via cmake-gui or command line:
+  cmake -DPHP_OPTION=... -DZEND_OPTION=... -DEXT_... <path-to-source>
+
+To see the list of customizable configuration variables with help texts:
+  cmake -LH <path-to-source>
+
+For the preferred configuration customization, opt for CMake presets:
+  cmake --preset <preset>
 #]=============================================================================]
 
 #[=============================================================================[
@@ -91,3 +98,5 @@ endif()
 if(PHP_FD_SETSIZE GREATER 0)
   set(EXTRA_DEFINITIONS ${EXTRA_DEFINITIONS} -DPHP_FD_SETSIZE=${PHP_FD_SETSIZE})
 endif()
+
+set(PHP_OS "${CMAKE_SYSTEM_NAME}" CACHE INTERNAL "uname output")

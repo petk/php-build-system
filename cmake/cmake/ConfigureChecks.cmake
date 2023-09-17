@@ -12,7 +12,7 @@ include(CheckTypeSize)
 include(CMakePushCheckState)
 
 # Check whether the system uses EBCDIC (not ASCII) as its native codeset.
-include(PHPCheckEbcdic)
+include(PHP/CheckEbcdic)
 
 # Check whether the system byte ordering is bigendian - requires CMake 3.20.
 if(CMAKE_C_BYTE_ORDER STREQUAL "BIG_ENDIAN")
@@ -89,7 +89,7 @@ check_struct_has_member("struct stat" st_blocks sys/stat.h HAVE_STRUCT_STAT_ST_B
 check_struct_has_member("struct stat" st_rdev sys/stat.h HAVE_STRUCT_STAT_ST_RDEV)
 
 # Check for missing declarations of reentrant functions.
-include(PHPCheckMissingTimeR)
+include(PHP/CheckMissingTimeR)
 
 # Check size of symbols - these are defined elsewhere than stdio.h.
 check_type_size("intmax_t" SIZEOF_INTMAX_T)
@@ -153,85 +153,85 @@ cmake_push_check_state(RESET)
 cmake_pop_check_state()
 
 # Check fopencookie.
-include(PHPCheckFopencookie)
+include(PHP/CheckFopencookie)
 
 # Check for broken getcwd().
-include(PHPCheckBrokenGetCwd)
+include(PHP/CheckBrokenGetCwd)
 
 # Check for broken gcc optimize-strlen.
-include(PHPCheckBrokenGccStrlenOpt)
+include(PHP/CheckBrokenGccStrlenOpt)
 
 # Check for missing fclose declaration.
-include(PHPCheckMissingFcloseDeclaration)
+include(PHP/CheckMissingFcloseDeclaration)
 
 # Check struct flock.
-include(PHPCheckStructFlock)
+include(PHP/CheckStructFlock)
 
 # Check for __builtin_expect.
-include(PHPCheckBuiltinExpect)
+include(PHP/CheckBuiltinExpect)
 
 # Check for __builtin_clz.
-include(PHPCheckBuiltinClz)
+include(PHP/CheckBuiltinClz)
 
 # Check for __builtin_clzl.
-include(PHPCheckBuiltinClzl)
+include(PHP/CheckBuiltinClzl)
 
 # Check for __builtin_clzll.
-include(PHPCheckBuiltinClzll)
+include(PHP/CheckBuiltinClzll)
 
 # Check for __builtin_ctzl.
-include(PHPCheckBuiltinCtzl)
+include(PHP/CheckBuiltinCtzl)
 
 # Check for __builtin_ctzll.
-include(PHPCheckBuiltinCtzll)
+include(PHP/CheckBuiltinCtzll)
 
 # Check for __builtin_smull_overflow.
-include(PHPCheckBuiltinSmullOverflow)
+include(PHP/CheckBuiltinSmullOverflow)
 
 # Check for __builtin_smulll_overflow.
-include(PHPCheckBuiltinSmulllOverflow)
+include(PHP/CheckBuiltinSmulllOverflow)
 
 # Check for __builtin_saddl_overflow.
-include(PHPCheckBuiltinSaddlOverflow)
+include(PHP/CheckBuiltinSaddlOverflow)
 
 # Check for __builtin_saddll_overflow.
-include(PHPCheckBuiltinSaddllOverflow)
+include(PHP/CheckBuiltinSaddllOverflow)
 
 # Check for __builtin_usub_overflow.
-include(PHPCheckBuiltinUsubOverflow)
+include(PHP/CheckBuiltinUsubOverflow)
 
 # Check for __builtin_ssubl_overflow.
-include(PHPCheckBuiltinSsublOverflow)
+include(PHP/CheckBuiltinSsublOverflow)
 
 # Check for __builtin_ssubll_overflow.
-include(PHPCheckBuiltinSsubllOverflow)
+include(PHP/CheckBuiltinSsubllOverflow)
 
 # Check for __builtin_cpu_init.
-include(PHPCheckBuiltinCpuInit)
+include(PHP/CheckBuiltinCpuInit)
 
 # Check for __builtin_cpu_supports.
-include(PHPCheckBuiltinCpuSupports)
+include(PHP/CheckBuiltinCpuSupports)
 
 # Check for __builtin_frame_address.
-include(PHPCheckBuiltinFrameAddress)
+include(PHP/CheckBuiltinFrameAddress)
 
 # Check AVX512.
-include(PHPCheckAVX512)
+include(PHP/CheckAVX512)
 
 # Check AVX512 VBMI.
-include(PHPCheckAVX512VBMI)
+include(PHP/CheckAVX512VBMI)
 
 # Check prctl.
-include(PHPCheckPrctl)
+include(PHP/CheckPrctl)
 
 # Check procctl.
-include(PHPCheckProcctl)
+include(PHP/CheckProcctl)
 
 # Check for __alignof__.
-include(PHPCheckAlignof)
+include(PHP/CheckAlignof)
 
 # Checks for sockaddr_storage and sockaddr.sa_len.
-include(PHPCheckSockaddr)
+include(PHP/CheckSockaddr)
 
 # Check functions and symbols.
 check_symbol_exists(alphasort "dirent.h" HAVE_ALPHASORT)
@@ -331,26 +331,26 @@ cmake_push_check_state(RESET)
 cmake_pop_check_state()
 
 # Check for strerror_r, and if its a POSIX-compatible or a GNU specific version.
-include(PHPCheckStrerrorR)
+include(PHP/CheckStrerrorR)
 
 # Check getaddrinfo().
-include(PHPCheckGetaddrinfo)
+include(PHP/CheckGetaddrinfo)
 
 # Check copy_file_range().
-include(PHPCheckCopyFileRange)
+include(PHP/CheckCopyFileRange)
 
 # Check for asm goto.
-include(PHPCheckAsmGoto)
+include(PHP/CheckAsmGoto)
 
 check_symbol_exists(strlcat "string.h" HAVE_STRLCAT)
 check_symbol_exists(strlcpy "string.h" HAVE_STRLCPY)
 check_symbol_exists(explicit_bzero "string.h" HAVE_EXPLICIT_BZERO)
 
 # Check type of reentrant time-related functions.
-include(PHPCheckTimeR)
+include(PHP/CheckTimeR)
 
 # Check whether writing to stdout works.
-include(PHPCheckWriteStdout)
+include(PHP/CheckWriteStdout)
 
 # Check for required libraries.
 check_symbol_exists(dlopen "dlfcn.h" HAVE_LIBDL)
@@ -389,14 +389,14 @@ endif()
 
 # Check for IPv6 support.
 if(PHP_IPV6)
-  include(PHPCheckIPv6)
+  include(PHP/CheckIPv6)
 endif()
 
 # Check for aarch64 CRC32 API.
-include(PHPCheckAarch64CRC32)
+include(PHP/CheckAarch64CRC32)
 
 # Check DTrace.
-include(PHPCheckDTrace)
+include(PHP/CheckDTrace)
 
 # Check POSIX Threads flags.
 if(PHP_ZTS)
@@ -532,7 +532,7 @@ if(NOT ${host_os} MATCHES ".*android.*|.*uclibc.*|.*musl.*|.*freebsd.*|.*openbsd
   " HAVE_FUNC_ATTRIBUTE_IFUNC)
 endif()
 
-include(PHPCheckGethostbynameR)
+include(PHP/CheckGethostbynameR)
 
 # wchar.h is always available as part of C99 standard. The libmagic still
 # includes it conditionally.

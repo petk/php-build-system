@@ -1,11 +1,13 @@
 #[=============================================================================[
-Checks if bison and re2c are required.
-
-PHP tarball packaged and released at php.net already contains generated lexer
-and parser files. In such cases these don't need to be generated again. When
-building from a Git repository, bison and re2c are required to be installed so
-files can be generated as part of the build process.
+Check for any missing system requirements.
 ]=============================================================================]#
+
+# Check if bison and re2c are required.
+#
+# PHP tarball packaged and released at php.net already contains generated lexer
+# and parser files. In such cases these don't need to be generated again. When
+# building from a Git repository, bison and re2c are required to be installed so
+# files can be generated as part of the build process.
 
 # Check if bison is required.
 if(
@@ -34,3 +36,6 @@ if(
 )
   find_package(RE2C 1.0.3 REQUIRED)
 endif()
+
+# Find sendmail binary.
+find_package(SENDMAIL)

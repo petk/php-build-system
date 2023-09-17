@@ -15,7 +15,7 @@ function(_php_check_inline)
       try_compile(
         C_HAS_${keyword}
         ${CMAKE_BINARY_DIR}
-        "${CMAKE_CURRENT_FUNCTION_LIST_DIR}/PHPCheckInline/check_inline.c"
+        "${CMAKE_CURRENT_FUNCTION_LIST_DIR}/CheckInline/check_inline.c"
         COMPILE_DEFINITIONS "-Dinline=${keyword}"
       )
 

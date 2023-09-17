@@ -44,7 +44,7 @@ endif()
 
 # Check crypt_r() style.
 if(HAVE_CRYPT_R)
-  include("${CMAKE_SOURCE_DIR}/cmake/modules/PHPCheckExternalLibcrypt/PHPCheckCryptRStyle.cmake")
+  include(PHP/CheckExternalLibcrypt/CheckCryptRStyle)
 endif()
 
 check_include_file(crypt.h HAVE_CRYPT_H)

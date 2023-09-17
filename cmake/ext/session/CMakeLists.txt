@@ -11,10 +11,10 @@ if(NOT EXT_SESSION)
 endif()
 
 # Checks whether pwrite() works.
-include(PHPCheckPwrite)
+include(PHP/CheckPwrite)
 
 # Checks whether pread() works.
-include(PHPCheckPread)
+include(PHP/CheckPread)
 
 if(EXT_SESSION_SHARED OR BUILD_SHARED_LIBS)
   set(_library_type "SHARED")

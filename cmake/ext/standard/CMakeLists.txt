@@ -99,16 +99,16 @@ if(NOT HAVE_RES_SEARCH)
 endif()
 
 # Check how flush should be called.
-include(PHPCheckFlushIo)
+include(PHP/CheckFlushIo)
 
 # Check if OS can spawn processes with inherited handles.
-include(PHPCheckProcOpenSupport)
+include(PHP/CheckProcOpenSupport)
 
 # Check whether the strptime() declaration fails.
-include(PHPCheckStrptime)
+include(PHP/CheckStrptime)
 
 # Check for fnmatch() implementation.
-include(PHPCheckFnmatch)
+include(PHP/CheckFnmatch)
 
 message(STATUS "Checking for usable getifaddrs")
 check_c_source_runs("
@@ -233,7 +233,7 @@ if(NOT EXT_STANDARD_EXTERNAL_LIBCRYPT)
   target_sources(ext_standard PRIVATE crypt_freesec.c crypt_blowfish.c crypt_sha512.c crypt_sha256.c php_crypt_r.c)
   set(PHP_USE_PHP_CRYPT_R 1 CACHE INTERNAL "Whether PHP has to use its own crypt_r")
 else()
-  include(PHPCheckExternalLibcrypt)
+  include(PHP/CheckExternalLibcrypt)
 
   if(CRYPT_EXTRA_LIBRARIES)
     list(APPEND STANDARD_EXTRA_LIBRARIES ${CRYPT_EXTRA_LIBRARIES})

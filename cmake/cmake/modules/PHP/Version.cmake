@@ -1,6 +1,5 @@
 #[=============================================================================[
-PHP module that reads the PHP version from the configure.ac file and sets
-PHP version variables.
+Reads the PHP version from the configure.ac file and sets PHP version variables.
 ]=============================================================================]#
 
 file(READ "${CMAKE_SOURCE_DIR}/configure.ac" _content)
@@ -16,3 +15,5 @@ set(PHP_VERSION_LABEL ${CMAKE_MATCH_4} CACHE STRING "Extra PHP version label suf
 string(CONCAT PHP_VERSION "${PHP_VERSION_MAJOR}" "." "${PHP_VERSION_MINOR}" "." "${PHP_VERSION_PATCH}" "${PHP_VERSION_LABEL}")
 
 math(EXPR PHP_VERSION_ID "${PHP_VERSION_MAJOR} * 10000 + ${PHP_VERSION_MINOR} * 100 + ${PHP_VERSION_PATCH}")
+
+message(STATUS "PHP version: ${PHP_VERSION}")

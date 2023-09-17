@@ -3,9 +3,18 @@ Setting CMake defaults to manage how CMake works. These can be set before
 calling the project().
 #]=============================================================================]
 
-# Set the module path to include the directory containing custom modules.
+# Set CMake module paths where include() and find_package() look for modules.
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake/modules/")
-list(APPEND CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake/")
+
+# Automatically include current source or build tree for the target.
+# TODO: recheck this a bit. For example, ext/fileinfo has such case.
+set(CMAKE_INCLUDE_CURRENT_DIR ON)
+
+# Put the source or build tree include directories before other includes.
+set(CMAKE_INCLUDE_DIRECTORIES_PROJECT_BEFORE ON)
+
+# Link only what is needed on executables and shared objects.
+set(CMAKE_LINK_WHAT_YOU_USE ON)
 
 # Disable PIC for all targets. PIC is enabled for shared extensions manually.
 set(CMAKE_POSITION_INDEPENDENT_CODE OFF)
