@@ -539,6 +539,8 @@ Optional:
   * when using the `--with-ldap`
 * libsasl2
   * when using the `--with-ldap-sasl`
+* libpq
+  * when using the `--with-pgsql` or `--with-pdo-pgsql`
 
 When PHP is built, the development libraries are no longer required to be
 installed and only libraries without development files are needed to run newly
@@ -993,12 +995,18 @@ cmake -LH .
 | `--enable-pdo` (default)                         | `EXT_PDO=ON`                                  | `ON`                |
 | `--enable-pdo=shared`                            | `EXT_PDO_SHARED=ON`                           |                     |
 | `--disable-pdo`                                  | `EXT_PDO=OFF`                                 |                     |
-| `--with-pdo-sqlite` (default)                    | `EXT_PDO_SQLITE=ON`                           | `ON`                |
-| `--with-pdo-sqlite=shared`                       | `EXT_PDO_SQLITE_SHARED=ON`                    |                     |
-| `--without-pdo-sqlite`                           | `EXT_PDO_SQLITE=OFF`                          |                     |
 | `--without-pdo-mysql` (default)                  | `EXT_PDO_MYSQL=OFF`                           | `OFF`               |
 | `--with-pdo-mysql`                               | `EXT_PDO_MYSQL=ON`                            |                     |
 | `--with-pdo-mysql=shared`                        | `EXT_PDO_MYSQL_SHARED=ON`                     |                     |
+| `--without-pdo-pgsql` (default)                  | `EXT_PDO_PGSQL=OFF`                           | `OFF`               |
+| `--with-pdo-pgsql[=DIR]`                         | `EXT_PDO_PGSQL=ON`                            |                     |
+| `--with-pdo-pgsql=shared`                        | `EXT_PDO_PGSQL_SHARED=ON`                     |                     |
+| `--with-pdo-sqlite` (default)                    | `EXT_PDO_SQLITE=ON`                           | `ON`                |
+| `--with-pdo-sqlite=shared`                       | `EXT_PDO_SQLITE_SHARED=ON`                    |                     |
+| `--without-pdo-sqlite`                           | `EXT_PDO_SQLITE=OFF`                          |                     |
+| `--without-pgsql` (default)                      | `EXT_PGSQL=OFF`                               | `OFF`               |
+| `--with-pgsql[=DIR]`                             | `EXT_PGSQL=ON`                                |                     |
+| `--with-pgsql=shared`                            | `EXT_PGSQL_SHARED=ON`                         |                     |
 | `--enable-phar` (default)                        | `EXT_PHAR=ON`                                 | `ON`                |
 | `--enable-phar=shared`                           | `EXT_PHAR_SHARED=ON`                          |                     |
 | `--disable-phar`                                 | `EXT_PHAR=OFF`                                |                     |

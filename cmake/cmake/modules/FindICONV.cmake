@@ -37,7 +37,11 @@ include(FindPackageHandleStandardArgs)
 
 # TODO: Fix this, when iconv is not found. CMake errors due to conflicting
 # variable names.
-find_package(Iconv REQUIRED)
+find_package(Iconv)
+
+if(NOT Iconv_FOUND)
+  set(ICONV_FOUND FALSE)
+endif()
 
 if(Iconv_LIBRARIES)
   set(ICONV_LIBRARIES "${Iconv_LIBRARIES}")
@@ -186,7 +190,7 @@ endif()
 
 find_package_handle_standard_args(
   ICONV
-  REQUIRED_VARS PHP_ICONV_IMPL _errno_works
+  REQUIRED_VARS ICONV_FOUND PHP_ICONV_IMPL _errno_works
 )
 
 unset(_errno_works)

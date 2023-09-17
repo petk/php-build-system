@@ -110,7 +110,8 @@ jobs:
             libselinux1-dev \
             libsystemd-dev \
             libldap2-dev \
-            libsasl2-dev;
+            libsasl2-dev \
+            libpq-dev;
 
       - name: Checkout
         uses: actions/checkout@v4

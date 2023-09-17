@@ -1000,9 +1000,6 @@
 /* */
 #cmakedefine HAVE_LIBPNG @HAVE_LIBPNG@
 
-/* Define to 1 if you have the `pq' library (-lpq). */
-#cmakedefine HAVE_LIBPQ
-
 /* */
 #cmakedefine HAVE_LIBRARYMANAGER_H
 
@@ -1194,22 +1191,22 @@
 #cmakedefine HAVE_PDO_FIREBIRD
 
 /* Whether to build PostgreSQL for PDO support or not */
-#cmakedefine HAVE_PDO_PGSQL
+#cmakedefine HAVE_PDO_PGSQL @HAVE_PDO_PGSQL@
 
 /* Define to 1 if you have the pdo_sqlite extension enabled. */
 #cmakedefine HAVE_PDO_SQLITELIB @HAVE_PDO_SQLITELIB@
 
 /* Whether to build PostgreSQL support or not */
-#cmakedefine HAVE_PGSQL
+#cmakedefine HAVE_PGSQL @HAVE_PGSQL@
 
 /* Whether libpq is compiled with --enable-multibyte */
-#cmakedefine HAVE_PGSQL_WITH_MULTIBYTE_SUPPORT
+#cmakedefine HAVE_PGSQL_WITH_MULTIBYTE_SUPPORT @HAVE_PGSQL_WITH_MULTIBYTE_SUPPORT@
 
 /* PostgreSQL 9.6 or later */
-#cmakedefine HAVE_PG_CONTEXT_VISIBILITY
+#cmakedefine HAVE_PG_CONTEXT_VISIBILITY @HAVE_PG_CONTEXT_VISIBILITY@
 
 /* PostgreSQL 9.3 or later */
-#cmakedefine HAVE_PG_LO64
+#cmakedefine HAVE_PG_LO64 @HAVE_PG_LO64@
 
 /* */
 #cmakedefine HAVE_PHPDBG @HAVE_PHPDBG@
