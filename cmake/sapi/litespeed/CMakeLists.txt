@@ -11,10 +11,6 @@ add_executable(lsphp
 
 target_link_libraries(lsphp PRIVATE main)
 
-if(EXTRA_LIBS)
-  target_link_libraries(lsphp PRIVATE ${EXTRA_LIBS})
-endif()
-
 if(EXTRA_DEFINITIONS)
   target_compile_definitions(lsphp PRIVATE ${EXTRA_DEFINITIONS})
 endif()

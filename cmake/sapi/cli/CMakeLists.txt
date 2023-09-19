@@ -37,12 +37,12 @@ target_compile_definitions(php PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE=1)
 
 target_link_libraries(php PRIVATE main)
 
-if(EXTRA_LIBS)
-  target_link_libraries(php PRIVATE ${EXTRA_LIBS})
-endif()
-
 if(EXTRA_DEFINITIONS)
   target_compile_definitions(php PRIVATE ${EXTRA_DEFINITIONS})
+endif()
+
+if(APPLE)
+  set_target_properties(php PROPERTIES LINK_FLAGS "-undefined dynamic_lookup")
 endif()
 
 # TODO: Check if there's a better solution here.

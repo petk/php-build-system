@@ -10,10 +10,6 @@ add_library(embed
 
 target_compile_definitions(embed PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE=1)
 
-if(EXTRA_LIBS)
-  target_link_libraries(embed PRIVATE ${EXTRA_LIBS})
-endif()
-
 if(EXTRA_DEFINITIONS)
   target_compile_definitions(embed PRIVATE ${EXTRA_DEFINITIONS})
 endif()

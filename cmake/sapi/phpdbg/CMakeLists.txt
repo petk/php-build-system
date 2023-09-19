@@ -1,3 +1,4 @@
+include(CheckCSourceCompiles)
 include(CMakeDependentOption)
 
 option(SAPI_PHPDBG "Whether to use the PHP PHPDBG SAPI module" ON)
@@ -58,13 +59,21 @@ target_compile_definitions(
 
 target_link_libraries(phpdbg PRIVATE main)
 
-if(EXTRA_LIBS)
-  target_link_libraries(phpdbg PRIVATE ${EXTRA_LIBS})
-endif()
-
 if(EXTRA_DEFINITIONS)
   target_compile_definitions(phpdbg PRIVATE ${EXTRA_DEFINITIONS})
 endif()
+
+if(APPLE)
+  set_target_properties(phpdbg PROPERTIES LINK_FLAGS "-undefined dynamic_lookup")
+endif()
+
+message(STATUS "Checking for userfaultfd faulting on write-protected memory support")
+check_c_source_compiles("
+  #include <linux/userfaultfd.h>
+  #ifndef UFFDIO_WRITEPROTECT_MODE_WP
+  # error userfaults on write-protected memory not supported
+  #endif
+" HAVE_USERFAULTFD_WRITEFAULT)
 
 set_target_properties(phpdbg PROPERTIES ENABLE_EXPORTS TRUE)
 

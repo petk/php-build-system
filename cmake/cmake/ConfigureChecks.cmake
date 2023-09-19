@@ -534,6 +534,22 @@ endif()
 
 include(PHP/CheckGethostbynameR)
 
+# TODO: On macOS, the ar command runs the ranlib, which causes the "has no symbols" errors.
+if(APPLE)
+  message(STATUS "Setting -no_warning_for_no_symbols for targets")
+
+  set(CMAKE_C_ARCHIVE_CREATE   "<CMAKE_AR> Scr <TARGET> <LINK_FLAGS> <OBJECTS>")
+  set(CMAKE_CXX_ARCHIVE_CREATE "<CMAKE_AR> Scr <TARGET> <LINK_FLAGS> <OBJECTS>")
+  set(CMAKE_ASM_ARCHIVE_CREATE "<CMAKE_AR> Scr <TARGET> <LINK_FLAGS> <OBJECTS>")
+
+  # Xcode's libtool supports the -no_warning_for_no_symbols but llvm-ranlib doesn't.
+  if(NOT ${CMAKE_RANLIB} MATCHES ".*llvm-ranlib$")
+    set(CMAKE_C_ARCHIVE_FINISH   "<CMAKE_RANLIB> -no_warning_for_no_symbols -c <TARGET>")
+    set(CMAKE_CXX_ARCHIVE_FINISH "<CMAKE_RANLIB> -no_warning_for_no_symbols -c <TARGET>")
+    set(CMAKE_ASM_ARCHIVE_FINISH "<CMAKE_RANLIB> -no_warning_for_no_symbols -c <TARGET>")
+  endif()
+endif()
+
 # wchar.h is always available as part of C99 standard. The libmagic still
 # includes it conditionally.
 set(HAVE_WCHAR_H 1 CACHE INTERNAL "Define to 1 if you have the <wchar.h> header file.")
@@ -556,7 +572,6 @@ set(__STDC_WANT_MATH_SPEC_FUNCS__ 1 CACHE INTERNAL "")
 set(__STDC_WANT_LIB_EXT2__ 1 CACHE INTERNAL "")
 set(__STDC_WANT_IEC_60559_FUNCS_EXT__ 1 CACHE INTERNAL "")
 set(HAVE_PHPDBG 1 CACHE INTERNAL "")
-set(HAVE_USERFAULTFD_WRITEFAULT 1 CACHE INTERNAL "")
 set(ODBCVER 0x0350 CACHE INTERNAL "")
 set(STDC_HEADERS 1 CACHE INTERNAL "")
 set(_ALL_SOURCE 1 CACHE INTERNAL "")

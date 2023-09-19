@@ -91,6 +91,11 @@ foreach(item IN LISTS PHP_EXTENSIONS_SHARED)
 
   set_property(TARGET ext_${item} PROPERTY POSITION_INDEPENDENT_CODE TRUE)
 
+  # On macOS, additional linker flags need to be passed for shared libraries.
+  if(APPLE)
+    set_target_properties(ext_${item} PROPERTIES LINK_FLAGS "-undefined dynamic_lookup")
+  endif()
+
   if(EXTRA_LIBS)
     target_link_libraries(ext_${item} PRIVATE ${EXTRA_LIBS})
   endif()

@@ -79,10 +79,6 @@ target_compile_definitions(php-fpm PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE=1)
 
 target_link_libraries(php-fpm PRIVATE main)
 
-if(EXTRA_LIBS)
-  target_link_libraries(php-fpm PRIVATE ${EXTRA_LIBS})
-endif()
-
 if(EXTRA_DEFINITIONS)
   target_compile_definitions(php-fpm PRIVATE ${EXTRA_DEFINITIONS})
 endif()
