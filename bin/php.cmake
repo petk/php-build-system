@@ -177,12 +177,13 @@ foreach(patch ${patches})
   endif()
 endforeach()
 
-# Clean temporary .git directory.
+# Clean temporary .git directory. Checks are done as safeguards.
 if(
   _php_directory MATCHES "php-8\\.[0-9][\\.-].*"
   AND IS_DIRECTORY ${_php_directory}/.git/
   AND EXISTS ${_php_directory}/php.ini-development
   AND EXISTS ${_php_directory}/main/php_version.h
+  AND EXISTS ${_php_directory}/CMakeLists.txt
 )
   file(REMOVE_RECURSE ${_php_directory}/.git/)
 endif()
