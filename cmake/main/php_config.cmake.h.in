@@ -234,9 +234,6 @@
 #cmakedefine COMPILE_DL_ZLIB @COMPILE_DL_ZLIB@
 
 /* */
-#cmakedefine COOKIE_IO_FUNCTIONS_T @COOKIE_IO_FUNCTIONS_T@
-
-/* */
 #cmakedefine COOKIE_SEEKER_USES_OFF64_T @COOKIE_SEEKER_USES_OFF64_T@
 
 /* Define if crypt_r has uses CRYPTD */

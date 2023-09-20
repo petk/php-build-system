@@ -89,7 +89,12 @@ cd ..
 cp -r cmake/* php-src/
 
 # Apply patches to php-src from the patches directory.
-patches=$(find ./patches -maxdepth 1 -type f -name "*.patch")
+if test ${branch} = "master"; then
+  php_version=8.4
+else
+  php_version=$(echo $branch | sed 's/PHP-\([0-9.]*\).*$/\1/')
+fi
+patches=$(find ./patches/${php_version} -maxdepth 1 -type f -name "*.patch")
 for file in $patches; do
   case $file in
     *.patch)

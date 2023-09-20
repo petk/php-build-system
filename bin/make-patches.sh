@@ -10,16 +10,18 @@
 # ENVIRONMENT VARIABLES:
 #   The following optional variables are supported:
 #
-#   BRANCH  Overrides the branch name containing patches.
-#           BRANCH=my-branch ./bin/make-patches.sh
 #   REPO    Overrides the location to the locally patched php-src repository.
 #           REPO=php-src-repo ./bin/make-patches.sh
 
-REPO="php-src"
-MAIN_BRANCH="patch-cmake"
-EXTRA_BRANCHES="
-patch-aspell
+if test -z "$REPO"; then
+  REPO="php-src"
+fi
+branches="patch-cmake-8.3
+patch-cmake-8.3-aspell
+patch-cmake-8.3-fopencookie
+patch-cmake-8.4
 "
+php_versions="8.3 8.4"
 
 # Go to script root directory.
 cd $(CDPATH= cd -- "$(dirname -- "$0")" && pwd -P)
@@ -37,44 +39,38 @@ fi
 cd ${REPO}
 
 # Check if local branch with patches is available in the php-src repository.
-for branch in $MAIN_BRANCH $EXTRA_BRANCHES; do
+for branch in $branches; do
   if test -z $(git rev-parse --verify ${branch} 2>/dev/null); then
     echo "Branch ${branch} is missing." >&2
     exit 1
   fi
 done
 
-if test -d ../${current_repo}/patches; then
-  # Clean existing patches.
-  rm ../${current_repo}/patches/*.patch
-  rm ../${current_repo}/patches/.*.patch
-else
-  mkdir -p ../${current_repo}/patches
-fi
-
-# Get a list of patched files in the main CMake branch.
-files=$(git --no-pager show --format= ${MAIN_BRANCH} --name-only)
-
-for file in $files; do
-  if test -f ${file}; then
-    echo "Creating patch for ${file}"
-    patch_filename="$(echo ${file} | tr '/' _)"
-    git --no-pager show --format= ${MAIN_BRANCH} -- ${file} > ../${current_repo}/patches/${patch_filename}.patch
-  else
-    echo "${file} is missing" >&2
+for php in $php_versions; do
+  if test -d ../${current_repo}/patches/${php}; then
+    # Clean existing patches.
+    rm -rf ../${current_repo}/patches/${php}
   fi
+
+  mkdir -p ../${current_repo}/patches/${php}
 done
 
-# Additional patches.
-for branch in $EXTRA_BRANCHES; do
-  patch_filename="${branch}.patch"
-  patch_path="../${current_repo}/patches/${patch_filename}"
+# Create patch files.
+for branch in $branches; do
+  php_version=$(echo $branch | sed 's/patch-cmake-\([0-9.]*\).*$/\1/')
+  patch_filename="$(echo $branch | sed 's/patch-cmake-[0-9.]*-*\(.*\)$/\1/')"
+  if test -z "${patch_filename}"; then
+    patch_filename="cmake"
+  fi
+  patch_filename="${patch_filename}.patch"
 
-  if test -f $patch_path; then
+  patch="../${current_repo}/patches/${php_version}/${patch_filename}"
+
+  if test -f $patch; then
     echo "Patch ${patch_filename} already exists. Rename the branch ${branch}." >&2
     exit 1
   fi
 
-  echo "Creating patch $patch_filename"
-  git --no-pager show --format= ${branch} > ${patch_path}
+  echo "Creating patches/${php_version}/${patch_filename}"
+  git --no-pager show --format= ${branch} > ${patch}
 done

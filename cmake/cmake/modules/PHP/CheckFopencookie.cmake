@@ -1,13 +1,10 @@
 #[=============================================================================[
 Checks if fopencookie is working as expected.
 
-The module defines the following variables if checks are successful:
+The module sets the following variables if checks are successful:
 
 HAVE_FOPENCOOKIE
-  Defined to 1 if fopencookie is present.
-
-COOKIE_IO_FUNCTIONS_T
-  The type for struct due to older glibc versions.
+  Set to 1 if fopencookie and cookie_io_functions_t are available.
 
 COOKIE_SEEKER_USES_OFF64_T
   Whether a newer seeker definition for fopencookie is available.
@@ -20,14 +17,14 @@ include(CMakePushCheckState)
 
 cmake_push_check_state(RESET)
   set(CMAKE_REQUIRED_DEFINITIONS -D_GNU_SOURCE)
-  check_symbol_exists(fopencookie "stdio.h" HAVE_FOPENCOOKIE)
+  check_symbol_exists(fopencookie "stdio.h" _have_fopencookie)
 cmake_pop_check_state()
 
-if(NOT HAVE_FOPENCOOKIE)
+if(NOT _have_fopencookie)
   return()
 endif()
 
-# Newer glibcs (since 2.1.2?) have a type called cookie_io_functions_t.
+# glibcs (since 2.1.2?) have a type called cookie_io_functions_t.
 check_c_source_compiles("
   #define _GNU_SOURCE
   #include <stdio.h>
@@ -36,13 +33,15 @@ check_c_source_compiles("
     cookie_io_functions_t cookie;
     return 0;
   }
-" _compilation_result)
+" _have_cookie_io_functions_t)
 
-if(_compilation_result)
-  set(COOKIE_IO_FUNCTIONS_T "cookie_io_functions_t")
+if(NOT _have_cookie_io_functions_t)
+  return()
 endif()
 
-# Even newer glibcs have a different seeker definition.
+set(HAVE_FOPENCOOKIE 1 CACHE INTERNAL "Set to 1 if fopencookie and cookie_io_functions_t are available.")
+
+# Newer glibcs have a different seeker definition.
 if(CMAKE_CROSSCOMPILING)
   string(TOLOWER "${CMAKE_HOST_SYSTEM_NAME}" host_os)
   if(${host_os} MATCHES ".*linux.*")
@@ -77,15 +76,9 @@ else()
         return 0;
       return 1;
     }
-  " RUN_RESULT)
-
-  if(RUN_RESULT)
-    set(_cookie_io_functions_use_off64_t ON)
-  endif()
+  " _cookie_io_functions_use_off64_t)
 endif()
 
 if(_cookie_io_functions_use_off64_t)
   set(COOKIE_SEEKER_USES_OFF64_T 1 CACHE INTERNAL "Whether newer fopencookie seeker definition is available")
 endif()
-
-unset(_cookie_io_functions_use_off64_t)

@@ -1,3 +1,66 @@
+diff --git a/.editorconfig b/.editorconfig
+index 7911bf8490..0ca142015f 100644
+--- a/.editorconfig
++++ b/.editorconfig
+@@ -17,7 +17,7 @@ indent_style             = tab
+ indent_size              = 4
+ indent_style             = space
+ 
+-[*.{ac,m4,sh,yml}]
++[{CMakeLists.txt,*.{ac,cmake,json,m4,sh,yml}}]
+ indent_size              = 2
+ indent_style             = space
+ 
+diff --git a/.gitignore b/.gitignore
+index 49acc9f2e1..a6191d1d72 100644
+--- a/.gitignore
++++ b/.gitignore
+@@ -297,3 +297,16 @@ tmp-php.ini
+ !/ext/fileinfo/magicdata.patch
+ !/ext/pcre/pcre2lib/config.h
+ !/win32/build/Makefile
++
++# ------------------------------------------------------------------------------
++# CMake build system files
++# ------------------------------------------------------------------------------
++/.ninja*
++/build.ninja
++/CMakeUserPresets.json
++/CTestTestfile.cmake
++/profile.json
++/Testing/
++cmake_install.cmake
++CMakeCache.txt
++CMakeFiles/
+diff --git a/ext/date/php_date.c b/ext/date/php_date.c
+index 48c82bf7ec..d80a293e5d 100644
+--- a/ext/date/php_date.c
++++ b/ext/date/php_date.c
+@@ -1293,20 +1293,20 @@ PHPAPI void php_strftime(INTERNAL_FUNCTION_PARAMETERS, bool gmt)
+ 	ta.tm_yday  = timelib_day_of_year(ts->y, ts->m, ts->d);
+ 	if (gmt) {
+ 		ta.tm_isdst = 0;
+-#if HAVE_STRUCT_TM_TM_GMTOFF
++#ifdef HAVE_STRUCT_TM_TM_GMTOFF
+ 		ta.tm_gmtoff = 0;
+ #endif
+-#if HAVE_STRUCT_TM_TM_ZONE
++#ifdef HAVE_STRUCT_TM_TM_ZONE
+ 		ta.tm_zone = "GMT";
+ #endif
+ 	} else {
+ 		offset = timelib_get_time_zone_info(timestamp, tzi);
+ 
+ 		ta.tm_isdst = offset->is_dst;
+-#if HAVE_STRUCT_TM_TM_GMTOFF
++#ifdef HAVE_STRUCT_TM_TM_GMTOFF
+ 		ta.tm_gmtoff = offset->offset;
+ #endif
+-#if HAVE_STRUCT_TM_TM_ZONE
++#ifdef HAVE_STRUCT_TM_TM_ZONE
+ 		ta.tm_zone = offset->abbr;
+ #endif
+ 	}
 diff --git a/run-tests.php b/run-tests.php
 index d6c84c667d..e7604cc69e 100755
 --- a/run-tests.php

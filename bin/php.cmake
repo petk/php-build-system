@@ -136,7 +136,8 @@ message(STATUS "Adding CMake source files to ${_php_directory}")
 file(INSTALL cmake/ DESTINATION ${_php_directory})
 
 # Apply patches for php-src.
-file(GLOB_RECURSE patches "patches/*.patch")
+string(REGEX MATCH "([0-9]+\\.[0-9]+).*$" _ ${PHP_VERSION})
+file(GLOB_RECURSE patches "patches/${CMAKE_MATCH_1}/*.patch")
 
 # Add .git directory to be able to apply patches.
 execute_process(
@@ -180,6 +181,8 @@ endforeach()
 if(
   _php_directory MATCHES "php-8\\.[0-9][\\.-].*"
   AND IS_DIRECTORY ${_php_directory}/.git/
+  AND EXISTS ${_php_directory}/php.ini-development
+  AND EXISTS ${_php_directory}/main/php_version.h
 )
   file(REMOVE_RECURSE ${_php_directory}/.git/)
 endif()
