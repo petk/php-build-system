@@ -221,9 +221,9 @@ engine source code:
 * `ext/date`
 * `ext/hash`
 * `ext/json`
+* `ext/pcre`
 * `ext/random`
 * `ext/reflection`
-* `ext/pcre`
 * `ext/spl`
 * `ext/standard`
 
@@ -791,10 +791,10 @@ These can be passed like this:
 
 ```sh
 # With Autotools:
-./configure --enable-FEATURE --with-PACKAGE ...
+./configure --enable-FEATURE --with-PACKAGE
 
 # With CMake at the configuration phase:
-cmake . -DEXT_NAME=ON -DPHP_OPTION=ON ...
+cmake -DEXT_NAME=ON -DPHP_OPTION ../php-src
 ```
 
 To see all configuration options and variables:
@@ -809,307 +809,1494 @@ To see all configuration options and variables:
 cmake -LH .
 ```
 
-| configure                                        | CMake                                         | Default value/notes |
-| ------------------------------------------------ | --------------------------------------------- | ------------------  |
-| `--disable-re2c-cgoto` (default)                 | `PHP_RE2C_CGOTO=OFF`                          | `OFF`               |
-| `--enable-re2c-cgoto`                            | `PHP_RE2C_CGOTO=ON`                           |                     |
-| `--disable-debug-assertions` (default)           | `PHP_DEBUG_ASSERTIONS=OFF`                    | `OFF`               |
-| `--enable-debug-assertions`                      | `PHP_DEBUG_ASSERTIONS=ON`                     |                     |
-| `--disable-sigchild` (default)                   | `PHP_SIGCHILD=OFF`                            | `OFF`               |
-| `--enable-sigchild`                              | `PHP_SIGCHILD=ON`                             |                     |
-| `--disable-debug` (default)                      | `PHP_DEBUG=OFF`                               | `OFF`               |
-| `--enable-debug`                                 | `PHP_DEBUG=ON`                                |                     |
-| `--enable-ipv6` (default)                        | `PHP_IPV6=ON`                                 | `ON`                |
-|   `--disable-ipv6`                               |   `PHP_IPV6=OFF`                              |                     |
-| `--disable-rtld-now` (default)                   | `PHP_RTLD_NOW=OFF`                            | `OFF`               |
-|   `--enable-rtld-now`                            | `PHP_RTLD_NOW=ON`                             |                     |
-| `--enable-short-tags` (default)                  | `PHP_SHORT_TAGS=ON`                           | `ON`                |
-|   `--disable-short-tags`                         | `PHP_SHORT_TAGS=OFF`                          |                     |
-| `--disable-zts` (default)                        | `PHP_ZTS=OFF`                                 | `OFF`               |
-| `--enable-zts`                                   | `PHP_ZTS=ON`                                  |                     |
-| `--disable-dtrace` (default)                     | `PHP_DTRACE=OFF`                              | `OFF`               |
-| `--enable-dtrace`                                | `PHP_DTRACE=ON`                               |                     |
-| `--disable-fd-setsize` (default)                 | `PHP_FD_SETSIZE=OFF`                          | `OFF`               |
-| `--enable-fd-setsize=[NUM]`                      | `PHP_FD_SETSIZE=[NUM]`                        |                     |
-| `--with-libdir=[NAME]`                           | `CMAKE_INSTALL_LIBDIR=[NAME]`                 | See GNUInstallDirs  |
-| `--with-layout=[TYPE]`                           | `PHP_LAYOUT=[TYPE]`                           | `TYPE=PHP`          |
-| **Zend specific configuration**                  |                                               |                     |
-| `--enable-gcc-global-regs` (default)             | `ZEND_GCC_GLOBAL_REGS=ON`                     | `ON`                |
-| `--disable-gcc-global-regs`                      | `ZEND_GCC_GLOBAL_REGS=OFF`                    |                     |
-| `--enable-fiber-asm` (default)                   | `ZEND_FIBER_ASM=ON`                           | `ON`                |
-| `--disable-fiber-asm`                            | `ZEND_FIBER_ASM=OFF`                          |                     |
-| `--enable-zend-signals` (default)                | `ZEND_SIGNALS=ON`                             | `ON`                |
-| `--disable-zend-signals`                         | `ZEND_SIGNALS=OFF`                            |                     |
-| `--disable-zend-max-execution-timers` (default)  | `ZEND_MAX_EXECUTION_TIMERS=OFF`               | `OFF`               |
-| `--enable-zend-max-execution-timers`             | `ZEND_MAX_EXECUTION_TIMERS=ON`                |                     |
-| **PHP sapi modules**                             |                                               |                     |
-| `--without-apxs2` (default)                      | `SAPI_APACHE=OFF`                             | `OFF`               |
-| `--with-apxs2[=FILE]`                            | `SAPI_APACHE=ON`                              |                     |
-| `--enable-cgi` (default)                         | `SAPI_CGI=ON`                                 | `ON`                |
-| `--disable-cgi`                                  | `SAPI_CGI=OFF`                                |                     |
-| `--enable-cli` (default)                         | `CAPI_CLI=ON`                                 | `ON`                |
-| `--disable-cli`                                  | `SAPI_CLI=OFF`                                |                     |
-| `--disable-embed` (default)                      | `SAPI_EMBED=OFF`                              | `OFF`               |
-| `--enable-embed`                                 | `SAPI_EMBED=ON`                               |                     |
-| `--disable-fpm` (default)                        | `SAPI_FPM=OFF`                                | `OFF`               |
-| `--enable-fpm`                                   | `SAPI_FPM=ON`                                 |                     |
-| `--with-fpm-user[=USER]` (default: `"nobody"`)   | `SAPI_FPM_USER=nobody`                        | `"nobody"`          |
-| `--with-fpm-group[=GROUP]` (default: `"nobody"`) | `SAPI_FPM_GROUP=nobody`                       | `"nobody"`          |
-| `--without-fpm-systemd` (default)                | `SAPI_FPM_SYSTEMD=OFF`                        | `OFF`               |
-| `--with-fpm-systemd`                             | `SAPI_FPM_SYSTEMD=ON`                         |                     |
-| `--without-fpm-acl` (default)                    | `SAPI_FPM_ACL=OFF`                            | `OFF`               |
-| `--with-fpm-acl`                                 | `SAPI_FPM_ACL=ON`                             |                     |
-| `--without-fpm-apparmor` (default)               | `SAPI_FPM_APPARMOR=OFF`                       | `OFF`               |
-| `--with-fpm-apparmor`                            | `SAPI_FPM_APPARMOR=ON`                        |                     |
-| `--without-fpm-selinux` (default)                | `SAPI_FPM_SELINUX=OFF`                        | `OFF`               |
-| `--with-fpm-selinux`                             | `SAPI_FPM_SELINUX=ON`                         |                     |
-| `--disable-fuzzer` (default)                     | `SAPI_FUZZER=OFF`                             | `OFF`               |
-| `--enable-fuzzer`                                | `SAPI_FUZZER=ON`                              |                     |
-| `--disable-litespeed` (default)                  | `SAPI_LITESPEED=OFF`                          | `OFF`               |
-| `--enable-litespeed`                             | `SAPI_LITESPEED=ON`                           |                     |
-| `--enable-phpdbg` (default)                      | `SAPI_PHPDBG=ON`                              | `ON`                |
-| `--disable-phpdbg`                               | `SAPI_PHPDBG=OFF`                             |                     |
-| `--disable-phpdbg-debug` (default)               | `SAPI_PHPDBG_DEBUG=OFF`                       | `OFF`               |
-| `--enable-phpdbg-debug`                          | `SAPI_PHPDBG_DEBUG=ON`                        |                     |
-| `--disable-phpdbg-readline` (default)            | `SAPI_PHPDBG_READLINE=OFF`                    | `OFF`               |
-| `--enable-phpdbg-readline`                       | `SAPI_PHPDBG_READLINE=ON`                     |                     |
-| **PHP extensions**                               |                                               |                     |
-| `--disable-bcmath` (default)                     | `EXT_BCMATH=OFF`                              | `OFF`               |
-| `--enable-bcmath`                                | `EXT_BCMATH=ON`                               |                     |
-| `--enable-bcmath=shared`                         | `EXT_BCMATH_SHARED=ON`                        |                     |
-| `--without-bz2` (default)                        | `EXT_BZ2=OFF`                                 | `OFF`               |
-| `--with-bz2[=DIR]`                               | `EXT_BZ2_DIR=DIR`                             |                     |
-| `--with-bz2=shared`                              | `EXT_BZ2_SHARED=ON`                           |                     |
-| `--disable-calendar` (default)                   | `EXT_CALENDAR=OFF`                            | `OFF`               |
-| `--enable-calendar`                              | `EXT_CALENDAR=ON`                             |                     |
-| `--enable-calendar=shared`                       | `EXT_CALENDAR_SHARED=ON`                      |                     |
-| `--enable-ctype` (default)                       | `EXT_CTYPE=ON`                                | `ON`                |
-| `--enable-ctype=shared`                          | `EXT_CTYPE_SHARED=ON`                         |                     |
-| `--disable-ctype`                                | `EXT_CTYPE=OFF`                               |                     |
-| `--without-curl` (default)                       | `EXT_CURL=OFF`                                | `OFF`               |
-| `--with-curl`                                    | `EXT_CURL=ON`                                 |                     |
-| `--with-curl=shared`                             | `EXT_CURL_SHARED=ON`                          |                     |
-| `--disable-dl-test` (default)                    | `EXT_DL_TEST=OFF`                             | `OFF`               |
-| `--enable-dl-test`                               | `EXT_DL_TEST=ON`                              | will be shared      |
-| `--enable-dl-test=shared`                        | `EXT_DL_TEST=ON`                              | will be shared      |
-| `--enable-dom` (default)                         | `EXT_DOM=ON`                                  | `ON`                |
-| `--enable-dom=shared`                            | `EXT_DOM_SHARED=ON`                           |                     |
-| `--disable-dom`                                  | `EXT_DOM=OFF`                                 |                     |
-| `--without-enchant` (default)                    | `EXT_ENCHANT=OFF`                             | `OFF`               |
-| `--with-enchant`                                 | `EXT_ENCHANT=ON`                              |                     |
-| `--with-enchant=shared`                          | `EXT_ENCHANT_SHARED=ON`                       |                     |
-| `--disable-exif` (default)                       | `EXT_EXIF=OFF`                                | `OFF`               |
-| `--enable-exif`                                  | `EXT_EXIF=ON`                                 |                     |
-| `--enable-exif=shared`                           | `EXT_EXIF_SHARED=ON`                          |                     |
-| `--without-ffi` (default)                        | `EXT_FFI=OFF`                                 | `OFF`               |
-| `--with-ffi`                                     | `EXT_FFI=ON`                                  |                     |
-| `--with-ffi=shared`                              | `EXT_FFI_SHARED=ON`                           |                     |
-| `--enable-fileinfo` (default)                    | `EXT_FILEINFO=ON`                             | `ON`                |
-| `--enable-fileinfo=shared`                       | `EXT_FILEINFO_SHARED=ON`                      |                     |
-| `--disable-fileinfo`                             | `EXT_FILEINFO=OFF`                            |                     |
-| `--enable-filter` (default)                      | `EXT_FILTER=ON`                               | `ON`                |
-| `--enable-filter=shared`                         | `EXT_FILTER_SHARED=ON`                        |                     |
-| `--disable-filter`                               | `EXT_FILTER=OFF`                              |                     |
-| `--disable-ftp` (default)                        | `EXT_FTP=OFF`                                 | `OFF`               |
-| `--enable-ftp`                                   | `EXT_FTP=ON`                                  |                     |
-| `--enable-ftp=shared`                            | `EXT_FTP_SHARED=ON`                           |                     |
-| `--without-openssl-dir` (default)                | `EXT_FTP_SSL=OFF`                             | `OFF`               |
-| `--with-openssl-dir`                             | `EXT_FTP_SSL=ON`                              |                     |
-| `--disable-gd` (default)                         | `EXT_GD=OFF`                                  | `OFF`               |
-| `--enable-gd`                                    | `EXT_GD=ON`                                   |                     |
-| `--enable-gd=shared`                             | `EXT_GD_SHARED=ON`                            |                     |
-| `--without-external-gd` (default)                | `EXT_GD_EXTERNAL=OFF`                         | `OFF`               |
-| `--with-external-gd`                             | `EXT_GD_EXTERNAL=ON`                          |                     |
-| `--without-avif` (default)                       | `EXT_GD_AVIF=OFF`                             | `OFF`               |
-| `--with-avif`                                    | `EXT_GD_AVIF=ON`                              |                     |
-| `--without-webp` (default)                       | `EXT_GD_WEBP=OFF`                             | `OFF`               |
-| `--with-webp`                                    | `EXT_GD_WEBP=ON`                              |                     |
-| `--without-jpeg` (default)                       | `EXT_GD_JPEG=OFF`                             | `OFF`               |
-| `--with-jpeg`                                    | `EXT_GD_JPEG=ON`                              |                     |
-| `--without-xpm` (default)                        | `EXT_GD_XPM=OFF`                              | `OFF`               |
-| `--with-xpm`                                     | `EXT_GD_XPM=ON`                               |                     |
-| `--without-freetype` (default)                   | `EXT_GD_FREETYPE=OFF`                         | `OFF`               |
-| `--with-freetype`                                | `EXT_GD_FREETYPE=ON`                          |                     |
-| `--disable-gd-jis-conv` (default)                | `EXT_GD_JIS=OFF`                              | `OFF`               |
-| `--enable-gd-jis-conv`                           | `EXT_GD_JIS=ON`                               |                     |
-| `--without-gettext` (default)                    | `EXT_GETTEXT=OFF`                             | `OFF`               |
-| `--with-gettext[=DIR]`                           | `EXT_GETTEXT=ON`                              |                     |
-| `--with-gettext=shared`                          | `EXT_GETTEXT_SHARED=ON`                       |                     |
-| `--without-gmp` (default)                        | `EXT_GMP=OFF`                                 | `OFF`               |
-| `--with-gmp[=DIR]`                               | `EXT_GMP=ON`                                  |                     |
-| `--with-gmp=shared`                              | `EXT_GMP_SHARED=ON`                           |                     |
-| `--without-mhash` (default)                      | `EXT_HASH_MHASH=OFF`                          | `OFF`               |
-| `--with-mhash`                                   | `EXT_HASH_MHASH=ON`                           |                     |
-| `--with-iconv` (default)                         | `EXT_ICONV=ON`                                | `ON`                |
-| `--with-iconv=shared`                            | `EXT_ICONV_SHARED=ON`                         |                     |
-| `--without-iconv`                                | `EXT_ICONV=OFF`                               |                     |
-| `--disable-intl` (default)                       | `EXT_INTL=OFF`                                | `OFF`               |
-| `--enable-intl`                                  | `EXT_INTL=ON`                                 |                     |
-| `--enable-intl=shared`                           | `EXT_INTL_SHARED=ON`                          |                     |
-| `--without-ldap` (default)                       | `EXT_LDAP=OFF`                                | `OFF`               |
-| `--with-ldap`                                    | `EXT_LDAP=ON`                                 |                     |
-| `--with-ldap=shared`                             | `EXT_LDAP_SHARED=ON`                          |                     |
-| `--without-ldap-sasl` (default)                  | `EXT_LDAP_SASL=OFF`                           | `OFF`               |
-| `--with-ldap-sasl`                               | `EXT_LDAP_SASL=ON`                            |                     |
-| `--with-libxml` (default)                        | `EXT_LIBXML=ON`                               | `ON`                |
-| `--without-libxml`                               | `EXT_LIBXML=OFF`                              |                     |
-| `--disable-mbstring` (default)                   | `EXT_MBSTRING=OFF`                            | `OFF`               |
-| `--enable-mbstring`                              | `EXT_MBSTRING=ON`                             |                     |
-| `--enable-mbstring=shared`                       | `EXT_MBSTRING_SHARED=ON`                      |                     |
-| `--enable-mbregex` (default)                     | `EXT_MBSTRING_MBREGEX=ON`                     | `ON`                |
-| `--disable-mbregex`                              | `EXT_MBSTRING_MBREGEX=OFF`                    |                     |
-| `--without-mysqli` (default)                     | `EXT_MYSQLI=OFF`                              | `OFF`               |
-| `--with-mysqli`                                  | `EXT_MYSQLI=ON`                               |                     |
-| `--with-mysqli=shared`                           | `EXT_MYSQLI_SHARED=ON`                        |                     |
-| `--without-mysql-sock` (default)                 | `EXT_MYSQL_SOCK=OFF`                          | `OFF`               |
-| `--with-mysql-sock`                              | `EXT_MYSQL_SOCK=ON`                           |                     |
-| `--with-mysql-sock=SOCKET`                       | `EXT_MYSQL_SOCK_PATH=/path/to/mysql.sock`     |                     |
-| `--disable-mysqlnd` (default)                    | `EXT_MYSQLND=OFF`                             | `OFF`               |
-| `--enable-mysqlnd`                               | `EXT_MYSQLND=ON`                              |                     |
-| `--enable-mysqlnd=shared`                        | `EXT_MYSQLND_SHARED=ON`                       |                     |
-| `--enable-mysqlnd-compression-support` (default) | `EXT_MYSQLND_COMPRESSION=ON`                  | `ON`                |
-| `--disable-mysqlnd-compression-support`          | `EXT_MYSQLND_COMPRESSION=OFF`                 |                     |
-| `--enable-opcache=shared` (default)              | `EXT_OPCACHE=ON`                              | will be shared      |
-| `--enable-opcache`                               | `EXT_OPCACHE=ON`                              | will be shared      |
-| `--disable-opcache`                              | `EXT_OPCACHE=OFF`                             |                     |
-| `--enable-huge-code-pages` (default)             | `EXT_OPCACHE_HUGE_CODE_PAGES=ON`              | `ON`                |
-| `--disable-huge-code-pages`                      | `EXT_OPCACHE_HUGE_CODE_PAGES=OFF`             |                     |
-| `--enable-opcache-jit` (default)                 | `EXT_OPCACHE_JIT=ON`                          | `ON`                |
-| `--disable-opcache-jit`                          | `EXT_OPCACHE_JIT=OFF`                         |                     |
-| `--without-capstone` (default)                   | `EXT_OPCACHE_CAPSTONE=OFF`                    | `OFF`               |
-| `--with-capstone`                                | `EXT_OPCACHE_CAPSTONE=ON`                     |                     |
-| `--without-openssl` (default)                    | `EXT_OPENSSL=OFF`                             | `OFF`               |
-| `--with-openssl`                                 | `EXT_OPENSSL=ON`                              |                     |
-| `--with-openssl=shared`                          | `EXT_OPENSSL_SHARED=ON`                       |                     |
-| `--without-kerberos` (default)                   | `EXT_OPENSSL_KERBEROS=OFF`                    | `OFF`               |
-| `--with-kerberos`                                | `EXT_OPENSSL_KERBEROS=ON`                     |                     |
-| `--without-system-ciphers` (default)             | `EXT_OPENSSL_SYSTEM_CIPHERS=OFF`              | `OFF`               |
-| `--with-system-ciphers`                          | `EXT_OPENSSL_SYSTEM_CIPHERS=ON`               |                     |
-| `--disable-pcntl` (default)                      | `EXT_PCNTL=OFF`                               | `OFF`               |
-| `--enable-pcntl`                                 | `EXT_PCNTL=ON`                                |                     |
-| `--enable-pcntl=shared`                          | `EXT_PCNTL_SHARED=ON`                         |                     |
-| `--without-external-pcre` (default)              | `EXT_PCRE_EXTERNAL=OFF`                       | `OFF`               |
-| `--with-external-pcre`                           | `EXT_PCRE_EXTERNAL=ON`                        |                     |
-| `--with-pcre-jit` (default)                      | `EXT_PCRE_JIT=ON`                             | `ON`                |
-| `--without-pcre-jit`                             | `EXT_PCRE_JIT=OFF`                            |                     |
-| `--enable-pdo` (default)                         | `EXT_PDO=ON`                                  | `ON`                |
-| `--enable-pdo=shared`                            | `EXT_PDO_SHARED=ON`                           |                     |
-| `--disable-pdo`                                  | `EXT_PDO=OFF`                                 |                     |
-| `--without-pdo-mysql` (default)                  | `EXT_PDO_MYSQL=OFF`                           | `OFF`               |
-| `--with-pdo-mysql`                               | `EXT_PDO_MYSQL=ON`                            |                     |
-| `--with-pdo-mysql=shared`                        | `EXT_PDO_MYSQL_SHARED=ON`                     |                     |
-| `--without-pdo-pgsql` (default)                  | `EXT_PDO_PGSQL=OFF`                           | `OFF`               |
-| `--with-pdo-pgsql[=DIR]`                         | `EXT_PDO_PGSQL=ON`                            |                     |
-| `--with-pdo-pgsql=shared`                        | `EXT_PDO_PGSQL_SHARED=ON`                     |                     |
-| `--with-pdo-sqlite` (default)                    | `EXT_PDO_SQLITE=ON`                           | `ON`                |
-| `--with-pdo-sqlite=shared`                       | `EXT_PDO_SQLITE_SHARED=ON`                    |                     |
-| `--without-pdo-sqlite`                           | `EXT_PDO_SQLITE=OFF`                          |                     |
-| `--without-pgsql` (default)                      | `EXT_PGSQL=OFF`                               | `OFF`               |
-| `--with-pgsql[=DIR]`                             | `EXT_PGSQL=ON`                                |                     |
-| `--with-pgsql=shared`                            | `EXT_PGSQL_SHARED=ON`                         |                     |
-| `--enable-phar` (default)                        | `EXT_PHAR=ON`                                 | `ON`                |
-| `--enable-phar=shared`                           | `EXT_PHAR_SHARED=ON`                          |                     |
-| `--disable-phar`                                 | `EXT_PHAR=OFF`                                |                     |
-| `--enable-posix` (default)                       | `EXT_POSIX=ON`                                | `ON`                |
-| `--enable-posix=shared`                          | `EXT_POSIX_SHARED=ON`                         |                     |
-| `--disable-posix`                                | `EXT_POSIX=OFF`                               |                     |
-| `--without-pspell` (default)                     | `EXT_PSPELL=OFF`                              | `OFF`               |
-| `--with-pspell`                                  | `EXT_PSPELL=ON`                               |                     |
-| `--with-pspell=shared`                           | `EXT_PSPELL_SHARED=ON`                        |                     |
-| `--without-libedit` (default)                    | `EXT_READLINE=OFF`                            | `OFF`               |
-| `--with-libedit`                                 | `EXT_READLINE=ON`                             |                     |
-| `--without-readline` (default)                   | `EXT_READLINE=OFF`                            | `OFF`               |
-| `--with-readline`                                | `EXT_READLINE=ON;EXT_READLINE_LIBREADLINE=ON` |                     |
-| `--enable-session` (default)                     | `EXT_SESSION=ON`                              | `ON`                |
-| `--enable-session=shared`                        | `EXT_SESSION_SHARED=ON`                       |                     |
-| `--disable-session`                              | `EXT_SESSION=OFF`                             |                     |
-| `--without-mm` (default)                         | `EXT_SESSION_MM=OFF`                          | `OFF`               |
-| `--with-mm[=DIR]`                                | `EXT_SESSION_MM=[ON\|path/to/mm]`             |                     |
-| `--disable-shmop` (default)                      | `EXT_SHMOP=OFF`                               | `OFF`               |
-| `--enable-shmop`                                 | `EXT_SHMOP=ON`                                |                     |
-| `--enable-shmop=shared`                          | `EXT_SHMOP_SHARED=ON`                         |                     |
-| `--enable-simplexml` (default)                   | `EXT_SIMPLEXML=ON`                            | `ON`                |
-| `--enable-simplexml=shared`                      | `EXT_SIMPLEXML_SHARED=ON`                     |                     |
-| `--disable-simplexml`                            | `EXT_SIMPLEXML=OFF`                           |                     |
-| `--without-snmp` (default)                       | `EXT_SNMP=OFF`                                | `OFF`               |
-| `--with-snmp`                                    | `EXT_SNMP=ON`                                 |                     |
-| `--with-snmp=shared`                             | `EXT_SNMP_SHARED=ON`                          |                     |
-| `--disable-soap` (default)                       | `EXT_SOAP=OFF`                                | `OFF`               |
-| `--enable-soap`                                  | `EXT_SOAP=ON`                                 |                     |
-| `--enable-soap=shared`                           | `EXT_SOAP_SHARED=ON`                          |                     |
-| `--disable-sockets` (default)                    | `EXT_SOCKETS=OFF`                             | `OFF`               |
-| `--enable-sockets`                               | `EXT_SOCKETS=ON`                              |                     |
-| `--enable-sockets=shared`                        | `EXT_SOCKETS_SHARED=ON`                       |                     |
-| `--without-sodium` (default)                     | `EXT_SODIUM=OFF`                              | `OFF`               |
-| `--with-sodium`                                  | `EXT_SODIUM=ON`                               |                     |
-| `--with-sodium=shared`                           | `EXT_SODIUM_SHARED=ON`                        |                     |
-| `--with-sqlite3` (default)                       | `EXT_SQLITE3=ON`                              | `ON`                |
-| `--with-sqlite3=shared`                          | `EXT_SQLITE3_SHARED`                          |                     |
-| `--without-sqlite3`                              | `EXT_SQLITE3=OFF`                             |                     |
-| `--without-external-libcrypt` (default)          | `EXT_STANDARD_EXTERNAL_LIBCRYPT=OFF`          | `OFF`               |
-| `--with-external-libcrypt`                       | `EXT_STANDARD_EXTERNAL_LIBCRYPT=ON`           |                     |
-| `--without-password-argon2` (default)            | `EXT_STANDARD_ARGON2=OFF`                     | `OFF`               |
-| `--with-password-argon2`                         | `EXT_STANDARD_ARGON2=ON`                      |                     |
-| `--disable-sysvmsg` (default)                    | `EXT_SYSVMSG=OFF`                             | `OFF`               |
-| `--enable-sysvmsg`                               | `EXT_SYSVMSG=ON`                              |                     |
-| `--enable-sysvmsg=shared`                        | `EXT_SYSVMSG_SHARED=ON`                       |                     |
-| `--disable-sysvsem` (default)                    | `EXT_SYSVSEM=OFF`                             | `OFF`               |
-| `--enable-sysvsem`                               | `EXT_SYSVSEM=ON`                              |                     |
-| `--enable-sysvsem=shared`                        | `EXT_SYSVSEM_SHARED=ON`                       |                     |
-| `--disable-sysvshm` (default)                    | `EXT_SYSVSHM=OFF`                             | `OFF`               |
-| `--enable-sysvshm`                               | `EXT_SYSVSHM=ON`                              |                     |
-| `--enable-sysvshm=shared`                        | `EXT_SYSVSHM_SHARED=ON`                       |                     |
-| `--without-tidy` (default)                       | `EXT_TIDY=OFF`                                | `OFF`               |
-| `--with-tidy[=DIR]`                              | `EXT_TIDY=ON`                                 |                     |
-| `--with-tidy=shared`                             | `EXT_TIDY_SHARED=ON`                          |                     |
-| `--enable-tokenizer` (default)                   | `EXT_TOKENIZER=ON`                            | `ON`                |
-| `--enable-tokenizer=shared`                      | `EXT_TOKENIZER_SHARED=ON`                     |                     |
-| `--disable-tokenizer`                            | `EXT_TOKENIZER=OFF`                           |                     |
-| `--enable-xml` (default)                         | `EXT_XML=ON`                                  | `ON`                |
-| `--enable-xml=shared`                            | `EXT_XML_SHARED=ON`                           |                     |
-| `--disable-xml`                                  | `EXT_XML=OFF`                                 |                     |
-| `--without-expat` (default)                      | `EXT_XML_EXPAT=OFF`                           | `OFF`               |
-| `--with-expat`                                   | `EXT_XML_EXPAT=ON`                            |                     |
-| `--without-xsl` (default)                        | `EXT_XSL=OFF`                                 | `OFF`               |
-| `--with-xsl`                                     | `EXT_XSL=ON`                                  |                     |
-| `--with-xsl=shared`                              | `EXT_XSL_SHARED=ON`                           |                     |
-| `--enable-xmlreader` (default)                   | `EXT_XMLREADER=ON`                            | `ON`                |
-| `--enable-xmlreader=shared`                      | `EXT_XMLREADER_SHARED=ON`                     |                     |
-| `--disable-xmlreader`                            | `EXT_XMLREADER=OFF`                           |                     |
-| `--enable-xmlwriter` (default)                   | `EXT_XMLWRITER=ON`                            | `ON`                |
-| `--enable-xmlwriter=shared`                      | `EXT_XMLWRITER_SHARED=ON`                     |                     |
-| `--disable-xmlwriter`                            | `EXT_XMLWRITER=OFF`                           |                     |
-| `--disable-zend-test` (default)                  | `EXT_ZEND_TEST=OFF`                           | `OFF`               |
-| `--enable-zend-test`                             | `EXT_ZEND_TEST=ON`                            |                     |
-| `--enable-zend-test=shared`                      | `EXT_ZEND_TEST_SHARED=ON`                     |                     |
-| `--without-zip` (default)                        | `EXT_ZIP=OFF`                                 | `OFF`               |
-| `--with-zip`                                     | `EXT_ZIP=ON`                                  |                     |
-| `--with-zip=shared`                              | `EXT_ZIP_SHARED=ON`                           |                     |
-| `--without-zlib` (default)                       | `EXT_ZLIB=OFF`                                | `OFF`               |
-| `--with-zlib`                                    | `EXT_ZLIB=ON`                                 |                     |
-| `--with-zlib=shared`                             | `EXT_ZLIB_SHARED=ON`                          |                     |
+<table>
+  <thead>
+    <tr>
+      <th>configure</th>
+      <th>CMake</th>
+      <th>Notes</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>--disable-re2c-cgoto</td>
+      <td>PHP_RE2C_CGOTO=OFF</td>
+      <td>default</td>
+    </tr>
+    <tr>
+      <td>&nbsp;&nbsp;--enable-re2c-cgoto</td>
+      <td>&nbsp;&nbsp;PHP_RE2C_CGOTO=ON</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>--disable-debug-assertions</td>
+      <td>PHP_DEBUG_ASSERTIONS=OFF</td>
+      <td>default</td>
+    </tr>
+    <tr>
+      <td>&nbsp;&nbsp;--enable-debug-assertions</td>
+      <td>&nbsp;&nbsp;PHP_DEBUG_ASSERTIONS=ON</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>--disable-sigchild</td>
+      <td>PHP_SIGCHILD=OFF</td>
+      <td>default</td>
+    </tr>
+    <tr>
+      <td>&nbsp;&nbsp;--enable-sigchild</td>
+      <td>&nbsp;&nbsp;PHP_SIGCHILD=ON</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>--disable-debug</td>
+      <td>PHP_DEBUG=OFF</td>
+      <td>default</td>
+    </tr>
+    <tr>
+      <td>&nbsp;&nbsp;--enable-debug</td>
+      <td>&nbsp;&nbsp;PHP_DEBUG=ON</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>--enable-ipv6</td>
+      <td>PHP_IPV6=ON</td>
+      <td>default</td>
+    </tr>
+    <tr>
+      <td>&nbsp;&nbsp;--disable-ipv6</td>
+      <td>&nbsp;&nbsp;PHP_IPV6=OFF</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>--disable-rtld-now</td>
+      <td>PHP_RTLD_NOW=OFF</td>
+      <td>default</td>
+    </tr>
+    <tr>
+      <td>&nbsp;&nbsp;--enable-rtld-now</td>
+      <td>&nbsp;&nbsp;PHP_RTLD_NOW=ON</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>--enable-short-tags</td>
+      <td>PHP_SHORT_TAGS=ON</td>
+      <td>default</td>
+    </tr>
+    <tr>
+      <td>&nbsp;&nbsp;--disable-short-tags</td>
+      <td>&nbsp;&nbsp;PHP_SHORT_TAGS=OFF</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>--disable-zts</td>
+      <td>PHP_ZTS=OFF</td>
+      <td>default</td>
+    </tr>
+    <tr>
+      <td>&nbsp;&nbsp;--enable-zts</td>
+      <td>&nbsp;&nbsp;PHP_ZTS=ON</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>--disable-dtrace</td>
+      <td>PHP_DTRACE=OFF</td>
+      <td>default</td>
+    </tr>
+    <tr>
+      <td>&nbsp;&nbsp;--enable-dtrace</td>
+      <td>&nbsp;&nbsp;PHP_DTRACE=ON</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>--disable-fd-setsize</td>
+      <td>PHP_FD_SETSIZE=OFF</td>
+      <td>default</td>
+    </tr>
+    <tr>
+      <td>&nbsp;&nbsp;--enable-fd-setsize=[NUM]</td>
+      <td>&nbsp;&nbsp;PHP_FD_SETSIZE=[NUM]</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>--with-libdir=[NAME]</td>
+      <td>CMAKE_INSTALL_LIBDIR=[NAME]</td>
+      <td>See GNUInstallDirs</td>
+    </tr>
+    <tr>
+      <td>--with-layout=[TYPE]</td>
+      <td>PHP_LAYOUT=[TYPE]</td>
+      <td>TYPE=PHP</td>
+    </tr>
+    <tr>
+      <td><strong>Zend specific configuration</strong></td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>--enable-gcc-global-regs</td>
+      <td>ZEND_GCC_GLOBAL_REGS=ON</td>
+      <td>default</td>
+    </tr>
+    <tr>
+      <td>&nbsp;&nbsp;--disable-gcc-global-regs</td>
+      <td>&nbsp;&nbsp;ZEND_GCC_GLOBAL_REGS=OFF</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>--enable-fiber-asm</td>
+      <td>ZEND_FIBER_ASM=ON</td>
+      <td>default</td>
+    </tr>
+    <tr>
+      <td>&nbsp;&nbsp;--disable-fiber-asm</td>
+      <td>&nbsp;&nbsp;ZEND_FIBER_ASM=OFF</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>--enable-zend-signals</td>
+      <td>ZEND_SIGNALS=ON</td>
+      <td>default</td>
+    </tr>
+    <tr>
+      <td>&nbsp;&nbsp;--disable-zend-signals</td>
+      <td>&nbsp;&nbsp;ZEND_SIGNALS=OFF</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>--disable-zend-max-execution-timers</td>
+      <td>ZEND_MAX_EXECUTION_TIMERS=OFF</td>
+      <td>default</td>
+    </tr>
+    <tr>
+      <td>&nbsp;&nbsp;--enable-zend-max-execution-timers</td>
+      <td>&nbsp;&nbsp;ZEND_MAX_EXECUTION_TIMERS=ON</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><strong>PHP sapi modules</strong></td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>--without-apxs2</td>
+      <td>SAPI_APACHE=OFF</td>
+      <td>default</td>
+    </tr>
+    <tr>
+      <td>&nbsp;&nbsp;--with-apxs2[=FILE]</td>
+      <td>&nbsp;&nbsp;SAPI_APACHE=ON</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>--enable-cgi</td>
+      <td>SAPI_CGI=ON</td>
+      <td>default</td>
+    </tr>
+    <tr>
+      <td>&nbsp;&nbsp;--disable-cgi</td>
+      <td>&nbsp;&nbsp;SAPI_CGI=OFF</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>--enable-cli</td>
+      <td>CAPI_CLI=ON</td>
+      <td>default</td>
+    </tr>
+    <tr>
+      <td>&nbsp;&nbsp;--disable-cli</td>
+      <td>&nbsp;&nbsp;SAPI_CLI=OFF</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>--disable-embed</td>
+      <td>SAPI_EMBED=OFF</td>
+      <td>default</td>
+    </tr>
+    <tr>
+      <td>&nbsp;&nbsp;--enable-embed</td>
+      <td>&nbsp;&nbsp;SAPI_EMBED=ON</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>--disable-fpm</td>
+      <td>SAPI_FPM=OFF</td>
+      <td>default</td>
+    </tr>
+    <tr>
+      <td>&nbsp;&nbsp;--enable-fpm</td>
+      <td>&nbsp;&nbsp;SAPI_FPM=ON</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>&nbsp;&nbsp;--with-fpm-user[=USER] (default: nobody)</td>
+      <td>&nbsp;&nbsp;SAPI_FPM_USER=nobody</td>
+      <td>default: nobody</td>
+    </tr>
+    <tr>
+      <td>&nbsp;&nbsp;--with-fpm-group[=GROUP] (default: nobody)</td>
+      <td>&nbsp;&nbsp;SAPI_FPM_GROUP=nobody</td>
+      <td>default: nobody</td>
+    </tr>
+    <tr>
+      <td>&nbsp;&nbsp;--without-fpm-systemd</td>
+      <td>&nbsp;&nbsp;SAPI_FPM_SYSTEMD=OFF</td>
+      <td>default</td>
+    </tr>
+    <tr>
+      <td>&nbsp;&nbsp;--with-fpm-systemd</td>
+      <td>&nbsp;&nbsp;SAPI_FPM_SYSTEMD=ON</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>&nbsp;&nbsp;--without-fpm-acl</td>
+      <td>&nbsp;&nbsp;SAPI_FPM_ACL=OFF</td>
+      <td>default</td>
+    </tr>
+    <tr>
+      <td>&nbsp;&nbsp;--with-fpm-acl</td>
+      <td>&nbsp;&nbsp;SAPI_FPM_ACL=ON</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>&nbsp;&nbsp;--without-fpm-apparmor</td>
+      <td>&nbsp;&nbsp;SAPI_FPM_APPARMOR=OFF</td>
+      <td>default</td>
+    </tr>
+    <tr>
+      <td>&nbsp;&nbsp;--with-fpm-apparmor</td>
+      <td>&nbsp;&nbsp;SAPI_FPM_APPARMOR=ON</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>&nbsp;&nbsp;--without-fpm-selinux</td>
+      <td>&nbsp;&nbsp;SAPI_FPM_SELINUX=OFF</td>
+      <td>default</td>
+    </tr>
+    <tr>
+      <td>&nbsp;&nbsp;--with-fpm-selinux</td>
+      <td>&nbsp;&nbsp;SAPI_FPM_SELINUX=ON</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>--disable-fuzzer</td>
+      <td>SAPI_FUZZER=OFF</td>
+      <td>default</td>
+    </tr>
+    <tr>
+      <td>&nbsp;&nbsp;--enable-fuzzer</td>
+      <td>&nbsp;&nbsp;SAPI_FUZZER=ON</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>--disable-litespeed</td>
+      <td>SAPI_LITESPEED=OFF</td>
+      <td>default</td>
+    </tr>
+    <tr>
+      <td>&nbsp;&nbsp;--enable-litespeed</td>
+      <td>&nbsp;&nbsp;SAPI_LITESPEED=ON</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>--enable-phpdbg</td>
+      <td>SAPI_PHPDBG=ON</td>
+      <td>default</td>
+    </tr>
+    <tr>
+      <td>&nbsp;&nbsp;--disable-phpdbg</td>
+      <td>&nbsp;&nbsp;SAPI_PHPDBG=OFF</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>&nbsp;&nbsp;--disable-phpdbg-debug</td>
+      <td>&nbsp;&nbsp;SAPI_PHPDBG_DEBUG=OFF</td>
+      <td>default</td>
+    </tr>
+    <tr>
+      <td>&nbsp;&nbsp;--enable-phpdbg-debug</td>
+      <td>&nbsp;&nbsp;SAPI_PHPDBG_DEBUG=ON</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>&nbsp;&nbsp;--disable-phpdbg-readline</td>
+      <td>&nbsp;&nbsp;SAPI_PHPDBG_READLINE=OFF</td>
+      <td>default</td>
+    </tr>
+    <tr>
+      <td>&nbsp;&nbsp;--enable-phpdbg-readline</td>
+      <td>&nbsp;&nbsp;SAPI_PHPDBG_READLINE=ON</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><strong>PHP extensions</strong></td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>--disable-bcmath</td>
+      <td>EXT_BCMATH=OFF</td>
+      <td>default</td>
+    </tr>
+    <tr>
+      <td>&nbsp;&nbsp;--enable-bcmath</td>
+      <td>&nbsp;&nbsp;EXT_BCMATH=ON</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>&nbsp;&nbsp;--enable-bcmath=shared</td>
+      <td>&nbsp;&nbsp;EXT_BCMATH_SHARED=ON</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>--without-bz2</td>
+      <td>EXT_BZ2=OFF</td>
+      <td>default</td>
+    </tr>
+    <tr>
+      <td>&nbsp;&nbsp;--with-bz2[=DIR]</td>
+      <td>&nbsp;&nbsp;EXT_BZ2_DIR=DIR</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>&nbsp;&nbsp;--with-bz2=shared</td>
+      <td>&nbsp;&nbsp;EXT_BZ2_SHARED=ON</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>--disable-calendar</td>
+      <td>EXT_CALENDAR=OFF</td>
+      <td>default</td>
+    </tr>
+    <tr>
+      <td>&nbsp;&nbsp;--enable-calendar</td>
+      <td>&nbsp;&nbsp;EXT_CALENDAR=ON</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>&nbsp;&nbsp;--enable-calendar=shared</td>
+      <td>&nbsp;&nbsp;EXT_CALENDAR_SHARED=ON</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>--enable-ctype</td>
+      <td>EXT_CTYPE=ON</td>
+      <td>default</td>
+    </tr>
+    <tr>
+      <td>&nbsp;&nbsp;--enable-ctype=shared</td>
+      <td>&nbsp;&nbsp;EXT_CTYPE_SHARED=ON</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>&nbsp;&nbsp;--disable-ctype</td>
+      <td>&nbsp;&nbsp;EXT_CTYPE=OFF</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>--without-curl</td>
+      <td>EXT_CURL=OFF</td>
+      <td>default</td>
+    </tr>
+    <tr>
+      <td>&nbsp;&nbsp;--with-curl</td>
+      <td>&nbsp;&nbsp;EXT_CURL=ON</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>&nbsp;&nbsp;--with-curl=shared</td>
+      <td>&nbsp;&nbsp;EXT_CURL_SHARED=ON</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>--disable-dl-test</td>
+      <td>EXT_DL_TEST=OFF</td>
+      <td>default</td>
+    </tr>
+    <tr>
+      <td>&nbsp;&nbsp;--enable-dl-test</td>
+      <td>&nbsp;&nbsp;EXT_DL_TEST=ON</td>
+      <td>will be shared</td>
+    </tr>
+    <tr>
+      <td>&nbsp;&nbsp;--enable-dl-test=shared</td>
+      <td>&nbsp;&nbsp;EXT_DL_TEST=ON</td>
+      <td>will be shared</td>
+    </tr>
+    <tr>
+      <td>--enable-dom</td>
+      <td>EXT_DOM=ON</td>
+      <td>default</td>
+    </tr>
+    <tr>
+      <td>&nbsp;&nbsp;--enable-dom=shared</td>
+      <td>&nbsp;&nbsp;EXT_DOM_SHARED=ON</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>&nbsp;&nbsp;--disable-dom</td>
+      <td>&nbsp;&nbsp;EXT_DOM=OFF</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>--without-enchant</td>
+      <td>EXT_ENCHANT=OFF</td>
+      <td>default</td>
+    </tr>
+    <tr>
+      <td>&nbsp;&nbsp;--with-enchant</td>
+      <td>&nbsp;&nbsp;EXT_ENCHANT=ON</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>&nbsp;&nbsp;--with-enchant=shared</td>
+      <td>&nbsp;&nbsp;EXT_ENCHANT_SHARED=ON</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>--disable-exif</td>
+      <td>EXT_EXIF=OFF</td>
+      <td>default</td>
+    </tr>
+    <tr>
+      <td>&nbsp;&nbsp;--enable-exif</td>
+      <td>&nbsp;&nbsp;EXT_EXIF=ON</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>&nbsp;&nbsp;--enable-exif=shared</td>
+      <td>&nbsp;&nbsp;EXT_EXIF_SHARED=ON</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>--without-ffi</td>
+      <td>EXT_FFI=OFF</td>
+      <td>default</td>
+    </tr>
+    <tr>
+      <td>&nbsp;&nbsp;--with-ffi</td>
+      <td>&nbsp;&nbsp;EXT_FFI=ON</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>&nbsp;&nbsp;--with-ffi=shared</td>
+      <td>&nbsp;&nbsp;EXT_FFI_SHARED=ON</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>--enable-fileinfo</td>
+      <td>EXT_FILEINFO=ON</td>
+      <td>default</td>
+    </tr>
+    <tr>
+      <td>&nbsp;&nbsp;--enable-fileinfo=shared</td>
+      <td>&nbsp;&nbsp;EXT_FILEINFO_SHARED=ON</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>&nbsp;&nbsp;--disable-fileinfo</td>
+      <td>&nbsp;&nbsp;EXT_FILEINFO=OFF</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>--enable-filter</td>
+      <td>EXT_FILTER=ON</td>
+      <td>default</td>
+    </tr>
+    <tr>
+      <td>&nbsp;&nbsp;--enable-filter=shared</td>
+      <td>&nbsp;&nbsp;EXT_FILTER_SHARED=ON</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>&nbsp;&nbsp;--disable-filter</td>
+      <td>&nbsp;&nbsp;EXT_FILTER=OFF</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>--disable-ftp</td>
+      <td>EXT_FTP=OFF</td>
+      <td>default</td>
+    </tr>
+    <tr>
+      <td>&nbsp;&nbsp;--enable-ftp</td>
+      <td>&nbsp;&nbsp;EXT_FTP=ON</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>&nbsp;&nbsp;--enable-ftp=shared</td>
+      <td>&nbsp;&nbsp;EXT_FTP_SHARED=ON</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>&nbsp;&nbsp;--without-openssl-dir</td>
+      <td>&nbsp;&nbsp;EXT_FTP_SSL=OFF</td>
+      <td>default</td>
+    </tr>
+    <tr>
+      <td>&nbsp;&nbsp;--with-openssl-dir</td>
+      <td>&nbsp;&nbsp;EXT_FTP_SSL=ON</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>--disable-gd</td>
+      <td>EXT_GD=OFF</td>
+      <td>default</td>
+    </tr>
+    <tr>
+      <td>&nbsp;&nbsp;--enable-gd</td>
+      <td>&nbsp;&nbsp;EXT_GD=ON</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>&nbsp;&nbsp;--enable-gd=shared</td>
+      <td>&nbsp;&nbsp;EXT_GD_SHARED=ON</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>&nbsp;&nbsp;--without-external-gd</td>
+      <td>&nbsp;&nbsp;EXT_GD_EXTERNAL=OFF</td>
+      <td>default</td>
+    </tr>
+    <tr>
+      <td>&nbsp;&nbsp;--with-external-gd</td>
+      <td>&nbsp;&nbsp;EXT_GD_EXTERNAL=ON</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>&nbsp;&nbsp;--without-avif</td>
+      <td>&nbsp;&nbsp;EXT_GD_AVIF=OFF</td>
+      <td>default</td>
+    </tr>
+    <tr>
+      <td>&nbsp;&nbsp;--with-avif</td>
+      <td>&nbsp;&nbsp;EXT_GD_AVIF=ON</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>&nbsp;&nbsp;--without-webp</td>
+      <td>&nbsp;&nbsp;EXT_GD_WEBP=OFF</td>
+      <td>default</td>
+    </tr>
+    <tr>
+      <td>&nbsp;&nbsp;--with-webp</td>
+      <td>&nbsp;&nbsp;EXT_GD_WEBP=ON</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>&nbsp;&nbsp;--without-jpeg</td>
+      <td>&nbsp;&nbsp;EXT_GD_JPEG=OFF</td>
+      <td>default</td>
+    </tr>
+    <tr>
+      <td>&nbsp;&nbsp;--with-jpeg</td>
+      <td>&nbsp;&nbsp;EXT_GD_JPEG=ON</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>&nbsp;&nbsp;--without-xpm</td>
+      <td>&nbsp;&nbsp;EXT_GD_XPM=OFF</td>
+      <td>default</td>
+    </tr>
+    <tr>
+      <td>&nbsp;&nbsp;--with-xpm</td>
+      <td>&nbsp;&nbsp;EXT_GD_XPM=ON</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>&nbsp;&nbsp;--without-freetype</td>
+      <td>&nbsp;&nbsp;EXT_GD_FREETYPE=OFF</td>
+      <td>default</td>
+    </tr>
+    <tr>
+      <td>&nbsp;&nbsp;--with-freetype</td>
+      <td>&nbsp;&nbsp;EXT_GD_FREETYPE=ON</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>&nbsp;&nbsp;--disable-gd-jis-conv</td>
+      <td>&nbsp;&nbsp;EXT_GD_JIS=OFF</td>
+      <td>default</td>
+    </tr>
+    <tr>
+      <td>&nbsp;&nbsp;--enable-gd-jis-conv</td>
+      <td>&nbsp;&nbsp;EXT_GD_JIS=ON</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>--without-gettext</td>
+      <td>EXT_GETTEXT=OFF</td>
+      <td>default</td>
+    </tr>
+    <tr>
+      <td>&nbsp;&nbsp;--with-gettext[=DIR]</td>
+      <td>&nbsp;&nbsp;EXT_GETTEXT=ON</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>&nbsp;&nbsp;--with-gettext=shared</td>
+      <td>&nbsp;&nbsp;EXT_GETTEXT_SHARED=ON</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>--without-gmp</td>
+      <td>EXT_GMP=OFF</td>
+      <td>default</td>
+    </tr>
+    <tr>
+      <td>&nbsp;&nbsp;--with-gmp[=DIR]</td>
+      <td>&nbsp;&nbsp;EXT_GMP=ON</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>&nbsp;&nbsp;--with-gmp=shared</td>
+      <td>&nbsp;&nbsp;EXT_GMP_SHARED=ON</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>--without-mhash</td>
+      <td>EXT_HASH_MHASH=OFF</td>
+      <td>default</td>
+    </tr>
+    <tr>
+      <td>&nbsp;&nbsp;--with-mhash</td>
+      <td>&nbsp;&nbsp;EXT_HASH_MHASH=ON</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>--with-iconv</td>
+      <td>EXT_ICONV=ON</td>
+      <td>default</td>
+    </tr>
+    <tr>
+      <td>&nbsp;&nbsp;--with-iconv=shared</td>
+      <td>&nbsp;&nbsp;EXT_ICONV_SHARED=ON</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>&nbsp;&nbsp;--without-iconv</td>
+      <td>&nbsp;&nbsp;EXT_ICONV=OFF</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>--disable-intl</td>
+      <td>EXT_INTL=OFF</td>
+      <td>default</td>
+    </tr>
+    <tr>
+      <td>&nbsp;&nbsp;--enable-intl</td>
+      <td>&nbsp;&nbsp;EXT_INTL=ON</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>&nbsp;&nbsp;--enable-intl=shared</td>
+      <td>&nbsp;&nbsp;EXT_INTL_SHARED=ON</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>--without-ldap</td>
+      <td>EXT_LDAP=OFF</td>
+      <td>default</td>
+    </tr>
+    <tr>
+      <td>&nbsp;&nbsp;--with-ldap</td>
+      <td>&nbsp;&nbsp;EXT_LDAP=ON</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>&nbsp;&nbsp;--with-ldap=shared</td>
+      <td>&nbsp;&nbsp;EXT_LDAP_SHARED=ON</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>&nbsp;&nbsp;--without-ldap-sasl</td>
+      <td>&nbsp;&nbsp;EXT_LDAP_SASL=OFF</td>
+      <td>default</td>
+    </tr>
+    <tr>
+      <td>&nbsp;&nbsp;--with-ldap-sasl</td>
+      <td>&nbsp;&nbsp;EXT_LDAP_SASL=ON</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>--with-libxml</td>
+      <td>EXT_LIBXML=ON</td>
+      <td>default</td>
+    </tr>
+    <tr>
+      <td>&nbsp;&nbsp;--without-libxml</td>
+      <td>&nbsp;&nbsp;EXT_LIBXML=OFF</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>--disable-mbstring</td>
+      <td>EXT_MBSTRING=OFF</td>
+      <td>default</td>
+    </tr>
+    <tr>
+      <td>&nbsp;&nbsp;--enable-mbstring</td>
+      <td>&nbsp;&nbsp;EXT_MBSTRING=ON</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>&nbsp;&nbsp;--enable-mbstring=shared</td>
+      <td>&nbsp;&nbsp;EXT_MBSTRING_SHARED=ON</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>&nbsp;&nbsp;--enable-mbregex</td>
+      <td>&nbsp;&nbsp;EXT_MBSTRING_MBREGEX=ON</td>
+      <td>default</td>
+    </tr>
+    <tr>
+      <td>&nbsp;&nbsp;--disable-mbregex</td>
+      <td>&nbsp;&nbsp;EXT_MBSTRING_MBREGEX=OFF</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>--without-mysqli</td>
+      <td>EXT_MYSQLI=OFF</td>
+      <td>default</td>
+    </tr>
+    <tr>
+      <td>&nbsp;&nbsp;--with-mysqli</td>
+      <td>&nbsp;&nbsp;EXT_MYSQLI=ON</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>&nbsp;&nbsp;--with-mysqli=shared</td>
+      <td>&nbsp;&nbsp;EXT_MYSQLI_SHARED=ON</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>--without-mysql-sock</td>
+      <td>EXT_MYSQL_SOCK=OFF</td>
+      <td>default</td>
+    </tr>
+    <tr>
+      <td>&nbsp;&nbsp;--with-mysql-sock</td>
+      <td>&nbsp;&nbsp;EXT_MYSQL_SOCK=ON</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>&nbsp;&nbsp;--with-mysql-sock=SOCKET</td>
+      <td>&nbsp;&nbsp;EXT_MYSQL_SOCK_PATH=/path/to/mysql.sock</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>--disable-mysqlnd</td>
+      <td>EXT_MYSQLND=OFF</td>
+      <td>default</td>
+    </tr>
+    <tr>
+      <td>&nbsp;&nbsp;--enable-mysqlnd</td>
+      <td>&nbsp;&nbsp;EXT_MYSQLND=ON</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>&nbsp;&nbsp;--enable-mysqlnd=shared</td>
+      <td>&nbsp;&nbsp;EXT_MYSQLND_SHARED=ON</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>&nbsp;&nbsp;--enable-mysqlnd-compression-support</td>
+      <td>&nbsp;&nbsp;EXT_MYSQLND_COMPRESSION=ON</td>
+      <td>default</td>
+    </tr>
+    <tr>
+      <td>&nbsp;&nbsp;--disable-mysqlnd-compression-support</td>
+      <td>&nbsp;&nbsp;EXT_MYSQLND_COMPRESSION=OFF</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>--enable-opcache=shared</td>
+      <td>EXT_OPCACHE=ON</td>
+      <td>default, will be shared</td>
+    </tr>
+    <tr>
+      <td>&nbsp;&nbsp;--enable-opcache</td>
+      <td>&nbsp;&nbsp;EXT_OPCACHE=ON</td>
+      <td>will be shared</td>
+    </tr>
+    <tr>
+      <td>&nbsp;&nbsp;--disable-opcache</td>
+      <td>&nbsp;&nbsp;EXT_OPCACHE=OFF</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>&nbsp;&nbsp;--enable-huge-code-pages</td>
+      <td>&nbsp;&nbsp;EXT_OPCACHE_HUGE_CODE_PAGES=ON</td>
+      <td>default</td>
+    </tr>
+    <tr>
+      <td>&nbsp;&nbsp;--disable-huge-code-pages</td>
+      <td>&nbsp;&nbsp;EXT_OPCACHE_HUGE_CODE_PAGES=OFF</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>&nbsp;&nbsp;--enable-opcache-jit</td>
+      <td>&nbsp;&nbsp;EXT_OPCACHE_JIT=ON</td>
+      <td>default</td>
+    </tr>
+    <tr>
+      <td>&nbsp;&nbsp;--disable-opcache-jit</td>
+      <td>&nbsp;&nbsp;EXT_OPCACHE_JIT=OFF</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>&nbsp;&nbsp;--without-capstone</td>
+      <td>&nbsp;&nbsp;EXT_OPCACHE_CAPSTONE=OFF</td>
+      <td>default</td>
+    </tr>
+    <tr>
+      <td>&nbsp;&nbsp;--with-capstone</td>
+      <td>&nbsp;&nbsp;EXT_OPCACHE_CAPSTONE=ON</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>--without-openssl</td>
+      <td>EXT_OPENSSL=OFF</td>
+      <td>default</td>
+    </tr>
+    <tr>
+      <td>&nbsp;&nbsp;--with-openssl</td>
+      <td>&nbsp;&nbsp;EXT_OPENSSL=ON</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>&nbsp;&nbsp;--with-openssl=shared</td>
+      <td>&nbsp;&nbsp;EXT_OPENSSL_SHARED=ON</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>&nbsp;&nbsp;--without-kerberos</td>
+      <td>&nbsp;&nbsp;EXT_OPENSSL_KERBEROS=OFF</td>
+      <td>default</td>
+    </tr>
+    <tr>
+      <td>&nbsp;&nbsp;--with-kerberos</td>
+      <td>&nbsp;&nbsp;EXT_OPENSSL_KERBEROS=ON</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>&nbsp;&nbsp;--without-system-ciphers</td>
+      <td>&nbsp;&nbsp;EXT_OPENSSL_SYSTEM_CIPHERS=OFF</td>
+      <td>default</td>
+    </tr>
+    <tr>
+      <td>&nbsp;&nbsp;--with-system-ciphers</td>
+      <td>&nbsp;&nbsp;EXT_OPENSSL_SYSTEM_CIPHERS=ON</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>--disable-pcntl</td>
+      <td>EXT_PCNTL=OFF</td>
+      <td>default</td>
+    </tr>
+    <tr>
+      <td>&nbsp;&nbsp;--enable-pcntl</td>
+      <td>&nbsp;&nbsp;EXT_PCNTL=ON</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>&nbsp;&nbsp;--enable-pcntl=shared</td>
+      <td>&nbsp;&nbsp;EXT_PCNTL_SHARED=ON</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>--without-external-pcre</td>
+      <td>EXT_PCRE_EXTERNAL=OFF</td>
+      <td>default</td>
+    </tr>
+    <tr>
+      <td>&nbsp;&nbsp;--with-external-pcre</td>
+      <td>&nbsp;&nbsp;EXT_PCRE_EXTERNAL=ON</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>&nbsp;&nbsp;--with-pcre-jit</td>
+      <td>&nbsp;&nbsp;EXT_PCRE_JIT=ON</td>
+      <td>default</td>
+    </tr>
+    <tr>
+      <td>&nbsp;&nbsp;--without-pcre-jit</td>
+      <td>&nbsp;&nbsp;EXT_PCRE_JIT=OFF</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>--enable-pdo</td>
+      <td>EXT_PDO=ON</td>
+      <td>default</td>
+    </tr>
+    <tr>
+      <td>&nbsp;&nbsp;--enable-pdo=shared</td>
+      <td>&nbsp;&nbsp;EXT_PDO_SHARED=ON</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>&nbsp;&nbsp;--disable-pdo</td>
+      <td>&nbsp;&nbsp;EXT_PDO=OFF</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>&nbsp;&nbsp;--without-pdo-mysql</td>
+      <td>&nbsp;&nbsp;EXT_PDO_MYSQL=OFF</td>
+      <td>default</td>
+    </tr>
+    <tr>
+      <td>&nbsp;&nbsp;--with-pdo-mysql</td>
+      <td>&nbsp;&nbsp;EXT_PDO_MYSQL=ON</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>&nbsp;&nbsp;--with-pdo-mysql=shared</td>
+      <td>&nbsp;&nbsp;EXT_PDO_MYSQL_SHARED=ON</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>&nbsp;&nbsp;--without-pdo-pgsql</td>
+      <td>&nbsp;&nbsp;EXT_PDO_PGSQL=OFF</td>
+      <td>default</td>
+    </tr>
+    <tr>
+      <td>&nbsp;&nbsp;--with-pdo-pgsql[=DIR]</td>
+      <td>&nbsp;&nbsp;EXT_PDO_PGSQL=ON</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>&nbsp;&nbsp;--with-pdo-pgsql=shared</td>
+      <td>&nbsp;&nbsp;EXT_PDO_PGSQL_SHARED=ON</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>&nbsp;&nbsp;--with-pdo-sqlite</td>
+      <td>&nbsp;&nbsp;EXT_PDO_SQLITE=ON</td>
+      <td>default</td>
+    </tr>
+    <tr>
+      <td>&nbsp;&nbsp;--with-pdo-sqlite=shared</td>
+      <td>&nbsp;&nbsp;EXT_PDO_SQLITE_SHARED=ON</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>&nbsp;&nbsp;--without-pdo-sqlite</td>
+      <td>&nbsp;&nbsp;EXT_PDO_SQLITE=OFF</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>--without-pgsql</td>
+      <td>EXT_PGSQL=OFF</td>
+      <td>default</td>
+    </tr>
+    <tr>
+      <td>&nbsp;&nbsp;--with-pgsql[=DIR]</td>
+      <td>&nbsp;&nbsp;EXT_PGSQL=ON</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>&nbsp;&nbsp;--with-pgsql=shared</td>
+      <td>&nbsp;&nbsp;EXT_PGSQL_SHARED=ON</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>--enable-phar</td>
+      <td>EXT_PHAR=ON</td>
+      <td>default</td>
+    </tr>
+    <tr>
+      <td>&nbsp;&nbsp;--enable-phar=shared</td>
+      <td>&nbsp;&nbsp;EXT_PHAR_SHARED=ON</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>&nbsp;&nbsp;--disable-phar</td>
+      <td>&nbsp;&nbsp;EXT_PHAR=OFF</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>--enable-posix</td>
+      <td>EXT_POSIX=ON</td>
+      <td>default</td>
+    </tr>
+    <tr>
+      <td>&nbsp;&nbsp;--enable-posix=shared</td>
+      <td>&nbsp;&nbsp;EXT_POSIX_SHARED=ON</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>&nbsp;&nbsp;--disable-posix</td>
+      <td>&nbsp;&nbsp;EXT_POSIX=OFF</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>--without-pspell</td>
+      <td>EXT_PSPELL=OFF</td>
+      <td>default</td>
+    </tr>
+    <tr>
+      <td>&nbsp;&nbsp;--with-pspell</td>
+      <td>&nbsp;&nbsp;EXT_PSPELL=ON</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>&nbsp;&nbsp;--with-pspell=shared</td>
+      <td>&nbsp;&nbsp;EXT_PSPELL_SHARED=ON</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>--without-libedit</td>
+      <td>EXT_READLINE=OFF</td>
+      <td>default</td>
+    </tr>
+    <tr>
+      <td>&nbsp;&nbsp;--with-libedit</td>
+      <td>&nbsp;&nbsp;EXT_READLINE=ON</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>&nbsp;&nbsp;--without-readline</td>
+      <td>&nbsp;&nbsp;EXT_READLINE=OFF</td>
+      <td>default</td>
+    </tr>
+    <tr>
+      <td>&nbsp;&nbsp;--with-readline</td>
+      <td>&nbsp;&nbsp;EXT_READLINE=ON;EXT_READLINE_LIBREADLINE=ON</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>--enable-session</td>
+      <td>EXT_SESSION=ON</td>
+      <td>default</td>
+    </tr>
+    <tr>
+      <td>&nbsp;&nbsp;--enable-session=shared</td>
+      <td>&nbsp;&nbsp;EXT_SESSION_SHARED=ON</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>&nbsp;&nbsp;--disable-session</td>
+      <td>&nbsp;&nbsp;EXT_SESSION=OFF</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>&nbsp;&nbsp;--without-mm</td>
+      <td>&nbsp;&nbsp;EXT_SESSION_MM=OFF</td>
+      <td>default</td>
+    </tr>
+    <tr>
+      <td>&nbsp;&nbsp;--with-mm[=DIR]</td>
+      <td>&nbsp;&nbsp;EXT_SESSION_MM=[ON|path/to/mm]</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>--disable-shmop</td>
+      <td>EXT_SHMOP=OFF</td>
+      <td>default</td>
+    </tr>
+    <tr>
+      <td>&nbsp;&nbsp;--enable-shmop</td>
+      <td>&nbsp;&nbsp;EXT_SHMOP=ON</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>&nbsp;&nbsp;--enable-shmop=shared</td>
+      <td>&nbsp;&nbsp;EXT_SHMOP_SHARED=ON</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>--enable-simplexml</td>
+      <td>EXT_SIMPLEXML=ON</td>
+      <td>default</td>
+    </tr>
+    <tr>
+      <td>&nbsp;&nbsp;--enable-simplexml=shared</td>
+      <td>&nbsp;&nbsp;EXT_SIMPLEXML_SHARED=ON</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>&nbsp;&nbsp;--disable-simplexml</td>
+      <td>&nbsp;&nbsp;EXT_SIMPLEXML=OFF</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>--without-snmp</td>
+      <td>EXT_SNMP=OFF</td>
+      <td>default</td>
+    </tr>
+    <tr>
+      <td>&nbsp;&nbsp;--with-snmp</td>
+      <td>&nbsp;&nbsp;EXT_SNMP=ON</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>&nbsp;&nbsp;--with-snmp=shared</td>
+      <td>&nbsp;&nbsp;EXT_SNMP_SHARED=ON</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>--disable-soap</td>
+      <td>EXT_SOAP=OFF</td>
+      <td>default</td>
+    </tr>
+    <tr>
+      <td>&nbsp;&nbsp;--enable-soap</td>
+      <td>&nbsp;&nbsp;EXT_SOAP=ON</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>&nbsp;&nbsp;--enable-soap=shared</td>
+      <td>&nbsp;&nbsp;EXT_SOAP_SHARED=ON</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>--disable-sockets</td>
+      <td>EXT_SOCKETS=OFF</td>
+      <td>default</td>
+    </tr>
+    <tr>
+      <td>&nbsp;&nbsp;--enable-sockets</td>
+      <td>&nbsp;&nbsp;EXT_SOCKETS=ON</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>&nbsp;&nbsp;--enable-sockets=shared</td>
+      <td>&nbsp;&nbsp;EXT_SOCKETS_SHARED=ON</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>--without-sodium</td>
+      <td>EXT_SODIUM=OFF</td>
+      <td>default</td>
+    </tr>
+    <tr>
+      <td>&nbsp;&nbsp;--with-sodium</td>
+      <td>&nbsp;&nbsp;EXT_SODIUM=ON</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>&nbsp;&nbsp;--with-sodium=shared</td>
+      <td>&nbsp;&nbsp;EXT_SODIUM_SHARED=ON</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>--with-sqlite3</td>
+      <td>EXT_SQLITE3=ON</td>
+      <td>default</td>
+    </tr>
+    <tr>
+      <td>&nbsp;&nbsp;--with-sqlite3=shared</td>
+      <td>&nbsp;&nbsp;EXT_SQLITE3_SHARED</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>&nbsp;&nbsp;--without-sqlite3</td>
+      <td>&nbsp;&nbsp;EXT_SQLITE3=OFF</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>--without-external-libcrypt</td>
+      <td>EXT_STANDARD_EXTERNAL_LIBCRYPT=OFF</td>
+      <td>default</td>
+    </tr>
+    <tr>
+      <td>&nbsp;&nbsp;--with-external-libcrypt</td>
+      <td>&nbsp;&nbsp;EXT_STANDARD_EXTERNAL_LIBCRYPT=ON</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>&nbsp;&nbsp;--without-password-argon2</td>
+      <td>&nbsp;&nbsp;EXT_STANDARD_ARGON2=OFF</td>
+      <td>default</td>
+    </tr>
+    <tr>
+      <td>&nbsp;&nbsp;--with-password-argon2</td>
+      <td>&nbsp;&nbsp;EXT_STANDARD_ARGON2=ON</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>--disable-sysvmsg</td>
+      <td>EXT_SYSVMSG=OFF</td>
+      <td>default</td>
+    </tr>
+    <tr>
+      <td>&nbsp;&nbsp;--enable-sysvmsg</td>
+      <td>&nbsp;&nbsp;EXT_SYSVMSG=ON</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>&nbsp;&nbsp;--enable-sysvmsg=shared</td>
+      <td>&nbsp;&nbsp;EXT_SYSVMSG_SHARED=ON</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>--disable-sysvsem</td>
+      <td>EXT_SYSVSEM=OFF</td>
+      <td>default</td>
+    </tr>
+    <tr>
+      <td>&nbsp;&nbsp;--enable-sysvsem</td>
+      <td>&nbsp;&nbsp;EXT_SYSVSEM=ON</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>&nbsp;&nbsp;--enable-sysvsem=shared</td>
+      <td>&nbsp;&nbsp;EXT_SYSVSEM_SHARED=ON</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>--disable-sysvshm</td>
+      <td>EXT_SYSVSHM=OFF</td>
+      <td>default</td>
+    </tr>
+    <tr>
+      <td>&nbsp;&nbsp;--enable-sysvshm</td>
+      <td>&nbsp;&nbsp;EXT_SYSVSHM=ON</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>&nbsp;&nbsp;--enable-sysvshm=shared</td>
+      <td>&nbsp;&nbsp;EXT_SYSVSHM_SHARED=ON</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>--without-tidy</td>
+      <td>EXT_TIDY=OFF</td>
+      <td>default</td>
+    </tr>
+    <tr>
+      <td>&nbsp;&nbsp;--with-tidy[=DIR]</td>
+      <td>&nbsp;&nbsp;EXT_TIDY=ON</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>&nbsp;&nbsp;--with-tidy=shared</td>
+      <td>&nbsp;&nbsp;EXT_TIDY_SHARED=ON</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>--enable-tokenizer</td>
+      <td>EXT_TOKENIZER=ON</td>
+      <td>default</td>
+    </tr>
+    <tr>
+      <td>&nbsp;&nbsp;--enable-tokenizer=shared</td>
+      <td>&nbsp;&nbsp;EXT_TOKENIZER_SHARED=ON</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>&nbsp;&nbsp;--disable-tokenizer</td>
+      <td>&nbsp;&nbsp;EXT_TOKENIZER=OFF</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>--enable-xml</td>
+      <td>EXT_XML=ON</td>
+      <td>default</td>
+    </tr>
+    <tr>
+      <td>&nbsp;&nbsp;--enable-xml=shared</td>
+      <td>&nbsp;&nbsp;EXT_XML_SHARED=ON</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>&nbsp;&nbsp;--disable-xml</td>
+      <td>&nbsp;&nbsp;EXT_XML=OFF</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>&nbsp;&nbsp;--without-expat</td>
+      <td>&nbsp;&nbsp;EXT_XML_EXPAT=OFF</td>
+      <td>default</td>
+    </tr>
+    <tr>
+      <td>&nbsp;&nbsp;--with-expat</td>
+      <td>&nbsp;&nbsp;EXT_XML_EXPAT=ON</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>--without-xsl</td>
+      <td>EXT_XSL=OFF</td>
+      <td>default</td>
+    </tr>
+    <tr>
+      <td>&nbsp;&nbsp;--with-xsl</td>
+      <td>&nbsp;&nbsp;EXT_XSL=ON</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>&nbsp;&nbsp;--with-xsl=shared</td>
+      <td>&nbsp;&nbsp;EXT_XSL_SHARED=ON</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>--enable-xmlreader</td>
+      <td>EXT_XMLREADER=ON</td>
+      <td>default</td>
+    </tr>
+    <tr>
+      <td>&nbsp;&nbsp;--enable-xmlreader=shared</td>
+      <td>&nbsp;&nbsp;EXT_XMLREADER_SHARED=ON</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>&nbsp;&nbsp;--disable-xmlreader</td>
+      <td>&nbsp;&nbsp;EXT_XMLREADER=OFF</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>--enable-xmlwriter</td>
+      <td>EXT_XMLWRITER=ON</td>
+      <td>default</td>
+    </tr>
+    <tr>
+      <td>&nbsp;&nbsp;--enable-xmlwriter=shared</td>
+      <td>&nbsp;&nbsp;EXT_XMLWRITER_SHARED=ON</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>&nbsp;&nbsp;--disable-xmlwriter</td>
+      <td>&nbsp;&nbsp;EXT_XMLWRITER=OFF</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>--disable-zend-test</td>
+      <td>EXT_ZEND_TEST=OFF</td>
+      <td>default</td>
+    </tr>
+    <tr>
+      <td>&nbsp;&nbsp;--enable-zend-test</td>
+      <td>&nbsp;&nbsp;EXT_ZEND_TEST=ON</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>&nbsp;&nbsp;--enable-zend-test=shared</td>
+      <td>&nbsp;&nbsp;EXT_ZEND_TEST_SHARED=ON</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>--without-zip</td>
+      <td>EXT_ZIP=OFF</td>
+      <td>default</td>
+    </tr>
+    <tr>
+      <td>&nbsp;&nbsp;--with-zip</td>
+      <td>&nbsp;&nbsp;EXT_ZIP=ON</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>&nbsp;&nbsp;--with-zip=shared</td>
+      <td>&nbsp;&nbsp;EXT_ZIP_SHARED=ON</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>--without-zlib</td>
+      <td>EXT_ZLIB=OFF</td>
+      <td>default</td>
+    </tr>
+    <tr>
+      <td>&nbsp;&nbsp;--with-zlib</td>
+      <td>&nbsp;&nbsp;EXT_ZLIB=ON</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>&nbsp;&nbsp;--with-zlib=shared</td>
+      <td>&nbsp;&nbsp;EXT_ZLIB_SHARED=ON</td>
+      <td></td>
+    </tr>
+  </tbody>
+</table>
 
 List of configure environment variables:
 
-These are passed as `./configure VAR=VALUE`.
+These are passed like this:
 
-| configure                       | CMake                             | Default value/notes            |
-| ------------------------------- | --------------------------------- | ------------------------------ |
-| **3rd party variables**         |                                   |                                |
-| `LDFLAGS="..."`                 | `CMAKE_EXE_LINKER_FLAGS="..."`    |                                |
-|                                 | `CMAKE_SHARED_LINKER_FLAGS="..."` |                                |
-| **PHP variables**               |                                   |                                |
-| `PHP_EXTRA_VERSION="-acme"`     | `PHP_VERSION_LABEL="-acme"`       | `-dev` or empty                |
-| `PHP_UNAME="ACME Linux"`        | `PHP_UNAME="ACME Linux"`          | `uname -a` ouput override      |
-| `PHP_BUILD_SYSTEM="ACME Linux"` | `PHP_BUILD_SYSTEM="ACME Linux"`   | `uname -a` ouput               |
-| `PHP_BUILD_PROVIDER="ACME"`     | `PHP_BUILD_PROVIDER="ACME"`       | Additional build system info   |
-| `PHP_BUILD_COMPILER="ACME"`     | `PHP_BUILD_COMPILER="ACME"`       | Additional build system info   |
-| `PHP_BUILD_ARCH="ACME"`         | `PHP_BUILD_ARCH="ACME"`           | Additional build system info   |
-| `EXTENSION_DIR="path/to/ext"`   | `PHP_EXTENSION_DIR="path/to/ext"` | Override the INI extension_dir |
-| **Available only in CMake**     |                                   |                                |
-|                                 | `BUILD_SHARED_LIBS=ON`            | Build all extensions as shared |
+```sh
+# Autotools:
+./configure VAR=VALUE
 
-When running `make VAR=VALUE` commands, the following environment variables are available:
+# CMake at the configuration phase:
+cmake -DCMAKE_FOOVAR=ON -DPHP_VAR=... ../php-src
+```
+
+<table>
+  <thead>
+    <tr>
+      <th>configure</th>
+      <th>CMake</th>
+      <th>Default value/notes</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>3rd party variables</strong></td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>LDFLAGS=&quot;...&quot;</td>
+      <td>CMAKE_EXE_LINKER_FLAGS=&quot;...&quot;</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td></td>
+      <td>CMAKE_SHARED_LINKER_FLAGS=&quot;...&quot;</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><strong>PHP variables</strong></td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>PHP_EXTRA_VERSION=&quot;-acme&quot;</td>
+      <td>PHP_VERSION_LABEL=&quot;-acme&quot;</td>
+      <td>-dev or empty</td>
+    </tr>
+    <tr>
+      <td>PHP_UNAME=&quot;ACME Linux&quot;</td>
+      <td>PHP_UNAME=&quot;ACME Linux&quot;</td>
+      <td>uname -a ouput override</td>
+    </tr>
+    <tr>
+      <td>PHP_BUILD_SYSTEM=&quot;ACME Linux&quot;</td>
+      <td>PHP_BUILD_SYSTEM=&quot;ACME Linux&quot;</td>
+      <td>uname -a ouput</td>
+    </tr>
+    <tr>
+      <td>PHP_BUILD_PROVIDER=&quot;ACME&quot;</td>
+      <td>PHP_BUILD_PROVIDER=&quot;ACME&quot;</td>
+      <td>Additional build system info</td>
+    </tr>
+    <tr>
+      <td>PHP_BUILD_COMPILER=&quot;ACME&quot;</td>
+      <td>PHP_BUILD_COMPILER=&quot;ACME&quot;</td>
+      <td>Additional build system info</td>
+    </tr>
+    <tr>
+      <td>PHP_BUILD_ARCH=&quot;ACME&quot;</td>
+      <td>PHP_BUILD_ARCH=&quot;ACME&quot;</td>
+      <td>Additional build system info</td>
+    </tr>
+    <tr>
+      <td>EXTENSION_DIR=&quot;path/to/ext&quot;</td>
+      <td>PHP_EXTENSION_DIR=&quot;path/to/ext&quot;</td>
+      <td>Override the INI extension_dir</td>
+    </tr>
+    <tr>
+      <td><strong>Available only in CMake</strong></td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td></td>
+      <td>BUILD_SHARED_LIBS=ON</td>
+      <td>Build all extensions as shared</td>
+    </tr>
+  </tbody>
+</table>
+
+When running `make VAR=VALUE` commands, the following environment variables are
+available:
 
 | make with PHP                   | CMake                             | Default value/notes            |
 | ------------------------------- | --------------------------------- | ------------------------------ |
@@ -1197,7 +2384,7 @@ ninja -j$(nproc)
 The `CMakePresets.json` and `CMakeUserPresets.json` files in project root
 directory are available since CMake 3.19 for sharing build configurations.
 
-Instead of manually typing `cmake . -DFOO=BAR ...` in command line, users can
+Instead of manually entering `cmake -DFOO=BAR ...` in command line, users can
 simply store these configuration options in JSON file and have a shareable build
 settings for continuous integration, development, bug reporting etc.
 
@@ -1291,7 +2478,7 @@ When CMake is doing configuration phase, the profiling options can be used to do
 build system performance analysis of CMake script.
 
 ```sh
-cmake . --profiling-output ./profile.json --profiling-format google-trace
+cmake --profiling-output ./profile.json --profiling-format google-trace ../php-src
 ```
 
 ![CMake profiling](docs/images/cmake-profiling.png)
