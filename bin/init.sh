@@ -3,7 +3,7 @@
 # CMake initialization helper script.
 
 update=0
-cmake=0
+use_cmake=0
 options=""
 preset="default"
 debug=0
@@ -40,7 +40,7 @@ HELP
   fi
 
   if test "$1" = "-c" || test "$1" = "--cmake"; then
-    cmake=1
+    use_cmake=1
   fi
 
   if test "$1" = "-o" || test "$1" = "--options"; then
@@ -65,6 +65,20 @@ HELP
   shift
 done
 
+# Check requirements.
+cmake=$(which cmake 2>/dev/null)
+
+if test -z "$cmake"; then
+  echo "init.sh: cmake not found." >&2
+  echo "         Install cmake:" >&2
+  echo "         https://cmake.org/" >&2
+  echo "" >&2
+
+  if test "x$use_cmake" = "x1"; then
+    exit 1
+  fi
+fi
+
 # Clone a fresh latest php-src repository.
 if test ! -d "php-src"; then
   git clone --depth 1 https://github.com/php/php-src ./php-src
@@ -72,7 +86,8 @@ fi
 
 # Check if given branch is available.
 cd php-src
-if test -z "$(git rev-parse --verify ${branch} 2>/dev/null)"; then
+git fetch origin ${branch}:${branch}
+if test -z "$(git show-ref refs/heads/${branch})"; then
   echo "Branch ${branch} is missing." >&2
   exit 1
 fi
@@ -83,6 +98,7 @@ if test "$update" = "1"; then
   git clean -dffx
   git checkout ${branch}
   git pull --rebase
+  echo
 fi
 cd ..
 
@@ -94,7 +110,9 @@ if test ${branch} = "master"; then
 else
   php_version=$(echo $branch | sed 's/PHP-\([0-9.]*\).*$/\1/')
 fi
-patches=$(find ./patches/${php_version} -maxdepth 1 -type f -name "*.patch")
+
+patches=$(find ./patches/${php_version} -maxdepth 1 -type f -name "*.patch" 2>/dev/null)
+
 for file in $patches; do
   case $file in
     *.patch)
@@ -103,8 +121,8 @@ for file in $patches; do
   esac
 done
 
-# CMake wasn't specified.
-if test "x$cmake" = "x0"; then
+# Only copy CMake files.
+if test "x$use_cmake" = "x0"; then
   echo
   echo "PHP sources are ready to be built. Inside php-src, you can now run:
     cmake .
@@ -120,5 +138,5 @@ fi
 
 # Run CMake preset configuration and build.
 cd php-src
-cmake --preset ${preset} ${cmake_debug_options} ${options}
-cmake --build --preset ${preset} $cmake_verbose -- -j $(nproc)
+$cmake --preset ${preset} ${cmake_debug_options} ${options}
+$cmake --build --preset ${preset} $cmake_verbose -- -j $(nproc)

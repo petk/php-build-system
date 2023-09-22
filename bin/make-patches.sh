@@ -40,7 +40,7 @@ cd ${REPO}
 
 # Check if local branch with patches is available in the php-src repository.
 for branch in $branches; do
-  if test -z $(git rev-parse --verify ${branch} 2>/dev/null); then
+  if test -z "$(git show-ref refs/heads/${branch})"; then
     echo "Branch ${branch} is missing." >&2
     exit 1
   fi

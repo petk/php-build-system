@@ -93,7 +93,8 @@ then
 fi
 
 # Check if branch exists.
-if test -z $(git rev-parse --verify ${branch} 2>/dev/null); then
+git fetch origin ${branch}:${branch}
+if test -z "$(git show-ref refs/heads/${branch})"; then
   echo "Branch ${branch} is missing." >&2
   exit 1
 fi
@@ -122,6 +123,11 @@ echo
 echo "Updating build/config.sub"
 $download_tool $download_tool_options build/config.sub \
   https://git.savannah.gnu.org/cgit/config.git/plain/config.sub
+
+echo
+echo "Updating build/pkg.m4"
+$download_tool $download_tool_options build/pkg.m4 \
+  https://raw.githubusercontent.com/pkgconf/pkgconf/master/pkg.m4
 
 # Update GNU Autoconf Archive macros.
 # https://github.com/autoconf-archive/autoconf-archive/

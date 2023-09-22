@@ -70,7 +70,8 @@ fi
 cd php-src
 
 # Check if given branch is available.
-if test -z "$(git rev-parse --verify ${branch} 2>/dev/null)"; then
+git fetch origin ${branch}:${branch}
+if test -z "$(git show-ref refs/heads/${branch})"; then
   echo "Branch ${branch} is missing." >&2
   exit 1
 fi
