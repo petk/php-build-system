@@ -170,6 +170,9 @@ include(PHP/CheckStructFlock)
 # Check for __builtin_expect.
 include(PHP/CheckBuiltinExpect)
 
+# Check for __builtin_unreachable.
+include(PHP/CheckBuiltinUnreachable)
+
 # Check for __builtin_clz.
 include(PHP/CheckBuiltinClz)
 

@@ -77,9 +77,18 @@ then
   exit 1
 fi
 
-# Clone a fresh latest php-src repo.
+# Clone a fresh latest php-src repository.
 if test ! -d "php-src"; then
-  git clone --depth 1 https://github.com/php/php-src ./php-src
+  echo "To use this tool you need php-src Git repository."
+  printf "Do you want to clone it now (y/N)?"
+  read answer
+
+  if test "$answer" != "${answer#[Yy]}"; then
+    echo "Cloning github.com/php/php-src. This will take a little while."
+    git clone https://github.com/php/php-src ./php-src
+  else
+    exit 1
+  fi
 fi
 
 # Make sure we're in the php-src Git repository.
@@ -92,18 +101,21 @@ then
   exit 1
 fi
 
-# Check if branch exists.
-git fetch origin ${branch}:${branch}
+# Check if given branch is available.
 if test -z "$(git show-ref refs/heads/${branch})"; then
-  echo "Branch ${branch} is missing." >&2
-  exit 1
+  if test -z "$(git ls-remote --heads origin refs/heads/${branch})"; then
+    echo "Branch ${branch} is missing." >&2
+    exit 1
+  fi
+
+  git checkout --track origin/${branch}
 fi
 
 # Reset php-src Git working directory and checkout branch.
 if test "x$update" = "x1"; then
   git reset --hard
   git clean -dffx
-  git checkout master
+  git checkout ${branch}
   git pull --rebase
   echo
 fi

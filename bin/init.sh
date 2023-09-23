@@ -2,7 +2,7 @@
 #
 # CMake initialization helper script.
 
-update=0
+update=1
 use_cmake=0
 options=""
 preset="default"
@@ -21,7 +21,7 @@ SYNOPSIS:
   init.sh [<options>]
 
 OPTIONS:
-  -u, --update           Clone and/or pull the php-src Git repository.
+  -n, --no-update        Don't pull branches in the php-src Git repository.
   -c, --cmake            Run cmake configuration and build commands.
   -o, --options VALUE    CMake options which are appended to the CMake command.
                            cmake -DOPTION .
@@ -35,8 +35,8 @@ HELP
     exit 0
   fi
 
-  if test "$1" = "-u" || test "$1" = "--update"; then
-    update=1
+  if test "$1" = "-n" || test "$1" = "--no-update"; then
+    update=0
   fi
 
   if test "$1" = "-c" || test "$1" = "--cmake"; then
@@ -81,15 +81,36 @@ fi
 
 # Clone a fresh latest php-src repository.
 if test ! -d "php-src"; then
-  git clone --depth 1 https://github.com/php/php-src ./php-src
+  echo "To use this tool you need php-src Git repository."
+  printf "Do you want to clone it now (y/N)?"
+  read answer
+
+  if test "$answer" != "${answer#[Yy]}"; then
+    echo "Cloning github.com/php/php-src. This will take a little while."
+    git clone https://github.com/php/php-src ./php-src
+  else
+    exit 1
+  fi
+fi
+
+# Make sure we're in the php-src respository.
+cd php-src
+
+if test ! -f "main/php_version.h" \
+  || test ! -f "php.ini-development"
+then
+  echo "Git repository doesn't seem to be php-src." >&2
+  exit 1
 fi
 
 # Check if given branch is available.
-cd php-src
-git fetch origin ${branch}:${branch}
 if test -z "$(git show-ref refs/heads/${branch})"; then
-  echo "Branch ${branch} is missing." >&2
-  exit 1
+  if test -z "$(git ls-remote --heads origin refs/heads/${branch})"; then
+    echo "Branch ${branch} is missing." >&2
+    exit 1
+  fi
+
+  git checkout --track origin/${branch}
 fi
 
 # Reset php-src repository and fetch latest changes.
@@ -100,6 +121,7 @@ if test "$update" = "1"; then
   git pull --rebase
   echo
 fi
+
 cd ..
 
 cp -r cmake/* php-src/

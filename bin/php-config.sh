@@ -22,7 +22,6 @@ patterns="
 #undef\sHAVE_SSIZE_T
 #undef\sHAVE_STDIO_H
 #undef\sHAVE_STDLIB_H
-#undef\sHAVE_DECL_STRERROR_R
 #undef\sZEND_FIBER_ASM
 #undef\sHAVE_MYSQL
 #undef\sHAVE_LIBPQ
@@ -31,6 +30,7 @@ patterns="
 # Similar to the above patterns except the two lines above and one after the
 # pattern will be also removed.
 patterns_2="
+#undef\sHAVE_DECL_STRERROR_R
 #undef\sHAVE_ST_BLOCKS
 #undef\sHAVE_TM_ZONE
 "
@@ -62,18 +62,38 @@ HELP
   shift
 done
 
-# Clone a fresh latest php-src repo.
+# Clone a fresh latest php-src repository.
 if test ! -d "php-src"; then
-  git clone --depth 1 https://github.com/php/php-src ./php-src
+  echo "To use this tool you need php-src Git repository."
+  printf "Do you want to clone it now (y/N)?"
+  read answer
+
+  if test "$answer" != "${answer#[Yy]}"; then
+    echo "Cloning github.com/php/php-src. This will take a little while."
+    git clone https://github.com/php/php-src ./php-src
+  else
+    exit 1
+  fi
 fi
 
+# Make sure we're in the php-src respository.
 cd php-src
 
-# Check if given branch is available.
-git fetch origin ${branch}:${branch}
-if test -z "$(git show-ref refs/heads/${branch})"; then
-  echo "Branch ${branch} is missing." >&2
+if test ! -f "main/php_version.h" \
+  || test ! -f "php.ini-development"
+then
+  echo "Git repository doesn't seem to be php-src." >&2
   exit 1
+fi
+
+# Check if given branch is available.
+if test -z "$(git show-ref refs/heads/${branch})"; then
+  if test -z "$(git ls-remote --heads origin refs/heads/${branch})"; then
+    echo "Branch ${branch} is missing." >&2
+    exit 1
+  fi
+
+  git checkout --track origin/${branch}
 fi
 
 # Reset php-src repository and fetch latest changes.
@@ -110,7 +130,8 @@ for pattern in $patterns_2; do
   sed -i "${lines}" "$filename"
 done
 
-echo "\n${filename} diff:"
+echo
+echo "${filename} diff:"
 
 diff --color php-src/main/$filename $filename
 

@@ -1966,6 +1966,9 @@
 /* Whether the compiler supports __builtin_ssubl_overflow */
 #cmakedefine01 PHP_HAVE_BUILTIN_SSUBL_OVERFLOW
 
+/* Whether the compiler supports __builtin_unreachable */
+#cmakedefine01 PHP_HAVE_BUILTIN_UNREACHABLE
+
 /* Whether the compiler supports __builtin_usub_overflow */
 #cmakedefine01 PHP_HAVE_BUILTIN_USUB_OVERFLOW
 
