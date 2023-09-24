@@ -8,41 +8,65 @@ to build PHP with CMake.
 ## 1. Index
 
 * [1. Index](#1-index)
-* [2. Introduction](#2-introduction)
-* [3. PHP directory structure](#3-php-directory-structure)
-* [4. PHP extensions](#4-php-extensions)
-* [5. PHP SAPI (Server API) modules](#5-php-sapi-server-api-modules)
-* [6. Parser and lexer files](#6-parser-and-lexer-files)
-* [7. \*nix build system](#7-nix-build-system)
-  * [7.1. \*nix build system diagram](#71-nix-build-system-diagram)
-  * [7.2. Build requirements](#72-build-requirements)
-  * [7.3. The configure command line options](#73-the-configure-command-line-options)
-* [8. Windows build system](#8-windows-build-system)
-  * [8.1. Windows prerequisites](#81-windows-prerequisites)
-* [9. CMake](#9-cmake)
-  * [9.1. Why using CMake?](#91-why-using-cmake)
-  * [9.2. Installation](#92-installation)
-  * [9.3. Directory structure](#93-directory-structure)
-  * [9.4. CMake build system diagram](#94-cmake-build-system-diagram)
-  * [9.5. CMake usage](#95-cmake-usage)
-  * [9.6. CMake minimum version for PHP](#96-cmake-minimum-version-for-php)
-  * [9.7. CMake code style](#97-cmake-code-style)
-  * [9.8. Command line options](#98-command-line-options)
-  * [9.9. CMake generators for building PHP](#99-cmake-generators-for-building-php)
-    * [9.9.1. Unix Makefiles (default)](#991-unix-makefiles-default)
-    * [9.9.2. Ninja](#992-ninja)
-  * [9.10. CMake presets](#910-cmake-presets)
-  * [9.11. CMake GUI](#911-cmake-gui)
-  * [9.12. Testing](#912-testing)
-  * [9.13. Performance](#913-performance)
-  * [9.14. Installing PHP with CMake](#914-installing-php-with-cmake)
-* [10. See more](#10-see-more)
-  * [10.1. Autotools](#101-autotools)
-  * [10.2. CMake](#102-cmake)
-  * [10.3. CMake and PHP](#103-cmake-and-php)
-  * [10.4. PHP Internals](#104-php-internals)
+* [2. TL;DR - Quick usage](#2-tldr---quick-usage)
+* [3. Introduction](#3-introduction)
+* [4. PHP directory structure](#4-php-directory-structure)
+* [5. PHP extensions](#5-php-extensions)
+* [6. PHP SAPI (Server API) modules](#6-php-sapi-server-api-modules)
+* [7. Parser and lexer files](#7-parser-and-lexer-files)
+* [8. \*nix build system](#8-nix-build-system)
+  * [8.1. \*nix build system diagram](#81-nix-build-system-diagram)
+  * [8.2. Build requirements](#82-build-requirements)
+  * [8.3. The configure command line options](#83-the-configure-command-line-options)
+* [9. Windows build system](#9-windows-build-system)
+  * [9.1. Windows prerequisites](#91-windows-prerequisites)
+* [10. CMake](#10-cmake)
+  * [10.1. Why using CMake?](#101-why-using-cmake)
+  * [10.2. Directory structure](#102-directory-structure)
+  * [10.3. CMake build system diagram](#103-cmake-build-system-diagram)
+  * [10.4. CMake usage](#104-cmake-usage)
+  * [10.5. CMake minimum version for PHP](#105-cmake-minimum-version-for-php)
+  * [10.6. Command line options](#106-command-line-options)
+  * [10.7. CMake generators for building PHP](#107-cmake-generators-for-building-php)
+    * [10.7.1. Unix Makefiles (default)](#1071-unix-makefiles-default)
+    * [10.7.2. Ninja](#1072-ninja)
+  * [10.8. CMake presets](#108-cmake-presets)
+  * [10.9. CMake GUI](#109-cmake-gui)
+  * [10.10. Testing](#1010-testing)
+  * [10.11. Performance](#1011-performance)
+* [11. See more](#11-see-more)
+  * [11.1. CMake](#111-cmake)
+  * [11.2. CMake and PHP](#112-cmake-and-php)
+  * [11.3. PHP Internals](#113-php-internals)
 
-## 2. Introduction
+## 2. TL;DR - Quick usage
+
+Follow these steps to build PHP with CMake using this repository:
+
+```sh
+# Clone this repository:
+git clone https://github.com/petk/php-build-system
+cd php-build-system
+
+# Download latest PHP sources and add CMake files to them:
+./bin/php.cmake
+
+# Go into newly created directory, for example:
+cd php-8.4-dev
+
+# Generate build system:
+cmake .
+
+# Build PHP in parallel:
+cmake --build . -- --jobs 12
+
+./sapi/cli/php -v
+
+# Run tests in parallel:
+./sapi/cli/php run-tests.php -j12
+```
+
+## 3. Introduction
 
 PHP developers typically opt for convenient methods to set up PHP on their
 machines, such as utilizing prebuilt Linux packages available in their Linux
@@ -79,7 +103,7 @@ PHP build system consist of two parts:
 * \*nix build system (Linux, macOS, FreeBSD, OpenBSD, etc.)
 * Windows build system
 
-## 3. PHP directory structure
+## 4. PHP directory structure
 
 Before we begin, it might be useful to understand directory structure of the PHP
 source code. PHP is developed at the
@@ -192,7 +216,7 @@ system) are linked together:
 
 ![Diagram how PHP libraries are linked together](docs/images/links.svg)
 
-## 4. PHP extensions
+## 5. PHP extensions
 
 PHP has several ways to install PHP extensions:
 
@@ -238,7 +262,7 @@ PECL tool is a simple shell script wrapper around the PHP code as part of the
 [pear-core](https://github.com/pear/pear-core/blob/master/scripts/pecl.sh)
 repository.
 
-## 5. PHP SAPI (Server API) modules
+## 6. PHP SAPI (Server API) modules
 
 PHP works through the concept of SAPI modules located in the `sapi` directory.
 
@@ -256,7 +280,7 @@ There are other SAPI modules located in the ecosystem:
 * [ngx-php](https://github.com/rryqszq4/ngx-php)
 * ...
 
-## 6. Parser and lexer files
+## 7. Parser and lexer files
 
 Some source files are generated with 3rd party tools. These include so called
 parser and lexer files which are generated with [re2c](https://re2c.org/) and
@@ -355,7 +379,7 @@ the `Makefile.frag` files.
  └─ ...
 ```
 
-## 7. \*nix build system
+## 8. \*nix build system
 
 \*nix build system in PHP uses [Autoconf](https://www.gnu.org/software/autoconf/)
 to build a `configure` shell script that further creates main `Makefile` to
@@ -455,11 +479,11 @@ Build system is a collection of various files across the php-src repository:
  └─ ...
 ```
 
-### 7.1. \*nix build system diagram
+### 8.1. \*nix build system diagram
 
 ![PHP *nix build system using Autotools](docs/images/autotools.svg)
 
-### 7.2. Build requirements
+### 8.2. Build requirements
 
 Before being able to built PHP on Linux and other \*nix systems, there are some
 3rd party requirements that need to be installed. Note that these names differ
@@ -547,7 +571,7 @@ installed and only libraries without development files are needed to run newly
 built PHP. In example of `ext/zip` extension, the `libzip` package is needed and
 so on.
 
-### 7.3. The configure command line options
+### 8.3. The configure command line options
 
 With Autoconf, there are two main types of command line options for the
 `configure` script (`--enable-FEATURE` and `--with-PACKAGE`):
@@ -575,7 +599,7 @@ See `./configure --help` for more info.
 
 This wraps up the \*nix build system using the Autotools.
 
-## 8. Windows build system
+## 9. Windows build system
 
 Windows build system is a separate collection of
 [JScript](https://en.wikipedia.org/wiki/JScript) files and command line scripts.
@@ -623,7 +647,7 @@ module.
  └─ ...
 ```
 
-### 8.1. Windows prerequisites
+### 9.1. Windows prerequisites
 
 * Windows operating system.
 * Visual Studio installed (e.g., Visual Studio 2019 or later).
@@ -632,7 +656,7 @@ module.
 
 Documentation to build PHP on Windows is available at [PHP Wiki](https://wiki.php.net/internals/windows/stepbystepbuild_sdk_2).
 
-## 9. CMake
+## 10. CMake
 
 [CMake](https://cmake.org/) is another open-source cross-platform build system
 created by Kitware and contributors. This is what this repository is focusing
@@ -643,7 +667,7 @@ To learn CMake there is a very good
 [tutorial](https://cmake.org/cmake/help/latest/guide/tutorial/index.html) which
 is a prerequisite to follow the files in this repository.
 
-### 9.1. Why using CMake?
+### 10.1. Why using CMake?
 
 CMake is today more actively developed and more developers might be familiar
 with it. It also makes C code more attractive to new contributors. Many IDEs
@@ -661,34 +685,7 @@ famililar with it, it can still be a very robust and solid build system option
 in C/C++ projects on \*nix systems. Many large open-source projects use
 Autotools. Some even use it together with CMake.
 
-### 9.2. Installation
-
-Follow these steps to use CMake build system in PHP using this repository:
-
-```sh
-# Clone this repository
-git clone https://github.com/petk/php-build-system
-cd php-build-system
-
-# Download latest PHP sources and add CMake files to them
-./bin/php.cmake
-
-# Go into newly created directory, for example
-cd php-8.4-dev
-
-# Generate build system
-cmake .
-
-# Build PHP binaries and libraries
-cmake --build . -- --jobs $(nproc)
-
-./sapi/cli/php -v
-
-# Run tests
-./sapi/cli/php run-tests.php -j$(nproc)
-```
-
-### 9.3. Directory structure
+### 10.2. Directory structure
 
 Directory structure from the CMake perspective looks like this:
 
@@ -736,18 +733,18 @@ Directory structure from the CMake perspective looks like this:
  └─ ...
 ```
 
-### 9.4. CMake build system diagram
+### 10.3. CMake build system diagram
 
 ![PHP build system using CMake](docs/images/cmake.svg)
 
-### 9.5. CMake usage
+### 10.4. CMake usage
 
 ```sh
 cmake .
 cmake --build .
 ```
 
-### 9.6. CMake minimum version for PHP
+### 10.5. CMake minimum version for PHP
 
 The minimum required version of CMake is defined in the top project file
 `CMakeLists.txt` using the `cmake_minimum_required()`. Picking the minimum
@@ -778,12 +775,7 @@ properly in the future.
 CMake versions scheme across the systems is available at
 [pkgs.org](https://pkgs.org/download/cmake).
 
-### 9.7. CMake code style
-
-To sync the code style of the CMake files there are a couple of tools available.
-See [docs/cmake-code-style.md](docs/cmake-code-style.md) for more info.
-
-### 9.8. Command line options
+### 10.6. Command line options
 
 List of configure command line options and their CMake alternatives.
 
@@ -2303,7 +2295,7 @@ available:
 | `INSTALL_ROOT="..."`            | `CMAKE_INSTALL_PREFIX="..."`      | Override the installation dir  |
 |                                 | or `cmake --install --prefix`     |                                |
 
-### 9.9. CMake generators for building PHP
+### 10.7. CMake generators for building PHP
 
 When using CMake to build PHP, you have the flexibility to choose from various
 build systems through the concept of _generators_. CMake generators determine
@@ -2311,7 +2303,7 @@ the type of project files or build scripts that CMake generates from your
 `CMakeLists.txt` file. In this example, we will check the following generators:
 Unix Makefiles and Ninja.
 
-#### 9.9.1. Unix Makefiles (default)
+#### 10.7.1. Unix Makefiles (default)
 
 The Unix Makefiles generator is the most common and widely used generator for
 building projects on Unix-like systems, including Linux and macOS. It generates
@@ -2347,7 +2339,7 @@ advantage of multiple CPU cores:
 make -j$(nproc) # number of CPU cores you want to utilize.
 ```
 
-#### 9.9.2. Ninja
+#### 10.7.2. Ninja
 
 [Ninja](https://ninja-build.org/) is another build system supported by CMake and
 is known for its fast build times due to its minimalistic design. To use the
@@ -2379,7 +2371,7 @@ number of available CPU cores on your system):
 ninja -j$(nproc)
 ```
 
-### 9.10. CMake presets
+### 10.8. CMake presets
 
 The `CMakePresets.json` and `CMakeUserPresets.json` files in project root
 directory are available since CMake 3.19 for sharing build configurations.
@@ -2404,7 +2396,7 @@ cmake --build --preset default
 File `CMakeUserPresets.json` is ignored in Git because it is intended for user
 specific configuration.
 
-### 9.11. CMake GUI
+### 10.9. CMake GUI
 
 With CMake there comes also a basic graphical user interface to configure and
 generate the build system.
@@ -2440,7 +2432,7 @@ Building the sources to binaries can be then done in command line or IDE.
 cmake --build --preset default
 ```
 
-### 9.12. Testing
+### 10.10. Testing
 
 PHP source code tests (`*.phpt` files) are written in PHP and are executed with
 `run-tests.php` script from the very beginning of the PHP development. When
@@ -2472,7 +2464,7 @@ using the `CMakePresets.json` file and its `testPresets` field.
 ctest --preset unix-full
 ```
 
-### 9.13. Performance
+### 10.11. Performance
 
 When CMake is doing configuration phase, the profiling options can be used to do
 build system performance analysis of CMake script.
@@ -2483,22 +2475,11 @@ cmake --profiling-output ./profile.json --profiling-format google-trace ../php-s
 
 ![CMake profiling](docs/images/cmake-profiling.png)
 
-### 9.14. Installing PHP with CMake
+## 11. See more
 
-See [PHP installation](/docs/php-installation.md) chapter.
+Further help is documented at [docs](docs/README.md).
 
-## 10. See more
-
-### 10.1. Autotools
-
-Useful resources to learn more about Autoconf and Autotools in general:
-
-* [Autoconf documentation](https://www.gnu.org/software/autoconf/manual/index.html)
-* [Autotools Mythbuster](https://autotools.info/) - guide to Autotools
-* [GNU Autoconf Archive](https://github.com/autoconf-archive/autoconf-archive) -
-  community collection of Autoconf macros.
-
-### 10.2. CMake
+### 11.1. CMake
 
 Useful resources to learn more about CMake:
 
@@ -2506,14 +2487,14 @@ Useful resources to learn more about CMake:
 * [Effective Modern CMake](https://gist.github.com/mbinna/c61dbb39bca0e4fb7d1f73b0d66a4fd1)
 * [Awesome CMake](https://github.com/onqtam/awesome-cmake)
 
-### 10.3. CMake and PHP
+### 11.2. CMake and PHP
 
 Existing CMake and PHP discussions and resources:
 
 * [php-cmake](https://github.com/gloob/php-cmake) - CMake implementation in PHP.
 * [CMake discussion on PHP mailing list](https://externals.io/message/116655)
 
-### 10.4. PHP Internals
+### 11.3. PHP Internals
 
 Useful resources to learn more about PHP internals:
 

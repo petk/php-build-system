@@ -8,6 +8,7 @@ Module exposes the following function:
 
 include(CheckCSourceCompiles)
 
+# cmake-lint: disable=R0912
 function(php_check_builtin builtin result)
   message(STATUS "Checking for ${builtin}")
 
@@ -30,30 +31,23 @@ function(php_check_builtin builtin result)
   elseif(builtin STREQUAL "__builtin_frame_address")
     set(call "return __builtin_frame_address(0) != (void*)0;")
   elseif(builtin STREQUAL "__builtin_saddl_overflow")
-    set(call "long tmpvar;
-      return __builtin_saddl_overflow(3, 7, &tmpvar);")
+    set(call "long tmpvar; return __builtin_saddl_overflow(3, 7, &tmpvar);")
   elseif(builtin STREQUAL "__builtin_saddll_overflow")
-    set(call "long long tmpvar;
-      return __builtin_saddll_overflow(3, 7, &tmpvar);")
+    set(call "long long tmpvar; return __builtin_saddll_overflow(3, 7, &tmpvar);")
   elseif(builtin STREQUAL "__builtin_smull_overflow")
-    set(call "long tmpvar;
-      return __builtin_smull_overflow(3, 7, &tmpvar);")
+    set(call "long tmpvar; return __builtin_smull_overflow(3, 7, &tmpvar);")
   elseif(builtin STREQUAL "__builtin_smulll_overflow")
-    set(call "long long tmpvar;
-      return __builtin_smulll_overflow(3, 7, &tmpvar);")
+    set(call "long long tmpvar; return __builtin_smulll_overflow(3, 7, &tmpvar);")
   elseif(builtin STREQUAL "__builtin_ssubl_overflow")
-    set(call "long tmpvar;
-      return __builtin_ssubl_overflow(3, 7, &tmpvar);")
+    set(call "long tmpvar; return __builtin_ssubl_overflow(3, 7, &tmpvar);")
   elseif(builtin STREQUAL "__builtin_ssubll_overflow")
-    set(call "long long tmpvar;
-      return __builtin_ssubll_overflow(3, 7, &tmpvar);")
+    set(call "long long tmpvar; return __builtin_ssubll_overflow(3, 7, &tmpvar);")
   elseif(builtin STREQUAL "__builtin_unreachable")
     set(call "__builtin_unreachable();")
   elseif(builtin STREQUAL "__builtin_usub_overflow")
-    set(call "unsigned int tmpvar;
-      return __builtin_usub_overflow(3, 7, &tmpvar);")
+    set(call "unsigned int tmpvar; return __builtin_usub_overflow(3, 7, &tmpvar);")
   else()
-    message(WARNING "Bultin ${builtin} might not be supported. Please check build system files.")
+    message(WARNING "PHP/CheckBuiltin: ${builtin} might not be supported.")
     set(call "${builtin}();")
   endif()
 

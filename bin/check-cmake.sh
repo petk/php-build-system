@@ -97,21 +97,24 @@ test "$exit_code" = "0" && echo "OK"
 files=$(find ./cmake ./bin -type f -name "*.cmake" -o -name "CMakeLists.txt")
 
 # Run cmakelint. Some options are disabled and cmake-format checks them instead.
-echo "\nRunning cmakelint"
+echo
+echo "Running cmakelint"
 $cmakelint --filter=-linelength,-whitespace/indent $files
 status=$?
 
 test "$status" != "0" && exit_code=$status
 
 # Run cmake-lint from the cmakelang project.
-echo "\nRunning cmake-lint (cmakelang)"
+echo
+echo "Running cmake-lint (cmakelang)"
 $cmakelang_cmakelint --config-files cmake/cmake/cmake-format.json --suppress-decorations -- $files
 status=$?
 
 test "$status" != "0" && exit_code=$status
 
 # Run cmake-format.
-echo "\nRunning cmake-format (cmakelang)"
+echo
+echo "Running cmake-format (cmakelang)"
 $cmakelang_cmakeformat --config-files cmake/cmake/cmake-format.json --check -- $files
 #status=$?
 
