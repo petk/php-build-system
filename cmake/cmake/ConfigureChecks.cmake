@@ -167,56 +167,26 @@ include(PHP/CheckMissingFcloseDeclaration)
 # Check struct flock.
 include(PHP/CheckStructFlock)
 
-# Check for __builtin_expect.
-include(PHP/CheckBuiltinExpect)
+# Import builtins checker function.
+include(PHP/CheckBuiltin)
 
-# Check for __builtin_unreachable.
-include(PHP/CheckBuiltinUnreachable)
-
-# Check for __builtin_clz.
-include(PHP/CheckBuiltinClz)
-
-# Check for __builtin_clzl.
-include(PHP/CheckBuiltinClzl)
-
-# Check for __builtin_clzll.
-include(PHP/CheckBuiltinClzll)
-
-# Check for __builtin_ctzl.
-include(PHP/CheckBuiltinCtzl)
-
-# Check for __builtin_ctzll.
-include(PHP/CheckBuiltinCtzll)
-
-# Check for __builtin_smull_overflow.
-include(PHP/CheckBuiltinSmullOverflow)
-
-# Check for __builtin_smulll_overflow.
-include(PHP/CheckBuiltinSmulllOverflow)
-
-# Check for __builtin_saddl_overflow.
-include(PHP/CheckBuiltinSaddlOverflow)
-
-# Check for __builtin_saddll_overflow.
-include(PHP/CheckBuiltinSaddllOverflow)
-
-# Check for __builtin_usub_overflow.
-include(PHP/CheckBuiltinUsubOverflow)
-
-# Check for __builtin_ssubl_overflow.
-include(PHP/CheckBuiltinSsublOverflow)
-
-# Check for __builtin_ssubll_overflow.
-include(PHP/CheckBuiltinSsubllOverflow)
-
-# Check for __builtin_cpu_init.
-include(PHP/CheckBuiltinCpuInit)
-
-# Check for __builtin_cpu_supports.
-include(PHP/CheckBuiltinCpuSupports)
-
-# Check for __builtin_frame_address.
-include(PHP/CheckBuiltinFrameAddress)
+php_check_builtin(__builtin_clz PHP_HAVE_BUILTIN_CLZ)
+php_check_builtin(__builtin_clzl PHP_HAVE_BUILTIN_CLZL)
+php_check_builtin(__builtin_clzll PHP_HAVE_BUILTIN_CLZLL)
+php_check_builtin(__builtin_cpu_init PHP_HAVE_BUILTIN_CPU_INIT)
+php_check_builtin(__builtin_cpu_supports PHP_HAVE_BUILTIN_CPU_SUPPORTS)
+php_check_builtin(__builtin_ctzl PHP_HAVE_BUILTIN_CTZL)
+php_check_builtin(__builtin_ctzll PHP_HAVE_BUILTIN_CTZLL)
+php_check_builtin(__builtin_expect PHP_HAVE_BUILTIN_EXPECT)
+php_check_builtin(__builtin_frame_address PHP_HAVE_BUILTIN_FRAME_ADDRESS)
+php_check_builtin(__builtin_saddl_overflow PHP_HAVE_BUILTIN_SADDL_OVERFLOW)
+php_check_builtin(__builtin_saddll_overflow PHP_HAVE_BUILTIN_SADDLL_OVERFLOW)
+php_check_builtin(__builtin_smull_overflow PHP_HAVE_BUILTIN_SMULL_OVERFLOW)
+php_check_builtin(__builtin_smulll_overflow PHP_HAVE_BUILTIN_SMULLL_OVERFLOW)
+php_check_builtin(__builtin_ssubl_overflow PHP_HAVE_BUILTIN_SSUBL_OVERFLOW)
+php_check_builtin(__builtin_ssubll_overflow PHP_HAVE_BUILTIN_SSUBLL_OVERFLOW)
+php_check_builtin(__builtin_unreachable PHP_HAVE_BUILTIN_UNREACHABLE)
+php_check_builtin(__builtin_usub_overflow PHP_HAVE_BUILTIN_USUB_OVERFLOW)
 
 # Check AVX512.
 include(PHP/CheckAVX512)
