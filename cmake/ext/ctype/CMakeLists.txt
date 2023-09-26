@@ -8,8 +8,6 @@ if(NOT EXT_CTYPE)
   return()
 endif()
 
-project(ext_ctype VERSION ${CMAKE_PROJECT_VERSION} DESCRIPTION "Ctype PHP extension")
-
 if(EXT_CTYPE_SHARED OR BUILD_SHARED_LIBS)
   set(_library_type "SHARED")
 endif()

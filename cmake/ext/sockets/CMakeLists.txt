@@ -31,7 +31,7 @@ check_c_source_compiles("
   #include <sys/socket.h>
   #include <sys/types.h>
   #include <netdb.h>
-  int main() {
+  int main(void) {
     struct sockaddr_storage sa_store;
     sa_store.ss_family = AF_INET6;
 
@@ -44,7 +44,7 @@ message(STATUS "Checking if getaddrinfo supports AI_V4MAPPED")
 check_c_source_compiles("
   #include <netdb.h>
 
-  int main() {
+  int main(void) {
     int flag = AI_V4MAPPED;
     return 0;
   }
@@ -55,7 +55,7 @@ message(STATUS "Checking if getaddrinfo supports AI_ALL")
 check_c_source_compiles("
   #include <netdb.h>
 
-  int main() {
+  int main(void) {
     int flag = AI_ALL;
 
     return 0;
@@ -85,7 +85,7 @@ check_c_source_compiles("
   #endif
   #include <sys/socket.h>
 
-  int main() {
+  int main(void) {
     struct ucred u = {.gid = 0};
 
     return 0;
@@ -96,7 +96,7 @@ message(STATUS "Checking if ancillary credentials uses cmsgcred")
 
 check_c_source_compiles("
   #include <sys/socket.h>
-  int main() {
+  int main(void) {
     struct cmsgcred c = {0};
 
     return 0;
@@ -119,8 +119,7 @@ add_library(ext_sockets ${_library_type}
 
 target_compile_definitions(ext_sockets PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE=1)
 
-string(TOLOWER "${CMAKE_HOST_SYSTEM}" host_os)
-if(${host_os} MATCHES ".*darwin.*")
+if(CMAKE_HOST_SYSTEM_NAME STREQUAL "Darwin")
   target_compile_definitions(ext_sockets PRIVATE __APPLE_USE_RFC_3542)
 endif()
 

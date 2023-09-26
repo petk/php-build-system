@@ -8,13 +8,11 @@ if(NOT EXT_EXIF)
   return()
 endif()
 
-project(ext_exif VERSION ${CMAKE_PROJECT_VERSION} DESCRIPTION "Exif PHP extension")
-
 if(EXT_EXIF_SHARED OR BUILD_SHARED_LIBS)
   set(_library_type "SHARED")
 endif()
 
-php_extension(NAME exif ${_library_type})
+php_extension(NAME "exif" ${_library_type})
 
 add_library(ext_exif ${_library_type}
   exif.c

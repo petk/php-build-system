@@ -14,7 +14,7 @@ if(HAVE_COMMONCRYPTO_COMMONRANDOM_H)
     #include <sys/types.h>
     #include <Availability.h>
     #include <CommonCrypto/CommonCryptoError.h>
-    int main() {
+    int main(void) {
       return 0;
     }
   " COMMONCRYPTO_HEADERS_WORK)

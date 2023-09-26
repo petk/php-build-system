@@ -19,6 +19,8 @@ add_library(ext_tokenizer ${_library_type}
   tokenizer_data.c
 )
 
-# The tokenizer depends on the created Zend language scanner definitions header.
-# TODO: Check if this can be moved elsewhere.
+# TODO: Run the ext/tokenizer/tokenizer_data_gen.php script after PHP cli SAPI
+# has been built depending on the state of Zend/zend_language_parser.y.
+
+# The tokenizer depends on Zend language scanner definitions header.
 add_dependencies(ext_tokenizer Zend)

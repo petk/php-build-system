@@ -1,11 +1,14 @@
 #[=============================================================================[
 Check Zend max execution timers.
 
-The module defines the following variables if Zend max execution timers should
-be enabled:
+The module sets the following variables if Zend max execution timers should be
+enabled:
 
 ZEND_MAX_EXECUTION_TIMERS
   Set to 1 if Zend max execution timers should be enabled.
+
+ZEND_MAX_EXECUTION_TIMERS_LIBRARIES
+  Libraries for linking to target.
 ]=============================================================================]#
 
 include(CheckLibraryExists)
@@ -13,9 +16,11 @@ include(CheckSymbolExists)
 
 message(STATUS "Checking whether to enable Zend max execution timers")
 
-string(TOLOWER "${CMAKE_HOST_SYSTEM}" host_os)
-if(NOT ${host_os} MATCHES ".*linux.*")
+if(NOT CMAKE_HOST_SYSTEM_NAME STREQUAL "Linux")
+  message(STATUS "Zend max execution timers are disabled")
   set(ZEND_MAX_EXECUTION_TIMERS 0 CACHE BOOL "Whether to enable Zend max execution timers" FORCE)
+
+  return()
 endif()
 
 # Check if timer_create() exists.
@@ -26,17 +31,18 @@ if(NOT HAVE_TIMER_CREATE)
   check_library_exists(rt timer_create "" HAVE_TIMER_CREATE)
 
   if(HAVE_TIMER_CREATE)
-    set(EXTRA_LIBS ${EXTRA_LIBS} rt)
+    set(ZEND_MAX_EXECUTION_TIMERS_LIBRARIES rt)
   endif()
 endif()
 
 if(NOT HAVE_TIMER_CREATE)
+  message(STATUS "Zend max execution timers are disabled")
   set(ZEND_MAX_EXECUTION_TIMERS 0 CACHE BOOL "Whether to enable Zend max execution timers" FORCE)
+
+  return()
 endif()
 
 if(ZEND_MAX_EXECUTION_TIMERS)
   message(STATUS "Zend max execution timers are enabled")
   set(ZEND_MAX_EXECUTION_TIMERS 1 CACHE BOOL "Whether to enable Zend max execution timers" FORCE)
-else()
-  message(STATUS "Zend max execution timers are disabled")
 endif()

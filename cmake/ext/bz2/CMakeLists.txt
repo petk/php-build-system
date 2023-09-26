@@ -14,12 +14,12 @@ if(NOT EXT_BZ2)
 endif()
 
 if(EXT_BZ2_SHARED OR BUILD_SHARED_LIBS)
-  set(_extension_library_type "SHARED")
+  set(_library_type "SHARED")
 endif()
 
-php_extension(NAME "bz2" ${_extension_library_type})
+php_extension(NAME "bz2" ${_library_type})
 
-add_library(ext_bz2 ${_extension_library_type}
+add_library(ext_bz2 ${_library_type}
   bz2.c
   bz2_filter.c
 )

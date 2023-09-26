@@ -17,7 +17,7 @@ function(_php_ipv6)
     #include <sys/socket.h>
     #include <netinet/in.h>
 
-    int main() {
+    int main(void) {
       struct sockaddr_in6 s;
       struct in6_addr t = IN6ADDR_ANY_INIT;
       int i = AF_INET6;

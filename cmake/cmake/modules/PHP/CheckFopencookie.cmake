@@ -29,7 +29,7 @@ check_c_source_compiles("
   #define _GNU_SOURCE
   #include <stdio.h>
 
-  int main() {
+  int main(void) {
     cookie_io_functions_t cookie;
     return 0;
   }
@@ -43,8 +43,7 @@ set(HAVE_FOPENCOOKIE 1 CACHE INTERNAL "Set to 1 if fopencookie and cookie_io_fun
 
 # Newer glibcs have a different seeker definition.
 if(CMAKE_CROSSCOMPILING)
-  string(TOLOWER "${CMAKE_HOST_SYSTEM_NAME}" host_os)
-  if(${host_os} MATCHES ".*linux.*")
+  if(CMAKE_SYSTEM_NAME STREQUAL "Linux")
     set(_cookie_io_functions_use_off64_t ON)
   endif()
 else()

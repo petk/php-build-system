@@ -25,6 +25,7 @@ patterns="
 #undef\sZEND_FIBER_ASM
 #undef\sHAVE_MYSQL
 #undef\sHAVE_LIBPQ
+#undef\sHAVE_TIMER_CREATE
 "
 
 # Similar to the above patterns except the two lines above and one after the

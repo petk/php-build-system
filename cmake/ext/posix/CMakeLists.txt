@@ -13,8 +13,6 @@ if(NOT EXT_POSIX)
   return()
 endif()
 
-project(ext_posix VERSION ${CMAKE_PROJECT_VERSION} DESCRIPTION "POSIX PHP extension")
-
 if(EXT_POSIX_SHARED OR BUILD_SHARED_LIBS)
   set(_library_type "SHARED")
 endif()
@@ -74,8 +72,7 @@ check_c_source_compiles("
   #define _GNU_SOURCE
   #include <sys/utsname.h>
 
-  int main()
-  {
+  int main(void) {
     return sizeof(((struct utsname *)0)->domainname);
   }
 " HAVE_UTSNAME_DOMAINNAME)

@@ -115,11 +115,6 @@ else()
       #ifndef __CET__
       # error CET is not enabled
       #endif
-      int main()
-      {
-        ;
-        return 0;
-      }
       " have_pcre2_intel_cet
     )
 

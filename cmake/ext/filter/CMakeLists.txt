@@ -12,7 +12,7 @@ if(EXT_FILTER_SHARED OR BUILD_SHARED_LIBS)
   set(_library_type "SHARED")
 endif()
 
-php_extension(NAME filter ${_library_type})
+php_extension(NAME "filter" ${_library_type})
 
 add_library(ext_filter ${_library_type}
   filter.c

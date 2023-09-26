@@ -41,7 +41,7 @@ if(EXTRA_DEFINITIONS)
   target_compile_definitions(php PRIVATE ${EXTRA_DEFINITIONS})
 endif()
 
-if(APPLE)
+if(CMAKE_HOST_SYSTEM_NAME STREQUAL "Darwin")
   set_target_properties(php PROPERTIES LINK_FLAGS "-undefined dynamic_lookup")
 endif()
 

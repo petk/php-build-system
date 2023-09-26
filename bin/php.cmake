@@ -112,7 +112,7 @@ if(NOT EXISTS ${_php_tarball})
 
   message(STATUS "Downloading PHP ${PHP_VERSION}")
 
-  file(DOWNLOAD ${_download_url} ${_php_tarball} SHOW_PROGRESS TLS_VERIFY ON)
+  file(DOWNLOAD ${_download_url} ${_php_tarball} SHOW_PROGRESS)
 endif()
 
 # Check if git command is available.

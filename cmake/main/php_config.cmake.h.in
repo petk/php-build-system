@@ -1700,9 +1700,6 @@
 /* Have timelib_config.h */
 #cmakedefine HAVE_TIMELIB_CONFIG_H @HAVE_TIMELIB_CONFIG_H@
 
-/* */
-#cmakedefine HAVE_TIMER_CREATE @HAVE_TIMER_CREATE@
-
 /* do we have times? */
 #cmakedefine HAVE_TIMES @HAVE_TIMES@
 

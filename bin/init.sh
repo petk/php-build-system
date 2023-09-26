@@ -161,4 +161,4 @@ fi
 # Run CMake preset configuration and build.
 cd php-src
 $cmake --preset ${preset} ${cmake_debug_options} ${options}
-$cmake --build --preset ${preset} $cmake_verbose -- -j $(nproc)
+$cmake --build --preset ${preset} $cmake_verbose --parallel

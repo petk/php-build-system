@@ -26,10 +26,8 @@ set(PHP_VERSION "${PHP_VERSION}${PHP_VERSION_LABEL}")
 set(CMAKE_C_STANDARD 99)
 set(CMAKE_C_STANDARD_REQUIRED TRUE)
 
-add_compile_definitions("$<$<COMPILE_LANGUAGE:C>:_GNU_SOURCE>")
-
-# Set GNU standard installation directories.
-include(GNUInstallDirs)
+# Set platform specific configuration.
+include(cmake/Platform.cmake)
 
 # Set PHP configuration options and variables.
 include(cmake/Configuration.cmake)
@@ -42,9 +40,9 @@ include(cmake/ConfigureChecks.cmake)
 
 # TODO: Check if this can be fixed better.
 include_directories(${CMAKE_SOURCE_DIR})
-include_directories("${CMAKE_CURRENT_SOURCE_DIR}/main")
-include_directories("${CMAKE_CURRENT_SOURCE_DIR}/TSRM")
-include_directories("${CMAKE_CURRENT_SOURCE_DIR}/Zend")
+include_directories(${CMAKE_BINARY_DIR})
+include_directories("${CMAKE_CURRENT_BINARY_DIR}/main")
+include_directories("${CMAKE_CURRENT_BINARY_DIR}/Zend")
 
 message("
 +--------------------------------------------------------------------+

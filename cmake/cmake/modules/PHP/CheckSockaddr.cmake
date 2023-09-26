@@ -19,7 +19,7 @@ check_c_source_compiles("
   #include <sys/types.h>
   #include <sys/socket.h>
 
-  int main() {
+  int main(void) {
     struct sockaddr_storage s; s;
     return 0;
   }
@@ -31,7 +31,7 @@ check_c_source_compiles("
   #include <sys/types.h>
   #include <sys/socket.h>
 
-  int main() {
+  int main(void) {
     static struct sockaddr sa;
     int n = (int) sa.sa_len;
     return n;

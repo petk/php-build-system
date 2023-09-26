@@ -2,14 +2,36 @@
 
 This is a brief introduction to Autotools build system.
 
-* [1. Testing if program works](#1-testing-if-program-works)
-  * [1.1. AC\_COMPILE\_IFELSE](#11-ac_compile_ifelse)
-  * [1.2. AC\_LINK\_IFELSE](#12-ac_link_ifelse)
-  * [1.3. AC\_RUN\_IFELSE](#13-ac_run_ifelse)
-* [2. GNU Autoconf Archive](#2-gnu-autoconf-archive)
-* [3. See more](#3-see-more)
+* [1. Determining platform](#1-determining-platform)
+* [2. Testing if program works](#2-testing-if-program-works)
+  * [2.1. AC\_COMPILE\_IFELSE](#21-ac_compile_ifelse)
+  * [2.2. AC\_LINK\_IFELSE](#22-ac_link_ifelse)
+  * [2.3. AC\_RUN\_IFELSE](#23-ac_run_ifelse)
+* [3. GNU Autoconf Archive](#3-gnu-autoconf-archive)
+* [4. See more](#4-see-more)
 
-## 1. Testing if program works
+## 1. Determining platform
+
+With Autotools there are several shell variables that help determine the
+platform characteristics such as CPU, operating system and vendor name. When
+using macros `AC_CANONICAL_BUILD`, `AC_CANONICAL_HOST`, and
+`AC_CANONICAL_TARGET` in the M4 files, `config.sub` and `config.sub` scripts
+help determine the values of variables `build_alias`, `host_alias`, and
+`target_alias`.
+
+Users can also manually override these variables for their specific case using
+the `--build`, `--host`, and `--target` configure options.
+
+In M4 files platform can be then determined using above shell variables in
+variety of ways:
+
+```m4
+AS_CASE([$host_alias],[*freebsd*|*openbsd*],[
+  # Action that is run only on FreeBSD and OpenBSD systems.
+])
+```
+
+## 2. Testing if program works
 
 There are 3 main Autoconf macros that check if certain test code is successful.
 
@@ -25,7 +47,7 @@ int main(void) {
 }
 ```
 
-### 1.1. AC_COMPILE_IFELSE
+### 2.1. AC_COMPILE_IFELSE
 
 ```m4
 AC_COMPILE_IFELSE([AC_LANG_PROGRAM([[#include <stdio.h>]],
@@ -52,7 +74,7 @@ The `AC_COMPILE_IFELSE` will run the compilation step, for example:
 gcc -o out -c hello_world.c
 ```
 
-### 1.2. AC_LINK_IFELSE
+### 2.2. AC_LINK_IFELSE
 
 ```m4
 AC_LINK_IFELSE([AC_LANG_PROGRAM([[#include <stdio.h>]],
@@ -67,15 +89,15 @@ This will run compilation and linking:
 gcc -o out hello_world.c
 ```
 
-### 1.3. AC_RUN_IFELSE
+### 2.3. AC_RUN_IFELSE
 
-This will compile, link and also run the program and check if the return code is
+This will compile, link and also run the program to check if the return code is
 0.
 
 Issue with `AC_RUN_IFELSE` is when doing so called cross-compilation. That is
 bulding C software on one platform with purpose of running it on some other
 platform. In this case the program cannot be run and we cannot be sure of if it
-running successfully or not.
+is running successfully or not.
 
 ```m4
 AC_RUN_IFELSE([AC_LANG_PROGRAM([[#include <stdio.h>]],
@@ -92,7 +114,7 @@ gcc -o out hello_world.c
 ./out
 ```
 
-## 2. GNU Autoconf Archive
+## 3. GNU Autoconf Archive
 
 To reuse the code there is a community collection of Autoconf macros available
 at [autoconf-archive](https://github.com/autoconf-archive/autoconf-archive).
@@ -119,7 +141,7 @@ AC_CONFIG_MACRO_DIR([path/to/m4/dir])
 
 However, the `aclocal` from Automake is needed for this to work.
 
-## 3. See more
+## 4. See more
 
 Useful resources to learn more about Autoconf and Autotools in general:
 

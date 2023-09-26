@@ -9,10 +9,10 @@ add_library(ext_json STATIC
 
 if(BISON_FOUND)
   bison_target(JsonParser
-    "${CMAKE_CURRENT_BINARY_DIR}/json_parser.y"
-    "${CMAKE_CURRENT_BINARY_DIR}/json_parser.tab.c"
+    "${CMAKE_CURRENT_SOURCE_DIR}/json_parser.y"
+    "${CMAKE_CURRENT_SOURCE_DIR}/json_parser.tab.c"
     COMPILE_FLAGS "--defines -l"
-    DEFINES_FILE "${CMAKE_CURRENT_BINARY_DIR}/json_parser.tab.h"
+    DEFINES_FILE "${CMAKE_CURRENT_SOURCE_DIR}/json_parser.tab.h"
   )
 endif()
 

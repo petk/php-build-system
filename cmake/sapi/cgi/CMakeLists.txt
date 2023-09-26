@@ -12,7 +12,7 @@ target_compile_definitions(php-cgi PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE=1)
 
 target_link_libraries(php-cgi PRIVATE main)
 
-if(APPLE)
+if(CMAKE_HOST_SYSTEM_NAME STREQUAL "Darwin")
   set_target_properties(php-cgi PROPERTIES LINK_FLAGS "-undefined dynamic_lookup")
 endif()
 

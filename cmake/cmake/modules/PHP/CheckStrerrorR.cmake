@@ -26,7 +26,7 @@ cmake_push_check_state(RESET)
   check_c_source_compiles("
     #include <string.h>
 
-    int main() {
+    int main(void) {
       char buf[100];
       char x = *strerror_r (0, buf, sizeof buf);
       char *p = strerror_r (0, buf, sizeof buf);

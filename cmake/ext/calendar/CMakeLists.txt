@@ -8,15 +8,13 @@ if(NOT EXT_CALENDAR)
   return()
 endif()
 
-project(ext_calendar VERSION ${CMAKE_PROJECT_VERSION} DESCRIPTION "Calendar PHP extension")
-
 if(EXT_CALENDAR_SHARED OR BUILD_SHARED_LIBS)
-  set(_extension_library_type "SHARED")
+  set(_library_type "SHARED")
 endif()
 
-php_extension(NAME "calendar" ${_extension_library_type})
+php_extension(NAME "calendar" ${_library_type})
 
-add_library(ext_calendar ${_extension_library_type}
+add_library(ext_calendar ${_library_type}
   calendar.c
   dow.c
   french.c

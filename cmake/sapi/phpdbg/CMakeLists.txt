@@ -35,9 +35,9 @@ add_executable(phpdbg
 )
 
 if(BISON_FOUND)
-  bison_target(PhpDbgParser phpdbg_parser.y ${CMAKE_CURRENT_BINARY_DIR}/phpdbg_parser.c
+  bison_target(PhpDbgParser phpdbg_parser.y ${CMAKE_CURRENT_SOURCE_DIR}/phpdbg_parser.c
     COMPILE_FLAGS "-v -d"
-    DEFINES_FILE ${CMAKE_CURRENT_BINARY_DIR}/phpdbg_parser.h
+    DEFINES_FILE ${CMAKE_CURRENT_SOURCE_DIR}/phpdbg_parser.h
   )
 endif()
 
@@ -63,7 +63,7 @@ if(EXTRA_DEFINITIONS)
   target_compile_definitions(phpdbg PRIVATE ${EXTRA_DEFINITIONS})
 endif()
 
-if(APPLE)
+if(CMAKE_HOST_SYSTEM_NAME STREQUAL "Darwin")
   set_target_properties(phpdbg PROPERTIES LINK_FLAGS "-undefined dynamic_lookup")
 endif()
 
@@ -76,6 +76,8 @@ check_c_source_compiles("
 " HAVE_USERFAULTFD_WRITEFAULT)
 
 set_target_properties(phpdbg PROPERTIES ENABLE_EXPORTS TRUE)
+
+set(HAVE_PHPDBG 1 CACHE INTERNAL "")
 
 # Man documentation.
 configure_file(phpdbg.1.in phpdbg.1 @ONLY)

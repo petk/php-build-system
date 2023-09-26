@@ -16,8 +16,7 @@ check_c_source_compiles("
   #include <sys/ipc.h>
   #include <sys/sem.h>
 
-  int main()
-  {
+  int main(void) {
     union semun x;
 
     return 0;

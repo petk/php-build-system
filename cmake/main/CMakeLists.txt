@@ -39,8 +39,11 @@ add_library(main STATIC
 target_include_directories(
   main
   PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}
+          ${CMAKE_CURRENT_BINARY_DIR}
           ${CMAKE_CURRENT_SOURCE_DIR}/../Zend
   INTERFACE ${CMAKE_CURRENT_SOURCE_DIR}
+            ${CMAKE_CURRENT_BINARY_DIR}
+            ${CMAKE_CURRENT_SOURCE_DIR}/../TSRM
 )
 
 target_compile_definitions(main PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE=1)
@@ -49,7 +52,7 @@ if(HAVE_DTRACE)
   add_dependencies(main zend_dtrace)
 endif()
 
-target_link_libraries(main PRIVATE Zend)
+target_link_libraries(main PUBLIC Zend)
 
 if(EXTRA_LIBS)
   target_link_libraries(main PRIVATE ${EXTRA_LIBS})
@@ -64,9 +67,12 @@ foreach(item IN LISTS PHP_EXTENSIONS_STATIC)
   target_include_directories(
     ext_${item}
     PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}
+            ${CMAKE_CURRENT_BINARY_DIR}
             ${CMAKE_SOURCE_DIR}
+            ${CMAKE_BINARY_DIR}
             ${CMAKE_SOURCE_DIR}/TSRM
             ${CMAKE_SOURCE_DIR}/Zend
+            ${CMAKE_BINARY_DIR}/Zend
   )
   target_link_libraries(main PRIVATE ext_${item})
 
@@ -92,7 +98,7 @@ foreach(item IN LISTS PHP_EXTENSIONS_SHARED)
   set_property(TARGET ext_${item} PROPERTY POSITION_INDEPENDENT_CODE TRUE)
 
   # On macOS, additional linker flags need to be passed for shared libraries.
-  if(APPLE)
+  if(CMAKE_HOST_SYSTEM_NAME STREQUAL "Darwin")
     set_target_properties(ext_${item} PROPERTIES LINK_FLAGS "-undefined dynamic_lookup")
   endif()
 

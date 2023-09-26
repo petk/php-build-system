@@ -12,8 +12,7 @@ HAVE_FNMATCH
 
 function(_php_check_fnmatch)
   if(CMAKE_CROSSCOMPILING)
-    string(TOLOWER "${CMAKE_HOST_SYSTEM}" host_os)
-    if(${host_os} MATCHES ".*linux.*")
+    if(CMAKE_SYSTEM_NAME STREQUAL "Linux")
       set(successful TRUE)
     endif()
   else()

@@ -16,7 +16,7 @@ message(STATUS "Checking for getaddrinfo")
 check_c_source_compiles("
   #include <netdb.h>
 
-  int main() {
+  int main(void) {
     struct addrinfo *g,h;g=&h;getaddrinfo(\"\",\"\",g,&g);
     return 0;
   }
@@ -67,8 +67,7 @@ if(_have_getaddrinfo AND NOT CMAKE_CROSSCOMPILING)
 endif()
 
 if(CMAKE_CROSSCOMPILING)
-  string(TOLOWER "${CMAKE_HOST_SYSTEM}" host_os)
-  if(${host_os} MATCHES ".*linux.*")
+  if(CMAKE_SYSTEM_NAME STREQUAL "Linux")
     set(_have_getaddrinfo ON)
   else()
     set(_have_getaddrinfo OFF)

@@ -1,6 +1,25 @@
 #[=============================================================================[
-Check for any missing system requirements.
+Check system requirements.
 ]=============================================================================]#
+
+include(CheckCSourceRuns)
+
+# Check whether the system uses EBCDIC (not ASCII) as its native codeset.
+message(STATUS "Checking whether system uses EBCDIC")
+
+if(NOT CMAKE_CROSSCOMPILING)
+  check_c_source_runs("
+    int main(void) {
+      return (unsigned char)'A' != (unsigned char)0xC1;
+    }
+  " _is_ebcdic)
+endif()
+
+if(_is_ebcdic)
+  message(FATAL_ERROR "PHP does not support EBCDIC targets")
+else()
+  message(STATUS "OK")
+endif()
 
 # Check if bison and re2c are required.
 #
@@ -8,7 +27,7 @@ Check for any missing system requirements.
 # and parser files. In such cases these don't need to be generated again. When
 # building from a Git repository, bison and re2c are required to be installed so
 # files can be generated as part of the build process.
-
+#
 # Check if bison is required.
 if(
   NOT EXISTS "${CMAKE_SOURCE_DIR}/Zend/zend_ini_parser.c"

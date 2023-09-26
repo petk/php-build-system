@@ -3,7 +3,7 @@ Checks for x87 floating point internal precision control.
 
 See: https://wiki.php.net/rfc/rounding
 
-The module defines the following variables:
+The module sets the following cache variables:
 
 HAVE__FPU_SETCW
   Defined to 1 if _FPU_SETCW is usable.
@@ -28,7 +28,7 @@ message(STATUS "Checking for usable _FPU_SETCW")
 check_c_source_compiles("
   #include <fpu_control.h>
 
-  int main() {
+  int main(void) {
     fpu_control_t fpu_oldcw, fpu_cw;
     volatile double result;
     double a = 2877.0;
@@ -49,7 +49,7 @@ message(STATUS "Checking for usable fpsetprec")
 check_c_source_compiles("
   #include <machine/ieeefp.h>
 
-  int main() {
+  int main(void) {
     fp_prec_t fpu_oldprec;
     volatile double result;
     double a = 2877.0;
@@ -69,7 +69,7 @@ message(STATUS "Checking for usable _controlfp")
 check_c_source_compiles("
   #include <float.h>
 
-  int main() {
+  int main(void) {
     unsigned int fpu_oldcw;
     volatile double result;
     double a = 2877.0;
@@ -89,7 +89,7 @@ message(STATUS "Checking for usable _controlfp_s")
 check_c_source_compiles("
   #include <float.h>
 
-  int main() {
+  int main(void) {
     unsigned int fpu_oldcw, fpu_cw;
     volatile double result;
     double a = 2877.0;
@@ -108,7 +108,7 @@ check_c_source_compiles("
 message(STATUS "Checking whether FPU control word can be manipulated by inline assembler")
 
 check_c_source_compiles("
-  int main() {
+  int main(void) {
     unsigned int oldcw, cw;
     volatile double result;
     double a = 2877.0;

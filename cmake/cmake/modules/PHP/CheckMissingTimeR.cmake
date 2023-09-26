@@ -16,7 +16,7 @@ message(STATUS "Checking for missing declarations of reentrant functions")
 check_c_source_compiles("
   #include <time.h>
 
-  int main() {
+  int main(void) {
     struct tm *(*func)() = localtime_r;
     return 0;
   }
@@ -29,7 +29,7 @@ endif()
 check_c_source_compiles("
   #include <time.h>
 
-  int main() {
+  int main(void) {
     struct tm *(*func)() = gmtime_r;
     return 0;
   }
@@ -42,7 +42,7 @@ endif()
 check_c_source_compiles("
   #include <time.h>
 
-  int main() {
+  int main(void) {
     char *(*func)() = asctime_r;
     return 0;
   }
@@ -55,7 +55,7 @@ endif()
 check_c_source_compiles("
   #include <time.h>
 
-  int main() {
+  int main(void) {
     char *(*func)() = ctime_r;
     return 0;
   }
@@ -68,7 +68,7 @@ endif()
 check_c_source_compiles("
   #include <string.h>
 
-  int main() {
+  int main(void) {
     char *(*func)() = strtok_r;
     return 0;
   }

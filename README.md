@@ -44,12 +44,18 @@ to build PHP with CMake.
 Follow these steps to build PHP with CMake using this repository:
 
 ```sh
+# Prerequisites for Debian based distributions:
+sudo apt install cmake gcc g++ bison re2c libxml2-dev libsqlite3-dev
+
+# Prerequisites for Fedora based distributions:
+sudo dnf install cmake gcc gcc-c++ bison re2c libxml2-devel sqlite-devel
+
 # Clone this repository:
 git clone https://github.com/petk/php-build-system
 cd php-build-system
 
-# Download latest PHP sources and add CMake files to them:
-./bin/php.cmake
+# Download latest PHP and add CMake files:
+cmake -P bin/php.cmake
 
 # Go into newly created directory, for example:
 cd php-8.4-dev
@@ -58,12 +64,9 @@ cd php-8.4-dev
 cmake .
 
 # Build PHP in parallel:
-cmake --build . -- --jobs 12
+cmake --build . --parallel
 
 ./sapi/cli/php -v
-
-# Run tests in parallel:
-./sapi/cli/php run-tests.php -j12
 ```
 
 ## 3. Introduction
@@ -696,14 +699,14 @@ Directory structure from the CMake perspective looks like this:
        └─ PHP/               # PHP utility modules namespace directory
           ├─ */              # Optional module directories with additional files
           └─ *.cmake         # Project customized CMake utility modules
+       └─ Zend/              # Zend utility modules namespace directory
+          └─ ...
        ├─ Find*.cmake        # Find modules that support the find_package()
        └─ *.cmake            # Any possible additional utility modules
+    ├─ *.cmake               # Various CMake configurations and tools
     ├─ cmake-format.json     # cmake-lint and cmake-format tools configuration
     └─ ...
  └─ ext/
-    └─ bcmath/
-       ├─ CMakeLists.txt     # Extension's CMake file
-       └─ ...
     └─ date/
        ├─ CMakeLists.txt     # Extension's CMake file
        └─ ...

@@ -11,6 +11,7 @@ ecosystem.
   * [2.4. Module naming conventions](#24-module-naming-conventions)
   * [2.5. Booleans](#25-booleans)
   * [2.6. Functions and macros](#26-functions-and-macros)
+  * [2.7. Determining platform](#27-determining-platform)
 * [3. Tools](#3-tools)
   * [3.1. cmake-format (by cmakelang project)](#31-cmake-format-by-cmakelang-project)
   * [3.2. cmake-lint (by cmakelang project)](#32-cmake-lint-by-cmakelang-project)
@@ -221,6 +222,41 @@ CMake functions possess global scope. Likewise, just like variables, functions
 that are exclusively used within a single CMake module or `CMakeLists.txt` file
 should be prefixed with an underscore (`_`). This prefix serves as a signal to
 external code to refrain from using them.
+
+### 2.7. Determining platform
+
+CMake offers variables such as `APPLE`, `LINUX`, `UNIX`, `WIN32` etc. However,
+they might be removed in the future CMake versions. Recommendation is to use:
+
+* `CMAKE_SYSTEM_NAME` in code or `PLATFORM_ID` in generators for targeted
+  platform (this is also the name of the target when doing cross-compilattion).
+* And the `CMAKE_HOST_SYSTEM_NAME` which is platform where CMake is building on.
+
+For example, detecting Linux target system:
+
+```cmake
+if(CMAKE_SYSTEM_NAME STREQUAL "Linux")
+  # ...
+endif()
+```
+
+Detecting Apple systems targets such as macOS, OS X etc.:
+
+```cmake
+if(CMAKE_SYSTEM_NAME STREQUAL "Darwin")
+  # ...
+endif()
+```
+
+Detecting Windows target:
+
+```cmake
+if(CMAKE_SYSTEM_NAME STREQUAL "Windows")
+  # ...
+endif()
+```
+
+See also [CMakeDetermineSystem.cmake](https://gitlab.kitware.com/cmake/cmake/-/blob/master/Modules/CMakeDetermineSystem.cmake).
 
 ## 3. Tools
 

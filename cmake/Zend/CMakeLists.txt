@@ -4,8 +4,6 @@ include(CheckIncludeFile)
 include(CheckSymbolExists)
 include(CMakePushCheckState)
 
-message(STATUS "Building Zend Engine library")
-
 check_include_file(cpuid.h HAVE_CPUID_H)
 
 check_symbol_exists(getpid "unistd.h" HAVE_GETPID)
@@ -35,7 +33,7 @@ cmake_pop_check_state()
 message(STATUS "Checking whether __cpuid_count is available")
 check_c_source_compiles("
   #include <cpuid.h>
-  int main() {
+  int main(void) {
     unsigned eax, ebx, ecx, edx;
     __cpuid_count(0, 0, eax, ebx, ecx, edx);
 
@@ -44,42 +42,27 @@ check_c_source_compiles("
 " HAVE_CPUID_COUNT)
 
 # Check if dlsym() needs underscore.
-include(PHP/CheckDlsym)
+include(Zend/CheckDlsym)
 
 # Check which inline keyword compiler supports.
-include(PHP/CheckInline)
-
-message(STATUS "Checking if target system is Darwin")
-string(TOLOWER "${CMAKE_HOST_SYSTEM_NAME}" host_os)
-if(${host_os} MATCHES ".*darwin.*")
-  message(STATUS "yes")
-  set(DARWIN 1 CACHE INTERNAL "Define if the target system is darwin")
-else()
-  message(STATUS "no")
-endif()
+include(Zend/CheckInline)
 
 # Check MM alignment.
-include(PHP/CheckMMAlignment)
+include(Zend/CheckMMAlignment)
 
 # Check for global register variables.
 if(ZEND_GCC_GLOBAL_REGS)
-  include(PHP/CheckGccGlobalRegisterVars)
+  include(Zend/CheckGccGlobalRegisterVars)
 endif()
 
 # Check if stack grows downward.
-include(PHP/CheckStackLimit)
+include(Zend/CheckStackLimit)
 
 # Check float precision.
-include(PHP/CheckFloatPrecision)
+include(Zend/CheckFloatPrecision)
 
 # Check Zend signals.
-include(PHP/CheckZendSignals)
-
-# Check Zend max execution timers.
-include(PHP/CheckZendMaxExecutionTimers)
-
-message(STATUS "Creating Zend/zend_config.h")
-file(WRITE zend_config.h "#include <../main/php_config.h>\n")
+include(Zend/CheckZendSignals)
 
 add_library(Zend STATIC
   zend_language_parser.c
@@ -206,15 +189,28 @@ target_include_directories(
   Zend
   PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}
           ${CMAKE_SOURCE_DIR}
+          ${CMAKE_CURRENT_BINARY_DIR}
+          ${CMAKE_BINARY_DIR}
+          ${CMAKE_SOURCE_DIR}/main
+          ${CMAKE_BINARY_DIR}/main
   INTERFACE ${CMAKE_CURRENT_SOURCE_DIR}
+            ${CMAKE_CURRENT_BINARY_DIR}
+            ${CMAKE_SOURCE_DIR}/TSRM
 )
+
+# Check Zend max execution timers.
+include(Zend/CheckZendMaxExecutionTimers)
+
+if(ZEND_MAX_EXECUTION_TIMERS_LIBRARIES)
+  target_link_libraries(Zend PRIVATE ${ZEND_MAX_EXECUTION_TIMERS_LIBRARIES})
+endif()
 
 target_link_libraries(Zend PRIVATE TSRM)
 
 target_compile_definitions(Zend PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE=1)
 
 # Check for fibers support.
-include(PHP/CheckFibers)
+include(Zend/CheckFibers)
 
 if(ZEND_FIBER_ASM)
   add_library(ZendAsm STATIC
@@ -298,9 +294,14 @@ if(ZEND_MAX_EXECUTION_TIMERS)
   target_compile_definitions(Zend PRIVATE ZEND_MAX_EXECUTION_TIMERS)
 endif()
 
+message(STATUS "Creating Zend/zend_config.h")
+file(WRITE ${CMAKE_BINARY_DIR}/Zend/zend_config.h "#include <../main/php_config.h>\n")
+
 file(GLOB_RECURSE _zend_headers "${PROJECT_SOURCE_DIR}/Zend/*.h")
+list(APPEND _zend_headers "${CMAKE_CURRENT_BINARY_DIR}/zend_config.h")
 install(FILES ${_zend_headers} DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/php/Zend)
 
+# TODO: Duplicate installation step.
 install(
   FILES
     Optimizer/zend_call_graph.h

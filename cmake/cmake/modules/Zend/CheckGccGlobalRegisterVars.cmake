@@ -39,9 +39,11 @@ function(_php_check_gcc_global_register_vars)
     #else
     # error \"global register variables are not supported\"
     #endif
+
     typedef int (*opcode_handler_t)(void);
     register void *FP  __asm__(ZEND_VM_FP_GLOBAL_REG);
     register const opcode_handler_t *IP __asm__(ZEND_VM_IP_GLOBAL_REG);
+
     int emu(const opcode_handler_t *ip, void *fp) {
       const opcode_handler_t *orig_ip = IP;
       void *orig_fp = FP;

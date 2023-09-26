@@ -42,8 +42,7 @@ if(EXT_OPCACHE_JIT)
     set(DASM_ARCH "arm64")
   endif()
 
-  string(TOLOWER "${CMAKE_HOST_SYSTEM_NAME}" _host_system_name)
-  if(${CMAKE_HOST_SYSTEM_PROCESSOR} MATCHES "x86_64.*" AND ${_host_system_name} MATCHES "darwin.*")
+  if(CMAKE_HOST_SYSTEM_PROCESSOR MATCHES "x86_64.*" AND CMAKE_HOST_SYSTEM_NAME STREQUAL "Darwin")
     list(APPEND DASM_FLAGS -D X64APPLE=1)
   endif()
 
@@ -75,27 +74,6 @@ endif()
 # OPcache extension can be either disabled or built as shared.
 php_extension(NAME "opcache" SHARED)
 
-if(EXT_OPCACHE_JIT)
-  add_executable(minilua
-    jit/dynasm/minilua.c
-  )
-
-  target_link_libraries(minilua PRIVATE m)
-
-  add_custom_command(
-    OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/jit/zend_jit_${DASM_ARCH}.c
-    COMMAND minilua ${CMAKE_CURRENT_BINARY_DIR}/jit/dynasm/dynasm.lua ${DASM_FLAGS} -o ${CMAKE_CURRENT_BINARY_DIR}/jit/zend_jit_${DASM_ARCH}.c ${CMAKE_CURRENT_SOURCE_DIR}/jit/zend_jit_${DASM_ARCH}.dasc
-    DEPENDS minilua
-    COMMENT "Generating ext/opcache/jit/zend_jit_${DASM_ARCH}.c"
-  )
-
-  add_custom_target(
-    BuildZendJitForArchitecture
-    DEPENDS ${CMAKE_CURRENT_BINARY_DIR}/jit/zend_jit_${DASM_ARCH}.c
-    COMMENT "Building Zend JIT for architecture ${DASM_ARCH}"
-  )
-endif()
-
 add_library(ext_opcache SHARED
   ZendAccelerator.c
   zend_accelerator_blacklist.c
@@ -116,6 +94,7 @@ target_include_directories(
   ext_opcache
   PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}
           ${CMAKE_CURRENT_SOURCE_DIR}/jit
+          ${CMAKE_CURRENT_BINARY_DIR}/jit
 )
 
 target_compile_options(ext_opcache PRIVATE
@@ -124,11 +103,42 @@ target_compile_options(ext_opcache PRIVATE
 
 target_compile_definitions(ext_opcache PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE=1)
 
+if(SHM_MMAP_POSIX_REQUIRED_LIBRARIES)
+  target_link_libraries(ext_opcache PRIVATE ${SHM_MMAP_POSIX_REQUIRED_LIBRARIES})
+endif()
+
 if(EXT_OPCACHE_JIT)
   target_sources(ext_opcache PRIVATE
     jit/zend_jit.c
     jit/zend_jit_gdb.c
     jit/zend_jit_vm_helpers.c
+  )
+
+  add_executable(minilua
+    jit/dynasm/minilua.c
+  )
+
+  target_link_libraries(minilua PRIVATE m)
+
+  # Create jit directory in the current build directory if it doesn't exist yet.
+  add_custom_command(
+    OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/jit
+    COMMAND ${CMAKE_COMMAND} -E make_directory ${CMAKE_CURRENT_BINARY_DIR}/jit
+    COMMENT "Creating ext/opcache/jit directory"
+  )
+
+  # Generate Zend Jit for architecture.
+  add_custom_command(
+    OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/jit/zend_jit_${DASM_ARCH}.c
+    COMMAND minilua ${CMAKE_CURRENT_LIST_DIR}/jit/dynasm/dynasm.lua ${DASM_FLAGS} -o ${CMAKE_CURRENT_BINARY_DIR}/jit/zend_jit_${DASM_ARCH}.c ${CMAKE_CURRENT_LIST_DIR}/jit/zend_jit_${DASM_ARCH}.dasc
+    DEPENDS minilua ${CMAKE_CURRENT_BINARY_DIR}/jit
+    COMMENT "Generating ext/opcache/jit/zend_jit_${DASM_ARCH}.c"
+  )
+
+  add_custom_target(
+    BuildZendJitForArchitecture
+    DEPENDS ${CMAKE_CURRENT_BINARY_DIR}/jit/zend_jit_${DASM_ARCH}.c
+    COMMENT "Building Zend JIT for architecture ${DASM_ARCH}"
   )
 
   add_dependencies(ext_opcache BuildZendJitForArchitecture)
@@ -149,10 +159,6 @@ if(EXT_OPCACHE_JIT)
       endif()
     endif()
   endif()
-endif()
-
-if(SHM_MMAP_POSIX_REQUIRED_LIBRARIES)
-  target_link_libraries(ext_opcache PRIVATE ${SHM_MMAP_POSIX_REQUIRED_LIBRARIES})
 endif()
 
 install(

@@ -12,7 +12,7 @@ ZEND_MM_NEED_EIGHT_BYTE_REALIGNMENT
 ]=============================================================================]#
 
 function(_php_check_mm_alignment)
-  message(STATUS "Check for MM alignment and log values")
+  message(STATUS "Checking for MM alignment and log values")
 
   if(NOT CMAKE_CROSSCOMPILING)
     try_run(
@@ -31,14 +31,14 @@ function(_php_check_mm_alignment)
       list(GET string_list 1 zend_mm_alignment_log2)
       list(GET string_list 2 zend_mm_need_eight_byte_realignment)
     else()
-      message(FATAL_ERROR "Test run failed!")
+      message(WARNING "MM alignment values were not set")
     endif()
   else()
     message(STATUS "Crosscompiling")
 
     set(zend_mm_alignment 8)
     set(zend_mm_alignment_log2 3)
-    set(zend_mm_need_eight_byte_realignment 2)
+    set(zend_mm_need_eight_byte_realignment 0)
   endif()
 
   set(ZEND_MM_ALIGNMENT ${zend_mm_alignment} CACHE INTERNAL "")
