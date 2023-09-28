@@ -1,13 +1,14 @@
 #[=============================================================================[
-Checks whether writing to stdout works.
+Check whether writing to stdout works.
 
-The module defines the following variables if writing to stdout works:
+The module sets the following variables if writing to stdout works:
 
 PHP_WRITE_STDOUT
   Set to 1 if write(2) works.
 ]=============================================================================]#
 
 include(CheckCSourceRuns)
+include(CMakePushCheckState)
 
 message(STATUS "Checking whether writing to stdout works")
 
@@ -19,19 +20,24 @@ if(CMAKE_CROSSCOMPILING)
     message(STATUS "no")
   endif()
 else()
-  check_c_source_runs("
-    #ifdef HAVE_UNISTD_H
-    # include <unistd.h>
-    #endif
+  cmake_push_check_state(RESET)
+    if(HAVE_UNISTD)
+      set(CMAKE_REQUIRED_DEFINITIONS -DHAVE_UNISTD_H=1)
+    endif()
 
-    #define TEXT \"This is the test message -- \"
+    check_c_source_runs("
+      #ifdef HAVE_UNISTD_H
+      # include <unistd.h>
+      #endif
 
-    int main(void)
-    {
-      int n;
+      #define TEXT \"This is the test message -- \"
 
-      n = write(1, TEXT, sizeof(TEXT)-1);
-      return (!(n == sizeof(TEXT)-1));
-    }
-  " PHP_WRITE_STDOUT)
+      int main(void) {
+        int n;
+
+        n = write(1, TEXT, sizeof(TEXT)-1);
+        return (!(n == sizeof(TEXT)-1));
+      }
+    " PHP_WRITE_STDOUT)
+  cmake_pop_check_state()
 endif()

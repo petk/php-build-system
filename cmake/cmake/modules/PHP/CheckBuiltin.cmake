@@ -21,7 +21,7 @@ function(php_check_builtin builtin result)
   elseif(builtin STREQUAL "__builtin_cpu_init")
     set(call "__builtin_cpu_init();")
   elseif(builtin STREQUAL "__builtin_cpu_supports")
-    set(call "return __builtin_cpu_supports(\"sse\")? 1 : 0;")
+    set(call "return __builtin_cpu_supports(\"sse\") ? 1 : 0;")
   elseif(builtin STREQUAL "__builtin_ctzl")
     set(call "return __builtin_ctzl(2L) ? 1 : 0;")
   elseif(builtin STREQUAL "__builtin_ctzll")
@@ -52,7 +52,7 @@ function(php_check_builtin builtin result)
   endif()
 
   check_c_source_compiles("
-    int main (void) {
+    int main(void) {
       ${call}
 
       return 0;

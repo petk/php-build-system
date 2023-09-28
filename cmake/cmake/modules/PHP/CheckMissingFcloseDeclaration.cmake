@@ -1,10 +1,10 @@
 #[=============================================================================[
 Checks if fclose declaration is missing.
 
-The module defines the following variables:
+The module sets the following variables:
 
 MISSING_FCLOSE_DECL
-  Defined to 1 if fclose declaration is missing, otherwise 0.
+  Set to true if fclose declaration is missing, false otherwise.
 ]=============================================================================]#
 
 include(CheckCSourceCompiles)
@@ -14,9 +14,9 @@ message(STATUS "Checking for fclose declaration")
 check_c_source_compiles("
   #include <stdio.h>
 
-  int main (void)
-  {
+  int main(void) {
     int (*func)() = fclose;
+
     return 0;
   }
 " _compilation_result)

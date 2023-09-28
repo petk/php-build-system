@@ -1,11 +1,12 @@
 #[=============================================================================[
-Checks whether compiler supports AVX512 VBMI.
+Check whether compiler supports AVX512 VBMI.
 
 Module sets the following variables:
 
 PHP_HAVE_AVX512_VBMI_SUPPORTS
   Set to true if compiler supports AVX512 VBMI, false otherwise.
 ]=============================================================================]#
+
 include(CheckCSourceCompiles)
 include(CMakePushCheckState)
 
@@ -20,6 +21,7 @@ cmake_push_check_state(RESET)
       __m512i mask = _mm512_set1_epi32(0x1);
       char out[32];
       _mm512_storeu_si512(out, _mm512_permutexvar_epi8(mask, mask));
+
       return 0;
     }
   " PHP_HAVE_AVX512_VBMI_SUPPORTS)

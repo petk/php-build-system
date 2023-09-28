@@ -1,47 +1,11 @@
 # PHP build system
 
-This repository delves into the heart of the PHP build system and explores how
-to build PHP with CMake.
+This repository delves into the core of the PHP build system, elucidating the
+intricacies of how to build PHP with CMake.
 
 ![ElePHPant](docs/images/elephpant.jpg)
 
-## 1. Index
-
-* [1. Index](#1-index)
-* [2. TL;DR - Quick usage](#2-tldr---quick-usage)
-* [3. Introduction](#3-introduction)
-* [4. PHP directory structure](#4-php-directory-structure)
-* [5. PHP extensions](#5-php-extensions)
-* [6. PHP SAPI (Server API) modules](#6-php-sapi-server-api-modules)
-* [7. Parser and lexer files](#7-parser-and-lexer-files)
-* [8. \*nix build system](#8-nix-build-system)
-  * [8.1. \*nix build system diagram](#81-nix-build-system-diagram)
-  * [8.2. Build requirements](#82-build-requirements)
-  * [8.3. The configure command line options](#83-the-configure-command-line-options)
-* [9. Windows build system](#9-windows-build-system)
-  * [9.1. Windows prerequisites](#91-windows-prerequisites)
-* [10. CMake](#10-cmake)
-  * [10.1. Why using CMake?](#101-why-using-cmake)
-  * [10.2. Directory structure](#102-directory-structure)
-  * [10.3. CMake build system diagram](#103-cmake-build-system-diagram)
-  * [10.4. CMake usage](#104-cmake-usage)
-  * [10.5. CMake minimum version for PHP](#105-cmake-minimum-version-for-php)
-  * [10.6. Command line options](#106-command-line-options)
-  * [10.7. CMake generators for building PHP](#107-cmake-generators-for-building-php)
-    * [10.7.1. Unix Makefiles (default)](#1071-unix-makefiles-default)
-    * [10.7.2. Ninja](#1072-ninja)
-  * [10.8. CMake presets](#108-cmake-presets)
-  * [10.9. CMake GUI](#109-cmake-gui)
-  * [10.10. Testing](#1010-testing)
-  * [10.11. Performance](#1011-performance)
-* [11. See more](#11-see-more)
-  * [11.1. CMake](#111-cmake)
-  * [11.2. CMake and PHP](#112-cmake-and-php)
-  * [11.3. PHP Internals](#113-php-internals)
-
-## 2. TL;DR - Quick usage
-
-Follow these steps to build PHP with CMake using this repository:
+## Quick usage - TL;DR
 
 ```sh
 # Prerequisites for Debian based distributions:
@@ -49,6 +13,9 @@ sudo apt install cmake gcc g++ bison re2c libxml2-dev libsqlite3-dev
 
 # Prerequisites for Fedora based distributions:
 sudo dnf install cmake gcc gcc-c++ bison re2c libxml2-devel sqlite-devel
+
+# Prerequisites for FreeBSD:
+sudo pkg install cmake bison re2c libxml2 sqlite3
 
 # Clone this repository:
 git clone https://github.com/petk/php-build-system
@@ -69,7 +36,37 @@ cmake --build . --parallel
 ./sapi/cli/php -v
 ```
 
-## 3. Introduction
+## Index
+
+* [1. Introduction](#1-introduction)
+* [2. PHP directory structure](#2-php-directory-structure)
+* [3. PHP extensions](#3-php-extensions)
+* [4. PHP SAPI (Server API) modules](#4-php-sapi-server-api-modules)
+* [5. Parser and lexer files](#5-parser-and-lexer-files)
+* [6. \*nix build system](#6-nix-build-system)
+  * [6.1. \*nix build system diagram](#61-nix-build-system-diagram)
+  * [6.2. Build requirements](#62-build-requirements)
+  * [6.3. The configure command line options](#63-the-configure-command-line-options)
+* [7. CMake](#7-cmake)
+  * [7.1. Why using CMake?](#71-why-using-cmake)
+  * [7.2. Directory structure](#72-directory-structure)
+  * [7.3. CMake build system diagram](#73-cmake-build-system-diagram)
+  * [7.4. CMake usage](#74-cmake-usage)
+  * [7.5. CMake minimum version for PHP](#75-cmake-minimum-version-for-php)
+  * [7.6. Command line options](#76-command-line-options)
+  * [7.7. CMake generators for building PHP](#77-cmake-generators-for-building-php)
+    * [7.7.1. Unix Makefiles (default)](#771-unix-makefiles-default)
+    * [7.7.2. Ninja](#772-ninja)
+  * [7.8. CMake presets](#78-cmake-presets)
+  * [7.9. CMake GUI](#79-cmake-gui)
+  * [7.10. Testing](#710-testing)
+  * [7.11. Performance](#711-performance)
+* [8. See more](#8-see-more)
+  * [8.1. CMake](#81-cmake)
+  * [8.2. CMake and PHP](#82-cmake-and-php)
+  * [8.3. PHP Internals](#83-php-internals)
+
+## 1. Introduction
 
 PHP developers typically opt for convenient methods to set up PHP on their
 machines, such as utilizing prebuilt Linux packages available in their Linux
@@ -97,16 +94,28 @@ project's source code into its final form, ready to be executed. It helps
 developers with repetitive tasks and ensures consistency and correctness in the
 build process for various platforms and hardware out there.
 
-There are many well known build systems for C projects out there. From the
-veteran GNU Autotools, popular CMake, Ninja, SCons, Meson, to the simplest
-manual usage of Make.
+A key function of a build system in the context of C/C++ software development is
+to establish a structured framework that guides how C code should be written.
+Beyond its primary role of compiling source files into executable programs, the
+build system plays a pivotal educational role, imparting best practices and
+coding standards to developers. By enforcing consistency and adherence to coding
+conventions, it fosters the creation of high-quality C and C++ code, ultimately
+enhancing software maintainability and reliability. Additionally, the build
+system aims to make developers more efficient and productive by abstracting away
+system-specific details, allowing them to focus on writing code without the need
+to extensively explore the complexities of the underlying system.
+
+There are numerous well-known build systems available for C projects, ranging
+from the veteran GNU Autotools and the widely adopted CMake, to the efficient
+Ninja, versatile SCons, adaptable Meson, and even the simplest manual usage of
+Make.
 
 PHP build system consist of two parts:
 
 * \*nix build system (Linux, macOS, FreeBSD, OpenBSD, etc.)
 * Windows build system
 
-## 4. PHP directory structure
+## 2. PHP directory structure
 
 Before we begin, it might be useful to understand directory structure of the PHP
 source code. PHP is developed at the
@@ -124,92 +133,93 @@ PHP tests and other files:
 
 ```sh
 <php-src>/
- ├─ .git/                     # Git configuration and source directory
- ├─ appveyor/                 # Appveyor CI service files
- ├─ benchmark/                # Benchmark some common applications in CI
- ├─ build/                    # *nix build system files
- ├─ docs/                     # PHP internals documentation
- └─ ext/                      # PHP core extensions
-    └─ bcmath/                # The bcmath PHP extension
-       ├─ libbcmath/          # The bcmath library forked and maintained in php-src
-       ├─ tests/              # *.phpt test files for extension
-       ├─ bcmath.stub.php     # A stub file for the bcmath extension functions
+ ├─ .git/                         # Git configuration and source directory
+ ├─ appveyor/                     # Appveyor CI service files
+ ├─ benchmark/                    # Benchmark some common applications in CI
+ ├─ build/                        # *nix build system files
+ ├─ docs/                         # PHP internals documentation
+ └─ ext/                          # PHP core extensions
+    └─ bcmath/                    # The bcmath PHP extension
+       ├─ libbcmath/              # The bcmath library forked and maintained in php-src
+       ├─ tests/                  # *.phpt test files for extension
+       ├─ bcmath.stub.php         # A stub file for the bcmath extension functions
        └─ ...
-    └─ curl/                  # The curl PHP extension
-       ├─ sync-constants.php  # The curl symbols checker
+    └─ curl/                      # The curl PHP extension
+       ├─ sync-constants.php      # The curl symbols checker
        └─ ...
-    └─ date/                  # The date/time PHP extension
-       └─ lib/                # Bundled datetime library https://github.com/derickr/timelib
+    └─ date/                      # The date/time PHP extension
+       └─ lib/                    # Bundled datetime library https://github.com/derickr/timelib
           └─ ...
        └─ ...
-    ├─ dl_test/               # Extension for testing dl()
-    └─ ffi/                   # The FFI PHP extension
-       ├─ ffi_parser.c        # Generated by https://github.com/dstogov/llk
+    ├─ dl_test/                   # Extension for testing dl()
+    └─ ffi/                       # The FFI PHP extension
+       ├─ ffi_parser.c            # Generated by https://github.com/dstogov/llk
        └─ ...
-    └─ fileinfo/              # The fileinfo PHP extension
-       ├─ libmagic/           # Modified libmagic https://github.com/file/file
-       ├─ data_file.c         # Generated by `ext/fileinfo/create_data_file.php`
-       ├─ libmagic.patch      # Modifications patch from upstream libmagic
-       ├─ magicdata.patch     # Modifications patch from upstream libmagic
+    └─ fileinfo/                  # The fileinfo PHP extension
+       ├─ libmagic/               # Modified libmagic https://github.com/file/file
+       ├─ data_file.c             # Generated by `ext/fileinfo/create_data_file.php`
+       ├─ libmagic.patch          # Modifications patch from upstream libmagic
+       ├─ magicdata.patch         # Modifications patch from upstream libmagic
        └─ ...
-    └─ gd/                    # The GD PHP extension
-       ├─ libgd/              # Bundled and modified GD library https://github.com/libgd/libgd
+    └─ gd/                        # The GD PHP extension
+       ├─ libgd/                  # Bundled and modified GD library https://github.com/libgd/libgd
        └─ ...
-    └─ mbstring/              # The Multibyte string PHP extension
-       ├─ libmbfl/            # Forked and maintained in php-src
-       ├─ unicode_data.h      # Generated by `ext/mbstring/ucgendat/ucgendat.php`
+    └─ mbstring/                  # The Multibyte string PHP extension
+       ├─ libmbfl/                # Forked and maintained in php-src
+       ├─ unicode_data.h          # Generated by `ext/mbstring/ucgendat/ucgendat.php`
        └─ ...
-    └─ opcache/               # The OPcache PHP extension
-       └─ jit/                # OPcache Jit
-          └─ dynasm/          # DynASM ARM encoding engine
-             ├─ minilua.c     # Customized Lua scripting language to build LuaJIT
+    └─ opcache/                   # The OPcache PHP extension
+       └─ jit/                    # OPcache Jit
+          └─ dynasm/              # DynASM ARM encoding engine
+             ├─ minilua.c         # Customized Lua scripting language to build LuaJIT
              └─ ...
-          ├─ zend_jit_x86.c   # Generated by minilua
+          ├─ zend_jit_x86.c       # Generated by minilua
           └─ ...
-    └─ pcre/                  # The PCRE PHP extension
-       ├─ pcre2lib/           # https://www.pcre.org/
+    └─ pcre/                      # The PCRE PHP extension
+       ├─ pcre2lib/               # https://www.pcre.org/
        └─ ...
-    ├─ skeleton/              # Skeleton for developing new extensions with `ext/ext_skel.php`
-    └─ standard/              # Always enabled core extension
+    ├─ skeleton/                  # Skeleton for developing new extensions with `ext/ext_skel.php`
+    └─ standard/                  # Always enabled core extension
        └─ html_tables/
-          ├─ mappings/        # https://www.unicode.org/Public/MAPPINGS/
+          ├─ mappings/            # https://www.unicode.org/Public/MAPPINGS/
           └─ ...
-       ├─ credits_ext.h       # Generated by `scripts/dev/credits`
-       ├─ credits_sapi.h      # Generated by `scripts/dev/credits`
-       ├─ html_tables.h       # Generated by `ext/standard/html_tables/html_table_gen.php`
+       ├─ credits_ext.h           # Generated by `scripts/dev/credits`
+       ├─ credits_sapi.h          # Generated by `scripts/dev/credits`
+       ├─ html_tables.h           # Generated by `ext/standard/html_tables/html_table_gen.php`
        └─ ...
-    └─ tokenizer/             # The tokenizer PHP extension
-       ├─ tokenizer_data.c    # Generated by `ext/tokenizer/tokenizer_data_gen.sh`
+    └─ tokenizer/                 # The tokenizer PHP extension
+       ├─ tokenizer_data.c        # Generated by `ext/tokenizer/tokenizer_data_gen.php`
+       ├─ tokenizer_data_stub.php # Generated by `ext/tokenizer/tokenizer_data_gen.php`
        └─ ...
-    └─ zend_test              # For testing internal APIs. Not needed for regular builds
+    └─ zend_test                  # For testing internal APIs. Not needed for regular builds
        └─ ...
-    └─ zip/                   # Bundled https://github.com/pierrejoye/php_zip
+    └─ zip/                       # Bundled https://github.com/pierrejoye/php_zip
        └─ ...
     ├─ ...
-    └─ ext_skel.php           # Helper script that creates a new PHP extension
- └─ main/                     # Binding that ties extensions, SAPIs, Zend engine and TSRM together
-    ├─ streams/               # Streams layer subsystem
+    └─ ext_skel.php               # Helper script that creates a new PHP extension
+ └─ main/                         # Binding that ties extensions, SAPIs, Zend engine and TSRM together
+    ├─ streams/                   # Streams layer subsystem
     └─ ...
- ├─ pear/                     # PEAR installation
- └─ sapi/                     # PHP SAPI (Server API) modules
-    └─ cli/                   # Command line PHP SAPI module
-       ├─ mime_type_map.h     # Generated by `sapi/cli/generate_mime_type_map.php`
+ ├─ pear/                         # PEAR installation
+ └─ sapi/                         # PHP SAPI (Server API) modules
+    └─ cli/                       # Command line PHP SAPI module
+       ├─ mime_type_map.h         # Generated by `sapi/cli/generate_mime_type_map.php`
        └─ ...
     └─ ...
- ├─ scripts/                  # php-config, phpize and internal development scripts
- ├─ tests/                    # Core features tests
- ├─ travis/                   # Travis CI service files
- ├─ TSRM/                     # Thread safe resource manager
- └─ Zend/                     # Zend engine
-    ├─ asm/                   # Bundled from src/asm in https://github.com/boostorg/context
-    ├─ Optimizer/             # For faster PHP execution through opcode caching and optimization
-    ├─ tests/                 # PHP tests *.phpt files for Zend engine
-    ├─ zend_vm_execute.h      # Generated by `Zend/zend_vm_gen.php`
-    ├─ zend_vm_opcodes.c      # Generated by `Zend/zend_vm_gen.php`
-    ├─ zend_vm_opcodes.h      # Generated by `Zend/zend_vm_gen.php`
+ ├─ scripts/                      # php-config, phpize and internal development scripts
+ ├─ tests/                        # Core features tests
+ ├─ travis/                       # Travis CI service files
+ ├─ TSRM/                         # Thread safe resource manager
+ └─ Zend/                         # Zend engine
+    ├─ asm/                       # Bundled from src/asm in https://github.com/boostorg/context
+    ├─ Optimizer/                 # For faster PHP execution through opcode caching and optimization
+    ├─ tests/                     # PHP tests *.phpt files for Zend engine
+    ├─ zend_vm_execute.h          # Generated by `Zend/zend_vm_gen.php`
+    ├─ zend_vm_opcodes.c          # Generated by `Zend/zend_vm_gen.php`
+    ├─ zend_vm_opcodes.h          # Generated by `Zend/zend_vm_gen.php`
     └─ ...
- └─ win32/                    # Windows build system files
-    ├─ cp_enc_map.c           # Generated by `win32/cp_enc_map_gen.exe`
+ └─ win32/                        # Windows build system files
+    ├─ cp_enc_map.c               # Generated by `win32/cp_enc_map_gen.exe`
     └─ ...
  └─ ...
 ```
@@ -219,19 +229,19 @@ system) are linked together:
 
 ![Diagram how PHP libraries are linked together](docs/images/links.svg)
 
-## 5. PHP extensions
+## 3. PHP extensions
 
 PHP has several ways to install PHP extensions:
 
 * Bundled
 
-  This is the default way. Extension is built together with PHP sapi and no
+  This is the default way. Extension is built together with PHP SAPI and no
   enabling is needed in the `php.ini` configuration.
 
 * Shared
 
   This installs the extension as dynamically loadable library. Extension to be
-  visible in the PHP sapi (see `php -m`) needs to be also manually enabled in
+  visible in the PHP SAPI (see `php -m`) needs to be also manually enabled in
   the `php.ini` configuration:
 
   ```ini
@@ -265,7 +275,7 @@ PECL tool is a simple shell script wrapper around the PHP code as part of the
 [pear-core](https://github.com/pear/pear-core/blob/master/scripts/pecl.sh)
 repository.
 
-## 6. PHP SAPI (Server API) modules
+## 4. PHP SAPI (Server API) modules
 
 PHP works through the concept of SAPI modules located in the `sapi` directory.
 
@@ -283,7 +293,7 @@ There are other SAPI modules located in the ecosystem:
 * [ngx-php](https://github.com/rryqszq4/ngx-php)
 * ...
 
-## 7. Parser and lexer files
+## 5. Parser and lexer files
 
 Some source files are generated with 3rd party tools. These include so called
 parser and lexer files which are generated with [re2c](https://re2c.org/) and
@@ -382,7 +392,7 @@ the `Makefile.frag` files.
  └─ ...
 ```
 
-## 8. \*nix build system
+## 6. \*nix build system
 
 \*nix build system in PHP uses [Autoconf](https://www.gnu.org/software/autoconf/)
 to build a `configure` shell script that further creates main `Makefile` to
@@ -429,7 +439,7 @@ Build system is a collection of various files across the php-src repository:
 <php-src>/
  └─ build/
     ├─ ax_*.m4             # https://github.com/autoconf-archive/autoconf-archive
-    ├─ config-stubs        # Adds extension and sapi config*.m4 stubs to configure
+    ├─ config-stubs        # Adds extension and SAPI config*.m4 stubs to configure
     ├─ config.guess        # https://git.savannah.gnu.org/cgit/config.git
     ├─ config.sub          # https://git.savannah.gnu.org/cgit/config.git
     ├─ genif.sh            # Generator for the internal_functions* files
@@ -465,7 +475,7 @@ Build system is a collection of various files across the php-src repository:
  ├─ pear/
  └─ sapi/
     └─ cli/
-       ├─ config.m4        # Autoconf M4 file for CLI sapi
+       ├─ config.m4        # Autoconf M4 file for CLI SAPI
        └─ ...
     └─ ...
  ├─ scripts/
@@ -482,19 +492,20 @@ Build system is a collection of various files across the php-src repository:
  └─ ...
 ```
 
-### 8.1. \*nix build system diagram
+### 6.1. \*nix build system diagram
 
 ![PHP *nix build system using Autotools](docs/images/autotools.svg)
 
-### 8.2. Build requirements
+### 6.2. Build requirements
 
-Before being able to built PHP on Linux and other \*nix systems, there are some
-3rd party requirements that need to be installed. Note that these names differ
-from system to system. Here, a simplifed names are used. For building PHP from
-source, you will need a library with development files. Such libraries are
-packaged with names of `libfoo-dev`, `libfoo-devel`, or similar. For example,
-for the `libzip` library below, install the `libzip-dev` (or `libzip-devel`)
-package.
+Before you can build PHP on Linux and other Unix-like systems, you must first
+install certain third-party requirements. It's important to note that the names
+of these requirements may vary depending on your specific system. For the sake
+of simplicity, we will use generic names here. When building PHP from source,
+one crucial requirement is a library containing development files. Such
+libraries are typically packaged under names like `libfoo-dev`, `libfoo-devel`,
+or similar conventions. For instance, to install the `libzip` library, you would
+look for the `libzip-dev` (or `libzip-devel`) package.
 
 Required:
 
@@ -574,7 +585,7 @@ installed and only libraries without development files are needed to run newly
 built PHP. In example of `ext/zip` extension, the `libzip` package is needed and
 so on.
 
-### 8.3. The configure command line options
+### 6.3. The configure command line options
 
 With Autoconf, there are two main types of command line options for the
 `configure` script (`--enable-FEATURE` and `--with-PACKAGE`):
@@ -602,64 +613,7 @@ See `./configure --help` for more info.
 
 This wraps up the \*nix build system using the Autotools.
 
-## 9. Windows build system
-
-Windows build system is a separate collection of
-[JScript](https://en.wikipedia.org/wiki/JScript) files and command line scripts.
-Some files are manually created unlike with Autoconf. For example, header files.
-Similarly to `*.m4` files there are `*.w32` files for each extension and SAPI
-module.
-
-```sh
-<php-src>/
- └─ ext/
-    └─ bcmath/
-       ├─ config.w32           # Extension's Windows build system item file
-       └─ ...
-    └─ iconv/
-       ├─ config.w32           # Extension's Windows build system item file
-       ├─ php_iconv.def        # Module-definition file for linker when building DLL
-       └─ ...
-    └─ opcache/
-       └─ jit/
-          ├─ Makefile.frag.w32 # Makefile fragment for OPcache Jit
-          └─ ...
-       ├─ config.w32           # Windows build system script item
-       └─ ...
-    └─ ...
- └─ main/
-    ├─ php_version.h           # Generated by release managers using `configure`
-    └─ ...
- └─ sapi/
-    └─ cli/
-       ├─ config.w32           # Windows build system item file for CLI sapi
-       └─ ...
-    └─ ...
- └─ win32/                     # Windows build system and code adjusted for Windows
-    └─ build/                  # Windows build system configuration and scripts
-       ├─ Makefile             # Windows build system Makefile template
-       └─ ...
-    └─ ...
- └─ TSRM/
-    ├─ config.w32              # Windows build system script item
-    └─ ...
- └─ Zend/
-    ├─ zend_config.w32.h       # Windows configuration header for Zend directory
-    └─ ...
- ├─ buildconf.bat              # Windows build system configuration builder
- └─ ...
-```
-
-### 9.1. Windows prerequisites
-
-* Windows operating system.
-* Visual Studio installed (e.g., Visual Studio 2019 or later).
-* Git installed (download from https://git-scm.com/downloads).
-* PHP source code downloaded from the PHP website (https://www.php.net/downloads.php).
-
-Documentation to build PHP on Windows is available at [PHP Wiki](https://wiki.php.net/internals/windows/stepbystepbuild_sdk_2).
-
-## 10. CMake
+## 7. CMake
 
 [CMake](https://cmake.org/) is another open-source cross-platform build system
 created by Kitware and contributors. This is what this repository is focusing
@@ -670,7 +624,7 @@ To learn CMake there is a very good
 [tutorial](https://cmake.org/cmake/help/latest/guide/tutorial/index.html) which
 is a prerequisite to follow the files in this repository.
 
-### 10.1. Why using CMake?
+### 7.1. Why using CMake?
 
 CMake is today more actively developed and more developers might be familiar
 with it. It also makes C code more attractive to new contributors. Many IDEs
@@ -688,7 +642,7 @@ famililar with it, it can still be a very robust and solid build system option
 in C/C++ projects on \*nix systems. Many large open-source projects use
 Autotools. Some even use it together with CMake.
 
-### 10.2. Directory structure
+### 7.2. Directory structure
 
 Directory structure from the CMake perspective looks like this:
 
@@ -736,18 +690,18 @@ Directory structure from the CMake perspective looks like this:
  └─ ...
 ```
 
-### 10.3. CMake build system diagram
+### 7.3. CMake build system diagram
 
 ![PHP build system using CMake](docs/images/cmake.svg)
 
-### 10.4. CMake usage
+### 7.4. CMake usage
 
 ```sh
 cmake .
 cmake --build .
 ```
 
-### 10.5. CMake minimum version for PHP
+### 7.5. CMake minimum version for PHP
 
 The minimum required version of CMake is defined in the top project file
 `CMakeLists.txt` using the `cmake_minimum_required()`. Picking the minimum
@@ -778,7 +732,7 @@ properly in the future.
 CMake versions scheme across the systems is available at
 [pkgs.org](https://pkgs.org/download/cmake).
 
-### 10.6. Command line options
+### 7.6. Command line options
 
 List of configure command line options and their CMake alternatives.
 
@@ -969,7 +923,7 @@ cmake -LH .
       <td></td>
     </tr>
     <tr>
-      <td><strong>PHP sapi modules</strong></td>
+      <td><strong>PHP SAPI modules</strong></td>
       <td></td>
       <td></td>
     </tr>
@@ -1024,12 +978,12 @@ cmake -LH .
       <td></td>
     </tr>
     <tr>
-      <td>&nbsp;&nbsp;--with-fpm-user[=USER] (default: nobody)</td>
+      <td>&nbsp;&nbsp;--with-fpm-user[=USER]</td>
       <td>&nbsp;&nbsp;SAPI_FPM_USER=nobody</td>
       <td>default: nobody</td>
     </tr>
     <tr>
-      <td>&nbsp;&nbsp;--with-fpm-group[=GROUP] (default: nobody)</td>
+      <td>&nbsp;&nbsp;--with-fpm-group[=GROUP]</td>
       <td>&nbsp;&nbsp;SAPI_FPM_GROUP=nobody</td>
       <td>default: nobody</td>
     </tr>
@@ -2295,10 +2249,12 @@ available:
 
 | make with PHP                   | CMake                             | Default value/notes            |
 | ------------------------------- | --------------------------------- | ------------------------------ |
+| `EXTRA_CFLAGS="..."`            |                                   | Append additional CFLAGS       |
+| `EXTRA_LDFLAGS="..."`           |                                   | Append additional LDFLAGS      |
 | `INSTALL_ROOT="..."`            | `CMAKE_INSTALL_PREFIX="..."`      | Override the installation dir  |
 |                                 | or `cmake --install --prefix`     |                                |
 
-### 10.7. CMake generators for building PHP
+### 7.7. CMake generators for building PHP
 
 When using CMake to build PHP, you have the flexibility to choose from various
 build systems through the concept of _generators_. CMake generators determine
@@ -2306,7 +2262,7 @@ the type of project files or build scripts that CMake generates from your
 `CMakeLists.txt` file. In this example, we will check the following generators:
 Unix Makefiles and Ninja.
 
-#### 10.7.1. Unix Makefiles (default)
+#### 7.7.1. Unix Makefiles (default)
 
 The Unix Makefiles generator is the most common and widely used generator for
 building projects on Unix-like systems, including Linux and macOS. It generates
@@ -2342,7 +2298,7 @@ advantage of multiple CPU cores:
 make -j$(nproc) # number of CPU cores you want to utilize.
 ```
 
-#### 10.7.2. Ninja
+#### 7.7.2. Ninja
 
 [Ninja](https://ninja-build.org/) is another build system supported by CMake and
 is known for its fast build times due to its minimalistic design. To use the
@@ -2374,7 +2330,7 @@ number of available CPU cores on your system):
 ninja -j$(nproc)
 ```
 
-### 10.8. CMake presets
+### 7.8. CMake presets
 
 The `CMakePresets.json` and `CMakeUserPresets.json` files in project root
 directory are available since CMake 3.19 for sharing build configurations.
@@ -2399,7 +2355,7 @@ cmake --build --preset default
 File `CMakeUserPresets.json` is ignored in Git because it is intended for user
 specific configuration.
 
-### 10.9. CMake GUI
+### 7.9. CMake GUI
 
 With CMake there comes also a basic graphical user interface to configure and
 generate the build system.
@@ -2435,7 +2391,7 @@ Building the sources to binaries can be then done in command line or IDE.
 cmake --build --preset default
 ```
 
-### 10.10. Testing
+### 7.10. Testing
 
 PHP source code tests (`*.phpt` files) are written in PHP and are executed with
 `run-tests.php` script from the very beginning of the PHP development. When
@@ -2467,7 +2423,7 @@ using the `CMakePresets.json` file and its `testPresets` field.
 ctest --preset unix-full
 ```
 
-### 10.11. Performance
+### 7.11. Performance
 
 When CMake is doing configuration phase, the profiling options can be used to do
 build system performance analysis of CMake script.
@@ -2478,11 +2434,11 @@ cmake --profiling-output ./profile.json --profiling-format google-trace ../php-s
 
 ![CMake profiling](docs/images/cmake-profiling.png)
 
-## 11. See more
+## 8. See more
 
 Further help is documented at [docs](docs/README.md).
 
-### 11.1. CMake
+### 8.1. CMake
 
 Useful resources to learn more about CMake:
 
@@ -2490,14 +2446,14 @@ Useful resources to learn more about CMake:
 * [Effective Modern CMake](https://gist.github.com/mbinna/c61dbb39bca0e4fb7d1f73b0d66a4fd1)
 * [Awesome CMake](https://github.com/onqtam/awesome-cmake)
 
-### 11.2. CMake and PHP
+### 8.2. CMake and PHP
 
 Existing CMake and PHP discussions and resources:
 
 * [php-cmake](https://github.com/gloob/php-cmake) - CMake implementation in PHP.
 * [CMake discussion on PHP mailing list](https://externals.io/message/116655)
 
-### 11.3. PHP Internals
+### 8.3. PHP Internals
 
 Useful resources to learn more about PHP internals:
 

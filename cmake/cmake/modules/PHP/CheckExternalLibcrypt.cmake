@@ -261,7 +261,7 @@ else()
   cmake_push_check_state(RESET)
     set(CMAKE_REQUIRED_DEFINITIONS ${_libcrypt_extra_definitions})
 
-    check_c_source_compiles("
+    check_c_source_runs("
       #include <string.h>
 
       #if HAVE_UNISTD_H

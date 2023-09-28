@@ -229,7 +229,7 @@ CMake offers variables such as `APPLE`, `LINUX`, `UNIX`, `WIN32` etc. However,
 they might be removed in the future CMake versions. Recommendation is to use:
 
 * `CMAKE_SYSTEM_NAME` in code or `PLATFORM_ID` in generators for targeted
-  platform (this is also the name of the target when doing cross-compilattion).
+  platform (this is also the name of the target when doing cross-compilation).
 * And the `CMAKE_HOST_SYSTEM_NAME` which is platform where CMake is building on.
 
 For example, detecting Linux target system:

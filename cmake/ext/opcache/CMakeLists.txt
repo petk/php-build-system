@@ -1,3 +1,4 @@
+include(CheckCCompilerFlag)
 include(CheckCSourceRuns)
 include(CheckSymbolExists)
 include(CMakeDependentOption)
@@ -97,9 +98,10 @@ target_include_directories(
           ${CMAKE_CURRENT_BINARY_DIR}/jit
 )
 
-target_compile_options(ext_opcache PRIVATE
-  -Wno-implicit-fallthrough
-)
+check_c_compiler_flag(-Wno-implicit-fallthrough HAVE_WNO_IMPLICIT_FALLTHROUGH)
+if(HAVE_WNO_IMPLICIT_FALLTHROUGH)
+  target_compile_options(ext_opcache PRIVATE -Wno-implicit-fallthrough)
+endif()
 
 target_compile_definitions(ext_opcache PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE=1)
 

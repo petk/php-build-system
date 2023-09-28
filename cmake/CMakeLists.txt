@@ -38,12 +38,6 @@ include(cmake/Requirements.cmake)
 # Run PHP configuration checks.
 include(cmake/ConfigureChecks.cmake)
 
-# TODO: Check if this can be fixed better.
-include_directories(${CMAKE_SOURCE_DIR})
-include_directories(${CMAKE_BINARY_DIR})
-include_directories("${CMAKE_CURRENT_BINARY_DIR}/main")
-include_directories("${CMAKE_CURRENT_BINARY_DIR}/Zend")
-
 message("
 +--------------------------------------------------------------------+
 | Configuring SAPI modules                                           |

@@ -38,12 +38,17 @@ add_library(main STATIC
 
 target_include_directories(
   main
-  PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}
+  PRIVATE ${CMAKE_SOURCE_DIR}
+          ${CMAKE_BINARY_DIR}
+          ${CMAKE_CURRENT_SOURCE_DIR}
           ${CMAKE_CURRENT_BINARY_DIR}
           ${CMAKE_CURRENT_SOURCE_DIR}/../Zend
-  INTERFACE ${CMAKE_CURRENT_SOURCE_DIR}
+  INTERFACE ${CMAKE_SOURCE_DIR}
+            ${CMAKE_BINARY_DIR}
+            ${CMAKE_CURRENT_SOURCE_DIR}
             ${CMAKE_CURRENT_BINARY_DIR}
             ${CMAKE_CURRENT_SOURCE_DIR}/../TSRM
+            ${CMAKE_BINARY_DIR}/ext/date/lib
 )
 
 target_compile_definitions(main PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE=1)
@@ -70,6 +75,7 @@ foreach(item IN LISTS PHP_EXTENSIONS_STATIC)
             ${CMAKE_CURRENT_BINARY_DIR}
             ${CMAKE_SOURCE_DIR}
             ${CMAKE_BINARY_DIR}
+            ${CMAKE_BINARY_DIR}/ext/date/lib
             ${CMAKE_SOURCE_DIR}/TSRM
             ${CMAKE_SOURCE_DIR}/Zend
             ${CMAKE_BINARY_DIR}/Zend
@@ -90,9 +96,13 @@ foreach(item IN LISTS PHP_EXTENSIONS_SHARED)
     ext_${item}
     PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}
             ${CMAKE_SOURCE_DIR}
+            ${CMAKE_BINARY_DIR}
             ${CMAKE_SOURCE_DIR}/main
+            ${CMAKE_BINARY_DIR}/main
             ${CMAKE_SOURCE_DIR}/TSRM
-            ${CMAKE_CURRENT_SOURCE_DIR}/../Zend
+            ${CMAKE_SOURCE_DIR}/Zend
+            ${CMAKE_BINARY_DIR}/Zend
+            ${CMAKE_BINARY_DIR}/ext/date/lib
   )
 
   set_property(TARGET ext_${item} PROPERTY POSITION_INDEPENDENT_CODE TRUE)

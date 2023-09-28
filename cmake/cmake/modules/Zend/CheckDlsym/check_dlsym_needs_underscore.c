@@ -37,20 +37,21 @@
 #  endif
 #endif
 
-void fnord() { int i=42;}
-int main ()
-{
-	void *self = dlopen (0, LT_DLGLOBAL|LT_DLLAZY_OR_NOW);
+void fnord() {
+	int i = 42;
+}
+
+int main(void) {
+	void *self = dlopen(0, LT_DLGLOBAL|LT_DLLAZY_OR_NOW);
 	int status = 0;
 
-	if (self)
-	{
-		if (dlsym (self,"fnord"))       status = 1;
-		else if (dlsym( self,"_fnord")) status = 2;
-		/* dlclose (self); */
+	if (self) {
+		if (dlsym(self,"fnord"))       status = 1;
+		else if (dlsym(self,"_fnord")) status = 2;
+		/* dlclose(self); */
+	} else {
+		puts(dlerror());
 	}
-	else
-	puts (dlerror ());
 
 	return (status);
 }

@@ -1994,7 +1994,7 @@
 #cmakedefine PHP_ONIG_BAD_KOI8_ENTRY @PHP_ONIG_BAD_KOI8_ENTRY@
 
 /* uname output */
-#cmakedefine PHP_OS "@PHP_OS@"
+#define PHP_OS "@CMAKE_SYSTEM_NAME@"
 
 /* */
 #cmakedefine PHP_PDO_OCI_CLIENT_VERSION

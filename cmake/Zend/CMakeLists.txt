@@ -4,6 +4,20 @@ include(CheckIncludeFile)
 include(CheckSymbolExists)
 include(CMakePushCheckState)
 
+################################################################################
+# Configure Zend.
+################################################################################
+
+if(PHP_DEBUG OR PHP_DEBUG_ASSERTIONS)
+  set(ZEND_DEBUG 1 CACHE INTERNAL "Whether to enable debugging")
+else()
+  set(ZEND_DEBUG 0 CACHE INTERNAL "Whether to enable debugging")
+endif()
+
+################################################################################
+# Check Zend configuration.
+################################################################################
+
 check_include_file(cpuid.h HAVE_CPUID_H)
 
 check_symbol_exists(getpid "unistd.h" HAVE_GETPID)
@@ -63,6 +77,13 @@ include(Zend/CheckFloatPrecision)
 
 # Check Zend signals.
 include(Zend/CheckZendSignals)
+
+# Check Zend max execution timers.
+include(Zend/CheckZendMaxExecutionTimers)
+
+################################################################################
+# Zend library.
+################################################################################
 
 add_library(Zend STATIC
   zend_language_parser.c
@@ -145,6 +166,45 @@ add_library(Zend STATIC
   Optimizer/zend_dump.c
 )
 
+target_include_directories(
+  Zend
+  PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}
+          ${CMAKE_SOURCE_DIR}
+          ${CMAKE_CURRENT_BINARY_DIR}
+          ${CMAKE_BINARY_DIR}
+          ${CMAKE_SOURCE_DIR}/main
+          ${CMAKE_BINARY_DIR}/main
+  INTERFACE ${CMAKE_CURRENT_SOURCE_DIR}
+            ${CMAKE_CURRENT_BINARY_DIR}
+            ${CMAKE_SOURCE_DIR}/TSRM
+)
+
+target_link_libraries(Zend PRIVATE TSRM)
+
+target_compile_definitions(Zend PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE=1)
+
+if(ZEND_MAX_EXECUTION_TIMERS_LIBRARIES)
+  target_link_libraries(Zend PRIVATE ${ZEND_MAX_EXECUTION_TIMERS_LIBRARIES})
+endif()
+
+# TODO: zend_config.h (or its parent php_config.h) isn't included in some zend_*
+# files, therefore we need to add compilation definitions also like this here.
+if(PHP_ZTS)
+  target_compile_definitions(Zend PRIVATE ZTS)
+endif()
+
+if(ZEND_SIGNALS)
+  target_compile_definitions(Zend PRIVATE ZEND_SIGNALS)
+endif()
+
+if(ZEND_MAX_EXECUTION_TIMERS)
+  target_compile_definitions(Zend PRIVATE ZEND_MAX_EXECUTION_TIMERS)
+endif()
+
+################################################################################
+# Generate Zend lexers and parsers.
+################################################################################
+
 if(BISON_FOUND)
   bison_target(ZendIniParser zend_ini_parser.y "${CMAKE_CURRENT_SOURCE_DIR}/zend_ini_parser.c"
     COMPILE_FLAGS "-v -d"
@@ -159,9 +219,21 @@ if(BISON_FOUND)
   # Tweak zendparse to be exported through ZEND_API. This has to be revisited once
   # bison supports foreign skeletons and that bison version is used. Read
   # https://git.savannah.gnu.org/cgit/bison.git/tree/data/README.md for more.
+  file(
+    GENERATE
+    OUTPUT CMakeFiles/PatchZendLanguageParserFiles.cmake
+    CONTENT "
+      file(READ \"${CMAKE_CURRENT_SOURCE_DIR}/zend_language_parser.h\" file_contents)
+      string(REPLACE \"int zendparse\" \"ZEND_API int zendparse\" file_contents \"\${file_contents}\")
+      file(WRITE \"${CMAKE_CURRENT_SOURCE_DIR}/zend_language_parser.h\" \"\${file_contents}\")
+      file(READ \"${CMAKE_CURRENT_SOURCE_DIR}/zend_language_parser.c\" file_contents)
+      string(REPLACE \"int zendparse\" \"ZEND_API int zendparse\" file_contents \"\${file_contents}\")
+      file(WRITE \"${CMAKE_CURRENT_SOURCE_DIR}/zend_language_parser.c\" \"\${file_contents}\")
+    "
+  )
   add_custom_target(
     patch_zend_language_parser_files
-    COMMAND ${CMAKE_COMMAND} -P "${CMAKE_SOURCE_DIR}/cmake/Zend/PatchZendLanguageParserFiles.cmake"
+    COMMAND ${CMAKE_COMMAND} -P "CMakeFiles/PatchZendLanguageParserFiles.cmake"
     DEPENDS ${BISON_ZendLanguageParser_OUTPUTS}
     COMMENT "Patching Zend language parser files"
   )
@@ -185,29 +257,9 @@ if(RE2C_FOUND)
   )
 endif()
 
-target_include_directories(
-  Zend
-  PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}
-          ${CMAKE_SOURCE_DIR}
-          ${CMAKE_CURRENT_BINARY_DIR}
-          ${CMAKE_BINARY_DIR}
-          ${CMAKE_SOURCE_DIR}/main
-          ${CMAKE_BINARY_DIR}/main
-  INTERFACE ${CMAKE_CURRENT_SOURCE_DIR}
-            ${CMAKE_CURRENT_BINARY_DIR}
-            ${CMAKE_SOURCE_DIR}/TSRM
-)
-
-# Check Zend max execution timers.
-include(Zend/CheckZendMaxExecutionTimers)
-
-if(ZEND_MAX_EXECUTION_TIMERS_LIBRARIES)
-  target_link_libraries(Zend PRIVATE ${ZEND_MAX_EXECUTION_TIMERS_LIBRARIES})
-endif()
-
-target_link_libraries(Zend PRIVATE TSRM)
-
-target_compile_definitions(Zend PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE=1)
+################################################################################
+# Configure fibers.
+################################################################################
 
 # Check for fibers support.
 include(Zend/CheckFibers)
@@ -227,6 +279,10 @@ if(ZEND_FIBER_ASM)
   target_link_libraries(Zend PRIVATE ZendAsm)
 endif()
 
+################################################################################
+# Compilation flags. TODO - move this to global level.
+################################################################################
+
 if(CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
   target_compile_options(Zend BEFORE PRIVATE -Wall -Wextra -Wno-unused-parameter -Wno-sign-compare)
 endif()
@@ -235,7 +291,6 @@ endif()
 check_c_compiler_flag(-Wno-clobbered HAVE_WNO_CLOBBERED)
 if(HAVE_WNO_CLOBBERED)
   target_compile_options(Zend BEFORE PRIVATE -Wno-clobbered)
-  unset(HAVE_WNO_CLOBBERED)
 endif()
 
 # Check for support for implicit fallthrough level 1, also add after previous
@@ -243,56 +298,40 @@ endif()
 check_c_compiler_flag(-Wimplicit-fallthrough=1 HAVE_WIMPLICIT_FALLTHROUGH)
 if(HAVE_WIMPLICIT_FALLTHROUGH)
   target_compile_options(Zend PRIVATE -Wimplicit-fallthrough=1)
-  unset(HAVE_WIMPLICIT_FALLTHROUGH)
 endif()
 
 check_c_compiler_flag(-Wduplicated-cond HAVE_WDUPLICATED_COND)
 if(HAVE_WDUPLICATED_COND)
   target_compile_options(Zend BEFORE PRIVATE -Wduplicated-cond)
-  unset(HAVE_WDUPLICATED_COND)
 endif()
 
 check_c_compiler_flag(-Wlogical-op HAVE_WLOGICAL_OP)
 if(HAVE_WLOGICAL_OP)
   target_compile_options(Zend BEFORE PRIVATE -Wlogical-op)
-  unset(HAVE_WLOGICAL_OP)
 endif()
 
 check_c_compiler_flag(-Wformat-truncation HAVE_WFORMAT_TRUNCATION)
 if(HAVE_WFORMAT_TRUNCATION)
   target_compile_options(Zend BEFORE PRIVATE -Wformat-truncation)
-  unset(HAVE_WFORMAT_TRUNCATION)
 endif()
 
 check_c_compiler_flag(-Wstrict-prototypes HAVE_WSTRICT_PROTOTYPES)
 if(HAVE_WSTRICT_PROTOTYPES)
   target_compile_options(Zend BEFORE PRIVATE -Wstrict-prototypes)
-  unset(HAVE_WSTRICT_PROTOTYPES)
 endif()
 
 check_c_compiler_flag(-fno-common HAVE_FNO_COMMON)
 if(HAVE_FNO_COMMON)
   target_compile_options(Zend BEFORE PRIVATE -fno-common)
-  unset(HAVE_FNO_COMMON)
 endif()
 
 if(ZEND_DEBUG)
   target_compile_options(Zend PRIVATE -g)
 endif()
 
-# TODO: zend_config.h (or its parent php_config.h) isn't included in some zend_*
-# files, therefore we need to add compilation definitions also like this here.
-if(PHP_ZTS)
-  target_compile_definitions(Zend PRIVATE ZTS)
-endif()
-
-if(ZEND_SIGNALS)
-  target_compile_definitions(Zend PRIVATE ZEND_SIGNALS)
-endif()
-
-if(ZEND_MAX_EXECUTION_TIMERS)
-  target_compile_definitions(Zend PRIVATE ZEND_MAX_EXECUTION_TIMERS)
-endif()
+################################################################################
+# Create files and set installation.
+################################################################################
 
 message(STATUS "Creating Zend/zend_config.h")
 file(WRITE ${CMAKE_BINARY_DIR}/Zend/zend_config.h "#include <../main/php_config.h>\n")

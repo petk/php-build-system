@@ -1,3 +1,5 @@
+include(CheckCCompilerFlag)
+
 option(EXT_HASH_MHASH "Whether mhash support should be included" OFF)
 
 if(EXT_HASH_MHASH)
@@ -51,9 +53,10 @@ if(CMAKE_C_BYTE_ORDER STREQUAL "LITTLE_ENDIAN")
   target_include_directories(ext_hash PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/${SHA3_DIR})
 
   # Add -Wno-implicit-fallthrough flag as it happens on 32-bit builds.
-  target_compile_options(ext_hash
-    PRIVATE -Wno-implicit-fallthrough
-  )
+  check_c_compiler_flag(-Wno-implicit-fallthrough HAVE_WNO_IMPLICIT_FALLTHROUGH)
+  if(HAVE_WNO_IMPLICIT_FALLTHROUGH)
+    target_compile_options(ext_hash PRIVATE -Wno-implicit-fallthrough)
+  endif()
 
   target_compile_definitions(ext_hash
     PRIVATE KeccakP200_excluded

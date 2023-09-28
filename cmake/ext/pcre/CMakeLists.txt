@@ -1,3 +1,4 @@
+include(CheckCCompilerFlag)
 include(CheckCSourceCompiles)
 include(CheckCSourceRuns)
 
@@ -92,9 +93,10 @@ else()
     PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/pcre2lib
   )
 
-  target_compile_options(ext_pcre
-    PRIVATE -Wno-implicit-fallthrough
-  )
+  check_c_compiler_flag(-Wno-implicit-fallthrough HAVE_WNO_IMPLICIT_FALLTHROUGH)
+  if(HAVE_WNO_IMPLICIT_FALLTHROUGH)
+    target_compile_options(ext_pcre PRIVATE -Wno-implicit-fallthrough)
+  endif()
 
   target_compile_definitions(ext_pcre
     PRIVATE HAVE_CONFIG_H

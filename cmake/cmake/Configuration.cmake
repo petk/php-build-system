@@ -75,12 +75,6 @@ option(ZEND_SIGNALS "Whether to enable Zend signal handling" ON)
 
 option(ZEND_MAX_EXECUTION_TIMERS "Whether to enable Zend max execution timers" ${PHP_ZTS})
 
-if(PHP_DEBUG OR PHP_DEBUG_ASSERTIONS)
-  set(ZEND_DEBUG 1)
-else()
-  set(ZEND_DEBUG 0)
-endif()
-
 if(PHP_ZTS)
   set(ZTS 1 CACHE BOOL "Whether thread safety is enabled" FORCE)
 endif()
@@ -98,5 +92,3 @@ endif()
 if(PHP_FD_SETSIZE GREATER 0)
   set(EXTRA_DEFINITIONS ${EXTRA_DEFINITIONS} -DPHP_FD_SETSIZE=${PHP_FD_SETSIZE})
 endif()
-
-set(PHP_OS "${CMAKE_SYSTEM_NAME}" CACHE INTERNAL "uname output")

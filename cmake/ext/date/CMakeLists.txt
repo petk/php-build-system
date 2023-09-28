@@ -1,7 +1,6 @@
+include(CheckCCompilerFlag)
 include(CheckIncludeFile)
 include(CheckSymbolExists)
-
-php_extension(NAME "date" STATIC)
 
 # Check for headers needed by timelib.
 check_include_file(io.h HAVE_IO_H)
@@ -9,6 +8,8 @@ check_include_file(io.h HAVE_IO_H)
 # Check for strtoll, atoll.
 check_symbol_exists(atoll "stdlib.h" HAVE_ATOLL)
 check_symbol_exists(strtoll "stdlib.h" HAVE_STRTOLL)
+
+php_extension(NAME "date" STATIC)
 
 add_library(ext_date STATIC
   php_date.c
@@ -25,12 +26,15 @@ add_library(ext_date STATIC
 )
 
 target_include_directories(ext_date
-  PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/lib
+  PRIVATE ${CMAKE_CURRENT_BINARY_DIR}/lib
+          ${CMAKE_CURRENT_SOURCE_DIR}/lib
+  INTERFACE ${CMAKE_CURRENT_BINARY_DIR}/lib
 )
 
-target_compile_options(ext_date PRIVATE
-  -Wno-implicit-fallthrough
-)
+check_c_compiler_flag(-Wno-implicit-fallthrough HAVE_WNO_IMPLICIT_FALLTHROUGH)
+if(HAVE_WNO_IMPLICIT_FALLTHROUGH)
+  target_compile_options(ext_date PRIVATE -Wno-implicit-fallthrough)
+endif()
 
 target_compile_definitions(ext_date
   PRIVATE
@@ -41,8 +45,8 @@ target_compile_definitions(ext_date
 set(HAVE_TIMELIB_CONFIG_H 1 CACHE INTERNAL "Have timelib_config.h")
 
 message(STATUS "Creating ext/date/lib/timelib_config.h")
-file(WRITE "lib/timelib_config.h"
-"#ifdef PHP_WIN32
+file(WRITE "${CMAKE_CURRENT_BINARY_DIR}/lib/timelib_config.h"
+  "#ifdef PHP_WIN32
 # include \"config.w32.h\"
 #else
 # include <php_config.h>
@@ -66,9 +70,10 @@ target_sources(
   ext_date
   PUBLIC FILE_SET ext_date_headers
   TYPE HEADERS
+  BASE_DIRS "${CMAKE_CURRENT_BINARY_DIR}" "${CMAKE_CURRENT_SOURCE_DIR}"
   FILES
     lib/timelib.h
-    lib/timelib_config.h
+    "${CMAKE_CURRENT_BINARY_DIR}/lib/timelib_config.h"
     php_date.h
 )
 

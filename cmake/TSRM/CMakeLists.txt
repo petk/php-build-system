@@ -5,7 +5,8 @@ message(STATUS "Checking for POSIX threads")
 add_library(TSRM STATIC TSRM.c)
 
 target_include_directories(TSRM
-  PRIVATE ${CMAKE_SOURCE_DIR} ${CMAKE_BINARY_DIR}
+  PRIVATE ${CMAKE_SOURCE_DIR}
+          ${CMAKE_BINARY_DIR}
   INTERFACE ${CMAKE_CURRENT_SOURCE_DIR}
 )
 
