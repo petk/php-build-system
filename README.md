@@ -819,12 +819,12 @@ cmake -LH .
     </tr>
     <tr>
       <td>--disable-rtld-now</td>
-      <td>PHP_RTLD_NOW=OFF</td>
+      <td>PHP_USE_RTLD_NOW=OFF</td>
       <td>default</td>
     </tr>
     <tr>
       <td>&nbsp;&nbsp;--enable-rtld-now</td>
-      <td>&nbsp;&nbsp;PHP_RTLD_NOW=ON</td>
+      <td>&nbsp;&nbsp;PHP_USE_RTLD_NOW=ON</td>
       <td></td>
     </tr>
     <tr>
@@ -1833,8 +1833,13 @@ cmake -LH .
       <td>default</td>
     </tr>
     <tr>
-      <td>&nbsp;&nbsp;--with-mm[=DIR]</td>
-      <td>&nbsp;&nbsp;EXT_SESSION_MM=[ON|path/to/mm]</td>
+      <td>&nbsp;&nbsp;--with-mm</td>
+      <td>&nbsp;&nbsp;EXT_SESSION_MM=ON</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>&nbsp;&nbsp;--with-mm=DIR</td>
+      <td>&nbsp;&nbsp;EXT_SESSION_MM_DIR=path/to/libmm</td>
       <td></td>
     </tr>
     <tr>

@@ -7,10 +7,10 @@ HAVE_ASM_GOTO
   Set to 1 if asm goto is supported.
 ]=============================================================================]#
 
-include(CheckCSourceRuns)
 include(CheckCSourceCompiles)
+include(CheckCSourceRuns)
 
-message(STATUS "Checking for asm goto")
+message(STATUS "Checking for asm goto support")
 
 if(CMAKE_CROSSCOMPILING)
   check_c_source_compiles("

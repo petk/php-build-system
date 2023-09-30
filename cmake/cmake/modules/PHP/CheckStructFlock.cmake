@@ -1,10 +1,10 @@
 #[=============================================================================[
-Check whether you have struct flock.
+Check whether system has struct flock.
 
 The module sets the following variables:
 
 HAVE_STRUCT_FLOCK
-  Set to 1 if struct flock is available.
+  Set to true if struct flock is available, false otherwise.
 ]=============================================================================]#
 
 include(CheckCSourceCompiles)
@@ -17,6 +17,7 @@ check_c_source_compiles("
 
   int main(void) {
     struct flock x;
+
     return 0;
   }
 " HAVE_STRUCT_FLOCK)

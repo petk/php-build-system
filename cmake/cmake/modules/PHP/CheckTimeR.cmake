@@ -2,15 +2,17 @@
 Check type of reentrant time-related functions. Type can be: irix, hpux or
 POSIX.
 
-The module defines the following variables if checks are successful:
+The module sets the following variables:
 
 PHP_HPUX_TIME_R
-  Defined to 1 if HP-UX 10.x is used.
+  Set to 1 if HP-UX 10.x is used.
 PHP_IRIX_TIME_R
-  Defined to 1 if IRIX-style functions are used.
+  Set to 1 if IRIX-style functions are used.
 ]=============================================================================]#
 
 include(CheckCSourceRuns)
+
+message(STATUS "Checking for type of reentrant time-related functions")
 
 if(NOT CMAKE_CROSSCOMPILING)
   check_c_source_runs("
@@ -25,11 +27,12 @@ if(NOT CMAKE_CROSSCOMPILING)
       s = gmtime_r(&old, &t);
       r = (int) asctime_r(&t, buf, 26);
       if (r == s && s == 0) return (0);
-        return (1);
-    }
-  " time_r_is_hpux)
 
-  if(NOT time_r_is_hpux)
+      return (1);
+    }
+  " _time_r_is_hpux)
+
+  if(NOT _time_r_is_hpux)
     check_c_source_runs("
       #include <time.h>
 
@@ -41,11 +44,12 @@ if(NOT CMAKE_CROSSCOMPILING)
         s = gmtime_r(&old, &t);
         p = asctime_r(&t, buf, 26);
         if (p == buf && s == &t) return (0);
-          return (1);
-      }
-    " time_r_is_irix)
 
-    if(time_r_is_irix)
+        return (1);
+      }
+    " _time_r_is_irix)
+
+    if(_time_r_is_irix)
       set(PHP_IRIX_TIME_R 1 CACHE INTERNAL "Whether you have IRIX-style functions")
     endif()
   else()

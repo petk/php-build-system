@@ -6,6 +6,10 @@ cmake_dependent_option(EXT_SESSION_SHARED "Whether to build the session extensio
 
 cmake_dependent_option(EXT_SESSION_MM "SESSION: Include libmm support for session storage" OFF "EXT_SESSION" OFF)
 
+if(EXT_SESSION_MM)
+  set(EXT_SESSION_MM_DIR "" CACHE PATH "Path to the MM library")
+endif()
+
 if(NOT EXT_SESSION)
   return()
 endif()
@@ -38,30 +42,27 @@ set(_ext_session_headers "php_session.h;mod_files.h;mod_user.h")
 set(HAVE_PHP_SESSION 1 CACHE INTERNAL "Define to 1 if session extension is enabled")
 
 if(EXT_SESSION_MM)
-  # TODO: Check if EXT_SESSION_MM needs to be manually overrideable path.
-  foreach(dir "${EXT_SESSION_MM}" /usr/local /usr)
-    if(EXISTS "${dir}/include/mm.h")
-      set(MM_DIR "${dir}")
-      break()
-    endif()
-  endforeach()
-
-  if(NOT IS_DIRECTORY "${MM_DIR}")
-    message(FATAL_ERROR "Cannot find mm library, please install libmm")
+  if(EXT_SESSION_MM_DIR)
+    set(MM_ROOT ${EXT_SESSION_MM_DIR})
   endif()
+
+  find_package(MM REQUIRED)
 
   # The mm library is not thread-safe, and mod_mm.c refuses to compile.
   if(PHP_ZTS)
     message(FATAL_ERROR "Enabling ZTS and libmm cannot be done together.")
   endif()
 
-  target_include_directories(
-    ext_session
-    PRIVATE "${MM_DIR}/include"
-  )
+  if(MM_INCLUDE_DIRS)
+    target_include_directories(
+      ext_session
+      PRIVATE "${MM_INCLUDE_DIRS}"
+    )
+  endif()
 
-  # TODO: Add also library path.
-  target_link_libraries(ext_session PRIVATE mm)
+  if(MM_LIBRARIES)
+    target_link_libraries(ext_session PRIVATE ${MM_LIBRARIES})
+  endif()
 
   set(HAVE_LIBMM 1 CACHE INTERNAL "Whether you have libmm")
 

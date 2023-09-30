@@ -6,7 +6,7 @@ option(EXT_BZ2 "Whether to enable the BZ2 extension" OFF)
 cmake_dependent_option(EXT_BZ2_SHARED "Whether to build the BZ2 extension as shared" OFF "EXT_BZ2;NOT BUILD_SHARED_LIBS" OFF)
 
 if(EXT_BZ2)
-  set(EXT_BZ2_DIR "" CACHE STRING "Additional path to the BZ2 library")
+  set(EXT_BZ2_DIR "" CACHE PATH "Additional path to the BZ2 library")
 endif()
 
 if(NOT EXT_BZ2)

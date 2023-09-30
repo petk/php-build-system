@@ -1,13 +1,13 @@
 #[=============================================================================[
-Checks if fopencookie is working as expected.
+Check if fopencookie() is working as expected.
 
-The module sets the following variables if checks are successful:
+The module sets the following variables:
 
 HAVE_FOPENCOOKIE
-  Set to 1 if fopencookie and cookie_io_functions_t are available.
+  Set to 1 if fopencookie() and cookie_io_functions_t are available.
 
 COOKIE_SEEKER_USES_OFF64_T
-  Whether a newer seeker definition for fopencookie is available.
+  Whether a newer seeker definition for fopencookie() is available.
 ]=============================================================================]#
 
 include(CheckCSourceCompiles)
@@ -43,7 +43,7 @@ set(HAVE_FOPENCOOKIE 1 CACHE INTERNAL "Set to 1 if fopencookie and cookie_io_fun
 
 # Newer glibcs have a different seeker definition.
 if(CMAKE_CROSSCOMPILING)
-  if(CMAKE_SYSTEM_NAME STREQUAL "Linux")
+  if(CMAKE_HOST_SYSTEM_NAME STREQUAL "Linux")
     set(_cookie_io_functions_use_off64_t ON)
   endif()
 else()
@@ -56,14 +56,23 @@ else()
       off64_t pos;
     };
 
-    ssize_t reader(void *cookie, char *buffer, size_t size)
-    { return size; }
-    ssize_t writer(void *cookie, const char *buffer, size_t size)
-    { return size; }
-    int closer(void *cookie)
-    { return 0; }
-    int seeker(void *cookie, off64_t *position, int whence)
-    { ((struct cookiedata*)cookie)->pos = *position; return 0; }
+    ssize_t reader(void *cookie, char *buffer, size_t size) {
+      return size;
+    }
+
+    ssize_t writer(void *cookie, const char *buffer, size_t size) {
+      return size;
+    }
+
+    int closer(void *cookie) {
+      return 0;
+    }
+
+    int seeker(void *cookie, off64_t *position, int whence) {
+      ((struct cookiedata*)cookie)->pos = *position;
+
+      return 0;
+    }
 
     cookie_io_functions_t funcs = {reader, writer, seeker, closer};
 
@@ -73,6 +82,7 @@ else()
 
       if (fp && fseek(fp, 8192, SEEK_SET) == 0 && g.pos == 8192)
         return 0;
+
       return 1;
     }
   " _cookie_io_functions_use_off64_t)

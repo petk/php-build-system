@@ -1,5 +1,5 @@
 #[=============================================================================[
-Checks whether pread() works.
+Check whether pread() works.
 
 The module sets the following variables:
 
@@ -15,7 +15,7 @@ message(STATUS "Checking whether pread() works")
 
 function(_php_check_pread)
   if(NOT CMAKE_CROSSCOMPILING)
-    file(WRITE "${CMAKE_BINARY_DIR}/conftest_in" "test\n")
+    file(WRITE "CMakeFiles/php_check_pread" "test\n")
 
     check_c_source_runs("
       #include <sys/types.h>
@@ -27,7 +27,7 @@ function(_php_check_pread)
 
       int main(void) {
         char buf[3];
-        int fd = open(\"${CMAKE_BINARY_DIR}/conftest_in\", O_RDONLY);
+        int fd = open(\"CMakeFiles/php_check_pread\", O_RDONLY);
         if (fd < 0) return 1;
         if (pread(fd, buf, 2, 0) != 2) return 1;
         /* Linux glibc breakage until 2.2.5 */
@@ -36,14 +36,10 @@ function(_php_check_pread)
         return 0;
       }
     " pread_works)
-
-    file(REMOVE "${CMAKE_BINARY_DIR}/conftest_in")
   endif()
 
   if(NOT pread_works)
     if(NOT CMAKE_CROSSCOMPILING)
-      file(WRITE "${CMAKE_BINARY_DIR}/conftest_in" "test\n")
-
       check_c_source_runs("
         #include <sys/types.h>
         #include <sys/stat.h>
@@ -56,7 +52,7 @@ function(_php_check_pread)
 
         int main(void) {
           char buf[3];
-          int fd = open(\"${CMAKE_BINARY_DIR}/conftest_in\", O_RDONLY);
+          int fd = open(\"CMakeFiles/php_check_pread\", O_RDONLY);
           if (fd < 0) return 1;
           if (pread(fd, buf, 2, 0) != 2) return 1;
           /* Linux glibc breakage until 2.2.5 */
@@ -64,18 +60,12 @@ function(_php_check_pread)
 
           return 0;
         }
-      " pread64_works)
-
-      file(REMOVE "${CMAKE_BINARY_DIR}/conftest_in")
+      " PHP_PREAD_64)
     endif()
   endif()
 
-  if(pread_works OR pread64_works)
+  if(pread_works OR PHP_PREAD_64)
     set(HAVE_PREAD 1 CACHE INTERNAL "Whether pread() works")
-  endif()
-
-  if(pread64_works)
-    set(PHP_PREAD_64 1 CACHE INTERNAL "Whether pread64 is default")
   endif()
 endfunction()
 

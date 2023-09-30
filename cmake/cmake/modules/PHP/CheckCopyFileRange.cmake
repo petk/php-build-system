@@ -22,11 +22,11 @@ if(NOT CMAKE_CROSSCOMPILING)
     #include <unistd.h>
 
     int main(void) {
-    (void)copy_file_range(-1, 0, -1, 0, 0, 0);
+      (void)copy_file_range(-1, 0, -1, 0, 0, 0);
     #if LINUX_VERSION_CODE < KERNEL_VERSION(5,3,0)
     #error \"kernel too old\"
     #else
-    return 0;
+      return 0;
     #endif
     }
     #else

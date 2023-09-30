@@ -1,15 +1,15 @@
 #[=============================================================================[
-Checks for IPv6 support.
+Check for IPv6 support.
 
 Module sets the following variables if IPv6 support is available:
 
 HAVE_IPV6
-  Defined to 1 if IPv6 support should be enabled.
+  Set to true if IPv6 support is be enabled.
 ]=============================================================================]#
 
 include(CheckCSourceCompiles)
 
-function(_php_ipv6)
+function(_php_check_ipv6)
   message(STATUS "Checking for IPv6 support")
 
   check_c_source_compiles("
@@ -19,13 +19,14 @@ function(_php_ipv6)
 
     int main(void) {
       struct sockaddr_in6 s;
-      struct in6_addr t = IN6ADDR_ANY_INIT;
+      struct in6_addr t = in6addr_any;
       int i = AF_INET6;
-      s; t.s6_addr[0] = 0;
+      s;
+      t.s6_addr[0] = 0;
 
       return 0;
     }
   " HAVE_IPV6)
 endfunction()
 
-_php_ipv6()
+_php_check_ipv6()

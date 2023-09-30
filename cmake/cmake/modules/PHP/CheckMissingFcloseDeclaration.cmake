@@ -1,10 +1,12 @@
 #[=============================================================================[
-Checks if fclose declaration is missing.
+Check if fclose declaration is missing.
+
+Some systems have broken header files like SunOS has.
 
 The module sets the following variables:
 
 MISSING_FCLOSE_DECL
-  Set to true if fclose declaration is missing, false otherwise.
+  Set to true if fclose declaration is missing.
 ]=============================================================================]#
 
 include(CheckCSourceCompiles)
@@ -19,15 +21,8 @@ check_c_source_compiles("
 
     return 0;
   }
-" _compilation_result)
+" _fclose_declaration_works)
 
-if(_compilation_result)
-  set(_missing 0)
-else()
-  set(_missing 1)
+if(NOT _fclose_declaration_works)
+  set(MISSING_FCLOSE_DECL ${_missing} CACHE INTERNAL "Set to 1 if fclose declaration is missing")
 endif()
-
-set(MISSING_FCLOSE_DECL ${_missing} CACHE INTERNAL "fclose declaration is ok")
-
-unset(_compilation_result)
-unset(_missing)

@@ -1,5 +1,5 @@
 #[=============================================================================[
-Checks for __alignof__ support in the compiler.
+Check for __alignof__ support in the compiler.
 
 Module sets the following variables:
 

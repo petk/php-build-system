@@ -1,5 +1,5 @@
 #[=============================================================================[
-Checks if struct sockaddr_storage exists and if field sa_len exists in struct
+Check if struct sockaddr_storage exists and if field sa_len exists in struct
 sockaddr.
 
 The module sets the following variables if support is found:
@@ -20,7 +20,9 @@ check_c_source_compiles("
   #include <sys/socket.h>
 
   int main(void) {
-    struct sockaddr_storage s; s;
+    struct sockaddr_storage s;
+    s;
+
     return 0;
   }
 " HAVE_SOCKADDR_STORAGE)
@@ -34,6 +36,7 @@ check_c_source_compiles("
   int main(void) {
     static struct sockaddr sa;
     int n = (int) sa.sa_len;
+
     return n;
   }
 " HAVE_SOCKADDR_SA_LEN)

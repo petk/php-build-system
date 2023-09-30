@@ -1,5 +1,5 @@
 #[=============================================================================[
-Checks whether aarch64 CRC32 API is available.
+Check whether aarch64 CRC32 API is available.
 
 Module sets the following variables:
 
@@ -9,7 +9,7 @@ HAVE_AARCH64_CRC32
 
 include(CheckCSourceCompiles)
 
-message(STATUS "Checking for aarch64 CRC32 API")
+message(STATUS "Checking for aarch64 CRC32 API availability")
 
 check_c_source_compiles("
   #include <arm_acle.h>

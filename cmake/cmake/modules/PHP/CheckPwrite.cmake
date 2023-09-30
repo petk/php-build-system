@@ -1,5 +1,5 @@
 #[=============================================================================[
-Checks whether pwrite() works.
+Check whether pwrite() works.
 
 The module sets the following variables:
 
@@ -24,7 +24,7 @@ function(_php_check_pwrite)
       #include <stdlib.h>
 
       int main(void) {
-        int fd = open(\"${CMAKE_BINARY_DIR}/conftest_in\", O_WRONLY|O_CREAT, 0600);
+        int fd = open(\"CMakeFiles/php_check_pwrite\", O_WRONLY|O_CREAT, 0600);
 
         if (fd < 0) return 1;
         if (pwrite(fd, \"text\", 4, 0) != 4) return 1;
@@ -34,8 +34,6 @@ function(_php_check_pwrite)
         return 0;
       }
     " pwrite_works)
-
-    file(REMOVE "${CMAKE_BINARY_DIR}/conftest_in")
   endif()
 
   if(NOT pwrite_works)
@@ -51,7 +49,7 @@ function(_php_check_pwrite)
         ssize_t pwrite(int, void *, size_t, off64_t);
 
         int main(void) {
-          int fd = open(\"${CMAKE_BINARY_DIR}/conftest_in\", O_WRONLY|O_CREAT, 0600);
+          int fd = open(\"CMakeFiles/php_check_pwrite64\", O_WRONLY|O_CREAT, 0600);
 
           if (fd < 0) return 1;
           if (pwrite(fd, \"text\", 4, 0) != 4) return 1;
@@ -60,18 +58,12 @@ function(_php_check_pwrite)
 
           return 0;
         }
-      " pwrite64_works)
-
-      file(REMOVE "${CMAKE_BINARY_DIR}/conftest_in")
+      " PHP_PWRITE_64)
     endif()
   endif()
 
-  if(pwrite_works OR pwrite64_works)
+  if(pwrite_works OR PHP_PWRITE_64)
     set(HAVE_PWRITE 1 CACHE INTERNAL "Whether pwrite() works")
-  endif()
-
-  if(pwrite64_works)
-    set(PHP_PWRITE_64 1 CACHE INTERNAL "Whether pwrite64 is default")
   endif()
 endfunction()
 

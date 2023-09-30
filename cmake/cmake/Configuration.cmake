@@ -48,7 +48,7 @@ option(PHP_DEBUG_ASSERTIONS "Whether to enable debug assertions in release mode"
 
 option(PHP_ZTS "Enable thread safety" OFF)
 
-option(PHP_RTLD_NOW "Whether to dlopen extensions with RTLD_NOW instead of RTLD_LAZY" OFF)
+option(PHP_USE_RTLD_NOW "Whether to dlopen extensions with RTLD_NOW instead of RTLD_LAZY" OFF)
 
 option(PHP_SIGCHILD "Whether to enable PHP's own SIGCHLD handler" OFF)
 
@@ -77,10 +77,6 @@ option(ZEND_MAX_EXECUTION_TIMERS "Whether to enable Zend max execution timers" $
 
 if(PHP_ZTS)
   set(ZTS 1 CACHE BOOL "Whether thread safety is enabled" FORCE)
-endif()
-
-if(PHP_RTLD_NOW)
-  set(PHP_USE_RTLD_NOW 1 CACHE INTERNAL "Use dlopen with RTLD_NOW instead of RTLD_LAZY")
 endif()
 
 if(PHP_SHORT_TAGS)
