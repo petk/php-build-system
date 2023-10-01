@@ -14,7 +14,9 @@ endif()
 
 php_extension(NAME "intl" ${_library_type})
 
-add_library(ext_intl ${_library_type}
+add_library(ext_intl ${_library_type})
+
+set(_ext_intl_sources
   php_intl.c
   intl_error.c
   intl_convert.c
@@ -65,6 +67,8 @@ add_library(ext_intl ${_library_type}
   spoofchecker/spoofchecker_create.c
   spoofchecker/spoofchecker_main.c
 )
+
+target_sources(ext_intl PRIVATE ${_ext_intl_sources})
 
 find_package(ICU 50.1 REQUIRED COMPONENTS io uc i18n)
 # Upstream CMake module doesn't set this as advanced variable.
@@ -126,35 +130,8 @@ set(_ext_intl_cxx_sources
   breakiterator/codepointiterator_methods.cpp
 )
 
-add_library(ext_intl_cxx STATIC ${_ext_intl_cxx_sources})
+set_target_properties(ext_intl PROPERTIES CXX_STANDARD 11)
 
-set_target_properties(ext_intl_cxx PROPERTIES LANGUAGE CXX CXX_STANDARD 11)
+target_compile_definitions(ext_intl PRIVATE "$<$<COMPILE_LANGUAGE:CXX>:UNISTR_FROM_CHAR_EXPLICIT=explicit;UNISTR_FROM_STRING_EXPLICIT=explicit>")
 
-if(ICU_LIBRARIES)
-  target_link_libraries(ext_intl_cxx PRIVATE ${ICU_LIBRARIES})
-endif()
-
-target_compile_definitions(ext_intl_cxx
-  PRIVATE
-    __STDC_LIMIT_MACROS
-    __STDC_CONSTANT_MACROS
-    __STDC_FORMAT_MACROS
-    ZEND_ENABLE_STATIC_TSRMLS_CACHE=1
-    U_NO_DEFAULT_INCLUDE_UTF_HEADERS=1
-    UNISTR_FROM_CHAR_EXPLICIT=explicit
-    UNISTR_FROM_STRING_EXPLICIT=explicit
-)
-
-if(ICU_VERSION VERSION_GREATER_EQUAL 60)
-  target_compile_definitions(ext_intl_cxx PRIVATE U_HIDE_OBSOLETE_UTF_OLD_H=1)
-endif()
-
-target_compile_options(ext_intl_cxx PRIVATE -Wno-write-strings)
-
-target_include_directories(ext_intl_cxx PRIVATE ${CMAKE_CURRENT_SOURCE_DIR})
-
-if(ICU_INCLUDE_DIRS)
-  target_include_directories(ext_intl_cxx PRIVATE ${ICU_INCLUDE_DIRS})
-endif()
-
-target_link_libraries(ext_intl PRIVATE ext_intl_cxx)
+target_sources(ext_intl PRIVATE ${_ext_intl_cxx_sources})

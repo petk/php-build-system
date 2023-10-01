@@ -55,10 +55,10 @@ check_c_source_compiles("
 
     return 0;
   }
-" _have_6_arguments)
+" HAVE_FUNC_GETHOSTBYNAME_R_6)
 
 # Check for 5 arguments signature.
-if(NOT _have_6_arguments)
+if(NOT HAVE_FUNC_GETHOSTBYNAME_R_6)
   check_c_source_compiles("
     #include <netdb.h>
 
@@ -72,11 +72,11 @@ if(NOT _have_6_arguments)
 
       return 0;
     }
-  " _have_5_arguments)
+  " HAVE_FUNC_GETHOSTBYNAME_R_5)
 endif()
 
 # Check for 3 arguments signature.
-if(NOT _have_6_arguments AND NOT _have_5_arguments)
+if(NOT HAVE_FUNC_GETHOSTBYNAME_R_6 AND NOT HAVE_FUNC_GETHOSTBYNAME_R_5)
   check_c_source_compiles("
     #include <netdb.h>
 
@@ -88,21 +88,18 @@ if(NOT _have_6_arguments AND NOT _have_5_arguments)
 
       return 0;
     }
-  " _have_3_arguments)
+  " HAVE_FUNC_GETHOSTBYNAME_R_3)
 endif()
 
-if(_have_3_arguments OR _have_5_arguments OR _have_6_arguments)
+if(HAVE_FUNC_GETHOSTBYNAME_R_3 OR HAVE_FUNC_GETHOSTBYNAME_R_5 OR HAVE_FUNC_GETHOSTBYNAME_R_6)
   set(HAVE_GETHOSTBYNAME_R 1 CACHE INTERNAL "Define to 1 if you have some form of gethostbyname_r().")
 endif()
 
-if(_have_3_arguments)
-  set(HAVE_FUNC_GETHOSTBYNAME_R_3 1 CACHE INTERNAL "Define to 1 if you have the three-argument form of gethostbyname_r().")
-  message(STATUS "3")
-elseif(_have_5_arguments)
-  set(HAVE_FUNC_GETHOSTBYNAME_R_5 1 CACHE INTERNAL "Define to 1 if you have the five-argument form of gethostbyname_r().")
+if(HAVE_FUNC_GETHOSTBYNAME_R_3)
+  message(STATUS "three")
+elseif(HAVE_FUNC_GETHOSTBYNAME_R_5)
   message(STATUS "five")
-elseif(_have_6_arguments)
-  set(HAVE_FUNC_GETHOSTBYNAME_R_6 1 CACHE INTERNAL "Define to 1 if you have the six-argument form of gethostbyname_r().")
+elseif(HAVE_FUNC_GETHOSTBYNAME_R_6)
   message(STATUS "six")
 else()
   message(WARNING "can't tell")

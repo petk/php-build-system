@@ -4,7 +4,7 @@ Check for IPv6 support.
 Module sets the following variables if IPv6 support is available:
 
 HAVE_IPV6
-  Set to true if IPv6 support is be enabled.
+  Set to true if IPv6 support is enabled.
 ]=============================================================================]#
 
 include(CheckCSourceCompiles)
