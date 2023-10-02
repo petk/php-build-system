@@ -19,8 +19,27 @@ add_library(ext_tokenizer ${_library_type}
   tokenizer_data.c
 )
 
-# TODO: Run the ext/tokenizer/tokenizer_data_gen.php script after PHP cli SAPI
-# has been built depending on the state of Zend/zend_language_parser.y.
+# Run the ext/tokenizer/tokenizer_data_gen.php script after PHP cli SAPI has
+# been built depending on the state of Zend/zend_language_parser.y.
+file(
+  GENERATE
+  OUTPUT CMakeFiles/GenerateTokenizerData.cmake
+  CONTENT "
+    if(EXISTS ${PHP_EXECUTABLE})
+      execute_process(
+        COMMAND ${PHP_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/tokenizer_data_gen.php
+      )
+    endif()
+  "
+)
+
+add_custom_command(
+  COMMAND ${CMAKE_COMMAND} -P CMakeFiles/GenerateTokenizerData.cmake
+  OUTPUT ${CMAKE_CURRENT_SOURCE_DIR}/tokenizer_data.c
+  DEPENDS ${CMAKE_SOURCE_DIR}/Zend/zend_language_parser.y
+  COMMENT "Regenerating ext/tokenizer/tokenizer_data.c"
+  VERBATIM
+)
 
 # The tokenizer depends on Zend language scanner definitions header.
 add_dependencies(ext_tokenizer Zend)
