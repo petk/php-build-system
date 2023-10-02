@@ -34,8 +34,8 @@ file(
 )
 
 add_custom_command(
-  COMMAND ${CMAKE_COMMAND} -P CMakeFiles/GenerateTokenizerData.cmake
   OUTPUT ${CMAKE_CURRENT_SOURCE_DIR}/tokenizer_data.c
+  COMMAND ${CMAKE_COMMAND} -P CMakeFiles/GenerateTokenizerData.cmake
   DEPENDS ${CMAKE_SOURCE_DIR}/Zend/zend_language_parser.y
   COMMENT "Regenerating ext/tokenizer/tokenizer_data.c"
   VERBATIM
