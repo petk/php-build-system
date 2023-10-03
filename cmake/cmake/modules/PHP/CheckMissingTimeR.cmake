@@ -1,5 +1,5 @@
 #[=============================================================================[
-Checks for missing declarations of reentrant functions.
+Check for missing declarations of reentrant functions.
 
 Module sets the following variables:
 

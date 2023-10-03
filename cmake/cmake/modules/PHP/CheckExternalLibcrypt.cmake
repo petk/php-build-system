@@ -1,5 +1,5 @@
 #[=============================================================================[
-Checks if PHP can use external libcrypt.
+Check if PHP can use external libcrypt.
 
 Module sets the following variables:
 

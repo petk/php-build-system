@@ -104,7 +104,8 @@ add_library(Zend STATIC
   zend_ptr_stack.c
   zend_stack.c
   zend_variables.c
-  zend.c zend_API.c
+  zend.c
+  zend_API.c
   zend_extensions.c
   zend_hash.c
   zend_list.c

@@ -1,5 +1,5 @@
 #[=============================================================================[
-Checks for tcp_info.
+Check for tcp_info.
 
 The module sets the following variables if checks are successful:
 

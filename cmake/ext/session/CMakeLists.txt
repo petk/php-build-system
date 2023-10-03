@@ -14,10 +14,10 @@ if(NOT EXT_SESSION)
   return()
 endif()
 
-# Checks whether pwrite() works.
+# Check whether pwrite() works.
 include(PHP/CheckPwrite)
 
-# Checks whether pread() works.
+# Check whether pread() works.
 include(PHP/CheckPread)
 
 if(EXT_SESSION_SHARED OR BUILD_SHARED_LIBS)

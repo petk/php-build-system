@@ -1,5 +1,5 @@
 #[=============================================================================[
-Checks for global register variables support.
+Check for global register variables support.
 
 Module sets the following variables:
 

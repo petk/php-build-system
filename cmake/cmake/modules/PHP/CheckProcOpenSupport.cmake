@@ -1,5 +1,5 @@
 #[=============================================================================[
-Checks if OS can spawn processes with inherited handles.
+Check if OS can spawn processes with inherited handles.
 
 The module sets the following variables:
 

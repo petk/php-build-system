@@ -1,5 +1,5 @@
 #[=============================================================================[
-Checks for clock_gettime().
+Check for clock_gettime().
 
 The module sets the following variables if checks are successful:
 

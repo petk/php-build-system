@@ -1,10 +1,10 @@
 #[=============================================================================[
-Checks for mmap() using MAP_ANON shared memory support.
+Check for mmap() using MAP_ANON shared memory support.
 
-The module defines the following variables if support is found:
+The module sets the following variables if support is found:
 
 HAVE_SHM_MMAP_ANON
-  Defined to 1 if mmap(MAP_ANON) SHM support is found.
+  Set to 1 if mmap(MAP_ANON) SHM support is found.
 ]=============================================================================]#
 include(CheckCSourceRuns)
 

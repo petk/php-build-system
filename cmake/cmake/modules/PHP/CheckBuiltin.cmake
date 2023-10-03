@@ -1,5 +1,5 @@
 #[=============================================================================[
-Checks whether compiler supports one of the built-in functions __builtin_*().
+Check whether compiler supports one of the built-in functions __builtin_*().
 
 Module exposes the following function:
 

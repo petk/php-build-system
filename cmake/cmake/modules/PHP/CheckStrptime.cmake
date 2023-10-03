@@ -1,5 +1,5 @@
 #[=============================================================================[
-Checks whether the strptime() declaration fails.
+Check whether the strptime() declaration fails.
 
 The module sets the following variables:
 

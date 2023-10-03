@@ -1,10 +1,10 @@
 #[=============================================================================[
-Checks whether to enable Zend signal handling.
+Check whether to enable Zend signal handling.
 
 The module sets the following variables:
 
 ZEND_SIGNALS
-  Set to 1 when using zend signal handling.
+  Set to 1 when using Zend signal handling.
 
 HAVE_SIGACTION
   Set to 1 if the sigaction symbol is available.
@@ -12,7 +12,7 @@ HAVE_SIGACTION
 
 include(CheckSymbolExists)
 
-message(STATUS "Checking whether to enable zend signal handling")
+message(STATUS "Checking whether to enable Zend signal handling")
 
 check_symbol_exists(sigaction "signal.h" HAVE_SIGACTION)
 

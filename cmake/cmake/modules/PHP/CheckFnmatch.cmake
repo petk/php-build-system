@@ -1,5 +1,5 @@
 #[=============================================================================[
-Checks for a working POSIX fnmatch() function.
+Check for a working POSIX fnmatch() function.
 
 Some versions of Solaris, SCO, and the GNU C Library have a broken or
 incompatible fnmatch. When cross-compiling we only enable it for Linux systems.

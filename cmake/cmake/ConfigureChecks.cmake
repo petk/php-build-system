@@ -200,7 +200,7 @@ include(PHP/CheckProcctl)
 # Check for __alignof__.
 include(PHP/CheckAlignof)
 
-# Checks for sockaddr_storage and sockaddr.sa_len.
+# Check for sockaddr_storage and sockaddr.sa_len.
 include(PHP/CheckSockaddr)
 
 # Check functions and symbols.

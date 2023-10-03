@@ -1,5 +1,5 @@
 #[=============================================================================[
-Checks for ptrace().
+Check for ptrace().
 
 The module sets the following variables if checks are successful:
 

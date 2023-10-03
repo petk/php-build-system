@@ -9,7 +9,7 @@ HAVE_FLUSHIO
 
 include(CheckCSourceRuns)
 
-# Checks how flush call should be done.
+# Check how flush call should be done.
 function(_php_check_flush_io)
   message(STATUS "Checking whether flush should be called explicitly after a buffered io")
 

@@ -1,10 +1,10 @@
 #[=============================================================================[
-Checks for mmap() using shm_open() shared memory support.
+Check for mmap() using shm_open() shared memory support.
 
-The module defines the following variables if support is found:
+The module sets the following variables if support is found:
 
 HAVE_SHM_MMAP_POSIX
-  Defined to 1 if POSIX mmap() SHM support is found.
+  Set to 1 if POSIX mmap() SHM support is found.
 
 SHM_MMAP_POSIX_REQUIRED_LIBRARIES
   Required libraries that needs to be appended to the shared extension target.
