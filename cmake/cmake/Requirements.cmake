@@ -58,6 +58,3 @@ endif()
 
 # Find sendmail binary.
 find_package(SENDMAIL)
-
-# Find PHP executable.
-find_package(PHP)

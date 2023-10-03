@@ -11,10 +11,8 @@ include(CheckSymbolExists)
 include(CheckTypeSize)
 include(CMakePushCheckState)
 
-# Check whether the system byte ordering is bigendian.
-if(CMAKE_C_BYTE_ORDER STREQUAL "BIG_ENDIAN")
-  set(WORDS_BIGENDIAN 1)
-endif()
+# Check target system byte order.
+include(PHP/CheckByteOrder)
 
 check_include_file(alloca.h HAVE_ALLOCA_H)
 check_include_file(arpa/inet.h HAVE_ARPA_INET_H)

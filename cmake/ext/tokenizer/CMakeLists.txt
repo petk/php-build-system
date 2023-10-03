@@ -25,9 +25,9 @@ file(
   GENERATE
   OUTPUT CMakeFiles/GenerateTokenizerData.cmake
   CONTENT "
-    if(EXISTS ${PHP_EXECUTABLE})
+    if(EXISTS \$\{PHP_EXECUTABLE\})
       execute_process(
-        COMMAND ${PHP_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/tokenizer_data_gen.php
+        COMMAND \$\{PHP_EXECUTABLE\} ${CMAKE_CURRENT_SOURCE_DIR}/tokenizer_data_gen.php
       )
     endif()
   "
@@ -35,7 +35,9 @@ file(
 
 add_custom_command(
   OUTPUT ${CMAKE_CURRENT_SOURCE_DIR}/tokenizer_data.c
-  COMMAND ${CMAKE_COMMAND} -P CMakeFiles/GenerateTokenizerData.cmake
+  COMMAND ${CMAKE_COMMAND}
+          -D PHP_EXECUTABLE=${CMAKE_BINARY_DIR}/sapi/cli/php
+          -P CMakeFiles/GenerateTokenizerData.cmake
   DEPENDS ${CMAKE_SOURCE_DIR}/Zend/zend_language_parser.y
   COMMENT "Regenerating ext/tokenizer/tokenizer_data.c"
   VERBATIM

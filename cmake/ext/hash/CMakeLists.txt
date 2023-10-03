@@ -35,22 +35,25 @@ target_include_directories(
           ${CMAKE_CURRENT_SOURCE_DIR}/xxhash
 )
 
-if(CMAKE_C_BYTE_ORDER STREQUAL "LITTLE_ENDIAN")
+if(WORDS_BIGENDIAN)
+  set(HAVE_SLOW_HASH3 1 CACHE INTERNAL "Define if hash3 algo is available")
+  message(WARNING "Using SHA3 slow implementation on bigendian")
+else()
   if(CMAKE_SIZEOF_VOID_P EQUAL 4)
-    message(STATUS "32-bit platform")
+    message(STATUS "ext/hash: Using 32-bit platform")
 
-    set(SHA3_DIR "sha3/generic32lc")
-    target_sources(ext_hash PRIVATE "${SHA3_DIR}/KeccakP-1600-inplace32BI.c")
+    set(_sha3_dir "sha3/generic32lc")
+    target_sources(ext_hash PRIVATE "${_sha3_dir}/KeccakP-1600-inplace32BI.c")
   else()
-    message(STATUS "64-bit platform")
+    message(STATUS "ext/hash: Using 64-bit platform")
 
-    set(SHA3_DIR "sha3/generic64lc")
-    target_sources(ext_hash PRIVATE "${SHA3_DIR}/KeccakP-1600-opt64.c")
+    set(_sha3_dir "sha3/generic64lc")
+    target_sources(ext_hash PRIVATE "${_sha3_dir}/KeccakP-1600-opt64.c")
   endif()
 
-  target_sources(ext_hash PRIVATE ${SHA3_DIR}/KeccakHash.c ${SHA3_DIR}/KeccakSponge.c)
+  target_sources(ext_hash PRIVATE ${_sha3_dir}/KeccakHash.c ${_sha3_dir}/KeccakSponge.c)
 
-  target_include_directories(ext_hash PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/${SHA3_DIR})
+  target_include_directories(ext_hash PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/${_sha3_dir})
 
   # Add -Wno-implicit-fallthrough flag as it happens on 32-bit builds.
   check_c_compiler_flag(-Wno-implicit-fallthrough HAVE_WNO_IMPLICIT_FALLTHROUGH)
@@ -64,9 +67,6 @@ if(CMAKE_C_BYTE_ORDER STREQUAL "LITTLE_ENDIAN")
             KeccakP800_excluded
             ZEND_ENABLE_STATIC_TSRMLS_CACHE=1
   )
-else()
-  set(HAVE_SLOW_HASH3 1 CACHE INTERNAL "Define if hash3 algo is available")
-  message(WARNING "Using SHA3 slow implementation on bigendian")
 endif()
 
 target_sources(
