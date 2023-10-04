@@ -30,9 +30,9 @@ if(NOT CMAKE_CROSSCOMPILING)
 
       return (1);
     }
-  " _time_r_is_hpux)
+  " PHP_HPUX_TIME_R)
 
-  if(NOT _time_r_is_hpux)
+  if(NOT PHP_HPUX_TIME_R)
     check_c_source_runs("
       #include <time.h>
 
@@ -47,12 +47,6 @@ if(NOT CMAKE_CROSSCOMPILING)
 
         return (1);
       }
-    " _time_r_is_irix)
-
-    if(_time_r_is_irix)
-      set(PHP_IRIX_TIME_R 1 CACHE INTERNAL "Whether you have IRIX-style functions")
-    endif()
-  else()
-    set(PHP_HPUX_TIME_R 1 CACHE INTERNAL "Whether you have HP-UX 10.x")
+    " PHP_IRIX_TIME_R)
   endif()
 endif()
