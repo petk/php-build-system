@@ -11,6 +11,21 @@ include(CheckSymbolExists)
 include(CheckTypeSize)
 include(CMakePushCheckState)
 
+# Checking file descriptor sets.
+message(CHECK_START "Checking how big to make file descriptor sets")
+
+if(PHP_FD_SETSIZE GREATER 0)
+  message(CHECK_PASS "using FD_SETSIZE=${PHP_FD_SETSIZE}")
+  set(EXTRA_DEFINITIONS ${EXTRA_DEFINITIONS} -DFD_SETSIZE=${PHP_FD_SETSIZE})
+elseif(
+  NOT PHP_FD_SETSIZE STREQUAL ""
+  AND NOT PHP_FD_SETSIZE GREATER 0
+)
+  message(FATAL_ERROR "Invalid value passed to PHP_FD_SETSIZE: ${PHP_FD_SETSIZE}")
+else()
+  message(CHECK_PASS "using system default")
+endif()
+
 # Check target system byte order.
 include(PHP/CheckByteOrder)
 

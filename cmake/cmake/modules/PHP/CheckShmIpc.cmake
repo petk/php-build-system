@@ -8,11 +8,11 @@ HAVE_SHM_IPC
 ]=============================================================================]#
 include(CheckCSourceRuns)
 
-message(STATUS "Checking for sysvipc shared memory support")
+message(CHECK_START "Checking for sysvipc shared memory support")
 
-if(CMAKE_CROSSCOMPILING)
-  message(STATUS "no (cross-compiling)")
-else()
+list(APPEND CMAKE_MESSAGE_INDENT "  ")
+
+if(NOT CMAKE_CROSSCOMPILING)
   check_c_source_runs("
     #include <sys/types.h>
     #include <sys/wait.h>
@@ -78,4 +78,14 @@ else()
       return 0;
     }
   " HAVE_SHM_IPC)
+endif()
+
+list(POP_BACK CMAKE_MESSAGE_INDENT)
+
+if(HAVE_SHM_IPC)
+  message(CHECK_PASS "yes")
+elseif(CMAKE_CROSSCOMPILING)
+  message(CHECK_FAIL "no (cross-compiling)")
+else()
+  message(CHECK_FAIL "no")
 endif()

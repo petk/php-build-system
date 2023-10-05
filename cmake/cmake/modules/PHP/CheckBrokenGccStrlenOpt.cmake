@@ -13,11 +13,11 @@ if(NOT (CMAKE_C_COMPILER_ID STREQUAL "GNU" OR CMAKE_CXX_COMPILER_ID STREQUAL "GN
   return()
 endif()
 
-message(STATUS "Checking for broken gcc optimize-strlen")
+message(CHECK_START "Checking for broken gcc optimize-strlen")
 
-if(CMAKE_CROSSCOMPILING)
-  set(_have_broken_optimize_strlen OFF)
-else()
+list(APPEND CMAKE_MESSAGE_INDENT "  ")
+
+if(NOT CMAKE_CROSSCOMPILING)
   check_c_source_runs("
     #include <stdlib.h>
     #include <string.h>
@@ -37,12 +37,14 @@ else()
   " _have_broken_optimize_strlen)
 endif()
 
+list(POP_BACK CMAKE_MESSAGE_INDENT)
+
 if(_have_broken_optimize_strlen)
-  message(STATUS "Appending -fno-optimize-strlen")
+  message(CHECK_PASS "yes, using -fno-optimize-strlen")
   # TODO: Fix this better.
   set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -fno-optimize-strlen" CACHE STRING "C Compiler Flags")
+elseif(CMAKE_CROSSCOMPILING)
+  message(CHECK_FAIL "no (cross-compiling)")
 else()
-  message(STATUS "no")
+  message(CHECK_FAIL "no")
 endif()
-
-unset(_have_broken_optimize_strlen)

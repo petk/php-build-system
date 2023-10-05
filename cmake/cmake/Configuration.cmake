@@ -60,7 +60,7 @@ option(PHP_DTRACE "Whether to enable DTrace support" OFF)
 
 set(PHP_FD_SETSIZE "" CACHE STRING "Size of descriptor sets")
 
-option(VALGRIND "Whether to enable the valgring support" OFF)
+option(PHP_VALGRIND "Whether to enable the Valgrind support" OFF)
 
 option(BUILD_SHARED_LIBS "Whether to build all enabled optional PHP extensions as shared objects" OFF)
 
@@ -83,8 +83,4 @@ if(PHP_SHORT_TAGS)
   set(DEFAULT_SHORT_OPEN_TAG "1")
 else()
   set(DEFAULT_SHORT_OPEN_TAG "0")
-endif()
-
-if(PHP_FD_SETSIZE GREATER 0)
-  set(EXTRA_DEFINITIONS ${EXTRA_DEFINITIONS} -DPHP_FD_SETSIZE=${PHP_FD_SETSIZE})
 endif()

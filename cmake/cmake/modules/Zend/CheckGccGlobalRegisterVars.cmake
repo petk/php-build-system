@@ -10,7 +10,9 @@ HAVE_GCC_GLOBAL_REGS
 include(CheckCSourceCompiles)
 
 function(_php_check_gcc_global_register_vars)
-  message(STATUS "Checking for global register variables support")
+  message(CHECK_START "Checking for global register variables support")
+
+  list(APPEND CMAKE_MESSAGE_INDENT "  ")
 
   check_c_source_compiles("
     #if defined(__GNUC__)
@@ -58,6 +60,14 @@ function(_php_check_gcc_global_register_vars)
       return 0;
     }
   " HAVE_GCC_GLOBAL_REGS)
+
+  list(POP_BACK CMAKE_MESSAGE_INDENT)
+
+  if(HAVE_GCC_GLOBAL_REGS)
+    message(CHECK_PASS "yes")
+  else()
+    message(CHECK_FAIL "no")
+  endif()
 endfunction()
 
 _php_check_gcc_global_register_vars()

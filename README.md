@@ -868,6 +868,16 @@ cmake -LH .
       <td></td>
     </tr>
     <tr>
+      <td>--without-valgrind</td>
+      <td>PHP_VALGRIND=OFF</td>
+      <td>default</td>
+    </tr>
+    <tr>
+      <td>&nbsp;&nbsp;--with-valgrind</td>
+      <td>&nbsp;&nbsp;PHP_VALGRIND=ON</td>
+      <td></td>
+    </tr>
+    <tr>
       <td>--with-libdir=[NAME]</td>
       <td>CMAKE_INSTALL_LIBDIR=[NAME]</td>
       <td>See GNUInstallDirs</td>
@@ -929,12 +939,12 @@ cmake -LH .
     </tr>
     <tr>
       <td>--without-apxs2</td>
-      <td>SAPI_APACHE=OFF</td>
+      <td>SAPI_APACHE2HANDLER=OFF</td>
       <td>default</td>
     </tr>
     <tr>
       <td>&nbsp;&nbsp;--with-apxs2[=FILE]</td>
-      <td>&nbsp;&nbsp;SAPI_APACHE=ON</td>
+      <td>&nbsp;&nbsp;SAPI_APACHE2HANDLER=ON</td>
       <td></td>
     </tr>
     <tr>

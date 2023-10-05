@@ -59,7 +59,7 @@ if(EXT_PCNTL_SHARED OR BUILD_SHARED_LIBS)
   set(_library_type "SHARED")
 endif()
 
-php_extension(NAME pcntl ${_library_type})
+php_extension(NAME "pcntl" ${_library_type})
 
 add_library(ext_pcntl ${_library_type}
   pcntl.c

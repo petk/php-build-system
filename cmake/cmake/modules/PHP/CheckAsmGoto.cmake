@@ -10,7 +10,9 @@ HAVE_ASM_GOTO
 include(CheckCSourceCompiles)
 include(CheckCSourceRuns)
 
-message(STATUS "Checking for asm goto support")
+message(CHECK_START "Checking for asm goto support")
+
+list(APPEND CMAKE_MESSAGE_INDENT "  ")
 
 if(CMAKE_CROSSCOMPILING)
   check_c_source_compiles("
@@ -36,4 +38,12 @@ else()
         return 0;
     }
   " HAVE_ASM_GOTO)
+endif()
+
+list(POP_BACK CMAKE_MESSAGE_INDENT)
+
+if(HAVE_ASM_GOTO)
+  message(CHECK_PASS "yes")
+else()
+  message(CHECK_FAIL "no")
 endif()

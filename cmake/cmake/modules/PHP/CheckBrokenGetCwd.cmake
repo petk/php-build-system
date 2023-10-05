@@ -8,11 +8,11 @@ HAVE_BROKEN_GETCWD
   Set to 1 if system has broken getcwd().
 ]=============================================================================]#
 
-message(STATUS "Checking for broken getcwd")
+message(CHECK_START "Checking for broken getcwd()")
 
 if(CMAKE_HOST_SYSTEM_NAME STREQUAL "SunOS")
   set(HAVE_BROKEN_GETCWD 1 CACHE INTERNAL "Define if system has broken getcwd")
-  message(STATUS "yes")
+  message(CHECK_PASS "yes")
 else()
-  message(STATUS "no")
+  message(CHECK_FAIL "no")
 endif()

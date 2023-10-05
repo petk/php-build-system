@@ -14,7 +14,7 @@ if(EXT_MYSQLND_SHARED OR BUILD_SHARED_LIBS)
   set(_library_type "SHARED")
 endif()
 
-php_extension(NAME mysqlnd ${_library_type} PRIORITY 10)
+php_extension(NAME "mysqlnd" ${_library_type} PRIORITY 10)
 
 add_library(ext_mysqlnd ${_library_type}
   mysqlnd_connection.c

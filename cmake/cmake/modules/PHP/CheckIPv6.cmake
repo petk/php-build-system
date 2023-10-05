@@ -10,7 +10,9 @@ HAVE_IPV6
 include(CheckCSourceCompiles)
 
 function(_php_check_ipv6)
-  message(STATUS "Checking for IPv6 support")
+  message(CHECK_START "Checking for IPv6 support")
+
+  list(APPEND CMAKE_MESSAGE_INDENT "  ")
 
   check_c_source_compiles("
     #include <sys/types.h>
@@ -27,6 +29,14 @@ function(_php_check_ipv6)
       return 0;
     }
   " HAVE_IPV6)
+
+  list(POP_BACK CMAKE_MESSAGE_INDENT)
+
+  if(HAVE_IPV6)
+    message(CHECK_PASS "yes")
+  else()
+    message(CHECK_FAIL "no")
+  endif()
 endfunction()
 
 _php_check_ipv6()

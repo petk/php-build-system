@@ -132,7 +132,8 @@ else()
     message(STATUS "PCRE JIT disabled")
   endif()
 
-  if(VALGRIND AND PHP_DEBUG)
+  # Enable pcre Valgrind support only in DEBUG build (it affects performance).
+  if(PHP_VALGRIND AND PHP_DEBUG)
     set(HAVE_PCRE_VALGRIND_SUPPORT 1 CACHE INTERNAL "Whether to enable the Valgrind support in PCRE")
   endif()
 

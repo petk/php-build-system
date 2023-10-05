@@ -12,7 +12,7 @@ if(EXT_PSPELL_SHARED OR BUILD_SHARED_LIBS)
   set(_library_type "SHARED")
 endif()
 
-php_extension(NAME pspell ${_library_type})
+php_extension(NAME "pspell" ${_library_type})
 
 add_library(ext_pspell ${_library_type}
   pspell.c

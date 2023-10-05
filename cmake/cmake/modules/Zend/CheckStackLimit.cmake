@@ -9,11 +9,11 @@ ZEND_CHECK_STACK_LIMIT
 
 include(CheckCSourceRuns)
 
-message(STATUS "Checking whether the stack grows downwards")
+message(CHECK_START "Checking whether the stack grows downwards")
 
-if(CMAKE_CROSSCOMPILING)
-  message(STATUS "no (cross-compiling)")
-else()
+list(APPEND CMAKE_MESSAGE_INDENT "  ")
+
+if(NOT CMAKE_CROSSCOMPILING)
   check_c_source_runs("
     #include <stdint.h>
 
@@ -31,4 +31,14 @@ else()
       return f((uintptr_t)&local) ? 0 : 1;
     }
   " ZEND_CHECK_STACK_LIMIT)
+endif()
+
+list(POP_BACK CMAKE_MESSAGE_INDENT)
+
+if(ZEND_CHECK_STACK_LIMIT)
+  message(CHECK_PASS "yes")
+elseif(CMAKE_CROSSCOMPILING)
+  message(CHECK_FAIL "no (cross-compiling)")
+else()
+  message(CHECK_FAIL "no")
 endif()

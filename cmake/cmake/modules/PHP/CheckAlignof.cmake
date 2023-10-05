@@ -9,7 +9,9 @@ HAVE_ALIGNOF
 
 include(CheckCSourceCompiles)
 
-message(STATUS "Checking whether the compiler supports __alignof__")
+message(CHECK_START "Checking whether the compiler supports __alignof__")
+
+list(APPEND CMAKE_MESSAGE_INDENT "  ")
 
 check_c_source_compiles("
   int main(void) {
@@ -18,3 +20,11 @@ check_c_source_compiles("
     return 0;
   }
 " HAVE_ALIGNOF)
+
+list(POP_BACK CMAKE_MESSAGE_INDENT)
+
+if(HAVE_ALIGNOF)
+  message(CHECK_PASS "yes")
+else()
+  message(CHECK_FAIL "no")
+endif()

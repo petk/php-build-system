@@ -15,14 +15,18 @@ PHP_CAN_SUPPORT_PROC_OPEN
 
 include(CheckSymbolExists)
 
+message(CHECK_START "Checking if system can spawn processes with inherited handles")
+
+list(APPEND CMAKE_MESSAGE_INDENT "  ")
+
 check_symbol_exists(fork "unistd.h" HAVE_FORK)
 check_symbol_exists(CreateProcess "windows.h" HAVE_CREATEPROCESS)
 
-message(STATUS "Checking if your OS can spawn processes with inherited handles")
+list(POP_BACK CMAKE_MESSAGE_INDENT)
 
 if(HAVE_FORK OR HAVE_CREATEPROCESS)
-  message(STATUS "yes")
-  set(PHP_CAN_SUPPORT_PROC_OPEN 1 CACHE INTERNAL "Define if your system has fork/vfork/CreateProcess")
+  set(PHP_CAN_SUPPORT_PROC_OPEN 1 CACHE INTERNAL "Define if system has fork/vfork/CreateProcess")
+  message(CHECK_PASS "yes")
 else()
-  message(STATUS "no")
+  message(CHECK_FAIL "no")
 endif()

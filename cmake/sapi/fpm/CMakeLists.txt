@@ -240,27 +240,45 @@ check_c_source_compiles("
   }
 " HAVE_EPOLL)
 
-check_c_source_compiles("
-  /* According to POSIX.1-2001 */
-  #include <sys/select.h>
+message(CHECK_START "Checking for select()")
 
-  /* According to earlier standards */
-  #include <sys/time.h>
-  #include <sys/types.h>
-  #include <unistd.h>
+list(APPEND CMAKE_MESSAGE_INDENT "  ")
 
-  int main(void) {
-    fd_set fds;
-    struct timeval t;
-    t.tv_sec = 0;
-    t.tv_usec = 42;
-    FD_ZERO(&fds);
-    /* 0 -> STDIN_FILENO */
-    FD_SET(0, &fds);
-    select(FD_SETSIZE, &fds, NULL, NULL, &t);
-    return 0;
-  }
-" HAVE_SELECT)
+cmake_push_check_state(RESET)
+  if(PHP_FD_SETSIZE)
+    set(CMAKE_REQUIRED_DEFINITIONS -DFD_SETSIZE=${PHP_FD_SETSIZE})
+  endif()
+
+  check_c_source_compiles("
+    /* According to POSIX.1-2001 */
+    #include <sys/select.h>
+
+    /* According to earlier standards */
+    #include <sys/time.h>
+    #include <sys/types.h>
+    #include <unistd.h>
+
+    int main(void) {
+      fd_set fds;
+      struct timeval t;
+      t.tv_sec = 0;
+      t.tv_usec = 42;
+      FD_ZERO(&fds);
+      /* 0 -> STDIN_FILENO */
+      FD_SET(0, &fds);
+      select(FD_SETSIZE, &fds, NULL, NULL, &t);
+      return 0;
+    }
+  " HAVE_SELECT)
+cmake_pop_check_state()
+
+list(POP_BACK CMAKE_MESSAGE_INDENT)
+
+if(HAVE_SELECT)
+  message(CHECK_PASS "yes")
+else()
+  message(CHECK_FAIL "no")
+endif()
 
 if(SAPI_FPM_SYSTEMD)
   find_package(SYSTEMD 209 REQUIRED)

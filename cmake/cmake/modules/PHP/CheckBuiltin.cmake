@@ -10,7 +10,9 @@ include(CheckCSourceCompiles)
 
 # cmake-lint: disable=R0912
 function(php_check_builtin builtin result)
-  message(STATUS "Checking for ${builtin}")
+  message(CHECK_START "Checking for ${builtin}")
+
+  list(APPEND CMAKE_MESSAGE_INDENT "  ")
 
   if(builtin STREQUAL "__builtin_clz")
     set(call "return __builtin_clz(1) ? 1 : 0;")
@@ -58,4 +60,12 @@ function(php_check_builtin builtin result)
       return 0;
     }
   " ${result})
+
+  list(POP_BACK CMAKE_MESSAGE_INDENT)
+
+  if(${${result}})
+    message(CHECK_PASS "yes")
+  else()
+    message(CHECK_FAIL "no")
+  endif()
 endfunction()

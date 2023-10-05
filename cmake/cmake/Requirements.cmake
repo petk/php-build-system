@@ -1,11 +1,13 @@
 #[=============================================================================[
-Check system requirements.
+Check system requirements and validate basic configuration.
 ]=============================================================================]#
 
 include(CheckCSourceRuns)
 
+################################################################################
 # Check whether the system uses EBCDIC (not ASCII) as its native codeset.
-message(STATUS "Checking whether system uses EBCDIC")
+################################################################################
+message(CHECK_START "Checking whether system uses EBCDIC")
 
 if(NOT CMAKE_CROSSCOMPILING)
   check_c_source_runs("
@@ -18,15 +20,17 @@ endif()
 if(_is_ebcdic)
   message(FATAL_ERROR "PHP does not support EBCDIC targets")
 else()
-  message(STATUS "OK")
+  message(CHECK_PASS "OK, using ASCII")
 endif()
 
+################################################################################
 # Check if bison and re2c are required.
 #
 # PHP tarball packaged and released at php.net already contains generated lexer
 # and parser files. In such cases these don't need to be generated again. When
 # building from a Git repository, bison and re2c are required to be installed so
 # files can be generated as part of the build process.
+################################################################################
 #
 # Check if bison is required.
 if(
@@ -56,5 +60,67 @@ if(
   find_package(RE2C 1.0.3 REQUIRED)
 endif()
 
+################################################################################
 # Find sendmail binary.
+################################################################################
 find_package(SENDMAIL)
+
+################################################################################
+# Check if at least one SAPI is enabled.
+################################################################################
+function(_php_check_enabled_sapis)
+  set(at_least_one_sapi_is_enabled FALSE)
+
+  file(
+    GLOB_RECURSE
+    subdirectories
+    LIST_DIRECTORIES TRUE
+    "${CMAKE_SOURCE_DIR}/sapi/*/" "sapi/*/CMakeLists.txt"
+  )
+
+  foreach(dir ${subdirectories})
+    if(NOT EXISTS "${dir}/CMakeLists.txt")
+      continue()
+    endif()
+
+    cmake_path(GET dir FILENAME sapi_name)
+    string(TOUPPER ${sapi_name} sapi_name)
+
+    if(NOT DEFINED SAPI_${sapi_name})
+      file(READ "${dir}/CMakeLists.txt" content)
+
+      string(
+        REGEX MATCH
+        "option\\(SAPI_${sapi_name}[\\r\\n\\t ]*.*\"[\\r\\n\\t ]+([A-Z]+)"
+        _
+        ${content}
+      )
+
+      if(${CMAKE_MATCH_1} STREQUAL "ON")
+        set(at_least_one_sapi_is_enabled TRUE)
+        break()
+      endif()
+    endif()
+
+    if(SAPI_${sapi_name})
+      set(at_least_one_sapi_is_enabled TRUE)
+      break()
+    endif()
+  endforeach()
+
+  if(NOT at_least_one_sapi_is_enabled)
+    message(
+      FATAL_ERROR
+      "To build PHP you must enable at least one PHP SAPI module"
+    )
+  endif()
+endfunction()
+
+_php_check_enabled_sapis()
+
+################################################################################
+# Find Valgrind.
+################################################################################
+if(PHP_VALGRIND)
+  find_package(VALGRIND REQUIRED)
+endif()

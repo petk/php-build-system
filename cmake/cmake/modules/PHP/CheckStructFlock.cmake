@@ -9,7 +9,9 @@ HAVE_STRUCT_FLOCK
 
 include(CheckCSourceCompiles)
 
-message(STATUS "Checking for struct flock")
+message(CHECK_START "Checking for struct flock")
+
+list(APPEND CMAKE_MESSAGE_INDENT "  ")
 
 check_c_source_compiles("
   #include <unistd.h>
@@ -21,3 +23,11 @@ check_c_source_compiles("
     return 0;
   }
 " HAVE_STRUCT_FLOCK)
+
+list(POP_BACK CMAKE_MESSAGE_INDENT)
+
+if(HAVE_STRUCT_FLOCK)
+  message(CHECK_PASS "yes")
+else()
+  message(CHECK_FAIL "no")
+endif()

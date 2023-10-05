@@ -13,7 +13,9 @@ HAVE_SOCKADDR_SA_LEN
 
 include(CheckCSourceCompiles)
 
-message(STATUS "Checking for struct sockaddr_storage")
+message(CHECK_START "Checking for struct sockaddr_storage")
+
+list(APPEND CMAKE_MESSAGE_INDENT "  ")
 
 check_c_source_compiles("
   #include <sys/types.h>
@@ -27,7 +29,17 @@ check_c_source_compiles("
   }
 " HAVE_SOCKADDR_STORAGE)
 
-message(STATUS "Checking for field sa_len in struct sockaddr")
+list(POP_BACK CMAKE_MESSAGE_INDENT)
+
+if(HAVE_SOCKADDR_STORAGE)
+  message(CHECK_PASS "yes")
+else()
+  message(CHECK_FAIL "no")
+endif()
+
+message(CHECK_START "Checking for field sa_len in struct sockaddr")
+
+list(APPEND CMAKE_MESSAGE_INDENT "  ")
 
 check_c_source_compiles("
   #include <sys/types.h>
@@ -40,3 +52,11 @@ check_c_source_compiles("
     return n;
   }
 " HAVE_SOCKADDR_SA_LEN)
+
+list(POP_BACK CMAKE_MESSAGE_INDENT)
+
+if(HAVE_SOCKADDR_SA_LEN)
+  message(CHECK_PASS "yes")
+else()
+  message(CHECK_FAIL "no")
+endif()

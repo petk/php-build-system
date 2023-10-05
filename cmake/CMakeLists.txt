@@ -32,7 +32,7 @@ include(cmake/Platform.cmake)
 # Set PHP configuration options and variables.
 include(cmake/Configuration.cmake)
 
-# Check system requirements.
+# Check requirements.
 include(cmake/Requirements.cmake)
 
 # Run PHP configuration checks.

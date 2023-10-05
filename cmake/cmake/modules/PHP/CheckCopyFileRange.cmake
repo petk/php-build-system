@@ -10,7 +10,9 @@ HAVE_COPY_FILE_RANGE
 
 include(CheckCSourceRuns)
 
-message(STATUS "Checking for copy_file_range")
+message(CHECK_START "Checking for copy_file_range")
+
+list(APPEND CMAKE_MESSAGE_INDENT "  ")
 
 if(NOT CMAKE_CROSSCOMPILING)
   check_c_source_runs("
@@ -33,4 +35,12 @@ if(NOT CMAKE_CROSSCOMPILING)
     #error \"unsupported platform\"
     #endif
   " HAVE_COPY_FILE_RANGE)
+endif()
+
+list(POP_BACK CMAKE_MESSAGE_INDENT)
+
+if(HAVE_COPY_FILE_RANGE)
+  message(CHECK_PASS "yes")
+else()
+  message(CHECK_FAIL "no")
 endif()

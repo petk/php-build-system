@@ -1757,7 +1757,7 @@
 #cmakedefine HAVE_UTSNAME_DOMAINNAME @HAVE_UTSNAME_DOMAINNAME@
 
 /* */
-#cmakedefine HAVE_VALGRIND
+#cmakedefine HAVE_VALGRIND @HAVE_VALGRIND@
 
 /* Define to 1 if you have the `vasprintf' function. */
 #cmakedefine HAVE_VASPRINTF @HAVE_VASPRINTF@

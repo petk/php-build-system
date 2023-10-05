@@ -22,7 +22,9 @@ HAVE_FUNC_GETHOSTBYNAME_R_6
 
 include(CheckCSourceCompiles)
 
-message(STATUS "Checking how many arguments gethostbyname_r() takes")
+message(CHECK_START "Checking how many arguments gethostbyname_r() takes")
+
+list(APPEND CMAKE_MESSAGE_INDENT "  ")
 
 # Sanity check with 1 argument signature.
 check_c_source_compiles("
@@ -95,12 +97,14 @@ if(HAVE_FUNC_GETHOSTBYNAME_R_3 OR HAVE_FUNC_GETHOSTBYNAME_R_5 OR HAVE_FUNC_GETHO
   set(HAVE_GETHOSTBYNAME_R 1 CACHE INTERNAL "Define to 1 if you have some form of gethostbyname_r().")
 endif()
 
+list(POP_BACK CMAKE_MESSAGE_INDENT)
+
 if(HAVE_FUNC_GETHOSTBYNAME_R_3)
-  message(STATUS "three")
+  message(CHECK_PASS "three")
 elseif(HAVE_FUNC_GETHOSTBYNAME_R_5)
-  message(STATUS "five")
+  message(CHECK_PASS "five")
 elseif(HAVE_FUNC_GETHOSTBYNAME_R_6)
-  message(STATUS "six")
+  message(CHECK_PASS "six")
 else()
-  message(WARNING "can't tell")
+  message(CHECK_FAIL "can't tell")
 endif()

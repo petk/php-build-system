@@ -11,7 +11,9 @@ HAVE_GETADDRINFO
 include(CheckCSourceCompiles)
 include(CheckCSourceRuns)
 
-message(STATUS "Checking for getaddrinfo")
+message(CHECK_START "Checking for getaddrinfo()")
+
+list(APPEND CMAKE_MESSAGE_INDENT "  ")
 
 check_c_source_compiles("
   #include <netdb.h>
@@ -70,7 +72,15 @@ if(_have_getaddrinfo)
     " HAVE_GETADDRINFO)
   else()
     if(CMAKE_HOST_SYSTEM_NAME STREQUAL "Linux")
-      set(HAVE_GETADDRINFO 1 CACHE INTERNAL "Define if you have the getaddrinfo function")
+      set(HAVE_GETADDRINFO 1 CACHE INTERNAL "Define if you have the getaddrinfo() function")
     endif()
   endif()
+endif()
+
+list(POP_BACK CMAKE_MESSAGE_INDENT)
+
+if(HAVE_GETADDRINFO)
+  message(CHECK_PASS "yes")
+else()
+  message(CHECK_FAIL "no")
 endif()
