@@ -91,7 +91,7 @@ function(_php_check_enabled_sapis)
 
       string(
         REGEX MATCH
-        "option\\(SAPI_${sapi_name}[\\r\\n\\t ]*.*\"[\\r\\n\\t ]+([A-Z]+)"
+        "option\\(SAPI_${sapi_name}[\\r\\n\\t ]+.*\"[\\r\\n\\t ]+([A-Z]+)\\)"
         _
         ${content}
       )

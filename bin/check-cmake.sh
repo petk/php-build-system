@@ -99,7 +99,7 @@ files=$(find ./cmake ./bin -type f -name "*.cmake" -o -name "CMakeLists.txt")
 # Run cmakelint. Some options are disabled and cmake-format checks them instead.
 echo
 echo "Running cmakelint"
-$cmakelint --filter=-linelength,-whitespace/indent $files
+$cmakelint --filter=-linelength,-whitespace/indent,-convention/filename,-package/stdargs $files
 status=$?
 
 test "$status" != "0" && exit_code=$status

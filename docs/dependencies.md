@@ -12,9 +12,9 @@ projects.
   * [3.3. Conan](#33-conan)
   * [3.4. Vcpkg](#34-vcpkg)
   * [3.5. Chocolatey for Windows](#35-chocolatey-for-windows)
-  * [3.6. CMake](#36-cmake)
-  * [3.7. Building dependencies from source](#37-building-dependencies-from-source)
-  * [3.8. pkgconf](#38-pkgconf)
+  * [3.6. Building dependencies from source](#36-building-dependencies-from-source)
+  * [3.7. pkgconf](#37-pkgconf)
+* [4. CMake](#4-cmake)
 
 ## 1. Introduction to dependencies
 
@@ -98,23 +98,13 @@ that simplifies the installation and management of various software packages,
 including C/C++ libraries, enhancing the dependency management experience for
 Windows-based C/C++ projects.
 
-### 3.6. CMake
-
-CMake can fetch, build, and link libraries as part of project's build process.
-
-[FetchContent](https://cmake.org/cmake/help/latest/module/FetchContent.html) can
-be used for "simpler" dependencies.
-
-With `FetchContent`, the dependency can be a separate Git repository, can be
-downloaded at the build time, and then built together with the entire project.
-
-### 3.7. Building dependencies from source
+### 3.6. Building dependencies from source
 
 Sometimes, you may need to build dependencies from source. In this case, you can
 create scripts or use build automation tools (like Make or CMake) to build and
 include these dependencies as part of your project's build process.
 
-### 3.8. pkgconf
+### 3.7. pkgconf
 
 [pkgconf](http://pkgconf.org/) is a tool for managing package dependencies in
 Unix-based systems. It simplifies the process of locating and retrieving
@@ -162,3 +152,24 @@ The information about system package is read from the `packagename.pc` file that
 needs to be included in the root directory of the package source code. Some
 C/C++ packages don't ship with such file, so `pkgconf` information is not
 available for every system package out there.
+
+## 4. CMake
+
+CMake is not a dependency manager on its own but it can fetch, build, and link
+libraries as part of project's build process.
+
+Most of the time,
+[`find_package()`](https://cmake.org/cmake/help/latest/command/find_package.html)
+is used to find project dependencies on the system. Either by manually written
+`Find<PackageName>.cmake` modules in the project or if dependency ships with
+its own CMake config package file. CMake has also some find modules built in.
+
+```cmake
+find_package(OpenSSL)
+target_link_libraries(php PRIVATE OpenSSL::SSL)
+```
+
+[FetchContent](https://cmake.org/cmake/help/latest/module/FetchContent.html) can
+be used for "simpler" dependencies. With `FetchContent`, the dependency can be a
+separate Git repository, can be downloaded at the build time, and then built
+together with the entire project.

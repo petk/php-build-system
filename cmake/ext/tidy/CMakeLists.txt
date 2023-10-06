@@ -23,12 +23,6 @@ target_compile_options(ext_tidy PRIVATE -Wno-ignored-qualifiers)
 
 target_compile_definitions(ext_tidy PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE=1)
 
-find_package(TIDY REQUIRED)
+find_package(Tidy REQUIRED)
 
-if(TIDY_LIBRARIES)
-  target_link_libraries(ext_tidy PRIVATE ${TIDY_LIBRARIES})
-endif()
-
-if(TIDY_INCLUDE_DIRS)
-  target_include_directories(ext_tidy PRIVATE ${TIDY_INCLUDE_DIRS})
-endif()
+target_link_libraries(ext_tidy PRIVATE Tidy::Tidy)

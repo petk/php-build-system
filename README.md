@@ -19,19 +19,19 @@ sudo pkg install cmake bison re2c libxml2 sqlite3
 
 # Clone this repository:
 git clone https://github.com/petk/php-build-system
-cd php-build-system
 
 # Download latest PHP and add CMake files:
-cmake -P bin/php.cmake
+cmake -P php-build-system/bin/php.cmake
 
-# Go into newly created directory, for example:
-cd php-8.4-dev
+# Create a build directory, for example:
+mkdir my-php-build
+cd my-php-build
 
 # Generate build system:
-cmake .
+cmake ../php-build-system/php-8.4-dev
 
 # Build PHP in parallel:
-cmake --build . --parallel
+cmake --build . -j
 
 ./sapi/cli/php -v
 ```

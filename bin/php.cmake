@@ -18,10 +18,10 @@ SYNOPSIS:
 
 Usage examples:
   Downloads specific version from php.net:
-    cmake -P bin/php.cmake 8.3.0RC2
+    cmake -P bin/php.cmake 8.3.0RC3
 
   Or:
-    ./bin/php.cmake 8.3.0RC2
+    ./bin/php.cmake 8.3.0RC3
 
   Downloads the current Git PHP-8.3 branch:
     ./bin/php.cmake 8.3-dev
@@ -69,10 +69,12 @@ if(
   message(FATAL_ERROR "Only PHP 8.3 or greater is supported.")
 endif()
 
-set(_php_directory "php-${PHP_VERSION}")
+cmake_path(SET PHP_ROOT_DIR NORMALIZE "${CMAKE_CURRENT_LIST_DIR}/..")
+cmake_path(SET PHP_SOURCE_DIR NORMALIZE "${PHP_ROOT_DIR}/php-${PHP_VERSION}")
+set(PHP_SOURCE_RELATIVE_DIR "php-${PHP_VERSION}")
 
-if(EXISTS "${_php_directory}")
-  message(FATAL_ERROR "To continue, please remove previous existing directory ${_php_directory}")
+if(EXISTS "${PHP_SOURCE_DIR}")
+  message(FATAL_ERROR "To continue, please remove previous existing directory ${PHP_SOURCE_RELATIVE_DIR}")
 endif()
 
 # Determine the download URL.
@@ -94,7 +96,7 @@ else()
 endif()
 
 # Download PHP tarball.
-set(_php_tarball "php-${PHP_VERSION}.tar.gz")
+set(_php_tarball "${PHP_ROOT_DIR}/php-${PHP_VERSION}.tar.gz")
 
 if(NOT EXISTS ${_php_tarball})
   foreach(url ${_urls})
@@ -124,25 +126,28 @@ endif()
 
 message("")
 message(STATUS "Extracting ${_php_tarball}")
-file(ARCHIVE_EXTRACT INPUT ${_php_tarball})
+file(ARCHIVE_EXTRACT
+  INPUT ${_php_tarball}
+  DESTINATION ${PHP_ROOT_DIR}
+)
 
-if(EXISTS php-src-${_php_branch})
-  file(RENAME php-src-${_php_branch} ${_php_directory})
+if(EXISTS ${PHP_ROOT_DIR}/php-src-${_php_branch})
+  file(RENAME ${PHP_ROOT_DIR}/php-src-${_php_branch} ${PHP_SOURCE_DIR})
 endif()
 
 # Add CMake files.
 message("")
-message(STATUS "Adding CMake source files to ${_php_directory}")
-file(INSTALL cmake/ DESTINATION ${_php_directory})
+message(STATUS "Adding CMake source files to ${PHP_SOURCE_RELATIVE_DIR}")
+file(INSTALL ${PHP_ROOT_DIR}/cmake/ DESTINATION ${PHP_SOURCE_DIR})
 
 # Apply patches for php-src.
 string(REGEX MATCH "([0-9]+\\.[0-9]+).*$" _ ${PHP_VERSION})
-file(GLOB_RECURSE patches "patches/${CMAKE_MATCH_1}/*.patch")
+file(GLOB_RECURSE patches "${PHP_ROOT_DIR}/patches/${CMAKE_MATCH_1}/*.patch")
 
 # Add .git directory to be able to apply patches.
 execute_process(
   COMMAND ${GIT_EXECUTABLE} init
-  WORKING_DIRECTORY ${_php_directory}
+  WORKING_DIRECTORY ${PHP_SOURCE_DIR}
   RESULT_VARIABLE _result
   OUTPUT_VARIABLE _output
   ERROR_VARIABLE _error
@@ -155,7 +160,7 @@ if(NOT _result EQUAL 0)
 endif()
 
 message("")
-message(STATUS "Applying patches to ${_php_directory}")
+message(STATUS "Applying patches to ${PHP_SOURCE_RELATIVE_DIR}")
 
 # Define the command to apply the patches using git.
 set(_patch_command ${GIT_EXECUTABLE} apply --ignore-whitespace)
@@ -164,7 +169,7 @@ foreach(patch ${patches})
   # Execute the patch command.
   execute_process(
     COMMAND ${_patch_command} "${patch}"
-    WORKING_DIRECTORY ${_php_directory}
+    WORKING_DIRECTORY ${PHP_SOURCE_DIR}
     RESULT_VARIABLE _patch_result
   )
 
@@ -179,20 +184,21 @@ endforeach()
 
 # Clean temporary .git directory. Checks are done as safeguards.
 if(
-  _php_directory MATCHES "php-8\\.[0-9][\\.-].*"
-  AND IS_DIRECTORY ${_php_directory}/.git/
-  AND EXISTS ${_php_directory}/php.ini-development
-  AND EXISTS ${_php_directory}/main/php_version.h
-  AND EXISTS ${_php_directory}/CMakeLists.txt
+  PHP_SOURCE_DIR MATCHES "\\/php-8\\.[0-9][\\.-].*$"
+  AND IS_DIRECTORY ${PHP_SOURCE_DIR}/.git/
+  AND EXISTS ${PHP_SOURCE_DIR}/php.ini-development
+  AND EXISTS ${PHP_SOURCE_DIR}/main/php_version.h
+  AND EXISTS ${PHP_SOURCE_DIR}/CMakeLists.txt
 )
-  file(REMOVE_RECURSE ${_php_directory}/.git/)
+  file(REMOVE_RECURSE ${PHP_SOURCE_DIR}/.git/)
 endif()
 
 message("")
-message("${_php_directory} directory is now ready to use.
+message("${PHP_SOURCE_RELATIVE_DIR} directory is now ready to use.
 
 For example:
-  cd ${_php_directory}
-  cmake .
-  cmake --build . -- -j$(nproc)
+  mkdir my-php-build
+  cd my-php-build
+  cmake ../path/to/${PHP_SOURCE_RELATIVE_DIR}
+  cmake --build . -j
 ")

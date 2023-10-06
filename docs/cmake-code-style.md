@@ -9,6 +9,8 @@ ecosystem.
   * [2.2. Variable names](#22-variable-names)
   * [2.3. End commands](#23-end-commands)
   * [2.4. Module naming conventions](#24-module-naming-conventions)
+    * [2.4.1. Find modules](#241-find-modules)
+    * [2.4.2. Utility modules](#242-utility-modules)
   * [2.5. Booleans](#25-booleans)
   * [2.6. Functions and macros](#26-functions-and-macros)
   * [2.7. Determining platform](#27-determining-platform)
@@ -171,11 +173,31 @@ endif(BAR)
 
 Modules are located in the `cmake/modules` directory.
 
-Naming convention for find modules is `FindUPPERCASE.cmake`.
+#### 2.4.1. Find modules
+
+Find modules in this repository follow standard CMake naming conventions for
+find modules. For example, find module `Find<PackageName>.cmake` can be loaded
+by:
 
 ```cmake
-find_package(UPPERCASE)
+find_package(PackageName)
 ```
+
+It sets variable `<PackageName>_FOUND` and other optional variables, such as
+`<PackageName>_VERSION`, `<PackageName>_INCLUDE_DIRS`, which are managed by
+CMake's `FindPackageHandleStandardArgs`. Recommendation for find modules is that
+they should expose imported targets, such as `PackageName::PackageName` which
+can be then linked to a target in the project:
+
+```cmake
+find_package(PackageName)
+target_link_libraries(php PRIVATE PackageName::PackageName)
+```
+
+`PackageName` can be in any case (a-zA-Z0-9), with PascalCase or package
+original name case preferred.
+
+#### 2.4.2. Utility modules
 
 Utility modules typically adhere to the `PascalCase.cmake` pattern. They are
 prefixed with `PHP` by residing in the PHP directory and can be included like
