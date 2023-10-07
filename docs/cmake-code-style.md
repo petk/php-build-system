@@ -4,24 +4,28 @@ This repository adheres to established code style practices within the CMake
 ecosystem.
 
 * [1. Introduction](#1-introduction)
-* [2. Code style](#2-code-style)
-  * [2.1. General guidelines](#21-general-guidelines)
-  * [2.2. Variable names](#22-variable-names)
-  * [2.3. End commands](#23-end-commands)
-  * [2.4. Module naming conventions](#24-module-naming-conventions)
-    * [2.4.1. Find modules](#241-find-modules)
-    * [2.4.2. Utility modules](#242-utility-modules)
-  * [2.5. Booleans](#25-booleans)
-  * [2.6. Functions and macros](#26-functions-and-macros)
-  * [2.7. Determining platform](#27-determining-platform)
-* [3. Tools](#3-tools)
-  * [3.1. cmake-format (by cmakelang project)](#31-cmake-format-by-cmakelang-project)
-  * [3.2. cmake-lint (by cmakelang project)](#32-cmake-lint-by-cmakelang-project)
-  * [3.3. cmakelint](#33-cmakelint)
-* [4. See also](#4-see-also)
-  * [4.1. bin/check-cmake.sh](#41-bincheck-cmakesh)
-  * [4.2. Customized rules for cmake-format and cmake-lint in cmake-format.json](#42-customized-rules-for-cmake-format-and-cmake-lint-in-cmake-formatjson)
-  * [4.3. Further resources for CMake code style](#43-further-resources-for-cmake-code-style)
+* [2. General guidelines](#2-general-guidelines)
+  * [2.1. End commands](#21-end-commands)
+* [3. Variables](#3-variables)
+  * [3.1. Cache variables](#31-cache-variables)
+  * [3.2. Directory variables](#32-directory-variables)
+  * [3.3. Local variables](#33-local-variables)
+  * [3.4. Find module variables](#34-find-module-variables)
+  * [3.5. Variable names](#35-variable-names)
+* [4. Module naming conventions](#4-module-naming-conventions)
+  * [4.1. Find modules](#41-find-modules)
+  * [4.2. Utility modules](#42-utility-modules)
+* [5. Booleans](#5-booleans)
+* [6. Functions and macros](#6-functions-and-macros)
+* [7. Determining platform](#7-determining-platform)
+* [8. Tools](#8-tools)
+  * [8.1. cmake-format (by cmakelang project)](#81-cmake-format-by-cmakelang-project)
+  * [8.2. cmake-lint (by cmakelang project)](#82-cmake-lint-by-cmakelang-project)
+  * [8.3. cmakelint](#83-cmakelint)
+* [9. See also](#9-see-also)
+  * [9.1. bin/check-cmake.sh](#91-bincheck-cmakesh)
+  * [9.2. Customized rules for cmake-format and cmake-lint in cmake-format.json](#92-customized-rules-for-cmake-format-and-cmake-lint-in-cmake-formatjson)
+  * [9.3. Further resources for CMake code style](#93-further-resources-for-cmake-code-style)
 
 ## 1. Introduction
 
@@ -34,117 +38,30 @@ are not case-sensitive. In other words, the following two expressions are
 equivalent:
 
 ```cmake
-add_library(foo foo.c bar.c)
+add_library(foo src.c)
 ```
 
 ```cmake
-ADD_LIBRARY(foo foo.c bar.c)
+ADD_LIBRARY(foo src.c)
 ```
 
 On the contrary, variable names are case-sensitive.
 
-## 2. Code style
+## 2. General guidelines
 
-### 2.1. General guidelines
+In most cases, the preferred style is to use **all lowercase letters**.
 
-* In most cases, the preferred style is to use **all lowercase letters**.
+```cmake
+add_library(foo src.c)
 
-  ```cmake
-  add_library(foo foo.c bar_baz.c)
-  ```
+if(FOO)
+  set(VAR "value")
+endif()
 
-### 2.2. Variable names
+target_include_directories(...)
+```
 
-CMake variables can be classified into various categories:
-
-* Cache internal variables
-
-  ```cmake
-  set(VAR <value> CACHE INTERNAL "<help_text>")
-  ```
-
-  These should be UPPER_CASE.
-
-* Cache variables
-
-  ```cmake
-  set(VAR <value> CACHE <type> "<help_text>")
-  option(FOO "<help_text>" [value])
-  ```
-
-  These should be UPPER_CASE.
-
-* Local variables
-
-  Variables with a scope inside functions. These should be lower_case.
-
-  ```cmake
-  function(foo)
-    set(variable_name <value>)
-    # ...
-  endfunction()
-  ```
-
-* Directory variables
-
-  Directory variables are those within the scope of the current `CMakeLists.txt`
-  and its child directories with CMake files.
-
-  If variable is meant to be used within other child directories these should
-  be UPPER_CASE.
-
-  Variables intended for use within the current CMake file and other directories
-  should be UPPER_CASE.
-
-  Since it's not possible to restrict the scope of these directory-specific
-  variables solely to the current CMake file, it's customary to prefix them with
-  an underscore (`_`) to signify that they are intended for temporary use only
-  within the current file:
-
-  ```cmake
-  set(_temporary_variable "Foo")
-  ```
-
-* Variables named `_` can be used for values that are not important for code:
-
-  ```cmake
-  # For example, here only the matched value of CMAKE_MATCH_1 is important.
-  string(REGEX MATCH "foo\\(([0-9]+)\\)" _ ${content})
-  message(STATUS ${CMAKE_MATCH_1})
-  ```
-
-* Configuration variables at the PHP level:
-
-  These variables are designed to be adjusted by the user during the
-  configuration phase, either through the command line or by using cmake-gui. It
-  is recommended to prefix them with `PHP_` to facilitate their grouping within
-  cmake-gui.
-
-  ```cmake
-  set(PHP_FOO_BAR <value>... CACHE <type> "<help_text>")
-  option(PHP_ENABLE_FOO "<help_text>" [value])
-  cmake_dependent_option(PHP_ENABLE_BAR "<help_text>" <value> <depends> <force>)
-  ```
-
-* Configuration variables for PHP extensions:
-
-  These variables follow a similar pattern to PHP configuration variables, but
-  they are prefixed with `EXT_`. While it's a good practice to consider grouping
-  these variables by the extension name for clarity, it's important to note that
-  cmake-gui may not distinguish this subgrouping. Therefore, the decision to
-  group them by extension name can be optional and context-dependent.
-
-  ```cmake
-  option(EXT_GD "<help_text>" [value])
-  cmake_dependent_option(EXT_GD_AVIF "<help_text>" OFF "EXT_GD" OFF)
-  ```
-
-* Configuration variables for Zend:
-
-  These variables share the same characteristics as PHP configuration variables,
-  but they are prefixed with `ZEND_`.
-
-### 2.3. End commands
+### 2.1. End commands
 
 To make the code easier to read, use empty commands for `endif()`,
 `endfunction()`, `endforeach()`, `endmacro()`, `endwhile()`, `else()`, and
@@ -169,11 +86,104 @@ if(BAR)
 endif(BAR)
 ```
 
-### 2.4. Module naming conventions
+## 3. Variables
+
+CMake variables can be classified into various categories:
+
+### 3.1. Cache variables
+
+Cache variables are stored and persist across the entire build system. They
+should be UPPER_CASE.
+
+```cmake
+# Cache variable
+set(VAR <value> CACHE <type> "<help_text>")
+
+# Cache variable as a boolean option
+option(FOO "<help_text>" [value])
+```
+
+### 3.2. Directory variables
+
+Directory variables are those within the scope of the current `CMakeLists.txt`
+and its child directories. These should be UPPER_CASE.
+
+```cmake
+set(VAR <value>)
+```
+
+Since it's not possible to restrict the scope of such directory variables solely
+to the current CMake file, it's customary to prefix them with an underscore
+(`_`) and in lower_case to signify that they are intended for temporary use only
+within the current file.
+
+```cmake
+set(_temporary_variable "Foo")
+```
+
+### 3.3. Local variables
+
+Variables with a scope inside functions. These should be lower_case.
+
+```cmake
+function(foo)
+  set(variable_name <value>)
+  # ...
+endfunction()
+```
+
+### 3.4. Find module variables
+
+These are set and have scope of the directory when using the
+`find_package(PackageName)` command. They are in form of
+`<PackageName>_UPPER_CASE` where PackageName is of any case.
+
+### 3.5. Variable names
+
+* Variables named `_` can be used for values that are not important for code:
+
+  ```cmake
+  # For example, here only the matched value of CMAKE_MATCH_1 is important.
+  string(REGEX MATCH "foo\\(([0-9]+)\\)" _ ${content})
+  message(STATUS ${CMAKE_MATCH_1})
+  ```
+
+* Cache variables at the PHP level:
+
+  These variables are designed to be adjusted by the user during the
+  configuration phase, either through the command line or by using cmake-gui. It
+  is recommended to prefix them with `PHP_` to facilitate their grouping within
+  cmake-gui.
+
+  ```cmake
+  set(PHP_FOO_BAR <value>... CACHE <type> "<help_text>")
+  option(PHP_ENABLE_FOO "<help_text>" [value])
+  cmake_dependent_option(PHP_ENABLE_BAR "<help_text>" <value> <depends> <force>)
+  ```
+
+* Cache variables for PHP extensions:
+
+  These variables follow a similar pattern to PHP level variables, but they are
+  prefixed with `EXT_`. While it's a good practice to consider grouping these
+  variables by the extension name for clarity, it's important to note that
+  cmake-gui may not distinguish this subgrouping. Therefore, the decision to
+  group them by extension name can be optional and context-dependent.
+
+  ```cmake
+  option(EXT_GD "<help_text>" [value])
+  cmake_dependent_option(EXT_GD_AVIF "<help_text>" OFF "EXT_GD" OFF)
+  ```
+
+* Cache variables for Zend:
+
+  These variables share the same characteristics as PHP level variables, but
+  they are prefixed with `ZEND_`.
+
+## 4. Module naming conventions
 
 Modules are located in the `cmake/modules` directory.
 
-#### 2.4.1. Find modules
+### 4.1. Find modules
 
 Find modules in this repository follow standard CMake naming conventions for
 find modules. For example, find module `Find<PackageName>.cmake` can be loaded
@@ -197,11 +207,11 @@ target_link_libraries(php PRIVATE PackageName::PackageName)
 `PackageName` can be in any case (a-zA-Z0-9), with PascalCase or package
 original name case preferred.
 
-#### 2.4.2. Utility modules
+### 4.2. Utility modules
 
 Utility modules typically adhere to the `PascalCase.cmake` pattern. They are
-prefixed with `PHP` by residing in the PHP directory and can be included like
-this:
+prefixed with `PHP` by residing in the PHP directory (`cmake/modules/PHP`) and
+can be included like this:
 
 ```cmake
 include(PHP/PascalCase.cmake)
@@ -210,7 +220,7 @@ include(PHP/PascalCase.cmake)
 This approach is adopted for convenience to prevent any potential conflicts with
 upstream CMake modules.
 
-### 2.5. Booleans
+## 5. Booleans
 
 CMake interprets `1`, `ON`, `YES`, `TRUE`, and `Y` as representing boolean true
 values, while `0`, `OFF`, `NO`, `FALSE`, `N`, `IGNORE`, `NOTFOUND`, an empty
@@ -232,7 +242,7 @@ set(HAVE_FOO_H 1 CACHE INTERNAL "<help_text>")
 # Elsewhere in commands, functions etc. TRUE/FALSE.
 ```
 
-### 2.6. Functions and macros
+## 6. Functions and macros
 
 Functions are generally favored over macros due to their ability to establish
 their own variable scope, while variables within macros remain visible from the
@@ -240,12 +250,24 @@ outer scope.
 
 When naming functions, it is recommended to adhere to the snake_case style.
 
+```cmake
+function(php_function_name argument_name_1 argument_name_2)
+  # Function body
+endfunction()
+```
+
 CMake functions possess global scope. Likewise, just like variables, functions
 that are exclusively used within a single CMake module or `CMakeLists.txt` file
 should be prefixed with an underscore (`_`). This prefix serves as a signal to
 external code to refrain from using them.
 
-### 2.7. Determining platform
+```cmake
+function(_php_internal_function_name)
+  # Function body
+endfunction()
+```
+
+## 7. Determining platform
 
 CMake offers variables such as `APPLE`, `LINUX`, `UNIX`, `WIN32` etc. However,
 they might be removed in the future CMake versions. Recommendation is to use:
@@ -280,12 +302,12 @@ endif()
 
 See also [CMakeDetermineSystem.cmake](https://gitlab.kitware.com/cmake/cmake/-/blob/master/Modules/CMakeDetermineSystem.cmake).
 
-## 3. Tools
+## 8. Tools
 
 Several tools for formatting and linting CMake files are available, and while
 their maintenance status may vary, they can still prove valuable.
 
-### 3.1. cmake-format (by cmakelang project)
+### 8.1. cmake-format (by cmakelang project)
 
 The [`cmake-format`](https://cmake-format.readthedocs.io/en/latest/) tool can
 find formatting issues and sync the CMake code style:
@@ -314,7 +336,7 @@ dumping the formatted content to stdout:
 cmake-format -i path/to/cmake/file
 ```
 
-### 3.2. cmake-lint (by cmakelang project)
+### 8.2. cmake-lint (by cmakelang project)
 
 The [`cmake-lint`](https://cmake-format.readthedocs.io/en/latest/cmake-lint.html)
 tool is part of the cmakelang project and can help with linting CMake files:
@@ -326,7 +348,7 @@ cmake-lint <cmake/CMakeLists.txt cmake/...>
 This tool can also utilize the `cmake-format.[json|py|yaml]` file using the `-c`
 option.
 
-### 3.3. cmakelint
+### 8.3. cmakelint
 
 For linting there is also a separate and useful
 [cmakelint](https://github.com/cmake-lint/cmake-lint) tool which similarly lints
@@ -336,9 +358,9 @@ and helps to better structure CMake files:
 cmakelint <cmake/CMakeLists.txt cmake/...>
 ```
 
-## 4. See also
+## 9. See also
 
-### 4.1. bin/check-cmake.sh
+### 9.1. bin/check-cmake.sh
 
 For convenience there is a custom helper script added to this repository that
 checks CMake files:
@@ -347,7 +369,7 @@ checks CMake files:
 ./bin/check-cmake.sh
 ```
 
-### 4.2. Customized rules for cmake-format and cmake-lint in cmake-format.json
+### 9.2. Customized rules for cmake-format and cmake-lint in cmake-format.json
 
 The `cmake-format.json` file is used to configure how `cmake-lint` and
 `cmake-format` tools work.
@@ -368,6 +390,6 @@ values from the upstream defaults.
   The cmake-lint checks codes are specified at
   [cmakelang documentation](https://cmake-format.readthedocs.io/en/latest/lint-implemented.html#)
 
-### 4.3. Further resources for CMake code style
+### 9.3. Further resources for CMake code style
 
 * [CMake developers docs](https://cmake.org/cmake/help/latest/manual/cmake-developer.7.html)

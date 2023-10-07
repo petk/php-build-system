@@ -111,7 +111,8 @@ jobs:
             libsystemd-dev \
             libldap2-dev \
             libsasl2-dev \
-            libpq-dev;
+            libpq-dev \
+            libmm-dev;
 
       - name: Checkout
         uses: actions/checkout@v4

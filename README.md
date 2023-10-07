@@ -23,17 +23,13 @@ git clone https://github.com/petk/php-build-system
 # Download latest PHP and add CMake files:
 cmake -P php-build-system/bin/php.cmake
 
-# Create a build directory, for example:
-mkdir my-php-build
-cd my-php-build
-
-# Generate build system:
-cmake ../php-build-system/php-8.4-dev
+# Generate build system from sources to a new build directory:
+cmake -S php-build-system/php-8.4-dev -B my-php-build
 
 # Build PHP in parallel:
-cmake --build . -j
+cmake --build my-php-build -j
 
-./sapi/cli/php -v
+./my-php-build/sapi/cli/php -v
 ```
 
 ## Index
@@ -62,9 +58,8 @@ cmake --build . -j
   * [7.10. Testing](#710-testing)
   * [7.11. Performance](#711-performance)
 * [8. See more](#8-see-more)
-  * [8.1. CMake](#81-cmake)
-  * [8.2. CMake and PHP](#82-cmake-and-php)
-  * [8.3. PHP Internals](#83-php-internals)
+  * [8.1. CMake and PHP](#81-cmake-and-php)
+  * [8.2. PHP Internals](#82-php-internals)
 
 ## 1. Introduction
 
@@ -98,12 +93,16 @@ A key function of a build system in the context of C/C++ software development is
 to establish a structured framework that guides how C code should be written.
 Beyond its primary role of compiling source files into executable programs, the
 build system plays a pivotal educational role, imparting best practices and
-coding standards to developers. By enforcing consistency and adherence to coding
-conventions, it fosters the creation of high-quality C and C++ code, ultimately
-enhancing software maintainability and reliability. Additionally, the build
-system aims to make developers more efficient and productive by abstracting away
-system-specific details, allowing them to focus on writing code without the need
-to extensively explore the complexities of the underlying system.
+coding standards to C developers. By enforcing consistency and adherence to
+coding conventions, it fosters the creation of high-quality C and C++ code,
+ultimately enhancing software maintainability and reliability.
+
+Additionally, the build system aims to enable C developers to work efficiently
+by abstracting away system-specific details, allowing them to focus on the logic
+and usability of their code. When adding a new C/C++ source file or making minor
+modifications, developers shouldn't have to delve into the inner workings of the
+build system, sift through extensive build system documentation or extensively
+explore the complexities of the underlying system.
 
 There are numerous well-known build systems available for C projects, ranging
 from the veteran GNU Autotools and the widely adopted CMake, to the efficient
@@ -579,6 +578,8 @@ Optional:
   * when using the `--with-ldap-sasl`
 * libpq
   * when using the `--with-pgsql` or `--with-pdo-pgsql`
+* libmm
+  * when using the `--with-mm`
 
 When PHP is built, the development libraries are no longer required to be
 installed and only libraries without development files are needed to run newly
@@ -615,14 +616,8 @@ This wraps up the \*nix build system using the Autotools.
 
 ## 7. CMake
 
-[CMake](https://cmake.org/) is another open-source cross-platform build system
-created by Kitware and contributors. This is what this repository is focusing
-on.
-
-To learn CMake there is a very good
-[documentation](https://cmake.org/cmake/help/latest/index.html) available and a
-[tutorial](https://cmake.org/cmake/help/latest/guide/tutorial/index.html) which
-is a prerequisite to follow the files in this repository.
+[CMake](https://cmake.org/) is an open-source cross-platform build system
+created by Kitware and contributors.
 
 ### 7.1. Why using CMake?
 
@@ -2453,22 +2448,14 @@ cmake --profiling-output ./profile.json --profiling-format google-trace ../php-s
 
 Further help is documented at [docs](docs/README.md).
 
-### 8.1. CMake
-
-Useful resources to learn more about CMake:
-
-* [CMake documentation](https://cmake.org/documentation/)
-* [Effective Modern CMake](https://gist.github.com/mbinna/c61dbb39bca0e4fb7d1f73b0d66a4fd1)
-* [Awesome CMake](https://github.com/onqtam/awesome-cmake)
-
-### 8.2. CMake and PHP
+### 8.1. CMake and PHP
 
 Existing CMake and PHP discussions and resources:
 
 * [php-cmake](https://github.com/gloob/php-cmake) - CMake implementation in PHP.
 * [CMake discussion on PHP mailing list](https://externals.io/message/116655)
 
-### 8.3. PHP Internals
+### 8.2. PHP Internals
 
 Useful resources to learn more about PHP internals:
 

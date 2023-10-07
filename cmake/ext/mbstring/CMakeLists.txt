@@ -6,7 +6,7 @@ option(EXT_MBSTRING "Whether to enable the multibyte string support extension" O
 
 cmake_dependent_option(EXT_MBSTRING_SHARED "Whether to build the mbstring extension as shared object" OFF "EXT_MBSTRING;NOT BUILD_SHARED_LIBS" OFF)
 
-cmake_dependent_option(EXT_MBSTRING_MBREGEX "Whether to enable multibyte regex support (requires oniguruma)" ON "EXT_MBSTRING" OFF)
+cmake_dependent_option(EXT_MBSTRING_MBREGEX "Whether to enable multibyte regex support (requires Oniguruma)" ON "EXT_MBSTRING" OFF)
 
 if(NOT EXT_MBSTRING)
   return()
@@ -62,26 +62,37 @@ add_library(ext_mbstring ${_library_type}
 )
 
 message(STATUS "Creating ext/mbstring/libmbfl/config.h")
-file(WRITE "${CMAKE_CURRENT_SOURCE_DIR}/libmbfl/config.h" "#include \"php_config.h\"\n")
+file(WRITE
+  "${CMAKE_CURRENT_BINARY_DIR}/libmbfl/config.h"
+  "#include \"php_config.h\"\n"
+)
 
-file(GLOB _ext_mbstring_headers "${CMAKE_CURRENT_SOURCE_DIR}/libmbfl/mbfl/*.h")
-list(APPEND _ext_mbstring_headers "${CMAKE_CURRENT_SOURCE_DIR}/libmbfl/config.h")
+set(_ext_mbstring_headers
+  libmbfl/mbfl/eaw_table.h
+  libmbfl/mbfl/mbfilter.h
+  libmbfl/mbfl/mbfilter_8bit.h
+  libmbfl/mbfl/mbfilter_pass.h
+  libmbfl/mbfl/mbfilter_wchar.h
+  libmbfl/mbfl/mbfl_consts.h
+  libmbfl/mbfl/mbfl_convert.h
+  libmbfl/mbfl/mbfl_defs.h
+  libmbfl/mbfl/mbfl_encoding.h
+  libmbfl/mbfl/mbfl_filter_output.h
+  libmbfl/mbfl/mbfl_language.h
+  libmbfl/mbfl/mbfl_memory_device.h
+  libmbfl/mbfl/mbfl_string.h
+)
+list(APPEND _ext_mbstring_headers "${CMAKE_CURRENT_BINARY_DIR}/libmbfl/config.h")
 list(APPEND _ext_mbstring_headers "${CMAKE_CURRENT_SOURCE_DIR}/mbstring.h")
 
 if(EXT_MBSTRING_MBREGEX)
-  find_package(ONIGURUMA REQUIRED)
+  find_package(Oniguruma REQUIRED)
 
-  if(ONIGURUMA_LIBRARIES)
-    target_link_libraries(ext_mbstring PRIVATE ${ONIGURUMA_LIBRARIES})
-  endif()
-
-  if(ONIGURUMA_INCLUDE_DIRS)
-    target_include_directories(ext_mbstring PRIVATE ${ONIGURUMA_INCLUDE_DIRS})
-  endif()
+  target_link_libraries(ext_mbstring PRIVATE Oniguruma::Oniguruma)
 
   cmake_push_check_state(RESET)
     set(CMAKE_REQUIRED_DEFINITIONS -D_GNU_SOURCE)
-    set(CMAKE_REQUIRED_LIBRARIES ${ONIGURUMA_LIBRARIES})
+    set(CMAKE_REQUIRED_LIBRARIES Oniguruma::Oniguruma)
     check_c_source_compiles("
       #include <oniguruma.h>
 
@@ -92,10 +103,8 @@ if(EXT_MBSTRING_MBREGEX)
   cmake_pop_check_state()
 
   if(NOT _has_invalid_entry)
-    set(PHP_ONIG_BAD_KOI8_ENTRY 1 CACHE INTERNAL "Define to 1 if oniguruma has an invalid entry for KOI8 encoding")
+    set(PHP_ONIG_BAD_KOI8_ENTRY 1 CACHE INTERNAL "Define to 1 if Oniguruma has an invalid entry for KOI8 encoding")
   endif()
-
-  unset(_has_invalid_entry)
 
   target_compile_definitions(
     ext_mbstring
@@ -118,6 +127,7 @@ target_include_directories(
   PRIVATE
     ${CMAKE_CURRENT_SOURCE_DIR}
     ${CMAKE_CURRENT_SOURCE_DIR}/libmbfl
+    ${CMAKE_CURRENT_BINARY_DIR}/libmbfl
     ${CMAKE_CURRENT_SOURCE_DIR}/libmbfl/mbfl
 )
 
@@ -125,6 +135,7 @@ target_sources(
   ext_mbstring
   PUBLIC FILE_SET ext_mbstring_headers
   TYPE HEADERS
+  BASE_DIRS "${CMAKE_CURRENT_BINARY_DIR}" "${CMAKE_CURRENT_SOURCE_DIR}"
   FILES ${_ext_mbstring_headers}
 )
 
