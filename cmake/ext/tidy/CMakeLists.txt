@@ -25,4 +25,6 @@ target_compile_definitions(ext_tidy PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE=1)
 
 find_package(Tidy REQUIRED)
 
-target_link_libraries(ext_tidy PRIVATE Tidy::Tidy)
+if(TARGET Tidy::Tidy)
+  target_link_libraries(ext_tidy PRIVATE Tidy::Tidy)
+endif()

@@ -31,7 +31,7 @@ Usage examples:
 #]=============================================================================]
 
 # Helper that checks if given URL is found.
-function(check_url)
+function(php_check_url)
   unset(URL_FOUND CACHE)
 
   set(check_url_command curl --silent --head --fail ${ARGN})
@@ -50,31 +50,30 @@ function(check_url)
 endfunction()
 
 # Set default variables.
-set(PHP_VERSION "8.4-dev")
-
 if(CMAKE_ARGV3)
   set(PHP_VERSION "${CMAKE_ARGV3}")
+else()
+  set(PHP_VERSION "8.4-dev")
 endif()
 
+# Check PHP version.
 if(
-  NOT PHP_VERSION MATCHES "^8\\.[0-9]\\.[0-9]+[a-zA-Z0-9\\-]*$"
-  AND NOT PHP_VERSION MATCHES "^8\\.[0-9]-dev$"
+  NOT PHP_VERSION MATCHES "^[0-9]+\\.[0-9]+\\.[0-9]+[a-zA-Z0-9\\-]*$"
+  AND NOT PHP_VERSION MATCHES "^[0-9]+\\.[0-9]+-dev$"
 )
   message(FATAL_ERROR "PHP version should match pattern {MAJOR}.{MINOR}.{PATCH}{EXTRA}")
+elseif(PHP_VERSION VERSION_LESS "8.3.0" OR PHP_VERSION VERSION_GREATER "8.4")
+  message(FATAL_ERROR "Unsupported PHP version.")
 endif()
 
-if(
-  PHP_VERSION MATCHES "^8\\.[0-2].*$"
-)
-  message(FATAL_ERROR "Only PHP 8.3 or greater is supported.")
-endif()
-
+# Set working paths.
 cmake_path(SET PHP_ROOT_DIR NORMALIZE "${CMAKE_CURRENT_LIST_DIR}/..")
 cmake_path(SET PHP_SOURCE_DIR NORMALIZE "${PHP_ROOT_DIR}/php-${PHP_VERSION}")
-set(PHP_SOURCE_RELATIVE_DIR "php-${PHP_VERSION}")
+cmake_path(SET PHP_TARBALL NORMALIZE "${PHP_ROOT_DIR}/php-${PHP_VERSION}.tar.gz")
+set(PHP_SOURCE_DIR_NAME "php-${PHP_VERSION}")
 
 if(EXISTS "${PHP_SOURCE_DIR}")
-  message(FATAL_ERROR "To continue, please remove previous existing directory ${PHP_SOURCE_RELATIVE_DIR}")
+  message(FATAL_ERROR "To continue, please remove existing directory ${PHP_SOURCE_DIR_NAME}")
 endif()
 
 # Determine the download URL.
@@ -83,10 +82,8 @@ if(PHP_VERSION MATCHES "8.4-dev")
 
   list(APPEND _urls "https://github.com/php/php-src/archive/refs/heads/${_php_branch}.tar.gz")
 elseif(PHP_VERSION MATCHES "^.*-dev$")
-  string(REGEX MATCH "([0-9]+)\\.([0-9]+).*$" _ ${PHP_VERSION})
-
+  string(REGEX MATCH "(^[0-9]+)\\.([0-9]+).*$" _ ${PHP_VERSION})
   set(_php_branch "PHP-${CMAKE_MATCH_1}.${CMAKE_MATCH_2}")
-  message(STATUS "Status: ${_php_branch}")
 
   list(APPEND _urls "https://github.com/php/php-src/archive/refs/heads/${_php_branch}.tar.gz")
 else()
@@ -96,11 +93,9 @@ else()
 endif()
 
 # Download PHP tarball.
-set(_php_tarball "${PHP_ROOT_DIR}/php-${PHP_VERSION}.tar.gz")
-
-if(NOT EXISTS ${_php_tarball})
+if(NOT EXISTS ${PHP_TARBALL})
   foreach(url ${_urls})
-    check_url(${url})
+    php_check_url(${url})
 
     if(URL_FOUND)
       set(_download_url ${url})
@@ -114,7 +109,7 @@ if(NOT EXISTS ${_php_tarball})
 
   message(STATUS "Downloading PHP ${PHP_VERSION}")
 
-  file(DOWNLOAD ${_download_url} ${_php_tarball} SHOW_PROGRESS)
+  file(DOWNLOAD ${_download_url} ${PHP_TARBALL} SHOW_PROGRESS)
 endif()
 
 # Check if git command is available.
@@ -125,9 +120,9 @@ if(NOT GIT_EXECUTABLE)
 endif()
 
 message("")
-message(STATUS "Extracting ${_php_tarball}")
+message(STATUS "Extracting ${PHP_TARBALL}")
 file(ARCHIVE_EXTRACT
-  INPUT ${_php_tarball}
+  INPUT ${PHP_TARBALL}
   DESTINATION ${PHP_ROOT_DIR}
 )
 
@@ -137,7 +132,7 @@ endif()
 
 # Add CMake files.
 message("")
-message(STATUS "Adding CMake source files to ${PHP_SOURCE_RELATIVE_DIR}")
+message(STATUS "Adding CMake source files to ${PHP_SOURCE_DIR_NAME}")
 file(INSTALL ${PHP_ROOT_DIR}/cmake/ DESTINATION ${PHP_SOURCE_DIR})
 
 # Apply patches for php-src.
@@ -160,7 +155,7 @@ if(NOT _result EQUAL 0)
 endif()
 
 message("")
-message(STATUS "Applying patches to ${PHP_SOURCE_RELATIVE_DIR}")
+message(STATUS "Applying patches to ${PHP_SOURCE_DIR_NAME}")
 
 # Define the command to apply the patches using git.
 set(_patch_command ${GIT_EXECUTABLE} apply --ignore-whitespace)
@@ -194,11 +189,11 @@ if(
 endif()
 
 message("")
-message("${PHP_SOURCE_RELATIVE_DIR} directory is now ready to use.
+message("${PHP_SOURCE_DIR_NAME} directory is now ready to use.
 
 For example:
   mkdir my-php-build
   cd my-php-build
-  cmake ../path/to/${PHP_SOURCE_RELATIVE_DIR}
+  cmake ../path/to/${PHP_SOURCE_DIR_NAME}
   cmake --build . -j
 ")

@@ -88,11 +88,15 @@ list(APPEND _ext_mbstring_headers "${CMAKE_CURRENT_SOURCE_DIR}/mbstring.h")
 if(EXT_MBSTRING_MBREGEX)
   find_package(Oniguruma REQUIRED)
 
-  target_link_libraries(ext_mbstring PRIVATE Oniguruma::Oniguruma)
+  if(TARGET Oniguruma::Oniguruma)
+    target_link_libraries(ext_mbstring PRIVATE Oniguruma::Oniguruma)
+  endif()
 
   cmake_push_check_state(RESET)
     set(CMAKE_REQUIRED_DEFINITIONS -D_GNU_SOURCE)
-    set(CMAKE_REQUIRED_LIBRARIES Oniguruma::Oniguruma)
+    if(TARGET Oniguruma::Oniguruma)
+      set(CMAKE_REQUIRED_LIBRARIES Oniguruma::Oniguruma)
+    endif()
     check_c_source_compiles("
       #include <oniguruma.h>
 

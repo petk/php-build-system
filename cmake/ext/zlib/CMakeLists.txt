@@ -24,10 +24,6 @@ target_compile_definitions(ext_zlib PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE=1)
 
 find_package(ZLIB 1.2.0.4 REQUIRED)
 
-if(ZLIB_LIBRARIES)
-  target_link_libraries(ext_zlib PRIVATE ${ZLIB_LIBRARIES})
-endif()
-
-if(ZLIB_INCLUDE_DIRS)
-  target_include_directories(ext_zlib PRIVATE ${ZLIB_INCLUDE_DIRS})
+if(TARGET ZLIB::ZLIB)
+  target_link_libraries(ext_zlib PRIVATE ZLIB::ZLIB)
 endif()

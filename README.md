@@ -1563,6 +1563,16 @@ cmake -LH .
       <td></td>
     </tr>
     <tr>
+      <td></td>
+      <td>&nbsp;&nbsp;EXT_MYSQLND_SSL=OFF</td>
+      <td>default, see also --with-openssl-dir and EXT_FTP_SSL</td>
+    </tr>
+    <tr>
+      <td></td>
+      <td>&nbsp;&nbsp;EXT_MYSQLND_SSL=ON</td>
+      <td></td>
+    </tr>
+    <tr>
       <td>--enable-opcache=shared</td>
       <td>EXT_OPCACHE=ON</td>
       <td>default, will be shared</td>

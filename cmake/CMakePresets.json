@@ -103,6 +103,8 @@
       "displayName": "PHP configuration with all extensions enabled with variations",
       "description": "PHP build with all extensions enabled and different variation of options set",
       "cacheVariables": {
+        "EXT_OPENSSL_KERBEROS": true,
+        "EXT_OPENSSL_SYSTEM_CIPHERS": true,
         "EXT_PCRE_EXTERNAL": true,
         "EXT_SESSION_MM": true,
         "EXT_STANDARD_EXTERNAL_LIBCRYPT": true,

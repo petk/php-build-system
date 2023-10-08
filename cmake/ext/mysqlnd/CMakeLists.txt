@@ -6,6 +6,10 @@ cmake_dependent_option(EXT_MYSQLND_SHARED "Whether to build the mysqlnd extensio
 
 cmake_dependent_option(EXT_MYSQLND_COMPRESSION "Whether to enable compressed protocol support in mysqlnd" ON "EXT_MYSQLND" OFF)
 
+# TODO: Check if a single option should set ext/ftp and ext/mysqlnd. Sync this
+# with Autoconf's --with-openssl-dir option.
+cmake_dependent_option(EXT_MYSQLND_SSL "Whether to explicitly enable SSL support for ext/mysqlnd when not using ext/openssl" OFF "EXT_MYSQLND" OFF)
+
 if(NOT EXT_MYSQLND)
   return()
 endif()
@@ -46,12 +50,8 @@ target_compile_definitions(ext_mysqlnd PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE=1
 if(EXT_MYSQLND_COMPRESSION)
   find_package(ZLIB REQUIRED)
 
-  if(ZLIB_LIBRARIES)
-    target_link_libraries(ext_mysqlnd PRIVATE ${ZLIB_LIBRARIES})
-  endif()
-
-  if(ZLIB_INCLUDE_DIRS)
-    target_include_directories(ext_mysqlnd PRIVATE ${ZLIB_INCLUDE_DIRS})
+  if(TARGET ZLIB::ZLIB)
+    target_link_libraries(ext_mysqlnd PRIVATE ZLIB::ZLIB)
   endif()
 
   set(MYSQLND_COMPRESSION_ENABLED 1 CACHE INTERNAL "Enable compressed protocol support")
@@ -59,21 +59,15 @@ endif()
 
 set(MYSQLND_SSL_SUPPORTED 1 CACHE INTERNAL "Enable core mysqlnd SSL code")
 
-if(EXT_OPENSSL)
-  find_package(OpenSSL 1.0.2)
-
+if(EXT_MYSQLND_SSL OR EXT_OPENSSL)
   # TODO: Can OpenSSL be retrieved differently (from one place) here?
-  if(OPENSSL_FOUND)
-    set(MYSQLND_HAVE_SSL 1 CACHE INTERNAL "Enable mysqlnd code that uses OpenSSL directly")
+  find_package(OpenSSL 1.0.2 REQUIRED)
 
-    if(OPENSSL_LIBRARIES)
-      target_link_libraries(ext_mysqlnd PRIVATE ${OPENSSL_LIBRARIES})
-    endif()
-
-    if(OPENSSL_INCLUDE_DIRS)
-      target_include_directories(ext_mysqlnd PRIVATE ${OPENSSL_INCLUDE_DIRS})
-    endif()
+  if(TARGET OpenSSL::Crypto)
+    target_link_libraries(ext_mysqlnd PRIVATE OpenSSL::Crypto)
   endif()
+
+  set(MYSQLND_HAVE_SSL 1 CACHE INTERNAL "Enable mysqlnd code that uses OpenSSL directly")
 endif()
 
 file(GLOB _ext_mysqlnd_headers "${CMAKE_CURRENT_SOURCE_DIR}/*.h")

@@ -1,5 +1,6 @@
 include(CheckSymbolExists)
 include(CMakeDependentOption)
+include(CMakePushCheckState)
 
 option(EXT_OPENSSL "Whether to enable the openssl extension" OFF)
 
@@ -24,20 +25,11 @@ add_library(ext_openssl ${_library_type}
   xp_ssl.c
 )
 
-check_symbol_exists(RAND_egd "openssl/rand.h" HAVE_RAND_EGD)
-
 if(EXT_OPENSSL_KERBEROS)
-  find_package(KERBEROS)
+  find_package(Kerberos REQUIRED)
 
-  # TODO: Fix this better. Is Kerberos required in such case?
-  if(KERBEROS_FOUND)
-    if(KERBEROS_LIBRARIES)
-      target_link_libraries(ext_openssl PRIVATE ${KERBEROS_LIBRARIES})
-    endif()
-
-    if(KERBEROS_INCLUDE_DIRS)
-      target_include_directories(ext_openssl PRIVATE ${KERBEROS_INCLUDE_DIRS})
-    endif()
+  if(TARGET Kerberos::Kerberos)
+    target_link_libraries(ext_openssl PRIVATE Kerberos::Kerberos)
   endif()
 endif()
 
@@ -45,13 +37,18 @@ find_package(OpenSSL 1.0.2 REQUIRED)
 
 set(HAVE_OPENSSL_EXT 1 CACHE INTERNAL "Whether the OpenSSL extension is available")
 
-if(OPENSSL_LIBRARIES)
-  target_link_libraries(ext_openssl PRIVATE ${OPENSSL_LIBRARIES})
+if(TARGET OpenSSL::SSL)
+  target_link_libraries(ext_openssl PRIVATE OpenSSL::SSL)
 endif()
 
-if(OPENSSL_INCLUDE_DIRS)
-  target_include_directories(ext_openssl PRIVATE ${OPENSSL_INCLUDE_DIRS})
+if(TARGET OpenSSL::Crypto)
+  target_link_libraries(ext_openssl PRIVATE OpenSSL::Crypto)
 endif()
+
+cmake_push_check_state(RESET)
+  set(CMAKE_REQUIRED_LIBRARIES OpenSSL::SSL)
+  check_symbol_exists(RAND_egd "openssl/rand.h" HAVE_RAND_EGD)
+cmake_pop_check_state()
 
 if(EXT_OPENSSL_SYSTEM_CIPHERS)
   set(USE_OPENSSL_SYSTEM_CIPHERS 1 CACHE INTERNAL "Use system default cipher list instead of hardcoded value")

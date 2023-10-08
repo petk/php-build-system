@@ -27,25 +27,24 @@ add_library(ext_curl ${_library_type}
 
 find_package(CURL 7.29.0 REQUIRED OPTIONAL_COMPONENTS SSL)
 
-if(CURL_LIBRARIES)
-  target_link_libraries(ext_curl PRIVATE ${CURL_LIBRARIES})
+if(NOT TARGET CURL::libcurl)
+  message(FATAL_ERROR "CURL::libcurl imported target has not been set. Please check logs.")
 endif()
 
-if(CURL_INCLUDE_DIRS)
-  target_include_directories(ext_curl PRIVATE ${CURL_INCLUDE_DIRS})
-endif()
+target_link_libraries(ext_curl PRIVATE CURL::libcurl)
 
-# Checking if libcurl is linked against old openssl.
-if(CURL_SSL_FOUND)
+# Checking if libcurl is linked against old OpenSSL.
+# TODO: OpenSSL 3.x is here detected as old OpenSSL. Is this ok?
+if(PHP_ZTS AND CURL_SSL_FOUND)
   if(NOT CMAKE_CROSSCOMPILING)
     cmake_push_check_state(RESET)
-      set(CMAKE_REQUIRED_LIBRARIES ${CURL_LIBRARIES})
+      set(CMAKE_REQUIRED_LIBRARIES CURL::libcurl)
+
       check_c_source_runs("
         #include <strings.h>
         #include <curl/curl.h>
 
-        int main(int argc, char *argv[])
-        {
+        int main(int argc, char *argv[]) {
           curl_version_info_data *data = curl_version_info(CURLVERSION_NOW);
 
           if (data && data->ssl_version && *data->ssl_version) {
@@ -69,33 +68,24 @@ if(CURL_SSL_FOUND)
       " HAVE_CURL_OLD_OPENSSL)
     cmake_pop_check_state()
   endif()
-endif()
 
-if(HAVE_CURL_OLD_OPENSSL)
-  find_package(OpenSSL)
+  if(HAVE_CURL_OLD_OPENSSL)
+    find_package(OpenSSL REQUIRED)
 
-  # TODO: Is OpenSSL package required in this case?
-  if(OPENSSL_FOUND)
-    if(OPENSSL_LIBRARIES)
-      target_link_libraries(ext_curl PRIVATE ${OPENSSL_LIBRARIES})
-    endif()
-
-    if(OPENSSL_INCLUDE_DIRS)
-      target_include_directories(ext_curl PRIVATE ${OPENSSL_INCLUDE_DIRS})
+    if(TARGET OpenSSL::Crypto)
+      target_link_libraries(ext_curl PRIVATE OpenSSL::Crypto)
     endif()
 
     check_include_file(openssl/crypto.h HAVE_OPENSSL_CRYPTO_H)
   endif()
 endif()
 
-check_library_exists(${CURL_LIBRARIES} curl_easy_perform "" _have_curl_lib)
-
 # Sanity check.
+check_library_exists(CURL::libcurl curl_easy_perform "" _have_curl_lib)
+
 if(NOT _have_curl_lib)
   message(FATAL_ERROR "The curl_easy_perform() couldn't be found. Please check logs for more information.")
 endif()
-
-unset(_have_curl_lib CACHE)
 
 target_sources(
   ext_curl

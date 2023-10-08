@@ -53,7 +53,9 @@ if(EXT_SESSION_MM)
     message(FATAL_ERROR "Enabling ZTS and libmm cannot be done together.")
   endif()
 
-  target_link_libraries(ext_session PRIVATE MM::MM)
+  if(TARGET MM::MM)
+    target_link_libraries(ext_session PRIVATE MM::MM)
+  endif()
 
   set(HAVE_LIBMM 1 CACHE INTERNAL "Whether you have libmm")
 

@@ -102,12 +102,8 @@ if(NOT EXT_GD_EXTERNAL)
 
   find_package(ZLIB REQUIRED)
 
-  if(ZLIB_LIBRARIES)
-    target_link_libraries(ext_gd PRIVATE ${ZLIB_LIBRARIES})
-  endif()
-
-  if(ZLIB_INCLUDE_DIRS)
-    target_include_directories(ext_gd PRIVATE ${ZLIB_INCLUDE_DIRS})
+  if(TARGET ZLIB::ZLIB)
+    target_link_libraries(ext_gd PRIVATE ZLIB::ZLIB)
   endif()
 
   find_package(PNG REQUIRED)

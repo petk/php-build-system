@@ -14,20 +14,23 @@ providing a basic understanding of its fundamentals.
 * [3. Variables](#3-variables)
   * [3.1. Setting variables](#31-setting-variables)
   * [3.2. Working with cache variables](#32-working-with-cache-variables)
+  * [3.3. Using variables](#33-using-variables)
 * [4. Verification and checks in CMake](#4-verification-and-checks-in-cmake)
   * [4.1. Header availability check](#41-header-availability-check)
   * [4.2. C source compilation check](#42-c-source-compilation-check)
   * [4.3. C source compilation and execution check](#43-c-source-compilation-and-execution-check)
   * [4.4. Cross-compilation considerations](#44-cross-compilation-considerations)
-* [5. Learning resources for CMake](#5-learning-resources-for-cmake)
+* [5. Generating a configuration header](#5-generating-a-configuration-header)
+* [6. Further resources](#6-further-resources)
 
 ## 1. Command line usage
 
-When working with CMake, there are two primary phases:
+When working with CMake, there are two primary phases: the configuration and
+generation phase, followed by the build phase.
 
 ### 1.1. Configuration and generation phase
 
-In this phase, CMake performs essential tasks to set up your build environment:
+In this phase, CMake performs essential tasks to set up a build environment:
 
 ```sh
 # Generating build system from a source directory to a build directory:
@@ -62,12 +65,9 @@ cmake --build . --parallel
 
 ## 2. CMakeLists.txt
 
-In the world of CMake, the `CMakeLists.txt` files serve as crucial blueprints
-for configuring and building projects. These files define how the project source
-code should be organized into libraries and binaries.
-
-CMake reads `CMakeLists.txt` files in directories that you want to build sources
-into libraries and binaries.
+In the world of CMake, the `CMakeLists.txt` files serve as blueprints for
+configuring and building projects. These files define how the project source
+code should be built into libraries and binaries.
 
 ### 2.1. Including other CMake files
 
@@ -111,7 +111,7 @@ target_sources(php INTERFACE|PUBLIC|PRIVATE src_3.c)
 target_include_directories(php INTERFACE|PUBLIC|PRIVATE include/1 include/2)
 
 # Setting compile options for a target
-target_compile_options(php INTERFACE|PUBLIC|PRIVATE -Wno-implicit-fallthrough...)
+target_compile_options(php INTERFACE|PUBLIC|PRIVATE -Wno-implicit-fallthrough)
 
 # Linking libraries, flags, or another targets to a target
 target_link_libraries(php INTERFACE|PUBLIC|PRIVATE main)
@@ -137,7 +137,7 @@ Variables are set using the `set()` command, where you assign a value to a
 variable:
 
 ```cmake
-# Defining a regular variable
+# A regular variable
 set(VARIABLE "value")
 
 # Cache variables are stored and persist across the entire build system
@@ -162,6 +162,28 @@ cmake -DCACHE_VARIABLE:STRING="value" -S source-directory -B build-directory
 Cache variables become particularly useful for customizing builds, specifying
 project-wide settings, and adapting configurations to different environments.
 
+### 3.3. Using variables
+
+Variable references in CMake use `$` sigil symbol and are enclosed within curly
+brackets `{}`.
+
+```cmake
+set(VAR "value")
+message(STATUS ${VAR})
+
+# Output: value
+```
+
+Certain commands, such as `if()`, also support variable names:
+
+```cmake
+if(VAR STREQUAL "value")
+  message(STATUS "Variable VAR is ${VAR}")
+endif()
+
+# Output: Variable VAR is value
+```
+
 ## 4. Verification and checks in CMake
 
 In CMake, you can perform various verification and validation tasks to ensure
@@ -179,7 +201,7 @@ To verify if a header file is available:
 
 ```cmake
 include(CheckIncludeFile)
-check_include_file(math.h HAVE_MATH_H)
+check_include_file(sys/types.h HAVE_SYS_TYPES_H)
 ```
 
 ### 4.2. C source compilation check
@@ -191,6 +213,12 @@ include(CheckCSourceCompiles)
 check_c_source_compiles("int main(void) { return 0; }" HAVE_WORKING_HELLO_WORLD)
 ```
 
+This command initiates a compilation and linking step, as illustrated here:
+
+```sh
+gcc -o out check_program.c
+```
+
 ### 4.3. C source compilation and execution check
 
 For a more comprehensive assessment that includes compiling, linking, and
@@ -198,7 +226,15 @@ executing the C code:
 
 ```cmake
 include(CheckCSourceRuns)
-check_c_source_runs("int main(void) { return 0; } HAVE_WORKING_HELLO_WORLD)
+check_c_source_runs("int main(void) { return 0; }" HAVE_WORKING_HELLO_WORLD)
+```
+
+This will compile, link and also run the program to check if the return code is
+0:
+
+```sh
+gcc -o out check_program.c
+./out
 ```
 
 ### 4.4. Cross-compilation considerations
@@ -215,7 +251,64 @@ else()
 endif()
 ```
 
-## 5. Learning resources for CMake
+## 5. Generating a configuration header
+
+Once the necessary checks have been completed during the configuration phase,
+you can proceed to create a configuration header file. This header file serves
+as a configuration component in customizing your project's build based on the
+check results, and it is generated using the `configure_file()` command.
+
+```cmake
+# Generating a header file from the config.h.in template
+configure_file(
+  ${CMAKE_SOURCE_DIR}/src/config.h.in
+  ${CMAKE_BINARY_DIR}/src/config.h
+)
+```
+
+The variable `CMAKE_SOURCE_DIR` represents the project's source directory, while
+`CMAKE_BINARY_DIR` represents the build directory.
+
+The `configure_file()` command reads a template file `src/config.h.in`, which
+contains placeholders for variables and their associated values:
+
+```c
+/* src/config.h.in */
+
+/* Define to 1 if you have the <sys/types.h> header file. */
+#cmakedefine HAVE_SYS_TYPES_H @HAVE_SYS_TYPES_H@
+```
+
+and replaces the placeholders in the template file with the actual values of the
+corresponding variables. For example:
+
+```c
+/* src/config.h */
+
+/* Define to 1 if you have the <sys/types.h> header file. */
+#define HAVE_SYS_TYPES_H 1
+```
+
+This resulting `src/config.h` header file is used for directing the build system
+and source code, as it defines preprocessor macros based on the configuration
+results. It enables conditional compilation and helps ensure that your project
+behaves correctly across various environments.
+
+```c
+/* src/main.c */
+
+#include "config.h"
+
+#ifdef HAVE_SYS_TYPES_H
+#include <sys/types.h>
+#endif
+
+int main(void) {
+    return 0;
+}
+```
+
+## 6. Further resources
 
 A highly recommended starting point for learning CMake is the step-by-step
 [tutorial](https://cmake.org/cmake/help/latest/guide/tutorial/index.html).
