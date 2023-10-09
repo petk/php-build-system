@@ -29,6 +29,6 @@ endif()
 
 php_extension(NAME "sysvsem" ${_library_type})
 
-add_library(ext_sysvsem ${_library_type}
+add_library(sysvsem ${_library_type}
   sysvsem.c
 )

@@ -14,7 +14,7 @@ endif()
 
 php_extension(NAME "tokenizer" ${_library_type})
 
-add_library(ext_tokenizer ${_library_type}
+add_library(tokenizer ${_library_type}
   tokenizer.c
   tokenizer_data.c
 )
@@ -44,4 +44,4 @@ add_custom_command(
 )
 
 # The tokenizer depends on Zend language scanner definitions header.
-add_dependencies(ext_tokenizer Zend)
+add_dependencies(tokenizer Zend)

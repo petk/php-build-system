@@ -2342,13 +2342,6 @@ ninja
 ```
 
 Ninja will then handle the build process based on the CMake configuration.
-Similar to the Unix Makefiles generator, you can use the `-j` option to enable
-parallel builds with Ninja (by default, however, `-j` is already set to the
-number of available CPU cores on your system):
-
-```sh
-ninja -j$(nproc)
-```
 
 ### 7.8. CMake presets
 

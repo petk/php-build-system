@@ -14,4 +14,4 @@ endif()
 
 #php_extension(NAME "pdo_firebird" ${_library_type})
 
-#add_library(ext_pdo_firebird ${_library_type})
+#add_library(pdo_firebird ${_library_type})

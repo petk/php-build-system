@@ -75,8 +75,8 @@ check_c_source_compiles("
   }
 " HAVE_UTSNAME_DOMAINNAME)
 
-add_library(ext_posix ${_library_type}
+add_library(posix ${_library_type}
   posix.c
 )
 
-target_compile_definitions(ext_posix PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE=1)
+target_compile_definitions(posix PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE=1)

@@ -1,5 +1,5 @@
 #[=============================================================================[
-CMake module to find and use Kerberos library.
+Find the Kerberos library.
 https://web.mit.edu/kerberos/
 
 TODO: Fine tune the imported library by finding krb headers and link with

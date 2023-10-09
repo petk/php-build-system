@@ -14,4 +14,4 @@ endif()
 
 #php_extension(NAME "odbc" ${_library_type})
 
-#add_library(ext_odbc ${_library_type})
+#add_library(odbc ${_library_type})

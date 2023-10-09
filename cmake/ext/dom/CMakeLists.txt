@@ -9,7 +9,7 @@ if(NOT EXT_DOM)
 endif()
 
 if(NOT EXT_LIBXML)
-  message(FATAL_ERROR "DOM extension requires LIBXML extension, add EXT_LIBXML=ON")
+  message(FATAL_ERROR "DOM extension requires LIBXML extension, set EXT_LIBXML=ON")
 endif()
 
 if(EXT_DOM_SHARED OR BUILD_SHARED_LIBS)
@@ -18,7 +18,7 @@ endif()
 
 php_extension(NAME "dom" ${_library_type})
 
-add_library(ext_dom ${_library_type}
+add_library(dom ${_library_type}
   php_dom.c
   attr.c
   document.c
@@ -43,17 +43,17 @@ add_library(ext_dom ${_library_type}
   namednodemap.c
 )
 
-target_link_libraries(ext_dom PRIVATE ext_libxml)
+target_link_libraries(dom PRIVATE libxml)
 
 target_sources(
-  ext_dom
-  PUBLIC FILE_SET ext_dom_headers
+  dom
+  PUBLIC FILE_SET dom_headers
   TYPE HEADERS
   FILES xml_common.h
 )
 
 install(
-  TARGETS ext_dom
-  FILE_SET ext_dom_headers
+  TARGETS dom
+  FILE_SET dom_headers
   DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/php/ext/dom
 )

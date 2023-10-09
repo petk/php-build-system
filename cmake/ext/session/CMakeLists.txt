@@ -26,7 +26,7 @@ endif()
 
 php_extension(NAME "session" ${_library_type})
 
-add_library(ext_session ${_library_type}
+add_library(session ${_library_type}
   mod_user_class.c
   session.c
   mod_files.c
@@ -34,9 +34,9 @@ add_library(ext_session ${_library_type}
   mod_user.c
 )
 
-target_compile_definitions(ext_session PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE=1)
+target_compile_definitions(session PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE=1)
 
-set(_ext_session_headers "php_session.h;mod_files.h;mod_user.h")
+set(_session_headers_files "php_session.h;mod_files.h;mod_user.h")
 
 # The HAVE_SESSION should be used but for BC reasons this is additionally set.
 set(HAVE_PHP_SESSION 1 CACHE INTERNAL "Define to 1 if session extension is enabled")
@@ -54,23 +54,23 @@ if(EXT_SESSION_MM)
   endif()
 
   if(TARGET MM::MM)
-    target_link_libraries(ext_session PRIVATE MM::MM)
+    target_link_libraries(session PRIVATE MM::MM)
   endif()
 
   set(HAVE_LIBMM 1 CACHE INTERNAL "Whether you have libmm")
 
-  list(APPEND _ext_session_headers "${CMAKE_CURRENT_SOURCE_DIR}/mod_mm.h")
+  list(APPEND _session_headers_files "${CMAKE_CURRENT_SOURCE_DIR}/mod_mm.h")
 endif()
 
 target_sources(
-  ext_session
-  PUBLIC FILE_SET ext_session_headers
+  session
+  PUBLIC FILE_SET session_headers
   TYPE HEADERS
-  FILES ${_ext_session_headers}
+  FILES ${_session_headers_files}
 )
 
 install(
-  TARGETS ext_session
-  FILE_SET ext_session_headers
+  TARGETS session
+  FILE_SET session_headers
   DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/php/ext/session
 )

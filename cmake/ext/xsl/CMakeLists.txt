@@ -9,11 +9,11 @@ if(NOT EXT_XSL)
 endif()
 
 if(NOT EXT_LIBXML)
-  message(FATAL_ERROR "XSL extension requires LIBXML extension, add EXT_LIBXML=ON")
+  message(FATAL_ERROR "XSL extension requires LIBXML extension, set EXT_LIBXML=ON")
 endif()
 
 if(NOT EXT_DOM)
-  message(FATAL_ERROR "XSL extension requires DOM extension, add EXT_DOM=ON")
+  message(FATAL_ERROR "XSL extension requires DOM extension, set EXT_DOM=ON")
 endif()
 
 if(EXT_XSL_SHARED OR BUILD_SHARED_LIBS)
@@ -22,12 +22,12 @@ endif()
 
 php_extension(NAME "xsl" ${_library_type})
 
-add_library(ext_xsl ${_library_type}
+add_library(xsl ${_library_type}
   php_xsl.c
   xsltprocessor.c
 )
 
-target_link_libraries(ext_xsl PRIVATE ext_libxml)
+target_link_libraries(xsl PRIVATE libxml)
 
 find_package(LibXslt 1.1.0 REQUIRED)
 # Upstream CMake module doesn't mark these as advanced variables.
@@ -38,11 +38,11 @@ if(CMAKE_VERSION VERSION_LESS 3.28)
 endif()
 
 if(LIBXSLT_LIBRARIES)
-  target_link_libraries(ext_xsl PRIVATE ${LIBXSLT_LIBRARIES})
+  target_link_libraries(xsl PRIVATE ${LIBXSLT_LIBRARIES})
 endif()
 
 if(LIBXSLT_INCLUDE_DIR)
-  target_include_directories(ext_xsl PRIVATE ${LIBXSLT_INCLUDE_DIR})
+  target_include_directories(xsl PRIVATE ${LIBXSLT_INCLUDE_DIR})
 endif()
 
 if(LIBXSLT_EXSLT_LIBRARIES OR LIBXSLT_EXSLT_INCLUDE_DIR)
@@ -50,9 +50,9 @@ if(LIBXSLT_EXSLT_LIBRARIES OR LIBXSLT_EXSLT_INCLUDE_DIR)
 endif()
 
 if(LIBXSLT_EXSLT_LIBRARIES)
-  target_link_libraries(ext_xsl PRIVATE ${LIBXSLT_EXSLT_LIBRARIES})
+  target_link_libraries(xsl PRIVATE ${LIBXSLT_EXSLT_LIBRARIES})
 endif()
 
 if(LIBXSLT_EXSLT_INCLUDE_DIR)
-  target_include_directories(ext_xsl PRIVATE ${LIBXSLT_EXSLT_INCLUDE_DIR})
+  target_include_directories(xsl PRIVATE ${LIBXSLT_EXSLT_INCLUDE_DIR})
 endif()

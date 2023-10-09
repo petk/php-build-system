@@ -18,7 +18,7 @@ endif()
 
 php_extension(NAME "ftp" ${_library_type})
 
-add_library(ext_ftp ${_library_type}
+add_library(ftp ${_library_type}
   php_ftp.c
   ftp.c
 )
@@ -28,7 +28,7 @@ if(EXT_FTP_SSL OR EXT_OPENSSL)
   find_package(OpenSSL 1.0.2 REQUIRED)
 
   if(TARGET OpenSSL::SSL)
-    target_link_libraries(ext_ftp PRIVATE OpenSSL::SSL)
+    target_link_libraries(ftp PRIVATE OpenSSL::SSL)
   endif()
 
   set(HAVE_FTP_SSL 1 CACHE INTERNAL "Whether FTP over SSL is supported")

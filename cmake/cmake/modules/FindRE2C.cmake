@@ -1,5 +1,5 @@
 #[=============================================================================[
-Find and use free and open-source lexer generator re2c.
+Find the free and open-source lexer generator re2c.
 https://re2c.org/
 
 The module sets the following variables:

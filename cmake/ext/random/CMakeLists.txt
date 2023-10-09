@@ -27,7 +27,7 @@ endif()
 
 php_extension(NAME "random" STATIC)
 
-add_library(ext_random STATIC
+add_library(random STATIC
   random.c
   csprng.c
   engine_combinedlcg.c
@@ -40,18 +40,18 @@ add_library(ext_random STATIC
   randomizer.c
 )
 
-target_compile_definitions(ext_random PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE=1)
+target_compile_definitions(random PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE=1)
 
 target_sources(
-  ext_random
-  PUBLIC FILE_SET ext_random_headers
+  random
+  PUBLIC FILE_SET random_headers
   TYPE HEADERS
   FILES
     php_random.h
 )
 
 install(
-  TARGETS ext_random
-  FILE_SET ext_random_headers
+  TARGETS random
+  FILE_SET random_headers
   DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/php/ext/random
 )

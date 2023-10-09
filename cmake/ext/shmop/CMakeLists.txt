@@ -14,6 +14,6 @@ endif()
 
 php_extension(NAME "shmop" ${_library_type})
 
-add_library(ext_shmop ${_library_type}
+add_library(shmop ${_library_type}
   shmop.c
 )

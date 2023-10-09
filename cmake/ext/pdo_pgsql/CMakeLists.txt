@@ -14,25 +14,25 @@ endif()
 
 php_extension(NAME "pdo_pgsql" ${_library_type})
 
-add_library(ext_pdo_pgsql ${_library_type}
+add_library(pdo_pgsql ${_library_type}
   pdo_pgsql.c
   pgsql_driver.c
   pgsql_statement.c
 )
 
-target_include_directories(ext_pdo_pgsql PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/..")
+target_include_directories(pdo_pgsql PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/..")
 
 # TODO: Autoconf still allows 9.1 to be installed. This one relies on pkg-config
 # and minimum PostgreSQL 9.3.
 find_package(PostgreSQL 9.1 REQUIRED)
 
 if(PostgreSQL_LIBRARIES)
-  target_link_libraries(ext_pdo_pgsql PRIVATE ${PostgreSQL_LIBRARIES})
+  target_link_libraries(pdo_pgsql PRIVATE ${PostgreSQL_LIBRARIES})
 endif()
 
 if(PostgreSQL_INCLUDE_DIRS)
   target_include_directories(
-    ext_pdo_pgsql
+    pdo_pgsql
     PRIVATE ${PostgreSQL_INCLUDE_DIRS}
     INTERFACE ${PostgreSQL_INCLUDE_DIRS}
   )

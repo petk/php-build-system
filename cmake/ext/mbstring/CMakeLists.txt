@@ -18,7 +18,7 @@ endif()
 
 php_extension(NAME "mbstring" ${_library_type})
 
-add_library(ext_mbstring ${_library_type}
+add_library(mbstring ${_library_type}
   mbstring.c
   php_unicode.c
   mb_gpc.c
@@ -67,7 +67,7 @@ file(WRITE
   "#include \"php_config.h\"\n"
 )
 
-set(_ext_mbstring_headers
+set(_mbstring_headers_files
   libmbfl/mbfl/eaw_table.h
   libmbfl/mbfl/mbfilter.h
   libmbfl/mbfl/mbfilter_8bit.h
@@ -82,14 +82,14 @@ set(_ext_mbstring_headers
   libmbfl/mbfl/mbfl_memory_device.h
   libmbfl/mbfl/mbfl_string.h
 )
-list(APPEND _ext_mbstring_headers "${CMAKE_CURRENT_BINARY_DIR}/libmbfl/config.h")
-list(APPEND _ext_mbstring_headers "${CMAKE_CURRENT_SOURCE_DIR}/mbstring.h")
+list(APPEND _mbstring_headers_files "${CMAKE_CURRENT_BINARY_DIR}/libmbfl/config.h")
+list(APPEND _mbstring_headers_files "${CMAKE_CURRENT_SOURCE_DIR}/mbstring.h")
 
 if(EXT_MBSTRING_MBREGEX)
   find_package(Oniguruma REQUIRED)
 
   if(TARGET Oniguruma::Oniguruma)
-    target_link_libraries(ext_mbstring PRIVATE Oniguruma::Oniguruma)
+    target_link_libraries(mbstring PRIVATE Oniguruma::Oniguruma)
   endif()
 
   cmake_push_check_state(RESET)
@@ -111,7 +111,7 @@ if(EXT_MBSTRING_MBREGEX)
   endif()
 
   target_compile_definitions(
-    ext_mbstring
+    mbstring
     PRIVATE
       ONIG_ESCAPE_UCHAR_COLLISION=1
       UChar=OnigUChar
@@ -119,15 +119,15 @@ if(EXT_MBSTRING_MBREGEX)
 
   set(HAVE_MBREGEX 1 CACHE INTERNAL "Whether to have multibyte regex support")
 
-  target_sources(ext_mbstring PRIVATE php_mbregex.c)
+  target_sources(mbstring PRIVATE php_mbregex.c)
 
-  list(APPEND _ext_mbstring_headers "php_mbregex.h;php_onig_compat.h")
+  list(APPEND _mbstring_headers_files "php_mbregex.h;php_onig_compat.h")
 endif()
 
-target_compile_definitions(ext_mbstring PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE=1)
+target_compile_definitions(mbstring PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE=1)
 
 target_include_directories(
-  ext_mbstring
+  mbstring
   PRIVATE
     ${CMAKE_CURRENT_SOURCE_DIR}
     ${CMAKE_CURRENT_SOURCE_DIR}/libmbfl
@@ -136,15 +136,15 @@ target_include_directories(
 )
 
 target_sources(
-  ext_mbstring
-  PUBLIC FILE_SET ext_mbstring_headers
+  mbstring
+  PUBLIC FILE_SET mbstring_headers
   TYPE HEADERS
   BASE_DIRS "${CMAKE_CURRENT_BINARY_DIR}" "${CMAKE_CURRENT_SOURCE_DIR}"
-  FILES ${_ext_mbstring_headers}
+  FILES ${_mbstring_headers_files}
 )
 
 install(
-  TARGETS ext_mbstring
-  FILE_SET ext_mbstring_headers
+  TARGETS mbstring
+  FILE_SET mbstring_headers
   DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/php/ext/mbstring
 )

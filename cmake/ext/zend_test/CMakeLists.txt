@@ -14,7 +14,7 @@ endif()
 
 php_extension(NAME "zend_test" ${_library_type})
 
-add_library(ext_zend_test ${_library_type}
+add_library(zend_test ${_library_type}
   test.c
   observer.c
   fiber.c
@@ -22,9 +22,9 @@ add_library(ext_zend_test ${_library_type}
   object_handlers.c
 )
 
-target_compile_definitions(ext_zend_test PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE=1)
+target_compile_definitions(zend_test PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE=1)
 
 # If ext/libxml is enabled, link it.
 if(HAVE_LIBXML)
-  target_link_libraries(ext_zend_test PRIVATE ext_libxml)
+  target_link_libraries(zend_test PRIVATE libxml)
 endif()

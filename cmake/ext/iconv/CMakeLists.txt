@@ -19,20 +19,20 @@ endif()
 
 php_extension(NAME "iconv" ${_library_type})
 
-add_library(ext_iconv ${_library_type}
+add_library(iconv ${_library_type}
   iconv.c
 )
 
-target_compile_definitions(ext_iconv PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE=1)
+target_compile_definitions(iconv PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE=1)
 
 find_package(Iconv REQUIRED)
 
 if(${Iconv_LIBRARIES})
-  target_link_libraries(ext_iconv PRIVATE ${Iconv_LIBRARIES})
+  target_link_libraries(iconv PRIVATE ${Iconv_LIBRARIES})
 endif()
 
 if(${Iconv_INCLUDE_DIRS})
-  target_include_directories(ext_iconv
+  target_include_directories(iconv
     PRIVATE ${Iconv_INCLUDE_DIRS}
   )
 endif()
@@ -203,17 +203,17 @@ if(NOT _errno_works)
   message(FATAL_ERROR "Something is wrong with libiconv. See logs for details.")
 endif()
 
-file(GLOB _ext_iconv_headers "${CMAKE_CURRENT_SOURCE_DIR}/*.h")
+file(GLOB _iconv_headers_files "${CMAKE_CURRENT_SOURCE_DIR}/*.h")
 
 target_sources(
-  ext_iconv
-  PUBLIC FILE_SET ext_iconv_headers
+  iconv
+  PUBLIC FILE_SET iconv_headers
   TYPE HEADERS
-  FILES ${_ext_iconv_headers}
+  FILES ${_iconv_headers_files}
 )
 
 install(
-  TARGETS ext_iconv
-  FILE_SET ext_iconv_headers
+  TARGETS iconv
+  FILE_SET iconv_headers
   DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/php/ext/iconv
 )

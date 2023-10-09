@@ -14,17 +14,17 @@ endif()
 
 php_extension(NAME "tidy" ${_library_type})
 
-add_library(ext_tidy ${_library_type}
+add_library(tidy ${_library_type}
   tidy.c
 )
 
 # Add -Wno-ignored-qualifiers as this is an issue upstream.
-target_compile_options(ext_tidy PRIVATE -Wno-ignored-qualifiers)
+target_compile_options(tidy PRIVATE -Wno-ignored-qualifiers)
 
-target_compile_definitions(ext_tidy PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE=1)
+target_compile_definitions(tidy PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE=1)
 
 find_package(Tidy REQUIRED)
 
 if(TARGET Tidy::Tidy)
-  target_link_libraries(ext_tidy PRIVATE Tidy::Tidy)
+  target_link_libraries(tidy PRIVATE Tidy::Tidy)
 endif()

@@ -11,7 +11,7 @@ check_symbol_exists(strtoll "stdlib.h" HAVE_STRTOLL)
 
 php_extension(NAME "date" STATIC)
 
-add_library(ext_date STATIC
+add_library(date STATIC
   php_date.c
   lib/astro.c
   lib/dow.c
@@ -25,7 +25,7 @@ add_library(ext_date STATIC
   lib/interval.c
 )
 
-target_include_directories(ext_date
+target_include_directories(date
   PRIVATE ${CMAKE_CURRENT_BINARY_DIR}/lib
           ${CMAKE_CURRENT_SOURCE_DIR}/lib
   INTERFACE ${CMAKE_CURRENT_BINARY_DIR}/lib
@@ -33,10 +33,10 @@ target_include_directories(ext_date
 
 check_c_compiler_flag(-Wno-implicit-fallthrough HAVE_WNO_IMPLICIT_FALLTHROUGH)
 if(HAVE_WNO_IMPLICIT_FALLTHROUGH)
-  target_compile_options(ext_date PRIVATE -Wno-implicit-fallthrough)
+  target_compile_options(date PRIVATE -Wno-implicit-fallthrough)
 endif()
 
-target_compile_definitions(ext_date
+target_compile_definitions(date
   PRIVATE
     ZEND_ENABLE_STATIC_TSRMLS_CACHE=1
     HAVE_TIMELIB_CONFIG_H=1
@@ -64,11 +64,11 @@ file(WRITE "${CMAKE_CURRENT_BINARY_DIR}/lib/timelib_config.h"
 #define timelib_free    efree
 ")
 
-add_dependencies(ext_date main Zend)
+add_dependencies(date main Zend)
 
 target_sources(
-  ext_date
-  PUBLIC FILE_SET ext_date_headers
+  date
+  PUBLIC FILE_SET date_headers
   TYPE HEADERS
   BASE_DIRS "${CMAKE_CURRENT_BINARY_DIR}" "${CMAKE_CURRENT_SOURCE_DIR}"
   FILES
@@ -78,7 +78,7 @@ target_sources(
 )
 
 install(
-  TARGETS ext_date
-  FILE_SET ext_date_headers
+  TARGETS date
+  FILE_SET date_headers
   DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/php/ext/date
 )

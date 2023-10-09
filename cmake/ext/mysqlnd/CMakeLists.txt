@@ -20,7 +20,7 @@ endif()
 
 php_extension(NAME "mysqlnd" ${_library_type} PRIORITY 10)
 
-add_library(ext_mysqlnd ${_library_type}
+add_library(mysqlnd ${_library_type}
   mysqlnd_connection.c
   mysqlnd_alloc.c
   mysqlnd_charset.c
@@ -45,13 +45,13 @@ add_library(ext_mysqlnd ${_library_type}
   mysqlnd_ps_codec.c
 )
 
-target_compile_definitions(ext_mysqlnd PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE=1)
+target_compile_definitions(mysqlnd PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE=1)
 
 if(EXT_MYSQLND_COMPRESSION)
   find_package(ZLIB REQUIRED)
 
   if(TARGET ZLIB::ZLIB)
-    target_link_libraries(ext_mysqlnd PRIVATE ZLIB::ZLIB)
+    target_link_libraries(mysqlnd PRIVATE ZLIB::ZLIB)
   endif()
 
   set(MYSQLND_COMPRESSION_ENABLED 1 CACHE INTERNAL "Enable compressed protocol support")
@@ -64,23 +64,23 @@ if(EXT_MYSQLND_SSL OR EXT_OPENSSL)
   find_package(OpenSSL 1.0.2 REQUIRED)
 
   if(TARGET OpenSSL::Crypto)
-    target_link_libraries(ext_mysqlnd PRIVATE OpenSSL::Crypto)
+    target_link_libraries(mysqlnd PRIVATE OpenSSL::Crypto)
   endif()
 
   set(MYSQLND_HAVE_SSL 1 CACHE INTERNAL "Enable mysqlnd code that uses OpenSSL directly")
 endif()
 
-file(GLOB _ext_mysqlnd_headers "${CMAKE_CURRENT_SOURCE_DIR}/*.h")
+file(GLOB _mysqlnd_headers_files "${CMAKE_CURRENT_SOURCE_DIR}/*.h")
 
 target_sources(
-  ext_mysqlnd
-  PUBLIC FILE_SET ext_mysqlnd_headers
+  mysqlnd
+  PUBLIC FILE_SET mysqlnd_headers
   TYPE HEADERS
-  FILES ${_ext_mysqlnd_headers}
+  FILES ${_mysqlnd_headers_files}
 )
 
 install(
-  TARGETS ext_mysqlnd
-  FILE_SET ext_mysqlnd_headers
+  TARGETS mysqlnd
+  FILE_SET mysqlnd_headers
   DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/php/ext/mysqlnd
 )

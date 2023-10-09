@@ -9,7 +9,7 @@ if(NOT EXT_XMLREADER)
 endif()
 
 if(NOT EXT_LIBXML)
-  message(FATAL_ERROR "XMLReader extension requires LIBXML extension, add EXT_LIBXML=ON")
+  message(FATAL_ERROR "XMLReader extension requires LIBXML extension, set EXT_LIBXML=ON")
 endif()
 
 if(EXT_XMLREADER_SHARED OR BUILD_SHARED_LIBS)
@@ -18,8 +18,8 @@ endif()
 
 php_extension(NAME "xmlreader" ${_library_type})
 
-add_library(ext_xmlreader ${_library_type}
+add_library(xmlreader ${_library_type}
   php_xmlreader.c
 )
 
-target_link_libraries(ext_xmlreader PRIVATE ext_libxml)
+target_link_libraries(xmlreader PRIVATE libxml)

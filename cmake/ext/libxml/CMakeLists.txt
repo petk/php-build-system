@@ -7,34 +7,27 @@ endif()
 # This extension can be build only as STATIC.
 php_extension(NAME "libxml" STATIC PRIORITY 1)
 
-add_library(ext_libxml STATIC
+add_library(libxml STATIC
   libxml.c
 )
 
-target_compile_definitions(ext_libxml PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE=1)
+target_compile_definitions(libxml PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE=1)
 
-find_package(LibXml2 2.9.0 REQUIRED GLOBAL)
+find_package(LibXml2 2.9.0 REQUIRED)
 
-if(LIBXML2_LIBRARIES)
-  target_link_libraries(ext_libxml PRIVATE ${LIBXML2_LIBRARIES})
-endif()
-
-if(LIBXML2_INCLUDE_DIRS)
-  target_include_directories(ext_libxml
-    PRIVATE ${LIBXML2_INCLUDE_DIRS}
-    INTERFACE ${LIBXML2_INCLUDE_DIRS}
-  )
+if(TARGET LibXml2::LibXml2)
+  target_link_libraries(libxml PUBLIC LibXml2::LibXml2)
 endif()
 
 target_sources(
-  ext_libxml
-  PUBLIC FILE_SET ext_libxml_headers
+  libxml
+  PUBLIC FILE_SET libxml_headers
   TYPE HEADERS
   FILES php_libxml.h
 )
 
 install(
-  TARGETS ext_libxml
-  FILE_SET ext_libxml_headers
+  TARGETS libxml
+  FILE_SET libxml_headers
   DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/php/ext/libxml
 )

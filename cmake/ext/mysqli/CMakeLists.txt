@@ -17,7 +17,7 @@ endif()
 
 # TODO: Check if ext/mysqlnd can be enabled from other extensions.
 if(NOT EXT_MYSQLND)
-  message(FATAL_ERROR "The mysqli extension requires mysqlnd extension enabled, add EXT_MYSQLND=ON.")
+  message(FATAL_ERROR "The mysqli extension requires mysqlnd extension enabled, set EXT_MYSQLND=ON.")
 endif()
 
 if(EXT_MYSQLI_SHARED OR BUILD_SHARED_LIBS)
@@ -26,7 +26,7 @@ endif()
 
 php_extension(NAME "mysqli" ${_library_type})
 
-add_library(ext_mysqli ${_library_type}
+add_library(mysqli ${_library_type}
   mysqli.c
   mysqli_api.c
   mysqli_prop.c
@@ -38,15 +38,15 @@ add_library(ext_mysqli ${_library_type}
   mysqli_result_iterator.c
 )
 
-target_compile_definitions(ext_mysqli PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE=1)
+target_compile_definitions(mysqli PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE=1)
 
 if(EXT_MYSQL_SOCK OR EXT_MYSQL_SOCK_PATH)
   include(PHP/MysqlSocket)
 endif()
 
 target_sources(
-  ext_mysqli
-  PUBLIC FILE_SET ext_mysqli_headers
+  mysqli
+  PUBLIC FILE_SET mysqli_headers
   TYPE HEADERS
   FILES
     mysqli_mysqlnd.h
@@ -54,7 +54,7 @@ target_sources(
 )
 
 install(
-  TARGETS ext_mysqli
-  FILE_SET ext_mysqli_headers
+  TARGETS mysqli
+  FILE_SET mysqli_headers
   DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/php/ext/mysqli
 )

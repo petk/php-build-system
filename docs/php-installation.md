@@ -25,10 +25,10 @@ be done like this:
 # Configure PHP build:
 ./configure --prefix=/install/path/prefix
 
-# Build PHP with enabled multithreading:
+# Build PHP in parallel:
 make -j$(nproc)
 
-# Run tests with enabled multithreading:
+# Run tests in parallel:
 make TEST_PHP_ARGS=-j$(nproc) test
 
 # Finally, copy built files to their system locations:
@@ -167,8 +167,8 @@ In this repository, installing PHP with CMake can be done in a similar way:
 # Configuration and generation of build system files:
 cmake -DCMAKE_INSTALL_PREFIX="/install/path/prefix" .
 
-# Build PHP with enabled multithreading:
-cmake --build . -- -j $(nproc)
+# Build PHP in parallel:
+cmake --build . -j
 
 # Run tests using ctest utility:
 ctest --progress -V
@@ -178,7 +178,7 @@ cmake --install
 
 # Or
 cmake .
-cmake --build .
+cmake --build . -j
 ctest --progress -V
 cmake --install . --prefix "/install/path/prefix"
 ```
@@ -250,7 +250,7 @@ To build and install using the new preset:
 
 ```sh
 cmake --preset acme-php
-cmake --build --preset acme-php -- -j $(nproc)
+cmake --build --preset acme-php -j
 ctest --preset acme-php
 cmake --install .
 ```

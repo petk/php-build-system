@@ -1,13 +1,13 @@
 php_extension(NAME "json" STATIC)
 
-add_library(ext_json STATIC
+add_library(json STATIC
   json.c
   json_encoder.c
   json_parser.tab.c
   json_scanner.c
 )
 
-target_compile_definitions(ext_json PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE=1)
+target_compile_definitions(json PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE=1)
 
 if(BISON_FOUND)
   bison_target(JsonParser
@@ -35,8 +35,8 @@ if(NOT CMAKE_SYSTEM_NAME STREQUAL "Windows")
 endif()
 
 target_sources(
-  ext_json
-  PUBLIC FILE_SET ext_json_headers
+  json
+  PUBLIC FILE_SET json_headers
   TYPE HEADERS
   FILES
     php_json.h
@@ -45,7 +45,7 @@ target_sources(
 )
 
 install(
-  TARGETS ext_json
-  FILE_SET ext_json_headers
+  TARGETS json
+  FILE_SET json_headers
   DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/php/ext/json
 )

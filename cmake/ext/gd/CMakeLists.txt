@@ -24,14 +24,14 @@ endif()
 
 php_extension(NAME "gd" ${_library_type})
 
-add_library(ext_gd ${_library_type}
+add_library(gd ${_library_type}
   gd.c
 )
 
-file(GLOB _ext_gd_headers "${CMAKE_CURRENT_SOURCE_DIR}/*.h")
+file(GLOB _gd_headers_files "${CMAKE_CURRENT_SOURCE_DIR}/*.h")
 
 if(NOT EXT_GD_EXTERNAL)
-  target_sources(ext_gd PRIVATE
+  target_sources(gd PRIVATE
     libgd/gd.c
     libgd/gd_gd.c
     libgd/gd_gd2.c
@@ -81,8 +81,8 @@ if(NOT EXT_GD_EXTERNAL)
   set(HAVE_GD_BMP 1 CACHE INTERNAL "Whether the BMP functionality can be used with libgd")
   set(HAVE_GD_TGA 1 CACHE INTERNAL "Whether the TGA functionality can be used with libgd")
 
-  file(GLOB _ext_gd_libgd_headers "${CMAKE_CURRENT_SOURCE_DIR}/libgd/*.h")
-  list(APPEND _ext_gd_headers ${_ext_gd_libgd_headers})
+  file(GLOB _gd_libgd_headers_files "${CMAKE_CURRENT_SOURCE_DIR}/libgd/*.h")
+  list(APPEND _gd_headers_files ${_gd_libgd_headers_files})
 
   # TODO: Check for fabsf and floorf which are available since C99. Are these
   # checks still needed?
@@ -93,27 +93,27 @@ if(NOT EXT_GD_EXTERNAL)
   cmake_pop_check_state()
 
   if(HAVE_FABSF OR HAVE_FLOORF)
-    target_link_libraries(ext_gd PRIVATE m)
+    target_link_libraries(gd PRIVATE m)
   endif()
 
-  target_include_directories(ext_gd PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/libgd)
+  target_include_directories(gd PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/libgd)
 
-  target_compile_options(ext_gd PRIVATE -Wno-strict-prototypes)
+  target_compile_options(gd PRIVATE -Wno-strict-prototypes)
 
   find_package(ZLIB REQUIRED)
 
   if(TARGET ZLIB::ZLIB)
-    target_link_libraries(ext_gd PRIVATE ZLIB::ZLIB)
+    target_link_libraries(gd PRIVATE ZLIB::ZLIB)
   endif()
 
   find_package(PNG REQUIRED)
 
   if(PNG_LIBRARIES)
-    target_link_libraries(ext_gd PRIVATE ${PNG_LIBRARIES})
+    target_link_libraries(gd PRIVATE ${PNG_LIBRARIES})
   endif()
 
   if(PNG_INCLUDE_DIRS)
-    target_include_directories(ext_gd PRIVATE ${PNG_INCLUDE_DIRS})
+    target_include_directories(gd PRIVATE ${PNG_INCLUDE_DIRS})
   endif()
 
   if(PNG_FOUND)
@@ -130,11 +130,11 @@ if(NOT EXT_GD_EXTERNAL)
     set(HAVE_GD_AVIF 1 CACHE INTERNAL "Whether the GD avif support is enabled")
 
     if(AVIF_LIBRARIES)
-      target_link_libraries(ext_gd PRIVATE ${AVIF_LIBRARIES})
+      target_link_libraries(gd PRIVATE ${AVIF_LIBRARIES})
     endif()
 
     if(AVIF_INCLUDE_DIRS)
-      target_include_directories(ext_gd PRIVATE ${AVIF_INCLUDE_DIRS})
+      target_include_directories(gd PRIVATE ${AVIF_INCLUDE_DIRS})
     endif()
   endif()
 
@@ -148,11 +148,11 @@ if(NOT EXT_GD_EXTERNAL)
     set(HAVE_GD_WEBP 1 CACHE INTERNAL "Whether the GD webp support is enabled")
 
     if(WEBP_LIBRARIES)
-      target_link_libraries(ext_gd PRIVATE ${WEBP_LIBRARIES})
+      target_link_libraries(gd PRIVATE ${WEBP_LIBRARIES})
     endif()
 
     if(WEBP_INCLUDE_DIRS)
-      target_include_directories(ext_gd PRIVATE ${WEBP_INCLUDE_DIRS})
+      target_include_directories(gd PRIVATE ${WEBP_INCLUDE_DIRS})
     endif()
   endif()
 
@@ -166,11 +166,11 @@ if(NOT EXT_GD_EXTERNAL)
     set(HAVE_GD_JPG 1 CACHE INTERNAL "Whether the GD JPEG support is enabled")
 
     if(JPEG_LIBRARIES)
-      target_link_libraries(ext_gd PRIVATE ${JPEG_LIBRARIES})
+      target_link_libraries(gd PRIVATE ${JPEG_LIBRARIES})
     endif()
 
     if(JPEG_INCLUDE_DIRS)
-      target_include_directories(ext_gd PRIVATE ${JPEG_INCLUDE_DIRS})
+      target_include_directories(gd PRIVATE ${JPEG_INCLUDE_DIRS})
     endif()
   endif()
 
@@ -184,11 +184,11 @@ if(NOT EXT_GD_EXTERNAL)
     set(HAVE_GD_XPM 1 CACHE INTERNAL "Whether the GD XPM support is enabled")
 
     if(XPM_LIBRARIES)
-      target_link_libraries(ext_gd PRIVATE ${XPM_LIBRARIES})
+      target_link_libraries(gd PRIVATE ${XPM_LIBRARIES})
     endif()
 
     if(XPM_INCLUDE_DIRS)
-      target_include_directories(ext_gd PRIVATE ${XPM_INCLUDE_DIRS})
+      target_include_directories(gd PRIVATE ${XPM_INCLUDE_DIRS})
     endif()
   endif()
 
@@ -202,11 +202,11 @@ if(NOT EXT_GD_EXTERNAL)
     set(HAVE_GD_FREETYPE 1 CACHE INTERNAL "Whether the GD Freetype support is enabled")
 
     if(FREETYPE_LIBRARIES)
-      target_link_libraries(ext_gd PRIVATE ${FREETYPE_LIBRARIES})
+      target_link_libraries(gd PRIVATE ${FREETYPE_LIBRARIES})
     endif()
 
     if(FREETYPE_INCLUDE_DIRS)
-      target_include_directories(ext_gd PRIVATE ${FREETYPE_INCLUDE_DIRS})
+      target_include_directories(gd PRIVATE ${FREETYPE_INCLUDE_DIRS})
     endif()
   endif()
 
@@ -216,14 +216,14 @@ if(NOT EXT_GD_EXTERNAL)
   endif()
 else()
   find_package(GD 2.1.0 REQUIRED)
-  target_sources(ext_gd PRIVATE gd_compat.c)
+  target_sources(gd PRIVATE gd_compat.c)
 
   if(GD_LIBRARIES)
-    target_link_libraries(ext_gd PRIVATE ${GD_LIBRARIES})
+    target_link_libraries(gd PRIVATE ${GD_LIBRARIES})
   endif()
 
   if(GD_INCLUDE_DIRS)
-    target_include_directories(ext_gd PRIVATE ${GD_INCLUDE_DIRS})
+    target_include_directories(gd PRIVATE ${GD_INCLUDE_DIRS})
   endif()
 
   check_library_exists(${GD_LIBRARIES} gdImageCreate "" HAVE_LIBGD)
@@ -245,14 +245,14 @@ else()
 endif()
 
 target_sources(
-  ext_gd
-  PUBLIC FILE_SET ext_gd_headers
+  gd
+  PUBLIC FILE_SET gd_headers
   TYPE HEADERS
-  FILES ${_ext_gd_headers}
+  FILES ${_gd_headers_files}
 )
 
 install(
-  TARGETS ext_gd
-  FILE_SET ext_gd_headers
+  TARGETS gd
+  FILE_SET gd_headers
   DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/php/ext/gd
 )

@@ -142,7 +142,7 @@ set(ENABLE_CHROOT_FUNC 1 CACHE INTERNAL "Whether to enable chroot() function")
 
 php_extension(NAME "standard" STATIC)
 
-add_library(ext_standard STATIC
+add_library(standard STATIC
   array.c
   base64.c
   basic_functions.c
@@ -225,12 +225,12 @@ if(RE2C_FOUND)
 endif()
 
 target_include_directories(
-  ext_standard
+  standard
   PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/libavifinfo
 )
 
 if(NOT EXT_STANDARD_EXTERNAL_LIBCRYPT)
-  target_sources(ext_standard PRIVATE crypt_freesec.c crypt_blowfish.c crypt_sha512.c crypt_sha256.c php_crypt_r.c)
+  target_sources(standard PRIVATE crypt_freesec.c crypt_blowfish.c crypt_sha512.c crypt_sha256.c php_crypt_r.c)
   set(PHP_USE_PHP_CRYPT_R 1 CACHE INTERNAL "Whether PHP has to use its own crypt_r")
 else()
   include(PHP/CheckExternalLibcrypt)
@@ -249,38 +249,38 @@ if(EXT_STANDARD_ARGON2)
     set(HAVE_ARGON2LIB 1 CACHE INTERNAL "Whether to use the libargon2")
 
     if(ARGON_LIBRARIES)
-      target_link_libraries(ext_standard PRIVATE ${ARGON_LIBRARIES})
+      target_link_libraries(standard PRIVATE ${ARGON_LIBRARIES})
     endif()
 
     if(ARGON_INCLUDE_DIRS)
-      target_include_directories(ext_standard PRIVATE ${ARGON_INCLUDE_DIRS})
+      target_include_directories(standard PRIVATE ${ARGON_INCLUDE_DIRS})
     endif()
   endif()
 endif()
 
-target_compile_definitions(ext_standard PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE=1)
+target_compile_definitions(standard PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE=1)
 
-add_dependencies(ext_standard Zend)
+add_dependencies(standard Zend)
 
 # TODO: Can this be fixed better?
-target_link_libraries(ext_standard PRIVATE main)
+target_link_libraries(standard PRIVATE main)
 
 if(STANDARD_EXTRA_LIBRARIES)
   list(REMOVE_DUPLICATES ${STANDARD_EXTRA_LIBRARIES})
-  target_link_libraries(ext_standard PRIVATE ${STANDARD_EXTRA_LIBRARIES})
+  target_link_libraries(standard PRIVATE ${STANDARD_EXTRA_LIBRARIES})
 endif()
 
-file(GLOB _ext_standard_headers "${CMAKE_CURRENT_SOURCE_DIR}/*.h")
+file(GLOB _standard_headers_files "${CMAKE_CURRENT_SOURCE_DIR}/*.h")
 
 target_sources(
-  ext_standard
-  PUBLIC FILE_SET ext_standard_headers
+  standard
+  PUBLIC FILE_SET standard_headers
   TYPE HEADERS
-  FILES ${_ext_standard_headers}
+  FILES ${_standard_headers_files}
 )
 
 install(
-  TARGETS ext_standard
-  FILE_SET ext_standard_headers
+  TARGETS standard
+  FILE_SET standard_headers
   DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/php/ext/standard
 )

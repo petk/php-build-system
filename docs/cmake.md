@@ -76,7 +76,12 @@ within your project:
 
 ```cmake
 # CmakeLists.txt
+
+# Including CMake file using relative path
 include(path/to/file.cmake)
+
+# Including a CMake module
+include(CheckCSourceCompiles)
 ```
 
 This allows you to break down complex configurations into manageable components.

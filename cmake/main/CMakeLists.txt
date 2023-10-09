@@ -67,10 +67,10 @@ if(EXTRA_DEFINITIONS)
   target_compile_definitions(main PRIVATE ${EXTRA_DEFINITIONS})
 endif()
 
-foreach(item IN LISTS PHP_EXTENSIONS_STATIC)
-  message(STATUS "Linking ${item}")
+foreach(extension IN LISTS PHP_EXTENSIONS_STATIC)
+  message(STATUS "Linking ${extension}")
   target_include_directories(
-    ext_${item}
+    ${extension}
     PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}
             ${CMAKE_CURRENT_BINARY_DIR}
             ${CMAKE_SOURCE_DIR}
@@ -80,20 +80,20 @@ foreach(item IN LISTS PHP_EXTENSIONS_STATIC)
             ${CMAKE_SOURCE_DIR}/Zend
             ${CMAKE_BINARY_DIR}/Zend
   )
-  target_link_libraries(main PRIVATE ext_${item})
+  target_link_libraries(main PRIVATE ${extension})
 
   if(EXTRA_LIBS)
-    target_link_libraries(ext_${item} PRIVATE ${EXTRA_LIBS})
+    target_link_libraries(${extension} PRIVATE ${EXTRA_LIBS})
   endif()
 
   if(EXTRA_DEFINITIONS)
-    target_compile_definitions(ext_${item} PRIVATE ${EXTRA_DEFINITIONS})
+    target_compile_definitions(${extension} PRIVATE ${EXTRA_DEFINITIONS})
   endif()
 endforeach()
 
-foreach(item IN LISTS PHP_EXTENSIONS_SHARED)
+foreach(extension IN LISTS PHP_EXTENSIONS_SHARED)
   target_include_directories(
-    ext_${item}
+    ${extension}
     PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}
             ${CMAKE_SOURCE_DIR}
             ${CMAKE_BINARY_DIR}
@@ -105,19 +105,19 @@ foreach(item IN LISTS PHP_EXTENSIONS_SHARED)
             ${CMAKE_BINARY_DIR}/ext/date/lib
   )
 
-  set_property(TARGET ext_${item} PROPERTY POSITION_INDEPENDENT_CODE TRUE)
+  set_property(TARGET ${extension} PROPERTY POSITION_INDEPENDENT_CODE TRUE)
 
   # On macOS, additional linker flags need to be passed for shared libraries.
   if(CMAKE_HOST_SYSTEM_NAME STREQUAL "Darwin")
-    set_target_properties(ext_${item} PROPERTIES LINK_FLAGS "-undefined dynamic_lookup")
+    set_target_properties(${extension} PROPERTIES LINK_FLAGS "-undefined dynamic_lookup")
   endif()
 
   if(EXTRA_LIBS)
-    target_link_libraries(ext_${item} PRIVATE ${EXTRA_LIBS})
+    target_link_libraries(${extension} PRIVATE ${EXTRA_LIBS})
   endif()
 
   if(EXTRA_DEFINITIONS)
-    target_compile_definitions(ext_${item} PRIVATE ${EXTRA_DEFINITIONS})
+    target_compile_definitions(${extension} PRIVATE ${EXTRA_DEFINITIONS})
   endif()
 endforeach()
 

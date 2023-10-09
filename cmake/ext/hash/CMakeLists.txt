@@ -8,7 +8,7 @@ endif()
 
 php_extension(NAME "hash" STATIC)
 
-add_library(ext_hash STATIC
+add_library(hash STATIC
   hash.c
   hash_md.c
   hash_sha.c
@@ -30,7 +30,7 @@ add_library(ext_hash STATIC
 )
 
 target_include_directories(
-  ext_hash
+  hash
   PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/murmur
           ${CMAKE_CURRENT_SOURCE_DIR}/xxhash
 )
@@ -43,25 +43,25 @@ else()
     message(STATUS "ext/hash: Using 32-bit platform")
 
     set(_sha3_dir "sha3/generic32lc")
-    target_sources(ext_hash PRIVATE "${_sha3_dir}/KeccakP-1600-inplace32BI.c")
+    target_sources(hash PRIVATE "${_sha3_dir}/KeccakP-1600-inplace32BI.c")
   else()
     message(STATUS "ext/hash: Using 64-bit platform")
 
     set(_sha3_dir "sha3/generic64lc")
-    target_sources(ext_hash PRIVATE "${_sha3_dir}/KeccakP-1600-opt64.c")
+    target_sources(hash PRIVATE "${_sha3_dir}/KeccakP-1600-opt64.c")
   endif()
 
-  target_sources(ext_hash PRIVATE ${_sha3_dir}/KeccakHash.c ${_sha3_dir}/KeccakSponge.c)
+  target_sources(hash PRIVATE ${_sha3_dir}/KeccakHash.c ${_sha3_dir}/KeccakSponge.c)
 
-  target_include_directories(ext_hash PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/${_sha3_dir})
+  target_include_directories(hash PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/${_sha3_dir})
 
   # Add -Wno-implicit-fallthrough flag as it happens on 32-bit builds.
   check_c_compiler_flag(-Wno-implicit-fallthrough HAVE_WNO_IMPLICIT_FALLTHROUGH)
   if(HAVE_WNO_IMPLICIT_FALLTHROUGH)
-    target_compile_options(ext_hash PRIVATE -Wno-implicit-fallthrough)
+    target_compile_options(hash PRIVATE -Wno-implicit-fallthrough)
   endif()
 
-  target_compile_definitions(ext_hash
+  target_compile_definitions(hash
     PRIVATE KeccakP200_excluded
             KeccakP400_excluded
             KeccakP800_excluded
@@ -70,8 +70,8 @@ else()
 endif()
 
 target_sources(
-  ext_hash
-  PUBLIC FILE_SET ext_hash_headers
+  hash
+  PUBLIC FILE_SET hash_headers
   TYPE HEADERS
   FILES
     php_hash.h
@@ -93,7 +93,7 @@ target_sources(
 )
 
 install(
-  TARGETS ext_hash
-  FILE_SET ext_hash_headers
+  TARGETS hash
+  FILE_SET hash_headers
   DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/php/ext/hash
 )

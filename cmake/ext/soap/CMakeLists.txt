@@ -9,7 +9,7 @@ if(NOT EXT_SOAP)
 endif()
 
 if(NOT EXT_LIBXML)
-  message(FATAL_ERROR "SOAP extension requires LIBXML extension, add EXT_LIBXML=ON")
+  message(FATAL_ERROR "SOAP extension requires LIBXML extension, set EXT_LIBXML=ON")
 endif()
 
 if(EXT_SOAP_SHARED OR BUILD_SHARED_LIBS)
@@ -18,7 +18,7 @@ endif()
 
 php_extension(NAME "soap" ${_library_type})
 
-add_library(ext_soap ${_library_type}
+add_library(soap ${_library_type}
   soap.c
   php_encoding.c
   php_http.c
@@ -28,6 +28,6 @@ add_library(ext_soap ${_library_type}
   php_xml.c
 )
 
-target_compile_definitions(ext_soap PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE=1)
+target_compile_definitions(soap PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE=1)
 
-target_link_libraries(ext_soap PRIVATE ext_libxml)
+target_link_libraries(soap PRIVATE libxml)

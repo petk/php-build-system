@@ -14,4 +14,4 @@ endif()
 
 #php_extension(NAME "oci8" ${_library_type})
 
-#add_library(ext_oci8 ${_library_type})
+#add_library(oci8 ${_library_type})

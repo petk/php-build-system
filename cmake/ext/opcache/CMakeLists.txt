@@ -59,6 +59,11 @@ cmake_push_check_state(RESET)
   check_symbol_exists(memfd_create "sys/mman.h" HAVE_MEMFD_CREATE)
 cmake_pop_check_state()
 
+if(PHP_VERSION VERSION_GREATER_EQUAL "8.4")
+  # Check for FreeBSD.
+  check_symbol_exists(shm_create_largepage "sys/mman.h" HAVE_SHM_CREATE_LARGEPAGE)
+endif()
+
 # Check for HAVE_SHM_IPC.
 include(PHP/CheckShmIpc)
 
@@ -75,7 +80,7 @@ endif()
 # OPcache extension can be either disabled or built as shared.
 php_extension(NAME "opcache" SHARED)
 
-add_library(ext_opcache SHARED
+add_library(opcache SHARED
   ZendAccelerator.c
   zend_accelerator_blacklist.c
   zend_accelerator_debug.c
@@ -92,7 +97,7 @@ add_library(ext_opcache SHARED
 )
 
 target_include_directories(
-  ext_opcache
+  opcache
   PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}
           ${CMAKE_CURRENT_SOURCE_DIR}/jit
           ${CMAKE_CURRENT_BINARY_DIR}/jit
@@ -100,17 +105,17 @@ target_include_directories(
 
 check_c_compiler_flag(-Wno-implicit-fallthrough HAVE_WNO_IMPLICIT_FALLTHROUGH)
 if(HAVE_WNO_IMPLICIT_FALLTHROUGH)
-  target_compile_options(ext_opcache PRIVATE -Wno-implicit-fallthrough)
+  target_compile_options(opcache PRIVATE -Wno-implicit-fallthrough)
 endif()
 
-target_compile_definitions(ext_opcache PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE=1)
+target_compile_definitions(opcache PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE=1)
 
 if(SHM_MMAP_POSIX_REQUIRED_LIBRARIES)
-  target_link_libraries(ext_opcache PRIVATE ${SHM_MMAP_POSIX_REQUIRED_LIBRARIES})
+  target_link_libraries(opcache PRIVATE ${SHM_MMAP_POSIX_REQUIRED_LIBRARIES})
 endif()
 
 if(EXT_OPCACHE_JIT)
-  target_sources(ext_opcache PRIVATE
+  target_sources(opcache PRIVATE
     jit/zend_jit.c
     jit/zend_jit_gdb.c
     jit/zend_jit_vm_helpers.c
@@ -143,7 +148,7 @@ if(EXT_OPCACHE_JIT)
     COMMENT "Building Zend JIT for architecture ${DASM_ARCH}"
   )
 
-  add_dependencies(ext_opcache BuildZendJitForArchitecture)
+  add_dependencies(opcache BuildZendJitForArchitecture)
 
   # Check for capstone.
   if(EXT_OPCACHE_CAPSTONE)
@@ -153,18 +158,18 @@ if(EXT_OPCACHE_JIT)
       set(HAVE_CAPSTONE 1 CACHE INTERNAL "Capstone is available")
 
       if(CAPSTONE_LIBRARIES)
-        target_link_libraries(ext_opcache PRIVATE ${CAPSTONE_LIBRARIES})
+        target_link_libraries(opcache PRIVATE ${CAPSTONE_LIBRARIES})
       endif()
 
       if(CAPSTONE_INCLUDE_DIRS)
-        target_include_directories(ext_opcache PRIVATE ${CAPSTONE_INCLUDE_DIRS})
+        target_include_directories(opcache PRIVATE ${CAPSTONE_INCLUDE_DIRS})
       endif()
     endif()
   endif()
 endif()
 
 install(
-  TARGETS ext_opcache
+  TARGETS opcache
   TYPE LIBRARY
   DESTINATION ${PHP_EXTENSION_DIR}
 )

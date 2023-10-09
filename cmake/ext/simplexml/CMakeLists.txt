@@ -9,7 +9,7 @@ if(NOT EXT_SIMPLEXML)
 endif()
 
 if(NOT EXT_LIBXML)
-  message(FATAL_ERROR "SimpleXML extension requires LIBXML extension, add EXT_LIBXML=ON")
+  message(FATAL_ERROR "SimpleXML extension requires LIBXML extension, set EXT_LIBXML=ON")
 endif()
 
 if(EXT_SIMPLEXML_SHARED OR BUILD_SHARED_LIBS)
@@ -18,15 +18,15 @@ endif()
 
 php_extension(NAME "simplexml" ${_library_type})
 
-add_library(ext_simplexml ${_library_type}
+add_library(simplexml ${_library_type}
   simplexml.c
 )
 
-target_link_libraries(ext_simplexml PRIVATE ext_libxml)
+target_link_libraries(simplexml PRIVATE libxml)
 
 target_sources(
-  ext_simplexml
-  PUBLIC FILE_SET ext_simplexml_headers
+  simplexml
+  PUBLIC FILE_SET simplexml_headers
   TYPE HEADERS
   FILES
     php_simplexml.h
@@ -34,7 +34,7 @@ target_sources(
 )
 
 install(
-  TARGETS ext_simplexml
-  FILE_SET ext_simplexml_headers
+  TARGETS simplexml
+  FILE_SET simplexml_headers
   DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/php/ext/simplexml
 )

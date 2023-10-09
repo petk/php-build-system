@@ -9,7 +9,7 @@ if(NOT EXT_XMLWRITER)
 endif()
 
 if(NOT EXT_LIBXML)
-  message(FATAL_ERROR "XMLWriter extension requires LIBXML extension, add EXT_LIBXML=ON")
+  message(FATAL_ERROR "XMLWriter extension requires LIBXML extension, set EXT_LIBXML=ON")
 endif()
 
 if(EXT_XMLWRITER_SHARED OR BUILD_SHARED_LIBS)
@@ -18,8 +18,8 @@ endif()
 
 php_extension(NAME "xmlwriter" ${_library_type})
 
-add_library(ext_xmlwriter ${_library_type}
+add_library(xmlwriter ${_library_type}
   php_xmlwriter.c
 )
 
-target_link_libraries(ext_xmlwriter PRIVATE ext_libxml)
+target_link_libraries(xmlwriter PRIVATE libxml)

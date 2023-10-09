@@ -214,7 +214,7 @@ prefixed with `PHP` by residing in the PHP directory (`cmake/modules/PHP`) and
 can be included like this:
 
 ```cmake
-include(PHP/PascalCase.cmake)
+include(PHP/PascalCase)
 ```
 
 This approach is adopted for convenience to prevent any potential conflicts with

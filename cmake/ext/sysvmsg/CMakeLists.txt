@@ -21,6 +21,6 @@ endif()
 
 php_extension(NAME "sysvmsg" ${_library_type})
 
-add_library(ext_sysvmsg ${_library_type}
+add_library(sysvmsg ${_library_type}
   sysvmsg.c
 )

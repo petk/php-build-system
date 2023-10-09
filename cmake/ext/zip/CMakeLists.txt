@@ -25,15 +25,15 @@ endif()
 
 php_extension(NAME "zip" ${_library_type})
 
-add_library(ext_zip ${_library_type}
+add_library(zip ${_library_type}
   php_zip.c
   zip_stream.c
 )
 
-target_link_libraries(ext_zip PRIVATE ${ZIP_LIBRARIES})
+target_link_libraries(zip PRIVATE ${ZIP_LIBRARIES})
 
 if(ZIP_INCLUDE_DIRS)
-  target_include_directories(ext_zip PRIVATE ${ZIP_INCLUDE_DIRS})
+  target_include_directories(zip PRIVATE ${ZIP_INCLUDE_DIRS})
 endif()
 
 check_library_exists(${ZIP_LIBRARIES} zip_file_set_mtime "" HAVE_SET_MTIME)

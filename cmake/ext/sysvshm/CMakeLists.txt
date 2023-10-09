@@ -14,6 +14,6 @@ endif()
 
 php_extension(NAME "sysvshm" ${_library_type})
 
-add_library(ext_sysvshm ${_library_type}
+add_library(sysvshm ${_library_type}
   sysvshm.c
 )

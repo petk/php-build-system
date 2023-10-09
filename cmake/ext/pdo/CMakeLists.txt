@@ -14,7 +14,7 @@ endif()
 
 php_extension(NAME "pdo" ${_library_type})
 
-add_library(ext_pdo ${_library_type}
+add_library(pdo ${_library_type}
   pdo.c
   pdo_dbh.c
   pdo_stmt.c
@@ -32,8 +32,8 @@ if(RE2C_FOUND)
 endif()
 
 target_sources(
-  ext_pdo
-  PUBLIC FILE_SET ext_pdo_headers
+  pdo
+  PUBLIC FILE_SET pdo_headers
   TYPE HEADERS
   FILES
     php_pdo.h
@@ -42,7 +42,7 @@ target_sources(
 )
 
 install(
-  TARGETS ext_pdo
-  FILE_SET ext_pdo_headers
+  TARGETS pdo
+  FILE_SET pdo_headers
   DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/php/ext/pdo
 )

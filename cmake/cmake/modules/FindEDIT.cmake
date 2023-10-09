@@ -1,5 +1,5 @@
 #[=============================================================================[
-CMake module to find and use Editline library.
+Find the Editline library.
 https://thrysoee.dk/editline/
 
 If Editline library is found, the following variables are set:

@@ -14,9 +14,9 @@ endif()
 
 php_extension(NAME "intl" ${_library_type})
 
-add_library(ext_intl ${_library_type})
+add_library(intl ${_library_type})
 
-set(_ext_intl_sources
+set(_intl_sources
   php_intl.c
   intl_error.c
   intl_convert.c
@@ -68,7 +68,7 @@ set(_ext_intl_sources
   spoofchecker/spoofchecker_main.c
 )
 
-target_sources(ext_intl PRIVATE ${_ext_intl_sources})
+target_sources(intl PRIVATE ${_intl_sources})
 
 find_package(ICU 50.1 REQUIRED COMPONENTS io uc i18n)
 # Upstream CMake module doesn't set this as advanced variable.
@@ -76,12 +76,12 @@ find_package(ICU 50.1 REQUIRED COMPONENTS io uc i18n)
 mark_as_advanced(ICU_INCLUDE_DIR)
 
 if(ICU_LIBRARIES)
-  target_link_libraries(ext_intl PRIVATE ${ICU_LIBRARIES})
+  target_link_libraries(intl PRIVATE ${ICU_LIBRARIES})
 endif()
 
-target_compile_options(ext_intl PRIVATE -Wno-write-strings)
+target_compile_options(intl PRIVATE -Wno-write-strings)
 
-target_compile_definitions(ext_intl
+target_compile_definitions(intl
   PRIVATE
     U_NO_DEFAULT_INCLUDE_UTF_HEADERS=1
     __STDC_LIMIT_MACROS
@@ -91,22 +91,22 @@ target_compile_definitions(ext_intl
 )
 
 if(ICU_VERSION VERSION_GREATER_EQUAL 60)
-  target_compile_definitions(ext_intl PRIVATE U_HIDE_OBSOLETE_UTF_OLD_H=1)
+  target_compile_definitions(intl PRIVATE U_HIDE_OBSOLETE_UTF_OLD_H=1)
 endif()
 
 target_include_directories(
-  ext_intl
+  intl
   PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}
 )
 
 if(ICU_INCLUDE_DIRS)
   target_include_directories(
-    ext_intl
+    intl
     PRIVATE ${ICU_INCLUDE_DIRS}
   )
 endif()
 
-set(_ext_intl_cxx_sources
+set(_intl_cxx_sources
   intl_convertcpp.cpp
   common/common_enum.cpp
   common/common_date.cpp
@@ -130,8 +130,8 @@ set(_ext_intl_cxx_sources
   breakiterator/codepointiterator_methods.cpp
 )
 
-set_target_properties(ext_intl PROPERTIES CXX_STANDARD 11)
+set_target_properties(intl PROPERTIES CXX_STANDARD 11)
 
-target_compile_definitions(ext_intl PRIVATE "$<$<COMPILE_LANGUAGE:CXX>:UNISTR_FROM_CHAR_EXPLICIT=explicit;UNISTR_FROM_STRING_EXPLICIT=explicit>")
+target_compile_definitions(intl PRIVATE "$<$<COMPILE_LANGUAGE:CXX>:UNISTR_FROM_CHAR_EXPLICIT=explicit;UNISTR_FROM_STRING_EXPLICIT=explicit>")
 
-target_sources(ext_intl PRIVATE ${_ext_intl_cxx_sources})
+target_sources(intl PRIVATE ${_intl_cxx_sources})
