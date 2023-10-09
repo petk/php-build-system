@@ -107,7 +107,7 @@ function(php_download)
     list(APPEND urls "https://github.com/php/php-src/archive/refs/heads/${php_branch}.tar.gz")
   elseif(PHP_VERSION MATCHES "^.*-dev$")
     string(REGEX MATCH "(^[0-9]+)\\.([0-9]+).*$" _ ${PHP_VERSION})
-    set(php_branch "PHP-${CMAKE_MATCH_1}.${CMAKE_MATCH_2}" PARENT_SCOPE)
+    set(php_branch "PHP-${CMAKE_MATCH_1}.${CMAKE_MATCH_2}")
 
     list(APPEND urls "https://github.com/php/php-src/archive/refs/heads/${php_branch}.tar.gz")
   else()
