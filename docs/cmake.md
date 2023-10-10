@@ -15,6 +15,7 @@ providing a basic understanding of its fundamentals.
   * [3.1. Setting variables](#31-setting-variables)
   * [3.2. Working with cache variables](#32-working-with-cache-variables)
   * [3.3. Using variables](#33-using-variables)
+  * [3.4. Lists](#34-lists)
 * [4. Verification and checks in CMake](#4-verification-and-checks-in-cmake)
   * [4.1. Header availability check](#41-header-availability-check)
   * [4.2. C source compilation check](#42-c-source-compilation-check)
@@ -188,6 +189,23 @@ endif()
 
 # Output: Variable VAR is value
 ```
+
+### 3.4. Lists
+
+Lists in CMake are strings separated with `;`.
+
+```cmake
+# Creating a list
+set(list_variable a b c)
+
+# Or
+set(list_variable "a;b;c")
+
+# This is a normal string, not a list
+set(string_variable "a b c")
+```
+
+The `list()` command performs operations on lists.
 
 ## 4. Verification and checks in CMake
 

@@ -85,7 +85,7 @@ include(Zend/CheckZendMaxExecutionTimers)
 # Zend library.
 ################################################################################
 
-add_library(Zend STATIC
+add_library(zend STATIC
   zend_language_parser.c
   zend_language_scanner.c
   zend_ini_parser.c
@@ -168,7 +168,7 @@ add_library(Zend STATIC
 )
 
 target_include_directories(
-  Zend
+  zend
   PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}
           ${CMAKE_SOURCE_DIR}
           ${CMAKE_CURRENT_BINARY_DIR}
@@ -180,26 +180,26 @@ target_include_directories(
             ${CMAKE_SOURCE_DIR}/TSRM
 )
 
-target_link_libraries(Zend PRIVATE TSRM)
+target_link_libraries(zend PRIVATE php_tsrm)
 
-target_compile_definitions(Zend PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE=1)
+target_compile_definitions(zend PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE=1)
 
 if(ZEND_MAX_EXECUTION_TIMERS_LIBRARIES)
-  target_link_libraries(Zend PRIVATE ${ZEND_MAX_EXECUTION_TIMERS_LIBRARIES})
+  target_link_libraries(zend PRIVATE ${ZEND_MAX_EXECUTION_TIMERS_LIBRARIES})
 endif()
 
 # TODO: zend_config.h (or its parent php_config.h) isn't included in some zend_*
 # files, therefore we need to add compilation definitions also like this here.
 if(PHP_ZTS)
-  target_compile_definitions(Zend PRIVATE ZTS)
+  target_compile_definitions(zend PRIVATE ZTS)
 endif()
 
 if(ZEND_SIGNALS)
-  target_compile_definitions(Zend PRIVATE ZEND_SIGNALS)
+  target_compile_definitions(zend PRIVATE ZEND_SIGNALS)
 endif()
 
 if(ZEND_MAX_EXECUTION_TIMERS)
-  target_compile_definitions(Zend PRIVATE ZEND_MAX_EXECUTION_TIMERS)
+  target_compile_definitions(zend PRIVATE ZEND_MAX_EXECUTION_TIMERS)
 endif()
 
 ################################################################################
@@ -207,12 +207,12 @@ endif()
 ################################################################################
 
 if(BISON_FOUND)
-  bison_target(ZendIniParser zend_ini_parser.y "${CMAKE_CURRENT_SOURCE_DIR}/zend_ini_parser.c"
+  bison_target(zend_ini_parser zend_ini_parser.y "${CMAKE_CURRENT_SOURCE_DIR}/zend_ini_parser.c"
     COMPILE_FLAGS "-v -d"
     DEFINES_FILE "${CMAKE_CURRENT_SOURCE_DIR}/zend_ini_parser.h"
   )
 
-  bison_target(ZendLanguageParser zend_language_parser.y "${CMAKE_CURRENT_SOURCE_DIR}/zend_language_parser.c"
+  bison_target(zend_language_parser zend_language_parser.y "${CMAKE_CURRENT_SOURCE_DIR}/zend_language_parser.c"
     COMPILE_FLAGS "-v -d"
     DEFINES_FILE "${CMAKE_CURRENT_SOURCE_DIR}/zend_language_parser.h"
   )
@@ -233,25 +233,25 @@ if(BISON_FOUND)
     "
   )
   add_custom_target(
-    patch_zend_language_parser_files
+    zend_patch_language_parser_files
     COMMAND ${CMAKE_COMMAND} -P "CMakeFiles/PatchZendLanguageParserFiles.cmake"
-    DEPENDS ${BISON_ZendLanguageParser_OUTPUTS}
+    DEPENDS ${BISON_zend_language_parser_OUTPUTS}
     COMMENT "Patching Zend language parser files"
   )
 
-  add_dependencies(Zend patch_zend_language_parser_files)
+  add_dependencies(zend zend_patch_language_parser_files)
 endif()
 
 if(RE2C_FOUND)
   re2c_target(
-    NAME zendLanguageScanner
+    NAME zend_language_scanner
     INPUT "${CMAKE_CURRENT_SOURCE_DIR}/zend_language_scanner.l"
     OUTPUT "${CMAKE_CURRENT_SOURCE_DIR}/zend_language_scanner.c"
     OPTIONS "--no-generation-date --case-inverted -cbdFt \"${CMAKE_CURRENT_SOURCE_DIR}/zend_language_scanner_defs.h\""
   )
 
   re2c_target(
-    NAME zendIniScanner
+    NAME zend_ini_scanner
     INPUT "${CMAKE_CURRENT_SOURCE_DIR}/zend_ini_scanner.l"
     OUTPUT "${CMAKE_CURRENT_SOURCE_DIR}/zend_ini_scanner.c"
     OPTIONS "--no-generation-date --case-inverted -cbdFt \"${CMAKE_CURRENT_SOURCE_DIR}/zend_ini_scanner_defs.h\""
@@ -266,7 +266,7 @@ endif()
 include(Zend/CheckFibers)
 
 if(ZEND_FIBER_ASM)
-  add_library(ZendAsm STATIC
+  add_library(zend_asm STATIC
     "asm/make_${FIBER_ASM_FILE}.S"
     "asm/jump_${FIBER_ASM_FILE}.S"
   )
@@ -274,10 +274,10 @@ if(ZEND_FIBER_ASM)
   # The asm file can't see macro from defined constant, workaround this via cflag.
   if(SYSCALL_SHADOW_STACK_EXISTS)
     message(STATUS "Adding compile definition for Zend: SHADOW_STACK_SYSCALL")
-    target_compile_definitions(ZendAsm PRIVATE SHADOW_STACK_SYSCALL=1)
+    target_compile_definitions(zend_asm PRIVATE SHADOW_STACK_SYSCALL=1)
   endif()
 
-  target_link_libraries(Zend PRIVATE ZendAsm)
+  target_link_libraries(zend PRIVATE zend_asm)
 endif()
 
 ################################################################################
@@ -285,49 +285,49 @@ endif()
 ################################################################################
 
 if(CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
-  target_compile_options(Zend BEFORE PRIVATE -Wall -Wextra -Wno-unused-parameter -Wno-sign-compare)
+  target_compile_options(zend BEFORE PRIVATE -Wall -Wextra -Wno-unused-parameter -Wno-sign-compare)
 endif()
 
 # Check if compiler supports -Wno-clobbered (only GCC).
 check_c_compiler_flag(-Wno-clobbered HAVE_WNO_CLOBBERED)
 if(HAVE_WNO_CLOBBERED)
-  target_compile_options(Zend BEFORE PRIVATE -Wno-clobbered)
+  target_compile_options(zend BEFORE PRIVATE -Wno-clobbered)
 endif()
 
 # Check for support for implicit fallthrough level 1, also add after previous
 # CFLAGS as level 3 is enabled in -Wextra.
 check_c_compiler_flag(-Wimplicit-fallthrough=1 HAVE_WIMPLICIT_FALLTHROUGH)
 if(HAVE_WIMPLICIT_FALLTHROUGH)
-  target_compile_options(Zend PRIVATE -Wimplicit-fallthrough=1)
+  target_compile_options(zend PRIVATE -Wimplicit-fallthrough=1)
 endif()
 
 check_c_compiler_flag(-Wduplicated-cond HAVE_WDUPLICATED_COND)
 if(HAVE_WDUPLICATED_COND)
-  target_compile_options(Zend BEFORE PRIVATE -Wduplicated-cond)
+  target_compile_options(zend BEFORE PRIVATE -Wduplicated-cond)
 endif()
 
 check_c_compiler_flag(-Wlogical-op HAVE_WLOGICAL_OP)
 if(HAVE_WLOGICAL_OP)
-  target_compile_options(Zend BEFORE PRIVATE -Wlogical-op)
+  target_compile_options(zend BEFORE PRIVATE -Wlogical-op)
 endif()
 
 check_c_compiler_flag(-Wformat-truncation HAVE_WFORMAT_TRUNCATION)
 if(HAVE_WFORMAT_TRUNCATION)
-  target_compile_options(Zend BEFORE PRIVATE -Wformat-truncation)
+  target_compile_options(zend BEFORE PRIVATE -Wformat-truncation)
 endif()
 
 check_c_compiler_flag(-Wstrict-prototypes HAVE_WSTRICT_PROTOTYPES)
 if(HAVE_WSTRICT_PROTOTYPES)
-  target_compile_options(Zend BEFORE PRIVATE -Wstrict-prototypes)
+  target_compile_options(zend BEFORE PRIVATE -Wstrict-prototypes)
 endif()
 
 check_c_compiler_flag(-fno-common HAVE_FNO_COMMON)
 if(HAVE_FNO_COMMON)
-  target_compile_options(Zend BEFORE PRIVATE -fno-common)
+  target_compile_options(zend BEFORE PRIVATE -fno-common)
 endif()
 
 if(ZEND_DEBUG)
-  target_compile_options(Zend PRIVATE -g)
+  target_compile_options(zend PRIVATE -g)
 endif()
 
 ################################################################################

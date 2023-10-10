@@ -61,15 +61,15 @@ endif()
 
 php_extension(NAME "pcntl" ${_library_type})
 
-add_library(pcntl ${_library_type}
+add_library(php_pcntl ${_library_type}
   pcntl.c
   php_signal.c
 )
 
-target_compile_definitions(pcntl PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE=1)
+target_compile_definitions(php_pcntl PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE=1)
 
 if(HAVE_STRUCT_SIGINFO_T)
-  target_compile_definitions(pcntl PRIVATE HAVE_STRUCT_SIGINFO_T=1)
+  target_compile_definitions(php_pcntl PRIVATE HAVE_STRUCT_SIGINFO_T=1)
 endif()
 
 # TODO: pcntl is a cli/cgi extension.

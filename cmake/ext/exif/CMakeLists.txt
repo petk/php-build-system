@@ -14,8 +14,8 @@ endif()
 
 php_extension(NAME "exif" ${_library_type})
 
-add_library(exif ${_library_type}
+add_library(php_exif ${_library_type}
   exif.c
 )
 
-target_compile_definitions(exif PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE=1)
+target_compile_definitions(php_exif PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE=1)

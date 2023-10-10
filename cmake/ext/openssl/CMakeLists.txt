@@ -20,7 +20,7 @@ endif()
 
 php_extension(NAME "openssl" ${_library_type} PRIORITY 2)
 
-add_library(openssl ${_library_type}
+add_library(php_openssl ${_library_type}
   openssl.c
   xp_ssl.c
 )
@@ -29,7 +29,7 @@ if(EXT_OPENSSL_KERBEROS)
   find_package(Kerberos REQUIRED)
 
   if(TARGET Kerberos::Kerberos)
-    target_link_libraries(openssl PRIVATE Kerberos::Kerberos)
+    target_link_libraries(php_openssl PRIVATE Kerberos::Kerberos)
   endif()
 endif()
 
@@ -38,11 +38,11 @@ find_package(OpenSSL 1.0.2 REQUIRED)
 set(HAVE_OPENSSL_EXT 1 CACHE INTERNAL "Whether the OpenSSL extension is available")
 
 if(TARGET OpenSSL::SSL)
-  target_link_libraries(openssl PRIVATE OpenSSL::SSL)
+  target_link_libraries(php_openssl PRIVATE OpenSSL::SSL)
 endif()
 
 if(TARGET OpenSSL::Crypto)
-  target_link_libraries(openssl PRIVATE OpenSSL::Crypto)
+  target_link_libraries(php_openssl PRIVATE OpenSSL::Crypto)
 endif()
 
 cmake_push_check_state(RESET)

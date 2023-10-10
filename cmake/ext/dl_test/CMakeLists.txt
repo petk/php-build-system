@@ -7,8 +7,8 @@ endif()
 
 php_extension(NAME "dl_test" SHARED)
 
-add_library(dl_test SHARED
+add_library(php_dl_test SHARED
   dl_test.c
 )
 
-target_compile_definitions(dl_test PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE=1)
+target_compile_definitions(php_dl_test PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE=1)

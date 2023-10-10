@@ -18,14 +18,14 @@ endif()
 
 php_extension(NAME "simplexml" ${_library_type})
 
-add_library(simplexml ${_library_type}
+add_library(php_simplexml ${_library_type}
   simplexml.c
 )
 
-target_link_libraries(simplexml PRIVATE libxml)
+target_link_libraries(php_simplexml PRIVATE php_libxml)
 
 target_sources(
-  simplexml
+  php_simplexml
   PUBLIC FILE_SET simplexml_headers
   TYPE HEADERS
   FILES
@@ -34,7 +34,7 @@ target_sources(
 )
 
 install(
-  TARGETS simplexml
+  TARGETS php_simplexml
   FILE_SET simplexml_headers
   DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/php/ext/simplexml
 )

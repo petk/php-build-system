@@ -7,11 +7,11 @@ option(EXT_PCRE_JIT "Whether to enable PCRE JIT functionality" ON)
 
 php_extension(NAME "pcre" STATIC)
 
-add_library(pcre STATIC
+add_library(php_pcre STATIC
   php_pcre.c
 )
 
-target_compile_definitions(pcre
+target_compile_definitions(php_pcre
   PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE=1
 )
 
@@ -21,11 +21,11 @@ if(EXT_PCRE_EXTERNAL)
   find_package(PCRE 10.30 REQUIRED)
 
   if(PCRE_LIBRARIES)
-    target_link_libraries(pcre PRIVATE ${PCRE_LIBRARIES})
+    target_link_libraries(php_pcre PRIVATE ${PCRE_LIBRARIES})
   endif()
 
   if(PCRE_INCLUDE_DIRS)
-    target_include_directories(pcre PRIVATE ${PCRE_INCLUDE_DIRS})
+    target_include_directories(php_pcre PRIVATE ${PCRE_INCLUDE_DIRS})
   endif()
 
   if(EXT_PCRE_JIT)
@@ -58,7 +58,7 @@ if(EXT_PCRE_EXTERNAL)
 else()
   message(STATUS "Using bundled PCRE library")
 
-  target_sources(pcre PRIVATE
+  target_sources(php_pcre PRIVATE
     pcre2lib/pcre2_auto_possess.c
     pcre2lib/pcre2_chartables.c
     pcre2lib/pcre2_compile.c
@@ -89,16 +89,16 @@ else()
   )
 
   target_include_directories(
-    pcre
+    php_pcre
     PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/pcre2lib
   )
 
   check_c_compiler_flag(-Wno-implicit-fallthrough HAVE_WNO_IMPLICIT_FALLTHROUGH)
   if(HAVE_WNO_IMPLICIT_FALLTHROUGH)
-    target_compile_options(pcre PRIVATE -Wno-implicit-fallthrough)
+    target_compile_options(php_pcre PRIVATE -Wno-implicit-fallthrough)
   endif()
 
-  target_compile_definitions(pcre
+  target_compile_definitions(php_pcre
     PRIVATE HAVE_CONFIG_H
   )
 
@@ -122,7 +122,7 @@ else()
 
     if(have_pcre2_intel_cet)
       message(STATUS "Intel CET is enabled")
-      target_compile_options(pcre PRIVATE -mshstk)
+      target_compile_options(php_pcre PRIVATE -mshstk)
     else()
       message(STATUS "Intel CET is disabled")
     endif()
@@ -143,14 +143,14 @@ endif()
 list(APPEND _pcre_headers_files "${CMAKE_CURRENT_SOURCE_DIR}/php_pcre.h")
 
 target_sources(
-  pcre
+  php_pcre
   PUBLIC FILE_SET pcre_headers
   TYPE HEADERS
   FILES ${_pcre_headers_files}
 )
 
 install(
-  TARGETS pcre
+  TARGETS php_pcre
   FILE_SET pcre_headers
   DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/php/ext/pcre
 )

@@ -14,19 +14,19 @@ endif()
 
 php_extension(NAME "pspell" ${_library_type})
 
-add_library(pspell ${_library_type}
+add_library(php_pspell ${_library_type}
   pspell.c
 )
 
 # Add -Wno-strict-prototypes as depends on user libs.
-target_compile_options(pspell PRIVATE -Wno-strict-prototypes)
+target_compile_options(php_pspell PRIVATE -Wno-strict-prototypes)
 
 find_package(ASPELL 0.50.0 REQUIRED)
 
 if(ASPELL_LIBRARIES)
-  target_link_libraries(pspell PRIVATE ${ASPELL_LIBRARIES})
+  target_link_libraries(php_pspell PRIVATE ${ASPELL_LIBRARIES})
 endif()
 
 if(ASPELL_INCLUDE_DIRS)
-  target_include_directories(pspell PRIVATE ${ASPELL_INCLUDE_DIRS})
+  target_include_directories(php_pspell PRIVATE ${ASPELL_INCLUDE_DIRS})
 endif()

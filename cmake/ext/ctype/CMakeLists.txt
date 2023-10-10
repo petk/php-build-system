@@ -14,6 +14,6 @@ endif()
 
 php_extension(NAME "ctype" ${_library_type})
 
-add_library(ctype ${_library_type}
+add_library(php_ctype ${_library_type}
   ctype.c
 )

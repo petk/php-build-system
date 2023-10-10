@@ -19,7 +19,7 @@ endif()
 
 php_extension(NAME "bz2" ${_library_type})
 
-add_library(bz2 ${_library_type}
+add_library(php_bz2 ${_library_type}
   bz2.c
   bz2_filter.c
 )
@@ -49,9 +49,9 @@ if(NOT HAVE_BZ2_LIB)
 endif()
 
 if(BZIP2_LIBRARIES)
-  target_link_libraries(bz2 PRIVATE ${BZIP2_LIBRARIES})
+  target_link_libraries(php_bz2 PRIVATE ${BZIP2_LIBRARIES})
 endif()
 
 if(BZIP2_INCLUDE_DIRS)
-  target_include_directories(bz2 PRIVATE ${BZIP2_INCLUDE_DIRS})
+  target_include_directories(php_bz2 PRIVATE ${BZIP2_INCLUDE_DIRS})
 endif()

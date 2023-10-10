@@ -19,20 +19,20 @@ endif()
 
 php_extension(NAME "iconv" ${_library_type})
 
-add_library(iconv ${_library_type}
+add_library(php_iconv ${_library_type}
   iconv.c
 )
 
-target_compile_definitions(iconv PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE=1)
+target_compile_definitions(php_iconv PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE=1)
 
 find_package(Iconv REQUIRED)
 
 if(${Iconv_LIBRARIES})
-  target_link_libraries(iconv PRIVATE ${Iconv_LIBRARIES})
+  target_link_libraries(php_iconv PRIVATE ${Iconv_LIBRARIES})
 endif()
 
 if(${Iconv_INCLUDE_DIRS})
-  target_include_directories(iconv
+  target_include_directories(php_iconv
     PRIVATE ${Iconv_INCLUDE_DIRS}
   )
 endif()
@@ -206,14 +206,14 @@ endif()
 file(GLOB _iconv_headers_files "${CMAKE_CURRENT_SOURCE_DIR}/*.h")
 
 target_sources(
-  iconv
+  php_iconv
   PUBLIC FILE_SET iconv_headers
   TYPE HEADERS
   FILES ${_iconv_headers_files}
 )
 
 install(
-  TARGETS iconv
+  TARGETS php_iconv
   FILE_SET iconv_headers
   DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/php/ext/iconv
 )

@@ -12,26 +12,33 @@ ecosystem.
   * [3.3. Local variables](#33-local-variables)
   * [3.4. Find module variables](#34-find-module-variables)
   * [3.5. Variable names](#35-variable-names)
-* [4. Module naming conventions](#4-module-naming-conventions)
+* [4. Modules](#4-modules)
   * [4.1. Find modules](#41-find-modules)
   * [4.2. Utility modules](#42-utility-modules)
 * [5. Booleans](#5-booleans)
 * [6. Functions and macros](#6-functions-and-macros)
-* [7. Determining platform](#7-determining-platform)
-* [8. Tools](#8-tools)
-  * [8.1. cmake-format (by cmakelang project)](#81-cmake-format-by-cmakelang-project)
-  * [8.2. cmake-lint (by cmakelang project)](#82-cmake-lint-by-cmakelang-project)
-  * [8.3. cmakelint](#83-cmakelint)
-* [9. See also](#9-see-also)
-  * [9.1. bin/check-cmake.sh](#91-bincheck-cmakesh)
-  * [9.2. Customized rules for cmake-format and cmake-lint in cmake-format.json](#92-customized-rules-for-cmake-format-and-cmake-lint-in-cmake-formatjson)
-  * [9.3. Further resources for CMake code style](#93-further-resources-for-cmake-code-style)
+* [7. Targets](#7-targets)
+  * [7.1. Libraries and executables](#71-libraries-and-executables)
+  * [7.2. Alias libraries](#72-alias-libraries)
+  * [7.3. Custom targets](#73-custom-targets)
+* [8. Determining platform](#8-determining-platform)
+* [9. Tools](#9-tools)
+  * [9.1. cmake-format (by cmakelang project)](#91-cmake-format-by-cmakelang-project)
+  * [9.2. cmake-lint (by cmakelang project)](#92-cmake-lint-by-cmakelang-project)
+  * [9.3. cmakelint](#93-cmakelint)
+* [10. See also](#10-see-also)
+  * [10.1. bin/check-cmake.sh](#101-bincheck-cmakesh)
+  * [10.2. cmake-format.json](#102-cmake-formatjson)
+  * [10.3. Further resources](#103-further-resources)
 
 ## 1. Introduction
 
 CMake is quite lenient regarding code style, but applying a certain framework
 for writing CMake files can enhance both code quality and comprehension of the
-build system, especially when multiple developers are involved.
+build system, especially when multiple developers are involved. Consistency can
+make it easier to manage and extend the build system in the future. Following
+some naming conventions can maintain a clear and organized CMake project
+structure while avoiding conflicts with external libraries and CMake scope.
 
 For instance, it's important to note that CMake functions, macros, and commands
 are not case-sensitive. In other words, the following two expressions are
@@ -179,7 +186,7 @@ These are set and have scope of the directory when using the
   These variables share the same characteristics as PHP level variables, but
   they are prefixed with `ZEND_`.
 
-## 4. Module naming conventions
+## 4. Modules
 
 Modules are located in the `cmake/modules` directory.
 
@@ -267,7 +274,75 @@ function(_php_internal_function_name)
 endfunction()
 ```
 
-## 7. Determining platform
+## 7. Targets
+
+CMake targets are defined with `add_library()`, `add_executable()`, and
+`add_custom_target()`. Target naming conventions in this repository are intended
+to prevent clashes with existing system library names, especially when dealing
+with libraries imported via `find_package()` or `FetchContent`.
+
+### 7.1. Libraries and executables
+
+Naming pattern when creating libraries and executables across the build system:
+
+* `php_<sapi_name>`
+
+  For targets associated with PHP SAPIs (Server APIs). Replace `<sapi_name>`
+  with the specific PHP SAPI name.
+
+* `php_<extension_name>`
+
+  For targets associated with PHP extensions. Replace `<extension_name>` with
+  the name of the PHP extension.
+
+* `php_main`
+
+  Target name of the PHP main binding.
+
+* `php_tsrm`:
+
+  Target name of the PHP thread-safe resource manager (TSRM).
+
+* `zend`:
+
+  Target name for the Zend engine.
+
+Additionally, customizing the target output file name on the disk can be done by
+setting target property `OUTPUT_NAME`.
+
+```cmake
+add_executable(php_<sapi_name> ...)
+set_target_properties(php_<sapi_name> PROPERTIES OUTPUT_NAME php)
+```
+
+### 7.2. Alias libraries
+
+To make it easier to work with these targets across the build system, it is
+recommended to use alias libraries as linkable targets:
+
+```cmake
+# Creating a library for PHP extension
+add_library(php_<extension_name> ...)
+
+# Creating an alias for a PHP extension library
+add_library(PHP::<extension_name> ALIAS php_<extension_name>)
+
+# Linking the main PHP target with the extension using the alias
+target_link_library(php_main PRIVATE PHP::<extension_name>)
+```
+
+### 7.3. Custom targets
+
+Custom targets should be defined with clear names that indicate their purpose,
+such as `php_generate_something`. These targets can be customized to perform
+specific actions during the build process. They should be preffixed with the
+target context. For example, `php_`, `php_<extension_name>_`, or `zend_`.
+
+```cmake
+add_custom_target(php_generate_something ...)
+```
+
+## 8. Determining platform
 
 CMake offers variables such as `APPLE`, `LINUX`, `UNIX`, `WIN32` etc. However,
 they might be removed in the future CMake versions. Recommendation is to use:
@@ -302,12 +377,12 @@ endif()
 
 See also [CMakeDetermineSystem.cmake](https://gitlab.kitware.com/cmake/cmake/-/blob/master/Modules/CMakeDetermineSystem.cmake).
 
-## 8. Tools
+## 9. Tools
 
 Several tools for formatting and linting CMake files are available, and while
 their maintenance status may vary, they can still prove valuable.
 
-### 8.1. cmake-format (by cmakelang project)
+### 9.1. cmake-format (by cmakelang project)
 
 The [`cmake-format`](https://cmake-format.readthedocs.io/en/latest/) tool can
 find formatting issues and sync the CMake code style:
@@ -336,7 +411,7 @@ dumping the formatted content to stdout:
 cmake-format -i path/to/cmake/file
 ```
 
-### 8.2. cmake-lint (by cmakelang project)
+### 9.2. cmake-lint (by cmakelang project)
 
 The [`cmake-lint`](https://cmake-format.readthedocs.io/en/latest/cmake-lint.html)
 tool is part of the cmakelang project and can help with linting CMake files:
@@ -348,7 +423,7 @@ cmake-lint <cmake/CMakeLists.txt cmake/...>
 This tool can also utilize the `cmake-format.[json|py|yaml]` file using the `-c`
 option.
 
-### 8.3. cmakelint
+### 9.3. cmakelint
 
 For linting there is also a separate and useful
 [cmakelint](https://github.com/cmake-lint/cmake-lint) tool which similarly lints
@@ -358,9 +433,9 @@ and helps to better structure CMake files:
 cmakelint <cmake/CMakeLists.txt cmake/...>
 ```
 
-## 9. See also
+## 10. See also
 
-### 9.1. bin/check-cmake.sh
+### 10.1. bin/check-cmake.sh
 
 For convenience there is a custom helper script added to this repository that
 checks CMake files:
@@ -369,7 +444,7 @@ checks CMake files:
 ./bin/check-cmake.sh
 ```
 
-### 9.2. Customized rules for cmake-format and cmake-lint in cmake-format.json
+### 10.2. cmake-format.json
 
 The `cmake-format.json` file is used to configure how `cmake-lint` and
 `cmake-format` tools work.
@@ -390,6 +465,6 @@ values from the upstream defaults.
   The cmake-lint checks codes are specified at
   [cmakelang documentation](https://cmake-format.readthedocs.io/en/latest/lint-implemented.html#)
 
-### 9.3. Further resources for CMake code style
+### 10.3. Further resources
 
 * [CMake developers docs](https://cmake.org/cmake/help/latest/manual/cmake-developer.7.html)

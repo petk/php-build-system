@@ -38,15 +38,15 @@ function(_php_check_dtrace)
   )
 
   add_custom_target(
-    GenerateDTraceHeader
+    zend_dtrace_generate_header
     DEPENDS ${CMAKE_SOURCE_DIR}/Zend/zend_dtrace_gen.h
     COMMENT "Generating DTrace header Zend/zend_dtrace_gen.h"
   )
 
   add_custom_target(
-    patch_dtrace_file
+    zend_dtrace_patch
     COMMAND ${CMAKE_COMMAND} -P "${CMAKE_CURRENT_FUNCTION_LIST_DIR}/CheckDTrace/PatchDtraceFile.cmake"
-    DEPENDS GenerateDTraceHeader
+    DEPENDS zend_dtrace_generate_header
     COMMENT "Patching DTrace header Zend/zend_dtrace_gen.h"
   )
 
@@ -59,7 +59,7 @@ function(_php_check_dtrace)
     Zend/zend.c
   )
 
-  add_dependencies(zend_dtrace patch_dtrace_file)
+  add_dependencies(zend_dtrace zend_dtrace_patch)
 
   set(HAVE_DTRACE 1 CACHE INTERNAL "Whether to enable DTrace support")
 

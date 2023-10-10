@@ -18,7 +18,7 @@ endif()
 
 php_extension(NAME "mbstring" ${_library_type})
 
-add_library(mbstring ${_library_type}
+add_library(php_mbstring ${_library_type}
   mbstring.c
   php_unicode.c
   mb_gpc.c
@@ -89,7 +89,7 @@ if(EXT_MBSTRING_MBREGEX)
   find_package(Oniguruma REQUIRED)
 
   if(TARGET Oniguruma::Oniguruma)
-    target_link_libraries(mbstring PRIVATE Oniguruma::Oniguruma)
+    target_link_libraries(php_mbstring PRIVATE Oniguruma::Oniguruma)
   endif()
 
   cmake_push_check_state(RESET)
@@ -111,7 +111,7 @@ if(EXT_MBSTRING_MBREGEX)
   endif()
 
   target_compile_definitions(
-    mbstring
+    php_mbstring
     PRIVATE
       ONIG_ESCAPE_UCHAR_COLLISION=1
       UChar=OnigUChar
@@ -119,15 +119,15 @@ if(EXT_MBSTRING_MBREGEX)
 
   set(HAVE_MBREGEX 1 CACHE INTERNAL "Whether to have multibyte regex support")
 
-  target_sources(mbstring PRIVATE php_mbregex.c)
+  target_sources(php_mbstring PRIVATE php_mbregex.c)
 
   list(APPEND _mbstring_headers_files "php_mbregex.h;php_onig_compat.h")
 endif()
 
-target_compile_definitions(mbstring PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE=1)
+target_compile_definitions(php_mbstring PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE=1)
 
 target_include_directories(
-  mbstring
+  php_mbstring
   PRIVATE
     ${CMAKE_CURRENT_SOURCE_DIR}
     ${CMAKE_CURRENT_SOURCE_DIR}/libmbfl
@@ -136,7 +136,7 @@ target_include_directories(
 )
 
 target_sources(
-  mbstring
+  php_mbstring
   PUBLIC FILE_SET mbstring_headers
   TYPE HEADERS
   BASE_DIRS "${CMAKE_CURRENT_BINARY_DIR}" "${CMAKE_CURRENT_SOURCE_DIR}"
@@ -144,7 +144,7 @@ target_sources(
 )
 
 install(
-  TARGETS mbstring
+  TARGETS php_mbstring
   FILE_SET mbstring_headers
   DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/php/ext/mbstring
 )

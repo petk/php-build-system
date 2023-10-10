@@ -18,7 +18,7 @@ endif()
 
 php_extension(NAME "fileinfo" ${_library_type})
 
-add_library(fileinfo ${_library_type}
+add_library(php_fileinfo ${_library_type}
   fileinfo.c
   php_libmagic.c
   libmagic/apprentice.c
@@ -75,14 +75,14 @@ endif()
 if(successful)
   message(STATUS "using the platform implementation of strcasestr")
 else()
-  target_sources(fileinfo PRIVATE libmagic/strcasestr.c)
+  target_sources(php_fileinfo PRIVATE libmagic/strcasestr.c)
   message(STATUS "using libmagic strcasestr implementation")
 endif()
 
 unset(successful)
 
 target_include_directories(
-  fileinfo
+  php_fileinfo
   PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}
           ${CMAKE_CURRENT_SOURCE_DIR}/libmagic
 )

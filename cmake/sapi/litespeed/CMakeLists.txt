@@ -4,18 +4,20 @@ if(NOT SAPI_LITESPEED)
   return()
 endif()
 
-add_executable(lsphp
+add_executable(php_litespeed
   lsapi_main.c
   lsapilib.c
 )
 
-target_link_libraries(lsphp PRIVATE main)
+set_target_properties(php_litespeed PROPERTIES OUTPUT_NAME lsphp)
+
+target_link_libraries(php_litespeed PRIVATE php_main)
 
 if(EXTRA_DEFINITIONS)
-  target_compile_definitions(lsphp PRIVATE ${EXTRA_DEFINITIONS})
+  target_compile_definitions(php_litespeed PRIVATE ${EXTRA_DEFINITIONS})
 endif()
 
 # TODO: Check if there's a better solution here.
-set_target_properties(lsphp PROPERTIES ENABLE_EXPORTS TRUE)
+set_target_properties(php_litespeed PROPERTIES ENABLE_EXPORTS TRUE)
 
-install(TARGETS lsphp DESTINATION ${CMAKE_INSTALL_BINDIR})
+install(TARGETS php_litespeed DESTINATION ${CMAKE_INSTALL_BINDIR})

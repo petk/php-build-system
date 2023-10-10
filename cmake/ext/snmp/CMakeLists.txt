@@ -15,18 +15,18 @@ endif()
 
 php_extension(NAME "snmp" ${_library_type})
 
-add_library(snmp ${_library_type}
+add_library(php_snmp ${_library_type}
   snmp.c
 )
 
 find_package(SNMP 5.3 REQUIRED)
 
 if(SNMP_LIBRARIES)
-  target_link_libraries(snmp PRIVATE ${SNMP_LIBRARIES})
+  target_link_libraries(php_snmp PRIVATE ${SNMP_LIBRARIES})
 endif()
 
 if(SNMP_INCLUDE_DIRS)
-  target_include_directories(snmp PRIVATE ${SNMP_INCLUDE_DIRS})
+  target_include_directories(php_snmp PRIVATE ${SNMP_INCLUDE_DIRS})
 endif()
 
 check_library_exists(${SNMP_LIBRARIES} init_snmp "" _have_init_snmp)

@@ -18,7 +18,7 @@ endif()
 
 php_extension(NAME "curl" ${_library_type})
 
-add_library(curl ${_library_type}
+add_library(php_curl ${_library_type}
   interface.c
   multi.c
   share.c
@@ -31,7 +31,7 @@ if(NOT TARGET CURL::libcurl)
   message(FATAL_ERROR "CURL::libcurl imported target has not been set. Please check logs.")
 endif()
 
-target_link_libraries(curl PRIVATE CURL::libcurl)
+target_link_libraries(php_curl PRIVATE CURL::libcurl)
 
 # Checking if libcurl is linked against old OpenSSL.
 # TODO: OpenSSL 3.x is here detected as old OpenSSL. Is this ok?
@@ -73,7 +73,7 @@ if(PHP_ZTS AND CURL_SSL_FOUND)
     find_package(OpenSSL REQUIRED)
 
     if(TARGET OpenSSL::Crypto)
-      target_link_libraries(curl PRIVATE OpenSSL::Crypto)
+      target_link_libraries(php_curl PRIVATE OpenSSL::Crypto)
     endif()
 
     check_include_file(openssl/crypto.h HAVE_OPENSSL_CRYPTO_H)
@@ -88,14 +88,14 @@ if(NOT _have_curl_lib)
 endif()
 
 target_sources(
-  curl
+  php_curl
   PUBLIC FILE_SET curl_headers
   TYPE HEADERS
   FILES php_curl.h
 )
 
 install(
-  TARGETS curl
+  TARGETS php_curl
   FILE_SET curl_headers
   DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/php/ext/curl
 )

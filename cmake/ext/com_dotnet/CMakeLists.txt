@@ -13,7 +13,7 @@ endif()
 
 php_extension(NAME "com_dotnet")
 
-add_library(com_dotnet
+add_library(php_com_dotnet
   com_com.c
   com_dotnet.c
   com_extension.c
@@ -28,4 +28,4 @@ add_library(com_dotnet
   com_persist.c
 )
 
-target_compile_definitions(com_dotnet PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE=1)
+target_compile_definitions(php_com_dotnet PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE=1)

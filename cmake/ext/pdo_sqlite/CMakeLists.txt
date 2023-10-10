@@ -15,7 +15,7 @@ endif()
 
 php_extension(NAME "pdo_sqlite" ${_library_type})
 
-add_library(pdo_sqlite ${_library_type}
+add_library(php_pdo_sqlite ${_library_type}
   pdo_sqlite.c
   sqlite_driver.c
   sqlite_statement.c
@@ -24,11 +24,11 @@ add_library(pdo_sqlite ${_library_type}
 find_package(SQLite3 3.7.7 REQUIRED)
 
 if(SQLite3_LIBRARIES)
-  target_link_libraries(pdo_sqlite PRIVATE ${SQLite3_LIBRARIES})
+  target_link_libraries(php_pdo_sqlite PRIVATE ${SQLite3_LIBRARIES})
 endif()
 
 if(SQLite3_INCLUDE_DIRS)
-  target_include_directories(pdo_sqlite PRIVATE ${SQLite3_INCLUDE_DIRS})
+  target_include_directories(php_pdo_sqlite PRIVATE ${SQLite3_INCLUDE_DIRS})
 endif()
 
 set(HAVE_PDO_SQLITELIB 1 CACHE INTERNAL "Define to 1 if you have the pdo_sqlite extension enabled.")
@@ -36,4 +36,4 @@ set(HAVE_PDO_SQLITELIB 1 CACHE INTERNAL "Define to 1 if you have the pdo_sqlite 
 check_library_exists(${SQLite3_LIBRARIES} sqlite3_close_v2 "" HAVE_SQLITE3_CLOSE_V2)
 check_library_exists(${SQLite3_LIBRARIES} sqlite3_column_table_name "" HAVE_SQLITE3_COLUMN_TABLE_NAME)
 
-target_include_directories(pdo_sqlite PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/..")
+target_include_directories(php_pdo_sqlite PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/..")

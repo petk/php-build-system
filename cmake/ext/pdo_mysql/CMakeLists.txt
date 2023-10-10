@@ -19,7 +19,7 @@ endif()
 
 php_extension(NAME "pdo_mysql" ${_library_type})
 
-add_library(pdo_mysql ${_library_type}
+add_library(php_pdo_mysql ${_library_type}
   pdo_mysql.c
   mysql_driver.c
   mysql_statement.c

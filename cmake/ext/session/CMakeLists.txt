@@ -26,7 +26,7 @@ endif()
 
 php_extension(NAME "session" ${_library_type})
 
-add_library(session ${_library_type}
+add_library(php_session ${_library_type}
   mod_user_class.c
   session.c
   mod_files.c
@@ -34,7 +34,7 @@ add_library(session ${_library_type}
   mod_user.c
 )
 
-target_compile_definitions(session PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE=1)
+target_compile_definitions(php_session PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE=1)
 
 set(_session_headers_files "php_session.h;mod_files.h;mod_user.h")
 
@@ -54,7 +54,7 @@ if(EXT_SESSION_MM)
   endif()
 
   if(TARGET MM::MM)
-    target_link_libraries(session PRIVATE MM::MM)
+    target_link_libraries(php_session PRIVATE MM::MM)
   endif()
 
   set(HAVE_LIBMM 1 CACHE INTERNAL "Whether you have libmm")
@@ -63,14 +63,14 @@ if(EXT_SESSION_MM)
 endif()
 
 target_sources(
-  session
+  php_session
   PUBLIC FILE_SET session_headers
   TYPE HEADERS
   FILES ${_session_headers_files}
 )
 
 install(
-  TARGETS session
+  TARGETS php_session
   FILE_SET session_headers
   DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/php/ext/session
 )

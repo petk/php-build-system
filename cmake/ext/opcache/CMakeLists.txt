@@ -80,7 +80,7 @@ endif()
 # OPcache extension can be either disabled or built as shared.
 php_extension(NAME "opcache" SHARED)
 
-add_library(opcache SHARED
+add_library(php_opcache SHARED
   ZendAccelerator.c
   zend_accelerator_blacklist.c
   zend_accelerator_debug.c
@@ -97,7 +97,7 @@ add_library(opcache SHARED
 )
 
 target_include_directories(
-  opcache
+  php_opcache
   PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}
           ${CMAKE_CURRENT_SOURCE_DIR}/jit
           ${CMAKE_CURRENT_BINARY_DIR}/jit
@@ -105,27 +105,29 @@ target_include_directories(
 
 check_c_compiler_flag(-Wno-implicit-fallthrough HAVE_WNO_IMPLICIT_FALLTHROUGH)
 if(HAVE_WNO_IMPLICIT_FALLTHROUGH)
-  target_compile_options(opcache PRIVATE -Wno-implicit-fallthrough)
+  target_compile_options(php_opcache PRIVATE -Wno-implicit-fallthrough)
 endif()
 
-target_compile_definitions(opcache PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE=1)
+target_compile_definitions(php_opcache PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE=1)
 
 if(SHM_MMAP_POSIX_REQUIRED_LIBRARIES)
-  target_link_libraries(opcache PRIVATE ${SHM_MMAP_POSIX_REQUIRED_LIBRARIES})
+  target_link_libraries(php_opcache PRIVATE ${SHM_MMAP_POSIX_REQUIRED_LIBRARIES})
 endif()
 
 if(EXT_OPCACHE_JIT)
-  target_sources(opcache PRIVATE
+  target_sources(php_opcache PRIVATE
     jit/zend_jit.c
     jit/zend_jit_gdb.c
     jit/zend_jit_vm_helpers.c
   )
 
-  add_executable(minilua
+  add_executable(php_opcache_minilua
     jit/dynasm/minilua.c
   )
 
-  target_link_libraries(minilua PRIVATE m)
+  set_target_properties(php_opcache_minilua PROPERTIES OUTPUT_NAME minilua)
+
+  target_link_libraries(php_opcache_minilua PRIVATE m)
 
   # Create jit directory in the current build directory if it doesn't exist yet.
   add_custom_command(
@@ -137,18 +139,18 @@ if(EXT_OPCACHE_JIT)
   # Generate Zend Jit for architecture.
   add_custom_command(
     OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/jit/zend_jit_${DASM_ARCH}.c
-    COMMAND minilua ${CMAKE_CURRENT_LIST_DIR}/jit/dynasm/dynasm.lua ${DASM_FLAGS} -o ${CMAKE_CURRENT_BINARY_DIR}/jit/zend_jit_${DASM_ARCH}.c ${CMAKE_CURRENT_LIST_DIR}/jit/zend_jit_${DASM_ARCH}.dasc
-    DEPENDS minilua ${CMAKE_CURRENT_BINARY_DIR}/jit
+    COMMAND php_opcache_minilua ${CMAKE_CURRENT_LIST_DIR}/jit/dynasm/dynasm.lua ${DASM_FLAGS} -o ${CMAKE_CURRENT_BINARY_DIR}/jit/zend_jit_${DASM_ARCH}.c ${CMAKE_CURRENT_LIST_DIR}/jit/zend_jit_${DASM_ARCH}.dasc
+    DEPENDS php_opcache_minilua ${CMAKE_CURRENT_BINARY_DIR}/jit
     COMMENT "Generating ext/opcache/jit/zend_jit_${DASM_ARCH}.c"
   )
 
   add_custom_target(
-    BuildZendJitForArchitecture
+    php_opcache_build_jit
     DEPENDS ${CMAKE_CURRENT_BINARY_DIR}/jit/zend_jit_${DASM_ARCH}.c
     COMMENT "Building Zend JIT for architecture ${DASM_ARCH}"
   )
 
-  add_dependencies(opcache BuildZendJitForArchitecture)
+  add_dependencies(php_opcache php_opcache_build_jit)
 
   # Check for capstone.
   if(EXT_OPCACHE_CAPSTONE)
@@ -158,18 +160,18 @@ if(EXT_OPCACHE_JIT)
       set(HAVE_CAPSTONE 1 CACHE INTERNAL "Capstone is available")
 
       if(CAPSTONE_LIBRARIES)
-        target_link_libraries(opcache PRIVATE ${CAPSTONE_LIBRARIES})
+        target_link_libraries(php_opcache PRIVATE ${CAPSTONE_LIBRARIES})
       endif()
 
       if(CAPSTONE_INCLUDE_DIRS)
-        target_include_directories(opcache PRIVATE ${CAPSTONE_INCLUDE_DIRS})
+        target_include_directories(php_opcache PRIVATE ${CAPSTONE_INCLUDE_DIRS})
       endif()
     endif()
   endif()
 endif()
 
 install(
-  TARGETS opcache
+  TARGETS php_opcache
   TYPE LIBRARY
   DESTINATION ${PHP_EXTENSION_DIR}
 )

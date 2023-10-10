@@ -16,7 +16,7 @@ endif()
 
 php_extension(NAME "ffi" ${_library_type})
 
-add_library(ffi ${_library_type}
+add_library(php_ffi ${_library_type}
   ffi.c
   ffi_parser.c
 )
@@ -98,14 +98,14 @@ check_c_source_compiles("
   }
 " HAVE_FFI_SYSV)
 
-find_package(FFI 3.0.11)
+find_package(FFI 3.0.11 REQUIRED)
 
-if(FFI_LIBRARIES)
-  target_link_libraries(ffi PRIVATE ${FFI_LIBRARIES})
+if(TARGET FFI::FFI)
+  target_link_libraries(php_ffi PRIVATE FFI::FFI)
 endif()
 
-if(FFI_INCLUDE_DIRS)
-  target_include_directories(ffi PRIVATE ${FFI_INCLUDE_DIRS})
-endif()
+set_property(TARGET php_ffi PROPERTY OUTPUT_NAME ffi)
 
-target_compile_definitions(ffi PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE=1)
+target_compile_definitions(php_ffi PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE=1)
+
+add_library(PHP::ffi ALIAS php_ffi)

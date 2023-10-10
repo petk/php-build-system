@@ -14,7 +14,7 @@ endif()
 
 php_extension(NAME "phar" ${_library_type})
 
-add_library(phar ${_library_type}
+add_library(php_phar ${_library_type}
   util.c
   tar.c
   zip.c
@@ -28,14 +28,14 @@ add_library(phar ${_library_type}
 
 if(RE2C_FOUND)
   re2c_target(
-    NAME pharPathCheck
+    NAME php_phar_path_check
     INPUT "${CMAKE_CURRENT_SOURCE_DIR}/phar_path_check.re"
     OUTPUT "${CMAKE_CURRENT_SOURCE_DIR}/phar_path_check.c"
     OPTIONS "--no-generation-date -b"
   )
 endif()
 
-target_compile_definitions(phar PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE=1)
+target_compile_definitions(php_phar PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE=1)
 
 message(STATUS "Checking for phar openssl support")
 
@@ -51,7 +51,7 @@ configure_file(phar.1.in phar.1 @ONLY)
 configure_file(phar.1.in phar.phar.1 @ONLY)
 
 target_sources(
-  phar
+  php_phar
   PUBLIC FILE_SET phar_headers
   TYPE HEADERS
   FILES
@@ -59,7 +59,7 @@ target_sources(
 )
 
 install(
-  TARGETS phar
+  TARGETS php_phar
   FILE_SET phar_headers
   DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/php/ext/phar
 )

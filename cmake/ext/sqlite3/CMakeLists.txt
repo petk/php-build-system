@@ -15,20 +15,20 @@ endif()
 
 php_extension(NAME "sqlite3" ${_library_type})
 
-add_library(sqlite3 ${_library_type}
+add_library(php_sqlite3 ${_library_type}
   sqlite3.c
 )
 
-target_compile_definitions(sqlite3 PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE=1)
+target_compile_definitions(php_sqlite3 PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE=1)
 
 find_package(SQLite3 3.7.7 REQUIRED)
 
 if(SQLite3_LIBRARIES)
-  target_link_libraries(sqlite3 PRIVATE ${SQLite3_LIBRARIES})
+  target_link_libraries(php_sqlite3 PRIVATE ${SQLite3_LIBRARIES})
 endif()
 
 if(${SQLite3_INCLUDE_DIRS})
-  target_include_directories(sqlite3 PRIVATE ${SQLite3_INCLUDE_DIRS})
+  target_include_directories(php_sqlite3 PRIVATE ${SQLite3_INCLUDE_DIRS})
 endif()
 
 check_library_exists(${SQLite3_LIBRARIES} sqlite3_errstr "" HAVE_SQLITE3_ERRSTR)

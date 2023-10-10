@@ -2,16 +2,21 @@
 Find the FFI library.
 https://sourceware.org/libffi/
 
+Module defines the following IMPORTED target:
+
+  FFI::FFI
+    The FFI library, if found.
+
 If the FFI library is found, the following variables are set:
 
-FFI_FOUND
-  Set to 1 if FFI library is found.
-FFI_INCLUDE_DIRS
-  A list of include directories for using FFI library.
-FFI_LIBRARIES
-  A list of libraries to link when using FFI library.
-FFI_VERSION
-  Version string of found FFI library.
+  FFI_FOUND
+    Set to 1 if FFI library is found.
+  FFI_INCLUDE_DIRS
+    A list of include directories for using FFI library.
+  FFI_LIBRARIES
+    A list of libraries to link when using FFI library.
+  FFI_VERSION
+    Version string of found FFI library.
 #]=============================================================================]
 
 include(FindPackageHandleStandardArgs)
@@ -34,5 +39,14 @@ find_package_handle_standard_args(
   FFI
   REQUIRED_VARS FFI_LIBRARIES
   VERSION_VAR FFI_VERSION
-  REASON_FAILURE_MESSAGE "FFI not found. Please install FFI library."
+  REASON_FAILURE_MESSAGE "FFI not found. Please install FFI library (libffi)."
 )
+
+if(FFI_FOUND AND NOT TARGET FFI::FFI)
+  add_library(FFI::FFI INTERFACE IMPORTED)
+
+  set_target_properties(FFI::FFI PROPERTIES
+    INTERFACE_LINK_LIBRARIES "${FFI_LIBRARIES}"
+    INTERFACE_INCLUDE_DIRECTORIES "${FFI_INCLUDE_DIRS}"
+  )
+endif()

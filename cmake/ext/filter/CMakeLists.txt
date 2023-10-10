@@ -14,24 +14,24 @@ endif()
 
 php_extension(NAME "filter" ${_library_type})
 
-add_library(filter ${_library_type}
+add_library(php_filter ${_library_type}
   filter.c
   sanitizing_filters.c
   logical_filters.c
   callback_filter.c
 )
 
-target_compile_definitions(filter PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE=1)
+target_compile_definitions(php_filter PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE=1)
 
 target_sources(
-  filter
+  php_filter
   PUBLIC FILE_SET filter_headers
   TYPE HEADERS
   FILES php_filter.h
 )
 
 install(
-  TARGETS filter
+  TARGETS php_filter
   FILE_SET filter_headers
   DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/php/ext/filter
 )

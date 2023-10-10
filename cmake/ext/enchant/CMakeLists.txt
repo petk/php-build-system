@@ -15,7 +15,7 @@ endif()
 
 php_extension(NAME "enchant" ${_library_type})
 
-add_library(enchant ${_library_type}
+add_library(php_enchant ${_library_type}
   enchant.c
 )
 
@@ -36,9 +36,9 @@ else()
 endif()
 
 if(ENCHANT_LIBRARIES)
-  target_link_libraries(enchant PRIVATE ${ENCHANT_LIBRARIES})
+  target_link_libraries(php_enchant PRIVATE ${ENCHANT_LIBRARIES})
 endif()
 
 if(ENCHANT_INCLUDE_DIRS)
-  target_include_directories(enchant PRIVATE ${ENCHANT_INCLUDE_DIRS})
+  target_include_directories(php_enchant PRIVATE ${ENCHANT_INCLUDE_DIRS})
 endif()

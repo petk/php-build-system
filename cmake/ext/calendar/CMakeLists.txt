@@ -14,7 +14,7 @@ endif()
 
 php_extension(NAME "calendar" ${_library_type})
 
-add_library(calendar ${_library_type}
+add_library(php_calendar ${_library_type}
   calendar.c
   dow.c
   french.c

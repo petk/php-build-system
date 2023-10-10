@@ -18,7 +18,7 @@ endif()
 
 php_extension(NAME "soap" ${_library_type})
 
-add_library(soap ${_library_type}
+add_library(php_soap ${_library_type}
   soap.c
   php_encoding.c
   php_http.c
@@ -28,6 +28,6 @@ add_library(soap ${_library_type}
   php_xml.c
 )
 
-target_compile_definitions(soap PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE=1)
+target_compile_definitions(php_soap PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE=1)
 
-target_link_libraries(soap PRIVATE libxml)
+target_link_libraries(php_soap PRIVATE php_libxml)

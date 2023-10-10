@@ -14,16 +14,16 @@ endif()
 
 php_extension(NAME "zlib" ${_library_type})
 
-add_library(zlib ${_library_type}
+add_library(php_zlib ${_library_type}
   zlib.c
   zlib_fopen_wrapper.c
   zlib_filter.c
 )
 
-target_compile_definitions(zlib PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE=1)
+target_compile_definitions(php_zlib PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE=1)
 
 find_package(ZLIB 1.2.0.4 REQUIRED)
 
 if(TARGET ZLIB::ZLIB)
-  target_link_libraries(zlib PRIVATE ZLIB::ZLIB)
+  target_link_libraries(php_zlib PRIVATE ZLIB::ZLIB)
 endif()

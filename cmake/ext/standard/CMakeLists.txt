@@ -142,7 +142,7 @@ set(ENABLE_CHROOT_FUNC 1 CACHE INTERNAL "Whether to enable chroot() function")
 
 php_extension(NAME "standard" STATIC)
 
-add_library(standard STATIC
+add_library(php_standard STATIC
   array.c
   base64.c
   basic_functions.c
@@ -210,14 +210,14 @@ add_library(standard STATIC
 
 if(RE2C_FOUND)
   re2c_target(
-    NAME varUnserializer
+    NAME php_standard_var_unserializer
     INPUT "${CMAKE_CURRENT_SOURCE_DIR}/var_unserializer.re"
     OUTPUT "${CMAKE_CURRENT_SOURCE_DIR}/var_unserializer.c"
     OPTIONS "--no-generation-date -b"
   )
 
   re2c_target(
-    NAME urlScannerEx
+    NAME php_standard_url_scanner_ex
     INPUT "${CMAKE_CURRENT_SOURCE_DIR}/url_scanner_ex.re"
     OUTPUT "${CMAKE_CURRENT_SOURCE_DIR}/url_scanner_ex.c"
     OPTIONS "--no-generation-date -b"
@@ -225,12 +225,12 @@ if(RE2C_FOUND)
 endif()
 
 target_include_directories(
-  standard
+  php_standard
   PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/libavifinfo
 )
 
 if(NOT EXT_STANDARD_EXTERNAL_LIBCRYPT)
-  target_sources(standard PRIVATE crypt_freesec.c crypt_blowfish.c crypt_sha512.c crypt_sha256.c php_crypt_r.c)
+  target_sources(php_standard PRIVATE crypt_freesec.c crypt_blowfish.c crypt_sha512.c crypt_sha256.c php_crypt_r.c)
   set(PHP_USE_PHP_CRYPT_R 1 CACHE INTERNAL "Whether PHP has to use its own crypt_r")
 else()
   include(PHP/CheckExternalLibcrypt)
@@ -249,38 +249,38 @@ if(EXT_STANDARD_ARGON2)
     set(HAVE_ARGON2LIB 1 CACHE INTERNAL "Whether to use the libargon2")
 
     if(ARGON_LIBRARIES)
-      target_link_libraries(standard PRIVATE ${ARGON_LIBRARIES})
+      target_link_libraries(php_standard PRIVATE ${ARGON_LIBRARIES})
     endif()
 
     if(ARGON_INCLUDE_DIRS)
-      target_include_directories(standard PRIVATE ${ARGON_INCLUDE_DIRS})
+      target_include_directories(php_standard PRIVATE ${ARGON_INCLUDE_DIRS})
     endif()
   endif()
 endif()
 
-target_compile_definitions(standard PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE=1)
+target_compile_definitions(php_standard PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE=1)
 
-add_dependencies(standard Zend)
+add_dependencies(php_standard zend)
 
 # TODO: Can this be fixed better?
-target_link_libraries(standard PRIVATE main)
+target_link_libraries(php_standard PRIVATE php_main)
 
 if(STANDARD_EXTRA_LIBRARIES)
   list(REMOVE_DUPLICATES ${STANDARD_EXTRA_LIBRARIES})
-  target_link_libraries(standard PRIVATE ${STANDARD_EXTRA_LIBRARIES})
+  target_link_libraries(php_standard PRIVATE ${STANDARD_EXTRA_LIBRARIES})
 endif()
 
 file(GLOB _standard_headers_files "${CMAKE_CURRENT_SOURCE_DIR}/*.h")
 
 target_sources(
-  standard
+  php_standard
   PUBLIC FILE_SET standard_headers
   TYPE HEADERS
   FILES ${_standard_headers_files}
 )
 
 install(
-  TARGETS standard
+  TARGETS php_standard
   FILE_SET standard_headers
   DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/php/ext/standard
 )

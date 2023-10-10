@@ -25,7 +25,7 @@ check_c_source_compiles("
   }
 " HAVE_PS_STRINGS)
 
-add_executable(php
+add_executable(php_cli
   php_cli.c
   php_http_parser.c
   php_cli_server.c
@@ -33,21 +33,23 @@ add_executable(php
   php_cli_process_title.c
 )
 
-target_compile_definitions(php PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE=1)
+set_target_properties(php_cli PROPERTIES OUTPUT_NAME php)
 
-target_link_libraries(php PRIVATE main)
+target_compile_definitions(php_cli PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE=1)
+
+target_link_libraries(php_cli PRIVATE php_main)
 
 if(EXTRA_DEFINITIONS)
-  target_compile_definitions(php PRIVATE ${EXTRA_DEFINITIONS})
+  target_compile_definitions(php_cli PRIVATE ${EXTRA_DEFINITIONS})
 endif()
 
 if(CMAKE_HOST_SYSTEM_NAME STREQUAL "Darwin")
-  set_target_properties(php PROPERTIES LINK_FLAGS "-undefined dynamic_lookup")
+  set_target_properties(php_cli PROPERTIES LINK_FLAGS "-undefined dynamic_lookup")
 endif()
 
 # TODO: Check if there's a better solution here.
-set_target_properties(php PROPERTIES ENABLE_EXPORTS TRUE)
-#target_compile_options(php PRIVATE -fvisibility=hidden)
+set_target_properties(php_cli PROPERTIES ENABLE_EXPORTS TRUE)
+#target_compile_options(php_cli PRIVATE -fvisibility=hidden)
 
 # Man documentation.
 function(_php_cli_configure_file)
@@ -58,17 +60,17 @@ endfunction()
 
 _php_cli_configure_file()
 
-install(TARGETS php RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR})
+install(TARGETS php_cli RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR})
 
 target_sources(
-  php
+  php_cli
   PUBLIC FILE_SET sapi_php_headers
   TYPE HEADERS
   FILES cli.h
 )
 
 install(
-  TARGETS php
+  TARGETS php_cli
   FILE_SET sapi_php_headers
   DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/php/sapi/cli
 )

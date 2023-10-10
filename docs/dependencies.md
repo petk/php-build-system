@@ -158,15 +158,24 @@ available for every system package out there.
 CMake is not a dependency manager on its own but it can fetch, build, and link
 libraries as part of project's build process.
 
-Most of the time,
+The
 [`find_package()`](https://cmake.org/cmake/help/latest/command/find_package.html)
-is used to find project dependencies on the system. Either by manually written
-`Find<PackageName>.cmake` modules in the project or if dependency ships with
-its own CMake config package file. CMake has also some find modules built in.
+is used to find external dependencies on the system. Either by manually written
+`Find<PackageName>.cmake` modules in the project or if dependency ships with its
+own CMake config package file. CMake has even some find modules built in.
 
 ```cmake
-find_package(OpenSSL)
-target_link_libraries(php PRIVATE OpenSSL::SSL)
+# Finding external dependency with version 1.2.3 or later.
+find_package(ExternalDependency 1.2.3 REQUIRED)
+```
+
+The `REQUIRED` keyword will stop the CMake configuration step if dependency is
+not found.
+
+Dependency can be then linked to targets within the project:
+
+```cmake
+target_link_libraries(<target-name> INTERFACE|PUBLIC|PRIVATE ExternalDependency::Component)
 ```
 
 [FetchContent](https://cmake.org/cmake/help/latest/module/FetchContent.html) can

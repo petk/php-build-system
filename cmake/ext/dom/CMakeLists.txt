@@ -18,7 +18,7 @@ endif()
 
 php_extension(NAME "dom" ${_library_type})
 
-add_library(dom ${_library_type}
+add_library(php_dom ${_library_type}
   php_dom.c
   attr.c
   document.c
@@ -43,17 +43,17 @@ add_library(dom ${_library_type}
   namednodemap.c
 )
 
-target_link_libraries(dom PRIVATE libxml)
+target_link_libraries(php_dom PRIVATE php_libxml)
 
 target_sources(
-  dom
+  php_dom
   PUBLIC FILE_SET dom_headers
   TYPE HEADERS
   FILES xml_common.h
 )
 
 install(
-  TARGETS dom
+  TARGETS php_dom
   FILE_SET dom_headers
   DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/php/ext/dom
 )

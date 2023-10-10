@@ -16,7 +16,7 @@ endif()
 
 php_extension(NAME "xml" ${_library_type})
 
-add_library(xml ${_library_type}
+add_library(php_xml ${_library_type}
   xml.c
 )
 
@@ -25,23 +25,23 @@ if(NOT EXT_XML_EXPAT AND NOT EXT_LIBXML)
 endif()
 
 if(NOT EXT_XML_EXPAT)
-  target_sources(xml PRIVATE compat.c)
+  target_sources(php_xml PRIVATE compat.c)
 
-  target_link_libraries(xml PRIVATE libxml)
+  target_link_libraries(php_xml PRIVATE php_libxml)
 else()
   find_package(EXPAT REQUIRED)
 
   set(HAVE_LIBEXPAT 1 CACHE INTERNAL "Whether libexpat is used")
 
   if(TARGET EXPAT::EXPAT)
-    target_link_libraries(xml PRIVATE EXPAT::EXPAT)
+    target_link_libraries(php_xml PRIVATE EXPAT::EXPAT)
   endif()
 endif()
 
-target_compile_definitions(xml PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE=1)
+target_compile_definitions(php_xml PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE=1)
 
 target_sources(
-  xml
+  php_xml
   PUBLIC FILE_SET xml_headers
   TYPE HEADERS
   FILES
@@ -51,7 +51,7 @@ target_sources(
 )
 
 install(
-  TARGETS xml
+  TARGETS php_xml
   FILE_SET xml_headers
   DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/php/ext/xml
 )

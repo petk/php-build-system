@@ -15,7 +15,7 @@ endif()
 
 php_extension(NAME "gettext" ${_library_type})
 
-add_library(gettext ${_library_type}
+add_library(php_gettext ${_library_type}
   gettext.c
 )
 
@@ -35,9 +35,9 @@ check_library_exists(${_intl_library} dcngettext "" HAVE_DCNGETTEXT)
 check_library_exists(${_intl_library} bind_textdomain_codeset "" HAVE_BIND_TEXTDOMAIN_CODESET)
 
 if(${Intl_LIBRARIES})
-  target_link_libraries(gettext PRIVATE ${Intl_LIBRARIES})
+  target_link_libraries(php_gettext PRIVATE ${Intl_LIBRARIES})
 endif()
 
 if(${Intl_INCLUDE_DIRS})
-  target_include_directories(gettext PRIVATE ${Intl_INCLUDE_DIRS})
+  target_include_directories(php_gettext PRIVATE ${Intl_INCLUDE_DIRS})
 endif()

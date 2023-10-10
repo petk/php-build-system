@@ -14,4 +14,4 @@ endif()
 
 #php_extension(NAME "imap" ${_library_type})
 
-#add_library(imap ${_library_type})
+#add_library(php_imap ${_library_type})

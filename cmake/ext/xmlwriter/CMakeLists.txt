@@ -18,8 +18,8 @@ endif()
 
 php_extension(NAME "xmlwriter" ${_library_type})
 
-add_library(xmlwriter ${_library_type}
+add_library(php_xmlwriter ${_library_type}
   php_xmlwriter.c
 )
 
-target_link_libraries(xmlwriter PRIVATE libxml)
+target_link_libraries(php_xmlwriter PRIVATE php_libxml)

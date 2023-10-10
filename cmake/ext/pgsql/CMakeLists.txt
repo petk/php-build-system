@@ -14,23 +14,23 @@ endif()
 
 php_extension(NAME "pgsql" ${_library_type})
 
-add_library(pgsql ${_library_type}
+add_library(php_pgsql ${_library_type}
   pgsql.c
 )
 
-target_compile_definitions(pgsql PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE=1)
+target_compile_definitions(php_pgsql PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE=1)
 
 # TODO: Autoconf still allows 9.1 to be installed. This one relies on pkg-config
 # and minimum PostgreSQL 9.3.
 find_package(PostgreSQL 9.1 REQUIRED)
 
 if(PostgreSQL_LIBRARIES)
-  target_link_libraries(pgsql PRIVATE ${PostgreSQL_LIBRARIES})
+  target_link_libraries(php_pgsql PRIVATE ${PostgreSQL_LIBRARIES})
 endif()
 
 if(PostgreSQL_INCLUDE_DIRS)
   target_include_directories(
-    pgsql
+    php_pgsql
     PRIVATE ${PostgreSQL_INCLUDE_DIRS}
     INTERFACE ${PostgreSQL_INCLUDE_DIRS}
   )

@@ -14,7 +14,7 @@ endif()
 
 php_extension(NAME "bcmath" ${_library_type})
 
-add_library(bcmath ${_library_type}
+add_library(php_bcmath ${_library_type}
   bcmath.c
   libbcmath/src/add.c
   libbcmath/src/div.c
@@ -40,8 +40,8 @@ add_library(bcmath ${_library_type}
 )
 
 target_include_directories(
-  bcmath
+  php_bcmath
   PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/libbcmath/src
 )
 
-target_compile_definitions(bcmath PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE=1)
+target_compile_definitions(php_bcmath PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE=1)

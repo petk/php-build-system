@@ -17,23 +17,23 @@ endif()
 
 php_extension(NAME "readline" ${_library_type})
 
-add_library(readline ${_library_type}
+add_library(php_readline ${_library_type}
   readline.c
   readline_cli.c
 )
 
 # Add -Wno-strict-prototypes as depends on user libs.
-target_compile_options(readline PRIVATE -Wno-strict-prototypes)
+target_compile_options(php_readline PRIVATE -Wno-strict-prototypes)
 
 if(NOT EXT_READLINE_LIBREADLINE)
   find_package(EDIT REQUIRED)
 
   if(EDIT_LIBRARIES)
-    target_link_libraries(readline PRIVATE ${EDIT_LIBRARIES})
+    target_link_libraries(php_readline PRIVATE ${EDIT_LIBRARIES})
   endif()
 
   if(EDIT_INCLUDE_DIRS)
-    target_include_directories(readline PRIVATE ${EDIT_INCLUDE_DIRS})
+    target_include_directories(php_readline PRIVATE ${EDIT_INCLUDE_DIRS})
   endif()
 
   check_library_exists(${EDIT_LIBRARIES} readline "" _have_readline)
@@ -51,11 +51,11 @@ else()
   find_package(READLINE REQUIRED)
 
   if(READLINE_LIBRARIES)
-    target_link_libraries(readline PRIVATE ${READLINE_LIBRARIES})
+    target_link_libraries(php_readline PRIVATE ${READLINE_LIBRARIES})
   endif()
 
   if(READLINE_INCLUDE_DIRS)
-    target_include_directories(readline PRIVATE ${READLINE_INCLUDE_DIRS})
+    target_include_directories(php_readline PRIVATE ${READLINE_INCLUDE_DIRS})
   endif()
 
   check_library_exists(${READLINE_LIBRARIES} readline "" _have_readline)
@@ -76,15 +76,15 @@ set(CURSES_NEED_NCURSES TRUE)
 find_package(Curses REQUIRED)
 
 if(CURSES_LIBRARIES)
-  target_link_libraries(readline PRIVATE ${CURSES_LIBRARIES})
+  target_link_libraries(php_readline PRIVATE ${CURSES_LIBRARIES})
 endif()
 
 if(CURSES_INCLUDE_DIRS)
-  target_include_directories(readline PRIVATE ${CURSES_INCLUDE_DIRS})
+  target_include_directories(php_readline PRIVATE ${CURSES_INCLUDE_DIRS})
 endif()
 
 if(CURSES_CFLAGS)
-  target_compile_options(readline PRIVATE ${CURSES_CFLAGS})
+  target_compile_options(php_readline PRIVATE ${CURSES_CFLAGS})
 endif()
 
 # TODO: Check for the obsolescent termcap library more properly.
@@ -92,6 +92,6 @@ if(NOT CURSES_FOUND)
   check_library_exists(termcap, tgetent "" _have_termcap_library)
 
   if(_have_termcap_library)
-    target_link_libraries(readline PRIVATE termcap)
+    target_link_libraries(php_readline PRIVATE termcap)
   endif()
 endif()

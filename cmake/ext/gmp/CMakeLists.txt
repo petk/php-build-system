@@ -12,31 +12,31 @@ endif()
 
 php_extension(NAME "gmp" ${_library_type})
 
-add_library(gmp ${_library_type}
+add_library(php_gmp ${_library_type}
   gmp.c
 )
 
-target_compile_definitions(gmp PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE=1)
+add_library(PHP::gmp ALIAS php_gmp)
+
+set_target_properties(php_gmp PROPERTIES OUTPUT_NAME gmp)
+
+target_compile_definitions(php_gmp PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE=1)
 
 find_package(GMP 4.2 REQUIRED)
 
-if(GMP_LIBRARIES)
-  target_link_libraries(gmp PRIVATE ${GMP_LIBRARIES})
-endif()
-
-if(GMP_INCLUDE_DIRS)
-  target_include_directories(gmp PRIVATE ${GMP_INCLUDE_DIRS})
+if(TARGET GMP::GMP)
+  target_link_libraries(php_gmp PRIVATE GMP::GMP)
 endif()
 
 target_sources(
-  gmp
+  php_gmp
   PUBLIC FILE_SET gmp_headers
   TYPE HEADERS
   FILES php_gmp_int.h
 )
 
 install(
-  TARGETS gmp
+  TARGETS php_gmp
   FILE_SET gmp_headers
   DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/php/ext/gmp
 )

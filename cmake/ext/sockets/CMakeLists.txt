@@ -109,7 +109,7 @@ endif()
 
 php_extension(NAME "sockets" ${_library_type})
 
-add_library(sockets ${_library_type}
+add_library(php_sockets ${_library_type}
   sockets.c
   multicast.c
   conversions.c
@@ -117,23 +117,23 @@ add_library(sockets ${_library_type}
   sendrecvmsg.c
 )
 
-target_compile_definitions(sockets PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE=1)
+target_compile_definitions(php_sockets PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE=1)
 
 if(CMAKE_HOST_SYSTEM_NAME STREQUAL "Darwin")
-  target_compile_definitions(sockets PRIVATE __APPLE_USE_RFC_3542)
+  target_compile_definitions(php_sockets PRIVATE __APPLE_USE_RFC_3542)
 endif()
 
 file(GLOB _sockets_headers_files "${CMAKE_CURRENT_SOURCE_DIR}/*.h")
 
 target_sources(
-  sockets
+  php_sockets
   PUBLIC FILE_SET sockets_headers
   TYPE HEADERS
   FILES ${_sockets_headers_files}
 )
 
 install(
-  TARGETS sockets
+  TARGETS php_sockets
   FILE_SET sockets_headers
   DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/php/ext/sockets
 )

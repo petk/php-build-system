@@ -1,4 +1,4 @@
-add_library(main STATIC
+add_library(php_main STATIC
   main.c
   snprintf.c
   spprintf.c
@@ -37,7 +37,7 @@ add_library(main STATIC
 )
 
 target_include_directories(
-  main
+  php_main
   PRIVATE ${CMAKE_SOURCE_DIR}
           ${CMAKE_BINARY_DIR}
           ${CMAKE_CURRENT_SOURCE_DIR}
@@ -51,26 +51,31 @@ target_include_directories(
             ${CMAKE_BINARY_DIR}/ext/date/lib
 )
 
-target_compile_definitions(main PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE=1)
+target_compile_definitions(php_main PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE=1)
 
 if(HAVE_DTRACE)
-  add_dependencies(main zend_dtrace)
+  add_dependencies(php_main zend_dtrace)
 endif()
 
-target_link_libraries(main PUBLIC Zend)
+target_link_libraries(php_main PUBLIC zend)
 
 if(EXTRA_LIBS)
-  target_link_libraries(main PRIVATE ${EXTRA_LIBS})
+  target_link_libraries(php_main PRIVATE ${EXTRA_LIBS})
 endif()
 
 if(EXTRA_DEFINITIONS)
-  target_compile_definitions(main PRIVATE ${EXTRA_DEFINITIONS})
+  target_compile_definitions(php_main PRIVATE ${EXTRA_DEFINITIONS})
 endif()
 
 foreach(extension IN LISTS PHP_EXTENSIONS_STATIC)
-  message(STATUS "Linking ${extension}")
+  if(NOT TARGET PHP::${extension})
+    add_library(PHP::${extension} ALIAS php_${extension})
+  endif()
+
+  message(STATUS "Linking PHP::${extension}")
+
   target_include_directories(
-    ${extension}
+    php_${extension}
     PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}
             ${CMAKE_CURRENT_BINARY_DIR}
             ${CMAKE_SOURCE_DIR}
@@ -80,20 +85,21 @@ foreach(extension IN LISTS PHP_EXTENSIONS_STATIC)
             ${CMAKE_SOURCE_DIR}/Zend
             ${CMAKE_BINARY_DIR}/Zend
   )
-  target_link_libraries(main PRIVATE ${extension})
 
   if(EXTRA_LIBS)
-    target_link_libraries(${extension} PRIVATE ${EXTRA_LIBS})
+    target_link_libraries(php_${extension} PRIVATE ${EXTRA_LIBS})
   endif()
 
   if(EXTRA_DEFINITIONS)
-    target_compile_definitions(${extension} PRIVATE ${EXTRA_DEFINITIONS})
+    target_compile_definitions(php_${extension} PRIVATE ${EXTRA_DEFINITIONS})
   endif()
+
+  target_link_libraries(php_main PRIVATE PHP::${extension})
 endforeach()
 
 foreach(extension IN LISTS PHP_EXTENSIONS_SHARED)
   target_include_directories(
-    ${extension}
+    php_${extension}
     PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}
             ${CMAKE_SOURCE_DIR}
             ${CMAKE_BINARY_DIR}
@@ -105,19 +111,19 @@ foreach(extension IN LISTS PHP_EXTENSIONS_SHARED)
             ${CMAKE_BINARY_DIR}/ext/date/lib
   )
 
-  set_property(TARGET ${extension} PROPERTY POSITION_INDEPENDENT_CODE TRUE)
+  set_property(TARGET php_${extension} PROPERTY POSITION_INDEPENDENT_CODE TRUE)
 
   # On macOS, additional linker flags need to be passed for shared libraries.
   if(CMAKE_HOST_SYSTEM_NAME STREQUAL "Darwin")
-    set_target_properties(${extension} PROPERTIES LINK_FLAGS "-undefined dynamic_lookup")
+    set_target_properties(php_${extension} PROPERTIES LINK_FLAGS "-undefined dynamic_lookup")
   endif()
 
   if(EXTRA_LIBS)
-    target_link_libraries(${extension} PRIVATE ${EXTRA_LIBS})
+    target_link_libraries(php_${extension} PRIVATE ${EXTRA_LIBS})
   endif()
 
   if(EXTRA_DEFINITIONS)
-    target_compile_definitions(${extension} PRIVATE ${EXTRA_DEFINITIONS})
+    target_compile_definitions(php_${extension} PRIVATE ${EXTRA_DEFINITIONS})
   endif()
 endforeach()
 

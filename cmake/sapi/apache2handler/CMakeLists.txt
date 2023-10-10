@@ -4,4 +4,6 @@ if(NOT SAPI_APACHE2HANDLER)
   return()
 endif()
 
-#install(TARGETS apache DESTINATION ${CMAKE_INSTALL_LIBDIR})
+#add_library(php_apache2handler STATIC)
+#set_target_properties(php_apache2handler PROPERTIES OUTPUT_NAME apache)
+#install(TARGETS php_apache2handler DESTINATION ${CMAKE_INSTALL_LIBDIR})

@@ -21,20 +21,20 @@ endif()
 
 php_extension(NAME "ldap" ${_library_type})
 
-add_library(ldap ${_library_type}
+add_library(php_ldap ${_library_type}
   ldap.c
 )
 
-target_compile_definitions(ldap PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE=1)
+target_compile_definitions(php_ldap PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE=1)
 
 find_package(LDAP REQUIRED)
 
 if(LDAP_LIBRARIES)
-  target_link_libraries(ldap PRIVATE ${LDAP_LIBRARIES})
+  target_link_libraries(php_ldap PRIVATE ${LDAP_LIBRARIES})
 endif()
 
 if(LDAP_INCLUDE_DIRS)
-  target_include_directories(ldap PRIVATE ${LDAP_INCLUDE_DIRS})
+  target_include_directories(php_ldap PRIVATE ${LDAP_INCLUDE_DIRS})
 endif()
 
 message(STATUS "Checking for 3 arg ldap_set_rebind_proc")
@@ -75,11 +75,11 @@ if(EXT_LDAP_SASL)
   find_package(SASL REQUIRED)
 
   if(SASL_LIBRARIES)
-    target_link_libraries(ldap PRIVATE ${SASL_LIBRARIES})
+    target_link_libraries(php_ldap PRIVATE ${SASL_LIBRARIES})
   endif()
 
   if(SASL_INCLUDE_DIRS)
-    target_include_directories(ldap PRIVATE ${SASL_INCLUDE_DIRS})
+    target_include_directories(php_ldap PRIVATE ${SASL_INCLUDE_DIRS})
   endif()
 
   set(HAVE_LDAP_SASL 1 CACHE INTERNAL "Set to 1 if LDAP has SASL support")

@@ -26,7 +26,7 @@ endif()
 
 php_extension(NAME "mysqli" ${_library_type})
 
-add_library(mysqli ${_library_type}
+add_library(php_mysqli ${_library_type}
   mysqli.c
   mysqli_api.c
   mysqli_prop.c
@@ -38,14 +38,14 @@ add_library(mysqli ${_library_type}
   mysqli_result_iterator.c
 )
 
-target_compile_definitions(mysqli PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE=1)
+target_compile_definitions(php_mysqli PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE=1)
 
 if(EXT_MYSQL_SOCK OR EXT_MYSQL_SOCK_PATH)
   include(PHP/MysqlSocket)
 endif()
 
 target_sources(
-  mysqli
+  php_mysqli
   PUBLIC FILE_SET mysqli_headers
   TYPE HEADERS
   FILES
@@ -54,7 +54,7 @@ target_sources(
 )
 
 install(
-  TARGETS mysqli
+  TARGETS php_mysqli
   FILE_SET mysqli_headers
   DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/php/ext/mysqli
 )

@@ -4,30 +4,34 @@ if(NOT SAPI_EMBED)
   return()
 endif()
 
-add_library(embed
+add_library(php_embed
   php_embed.c
 )
 
-target_compile_definitions(embed PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE=1)
+set_target_properties(php_embed PROPERTIES OUTPUT_NAME libphp)
+
+target_link_libraries(php_embed PRIVATE php_main)
+
+target_compile_definitions(php_embed PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE=1)
 
 if(EXTRA_DEFINITIONS)
-  target_compile_definitions(embed PRIVATE ${EXTRA_DEFINITIONS})
+  target_compile_definitions(php_embed PRIVATE ${EXTRA_DEFINITIONS})
 endif()
 
 # TODO: Check if there's a better solution here.
-set_target_properties(embed PROPERTIES ENABLE_EXPORTS TRUE)
+set_target_properties(php_embed PROPERTIES ENABLE_EXPORTS TRUE)
 
-install(TARGETS embed DESTINATION ${CMAKE_INSTALL_LIBDIR})
+install(TARGETS php_embed DESTINATION ${CMAKE_INSTALL_LIBDIR})
 
 target_sources(
-  embed
+  php_embed
   PUBLIC FILE_SET sapi_embed_headers
   TYPE HEADERS
   FILES php_embed.h
 )
 
 install(
-  TARGETS embed
+  TARGETS php_embed
   FILE_SET sapi_embed_headers
   DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/php/sapi/embed
 )

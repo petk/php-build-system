@@ -15,7 +15,7 @@ endif()
 
 php_extension(NAME "sodium" ${_library_type})
 
-add_library(sodium ${_library_type}
+add_library(php_sodium ${_library_type}
   libsodium.c
   sodium_pwhash.c
 )
@@ -23,19 +23,19 @@ add_library(sodium ${_library_type}
 find_package(SODIUM 1.0.2 REQUIRED)
 
 if(SODIUM_LIBRARIES)
-  target_link_libraries(sodium PRIVATE ${SODIUM_LIBRARIES})
+  target_link_libraries(php_sodium PRIVATE ${SODIUM_LIBRARIES})
 endif()
 
 if(SODIUM_INCLUDE_DIRS)
-  target_include_directories(sodium PRIVATE ${SODIUM_INCLUDE_DIRS})
+  target_include_directories(php_sodium PRIVATE ${SODIUM_INCLUDE_DIRS})
 endif()
 
 # Add -Wno-type-limits and -Wno-logical-op as this may arise on 32bits platforms.
-target_compile_options(sodium PRIVATE -Wno-type-limits)
+target_compile_options(php_sodium PRIVATE -Wno-type-limits)
 
 check_c_compiler_flag(-Wno-logical-op HAVE_WNO_LOGICAL_OP)
 if(HAVE_WNO_LOGICAL_OP)
-  target_compile_options(sodium PRIVATE -Wno-logical-op)
+  target_compile_options(php_sodium PRIVATE -Wno-logical-op)
   unset(HAVE_WNO_LOGICAL_OP)
 endif()
 

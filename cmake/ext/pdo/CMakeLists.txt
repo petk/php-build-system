@@ -14,7 +14,7 @@ endif()
 
 php_extension(NAME "pdo" ${_library_type})
 
-add_library(pdo ${_library_type}
+add_library(php_pdo ${_library_type}
   pdo.c
   pdo_dbh.c
   pdo_stmt.c
@@ -24,7 +24,7 @@ add_library(pdo ${_library_type}
 
 if(RE2C_FOUND)
   re2c_target(
-    NAME pdoSqlParser
+    NAME php_pdo_sql_parser
     INPUT "${CMAKE_CURRENT_SOURCE_DIR}/pdo_sql_parser.re"
     OUTPUT "${CMAKE_CURRENT_SOURCE_DIR}/pdo_sql_parser.c"
     OPTIONS "--no-generation-date"
@@ -32,7 +32,7 @@ if(RE2C_FOUND)
 endif()
 
 target_sources(
-  pdo
+  php_pdo
   PUBLIC FILE_SET pdo_headers
   TYPE HEADERS
   FILES
@@ -42,7 +42,7 @@ target_sources(
 )
 
 install(
-  TARGETS pdo
+  TARGETS php_pdo
   FILE_SET pdo_headers
   DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/php/ext/pdo
 )

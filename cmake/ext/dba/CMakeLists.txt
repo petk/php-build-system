@@ -14,4 +14,4 @@ endif()
 
 #php_extension(NAME "dba" ${_library_type})
 
-#add_library(dba ${_library_type})
+#add_library(php_dba ${_library_type})

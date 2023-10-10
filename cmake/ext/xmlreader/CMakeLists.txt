@@ -18,8 +18,8 @@ endif()
 
 php_extension(NAME "xmlreader" ${_library_type})
 
-add_library(xmlreader ${_library_type}
+add_library(php_xmlreader ${_library_type}
   php_xmlreader.c
 )
 
-target_link_libraries(xmlreader PRIVATE libxml)
+target_link_libraries(php_xmlreader PRIVATE php_libxml)

@@ -38,7 +38,7 @@ if(NOT SAPI_FPM)
   return()
 endif()
 
-add_executable(php-fpm
+add_executable(php_fpm
   fpm/fpm.c
   fpm/fpm_children.c
   fpm/fpm_cleanup.c
@@ -69,22 +69,24 @@ add_executable(php-fpm
   fpm/events/port.c
 )
 
+set_target_properties(php_fpm PROPERTIES OUTPUT_NAME php-fpm)
+
 target_include_directories(
-  php-fpm
+  php_fpm
   PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}
           ${CMAKE_CURRENT_SOURCE_DIR}/fpm
 )
 
-target_compile_definitions(php-fpm PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE=1)
+target_compile_definitions(php_fpm PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE=1)
 
-target_link_libraries(php-fpm PRIVATE main)
+target_link_libraries(php_fpm PRIVATE php_main)
 
 if(EXTRA_DEFINITIONS)
-  target_compile_definitions(php-fpm PRIVATE ${EXTRA_DEFINITIONS})
+  target_compile_definitions(php_fpm PRIVATE ${EXTRA_DEFINITIONS})
 endif()
 
 # TODO: Check if there's a better solution here.
-set_target_properties(php-fpm PROPERTIES ENABLE_EXPORTS TRUE)
+set_target_properties(php_fpm PROPERTIES ENABLE_EXPORTS TRUE)
 
 check_symbol_exists(clearenv "stdlib.h" HAVE_CLEARENV)
 check_symbol_exists(setproctitle "unistd.h;stdlib.h" HAVE_SETPROCTITLE)
@@ -94,7 +96,7 @@ check_symbol_exists(setproctitle_fast "unistd.h" HAVE_SETPROCTITLE_FAST)
 check_library_exists(socket socket "" _have_socket)
 
 if(_have_socket)
-  target_link_libraries(php-fpm PRIVATE socket)
+  target_link_libraries(php_fpm PRIVATE socket)
 endif()
 unset(_have_socket CACHE)
 
@@ -102,7 +104,7 @@ unset(_have_socket CACHE)
 check_library_exists(nsl inet_addr "" _have_inet_addr)
 
 if(_have_inet_addr)
-  target_link_libraries(php-fpm PRIVATE nsl)
+  target_link_libraries(php_fpm PRIVATE nsl)
 endif()
 unset(_have_inet_addr CACHE)
 
@@ -118,7 +120,7 @@ check_c_source_compiles("
 include(PHP/CheckFpmClock)
 
 if(FPM_CLOCK_LIBRARIES)
-  target_link_libraries(php-fpm PRIVATE ${FPM_CLOCK_LIBRARIES})
+  target_link_libraries(php_fpm PRIVATE ${FPM_CLOCK_LIBRARIES})
 endif()
 
 include(PHP/CheckFpmPtrace)
@@ -128,7 +130,7 @@ if(
   AND EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/fpm/fpm_trace_${FPM_TRACE_TYPE}.c"
 )
   target_sources(
-    php-fpm
+    php_fpm
     PRIVATE
       fpm/fpm_trace.c
       fpm/fpm_trace_${FPM_TRACE_TYPE}.c
@@ -291,14 +293,14 @@ if(SAPI_FPM_SYSTEMD)
 
   set(HAVE_SYSTEMD 1 CACHE INTERNAL "Set to 1 if FPM is using systemd integration")
 
-  target_sources(php-fpm PRIVATE fpm/fpm_systemd.c)
+  target_sources(php_fpm PRIVATE fpm/fpm_systemd.c)
 
   if(SYSTEMD_LIBRARIES)
-    target_link_libraries(php-fpm PRIVATE ${SYSTEMD_LIBRARIES})
+    target_link_libraries(php_fpm PRIVATE ${SYSTEMD_LIBRARIES})
   endif()
 
   if(SYSTEMD_INCLUDE_DIRS)
-    target_include_directories(php-fpm PRIVATE ${SYSTEMD_INCLUDE_DIRS})
+    target_include_directories(php_fpm PRIVATE ${SYSTEMD_INCLUDE_DIRS})
   endif()
 
   set(PHP_FPM_SYSTEMD "notify" CACHE INTERNAL "FPM systemd service type")
@@ -310,7 +312,7 @@ if(SAPI_FPM_ACL)
   find_package(ACL REQUIRED)
 
   if(ACL_LIBRARIES)
-    target_link_libraries(php-fpm PRIVATE ${ACL_LIBRARIES})
+    target_link_libraries(php_fpm PRIVATE ${ACL_LIBRARIES})
   endif()
 
   check_include_file(sys/acl.h HAVE_SYS_ACL_H)
@@ -374,7 +376,7 @@ if(SAPI_FPM_APPARMOR)
   find_package(APPARMOR REQUIRED)
 
   if(APPARMOR_LIBRARIES)
-    target_link_libraries(php-fpm PRIVATE ${APPARMOR_LIBRARIES})
+    target_link_libraries(php_fpm PRIVATE ${APPARMOR_LIBRARIES})
   endif()
 
   check_include_file(sys/apparmor.h HAVE_SYS_APPARMOR_H)
@@ -391,7 +393,7 @@ if(SAPI_FPM_SELINUX)
   find_package(SELINUX REQUIRED)
 
   if(SELINUX_LIBRARIES)
-    target_link_libraries(php-fpm PRIVATE ${SELINUX_LIBRARIES})
+    target_link_libraries(php_fpm PRIVATE ${SELINUX_LIBRARIES})
   endif()
 
   check_include_file(selinux/selinux.h HAVE_SELINUX_SELINUX_H)
@@ -441,7 +443,7 @@ endfunction()
 
 _php_fpm_configure_files()
 
-install(TARGETS php-fpm DESTINATION ${CMAKE_INSTALL_SBINDIR})
+install(TARGETS php_fpm DESTINATION ${CMAKE_INSTALL_SBINDIR})
 
 install(
   FILES

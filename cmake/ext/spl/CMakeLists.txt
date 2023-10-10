@@ -1,6 +1,6 @@
 php_extension(NAME "spl" STATIC)
 
-add_library(spl STATIC
+add_library(php_spl STATIC
   php_spl.c
   spl_functions.c
   spl_iterators.c
@@ -13,10 +13,10 @@ add_library(spl STATIC
   spl_fixedarray.c
 )
 
-target_compile_definitions(spl PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE=1)
+target_compile_definitions(php_spl PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE=1)
 
 target_sources(
-  spl
+  php_spl
   PUBLIC FILE_SET spl_headers
   TYPE HEADERS
   FILES
@@ -34,7 +34,7 @@ target_sources(
 )
 
 install(
-  TARGETS spl
+  TARGETS php_spl
   FILE_SET spl_headers
   DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/php/ext/spl
 )
