@@ -27,7 +27,7 @@ add_library(php_xsl ${_library_type}
   xsltprocessor.c
 )
 
-target_link_libraries(php_xsl PRIVATE libxml)
+target_link_libraries(php_xsl PRIVATE php_libxml)
 
 find_package(LibXslt 1.1.0 REQUIRED)
 # Upstream CMake module doesn't mark these as advanced variables.
