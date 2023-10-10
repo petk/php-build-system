@@ -18,7 +18,7 @@ include(CheckCSourceCompiles)
 include(CheckCSourceRuns)
 include(CMakePushCheckState)
 
-message(STATUS "Checking for TCP_INFO")
+message(CHECK_START "Checking for TCP_INFO")
 
 list(APPEND CMAKE_MESSAGE_INDENT "  ")
 
@@ -41,7 +41,7 @@ else()
   message(CHECK_FAIL "no")
 endif()
 
-message(STATUS "Checking for TCP_CONNECTION_INFO")
+message(CHECK_START "Checking for TCP_CONNECTION_INFO")
 
 list(APPEND CMAKE_MESSAGE_INDENT "  ")
 
@@ -65,7 +65,7 @@ else()
 endif()
 
 if(NOT HAVE_LQ_TCP_INFO AND NOT HAVE_LQ_TCP_CONNECTION_INFO)
-  message(STATUS "Checking for SO_LISTENQLEN")
+  message(CHECK_START "Checking for SO_LISTENQLEN")
 
   list(APPEND CMAKE_MESSAGE_INDENT "  ")
 

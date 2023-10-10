@@ -335,7 +335,7 @@ target_link_library(php_main PRIVATE PHP::<extension_name>)
 
 Custom targets should be defined with clear names that indicate their purpose,
 such as `php_generate_something`. These targets can be customized to perform
-specific actions during the build process. They should be preffixed with the
+specific actions during the build process. They should be prefixed with the
 target context. For example, `php_`, `php_<extension_name>_`, or `zend_`.
 
 ```cmake
