@@ -21,23 +21,11 @@ add_library(php_gettext ${_library_type}
 
 find_package(Intl REQUIRED)
 
-if(Intl_IS_BUILT_IN)
-  set(_intl_library "c")
-else()
-  set(_intl_library ${Intl_LIBRARIES})
-endif()
-
 set(HAVE_LIBINTL 1 CACHE INTERNAL "Whether gettext library is available")
 
-check_library_exists(${_intl_library} ngettext "" HAVE_NGETTEXT)
-check_library_exists(${_intl_library} dngettext "" HAVE_DNGETTEXT)
-check_library_exists(${_intl_library} dcngettext "" HAVE_DCNGETTEXT)
-check_library_exists(${_intl_library} bind_textdomain_codeset "" HAVE_BIND_TEXTDOMAIN_CODESET)
+check_library_exists(Intl::Intl ngettext "" HAVE_NGETTEXT)
+check_library_exists(Intl::Intl dngettext "" HAVE_DNGETTEXT)
+check_library_exists(Intl::Intl dcngettext "" HAVE_DCNGETTEXT)
+check_library_exists(Intl::Intl bind_textdomain_codeset "" HAVE_BIND_TEXTDOMAIN_CODESET)
 
-if(${Intl_LIBRARIES})
-  target_link_libraries(php_gettext PRIVATE ${Intl_LIBRARIES})
-endif()
-
-if(${Intl_INCLUDE_DIRS})
-  target_include_directories(php_gettext PRIVATE ${Intl_INCLUDE_DIRS})
-endif()
+target_link_libraries(php_gettext PRIVATE Intl::Intl)

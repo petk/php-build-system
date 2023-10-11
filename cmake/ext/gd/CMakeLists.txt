@@ -102,23 +102,13 @@ if(NOT EXT_GD_EXTERNAL)
 
   find_package(ZLIB REQUIRED)
 
-  if(TARGET ZLIB::ZLIB)
-    target_link_libraries(php_gd PRIVATE ZLIB::ZLIB)
-  endif()
+  target_link_libraries(php_gd PRIVATE ZLIB::ZLIB)
 
   find_package(PNG REQUIRED)
 
-  if(PNG_LIBRARIES)
-    target_link_libraries(php_gd PRIVATE ${PNG_LIBRARIES})
-  endif()
+  target_link_libraries(php_gd PRIVATE PNG::PNG)
 
-  if(PNG_INCLUDE_DIRS)
-    target_include_directories(php_gd PRIVATE ${PNG_INCLUDE_DIRS})
-  endif()
-
-  if(PNG_FOUND)
-    set(HAVE_LIBPNG 1 CACHE INTERNAL "Whether the libpng is available")
-  endif()
+  set(HAVE_LIBPNG 1 CACHE INTERNAL "Whether the libpng is available")
 
   if(EXT_GD_AVIF)
     find_package(AVIF 0.8.2 REQUIRED)
@@ -159,19 +149,10 @@ if(NOT EXT_GD_EXTERNAL)
   if(EXT_GD_JPEG)
     find_package(JPEG REQUIRED)
 
-    if(JPEG_FOUND)
-      set(HAVE_LIBJPEG 1 CACHE INTERNAL "Whether the libjpeg is available")
-    endif()
+    target_link_libraries(php_gd PRIVATE JPEG::JPEG)
 
+    set(HAVE_LIBJPEG 1 CACHE INTERNAL "Whether the libjpeg is available")
     set(HAVE_GD_JPG 1 CACHE INTERNAL "Whether the GD JPEG support is enabled")
-
-    if(JPEG_LIBRARIES)
-      target_link_libraries(php_gd PRIVATE ${JPEG_LIBRARIES})
-    endif()
-
-    if(JPEG_INCLUDE_DIRS)
-      target_include_directories(php_gd PRIVATE ${JPEG_INCLUDE_DIRS})
-    endif()
   endif()
 
   if(EXT_GD_XPM)
@@ -195,19 +176,10 @@ if(NOT EXT_GD_EXTERNAL)
   if(EXT_GD_FREETYPE)
     find_package(Freetype REQUIRED)
 
-    if(FREETYPE_FOUND)
-      set(HAVE_LIBFREETYPE 1 CACHE INTERNAL "Whether the freetype library is available")
-    endif()
+    target_link_libraries(php_gd PRIVATE Freetype::Freetype)
 
+    set(HAVE_LIBFREETYPE 1 CACHE INTERNAL "Whether the freetype library is available")
     set(HAVE_GD_FREETYPE 1 CACHE INTERNAL "Whether the GD Freetype support is enabled")
-
-    if(FREETYPE_LIBRARIES)
-      target_link_libraries(php_gd PRIVATE ${FREETYPE_LIBRARIES})
-    endif()
-
-    if(FREETYPE_INCLUDE_DIRS)
-      target_include_directories(php_gd PRIVATE ${FREETYPE_INCLUDE_DIRS})
-    endif()
   endif()
 
   if(EXT_GD_JIS)

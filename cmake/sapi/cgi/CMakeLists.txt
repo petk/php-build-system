@@ -12,7 +12,7 @@ set_target_properties(php_cgi PROPERTIES OUTPUT_NAME php-cgi)
 
 target_compile_definitions(php_cgi PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE=1)
 
-target_link_libraries(php_cgi PRIVATE php_main)
+target_link_libraries(php_cgi PRIVATE PHP::main)
 
 if(CMAKE_HOST_SYSTEM_NAME STREQUAL "Darwin")
   set_target_properties(php_cgi PROPERTIES LINK_FLAGS "-undefined dynamic_lookup")

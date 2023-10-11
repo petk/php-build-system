@@ -122,5 +122,5 @@ _php_check_enabled_sapis()
 # Find Valgrind.
 ################################################################################
 if(PHP_VALGRIND)
-  find_package(VALGRIND REQUIRED)
+  find_package(Valgrind REQUIRED)
 endif()

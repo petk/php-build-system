@@ -27,15 +27,7 @@ target_compile_definitions(php_iconv PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE=1)
 
 find_package(Iconv REQUIRED)
 
-if(${Iconv_LIBRARIES})
-  target_link_libraries(php_iconv PRIVATE ${Iconv_LIBRARIES})
-endif()
-
-if(${Iconv_INCLUDE_DIRS})
-  target_include_directories(php_iconv
-    PRIVATE ${Iconv_INCLUDE_DIRS}
-  )
-endif()
+target_link_libraries(php_iconv PRIVATE Iconv::Iconv)
 
 if(${Iconv_LIBRARIES})
   check_library_exists(${Iconv_LIBRARIES} libiconv "" HAVE_LIBICONV)
@@ -59,8 +51,8 @@ endif()
 
 # Check for glibc implementation.
 cmake_push_check_state(RESET)
-  set(CMAKE_REQUIRED_INCLUDES ${Iconv_INCLUDE_DIRS})
-  set(CMAKE_REQUIRED_LIBRARIES ${Iconv_LIBRARIES})
+  set(CMAKE_REQUIRED_LIBRARIES Iconv::Iconv)
+
   check_c_source_compiles("
     #include <gnu/libc-version.h>
 
@@ -78,13 +70,13 @@ endif()
 # Check iconv library is GNU libiconv.
 if(NOT HAVE_GLIBC_ICONV AND NOT CMAKE_CROSSCOMPILING)
   cmake_push_check_state(RESET)
-    set(CMAKE_REQUIRED_INCLUDES ${Iconv_INCLUDE_DIRS})
-    set(CMAKE_REQUIRED_LIBRARIES ${Iconv_LIBRARIES})
+    set(CMAKE_REQUIRED_LIBRARIES Iconv::Iconv)
+
     check_c_source_compiles("
       #include <iconv.h>
       #include <stdio.h>
       int main(void) {
-        printf(\"%d\", _libiconv_versiona);
+        printf(\"%d\", _libiconv_version);
         return 0;
       }
     " _have_gnu_libiconf)
@@ -99,8 +91,8 @@ endif()
 if(NOT HAVE_GLIBC_ICONV AND NOT _have_gnu_libiconv)
   # Check for Konstantin Chuguev's iconv implementation.
   cmake_push_check_state(RESET)
-    set(CMAKE_REQUIRED_INCLUDES ${Iconv_INCLUDE_DIRS})
-    set(CMAKE_REQUIRED_LIBRARIES ${Iconv_LIBRARIES})
+    set(CMAKE_REQUIRED_LIBRARIES Iconv::Iconv)
+
     check_c_source_compiles("
       #include <iconv.h>
 
@@ -119,8 +111,8 @@ endif()
 
 if(NOT HAVE_GLIBC_ICONV AND NOT _have_gnu_libiconv AND NOT HAVE_BSD_ICONV)
   cmake_push_check_state(RESET)
-    set(CMAKE_REQUIRED_INCLUDES ${Iconv_INCLUDE_DIRS})
-    set(CMAKE_REQUIRED_LIBRARIES ${Iconv_LIBRARIES})
+    set(CMAKE_REQUIRED_LIBRARIES Iconv::Iconv)
+
     check_c_source_compiles("
       #include <iconv.h>
 
@@ -139,7 +131,8 @@ endif()
 
 if(NOT CMAKE_CROSSCOMPILING)
   cmake_push_check_state(RESET)
-    set(CMAKE_REQUIRED_LIBRARIES ${Iconv_LIBRARIES})
+    set(CMAKE_REQUIRED_LIBRARIES Iconv::Iconv)
+
     check_c_source_runs("
       #include <iconv.h>
       #include <stdlib.h>
@@ -176,7 +169,8 @@ if(CMAKE_CROSSCOMPILING)
   set(_errno_works 1)
 else()
   cmake_push_check_state(RESET)
-    set(CMAKE_REQUIRED_LIBRARIES ${Iconv_LIBRARIES})
+    set(CMAKE_REQUIRED_LIBRARIES Iconv::Iconv)
+
     check_c_source_runs("
       #include <iconv.h>
       #include <errno.h>

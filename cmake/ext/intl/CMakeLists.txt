@@ -75,9 +75,7 @@ find_package(ICU 50.1 REQUIRED COMPONENTS io uc i18n)
 # TODO: Remove this once CMake fixes this.
 mark_as_advanced(ICU_INCLUDE_DIR)
 
-if(ICU_LIBRARIES)
-  target_link_libraries(php_intl PRIVATE ${ICU_LIBRARIES})
-endif()
+target_link_libraries(php_intl PRIVATE ICU::io ICU::uc ICU::i18n)
 
 target_compile_options(php_intl PRIVATE -Wno-write-strings)
 
@@ -98,13 +96,6 @@ target_include_directories(
   php_intl
   PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}
 )
-
-if(ICU_INCLUDE_DIRS)
-  target_include_directories(
-    php_intl
-    PRIVATE ${ICU_INCLUDE_DIRS}
-  )
-endif()
 
 set(_intl_cxx_sources
   intl_convertcpp.cpp

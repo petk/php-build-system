@@ -11,7 +11,7 @@ add_executable(php_litespeed
 
 set_target_properties(php_litespeed PROPERTIES OUTPUT_NAME lsphp)
 
-target_link_libraries(php_litespeed PRIVATE php_main)
+target_link_libraries(php_litespeed PRIVATE PHP::main)
 
 if(EXTRA_DEFINITIONS)
   target_compile_definitions(php_litespeed PRIVATE ${EXTRA_DEFINITIONS})

@@ -50,9 +50,7 @@ target_compile_definitions(php_mysqlnd PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE=1
 if(EXT_MYSQLND_COMPRESSION)
   find_package(ZLIB REQUIRED)
 
-  if(TARGET ZLIB::ZLIB)
-    target_link_libraries(php_mysqlnd PRIVATE ZLIB::ZLIB)
-  endif()
+  target_link_libraries(php_mysqlnd PRIVATE ZLIB::ZLIB)
 
   set(MYSQLND_COMPRESSION_ENABLED 1 CACHE INTERNAL "Enable compressed protocol support")
 endif()
@@ -63,9 +61,7 @@ if(EXT_MYSQLND_SSL OR EXT_OPENSSL)
   # TODO: Can OpenSSL be retrieved differently (from one place) here?
   find_package(OpenSSL 1.0.2 REQUIRED)
 
-  if(TARGET OpenSSL::Crypto)
-    target_link_libraries(php_mysqlnd PRIVATE OpenSSL::Crypto)
-  endif()
+  target_link_libraries(php_mysqlnd PRIVATE OpenSSL::Crypto)
 
   set(MYSQLND_HAVE_SSL 1 CACHE INTERNAL "Enable mysqlnd code that uses OpenSSL directly")
 endif()

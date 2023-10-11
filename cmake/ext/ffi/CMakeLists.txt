@@ -100,9 +100,7 @@ check_c_source_compiles("
 
 find_package(FFI 3.0.11 REQUIRED)
 
-if(TARGET FFI::FFI)
-  target_link_libraries(php_ffi PRIVATE FFI::FFI)
-endif()
+target_link_libraries(php_ffi PRIVATE FFI::FFI)
 
 set_property(TARGET php_ffi PROPERTY OUTPUT_NAME ffi)
 

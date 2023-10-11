@@ -10,7 +10,7 @@ add_library(php_embed
 
 set_target_properties(php_embed PROPERTIES OUTPUT_NAME libphp)
 
-target_link_libraries(php_embed PRIVATE php_main)
+target_link_libraries(php_embed PRIVATE PHP::main)
 
 target_compile_definitions(php_embed PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE=1)
 

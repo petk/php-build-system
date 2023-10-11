@@ -152,21 +152,13 @@ if(EXT_OPCACHE_JIT)
 
   add_dependencies(php_opcache php_opcache_build_jit)
 
-  # Check for capstone.
+  # Check for Capstone.
   if(EXT_OPCACHE_CAPSTONE)
-    find_package(CAPSTONE 3.0.0)
+    find_package(Capstone 3.0.0 REQUIRED)
 
-    if(CAPSTONE_FOUND)
-      set(HAVE_CAPSTONE 1 CACHE INTERNAL "Capstone is available")
+    target_link_libraries(php_opcache PRIVATE Capstone::Capstone)
 
-      if(CAPSTONE_LIBRARIES)
-        target_link_libraries(php_opcache PRIVATE ${CAPSTONE_LIBRARIES})
-      endif()
-
-      if(CAPSTONE_INCLUDE_DIRS)
-        target_include_directories(php_opcache PRIVATE ${CAPSTONE_INCLUDE_DIRS})
-      endif()
-    endif()
+    set(HAVE_CAPSTONE 1 CACHE INTERNAL "Capstone is available")
   endif()
 endif()
 

@@ -710,6 +710,7 @@ functionalities and version available on the operating system.
 * 3.20
   * To have CMAKE_C_BYTE_ORDER, otherwise manual check should be done
   * To be able to use `"version": 2` in `CMakePresets.json`
+  * To be able to use `Intl::Intl` IMPORTED target with CMake's FindIntl module.
 * 3.21
   * To be able to use `"version": 3` in `CMakePresets.json` (for the
     `installDir` option).
@@ -1108,8 +1109,13 @@ cmake -LH .
       <td>default</td>
     </tr>
     <tr>
-      <td>&nbsp;&nbsp;--with-bz2[=DIR]</td>
-      <td>&nbsp;&nbsp;EXT_BZ2_DIR=DIR</td>
+      <td>&nbsp;&nbsp;--with-bz2</td>
+      <td>&nbsp;&nbsp;EXT_BZ2=ON</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>&nbsp;&nbsp;--with-bz2=DIR</td>
+      <td>&nbsp;&nbsp;BZip2_ROOT=DIR</td>
       <td></td>
     </tr>
     <tr>
@@ -1854,7 +1860,7 @@ cmake -LH .
     </tr>
     <tr>
       <td>&nbsp;&nbsp;--with-mm=DIR</td>
-      <td>&nbsp;&nbsp;EXT_SESSION_MM_DIR=path/to/libmm</td>
+      <td>&nbsp;&nbsp;MM_ROOT=DIR</td>
       <td></td>
     </tr>
     <tr>

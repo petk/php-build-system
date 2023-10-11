@@ -37,22 +37,10 @@ if(CMAKE_VERSION VERSION_LESS 3.28)
   mark_as_advanced(LIBXSLT_EXSLT_INCLUDE_DIR LIBXSLT_LIBRARY)
 endif()
 
-if(LIBXSLT_LIBRARIES)
-  target_link_libraries(php_xsl PRIVATE ${LIBXSLT_LIBRARIES})
-endif()
+target_link_libraries(php_xsl PRIVATE LibXslt::LibXslt)
 
-if(LIBXSLT_INCLUDE_DIR)
-  target_include_directories(php_xsl PRIVATE ${LIBXSLT_INCLUDE_DIR})
-endif()
-
-if(LIBXSLT_EXSLT_LIBRARIES OR LIBXSLT_EXSLT_INCLUDE_DIR)
+if(TARGET LibXslt::LibExslt)
   set(HAVE_XSL_EXSLT 1 CACHE INTERNAL "Whether the libexslt library is available")
-endif()
 
-if(LIBXSLT_EXSLT_LIBRARIES)
-  target_link_libraries(php_xsl PRIVATE ${LIBXSLT_EXSLT_LIBRARIES})
-endif()
-
-if(LIBXSLT_EXSLT_INCLUDE_DIR)
-  target_include_directories(php_xsl PRIVATE ${LIBXSLT_EXSLT_INCLUDE_DIR})
+  target_link_libraries(php_xsl PRIVATE LibXslt::LibExslt)
 endif()

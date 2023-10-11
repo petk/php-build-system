@@ -15,9 +15,7 @@ target_compile_definitions(php_libxml PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE=1)
 
 find_package(LibXml2 2.9.0 REQUIRED)
 
-if(TARGET LibXml2::LibXml2)
-  target_link_libraries(php_libxml PUBLIC LibXml2::LibXml2)
-endif()
+target_link_libraries(php_libxml PUBLIC LibXml2::LibXml2)
 
 target_sources(
   php_libxml

@@ -24,7 +24,7 @@ function(_php_check_pwrite)
       #include <stdlib.h>
 
       int main(void) {
-        int fd = open(\"CMakeFiles/php_check_pwrite\", O_WRONLY|O_CREAT, 0600);
+        int fd = open(\"${CMAKE_CURRENT_BINARY_DIR}/CMakeFiles/php_check_pwrite\", O_WRONLY|O_CREAT, 0600);
 
         if (fd < 0) return 1;
         if (pwrite(fd, \"text\", 4, 0) != 4) return 1;
@@ -49,7 +49,7 @@ function(_php_check_pwrite)
         ssize_t pwrite(int, void *, size_t, off64_t);
 
         int main(void) {
-          int fd = open(\"CMakeFiles/php_check_pwrite64\", O_WRONLY|O_CREAT, 0600);
+          int fd = open(\"${CMAKE_CURRENT_BINARY_DIR}/CMakeFiles/php_check_pwrite64\", O_WRONLY|O_CREAT, 0600);
 
           if (fd < 0) return 1;
           if (pwrite(fd, \"text\", 4, 0) != 4) return 1;

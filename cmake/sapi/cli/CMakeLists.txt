@@ -37,7 +37,7 @@ set_target_properties(php_cli PROPERTIES OUTPUT_NAME php)
 
 target_compile_definitions(php_cli PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE=1)
 
-target_link_libraries(php_cli PRIVATE php_main)
+target_link_libraries(php_cli PRIVATE PHP::main)
 
 if(EXTRA_DEFINITIONS)
   target_compile_definitions(php_cli PRIVATE ${EXTRA_DEFINITIONS})

@@ -33,9 +33,7 @@ else()
 
   set(HAVE_LIBEXPAT 1 CACHE INTERNAL "Whether libexpat is used")
 
-  if(TARGET EXPAT::EXPAT)
-    target_link_libraries(php_xml PRIVATE EXPAT::EXPAT)
-  endif()
+  target_link_libraries(php_xml PRIVATE EXPAT::EXPAT)
 endif()
 
 target_compile_definitions(php_xml PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE=1)

@@ -15,7 +15,7 @@ message(STATUS "Checking whether pread() works")
 
 function(_php_check_pread)
   if(NOT CMAKE_CROSSCOMPILING)
-    file(WRITE "CMakeFiles/php_check_pread" "test\n")
+    file(WRITE "${CMAKE_CURRENT_BINARY_DIR}/CMakeFiles/php_check_pread" "test\n")
 
     check_c_source_runs("
       #include <sys/types.h>
@@ -27,7 +27,7 @@ function(_php_check_pread)
 
       int main(void) {
         char buf[3];
-        int fd = open(\"CMakeFiles/php_check_pread\", O_RDONLY);
+        int fd = open(\"${CMAKE_CURRENT_BINARY_DIR}/CMakeFiles/php_check_pread\", O_RDONLY);
         if (fd < 0) return 1;
         if (pread(fd, buf, 2, 0) != 2) return 1;
         /* Linux glibc breakage until 2.2.5 */
@@ -52,7 +52,7 @@ function(_php_check_pread)
 
         int main(void) {
           char buf[3];
-          int fd = open(\"CMakeFiles/php_check_pread\", O_RDONLY);
+          int fd = open(\"${CMAKE_CURRENT_BINARY_DIR}/CMakeFiles/php_check_pread\", O_RDONLY);
           if (fd < 0) return 1;
           if (pread(fd, buf, 2, 0) != 2) return 1;
           /* Linux glibc breakage until 2.2.5 */

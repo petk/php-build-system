@@ -24,6 +24,4 @@ target_compile_definitions(php_zlib PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE=1)
 
 find_package(ZLIB 1.2.0.4 REQUIRED)
 
-if(TARGET ZLIB::ZLIB)
-  target_link_libraries(php_zlib PRIVATE ZLIB::ZLIB)
-endif()
+target_link_libraries(php_zlib PRIVATE ZLIB::ZLIB)

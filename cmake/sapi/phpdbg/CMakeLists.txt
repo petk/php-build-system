@@ -59,7 +59,7 @@ target_compile_definitions(
     ZEND_ENABLE_STATIC_TSRMLS_CACHE=1
 )
 
-target_link_libraries(php_phpdbg PRIVATE php_main)
+target_link_libraries(php_phpdbg PRIVATE PHP::main)
 
 if(EXTRA_DEFINITIONS)
   target_compile_definitions(php_phpdbg PRIVATE ${EXTRA_DEFINITIONS})

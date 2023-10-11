@@ -79,7 +79,7 @@ target_include_directories(
 
 target_compile_definitions(php_fpm PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE=1)
 
-target_link_libraries(php_fpm PRIVATE php_main)
+target_link_libraries(php_fpm PRIVATE PHP::main)
 
 if(EXTRA_DEFINITIONS)
   target_compile_definitions(php_fpm PRIVATE ${EXTRA_DEFINITIONS})

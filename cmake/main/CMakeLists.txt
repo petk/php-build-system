@@ -36,6 +36,8 @@ add_library(php_main STATIC
   streams/glob_wrapper.c
 )
 
+add_library(PHP::main ALIAS php_main)
+
 target_include_directories(
   php_main
   PRIVATE ${CMAKE_SOURCE_DIR}

@@ -24,9 +24,7 @@ target_compile_definitions(php_gmp PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE=1)
 
 find_package(GMP 4.2 REQUIRED)
 
-if(TARGET GMP::GMP)
-  target_link_libraries(php_gmp PRIVATE GMP::GMP)
-endif()
+target_link_libraries(php_gmp PRIVATE GMP::GMP)
 
 target_sources(
   php_gmp

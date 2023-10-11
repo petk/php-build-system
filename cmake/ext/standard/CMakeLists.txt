@@ -263,7 +263,7 @@ target_compile_definitions(php_standard PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE=
 add_dependencies(php_standard zend)
 
 # TODO: Can this be fixed better?
-target_link_libraries(php_standard PRIVATE php_main)
+target_link_libraries(php_standard PRIVATE PHP::main)
 
 if(STANDARD_EXTRA_LIBRARIES)
   list(REMOVE_DUPLICATES ${STANDARD_EXTRA_LIBRARIES})

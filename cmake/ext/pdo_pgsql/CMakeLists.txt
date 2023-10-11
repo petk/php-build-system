@@ -22,27 +22,13 @@ add_library(php_pdo_pgsql ${_library_type}
 
 target_include_directories(php_pdo_pgsql PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/..")
 
-# TODO: Autoconf still allows 9.1 to be installed. This one relies on pkg-config
-# and minimum PostgreSQL 9.3.
 find_package(PostgreSQL 9.1 REQUIRED)
 
-if(PostgreSQL_LIBRARIES)
-  target_link_libraries(php_pdo_pgsql PRIVATE ${PostgreSQL_LIBRARIES})
-endif()
-
-if(PostgreSQL_INCLUDE_DIRS)
-  target_include_directories(
-    php_pdo_pgsql
-    PRIVATE ${PostgreSQL_INCLUDE_DIRS}
-    INTERFACE ${PostgreSQL_INCLUDE_DIRS}
-  )
-endif()
+target_link_libraries(php_pdo_pgsql PUBLIC PostgreSQL::PostgreSQL)
 
 # Sanity check.
-check_library_exists(${PostgreSQL_LIBRARIES} PQlibVersion "" _sanity_check)
+check_library_exists(PostgreSQL::PostgreSQL PQlibVersion "" _have_pqlibversion)
 
-if(NOT _sanity_check)
+if(NOT _have_pqlibversion)
   message(FATAL_ERROR "PQlibVersion could not be found. Something is wrong with the libpq library. See the logs.")
 endif()
-
-unset(_sanity_check CACHE)

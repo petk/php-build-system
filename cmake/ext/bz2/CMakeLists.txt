@@ -5,10 +5,6 @@ option(EXT_BZ2 "Whether to enable the BZ2 extension" OFF)
 
 cmake_dependent_option(EXT_BZ2_SHARED "Whether to build the BZ2 extension as shared" OFF "EXT_BZ2;NOT BUILD_SHARED_LIBS" OFF)
 
-if(EXT_BZ2)
-  set(EXT_BZ2_DIR "" CACHE PATH "Additional path to the BZ2 library")
-endif()
-
 if(NOT EXT_BZ2)
   return()
 endif()
@@ -24,34 +20,13 @@ add_library(php_bz2 ${_library_type}
   bz2_filter.c
 )
 
-find_package(BZip2 1.0.0)
+find_package(BZip2 1.0.0 REQUIRED)
 
-if(NOT BZIP2_FOUND)
-  message(STATUS "Searching for BZip2 library in other locations")
-
-  foreach(dir "${EXT_BZ2_DIR}" /usr/local /usr)
-    if(EXISTS "${dir}/include/bzlib.h")
-      set(BZIP2_FOUND TRUE)
-      set(BZIP2_INCLUDE_DIRS "${dir}/include")
-      set(BZIP2_LIBRARIES bz2)
-    endif()
-  endforeach()
-endif()
-
-if(NOT BZIP2_FOUND)
-  message(FATAL_ERROR "BZip2 library not found. Please reinstall the BZip2 distribution")
-endif()
-
-check_library_exists(bz2 BZ2_bzerror "" HAVE_BZ2_LIB)
+check_library_exists(BZip2::BZip2 BZ2_bzerror "" HAVE_BZ2_LIB)
 
 if(NOT HAVE_BZ2_LIB)
   message(FATAL_ERROR "bz2 module requires libbz2 >= 1.0.0")
 endif()
 
-if(BZIP2_LIBRARIES)
-  target_link_libraries(php_bz2 PRIVATE ${BZIP2_LIBRARIES})
-endif()
-
-if(BZIP2_INCLUDE_DIRS)
-  target_include_directories(php_bz2 PRIVATE ${BZIP2_INCLUDE_DIRS})
-endif()
+# Set to PUBLIC if include directories are on non-standard places.
+target_link_libraries(php_bz2 PUBLIC BZip2::BZip2)

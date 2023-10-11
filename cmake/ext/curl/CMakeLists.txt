@@ -72,9 +72,7 @@ if(PHP_ZTS AND CURL_SSL_FOUND)
   if(HAVE_CURL_OLD_OPENSSL)
     find_package(OpenSSL REQUIRED)
 
-    if(TARGET OpenSSL::Crypto)
-      target_link_libraries(php_curl PRIVATE OpenSSL::Crypto)
-    endif()
+    target_link_libraries(php_curl PRIVATE OpenSSL::Crypto)
 
     check_include_file(openssl/crypto.h HAVE_OPENSSL_CRYPTO_H)
   endif()

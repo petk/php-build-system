@@ -27,9 +27,7 @@ if(EXT_FTP_SSL OR EXT_OPENSSL)
   # TODO: Can OpenSSL be retrieved differently (from one place) here?
   find_package(OpenSSL 1.0.2 REQUIRED)
 
-  if(TARGET OpenSSL::SSL)
-    target_link_libraries(php_ftp PRIVATE OpenSSL::SSL)
-  endif()
+  target_link_libraries(php_ftp PRIVATE OpenSSL::SSL)
 
   set(HAVE_FTP_SSL 1 CACHE INTERNAL "Whether FTP over SSL is supported")
 endif()
