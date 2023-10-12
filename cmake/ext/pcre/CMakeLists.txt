@@ -20,40 +20,28 @@ set(PCRE2_CODE_UNIT_WIDTH 8 CACHE INTERNAL "Number of bits in non-UTF mode for P
 if(EXT_PCRE_EXTERNAL)
   find_package(PCRE 10.30 REQUIRED)
 
-  if(PCRE_LIBRARIES)
-    target_link_libraries(php_pcre PRIVATE ${PCRE_LIBRARIES})
-  endif()
-
-  if(PCRE_INCLUDE_DIRS)
-    target_include_directories(php_pcre PRIVATE ${PCRE_INCLUDE_DIRS})
-  endif()
+  target_link_libraries(php_pcre PRIVATE PCRE::PCRE)
 
   if(EXT_PCRE_JIT)
     message(STATUS "Checking for JIT support in PCRE2")
 
     if(CMAKE_CROSSCOMPILING)
       if(CMAKE_HOST_SYSTEM_PROCESSOR MATCHES "arm.*|i[34567]86|x86_64|mips.*|powerpc.*|sparc")
-        set(_successful ON)
-      else()
-        set(_successful OFF)
+        set(HAVE_PCRE_JIT_SUPPORT 1 CACHE INTERNAL "Whether to enable the PCRE JIT support")
       endif()
     else()
       check_c_source_runs("
         #include <pcre2.h>
         #include <stdlib.h>
+
         int main(void) {
           uint32_t have_jit;
           pcre2_config_8(PCRE2_CONFIG_JIT, &have_jit);
+
           return !have_jit;
         }
-      " _successful)
+      " HAVE_PCRE_JIT_SUPPORT)
     endif()
-
-    if(_successful)
-      set(HAVE_PCRE_JIT_SUPPORT 1 CACHE INTERNAL "Whether to enable the PCRE JIT support")
-    endif()
-
-    unset(_successful)
   endif()
 else()
   message(STATUS "Using bundled PCRE library")
@@ -126,8 +114,6 @@ else()
     else()
       message(STATUS "Intel CET is disabled")
     endif()
-
-    unset(have_pcre2_intel_cet)
   else()
     message(STATUS "PCRE JIT disabled")
   endif()

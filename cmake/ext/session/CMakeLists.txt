@@ -38,14 +38,14 @@ set(_session_headers_files "php_session.h;mod_files.h;mod_user.h")
 set(HAVE_PHP_SESSION 1 CACHE INTERNAL "Define to 1 if session extension is enabled")
 
 if(EXT_SESSION_MM)
-  find_package(MM REQUIRED)
-
   # The mm library is not thread-safe, and mod_mm.c refuses to compile.
   if(PHP_ZTS)
     message(FATAL_ERROR "Enabling ZTS and libmm cannot be done together.")
   endif()
 
-  # Set to PUBLIC if include directories are on non-standard places.
+  find_package(MM REQUIRED)
+
+  # Link with PUBLIC scope if include directories are on non-standard places.
   target_link_libraries(php_session PUBLIC MM::MM)
 
   set(HAVE_LIBMM 1 CACHE INTERNAL "Whether you have libmm")

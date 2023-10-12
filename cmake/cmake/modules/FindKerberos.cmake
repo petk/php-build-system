@@ -9,7 +9,7 @@ Module defines the following IMPORTED targets:
 
   Kerberos::Kerberos
 
-Module sets the following variables:
+Result variables:
 
   Kerberos_FOUND
     Set to 1 if Kerberos library has been found.

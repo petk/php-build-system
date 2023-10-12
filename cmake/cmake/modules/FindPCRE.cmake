@@ -2,16 +2,21 @@
 Find the PCRE library.
 https://www.pcre.org/
 
-If PCRE library is found, the following variables are set:
+Module defines the following IMPORTED targets:
 
-PCRE_FOUND
-  Set to 1 if PCRE library is found.
-PCRE_INCLUDE_DIRS
-  A list of include directories for using PCRE library.
-PCRE_LIBRARIES
-  A list of libraries for using PCRE library.
-PCRE_VERSION
-  Version string of found PCRE library.
+  PCRE::PCRE
+    The PCRE library, if found.
+
+Result variables:
+
+  PCRE_FOUND
+    Set to 1 if PCRE library is found.
+  PCRE_INCLUDE_DIRS
+    A list of include directories for using PCRE library.
+  PCRE_LIBRARIES
+    A list of libraries for using PCRE library.
+  PCRE_VERSION
+    Version string of found PCRE library.
 #]=============================================================================]
 
 include(FindPackageHandleStandardArgs)
@@ -36,3 +41,12 @@ find_package_handle_standard_args(
   VERSION_VAR PCRE_VERSION
   REASON_FAILURE_MESSAGE "PCRE not found. Please install PCRE library (libpcre2)."
 )
+
+if(PCRE_FOUND AND NOT TARGET PCRE::PCRE)
+  add_library(PCRE::PCRE INTERFACE IMPORTED)
+
+  set_target_properties(PCRE::PCRE PROPERTIES
+    INTERFACE_LINK_LIBRARIES "${PCRE_LIBRARIES}"
+    INTERFACE_INCLUDE_DIRECTORIES "${PCRE_INCLUDE_DIRS}"
+  )
+endif()

@@ -16,13 +16,14 @@ providing a basic understanding of its fundamentals.
   * [3.2. Working with cache variables](#32-working-with-cache-variables)
   * [3.3. Using variables](#33-using-variables)
   * [3.4. Lists](#34-lists)
-* [4. Verification and checks in CMake](#4-verification-and-checks-in-cmake)
-  * [4.1. Header availability check](#41-header-availability-check)
-  * [4.2. C source compilation check](#42-c-source-compilation-check)
-  * [4.3. C source compilation and execution check](#43-c-source-compilation-and-execution-check)
-  * [4.4. Cross-compilation considerations](#44-cross-compilation-considerations)
-* [5. Generating a configuration header](#5-generating-a-configuration-header)
-* [6. Further resources](#6-further-resources)
+* [4. Functions and macros](#4-functions-and-macros)
+* [5. Verification and checks in CMake](#5-verification-and-checks-in-cmake)
+  * [5.1. Header availability check](#51-header-availability-check)
+  * [5.2. C source compilation check](#52-c-source-compilation-check)
+  * [5.3. C source compilation and execution check](#53-c-source-compilation-and-execution-check)
+  * [5.4. Cross-compilation considerations](#54-cross-compilation-considerations)
+* [6. Generating a configuration header](#6-generating-a-configuration-header)
+* [7. Further resources](#7-further-resources)
 
 ## 1. Command line usage
 
@@ -207,7 +208,42 @@ set(string_variable "a b c")
 
 The `list()` command performs operations on lists.
 
-## 4. Verification and checks in CMake
+## 4. Functions and macros
+
+CMake function is created with the `function()` command:
+
+```cmake
+# Defining a function
+function(print_message argument)
+  message("${argument}")
+endfunction()
+
+# Calling the function
+print_message("Hello World")
+# Outputs: Hello World
+```
+
+CMake macros are similar to functions but with one key difference: they do not
+establish their variable scope. Variables defined within macros are global and
+remain visible from the outer scope. Macros are usually reserved for specific
+cases where you want to set variables in the current scope of the CMake code.
+
+CMake macro is created with the `macro()` command:
+
+```cmake
+# Defining a macro
+macro(add_suffix var)
+  set(${var} "${${var}} World")
+endmacro()
+
+# Calling a macro inserts the macro body in-place:
+set(VAR "Hello")
+add_suffix(VAR)
+message(STATUS "${VAR}")
+# Outputs: Hello World
+```
+
+## 5. Verification and checks in CMake
 
 In CMake, you can perform various verification and validation tasks to ensure
 the availability of headers, symbols, struct members, as well as assess the
@@ -218,7 +254,7 @@ CMake provides a range of commands, many of which are found in separate CMake
 modules bundled with CMake. These modules need to be included before utilizing
 the respective verification commands:
 
-### 4.1. Header availability check
+### 5.1. Header availability check
 
 To verify if a header file is available:
 
@@ -227,7 +263,7 @@ include(CheckIncludeFile)
 check_include_file(sys/types.h HAVE_SYS_TYPES_H)
 ```
 
-### 4.2. C source compilation check
+### 5.2. C source compilation check
 
 To determine if a C source file compiles and links into an executable:
 
@@ -242,7 +278,7 @@ This command initiates a compilation and linking step, as illustrated here:
 gcc -o out check_program.c
 ```
 
-### 4.3. C source compilation and execution check
+### 5.3. C source compilation and execution check
 
 For a more comprehensive assessment that includes compiling, linking, and
 executing the C code:
@@ -260,7 +296,7 @@ gcc -o out check_program.c
 ./out
 ```
 
-### 4.4. Cross-compilation considerations
+### 5.4. Cross-compilation considerations
 
 Cross-compilation is a method where a project is compiled on one system but
 targeted to run on another. In cross-compilation scenarios, running C test
@@ -274,7 +310,7 @@ else()
 endif()
 ```
 
-## 5. Generating a configuration header
+## 6. Generating a configuration header
 
 Once the necessary checks have been completed during the configuration phase,
 you can proceed to create a configuration header file. This header file serves
@@ -331,7 +367,7 @@ int main(void) {
 }
 ```
 
-## 6. Further resources
+## 7. Further resources
 
 A highly recommended starting point for learning CMake is the step-by-step
 [tutorial](https://cmake.org/cmake/help/latest/guide/tutorial/index.html).

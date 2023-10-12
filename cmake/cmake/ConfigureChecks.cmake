@@ -363,10 +363,10 @@ if(HAVE_LIB_M)
 endif()
 
 if(CMAKE_HOST_SYSTEM_PROCESSOR MATCHES "riscv64.*")
-  find_package(ATOMIC)
+  find_package(Atomic)
 
-  if(ATOMIC_FOUND AND ATOMIC_LIBRARIES)
-    list(APPEND EXTRA_LIBS ${ATOMIC_LIBRARIES})
+  if(Atomic_FOUND AND Atomic_LIBRARIES)
+    list(APPEND EXTRA_LIBS ${Atomic_LIBRARIES})
   endif()
 endif()
 

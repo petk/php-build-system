@@ -101,49 +101,29 @@ if(NOT EXT_GD_EXTERNAL)
   target_compile_options(php_gd PRIVATE -Wno-strict-prototypes)
 
   find_package(ZLIB REQUIRED)
-
   target_link_libraries(php_gd PRIVATE ZLIB::ZLIB)
 
   find_package(PNG REQUIRED)
-
   target_link_libraries(php_gd PRIVATE PNG::PNG)
 
   set(HAVE_LIBPNG 1 CACHE INTERNAL "Whether the libpng is available")
 
   if(EXT_GD_AVIF)
-    find_package(AVIF 0.8.2 REQUIRED)
+    find_package(libavif 0.8.2 REQUIRED)
 
-    if(AVIF_FOUND)
-      set(HAVE_LIBAVIF 1 CACHE INTERNAL "Whether the libavif is available")
-    endif()
+    target_link_libraries(php_gd PRIVATE libavif::libavif)
 
+    set(HAVE_LIBAVIF 1 CACHE INTERNAL "Whether the libavif is available")
     set(HAVE_GD_AVIF 1 CACHE INTERNAL "Whether the GD avif support is enabled")
-
-    if(AVIF_LIBRARIES)
-      target_link_libraries(php_gd PRIVATE ${AVIF_LIBRARIES})
-    endif()
-
-    if(AVIF_INCLUDE_DIRS)
-      target_include_directories(php_gd PRIVATE ${AVIF_INCLUDE_DIRS})
-    endif()
   endif()
 
   if(EXT_GD_WEBP)
-    find_package(WEBP 0.2.0 REQUIRED)
+    find_package(WebP 0.2.0 REQUIRED)
 
-    if(WEBP_FOUND)
-      set(HAVE_LIBWEBP 1 CACHE INTERNAL "Whether the libwebp is available")
-    endif()
+    target_link_libraries(php_gd PRIVATE WebP::WebP)
 
+    set(HAVE_LIBWEBP 1 CACHE INTERNAL "Whether the libwebp is available")
     set(HAVE_GD_WEBP 1 CACHE INTERNAL "Whether the GD webp support is enabled")
-
-    if(WEBP_LIBRARIES)
-      target_link_libraries(php_gd PRIVATE ${WEBP_LIBRARIES})
-    endif()
-
-    if(WEBP_INCLUDE_DIRS)
-      target_include_directories(php_gd PRIVATE ${WEBP_INCLUDE_DIRS})
-    endif()
   endif()
 
   if(EXT_GD_JPEG)
@@ -158,19 +138,10 @@ if(NOT EXT_GD_EXTERNAL)
   if(EXT_GD_XPM)
     find_package(XPM REQUIRED)
 
-    if(XPM_FOUND)
-      set(HAVE_XPM 1 CACHE INTERNAL "Whether the xpm library is available")
-    endif()
+    target_link_libraries(php_gd PRIVATE XPM::XPM)
 
+    set(HAVE_XPM 1 CACHE INTERNAL "Whether the xpm library is available")
     set(HAVE_GD_XPM 1 CACHE INTERNAL "Whether the GD XPM support is enabled")
-
-    if(XPM_LIBRARIES)
-      target_link_libraries(php_gd PRIVATE ${XPM_LIBRARIES})
-    endif()
-
-    if(XPM_INCLUDE_DIRS)
-      target_include_directories(php_gd PRIVATE ${XPM_INCLUDE_DIRS})
-    endif()
   endif()
 
   if(EXT_GD_FREETYPE)
@@ -188,32 +159,27 @@ if(NOT EXT_GD_EXTERNAL)
   endif()
 else()
   find_package(GD 2.1.0 REQUIRED)
+
+  target_link_libraries(php_gd PRIVATE GD::GD)
+
   target_sources(php_gd PRIVATE gd_compat.c)
 
-  if(GD_LIBRARIES)
-    target_link_libraries(php_gd PRIVATE ${GD_LIBRARIES})
-  endif()
-
-  if(GD_INCLUDE_DIRS)
-    target_include_directories(php_gd PRIVATE ${GD_INCLUDE_DIRS})
-  endif()
-
-  check_library_exists(${GD_LIBRARIES} gdImageCreate "" HAVE_LIBGD)
+  check_library_exists(GD::GD gdImageCreate "" HAVE_LIBGD)
 
   if(NOT HAVE_LIBGD)
     message(FATAL_ERROR "GD build test failed to find gdImageCreate in libgd. Please check the logs for details.")
   endif()
 
-  check_library_exists(${GD_LIBRARIES} gdImageCreateFromPng "" HAVE_GD_PNG)
-  check_library_exists(${GD_LIBRARIES} gdImageCreateFromAvif "" HAVE_GD_AVIF)
-  check_library_exists(${GD_LIBRARIES} gdImageCreateFromWebp "" HAVE_GD_WEBP)
-  check_library_exists(${GD_LIBRARIES} gdImageCreateFromJpeg "" HAVE_GD_JPG)
-  check_library_exists(${GD_LIBRARIES} gdImageCreateFromXpm "" HAVE_GD_XPM)
-  check_library_exists(${GD_LIBRARIES} gdImageCreateFromBmp "" HAVE_GD_BMP)
-  check_library_exists(${GD_LIBRARIES} gdImageCreateFromTga "" HAVE_GD_TGA)
-  check_library_exists(${GD_LIBRARIES} gdImageStringFT "" HAVE_GD_FREETYPE)
-  check_library_exists(${GD_LIBRARIES} gdVersionString "" HAVE_GD_LIBVERSION)
-  check_library_exists(${GD_LIBRARIES} gdImageGetInterpolationMethod "" HAVE_GD_GET_INTERPOLATION)
+  check_library_exists(GD::GD gdImageCreateFromPng "" HAVE_GD_PNG)
+  check_library_exists(GD::GD gdImageCreateFromAvif "" HAVE_GD_AVIF)
+  check_library_exists(GD::GD gdImageCreateFromWebp "" HAVE_GD_WEBP)
+  check_library_exists(GD::GD gdImageCreateFromJpeg "" HAVE_GD_JPG)
+  check_library_exists(GD::GD gdImageCreateFromXpm "" HAVE_GD_XPM)
+  check_library_exists(GD::GD gdImageCreateFromBmp "" HAVE_GD_BMP)
+  check_library_exists(GD::GD gdImageCreateFromTga "" HAVE_GD_TGA)
+  check_library_exists(GD::GD gdImageStringFT "" HAVE_GD_FREETYPE)
+  check_library_exists(GD::GD gdVersionString "" HAVE_GD_LIBVERSION)
+  check_library_exists(GD::GD gdImageGetInterpolationMethod "" HAVE_GD_GET_INTERPOLATION)
 endif()
 
 target_sources(

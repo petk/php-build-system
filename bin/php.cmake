@@ -18,10 +18,10 @@ SYNOPSIS:
 
 Usage examples:
   Downloads specific version from php.net:
-    cmake -P bin/php.cmake 8.3.0RC3
+    cmake -P bin/php.cmake 8.3.0RC4
 
   Or:
-    ./bin/php.cmake 8.3.0RC3
+    ./bin/php.cmake 8.3.0RC4
 
   Downloads the current Git PHP-8.3 branch:
     ./bin/php.cmake 8.3-dev
@@ -30,12 +30,26 @@ Usage examples:
     ./bin/php.cmake 8.4-dev
 #]=============================================================================]
 
+################################################################################
 # Set default variables.
+################################################################################
+
+# Set PHP version.
 if(CMAKE_ARGV3)
   set(PHP_VERSION "${CMAKE_ARGV3}")
 else()
   set(PHP_VERSION "8.4-dev")
 endif()
+
+# Set working paths.
+cmake_path(SET PHP_ROOT_DIR NORMALIZE "${CMAKE_CURRENT_LIST_DIR}/..")
+cmake_path(SET PHP_SOURCE_DIR NORMALIZE "${PHP_ROOT_DIR}/php-${PHP_VERSION}")
+cmake_path(SET PHP_TARBALL NORMALIZE "${PHP_ROOT_DIR}/php-${PHP_VERSION}.tar.gz")
+set(PHP_SOURCE_DIR_NAME "php-${PHP_VERSION}")
+
+################################################################################
+# Check requirements.
+################################################################################
 
 # Check PHP version.
 if(
@@ -47,18 +61,11 @@ elseif(PHP_VERSION VERSION_LESS "8.3.0" OR PHP_VERSION VERSION_GREATER "8.4")
   message(FATAL_ERROR "Unsupported PHP version.")
 endif()
 
-# Set working paths.
-cmake_path(SET PHP_ROOT_DIR NORMALIZE "${CMAKE_CURRENT_LIST_DIR}/..")
-cmake_path(SET PHP_SOURCE_DIR NORMALIZE "${PHP_ROOT_DIR}/php-${PHP_VERSION}")
-cmake_path(SET PHP_TARBALL NORMALIZE "${PHP_ROOT_DIR}/php-${PHP_VERSION}.tar.gz")
-set(PHP_SOURCE_DIR_NAME "php-${PHP_VERSION}")
-
+# Check if source directory exists.
 if(EXISTS "${PHP_SOURCE_DIR}")
   message(FATAL_ERROR "To continue, please remove existing directory ${PHP_SOURCE_DIR_NAME}")
 endif()
 
-# Check requirements.
-#
 # Check if curl or wget is available.
 find_program(DOWNLOAD_TOOL curl)
 
@@ -82,6 +89,10 @@ find_program(GIT_EXECUTABLE git)
 if(NOT GIT_EXECUTABLE)
   message(FATAL_ERROR "Git not found. Please install Git.")
 endif()
+
+################################################################################
+# Functions.
+################################################################################
 
 # Helper that checks if given URL is found.
 function(php_check_url url)
@@ -221,5 +232,9 @@ function(php_init)
     cmake --build . -j
   ")
 endfunction()
+
+################################################################################
+# Scrip initialization.
+################################################################################
 
 php_init()

@@ -3,16 +3,21 @@ Find the LDAP library.
 https://en.wikipedia.org/wiki/List_of_LDAP_software
 https://www.openldap.org/
 
-If LDAP library is found, the following variables are set:
+Module defines the following IMPORTED targets:
 
-LDAP_FOUND
-  Set to 1 if LDAP library is found.
-LDAP_INCLUDE_DIRS
-  A list of include directories for using LDAP library.
-LDAP_LIBRARIES
-  A list of libraries for using LDAP library.
-LDAP_VERSION
-  Version string of found LDAP library.
+  LDAP::LDAP
+    The LDAP library, if found.
+
+Result variables:
+
+  LDAP_FOUND
+    Set to 1 if LDAP library is found.
+  LDAP_INCLUDE_DIRS
+    A list of include directories for using LDAP library.
+  LDAP_LIBRARIES
+    A list of libraries for using LDAP library.
+  LDAP_VERSION
+    Version string of found LDAP library.
 #]=============================================================================]
 
 include(FindPackageHandleStandardArgs)
@@ -37,3 +42,12 @@ find_package_handle_standard_args(
   VERSION_VAR LDAP_VERSION
   REASON_FAILURE_MESSAGE "LDAP not found. Please install LDAP library (libldap)."
 )
+
+if(LDAP_FOUND AND NOT TARGET LDAP::LDAP)
+  add_library(LDAP::LDAP INTERFACE IMPORTED)
+
+  set_target_properties(LDAP::LDAP PROPERTIES
+    INTERFACE_LINK_LIBRARIES "${LDAP_LIBRARIES}"
+    INTERFACE_INCLUDE_DIRECTORIES "${LDAP_INCLUDE_DIRS}"
+  )
+endif()

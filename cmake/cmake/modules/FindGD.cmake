@@ -1,16 +1,22 @@
 #[=============================================================================[
 Find the GD library.
+https://libgd.github.io/
 
-If libgd is found, the following variables are set:
+Module defines the following IMPORTED targets:
 
-GD_FOUND
-  Set to 1 if libgd is found.
-GD_INCLUDE_DIRS
-  A list of include directories for using libgd.
-GD_LIBRARIES
-  A list of libraries for using libgd.
-GD_VERSION
-  Version string of found libgd.
+  GD::GD
+    The GD library, if found.
+
+Result variables:
+
+  GD_FOUND
+    Set to 1 if libgd is found.
+  GD_INCLUDE_DIRS
+    A list of include directories for using libgd.
+  GD_LIBRARIES
+    A list of libraries for using libgd.
+  GD_VERSION
+    Version string of found libgd.
 #]=============================================================================]
 
 include(FindPackageHandleStandardArgs)
@@ -35,3 +41,12 @@ find_package_handle_standard_args(
   VERSION_VAR GD_VERSION
   REASON_FAILURE_MESSAGE "GD not found. Please install GD library (libgd)."
 )
+
+if(GD_FOUND AND NOT TARGET GD::GD)
+  add_library(GD::GD INTERFACE IMPORTED)
+
+  set_target_properties(GD::GD PROPERTIES
+    INTERFACE_LINK_LIBRARIES "${GD_LIBRARIES}"
+    INTERFACE_INCLUDE_DIRECTORIES "${GD_INCLUDE_DIRS}"
+  )
+endif()

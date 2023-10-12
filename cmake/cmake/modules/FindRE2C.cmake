@@ -2,22 +2,22 @@
 Find the free and open-source lexer generator re2c.
 https://re2c.org/
 
-The module sets the following variables:
-
-RE2C_EXECUTABLE
-  Path to the re2c program.
-RE2C_FOUND
-  Set to true if the program was found, false otherwise.
-RE2C_VERSION
-  Version of re2c program.
-
 The minimum required version of re2c can be specified using the standard CMake
 syntax, e.g. 'find_package(RE2C 0.15.3)'.
 
+Result variables:
+
+  RE2C_EXECUTABLE
+    Path to the re2c program.
+  RE2C_FOUND
+    Set to true if the program was found, false otherwise.
+  RE2C_VERSION
+    Version of re2c program.
+
 If re2c is found, the module exposes the following function:
 
-re2c_target(NAME <name> INPUT <input> OUTPUT <output>
-            [OPTIONS <options>]
+  re2c_target(NAME <name> INPUT <input> OUTPUT <output>
+              [OPTIONS <options>]
 )
 #]=============================================================================]
 

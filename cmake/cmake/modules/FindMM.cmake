@@ -2,12 +2,12 @@
 Find the mm library.
 http://www.ossp.org/pkg/lib/mm/
 
-This module defines the following IMPORTED target:
+Module defines the following IMPORTED targets:
 
   MM::MM
     The mm library, if found.
 
-If mm library (libmm) is found, the following variables are set:
+Result variables:
 
   MM_FOUND
     Set to 1 if mm library is found.
@@ -16,7 +16,10 @@ If mm library (libmm) is found, the following variables are set:
   MM_LIBRARIES
     A list of libraries for using mm library.
 
-The MM_ROOT variable adds search path for finding the mmlib on custom locations.
+Hints:
+
+  The MM_ROOT variable adds search path for finding the mmlib on custom
+  locations.
 #]=============================================================================]
 
 include(FindPackageHandleStandardArgs)

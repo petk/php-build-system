@@ -283,7 +283,9 @@ else()
 endif()
 
 if(SAPI_FPM_SYSTEMD)
-  find_package(SYSTEMD 209 REQUIRED)
+  find_package(Systemd 209 REQUIRED)
+
+  target_link_libraries(php_fpm PRIVATE Systemd::Systemd)
 
   check_include_file(systemd/sd-daemon.h HAVE_SYSTEMD_SD_DAEMON_H)
 
@@ -295,14 +297,6 @@ if(SAPI_FPM_SYSTEMD)
 
   target_sources(php_fpm PRIVATE fpm/fpm_systemd.c)
 
-  if(SYSTEMD_LIBRARIES)
-    target_link_libraries(php_fpm PRIVATE ${SYSTEMD_LIBRARIES})
-  endif()
-
-  if(SYSTEMD_INCLUDE_DIRS)
-    target_include_directories(php_fpm PRIVATE ${SYSTEMD_INCLUDE_DIRS})
-  endif()
-
   set(PHP_FPM_SYSTEMD "notify" CACHE INTERNAL "FPM systemd service type")
 else()
   set(PHP_FPM_SYSTEMD "simple" CACHE INTERNAL "FPM systemd service type")
@@ -311,16 +305,12 @@ endif()
 if(SAPI_FPM_ACL)
   find_package(ACL REQUIRED)
 
-  if(ACL_LIBRARIES)
-    target_link_libraries(php_fpm PRIVATE ${ACL_LIBRARIES})
-  endif()
+  target_link_libraries(php_fpm PRIVATE ACL::ACL)
 
   check_include_file(sys/acl.h HAVE_SYS_ACL_H)
 
   cmake_push_check_state(RESET)
-    if(ACL_LIBRARIES)
-      set(CMAKE_REQUIRED_LIBRARIES ${ACL_LIBRARIES})
-    endif()
+    set(CMAKE_REQUIRED_LIBRARIES ACL::ACL)
 
     check_c_source_compiles("
       #include <sys/acl.h>
@@ -339,18 +329,14 @@ if(SAPI_FPM_ACL)
     " _acl_successful)
   cmake_pop_check_state()
 
-  if(_acl_successful AND ACL_LIBRARIES)
-    check_library_exists(${ACL_LIBRARIES} acl_free "" HAVE_FPM_ACL)
+  if(_acl_successful)
+    check_library_exists(ACL::ACL acl_free "" HAVE_FPM_ACL)
   endif()
-
-  unset(_acl_successful CACHE)
 
   if(NOT HAVE_FPM_ACL)
     if(NOT CMAKE_CROSSCOMPILING)
       cmake_push_check_state(RESET)
-        if(ACL_LIBRARIES)
-          set(CMAKE_REQUIRED_LIBRARIES ${ACL_LIBRARIES})
-        endif()
+        set(CMAKE_REQUIRED_LIBRARIES ACL::ACL)
 
         check_c_source_runs("
           #include <sys/acl.h>
@@ -373,16 +359,14 @@ if(SAPI_FPM_ACL)
 endif()
 
 if(SAPI_FPM_APPARMOR)
-  find_package(APPARMOR REQUIRED)
+  find_package(AppArmor REQUIRED)
 
-  if(APPARMOR_LIBRARIES)
-    target_link_libraries(php_fpm PRIVATE ${APPARMOR_LIBRARIES})
-  endif()
+  target_link_libraries(php_fpm PRIVATE AppArmor::AppArmor)
 
   check_include_file(sys/apparmor.h HAVE_SYS_APPARMOR_H)
 
   # Sanity check.
-  check_library_exists(${APPARMOR_LIBRARIES} aa_change_profile "" HAVE_APPARMOR)
+  check_library_exists(AppArmor::AppArmor aa_change_profile "" HAVE_APPARMOR)
 
   if(NOT HAVE_APPARMOR)
     message(FATAL_ERROR "The aa_change_profile() could not be found in the AppArmor library.")
@@ -390,16 +374,14 @@ if(SAPI_FPM_APPARMOR)
 endif()
 
 if(SAPI_FPM_SELINUX)
-  find_package(SELINUX REQUIRED)
+  find_package(SELinux REQUIRED)
 
-  if(SELINUX_LIBRARIES)
-    target_link_libraries(php_fpm PRIVATE ${SELINUX_LIBRARIES})
-  endif()
+  target_link_libraries(php_fpm PRIVATE SELinux::SELinux)
 
   check_include_file(selinux/selinux.h HAVE_SELINUX_SELINUX_H)
 
   # Sanity check.
-  check_library_exists(${SELINUX_LIBRARIES} security_setenforce "" HAVE_SELINUX)
+  check_library_exists(SELinux::SELinux security_setenforce "" HAVE_SELINUX)
 
   if(NOT HAVE_SELINUX)
     message(FATAL_ERROR "The security_setenforce() could not be found in the SELinux library.")

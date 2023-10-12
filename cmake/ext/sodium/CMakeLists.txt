@@ -20,15 +20,9 @@ add_library(php_sodium ${_library_type}
   sodium_pwhash.c
 )
 
-find_package(SODIUM 1.0.2 REQUIRED)
+find_package(Sodium 1.0.2 REQUIRED)
 
-if(SODIUM_LIBRARIES)
-  target_link_libraries(php_sodium PRIVATE ${SODIUM_LIBRARIES})
-endif()
-
-if(SODIUM_INCLUDE_DIRS)
-  target_include_directories(php_sodium PRIVATE ${SODIUM_INCLUDE_DIRS})
-endif()
+target_link_libraries(php_sodium PRIVATE Sodium::Sodium)
 
 # Add -Wno-type-limits and -Wno-logical-op as this may arise on 32bits platforms.
 target_compile_options(php_sodium PRIVATE -Wno-type-limits)

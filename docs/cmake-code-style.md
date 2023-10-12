@@ -22,14 +22,14 @@ ecosystem.
   * [7.2. Alias libraries](#72-alias-libraries)
   * [7.3. Custom targets](#73-custom-targets)
 * [8. Determining platform](#8-determining-platform)
-* [9. Tools](#9-tools)
-  * [9.1. cmake-format (by cmakelang project)](#91-cmake-format-by-cmakelang-project)
-  * [9.2. cmake-lint (by cmakelang project)](#92-cmake-lint-by-cmakelang-project)
-  * [9.3. cmakelint](#93-cmakelint)
-* [10. See also](#10-see-also)
-  * [10.1. bin/check-cmake.sh](#101-bincheck-cmakesh)
-  * [10.2. cmake-format.json](#102-cmake-formatjson)
-  * [10.3. Further resources](#103-further-resources)
+* [9. See also](#9-see-also)
+  * [9.1. Tools](#91-tools)
+    * [9.1.1. cmake-format (by cmakelang project)](#911-cmake-format-by-cmakelang-project)
+    * [9.1.2. cmake-lint (by cmakelang project)](#912-cmake-lint-by-cmakelang-project)
+    * [9.1.3. cmakelint](#913-cmakelint)
+    * [9.1.4. bin/check-cmake.sh](#914-bincheck-cmakesh)
+    * [9.1.5. cmake-format.json](#915-cmake-formatjson)
+  * [9.2. Further resources](#92-further-resources)
 
 ## 1. Introduction
 
@@ -252,21 +252,28 @@ set(HAVE_FOO_H 1 CACHE INTERNAL "<help_text>")
 ## 6. Functions and macros
 
 Functions are generally favored over macros due to their ability to establish
-their own variable scope, while variables within macros remain visible from the
-outer scope.
+their own variable scope, unlike macros where variables remain visible in the
+outer scope. Macros are primarily used in specific cases where setting variables
+within the current scope of CMake code is required.
 
-When naming functions, it is recommended to adhere to the snake_case style.
+CMake function and macro names possess global scope, so it is recommended to
+prefix them with a project scope, such as `php_`. It is preferred to adhere to
+the snake_case style.
 
 ```cmake
-function(php_function_name argument_name_1 argument_name_2)
+function(php_function_name argument_name)
   # Function body
 endfunction()
+
+macro(php_macro_name)
+  # Macro body
+endmacro()
 ```
 
-CMake functions possess global scope. Likewise, just like variables, functions
-that are exclusively used within a single CMake module or `CMakeLists.txt` file
-should be prefixed with an underscore (`_`). This prefix serves as a signal to
-external code to refrain from using them.
+Similarly, like variables, functions and macros exclusively used within a single
+CMake module or `CMakeLists.txt` file should be prefixed with an underscore
+(`_`). This prefix serves as a signal to external code to refrain from using
+them.
 
 ```cmake
 function(_php_internal_function_name)
@@ -377,12 +384,14 @@ endif()
 
 See also [CMakeDetermineSystem.cmake](https://gitlab.kitware.com/cmake/cmake/-/blob/master/Modules/CMakeDetermineSystem.cmake).
 
-## 9. Tools
+## 9. See also
+
+### 9.1. Tools
 
 Several tools for formatting and linting CMake files are available, and while
 their maintenance status may vary, they can still prove valuable.
 
-### 9.1. cmake-format (by cmakelang project)
+#### 9.1.1. cmake-format (by cmakelang project)
 
 The [`cmake-format`](https://cmake-format.readthedocs.io/en/latest/) tool can
 find formatting issues and sync the CMake code style:
@@ -411,7 +420,7 @@ dumping the formatted content to stdout:
 cmake-format -i path/to/cmake/file
 ```
 
-### 9.2. cmake-lint (by cmakelang project)
+#### 9.1.2. cmake-lint (by cmakelang project)
 
 The [`cmake-lint`](https://cmake-format.readthedocs.io/en/latest/cmake-lint.html)
 tool is part of the cmakelang project and can help with linting CMake files:
@@ -423,7 +432,7 @@ cmake-lint <cmake/CMakeLists.txt cmake/...>
 This tool can also utilize the `cmake-format.[json|py|yaml]` file using the `-c`
 option.
 
-### 9.3. cmakelint
+#### 9.1.3. cmakelint
 
 For linting there is also a separate and useful
 [cmakelint](https://github.com/cmake-lint/cmake-lint) tool which similarly lints
@@ -433,9 +442,7 @@ and helps to better structure CMake files:
 cmakelint <cmake/CMakeLists.txt cmake/...>
 ```
 
-## 10. See also
-
-### 10.1. bin/check-cmake.sh
+#### 9.1.4. bin/check-cmake.sh
 
 For convenience there is a custom helper script added to this repository that
 checks CMake files:
@@ -444,7 +451,7 @@ checks CMake files:
 ./bin/check-cmake.sh
 ```
 
-### 10.2. cmake-format.json
+#### 9.1.5. cmake-format.json
 
 The `cmake-format.json` file is used to configure how `cmake-lint` and
 `cmake-format` tools work.
@@ -465,6 +472,6 @@ values from the upstream defaults.
   The cmake-lint checks codes are specified at
   [cmakelang documentation](https://cmake-format.readthedocs.io/en/latest/lint-implemented.html#)
 
-### 10.3. Further resources
+### 9.2. Further resources
 
 * [CMake developers docs](https://cmake.org/cmake/help/latest/manual/cmake-developer.7.html)

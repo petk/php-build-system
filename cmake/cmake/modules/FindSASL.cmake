@@ -1,16 +1,22 @@
 #[=============================================================================[
 Find the SASL library.
+https://www.cyrusimap.org/sasl/
 
-If SASL library is found, the following variables are set:
+Module defines the following IMPORTED targets:
 
-SASL_FOUND
-  Set to 1 if SASL library is found.
-SASL_INCLUDE_DIRS
-  A list of include directories for using SASL library.
-SASL_LIBRARIES
-  A list of libraries for using SASL library.
-SASL_VERSION
-  Version string of found SASL library.
+  SASL::SASL
+    The SASL library, if found.
+
+Result variables:
+
+  SASL_FOUND
+    Set to 1 if SASL library is found.
+  SASL_INCLUDE_DIRS
+    A list of include directories for using SASL library.
+  SASL_LIBRARIES
+    A list of libraries for using SASL library.
+  SASL_VERSION
+    Version string of found SASL library.
 #]=============================================================================]
 
 include(FindPackageHandleStandardArgs)
@@ -35,3 +41,12 @@ find_package_handle_standard_args(
   VERSION_VAR SASL_VERSION
   REASON_FAILURE_MESSAGE "SASL not found. Please install SASL library (libsasl2)."
 )
+
+if(SASL_FOUND AND NOT TARGET SASL::SASL)
+  add_library(SASL::SASL INTERFACE IMPORTED)
+
+  set_target_properties(SASL::SASL PROPERTIES
+    INTERFACE_LINK_LIBRARIES "${SASL_LIBRARIES}"
+    INTERFACE_INCLUDE_DIRECTORIES "${SASL_INCLUDE_DIRS}"
+  )
+endif()

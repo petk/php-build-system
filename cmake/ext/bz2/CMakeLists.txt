@@ -22,11 +22,11 @@ add_library(php_bz2 ${_library_type}
 
 find_package(BZip2 1.0.0 REQUIRED)
 
+# Link with PUBLIC scope if include directories are on non-standard places.
+target_link_libraries(php_bz2 PUBLIC BZip2::BZip2)
+
 check_library_exists(BZip2::BZip2 BZ2_bzerror "" HAVE_BZ2_LIB)
 
 if(NOT HAVE_BZ2_LIB)
   message(FATAL_ERROR "bz2 module requires libbz2 >= 1.0.0")
 endif()
-
-# Set to PUBLIC if include directories are on non-standard places.
-target_link_libraries(php_bz2 PUBLIC BZip2::BZip2)

@@ -2,12 +2,12 @@
 Find the Capstone library.
 https://www.capstone-engine.org
 
-This module defines the following IMPORTED target:
+Module defines the following IMPORTED targets:
 
   Capstone::Capstone
     The Capstone library, if found.
 
-If Capstone library is found, the following variables are set:
+Result variables:
 
   Capstone_FOUND
     Set to 1 if Capstone library is found.

@@ -29,24 +29,12 @@ target_compile_definitions(php_ldap PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE=1)
 
 find_package(LDAP REQUIRED)
 
-if(LDAP_LIBRARIES)
-  target_link_libraries(php_ldap PRIVATE ${LDAP_LIBRARIES})
-endif()
-
-if(LDAP_INCLUDE_DIRS)
-  target_include_directories(php_ldap PRIVATE ${LDAP_INCLUDE_DIRS})
-endif()
+target_link_libraries(php_ldap PRIVATE LDAP::LDAP)
 
 message(STATUS "Checking for 3 arg ldap_set_rebind_proc")
 
 cmake_push_check_state(RESET)
-  if(LDAP_LIBRARIES)
-    set(CMAKE_REQUIRED_LIBRARIES ${LDAP_LIBRARIES})
-  endif()
-
-  if(LDAP_INCLUDE_DIRS)
-    set(CMAKE_REQUIRED_INCLUDES ${LDAP_INCLUDE_DIRS})
-  endif()
+  set(CMAKE_REQUIRED_LIBRARIES LDAP::LDAP)
 
   check_c_source_compiles("
     #include <ldap.h>
@@ -74,26 +62,14 @@ cmake_pop_check_state()
 if(EXT_LDAP_SASL)
   find_package(SASL REQUIRED)
 
-  if(SASL_LIBRARIES)
-    target_link_libraries(php_ldap PRIVATE ${SASL_LIBRARIES})
-  endif()
-
-  if(SASL_INCLUDE_DIRS)
-    target_include_directories(php_ldap PRIVATE ${SASL_INCLUDE_DIRS})
-  endif()
+  target_link_libraries(php_ldap PRIVATE SASL::SASL)
 
   set(HAVE_LDAP_SASL 1 CACHE INTERNAL "Set to 1 if LDAP has SASL support")
 endif()
 
 # Sanity check.
 cmake_push_check_state(RESET)
-  if(LDAP_LIBRARIES)
-    set(CMAKE_REQUIRED_LIBRARIES ${LDAP_LIBRARIES})
-  endif()
-
-  if(LDAP_INCLUDE_DIRS)
-    set(CMAKE_REQUIRED_INCLUDES ${LDAP_INCLUDE_DIRS})
-  endif()
+  set(CMAKE_REQUIRED_LIBRARIES LDAP::LDAP)
 
   check_symbol_exists(ldap_sasl_bind_s "ldap.h" _have_ldap_sasl_bind_s)
 cmake_pop_check_state()

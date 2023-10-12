@@ -33,10 +33,10 @@ endif()
 
 find_package(OpenSSL 1.0.2 REQUIRED)
 
-set(HAVE_OPENSSL_EXT 1 CACHE INTERNAL "Whether the OpenSSL extension is available")
-
 target_link_libraries(php_openssl PRIVATE OpenSSL::SSL)
 target_link_libraries(php_openssl PRIVATE OpenSSL::Crypto)
+
+set(HAVE_OPENSSL_EXT 1 CACHE INTERNAL "Whether the OpenSSL extension is available")
 
 cmake_push_check_state(RESET)
   set(CMAKE_REQUIRED_LIBRARIES OpenSSL::SSL)

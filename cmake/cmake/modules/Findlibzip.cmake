@@ -2,12 +2,16 @@
 Find the libzip library.
 https://libzip.org/
 
-Module defines the following IMPORTED target:
+This is a helper in case system doesn't have the libzip's Config find module
+yet. It seems that libzip find module provided by the library requires also
+zip tools installed on the system.
+
+Module defines the following IMPORTED targets:
 
   libzip::libzip
     The libzip library, if found.
 
-Modules sets the following variables:
+Result variables:
 
   libzip_FOUND
     Set to 1 if libzip library has been found.

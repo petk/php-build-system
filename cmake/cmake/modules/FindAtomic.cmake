@@ -1,10 +1,17 @@
 #[=============================================================================[
 Find the atomic instructions.
 
-ATOMIC_FOUND
-  Set to 1 if atomic instructions are available.
-ATOMIC_LIBRARIES
-  A list of libraries needed in order to use atomic functionality.
+Module defines the following IMPORTED targets:
+
+  Atomic::Atomic
+    The Atomic library, if found.
+
+Result variables:
+
+  Atomic_FOUND
+    Set to 1 if atomic instructions are available.
+  Atomic_LIBRARIES
+    A list of libraries needed in order to use atomic functionality.
 #]=============================================================================]
 
 include(CheckCSourceCompiles)
@@ -51,3 +58,11 @@ find_package_handle_standard_args(
   REQUIRED_VARS ATOMIC_FOUND
   REASON_FAILURE_MESSAGE "ATOMIC not found. Please install compiler that supports atomic."
 )
+
+if(Atomic_FOUND AND NOT TARGET Atomic::Atomic)
+  add_library(Atomic::Atomic INTERFACE IMPORTED)
+
+  set_target_properties(Atomic::Atomic PROPERTIES
+    INTERFACE_LINK_LIBRARIES "${Atomic_LIBRARIES}"
+  )
+endif()

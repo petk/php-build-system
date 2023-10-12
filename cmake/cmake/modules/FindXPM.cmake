@@ -1,16 +1,22 @@
 #[=============================================================================[
-Find the XPM library.
+Find the libXpm library.
+https://gitlab.freedesktop.org/xorg/lib/libxpm
 
-If xpm library is found, the following variables are set:
+Module defines the following IMPORTED targets:
 
-XPM_FOUND
-  Set to 1 if xpm library is found.
-XPM_INCLUDE_DIRS
-  A list of include directories for using xpm library.
-XPM_LIBRARIES
-  A list of libraries for using xpm.
-XPM_VERSION
-  Version string of found xpm.
+  XPM::XPM
+    The libXpm library, if found.
+
+Result variables:
+
+  XPM_FOUND
+    Set to 1 if libXpm library is found.
+  XPM_INCLUDE_DIRS
+    A list of include directories for using libXpm library.
+  XPM_LIBRARIES
+    A list of libraries for using libXpm.
+  XPM_VERSION
+    Version string of found libXpm.
 #]=============================================================================]
 
 include(FindPackageHandleStandardArgs)
@@ -33,5 +39,14 @@ find_package_handle_standard_args(
   XPM
   REQUIRED_VARS XPM_LIBRARIES
   VERSION_VAR XPM_VERSION
-  REASON_FAILURE_MESSAGE "XPM not found. Please install xpm library."
+  REASON_FAILURE_MESSAGE "libXpm not found. Please install libXpm library."
 )
+
+if(XPM_FOUND AND NOT TARGET XPM::XPM)
+  add_library(XPM::XPM INTERFACE IMPORTED)
+
+  set_target_properties(XPM::XPM PROPERTIES
+    INTERFACE_LINK_LIBRARIES "${XPM_LIBRARIES}"
+    INTERFACE_INCLUDE_DIRECTORIES "${XPM_INCLUDE_DIRS}"
+  )
+endif()

@@ -2,12 +2,12 @@
 Find the FFI library.
 https://sourceware.org/libffi/
 
-Module defines the following IMPORTED target:
+Module defines the following IMPORTED targets:
 
   FFI::FFI
     The FFI library, if found.
 
-If the FFI library is found, the following variables are set:
+Result variables:
 
   FFI_FOUND
     Set to 1 if FFI library is found.

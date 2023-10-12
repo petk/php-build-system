@@ -2,12 +2,12 @@
 Find the GMP library.
 https://gmplib.org/
 
-Module defines the following IMPORTED target:
+Module defines the following IMPORTED targets:
 
   GMP::GMP
     The GMP library, if found.
 
-If GMP library is found, the following variables are set:
+Result variables:
 
   GMP_FOUND
     Set to 1 if GMP library is found.

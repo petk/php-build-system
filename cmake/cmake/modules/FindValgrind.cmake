@@ -2,12 +2,12 @@
 Find Valgrind.
 https://valgrind.org/
 
-Module defines the following IMPORTED target:
+Module defines the following IMPORTED targets:
 
   Valgrind::Valgrind
     The Valgrind, if found.
 
-Module sets the following variables:
+Result variables:
 
   Valgrind_FOUND
     Set to 1 if Valgrind has been found.

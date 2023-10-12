@@ -2,16 +2,21 @@
 Find the ACL library.
 https://savannah.nongnu.org/projects/acl/
 
-If ACL library is found, the following variables are set:
+Module defines the following IMPORTED targets:
 
-ACL_FOUND
-  Set to 1 if ACL library is found.
-ACL_INCLUDE_DIRS
-  A list of include directories for using ACL library.
-ACL_LIBRARIES
-  A list of libraries for using ACL library.
-ACL_VERSION
-  Version string of found ACL library.
+  ACL::ACL
+    The ACL library, if found.
+
+Result variables:
+
+  ACL_FOUND
+    Set to 1 if ACL library is found.
+  ACL_INCLUDE_DIRS
+    A list of include directories for using ACL library.
+  ACL_LIBRARIES
+    A list of libraries for using ACL library.
+  ACL_VERSION
+    Version string of found ACL library.
 #]=============================================================================]
 
 include(FindPackageHandleStandardArgs)
@@ -36,3 +41,12 @@ find_package_handle_standard_args(
   VERSION_VAR ACL_VERSION
   REASON_FAILURE_MESSAGE "ACL not found. Please install ACL library."
 )
+
+if(ACL_FOUND AND NOT TARGET ACL::ACL)
+  add_library(ACL::ACL INTERFACE IMPORTED)
+
+  set_target_properties(ACL::ACL PROPERTIES
+    INTERFACE_LINK_LIBRARIES "${ACL_LIBRARIES}"
+    INTERFACE_INCLUDE_DIRECTORIES "${ACL_INCLUDE_DIRS}"
+  )
+endif()

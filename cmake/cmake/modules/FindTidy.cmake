@@ -2,12 +2,12 @@
 Find the Tidy library.
 https://www.html-tidy.org/
 
-This module defines the following IMPORTED target:
+Module defines the following IMPORTED targets:
 
   Tidy::Tidy
     The Tidy library, if found.
 
-This module sets the following variables:
+Result variables:
 
   Tidy_FOUND
     Set to 1 if tidy library has been found.

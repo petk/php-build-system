@@ -243,19 +243,11 @@ else()
 endif()
 
 if(EXT_STANDARD_ARGON2)
-  find_package(ARGON 20171227 REQUIRED)
+  find_package(Argon2 20171227 REQUIRED)
 
-  if(ARGON_FOUND)
-    set(HAVE_ARGON2LIB 1 CACHE INTERNAL "Whether to use the libargon2")
+  target_link_libraries(php_standard PRIVATE Argon2::Argon2)
 
-    if(ARGON_LIBRARIES)
-      target_link_libraries(php_standard PRIVATE ${ARGON_LIBRARIES})
-    endif()
-
-    if(ARGON_INCLUDE_DIRS)
-      target_include_directories(php_standard PRIVATE ${ARGON_INCLUDE_DIRS})
-    endif()
-  endif()
+  set(HAVE_ARGON2LIB 1 CACHE INTERNAL "Whether to use the libargon2")
 endif()
 
 target_compile_definitions(php_standard PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE=1)

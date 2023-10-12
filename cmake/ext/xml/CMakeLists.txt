@@ -31,9 +31,9 @@ if(NOT EXT_XML_EXPAT)
 else()
   find_package(EXPAT REQUIRED)
 
-  set(HAVE_LIBEXPAT 1 CACHE INTERNAL "Whether libexpat is used")
-
   target_link_libraries(php_xml PRIVATE EXPAT::EXPAT)
+
+  set(HAVE_LIBEXPAT 1 CACHE INTERNAL "Whether libexpat is used")
 endif()
 
 target_compile_definitions(php_xml PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE=1)

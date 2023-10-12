@@ -2,12 +2,12 @@
 Find the Oniguruma library.
 https://github.com/kkos/oniguruma
 
-This module defines the following IMPORTED target:
+Module defines the following IMPORTED targets:
 
   Oniguruma::Oniguruma
     The Oniguruma library, if found.
 
-If Oniguruma library is found, the following variables are set:
+Result variables:
 
   Oniguruma_FOUND
     Set to 1 if Oniguruma library is found.

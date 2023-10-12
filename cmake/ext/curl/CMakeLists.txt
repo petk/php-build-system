@@ -27,10 +27,6 @@ add_library(php_curl ${_library_type}
 
 find_package(CURL 7.29.0 REQUIRED OPTIONAL_COMPONENTS SSL)
 
-if(NOT TARGET CURL::libcurl)
-  message(FATAL_ERROR "CURL::libcurl imported target has not been set. Please check logs.")
-endif()
-
 target_link_libraries(php_curl PRIVATE CURL::libcurl)
 
 # Checking if libcurl is linked against old OpenSSL.

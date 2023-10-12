@@ -19,26 +19,20 @@ add_library(php_enchant ${_library_type}
   enchant.c
 )
 
-find_package(ENCHANT 2.0)
+find_package(Enchant 2.0)
 
-if(ENCHANT_FOUND)
+if(Enchant_FOUND)
   set(HAVE_ENCHANT_GET_VERSION 1 CACHE INTERNAL "enchant_get_version since 1.6.0")
 else()
-  message(WARNING "enchant library 2 not found, trying with enchant 1")
+  message(WARNING "Library Enchant 2 not found, trying with Enchant 1")
 
-  find_package(ENCHANT 1.4.2 REQUIRED)
+  find_package(Enchant 1.4.2 REQUIRED)
 
   # enchant_get_version since 1.6.0.
-  check_library_exists(${ENCHANT_LIBRARIES} enchant_get_version "" HAVE_ENCHANT_GET_VERSION)
+  check_library_exists(Enchant::Enchant enchant_get_version "" HAVE_ENCHANT_GET_VERSION)
 
   # enchant_broker_set_param since 1.5.0 and removed in 2.x.
-  check_library_exists(${ENCHANT_LIBRARIES} enchant_broker_set_param "" HAVE_ENCHANT_BROKER_SET_PARAM)
+  check_library_exists(Enchant::Enchant enchant_broker_set_param "" HAVE_ENCHANT_BROKER_SET_PARAM)
 endif()
 
-if(ENCHANT_LIBRARIES)
-  target_link_libraries(php_enchant PRIVATE ${ENCHANT_LIBRARIES})
-endif()
-
-if(ENCHANT_INCLUDE_DIRS)
-  target_include_directories(php_enchant PRIVATE ${ENCHANT_INCLUDE_DIRS})
-endif()
+target_link_libraries(php_enchant PRIVATE Enchant::Enchant)
