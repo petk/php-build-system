@@ -1,15 +1,3 @@
-diff --git a/.cirrus.yml b/.cirrus.yml
-index a5910b7821..87a53e123f 100644
---- a/.cirrus.yml
-+++ b/.cirrus.yml
-@@ -68,7 +68,6 @@ arm_task:
-         libtidy-dev
-         libenchant-2-dev
-         libaspell-dev
--        libpspell-dev
-         libsasl2-dev
-         libxpm-dev
-         libzip-dev
 diff --git a/.github/actions/apt-x32/action.yml b/.github/actions/apt-x32/action.yml
 index 879300f992..de820684fb 100644
 --- a/.github/actions/apt-x32/action.yml
