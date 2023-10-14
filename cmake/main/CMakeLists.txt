@@ -55,10 +55,6 @@ target_include_directories(
 
 target_compile_definitions(php_main PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE=1)
 
-if(HAVE_DTRACE)
-  add_dependencies(php_main zend_dtrace)
-endif()
-
 target_link_libraries(php_main PUBLIC zend)
 
 if(EXTRA_LIBS)
@@ -67,6 +63,27 @@ endif()
 
 if(EXTRA_DEFINITIONS)
   target_compile_definitions(php_main PRIVATE ${EXTRA_DEFINITIONS})
+endif()
+
+# Check DTrace.
+if(PHP_DTRACE)
+  message(STATUS "Checking for DTrace support")
+
+  find_package(DTrace REQUIRED)
+
+  dtrace_target(
+    TARGET php_main
+    INPUT ${CMAKE_SOURCE_DIR}/Zend/zend_dtrace.d
+    HEADER ${CMAKE_BINARY_DIR}/Zend/zend_dtrace_gen.h
+    SOURCES ${CMAKE_SOURCE_DIR}/main/main.c
+            ${CMAKE_SOURCE_DIR}/Zend/zend_API.c
+            ${CMAKE_SOURCE_DIR}/Zend/zend_execute.c
+            ${CMAKE_SOURCE_DIR}/Zend/zend_exceptions.c
+            ${CMAKE_SOURCE_DIR}/Zend/zend_dtrace.c
+            ${CMAKE_SOURCE_DIR}/Zend/zend.c
+  )
+
+  message(STATUS "DTrace enabled")
 endif()
 
 foreach(extension IN LISTS PHP_EXTENSIONS_STATIC)

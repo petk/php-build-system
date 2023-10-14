@@ -1634,9 +1634,6 @@
 /* Define to 1 if you have the <sys/resource.h> header file. */
 #cmakedefine HAVE_SYS_RESOURCE_H @HAVE_SYS_RESOURCE_H@
 
-/* Define to 1 if you have the <sys/sdt.h> header file. */
-#cmakedefine HAVE_SYS_SDT_H @HAVE_SYS_SDT_H@
-
 /* Define to 1 if you have the <sys/select.h> header file. */
 #cmakedefine HAVE_SYS_SELECT_H @HAVE_SYS_SELECT_H@
 

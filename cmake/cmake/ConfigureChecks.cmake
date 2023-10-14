@@ -378,9 +378,6 @@ endif()
 # Check for aarch64 CRC32 API.
 include(PHP/CheckAarch64CRC32)
 
-# Check DTrace.
-include(PHP/CheckDTrace)
-
 # Check POSIX Threads flags.
 if(PHP_ZTS)
   string(TOLOWER "${CMAKE_HOST_SYSTEM}" host_os)

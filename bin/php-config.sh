@@ -26,6 +26,7 @@ patterns="
 #undef\sHAVE_MYSQL
 #undef\sHAVE_LIBPQ
 #undef\sHAVE_TIMER_CREATE
+#undef\sHAVE_SYS_SDT_H
 "
 
 # Similar to the above patterns except the two lines above and one after the

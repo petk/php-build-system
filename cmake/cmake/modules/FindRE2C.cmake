@@ -16,9 +16,11 @@ Result variables:
 
 If re2c is found, the module exposes the following function:
 
-  re2c_target(NAME <name> INPUT <input> OUTPUT <output>
-              [OPTIONS <options>]
-)
+  re2c_target(NAME <name>
+              INPUT <input>
+              OUTPUT <output>
+              [OPTIONS <options>...]
+              [DEPENDS <depends>...])
 #]=============================================================================]
 
 include(CheckCSourceCompiles)
@@ -65,18 +67,27 @@ if(PHP_RE2C_CGOTO)
 endif()
 
 function(re2c_target)
-  cmake_parse_arguments(PARSED_ARGS "" "NAME;INPUT;OUTPUT;OPTIONS" "DEPENDS" ${ARGN})
+  set(one_value_args NAME INPUT OUTPUT OPTIONS)
+  set(multi_value_args DEPENDS)
 
-  if(NOT PARSED_ARGS_OUTPUT)
-    message(FATAL_ERROR "re2c_target expects an output filename")
+  cmake_parse_arguments(
+    PARSED_ARGS
+    ""
+    "${one_value_args}"
+    "${multi_value_args}"
+    ${ARGN}
+  )
+
+  if(NOT PARSED_ARGS_NAME)
+    message(FATAL_ERROR "re2c_target expects a target name")
   endif()
 
   if(NOT PARSED_ARGS_INPUT)
     message(FATAL_ERROR "re2c_target expects an input filename")
   endif()
 
-  if(NOT PARSED_ARGS_NAME)
-    message(FATAL_ERROR "re2c_target expects a target name")
+  if(NOT PARSED_ARGS_OUTPUT)
+    message(FATAL_ERROR "re2c_target expects an output filename")
   endif()
 
   separate_arguments(re2c_target_extraopts NATIVE_COMMAND "${PARSED_ARGS_OPTIONS}")
