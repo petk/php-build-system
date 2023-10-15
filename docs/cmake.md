@@ -16,7 +16,7 @@ providing a basic understanding of its fundamentals.
   * [3.2. Working with cache variables](#32-working-with-cache-variables)
   * [3.3. Using variables](#33-using-variables)
   * [3.4. Lists](#34-lists)
-* [4. Functions and macros](#4-functions-and-macros)
+* [4. Functions](#4-functions)
 * [5. Verification and checks in CMake](#5-verification-and-checks-in-cmake)
   * [5.1. Header availability check](#51-header-availability-check)
   * [5.2. C source compilation check](#52-c-source-compilation-check)
@@ -208,7 +208,7 @@ set(string_variable "a b c")
 
 The `list()` command performs operations on lists.
 
-## 4. Functions and macros
+## 4. Functions
 
 CMake function is created with the `function()` command:
 
@@ -219,28 +219,8 @@ function(print_message argument)
 endfunction()
 
 # Calling the function
-print_message("Hello World")
-# Outputs: Hello World
-```
-
-CMake macros are similar to functions but with one key difference: they do not
-establish their variable scope. Variables defined within macros are global and
-remain visible from the outer scope. Macros are usually reserved for specific
-cases where you want to set variables in the current scope of the CMake code.
-
-CMake macro is created with the `macro()` command:
-
-```cmake
-# Defining a macro
-macro(add_suffix var)
-  set(${var} "${${var}} World")
-endmacro()
-
-# Calling a macro inserts the macro body in-place:
-set(VAR "Hello")
-add_suffix(VAR)
-message(STATUS "${VAR}")
-# Outputs: Hello World
+print_message("Hello, World")
+# Outputs: Hello, World
 ```
 
 ## 5. Verification and checks in CMake

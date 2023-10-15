@@ -39,6 +39,7 @@ function(_php_check_inline)
   endforeach()
 
   if(NOT DEFINED INLINE_KEYWORD)
+    # TODO: use INTERFACE library.
     add_compile_definitions(inline)
     message(WARNING "Compiler doesn't support the inline keyword")
   endif()

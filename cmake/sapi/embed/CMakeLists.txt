@@ -14,10 +14,6 @@ target_link_libraries(php_embed PRIVATE PHP::main)
 
 target_compile_definitions(php_embed PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE=1)
 
-if(EXTRA_DEFINITIONS)
-  target_compile_definitions(php_embed PRIVATE ${EXTRA_DEFINITIONS})
-endif()
-
 # TODO: Check if there's a better solution here.
 set_target_properties(php_embed PROPERTIES ENABLE_EXPORTS TRUE)
 

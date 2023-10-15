@@ -37,6 +37,14 @@ set_property(CACHE PHP_LAYOUT PROPERTY STRINGS
 
 set(PHP_EXTENSION_DIR "" CACHE STRING "The extension_dir PHP INI directive absolute path")
 
+option(PHP_WERROR "Whether to enable the -Werror compiler option" OFF)
+
+option(PHP_MEMORY_SANITIZER "Whether to enable the memory sanitizer compiler options (clang only)" OFF)
+
+option(PHP_ADDRESS_SANITIZER "Whether to enable the address sanitizer compiler option" OFF)
+
+option(PHP_UNDEFINED_SANITIZER "Whether to enable the undefined sanitizer compiler option" OFF)
+
 #[=============================================================================[
 General options.
 #]=============================================================================]

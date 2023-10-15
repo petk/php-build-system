@@ -257,8 +257,8 @@ outer scope. Macros are primarily used in specific cases where setting variables
 within the current scope of CMake code is required.
 
 CMake function and macro names possess global scope, so it is recommended to
-prefix them with a project scope, such as `php_`. It is preferred to adhere to
-the snake_case style.
+prefix them contextually, for example `php_`. It is preferred to adhere to the
+snake_case style.
 
 ```cmake
 function(php_function_name argument_name)

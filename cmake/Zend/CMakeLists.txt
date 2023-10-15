@@ -167,6 +167,8 @@ add_library(zend STATIC
   Optimizer/zend_dump.c
 )
 
+target_link_libraries(zend PRIVATE PHP::configuration)
+
 target_include_directories(
   zend
   PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}
@@ -270,6 +272,8 @@ if(ZEND_FIBER_ASM)
     "asm/make_${FIBER_ASM_FILE}.S"
     "asm/jump_${FIBER_ASM_FILE}.S"
   )
+
+  target_link_libraries(zend_asm PRIVATE PHP::configuration)
 
   # The asm file can't see macro from defined constant, workaround this via cflag.
   if(SYSCALL_SHADOW_STACK_EXISTS)

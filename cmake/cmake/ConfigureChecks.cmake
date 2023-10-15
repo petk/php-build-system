@@ -3,6 +3,7 @@ Project-wide configuration checks.
 #]=============================================================================]
 
 # Include required modules.
+include(CheckCompilerFlag)
 include(CheckIncludeFile)
 include(CheckIncludeFiles)
 include(CheckLibraryExists)
@@ -16,7 +17,10 @@ message(CHECK_START "Checking how big to make file descriptor sets")
 
 if(PHP_FD_SETSIZE GREATER 0)
   message(CHECK_PASS "using FD_SETSIZE=${PHP_FD_SETSIZE}")
-  set(EXTRA_DEFINITIONS ${EXTRA_DEFINITIONS} -DFD_SETSIZE=${PHP_FD_SETSIZE})
+  target_compile_definitions(
+    php_configuration
+    INTERFACE $<$<COMPILE_LANGUAGE:ASM,C,CXX>:FD_SETSIZE=${PHP_FD_SETSIZE}>
+  )
 elseif(
   NOT PHP_FD_SETSIZE STREQUAL ""
   AND NOT PHP_FD_SETSIZE GREATER 0
@@ -170,6 +174,11 @@ include(PHP/CheckBrokenGetCwd)
 
 # Check for broken gcc optimize-strlen.
 include(PHP/CheckBrokenGccStrlenOpt)
+if(HAVE_BROKEN_OPTIMIZE_STRLEN)
+  target_compile_options(php_configuration
+    INTERFACE $<$<COMPILE_LANGUAGE:ASM,C>:-fno-optimize-strlen>
+  )
+endif()
 
 # Check for missing fclose declaration.
 include(PHP/CheckMissingFcloseDeclaration)
@@ -382,19 +391,40 @@ include(PHP/CheckAarch64CRC32)
 if(PHP_ZTS)
   string(TOLOWER "${CMAKE_HOST_SYSTEM}" host_os)
   if(${host_os} MATCHES ".*solaris.*")
-    set(EXTRA_DEFINITIONS ${EXTRA_DEFINITIONS} -D_POSIX_PTHREAD_SEMANTICS -D_REENTRANT)
+    target_compile_definitions(
+      php_configuration
+      INTERFACE "$<$<COMPILE_LANGUAGE:ASM,C,CXX>:_POSIX_PTHREAD_SEMANTICS;_REENTRANT>"
+    )
   elseif(${host_os} MATCHES ".*freebsd.*")
-    set(EXTRA_DEFINITIONS ${EXTRA_DEFINITIONS} -D_REENTRANT -D_THREAD_SAFE)
+    target_compile_definitions(
+      php_configuration
+      INTERFACE "$<$<COMPILE_LANGUAGE:ASM,C,CXX>:_REENTRANT;_THREAD_SAFE>"
+    )
   elseif(${host_os} MATCHES ".*linux.*")
-    set(EXTRA_DEFINITIONS ${EXTRA_DEFINITIONS} -D_REENTRANT)
+    target_compile_definitions(
+      php_configuration
+      INTERFACE "$<$<COMPILE_LANGUAGE:ASM,C,CXX>:_REENTRANT>"
+    )
   elseif(${host_os} MATCHES ".*aix.*")
-    set(EXTRA_DEFINITIONS ${EXTRA_DEFINITIONS} -D_THREAD_SAFE)
+    target_compile_definitions(
+      php_configuration
+      INTERFACE "$<$<COMPILE_LANGUAGE:ASM,C,CXX>:_THREAD_SAFE>"
+    )
   elseif(${host_os} MATCHES ".*irix.*")
-    set(EXTRA_DEFINITIONS ${EXTRA_DEFINITIONS} -D_POSIX_THREAD_SAFE_FUNCTIONS)
+    target_compile_definitions(
+      php_configuration
+      INTERFACE "$<$<COMPILE_LANGUAGE:ASM,C,CXX>:_POSIX_THREAD_SAFE_FUNCTIONS>"
+    )
   elseif(${host_os} MATCHES ".*hpux.*")
-    set(EXTRA_DEFINITIONS ${EXTRA_DEFINITIONS} -D_REENTRANT)
+    target_compile_definitions(
+      php_configuration
+      INTERFACE "$<$<COMPILE_LANGUAGE:ASM,C,CXX>:_REENTRANT>"
+    )
   elseif(${host_os} MATCHES ".*sco.*")
-    set(EXTRA_DEFINITIONS ${EXTRA_DEFINITIONS} -D_REENTRANT)
+    target_compile_definitions(
+      php_configuration
+      INTERFACE "$<$<COMPILE_LANGUAGE:ASM,C,CXX>:_REENTRANT>"
+    )
   endif()
 endif()
 
@@ -529,3 +559,139 @@ set(HAVE_INTTYPES_H 1 CACHE INTERNAL "Define to 1 if you have the <inttypes.h> h
 # stdint.h is always available as part of C99 standard. The libmagic,
 # ext/date/lib still include it conditionally.
 set(HAVE_STDINT_H 1 CACHE INTERNAL "Define to 1 if you have the <stdint.h> header file.")
+
+################################################################################
+# Compiler options.
+################################################################################
+
+# Enable -Werror.
+if(PHP_WERROR)
+  message(
+    STATUS
+    "Enabling compiler options: Warnings treated as errors (-Werror)"
+  )
+
+  set(CMAKE_COMPILE_WARNING_AS_ERROR TRUE)
+endif()
+
+if(PHP_MEMORY_SANITIZER AND PHP_ADDRESS_SANITIZER)
+  message(
+    FATAL_ERROR
+    "MemorySanitizer and AddressSanitizer are mutually exclusive"
+  )
+endif()
+
+# Enable memory sanitizer compiler options.
+if(PHP_MEMORY_SANITIZER)
+  message(STATUS
+    "Enabling compiler options:"
+    " -fsanitize=memory"
+    " -fsanitize-memory-track-origins"
+  )
+
+  cmake_push_check_state(RESET)
+    set(CMAKE_REQUIRED_LINK_OPTIONS -fsanitize=memory -fsanitize-memory-track-origins)
+
+    check_compiler_flag(
+      C
+      "-fsanitize=memory;-fsanitize-memory-track-origins"
+      HAVE_C_MEMORY_SANITIZER_OPTION
+    )
+    check_compiler_flag(
+      CXX
+      "-fsanitize=memory;-fsanitize-memory-track-origins"
+      HAVE_CXX_MEMORY_SANITIZER_OPTION
+    )
+  cmake_pop_check_state()
+
+  if(HAVE_C_MEMORY_SANITIZER_OPTION AND HAVE_CXX_MEMORY_SANITIZER_OPTION)
+    target_compile_options(php_configuration
+      INTERFACE "$<$<COMPILE_LANGUAGE:C,CXX>:-fsanitize=memory;-fsanitize-memory-track-origins>"
+    )
+    target_link_options(php_configuration
+      INTERFACE "$<$<COMPILE_LANGUAGE:C,CXX>:-fsanitize=memory;-fsanitize-memory-track-origins>"
+    )
+  else()
+    message(FATAL_ERROR "MemorySanitizer is not available")
+  endif()
+endif()
+
+# Enable address sanitizer compiler option.
+if(PHP_ADDRESS_SANITIZER)
+  message(STATUS "Enabling compiler options: -fsanitize=address")
+
+  cmake_push_check_state(RESET)
+    set(CMAKE_REQUIRED_LINK_OPTIONS "-fsanitize=address")
+
+    check_compiler_flag(C "-fsanitize=address" HAVE_C_ADDRESS_SANITIZER_OPTION)
+    check_compiler_flag(CXX "-fsanitize=address" HAVE_CXX_ADDRESS_SANITIZER_OPTION)
+  cmake_pop_check_state()
+
+  if(HAVE_C_ADDRESS_SANITIZER_OPTION AND HAVE_CXX_ADDRESS_SANITIZER_OPTION)
+    target_compile_options(php_configuration
+      INTERFACE "$<$<COMPILE_LANGUAGE:C,CXX>:-fsanitize=address>"
+    )
+
+    target_link_options(php_configuration
+      INTERFACE "$<$<COMPILE_LANGUAGE:C,CXX>:-fsanitize=address>"
+    )
+
+    target_compile_definitions(php_configuration
+      INTERFACE $<$<COMPILE_LANGUAGE:ASM,C,CXX>:ZEND_TRACK_ARENA_ALLOC>
+    )
+  else()
+    message(FATAL_ERROR "AddressSanitizer is not available")
+  endif()
+endif()
+
+# Enable the -fsanitize=undefined compiler option.
+if(PHP_UNDEFINED_SANITIZER)
+  message(STATUS "Enabling compiler options: -fsanitize=undefined")
+
+  cmake_push_check_state(RESET)
+    set(CMAKE_REQUIRED_LINK_OPTIONS "-fsanitize=undefined")
+
+    check_compiler_flag(C "-fsanitize=undefined" HAVE_C_UNDEFINED_SANITIZER_OPTION)
+    check_compiler_flag(CXX "-fsanitize=undefined" HAVE_CXX_UNDEFINED_SANITIZER_OPTION)
+  cmake_pop_check_state()
+
+  if(HAVE_C_UNDEFINED_SANITIZER_OPTION AND HAVE_CXX_UNDEFINED_SANITIZER_OPTION)
+    target_compile_options(php_configuration
+      INTERFACE "$<$<COMPILE_LANGUAGE:C,CXX>:-fsanitize=undefined;-fno-sanitize-recover=undefined>"
+    )
+
+    target_link_options(php_configuration
+      INTERFACE "$<$<COMPILE_LANGUAGE:C,CXX>:-fsanitize=undefined;-fno-sanitize-recover=undefined>"
+    )
+
+    # Disable object-size sanitizer, because it is incompatible with the
+    # zend_function union, and this can't be easily fixed.
+    cmake_push_check_state(RESET)
+      set(CMAKE_REQUIRED_LINK_OPTIONS "-fno-sanitize=object-size")
+
+      check_compiler_flag(C "-fno-sanitize=object-size" HAVE_C_OBJECT_SIZE_SANITIZER_OPTION)
+      check_compiler_flag(CXX "-fno-sanitize=object-size" HAVE_CXX_OBJECT_SIZE_SANITIZER_OPTION)
+    cmake_pop_check_state()
+
+    if(
+      HAVE_C_OBJECT_SIZE_SANITIZER_OPTION
+      AND HAVE_CXX_OBJECT_SIZE_SANITIZER_OPTION
+    )
+      target_compile_options(php_configuration
+        INTERFACE "$<$<COMPILE_LANGUAGE:C,CXX>:-fno-sanitize=object-size>"
+      )
+
+      target_link_options(php_configuration
+        INTERFACE "$<$<COMPILE_LANGUAGE:C,CXX>:-fno-sanitize=object-size>"
+      )
+    endif()
+  else()
+    message(FATAL_ERROR "AddressSanitizer is not available")
+  endif()
+endif()
+
+if(PHP_MEMORY_SANITIZER OR PHP_ADDRESS_SANITIZER OR PHP_UNDEFINED_SANITIZER)
+  target_compile_options(php_configuration
+    INTERFACE "$<$<COMPILE_LANGUAGE:C,CXX>:-fno-omit-frame-pointer>"
+  )
+endif()

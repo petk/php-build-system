@@ -5,7 +5,10 @@ Platform specific configuration.
 message(STATUS "Host system: ${CMAKE_HOST_SYSTEM}")
 message(STATUS "Target system: ${CMAKE_SYSTEM}")
 
-add_compile_definitions("$<$<COMPILE_LANGUAGE:C>:_GNU_SOURCE>")
+target_compile_definitions(
+  php_configuration
+  INTERFACE $<$<COMPILE_LANGUAGE:ASM,C,CXX>:_GNU_SOURCE>
+)
 
 # Set GNU standard installation directories.
 include(GNUInstallDirs)

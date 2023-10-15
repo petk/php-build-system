@@ -719,6 +719,9 @@ functionalities and version available on the operating system.
 * 3.23
   * To be able to use `target_sources(FILE_SET)`, otherwise `install(FILES)`
     should be used, when installing PHP built files to their destinations.
+* 3.24
+  * To be able to set `CMAKE_COMPILE_WARNING_AS_ERROR`, otherwise INTERFACE
+    library should be used instead.
 * 3.25
 
 Currently, the CMake minimum version is set to **3.25** without looking at CMake
@@ -882,6 +885,46 @@ cmake -LH .
       <td>--with-layout=[TYPE]</td>
       <td>PHP_LAYOUT=[TYPE]</td>
       <td>TYPE=PHP</td>
+    </tr>
+    <tr>
+      <td>--disable-werror</td>
+      <td>PHP_WERROR=OFF</td>
+      <td>default</td>
+    </tr>
+    <tr>
+      <td>&nbsp;&nbsp;--enable-werror</td>
+      <td>&nbsp;&nbsp;PHP_WERROR=ON</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>--disable-memory-sanitizer</td>
+      <td>PHP_MEMORY_SANITIZER=OFF</td>
+      <td>default</td>
+    </tr>
+    <tr>
+      <td>&nbsp;&nbsp;--enable-memory-sanitizer</td>
+      <td>&nbsp;&nbsp;PHP_MEMORY_SANITIZER=ON</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>--disable-address-sanitizer</td>
+      <td>PHP_ADDRESS_SANITIZER=OFF</td>
+      <td>default</td>
+    </tr>
+    <tr>
+      <td>&nbsp;&nbsp;--enable-address-sanitizer</td>
+      <td>&nbsp;&nbsp;PHP_ADDRESS_SANITIZER=ON</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>--disable-undefined-sanitizer</td>
+      <td>PHP_UNDEFINED_SANITIZER=OFF</td>
+      <td>default</td>
+    </tr>
+    <tr>
+      <td>&nbsp;&nbsp;--enable-undefined-sanitizer</td>
+      <td>&nbsp;&nbsp;PHP_UNDEFINED_SANITIZER=ON</td>
+      <td></td>
     </tr>
     <tr>
       <td><strong>Zend specific configuration</strong></td>

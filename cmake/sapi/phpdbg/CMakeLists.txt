@@ -61,10 +61,6 @@ target_compile_definitions(
 
 target_link_libraries(php_phpdbg PRIVATE PHP::main)
 
-if(EXTRA_DEFINITIONS)
-  target_compile_definitions(php_phpdbg PRIVATE ${EXTRA_DEFINITIONS})
-endif()
-
 if(CMAKE_HOST_SYSTEM_NAME STREQUAL "Darwin")
   set_target_properties(php_phpdbg PROPERTIES LINK_FLAGS "-undefined dynamic_lookup")
 endif()

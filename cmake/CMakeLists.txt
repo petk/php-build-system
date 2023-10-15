@@ -26,6 +26,10 @@ set(PHP_VERSION "${PHP_VERSION}${PHP_VERSION_LABEL}")
 set(CMAKE_C_STANDARD 99)
 set(CMAKE_C_STANDARD_REQUIRED TRUE)
 
+# Create a project wide INTERFACE library with project configuration.
+add_library(php_configuration INTERFACE)
+add_library(PHP::configuration ALIAS php_configuration)
+
 # Set platform specific configuration.
 include(cmake/Platform.cmake)
 

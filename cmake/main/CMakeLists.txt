@@ -61,9 +61,7 @@ if(EXTRA_LIBS)
   target_link_libraries(php_main PRIVATE ${EXTRA_LIBS})
 endif()
 
-if(EXTRA_DEFINITIONS)
-  target_compile_definitions(php_main PRIVATE ${EXTRA_DEFINITIONS})
-endif()
+target_link_libraries(php_main PUBLIC PHP::configuration)
 
 # Check DTrace.
 if(PHP_DTRACE)
@@ -93,6 +91,8 @@ foreach(extension IN LISTS PHP_EXTENSIONS_STATIC)
 
   message(STATUS "Linking PHP::${extension}")
 
+  target_link_libraries(php_${extension} PRIVATE PHP::configuration)
+
   target_include_directories(
     php_${extension}
     PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}
@@ -109,14 +109,12 @@ foreach(extension IN LISTS PHP_EXTENSIONS_STATIC)
     target_link_libraries(php_${extension} PRIVATE ${EXTRA_LIBS})
   endif()
 
-  if(EXTRA_DEFINITIONS)
-    target_compile_definitions(php_${extension} PRIVATE ${EXTRA_DEFINITIONS})
-  endif()
-
   target_link_libraries(php_main PRIVATE PHP::${extension})
 endforeach()
 
 foreach(extension IN LISTS PHP_EXTENSIONS_SHARED)
+  target_link_libraries(php_${extension} PRIVATE PHP::configuration)
+
   target_include_directories(
     php_${extension}
     PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}
@@ -139,10 +137,6 @@ foreach(extension IN LISTS PHP_EXTENSIONS_SHARED)
 
   if(EXTRA_LIBS)
     target_link_libraries(php_${extension} PRIVATE ${EXTRA_LIBS})
-  endif()
-
-  if(EXTRA_DEFINITIONS)
-    target_compile_definitions(php_${extension} PRIVATE ${EXTRA_DEFINITIONS})
   endif()
 endforeach()
 

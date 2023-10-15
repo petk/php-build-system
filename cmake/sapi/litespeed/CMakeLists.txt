@@ -13,10 +13,6 @@ set_target_properties(php_litespeed PROPERTIES OUTPUT_NAME lsphp)
 
 target_link_libraries(php_litespeed PRIVATE PHP::main)
 
-if(EXTRA_DEFINITIONS)
-  target_compile_definitions(php_litespeed PRIVATE ${EXTRA_DEFINITIONS})
-endif()
-
 # TODO: Check if there's a better solution here.
 set_target_properties(php_litespeed PROPERTIES ENABLE_EXPORTS TRUE)
 

@@ -39,10 +39,6 @@ target_compile_definitions(php_cli PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE=1)
 
 target_link_libraries(php_cli PRIVATE PHP::main)
 
-if(EXTRA_DEFINITIONS)
-  target_compile_definitions(php_cli PRIVATE ${EXTRA_DEFINITIONS})
-endif()
-
 if(CMAKE_HOST_SYSTEM_NAME STREQUAL "Darwin")
   set_target_properties(php_cli PROPERTIES LINK_FLAGS "-undefined dynamic_lookup")
 endif()

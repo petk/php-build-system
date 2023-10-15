@@ -4,6 +4,8 @@ message(STATUS "Checking for POSIX threads")
 
 add_library(php_tsrm STATIC TSRM.c)
 
+target_link_libraries(php_tsrm PRIVATE PHP::configuration)
+
 target_include_directories(php_tsrm
   PRIVATE ${CMAKE_SOURCE_DIR}
           ${CMAKE_BINARY_DIR}
@@ -12,5 +14,9 @@ target_include_directories(php_tsrm
 
 target_compile_definitions(php_tsrm PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE=1)
 
-file(GLOB_RECURSE _tsrm_headers "${PROJECT_SOURCE_DIR}/TSRM/*.h")
-install(FILES ${_tsrm_headers} DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/php/TSRM)
+install(
+  FILES
+    tsrm_win32.h
+    TSRM.h
+  DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/php/TSRM
+)

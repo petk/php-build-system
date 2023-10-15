@@ -18,10 +18,6 @@ if(CMAKE_HOST_SYSTEM_NAME STREQUAL "Darwin")
   set_target_properties(php_cgi PROPERTIES LINK_FLAGS "-undefined dynamic_lookup")
 endif()
 
-if(EXTRA_DEFINITIONS)
-  target_compile_definitions(php_cgi PRIVATE ${EXTRA_DEFINITIONS})
-endif()
-
 # TODO: Check if there's a better solution here.
 set_target_properties(php_cgi PROPERTIES ENABLE_EXPORTS TRUE)
 
