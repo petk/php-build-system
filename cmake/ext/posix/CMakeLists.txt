@@ -7,7 +7,13 @@ include(CMakePushCheckState)
 
 option(EXT_POSIX "Whether to enable POSIX-like functions" ON)
 
-cmake_dependent_option(EXT_POSIX_SHARED "Whether to build the POSIX extension as shared object" OFF "EXT_POSIX;NOT BUILD_SHARED_LIBS" OFF)
+cmake_dependent_option(
+  EXT_POSIX_SHARED
+  "Whether to build the POSIX extension as shared object"
+  OFF
+  "EXT_POSIX;NOT BUILD_SHARED_LIBS"
+  OFF
+)
 
 if(NOT EXT_POSIX)
   return()

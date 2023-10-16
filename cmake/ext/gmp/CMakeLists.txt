@@ -1,6 +1,12 @@
 option(EXT_GMP "Whether to enable the GMP extension" OFF)
 
-cmake_dependent_option(EXT_GMP_SHARED "Whether to build the GMP extension as shared object" OFF "EXT_GMP;NOT BUILD_SHARED_LIBS" OFF)
+cmake_dependent_option(
+  EXT_GMP_SHARED
+  "Whether to build the GMP extension as shared object"
+  OFF
+  "EXT_GMP;NOT BUILD_SHARED_LIBS"
+  OFF
+)
 
 if(NOT EXT_GMP)
   return()

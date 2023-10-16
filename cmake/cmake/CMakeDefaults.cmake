@@ -6,8 +6,7 @@ calling the project().
 # Set CMake module paths where include() and find_package() look for modules.
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake/modules/")
 
-# Automatically include current source or build tree for the target.
-# TODO: recheck this a bit. For example, ext/fileinfo has such case.
+# Automatically include current source or build tree for the current target.
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
 # Put the source or build tree include directories before other includes.

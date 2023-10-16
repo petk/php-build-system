@@ -2,9 +2,21 @@ include(CMakeDependentOption)
 
 option(EXT_XML "Whether to enable the XML extension" ON)
 
-cmake_dependent_option(EXT_XML_SHARED "Whether to build the XML extension as shared object" OFF "EXT_XML;NOT BUILD_SHARED_LIBS" OFF)
+cmake_dependent_option(
+  EXT_XML_SHARED
+  "Whether to build the XML extension as shared object"
+  OFF
+  "EXT_XML;NOT BUILD_SHARED_LIBS"
+  OFF
+)
 
-cmake_dependent_option(EXT_XML_EXPAT "Whether to build with Expat support instead of libxml2" OFF "EXT_XML" OFF)
+cmake_dependent_option(
+  EXT_XML_EXPAT
+  "Whether to build with Expat support instead of libxml2"
+  OFF
+  "EXT_XML"
+  OFF
+)
 
 if(NOT EXT_XML)
   return()

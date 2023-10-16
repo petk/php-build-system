@@ -3,7 +3,13 @@ include(CMakeDependentOption)
 
 option(EXT_SNMP "Whether to enable the SNMP extension" OFF)
 
-cmake_dependent_option(EXT_SNMP_SHARED "Whether to build the SNMP extension as shared object" OFF "EXT_SNMP;NOT BUILD_SHARED_LIBS" OFF)
+cmake_dependent_option(
+  EXT_SNMP_SHARED
+  "Whether to build the SNMP extension as shared object"
+  OFF
+  "EXT_SNMP;NOT BUILD_SHARED_LIBS"
+  OFF
+)
 
 if(NOT EXT_SNMP)
   return()

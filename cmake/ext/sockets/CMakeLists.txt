@@ -6,7 +6,13 @@ include(CMakePushCheckState)
 
 option(EXT_SOCKETS "Whether to enable the sockets extension" OFF)
 
-cmake_dependent_option(EXT_SOCKETS_SHARED "Whether to build the sockets extension as shared object" OFF "EXT_SOCKETS;NOT BUILD_SHARED_LIBS" OFF)
+cmake_dependent_option(
+  EXT_SOCKETS_SHARED
+  "Whether to build the sockets extension as shared object"
+  OFF
+  "EXT_SOCKETS;NOT BUILD_SHARED_LIBS"
+  OFF
+)
 
 if(NOT EXT_SOCKETS)
   return()

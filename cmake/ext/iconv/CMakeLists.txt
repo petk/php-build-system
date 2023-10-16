@@ -7,7 +7,13 @@ include(CMakePushCheckState)
 
 option(EXT_ICONV "Whether to enable the iconv extension" ON)
 
-cmake_dependent_option(EXT_ICONV_SHARED "Whether to build the iconv extension as shared object" OFF "EXT_ICONV;NOT BUILD_SHARED_LIBS" OFF)
+cmake_dependent_option(
+  EXT_ICONV_SHARED
+  "Whether to build the iconv extension as shared object"
+  OFF
+  "EXT_ICONV;NOT BUILD_SHARED_LIBS"
+  OFF
+)
 
 if(NOT EXT_ICONV)
   return()

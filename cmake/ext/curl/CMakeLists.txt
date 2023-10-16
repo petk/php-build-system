@@ -6,7 +6,13 @@ include(CMakePushCheckState)
 
 option(EXT_CURL "Whether to enable the curl extension" OFF)
 
-cmake_dependent_option(EXT_CURL_SHARED "Whether to build the curl extension as shared object" OFF "EXT_CURL;NOT BUILD_SHARED_LIBS" OFF)
+cmake_dependent_option(
+  EXT_CURL_SHARED
+  "Whether to build the curl extension as shared object"
+  OFF
+  "EXT_CURL;NOT BUILD_SHARED_LIBS"
+  OFF
+)
 
 if(NOT EXT_CURL)
   return()

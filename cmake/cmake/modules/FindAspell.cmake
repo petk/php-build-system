@@ -17,6 +17,9 @@ Result variables:
     Set to 1 if Aspell has been found.
   Aspell_INCLUDE_DIRS
     A list of include directories for using Aspell library.
+  Aspell_PSPELL_INCLUDE_DIRS
+    A list of include directories for using Aspell library with pspell BC
+    interface.
   Aspell_LIBRARIES
     A list of libraries for linking when using Aspell library.
 #]=============================================================================]
@@ -27,12 +30,7 @@ include(FindPackageHandleStandardArgs)
 find_path(Aspell_INCLUDE_DIRS aspell.h)
 
 # If there is also pspell interface.
-find_path(_pspell_include_dir pspell.h PATH_SUFFIXES pspell)
-if(_pspell_include_dir)
-  list(APPEND Aspell_INCLUDE_DIRS "${_pspell_include_dir}")
-endif()
-
-unset(_pspell_include_dir CACHE)
+find_path(Aspell_PSPELL_INCLUDE_DIRS pspell.h PATH_SUFFIXES pspell)
 
 find_library(Aspell_LIBRARIES NAMES aspell)
 
@@ -43,7 +41,7 @@ mark_as_advanced(Aspell_LIBRARIES Aspell_INCLUDE_DIRS)
 
 find_package_handle_standard_args(
   Aspell
-  REQUIRED_VARS _have_aspell Aspell_LIBRARIES Aspell_INCLUDE_DIRS
+  REQUIRED_VARS Aspell_LIBRARIES Aspell_INCLUDE_DIRS _have_aspell
 )
 
 if(Aspell_FOUND AND NOT TARGET Aspell::Aspell)
@@ -51,6 +49,6 @@ if(Aspell_FOUND AND NOT TARGET Aspell::Aspell)
 
   set_target_properties(Aspell::Aspell PROPERTIES
     INTERFACE_LINK_LIBRARIES "${Aspell_LIBRARIES}"
-    INTERFACE_INCLUDE_DIRECTORIES "${Aspell_INCLUDE_DIRS}"
+    INTERFACE_INCLUDE_DIRECTORIES "${Aspell_INCLUDE_DIRS};${Aspell_PSPELL_INCLUDE_DIRS}"
   )
 endif()

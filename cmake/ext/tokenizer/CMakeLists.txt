@@ -2,7 +2,13 @@ include(CMakeDependentOption)
 
 option(EXT_TOKENIZER "Whether to enable the tokenizer extension" ON)
 
-cmake_dependent_option(EXT_TOKENIZER_SHARED "Whether to build the tokenizer extension as shared object" OFF "EXT_TOKENIZER;NOT BUILD_SHARED_LIBS" OFF)
+cmake_dependent_option(
+  EXT_TOKENIZER_SHARED
+  "Whether to build the tokenizer extension as shared object"
+  OFF
+  "EXT_TOKENIZER;NOT BUILD_SHARED_LIBS"
+  OFF
+)
 
 if(NOT EXT_TOKENIZER)
   return()

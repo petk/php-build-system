@@ -2,10 +2,22 @@ include(CMakeDependentOption)
 
 option(EXT_MYSQLI "Whether to enable the mysqli extension" OFF)
 
-cmake_dependent_option(EXT_MYSQLI_SHARED "Whether to build the mysqli extension as shared object" OFF "EXT_MYSQLI;NOT BUILD_SHARED_LIBS" OFF)
+cmake_dependent_option(
+  EXT_MYSQLI_SHARED
+  "Whether to build the mysqli extension as shared object"
+  OFF
+  "EXT_MYSQLI;NOT BUILD_SHARED_LIBS"
+  OFF
+)
 
 # Common configuration option for ext/mysqli and ext/pdo_mysql.
-cmake_dependent_option(EXT_MYSQL_SOCK "MySQLi/PDO_MYSQL: Whether to use the MySQL Unix socket. Default locations for the MySQL Unix socket pointer are searched." OFF "EXT_MYSQLI OR EXT_PDO_MYSQL" OFF)
+cmake_dependent_option(
+  EXT_MYSQL_SOCK
+  "MySQLi/PDO_MYSQL: Whether to use the MySQL Unix socket. Default locations for the MySQL Unix socket pointer are searched."
+  OFF
+  "EXT_MYSQLI OR EXT_PDO_MYSQL"
+  OFF
+)
 
 if(EXT_MYSQLI OR EXT_PDO_MYSQL)
   set(EXT_MYSQL_SOCK_PATH "" CACHE FILEPATH "MySQLi/PDO_MYSQL: Optional location of the MySQL unix socket pointer.")

@@ -3,7 +3,13 @@ include(CMakeDependentOption)
 
 option(EXT_SYSVMSG "Whether to enable the sysvmsg extension" OFF)
 
-cmake_dependent_option(EXT_SYSVMSG_SHARED "Whether to build the sysvmsg extension as shared object" OFF "EXT_SYSVMSG;NOT BUILD_SHARED_LIBS" OFF)
+cmake_dependent_option(
+  EXT_SYSVMSG_SHARED
+  "Whether to build the sysvmsg extension as shared object"
+  OFF
+  "EXT_SYSVMSG;NOT BUILD_SHARED_LIBS"
+  OFF
+)
 
 if(NOT EXT_SYSVMSG)
   return()

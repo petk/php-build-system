@@ -29,10 +29,37 @@ else()
   unset(PHP_FPM_GROUP CACHE)
 endif()
 
-cmake_dependent_option(SAPI_FPM_SYSTEMD "Whether to activate systemd integration" OFF "SAPI_FPM" OFF)
-cmake_dependent_option(SAPI_FPM_ACL "Use POSIX Access Control Lists" OFF "SAPI_FPM" OFF)
-cmake_dependent_option(SAPI_FPM_APPARMOR "Support AppArmor confinement through libapparmor" OFF "SAPI_FPM" OFF)
-cmake_dependent_option(SAPI_FPM_SELINUX "Support SELinux policy library" OFF "SAPI_FPM" OFF)
+cmake_dependent_option(
+  SAPI_FPM_SYSTEMD
+  "Whether to activate systemd integration"
+  OFF
+  "SAPI_FPM"
+  OFF
+)
+
+cmake_dependent_option(
+  SAPI_FPM_ACL
+  "Use POSIX Access Control Lists"
+  OFF
+  "SAPI_FPM"
+  OFF
+)
+
+cmake_dependent_option(
+  SAPI_FPM_APPARMOR
+  "Support AppArmor confinement through libapparmor"
+  OFF
+  "SAPI_FPM"
+  OFF
+)
+
+cmake_dependent_option(
+  SAPI_FPM_SELINUX
+  "Support SELinux policy library"
+  OFF
+  "SAPI_FPM"
+  OFF
+)
 
 if(NOT SAPI_FPM)
   return()
@@ -73,8 +100,7 @@ set_target_properties(php_fpm PROPERTIES OUTPUT_NAME php-fpm)
 
 target_include_directories(
   php_fpm
-  PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}
-          ${CMAKE_CURRENT_SOURCE_DIR}/fpm
+  PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/fpm
 )
 
 target_compile_definitions(php_fpm PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE=1)

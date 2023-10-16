@@ -1,7 +1,21 @@
 option(EXT_SKELETON "Whether to enable the skeleton extension" OFF)
 
+cmake_dependent_option(
+  EXT_SKELETON_SHARED
+  "Whether to build the skeleton extension as shared object"
+  OFF
+  "EXT_SKELETON;NOT BUILD_SHARED_LIBS"
+  OFF
+)
+
 if(NOT EXT_SKELETON)
   return()
 endif()
 
-add_library(php_skeleton)
+if(EXT_SKELETON_SHARED OR BUILD_SHARED_LIBS)
+  set(_library_type "SHARED")
+endif()
+
+php_extension(NAME "skeleton" ${_library_type})
+
+add_library(php_skeleton ${_library_type})

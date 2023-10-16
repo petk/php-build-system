@@ -3,7 +3,13 @@ include(CMakeDependentOption)
 
 option(EXT_ZIP "Whether to enable the zip extension" OFF)
 
-cmake_dependent_option(EXT_ZIP_SHARED "Whether to build the zip extension as shared object" OFF "EXT_ZIP;NOT BUILD_SHARED_LIBS" OFF)
+cmake_dependent_option(
+  EXT_ZIP_SHARED
+  "Whether to build the zip extension as shared object"
+  OFF
+  "EXT_ZIP;NOT BUILD_SHARED_LIBS"
+  OFF
+)
 
 if(NOT EXT_ZIP)
   return()

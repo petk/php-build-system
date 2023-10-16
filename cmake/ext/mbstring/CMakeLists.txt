@@ -4,7 +4,13 @@ include(CMakePushCheckState)
 
 option(EXT_MBSTRING "Whether to enable the multibyte string support extension" OFF)
 
-cmake_dependent_option(EXT_MBSTRING_SHARED "Whether to build the mbstring extension as shared object" OFF "EXT_MBSTRING;NOT BUILD_SHARED_LIBS" OFF)
+cmake_dependent_option(
+  EXT_MBSTRING_SHARED
+  "Whether to build the mbstring extension as shared object"
+  OFF
+  "EXT_MBSTRING;NOT BUILD_SHARED_LIBS"
+  OFF
+)
 
 cmake_dependent_option(EXT_MBSTRING_MBREGEX "Whether to enable multibyte regex support (requires Oniguruma)" ON "EXT_MBSTRING" OFF)
 
@@ -126,7 +132,6 @@ target_compile_definitions(php_mbstring PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE=
 target_include_directories(
   php_mbstring
   PRIVATE
-    ${CMAKE_CURRENT_SOURCE_DIR}
     ${CMAKE_CURRENT_SOURCE_DIR}/libmbfl
     ${CMAKE_CURRENT_BINARY_DIR}/libmbfl
     ${CMAKE_CURRENT_SOURCE_DIR}/libmbfl/mbfl

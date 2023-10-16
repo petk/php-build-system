@@ -3,9 +3,21 @@ include(CMakeDependentOption)
 
 option(EXT_READLINE "Whether to enable the readline extension" OFF)
 
-cmake_dependent_option(EXT_READLINE_SHARED "Whether to build the readline extension as shared object" OFF "EXT_READLINE;NOT BUILD_SHARED_LIBS" OFF)
+cmake_dependent_option(
+  EXT_READLINE_SHARED
+  "Whether to build the readline extension as shared object"
+  OFF
+  "EXT_READLINE;NOT BUILD_SHARED_LIBS"
+  OFF
+)
 
-cmake_dependent_option(EXT_READLINE_LIBREADLINE "Whether to use the GNU readline library instead of libedit" OFF "EXT_READLINE" OFF)
+cmake_dependent_option(
+  EXT_READLINE_LIBREADLINE
+  "Whether to use the GNU readline library instead of libedit"
+  OFF
+  "EXT_READLINE"
+  OFF
+)
 
 if(NOT EXT_READLINE)
   return()

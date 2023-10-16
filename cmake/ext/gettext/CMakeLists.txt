@@ -3,7 +3,13 @@ include(CMakeDependentOption)
 
 option(EXT_GETTEXT "Whether to enable the gettext extension" OFF)
 
-cmake_dependent_option(EXT_GETTEXT_SHARED "Whether to build the gettext extension as shared object" OFF "EXT_GETTEXT;NOT BUILD_SHARED_LIBS" OFF)
+cmake_dependent_option(
+  EXT_GETTEXT_SHARED
+  "Whether to build the gettext extension as shared object"
+  OFF
+  "EXT_GETTEXT;NOT BUILD_SHARED_LIBS"
+  OFF
+)
 
 if(NOT EXT_GETTEXT)
   return()

@@ -7,11 +7,29 @@ include(CMakePushCheckState)
 # Opcache extension can be built either as shared or disabled.
 option(EXT_OPCACHE "Whether to enable the opcache extension" ON)
 
-cmake_dependent_option(EXT_OPCACHE_HUGE_CODE_PAGES "Whether to enable copying PHP CODE pages into HUGE PAGES" ON "EXT_OPCACHE" OFF)
+cmake_dependent_option(
+  EXT_OPCACHE_HUGE_CODE_PAGES
+  "Whether to enable copying PHP CODE pages into HUGE PAGES"
+  ON
+  "EXT_OPCACHE"
+  OFF
+)
 
-cmake_dependent_option(EXT_OPCACHE_JIT "Whether to enable JIT" ON "EXT_OPCACHE" OFF)
+cmake_dependent_option(
+  EXT_OPCACHE_JIT
+  "Whether to enable JIT"
+  ON
+  "EXT_OPCACHE"
+  OFF
+)
 
-cmake_dependent_option(EXT_OPCACHE_CAPSTONE "Support opcache JIT disassembly through capstone" OFF "EXT_OPCACHE" OFF)
+cmake_dependent_option(
+  EXT_OPCACHE_CAPSTONE
+  "Support opcache JIT disassembly through capstone"
+  OFF
+  "EXT_OPCACHE"
+  OFF
+)
 
 if(NOT EXT_OPCACHE)
   return()
@@ -98,8 +116,7 @@ add_library(php_opcache SHARED
 
 target_include_directories(
   php_opcache
-  PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}
-          ${CMAKE_CURRENT_SOURCE_DIR}/jit
+  PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/jit
           ${CMAKE_CURRENT_BINARY_DIR}/jit
 )
 

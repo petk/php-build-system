@@ -4,7 +4,13 @@ include(CMakeDependentOption)
 
 option(EXT_FFI "Whether to build the FFI extension" OFF)
 
-cmake_dependent_option(EXT_FFI_SHARED "Whether to build the FFI extension as shared object" OFF "EXT_FFI;NOT BUILD_SHARED_LIBS" OFF)
+cmake_dependent_option(
+  EXT_FFI_SHARED
+  "Whether to build the FFI extension as shared object"
+  OFF
+  "EXT_FFI;NOT BUILD_SHARED_LIBS"
+  OFF
+)
 
 if(NOT EXT_FFI)
   return()

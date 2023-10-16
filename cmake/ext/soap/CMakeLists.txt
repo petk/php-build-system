@@ -2,7 +2,13 @@ include(CMakeDependentOption)
 
 option(EXT_SOAP "Whether to enable the SOAP extension" OFF)
 
-cmake_dependent_option(EXT_SOAP_SHARED "Whether to build the SOAP extension as shared object" OFF "EXT_SOAP;NOT BUILD_SHARED_LIBS" OFF)
+cmake_dependent_option(
+  EXT_SOAP_SHARED
+  "Whether to build the SOAP extension as shared object"
+  OFF
+  "EXT_SOAP;NOT BUILD_SHARED_LIBS"
+  OFF
+)
 
 if(NOT EXT_SOAP)
   return()

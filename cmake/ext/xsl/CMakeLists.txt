@@ -1,8 +1,20 @@
 include(CMakeDependentOption)
 
-cmake_dependent_option(EXT_XSL "Whether to enable the XSL extension" OFF "EXT_DOM" OFF)
+cmake_dependent_option(
+  EXT_XSL
+  "Whether to enable the XSL extension"
+  OFF
+  "EXT_DOM"
+  OFF
+)
 
-cmake_dependent_option(EXT_XSL_SHARED "Whether to build the XSL extension as shared object" OFF "EXT_XSL;NOT BUILD_SHARED_LIBS" OFF)
+cmake_dependent_option(
+  EXT_XSL_SHARED
+  "Whether to build the XSL extension as shared object"
+  OFF
+  "EXT_XSL;NOT BUILD_SHARED_LIBS"
+  OFF
+)
 
 if(NOT EXT_XSL)
   return()

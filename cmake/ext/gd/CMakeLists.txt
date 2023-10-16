@@ -4,15 +4,69 @@ include(CMakePushCheckState)
 
 option(EXT_GD "Whether to enable the GD extension" OFF)
 
-cmake_dependent_option(EXT_GD_SHARED "Whether to build the GD extension as shared object" OFF "EXT_GD;NOT BUILD_SHARED_LIBS" OFF)
+cmake_dependent_option(
+  EXT_GD_SHARED
+  "Whether to build the GD extension as shared object"
+  OFF
+  "EXT_GD;NOT BUILD_SHARED_LIBS"
+  OFF
+)
 
-cmake_dependent_option(EXT_GD_EXTERNAL "Whether to use external libgd" OFF "EXT_GD" OFF)
-cmake_dependent_option(EXT_GD_AVIF "GD: Whether to enable AVIF support (only for bundled libgd)" OFF "EXT_GD;NOT EXT_GD_EXTERNAL" OFF)
-cmake_dependent_option(EXT_GD_WEBP "GD: Whether to enable WEBP support (only for bundled libgd)" OFF "EXT_GD;NOT EXT_GD_EXTERNAL" OFF)
-cmake_dependent_option(EXT_GD_JPEG "GD: Whether to enable JPEG support (only for bundled libgd)" OFF "EXT_GD;NOT EXT_GD_EXTERNAL" OFF)
-cmake_dependent_option(EXT_GD_XPM "GD: Whether to enable XPM support (only for bundled libgd)" OFF "EXT_GD;NOT EXT_GD_EXTERNAL" OFF)
-cmake_dependent_option(EXT_GD_FREETYPE "GD: Whether to enable FreeType 2 support (only for bundled libgd)" OFF "EXT_GD;NOT EXT_GD_EXTERNAL" OFF)
-cmake_dependent_option(EXT_GD_JIS "GD: Whether to enable JIS-mapped Japanese font support (only for bundled libgd)" OFF "EXT_GD;NOT EXT_GD_EXTERNAL" OFF)
+cmake_dependent_option(
+  EXT_GD_EXTERNAL
+  "Whether to use external libgd"
+  OFF
+  "EXT_GD"
+  OFF
+)
+
+cmake_dependent_option(
+  EXT_GD_AVIF
+  "GD: Whether to enable AVIF support (only for bundled libgd)"
+  OFF
+  "EXT_GD;NOT EXT_GD_EXTERNAL"
+  OFF
+)
+
+cmake_dependent_option(
+  EXT_GD_WEBP
+  "GD: Whether to enable WEBP support (only for bundled libgd)"
+  OFF
+  "EXT_GD;NOT EXT_GD_EXTERNAL"
+  OFF
+)
+
+cmake_dependent_option(
+  EXT_GD_JPEG
+  "GD: Whether to enable JPEG support (only for bundled libgd)"
+  OFF
+  "EXT_GD;NOT EXT_GD_EXTERNAL"
+  OFF
+)
+
+cmake_dependent_option(
+  EXT_GD_XPM
+  "GD: Whether to enable XPM support (only for bundled libgd)"
+  OFF
+  "EXT_GD;NOT EXT_GD_EXTERNAL"
+  OFF
+)
+
+cmake_dependent_option(
+  EXT_GD_FREETYPE
+  "GD: Whether to enable FreeType 2 support (only for bundled libgd)"
+  OFF
+  "EXT_GD;NOT EXT_GD_EXTERNAL"
+  OFF
+)
+
+cmake_dependent_option(
+  EXT_GD_JIS
+  "GD: Whether to enable JIS-mapped Japanese font support (only for bundled libgd)"
+  OFF
+  "EXT_GD;NOT EXT_GD_EXTERNAL"
+  OFF
+)
 
 if(NOT EXT_GD)
   return()

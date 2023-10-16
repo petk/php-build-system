@@ -2,9 +2,21 @@ include(CMakeDependentOption)
 
 option(EXT_SESSION "Whether to enable the session extension" ON)
 
-cmake_dependent_option(EXT_SESSION_SHARED "Whether to build the session extension as shared object" OFF "EXT_SESSION;NOT BUILD_SHARED_LIBS" OFF)
+cmake_dependent_option(
+  EXT_SESSION_SHARED
+  "Whether to build the session extension as shared object"
+  OFF
+  "EXT_SESSION;NOT BUILD_SHARED_LIBS"
+  OFF
+)
 
-cmake_dependent_option(EXT_SESSION_MM "SESSION: Include libmm support for session storage" OFF "EXT_SESSION" OFF)
+cmake_dependent_option(
+  EXT_SESSION_MM
+  "SESSION: Include libmm support for session storage"
+  OFF
+  "EXT_SESSION"
+  OFF
+)
 
 if(NOT EXT_SESSION)
   return()

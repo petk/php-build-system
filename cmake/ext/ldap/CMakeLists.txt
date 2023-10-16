@@ -7,9 +7,21 @@ include(CMakePushCheckState)
 
 option(EXT_LDAP "Whether to enable the ldap extension" OFF)
 
-cmake_dependent_option(EXT_LDAP_SHARED "Whether to build the ldap extension as shared object" OFF "EXT_LDAP;NOT BUILD_SHARED_LIBS" OFF)
+cmake_dependent_option(
+  EXT_LDAP_SHARED
+  "Whether to build the ldap extension as shared object"
+  OFF
+  "EXT_LDAP;NOT BUILD_SHARED_LIBS"
+  OFF
+)
 
-cmake_dependent_option(EXT_LDAP_SASL "Whether to build LDAP with Cyrus SASL support" OFF "EXT_LDAP" OFF)
+cmake_dependent_option(
+  EXT_LDAP_SASL
+  "Whether to build LDAP with Cyrus SASL support"
+  OFF
+  "EXT_LDAP"
+  OFF
+)
 
 if(NOT EXT_LDAP)
   return()

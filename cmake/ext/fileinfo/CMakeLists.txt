@@ -3,14 +3,17 @@ include(CMakeDependentOption)
 
 option(EXT_FILEINFO "Whether to enable the fileinfo extension" ON)
 
-cmake_dependent_option(EXT_FILEINFO_SHARED "Whether to build the fileinfo extension as shared object" OFF "EXT_FILEINFO;NOT BUILD_SHARED_LIBS" OFF)
+cmake_dependent_option(
+  EXT_FILEINFO_SHARED
+  "Whether to build the fileinfo extension as shared object"
+  OFF
+  "EXT_FILEINFO;NOT BUILD_SHARED_LIBS"
+  OFF
+)
 
 if(NOT EXT_FILEINFO)
   return()
 endif()
-
-check_symbol_exists(utimes "sys/time.h" HAVE_UTIMES)
-check_symbol_exists(strndup "string.h" HAVE_STRNDUP)
 
 if(EXT_FILEINFO_SHARED OR BUILD_SHARED_LIBS)
   set(_library_type "SHARED")
@@ -41,7 +44,10 @@ add_library(php_fileinfo ${_library_type}
   libmagic/is_csv.c
 )
 
-message(STATUS "Checking for strcasestr")
+check_symbol_exists(utimes "sys/time.h" HAVE_UTIMES)
+check_symbol_exists(strndup "string.h" HAVE_STRNDUP)
+
+message(CHECK_START "Checking for strcasestr")
 
 if(NOT CMAKE_CROSSCOMPILING)
   check_c_source_runs("
@@ -49,8 +55,7 @@ if(NOT CMAKE_CROSSCOMPILING)
     #include <strings.h>
     #include <stdlib.h>
 
-    int main(void)
-    {
+    int main(void) {
       char *s0, *s1, *ret;
 
       s0 = (char *) malloc(42);
@@ -69,20 +74,17 @@ if(NOT CMAKE_CROSSCOMPILING)
 
       return !(NULL != ret);
     }
-  " successful)
+  " _have_platform_strcasestr)
 endif()
 
-if(successful)
-  message(STATUS "using the platform implementation of strcasestr")
+if(_have_platform_strcasestr)
+  message(CHECK_PASS "using platform strcasestr implementation")
 else()
   target_sources(php_fileinfo PRIVATE libmagic/strcasestr.c)
-  message(STATUS "using libmagic strcasestr implementation")
+  message(CHECK_FAIL "using libmagic strcasestr implementation")
 endif()
-
-unset(successful)
 
 target_include_directories(
   php_fileinfo
-  PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}
-          ${CMAKE_CURRENT_SOURCE_DIR}/libmagic
+  PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/libmagic
 )

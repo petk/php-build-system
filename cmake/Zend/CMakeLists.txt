@@ -171,9 +171,7 @@ target_link_libraries(zend PRIVATE PHP::configuration)
 
 target_include_directories(
   zend
-  PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}
-          ${CMAKE_SOURCE_DIR}
-          ${CMAKE_CURRENT_BINARY_DIR}
+  PRIVATE ${CMAKE_SOURCE_DIR}
           ${CMAKE_BINARY_DIR}
           ${CMAKE_SOURCE_DIR}/main
           ${CMAKE_BINARY_DIR}/main

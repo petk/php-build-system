@@ -2,7 +2,13 @@ include(CMakeDependentOption)
 
 option(EXT_OCI8 "Whether to enable the OCI8 extension" OFF)
 
-cmake_dependent_option(EXT_OCI8_SHARED "Whether to build the OCI8 extension as shared object" OFF "EXT_OCI8;NOT BUILD_SHARED_LIBS" OFF)
+cmake_dependent_option(
+  EXT_OCI8_SHARED
+  "Whether to build the OCI8 extension as shared object"
+  OFF
+  "EXT_OCI8;NOT BUILD_SHARED_LIBS"
+  OFF
+)
 
 if(NOT EXT_OCI8)
   return()

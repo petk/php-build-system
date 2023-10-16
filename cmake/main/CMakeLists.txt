@@ -42,9 +42,6 @@ target_include_directories(
   php_main
   PRIVATE ${CMAKE_SOURCE_DIR}
           ${CMAKE_BINARY_DIR}
-          ${CMAKE_CURRENT_SOURCE_DIR}
-          ${CMAKE_CURRENT_BINARY_DIR}
-          ${CMAKE_CURRENT_SOURCE_DIR}/../Zend
   INTERFACE ${CMAKE_SOURCE_DIR}
             ${CMAKE_BINARY_DIR}
             ${CMAKE_CURRENT_SOURCE_DIR}

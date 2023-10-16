@@ -2,7 +2,13 @@ include(CMakeDependentOption)
 
 option(EXT_ZEND_TEST "Whether to enable the zend_test extension" OFF)
 
-cmake_dependent_option(EXT_ZEND_TEST_SHARED "Whether to build the zend_test extension as shared object" OFF "EXT_ZEND_TEST;NOT BUILD_SHARED_LIBS" OFF)
+cmake_dependent_option(
+  EXT_ZEND_TEST_SHARED
+  "Whether to build the zend_test extension as shared object"
+  OFF
+  "EXT_ZEND_TEST;NOT BUILD_SHARED_LIBS"
+  OFF
+)
 
 if(NOT EXT_ZEND_TEST)
   return()

@@ -34,12 +34,11 @@ set(PHP_EXTENSIONS_STATIC "" CACHE INTERNAL "")
 set(PHP_EXTENSIONS_SHARED "" CACHE INTERNAL "")
 
 function(php_extension)
-  # No additional options needed.
-  set(oneValueArgs NAME PRIORITY)
-  set(multiValueArgs DEPENDS)
+  set(one_value_args NAME PRIORITY)
+  set(multi_value_args DEPENDS)
   set(options SHARED STATIC)
 
-  cmake_parse_arguments(PHP_EXTENSION "${options}" "${oneValueArgs}" "${multiValueArgs}" "" ${ARGN})
+  cmake_parse_arguments(PHP_EXTENSION "${options}" "${one_value_args}" "${multi_value_args}" "" ${ARGN})
 
   # Check if the NAME argument is provided
   if(NOT PHP_EXTENSION_NAME)

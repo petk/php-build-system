@@ -3,7 +3,13 @@ include(CMakeDependentOption)
 
 option(EXT_SQLITE3 "Whether to enable the sqlite3 extension" ON)
 
-cmake_dependent_option(EXT_SQLITE3_SHARED "Whether to build the sqlite3 extension as shared object" OFF "EXT_SQLITE3;NOT BUILD_SHARED_LIBS" OFF)
+cmake_dependent_option(
+  EXT_SQLITE3_SHARED
+  "Whether to build the sqlite3 extension as shared object"
+  OFF
+  "EXT_SQLITE3;NOT BUILD_SHARED_LIBS"
+  OFF
+)
 
 if(NOT EXT_SQLITE3)
   return()

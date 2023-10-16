@@ -2,7 +2,13 @@ include(CMakeDependentOption)
 
 option(EXT_INTL "Whether to enable the intl extension" OFF)
 
-cmake_dependent_option(EXT_INTL_SHARED "Whether to build the intl extension as shared object" OFF "EXT_INTL;NOT BUILD_SHARED_LIBS" OFF)
+cmake_dependent_option(
+  EXT_INTL_SHARED
+  "Whether to build the intl extension as shared object"
+  OFF
+  "EXT_INTL;NOT BUILD_SHARED_LIBS"
+  OFF
+)
 
 if(NOT EXT_INTL)
   return()
@@ -92,11 +98,6 @@ if(ICU_VERSION VERSION_GREATER_EQUAL 60)
   target_compile_definitions(php_intl PRIVATE U_HIDE_OBSOLETE_UTF_OLD_H=1)
 endif()
 
-target_include_directories(
-  php_intl
-  PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}
-)
-
 set(_intl_cxx_sources
   intl_convertcpp.cpp
   common/common_enum.cpp
@@ -123,6 +124,9 @@ set(_intl_cxx_sources
 
 set_target_properties(php_intl PROPERTIES CXX_STANDARD 11)
 
-target_compile_definitions(php_intl PRIVATE "$<$<COMPILE_LANGUAGE:CXX>:UNISTR_FROM_CHAR_EXPLICIT=explicit;UNISTR_FROM_STRING_EXPLICIT=explicit>")
+target_compile_definitions(
+  php_intl
+  PRIVATE "$<$<COMPILE_LANGUAGE:CXX>:UNISTR_FROM_CHAR_EXPLICIT=explicit;UNISTR_FROM_STRING_EXPLICIT=explicit>"
+)
 
 target_sources(php_intl PRIVATE ${_intl_cxx_sources})

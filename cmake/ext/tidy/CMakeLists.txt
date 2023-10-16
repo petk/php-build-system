@@ -2,7 +2,13 @@ include(CMakeDependentOption)
 
 option(EXT_TIDY "Whether to enable the tidy extension" OFF)
 
-cmake_dependent_option(EXT_TIDY_SHARED "Whether to build the tidy extension as shared object" OFF "EXT_TIDY;NOT BUILD_SHARED_LIBS" OFF)
+cmake_dependent_option(
+  EXT_TIDY_SHARED
+  "Whether to build the tidy extension as shared object"
+  OFF
+  "EXT_TIDY;NOT BUILD_SHARED_LIBS"
+  OFF
+)
 
 if(NOT EXT_TIDY)
   return()

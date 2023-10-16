@@ -3,7 +3,13 @@ include(CMakeDependentOption)
 
 option(EXT_SYSVSEM "Whether to enable the System V semaphore extension" OFF)
 
-cmake_dependent_option(EXT_SYSVSEM_SHARED "Whether to build the sysvsem extension as shared object" OFF "EXT_SYSVSEM;NOT BUILD_SHARED_LIBS" OFF)
+cmake_dependent_option(
+  EXT_SYSVSEM_SHARED
+  "Whether to build the sysvsem extension as shared object"
+  OFF
+  "EXT_SYSVSEM;NOT BUILD_SHARED_LIBS"
+  OFF
+)
 
 if(NOT EXT_SYSVSEM)
   return()

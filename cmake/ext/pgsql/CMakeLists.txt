@@ -2,7 +2,13 @@ include(CMakeDependentOption)
 
 option(EXT_PGSQL "Whether to enable the pgsql extension" OFF)
 
-cmake_dependent_option(EXT_PGSQL_SHARED "Whether to build the pgsql extension as shared object" OFF "EXT_PGSQL;NOT BUILD_SHARED_LIBS" OFF)
+cmake_dependent_option(
+  EXT_PGSQL_SHARED
+  "Whether to build the pgsql extension as shared object"
+  OFF
+  "EXT_PGSQL;NOT BUILD_SHARED_LIBS"
+  OFF
+)
 
 if(NOT EXT_PGSQL)
   return()

@@ -4,9 +4,22 @@ include(CMakeDependentOption)
 option(SAPI_PHPDBG "Whether to use the PHP PHPDBG SAPI module" ON)
 
 # TODO: Check if this can be simplified and removed in favor of the PHP_DEBUG option.
-cmake_dependent_option(SAPI_PHPDBG_DEBUG "" OFF "SAPI_PHPDBG" OFF)
+cmake_dependent_option(
+  SAPI_PHPDBG_DEBUG
+  "Whether to build phpdbg in debug mode"
+  OFF
+  "SAPI_PHPDBG"
+  OFF
+)
+
 # TODO: Check if this can be simplified and removed in favor of the readline option.
-cmake_dependent_option(SAPI_PHPDBG_READLINE "" OFF "SAPI_PHPDBG" OFF)
+cmake_dependent_option(
+  SAPI_PHPDBG_READLINE
+  "Enable readline support in phpdbg (depends on static ext/readline)"
+  OFF
+  "SAPI_PHPDBG"
+  OFF
+)
 
 if(NOT SAPI_PHPDBG)
   return()

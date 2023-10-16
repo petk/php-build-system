@@ -3,7 +3,13 @@ include(CMakeDependentOption)
 
 option(EXT_SODIUM "Whether to enable the sodium extension" OFF)
 
-cmake_dependent_option(EXT_SODIUM_SHARED "Whether to build the sodium extension as shared object" OFF "EXT_SODIUM;NOT BUILD_SHARED_LIBS" OFF)
+cmake_dependent_option(
+  EXT_SODIUM_SHARED
+  "Whether to build the sodium extension as shared object"
+  OFF
+  "EXT_SODIUM;NOT BUILD_SHARED_LIBS"
+  OFF
+)
 
 if(NOT EXT_SODIUM)
   return()
