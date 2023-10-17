@@ -32,6 +32,10 @@ find_path(Aspell_INCLUDE_DIRS aspell.h)
 # If there is also pspell interface.
 find_path(Aspell_PSPELL_INCLUDE_DIRS pspell.h PATH_SUFFIXES pspell)
 
+if(Aspell_PSPELL_INCLUDE_DIRS)
+  list(APPEND Aspell_INCLUDE_DIRS ${Aspell_PSPELL_INCLUDE_DIRS})
+endif()
+
 find_library(Aspell_LIBRARIES NAMES aspell)
 
 # Sanity check.
@@ -49,6 +53,6 @@ if(Aspell_FOUND AND NOT TARGET Aspell::Aspell)
 
   set_target_properties(Aspell::Aspell PROPERTIES
     INTERFACE_LINK_LIBRARIES "${Aspell_LIBRARIES}"
-    INTERFACE_INCLUDE_DIRECTORIES "${Aspell_INCLUDE_DIRS};${Aspell_PSPELL_INCLUDE_DIRS}"
+    INTERFACE_INCLUDE_DIRECTORIES "${Aspell_INCLUDE_DIRS}"
   )
 endif()
