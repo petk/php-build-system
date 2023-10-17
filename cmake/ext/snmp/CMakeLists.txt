@@ -19,8 +19,6 @@ if(EXT_SNMP_SHARED OR BUILD_SHARED_LIBS)
   set(_library_type "SHARED")
 endif()
 
-php_extension(NAME "snmp" ${_library_type})
-
 add_library(php_snmp ${_library_type}
   snmp.c
 )

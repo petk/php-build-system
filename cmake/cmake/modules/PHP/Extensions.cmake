@@ -1,136 +1,150 @@
 #[=============================================================================[
-Module that exposes a php_extension() function for using in ext/*/CMakeLists.txt
-files.
+Traverses all PHP extensions and processes their CMakeLists.txt files. Extension
+directories are sorted by the optional directory property PHP_PRIORITY value. If
+extension has specified dependencies using the custom PHP_EXT_DEPENDS target
+property, these are also checked accordingly.
 
-It is intended to be used in the top project level CMakeLists.txt file. It
-traverses all PHP extensions and processes their CMakeLists.txt files. Extension
-directories are sorted by the priority value from php_extension().
-
-Function:
-  php_extension(NAME <name> [SHARED | STATIC]
-                [PRIORITY <value>]
-                [DEPENDS depends...])
-
-  PRIORITY number can be used to indicate to add the extension subdirectory
-  prior to other extensions. Due to CMake nature, directory that is added via
-  add_subdirectory later won't be visible in the configuration phase for
-  extensions added before. This enables setting some extension variables to
-  other extensions.
-
-The module sets the following variables:
+Cache variables:
 
 PHP_EXTENSIONS
   A list of all enabled extensions.
-
-PHP_EXTENSIONS_STATIC
-  A list of all enabled static extensions.
-
-PHP_EXTENSIONS_SHARED
-  A list of all enabled shared extensions.
 ]=============================================================================]#
 
-set(PHP_EXTENSIONS "" CACHE INTERNAL "")
-set(PHP_EXTENSIONS_STATIC "" CACHE INTERNAL "")
-set(PHP_EXTENSIONS_SHARED "" CACHE INTERNAL "")
+# Parse extension subdirectories and sort them by the PHP_PRIORITY property.
+function(_php_parse_extensions result directory)
+  file(GLOB extensions "${directory}/ext/*/CMakeLists.txt")
 
-function(php_extension)
-  set(one_value_args NAME PRIORITY)
-  set(multi_value_args DEPENDS)
-  set(options SHARED STATIC)
-
-  cmake_parse_arguments(PHP_EXTENSION "${options}" "${one_value_args}" "${multi_value_args}" "" ${ARGN})
-
-  # Check if the NAME argument is provided
-  if(NOT PHP_EXTENSION_NAME)
-    message(FATAL_ERROR "php_extension expects the NAME argument. Please use 'NAME' in front of the extension name.")
-  endif()
-
-  if(PHP_EXTENSION_SHARED)
-    message(STATUS "Enabling extension ${PHP_EXTENSION_NAME} as shared.")
-
-    set(
-      PHP_EXTENSIONS_SHARED
-      ${PHP_EXTENSIONS_SHARED} ${PHP_EXTENSION_NAME}
-      CACHE INTERNAL ""
-    )
-
-    string(TOUPPER "COMPILE_DL_${PHP_EXTENSION_NAME}" DYNAMIC_NAME)
-    set(${DYNAMIC_NAME} 1 CACHE INTERNAL "Whether to build ${PHP_EXTENSION_NAME} as dynamic module")
-  else()
-    message(STATUS "Enabling extension ${PHP_EXTENSION_NAME} as static.")
-
-    set(
-      PHP_EXTENSIONS_STATIC
-      ${PHP_EXTENSIONS_STATIC} ${PHP_EXTENSION_NAME}
-      CACHE INTERNAL ""
-    )
-  endif()
-
-  set(
-    PHP_EXTENSIONS
-    ${PHP_EXTENSIONS} ${PHP_EXTENSION_NAME}
-    CACHE INTERNAL ""
-  )
-
-  # Define constant for php_config.h. Some extensions are always available so
-  # they don't have HAVE_* constants.
-  set(default_extensions "date;hash;json;pcre;random;reflection;spl;standard")
-
-  if(NOT "${PHP_EXTENSION_NAME}" IN_LIST default_extensions)
-    string(TOUPPER "HAVE_${PHP_EXTENSION_NAME}" DYNAMIC_NAME)
-    set(${DYNAMIC_NAME} 1 CACHE INTERNAL "Whether to enable the ${PHP_EXTENSION_NAME} extension.")
-  endif()
-endfunction()
-
-function(_php_get_extensions result directory level)
-  file(GLOB_RECURSE subdirectories LIST_DIRECTORIES TRUE "${directory}/*/" "ext/*/CMakeLists.txt")
-  set(directories "")
-
-  foreach(dir ${subdirectories})
-    if(EXISTS "${dir}/CMakeLists.txt")
-      # Get the relative path of the dir.
-      file(RELATIVE_PATH relative_path ${directory} ${dir})
-
-      # Get the directory depth.
-      string(REGEX MATCHALL "/" slashes "${relative_path}")
-      list(LENGTH slashes depth)
-
-      # Exclude directories deeper than the specified level.
-      if("${depth}" LESS "${level}")
-        list(APPEND directories "${dir}")
-      endif()
-    endif()
+  foreach(extension ${extensions})
+    cmake_path(GET extension PARENT_PATH extension_dir)
+    list(APPEND directories "${extension_dir}")
   endforeach()
 
-  # Sort extension directories by the PRIORITY value in the php_extension().
+  # Sort extension directories by the optional directory property PHP_PRIORITY.
   foreach(dir ${directories})
     file(READ "${dir}/CMakeLists.txt" content)
 
-    string(REGEX MATCH "php_extension[\\r\\n\\t ]*\\(.*PRIORITY[\\r\\n\\t ]+([0-9]+)" _ ${content})
+    string(
+      REGEX MATCH
+      "set_directory_properties[\r\n\t ]*\\(.*PROPERTIES[\r\n\t ]+.*PHP_PRIORITY[\r\n\t ]+([0-9]+)"
+      _
+      "${content}"
+    )
 
-    if(${CMAKE_MATCH_1})
+    if(NOT CMAKE_MATCH_1)
+      string(
+        REGEX MATCH
+        "set_property[\r\n\t ]*\\([\r\n\t ]*DIRECTORY.*PROPERTY[\r\n\t ]+PHP_PRIORITY[\r\n\t ]+([0-9]+)"
+        _
+        "${content}"
+      )
+    endif()
+
+    if(CMAKE_MATCH_1)
       list(APPEND directories_numbered "${CMAKE_MATCH_1}.${dir}")
     else()
-      list(APPEND directories_numbered "999.${dir}")
+      list(APPEND directories_numbered "99.${dir}")
     endif()
   endforeach()
 
   list(SORT directories_numbered COMPARE NATURAL)
 
   foreach(dir ${directories_numbered})
-    string(REGEX MATCHALL "[0-9]+\\.(.*)" _ ${dir})
+    string(REGEX MATCHALL "[0-9]+\\.(.*)" _ "${dir}")
     list(APPEND directories_sorted ${CMAKE_MATCH_1})
   endforeach()
 
   set(${result} ${directories_sorted} PARENT_SCOPE)
 endfunction()
 
-# Include subdirectories within 'ext/' up to a depth of 1.
-_php_get_extensions(extension_directories "${CMAKE_CURRENT_SOURCE_DIR}/ext" 1)
+_php_parse_extensions(extension_directories "${CMAKE_CURRENT_SOURCE_DIR}")
 
-# Add extension directories.
-foreach(dir ${extension_directories})
-  cmake_path(GET dir FILENAME extension_name)
+set(PHP_EXTENSIONS "" CACHE INTERNAL "")
 
-  add_subdirectory("ext/${extension_name}")
+# Add extension subdirectories.
+foreach(extension ${extension_directories})
+  add_subdirectory("${extension}")
+
+  cmake_path(GET extension FILENAME extension_name)
+
+  if(NOT TARGET php_${extension_name})
+    continue()
+  endif()
+
+  set(
+    PHP_EXTENSIONS
+    ${PHP_EXTENSIONS} ${extension_name}
+    CACHE INTERNAL ""
+  )
+
+  # Define constant for php_config.h. Some extensions are always available so
+  # they don't need HAVE_* constants.
+  if(NOT "${extension_name}" IN_LIST "date;hash;json;pcre;random;reflection;spl;standard")
+    string(TOUPPER "HAVE_${extension_name}" DYNAMIC_NAME)
+    set(${DYNAMIC_NAME} 1 CACHE INTERNAL "Whether to enable the ${extension_name} extension.")
+  endif()
+
+  get_target_property(extension_type php_${extension_name} TYPE)
+
+  if(extension_type STREQUAL "SHARED_LIBRARY")
+    string(TOUPPER "COMPILE_DL_${extension_name}" DYNAMIC_NAME)
+    set(${DYNAMIC_NAME} 1 CACHE INTERNAL "Whether to build ${extension_name} as dynamic module")
+  endif()
+
+  # Check and configure dependencies if missing.
+  get_target_property(dependencies php_${extension_name} PHP_EXT_DEPENDS)
+
+  if(NOT dependencies)
+    continue()
+  endif()
+
+  string(TOUPPER "${extension_name}" extension_name_upper)
+
+  foreach(dependency ${dependencies})
+    string(REGEX MATCH "^php_(.*)" _ "${dependency}")
+    string(TOUPPER "${CMAKE_MATCH_1}" dependency_extension_upper)
+
+    if(NOT EXT_${dependency_extension_upper})
+      set(EXT_${dependency_extension_upper} ON CACHE BOOL "" FORCE)
+    endif()
+  endforeach()
+endforeach()
+
+# Check extensions and their dependencies defined with the custom target
+# property PHP_EXT_DEPENDS.
+foreach(extension ${PHP_EXTENSIONS})
+  get_target_property(dependencies php_${extension} PHP_EXT_DEPENDS)
+
+  if(NOT dependencies)
+    continue()
+  endif()
+
+  foreach(dependency ${dependencies})
+    string(REGEX MATCH "^php_(.*)" _ "${dependency}")
+    string(TOUPPER "${CMAKE_MATCH_1}" dependency_extension_upper)
+
+    if(NOT TARGET ${dependency} OR NOT ${CMAKE_MATCH_1} IN_LIST PHP_EXTENSIONS)
+      message(
+        FATAL_ERROR
+        "You've configured extension ${extension}, which depends on extension "
+        "${CMAKE_MATCH_1}, but you've either not enabled ${CMAKE_MATCH_1}, or "
+        "have disabled it. Set EXT_${dependency_extension_upper}=ON"
+      )
+    endif()
+
+    get_target_property(dependency_type ${dependency} TYPE)
+    get_target_property(extension_type php_${extension} TYPE)
+
+    if(
+      dependency_type STREQUAL "SHARED_LIBRARY"
+      AND NOT extension_type STREQUAL "SHARED_LIBRARY"
+    )
+      message(
+        FATAL_ERROR
+        "You've configured extension ${extension} to build statically, but it "
+        "depends on extension ${CMAKE_MATCH_1}, which you've configured to "
+        "build shared. You either need to build ${extension} shared or build "
+        "${CMAKE_MATCH_1} statically for the build to be successful."
+      )
+    endif()
+  endforeach()
 endforeach()

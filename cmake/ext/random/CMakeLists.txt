@@ -25,8 +25,6 @@ if(HAVE_COMMONCRYPTO_COMMONRANDOM_H)
   endif()
 endif()
 
-php_extension(NAME "random" STATIC)
-
 add_library(php_random STATIC
   random.c
   csprng.c

@@ -1,5 +1,3 @@
-php_extension(NAME "spl" STATIC)
-
 add_library(php_spl STATIC
   php_spl.c
   spl_functions.c

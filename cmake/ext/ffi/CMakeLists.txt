@@ -20,8 +20,6 @@ if(EXT_FFI_SHARED OR BUILD_SHARED_LIBS)
   set(_library_type "SHARED")
 endif()
 
-php_extension(NAME "ffi" ${_library_type})
-
 add_library(php_ffi ${_library_type}
   ffi.c
   ffi_parser.c

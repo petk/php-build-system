@@ -22,8 +22,6 @@ if(EXT_SOAP_SHARED OR BUILD_SHARED_LIBS)
   set(_library_type "SHARED")
 endif()
 
-php_extension(NAME "soap" ${_library_type})
-
 add_library(php_soap ${_library_type}
   soap.c
   php_encoding.c
@@ -36,4 +34,8 @@ add_library(php_soap ${_library_type}
 
 target_compile_definitions(php_soap PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE=1)
 
-target_link_libraries(php_soap PRIVATE php_libxml)
+find_package(LibXml2 ${PHP_LIBXML2_MIN_VERSION} REQUIRED)
+
+target_link_libraries(php_soap PRIVATE LibXml2::LibXml2)
+
+set_target_properties(php_soap PROPERTIES PHP_EXT_DEPENDS php_libxml)

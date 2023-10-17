@@ -81,12 +81,12 @@ if(PHP_DTRACE)
   message(STATUS "DTrace enabled")
 endif()
 
-foreach(extension IN LISTS PHP_EXTENSIONS_STATIC)
+foreach(extension IN LISTS PHP_EXTENSIONS)
+  message(STATUS "Post-configuration of php_${extension}")
+
   if(NOT TARGET PHP::${extension})
     add_library(PHP::${extension} ALIAS php_${extension})
   endif()
-
-  message(STATUS "Linking PHP::${extension}")
 
   target_link_libraries(php_${extension} PRIVATE PHP::configuration)
 
@@ -106,34 +106,20 @@ foreach(extension IN LISTS PHP_EXTENSIONS_STATIC)
     target_link_libraries(php_${extension} PRIVATE ${EXTRA_LIBS})
   endif()
 
-  target_link_libraries(php_main PRIVATE PHP::${extension})
-endforeach()
+  get_target_property(extension_type php_${extension} TYPE)
 
-foreach(extension IN LISTS PHP_EXTENSIONS_SHARED)
-  target_link_libraries(php_${extension} PRIVATE PHP::configuration)
+  if(extension_type STREQUAL "SHARED_LIBRARY")
+    set_property(TARGET php_${extension} PROPERTY POSITION_INDEPENDENT_CODE TRUE)
 
-  target_include_directories(
-    php_${extension}
-    PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}
-            ${CMAKE_SOURCE_DIR}
-            ${CMAKE_BINARY_DIR}
-            ${CMAKE_SOURCE_DIR}/main
-            ${CMAKE_BINARY_DIR}/main
-            ${CMAKE_SOURCE_DIR}/TSRM
-            ${CMAKE_SOURCE_DIR}/Zend
-            ${CMAKE_BINARY_DIR}/Zend
-            ${CMAKE_BINARY_DIR}/ext/date/lib
-  )
-
-  set_property(TARGET php_${extension} PROPERTY POSITION_INDEPENDENT_CODE TRUE)
-
-  # On macOS, additional linker flags need to be passed for shared libraries.
-  if(CMAKE_HOST_SYSTEM_NAME STREQUAL "Darwin")
-    set_target_properties(php_${extension} PROPERTIES LINK_FLAGS "-undefined dynamic_lookup")
-  endif()
-
-  if(EXTRA_LIBS)
-    target_link_libraries(php_${extension} PRIVATE ${EXTRA_LIBS})
+    # On macOS, additional linker flags need to be passed for shared libraries.
+    if(CMAKE_HOST_SYSTEM_NAME STREQUAL "Darwin")
+      set_target_properties(
+        php_${extension}
+        PROPERTIES LINK_FLAGS "-undefined dynamic_lookup"
+      )
+    endif()
+  else()
+    target_link_libraries(php_main PRIVATE PHP::${extension})
   endif()
 endforeach()
 

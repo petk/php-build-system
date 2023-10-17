@@ -1,5 +1,3 @@
-php_extension(NAME "json" STATIC)
-
 add_library(php_json STATIC
   json.c
   json_encoder.c

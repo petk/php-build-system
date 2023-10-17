@@ -19,8 +19,6 @@ if(EXT_BZ2_SHARED OR BUILD_SHARED_LIBS)
   set(_library_type "SHARED")
 endif()
 
-php_extension(NAME "bz2" ${_library_type})
-
 add_library(php_bz2 ${_library_type}
   bz2.c
   bz2_filter.c

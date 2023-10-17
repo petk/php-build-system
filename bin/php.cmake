@@ -117,7 +117,7 @@ function(php_download)
 
     list(APPEND urls "https://github.com/php/php-src/archive/refs/heads/${php_branch}.tar.gz")
   elseif(PHP_VERSION MATCHES "^.*-dev$")
-    string(REGEX MATCH "(^[0-9]+)\\.([0-9]+).*$" _ ${PHP_VERSION})
+    string(REGEX MATCH "(^[0-9]+)\\.([0-9]+).*$" _ "${PHP_VERSION}")
     set(php_branch "PHP-${CMAKE_MATCH_1}.${CMAKE_MATCH_2}")
 
     list(APPEND urls "https://github.com/php/php-src/archive/refs/heads/${php_branch}.tar.gz")
@@ -187,7 +187,7 @@ function(php_prepare_sources)
   message(STATUS "Applying patches to ${PHP_SOURCE_DIR_NAME}")
 
   # Apply patches for php-src.
-  string(REGEX MATCH "([0-9]+\\.[0-9]+).*$" _ ${PHP_VERSION})
+  string(REGEX MATCH "([0-9]+\\.[0-9]+).*$" _ "${PHP_VERSION}")
   file(GLOB_RECURSE patches "${PHP_ROOT_DIR}/patches/${CMAKE_MATCH_1}/*.patch")
 
   foreach(patch ${patches})

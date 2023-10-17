@@ -1,12 +1,6 @@
 include(CMakeDependentOption)
 
-cmake_dependent_option(
-  EXT_PDO_MYSQL
-  "Whether to enable the pdo_mysql extension"
-  OFF
-  "EXT_PDO"
-  OFF
-)
+option(EXT_PDO_MYSQL "Whether to enable the pdo_mysql extension" OFF)
 
 cmake_dependent_option(
   EXT_PDO_MYSQL_SHARED
@@ -20,22 +14,21 @@ if(NOT EXT_PDO_MYSQL)
   return()
 endif()
 
-# TODO: Check if ext/mysqlnd can be enabled from other extensions.
-if(NOT EXT_MYSQLND)
-  message(FATAL_ERROR "The pdo_mysql extension requires mysqlnd extension enabled, add EXT_MYSQLND=ON.")
+if(NOT EXT_PDO_MYSQL_SHARED AND (EXT_MYSQLND_SHARED OR EXT_PDO_SHARED))
+  set(EXT_PDO_MYSQL_SHARED ON CACHE BOOL "" FORCE)
 endif()
 
 if(EXT_PDO_MYSQL_SHARED OR BUILD_SHARED_LIBS)
   set(_library_type "SHARED")
 endif()
 
-php_extension(NAME "pdo_mysql" ${_library_type})
-
 add_library(php_pdo_mysql ${_library_type}
   pdo_mysql.c
   mysql_driver.c
   mysql_statement.c
 )
+
+set_target_properties(php_pdo_mysql PROPERTIES PHP_EXT_DEPENDS "php_mysqlnd;php_pdo")
 
 target_compile_definitions(php_pdo_mysql PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE=1)
 

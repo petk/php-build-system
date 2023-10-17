@@ -6,8 +6,6 @@ if(EXT_HASH_MHASH)
   set(PHP_MHASH_BC 1 CACHE INTERNAL "Whether mhash support should be included")
 endif()
 
-php_extension(NAME "hash" STATIC)
-
 add_library(php_hash STATIC
   hash.c
   hash_md.c

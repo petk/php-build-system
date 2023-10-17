@@ -11,8 +11,6 @@ if(NOT EXT_COM_DOTNET)
   return()
 endif()
 
-php_extension(NAME "com_dotnet")
-
 add_library(php_com_dotnet
   com_com.c
   com_dotnet.c

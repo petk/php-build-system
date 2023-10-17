@@ -27,16 +27,13 @@ if(NOT EXT_MYSQLI)
   return()
 endif()
 
-# TODO: Check if ext/mysqlnd can be enabled from other extensions.
-if(NOT EXT_MYSQLND)
-  message(FATAL_ERROR "The mysqli extension requires mysqlnd extension enabled, set EXT_MYSQLND=ON.")
+if(NOT EXT_MYSQLI_SHARED AND EXT_MYSQLND_SHARED)
+  set(EXT_MYSQLI_SHARED ON CACHE BOOL "" FORCE)
 endif()
 
 if(EXT_MYSQLI_SHARED OR BUILD_SHARED_LIBS)
   set(_library_type "SHARED")
 endif()
-
-php_extension(NAME "mysqli" ${_library_type})
 
 add_library(php_mysqli ${_library_type}
   mysqli.c
@@ -49,6 +46,8 @@ add_library(php_mysqli ${_library_type}
   mysqli_exception.c
   mysqli_result_iterator.c
 )
+
+set_target_properties(php_mysqli PROPERTIES PHP_EXT_DEPENDS php_mysqlnd)
 
 target_compile_definitions(php_mysqli PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE=1)
 

@@ -5,8 +5,6 @@ if(NOT EXT_DL_TEST)
   return()
 endif()
 
-php_extension(NAME "dl_test" SHARED)
-
 add_library(php_dl_test SHARED
   dl_test.c
 )

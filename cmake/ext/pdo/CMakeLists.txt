@@ -1,3 +1,5 @@
+set_directory_properties(PROPERTIES PHP_PRIORITY 100)
+
 include(CMakeDependentOption)
 
 option(EXT_PDO "Whether to enable the PDO extension" ON)
@@ -17,8 +19,6 @@ endif()
 if(EXT_PDO_SHARED OR BUILD_SHARED_LIBS)
   set(_library_type "SHARED")
 endif()
-
-php_extension(NAME "pdo" ${_library_type})
 
 add_library(php_pdo ${_library_type}
   pdo.c

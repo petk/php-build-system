@@ -23,8 +23,6 @@ if(EXT_POSIX_SHARED OR BUILD_SHARED_LIBS)
   set(_library_type "SHARED")
 endif()
 
-php_extension(NAME "posix" ${_library_type})
-
 check_include_file(sys/mkdev.h HAVE_SYS_MKDEV_H)
 check_include_file(sys/sysmacros.h HAVE_SYS_SYSMACROS_H)
 

@@ -18,8 +18,6 @@ if(EXT_CTYPE_SHARED OR BUILD_SHARED_LIBS)
   set(_library_type "SHARED")
 endif()
 
-php_extension(NAME "ctype" ${_library_type})
-
 add_library(php_ctype ${_library_type}
   ctype.c
 )

@@ -19,8 +19,6 @@ if(EXT_GETTEXT_SHARED OR BUILD_SHARED_LIBS)
   set(_library_type "SHARED")
 endif()
 
-php_extension(NAME "gettext" ${_library_type})
-
 add_library(php_gettext ${_library_type}
   gettext.c
 )

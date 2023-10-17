@@ -18,6 +18,4 @@ if(EXT_ODBC_SHARED OR BUILD_SHARED_LIBS)
   set(_library_type "SHARED")
 endif()
 
-#php_extension(NAME "odbc" ${_library_type})
-
 #add_library(php_odbc ${_library_type})

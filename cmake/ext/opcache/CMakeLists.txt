@@ -96,8 +96,6 @@ if(NOT HAVE_SHM_IPC AND NOT HAVE_SHM_MMAP_ANON AND NOT HAVE_SHM_MMAP_POSIX)
 endif()
 
 # OPcache extension can be either disabled or built as shared.
-php_extension(NAME "opcache" SHARED)
-
 add_library(php_opcache SHARED
   ZendAccelerator.c
   zend_accelerator_blacklist.c

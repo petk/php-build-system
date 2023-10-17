@@ -18,8 +18,6 @@ if(EXT_TIDY_SHARED OR BUILD_SHARED_LIBS)
   set(_library_type "SHARED")
 endif()
 
-php_extension(NAME "tidy" ${_library_type})
-
 add_library(php_tidy ${_library_type}
   tidy.c
 )

@@ -151,7 +151,7 @@ These are set and have scope of the directory when using the
 
   ```cmake
   # For example, here only the matched value of CMAKE_MATCH_1 is important.
-  string(REGEX MATCH "foo\\(([0-9]+)\\)" _ ${content})
+  string(REGEX MATCH "foo\\(([0-9]+)\\)" _ "${content}")
   message(STATUS ${CMAKE_MATCH_1})
   ```
 

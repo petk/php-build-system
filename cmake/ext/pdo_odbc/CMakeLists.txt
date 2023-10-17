@@ -1,12 +1,6 @@
 include(CMakeDependentOption)
 
-cmake_dependent_option(
-  EXT_PDO_ODBC
-  "Whether to enable the pdo_odbc extension"
-  OFF
-  "EXT_PDO"
-  OFF
-)
+option(EXT_PDO_ODBC "Whether to enable the pdo_odbc extension" OFF)
 
 cmake_dependent_option(
   EXT_PDO_ODBC_SHARED
@@ -20,10 +14,14 @@ if(NOT EXT_PDO_ODBC)
   return()
 endif()
 
+if(NOT EXT_PDO_ODBC_SHARED AND EXT_PDO_SHARED)
+  set(EXT_PDO_ODBC_SHARED ON CACHE BOOL "" FORCE)
+endif()
+
 if(EXT_PDO_ODBC_SHARED OR BUILD_SHARED_LIBS)
   set(_library_type "SHARED")
 endif()
 
-#php_extension(NAME "pdo_odbc" ${_library_type})
-
 #add_library(php_pdo_odbc ${_library_type})
+
+#set_target_properties(php_pdo_odbc PROPERTIES PHP_EXT_DEPENDS php_pdo)

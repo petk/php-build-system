@@ -22,8 +22,6 @@ if(EXT_MBSTRING_SHARED OR BUILD_SHARED_LIBS)
   set(_library_type "SHARED")
 endif()
 
-php_extension(NAME "mbstring" ${_library_type})
-
 add_library(php_mbstring ${_library_type}
   mbstring.c
   php_unicode.c

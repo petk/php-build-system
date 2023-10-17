@@ -76,8 +76,6 @@ if(EXT_GD_SHARED OR BUILD_SHARED_LIBS)
   set(_library_type "SHARED")
 endif()
 
-php_extension(NAME "gd" ${_library_type})
-
 add_library(php_gd ${_library_type}
   gd.c
 )

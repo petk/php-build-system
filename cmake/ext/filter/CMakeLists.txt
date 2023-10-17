@@ -18,8 +18,6 @@ if(EXT_FILTER_SHARED OR BUILD_SHARED_LIBS)
   set(_library_type "SHARED")
 endif()
 
-php_extension(NAME "filter" ${_library_type})
-
 add_library(php_filter ${_library_type}
   filter.c
   sanitizing_filters.c

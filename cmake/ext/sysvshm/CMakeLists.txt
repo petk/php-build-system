@@ -18,8 +18,6 @@ if(EXT_SYSVSHM_SHARED OR BUILD_SHARED_LIBS)
   set(_library_type "SHARED")
 endif()
 
-php_extension(NAME "sysvshm" ${_library_type})
-
 add_library(php_sysvshm ${_library_type}
   sysvshm.c
 )

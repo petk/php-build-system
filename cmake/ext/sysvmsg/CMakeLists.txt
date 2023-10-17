@@ -25,8 +25,6 @@ if(EXT_SYSVMSG_SHARED OR BUILD_SHARED_LIBS)
   set(_library_type "SHARED")
 endif()
 
-php_extension(NAME "sysvmsg" ${_library_type})
-
 add_library(php_sysvmsg ${_library_type}
   sysvmsg.c
 )

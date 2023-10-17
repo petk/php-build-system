@@ -9,8 +9,6 @@ check_include_file(io.h HAVE_IO_H)
 check_symbol_exists(atoll "stdlib.h" HAVE_ATOLL)
 check_symbol_exists(strtoll "stdlib.h" HAVE_STRTOLL)
 
-php_extension(NAME "date" STATIC)
-
 add_library(php_date STATIC
   php_date.c
   lib/astro.c

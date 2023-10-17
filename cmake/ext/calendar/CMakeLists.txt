@@ -18,8 +18,6 @@ if(EXT_CALENDAR_SHARED OR BUILD_SHARED_LIBS)
   set(_library_type "SHARED")
 endif()
 
-php_extension(NAME "calendar" ${_library_type})
-
 add_library(php_calendar ${_library_type}
   calendar.c
   dow.c

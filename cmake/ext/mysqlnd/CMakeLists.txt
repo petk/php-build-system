@@ -1,3 +1,5 @@
+set_directory_properties(PROPERTIES PHP_PRIORITY 100)
+
 include(CMakeDependentOption)
 
 option(EXT_MYSQLND "Whether to enable the mysqlnd extension" OFF)
@@ -35,8 +37,6 @@ endif()
 if(EXT_MYSQLND_SHARED OR BUILD_SHARED_LIBS)
   set(_library_type "SHARED")
 endif()
-
-php_extension(NAME "mysqlnd" ${_library_type} PRIORITY 10)
 
 add_library(php_mysqlnd ${_library_type}
   mysqlnd_connection.c

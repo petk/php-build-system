@@ -14,18 +14,19 @@ if(NOT EXT_XMLREADER)
   return()
 endif()
 
-if(NOT EXT_LIBXML)
-  message(FATAL_ERROR "XMLReader extension requires LIBXML extension, set EXT_LIBXML=ON")
-endif()
-
 if(EXT_XMLREADER_SHARED OR BUILD_SHARED_LIBS)
   set(_library_type "SHARED")
 endif()
-
-php_extension(NAME "xmlreader" ${_library_type})
 
 add_library(php_xmlreader ${_library_type}
   php_xmlreader.c
 )
 
-target_link_libraries(php_xmlreader PRIVATE php_libxml)
+find_package(LibXml2 ${PHP_LIBXML2_MIN_VERSION} REQUIRED)
+
+target_link_libraries(php_xmlreader PRIVATE LibXml2::LibXml2)
+
+set_property(
+  TARGET php_xmlreader
+  PROPERTY PHP_EXT_DEPENDS php_libxml php_dom
+)

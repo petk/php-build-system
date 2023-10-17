@@ -19,8 +19,6 @@ if(EXT_SODIUM_SHARED OR BUILD_SHARED_LIBS)
   set(_library_type "SHARED")
 endif()
 
-php_extension(NAME "sodium" ${_library_type})
-
 add_library(php_sodium ${_library_type}
   libsodium.c
   sodium_pwhash.c

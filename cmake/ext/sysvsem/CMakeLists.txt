@@ -33,8 +33,6 @@ if(EXT_SYSVSEM_SHARED OR BUILD_SHARED_LIBS)
   set(_library_type "SHARED")
 endif()
 
-php_extension(NAME "sysvsem" ${_library_type})
-
 add_library(php_sysvsem ${_library_type}
   sysvsem.c
 )

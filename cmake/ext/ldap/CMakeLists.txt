@@ -31,8 +31,6 @@ if(EXT_LDAP_SHARED OR BUILD_SHARED_LIBS)
   set(_library_type "SHARED")
 endif()
 
-php_extension(NAME "ldap" ${_library_type})
-
 add_library(php_ldap ${_library_type}
   ldap.c
 )

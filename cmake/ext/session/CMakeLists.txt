@@ -32,8 +32,6 @@ if(EXT_SESSION_SHARED OR BUILD_SHARED_LIBS)
   set(_library_type "SHARED")
 endif()
 
-php_extension(NAME "session" ${_library_type})
-
 add_library(php_session ${_library_type}
   mod_user_class.c
   session.c

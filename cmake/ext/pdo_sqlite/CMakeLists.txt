@@ -1,13 +1,7 @@
 include(CheckLibraryExists)
 include(CMakeDependentOption)
 
-cmake_dependent_option(
-  EXT_PDO_SQLITE
-  "Whether to enable the pdo_sqlite extension"
-  ON
-  "EXT_PDO"
-  OFF
-)
+option(EXT_PDO_SQLITE "Whether to enable the pdo_sqlite extension" ON)
 
 cmake_dependent_option(
   EXT_PDO_SQLITE_SHARED
@@ -21,17 +15,21 @@ if(NOT EXT_PDO_SQLITE)
   return()
 endif()
 
+if(NOT EXT_PDO_SQLITE_SHARED AND EXT_PDO_SHARED)
+  set(EXT_PDO_SQLITE_SHARED ON CACHE BOOL "" FORCE)
+endif()
+
 if(EXT_PDO_SQLITE_SHARED OR BUILD_SHARED_LIBS)
   set(_library_type "SHARED")
 endif()
-
-php_extension(NAME "pdo_sqlite" ${_library_type})
 
 add_library(php_pdo_sqlite ${_library_type}
   pdo_sqlite.c
   sqlite_driver.c
   sqlite_statement.c
 )
+
+set_target_properties(php_pdo_sqlite PROPERTIES PHP_EXT_DEPENDS php_pdo)
 
 find_package(SQLite3 3.7.7 REQUIRED)
 

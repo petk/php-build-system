@@ -22,10 +22,12 @@ if(EXT_XMLWRITER_SHARED OR BUILD_SHARED_LIBS)
   set(_library_type "SHARED")
 endif()
 
-php_extension(NAME "xmlwriter" ${_library_type})
-
 add_library(php_xmlwriter ${_library_type}
   php_xmlwriter.c
 )
 
-target_link_libraries(php_xmlwriter PRIVATE php_libxml)
+find_package(LibXml2 ${PHP_LIBXML2_MIN_VERSION} REQUIRED)
+
+target_link_libraries(php_xmlwriter PRIVATE LibXml2::LibXml2)
+
+set_target_properties(php_xmlwriter PROPERTIES PHP_EXT_DEPENDS php_libxml)

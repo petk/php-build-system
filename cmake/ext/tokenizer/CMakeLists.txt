@@ -18,8 +18,6 @@ if(EXT_TOKENIZER_SHARED OR BUILD_SHARED_LIBS)
   set(_library_type "SHARED")
 endif()
 
-php_extension(NAME "tokenizer" ${_library_type})
-
 add_library(php_tokenizer ${_library_type}
   tokenizer.c
   tokenizer_data.c

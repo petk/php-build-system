@@ -22,8 +22,6 @@ if(EXT_FTP_SHARED OR BUILD_SHARED_LIBS)
   set(_library_type "SHARED")
 endif()
 
-php_extension(NAME "ftp" ${_library_type})
-
 add_library(php_ftp ${_library_type}
   php_ftp.c
   ftp.c

@@ -1,3 +1,5 @@
+set_directory_properties(PROPERTIES PHP_PRIORITY 101)
+
 include(CMakeDependentOption)
 
 option(EXT_ZEND_TEST "Whether to enable the zend_test extension" OFF)
@@ -18,8 +20,6 @@ if(EXT_ZEND_TEST_SHARED OR BUILD_SHARED_LIBS)
   set(_library_type "SHARED")
 endif()
 
-php_extension(NAME "zend_test" ${_library_type})
-
 add_library(php_zend_test ${_library_type}
   test.c
   observer.c
@@ -30,7 +30,9 @@ add_library(php_zend_test ${_library_type}
 
 target_compile_definitions(php_zend_test PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE=1)
 
-# If ext/libxml is enabled, link it.
+# If ext/libxml is enabled, link libxml library.
 if(HAVE_LIBXML)
-  target_link_libraries(php_zend_test PRIVATE php_libxml)
+  find_package(LibXml2 ${PHP_LIBXML2_MIN_VERSION} REQUIRED)
+
+  target_link_libraries(php_zend_test PRIVATE LibXml2::LibXml2)
 endif()

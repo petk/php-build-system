@@ -19,8 +19,6 @@ if(EXT_FILEINFO_SHARED OR BUILD_SHARED_LIBS)
   set(_library_type "SHARED")
 endif()
 
-php_extension(NAME "fileinfo" ${_library_type})
-
 add_library(php_fileinfo ${_library_type}
   fileinfo.c
   php_libmagic.c

@@ -26,20 +26,22 @@ if(EXT_XML_SHARED OR BUILD_SHARED_LIBS)
   set(_library_type "SHARED")
 endif()
 
-php_extension(NAME "xml" ${_library_type})
-
 add_library(php_xml ${_library_type}
   xml.c
 )
 
-if(NOT EXT_XML_EXPAT AND NOT EXT_LIBXML)
+if(DEFINED EXT_LIBXML AND NOT EXT_LIBXML AND NOT EXT_XML_EXPAT)
   message(FATAL_ERROR "XML extension requires either LIBXML extension or Expat library, set EXT_LIBXML=ON or EXT_XML_EXPAT=ON")
 endif()
 
 if(NOT EXT_XML_EXPAT)
   target_sources(php_xml PRIVATE compat.c)
 
-  target_link_libraries(php_xml PRIVATE php_libxml)
+  find_package(LibXml2 ${PHP_LIBXML2_MIN_VERSION} REQUIRED)
+
+  target_link_libraries(php_xml PRIVATE LibXml2::LibXml2)
+
+  set_target_properties(php_xml PROPERTIES PHP_EXT_DEPENDS php_libxml)
 else()
   find_package(EXPAT REQUIRED)
 

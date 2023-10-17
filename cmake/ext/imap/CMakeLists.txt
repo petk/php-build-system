@@ -18,6 +18,4 @@ if(EXT_IMAP_SHARED OR BUILD_SHARED_LIBS)
   set(_library_type "SHARED")
 endif()
 
-#php_extension(NAME "imap" ${_library_type})
-
 #add_library(php_imap ${_library_type})

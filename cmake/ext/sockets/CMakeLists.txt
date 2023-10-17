@@ -113,8 +113,6 @@ if(EXT_SOCKETS_SHARED OR BUILD_SHARED_LIBS)
   set(_library_type "SHARED")
 endif()
 
-php_extension(NAME "sockets" ${_library_type})
-
 add_library(php_sockets ${_library_type}
   sockets.c
   multicast.c

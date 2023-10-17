@@ -19,8 +19,6 @@ if(EXT_ZIP_SHARED OR BUILD_SHARED_LIBS)
   set(_library_type "SHARED")
 endif()
 
-php_extension(NAME "zip" ${_library_type})
-
 add_library(php_zip ${_library_type}
   php_zip.c
   zip_stream.c

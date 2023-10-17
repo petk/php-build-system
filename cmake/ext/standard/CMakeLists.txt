@@ -140,8 +140,6 @@ check_c_source_compiles("
 # being built.
 set(ENABLE_CHROOT_FUNC 1 CACHE INTERNAL "Whether to enable chroot() function")
 
-php_extension(NAME "standard" STATIC)
-
 add_library(php_standard STATIC
   array.c
   base64.c

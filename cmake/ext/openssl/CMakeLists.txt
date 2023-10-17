@@ -1,3 +1,5 @@
+set_directory_properties(PROPERTIES PHP_PRIORITY 2)
+
 include(CheckSymbolExists)
 include(CMakeDependentOption)
 include(CMakePushCheckState)
@@ -35,8 +37,6 @@ endif()
 if(EXT_OPENSSL_SHARED OR BUILD_SHARED_LIBS)
   set(_library_type "SHARED")
 endif()
-
-php_extension(NAME "openssl" ${_library_type} PRIORITY 2)
 
 add_library(php_openssl ${_library_type}
   openssl.c

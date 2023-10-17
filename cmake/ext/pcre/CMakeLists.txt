@@ -5,8 +5,6 @@ include(CheckCSourceRuns)
 option(EXT_PCRE_EXTERNAL "Use external library for PCRE support" OFF)
 option(EXT_PCRE_JIT "Whether to enable PCRE JIT functionality" ON)
 
-php_extension(NAME "pcre" STATIC)
-
 add_library(php_pcre STATIC
   php_pcre.c
 )

@@ -23,8 +23,6 @@ if(EXT_ICONV_SHARED OR BUILD_SHARED_LIBS)
   set(_library_type "SHARED")
 endif()
 
-php_extension(NAME "iconv" ${_library_type})
-
 add_library(php_iconv ${_library_type}
   iconv.c
 )

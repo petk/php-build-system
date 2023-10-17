@@ -14,21 +14,22 @@ if(NOT EXT_SIMPLEXML)
   return()
 endif()
 
-if(NOT EXT_LIBXML)
-  message(FATAL_ERROR "SimpleXML extension requires LIBXML extension, set EXT_LIBXML=ON")
-endif()
-
 if(EXT_SIMPLEXML_SHARED OR BUILD_SHARED_LIBS)
   set(_library_type "SHARED")
 endif()
-
-php_extension(NAME "simplexml" ${_library_type})
 
 add_library(php_simplexml ${_library_type}
   simplexml.c
 )
 
-target_link_libraries(php_simplexml PRIVATE php_libxml)
+set_property(
+  TARGET php_simplexml
+  PROPERTY PHP_EXT_DEPENDS php_libxml
+)
+
+find_package(LibXml2 ${PHP_LIBXML2_MIN_VERSION} REQUIRED)
+
+target_link_libraries(php_simplexml PRIVATE LibXml2::LibXml2)
 
 target_sources(
   php_simplexml

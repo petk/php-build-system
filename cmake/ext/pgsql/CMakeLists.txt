@@ -18,8 +18,6 @@ if(EXT_PGSQL_SHARED OR BUILD_SHARED_LIBS)
   set(_library_type "SHARED")
 endif()
 
-php_extension(NAME "pgsql" ${_library_type})
-
 add_library(php_pgsql ${_library_type}
   pgsql.c
 )

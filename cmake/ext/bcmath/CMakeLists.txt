@@ -18,8 +18,6 @@ if(EXT_BCMATH_SHARED OR BUILD_SHARED_LIBS)
   set(_library_type "SHARED")
 endif()
 
-php_extension(NAME "bcmath" ${_library_type})
-
 add_library(php_bcmath ${_library_type}
   bcmath.c
   libbcmath/src/add.c

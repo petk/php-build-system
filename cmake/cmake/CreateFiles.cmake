@@ -73,7 +73,8 @@ set(EXT_MODULE_PTRS "")
 # Add artefacts of static enabled PHP extensions to symbol definitions.
 foreach(extension IN LISTS PHP_EXTENSIONS)
   # Skip if extension is shared.
-  if(extension IN_LIST PHP_EXTENSIONS_SHARED)
+  get_target_property(extension_type php_${extension} TYPE)
+  if(extension_type STREQUAL "SHARED_LIBRARY")
     continue()
   endif()
 

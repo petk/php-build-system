@@ -18,8 +18,6 @@ if(EXT_INTL_SHARED OR BUILD_SHARED_LIBS)
   set(_library_type "SHARED")
 endif()
 
-php_extension(NAME "intl" ${_library_type})
-
 add_library(php_intl ${_library_type})
 
 set(_intl_sources

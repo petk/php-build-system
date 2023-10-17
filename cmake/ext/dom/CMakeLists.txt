@@ -14,15 +14,9 @@ if(NOT EXT_DOM)
   return()
 endif()
 
-if(NOT EXT_LIBXML)
-  message(FATAL_ERROR "DOM extension requires LIBXML extension, set EXT_LIBXML=ON")
-endif()
-
 if(EXT_DOM_SHARED OR BUILD_SHARED_LIBS)
   set(_library_type "SHARED")
 endif()
-
-php_extension(NAME "dom" ${_library_type})
 
 add_library(php_dom ${_library_type}
   php_dom.c
@@ -49,7 +43,11 @@ add_library(php_dom ${_library_type}
   namednodemap.c
 )
 
-target_link_libraries(php_dom PRIVATE php_libxml)
+find_package(LibXml2 ${PHP_LIBXML2_MIN_VERSION} REQUIRED)
+
+target_link_libraries(php_dom PRIVATE LibXml2::LibXml2)
+
+set_target_properties(php_dom PROPERTIES PHP_EXT_DEPENDS php_libxml)
 
 target_sources(
   php_dom

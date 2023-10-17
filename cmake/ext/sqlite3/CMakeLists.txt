@@ -19,8 +19,6 @@ if(EXT_SQLITE3_SHARED OR BUILD_SHARED_LIBS)
   set(_library_type "SHARED")
 endif()
 
-php_extension(NAME "sqlite3" ${_library_type})
-
 add_library(php_sqlite3 ${_library_type}
   sqlite3.c
 )

@@ -32,14 +32,16 @@ if(EXT_XSL_SHARED OR BUILD_SHARED_LIBS)
   set(_library_type "SHARED")
 endif()
 
-php_extension(NAME "xsl" ${_library_type})
-
 add_library(php_xsl ${_library_type}
   php_xsl.c
   xsltprocessor.c
 )
 
-target_link_libraries(php_xsl PRIVATE php_libxml)
+find_package(LibXml2 ${PHP_LIBXML2_MIN_VERSION} REQUIRED)
+
+target_link_libraries(php_xsl PRIVATE LibXml2::LibXml2)
+
+set_target_properties(php_xsl PROPERTIES PHP_EXT_DEPENDS php_libxml)
 
 find_package(LibXslt 1.1.0 REQUIRED)
 # Upstream CMake module doesn't mark these as advanced variables.

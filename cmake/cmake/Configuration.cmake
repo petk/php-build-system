@@ -10,9 +10,10 @@ For the preferred configuration customization, opt for CMake presets:
   cmake --preset <preset>
 #]=============================================================================]
 
-#[=============================================================================[
-Customizable variables.
-#]=============================================================================]
+################################################################################
+# Customizable variables.
+################################################################################
+
 set(PHP_UNAME "" CACHE STRING "Build system uname")
 
 if(CMAKE_UNAME AND NOT PHP_UNAME)
@@ -45,9 +46,10 @@ option(PHP_ADDRESS_SANITIZER "Whether to enable the address sanitizer compiler o
 
 option(PHP_UNDEFINED_SANITIZER "Whether to enable the undefined sanitizer compiler option" OFF)
 
-#[=============================================================================[
-General options.
-#]=============================================================================]
+################################################################################
+# General options.
+################################################################################
+
 option(PHP_RE2C_CGOTO "Whether to enable computed goto gcc extension with re2c" OFF)
 
 option(PHP_DEBUG "Whether to include debugging symbols" OFF)
@@ -72,9 +74,10 @@ option(PHP_VALGRIND "Whether to enable the Valgrind support" OFF)
 
 option(BUILD_SHARED_LIBS "Whether to build all enabled optional PHP extensions as shared objects" OFF)
 
-#[=============================================================================[
-Zend options
-#]=============================================================================]
+################################################################################
+# Zend options.
+################################################################################
+
 option(ZEND_GCC_GLOBAL_REGS "Whether to enable GCC global register variables" ON)
 
 option(ZEND_FIBER_ASM "Enable the use of boost fiber assembly files" ON)
@@ -92,3 +95,10 @@ if(PHP_SHORT_TAGS)
 else()
   set(DEFAULT_SHORT_OPEN_TAG "0")
 endif()
+
+################################################################################
+# Various global internal configuration.
+################################################################################
+
+# Minimum required version for the libxml2 dependency.
+set(PHP_LIBXML2_MIN_VERSION 2.9.0)

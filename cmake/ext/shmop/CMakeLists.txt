@@ -18,8 +18,6 @@ if(EXT_SHMOP_SHARED OR BUILD_SHARED_LIBS)
   set(_library_type "SHARED")
 endif()
 
-php_extension(NAME "shmop" ${_library_type})
-
 add_library(php_shmop ${_library_type}
   shmop.c
 )

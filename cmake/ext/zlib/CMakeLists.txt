@@ -18,8 +18,6 @@ if(EXT_ZLIB_SHARED OR BUILD_SHARED_LIBS)
   set(_library_type "SHARED")
 endif()
 
-php_extension(NAME "zlib" ${_library_type})
-
 add_library(php_zlib ${_library_type}
   zlib.c
   zlib_fopen_wrapper.c

@@ -18,8 +18,6 @@ if(EXT_PHAR_SHARED OR BUILD_SHARED_LIBS)
   set(_library_type "SHARED")
 endif()
 
-php_extension(NAME "phar" ${_library_type})
-
 add_library(php_phar ${_library_type}
   util.c
   tar.c

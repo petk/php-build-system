@@ -19,8 +19,6 @@ if(EXT_ENCHANT_SHARED OR BUILD_SHARED_LIBS)
   set(_library_type "SHARED")
 endif()
 
-php_extension(NAME "enchant" ${_library_type})
-
 add_library(php_enchant ${_library_type}
   enchant.c
 )

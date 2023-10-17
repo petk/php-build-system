@@ -1,3 +1,5 @@
+set_directory_properties(PROPERTIES PHP_PRIORITY 100)
+
 option(EXT_LIBXML "Whether to enable the libxml extension" ON)
 
 if(NOT EXT_LIBXML)
@@ -5,15 +7,13 @@ if(NOT EXT_LIBXML)
 endif()
 
 # This extension can be build only as STATIC.
-php_extension(NAME "libxml" STATIC PRIORITY 1)
-
 add_library(php_libxml STATIC
   libxml.c
 )
 
 target_compile_definitions(php_libxml PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE=1)
 
-find_package(LibXml2 2.9.0 REQUIRED)
+find_package(LibXml2 ${PHP_LIBXML2_MIN_VERSION} REQUIRED)
 
 target_link_libraries(php_libxml PUBLIC LibXml2::LibXml2)
 
