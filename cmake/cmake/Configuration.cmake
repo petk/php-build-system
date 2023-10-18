@@ -102,3 +102,6 @@ endif()
 
 # Minimum required version for the libxml2 dependency.
 set(PHP_LIBXML2_MIN_VERSION 2.9.0)
+
+# Minimum required version for the OpenSSL dependency.
+set(PHP_OPENSSL_MIN_VERSION 1.0.2)

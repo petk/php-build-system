@@ -21,10 +21,10 @@ if(NOT HAVE_SYS_MSG_H)
   message(FATAL_ERROR "Cannot enable System V IPC support, sys/msg.h is missing")
 endif()
 
-if(EXT_SYSVMSG_SHARED OR BUILD_SHARED_LIBS)
-  set(_library_type "SHARED")
+if(EXT_SYSVMSG_SHARED)
+  set(_type "SHARED")
 endif()
 
-add_library(php_sysvmsg ${_library_type}
+add_library(php_sysvmsg ${_type}
   sysvmsg.c
 )

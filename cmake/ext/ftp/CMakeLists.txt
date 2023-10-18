@@ -18,18 +18,17 @@ if(NOT EXT_FTP)
   return()
 endif()
 
-if(EXT_FTP_SHARED OR BUILD_SHARED_LIBS)
-  set(_library_type "SHARED")
+if(EXT_FTP_SHARED)
+  set(_type "SHARED")
 endif()
 
-add_library(php_ftp ${_library_type}
+add_library(php_ftp ${_type}
   php_ftp.c
   ftp.c
 )
 
 if(EXT_FTP_SSL OR EXT_OPENSSL)
-  # TODO: Can OpenSSL be retrieved differently (from one place) here?
-  find_package(OpenSSL 1.0.2 REQUIRED)
+  find_package(OpenSSL ${PHP_OPENSSL_MIN_VERSION} REQUIRED)
 
   target_link_libraries(php_ftp PRIVATE OpenSSL::SSL)
 

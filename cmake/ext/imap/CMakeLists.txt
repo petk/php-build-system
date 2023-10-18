@@ -14,8 +14,8 @@ if(NOT EXT_IMAP)
   return()
 endif()
 
-if(EXT_IMAP_SHARED OR BUILD_SHARED_LIBS)
-  set(_library_type "SHARED")
+if(EXT_IMAP_SHARED)
+  set(_type "SHARED")
 endif()
 
-#add_library(php_imap ${_library_type})
+#add_library(php_imap ${_type})

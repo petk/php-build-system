@@ -31,11 +31,11 @@ if(NOT EXT_MYSQLI_SHARED AND EXT_MYSQLND_SHARED)
   set(EXT_MYSQLI_SHARED ON CACHE BOOL "" FORCE)
 endif()
 
-if(EXT_MYSQLI_SHARED OR BUILD_SHARED_LIBS)
-  set(_library_type "SHARED")
+if(EXT_MYSQLI_SHARED)
+  set(_type "SHARED")
 endif()
 
-add_library(php_mysqli ${_library_type}
+add_library(php_mysqli ${_type}
   mysqli.c
   mysqli_api.c
   mysqli_prop.c

@@ -15,11 +15,11 @@ if(NOT EXT_SQLITE3)
   return()
 endif()
 
-if(EXT_SQLITE3_SHARED OR BUILD_SHARED_LIBS)
-  set(_library_type "SHARED")
+if(EXT_SQLITE3_SHARED)
+  set(_type "SHARED")
 endif()
 
-add_library(php_sqlite3 ${_library_type}
+add_library(php_sqlite3 ${_type}
   sqlite3.c
 )
 

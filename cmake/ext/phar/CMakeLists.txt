@@ -14,11 +14,11 @@ if(NOT EXT_PHAR)
   return()
 endif()
 
-if(EXT_PHAR_SHARED OR BUILD_SHARED_LIBS)
-  set(_library_type "SHARED")
+if(EXT_PHAR_SHARED)
+  set(_type "SHARED")
 endif()
 
-add_library(php_phar ${_library_type}
+add_library(php_phar ${_type}
   util.c
   tar.c
   zip.c

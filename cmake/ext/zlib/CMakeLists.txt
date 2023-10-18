@@ -14,11 +14,11 @@ if(NOT EXT_ZLIB)
   return()
 endif()
 
-if(EXT_ZLIB_SHARED OR BUILD_SHARED_LIBS)
-  set(_library_type "SHARED")
+if(EXT_ZLIB_SHARED)
+  set(_type "SHARED")
 endif()
 
-add_library(php_zlib ${_library_type}
+add_library(php_zlib ${_type}
   zlib.c
   zlib_fopen_wrapper.c
   zlib_filter.c

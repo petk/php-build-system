@@ -18,11 +18,11 @@ if(NOT EXT_LIBXML)
   message(FATAL_ERROR "XMLWriter extension requires LIBXML extension, set EXT_LIBXML=ON")
 endif()
 
-if(EXT_XMLWRITER_SHARED OR BUILD_SHARED_LIBS)
-  set(_library_type "SHARED")
+if(EXT_XMLWRITER_SHARED)
+  set(_type "SHARED")
 endif()
 
-add_library(php_xmlwriter ${_library_type}
+add_library(php_xmlwriter ${_type}
   php_xmlwriter.c
 )
 

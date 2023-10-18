@@ -14,11 +14,11 @@ if(NOT EXT_EXIF)
   return()
 endif()
 
-if(EXT_EXIF_SHARED OR BUILD_SHARED_LIBS)
-  set(_library_type "SHARED")
+if(EXT_EXIF_SHARED)
+  set(_type "SHARED")
 endif()
 
-add_library(php_exif ${_library_type}
+add_library(php_exif ${_type}
   exif.c
 )
 

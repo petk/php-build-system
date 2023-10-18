@@ -34,11 +34,11 @@ if(NOT EXT_MYSQLND)
   return()
 endif()
 
-if(EXT_MYSQLND_SHARED OR BUILD_SHARED_LIBS)
-  set(_library_type "SHARED")
+if(EXT_MYSQLND_SHARED)
+  set(_type "SHARED")
 endif()
 
-add_library(php_mysqlnd ${_library_type}
+add_library(php_mysqlnd ${_type}
   mysqlnd_connection.c
   mysqlnd_alloc.c
   mysqlnd_charset.c
@@ -76,8 +76,7 @@ endif()
 set(MYSQLND_SSL_SUPPORTED 1 CACHE INTERNAL "Enable core mysqlnd SSL code")
 
 if(EXT_MYSQLND_SSL OR EXT_OPENSSL)
-  # TODO: Can OpenSSL be retrieved differently (from one place) here?
-  find_package(OpenSSL 1.0.2 REQUIRED)
+  find_package(OpenSSL ${PHP_OPENSSL_MIN_VERSION} REQUIRED)
 
   target_link_libraries(php_mysqlnd PRIVATE OpenSSL::Crypto)
 

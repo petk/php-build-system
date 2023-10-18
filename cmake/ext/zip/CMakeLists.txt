@@ -15,11 +15,11 @@ if(NOT EXT_ZIP)
   return()
 endif()
 
-if(EXT_ZIP_SHARED OR BUILD_SHARED_LIBS)
-  set(_library_type "SHARED")
+if(EXT_ZIP_SHARED)
+  set(_type "SHARED")
 endif()
 
-add_library(php_zip ${_library_type}
+add_library(php_zip ${_type}
   php_zip.c
   zip_stream.c
 )

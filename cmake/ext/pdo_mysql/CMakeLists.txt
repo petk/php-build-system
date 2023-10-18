@@ -18,11 +18,11 @@ if(NOT EXT_PDO_MYSQL_SHARED AND (EXT_MYSQLND_SHARED OR EXT_PDO_SHARED))
   set(EXT_PDO_MYSQL_SHARED ON CACHE BOOL "" FORCE)
 endif()
 
-if(EXT_PDO_MYSQL_SHARED OR BUILD_SHARED_LIBS)
-  set(_library_type "SHARED")
+if(EXT_PDO_MYSQL_SHARED)
+  set(_type "SHARED")
 endif()
 
-add_library(php_pdo_mysql ${_library_type}
+add_library(php_pdo_mysql ${_type}
   pdo_mysql.c
   mysql_driver.c
   mysql_statement.c

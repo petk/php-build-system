@@ -19,8 +19,8 @@ if(NOT EXT_POSIX)
   return()
 endif()
 
-if(EXT_POSIX_SHARED OR BUILD_SHARED_LIBS)
-  set(_library_type "SHARED")
+if(EXT_POSIX_SHARED)
+  set(_type "SHARED")
 endif()
 
 check_include_file(sys/mkdev.h HAVE_SYS_MKDEV_H)
@@ -79,7 +79,7 @@ check_c_source_compiles("
   }
 " HAVE_UTSNAME_DOMAINNAME)
 
-add_library(php_posix ${_library_type}
+add_library(php_posix ${_type}
   posix.c
 )
 

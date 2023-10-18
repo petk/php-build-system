@@ -28,11 +28,11 @@ include(PHP/CheckPwrite)
 # Check whether pread() works.
 include(PHP/CheckPread)
 
-if(EXT_SESSION_SHARED OR BUILD_SHARED_LIBS)
-  set(_library_type "SHARED")
+if(EXT_SESSION_SHARED)
+  set(_type "SHARED")
 endif()
 
-add_library(php_session ${_library_type}
+add_library(php_session ${_type}
   mod_user_class.c
   session.c
   mod_files.c

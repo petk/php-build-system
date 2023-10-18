@@ -18,11 +18,11 @@ if(NOT EXT_CURL)
   return()
 endif()
 
-if(EXT_CURL_SHARED OR BUILD_SHARED_LIBS)
-  set(_library_type "SHARED")
+if(EXT_CURL_SHARED)
+  set(_type "SHARED")
 endif()
 
-add_library(php_curl ${_library_type}
+add_library(php_curl ${_type}
   interface.c
   multi.c
   share.c
@@ -70,6 +70,7 @@ if(PHP_ZTS AND CURL_SSL_FOUND)
   endif()
 
   if(HAVE_CURL_OLD_OPENSSL)
+    # TODO: Should a minimum OpenSSL version be used here?
     find_package(OpenSSL REQUIRED)
 
     target_link_libraries(php_curl PRIVATE OpenSSL::Crypto)

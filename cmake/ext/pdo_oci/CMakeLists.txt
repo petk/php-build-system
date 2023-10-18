@@ -24,10 +24,10 @@ if(NOT EXT_PDO_OCI_SHARED AND EXT_PDO_SHARED)
   set(EXT_PDO_OCI_SHARED ON CACHE BOOL "" FORCE)
 endif()
 
-if(EXT_PDO_OCI_SHARED OR BUILD_SHARED_LIBS)
-  set(_library_type "SHARED")
+if(EXT_PDO_OCI_SHARED)
+  set(_type "SHARED")
 endif()
 
-#add_library(php_pdo_oci ${_library_type})
+#add_library(php_pdo_oci ${_type})
 
 #set_target_properties(php_pdo_oci PROPERTIES PHP_EXT_DEPENDS php_pdo)

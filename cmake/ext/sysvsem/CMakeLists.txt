@@ -29,10 +29,10 @@ check_c_source_compiles("
   }
 " HAVE_SEMUN)
 
-if(EXT_SYSVSEM_SHARED OR BUILD_SHARED_LIBS)
-  set(_library_type "SHARED")
+if(EXT_SYSVSEM_SHARED)
+  set(_type "SHARED")
 endif()
 
-add_library(php_sysvsem ${_library_type}
+add_library(php_sysvsem ${_type}
   sysvsem.c
 )

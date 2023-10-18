@@ -16,11 +16,11 @@ if(NOT EXT_PDO)
   return()
 endif()
 
-if(EXT_PDO_SHARED OR BUILD_SHARED_LIBS)
-  set(_library_type "SHARED")
+if(EXT_PDO_SHARED)
+  set(_type "SHARED")
 endif()
 
-add_library(php_pdo ${_library_type}
+add_library(php_pdo ${_type}
   pdo.c
   pdo_dbh.c
   pdo_stmt.c

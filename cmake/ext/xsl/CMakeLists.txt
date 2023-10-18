@@ -28,11 +28,11 @@ if(NOT EXT_DOM)
   message(FATAL_ERROR "XSL extension requires DOM extension, set EXT_DOM=ON")
 endif()
 
-if(EXT_XSL_SHARED OR BUILD_SHARED_LIBS)
-  set(_library_type "SHARED")
+if(EXT_XSL_SHARED)
+  set(_type "SHARED")
 endif()
 
-add_library(php_xsl ${_library_type}
+add_library(php_xsl ${_type}
   php_xsl.c
   xsltprocessor.c
 )

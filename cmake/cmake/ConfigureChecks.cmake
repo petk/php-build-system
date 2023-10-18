@@ -564,6 +564,114 @@ set(HAVE_STDINT_H 1 CACHE INTERNAL "Define to 1 if you have the <stdint.h> heade
 # Compiler options.
 ################################################################################
 
+# TODO: Use Debug build mode - CMAKE_BUILD_TYPE.
+if(PHP_DEBUG)
+  target_compile_options(php_configuration INTERFACE -g)
+endif()
+
+target_compile_options(php_configuration
+  BEFORE INTERFACE
+    "$<$<COMPILE_LANG_AND_ID:ASM,GNU>:-Wall;-Wextra;-Wno-unused-parameter;-Wno-sign-compare>"
+    "$<$<COMPILE_LANG_AND_ID:C,GNU>:-Wall;-Wextra;-Wno-unused-parameter;-Wno-sign-compare>"
+    "$<$<COMPILE_LANG_AND_ID:CXX,GNU>:-Wall;-Wextra;-Wno-unused-parameter;-Wno-sign-compare>"
+)
+
+# Check if compiler supports -Wno-clobbered (only GCC).
+check_compiler_flag(C -Wno-clobbered HAVE_WNO_CLOBBERED_C)
+if(HAVE_WNO_CLOBBERED_C)
+  target_compile_options(php_configuration
+    BEFORE INTERFACE "$<$<COMPILE_LANGUAGE:C>:-Wno-clobbered>"
+  )
+endif()
+check_compiler_flag(CXX -Wno-clobbered HAVE_WNO_CLOBBERED_CXX)
+if(HAVE_WNO_CLOBBERED_CXX)
+  target_compile_options(php_configuration
+    BEFORE INTERFACE "$<$<COMPILE_LANGUAGE:CXX>:-Wno-clobbered>"
+  )
+endif()
+
+# Check for support for implicit fallthrough level 1, also add after previous
+# CFLAGS as level 3 is enabled in -Wextra.
+check_compiler_flag(C -Wimplicit-fallthrough=1 HAVE_WIMPLICIT_FALLTHROUGH_C)
+if(HAVE_WIMPLICIT_FALLTHROUGH_C)
+  target_compile_options(php_configuration
+    INTERFACE
+      "$<$<COMPILE_LANGUAGE:C>:-Wimplicit-fallthrough=1>"
+  )
+endif()
+check_compiler_flag(CXX -Wimplicit-fallthrough=1 HAVE_WIMPLICIT_FALLTHROUGH_CXX)
+if(HAVE_WIMPLICIT_FALLTHROUGH_CXX)
+  target_compile_options(php_configuration
+    INTERFACE
+      "$<$<COMPILE_LANGUAGE:CXX>:-Wimplicit-fallthrough=1>"
+  )
+endif()
+
+check_compiler_flag(C -Wduplicated-cond HAVE_WDUPLICATED_COND_C)
+if(HAVE_WDUPLICATED_COND_C)
+  target_compile_options(php_configuration
+    BEFORE INTERFACE "$<$<COMPILE_LANGUAGE:C>:-Wduplicated-cond>"
+  )
+endif()
+check_compiler_flag(CXX -Wduplicated-cond HAVE_WDUPLICATED_COND_CXX)
+if(HAVE_WDUPLICATED_COND_CXX)
+  target_compile_options(php_configuration
+    BEFORE INTERFACE "$<$<COMPILE_LANGUAGE:CXX>:-Wduplicated-cond>"
+  )
+endif()
+
+check_compiler_flag(C -Wlogical-op HAVE_WLOGICAL_OP_C)
+if(HAVE_WLOGICAL_OP_C)
+  target_compile_options(php_configuration
+    BEFORE INTERFACE "$<$<COMPILE_LANGUAGE:C>:-Wlogical-op>"
+  )
+endif()
+check_compiler_flag(CXX -Wlogical-op HAVE_WLOGICAL_OP_CXX)
+if(HAVE_WLOGICAL_OP_CXX)
+  target_compile_options(php_configuration
+    BEFORE INTERFACE "$<$<COMPILE_LANGUAGE:CXX>:-Wlogical-op>"
+  )
+endif()
+
+check_compiler_flag(C -Wformat-truncation HAVE_WFORMAT_TRUNCATION_C)
+if(HAVE_WFORMAT_TRUNCATION_C)
+  target_compile_options(php_configuration
+    BEFORE INTERFACE "$<$<COMPILE_LANGUAGE:C>:-Wformat-truncation>"
+  )
+endif()
+check_compiler_flag(CXX -Wformat-truncation HAVE_WFORMAT_TRUNCATION_CXX)
+if(HAVE_WFORMAT_TRUNCATION_CXX)
+  target_compile_options(php_configuration
+    BEFORE INTERFACE "$<$<COMPILE_LANGUAGE:CXX>:-Wformat-truncation>"
+  )
+endif()
+
+check_compiler_flag(C -Wstrict-prototypes HAVE_WSTRICT_PROTOTYPES_C)
+if(HAVE_WSTRICT_PROTOTYPES_C)
+  target_compile_options(php_configuration
+    BEFORE INTERFACE "$<$<COMPILE_LANGUAGE:C>:-Wstrict-prototypes>"
+  )
+endif()
+check_compiler_flag(CXX -Wstrict-prototypes HAVE_WSTRICT_PROTOTYPES_CXX)
+if(HAVE_WSTRICT_PROTOTYPES_CXX)
+  target_compile_options(php_configuration
+    BEFORE INTERFACE "$<$<COMPILE_LANGUAGE:CXX>:-Wstrict-prototypes>"
+  )
+endif()
+
+check_compiler_flag(C -fno-common HAVE_FNO_COMMON_C)
+if(HAVE_FNO_COMMON_C)
+  target_compile_options(php_configuration
+    BEFORE INTERFACE "$<$<COMPILE_LANGUAGE:C>:-fno-common>"
+  )
+endif()
+check_compiler_flag(CXX -fno-common HAVE_FNO_COMMON_CXX)
+if(HAVE_FNO_COMMON_C_XX)
+  target_compile_options(php_configuration
+    BEFORE INTERFACE "$<$<COMPILE_LANGUAGE:CXX>:-fno-common>"
+  )
+endif()
+
 # Enable -Werror.
 if(PHP_WERROR)
   message(

@@ -12,11 +12,11 @@ if(NOT EXT_GMP)
   return()
 endif()
 
-if(EXT_GMP_SHARED OR BUILD_SHARED_LIBS)
-  set(_library_type "SHARED")
+if(EXT_GMP_SHARED)
+  set(_type "SHARED")
 endif()
 
-add_library(php_gmp ${_library_type}
+add_library(php_gmp ${_type}
   gmp.c
 )
 

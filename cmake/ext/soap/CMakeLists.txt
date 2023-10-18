@@ -18,11 +18,11 @@ if(NOT EXT_LIBXML)
   message(FATAL_ERROR "SOAP extension requires LIBXML extension, set EXT_LIBXML=ON")
 endif()
 
-if(EXT_SOAP_SHARED OR BUILD_SHARED_LIBS)
-  set(_library_type "SHARED")
+if(EXT_SOAP_SHARED)
+  set(_type "SHARED")
 endif()
 
-add_library(php_soap ${_library_type}
+add_library(php_soap ${_type}
   soap.c
   php_encoding.c
   php_http.c

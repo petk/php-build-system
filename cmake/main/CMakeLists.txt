@@ -90,6 +90,12 @@ foreach(extension IN LISTS PHP_EXTENSIONS)
 
   target_link_libraries(php_${extension} PRIVATE PHP::configuration)
 
+  # Add configuration compile options before the extension compile options.
+  target_compile_options(php_${extension}
+    BEFORE PRIVATE
+      $<TARGET_PROPERTY:php_configuration,INTERFACE_COMPILE_OPTIONS>
+  )
+
   target_include_directories(
     php_${extension}
     PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}

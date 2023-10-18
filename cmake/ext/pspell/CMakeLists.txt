@@ -14,11 +14,11 @@ if(NOT EXT_PSPELL)
   return()
 endif()
 
-if(EXT_PSPELL_SHARED OR BUILD_SHARED_LIBS)
-  set(_library_type "SHARED")
+if(EXT_PSPELL_SHARED)
+  set(_type "SHARED")
 endif()
 
-add_library(php_pspell ${_library_type}
+add_library(php_pspell ${_type}
   pspell.c
 )
 

@@ -22,11 +22,11 @@ if(NOT EXT_XML)
   return()
 endif()
 
-if(EXT_XML_SHARED OR BUILD_SHARED_LIBS)
-  set(_library_type "SHARED")
+if(EXT_XML_SHARED)
+  set(_type "SHARED")
 endif()
 
-add_library(php_xml ${_library_type}
+add_library(php_xml ${_type}
   xml.c
 )
 

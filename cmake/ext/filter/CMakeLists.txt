@@ -14,11 +14,11 @@ if(NOT EXT_FILTER)
   return()
 endif()
 
-if(EXT_FILTER_SHARED OR BUILD_SHARED_LIBS)
-  set(_library_type "SHARED")
+if(EXT_FILTER_SHARED)
+  set(_type "SHARED")
 endif()
 
-add_library(php_filter ${_library_type}
+add_library(php_filter ${_type}
   filter.c
   sanitizing_filters.c
   logical_filters.c

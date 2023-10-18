@@ -283,56 +283,6 @@ if(ZEND_FIBER_ASM)
 endif()
 
 ################################################################################
-# Compilation flags. TODO - move this to global level.
-################################################################################
-
-if(CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
-  target_compile_options(zend BEFORE PRIVATE -Wall -Wextra -Wno-unused-parameter -Wno-sign-compare)
-endif()
-
-# Check if compiler supports -Wno-clobbered (only GCC).
-check_c_compiler_flag(-Wno-clobbered HAVE_WNO_CLOBBERED)
-if(HAVE_WNO_CLOBBERED)
-  target_compile_options(zend BEFORE PRIVATE -Wno-clobbered)
-endif()
-
-# Check for support for implicit fallthrough level 1, also add after previous
-# CFLAGS as level 3 is enabled in -Wextra.
-check_c_compiler_flag(-Wimplicit-fallthrough=1 HAVE_WIMPLICIT_FALLTHROUGH)
-if(HAVE_WIMPLICIT_FALLTHROUGH)
-  target_compile_options(zend PRIVATE -Wimplicit-fallthrough=1)
-endif()
-
-check_c_compiler_flag(-Wduplicated-cond HAVE_WDUPLICATED_COND)
-if(HAVE_WDUPLICATED_COND)
-  target_compile_options(zend BEFORE PRIVATE -Wduplicated-cond)
-endif()
-
-check_c_compiler_flag(-Wlogical-op HAVE_WLOGICAL_OP)
-if(HAVE_WLOGICAL_OP)
-  target_compile_options(zend BEFORE PRIVATE -Wlogical-op)
-endif()
-
-check_c_compiler_flag(-Wformat-truncation HAVE_WFORMAT_TRUNCATION)
-if(HAVE_WFORMAT_TRUNCATION)
-  target_compile_options(zend BEFORE PRIVATE -Wformat-truncation)
-endif()
-
-check_c_compiler_flag(-Wstrict-prototypes HAVE_WSTRICT_PROTOTYPES)
-if(HAVE_WSTRICT_PROTOTYPES)
-  target_compile_options(zend BEFORE PRIVATE -Wstrict-prototypes)
-endif()
-
-check_c_compiler_flag(-fno-common HAVE_FNO_COMMON)
-if(HAVE_FNO_COMMON)
-  target_compile_options(zend BEFORE PRIVATE -fno-common)
-endif()
-
-if(ZEND_DEBUG)
-  target_compile_options(zend PRIVATE -g)
-endif()
-
-################################################################################
 # Create files and set installation.
 ################################################################################
 

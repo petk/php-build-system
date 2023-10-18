@@ -15,11 +15,11 @@ if(NOT EXT_ENCHANT)
   return()
 endif()
 
-if(EXT_ENCHANT_SHARED OR BUILD_SHARED_LIBS)
-  set(_library_type "SHARED")
+if(EXT_ENCHANT_SHARED)
+  set(_type "SHARED")
 endif()
 
-add_library(php_enchant ${_library_type}
+add_library(php_enchant ${_type}
   enchant.c
 )
 

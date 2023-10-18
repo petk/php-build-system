@@ -15,11 +15,11 @@ if(NOT EXT_SNMP)
   return()
 endif()
 
-if(EXT_SNMP_SHARED OR BUILD_SHARED_LIBS)
-  set(_library_type "SHARED")
+if(EXT_SNMP_SHARED)
+  set(_type "SHARED")
 endif()
 
-add_library(php_snmp ${_library_type}
+add_library(php_snmp ${_type}
   snmp.c
 )
 

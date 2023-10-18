@@ -6,12 +6,13 @@ have it. At some point this check can be removed. See also Autoconf's
 AC_C_INLINE and AX_C99_INLINE macros.
 
 If compiler doesn't support any of the inline keywords, then an empty compile
-definition is used so the code compiles as a workaround.
+definition needs to be used so the code compiles as a workaround.
 
-If successful the module sets the following variables:
+Cache variables:
 
-INLINE_KEYWORD
-  Set inline to __inline__ or __inline if one of those work, otherwise not set.
+  INLINE_KEYWORD
+    Set inline to __inline__ or __inline if one of those work, otherwise it is
+    not defined.
 ]=============================================================================]#
 
 function(_php_check_inline)
@@ -33,15 +34,23 @@ function(_php_check_inline)
 
     if(C_HAS_${keyword})
       message(STATUS "${keyword}")
-      set(INLINE_KEYWORD ${keyword} CACHE INTERNAL "Set inline to __inline__ or __inline if one of those work, otherwise not set.")
+      set(
+        INLINE_KEYWORD
+        ${keyword}
+        CACHE INTERNAL
+        "Set inline to __inline__ or __inline if one of those work, otherwise not set."
+      )
       return()
     endif()
   endforeach()
 
   if(NOT DEFINED INLINE_KEYWORD)
-    # TODO: use INTERFACE library.
-    add_compile_definitions(inline)
     message(WARNING "Compiler doesn't support the inline keyword")
+
+    target_compile_definitions(
+      php_configuration
+      INTERFACE $<$<COMPILE_LANGUAGE:ASM,C,CXX>:inline>
+    )
   endif()
 endfunction()
 

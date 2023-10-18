@@ -61,11 +61,11 @@ cmake_push_check_state(RESET)
   " HAVE_STRUCT_SIGINFO_T)
 cmake_pop_check_state()
 
-if(EXT_PCNTL_SHARED OR BUILD_SHARED_LIBS)
-  set(_library_type "SHARED")
+if(EXT_PCNTL_SHARED)
+  set(_type "SHARED")
 endif()
 
-add_library(php_pcntl ${_library_type}
+add_library(php_pcntl ${_type}
   pcntl.c
   php_signal.c
 )

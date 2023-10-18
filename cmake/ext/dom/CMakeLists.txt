@@ -14,11 +14,11 @@ if(NOT EXT_DOM)
   return()
 endif()
 
-if(EXT_DOM_SHARED OR BUILD_SHARED_LIBS)
-  set(_library_type "SHARED")
+if(EXT_DOM_SHARED)
+  set(_type "SHARED")
 endif()
 
-add_library(php_dom ${_library_type}
+add_library(php_dom ${_type}
   php_dom.c
   attr.c
   document.c

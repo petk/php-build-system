@@ -14,8 +14,8 @@ if(NOT EXT_OCI8)
   return()
 endif()
 
-if(EXT_OCI8_SHARED OR BUILD_SHARED_LIBS)
-  set(_library_type "SHARED")
+if(EXT_OCI8_SHARED)
+  set(_type "SHARED")
 endif()
 
-#add_library(php_oci8 ${_library_type})
+#add_library(php_oci8 ${_type})

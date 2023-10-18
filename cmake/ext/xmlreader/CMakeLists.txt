@@ -14,11 +14,11 @@ if(NOT EXT_XMLREADER)
   return()
 endif()
 
-if(EXT_XMLREADER_SHARED OR BUILD_SHARED_LIBS)
-  set(_library_type "SHARED")
+if(EXT_XMLREADER_SHARED)
+  set(_type "SHARED")
 endif()
 
-add_library(php_xmlreader ${_library_type}
+add_library(php_xmlreader ${_type}
   php_xmlreader.c
 )
 

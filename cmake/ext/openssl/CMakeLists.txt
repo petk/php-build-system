@@ -34,11 +34,11 @@ if(NOT EXT_OPENSSL)
   return()
 endif()
 
-if(EXT_OPENSSL_SHARED OR BUILD_SHARED_LIBS)
-  set(_library_type "SHARED")
+if(EXT_OPENSSL_SHARED)
+  set(_type "SHARED")
 endif()
 
-add_library(php_openssl ${_library_type}
+add_library(php_openssl ${_type}
   openssl.c
   xp_ssl.c
 )
@@ -49,7 +49,7 @@ if(EXT_OPENSSL_KERBEROS)
   target_link_libraries(php_openssl PRIVATE Kerberos::Kerberos)
 endif()
 
-find_package(OpenSSL 1.0.2 REQUIRED)
+find_package(OpenSSL ${PHP_OPENSSL_MIN_VERSION} REQUIRED)
 
 target_link_libraries(php_openssl PRIVATE OpenSSL::SSL)
 target_link_libraries(php_openssl PRIVATE OpenSSL::Crypto)

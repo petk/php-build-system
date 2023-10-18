@@ -19,11 +19,11 @@ if(NOT EXT_PDO_SQLITE_SHARED AND EXT_PDO_SHARED)
   set(EXT_PDO_SQLITE_SHARED ON CACHE BOOL "" FORCE)
 endif()
 
-if(EXT_PDO_SQLITE_SHARED OR BUILD_SHARED_LIBS)
-  set(_library_type "SHARED")
+if(EXT_PDO_SQLITE_SHARED)
+  set(_type "SHARED")
 endif()
 
-add_library(php_pdo_sqlite ${_library_type}
+add_library(php_pdo_sqlite ${_type}
   pdo_sqlite.c
   sqlite_driver.c
   sqlite_statement.c

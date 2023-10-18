@@ -23,11 +23,11 @@ if(NOT EXT_READLINE)
   return()
 endif()
 
-if(EXT_READLINE_SHARED OR BUILD_SHARED_LIBS)
-  set(_library_type "SHARED")
+if(EXT_READLINE_SHARED)
+  set(_type "SHARED")
 endif()
 
-add_library(php_readline ${_library_type}
+add_library(php_readline ${_type}
   readline.c
   readline_cli.c
 )

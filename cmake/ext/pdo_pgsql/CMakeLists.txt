@@ -18,11 +18,11 @@ if(NOT EXT_PDO_PGSQL_SHARED AND EXT_PDO_SHARED)
   set(EXT_PDO_PGSQL_SHARED ON CACHE BOOL "" FORCE)
 endif()
 
-if(EXT_PDO_PGSQL_SHARED OR BUILD_SHARED_LIBS)
-  set(_library_type "SHARED")
+if(EXT_PDO_PGSQL_SHARED)
+  set(_type "SHARED")
 endif()
 
-add_library(php_pdo_pgsql ${_library_type}
+add_library(php_pdo_pgsql ${_type}
   pdo_pgsql.c
   pgsql_driver.c
   pgsql_statement.c

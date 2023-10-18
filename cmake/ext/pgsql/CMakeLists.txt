@@ -14,11 +14,11 @@ if(NOT EXT_PGSQL)
   return()
 endif()
 
-if(EXT_PGSQL_SHARED OR BUILD_SHARED_LIBS)
-  set(_library_type "SHARED")
+if(EXT_PGSQL_SHARED)
+  set(_type "SHARED")
 endif()
 
-add_library(php_pgsql ${_library_type}
+add_library(php_pgsql ${_type}
   pgsql.c
 )
 

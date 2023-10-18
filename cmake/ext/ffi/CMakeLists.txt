@@ -16,11 +16,11 @@ if(NOT EXT_FFI)
   return()
 endif()
 
-if(EXT_FFI_SHARED OR BUILD_SHARED_LIBS)
-  set(_library_type "SHARED")
+if(EXT_FFI_SHARED)
+  set(_type "SHARED")
 endif()
 
-add_library(php_ffi ${_library_type}
+add_library(php_ffi ${_type}
   ffi.c
   ffi_parser.c
 )

@@ -12,8 +12,8 @@ if(NOT EXT_SKELETON)
   return()
 endif()
 
-if(EXT_SKELETON_SHARED OR BUILD_SHARED_LIBS)
-  set(_library_type "SHARED")
+if(EXT_SKELETON_SHARED)
+  set(_type "SHARED")
 endif()
 
-add_library(php_skeleton ${_library_type})
+add_library(php_skeleton ${_type})

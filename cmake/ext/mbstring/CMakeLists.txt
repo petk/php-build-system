@@ -18,11 +18,11 @@ if(NOT EXT_MBSTRING)
   return()
 endif()
 
-if(EXT_MBSTRING_SHARED OR BUILD_SHARED_LIBS)
-  set(_library_type "SHARED")
+if(EXT_MBSTRING_SHARED)
+  set(_type "SHARED")
 endif()
 
-add_library(php_mbstring ${_library_type}
+add_library(php_mbstring ${_type}
   mbstring.c
   php_unicode.c
   mb_gpc.c

@@ -14,10 +14,10 @@ if(NOT EXT_SHMOP)
   return()
 endif()
 
-if(EXT_SHMOP_SHARED OR BUILD_SHARED_LIBS)
-  set(_library_type "SHARED")
+if(EXT_SHMOP_SHARED)
+  set(_type "SHARED")
 endif()
 
-add_library(php_shmop ${_library_type}
+add_library(php_shmop ${_type}
   shmop.c
 )

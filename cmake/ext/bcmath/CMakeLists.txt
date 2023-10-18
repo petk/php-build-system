@@ -14,11 +14,11 @@ if(NOT EXT_BCMATH)
   return()
 endif()
 
-if(EXT_BCMATH_SHARED OR BUILD_SHARED_LIBS)
-  set(_library_type "SHARED")
+if(EXT_BCMATH_SHARED)
+  set(_type "SHARED")
 endif()
 
-add_library(php_bcmath ${_library_type}
+add_library(php_bcmath ${_type}
   bcmath.c
   libbcmath/src/add.c
   libbcmath/src/div.c
