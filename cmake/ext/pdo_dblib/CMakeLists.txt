@@ -1,10 +1,10 @@
 include(CMakeDependentOption)
 
-option(EXT_PDO_DBLIB "Whether to enable the pdo_dblib extension" OFF)
+option(EXT_PDO_DBLIB "Enable the pdo_dblib extension" OFF)
 
 cmake_dependent_option(
   EXT_PDO_DBLIB_SHARED
-  "Whether to build the pdo_dblib extension as shared object"
+  "Build the pdo_dblib extension as a shared library"
   OFF
   "EXT_PDO_DBLIB;NOT BUILD_SHARED_LIBS"
   OFF

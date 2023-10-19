@@ -2,11 +2,11 @@ set_directory_properties(PROPERTIES PHP_PRIORITY 100)
 
 include(CMakeDependentOption)
 
-option(EXT_MYSQLND "Whether to enable the mysqlnd extension" OFF)
+option(EXT_MYSQLND "Enable the mysqlnd extension" OFF)
 
 cmake_dependent_option(
   EXT_MYSQLND_SHARED
-  "Whether to build the mysqlnd extension as shared object"
+  "Build the mysqlnd extension as a shared library"
   OFF
   "EXT_MYSQLND;NOT BUILD_SHARED_LIBS"
   OFF
@@ -14,7 +14,7 @@ cmake_dependent_option(
 
 cmake_dependent_option(
   EXT_MYSQLND_COMPRESSION
-  "Whether to enable compressed protocol support in mysqlnd"
+  "Enable compressed protocol support in mysqlnd"
   ON
   "EXT_MYSQLND"
   OFF
@@ -24,7 +24,7 @@ cmake_dependent_option(
 # with Autoconf's --with-openssl-dir option.
 cmake_dependent_option(
   EXT_MYSQLND_SSL
-  "Whether to explicitly enable SSL support for ext/mysqlnd when not using ext/openssl"
+  "Explicitly enable SSL support for ext/mysqlnd when not using ext/openssl"
   OFF
   "EXT_MYSQLND"
   OFF

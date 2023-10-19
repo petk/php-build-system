@@ -1,11 +1,11 @@
 include(CheckCSourceCompiles)
 include(CMakeDependentOption)
 
-option(EXT_SYSVSEM "Whether to enable the System V semaphore extension" OFF)
+option(EXT_SYSVSEM "Enable the sysvsem extension (System V semaphore)" OFF)
 
 cmake_dependent_option(
   EXT_SYSVSEM_SHARED
-  "Whether to build the sysvsem extension as shared object"
+  "Build the sysvsem extension as a shared library"
   OFF
   "EXT_SYSVSEM;NOT BUILD_SHARED_LIBS"
   OFF
@@ -14,6 +14,14 @@ cmake_dependent_option(
 if(NOT EXT_SYSVSEM)
   return()
 endif()
+
+if(EXT_SYSVSEM_SHARED)
+  set(_type "SHARED")
+endif()
+
+add_library(php_sysvsem ${_type}
+  sysvsem.c
+)
 
 message(STATUS "Checking for union semun")
 
@@ -28,11 +36,3 @@ check_c_source_compiles("
     return 0;
   }
 " HAVE_SEMUN)
-
-if(EXT_SYSVSEM_SHARED)
-  set(_type "SHARED")
-endif()
-
-add_library(php_sysvsem ${_type}
-  sysvsem.c
-)

@@ -1,10 +1,10 @@
 include(CMakeDependentOption)
 
-option(EXT_FILTER "Whether to enable the filter extension" ON)
+option(EXT_FILTER "Enable the filter extension" ON)
 
 cmake_dependent_option(
   EXT_FILTER_SHARED
-  "Whether to build the filter extension as shared object"
+  "Build the filter extension as a shared library"
   OFF
   "EXT_FILTER;NOT BUILD_SHARED_LIBS"
   OFF

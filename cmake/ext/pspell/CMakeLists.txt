@@ -1,10 +1,10 @@
 include(CMakeDependentOption)
 
-option(EXT_PSPELL "Whether to enable the pspell extension. GNU Aspell version 0.50.0 or higher required." OFF)
+option(EXT_PSPELL "Enable the pspell extension (GNU Aspell version 0.50.0 or higher required)" OFF)
 
 cmake_dependent_option(
   EXT_PSPELL_SHARED
-  "Whether to build the pspell extension as shared object"
+  "Build the pspell extension as a shared library"
   OFF
   "EXT_PSPELL;NOT BUILD_SHARED_LIBS"
   OFF
@@ -23,7 +23,12 @@ add_library(php_pspell ${_type}
 )
 
 # Add -Wno-strict-prototypes as depends on user libs.
-target_compile_options(php_pspell PRIVATE -Wno-strict-prototypes)
+check_compiler_flag(C -Wno-strict-prototypes HAVE_WNO_STRICT_PROTOTYPES_C)
+if(HAVE_WNO_STRICT_PROTOTYPES_C)
+  target_compile_options(php_pspell
+    PRIVATE "$<$<COMPILE_LANGUAGE:C>:-Wno-strict-prototypes>"
+  )
+endif()
 
 find_package(Aspell 0.50.0 REQUIRED)
 

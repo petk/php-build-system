@@ -1,10 +1,10 @@
 include(CMakeDependentOption)
 
-option(EXT_EXIF "Whether to enable exif (metadata from images) support" OFF)
+option(EXT_EXIF "Enable the exif extension (metadata from images)" OFF)
 
 cmake_dependent_option(
   EXT_EXIF_SHARED
-  "Whether to build the exif extension as shared object"
+  "Build the exif extension as a shared library"
   OFF
   "EXT_EXIF;NOT BUILD_SHARED_LIBS"
   OFF

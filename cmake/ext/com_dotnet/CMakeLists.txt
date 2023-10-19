@@ -5,13 +5,25 @@ endif()
 
 include(CMakeDependentOption)
 
-option(EXT_COM_DOTNET "Whether to enable the com_dotnet extension" OFF)
+option(EXT_COM_DOTNET "Enable the com_dotnet extension" OFF)
+
+cmake_dependent_option(
+  EXT_COM_DOTNET_SHARED
+  "Build the com_dotnet extension as a shared library"
+  OFF
+  "EXT_COM_DOTNET;NOT BUILD_SHARED_LIBS"
+  OFF
+)
 
 if(NOT EXT_COM_DOTNET)
   return()
 endif()
 
-add_library(php_com_dotnet
+if(EXT_COM_DOTNET_SHARED)
+  set(_type "SHARED")
+endif()
+
+add_library(php_com_dotnet ${_type}
   com_com.c
   com_dotnet.c
   com_extension.c

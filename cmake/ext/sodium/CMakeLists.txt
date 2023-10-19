@@ -1,11 +1,11 @@
 include(CheckCCompilerFlag)
 include(CMakeDependentOption)
 
-option(EXT_SODIUM "Whether to enable the sodium extension" OFF)
+option(EXT_SODIUM "Enable the sodium extension" OFF)
 
 cmake_dependent_option(
   EXT_SODIUM_SHARED
-  "Whether to build the sodium extension as shared object"
+  "Build the sodium extension as a shared library"
   OFF
   "EXT_SODIUM;NOT BUILD_SHARED_LIBS"
   OFF

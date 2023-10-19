@@ -1,11 +1,11 @@
 include(CheckIncludeFile)
 include(CMakeDependentOption)
 
-option(EXT_SYSVMSG "Whether to enable the sysvmsg extension" OFF)
+option(EXT_SYSVMSG "Enable the sysvmsg extension" OFF)
 
 cmake_dependent_option(
   EXT_SYSVMSG_SHARED
-  "Whether to build the sysvmsg extension as shared object"
+  "Build the sysvmsg extension as a shared library"
   OFF
   "EXT_SYSVMSG;NOT BUILD_SHARED_LIBS"
   OFF

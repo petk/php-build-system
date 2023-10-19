@@ -1,10 +1,10 @@
 include(CMakeDependentOption)
 
-option(EXT_CALENDAR "Whether to enable the calendar extension" OFF)
+option(EXT_CALENDAR "Enable the calendar extension" OFF)
 
 cmake_dependent_option(
   EXT_CALENDAR_SHARED
-  "Whether to build the calendar extension as shared object"
+  "Build the calendar extension as a shared library"
   OFF
   "EXT_CALENDAR;NOT BUILD_SHARED_LIBS"
   OFF

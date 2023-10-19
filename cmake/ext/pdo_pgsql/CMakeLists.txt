@@ -1,10 +1,10 @@
 include(CMakeDependentOption)
 
-option(EXT_PDO_PGSQL "Whether to enable the pdo_pgsql extension" OFF)
+option(EXT_PDO_PGSQL "Enable the pdo_pgsql extension" OFF)
 
 cmake_dependent_option(
   EXT_PDO_PGSQL_SHARED
-  "Whether to build the pdo_pgsql extension as shared object"
+  "Build the pdo_pgsql extension as a shared library"
   OFF
   "EXT_PDO_PGSQL;NOT BUILD_SHARED_LIBS"
   OFF

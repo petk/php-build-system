@@ -2,11 +2,11 @@ set_directory_properties(PROPERTIES PHP_PRIORITY 100)
 
 include(CMakeDependentOption)
 
-option(EXT_PDO "Whether to enable the PDO extension" ON)
+option(EXT_PDO "Enable the pdo extension" ON)
 
 cmake_dependent_option(
   EXT_PDO_SHARED
-  "Whether to build the PDO extension as shared object"
+  "Build the pdo extension as a shared library"
   OFF
   "EXT_PDO;NOT BUILD_SHARED_LIBS"
   OFF

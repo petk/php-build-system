@@ -1,4 +1,4 @@
-option(SAPI_CGI "Whether to enable building CGI version of PHP" ON)
+option(SAPI_CGI "Enable the CGI SAPI module" ON)
 
 if(NOT SAPI_CGI)
   return()

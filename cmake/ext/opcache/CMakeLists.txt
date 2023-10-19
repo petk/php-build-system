@@ -4,12 +4,11 @@ include(CheckSymbolExists)
 include(CMakeDependentOption)
 include(CMakePushCheckState)
 
-# Opcache extension can be built either as shared or disabled.
-option(EXT_OPCACHE "Whether to enable the opcache extension" ON)
+option(EXT_OPCACHE "Enable the opcache extension" ON)
 
 cmake_dependent_option(
   EXT_OPCACHE_HUGE_CODE_PAGES
-  "Whether to enable copying PHP CODE pages into HUGE PAGES"
+  "Enable copying PHP CODE pages into HUGE PAGES"
   ON
   "EXT_OPCACHE"
   OFF
@@ -17,7 +16,7 @@ cmake_dependent_option(
 
 cmake_dependent_option(
   EXT_OPCACHE_JIT
-  "Whether to enable JIT"
+  "Enable JIT"
   ON
   "EXT_OPCACHE"
   OFF
@@ -95,7 +94,7 @@ if(NOT HAVE_SHM_IPC AND NOT HAVE_SHM_MMAP_ANON AND NOT HAVE_SHM_MMAP_POSIX)
   message(FATAL_ERROR "No supported shared memory caching support was found when configuring opcache. Check config.log for any errors or missing dependencies.")
 endif()
 
-# OPcache extension can be either disabled or built as shared.
+# OPcache extension can be built only as a shared library.
 add_library(php_opcache SHARED
   ZendAccelerator.c
   zend_accelerator_blacklist.c

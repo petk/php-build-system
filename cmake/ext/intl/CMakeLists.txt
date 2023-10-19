@@ -1,10 +1,10 @@
 include(CMakeDependentOption)
 
-option(EXT_INTL "Whether to enable the intl extension" OFF)
+option(EXT_INTL "Enable the intl extension" OFF)
 
 cmake_dependent_option(
   EXT_INTL_SHARED
-  "Whether to build the intl extension as shared object"
+  "Build the intl extension as a shared library"
   OFF
   "EXT_INTL;NOT BUILD_SHARED_LIBS"
   OFF

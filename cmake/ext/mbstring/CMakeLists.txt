@@ -2,17 +2,23 @@ include(CheckCSourceCompiles)
 include(CMakeDependentOption)
 include(CMakePushCheckState)
 
-option(EXT_MBSTRING "Whether to enable the multibyte string support extension" OFF)
+option(EXT_MBSTRING "Enable the mbstring extension (multibyte string support)" OFF)
 
 cmake_dependent_option(
   EXT_MBSTRING_SHARED
-  "Whether to build the mbstring extension as shared object"
+  "Build the mbstring extension as a shared library"
   OFF
   "EXT_MBSTRING;NOT BUILD_SHARED_LIBS"
   OFF
 )
 
-cmake_dependent_option(EXT_MBSTRING_MBREGEX "Whether to enable multibyte regex support (requires Oniguruma)" ON "EXT_MBSTRING" OFF)
+cmake_dependent_option(
+  EXT_MBSTRING_MBREGEX
+  "Enable multibyte regex support (requires Oniguruma)"
+  ON
+  "EXT_MBSTRING"
+  OFF
+)
 
 if(NOT EXT_MBSTRING)
   return()

@@ -1,11 +1,11 @@
 include(CheckLibraryExists)
 include(CMakeDependentOption)
 
-option(EXT_ENCHANT "Whether to build the enchant extension" OFF)
+option(EXT_ENCHANT "Enable the enchant extension" OFF)
 
 cmake_dependent_option(
   EXT_ENCHANT_SHARED
-  "Whether to build the enchant extension as shared object"
+  "Build the enchant extension as a shared library"
   OFF
   "EXT_ENCHANT;NOT BUILD_SHARED_LIBS"
   OFF

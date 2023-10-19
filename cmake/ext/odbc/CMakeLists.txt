@@ -1,10 +1,10 @@
 include(CMakeDependentOption)
 
-option(EXT_ODBC "Whether to enable the ODBC extension" OFF)
+option(EXT_ODBC "Enable the odbc extension" OFF)
 
 cmake_dependent_option(
   EXT_ODBC_SHARED
-  "Whether to build the ODBC extension as shared object"
+  "Build the odbc extension as a shared library"
   OFF
   "EXT_ODBC;NOT BUILD_SHARED_LIBS"
   OFF

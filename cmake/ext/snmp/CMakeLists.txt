@@ -1,11 +1,11 @@
 include(CheckLibraryExists)
 include(CMakeDependentOption)
 
-option(EXT_SNMP "Whether to enable the SNMP extension" OFF)
+option(EXT_SNMP "Enable the snmp extension" OFF)
 
 cmake_dependent_option(
   EXT_SNMP_SHARED
-  "Whether to build the SNMP extension as shared object"
+  "Build the snmp extension as a shared library"
   OFF
   "EXT_SNMP;NOT BUILD_SHARED_LIBS"
   OFF

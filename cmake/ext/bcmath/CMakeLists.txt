@@ -1,10 +1,10 @@
 include(CMakeDependentOption)
 
-option(EXT_BCMATH "Whether to enable bc style precision math functions extension" OFF)
+option(EXT_BCMATH "Enable the bcmath extension (bc style precision math functions)" OFF)
 
 cmake_dependent_option(
   EXT_BCMATH_SHARED
-  "Whether to build the BCMATH extension as shared object"
+  "Build the bcmath extension as a shared library"
   OFF
   "EXT_BCMATH;NOT BUILD_SHARED_LIBS"
   OFF

@@ -1,11 +1,11 @@
 include(CheckLibraryExists)
 include(CMakeDependentOption)
 
-option(EXT_ZIP "Whether to enable the zip extension" OFF)
+option(EXT_ZIP "Enable the zip extension" OFF)
 
 cmake_dependent_option(
   EXT_ZIP_SHARED
-  "Whether to build the zip extension as shared object"
+  "Build the zip extension as a shared library"
   OFF
   "EXT_ZIP;NOT BUILD_SHARED_LIBS"
   OFF

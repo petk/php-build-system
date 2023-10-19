@@ -1,10 +1,10 @@
 include(CMakeDependentOption)
 
-option(EXT_SHMOP "Whether to enable the shmop extension" OFF)
+option(EXT_SHMOP "Enable the shmop extension" OFF)
 
 cmake_dependent_option(
   EXT_SHMOP_SHARED
-  "Whether to build the shmop extension as shared object"
+  "Build the shmop extension as a shared library"
   OFF
   "EXT_SHMOP;NOT BUILD_SHARED_LIBS"
   OFF

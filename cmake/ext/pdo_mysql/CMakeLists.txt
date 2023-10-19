@@ -1,10 +1,10 @@
 include(CMakeDependentOption)
 
-option(EXT_PDO_MYSQL "Whether to enable the pdo_mysql extension" OFF)
+option(EXT_PDO_MYSQL "Enable the pdo_mysql extension" OFF)
 
 cmake_dependent_option(
   EXT_PDO_MYSQL_SHARED
-  "Whether to build the pdo_mysql extension as shared object"
+  "Build the pdo_mysql extension as a shared library"
   OFF
   "EXT_PDO_MYSQL;NOT BUILD_SHARED_LIBS"
   OFF

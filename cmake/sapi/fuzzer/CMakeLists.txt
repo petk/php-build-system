@@ -1,4 +1,4 @@
-option(SAPI_FUZZER "Whether to use the PHP Fuzzer SAPI module" OFF)
+option(SAPI_FUZZER "Enable the Fuzzer SAPI module" OFF)
 
 if(NOT SAPI_FUZZER)
   return()

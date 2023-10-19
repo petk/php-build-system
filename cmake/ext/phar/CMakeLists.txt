@@ -1,10 +1,10 @@
 include(CMakeDependentOption)
 
-option(EXT_PHAR "Whether to enable the phar extension" ON)
+option(EXT_PHAR "Enable the phar extension" ON)
 
 cmake_dependent_option(
   EXT_PHAR_SHARED
-  "Whether to build the phar extension as shared object"
+  "Build the phar extension as a shared library"
   OFF
   "EXT_PHAR;NOT BUILD_SHARED_LIBS"
   OFF

@@ -1,10 +1,10 @@
 include(CMakeDependentOption)
 
-option(EXT_ZLIB "Whether to enable the zlib extension (requires zlib >= 1.2.0.4)" OFF)
+option(EXT_ZLIB "Enable the zlib extension (requires zlib >= 1.2.0.4)" OFF)
 
 cmake_dependent_option(
   EXT_ZLIB_SHARED
-  "Whether to build the zlib extension as shared object"
+  "Build the zlib extension as a shared library"
   OFF
   "EXT_ZLIB;NOT BUILD_SHARED_LIBS"
   OFF

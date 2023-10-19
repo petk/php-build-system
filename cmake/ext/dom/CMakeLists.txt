@@ -1,10 +1,10 @@
 include(CMakeDependentOption)
 
-option(EXT_DOM "Whether to enable the DOM extension" ON)
+option(EXT_DOM "Enable the dom extension" ON)
 
 cmake_dependent_option(
   EXT_DOM_SHARED
-  "Whether to build the DOM extension as shared object"
+  "Build the dom extension as a shared library"
   OFF
   "EXT_DOM;NOT BUILD_SHARED_LIBS"
   OFF

@@ -33,6 +33,9 @@ endif()
 # Check target system byte order.
 include(PHP/CheckByteOrder)
 
+# Check compiler inline keyword.
+include(PHP/CheckInline)
+
 check_include_file(alloca.h HAVE_ALLOCA_H)
 check_include_file(arpa/inet.h HAVE_ARPA_INET_H)
 check_include_file(arpa/nameser.h HAVE_ARPA_NAMESER_H)

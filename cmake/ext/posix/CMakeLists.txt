@@ -5,11 +5,11 @@ include(CheckSymbolExists)
 include(CMakeDependentOption)
 include(CMakePushCheckState)
 
-option(EXT_POSIX "Whether to enable POSIX-like functions" ON)
+option(EXT_POSIX "Enable the posix extension (POSIX-like functions)" ON)
 
 cmake_dependent_option(
   EXT_POSIX_SHARED
-  "Whether to build the POSIX extension as shared object"
+  "Build the posix extension as a shared library"
   OFF
   "EXT_POSIX;NOT BUILD_SHARED_LIBS"
   OFF

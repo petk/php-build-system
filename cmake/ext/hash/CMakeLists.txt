@@ -1,9 +1,9 @@
 include(CheckCCompilerFlag)
 
-option(EXT_HASH_MHASH "Whether mhash support should be included" OFF)
+option(EXT_HASH_MHASH "Enable the mhash support" OFF)
 
 if(EXT_HASH_MHASH)
-  set(PHP_MHASH_BC 1 CACHE INTERNAL "Whether mhash support should be included")
+  set(PHP_MHASH_BC 1 CACHE INTERNAL "Whether the mhash support is included")
 endif()
 
 add_library(php_hash STATIC

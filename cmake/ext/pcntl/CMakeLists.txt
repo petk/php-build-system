@@ -3,11 +3,11 @@ include(CheckSymbolExists)
 include(CMakeDependentOption)
 include(CMakePushCheckState)
 
-option(EXT_PCNTL "Whether to enable the pcntl extension (CLI/CGI only)" OFF)
+option(EXT_PCNTL "Enable the pcntl extension (CLI/CGI only)" OFF)
 
 cmake_dependent_option(
   EXT_PCNTL_SHARED
-  "Whether to build the pcntl extension as shared object"
+  "Build the pcntl extension as a shared library"
   OFF
   "EXT_PCNTL;NOT BUILD_SHARED_LIBS"
   OFF

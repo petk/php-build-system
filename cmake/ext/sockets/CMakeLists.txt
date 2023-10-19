@@ -4,11 +4,11 @@ include(CheckSymbolExists)
 include(CMakeDependentOption)
 include(CMakePushCheckState)
 
-option(EXT_SOCKETS "Whether to enable the sockets extension" OFF)
+option(EXT_SOCKETS "Enable the sockets extension" OFF)
 
 cmake_dependent_option(
   EXT_SOCKETS_SHARED
-  "Whether to build the sockets extension as shared object"
+  "Build the sockets extension as a shared library"
   OFF
   "EXT_SOCKETS;NOT BUILD_SHARED_LIBS"
   OFF

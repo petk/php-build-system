@@ -1,16 +1,10 @@
 include(CMakeDependentOption)
 
-cmake_dependent_option(
-  EXT_PDO_OCI
-  "Whether to enable the pdo_oci extension"
-  OFF
-  "EXT_PDO"
-  OFF
-)
+option(EXT_PDO_OCI "Enable the pdo_oci extension" OFF)
 
 cmake_dependent_option(
   EXT_PDO_OCI_SHARED
-  "Whether to build the pdo_oci extension as shared object"
+  "Build the pdo_oci extension as a shared library"
   OFF
   "EXT_PDO_OCI;NOT BUILD_SHARED_LIBS"
   OFF

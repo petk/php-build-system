@@ -32,6 +32,39 @@ index 49acc9f2e1..a6191d1d72 100644
 +cmake_install.cmake
 +CMakeCache.txt
 +CMakeFiles/
+diff --git a/ext/ext_skel.php b/ext/ext_skel.php
+index ae7a3a987c..648e3728b8 100755
+--- a/ext/ext_skel.php
++++ b/ext/ext_skel.php
+@@ -302,6 +302,7 @@ function copy_config_scripts() {
+         $files[] = 'config.w32';
+     }
+ 
++    $files[] = 'CMakeLists.txt';
+     $files[] = '.gitignore';
+ 
+     foreach($files as $config_script) {
+diff --git a/ext/skeleton/.gitignore.in b/ext/skeleton/.gitignore.in
+index ae434fef97..2fb847586c 100644
+--- a/ext/skeleton/.gitignore.in
++++ b/ext/skeleton/.gitignore.in
+@@ -39,3 +39,16 @@ tests/**/*.sh
+ tests/**/*.db
+ tests/**/*.mem
+ tmp-php.ini
++
++# ------------------------------------------------------------------------------
++# CMake build system files
++# ------------------------------------------------------------------------------
++/.ninja*
++/build.ninja
++/CMakeUserPresets.json
++/CTestTestfile.cmake
++/profile.json
++/Testing/
++cmake_install.cmake
++CMakeCache.txt
++CMakeFiles/
 diff --git a/run-tests.php b/run-tests.php
 index e12912ca4a..db7b41d895 100755
 --- a/run-tests.php

@@ -2,11 +2,11 @@ include(CheckCSourceCompiles)
 include(CheckTypeSize)
 include(CMakeDependentOption)
 
-option(EXT_FFI "Whether to build the FFI extension" OFF)
+option(EXT_FFI "Enable the ffi extension" OFF)
 
 cmake_dependent_option(
   EXT_FFI_SHARED
-  "Whether to build the FFI extension as shared object"
+  "Build the ffi extension as a shared library"
   OFF
   "EXT_FFI;NOT BUILD_SHARED_LIBS"
   OFF

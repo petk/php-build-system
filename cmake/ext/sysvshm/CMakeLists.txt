@@ -1,10 +1,10 @@
 include(CMakeDependentOption)
 
-option(EXT_SYSVSHM "Whether to enable the sysvshm extension" OFF)
+option(EXT_SYSVSHM "Enable the sysvshm extension" OFF)
 
 cmake_dependent_option(
   EXT_SYSVSHM_SHARED
-  "Whether to build the sysvshm extension as shared object"
+  "Build the sysvshm extension as a shared library"
   OFF
   "EXT_SYSVSHM;NOT BUILD_SHARED_LIBS"
   OFF

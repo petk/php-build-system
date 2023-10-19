@@ -1,19 +1,34 @@
-option(EXT_SKELETON "Whether to enable the skeleton extension" OFF)
+# CMakeLists.txt file for the %EXTNAME% extension.
 
+# Comments in this file start with the string '#'.
+# Remove where necessary.
+
+# Include CMake module for using cmake_dependent_option().
+include(CMakeDependentOption)
+
+# Boolean variable that enables (ON) or disables (OFF) the extension.
+option(EXT_%EXTNAMECAPS% "Enable the %EXTNAME% extension" OFF)
+
+# Option that builds a shared library (SO file on *nix, DLL on Windows).
 cmake_dependent_option(
-  EXT_SKELETON_SHARED
-  "Whether to build the skeleton extension as shared object"
+  EXT_%EXTNAMECAPS%_SHARED
+  "Build the %EXTNAME% extension as a shared library"
   OFF
-  "EXT_SKELETON;NOT BUILD_SHARED_LIBS"
+  "EXT_%EXTNAMECAPS%;NOT BUILD_SHARED_LIBS"
   OFF
 )
 
-if(NOT EXT_SKELETON)
+# If extension is disabled CMake configuration stops here.
+if(NOT EXT_%EXTNAMECAPS%)
   return()
 endif()
 
-if(EXT_SKELETON_SHARED)
+# Build extension as a SHARED library.
+if(EXT_%EXTNAMECAPS%_SHARED)
   set(_type "SHARED")
 endif()
 
-add_library(php_skeleton ${_type})
+# Add a library target to be built from the listed source files.
+add_library(php_%EXTNAME% ${_type}
+  %EXTNAME%.c
+)

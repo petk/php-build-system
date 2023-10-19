@@ -1,11 +1,11 @@
 include(CheckLibraryExists)
 include(CMakeDependentOption)
 
-option(EXT_PDO_SQLITE "Whether to enable the pdo_sqlite extension" ON)
+option(EXT_PDO_SQLITE "Enable the pdo_sqlite extension" ON)
 
 cmake_dependent_option(
   EXT_PDO_SQLITE_SHARED
-  "Whether to build the pdo_sqlite extension as shared object"
+  "Build the pdo_sqlite extension as a shared library"
   OFF
   "EXT_PDO_SQLITE;NOT BUILD_SHARED_LIBS"
   OFF

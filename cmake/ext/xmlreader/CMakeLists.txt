@@ -1,10 +1,10 @@
 include(CMakeDependentOption)
 
-option(EXT_XMLREADER "Whether to enable the xmlreader extension" ON)
+option(EXT_XMLREADER "Enable the xmlreader extension" ON)
 
 cmake_dependent_option(
   EXT_XMLREADER_SHARED
-  "Whether to build the xmlreader extension as shared object"
+  "Build the xmlreader extension as a shared library"
   OFF
   "EXT_XMLREADER;NOT BUILD_SHARED_LIBS"
   OFF

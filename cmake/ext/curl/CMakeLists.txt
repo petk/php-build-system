@@ -4,11 +4,11 @@ include(CheckLibraryExists)
 include(CMakeDependentOption)
 include(CMakePushCheckState)
 
-option(EXT_CURL "Whether to enable the curl extension" OFF)
+option(EXT_CURL "Enable the curl extension" OFF)
 
 cmake_dependent_option(
   EXT_CURL_SHARED
-  "Whether to build the curl extension as shared object"
+  "Build the curl extension as a shared library"
   OFF
   "EXT_CURL;NOT BUILD_SHARED_LIBS"
   OFF

@@ -5,11 +5,11 @@ include(CheckSymbolExists)
 include(CMakeDependentOption)
 include(CMakePushCheckState)
 
-option(EXT_ICONV "Whether to enable the iconv extension" ON)
+option(EXT_ICONV "Enable the iconv extension" ON)
 
 cmake_dependent_option(
   EXT_ICONV_SHARED
-  "Whether to build the iconv extension as shared object"
+  "Build the iconv extension as a shared library"
   OFF
   "EXT_ICONV;NOT BUILD_SHARED_LIBS"
   OFF

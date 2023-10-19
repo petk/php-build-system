@@ -1,8 +1,10 @@
-option(EXT_GMP "Whether to enable the GMP extension" OFF)
+include(CMakeDependentOption)
+
+option(EXT_GMP "Enable the gmp extension" OFF)
 
 cmake_dependent_option(
   EXT_GMP_SHARED
-  "Whether to build the GMP extension as shared object"
+  "Build the gmp extension as a shared library"
   OFF
   "EXT_GMP;NOT BUILD_SHARED_LIBS"
   OFF

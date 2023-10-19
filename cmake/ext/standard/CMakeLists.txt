@@ -3,9 +3,9 @@ include(CheckCSourceRuns)
 include(CheckLibraryExists)
 include(CheckSymbolExists)
 
-option(EXT_STANDARD_EXTERNAL_LIBCRYPT "Whether to use external libcrypt library" OFF)
+option(EXT_STANDARD_EXTERNAL_LIBCRYPT "Use external libcrypt library" OFF)
 
-option(EXT_STANDARD_ARGON2 "Whether to include the Argon2 support in password_*" OFF)
+option(EXT_STANDARD_ARGON2 "Include the Argon2 support in password_*" OFF)
 
 # Detect library functions needed by php dns_xxx functions.
 # ext/standard/php_dns.h will collect these in a single define

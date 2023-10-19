@@ -1,11 +1,11 @@
 include(CheckLibraryExists)
 include(CMakeDependentOption)
 
-option(EXT_READLINE "Whether to enable the readline extension" OFF)
+option(EXT_READLINE "Enable the readline extension" OFF)
 
 cmake_dependent_option(
   EXT_READLINE_SHARED
-  "Whether to build the readline extension as shared object"
+  "Build the readline extension as a shared library"
   OFF
   "EXT_READLINE;NOT BUILD_SHARED_LIBS"
   OFF
@@ -13,7 +13,7 @@ cmake_dependent_option(
 
 cmake_dependent_option(
   EXT_READLINE_LIBREADLINE
-  "Whether to use the GNU readline library instead of libedit"
+  "Use the GNU readline library instead of libedit"
   OFF
   "EXT_READLINE"
   OFF
@@ -33,7 +33,12 @@ add_library(php_readline ${_type}
 )
 
 # Add -Wno-strict-prototypes as depends on user libs.
-target_compile_options(php_readline PRIVATE -Wno-strict-prototypes)
+check_compiler_flag(C -Wno-strict-prototypes HAVE_WNO_STRICT_PROTOTYPES_C)
+if(HAVE_WNO_STRICT_PROTOTYPES_C)
+  target_compile_options(php_readline
+    PRIVATE "$<$<COMPILE_LANGUAGE:C>:-Wno-strict-prototypes>"
+  )
+endif()
 
 if(NOT EXT_READLINE_LIBREADLINE)
   find_package(Editline REQUIRED)

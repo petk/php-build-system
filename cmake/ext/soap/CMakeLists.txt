@@ -1,10 +1,10 @@
 include(CMakeDependentOption)
 
-option(EXT_SOAP "Whether to enable the SOAP extension" OFF)
+option(EXT_SOAP "Enable the soap extension" OFF)
 
 cmake_dependent_option(
   EXT_SOAP_SHARED
-  "Whether to build the SOAP extension as shared object"
+  "Build the soap extension as a shared library"
   OFF
   "EXT_SOAP;NOT BUILD_SHARED_LIBS"
   OFF
@@ -12,10 +12,6 @@ cmake_dependent_option(
 
 if(NOT EXT_SOAP)
   return()
-endif()
-
-if(NOT EXT_LIBXML)
-  message(FATAL_ERROR "SOAP extension requires LIBXML extension, set EXT_LIBXML=ON")
 endif()
 
 if(EXT_SOAP_SHARED)

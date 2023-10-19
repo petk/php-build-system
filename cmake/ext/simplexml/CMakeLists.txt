@@ -1,10 +1,10 @@
 include(CMakeDependentOption)
 
-option(EXT_SIMPLEXML "Whether to enable the simplexml extension" ON)
+option(EXT_SIMPLEXML "Enable the simplexml extension" ON)
 
 cmake_dependent_option(
   EXT_SIMPLEXML_SHARED
-  "Whether to build the simplexml extension as shared object"
+  "Build the simplexml extension as a shared library"
   OFF
   "EXT_SIMPLEXML;NOT BUILD_SHARED_LIBS"
   OFF

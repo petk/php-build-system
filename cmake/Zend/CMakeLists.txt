@@ -58,9 +58,6 @@ check_c_source_compiles("
 # Check if dlsym() needs underscore.
 include(Zend/CheckDlsym)
 
-# Check which inline keyword compiler supports.
-include(Zend/CheckInline)
-
 # Check MM alignment.
 include(Zend/CheckMMAlignment)
 

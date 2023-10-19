@@ -1,10 +1,10 @@
 include(CMakeDependentOption)
 
-option(EXT_PDO_FIREBIRD "Whether to enable the pdo_firebird extension" OFF)
+option(EXT_PDO_FIREBIRD "Enable the pdo_firebird extension" OFF)
 
 cmake_dependent_option(
   EXT_PDO_FIREBIRD_SHARED
-  "Whether to build the pdo_firebird extension as shared object"
+  "Build the pdo_firebird extension as a shared library"
   OFF
   "EXT_PDO_FIREBIRD;NOT BUILD_SHARED_LIBS"
   OFF

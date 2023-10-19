@@ -6,10 +6,10 @@ include(CheckSymbolExists)
 include(CMakeDependentOption)
 include(CMakePushCheckState)
 
-option(SAPI_FPM "Whether to use the PHP FPM SAPI module" OFF)
+option(SAPI_FPM "Enable the FPM SAPI module" OFF)
 
 if(SAPI_FPM)
-  set(SAPI_FPM_USER "nobody" CACHE STRING "Set the user for php-fpm to run as. (default: nobody)")
+  set(SAPI_FPM_USER "nobody" CACHE STRING "User for php-fpm to run as. (default: nobody)")
 
   # For the configuration header with differently named constant.
   set(PHP_FPM_USER ${SAPI_FPM_USER} CACHE INTERNAL "")
@@ -19,7 +19,7 @@ else()
 endif()
 
 if(SAPI_FPM)
-  set(SAPI_FPM_GROUP "nobody" CACHE STRING "Set the group for php-fpm to run as. For a system user, this should
+  set(SAPI_FPM_GROUP "nobody" CACHE STRING "The group for php-fpm to run as. For a system user, this should
   usually be set to match the fpm username (default: nobody)")
 
   # For the configuration header with differently named constant.
@@ -31,7 +31,7 @@ endif()
 
 cmake_dependent_option(
   SAPI_FPM_SYSTEMD
-  "Whether to activate systemd integration"
+  "Enable the systemd integration"
   OFF
   "SAPI_FPM"
   OFF
@@ -47,7 +47,7 @@ cmake_dependent_option(
 
 cmake_dependent_option(
   SAPI_FPM_APPARMOR
-  "Support AppArmor confinement through libapparmor"
+  "Enable the AppArmor confinement through libapparmor"
   OFF
   "SAPI_FPM"
   OFF
@@ -55,7 +55,7 @@ cmake_dependent_option(
 
 cmake_dependent_option(
   SAPI_FPM_SELINUX
-  "Support SELinux policy library"
+  "Enable the SELinux policy library"
   OFF
   "SAPI_FPM"
   OFF

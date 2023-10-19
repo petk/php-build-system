@@ -4,11 +4,11 @@ include(CheckSymbolExists)
 include(CMakeDependentOption)
 include(CMakePushCheckState)
 
-option(EXT_OPENSSL "Whether to enable the openssl extension" OFF)
+option(EXT_OPENSSL "Enable the openssl extension" OFF)
 
 cmake_dependent_option(
   EXT_OPENSSL_SHARED
-  "Whether to build the openssl extension as shared object"
+  "Build the openssl extension as a shared library"
   OFF
   "EXT_OPENSSL;NOT BUILD_SHARED_LIBS"
   OFF
@@ -16,7 +16,7 @@ cmake_dependent_option(
 
 cmake_dependent_option(
   EXT_OPENSSL_KERBEROS
-  "Whether to include Kerberos support for OpenSSL"
+  "Include Kerberos support for OpenSSL"
   OFF
   "EXT_OPENSSL"
   OFF
@@ -24,7 +24,7 @@ cmake_dependent_option(
 
 cmake_dependent_option(
   EXT_OPENSSL_SYSTEM_CIPHERS
-  "Whether to use system default cipher list instead of hardcoded value for OpenSSL"
+  "Use system default cipher list instead of hardcoded value for OpenSSL"
   OFF
   "EXT_OPENSSL"
   OFF

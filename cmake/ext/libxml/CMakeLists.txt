@@ -1,12 +1,12 @@
 set_directory_properties(PROPERTIES PHP_PRIORITY 100)
 
-option(EXT_LIBXML "Whether to enable the libxml extension" ON)
+option(EXT_LIBXML "Enable the libxml extension" ON)
 
 if(NOT EXT_LIBXML)
   return()
 endif()
 
-# This extension can be build only as STATIC.
+# This extension can be built only as a STATIC library.
 add_library(php_libxml STATIC
   libxml.c
 )

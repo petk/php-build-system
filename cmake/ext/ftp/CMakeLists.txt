@@ -1,10 +1,10 @@
 include(CMakeDependentOption)
 
-option(EXT_FTP "Whether to enable the FTP extension" OFF)
+option(EXT_FTP "Enable the ftp extension" OFF)
 
 cmake_dependent_option(
   EXT_FTP_SHARED
-  "Whether to build the FTP extension as shared object"
+  "Build the ftp extension as a shared library"
   OFF
   "EXT_FTP;NOT BUILD_SHARED_LIBS"
   OFF
@@ -12,7 +12,13 @@ cmake_dependent_option(
 
 # TODO: Check if a single option should set ext/ftp and ext/mysqlnd. Sync this
 # with Autoconf's --with-openssl-dir option.
-cmake_dependent_option(EXT_FTP_SSL "Whether to explicitly enable FTP SSL support when not using ext/openssl" OFF "EXT_FTP" OFF)
+cmake_dependent_option(
+  EXT_FTP_SSL
+  "Explicitly enable SSL support for ext/ftp when not using ext/openssl"
+  OFF
+  "EXT_FTP"
+  OFF
+)
 
 if(NOT EXT_FTP)
   return()

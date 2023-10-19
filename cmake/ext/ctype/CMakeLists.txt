@@ -1,10 +1,10 @@
 include(CMakeDependentOption)
 
-option(EXT_CTYPE "Whether to enable the ctype extension" ON)
+option(EXT_CTYPE "Enable the ctype extension" ON)
 
 cmake_dependent_option(
   EXT_CTYPE_SHARED
-  "Whether to build the ctype extension as shared object"
+  "Build the ctype extension as a shared library"
   OFF
   "EXT_CTYPE;NOT BUILD_SHARED_LIBS"
   OFF

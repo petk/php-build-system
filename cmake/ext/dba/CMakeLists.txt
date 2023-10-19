@@ -1,10 +1,10 @@
 include(CMakeDependentOption)
 
-option(EXT_DBA "Whether to enable the DBA extension" OFF)
+option(EXT_DBA "Enable the dba extension" OFF)
 
 cmake_dependent_option(
   EXT_DBA_SHARED
-  "Whether to build the DBA extension as shared object"
+  "Build the dba extension as a shared library"
   OFF
   "EXT_DBA;NOT BUILD_SHARED_LIBS"
   OFF

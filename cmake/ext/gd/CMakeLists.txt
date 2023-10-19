@@ -2,11 +2,11 @@ include(CheckLibraryExists)
 include(CMakeDependentOption)
 include(CMakePushCheckState)
 
-option(EXT_GD "Whether to enable the GD extension" OFF)
+option(EXT_GD "Enable the gd extension" OFF)
 
 cmake_dependent_option(
   EXT_GD_SHARED
-  "Whether to build the GD extension as shared object"
+  "Build the gd extension as a shared library"
   OFF
   "EXT_GD;NOT BUILD_SHARED_LIBS"
   OFF
@@ -14,7 +14,7 @@ cmake_dependent_option(
 
 cmake_dependent_option(
   EXT_GD_EXTERNAL
-  "Whether to use external libgd"
+  "Use external libgd"
   OFF
   "EXT_GD"
   OFF
@@ -22,7 +22,7 @@ cmake_dependent_option(
 
 cmake_dependent_option(
   EXT_GD_AVIF
-  "GD: Whether to enable AVIF support (only for bundled libgd)"
+  "GD: Enable AVIF support (only for bundled libgd)"
   OFF
   "EXT_GD;NOT EXT_GD_EXTERNAL"
   OFF
@@ -30,7 +30,7 @@ cmake_dependent_option(
 
 cmake_dependent_option(
   EXT_GD_WEBP
-  "GD: Whether to enable WEBP support (only for bundled libgd)"
+  "GD: Enable WebP support (only for bundled libgd)"
   OFF
   "EXT_GD;NOT EXT_GD_EXTERNAL"
   OFF
@@ -38,7 +38,7 @@ cmake_dependent_option(
 
 cmake_dependent_option(
   EXT_GD_JPEG
-  "GD: Whether to enable JPEG support (only for bundled libgd)"
+  "GD: Enable JPEG support (only for bundled libgd)"
   OFF
   "EXT_GD;NOT EXT_GD_EXTERNAL"
   OFF
@@ -46,7 +46,7 @@ cmake_dependent_option(
 
 cmake_dependent_option(
   EXT_GD_XPM
-  "GD: Whether to enable XPM support (only for bundled libgd)"
+  "GD: Enable XPM support (only for bundled libgd)"
   OFF
   "EXT_GD;NOT EXT_GD_EXTERNAL"
   OFF
@@ -54,7 +54,7 @@ cmake_dependent_option(
 
 cmake_dependent_option(
   EXT_GD_FREETYPE
-  "GD: Whether to enable FreeType 2 support (only for bundled libgd)"
+  "GD: Enable FreeType 2 support (only for bundled libgd)"
   OFF
   "EXT_GD;NOT EXT_GD_EXTERNAL"
   OFF
@@ -62,7 +62,7 @@ cmake_dependent_option(
 
 cmake_dependent_option(
   EXT_GD_JIS
-  "GD: Whether to enable JIS-mapped Japanese font support (only for bundled libgd)"
+  "GD: Enable JIS-mapped Japanese font support (only for bundled libgd)"
   OFF
   "EXT_GD;NOT EXT_GD_EXTERNAL"
   OFF

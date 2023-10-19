@@ -1,11 +1,11 @@
 include(CheckLibraryExists)
 include(CMakeDependentOption)
 
-option(EXT_GETTEXT "Whether to enable the gettext extension" OFF)
+option(EXT_GETTEXT "Enable the gettext extension" OFF)
 
 cmake_dependent_option(
   EXT_GETTEXT_SHARED
-  "Whether to build the gettext extension as shared object"
+  "Build the gettext extension as a shared library"
   OFF
   "EXT_GETTEXT;NOT BUILD_SHARED_LIBS"
   OFF

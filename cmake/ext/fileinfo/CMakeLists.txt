@@ -1,11 +1,11 @@
 include(CheckCSourceRuns)
 include(CMakeDependentOption)
 
-option(EXT_FILEINFO "Whether to enable the fileinfo extension" ON)
+option(EXT_FILEINFO "Enable the fileinfo extension" ON)
 
 cmake_dependent_option(
   EXT_FILEINFO_SHARED
-  "Whether to build the fileinfo extension as shared object"
+  "Build the fileinfo extension as a shared library"
   OFF
   "EXT_FILEINFO;NOT BUILD_SHARED_LIBS"
   OFF

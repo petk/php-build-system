@@ -1,4 +1,4 @@
-option(SAPI_APACHE2HANDLER "Whether to use the PHP Apache SAPI module" OFF)
+option(SAPI_APACHE2HANDLER "Enable the Apache SAPI module" OFF)
 
 if(NOT SAPI_APACHE2HANDLER)
   return()

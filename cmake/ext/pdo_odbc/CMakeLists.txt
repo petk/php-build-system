@@ -1,10 +1,10 @@
 include(CMakeDependentOption)
 
-option(EXT_PDO_ODBC "Whether to enable the pdo_odbc extension" OFF)
+option(EXT_PDO_ODBC "Enable the pdo_odbc extension" OFF)
 
 cmake_dependent_option(
   EXT_PDO_ODBC_SHARED
-  "Whether to build the pdo_odbc extension as shared object"
+  "Build the pdo_odbc extension as a shared library"
   OFF
   "EXT_PDO_ODBC;NOT BUILD_SHARED_LIBS"
   OFF

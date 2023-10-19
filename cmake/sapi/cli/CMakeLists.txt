@@ -2,7 +2,7 @@ include(CheckCSourceCompiles)
 include(CheckIncludeFile)
 include(CheckSymbolExists)
 
-option(SAPI_CLI "Whether to use the PHP CLI SAPI module" ON)
+option(SAPI_CLI "Enable the CLI SAPI module" ON)
 
 if(NOT SAPI_CLI)
   return()
