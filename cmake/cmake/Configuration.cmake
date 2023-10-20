@@ -72,7 +72,7 @@ set(PHP_FD_SETSIZE "" CACHE STRING "Size of descriptor sets")
 
 option(PHP_VALGRIND "Enable the Valgrind support" OFF)
 
-option(BUILD_SHARED_LIBS "Build all enabled PHP extensions as shared objects" OFF)
+option(BUILD_SHARED_LIBS "Build all enabled PHP extensions as shared libraries" OFF)
 
 ################################################################################
 # Zend options.

@@ -8,6 +8,6 @@ PHP embed SAPI can be built like this:
 make
 ```
 
-The embed library is then located in the `libs` directory as shared object
+The embed library is then located in the `libs` directory as a shared library
 `libs/libphp.so` which can be further used in other applications. It exposes
 PHP API as C library object for other programs to use PHP.

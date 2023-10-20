@@ -30,8 +30,12 @@ add_library(php_xml ${_type}
   xml.c
 )
 
-if(DEFINED EXT_LIBXML AND NOT EXT_LIBXML AND NOT EXT_XML_EXPAT)
-  message(FATAL_ERROR "XML extension requires either LIBXML extension or Expat library, set EXT_LIBXML=ON or EXT_XML_EXPAT=ON")
+if(NOT EXT_LIBXML AND NOT EXT_XML_EXPAT)
+  message(
+    FATAL_ERROR
+    "The xml extension requires either libxml extension or Expat library. Set "
+    "EXT_LIBXML=ON or EXT_XML_EXPAT=ON"
+  )
 endif()
 
 if(NOT EXT_XML_EXPAT)
@@ -41,7 +45,7 @@ if(NOT EXT_XML_EXPAT)
 
   target_link_libraries(php_xml PRIVATE LibXml2::LibXml2)
 
-  set_target_properties(php_xml PROPERTIES PHP_EXT_DEPENDS php_libxml)
+  set_target_properties(php_xml PROPERTIES PHP_EXTENSION_DEPENDENCIES php_libxml)
 else()
   find_package(EXPAT REQUIRED)
 

@@ -1,5 +1,3 @@
-set_directory_properties(PROPERTIES PHP_PRIORITY 100)
-
 include(CMakeDependentOption)
 
 option(EXT_PDO "Enable the pdo extension" ON)

@@ -14,10 +14,6 @@ if(NOT EXT_PDO_PGSQL)
   return()
 endif()
 
-if(NOT EXT_PDO_PGSQL_SHARED AND EXT_PDO_SHARED)
-  set(EXT_PDO_PGSQL_SHARED ON CACHE BOOL "" FORCE)
-endif()
-
 if(EXT_PDO_PGSQL_SHARED)
   set(_type "SHARED")
 endif()
@@ -28,7 +24,7 @@ add_library(php_pdo_pgsql ${_type}
   pgsql_statement.c
 )
 
-set_target_properties(php_pdo_pgsql PROPERTIES PHP_EXT_DEPENDS php_pdo)
+set_target_properties(php_pdo_pgsql PROPERTIES PHP_EXTENSION_DEPENDENCIES php_pdo)
 
 target_include_directories(php_pdo_pgsql PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/..")
 

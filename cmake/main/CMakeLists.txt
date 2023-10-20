@@ -81,7 +81,8 @@ if(PHP_DTRACE)
   message(STATUS "DTrace enabled")
 endif()
 
-foreach(extension IN LISTS PHP_EXTENSIONS)
+get_cmake_property(extensions PHP_EXTENSIONS)
+foreach(extension IN LISTS extensions)
   message(STATUS "Post-configuration of php_${extension}")
 
   if(NOT TARGET PHP::${extension})

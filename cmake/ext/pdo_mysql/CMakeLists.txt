@@ -14,10 +14,6 @@ if(NOT EXT_PDO_MYSQL)
   return()
 endif()
 
-if(NOT EXT_PDO_MYSQL_SHARED AND (EXT_MYSQLND_SHARED OR EXT_PDO_SHARED))
-  set(EXT_PDO_MYSQL_SHARED ON CACHE BOOL "" FORCE)
-endif()
-
 if(EXT_PDO_MYSQL_SHARED)
   set(_type "SHARED")
 endif()
@@ -28,7 +24,10 @@ add_library(php_pdo_mysql ${_type}
   mysql_statement.c
 )
 
-set_target_properties(php_pdo_mysql PROPERTIES PHP_EXT_DEPENDS "php_mysqlnd;php_pdo")
+set_target_properties(
+  php_pdo_mysql
+  PROPERTIES PHP_EXTENSION_DEPENDENCIES "php_mysqlnd;php_pdo"
+)
 
 target_compile_definitions(php_pdo_mysql PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE=1)
 

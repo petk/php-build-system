@@ -71,7 +71,8 @@ set(EXT_INCLUDE_CODE "")
 set(EXT_MODULE_PTRS "")
 
 # Add artefacts of static enabled PHP extensions to symbol definitions.
-foreach(extension IN LISTS PHP_EXTENSIONS)
+get_cmake_property(php_extensions PHP_EXTENSIONS)
+foreach(extension IN LISTS php_extensions)
   # Skip if extension is shared.
   get_target_property(extension_type php_${extension} TYPE)
   if(extension_type STREQUAL "SHARED_LIBRARY")

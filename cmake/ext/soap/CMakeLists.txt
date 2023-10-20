@@ -34,4 +34,4 @@ find_package(LibXml2 ${PHP_LIBXML2_MIN_VERSION} REQUIRED)
 
 target_link_libraries(php_soap PRIVATE LibXml2::LibXml2)
 
-set_target_properties(php_soap PROPERTIES PHP_EXT_DEPENDS php_libxml)
+set_target_properties(php_soap PROPERTIES PHP_EXTENSION_DEPENDENCIES php_libxml)

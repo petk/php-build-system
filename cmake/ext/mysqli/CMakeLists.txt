@@ -20,15 +20,16 @@ cmake_dependent_option(
 )
 
 if(EXT_MYSQLI OR EXT_PDO_MYSQL)
-  set(EXT_MYSQL_SOCK_PATH "" CACHE FILEPATH "MySQLi/PDO_MYSQL: Optional location of the MySQL unix socket pointer.")
+  set(
+    EXT_MYSQL_SOCK_PATH
+    ""
+    CACHE FILEPATH
+    "MySQLi/PDO_MYSQL: Optional location of the MySQL unix socket pointer."
+  )
 endif()
 
 if(NOT EXT_MYSQLI)
   return()
-endif()
-
-if(NOT EXT_MYSQLI_SHARED AND EXT_MYSQLND_SHARED)
-  set(EXT_MYSQLI_SHARED ON CACHE BOOL "" FORCE)
 endif()
 
 if(EXT_MYSQLI_SHARED)
@@ -47,7 +48,7 @@ add_library(php_mysqli ${_type}
   mysqli_result_iterator.c
 )
 
-set_target_properties(php_mysqli PROPERTIES PHP_EXT_DEPENDS php_mysqlnd)
+set_target_properties(php_mysqli PROPERTIES PHP_EXTENSION_DEPENDENCIES php_mysqlnd)
 
 target_compile_definitions(php_mysqli PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE=1)
 

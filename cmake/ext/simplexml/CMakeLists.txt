@@ -24,7 +24,7 @@ add_library(php_simplexml ${_type}
 
 set_property(
   TARGET php_simplexml
-  PROPERTY PHP_EXT_DEPENDS php_libxml
+  PROPERTY PHP_EXTENSION_DEPENDENCIES php_libxml
 )
 
 find_package(LibXml2 ${PHP_LIBXML2_MIN_VERSION} REQUIRED)

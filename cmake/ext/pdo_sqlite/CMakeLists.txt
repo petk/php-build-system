@@ -15,10 +15,6 @@ if(NOT EXT_PDO_SQLITE)
   return()
 endif()
 
-if(NOT EXT_PDO_SQLITE_SHARED AND EXT_PDO_SHARED)
-  set(EXT_PDO_SQLITE_SHARED ON CACHE BOOL "" FORCE)
-endif()
-
 if(EXT_PDO_SQLITE_SHARED)
   set(_type "SHARED")
 endif()
@@ -29,7 +25,7 @@ add_library(php_pdo_sqlite ${_type}
   sqlite_statement.c
 )
 
-set_target_properties(php_pdo_sqlite PROPERTIES PHP_EXT_DEPENDS php_pdo)
+set_target_properties(php_pdo_sqlite PROPERTIES PHP_EXTENSION_DEPENDENCIES php_pdo)
 
 find_package(SQLite3 3.7.7 REQUIRED)
 

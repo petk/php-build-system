@@ -1,5 +1,3 @@
-set_directory_properties(PROPERTIES PHP_PRIORITY 101)
-
 include(CMakeDependentOption)
 
 option(EXT_ZEND_TEST "Enable the zend_test extension" OFF)

@@ -1,5 +1,3 @@
-set_directory_properties(PROPERTIES PHP_PRIORITY 100)
-
 option(EXT_LIBXML "Enable the libxml extension" ON)
 
 if(NOT EXT_LIBXML)
