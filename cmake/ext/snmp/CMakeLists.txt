@@ -16,10 +16,12 @@ if(NOT EXT_SNMP)
 endif()
 
 if(EXT_SNMP_SHARED)
-  set(_type "SHARED")
+  add_library(php_snmp SHARED)
+else()
+  add_library(php_snmp)
 endif()
 
-add_library(php_snmp ${_type}
+target_sources(php_snmp PRIVATE
   snmp.c
 )
 

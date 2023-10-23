@@ -15,10 +15,12 @@ if(NOT EXT_SOAP)
 endif()
 
 if(EXT_SOAP_SHARED)
-  set(_type "SHARED")
+  add_library(php_soap SHARED)
+else()
+  add_library(php_soap)
 endif()
 
-add_library(php_soap ${_type}
+target_sources(php_soap PRIVATE
   soap.c
   php_encoding.c
   php_http.c

@@ -20,8 +20,16 @@ if(NOT EXT_POSIX)
 endif()
 
 if(EXT_POSIX_SHARED)
-  set(_type "SHARED")
+  add_library(php_posix SHARED)
+else()
+  add_library(php_posix)
 endif()
+
+target_sources(php_posix PRIVATE
+  posix.c
+)
+
+target_compile_definitions(php_posix PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE=1)
 
 check_include_file(sys/mkdev.h HAVE_SYS_MKDEV_H)
 check_include_file(sys/sysmacros.h HAVE_SYS_SYSMACROS_H)
@@ -79,8 +87,3 @@ check_c_source_compiles("
   }
 " HAVE_UTSNAME_DOMAINNAME)
 
-add_library(php_posix ${_type}
-  posix.c
-)
-
-target_compile_definitions(php_posix PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE=1)

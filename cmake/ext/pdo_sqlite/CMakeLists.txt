@@ -1,7 +1,13 @@
 include(CheckLibraryExists)
 include(CMakeDependentOption)
 
-option(EXT_PDO_SQLITE "Enable the pdo_sqlite extension" ON)
+cmake_dependent_option(
+  EXT_PDO_SQLITE
+  "Enable the pdo_sqlite extension"
+  ON
+  "EXT_PDO"
+  OFF
+)
 
 cmake_dependent_option(
   EXT_PDO_SQLITE_SHARED
@@ -16,10 +22,12 @@ if(NOT EXT_PDO_SQLITE)
 endif()
 
 if(EXT_PDO_SQLITE_SHARED)
-  set(_type "SHARED")
+  add_library(php_pdo_sqlite SHARED)
+else()
+  add_library(php_pdo_sqlite)
 endif()
 
-add_library(php_pdo_sqlite ${_type}
+target_sources(php_pdo_sqlite PRIVATE
   pdo_sqlite.c
   sqlite_driver.c
   sqlite_statement.c

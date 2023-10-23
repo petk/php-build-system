@@ -20,10 +20,12 @@ if(NOT EXT_COM_DOTNET)
 endif()
 
 if(EXT_COM_DOTNET_SHARED)
-  set(_type "SHARED")
+  add_library(php_com_dotnet SHARED)
+else()
+  add_library(php_com_dotnet)
 endif()
 
-add_library(php_com_dotnet ${_type}
+target_sources(php_com_dotnet PRIVATE
   com_com.c
   com_dotnet.c
   com_extension.c

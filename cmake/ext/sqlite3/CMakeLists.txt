@@ -16,10 +16,12 @@ if(NOT EXT_SQLITE3)
 endif()
 
 if(EXT_SQLITE3_SHARED)
-  set(_type "SHARED")
+  add_library(php_sqlite3 SHARED)
+else()
+  add_library(php_sqlite3)
 endif()
 
-add_library(php_sqlite3 ${_type}
+target_sources(php_sqlite3 PRIVATE
   sqlite3.c
 )
 
@@ -34,5 +36,5 @@ check_library_exists(SQLite::SQLite3 sqlite3_expanded_sql "" HAVE_SQLITE3_EXPAND
 check_library_exists(SQLite::SQLite3 sqlite3_load_extension "" HAVE_SQLITE3_LOAD_EXTENSION)
 
 if(NOT HAVE_SQLITE3_LOAD_EXTENSION)
-  set(SQLITE_OMIT_LOAD_EXTENSION 1 CACHE STRING "Have sqlite3 with extension support")
+  set(SQLITE_OMIT_LOAD_EXTENSION 1 CACHE INTERNAL "Have sqlite3 with extension support")
 endif()

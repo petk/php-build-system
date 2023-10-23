@@ -16,10 +16,12 @@ if(NOT EXT_SYSVSEM)
 endif()
 
 if(EXT_SYSVSEM_SHARED)
-  set(_type "SHARED")
+  add_library(php_sysvsem SHARED)
+else()
+  add_library(php_sysvsem)
 endif()
 
-add_library(php_sysvsem ${_type}
+target_sources(php_sysvsem PRIVATE
   sysvsem.c
 )
 

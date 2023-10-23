@@ -15,10 +15,12 @@ if(NOT EXT_GMP)
 endif()
 
 if(EXT_GMP_SHARED)
-  set(_type "SHARED")
+  add_library(php_gmp SHARED)
+else()
+  add_library(php_gmp)
 endif()
 
-add_library(php_gmp ${_type}
+target_sources(php_gmp PRIVATE
   gmp.c
 )
 

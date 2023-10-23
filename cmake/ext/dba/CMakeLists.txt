@@ -15,7 +15,11 @@ if(NOT EXT_DBA)
 endif()
 
 if(EXT_DBA_SHARED)
-  set(_type "SHARED")
+  add_library(php_dba SHARED)
+else()
+  add_library(php_dba)
 endif()
 
-#add_library(php_dba ${_type})
+#target_sources(php_dba PRIVATE
+  #...
+#)

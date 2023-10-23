@@ -15,10 +15,12 @@ if(NOT EXT_FILTER)
 endif()
 
 if(EXT_FILTER_SHARED)
-  set(_type "SHARED")
+  add_library(php_filter SHARED)
+else()
+  add_library(php_filter)
 endif()
 
-add_library(php_filter ${_type}
+target_sources(php_filter PRIVATE
   filter.c
   sanitizing_filters.c
   logical_filters.c

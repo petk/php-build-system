@@ -57,6 +57,10 @@ if(
   OR NOT EXISTS "${CMAKE_SOURCE_DIR}/ext/standard/url_scanner_ex.c"
   OR NOT EXISTS "${CMAKE_SOURCE_DIR}/sapi/phpdbg/phpdbg_lexer.c"
 )
+  if(PHP_RE2C_CGOTO)
+    set(RE2C_USE_COMPUTED_GOTOS TRUE)
+  endif()
+
   find_package(RE2C 1.0.3 REQUIRED)
 endif()
 

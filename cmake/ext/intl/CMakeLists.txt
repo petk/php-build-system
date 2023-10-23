@@ -15,10 +15,10 @@ if(NOT EXT_INTL)
 endif()
 
 if(EXT_INTL_SHARED)
-  set(_type "SHARED")
+  add_library(php_intl SHARED)
+else()
+  add_library(php_intl)
 endif()
-
-add_library(php_intl ${_type})
 
 set(_intl_sources
   php_intl.c

@@ -15,9 +15,11 @@ if(NOT EXT_SHMOP)
 endif()
 
 if(EXT_SHMOP_SHARED)
-  set(_type "SHARED")
+  add_library(php_shmop SHARED)
+else()
+  add_library(php_shmop)
 endif()
 
-add_library(php_shmop ${_type}
+target_sources(php_shmop PRIVATE
   shmop.c
 )

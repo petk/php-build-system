@@ -62,10 +62,12 @@ cmake_push_check_state(RESET)
 cmake_pop_check_state()
 
 if(EXT_PCNTL_SHARED)
-  set(_type "SHARED")
+  add_library(php_pcntl SHARED)
+else()
+  add_library(php_pcntl)
 endif()
 
-add_library(php_pcntl ${_type}
+target_sources(php_pcntl PRIVATE
   pcntl.c
   php_signal.c
 )

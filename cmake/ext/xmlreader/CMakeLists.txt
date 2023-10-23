@@ -15,10 +15,12 @@ if(NOT EXT_XMLREADER)
 endif()
 
 if(EXT_XMLREADER_SHARED)
-  set(_type "SHARED")
+  add_library(php_xmlreader SHARED)
+else()
+  add_library(php_xmlreader)
 endif()
 
-add_library(php_xmlreader ${_type}
+target_sources(php_xmlreader PRIVATE
   php_xmlreader.c
 )
 

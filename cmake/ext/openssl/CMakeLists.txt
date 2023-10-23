@@ -36,10 +36,12 @@ if(NOT EXT_OPENSSL)
 endif()
 
 if(EXT_OPENSSL_SHARED)
-  set(_type "SHARED")
+  add_library(php_openssl SHARED)
+else()
+  add_library(php_openssl)
 endif()
 
-add_library(php_openssl ${_type}
+target_sources(php_openssl PRIVATE
   openssl.c
   xp_ssl.c
 )

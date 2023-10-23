@@ -175,7 +175,7 @@ include(PHP/CheckFopencookie)
 # Check for broken getcwd().
 include(PHP/CheckBrokenGetCwd)
 
-# Check for broken gcc optimize-strlen.
+# Check for broken GCC optimize-strlen.
 include(PHP/CheckBrokenGccStrlenOpt)
 if(HAVE_BROKEN_OPTIMIZE_STRLEN)
   target_compile_options(php_configuration

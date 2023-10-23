@@ -5,6 +5,10 @@ https://re2c.org/
 The minimum required version of re2c can be specified using the standard CMake
 syntax, e.g. 'find_package(RE2C 0.15.3)'.
 
+Set RE2C_USE_COMPUTED_GOTOS to TRUE before calling find_package(re2c) to enable
+the re2c --computed-gotos option if the non-standard C "computed goto" extension
+is supported by the C compiler.
+
 Result variables:
 
   RE2C_EXECUTABLE
@@ -26,15 +30,31 @@ If re2c is found, the module exposes the following function:
 include(CheckCSourceCompiles)
 include(FindPackageHandleStandardArgs)
 
-find_program(RE2C_EXECUTABLE re2c DOC "path to the re2c executable")
+find_program(RE2C_EXECUTABLE re2c DOC "The re2c executable path")
 mark_as_advanced(RE2C_EXECUTABLE)
 
 if(RE2C_EXECUTABLE)
-  execute_process(COMMAND ${RE2C_EXECUTABLE} --vernum OUTPUT_VARIABLE RE2C_VERSION_RAW OUTPUT_STRIP_TRAILING_WHITESPACE)
+  execute_process(
+    COMMAND ${RE2C_EXECUTABLE} --vernum
+    OUTPUT_VARIABLE RE2C_VERSION_NUM
+    OUTPUT_STRIP_TRAILING_WHITESPACE
+  )
 
-  math(EXPR RE2C_VERSION_MAJOR "${RE2C_VERSION_RAW} / 10000")
-  math(EXPR RE2C_VERSION_MINOR "(${RE2C_VERSION_RAW} - ${RE2C_VERSION_MAJOR} * 10000) / 100")
-  math(EXPR RE2C_VERSION_PATCH "${RE2C_VERSION_RAW} - ${RE2C_VERSION_MAJOR} * 10000 - ${RE2C_VERSION_MINOR} * 100")
+  math(
+    EXPR RE2C_VERSION_MAJOR
+    "${RE2C_VERSION_NUM} / 10000"
+  )
+
+  math(
+    EXPR RE2C_VERSION_MINOR
+    "(${RE2C_VERSION_NUM} - ${RE2C_VERSION_MAJOR} * 10000) / 100"
+  )
+
+  math(
+    EXPR RE2C_VERSION_PATCH
+    "${RE2C_VERSION_NUM} - ${RE2C_VERSION_MAJOR} * 10000 - ${RE2C_VERSION_MINOR} * 100"
+  )
+
   set(RE2C_VERSION "${RE2C_VERSION_MAJOR}.${RE2C_VERSION_MINOR}.${RE2C_VERSION_PATCH}")
 endif()
 
@@ -45,9 +65,16 @@ find_package_handle_standard_args(
   REASON_FAILURE_MESSAGE "re2c not found. Please install re2c."
 )
 
-# Check for re2c -g flag.
-if(PHP_RE2C_CGOTO)
-  message(STATUS "Checking whether re2c -g works")
+if(NOT RE2C_FOUND)
+  return()
+endif()
+
+# Check for re2c --computed-gotos option.
+if(RE2C_USE_COMPUTED_GOTOS)
+  message(CHECK_START "Checking if re2c --computed-gotos option is supported")
+
+  list(APPEND CMAKE_MESSAGE_INDENT "  ")
+
   check_c_source_compiles("
     int main(int argc, const char **argv) {
       argc = argc;
@@ -58,11 +85,14 @@ if(PHP_RE2C_CGOTO)
       goto *adr[0];
       return 0;
     }
-  " HAVE_RE2C_CGOTO)
+  " HAVE_RE2C_COMPUTED_GOTOS)
 
-  if(HAVE_RE2C_CGOTO)
-    message(STATUS "Adding flag -g to re2c for using computed goto gcc extension")
-    set(RE2C_FLAGS "-g" CACHE INTERNAL "Whether to use computed goto gcc extension with re2c")
+  list(POP_BACK CMAKE_MESSAGE_INDENT)
+
+  if(HAVE_RE2C_COMPUTED_GOTOS)
+    message(CHECK_PASS "yes")
+  else()
+    message(CHECK_FAIL "no")
   endif()
 endif()
 
@@ -90,13 +120,18 @@ function(re2c_target)
     message(FATAL_ERROR "re2c_target expects an output filename")
   endif()
 
-  separate_arguments(re2c_target_extraopts NATIVE_COMMAND "${PARSED_ARGS_OPTIONS}")
-  list(APPEND re2c_target_cmdopt ${re2c_target_extraopts})
-  list(APPEND re2c_target_cmdopt ${RE2C_FLAGS})
+  separate_arguments(options NATIVE_COMMAND "${PARSED_ARGS_OPTIONS}")
+
+  if(RE2C_USE_COMPUTED_GOTOS AND HAVE_RE2C_COMPUTED_GOTOS)
+    list(APPEND options "-g")
+  endif()
 
   add_custom_command(
     OUTPUT "${PARSED_ARGS_OUTPUT}"
-    COMMAND ${RE2C_EXECUTABLE} ${re2c_target_cmdopt} -o "${PARSED_ARGS_OUTPUT}" "${PARSED_ARGS_INPUT}"
+    COMMAND ${RE2C_EXECUTABLE}
+      ${options}
+      -o "${PARSED_ARGS_OUTPUT}"
+      "${PARSED_ARGS_INPUT}"
     DEPENDS "${PARSED_ARGS_INPUT}" ${PARSED_ARGS_DEPENDS}
     COMMENT "[RE2C][${PARSED_ARGS_NAME}] Building lexer with re2c ${RE2C_VERSION}"
   )

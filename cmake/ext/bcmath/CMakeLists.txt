@@ -15,10 +15,12 @@ if(NOT EXT_BCMATH)
 endif()
 
 if(EXT_BCMATH_SHARED)
-  set(_type "SHARED")
+  add_library(php_bcmath SHARED)
+else()
+  add_library(php_bcmath)
 endif()
 
-add_library(php_bcmath ${_type}
+target_sources(php_bcmath PRIVATE
   bcmath.c
   libbcmath/src/add.c
   libbcmath/src/div.c

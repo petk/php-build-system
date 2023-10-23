@@ -15,10 +15,12 @@ if(NOT EXT_EXIF)
 endif()
 
 if(EXT_EXIF_SHARED)
-  set(_type "SHARED")
+  add_library(php_exif SHARED)
+else()
+  add_library(php_exif)
 endif()
 
-add_library(php_exif ${_type}
+target_sources(php_exif PRIVATE
   exif.c
 )
 

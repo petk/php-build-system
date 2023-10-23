@@ -73,10 +73,12 @@ if(NOT EXT_GD)
 endif()
 
 if(EXT_GD_SHARED)
-  set(_type "SHARED")
+  add_library(php_gd SHARED)
+else()
+  add_library(php_gd)
 endif()
 
-add_library(php_gd ${_type}
+target_sources(php_gd PRIVATE
   gd.c
 )
 

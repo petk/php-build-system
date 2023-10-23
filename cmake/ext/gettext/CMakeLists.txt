@@ -16,10 +16,12 @@ if(NOT EXT_GETTEXT)
 endif()
 
 if(EXT_GETTEXT_SHARED)
-  set(_type "SHARED")
+  add_library(php_gettext SHARED)
+else()
+  add_library(php_gettext)
 endif()
 
-add_library(php_gettext ${_type}
+target_sources(php_gettext PRIVATE
   gettext.c
 )
 

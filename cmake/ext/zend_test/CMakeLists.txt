@@ -15,10 +15,12 @@ if(NOT EXT_ZEND_TEST)
 endif()
 
 if(EXT_ZEND_TEST_SHARED)
-  set(_type "SHARED")
+  add_library(php_zend_test SHARED)
+else()
+  add_library(php_zend_test)
 endif()
 
-add_library(php_zend_test ${_type}
+target_sources(php_zend_test PRIVATE
   test.c
   observer.c
   fiber.c

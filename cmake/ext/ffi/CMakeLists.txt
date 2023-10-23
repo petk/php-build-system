@@ -17,10 +17,12 @@ if(NOT EXT_FFI)
 endif()
 
 if(EXT_FFI_SHARED)
-  set(_type "SHARED")
+  add_library(php_ffi SHARED)
+else()
+  add_library(php_ffi)
 endif()
 
-add_library(php_ffi ${_type}
+target_sources(php_ffi PRIVATE
   ffi.c
   ffi_parser.c
 )

@@ -15,9 +15,11 @@ if(NOT EXT_SYSVSHM)
 endif()
 
 if(EXT_SYSVSHM_SHARED)
-  set(_type "SHARED")
+  add_library(php_sysvshm SHARED)
+else()
+  add_library(php_sysvshm)
 endif()
 
-add_library(php_sysvshm ${_type}
+target_sources(php_sysvshm PRIVATE
   sysvshm.c
 )

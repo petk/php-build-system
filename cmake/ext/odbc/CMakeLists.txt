@@ -15,7 +15,11 @@ if(NOT EXT_ODBC)
 endif()
 
 if(EXT_ODBC_SHARED)
-  set(_type "SHARED")
+  add_library(php_odbc SHARED)
+else()
+  add_library(php_odbc)
 endif()
 
-#add_library(php_odbc ${_type})
+#target_sources(php_odbc PRIVATE
+  #...
+#)

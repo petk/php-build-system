@@ -22,9 +22,11 @@ if(NOT HAVE_SYS_MSG_H)
 endif()
 
 if(EXT_SYSVMSG_SHARED)
-  set(_type "SHARED")
+  add_library(php_sysvmsg SHARED)
+else()
+  add_library(php_sysvmsg)
 endif()
 
-add_library(php_sysvmsg ${_type}
+target_sources(php_sysvmsg PRIVATE
   sysvmsg.c
 )

@@ -110,10 +110,12 @@ check_c_source_compiles("
 " ANC_CREDS_CMSGCRED)
 
 if(EXT_SOCKETS_SHARED)
-  set(_type "SHARED")
+  add_library(php_sockets SHARED)
+else()
+  add_library(php_sockets)
 endif()
 
-add_library(php_sockets ${_type}
+target_sources(php_sockets PRIVATE
   sockets.c
   multicast.c
   conversions.c

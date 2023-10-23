@@ -15,10 +15,12 @@ if(NOT EXT_TIDY)
 endif()
 
 if(EXT_TIDY_SHARED)
-  set(_type "SHARED")
+  add_library(php_tidy SHARED)
+else()
+  add_library(php_tidy)
 endif()
 
-add_library(php_tidy ${_type}
+target_sources(php_tidy PRIVATE
   tidy.c
 )
 

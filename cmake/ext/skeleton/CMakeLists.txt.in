@@ -6,10 +6,12 @@
 # Include CMake module for using cmake_dependent_option().
 include(CMakeDependentOption)
 
-# Boolean variable that enables (ON) or disables (OFF) the extension.
+# Boolean option that enables (ON) or disables (OFF) the extension.
 option(EXT_%EXTNAMECAPS% "Enable the %EXTNAME% extension" OFF)
 
-# Option that builds a shared library (SO file on *nix, DLL on Windows).
+# Dependent boolean option that builds extension as a shared library (SO file on
+# *nix, DLL on Windows). CMake's BUILD_SHARED_LIBS variable hides this option
+# and builds extension as shared.
 cmake_dependent_option(
   EXT_%EXTNAMECAPS%_SHARED
   "Build the %EXTNAME% extension as a shared library"
@@ -23,12 +25,14 @@ if(NOT EXT_%EXTNAMECAPS%)
   return()
 endif()
 
-# Build extension as a SHARED library.
+# Add a target to be built as a SHARED or STATIC library.
 if(EXT_%EXTNAMECAPS%_SHARED)
-  set(_type "SHARED")
+  add_library(php_%EXTNAME% SHARED)
+else()
+  add_library(php_%EXTNAME%)
 endif()
 
-# Add a library target to be built from the listed source files.
-add_library(php_%EXTNAME% ${_type}
+# Add library target sources.
+target_sources(php_%EXTNAME% PRIVATE
   %EXTNAME%.c
 )

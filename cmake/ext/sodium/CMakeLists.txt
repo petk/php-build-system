@@ -16,10 +16,12 @@ if(NOT EXT_SODIUM)
 endif()
 
 if(EXT_SODIUM_SHARED)
-  set(_type "SHARED")
+  add_library(php_sodium SHARED)
+else()
+  add_library(php_sodium)
 endif()
 
-add_library(php_sodium ${_type}
+target_sources(php_sodium PRIVATE
   libsodium.c
   sodium_pwhash.c
 )

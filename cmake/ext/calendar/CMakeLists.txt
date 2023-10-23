@@ -15,10 +15,12 @@ if(NOT EXT_CALENDAR)
 endif()
 
 if(EXT_CALENDAR_SHARED)
-  set(_type "SHARED")
+  add_library(php_calendar SHARED)
+else()
+  add_library(php_calendar)
 endif()
 
-add_library(php_calendar ${_type}
+target_sources(php_calendar PRIVATE
   calendar.c
   dow.c
   french.c

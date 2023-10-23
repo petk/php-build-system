@@ -15,10 +15,12 @@ if(NOT EXT_ZLIB)
 endif()
 
 if(EXT_ZLIB_SHARED)
-  set(_type "SHARED")
+  add_library(php_zlib SHARED)
+else()
+  add_library(php_zlib)
 endif()
 
-add_library(php_zlib ${_type}
+target_sources(php_zlib PRIVATE
   zlib.c
   zlib_fopen_wrapper.c
   zlib_filter.c

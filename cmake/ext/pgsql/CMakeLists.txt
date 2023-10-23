@@ -15,10 +15,12 @@ if(NOT EXT_PGSQL)
 endif()
 
 if(EXT_PGSQL_SHARED)
-  set(_type "SHARED")
+  add_library(php_pgsql SHARED)
+else()
+  add_library(php_pgsql)
 endif()
 
-add_library(php_pgsql ${_type}
+target_sources(php_pgsql PRIVATE
   pgsql.c
 )
 

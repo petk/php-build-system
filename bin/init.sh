@@ -67,16 +67,35 @@ done
 
 # Check requirements.
 cmake=$(which cmake 2>/dev/null)
+patch=$(which patch 2>/dev/null)
+git=$(which git 2>/dev/null)
 
 if test -z "$cmake"; then
   echo "init.sh: cmake not found." >&2
   echo "         Install cmake:" >&2
   echo "         https://cmake.org/" >&2
   echo "" >&2
+fi
 
-  if test "x$use_cmake" = "x1"; then
-    exit 1
-  fi
+if test -z "$patch"; then
+  echo "init.sh: patch command not found." >&2
+  echo "         Install patch utilities:" >&2
+  echo "         http://savannah.gnu.org/projects/patch/" >&2
+  echo "" >&2
+fi
+
+if test -z "$git"; then
+  echo "init.sh: git command not found." >&2
+  echo "         Install Git:" >&2
+  echo "         https://git-scm.com/" >&2
+  echo "" >&2
+fi
+
+if test -z "${cmake}" \
+  || test -z "${patch}" \
+  || test -z "${git}"
+then
+  exit 1
 fi
 
 # Clone a fresh latest php-src repository.
@@ -87,7 +106,7 @@ if test ! -d "php-src"; then
 
   if test "$answer" != "${answer#[Yy]}"; then
     echo "Cloning github.com/php/php-src. This will take a little while."
-    git clone https://github.com/php/php-src ./php-src
+    $git clone https://github.com/php/php-src ./php-src
   else
     exit 1
   fi
@@ -104,21 +123,21 @@ then
 fi
 
 # Check if given branch is available.
-if test -z "$(git show-ref refs/heads/${branch})"; then
-  if test -z "$(git ls-remote --heads origin refs/heads/${branch})"; then
+if test -z "$($git show-ref refs/heads/${branch})"; then
+  if test -z "$($git ls-remote --heads origin refs/heads/${branch})"; then
     echo "Branch ${branch} is missing." >&2
     exit 1
   fi
 
-  git checkout --track origin/${branch}
+  $git checkout --track origin/${branch}
 fi
 
 # Reset php-src repository and fetch latest changes.
 if test "$update" = "1"; then
-  git reset --hard
-  git clean -dffx
-  git checkout ${branch}
-  git pull --rebase
+  $git reset --hard
+  $git clean -dffx
+  $git checkout ${branch}
+  $git pull --rebase
   echo
 fi
 
@@ -138,7 +157,7 @@ patches=$(find ./patches/${php_version} -maxdepth 1 -type f -name "*.patch" 2>/d
 for file in $patches; do
   case $file in
     *.patch)
-      patch -p1 -d php-src < $file
+      $patch -p1 -d php-src < $file
       ;;
   esac
 done

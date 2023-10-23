@@ -15,10 +15,12 @@ if(NOT EXT_PDO)
 endif()
 
 if(EXT_PDO_SHARED)
-  set(_type "SHARED")
+  add_library(php_pdo SHARED)
+else()
+  add_library(php_pdo)
 endif()
 
-add_library(php_pdo ${_type}
+target_sources(php_pdo PRIVATE
   pdo.c
   pdo_dbh.c
   pdo_stmt.c

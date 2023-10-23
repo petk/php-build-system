@@ -15,7 +15,11 @@ if(NOT EXT_OCI8)
 endif()
 
 if(EXT_OCI8_SHARED)
-  set(_type "SHARED")
+  add_library(php_oci8 SHARED)
+else()
+  add_library(php_oci8)
 endif()
 
-#add_library(php_oci8 ${_type})
+#target_sources(php_oci8 PRIVATE
+  #...
+#)

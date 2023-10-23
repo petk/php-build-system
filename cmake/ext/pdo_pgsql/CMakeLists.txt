@@ -1,6 +1,12 @@
 include(CMakeDependentOption)
 
-option(EXT_PDO_PGSQL "Enable the pdo_pgsql extension" OFF)
+cmake_dependent_option(
+  EXT_PDO_PGSQL
+  "Enable the pdo_pgsql extension"
+  OFF
+  "EXT_PDO"
+  OFF
+)
 
 cmake_dependent_option(
   EXT_PDO_PGSQL_SHARED
@@ -15,10 +21,12 @@ if(NOT EXT_PDO_PGSQL)
 endif()
 
 if(EXT_PDO_PGSQL_SHARED)
-  set(_type "SHARED")
+  add_library(php_pdo_pgsql SHARED)
+else()
+  add_library(php_pdo_pgsql)
 endif()
 
-add_library(php_pdo_pgsql ${_type}
+target_sources(php_pdo_pgsql PRIVATE
   pdo_pgsql.c
   pgsql_driver.c
   pgsql_statement.c

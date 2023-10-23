@@ -15,10 +15,12 @@ if(NOT EXT_DOM)
 endif()
 
 if(EXT_DOM_SHARED)
-  set(_type "SHARED")
+  add_library(php_dom SHARED)
+else()
+  add_library(php_dom)
 endif()
 
-add_library(php_dom ${_type}
+target_sources(php_dom PRIVATE
   php_dom.c
   attr.c
   document.c

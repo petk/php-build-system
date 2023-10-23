@@ -29,10 +29,12 @@ include(PHP/CheckPwrite)
 include(PHP/CheckPread)
 
 if(EXT_SESSION_SHARED)
-  set(_type "SHARED")
+  add_library(php_session SHARED)
+else()
+  add_library(php_session)
 endif()
 
-add_library(php_session ${_type}
+target_sources(php_session PRIVATE
   mod_user_class.c
   session.c
   mod_files.c

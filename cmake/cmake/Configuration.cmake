@@ -1,7 +1,8 @@
 #[=============================================================================[
-Project-wide configuration options and variables that can be overridden at the
-configuration phase via cmake-gui or command line:
-  cmake -DPHP_OPTION=... -DZEND_OPTION=... -DEXT_... <path-to-source>
+Project-wide configuration options and variables that can be configured during
+the configuration phase via GUI or command line:
+
+  cmake -D PHP_OPTION=... -D ZEND_OPTION=... -D EXT_... -S <path-to-source> ...
 
 To see the list of customizable configuration variables with help texts:
   cmake -LH <path-to-source>
@@ -87,7 +88,7 @@ option(ZEND_SIGNALS "Enable Zend signal handling" ON)
 option(ZEND_MAX_EXECUTION_TIMERS "Enable Zend max execution timers" ${PHP_ZTS})
 
 if(PHP_ZTS)
-  set(ZTS 1 CACHE BOOL "Whether thread safety is enabled" FORCE)
+  set(ZTS 1)
 endif()
 
 if(PHP_SHORT_TAGS)

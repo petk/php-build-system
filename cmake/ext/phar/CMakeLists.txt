@@ -15,10 +15,12 @@ if(NOT EXT_PHAR)
 endif()
 
 if(EXT_PHAR_SHARED)
-  set(_type "SHARED")
+  add_library(php_phar SHARED)
+else()
+  add_library(php_phar)
 endif()
 
-add_library(php_phar ${_type}
+target_sources(php_phar PRIVATE
   util.c
   tar.c
   zip.c

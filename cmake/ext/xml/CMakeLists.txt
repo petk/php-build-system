@@ -23,10 +23,12 @@ if(NOT EXT_XML)
 endif()
 
 if(EXT_XML_SHARED)
-  set(_type "SHARED")
+  add_library(php_xml SHARED)
+else()
+  add_library(php_xml)
 endif()
 
-add_library(php_xml ${_type}
+target_sources(php_xml PRIVATE
   xml.c
 )
 

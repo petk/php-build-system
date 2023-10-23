@@ -16,10 +16,12 @@ if(NOT EXT_ZIP)
 endif()
 
 if(EXT_ZIP_SHARED)
-  set(_type "SHARED")
+  add_library(php_zip SHARED)
+else()
+  add_library(php_zip)
 endif()
 
-add_library(php_zip ${_type}
+target_sources(php_zip PRIVATE
   php_zip.c
   zip_stream.c
 )

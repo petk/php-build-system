@@ -15,10 +15,12 @@ if(NOT EXT_PSPELL)
 endif()
 
 if(EXT_PSPELL_SHARED)
-  set(_type "SHARED")
+  add_library(php_pspell SHARED)
+else()
+  add_library(php_pspell)
 endif()
 
-add_library(php_pspell ${_type}
+target_sources(php_pspell PRIVATE
   pspell.c
 )
 

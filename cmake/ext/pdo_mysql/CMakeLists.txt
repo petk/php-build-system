@@ -1,6 +1,12 @@
 include(CMakeDependentOption)
 
-option(EXT_PDO_MYSQL "Enable the pdo_mysql extension" OFF)
+cmake_dependent_option(
+  EXT_PDO_MYSQL
+  "Enable the pdo_mysql extension"
+  OFF
+  "EXT_PDO"
+  OFF
+)
 
 cmake_dependent_option(
   EXT_PDO_MYSQL_SHARED
@@ -15,10 +21,12 @@ if(NOT EXT_PDO_MYSQL)
 endif()
 
 if(EXT_PDO_MYSQL_SHARED)
-  set(_type "SHARED")
+  add_library(php_pdo_mysql SHARED)
+else()
+  add_library(php_pdo_mysql)
 endif()
 
-add_library(php_pdo_mysql ${_type}
+target_sources(php_pdo_mysql PRIVATE
   pdo_mysql.c
   mysql_driver.c
   mysql_statement.c

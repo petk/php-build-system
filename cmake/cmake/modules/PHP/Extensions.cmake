@@ -42,11 +42,19 @@ define_property(
 
 define_property(
   GLOBAL
+  PROPERTY PHP_EXTENSIONS
+  BRIEF_DOCS "A list of all enabled extensions"
+  FULL_DOCS "This property contains a list of all enabled PHP extensions for "
+            "the current configuration. Extensions are sorted by the directory "
+            "priority and their dependencies."
+)
+
+define_property(
+  GLOBAL
   PROPERTY PHP_ALWAYS_ENABLED_EXTENSIONS
   BRIEF_DOCS "A list of always enabled PHP extensions"
   FULL_DOCS "This property contains a list of always enabled PHP extenions "
-            "sorted by the directory priority and their dependencies. These "
-            "extensions don't need HAVE_<extension-name> contants and can be "
+            "which don't need HAVE_<extension-name> contants and can be "
             "considered as part of the core PHP engine."
 )
 
@@ -65,72 +73,44 @@ set_property(GLOBAL PROPERTY PHP_ALWAYS_ENABLED_EXTENSIONS
 # Module internal helper functions.
 ################################################################################
 
-# Try to determine the extension's enabled/disabled option value.
-function(_php_extensions_infer_option directory result)
-  unset(${result} PARENT_SCOPE)
+# Add subdirectories of extensions.
+function(_php_extensions_include directory)
+  # Get a list of subdirectories related to extensions.
+  _php_extensions_get("${directory}" directories)
 
-  cmake_path(GET directory FILENAME extension_name)
+  # Evaluate options of extensions.
+  _php_extensions_eval_options("${directories}")
 
-  string(TOUPPER "EXT_${extension_name}" option)
+  # Configure extensions and their dependencies.
+  _php_extensions_configure("${directories}")
 
-  if(DEFINED ${option})
-    set(${result} ${${option}} PARENT_SCOPE)
-    return()
-  endif()
+  # Add subdirectories of extensions.
+  foreach(dir ${directories})
+    _php_extensions_add("${dir}")
+  endforeach()
 
-  file(READ "${directory}/CMakeLists.txt" content)
-
-  string(
-    REGEX MATCH
-    "option[\r\n\t ]*\\([\r\n\t ]*${option}[\r\n\t ]+\"[^\"]+\"[\r\n\t ]+([0-9a-zA-Z]+)[\r\n\t ]*\\)"
-    _
-    "${content}"
-  )
-
-  string(TOLOWER "${CMAKE_MATCH_1}" value)
-
-  set(truthy_list "on;true;yes;y;1")
-  set(falsy_list "off;false;no;n;0")
-
-  if(value IN_LIST truthy_list)
-    set(${result} ON PARENT_SCOPE)
-  elseif(value IN_LIST falsy_list)
-    set(${result} OFF PARENT_SCOPE)
-  endif()
+  # Validate options of extensions and their dependencies.
+  get_cmake_property(extensions PHP_EXTENSIONS)
+  _php_extensions_validate("${extensions}")
 endfunction()
 
-# Get extension dependencies from the PHP_EXTENSION_DEPENDENCIES property.
-function(_php_extensions_get_dependencies directory result)
-  unset(${result} PARENT_SCOPE)
+# Get a sorted list of subdirectories related to extensions.
+function(_php_extensions_get directory result)
+  file(GLOB extensions "${directory}/*/CMakeLists.txt")
 
-  file(READ "${directory}/CMakeLists.txt" content)
+  foreach(extension ${extensions})
+    cmake_path(GET extension PARENT_PATH dir)
+    list(APPEND directories "${dir}")
+  endforeach()
 
-  string(
-    REGEX MATCH
-    "set_target_properties[\r\n\t ]*\\(.*PROPERTIES[\r\n\t ]+.*PHP_EXTENSION_DEPENDENCIES[\r\n\t ]+[\"]?(php_[a-zA-Z0-9_;]+)"
-    _
-    "${content}"
-  )
+  _php_extensions_sort_by_dependencies("${directories}" sorted)
+  _php_extensions_sort_by_priority("${sorted}" sorted)
 
-  if(NOT CMAKE_MATCH_1)
-    string(
-      REGEX MATCH
-      "set_property[\r\n\t ]*\\([\r\n\t ]*TARGET[\r\n\t ]+.*PROPERTY[\r\n\t ]+PHP_EXTENSION_DEPENDENCIES[\r\n\t ]+[\"]?(php_[a-zA-Z0-9_;\r\n\t ]+)"
-      _
-      "${content}"
-    )
-  endif()
-
-  if(CMAKE_MATCH_1)
-    string(STRIP "${CMAKE_MATCH_1}" dependencies)
-    string(REPLACE " " ";" dependencies "${dependencies}")
-    list(TRANSFORM dependencies REPLACE "^php_" "")
-
-    set(${result} ${dependencies} PARENT_SCOPE)
-  endif()
+  set(${result} ${sorted} PARENT_SCOPE)
 endfunction()
 
-# Sort extension directories by the target property PHP_EXTENSION_DEPENDENCIES.
+# Sort subdirectories of extensions by the target property
+# PHP_EXTENSION_DEPENDENCIES.
 function(_php_extensions_sort_by_dependencies directories result)
   set(extensions_before "")
   set(extensions_middle "")
@@ -165,7 +145,7 @@ function(_php_extensions_sort_by_dependencies directories result)
   set(${result} ${directories_sorted} PARENT_SCOPE)
 endfunction()
 
-# Sort extension directories by the directory property PHP_PRIORITY.
+# Sort subdirectories of extensions by the directory property PHP_PRIORITY.
 function(_php_extensions_sort_by_priority directories result)
   set(extensions_before "")
   set(extensions_middle "")
@@ -174,20 +154,32 @@ function(_php_extensions_sort_by_priority directories result)
   foreach(dir ${directories})
     file(READ "${dir}/CMakeLists.txt" content)
 
-    string(
-      REGEX MATCH
-      "set_directory_properties[\r\n\t ]*\\(.*PROPERTIES[\r\n\t ]+.*PHP_PRIORITY[\r\n\t ]+([0-9]+)"
-      _
-      "${content}"
+    string(CONCAT regex
+      # Command invocation:
+      "set_directory_properties[ \t]*\\("
+      # Other optional characters:
+      ".*"
+      # Properties:
+      "PROPERTIES[ \t\r\n]+.*"
+      # Custom property name:
+      "PHP_PRIORITY[ \t\r\n]+([0-9]+)"
     )
 
+    string(REGEX MATCH "${regex}" _ "${content}")
+
     if(NOT CMAKE_MATCH_1)
-      string(
-        REGEX MATCH
-        "set_property[\r\n\t ]*\\([\r\n\t ]*DIRECTORY.*PROPERTY[\r\n\t ]+PHP_PRIORITY[\r\n\t ]+([0-9]+)"
-        _
-        "${content}"
+      string(CONCAT regex
+        # Command invocation:
+        "set_property[ \t]*\\([ \t\r\n]*"
+        # Scope name with possible other properties:
+        "DIRECTORY.*"
+        # Custom property:
+        "PROPERTY[ \t\r\n]+PHP_PRIORITY[ \t\r\n]+"
+        # Property numeric value:
+        "([0-9]+)"
       )
+
+      string(REGEX MATCH "${regex}" _ "${content}")
     endif()
 
     if(CMAKE_MATCH_1 AND CMAKE_MATCH_1 LESS_EQUAL 100)
@@ -219,49 +211,255 @@ function(_php_extensions_sort_by_priority directories result)
   set(${result} ${extensions_sorted} PARENT_SCOPE)
 endfunction()
 
-# Validate extensions and their dependencies defined with the custom target
-# property PHP_EXTENSION_DEPENDENCIES.
-function(_php_extensions_validate extensions)
-  foreach(extension ${extensions})
-    if(NOT TARGET php_${extension})
-      continue()
-    endif()
+# Get extension dependencies from the PHP_EXTENSION_DEPENDENCIES property.
+function(_php_extensions_get_dependencies directory result)
+  unset(${result} PARENT_SCOPE)
 
-    get_target_property(dependencies php_${extension} PHP_EXTENSION_DEPENDENCIES)
+  file(READ "${directory}/CMakeLists.txt" content)
 
-    if(NOT dependencies)
-      continue()
-    endif()
+  string(CONCAT regex
+    # Command invocation:
+    "set_target_properties[ \t]*\\("
+    # Starting properties keyword:
+    ".*PROPERTIES[ \t\r\n]+.*"
+    # Custom property name:
+    "PHP_EXTENSION_DEPENDENCIES[ \t\r\n]+"
+    # Target names:
+    "[\"]?(php_[a-zA-Z0-9_;]+)"
+  )
 
+  string(REGEX MATCH "${regex}" _ "${content}")
+
+  if(NOT CMAKE_MATCH_1)
+    string(CONCAT regex
+      # Command invocation:
+      "set_property[ \t]*\\([ \t\r\n]*"
+      # Scope:
+      "TARGET[ \t\r\n]+.*"
+      # Custom property:
+      "PROPERTY[ \t\r\n]+PHP_EXTENSION_DEPENDENCIES[ \t\r\n]+"
+      # A list of dependencies:
+      "[\"]?(php_[a-zA-Z0-9_; \t\r\n]+)"
+    )
+
+    string(REGEX MATCH "${regex}" _ "${content}")
+  endif()
+
+  if(CMAKE_MATCH_1)
+    string(STRIP "${CMAKE_MATCH_1}" dependencies)
+    string(REPLACE " " ";" dependencies "${dependencies}")
     list(TRANSFORM dependencies REPLACE "^php_" "")
 
+    set(${result} ${dependencies} PARENT_SCOPE)
+  endif()
+endfunction()
+
+# Get a regex string to match option().
+function(_php_extensions_option_regex option result)
+  string(CONCAT _
+    # Start of the option command invocation:
+    "[ \t\r\n]?option[ \t]*\\([ \t\r\n]*"
+    # Optional line comments:
+    "([ \t\r\n]*#[^\r\n]*[\r\n])*"
+    # Variable name:
+    "[ \t\r\n]*${option}[ \t\r\n]+"
+    # Optional line comments:
+    "([ \t\r\n]*#[^\r\n]*[\r\n])*"
+    # Documentation string without escaped double quotes (\"):
+    # TODO: should escaped quotes be also matched?
+    #"[ \t\r\n]*\"([^\"]|\\\")*\"[ \t\r\n]*"
+    "[ \t\r\n]*\"[^\"]*\"[ \t\r\n]*"
+    # Optional line comments:
+    "([ \t\r\n]*#[^\r\n]*[\r\n])*"
+    # Optional boolean or variable value:
+    "([ \t\r\n]+("
+    "ON|on|TRUE|true|YES|yes|Y|y|"
+    "OFF|off|FALSE|false|NO|no|N|n|"
+    "[0-9.]+|"
+    "\\\$\\{[^\\}]+\\}"
+    "))?"
+    # Optional line comments:
+    "([ \t\r\n]*#[^\r\n]*[\r\n])*"
+    # End of option invocation:
+    "[ \t\r\n]*\\)"
+  )
+
+  set(${result} "${_}" PARENT_SCOPE)
+endfunction()
+
+# Get a regex string to match cmake_dependent_option().
+function(_php_extensions_cmake_dependent_option_regex option result)
+  string(CONCAT _
+    # Start of the option command invocation:
+    "[ \t\r\n]?cmake_dependent_option[ \t]*\\([ \t\r\n]*"
+    # Possible inline comments:
+    "([ \t\r\n]*#[^\r\n]*[\r\n])*"
+    # Variable name:
+    "[ \t\r\n]*${option}[ \t\r\n]+"
+    # Optional line comments:
+    "([ \t\r\n]*#[^\r\n]*[\r\n])*"
+    # Documentation string without escaped double quotes (\"):
+    # TODO: should escaped quotes be also matched?
+    #"[ \t\r\n]*\"([^\"]|\\\")*\"[ \t\r\n]*"
+    "[ \t\r\n]*\"[^\"]*\"[ \t\r\n]*"
+    # Optional line comments:
+    "([ \t\r\n]*#[^\r\n]*[\r\n])*"
+    # Boolean or variable value:
+    "[ \t\r\n]+("
+    "ON|on|TRUE|true|YES|yes|Y|y|"
+    "OFF|off|FALSE|false|NO|no|N|n|"
+    "[0-9.]+|"
+    "\\\$\\{[^\\}]+\\}"
+    ")"
+    # Optional line comments:
+    "([ \t\r\n]*#[^\r\n]*[\r\n])*"
+    # Semicolon separated list of conditions:
+    "[ \t\r\n]*\"[^\"]*\"[ \t\r\n]*"
+    # Optional line comments:
+    "([ \t\r\n]*#[^\r\n]*[\r\n])*"
+    # Boolean or variable force value:
+    "[ \t\r\n]+("
+    "ON|on|TRUE|true|YES|yes|Y|y|"
+    "OFF|off|FALSE|false|NO|no|N|n|"
+    "[0-9.]+|"
+    "\\\$\\{[^\\}]+\\}"
+    ")"
+    # Optional line comments:
+    "([ \t\r\n]*#[^\r\n]*[\r\n])*"
+    # End of option invocation:
+    "[ \t\r\n]*\\)"
+  )
+
+  set(${result} "${_}" PARENT_SCOPE)
+endfunction()
+
+# Parse and evaluate options of extensions.
+function(_php_extensions_eval_options directories)
+  set(code "")
+
+  foreach(dir ${directories})
+    cmake_path(GET dir FILENAME extension)
+    message(DEBUG "Parsing and evaluating ${extension} options")
+
+    file(READ "${dir}/CMakeLists.txt" content)
+    string(TOUPPER "${extension}" extension_upper)
+
+    # If extension has option(EXT_<extension> ...).
+    _php_extensions_option_regex("EXT_${extension_upper}" regex)
+    string(REGEX MATCH "${regex}" code "${content}")
+
+    if(code)
+      message(DEBUG "Evaluating code:\n${code}")
+      cmake_language(EVAL CODE "${code}")
+      unset(code)
+    endif()
+
+    # If extension has cmake_dependent_option(EXT_<extension> ...).
+    _php_extensions_cmake_dependent_option_regex(
+      "EXT_${extension_upper}"
+      regex
+    )
+    string(REGEX MATCH "${regex}" code "${content}")
+
+    if(code)
+      message(DEBUG "Evaluating code:\n${code}")
+      cmake_language(EVAL CODE "${code}")
+      unset(code)
+    endif()
+
+    # If extension has cmake_dependent_option(EXT_<extension>_SHARED ...).
+    _php_extensions_cmake_dependent_option_regex(
+      "EXT_${$extension_upper}_SHARED"
+      regex
+    )
+
+    string(REGEX MATCH "${regex}" code "${content}")
+
+    if(code)
+      message(DEBUG "Evaluating code:\n${code}")
+      cmake_language(EVAL CODE "${code}")
+      unset(code)
+    endif()
+
+    if(DEFINED EXT_${extension_upper})
+      message(
+        DEBUG
+        "EXT_${extension_upper}=${EXT_${extension_upper}}"
+      )
+    endif()
+
+    if(DEFINED EXT_${extension_upper}_SHARED)
+      message(
+        DEBUG
+        "EXT_${extension_upper}_SHARED=${EXT_${extension_upper}_SHARED}"
+      )
+    endif()
+  endforeach()
+endfunction()
+
+# Configure extensions according to their dependencies.
+function(_php_extensions_configure directories)
+  list(GET directories 0 parent_directory)
+  cmake_path(GET parent_directory PARENT_PATH parent_directory)
+
+  foreach(dir ${directories})
+    cmake_path(GET dir FILENAME extension)
+    string(TOUPPER "${extension}" extension_upper)
+
+    if(NOT EXT_${extension_upper})
+      continue()
+    endif()
+
+    _php_extensions_get_dependencies("${dir}" dependencies)
+
+    # If extension is enabled and one of its dependencies is built as a shared
+    # library, configure extension also as a shared library.
     foreach(dependency ${dependencies})
       string(TOUPPER "${dependency}" dependency_upper)
 
-      if(NOT TARGET php_${dependency} OR NOT dependency IN_LIST extensions)
+      if(EXT_${dependency_upper}_SHARED AND NOT EXT_${extension_upper}_SHARED)
         message(
-          FATAL_ERROR
-          "You've configured extension ${extension}, which depends on "
-          "extension ${dependency}, but you've either not enabled "
-          "${dependency}, or have disabled it. Set EXT_${dependency_upper}=ON"
+          WARNING
+          "The '${extension}' extension must be built as a shared library due "
+          "to its dependency on the '${dependency}' extension, which is "
+          "configured as shared. The 'EXT_${extension_upper}_SHARED' option "
+          "has been automatically set to 'ON'."
         )
+
+        set(
+          EXT_${extension_upper}_SHARED
+          ON
+          CACHE BOOL
+          "Build the ${extension} extension as a shared library"
+          FORCE
+        )
+
+        break()
+      endif()
+    endforeach()
+
+    # If extension is enabled, enable also all its dependencies.
+    foreach(dependency ${dependencies})
+      string(TOUPPER "${dependency}" dependency_upper)
+
+      if(EXT_${dependency_upper})
+        continue()
       endif()
 
-      get_target_property(dependency_type php_${dependency} TYPE)
-      get_target_property(extension_type php_${extension} TYPE)
-
-      if(
-        dependency_type STREQUAL "SHARED_LIBRARY"
-        AND NOT extension_type STREQUAL "SHARED_LIBRARY"
+      message(
+        WARNING
+        "The '${dependency}' extension requires the '${extension}' extension. "
+        "The 'EXT_${dependency_upper}' option has been automatically set to "
+        "'ON'."
       )
-        message(
-          FATAL_ERROR
-          "You've configured extension ${extension} to build statically, but "
-          "it depends on extension ${dependency}, which you've configured to "
-          "build shared. You either need to build ${extension} shared or build "
-          "${dependency} statically for the build to be successful."
-        )
-      endif()
+
+      set(
+        EXT_${dependency_upper}
+        ON
+        CACHE BOOL
+        "Enable the ${dependency} extension"
+        FORCE
+      )
     endforeach()
   endforeach()
 endfunction()
@@ -299,7 +497,8 @@ function(_php_extensions_add directory)
     return()
   endif()
 
-  # Define COMPILE_DL_<extension-name> constant for php_config.h.
+  # Define COMPILE_DL_<extension-name> constant for php_config.h to indicate
+  # extension is built as a shared library.
   string(TOUPPER "COMPILE_DL_${extension}" DYNAMIC_NAME)
   set(
     ${DYNAMIC_NAME}
@@ -309,103 +508,56 @@ function(_php_extensions_add directory)
   )
 endfunction()
 
-# Initialize extensions.
-function(_php_extensions_initialize directories)
-  list(GET directories 0 parent_directory)
-  cmake_path(GET parent_directory PARENT_PATH parent_directory)
-
-  foreach(dir ${directories})
-    cmake_path(GET dir FILENAME extension)
-    string(TOUPPER "${extension}" extension_upper)
-
-    _php_extensions_infer_option("${dir}" is_extension_enabled)
-
-    if(NOT is_extension_enabled)
+# Validate extensions and their dependencies defined with the custom target
+# property PHP_EXTENSION_DEPENDENCIES.
+function(_php_extensions_validate extensions)
+  foreach(extension ${extensions})
+    if(NOT TARGET php_${extension})
       continue()
     endif()
 
-    _php_extensions_get_dependencies("${dir}" dependencies)
+    get_target_property(
+      dependencies
+      php_${extension}
+      PHP_EXTENSION_DEPENDENCIES
+    )
 
-    # If extension is enabled and one of its dependencies is built as shared,
-    # make sure to configure extension as shared.
-    foreach(dependency ${dependencies})
-      string(TOUPPER "EXT_${dependency}_SHARED" is_shared_option)
+    if(NOT dependencies)
+      continue()
+    endif()
 
-      if(${is_shared_option} AND NOT EXT_${extension_upper}_SHARED)
-        message(
-          WARNING
-          "Extension ${extension} must be built as a shared library because "
-          "its dependency ${dependency} is set to be built as shared."
-          "Setting EXT_${extension_upper}_SHARED=ON"
-        )
+    list(TRANSFORM dependencies REPLACE "^php_" "")
 
-        set(
-          EXT_${extension_upper}_SHARED
-          ON
-          CACHE BOOL
-          "Build the ${extension} extension as a shared library"
-          FORCE
-        )
-
-        break()
-      endif()
-    endforeach()
-
-    # If extension is enabled, make sure also all dependencies are enabled.
     foreach(dependency ${dependencies})
       string(TOUPPER "${dependency}" dependency_upper)
 
-      _php_extensions_infer_option(
-        "${parent_directory}/${dependency}"
-        is_dependency_enabled
-      )
-
-      if(NOT ${is_dependency_enabled})
+      if(NOT TARGET php_${dependency} OR NOT dependency IN_LIST extensions)
         message(
-          WARNING
-          "The ${dependency} extension needs to be enabled for "
-          "${extension} extension. "
-          "Setting EXT_${dependency_upper}=ON"
+          FATAL_ERROR
+          "You've enabled the '${extension}' extension, which depends on the "
+          "'${dependency}', but you've either not enabled '${dependency}', or "
+          "have disabled it. Please set 'EXT_${dependency_upper}' to 'ON'."
         )
+      endif()
 
-        set(
-          EXT_${dependency_upper}
-          ON
-          CACHE BOOL
-          "Enable the ${dependency} extension"
-          FORCE
+      get_target_property(dependency_type php_${dependency} TYPE)
+      get_target_property(extension_type php_${extension} TYPE)
+
+      if(
+        dependency_type STREQUAL "SHARED_LIBRARY"
+        AND NOT extension_type STREQUAL "SHARED_LIBRARY"
+      )
+        message(
+          FATAL_ERROR
+          "You've configured the '${extension}' extension to be built "
+          "statically, but it depends on the '${dependency}' extension, which "
+          "you've configured to build as a shared library. You either need to "
+          "build the '${extension}' shared or build '${dependency}' statically "
+          "for the build to be successful."
         )
       endif()
     endforeach()
   endforeach()
-endfunction()
-
-# Parse extension subdirectories and sort them.
-function(_php_extensions_parse directory result)
-  file(GLOB extensions "${directory}/*/CMakeLists.txt")
-
-  foreach(extension ${extensions})
-    cmake_path(GET extension PARENT_PATH dir)
-    list(APPEND directories "${dir}")
-  endforeach()
-
-  _php_extensions_sort_by_dependencies("${directories}" sorted)
-  _php_extensions_sort_by_priority("${sorted}" sorted)
-
-  set(${result} ${sorted} PARENT_SCOPE)
-endfunction()
-
-# Add extension subdirectories.
-function(_php_extensions_include directory)
-  _php_extensions_parse("${directory}" directories)
-  _php_extensions_initialize("${directories}")
-
-  foreach(dir ${directories})
-    _php_extensions_add("${dir}")
-  endforeach()
-
-  get_cmake_property(extensions PHP_EXTENSIONS)
-  _php_extensions_validate("${extensions}")
 endfunction()
 
 ################################################################################

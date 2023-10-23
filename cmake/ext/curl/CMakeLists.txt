@@ -19,10 +19,12 @@ if(NOT EXT_CURL)
 endif()
 
 if(EXT_CURL_SHARED)
-  set(_type "SHARED")
+  add_library(php_curl SHARED)
+else()
+  add_library(php_curl)
 endif()
 
-add_library(php_curl ${_type}
+target_sources(php_curl PRIVATE
   interface.c
   multi.c
   share.c

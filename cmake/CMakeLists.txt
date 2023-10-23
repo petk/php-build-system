@@ -65,7 +65,7 @@ include(PHP/Extensions)
 
 message("
 +--------------------------------------------------------------------+
-| Configuring Zend                                                   |
+| Configuring Zend engine                                            |
 +--------------------------------------------------------------------+
 ")
 add_subdirectory(Zend)

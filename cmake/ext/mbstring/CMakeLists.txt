@@ -25,10 +25,12 @@ if(NOT EXT_MBSTRING)
 endif()
 
 if(EXT_MBSTRING_SHARED)
-  set(_type "SHARED")
+  add_library(php_mbstring SHARED)
+else()
+  add_library(php_mbstring)
 endif()
 
-add_library(php_mbstring ${_type}
+target_sources(php_mbstring PRIVATE
   mbstring.c
   php_unicode.c
   mb_gpc.c

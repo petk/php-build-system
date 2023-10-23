@@ -15,7 +15,12 @@ Cache variables:
 include(FindPackageHandleStandardArgs)
 
 function(_php_find_sendmail)
-  find_program(Sendmail_EXECUTABLE sendmail PATHS /usr/bin /usr/sbin /usr/etc /etc /usr/ucblib /usr/lib)
+  find_program(
+    Sendmail_EXECUTABLE
+    sendmail
+    PATHS /usr/bin /usr/sbin /usr/etc /etc /usr/ucblib /usr/lib
+    DOC "The sendmail executable path"
+  )
   mark_as_advanced(Sendmail_EXECUTABLE)
 
   if(Sendmail_EXECUTABLE)

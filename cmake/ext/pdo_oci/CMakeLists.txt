@@ -1,6 +1,12 @@
 include(CMakeDependentOption)
 
-option(EXT_PDO_OCI "Enable the pdo_oci extension" OFF)
+cmake_dependent_option(
+  EXT_PDO_OCI
+  "Enable the pdo_oci extension"
+  OFF
+  "EXT_PDO"
+  OFF
+)
 
 cmake_dependent_option(
   EXT_PDO_OCI_SHARED
@@ -15,9 +21,13 @@ if(NOT EXT_PDO_OCI)
 endif()
 
 if(EXT_PDO_OCI_SHARED)
-  set(_type "SHARED")
+  add_library(php_pdo_oci SHARED)
+else()
+  add_library(php_pdo_oci)
 endif()
 
-#add_library(php_pdo_oci ${_type})
+#target_sources(php_pdo_oci PRIVATE
+  #...
+#)
 
 #set_target_properties(php_pdo_oci PROPERTIES PHP_EXTENSION_DEPENDENCIES php_pdo)

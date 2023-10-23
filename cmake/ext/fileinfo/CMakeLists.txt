@@ -16,10 +16,12 @@ if(NOT EXT_FILEINFO)
 endif()
 
 if(EXT_FILEINFO_SHARED)
-  set(_type "SHARED")
+  add_library(php_fileinfo SHARED)
+else()
+  add_library(php_fileinfo)
 endif()
 
-add_library(php_fileinfo ${_type}
+target_sources(php_fileinfo PRIVATE
   fileinfo.c
   php_libmagic.c
   libmagic/apprentice.c

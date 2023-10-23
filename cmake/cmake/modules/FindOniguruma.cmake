@@ -29,14 +29,24 @@ if(EXISTS "${Oniguruma_INCLUDE_DIRS}/oniguruma.h")
 endif()
 
 if(Oniguruma_INCLUDE_DIRS AND _oniguruma_h)
-  file(STRINGS "${_oniguruma_h}" _oniguruma_version_string
-       REGEX "^#[\t ]*define[\t ]+ONIGURUMA_VERSION_(MAJOR|MINOR|TEENY)[\t ]+[0-9]+$")
+  file(
+    STRINGS
+    "${_oniguruma_h}"
+    _oniguruma_version_string
+    REGEX
+    "^#[ \t]*define[ \t]+ONIGURUMA_VERSION_(MAJOR|MINOR|TEENY)[ \t]+[0-9]+[ \t]*$"
+  )
 
   unset(Oniguruma_VERSION)
 
   foreach(version_part MAJOR MINOR TEENY)
     foreach(version_line ${_oniguruma_version_string})
-      if(version_line MATCHES "^#[\t ]*define[\t ]+ONIGURUMA_VERSION_${version_part}[\t ]+([0-9]+)$")
+      set(
+        _oniguruma_regex
+        "^#[ \t]*define[ \t]+ONIGURUMA_VERSION_${version_part}[ \t]+([0-9]+)[ \t]*$"
+      )
+
+      if(version_line MATCHES "${_oniguruma_regex}")
         set(_oniguruma_version_part "${CMAKE_MATCH_1}")
         if(Oniguruma_VERSION)
           string(APPEND Oniguruma_VERSION ".${_oniguruma_version_part}")

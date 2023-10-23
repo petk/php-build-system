@@ -8,7 +8,7 @@ Result variables:
   DTrace_FOUND
     Set to 1 if DTrace library is found.
   DTrace_EXECUTABLE
-    Path to the DTrace command line utility.
+    Path to the DTrace command-line utility.
 
 Cache variables:
 
@@ -42,7 +42,13 @@ if(NOT HAVE_SYS_SDT_H)
   message(WARNING "Cannot find sys/sdt.h which is required for DTrace support")
 endif()
 
-find_program(DTrace_EXECUTABLE dtrace PATHS /usr/bin /usr/sbin)
+find_program(
+  DTrace_EXECUTABLE
+  dtrace
+  PATHS /usr/bin /usr/sbin
+  DOC "The dtrace executable path"
+)
+mark_as_advanced(DTrace_EXECUTABLE)
 
 if(NOT DTrace_EXECUTABLE)
   message(WARNING "Could not find the dtrace generation tool. Please install DTrace.")

@@ -15,9 +15,11 @@ if(NOT EXT_CTYPE)
 endif()
 
 if(EXT_CTYPE_SHARED)
-  set(_type "SHARED")
+  add_library(php_ctype SHARED)
+else()
+  add_library(php_ctype)
 endif()
 
-add_library(php_ctype ${_type}
+target_sources(php_ctype PRIVATE
   ctype.c
 )

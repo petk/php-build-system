@@ -57,6 +57,7 @@ done
 download_tool=$(which curl 2>/dev/null)
 download_tool_options="--progress-bar --output"
 autoreconf=$(which autoreconf 2>/dev/null)
+git=$(which git 2>/dev/null)
 
 if test -z "$download_tool"; then
   download_tool=$(which wget 2>/dev/null)
@@ -71,8 +72,13 @@ if test -z "$autoreconf"; then
   echo "autotools.sh: Please install Autoconf." >&2
 fi
 
+if test -z "$git"; then
+  echo "autotools.sh: Please install Git." >&2
+fi
+
 if test -z "$download_tool" \
-  || test -z "$autoreconf"
+  || test -z "$autoreconf" \
+  || test -z "$git"
 then
   exit 1
 fi
@@ -85,7 +91,7 @@ if test ! -d "php-src"; then
 
   if test "$answer" != "${answer#[Yy]}"; then
     echo "Cloning github.com/php/php-src. This will take a little while."
-    git clone https://github.com/php/php-src ./php-src
+    $git clone https://github.com/php/php-src ./php-src
   else
     exit 1
   fi
@@ -102,21 +108,21 @@ then
 fi
 
 # Check if given branch is available.
-if test -z "$(git show-ref refs/heads/${branch})"; then
-  if test -z "$(git ls-remote --heads origin refs/heads/${branch})"; then
+if test -z "$($git show-ref refs/heads/${branch})"; then
+  if test -z "$($git ls-remote --heads origin refs/heads/${branch})"; then
     echo "Branch ${branch} is missing." >&2
     exit 1
   fi
 
-  git checkout --track origin/${branch}
+  $git checkout --track origin/${branch}
 fi
 
 # Reset php-src Git working directory and checkout branch.
 if test "x$update" = "x1"; then
-  git reset --hard
-  git clean -dffx
-  git checkout ${branch}
-  git pull --rebase
+  $git reset --hard
+  $git clean -dffx
+  $git checkout ${branch}
+  $git pull --rebase
   echo
 fi
 

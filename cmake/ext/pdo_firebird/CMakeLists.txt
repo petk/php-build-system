@@ -1,6 +1,12 @@
 include(CMakeDependentOption)
 
-option(EXT_PDO_FIREBIRD "Enable the pdo_firebird extension" OFF)
+cmake_dependent_option(
+  EXT_PDO_FIREBIRD
+  "Enable the pdo_firebird extension"
+  OFF
+  "EXT_PDO"
+  OFF
+)
 
 cmake_dependent_option(
   EXT_PDO_FIREBIRD_SHARED
@@ -15,9 +21,13 @@ if(NOT EXT_PDO_FIREBIRD)
 endif()
 
 if(EXT_PDO_FIREBIRD_SHARED)
-  set(_type "SHARED")
+  add_library(php_pdo_firebird SHARED)
+else()
+  add_library(php_pdo_firebird)
 endif()
 
-#add_library(php_pdo_firebird ${_type})
+#target_sources(php_pdo_firebird PRIVATE
+  #...
+#)
 
 #set_target_properties(php_pdo_firebird PROPERTIES PHP_EXTENSION_DEPENDENCIES php_pdo)

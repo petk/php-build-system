@@ -20,10 +20,12 @@ if(NOT EXT_ICONV)
 endif()
 
 if(EXT_ICONV_SHARED)
-  set(_type "SHARED")
+  add_library(php_iconv SHARED)
+else()
+  add_library(php_iconv)
 endif()
 
-add_library(php_iconv ${_type}
+target_sources(php_iconv PRIVATE
   iconv.c
 )
 
@@ -87,7 +89,7 @@ if(NOT HAVE_GLIBC_ICONV AND NOT CMAKE_CROSSCOMPILING)
   cmake_pop_check_state()
 
   if(_have_gnu_libiconv)
-    set(HAVE_LIBICONV 1 CACHE INTERNAL "" FORCE)
+    set(HAVE_LIBICONV 1 CACHE INTERNAL "")
     set(PHP_ICONV_IMPL "libiconv" CACHE INTERNAL "Which iconv implementation to use")
   endif()
 endif()

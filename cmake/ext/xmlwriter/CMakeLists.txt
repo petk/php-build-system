@@ -15,10 +15,12 @@ if(NOT EXT_XMLWRITER)
 endif()
 
 if(EXT_XMLWRITER_SHARED)
-  set(_type "SHARED")
+  add_library(php_xmlwriter SHARED)
+else()
+  add_library(php_xmlwriter)
 endif()
 
-add_library(php_xmlwriter ${_type}
+target_sources(php_xmlwriter PRIVATE
   php_xmlwriter.c
 )
 

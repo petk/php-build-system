@@ -3,7 +3,7 @@
 This is a simple introduction to the CMake build system in general, aimed at
 providing a basic understanding of its fundamentals.
 
-* [1. Command line usage](#1-command-line-usage)
+* [1. Command-line usage](#1-command-line-usage)
   * [1.1. Configuration and generation phase](#11-configuration-and-generation-phase)
   * [1.2. Build phase](#12-build-phase)
   * [1.3. In-source builds](#13-in-source-builds)
@@ -25,7 +25,7 @@ providing a basic understanding of its fundamentals.
 * [6. Generating a configuration header](#6-generating-a-configuration-header)
 * [7. Further resources](#7-further-resources)
 
-## 1. Command line usage
+## 1. Command-line usage
 
 When working with CMake, there are two primary phases: the configuration and
 generation phase, followed by the build phase.

@@ -25,10 +25,12 @@ if(NOT EXT_FTP)
 endif()
 
 if(EXT_FTP_SHARED)
-  set(_type "SHARED")
+  add_library(php_ftp SHARED)
+else()
+  add_library(php_ftp)
 endif()
 
-add_library(php_ftp ${_type}
+target_sources(php_ftp PRIVATE
   php_ftp.c
   ftp.c
 )

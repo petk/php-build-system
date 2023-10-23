@@ -24,10 +24,12 @@ if(NOT EXT_READLINE)
 endif()
 
 if(EXT_READLINE_SHARED)
-  set(_type "SHARED")
+  add_library(php_readline SHARED)
+else()
+  add_library(php_readline)
 endif()
 
-add_library(php_readline ${_type}
+target_sources(php_readline PRIVATE
   readline.c
   readline_cli.c
 )

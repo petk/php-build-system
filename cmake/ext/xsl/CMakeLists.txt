@@ -15,10 +15,12 @@ if(NOT EXT_XSL)
 endif()
 
 if(EXT_XSL_SHARED)
-  set(_type "SHARED")
+  add_library(php_xsl SHARED)
+else()
+  add_library(php_xsl)
 endif()
 
-add_library(php_xsl ${_type}
+target_sources(php_xsl PRIVATE
   php_xsl.c
   xsltprocessor.c
 )

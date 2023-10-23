@@ -15,7 +15,11 @@ if(NOT EXT_IMAP)
 endif()
 
 if(EXT_IMAP_SHARED)
-  set(_type "SHARED")
+  add_library(php_imap SHARED)
+else()
+  add_library(php_imap)
 endif()
 
-#add_library(php_imap ${_type})
+#target_sources(php_imap PRIVATE
+  #...
+#)

@@ -57,17 +57,24 @@ On the contrary, variable names are case-sensitive.
 
 ## 2. General guidelines
 
-In most cases, the preferred style is to use **all lowercase letters**.
+* In most cases, the preferred style is to use **all lowercase letters**.
 
-```cmake
-add_library(foo src.c)
+  ```cmake
+  add_library(foo src.c)
 
-if(FOO)
-  set(VAR "value")
-endif()
+  if(FOO)
+    set(VAR "value")
+  endif()
 
-target_include_directories(...)
-```
+  target_include_directories(...)
+  ```
+
+* Check that variables are properly initialized and used to avoid unexpected
+  behavior and errors in the build process:
+
+  ```sh
+  cmake --warn-uninitialized -S <source-directory> ...
+  ```
 
 ### 2.1. End commands
 
@@ -159,9 +166,9 @@ These are set and have scope of the directory when using the
 * Cache variables at the PHP level:
 
   These variables are designed to be adjusted by the user during the
-  configuration phase, either through the command line or by using cmake-gui. It
-  is recommended to prefix them with `PHP_` to facilitate their grouping within
-  cmake-gui.
+  configuration phase, either through the command line or by using GUI, such as
+  cmake-gui or ccmake. It is recommended to prefix them with `PHP_` to
+  facilitate their grouping within the GUI.
 
   ```cmake
   set(PHP_FOO_BAR <value>... CACHE <type> "<help_text>")
@@ -172,15 +179,18 @@ These are set and have scope of the directory when using the
 * Cache variables for PHP extensions:
 
   These variables follow a similar pattern to PHP level variables, but they are
-  prefixed with `EXT_`. While it's a good practice to consider grouping these
-  variables by the extension name for clarity, it's important to note that
-  cmake-gui may not distinguish this subgrouping. Therefore, the decision to
-  group them by extension name can be optional and context-dependent.
+  prefixed with `EXT_`.
 
   ```cmake
   option(EXT_GD "<help_text>" [value])
   cmake_dependent_option(EXT_GD_AVIF "<help_text>" OFF "EXT_GD" OFF)
   ```
+
+  While it's a good practice to consider grouping these variables by the
+  extension name for clarity (for example, `EXT_<extension>_`), it's important
+  to note that GUI may not distinguish this subgrouping (`EXT_<extension_`).
+  Therefore, the decision to group them by extension name can be optional and
+  context-dependent.
 
 * Cache variables for Zend:
 

@@ -15,10 +15,12 @@ if(NOT EXT_SIMPLEXML)
 endif()
 
 if(EXT_SIMPLEXML_SHARED)
-  set(_type "SHARED")
+  add_library(php_simplexml SHARED)
+else()
+  add_library(php_simplexml)
 endif()
 
-add_library(php_simplexml ${_type}
+target_sources(php_simplexml PRIVATE
   simplexml.c
 )
 

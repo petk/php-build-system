@@ -15,10 +15,12 @@ if(NOT EXT_TOKENIZER)
 endif()
 
 if(EXT_TOKENIZER_SHARED)
-  set(_type "SHARED")
+  add_library(php_tokenizer SHARED)
+else()
+  add_library(php_tokenizer)
 endif()
 
-add_library(php_tokenizer ${_type}
+target_sources(php_tokenizer PRIVATE
   tokenizer.c
   tokenizer_data.c
 )

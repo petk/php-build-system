@@ -16,10 +16,12 @@ if(NOT EXT_BZ2)
 endif()
 
 if(EXT_BZ2_SHARED)
-  set(_type "SHARED")
+  add_library(php_bz2 SHARED)
+else()
+  add_library(php_bz2)
 endif()
 
-add_library(php_bz2 ${_type}
+target_sources(php_bz2 PRIVATE
   bz2.c
   bz2_filter.c
 )

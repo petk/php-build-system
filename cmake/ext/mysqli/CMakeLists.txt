@@ -33,10 +33,12 @@ if(NOT EXT_MYSQLI)
 endif()
 
 if(EXT_MYSQLI_SHARED)
-  set(_type "SHARED")
+  add_library(php_mysqli SHARED)
+else()
+  add_library(php_mysqli)
 endif()
 
-add_library(php_mysqli ${_type}
+target_sources(php_mysqli PRIVATE
   mysqli.c
   mysqli_api.c
   mysqli_prop.c

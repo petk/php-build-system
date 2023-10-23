@@ -16,10 +16,12 @@ if(NOT EXT_ENCHANT)
 endif()
 
 if(EXT_ENCHANT_SHARED)
-  set(_type "SHARED")
+  add_library(php_enchant SHARED)
+else()
+  add_library(php_enchant)
 endif()
 
-add_library(php_enchant ${_type}
+target_sources(php_enchant PRIVATE
   enchant.c
 )
 

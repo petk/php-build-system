@@ -28,10 +28,12 @@ if(NOT EXT_LDAP)
 endif()
 
 if(EXT_LDAP_SHARED)
-  set(_type "SHARED")
+  add_library(php_ldap SHARED)
+else()
+  add_library(php_ldap)
 endif()
 
-add_library(php_ldap ${_type}
+target_sources(php_ldap PRIVATE
   ldap.c
 )
 

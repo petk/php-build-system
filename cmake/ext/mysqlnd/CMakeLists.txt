@@ -33,10 +33,12 @@ if(NOT EXT_MYSQLND)
 endif()
 
 if(EXT_MYSQLND_SHARED)
-  set(_type "SHARED")
+  add_library(php_mysqlnd SHARED)
+else()
+  add_library(php_mysqlnd)
 endif()
 
-add_library(php_mysqlnd ${_type}
+target_sources(php_mysqlnd PRIVATE
   mysqlnd_connection.c
   mysqlnd_alloc.c
   mysqlnd_charset.c
