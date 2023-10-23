@@ -518,7 +518,7 @@
 #cmakedefine HAVE_DLFCN_H @HAVE_DLFCN_H@
 
 /* Whether you have dmalloc */
-#cmakedefine HAVE_DMALLOC
+#cmakedefine HAVE_DMALLOC @HAVE_DMALLOC@
 
 /* */
 #cmakedefine HAVE_DNGETTEXT @HAVE_DNGETTEXT@

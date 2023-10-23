@@ -369,7 +369,7 @@ function(_php_extensions_eval_options directories)
 
     # If extension has cmake_dependent_option(EXT_<extension>_SHARED ...).
     _php_extensions_cmake_dependent_option_regex(
-      "EXT_${$extension_upper}_SHARED"
+      "EXT_${extension_upper}_SHARED"
       regex
     )
 

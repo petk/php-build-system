@@ -36,7 +36,7 @@ if(Aspell_PSPELL_INCLUDE_DIRS)
   list(APPEND Aspell_INCLUDE_DIRS ${Aspell_PSPELL_INCLUDE_DIRS})
 endif()
 
-find_library(Aspell_LIBRARIES NAMES aspell)
+find_library(Aspell_LIBRARIES NAMES aspell DOC "The Aspell library")
 
 # Sanity check.
 check_library_exists(${Aspell_LIBRARIES} new_aspell_config "" _have_aspell)

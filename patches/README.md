@@ -9,6 +9,10 @@ CMake build system.
 
   Overall CMake specific changes.
 
+* `dmalloc.patch`
+
+  See https://github.com/php/php-src/pull/8465
+
 ## PHP 8.3
 
 * `cmake.patch`
@@ -19,6 +23,10 @@ CMake build system.
 
   Patch for using GNU Aspell library without the old and deprecated pspell
   interface.
+
+* `dmalloc.patch`
+
+  See https://github.com/php/php-src/pull/8465
 
 * `fopencookie.patch`
 

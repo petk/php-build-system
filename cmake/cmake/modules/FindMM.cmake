@@ -26,7 +26,7 @@ include(FindPackageHandleStandardArgs)
 
 find_path(MM_INCLUDE_DIRS NAMES mm.h)
 
-find_library(MM_LIBRARIES NAMES mm)
+find_library(MM_LIBRARIES NAMES mm DOC "The mm library")
 
 find_package_handle_standard_args(
   MM

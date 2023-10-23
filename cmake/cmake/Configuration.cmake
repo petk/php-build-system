@@ -39,14 +39,6 @@ set_property(CACHE PHP_LAYOUT PROPERTY STRINGS
 
 set(PHP_EXTENSION_DIR "" CACHE STRING "The extension_dir PHP INI directive absolute path")
 
-option(PHP_WERROR "Enable the -Werror compiler option" OFF)
-
-option(PHP_MEMORY_SANITIZER "Enable the memory sanitizer compiler options (clang only)" OFF)
-
-option(PHP_ADDRESS_SANITIZER "Enable the address sanitizer compiler option" OFF)
-
-option(PHP_UNDEFINED_SANITIZER "Enable the undefined sanitizer compiler option" OFF)
-
 ################################################################################
 # General options.
 ################################################################################
@@ -67,11 +59,21 @@ option(PHP_SHORT_TAGS "Enable the short-form <? start tag by default" ON)
 
 option(PHP_IPV6 "Enable IPv6 support" ON)
 
+option(PHP_DMALLOC "Enable the Dmalloc memory debugger library" OFF)
+
 option(PHP_DTRACE "Enable DTrace support" OFF)
 
 set(PHP_FD_SETSIZE "" CACHE STRING "Size of descriptor sets")
 
 option(PHP_VALGRIND "Enable the Valgrind support" OFF)
+
+option(PHP_WERROR "Enable the -Werror compiler option" OFF)
+
+option(PHP_MEMORY_SANITIZER "Enable the memory sanitizer compiler options (clang only)" OFF)
+
+option(PHP_ADDRESS_SANITIZER "Enable the address sanitizer compiler option" OFF)
+
+option(PHP_UNDEFINED_SANITIZER "Enable the undefined sanitizer compiler option" OFF)
 
 option(BUILD_SHARED_LIBS "Build all enabled PHP extensions as shared libraries" OFF)
 

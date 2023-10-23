@@ -928,6 +928,16 @@ cmake -LH .
       <td></td>
     </tr>
     <tr>
+      <td>--disable-dmalloc</td>
+      <td>PHP_DMALLOC=OFF</td>
+      <td>default</td>
+    </tr>
+    <tr>
+      <td>&nbsp;&nbsp;--enable-dmalloc</td>
+      <td>&nbsp;&nbsp;PHP_DMALLOC=ON</td>
+      <td></td>
+    </tr>
+    <tr>
       <td><strong>Zend specific configuration</strong></td>
       <td></td>
       <td></td>

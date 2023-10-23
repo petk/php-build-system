@@ -32,7 +32,7 @@ include(FindPackageHandleStandardArgs)
 
 find_path(Tidy_INCLUDE_DIRS tidy.h PATH_SUFFIXES tidy)
 
-find_library(Tidy_LIBRARIES NAMES tidy tidy5)
+find_library(Tidy_LIBRARIES NAMES tidy tidy5 DOC "The Tidy library")
 
 # Check for tidybuffio.h (as opposed to simply buffio.h) which indicates that we
 # are building against tidy-html5 and not the legacy htmltidy. The two are

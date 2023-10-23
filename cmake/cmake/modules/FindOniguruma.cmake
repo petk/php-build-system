@@ -22,7 +22,7 @@ Result variables:
 include(FindPackageHandleStandardArgs)
 
 find_path(Oniguruma_INCLUDE_DIRS NAMES oniguruma.h)
-find_library(Oniguruma_LIBRARIES NAMES onig)
+find_library(Oniguruma_LIBRARIES NAMES onig DOC "The Oniguruma library")
 
 if(EXISTS "${Oniguruma_INCLUDE_DIRS}/oniguruma.h")
   set(_oniguruma_h "${Oniguruma_INCLUDE_DIRS}/oniguruma.h")
@@ -48,11 +48,13 @@ if(Oniguruma_INCLUDE_DIRS AND _oniguruma_h)
 
       if(version_line MATCHES "${_oniguruma_regex}")
         set(_oniguruma_version_part "${CMAKE_MATCH_1}")
+
         if(Oniguruma_VERSION)
           string(APPEND Oniguruma_VERSION ".${_oniguruma_version_part}")
         else()
           set(Oniguruma_VERSION "${_oniguruma_version_part}")
         endif()
+
         unset(_oniguruma_version_part)
       endif()
     endforeach()
