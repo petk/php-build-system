@@ -37,7 +37,7 @@ endif()
 
 find_package_handle_standard_args(
   GD
-  REQUIRED_VARS GD_LIBRARIES
+  REQUIRED_VARS GD_LIBRARIES GD_INCLUDE_DIRS
   VERSION_VAR GD_VERSION
   REASON_FAILURE_MESSAGE "GD not found. Please install GD library (libgd)."
 )

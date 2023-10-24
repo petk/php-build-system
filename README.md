@@ -581,6 +581,10 @@ Optional:
   * when using the `--with-pgsql` or `--with-pdo-pgsql`
 * libmm
   * when using the `--with-mm`
+* libdmalloc
+  * when using the `--enable-dmalloc`
+* freetds
+  * when using the `--enable-pdo-dblib`
 
 When PHP is built, the development libraries are no longer required to be
 installed and only libraries without development files are needed to run newly
@@ -1760,6 +1764,26 @@ cmake -LH .
     <tr>
       <td>&nbsp;&nbsp;--disable-pdo</td>
       <td>&nbsp;&nbsp;EXT_PDO=OFF</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>&nbsp;&nbsp;--without-pdo-dblib</td>
+      <td>&nbsp;&nbsp;EXT_PDO_DBLIB=OFF</td>
+      <td>default</td>
+    </tr>
+    <tr>
+      <td>&nbsp;&nbsp;--with-pdo-dblib</td>
+      <td>&nbsp;&nbsp;EXT_PDO_DBLIB=ON</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>&nbsp;&nbsp;--with-pdo-dblib=shared</td>
+      <td>&nbsp;&nbsp;EXT_PDO_DBLIB_SHARED=ON</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>&nbsp;&nbsp;--with-pdo-dblib=DIR</td>
+      <td>&nbsp;&nbsp;FreeTDS_ROOT=DIR</td>
       <td></td>
     </tr>
     <tr>

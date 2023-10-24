@@ -113,7 +113,8 @@ jobs:
             libsasl2-dev \
             libpq-dev \
             libmm-dev \
-            zlib1g-dev;
+            zlib1g-dev \
+            libdmalloc-dev;
 
       - name: Checkout
         uses: actions/checkout@v4

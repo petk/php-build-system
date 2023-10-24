@@ -67,7 +67,7 @@ endif()
 
 find_package_handle_standard_args(
   Dmalloc
-  REQUIRED_VARS Dmalloc_LIBRARIES
+  REQUIRED_VARS Dmalloc_LIBRARIES Dmalloc_INCLUDE_DIRS
   VERSION_VAR Dmalloc_VERSION
   REASON_FAILURE_MESSAGE "Dmalloc library not found. Please install the Dmalloc library."
 )

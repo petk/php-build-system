@@ -37,9 +37,15 @@ set_target_properties(
   PROPERTIES PHP_EXTENSION_DEPENDENCIES "php_mysqlnd;php_pdo"
 )
 
-target_compile_definitions(php_pdo_mysql PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE=1)
+target_compile_definitions(
+  php_pdo_mysql
+  PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE=1
+)
 
-target_include_directories(php_pdo_mysql PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/..")
+target_include_directories(
+  php_pdo_mysql PRIVATE
+  "${CMAKE_CURRENT_SOURCE_DIR}/.."
+)
 
 set(PDO_USE_MYSQLND 1 CACHE INTERNAL "")
 

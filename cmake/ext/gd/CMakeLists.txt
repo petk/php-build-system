@@ -1,3 +1,4 @@
+include(CheckCompilerFlag)
 include(CheckLibraryExists)
 include(CMakeDependentOption)
 include(CMakePushCheckState)
@@ -138,8 +139,8 @@ if(NOT EXT_GD_EXTERNAL)
   file(GLOB _gd_libgd_headers_files "${CMAKE_CURRENT_SOURCE_DIR}/libgd/*.h")
   list(APPEND _gd_headers_files ${_gd_libgd_headers_files})
 
-  # TODO: Check for fabsf and floorf which are available since C99. Are these
-  # checks still needed?
+  # Check for fabsf and floorf which are available since C99.
+  # TODO: Are these checks still needed?
   cmake_push_check_state(RESET)
     set(CMAKE_REQUIRED_LIBRARIES m)
     check_symbol_exists(fabsf "math.h" HAVE_FABSF)
@@ -150,9 +151,15 @@ if(NOT EXT_GD_EXTERNAL)
     target_link_libraries(php_gd PRIVATE m)
   endif()
 
-  target_include_directories(php_gd PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/libgd)
+  target_include_directories(php_gd PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/libgd")
 
-  target_compile_options(php_gd PRIVATE -Wno-strict-prototypes)
+  # Add -Wno-strict-prototypes C flag.
+  check_compiler_flag(C -Wno-strict-prototypes HAVE_WNO_STRICT_PROTOTYPES_C)
+  if(HAVE_WNO_STRICT_PROTOTYPES_C)
+    target_compile_options(php_gd
+      PRIVATE "$<$<COMPILE_LANGUAGE:C>:-Wno-strict-prototypes>"
+    )
+  endif()
 
   find_package(ZLIB REQUIRED)
   target_link_libraries(php_gd PRIVATE ZLIB::ZLIB)
@@ -177,7 +184,7 @@ if(NOT EXT_GD_EXTERNAL)
     target_link_libraries(php_gd PRIVATE WebP::WebP)
 
     set(HAVE_LIBWEBP 1 CACHE INTERNAL "Whether the libwebp is available")
-    set(HAVE_GD_WEBP 1 CACHE INTERNAL "Whether the GD webp support is enabled")
+    set(HAVE_GD_WEBP 1 CACHE INTERNAL "Whether the GD WebP support is enabled")
   endif()
 
   if(EXT_GD_JPEG)
@@ -194,7 +201,7 @@ if(NOT EXT_GD_EXTERNAL)
 
     target_link_libraries(php_gd PRIVATE XPM::XPM)
 
-    set(HAVE_XPM 1 CACHE INTERNAL "Whether the xpm library is available")
+    set(HAVE_XPM 1 CACHE INTERNAL "Whether the libXpm library is available")
     set(HAVE_GD_XPM 1 CACHE INTERNAL "Whether the GD XPM support is enabled")
   endif()
 
@@ -203,13 +210,36 @@ if(NOT EXT_GD_EXTERNAL)
 
     target_link_libraries(php_gd PRIVATE Freetype::Freetype)
 
-    set(HAVE_LIBFREETYPE 1 CACHE INTERNAL "Whether the freetype library is available")
-    set(HAVE_GD_FREETYPE 1 CACHE INTERNAL "Whether the GD Freetype support is enabled")
+    set(HAVE_LIBFREETYPE 1 CACHE INTERNAL "Whether the FreeType library is available")
+    set(HAVE_GD_FREETYPE 1 CACHE INTERNAL "Whether the GD FreeType support is enabled")
   endif()
 
   if(EXT_GD_JIS)
     set(JISX0208 1 CACHE INTERNAL "Whether to use the JIS-mapped Japanese font support in GD")
     set(USE_GD_JISX0208 1 CACHE INTERNAL "Whether the GD JIS-mapped Japanese font support is enabled")
+  endif()
+
+  # Sanity check.
+  cmake_push_check_state(RESET)
+    get_target_property(libraries php_gd LINK_LIBRARIES)
+    set(CMAKE_REQUIRED_LIBRARIES ${libraries})
+
+    check_c_source_compiles("
+      char foobar(void) {
+        return '\\\\0';
+      }
+
+      char foobar();
+
+      int main(void) {
+        foobar();
+        return 0;
+      }
+    " GD_SANITY_CHECK_COMPILES)
+  cmake_pop_check_state()
+
+  if(NOT GD_SANITY_CHECK_COMPILES)
+    message(FATAL_ERROR "GD build test failed. Please check logs for details.")
   endif()
 else()
   find_package(GD 2.1.0 REQUIRED)
@@ -218,10 +248,15 @@ else()
 
   target_sources(php_gd PRIVATE gd_compat.c)
 
+  # Sanity check.
   check_library_exists(GD::GD gdImageCreate "" HAVE_LIBGD)
 
   if(NOT HAVE_LIBGD)
-    message(FATAL_ERROR "GD build test failed to find gdImageCreate in libgd. Please check the logs for details.")
+    message(
+      FATAL_ERROR
+      "GD build test failed to find gdImageCreate in libgd. Please check the "
+      "logs for details."
+    )
   endif()
 
   check_library_exists(GD::GD gdImageCreateFromPng "" HAVE_GD_PNG)

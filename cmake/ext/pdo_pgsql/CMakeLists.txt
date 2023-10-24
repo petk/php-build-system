@@ -32,9 +32,15 @@ target_sources(php_pdo_pgsql PRIVATE
   pgsql_statement.c
 )
 
-set_target_properties(php_pdo_pgsql PROPERTIES PHP_EXTENSION_DEPENDENCIES php_pdo)
+set_target_properties(
+  php_pdo_pgsql
+  PROPERTIES PHP_EXTENSION_DEPENDENCIES php_pdo
+)
 
-target_include_directories(php_pdo_pgsql PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/..")
+target_include_directories(
+  php_pdo_pgsql
+  PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/.."
+)
 
 find_package(PostgreSQL 9.1 REQUIRED)
 

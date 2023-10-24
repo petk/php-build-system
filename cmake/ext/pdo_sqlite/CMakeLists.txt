@@ -33,7 +33,15 @@ target_sources(php_pdo_sqlite PRIVATE
   sqlite_statement.c
 )
 
-set_target_properties(php_pdo_sqlite PROPERTIES PHP_EXTENSION_DEPENDENCIES php_pdo)
+set_target_properties(
+  php_pdo_sqlite
+  PROPERTIES PHP_EXTENSION_DEPENDENCIES php_pdo
+)
+
+target_include_directories(
+  php_pdo_sqlite
+  PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/.."
+)
 
 find_package(SQLite3 3.7.7 REQUIRED)
 
@@ -43,5 +51,3 @@ set(HAVE_PDO_SQLITELIB 1 CACHE INTERNAL "Define to 1 if you have the pdo_sqlite 
 
 check_library_exists(SQLite::SQLite3 sqlite3_close_v2 "" HAVE_SQLITE3_CLOSE_V2)
 check_library_exists(SQLite::SQLite3 sqlite3_column_table_name "" HAVE_SQLITE3_COLUMN_TABLE_NAME)
-
-target_include_directories(php_pdo_sqlite PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/..")

@@ -69,6 +69,7 @@
         "EXT_OPCACHE_CAPSTONE": true,
         "EXT_OPENSSL": true,
         "EXT_PCNTL": true,
+        "EXT_PDO_DBLIB": true,
         "EXT_PDO_MYSQL": true,
         "EXT_PDO_PGSQL": true,
         "EXT_PGSQL": true,

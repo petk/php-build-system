@@ -78,7 +78,7 @@ if(PHP_DTRACE)
             ${CMAKE_SOURCE_DIR}/Zend/zend.c
   )
 
-  message(CHECK_PASS "DTrace enabled")
+  message(CHECK_PASS "yes, DTrace enabled")
 endif()
 
 # Add Dmalloc.

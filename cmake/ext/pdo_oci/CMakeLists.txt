@@ -26,8 +26,18 @@ else()
   add_library(php_pdo_oci)
 endif()
 
-#target_sources(php_pdo_oci PRIVATE
-  #...
-#)
+#[[
+target_sources(php_pdo_oci PRIVATE
+  ...
+)
 
-#set_target_properties(php_pdo_oci PROPERTIES PHP_EXTENSION_DEPENDENCIES php_pdo)
+set_target_properties(
+  php_pdo_oci
+  PROPERTIES PHP_EXTENSION_DEPENDENCIES php_pdo
+)
+
+target_include_directories(
+  php_pdo_oci
+  PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/.."
+)
+#]]

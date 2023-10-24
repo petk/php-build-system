@@ -91,7 +91,11 @@ include(PHP/CheckShmMmap)
 include(PHP/CheckShmMmapPosix)
 
 if(NOT HAVE_SHM_IPC AND NOT HAVE_SHM_MMAP_ANON AND NOT HAVE_SHM_MMAP_POSIX)
-  message(FATAL_ERROR "No supported shared memory caching support was found when configuring opcache. Check config.log for any errors or missing dependencies.")
+  message(
+    FATAL_ERROR
+    "No supported shared memory caching support was found when configuring "
+    "opcache. Please check logs for any errors or missing dependencies."
+  )
 endif()
 
 # OPcache extension can be built only as a shared library.

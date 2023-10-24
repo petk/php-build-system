@@ -200,7 +200,10 @@ endif()
 
 # Sanity check.
 if(NOT _errno_works)
-  message(FATAL_ERROR "Something is wrong with libiconv. See logs for details.")
+  message(
+    FATAL_ERROR
+    "Something is wrong with libiconv. Please check logs for details."
+  )
 endif()
 
 file(GLOB _iconv_headers_files "${CMAKE_CURRENT_SOURCE_DIR}/*.h")
