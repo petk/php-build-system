@@ -48,13 +48,21 @@ if(Firebird_CONFIG_EXECUTABLE)
 endif()
 
 # Sanity check.
-check_library_exists("${Firebird_LIBRARIES}" isc_detach_database "" _have_isc_detach_database)
+check_library_exists(
+  "${Firebird_LIBRARIES}"
+  isc_detach_database
+  ""
+  _have_isc_detach_database
+)
 
 mark_as_advanced(Firebird_LIBRARIES Firebird_INCLUDE_DIRS)
 
 find_package_handle_standard_args(
   Firebird
-  REQUIRED_VARS Firebird_LIBRARIES Firebird_INCLUDE_DIRS _have_isc_detach_database
+  REQUIRED_VARS
+    Firebird_LIBRARIES
+    Firebird_INCLUDE_DIRS
+    _have_isc_detach_database
   VERSION_VAR Firebird_VERSION
 )
 
