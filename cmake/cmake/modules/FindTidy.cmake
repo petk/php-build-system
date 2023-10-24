@@ -46,8 +46,8 @@ cmake_push_check_state(RESET)
 cmake_pop_check_state()
 
 if(Tidy_LIBRARIES)
-  check_library_exists(${Tidy_LIBRARIES} tidyOptGetDoc "" HAVE_TIDYOPTGETDOC)
-  check_library_exists(${Tidy_LIBRARIES} tidyReleaseDate "" HAVE_TIDYRELEASEDATE)
+  check_library_exists("${Tidy_LIBRARIES}" tidyOptGetDoc "" HAVE_TIDYOPTGETDOC)
+  check_library_exists("${Tidy_LIBRARIES}" tidyReleaseDate "" HAVE_TIDYRELEASEDATE)
 endif()
 
 mark_as_advanced(Tidy_INCLUDE_DIRS Tidy_LIBRARIES)

@@ -1182,10 +1182,10 @@
 #cmakedefine HAVE_PCRE_VALGRIND_SUPPORT @HAVE_PCRE_VALGRIND_SUPPORT@
 
 /* */
-#cmakedefine HAVE_PDO_DBLIB
+#cmakedefine HAVE_PDO_DBLIB @HAVE_PDO_DBLIB@
 
 /* */
-#cmakedefine HAVE_PDO_FIREBIRD
+#cmakedefine HAVE_PDO_FIREBIRD @HAVE_PDO_FIREBIRD@
 
 /* Whether to build PostgreSQL for PDO support or not */
 #cmakedefine HAVE_PDO_PGSQL @HAVE_PDO_PGSQL@

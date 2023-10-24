@@ -1787,6 +1787,26 @@ cmake -LH .
       <td></td>
     </tr>
     <tr>
+      <td>&nbsp;&nbsp;--without-pdo-firebird</td>
+      <td>&nbsp;&nbsp;EXT_PDO_FIREBIRD=OFF</td>
+      <td>default</td>
+    </tr>
+    <tr>
+      <td>&nbsp;&nbsp;--with-pdo-firebird</td>
+      <td>&nbsp;&nbsp;EXT_PDO_FIREBIRD=ON</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>&nbsp;&nbsp;--with-pdo-firebird=shared</td>
+      <td>&nbsp;&nbsp;EXT_PDO_FIREBIRD_SHARED=ON</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>&nbsp;&nbsp;--with-pdo-firebird=DIR</td>
+      <td>&nbsp;&nbsp;Firebird_ROOT=DIR</td>
+      <td></td>
+    </tr>
+    <tr>
       <td>&nbsp;&nbsp;--without-pdo-mysql</td>
       <td>&nbsp;&nbsp;EXT_PDO_MYSQL=OFF</td>
       <td>default</td>

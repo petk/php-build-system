@@ -26,10 +26,10 @@ else()
   add_library(php_pdo_firebird)
 endif()
 
-#[[
-
 target_sources(php_pdo_firebird PRIVATE
-  ...
+  pdo_firebird.c
+  firebird_driver.c
+  firebird_statement.c
 )
 
 set_target_properties(
@@ -42,4 +42,6 @@ target_include_directories(
   PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/.."
 )
 
-#]]
+find_package(Firebird REQUIRED)
+
+target_link_libraries(php_pdo_firebird PRIVATE Firebird::Firebird)

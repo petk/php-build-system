@@ -39,7 +39,7 @@ endif()
 find_library(Aspell_LIBRARIES NAMES aspell DOC "The Aspell library")
 
 # Sanity check.
-check_library_exists(${Aspell_LIBRARIES} new_aspell_config "" _have_aspell)
+check_library_exists("${Aspell_LIBRARIES}" new_aspell_config "" _have_aspell)
 
 mark_as_advanced(Aspell_LIBRARIES Aspell_INCLUDE_DIRS)
 

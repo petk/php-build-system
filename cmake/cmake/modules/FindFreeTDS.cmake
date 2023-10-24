@@ -33,7 +33,7 @@ find_library(FreeTDS_LIBRARIES NAMES sybdb DOC "The FreeTDS library")
 find_library(_dnet_stub_library NAMES dnet_stub DOC "The dnet_stub library")
 
 if(_dnet_stub_library)
-  check_library_exists(${_dnet_stub_library} dnet_addr "" _have_dnet_addr)
+  check_library_exists("${_dnet_stub_library}" dnet_addr "" _have_dnet_addr)
 endif()
 
 if(_have_dnet_addr)
@@ -41,7 +41,7 @@ if(_have_dnet_addr)
 endif()
 
 # Sanity check.
-check_library_exists(${FreeTDS_LIBRARIES} dbsqlexec "" _have_dbsqlexec)
+check_library_exists("${FreeTDS_LIBRARIES}" dbsqlexec "" _have_dbsqlexec)
 
 mark_as_advanced(FreeTDS_LIBRARIES FreeTDS_INCLUDE_DIRS)
 

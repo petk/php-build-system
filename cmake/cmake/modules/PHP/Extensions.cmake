@@ -448,7 +448,7 @@ function(_php_extensions_configure directories)
 
       message(
         WARNING
-        "The '${dependency}' extension requires the '${extension}' extension. "
+        "The '${extension}' extension requires the '${dependency}' extension. "
         "The 'EXT_${dependency_upper}' option has been automatically set to "
         "'ON'."
       )
@@ -535,8 +535,9 @@ function(_php_extensions_validate extensions)
         message(
           FATAL_ERROR
           "You've enabled the '${extension}' extension, which depends on the "
-          "'${dependency}', but you've either not enabled '${dependency}', or "
-          "have disabled it. Please set 'EXT_${dependency_upper}' to 'ON'."
+          "'${dependency}' extension, but you've either not enabled "
+          "'${dependency}', or have disabled it. Please set "
+          "'EXT_${dependency_upper}' to 'ON'."
         )
       endif()
 
