@@ -1,10 +1,13 @@
 #[=============================================================================[
-Traverses PHP extensions CMakeLists.txt files. Extension directories are sorted
-by the optional directory property PHP_PRIORITY value and the dependencies
-listed in the PHP_EXTENSION_DEPENDENCIES target property. If extension has
-specified dependencies, it makes sure all dependencies are enabled. If one of
-the dependencies is built as a SHARED library, the extension must be also
-SHARED.
+Add subdirectories of PHP extensions via add_subdirectory().
+
+This module is responsible for traversing CMakeLists.txt files of PHP extensions
+and adding them via add_subdirectory(). It sorts extension directories based on
+the optional directory property PHP_PRIORITY value and the dependencies listed
+in the PHP_EXTENSION_DEPENDENCIES target property. If an extension has specified
+dependencies, this module ensures that all dependencies are enabled. If any of
+the dependencies are built as SHARED libraries, the extension must also be built
+as a SHARED library.
 ]=============================================================================]#
 
 ################################################################################
@@ -336,9 +339,15 @@ endfunction()
 # Parse and evaluate options of extensions.
 function(_php_extensions_eval_options directories)
   set(code "")
+  get_cmake_property(always_enabled_extensions PHP_ALWAYS_ENABLED_EXTENSIONS)
 
   foreach(dir ${directories})
     cmake_path(GET dir FILENAME extension)
+
+    if(extension IN_LIST always_enabled_extensions)
+      continue()
+    endif()
+
     message(DEBUG "Parsing and evaluating ${extension} options")
 
     file(READ "${dir}/CMakeLists.txt" content)

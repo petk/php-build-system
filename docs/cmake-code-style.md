@@ -7,11 +7,14 @@ ecosystem.
 * [2. General guidelines](#2-general-guidelines)
   * [2.1. End commands](#21-end-commands)
 * [3. Variables](#3-variables)
-  * [3.1. Cache variables](#31-cache-variables)
-  * [3.2. Directory variables](#32-directory-variables)
-  * [3.3. Local variables](#33-local-variables)
-  * [3.4. Find module variables](#34-find-module-variables)
-  * [3.5. Variable names](#35-variable-names)
+  * [3.1. Variable scope](#31-variable-scope)
+    * [3.1.1. Local variables](#311-local-variables)
+    * [3.1.2. Directory variables](#312-directory-variables)
+    * [3.1.3. Cache variables](#313-cache-variables)
+  * [3.2. Naming variables](#32-naming-variables)
+    * [3.2.1. Configuration variables](#321-configuration-variables)
+    * [3.2.2. Find module variables](#322-find-module-variables)
+    * [3.2.3. Temporary variables](#323-temporary-variables)
 * [4. Modules](#4-modules)
   * [4.1. Find modules](#41-find-modules)
   * [4.2. Utility modules](#42-utility-modules)
@@ -62,9 +65,12 @@ On the contrary, variable names are case-sensitive.
   ```cmake
   add_library(foo src.c)
 
-  if(FOO)
-    set(VAR "value")
-  endif()
+  function(bar argument)
+    if(argument)
+      set(var "value")
+    endif()
+    # ...
+  endfunction()
 
   target_include_directories(...)
   ```
@@ -103,9 +109,48 @@ endif(BAR)
 
 ## 3. Variables
 
-CMake variables can be classified into various categories:
+### 3.1. Variable scope
 
-### 3.1. Cache variables
+CMake variables can be categorized based on their scope, which helps organize
+and manage them effectively within the project.
+
+#### 3.1.1. Local variables
+
+Variables with a scope inside functions and blocks. These should be lower_case.
+
+```cmake
+function(foo)
+  set(variable_name <value>)
+  # ...
+endfunction()
+```
+
+The `block()` command can be used to restrict the variable scope to a specific
+block of code:
+
+```cmake
+block(SCOPE_FOR VARIABLES)
+  set(bar TRUE)
+
+  # <commands>...
+endblock()
+```
+
+Variable `bar` in the above example is uninitialized beyond the block's scope.
+
+#### 3.1.2. Directory variables
+
+Directory variables are those confined to the current `CMakeLists.txt` and its
+child directories. To distinguish them, these variables should be in UPPER_CASE.
+
+```cmake
+set(VAR <value>)
+```
+
+This naming convention helps identify the variables that pertain to the current
+directory and its descendants.
+
+#### 3.1.3. Cache variables
 
 Cache variables are stored and persist across the entire build system. They
 should be UPPER_CASE.
@@ -118,84 +163,74 @@ set(VAR <value> CACHE <type> "<help_text>")
 option(FOO "<help_text>" [value])
 ```
 
-### 3.2. Directory variables
+### 3.2. Naming variables
 
-Directory variables are those within the scope of the current `CMakeLists.txt`
-and its child directories. These should be UPPER_CASE.
+When naming variables, it is considered good practice to restrict their names to
+alphanumeric characters and underscores, enhancing readability.
 
-```cmake
-set(VAR <value>)
-```
+Variables prefixed with `CMAKE_`, `_CMAKE_`, and `_<any-cmake-command-name>`
+should not be used in project CMake scripts to avoid conflicts with the CMake
+system. They are reserved for CMake's internal use.
 
-Since it's not possible to restrict the scope of such directory variables solely
-to the current CMake file, it's customary to prefix them with an underscore
-(`_`) and in lower_case to signify that they are intended for temporary use only
-within the current file.
+#### 3.2.1. Configuration variables
 
-```cmake
-set(_temporary_variable "Foo")
-```
-
-### 3.3. Local variables
-
-Variables with a scope inside functions. These should be lower_case.
+Configuration variables are designed to be adjusted by the user during the
+configuration phase, either through the command line or by using GUI, such as
+cmake-gui or ccmake. It is recommended to prefix them with `PHP_`, `ZEND_`,
+`EXT_`, and similar to facilitate their grouping within the GUI.
 
 ```cmake
-function(foo)
-  set(variable_name <value>)
-  # ...
-endfunction()
+# PHP level configuration variables
+set(PHP_FOO_BAR <value>... CACHE <type> "<help_text>")
+option(PHP_ENABLE_FOO "<help_text>" [value])
+cmake_dependent_option(PHP_ENABLE_BAR "<help_text>" <value> <depends> <force>)
+
+# Zend engine configuration variables
+option(ZEND_ENABLE_FOO "<help_text>" [value])
+
+# Configuration variables related to PHP extensions
+option(EXT_GD "<help_text>" [value])
+cmake_dependent_option(EXT_PDO_MYSQL "<help_text>" OFF "EXT_PDO" OFF)
 ```
 
-### 3.4. Find module variables
+While it's a good practice to consider grouping variables inside extension by
+the extension name for clarity (for example, `EXT_<extension>_`), it's worth
+noting that GUI may not distinguish such subgrouping (`EXT_<extension_`).
+Therefore, the decision to additionally group them by the extension name beside
+the main prefix `EXT_` can be optional and context-dependent:
 
-These are set and have scope of the directory when using the
-`find_package(PackageName)` command. They are in form of
-`<PackageName>_UPPER_CASE` where PackageName is of any case.
+```cmake
+option(EXT_GD "<help_text>" [value])
+cmake_dependent_option(EXT_GD_AVIF "<help_text>" OFF "EXT_GD" OFF)
+cmake_dependent_option(EXT_GD_WEBP "<help_text>" OFF "EXT_GD" OFF)
+```
 
-### 3.5. Variable names
+#### 3.2.2. Find module variables
 
-* Variables named `_` can be used for values that are not important for code:
+Find module variables are established and confined to the directory scope when
+employing the `find_package(PackageName)` command. These variables are
+structured as `<PackageName>_UPPER_CASE`, with `PackageName` capable of being in
+any case.
 
-  ```cmake
-  # For example, here only the matched value of CMAKE_MATCH_1 is important.
-  string(REGEX MATCH "foo\\(([0-9]+)\\)" _ "${content}")
-  message(STATUS ${CMAKE_MATCH_1})
-  ```
+#### 3.2.3. Temporary variables
 
-* Cache variables at the PHP level:
+It's customary to prefix temporary variables that are intended for use within a
+specific code block with an underscore (`_`) and write them in lower_case. This
+naming convention indicates that these variables are designed exclusively for
+internal use within the current CMake file and should not be accessed outside of
+that context.
 
-  These variables are designed to be adjusted by the user during the
-  configuration phase, either through the command line or by using GUI, such as
-  cmake-gui or ccmake. It is recommended to prefix them with `PHP_` to
-  facilitate their grouping within the GUI.
+```cmake
+set(_temporary_variable <value>)
+```
 
-  ```cmake
-  set(PHP_FOO_BAR <value>... CACHE <type> "<help_text>")
-  option(PHP_ENABLE_FOO "<help_text>" [value])
-  cmake_dependent_option(PHP_ENABLE_BAR "<help_text>" <value> <depends> <force>)
-  ```
+Variables named `_` can be used for values that are not important for code:
 
-* Cache variables for PHP extensions:
-
-  These variables follow a similar pattern to PHP level variables, but they are
-  prefixed with `EXT_`.
-
-  ```cmake
-  option(EXT_GD "<help_text>" [value])
-  cmake_dependent_option(EXT_GD_AVIF "<help_text>" OFF "EXT_GD" OFF)
-  ```
-
-  While it's a good practice to consider grouping these variables by the
-  extension name for clarity (for example, `EXT_<extension>_`), it's important
-  to note that GUI may not distinguish this subgrouping (`EXT_<extension_`).
-  Therefore, the decision to group them by extension name can be optional and
-  context-dependent.
-
-* Cache variables for Zend:
-
-  These variables share the same characteristics as PHP level variables, but
-  they are prefixed with `ZEND_`.
+```cmake
+# For example, here only the matched value of CMAKE_MATCH_1 is important.
+string(REGEX MATCH "foo\\(([0-9]+)\\)" _ "${content}")
+message(STATUS "${CMAKE_MATCH_1}")
+```
 
 ## 4. Modules
 
@@ -243,8 +278,7 @@ upstream CMake modules.
 CMake interprets `1`, `ON`, `YES`, `TRUE`, and `Y` as representing boolean true
 values, while `0`, `OFF`, `NO`, `FALSE`, `N`, `IGNORE`, `NOTFOUND`, an empty
 string, or a value ending with the suffix `-NOTFOUND` are considered as boolean
-false values. It's important to note that these named constants are
-case-insensitive.
+false values. Named boolean constants are case-insensitive.
 
 To ensure compatibility with existing C code and the configuration header
 `php_config.h`, some potential simplifications may be considered for this
@@ -409,8 +443,13 @@ See also [CMakeDetermineSystem.cmake](https://gitlab.kitware.com/cmake/cmake/-/b
 
 ### 10.1. Tools
 
-Several tools for formatting and linting CMake files are available, and while
-their maintenance status may vary, they can still prove valuable.
+There are several tools available for formatting and linting CMake files, each
+with varying levels of maintenance and utility. While these tools can offer
+valuable assistance, it's worth emphasizing that the current recommendation is
+generally not to rely on any specific linting tool. This is primarily due to
+their varying levels of maturity and a lack of updates to keep pace with new
+CMake versions. It's worth mentioning that this recommendation may evolve in the
+future as these tools continue to develop and adapt.
 
 #### 10.1.1. cmake-format (by cmakelang project)
 

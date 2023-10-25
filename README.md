@@ -713,7 +713,7 @@ functionalities and version available on the operating system.
 * 3.19
   * To be able to use `CMakePresets.json` for sharing build configurations
 * 3.20
-  * To have CMAKE_C_BYTE_ORDER, otherwise manual check should be done
+  * To have `CMAKE_C_BYTE_ORDER`, otherwise manual check should be done
   * To be able to use `"version": 2` in `CMakePresets.json`
   * To be able to use `Intl::Intl` IMPORTED target with CMake's FindIntl module.
 * 3.21
@@ -728,6 +728,7 @@ functionalities and version available on the operating system.
   * To be able to set `CMAKE_COMPILE_WARNING_AS_ERROR`, otherwise INTERFACE
     library should be used instead.
 * 3.25
+  * To be able to use `block()` command.
 
 Currently, the CMake minimum version is set to **3.25** without looking at CMake
 available version on the current systems out there. This will be updated more
@@ -1224,6 +1225,151 @@ cmake -LH .
     <tr>
       <td>&nbsp;&nbsp;--with-curl=shared</td>
       <td>&nbsp;&nbsp;EXT_CURL_SHARED=ON</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>--disable-dba</td>
+      <td>EXT_DBA=OFF</td>
+      <td>default</td>
+    </tr>
+    <tr>
+      <td>&nbsp;&nbsp;--enable-dba</td>
+      <td>&nbsp;&nbsp;EXT_DBA=ON</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>&nbsp;&nbsp;--enable-dba=shared</td>
+      <td>&nbsp;&nbsp;EXT_DBA_SHARED=ON</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>&nbsp;&nbsp;--without-qdbm</td>
+      <td>&nbsp;&nbsp;EXT_DBA_QDBM=OFF</td>
+      <td>default</td>
+    </tr>
+    <tr>
+      <td>&nbsp;&nbsp;--with-qdbm</td>
+      <td>&nbsp;&nbsp;EXT_DBA_QDBM=ON</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>&nbsp;&nbsp;--without-gdbm</td>
+      <td>&nbsp;&nbsp;EXT_DBA_GDBM=OFF</td>
+      <td>default</td>
+    </tr>
+    <tr>
+      <td>&nbsp;&nbsp;--with-gdbm</td>
+      <td>&nbsp;&nbsp;EXT_DBA_GDBM=ON</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>&nbsp;&nbsp;--without-ndbm</td>
+      <td>&nbsp;&nbsp;EXT_DBA_NDBM=OFF</td>
+      <td>default</td>
+    </tr>
+    <tr>
+      <td>&nbsp;&nbsp;--with-ndbm</td>
+      <td>&nbsp;&nbsp;EXT_DBA_NDBM=ON</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>&nbsp;&nbsp;--without-db4</td>
+      <td>&nbsp;&nbsp;EXT_DBA_DB4=OFF</td>
+      <td>default</td>
+    </tr>
+    <tr>
+      <td>&nbsp;&nbsp;--with-db4</td>
+      <td>&nbsp;&nbsp;EXT_DBA_DB4=ON</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>&nbsp;&nbsp;--without-db3</td>
+      <td>&nbsp;&nbsp;EXT_DBA_DB3=OFF</td>
+      <td>default</td>
+    </tr>
+    <tr>
+      <td>&nbsp;&nbsp;--with-db3</td>
+      <td>&nbsp;&nbsp;EXT_DBA_DB3=ON</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>&nbsp;&nbsp;--without-db2</td>
+      <td>&nbsp;&nbsp;EXT_DBA_DB2=OFF</td>
+      <td>default</td>
+    </tr>
+    <tr>
+      <td>&nbsp;&nbsp;--with-db2</td>
+      <td>&nbsp;&nbsp;EXT_DBA_DB2=ON</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>&nbsp;&nbsp;--without-db1</td>
+      <td>&nbsp;&nbsp;EXT_DBA_DB1=OFF</td>
+      <td>default</td>
+    </tr>
+    <tr>
+      <td>&nbsp;&nbsp;--with-db1</td>
+      <td>&nbsp;&nbsp;EXT_DBA_DB1=ON</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>&nbsp;&nbsp;--without-dbm</td>
+      <td>&nbsp;&nbsp;EXT_DBA_DBM=OFF</td>
+      <td>default</td>
+    </tr>
+    <tr>
+      <td>&nbsp;&nbsp;--with-dbm</td>
+      <td>&nbsp;&nbsp;EXT_DBA_DBM=ON</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>&nbsp;&nbsp;--without-tcadb</td>
+      <td>&nbsp;&nbsp;EXT_DBA_TCADB=OFF</td>
+      <td>default</td>
+    </tr>
+    <tr>
+      <td>&nbsp;&nbsp;--with-tcadb</td>
+      <td>&nbsp;&nbsp;EXT_DBA_TCADB=ON</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>&nbsp;&nbsp;--without-lmdb</td>
+      <td>&nbsp;&nbsp;EXT_DBA_LMDB=OFF</td>
+      <td>default</td>
+    </tr>
+    <tr>
+      <td>&nbsp;&nbsp;--with-lmdb</td>
+      <td>&nbsp;&nbsp;EXT_DBA_LMDB=ON</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>&nbsp;&nbsp;--with-cdb</td>
+      <td>&nbsp;&nbsp;EXT_DBA_CDB=ON</td>
+      <td>default</td>
+    </tr>
+    <tr>
+      <td>&nbsp;&nbsp;--without-cdb</td>
+      <td>&nbsp;&nbsp;EXT_DBA_CDB=OFF</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>&nbsp;&nbsp;--with-inifile</td>
+      <td>&nbsp;&nbsp;EXT_DBA_INIFILE=ON</td>
+      <td>default</td>
+    </tr>
+    <tr>
+      <td>&nbsp;&nbsp;--without-inifile</td>
+      <td>&nbsp;&nbsp;EXT_DBA_INIFILE=OFF</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>&nbsp;&nbsp;--with-flatfile</td>
+      <td>&nbsp;&nbsp;EXT_DBA_FLATFILE=ON</td>
+      <td>default</td>
+    </tr>
+    <tr>
+      <td>&nbsp;&nbsp;--without-flatfile</td>
+      <td>&nbsp;&nbsp;EXT_DBA_FLATFILE=OFF</td>
       <td></td>
     </tr>
     <tr>
