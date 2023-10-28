@@ -45,6 +45,7 @@
         "EXT_BZ2": true,
         "EXT_CALENDAR": true,
         "EXT_CURL": true,
+        "EXT_DBA": true,
         "EXT_DL_TEST": true,
         "EXT_ENCHANT": true,
         "EXT_EXIF": true,

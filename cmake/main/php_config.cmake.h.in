@@ -18,7 +18,7 @@
 #cmakedefine ANC_CREDS_UCRED @ANC_CREDS_UCRED@
 
 /* */
-#cmakedefine CDB_INCLUDE_FILE
+#cmakedefine CDB_INCLUDE_FILE "@CDB_INCLUDE_FILE@"
 
 /* Whether to build bcmath as dynamic module */
 #cmakedefine COMPILE_DL_BCMATH @COMPILE_DL_BCMATH@
@@ -252,70 +252,67 @@
 #cmakedefine DARWIN @DARWIN@
 
 /* */
-#cmakedefine DB1_INCLUDE_FILE
+#cmakedefine DB1_INCLUDE_FILE "@DB1_INCLUDE_FILE@"
 
 /* */
-#cmakedefine DB1_VERSION
+#cmakedefine DB1_VERSION "@DB1_VERSION@"
 
 /* */
-#cmakedefine DB2_INCLUDE_FILE
+#cmakedefine DB2_INCLUDE_FILE "@DB2_INCLUDE_FILE@"
 
 /* */
-#cmakedefine DB3_INCLUDE_FILE
+#cmakedefine DB3_INCLUDE_FILE "@DB3_INCLUDE_FILE@"
 
 /* */
-#cmakedefine DB4_INCLUDE_FILE
+#cmakedefine DB4_INCLUDE_FILE "@DB4_INCLUDE_FILE@"
 
 /* */
-#cmakedefine DBA_CDB
+#cmakedefine DBA_CDB @DBA_CDB@
 
 /* */
-#cmakedefine DBA_CDB_BUILTIN
+#cmakedefine DBA_CDB_BUILTIN @DBA_CDB_BUILTIN@
 
 /* */
-#cmakedefine DBA_CDB_MAKE
+#cmakedefine DBA_DB1 @DBA_DB1@
 
 /* */
-#cmakedefine DBA_DB1
+#cmakedefine DBA_DB2 @DBA_DB2@
 
 /* */
-#cmakedefine DBA_DB2
+#cmakedefine DBA_DB3 @DBA_DB3@
 
 /* */
-#cmakedefine DBA_DB3
+#cmakedefine DBA_DB4 @DBA_DB4@
 
 /* */
-#cmakedefine DBA_DB4
+#cmakedefine DBA_DBM @DBA_DBM@
 
 /* */
-#cmakedefine DBA_DBM
+#cmakedefine DBA_FLATFILE @DBA_FLATFILE@
 
 /* */
-#cmakedefine DBA_FLATFILE
+#cmakedefine DBA_GDBM @DBA_GDBM@
 
 /* */
-#cmakedefine DBA_GDBM
+#cmakedefine DBA_INIFILE @DBA_INIFILE@
 
 /* */
-#cmakedefine DBA_INIFILE
+#cmakedefine DBA_LMDB @DBA_LMDB@
 
 /* */
-#cmakedefine DBA_LMDB
+#cmakedefine DBA_NDBM @DBA_NDBM@
 
 /* */
-#cmakedefine DBA_NDBM
+#cmakedefine DBA_QDBM @DBA_QDBM@
 
 /* */
-#cmakedefine DBA_QDBM
+#cmakedefine DBA_TCADB @DBA_TCADB@
 
 /* */
-#cmakedefine DBA_TCADB
+#cmakedefine DBM_INCLUDE_FILE "@DBM_INCLUDE_FILE@"
 
 /* */
-#cmakedefine DBM_INCLUDE_FILE
-
-/* */
-#cmakedefine DBM_VERSION
+#cmakedefine DBM_VERSION "@DBM_VERSION@"
 
 /* */
 #define DEFAULT_SHORT_OPEN_TAG "@DEFAULT_SHORT_OPEN_TAG@"
@@ -327,7 +324,7 @@
 #cmakedefine ENABLE_CHROOT_FUNC @ENABLE_CHROOT_FUNC@
 
 /* */
-#cmakedefine GDBM_INCLUDE_FILE
+#cmakedefine GDBM_INCLUDE_FILE "@GDBM_INCLUDE_FILE@"
 
 /* Define to 1 if `TIOCGWINSZ' requires <sys/ioctl.h>. */
 #cmakedefine GWINSZ_IN_SYS_IOCTL @GWINSZ_IN_SYS_IOCTL@
@@ -1820,7 +1817,7 @@
 #cmakedefine JISX0208 @JISX0208@
 
 /* */
-#cmakedefine LMDB_INCLUDE_FILE
+#cmakedefine LMDB_INCLUDE_FILE "@LMDB_INCLUDE_FILE@"
 
 /* Whether asctime_r is declared */
 #cmakedefine MISSING_ASCTIME_R_DECL @MISSING_ASCTIME_R_DECL@
@@ -1850,7 +1847,7 @@
 #cmakedefine MYSQLND_SSL_SUPPORTED @MYSQLND_SSL_SUPPORTED@
 
 /* */
-#cmakedefine NDBM_INCLUDE_FILE
+#cmakedefine NDBM_INCLUDE_FILE "@NDBM_INCLUDE_FILE@"
 
 /* The highest supported ODBC version */
 #cmakedefine ODBCVER @ODBCVER@
@@ -2024,7 +2021,7 @@
 #cmakedefine PROC_MEM_FILE "@PROC_MEM_FILE@"
 
 /* */
-#cmakedefine QDBM_INCLUDE_FILE
+#cmakedefine QDBM_INCLUDE_FILE "@QDBM_INCLUDE_FILE@"
 
 /* */
 #cmakedefine SHADOW_STACK_SYSCALL @SHADOW_STACK_SYSCALL@
@@ -2082,7 +2079,7 @@
 #cmakedefine STRERROR_R_CHAR_P @STRERROR_R_CHAR_P@
 
 /* */
-#cmakedefine TCADB_INCLUDE_FILE
+#cmakedefine TCADB_INCLUDE_FILE "@TCADB_INCLUDE_FILE@"
 
 /* Define to 1 if your <sys/time.h> declares `struct tm'. */
 #cmakedefine TM_IN_SYS_TIME

@@ -585,6 +585,20 @@ Optional:
   * when using the `--enable-dmalloc`
 * freetds
   * when using the `--enable-pdo-dblib`
+* libcdb
+  * when using the `--with-cdb=DIR`
+* liblmdb
+  * when using the `--with-lmdb`
+* libtokyocabinet
+  * when using the `--with-tcadb`
+* libgdbm
+  * when using the `--with-gdbm`
+* libqdbm
+  * when using the `--with-qdbm`
+* libgdbm or library implementing the ndbm or dbm compatibility interface
+  * when using the `--with-dbm` or `--with-ndbm`
+* libdb
+  * when using the `--with-db4`, `--with-db3`, `--with-db2`, or `--with-db1`
 
 When PHP is built, the development libraries are no longer required to be
 installed and only libraries without development files are needed to run newly
@@ -1243,6 +1257,26 @@ cmake -LH .
       <td></td>
     </tr>
     <tr>
+      <td>&nbsp;&nbsp;--with-flatfile</td>
+      <td>&nbsp;&nbsp;EXT_DBA_FLATFILE=ON</td>
+      <td>default</td>
+    </tr>
+    <tr>
+      <td>&nbsp;&nbsp;--without-flatfile</td>
+      <td>&nbsp;&nbsp;EXT_DBA_FLATFILE=OFF</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>&nbsp;&nbsp;--with-inifile</td>
+      <td>&nbsp;&nbsp;EXT_DBA_INIFILE=ON</td>
+      <td>default</td>
+    </tr>
+    <tr>
+      <td>&nbsp;&nbsp;--without-inifile</td>
+      <td>&nbsp;&nbsp;EXT_DBA_INIFILE=OFF</td>
+      <td></td>
+    </tr>
+    <tr>
       <td>&nbsp;&nbsp;--without-qdbm</td>
       <td>&nbsp;&nbsp;EXT_DBA_QDBM=OFF</td>
       <td>default</td>
@@ -1253,6 +1287,11 @@ cmake -LH .
       <td></td>
     </tr>
     <tr>
+      <td>&nbsp;&nbsp;--with-qdbm=DIR</td>
+      <td>&nbsp;&nbsp;QDBM_ROOT=DIR</td>
+      <td></td>
+    </tr>
+    <tr>
       <td>&nbsp;&nbsp;--without-gdbm</td>
       <td>&nbsp;&nbsp;EXT_DBA_GDBM=OFF</td>
       <td>default</td>
@@ -1260,6 +1299,11 @@ cmake -LH .
     <tr>
       <td>&nbsp;&nbsp;--with-gdbm</td>
       <td>&nbsp;&nbsp;EXT_DBA_GDBM=ON</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>&nbsp;&nbsp;--with-gdbm=DIR</td>
+      <td>&nbsp;&nbsp;GDBM_ROOT=DIR</td>
       <td></td>
     </tr>
     <tr>
@@ -1274,12 +1318,17 @@ cmake -LH .
     </tr>
     <tr>
       <td>&nbsp;&nbsp;--without-db4</td>
-      <td>&nbsp;&nbsp;EXT_DBA_DB4=OFF</td>
+      <td>&nbsp;&nbsp;EXT_DBA_DB=OFF</td>
       <td>default</td>
     </tr>
     <tr>
       <td>&nbsp;&nbsp;--with-db4</td>
-      <td>&nbsp;&nbsp;EXT_DBA_DB4=ON</td>
+      <td>&nbsp;&nbsp;EXT_DBA_DB=ON</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>&nbsp;&nbsp;--with-db4=DIR</td>
+      <td>&nbsp;&nbsp;BerkeleyDB_ROOT=DIR</td>
       <td></td>
     </tr>
     <tr>
@@ -1304,12 +1353,12 @@ cmake -LH .
     </tr>
     <tr>
       <td>&nbsp;&nbsp;--without-db1</td>
-      <td>&nbsp;&nbsp;EXT_DBA_DB1=OFF</td>
+      <td>&nbsp;&nbsp;EXT_DBA_DB_1=OFF</td>
       <td>default</td>
     </tr>
     <tr>
       <td>&nbsp;&nbsp;--with-db1</td>
-      <td>&nbsp;&nbsp;EXT_DBA_DB1=ON</td>
+      <td>&nbsp;&nbsp;EXT_DBA_DB_1=ON</td>
       <td></td>
     </tr>
     <tr>
@@ -1333,6 +1382,11 @@ cmake -LH .
       <td></td>
     </tr>
     <tr>
+      <td>&nbsp;&nbsp;--with-tcadb=DIR</td>
+      <td>&nbsp;&nbsp;TokyoCabinet_ROOT=DIR</td>
+      <td></td>
+    </tr>
+    <tr>
       <td>&nbsp;&nbsp;--without-lmdb</td>
       <td>&nbsp;&nbsp;EXT_DBA_LMDB=OFF</td>
       <td>default</td>
@@ -1343,33 +1397,23 @@ cmake -LH .
       <td></td>
     </tr>
     <tr>
+      <td>&nbsp;&nbsp;--with-lmdb=DIR</td>
+      <td>&nbsp;&nbsp;LMDB_ROOT=DIR</td>
+      <td></td>
+    </tr>
+    <tr>
       <td>&nbsp;&nbsp;--with-cdb</td>
       <td>&nbsp;&nbsp;EXT_DBA_CDB=ON</td>
       <td>default</td>
     </tr>
     <tr>
+      <td>&nbsp;&nbsp;--with-cdb=DIR</td>
+      <td>&nbsp;&nbsp;EXT_DBA_CDB_EXTERNAL=ON (Cdb_ROOT=DIR to customize)</td>
+      <td></td>
+    </tr>
+    <tr>
       <td>&nbsp;&nbsp;--without-cdb</td>
       <td>&nbsp;&nbsp;EXT_DBA_CDB=OFF</td>
-      <td></td>
-    </tr>
-    <tr>
-      <td>&nbsp;&nbsp;--with-inifile</td>
-      <td>&nbsp;&nbsp;EXT_DBA_INIFILE=ON</td>
-      <td>default</td>
-    </tr>
-    <tr>
-      <td>&nbsp;&nbsp;--without-inifile</td>
-      <td>&nbsp;&nbsp;EXT_DBA_INIFILE=OFF</td>
-      <td></td>
-    </tr>
-    <tr>
-      <td>&nbsp;&nbsp;--with-flatfile</td>
-      <td>&nbsp;&nbsp;EXT_DBA_FLATFILE=ON</td>
-      <td>default</td>
-    </tr>
-    <tr>
-      <td>&nbsp;&nbsp;--without-flatfile</td>
-      <td>&nbsp;&nbsp;EXT_DBA_FLATFILE=OFF</td>
       <td></td>
     </tr>
     <tr>
