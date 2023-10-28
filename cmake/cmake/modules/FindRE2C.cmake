@@ -1,6 +1,5 @@
 #[=============================================================================[
-Find the free and open-source lexer generator re2c.
-https://re2c.org/
+Find re2c.
 
 The minimum required version of re2c can be specified using the standard CMake
 syntax, e.g. 'find_package(RE2C 0.15.3)'.
@@ -28,7 +27,13 @@ If re2c is found, the module exposes the following function:
 #]=============================================================================]
 
 include(CheckCSourceCompiles)
+include(FeatureSummary)
 include(FindPackageHandleStandardArgs)
+
+set_package_properties(RE2C PROPERTIES
+  URL "https://re2c.org/"
+  DESCRIPTION "Free and open-source lexer generator"
+)
 
 find_program(RE2C_EXECUTABLE re2c DOC "The re2c executable path")
 mark_as_advanced(RE2C_EXECUTABLE)

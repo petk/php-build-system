@@ -39,13 +39,20 @@ endif()
 find_library(Aspell_LIBRARIES NAMES aspell DOC "The Aspell library")
 
 # Sanity check.
-check_library_exists("${Aspell_LIBRARIES}" new_aspell_config "" _have_aspell)
+if(Aspell_LIBRARIES)
+  check_library_exists(
+    "${Aspell_LIBRARIES}"
+    new_aspell_config
+    ""
+    _aspell_have_new_aspell_config
+  )
+endif()
 
 mark_as_advanced(Aspell_LIBRARIES Aspell_INCLUDE_DIRS)
 
 find_package_handle_standard_args(
   Aspell
-  REQUIRED_VARS Aspell_LIBRARIES Aspell_INCLUDE_DIRS _have_aspell
+  REQUIRED_VARS Aspell_LIBRARIES Aspell_INCLUDE_DIRS _aspell_have_new_aspell_config
 )
 
 if(Aspell_FOUND AND NOT TARGET Aspell::Aspell)

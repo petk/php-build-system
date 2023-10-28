@@ -1,6 +1,5 @@
 #[=============================================================================[
 Find the Capstone library.
-https://www.capstone-engine.org
 
 Module defines the following IMPORTED targets:
 
@@ -19,7 +18,13 @@ Result variables:
     Version string of found Capstone library.
 #]=============================================================================]
 
+include(FeatureSummary)
 include(FindPackageHandleStandardArgs)
+
+set_package_properties(Capstone PROPERTIES
+  URL "https://www.capstone-engine.org"
+  DESCRIPTION "Capstone disassembly engine"
+)
 
 find_package(PkgConfig QUIET REQUIRED)
 

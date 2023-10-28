@@ -1,6 +1,5 @@
 #[=============================================================================[
 Find the libzip library.
-https://libzip.org/
 
 This is a helper in case system doesn't have the libzip's Config find module
 yet. It seems that libzip find module provided by the library requires also
@@ -23,7 +22,13 @@ Result variables:
     Version string of the found libzip library.
 #]=============================================================================]
 
+include(FeatureSummary)
 include(FindPackageHandleStandardArgs)
+
+set_package_properties(libzip PROPERTIES
+  URL "https://libzip.org/"
+  DESCRIPTION "Library for handling ZIP archives"
+)
 
 find_package(PkgConfig QUIET)
 

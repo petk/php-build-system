@@ -1,7 +1,5 @@
 #[=============================================================================[
 Find DTrace.
-http://dtrace.org/blogs/about/
-https://sourceware.org/systemtap
 
 Result variables:
 
@@ -34,7 +32,14 @@ Module defines the following function:
 #]=============================================================================]
 
 include(CheckIncludeFile)
+include(FeatureSummary)
 include(FindPackageHandleStandardArgs)
+
+set_package_properties(DTrace PROPERTIES
+  URL "https://dtrace.org/"
+  DESCRIPTION "Performance analysis and troubleshooting tool"
+  PURPOSE "https://sourceware.org/systemtap"
+)
 
 check_include_file(sys/sdt.h HAVE_SYS_SDT_H)
 

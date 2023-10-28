@@ -1,6 +1,5 @@
 #[=============================================================================[
 Find the FreeTDS set of libraries.
-https://www.freetds.org/
 
 Module defines the following IMPORTED targets:
 
@@ -23,7 +22,13 @@ Hints:
 #]=============================================================================]
 
 include(CheckLibraryExists)
+include(FeatureSummary)
 include(FindPackageHandleStandardArgs)
+
+set_package_properties(FreeTDS PROPERTIES
+  URL "https://www.freetds.org/"
+  DESCRIPTION "TDS (Tabular DataStream) protocol library for Sybase and MS SQL databases"
+)
 
 find_path(FreeTDS_INCLUDE_DIRS sybdb.h PATH_SUFFIXES freetds)
 
@@ -41,13 +46,15 @@ if(_have_dnet_addr)
 endif()
 
 # Sanity check.
-check_library_exists("${FreeTDS_LIBRARIES}" dbsqlexec "" _have_dbsqlexec)
+if(FreeTDS_LIBRARIES)
+  check_library_exists("${FreeTDS_LIBRARIES}" dbsqlexec "" _freetds_have_dbsqlexec)
+endif()
 
 mark_as_advanced(FreeTDS_LIBRARIES FreeTDS_INCLUDE_DIRS)
 
 find_package_handle_standard_args(
   FreeTDS
-  REQUIRED_VARS FreeTDS_LIBRARIES FreeTDS_INCLUDE_DIRS _have_dbsqlexec
+  REQUIRED_VARS FreeTDS_LIBRARIES FreeTDS_INCLUDE_DIRS _freetds_have_dbsqlexec
 )
 
 if(FreeTDS_FOUND AND NOT TARGET FreeTDS::FreeTDS)

@@ -18,7 +18,13 @@ Result variables:
     Version string of found systemd library.
 #]=============================================================================]
 
+include(FeatureSummary)
 include(FindPackageHandleStandardArgs)
+
+set_package_properties(Systemd PROPERTIES
+  URL "https://www.freedesktop.org/wiki/Software/systemd/"
+  DESCRIPTION "System and service manager library"
+)
 
 find_package(PkgConfig QUIET)
 

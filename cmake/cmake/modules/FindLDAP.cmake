@@ -1,7 +1,5 @@
 #[=============================================================================[
 Find the LDAP library.
-https://en.wikipedia.org/wiki/List_of_LDAP_software
-https://www.openldap.org/
 
 Module defines the following IMPORTED targets:
 
@@ -20,7 +18,14 @@ Result variables:
     Version string of found LDAP library.
 #]=============================================================================]
 
+include(FeatureSummary)
 include(FindPackageHandleStandardArgs)
+
+set_package_properties(LDAP PROPERTIES
+  URL "https://www.openldap.org/"
+  DESCRIPTION "Lightweight directory access protocol library"
+  PURPOSE "https://en.wikipedia.org/wiki/List_of_LDAP_software"
+)
 
 find_package(PkgConfig QUIET)
 

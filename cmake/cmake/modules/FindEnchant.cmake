@@ -1,6 +1,5 @@
 #[=============================================================================[
 Find the Enchant library.
-https://abiword.github.io/enchant/
 
 Module defines the following IMPORTED targets:
 
@@ -19,7 +18,13 @@ Result variables:
     Version string of found Enchant library.
 #]=============================================================================]
 
+include(FeatureSummary)
 include(FindPackageHandleStandardArgs)
+
+set_package_properties(Enchant PROPERTIES
+  URL "https://abiword.github.io/enchant/"
+  DESCRIPTION "Interface for a number of spellchecking libraries"
+)
 
 find_package(PkgConfig QUIET REQUIRED)
 

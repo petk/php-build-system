@@ -69,17 +69,18 @@ On the contrary, variable names are case-sensitive.
     if(argument)
       set(var "value")
     endif()
+
     # ...
   endfunction()
 
   target_include_directories(...)
   ```
 
-* Check that variables are properly initialized and used to avoid unexpected
-  behavior and errors in the build process:
+* During development check that variables are properly initialized and used to
+  avoid unexpected behavior and errors in the build process:
 
   ```sh
-  cmake --warn-uninitialized -S <source-directory> ...
+  cmake --warn-uninitialized -S <source-directory> -B <build-directory>
   ```
 
 ### 2.1. End commands
@@ -130,7 +131,7 @@ block of code:
 
 ```cmake
 block(SCOPE_FOR VARIABLES)
-  set(bar TRUE)
+  set(bar <value>)
 
   # <commands>...
 endblock()
@@ -161,6 +162,9 @@ set(VAR <value> CACHE <type> "<help_text>")
 
 # Cache variable as a boolean option
 option(FOO "<help_text>" [value])
+
+# Cache variable created by CMake command invocation
+find_program(RE2C_EXECUTABLE re2c)
 ```
 
 ### 3.2. Naming variables
@@ -168,20 +172,20 @@ option(FOO "<help_text>" [value])
 When naming variables, it is considered good practice to restrict their names to
 alphanumeric characters and underscores, enhancing readability.
 
-Variables prefixed with `CMAKE_`, `_CMAKE_`, and `_<any-cmake-command-name>`
-should not be used in project CMake scripts to avoid conflicts with the CMake
-system. They are reserved for CMake's internal use.
+Variables prefixed with `CMAKE_`, `_CMAKE_`, and `_<any-cmake-command-name>` are
+reserved for CMake's internal use.
 
 #### 3.2.1. Configuration variables
 
-Configuration variables are designed to be adjusted by the user during the
-configuration phase, either through the command line or by using GUI, such as
-cmake-gui or ccmake. It is recommended to prefix them with `PHP_`, `ZEND_`,
-`EXT_`, and similar to facilitate their grouping within the GUI.
+Configuration variables are cache variables designed to be adjusted by the user
+during the configuration phase, either through the presets, command line, or by
+using GUI, such as cmake-gui or ccmake. It is recommended to prefix them with
+`PHP_`, `ZEND_`, `EXT_`, and similar to facilitate their grouping within the
+GUI.
 
 ```cmake
-# PHP level configuration variables
-set(PHP_FOO_BAR <value>... CACHE <type> "<help_text>")
+# PHP configuration variables
+set(PHP_FOO_BAR <value>... CACHE <BOOL|FILEPATH|PATH|STRING> "<help_text>")
 option(PHP_ENABLE_FOO "<help_text>" [value])
 cmake_dependent_option(PHP_ENABLE_BAR "<help_text>" <value> <depends> <force>)
 
@@ -189,15 +193,15 @@ cmake_dependent_option(PHP_ENABLE_BAR "<help_text>" <value> <depends> <force>)
 option(ZEND_ENABLE_FOO "<help_text>" [value])
 
 # Configuration variables related to PHP extensions
-option(EXT_GD "<help_text>" [value])
-cmake_dependent_option(EXT_PDO_MYSQL "<help_text>" OFF "EXT_PDO" OFF)
+option(EXT_FOO "<help_text>" [value])
 ```
 
-While it's a good practice to consider grouping variables inside extension by
-the extension name for clarity (for example, `EXT_<extension>_`), it's worth
-noting that GUI may not distinguish such subgrouping (`EXT_<extension_`).
-Therefore, the decision to additionally group them by the extension name beside
-the main prefix `EXT_` can be optional and context-dependent:
+While it's a good practice to consider grouping variables inside an extension by
+the extension name for clarity (for example, `EXT_<extension>`,
+`EXT_<extension>_FOO`), it's worth noting that GUI may not distinguish such
+subgrouping. Therefore, the decision to additionally group them by the extension
+name beside the primary prefix `EXT_` can be optional and context-dependent,
+when the extension involves multiple options:
 
 ```cmake
 option(EXT_GD "<help_text>" [value])
@@ -216,7 +220,7 @@ any case.
 
 It's customary to prefix temporary variables that are intended for use within a
 specific code block with an underscore (`_`) and write them in lower_case. This
-naming convention indicates that these variables are designed exclusively for
+naming convention indicates that these variables are meant exclusively for
 internal use within the current CMake file and should not be accessed outside of
 that context.
 
@@ -291,7 +295,8 @@ option(FOO "<help_text>" ON)
 # Conditional variables have 1/0 values.
 set(HAVE_FOO_H 1 CACHE INTERNAL "<help_text>")
 
-# Elsewhere in commands, functions etc. TRUE/FALSE.
+# Elsewhere in commands, functions etc. use TRUE/FALSE
+set(CMAKE_C_STANDARD_REQUIRED TRUE)
 ```
 
 ## 6. Functions and macros

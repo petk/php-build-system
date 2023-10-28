@@ -1,6 +1,5 @@
 #[=============================================================================[
 Find the libXpm library.
-https://gitlab.freedesktop.org/xorg/lib/libxpm
 
 Module defines the following IMPORTED targets:
 
@@ -19,7 +18,13 @@ Result variables:
     Version string of found libXpm.
 #]=============================================================================]
 
+include(FeatureSummary)
 include(FindPackageHandleStandardArgs)
+
+set_package_properties(XPM PROPERTIES
+  URL "https://gitlab.freedesktop.org/xorg/lib/libxpm"
+  DESCRIPTION "X Pixmap Library"
+)
 
 find_package(PkgConfig QUIET REQUIRED)
 

@@ -1,6 +1,5 @@
 #[=============================================================================[
 Find the Firebird library.
-https://firebirdsql.org/
 
 Module defines the following IMPORTED targets:
 
@@ -27,7 +26,13 @@ Hints:
 #]=============================================================================]
 
 include(CheckLibraryExists)
+include(FeatureSummary)
 include(FindPackageHandleStandardArgs)
+
+set_package_properties(Firebird PROPERTIES
+  URL "https://firebirdsql.org/"
+  DESCRIPTION "SQL relational database management system"
+)
 
 find_path(Firebird_INCLUDE_DIRS ibase.h)
 
@@ -48,12 +53,14 @@ if(Firebird_CONFIG_EXECUTABLE)
 endif()
 
 # Sanity check.
-check_library_exists(
-  "${Firebird_LIBRARIES}"
-  isc_detach_database
-  ""
-  _have_isc_detach_database
-)
+if(Firebird_LIBRARIES)
+  check_library_exists(
+    "${Firebird_LIBRARIES}"
+    isc_detach_database
+    ""
+    _firebird_have_isc_detach_database
+  )
+endif()
 
 mark_as_advanced(Firebird_LIBRARIES Firebird_INCLUDE_DIRS)
 
@@ -62,7 +69,7 @@ find_package_handle_standard_args(
   REQUIRED_VARS
     Firebird_LIBRARIES
     Firebird_INCLUDE_DIRS
-    _have_isc_detach_database
+    _firebird_have_isc_detach_database
   VERSION_VAR Firebird_VERSION
 )
 

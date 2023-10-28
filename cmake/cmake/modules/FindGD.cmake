@@ -1,6 +1,5 @@
 #[=============================================================================[
 Find the GD library.
-https://libgd.github.io/
 
 Module defines the following IMPORTED targets:
 
@@ -19,7 +18,13 @@ Result variables:
     Version string of found libgd.
 #]=============================================================================]
 
+include(FeatureSummary)
 include(FindPackageHandleStandardArgs)
+
+set_package_properties(GD PROPERTIES
+  URL "https://libgd.github.io/"
+  DESCRIPTION "Library for dynamic creation of images"
+)
 
 find_package(PkgConfig QUIET REQUIRED)
 

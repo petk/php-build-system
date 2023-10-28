@@ -1,6 +1,5 @@
 #[=============================================================================[
 Find Valgrind.
-https://valgrind.org/
 
 Module defines the following IMPORTED targets:
 
@@ -20,7 +19,14 @@ The Valgrind_ROOT variable adds search path for finding the Valgrind on custom
 locations.
 #]=============================================================================]
 
+include(FeatureSummary)
 include(FindPackageHandleStandardArgs)
+
+set_package_properties(Valgrind PROPERTIES
+  URL "https://valgrind.org/"
+  DESCRIPTION "Instrumentation framework for building dynamic analysis tools"
+  PURPOSE "Detects memory management and threading bugs"
+)
 
 find_path(Valgrind_INCLUDE_DIRS NAMES valgrind.h PATH_SUFFIXES valgrind)
 

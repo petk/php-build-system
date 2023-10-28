@@ -1,6 +1,5 @@
 #[=============================================================================[
-Find the Dmalloc library (Debug Malloc Library).
-https://dmalloc.com/
+Find the Dmalloc library.
 
 Module defines the following IMPORTED targets:
 
@@ -19,7 +18,13 @@ Result variables:
     Version string of found Dmalloc library.
 #]=============================================================================]
 
+include(FeatureSummary)
 include(FindPackageHandleStandardArgs)
+
+set_package_properties(Dmalloc PROPERTIES
+  URL "https://dmalloc.com/"
+  DESCRIPTION "Debug Malloc Library"
+)
 
 find_path(Dmalloc_INCLUDE_DIRS dmalloc.h)
 

@@ -1,6 +1,5 @@
 #[=============================================================================[
 Find the SASL library.
-https://www.cyrusimap.org/sasl/
 
 Module defines the following IMPORTED targets:
 
@@ -19,7 +18,13 @@ Result variables:
     Version string of found SASL library.
 #]=============================================================================]
 
+include(FeatureSummary)
 include(FindPackageHandleStandardArgs)
+
+set_package_properties(SASL PROPERTIES
+  URL "https://www.cyrusimap.org/sasl/"
+  DESCRIPTION "Simple authentication and security layer library"
+)
 
 find_package(PkgConfig QUIET)
 

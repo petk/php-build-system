@@ -1,6 +1,5 @@
 #[=============================================================================[
 Find the FFI library.
-https://sourceware.org/libffi/
 
 Module defines the following IMPORTED targets:
 
@@ -19,7 +18,13 @@ Result variables:
     Version string of found FFI library.
 #]=============================================================================]
 
+include(FeatureSummary)
 include(FindPackageHandleStandardArgs)
+
+set_package_properties(FFI PROPERTIES
+  URL "https://sourceware.org/libffi/"
+  DESCRIPTION "Foreign Function Interfaces library"
+)
 
 find_package(PkgConfig QUIET REQUIRED)
 

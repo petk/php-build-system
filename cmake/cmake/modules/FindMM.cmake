@@ -1,6 +1,5 @@
 #[=============================================================================[
 Find the mm library.
-http://www.ossp.org/pkg/lib/mm/
 
 Module defines the following IMPORTED targets:
 
@@ -22,7 +21,13 @@ Hints:
   locations.
 #]=============================================================================]
 
+include(FeatureSummary)
 include(FindPackageHandleStandardArgs)
+
+set_package_properties(Ndbm PROPERTIES
+  URL "http://www.ossp.org/pkg/lib/mm/"
+  DESCRIPTION "Shared memory allocation library"
+)
 
 find_path(MM_INCLUDE_DIRS NAMES mm.h)
 

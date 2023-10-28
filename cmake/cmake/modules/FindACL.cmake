@@ -1,6 +1,5 @@
 #[=============================================================================[
 Find the ACL library.
-https://savannah.nongnu.org/projects/acl/
 
 Module defines the following IMPORTED targets:
 
@@ -19,7 +18,13 @@ Result variables:
     Version string of found ACL library.
 #]=============================================================================]
 
+include(FeatureSummary)
 include(FindPackageHandleStandardArgs)
+
+set_package_properties(ACL PROPERTIES
+  URL "https://savannah.nongnu.org/projects/acl/"
+  DESCRIPTION "POSIX Access Control Lists library"
+)
 
 find_package(PkgConfig QUIET REQUIRED)
 
@@ -42,7 +47,11 @@ find_package_handle_standard_args(
   REASON_FAILURE_MESSAGE "ACL not found. Please install ACL library."
 )
 
-if(ACL_FOUND AND NOT TARGET ACL::ACL)
+if(NOT ACL_FOUND)
+  return()
+endif()
+
+if(NOT TARGET ACL::ACL)
   add_library(ACL::ACL INTERFACE IMPORTED)
 
   set_target_properties(ACL::ACL PROPERTIES

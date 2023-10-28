@@ -1,6 +1,5 @@
 #[=============================================================================[
 Find the SELinux library.
-http://selinuxproject.org/
 
 Module defines the following IMPORTED targets:
 
@@ -19,7 +18,13 @@ Result variables:
     Version string of found SELinux library.
 #]=============================================================================]
 
+include(FeatureSummary)
 include(FindPackageHandleStandardArgs)
+
+set_package_properties(SELinux PROPERTIES
+  URL "http://selinuxproject.org/"
+  DESCRIPTION "Security Enhanced Linux"
+)
 
 find_package(PkgConfig QUIET REQUIRED)
 

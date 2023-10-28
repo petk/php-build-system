@@ -1,6 +1,5 @@
 #[=============================================================================[
 Find the AppArmor library.
-https://apparmor.net/
 
 Module defines the following IMPORTED targets:
 
@@ -19,7 +18,13 @@ Result variables:
     Version string of found AppArmor library.
 #]=============================================================================]
 
+include(FeatureSummary)
 include(FindPackageHandleStandardArgs)
+
+set_package_properties(AppArmor PROPERTIES
+  URL "https://apparmor.net/"
+  DESCRIPTION "Kernel security module library to confine programs to a limited set of resources"
+)
 
 find_package(PkgConfig QUIET REQUIRED)
 
@@ -42,7 +47,11 @@ find_package_handle_standard_args(
   REASON_FAILURE_MESSAGE "AppArmor not found. Please install the AppArmor library."
 )
 
-if(AppArmor_FOUND AND NOT TARGET AppArmor::AppArmor)
+if(NOT AppArmor_FOUND)
+  return()
+endif()
+
+if(NOT TARGET AppArmor::AppArmor)
   add_library(AppArmor::AppArmor INTERFACE IMPORTED)
 
   set_target_properties(AppArmor::AppArmor PROPERTIES

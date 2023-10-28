@@ -1,6 +1,5 @@
 #[=============================================================================[
 Find the Kerberos library.
-https://web.mit.edu/kerberos/
 
 TODO: Fine tune the imported library by finding krb headers and link with
 gssapi and krb5.
@@ -21,7 +20,13 @@ Result variables:
     Version string of Kerberos library.
 #]=============================================================================]
 
+include(FeatureSummary)
 include(FindPackageHandleStandardArgs)
+
+set_package_properties(Kerberos PROPERTIES
+  URL "https://web.mit.edu/kerberos/"
+  DESCRIPTION "The Network Authentication Protocol"
+)
 
 find_package(PkgConfig QUIET)
 

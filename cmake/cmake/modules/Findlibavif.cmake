@@ -1,6 +1,5 @@
 #[=============================================================================[
 Find the libavif library.
-https://github.com/AOMediaCodec/libavif
 
 This is a helper in case system doesn't have the library's Config find module.
 
@@ -21,7 +20,13 @@ Result variables:
     Version string of found libavif.
 #]=============================================================================]
 
+include(FeatureSummary)
 include(FindPackageHandleStandardArgs)
+
+set_package_properties(libavif PROPERTIES
+  URL "https://github.com/AOMediaCodec/libavif"
+  DESCRIPTION "Library for encoding and decoding .avif files"
+)
 
 find_package(PkgConfig QUIET REQUIRED)
 

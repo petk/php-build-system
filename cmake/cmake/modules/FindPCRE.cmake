@@ -1,6 +1,5 @@
 #[=============================================================================[
 Find the PCRE library.
-https://www.pcre.org/
 
 Module defines the following IMPORTED targets:
 
@@ -19,7 +18,13 @@ Result variables:
     Version string of found PCRE library.
 #]=============================================================================]
 
+include(FeatureSummary)
 include(FindPackageHandleStandardArgs)
+
+set_package_properties(PCRE PROPERTIES
+  URL "https://www.pcre.org/"
+  DESCRIPTION "Perl compatible regular expressions library"
+)
 
 find_package(PkgConfig QUIET REQUIRED)
 

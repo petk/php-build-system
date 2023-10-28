@@ -12,7 +12,13 @@ Cache variables:
     Path to the sendmail program.
 #]=============================================================================]
 
+include(FeatureSummary)
 include(FindPackageHandleStandardArgs)
+
+set_package_properties(Sendmail PROPERTIES
+  URL "https://sendmail.org"
+  DESCRIPTION "Mail Transport Agent"
+)
 
 function(_php_find_sendmail)
   find_program(

@@ -114,6 +114,14 @@ install(
 
 message("
 +--------------------------------------------------------------------+
+| Summary of enabled features                                        |
++--------------------------------------------------------------------+
+")
+include(FeatureSummary)
+feature_summary(WHAT ALL)
+
+message("
++--------------------------------------------------------------------+
 | License:                                                           |
 | This software is subject to the PHP License, available in this     |
 | distribution in the file LICENSE. By continuing this installation  |

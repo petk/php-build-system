@@ -1,6 +1,5 @@
 #[=============================================================================[
 Find the Argon2 library.
-https://github.com/P-H-C/phc-winner-argon2/
 
 Module defines the following IMPORTED targets:
 
@@ -19,7 +18,13 @@ Result variables:
     Version string of Argon2 library.
 #]=============================================================================]
 
+include(FeatureSummary)
 include(FindPackageHandleStandardArgs)
+
+set_package_properties(Argon2 PROPERTIES
+  URL "https://github.com/P-H-C/phc-winner-argon2/"
+  DESCRIPTION "The password hash Argon2 library"
+)
 
 find_package(PkgConfig QUIET REQUIRED)
 
@@ -42,7 +47,11 @@ find_package_handle_standard_args(
   REASON_FAILURE_MESSAGE "Argon2 not found. Please install Argon2 library."
 )
 
-if(Argon2_FOUND AND NOT TARGET Argon2::Argon2)
+if(NOT Argon2_FOUND)
+  return()
+endif()
+
+if(NOT TARGET Argon2::Argon2)
   add_library(Argon2::Argon2 INTERFACE IMPORTED)
 
   set_target_properties(Argon2::Argon2 PROPERTIES

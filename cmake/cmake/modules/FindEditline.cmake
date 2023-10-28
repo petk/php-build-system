@@ -1,6 +1,5 @@
 #[=============================================================================[
 Find the Editline library.
-https://thrysoee.dk/editline/
 
 Module defines the following IMPORTED targets:
 
@@ -19,7 +18,13 @@ Result variables:
     Version string of found Editline library.
 #]=============================================================================]
 
+include(FeatureSummary)
 include(FindPackageHandleStandardArgs)
+
+set_package_properties(Editline PROPERTIES
+  URL "https://thrysoee.dk/editline/"
+  DESCRIPTION "Command-line editor library for generic line editing, history, and tokenization"
+)
 
 find_package(PkgConfig QUIET)
 

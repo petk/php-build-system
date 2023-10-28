@@ -1,6 +1,5 @@
 #[=============================================================================[
 Find the Tidy library.
-https://www.html-tidy.org/
 
 Module defines the following IMPORTED targets:
 
@@ -28,7 +27,13 @@ Result variables:
 include(CheckIncludeFile)
 include(CheckLibraryExists)
 include(CMakePushCheckState)
+include(FeatureSummary)
 include(FindPackageHandleStandardArgs)
+
+set_package_properties(Tidy PROPERTIES
+  URL "https://www.html-tidy.org/"
+  DESCRIPTION "HTML syntax checker"
+)
 
 find_path(Tidy_INCLUDE_DIRS tidy.h PATH_SUFFIXES tidy)
 

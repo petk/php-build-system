@@ -1,6 +1,5 @@
 #[=============================================================================[
 Find the libwebp library.
-https://developers.google.com/speed/webp/
 
 Module defines the following IMPORTED targets:
 
@@ -19,7 +18,13 @@ Result variables:
     Version string of found libwebp.
 #]=============================================================================]
 
+include(FeatureSummary)
 include(FindPackageHandleStandardArgs)
+
+set_package_properties(WebP PROPERTIES
+  URL "https://developers.google.com/speed/webp/"
+  DESCRIPTION "Library for the WebP graphics format"
+)
 
 find_package(PkgConfig QUIET REQUIRED)
 

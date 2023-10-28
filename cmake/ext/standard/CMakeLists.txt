@@ -256,7 +256,7 @@ add_dependencies(php_standard zend)
 target_link_libraries(php_standard PRIVATE PHP::main)
 
 if(STANDARD_EXTRA_LIBRARIES)
-  list(REMOVE_DUPLICATES ${STANDARD_EXTRA_LIBRARIES})
+  list(REMOVE_DUPLICATES STANDARD_EXTRA_LIBRARIES)
   target_link_libraries(php_standard PRIVATE ${STANDARD_EXTRA_LIBRARIES})
 endif()
 

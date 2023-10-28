@@ -297,4 +297,4 @@ if(NOT _crypt_des OR NOT _crypt_ext_des OR NOT _crypt_md5 OR NOT _crypt_blowfish
   message(FATAL_ERROR "Cannot use external libcrypt as some algos are missing")
 endif()
 
-list(REMOVE_DUPLICATES ${CRYPT_EXTRA_LIBRARIES})
+list(REMOVE_DUPLICATES CRYPT_EXTRA_LIBRARIES)

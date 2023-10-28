@@ -1,6 +1,5 @@
 #[=============================================================================[
 Find the NET SNMP library.
-http://www.net-snmp.org/
 
 Module defines the following IMPORTED targets:
 
@@ -19,7 +18,13 @@ Result variables:
     Version string of found NET SNMP library.
 #]=============================================================================]
 
+include(FeatureSummary)
 include(FindPackageHandleStandardArgs)
+
+set_package_properties(SNMP PROPERTIES
+  URL "http://www.net-snmp.org/"
+  DESCRIPTION "Simple network management protocol library"
+)
 
 find_package(PkgConfig QUIET)
 

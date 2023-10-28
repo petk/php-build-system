@@ -1,6 +1,5 @@
 #[=============================================================================[
 Find the Oniguruma library.
-https://github.com/kkos/oniguruma
 
 Module defines the following IMPORTED targets:
 
@@ -19,7 +18,13 @@ Result variables:
     Version string of found Oniguruma library.
 #]=============================================================================]
 
+include(FeatureSummary)
 include(FindPackageHandleStandardArgs)
+
+set_package_properties(Oniguruma PROPERTIES
+  URL "https://github.com/kkos/oniguruma"
+  DESCRIPTION "Regular expression library"
+)
 
 find_path(Oniguruma_INCLUDE_DIRS NAMES oniguruma.h)
 find_library(Oniguruma_LIBRARIES NAMES onig DOC "The Oniguruma library")

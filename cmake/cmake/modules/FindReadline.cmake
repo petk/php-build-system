@@ -1,6 +1,5 @@
 #[=============================================================================[
 Find the GNU Readline library.
-https://tiswww.case.edu/php/chet/readline/rltop.html
 
 Module defines the following IMPORTED targets:
 
@@ -19,7 +18,13 @@ Result variables:
     Version string of found GNU Readline library.
 #]=============================================================================]
 
+include(FeatureSummary)
 include(FindPackageHandleStandardArgs)
+
+set_package_properties(Readline PROPERTIES
+  URL "https://tiswww.case.edu/php/chet/readline/rltop.html"
+  DESCRIPTION "Gnu Readline library for command line editing"
+)
 
 find_package(PkgConfig QUIET)
 

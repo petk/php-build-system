@@ -1,6 +1,5 @@
 #[=============================================================================[
 Find the Sodium library (libsodium).
-https://libsodium.org/
 
 Module defines the following IMPORTED targets:
 
@@ -19,7 +18,13 @@ Result variables:
     Version string of found Sodium library.
 #]=============================================================================]
 
+include(FeatureSummary)
 include(FindPackageHandleStandardArgs)
+
+set_package_properties(Sodium PROPERTIES
+  URL "https://libsodium.org/"
+  DESCRIPTION "Crypto library"
+)
 
 find_package(PkgConfig QUIET)
 
