@@ -3,22 +3,22 @@ Check for x87 floating point internal precision control.
 
 See: https://wiki.php.net/rfc/rounding
 
-The module sets the following cache variables:
+Cache variables:
 
-HAVE__FPU_SETCW
-  Set to 1 if _FPU_SETCW is usable.
+  HAVE__FPU_SETCW
+    Set to 1 if _FPU_SETCW is usable.
 
-HAVE_FPSETPREC
-  Set to 1 if fpsetprec is present and usable.
+  HAVE_FPSETPREC
+    Set to 1 if fpsetprec is present and usable.
 
-HAVE__CONTROLFP
-  Set to 1 if _controlfp is present and usable.
+  HAVE__CONTROLFP
+    Set to 1 if _controlfp is present and usable.
 
-HAVE__CONTROLFP_S
-  Set to 1 if _controlfp_s is present and usable.
+  HAVE__CONTROLFP_S
+    Set to 1 if _controlfp_s is present and usable.
 
-HAVE_FPU_INLINE_ASM_X86
-  Set to 1 if FPU control word can be manipulated by inline assembler.
+  HAVE_FPU_INLINE_ASM_X86
+    Set to 1 if FPU control word can be manipulated by inline assembler.
 ]=============================================================================]#
 
 include(CheckCSourceCompiles)

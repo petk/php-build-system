@@ -1,10 +1,10 @@
 #[=============================================================================[
 Check if dlsym() requires a leading underscore in symbol name.
 
-Module sets the following variables:
+Cache variables:
 
-DLSYM_NEEDS_UNDERSCORE
-  Set to 1 if dlsym() requires a leading underscore in symbol names.
+  DLSYM_NEEDS_UNDERSCORE
+    Set to 1 if dlsym() requires a leading underscore in symbol names.
 ]=============================================================================]#
 
 message(STATUS "Checking whether dlsym() requires a leading underscore in symbol names")

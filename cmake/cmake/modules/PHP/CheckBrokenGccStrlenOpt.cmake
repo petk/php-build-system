@@ -4,6 +4,7 @@ properly handle the `char val[1]` struct hack. See bug #76510. If check is
 successful the -fno-optimize-strlen compiler flag should be used.
 
 Cache variables:
+
   HAVE_BROKEN_OPTIMIZE_STRLEN
     Set to 1 if GCC's optimize-strlen is broken.
 ]=============================================================================]#

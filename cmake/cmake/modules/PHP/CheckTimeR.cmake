@@ -2,12 +2,12 @@
 Check type of reentrant time-related functions. Type can be: irix, hpux or
 POSIX.
 
-The module sets the following variables:
+Cache variables:
 
-PHP_HPUX_TIME_R
-  Set to 1 if HP-UX 10.x is used.
-PHP_IRIX_TIME_R
-  Set to 1 if IRIX-style functions are used.
+  PHP_HPUX_TIME_R
+    Set to 1 if HP-UX 10.x is used.
+  PHP_IRIX_TIME_R
+    Set to 1 if IRIX-style functions are used.
 ]=============================================================================]#
 
 include(CheckCSourceRuns)

@@ -2,13 +2,13 @@
 Test and set the alignment define for ZEND_MM. This also does the logarithmic
 test for ZEND_MM.
 
-Module sets the following variables:
+Cache variables:
 
-ZEND_MM_ALIGNMENT
+  ZEND_MM_ALIGNMENT
 
-ZEND_MM_ALIGNMENT_LOG2
+  ZEND_MM_ALIGNMENT_LOG2
 
-ZEND_MM_NEED_EIGHT_BYTE_REALIGNMENT
+  ZEND_MM_NEED_EIGHT_BYTE_REALIGNMENT
 ]=============================================================================]#
 
 function(_php_check_mm_alignment)

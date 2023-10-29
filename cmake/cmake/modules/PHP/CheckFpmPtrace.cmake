@@ -1,19 +1,19 @@
 #[=============================================================================[
 Check for ptrace().
 
-The module sets the following variables if checks are successful:
+Cache variables:
 
-HAVE_PTRACE
-  Set to 1 if ptrace() is present and working as expected.
+  HAVE_PTRACE
+    Set to 1 if ptrace() is present and working as expected.
 
-HAVE_MACH_VM_READ
-  Set to 1 if ptrace() didn't work and the mach_vm_read() is present.
+  HAVE_MACH_VM_READ
+    Set to 1 if ptrace() didn't work and the mach_vm_read() is present.
 
-PROC_MEM_FILE
-  String of the /proc/pid/mem interface.
+  PROC_MEM_FILE
+    String of the /proc/pid/mem interface.
 
-FPM_TRACE_TYPE
-  Name of the trace type that should be used in FPM.
+  FPM_TRACE_TYPE
+    Name of the trace type that should be used in FPM.
 ]=============================================================================]#
 
 include(CheckCSourceCompiles)

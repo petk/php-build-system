@@ -1,10 +1,10 @@
 #[=============================================================================[
 Check whether aarch64 CRC32 API is available.
 
-Module sets the following variables:
+Cache variables:
 
-HAVE_AARCH64_CRC32
-  Set to 1 if aarch64 CRC32 API is available.
+  HAVE_AARCH64_CRC32
+    Set to 1 if aarch64 CRC32 API is available.
 ]=============================================================================]#
 
 include(CheckCSourceCompiles)

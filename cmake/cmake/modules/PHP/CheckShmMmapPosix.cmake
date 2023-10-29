@@ -1,13 +1,13 @@
 #[=============================================================================[
 Check for mmap() using shm_open() shared memory support.
 
-The module sets the following variables if support is found:
+Cache variables:
 
-HAVE_SHM_MMAP_POSIX
-  Set to 1 if POSIX mmap() SHM support is found.
+  HAVE_SHM_MMAP_POSIX
+    Set to 1 if POSIX mmap() SHM support is found.
 
-SHM_MMAP_POSIX_REQUIRED_LIBRARIES
-  Required libraries that needs to be appended to the shared extension target.
+  SHM_MMAP_POSIX_REQUIRED_LIBRARIES
+    Required libraries that needs to be appended to the shared extension target.
 ]=============================================================================]#
 
 include(CheckCSourceRuns)

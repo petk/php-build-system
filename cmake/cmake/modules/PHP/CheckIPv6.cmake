@@ -1,42 +1,38 @@
 #[=============================================================================[
 Check for IPv6 support.
 
-Module sets the following variables if IPv6 support is available:
+Cache variables:
 
-HAVE_IPV6
-  Set to true if IPv6 support is enabled.
+  HAVE_IPV6
+    Set to true if IPv6 support is enabled.
 ]=============================================================================]#
 
 include(CheckCSourceCompiles)
 
-function(_php_check_ipv6)
-  message(CHECK_START "Checking for IPv6 support")
+message(CHECK_START "Checking for IPv6 support")
 
-  list(APPEND CMAKE_MESSAGE_INDENT "  ")
+list(APPEND CMAKE_MESSAGE_INDENT "  ")
 
-  check_c_source_compiles("
-    #include <sys/types.h>
-    #include <sys/socket.h>
-    #include <netinet/in.h>
+check_c_source_compiles("
+  #include <sys/types.h>
+  #include <sys/socket.h>
+  #include <netinet/in.h>
 
-    int main(void) {
-      struct sockaddr_in6 s;
-      struct in6_addr t = in6addr_any;
-      int i = AF_INET6;
-      s;
-      t.s6_addr[0] = 0;
+  int main(void) {
+    struct sockaddr_in6 s;
+    struct in6_addr t = in6addr_any;
+    int i = AF_INET6;
+    s;
+    t.s6_addr[0] = 0;
 
-      return 0;
-    }
-  " HAVE_IPV6)
+    return 0;
+  }
+" HAVE_IPV6)
 
-  list(POP_BACK CMAKE_MESSAGE_INDENT)
+list(POP_BACK CMAKE_MESSAGE_INDENT)
 
-  if(HAVE_IPV6)
-    message(CHECK_PASS "yes")
-  else()
-    message(CHECK_FAIL "no")
-  endif()
-endfunction()
-
-_php_check_ipv6()
+if(HAVE_IPV6)
+  message(CHECK_PASS "yes")
+else()
+  message(CHECK_FAIL "no")
+endif()

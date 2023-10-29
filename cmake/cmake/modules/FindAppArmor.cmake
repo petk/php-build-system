@@ -23,7 +23,7 @@ include(FindPackageHandleStandardArgs)
 
 set_package_properties(AppArmor PROPERTIES
   URL "https://apparmor.net/"
-  DESCRIPTION "Kernel security module library to confine programs to a limited set of resources"
+  DESCRIPTION "Kernel security module library to confine programs"
 )
 
 find_package(PkgConfig QUIET REQUIRED)

@@ -1,13 +1,13 @@
 #[=============================================================================[
 Check whether to enable Zend signal handling.
 
-The module sets the following variables:
+Cache variables:
 
-ZEND_SIGNALS
-  Set to 1 when using Zend signal handling.
+  ZEND_SIGNALS
+    Set to 1 when using Zend signal handling.
 
-HAVE_SIGACTION
-  Set to 1 if the sigaction symbol is available.
+  HAVE_SIGACTION
+    Set to 1 if the sigaction symbol is available.
 ]=============================================================================]#
 
 include(CheckSymbolExists)

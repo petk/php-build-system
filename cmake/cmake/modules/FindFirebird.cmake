@@ -62,7 +62,11 @@ if(Firebird_LIBRARIES)
   )
 endif()
 
-mark_as_advanced(Firebird_LIBRARIES Firebird_INCLUDE_DIRS)
+mark_as_advanced(
+  Firebird_LIBRARIES
+  Firebird_INCLUDE_DIRS
+  Firebird_CONFIG_EXECUTABLE
+)
 
 find_package_handle_standard_args(
   Firebird

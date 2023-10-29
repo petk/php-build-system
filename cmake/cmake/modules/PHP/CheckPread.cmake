@@ -1,12 +1,12 @@
 #[=============================================================================[
 Check whether pread() works.
 
-The module sets the following variables:
+Cache variables:
 
-HAVE_PREAD
-  Set to 1 if pread() is available.
-PHP_PREAD_64
-  Set to 1 if pread64 is default.
+  HAVE_PREAD
+    Set to 1 if pread() is available.
+  PHP_PREAD_64
+    Set to 1 if pread64 is default.
 ]=============================================================================]#
 
 include(CheckCSourceRuns)

@@ -1,10 +1,10 @@
 #[=============================================================================[
 Check for global register variables support.
 
-Module sets the following variables:
+Cache variables:
 
-HAVE_GCC_GLOBAL_REGS
-  Set to 1 if the target system has support for global register variables.
+  HAVE_GCC_GLOBAL_REGS
+    Set to 1 if the target system has support for global register variables.
 ]=============================================================================]#
 
 include(CheckCSourceCompiles)

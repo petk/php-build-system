@@ -1,46 +1,72 @@
 #[=============================================================================[
 Check if flush should be called explicitly after buffered io.
 
-Module sets the following variables:
+Cache variables:
 
-HAVE_FLUSHIO
-  Set to 1 if flush should be called explicitly after a buffered io.
+  HAVE_FLUSHIO
+    Set to 1 if flush should be called explicitly after a buffered io.
 ]=============================================================================]#
 
 include(CheckCSourceRuns)
+include(CMakePushCheckState)
 
-# Check how flush call should be done.
-function(_php_check_flush_io)
-  message(STATUS "Checking whether flush should be called explicitly after a buffered io")
+message(CHECK_START
+  "Checking whether flush should be called explicitly after a buffered io"
+)
 
-  if(CMAKE_CROSSCOMPILING)
-    message(STATUS "no (cross-compiling)")
-    return()
-  endif()
+list(APPEND CMAKE_MESSAGE_INDENT "  ")
 
-  if(HAVE_UNISTD_H)
-    set(unistd_defined_macro "-DHAVE_UNISTD_H=1")
-  endif()
+if(NOT CMAKE_CROSSCOMPILING)
+  cmake_push_check_state(RESET)
+    if(HAVE_UNISTD_H)
+      set(CMAKE_REQUIRED_DEFINITIONS "-DHAVE_UNISTD_H")
+    endif()
 
-  try_run(
-    RUN_RESULT_VAR
-    COMPILE_RESULT_VAR
-    ${CMAKE_BINARY_DIR}
-    "${CMAKE_CURRENT_FUNCTION_LIST_DIR}/CheckFlushIo/check_flush_io.c"
-    COMPILE_DEFINITIONS ${unistd_defined_macro}
-    OUTPUT_VARIABLE RUN_OUTPUT
-  )
+    check_c_source_runs("
+      #include <stdio.h>
+      #include <stdlib.h>
+      #ifdef HAVE_UNISTD_H
+      # include <unistd.h>
+      #endif
+      #include <string.h>
 
-  if(NOT COMPILE_RESULT_VAR)
-    message(FATAL_ERROR "Error when compiling the check_flush_io.c program:\n${RUN_OUTPUT}")
-  endif()
+      int main(int argc, char **argv) {
+        char *filename = tmpnam(NULL);
+        char buffer[64];
+        int result = 1;
 
-  if(RUN_RESULT_VAR EQUAL 0)
-    message(STATUS "no")
-  else()
-    message(STATUS "yes")
-    set(HAVE_FLUSHIO 1 CACHE INTERNAL "Define if flush should be called explicitly after a buffered io.")
-  endif()
-endfunction()
+        FILE *fp = fopen(filename, \"wb\");
+        if (NULL == fp)
+          return 1;
+        fputs(\"line 1\\\\n\", fp);
+        fputs(\"line 2\\\\n\", fp);
+        fclose(fp);
 
-_php_check_flush_io()
+        fp = fopen(filename, \"rb+\");
+        if (NULL == fp)
+          return 1;
+        fgets(buffer, sizeof(buffer), fp);
+        fputs(\"line 3\\\\n\", fp);
+        rewind(fp);
+        fgets(buffer, sizeof(buffer), fp);
+        if (0 != strcmp(buffer, \"line 1\\\\n\"))
+          result = 0;
+        fgets(buffer, sizeof(buffer), fp);
+        if (0 != strcmp(buffer, \"line 3\\\\n\"))
+          result = 0;
+        fclose(fp);
+        unlink(filename);
+
+        exit(result);
+      }
+    " HAVE_FLUSHIO)
+  cmake_pop_check_state()
+endif()
+
+list(POP_BACK CMAKE_MESSAGE_INDENT)
+
+if(HAVE_FLUSHIO)
+  message(CHECK_PASS "yes")
+else()
+  message(CHECK_FAIL "no")
+endif()

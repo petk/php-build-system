@@ -1,10 +1,10 @@
 #[=============================================================================[
 Check whether system byte ordering is big-endian.
 
-Module sets the following variables:
+Cache variables:
 
-WORDS_BIGENDIAN
-  Set to true if byte ordering is big-endian.
+  WORDS_BIGENDIAN
+    Set to true if byte ordering is big-endian.
 ]=============================================================================]#
 
 include(CheckCSourceRuns)

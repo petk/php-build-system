@@ -1,22 +1,19 @@
 #[=============================================================================[
 Check for mmap() using MAP_ANON shared memory support.
 
-The module sets the following variables if support is found:
+Cache variables:
 
-HAVE_SHM_MMAP_ANON
-  Set to 1 if mmap(MAP_ANON) SHM support is found.
+  HAVE_SHM_MMAP_ANON
+    Set to 1 if mmap(MAP_ANON) SHM support is found.
 ]=============================================================================]#
+
 include(CheckCSourceRuns)
 
-message(STATUS "Checking for mmap() using MAP_ANON shared memory support")
+message(CHECK_START "Checking for mmap() using MAP_ANON shared memory support")
 
-if(CMAKE_CROSSCOMPILING)
-  if(CMAKE_SYSTEM_NAME STREQUAL "Linux")
-    set(_have_shm_mmap_anon ON)
-  else()
-    set(_have_shm_mmap_anon OFF)
-  endif()
-else()
+list(APPEND CMAKE_MESSAGE_INDENT "  ")
+
+if(NOT CMAKE_CROSSCOMPILING)
   check_c_source_runs("
     #include <sys/types.h>
     #include <sys/wait.h>
@@ -63,14 +60,18 @@ else()
       }
       return 0;
     }
-  " _have_shm_mmap_anon)
+  " HAVE_SHM_MMAP_ANON)
+elseif(CMAKE_CROSSCOMPILING AND CMAKE_SYSTEM_NAME STREQUAL "Linux")
+  set(
+    HAVE_SHM_MMAP_ANON 1
+    CACHE INTERNAL "Whether mmap(MAP_ANON) SHM support is available"
+  )
 endif()
 
-if(_have_shm_mmap_anon)
-  set(HAVE_SHM_MMAP_ANON 1 CACHE INTERNAL "Define if you have mmap(MAP_ANON) SHM support")
-  message(STATUS "yes")
+list(POP_BACK CMAKE_MESSAGE_INDENT)
+
+if(HAVE_SHM_MMAP_ANON)
+  message(CHECK_PASS "yes")
 else()
-  message(STATUS "no")
+  message(CHECK_FAIL "no")
 endif()
-
-unset(_have_shm_mmap_anon)

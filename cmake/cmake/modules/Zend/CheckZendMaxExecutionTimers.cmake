@@ -1,14 +1,13 @@
 #[=============================================================================[
 Check Zend max execution timers.
 
-The module sets the following variables if Zend max execution timers should be
-enabled:
+Cache variables:
 
-ZEND_MAX_EXECUTION_TIMERS
-  Set to 1 if Zend max execution timers should be enabled.
+  ZEND_MAX_EXECUTION_TIMERS
+    Set to 1 if Zend max execution timers should be enabled.
 
-ZEND_MAX_EXECUTION_TIMERS_LIBRARIES
-  Libraries for linking to target.
+  ZEND_MAX_EXECUTION_TIMERS_LIBRARIES
+    Libraries for linking to target.
 ]=============================================================================]#
 
 include(CheckLibraryExists)

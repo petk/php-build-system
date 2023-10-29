@@ -1,10 +1,10 @@
 #[=============================================================================[
 Check whether the stack grows downwards. Assumes contiguous stack.
 
-The module sets the following variables:
+Cache variables:
 
-ZEND_CHECK_STACK_LIMIT
-  Set to 1 if checking the stack limit is supported.
+  ZEND_CHECK_STACK_LIMIT
+    Set to 1 if checking the stack limit is supported.
 ]=============================================================================]#
 
 include(CheckCSourceRuns)

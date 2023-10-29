@@ -1,18 +1,18 @@
 #[=============================================================================[
 Check for missing declarations of reentrant functions.
 
-Module sets the following variables:
+Cache variables:
 
-MISSING_LOCALTIME_R_DECL
-  Set to 1 if localtime_r is not declared.
-MISSING_GMTIME_R_DECL
-  Set to 1 if gmtime_r is not declared.
-MISSING_ASCTIME_R_DECL
-  Set to 1 if asctime_r is not declared.
-MISSING_CTIME_R_DECL
-  Set to 1 if ctime_r is not declared.
-MISSING_STRTOK_R_DECL
-  Set to 1 if strtok_r is not declared.
+  MISSING_LOCALTIME_R_DECL
+    Set to 1 if localtime_r is not declared.
+  MISSING_GMTIME_R_DECL
+    Set to 1 if gmtime_r is not declared.
+  MISSING_ASCTIME_R_DECL
+    Set to 1 if asctime_r is not declared.
+  MISSING_CTIME_R_DECL
+    Set to 1 if ctime_r is not declared.
+  MISSING_STRTOK_R_DECL
+    Set to 1 if strtok_r is not declared.
 ]=============================================================================]#
 
 include(CheckCSourceCompiles)

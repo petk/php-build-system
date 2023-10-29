@@ -1,11 +1,12 @@
 #[=============================================================================[
 Check for sysvipc shared memory support.
 
-The module sets the following variables if sysvipc support is found:
+Cache variables:
 
-HAVE_SHM_IPC
-  Set to 1 if SysV IPC SHM support is available.
+  HAVE_SHM_IPC
+    Set to 1 if SysV IPC SHM support is available.
 ]=============================================================================]#
+
 include(CheckCSourceRuns)
 
 message(CHECK_START "Checking for sysvipc shared memory support")

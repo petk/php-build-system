@@ -163,7 +163,7 @@ set(VAR <value> CACHE <type> "<help_text>")
 # Cache variable as a boolean option
 option(FOO "<help_text>" [value])
 
-# Cache variable created by CMake command invocation
+# Cache variables created by CMake command invocations. For example
 find_program(RE2C_EXECUTABLE re2c)
 ```
 

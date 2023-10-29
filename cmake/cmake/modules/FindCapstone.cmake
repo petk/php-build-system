@@ -23,7 +23,7 @@ include(FindPackageHandleStandardArgs)
 
 set_package_properties(Capstone PROPERTIES
   URL "https://www.capstone-engine.org"
-  DESCRIPTION "Capstone disassembly engine"
+  DESCRIPTION "Disassembly engine"
 )
 
 find_package(PkgConfig QUIET REQUIRED)

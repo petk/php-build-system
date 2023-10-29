@@ -2,10 +2,10 @@
 Check for getaddrinfo(), should be a better way, but... Also check for working
 getaddrinfo.
 
-If successful the module sets the following variables:
+Cache variables:
 
-HAVE_GETADDRINFO
-  Set to 1 if getaddrinfo() function is working as expected.
+  HAVE_GETADDRINFO
+    Set to 1 if getaddrinfo() function is working as expected.
 ]=============================================================================]#
 
 include(CheckCSourceCompiles)

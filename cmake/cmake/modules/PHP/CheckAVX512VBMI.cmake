@@ -1,10 +1,10 @@
 #[=============================================================================[
 Check whether compiler supports AVX512 VBMI.
 
-Module sets the following variables:
+Cache variables:
 
-PHP_HAVE_AVX512_VBMI_SUPPORTS
-  Set to true if compiler supports AVX512 VBMI, false otherwise.
+  PHP_HAVE_AVX512_VBMI_SUPPORTS
+    Set to true if compiler supports AVX512 VBMI, false otherwise.
 ]=============================================================================]#
 
 include(CheckCSourceCompiles)

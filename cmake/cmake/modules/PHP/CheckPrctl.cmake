@@ -1,10 +1,10 @@
 #[=============================================================================[
 Check if system has working prctl().
 
-The module sets the following variables:
+Cache variables:
 
-HAVE_PRCTL
-  Set to true if system has working prctl().
+  HAVE_PRCTL
+    Set to true if system has working prctl().
 ]=============================================================================]#
 
 include(CheckCSourceCompiles)

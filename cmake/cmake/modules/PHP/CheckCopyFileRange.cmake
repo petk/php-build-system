@@ -2,10 +2,10 @@
 On FreeBSD, copy_file_range() works only with the undocumented flag 0x01000000.
 Until the problem is fixed properly, copy_file_range() is used only on Linux.
 
-If checks pass the module sets the following variables:
+Cache variables:
 
-HAVE_COPY_FILE_RANGE
-  Set to 1 if copy_file_range() is supported.
+  HAVE_COPY_FILE_RANGE
+    Set to 1 if copy_file_range() is supported.
 ]=============================================================================]#
 
 include(CheckCSourceRuns)

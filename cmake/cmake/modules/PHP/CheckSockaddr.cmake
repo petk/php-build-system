@@ -2,13 +2,13 @@
 Check if struct sockaddr_storage exists and if field sa_len exists in struct
 sockaddr.
 
-The module sets the following variables if support is found:
+Cache variables:
 
-HAVE_SOCKADDR_STORAGE
-  Set to 1 if struct sockaddr_storage is available.
+  HAVE_SOCKADDR_STORAGE
+    Set to 1 if struct sockaddr_storage is available.
 
-HAVE_SOCKADDR_SA_LEN
-  Set to 1 if struct sockaddr has field sa_len.
+  HAVE_SOCKADDR_SA_LEN
+    Set to 1 if struct sockaddr has field sa_len.
 ]=============================================================================]#
 
 include(CheckCSourceCompiles)

@@ -3,35 +3,48 @@ Check for a working POSIX fnmatch() function.
 
 Some versions of Solaris, SCO, and the GNU C Library have a broken or
 incompatible fnmatch. When cross-compiling we only enable it for Linux systems.
+Based on the AC_FUNC_FNMATCH Autoconf macro.
 
-Module sets the following variables:
+Cache variables:
 
-HAVE_FNMATCH
-  Set to 1 if fnmatch is a working POSIX variant.
+  HAVE_FNMATCH
+    Set to 1 if fnmatch is a working POSIX variant.
 ]=============================================================================]#
 
-function(_php_check_fnmatch)
-  if(CMAKE_CROSSCOMPILING)
-    if(CMAKE_SYSTEM_NAME STREQUAL "Linux")
-      set(successful TRUE)
-    endif()
-  else()
-    try_run(
-      RUN_RESULT_VAR
-      COMPILE_RESULT_VAR
-      ${CMAKE_BINARY_DIR}
-      "${CMAKE_CURRENT_FUNCTION_LIST_DIR}/CheckFnmatch/check_fnmatch.c"
-      OUTPUT_VARIABLE RUN_OUTPUT
-    )
+include(CheckCSourceRuns)
 
-    if(COMPILE_RESULT_VAR AND RUN_RESULT_VAR EQUAL 0)
-      set(successful TRUE)
-    endif()
-  endif()
+message(CHECK_START "Checking for a working POSIX fnmatch() function")
 
-  if(successful)
-    set(HAVE_FNMATCH 1 CACHE INTERNAL "Define to 1 if your system has a working POSIX fnmatch function.")
-  endif()
-endfunction()
+list(APPEND CMAKE_MESSAGE_INDENT "  ")
 
-_php_check_fnmatch()
+if(NOT CMAKE_CROSSCOMPILING)
+  check_c_source_runs("
+    #include <fnmatch.h>
+    #define y(a, b, c) (fnmatch (a, b, c) == 0)
+    #define n(a, b, c) (fnmatch (a, b, c) == FNM_NOMATCH)
+
+    int main(void) {
+      return
+        (!(y (\"a*\", \"abc\", 0)
+          && n (\"d*/*1\", \"d/s/1\", FNM_PATHNAME)
+          && y (\"a\\\\\\\\bc\", \"abc\", 0)
+          && n (\"a\\\\\\\\bc\", \"abc\", FNM_NOESCAPE)
+          && y (\"*x\", \".x\", 0)
+          && n (\"*x\", \".x\", FNM_PERIOD)
+          && 1));
+    }
+  " HAVE_FNMATCH)
+elseif(CMAKE_CROSSCOMPILING AND CMAKE_SYSTEM_NAME STREQUAL "Linux")
+  set(
+    HAVE_FNMATCH 1
+    CACHE INTERNAL "Define to 1 if your system has a working POSIX fnmatch function."
+  )
+endif()
+
+list(POP_BACK CMAKE_MESSAGE_INDENT)
+
+if(HAVE_FNMATCH)
+  message(CHECK_PASS "yes")
+else()
+  message(CHECK_FAIL "no")
+endif()

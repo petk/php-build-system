@@ -1,12 +1,12 @@
 #[=============================================================================[
 Searches for MySQL Unix socket location.
 
-The module sets the following variables:
+Cache variables:
 
-PHP_MYSQL_UNIX_SOCK_ADDR
-  Path to the MySQL Unix socket if one has been found in the predefined default
-  locations. If EXT_MYSQL_SOCK_PATH variable is set, the MySQL Unix socket
-  pointer is set to it instead.
+  PHP_MYSQL_UNIX_SOCK_ADDR
+    Path to the MySQL Unix socket if one has been found in the predefined
+    default locations. If EXT_MYSQL_SOCK_PATH variable is set, the MySQL Unix
+    socket pointer is set to it instead.
 ]=============================================================================]#
 
 function(_php_set_mysql_socket)

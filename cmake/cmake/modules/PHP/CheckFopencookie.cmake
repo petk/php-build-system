@@ -1,13 +1,13 @@
 #[=============================================================================[
 Check if fopencookie() is working as expected.
 
-The module sets the following variables:
+Cache variables:
 
-HAVE_FOPENCOOKIE
-  Set to 1 if fopencookie() and cookie_io_functions_t are available.
+  HAVE_FOPENCOOKIE
+    Set to 1 if fopencookie() and cookie_io_functions_t are available.
 
-COOKIE_SEEKER_USES_OFF64_T
-  Whether a newer seeker definition for fopencookie() is available.
+  COOKIE_SEEKER_USES_OFF64_T
+    Whether a newer seeker definition for fopencookie() is available.
 ]=============================================================================]#
 
 include(CheckCSourceCompiles)

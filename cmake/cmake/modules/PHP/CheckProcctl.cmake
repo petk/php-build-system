@@ -1,10 +1,10 @@
 #[=============================================================================[
 Check if system has procctl().
 
-The module sets the following variables:
+Cache variables:
 
-HAVE_PROCCTL
-  Set to true if system has working procctl().
+  HAVE_PROCCTL
+    Set to true if system has working procctl().
 ]=============================================================================]#
 
 include(CheckCSourceCompiles)

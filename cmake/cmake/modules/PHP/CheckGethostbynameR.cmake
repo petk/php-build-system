@@ -5,19 +5,19 @@ The gethostbyname_r() function has different signatures on different systems.
 
 See https://github.com/autoconf-archive/autoconf-archive/blob/master/m4/ax_func_which_gethostbyname_r.m4
 
-If successful the module sets the following variables:
+Cache variables:
 
-HAVE_GETHOSTBYNAME_R
-  Set to 1 if gethostbyname_r() is available.
+  HAVE_GETHOSTBYNAME_R
+    Set to 1 if gethostbyname_r() is available.
 
-HAVE_FUNC_GETHOSTBYNAME_R_3
-  Set to 1 if function has 3 arguments.
+  HAVE_FUNC_GETHOSTBYNAME_R_3
+    Set to 1 if function has 3 arguments.
 
-HAVE_FUNC_GETHOSTBYNAME_R_5
-  Set to 1 if function has 5 arguments.
+  HAVE_FUNC_GETHOSTBYNAME_R_5
+    Set to 1 if function has 5 arguments.
 
-HAVE_FUNC_GETHOSTBYNAME_R_6
-  Set to 1 if function has 6 arguments.
+  HAVE_FUNC_GETHOSTBYNAME_R_6
+    Set to 1 if function has 6 arguments.
 ]=============================================================================]#
 
 include(CheckCSourceCompiles)

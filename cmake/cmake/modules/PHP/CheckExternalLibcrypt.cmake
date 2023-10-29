@@ -1,16 +1,16 @@
 #[=============================================================================[
 Check if PHP can use external libcrypt.
 
-Module sets the following variables:
+Cache variables:
 
-HAVE_CRYPT
-  Set to 1 if crypt function is available.
+  HAVE_CRYPT
+    Set to 1 if crypt function is available.
 
-CRYPT_EXTRA_LIBRARIES
-  A list of additional libraries for building the target.
+  CRYPT_EXTRA_LIBRARIES
+    A list of additional libraries for building the target.
 
-HAVE_CRYPT_R
-  Set to 1 if crypt_r is available.
+  HAVE_CRYPT_R
+    Set to 1 if crypt_r is available.
 ]=============================================================================]#
 
 include(CheckCSourceRuns)

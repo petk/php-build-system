@@ -172,8 +172,16 @@ cmake_pop_check_state()
 # Check fopencookie.
 include(PHP/CheckFopencookie)
 
-# Check for broken getcwd().
-include(PHP/CheckBrokenGetCwd)
+# Some systems, notably Solaris, cause getcwd() or realpath to fail if a
+# component of the path has execute but not read permissions.
+message(CHECK_START "Checking for broken getcwd()")
+
+if(CMAKE_HOST_SYSTEM_NAME STREQUAL "SunOS")
+  set(HAVE_BROKEN_GETCWD 1 CACHE INTERNAL "Define if system has broken getcwd")
+  message(CHECK_PASS "yes")
+else()
+  message(CHECK_FAIL "no")
+endif()
 
 # Check for broken GCC optimize-strlen.
 include(PHP/CheckBrokenGccStrlenOpt)
@@ -184,7 +192,7 @@ if(HAVE_BROKEN_OPTIMIZE_STRLEN)
 endif()
 
 # Check for missing fclose declaration.
-include(PHP/CheckMissingFcloseDeclaration)
+include(PHP/CheckFclose)
 
 # Check struct flock.
 include(PHP/CheckStructFlock)

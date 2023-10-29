@@ -1,10 +1,10 @@
 #[=============================================================================[
 Check for __alignof__ support in the compiler.
 
-Module sets the following variables:
+Cache variables:
 
-HAVE_ALIGNOF
-  Set to 1 if compiler supports __alignof__.
+  HAVE_ALIGNOF
+    Set to 1 if compiler supports __alignof__.
 ]=============================================================================]#
 
 include(CheckCSourceCompiles)

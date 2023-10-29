@@ -1,16 +1,16 @@
 #[=============================================================================[
 Check for clock_gettime().
 
-The module sets the following variables if checks are successful:
+Cache variables:
 
-HAVE_CLOCK_GETTIME
-  Set to 1 if clock_gettime() is present.
+  HAVE_CLOCK_GETTIME
+    Set to 1 if clock_gettime() is present.
 
-FPM_CLOCK_LIBRARIES
-  A list of libraries for linking.
+  FPM_CLOCK_LIBRARIES
+    A list of libraries for linking.
 
-HAVE_CLOCK_GET_TIME
-  Set to 1 if clock_get_time() should be used.
+  HAVE_CLOCK_GET_TIME
+    Set to 1 if clock_get_time() should be used.
 ]=============================================================================]#
 
 include(CheckCSourceCompiles)

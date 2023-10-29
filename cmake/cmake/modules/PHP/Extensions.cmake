@@ -419,6 +419,11 @@ function(_php_extensions_configure directories)
       continue()
     endif()
 
+    # Mark shared option variable as advanced.
+    if(DEFINED EXT_${extension_upper}_SHARED)
+      mark_as_advanced(EXT_${extension_upper}_SHARED)
+    endif()
+
     _php_extensions_get_dependencies("${dir}" dependencies)
 
     # If extension is enabled and one of its dependencies is built as a shared

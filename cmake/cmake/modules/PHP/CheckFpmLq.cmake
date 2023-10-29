@@ -1,17 +1,17 @@
 #[=============================================================================[
 Check for tcp_info.
 
-The module sets the following variables if checks are successful:
+Cache variables:
 
-HAVE_LQ_TCP_INFO
-  Set to 1 if TCP_INFO is present.
+  HAVE_LQ_TCP_INFO
+    Set to 1 if TCP_INFO is present.
 
-HAVE_LQ_TCP_CONNECTION_INFO
-  Set to 1 if TCP_CONNECTION_INFO is present.
+  HAVE_LQ_TCP_CONNECTION_INFO
+    Set to 1 if TCP_CONNECTION_INFO is present.
 
-HAVE_LQ_SO_LISTENQ
-  Set to 1 if SO_LISTENQLEN is available as alternative to TCP_INFO and
-  TCP_CONNECTION_INFO.
+  HAVE_LQ_SO_LISTENQ
+    Set to 1 if SO_LISTENQLEN is available as alternative to TCP_INFO and
+    TCP_CONNECTION_INFO.
 ]=============================================================================]#
 
 include(CheckCSourceCompiles)
