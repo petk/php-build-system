@@ -28,6 +28,8 @@ patterns="
 #undef\sHAVE_TIMER_CREATE
 #undef\sHAVE_SYS_SDT_H
 #undef\sDBA_CDB_MAKE
+#undef\sHAVE_NETINET_TCP_H
+#undef\sHAVE_SYS_UN_H
 "
 
 # Similar to the above patterns except the two lines above and one after the

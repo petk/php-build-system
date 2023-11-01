@@ -1,6 +1,11 @@
 include(CMakeDependentOption)
+include(FeatureSummary)
 
 option(EXT_PHAR "Enable the phar extension" ON)
+
+add_feature_info("ext/phar" EXT_PHAR
+  "Adds support for using PHP archives (phar)."
+)
 
 cmake_dependent_option(
   EXT_PHAR_SHARED

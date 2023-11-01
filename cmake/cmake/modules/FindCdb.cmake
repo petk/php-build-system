@@ -17,7 +17,7 @@ Result variables:
 
 Hints:
 
-  The Cdb_ROOT variable adds search path for finding the cdb on custom location.
+  The Cdb_ROOT variable adds custom search path.
 #]=============================================================================]
 
 include(CheckLibraryExists)

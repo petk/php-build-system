@@ -83,6 +83,16 @@ On the contrary, variable names are case-sensitive.
   cmake --warn-uninitialized -S <source-directory> -B <build-directory>
   ```
 
+* Long strings can be split into multiple lines by using line continuation with
+  a backslash (`\`) character followed by a new line:
+
+  ```cmake
+  message("\
+  This string is concatenated \
+  to a single line.\
+  ")
+  ```
+
 ### 2.1. End commands
 
 To make the code easier to read, use empty commands for `endif()`,
@@ -440,6 +450,15 @@ Detecting Windows target:
 if(CMAKE_SYSTEM_NAME STREQUAL "Windows")
   # ...
 endif()
+```
+
+When using generators:
+
+```cmake
+target_compile_definitions(
+  php
+  PRIVATE $<$<PLATFORM_ID:Linux,FreeBSD>:FOOBAR>
+)
 ```
 
 See also [CMakeDetermineSystem.cmake](https://gitlab.kitware.com/cmake/cmake/-/blob/master/Modules/CMakeDetermineSystem.cmake).

@@ -8,6 +8,8 @@ in the PHP_EXTENSION_DEPENDENCIES target property. If an extension has specified
 dependencies, this module ensures that all dependencies are enabled. If any of
 the dependencies are built as SHARED libraries, the extension must also be built
 as a SHARED library.
+
+Function: php_extensions_add(subdirectory)
 ]=============================================================================]#
 
 ################################################################################
@@ -73,12 +75,12 @@ set_property(GLOBAL PROPERTY PHP_ALWAYS_ENABLED_EXTENSIONS
 )
 
 ################################################################################
-# Module internal helper functions.
+# Module function(s) to be used externally.
 ################################################################################
 
 # Add subdirectories of extensions.
-function(_php_extensions_include directory)
-  # Get a list of subdirectories related to extensions.
+function(php_extensions_add directory)
+  # Get a sorted list of subdirectories related to extensions.
   _php_extensions_get("${directory}" directories)
 
   # Evaluate options of extensions.
@@ -89,13 +91,19 @@ function(_php_extensions_include directory)
 
   # Add subdirectories of extensions.
   foreach(dir ${directories})
-    _php_extensions_add("${dir}")
+    add_subdirectory("${dir}")
+
+    _php_extensions_post_configure("${dir}")
   endforeach()
 
   # Validate options of extensions and their dependencies.
   get_cmake_property(extensions PHP_EXTENSIONS)
   _php_extensions_validate("${extensions}")
 endfunction()
+
+################################################################################
+# Module internal helper functions.
+################################################################################
 
 # Get a sorted list of subdirectories related to extensions.
 function(_php_extensions_get directory result)
@@ -408,9 +416,6 @@ endfunction()
 
 # Configure extensions according to their dependencies.
 function(_php_extensions_configure directories)
-  list(GET directories 0 parent_directory)
-  cmake_path(GET parent_directory PARENT_PATH parent_directory)
-
   foreach(dir ${directories})
     cmake_path(GET dir FILENAME extension)
     string(TOUPPER "${extension}" extension_upper)
@@ -478,10 +483,8 @@ function(_php_extensions_configure directories)
   endforeach()
 endfunction()
 
-# Add extension subdirectory and add it to enabled extensions.
-function(_php_extensions_add directory)
-  add_subdirectory("${directory}")
-
+# Configure extension after extension CMakeLists.txt is added.
+function(_php_extensions_post_configure directory)
   cmake_path(GET directory FILENAME extension)
 
   if(NOT TARGET php_${extension})
@@ -496,13 +499,17 @@ function(_php_extensions_add directory)
     return()
   endif()
 
+  # Set target output filename to "<extension>.(a|dll|so)".
+  get_target_property(output php_${extension} OUTPUT_NAME)
+  if(NOT output)
+    set_property(TARGET php_${extension} PROPERTY OUTPUT_NAME ${extension})
+  endif()
+
   # Define HAVE_<extension-name> constant for php_config.h.
-  string(TOUPPER "HAVE_${extension}" DYNAMIC_NAME)
+  string(TOUPPER "HAVE_${extension}" constant)
   set(
-    ${DYNAMIC_NAME}
-    1
-    CACHE INTERNAL
-    "Whether to enable the ${extension} extension."
+    ${constant} 1
+    CACHE INTERNAL "Whether to enable the ${extension} extension."
   )
 
   get_target_property(extension_type php_${extension} TYPE)
@@ -513,12 +520,10 @@ function(_php_extensions_add directory)
 
   # Define COMPILE_DL_<extension-name> constant for php_config.h to indicate
   # extension is built as a shared library.
-  string(TOUPPER "COMPILE_DL_${extension}" DYNAMIC_NAME)
+  string(TOUPPER "COMPILE_DL_${extension}" constant)
   set(
-    ${DYNAMIC_NAME}
-    1
-    CACHE INTERNAL
-    "Whether to build ${extension} as a shared library"
+    ${constant} 1
+    CACHE INTERNAL "Whether to build ${extension} as a shared library."
   )
 endfunction()
 
@@ -574,9 +579,3 @@ function(_php_extensions_validate extensions)
     endforeach()
   endforeach()
 endfunction()
-
-################################################################################
-# Module execution.
-################################################################################
-
-_php_extensions_include("${CMAKE_CURRENT_SOURCE_DIR}/ext")

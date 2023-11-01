@@ -1,7 +1,12 @@
 include(CheckLibraryExists)
 include(CMakeDependentOption)
+include(FeatureSummary)
 
 option(EXT_SQLITE3 "Enable the sqlite3 extension" ON)
+
+add_feature_info("ext/sqlite3" EXT_SQLITE3
+  "Adds support for SQLite 3 database."
+)
 
 cmake_dependent_option(
   EXT_SQLITE3_SHARED
@@ -27,14 +32,40 @@ target_sources(php_sqlite3 PRIVATE
 
 target_compile_definitions(php_sqlite3 PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE=1)
 
-find_package(SQLite3 3.7.7 REQUIRED)
+find_package(SQLite3 3.7.7)
+set_package_properties(SQLite3 PROPERTIES
+  TYPE REQUIRED
+  PURPOSE "Necessary to enable the sqlite3 extension."
+)
 
 target_link_libraries(php_sqlite3 PRIVATE SQLite::SQLite3)
 
-check_library_exists(SQLite::SQLite3 sqlite3_errstr "" HAVE_SQLITE3_ERRSTR)
-check_library_exists(SQLite::SQLite3 sqlite3_expanded_sql "" HAVE_SQLITE3_EXPANDED_SQL)
-check_library_exists(SQLite::SQLite3 sqlite3_load_extension "" HAVE_SQLITE3_LOAD_EXTENSION)
+if(TARGET SQLite::SQLite3)
+  check_library_exists(
+    SQLite::SQLite3
+    sqlite3_errstr
+    ""
+    HAVE_SQLITE3_ERRSTR
+  )
 
-if(NOT HAVE_SQLITE3_LOAD_EXTENSION)
-  set(SQLITE_OMIT_LOAD_EXTENSION 1 CACHE INTERNAL "Have sqlite3 with extension support")
+  check_library_exists(
+    SQLite::SQLite3
+    sqlite3_expanded_sql
+    ""
+    HAVE_SQLITE3_EXPANDED_SQL
+  )
+
+  check_library_exists(
+    SQLite::SQLite3
+    sqlite3_load_extension
+    ""
+    HAVE_SQLITE3_LOAD_EXTENSION
+  )
+
+  if(NOT HAVE_SQLITE3_LOAD_EXTENSION)
+    set(
+      SQLITE_OMIT_LOAD_EXTENSION 1
+      CACHE INTERNAL "Have sqlite3 with extension support"
+    )
+  endif()
 endif()

@@ -14,14 +14,21 @@ Result variables:
     A list of Tidy library include directories.
   Tidy_LIBRARIES
     A list of Tidy libraries.
+
+Cache variables:
   HAVE_TIDYBUFFIO_H
     Set to 1 if tidybuffio.h header is available.
   HAVE_TIDY_H
+    Set to 1 if tidy.h is available.
+  HAVE_TIDYP_H
     Set to 1 if tidy.h is available.
   HAVE_TIDYOPTGETDOC
     Set to 1 if tidyOptGetDoc is available in one of tidy libraries.
   HAVE_TIDYRELEASEDATE
     Set to 1 if tidyReleaseDate is available in one of tidy libraries.
+
+Hints:
+  The Tidy_ROOT variable adds custom search path.
 #]=============================================================================]
 
 include(CheckIncludeFile)
@@ -35,20 +42,24 @@ set_package_properties(Tidy PROPERTIES
   DESCRIPTION "HTML syntax checker"
 )
 
-find_path(Tidy_INCLUDE_DIRS tidy.h PATH_SUFFIXES tidy)
+# tidyp was a fork of the tidy library.
+find_path(Tidy_INCLUDE_DIRS tidy.h PATH_SUFFIXES tidy tidyp)
 
-find_library(Tidy_LIBRARIES NAMES tidy tidy5 DOC "The Tidy library")
+find_library(Tidy_LIBRARIES NAMES tidy tidy5 tidyp DOC "The Tidy library")
 
 # Check for tidybuffio.h (as opposed to simply buffio.h) which indicates that we
 # are building against tidy-html5 and not the legacy htmltidy. The two are
 # compatible, except for with regard to this header file.
-cmake_push_check_state(RESET)
-  if(Tidy_INCLUDE_DIRS)
-    set(CMAKE_REQUIRED_INCLUDES ${Tidy_INCLUDE_DIRS})
-  endif()
-  check_include_file(tidybuffio.h HAVE_TIDYBUFFIO_H)
-  check_include_file(tidy.h HAVE_TIDY_H)
-cmake_pop_check_state()
+if(Tidy_INCLUDE_DIRS)
+  cmake_push_check_state(RESET)
+    if(Tidy_INCLUDE_DIRS)
+      set(CMAKE_REQUIRED_INCLUDES ${Tidy_INCLUDE_DIRS})
+    endif()
+    check_include_file(tidybuffio.h HAVE_TIDYBUFFIO_H)
+    check_include_file(tidy.h HAVE_TIDY_H)
+    check_include_file(tidyp.h HAVE_TIDYP_H)
+  cmake_pop_check_state()
+endif()
 
 if(Tidy_LIBRARIES)
   check_library_exists("${Tidy_LIBRARIES}" tidyOptGetDoc "" HAVE_TIDYOPTGETDOC)

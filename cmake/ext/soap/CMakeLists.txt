@@ -1,6 +1,11 @@
 include(CMakeDependentOption)
+include(FeatureSummary)
 
 option(EXT_SOAP "Enable the soap extension" OFF)
+
+add_feature_info("ext/soap" EXT_SOAP
+  "Adds support for writing SOAP servers and clients."
+)
 
 cmake_dependent_option(
   EXT_SOAP_SHARED
@@ -21,18 +26,22 @@ else()
 endif()
 
 target_sources(php_soap PRIVATE
-  soap.c
   php_encoding.c
   php_http.c
   php_packet_soap.c
   php_schema.c
   php_sdl.c
   php_xml.c
+  soap.c
 )
 
 target_compile_definitions(php_soap PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE=1)
 
-find_package(LibXml2 ${PHP_LIBXML2_MIN_VERSION} REQUIRED)
+find_package(LibXml2 ${PHP_LIBXML2_MIN_VERSION})
+set_package_properties(LibXml2 PROPERTIES
+  TYPE REQUIRED
+  PURPOSE "Necessary to enable the soap extension."
+)
 
 target_link_libraries(php_soap PRIVATE LibXml2::LibXml2)
 

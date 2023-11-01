@@ -1,6 +1,11 @@
 include(CMakeDependentOption)
+include(FeatureSummary)
 
 option(EXT_SIMPLEXML "Enable the simplexml extension" ON)
+
+add_feature_info("ext/simplexml" EXT_SIMPLEXML
+  "Adds simple and easily usable toolset to convert XML to a processable object."
+)
 
 cmake_dependent_option(
   EXT_SIMPLEXML_SHARED
@@ -29,7 +34,11 @@ set_property(
   PROPERTY PHP_EXTENSION_DEPENDENCIES php_libxml
 )
 
-find_package(LibXml2 ${PHP_LIBXML2_MIN_VERSION} REQUIRED)
+find_package(LibXml2 ${PHP_LIBXML2_MIN_VERSION})
+set_package_properties(LibXml2 PROPERTIES
+  TYPE REQUIRED
+  PURPOSE "Necessary to enable the simplexml extension."
+)
 
 target_link_libraries(php_simplexml PRIVATE LibXml2::LibXml2)
 
@@ -38,8 +47,8 @@ target_sources(
   PUBLIC FILE_SET simplexml_headers
   TYPE HEADERS
   FILES
-    php_simplexml.h
     php_simplexml_exports.h
+    php_simplexml.h
 )
 
 install(

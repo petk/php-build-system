@@ -1,6 +1,11 @@
 include(CMakeDependentOption)
+include(FeatureSummary)
 
 option(EXT_GMP "Enable the gmp extension" OFF)
+
+add_feature_info("ext/gmp" EXT_GMP
+  "Adds support for GNU Multiple Precision Arithmetic."
+)
 
 cmake_dependent_option(
   EXT_GMP_SHARED
@@ -24,13 +29,13 @@ target_sources(php_gmp PRIVATE
   gmp.c
 )
 
-add_library(PHP::gmp ALIAS php_gmp)
-
-set_target_properties(php_gmp PROPERTIES OUTPUT_NAME gmp)
-
 target_compile_definitions(php_gmp PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE=1)
 
-find_package(GMP 4.2 REQUIRED)
+find_package(GMP 4.2)
+set_package_properties(GMP PROPERTIES
+  TYPE REQUIRED
+  PURPOSE "Necessary to enable the gmp extension."
+)
 
 target_link_libraries(php_gmp PRIVATE GMP::GMP)
 

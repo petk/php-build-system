@@ -22,8 +22,7 @@ Result variables:
 
 Hints:
 
-  The Dbm_ROOT variable adds search path for finding the dbm on custom
-  location.
+  The Dbm_ROOT variable adds custom search path.
 #]=============================================================================]
 
 include(CheckLibraryExists)

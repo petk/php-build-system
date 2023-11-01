@@ -3,6 +3,7 @@ Check system requirements and validate basic configuration.
 ]=============================================================================]#
 
 include(CheckCSourceRuns)
+include(FeatureSummary)
 
 ################################################################################
 # Check whether the system uses EBCDIC (not ASCII) as its native codeset.
@@ -43,7 +44,11 @@ if(
   OR NOT EXISTS "${CMAKE_SOURCE_DIR}/ext/json/json_parser.tab.c"
   OR NOT EXISTS "${CMAKE_SOURCE_DIR}/ext/json/json_parser.tab.h"
 )
-  find_package(BISON 3.0.0 REQUIRED)
+  find_package(BISON 3.0.0)
+  set_package_properties(BISON PROPERTIES
+    TYPE REQUIRED
+    PURPOSE "Necessary to generate PHP parser files."
+  )
 endif()
 
 # Check if re2c is required.
@@ -61,7 +66,11 @@ if(
     set(RE2C_USE_COMPUTED_GOTOS TRUE)
   endif()
 
-  find_package(RE2C 1.0.3 REQUIRED)
+  find_package(RE2C 1.0.3)
+  set_package_properties(RE2C PROPERTIES
+    TYPE REQUIRED
+    PURPOSE "Necessary to generate PHP lexer files."
+  )
 endif()
 
 ################################################################################
@@ -126,5 +135,9 @@ _php_check_enabled_sapis()
 # Find Valgrind.
 ################################################################################
 if(PHP_VALGRIND)
-  find_package(Valgrind REQUIRED)
+  find_package(Valgrind)
+  set_package_properties(Valgrind PROPERTIES
+    TYPE REQUIRED
+    PURPOSE "Necessary to enable Valgrind support."
+  )
 endif()

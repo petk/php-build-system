@@ -10,17 +10,17 @@ check_symbol_exists(atoll "stdlib.h" HAVE_ATOLL)
 check_symbol_exists(strtoll "stdlib.h" HAVE_STRTOLL)
 
 add_library(php_date STATIC
-  php_date.c
   lib/astro.c
   lib/dow.c
+  lib/interval.c
   lib/parse_date.c
-  lib/parse_tz.c
+  lib/parse_iso_intervals.c
   lib/parse_posix.c
+  lib/parse_tz.c
   lib/timelib.c
   lib/tm2unixtime.c
   lib/unixtime2tm.c
-  lib/parse_iso_intervals.c
-  lib/interval.c
+  php_date.c
 )
 
 target_include_directories(php_date

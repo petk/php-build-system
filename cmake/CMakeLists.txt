@@ -62,6 +62,7 @@ message("
 +--------------------------------------------------------------------+
 ")
 include(PHP/Extensions)
+php_extensions_add(ext)
 
 message("
 +--------------------------------------------------------------------+
@@ -114,11 +115,11 @@ install(
 
 message("
 +--------------------------------------------------------------------+
-| Summary of enabled features                                        |
+| Summary                                                            |
 +--------------------------------------------------------------------+
 ")
 include(FeatureSummary)
-feature_summary(WHAT ALL)
+feature_summary(WHAT ALL FATAL_ON_MISSING_REQUIRED_PACKAGES)
 
 message("
 +--------------------------------------------------------------------+

@@ -13,7 +13,7 @@ include(CheckTypeSize)
 include(CMakePushCheckState)
 
 # Checking file descriptor sets.
-message(CHECK_START "Checking how big to make file descriptor sets")
+message(CHECK_START "Checking file descriptor sets size")
 
 if(PHP_FD_SETSIZE GREATER 0)
   message(CHECK_PASS "using FD_SETSIZE=${PHP_FD_SETSIZE}")
@@ -46,7 +46,6 @@ check_include_file(fcntl.h HAVE_FCNTL_H)
 check_include_file(grp.h HAVE_GRP_H)
 check_include_file(ieeefp.h HAVE_IEEEFP_H)
 check_include_file(langinfo.h HAVE_LANGINFO_H)
-check_include_file(linux/filter.h HAVE_LINUX_FILTER_H)
 check_include_file(linux/sock_diag.h HAVE_LINUX_SOCK_DIAG_H)
 check_include_file(malloc.h HAVE_MALLOC_H)
 check_include_file(netinet/in.h HAVE_NETINET_IN_H)

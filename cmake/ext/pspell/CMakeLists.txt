@@ -1,6 +1,11 @@
 include(CMakeDependentOption)
+include(FeatureSummary)
 
-option(EXT_PSPELL "Enable the pspell extension (GNU Aspell version 0.50.0 or higher required)" OFF)
+option(EXT_PSPELL "Enable the pspell extension" OFF)
+
+add_feature_info("ext/pspell" EXT_PSPELL
+  "Adds spellchecking support."
+)
 
 cmake_dependent_option(
   EXT_PSPELL_SHARED
@@ -32,6 +37,10 @@ if(HAVE_WNO_STRICT_PROTOTYPES_C)
   )
 endif()
 
-find_package(Aspell 0.50.0 REQUIRED)
+find_package(Aspell 0.50.0)
+set_package_properties(Aspell PROPERTIES
+  TYPE REQUIRED
+  PURPOSE "Necessary to enable the pspell extension."
+)
 
 target_link_libraries(php_pspell PRIVATE Aspell::Aspell)

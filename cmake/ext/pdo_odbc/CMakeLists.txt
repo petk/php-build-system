@@ -1,4 +1,5 @@
 include(CMakeDependentOption)
+include(FeatureSummary)
 
 cmake_dependent_option(
   EXT_PDO_ODBC
@@ -6,6 +7,10 @@ cmake_dependent_option(
   OFF
   "EXT_PDO"
   OFF
+)
+
+add_feature_info("ext/pdo_odbc" EXT_PDO_ODBC
+  "Adds unified support for using ODBC in PDO (PHP Data Objects)."
 )
 
 cmake_dependent_option(

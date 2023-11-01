@@ -3,8 +3,13 @@ include(CheckCSourceRuns)
 include(CheckSymbolExists)
 include(CMakeDependentOption)
 include(CMakePushCheckState)
+include(FeatureSummary)
 
 option(EXT_OPCACHE "Enable the opcache extension" ON)
+
+add_feature_info("ext/opcache" EXT_OPCACHE
+  "Adds support for PHP OPcode caching engine."
+)
 
 cmake_dependent_option(
   EXT_OPCACHE_HUGE_CODE_PAGES
@@ -24,7 +29,7 @@ cmake_dependent_option(
 
 cmake_dependent_option(
   EXT_OPCACHE_CAPSTONE
-  "Support opcache JIT disassembly through capstone"
+  "Support opcache JIT disassembly through Capstone"
   OFF
   "EXT_OPCACHE"
   OFF
@@ -172,7 +177,11 @@ if(EXT_OPCACHE_JIT)
 
   # Check for Capstone.
   if(EXT_OPCACHE_CAPSTONE)
-    find_package(Capstone 3.0.0 REQUIRED)
+    find_package(Capstone 3.0.0)
+    set_package_properties(Capstone PROPERTIES
+      TYPE REQUIRED
+      PURPOSE "Necessary to enable OPcache JIT disassembly through Capstone."
+    )
 
     target_link_libraries(php_opcache PRIVATE Capstone::Capstone)
 

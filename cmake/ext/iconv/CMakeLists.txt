@@ -4,8 +4,13 @@ include(CheckLibraryExists)
 include(CheckSymbolExists)
 include(CMakeDependentOption)
 include(CMakePushCheckState)
+include(FeatureSummary)
 
 option(EXT_ICONV "Enable the iconv extension" ON)
+
+add_feature_info("ext/iconv" EXT_ICONV
+  "Adds support for interface to iconv character set conversion facility."
+)
 
 cmake_dependent_option(
   EXT_ICONV_SHARED
@@ -31,7 +36,11 @@ target_sources(php_iconv PRIVATE
 
 target_compile_definitions(php_iconv PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE=1)
 
-find_package(Iconv REQUIRED)
+find_package(Iconv)
+set_package_properties(Iconv PROPERTIES
+  TYPE REQUIRED
+  PURPOSE "Necessary to enable the iconv extension."
+)
 
 target_link_libraries(php_iconv PRIVATE Iconv::Iconv)
 

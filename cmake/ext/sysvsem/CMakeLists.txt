@@ -1,7 +1,12 @@
 include(CheckCSourceCompiles)
 include(CMakeDependentOption)
+include(FeatureSummary)
 
-option(EXT_SYSVSEM "Enable the sysvsem extension (System V semaphore)" OFF)
+option(EXT_SYSVSEM "Enable the sysvsem extension" OFF)
+
+add_feature_info("ext/sysvsem" EXT_SYSVSEM
+  "Adds support for the System V semaphore."
+)
 
 cmake_dependent_option(
   EXT_SYSVSEM_SHARED
@@ -25,7 +30,7 @@ target_sources(php_sysvsem PRIVATE
   sysvsem.c
 )
 
-message(STATUS "Checking for union semun")
+message(CHECK_START "Checking for union semun")
 
 check_c_source_compiles("
   #include <sys/types.h>
@@ -38,3 +43,9 @@ check_c_source_compiles("
     return 0;
   }
 " HAVE_SEMUN)
+
+if(HAVE_SEMUN)
+  message(CHECK_PASS "yes")
+else()
+  message(CHECK_FAIL "no")
+endif()

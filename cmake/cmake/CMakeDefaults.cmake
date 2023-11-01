@@ -26,5 +26,8 @@ set(CMAKE_SHARED_LIBRARY_PREFIX_CXX "")
 set(CMAKE_SHARED_MODULE_PREFIX_CXX "")
 set(CMAKE_STATIC_LIBRARY_PREFIX_CXX "")
 
+# Set location where to put all shared libraries (.so or .dll files).
+set(CMAKE_LIBRARY_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/modules")
+
 # TODO: Set this in debug mode, maybe.
 #set(CMAKE_VERBOSE_MAKEFILE ON)

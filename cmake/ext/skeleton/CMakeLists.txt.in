@@ -3,11 +3,19 @@
 # Comments in this file start with the string '#'.
 # Remove where necessary.
 
-# Include CMake module for using cmake_dependent_option().
+# Include CMake module to use cmake_dependent_option().
 include(CMakeDependentOption)
+
+# Include CMake module to use add_feature_info() and set_package_properties().
+include(FeatureSummary)
 
 # Boolean option that enables (ON) or disables (OFF) the extension.
 option(EXT_%EXTNAMECAPS% "Enable the %EXTNAME% extension" OFF)
+
+# Extension features are visible in the configuration summary output.
+add_feature_info("ext/%EXTNAME%" EXT_%EXTNAMECAPS%
+  "Describe the extension features."
+)
 
 # Dependent boolean option that builds extension as a shared library (SO file on
 # *nix, DLL on Windows). CMake's BUILD_SHARED_LIBS variable hides this option

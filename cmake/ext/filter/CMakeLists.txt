@@ -1,6 +1,11 @@
 include(CMakeDependentOption)
+include(FeatureSummary)
 
 option(EXT_FILTER "Enable the filter extension" ON)
+
+add_feature_info("ext/filter" EXT_FILTER
+  "Adds support for data filtering."
+)
 
 cmake_dependent_option(
   EXT_FILTER_SHARED
@@ -21,10 +26,10 @@ else()
 endif()
 
 target_sources(php_filter PRIVATE
-  filter.c
-  sanitizing_filters.c
-  logical_filters.c
   callback_filter.c
+  filter.c
+  logical_filters.c
+  sanitizing_filters.c
 )
 
 target_compile_definitions(php_filter PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE=1)

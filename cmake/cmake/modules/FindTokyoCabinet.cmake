@@ -17,8 +17,7 @@ Result variables:
 
 Hints:
 
-  The TokyoCabinet_ROOT variable adds search path for finding the Tokyo Cabinet
-  on custom location.
+  The TokyoCabinet_ROOT variable adds custom search path.
 #]=============================================================================]
 
 include(CheckLibraryExists)

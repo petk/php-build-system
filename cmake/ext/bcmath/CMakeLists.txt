@@ -1,6 +1,11 @@
 include(CMakeDependentOption)
+include(FeatureSummary)
 
-option(EXT_BCMATH "Enable the bcmath extension (bc style precision math functions)" OFF)
+option(EXT_BCMATH "Enable the bcmath extension" OFF)
+
+add_feature_info("ext/bcmath" EXT_BCMATH
+  "Adds support for the bc style precision math functions."
+)
 
 cmake_dependent_option(
   EXT_BCMATH_SHARED
@@ -23,31 +28,26 @@ endif()
 target_sources(php_bcmath PRIVATE
   bcmath.c
   libbcmath/src/add.c
-  libbcmath/src/div.c
-  libbcmath/src/init.c
-  libbcmath/src/neg.c
-  libbcmath/src/raisemod.c
-  libbcmath/src/sub.c
   libbcmath/src/compare.c
-  libbcmath/src/divmod.c
-  libbcmath/src/int2num.c
-  libbcmath/src/num2long.c
-  libbcmath/src/output.c
-  libbcmath/src/recmul.c
-  libbcmath/src/sqrt.c
-  libbcmath/src/zero.c
   libbcmath/src/debug.c
+  libbcmath/src/div.c
+  libbcmath/src/divmod.c
   libbcmath/src/doaddsub.c
+  libbcmath/src/init.c
+  libbcmath/src/int2num.c
   libbcmath/src/nearzero.c
+  libbcmath/src/neg.c
+  libbcmath/src/num2long.c
   libbcmath/src/num2str.c
+  libbcmath/src/output.c
   libbcmath/src/raise.c
+  libbcmath/src/raisemod.c
+  libbcmath/src/recmul.c
   libbcmath/src/rmzero.c
+  libbcmath/src/sqrt.c
   libbcmath/src/str2num.c
-)
-
-target_include_directories(
-  php_bcmath
-  PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/libbcmath/src
+  libbcmath/src/sub.c
+  libbcmath/src/zero.c
 )
 
 target_compile_definitions(php_bcmath PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE=1)

@@ -1,6 +1,11 @@
 include(CMakeDependentOption)
+include(FeatureSummary)
 
 option(EXT_PDO "Enable the pdo extension" ON)
+
+add_feature_info("ext/pdo" EXT_PDO
+  "Adds support for PHP data objects."
+)
 
 cmake_dependent_option(
   EXT_PDO_SHARED
@@ -21,11 +26,11 @@ else()
 endif()
 
 target_sources(php_pdo PRIVATE
-  pdo.c
   pdo_dbh.c
-  pdo_stmt.c
   pdo_sql_parser.c
   pdo_sqlstate.c
+  pdo_stmt.c
+  pdo.c
 )
 
 if(RE2C_FOUND)

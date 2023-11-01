@@ -2,6 +2,7 @@ include(CheckCSourceCompiles)
 include(CheckCSourceRuns)
 include(CheckLibraryExists)
 include(CheckSymbolExists)
+include(FeatureSummary)
 
 option(EXT_STANDARD_EXTERNAL_LIBCRYPT "Use external libcrypt library" OFF)
 
@@ -241,7 +242,11 @@ else()
 endif()
 
 if(EXT_STANDARD_ARGON2)
-  find_package(Argon2 20171227 REQUIRED)
+  find_package(Argon2 20171227)
+  set_package_properties(Argon2 PROPERTIES
+    TYPE REQUIRED
+    PURPOSE "Necessary to include Argon2 support in password_*."
+  )
 
   target_link_libraries(php_standard PRIVATE Argon2::Argon2)
 

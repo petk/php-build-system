@@ -1,6 +1,11 @@
 include(CMakeDependentOption)
+include(FeatureSummary)
 
 option(EXT_MYSQLI "Enable the mysqli extension" OFF)
+
+add_feature_info("ext/mysqli" EXT_MYSQLI
+  "Adds support for MySQL database."
+)
 
 cmake_dependent_option(
   EXT_MYSQLI_SHARED

@@ -1,6 +1,11 @@
 include(CMakeDependentOption)
+include(FeatureSummary)
 
 option(EXT_XMLWRITER "Enable the xmlwriter extension" ON)
+
+add_feature_info("ext/xmlwriter" EXT_XMLWRITER
+  "Adds support for libxml xmlWriter API."
+)
 
 cmake_dependent_option(
   EXT_XMLWRITER_SHARED
@@ -24,7 +29,11 @@ target_sources(php_xmlwriter PRIVATE
   php_xmlwriter.c
 )
 
-find_package(LibXml2 ${PHP_LIBXML2_MIN_VERSION} REQUIRED)
+find_package(LibXml2 ${PHP_LIBXML2_MIN_VERSION})
+set_package_properties(LibXml2 PROPERTIES
+  TYPE REQUIRED
+  PURPOSE "Necessary to enable the xmlwriter extension."
+)
 
 target_link_libraries(php_xmlwriter PRIVATE LibXml2::LibXml2)
 

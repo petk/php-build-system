@@ -1,4 +1,5 @@
 include(CMakeDependentOption)
+include(FeatureSummary)
 
 cmake_dependent_option(
   EXT_PDO_OCI
@@ -6,6 +7,10 @@ cmake_dependent_option(
   OFF
   "EXT_PDO"
   OFF
+)
+
+add_feature_info("ext/pdo_oci" EXT_PDO_OCI
+  "Adds support for Oracle database to PDO (PHP Data Objects) interface."
 )
 
 cmake_dependent_option(

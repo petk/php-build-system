@@ -1,4 +1,5 @@
 include(CMakeDependentOption)
+include(FeatureSummary)
 
 cmake_dependent_option(
   EXT_PDO_DBLIB
@@ -6,6 +7,10 @@ cmake_dependent_option(
   OFF
   "EXT_PDO"
   OFF
+)
+
+add_feature_info("ext/pdo_dblib" EXT_PDO_DBLIB
+  "Adds support for Microsoft SQL Server and Sybase to PDO (PHP Data Objects)."
 )
 
 cmake_dependent_option(
@@ -49,6 +54,10 @@ target_include_directories(
   PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/.."
 )
 
-find_package(FreeTDS REQUIRED)
+find_package(FreeTDS)
+set_package_properties(FreeTDS PROPERTIES
+  TYPE REQUIRED
+  PURPOSE "Necessary to enable the pdo_dblib extension."
+)
 
 target_link_libraries(php_pdo_dblib PRIVATE FreeTDS::FreeTDS)

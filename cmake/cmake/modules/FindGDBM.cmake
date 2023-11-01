@@ -17,8 +17,7 @@ Result variables:
 
 Hints:
 
-  The GDBM_ROOT variable adds search path for finding the GDBM on custom
-  location.
+  The GDBM_ROOT variable adds custom search path.
 #]=============================================================================]
 
 include(CheckLibraryExists)

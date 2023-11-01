@@ -4,8 +4,13 @@ include(CheckCSourceCompiles)
 include(CheckSymbolExists)
 include(CMakeDependentOption)
 include(CMakePushCheckState)
+include(FeatureSummary)
 
 option(EXT_LDAP "Enable the ldap extension" OFF)
+
+add_feature_info("ext/ldap" EXT_LDAP
+  "Adds support for LDAP (Lightweight Directory Access Protocol)."
+)
 
 cmake_dependent_option(
   EXT_LDAP_SHARED
@@ -39,7 +44,11 @@ target_sources(php_ldap PRIVATE
 
 target_compile_definitions(php_ldap PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE=1)
 
-find_package(LDAP REQUIRED)
+find_package(LDAP)
+set_package_properties(LDAP PROPERTIES
+  TYPE REQUIRED
+  PURPOSE "Necessary to enable the ldap extension."
+)
 
 target_link_libraries(php_ldap PRIVATE LDAP::LDAP)
 
@@ -72,7 +81,11 @@ cmake_push_check_state(RESET)
 cmake_pop_check_state()
 
 if(EXT_LDAP_SASL)
-  find_package(SASL REQUIRED)
+  find_package(SASL)
+  set_package_properties(SASL PROPERTIES
+    TYPE REQUIRED
+    PURPOSE "Necessary to enable the Cyrus SASL support in the ldap extension."
+  )
 
   target_link_libraries(php_ldap PRIVATE SASL::SASL)
 

@@ -4,8 +4,13 @@ include(CheckIncludeFile)
 include(CheckSymbolExists)
 include(CMakeDependentOption)
 include(CMakePushCheckState)
+include(FeatureSummary)
 
 option(EXT_POSIX "Enable the posix extension (POSIX-like functions)" ON)
+
+add_feature_info("ext/posix" EXT_POSIX
+  "Interface for using IEEE 1003.1 (POSIX.1) functions."
+)
 
 cmake_dependent_option(
   EXT_POSIX_SHARED
@@ -34,13 +39,12 @@ target_compile_definitions(php_posix PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE=1)
 check_include_file(sys/mkdev.h HAVE_SYS_MKDEV_H)
 check_include_file(sys/sysmacros.h HAVE_SYS_SYSMACROS_H)
 
-check_symbol_exists(ctermid "stdio.h" HAVE_CTERMID)
-
 cmake_push_check_state(RESET)
   set(CMAKE_REQUIRED_DEFINITIONS -D_GNU_SOURCE)
   check_symbol_exists(eaccess "unistd.h" HAVE_EACCESS)
 cmake_pop_check_state()
 
+check_symbol_exists(ctermid "stdio.h" HAVE_CTERMID)
 check_symbol_exists(getgrgid_r "grp.h" HAVE_GETGRGID_R)
 check_symbol_exists(getgroups "unistd.h" HAVE_GETGROUPS)
 check_symbol_exists(getpgid "unistd.h" HAVE_GETPGID)
@@ -50,15 +54,17 @@ check_symbol_exists(initgroups "grp.h" HAVE_INITGROUPS)
 check_symbol_exists(makedev "sys/sysmacros.h" HAVE_MAKEDEV)
 check_symbol_exists(mkfifo "sys/stat.h" HAVE_MKFIFO)
 check_symbol_exists(mknod "sys/stat.h" HAVE_MKNOD)
+# TODO: https://github.com/php/php-src/pull/11774
 check_symbol_exists(pathconf "unistd.h" HAVE_PATHCONF)
+check_symbol_exists(posix_pathconf "unistd.h" HAVE_POSIX_PATHCONF)
 check_symbol_exists(setegid "unistd.h" HAVE_SETEGID)
 check_symbol_exists(seteuid "unistd.h" HAVE_SETEUID)
 check_symbol_exists(setrlimit "sys/resource.h" HAVE_SETRLIMIT)
 check_symbol_exists(setsid "unistd.h" HAVE_SETSID)
 
-message(STATUS "Checking for working ttyname_r() implementation")
+message(CHECK_START "Checking for working ttyname_r() implementation")
 if(CMAKE_CROSSCOMPILING)
-  message(STATUS "no, cannot detect working ttyname_r() when cross compiling. posix_ttyname() will be thread-unsafe")
+  message(CHECK_FAIL "no (cross-compiling), posix_ttyname() will be thread-unsafe")
 else()
   check_c_source_runs("
     #include <unistd.h>
@@ -75,9 +81,16 @@ else()
       return ttyname_r(0, buf, 64) ? 1 : 0;
     }
   " HAVE_TTYNAME_R)
+
+  if(HAVE_TTYNAME_R)
+    message(CHECK_PASS "yes")
+  else()
+    message(CHECK_FAIL "no")
+  endif()
 endif()
 
-message(STATUS "Checking for utsname.domainname")
+message(CHECK_START "Checking for utsname.domainname")
+
 check_c_source_compiles("
   #define _GNU_SOURCE
   #include <sys/utsname.h>
@@ -87,3 +100,8 @@ check_c_source_compiles("
   }
 " HAVE_UTSNAME_DOMAINNAME)
 
+if(HAVE_UTSNAME_DOMAINNAME)
+  message(CHECK_PASS "yes")
+else()
+  message(CHECK_FAIL "no")
+endif()

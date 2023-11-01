@@ -1,6 +1,11 @@
 include(CMakeDependentOption)
+include(FeatureSummary)
 
-option(EXT_ZLIB "Enable the zlib extension (requires zlib >= 1.2.0.4)" OFF)
+option(EXT_ZLIB "Enable the zlib extension" OFF)
+
+add_feature_info("ext/zlib" EXT_ZLIB
+  "Adds support to read and write gzip (.gz) compressed files."
+)
 
 cmake_dependent_option(
   EXT_ZLIB_SHARED
@@ -21,13 +26,17 @@ else()
 endif()
 
 target_sources(php_zlib PRIVATE
-  zlib.c
-  zlib_fopen_wrapper.c
   zlib_filter.c
+  zlib_fopen_wrapper.c
+  zlib.c
 )
 
 target_compile_definitions(php_zlib PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE=1)
 
-find_package(ZLIB 1.2.0.4 REQUIRED)
+find_package(ZLIB 1.2.0.4)
+set_package_properties(ZLIB PROPERTIES
+  TYPE REQUIRED
+  PURPOSE "Necessary to enable the zlib extension."
+)
 
 target_link_libraries(php_zlib PRIVATE ZLIB::ZLIB)

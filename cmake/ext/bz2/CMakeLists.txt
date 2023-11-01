@@ -1,7 +1,12 @@
 include(CheckLibraryExists)
 include(CMakeDependentOption)
+include(FeatureSummary)
 
 option(EXT_BZ2 "Enable the bz2 extension" OFF)
+
+add_feature_info("ext/bz2" EXT_BZ2
+  "Adds functions to read and write BZip2 (.bz2) compressed files."
+)
 
 cmake_dependent_option(
   EXT_BZ2_SHARED
@@ -22,18 +27,27 @@ else()
 endif()
 
 target_sources(php_bz2 PRIVATE
-  bz2.c
   bz2_filter.c
+  bz2.c
 )
 
-find_package(BZip2 1.0.0 REQUIRED)
+find_package(BZip2 1.0.0)
+set_package_properties(BZip2 PROPERTIES
+  TYPE REQUIRED
+  PURPOSE "Necessary to enable the bz2 extension."
+)
 
 # Link with PUBLIC scope if include directories are on non-standard places.
 target_link_libraries(php_bz2 PUBLIC BZip2::BZip2)
 
 # Sanity check.
-check_library_exists(BZip2::BZip2 BZ2_bzerror "" HAVE_BZ2_LIB)
+if(TARGET BZip2::BZip2)
+  check_library_exists(BZip2::BZip2 BZ2_bzerror "" HAVE_BZ2_BZERROR)
 
-if(NOT HAVE_BZ2_LIB)
-  message(FATAL_ERROR "bz2 extension requires libbz2 >= 1.0.0")
+  if(NOT HAVE_BZ2_BZERROR)
+    message(
+      FATAL_ERROR
+      "BZip2 package is not working as expected. The bz2 extension requires "
+      "libbz2 >= 1.0.0. Please see logs.")
+  endif()
 endif()

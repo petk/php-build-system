@@ -1,6 +1,11 @@
 include(CMakeDependentOption)
+include(FeatureSummary)
 
 option(EXT_DOM "Enable the dom extension" ON)
+
+add_feature_info("ext/dom" EXT_DOM
+  "Adds support for operations on XML and HTML through Document Object Model."
+)
 
 cmake_dependent_option(
   EXT_DOM_SHARED
@@ -21,31 +26,35 @@ else()
 endif()
 
 target_sources(php_dom PRIVATE
-  php_dom.c
   attr.c
-  document.c
-  domexception.c
-  parentnode.c
-  processinginstruction.c
   cdatasection.c
+  characterdata.c
+  comment.c
+  document.c
   documentfragment.c
+  documenttype.c
+  dom_iterators.c
+  domexception.c
   domimplementation.c
   element.c
-  node.c
-  characterdata.c
-  documenttype.c
   entity.c
-  nodelist.c
-  text.c
-  comment.c
   entityreference.c
-  notation.c
-  xpath.c
-  dom_iterators.c
   namednodemap.c
+  node.c
+  nodelist.c
+  notation.c
+  parentnode.c
+  php_dom.c
+  processinginstruction.c
+  text.c
+  xpath.c
 )
 
-find_package(LibXml2 ${PHP_LIBXML2_MIN_VERSION} REQUIRED)
+find_package(LibXml2 ${PHP_LIBXML2_MIN_VERSION})
+set_package_properties(LibXml2 PROPERTIES
+  TYPE REQUIRED
+  PURPOSE "Necessary to enable the dom extension."
+)
 
 target_link_libraries(php_dom PRIVATE LibXml2::LibXml2)
 

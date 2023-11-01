@@ -1,7 +1,12 @@
 include(CheckLibraryExists)
 include(CMakeDependentOption)
+include(FeatureSummary)
 
 option(EXT_READLINE "Enable the readline extension" OFF)
+
+add_feature_info("ext/readline" EXT_READLINE
+  "Adds interface for using Editline library."
+)
 
 cmake_dependent_option(
   EXT_READLINE_SHARED
@@ -17,6 +22,10 @@ cmake_dependent_option(
   OFF
   "EXT_READLINE"
   OFF
+)
+
+add_feature_info("ext/readline GNU Readline" EXT_READLINE
+  "Adds support for GNU Readline library instead of Editline library."
 )
 
 if(NOT EXT_READLINE)
@@ -43,7 +52,11 @@ if(HAVE_WNO_STRICT_PROTOTYPES_C)
 endif()
 
 if(NOT EXT_READLINE_LIBREADLINE)
-  find_package(Editline REQUIRED)
+  find_package(Editline)
+  set_package_properties(Editline PROPERTIES
+    TYPE REQUIRED
+    PURPOSE "Necessary to enable the readline extension."
+  )
 
   target_link_libraries(php_readline PRIVATE Editline::Editline)
 
@@ -60,7 +73,11 @@ if(NOT EXT_READLINE_LIBREADLINE)
 
   set(HAVE_LIBEDIT 1 CACHE INTERNAL "Define to 1 if libedit is used with ext/readline")
 else()
-  find_package(Readline REQUIRED)
+  find_package(Readline)
+  set_package_properties(Readline PROPERTIES
+    TYPE REQUIRED
+    PURPOSE "Necessary to enable the readline extension."
+  )
 
   target_link_libraries(php_readline PRIVATE Readline::Readline)
 
@@ -80,7 +97,11 @@ endif()
 
 # TODO: Check if this is needed. It seems that ncurses is not required.
 set(CURSES_NEED_NCURSES TRUE)
-find_package(Curses REQUIRED)
+find_package(Curses)
+set_package_properties(Curses PROPERTIES
+  TYPE REQUIRED
+  PURPOSE "Necessary to enable the readline extension."
+)
 
 # The Cmake's Curses find module, doesn't define IMPORTED target yet.
 if(CURSES_FOUND AND NOT TARGET Curses::Curses)

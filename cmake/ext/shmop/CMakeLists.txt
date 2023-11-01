@@ -1,6 +1,11 @@
 include(CMakeDependentOption)
+include(FeatureSummary)
 
 option(EXT_SHMOP "Enable the shmop extension" OFF)
+
+add_feature_info("ext/shmop" EXT_SHMOP
+  "Adds support to handle shared memory segments."
+)
 
 cmake_dependent_option(
   EXT_SHMOP_SHARED

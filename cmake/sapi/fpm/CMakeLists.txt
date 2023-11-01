@@ -305,7 +305,11 @@ else()
 endif()
 
 if(SAPI_FPM_SYSTEMD)
-  find_package(Systemd 209 REQUIRED)
+  find_package(Systemd 209)
+  set_package_properties(Systemd PROPERTIES
+    TYPE REQUIRED
+    PURPOSE "Necessary to enable systemd integration in FPM SAPI."
+  )
 
   target_link_libraries(php_fpm PRIVATE Systemd::Systemd)
 
@@ -325,7 +329,11 @@ else()
 endif()
 
 if(SAPI_FPM_ACL)
-  find_package(ACL REQUIRED)
+  find_package(ACL)
+  set_package_properties(ACL PROPERTIES
+    TYPE REQUIRED
+    PURPOSE "Necessary to enable ACL support in the FPM SAPI."
+  )
 
   target_link_libraries(php_fpm PRIVATE ACL::ACL)
 
@@ -381,7 +389,11 @@ if(SAPI_FPM_ACL)
 endif()
 
 if(SAPI_FPM_APPARMOR)
-  find_package(AppArmor REQUIRED)
+  find_package(AppArmor)
+  set_package_properties(AppArmor PROPERTIES
+    TYPE REQUIRED
+    PURPOSE "Necessary to enable AppArmor support in the FPM SAPI."
+  )
 
   target_link_libraries(php_fpm PRIVATE AppArmor::AppArmor)
 
@@ -396,7 +408,11 @@ if(SAPI_FPM_APPARMOR)
 endif()
 
 if(SAPI_FPM_SELINUX)
-  find_package(SELinux REQUIRED)
+  find_package(SELinux)
+  set_package_properties(SELinux PROPERTIES
+    TYPE REQUIRED
+    PURPOSE "Necessary to enable SELinux support in the FPM SAPI."
+  )
 
   target_link_libraries(php_fpm PRIVATE SELinux::SELinux)
 

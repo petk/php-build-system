@@ -1,14 +1,14 @@
 add_library(php_spl STATIC
   php_spl.c
-  spl_functions.c
-  spl_iterators.c
   spl_array.c
   spl_directory.c
-  spl_exceptions.c
-  spl_observer.c
   spl_dllist.c
-  spl_heap.c
+  spl_exceptions.c
   spl_fixedarray.c
+  spl_functions.c
+  spl_heap.c
+  spl_iterators.c
+  spl_observer.c
 )
 
 target_compile_definitions(php_spl PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE=1)
@@ -21,14 +21,14 @@ target_sources(
     php_spl.h
     spl_array.h
     spl_directory.h
+    spl_dllist.h
     spl_engine.h
     spl_exceptions.h
+    spl_fixedarray.h
     spl_functions.h
+    spl_heap.h
     spl_iterators.h
     spl_observer.h
-    spl_dllist.h
-    spl_heap.h
-    spl_fixedarray.h
 )
 
 install(

@@ -2,8 +2,13 @@ include(CheckCompilerFlag)
 include(CheckLibraryExists)
 include(CMakeDependentOption)
 include(CMakePushCheckState)
+include(FeatureSummary)
 
 option(EXT_GD "Enable the gd extension" OFF)
+
+add_feature_info("ext/gd" EXT_GD
+  "Adds support for image processing and GD."
+)
 
 cmake_dependent_option(
   EXT_GD_SHARED
@@ -87,46 +92,46 @@ file(GLOB _gd_headers_files "${CMAKE_CURRENT_SOURCE_DIR}/*.h")
 
 if(NOT EXT_GD_EXTERNAL)
   target_sources(php_gd PRIVATE
-    libgd/gd.c
+    libgd/gd_avif.c
+    libgd/gd_bmp.c
+    libgd/gd_color_match.c
+    libgd/gd_crop.c
+    libgd/gd_filter.c
     libgd/gd_gd.c
     libgd/gd_gd2.c
-    libgd/gd_io.c
+    libgd/gd_gif_in.c
+    libgd/gd_gif_out.c
+    libgd/gd_interpolation.c
     libgd/gd_io_dp.c
     libgd/gd_io_file.c
-    libgd/gd_ss.c
     libgd/gd_io_ss.c
-    libgd/gd_webp.c
-    libgd/gd_avif.c
-    libgd/gd_png.c
+    libgd/gd_io.c
     libgd/gd_jpeg.c
-    libgd/gdxpm.c
-    libgd/gdfontt.c
-    libgd/gdfonts.c
-    libgd/gdfontmb.c
-    libgd/gdfontl.c
-    libgd/gdfontg.c
-    libgd/gdtables.c
-    libgd/gdft.c
-    libgd/gdcache.c
-    libgd/gdkanji.c
-    libgd/wbmp.c
-    libgd/gd_wbmp.c
-    libgd/gdhelpers.c
-    libgd/gd_topal.c
-    libgd/gd_gif_in.c
-    libgd/gd_xbm.c
-    libgd/gd_gif_out.c
-    libgd/gd_security.c
-    libgd/gd_filter.c
-    libgd/gd_pixelate.c
-    libgd/gd_rotate.c
-    libgd/gd_color_match.c
-    libgd/gd_transform.c
-    libgd/gd_crop.c
-    libgd/gd_interpolation.c
     libgd/gd_matrix.c
-    libgd/gd_bmp.c
+    libgd/gd_pixelate.c
+    libgd/gd_png.c
+    libgd/gd_rotate.c
+    libgd/gd_security.c
+    libgd/gd_ss.c
     libgd/gd_tga.c
+    libgd/gd_topal.c
+    libgd/gd_transform.c
+    libgd/gd_wbmp.c
+    libgd/gd_webp.c
+    libgd/gd_xbm.c
+    libgd/gd.c
+    libgd/gdcache.c
+    libgd/gdfontg.c
+    libgd/gdfontl.c
+    libgd/gdfontmb.c
+    libgd/gdfonts.c
+    libgd/gdfontt.c
+    libgd/gdft.c
+    libgd/gdhelpers.c
+    libgd/gdkanji.c
+    libgd/gdtables.c
+    libgd/gdxpm.c
+    libgd/wbmp.c
   )
 
   set(HAVE_GD_BUNDLED 1 CACHE INTERNAL "Whether the bundled libgd is used")
@@ -161,16 +166,28 @@ if(NOT EXT_GD_EXTERNAL)
     )
   endif()
 
-  find_package(ZLIB REQUIRED)
+  find_package(ZLIB)
+  set_package_properties(ZLIB PROPERTIES
+    TYPE REQUIRED
+    PURPOSE "Necessary to enable the gd extension."
+  )
   target_link_libraries(php_gd PRIVATE ZLIB::ZLIB)
 
-  find_package(PNG REQUIRED)
+  find_package(PNG)
+  set_package_properties(PNG PROPERTIES
+    TYPE REQUIRED
+    PURPOSE "Necessary to enable the gd extension."
+  )
   target_link_libraries(php_gd PRIVATE PNG::PNG)
 
   set(HAVE_LIBPNG 1 CACHE INTERNAL "Whether the libpng is available")
 
   if(EXT_GD_AVIF)
-    find_package(libavif 0.8.2 REQUIRED)
+    find_package(libavif 0.8.2)
+    set_package_properties(libavif PROPERTIES
+      TYPE REQUIRED
+      PURPOSE "Necessary to enable the AVIF support in the gd extension."
+    )
 
     target_link_libraries(php_gd PRIVATE libavif::libavif)
 
@@ -179,7 +196,11 @@ if(NOT EXT_GD_EXTERNAL)
   endif()
 
   if(EXT_GD_WEBP)
-    find_package(WebP 0.2.0 REQUIRED)
+    find_package(WebP 0.2.0)
+    set_package_properties(WebP PROPERTIES
+      TYPE REQUIRED
+      PURPOSE "Necessary to enable the WebP support in the gd extension."
+    )
 
     target_link_libraries(php_gd PRIVATE WebP::WebP)
 
@@ -188,7 +209,11 @@ if(NOT EXT_GD_EXTERNAL)
   endif()
 
   if(EXT_GD_JPEG)
-    find_package(JPEG REQUIRED)
+    find_package(JPEG)
+    set_package_properties(JPEG PROPERTIES
+      TYPE REQUIRED
+      PURPOSE "Necessary to enable the JPEG support in the gd extension."
+    )
 
     target_link_libraries(php_gd PRIVATE JPEG::JPEG)
 
@@ -197,7 +222,11 @@ if(NOT EXT_GD_EXTERNAL)
   endif()
 
   if(EXT_GD_XPM)
-    find_package(XPM REQUIRED)
+    find_package(XPM)
+    set_package_properties(XPM PROPERTIES
+      TYPE REQUIRED
+      PURPOSE "Necessary to enable the XPM support in the gd extension."
+    )
 
     target_link_libraries(php_gd PRIVATE XPM::XPM)
 
@@ -206,7 +235,11 @@ if(NOT EXT_GD_EXTERNAL)
   endif()
 
   if(EXT_GD_FREETYPE)
-    find_package(Freetype REQUIRED)
+    find_package(Freetype)
+    set_package_properties(Freetype PROPERTIES
+      TYPE REQUIRED
+      PURPOSE "Necessary to enable the Freetype support in the gd extension."
+    )
 
     target_link_libraries(php_gd PRIVATE Freetype::Freetype)
 
@@ -219,56 +252,72 @@ if(NOT EXT_GD_EXTERNAL)
     set(USE_GD_JISX0208 1 CACHE INTERNAL "Whether the GD JIS-mapped Japanese font support is enabled")
   endif()
 
-  # Sanity check.
-  cmake_push_check_state(RESET)
-    get_target_property(libraries php_gd LINK_LIBRARIES)
-    set(CMAKE_REQUIRED_LIBRARIES ${libraries})
+  # Do sanity check when all required packages are found.
+  get_target_property(libraries php_gd LINK_LIBRARIES)
+  set(_php_do_sanity_check TRUE)
+  foreach(library ${libraries})
+    if(NOT TARGET ${library})
+      set(_php_do_sanity_check FALSE)
+      break()
+    endif()
+  endforeach()
 
-    check_c_source_compiles("
-      char foobar(void) {
-        return '\\\\0';
-      }
+  if(_php_do_sanity_check)
+    cmake_push_check_state(RESET)
+      set(CMAKE_REQUIRED_LIBRARIES ${libraries})
 
-      char foobar();
+      check_c_source_compiles("
+        char foobar(void) {
+          return '\\\\0';
+        }
 
-      int main(void) {
-        foobar();
-        return 0;
-      }
-    " GD_SANITY_CHECK_COMPILES)
-  cmake_pop_check_state()
+        char foobar();
 
-  if(NOT GD_SANITY_CHECK_COMPILES)
-    message(FATAL_ERROR "GD build test failed. Please check logs for details.")
+        int main(void) {
+          foobar();
+          return 0;
+        }
+      " GD_SANITY_CHECK_COMPILES)
+    cmake_pop_check_state()
+
+    if(NOT GD_SANITY_CHECK_COMPILES)
+      message(FATAL_ERROR "GD build test failed. Please check logs for details.")
+    endif()
   endif()
 else()
-  find_package(GD 2.1.0 REQUIRED)
+  find_package(GD 2.1.0)
+  set_package_properties(GD PROPERTIES
+    TYPE REQUIRED
+    PURPOSE "Necessary to enable the gd extension with external GD library."
+  )
 
   target_link_libraries(php_gd PRIVATE GD::GD)
 
   target_sources(php_gd PRIVATE gd_compat.c)
 
-  # Sanity check.
-  check_library_exists(GD::GD gdImageCreate "" HAVE_LIBGD)
+  if(TARGET GD::GD)
+    # Sanity check.
+    check_library_exists(GD::GD gdImageCreate "" HAVE_LIBGD)
 
-  if(NOT HAVE_LIBGD)
-    message(
-      FATAL_ERROR
-      "GD build test failed to find gdImageCreate in libgd. Please check the "
-      "logs for details."
-    )
+    if(NOT HAVE_LIBGD)
+      message(
+        FATAL_ERROR
+        "GD build test failed to find gdImageCreate in libgd. Please check the "
+        "logs for details."
+      )
+    endif()
+
+    check_library_exists(GD::GD gdImageCreateFromPng "" HAVE_GD_PNG)
+    check_library_exists(GD::GD gdImageCreateFromAvif "" HAVE_GD_AVIF)
+    check_library_exists(GD::GD gdImageCreateFromWebp "" HAVE_GD_WEBP)
+    check_library_exists(GD::GD gdImageCreateFromJpeg "" HAVE_GD_JPG)
+    check_library_exists(GD::GD gdImageCreateFromXpm "" HAVE_GD_XPM)
+    check_library_exists(GD::GD gdImageCreateFromBmp "" HAVE_GD_BMP)
+    check_library_exists(GD::GD gdImageCreateFromTga "" HAVE_GD_TGA)
+    check_library_exists(GD::GD gdImageStringFT "" HAVE_GD_FREETYPE)
+    check_library_exists(GD::GD gdVersionString "" HAVE_GD_LIBVERSION)
+    check_library_exists(GD::GD gdImageGetInterpolationMethod "" HAVE_GD_GET_INTERPOLATION)
   endif()
-
-  check_library_exists(GD::GD gdImageCreateFromPng "" HAVE_GD_PNG)
-  check_library_exists(GD::GD gdImageCreateFromAvif "" HAVE_GD_AVIF)
-  check_library_exists(GD::GD gdImageCreateFromWebp "" HAVE_GD_WEBP)
-  check_library_exists(GD::GD gdImageCreateFromJpeg "" HAVE_GD_JPG)
-  check_library_exists(GD::GD gdImageCreateFromXpm "" HAVE_GD_XPM)
-  check_library_exists(GD::GD gdImageCreateFromBmp "" HAVE_GD_BMP)
-  check_library_exists(GD::GD gdImageCreateFromTga "" HAVE_GD_TGA)
-  check_library_exists(GD::GD gdImageStringFT "" HAVE_GD_FREETYPE)
-  check_library_exists(GD::GD gdVersionString "" HAVE_GD_LIBVERSION)
-  check_library_exists(GD::GD gdImageGetInterpolationMethod "" HAVE_GD_GET_INTERPOLATION)
 endif()
 
 target_sources(

@@ -17,14 +17,13 @@ Result variables:
 
 Hints:
 
-  The MM_ROOT variable adds search path for finding the mmlib on custom
-  locations.
+  The MM_ROOT variable adds custom search path.
 #]=============================================================================]
 
 include(FeatureSummary)
 include(FindPackageHandleStandardArgs)
 
-set_package_properties(Ndbm PROPERTIES
+set_package_properties(MM PROPERTIES
   URL "http://www.ossp.org/pkg/lib/mm/"
   DESCRIPTION "Shared memory allocation library"
 )

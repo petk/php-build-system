@@ -64,7 +64,11 @@ target_link_libraries(php_main PUBLIC PHP::configuration)
 if(PHP_DTRACE)
   message(CHECK_START "Checking for DTrace support")
 
-  find_package(DTrace REQUIRED)
+  find_package(DTrace)
+  set_package_properties(DTrace PROPERTIES
+    TYPE REQUIRED
+    PURPOSE "Necessary to enable the DTrace support."
+  )
 
   dtrace_target(
     TARGET php_main
@@ -85,7 +89,11 @@ endif()
 if(PHP_DMALLOC)
   message(CHECK_START "Checking for Dmalloc")
 
-  find_package(Dmalloc REQUIRED)
+  find_package(Dmalloc)
+  set_package_properties(Dmalloc PROPERTIES
+    TYPE REQUIRED
+    PURPOSE "Necessary to use Dmalloc memory debugger."
+  )
 
   set(HAVE_DMALLOC 1 CACHE INTERNAL "Whether the Dmalloc library is available")
 
@@ -101,8 +109,6 @@ endif()
 
 get_cmake_property(extensions PHP_EXTENSIONS)
 foreach(extension IN LISTS extensions)
-  message(STATUS "Post-configuration of php_${extension}")
-
   if(NOT TARGET PHP::${extension})
     add_library(PHP::${extension} ALIAS php_${extension})
   endif()

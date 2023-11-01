@@ -1,6 +1,11 @@
 include(CMakeDependentOption)
+include(FeatureSummary)
 
 option(EXT_XML "Enable the xml extension" ON)
+
+add_feature_info("ext/xml" EXT_XML
+  "Adds support for parsing XML."
+)
 
 cmake_dependent_option(
   EXT_XML_SHARED
@@ -32,6 +37,8 @@ target_sources(php_xml PRIVATE
   xml.c
 )
 
+target_compile_definitions(php_xml PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE=1)
+
 if(NOT EXT_LIBXML AND NOT EXT_XML_EXPAT)
   message(
     FATAL_ERROR
@@ -43,20 +50,26 @@ endif()
 if(NOT EXT_XML_EXPAT)
   target_sources(php_xml PRIVATE compat.c)
 
-  find_package(LibXml2 ${PHP_LIBXML2_MIN_VERSION} REQUIRED)
+  find_package(LibXml2 ${PHP_LIBXML2_MIN_VERSION})
+  set_package_properties(LibXml2 PROPERTIES
+    TYPE REQUIRED
+    PURPOSE "Necessary to enable the xml extension."
+  )
 
   target_link_libraries(php_xml PRIVATE LibXml2::LibXml2)
 
   set_target_properties(php_xml PROPERTIES PHP_EXTENSION_DEPENDENCIES php_libxml)
 else()
-  find_package(EXPAT REQUIRED)
+  find_package(EXPAT)
+  set_package_properties(EXPAT PROPERTIES
+    TYPE REQUIRED
+    PURPOSE "Necessary to enable the xml extension."
+  )
 
   target_link_libraries(php_xml PRIVATE EXPAT::EXPAT)
 
   set(HAVE_LIBEXPAT 1 CACHE INTERNAL "Whether libexpat is used")
 endif()
-
-target_compile_definitions(php_xml PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE=1)
 
 target_sources(
   php_xml

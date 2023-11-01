@@ -1,8 +1,8 @@
 add_library(php_json STATIC
-  json.c
   json_encoder.c
   json_parser.tab.c
   json_scanner.c
+  json.c
 )
 
 target_compile_definitions(php_json PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE=1)
@@ -29,7 +29,7 @@ endif()
 # future. Note that HAVE_JSON was never defined for Windows builds.
 # TODO: Remove this in the future PHP versions.
 if(NOT CMAKE_SYSTEM_NAME STREQUAL "Windows")
-  set(HAVE_JSON 1 CACHE INTERNAL "Whether to enable JavaScript Object Serialization support")
+  set(HAVE_JSON 1 CACHE INTERNAL "Whether to enable the json extension.")
 endif()
 
 target_sources(
@@ -37,9 +37,9 @@ target_sources(
   PUBLIC FILE_SET json_headers
   TYPE HEADERS
   FILES
-    php_json.h
     php_json_parser.h
     php_json_scanner.h
+    php_json.h
 )
 
 install(

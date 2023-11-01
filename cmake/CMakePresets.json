@@ -109,6 +109,7 @@
         "PHP_DMALLOC": true,
         "PHP_DTRACE": true,
 
+        "EXT_HASH_MHASH": true,
         "EXT_OPENSSL_KERBEROS": true,
         "EXT_OPENSSL_SYSTEM_CIPHERS": true,
         "EXT_PCRE_EXTERNAL": true,

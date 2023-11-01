@@ -1,6 +1,11 @@
 include(CMakeDependentOption)
+include(FeatureSummary)
 
 option(EXT_DBA "Enable the dba extension" OFF)
+
+add_feature_info("ext/dba" EXT_DBA
+  "Adds the database (dbm-style) abstraction layer to PHP."
+)
 
 cmake_dependent_option(
   EXT_DBA_SHARED
@@ -202,7 +207,11 @@ if(EXT_DBA_CDB AND NOT EXT_DBA_CDB_EXTERNAL)
     libcdb/uint32.c
   )
 elseif(EXT_DBA_CDB AND EXT_DBA_CDB_EXTERNAL)
-  find_package(Cdb REQUIRED)
+  find_package(Cdb)
+  set_package_properties(Cdb PROPERTIES
+    TYPE REQUIRED
+    PURPOSE "Necessary to enable the cdb support in the dba extension."
+  )
 
   target_link_libraries(php_dba PRIVATE Cdb::Cdb)
 
@@ -215,7 +224,11 @@ elseif(EXT_DBA_CDB AND EXT_DBA_CDB_EXTERNAL)
 endif()
 
 if(EXT_DBA_LMDB)
-  find_package(LMDB REQUIRED)
+  find_package(LMDB)
+  set_package_properties(LMDB PROPERTIES
+    TYPE REQUIRED
+    PURPOSE "Necessary to enable the LMDB support in the dba extension."
+  )
 
   target_link_libraries(php_dba PRIVATE LMDB::LMDB)
 
@@ -228,7 +241,11 @@ if(EXT_DBA_LMDB)
 endif()
 
 if(EXT_DBA_TCDB)
-  find_package(TokyoCabinet REQUIRED)
+  find_package(TokyoCabinet)
+  set_package_properties(TokyoCabinet PROPERTIES
+    TYPE REQUIRED
+    PURPOSE "Necessary to enable the Tokyo Cabinet support in the dba extension."
+  )
 
   target_link_libraries(php_dba PRIVATE TokyoCabinet::TokyoCabinet)
 
@@ -241,7 +258,11 @@ if(EXT_DBA_TCDB)
 endif()
 
 if(EXT_DBA_GDBM)
-  find_package(GDBM REQUIRED)
+  find_package(GDBM)
+  set_package_properties(GDBM PROPERTIES
+    TYPE REQUIRED
+    PURPOSE "Necessary to enable the GDBM support in the dba extension."
+  )
 
   target_link_libraries(php_dba PRIVATE GDBM::GDBM)
 
@@ -252,7 +273,11 @@ if(EXT_DBA_GDBM)
 
   set(DBA_GDBM 1 CACHE INTERNAL "Whether the GDBM support is enabled")
 elseif(EXT_DBA_QDBM)
-  find_package(QDBM REQUIRED)
+  find_package(QDBM)
+  set_package_properties(QDBM PROPERTIES
+    TYPE REQUIRED
+    PURPOSE "Necessary to enable the QDBM support in the dba extension."
+  )
 
   target_link_libraries(php_dba PRIVATE QDBM::QDBM)
 
@@ -265,7 +290,11 @@ elseif(EXT_DBA_QDBM)
 endif()
 
 if(EXT_DBA_NDBM)
-  find_package(Ndbm REQUIRED)
+  find_package(Ndbm)
+  set_package_properties(Ndbm PROPERTIES
+    TYPE REQUIRED
+    PURPOSE "Necessary to enable the ndbm support in the dba extension."
+  )
 
   target_link_libraries(php_dba PRIVATE Ndbm::Ndbm)
 
@@ -278,7 +307,11 @@ if(EXT_DBA_NDBM)
 endif()
 
 if(EXT_DBA_DBM)
-  find_package(Dbm REQUIRED)
+  find_package(Dbm)
+  set_package_properties(Dbm PROPERTIES
+    TYPE REQUIRED
+    PURPOSE "Necessary to enable the DBM support in the dba extension."
+  )
 
   target_link_libraries(php_dba PRIVATE Dbm::Dbm)
 
@@ -300,7 +333,11 @@ if(EXT_DBA_DB)
     set(BerkeleyDB_USE_DB1 TRUE)
   endif()
 
-  find_package(BerkeleyDB REQUIRED)
+  find_package(BerkeleyDB)
+  set_package_properties(BerkeleyDB PROPERTIES
+    TYPE REQUIRED
+    PURPOSE "Necessary to enable the Berkeley DB support in the dba extension."
+  )
 
   target_link_libraries(php_dba PRIVATE BerkeleyDB::BerkeleyDB)
 

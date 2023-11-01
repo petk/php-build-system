@@ -25,7 +25,13 @@ Result variables:
 #]=============================================================================]
 
 include(CheckLibraryExists)
+include(FeatureSummary)
 include(FindPackageHandleStandardArgs)
+
+set_package_properties(Aspell PROPERTIES
+  URL "http://aspell.net/"
+  DESCRIPTION "GNU Aspell spell checker library"
+)
 
 find_path(Aspell_INCLUDE_DIRS aspell.h)
 

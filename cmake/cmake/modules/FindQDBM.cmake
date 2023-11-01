@@ -17,8 +17,7 @@ Result variables:
 
 Hints:
 
-  The QDBM_ROOT variable adds search path for finding the QDBM on custom
-  location.
+  The QDBM_ROOT variable adds custom search path.
 #]=============================================================================]
 
 include(CheckLibraryExists)

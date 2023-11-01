@@ -3,8 +3,13 @@ include(CheckIncludeFile)
 include(CheckSymbolExists)
 include(CMakeDependentOption)
 include(CMakePushCheckState)
+include(FeatureSummary)
 
 option(EXT_SOCKETS "Enable the sockets extension" OFF)
+
+add_feature_info("ext/sockets" EXT_SOCKETS
+  "Adds support for a low-level socket communication interface."
+)
 
 cmake_dependent_option(
   EXT_SOCKETS_SHARED
@@ -18,6 +23,22 @@ if(NOT EXT_SOCKETS)
   return()
 endif()
 
+if(EXT_SOCKETS_SHARED)
+  add_library(php_sockets SHARED)
+else()
+  add_library(php_sockets)
+endif()
+
+target_sources(php_sockets PRIVATE
+  conversions.c
+  multicast.c
+  sendrecvmsg.c
+  sockaddr_conv.c
+  sockets.c
+)
+
+target_compile_definitions(php_sockets PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE=1)
+
 cmake_push_check_state(RESET)
   set(CMAKE_REQUIRED_DEFINITIONS -D_GNU_SOURCE)
   check_symbol_exists(hstrerror "netdb.h;sys/socket.h" HAVE_HSTRERROR)
@@ -27,16 +48,16 @@ check_symbol_exists(if_nametoindex "net/if.h" HAVE_IF_NAMETOINDEX)
 check_symbol_exists(if_indextoname "net/if.h" HAVE_IF_INDEXTONAME)
 check_symbol_exists(sockatmark "sys/socket.h" HAVE_SOCKATMARK)
 
-check_include_file(netinet/tcp.h HAVE_NETINET_TCP_H)
-check_include_file(sys/un.h HAVE_SYS_UN_H)
 check_include_file(sys/sockio.h HAVE_SYS_SOCKIO_H)
+check_include_file(linux/filter.h HAVE_LINUX_FILTER_H)
 
-message(STATUS "Checking for field ss_family in struct sockaddr_storage")
+message(CHECK_START "Checking for field ss_family in struct sockaddr_storage")
 
 check_c_source_compiles("
   #include <sys/socket.h>
   #include <sys/types.h>
   #include <netdb.h>
+
   int main(void) {
     struct sockaddr_storage sa_store;
     sa_store.ss_family = AF_INET6;
@@ -45,7 +66,13 @@ check_c_source_compiles("
   }
 " HAVE_SA_SS_FAMILY)
 
-message(STATUS "Checking if getaddrinfo supports AI_V4MAPPED")
+if(HAVE_SA_SS_FAMILY)
+  message(CHECK_PASS "yes")
+else()
+  message(CHECK_FAIL "no")
+endif()
+
+message(CHECK_START "Checking if getaddrinfo supports AI_V4MAPPED")
 
 check_c_source_compiles("
   #include <netdb.h>
@@ -56,7 +83,13 @@ check_c_source_compiles("
   }
 " HAVE_AI_V4MAPPED)
 
-message(STATUS "Checking if getaddrinfo supports AI_ALL")
+if(HAVE_AI_V4MAPPED)
+  message(CHECK_PASS "yes")
+else()
+  message(CHECK_FAIL "no")
+endif()
+
+message(CHECK_START "Checking if getaddrinfo supports AI_ALL")
 
 check_c_source_compiles("
   #include <netdb.h>
@@ -68,10 +101,17 @@ check_c_source_compiles("
   }
 " HAVE_AI_ALL)
 
-message(STATUS "Checking if getaddrinfo supports AI_IDN")
+if(HAVE_AI_ALL)
+  message(CHECK_PASS "yes")
+else()
+  message(CHECK_FAIL "no")
+endif()
+
+message(CHECK_START "Checking if getaddrinfo supports AI_IDN")
 
 cmake_push_check_state(RESET)
   set(CMAKE_REQUIRED_DEFINITIONS -D_GNU_SOURCE)
+
   check_c_source_compiles("
     #include <netdb.h>
 
@@ -83,7 +123,15 @@ cmake_push_check_state(RESET)
   " HAVE_AI_IDN)
 cmake_pop_check_state()
 
-message(STATUS "Checking if ancillary credentials uses ucred")
+if(HAVE_AI_IDN)
+  message(CHECK_PASS "yes")
+else()
+  message(CHECK_FAIL "no")
+endif()
+
+# Checking for struct ucred. Checking the header is not enough.
+# E.g. DragonFlyBSD.
+message(CHECK_START "Checking if ancillary credentials uses ucred")
 
 check_c_source_compiles("
   #ifndef _GNU_SOURCE
@@ -98,7 +146,14 @@ check_c_source_compiles("
   }
 " ANC_CREDS_UCRED)
 
-message(STATUS "Checking if ancillary credentials uses cmsgcred")
+if(ANC_CREDS_UCRED)
+  message(CHECK_PASS "yes")
+else()
+  message(CHECK_FAIL "no")
+endif()
+
+# Check for struct cmsgcred.
+message(CHECK_START "Checking if ancillary credentials uses cmsgcred")
 
 check_c_source_compiles("
   #include <sys/socket.h>
@@ -109,33 +164,23 @@ check_c_source_compiles("
   }
 " ANC_CREDS_CMSGCRED)
 
-if(EXT_SOCKETS_SHARED)
-  add_library(php_sockets SHARED)
+if(ANC_CREDS_CMSGCRED)
+  message(CHECK_PASS "yes")
 else()
-  add_library(php_sockets)
+  message(CHECK_FAIL "no")
 endif()
 
-target_sources(php_sockets PRIVATE
-  sockets.c
-  multicast.c
-  conversions.c
-  sockaddr_conv.c
-  sendrecvmsg.c
+
+target_compile_definitions(
+  php_sockets
+  PRIVATE $<$<PLATFORM_ID:Darwin>:__APPLE_USE_RFC_3542>
 )
-
-target_compile_definitions(php_sockets PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE=1)
-
-if(CMAKE_HOST_SYSTEM_NAME STREQUAL "Darwin")
-  target_compile_definitions(php_sockets PRIVATE __APPLE_USE_RFC_3542)
-endif()
-
-file(GLOB _sockets_headers_files "${CMAKE_CURRENT_SOURCE_DIR}/*.h")
 
 target_sources(
   php_sockets
   PUBLIC FILE_SET sockets_headers
   TYPE HEADERS
-  FILES ${_sockets_headers_files}
+  FILES php_sockets.h
 )
 
 install(

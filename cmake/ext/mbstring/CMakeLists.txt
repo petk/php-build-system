@@ -1,8 +1,13 @@
 include(CheckCSourceCompiles)
 include(CMakeDependentOption)
 include(CMakePushCheckState)
+include(FeatureSummary)
 
-option(EXT_MBSTRING "Enable the mbstring extension (multibyte string support)" OFF)
+option(EXT_MBSTRING "Enable the mbstring extension" OFF)
+
+add_feature_info("ext/mbstring" EXT_MBSTRING
+  "Adds multibyte string support."
+)
 
 cmake_dependent_option(
   EXT_MBSTRING_SHARED
@@ -98,7 +103,11 @@ list(APPEND _mbstring_headers_files "${CMAKE_CURRENT_BINARY_DIR}/libmbfl/config.
 list(APPEND _mbstring_headers_files "${CMAKE_CURRENT_SOURCE_DIR}/mbstring.h")
 
 if(EXT_MBSTRING_MBREGEX)
-  find_package(Oniguruma REQUIRED)
+  find_package(Oniguruma)
+  set_package_properties(Oniguruma PROPERTIES
+    TYPE REQUIRED
+    PURPOSE "Necessary for multibyte regex in the mbstring extension."
+  )
 
   target_link_libraries(php_mbstring PRIVATE Oniguruma::Oniguruma)
 

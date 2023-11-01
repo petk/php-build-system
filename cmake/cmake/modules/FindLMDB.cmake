@@ -17,8 +17,7 @@ Result variables:
 
 Hints:
 
-  The LMDB_ROOT variable adds search path for finding the LMDB on custom
-  location.
+  The LMDB_ROOT variable adds custom search path.
 #]=============================================================================]
 
 include(CheckLibraryExists)

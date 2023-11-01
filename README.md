@@ -200,6 +200,7 @@ PHP tests and other files:
  └─ main/                         # Binding that ties extensions, SAPIs, Zend engine and TSRM together
     ├─ streams/                   # Streams layer subsystem
     └─ ...
+ ├─ modules/                      # Shared libraries, created when building PHP
  ├─ pear/                         # PEAR installation
  └─ sapi/                         # PHP SAPI (Server API) modules
     └─ cli/                       # Command-line PHP SAPI module
@@ -1187,13 +1188,13 @@ cmake -LH .
       <td></td>
     </tr>
     <tr>
-      <td>&nbsp;&nbsp;--with-bz2=DIR</td>
-      <td>&nbsp;&nbsp;BZip2_ROOT=DIR</td>
+      <td>&nbsp;&nbsp;--with-bz2=shared</td>
+      <td>&nbsp;&nbsp;EXT_BZ2_SHARED=ON</td>
       <td></td>
     </tr>
     <tr>
-      <td>&nbsp;&nbsp;--with-bz2=shared</td>
-      <td>&nbsp;&nbsp;EXT_BZ2_SHARED=ON</td>
+      <td>&nbsp;&nbsp;--with-bz2=DIR</td>
+      <td>&nbsp;&nbsp;BZip2_ROOT=DIR</td>
       <td></td>
     </tr>
     <tr>
@@ -2327,8 +2328,13 @@ cmake -LH .
       <td>default</td>
     </tr>
     <tr>
-      <td>&nbsp;&nbsp;--with-tidy[=DIR]</td>
+      <td>&nbsp;&nbsp;--with-tidy</td>
       <td>&nbsp;&nbsp;EXT_TIDY=ON</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>&nbsp;&nbsp;--with-tidy=DIR</td>
+      <td>&nbsp;&nbsp;Tidy_ROOT=DIR</td>
       <td></td>
     </tr>
     <tr>

@@ -1,6 +1,11 @@
 include(CMakeDependentOption)
+include(FeatureSummary)
 
 option(EXT_CALENDAR "Enable the calendar extension" OFF)
+
+add_feature_info("ext/calendar" EXT_CALENDAR
+  "Adds the calendar functions to PHP."
+)
 
 cmake_dependent_option(
   EXT_CALENDAR_SHARED
@@ -21,12 +26,12 @@ else()
 endif()
 
 target_sources(php_calendar PRIVATE
+  cal_unix.c
   calendar.c
   dow.c
+  easter.c
   french.c
   gregor.c
   jewish.c
   julian.c
-  easter.c
-  cal_unix.c
 )

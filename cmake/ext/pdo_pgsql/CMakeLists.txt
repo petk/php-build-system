@@ -1,4 +1,5 @@
 include(CMakeDependentOption)
+include(FeatureSummary)
 
 cmake_dependent_option(
   EXT_PDO_PGSQL
@@ -6,6 +7,10 @@ cmake_dependent_option(
   OFF
   "EXT_PDO"
   OFF
+)
+
+add_feature_info("ext/pdo_pgsql" EXT_PDO_PGSQL
+  "Adds support for PostgreSQL database in PDO (PHP Data Objects)."
 )
 
 cmake_dependent_option(
@@ -42,7 +47,11 @@ target_include_directories(
   PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/.."
 )
 
-find_package(PostgreSQL 9.1 REQUIRED)
+find_package(PostgreSQL 9.1)
+set_package_properties(PostgreSQL PROPERTIES
+  TYPE REQUIRED
+  PURPOSE "Necessary to enable the pdo_pgsql extension."
+)
 
 target_link_libraries(php_pdo_pgsql PUBLIC PostgreSQL::PostgreSQL)
 

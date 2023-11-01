@@ -21,8 +21,7 @@ Result variables:
 
 Hints:
 
-  The Firebird_ROOT variable adds search path for finding the Firebird on custom
-  locations.
+  The Firebird_ROOT variable adds custom search path.
 #]=============================================================================]
 
 include(CheckLibraryExists)

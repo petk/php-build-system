@@ -1,6 +1,12 @@
+include(CheckCCompilerFlag)
 include(CMakeDependentOption)
+include(FeatureSummary)
 
 option(EXT_TIDY "Enable the tidy extension" OFF)
+
+add_feature_info("ext/tidy" EXT_TIDY
+  "Tidy HTML utility support to handle HTML, XHTML and XML documents."
+)
 
 cmake_dependent_option(
   EXT_TIDY_SHARED
@@ -25,10 +31,17 @@ target_sources(php_tidy PRIVATE
 )
 
 # Add -Wno-ignored-qualifiers as this is an issue upstream.
-target_compile_options(php_tidy PRIVATE -Wno-ignored-qualifiers)
+check_c_compiler_flag(-Wno-ignored-qualifiers HAVE_WNO_IGNORED_QUALIFIERS)
+if(HAVE_WNO_IGNORED_QUALIFIERS)
+  target_compile_options(php_tidy PRIVATE -Wno-ignored-qualifiers)
+endif()
 
 target_compile_definitions(php_tidy PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE=1)
 
-find_package(Tidy REQUIRED)
+find_package(Tidy)
+set_package_properties(Tidy PROPERTIES
+  TYPE REQUIRED
+  PURPOSE "Necessary to enable the tidy extension."
+)
 
 target_link_libraries(php_tidy PRIVATE Tidy::Tidy)

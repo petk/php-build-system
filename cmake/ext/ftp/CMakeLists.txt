@@ -1,6 +1,11 @@
 include(CMakeDependentOption)
+include(FeatureSummary)
 
 option(EXT_FTP "Enable the ftp extension" OFF)
+
+add_feature_info("ext/ftp" EXT_FTP
+  "Adds support for File Transfer Protocol (FTP)."
+)
 
 cmake_dependent_option(
   EXT_FTP_SHARED
@@ -31,14 +36,18 @@ else()
 endif()
 
 target_sources(php_ftp PRIVATE
-  php_ftp.c
   ftp.c
+  php_ftp.c
 )
 
 if(EXT_FTP_SSL OR EXT_OPENSSL)
-  find_package(OpenSSL ${PHP_OPENSSL_MIN_VERSION} REQUIRED)
+  find_package(OpenSSL ${PHP_OPENSSL_MIN_VERSION})
+  set_package_properties(OpenSSL PROPERTIES
+    TYPE REQUIRED
+    PURPOSE "Necessary to enable the ftp extension."
+  )
 
   target_link_libraries(php_ftp PRIVATE OpenSSL::SSL)
 
-  set(HAVE_FTP_SSL 1 CACHE INTERNAL "Whether FTP over SSL is supported")
+  set(HAVE_FTP_SSL 1 CACHE INTERNAL "Whether FTP over SSL is enabled")
 endif()

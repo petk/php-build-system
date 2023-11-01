@@ -17,8 +17,7 @@ Result variables:
 
 Hints:
 
-  The FreeTDS_ROOT variable adds search path for finding the FreeTDS on custom
-  locations.
+  The FreeTDS_ROOT variable adds custom search path.
 #]=============================================================================]
 
 include(CheckLibraryExists)

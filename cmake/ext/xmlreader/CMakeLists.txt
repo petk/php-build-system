@@ -1,6 +1,11 @@
 include(CMakeDependentOption)
+include(FeatureSummary)
 
 option(EXT_XMLREADER "Enable the xmlreader extension" ON)
+
+add_feature_info("ext/xmlreader" EXT_XMLREADER
+  "Adds support for XML pull parser."
+)
 
 cmake_dependent_option(
   EXT_XMLREADER_SHARED
@@ -24,7 +29,11 @@ target_sources(php_xmlreader PRIVATE
   php_xmlreader.c
 )
 
-find_package(LibXml2 ${PHP_LIBXML2_MIN_VERSION} REQUIRED)
+find_package(LibXml2 ${PHP_LIBXML2_MIN_VERSION})
+set_package_properties(LibXml2 PROPERTIES
+  TYPE REQUIRED
+  PURPOSE "Necessary to enable the xmlreader extension."
+)
 
 target_link_libraries(php_xmlreader PRIVATE LibXml2::LibXml2)
 

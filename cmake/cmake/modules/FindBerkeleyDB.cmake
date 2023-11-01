@@ -24,8 +24,7 @@ Result variables:
 
 Hints:
 
-  The BerkeleyDB_ROOT variable adds search path for finding the Berkeley DB on
-  custom location.
+  The BerkeleyDB_ROOT variable adds custom search path.
 #]=============================================================================]
 
 include(CheckCSourceCompiles)

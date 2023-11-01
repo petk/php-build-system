@@ -1,6 +1,7 @@
 include(CheckCCompilerFlag)
 include(CheckCSourceCompiles)
 include(CheckCSourceRuns)
+include(FeatureSummary)
 
 option(EXT_PCRE_EXTERNAL "Use external library for PCRE support" OFF)
 option(EXT_PCRE_JIT "Enable PCRE JIT functionality" ON)
@@ -16,7 +17,11 @@ target_compile_definitions(php_pcre
 set(PCRE2_CODE_UNIT_WIDTH 8 CACHE INTERNAL "Number of bits in non-UTF mode for PCRE library")
 
 if(EXT_PCRE_EXTERNAL)
-  find_package(PCRE 10.30 REQUIRED)
+  find_package(PCRE 10.30)
+  set_package_properties(PCRE PROPERTIES
+    TYPE REQUIRED
+    PURPOSE "Necessary to enable the pcre extension with external PCRE library."
+  )
 
   target_link_libraries(php_pcre PRIVATE PCRE::PCRE)
 

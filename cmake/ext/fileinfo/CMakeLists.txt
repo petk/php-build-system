@@ -1,7 +1,13 @@
 include(CheckCSourceRuns)
+include(CheckSymbolExists)
 include(CMakeDependentOption)
+include(FeatureSummary)
 
 option(EXT_FILEINFO "Enable the fileinfo extension" ON)
+
+add_feature_info("ext/fileinfo" EXT_FILEINFO
+  "Adds support for file content type and encoding."
+)
 
 cmake_dependent_option(
   EXT_FILEINFO_SHARED
@@ -27,21 +33,21 @@ target_sources(php_fileinfo PRIVATE
   libmagic/apprentice.c
   libmagic/apptype.c
   libmagic/ascmagic.c
-  libmagic/cdf.c
+  libmagic/buffer.c
   libmagic/cdf_time.c
+  libmagic/cdf.c
   libmagic/compress.c
+  libmagic/der.c
   libmagic/encoding.c
   libmagic/fsmagic.c
   libmagic/funcs.c
+  libmagic/is_csv.c
   libmagic/is_json.c
   libmagic/is_tar.c
   libmagic/magic.c
   libmagic/print.c
   libmagic/readcdf.c
   libmagic/softmagic.c
-  libmagic/der.c
-  libmagic/buffer.c
-  libmagic/is_csv.c
 )
 
 check_symbol_exists(utimes "sys/time.h" HAVE_UTIMES)
@@ -74,14 +80,15 @@ if(NOT CMAKE_CROSSCOMPILING)
 
       return !(NULL != ret);
     }
-  " _have_platform_strcasestr)
+  " HAVE_PLATFORM_STRCASESTR)
 endif()
 
-if(_have_platform_strcasestr)
-  message(CHECK_PASS "using platform strcasestr implementation")
+if(HAVE_PLATFORM_STRCASESTR)
+  message(CHECK_PASS "using platform strcasestr")
 else()
   target_sources(php_fileinfo PRIVATE libmagic/strcasestr.c)
-  message(CHECK_FAIL "using libmagic strcasestr implementation")
+  message(CHECK_FAIL "using libmagic strcasestr")
+  message(WARNING "Using libmagic strcasestr implementation instead of platform")
 endif()
 
 target_include_directories(

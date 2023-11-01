@@ -3,8 +3,13 @@ include(CheckIncludeFile)
 include(CheckLibraryExists)
 include(CMakeDependentOption)
 include(CMakePushCheckState)
+include(FeatureSummary)
 
 option(EXT_CURL "Enable the curl extension" OFF)
+
+add_feature_info("ext/curl" EXT_CURL
+  "Adds support for using CURL - Client URL Library."
+)
 
 cmake_dependent_option(
   EXT_CURL_SHARED
@@ -25,13 +30,17 @@ else()
 endif()
 
 target_sources(php_curl PRIVATE
+  curl_file.c
   interface.c
   multi.c
   share.c
-  curl_file.c
 )
 
-find_package(CURL 7.29.0 REQUIRED OPTIONAL_COMPONENTS SSL)
+find_package(CURL 7.29.0 OPTIONAL_COMPONENTS SSL)
+set_package_properties(CURL PROPERTIES
+  TYPE REQUIRED
+  PURPOSE "Necessary to enable the curl extension."
+)
 
 target_link_libraries(php_curl PRIVATE CURL::libcurl)
 
@@ -73,7 +82,11 @@ if(PHP_ZTS AND CURL_SSL_FOUND)
 
   if(HAVE_CURL_OLD_OPENSSL)
     # TODO: Should a minimum OpenSSL version be used here?
-    find_package(OpenSSL REQUIRED)
+    find_package(OpenSSL)
+    set_package_properties(OpenSSL PROPERTIES
+      TYPE REQUIRED
+      PURPOSE "Necessary to enable the curl extension."
+    )
 
     target_link_libraries(php_curl PRIVATE OpenSSL::Crypto)
 
@@ -82,10 +95,16 @@ if(PHP_ZTS AND CURL_SSL_FOUND)
 endif()
 
 # Sanity check.
-check_library_exists(CURL::libcurl curl_easy_perform "" _have_curl_lib)
+if(TARGET CURL::libcurl)
+  check_library_exists(CURL::libcurl curl_easy_perform "" HAVE_CURL_EASY_PERFORM)
 
-if(NOT _have_curl_lib)
-  message(FATAL_ERROR "The curl_easy_perform() couldn't be found. Please check logs for more information.")
+  if(NOT HAVE_CURL_EASY_PERFORM)
+    message(
+      FATAL_ERROR
+      "The curl_easy_perform() couldn't be found. Please check logs for more "
+      "information."
+    )
+  endif()
 endif()
 
 target_sources(

@@ -2,8 +2,13 @@ include(CheckCSourceCompiles)
 include(CheckSymbolExists)
 include(CMakeDependentOption)
 include(CMakePushCheckState)
+include(FeatureSummary)
 
 option(EXT_PCNTL "Enable the pcntl extension (CLI/CGI only)" OFF)
+
+add_feature_info("ext/pcntl" EXT_PCNTL
+  "Adds support for process control."
+)
 
 cmake_dependent_option(
   EXT_PCNTL_SHARED
@@ -16,6 +21,19 @@ cmake_dependent_option(
 if(NOT EXT_PCNTL)
   return()
 endif()
+
+if(EXT_PCNTL_SHARED)
+  add_library(php_pcntl SHARED)
+else()
+  add_library(php_pcntl)
+endif()
+
+target_sources(php_pcntl PRIVATE
+  pcntl.c
+  php_signal.c
+)
+
+target_compile_definitions(php_pcntl PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE=1)
 
 check_symbol_exists(fork "unistd.h" HAVE_FORK)
 
@@ -48,9 +66,11 @@ cmake_pop_check_state()
 check_symbol_exists(rfork "unistd.h" HAVE_RFORK)
 check_symbol_exists(forkx "sys/fork.h" HAVE_FORKX)
 
-message(STATUS "Checking for siginfo_t")
+message(CHECK_START "Checking for siginfo_t")
 cmake_push_check_state(RESET)
   set(CMAKE_REQUIRED_DEFINITIONS -D_GNU_SOURCE)
+
+  # TODO: add also #include <siginfo.h>?
   check_c_source_compiles("
     #include <signal.h>
 
@@ -61,21 +81,11 @@ cmake_push_check_state(RESET)
   " HAVE_STRUCT_SIGINFO_T)
 cmake_pop_check_state()
 
-if(EXT_PCNTL_SHARED)
-  add_library(php_pcntl SHARED)
-else()
-  add_library(php_pcntl)
-endif()
-
-target_sources(php_pcntl PRIVATE
-  pcntl.c
-  php_signal.c
-)
-
-target_compile_definitions(php_pcntl PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE=1)
-
 if(HAVE_STRUCT_SIGINFO_T)
+  message(CHECK_PASS "yes")
   target_compile_definitions(php_pcntl PRIVATE HAVE_STRUCT_SIGINFO_T=1)
+else()
+  message(CHECK_FAIL "no")
 endif()
 
 # TODO: pcntl is a cli/cgi extension.

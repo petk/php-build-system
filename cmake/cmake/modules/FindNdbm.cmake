@@ -20,8 +20,7 @@ Result variables:
 
 Hints:
 
-  The Ndbm_ROOT variable adds search path for finding the ndbm on custom
-  location.
+  The Ndbm_ROOT variable adds custom search path.
 #]=============================================================================]
 
 include(CheckLibraryExists)

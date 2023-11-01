@@ -1,6 +1,8 @@
 #[=============================================================================[
 Find the Kerberos library.
 
+Deprecated.
+
 TODO: Fine tune the imported library by finding krb headers and link with
 gssapi and krb5.
 

@@ -1,6 +1,11 @@
 include(CMakeDependentOption)
+include(FeatureSummary)
 
 option(EXT_TOKENIZER "Enable the tokenizer extension" ON)
+
+add_feature_info("ext/tokenizer" EXT_TOKENIZER
+  "Adds support for interface to the PHP tokenizer embedded in the Zend engine."
+)
 
 cmake_dependent_option(
   EXT_TOKENIZER_SHARED
@@ -21,8 +26,8 @@ else()
 endif()
 
 target_sources(php_tokenizer PRIVATE
-  tokenizer.c
   tokenizer_data.c
+  tokenizer.c
 )
 
 # Run the ext/tokenizer/tokenizer_data_gen.php script after PHP cli SAPI has

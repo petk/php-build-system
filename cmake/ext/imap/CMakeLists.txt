@@ -1,6 +1,11 @@
 include(CMakeDependentOption)
+include(FeatureSummary)
 
 option(EXT_IMAP "Enable the imap extension" OFF)
+
+add_feature_info("ext/imap" EXT_IMAP
+  "Adds support for operating with the IMAP protocol."
+)
 
 cmake_dependent_option(
   EXT_IMAP_SHARED

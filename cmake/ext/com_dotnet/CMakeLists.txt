@@ -4,8 +4,13 @@ if(NOT CMAKE_SYSTEM_NAME STREQUAL "Windows")
 endif()
 
 include(CMakeDependentOption)
+include(FeatureSummary)
 
 option(EXT_COM_DOTNET "Enable the com_dotnet extension" OFF)
+
+add_feature_info("ext/com_dotnet" EXT_COM_DOTNET
+  "Adds the Component Object Model support to PHP."
+)
 
 cmake_dependent_option(
   EXT_COM_DOTNET_SHARED
@@ -33,11 +38,11 @@ target_sources(php_com_dotnet PRIVATE
   com_iterator.c
   com_misc.c
   com_olechar.c
+  com_persist.c
+  com_saproxy.c
   com_typeinfo.c
   com_variant.c
   com_wrapper.c
-  com_saproxy.c
-  com_persist.c
 )
 
 target_compile_definitions(php_com_dotnet PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE=1)
