@@ -170,7 +170,6 @@ else()
   message(CHECK_FAIL "no")
 endif()
 
-
 target_compile_definitions(
   php_sockets
   PRIVATE $<$<PLATFORM_ID:Darwin>:__APPLE_USE_RFC_3542>

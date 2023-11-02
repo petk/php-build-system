@@ -15,6 +15,9 @@ projects.
   * [3.6. Building dependencies from source](#36-building-dependencies-from-source)
   * [3.7. pkgconf](#37-pkgconf)
 * [4. CMake](#4-cmake)
+  * [4.1. find\_package](#41-find_package)
+  * [4.2. FetchContent](#42-fetchcontent)
+  * [4.3. CPM.cmake](#43-cpmcmake)
 
 ## 1. Introduction to dependencies
 
@@ -158,6 +161,8 @@ available for every system package out there.
 CMake is not a dependency manager on its own but it can fetch, build, and link
 libraries as part of project's build process.
 
+### 4.1. find_package
+
 The
 [`find_package()`](https://cmake.org/cmake/help/latest/command/find_package.html)
 is used to find external dependencies on the system. Either by manually written
@@ -175,10 +180,62 @@ not found.
 Dependency can be then linked to targets within the project:
 
 ```cmake
-target_link_libraries(<target-name> INTERFACE|PUBLIC|PRIVATE ExternalDependency::Component)
+target_link_libraries(
+  <target-name>
+  INTERFACE|PUBLIC|PRIVATE ExternalDependency::Component
+)
 ```
+
+The `FeatureSummary` CMake module can add metadata to package.
+
+```cmake
+# FindPackageName.cmake
+
+include(FeatureSummary)
+
+set_package_properties(PackageName PROPERTIES
+  URL "https://example.com/"
+  DESCRIPTION "Package library"
+)
+```
+
+Using the package property type `REQUIRED` and
+`FATAL_ON_MISSING_REQUIRED_PACKAGES` option at `feature_summary` enables listing
+all required missing packages at the end of the configuration step.
+
+```cmake
+find_package(PackageName)
+set_package_properties(PackageName PROPERTIES
+  TYPE REQUIRED
+)
+
+# If PackageName was not found, configuration step will stop here:
+feature_summary(WHAT ALL FATAL_ON_MISSING_REQUIRED_PACKAGES)
+```
+
+### 4.2. FetchContent
 
 [FetchContent](https://cmake.org/cmake/help/latest/module/FetchContent.html) can
 be used for "simpler" dependencies. With `FetchContent`, the dependency can be a
 separate Git repository, can be downloaded at the build time, and then built
 together with the entire project.
+
+```cmake
+FetchContent_Declare(
+  library
+  GIT_REPOSITORY https://github.com/google/googletest.git
+  GIT_TAG        703bd9caab50b139428cea1aaff9974ebee5742e # release-1.10.0
+)
+```
+
+### 4.3. CPM.cmake
+
+[CPM.cmake](https://github.com/cpm-cmake/CPM.cmake) is a cross-platform script
+that can download and manage dependencies. Under the hood it uses
+`FetchContent`.
+
+```cmake
+include(cmake/CPM.cmake)
+
+CPMAddPackage("gh:fmtlib/fmt#7.1.3")
+```

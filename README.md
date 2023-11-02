@@ -2198,6 +2198,11 @@ cmake -LH .
       <td></td>
     </tr>
     <tr>
+      <td>&nbsp;&nbsp;--with-snmp=DIR</td>
+      <td>&nbsp;&nbsp;NetSnmp_ROOT=DIR</td>
+      <td></td>
+    </tr>
+    <tr>
       <td>--disable-soap</td>
       <td>EXT_SOAP=OFF</td>
       <td>default</td>

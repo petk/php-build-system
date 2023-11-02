@@ -7,7 +7,7 @@ include(FeatureSummary)
 option(EXT_GD "Enable the gd extension" OFF)
 
 add_feature_info("ext/gd" EXT_GD
-  "Adds support for image processing and GD."
+  "Image processing and graphics draw (GD) support."
 )
 
 cmake_dependent_option(
@@ -26,12 +26,20 @@ cmake_dependent_option(
   OFF
 )
 
+add_feature_info("ext/gd with external GD library" EXT_GD_EXTERNAL
+  "Uses external GD library instead of bundled one."
+)
+
 cmake_dependent_option(
   EXT_GD_AVIF
   "GD: Enable AVIF support (only for bundled libgd)"
   OFF
   "EXT_GD;NOT EXT_GD_EXTERNAL"
   OFF
+)
+
+add_feature_info("ext/gd AVIF" EXT_GD_AVIF
+  "AVIF support for gd extension."
 )
 
 cmake_dependent_option(
@@ -42,12 +50,20 @@ cmake_dependent_option(
   OFF
 )
 
+add_feature_info("ext/gd WebP" EXT_GD_WEBP
+  "WebP support for gd extension."
+)
+
 cmake_dependent_option(
   EXT_GD_JPEG
   "GD: Enable JPEG support (only for bundled libgd)"
   OFF
   "EXT_GD;NOT EXT_GD_EXTERNAL"
   OFF
+)
+
+add_feature_info("ext/gd JPEG" EXT_GD_JPEG
+  "JPEG support for gd extension."
 )
 
 cmake_dependent_option(
@@ -58,6 +74,10 @@ cmake_dependent_option(
   OFF
 )
 
+add_feature_info("ext/gd XPM" EXT_GD_XPM
+  "XPM support for gd extension."
+)
+
 cmake_dependent_option(
   EXT_GD_FREETYPE
   "GD: Enable FreeType 2 support (only for bundled libgd)"
@@ -66,12 +86,20 @@ cmake_dependent_option(
   OFF
 )
 
+add_feature_info("ext/gd FreeType" EXT_GD_FREETYPE
+  "FreeType 2 support for gd extension."
+)
+
 cmake_dependent_option(
   EXT_GD_JIS
   "GD: Enable JIS-mapped Japanese font support (only for bundled libgd)"
   OFF
   "EXT_GD;NOT EXT_GD_EXTERNAL"
   OFF
+)
+
+add_feature_info("ext/gd JIS" EXT_GD_JIS
+  "JIS-mapped Japanese font support for gd extension (only for bundled libgd)."
 )
 
 if(NOT EXT_GD)
@@ -137,15 +165,25 @@ if(NOT EXT_GD_EXTERNAL)
   set(HAVE_GD_BUNDLED 1 CACHE INTERNAL "Whether the bundled libgd is used")
 
   # With bundled GD library these are always available.
-  set(HAVE_GD_PNG 1 CACHE INTERNAL "Whether the PNG functionality can be used with libgd")
-  set(HAVE_GD_BMP 1 CACHE INTERNAL "Whether the BMP functionality can be used with libgd")
-  set(HAVE_GD_TGA 1 CACHE INTERNAL "Whether the TGA functionality can be used with libgd")
+  set(
+    HAVE_GD_PNG 1
+    CACHE INTERNAL "Whether the PNG functionality can be used with libgd"
+  )
+
+  set(
+    HAVE_GD_BMP 1
+    CACHE INTERNAL "Whether the BMP functionality can be used with libgd"
+  )
+
+  set(
+    HAVE_GD_TGA 1
+    CACHE INTERNAL "Whether the TGA functionality can be used with libgd"
+  )
 
   file(GLOB _gd_libgd_headers_files "${CMAKE_CURRENT_SOURCE_DIR}/libgd/*.h")
   list(APPEND _gd_headers_files ${_gd_libgd_headers_files})
 
   # Check for fabsf and floorf which are available since C99.
-  # TODO: Are these checks still needed?
   cmake_push_check_state(RESET)
     set(CMAKE_REQUIRED_LIBRARIES m)
     check_symbol_exists(fabsf "math.h" HAVE_FABSF)
@@ -171,6 +209,7 @@ if(NOT EXT_GD_EXTERNAL)
     TYPE REQUIRED
     PURPOSE "Necessary to enable the gd extension."
   )
+
   target_link_libraries(php_gd PRIVATE ZLIB::ZLIB)
 
   find_package(PNG)
@@ -178,6 +217,7 @@ if(NOT EXT_GD_EXTERNAL)
     TYPE REQUIRED
     PURPOSE "Necessary to enable the gd extension."
   )
+
   target_link_libraries(php_gd PRIVATE PNG::PNG)
 
   set(HAVE_LIBPNG 1 CACHE INTERNAL "Whether the libpng is available")
@@ -192,7 +232,7 @@ if(NOT EXT_GD_EXTERNAL)
     target_link_libraries(php_gd PRIVATE libavif::libavif)
 
     set(HAVE_LIBAVIF 1 CACHE INTERNAL "Whether the libavif is available")
-    set(HAVE_GD_AVIF 1 CACHE INTERNAL "Whether the GD avif support is enabled")
+    set(HAVE_GD_AVIF 1 CACHE INTERNAL "Whether the AVIF support is enabled")
   endif()
 
   if(EXT_GD_WEBP)
@@ -205,7 +245,7 @@ if(NOT EXT_GD_EXTERNAL)
     target_link_libraries(php_gd PRIVATE WebP::WebP)
 
     set(HAVE_LIBWEBP 1 CACHE INTERNAL "Whether the libwebp is available")
-    set(HAVE_GD_WEBP 1 CACHE INTERNAL "Whether the GD WebP support is enabled")
+    set(HAVE_GD_WEBP 1 CACHE INTERNAL "Whether the WebP support is enabled")
   endif()
 
   if(EXT_GD_JPEG)
@@ -218,7 +258,7 @@ if(NOT EXT_GD_EXTERNAL)
     target_link_libraries(php_gd PRIVATE JPEG::JPEG)
 
     set(HAVE_LIBJPEG 1 CACHE INTERNAL "Whether the libjpeg is available")
-    set(HAVE_GD_JPG 1 CACHE INTERNAL "Whether the GD JPEG support is enabled")
+    set(HAVE_GD_JPG 1 CACHE INTERNAL "Whether the JPEG support is enabled")
   endif()
 
   if(EXT_GD_XPM)
@@ -231,7 +271,7 @@ if(NOT EXT_GD_EXTERNAL)
     target_link_libraries(php_gd PRIVATE XPM::XPM)
 
     set(HAVE_XPM 1 CACHE INTERNAL "Whether the libXpm library is available")
-    set(HAVE_GD_XPM 1 CACHE INTERNAL "Whether the GD XPM support is enabled")
+    set(HAVE_GD_XPM 1 CACHE INTERNAL "Whether the XPM support is enabled")
   endif()
 
   if(EXT_GD_FREETYPE)
@@ -243,13 +283,27 @@ if(NOT EXT_GD_EXTERNAL)
 
     target_link_libraries(php_gd PRIVATE Freetype::Freetype)
 
-    set(HAVE_LIBFREETYPE 1 CACHE INTERNAL "Whether the FreeType library is available")
-    set(HAVE_GD_FREETYPE 1 CACHE INTERNAL "Whether the GD FreeType support is enabled")
+    set(
+      HAVE_LIBFREETYPE 1
+      CACHE INTERNAL "Whether the FreeType library is available"
+    )
+
+    set(
+      HAVE_GD_FREETYPE 1
+      CACHE INTERNAL "Whether the FreeType support is enabled"
+    )
   endif()
 
   if(EXT_GD_JIS)
-    set(JISX0208 1 CACHE INTERNAL "Whether to use the JIS-mapped Japanese font support in GD")
-    set(USE_GD_JISX0208 1 CACHE INTERNAL "Whether the GD JIS-mapped Japanese font support is enabled")
+    set(
+      JISX0208 1
+      CACHE INTERNAL "Whether the JIS-mapped Japanese font support is available"
+    )
+
+    set(
+      USE_GD_JISX0208 1
+      CACHE INTERNAL "Whether the JIS-mapped Japanese font support is enabled"
+    )
   endif()
 
   # Do sanity check when all required packages are found.

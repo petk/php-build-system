@@ -1,44 +1,35 @@
 include(CheckCSourceCompiles)
-include(CheckIncludeFile)
 include(CheckSymbolExists)
 
-# Check for arc4random on BSD systems.
-check_symbol_exists(arc4random_buf "stdlib.h" HAVE_DECL_ARC4RANDOM_BUF)
-
-# Check for CCRandomGenerateBytes, header was absent in previous macOS releases.
-check_include_file(CommonCrypto/CommonRandom.h HAVE_COMMONCRYPTO_COMMONRANDOM_H)
-
-if(HAVE_COMMONCRYPTO_COMMONRANDOM_H)
-  set(CMAKE_REQUIRED_INCLUDES ${CMAKE_REQUIRED_INCLUDES} CommonCrypto)
-  check_c_source_compiles("
-    #include <sys/types.h>
-    #include <Availability.h>
-    #include <CommonCrypto/CommonCryptoError.h>
-    int main(void) {
-      return 0;
-    }
-  " COMMONCRYPTO_HEADERS_WORK)
-  if(COMMONCRYPTO_HEADERS_WORK)
-    set(HAVE_COMMONCRYPTO_COMMONRANDOM_H 1 CACHE INTERNAL "Define to 1 if you have the <CommonCrypto/CommonRandom.h> header file.")
-  else()
-    unset(HAVE_COMMONCRYPTO_COMMONRANDOM_H CACHE)
-  endif()
-endif()
-
 add_library(php_random STATIC
-  random.c
   csprng.c
   engine_combinedlcg.c
   engine_mt19937.c
   engine_pcgoneseq128xslrr64.c
-  engine_xoshiro256starstar.c
   engine_secure.c
   engine_user.c
+  engine_xoshiro256starstar.c
   gammasection.c
+  random.c
   randomizer.c
 )
 
 target_compile_definitions(php_random PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE=1)
+
+# Check for arc4random on BSD systems.
+check_symbol_exists(arc4random_buf "stdlib.h" HAVE_DECL_ARC4RANDOM_BUF)
+
+# Check for CCRandomGenerateBytes. Header was absent in previous macOS releases.
+check_c_source_compiles("
+  #include <sys/types.h>
+  #include <Availability.h>
+  #include <CommonCrypto/CommonCryptoError.h>
+  #include <CommonCrypto/CommonRandom.h>
+
+  int main(void) {
+    return 0;
+  }
+" HAVE_COMMONCRYPTO_COMMONRANDOM_H)
 
 target_sources(
   php_random
