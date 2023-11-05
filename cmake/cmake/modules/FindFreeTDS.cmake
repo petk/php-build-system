@@ -26,35 +26,55 @@ include(FindPackageHandleStandardArgs)
 
 set_package_properties(FreeTDS PROPERTIES
   URL "https://www.freetds.org/"
-  DESCRIPTION "TDS (Tabular DataStream) protocol library for Sybase and MS SQL databases"
+  DESCRIPTION "TDS (Tabular DataStream) protocol library for Sybase and MS SQL"
 )
 
 find_path(FreeTDS_INCLUDE_DIRS sybdb.h PATH_SUFFIXES freetds)
 
-find_library(FreeTDS_LIBRARIES NAMES sybdb DOC "The FreeTDS library")
+set(_reason_failure_message "")
 
-# If there is dnet_stub library.
-find_library(_dnet_stub_library NAMES dnet_stub DOC "The dnet_stub library")
-
-if(_dnet_stub_library)
-  check_library_exists("${_dnet_stub_library}" dnet_addr "" _have_dnet_addr)
+if(NOT FreeTDS_INCLUDE_DIRS)
+  string(
+    APPEND _reason_failure_message
+    "\n    FreeTDS include directory not found."
+  )
 endif()
 
-if(_have_dnet_addr)
-  list(APPEND FreeTDS_LIBRARIES ${_dnet_stub_library})
+find_library(FreeTDS_LIBRARIES NAMES sybdb DOC "The FreeTDS library")
+
+if(NOT FreeTDS_LIBRARIES)
+  string(
+    APPEND _reason_failure_message
+    "\n    FreeTDS library not found."
+  )
 endif()
 
 # Sanity check.
 if(FreeTDS_LIBRARIES)
-  check_library_exists("${FreeTDS_LIBRARIES}" dbsqlexec "" _freetds_have_dbsqlexec)
+  check_library_exists(
+    "${FreeTDS_LIBRARIES}"
+    dbsqlexec
+    ""
+    FreeTDS_HAVE_DBSQLEXEC
+  )
+endif()
+
+if(NOT FreeTDS_HAVE_DBSQLEXEC)
+  string(
+    APPEND _reason_failure_message
+    "\n    The dbsqlexec was not found in the FreeTDS library."
+  )
 endif()
 
 mark_as_advanced(FreeTDS_LIBRARIES FreeTDS_INCLUDE_DIRS)
 
 find_package_handle_standard_args(
   FreeTDS
-  REQUIRED_VARS FreeTDS_LIBRARIES FreeTDS_INCLUDE_DIRS _freetds_have_dbsqlexec
+  REQUIRED_VARS FreeTDS_LIBRARIES FreeTDS_INCLUDE_DIRS FreeTDS_HAVE_DBSQLEXEC
+  REASON_FAILURE_MESSAGE "${_reason_failure_message}"
 )
+
+unset(_reason_failure_message)
 
 if(FreeTDS_FOUND AND NOT TARGET FreeTDS::FreeTDS)
   add_library(FreeTDS::FreeTDS INTERFACE IMPORTED)

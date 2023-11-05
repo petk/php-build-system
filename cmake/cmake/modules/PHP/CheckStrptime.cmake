@@ -4,7 +4,7 @@ Check whether the strptime() declaration fails.
 Cache variables:
 
   HAVE_STRPTIME_DECL_FAILS
-    Set to 1 if strptime() declaration fails.
+    Set if strptime() declaration fails.
 ]=============================================================================]#
 
 include(CheckCSourceCompiles)
@@ -16,7 +16,7 @@ cmake_push_check_state(RESET)
   set(CMAKE_REQUIRED_DEFINITIONS -D_GNU_SOURCE)
 
   if(HAVE_STRPTIME)
-    set(CMAKE_REQUIRED_DEFINITIONS "${CMAKE_REQUIRED_DEFINITIONS} -DHAVE_STRPTIME")
+    list(APPEND CMAKE_REQUIRED_DEFINITIONS -DHAVE_STRPTIME)
   endif()
 
   check_c_source_compiles("

@@ -30,6 +30,7 @@ patterns="
 #undef\sDBA_CDB_MAKE
 #undef\sHAVE_NETINET_TCP_H
 #undef\sHAVE_SYS_UN_H
+#undef\sHAVE_CREATEPROCESS
 "
 
 # Similar to the above patterns except the two lines above and one after the

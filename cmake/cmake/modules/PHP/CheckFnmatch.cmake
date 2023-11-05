@@ -37,7 +37,7 @@ if(NOT CMAKE_CROSSCOMPILING)
 elseif(CMAKE_CROSSCOMPILING AND CMAKE_SYSTEM_NAME STREQUAL "Linux")
   set(
     HAVE_FNMATCH 1
-    CACHE INTERNAL "Define to 1 if your system has a working POSIX fnmatch function."
+    CACHE INTERNAL "Define to 1 if system has a working POSIX fnmatch function."
   )
 endif()
 

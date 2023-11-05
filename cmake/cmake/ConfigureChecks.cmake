@@ -67,15 +67,6 @@ check_include_file(sys/procctl.h HAVE_SYS_PROCCTL_H)
 check_include_file(sys/resource.h HAVE_SYS_RESOURCE_H)
 check_include_file(sys/select.h HAVE_SYS_SELECT_H)
 check_include_file(sys/socket.h HAVE_SYS_SOCKET_H)
-
-if(HAVE_SYS_SOCKET_H)
-  # Darwin, OpenBSD and similar systems require sys/socket.h to be included with
-  # the net/if.h header.
-  check_include_files("sys/socket.h;net/if.h" HAVE_NET_IF_H)
-else()
-  check_include_file(net/if.h HAVE_NET_IF_H)
-endif()
-
 check_include_file(sys/stat.h HAVE_SYS_STAT_H)
 check_include_file(sys/statfs.h HAVE_SYS_STATFS_H)
 check_include_file(sys/statvfs.h HAVE_SYS_STATVFS_H)

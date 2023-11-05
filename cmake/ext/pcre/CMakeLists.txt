@@ -1,9 +1,16 @@
 include(CheckCCompilerFlag)
 include(CheckCSourceCompiles)
 include(CheckCSourceRuns)
+include(CMakePushCheckState)
 include(FeatureSummary)
 
 option(EXT_PCRE_EXTERNAL "Use external library for PCRE support" OFF)
+
+add_feature_info("ext/pcre with external PCRE library" EXT_PCRE_EXTERNAL "\
+By default the bundled PCRE library will be used for compiling and linking. If \
+EXT_PCRE_EXTERNAL is set, external PCRE library will be used.\
+")
+
 option(EXT_PCRE_JIT "Enable PCRE JIT functionality" ON)
 
 add_library(php_pcre STATIC
@@ -14,7 +21,10 @@ target_compile_definitions(php_pcre
   PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE=1
 )
 
-set(PCRE2_CODE_UNIT_WIDTH 8 CACHE INTERNAL "Number of bits in non-UTF mode for PCRE library")
+set(
+  PCRE2_CODE_UNIT_WIDTH 8
+  CACHE INTERNAL "Number of bits in non-UTF mode for PCRE library"
+)
 
 if(EXT_PCRE_EXTERNAL)
   find_package(PCRE 10.30)
@@ -25,25 +35,39 @@ if(EXT_PCRE_EXTERNAL)
 
   target_link_libraries(php_pcre PRIVATE PCRE::PCRE)
 
-  if(EXT_PCRE_JIT)
-    message(STATUS "Checking for JIT support in PCRE2")
+  if(TARGET PCRE::PCRE AND EXT_PCRE_JIT)
+    message(CHECK_START "Checking for JIT support in PCRE2")
 
     if(CMAKE_CROSSCOMPILING)
       if(CMAKE_HOST_SYSTEM_PROCESSOR MATCHES "arm.*|i[34567]86|x86_64|mips.*|powerpc.*|sparc")
-        set(HAVE_PCRE_JIT_SUPPORT 1 CACHE INTERNAL "Whether to enable the PCRE JIT support")
+        set(
+          HAVE_PCRE_JIT_SUPPORT 1
+          CACHE INTERNAL "Whether to enable the PCRE JIT support"
+        )
       endif()
     else()
-      check_c_source_runs("
-        #include <pcre2.h>
-        #include <stdlib.h>
+      cmake_push_check_state(RESET)
+        set(CMAKE_REQUIRED_LIBRARIES PCRE::PCRE)
+        set(CMAKE_REQUIRED_DEFINITIONS -DPCRE2_CODE_UNIT_WIDTH=${PCRE2_CODE_UNIT_WIDTH})
 
-        int main(void) {
-          uint32_t have_jit;
-          pcre2_config_8(PCRE2_CONFIG_JIT, &have_jit);
+        check_c_source_runs("
+          #include <pcre2.h>
+          #include <stdlib.h>
 
-          return !have_jit;
-        }
-      " HAVE_PCRE_JIT_SUPPORT)
+          int main(void) {
+            uint32_t have_jit;
+            pcre2_config_8(PCRE2_CONFIG_JIT, &have_jit);
+
+            return !have_jit;
+          }
+        " HAVE_PCRE_JIT_SUPPORT)
+      cmake_pop_check_state()
+    endif()
+
+    if(HAVE_PCRE_JIT_SUPPORT)
+      message(CHECK_PASS "yes")
+    else()
+      message(CHECK_FAIL "no")
     endif()
   endif()
 else()
@@ -55,15 +79,19 @@ else()
     pcre2lib/pcre2_compile.c
     pcre2lib/pcre2_config.c
     pcre2lib/pcre2_context.c
+    pcre2lib/pcre2_convert.c
     pcre2lib/pcre2_dfa_match.c
     pcre2lib/pcre2_error.c
+    pcre2lib/pcre2_extuni.c
+    pcre2lib/pcre2_find_bracket.c
     pcre2lib/pcre2_jit_compile.c
     pcre2lib/pcre2_maketables.c
-    pcre2lib/pcre2_match.c
     pcre2lib/pcre2_match_data.c
+    pcre2lib/pcre2_match.c
     pcre2lib/pcre2_newline.c
     pcre2lib/pcre2_ord2utf.c
     pcre2lib/pcre2_pattern_info.c
+    pcre2lib/pcre2_script_run.c
     pcre2lib/pcre2_serialize.c
     pcre2lib/pcre2_string_utils.c
     pcre2lib/pcre2_study.c
@@ -73,10 +101,6 @@ else()
     pcre2lib/pcre2_ucd.c
     pcre2lib/pcre2_valid_utf.c
     pcre2lib/pcre2_xclass.c
-    pcre2lib/pcre2_find_bracket.c
-    pcre2lib/pcre2_convert.c
-    pcre2lib/pcre2_extuni.c
-    pcre2lib/pcre2_script_run.c
   )
 
   target_include_directories(
@@ -93,41 +117,54 @@ else()
     PRIVATE HAVE_CONFIG_H
   )
 
-  set(HAVE_BUNDLED_PCRE 1 CACHE INTERNAL "Whether the bundled PCRE library is used")
+  set(
+    HAVE_BUNDLED_PCRE 1
+    CACHE INTERNAL "Whether the bundled PCRE library is used"
+  )
 
-  message(STATUS "Checking whether to enable PCRE JIT functionality")
+  message(CHECK_START "Checking whether to enable PCRE JIT functionality")
 
   if(EXT_PCRE_JIT)
-    set(HAVE_PCRE_JIT_SUPPORT 1 CACHE INTERNAL "Whether to enable the PCRE JIT support")
+    set(
+      HAVE_PCRE_JIT_SUPPORT 1
+      CACHE INTERNAL "Whether to enable the PCRE JIT support"
+    )
 
-    message(STATUS "PCRE JIT enabled")
+    message(CHECK_PASS "yes")
 
-    message(STATUS "Checking whether Intel CET is enabled")
+    message(CHECK_START "Checking whether Intel CET is enabled")
 
     check_c_source_compiles("
       #ifndef __CET__
       # error CET is not enabled
       #endif
-      " have_pcre2_intel_cet
+      " HAVE_PCRE2_INTEL_CET
     )
 
-    if(have_pcre2_intel_cet)
-      message(STATUS "Intel CET is enabled")
+    if(HAVE_PCRE2_INTEL_CET)
+      message(CHECK_PASS "yes")
       target_compile_options(php_pcre PRIVATE -mshstk)
     else()
-      message(STATUS "Intel CET is disabled")
+      message(CHECK_FAIL "no")
     endif()
   else()
-    message(STATUS "PCRE JIT disabled")
+    message(CHECK_FAIL "no")
   endif()
 
   # Enable pcre Valgrind support only in DEBUG build (it affects performance).
   if(PHP_VALGRIND AND PHP_DEBUG)
-    set(HAVE_PCRE_VALGRIND_SUPPORT 1 CACHE INTERNAL "Whether to enable the Valgrind support in PCRE")
+    set(
+      HAVE_PCRE_VALGRIND_SUPPORT 1
+      CACHE INTERNAL "Whether to enable the Valgrind support in PCRE"
+    )
   endif()
 
   file(GLOB _pcre_headers_files "${CMAKE_CURRENT_SOURCE_DIR}/pcre2lib/*.h")
 endif()
+
+add_feature_info("ext/pcre with PCRE JIT" HAVE_PCRE_JIT_SUPPORT
+  "PCRE JIT support"
+)
 
 list(APPEND _pcre_headers_files "${CMAKE_CURRENT_SOURCE_DIR}/php_pcre.h")
 

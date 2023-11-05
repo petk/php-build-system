@@ -738,7 +738,7 @@ functionalities and version available on the operating system.
   * To be able to use full condition syntax in `cmake_dependent_option()`.
 * 3.23
   * To be able to use `target_sources(FILE_SET)`, otherwise `install(FILES)`
-    should be used, when installing PHP built files to their destinations.
+    should be used when installing files to their destinations.
 * 3.24
   * To be able to set `CMAKE_COMPILE_WARNING_AS_ERROR`, otherwise INTERFACE
     library should be used instead.
@@ -1943,6 +1943,11 @@ cmake -LH .
       <td></td>
     </tr>
     <tr>
+      <td>&nbsp;&nbsp;--with-external-pcre PCRE2_CFLAGS=... PCRE2_LIBS=...</td>
+      <td>&nbsp;&nbsp;PCRE_ROOT=DIR</td>
+      <td></td>
+    </tr>
+    <tr>
       <td>--enable-pdo</td>
       <td>EXT_PDO=ON</td>
       <td>default</td>
@@ -2018,13 +2023,18 @@ cmake -LH .
       <td>default</td>
     </tr>
     <tr>
-      <td>&nbsp;&nbsp;--with-pdo-pgsql[=DIR]</td>
+      <td>&nbsp;&nbsp;--with-pdo-pgsql</td>
       <td>&nbsp;&nbsp;EXT_PDO_PGSQL=ON</td>
       <td></td>
     </tr>
     <tr>
       <td>&nbsp;&nbsp;--with-pdo-pgsql=shared</td>
       <td>&nbsp;&nbsp;EXT_PDO_PGSQL_SHARED=ON</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>&nbsp;&nbsp;--with-pdo-pgsql=DIR</td>
+      <td>&nbsp;&nbsp;PostgreSQL=DIR</td>
       <td></td>
     </tr>
     <tr>
@@ -2048,13 +2058,18 @@ cmake -LH .
       <td>default</td>
     </tr>
     <tr>
-      <td>&nbsp;&nbsp;--with-pgsql[=DIR]</td>
+      <td>&nbsp;&nbsp;--with-pgsql</td>
       <td>&nbsp;&nbsp;EXT_PGSQL=ON</td>
       <td></td>
     </tr>
     <tr>
       <td>&nbsp;&nbsp;--with-pgsql=shared</td>
       <td>&nbsp;&nbsp;EXT_PGSQL_SHARED=ON</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>&nbsp;&nbsp;--with-pgsql=DIR</td>
+      <td>&nbsp;&nbsp;PostgreSQL_ROOT=DIR</td>
       <td></td>
     </tr>
     <tr>

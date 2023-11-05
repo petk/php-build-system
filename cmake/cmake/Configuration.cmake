@@ -151,6 +151,11 @@ set_package_properties(OpenSSL PROPERTIES
   DESCRIPTION "General-purpose cryptography and secure communication"
 )
 
+set_package_properties(PostgreSQL PROPERTIES
+  URL "https://www.postgresql.org/"
+  DESCRIPTION "PostgreSQL database library"
+)
+
 set_package_properties(SQLite3 PROPERTIES
   URL "https://www.sqlite.org/"
   DESCRIPTION "SQL database engine library"

@@ -16,6 +16,10 @@ Result variables:
     A list of libraries for using PCRE library.
   PCRE_VERSION
     Version string of found PCRE library.
+
+Hints:
+
+  The PCRE_ROOT variable adds custom search path.
 #]=============================================================================]
 
 include(FeatureSummary)
@@ -26,26 +30,63 @@ set_package_properties(PCRE PROPERTIES
   DESCRIPTION "Perl compatible regular expressions library"
 )
 
-find_package(PkgConfig QUIET REQUIRED)
+find_path(PCRE_INCLUDE_DIRS NAMES pcre2.h DOC "PCRE library include directory")
 
-if(PKG_CONFIG_FOUND)
-  if(PCRE_FIND_VERSION)
-    set(_pkg_module_spec "libpcre2-8>=${PCRE_FIND_VERSION}")
-  else()
-    set(_pkg_module_spec "libpcre2-8")
-  endif()
+set(_reason_failure_message "")
 
-  pkg_search_module(PCRE QUIET "${_pkg_module_spec}")
+if(NOT PCRE_INCLUDE_DIRS)
+  string(
+    APPEND _reason_failure_message
+    "\n    PCRE include directory not found."
+  )
+endif()
 
-  unset(_pkg_module_spec)
+find_library(PCRE_LIBRARIES NAMES pcre2-8 DOC "The PCRE library")
+
+if(NOT PCRE_LIBRARIES)
+  string(
+    APPEND _reason_failure_message
+    "\n    PCRE library not found."
+  )
+endif()
+
+if(PCRE_INCLUDE_DIRS)
+  set(_regex "#[ \t]*define[ \t]+PCRE2_(MAJOR|MINOR)[ \t]+([0-9]+)[ \t]*$")
+
+  file(
+    STRINGS
+    "${PCRE_INCLUDE_DIRS}/pcre2.h"
+    _pcre_version_string
+    REGEX "${_regex}"
+  )
+
+  unset(PCRE_VERSION)
+
+  foreach(version ${_pcre_version_string})
+    if(version MATCHES "${_regex}")
+      set(_pcre_version_part "${CMAKE_MATCH_2}")
+
+      if(PCRE_VERSION)
+        string(APPEND PCRE_VERSION ".${_pcre_version_part}")
+      else()
+        set(PCRE_VERSION "${_pcre_version_part}")
+      endif()
+
+      unset(_pcre_version_part)
+    endif()
+  endforeach()
+
+  unset(_pcre_version_string)
 endif()
 
 find_package_handle_standard_args(
   PCRE
-  REQUIRED_VARS PCRE_LIBRARIES
+  REQUIRED_VARS PCRE_LIBRARIES PCRE_INCLUDE_DIRS
   VERSION_VAR PCRE_VERSION
-  REASON_FAILURE_MESSAGE "PCRE not found. Please install PCRE library (libpcre2)."
+  REASON_FAILURE_MESSAGE "${_reason_failure_message}"
 )
+
+unset(_reason_failure_message)
 
 if(PCRE_FOUND AND NOT TARGET PCRE::PCRE)
   add_library(PCRE::PCRE INTERFACE IMPORTED)

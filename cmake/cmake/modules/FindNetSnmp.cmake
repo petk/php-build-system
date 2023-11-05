@@ -56,7 +56,7 @@ if(NetSnmp_EXECUTABLE)
     OUTPUT_STRIP_TRAILING_WHITESPACE
   )
 
-  string(APPEND NetSnmp_LIBRARIES "${NetSnmp_LIBRARY} ${_external_libraries}")
+  set(NetSnmp_LIBRARIES "${NetSnmp_LIBRARY} ${_external_libraries}")
 
   execute_process(
     COMMAND ${NetSnmp_EXECUTABLE} --version
@@ -117,13 +117,15 @@ if(NOT NetSnmp_VERSION)
 endif()
 
 # Sanity check.
-check_library_exists("${NetSnmp_LIBRARY}" init_snmp "" HAVE_INIT_SNMP)
+if(NetSnmp_LIBRARY)
+  check_library_exists("${NetSnmp_LIBRARY}" init_snmp "" HAVE_INIT_SNMP)
+endif()
 
 if(NOT HAVE_INIT_SNMP)
   string(
     APPEND _reason_failure_message
     "\n    SNMP sanity check failed. "
-    "The init_snmp was not found in ${NetSnmp_LIBRARY}."
+    "The init_snmp was not found in the Net-SNMP library."
   )
 endif()
 

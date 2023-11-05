@@ -10,7 +10,7 @@ cmake_dependent_option(
 )
 
 add_feature_info("ext/pdo_pgsql" EXT_PDO_PGSQL
-  "Adds support for PostgreSQL database in PDO (PHP Data Objects)."
+  "PostgreSQL database support in PDO (PHP Data Objects)."
 )
 
 cmake_dependent_option(
@@ -56,8 +56,14 @@ set_package_properties(PostgreSQL PROPERTIES
 target_link_libraries(php_pdo_pgsql PUBLIC PostgreSQL::PostgreSQL)
 
 # Sanity check.
-check_library_exists(PostgreSQL::PostgreSQL PQlibVersion "" _have_pqlibversion)
+if(TARGET PostgreSQL::PostgreSQL)
+  check_library_exists(PostgreSQL::PostgreSQL PQlibVersion "" HAVE_PQLIBVERSION)
 
-if(NOT _have_pqlibversion)
-  message(FATAL_ERROR "PQlibVersion could not be found. Something is wrong with the libpq library. See the logs.")
+  if(NOT HAVE_PQLIBVERSION)
+    message(
+      FATAL_ERROR
+      "PQlibVersion could not be found. Something is wrong with the libpq "
+      "library. See the logs."
+    )
+  endif()
 endif()
