@@ -102,49 +102,54 @@ if(RE2C_USE_COMPUTED_GOTOS)
 endif()
 
 function(re2c_target)
-  set(one_value_args NAME INPUT OUTPUT OPTIONS)
-  set(multi_value_args DEPENDS)
-
   cmake_parse_arguments(
-    PARSED_ARGS
-    ""
-    "${one_value_args}"
-    "${multi_value_args}"
-    ${ARGN}
+    parsed                      # prefix
+    ""                          # options
+    "NAME;INPUT;OUTPUT;OPTIONS" # one-value keywords
+    "DEPENDS"                   # multi-value keywords
+    ${ARGN}                     # strings to parse
   )
 
-  if(NOT PARSED_ARGS_NAME)
+  if(parsed_UNPARSED_ARGUMENTS)
+    message(FATAL_ERROR "Bad arguments: ${parsed_UNPARSED_ARGUMENTS}")
+  endif()
+
+  if(parsed_KEYWORDS_MISSING_VALUES)
+    message(FATAL_ERROR "Missing values for: ${parsed_KEYWORDS_MISSING_VALUES}")
+  endif()
+
+  if(NOT parsed_NAME)
     message(FATAL_ERROR "re2c_target expects a target name")
   endif()
 
-  if(NOT PARSED_ARGS_INPUT)
+  if(NOT parsed_INPUT)
     message(FATAL_ERROR "re2c_target expects an input filename")
   endif()
 
-  if(NOT PARSED_ARGS_OUTPUT)
+  if(NOT parsed_OUTPUT)
     message(FATAL_ERROR "re2c_target expects an output filename")
   endif()
 
-  separate_arguments(options NATIVE_COMMAND "${PARSED_ARGS_OPTIONS}")
+  separate_arguments(options NATIVE_COMMAND "${parsed_OPTIONS}")
 
   if(RE2C_USE_COMPUTED_GOTOS AND HAVE_RE2C_COMPUTED_GOTOS)
     list(APPEND options "-g")
   endif()
 
   add_custom_command(
-    OUTPUT "${PARSED_ARGS_OUTPUT}"
+    OUTPUT "${parsed_OUTPUT}"
     COMMAND ${RE2C_EXECUTABLE}
       ${options}
-      -o "${PARSED_ARGS_OUTPUT}"
-      "${PARSED_ARGS_INPUT}"
-    DEPENDS "${PARSED_ARGS_INPUT}" ${PARSED_ARGS_DEPENDS}
-    COMMENT "[RE2C][${PARSED_ARGS_NAME}] Building lexer with re2c ${RE2C_VERSION}"
+      -o "${parsed_OUTPUT}"
+      "${parsed_INPUT}"
+    DEPENDS "${parsed_INPUT}" ${parsed_DEPENDS}
+    COMMENT "[RE2C][${parsed_NAME}] Building lexer with re2c ${RE2C_VERSION}"
   )
 
   add_custom_target(
-    ${PARSED_ARGS_NAME}
-    SOURCES "${PARSED_ARGS_INPUT}"
-    DEPENDS "${PARSED_ARGS_OUTPUT}"
+    ${parsed_NAME}
+    SOURCES "${parsed_INPUT}"
+    DEPENDS "${parsed_OUTPUT}"
     COMMENT "[RE2C] Building lexer with re2c ${RE2C_VERSION}"
   )
 endfunction()

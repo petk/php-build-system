@@ -70,17 +70,19 @@ if(PHP_DTRACE)
     PURPOSE "Necessary to enable the DTrace support."
   )
 
-  dtrace_target(
-    TARGET php_main
-    INPUT ${CMAKE_SOURCE_DIR}/Zend/zend_dtrace.d
-    HEADER ${CMAKE_BINARY_DIR}/Zend/zend_dtrace_gen.h
-    SOURCES ${CMAKE_SOURCE_DIR}/main/main.c
-            ${CMAKE_SOURCE_DIR}/Zend/zend_API.c
-            ${CMAKE_SOURCE_DIR}/Zend/zend_execute.c
-            ${CMAKE_SOURCE_DIR}/Zend/zend_exceptions.c
-            ${CMAKE_SOURCE_DIR}/Zend/zend_dtrace.c
-            ${CMAKE_SOURCE_DIR}/Zend/zend.c
-  )
+  if(DTrace_FOUND)
+    dtrace_target(
+      TARGET php_main
+      INPUT ${CMAKE_SOURCE_DIR}/Zend/zend_dtrace.d
+      HEADER ${CMAKE_BINARY_DIR}/Zend/zend_dtrace_gen.h
+      SOURCES ${CMAKE_SOURCE_DIR}/main/main.c
+              ${CMAKE_SOURCE_DIR}/Zend/zend_API.c
+              ${CMAKE_SOURCE_DIR}/Zend/zend_execute.c
+              ${CMAKE_SOURCE_DIR}/Zend/zend_exceptions.c
+              ${CMAKE_SOURCE_DIR}/Zend/zend_dtrace.c
+              ${CMAKE_SOURCE_DIR}/Zend/zend.c
+    )
+  endif()
 
   message(CHECK_PASS "yes, DTrace enabled")
 endif()

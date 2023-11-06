@@ -2034,7 +2034,7 @@ cmake -LH .
     </tr>
     <tr>
       <td>&nbsp;&nbsp;--with-pdo-pgsql=DIR</td>
-      <td>&nbsp;&nbsp;PostgreSQL=DIR</td>
+      <td>&nbsp;&nbsp;PostgreSQL_ROOT=DIR</td>
       <td></td>
     </tr>
     <tr>

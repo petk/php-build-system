@@ -31,6 +31,26 @@ patterns="
 #undef\sHAVE_NETINET_TCP_H
 #undef\sHAVE_SYS_UN_H
 #undef\sHAVE_CREATEPROCESS
+#undef\sHAVE_LIBRESOLV
+#undef\sHAVE_LIBBIND
+#undef\sHAVE_LIBSOCKET
+#undef\sHAVE_LIBROOT
+#undef\sHAVE_LIBNETWORK
+#undef\sHAVE_LIBNSL
+#undef\sHAVE_LIBUTIL
+#undef\sHAVE_LIBBSD
+#undef\sHAVE_LIBCRYPT
+#undef\sHAVE_LIBPAM
+#undef\sHAVE_DECL_TZNAME
+#undef\sHAVE_IMAP2000
+#undef\sHAVE_IMAP
+#undef\sHAVE_IMAP2001
+#undef\sHAVE_IMAP2004
+#undef\sHAVE_IMAP_KRB
+#undef\sHAVE_IMAP_AUTH_GSS
+#undef\sHAVE_IMAP_MUTF7
+#undef\sHAVE_IMAP_SSL
+#undef\sCOMPILE_DL_IMAP
 "
 
 # Similar to the above patterns except the two lines above and one after the

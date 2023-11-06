@@ -4,6 +4,7 @@ include(CheckIncludeFiles)
 include(CheckLibraryExists)
 include(CheckSymbolExists)
 include(FeatureSummary)
+include(PHP/SearchLibraries)
 
 option(EXT_STANDARD_ARGON2 "Include the Argon2 support in password_*" OFF)
 
@@ -231,105 +232,81 @@ include(PHP/CheckStrptime)
 # Check for fnmatch() implementation.
 include(PHP/CheckFnmatch)
 
-################################################################################
-# TODO: Fix the following checks better.
-################################################################################
-
-# Detect library functions needed by php dns_xxx functions.
+# Detect library functions needed by PHP dns_xxx functions.
 # ext/standard/php_dns.h will collect these in a single define
 # HAVE_FULL_DNS_FUNCS.
-set(STANDARD_EXTRA_LIBRARIES "")
-
-check_symbol_exists(posix_spawn_file_actions_addchdir_np "spawn.h" HAVE_POSIX_SPAWN_FILE_ACTIONS_ADDCHDIR_NP)
-
-check_symbol_exists(res_nsearch "resolv.h" HAVE_RES_NSEARCH)
-if(NOT HAVE_RES_NSEARCH)
-  set(LIBRARIES_TO_CHECK resolv bind socket)
-
-  foreach(library ${LIBRARIES_TO_CHECK})
-    check_library_exists(${library} res_nsearch "" HAVE_RES_NSEARCH)
-
-    if(HAVE_RES_NSEARCH)
-      list(APPEND STANDARD_EXTRA_LIBRARIES ${library})
-      break()
-    endif()
-  endforeach()
+php_search_libraries(
+  res_nsearch
+  resolv.h
+  HAVE_RES_NSEARCH
+  RES_NSEARCH_LIBRARY
+  LIBRARIES resolv bind socket
+)
+if(RES_NSEARCH_LIBRARY)
+  target_link_libraries(php_standard PRIVATE ${RES_NSEARCH_LIBRARY})
 endif()
 
-check_symbol_exists(res_ndestroy "resolv.h" HAVE_RES_NDESTROY)
-if(NOT HAVE_RES_NDESTROY)
-  set(LIBRARIES_TO_CHECK resolv bind socket)
-
-  foreach(library ${LIBRARIES_TO_CHECK})
-    check_library_exists(${library} res_ndestroy "" HAVE_RES_NDESTROY)
-
-    if(HAVE_RES_NDESTROY)
-      list(APPEND STANDARD_EXTRA_LIBRARIES ${library})
-      break()
-    endif()
-  endforeach()
+php_search_libraries(
+  res_ndestroy
+  resolv.h
+  HAVE_RES_NDESTROY
+  RES_NDESTROY_LIBRARY
+  LIBRARIES resolv bind socket
+)
+if(RES_NDESTROY_LIBRARY)
+  target_link_libraries(php_standard PRIVATE ${RES_NDESTROY_LIBRARY})
 endif()
 
-check_symbol_exists(dns_search "resolv.h" HAVE_DNS_SEARCH)
-if(NOT HAVE_DNS_SEARCH)
-  set(LIBRARIES_TO_CHECK resolv bind socket)
-
-  foreach(library ${LIBRARIES_TO_CHECK})
-    check_library_exists(${library} dns_search "" HAVE_DNS_SEARCH)
-
-    if(HAVE_DNS_SEARCH)
-      list(APPEND STANDARD_EXTRA_LIBRARIES ${library})
-      break()
-    endif()
-  endforeach()
+php_search_libraries(
+  dns_search
+  resolv.h
+  HAVE_DNS_SEARCH
+  DNS_SEARCH_LIBRARY
+  LIBRARIES resolv bind socket
+)
+if(DNS_SEARCH_LIBRARY)
+  target_link_libraries(php_standard PRIVATE ${DNS_SEARCH_LIBRARY})
 endif()
 
-check_symbol_exists(dn_expand "resolv.h" HAVE_DN_EXPAND)
-if(NOT HAVE_DN_EXPAND)
-  set(LIBRARIES_TO_CHECK resolv bind socket)
-
-  foreach(library ${LIBRARIES_TO_CHECK})
-    check_library_exists(${library} dn_expand "" HAVE_DN_EXPAND)
-
-    if(HAVE_DN_EXPAND)
-      list(APPEND STANDARD_EXTRA_LIBRARIES ${library})
-      break()
-    endif()
-  endforeach()
+php_search_libraries(
+  dn_expand
+  resolv.h
+  HAVE_DN_EXPAND
+  DN_EXPAND_LIBRARY
+  LIBRARIES resolv bind socket
+)
+if(DN_EXPAND_LIBRARY)
+  target_link_libraries(php_standard PRIVATE ${DN_EXPAND_LIBRARY})
 endif()
 
-check_symbol_exists(dn_skipname "resolv.h" HAVE_DN_SKIPNAME)
-if(NOT HAVE_DN_SKIPNAME)
-  set(LIBRARIES_TO_CHECK resolv bind socket)
-
-  foreach(library ${LIBRARIES_TO_CHECK})
-    check_library_exists(${library} dn_skipname "" HAVE_DN_SKIPNAME)
-
-    if(HAVE_DN_SKIPNAME)
-      list(APPEND STANDARD_EXTRA_LIBRARIES ${library})
-      break()
-    endif()
-  endforeach()
+php_search_libraries(
+  dn_skipname
+  resolv.h
+  HAVE_DN_SKIPNAME
+  DN_SKIPNAME_LIBRARY
+  LIBRARIES resolv bind socket
+)
+if(DN_SKIPNAME_LIBRARY)
+  target_link_libraries(php_standard PRIVATE ${DN_SKIPNAME_LIBRARY})
 endif()
 
-check_symbol_exists(res_search "resolv.h" HAVE_RES_SEARCH)
-if(NOT HAVE_RES_SEARCH)
-  set(LIBRARIES_TO_CHECK resolv bind socket)
-
-  foreach(library ${LIBRARIES_TO_CHECK})
-    check_library_exists(${library} res_search "" HAVE_RES_SEARCH)
-
-    if(HAVE_RES_SEARCH)
-      list(APPEND STANDARD_EXTRA_LIBRARIES ${library})
-      break()
-    endif()
-  endforeach()
+# res_search() is deprecated and should be replaced with res_nsearch().
+php_search_libraries(
+  res_search
+  resolv.h
+  HAVE_RES_SEARCH
+  RES_SEARCH_LIBRARY
+  LIBRARIES resolv bind socket
+)
+if(RES_SEARCH_LIBRARY)
+  target_link_libraries(php_standard PRIVATE ${RES_SEARCH_LIBRARY})
 endif()
 
-if(STANDARD_EXTRA_LIBRARIES)
-  list(REMOVE_DUPLICATES STANDARD_EXTRA_LIBRARIES)
-  target_link_libraries(php_standard PRIVATE ${STANDARD_EXTRA_LIBRARIES})
-endif()
+check_symbol_exists(
+  posix_spawn_file_actions_addchdir_np
+  "spawn.h"
+  HAVE_POSIX_SPAWN_FILE_ACTIONS_ADDCHDIR_NP
+)
 
 # TODO: Check whether to enable the chroot() function by checking which SAPI is
 # being built.

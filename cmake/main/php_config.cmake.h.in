@@ -80,9 +80,6 @@
 /* Whether to build iconv as dynamic module */
 #cmakedefine COMPILE_DL_ICONV @COMPILE_DL_ICONV@
 
-/* Whether to build imap as dynamic module */
-#cmakedefine COMPILE_DL_IMAP @COMPILE_DL_IMAP@
-
 /* Whether to build intl as dynamic module */
 #cmakedefine COMPILE_DL_INTL @COMPILE_DL_INTL@
 
@@ -246,7 +243,7 @@
 #cmakedefine CRYPT_R_STRUCT_CRYPT_DATA @CRYPT_R_STRUCT_CRYPT_DATA@
 
 /* Define to 1 if using 'alloca.c'. */
-#cmakedefine C_ALLOCA
+#cmakedefine C_ALLOCA @C_ALLOCA@
 
 /* Define if the target system is darwin */
 #cmakedefine DARWIN @DARWIN@
@@ -336,7 +333,7 @@
 #cmakedefine HAVE_AARCH64_CRC32 @HAVE_AARCH64_CRC32@
 
 /* */
-#cmakedefine HAVE_ADABAS
+#cmakedefine HAVE_ADABAS @HAVE_ADABAS@
 
 /* Whether you have AI_ALL */
 #cmakedefine HAVE_AI_ALL @HAVE_AI_ALL@
@@ -426,19 +423,19 @@
 #cmakedefine HAVE_CLEARENV @HAVE_CLEARENV@
 
 /* */
-#cmakedefine HAVE_CLI0CLI_H
+#cmakedefine HAVE_CLI0CLI_H @HAVE_CLI0CLI_H@
 
 /* */
-#cmakedefine HAVE_CLI0CORE_H
+#cmakedefine HAVE_CLI0CORE_H @HAVE_CLI0CORE_H@
 
 /* */
-#cmakedefine HAVE_CLI0DEFS_H
+#cmakedefine HAVE_CLI0DEFS_H @HAVE_CLI0DEFS_H@
 
 /* */
-#cmakedefine HAVE_CLI0ENV_H
+#cmakedefine HAVE_CLI0ENV_H @HAVE_CLI0ENV_H@
 
 /* */
-#cmakedefine HAVE_CLI0EXT_H
+#cmakedefine HAVE_CLI0EXT_H @HAVE_CLI0EXT_H@
 
 /* do we have clock_gettime? */
 #cmakedefine HAVE_CLOCK_GETTIME @HAVE_CLOCK_GETTIME@
@@ -447,7 +444,7 @@
 #cmakedefine HAVE_CLOCK_GET_TIME @HAVE_CLOCK_GET_TIME@
 
 /* */
-#cmakedefine HAVE_CODBC
+#cmakedefine HAVE_CODBC @HAVE_CODBC@
 
 /* Define to 1 if you have the <CommonCrypto/CommonRandom.h> header file. */
 #cmakedefine HAVE_COMMONCRYPTO_COMMONRANDOM_H @HAVE_COMMONCRYPTO_COMMONRANDOM_H@
@@ -489,7 +486,7 @@
 #cmakedefine HAVE_DBA @HAVE_DBA@
 
 /* Whether you want DBMaker */
-#cmakedefine HAVE_DBMAKER
+#cmakedefine HAVE_DBMAKER @HAVE_DBMAKER@
 
 /* */
 #cmakedefine HAVE_DCNGETTEXT @HAVE_DCNGETTEXT@
@@ -497,10 +494,6 @@
 /* Define to 1 if you have the declaration of `arc4random_buf', and to 0 if
    you don't. */
 #cmakedefine HAVE_DECL_ARC4RANDOM_BUF @HAVE_DECL_ARC4RANDOM_BUF@
-
-/* Define to 1 if you have the declaration of `tzname', and to 0 if you don't.
-   */
-#cmakedefine HAVE_DECL_TZNAME
 
 /* do we have /dev/poll? */
 #cmakedefine HAVE_DEVPOLL @HAVE_DEVPOLL@
@@ -539,7 +532,7 @@
 #cmakedefine HAVE_EACCESS @HAVE_EACCESS@
 
 /* */
-#cmakedefine HAVE_EMPRESS
+#cmakedefine HAVE_EMPRESS @HAVE_EMPRESS@
 
 /* */
 #cmakedefine HAVE_ENCHANT @HAVE_ENCHANT@
@@ -557,7 +550,7 @@
 #cmakedefine HAVE_EPOLL @HAVE_EPOLL@
 
 /* */
-#cmakedefine HAVE_ESOOB
+#cmakedefine HAVE_ESOOB @HAVE_ESOOB@
 
 /* Whether you want EXIF (metadata from images) support */
 #cmakedefine HAVE_EXIF @HAVE_EXIF@
@@ -665,7 +658,7 @@
 #cmakedefine HAVE_GCC_GLOBAL_REGS @HAVE_GCC_GLOBAL_REGS@
 
 /* Whether you have gcov */
-#cmakedefine HAVE_GCOV
+#cmakedefine HAVE_GCOV @HAVE_GCOV@
 
 /* */
 #cmakedefine HAVE_GD_AVIF @HAVE_GD_AVIF@
@@ -806,7 +799,7 @@
 #cmakedefine HAVE_HUGE_CODE_PAGES @HAVE_HUGE_CODE_PAGES@
 
 /* */
-#cmakedefine HAVE_IBMDB2
+#cmakedefine HAVE_IBMDB2 @HAVE_IBMDB2@
 
 /* IBM iconv implementation */
 #cmakedefine HAVE_IBM_ICONV @HAVE_IBM_ICONV@
@@ -822,30 +815,6 @@
 
 /* Define to 1 if you have the `if_nametoindex' function. */
 #cmakedefine HAVE_IF_NAMETOINDEX @HAVE_IF_NAMETOINDEX@
-
-/* */
-#cmakedefine HAVE_IMAP @HAVE_IMAP@
-
-/* */
-#cmakedefine HAVE_IMAP2000
-
-/* */
-#cmakedefine HAVE_IMAP2001
-
-/* */
-#cmakedefine HAVE_IMAP2004
-
-/* */
-#cmakedefine HAVE_IMAP_AUTH_GSS
-
-/* Whether IMAP extension has Kerberos support */
-#cmakedefine HAVE_IMAP_KRB
-
-/* */
-#cmakedefine HAVE_IMAP_MUTF7
-
-/* */
-#cmakedefine HAVE_IMAP_SSL
 
 /* Define to 1 if you have the <immintrin.h> header file. */
 #cmakedefine HAVE_IMMINTRIN_H @HAVE_IMMINTRIN_H@
@@ -869,10 +838,10 @@
 #cmakedefine HAVE_INTTYPES_H @HAVE_INTTYPES_H@
 
 /* */
-#cmakedefine HAVE_IODBC
+#cmakedefine HAVE_IODBC @HAVE_IODBC@
 
 /* */
-#cmakedefine HAVE_IODBC_H
+#cmakedefine HAVE_IODBC_H @HAVE_IODBC_H@
 
 /* Define to 1 if you have the <io.h> header file. */
 #cmakedefine HAVE_IO_H @HAVE_IO_H@
@@ -881,10 +850,10 @@
 #cmakedefine HAVE_IPV6 @HAVE_IPV6@
 
 /* */
-#cmakedefine HAVE_ISQLEXT_H
+#cmakedefine HAVE_ISQLEXT_H @HAVE_ISQLEXT_H@
 
 /* */
-#cmakedefine HAVE_ISQL_H
+#cmakedefine HAVE_ISQL_H @HAVE_ISQL_H@
 
 /* Define to enable JIT */
 #cmakedefine HAVE_JIT @HAVE_JIT@
@@ -944,15 +913,6 @@
 #cmakedefine HAVE_LIBAVIF @HAVE_LIBAVIF@
 
 /* */
-#cmakedefine HAVE_LIBBIND
-
-/* */
-#cmakedefine HAVE_LIBBSD
-
-/* */
-#cmakedefine HAVE_LIBCRYPT
-
-/* */
 #cmakedefine HAVE_LIBDL @HAVE_LIBDL@
 
 /* */
@@ -980,37 +940,16 @@
 #cmakedefine HAVE_LIBMM @HAVE_LIBMM@
 
 /* */
-#cmakedefine HAVE_LIBNETWORK
-
-/* */
-#cmakedefine HAVE_LIBNSL
-
-/* */
-#cmakedefine HAVE_LIBPAM
-
-/* */
 #cmakedefine HAVE_LIBPNG @HAVE_LIBPNG@
 
 /* */
-#cmakedefine HAVE_LIBRARYMANAGER_H
+#cmakedefine HAVE_LIBRARYMANAGER_H @HAVE_LIBRARYMANAGER_H@
 
 /* */
 #cmakedefine HAVE_LIBREADLINE @HAVE_LIBREADLINE@
 
 /* */
-#cmakedefine HAVE_LIBRESOLV
-
-/* */
-#cmakedefine HAVE_LIBROOT
-
-/* */
-#cmakedefine HAVE_LIBSOCKET
-
-/* */
 #cmakedefine HAVE_LIBSODIUMLIB @HAVE_LIBSODIUMLIB@
-
-/* */
-#cmakedefine HAVE_LIBUTIL
 
 /* */
 #cmakedefine HAVE_LIBWEBP @HAVE_LIBWEBP@
@@ -1143,13 +1082,13 @@
 #cmakedefine HAVE_OCI_INSTANT_CLIENT
 
 /* */
-#cmakedefine HAVE_ODBC2
+#cmakedefine HAVE_ODBC2 @HAVE_ODBC2@
 
 /* */
-#cmakedefine HAVE_ODBCSDK_H
+#cmakedefine HAVE_ODBCSDK_H @HAVE_ODBCSDK_H@
 
 /* */
-#cmakedefine HAVE_ODBC_H
+#cmakedefine HAVE_ODBC_H @HAVE_ODBC_H@
 
 /* */
 #cmakedefine HAVE_OPENPTY @HAVE_OPENPTY@
@@ -2048,10 +1987,10 @@
 #cmakedefine SQLITE_OMIT_LOAD_EXTENSION @SQLITE_OMIT_LOAD_EXTENSION@
 
 /* Needed in sqlunix.h for wchar defs */
-#cmakedefine SS_FBX
+#cmakedefine SS_FBX @SS_FBX@
 
 /* Needed in sqlunix.h */
-#cmakedefine SS_LINUX
+#cmakedefine SS_LINUX @SS_LINUX@
 
 /* If using the C implementation of alloca, define if you know the
    direction of stack growth for your system; otherwise it will be

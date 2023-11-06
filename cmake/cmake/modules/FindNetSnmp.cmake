@@ -124,8 +124,8 @@ endif()
 if(NOT HAVE_INIT_SNMP)
   string(
     APPEND _reason_failure_message
-    "\n    SNMP sanity check failed. "
-    "The init_snmp was not found in the Net-SNMP library."
+    "\n    SNMP sanity check failed. The init_snmp was not found in the "
+    "Net-SNMP library."
   )
 endif()
 

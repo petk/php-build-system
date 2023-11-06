@@ -64,98 +64,109 @@ find_package_handle_standard_args(
   REQUIRED_VARS DTrace_EXECUTABLE HAVE_SYS_SDT_H
 )
 
-if(DTrace_FOUND)
-  set(HAVE_DTRACE 1 CACHE INTERNAL "Whether to enable DTrace support")
-
-  function(dtrace_target)
-    set(one_value_args TARGET INPUT HEADER)
-    set(multi_value_args SOURCES)
-
-    cmake_parse_arguments(
-      PARSED_ARGS
-      ""
-      "${one_value_args}"
-      "${multi_value_args}"
-      ${ARGN}
-    )
-
-    if(NOT PARSED_ARGS_TARGET)
-      message(FATAL_ERROR "dtrace_target expects a target name")
-    endif()
-
-    if(NOT PARSED_ARGS_INPUT)
-      message(FATAL_ERROR "dtrace_target expects an input filename")
-    endif()
-
-    if(NOT PARSED_ARGS_HEADER)
-      message(FATAL_ERROR "dtrace_target expects a header filename")
-    endif()
-
-    if(NOT PARSED_ARGS_SOURCES)
-      message(FATAL_ERROR "dtrace_target expects a list of source files")
-    endif()
-
-    # Generate DTrace header.
-    add_custom_command(
-      OUTPUT "${PARSED_ARGS_HEADER}"
-      COMMAND ${DTrace_EXECUTABLE}
-        -s "${PARSED_ARGS_INPUT}"
-        -h -C
-        -o "${PARSED_ARGS_HEADER}"
-      DEPENDS "${PARSED_ARGS_INPUT}"
-      COMMENT "[DTrace] Generating DTrace ${PARSED_ARGS_HEADER}"
-      VERBATIM
-    )
-
-    # Patch DTrace header.
-    file(
-      GENERATE
-      OUTPUT CMakeFiles/PatchDTraceHeader.cmake
-      CONTENT "
-        file(READ \"\$\{DTRACE_HEADER_FILE\}\" file_contents)
-        string(REPLACE \"PHP_\" \"DTRACE_\" file_contents \"\$\{file_contents\}\")
-        file(WRITE \"\$\{DTRACE_HEADER_FILE\}\" \"\$\{file_contents\}\")
-      "
-    )
-    add_custom_target(
-      ${PARSED_ARGS_TARGET}_patch_header
-      COMMAND ${CMAKE_COMMAND}
-        -DDTRACE_HEADER_FILE=${PARSED_ARGS_HEADER}
-        -P CMakeFiles/PatchDTraceHeader.cmake
-      DEPENDS ${PARSED_ARGS_HEADER}
-      COMMENT "[DTrace] Patching ${PARSED_ARGS_HEADER}"
-    )
-
-    add_library(${PARSED_ARGS_TARGET}_object OBJECT ${PARSED_ARGS_SOURCES})
-
-    add_dependencies(${PARSED_ARGS_TARGET}_object ${PARSED_ARGS_TARGET}_patch_header)
-
-    target_include_directories(
-      ${PARSED_ARGS_TARGET}_object
-      PRIVATE ${CMAKE_SOURCE_DIR}/Zend
-              ${CMAKE_SOURCE_DIR}/main
-              ${CMAKE_SOURCE_DIR}/TSRM
-              ${CMAKE_BINARY_DIR}/Zend
-              ${CMAKE_BINARY_DIR}/main
-              ${CMAKE_SOURCE_DIR}
-              ${CMAKE_BINARY_DIR}
-              ${CMAKE_BINARY_DIR}/ext/date/lib
-    )
-
-    cmake_path(GET PARSED_ARGS_INPUT FILENAME input)
-    set(output_filename CMakeFiles/${input}.o)
-
-    add_custom_command(
-      OUTPUT ${output_filename}
-      COMMAND CC="${CMAKE_C_COMPILER}" ${DTrace_EXECUTABLE}
-        -s ${PARSED_ARGS_INPUT} $<TARGET_OBJECTS:${PARSED_ARGS_TARGET}_object>
-        -G
-        -o ${output_filename}
-      DEPENDS ${PARSED_ARGS_TARGET}_object
-      COMMENT "[DTrace] Generating DTrace probe object ${output_filename}"
-      VERBATIM
-    )
-
-    target_sources(${PARSED_ARGS_TARGET} PRIVATE ${output_filename})
-  endfunction()
+if(NOT DTrace_FOUND)
+  return()
 endif()
+
+set(HAVE_DTRACE 1 CACHE INTERNAL "Whether to enable DTrace support")
+
+function(dtrace_target)
+  cmake_parse_arguments(
+    parsed                # prefix
+    ""                    # options
+    "TARGET;INPUT;HEADER" # one-value keywords
+    "SOURCES"             # multi-value keywords
+    ${ARGN}               # strings to parse
+  )
+
+  if(parsed_UNPARSED_ARGUMENTS)
+    message(FATAL_ERROR "Bad arguments: ${parsed_UNPARSED_ARGUMENTS}")
+  endif()
+
+  if(parsed_KEYWORDS_MISSING_VALUES)
+    message(FATAL_ERROR "Missing values for: ${parsed_KEYWORDS_MISSING_VALUES}")
+  endif()
+
+  if(NOT parsed_TARGET)
+    message(FATAL_ERROR "dtrace_target expects a target name")
+  endif()
+
+  if(NOT parsed_INPUT)
+    message(FATAL_ERROR "dtrace_target expects an input filename")
+  endif()
+
+  if(NOT parsed_HEADER)
+    message(FATAL_ERROR "dtrace_target expects a header filename")
+  endif()
+
+  if(NOT parsed_SOURCES)
+    message(FATAL_ERROR "dtrace_target expects a list of source files")
+  endif()
+
+  if(NOT TARGET ${parsed_TARGET})
+    message(FATAL_ERROR "dtrace_target: ${parsed_TARGET} is not a target")
+  endif()
+
+  # Generate DTrace header.
+  add_custom_command(
+    OUTPUT "${parsed_HEADER}"
+    COMMAND ${DTrace_EXECUTABLE}
+      -s "${parsed_INPUT}"
+      -h -C
+      -o "${parsed_HEADER}"
+    DEPENDS "${parsed_INPUT}"
+    COMMENT "[DTrace] Generating DTrace ${parsed_HEADER}"
+    VERBATIM
+  )
+
+  # Patch DTrace header.
+  file(
+    GENERATE
+    OUTPUT CMakeFiles/PatchDTraceHeader.cmake
+    CONTENT "
+      file(READ \"\$\{DTRACE_HEADER_FILE\}\" file_contents)
+      string(REPLACE \"PHP_\" \"DTRACE_\" file_contents \"\$\{file_contents\}\")
+      file(WRITE \"\$\{DTRACE_HEADER_FILE\}\" \"\$\{file_contents\}\")
+    "
+  )
+  add_custom_target(
+    ${parsed_TARGET}_patch_header
+    COMMAND ${CMAKE_COMMAND}
+      -DDTRACE_HEADER_FILE=${parsed_HEADER}
+      -P CMakeFiles/PatchDTraceHeader.cmake
+    DEPENDS ${parsed_HEADER}
+    COMMENT "[DTrace] Patching ${parsed_HEADER}"
+  )
+
+  add_library(${parsed_TARGET}_object OBJECT ${parsed_SOURCES})
+
+  add_dependencies(${parsed_TARGET}_object ${parsed_TARGET}_patch_header)
+
+  target_include_directories(
+    ${parsed_TARGET}_object
+    PRIVATE ${CMAKE_SOURCE_DIR}/Zend
+            ${CMAKE_SOURCE_DIR}/main
+            ${CMAKE_SOURCE_DIR}/TSRM
+            ${CMAKE_BINARY_DIR}/Zend
+            ${CMAKE_BINARY_DIR}/main
+            ${CMAKE_SOURCE_DIR}
+            ${CMAKE_BINARY_DIR}
+            ${CMAKE_BINARY_DIR}/ext/date/lib
+  )
+
+  cmake_path(GET parsed_INPUT FILENAME input)
+  set(output_filename CMakeFiles/${input}.o)
+
+  add_custom_command(
+    OUTPUT ${output_filename}
+    COMMAND CC="${CMAKE_C_COMPILER}" ${DTrace_EXECUTABLE}
+      -s ${parsed_INPUT} $<TARGET_OBJECTS:${parsed_TARGET}_object>
+      -G
+      -o ${output_filename}
+    DEPENDS ${parsed_TARGET}_object
+    COMMENT "[DTrace] Generating DTrace probe object ${output_filename}"
+    VERBATIM
+  )
+
+  target_sources(${parsed_TARGET} PRIVATE ${output_filename})
+endfunction()
