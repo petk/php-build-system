@@ -114,7 +114,9 @@ check_symbol_exists(clearenv "stdlib.h" HAVE_CLEARENV)
 check_symbol_exists(setproctitle "unistd.h;stdlib.h" HAVE_SETPROCTITLE)
 check_symbol_exists(setproctitle_fast "unistd.h" HAVE_SETPROCTITLE_FAST)
 
-# TODO: Check this differently - only link libraries if actually needed.
+# TODO: Check this differently - only link libraries if actually needed. Also,
+# this is a duplicate check. The socket function is already checked in the root
+# configure checks file.
 check_library_exists(socket socket "" _have_socket)
 
 if(_have_socket)

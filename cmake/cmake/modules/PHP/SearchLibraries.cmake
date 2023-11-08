@@ -4,7 +4,7 @@ implementation as the Autoconf's AC_SEARCH_LIBS().
 
 Function:
   php_search_libraries(<function>
-                       <header>
+                       <header(s)>
                        <function_variable>
                        <library_variable>
                        LIBRARIES <library>...)
@@ -53,7 +53,7 @@ function(php_search_libraries)
   # First, check if symbol exists without linking additional libraries.
   check_symbol_exists(
     ${function}
-    ${header}
+    "${header}"
     ${result_function_variable}
   )
 

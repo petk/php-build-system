@@ -1373,9 +1373,6 @@
 #cmakedefine HAVE_SOCKATMARK @HAVE_SOCKATMARK@
 
 /* */
-#cmakedefine HAVE_SOCKET @HAVE_SOCKET@
-
-/* */
 #cmakedefine HAVE_SOCKETPAIR @HAVE_SOCKETPAIR@
 
 /* */

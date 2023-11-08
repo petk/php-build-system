@@ -1,7 +1,7 @@
 # Patches for php-src
 
 This is a collection of patch files for various PHP versions in order to use
-CMake build system.
+CMake.
 
 ## PHP 8.4
 

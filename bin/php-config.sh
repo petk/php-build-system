@@ -51,6 +51,7 @@ patterns="
 #undef\sHAVE_IMAP_MUTF7
 #undef\sHAVE_IMAP_SSL
 #undef\sCOMPILE_DL_IMAP
+#undef\sHAVE_SOCKET
 "
 
 # Similar to the above patterns except the two lines above and one after the

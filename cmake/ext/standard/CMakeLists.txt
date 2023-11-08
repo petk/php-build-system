@@ -12,10 +12,10 @@ add_feature_info("Argon2" EXT_STANDARD_ARGON2
   "Argon2 support in password_* functions."
 )
 
-option(EXT_STANDARD_EXTERNAL_LIBCRYPT "Use external libcrypt library" OFF)
+option(EXT_STANDARD_EXTERNAL_LIBCRYPT "Use external libcrypt or libxcrypt" OFF)
 
 add_feature_info("External librcypt" EXT_STANDARD_EXTERNAL_LIBCRYPT
-  "External libcrypt library."
+  "External libcrypt or libxcrypt library."
 )
 
 ################################################################################
@@ -149,15 +149,15 @@ if(NOT EXT_STANDARD_EXTERNAL_LIBCRYPT)
     php_crypt_r.c
   )
 
-  set(PHP_USE_PHP_CRYPT_R 1 CACHE INTERNAL "Whether PHP has to use its own crypt_r")
+  set(PHP_USE_PHP_CRYPT_R 1 CACHE INTERNAL "Whether PHP uses its own crypt_r")
 else()
-  include(PHP/CheckExternalLibcrypt)
+  find_package(Crypt)
+  set_package_properties(Crypt PROPERTIES
+    TYPE REQUIRED
+    PURPOSE "Necessary to use external crypt library."
+  )
 
-  if(CRYPT_EXTRA_LIBRARIES)
-    target_link_libraries(php_standard PRIVATE ${CRYPT_EXTRA_LIBRARIES})
-  endif()
-
-  set(PHP_USE_PHP_CRYPT_R 0 CACHE INTERNAL "Whether PHP has to use its own crypt_r")
+  target_link_libraries(php_standard PRIVATE Crypt::Crypt)
 endif()
 
 ################################################################################

@@ -5,12 +5,12 @@ Project-wide configuration checks.
 # Include required modules.
 include(CheckCompilerFlag)
 include(CheckIncludeFile)
-include(CheckIncludeFiles)
 include(CheckLibraryExists)
 include(CheckStructHasMember)
 include(CheckSymbolExists)
 include(CheckTypeSize)
 include(CMakePushCheckState)
+include(PHP/SearchLibraries)
 
 # Checking file descriptor sets.
 message(CHECK_START "Checking file descriptor sets size")
@@ -345,41 +345,6 @@ include(PHP/CheckTimeR)
 # Check whether writing to stdout works.
 include(PHP/CheckWriteStdout)
 
-# Check for required libraries.
-check_symbol_exists(dlopen "dlfcn.h" HAVE_LIBDL)
-
-# TODO: Use CMAKE_DL_LIBS.
-if(NOT HAVE_LIBDL)
-  check_library_exists(dl dlopen "" HAVE_LIBDL)
-
-  if(HAVE_LIBDL)
-    set(EXTRA_LIBS ${EXTRA_LIBS} dl)
-  endif()
-
-  if(NOT HAVE_LIBDL)
-    check_library_exists(root dlopen "" HAVE_LIBDL)
-
-    if(HAVE_LIBDL)
-      set(EXTRA_LIBS ${EXTRA_LIBS} root)
-    endif()
-  endif()
-endif()
-
-# Check for required libraries.
-check_library_exists(m sin "" HAVE_LIB_M)
-
-if(HAVE_LIB_M)
-  set(EXTRA_LIBS ${EXTRA_LIBS} m)
-endif()
-
-if(CMAKE_HOST_SYSTEM_PROCESSOR MATCHES "riscv64.*")
-  find_package(Atomic)
-
-  if(Atomic_FOUND AND Atomic_LIBRARIES)
-    list(APPEND EXTRA_LIBS ${Atomic_LIBRARIES})
-  endif()
-endif()
-
 # Check for IPv6 support.
 if(PHP_IPV6)
   include(PHP/CheckIPv6)
@@ -436,89 +401,113 @@ else()
   check_symbol_exists(alloca "stdlib.h;malloc.h" HAVE_ALLOCA)
 endif()
 
-check_symbol_exists(socket "sys/socket.h" HAVE_SOCKET)
-if(NOT HAVE_SOCKET)
-  set(LIBRARIES_TO_CHECK socket network)
+################################################################################
+# Check for required libraries.
+################################################################################
 
-  foreach(library ${LIBRARIES_TO_CHECK})
-    check_library_exists(${library} socket "" HAVE_SOCKET)
+check_symbol_exists(dlopen "dlfcn.h" HAVE_LIBDL)
 
-    if(HAVE_SOCKET)
-      list(APPEND EXTRA_LIBS ${library})
-      break()
+# TODO: Use CMAKE_DL_LIBS.
+if(NOT HAVE_LIBDL)
+  check_library_exists(dl dlopen "" HAVE_LIBDL)
+
+  if(HAVE_LIBDL)
+    target_link_libraries(php_configuration INTERFACE dl)
+  endif()
+
+  if(NOT HAVE_LIBDL)
+    check_library_exists(root dlopen "" HAVE_LIBDL)
+
+    if(HAVE_LIBDL)
+      target_link_libraries(php_configuration INTERFACE root)
     endif()
-  endforeach()
+  endif()
 endif()
 
-check_symbol_exists(socketpair "sys/socket.h" HAVE_SOCKETPAIR)
-if(NOT HAVE_SOCKETPAIR)
-  set(LIBRARIES_TO_CHECK socket network)
+php_search_libraries(sin "math.h" HAVE_SIN M_LIBRARY LIBRARIES m)
 
-  foreach(library ${LIBRARIES_TO_CHECK})
-    check_library_exists(${library} socket "" HAVE_SOCKETPAIR)
-
-    if(HAVE_SOCKETPAIR)
-      list(APPEND EXTRA_LIBS ${library})
-      break()
-    endif()
-  endforeach()
+if(M_LIBRARY)
+  target_link_libraries(php_configuration INTERFACE ${M_LIBRARY})
 endif()
 
-check_symbol_exists(gethostname "unistd.h" HAVE_GETHOSTNAME)
-if(NOT HAVE_GETHOSTNAME)
-  set(LIBRARIES_TO_CHECK nsl network)
+if(CMAKE_HOST_SYSTEM_PROCESSOR MATCHES "riscv64.*")
+  find_package(Atomic)
 
-  foreach(library ${LIBRARIES_TO_CHECK})
-    check_library_exists(${library} gethostname "" HAVE_GETHOSTNAME)
-
-    if(HAVE_GETHOSTNAME)
-      list(APPEND EXTRA_LIBS ${library})
-      break()
-    endif()
-  endforeach()
+  if(Atomic_FOUND AND Atomic_LIBRARIES)
+    target_link_libraries(php_configuration INTERFACE ${Atomic_LIBRARIES})
+  endif()
 endif()
 
-# TODO: Fix this better.
-check_symbol_exists(gethostbyaddr "netdb.h;sys/socket.h" HAVE_GETHOSTBYADDR)
-if(NOT HAVE_GETHOSTBYADDR)
-  set(LIBRARIES_TO_CHECK nsl network)
+php_search_libraries(
+  socket
+  "sys/socket.h"
+  HAVE_SOCKET
+  SOCKET_LIBRARY
+  LIBRARIES socket network
+)
 
-  foreach(library ${LIBRARIES_TO_CHECK})
-    check_library_exists(${library} gethostbyaddr "" HAVE_GETHOSTBYADDR)
-
-    if(HAVE_GETHOSTBYADDR)
-      list(APPEND EXTRA_LIBS ${library})
-      break()
-    endif()
-  endforeach()
+if(SOCKET_LIBRARY)
+  target_link_libraries(php_configuration INTERFACE ${SOCKET_LIBRARY})
 endif()
 
-check_symbol_exists(openpty "pty.h" HAVE_OPENPTY)
-if(NOT HAVE_OPENPTY)
-  set(LIBRARIES_TO_CHECK util bsd)
+php_search_libraries(
+  socketpair
+  "sys/socket.h"
+  HAVE_SOCKETPAIR
+  SOCKETPAIR_LIBRARY
+  LIBRARIES socket network
+)
 
-  foreach(library ${LIBRARIES_TO_CHECK})
-    check_library_exists(${library} openpty "" HAVE_OPENPTY)
-
-    if(HAVE_OPENPTY)
-      list(APPEND EXTRA_LIBS ${library})
-      break()
-    endif()
-  endforeach()
+if(SOCKETPAIR_LIBRARY)
+  target_link_libraries(php_configuration INTERFACE ${SOCKETPAIR_LIBRARY})
 endif()
 
-check_symbol_exists(inet_aton "sys/socket.h;netinet/in.h;arpa/inet.h" HAVE_INET_ATON)
-if(NOT HAVE_INET_ATON)
-  set(LIBRARIES_TO_CHECK resolv bind)
+php_search_libraries(
+  gethostname
+  "unistd.h"
+  HAVE_GETHOSTNAME
+  GETHOSTNAME_LIBRARY
+  LIBRARIES nsl network
+)
 
-  foreach(library ${LIBRARIES_TO_CHECK})
-    check_library_exists(${library} inet_aton "" HAVE_INET_ATON)
+if(GETHOSTNAME_LIBRARY)
+  target_link_libraries(php_configuration INTERFACE ${GETHOSTNAME_LIBRARY})
+endif()
 
-    if(HAVE_INET_ATON)
-      list(APPEND EXTRA_LIBS ${library})
-      break()
-    endif()
-  endforeach()
+php_search_libraries(
+  gethostbyaddr
+  "netdb.h;sys/socket.h"
+  HAVE_GETHOSTBYADDR
+  GETHOSTBYADDR_LIBRARY
+  LIBRARIES nsl network
+)
+
+if(GETHOSTBYADDR_LIBRARY)
+  target_link_libraries(php_configuration INTERFACE ${GETHOSTBYADDR_LIBRARY})
+endif()
+
+php_search_libraries(
+  openpty
+  pty.h
+  HAVE_OPENPTY
+  OPENPTY_LIBRARY
+  LIBRARIES util bsd
+)
+
+if(OPENPTY_LIBRARY)
+  target_link_libraries(php_configuration INTERFACE ${OPENPTY_LIBRARY})
+endif()
+
+php_search_libraries(
+  inet_aton
+  "sys/socket.h;netinet/in.h;arpa/inet.h"
+  HAVE_INET_ATON
+  INET_ATON_LIBRARY
+  LIBRARIES resolv bind
+)
+
+if(INET_ATON_LIBRARY)
+  target_link_libraries(php_configuration INTERFACE ${INET_ATON_LIBRARY})
 endif()
 
 # Check target attribute.

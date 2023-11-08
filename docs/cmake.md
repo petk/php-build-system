@@ -1,7 +1,7 @@
 # Quick introduction to CMake
 
-This is a simple introduction to the CMake build system in general, aimed at
-providing a basic understanding of its fundamentals.
+This is a simple introduction to CMake in general, aimed at providing a basic
+understanding of its fundamentals.
 
 * [1. Command-line usage](#1-command-line-usage)
   * [1.1. Configuration and generation phase](#11-configuration-and-generation-phase)

@@ -54,10 +54,6 @@ target_compile_definitions(php_main PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE=1)
 
 target_link_libraries(php_main PUBLIC zend)
 
-if(EXTRA_LIBS)
-  target_link_libraries(php_main PRIVATE ${EXTRA_LIBS})
-endif()
-
 target_link_libraries(php_main PUBLIC PHP::configuration)
 
 # Add DTrace.
@@ -134,10 +130,6 @@ foreach(extension IN LISTS extensions)
             ${CMAKE_SOURCE_DIR}/Zend
             ${CMAKE_BINARY_DIR}/Zend
   )
-
-  if(EXTRA_LIBS)
-    target_link_libraries(php_${extension} PRIVATE ${EXTRA_LIBS})
-  endif()
 
   get_target_property(extension_type php_${extension} TYPE)
 

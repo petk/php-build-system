@@ -46,7 +46,7 @@ cmake --build my-php-build -j
 * [7. CMake](#7-cmake)
   * [7.1. Why using CMake?](#71-why-using-cmake)
   * [7.2. Directory structure](#72-directory-structure)
-  * [7.3. CMake build system diagram](#73-cmake-build-system-diagram)
+  * [7.3. CMake-based PHP build system diagram](#73-cmake-based-php-build-system-diagram)
   * [7.4. CMake usage](#74-cmake-usage)
   * [7.5. CMake minimum version for PHP](#75-cmake-minimum-version-for-php)
   * [7.6. Command-line options](#76-command-line-options)
@@ -637,7 +637,7 @@ This wraps up the \*nix build system using the Autotools.
 ## 7. CMake
 
 [CMake](https://cmake.org/) is an open-source cross-platform build system
-created by Kitware and contributors.
+generator created by Kitware and contributors.
 
 ### 7.1. Why using CMake?
 
@@ -663,7 +663,7 @@ Directory structure from the CMake perspective looks like this:
 
 ```sh
 <php-src>/
- └─ cmake/                   # CMake build system files
+ └─ cmake/                   # CMake-based PHP build system files
     └─ modules/              # Project specific CMake modules
        └─ PHP/               # PHP utility modules namespace directory
           ├─ */              # Optional module directories with additional files
@@ -705,9 +705,9 @@ Directory structure from the CMake perspective looks like this:
  └─ ...
 ```
 
-### 7.3. CMake build system diagram
+### 7.3. CMake-based PHP build system diagram
 
-![PHP build system using CMake](docs/images/cmake.svg)
+![CMake-based PHP build system](docs/images/cmake.svg)
 
 ### 7.4. CMake usage
 
@@ -720,8 +720,8 @@ cmake --build .
 
 The minimum required version of CMake is defined in the top project file
 `CMakeLists.txt` using the `cmake_minimum_required()`. Picking the minimum
-required build system version is a compromise between build system
-functionalities and version available on the operating system.
+required CMake version is a compromise between CMake functionalities and CMake
+version available on the operating system.
 
 * 3.17
   * To have `CMAKE_CURRENT_FUNCTION_LIST_DIR` variable available

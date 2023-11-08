@@ -36,9 +36,10 @@ if(NOT HAVE_SHM_OPEN)
   endif()
 endif()
 
-# Append the required libraries to EXTRA_LIBS.
+# Append required libraries.
+# TODO: Fix this better.
 if(SHM_OPEN_REQUIRED_LIBRARIES)
-  set(EXTRA_LIBS ${EXTRA_LIBS} ${SHM_OPEN_REQUIRED_LIBRARIES})
+  target_link_libraries(php_configuration INTERFACE ${SHM_OPEN_REQUIRED_LIBRARIES})
 endif()
 
 if(NOT CMAKE_CROSSCOMPILING)
