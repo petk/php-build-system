@@ -401,6 +401,46 @@ else()
   check_symbol_exists(alloca "stdlib.h;malloc.h" HAVE_ALLOCA)
 endif()
 
+# Check target attribute.
+string(TOLOWER "${CMAKE_HOST_SYSTEM}" host_os)
+if(NOT ${host_os} MATCHES ".*android.*|.*uclibc.*|.*musl.*|.*freebsd.*|.*openbsd.*")
+  check_c_source_compiles("
+    static int bar( void ) __attribute__((target(\"sse2\")));
+
+    int main(void) {
+      return 0;
+    }
+  " HAVE_FUNC_ATTRIBUTE_TARGET)
+
+  check_c_source_compiles("
+    int my_foo( void ) { return 0; }
+    static int (*resolve_foo(void))(void) { return my_foo; }
+    int foo( void ) __attribute__((ifunc(\"resolve_foo\")));
+
+    int main(void) {
+      return 0;
+    }
+  " HAVE_FUNC_ATTRIBUTE_IFUNC)
+endif()
+
+include(PHP/CheckGethostbynameR)
+
+# wchar.h is always available as part of C99 standard. The libmagic still
+# includes it conditionally.
+set(HAVE_WCHAR_H 1 CACHE INTERNAL "Define to 1 if you have the <wchar.h> header file.")
+
+# string.h is always available as part of C89 standard. The opcache/jit/libudis86
+# bundled forked code still includes it conditionally.
+set(HAVE_STRING_H 1 CACHE INTERNAL "Define to 1 if you have the <string.h> header file.")
+
+# inttypes.h is always available as part of C99 standard. The libmagic still
+# includes it conditionally.
+set(HAVE_INTTYPES_H 1 CACHE INTERNAL "Define to 1 if you have the <inttypes.h> header file.")
+
+# stdint.h is always available as part of C99 standard. The libmagic,
+# ext/date/lib still include it conditionally.
+set(HAVE_STDINT_H 1 CACHE INTERNAL "Define to 1 if you have the <stdint.h> header file.")
+
 ################################################################################
 # Check for required libraries.
 ################################################################################
@@ -509,46 +549,6 @@ php_search_libraries(
 if(INET_ATON_LIBRARY)
   target_link_libraries(php_configuration INTERFACE ${INET_ATON_LIBRARY})
 endif()
-
-# Check target attribute.
-string(TOLOWER "${CMAKE_HOST_SYSTEM}" host_os)
-if(NOT ${host_os} MATCHES ".*android.*|.*uclibc.*|.*musl.*|.*freebsd.*|.*openbsd.*")
-  check_c_source_compiles("
-    static int bar( void ) __attribute__((target(\"sse2\")));
-
-    int main(void) {
-      return 0;
-    }
-  " HAVE_FUNC_ATTRIBUTE_TARGET)
-
-  check_c_source_compiles("
-    int my_foo( void ) { return 0; }
-    static int (*resolve_foo(void))(void) { return my_foo; }
-    int foo( void ) __attribute__((ifunc(\"resolve_foo\")));
-
-    int main(void) {
-      return 0;
-    }
-  " HAVE_FUNC_ATTRIBUTE_IFUNC)
-endif()
-
-include(PHP/CheckGethostbynameR)
-
-# wchar.h is always available as part of C99 standard. The libmagic still
-# includes it conditionally.
-set(HAVE_WCHAR_H 1 CACHE INTERNAL "Define to 1 if you have the <wchar.h> header file.")
-
-# string.h is always available as part of C89 standard. The opcache/jit/libudis86
-# bundled forked code still includes it conditionally.
-set(HAVE_STRING_H 1 CACHE INTERNAL "Define to 1 if you have the <string.h> header file.")
-
-# inttypes.h is always available as part of C99 standard. The libmagic still
-# includes it conditionally.
-set(HAVE_INTTYPES_H 1 CACHE INTERNAL "Define to 1 if you have the <inttypes.h> header file.")
-
-# stdint.h is always available as part of C99 standard. The libmagic,
-# ext/date/lib still include it conditionally.
-set(HAVE_STDINT_H 1 CACHE INTERNAL "Define to 1 if you have the <stdint.h> header file.")
 
 ################################################################################
 # Compiler options.
@@ -693,16 +693,16 @@ if(PHP_MEMORY_SANITIZER)
     check_compiler_flag(
       C
       "-fsanitize=memory;-fsanitize-memory-track-origins"
-      HAVE_C_MEMORY_SANITIZER_OPTION
+      HAVE_MEMORY_SANITIZER_C
     )
     check_compiler_flag(
       CXX
       "-fsanitize=memory;-fsanitize-memory-track-origins"
-      HAVE_CXX_MEMORY_SANITIZER_OPTION
+      HAVE_MEMORY_SANITIZER_CXX
     )
   cmake_pop_check_state()
 
-  if(HAVE_C_MEMORY_SANITIZER_OPTION AND HAVE_CXX_MEMORY_SANITIZER_OPTION)
+  if(HAVE_MEMORY_SANITIZER_C AND HAVE_MEMORY_SANITIZER_CXX)
     target_compile_options(php_configuration
       INTERFACE "$<$<COMPILE_LANGUAGE:C,CXX>:-fsanitize=memory;-fsanitize-memory-track-origins>"
     )
@@ -721,11 +721,11 @@ if(PHP_ADDRESS_SANITIZER)
   cmake_push_check_state(RESET)
     set(CMAKE_REQUIRED_LINK_OPTIONS "-fsanitize=address")
 
-    check_compiler_flag(C "-fsanitize=address" HAVE_C_ADDRESS_SANITIZER_OPTION)
-    check_compiler_flag(CXX "-fsanitize=address" HAVE_CXX_ADDRESS_SANITIZER_OPTION)
+    check_compiler_flag(C "-fsanitize=address" HAVE_ADDRESS_SANITIZER_C)
+    check_compiler_flag(CXX "-fsanitize=address" HAVE_ADDRESS_SANITIZER_CXX)
   cmake_pop_check_state()
 
-  if(HAVE_C_ADDRESS_SANITIZER_OPTION AND HAVE_CXX_ADDRESS_SANITIZER_OPTION)
+  if(HAVE_ADDRESS_SANITIZER_C AND HAVE_ADDRESS_SANITIZER_CXX)
     target_compile_options(php_configuration
       INTERFACE "$<$<COMPILE_LANGUAGE:C,CXX>:-fsanitize=address>"
     )
@@ -749,11 +749,11 @@ if(PHP_UNDEFINED_SANITIZER)
   cmake_push_check_state(RESET)
     set(CMAKE_REQUIRED_LINK_OPTIONS "-fsanitize=undefined")
 
-    check_compiler_flag(C "-fsanitize=undefined" HAVE_C_UNDEFINED_SANITIZER_OPTION)
-    check_compiler_flag(CXX "-fsanitize=undefined" HAVE_CXX_UNDEFINED_SANITIZER_OPTION)
+    check_compiler_flag(C "-fsanitize=undefined" HAVE_UNDEFINED_SANITIZER_C)
+    check_compiler_flag(CXX "-fsanitize=undefined" HAVE_UNDEFINED_SANITIZER_CXX)
   cmake_pop_check_state()
 
-  if(HAVE_C_UNDEFINED_SANITIZER_OPTION AND HAVE_CXX_UNDEFINED_SANITIZER_OPTION)
+  if(HAVE_UNDEFINED_SANITIZER_C AND HAVE_UNDEFINED_SANITIZER_CXX)
     target_compile_options(php_configuration
       INTERFACE "$<$<COMPILE_LANGUAGE:C,CXX>:-fsanitize=undefined;-fno-sanitize-recover=undefined>"
     )
@@ -767,14 +767,11 @@ if(PHP_UNDEFINED_SANITIZER)
     cmake_push_check_state(RESET)
       set(CMAKE_REQUIRED_LINK_OPTIONS "-fno-sanitize=object-size")
 
-      check_compiler_flag(C "-fno-sanitize=object-size" HAVE_C_OBJECT_SIZE_SANITIZER_OPTION)
-      check_compiler_flag(CXX "-fno-sanitize=object-size" HAVE_CXX_OBJECT_SIZE_SANITIZER_OPTION)
+      check_compiler_flag(C "-fno-sanitize=object-size" HAVE_OBJECT_SIZE_SANITIZER_C)
+      check_compiler_flag(CXX "-fno-sanitize=object-size" HAVE_OBJECT_SIZE_SANITIZER_CXX)
     cmake_pop_check_state()
 
-    if(
-      HAVE_C_OBJECT_SIZE_SANITIZER_OPTION
-      AND HAVE_CXX_OBJECT_SIZE_SANITIZER_OPTION
-    )
+    if(HAVE_OBJECT_SIZE_SANITIZER_C AND HAVE_OBJECT_SIZE_SANITIZER_CXX)
       target_compile_options(php_configuration
         INTERFACE "$<$<COMPILE_LANGUAGE:C,CXX>:-fno-sanitize=object-size>"
       )

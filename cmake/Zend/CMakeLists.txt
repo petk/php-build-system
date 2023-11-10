@@ -3,10 +3,25 @@ include(CheckCSourceCompiles)
 include(CheckIncludeFile)
 include(CheckSymbolExists)
 include(CMakePushCheckState)
+include(PHP/SearchLibraries)
 
 ################################################################################
-# Configure Zend.
+# Zend engine configuration.
 ################################################################################
+
+option(ZEND_GCC_GLOBAL_REGS "Enable GCC global register variables" ON)
+
+option(ZEND_FIBER_ASM "Enable the use of boost fiber assembly files" ON)
+
+option(ZEND_SIGNALS "Enable Zend signal handling" ON)
+
+# TODO: Check if default value can be improved. Once cached variable is set, it
+# can't be changed based on PHP_ZTS value on the second configuration run.
+option(ZEND_MAX_EXECUTION_TIMERS "Enable Zend max execution timers" ${PHP_ZTS})
+
+if(PHP_ZTS)
+  set(ZTS 1)
+endif()
 
 if(PHP_DEBUG OR PHP_DEBUG_ASSERTIONS)
   set(ZEND_DEBUG 1 CACHE INTERNAL "Whether to enable debugging")
@@ -15,7 +30,110 @@ else()
 endif()
 
 ################################################################################
-# Check Zend configuration.
+# Zend engine library.
+################################################################################
+
+add_library(zend STATIC
+  Optimizer/block_pass.c
+  Optimizer/compact_literals.c
+  Optimizer/compact_vars.c
+  Optimizer/dce.c
+  Optimizer/dfa_pass.c
+  Optimizer/escape_analysis.c
+  Optimizer/nop_removal.c
+  Optimizer/optimize_func_calls.c
+  Optimizer/optimize_temp_vars_5.c
+  Optimizer/pass1.c
+  Optimizer/pass3.c
+  Optimizer/sccp.c
+  Optimizer/scdf.c
+  Optimizer/zend_call_graph.c
+  Optimizer/zend_cfg.c
+  Optimizer/zend_dfg.c
+  Optimizer/zend_dump.c
+  Optimizer/zend_func_info.c
+  Optimizer/zend_inference.c
+  Optimizer/zend_optimizer.c
+  Optimizer/zend_ssa.c
+  zend_alloc.c
+  zend_API.c
+  zend_ast.c
+  zend_atomic.c
+  zend_attributes.c
+  zend_builtin_functions.c
+  zend_call_stack.c
+  zend_closures.c
+  zend_compile.c
+  zend_constants.c
+  zend_cpuinfo.c
+  zend_default_classes.c
+  zend_dtrace.c
+  zend_enum.c
+  zend_exceptions.c
+  zend_execute_API.c
+  zend_execute.c
+  zend_extensions.c
+  zend_fibers.c
+  zend_float.c
+  zend_gc.c
+  zend_gdb.c
+  zend_generators.c
+  zend_hash.c
+  zend_highlight.c
+  zend_hrtime.c
+  zend_inheritance.c
+  zend_ini_parser.c
+  zend_ini_scanner.c
+  zend_ini.c
+  zend_interfaces.c
+  zend_iterators.c
+  zend_language_parser.c
+  zend_language_scanner.c
+  zend_list.c
+  zend_llist.c
+  zend_max_execution_timer.c
+  zend_multibyte.c
+  zend_object_handlers.c
+  zend_objects_API.c
+  zend_objects.c
+  zend_observer.c
+  zend_opcode.c
+  zend_operators.c
+  zend_ptr_stack.c
+  zend_signal.c
+  zend_smart_str.c
+  zend_sort.c
+  zend_stack.c
+  zend_stream.c
+  zend_string.c
+  zend_strtod.c
+  zend_system_id.c
+  zend_variables.c
+  zend_virtual_cwd.c
+  zend_vm_opcodes.c
+  zend_weakrefs.c
+  zend.c
+)
+
+target_link_libraries(zend PRIVATE PHP::configuration)
+
+target_include_directories(
+  zend
+  PRIVATE ${CMAKE_SOURCE_DIR}
+          ${CMAKE_BINARY_DIR}
+          ${CMAKE_SOURCE_DIR}/main
+          ${CMAKE_BINARY_DIR}/main
+  INTERFACE ${CMAKE_CURRENT_SOURCE_DIR}
+            ${CMAKE_CURRENT_BINARY_DIR}
+            ${CMAKE_SOURCE_DIR}/TSRM
+)
+
+target_link_libraries(zend PRIVATE php_tsrm)
+
+target_compile_definitions(zend PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE=1)
+
+################################################################################
+# Zend engine configuration checks.
 ################################################################################
 
 check_include_file(cpuid.h HAVE_CPUID_H)
@@ -44,16 +162,62 @@ cmake_push_check_state(RESET)
   check_symbol_exists(mremap "sys/mman.h" HAVE_MREMAP)
 cmake_pop_check_state()
 
-message(STATUS "Checking whether __cpuid_count is available")
+message(CHECK_START "Checking whether __cpuid_count is available")
 check_c_source_compiles("
   #include <cpuid.h>
   int main(void) {
     unsigned eax, ebx, ecx, edx;
     __cpuid_count(0, 0, eax, ebx, ecx, edx);
-
     return 0;
   }
 " HAVE_CPUID_COUNT)
+if(HAVE_CPUID_COUNT)
+  message(CHECK_PASS "yes")
+else()
+  message(CHECK_FAIL "no")
+endif()
+
+# Check Zend signals.
+message(CHECK_START "Checking whether to enable Zend signal handling")
+check_symbol_exists(sigaction "signal.h" HAVE_SIGACTION)
+if(NOT HAVE_SIGACTION OR NOT ZEND_SIGNALS)
+  message(CHECK_FAIL "no")
+  set_property(CACHE ZEND_SIGNALS PROPERTY VALUE 0)
+else()
+  message(CHECK_PASS "yes")
+  set_property(CACHE ZEND_SIGNALS PROPERTY VALUE 1)
+endif()
+
+# Check Zend max execution timers.
+message(CHECK_START "Checking whether to enable Zend max execution timers")
+if(ZEND_MAX_EXECUTION_TIMERS AND CMAKE_HOST_SYSTEM_NAME STREQUAL "Linux")
+  php_search_libraries(
+    timer_create
+    "time.h"
+    HAVE_TIMER_CREATE
+    TIMER_CREATE_LIBRARY
+    LIBRARIES rt
+  )
+
+  if(NOT HAVE_TIMER_CREATE)
+    set_property(CACHE ZEND_MAX_EXECUTION_TIMERS PROPERTY VALUE 0)
+  else()
+    if(TIMER_CREATE_LIBRARY)
+      target_link_libraries(zend PRIVATE ${TIMER_CREATE_LIBRARY})
+    endif()
+  endif()
+
+  if(ZEND_MAX_EXECUTION_TIMERS)
+    set_property(CACHE ZEND_MAX_EXECUTION_TIMERS PROPERTY VALUE 1)
+  endif()
+else()
+  set_property(CACHE ZEND_MAX_EXECUTION_TIMERS PROPERTY VALUE 0)
+endif()
+if(ZEND_MAX_EXECUTION_TIMERS)
+  message(CHECK_PASS "yes")
+else()
+  message(CHECK_FAIL "no")
+endif()
 
 # Check if dlsym() needs underscore.
 include(Zend/CheckDlsym)
@@ -63,7 +227,7 @@ include(Zend/CheckMMAlignment)
 
 # Check for global register variables.
 if(ZEND_GCC_GLOBAL_REGS)
-  include(Zend/CheckGccGlobalRegisterVars)
+  include(Zend/CheckGlobalRegisterVars)
 endif()
 
 # Check if stack grows downward.
@@ -71,119 +235,6 @@ include(Zend/CheckStackLimit)
 
 # Check float precision.
 include(Zend/CheckFloatPrecision)
-
-# Check Zend signals.
-include(Zend/CheckZendSignals)
-
-# Check Zend max execution timers.
-include(Zend/CheckZendMaxExecutionTimers)
-
-################################################################################
-# Zend library.
-################################################################################
-
-add_library(zend STATIC
-  zend_language_parser.c
-  zend_language_scanner.c
-  zend_ini_parser.c
-  zend_ini_scanner.c
-  zend_alloc.c
-  zend_call_stack.c
-  zend_compile.c
-  zend_constants.c
-  zend_dtrace.c
-  zend_execute_API.c
-  zend_highlight.c
-  zend_llist.c
-  zend_vm_opcodes.c
-  zend_opcode.c
-  zend_operators.c
-  zend_ptr_stack.c
-  zend_stack.c
-  zend_variables.c
-  zend.c
-  zend_API.c
-  zend_extensions.c
-  zend_hash.c
-  zend_list.c
-  zend_builtin_functions.c
-  zend_attributes.c
-  zend_execute.c
-  zend_ini.c
-  zend_sort.c
-  zend_multibyte.c
-  zend_stream.c
-  zend_iterators.c
-  zend_interfaces.c
-  zend_exceptions.c
-  zend_strtod.c
-  zend_gc.c
-  zend_closures.c
-  zend_weakrefs.c
-  zend_float.c
-  zend_string.c
-  zend_signal.c
-  zend_generators.c
-  zend_virtual_cwd.c
-  zend_ast.c
-  zend_objects.c
-  zend_object_handlers.c
-  zend_objects_API.c
-  zend_default_classes.c
-  zend_inheritance.c
-  zend_smart_str.c
-  zend_cpuinfo.c
-  zend_gdb.c
-  zend_observer.c
-  zend_system_id.c
-  zend_enum.c
-  zend_fibers.c
-  zend_atomic.c
-  zend_max_execution_timer.c
-  zend_hrtime.c
-  Optimizer/zend_optimizer.c
-  Optimizer/pass1.c
-  Optimizer/pass3.c
-  Optimizer/optimize_func_calls.c
-  Optimizer/block_pass.c
-  Optimizer/optimize_temp_vars_5.c
-  Optimizer/nop_removal.c
-  Optimizer/compact_literals.c
-  Optimizer/zend_cfg.c
-  Optimizer/zend_dfg.c
-  Optimizer/dfa_pass.c
-  Optimizer/zend_ssa.c
-  Optimizer/zend_inference.c
-  Optimizer/zend_func_info.c
-  Optimizer/zend_call_graph.c
-  Optimizer/sccp.c
-  Optimizer/scdf.c
-  Optimizer/dce.c
-  Optimizer/escape_analysis.c
-  Optimizer/compact_vars.c
-  Optimizer/zend_dump.c
-)
-
-target_link_libraries(zend PRIVATE PHP::configuration)
-
-target_include_directories(
-  zend
-  PRIVATE ${CMAKE_SOURCE_DIR}
-          ${CMAKE_BINARY_DIR}
-          ${CMAKE_SOURCE_DIR}/main
-          ${CMAKE_BINARY_DIR}/main
-  INTERFACE ${CMAKE_CURRENT_SOURCE_DIR}
-            ${CMAKE_CURRENT_BINARY_DIR}
-            ${CMAKE_SOURCE_DIR}/TSRM
-)
-
-target_link_libraries(zend PRIVATE php_tsrm)
-
-target_compile_definitions(zend PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE=1)
-
-if(ZEND_MAX_EXECUTION_TIMERS_LIBRARIES)
-  target_link_libraries(zend PRIVATE ${ZEND_MAX_EXECUTION_TIMERS_LIBRARIES})
-endif()
 
 # TODO: zend_config.h (or its parent php_config.h) isn't included in some zend_*
 # files, therefore we need to add compilation definitions also like this here.
@@ -200,7 +251,7 @@ if(ZEND_MAX_EXECUTION_TIMERS)
 endif()
 
 ################################################################################
-# Generate Zend lexers and parsers.
+# Generate Zend engine lexers and parsers.
 ################################################################################
 
 if(BISON_FOUND)

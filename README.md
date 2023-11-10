@@ -1,5 +1,11 @@
 # PHP build system
 
+![PHP version](https://img.shields.io/badge/PHP-8.4-777BB4?logo=php&labelColor=17181B)
+[![CMake version](https://img.shields.io/badge/CMake-3.25-064F8C?logo=cmake&labelColor=17181B)](https://cmake.org)
+[![C99](https://img.shields.io/badge/standard-C99-A8B9CC?logo=C&labelColor=17181B)](https://port70.net/~nsz/c/c99/n1256.html)
+![GNU](https://img.shields.io/badge/-GNU-A42E2B?logo=gnu&labelColor=17181B)
+[![Ninja](https://img.shields.io/badge/%F0%9F%A5%B7-Ninja%20build-DD6620?labelColor=17181B)](https://ninja-build.org/)
+
 This repository delves into the core of the PHP build system, elucidating the
 intricacies of how to build PHP with CMake.
 
@@ -724,26 +730,25 @@ required CMake version is a compromise between CMake functionalities and CMake
 version available on the operating system.
 
 * 3.17
-  * To have `CMAKE_CURRENT_FUNCTION_LIST_DIR` variable available
+  * `CMAKE_CURRENT_FUNCTION_LIST_DIR` variable
 * 3.19
-  * To be able to use `CMakePresets.json` for sharing build configurations
+  * `CMakePresets.json` for sharing build configurations
 * 3.20
-  * To have `CMAKE_C_BYTE_ORDER`, otherwise manual check should be done
-  * To be able to use `"version": 2` in `CMakePresets.json`
-  * To be able to use `Intl::Intl` IMPORTED target with CMake's FindIntl module.
+  * `CMAKE_C_BYTE_ORDER`, otherwise manual check should be done
+  * `"version": 2` in `CMakePresets.json`
+  * `Intl::Intl` IMPORTED target with CMake's FindIntl module
 * 3.21
-  * To be able to use `"version": 3` in `CMakePresets.json` (for the
-    `installDir` option).
+  * `"version": 3` in `CMakePresets.json` (for the `installDir` option)
 * 3.22
-  * To be able to use full condition syntax in `cmake_dependent_option()`.
+  * Full condition syntax in `cmake_dependent_option()`
 * 3.23
-  * To be able to use `target_sources(FILE_SET)`, otherwise `install(FILES)`
-    should be used when installing files to their destinations.
+  * `target_sources(FILE_SET)`, otherwise `install(FILES)` should be used when
+    installing files to their destinations
 * 3.24
-  * To be able to set `CMAKE_COMPILE_WARNING_AS_ERROR`, otherwise INTERFACE
-    library should be used instead.
+  * `CMAKE_COMPILE_WARNING_AS_ERROR`, otherwise INTERFACE library should be used
 * 3.25
-  * To be able to use `block()` command.
+  * `block()` command
+  * New `try_run` signature
 
 Currently, the CMake minimum version is set to **3.25** without looking at CMake
 available version on the current systems out there. This will be updated more
@@ -1703,6 +1708,11 @@ cmake -LH .
       <td></td>
     </tr>
     <tr>
+      <td>&nbsp;&nbsp;--enable-intl ICU_CFLAGS=... ICU_LIBS=...</td>
+      <td>&nbsp;&nbsp;EXT_INTL=ON ICU_ROOT=...</td>
+      <td></td>
+    </tr>
+    <tr>
       <td>--without-ldap</td>
       <td>EXT_LDAP=OFF</td>
       <td>default</td>
@@ -1944,7 +1954,7 @@ cmake -LH .
     </tr>
     <tr>
       <td>&nbsp;&nbsp;--with-external-pcre PCRE2_CFLAGS=... PCRE2_LIBS=...</td>
-      <td>&nbsp;&nbsp;PCRE_ROOT=DIR</td>
+      <td>&nbsp;&nbsp;EXT_PCRE_EXTERNAL=ON PCRE_ROOT=DIR</td>
       <td></td>
     </tr>
     <tr>

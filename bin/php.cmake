@@ -18,10 +18,10 @@ SYNOPSIS:
 
 Usage examples:
   Downloads specific version from php.net:
-    cmake -P bin/php.cmake 8.3.0RC5
+    cmake -P bin/php.cmake 8.3.0RC6
 
   Or:
-    ./bin/php.cmake 8.3.0RC5
+    ./bin/php.cmake 8.3.0RC6
 
   Downloads the current Git PHP-8.3 branch:
     ./bin/php.cmake 8.3-dev

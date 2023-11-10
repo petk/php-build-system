@@ -20,10 +20,12 @@ include(FeatureSummary)
 set(PHP_UNAME "" CACHE STRING "Build system uname")
 
 if(CMAKE_UNAME AND NOT PHP_UNAME)
-  execute_process(COMMAND ${CMAKE_UNAME} -a
-          OUTPUT_VARIABLE PHP_UNAME
-          OUTPUT_STRIP_TRAILING_WHITESPACE
-          ERROR_QUIET)
+  execute_process(
+    COMMAND ${CMAKE_UNAME} -a
+    OUTPUT_VARIABLE PHP_UNAME
+    OUTPUT_STRIP_TRAILING_WHITESPACE
+    ERROR_QUIET
+  )
 endif()
 
 set(PHP_BUILD_SYSTEM "${PHP_UNAME}" CACHE STRING "Build system uname")
@@ -34,12 +36,17 @@ set(PHP_BUILD_COMPILER "" CACHE STRING "Compiler used for build")
 
 set(PHP_BUILD_ARCH "" CACHE STRING "Build architecture")
 
-set(PHP_LAYOUT "PHP" CACHE STRING
-    "Set how installed files will be laid out. Type can be either PHP (default) or GNU")
-set_property(CACHE PHP_LAYOUT PROPERTY STRINGS
-             "GNU" "PHP")
+set(
+  PHP_LAYOUT "PHP"
+  CACHE STRING
+  "Set how installed files will be laid out. Type can be PHP (default) or GNU"
+)
+set_property(CACHE PHP_LAYOUT PROPERTY STRINGS "GNU" "PHP")
 
-set(PHP_EXTENSION_DIR "" CACHE STRING "The extension_dir PHP INI directive absolute path")
+set(
+  PHP_EXTENSION_DIR ""
+  CACHE STRING "The extension_dir PHP INI directive absolute path"
+)
 
 ################################################################################
 # General options.
@@ -78,22 +85,6 @@ option(PHP_ADDRESS_SANITIZER "Enable the address sanitizer compiler option" OFF)
 option(PHP_UNDEFINED_SANITIZER "Enable the undefined sanitizer compiler option" OFF)
 
 option(BUILD_SHARED_LIBS "Build all enabled PHP extensions as shared libraries" OFF)
-
-################################################################################
-# Zend options.
-################################################################################
-
-option(ZEND_GCC_GLOBAL_REGS "Enable GCC global register variables" ON)
-
-option(ZEND_FIBER_ASM "Enable the use of boost fiber assembly files" ON)
-
-option(ZEND_SIGNALS "Enable Zend signal handling" ON)
-
-option(ZEND_MAX_EXECUTION_TIMERS "Enable Zend max execution timers" ${PHP_ZTS})
-
-if(PHP_ZTS)
-  set(ZTS 1)
-endif()
 
 if(PHP_SHORT_TAGS)
   set(DEFAULT_SHORT_OPEN_TAG "1")
@@ -134,6 +125,11 @@ set_package_properties(EXPAT PROPERTIES
 
 set_package_properties(Iconv PROPERTIES
   DESCRIPTION "Internationalization conversion library"
+)
+
+set_package_properties(ICU PROPERTIES
+  URL "https://icu.unicode.org/"
+  DESCRIPTION "International Components for Unicode"
 )
 
 set_package_properties(LibXml2 PROPERTIES

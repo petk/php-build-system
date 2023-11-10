@@ -6,25 +6,24 @@ See: https://wiki.php.net/rfc/rounding
 Cache variables:
 
   HAVE__FPU_SETCW
-    Set to 1 if _FPU_SETCW is usable.
+    Whether _FPU_SETCW is usable.
 
   HAVE_FPSETPREC
-    Set to 1 if fpsetprec is present and usable.
+    Whether fpsetprec is present and usable.
 
   HAVE__CONTROLFP
-    Set to 1 if _controlfp is present and usable.
+    Whether _controlfp is present and usable.
 
   HAVE__CONTROLFP_S
-    Set to 1 if _controlfp_s is present and usable.
+    Whether _controlfp_s is present and usable.
 
   HAVE_FPU_INLINE_ASM_X86
-    Set to 1 if FPU control word can be manipulated by inline assembler.
+    Whether FPU control word can be manipulated by inline assembler.
 ]=============================================================================]#
 
 include(CheckCSourceCompiles)
 
-message(STATUS "Checking for usable _FPU_SETCW")
-
+message(CHECK_START "Checking if _FPU_SETCW is usable")
 check_c_source_compiles("
   #include <fpu_control.h>
 
@@ -43,9 +42,13 @@ check_c_source_compiles("
     return 0;
   }
 " HAVE__FPU_SETCW)
+if(HAVE__FPU_SETCW)
+  message(CHECK_PASS "yes")
+else()
+  message(CHECK_FAIL "no")
+endif()
 
-message(STATUS "Checking for usable fpsetprec")
-
+message(CHECK_START "Checking if fpsetprec is usable")
 check_c_source_compiles("
   #include <machine/ieeefp.h>
 
@@ -63,8 +66,13 @@ check_c_source_compiles("
     return 0;
   }
 " HAVE_FPSETPREC)
+if(HAVE_FPSETPREC)
+  message(CHECK_PASS "yes")
+else()
+  message(CHECK_FAIL "no")
+endif()
 
-message(STATUS "Checking for usable _controlfp")
+message(CHECK_START "Checking if _controlfp is usable")
 
 check_c_source_compiles("
   #include <float.h>
@@ -83,9 +91,13 @@ check_c_source_compiles("
     return 0;
   }
 " HAVE__CONTROLFP)
+if(HAVE__CONTROLFP)
+  message(CHECK_PASS "yes")
+else()
+  message(CHECK_FAIL "no")
+endif()
 
-message(STATUS "Checking for usable _controlfp_s")
-
+message(CHECK_START "Checking if _controlfp_s is usable")
 check_c_source_compiles("
   #include <float.h>
 
@@ -104,9 +116,16 @@ check_c_source_compiles("
     return 0;
   }
 " HAVE__CONTROLFP_S)
+if(HAVE__CONTROLFP_S)
+  message(CHECK_PASS "yes")
+else()
+  message(CHECK_FAIL "no")
+endif()
 
-message(STATUS "Checking whether FPU control word can be manipulated by inline assembler")
-
+message(
+  CHECK_START
+  "Checking whether FPU control word can be manipulated by inline assembler"
+)
 check_c_source_compiles("
   int main(void) {
     unsigned int oldcw, cw;
@@ -125,3 +144,8 @@ check_c_source_compiles("
     return 0;
   }
 " HAVE_FPU_INLINE_ASM_X86)
+if(HAVE_FPU_INLINE_ASM_X86)
+  message(CHECK_PASS "yes")
+else()
+  message(CHECK_FAIL "no")
+endif()

@@ -4,7 +4,7 @@ Check whether the stack grows downwards. Assumes contiguous stack.
 Cache variables:
 
   ZEND_CHECK_STACK_LIMIT
-    Set to 1 if checking the stack limit is supported.
+    Whether checking the stack limit is supported.
 ]=============================================================================]#
 
 include(CheckCSourceRuns)

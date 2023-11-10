@@ -424,8 +424,9 @@ define_property(<scope> PROPERTY PHP_CUSTOM_PROPERTY_NAME [...])
 CMake offers variables such as `APPLE`, `LINUX`, `UNIX`, `WIN32` etc. However,
 they might be removed in the future CMake versions. Recommendation is to use:
 
-* `CMAKE_SYSTEM_NAME` in code or `PLATFORM_ID` in generators for targeted
-  platform (this is also the name of the target when doing cross-compilation).
+* `CMAKE_SYSTEM_NAME` in code or `PLATFORM_ID` in generator expressions for
+  checking target platform (this is also the name of the target when doing
+  cross-compilation).
 * And the `CMAKE_HOST_SYSTEM_NAME` which is platform where CMake is building on.
 
 For example, detecting Linux target system:
@@ -452,13 +453,22 @@ if(CMAKE_SYSTEM_NAME STREQUAL "Windows")
 endif()
 ```
 
-When using generators:
+In generator expressions, `PLATFORM_ID` can be used to detect target platforms:
 
 ```cmake
 target_compile_definitions(
   php
   PRIVATE $<$<PLATFORM_ID:Linux,FreeBSD>:FOOBAR>
 )
+```
+
+Some platforms require the regular expression matching. For example, checking if
+the host system is Cygwin:
+
+```cmake
+if(CMAKE_HOST_SYSTEM_NAME MATCHES "CYGWIN.*")
+  # ...
+endif()
 ```
 
 See also [CMakeDetermineSystem.cmake](https://gitlab.kitware.com/cmake/cmake/-/blob/master/Modules/CMakeDetermineSystem.cmake).
