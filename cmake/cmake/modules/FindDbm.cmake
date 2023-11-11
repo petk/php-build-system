@@ -12,7 +12,7 @@ Module defines the following IMPORTED targets:
 Result variables:
 
   Dbm_FOUND
-    Set to 1 if dbm has been found.
+    Whether dbm has been found.
   Dbm_INCLUDE_DIRS
     A list of include directories for using dbm library.
   Dbm_LIBRARIES

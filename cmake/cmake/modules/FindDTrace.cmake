@@ -4,14 +4,14 @@ Find DTrace.
 Result variables:
 
   DTrace_FOUND
-    Set to 1 if DTrace library is found.
+    Whether DTrace library is found.
   DTrace_EXECUTABLE
     Path to the DTrace command-line utility.
 
 Cache variables:
 
   HAVE_DTRACE
-    Set to 1 if DTrace support is enabled.
+    Whether DTrace support is enabled.
 
 Module defines the following function:
 

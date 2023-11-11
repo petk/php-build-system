@@ -9,7 +9,7 @@ Module defines the following IMPORTED targets:
 Result variables:
 
   Readline_FOUND
-    Set to 1 if GNU Readline library is found.
+    Whether GNU Readline library is found.
   Readline_INCLUDE_DIRS
     A list of include directories for using GNU Readline library.
   Readline_LIBRARIES

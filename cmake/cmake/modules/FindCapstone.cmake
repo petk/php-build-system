@@ -9,7 +9,7 @@ Module defines the following IMPORTED targets:
 Result variables:
 
   Capstone_FOUND
-    Set to 1 if Capstone library is found.
+    Whether Capstone library is found.
   Capstone_INCLUDE_DIRS
     A list of include directories for using Capstone library.
   Capstone_LIBRARIES

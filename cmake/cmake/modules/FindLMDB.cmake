@@ -9,7 +9,7 @@ Module defines the following IMPORTED targets:
 Result variables:
 
   LMDB_FOUND
-    Set to 1 if LMDB has been found.
+    Whether LMDB has been found.
   LMDB_INCLUDE_DIRS
     A list of include directories for using LMDB library.
   LMDB_LIBRARIES

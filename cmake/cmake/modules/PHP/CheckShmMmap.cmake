@@ -4,7 +4,7 @@ Check for mmap() using MAP_ANON shared memory support.
 Cache variables:
 
   HAVE_SHM_MMAP_ANON
-    Set to 1 if mmap(MAP_ANON) SHM support is found.
+    Whether mmap(MAP_ANON) SHM support is found.
 ]=============================================================================]#
 
 include(CheckCSourceRuns)

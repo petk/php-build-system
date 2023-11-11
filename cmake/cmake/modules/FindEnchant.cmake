@@ -9,7 +9,7 @@ Module defines the following IMPORTED targets:
 Result variables:
 
   Enchant_FOUND
-    Set to 1 if Enchant library is found.
+    Whether Enchant library is found.
   Enchant_INCLUDE_DIRS
     A list of include directories for using Enchant library.
   Enchant_LIBRARIES

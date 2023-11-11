@@ -9,7 +9,7 @@ Module defines the following IMPORTED targets:
 Result variables:
 
   XPM_FOUND
-    Set to 1 if libXpm library is found.
+    Whether libXpm library is found.
   XPM_INCLUDE_DIRS
     A list of include directories for using libXpm library.
   XPM_LIBRARIES

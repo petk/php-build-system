@@ -4,15 +4,19 @@ Check for missing declarations of reentrant functions.
 Cache variables:
 
   MISSING_LOCALTIME_R_DECL
-    Set to 1 if localtime_r is not declared.
+    Whether localtime_r is not declared.
+
   MISSING_GMTIME_R_DECL
-    Set to 1 if gmtime_r is not declared.
+    Whether gmtime_r is not declared.
+
   MISSING_ASCTIME_R_DECL
-    Set to 1 if asctime_r is not declared.
+    Whether asctime_r is not declared.
+
   MISSING_CTIME_R_DECL
-    Set to 1 if ctime_r is not declared.
+    Whether ctime_r is not declared.
+
   MISSING_STRTOK_R_DECL
-    Set to 1 if strtok_r is not declared.
+    Whether strtok_r is not declared.
 ]=============================================================================]#
 
 include(CheckCSourceCompiles)

@@ -54,8 +54,16 @@ target_include_directories(
 
 set(PDO_USE_MYSQLND 1 CACHE INTERNAL "")
 
-if(EXT_MYSQL_SOCK OR EXT_MYSQL_SOCK_PATH)
-  include(PHP/MysqlSocket)
+if(EXT_MYSQL_SOCK)
+  if(EXT_MYSQL_SOCK_PATH)
+    set(MySQL_SOCKET "${EXT_MYSQL_SOCK_PATH}")
+  endif()
+
+  find_package(MySQL OPTIONAL_COMPONENTS SOCKET)
+  set_package_properties(MySQL PROPERTIES
+    TYPE REQUIRED
+    PURPOSE "Necessary to set the MySQL socket in pdo_mysql extension."
+  )
 endif()
 
 # TODO: Add MySQL configuration script usage.

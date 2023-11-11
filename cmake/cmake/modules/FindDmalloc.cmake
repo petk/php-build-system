@@ -9,7 +9,7 @@ Module defines the following IMPORTED targets:
 Result variables:
 
   Dmalloc_FOUND
-    Set to 1 if Dmalloc library is found.
+    Whether Dmalloc library is found.
   Dmalloc_INCLUDE_DIRS
     A list of include directories for using Dmalloc library.
   Dmalloc_LIBRARIES

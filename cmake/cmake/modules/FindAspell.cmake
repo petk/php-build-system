@@ -14,7 +14,7 @@ Module defines the following IMPORTED targets:
 Result variables:
 
   Aspell_FOUND
-    Set to 1 if Aspell has been found.
+    Whether Aspell has been found.
   Aspell_INCLUDE_DIRS
     A list of include directories for using Aspell library.
   Aspell_PSPELL_INCLUDE_DIRS

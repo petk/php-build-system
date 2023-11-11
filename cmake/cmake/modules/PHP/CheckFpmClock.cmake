@@ -4,13 +4,13 @@ Check for clock_gettime().
 Cache variables:
 
   HAVE_CLOCK_GETTIME
-    Set to 1 if clock_gettime() is present.
+    Whether clock_gettime() is present.
 
   FPM_CLOCK_LIBRARIES
     A list of libraries for linking.
 
   HAVE_CLOCK_GET_TIME
-    Set to 1 if clock_get_time() should be used.
+    Whether clock_get_time() should be used.
 ]=============================================================================]#
 
 include(CheckCSourceCompiles)

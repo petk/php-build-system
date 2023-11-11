@@ -89,7 +89,7 @@ if(EXT_LDAP_SASL)
 
   target_link_libraries(php_ldap PRIVATE SASL::SASL)
 
-  set(HAVE_LDAP_SASL 1 CACHE INTERNAL "Set to 1 if LDAP has SASL support")
+  set(HAVE_LDAP_SASL 1 CACHE INTERNAL "Whether LDAP has SASL support")
 endif()
 
 # Sanity check.

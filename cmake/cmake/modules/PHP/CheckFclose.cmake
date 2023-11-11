@@ -6,7 +6,7 @@ Some systems have broken header files like SunOS has.
 Cache variables:
 
   MISSING_FCLOSE_DECL
-    Set to true if fclose declaration is missing.
+    Whether fclose declaration is missing.
 ]=============================================================================]#
 
 include(CheckCSourceCompiles)

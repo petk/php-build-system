@@ -9,7 +9,7 @@ Module defines the following IMPORTED targets:
 Result variables:
 
   Cdb_FOUND
-    Set to 1 if cdb has been found.
+    Whether cdb has been found.
   Cdb_INCLUDE_DIRS
     A list of include directories for using cdb library.
   Cdb_LIBRARIES

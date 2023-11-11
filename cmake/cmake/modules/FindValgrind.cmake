@@ -9,11 +9,11 @@ Module defines the following IMPORTED targets:
 Result variables:
 
   Valgrind_FOUND
-    Set to 1 if Valgrind has been found.
+    Whether Valgrind has been found.
   Valgrind_INCLUDE_DIRS
     A list of Valgrind include directories.
   HAVE_VALGRIND
-    Set to 1 if Valgrind is enabled.
+    Whether Valgrind is enabled.
 
 The Valgrind_ROOT variable adds search path for finding the Valgrind on custom
 locations.

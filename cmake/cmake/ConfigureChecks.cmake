@@ -80,6 +80,7 @@ check_include_file(sys/wait.h HAVE_SYS_WAIT_H)
 check_include_file(sysexits.h HAVE_SYSEXITS_H)
 check_include_file(syslog.h HAVE_SYSLOG_H)
 check_include_file(unistd.h HAVE_UNISTD_H)
+# QNX requires unix.h to allow functions in libunix to work properly.
 check_include_file(unix.h HAVE_UNIX_H)
 check_include_file(utime.h HAVE_UTIME_H)
 
@@ -208,20 +209,11 @@ php_check_builtin(__builtin_ssubll_overflow PHP_HAVE_BUILTIN_SSUBLL_OVERFLOW)
 php_check_builtin(__builtin_unreachable PHP_HAVE_BUILTIN_UNREACHABLE)
 php_check_builtin(__builtin_usub_overflow PHP_HAVE_BUILTIN_USUB_OVERFLOW)
 
-# Check AVX512.
+# Check AVX-512.
 include(PHP/CheckAVX512)
 
-# Check AVX512 VBMI.
+# Check AVX-512 VBMI.
 include(PHP/CheckAVX512VBMI)
-
-# Check prctl.
-include(PHP/CheckPrctl)
-
-# Check procctl.
-include(PHP/CheckProcctl)
-
-# Check for __alignof__.
-include(PHP/CheckAlignof)
 
 # Check for sockaddr_storage and sockaddr.sa_len.
 include(PHP/CheckSockaddr)
@@ -275,6 +267,8 @@ check_symbol_exists(mkstemp "stdlib.h" HAVE_MKSTEMP)
 check_symbol_exists(mmap "sys/mman.h" HAVE_MMAP)
 check_symbol_exists(nice "unistd.h" HAVE_NICE)
 check_symbol_exists(nl_langinfo "langinfo.h" HAVE_NL_LANGINFO)
+check_symbol_exists(prctl "sys/prctl.h" HAVE_PRCTL)
+check_symbol_exists(procctl "sys/procctl.h" HAVE_PROCCTL)
 check_symbol_exists(poll "poll.h" HAVE_POLL)
 check_symbol_exists(pthread_jit_write_protect_np "pthread.h" HAVE_PTHREAD_JIT_WRITE_PROTECT_NP)
 check_symbol_exists(putenv "stdlib.h" HAVE_PUTENV)
@@ -343,7 +337,7 @@ check_symbol_exists(explicit_bzero "string.h" HAVE_EXPLICIT_BZERO)
 include(PHP/CheckTimeR)
 
 # Check whether writing to stdout works.
-include(PHP/CheckWriteStdout)
+include(PHP/CheckWrite)
 
 # Check for IPv6 support.
 if(PHP_IPV6)
@@ -399,6 +393,20 @@ if(HAVE_ALLOCA_H)
   check_symbol_exists(alloca "alloca.h" HAVE_ALLOCA)
 else()
   check_symbol_exists(alloca "stdlib.h;malloc.h" HAVE_ALLOCA)
+endif()
+
+# Check for __alignof__ support in the compiler.
+message(CHECK_START "Checking whether the compiler supports __alignof__")
+check_c_source_compiles("
+  int main(void) {
+    int align = __alignof__(int);
+    return 0;
+  }
+" HAVE_ALIGNOF)
+if(HAVE_ALIGNOF)
+  message(CHECK_PASS "yes")
+else()
+  message(CHECK_FAIL "no")
 endif()
 
 # Check target attribute.

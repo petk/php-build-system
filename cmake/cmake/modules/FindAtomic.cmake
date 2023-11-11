@@ -9,7 +9,7 @@ Module defines the following IMPORTED targets:
 Result variables:
 
   Atomic_FOUND
-    Set to 1 if atomic instructions are available.
+    Whether atomic instructions are available.
   Atomic_LIBRARIES
     A list of libraries needed in order to use atomic functionality.
 #]=============================================================================]

@@ -9,7 +9,7 @@ Module defines the following IMPORTED targets:
 Result variables:
 
   Crypt_FOUND
-    Set if crypt has been found.
+    Whether crypt has been found.
   Crypt_INCLUDE_DIRS
     A list of include directories for using crypt library.
   Crypt_LIBRARIES

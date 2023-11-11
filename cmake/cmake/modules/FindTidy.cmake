@@ -9,7 +9,7 @@ Module defines the following IMPORTED targets:
 Result variables:
 
   Tidy_FOUND
-    Set to 1 if tidy library has been found.
+    Whether tidy library has been found.
   Tidy_INCLUDE_DIRS
     A list of Tidy library include directories.
   Tidy_LIBRARIES
@@ -17,15 +17,15 @@ Result variables:
 
 Cache variables:
   HAVE_TIDYBUFFIO_H
-    Set to 1 if tidybuffio.h header is available.
+    Whether tidybuffio.h is available.
   HAVE_TIDY_H
-    Set to 1 if tidy.h is available.
+    Whether tidy.h is available.
   HAVE_TIDYP_H
-    Set to 1 if tidy.h is available.
+    Whether tidy.h is available.
   HAVE_TIDYOPTGETDOC
-    Set to 1 if tidyOptGetDoc is available in one of tidy libraries.
+    Whether tidyOptGetDoc is available in one of tidy libraries.
   HAVE_TIDYRELEASEDATE
-    Set to 1 if tidyReleaseDate is available in one of tidy libraries.
+    Whether tidyReleaseDate is available in one of tidy libraries.
 
 Hints:
   The Tidy_ROOT variable adds custom search path.

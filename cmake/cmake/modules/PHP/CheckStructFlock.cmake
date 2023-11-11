@@ -4,7 +4,7 @@ Check whether system has struct flock.
 Cache variables:
 
   HAVE_STRUCT_FLOCK
-    Set to true if struct flock is available, false otherwise.
+    Whether struct flock is available.
 ]=============================================================================]#
 
 include(CheckCSourceCompiles)

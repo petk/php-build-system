@@ -9,7 +9,7 @@ Module defines the following IMPORTED targets:
 Result variables:
 
   Argon2_FOUND
-    Set to 1 if Argon2 library is found.
+    Whether Argon2 library is found.
   Argon2_INCLUDE_DIRS
     A list of include directories for using Argon2 library.
   Argon2_LIBRARIES

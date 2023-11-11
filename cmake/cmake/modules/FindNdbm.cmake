@@ -12,7 +12,7 @@ Module defines the following IMPORTED targets:
 Result variables:
 
   Ndbm_FOUND
-    Set to 1 if ndbm has been found.
+    Whether ndbm has been found.
   Ndbm_INCLUDE_DIRS
     A list of include directories for using ndbm library.
   Ndbm_LIBRARIES

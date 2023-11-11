@@ -3,7 +3,7 @@ Find the sendmail program.
 
 Result variables:
   Sendmail_FOUND
-    Set to 1 if sendmail has been found.
+    Whether sendmail has been found.
   Sendmail_EXECUTABLE
     Path to the sendmail executable if found.
 

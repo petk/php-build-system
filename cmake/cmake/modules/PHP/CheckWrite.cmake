@@ -4,7 +4,7 @@ Check whether writing to stdout works.
 Cache variables:
 
   PHP_WRITE_STDOUT
-    Set to 1 if write(2) works.
+    Whether write(2) works.
 ]=============================================================================]#
 
 include(CheckCSourceRuns)
@@ -14,14 +14,12 @@ message(CHECK_START "Checking whether writing to stdout works")
 
 list(APPEND CMAKE_MESSAGE_INDENT "  ")
 
-if(CMAKE_CROSSCOMPILING)
-  if(CMAKE_SYSTEM_NAME STREQUAL "Linux")
-    set(PHP_WRITE_STDOUT 1 CACHE INTERNAL "whether write(2) works")
-  endif()
+if(CMAKE_CROSSCOMPILING AND CMAKE_SYSTEM_NAME STREQUAL "Linux")
+  set(PHP_WRITE_STDOUT 1 CACHE INTERNAL "Whether write(2) works")
 else()
   cmake_push_check_state(RESET)
-    if(HAVE_UNISTD)
-      set(CMAKE_REQUIRED_DEFINITIONS -DHAVE_UNISTD_H=1)
+    if(HAVE_UNISTD_H)
+      list(APPEND CMAKE_REQUIRED_DEFINITIONS -DHAVE_UNISTD_H=1)
     endif()
 
     check_c_source_runs("

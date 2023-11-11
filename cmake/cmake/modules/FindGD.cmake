@@ -9,7 +9,7 @@ Module defines the following IMPORTED targets:
 Result variables:
 
   GD_FOUND
-    Set to 1 if libgd is found.
+    Whether libgd is found.
   GD_INCLUDE_DIRS
     A list of include directories for using libgd.
   GD_LIBRARIES

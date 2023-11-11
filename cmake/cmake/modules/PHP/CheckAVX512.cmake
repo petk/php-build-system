@@ -1,16 +1,16 @@
 #[=============================================================================[
-Check whether compiler supports AVX512.
+Check whether compiler supports AVX-512.
 
 Cache variables:
 
   PHP_HAVE_AVX512_SUPPORTS
-    Set to true if compiler supports AVX512, false otherwise.
+    Whether compiler supports AVX-512.
 ]=============================================================================]#
 
 include(CheckCSourceCompiles)
 include(CMakePushCheckState)
 
-message(CHECK_START "Checking for AVX512 support in compiler")
+message(CHECK_START "Checking for AVX-512 support in compiler")
 
 list(APPEND CMAKE_MESSAGE_INDENT "  ")
 

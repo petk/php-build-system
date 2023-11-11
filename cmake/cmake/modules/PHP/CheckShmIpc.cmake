@@ -4,7 +4,7 @@ Check for sysvipc shared memory support.
 Cache variables:
 
   HAVE_SHM_IPC
-    Set to 1 if SysV IPC SHM support is available.
+    Whether SysV IPC SHM support is available.
 ]=============================================================================]#
 
 include(CheckCSourceRuns)

@@ -9,7 +9,7 @@ Module defines the following IMPORTED targets:
 Result variables:
 
   NetSnmp_FOUND
-    Set if Net-SNMP library is found.
+    Whether Net-SNMP library is found.
   NetSnmp_INCLUDE_DIRS
     A list of include directories for using Net-SNMP library.
   NetSnmp_LIBRARIES

@@ -9,7 +9,7 @@ Module defines the following IMPORTED targets:
 Result variables:
 
   GDBM_FOUND
-    Set to 1 if GDBM has been found.
+    Whether GDBM has been found.
   GDBM_INCLUDE_DIRS
     A list of include directories for using GDBM library.
   GDBM_LIBRARIES

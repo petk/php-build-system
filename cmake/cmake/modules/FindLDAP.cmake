@@ -9,7 +9,7 @@ Module defines the following IMPORTED targets:
 Result variables:
 
   LDAP_FOUND
-    Set to 1 if LDAP library is found.
+    Whether LDAP library is found.
   LDAP_INCLUDE_DIRS
     A list of include directories for using LDAP library.
   LDAP_LIBRARIES

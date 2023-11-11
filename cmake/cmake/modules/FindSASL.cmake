@@ -9,7 +9,7 @@ Module defines the following IMPORTED targets:
 Result variables:
 
   SASL_FOUND
-    Set to 1 if SASL library is found.
+    Whether SASL library is found.
   SASL_INCLUDE_DIRS
     A list of include directories for using SASL library.
   SASL_LIBRARIES

@@ -13,7 +13,7 @@ Module defines the following IMPORTED targets:
 Result variables:
 
   libzip_FOUND
-    Set to 1 if libzip library has been found.
+    Whether libzip library has been found.
   libzip_INCLUDE_DIRS
     A list of include directories for using libzip library.
   libzip_LIBRARIES

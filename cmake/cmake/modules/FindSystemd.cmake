@@ -9,7 +9,7 @@ Module defines the following IMPORTED targets:
 Result variables:
 
   Systemd_FOUND
-    Set to 1 if systemd library is found.
+    Whether systemd library is found.
   Systemd_INCLUDE_DIRS
     A list of include directories for using systemd library.
   Systemd_LIBRARIES

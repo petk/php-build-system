@@ -9,7 +9,7 @@ Module defines the following IMPORTED targets:
 Result variables:
 
   FreeTDS_FOUND
-    Set to 1 if FreeTDS has been found.
+    Whether FreeTDS has been found.
   FreeTDS_INCLUDE_DIRS
     A list of include directories for using FreeTDS set of libraries.
   FreeTDS_LIBRARIES

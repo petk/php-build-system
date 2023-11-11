@@ -422,12 +422,15 @@ define_property(<scope> PROPERTY PHP_CUSTOM_PROPERTY_NAME [...])
 ## 9. Determining platform
 
 CMake offers variables such as `APPLE`, `LINUX`, `UNIX`, `WIN32` etc. However,
-they might be removed in the future CMake versions. Recommendation is to use:
+they might be removed in the future CMake versions. It is recommended to use:
 
-* `CMAKE_SYSTEM_NAME` in code or `PLATFORM_ID` in generator expressions for
-  checking target platform (this is also the name of the target when doing
-  cross-compilation).
-* And the `CMAKE_HOST_SYSTEM_NAME` which is platform where CMake is building on.
+* `CMAKE_SYSTEM_NAME` in code or `PLATFORM_ID` in generator expressions to check
+  the target platform (which is also the name used during cross-compilation).
+* And the `CMAKE_HOST_SYSTEM_NAME` to identify the platform where CMake is
+  peforming the build.
+
+When building on the platform for which the build is targeted,
+`CMAKE_SYSTEM_NAME` and `CMAKE_HOST_SYSTEM_NAME` are equivalent.
 
 For example, detecting Linux target system:
 

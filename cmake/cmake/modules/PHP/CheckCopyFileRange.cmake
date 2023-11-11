@@ -5,7 +5,7 @@ Until the problem is fixed properly, copy_file_range() is used only on Linux.
 Cache variables:
 
   HAVE_COPY_FILE_RANGE
-    Set to 1 if copy_file_range() is supported.
+    Whether copy_file_range() is supported.
 ]=============================================================================]#
 
 include(CheckCSourceRuns)

@@ -4,10 +4,10 @@ Check for ptrace().
 Cache variables:
 
   HAVE_PTRACE
-    Set to 1 if ptrace() is present and working as expected.
+    Whether ptrace() is present and working as expected.
 
   HAVE_MACH_VM_READ
-    Set to 1 if ptrace() didn't work and the mach_vm_read() is present.
+    Whether ptrace() didn't work and the mach_vm_read() is present.
 
   PROC_MEM_FILE
     String of the /proc/pid/mem interface.
@@ -107,7 +107,7 @@ if(_have_ptrace)
 endif()
 
 if(_ptrace_works)
-  set(HAVE_PTRACE 1 CACHE INTERNAL "Set to 1 if ptrace() is present and works as expected")
+  set(HAVE_PTRACE 1 CACHE INTERNAL "Whether ptrace() is present and works as expected")
 else()
   check_c_source_compiles("
     #include <mach/mach.h>

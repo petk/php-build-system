@@ -1,17 +1,17 @@
 #[=============================================================================[
-Check if struct sockaddr_storage exists and if field sa_len exists in struct
-sockaddr.
+Check if struct sockaddr_storage exists and struct sockaddr has field sa_len.
 
 Cache variables:
 
   HAVE_SOCKADDR_STORAGE
-    Set to 1 if struct sockaddr_storage is available.
+    Whether struct sockaddr_storage is available.
 
   HAVE_SOCKADDR_SA_LEN
-    Set to 1 if struct sockaddr has field sa_len.
+    Whether struct sockaddr has field sa_len.
 ]=============================================================================]#
 
 include(CheckCSourceCompiles)
+include(CheckStructHasMember)
 
 message(CHECK_START "Checking for struct sockaddr_storage")
 
@@ -41,17 +41,12 @@ message(CHECK_START "Checking for field sa_len in struct sockaddr")
 
 list(APPEND CMAKE_MESSAGE_INDENT "  ")
 
-check_c_source_compiles("
-  #include <sys/types.h>
-  #include <sys/socket.h>
-
-  int main(void) {
-    static struct sockaddr sa;
-    int n = (int) sa.sa_len;
-
-    return n;
-  }
-" HAVE_SOCKADDR_SA_LEN)
+check_struct_has_member(
+  "struct sockaddr"
+  sa_len
+  "sys/types.h;sys/socket.h"
+  HAVE_SOCKADDR_SA_LEN
+)
 
 list(POP_BACK CMAKE_MESSAGE_INDENT)
 

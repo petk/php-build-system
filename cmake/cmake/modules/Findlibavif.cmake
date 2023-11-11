@@ -11,7 +11,7 @@ Module defines the following IMPORTED targets:
 Result variables:
 
   libavif_FOUND
-    Set to 1 if libavif is found.
+    Whether libavif is found.
   libavif_INCLUDE_DIRS
     A list of include directories for using libavif.
   libavif_LIBRARIES

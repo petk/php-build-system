@@ -14,16 +14,33 @@ Cache variables:
     Header definition line that sets the compiler's inline keyword.
 ]=============================================================================]#
 
+include(CheckCSourceCompiles)
+include(CMakePushCheckState)
+
 function(_php_check_inline)
   message(CHECK_START "Checking C compiler inline keyword")
 
   foreach(keyword "inline" "__inline__" "__inline")
-    try_compile(
-      C_HAS_${keyword}
-      ${CMAKE_BINARY_DIR}
-      "${CMAKE_CURRENT_FUNCTION_LIST_DIR}/CheckInline/check_inline.c"
-      COMPILE_DEFINITIONS "-Dinline=${keyword}"
-    )
+    cmake_push_check_state(RESET)
+      set(CMAKE_REQUIRED_DEFINITIONS -Dinline=${keyword})
+      check_c_source_compiles("
+        #ifndef __cplusplus
+          typedef int foo_t;
+
+          static inline foo_t static_foo(void) {
+            return 0;
+          }
+
+          inline foo_t foo(void) {
+            return 0;
+          }
+        #endif
+
+        int main(void) {
+          return 0;
+        }
+      " C_HAS_${keyword})
+    cmake_pop_check_state()
 
     if(C_HAS_inline)
       message(CHECK_PASS "inline")

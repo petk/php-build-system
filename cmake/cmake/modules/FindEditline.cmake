@@ -9,7 +9,7 @@ Module defines the following IMPORTED targets:
 Result variables:
 
   Editline_FOUND
-    Set to 1 if Editline library is found.
+    Whether Editline library is found.
   Editline_INCLUDE_DIRS
     A list of include directories for using Editline library.
   Editline_LIBRARIES

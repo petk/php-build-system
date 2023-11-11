@@ -1643,13 +1643,18 @@ cmake -LH .
       <td>default</td>
     </tr>
     <tr>
-      <td>&nbsp;&nbsp;--with-gettext[=DIR]</td>
+      <td>&nbsp;&nbsp;--with-gettext</td>
       <td>&nbsp;&nbsp;EXT_GETTEXT=ON</td>
       <td></td>
     </tr>
     <tr>
       <td>&nbsp;&nbsp;--with-gettext=shared</td>
       <td>&nbsp;&nbsp;EXT_GETTEXT_SHARED=ON</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>&nbsp;&nbsp;--with-gettext=DIR</td>
+      <td>&nbsp;&nbsp;EXT_GETTEXT=ON Intl_ROOT=DIR</td>
       <td></td>
     </tr>
     <tr>

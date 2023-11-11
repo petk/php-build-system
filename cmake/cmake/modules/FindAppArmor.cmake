@@ -9,7 +9,7 @@ Module defines the following IMPORTED targets:
 Result variables:
 
   AppArmor_FOUND
-    Set to 1 if AppArmor library is found.
+    Whether AppArmor library is found.
   AppArmor_INCLUDE_DIRS
     A list of include directories for using AppArmor library.
   AppArmor_LIBRARIES

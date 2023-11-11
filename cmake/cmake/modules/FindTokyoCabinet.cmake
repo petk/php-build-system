@@ -9,7 +9,7 @@ Module defines the following IMPORTED targets:
 Result variables:
 
   TokyoCabinet_FOUND
-    Set to 1 if Tokyo Cabinet has been found.
+    Whether Tokyo Cabinet has been found.
   TokyoCabinet_INCLUDE_DIRS
     A list of include directories for using Tokyo Cabinet library.
   TokyoCabinet_LIBRARIES

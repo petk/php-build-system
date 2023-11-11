@@ -9,7 +9,7 @@ Module defines the following IMPORTED targets:
 Result variables:
 
   FFI_FOUND
-    Set to 1 if FFI library is found.
+    Whether FFI library is found.
   FFI_INCLUDE_DIRS
     A list of include directories for using FFI library.
   FFI_LIBRARIES

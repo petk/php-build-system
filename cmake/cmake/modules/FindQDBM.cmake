@@ -9,7 +9,7 @@ Module defines the following IMPORTED targets:
 Result variables:
 
   QDBM_FOUND
-    Set to 1 if QDBM has been found.
+    Whether QDBM has been found.
   QDBM_INCLUDE_DIRS
     A list of include directories for using QDBM library.
   QDBM_LIBRARIES

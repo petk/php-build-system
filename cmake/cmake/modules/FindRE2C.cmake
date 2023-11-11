@@ -13,7 +13,7 @@ Result variables:
   RE2C_EXECUTABLE
     Path to the re2c program.
   RE2C_FOUND
-    Set to true if the program was found, false otherwise.
+    Whether re2c program was found.
   RE2C_VERSION
     Version of re2c program.
 

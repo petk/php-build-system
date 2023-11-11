@@ -4,7 +4,7 @@ Check whether the strptime() declaration fails.
 Cache variables:
 
   HAVE_STRPTIME_DECL_FAILS
-    Set if strptime() declaration fails.
+    Whether strptime() declaration fails.
 ]=============================================================================]#
 
 include(CheckCSourceCompiles)

@@ -9,7 +9,7 @@ Module defines the following IMPORTED targets:
 Result variables:
 
   WebP_FOUND
-    Set to 1 if libwebp is found.
+    Whether libwebp is found.
   WebP_INCLUDE_DIRS
     A list of include directories for using libwebp.
   WebP_LIBRARIES

@@ -9,7 +9,7 @@ Module defines the following IMPORTED targets:
 Result variables:
 
   MM_FOUND
-    Set to 1 if mm library is found.
+    Whether mm library is found.
   MM_INCLUDE_DIRS
     A list of include directories for using mm library.
   MM_LIBRARIES

@@ -9,7 +9,7 @@ Module defines the following IMPORTED targets:
 Result variables:
 
   PCRE_FOUND
-    Set to 1 if PCRE library is found.
+    Whether PCRE library is found.
   PCRE_INCLUDE_DIRS
     A list of include directories for using PCRE library.
   PCRE_LIBRARIES

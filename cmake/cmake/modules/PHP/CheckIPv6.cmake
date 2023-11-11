@@ -4,7 +4,7 @@ Check for IPv6 support.
 Cache variables:
 
   HAVE_IPV6
-    Set to true if IPv6 support is enabled.
+    Whether IPv6 support is enabled.
 ]=============================================================================]#
 
 include(CheckCSourceCompiles)

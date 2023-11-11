@@ -4,7 +4,7 @@ Check if fopencookie() is working as expected.
 Cache variables:
 
   HAVE_FOPENCOOKIE
-    Set to 1 if fopencookie() and cookie_io_functions_t are available.
+    Whether fopencookie() and cookie_io_functions_t are available.
 
   COOKIE_SEEKER_USES_OFF64_T
     Whether a newer seeker definition for fopencookie() is available.
@@ -33,19 +33,18 @@ check_c_source_compiles("
     cookie_io_functions_t cookie;
     return 0;
   }
-" _have_cookie_io_functions_t)
+" HAVE_FOPENCOOKIE)
 
-if(NOT _have_cookie_io_functions_t)
+if(NOT HAVE_FOPENCOOKIE)
   return()
 endif()
 
-set(HAVE_FOPENCOOKIE 1 CACHE INTERNAL "Set to 1 if fopencookie and cookie_io_functions_t are available.")
-
 # Newer glibcs have a different seeker definition.
-if(CMAKE_CROSSCOMPILING)
-  if(CMAKE_HOST_SYSTEM_NAME STREQUAL "Linux")
-    set(_cookie_io_functions_use_off64_t ON)
-  endif()
+if(CMAKE_CROSSCOMPILING AND CMAKE_HOST_SYSTEM_NAME STREQUAL "Linux")
+  set(
+    COOKIE_SEEKER_USES_OFF64_T 1
+    CACHE INTERNAL "Whether newer fopencookie seeker definition is available"
+  )
 else()
   check_c_source_runs("
     #define _GNU_SOURCE
@@ -85,9 +84,5 @@ else()
 
       return 1;
     }
-  " _cookie_io_functions_use_off64_t)
-endif()
-
-if(_cookie_io_functions_use_off64_t)
-  set(COOKIE_SEEKER_USES_OFF64_T 1 CACHE INTERNAL "Whether newer fopencookie seeker definition is available")
+  " COOKIE_SEEKER_USES_OFF64_T)
 endif()

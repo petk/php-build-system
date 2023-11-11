@@ -11,7 +11,7 @@ https://www.gnu.org/software/gnulib/MODULES.html#module=fnmatch
 Cache variables:
 
   HAVE_FNMATCH
-    Set to 1 if fnmatch is a working POSIX variant.
+    Whether fnmatch is a working POSIX variant.
 ]=============================================================================]#
 
 include(CheckCSourceRuns)

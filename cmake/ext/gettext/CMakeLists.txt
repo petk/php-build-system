@@ -5,7 +5,7 @@ include(FeatureSummary)
 option(EXT_GETTEXT "Enable the gettext extension" OFF)
 
 add_feature_info("ext/gettext" EXT_GETTEXT
-  "Adds support for GNU gettext using NLS (Native Language Support) API."
+  "Support for GNU gettext using NLS (Native Language Support) API."
 )
 
 cmake_dependent_option(
@@ -30,6 +30,11 @@ target_sources(php_gettext PRIVATE
   gettext.c
 )
 
+# Disable built-in intl when overridding search paths in CMake's FindIntl.
+if(Intl_ROOT)
+  set(Intl_IS_BUILT_IN FALSE)
+endif()
+
 find_package(Intl)
 set_package_properties(Intl PROPERTIES
   TYPE REQUIRED
@@ -39,6 +44,16 @@ set_package_properties(Intl PROPERTIES
 target_link_libraries(php_gettext PRIVATE Intl::Intl)
 
 if(TARGET Intl::Intl)
+  # Sanity check.
+  check_library_exists(Intl::Intl bindtextdomain "" HAVE_BINDTEXTDOMAIN)
+
+  if(NOT HAVE_BINDTEXTDOMAIN)
+    message(
+      FATAL_ERROR
+      "Unable to find required gettext library. Please check the logs."
+    )
+  endif()
+
   set(HAVE_LIBINTL 1 CACHE INTERNAL "Whether gettext library is available")
 
   check_library_exists(Intl::Intl ngettext "" HAVE_NGETTEXT)

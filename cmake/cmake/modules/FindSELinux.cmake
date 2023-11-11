@@ -9,7 +9,7 @@ Module defines the following IMPORTED targets:
 Result variables:
 
   SELinux_FOUND
-    Set to 1 if SELinux library is found.
+    Whether SELinux library is found.
   SELinux_INCLUDE_DIRS
     A list of include directories for using SELinux library.
   SELinux_LIBRARIES

@@ -9,7 +9,7 @@ Module defines the following IMPORTED targets:
 Result variables:
 
   Firebird_FOUND
-    Set to 1 if Firebird has been found.
+    Whether Firebird has been found.
   Firebird_INCLUDE_DIRS
     A list of include directories for using Firebird library.
   Firebird_LIBRARIES

@@ -13,7 +13,7 @@ Module defines the following IMPORTED targets:
 Result variables:
 
   Kerberos_FOUND
-    Set to 1 if Kerberos library has been found.
+    Whether Kerberos library has been found.
   Kerberos_INCLUDE_DIRS
     A list of include directories for using Kerberos library.
   Kerberos_LIBRARIES

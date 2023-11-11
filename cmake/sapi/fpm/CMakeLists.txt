@@ -321,7 +321,7 @@ if(SAPI_FPM_SYSTEMD)
     message(FATAL_ERROR "Your system does not support systemd.")
   endif()
 
-  set(HAVE_SYSTEMD 1 CACHE INTERNAL "Set to 1 if FPM is using systemd integration")
+  set(HAVE_SYSTEMD 1 CACHE INTERNAL "Whether FPM is using systemd integration")
 
   target_sources(php_fpm PRIVATE fpm/fpm_systemd.c)
 

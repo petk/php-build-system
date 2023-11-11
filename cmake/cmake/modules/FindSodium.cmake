@@ -9,7 +9,7 @@ Module defines the following IMPORTED targets:
 Result variables:
 
   Sodium_FOUND
-    Set to 1 if Sodium library is found.
+    Whether Sodium library is found.
   Sodium_INCLUDE_DIRS
     A list of include directories for using Sodium library.
   Sodium_LIBRARIES

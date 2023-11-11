@@ -12,7 +12,7 @@ Module defines the following IMPORTED targets:
 Result variables:
 
   BerkeleyDB_FOUND
-    Set to 1 if Berkeley DB has been found.
+    Whether Berkeley DB has been found.
   BerkeleyDB_INCLUDE_DIRS
     A list of include directories for using Berkeley DB library.
   BerkeleyDB_LIBRARIES

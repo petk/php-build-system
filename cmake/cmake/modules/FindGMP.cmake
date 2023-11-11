@@ -9,7 +9,7 @@ Module defines the following IMPORTED targets:
 Result variables:
 
   GMP_FOUND
-    Set to 1 if GMP library is found.
+    Whether GMP library is found.
   GMP_INCLUDE_DIRS
     A list of include directories for using GMP library.
   GMP_LIBRARIES

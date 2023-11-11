@@ -1,11 +1,10 @@
 #[=============================================================================[
-Check for getaddrinfo(), should be a better way, but... Also check for working
-getaddrinfo.
+Check for working getaddrinfo().
 
 Cache variables:
 
   HAVE_GETADDRINFO
-    Set to 1 if getaddrinfo() function is working as expected.
+    Whether getaddrinfo() function is working as expected.
 ]=============================================================================]#
 
 include(CheckCSourceCompiles)
@@ -19,8 +18,9 @@ check_c_source_compiles("
   #include <netdb.h>
 
   int main(void) {
-    struct addrinfo *g,h;g=&h;
-    getaddrinfo(\"\",\"\",g,&g);
+    struct addrinfo *g,h;
+    g = &h;
+    getaddrinfo(\"\", \"\", g, &g);
 
     return 0;
   }
@@ -29,7 +29,6 @@ check_c_source_compiles("
 if(_have_getaddrinfo)
   if(NOT CMAKE_CROSSCOMPILING)
     check_c_source_runs("
-      #include <string.h>
       #include <netdb.h>
       #include <sys/types.h>
       #include <string.h>
@@ -72,7 +71,10 @@ if(_have_getaddrinfo)
     " HAVE_GETADDRINFO)
   else()
     if(CMAKE_HOST_SYSTEM_NAME STREQUAL "Linux")
-      set(HAVE_GETADDRINFO 1 CACHE INTERNAL "Define if you have the getaddrinfo() function")
+      set(
+        HAVE_GETADDRINFO 1
+        CACHE INTERNAL "Define if you have the getaddrinfo() function"
+      )
     endif()
   endif()
 endif()

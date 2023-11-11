@@ -4,7 +4,7 @@ Check for mmap() using shm_open() shared memory support.
 Cache variables:
 
   HAVE_SHM_MMAP_POSIX
-    Set to 1 if POSIX mmap() SHM support is found.
+    Whether POSIX mmap() SHM support is found.
 
   SHM_MMAP_POSIX_REQUIRED_LIBRARIES
     Required libraries that needs to be appended to the shared extension target.

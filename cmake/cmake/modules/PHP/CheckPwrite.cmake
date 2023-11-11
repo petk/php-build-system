@@ -4,9 +4,9 @@ Check whether pwrite() works.
 Cache variables:
 
   HAVE_PWRITE
-    Set to 1 if pwrite() is available.
+    Whether pwrite() is available.
   PHP_PWRITE_64
-    Set to 1 if pwrite64 is default.
+    Whether pwrite64 is default.
 ]=============================================================================]#
 
 include(CheckCSourceRuns)

@@ -9,7 +9,7 @@ Module defines the following IMPORTED targets:
 Result variables:
 
   Oniguruma_FOUND
-    Set to 1 if Oniguruma library is found.
+    Whether Oniguruma library is found.
   Oniguruma_INCLUDE_DIRS
     A list of include directories for using Oniguruma library.
   Oniguruma_LIBRARIES

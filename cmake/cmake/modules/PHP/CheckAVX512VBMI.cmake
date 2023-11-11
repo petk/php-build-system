@@ -1,16 +1,16 @@
 #[=============================================================================[
-Check whether compiler supports AVX512 VBMI.
+Check whether compiler supports AVX-512 VBMI.
 
 Cache variables:
 
   PHP_HAVE_AVX512_VBMI_SUPPORTS
-    Set to true if compiler supports AVX512 VBMI, false otherwise.
+    Whether compiler supports AVX-512 VBMI.
 ]=============================================================================]#
 
 include(CheckCSourceCompiles)
 include(CMakePushCheckState)
 
-message(CHECK_START "Checking for AVX512 VBMI support in compiler")
+message(CHECK_START "Checking for AVX-512 VBMI support in compiler")
 
 list(APPEND CMAKE_MESSAGE_INDENT "  ")
 

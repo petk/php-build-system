@@ -9,7 +9,7 @@ Module defines the following IMPORTED targets:
 Result variables:
 
   ACL_FOUND
-    Set to 1 if ACL library is found.
+    Whether ACL library is found.
   ACL_INCLUDE_DIRS
     A list of include directories for using ACL library.
   ACL_LIBRARIES
