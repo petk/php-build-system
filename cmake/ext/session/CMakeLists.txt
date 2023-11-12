@@ -4,7 +4,7 @@ include(FeatureSummary)
 option(EXT_SESSION "Enable the session extension" ON)
 
 add_feature_info("ext/session" EXT_SESSION
-  "Adds support for sessions to preserve data across subsequent accesses."
+  "Sessions support to preserve data across subsequent accesses."
 )
 
 cmake_dependent_option(
@@ -24,7 +24,7 @@ cmake_dependent_option(
 )
 
 add_feature_info("ext/session with mm" EXT_SESSION_MM
-  "Adds mm library support for session storage. Works only on non-ZTS build."
+  "mm library support for session storage. Works only on non-ZTS build."
 )
 
 if(NOT EXT_SESSION)

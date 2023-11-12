@@ -10,7 +10,7 @@ cmake_dependent_option(
 )
 
 add_feature_info("ext/pdo_oci" EXT_PDO_OCI
-  "Adds support for Oracle database to PDO (PHP Data Objects) interface."
+  "Oracle database support in PDO (PHP Data Objects) interface."
 )
 
 cmake_dependent_option(

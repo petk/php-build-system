@@ -9,7 +9,7 @@ include(FeatureSummary)
 option(EXT_OPENSSL "Enable the openssl extension" OFF)
 
 add_feature_info("ext/openssl" EXT_OPENSSL
-  "Adds OpenSSL library support for encryption and decryption."
+  "OpenSSL library support for encryption and decryption."
 )
 
 cmake_dependent_option(

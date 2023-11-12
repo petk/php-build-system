@@ -4,7 +4,7 @@ include(FeatureSummary)
 option(EXT_BCMATH "Enable the bcmath extension" OFF)
 
 add_feature_info("ext/bcmath" EXT_BCMATH
-  "Adds support for the bc style precision math functions."
+  "Basic Calculator (BC) style precision math functions support."
 )
 
 cmake_dependent_option(

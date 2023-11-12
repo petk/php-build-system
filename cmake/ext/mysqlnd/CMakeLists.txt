@@ -4,7 +4,7 @@ include(FeatureSummary)
 option(EXT_MYSQLND "Enable the mysqlnd extension" OFF)
 
 add_feature_info("ext/mysqlnd" EXT_MYSQLND
-  "MySQL Native Driver for supporting MySQL database in extensions."
+  "MySQL Native Driver for supporting MySQL-compatible database in extensions."
 )
 
 cmake_dependent_option(

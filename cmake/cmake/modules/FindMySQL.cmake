@@ -1,5 +1,5 @@
 #[=============================================================================[
-Find MySQL database.
+Find MySQL-compatible (MySQL, MariaDB, Percona, etc.) database.
 
 This is customized find module for PHP ext/mysqli and pdo_mysql extensions. It
 searches for MySQL Unix socket pointer and can be extended more in the future.
@@ -19,11 +19,6 @@ Result variables:
   MySQL_SOCKET_FOUND
     Whether the MySQL Unix socket pointer has been determined.
 
-Cache variables:
-
-  PHP_MYSQL_UNIX_SOCK_ADDR
-    If MSQL_SOCKET is determined, it is set to this cache variable.
-
 Hints:
   The MySQL_SOCKET variable can be overridden.
 ]=============================================================================]#
@@ -32,8 +27,7 @@ include(FeatureSummary)
 include(FindPackageHandleStandardArgs)
 
 set_package_properties(MySQL PROPERTIES
-  URL "https://www.mysql.com/"
-  DESCRIPTION "Database"
+  DESCRIPTION "MySQL-compatible database"
 )
 
 if(NOT MySQL_SOCKET)
@@ -63,10 +57,6 @@ if(NOT MySQL_SOCKET)
     "\n    MySQL Unix Socket pointer not found."
   )
 else()
-  set(
-    PHP_MYSQL_UNIX_SOCK_ADDR "${MySQL_SOCKET}"
-    CACHE INTERNAL "Path to the MySQL Unix socket"
-  )
   set(MySQL_SOCKET_FOUND TRUE)
 endif()
 

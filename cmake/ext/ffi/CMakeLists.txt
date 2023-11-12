@@ -7,7 +7,7 @@ include(FeatureSummary)
 option(EXT_FFI "Enable the ffi extension" OFF)
 
 add_feature_info("ext/ffi" EXT_FFI
-  "Adds support for foreign fuction interface."
+  "Foreign Function Interface (FFI) support."
 )
 
 cmake_dependent_option(

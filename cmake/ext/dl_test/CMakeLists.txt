@@ -3,7 +3,7 @@ include(FeatureSummary)
 option(EXT_DL_TEST "Enable the dl_test extension" OFF)
 
 add_feature_info("ext/dl_test" EXT_DL_TEST
-  "Adds support for testing dl() function."
+  "Support for testing dl() function."
 )
 
 if(NOT EXT_DL_TEST)

@@ -10,7 +10,7 @@ cmake_dependent_option(
 )
 
 add_feature_info("ext/pdo_mysql" EXT_PDO_MYSQL
-  "Adds support for MySQL database to PDO (PHP Data Objects) interface."
+  "MySQL-compatible database support in PDO (PHP Data Objects) interface."
 )
 
 cmake_dependent_option(
@@ -63,6 +63,13 @@ if(EXT_MYSQL_SOCK)
   set_package_properties(MySQL PROPERTIES
     TYPE REQUIRED
     PURPOSE "Necessary to set the MySQL socket in pdo_mysql extension."
+  )
+endif()
+
+if(MySQL_SOCKET)
+  set(
+    PHP_MYSQL_UNIX_SOCK_ADDR "${MySQL_SOCKET}"
+    CACHE INTERNAL "MySQL Unix socket pointer"
   )
 endif()
 

@@ -4,7 +4,7 @@ include(FeatureSummary)
 option(EXT_GMP "Enable the gmp extension" OFF)
 
 add_feature_info("ext/gmp" EXT_GMP
-  "Adds support for GNU Multiple Precision Arithmetic."
+  "GNU Multiple Precision Arithmetic support."
 )
 
 cmake_dependent_option(

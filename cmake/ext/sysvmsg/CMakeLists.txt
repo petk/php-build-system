@@ -5,7 +5,7 @@ include(FeatureSummary)
 option(EXT_SYSVMSG "Enable the sysvmsg extension" OFF)
 
 add_feature_info("ext/sysvmsg" EXT_SYSVMSG
-  "Adds support for the System V IPC."
+  "System V IPC support."
 )
 
 cmake_dependent_option(

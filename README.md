@@ -1,9 +1,9 @@
 # PHP build system
 
-![PHP version](https://img.shields.io/badge/PHP-8.4-777BB4?logo=php&labelColor=17181B)
+[![PHP version](https://img.shields.io/badge/PHP-8.4-777BB4?logo=php&labelColor=17181B)](https://www.php.net/)
 [![CMake version](https://img.shields.io/badge/CMake-3.25-064F8C?logo=cmake&labelColor=17181B)](https://cmake.org)
 [![C99](https://img.shields.io/badge/standard-C99-A8B9CC?logo=C&labelColor=17181B)](https://port70.net/~nsz/c/c99/n1256.html)
-![GNU](https://img.shields.io/badge/-GNU-A42E2B?logo=gnu&labelColor=17181B)
+[![GNU](https://img.shields.io/badge/-GNU-A42E2B?logo=gnu&labelColor=17181B)](https://www.gnu.org/)
 [![Ninja](https://img.shields.io/badge/%F0%9F%A5%B7-Ninja%20build-DD6620?labelColor=17181B)](https://ninja-build.org/)
 
 This repository delves into the core of the PHP build system, elucidating the
@@ -1804,7 +1804,7 @@ cmake -LH .
     </tr>
     <tr>
       <td>&nbsp;&nbsp;--with-mysql-sock=SOCKET</td>
-      <td>&nbsp;&nbsp;EXT_MYSQL_SOCK_PATH=/path/to/mysql.sock</td>
+      <td>&nbsp;&nbsp;EXT_MYSQL_SOCK=ON EXT_MYSQL_SOCK_PATH=/path/to/mysql.sock</td>
       <td></td>
     </tr>
     <tr>
@@ -2143,13 +2143,33 @@ cmake -LH .
       <td></td>
     </tr>
     <tr>
+      <td>&nbsp;&nbsp;--with-libedit EDIT_CFLAGS=... EDIT_LIBS=...</td>
+      <td>&nbsp;&nbsp;EXT_READLINE=ON Editline_ROOT=DIR</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>&nbsp;&nbsp;--with-libedit=shared</td>
+      <td>&nbsp;&nbsp;EXT_READLINE_SHARED=ON</td>
+      <td></td>
+    </tr>
+    <tr>
       <td>&nbsp;&nbsp;--without-readline</td>
       <td>&nbsp;&nbsp;EXT_READLINE=OFF</td>
       <td>default</td>
     </tr>
     <tr>
       <td>&nbsp;&nbsp;--with-readline</td>
-      <td>&nbsp;&nbsp;EXT_READLINE=ON;EXT_READLINE_LIBREADLINE=ON</td>
+      <td>&nbsp;&nbsp;EXT_READLINE=ON EXT_READLINE_LIBREADLINE=ON</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>&nbsp;&nbsp;--with-readline=shared</td>
+      <td>&nbsp;&nbsp;EXT_READLINE=ON EXT_READLINE_SHARED=ON EXT_READLINE_LIBREADLINE=ON</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>&nbsp;&nbsp;--with-readline=DIR</td>
+      <td>&nbsp;&nbsp;EXT_READLINE=ON EXT_READLINE_LIBREADLINE=ON Readline_ROOT=DIR</td>
       <td></td>
     </tr>
     <tr>

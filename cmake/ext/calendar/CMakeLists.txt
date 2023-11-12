@@ -4,7 +4,7 @@ include(FeatureSummary)
 option(EXT_CALENDAR "Enable the calendar extension" OFF)
 
 add_feature_info("ext/calendar" EXT_CALENDAR
-  "Adds the calendar functions to PHP."
+  "Calendar support."
 )
 
 cmake_dependent_option(

@@ -4,7 +4,7 @@ include(FeatureSummary)
 option(EXT_MYSQLI "Enable the mysqli extension" OFF)
 
 add_feature_info("ext/mysqli" EXT_MYSQLI
-  "MySQL database support."
+  "MySQL-compatible database support."
 )
 
 cmake_dependent_option(
@@ -18,23 +18,24 @@ cmake_dependent_option(
 # Common configuration option for ext/mysqli and ext/pdo_mysql.
 cmake_dependent_option(
   EXT_MYSQL_SOCK
-  "MySQLi/PDO_MYSQL: Use the MySQL Unix socket. Default locations for the MySQL Unix socket pointer are searched."
+  "MySQLi/PDO_MYSQL: Use MySQL Unix socket pointer from default locations."
   OFF
   "EXT_MYSQLI OR EXT_PDO_MYSQL"
   OFF
 )
 
-if(EXT_MYSQLI OR EXT_PDO_MYSQL)
+if((EXT_MYSQLI OR EXT_PDO_MYSQL) AND EXT_MYSQL_SOCK)
   set(
     EXT_MYSQL_SOCK_PATH ""
     CACHE FILEPATH
-    "MySQLi/PDO_MYSQL: Optional location of the MySQL unix socket pointer."
+    "MySQLi/PDO_MYSQL: Override MySQL Unix socket pointer location."
   )
   # Change from INTERNAL type to show variable on consecutive configuration run.
   set_property(CACHE EXT_MYSQL_SOCK_PATH PROPERTY TYPE FILEPATH)
 elseif(DEFINED EXT_MYSQL_SOCK_PATH)
   # Hide variable.
   set_property(CACHE EXT_MYSQL_SOCK_PATH PROPERTY TYPE INTERNAL)
+  unset(PHP_MYSQL_UNIX_SOCK_ADDR CACHE)
 endif()
 
 if(NOT EXT_MYSQLI)
@@ -72,6 +73,13 @@ if(EXT_MYSQL_SOCK)
   set_package_properties(MySQL PROPERTIES
     TYPE REQUIRED
     PURPOSE "Necessary to set the MySQL socket in mysqli extension."
+  )
+endif()
+
+if(MySQL_SOCKET)
+  set(
+    PHP_MYSQL_UNIX_SOCK_ADDR "${MySQL_SOCKET}"
+    CACHE INTERNAL "MySQL Unix socket pointer"
   )
 endif()
 

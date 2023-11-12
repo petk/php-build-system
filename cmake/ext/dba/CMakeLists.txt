@@ -4,7 +4,7 @@ include(FeatureSummary)
 option(EXT_DBA "Enable the dba extension" OFF)
 
 add_feature_info("ext/dba" EXT_DBA
-  "Adds the database (dbm-style) abstraction layer to PHP."
+  "Database (dbm-style) abstraction layer support."
 )
 
 cmake_dependent_option(

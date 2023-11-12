@@ -4,7 +4,7 @@ include(FeatureSummary)
 option(EXT_SIMPLEXML "Enable the simplexml extension" ON)
 
 add_feature_info("ext/simplexml" EXT_SIMPLEXML
-  "Adds simple and easily usable toolset to convert XML to a processable object."
+  "Toolset for converting XML to a processable object."
 )
 
 cmake_dependent_option(

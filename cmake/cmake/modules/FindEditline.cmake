@@ -14,8 +14,10 @@ Result variables:
     A list of include directories for using Editline library.
   Editline_LIBRARIES
     A list of libraries for using Editline library.
-  Editline_VERSION
-    Version string of found Editline library.
+
+Hints:
+
+  The Editline_ROOT variable adds custom search path.
 #]=============================================================================]
 
 include(FeatureSummary)
@@ -26,26 +28,50 @@ set_package_properties(Editline PROPERTIES
   DESCRIPTION "Command-line editor library for generic line editing, history, and tokenization"
 )
 
-find_package(PkgConfig QUIET)
+find_path(Editline_INCLUDE_DIRS readline.h PATH_SUFFIXES editline)
 
-if(PKG_CONFIG_FOUND)
-  if(Editline_FIND_VERSION)
-    set(_pkg_module_spec "libedit>=${Editline_FIND_VERSION}")
-  else()
-    set(_pkg_module_spec "libedit")
-  endif()
+find_library(Editline_LIBRARIES NAMES edit DOC "The Editline library")
 
-  pkg_search_module(Editline QUIET "${_pkg_module_spec}")
+# Sanity check.
+if(Editline_LIBRARIES)
+  check_library_exists(
+    "${Editline_LIBRARIES}"
+    readline
+    ""
+    _editline_have_readline
+  )
+endif()
 
-  unset(_pkg_module_spec)
+set(_reason_failure_message "")
+
+if(NOT Editline_INCLUDE_DIRS)
+  string(
+    APPEND _reason_failure_message
+    "\n    Include directory not found. Please install Editline library."
+  )
+endif()
+
+if(NOT Editline_LIBRARIES)
+  string(
+    APPEND _reason_failure_message
+    "\n    Editline library not found."
+  )
+endif()
+
+if(NOT _editline_have_readline)
+  string(
+    APPEND _reason_failure_message
+    "\n    Editline sanity check failed - readline() not found in library."
+  )
 endif()
 
 find_package_handle_standard_args(
   Editline
-  REQUIRED_VARS Editline_LIBRARIES
-  VERSION_VAR Editline_VERSION
-  REASON_FAILURE_MESSAGE "Editline not found. Please install Editline library (libedit)."
+  REQUIRED_VARS Editline_LIBRARIES Editline_INCLUDE_DIRS _editline_have_readline
+  REASON_FAILURE_MESSAGE "${_reason_failure_message}"
 )
+
+unset(_reason_failure_message)
 
 if(Editline_FOUND AND NOT TARGET Editline::Editline)
   add_library(Editline::Editline INTERFACE IMPORTED)

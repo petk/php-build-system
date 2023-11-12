@@ -4,7 +4,7 @@ include(FeatureSummary)
 option(EXT_XSL "Enable the xsl extension" OFF)
 
 add_feature_info("ext/xsl" EXT_XSL
-  "Adds XSL standard support for performing XSLT transformations."
+  "XSL standard support for performing XSLT transformations."
 )
 
 cmake_dependent_option(

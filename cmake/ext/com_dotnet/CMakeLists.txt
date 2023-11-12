@@ -9,7 +9,7 @@ include(FeatureSummary)
 option(EXT_COM_DOTNET "Enable the com_dotnet extension" OFF)
 
 add_feature_info("ext/com_dotnet" EXT_COM_DOTNET
-  "Adds the Component Object Model support to PHP."
+  "Component Object Model support."
 )
 
 cmake_dependent_option(

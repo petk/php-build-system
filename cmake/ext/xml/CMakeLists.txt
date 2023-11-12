@@ -4,7 +4,7 @@ include(FeatureSummary)
 option(EXT_XML "Enable the xml extension" ON)
 
 add_feature_info("ext/xml" EXT_XML
-  "Adds support for parsing XML."
+  "Support for parsing XML."
 )
 
 cmake_dependent_option(

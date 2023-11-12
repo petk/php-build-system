@@ -27,7 +27,7 @@ cmake_dependent_option(
 )
 
 add_feature_info("ext/gd with external GD library" EXT_GD_EXTERNAL
-  "Uses external GD library instead of bundled one."
+  "Support for external GD library instead of bundled one."
 )
 
 cmake_dependent_option(

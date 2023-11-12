@@ -1,3 +1,5 @@
+# TODO: ext/readline is cli extension only.
+include(CheckCompilerFlag)
 include(CheckLibraryExists)
 include(CMakeDependentOption)
 include(FeatureSummary)
@@ -5,7 +7,7 @@ include(FeatureSummary)
 option(EXT_READLINE "Enable the readline extension" OFF)
 
 add_feature_info("ext/readline" EXT_READLINE
-  "Adds interface for using Editline library."
+  "Interface for using Editline library. CLI/CGI only."
 )
 
 cmake_dependent_option(
@@ -18,14 +20,14 @@ cmake_dependent_option(
 
 cmake_dependent_option(
   EXT_READLINE_LIBREADLINE
-  "Use the GNU readline library instead of libedit"
+  "Use the GNU Readline library instead of Editline"
   OFF
   "EXT_READLINE"
   OFF
 )
 
-add_feature_info("ext/readline GNU Readline" EXT_READLINE
-  "Adds support for GNU Readline library instead of Editline library."
+add_feature_info("ext/readline with GNU Readline" EXT_READLINE_LIBREADLINE
+  "GNU Readline library support instead of Editline."
 )
 
 if(NOT EXT_READLINE)
@@ -39,8 +41,8 @@ else()
 endif()
 
 target_sources(php_readline PRIVATE
-  readline.c
   readline_cli.c
+  readline.c
 )
 
 # Add -Wno-strict-prototypes as depends on user libs.
@@ -60,18 +62,12 @@ if(NOT EXT_READLINE_LIBREADLINE)
 
   target_link_libraries(php_readline PRIVATE Editline::Editline)
 
-  # Sanity check.
-  check_library_exists(Editline::Editline readline "" _have_readline)
-  if(NOT _have_readline)
-    message(FATAL_ERROR "The Edit library required by ext/readline not found")
-  endif()
-
   check_library_exists(Editline::Editline rl_callback_read_char "" HAVE_RL_CALLBACK_READ_CHAR)
   check_library_exists(Editline::Editline rl_on_new_line "" HAVE_RL_ON_NEW_LINE)
   check_library_exists(Editline::Editline rl_completion_matches "" HAVE_RL_COMPLETION_MATCHES)
   check_library_exists(Editline::Editline history_list "" HAVE_HISTORY_LIST)
 
-  set(HAVE_LIBEDIT 1 CACHE INTERNAL "Define to 1 if libedit is used with ext/readline")
+  set(HAVE_LIBEDIT 1 CACHE INTERNAL "Whether Editline is used for ext/readline")
 else()
   find_package(Readline)
   set_package_properties(Readline PROPERTIES
@@ -81,21 +77,20 @@ else()
 
   target_link_libraries(php_readline PRIVATE Readline::Readline)
 
-  # Sanity check.
-  check_library_exists(Readline::Readline readline "" _have_readline)
-  if(NOT _have_readline)
-    message(FATAL_ERROR "The Readline library required by ext/readline not found")
-  endif()
-
   check_library_exists(Readline::Readline rl_callback_read_char "" HAVE_RL_CALLBACK_READ_CHAR)
   check_library_exists(Readline::Readline rl_on_new_line "" HAVE_RL_ON_NEW_LINE)
   check_library_exists(Readline::Readline rl_completion_matches "" HAVE_RL_COMPLETION_MATCHES)
 
-  set(HAVE_HISTORY_LIST 1 CACHE INTERNAL "Define to 1 if readline library has history_list()")
-  set(HAVE_LIBREADLINE 1 CACHE INTERNAL "Define to 1 if libreadline is used with ext/readline")
+  set(HAVE_HISTORY_LIST 1 CACHE INTERNAL "Whether Readline library has history_list")
+  set(HAVE_LIBREADLINE 1 CACHE INTERNAL "Whether Readline is used for ext/readline")
 endif()
 
-# TODO: Check if this is needed. It seems that ncurses is not required.
+# TODO: Editline/Readline dependent libraries shouldn't be linked on this level.
+# Recheck if this is really needed. Either move to find modules or remove it.
+# Also, for example, Editline with Autoconf integration has even more thorough
+# dependencies checked in current version.
+return()
+
 set(CURSES_NEED_NCURSES TRUE)
 find_package(Curses)
 set_package_properties(Curses PROPERTIES

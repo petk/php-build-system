@@ -9,7 +9,7 @@ include(FeatureSummary)
 option(EXT_LDAP "Enable the ldap extension" OFF)
 
 add_feature_info("ext/ldap" EXT_LDAP
-  "Adds support for LDAP (Lightweight Directory Access Protocol)."
+  "Support for LDAP (Lightweight Directory Access Protocol)."
 )
 
 cmake_dependent_option(

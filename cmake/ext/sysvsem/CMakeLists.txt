@@ -5,7 +5,7 @@ include(FeatureSummary)
 option(EXT_SYSVSEM "Enable the sysvsem extension" OFF)
 
 add_feature_info("ext/sysvsem" EXT_SYSVSEM
-  "Adds support for the System V semaphore."
+  "System V semaphore support."
 )
 
 cmake_dependent_option(

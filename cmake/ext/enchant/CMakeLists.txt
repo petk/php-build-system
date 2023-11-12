@@ -5,7 +5,7 @@ include(FeatureSummary)
 option(EXT_ENCHANT "Enable the enchant extension" OFF)
 
 add_feature_info("ext/enchant" EXT_ENCHANT
-  "Adds PHP binding for the Enchant spelling library."
+  "PHP binding for the Enchant spelling library."
 )
 
 cmake_dependent_option(

@@ -4,7 +4,7 @@ include(FeatureSummary)
 option(EXT_CTYPE "Enable the ctype extension" ON)
 
 add_feature_info("ext/ctype" EXT_CTYPE
-  "Adds support for character type checking according to the locale."
+  "Support for character type checking according to the locale."
 )
 
 cmake_dependent_option(

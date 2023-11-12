@@ -7,7 +7,7 @@ include(FeatureSummary)
 option(EXT_PCNTL "Enable the pcntl extension (CLI/CGI only)" OFF)
 
 add_feature_info("ext/pcntl" EXT_PCNTL
-  "Adds support for process control."
+  "Process control support."
 )
 
 cmake_dependent_option(

@@ -4,7 +4,7 @@ include(FeatureSummary)
 option(EXT_DOM "Enable the dom extension" ON)
 
 add_feature_info("ext/dom" EXT_DOM
-  "Adds support for operations on XML and HTML through Document Object Model."
+  "Support for operations on XML and HTML through Document Object Model (DOM)."
 )
 
 cmake_dependent_option(

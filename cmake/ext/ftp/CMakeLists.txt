@@ -4,7 +4,7 @@ include(FeatureSummary)
 option(EXT_FTP "Enable the ftp extension" OFF)
 
 add_feature_info("ext/ftp" EXT_FTP
-  "Adds support for File Transfer Protocol (FTP)."
+  "File Transfer Protocol (FTP) support."
 )
 
 cmake_dependent_option(
