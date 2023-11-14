@@ -15,10 +15,10 @@ if(NOT CMAKE_CROSSCOMPILING)
     int main(void) {
       return (unsigned char)'A' != (unsigned char)0xC1;
     }
-  " _is_ebcdic)
+  " _php_is_ebcdic)
 endif()
 
-if(_is_ebcdic)
+if(_php_is_ebcdic)
   message(FATAL_ERROR "PHP does not support EBCDIC targets")
 else()
   message(CHECK_PASS "OK, using ASCII")

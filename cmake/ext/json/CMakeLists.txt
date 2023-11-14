@@ -11,7 +11,7 @@ if(BISON_FOUND)
   bison_target(php_json_parser
     "${CMAKE_CURRENT_SOURCE_DIR}/json_parser.y"
     "${CMAKE_CURRENT_SOURCE_DIR}/json_parser.tab.c"
-    COMPILE_FLAGS "--defines -l"
+    COMPILE_FLAGS "-Wall --defines -l"
     DEFINES_FILE "${CMAKE_CURRENT_SOURCE_DIR}/json_parser.tab.h"
   )
 endif()

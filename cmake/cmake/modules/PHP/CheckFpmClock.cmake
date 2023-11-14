@@ -5,10 +5,8 @@ Cache variables:
 
   HAVE_CLOCK_GETTIME
     Whether clock_gettime() is present.
-
   FPM_CLOCK_LIBRARIES
     A list of libraries for linking.
-
   HAVE_CLOCK_GET_TIME
     Whether clock_get_time() should be used.
 ]=============================================================================]#

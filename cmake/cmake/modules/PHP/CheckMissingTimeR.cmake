@@ -5,16 +5,12 @@ Cache variables:
 
   MISSING_LOCALTIME_R_DECL
     Whether localtime_r is not declared.
-
   MISSING_GMTIME_R_DECL
     Whether gmtime_r is not declared.
-
   MISSING_ASCTIME_R_DECL
     Whether asctime_r is not declared.
-
   MISSING_CTIME_R_DECL
     Whether ctime_r is not declared.
-
   MISSING_STRTOK_R_DECL
     Whether strtok_r is not declared.
 ]=============================================================================]#

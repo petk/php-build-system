@@ -5,7 +5,6 @@ Cache variables:
 
   HAVE_SOCKADDR_STORAGE
     Whether struct sockaddr_storage is available.
-
   HAVE_SOCKADDR_SA_LEN
     Whether struct sockaddr has field sa_len.
 ]=============================================================================]#

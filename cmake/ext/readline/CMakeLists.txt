@@ -89,8 +89,8 @@ endif()
 # Recheck if this is really needed. Either move to find modules or remove it.
 # Also, for example, Editline with Autoconf integration has even more thorough
 # dependencies checked in current version.
-return()
 
+#[[
 set(CURSES_NEED_NCURSES TRUE)
 find_package(Curses)
 set_package_properties(Curses PROPERTIES
@@ -119,3 +119,4 @@ if(NOT CURSES_FOUND)
     target_link_libraries(php_readline PRIVATE termcap)
   endif()
 endif()
+]]#

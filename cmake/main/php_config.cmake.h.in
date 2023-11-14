@@ -2109,7 +2109,7 @@
 
 
 /* Define if processor uses big-endian word */
-#cmakedefine WORDS_BIGENDIAN
+#cmakedefine WORDS_BIGENDIAN @WORDS_BIGENDIAN@
 
 /* Define if checking the stack limit is supported */
 #cmakedefine ZEND_CHECK_STACK_LIMIT @ZEND_CHECK_STACK_LIMIT@

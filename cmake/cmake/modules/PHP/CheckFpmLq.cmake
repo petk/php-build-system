@@ -5,10 +5,8 @@ Cache variables:
 
   HAVE_LQ_TCP_INFO
     Whether TCP_INFO is present.
-
   HAVE_LQ_TCP_CONNECTION_INFO
     Whether TCP_CONNECTION_INFO is present.
-
   HAVE_LQ_SO_LISTENQ
     Whether SO_LISTENQLEN is available as alternative to TCP_INFO and
     TCP_CONNECTION_INFO.

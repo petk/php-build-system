@@ -1,3 +1,4 @@
+# TODO: pcntl is a cli/cgi extension.
 include(CheckCSourceCompiles)
 include(CheckSymbolExists)
 include(CMakeDependentOption)
@@ -7,7 +8,7 @@ include(FeatureSummary)
 option(EXT_PCNTL "Enable the pcntl extension (CLI/CGI only)" OFF)
 
 add_feature_info("ext/pcntl" EXT_PCNTL
-  "Process control support."
+  "Process control support (CLI/CGI only)."
 )
 
 cmake_dependent_option(
@@ -66,13 +67,23 @@ cmake_pop_check_state()
 check_symbol_exists(rfork "unistd.h" HAVE_RFORK)
 check_symbol_exists(forkx "sys/fork.h" HAVE_FORKX)
 
+# The siginfo_t is defined in signal.h according to C99 and POSIX. Some systems
+# don't conform to C99 nor POSIX and have siginfo_t defined in siginfo.h.
 message(CHECK_START "Checking for siginfo_t")
+check_include_file(siginfo.h HAVE_SIGINFO_H)
 cmake_push_check_state(RESET)
   set(CMAKE_REQUIRED_DEFINITIONS -D_GNU_SOURCE)
 
-  # TODO: add also #include <siginfo.h>?
+  if(HAVE_SIGINFO_H)
+    list(APPEND CMAKE_REQUIRED_DEFINITIONS -DHAVE_SIGINFO_H)
+  endif()
+
   check_c_source_compiles("
     #include <signal.h>
+
+    #ifdef HAVE_SIGINFO_H
+    # include <siginfo.h>
+    #endif
 
     int main(void) {
       siginfo_t info;
@@ -87,5 +98,3 @@ if(HAVE_STRUCT_SIGINFO_T)
 else()
   message(CHECK_FAIL "no")
 endif()
-
-# TODO: pcntl is a cli/cgi extension.

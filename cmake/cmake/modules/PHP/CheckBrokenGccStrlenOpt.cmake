@@ -43,7 +43,7 @@ endif()
 list(POP_BACK CMAKE_MESSAGE_INDENT)
 
 if(HAVE_BROKEN_OPTIMIZE_STRLEN)
-  message(CHECK_PASS "yes, adding -fno-optimize-strlen")
+  message(CHECK_PASS "yes")
 elseif(CMAKE_CROSSCOMPILING)
   message(CHECK_FAIL "no (cross-compiling)")
 else()

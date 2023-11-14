@@ -19,8 +19,9 @@ option(ZEND_SIGNALS "Enable Zend signal handling" ON)
 # can't be changed based on PHP_ZTS value on the second configuration run.
 option(ZEND_MAX_EXECUTION_TIMERS "Enable Zend max execution timers" ${PHP_ZTS})
 
+# TODO: Fix this better.
 if(PHP_ZTS)
-  set(ZTS 1)
+  set(ZTS 1 PARENT_SCOPE)
 endif()
 
 if(PHP_DEBUG OR PHP_DEBUG_ASSERTIONS)
@@ -256,12 +257,12 @@ endif()
 
 if(BISON_FOUND)
   bison_target(zend_ini_parser zend_ini_parser.y "${CMAKE_CURRENT_SOURCE_DIR}/zend_ini_parser.c"
-    COMPILE_FLAGS "-v -d"
+    COMPILE_FLAGS "-Wall -v -d"
     DEFINES_FILE "${CMAKE_CURRENT_SOURCE_DIR}/zend_ini_parser.h"
   )
 
   bison_target(zend_language_parser zend_language_parser.y "${CMAKE_CURRENT_SOURCE_DIR}/zend_language_parser.c"
-    COMPILE_FLAGS "-v -d"
+    COMPILE_FLAGS "-Wall -v -d"
     DEFINES_FILE "${CMAKE_CURRENT_SOURCE_DIR}/zend_language_parser.h"
   )
 

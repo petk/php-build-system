@@ -9,13 +9,10 @@ Cache variables:
 
   HAVE_GETHOSTBYNAME_R
     Whether gethostbyname_r() is available.
-
   HAVE_FUNC_GETHOSTBYNAME_R_3
     Whether function has 3 arguments.
-
   HAVE_FUNC_GETHOSTBYNAME_R_5
     Whether function has 5 arguments.
-
   HAVE_FUNC_GETHOSTBYNAME_R_6
     Whether function has 6 arguments.
 ]=============================================================================]#
@@ -39,6 +36,8 @@ check_c_source_compiles("
 " _have_one_argument)
 
 if(_have_one_argument)
+  list(POP_BACK CMAKE_MESSAGE_INDENT)
+  message(CHECK_FAIL "can't tell")
   message(WARNING "Cannot find function declaration in netdb.h")
   return()
 endif()
@@ -93,8 +92,15 @@ if(NOT HAVE_FUNC_GETHOSTBYNAME_R_6 AND NOT HAVE_FUNC_GETHOSTBYNAME_R_5)
   " HAVE_FUNC_GETHOSTBYNAME_R_3)
 endif()
 
-if(HAVE_FUNC_GETHOSTBYNAME_R_3 OR HAVE_FUNC_GETHOSTBYNAME_R_5 OR HAVE_FUNC_GETHOSTBYNAME_R_6)
-  set(HAVE_GETHOSTBYNAME_R 1 CACHE INTERNAL "Define to 1 if you have some form of gethostbyname_r().")
+if(
+  HAVE_FUNC_GETHOSTBYNAME_R_3
+  OR HAVE_FUNC_GETHOSTBYNAME_R_5
+  OR HAVE_FUNC_GETHOSTBYNAME_R_6
+)
+  set(
+    HAVE_GETHOSTBYNAME_R 1
+    CACHE INTERNAL "Define to 1 if you have some form of gethostbyname_r()."
+  )
 endif()
 
 list(POP_BACK CMAKE_MESSAGE_INDENT)

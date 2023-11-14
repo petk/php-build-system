@@ -5,13 +5,10 @@ Cache variables:
 
   HAVE_PTRACE
     Whether ptrace() is present and working as expected.
-
   HAVE_MACH_VM_READ
     Whether ptrace() didn't work and the mach_vm_read() is present.
-
   PROC_MEM_FILE
     String of the /proc/pid/mem interface.
-
   FPM_TRACE_TYPE
     Name of the trace type that should be used in FPM.
 ]=============================================================================]#

@@ -15,7 +15,6 @@ Result variables:
     Path to the MySQL Unix socket if one has been found in the predefined
     default locations. If Mysql_PATH variable is set, the MySQL Unix
     socket pointer is set to it instead.
-
   MySQL_SOCKET_FOUND
     Whether the MySQL Unix socket pointer has been determined.
 

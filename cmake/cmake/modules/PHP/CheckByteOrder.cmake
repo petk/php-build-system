@@ -9,11 +9,13 @@ Cache variables:
 
 include(CheckCSourceRuns)
 
+message(CHECK_START "Checking byte ordering")
+
 if(CMAKE_C_BYTE_ORDER STREQUAL "BIG_ENDIAN")
-  message(STATUS "Byte ordering is big-endian")
-  set(WORDS_BIGENDIAN 1 CACHE INTERNAL "Define if processor uses big-endian words")
+  message(CHECK_PASS "big-endian")
+  set(WORDS_BIGENDIAN 1 CACHE INTERNAL "Whether processor uses big-endian words")
 elseif(CMAKE_C_BYTE_ORDER STREQUAL "LITTLE_ENDIAN")
-  message(STATUS "Byte ordering is little-endian")
+  message(CHECK_PASS "little-endian")
 else()
   if(NOT CMAKE_CROSSCOMPILING)
     check_c_source_runs("
@@ -30,9 +32,12 @@ else()
     " WORDS_BIGENDIAN)
 
     if(WORDS_BIGENDIAN)
-      message(STATUS "Byte ordering is big-endian")
+      message(CHECK_PASS "big-endian")
+    else()
+      message(CHECK_FAIL "little-endian")
     endif()
   else()
-    message(WARNING "Byte ordering is unknown")
+    message(CHECK_FAIL "unknown (cross-compiling)")
+    message(WARNING "Byte ordering could not be detected")
   endif()
 endif()

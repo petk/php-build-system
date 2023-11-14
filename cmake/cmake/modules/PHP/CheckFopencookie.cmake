@@ -5,7 +5,6 @@ Cache variables:
 
   HAVE_FOPENCOOKIE
     Whether fopencookie() and cookie_io_functions_t are available.
-
   COOKIE_SEEKER_USES_OFF64_T
     Whether a newer seeker definition for fopencookie() is available.
 ]=============================================================================]#
@@ -25,6 +24,8 @@ if(NOT _have_fopencookie)
 endif()
 
 # glibcs (since 2.1.2?) have a type called cookie_io_functions_t.
+message(CHECK_START "Checking whether cookie_io_functions_t is available")
+
 check_c_source_compiles("
   #define _GNU_SOURCE
   #include <stdio.h>
@@ -36,10 +37,18 @@ check_c_source_compiles("
 " HAVE_FOPENCOOKIE)
 
 if(NOT HAVE_FOPENCOOKIE)
+  message(CHECK_FAIL "no")
   return()
+else()
+  message(CHECK_PASS "yes")
 endif()
 
 # Newer glibcs have a different seeker definition.
+message(
+  CHECK_START
+  "Checking whether newer fopencookie seeker definition is available"
+)
+
 if(CMAKE_CROSSCOMPILING AND CMAKE_HOST_SYSTEM_NAME STREQUAL "Linux")
   set(
     COOKIE_SEEKER_USES_OFF64_T 1
@@ -85,4 +94,12 @@ else()
       return 1;
     }
   " COOKIE_SEEKER_USES_OFF64_T)
+endif()
+
+if(CMAKE_CROSSCOMPILING AND COOKIE_SEEKER_USES_OFF64_T)
+  message(CHECK_PASS "yes (cross-compiling)")
+elseif(COOKIE_SEEKER_USES_OFF64_T)
+  message(CHECK_PASS "yes")
+else()
+  message(CHECK_FAIL "no")
 endif()

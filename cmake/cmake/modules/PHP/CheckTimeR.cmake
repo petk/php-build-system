@@ -12,7 +12,7 @@ Cache variables:
 
 include(CheckCSourceRuns)
 
-message(STATUS "Checking for type of reentrant time-related functions")
+message(CHECK_START "Checking type of reentrant time-related functions")
 
 if(NOT CMAKE_CROSSCOMPILING)
   check_c_source_runs("
@@ -49,4 +49,12 @@ if(NOT CMAKE_CROSSCOMPILING)
       }
     " PHP_IRIX_TIME_R)
   endif()
+endif()
+
+if(PHP_HPUX_TIME_R)
+  message(CHECK_PASS "HP-UX")
+elseif(PHP_IRIX_TIME_R)
+  message(CHECK_PASS "IRIX")
+else()
+  message(CHECK_PASS "POSIX")
 endif()

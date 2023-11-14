@@ -78,22 +78,22 @@ if(PHP_DTRACE)
               ${CMAKE_SOURCE_DIR}/Zend/zend_dtrace.c
               ${CMAKE_SOURCE_DIR}/Zend/zend.c
     )
-  endif()
 
-  message(CHECK_PASS "yes, DTrace enabled")
+    message(CHECK_PASS "yes")
+  else()
+    message(CHECK_FAIL "no")
+  endif()
 endif()
 
 # Add Dmalloc.
 if(PHP_DMALLOC)
-  message(CHECK_START "Checking for Dmalloc")
+  message(CHECK_START "Checking for Dmalloc support")
 
   find_package(Dmalloc)
   set_package_properties(Dmalloc PROPERTIES
     TYPE REQUIRED
     PURPOSE "Necessary to use Dmalloc memory debugger."
   )
-
-  set(HAVE_DMALLOC 1 CACHE INTERNAL "Whether the Dmalloc library is available")
 
   target_compile_definitions(
     php_configuration
@@ -102,7 +102,12 @@ if(PHP_DMALLOC)
 
   target_link_libraries(php_main PRIVATE Dmalloc::Dmalloc)
 
-  message(CHECK_PASS "yes, Dmalloc enabled")
+  if(Dmalloc_FOUND)
+    message(CHECK_PASS "yes")
+    set(HAVE_DMALLOC 1 CACHE INTERNAL "Whether the Dmalloc library is available")
+  else()
+    message(CHECK_FAIL "no")
+  endif()
 endif()
 
 get_cmake_property(extensions PHP_EXTENSIONS)

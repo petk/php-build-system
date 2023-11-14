@@ -5,7 +5,6 @@ Cache variables:
 
   HAVE_SHM_MMAP_POSIX
     Whether POSIX mmap() SHM support is found.
-
   SHM_MMAP_POSIX_REQUIRED_LIBRARIES
     Required libraries that needs to be appended to the shared extension target.
 ]=============================================================================]#

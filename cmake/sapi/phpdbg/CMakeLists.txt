@@ -51,7 +51,7 @@ set_target_properties(php_phpdbg PROPERTIES OUTPUT_NAME phpdbg)
 
 if(BISON_FOUND)
   bison_target(php_phpdbg_parser phpdbg_parser.y ${CMAKE_CURRENT_SOURCE_DIR}/phpdbg_parser.c
-    COMPILE_FLAGS "-v -d"
+    COMPILE_FLAGS "-Wall -v -d"
     DEFINES_FILE ${CMAKE_CURRENT_SOURCE_DIR}/phpdbg_parser.h
   )
 endif()

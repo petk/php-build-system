@@ -2,6 +2,7 @@
 Find the sendmail program.
 
 Result variables:
+
   Sendmail_FOUND
     Whether sendmail has been found.
   Sendmail_EXECUTABLE
@@ -20,28 +21,29 @@ set_package_properties(Sendmail PROPERTIES
   DESCRIPTION "Mail Transport Agent"
 )
 
-function(_php_find_sendmail)
-  find_program(
-    Sendmail_EXECUTABLE
-    sendmail
-    PATHS /usr/bin /usr/sbin /usr/etc /etc /usr/ucblib /usr/lib
-    DOC "The sendmail executable path"
-  )
-  mark_as_advanced(Sendmail_EXECUTABLE)
+find_program(
+  Sendmail_EXECUTABLE
+  sendmail
+  PATHS /usr/bin /usr/sbin /usr/etc /etc /usr/ucblib /usr/lib
+  DOC "The sendmail executable path"
+)
 
-  if(Sendmail_EXECUTABLE)
-    set(sendmail ${Sendmail_EXECUTABLE})
-  else()
-    set(sendmail "/usr/sbin/sendmail")
-  endif()
+mark_as_advanced(Sendmail_EXECUTABLE)
 
-  set(PROG_SENDMAIL "${sendmail}" CACHE INTERNAL "Path to sendmail executable" FORCE)
+if(Sendmail_EXECUTABLE)
+  set(_sendmail ${Sendmail_EXECUTABLE})
+else()
+  set(_sendmail "/usr/sbin/sendmail")
+endif()
 
-  find_package_handle_standard_args(
-    Sendmail
-    REQUIRED_VARS Sendmail_EXECUTABLE
-    REASON_FAILURE_MESSAGE "sendmail not found, setting default to ${PROG_SENDMAIL}, or use sendmail_path in php.ini"
-  )
-endfunction()
+set(PROG_SENDMAIL "${_sendmail}" CACHE INTERNAL "Path to sendmail executable")
 
-_php_find_sendmail()
+find_package_handle_standard_args(
+  Sendmail
+  REQUIRED_VARS Sendmail_EXECUTABLE
+  REASON_FAILURE_MESSAGE
+    "sendmail not found, setting default to ${_sendmail}.
+    It can be overridden in php.ini with sendmail_path directive."
+)
+
+unset(_sendmail)

@@ -14,18 +14,14 @@ include(PHP/SearchLibraries)
 
 # Checking file descriptor sets.
 message(CHECK_START "Checking file descriptor sets size")
-
 if(PHP_FD_SETSIZE GREATER 0)
   message(CHECK_PASS "using FD_SETSIZE=${PHP_FD_SETSIZE}")
   target_compile_definitions(
     php_configuration
     INTERFACE $<$<COMPILE_LANGUAGE:ASM,C,CXX>:FD_SETSIZE=${PHP_FD_SETSIZE}>
   )
-elseif(
-  NOT PHP_FD_SETSIZE STREQUAL ""
-  AND NOT PHP_FD_SETSIZE GREATER 0
-)
-  message(FATAL_ERROR "Invalid value passed to PHP_FD_SETSIZE: ${PHP_FD_SETSIZE}")
+elseif(NOT PHP_FD_SETSIZE STREQUAL "" AND NOT PHP_FD_SETSIZE GREATER 0)
+  message(FATAL_ERROR "Invalid value PHP_FD_SETSIZE=${PHP_FD_SETSIZE}")
 else()
   message(CHECK_PASS "using system default")
 endif()
@@ -166,7 +162,6 @@ include(PHP/CheckFopencookie)
 # Some systems, notably Solaris, cause getcwd() or realpath to fail if a
 # component of the path has execute but not read permissions.
 message(CHECK_START "Checking for broken getcwd()")
-
 if(CMAKE_HOST_SYSTEM_NAME STREQUAL "SunOS")
   set(HAVE_BROKEN_GETCWD 1 CACHE INTERNAL "Define if system has broken getcwd")
   message(CHECK_PASS "yes")
@@ -177,9 +172,12 @@ endif()
 # Check for broken GCC optimize-strlen.
 include(PHP/CheckBrokenGccStrlenOpt)
 if(HAVE_BROKEN_OPTIMIZE_STRLEN)
-  target_compile_options(php_configuration
-    INTERFACE $<$<COMPILE_LANGUAGE:ASM,C>:-fno-optimize-strlen>
-  )
+  check_compiler_flag(C -fno-optimize-strlen HAVE_FNO_OPTIMIZE_STRLEN_C)
+  if(HAVE_FNO_OPTIMIZE_STRLEN_C)
+    target_compile_options(php_configuration
+      INTERFACE $<$<COMPILE_LANGUAGE:ASM,C>:-fno-optimize-strlen>
+    )
+  endif()
 endif()
 
 # Check for missing fclose declaration.
