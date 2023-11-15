@@ -61,7 +61,10 @@ function(_php_create_build_definitions)
     @ONLY
   )
 
-  set(HAVE_BUILD_DEFS_H 1 CACHE INTERNAL "Define to 1 if you have the build-defs.h header file.")
+  set(
+    HAVE_BUILD_DEFS_H 1
+    CACHE INTERNAL "Whether build-defs.h header file is present."
+  )
 endfunction()
 
 _php_create_build_definitions()

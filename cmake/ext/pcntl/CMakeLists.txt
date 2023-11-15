@@ -67,8 +67,9 @@ cmake_pop_check_state()
 check_symbol_exists(rfork "unistd.h" HAVE_RFORK)
 check_symbol_exists(forkx "sys/fork.h" HAVE_FORKX)
 
-# The siginfo_t is defined in signal.h according to C99 and POSIX. Some systems
-# don't conform to C99 nor POSIX and have siginfo_t defined in siginfo.h.
+# The siginfo_t is defined in signal.h according to POSIX. Some systems don't
+# conform to POSIX and have siginfo_t defined in siginfo.h.
+# TODO: Recheck siginfo.h again if this is still needed on current systems.
 message(CHECK_START "Checking for siginfo_t")
 check_include_file(siginfo.h HAVE_SIGINFO_H)
 cmake_push_check_state(RESET)

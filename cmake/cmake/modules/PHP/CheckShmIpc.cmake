@@ -9,7 +9,7 @@ Cache variables:
 
 include(CheckCSourceRuns)
 
-message(CHECK_START "Checking for sysvipc shared memory support")
+message(CHECK_START "Checking for SysV IPC SHM (shared memory) support")
 
 list(APPEND CMAKE_MESSAGE_INDENT "  ")
 

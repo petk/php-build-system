@@ -5,46 +5,43 @@ Cache variables:
 
   HAVE_SHM_MMAP_POSIX
     Whether POSIX mmap() SHM support is found.
-  SHM_MMAP_POSIX_REQUIRED_LIBRARIES
-    Required libraries that needs to be appended to the shared extension target.
+
+Interface library:
+
+  PHP::CheckShmMmapPosix
+    If there are additional libraries that need to be linked.
 ]=============================================================================]#
 
 include(CheckCSourceRuns)
 include(CheckLibraryExists)
 include(CheckSymbolExists)
 include(CMakePushCheckState)
+include(PHP/SearchLibraries)
 
-message(STATUS "Checking for mmap() using shm_open() shared memory support")
+message(CHECK_START "Checking for mmap() using shm_open() shared memory support")
 
 # First, check for shm_open() and link required libraries.
-check_symbol_exists(shm_open sys/mman.h HAVE_SHM_OPEN)
+php_search_libraries(
+  shm_open
+  "sys/mman.h"
+  HAVE_SHM_OPEN
+  SHM_OPEN_LIBRARY
+  LIBRARIES
+    rt
+    root # Haiku system has shm_open in root library.
+)
 
-if(NOT HAVE_SHM_OPEN)
-  # Check if librt library is required for shm_open to work.
-  check_library_exists(rt shm_open "" HAVE_SHM_OPEN)
+if(SHM_OPEN_LIBRARY)
+  add_library(php_check_shm_mmap_posix INTERFACE)
+  add_library(PHP::CheckShmMmapPosix ALIAS php_check_shm_mmap_posix)
 
-  if(HAVE_SHM_OPEN)
-    set(SHM_OPEN_REQUIRED_LIBRARIES "rt")
-  endif()
-
-  # Check for Haiku system where shm_open is available with libroot library.
-  check_library_exists(root shm_open "" HAVE_SHM_OPEN)
-
-  if(HAVE_SHM_OPEN)
-    set(SHM_OPEN_REQUIRED_LIBRARIES "root")
-  endif()
-endif()
-
-# Append required libraries.
-# TODO: Fix this better.
-if(SHM_OPEN_REQUIRED_LIBRARIES)
-  target_link_libraries(php_configuration INTERFACE ${SHM_OPEN_REQUIRED_LIBRARIES})
+  target_link_libraries(php_check_shm_mmap_posix INTERFACE ${SHM_OPEN_LIBRARY})
 endif()
 
 if(NOT CMAKE_CROSSCOMPILING)
   cmake_push_check_state(RESET)
-    if(SHM_OPEN_REQUIRED_LIBRARIES)
-      set(CMAKE_REQUIRED_LIBRARIES ${SHM_OPEN_REQUIRED_LIBRARIES})
+    if(TARGET PHP::CheckShmMmapPosix)
+      set(CMAKE_REQUIRED_LIBRARIES PHP::CheckShmMmapPosix)
     endif()
 
     check_c_source_runs("
@@ -115,12 +112,7 @@ if(NOT CMAKE_CROSSCOMPILING)
 endif()
 
 if(HAVE_SHM_MMAP_POSIX)
-  check_symbol_exists(shm_unlink "sys/mman.h" HAVE_SHM_UNLINK)
-  if(NOT HAVE_SHM_UNLINK)
-    check_library_exists(rt shm_unlink "" HAVE_SHM_UNLINK)
-
-    if(HAVE_SHM_UNLINK)
-      set(SHM_MMAP_POSIX_REQUIRED_LIBRARIES "rt")
-    endif()
-  endif()
+  message(CHECK_PASS "yes")
+else()
+  message(CHECK_FAIL "no")
 endif()

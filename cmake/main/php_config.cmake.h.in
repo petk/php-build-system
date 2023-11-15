@@ -1318,9 +1318,6 @@
 /* Define if you have POSIX mmap() SHM support */
 #cmakedefine HAVE_SHM_MMAP_POSIX @HAVE_SHM_MMAP_POSIX@
 
-/* */
-#cmakedefine HAVE_SHM_OPEN @HAVE_SHM_OPEN@
-
 /* Define to 1 if you have the `shutdown' function. */
 #cmakedefine HAVE_SHUTDOWN @HAVE_SHUTDOWN@
 
@@ -1779,29 +1776,11 @@
 /* The highest supported ODBC version */
 #cmakedefine ODBCVER @ODBCVER@
 
-/* Define to the address where bug reports for this package should be sent. */
-#cmakedefine PACKAGE_BUGREPORT
-
-/* Define to the full name of this package. */
-#cmakedefine PACKAGE_NAME
-
-/* Define to the full name and version of this package. */
-#cmakedefine PACKAGE_STRING
-
-/* Define to the one symbol short name of this package. */
-#cmakedefine PACKAGE_TARNAME
-
-/* Define to the home page for this package. */
-#cmakedefine PACKAGE_URL
-
-/* Define to the version of this package. */
-#cmakedefine PACKAGE_VERSION
-
 /* */
 #cmakedefine PCRE2_CODE_UNIT_WIDTH @PCRE2_CODE_UNIT_WIDTH@
 
 /* */
-#cmakedefine PDO_MYSQL_UNIX_ADDR
+#cmakedefine PDO_MYSQL_UNIX_ADDR "@PDO_MYSQL_UNIX_ADDR@"
 
 /* Whether pdo_mysql uses mysqlnd */
 #cmakedefine PDO_USE_MYSQLND @PDO_USE_MYSQLND@

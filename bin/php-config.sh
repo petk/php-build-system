@@ -52,6 +52,13 @@ patterns="
 #undef\sHAVE_IMAP_SSL
 #undef\sCOMPILE_DL_IMAP
 #undef\sHAVE_SOCKET
+#undef\sPACKAGE_BUGREPORT
+#undef\sPACKAGE_NAME
+#undef\sPACKAGE_STRING
+#undef\sPACKAGE_TARNAME
+#undef\sPACKAGE_URL
+#undef\sPACKAGE_VERSION
+#undef\sHAVE_SHM_OPEN
 "
 
 # Similar to the above patterns except the two lines above and one after the

@@ -1,3 +1,5 @@
+# TODO: Integrate zlib functionality.
+
 include(CMakeDependentOption)
 include(FeatureSummary)
 
@@ -21,6 +23,40 @@ cmake_dependent_option(
   OFF
 )
 
+# Driver selection option.
+if(EXT_PDO_MYSQL)
+  set(
+    EXT_PDO_MYSQL_DRIVER "mysqlnd"
+    CACHE STRING
+    "Select MySQL driver: mysqlnd (MySQL Native Driver recommended) or mysql (system MySQL)"
+  )
+  set_property(
+    CACHE EXT_PDO_MYSQL_DRIVER
+    PROPERTY STRINGS "mysqlnd" "mysql"
+  )
+  mark_as_advanced(EXT_PDO_MYSQL_DRIVER)
+  # Change from INTERNAL type to show variable on consecutive configuration run.
+  set_property(CACHE EXT_PDO_MYSQL_DRIVER PROPERTY TYPE STRING)
+elseif(DEFINED EXT_PDO_MYSQL_DRIVER)
+  # Hide variable.
+  set_property(CACHE EXT_PDO_MYSQL_DRIVER PROPERTY TYPE INTERNAL)
+endif()
+
+# MySQL system library directory.
+if(EXT_PDO_MYSQL_DRIVER STREQUAL "mysql")
+  set(
+    EXT_PDO_MYSQL_ROOT ""
+    CACHE FILEPATH
+    "MySQL root directory"
+  )
+  mark_as_advanced(EXT_PDO_MYSQL_ROOT)
+  # Change from INTERNAL type to show variable on consecutive configuration run.
+  set_property(CACHE EXT_PDO_MYSQL_ROOT PROPERTY TYPE FILEPATH)
+elseif(DEFINED EXT_PDO_MYSQL_ROOT)
+  # Hide variable.
+  set_property(CACHE EXT_PDO_MYSQL_ROOT PROPERTY TYPE INTERNAL)
+endif()
+
 if(NOT EXT_PDO_MYSQL)
   return()
 endif()
@@ -32,14 +68,14 @@ else()
 endif()
 
 target_sources(php_pdo_mysql PRIVATE
-  pdo_mysql.c
   mysql_driver.c
   mysql_statement.c
+  pdo_mysql.c
 )
 
 set_target_properties(
   php_pdo_mysql
-  PROPERTIES PHP_EXTENSION_DEPENDENCIES "php_mysqlnd;php_pdo"
+  PROPERTIES PHP_EXTENSION_DEPENDENCIES "php_pdo"
 )
 
 target_compile_definitions(
@@ -51,8 +87,6 @@ target_include_directories(
   php_pdo_mysql PRIVATE
   "${CMAKE_CURRENT_SOURCE_DIR}/.."
 )
-
-set(PDO_USE_MYSQLND 1 CACHE INTERNAL "")
 
 if(EXT_MYSQL_SOCK)
   if(EXT_MYSQL_SOCK_PATH)
@@ -71,6 +105,26 @@ if(MySQL_SOCKET)
     PHP_MYSQL_UNIX_SOCK_ADDR "${MySQL_SOCKET}"
     CACHE INTERNAL "MySQL Unix socket pointer"
   )
+
+  set(
+    PDO_MYSQL_UNIX_ADDR "${MySQL_SOCKET}"
+    CACHE INTERNAL "MySQL Unix socket pointer"
+  )
 endif()
 
-# TODO: Add MySQL configuration script usage.
+if(NOT EXT_PDO_MYSQL_DRIVER STREQUAL "mysql")
+  set_target_properties(
+    php_pdo_mysql
+    PROPERTIES PHP_EXTENSION_DEPENDENCIES "php_mysqlnd"
+  )
+
+  set(PDO_USE_MYSQLND 1 CACHE INTERNAL "")
+else()
+  find_package(MySQL COMPONENTS LIBRARY)
+  set_package_properties(MySQL PROPERTIES
+    TYPE REQUIRED
+    PURPOSE "Necessary to enable the pdo_mysql extension."
+  )
+
+  target_link_libraries(php_pdo_mysql PRIVATE MySQL::MySQL)
+endif()
