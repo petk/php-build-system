@@ -50,9 +50,9 @@ add_custom_command(
           -D PHP_EXECUTABLE=${CMAKE_BINARY_DIR}/sapi/cli/php
           -P CMakeFiles/GenerateTokenizerData.cmake
   DEPENDS ${CMAKE_SOURCE_DIR}/Zend/zend_language_parser.y
-  COMMENT "Regenerating ext/tokenizer/tokenizer_data.c"
+  COMMENT "[ext/tokenizer] Regenerating ext/tokenizer/tokenizer_data.c"
   VERBATIM
 )
 
 # The tokenizer depends on Zend language scanner definitions header.
-add_dependencies(php_tokenizer zend)
+add_dependencies(php_tokenizer Zend::Zend)

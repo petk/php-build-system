@@ -95,7 +95,7 @@ add_custom_command(
     php_cli
     ${CMAKE_CURRENT_SOURCE_DIR}/build_precommand.php
     ${_phar_dependent_files}
-  COMMENT "Generating phar.php"
+  COMMENT "[ext/phar] Generating phar.php"
 )
 
 # Generate phar.phar.
@@ -120,12 +120,13 @@ add_custom_command(
   DEPENDS
     ${CMAKE_CURRENT_BINARY_DIR}/phar.php
     ${_phar_dependent_files}
-  COMMENT "Generating phar.phar"
+  COMMENT "[ext/phar] Generating phar.phar"
 )
 
 # Create target which consumes the command via DEPENDS.
 add_custom_target(php_phar_generated_files ALL
   DEPENDS ${CMAKE_CURRENT_BINARY_DIR}/phar.phar
+  COMMENT "[ext/phar] Generating phar files"
 )
 
 # Man documentation.

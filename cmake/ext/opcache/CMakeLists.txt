@@ -148,21 +148,24 @@ if(EXT_OPCACHE_JIT)
   add_custom_command(
     OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/jit
     COMMAND ${CMAKE_COMMAND} -E make_directory ${CMAKE_CURRENT_BINARY_DIR}/jit
-    COMMENT "Creating ext/opcache/jit directory"
+    COMMENT "[ext/opcache] Creating ext/opcache/jit directory"
   )
 
   # Generate Zend Jit for architecture.
   add_custom_command(
     OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/jit/zend_jit_${DASM_ARCH}.c
-    COMMAND php_opcache_minilua ${CMAKE_CURRENT_LIST_DIR}/jit/dynasm/dynasm.lua ${DASM_FLAGS} -o ${CMAKE_CURRENT_BINARY_DIR}/jit/zend_jit_${DASM_ARCH}.c ${CMAKE_CURRENT_LIST_DIR}/jit/zend_jit_${DASM_ARCH}.dasc
+    COMMAND php_opcache_minilua ${CMAKE_CURRENT_LIST_DIR}/jit/dynasm/dynasm.lua
+      ${DASM_FLAGS}
+      -o ${CMAKE_CURRENT_BINARY_DIR}/jit/zend_jit_${DASM_ARCH}.c
+      ${CMAKE_CURRENT_LIST_DIR}/jit/zend_jit_${DASM_ARCH}.dasc
     DEPENDS php_opcache_minilua ${CMAKE_CURRENT_BINARY_DIR}/jit
-    COMMENT "Generating ext/opcache/jit/zend_jit_${DASM_ARCH}.c"
+    COMMENT "[ext/opcache] Generating ext/opcache/jit/zend_jit_${DASM_ARCH}.c"
   )
 
   add_custom_target(
     php_opcache_build_jit
     DEPENDS ${CMAKE_CURRENT_BINARY_DIR}/jit/zend_jit_${DASM_ARCH}.c
-    COMMENT "Building Zend JIT for architecture ${DASM_ARCH}"
+    COMMENT "[ext/opcache] Building Zend JIT for architecture ${DASM_ARCH}"
   )
 
   add_dependencies(php_opcache php_opcache_build_jit)

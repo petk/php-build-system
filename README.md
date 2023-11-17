@@ -2621,6 +2621,13 @@ cmake -DCMAKE_FOOVAR=ON -DPHP_VAR=... ../php-src
       <td>CMAKE_MESSAGE_CONTEXT_SHOW=OFF|ON</td>
       <td>Show/hide context in configuration log ([ext/foo] Checking for...)</td>
     </tr>
+    <tr>
+      <td></td>
+      <td>CMAKE_PREFIX_PATH=DIR_1;DIR_2;...</td>
+      <td>A semicolon separated list of directories where packages can be found.
+      Can be used as an alternative to above &lt;PackageName&gt;_ROOT variables.
+      </td>
+    </tr>
   </tbody>
 </table>
 

@@ -51,6 +51,48 @@ elseif(_php_ldd_version MATCHES ".*uclibc.*")
   set(PHP_STD_LIBRARY "uclibc")
 endif()
 
+# See bug #28605.
+if(CMAKE_HOST_SYSTEM_PROCESSOR MATCHES "^alpha")
+  if(CMAKE_C_COMPILER_ID STREQUAL "GNU")
+    target_compile_options(php_configuration
+      INTERFACE
+        "$<$<COMPILE_LANGUAGE:ASM,C>:-mieee>"
+    )
+  else()
+    target_compile_options(php_configuration
+      INTERFACE
+        "$<$<COMPILE_LANGUAGE:ASM,C>:-ieee>"
+    )
+  endif()
+elseif(CMAKE_HOST_SYSTEM_PROCESSOR MATCHES "^sparc")
+  if(CMAKE_C_COMPILER_ID STREQUAL "SunPro")
+    target_compile_options(php_configuration
+      INTERFACE
+        "$<$<COMPILE_LANGUAGE:ASM,C>:-xmemalign=8s>"
+    )
+  endif()
+endif()
+
+if(CMAKE_HOST_SYSTEM_NAME STREQUAL "SunOS")
+  target_compile_definitions(php_configuration
+    INTERFACE "$<$<COMPILE_LANGUAGE:ASM,C,CXX>:_POSIX_PTHREAD_SEMANTICS>"
+  )
+elseif(CMAKE_HOST_SYSTEM_NAME STREQUAL "HP-UX")
+  target_compile_definitions(php_configuration
+    INTERFACE
+      "$<$<COMPILE_LANG_AND_ID:ASM,GNU>:_XOPEN_SOURCE_EXTENDED>"
+      "$<$<COMPILE_LANG_AND_ID:C,GNU>:_XOPEN_SOURCE_EXTENDED>"
+      "$<$<COMPILE_LANG_AND_ID:CXX,GNU>:_XOPEN_SOURCE_EXTENDED>"
+  )
+endif()
+
+# TODO: Should this be removed?
+if(CMAKE_HOST_SYSTEM_PROCESSOR MATCHES "^mips")
+  target_compile_definitions(php_configuration
+    INTERFACE "$<$<COMPILE_LANGUAGE:ASM,C,CXX>:_XPG_IV>"
+  )
+endif()
+
 # TODO: Fix these properly if really needed.
 set(_TANDEM_SOURCE 1 CACHE INTERNAL "")
 set(__STDC_WANT_MATH_SPEC_FUNCS__ 1 CACHE INTERNAL "")

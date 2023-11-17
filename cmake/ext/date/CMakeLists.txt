@@ -62,7 +62,7 @@ file(WRITE "${CMAKE_CURRENT_BINARY_DIR}/lib/timelib_config.h"
 #define timelib_free    efree
 ")
 
-add_dependencies(php_date PHP::main zend)
+add_dependencies(php_date PHP::main Zend::Zend)
 
 target_sources(
   php_date

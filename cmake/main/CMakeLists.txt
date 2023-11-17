@@ -52,7 +52,7 @@ target_include_directories(
 
 target_compile_definitions(php_main PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE=1)
 
-target_link_libraries(php_main PUBLIC zend)
+target_link_libraries(php_main PUBLIC Zend::Zend)
 
 target_link_libraries(php_main PUBLIC PHP::configuration)
 

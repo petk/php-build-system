@@ -116,6 +116,8 @@ add_library(zend STATIC
   zend.c
 )
 
+add_library(Zend::Zend ALIAS zend)
+
 target_link_libraries(zend PRIVATE PHP::configuration)
 
 target_include_directories(
@@ -129,7 +131,7 @@ target_include_directories(
             ${CMAKE_SOURCE_DIR}/TSRM
 )
 
-target_link_libraries(zend PRIVATE php_tsrm)
+target_link_libraries(zend PRIVATE PHP::TSRM)
 
 target_compile_definitions(zend PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE=1)
 
@@ -285,7 +287,7 @@ if(BISON_FOUND)
     zend_patch_language_parser_files
     COMMAND ${CMAKE_COMMAND} -P "CMakeFiles/PatchZendLanguageParserFiles.cmake"
     DEPENDS ${BISON_zend_language_parser_OUTPUTS}
-    COMMENT "Patching Zend language parser files"
+    COMMENT "[Zend] Patching Zend language parser files"
   )
 
   add_dependencies(zend zend_patch_language_parser_files)
@@ -315,20 +317,17 @@ endif()
 include(Zend/CheckFibers)
 
 if(ZEND_FIBER_ASM)
-  add_library(zend_asm STATIC
-    "asm/make_${FIBER_ASM_FILE}.S"
-    "asm/jump_${FIBER_ASM_FILE}.S"
+  target_sources(zend PRIVATE
+    asm/jump_${FIBER_ASM_FILE}.S
+    asm/make_${FIBER_ASM_FILE}.S
   )
 
-  target_link_libraries(zend_asm PRIVATE PHP::configuration)
-
-  # The asm file can't see macro from defined constant, workaround this via cflag.
-  if(SYSCALL_SHADOW_STACK_EXISTS)
-    message(STATUS "Adding compile definition for Zend: SHADOW_STACK_SYSCALL")
-    target_compile_definitions(zend_asm PRIVATE SHADOW_STACK_SYSCALL=1)
+  # The ASM files can't see macro from defined constant, workaround this via CFLAG.
+  if(SHADOW_STACK_SYSCALL)
+    target_compile_definitions(zend PRIVATE
+      $<$<COMPILE_LANGUAGE:ASM>:SHADOW_STACK_SYSCALL=1>
+    )
   endif()
-
-  target_link_libraries(zend PRIVATE zend_asm)
 endif()
 
 ################################################################################

@@ -22,7 +22,7 @@ ecosystem.
 * [6. Functions and macros](#6-functions-and-macros)
 * [7. Targets](#7-targets)
   * [7.1. Libraries and executables](#71-libraries-and-executables)
-  * [7.2. Alias libraries](#72-alias-libraries)
+  * [7.2. Alias targets](#72-alias-targets)
   * [7.3. Custom targets](#73-custom-targets)
 * [8. Properties](#8-properties)
 * [9. Determining platform](#9-determining-platform)
@@ -382,21 +382,26 @@ add_executable(php_<sapi_name> ...)
 set_target_properties(php_<sapi_name> PROPERTIES OUTPUT_NAME php)
 ```
 
-### 7.2. Alias libraries
+### 7.2. Alias targets
 
-To make it easier to work with these targets across the build system, it is
-recommended to use alias libraries as linkable targets:
+To make it easier to work with targets across the build system, it is
+recommended to use aliases as linkable targets:
 
 ```cmake
-# Creating a library for PHP extension
-add_library(php_<extension_name> ...)
+# Creating a library
+add_library(php_<target_name> ...)
 
-# Creating an alias for a PHP extension library
-add_library(PHP::<extension_name> ALIAS php_<extension_name>)
+# Creating an alias target for a library
+add_library(PHP::<component_name> ALIAS php_<target_name>)
 
-# Linking the main PHP target with the extension using the alias
-target_link_library(php_main PRIVATE PHP::<extension_name>)
+# Linking target using the alias
+target_link_library(php_some_target PRIVATE PHP::<component_name>)
 ```
+
+Using alias targets can have a performance and distinct benefit because whenever
+CMake sees a double colon (`::`) in the target name, it will limit the search to
+CMake targets only, unlike other naming patterns where CMake will search for
+link flags, paths, or library names as well.
 
 ### 7.3. Custom targets
 

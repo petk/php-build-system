@@ -80,29 +80,29 @@ endif()
 set(CMAKE_REQUIRED_LIBRARIES "c")
 set(CMAKE_REQUIRED_DEFINITIONS "-D_GNU_SOURCE")
 
-# Check whether syscall to create shadow stack exists, should be a better way, but...
-message(STATUS "Whether syscall to create shadow stack exists")
+# Check whether syscall to create shadow stack exists, should be a better way,
+# but...
+message(CHECK_START "Whether syscall to create shadow stack exists")
 check_c_source_runs("
-#include <unistd.h>
-#include <sys/mman.h>
-int main(void) {
-  void* base = (void *)syscall(451, 0, 0x20000, 0x1);
-  if (base != (void*)-1) {
-    munmap(base, 0x20000);
-    return 0;
+  #include <unistd.h>
+  #include <sys/mman.h>
+  int main(void) {
+    void* base = (void *)syscall(451, 0, 0x20000, 0x1);
+    if (base != (void*)-1) {
+      munmap(base, 0x20000);
+      return 0;
+    }
+    else
+      return 1;
   }
-  else
-    return 1;
-}
-" SYSCALL_SHADOW_STACK_EXISTS)
+" SHADOW_STACK_SYSCALL)
 
-if(SYSCALL_SHADOW_STACK_EXISTS)
-  message(STATUS "syscall to create shadow stack exists")
-  set(SHADOW_STACK_SYSCALL 1)
+if(SHADOW_STACK_SYSCALL)
+  message(CHECK_PASS "yes")
 else()
-  # TODO: If the syscall doesn't exist, we may block the final ELF from __PROPERTY_SHSTK
-  # via redefine macro as "-D__CET__=1"
-  message(STATUS "syscall to create shadow stack does not exist")
+  # If the syscall doesn't exist, we may block the final ELF from
+  # __PROPERTY_SHSTK via redefine macro as "-D__CET__=1".
+  message(CHECK_PASS "no")
 endif()
 
 if(NOT ZEND_FIBER_ASM)

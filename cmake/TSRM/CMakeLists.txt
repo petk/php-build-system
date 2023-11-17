@@ -3,6 +3,7 @@
 message(STATUS "Checking for POSIX threads")
 
 add_library(php_tsrm STATIC TSRM.c)
+add_library(PHP::TSRM ALIAS php_tsrm)
 
 target_link_libraries(php_tsrm PRIVATE PHP::configuration)
 

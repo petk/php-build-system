@@ -95,7 +95,7 @@ target_include_directories(
 
 target_compile_definitions(php_standard PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE=1)
 
-add_dependencies(php_standard zend)
+add_dependencies(php_standard Zend::Zend)
 
 # TODO: Can this be fixed better?
 target_link_libraries(php_standard PRIVATE PHP::main)
