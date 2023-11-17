@@ -9,7 +9,7 @@ dependencies, this module ensures that all dependencies are enabled. If any of
 the dependencies are built as SHARED libraries, the extension must also be built
 as a SHARED library.
 
-Function: php_extensions_add(subdirectory)
+Exposed macro: php_extensions_add(subdirectory)
 ]=============================================================================]#
 
 ################################################################################
@@ -78,8 +78,9 @@ set_property(GLOBAL PROPERTY PHP_ALWAYS_ENABLED_EXTENSIONS
 # Module function(s) to be used externally.
 ################################################################################
 
-# Add subdirectories of extensions.
-function(php_extensions_add directory)
+# Add subdirectories of extensions. Macro enables variable scope of the current
+# CMakeLists.txt and adds ability to pass around directory variables.
+macro(php_extensions_add directory)
   # Get a sorted list of subdirectories related to extensions.
   _php_extensions_get("${directory}" directories)
 
@@ -91,7 +92,14 @@ function(php_extensions_add directory)
 
   # Add subdirectories of extensions.
   foreach(dir ${directories})
+    cmake_path(GET dir FILENAME extension)
+    message(STATUS "Checking ${extension} extension")
+    list(APPEND CMAKE_MESSAGE_CONTEXT "ext/${extension}")
+    unset(extension)
+
     add_subdirectory("${dir}")
+
+    list(POP_BACK CMAKE_MESSAGE_CONTEXT)
 
     _php_extensions_post_configure("${dir}")
   endforeach()
@@ -99,7 +107,10 @@ function(php_extensions_add directory)
   # Validate options of extensions and their dependencies.
   get_cmake_property(extensions PHP_EXTENSIONS)
   _php_extensions_validate("${extensions}")
-endfunction()
+
+  unset(directories)
+  unset(extensions)
+endmacro()
 
 ################################################################################
 # Module internal helper functions.

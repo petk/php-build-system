@@ -36,6 +36,21 @@ if(CMAKE_HOST_SYSTEM_NAME STREQUAL "Darwin")
   endif()
 endif()
 
+# Detect C standard library implementation.
+# TODO: Fix this better.
+execute_process(
+  COMMAND ldd --version
+  OUTPUT_VARIABLE _php_ldd_version
+  ERROR_QUIET
+  OUTPUT_STRIP_TRAILING_WHITESPACE
+)
+if(_php_ldd_version MATCHES ".*musl libc.*")
+  set(__MUSL__ 1 CACHE INTERNAL "Whether musl libc is used")
+  set(PHP_STD_LIBRARY "musl")
+elseif(_php_ldd_version MATCHES ".*uclibc.*")
+  set(PHP_STD_LIBRARY "uclibc")
+endif()
+
 # TODO: Fix these properly if really needed.
 set(_TANDEM_SOURCE 1 CACHE INTERNAL "")
 set(__STDC_WANT_MATH_SPEC_FUNCS__ 1 CACHE INTERNAL "")

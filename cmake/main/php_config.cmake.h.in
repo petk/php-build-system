@@ -2118,7 +2118,7 @@
 #cmakedefine ZTS @ZTS@
 
 /* Define when using musl libc */
-#cmakedefine __MUSL__
+#cmakedefine __MUSL__ @__MUSL__@
 
 /* Define to `int' if <sys/types.h> doesn't define. */
 #cmakedefine gid_t

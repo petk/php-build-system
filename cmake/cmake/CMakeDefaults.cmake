@@ -31,3 +31,9 @@ set(CMAKE_LIBRARY_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/modules")
 
 # TODO: Set this in debug mode, maybe.
 #set(CMAKE_VERBOSE_MAKEFILE ON)
+
+# Show message context in configuration log. Added as an overridable option.
+option(CMAKE_MESSAGE_CONTEXT_SHOW "Show the context in configuration log" OFF)
+
+# Whether to build all libraries as shared. Added as an overridable option.
+option(BUILD_SHARED_LIBS "Build all enabled PHP extensions as shared libraries" OFF)

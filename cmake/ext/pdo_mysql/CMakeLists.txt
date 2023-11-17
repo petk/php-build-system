@@ -105,11 +105,6 @@ if(MySQL_SOCKET)
     PHP_MYSQL_UNIX_SOCK_ADDR "${MySQL_SOCKET}"
     CACHE INTERNAL "MySQL Unix socket pointer"
   )
-
-  set(
-    PDO_MYSQL_UNIX_ADDR "${MySQL_SOCKET}"
-    CACHE INTERNAL "MySQL Unix socket pointer"
-  )
 endif()
 
 if(NOT EXT_PDO_MYSQL_DRIVER STREQUAL "mysql")
@@ -120,11 +115,18 @@ if(NOT EXT_PDO_MYSQL_DRIVER STREQUAL "mysql")
 
   set(PDO_USE_MYSQLND 1 CACHE INTERNAL "")
 else()
-  find_package(MySQL COMPONENTS LIBRARY)
+  find_package(MySQL COMPONENTS LIBRARY OPTIONAL_COMPONENTS SOCKET)
   set_package_properties(MySQL PROPERTIES
     TYPE REQUIRED
     PURPOSE "Necessary to enable the pdo_mysql extension."
   )
 
   target_link_libraries(php_pdo_mysql PRIVATE MySQL::MySQL)
+
+  if(MySQL_SOCKET)
+    set(
+      PDO_MYSQL_UNIX_ADDR "${MySQL_SOCKET}"
+      CACHE INTERNAL "MySQL Unix socket pointer"
+    )
+  endif()
 endif()

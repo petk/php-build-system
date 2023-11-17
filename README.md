@@ -2613,8 +2613,13 @@ cmake -DCMAKE_FOOVAR=ON -DPHP_VAR=... ../php-src
     </tr>
     <tr>
       <td></td>
-      <td>BUILD_SHARED_LIBS=ON</td>
-      <td>Build all extensions as shared</td>
+      <td>BUILD_SHARED_LIBS=OFF|ON</td>
+      <td>Build all enabled PHP extensions as shared libraries</td>
+    </tr>
+    <tr>
+      <td></td>
+      <td>CMAKE_MESSAGE_CONTEXT_SHOW=OFF|ON</td>
+      <td>Show/hide context in configuration log ([ext/foo] Checking for...)</td>
     </tr>
   </tbody>
 </table>
