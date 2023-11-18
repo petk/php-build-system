@@ -20,7 +20,7 @@ function(_php_create_build_definitions)
     if(PHP_LAYOUT STREQUAL "GNU")
       set(php_extension_dir "${php_extension_dir}/${zend_module_api_no}")
 
-      if(PHP_ZTS)
+      if(PHP_THREAD_SAFETY)
         set(php_extension_dir "${php_extension_dir}-zts")
       endif()
 
@@ -36,7 +36,7 @@ function(_php_create_build_definitions)
         set(php_extension_dir "${php_extension_dir}/no-debug")
       endif()
 
-      if(PHP_ZTS)
+      if(PHP_THREAD_SAFETY)
         set(php_extension_dir "${php_extension_dir}-zts")
       else()
         set(php_extension_dir "${php_extension_dir}-non-zts")
@@ -48,11 +48,13 @@ function(_php_create_build_definitions)
     set(PHP_EXTENSION_DIR "${php_extension_dir}" CACHE STRING "PHP extensions directory" FORCE)
   endif()
 
-  set(EXPANDED_EXTENSION_DIR "${PHP_EXTENSION_DIR}" CACHE INTERNAL "" FORCE)
+  set(EXPANDED_EXTENSION_DIR "${PHP_EXTENSION_DIR}" CACHE INTERNAL "")
 
   # Set shared library object extension.
   string(REPLACE "." "" SHLIB_DL_SUFFIX_NAME ${CMAKE_SHARED_LIBRARY_SUFFIX})
   set(SHLIB_DL_SUFFIX_NAME ${SHLIB_DL_SUFFIX_NAME} CACHE INTERNAL "The suffix for shared libraries.")
+
+  set(EXPANDED_PHP_CONFIG_FILE_SCAN_DIR "${PHP_CONFIG_FILE_SCAN_DIR}")
 
   message(STATUS "Creating main/build-defs.h")
   configure_file(
@@ -133,6 +135,7 @@ configure_file(
 )
 
 # The php-config script.
+set(EXPANDED_PHP_CONFIG_FILE_SCAN_DIR "${PHP_CONFIG_FILE_SCAN_DIR}")
 message(STATUS "Creating scripts/php-config")
 configure_file(
   ${CMAKE_SOURCE_DIR}/scripts/php-config.in

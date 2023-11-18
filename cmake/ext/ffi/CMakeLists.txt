@@ -45,7 +45,10 @@ target_link_libraries(php_ffi PRIVATE FFI::FFI)
 
 check_type_size("long double" SIZEOF_LONG_DOUBLE)
 if(HAVE_SIZEOF_LONG_DOUBLE)
-  set(HAVE_LONG_DOUBLE 1 CACHE INTERNAL "Define to 1 if the system has the type `long double'.")
+  set(
+    HAVE_LONG_DOUBLE 1
+    CACHE INTERNAL "Define to 1 if the system has the type 'long double'."
+  )
 else()
   message(WARNING "Cannot determine size of long double.")
 endif()

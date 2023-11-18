@@ -46,7 +46,7 @@ target_link_libraries(php_curl PRIVATE CURL::libcurl)
 
 # Checking if libcurl is linked against old OpenSSL.
 # TODO: OpenSSL 3.x is here detected as old OpenSSL. Is this ok?
-if(PHP_ZTS AND CURL_SSL_FOUND)
+if(PHP_THREAD_SAFETY AND CURL_SSL_FOUND)
   if(NOT CMAKE_CROSSCOMPILING)
     cmake_push_check_state(RESET)
       set(CMAKE_REQUIRED_LIBRARIES CURL::libcurl)

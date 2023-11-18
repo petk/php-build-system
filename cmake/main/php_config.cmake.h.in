@@ -1630,10 +1630,6 @@
 /* Whether you have a working ttyname_r */
 #cmakedefine HAVE_TTYNAME_R @HAVE_TTYNAME_R@
 
-/* Define to 1 if you don't have `tm_zone' but do have the external array
-   `tzname'. */
-#cmakedefine HAVE_TZNAME
-
 /* Define to 1 if you have the `tzset' function. */
 #cmakedefine HAVE_TZSET @HAVE_TZSET@
 
@@ -1950,9 +1946,6 @@
 /* Size of ptrdiff_t */
 #cmakedefine SIZEOF_PTRDIFF_T @SIZEOF_PTRDIFF_T@
 
-/* The size of `short', as computed by sizeof. */
-#cmakedefine SIZEOF_SHORT @SIZEOF_SHORT@
-
 /* The size of `size_t', as computed by sizeof. */
 #cmakedefine SIZEOF_SIZE_T @SIZEOF_SIZE_T@
 
@@ -2121,7 +2114,7 @@
 #cmakedefine __MUSL__ @__MUSL__@
 
 /* Define to `int' if <sys/types.h> doesn't define. */
-#cmakedefine gid_t
+#cmakedefine gid_t @gid_t@
 
 /* */
 #cmakedefine in_addr_t
@@ -2132,11 +2125,8 @@
 @INLINE_KEYWORD_DEFINITION@
 #endif
 
-/* Define to `unsigned int' if <sys/types.h> does not define. */
-#cmakedefine size_t
-
 /* Define to `int' if <sys/types.h> doesn't define. */
-#cmakedefine uid_t
+#cmakedefine uid_t @uid_t@
 
 #include <stdlib.h>
 

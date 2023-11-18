@@ -16,11 +16,11 @@ option(ZEND_FIBER_ASM "Enable the use of boost fiber assembly files" ON)
 option(ZEND_SIGNALS "Enable Zend signal handling" ON)
 
 # TODO: Check if default value can be improved. Once cached variable is set, it
-# can't be changed based on PHP_ZTS value on the second configuration run.
-option(ZEND_MAX_EXECUTION_TIMERS "Enable Zend max execution timers" ${PHP_ZTS})
+# can't be changed based on PHP_THREAD_SAFETY value on the 2nd configuration run.
+option(ZEND_MAX_EXECUTION_TIMERS "Enable Zend max execution timers" ${PHP_THREAD_SAFETY})
 
 # TODO: Fix this better.
-if(PHP_ZTS)
+if(PHP_THREAD_SAFETY)
   set(ZTS 1 PARENT_SCOPE)
 endif()
 
@@ -241,7 +241,7 @@ include(Zend/CheckFloatPrecision)
 
 # TODO: zend_config.h (or its parent php_config.h) isn't included in some zend_*
 # files, therefore we need to add compilation definitions also like this here.
-if(PHP_ZTS)
+if(PHP_THREAD_SAFETY)
   target_compile_definitions(zend PRIVATE ZTS)
 endif()
 

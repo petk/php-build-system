@@ -45,7 +45,12 @@ set_property(CACHE PHP_LAYOUT PROPERTY STRINGS "GNU" "PHP")
 
 set(
   PHP_EXTENSION_DIR ""
-  CACHE STRING "The extension_dir PHP INI directive absolute path"
+  CACHE PATH "The extension_dir PHP INI directive absolute path"
+)
+
+set(
+  PHP_CONFIG_FILE_SCAN_DIR ""
+  CACHE PATH "The path where to scan for additional INI configuration files"
 )
 
 ################################################################################
@@ -54,11 +59,9 @@ set(
 
 option(PHP_RE2C_CGOTO "Enable computed goto GCC extension with re2c" OFF)
 
-option(PHP_DEBUG "Include debugging symbols" OFF)
-
 option(PHP_DEBUG_ASSERTIONS "Enable debug assertions in release mode" OFF)
 
-option(PHP_ZTS "Enable thread safety" OFF)
+option(PHP_THREAD_SAFETY "Enable thread safety" OFF)
 
 option(PHP_USE_RTLD_NOW "Use dlopen with RTLD_NOW instead of RTLD_LAZY for extensions" OFF)
 

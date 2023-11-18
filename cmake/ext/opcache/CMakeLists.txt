@@ -132,7 +132,7 @@ if(EXT_OPCACHE_JIT)
     list(APPEND DASM_FLAGS -D X64APPLE=1)
   endif()
 
-  if(PHP_ZTS)
+  if(PHP_THREAD_SAFETY)
     list(APPEND DASM_FLAGS -D ZTS=1)
   endif()
 

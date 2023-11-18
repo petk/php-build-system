@@ -59,8 +59,8 @@ set(HAVE_PHP_SESSION 1 CACHE INTERNAL "Define to 1 if session extension is enabl
 
 if(EXT_SESSION_MM)
   # The mm library is not thread-safe, and mod_mm.c refuses to compile.
-  if(PHP_ZTS)
-    message(FATAL_ERROR "Enabling ZTS and libmm cannot be done together.")
+  if(PHP_THREAD_SAFETY)
+    message(FATAL_ERROR "Thread safety and libmm cannot be done together.")
   endif()
 
   find_package(MM)

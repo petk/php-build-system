@@ -824,12 +824,12 @@ cmake -LH .
     </tr>
     <tr>
       <td>--disable-debug</td>
-      <td>PHP_DEBUG=OFF</td>
+      <td></td>
       <td>default</td>
     </tr>
     <tr>
       <td>&nbsp;&nbsp;--enable-debug</td>
-      <td>&nbsp;&nbsp;PHP_DEBUG=ON</td>
+      <td>&nbsp;&nbsp;CMAKE_BUILD_TYPE=Debug (single-configuration builds) or CMAKE_CONFIGURATION_TYPES=Debug (multi-configuration builds)</td>
       <td></td>
     </tr>
     <tr>
@@ -864,12 +864,12 @@ cmake -LH .
     </tr>
     <tr>
       <td>--disable-zts</td>
-      <td>PHP_ZTS=OFF</td>
+      <td>PHP_THREAD_SAFETY=OFF</td>
       <td>default</td>
     </tr>
     <tr>
       <td>&nbsp;&nbsp;--enable-zts</td>
-      <td>&nbsp;&nbsp;PHP_ZTS=ON</td>
+      <td>&nbsp;&nbsp;PHP_THREAD_SAFETY=ON</td>
       <td></td>
     </tr>
     <tr>
@@ -960,6 +960,16 @@ cmake -LH .
     <tr>
       <td>&nbsp;&nbsp;--enable-dmalloc</td>
       <td>&nbsp;&nbsp;PHP_DMALLOC=ON</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>--without-config-file-scan-dir</td>
+      <td>PHP_CONFIG_FILE_SCAN_DIR=""</td>
+      <td>default</td>
+    </tr>
+    <tr>
+      <td>&nbsp;&nbsp;--with-config-file-scan-dir=DIR</td>
+      <td>&nbsp;&nbsp;PHP_CONFIG_FILE_SCAN_DIR=DIR</td>
       <td></td>
     </tr>
     <tr>
@@ -2525,6 +2535,26 @@ cmake -LH .
     <tr>
       <td>&nbsp;&nbsp;--with-zlib=shared</td>
       <td>&nbsp;&nbsp;EXT_ZLIB_SHARED=ON</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><strong>PEAR specific configuration</strong></td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>&nbsp;&nbsp;--without-pear</td>
+      <td>&nbsp;&nbsp;PHP_PEAR=OFF</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>&nbsp;&nbsp;--with-pear</td>
+      <td>&nbsp;&nbsp;PHP_PEAR=ON</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>&nbsp;&nbsp;--with-pear=DIR</td>
+      <td>&nbsp;&nbsp;PHP_PEAR=ON PHP_PEAR_DIR=DIR</td>
       <td></td>
     </tr>
   </tbody>

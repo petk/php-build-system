@@ -59,6 +59,9 @@ patterns="
 #undef\sPACKAGE_URL
 #undef\sPACKAGE_VERSION
 #undef\sHAVE_SHM_OPEN
+#undef\ssize_t
+#undef\sHAVE_TZNAME
+#undef\sSIZEOF_SHORT
 "
 
 # Similar to the above patterns except the two lines above and one after the

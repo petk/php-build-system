@@ -1,7 +1,3 @@
-# TODO: this is a header only library and it doesn't need to be linked to other libraries.
-# Only headers need to be included.
-message(STATUS "Checking for POSIX threads")
-
 add_library(php_tsrm STATIC TSRM.c)
 add_library(PHP::TSRM ALIAS php_tsrm)
 

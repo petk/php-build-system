@@ -12,25 +12,9 @@ include(CheckTypeSize)
 include(CMakePushCheckState)
 include(PHP/SearchLibraries)
 
-# Checking file descriptor sets.
-message(CHECK_START "Checking file descriptor sets size")
-if(PHP_FD_SETSIZE GREATER 0)
-  message(CHECK_PASS "using FD_SETSIZE=${PHP_FD_SETSIZE}")
-  target_compile_definitions(
-    php_configuration
-    INTERFACE $<$<COMPILE_LANGUAGE:ASM,C,CXX>:FD_SETSIZE=${PHP_FD_SETSIZE}>
-  )
-elseif(NOT PHP_FD_SETSIZE STREQUAL "" AND NOT PHP_FD_SETSIZE GREATER 0)
-  message(FATAL_ERROR "Invalid value PHP_FD_SETSIZE=${PHP_FD_SETSIZE}")
-else()
-  message(CHECK_PASS "using system default")
-endif()
-
-# Check target system byte order.
-include(PHP/CheckByteOrder)
-
-# Check compiler inline keyword.
-include(PHP/CheckInline)
+################################################################################
+# Check headers.
+################################################################################
 
 check_include_file(alloca.h HAVE_ALLOCA_H)
 check_include_file(arpa/inet.h HAVE_ARPA_INET_H)
@@ -86,40 +70,28 @@ check_include_file(nmmintrin.h HAVE_NMMINTRIN_H)
 check_include_file(wmmintrin.h HAVE_WMMINTRIN_H)
 check_include_file(immintrin.h HAVE_IMMINTRIN_H)
 
+################################################################################
+# Check structs.
+################################################################################
+
 check_struct_has_member("struct tm" tm_gmtoff time.h HAVE_STRUCT_TM_TM_GMTOFF)
 check_struct_has_member("struct tm" tm_zone time.h HAVE_STRUCT_TM_TM_ZONE)
 check_struct_has_member("struct stat" st_blksize sys/stat.h HAVE_STRUCT_STAT_ST_BLKSIZE)
 check_struct_has_member("struct stat" st_blocks sys/stat.h HAVE_STRUCT_STAT_ST_BLOCKS)
 check_struct_has_member("struct stat" st_rdev sys/stat.h HAVE_STRUCT_STAT_ST_RDEV)
 
-# Check for missing declarations of reentrant functions.
-include(PHP/CheckMissingTimeR)
+# Check struct flock.
+include(PHP/CheckStructFlock)
 
-# Check size of symbols - these are defined elsewhere than stdio.h.
-check_type_size("intmax_t" SIZEOF_INTMAX_T)
-if(NOT SIZEOF_INTMAX_T)
-  set(SIZEOF_INTMAX_T 0 CACHE INTERNAL "Size of intmax_t")
-  message(WARNING "Couldn't determine size of intmax_t, setting to 0.")
-endif()
+# Check for sockaddr_storage and sockaddr.sa_len.
+include(PHP/CheckSockaddr)
 
-check_type_size("ssize_t" SIZEOF_SSIZE_T)
-if(NOT SIZEOF_SSIZE_T)
-  set(SIZEOF_SSIZE_T 8 CACHE INTERNAL "Size of ssize_t")
-  message(WARNING "Couldn't determine size of ssize_t, setting to 8.")
-endif()
+################################################################################
+# Check types.
+################################################################################
 
-check_type_size("ptrdiff_t" SIZEOF_PTRDIFF_T)
-set(HAVE_PTRDIFF_T 1 CACHE INTERNAL "Whether ptrdiff_t is available")
-if(NOT SIZEOF_PTRDIFF_T)
-  set(SIZEOF_PTRDIFF_T 8 CACHE INTERNAL "Size of ptrdiff_t")
-  message(WARNING "Couldn't determine size of ptrdiff_t, setting to 8.")
-endif()
-
-# Check stdint types.
+# TODO: Should this be removed?
 check_type_size("short" SIZEOF_SHORT)
-if(NOT SIZEOF_SHORT)
-  message(FATAL_ERROR "Cannot determine size of short.")
-endif()
 
 check_type_size("int" SIZEOF_INT)
 if(NOT SIZEOF_INT)
@@ -146,45 +118,49 @@ if(NOT SIZEOF_OFF_T)
   message(FATAL_ERROR "Cannot determine size of off_t.")
 endif()
 
+check_type_size("gid_t" SIZEOF_GID_T)
+if(NOT HAVE_SIZEOF_GID_T)
+  set(gid_t int CACHE INTERNAL "Define as 'int' if <sys/types.h> doesn't define.")
+endif()
+
+check_type_size("uid_t" SIZEOF_UID_T)
+if(NOT HAVE_SIZEOF_UID_T)
+  set(uid_t int CACHE INTERNAL "Define as 'int' if <sys/types.h> doesn't define.")
+endif()
+
+check_type_size("intmax_t" SIZEOF_INTMAX_T)
+if(NOT SIZEOF_INTMAX_T)
+  set(SIZEOF_INTMAX_T 0 CACHE INTERNAL "Size of intmax_t")
+  message(WARNING "Couldn't determine size of intmax_t, setting to 0.")
+endif()
+
+check_type_size("ssize_t" SIZEOF_SSIZE_T)
+if(NOT SIZEOF_SSIZE_T)
+  set(SIZEOF_SSIZE_T 8 CACHE INTERNAL "Size of ssize_t")
+  message(WARNING "Couldn't determine size of ssize_t, setting to 8.")
+endif()
+
+check_type_size("ptrdiff_t" SIZEOF_PTRDIFF_T)
+set(HAVE_PTRDIFF_T 1 CACHE INTERNAL "Whether ptrdiff_t is available")
+if(NOT SIZEOF_PTRDIFF_T)
+  set(SIZEOF_PTRDIFF_T 8 CACHE INTERNAL "Size of ptrdiff_t")
+  message(WARNING "Couldn't determine size of ptrdiff_t, setting to 8.")
+endif()
+
+# Check for socklen_t type.
 cmake_push_check_state(RESET)
   if(HAVE_SYS_SOCKET_H)
-    set(CMAKE_EXTRA_INCLUDE_FILES sys/socket.h)
+    list(APPEND CMAKE_EXTRA_INCLUDE_FILES sys/socket.h)
   endif()
   check_type_size("socklen_t" SIZEOF_SOCKLEN_T)
   if(HAVE_SIZEOF_SOCKLEN_T)
-    set(HAVE_SOCKLEN_T 1 CACHE INTERNAL "Define to 1 if the system has the type `socklen_t'.")
+    set(HAVE_SOCKLEN_T 1 CACHE INTERNAL "Whether the system has the type 'socklen_t'.")
   endif()
 cmake_pop_check_state()
 
-# Check fopencookie.
-include(PHP/CheckFopencookie)
-
-# Some systems, notably Solaris, cause getcwd() or realpath to fail if a
-# component of the path has execute but not read permissions.
-message(CHECK_START "Checking for broken getcwd()")
-if(CMAKE_HOST_SYSTEM_NAME STREQUAL "SunOS")
-  set(HAVE_BROKEN_GETCWD 1 CACHE INTERNAL "Define if system has broken getcwd")
-  message(CHECK_PASS "yes")
-else()
-  message(CHECK_FAIL "no")
-endif()
-
-# Check for broken GCC optimize-strlen.
-include(PHP/CheckBrokenGccStrlenOpt)
-if(HAVE_BROKEN_OPTIMIZE_STRLEN)
-  check_compiler_flag(C -fno-optimize-strlen HAVE_FNO_OPTIMIZE_STRLEN_C)
-  if(HAVE_FNO_OPTIMIZE_STRLEN_C)
-    target_compile_options(php_configuration
-      INTERFACE $<$<COMPILE_LANGUAGE:ASM,C>:-fno-optimize-strlen>
-    )
-  endif()
-endif()
-
-# Check for missing fclose declaration.
-include(PHP/CheckFclose)
-
-# Check struct flock.
-include(PHP/CheckStructFlock)
+################################################################################
+# Check builtins.
+################################################################################
 
 # Import builtins checker function.
 include(PHP/CheckBuiltin)
@@ -207,16 +183,26 @@ php_check_builtin(__builtin_ssubll_overflow PHP_HAVE_BUILTIN_SSUBLL_OVERFLOW)
 php_check_builtin(__builtin_unreachable PHP_HAVE_BUILTIN_UNREACHABLE)
 php_check_builtin(__builtin_usub_overflow PHP_HAVE_BUILTIN_USUB_OVERFLOW)
 
+################################################################################
+# Check compiler characteristics.
+################################################################################
+
+# Check compiler inline keyword.
+include(PHP/CheckInline)
+
 # Check AVX-512.
 include(PHP/CheckAVX512)
 
 # Check AVX-512 VBMI.
 include(PHP/CheckAVX512VBMI)
 
-# Check for sockaddr_storage and sockaddr.sa_len.
-include(PHP/CheckSockaddr)
+# Check for asm goto.
+include(PHP/CheckAsmGoto)
 
-# Check functions and symbols.
+################################################################################
+# Check functions.
+################################################################################
+
 check_symbol_exists(alphasort "dirent.h" HAVE_ALPHASORT)
 check_symbol_exists(asctime_r "time.h" HAVE_ASCTIME_R)
 check_symbol_exists(chroot "unistd.h" HAVE_CHROOT)
@@ -315,6 +301,42 @@ cmake_push_check_state(RESET)
   check_symbol_exists(memrchr "string.h" HAVE_MEMRCHR)
 cmake_pop_check_state()
 
+check_symbol_exists(strlcat "string.h" HAVE_STRLCAT)
+check_symbol_exists(strlcpy "string.h" HAVE_STRLCPY)
+check_symbol_exists(explicit_bzero "string.h" HAVE_EXPLICIT_BZERO)
+# TODO: Remove getopt redundant check or adjust PHP C code to use system getopt.
+check_symbol_exists(getopt "unistd.h" HAVE_GETOPT)
+
+# Check for missing declarations of reentrant functions.
+include(PHP/CheckMissingTimeR)
+
+# Check fopencookie.
+include(PHP/CheckFopencookie)
+
+# Some systems, notably Solaris, cause getcwd() or realpath to fail if a
+# component of the path has execute but not read permissions.
+message(CHECK_START "Checking for broken getcwd()")
+if(CMAKE_HOST_SYSTEM_NAME STREQUAL "SunOS")
+  set(HAVE_BROKEN_GETCWD 1 CACHE INTERNAL "Define if system has broken getcwd")
+  message(CHECK_PASS "yes")
+else()
+  message(CHECK_FAIL "no")
+endif()
+
+# Check for broken GCC optimize-strlen.
+include(PHP/CheckBrokenGccStrlenOpt)
+if(HAVE_BROKEN_OPTIMIZE_STRLEN)
+  check_compiler_flag(C -fno-optimize-strlen HAVE_FNO_OPTIMIZE_STRLEN_C)
+  if(HAVE_FNO_OPTIMIZE_STRLEN_C)
+    target_compile_options(php_configuration
+      INTERFACE $<$<COMPILE_LANGUAGE:ASM,C>:-fno-optimize-strlen>
+    )
+  endif()
+endif()
+
+# Check for missing fclose declaration.
+include(PHP/CheckFclose)
+
 # Check for strerror_r, and if its a POSIX-compatible or a GNU specific version.
 include(PHP/CheckStrerrorR)
 
@@ -324,18 +346,32 @@ include(PHP/CheckGetaddrinfo)
 # Check copy_file_range().
 include(PHP/CheckCopyFileRange)
 
-# Check for asm goto.
-include(PHP/CheckAsmGoto)
-
-check_symbol_exists(strlcat "string.h" HAVE_STRLCAT)
-check_symbol_exists(strlcpy "string.h" HAVE_STRLCPY)
-check_symbol_exists(explicit_bzero "string.h" HAVE_EXPLICIT_BZERO)
-
 # Check type of reentrant time-related functions.
 include(PHP/CheckTimeR)
 
 # Check whether writing to stdout works.
 include(PHP/CheckWrite)
+
+################################################################################
+# Miscellaneous checks.
+################################################################################
+
+# Checking file descriptor sets.
+message(CHECK_START "Checking file descriptor sets size")
+if(PHP_FD_SETSIZE GREATER 0)
+  message(CHECK_PASS "using FD_SETSIZE=${PHP_FD_SETSIZE}")
+  target_compile_definitions(
+    php_configuration
+    INTERFACE $<$<COMPILE_LANGUAGE:ASM,C,CXX>:FD_SETSIZE=${PHP_FD_SETSIZE}>
+  )
+elseif(NOT PHP_FD_SETSIZE STREQUAL "" AND NOT PHP_FD_SETSIZE GREATER 0)
+  message(FATAL_ERROR "Invalid value PHP_FD_SETSIZE=${PHP_FD_SETSIZE}")
+else()
+  message(CHECK_PASS "using system default")
+endif()
+
+# Check target system byte order.
+include(PHP/CheckByteOrder)
 
 # Check for IPv6 support.
 if(PHP_IPV6)
@@ -346,7 +382,7 @@ endif()
 include(PHP/CheckAarch64CRC32)
 
 # Check POSIX Threads flags.
-if(PHP_ZTS)
+if(PHP_THREAD_SAFETY)
   string(TOLOWER "${CMAKE_HOST_SYSTEM}" host_os)
   if(${host_os} MATCHES ".*solaris.*")
     target_compile_definitions(
@@ -561,13 +597,17 @@ if(INET_ATON_LIBRARY)
 endif()
 
 ################################################################################
-# Compiler options.
+# Build type.
 ################################################################################
 
-# TODO: Use Debug build mode - CMAKE_BUILD_TYPE.
-if(PHP_DEBUG)
-  target_compile_options(php_configuration INTERFACE -g)
+# TODO: Fix this better.
+if(CMAKE_BUILD_TYPE STREQUAL "Debug" OR "Debug" IN_LIST CMAKE_CONFIGURATION_TYPES)
+  set(PHP_DEBUG TRUE)
 endif()
+
+################################################################################
+# Compiler options.
+################################################################################
 
 target_compile_options(php_configuration
   BEFORE INTERFACE
