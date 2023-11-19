@@ -61,7 +61,7 @@ option(PHP_RE2C_CGOTO "Enable computed goto GCC extension with re2c" OFF)
 
 option(PHP_DEBUG_ASSERTIONS "Enable debug assertions in release mode" OFF)
 
-option(PHP_THREAD_SAFETY "Enable thread safety" OFF)
+option(PHP_THREAD_SAFETY "Enable thread safety (ZTS)" OFF)
 
 option(PHP_USE_RTLD_NOW "Use dlopen with RTLD_NOW instead of RTLD_LAZY for extensions" OFF)
 

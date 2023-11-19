@@ -510,7 +510,7 @@ function(_php_extensions_post_configure directory)
     return()
   endif()
 
-  # Set target output filename to "<extension>.(a|dll|so)".
+  # Set target output filename to "<extension>".
   get_target_property(output php_${extension} OUTPUT_NAME)
   if(NOT output)
     set_property(TARGET php_${extension} PROPERTY OUTPUT_NAME ${extension})

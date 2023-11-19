@@ -17,9 +17,8 @@ add_feature_info("ext/%EXTNAME%" EXT_%EXTNAMECAPS%
   "Describe the extension features."
 )
 
-# Dependent boolean option that builds extension as a shared library (SO file on
-# *nix, DLL on Windows). CMake's BUILD_SHARED_LIBS variable hides this option
-# and builds extension as shared.
+# Dependent boolean option that builds extension as a shared library. CMake's
+# BUILD_SHARED_LIBS variable hides this option and builds extension as shared.
 cmake_dependent_option(
   EXT_%EXTNAMECAPS%_SHARED
   "Build the %EXTNAME% extension as a shared library"

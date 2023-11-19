@@ -252,12 +252,13 @@ PHP has several ways to install PHP extensions:
   the `php.ini` configuration:
 
   ```ini
-  # On *nix systems:
-  extension=php_extension_name.so
-
-  # Or on Windows:
-  extension=php_extension_name.dll
+  extension=php_extension_lowercase_name
   ```
+
+  This will load the PHP extension shared library file located in the extension
+  directory (the `extension_dir` INI directive). File can have `.so` extension
+  on *nix systems, `.dll` on Windows, and possibly other extensions such as
+  `.sl` on certain HP-UX systems, or `.dylib` on macOS.
 
 The following extensions are always enabled and are part of the overall PHP
 engine source code:

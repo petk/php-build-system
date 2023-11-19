@@ -104,7 +104,14 @@ endif()
 
 add_test(
   NAME php_test
-  COMMAND ./sapi/cli/php run-tests.php ${_run_tests_jobs} -q
+  COMMAND
+    ./sapi/cli/php
+      # TODO: Append options for running test script.
+      -d extension_dir=modules
+      -d zend_extension=opcache
+      run-tests.php
+        ${_run_tests_jobs}
+        -q
 )
 
 install(

@@ -84,7 +84,7 @@ endif()
 ################################################################################
 
 if(EXT_OPCACHE_JIT)
-  if(NOT ${CMAKE_HOST_SYSTEM_PROCESSOR} MATCHES "i[34567]86.*|x86.*|aarch64")
+  if(NOT CMAKE_HOST_SYSTEM_PROCESSOR MATCHES "i[34567]86.*|x86.*|aarch64.*")
     message(WARNING "JIT is not supported by host architecture")
     set_property(CACHE EXT_OPCACHE_JIT PROPERTY VALUE 0)
   endif()
@@ -113,20 +113,20 @@ if(EXT_OPCACHE_JIT)
   endif()
 
   # Find out which ABI to use.
-  if(${CMAKE_HOST_SYSTEM_PROCESSOR} MATCHES "x86_64.*")
+  if(CMAKE_HOST_SYSTEM_PROCESSOR MATCHES "^(x86_64|amd64)$")
     set(DASM_FLAGS -D X64=1)
     set(DASM_ARCH "x86")
-  elseif(${CMAKE_HOST_SYSTEM_PROCESSOR} MATCHES "i[34567]86.*")
+  elseif(CMAKE_HOST_SYSTEM_PROCESSOR MATCHES "i[34567]86.*")
     set(DASM_ARCH "x86")
-  elseif(${CMAKE_HOST_SYSTEM_PROCESSOR} MATCHES "x86.*")
+  elseif(CMAKE_HOST_SYSTEM_PROCESSOR MATCHES "^x86.*")
     set(DASM_ARCH "x86")
-  elseif(${CMAKE_HOST_SYSTEM_PROCESSOR} MATCHES "aarch64.*")
+  elseif(CMAKE_HOST_SYSTEM_PROCESSOR STREQUAL "aarch64")
     set(DASM_FLAGS -D ARM64=1)
     set(DASM_ARCH "arm64")
   endif()
 
   if(
-    CMAKE_HOST_SYSTEM_PROCESSOR MATCHES "x86_64.*"
+    CMAKE_HOST_SYSTEM_PROCESSOR STREQUAL "x86_64"
     AND CMAKE_HOST_SYSTEM_NAME STREQUAL "Darwin"
   )
     list(APPEND DASM_FLAGS -D X64APPLE=1)

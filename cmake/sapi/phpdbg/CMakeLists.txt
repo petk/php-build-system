@@ -91,6 +91,8 @@ set_target_properties(php_phpdbg PROPERTIES ENABLE_EXPORTS TRUE)
 set(HAVE_PHPDBG 1 CACHE INTERNAL "")
 
 # Man documentation.
+# TODO: Add @program_prefix@
+set(program_prefix "")
 configure_file(phpdbg.1.in phpdbg.1 @ONLY)
 
 install(TARGETS php_phpdbg DESTINATION ${CMAKE_INSTALL_BINDIR})

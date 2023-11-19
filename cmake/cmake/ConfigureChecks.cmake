@@ -210,17 +210,18 @@ check_symbol_exists(ctime_r "time.h" HAVE_CTIME_R)
 check_symbol_exists(explicit_memset "string.h" HAVE_EXPLICIT_MEMSET)
 check_symbol_exists(fdatasync "unistd.h" HAVE_FDATASYNC)
 
-set(FLOCK_HEADERS "")
+cmake_push_check_state(RESET)
+  if(HAVE_FCNTL_H)
+    list(APPEND _php_flock_headers "fcntl.h")
+  endif()
 
-if(HAVE_FCNTL_H)
-  list(APPEND FLOCK_HEADERS "fcntl.h")
-endif()
+  if(HAVE_SYS_FILE_H)
+    list(APPEND _php_flock_headers "sys/file.h")
+  endif()
 
-if(HAVE_SYS_FILE_H)
-  list(APPEND FLOCK_HEADERS "sys/file.h")
-endif()
-
-check_symbol_exists(flock "${FLOCK_HEADERS}" HAVE_FLOCK)
+  check_symbol_exists(flock "${_php_flock_headers}" HAVE_FLOCK)
+  unset(_php_flock_headers)
+cmake_pop_check_state()
 
 check_symbol_exists(ftok "sys/ipc.h" HAVE_FTOK)
 check_symbol_exists(funopen "stdio.h" HAVE_FUNOPEN)

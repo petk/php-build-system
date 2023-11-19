@@ -1,39 +1,39 @@
 add_library(php_main STATIC
-  main.c
-  snprintf.c
-  spprintf.c
+  explicit_bzero.c
+  fastcgi.c
   fopen_wrappers.c
-  php_scandir.c
+  internal_functions_cli.c
+  internal_functions.c
+  main.c
+  network.c
+  output.c getopt.c
+  php_content_types.c
   php_ini_builder.c
   php_ini.c
-  SAPI.c
-  rfc1867.c
-  php_content_types.c
-  strlcpy.c
-  strlcat.c
-  explicit_bzero.c
-  reentrancy.c
-  php_variables.c
-  php_ticks.c
-  network.c
-  php_open_temporary_file.c
   php_odbc_utils.c
-  safe_bcmp.c
-  output.c getopt.c
+  php_open_temporary_file.c
+  php_scandir.c
   php_syslog.c
-  fastcgi.c
-  internal_functions.c
-  internal_functions_cli.c
-  streams/streams.c
+  php_ticks.c
+  php_variables.c
+  reentrancy.c
+  rfc1867.c
+  safe_bcmp.c
+  SAPI.c
+  snprintf.c
+  spprintf.c
   streams/cast.c
-  streams/memory.c
   streams/filter.c
-  streams/plain_wrapper.c
-  streams/userspace.c
-  streams/transports.c
-  streams/xp_socket.c
-  streams/mmap.c
   streams/glob_wrapper.c
+  streams/memory.c
+  streams/mmap.c
+  streams/plain_wrapper.c
+  streams/streams.c
+  streams/transports.c
+  streams/userspace.c
+  streams/xp_socket.c
+  strlcat.c
+  strlcpy.c
 )
 
 add_library(PHP::main ALIAS php_main)

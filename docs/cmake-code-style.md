@@ -26,6 +26,7 @@ ecosystem.
   * [7.3. Custom targets](#73-custom-targets)
 * [8. Properties](#8-properties)
 * [9. Determining platform](#9-determining-platform)
+  * [9.1. Determining processor](#91-determining-processor)
 * [10. See also](#10-see-also)
   * [10.1. Tools](#101-tools)
     * [10.1.1. cmake-format (by cmakelang project)](#1011-cmake-format-by-cmakelang-project)
@@ -480,6 +481,33 @@ endif()
 ```
 
 See also [CMakeDetermineSystem.cmake](https://gitlab.kitware.com/cmake/cmake/-/blob/master/Modules/CMakeDetermineSystem.cmake).
+
+### 9.1. Determining processor
+
+When cross compiling the `CMAKE_SYSTEM_PROCESSOR` is determined from the
+toolchain file. When compiling on the machine for which the build is also
+targeted, the `CMAKE_SYSTEM_PROCESSOR` and `CMAKE_HOST_SYSTEM_PROCESSOR` will be
+the same.
+
+Processor is determined by various ways depending on the system.
+
+Some examples:
+
+* On FreeBSD the `x86_64` is detected as `amd64`:
+
+  ```cmake
+  if(CMAKE_HOST_SYSTEM_PROCESSOR MATCHES "^(x86_64|amd64)$")
+    # CPU is x86_64.
+  endif()
+  ```
+
+* The `aarch64` or `aarch64_be`:
+
+  ```cmake
+  if(CMAKE_HOST_SYSTEM_PROCESSOR MATCHES "aarch64.*")
+    # CPU is aarch64.
+  endif()
+  ```
 
 ## 10. See also
 

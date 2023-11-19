@@ -2076,7 +2076,7 @@
 /* Enable X/Open extensions.  Define to 500 only if necessary
    to make mbstate_t available.  */
 #ifndef _XOPEN_SOURCE
-# cmakedefine _XOPEN_SOURCE
+# cmakedefine _XOPEN_SOURCE @_XOPEN_SOURCE@
 #endif
 
 
