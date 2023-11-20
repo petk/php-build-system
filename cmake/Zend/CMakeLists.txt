@@ -401,7 +401,7 @@ else()
 
   cmake_push_check_state(RESET)
     if(CMAKE_HOST_SYSTEM_NAME STREQUAL "Darwin")
-      set(CMAKE_REQUIRED_DEFINITIONS _XOPEN_SOURCE)
+      set(CMAKE_REQUIRED_DEFINITIONS -D_XOPEN_SOURCE)
       # TODO: Fix this better.
       set(_XOPEN_SOURCE 1 CACHE INTERNAL "")
     endif()

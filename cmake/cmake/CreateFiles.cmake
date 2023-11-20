@@ -2,12 +2,38 @@
 Creates files from templates.
 ]=============================================================================]#
 
+################################################################################
+# Set replacement values.
+################################################################################
+if(PHP_CONFIG_FILE_PATH STREQUAL "")
+  if(PHP_LAYOUT STREQUAL "GNU")
+    set(EXPANDED_PHP_CONFIG_FILE_PATH "${CMAKE_INSTALL_FULL_SYSCONFDIR}")
+  else()
+    set(EXPANDED_PHP_CONFIG_FILE_PATH "${CMAKE_INSTALL_FULL_LIBDIR}")
+  endif()
+else()
+  set(EXPANDED_PHP_CONFIG_FILE_PATH "${PHP_CONFIG_FILE_PATH}")
+endif()
+
+if(PHP_PEAR)
+  if(PHP_PEAR_DIR STREQUAL "")
+    if(PHP_LAYOUT STREQUAL "GNU")
+      set(EXPANDED_PEAR_INSTALLDIR "${CMAKE_INSTALL_FULL_DATADIR}/pear")
+    else()
+      set(EXPANDED_PEAR_INSTALLDIR "${CMAKE_INSTALL_FULL_LIBDIR}/php")
+    endif()
+  else()
+    set(EXPANDED_PEAR_INSTALLDIR "${PHP_PEAR_DIR}")
+  endif()
+endif()
+
 # Create main/build-defs.h file.
 function(_php_create_build_definitions)
   # TODO: Set configure command string.
   set(CONFIGURE_COMMAND "cmake" CACHE INTERNAL "Configuration command used for building PHP.")
 
-  set(INCLUDE_PATH ".:" CACHE INTERNAL "The include_path directive.")
+  # Set the 'include_path' INI directive.
+  set(INCLUDE_PATH ".:${EXPANDED_PEAR_INSTALLDIR}")
 
   # Set the PHP_EXTENSION_DIR based on the layout used.
   if(NOT PHP_EXTENSION_DIR)
@@ -15,7 +41,7 @@ function(_php_create_build_definitions)
     string(REGEX MATCH "#define ZEND_MODULE_API_NO ([0-9]*)" _ "${content}")
     set(zend_module_api_no ${CMAKE_MATCH_1})
 
-    set(php_extension_dir "${CMAKE_INSTALL_PREFIX}/${CMAKE_INSTALL_LIBDIR}/php")
+    set(php_extension_dir "${CMAKE_INSTALL_FULL_LIBDIR}/php")
 
     if(PHP_LAYOUT STREQUAL "GNU")
       set(php_extension_dir "${php_extension_dir}/${zend_module_api_no}")

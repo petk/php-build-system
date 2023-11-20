@@ -435,7 +435,7 @@ function(_php_fpm_configure_files)
   # TODO: Add substitution variables.
   # @EXPANDED_LOCALSTATEDIR@
   # @php_fpm_sysconfdir@
-  set(prefix ${CMAKE_INSTALL_PREFIX})
+  set(prefix "${CMAKE_INSTALL_PREFIX}")
   configure_file(php-fpm.conf.in php-fpm.conf @ONLY)
 
   # TODO: Add substitution variables.

@@ -19,7 +19,7 @@ list(APPEND CMAKE_MESSAGE_INDENT "  ")
 if(NOT CMAKE_CROSSCOMPILING)
   cmake_push_check_state(RESET)
     if(HAVE_UNISTD_H)
-      set(CMAKE_REQUIRED_DEFINITIONS "-DHAVE_UNISTD_H")
+      set(CMAKE_REQUIRED_DEFINITIONS -DHAVE_UNISTD_H)
     endif()
 
     check_c_source_runs("

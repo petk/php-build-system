@@ -974,6 +974,16 @@ cmake -LH .
       <td></td>
     </tr>
     <tr>
+      <td>--without-config-file-path</td>
+      <td>PHP_CONFIG_FILE_PATH=""</td>
+      <td>default</td>
+    </tr>
+    <tr>
+      <td>&nbsp;&nbsp;--with-config-file-path=PATH</td>
+      <td>&nbsp;&nbsp;PHP_CONFIG_FILE_PATH=PATH</td>
+      <td></td>
+    </tr>
+    <tr>
       <td><strong>Zend specific configuration</strong></td>
       <td></td>
       <td></td>

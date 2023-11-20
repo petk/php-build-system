@@ -504,7 +504,7 @@ Some examples:
 * The `aarch64` or `aarch64_be`:
 
   ```cmake
-  if(CMAKE_HOST_SYSTEM_PROCESSOR MATCHES "aarch64.*")
+  if(CMAKE_HOST_SYSTEM_PROCESSOR MATCHES "^aarch64.*")
     # CPU is aarch64.
   endif()
   ```

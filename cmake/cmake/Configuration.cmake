@@ -53,6 +53,11 @@ set(
   CACHE PATH "The path where to scan for additional INI configuration files"
 )
 
+set(
+  PHP_CONFIG_FILE_PATH ""
+  CACHE FILEPATH "The path in which to look for php.ini."
+)
+
 ################################################################################
 # General options.
 ################################################################################

@@ -115,7 +115,7 @@ add_custom_command(
       -p 0
       -s ${CMAKE_CURRENT_SOURCE_DIR}/phar/phar.php
       -h sha1
-      -b "${CMAKE_INSTALL_PREFIX}/${CMAKE_INSTALL_BINDIR}/${php_cli_filename}"
+      -b "${CMAKE_INSTALL_FULL_BINDIR}/${php_cli_filename}"
       ${CMAKE_CURRENT_SOURCE_DIR}/phar
   DEPENDS
     ${CMAKE_CURRENT_BINARY_DIR}/phar.php
