@@ -30,7 +30,7 @@ endif()
 # Create main/build-defs.h file.
 function(_php_create_build_definitions)
   # TODO: Set configure command string.
-  set(CONFIGURE_COMMAND "cmake" CACHE INTERNAL "Configuration command used for building PHP.")
+  set(CONFIGURE_COMMAND "cmake")
 
   # Set the 'include_path' INI directive.
   set(INCLUDE_PATH ".:${EXPANDED_PEAR_INSTALLDIR}")
@@ -71,10 +71,10 @@ function(_php_create_build_definitions)
       set(php_extension_dir "${php_extension_dir}-${zend_module_api_no}")
     endif()
 
-    set(PHP_EXTENSION_DIR "${php_extension_dir}" CACHE STRING "PHP extensions directory" FORCE)
+    set_property(CACHE PHP_EXTENSION_DIR PROPERTY VALUE "${php_extension_dir}")
   endif()
 
-  set(EXPANDED_EXTENSION_DIR "${PHP_EXTENSION_DIR}" CACHE INTERNAL "")
+  set(EXPANDED_EXTENSION_DIR "${PHP_EXTENSION_DIR}")
 
   # Set shared library object extension.
   string(REPLACE "." "" SHLIB_DL_SUFFIX_NAME ${CMAKE_SHARED_LIBRARY_SUFFIX})

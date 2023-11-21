@@ -43,6 +43,10 @@ set(
 )
 set_property(CACHE PHP_LAYOUT PROPERTY STRINGS "GNU" "PHP")
 
+if(NOT PHP_LAYOUT STREQUAL "GNU")
+  # TODO: DATAROOTDIR should be "php" instead of default "share".
+endif()
+
 set(
   PHP_EXTENSION_DIR ""
   CACHE PATH "The extension_dir PHP INI directive absolute path"

@@ -94,6 +94,14 @@ On the contrary, variable names are case-sensitive.
   ")
   ```
 
+* When defining path variables, exclude the trailing directory delimiter `/`.
+  This practice facilitates concatenation of such variables:
+
+  ```cmake
+  set(parent_dir "foo/bar")
+  set(child_dir "${parent_dir}/baz")
+  ```
+
 ### 2.1. End commands
 
 To make the code easier to read, use empty commands for `endif()`,
@@ -508,6 +516,8 @@ Some examples:
     # CPU is aarch64.
   endif()
   ```
+
+* `sparc`, `sparc64`
 
 ## 10. See also
 

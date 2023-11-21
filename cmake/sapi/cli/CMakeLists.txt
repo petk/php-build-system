@@ -45,7 +45,6 @@ endif()
 
 # TODO: Check if there's a better solution here.
 set_target_properties(php_cli PROPERTIES ENABLE_EXPORTS TRUE)
-#target_compile_options(php_cli PRIVATE -fvisibility=hidden)
 
 # Man documentation.
 function(_php_cli_configure_file)

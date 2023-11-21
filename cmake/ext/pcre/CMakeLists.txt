@@ -39,7 +39,7 @@ if(EXT_PCRE_EXTERNAL)
     message(CHECK_START "Checking for JIT support in PCRE2")
 
     if(CMAKE_CROSSCOMPILING)
-      if(CMAKE_HOST_SYSTEM_PROCESSOR MATCHES "arm.*|i[34567]86|x86_64|mips.*|powerpc.*|sparc")
+      if(CMAKE_HOST_SYSTEM_PROCESSOR MATCHES "^(arm.*|i[34567]86|x86_64|amd64|mips.*|powerpc.*|sparc.*)$")
         set(
           HAVE_PCRE_JIT_SUPPORT 1
           CACHE INTERNAL "Whether to enable the PCRE JIT support"

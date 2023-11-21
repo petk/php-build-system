@@ -909,18 +909,18 @@ cmake -LH .
       <td>See GNUInstallDirs</td>
     </tr>
     <tr>
-      <td>--with-layout=[TYPE]</td>
-      <td>PHP_LAYOUT=[TYPE]</td>
-      <td>TYPE=PHP</td>
+      <td>--with-layout=PHP|GNU</td>
+      <td>PHP_LAYOUT=PHP|GNU</td>
+      <td>default: PHP</td>
     </tr>
     <tr>
       <td>--disable-werror</td>
-      <td>PHP_WERROR=OFF</td>
+      <td>PHP_WERROR=OFF or --compile-no-warning-as-error</td>
       <td>default</td>
     </tr>
     <tr>
       <td>&nbsp;&nbsp;--enable-werror</td>
-      <td>&nbsp;&nbsp;PHP_WERROR=ON</td>
+      <td>&nbsp;&nbsp;PHP_WERROR=ON or CMAKE_COMPILE_WARNING_AS_ERROR=ON</td>
       <td></td>
     </tr>
     <tr>
