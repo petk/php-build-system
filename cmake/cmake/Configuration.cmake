@@ -96,6 +96,8 @@ option(PHP_ADDRESS_SANITIZER "Enable the address sanitizer compiler option" OFF)
 
 option(PHP_UNDEFINED_SANITIZER "Enable the undefined sanitizer compiler option" OFF)
 
+option(PHP_GCOV "Enable GCOV code coverage and include GCOV symbols" OFF)
+
 if(PHP_SHORT_TAGS)
   set(DEFAULT_SHORT_OPEN_TAG "1")
 else()

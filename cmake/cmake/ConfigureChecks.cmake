@@ -460,6 +460,34 @@ endif()
 
 include(PHP/CheckGethostbynameR)
 
+# Check GCOV.
+if(PHP_GCOV)
+  if(NOT CMAKE_C_COMPILER_ID STREQUAL "GNU")
+    message(FATAL_ERROR "GCC is required for using PHP_GCOV='ON'")
+  endif()
+
+  # Check if ccache is being used.
+  if(CMAKE_C_COMPILER_LAUNCHER MATCHES "ccache")
+    message(
+      WARNING
+      "ccache should be disabled when PHP_GCOV='ON' option is used. You can "
+      "disable ccache by setting environment variable CCACHE_DISABLE=1."
+    )
+  endif()
+
+  find_package(Gcov)
+  set_package_properties(Gcov PROPERTIES
+    TYPE REQUIRED
+    PURPOSE "Necessary to enable GCOV coverage report and symbols."
+  )
+
+  if(TARGET Gcov::Gcov)
+    target_link_libraries(php_configuration INTERFACE Gcov::Gcov)
+
+    gcov_generate_report()
+  endif()
+endif()
+
 # wchar.h is always available as part of C99 standard. The libmagic still
 # includes it conditionally.
 set(HAVE_WCHAR_H 1 CACHE INTERNAL "Define to 1 if you have the <wchar.h> header file.")

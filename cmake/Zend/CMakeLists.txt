@@ -269,8 +269,8 @@ if(BISON_FOUND)
     DEFINES_FILE "${CMAKE_CURRENT_SOURCE_DIR}/zend_language_parser.h"
   )
 
-  # Tweak zendparse to be exported through ZEND_API. This has to be revisited once
-  # bison supports foreign skeletons and that bison version is used. Read
+  # Tweak zendparse to be exported through ZEND_API. This has to be revisited
+  # once bison supports foreign skeletons and that bison version is used. Read
   # https://git.savannah.gnu.org/cgit/bison.git/tree/data/README.md for more.
   file(
     GENERATE

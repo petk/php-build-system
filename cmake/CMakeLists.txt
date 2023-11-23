@@ -20,6 +20,14 @@ project(
   LANGUAGES C ASM CXX
 )
 
+# TODO: Adjust setting ccache.
+find_program(CCACHE_EXECUTABLE ccache)
+if(CCACHE_EXECUTABLE AND NOT CCACHE_DISABLE AND NOT "$ENV{CCACHE_DISABLE}")
+  message(STATUS "Using ccache")
+  set(CMAKE_C_COMPILER_LAUNCHER ccache)
+  set(CMAKE_CXX_COMPILER_LAUNCHER ccache)
+endif()
+
 # Append extra version label suffix to PHP_VERSION.
 set(PHP_VERSION "${PHP_VERSION}${PHP_VERSION_LABEL}")
 

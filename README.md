@@ -984,6 +984,16 @@ cmake -LH .
       <td></td>
     </tr>
     <tr>
+      <td>--disable-gcov</td>
+      <td>PHP_GCOV=OFF</td>
+      <td>default</td>
+    </tr>
+    <tr>
+      <td>&nbsp;&nbsp;--enable-gcov</td>
+      <td>&nbsp;&nbsp;PHP_GCOV=ON</td>
+      <td></td>
+    </tr>
+    <tr>
       <td><strong>Zend specific configuration</strong></td>
       <td></td>
       <td></td>
