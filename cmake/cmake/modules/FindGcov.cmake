@@ -12,6 +12,7 @@ Result variables:
     Whether gcov features have been found.
 
 Cache variables:
+
   HAVE_GCOV
 #]=============================================================================]
 
@@ -59,6 +60,8 @@ find_package_handle_standard_args(
   REQUIRED_VARS Gcov_LCOV_EXECUTABLE Gcov_GENHTML_EXECUTABLE Gcov_GCOVR_EXECUTABLE
   REASON_FAILURE_MESSAGE "${_reason_failure_message}"
 )
+
+unset(_reason_failure_message)
 
 if(Gcov_FOUND AND NOT TARGET Gcov::Gcov)
   add_library(Gcov::Gcov INTERFACE IMPORTED)
@@ -123,7 +126,7 @@ macro(gcov_generate_report)
       )
 
       message(STATUS \"Generating gcovr HTML\")
-      # Clean temporary .git directory. Checks are done as safeguards.
+      # Clean generated gcov_html directory. Checks are done as safeguards.
       if(
         EXISTS ${PROJECT_BINARY_DIR}/main/php_config.h
         AND EXISTS ${PROJECT_BINARY_DIR}/gcovr_html
@@ -151,7 +154,7 @@ macro(gcov_generate_report)
       )
 
       message(STATUS \"Generating gcovr XML\")
-      # Clean temporary .git directory. Checks are done as safeguards.
+      # Clean generated gcovr.xml file. Checks are done as safeguards.
       if(
         EXISTS ${PROJECT_BINARY_DIR}/main/php_config.h
         AND EXISTS ${PROJECT_BINARY_DIR}/gcovr.xml
@@ -191,5 +194,3 @@ macro(gcov_generate_report)
     COMMENT "[GCOV] Generating GCOV files"
   )
 endmacro()
-
-unset(_reason_failure_message)

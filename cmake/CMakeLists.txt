@@ -50,8 +50,8 @@ include(cmake/Requirements.cmake)
 # Run PHP configuration checks.
 include(cmake/ConfigureChecks.cmake)
 
-# Check compiler options.
-include(cmake/CompilerOptions.cmake)
+# Check compilation options.
+include(cmake/Flags.cmake)
 
 message("
 +--------------------------------------------------------------------+

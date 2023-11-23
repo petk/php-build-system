@@ -1,9 +1,11 @@
 #[=============================================================================[
-Check and configure compiler options.
+Check and configure compilation options.
 ]=============================================================================]#
 
 # Include required modules.
 include(CheckCompilerFlag)
+include(CheckLinkerFlag)
+include(CMakePushCheckState)
 
 # Check for broken GCC optimize-strlen.
 include(PHP/CheckBrokenGccStrlenOpt)
@@ -137,6 +139,10 @@ if(PHP_WERROR OR CMAKE_COMPILE_WARNING_AS_ERROR)
 
   set(CMAKE_COMPILE_WARNING_AS_ERROR TRUE)
 endif()
+
+################################################################################
+# Sanitizer flags.
+################################################################################
 
 if(PHP_MEMORY_SANITIZER AND PHP_ADDRESS_SANITIZER)
   message(
@@ -277,4 +283,75 @@ if(PHP_MEMORY_SANITIZER OR PHP_ADDRESS_SANITIZER OR PHP_UNDEFINED_SANITIZER)
       INTERFACE "$<$<COMPILE_LANGUAGE:CXX>:-fno-omit-frame-pointer>"
     )
   endif()
+endif()
+
+################################################################################
+# Check linker flags.
+################################################################################
+
+# Align segments on huge page boundary.
+message(
+  CHECK_START
+  "Checking linker support for aligning segments on huge page boundary"
+)
+if(CMAKE_HOST_SYSTEM_NAME STREQUAL "Linux"
+  AND CMAKE_HOST_SYSTEM_PROCESSOR MATCHES "^(i[3456]86.*|x86_64)$"
+)
+  check_linker_flag(
+    C
+    "-Wl,-zcommon-page-size=2097152;-Wl,-zmax-page-size=2097152"
+    HAVE_ALIGNMENT_FLAGS_C
+  )
+
+  if(HAVE_ALIGNMENT_FLAGS_C)
+    target_link_options(php_configuration
+      INTERFACE "$<$<AND:$<STREQUAL:$<TARGET_PROPERTY:TYPE>,EXECUTABLE>,$<COMPILE_LANGUAGE:ASM,C>>:-Wl,-zcommon-page-size=2097152;-Wl,-zmax-page-size=2097152>"
+    )
+  else()
+    check_linker_flag(
+      C
+      "-Wl,-zmax-page-size=2097152"
+      HAVE_ZMAX_PAGE_SIZE_C
+    )
+
+    if(HAVE_ZMAX_PAGE_SIZE_C)
+      target_link_options(php_configuration
+        INTERFACE "$<$<AND:$<STREQUAL:$<TARGET_PROPERTY:TYPE>,EXECUTABLE>,$<COMPILE_LANGUAGE:ASM,C>>:-Wl,-zmax-page-size=2097152>"
+      )
+    endif()
+  endif()
+
+  check_linker_flag(
+    CXX
+    "-Wl,-zcommon-page-size=2097152;-Wl,-zmax-page-size=2097152"
+    HAVE_ALIGNMENT_FLAGS_CXX
+  )
+
+  if(HAVE_ALIGNMENT_FLAGS_CXX)
+    target_link_options(php_configuration
+      INTERFACE "$<$<AND:$<STREQUAL:$<TARGET_PROPERTY:TYPE>,EXECUTABLE>,$<COMPILE_LANGUAGE:CXX>>:-Wl,-zcommon-page-size=2097152;-Wl,-zmax-page-size=2097152>"
+    )
+  else()
+    check_linker_flag(
+      CXX
+      "-Wl,-zmax-page-size=2097152"
+      HAVE_ZMAX_PAGE_SIZE_CXX
+    )
+
+    if(HAVE_ZMAX_PAGE_SIZE_CXX)
+      target_link_options(php_configuration
+        INTERFACE "$<$<AND:$<STREQUAL:$<TARGET_PROPERTY:TYPE>,EXECUTABLE>,$<COMPILE_LANGUAGE:CXX>>:-Wl,-zmax-page-size=2097152>"
+      )
+    endif()
+  endif()
+
+  if(HAVE_ALIGNMENT_FLAGS_C AND HAVE_ALIGNMENT_FLAGS_CXX)
+    message(CHECK_PASS "yes")
+  elseif(HAVE_ZMAX_PAGE_SIZE_C AND HAVE_ZMAX_PAGE_SIZE_CXX)
+    message(CHECK_PASS "yes")
+  else()
+    message(CHECK_FAIL "no")
+  endif()
+else()
+  message(CHECK_FAIL "no")
 endif()
