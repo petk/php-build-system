@@ -24,6 +24,8 @@ set_package_properties(Sendmail PROPERTIES
 find_program(
   Sendmail_EXECUTABLE
   sendmail
+  # TODO: Remove these. CMake already includes all proper standard paths for
+  # finding programs.
   PATHS /usr/bin /usr/sbin /usr/etc /etc /usr/ucblib /usr/lib
   DOC "The sendmail executable path"
 )

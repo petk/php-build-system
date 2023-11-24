@@ -126,7 +126,7 @@ macro(gcov_generate_report)
       )
 
       message(STATUS \"Generating gcovr HTML\")
-      # Clean generated gcov_html directory. Checks are done as safeguards.
+      # Clean generated gcovr_html directory. Checks are done as safeguards.
       if(
         EXISTS ${PROJECT_BINARY_DIR}/main/php_config.h
         AND EXISTS ${PROJECT_BINARY_DIR}/gcovr_html

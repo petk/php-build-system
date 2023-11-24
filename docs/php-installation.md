@@ -148,7 +148,7 @@ Common practice is to also add program prefixes and suffixes (`php83`):
   PHP_BUILD_SYSTEM="Acme Linux" \
   PHP_BUILD_PROVIDER="Acme" \
   PHP_BUILD_COMPILER="GCC" \
-  PHP_BUILD_ARCH="x86" \
+  PHP_BUILD_ARCH="x86_64" \
   PHP_EXTRA_VERSION="-acme" \
   EXTENSION_DIR=/path/to/php/extensions \
   --with-layout=GNU \

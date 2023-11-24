@@ -41,6 +41,8 @@
       "displayName": "PHP configuration with all extensions enabled",
       "description": "PHP build using Unix Makefiles generator and all extensions enabled",
       "cacheVariables": {
+        "PHP_PEAR": true,
+
         "EXT_BCMATH": true,
         "EXT_BZ2": true,
         "EXT_CALENDAR": true,

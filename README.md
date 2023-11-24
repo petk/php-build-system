@@ -2635,22 +2635,22 @@ cmake -DCMAKE_FOOVAR=ON -DPHP_VAR=... ../php-src
     <tr>
       <td>PHP_BUILD_SYSTEM=&quot;ACME Linux&quot;</td>
       <td>PHP_BUILD_SYSTEM=&quot;ACME Linux&quot;</td>
-      <td>uname -a ouput</td>
+      <td>Builder system name, defaults to uname -a output</td>
     </tr>
     <tr>
       <td>PHP_BUILD_PROVIDER=&quot;ACME&quot;</td>
       <td>PHP_BUILD_PROVIDER=&quot;ACME&quot;</td>
-      <td>Additional build system info</td>
+      <td>Build provider</td>
     </tr>
     <tr>
-      <td>PHP_BUILD_COMPILER=&quot;ACME&quot;</td>
-      <td>PHP_BUILD_COMPILER=&quot;ACME&quot;</td>
-      <td>Additional build system info</td>
+      <td>PHP_BUILD_COMPILER=&quot;...&quot;</td>
+      <td>PHP_BUILD_COMPILER=&quot;...&quot;</td>
+      <td>Compiler used for build</td>
     </tr>
     <tr>
-      <td>PHP_BUILD_ARCH=&quot;ACME&quot;</td>
-      <td>PHP_BUILD_ARCH=&quot;ACME&quot;</td>
-      <td>Additional build system info</td>
+      <td>PHP_BUILD_ARCH=&quot;...&quot;</td>
+      <td>PHP_BUILD_ARCH=&quot;...&quot;</td>
+      <td>Build architecture</td>
     </tr>
     <tr>
       <td>EXTENSION_DIR=&quot;path/to/ext&quot;</td>
