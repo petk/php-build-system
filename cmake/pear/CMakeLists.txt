@@ -24,11 +24,11 @@ if(NOT PHP_PEAR)
   return()
 endif()
 
+message(DEPRECATION "The PHP_PEAR option is deprecated.")
+
 if(NOT SAPI_CLI)
   message(FATAL_ERROR "The PHP_PEAR option requires CLI SAPI. Set SAPI_CLI='ON'.")
 endif()
-
-message(DEPRECATION "The PHP_PEAR option is deprecated.")
 
 # Check PEAR dependencies.
 if(NOT EXT_XML)
@@ -50,14 +50,19 @@ else()
   set(_php_pear_dir "${PHP_PEAR_DIR}")
 endif()
 
+# Defined for build-defs.h.
+set(EXPANDED_PEAR_INSTALLDIR "${_php_pear_dir}" CACHE INTERNAL "PEAR dir")
+
 set(_php_pear_installer_url "https://pear.php.net/install-pear-nozlib.phar")
 
 # TODO: Add program prefix and suffix.
 set(_php_pear_program_prefix "")
 set(_php_pear_program_suffix "")
 
+# TODO: Recheck if _php_pear_dir needs to be manually created here.
 install(CODE "
   message(STATUS \"Installing PEAR environment: ${_php_pear_dir}\")
+
   if(EXISTS \"${CMAKE_CURRENT_SOURCE_DIR}/install-pear-nozlib.phar\"
     AND NOT CMAKE_CURRENT_SOURCE_DIR STREQUAL CMAKE_CURRENT_BINARY_DIR
   )
@@ -67,6 +72,7 @@ install(CODE "
       \"${CMAKE_CURRENT_BINARY_DIR}/install-pear-nozlib.phar\"
     )
   endif()
+
   if(NOT EXISTS \"${CMAKE_CURRENT_BINARY_DIR}/install-pear-nozlib.phar\")
     file(
       DOWNLOAD
@@ -88,6 +94,10 @@ install(CODE "
     endif()
 
     if(EXISTS ${CMAKE_CURRENT_BINARY_DIR}/install-pear-nozlib.phar)
+      # PEAR reads the INSTALL_ROOT environment variable to install pear.conf.
+      # TODO: Adjust this further.
+      #set(ENV{INSTALL_ROOT} \"$<INSTALL_PREFIX>\")
+
       execute_process(
         COMMAND ${CMAKE_BINARY_DIR}/sapi/cli/php
           -n
@@ -97,8 +107,10 @@ install(CODE "
           -dmemory_limit=-1
           -ddetect_unicode=0
           ${CMAKE_CURRENT_BINARY_DIR}/install-pear-nozlib.phar
-            -d \"${_php_pear_dir}\"
-            -b \"$<INSTALL_PREFIX>/${CMAKE_INSTALL_BINDIR}\"
+            --dir \"${_php_pear_dir}\"
+            --bin \"$<INSTALL_PREFIX>/${CMAKE_INSTALL_BINDIR}\"
+            --config \"$<INSTALL_PREFIX>/${CMAKE_INSTALL_SYSCONFDIR}\"
+            --metadata \"$<INSTALL_PREFIX>/${CMAKE_INSTALL_DATADIR}\"
             -dp a${_php_pear_program_prefix}
             -ds a$(_php_pear_program_suffix)
       )

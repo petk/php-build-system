@@ -73,7 +73,6 @@ if(Gcov_FOUND AND NOT TARGET Gcov::Gcov)
   )
 endif()
 
-# TODO: Fix excludes.
 macro(gcov_generate_report)
   file(
     GENERATE
@@ -89,18 +88,6 @@ macro(gcov_generate_report)
       )
 
       message(STATUS \"Stripping bundled libraries from php_lcov.info\")
-      file(
-        GLOB_RECURSE _php_gcov_excludes
-        \"${PROJECT_BINARY_DIR}/ext/bcmath/libbcmath/*\"
-        \"${PROJECT_BINARY_DIR}/ext/date/lib/*\"
-        \"${PROJECT_BINARY_DIR}/parse_date.re\"
-        \"${PROJECT_BINARY_DIR}/parse_iso_intervals.re\"
-        \"${PROJECT_BINARY_DIR}/ext/fileinfo/libmagic/*\"
-        \"${PROJECT_BINARY_DIR}/ext/gd/libgd/*\"
-        \"${PROJECT_BINARY_DIR}/ext/hash/sha3/*\"
-        \"${PROJECT_BINARY_DIR}/ext/mbstring/libmbfl/*\"
-        \"${PROJECT_BINARY_DIR}/ext/pcre/pcre2lib/*\"
-      )
       execute_process(
         COMMAND ${Gcov_LCOV_EXECUTABLE}
           --output-file ${PROJECT_BINARY_DIR}/php_lcov.info
@@ -140,17 +127,13 @@ macro(gcov_generate_report)
           -o ${PROJECT_BINARY_DIR}/gcovr_html/index.html
           --html
           --html-details
-          --exclude-directories ext/date/lib\$
+          --exclude-directories .*date.dir/lib\\\$
           -e ext/bcmath/libbcmath/.*
-          -e ext/date/lib/parse_date.re
-          -e ext/date/lib/parse_date.re
-          -e ext/date/lib/.*
           -e ext/fileinfo/libmagic/.*
           -e ext/gd/libgd/.*
           -e ext/hash/sha3/.*
           -e ext/mbstring/libmbfl/.*
           -e ext/pcre/pcre2lib/.*
-          --gcov-ignore-errors=no_working_dir_found
       )
 
       message(STATUS \"Generating gcovr XML\")
@@ -159,22 +142,20 @@ macro(gcov_generate_report)
         EXISTS ${PROJECT_BINARY_DIR}/main/php_config.h
         AND EXISTS ${PROJECT_BINARY_DIR}/gcovr.xml
       )
-        file(REMOVE_RECURSE ${PROJECT_BINARY_DIR}/gcovr.xml)
+        file(REMOVE ${PROJECT_BINARY_DIR}/gcovr.xml)
       endif()
       execute_process(
         COMMAND ${Gcov_GCOVR_EXECUTABLE}
           -sr ${PROJECT_BINARY_DIR}
           -o ${PROJECT_BINARY_DIR}/gcovr.xml
           --xml
-          --exclude-directories ext/date/lib\$
+          --exclude-directories .*date.dir/lib\\\$
           -e ext/bcmath/libbcmath/.*
-          -e ext/date/lib/.*
           -e ext/fileinfo/libmagic/.*
           -e ext/gd/libgd/.*
           -e ext/hash/sha3/.*
           -e ext/mbstring/libmbfl/.*
           -e ext/pcre/pcre2lib/.*
-          --gcov-ignore-errors=no_working_dir_found
       )
     "
   )
@@ -183,8 +164,15 @@ macro(gcov_generate_report)
     OUTPUT ${PROJECT_BINARY_DIR}/php_lcov.info
     COMMAND ${CMAKE_COMMAND} -P "CMakeFiles/GenerateGcovReport.cmake"
     DEPENDS
-      php_cli
-      # TODO: Add all enabled dependent PHP_SAPI_* targets.
+      # TODO: Can the list of PHP SAPIs be retrieved programmatically?
+      $<TARGET_NAME_IF_EXISTS:php_apache2handler>
+      $<TARGET_NAME_IF_EXISTS:php_cgi>
+      $<TARGET_NAME_IF_EXISTS:php_cli>
+      $<TARGET_NAME_IF_EXISTS:php_embed>
+      $<TARGET_NAME_IF_EXISTS:php_fpm>
+      $<TARGET_NAME_IF_EXISTS:php_fuzzer>
+      $<TARGET_NAME_IF_EXISTS:php_litespeed>
+      $<TARGET_NAME_IF_EXISTS:php_phpdbg>
     COMMENT "[GCOV] Generating GCOV coverage report"
   )
 

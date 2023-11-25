@@ -15,22 +15,16 @@ else()
   set(EXPANDED_PHP_CONFIG_FILE_PATH "${PHP_CONFIG_FILE_PATH}")
 endif()
 
-if(PHP_PEAR)
-  if(PHP_PEAR_DIR STREQUAL "")
-    if(PHP_LAYOUT STREQUAL "GNU")
-      set(EXPANDED_PEAR_INSTALLDIR "${CMAKE_INSTALL_FULL_DATADIR}/pear")
-    else()
-      set(EXPANDED_PEAR_INSTALLDIR "${CMAKE_INSTALL_FULL_LIBDIR}/php")
-    endif()
-  else()
-    set(EXPANDED_PEAR_INSTALLDIR "${PHP_PEAR_DIR}")
-  endif()
-endif()
-
 # Create main/build-defs.h file.
 function(_php_create_build_definitions)
   # TODO: Set configure command string.
   set(CONFIGURE_COMMAND "cmake")
+
+  # TODO: Set ODBC_CFLAGS, ODBC_LFLAGS, ODBC_LIBS, ODBC_TYPE.
+  set(ODBC_CFLAGS "")
+  set(ODBC_LFLAGS "")
+  set(ODBC_LIBS "")
+  set(ODBC_TYPE "")
 
   # Set the 'include_path' INI directive.
   set(INCLUDE_PATH ".:${EXPANDED_PEAR_INSTALLDIR}")
@@ -75,12 +69,17 @@ function(_php_create_build_definitions)
   endif()
 
   set(EXPANDED_EXTENSION_DIR "${PHP_EXTENSION_DIR}")
+  set(EXPANDED_PHP_CONFIG_FILE_SCAN_DIR "${PHP_CONFIG_FILE_SCAN_DIR}")
+  set(EXPANDED_BINDIR "${CMAKE_INSTALL_FULL_BINDIR}")
+  set(EXPANDED_SBINDIR "${CMAKE_INSTALL_FULL_SBINDIR}")
+  set(EXPANDED_MANDIR "${CMAKE_INSTALL_FULL_MANDIR}")
+  set(EXPANDED_LIBDIR "${CMAKE_INSTALL_FULL_LIBDIR}")
+  set(EXPANDED_DATADIR "${CMAKE_INSTALL_FULL_DATADIR}")
+  set(EXPANDED_SYSCONFDIR "${CMAKE_INSTALL_FULL_SYSCONFDIR}")
+  set(EXPANDED_LOCALSTATEDIR "${CMAKE_INSTALL_FULL_LOCALSTATEDIR}")
 
   # Set shared library object extension.
   string(REPLACE "." "" SHLIB_DL_SUFFIX_NAME ${CMAKE_SHARED_LIBRARY_SUFFIX})
-  set(SHLIB_DL_SUFFIX_NAME ${SHLIB_DL_SUFFIX_NAME} CACHE INTERNAL "The suffix for shared libraries.")
-
-  set(EXPANDED_PHP_CONFIG_FILE_SCAN_DIR "${PHP_CONFIG_FILE_SCAN_DIR}")
 
   message(STATUS "Creating main/build-defs.h")
   configure_file(

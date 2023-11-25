@@ -154,6 +154,8 @@ foreach(extension IN LISTS extensions)
 endforeach()
 
 file(GLOB_RECURSE _main_headers "${PROJECT_SOURCE_DIR}/main/*.h")
+list(APPEND _main_headers "${CMAKE_CURRENT_BINARY_DIR}/build-defs.h")
+list(APPEND _main_headers "${CMAKE_CURRENT_BINARY_DIR}/php_config.h")
 install(FILES ${_main_headers} DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/php/main)
 
 file(GLOB_RECURSE _main_streams_headers "${PROJECT_SOURCE_DIR}/main/streams/*.h")

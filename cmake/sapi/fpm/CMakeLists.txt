@@ -454,9 +454,9 @@ function(_php_fpm_configure_files)
 
   # TODO: Add substitution variables.
   set(php_fpm_systemd ${PHP_FPM_SYSTEMD})
-  # @EXPANDED_LOCALSTATEDIR@
-  # @EXPANDED_SBINDIR@
-  # @EXPANDED_SYSCONFDIR@
+  set(EXPANDED_LOCALSTATEDIR "${CMAKE_INSTALL_FULL_LOCALSTATEDIR}")
+  set(EXPANDED_SBINDIR "${CMAKE_INSTALL_FULL_SBINDIR}")
+  set(EXPANDED_SYSCONFDIR "${CMAKE_INSTALL_FULL_SYSCONFDIR}")
   configure_file(php-fpm.service.in php-fpm.service @ONLY)
 
   # FPM info status HTML page.

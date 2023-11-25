@@ -75,7 +75,7 @@ set_property(GLOBAL PROPERTY PHP_ALWAYS_ENABLED_EXTENSIONS
 )
 
 ################################################################################
-# Module function(s) to be used externally.
+# Module macro(s) to be used externally.
 ################################################################################
 
 # Add subdirectories of extensions. Macro enables variable scope of the current
