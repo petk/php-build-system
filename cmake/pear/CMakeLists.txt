@@ -37,9 +37,9 @@ if(NOT EXT_XML)
     "PEAR requires the xml extension to be enabled. Set EXT_XML to 'ON'.")
 endif()
 
-# Expression generator INSTALL_PREFIX is used below because on the CODE level,
-# variables are incoded to the string. Install prefix can be set also at the
-# installation phase using the CMake --prefix command-line option.
+# The INSTALL_PREFIX generator expression is used because on the CODE level,
+# variable values are incoded to the string. Install prefix can be set also at
+# the installation phase using the CMake --prefix command-line option.
 if(NOT PHP_PEAR_DIR)
   if(PHP_LAYOUT STREQUAL "GNU")
     set(_php_pear_dir "$<INSTALL_PREFIX>/${CMAKE_INSTALL_DATADIR}/pear")

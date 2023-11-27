@@ -473,6 +473,12 @@ install(
   DESTINATION ${CMAKE_INSTALL_MANDIR}/man8
 )
 
+install(
+  FILES
+    status.html
+  DESTINATION ${CMAKE_INSTALL_DATADIR}/fpm
+)
+
 # TODO: Install the rest of the configured files to their appropriate final
 # locations
 # install(...)

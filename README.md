@@ -1230,7 +1230,7 @@ cmake -LH .
     </tr>
     <tr>
       <td>&nbsp;&nbsp;--with-bz2=DIR</td>
-      <td>&nbsp;&nbsp;BZip2_ROOT=DIR</td>
+      <td>&nbsp;&nbsp;EXT_BZ2=ON BZip2_ROOT=DIR</td>
       <td></td>
     </tr>
     <tr>
@@ -1325,7 +1325,7 @@ cmake -LH .
     </tr>
     <tr>
       <td>&nbsp;&nbsp;--with-qdbm=DIR</td>
-      <td>&nbsp;&nbsp;QDBM_ROOT=DIR</td>
+      <td>&nbsp;&nbsp;EXT_DBA_QDBM=ON QDBM_ROOT=DIR</td>
       <td></td>
     </tr>
     <tr>
@@ -1340,7 +1340,7 @@ cmake -LH .
     </tr>
     <tr>
       <td>&nbsp;&nbsp;--with-gdbm=DIR</td>
-      <td>&nbsp;&nbsp;GDBM_ROOT=DIR</td>
+      <td>&nbsp;&nbsp;EXT_DBA_GDBM=ON GDBM_ROOT=DIR</td>
       <td></td>
     </tr>
     <tr>
@@ -1365,7 +1365,7 @@ cmake -LH .
     </tr>
     <tr>
       <td>&nbsp;&nbsp;--with-db4=DIR</td>
-      <td>&nbsp;&nbsp;BerkeleyDB_ROOT=DIR</td>
+      <td>&nbsp;&nbsp;EXT_DBA_DB=ON BerkeleyDB_ROOT=DIR</td>
       <td></td>
     </tr>
     <tr>
@@ -1420,7 +1420,7 @@ cmake -LH .
     </tr>
     <tr>
       <td>&nbsp;&nbsp;--with-tcadb=DIR</td>
-      <td>&nbsp;&nbsp;TokyoCabinet_ROOT=DIR</td>
+      <td>&nbsp;&nbsp;EXT_DBA_TCADB=ON TokyoCabinet_ROOT=DIR</td>
       <td></td>
     </tr>
     <tr>
@@ -1435,7 +1435,7 @@ cmake -LH .
     </tr>
     <tr>
       <td>&nbsp;&nbsp;--with-lmdb=DIR</td>
-      <td>&nbsp;&nbsp;LMDB_ROOT=DIR</td>
+      <td>&nbsp;&nbsp;EXT_DBA_LMDB=ON LMDB_ROOT=DIR</td>
       <td></td>
     </tr>
     <tr>
@@ -1721,6 +1721,11 @@ cmake -LH .
     <tr>
       <td>&nbsp;&nbsp;--with-iconv=shared</td>
       <td>&nbsp;&nbsp;EXT_ICONV_SHARED=ON</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>&nbsp;&nbsp;--with-iconv=DIR</td>
+      <td>&nbsp;&nbsp;EXT_ICONV=ON Iconv_ROOT=DIR</td>
       <td></td>
     </tr>
     <tr>
@@ -2025,7 +2030,7 @@ cmake -LH .
     </tr>
     <tr>
       <td>&nbsp;&nbsp;--with-pdo-dblib=DIR</td>
-      <td>&nbsp;&nbsp;FreeTDS_ROOT=DIR</td>
+      <td>&nbsp;&nbsp;EXT_PDO_DBLIB=ON FreeTDS_ROOT=DIR</td>
       <td></td>
     </tr>
     <tr>
@@ -2045,7 +2050,7 @@ cmake -LH .
     </tr>
     <tr>
       <td>&nbsp;&nbsp;--with-pdo-firebird=DIR</td>
-      <td>&nbsp;&nbsp;Firebird_ROOT=DIR</td>
+      <td>&nbsp;&nbsp;EXT_PDO_FIREBIRD=ON Firebird_ROOT=DIR</td>
       <td></td>
     </tr>
     <tr>
@@ -2080,7 +2085,7 @@ cmake -LH .
     </tr>
     <tr>
       <td>&nbsp;&nbsp;--with-pdo-pgsql=DIR</td>
-      <td>&nbsp;&nbsp;PostgreSQL_ROOT=DIR</td>
+      <td>&nbsp;&nbsp;EXT_PDO_PGSQL=ON PostgreSQL_ROOT=DIR</td>
       <td></td>
     </tr>
     <tr>
@@ -2115,7 +2120,7 @@ cmake -LH .
     </tr>
     <tr>
       <td>&nbsp;&nbsp;--with-pgsql=DIR</td>
-      <td>&nbsp;&nbsp;PostgreSQL_ROOT=DIR</td>
+      <td>&nbsp;&nbsp;EXT_PGSQL=ON PostgreSQL_ROOT=DIR</td>
       <td></td>
     </tr>
     <tr>
@@ -2280,7 +2285,7 @@ cmake -LH .
     </tr>
     <tr>
       <td>&nbsp;&nbsp;--with-snmp=DIR</td>
-      <td>&nbsp;&nbsp;NetSnmp_ROOT=DIR</td>
+      <td>&nbsp;&nbsp;EXT_SNMP=ON NetSnmp_ROOT=DIR</td>
       <td></td>
     </tr>
     <tr>
@@ -2420,7 +2425,7 @@ cmake -LH .
     </tr>
     <tr>
       <td>&nbsp;&nbsp;--with-tidy=DIR</td>
-      <td>&nbsp;&nbsp;Tidy_ROOT=DIR</td>
+      <td>&nbsp;&nbsp;EXT_TIDY=ON Tidy_ROOT=DIR</td>
       <td></td>
     </tr>
     <tr>
