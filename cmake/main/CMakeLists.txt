@@ -38,22 +38,18 @@ add_library(php_main STATIC
 
 add_library(PHP::main ALIAS php_main)
 
-target_include_directories(
-  php_main
-  PRIVATE ${CMAKE_SOURCE_DIR}
-          ${CMAKE_BINARY_DIR}
-  INTERFACE ${CMAKE_SOURCE_DIR}
-            ${CMAKE_BINARY_DIR}
-            ${CMAKE_CURRENT_SOURCE_DIR}
-            ${CMAKE_CURRENT_BINARY_DIR}
-            ${CMAKE_CURRENT_SOURCE_DIR}/../TSRM
-            ${CMAKE_BINARY_DIR}/ext/date/lib
-)
-
 target_compile_definitions(php_main PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE=1)
 
-target_link_libraries(php_main PUBLIC Zend::Zend)
+target_include_directories(
+  php_configuration
+  INTERFACE ${CMAKE_CURRENT_BINARY_DIR}
+            ${CMAKE_CURRENT_SOURCE_DIR}
+            ${PROJECT_BINARY_DIR}
+            ${PROJECT_SOURCE_DIR}
+)
 
+# Link publicly for PHP SAPIs to consume it also.
+target_link_libraries(php_main PUBLIC Zend::Zend)
 target_link_libraries(php_main PUBLIC PHP::configuration)
 
 # Add DTrace.
@@ -73,9 +69,9 @@ if(PHP_DTRACE)
       HEADER ${CMAKE_BINARY_DIR}/Zend/zend_dtrace_gen.h
       SOURCES ${CMAKE_SOURCE_DIR}/main/main.c
               ${CMAKE_SOURCE_DIR}/Zend/zend_API.c
-              ${CMAKE_SOURCE_DIR}/Zend/zend_execute.c
-              ${CMAKE_SOURCE_DIR}/Zend/zend_exceptions.c
               ${CMAKE_SOURCE_DIR}/Zend/zend_dtrace.c
+              ${CMAKE_SOURCE_DIR}/Zend/zend_exceptions.c
+              ${CMAKE_SOURCE_DIR}/Zend/zend_execute.c
               ${CMAKE_SOURCE_DIR}/Zend/zend.c
     )
 
@@ -118,22 +114,30 @@ foreach(extension IN LISTS extensions)
 
   target_link_libraries(php_${extension} PRIVATE PHP::configuration)
 
+  # Link only PUBLIC/INTERFACE compilation options (includes and definitions).
+  # Cleaner COMPILE_ONLY generator expression is available in CMake >= 3.27.
+  if(CMAKE_VERSION VERSION_GREATER_EQUAL 3.27)
+    # Extensions need Zend include directories.
+    target_link_libraries(php_${extension} PRIVATE $<COMPILE_ONLY:Zend::Zend>)
+
+    # Include all INTERFACE compile options if extension exposes them.
+    target_link_libraries(php_configuration INTERFACE $<COMPILE_ONLY:PHP::${extension}>)
+  else()
+    target_include_directories(
+      php_${extension}
+      PRIVATE $<TARGET_PROPERTY:Zend::Zend,INTERFACE_INCLUDE_DIRECTORIES>
+    )
+
+    target_include_directories(
+      php_configuration
+      INTERFACE $<TARGET_PROPERTY:PHP::${extension},INTERFACE_INCLUDE_DIRECTORIES>
+    )
+  endif()
+
   # Add configuration compile options before the extension compile options.
   target_compile_options(php_${extension}
     BEFORE PRIVATE
       $<TARGET_PROPERTY:php_configuration,INTERFACE_COMPILE_OPTIONS>
-  )
-
-  target_include_directories(
-    php_${extension}
-    PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}
-            ${CMAKE_CURRENT_BINARY_DIR}
-            ${CMAKE_SOURCE_DIR}
-            ${CMAKE_BINARY_DIR}
-            ${CMAKE_BINARY_DIR}/ext/date/lib
-            ${CMAKE_SOURCE_DIR}/TSRM
-            ${CMAKE_SOURCE_DIR}/Zend
-            ${CMAKE_BINARY_DIR}/Zend
   )
 
   get_target_property(extension_type php_${extension} TYPE)

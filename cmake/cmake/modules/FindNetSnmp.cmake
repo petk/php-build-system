@@ -93,7 +93,7 @@ else()
   endif()
 endif()
 
-set(_reason_failure_message "")
+set(_reason_failure_message)
 
 if(NOT NetSnmp_INCLUDE_DIRS)
   string(

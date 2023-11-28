@@ -32,7 +32,7 @@ set_package_properties(PCRE PROPERTIES
 
 find_path(PCRE_INCLUDE_DIRS NAMES pcre2.h DOC "PCRE library include directory")
 
-set(_reason_failure_message "")
+set(_reason_failure_message)
 
 if(NOT PCRE_INCLUDE_DIRS)
   string(

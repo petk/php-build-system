@@ -49,7 +49,7 @@ set_package_properties(MySQL PROPERTIES
 # Check if MySQL config command-line tool is available.
 find_program(MySQL_CONFIG_EXECUTABLE mysql_config)
 
-set(_reason_failure_message "")
+set(_reason_failure_message)
 
 # MySQL socket component.
 if("SOCKET" IN_LIST MySQL_FIND_COMPONENTS)

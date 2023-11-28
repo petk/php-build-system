@@ -169,7 +169,7 @@ php_search_libraries(
   LIBRARIES crypt
 )
 
-set(_reason_failure_message "")
+set(_reason_failure_message)
 
 if(NOT HAVE_CRYPT_R)
   string(

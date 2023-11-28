@@ -52,7 +52,7 @@ if(Readline_LIBRARIES)
   )
 endif()
 
-set(_reason_failure_message "")
+set(_reason_failure_message)
 
 if(NOT Readline_INCLUDE_DIRS)
   string(

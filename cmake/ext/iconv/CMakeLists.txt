@@ -41,10 +41,12 @@ if(Iconv_ROOT)
   set(Iconv_IS_BUILT_IN FALSE)
 
   # GNU libiconv on Alpine Linux has header located on a special location.
-  find_path(_php_iconv_include_dir NAMES "gnu-libiconv/iconv.h")
-  if(_php_iconv_include_dir)
-    set(Iconv_INCLUDE_DIR "${_php_iconv_include_dir}/gnu-libiconv")
-  endif()
+  find_path(
+    Iconv_INCLUDE_DIR
+    NAMES "iconv.h"
+    PATHS "${Iconv_ROOT}/include/gnu-libiconv"
+    NO_DEFAULT_PATH
+  )
 endif()
 
 find_package(Iconv)

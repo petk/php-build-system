@@ -23,7 +23,7 @@ set_package_properties(Gcov PROPERTIES
   DESCRIPTION "Coverage report - gcov and lcov"
 )
 
-set(_reason_failure_message "")
+set(_reason_failure_message)
 
 # TODO: Remove all optimization flags.
 

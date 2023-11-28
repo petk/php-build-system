@@ -42,7 +42,7 @@ if(Editline_LIBRARIES)
   )
 endif()
 
-set(_reason_failure_message "")
+set(_reason_failure_message)
 
 if(NOT Editline_INCLUDE_DIRS)
   string(

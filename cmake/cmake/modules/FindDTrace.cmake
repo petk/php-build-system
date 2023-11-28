@@ -21,14 +21,14 @@ Module defines the following function:
                 SOURCES <source>...
                )
 
-  TARGET
-    Name of the target to append the generated DTrace probe definition object file.
-  INPUT
-    Name of the file with DTrace probe descriptions.
-  HEADER
-    Name of the DTrace probe header file.
-  SOURCES
-    A list of project source files to build DTrace object.
+    TARGET
+      Target name to append the generated DTrace probe definition object file.
+    INPUT
+      Name of the file with DTrace probe descriptions.
+    HEADER
+      Name of the DTrace probe header file.
+    SOURCES
+      A list of project source files to build DTrace object.
 #]=============================================================================]
 
 include(CheckIncludeFile)
@@ -41,10 +41,15 @@ set_package_properties(DTrace PROPERTIES
   PURPOSE "https://sourceware.org/systemtap"
 )
 
+set(_reason_failure_message)
+
 check_include_file(sys/sdt.h HAVE_SYS_SDT_H)
 
 if(NOT HAVE_SYS_SDT_H)
-  message(WARNING "Cannot find sys/sdt.h which is required for DTrace support")
+  string(
+    APPEND _reason_failure_message
+    "\n    Cannot find sys/sdt.h which is required for DTrace support."
+  )
 endif()
 
 find_program(
@@ -56,13 +61,19 @@ find_program(
 mark_as_advanced(DTrace_EXECUTABLE)
 
 if(NOT DTrace_EXECUTABLE)
-  message(WARNING "Could not find the dtrace generation tool. Please install DTrace.")
+  string(
+    APPEND _reason_failure_message
+    "\n    Could not find the dtrace generation tool. Please install DTrace."
+  )
 endif()
 
 find_package_handle_standard_args(
   DTrace
   REQUIRED_VARS DTrace_EXECUTABLE HAVE_SYS_SDT_H
+  REASON_FAILURE_MESSAGE "${_reason_failure_message}"
 )
+
+unset(_reason_failure_message)
 
 if(NOT DTrace_FOUND)
   return()
@@ -112,8 +123,9 @@ function(dtrace_target)
     OUTPUT "${parsed_HEADER}"
     COMMAND ${DTrace_EXECUTABLE}
       -s "${parsed_INPUT}"
-      -h -C
-      -o "${parsed_HEADER}"
+      -h                    # Generate a systemtap header file.
+      -C                    # Run the cpp preprocessor on the input file.
+      -o "${parsed_HEADER}" # Name of the output file.
     DEPENDS "${parsed_INPUT}"
     COMMENT "[DTrace] Generating DTrace ${parsed_HEADER}"
     VERBATIM
@@ -161,7 +173,7 @@ function(dtrace_target)
     OUTPUT ${output_filename}
     COMMAND CC="${CMAKE_C_COMPILER}" ${DTrace_EXECUTABLE}
       -s ${parsed_INPUT} $<TARGET_OBJECTS:${parsed_TARGET}_object>
-      -G
+      -G # Generate a systemtap probe definition object file.
       -o ${output_filename}
     DEPENDS ${parsed_TARGET}_object
     COMMENT "[DTrace] Generating DTrace probe object ${output_filename}"

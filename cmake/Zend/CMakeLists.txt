@@ -129,10 +129,9 @@ target_include_directories(
           ${CMAKE_BINARY_DIR}/main
   INTERFACE ${CMAKE_CURRENT_SOURCE_DIR}
             ${CMAKE_CURRENT_BINARY_DIR}
-            ${CMAKE_SOURCE_DIR}/TSRM
 )
 
-target_link_libraries(zend PRIVATE PHP::TSRM)
+target_link_libraries(zend PUBLIC PHP::TSRM)
 
 target_compile_definitions(zend PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE=1)
 

@@ -31,7 +31,7 @@ set_package_properties(FreeTDS PROPERTIES
 
 find_path(FreeTDS_INCLUDE_DIRS sybdb.h PATH_SUFFIXES freetds)
 
-set(_reason_failure_message "")
+set(_reason_failure_message)
 
 if(NOT FreeTDS_INCLUDE_DIRS)
   string(
