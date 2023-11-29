@@ -95,7 +95,11 @@ set(HAVE_PHPDBG 1 CACHE INTERNAL "")
 set(program_prefix "")
 configure_file(phpdbg.1.in phpdbg.1 @ONLY)
 
-install(TARGETS php_phpdbg DESTINATION ${CMAKE_INSTALL_BINDIR})
+install(
+  TARGETS php_phpdbg
+  RUNTIME
+    DESTINATION ${CMAKE_INSTALL_BINDIR}
+)
 
 install(
   FILES

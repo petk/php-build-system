@@ -41,13 +41,13 @@ target_link_libraries(php_gmp PRIVATE GMP::GMP)
 
 target_sources(
   php_gmp
-  PUBLIC FILE_SET gmp_headers
-  TYPE HEADERS
-  FILES php_gmp_int.h
+  PUBLIC FILE_SET HEADERS
+    FILES php_gmp_int.h
 )
 
 install(
   TARGETS php_gmp
-  FILE_SET gmp_headers
-  DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/php/ext/gmp
+  ARCHIVE EXCLUDE_FROM_ALL
+  FILE_SET HEADERS
+    DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/php/ext/gmp
 )

@@ -421,23 +421,35 @@ endif()
 ################################################################################
 
 message(STATUS "Creating Zend/zend_config.h")
-file(WRITE ${CMAKE_BINARY_DIR}/Zend/zend_config.h "#include <../main/php_config.h>\n")
 
-file(GLOB_RECURSE _zend_headers "${PROJECT_SOURCE_DIR}/Zend/*.h")
-list(APPEND _zend_headers "${CMAKE_CURRENT_BINARY_DIR}/zend_config.h")
-install(FILES ${_zend_headers} DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/php/Zend)
+file(
+  WRITE
+  "${CMAKE_CURRENT_BINARY_DIR}/zend_config.h"
+  "#include <../main/php_config.h>\n"
+)
 
-# TODO: Duplicate installation step.
+file(GLOB_RECURSE _zend_headers "${CMAKE_CURRENT_SOURCE_DIR}/*.h")
+
+target_sources(
+  zend
+  PUBLIC FILE_SET HEADERS
+    BASE_DIRS "${CMAKE_CURRENT_BINARY_DIR}" "${CMAKE_CURRENT_SOURCE_DIR}"
+    FILES
+      ${_zend_headers}
+      "${CMAKE_CURRENT_BINARY_DIR}/zend_config.h"
+      Optimizer/zend_call_graph.h
+      Optimizer/zend_cfg.h
+      Optimizer/zend_dfg.h
+      Optimizer/zend_dump.h
+      Optimizer/zend_func_info.h
+      Optimizer/zend_inference.h
+      Optimizer/zend_optimizer.h
+      Optimizer/zend_ssa.h
+)
+
 install(
-  FILES
-    Optimizer/zend_call_graph.h
-    Optimizer/zend_cfg.h
-    Optimizer/zend_dfg.h
-    Optimizer/zend_dump.h
-    Optimizer/zend_func_info.h
-    Optimizer/zend_inference.h
-    Optimizer/zend_optimizer.h
-    Optimizer/zend_ssa.h
-    DESTINATION
-      ${CMAKE_INSTALL_INCLUDEDIR}/php/Zend/Optimizer
+  TARGETS zend
+  ARCHIVE EXCLUDE_FROM_ALL
+  FILE_SET HEADERS
+    DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/php/Zend
 )

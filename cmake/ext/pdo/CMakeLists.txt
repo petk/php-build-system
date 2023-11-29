@@ -44,16 +44,16 @@ endif()
 
 target_sources(
   php_pdo
-  PUBLIC FILE_SET pdo_headers
-  TYPE HEADERS
-  FILES
-    php_pdo.h
-    php_pdo_driver.h
-    php_pdo_error.h
+  PUBLIC FILE_SET HEADERS
+    FILES
+      php_pdo.h
+      php_pdo_driver.h
+      php_pdo_error.h
 )
 
 install(
   TARGETS php_pdo
-  FILE_SET pdo_headers
-  DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/php/ext/pdo
+  ARCHIVE EXCLUDE_FROM_ALL
+  FILE_SET HEADERS
+    DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/php/ext/pdo
 )

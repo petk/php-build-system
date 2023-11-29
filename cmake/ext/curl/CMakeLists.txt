@@ -109,13 +109,13 @@ endif()
 
 target_sources(
   php_curl
-  PUBLIC FILE_SET curl_headers
-  TYPE HEADERS
-  FILES php_curl.h
+  PUBLIC FILE_SET HEADERS
+    FILES php_curl.h
 )
 
 install(
   TARGETS php_curl
-  FILE_SET curl_headers
-  DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/php/ext/curl
+  ARCHIVE EXCLUDE_FROM_ALL
+  FILE_SET HEADERS
+    DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/php/ext/curl
 )

@@ -79,29 +79,29 @@ endif()
 
 target_sources(
   php_hash
-  PUBLIC FILE_SET hash_headers
-  TYPE HEADERS
-  FILES
-    php_hash_adler32.h
-    php_hash_crc32.h
-    php_hash_fnv.h
-    php_hash_gost.h
-    php_hash_haval.h
-    php_hash_joaat.h
-    php_hash_md.h
-    php_hash_murmur.h
-    php_hash_ripemd.h
-    php_hash_sha.h
-    php_hash_sha3.h
-    php_hash_snefru.h
-    php_hash_tiger.h
-    php_hash_whirlpool.h
-    php_hash_xxhash.h
-    php_hash.h
+  PUBLIC FILE_SET HEADERS
+    FILES
+      php_hash_adler32.h
+      php_hash_crc32.h
+      php_hash_fnv.h
+      php_hash_gost.h
+      php_hash_haval.h
+      php_hash_joaat.h
+      php_hash_md.h
+      php_hash_murmur.h
+      php_hash_ripemd.h
+      php_hash_sha.h
+      php_hash_sha3.h
+      php_hash_snefru.h
+      php_hash_tiger.h
+      php_hash_whirlpool.h
+      php_hash_xxhash.h
+      php_hash.h
 )
 
 install(
   TARGETS php_hash
-  FILE_SET hash_headers
-  DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/php/ext/hash
+  ARCHIVE EXCLUDE_FROM_ALL
+  FILE_SET HEADERS
+    DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/php/ext/hash
 )

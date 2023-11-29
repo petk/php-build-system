@@ -33,14 +33,13 @@ check_c_source_compiles("
 
 target_sources(
   php_random
-  PUBLIC FILE_SET random_headers
-  TYPE HEADERS
-  FILES
-    php_random.h
+  PUBLIC FILE_SET HEADERS
+    FILES php_random.h
 )
 
 install(
   TARGETS php_random
-  FILE_SET random_headers
-  DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/php/ext/random
+  ARCHIVE EXCLUDE_FROM_ALL
+  FILE_SET HEADERS
+    DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/php/ext/random
 )

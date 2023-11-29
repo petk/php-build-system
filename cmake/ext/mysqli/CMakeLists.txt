@@ -85,15 +85,15 @@ endif()
 
 target_sources(
   php_mysqli
-  PUBLIC FILE_SET mysqli_headers
-  TYPE HEADERS
-  FILES
-    mysqli_mysqlnd.h
-    php_mysqli_structs.h
+  PUBLIC FILE_SET HEADERS
+    FILES
+      mysqli_mysqlnd.h
+      php_mysqli_structs.h
 )
 
 install(
   TARGETS php_mysqli
-  FILE_SET mysqli_headers
-  DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/php/ext/mysqli
+  ARCHIVE EXCLUDE_FROM_ALL
+  FILE_SET HEADERS
+    DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/php/ext/mysqli
 )

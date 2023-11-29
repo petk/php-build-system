@@ -15,24 +15,24 @@ target_compile_definitions(php_spl PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE=1)
 
 target_sources(
   php_spl
-  PUBLIC FILE_SET spl_headers
-  TYPE HEADERS
-  FILES
-    php_spl.h
-    spl_array.h
-    spl_directory.h
-    spl_dllist.h
-    spl_engine.h
-    spl_exceptions.h
-    spl_fixedarray.h
-    spl_functions.h
-    spl_heap.h
-    spl_iterators.h
-    spl_observer.h
+  PUBLIC FILE_SET HEADERS
+    FILES
+      php_spl.h
+      spl_array.h
+      spl_directory.h
+      spl_dllist.h
+      spl_engine.h
+      spl_exceptions.h
+      spl_fixedarray.h
+      spl_functions.h
+      spl_heap.h
+      spl_iterators.h
+      spl_observer.h
 )
 
 install(
   TARGETS php_spl
-  FILE_SET spl_headers
-  DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/php/ext/spl
+  ARCHIVE EXCLUDE_FROM_ALL
+  FILE_SET HEADERS
+    DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/php/ext/spl
 )

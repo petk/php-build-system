@@ -16,4 +16,8 @@ target_link_libraries(php_litespeed PRIVATE PHP::main)
 # TODO: Check if there's a better solution here.
 set_target_properties(php_litespeed PROPERTIES ENABLE_EXPORTS TRUE)
 
-install(TARGETS php_litespeed DESTINATION ${CMAKE_INSTALL_BINDIR})
+install(
+  TARGETS php_litespeed
+  RUNTIME
+    DESTINATION ${CMAKE_INSTALL_BINDIR}
+)

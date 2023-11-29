@@ -17,17 +17,18 @@ target_compile_definitions(php_embed PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE=1)
 # TODO: Check if there's a better solution here.
 set_target_properties(php_embed PROPERTIES ENABLE_EXPORTS TRUE)
 
-install(TARGETS php_embed DESTINATION ${CMAKE_INSTALL_LIBDIR})
-
 target_sources(
   php_embed
-  PUBLIC FILE_SET sapi_embed_headers
-  TYPE HEADERS
-  FILES php_embed.h
+  PUBLIC FILE_SET HEADERS
+    FILES php_embed.h
 )
 
 install(
   TARGETS php_embed
-  FILE_SET sapi_embed_headers
-  DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/php/sapi/embed
+  RUNTIME
+    DESTINATION ${CMAKE_INSTALL_LIBDIR}
+  LIBRARY
+    DESTINATION ${CMAKE_INSTALL_LIBDIR}
+  FILE_SET HEADERS
+    DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/php/sapi/embed
 )

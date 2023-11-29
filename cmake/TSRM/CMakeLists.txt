@@ -11,9 +11,17 @@ target_include_directories(php_tsrm
 
 target_compile_definitions(php_tsrm PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE=1)
 
-install(
+target_sources(
+  php_tsrm
+  PUBLIC FILE_SET HEADERS
   FILES
-    tsrm_win32.h
+    $<$<PLATFORM_ID:Windows>:tsrm_win32.h>
     TSRM.h
-  DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/php/TSRM
+)
+
+install(
+  TARGETS php_tsrm
+  ARCHIVE EXCLUDE_FROM_ALL
+  FILE_SET HEADERS
+    DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/php/TSRM
 )

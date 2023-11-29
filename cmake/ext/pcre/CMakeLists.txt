@@ -159,24 +159,24 @@ else()
     )
   endif()
 
-  file(GLOB _pcre_headers_files "${CMAKE_CURRENT_SOURCE_DIR}/pcre2lib/*.h")
+  file(GLOB _php_pcre_headers "${CMAKE_CURRENT_SOURCE_DIR}/pcre2lib/*.h")
 endif()
 
 add_feature_info("ext/pcre with PCRE JIT" HAVE_PCRE_JIT_SUPPORT
   "PCRE JIT support"
 )
 
-list(APPEND _pcre_headers_files "${CMAKE_CURRENT_SOURCE_DIR}/php_pcre.h")
-
 target_sources(
   php_pcre
-  PUBLIC FILE_SET pcre_headers
-  TYPE HEADERS
-  FILES ${_pcre_headers_files}
+  PUBLIC FILE_SET HEADERS
+    FILES
+      php_pcre.h
+      ${_php_pcre_headers}
 )
 
 install(
   TARGETS php_pcre
-  FILE_SET pcre_headers
-  DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/php/ext/pcre
+  ARCHIVE EXCLUDE_FROM_ALL
+  FILE_SET HEADERS
+    DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/php/ext/pcre
 )

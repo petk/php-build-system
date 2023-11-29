@@ -53,8 +53,6 @@ include(PHP/CheckPwrite)
 # Check whether pread() works.
 include(PHP/CheckPread)
 
-set(_session_headers_files "mod_files.h;mod_user.h;php_session.h")
-
 set(HAVE_PHP_SESSION 1 CACHE INTERNAL "Define to 1 if session extension is enabled")
 
 if(EXT_SESSION_MM)
@@ -76,18 +74,21 @@ if(EXT_SESSION_MM)
     set(HAVE_LIBMM 1 CACHE INTERNAL "Whether you have libmm")
   endif()
 
-  list(APPEND _session_headers_files "${CMAKE_CURRENT_SOURCE_DIR}/mod_mm.h")
+  target_sources(php_session PUBLIC FILE_SET HEADERS FILES mod_mm.h)
 endif()
 
 target_sources(
   php_session
-  PUBLIC FILE_SET session_headers
-  TYPE HEADERS
-  FILES ${_session_headers_files}
+  PUBLIC FILE_SET HEADERS
+    FILES
+      mod_files.h
+      mod_user.h
+      php_session.h
 )
 
 install(
   TARGETS php_session
-  FILE_SET session_headers
-  DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/php/ext/session
+  ARCHIVE EXCLUDE_FROM_ALL
+  FILE_SET HEADERS
+    DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/php/ext/session
 )

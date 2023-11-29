@@ -19,6 +19,7 @@ Module defines the following function:
                 INPUT <input>
                 HEADER <header>
                 SOURCES <source>...
+                [INCLUDES <includes>...]
                )
 
     TARGET
@@ -29,6 +30,8 @@ Module defines the following function:
       Name of the DTrace probe header file.
     SOURCES
       A list of project source files to build DTrace object.
+    INCLUDES
+      A list of include directories for appending to DTrace object.
 #]=============================================================================]
 
 include(CheckIncludeFile)
@@ -86,7 +89,7 @@ function(dtrace_target)
     parsed                # prefix
     ""                    # options
     "TARGET;INPUT;HEADER" # one-value keywords
-    "SOURCES"             # multi-value keywords
+    "SOURCES;INCLUDES"    # multi-value keywords
     ${ARGN}               # strings to parse
   )
 
@@ -154,17 +157,12 @@ function(dtrace_target)
 
   add_dependencies(${parsed_TARGET}_object ${parsed_TARGET}_patch_header)
 
-  target_include_directories(
-    ${parsed_TARGET}_object
-    PRIVATE ${CMAKE_SOURCE_DIR}/Zend
-            ${CMAKE_SOURCE_DIR}/main
-            ${CMAKE_SOURCE_DIR}/TSRM
-            ${CMAKE_BINARY_DIR}/Zend
-            ${CMAKE_BINARY_DIR}/main
-            ${CMAKE_SOURCE_DIR}
-            ${CMAKE_BINARY_DIR}
-            ${CMAKE_BINARY_DIR}/ext/date/lib
-  )
+  if(parsed_INCLUDES)
+    target_include_directories(
+      ${parsed_TARGET}_object
+      PRIVATE ${parsed_INCLUDES}
+    )
+  endif()
 
   cmake_path(GET parsed_INPUT FILENAME input)
   set(output_filename CMakeFiles/${input}.o)

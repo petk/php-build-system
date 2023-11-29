@@ -78,6 +78,7 @@ file(GLOB_RECURSE _phar_dependent_files
 )
 
 # TODO: Generate based on CMAKE_CROSSCOMPILING.
+# TODO: Fix phar generation when phar is built as shared.
 
 # Generate phar.php.
 add_custom_command(
@@ -135,16 +136,15 @@ configure_file(phar.phar.1.in phar.phar.1 @ONLY)
 
 target_sources(
   php_phar
-  PUBLIC FILE_SET phar_headers
-  TYPE HEADERS
-  FILES
-    php_phar.h
+  PUBLIC FILE_SET HEADERS
+    FILES php_phar.h
 )
 
 install(
   TARGETS php_phar
-  FILE_SET phar_headers
-  DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/php/ext/phar
+  ARCHIVE EXCLUDE_FROM_ALL
+  FILE_SET HEADERS
+    DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/php/ext/phar
 )
 
 install(

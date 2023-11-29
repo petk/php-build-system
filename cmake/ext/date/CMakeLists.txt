@@ -66,17 +66,17 @@ add_dependencies(php_date PHP::main Zend::Zend)
 
 target_sources(
   php_date
-  PUBLIC FILE_SET date_headers
-  TYPE HEADERS
-  BASE_DIRS "${CMAKE_CURRENT_BINARY_DIR}" "${CMAKE_CURRENT_SOURCE_DIR}"
-  FILES
-    lib/timelib.h
-    "${CMAKE_CURRENT_BINARY_DIR}/lib/timelib_config.h"
-    php_date.h
+  PUBLIC FILE_SET HEADERS
+    BASE_DIRS "${CMAKE_CURRENT_BINARY_DIR}" "${CMAKE_CURRENT_SOURCE_DIR}"
+    FILES
+      lib/timelib.h
+      "${CMAKE_CURRENT_BINARY_DIR}/lib/timelib_config.h"
+      php_date.h
 )
 
 install(
   TARGETS php_date
-  FILE_SET date_headers
-  DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/php/ext/date
+  ARCHIVE EXCLUDE_FROM_ALL
+  FILE_SET HEADERS
+    DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/php/ext/date
 )

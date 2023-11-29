@@ -116,7 +116,7 @@ target_sources(php_gd PRIVATE
   gd.c
 )
 
-file(GLOB _gd_headers_files "${CMAKE_CURRENT_SOURCE_DIR}/*.h")
+file(GLOB _php_gd_headers "${CMAKE_CURRENT_SOURCE_DIR}/*.h")
 
 if(NOT EXT_GD_EXTERNAL)
   target_sources(php_gd PRIVATE
@@ -180,8 +180,8 @@ if(NOT EXT_GD_EXTERNAL)
     CACHE INTERNAL "Whether the TGA functionality can be used with libgd"
   )
 
-  file(GLOB _gd_libgd_headers_files "${CMAKE_CURRENT_SOURCE_DIR}/libgd/*.h")
-  list(APPEND _gd_headers_files ${_gd_libgd_headers_files})
+  file(GLOB _php_gd_libgd_headers "${CMAKE_CURRENT_SOURCE_DIR}/libgd/*.h")
+  list(APPEND _php_gd_headers ${_php_gd_libgd_headers})
 
   # Check for fabsf and floorf which are available since C99.
   cmake_push_check_state(RESET)
@@ -376,13 +376,13 @@ endif()
 
 target_sources(
   php_gd
-  PUBLIC FILE_SET gd_headers
-  TYPE HEADERS
-  FILES ${_gd_headers_files}
+  PUBLIC FILE_SET HEADERS
+    FILES ${_php_gd_headers}
 )
 
 install(
   TARGETS php_gd
-  FILE_SET gd_headers
-  DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/php/ext/gd
+  ARCHIVE EXCLUDE_FROM_ALL
+  FILE_SET HEADERS
+    DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/php/ext/gd
 )

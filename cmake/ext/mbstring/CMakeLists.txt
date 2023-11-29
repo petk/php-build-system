@@ -88,24 +88,6 @@ file(WRITE
   "#include \"php_config.h\"\n"
 )
 
-set(_mbstring_headers_files
-  libmbfl/mbfl/eaw_table.h
-  libmbfl/mbfl/mbfilter_8bit.h
-  libmbfl/mbfl/mbfilter_pass.h
-  libmbfl/mbfl/mbfilter_wchar.h
-  libmbfl/mbfl/mbfilter.h
-  libmbfl/mbfl/mbfl_consts.h
-  libmbfl/mbfl/mbfl_convert.h
-  libmbfl/mbfl/mbfl_defs.h
-  libmbfl/mbfl/mbfl_encoding.h
-  libmbfl/mbfl/mbfl_filter_output.h
-  libmbfl/mbfl/mbfl_language.h
-  libmbfl/mbfl/mbfl_memory_device.h
-  libmbfl/mbfl/mbfl_string.h
-  "${CMAKE_CURRENT_BINARY_DIR}/libmbfl/config.h"
-  "${CMAKE_CURRENT_SOURCE_DIR}/mbstring.h"
-)
-
 if(EXT_MBSTRING_MBREGEX)
   find_package(Oniguruma)
   set_package_properties(Oniguruma PROPERTIES
@@ -155,7 +137,13 @@ if(EXT_MBSTRING_MBREGEX)
 
   target_sources(php_mbstring PRIVATE php_mbregex.c)
 
-  list(APPEND _mbstring_headers_files "php_mbregex.h;php_onig_compat.h")
+  target_sources(
+    php_mbstring
+    PUBLIC FILE_SET HEADERS
+      FILES
+        php_mbregex.h
+        php_onig_compat.h
+  )
 endif()
 
 target_compile_definitions(php_mbstring PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE=1)
@@ -170,14 +158,29 @@ target_include_directories(
 
 target_sources(
   php_mbstring
-  PUBLIC FILE_SET mbstring_headers
-  TYPE HEADERS
-  BASE_DIRS "${CMAKE_CURRENT_BINARY_DIR}" "${CMAKE_CURRENT_SOURCE_DIR}"
-  FILES ${_mbstring_headers_files}
+  PUBLIC FILE_SET HEADERS
+    BASE_DIRS "${CMAKE_CURRENT_BINARY_DIR}" "${CMAKE_CURRENT_SOURCE_DIR}"
+    FILES
+      libmbfl/mbfl/eaw_table.h
+      libmbfl/mbfl/mbfilter_8bit.h
+      libmbfl/mbfl/mbfilter_pass.h
+      libmbfl/mbfl/mbfilter_wchar.h
+      libmbfl/mbfl/mbfilter.h
+      libmbfl/mbfl/mbfl_consts.h
+      libmbfl/mbfl/mbfl_convert.h
+      libmbfl/mbfl/mbfl_defs.h
+      libmbfl/mbfl/mbfl_encoding.h
+      libmbfl/mbfl/mbfl_filter_output.h
+      libmbfl/mbfl/mbfl_language.h
+      libmbfl/mbfl/mbfl_memory_device.h
+      libmbfl/mbfl/mbfl_string.h
+      "${CMAKE_CURRENT_BINARY_DIR}/libmbfl/config.h"
+      "${CMAKE_CURRENT_SOURCE_DIR}/mbstring.h"
 )
 
 install(
   TARGETS php_mbstring
-  FILE_SET mbstring_headers
-  DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/php/ext/mbstring
+  ARCHIVE EXCLUDE_FROM_ALL
+  FILE_SET HEADERS
+    DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/php/ext/mbstring
 )

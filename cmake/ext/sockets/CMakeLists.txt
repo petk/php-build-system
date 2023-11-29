@@ -177,13 +177,13 @@ target_compile_definitions(
 
 target_sources(
   php_sockets
-  PUBLIC FILE_SET sockets_headers
-  TYPE HEADERS
-  FILES php_sockets.h
+  PUBLIC FILE_SET HEADERS
+    FILES php_sockets.h
 )
 
 install(
   TARGETS php_sockets
-  FILE_SET sockets_headers
-  DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/php/ext/sockets
+  ARCHIVE EXCLUDE_FROM_ALL
+  FILE_SET HEADERS
+    DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/php/ext/sockets
 )

@@ -24,7 +24,11 @@ set_target_properties(php_cgi PROPERTIES ENABLE_EXPORTS TRUE)
 # Man documentation.
 configure_file(php-cgi.1.in php-cgi.1 @ONLY)
 
-install(TARGETS php_cgi DESTINATION ${CMAKE_INSTALL_BINDIR})
+install(
+  TARGETS php_cgi
+  RUNTIME
+    DESTINATION ${CMAKE_INSTALL_BINDIR}
+)
 
 install(
   FILES

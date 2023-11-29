@@ -4,6 +4,13 @@ include(CheckSymbolExists)
 
 option(SAPI_CLI "Enable the CLI SAPI module" ON)
 
+message(CHECK_START "Checking whether to build PHP CLI SAPI")
+if(SAPI_CLI)
+  message(CHECK_PASS "yes")
+else()
+  message(CHECK_FAIL "no")
+endif()
+
 if(NOT SAPI_CLI)
   return()
 endif()
@@ -11,8 +18,7 @@ endif()
 check_symbol_exists(setproctitle "unistd.h;stdlib.h" HAVE_SETPROCTITLE)
 check_include_file(sys/pstat.h HAVE_SYS_PSTAT_H)
 
-message(STATUS "Checking for PS_STRINGS")
-
+message(CHECK_START "Checking for PS_STRINGS")
 check_c_source_compiles("
   #include <machine/vmparam.h>
   #include <sys/exec.h>
@@ -24,13 +30,18 @@ check_c_source_compiles("
     return 0;
   }
 " HAVE_PS_STRINGS)
+if(HAVE_PS_STRINGS)
+  message(CHECK_PASS "yes")
+else()
+  message(CHECK_FAIL "no")
+endif()
 
 add_executable(php_cli
+  php_cli_process_title.c
+  php_cli_server.c
   php_cli.c
   php_http_parser.c
-  php_cli_server.c
   ps_title.c
-  php_cli_process_title.c
 )
 
 set_target_properties(php_cli PROPERTIES OUTPUT_NAME php)
@@ -55,19 +66,18 @@ endfunction()
 
 _php_cli_configure_file()
 
-install(TARGETS php_cli RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR})
-
 target_sources(
   php_cli
-  PUBLIC FILE_SET sapi_php_headers
-  TYPE HEADERS
-  FILES cli.h
+  PUBLIC FILE_SET HEADERS
+    FILES cli.h
 )
 
 install(
   TARGETS php_cli
-  FILE_SET sapi_php_headers
-  DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/php/sapi/cli
+  RUNTIME
+    DESTINATION ${CMAKE_INSTALL_BINDIR}
+  FILE_SET HEADERS
+    DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/php/sapi/cli
 )
 
 install(

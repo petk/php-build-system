@@ -36,13 +36,13 @@ target_compile_definitions(php_filter PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE=1)
 
 target_sources(
   php_filter
-  PUBLIC FILE_SET filter_headers
-  TYPE HEADERS
-  FILES php_filter.h
+  PUBLIC FILE_SET HEADERS
+    FILES php_filter.h
 )
 
 install(
   TARGETS php_filter
-  FILE_SET filter_headers
-  DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/php/ext/filter
+  ARCHIVE EXCLUDE_FROM_ALL
+  FILE_SET HEADERS
+    DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/php/ext/filter
 )

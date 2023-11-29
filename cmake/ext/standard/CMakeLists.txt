@@ -316,17 +316,17 @@ set(ENABLE_CHROOT_FUNC 1 CACHE INTERNAL "Whether to enable chroot() function")
 # Install headers.
 ################################################################################
 
-file(GLOB _standard_headers_files "${CMAKE_CURRENT_SOURCE_DIR}/*.h")
+file(GLOB _php_standard_headers "${CMAKE_CURRENT_SOURCE_DIR}/*.h")
 
 target_sources(
   php_standard
-  PUBLIC FILE_SET standard_headers
-  TYPE HEADERS
-  FILES ${_standard_headers_files}
+  PUBLIC FILE_SET HEADERS
+    FILES ${_php_standard_headers}
 )
 
 install(
   TARGETS php_standard
-  FILE_SET standard_headers
-  DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/php/ext/standard
+  ARCHIVE EXCLUDE_FROM_ALL
+  FILE_SET HEADERS
+    DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}/php/ext/standard"
 )

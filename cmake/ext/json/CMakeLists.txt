@@ -34,16 +34,16 @@ endif()
 
 target_sources(
   php_json
-  PUBLIC FILE_SET json_headers
-  TYPE HEADERS
-  FILES
-    php_json_parser.h
-    php_json_scanner.h
-    php_json.h
+  PUBLIC FILE_SET HEADERS
+    FILES
+      php_json_parser.h
+      php_json_scanner.h
+      php_json.h
 )
 
 install(
   TARGETS php_json
-  FILE_SET json_headers
-  DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/php/ext/json
+  ARCHIVE EXCLUDE_FROM_ALL
+  FILE_SET HEADERS
+    DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/php/ext/json
 )

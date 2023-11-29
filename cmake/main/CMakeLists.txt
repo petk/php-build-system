@@ -46,6 +46,10 @@ target_include_directories(
             ${CMAKE_CURRENT_SOURCE_DIR}
             ${PROJECT_BINARY_DIR}
             ${PROJECT_SOURCE_DIR}
+            ${PROJECT_BINARY_DIR}/ext/date/lib
+            ${PROJECT_SOURCE_DIR}/TSRM
+            ${PROJECT_BINARY_DIR}/Zend
+            ${PROJECT_SOURCE_DIR}/Zend
 )
 
 # Link publicly for PHP SAPIs to consume it also.
@@ -63,6 +67,12 @@ if(PHP_DTRACE)
   )
 
   if(DTrace_FOUND)
+    get_target_property(
+      _php_dtrace_includes
+      php_configuration
+      INTERFACE_INCLUDE_DIRECTORIES
+    )
+
     dtrace_target(
       TARGET php_main
       INPUT ${CMAKE_SOURCE_DIR}/Zend/zend_dtrace.d
@@ -73,6 +83,7 @@ if(PHP_DTRACE)
               ${CMAKE_SOURCE_DIR}/Zend/zend_exceptions.c
               ${CMAKE_SOURCE_DIR}/Zend/zend_execute.c
               ${CMAKE_SOURCE_DIR}/Zend/zend.c
+      INCLUDES ${_php_dtrace_includes}
     )
 
     message(CHECK_PASS "yes")
@@ -114,26 +125,6 @@ foreach(extension IN LISTS extensions)
 
   target_link_libraries(php_${extension} PRIVATE PHP::configuration)
 
-  # Link only PUBLIC/INTERFACE compilation options (includes and definitions).
-  # Cleaner COMPILE_ONLY generator expression is available in CMake >= 3.27.
-  if(CMAKE_VERSION VERSION_GREATER_EQUAL 3.27)
-    # Extensions need Zend include directories.
-    target_link_libraries(php_${extension} PRIVATE $<COMPILE_ONLY:Zend::Zend>)
-
-    # Include all INTERFACE compile options if extension exposes them.
-    target_link_libraries(php_configuration INTERFACE $<COMPILE_ONLY:PHP::${extension}>)
-  else()
-    target_include_directories(
-      php_${extension}
-      PRIVATE $<TARGET_PROPERTY:Zend::Zend,INTERFACE_INCLUDE_DIRECTORIES>
-    )
-
-    target_include_directories(
-      php_configuration
-      INTERFACE $<TARGET_PROPERTY:PHP::${extension},INTERFACE_INCLUDE_DIRECTORIES>
-    )
-  endif()
-
   # Add configuration compile options before the extension compile options.
   target_compile_options(php_${extension}
     BEFORE PRIVATE
@@ -157,10 +148,25 @@ foreach(extension IN LISTS extensions)
   endif()
 endforeach()
 
-file(GLOB_RECURSE _main_headers "${PROJECT_SOURCE_DIR}/main/*.h")
-list(APPEND _main_headers "${CMAKE_CURRENT_BINARY_DIR}/build-defs.h")
-list(APPEND _main_headers "${CMAKE_CURRENT_BINARY_DIR}/php_config.h")
-install(FILES ${_main_headers} DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/php/main)
+################################################################################
+# Install headers.
+################################################################################
 
-file(GLOB_RECURSE _main_streams_headers "${PROJECT_SOURCE_DIR}/main/streams/*.h")
-install(FILES ${_main_streams_headers} DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/php/main/streams)
+file(GLOB_RECURSE _php_main_headers "${CMAKE_CURRENT_SOURCE_DIR}/*.h")
+
+target_sources(
+  php_main
+  PUBLIC FILE_SET HEADERS
+    BASE_DIRS "${CMAKE_CURRENT_BINARY_DIR}" "${CMAKE_CURRENT_SOURCE_DIR}"
+    FILES
+      ${_php_main_headers}
+      "${CMAKE_CURRENT_BINARY_DIR}/build-defs.h"
+      "${CMAKE_CURRENT_BINARY_DIR}/php_config.h"
+)
+
+install(
+  TARGETS php_main
+  ARCHIVE EXCLUDE_FROM_ALL
+  FILE_SET HEADERS
+    DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/php/main
+)

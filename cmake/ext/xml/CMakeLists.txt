@@ -73,16 +73,16 @@ endif()
 
 target_sources(
   php_xml
-  PUBLIC FILE_SET xml_headers
-  TYPE HEADERS
-  FILES
-    expat_compat.h
-    php_xml.h
-    xml_arginfo.h
+  PUBLIC FILE_SET HEADERS
+    FILES
+      expat_compat.h
+      php_xml.h
+      xml_arginfo.h
 )
 
 install(
   TARGETS php_xml
-  FILE_SET xml_headers
-  DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/php/ext/xml
+  ARCHIVE EXCLUDE_FROM_ALL
+  FILE_SET HEADERS
+    DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/php/ext/xml
 )

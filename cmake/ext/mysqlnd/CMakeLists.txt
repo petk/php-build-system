@@ -116,17 +116,17 @@ if(EXT_MYSQLND_SSL OR EXT_OPENSSL)
   )
 endif()
 
-file(GLOB _mysqlnd_headers_files "${CMAKE_CURRENT_SOURCE_DIR}/*.h")
+file(GLOB _php_mysqlnd_headers "${CMAKE_CURRENT_SOURCE_DIR}/*.h")
 
 target_sources(
   php_mysqlnd
-  PUBLIC FILE_SET mysqlnd_headers
-  TYPE HEADERS
-  FILES ${_mysqlnd_headers_files}
+  PUBLIC FILE_SET HEADERS
+    FILES ${_php_mysqlnd_headers}
 )
 
 install(
   TARGETS php_mysqlnd
-  FILE_SET mysqlnd_headers
-  DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/php/ext/mysqlnd
+  ARCHIVE EXCLUDE_FROM_ALL
+  FILE_SET HEADERS
+    DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/php/ext/mysqlnd
 )
