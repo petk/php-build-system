@@ -74,6 +74,7 @@ endif()
 target_sources(
   php_xml
   PUBLIC FILE_SET HEADERS
+    BASE_DIRS "${PROJECT_SOURCE_DIR}"
     FILES
       expat_compat.h
       php_xml.h
@@ -84,5 +85,4 @@ install(
   TARGETS php_xml
   ARCHIVE EXCLUDE_FROM_ALL
   FILE_SET HEADERS
-    DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/php/ext/xml
 )

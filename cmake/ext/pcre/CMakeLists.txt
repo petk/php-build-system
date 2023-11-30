@@ -169,6 +169,7 @@ add_feature_info("ext/pcre with PCRE JIT" HAVE_PCRE_JIT_SUPPORT
 target_sources(
   php_pcre
   PUBLIC FILE_SET HEADERS
+    BASE_DIRS "${PROJECT_SOURCE_DIR}"
     FILES
       php_pcre.h
       ${_php_pcre_headers}
@@ -178,5 +179,4 @@ install(
   TARGETS php_pcre
   ARCHIVE EXCLUDE_FROM_ALL
   FILE_SET HEADERS
-    DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/php/ext/pcre
 )

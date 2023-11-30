@@ -19,5 +19,5 @@ set_target_properties(php_litespeed PROPERTIES ENABLE_EXPORTS TRUE)
 install(
   TARGETS php_litespeed
   RUNTIME
-    DESTINATION ${CMAKE_INSTALL_BINDIR}
+    DESTINATION "${CMAKE_INSTALL_BINDIR}"
 )

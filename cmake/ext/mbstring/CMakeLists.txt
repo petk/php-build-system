@@ -140,6 +140,7 @@ if(EXT_MBSTRING_MBREGEX)
   target_sources(
     php_mbstring
     PUBLIC FILE_SET HEADERS
+      BASE_DIRS "${PROJECT_SOURCE_DIR}"
       FILES
         php_mbregex.h
         php_onig_compat.h
@@ -159,7 +160,7 @@ target_include_directories(
 target_sources(
   php_mbstring
   PUBLIC FILE_SET HEADERS
-    BASE_DIRS "${CMAKE_CURRENT_BINARY_DIR}" "${CMAKE_CURRENT_SOURCE_DIR}"
+    BASE_DIRS "${PROJECT_BINARY_DIR}" "${PROJECT_SOURCE_DIR}"
     FILES
       libmbfl/mbfl/eaw_table.h
       libmbfl/mbfl/mbfilter_8bit.h
@@ -175,12 +176,11 @@ target_sources(
       libmbfl/mbfl/mbfl_memory_device.h
       libmbfl/mbfl/mbfl_string.h
       "${CMAKE_CURRENT_BINARY_DIR}/libmbfl/config.h"
-      "${CMAKE_CURRENT_SOURCE_DIR}/mbstring.h"
+      mbstring.h
 )
 
 install(
   TARGETS php_mbstring
   ARCHIVE EXCLUDE_FROM_ALL
   FILE_SET HEADERS
-    DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/php/ext/mbstring
 )

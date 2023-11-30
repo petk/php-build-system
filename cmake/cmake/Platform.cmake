@@ -13,6 +13,8 @@ target_compile_definitions(
 # Set GNU standard installation directories.
 include(GNUInstallDirs)
 
+set(CMAKE_INSTALL_INCLUDEDIR "${CMAKE_INSTALL_INCLUDEDIR}/php")
+
 if(CMAKE_SYSTEM_NAME STREQUAL "Darwin")
   set(DARWIN 1 CACHE INTERNAL "Define if the target system is Darwin")
 endif()

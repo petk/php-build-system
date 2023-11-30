@@ -137,27 +137,28 @@ configure_file(phar.phar.1.in phar.phar.1 @ONLY)
 target_sources(
   php_phar
   PUBLIC FILE_SET HEADERS
-    FILES php_phar.h
+    BASE_DIRS "${PROJECT_SOURCE_DIR}"
+    FILES
+      php_phar.h
 )
 
 install(
   TARGETS php_phar
   ARCHIVE EXCLUDE_FROM_ALL
   FILE_SET HEADERS
-    DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/php/ext/phar
 )
 
 install(
   FILES
-    phar.1
-    phar.phar.1
-  DESTINATION ${CMAKE_INSTALL_MANDIR}/man1
+    "${CMAKE_CURRENT_BINARY_DIR}/phar.1"
+    "${CMAKE_CURRENT_BINARY_DIR}/phar.phar.1"
+  DESTINATION "${CMAKE_INSTALL_MANDIR}/man1"
 )
 
 install(
   FILES
-    phar.phar
-  DESTINATION ${CMAKE_INSTALL_BINDIR}
+    "${CMAKE_CURRENT_BINARY_DIR}/phar.phar"
+  DESTINATION "${CMAKE_INSTALL_BINDIR}"
   # TODO: Adjust permissions.
   PERMISSIONS OWNER_EXECUTE OWNER_WRITE OWNER_READ GROUP_EXECUTE GROUP_READ
 )

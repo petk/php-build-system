@@ -16,6 +16,7 @@ target_compile_definitions(php_spl PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE=1)
 target_sources(
   php_spl
   PUBLIC FILE_SET HEADERS
+    BASE_DIRS "${PROJECT_SOURCE_DIR}"
     FILES
       php_spl.h
       spl_array.h
@@ -34,5 +35,4 @@ install(
   TARGETS php_spl
   ARCHIVE EXCLUDE_FROM_ALL
   FILE_SET HEADERS
-    DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/php/ext/spl
 )

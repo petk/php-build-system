@@ -43,3 +43,20 @@ endif()
 target_sources(php_%EXTNAME% PRIVATE
   %EXTNAME%.c
 )
+
+# If extension provides header(s) used by other sources and should be installed,
+# add header(s) to a file set.
+target_sources(
+  php_%EXTNAME%
+  PUBLIC FILE_SET HEADERS
+    BASE_DIRS "${PROJECT_SOURCE_DIR}"
+    FILES
+      php_%EXTNAME%.h
+)
+
+# Installation step copies file(s) to their appropriate system destinations.
+install(
+  TARGETS php_%EXTNAME%
+  ARCHIVE EXCLUDE_FROM_ALL
+  FILE_SET HEADERS
+)

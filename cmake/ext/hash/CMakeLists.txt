@@ -80,6 +80,7 @@ endif()
 target_sources(
   php_hash
   PUBLIC FILE_SET HEADERS
+    BASE_DIRS "${PROJECT_SOURCE_DIR}"
     FILES
       php_hash_adler32.h
       php_hash_crc32.h
@@ -103,5 +104,4 @@ install(
   TARGETS php_hash
   ARCHIVE EXCLUDE_FROM_ALL
   FILE_SET HEADERS
-    DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/php/ext/hash
 )

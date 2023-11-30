@@ -63,12 +63,13 @@ set_target_properties(php_dom PROPERTIES PHP_EXTENSION_DEPENDENCIES php_libxml)
 target_sources(
   php_dom
   PUBLIC FILE_SET HEADERS
-    FILES xml_common.h
+    BASE_DIRS "${PROJECT_SOURCE_DIR}"
+    FILES
+      xml_common.h
 )
 
 install(
   TARGETS php_dom
   ARCHIVE EXCLUDE_FROM_ALL
   FILE_SET HEADERS
-    DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/php/ext/dom
 )

@@ -254,6 +254,7 @@ endif()
 target_sources(
   php_iconv
   PUBLIC FILE_SET HEADERS
+    BASE_DIRS "${PROJECT_SOURCE_DIR}"
     FILES
       iconv_arginfo.h
       php_iconv.h
@@ -263,5 +264,4 @@ install(
   TARGETS php_iconv
   ARCHIVE EXCLUDE_FROM_ALL
   FILE_SET HEADERS
-    DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/php/ext/iconv
 )

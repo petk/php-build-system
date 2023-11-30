@@ -69,19 +69,20 @@ _php_cli_configure_file()
 target_sources(
   php_cli
   PUBLIC FILE_SET HEADERS
-    FILES cli.h
+    BASE_DIRS "${PROJECT_SOURCE_DIR}"
+    FILES
+      cli.h
 )
 
 install(
   TARGETS php_cli
   RUNTIME
-    DESTINATION ${CMAKE_INSTALL_BINDIR}
+    DESTINATION "${CMAKE_INSTALL_BINDIR}"
   FILE_SET HEADERS
-    DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/php/sapi/cli
 )
 
 install(
   FILES
-    php.1
-  DESTINATION ${CMAKE_INSTALL_MANDIR}/man1
+    "${CMAKE_CURRENT_BINARY_DIR}/php.1"
+  DESTINATION "${CMAKE_INSTALL_MANDIR}/man1"
 )

@@ -28,12 +28,13 @@ target_link_libraries(php_libxml PUBLIC LibXml2::LibXml2)
 target_sources(
   php_libxml
   PUBLIC FILE_SET HEADERS
-    FILES php_libxml.h
+    BASE_DIRS "${PROJECT_SOURCE_DIR}"
+    FILES
+      php_libxml.h
 )
 
 install(
   TARGETS php_libxml
   ARCHIVE EXCLUDE_FROM_ALL
   FILE_SET HEADERS
-    DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/php/ext/libxml
 )

@@ -86,6 +86,7 @@ endif()
 target_sources(
   php_mysqli
   PUBLIC FILE_SET HEADERS
+    BASE_DIRS "${PROJECT_SOURCE_DIR}"
     FILES
       mysqli_mysqlnd.h
       php_mysqli_structs.h
@@ -95,5 +96,4 @@ install(
   TARGETS php_mysqli
   ARCHIVE EXCLUDE_FROM_ALL
   FILE_SET HEADERS
-    DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/php/ext/mysqli
 )

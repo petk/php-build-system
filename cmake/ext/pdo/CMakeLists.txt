@@ -45,6 +45,7 @@ endif()
 target_sources(
   php_pdo
   PUBLIC FILE_SET HEADERS
+    BASE_DIRS "${PROJECT_SOURCE_DIR}"
     FILES
       php_pdo.h
       php_pdo_driver.h
@@ -55,5 +56,4 @@ install(
   TARGETS php_pdo
   ARCHIVE EXCLUDE_FROM_ALL
   FILE_SET HEADERS
-    DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/php/ext/pdo
 )

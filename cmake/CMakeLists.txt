@@ -127,15 +127,15 @@ add_test(
 
 install(
   FILES
-    ${CMAKE_BINARY_DIR}/scripts/man1/php-config.1
-    ${CMAKE_BINARY_DIR}/scripts/man1/phpize.1
+    "${CMAKE_BINARY_DIR}/scripts/man1/php-config.1"
+    "${CMAKE_BINARY_DIR}/scripts/man1/phpize.1"
   DESTINATION ${CMAKE_INSTALL_MANDIR}/man1
 )
 
 install(
   FILES
-    ${CMAKE_BINARY_DIR}/scripts/php-config
-  DESTINATION ${CMAKE_INSTALL_BINDIR}
+    "${CMAKE_BINARY_DIR}/scripts/php-config"
+  DESTINATION "${CMAKE_INSTALL_BINDIR}"
 )
 
 message("

@@ -45,6 +45,7 @@ target_link_libraries(php_simplexml PRIVATE LibXml2::LibXml2)
 target_sources(
   php_simplexml
   PUBLIC FILE_SET HEADERS
+    BASE_DIRS "${PROJECT_SOURCE_DIR}"
     FILES
       php_simplexml_exports.h
       php_simplexml.h
@@ -54,5 +55,4 @@ install(
   TARGETS php_simplexml
   ARCHIVE EXCLUDE_FROM_ALL
   FILE_SET HEADERS
-    DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/php/ext/simplexml
 )

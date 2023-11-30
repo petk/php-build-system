@@ -46,15 +46,21 @@ target_include_directories(
             ${CMAKE_CURRENT_SOURCE_DIR}
             ${PROJECT_BINARY_DIR}
             ${PROJECT_SOURCE_DIR}
-            ${PROJECT_BINARY_DIR}/ext/date/lib
-            ${PROJECT_SOURCE_DIR}/TSRM
-            ${PROJECT_BINARY_DIR}/Zend
-            ${PROJECT_SOURCE_DIR}/Zend
 )
 
 # Link publicly for PHP SAPIs to consume it also.
 target_link_libraries(php_main PUBLIC Zend::Zend)
 target_link_libraries(php_main PUBLIC PHP::configuration)
+
+# Add Zend's PUBLIC/INTERFACE compile options to configuration.
+# Cleaner COMPILE_ONLY generator expression is available in CMake >= 3.27.
+if(CMAKE_VERSION VERSION_GREATER_EQUAL 3.27)
+  target_link_libraries(php_configuration INTERFACE $<COMPILE_ONLY:Zend::Zend>)
+else()
+  target_include_directories(php_configuration
+    INTERFACE $<TARGET_PROPERTY:Zend::Zend,INTERFACE_INCLUDE_DIRECTORIES>
+  )
+endif()
 
 # Add DTrace.
 if(PHP_DTRACE)
@@ -123,6 +129,18 @@ foreach(extension IN LISTS extensions)
     add_library(PHP::${extension} ALIAS php_${extension})
   endif()
 
+  # Add extension's PUBLIC/INTERFACE compile options to configuration.
+  # Cleaner COMPILE_ONLY generator expression is available in CMake >= 3.27.
+  if(CMAKE_VERSION VERSION_GREATER_EQUAL 3.27)
+    target_link_libraries(php_configuration
+      INTERFACE $<COMPILE_ONLY:PHP::${extension}>
+    )
+  else()
+    target_include_directories(php_configuration
+      INTERFACE $<TARGET_PROPERTY:PHP::${extension},INTERFACE_INCLUDE_DIRECTORIES>
+    )
+  endif()
+
   target_link_libraries(php_${extension} PRIVATE PHP::configuration)
 
   # Add configuration compile options before the extension compile options.
@@ -157,7 +175,7 @@ file(GLOB_RECURSE _php_main_headers "${CMAKE_CURRENT_SOURCE_DIR}/*.h")
 target_sources(
   php_main
   PUBLIC FILE_SET HEADERS
-    BASE_DIRS "${CMAKE_CURRENT_BINARY_DIR}" "${CMAKE_CURRENT_SOURCE_DIR}"
+    BASE_DIRS "${PROJECT_BINARY_DIR}" "${PROJECT_SOURCE_DIR}"
     FILES
       ${_php_main_headers}
       "${CMAKE_CURRENT_BINARY_DIR}/build-defs.h"
@@ -168,5 +186,4 @@ install(
   TARGETS php_main
   ARCHIVE EXCLUDE_FROM_ALL
   FILE_SET HEADERS
-    DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/php/main
 )

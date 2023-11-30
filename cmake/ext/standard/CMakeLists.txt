@@ -321,12 +321,13 @@ file(GLOB _php_standard_headers "${CMAKE_CURRENT_SOURCE_DIR}/*.h")
 target_sources(
   php_standard
   PUBLIC FILE_SET HEADERS
-    FILES ${_php_standard_headers}
+    BASE_DIRS "${PROJECT_SOURCE_DIR}"
+    FILES
+      ${_php_standard_headers}
 )
 
 install(
   TARGETS php_standard
   ARCHIVE EXCLUDE_FROM_ALL
   FILE_SET HEADERS
-    DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}/php/ext/standard"
 )

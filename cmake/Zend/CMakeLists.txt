@@ -121,14 +121,9 @@ add_library(Zend::Zend ALIAS zend)
 
 target_link_libraries(zend PRIVATE PHP::configuration)
 
-target_include_directories(
-  zend
-  PRIVATE ${CMAKE_SOURCE_DIR}
-          ${CMAKE_BINARY_DIR}
-          ${CMAKE_SOURCE_DIR}/main
-          ${CMAKE_BINARY_DIR}/main
-  INTERFACE ${CMAKE_CURRENT_SOURCE_DIR}
-            ${CMAKE_CURRENT_BINARY_DIR}
+target_include_directories(zend
+  INTERFACE "${CMAKE_CURRENT_SOURCE_DIR}"
+            "${CMAKE_CURRENT_BINARY_DIR}"
 )
 
 target_link_libraries(zend PUBLIC PHP::TSRM)
@@ -433,7 +428,7 @@ file(GLOB_RECURSE _zend_headers "${CMAKE_CURRENT_SOURCE_DIR}/*.h")
 target_sources(
   zend
   PUBLIC FILE_SET HEADERS
-    BASE_DIRS "${CMAKE_CURRENT_BINARY_DIR}" "${CMAKE_CURRENT_SOURCE_DIR}"
+    BASE_DIRS "${PROJECT_BINARY_DIR}" "${PROJECT_SOURCE_DIR}"
     FILES
       ${_zend_headers}
       "${CMAKE_CURRENT_BINARY_DIR}/zend_config.h"
@@ -451,5 +446,4 @@ install(
   TARGETS zend
   ARCHIVE EXCLUDE_FROM_ALL
   FILE_SET HEADERS
-    DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/php/Zend
 )

@@ -27,11 +27,11 @@ configure_file(php-cgi.1.in php-cgi.1 @ONLY)
 install(
   TARGETS php_cgi
   RUNTIME
-    DESTINATION ${CMAKE_INSTALL_BINDIR}
+    DESTINATION "${CMAKE_INSTALL_BINDIR}"
 )
 
 install(
   FILES
-    php-cgi.1
-  DESTINATION ${CMAKE_INSTALL_MANDIR}/man1
+    "${CMAKE_CURRENT_BINARY_DIR}/php-cgi.1"
+  DESTINATION "${CMAKE_INSTALL_MANDIR}/man1"
 )

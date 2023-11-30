@@ -377,12 +377,13 @@ endif()
 target_sources(
   php_gd
   PUBLIC FILE_SET HEADERS
-    FILES ${_php_gd_headers}
+    BASE_DIRS "${PROJECT_SOURCE_DIR}"
+    FILES
+      ${_php_gd_headers}
 )
 
 install(
   TARGETS php_gd
   ARCHIVE EXCLUDE_FROM_ALL
   FILE_SET HEADERS
-    DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/php/ext/gd
 )

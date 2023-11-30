@@ -80,6 +80,7 @@ endif()
 target_sources(
   php_session
   PUBLIC FILE_SET HEADERS
+    BASE_DIRS "${PROJECT_SOURCE_DIR}"
     FILES
       mod_files.h
       mod_user.h
@@ -90,5 +91,4 @@ install(
   TARGETS php_session
   ARCHIVE EXCLUDE_FROM_ALL
   FILE_SET HEADERS
-    DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/php/ext/session
 )

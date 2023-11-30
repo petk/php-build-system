@@ -9,7 +9,7 @@ include(CMakePushCheckState)
 option(SAPI_FPM "Enable the FPM SAPI module" OFF)
 
 if(SAPI_FPM)
-  set(SAPI_FPM_USER "nobody" CACHE STRING "User for php-fpm to run as. (default: nobody)")
+  set(SAPI_FPM_USER "nobody" CACHE STRING "User for running PHP FPM (default: nobody)")
 
   # For the configuration header with differently named constant.
   set(PHP_FPM_USER ${SAPI_FPM_USER} CACHE INTERNAL "")
@@ -469,14 +469,14 @@ install(TARGETS php_fpm DESTINATION ${CMAKE_INSTALL_SBINDIR})
 
 install(
   FILES
-    php-fpm.8
-  DESTINATION ${CMAKE_INSTALL_MANDIR}/man8
+    "${CMAKE_CURRENT_BINARY_DIR}/php-fpm.8"
+  DESTINATION "${CMAKE_INSTALL_MANDIR}/man8"
 )
 
 install(
   FILES
-    status.html
-  DESTINATION ${CMAKE_INSTALL_DATADIR}/fpm
+    "${CMAKE_CURRENT_BINARY_DIR}/status.html"
+  DESTINATION "${CMAKE_INSTALL_DATADIR}/fpm"
 )
 
 # TODO: Install the rest of the configured files to their appropriate final
