@@ -62,6 +62,9 @@ patterns="
 #undef\ssize_t
 #undef\sHAVE_TZNAME
 #undef\sSIZEOF_SHORT
+#undef\sHAVE_SYS_APPARMOR_H
+#undef\sHAVE_SELINUX_SELINUX_H
+#undef\sHAVE_SYSTEMD_SD_DAEMON_H
 "
 
 # Similar to the above patterns except the two lines above and one after the

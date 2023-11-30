@@ -14,8 +14,10 @@ Result variables:
     A list of include directories for using systemd library.
   Systemd_LIBRARIES
     A list of libraries for using systemd library.
+  Systemd_EXECUTABLE
+    A systemd command-line tool if available.
   Systemd_VERSION
-    Version string of found systemd library.
+    Version string of found systemd library if available.
 #]=============================================================================]
 
 include(FeatureSummary)
@@ -26,26 +28,63 @@ set_package_properties(Systemd PROPERTIES
   DESCRIPTION "System and service manager library"
 )
 
-find_package(PkgConfig QUIET)
+set(_reason_failure_message)
 
-if(PKG_CONFIG_FOUND)
-  if(Systemd_FIND_VERSION)
-    set(_pkg_module_spec "libsystemd>=${Systemd_FIND_VERSION}")
-  else()
-    set(_pkg_module_spec "libsystemd")
+find_path(
+  Systemd_INCLUDE_DIRS
+  NAMES systemd/sd-daemon.h
+  DOC "The systemd include directories"
+)
+
+if(NOT Systemd_INCLUDE_DIRS)
+  string(
+    APPEND _reason_failure_message
+    "\n    systemd/sd-daemon.h couldn't be found. System doesn't support systemd."
+  )
+endif()
+
+find_library(Systemd_LIBRARIES NAMES systemd DOC "The systemd library")
+
+if(NOT Systemd_LIBRARIES)
+  string(
+    APPEND _reason_failure_message
+    "\n    The systemd not found. Please install systemd library."
+  )
+endif()
+
+find_program(
+  Systemd_EXECUTABLE
+  NAMES systemd systemctl
+  DOC "The systemd executable"
+)
+
+if(Systemd_EXECUTABLE)
+  execute_process(
+    COMMAND ${Systemd_EXECUTABLE} --version
+    OUTPUT_VARIABLE Systemd_VERSION_STRING
+    OUTPUT_STRIP_TRAILING_WHITESPACE
+  )
+
+  string(REGEX MATCH " ([0-9]+) " _ "${Systemd_VERSION_STRING}")
+
+  if(CMAKE_MATCH_1)
+    set(Systemd_VERSION "${CMAKE_MATCH_1}")
   endif()
+endif()
 
-  pkg_search_module(Systemd QUIET "${_pkg_module_spec}")
-
-  unset(_pkg_module_spec)
+if(Systemd_VERSION)
+  set(_systemd_version_argument VERSION_VAR Systemd_VERSION)
 endif()
 
 find_package_handle_standard_args(
   Systemd
-  REQUIRED_VARS Systemd_LIBRARIES
-  VERSION_VAR Systemd_VERSION
-  REASON_FAILURE_MESSAGE "The systemd not found. Please install systemd library."
+  REQUIRED_VARS Systemd_LIBRARIES Systemd_INCLUDE_DIRS
+  ${_systemd_version_argument}
+  REASON_FAILURE_MESSAGE "${reason_failure_message}"
 )
+
+unset(_reason_failure_message)
+unset(_systemd_version_argument)
 
 if(Systemd_FOUND AND NOT TARGET Systemd::Systemd)
   add_library(Systemd::Systemd INTERFACE IMPORTED)

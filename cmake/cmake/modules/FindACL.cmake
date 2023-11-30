@@ -14,8 +14,6 @@ Result variables:
     A list of include directories for using ACL library.
   ACL_LIBRARIES
     A list of libraries for using ACL library.
-  ACL_VERSION
-    Version string of found ACL library.
 #]=============================================================================]
 
 include(FeatureSummary)
@@ -26,26 +24,33 @@ set_package_properties(ACL PROPERTIES
   DESCRIPTION "POSIX Access Control Lists library"
 )
 
-find_package(PkgConfig QUIET REQUIRED)
+set(_reason_failure_message)
 
-if(PKG_CONFIG_FOUND)
-  if(ACL_FIND_VERSION)
-    set(_pkg_module_spec "libacl>=${ACL_FIND_VERSION}")
-  else()
-    set(_pkg_module_spec "libacl")
-  endif()
+find_path(ACL_INCLUDE_DIRS sys/acl.h DOC "ACL include directories")
 
-  pkg_search_module(ACL QUIET "${_pkg_module_spec}")
+if(NOT ACL_INCLUDE_DIRS)
+  string(
+    APPEND _reason_failure_message
+    "\n    The sys/acl.h could not be found."
+  )
+endif()
 
-  unset(_pkg_module_spec)
+find_library(ACL_LIBRARIES NAMES acl DOC "ACL library")
+
+if(NOT ACL_LIBRARIES)
+  string(
+    APPEND _reason_failure_message
+    "\n    ACL not found. Please install the ACL library."
+  )
 endif()
 
 find_package_handle_standard_args(
   ACL
-  REQUIRED_VARS ACL_LIBRARIES
-  VERSION_VAR ACL_VERSION
-  REASON_FAILURE_MESSAGE "ACL not found. Please install ACL library."
+  REQUIRED_VARS ACL_LIBRARIES ACL_INCLUDE_DIRS
+  REASON_FAILURE_MESSAGE "${reason_failure_message}"
 )
+
+unset(_reason_failure_message)
 
 if(NOT ACL_FOUND)
   return()

@@ -750,6 +750,8 @@ version available on the operating system.
 * 3.25
   * `block()` command
   * New `try_run` signature
+* 3.27
+  * `COMPILE_ONLY` generator expression
 
 Currently, the CMake minimum version is set to **3.25** without looking at CMake
 available version on the current systems out there. This will be updated more
@@ -1095,12 +1097,12 @@ cmake -LH .
     </tr>
     <tr>
       <td>&nbsp;&nbsp;--with-fpm-user[=USER]</td>
-      <td>&nbsp;&nbsp;SAPI_FPM_USER=nobody</td>
+      <td>&nbsp;&nbsp;SAPI_FPM_USER[=USER]</td>
       <td>default: nobody</td>
     </tr>
     <tr>
       <td>&nbsp;&nbsp;--with-fpm-group[=GROUP]</td>
-      <td>&nbsp;&nbsp;SAPI_FPM_GROUP=nobody</td>
+      <td>&nbsp;&nbsp;SAPI_FPM_GROUP[=GROUP]</td>
       <td>default: nobody</td>
     </tr>
     <tr>

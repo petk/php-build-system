@@ -14,10 +14,9 @@ Result variables:
     A list of include directories for using SELinux library.
   SELinux_LIBRARIES
     A list of libraries for using SELinux library.
-  SELinux_VERSION
-    Version string of found SELinux library.
 #]=============================================================================]
 
+include(CheckLibraryExists)
 include(FeatureSummary)
 include(FindPackageHandleStandardArgs)
 
@@ -26,26 +25,51 @@ set_package_properties(SELinux PROPERTIES
   DESCRIPTION "Security Enhanced Linux"
 )
 
-find_package(PkgConfig QUIET REQUIRED)
+set(_reason_failure_message)
 
-if(PKG_CONFIG_FOUND)
-  if(SELinux_FIND_VERSION)
-    set(_pkg_module_spec "libselinux>=${SELinux_FIND_VERSION}")
-  else()
-    set(_pkg_module_spec "libselinux")
-  endif()
+find_path(SELinux_INCLUDE_DIRS selinux/selinux.h DOC "SELinux include directories")
 
-  pkg_search_module(SELinux QUIET "${_pkg_module_spec}")
+if(NOT SELinux_INCLUDE_DIRS)
+  string(
+    APPEND _reason_failure_message
+    "\n    The selinux/selinux.h could not be found."
+  )
+endif()
 
-  unset(_pkg_module_spec)
+find_library(SELinux_LIBRARIES NAMES selinux DOC "SELinux library")
+
+if(NOT SELinux_LIBRARIES)
+  string(
+    APPEND _reason_failure_message
+    "\n    SELinux not found. Please install SELinux library (libselinux)."
+  )
+endif()
+
+# Sanity check.
+if(SELinux_LIBRARIES)
+  check_library_exists(
+    "${SELinux_LIBRARIES}"
+    security_setenforce
+    ""
+    _selinux_sanity_check
+  )
+endif()
+
+if(NOT _selinux_sanity_check)
+  string(
+    APPEND _reason_failure_message
+    "\n    Sanity check failed. The security_setenforce() could not be found "
+    "in the SELinux library."
+  )
 endif()
 
 find_package_handle_standard_args(
   SELinux
-  REQUIRED_VARS SELinux_LIBRARIES
-  VERSION_VAR SELinux_VERSION
-  REASON_FAILURE_MESSAGE "SELinux not found. Please install SELinux library (libselinux)."
+  REQUIRED_VARS SELinux_LIBRARIES _selinux_sanity_check SELinux_INCLUDE_DIRS
+  REASON_FAILURE_MESSAGE "${reason_failure_message}"
 )
+
+unset(_reason_failure_message)
 
 if(SELinux_FOUND AND NOT TARGET SELinux::SELinux)
   add_library(SELinux::SELinux INTERFACE IMPORTED)

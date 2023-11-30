@@ -5,26 +5,38 @@ include(CheckLibraryExists)
 include(CheckSymbolExists)
 include(CMakeDependentOption)
 include(CMakePushCheckState)
+include(PHP/SearchLibraries)
+
+################################################################################
+# FPM configuration.
+################################################################################
 
 option(SAPI_FPM "Enable the FPM SAPI module" OFF)
 
+message(CHECK_START "Checking whether to build PHP FPM SAPI")
 if(SAPI_FPM)
-  set(SAPI_FPM_USER "nobody" CACHE STRING "User for running PHP FPM (default: nobody)")
-
-  # For the configuration header with differently named constant.
-  set(PHP_FPM_USER ${SAPI_FPM_USER} CACHE INTERNAL "")
+  message(CHECK_PASS "yes")
 else()
-  unset(SAPI_FPM_USER CACHE)
-  unset(PHP_FPM_USER CACHE)
+  message(CHECK_FAIL "no")
 endif()
 
 if(SAPI_FPM)
-  set(SAPI_FPM_GROUP "nobody" CACHE STRING "The group for php-fpm to run as. For a system user, this should
-  usually be set to match the fpm username (default: nobody)")
+  set(
+    SAPI_FPM_USER "nobody"
+    CACHE STRING "Set the user for running PHP FPM (default: nobody)"
+  )
 
-  # For the configuration header with differently named constant.
-  set(PHP_FPM_GROUP ${SAPI_FPM_GROUP} CACHE INTERNAL "")
+  set(
+    SAPI_FPM_GROUP "nobody"
+    CACHE STRING "Set the group for running PHP FPM. For a system user, this \
+should usually be set to match the FPM username (default: nobody)"
+  )
+
+  set(PHP_FPM_USER "${SAPI_FPM_USER}" CACHE INTERNAL "FPM user")
+  set(PHP_FPM_GROUP "${SAPI_FPM_GROUP}" CACHE INTERNAL "FPM group")
 else()
+  unset(SAPI_FPM_USER CACHE)
+  unset(PHP_FPM_USER CACHE)
   unset(SAPI_FPM_GROUP CACHE)
   unset(PHP_FPM_GROUP CACHE)
 endif()
@@ -55,7 +67,7 @@ cmake_dependent_option(
 
 cmake_dependent_option(
   SAPI_FPM_SELINUX
-  "Enable the SELinux policy library"
+  "Enable the SELinux policy library support"
   OFF
   "SAPI_FPM"
   OFF
@@ -65,8 +77,17 @@ if(NOT SAPI_FPM)
   return()
 endif()
 
+################################################################################
+# Add executable.
+################################################################################
+
 add_executable(php_fpm
-  fpm/fpm.c
+  fpm/events/devpoll.c
+  fpm/events/epoll.c
+  fpm/events/kqueue.c
+  fpm/events/poll.c
+  fpm/events/port.c
+  fpm/events/select.c
   fpm/fpm_children.c
   fpm/fpm_cleanup.c
   fpm/fpm_clock.c
@@ -75,25 +96,20 @@ add_executable(php_fpm
   fpm/fpm_events.c
   fpm/fpm_log.c
   fpm/fpm_main.c
-  fpm/fpm_php.c
   fpm/fpm_php_trace.c
+  fpm/fpm_php.c
   fpm/fpm_process_ctl.c
   fpm/fpm_request.c
-  fpm/fpm_shm.c
   fpm/fpm_scoreboard.c
+  fpm/fpm_shm.c
   fpm/fpm_signals.c
   fpm/fpm_sockets.c
   fpm/fpm_status.c
   fpm/fpm_stdio.c
   fpm/fpm_unix.c
   fpm/fpm_worker_pool.c
+  fpm/fpm.c
   fpm/zlog.c
-  fpm/events/select.c
-  fpm/events/poll.c
-  fpm/events/epoll.c
-  fpm/events/kqueue.c
-  fpm/events/devpoll.c
-  fpm/events/port.c
 )
 
 set_target_properties(php_fpm PROPERTIES OUTPUT_NAME php-fpm)
@@ -110,28 +126,27 @@ target_link_libraries(php_fpm PRIVATE PHP::main)
 # TODO: Check if there's a better solution here.
 set_target_properties(php_fpm PROPERTIES ENABLE_EXPORTS TRUE)
 
+################################################################################
+# Configuration checks.
+################################################################################
+
 check_symbol_exists(clearenv "stdlib.h" HAVE_CLEARENV)
 check_symbol_exists(setproctitle "unistd.h;stdlib.h" HAVE_SETPROCTITLE)
 check_symbol_exists(setproctitle_fast "unistd.h" HAVE_SETPROCTITLE_FAST)
 
-# TODO: Check this differently - only link libraries if actually needed. Also,
-# this is a duplicate check. The socket function is already checked in the root
-# configure checks file.
-check_library_exists(socket socket "" _have_socket)
+php_search_libraries(
+  inet_addr
+  "sys/socket.h;netinet/in.h;arpa/inet.h"
+  HAVE_INET_ADDR
+  INET_ADDR_LIBRARY
+  LIBRARIES nsl
+)
 
-if(_have_socket)
-  target_link_libraries(php_fpm PRIVATE socket)
+if(INET_ADDR_LIBRARY)
+  target_link_libraries(php_fpm PRIVATE ${INET_ADDR_LIBRARY})
 endif()
-unset(_have_socket CACHE)
 
-# TODO: Check this differently - only link libraries if actually needed.
-check_library_exists(nsl inet_addr "" _have_inet_addr)
-
-if(_have_inet_addr)
-  target_link_libraries(php_fpm PRIVATE nsl)
-endif()
-unset(_have_inet_addr CACHE)
-
+message(CHECK_START "Checking for setpflags")
 check_c_source_compiles("
   #include <priv.h>
 
@@ -140,27 +155,33 @@ check_c_source_compiles("
     return 0;
   }
 " HAVE_SETPFLAGS)
-
-include(PHP/CheckFpmClock)
-
-if(FPM_CLOCK_LIBRARIES)
-  target_link_libraries(php_fpm PRIVATE ${FPM_CLOCK_LIBRARIES})
+if(HAVE_SETPFLAGS)
+  message(CHECK_PASS "yes")
+else()
+  message(CHECK_FAIL "no")
 endif()
 
-include(PHP/CheckFpmPtrace)
+# Check for clock_get*time.
+include(PHP/CheckClockGettime)
+if(TARGET PHP::CheckClockGettime)
+  target_link_libraries(php_fpm PRIVATE PHP::CheckClockGettime)
+endif()
 
+# Check for ptrace.
+include(PHP/CheckPtrace)
 if(
-  FPM_TRACE_TYPE
-  AND EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/fpm/fpm_trace_${FPM_TRACE_TYPE}.c"
+  PHP_TRACE_TYPE
+  AND EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/fpm/fpm_trace_${PHP_TRACE_TYPE}.c"
 )
   target_sources(
     php_fpm
     PRIVATE
       fpm/fpm_trace.c
-      fpm/fpm_trace_${FPM_TRACE_TYPE}.c
+      fpm/fpm_trace_${PHP_TRACE_TYPE}.c
   )
 endif()
 
+message(CHECK_START "Checking if gcc supports __sync_bool_compare_and_swap")
 check_c_source_compiles("
   int main(void) {
     int variable = 1;
@@ -168,9 +189,16 @@ check_c_source_compiles("
            && __sync_add_and_fetch(&variable, 1)) ? 1 : 0;
   }
 " HAVE_BUILTIN_ATOMIC)
+if(HAVE_BUILTIN_ATOMIC)
+  message(CHECK_PASS "yes")
+else()
+  message(CHECK_FAIL "no")
+endif()
 
-include(PHP/CheckFpmLq)
+# Check for TCP_INFO.
+include(PHP/CheckLq)
 
+message(CHECK_START "Checking for sysconf")
 check_c_source_compiles("
   #include <unistd.h>
 
@@ -179,7 +207,13 @@ check_c_source_compiles("
     return 0;
   }
 " HAVE_SYSCONF)
+if(HAVE_SYSCONF)
+  message(CHECK_PASS "yes")
+else()
+  message(CHECK_FAIL "no")
+endif()
 
+message(CHECK_START "Checking for times")
 check_c_source_compiles("
   #include <sys/times.h>
 
@@ -189,7 +223,13 @@ check_c_source_compiles("
     return 0;
   }
 " HAVE_TIMES)
+if(HAVE_TIMES)
+  message(CHECK_PASS "yes")
+else()
+  message(CHECK_FAIL "no")
+endif()
 
+message(CHECK_START "Checking for kqueue")
 check_c_source_compiles("
   #include <sys/types.h>
   #include <sys/event.h>
@@ -205,7 +245,13 @@ check_c_source_compiles("
     return 0;
   }
 " HAVE_KQUEUE)
+if(HAVE_KQUEUE)
+  message(CHECK_PASS "yes")
+else()
+  message(CHECK_FAIL "no")
+endif()
 
+message(CHECK_START "Checking for port framework")
 check_c_source_compiles("
   #include <port.h>
 
@@ -220,7 +266,13 @@ check_c_source_compiles("
     return 0;
   }
 " HAVE_PORT)
+if(HAVE_PORT)
+  message(CHECK_PASS "yes")
+else()
+  message(CHECK_FAIL "no")
+endif()
 
+message(CHECK_START "Checking for /dev/poll")
 check_c_source_compiles("
   #include <stdio.h>
   #include <sys/devpoll.h>
@@ -237,7 +289,13 @@ check_c_source_compiles("
     return 0;
   }
 " HAVE_DEVPOLL)
+if(HAVE_DEVPOLL)
+  message(CHECK_PASS "yes")
+else()
+  message(CHECK_FAIL "no")
+endif()
 
+message(CHECK_START "Checking for epoll")
 check_c_source_compiles("
   #include <sys/epoll.h>
 
@@ -265,11 +323,14 @@ check_c_source_compiles("
     return 0;
   }
 " HAVE_EPOLL)
+if(HAVE_EPOLL)
+  message(CHECK_PASS "yes")
+else()
+  message(CHECK_FAIL "no")
+endif()
 
-message(CHECK_START "Checking for select()")
-
+message(CHECK_START "Checking for select")
 list(APPEND CMAKE_MESSAGE_INDENT "  ")
-
 cmake_push_check_state(RESET)
   if(PHP_FD_SETSIZE)
     set(CMAKE_REQUIRED_DEFINITIONS -DFD_SETSIZE=${PHP_FD_SETSIZE})
@@ -297,14 +358,16 @@ cmake_push_check_state(RESET)
     }
   " HAVE_SELECT)
 cmake_pop_check_state()
-
 list(POP_BACK CMAKE_MESSAGE_INDENT)
-
 if(HAVE_SELECT)
   message(CHECK_PASS "yes")
 else()
   message(CHECK_FAIL "no")
 endif()
+
+################################################################################
+# Configure FPM from configuration options.
+################################################################################
 
 if(SAPI_FPM_SYSTEMD)
   find_package(Systemd 209)
@@ -315,15 +378,11 @@ if(SAPI_FPM_SYSTEMD)
 
   target_link_libraries(php_fpm PRIVATE Systemd::Systemd)
 
-  check_include_file(systemd/sd-daemon.h HAVE_SYSTEMD_SD_DAEMON_H)
+  if(TARGET Systemd::Systemd)
+    set(HAVE_SYSTEMD 1 CACHE INTERNAL "Whether FPM is using systemd integration")
 
-  if(NOT HAVE_SYSTEMD_SD_DAEMON_H)
-    message(FATAL_ERROR "Your system does not support systemd.")
+    target_sources(php_fpm PRIVATE fpm/fpm_systemd.c)
   endif()
-
-  set(HAVE_SYSTEMD 1 CACHE INTERNAL "Whether FPM is using systemd integration")
-
-  target_sources(php_fpm PRIVATE fpm/fpm_systemd.c)
 
   set(PHP_FPM_SYSTEMD "notify" CACHE INTERNAL "FPM systemd service type")
 else()
@@ -334,59 +393,73 @@ if(SAPI_FPM_ACL)
   find_package(ACL)
   set_package_properties(ACL PROPERTIES
     TYPE REQUIRED
-    PURPOSE "Necessary to enable ACL support in the FPM SAPI."
+    PURPOSE
+      "Necessary to enable ACL user/group permissions support in the FPM SAPI."
   )
 
   target_link_libraries(php_fpm PRIVATE ACL::ACL)
 
+  message(CHECK_START "Checking ACL user/group permissions support")
+  list(APPEND CMAKE_MESSAGE_INDENT "  ")
+
   check_include_file(sys/acl.h HAVE_SYS_ACL_H)
 
-  cmake_push_check_state(RESET)
-    set(CMAKE_REQUIRED_LIBRARIES ACL::ACL)
+  if(TARGET ACL::ACL)
+    cmake_push_check_state(RESET)
+      set(CMAKE_REQUIRED_LIBRARIES ACL::ACL)
 
-    check_c_source_compiles("
-      #include <sys/acl.h>
+      check_c_source_compiles("
+        #include <sys/acl.h>
 
-      int main(void) {
-        acl_t acl;
-        acl_entry_t user, group;
-        acl = acl_init(1);
-        acl_create_entry(&acl, &user);
-        acl_set_tag_type(user, ACL_USER);
-        acl_create_entry(&acl, &group);
-        acl_set_tag_type(user, ACL_GROUP);
-        acl_free(acl);
-        return 0;
-      }
-    " _acl_successful)
-  cmake_pop_check_state()
+        int main(void) {
+          acl_t acl;
+          acl_entry_t user, group;
+          acl = acl_init(1);
+          acl_create_entry(&acl, &user);
+          acl_set_tag_type(user, ACL_USER);
+          acl_create_entry(&acl, &group);
+          acl_set_tag_type(user, ACL_GROUP);
+          acl_free(acl);
+          return 0;
+        }
+      " _php_acl_successful)
+    cmake_pop_check_state()
 
-  if(_acl_successful)
-    check_library_exists(ACL::ACL acl_free "" HAVE_FPM_ACL)
+    if(_php_acl_successful)
+      check_library_exists(ACL::ACL acl_free "" _php_have_acl_free)
+    endif()
+
+    if(NOT _php_have_acl_free)
+      if(NOT CMAKE_CROSSCOMPILING)
+        cmake_push_check_state(RESET)
+          set(CMAKE_REQUIRED_LIBRARIES ACL::ACL)
+
+          check_c_source_runs("
+            #include <sys/acl.h>
+
+            int main(void) {
+              acl_t acl;
+              acl_entry_t user, group;
+              acl = acl_init(1);
+              acl_create_entry(&acl, &user);
+              acl_set_tag_type(user, ACL_USER);
+              acl_create_entry(&acl, &group);
+              acl_set_tag_type(user, ACL_GROUP);
+              acl_free(acl);
+              return 0;
+            }
+          " _php_have_working_acl)
+        cmake_pop_check_state()
+      endif()
+    endif()
   endif()
 
-  if(NOT HAVE_FPM_ACL)
-    if(NOT CMAKE_CROSSCOMPILING)
-      cmake_push_check_state(RESET)
-        set(CMAKE_REQUIRED_LIBRARIES ACL::ACL)
-
-        check_c_source_runs("
-          #include <sys/acl.h>
-
-          int main(void) {
-            acl_t acl;
-            acl_entry_t user, group;
-            acl = acl_init(1);
-            acl_create_entry(&acl, &user);
-            acl_set_tag_type(user, ACL_USER);
-            acl_create_entry(&acl, &group);
-            acl_set_tag_type(user, ACL_GROUP);
-            acl_free(acl);
-            return 0;
-          }
-        " HAVE_FPM_ACL)
-      cmake_pop_check_state()
-    endif()
+  list(POP_BACK CMAKE_MESSAGE_INDENT)
+  if(_php_have_acl_free OR _php_have_working_acl)
+    message(CHECK_PASS "Success")
+    set(HAVE_FPM_ACL 1 CACHE INTERNAL "Whether the ACL support is present")
+  else()
+    message(CHECK_FAIL "Failed")
   endif()
 endif()
 
@@ -399,13 +472,8 @@ if(SAPI_FPM_APPARMOR)
 
   target_link_libraries(php_fpm PRIVATE AppArmor::AppArmor)
 
-  check_include_file(sys/apparmor.h HAVE_SYS_APPARMOR_H)
-
-  # Sanity check.
-  check_library_exists(AppArmor::AppArmor aa_change_profile "" HAVE_APPARMOR)
-
-  if(NOT HAVE_APPARMOR)
-    message(FATAL_ERROR "The aa_change_profile() could not be found in the AppArmor library.")
+  if(TARGET AppArmor::AppArmor)
+    set(HAVE_APPARMOR 1 CACHE INTERNAL "Whether AppArmor is present")
   endif()
 endif()
 
@@ -418,67 +486,96 @@ if(SAPI_FPM_SELINUX)
 
   target_link_libraries(php_fpm PRIVATE SELinux::SELinux)
 
-  check_include_file(selinux/selinux.h HAVE_SELINUX_SELINUX_H)
-
-  # Sanity check.
-  check_library_exists(SELinux::SELinux security_setenforce "" HAVE_SELINUX)
-
-  if(NOT HAVE_SELINUX)
-    message(FATAL_ERROR "The security_setenforce() could not be found in the SELinux library.")
+  if(TARGET SELinux::SELinux)
+    set(HAVE_SELINUX 1 CACHE INTERNAL "Whether SELinux is present")
   endif()
 endif()
 
-function(_php_fpm_configure_files)
+################################################################################
+# Install files.
+################################################################################
+
+block(SCOPE_FOR VARIABLES)
   # Man documentation.
+  set(php_fpm_localstatedir "${CMAKE_INSTALL_FULL_LOCALSTATEDIR}")
+  set(php_fpm_sysconfdir "${CMAKE_INSTALL_FULL_SYSCONFDIR}")
+  set(php_fpm_prefix "${CMAKE_INSTALL_PREFIX}")
   configure_file(php-fpm.8.in php-fpm.8 @ONLY)
 
-  # TODO: Add substitution variables.
-  # @EXPANDED_LOCALSTATEDIR@
-  # @php_fpm_sysconfdir@
+  set(EXPANDED_LOCALSTATEDIR "${CMAKE_INSTALL_FULL_LOCALSTATEDIR}")
   set(prefix "${CMAKE_INSTALL_PREFIX}")
   configure_file(php-fpm.conf.in php-fpm.conf @ONLY)
 
-  # TODO: Add substitution variables.
-  # @php_fpm_prefix@
-  # @EXPANDED_DATADIR@
-  set(php_fpm_user ${SAPI_FPM_USER})
-  set(php_fpm_group ${SAPI_FPM_GROUP})
+  set(EXPANDED_DATADIR "${CMAKE_INSTALL_FULL_DATADIR}")
+  set(php_fpm_user "${SAPI_FPM_USER}")
+  set(php_fpm_group "${SAPI_FPM_GROUP}")
   configure_file(www.conf.in www.conf @ONLY)
 
-  # TODO: Add substitution variables.
-  # @exec_prefix@
-  # @sbindir@
-  # @sysconfdir@
-  # @localstatedir@
+  set(exec_prefix "${CMAKE_INSTALL_PREFIX}")
+  set(sbindir "${CMAKE_INSTALL_FULL_SBINDIR}")
+  set(sysconfdir "${CMAKE_INSTALL_FULL_SYSCONFDIR}")
+  set(localstatedir "${CMAKE_INSTALL_FULL_LOCALSTATEDIR}")
   configure_file(init.d.php-fpm.in init.d.php-fpm @ONLY)
 
-  # TODO: Add substitution variables.
-  set(php_fpm_systemd ${PHP_FPM_SYSTEMD})
-  set(EXPANDED_LOCALSTATEDIR "${CMAKE_INSTALL_FULL_LOCALSTATEDIR}")
+  set(php_fpm_systemd "${PHP_FPM_SYSTEMD}")
   set(EXPANDED_SBINDIR "${CMAKE_INSTALL_FULL_SBINDIR}")
   set(EXPANDED_SYSCONFDIR "${CMAKE_INSTALL_FULL_SYSCONFDIR}")
   configure_file(php-fpm.service.in php-fpm.service @ONLY)
 
   # FPM info status HTML page.
   configure_file(status.html.in status.html @ONLY)
-endfunction()
+endblock()
 
-_php_fpm_configure_files()
+# TODO: Add program file prefix and suffix.
+install(TARGETS php_fpm DESTINATION "${CMAKE_INSTALL_SBINDIR}")
 
-install(TARGETS php_fpm DESTINATION ${CMAKE_INSTALL_SBINDIR})
-
+# TODO: Add file suffix.
 install(
   FILES
     "${CMAKE_CURRENT_BINARY_DIR}/php-fpm.8"
   DESTINATION "${CMAKE_INSTALL_MANDIR}/man8"
 )
 
+install(CODE "
+  file(
+    MAKE_DIRECTORY
+    \"$<INSTALL_PREFIX>/${CMAKE_INSTALL_LOCALSTATEDIR}/log\"
+    \"$<INSTALL_PREFIX>/${CMAKE_INSTALL_LOCALSTATEDIR}/run\"
+  )
+
+  if(EXISTS \"$<INSTALL_PREFIX>/${CMAKE_INSTALL_SYSCONFDIR}/php-fpm.conf\")
+    message(
+      STATUS
+      \"Skipping PHP FPM defconfig installation. Files already exist.\"
+    )
+  else()
+    message(
+      STATUS
+      \"Installing PHP FPM defconfig to \"
+      \"$<INSTALL_PREFIX>/${CMAKE_INSTALL_SYSCONFDIR}\"
+    )
+
+    file(
+      MAKE_DIRECTORY
+      \"$<INSTALL_PREFIX>/${CMAKE_INSTALL_SYSCONFDIR}/php-fpm.d\"
+    )
+
+    file(
+      COPY_FILE
+      \"${CMAKE_CURRENT_BINARY_DIR}/php-fpm.conf\"
+      \"$<INSTALL_PREFIX>/${CMAKE_INSTALL_SYSCONFDIR}/php-fpm.conf.default\"
+    )
+
+    file(
+      COPY_FILE
+      \"${CMAKE_CURRENT_BINARY_DIR}/www.conf\"
+      \"$<INSTALL_PREFIX>/${CMAKE_INSTALL_SYSCONFDIR}/php-fpm.d/www.conf.default\"
+    )
+  endif()
+")
+
 install(
   FILES
     "${CMAKE_CURRENT_BINARY_DIR}/status.html"
   DESTINATION "${CMAKE_INSTALL_DATADIR}/fpm"
 )
-
-# TODO: Install the rest of the configured files to their appropriate final
-# locations
-# install(...)

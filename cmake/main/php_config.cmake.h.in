@@ -1261,9 +1261,6 @@
 /* SElinux available */
 #cmakedefine HAVE_SELINUX @HAVE_SELINUX@
 
-/* Define to 1 if you have the <selinux/selinux.h> header file. */
-#cmakedefine HAVE_SELINUX_SELINUX_H @HAVE_SELINUX_SELINUX_H@
-
 /* */
 #cmakedefine01 HAVE_SEMUN
 
@@ -1504,9 +1501,6 @@
 /* FPM use systemd integration */
 #cmakedefine HAVE_SYSTEMD @HAVE_SYSTEMD@
 
-/* Define to 1 if you have the <systemd/sd-daemon.h> header file. */
-#cmakedefine HAVE_SYSTEMD_SD_DAEMON_H @HAVE_SYSTEMD_SD_DAEMON_H@
-
 /* */
 #cmakedefine HAVE_SYSVMSG @HAVE_SYSVMSG@
 
@@ -1518,9 +1512,6 @@
 
 /* Define to 1 if you have the <sys/acl.h> header file. */
 #cmakedefine HAVE_SYS_ACL_H @HAVE_SYS_ACL_H@
-
-/* Define to 1 if you have the <sys/apparmor.h> header file. */
-#cmakedefine HAVE_SYS_APPARMOR_H @HAVE_SYS_APPARMOR_H@
 
 /* Define to 1 if you have the <sys/file.h> header file. */
 #cmakedefine HAVE_SYS_FILE_H @HAVE_SYS_FILE_H@

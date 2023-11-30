@@ -9,13 +9,15 @@ Cache variables:
     Whether ptrace() didn't work and the mach_vm_read() is present.
   PROC_MEM_FILE
     String of the /proc/pid/mem interface.
-  FPM_TRACE_TYPE
+  PHP_TRACE_TYPE
     Name of the trace type that should be used in FPM.
 ]=============================================================================]#
 
 include(CheckCSourceCompiles)
 include(CheckCSourceRuns)
 include(CMakePushCheckState)
+
+message(CHECK_START "Checking for ptrace")
 
 check_c_source_compiles("
   #include <sys/types.h>
@@ -29,6 +31,14 @@ check_c_source_compiles("
 " _have_ptrace)
 
 if(_have_ptrace)
+  message(CHECK_PASS "Success")
+else()
+  message(CHECK_FAIL "Failed")
+endif()
+
+if(_have_ptrace)
+  message(CHECK_START "Checking whether ptrace works")
+
   if(NOT CMAKE_CROSSCOMPILING)
     check_c_source_runs("
       #include <unistd.h>
@@ -50,8 +60,7 @@ if(_have_ptrace)
       #define PTRACE_PEEKDATA PT_READ_D
       #endif
 
-      int main(void)
-      {
+      int main(void) {
         long v1 = (unsigned int) -1; /* copy will fail if sizeof(long) == 8 and we've got \"int ptrace()\" */
         long v2;
         pid_t child;
@@ -97,15 +106,21 @@ if(_have_ptrace)
           return 0;
         }
       }
-    " _ptrace_works)
+    " HAVE_PTRACE)
   else()
-    set(_ptrace_works TRUE)
+    set(HAVE_PTRACE 1 CACHE INTERNAL "Whether ptrace() is present and works")
+  endif()
+
+  if(HAVE_PTRACE)
+    message(CHECK_PASS "yes")
+  else()
+    message(CHECK_FAIL "no")
   endif()
 endif()
 
-if(_ptrace_works)
-  set(HAVE_PTRACE 1 CACHE INTERNAL "Whether ptrace() is present and works as expected")
-else()
+if(NOT HAVE_PTRACE)
+  message(CHECK_START "Checking for mach_vm_read")
+
   check_c_source_compiles("
     #include <mach/mach.h>
     #include <mach/mach_vm.h>
@@ -115,20 +130,24 @@ else()
       return 0;
     }
   " HAVE_MACH_VM_READ)
-endif()
 
-unset(_have_ptrace CACHE)
-unset(_ptrace_works CACHE)
+  if(HAVE_MACH_VM_READ)
+    message(CHECK_PASS "yes")
+  else()
+    message(CHECK_FAIL "no")
+  endif()
+endif()
 
 # TODO: Check if /proc/self is sufficient location instead of the /proc/$$ as in
 # Autoconf.
+message(CHECK_START "Checking for proc mem file")
 if(EXISTS /proc/self/mem)
-  set(_proc_mem_file "mem")
+  set(_php_proc_mem_file "mem")
 elseif(EXISTS /proc/self/as)
-  set(_proc_mem_file "as")
+  set(_php_proc_mem_file "as")
 endif()
 
-if(_proc_mem_file)
+if(_php_proc_mem_file)
   if(NOT CMAKE_CROSSCOMPILING)
     check_c_source_runs("
       #define _GNU_SOURCE
@@ -139,12 +158,12 @@ if(_proc_mem_file)
       #include <sys/stat.h>
       #include <fcntl.h>
       #include <stdio.h>
-      int main(void)
-      {
+
+      int main(void) {
         long v1 = (unsigned int) -1, v2 = 0;
         char buf[128];
         int fd;
-        sprintf(buf, \"/proc/%d/${_proc_mem_file}\", getpid());
+        sprintf(buf, \"/proc/%d/${_php_proc_mem_file}\", getpid());
         fd = open(buf, O_RDONLY);
         if (0 > fd) {
           return 1;
@@ -156,23 +175,28 @@ if(_proc_mem_file)
         close(fd);
         return v1 != v2;
       }
-    " _proc_mem_successful)
+    " _php_proc_mem_successful)
   endif()
 endif()
 
-if(_proc_mem_file AND _proc_mem_successful)
-  set(PROC_MEM_FILE ${_proc_mem_file} CACHE INTERNAL "/proc/pid/mem interface")
+if(_php_proc_mem_file AND _php_proc_mem_successful)
+  set(
+    PROC_MEM_FILE "${_php_proc_mem_file}"
+    CACHE INTERNAL "/proc/pid/mem interface"
+  )
 endif()
 
 if(HAVE_PTRACE)
-  set(FPM_TRACE_TYPE "ptrace" CACHE INTERNAL "")
-elseif(_proc_mem_file)
-  set(FPM_TRACE_TYPE "pread" CACHE INTERNAL "")
+  set(PHP_TRACE_TYPE "ptrace" CACHE INTERNAL "")
+elseif(_php_proc_mem_file)
+  set(PHP_TRACE_TYPE "pread" CACHE INTERNAL "")
 elseif(HAVE_MACH_VM_READ)
-  set(FPM_TRACE_TYPE "mach" CACHE INTERNAL "")
-else()
-  message(WARNING "FPM Trace - ptrace, pread, or mach: could not be found")
+  set(PHP_TRACE_TYPE "mach" CACHE INTERNAL "")
 endif()
 
-unset(_proc_mem_file)
-unset(_proc_mem_successful CACHE)
+if(PHP_TRACE_TYPE)
+  message(CHECK_PASS "${PHP_TRACE_TYPE}")
+else()
+  message(CHECK_FAIL "not found")
+  message(WARNING "FPM Trace - ptrace, pread, or mach: could not be found")
+endif()

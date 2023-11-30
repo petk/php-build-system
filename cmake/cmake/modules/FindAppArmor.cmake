@@ -14,10 +14,9 @@ Result variables:
     A list of include directories for using AppArmor library.
   AppArmor_LIBRARIES
     A list of libraries for using AppArmor library.
-  AppArmor_VERSION
-    Version string of found AppArmor library.
 #]=============================================================================]
 
+include(CheckLibraryExists)
 include(FeatureSummary)
 include(FindPackageHandleStandardArgs)
 
@@ -26,26 +25,55 @@ set_package_properties(AppArmor PROPERTIES
   DESCRIPTION "Kernel security module library to confine programs"
 )
 
-find_package(PkgConfig QUIET REQUIRED)
+set(_reason_failure_message)
 
-if(PKG_CONFIG_FOUND)
-  if(AppArmor_FIND_VERSION)
-    set(_pkg_module_spec "libapparmor>=${AppArmor_FIND_VERSION}")
-  else()
-    set(_pkg_module_spec "libapparmor")
-  endif()
+find_path(
+  AppArmor_INCLUDE_DIRS
+  NAMES sys/apparmor.h
+  DOC "The AppArmor include directories"
+)
 
-  pkg_search_module(AppArmor QUIET "${_pkg_module_spec}")
+if(NOT AppArmor_INCLUDE_DIRS)
+  string(
+    APPEND _reason_failure_message
+    "\n    The sys/apparmor.h could not be found."
+  )
+endif()
 
-  unset(_pkg_module_spec)
+find_library(AppArmor_LIBRARIES NAMES apparmor DOC "The AppArmor library")
+
+if(NOT AppArmor_LIBRARIES)
+  string(
+    APPEND _reason_failure_message
+    "\n    AppArmor not found. Please install the AppArmor library."
+  )
+endif()
+
+# Sanity check.
+if(AppArmor_LIBRARIES)
+  check_library_exists(
+    "${AppArmor_LIBRARIES}"
+    aa_change_profile
+    ""
+    _apparmor_sanity_check
+  )
+endif()
+
+if(NOT _apparmor_sanity_check)
+  string(
+    APPEND _reason_failure_message
+    "\n    Sanity check failed. The aa_change_profile could not be found in "
+    "the AppArmor library."
+  )
 endif()
 
 find_package_handle_standard_args(
   AppArmor
-  REQUIRED_VARS AppArmor_LIBRARIES
-  VERSION_VAR AppArmor_VERSION
-  REASON_FAILURE_MESSAGE "AppArmor not found. Please install the AppArmor library."
+  REQUIRED_VARS AppArmor_LIBRARIES AppArmor_INCLUDE_DIRS _apparmor_sanity_check
+  REASON_FAILURE_MESSAGE "${reason_failure_message}"
 )
+
+unset(_reason_failure_message)
 
 if(NOT AppArmor_FOUND)
   return()
