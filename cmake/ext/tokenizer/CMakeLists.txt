@@ -47,9 +47,9 @@ file(
 add_custom_command(
   OUTPUT ${CMAKE_CURRENT_SOURCE_DIR}/tokenizer_data.c
   COMMAND ${CMAKE_COMMAND}
-          -D PHP_EXECUTABLE=${CMAKE_BINARY_DIR}/sapi/cli/php
+          -D PHP_EXECUTABLE=${PHP_BINARY_DIR}/sapi/cli/php
           -P CMakeFiles/GenerateTokenizerData.cmake
-  DEPENDS ${CMAKE_SOURCE_DIR}/Zend/zend_language_parser.y
+  DEPENDS ${PHP_SOURCE_DIR}/Zend/zend_language_parser.y
   COMMENT "[ext/tokenizer] Regenerating ext/tokenizer/tokenizer_data.c"
   VERBATIM
 )

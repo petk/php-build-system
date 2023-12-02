@@ -529,6 +529,14 @@ function(_php_extensions_post_configure directory)
     return()
   endif()
 
+  # Set location where to put shared extensions.
+  get_target_property(location php_${extension} LIBRARY_OUTPUT_DIRECTORY)
+  if(NOT location)
+    set_property(TARGET php_${extension}
+      PROPERTY LIBRARY_OUTPUT_DIRECTORY "${PROJECT_BINARY_DIR}/modules"
+    )
+  endif()
+
   # Define COMPILE_DL_<extension-name> constant for php_config.h to indicate
   # extension is built as a shared library.
   string(TOUPPER "COMPILE_DL_${extension}" constant)

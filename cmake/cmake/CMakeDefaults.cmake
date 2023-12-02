@@ -4,7 +4,7 @@ calling the project().
 #]=============================================================================]
 
 # Set CMake module paths where include() and find_package() look for modules.
-list(APPEND CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake/modules/")
+list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_LIST_DIR}/modules")
 
 # Automatically include current source or build tree for the current target.
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
@@ -25,9 +25,6 @@ set(CMAKE_STATIC_LIBRARY_PREFIX_C "")
 set(CMAKE_SHARED_LIBRARY_PREFIX_CXX "")
 set(CMAKE_SHARED_MODULE_PREFIX_CXX "")
 set(CMAKE_STATIC_LIBRARY_PREFIX_CXX "")
-
-# Set location where to put shared libraries.
-set(CMAKE_LIBRARY_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/modules")
 
 # TODO: Set this in debug mode, maybe.
 #set(CMAKE_VERBOSE_MAKEFILE ON)

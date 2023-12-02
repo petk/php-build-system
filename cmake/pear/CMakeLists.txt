@@ -85,7 +85,7 @@ install(CODE "
     if(NOT _php_pear_download)
       # Download using fetch.php.
       execute_process(
-        COMMAND ${CMAKE_BINARY_DIR}/sapi/cli/php
+        COMMAND ${PHP_BINARY_DIR}/sapi/cli/php
             -n
             ${CMAKE_CURRENT_BINARY_DIR}/fetch.php
               \"${_php_pear_installer_url}\"
@@ -99,7 +99,7 @@ install(CODE "
       #set(ENV{INSTALL_ROOT} \"$<INSTALL_PREFIX>\")
 
       execute_process(
-        COMMAND ${CMAKE_BINARY_DIR}/sapi/cli/php
+        COMMAND ${PHP_BINARY_DIR}/sapi/cli/php
           -n
           -dshort_open_tag=0
           -dopen_basedir=

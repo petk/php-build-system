@@ -6,6 +6,7 @@ ecosystem.
 * [1. Introduction](#1-introduction)
 * [2. General guidelines](#2-general-guidelines)
   * [2.1. End commands](#21-end-commands)
+  * [2.2. Source and binary directories](#22-source-and-binary-directories)
 * [3. Variables](#3-variables)
   * [3.1. Variable scope](#31-variable-scope)
     * [3.1.1. Local variables](#311-local-variables)
@@ -126,6 +127,53 @@ if(BAR)
   some_other_command(...)
 endif(BAR)
 ```
+
+### 2.2. Source and binary directories
+
+The variable `CMAKE_SOURCE_DIR` represents the project's root source code
+directory, housing C and CMake files. Conversely, `CMAKE_BINARY_DIR` signifies
+the binary (also called build) directory where build artifacts are output.
+
+```sh
+cmake -S <source-directory> -B <binary-directory>
+```
+
+For enhanced project portability, it is recommended to use `PROJECT_SOURCE_DIR`
+and `PROJECT_BINARY_DIR`, or `<ProjectName>_SOURCE_DIR` and
+`<ProjectName>_BINARY_DIR`, over `CMAKE_SOURCE_DIR` and `CMAKE_BINARY_DIR`.
+
+For example, instead of:
+
+```cmake
+set(some_path ${CMAKE_SOURCE_DIR}/main/php_config.h)
+```
+
+use:
+
+```cmake
+set(some_path ${PROJECT_SOURCE_DIR}/file.h)
+# and
+set(some_path ${PHP_SOURCE_DIR}/main/php_config.h)
+```
+
+These variables succinctly define the root directories of the project, ensuring
+consistency and ease of integration when employed in CMake files. In case of a
+single CMake `project()` usage, there isn't any difference between `CMAKE_*_DIR`
+or `PROJECT_*_DIR`. However, when multiple `project()` invocations occur, and
+project directories are added via `add_subdirectory()` or external inclusions,
+these variables become distinct.
+
+* `CMAKE_SOURCE_DIR`: Denotes the source directory of the project from the first
+  `project()` call in the root `CMakeLists.txt`.
+* `CMAKE_BINARY_DIR`: Denotes the build directory of the project from the first
+  `project()` call in the root `CMakeLists.txt`.
+* `PROJECT_SOURCE_DIR`: Denotes the source directory of the project from the
+  most recent `project()` call in the subdirectory `CMakeLists.txt`.
+* `PROJECT_BINARY_DIR`: Denotes the build directory of the project from the most
+  recent `project()` call in the subdirectory `CMakeLists.txt`.
+* `<ProjectName>_SOURCE_DIR` and `<ProjectName>_BINARY_DIR` represent the
+  source and build directories of the project from the `CMakeLists.txt` with
+  `project(ProjectName ...)`.
 
 ## 3. Variables
 

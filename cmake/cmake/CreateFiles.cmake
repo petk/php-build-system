@@ -16,7 +16,7 @@ else()
 endif()
 
 # Create main/build-defs.h file.
-function(_php_create_build_definitions)
+block(SCOPE_FOR VARIABLES)
   # TODO: Set configure command string.
   set(CONFIGURE_COMMAND "cmake")
 
@@ -29,45 +29,6 @@ function(_php_create_build_definitions)
   # Set the 'include_path' INI directive.
   set(INCLUDE_PATH ".:${EXPANDED_PEAR_INSTALLDIR}")
 
-  # Set the PHP_EXTENSION_DIR based on the layout used.
-  if(NOT PHP_EXTENSION_DIR)
-    file(READ "${CMAKE_SOURCE_DIR}/Zend/zend_modules.h" content)
-    string(REGEX MATCH "#define ZEND_MODULE_API_NO ([0-9]*)" _ "${content}")
-    set(zend_module_api_no ${CMAKE_MATCH_1})
-
-    set(php_extension_dir "${CMAKE_INSTALL_FULL_LIBDIR}/php")
-
-    if(PHP_LAYOUT STREQUAL "GNU")
-      set(php_extension_dir "${php_extension_dir}/${zend_module_api_no}")
-
-      if(PHP_THREAD_SAFETY)
-        set(php_extension_dir "${php_extension_dir}-zts")
-      endif()
-
-      if(PHP_DEBUG)
-        set(php_extension_dir "${php_extension_dir}-debug")
-      endif()
-    else()
-      set(php_extension_dir "${php_extension_dir}/extensions")
-
-      if(PHP_DEBUG)
-        set(php_extension_dir "${php_extension_dir}/debug")
-      else()
-        set(php_extension_dir "${php_extension_dir}/no-debug")
-      endif()
-
-      if(PHP_THREAD_SAFETY)
-        set(php_extension_dir "${php_extension_dir}-zts")
-      else()
-        set(php_extension_dir "${php_extension_dir}-non-zts")
-      endif()
-
-      set(php_extension_dir "${php_extension_dir}-${zend_module_api_no}")
-    endif()
-
-    set_property(CACHE PHP_EXTENSION_DIR PROPERTY VALUE "${php_extension_dir}")
-  endif()
-
   set(EXPANDED_EXTENSION_DIR "${PHP_EXTENSION_DIR}")
   set(EXPANDED_PHP_CONFIG_FILE_SCAN_DIR "${PHP_CONFIG_FILE_SCAN_DIR}")
   set(EXPANDED_BINDIR "${CMAKE_INSTALL_FULL_BINDIR}")
@@ -77,14 +38,15 @@ function(_php_create_build_definitions)
   set(EXPANDED_DATADIR "${CMAKE_INSTALL_FULL_DATADIR}")
   set(EXPANDED_SYSCONFDIR "${CMAKE_INSTALL_FULL_SYSCONFDIR}")
   set(EXPANDED_LOCALSTATEDIR "${CMAKE_INSTALL_FULL_LOCALSTATEDIR}")
+  set(prefix "${CMAKE_INSTALL_PREFIX}")
 
   # Set shared library object extension.
   string(REPLACE "." "" SHLIB_DL_SUFFIX_NAME ${CMAKE_SHARED_LIBRARY_SUFFIX})
 
   message(STATUS "Creating main/build-defs.h")
   configure_file(
-    ${CMAKE_SOURCE_DIR}/main/build-defs.h.in
-    ${CMAKE_BINARY_DIR}/main/build-defs.h
+    ${PROJECT_SOURCE_DIR}/main/build-defs.h.in
+    ${PROJECT_BINARY_DIR}/main/build-defs.h
     @ONLY
   )
 
@@ -92,9 +54,7 @@ function(_php_create_build_definitions)
     HAVE_BUILD_DEFS_H 1
     CACHE INTERNAL "Whether build-defs.h header file is present."
   )
-endfunction()
-
-_php_create_build_definitions()
+endblock()
 
 # Create main/internal_functions* files.
 set(EXT_INCLUDE_CODE "")
@@ -128,14 +88,14 @@ endforeach()
 
 message(STATUS "Creating main/internal_functions.c")
 configure_file(
-  ${CMAKE_SOURCE_DIR}/main/internal_functions.c.in
-  ${CMAKE_BINARY_DIR}/main/internal_functions.c
+  ${PROJECT_SOURCE_DIR}/main/internal_functions.c.in
+  ${PROJECT_BINARY_DIR}/main/internal_functions.c
 )
 
 message(STATUS "Creating main/internal_functions_cli.c")
 configure_file(
-  ${CMAKE_SOURCE_DIR}/main/internal_functions.c.in
-  ${CMAKE_BINARY_DIR}/main/internal_functions_cli.c
+  ${PROJECT_SOURCE_DIR}/main/internal_functions.c.in
+  ${PROJECT_BINARY_DIR}/main/internal_functions_cli.c
 )
 
 message(STATUS "Creating main/php_config.h")
@@ -147,15 +107,15 @@ configure_file(main/php_version.h.in main/php_version.h @ONLY)
 # Man documentation.
 message(STATUS "Creating scripts/man1/php-config.1")
 configure_file(
-  ${CMAKE_SOURCE_DIR}/scripts/man1/php-config.1.in
-  ${CMAKE_BINARY_DIR}/scripts/man1/php-config.1
+  ${PROJECT_SOURCE_DIR}/scripts/man1/php-config.1.in
+  ${PROJECT_BINARY_DIR}/scripts/man1/php-config.1
   @ONLY
 )
 
 message(STATUS "Creating scripts/man1/phpize.1")
 configure_file(
-  ${CMAKE_SOURCE_DIR}/scripts/man1/phpize.1.in
-  ${CMAKE_BINARY_DIR}/scripts/man1/phpize.1
+  ${PROJECT_SOURCE_DIR}/scripts/man1/phpize.1.in
+  ${PROJECT_BINARY_DIR}/scripts/man1/phpize.1
   @ONLY
 )
 
@@ -163,7 +123,7 @@ configure_file(
 set(EXPANDED_PHP_CONFIG_FILE_SCAN_DIR "${PHP_CONFIG_FILE_SCAN_DIR}")
 message(STATUS "Creating scripts/php-config")
 configure_file(
-  ${CMAKE_SOURCE_DIR}/scripts/php-config.in
-  ${CMAKE_BINARY_DIR}/scripts/php-config
+  ${PROJECT_SOURCE_DIR}/scripts/php-config.in
+  ${PROJECT_BINARY_DIR}/scripts/php-config
   @ONLY
 )

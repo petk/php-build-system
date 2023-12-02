@@ -612,12 +612,3 @@ php_search_libraries(
 if(INET_ATON_LIBRARY)
   target_link_libraries(php_configuration INTERFACE ${INET_ATON_LIBRARY})
 endif()
-
-################################################################################
-# Build type.
-################################################################################
-
-# TODO: Fix this better.
-if(CMAKE_BUILD_TYPE STREQUAL "Debug" OR "Debug" IN_LIST CMAKE_CONFIGURATION_TYPES)
-  set(PHP_DEBUG TRUE)
-endif()

@@ -81,14 +81,14 @@ if(PHP_DTRACE)
 
     dtrace_target(
       TARGET php_main
-      INPUT ${CMAKE_SOURCE_DIR}/Zend/zend_dtrace.d
-      HEADER ${CMAKE_BINARY_DIR}/Zend/zend_dtrace_gen.h
-      SOURCES ${CMAKE_SOURCE_DIR}/main/main.c
-              ${CMAKE_SOURCE_DIR}/Zend/zend_API.c
-              ${CMAKE_SOURCE_DIR}/Zend/zend_dtrace.c
-              ${CMAKE_SOURCE_DIR}/Zend/zend_exceptions.c
-              ${CMAKE_SOURCE_DIR}/Zend/zend_execute.c
-              ${CMAKE_SOURCE_DIR}/Zend/zend.c
+      INPUT ${PROJECT_SOURCE_DIR}/Zend/zend_dtrace.d
+      HEADER ${PROJECT_BINARY_DIR}/Zend/zend_dtrace_gen.h
+      SOURCES ${PROJECT_SOURCE_DIR}/main/main.c
+              ${PROJECT_SOURCE_DIR}/Zend/zend_API.c
+              ${PROJECT_SOURCE_DIR}/Zend/zend_dtrace.c
+              ${PROJECT_SOURCE_DIR}/Zend/zend_exceptions.c
+              ${PROJECT_SOURCE_DIR}/Zend/zend_execute.c
+              ${PROJECT_SOURCE_DIR}/Zend/zend.c
       INCLUDES ${_php_dtrace_includes}
     )
 

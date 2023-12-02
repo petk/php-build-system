@@ -17,6 +17,12 @@ include(FeatureSummary)
 # Customizable variables.
 ################################################################################
 
+# Build type.
+# TODO: Fix this better.
+if(CMAKE_BUILD_TYPE STREQUAL "Debug" OR "Debug" IN_LIST CMAKE_CONFIGURATION_TYPES)
+  set(PHP_DEBUG TRUE)
+endif()
+
 set(PHP_UNAME "" CACHE STRING "Build system uname")
 
 if(CMAKE_UNAME AND NOT PHP_UNAME)
@@ -100,12 +106,6 @@ option(PHP_UNDEFINED_SANITIZER "Enable the undefined sanitizer compiler option" 
 
 option(PHP_GCOV "Enable GCOV code coverage and include GCOV symbols" OFF)
 
-if(PHP_SHORT_TAGS)
-  set(DEFAULT_SHORT_OPEN_TAG "1")
-else()
-  set(DEFAULT_SHORT_OPEN_TAG "0")
-endif()
-
 ################################################################################
 # Various global internal configuration.
 ################################################################################
@@ -175,3 +175,54 @@ set_package_properties(ZLIB PROPERTIES
   URL "https://zlib.net/"
   DESCRIPTION "Compression library"
 )
+
+################################################################################
+# Adjust configuration.
+################################################################################
+
+if(PHP_SHORT_TAGS)
+  set(DEFAULT_SHORT_OPEN_TAG "1")
+else()
+  set(DEFAULT_SHORT_OPEN_TAG "0")
+endif()
+
+# Set default PHP_EXTENSION_DIR based on the layout used.
+block(SCOPE_FOR VARIABLES)
+  if(NOT PHP_EXTENSION_DIR)
+    file(READ "${PROJECT_SOURCE_DIR}/Zend/zend_modules.h" content)
+    string(REGEX MATCH "#define ZEND_MODULE_API_NO ([0-9]*)" _ "${content}")
+    set(zend_module_api_no ${CMAKE_MATCH_1})
+
+    set(extension_dir "${CMAKE_INSTALL_FULL_LIBDIR}/php")
+
+    if(PHP_LAYOUT STREQUAL "GNU")
+      set(extension_dir "${extension_dir}/${zend_module_api_no}")
+
+      if(PHP_THREAD_SAFETY)
+        set(extension_dir "${extension_dir}-zts")
+      endif()
+
+      if(PHP_DEBUG)
+        set(extension_dir "${extension_dir}-debug")
+      endif()
+    else()
+      set(extension_dir "${extension_dir}/extensions")
+
+      if(PHP_DEBUG)
+        set(extension_dir "${extension_dir}/debug")
+      else()
+        set(extension_dir "${extension_dir}/no-debug")
+      endif()
+
+      if(PHP_THREAD_SAFETY)
+        set(extension_dir "${extension_dir}-zts")
+      else()
+        set(extension_dir "${extension_dir}-non-zts")
+      endif()
+
+      set(extension_dir "${extension_dir}-${zend_module_api_no}")
+    endif()
+
+    set_property(CACHE PHP_EXTENSION_DIR PROPERTY VALUE "${extension_dir}")
+  endif()
+endblock()

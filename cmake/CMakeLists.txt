@@ -113,28 +113,33 @@ if(NOT N EQUAL 0)
   set(_run_tests_jobs -j${N})
 endif()
 
+# TODO: Append options for running test script.
 add_test(
   NAME php_test
   COMMAND
     ./sapi/cli/php
-      # TODO: Append options for running test script.
-      -d extension_dir=modules
-      -d zend_extension=opcache
+      -n
+      -d open_basedir=
+      -d output_buffering=0
+      -d memory_limit=-1
       run-tests.php
+        -n
+        -d extension_dir=modules
+        -d zend_extension=opcache
         ${_run_tests_jobs}
         -q
 )
 
 install(
   FILES
-    "${CMAKE_BINARY_DIR}/scripts/man1/php-config.1"
-    "${CMAKE_BINARY_DIR}/scripts/man1/phpize.1"
+    "${PROJECT_BINARY_DIR}/scripts/man1/php-config.1"
+    "${PROJECT_BINARY_DIR}/scripts/man1/phpize.1"
   DESTINATION ${CMAKE_INSTALL_MANDIR}/man1
 )
 
 install(
   FILES
-    "${CMAKE_BINARY_DIR}/scripts/php-config"
+    "${PROJECT_BINARY_DIR}/scripts/php-config"
   DESTINATION "${CMAKE_INSTALL_BINDIR}"
 )
 

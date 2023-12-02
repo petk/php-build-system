@@ -10,7 +10,7 @@ Cache variables:
 
 Interface library:
 
-  PHP::CheckClock
+  PHP::CheckClockGettime
     If there are additional libraries that need to be linked.
 ]=============================================================================]#
 

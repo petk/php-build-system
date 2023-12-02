@@ -71,6 +71,18 @@ In the world of CMake, the `CMakeLists.txt` files serve as blueprints for
 configuring and building projects. These files define how the project source
 code should be built into libraries and binaries.
 
+```cmake
+# CMakeLists.txt
+
+# Require a minimum CMake version to build the project
+cmake_minimum_required(VERSION 3.25)
+
+# Set the project name and its metadata
+project(<ProjectName> VERSION 1.0.0 LANGUAGES C)
+
+# ...
+```
+
 ### 2.1. Including other CMake files
 
 To maintain modularity and organization, you can include other CMake files
@@ -79,10 +91,10 @@ within your project:
 ```cmake
 # CmakeLists.txt
 
-# Including CMake file using relative path
+# Include CMake file using relative path
 include(path/to/file.cmake)
 
-# Including a CMake module
+# Include a CMake module
 include(CheckCSourceCompiles)
 ```
 
@@ -96,10 +108,10 @@ project. There are primarily two types: libraries and executables.
 ```cmake
 # CMakeLists.txt
 
-# Creating a library target (STATIC or SHARED)
+# Create a library target (STATIC or SHARED)
 add_library(main STATIC|SHARED src.c src_2.c)
 
-# Creating an executable target
+# Create an executable target
 add_executable(php src.c src_2.c)
 ```
 
@@ -111,16 +123,16 @@ configurations:
 ```cmake
 # CMakeLists.txt
 
-# Adding more source files to a target
+# Add more source files to a target
 target_sources(php INTERFACE|PUBLIC|PRIVATE src_3.c)
 
-# Specifying include directories for a target
+# Specify include directories for a target
 target_include_directories(php INTERFACE|PUBLIC|PRIVATE include/1 include/2)
 
-# Setting compile options for a target
+# Set compile options for a target
 target_compile_options(php INTERFACE|PUBLIC|PRIVATE -Wno-implicit-fallthrough)
 
-# Linking libraries, flags, or another targets to a target
+# Link libraries, flags, or another targets to a target
 target_link_libraries(php INTERFACE|PUBLIC|PRIVATE main)
 ```
 
@@ -196,7 +208,7 @@ endif()
 Lists in CMake are strings separated with `;`.
 
 ```cmake
-# Creating a list
+# Create a list
 set(list_variable a b c)
 
 # Or
@@ -213,12 +225,12 @@ The `list()` command performs operations on lists.
 CMake function is created with the `function()` command:
 
 ```cmake
-# Defining a function
+# Define a function
 function(print_message argument)
   message("${argument}")
 endfunction()
 
-# Calling the function
+# Call the function
 print_message("Hello, World")
 # Outputs: Hello, World
 ```
@@ -300,13 +312,10 @@ check results, and it is generated using the `configure_file()` command.
 ```cmake
 # Generating a header file from the config.h.in template
 configure_file(
-  ${CMAKE_SOURCE_DIR}/src/config.h.in
-  ${CMAKE_BINARY_DIR}/src/config.h
+  src/config.h.in
+  src/config.h
 )
 ```
-
-The variable `CMAKE_SOURCE_DIR` represents the project's source directory, while
-`CMAKE_BINARY_DIR` represents the build directory.
 
 The `configure_file()` command reads a template file `src/config.h.in`, which
 contains placeholders for variables and their associated values:
