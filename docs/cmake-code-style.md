@@ -163,17 +163,13 @@ or `PROJECT_*_DIR`. However, when multiple `project()` invocations occur, and
 project directories are added via `add_subdirectory()` or external inclusions,
 these variables become distinct.
 
-* `CMAKE_SOURCE_DIR`: Denotes the source directory of the project from the first
-  `project()` call in the root `CMakeLists.txt`.
-* `CMAKE_BINARY_DIR`: Denotes the build directory of the project from the first
-  `project()` call in the root `CMakeLists.txt`.
-* `PROJECT_SOURCE_DIR`: Denotes the source directory of the project from the
-  most recent `project()` call in the subdirectory `CMakeLists.txt`.
-* `PROJECT_BINARY_DIR`: Denotes the build directory of the project from the most
-  recent `project()` call in the subdirectory `CMakeLists.txt`.
+* `CMAKE_SOURCE_DIR` and `CMAKE_BINARY_DIR`: Denote the project source and build
+  directories from the first `project()` call in the root `CMakeLists.txt`.
+* `PROJECT_SOURCE_DIR` and `PROJECT_BINARY_DIR`: Denote the project source and
+  build directories from the most recent `project()` call.
 * `<ProjectName>_SOURCE_DIR` and `<ProjectName>_BINARY_DIR` represent the
-  source and build directories of the project from the `CMakeLists.txt` with
-  `project(ProjectName ...)`.
+  project source and build directories from the most recent
+  `project(ProjectName ...)` call.
 
 ## 3. Variables
 

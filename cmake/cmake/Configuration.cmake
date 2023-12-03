@@ -226,3 +226,17 @@ block(SCOPE_FOR VARIABLES)
     set_property(CACHE PHP_EXTENSION_DIR PROPERTY VALUE "${extension_dir}")
   endif()
 endblock()
+
+if(NOT PHP_CONFIG_FILE_PATH)
+  if(PHP_LAYOUT STREQUAL "GNU")
+    set_property(
+      CACHE PHP_CONFIG_FILE_PATH
+      PROPERTY VALUE "${CMAKE_INSTALL_FULL_SYSCONFDIR}"
+    )
+  else()
+    set_property(
+      CACHE PHP_CONFIG_FILE_PATH
+      PROPERTY VALUE "${CMAKE_INSTALL_FULL_LIBDIR}"
+    )
+  endif()
+endif()

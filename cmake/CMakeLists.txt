@@ -10,14 +10,14 @@ message("
 ")
 
 # Set the PHP_VERSION_* variables from configure.ac.
-include(PHP/Version)
+include(cmake/Version.cmake)
 
 project(
   PHP
-  VERSION "${PHP_VERSION_MAJOR}.${PHP_VERSION_MINOR}.${PHP_VERSION_PATCH}"
+  VERSION "${PHP_VERSION}"
   DESCRIPTION "Widely-used general-purpose scripting language"
   HOMEPAGE_URL "https://www.php.net"
-  LANGUAGES C ASM CXX
+  LANGUAGES C CXX ASM
 )
 
 # TODO: Adjust setting ccache.
@@ -27,9 +27,6 @@ if(CCACHE_EXECUTABLE AND NOT CCACHE_DISABLE AND NOT "$ENV{CCACHE_DISABLE}")
   set(CMAKE_C_COMPILER_LAUNCHER ccache)
   set(CMAKE_CXX_COMPILER_LAUNCHER ccache)
 endif()
-
-# Append extra version label suffix to PHP_VERSION.
-set(PHP_VERSION "${PHP_VERSION}${PHP_VERSION_LABEL}")
 
 set(CMAKE_C_STANDARD 99)
 set(CMAKE_C_STANDARD_REQUIRED TRUE)
@@ -96,13 +93,15 @@ message("
 ")
 add_subdirectory(main)
 add_subdirectory(TSRM)
+add_subdirectory(scripts)
 
-message("
-+--------------------------------------------------------------------+
-| Creating files from templates                                      |
-+--------------------------------------------------------------------+
-")
-include(cmake/CreateFiles.cmake)
+# Execute all deferred calls.
+cmake_language(DEFER GET_CALL_IDS php_call_ids)
+foreach(id ${php_call_ids})
+  cmake_language(DEFER GET_CALL ${id} php_call)
+  cmake_language(CALL ${php_call})
+  cmake_language(DEFER CANCEL_CALL ${id})
+endforeach()
 
 enable_testing()
 
@@ -128,19 +127,6 @@ add_test(
         -d zend_extension=opcache
         ${_run_tests_jobs}
         -q
-)
-
-install(
-  FILES
-    "${PROJECT_BINARY_DIR}/scripts/man1/php-config.1"
-    "${PROJECT_BINARY_DIR}/scripts/man1/phpize.1"
-  DESTINATION ${CMAKE_INSTALL_MANDIR}/man1
-)
-
-install(
-  FILES
-    "${PROJECT_BINARY_DIR}/scripts/php-config"
-  DESTINATION "${CMAKE_INSTALL_BINDIR}"
 )
 
 message("

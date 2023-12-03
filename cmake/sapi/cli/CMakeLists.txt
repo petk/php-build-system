@@ -58,13 +58,11 @@ endif()
 set_target_properties(php_cli PROPERTIES ENABLE_EXPORTS TRUE)
 
 # Man documentation.
-function(_php_cli_configure_file)
+block(SCOPE_FOR VARIABLES)
   # TODO: Add @program_prefix@
   set(program_prefix "")
   configure_file(php.1.in php.1 @ONLY)
-endfunction()
-
-_php_cli_configure_file()
+endblock()
 
 target_sources(
   php_cli

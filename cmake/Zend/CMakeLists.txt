@@ -1,3 +1,30 @@
+################################################################################
+# Zend engine.
+################################################################################
+
+# Read the Zend engine version.
+file(READ "zend.h" _)
+string(REGEX MATCH "#[ \t]*define[ \t]+ZEND_VERSION[ \t]+\"([0-9\.]+)([^\"]+)" _ "${_}")
+set(Zend_VERSION_LABEL "${CMAKE_MATCH_2}")
+
+project(
+  Zend
+  VERSION "${CMAKE_MATCH_1}"
+  DESCRIPTION "Zend engine library"
+  LANGUAGES C CXX ASM
+)
+
+string(APPEND Zend_VERSION "${Zend_VERSION_LABEL}")
+message(STATUS "Zend engine version: ${Zend_VERSION}")
+
+file(READ "zend_extensions.h" _)
+string(REGEX MATCH "#[ \t]*define[ \t]+ZEND_EXTENSION_API_NO[ \t]+([0-9]+)" _ "${_}")
+message(STATUS "Zend extension API number: ${CMAKE_MATCH_1}")
+
+file(READ "zend_modules.h" _)
+string(REGEX MATCH "#[ \t]*define[ \t]+ZEND_MODULE_API_NO[ \t]+([0-9]+)" _ "${_}")
+message(STATUS "Zend module API number: ${CMAKE_MATCH_1}")
+
 include(CheckCCompilerFlag)
 include(CheckCSourceCompiles)
 include(CheckCSourceRuns)
@@ -7,7 +34,7 @@ include(CMakePushCheckState)
 include(PHP/SearchLibraries)
 
 ################################################################################
-# Zend engine configuration.
+# Configuration.
 ################################################################################
 
 option(ZEND_GCC_GLOBAL_REGS "Enable GCC global register variables" ON)
@@ -32,7 +59,7 @@ else()
 endif()
 
 ################################################################################
-# Zend engine library.
+# Add library.
 ################################################################################
 
 add_library(zend STATIC
@@ -131,7 +158,7 @@ target_link_libraries(zend PUBLIC PHP::TSRM)
 target_compile_definitions(zend PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE=1)
 
 ################################################################################
-# Zend engine configuration checks.
+# Configuration checks.
 ################################################################################
 
 check_include_file(cpuid.h HAVE_CPUID_H)
@@ -249,7 +276,7 @@ if(ZEND_MAX_EXECUTION_TIMERS)
 endif()
 
 ################################################################################
-# Generate Zend engine lexers and parsers.
+# Generate lexers and parsers.
 ################################################################################
 
 if(BISON_FOUND)

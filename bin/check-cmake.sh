@@ -59,7 +59,7 @@ for module in $modules; do
   fi
 done
 
-# Check for unused module artefacts.
+# Check for unused module artifacts.
 module_items=$(find ./cmake/cmake/modules/PHP -mindepth 2)
 
 for item in $module_items; do
