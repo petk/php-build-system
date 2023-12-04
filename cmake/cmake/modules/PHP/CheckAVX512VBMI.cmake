@@ -7,6 +7,8 @@ Cache variables:
     Whether compiler supports AVX-512 VBMI.
 ]=============================================================================]#
 
+include_guard(GLOBAL)
+
 include(CheckCSourceCompiles)
 include(CMakePushCheckState)
 

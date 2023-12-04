@@ -7,6 +7,8 @@ Cache variables:
     Whether IPv6 support is enabled.
 ]=============================================================================]#
 
+include_guard(GLOBAL)
+
 include(CheckCSourceCompiles)
 
 message(CHECK_START "Checking for IPv6 support")

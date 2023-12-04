@@ -2,6 +2,8 @@
 Read the PHP version from the configure.ac file and set PHP version variables.
 ]=============================================================================]#
 
+include_guard(GLOBAL)
+
 # Set the PHP_VERSION_* variables from configure.ac.
 file(READ "${CMAKE_CURRENT_LIST_DIR}/../configure.ac" _)
 string(REGEX MATCH "AC_INIT\\(\\[PHP\\],\\[([0-9]+\.[0-9]+\.[0-9]+)([^\]]*)" _ "${_}")

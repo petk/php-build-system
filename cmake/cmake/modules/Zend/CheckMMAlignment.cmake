@@ -9,6 +9,8 @@ Cache variables:
   ZEND_MM_NEED_EIGHT_BYTE_REALIGNMENT
 ]=============================================================================]#
 
+include_guard(GLOBAL)
+
 message(CHECK_START "Checking for MM alignment and log values")
 
 if(NOT CMAKE_CROSSCOMPILING)

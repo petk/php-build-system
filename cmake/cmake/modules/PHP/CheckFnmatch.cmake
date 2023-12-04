@@ -14,6 +14,8 @@ Cache variables:
     Whether fnmatch is a working POSIX variant.
 ]=============================================================================]#
 
+include_guard(GLOBAL)
+
 include(CheckCSourceRuns)
 
 message(CHECK_START "Checking for a working POSIX fnmatch() function")

@@ -8,6 +8,8 @@ Cache variables:
     Whether copy_file_range() is supported.
 ]=============================================================================]#
 
+include_guard(GLOBAL)
+
 include(CheckCSourceRuns)
 
 message(CHECK_START "Checking for copy_file_range")

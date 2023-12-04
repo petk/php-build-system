@@ -7,6 +7,8 @@ Cache variables:
     Whether struct flock is available.
 ]=============================================================================]#
 
+include_guard(GLOBAL)
+
 include(CheckCSourceCompiles)
 
 message(CHECK_START "Checking for struct flock")

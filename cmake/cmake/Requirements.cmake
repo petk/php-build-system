@@ -2,6 +2,8 @@
 Check system requirements and validate basic configuration.
 ]=============================================================================]#
 
+include_guard(GLOBAL)
+
 include(CheckCSourceRuns)
 include(FeatureSummary)
 

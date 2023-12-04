@@ -3,6 +3,8 @@ Setting CMake defaults to manage how CMake works. These can be set before
 calling the project().
 #]=============================================================================]
 
+include_guard(GLOBAL)
+
 # Set CMake module paths where include() and find_package() look for modules.
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_LIST_DIR}/modules")
 

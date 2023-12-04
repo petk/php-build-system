@@ -7,6 +7,8 @@ Cache variables:
     Whether strptime() declaration fails.
 ]=============================================================================]#
 
+include_guard(GLOBAL)
+
 include(CheckCSourceCompiles)
 include(CMakePushCheckState)
 

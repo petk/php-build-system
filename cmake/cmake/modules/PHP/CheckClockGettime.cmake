@@ -14,6 +14,8 @@ Interface library:
     If there are additional libraries that need to be linked.
 ]=============================================================================]#
 
+include_guard(GLOBAL)
+
 include(CheckCSourceCompiles)
 include(CheckCSourceRuns)
 include(CMakePushCheckState)

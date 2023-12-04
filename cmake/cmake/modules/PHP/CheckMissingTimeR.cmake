@@ -15,6 +15,8 @@ Cache variables:
     Whether strtok_r is not declared.
 ]=============================================================================]#
 
+include_guard(GLOBAL)
+
 include(CheckCSourceCompiles)
 
 message(STATUS "Checking for missing declarations of reentrant functions")

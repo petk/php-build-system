@@ -7,6 +7,8 @@ Cache variables:
     Whether byte ordering is big-endian.
 ]=============================================================================]#
 
+include_guard(GLOBAL)
+
 include(CheckCSourceRuns)
 
 message(CHECK_START "Checking byte ordering")

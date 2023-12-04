@@ -16,6 +16,8 @@ Function:
     <library_variable>.
 ]=============================================================================]#
 
+include_guard(GLOBAL)
+
 include(CheckLibraryExists)
 include(CheckSymbolExists)
 

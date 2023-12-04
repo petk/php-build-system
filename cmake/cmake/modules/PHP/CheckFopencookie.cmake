@@ -9,6 +9,8 @@ Cache variables:
     Whether a newer seeker definition for fopencookie() is available.
 ]=============================================================================]#
 
+include_guard(GLOBAL)
+
 include(CheckCSourceCompiles)
 include(CheckCSourceRuns)
 include(CheckSymbolExists)

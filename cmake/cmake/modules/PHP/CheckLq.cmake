@@ -12,6 +12,8 @@ Cache variables:
     TCP_CONNECTION_INFO.
 ]=============================================================================]#
 
+include_guard(GLOBAL)
+
 include(CheckCSourceCompiles)
 include(CheckCSourceRuns)
 include(CMakePushCheckState)

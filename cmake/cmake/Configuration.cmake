@@ -11,6 +11,8 @@ For the preferred configuration customization, opt for CMake presets:
   cmake --preset <preset>
 #]=============================================================================]
 
+include_guard(GLOBAL)
+
 include(FeatureSummary)
 
 ################################################################################

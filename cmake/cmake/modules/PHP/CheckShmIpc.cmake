@@ -7,6 +7,8 @@ Cache variables:
     Whether SysV IPC SHM support is available.
 ]=============================================================================]#
 
+include_guard(GLOBAL)
+
 include(CheckCSourceRuns)
 
 message(CHECK_START "Checking for SysV IPC SHM (shared memory) support")

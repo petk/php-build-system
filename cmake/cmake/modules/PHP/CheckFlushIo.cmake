@@ -7,6 +7,8 @@ Cache variables:
     Whether flush should be called explicitly after a buffered io.
 ]=============================================================================]#
 
+include_guard(GLOBAL)
+
 include(CheckCSourceRuns)
 include(CMakePushCheckState)
 

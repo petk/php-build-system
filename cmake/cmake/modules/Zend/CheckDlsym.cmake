@@ -7,6 +7,8 @@ Cache variables:
     Whether dlsym() requires a leading underscore in symbol names.
 ]=============================================================================]#
 
+include_guard(GLOBAL)
+
 message(
   CHECK_START
   "Checking whether dlsym() requires a leading underscore in symbol names"

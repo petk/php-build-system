@@ -9,6 +9,8 @@ Cache variables:
     Whether fclose declaration is missing.
 ]=============================================================================]#
 
+include_guard(GLOBAL)
+
 include(CheckCSourceCompiles)
 
 message(CHECK_START "Checking for fclose declaration")

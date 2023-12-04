@@ -9,6 +9,8 @@ Cache variables:
     Whether GCC's optimize-strlen is broken.
 ]=============================================================================]#
 
+include_guard(GLOBAL)
+
 include(CheckCSourceRuns)
 
 if(NOT CMAKE_C_COMPILER_ID STREQUAL "GNU")

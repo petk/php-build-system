@@ -7,6 +7,8 @@ Cache variables:
     Whether getaddrinfo() function is working as expected.
 ]=============================================================================]#
 
+include_guard(GLOBAL)
+
 include(CheckCSourceCompiles)
 include(CheckCSourceRuns)
 

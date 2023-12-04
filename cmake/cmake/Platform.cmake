@@ -2,6 +2,8 @@
 Platform specific configuration.
 ]=============================================================================]#
 
+include_guard(GLOBAL)
+
 message(STATUS "Host system: ${CMAKE_HOST_SYSTEM}")
 message(STATUS "Target system: ${CMAKE_SYSTEM}")
 

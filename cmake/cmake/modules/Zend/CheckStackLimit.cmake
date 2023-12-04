@@ -7,6 +7,8 @@ Cache variables:
     Whether checking the stack limit is supported.
 ]=============================================================================]#
 
+include_guard(GLOBAL)
+
 include(CheckCSourceRuns)
 
 message(CHECK_START "Checking whether the stack grows downwards")

@@ -6,6 +6,8 @@ Module exposes the following function:
   php_check_builtin(<symbol_name> <result_var>)
 ]=============================================================================]#
 
+include_guard(GLOBAL)
+
 include(CheckCSourceCompiles)
 
 # cmake-lint: disable=R0912

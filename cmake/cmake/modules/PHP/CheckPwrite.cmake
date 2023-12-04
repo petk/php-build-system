@@ -9,6 +9,8 @@ Cache variables:
     Whether pwrite64 is default.
 ]=============================================================================]#
 
+include_guard(GLOBAL)
+
 include(CheckCSourceRuns)
 
 message(CHECK_START "Checking whether pwrite() works")

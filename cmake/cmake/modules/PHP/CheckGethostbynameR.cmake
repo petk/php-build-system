@@ -17,6 +17,8 @@ Cache variables:
     Whether function has 6 arguments.
 ]=============================================================================]#
 
+include_guard(GLOBAL)
+
 include(CheckCSourceCompiles)
 
 message(CHECK_START "Checking how many arguments gethostbyname_r() takes")

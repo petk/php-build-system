@@ -14,6 +14,8 @@ Cache variables:
     Header definition line that sets the compiler's inline keyword.
 ]=============================================================================]#
 
+include_guard(GLOBAL)
+
 include(CheckCSourceCompiles)
 include(CMakePushCheckState)
 

@@ -2,6 +2,8 @@
 Project-wide configuration checks.
 #]=============================================================================]
 
+include_guard(GLOBAL)
+
 # Include required modules.
 include(CheckIncludeFile)
 include(CheckLibraryExists)

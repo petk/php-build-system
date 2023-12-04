@@ -7,6 +7,8 @@ Cache variables:
     Whether asm goto is supported.
 ]=============================================================================]#
 
+include_guard(GLOBAL)
+
 include(CheckCSourceCompiles)
 include(CheckCSourceRuns)
 

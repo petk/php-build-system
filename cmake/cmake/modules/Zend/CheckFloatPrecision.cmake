@@ -17,6 +17,8 @@ Cache variables:
     Whether FPU control word can be manipulated by inline assembler.
 ]=============================================================================]#
 
+include_guard(GLOBAL)
+
 include(CheckCSourceCompiles)
 
 message(CHECK_START "Checking if _FPU_SETCW is usable")

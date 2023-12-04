@@ -96,12 +96,15 @@ add_subdirectory(TSRM)
 add_subdirectory(scripts)
 
 # Execute all deferred calls.
-cmake_language(DEFER GET_CALL_IDS php_call_ids)
-foreach(id ${php_call_ids})
-  cmake_language(DEFER GET_CALL ${id} php_call)
-  cmake_language(CALL ${php_call})
-  cmake_language(DEFER CANCEL_CALL ${id})
-endforeach()
+block(SCOPE_FOR VARIABLES)
+  cmake_language(DEFER GET_CALL_IDS php_call_ids)
+  foreach(id ${php_call_ids})
+    cmake_language(DEFER GET_CALL ${id} php_call)
+    list(POP_FRONT php_call php_command)
+    cmake_language(CALL ${php_command} ${php_call})
+    cmake_language(DEFER CANCEL_CALL ${id})
+  endforeach()
+endblock()
 
 enable_testing()
 
@@ -135,7 +138,10 @@ message("
 +--------------------------------------------------------------------+
 ")
 include(FeatureSummary)
-feature_summary(WHAT ALL FATAL_ON_MISSING_REQUIRED_PACKAGES)
+feature_summary(
+  FATAL_ON_MISSING_REQUIRED_PACKAGES
+  WHAT ENABLED_FEATURES REQUIRED_PACKAGES_NOT_FOUND
+)
 
 message("
 +--------------------------------------------------------------------+

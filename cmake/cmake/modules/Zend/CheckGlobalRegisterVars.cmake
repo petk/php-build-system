@@ -7,6 +7,8 @@ Cache variables:
     Whether the target system has support for global register variables.
 ]=============================================================================]#
 
+include_guard(GLOBAL)
+
 include(CheckCSourceCompiles)
 
 message(CHECK_START "Checking for global register variables support")

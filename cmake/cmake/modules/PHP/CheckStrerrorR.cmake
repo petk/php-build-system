@@ -10,6 +10,8 @@ Cache variables:
     error number.
 ]=============================================================================]#
 
+include_guard(GLOBAL)
+
 include(CheckCSourceCompiles)
 include(CheckSymbolExists)
 include(CMakePushCheckState)

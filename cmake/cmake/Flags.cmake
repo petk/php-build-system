@@ -2,6 +2,8 @@
 Check and configure compilation options.
 ]=============================================================================]#
 
+include_guard(GLOBAL)
+
 # Include required modules.
 include(CheckCompilerFlag)
 include(CheckLinkerFlag)

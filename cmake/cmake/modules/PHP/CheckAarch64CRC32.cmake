@@ -7,6 +7,8 @@ Cache variables:
     Whether aarch64 CRC32 API is available.
 ]=============================================================================]#
 
+include_guard(GLOBAL)
+
 include(CheckCSourceCompiles)
 
 message(CHECK_START "Checking for aarch64 CRC32 API availability")

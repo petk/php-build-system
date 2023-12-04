@@ -9,6 +9,8 @@ Cache variables:
     Whether struct sockaddr has field sa_len.
 ]=============================================================================]#
 
+include_guard(GLOBAL)
+
 include(CheckCSourceCompiles)
 include(CheckStructHasMember)
 

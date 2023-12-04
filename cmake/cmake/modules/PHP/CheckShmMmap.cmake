@@ -7,6 +7,8 @@ Cache variables:
     Whether mmap(MAP_ANON) SHM support is found.
 ]=============================================================================]#
 
+include_guard(GLOBAL)
+
 include(CheckCSourceRuns)
 
 message(CHECK_START "Checking for mmap() using MAP_ANON shared memory support")

@@ -7,6 +7,8 @@ Cache variables:
     Whether write(2) works.
 ]=============================================================================]#
 
+include_guard(GLOBAL)
+
 include(CheckCSourceRuns)
 include(CMakePushCheckState)
 

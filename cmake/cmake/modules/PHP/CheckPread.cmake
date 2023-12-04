@@ -9,6 +9,8 @@ Cache variables:
     Whether pread64 is default.
 ]=============================================================================]#
 
+include_guard(GLOBAL)
+
 include(CheckCSourceRuns)
 
 message(CHECK_START "Checking whether pread() works")

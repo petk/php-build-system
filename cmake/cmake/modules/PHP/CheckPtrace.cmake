@@ -13,6 +13,8 @@ Cache variables:
     Name of the trace type that should be used in FPM.
 ]=============================================================================]#
 
+include_guard(GLOBAL)
+
 include(CheckCSourceCompiles)
 include(CheckCSourceRuns)
 include(CMakePushCheckState)

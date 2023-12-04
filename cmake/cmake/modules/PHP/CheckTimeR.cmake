@@ -10,6 +10,8 @@ Cache variables:
     Whether IRIX-style functions are used.
 ]=============================================================================]#
 
+include_guard(GLOBAL)
+
 include(CheckCSourceRuns)
 
 message(CHECK_START "Checking type of reentrant time-related functions")
