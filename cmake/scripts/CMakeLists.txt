@@ -1,4 +1,4 @@
-block(SCOPE_FOR VARIABLES)
+block()
   # Man documentation.
   message(STATUS "Creating scripts/man1/php-config.1")
   configure_file(man1/php-config.1.in man1/php-config.1 @ONLY)

@@ -9,7 +9,7 @@ set(Zend_VERSION_LABEL "${CMAKE_MATCH_2}")
 
 project(
   Zend
-  VERSION "${CMAKE_MATCH_1}"
+  VERSION ${CMAKE_MATCH_1}
   DESCRIPTION "Zend engine library"
   LANGUAGES C CXX ASM
 )

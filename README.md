@@ -240,12 +240,12 @@ system) are linked together:
 
 PHP has several ways to install PHP extensions:
 
-* Bundled
+* Statically linked to PHP
 
   This is the default way. Extension is built together with PHP SAPI and no
   enabling is needed in the `php.ini` configuration.
 
-* Shared
+* Shared modules
 
   This installs the extension as dynamically loadable library. Extension to be
   visible in the PHP SAPI (see `php -m`) needs to be also manually enabled in
@@ -255,10 +255,10 @@ PHP has several ways to install PHP extensions:
   extension=php_extension_lowercase_name
   ```
 
-  This will load the PHP extension shared library file located in the extension
-  directory (the `extension_dir` INI directive). File can have `.so` extension
-  on *nix systems, `.dll` on Windows, and possibly other extensions such as
-  `.sl` on certain HP-UX systems, or `.dylib` on macOS.
+  This will load the PHP extension module file (shared object) located in the
+  extension directory (the `extension_dir` INI directive). File can have `.so`
+  extension on *nix systems, `.dll` on Windows, and possibly other extensions
+  such as `.sl` on certain HP-UX systems, or `.dylib` on macOS.
 
 The following extensions are always enabled and are part of the overall PHP
 engine source code:

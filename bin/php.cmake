@@ -17,16 +17,16 @@ SYNOPSIS:
     PHP version to download in form of {MAJOR}.{MINOR}.{PATCH}{EXTRA}
 
 Usage examples:
-  Downloads specific version from php.net:
+  Download specific version from php.net:
     cmake -P bin/php.cmake 8.3.0RC6
 
   Or:
     ./bin/php.cmake 8.3.0RC6
 
-  Downloads the current Git PHP-8.3 branch:
+  Download the current Git PHP-8.3 branch:
     ./bin/php.cmake 8.3-dev
 
-  Downloads the current Git master branch:
+  Download the current Git master branch:
     ./bin/php.cmake 8.4-dev
 #]=============================================================================]
 
@@ -122,9 +122,9 @@ function(php_download)
 
     list(APPEND urls "https://github.com/php/php-src/archive/refs/heads/${php_branch}.tar.gz")
   else()
+    list(APPEND urls "https://www.php.net/distributions/php-${PHP_VERSION}.tar.gz")
     list(APPEND urls "https://downloads.php.net/~eric/php-${PHP_VERSION}.tar.gz")
     list(APPEND urls "https://downloads.php.net/~jakub/php-${PHP_VERSION}.tar.gz")
-    list(APPEND urls "https://www.php.net/distributions/php-${PHP_VERSION}.tar.gz")
   endif()
 
   # Download PHP tarball.

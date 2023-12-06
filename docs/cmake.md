@@ -23,7 +23,14 @@ understanding of its fundamentals.
   * [5.3. C source compilation and execution check](#53-c-source-compilation-and-execution-check)
   * [5.4. Cross-compilation considerations](#54-cross-compilation-considerations)
 * [6. Generating a configuration header](#6-generating-a-configuration-header)
-* [7. Further resources](#7-further-resources)
+* [7. Where to go from here?](#7-where-to-go-from-here)
+* [8. Advanced topics](#8-advanced-topics)
+  * [8.1. Targets](#81-targets)
+    * [8.1.1. OBJECT library](#811-object-library)
+    * [8.1.2. SHARED library](#812-shared-library)
+    * [8.1.3. MODULE library](#813-module-library)
+    * [8.1.4. STATIC library](#814-static-library)
+    * [8.1.5. Executable target](#815-executable-target)
 
 ## 1. Command-line usage
 
@@ -35,7 +42,7 @@ generation phase, followed by the build phase.
 In this phase, CMake performs essential tasks to set up a build environment:
 
 ```sh
-# Generating build system from a source directory to a build directory:
+# Generate build system from a source directory to a build directory:
 cmake -S source-directory -B build-directory
 ```
 
@@ -89,8 +96,6 @@ To maintain modularity and organization, you can include other CMake files
 within your project:
 
 ```cmake
-# CmakeLists.txt
-
 # Include CMake file using relative path
 include(path/to/file.cmake)
 
@@ -106,14 +111,23 @@ CMake revolves around targets, which represent various components of your
 project. There are primarily two types: libraries and executables.
 
 ```cmake
-# CMakeLists.txt
-
-# Create a library target (STATIC or SHARED)
-add_library(main STATIC|SHARED src.c src_2.c)
+# Create a library target
+add_library(extension OBJECT|MODULE|SHARED|STATIC extension.c src.c ...)
 
 # Create an executable target
-add_executable(php src.c src_2.c)
+add_executable(php php.c php_2.c ...)
 ```
+
+The keywords `OBJECT`, `MODULE`, `SHARED`, and `STATIC` specify how the library
+is built. `OBJECT` libraries will compile source files to binary object files
+without the linking step. These objects can be then referenced in other CMake
+targets. `SHARED` libraries can be linked dynamically and loaded at program
+runtime or dynamically loaded with `dlopen()` on *nix systems or `LoadLibrary()`
+on Windows. `MODULE` library is a special CMake concept that prevents targets to
+be linked dynamically with `target_link_libraries()` and are intended
+specifically to be dynamically loaded at program runtime. `STATIC` library, on
+the other hand, is an archive of built object files that can be linked to other
+targets.
 
 ### 2.3. Working with targets
 
@@ -121,8 +135,6 @@ Once you've defined your targets, you can fine-tune them with additional
 configurations:
 
 ```cmake
-# CMakeLists.txt
-
 # Add more source files to a target
 target_sources(php INTERFACE|PUBLIC|PRIVATE src_3.c)
 
@@ -205,7 +217,8 @@ endif()
 
 ### 3.4. Lists
 
-Lists in CMake are strings separated with `;`.
+Lists in CMake are strings separated with `;` that can be iterated over in
+loops, such as `foreach`.
 
 ```cmake
 # Create a list
@@ -219,6 +232,9 @@ set(string_variable "a b c")
 ```
 
 The `list()` command performs operations on lists.
+
+Lists are frequently used for tasks like specifying source files, compiler
+flags, and dependencies.
 
 ## 4. Functions
 
@@ -356,19 +372,126 @@ int main(void) {
 }
 ```
 
-## 7. Further resources
+## 7. Where to go from here?
 
-A highly recommended starting point for learning CMake is the step-by-step
-[tutorial](https://cmake.org/cmake/help/latest/guide/tutorial/index.html).
+This section has provided a general overview of the most crucial features of
+CMake. To explore deeper into mastering CMake, it is highly recommended to start
+with the
+[step-by-step tutorial](https://cmake.org/cmake/help/latest/guide/tutorial/index.html).
 
-Additionally, there are several valuable CMake resources:
+Furthermore, the [CMake documentation](https://cmake.org/documentation/) offers
+comprehensive guidance on CMake's features and functionalities.
 
-* [Official CMake documentation](https://cmake.org/documentation/): The official
-  documentation offers comprehensive guidance on CMake's features and
-  functionalities.
-* [Effective Modern CMake](https://gist.github.com/mbinna/c61dbb39bca0e4fb7d1f73b0d66a4fd1):
-  This resource provides insights into good practices for using CMake
-  effectively.
-* [Awesome CMake](https://github.com/onqtam/awesome-cmake): A curated list of
-  CMake-related tools, libraries, and extensions, which might be useful for
-  CMake projects.
+The upcoming sections of this document cover advanced topics, providing an
+additional layer of understanding of CMake. While the following topics are less
+critical for a successful start with CMake, you can safely revisit them at a
+later time.
+
+## 8. Advanced topics
+
+This section offers supplementary explanations and tricks that could not find
+place elsewhere or are not sufficiently covered in the CMake documentation.
+These insights and tips can be valuable when deep-diving into CMake.
+
+### 8.1. Targets
+
+```cmake
+add_library(extension OBJECT|MODULE|SHARED|STATIC extension.c src.c ...)
+add_executable(php php.c php_2.c ...)
+```
+
+The concepts of library and executable targets are best illustrated through
+examples using `gcc`:
+
+#### 8.1.1. OBJECT library
+
+OBJECT library will compile each source file to a binary object file:
+
+```sh
+gcc -c -o extension.o extension.c
+gcc -c -o src.o src.c
+```
+
+#### 8.1.2. SHARED library
+
+CMake automatically adds sensible linker flags when building SHARED library. For
+example, `-shared`, `-Wl,-soname,extension.so`, position-independent code flag
+`-fPIC`, and similar.
+
+```sh
+# Compile each source file to a binary object file with the -fPIC
+gcc -fPIC -c -o extension.o extension.c
+gcc -fPIC -c -o src.o src.c
+# Generate shared object from object files
+gcc -fPIC -shared -Wl,-soname,extension.so -o extension.so extension.o src.o
+```
+
+#### 8.1.3. MODULE library
+
+`MODULE` library is on the other hand the same as `SHARED` except CMake will use
+different link flags. MODULE library cannot be linked with
+`target_link_libraries()` in CMake and certain handling inside CMake is
+different.
+
+```sh
+# Compile each source file to a binary object file with the -fPIC flag
+gcc -fPIC -c -o extension.o extension.c
+gcc -fPIC -c -o src.o src.c
+# Generate shared object from object files
+gcc -fPIC -shared -o extension.so extension.o src.o
+```
+
+Both `MODULE` and `SHARED` libraries can be loaded with `dlopen` in C:
+
+```c
+/* extension.c */
+#include <stdio.h>
+
+void extension_function() {
+  printf("extension_function called\n");
+}
+```
+
+```c
+/* main.c */
+#include <dlfcn.h>
+#include <stdio.h>
+
+int main(void) {
+    void *handle = dlopen("extension.so", RTLD_LAZY);
+    if (!handle) {
+        printf("Error opening module: %s\n", dlerror());
+        return 1;
+    }
+
+    void (*extension_function_ptr)() = dlsym(handle, "extension_function");
+    if (!extension_function_ptr) {
+        printf("Error finding symbol: %s\n", dlerror());
+        dlclose(handle);
+        return 1;
+    }
+
+    extension_function_ptr();
+
+    dlclose(handle);
+    return 0;
+}
+```
+
+#### 8.1.4. STATIC library
+
+STATIC libraries are intended to be linked statically to other libraries or
+executables and then become part of the final binary.
+
+```sh
+# Create object file without the position-independent code flag -fPIC
+gcc -c -o main.o main.c
+# Bundle object file(s) into a static library
+ar rcs main.a main.o
+```
+
+#### 8.1.5. Executable target
+
+```sh
+gcc -o php php.c
+```

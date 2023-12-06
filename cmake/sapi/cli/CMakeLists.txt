@@ -58,7 +58,7 @@ endif()
 set_target_properties(php_cli PROPERTIES ENABLE_EXPORTS TRUE)
 
 # Man documentation.
-block(SCOPE_FOR VARIABLES)
+block()
   # TODO: Add @program_prefix@
   set(program_prefix "")
   configure_file(php.1.in php.1 @ONLY)

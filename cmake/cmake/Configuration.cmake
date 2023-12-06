@@ -189,7 +189,7 @@ else()
 endif()
 
 # Set default PHP_EXTENSION_DIR based on the layout used.
-block(SCOPE_FOR VARIABLES)
+block()
   if(NOT PHP_EXTENSION_DIR)
     file(READ "${PROJECT_SOURCE_DIR}/Zend/zend_modules.h" content)
     string(REGEX MATCH "#define ZEND_MODULE_API_NO ([0-9]*)" _ "${content}")

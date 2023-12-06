@@ -193,7 +193,7 @@ The `block()` command can be used to restrict the variable scope to a specific
 block of code:
 
 ```cmake
-block(SCOPE_FOR VARIABLES)
+block()
   set(bar <value>)
 
   # <commands>...
@@ -301,7 +301,7 @@ message(STATUS "${CMAKE_MATCH_1}")
 
 ## 4. Modules
 
-Modules are located in the `cmake/modules` directory.
+CMake modules are located in the `cmake/modules` directory.
 
 ### 4.1. Find modules
 

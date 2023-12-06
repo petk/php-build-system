@@ -15,7 +15,7 @@ set(
   CACHE STRING "Extra PHP version label suffix, e.g. '-dev', 'rc1', '-acme'"
 )
 
-# This is automatically executed after the project(PHP...) invocation.
+# This is automatically executed with the project(PHP...) invocation.
 macro(_php_post_project)
   if(NOT DEFINED PHP_VERSION_ID)
     # Append extra version label suffix to PHP_VERSION.

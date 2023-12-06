@@ -14,7 +14,7 @@ include(cmake/Version.cmake)
 
 project(
   PHP
-  VERSION "${PHP_VERSION}"
+  VERSION ${PHP_VERSION}
   DESCRIPTION "Widely-used general-purpose scripting language"
   HOMEPAGE_URL "https://www.php.net"
   LANGUAGES C CXX ASM
@@ -96,12 +96,12 @@ add_subdirectory(TSRM)
 add_subdirectory(scripts)
 
 # Execute all deferred calls.
-block(SCOPE_FOR VARIABLES)
-  cmake_language(DEFER GET_CALL_IDS php_call_ids)
-  foreach(id ${php_call_ids})
-    cmake_language(DEFER GET_CALL ${id} php_call)
-    list(POP_FRONT php_call php_command)
-    cmake_language(CALL ${php_command} ${php_call})
+block()
+  cmake_language(DEFER GET_CALL_IDS ids)
+  foreach(id ${ids})
+    cmake_language(DEFER GET_CALL ${id} call)
+    list(POP_FRONT call command)
+    cmake_language(CALL ${command} ${call})
     cmake_language(DEFER CANCEL_CALL ${id})
   endforeach()
 endblock()

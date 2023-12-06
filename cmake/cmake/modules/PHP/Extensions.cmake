@@ -527,7 +527,7 @@ function(_php_extensions_post_configure directory)
 
   get_target_property(extension_type php_${extension} TYPE)
 
-  if(NOT extension_type STREQUAL "SHARED_LIBRARY")
+  if(NOT extension_type MATCHES "^(MODULE|SHARED)_LIBRARY$")
     return()
   endif()
 
@@ -585,8 +585,8 @@ function(_php_extensions_validate extensions)
       get_target_property(extension_type php_${extension} TYPE)
 
       if(
-        dependency_type STREQUAL "SHARED_LIBRARY"
-        AND NOT extension_type STREQUAL "SHARED_LIBRARY"
+        dependency_type MATCHES "^(MODULE|SHARED)_LIBRARY$"
+        AND NOT extension_type MATCHES "^(MODULE|SHARED)_LIBRARY$"
       )
         message(
           FATAL_ERROR

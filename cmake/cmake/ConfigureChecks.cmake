@@ -438,7 +438,7 @@ endif()
 # Fix for these systems is already included in GCC 7, but not on GCC 6. At least
 # some versions of FreeBSD seem to have buggy ifunc support, see bug #77284.
 # Conservatively don't use ifuncs on FreeBSD.
-if(NOT CMAKE_HOST_SYSTEM_NAME MATCHES "Android|FreeBSD|OpenBSD"
+if(NOT CMAKE_HOST_SYSTEM_NAME MATCHES "^(Android|FreeBSD|OpenBSD)$"
   AND NOT PHP_STD_LIBRARY MATCHES "^(musl|uclibc)$"
 )
   check_c_source_compiles("

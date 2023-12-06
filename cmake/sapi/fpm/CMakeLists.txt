@@ -495,7 +495,7 @@ endif()
 # Install files.
 ################################################################################
 
-block(SCOPE_FOR VARIABLES)
+block()
   # Man documentation.
   set(php_fpm_localstatedir "${CMAKE_INSTALL_FULL_LOCALSTATEDIR}")
   set(php_fpm_sysconfdir "${CMAKE_INSTALL_FULL_SYSCONFDIR}")
