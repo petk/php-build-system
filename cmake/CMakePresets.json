@@ -122,9 +122,16 @@
     },
     {
       "name": "ninja",
-      "inherits": "unix-full",
+      "inherits": "default",
       "displayName": "Ninja PHP configuration",
       "description": "Default PHP build using Ninja generator",
+      "generator": "Ninja"
+    },
+    {
+      "name": "ninja-full",
+      "inherits": "unix-full",
+      "displayName": "Ninja PHP configuration",
+      "description": "PHP build using Ninja generator with all extensions enabled",
       "generator": "Ninja"
     }
   ],
@@ -148,6 +155,10 @@
     {
       "name": "ninja",
       "configurePreset": "ninja"
+    },
+    {
+      "name": "ninja-full",
+      "configurePreset": "ninja-full"
     }
   ],
   "testPresets": [
@@ -174,6 +185,11 @@
     {
       "name": "ninja",
       "configurePreset": "ninja",
+      "output": {"verbosity": "verbose"}
+    },
+    {
+      "name": "ninja-full",
+      "configurePreset": "ninja-full",
       "output": {"verbosity": "verbose"}
     }
   ]

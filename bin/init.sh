@@ -6,8 +6,9 @@ update=1
 use_cmake=0
 options=""
 preset="default"
-debug=0
+generator=""
 branch="PHP-8.3"
+debug=0
 
 # Go to project root.
 cd $(CDPATH= cd -- "$(dirname -- "$0")/.." && pwd -P)
@@ -27,6 +28,7 @@ OPTIONS:
                            cmake -DOPTION .
   -p, --preset VALUE     Use CMake preset with name VALUE, otherwise "default"
                          is used (see CMakePresets.json).
+  -G <generator-name>    Specify a CMake build system generator.
   -b, --branch VALUE     PHP branch to checkout. Defaults to PHP-8.3.
   -d, --debug            Debug mode. Here CMake profiling is enabled and debug
                          info displayed.
@@ -50,6 +52,11 @@ HELP
 
   if test "$1" = "-p" || test "$1" = "--preset"; then
     preset=$2
+    shift
+  fi
+
+  if test "$1" = "-G"; then
+    generator="$2"
     shift
   fi
 
@@ -172,12 +179,16 @@ if test "x$use_cmake" = "x0"; then
   exit
 fi
 
-if test "${debug}" = "1"; then
+if test "$debug" = "1"; then
   cmake_debug_options="--debug-trycompile --profiling-output ./profile.json --profiling-format google-trace"
   cmake_verbose="--verbose"
 fi
 
+if test -n "$generator"; then
+  generator_option="-G \"$generator\""
+fi
+
 # Run CMake preset configuration and build.
 cd php-src
-$cmake --preset ${preset} ${cmake_debug_options} ${options}
-$cmake --build --preset ${preset} $cmake_verbose --parallel
+eval "$cmake --preset $preset $cmake_debug_options $options $generator_option"
+eval "$cmake --build --preset $preset $cmake_verbose --parallel"

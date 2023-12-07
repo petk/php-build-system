@@ -33,7 +33,7 @@ index 49acc9f2e1..a6191d1d72 100644
 +CMakeCache.txt
 +CMakeFiles/
 diff --git a/run-tests.php b/run-tests.php
-index d6c84c667d..e7604cc69e 100755
+index 16b74e5804..ef275a841b 100755
 --- a/run-tests.php
 +++ b/run-tests.php
 @@ -885,10 +885,12 @@ function write_information(): void

@@ -485,7 +485,7 @@ they might be removed in the future CMake versions. It is recommended to use:
 * `CMAKE_SYSTEM_NAME` in code or `PLATFORM_ID` in generator expressions to check
   the target platform (which is also the name used during cross-compilation).
 * And the `CMAKE_HOST_SYSTEM_NAME` to identify the platform where CMake is
-  peforming the build.
+  performing the build.
 
 When building on the platform for which the build is targeted,
 `CMAKE_SYSTEM_NAME` and `CMAKE_HOST_SYSTEM_NAME` are equivalent.

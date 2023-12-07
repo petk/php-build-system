@@ -23,7 +23,7 @@ index 8f2f608278..c3ae0ada63 100644
            libxpm-dev \
            libzip-dev \
 diff --git a/.travis.yml b/.travis.yml
-index cd861303fc..5dfb3c491e 100644
+index 817bef0003..39e4991e2f 100644
 --- a/.travis.yml
 +++ b/.travis.yml
 @@ -24,7 +24,6 @@ addons:

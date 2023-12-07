@@ -9,28 +9,26 @@ understanding of its fundamentals.
   * [1.3. In-source builds](#13-in-source-builds)
 * [2. CMakeLists.txt](#2-cmakeliststxt)
   * [2.1. Including other CMake files](#21-including-other-cmake-files)
-  * [2.2. Defining targets](#22-defining-targets)
-  * [2.3. Working with targets](#23-working-with-targets)
-* [3. Variables](#3-variables)
-  * [3.1. Setting variables](#31-setting-variables)
-  * [3.2. Working with cache variables](#32-working-with-cache-variables)
-  * [3.3. Using variables](#33-using-variables)
-  * [3.4. Lists](#34-lists)
-* [4. Functions](#4-functions)
-* [5. Verification and checks in CMake](#5-verification-and-checks-in-cmake)
-  * [5.1. Header availability check](#51-header-availability-check)
-  * [5.2. C source compilation check](#52-c-source-compilation-check)
-  * [5.3. C source compilation and execution check](#53-c-source-compilation-and-execution-check)
-  * [5.4. Cross-compilation considerations](#54-cross-compilation-considerations)
-* [6. Generating a configuration header](#6-generating-a-configuration-header)
-* [7. Where to go from here?](#7-where-to-go-from-here)
-* [8. Advanced topics](#8-advanced-topics)
-  * [8.1. Targets](#81-targets)
-    * [8.1.1. OBJECT library](#811-object-library)
-    * [8.1.2. SHARED library](#812-shared-library)
-    * [8.1.3. MODULE library](#813-module-library)
-    * [8.1.4. STATIC library](#814-static-library)
-    * [8.1.5. Executable target](#815-executable-target)
+* [3. Targets](#3-targets)
+  * [3.1. Executables](#31-executables)
+  * [3.2. OBJECT library](#32-object-library)
+  * [3.3. SHARED library](#33-shared-library)
+  * [3.4. MODULE library](#34-module-library)
+  * [3.5. STATIC library](#35-static-library)
+  * [3.6. Working with targets](#36-working-with-targets)
+* [4. Variables](#4-variables)
+  * [4.1. Setting variables](#41-setting-variables)
+  * [4.2. Working with cache variables](#42-working-with-cache-variables)
+  * [4.3. Using variables](#43-using-variables)
+  * [4.4. Lists](#44-lists)
+* [5. Functions](#5-functions)
+* [6. Verification and checks in CMake](#6-verification-and-checks-in-cmake)
+  * [6.1. Header availability check](#61-header-availability-check)
+  * [6.2. C source compilation check](#62-c-source-compilation-check)
+  * [6.3. C source compilation and execution check](#63-c-source-compilation-and-execution-check)
+  * [6.4. Cross-compilation considerations](#64-cross-compilation-considerations)
+* [7. Generating a configuration header](#7-generating-a-configuration-header)
+* [8. Where to go from here?](#8-where-to-go-from-here)
 
 ## 1. Command-line usage
 
@@ -76,7 +74,7 @@ cmake --build . --parallel
 
 In the world of CMake, the `CMakeLists.txt` files serve as blueprints for
 configuring and building projects. These files define how the project source
-code should be built into libraries and binaries.
+code should be built into libraries and executables.
 
 ```cmake
 # CMakeLists.txt
@@ -85,9 +83,24 @@ code should be built into libraries and binaries.
 cmake_minimum_required(VERSION 3.25)
 
 # Set the project name and its metadata
-project(<ProjectName> VERSION 1.0.0 LANGUAGES C)
+project(YourProjectName VERSION 1.0.0 LANGUAGES C)
 
 # ...
+```
+
+Project source directory example:
+
+```sh
+YourProjectName/
+ └─ src/              # Project source code
+    ├─ main.c
+    └─ ...
+ └─ subdirectory/     # Subdirectory with its own CMakeLists
+    ├─ CMakeLists.txt
+    ├─ src.c
+    └─ ...
+ ├─ CMakeLists.txt    # Project main CMakeLists file
+ └─ ...
 ```
 
 ### 2.1. Including other CMake files
@@ -101,35 +114,123 @@ include(path/to/file.cmake)
 
 # Include a CMake module
 include(CheckCSourceCompiles)
+
+# Add a subdirectory with it's own CMakeLists.txt
+add_subdirectory(library)
 ```
 
 This allows you to break down complex configurations into manageable components.
 
-### 2.2. Defining targets
+## 3. Targets
 
 CMake revolves around targets, which represent various components of your
 project. There are primarily two types: libraries and executables.
 
 ```cmake
-# Create a library target
-add_library(extension OBJECT|MODULE|SHARED|STATIC extension.c src.c ...)
-
 # Create an executable target
 add_executable(php php.c php_2.c ...)
+
+# Create a library target
+add_library(extension OBJECT|MODULE|SHARED|STATIC extension.c src.c ...)
 ```
 
 The keywords `OBJECT`, `MODULE`, `SHARED`, and `STATIC` specify how the library
 is built. `OBJECT` libraries will compile source files to binary object files
 without the linking step. These objects can be then referenced in other CMake
-targets. `SHARED` libraries can be linked dynamically and loaded at program
-runtime or dynamically loaded with `dlopen()` on *nix systems or `LoadLibrary()`
-on Windows. `MODULE` library is a special CMake concept that prevents targets to
-be linked dynamically with `target_link_libraries()` and are intended
-specifically to be dynamically loaded at program runtime. `STATIC` library, on
-the other hand, is an archive of built object files that can be linked to other
-targets.
+targets. `SHARED` libraries can be linked dynamically or dynamically loaded at
+program runtime with `dlopen()` on *nix systems, or `LoadLibrary()` on Windows.
+`MODULE` library is a special CMake concept that prevents such targets to be
+linked dynamically with `target_link_libraries()` and are intended to be only
+dynamically loaded during runtime. `STATIC` library is an archive of built
+object files that can be linked to other targets.
 
-### 2.3. Working with targets
+The concepts of library and executable targets can be illustrated through
+examples of using a compiler like `gcc`.
+
+### 3.1. Executables
+
+Executables are programs that are intended to be run.
+
+```sh
+# Build executable from source
+gcc -o php php.c
+# Executable can be then run by the user
+./php
+```
+
+### 3.2. OBJECT library
+
+When using OBJECT library, each source file will be compiled to a binary object
+file. Behind the scene, CMake takes care of compile flags and adjusts the build
+command. For example:
+
+```sh
+# Compile each file to a binary object
+gcc -c -o extension.o extension.c
+gcc -c -o src.o src.c
+```
+
+### 3.3. SHARED library
+
+CMake automatically adds sensible linker flags when building SHARED library. For
+example, `-shared`, `-Wl,-soname,extension.so`, position-independent code flag
+`-fPIC`, and similar.
+
+```sh
+# Compile each source file to a binary object file with the -fPIC
+gcc -fPIC -c -o extension.o extension.c
+gcc -fPIC -c -o src.o src.c
+# Generate shared object from object files
+gcc -fPIC -shared -Wl,-soname,extension.so -o extension.so extension.o src.o
+```
+
+### 3.4. MODULE library
+
+The MODULE library, on the other hand, is similar to the SHARED. However, CMake
+uses slightly different flags and treats it differently in CMake code. A MODULE
+library cannot be linked with `target_link_libraries()` in CMake, and certain
+handling inside CMake differs.
+
+```sh
+# Compile each source file to a binary object file with the -fPIC
+gcc -fPIC -c -o extension.o extension.c
+gcc -fPIC -c -o src.o src.c
+# Generate shared object from object files
+gcc -fPIC -shared -o extension.so extension.o src.o
+```
+
+Both MODULE and SHARED libraries can be loaded with `dlopen`-alike functionality
+during program runtime. For example:
+
+```c
+/* main.c */
+#include <dlfcn.h>
+
+int main(void) {
+    void *handle = dlopen("extension.so", RTLD_LAZY);
+    void (*extension_function_ptr)() = dlsym(handle, "extension_function");
+    extension_function_ptr();
+    dlclose(handle);
+
+    return 0;
+}
+```
+
+### 3.5. STATIC library
+
+STATIC libraries are intended to be linked statically to other libraries or
+executables where they become part of the final binary.
+
+```sh
+# Compile source file to binary object file
+gcc -c -o main.o main.c
+# Bundle object file(s) into a static library
+ar rcs libmain.a main.o
+# Link static library to output program
+gcc -o program program.c -L. -lmain
+```
+
+### 3.6. Working with targets
 
 Once you've defined your targets, you can fine-tune them with additional
 configurations:
@@ -156,13 +257,13 @@ the item is accessible both to the defined target and any depending targets.
 Lastly, `INTERFACE` denotes that the item is solely accessible to depending
 targets and is not accessible to the defining target itself.
 
-## 3. Variables
+## 4. Variables
 
 In CMake, variables are essential for storing and manipulating data throughout
 your project's configuration and build processes. They play a pivotal role in
 customizing builds and managing project-specific settings.
 
-### 3.1. Setting variables
+### 4.1. Setting variables
 
 Variables are set using the `set()` command, where you assign a value to a
 variable:
@@ -180,7 +281,7 @@ store values that remain consistent across different CMake runs and are
 accessible to various parts of your project. You can even provide documentation
 to describe the purpose of a cache variable.
 
-### 3.2. Working with cache variables
+### 4.2. Working with cache variables
 
 Cache variables are highly versatile and can be influenced from various sources,
 such as the command line. This allows for dynamic configuration adjustments:
@@ -193,7 +294,7 @@ cmake -DCACHE_VARIABLE:STRING="value" -S source-directory -B build-directory
 Cache variables become particularly useful for customizing builds, specifying
 project-wide settings, and adapting configurations to different environments.
 
-### 3.3. Using variables
+### 4.3. Using variables
 
 Variable references in CMake use `$` sigil symbol and are enclosed within curly
 brackets `{}`.
@@ -215,7 +316,7 @@ endif()
 # Output: Variable VAR is value
 ```
 
-### 3.4. Lists
+### 4.4. Lists
 
 Lists in CMake are strings separated with `;` that can be iterated over in
 loops, such as `foreach`.
@@ -236,7 +337,7 @@ The `list()` command performs operations on lists.
 Lists are frequently used for tasks like specifying source files, compiler
 flags, and dependencies.
 
-## 4. Functions
+## 5. Functions
 
 CMake function is created with the `function()` command:
 
@@ -251,7 +352,7 @@ print_message("Hello, World")
 # Outputs: Hello, World
 ```
 
-## 5. Verification and checks in CMake
+## 6. Verification and checks in CMake
 
 In CMake, you can perform various verification and validation tasks to ensure
 the availability of headers, symbols, struct members, as well as assess the
@@ -262,7 +363,7 @@ CMake provides a range of commands, many of which are found in separate CMake
 modules bundled with CMake. These modules need to be included before utilizing
 the respective verification commands:
 
-### 5.1. Header availability check
+### 6.1. Header availability check
 
 To verify if a header file is available:
 
@@ -271,7 +372,7 @@ include(CheckIncludeFile)
 check_include_file(sys/types.h HAVE_SYS_TYPES_H)
 ```
 
-### 5.2. C source compilation check
+### 6.2. C source compilation check
 
 To determine if a C source file compiles and links into an executable:
 
@@ -286,7 +387,7 @@ This command initiates a compilation and linking step, as illustrated here:
 gcc -o out check_program.c
 ```
 
-### 5.3. C source compilation and execution check
+### 6.3. C source compilation and execution check
 
 For a more comprehensive assessment that includes compiling, linking, and
 executing the C code:
@@ -304,7 +405,7 @@ gcc -o out check_program.c
 ./out
 ```
 
-### 5.4. Cross-compilation considerations
+### 6.4. Cross-compilation considerations
 
 Cross-compilation is a method where a project is compiled on one system but
 targeted to run on another. In cross-compilation scenarios, running C test
@@ -318,7 +419,7 @@ else()
 endif()
 ```
 
-## 6. Generating a configuration header
+## 7. Generating a configuration header
 
 Once the necessary checks have been completed during the configuration phase,
 you can proceed to create a configuration header file. This header file serves
@@ -372,7 +473,7 @@ int main(void) {
 }
 ```
 
-## 7. Where to go from here?
+## 8. Where to go from here?
 
 This section has provided a general overview of the most crucial features of
 CMake. To explore deeper into mastering CMake, it is highly recommended to start
@@ -381,117 +482,3 @@ with the
 
 Furthermore, the [CMake documentation](https://cmake.org/documentation/) offers
 comprehensive guidance on CMake's features and functionalities.
-
-The upcoming sections of this document cover advanced topics, providing an
-additional layer of understanding of CMake. While the following topics are less
-critical for a successful start with CMake, you can safely revisit them at a
-later time.
-
-## 8. Advanced topics
-
-This section offers supplementary explanations and tricks that could not find
-place elsewhere or are not sufficiently covered in the CMake documentation.
-These insights and tips can be valuable when deep-diving into CMake.
-
-### 8.1. Targets
-
-```cmake
-add_library(extension OBJECT|MODULE|SHARED|STATIC extension.c src.c ...)
-add_executable(php php.c php_2.c ...)
-```
-
-The concepts of library and executable targets are best illustrated through
-examples using `gcc`:
-
-#### 8.1.1. OBJECT library
-
-OBJECT library will compile each source file to a binary object file:
-
-```sh
-gcc -c -o extension.o extension.c
-gcc -c -o src.o src.c
-```
-
-#### 8.1.2. SHARED library
-
-CMake automatically adds sensible linker flags when building SHARED library. For
-example, `-shared`, `-Wl,-soname,extension.so`, position-independent code flag
-`-fPIC`, and similar.
-
-```sh
-# Compile each source file to a binary object file with the -fPIC
-gcc -fPIC -c -o extension.o extension.c
-gcc -fPIC -c -o src.o src.c
-# Generate shared object from object files
-gcc -fPIC -shared -Wl,-soname,extension.so -o extension.so extension.o src.o
-```
-
-#### 8.1.3. MODULE library
-
-`MODULE` library is on the other hand the same as `SHARED` except CMake will use
-different link flags. MODULE library cannot be linked with
-`target_link_libraries()` in CMake and certain handling inside CMake is
-different.
-
-```sh
-# Compile each source file to a binary object file with the -fPIC flag
-gcc -fPIC -c -o extension.o extension.c
-gcc -fPIC -c -o src.o src.c
-# Generate shared object from object files
-gcc -fPIC -shared -o extension.so extension.o src.o
-```
-
-Both `MODULE` and `SHARED` libraries can be loaded with `dlopen` in C:
-
-```c
-/* extension.c */
-#include <stdio.h>
-
-void extension_function() {
-  printf("extension_function called\n");
-}
-```
-
-```c
-/* main.c */
-#include <dlfcn.h>
-#include <stdio.h>
-
-int main(void) {
-    void *handle = dlopen("extension.so", RTLD_LAZY);
-    if (!handle) {
-        printf("Error opening module: %s\n", dlerror());
-        return 1;
-    }
-
-    void (*extension_function_ptr)() = dlsym(handle, "extension_function");
-    if (!extension_function_ptr) {
-        printf("Error finding symbol: %s\n", dlerror());
-        dlclose(handle);
-        return 1;
-    }
-
-    extension_function_ptr();
-
-    dlclose(handle);
-    return 0;
-}
-```
-
-#### 8.1.4. STATIC library
-
-STATIC libraries are intended to be linked statically to other libraries or
-executables and then become part of the final binary.
-
-```sh
-# Create object file without the position-independent code flag -fPIC
-gcc -c -o main.o main.c
-# Bundle object file(s) into a static library
-ar rcs main.a main.o
-```
-
-#### 8.1.5. Executable target
-
-```sh
-gcc -o php php.c
-```

@@ -113,8 +113,8 @@ explore the complexities of the underlying system.
 
 There are numerous well-known build systems available for C projects, ranging
 from the veteran GNU Autotools and the widely adopted CMake, to the efficient
-Ninja, versatile SCons, adaptable Meson, and even the simplest manual usage of
-Make.
+Ninja, versatile SCons, adaptable Meson, nimble xmake, and even the simplest
+manual usage of Make.
 
 PHP build system consist of two parts:
 
@@ -746,6 +746,7 @@ version available on the operating system.
   * `target_sources(FILE_SET)`, otherwise `install(FILES)` should be used when
     installing files to their destinations
 * 3.24
+  * `CMAKE_COLOR_DIAGNOSTICS`
   * `CMAKE_COMPILE_WARNING_AS_ERROR`, otherwise INTERFACE library should be used
 * 3.25
   * `block()` command
