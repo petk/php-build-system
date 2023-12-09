@@ -75,6 +75,7 @@
         "EXT_PDO_DBLIB": true,
         "EXT_PDO_FIREBIRD": true,
         "EXT_PDO_MYSQL": true,
+        "EXT_PDO_ODBC": true,
         "EXT_PDO_PGSQL": true,
         "EXT_PGSQL": true,
         "EXT_PSPELL": true,

@@ -1085,9 +1085,6 @@
 #cmakedefine HAVE_ODBC2 @HAVE_ODBC2@
 
 /* */
-#cmakedefine HAVE_ODBCSDK_H @HAVE_ODBCSDK_H@
-
-/* */
 #cmakedefine HAVE_ODBC_H @HAVE_ODBC_H@
 
 /* */
@@ -1385,13 +1382,13 @@
 #cmakedefine HAVE_SOLID_35
 
 /* */
-#cmakedefine HAVE_SQLCLI1_H
+#cmakedefine HAVE_SQLCLI1_H @HAVE_SQLCLI1_H@
 
 /* */
-#cmakedefine HAVE_SQLDATASOURCES
+#cmakedefine HAVE_SQLDATASOURCES @HAVE_SQLDATASOURCES@
 
 /* */
-#cmakedefine HAVE_SQLEXT_H
+#cmakedefine HAVE_SQLEXT_H @HAVE_SQLEXT_H@
 
 /* Define to 1 if you have the sqlite3 extension enabled. */
 #cmakedefine HAVE_SQLITE3 @HAVE_SQLITE3@
@@ -1409,16 +1406,16 @@
 #cmakedefine HAVE_SQLITE3_EXPANDED_SQL @HAVE_SQLITE3_EXPANDED_SQL@
 
 /* */
-#cmakedefine HAVE_SQLTYPES_H
+#cmakedefine HAVE_SQLTYPES_H @HAVE_SQLTYPES_H@
 
 /* */
-#cmakedefine HAVE_SQLUCODE_H
+#cmakedefine HAVE_SQLUCODE_H @HAVE_SQLUCODE_H@
 
 /* */
-#cmakedefine HAVE_SQLUNIX_H
+#cmakedefine HAVE_SQLUNIX_H @HAVE_SQLUNIX_H@
 
 /* */
-#cmakedefine HAVE_SQL_H
+#cmakedefine HAVE_SQL_H @HAVE_SQL_H@
 
 /* Define to 1 if you have the `statfs' function. */
 #cmakedefine HAVE_STATFS @HAVE_STATFS@
@@ -1625,7 +1622,7 @@
 #cmakedefine HAVE_TZSET @HAVE_TZSET@
 
 /* */
-#cmakedefine HAVE_UDBCEXT_H
+#cmakedefine HAVE_UDBCEXT_H @HAVE_UDBCEXT_H@
 
 /* Define to 1 if you have the <unistd.h> header file. */
 #cmakedefine HAVE_UNISTD_H @HAVE_UNISTD_H@
@@ -1643,7 +1640,7 @@
 #cmakedefine HAVE_UNSHARE @HAVE_UNSHARE@
 
 /* */
-#cmakedefine HAVE_UODBC
+#cmakedefine HAVE_UODBC @HAVE_UODBC@
 
 /* Whether faulting on write-protected memory support can be compiled for
    userfaultfd */

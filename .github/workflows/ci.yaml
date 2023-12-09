@@ -40,7 +40,7 @@ jobs:
       CC: ${{ matrix.compiler.CC }}
       CXX: ${{ matrix.compiler.CXX }}
       SRC_DIR: ${{ github.workspace }}/php-src
-      BUILD_DIR: ${{ github.workspace }}/php-src
+      BINARY_DIR: ${{ github.workspace }}/php-src
       INSTALL_PREFIX: ${{ github.workspace }}/php-src/install
       CMAKE_BUILD_TYPE: ${{ matrix.build_type }}
       GENERATOR: ${{ matrix.generator }}
@@ -81,7 +81,7 @@ jobs:
             libfreetype-dev \
             libldap2-dev \
             unixodbc-dev \
-            libodbc1 \
+            libodbc2 \
             freetds-dev \
             libsnmp-dev \
             snmp \

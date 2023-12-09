@@ -1884,12 +1884,12 @@ cmake -LH .
       <td></td>
     </tr>
     <tr>
-      <td>--enable-opcache=shared</td>
+      <td>--enable-opcache</td>
       <td>EXT_OPCACHE=ON</td>
       <td>default, will be shared</td>
     </tr>
     <tr>
-      <td>&nbsp;&nbsp;--enable-opcache</td>
+      <td>&nbsp;&nbsp;--enable-opcache=shared</td>
       <td>&nbsp;&nbsp;EXT_OPCACHE=ON</td>
       <td>will be shared</td>
     </tr>
@@ -2056,21 +2056,6 @@ cmake -LH .
     <tr>
       <td>&nbsp;&nbsp;--with-pdo-firebird=DIR</td>
       <td>&nbsp;&nbsp;EXT_PDO_FIREBIRD=ON Firebird_ROOT=DIR</td>
-      <td></td>
-    </tr>
-    <tr>
-      <td>&nbsp;&nbsp;--without-pdo-mysql</td>
-      <td>&nbsp;&nbsp;EXT_PDO_MYSQL=OFF</td>
-      <td>default</td>
-    </tr>
-    <tr>
-      <td>&nbsp;&nbsp;--with-pdo-mysql</td>
-      <td>&nbsp;&nbsp;EXT_PDO_MYSQL=ON</td>
-      <td></td>
-    </tr>
-    <tr>
-      <td>&nbsp;&nbsp;--with-pdo-mysql=shared</td>
-      <td>&nbsp;&nbsp;EXT_PDO_MYSQL_SHARED=ON</td>
       <td></td>
     </tr>
     <tr>

@@ -11,4 +11,5 @@
 * [PHP embed SAPI module](embed.md)
 * [Dependencies in C/C++ projects](dependencies.md)
 * [CMake-based PHP build system](php-build-system.md)
+* [PHP build configuration](configuration)
 * [CMake code style](cmake-code-style.md)

@@ -27,8 +27,8 @@ cmake_dependent_option(
 if(EXT_PDO_MYSQL)
   set(
     EXT_PDO_MYSQL_DRIVER "mysqlnd"
-    CACHE STRING
-    "Select MySQL driver: mysqlnd (MySQL Native Driver recommended) or mysql (system MySQL)"
+    CACHE STRING "Select MySQL driver: mysqlnd (MySQL Native Driver, \
+recommended) or mysql (system MySQL)"
   )
   set_property(
     CACHE EXT_PDO_MYSQL_DRIVER
@@ -42,19 +42,32 @@ elseif(DEFINED EXT_PDO_MYSQL_DRIVER)
   set_property(CACHE EXT_PDO_MYSQL_DRIVER PROPERTY TYPE INTERNAL)
 endif()
 
-# MySQL system library directory.
+# MySQL library directory.
 if(EXT_PDO_MYSQL_DRIVER STREQUAL "mysql")
   set(
     EXT_PDO_MYSQL_ROOT ""
-    CACHE FILEPATH
-    "MySQL root directory"
+    CACHE PATH "Set the path to MySQL library root directory"
   )
   mark_as_advanced(EXT_PDO_MYSQL_ROOT)
   # Change from INTERNAL type to show variable on consecutive configuration run.
-  set_property(CACHE EXT_PDO_MYSQL_ROOT PROPERTY TYPE FILEPATH)
+  set_property(CACHE EXT_PDO_MYSQL_ROOT PROPERTY TYPE PATH)
 elseif(DEFINED EXT_PDO_MYSQL_ROOT)
   # Hide variable.
   set_property(CACHE EXT_PDO_MYSQL_ROOT PROPERTY TYPE INTERNAL)
+endif()
+
+# MySQL config command-line tool.
+if(EXT_PDO_MYSQL_DRIVER STREQUAL "mysql")
+  set(
+    EXT_PDO_MYSQL_CONFIG ""
+    CACHE FILEPATH "Set the path to MySQL config command-line tool"
+  )
+  mark_as_advanced(EXT_PDO_MYSQL_CONFIG)
+  # Change from INTERNAL type to show variable on consecutive configuration run.
+  set_property(CACHE EXT_PDO_MYSQL_CONFIG PROPERTY TYPE FILEPATH)
+elseif(DEFINED EXT_PDO_MYSQL_CONFIG)
+  # Hide variable.
+  set_property(CACHE EXT_PDO_MYSQL_CONFIG PROPERTY TYPE INTERNAL)
 endif()
 
 if(NOT EXT_PDO_MYSQL)
@@ -113,8 +126,14 @@ if(NOT EXT_PDO_MYSQL_DRIVER STREQUAL "mysql")
     PROPERTIES PHP_EXTENSION_DEPENDENCIES "php_mysqlnd"
   )
 
-  set(PDO_USE_MYSQLND 1 CACHE INTERNAL "")
+  set(PDO_USE_MYSQLND 1 CACHE INTERNAL "Whether pdo_mysql uses mysqlnd")
 else()
+  if(EXT_PDO_MYSQL_ROOT)
+    set(MySQL_ROOT ${EXT_PDO_MYSQL_ROOT})
+  endif()
+  if(EXT_PDO_MYSQL_CONFIG)
+    set(MySQL_CONFIG_EXECUTABLE ${EXT_PDO_MYSQL_CONFIG})
+  endif()
   find_package(MySQL COMPONENTS LIBRARY OPTIONAL_COMPONENTS SOCKET)
   set_package_properties(MySQL PROPERTIES
     TYPE REQUIRED
