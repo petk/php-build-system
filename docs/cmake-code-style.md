@@ -86,7 +86,7 @@ On the contrary, variable names are case-sensitive.
   ```
 
 * Long strings can be split into multiple lines by using line continuation with
-  a backslash (`\`) character followed by a new line:
+  a backslash character (`\`) followed by a new line:
 
   ```cmake
   message("\
@@ -95,7 +95,7 @@ On the contrary, variable names are case-sensitive.
   ")
   ```
 
-* When defining path variables, exclude the trailing directory delimiter `/`.
+* When defining path variables, exclude the trailing directory delimiter (`/`).
   This practice facilitates concatenation of such variables:
 
   ```cmake

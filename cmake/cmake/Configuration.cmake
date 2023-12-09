@@ -108,6 +108,12 @@ option(PHP_UNDEFINED_SANITIZER "Enable the undefined sanitizer compiler option" 
 
 option(PHP_GCOV "Enable GCOV code coverage and include GCOV symbols" OFF)
 
+option(CMAKE_SKIP_RPATH "Disable runtime library search paths (rpath) in build and installed executables" OFF)
+
+option(CMAKE_SKIP_BUILD_RPATH "Disable runtime library search paths (rpath) in build executables" OFF)
+
+option(CMAKE_SKIP_INSTALL_RPATH "Disable runtime library search paths (rpath) in installed executables" OFF)
+
 ################################################################################
 # Various global internal configuration.
 ################################################################################

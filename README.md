@@ -753,6 +753,8 @@ version available on the operating system.
   * New `try_run` signature
 * 3.27
   * `COMPILE_ONLY` generator expression
+* 3.29
+  * `CMAKE_LINKER_TYPE`
 
 Currently, the CMake minimum version is set to **3.25** without looking at CMake
 available version on the current systems out there. This will be updated more
