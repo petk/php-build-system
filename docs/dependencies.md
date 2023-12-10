@@ -4,6 +4,8 @@ Here is an overview of dependency management in C/C++ projects, including what
 they are, why they are important, and various options for managing them in Git
 projects.
 
+## Index
+
 * [1. Introduction to dependencies](#1-introduction-to-dependencies)
 * [2. Why manage dependencies?](#2-why-manage-dependencies)
 * [3. Options for managing dependencies](#3-options-for-managing-dependencies)

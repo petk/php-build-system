@@ -1,5 +1,7 @@
 # CMake-based PHP build system
 
+## Index
+
 * [1. Interface library](#1-interface-library)
 * [2. PHP CMake modules](#2-php-cmake-modules)
   * [2.1. SearchLibraries](#21-searchlibraries)

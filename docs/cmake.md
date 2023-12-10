@@ -3,6 +3,8 @@
 This is a simple introduction to CMake in general, aimed at providing a basic
 understanding of its fundamentals.
 
+## Index
+
 * [1. Command-line usage](#1-command-line-usage)
   * [1.1. Configuration and generation phase](#11-configuration-and-generation-phase)
   * [1.2. Build phase](#12-build-phase)
@@ -32,34 +34,33 @@ understanding of its fundamentals.
 
 ## 1. Command-line usage
 
+CMake is a build system generator invoked on command line using `cmake` command.
 When working with CMake, there are two primary phases: the configuration and
 generation phase, followed by the build phase.
 
 ### 1.1. Configuration and generation phase
 
-In this phase, CMake performs essential tasks to set up a build environment:
+In this phase, CMake performs essential tasks to set up a build environment.
+During this process, CMake reads source files (`CMakeLists.txt`) from the source
+directory, configures the build system, and generates the necessary build system
+files, such as Makefiles, into a build directory.
 
 ```sh
-# Generate build system from a source directory to a build directory:
+# Generate build system from a source directory to a build directory
 cmake -S source-directory -B build-directory
 ```
 
-During this process, CMake reads `CMakeLists.txt` source files, configures the
-build system (including configuration headers), and generates necessary build
-system files like Makefiles.
-
 ### 1.2. Build phase
 
-The build phase is where C/C++ project source files are built to libraries and
-executables:
+The build phase involves transforming project C/C++ source files into libraries
+and executables. During this phase, the project undergoes compilation and
+assembly, preparing it for execution. The `--parallel` option enables concurrent
+build processes for faster compilation.
 
 ```sh
-# Build the project from the specified build directory:
+# Build the project from the specified build directory
 cmake --build build-directory --parallel
 ```
-
-In this phase, project is compiled and assembled, making it ready for execution.
-The `--parallel` option enables parallel build processes for faster compilation.
 
 ### 1.3. In-source builds
 
@@ -82,7 +83,7 @@ code should be built into libraries and executables.
 # Require a minimum CMake version to build the project
 cmake_minimum_required(VERSION 3.25)
 
-# Set the project name and its metadata
+# Set the project name and metadata
 project(YourProjectName VERSION 1.0.0 LANGUAGES C)
 
 # ...
@@ -113,10 +114,10 @@ within your project:
 include(path/to/file.cmake)
 
 # Include a CMake module
-include(CheckCSourceCompiles)
+include(SomeCMakeModule)
 
-# Add a subdirectory with it's own CMakeLists.txt
-add_subdirectory(library)
+# Add a subdirectory with its own CMakeLists.txt
+add_subdirectory(subdirectory)
 ```
 
 This allows you to break down complex configurations into manageable components.
@@ -144,7 +145,7 @@ linked dynamically with `target_link_libraries()` and are intended to be only
 dynamically loaded during runtime. `STATIC` library is an archive of built
 object files that can be linked to other targets.
 
-The concepts of library and executable targets can be illustrated through
+The concepts of executable and library targets can be illustrated through
 examples of using a compiler like `gcc`.
 
 ### 3.1. Executables
@@ -222,11 +223,11 @@ STATIC libraries are intended to be linked statically to other libraries or
 executables where they become part of the final binary.
 
 ```sh
-# Compile source file to binary object file
+# Compile source file to a binary object file
 gcc -c -o main.o main.c
 # Bundle object file(s) into a static library
 ar rcs libmain.a main.o
-# Link static library to output program
+# Link static library to an output program
 gcc -o program program.c -L. -lmain
 ```
 
@@ -270,16 +271,16 @@ variable:
 
 ```cmake
 # A regular variable
-set(VARIABLE "value")
+set(foobar "value")
 
 # Cache variables are stored and persist across the entire build system
-set(CACHE_VARIABLE "value" CACHE STRING "Documentation for this variable")
+set(FOOBAR "value" CACHE STRING "Documentation for this variable")
 ```
 
 Cache variables, in particular, are noteworthy because they offer a means to
 store values that remain consistent across different CMake runs and are
 accessible to various parts of your project. You can even provide documentation
-to describe the purpose of a cache variable.
+to describe the purpose of a cache variable. Variable names are case-sensitive.
 
 ### 4.2. Working with cache variables
 
@@ -287,8 +288,8 @@ Cache variables are highly versatile and can be influenced from various sources,
 such as the command line. This allows for dynamic configuration adjustments:
 
 ```sh
-# Passing a value to a cache variable via the command line
-cmake -DCACHE_VARIABLE:STRING="value" -S source-directory -B build-directory
+# Pass a value to a cache variable on the command line
+cmake -DFOOBAR="value" -S source-directory -B build-directory
 ```
 
 Cache variables become particularly useful for customizing builds, specifying
@@ -300,8 +301,8 @@ Variable references in CMake use `$` sigil symbol and are enclosed within curly
 brackets `{}`.
 
 ```cmake
-set(VAR "value")
-message(STATUS ${VAR})
+set(foobar "value")
+message(STATUS ${foobar})
 
 # Output: value
 ```
@@ -309,11 +310,11 @@ message(STATUS ${VAR})
 Certain commands, such as `if()`, also support variable names:
 
 ```cmake
-if(VAR STREQUAL "value")
-  message(STATUS "Variable VAR is ${VAR}")
+if(foobar STREQUAL "value")
+  message(STATUS "Variable foobar=${foobar}")
 endif()
 
-# Output: Variable VAR is value
+# Output: Variable foobar=value
 ```
 
 ### 4.4. Lists
@@ -344,12 +345,13 @@ CMake function is created with the `function()` command:
 ```cmake
 # Define a function
 function(print_message argument)
-  message("${argument}")
+  message(STATUS "${argument}")
 endfunction()
 
 # Call the function
 print_message("Hello, World")
-# Outputs: Hello, World
+
+# Output: Hello, World
 ```
 
 ## 6. Verification and checks in CMake

@@ -6,6 +6,7 @@ include_guard(GLOBAL)
 
 # Include required modules.
 include(CheckCompilerFlag)
+include(CheckCSourceRuns)
 include(CheckLinkerFlag)
 include(CMakePushCheckState)
 
@@ -261,6 +262,38 @@ if(PHP_UNDEFINED_SANITIZER)
       target_link_options(php_configuration
         INTERFACE "$<$<COMPILE_LANGUAGE:ASM,C,CXX>:-fno-sanitize=object-size>"
       )
+    endif()
+
+    # Clang 17 adds stricter function pointer compatibility checks where pointer
+    # args cannot be cast to void*. In that case, set -fno-sanitize=function.
+    if(NOT CMAKE_CROSSCOMPILING)
+      cmake_push_check_state(RESET)
+        set(CMAKE_REQUIRED_FLAGS -fno-sanitize-recover=undefined)
+        check_c_source_runs("
+          void foo(char *string) {}
+          int main(void) {
+            void (*f)(void *) = (void (*)(void *))foo;
+            f(\"foo\");
+          }
+        " _php_ubsan_works)
+      cmake_pop_check_state()
+
+      if(NOT _php_ubsan_works)
+        check_compiler_flag(C -fno-sanitize=function HAVE_FNO_SANITIZE_FUNCTION_C)
+        check_compiler_flag(CXX -fno-sanitize=function HAVE_FNO_SANITIZE_FUNCTION_CXX)
+
+        if(HAVE_FNO_SANITIZE_FUNCTION_C)
+          target_compile_options(php_configuration
+            INTERFACE "$<$<COMPILE_LANGUAGE:ASM,C>:-fno-sanitize=function>"
+          )
+        endif()
+
+        if(HAVE_FNO_SANITIZE_FUNCTION_CXX)
+          target_compile_options(php_configuration
+            INTERFACE "$<$<COMPILE_LANGUAGE:CXX>:-fno-sanitize=function>"
+          )
+        endif()
+      endif()
     endif()
 
     message(CHECK_PASS "Success")

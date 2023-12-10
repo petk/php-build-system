@@ -3,6 +3,8 @@
 This repository adheres to established code style practices within the CMake
 ecosystem.
 
+## Index
+
 * [1. Introduction](#1-introduction)
 * [2. General guidelines](#2-general-guidelines)
   * [2.1. End commands](#21-end-commands)

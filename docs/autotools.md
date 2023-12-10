@@ -2,6 +2,8 @@
 
 This is a brief introduction to Autotools build system.
 
+## Index
+
 * [1. Determining platform](#1-determining-platform)
 * [2. Testing if program works](#2-testing-if-program-works)
   * [2.1. AC\_COMPILE\_IFELSE](#21-ac_compile_ifelse)

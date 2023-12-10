@@ -54,9 +54,14 @@ check_symbol_exists(initgroups "grp.h" HAVE_INITGROUPS)
 check_symbol_exists(makedev "sys/sysmacros.h" HAVE_MAKEDEV)
 check_symbol_exists(mkfifo "sys/stat.h" HAVE_MKFIFO)
 check_symbol_exists(mknod "sys/stat.h" HAVE_MKNOD)
-# TODO: https://github.com/php/php-src/pull/11774
-check_symbol_exists(pathconf "unistd.h" HAVE_PATHCONF)
-check_symbol_exists(posix_pathconf "unistd.h" HAVE_POSIX_PATHCONF)
+
+# Skip pathconf and fpathconf check on musl libc due to limited implementation
+# (first argument is not validated and has different error).
+if(NOT PHP_STD_LIBRARY STREQUAL "musl")
+  check_symbol_exists(pathconf "unistd.h" HAVE_PATHCONF)
+  check_symbol_exists(fpathconf "unistd.h" HAVE_FPATHCONF)
+endif()
+
 check_symbol_exists(setegid "unistd.h" HAVE_SETEGID)
 check_symbol_exists(seteuid "unistd.h" HAVE_SETEUID)
 check_symbol_exists(setrlimit "sys/resource.h" HAVE_SETRLIMIT)

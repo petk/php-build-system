@@ -40,8 +40,8 @@ if(NOT CMAKE_CROSSCOMPILING)
       #  endif
       #endif
 
-      /* We may have to define LT_DLLAZY_OR_NOW in the command line if we find
-         out it does not work in some platform. */
+      /* We may need to define LT_DLLAZY_OR_NOW on the command line if we
+         discover that it does not work on some platform. */
       #ifndef LT_DLLAZY_OR_NOW
       #  ifdef RTLD_LAZY
       #    define LT_DLLAZY_OR_NOW       RTLD_LAZY
@@ -82,7 +82,6 @@ if(NOT CMAKE_CROSSCOMPILING)
       }
     "
     COMPILE_DEFINITIONS ${_zend_dlfcn_definitions}
-    RUN_OUTPUT_STDOUT_VARIABLE ZEND_DLSYM_OUTPUT
   )
 
   unset(_zend_dlfcn_definitions)

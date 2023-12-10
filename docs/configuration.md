@@ -1,6 +1,13 @@
 # PHP build configuration
 
-## PHP configuration
+## Index
+
+* [1. PHP configuration](#1-php-configuration)
+* [2. PHP SAPI modules configuration](#2-php-sapi-modules-configuration)
+* [3. PHP extensions configuration](#3-php-extensions-configuration)
+* [4. Configure and CMake configuration options](#4-configure-and-cmake-configuration-options)
+
+## 1. PHP configuration
 
 * `CMAKE_SKIP_RPATH=OFF|ON`
 
@@ -29,9 +36,28 @@
   Disable runtime library search paths (rpath) in installation directory
   executables.
 
-## PHP SAPI modules configuration
+## 2. PHP SAPI modules configuration
 
-## PHP extensions configuration
+## 3. PHP extensions configuration
+
+* `EXT_ODBC=OFF|ON`
+
+  Default: `OFF`
+
+  Whether to enable the odbc extension.
+
+  * `EXT_ODBC_TYPE`
+
+    Default: `unixODBC`
+
+    Select the ODBC type. Can be `adabas`, `dbmaker`, `empress-bcs`, `empress`,
+    `esoob`, `ibm-db2`, `iODBC`, `sapdb`, `solid`, `unixODBC`, or `generic`.
+
+  * `EXT_ODBC_VERSION`
+
+    Force support for the passed ODBC version. A hex number is expected. Set it
+    to empty value to prevent an explicit ODBCVER to be defined. By default it
+    is set to the highest supported ODBC version by PHP.
 
 * `EXT_PDO_MYSQL=OFF|ON`
 
@@ -59,11 +85,11 @@
 
   Whether to enable the pdo_odbc extension.
 
-  * `EXT_ODBC_TYPE=ibm-db2|iODBC|unixODBC|generic`
-
-    Select the ODBC type.
+  * `EXT_PDO_ODBC_TYPE=ibm-db2|iODBC|unixODBC|generic`
 
     Default: `unixODBC`
+
+    Select the ODBC type.
 
   * `EXT_PDO_ODBC_ROOT`
 
@@ -81,7 +107,7 @@
 
     A list of additional ODBC library linker flags.
 
-## Configure and CMake configuration options
+## 4. Configure and CMake configuration options
 
 A list of Autoconf configuration options and their CMake alternatives.
 
@@ -117,6 +143,178 @@ A list of Autoconf configuration options and their CMake alternatives.
     </tr>
     <tr>
       <td colspan="3"><strong>PHP extensions</strong></td>
+    </tr>
+    <tr>
+      <td></td>
+      <td>EXT_ODBC=OFF</td>
+      <td>default</td>
+    </tr>
+    <tr>
+      <td></td>
+      <td>EXT_ODBC=ON</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>&nbsp;&nbsp;--without-odbcver</td>
+      <td>EXT_ODBC_VERSION="0x0350"</td>
+      <td>default: 0x0350</td>
+    </tr>
+    <tr>
+      <td>&nbsp;&nbsp;--with-odbcver[=HEX]</td>
+      <td>EXT_ODBC_VERSION=HEX</td>
+      <td>default: 0x0350</td>
+    </tr>
+    <tr>
+      <td>&nbsp;&nbsp;--without-adabas</td>
+      <td></td>
+      <td>default</td>
+    </tr>
+    <tr>
+      <td>&nbsp;&nbsp;--with-adabas</td>
+      <td>
+        EXT_ODBC=ON<br>
+        EXT_ODBC_TYPE=adabas
+      </td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>&nbsp;&nbsp;--without-sapdb</td>
+      <td></td>
+      <td>default</td>
+    </tr>
+    <tr>
+      <td>&nbsp;&nbsp;--with-sapdb</td>
+      <td>
+        EXT_ODBC=ON<br>
+        EXT_ODBC_TYPE=sapdb
+      </td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>&nbsp;&nbsp;--without-solid</td>
+      <td></td>
+      <td>default</td>
+    </tr>
+    <tr>
+      <td>&nbsp;&nbsp;--with-solid</td>
+      <td>
+        EXT_ODBC=ON<br>
+        EXT_ODBC_TYPE=solid
+      </td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>&nbsp;&nbsp;--without-ibm-db2</td>
+      <td></td>
+      <td>default</td>
+    </tr>
+    <tr>
+      <td>&nbsp;&nbsp;--with-ibm-db2</td>
+      <td>
+        EXT_ODBC=ON<br>
+        EXT_ODBC_TYPE=ibm-db2
+      </td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>&nbsp;&nbsp;--without-empress</td>
+      <td></td>
+      <td>default</td>
+    </tr>
+    <tr>
+      <td>&nbsp;&nbsp;--with-empress</td>
+      <td>
+        EXT_ODBC=ON<br>
+        EXT_ODBC_TYPE=empress
+      </td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>&nbsp;&nbsp;--without-empress-bcs</td>
+      <td></td>
+      <td>default</td>
+    </tr>
+    <tr>
+      <td>&nbsp;&nbsp;--with-empress-bcs</td>
+      <td>
+        EXT_ODBC=ON<br>
+        EXT_ODBC_TYPE=empress-bcs
+      </td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>&nbsp;&nbsp;--without-custom-odbc</td>
+      <td></td>
+      <td>default</td>
+    </tr>
+    <tr>
+      <td>&nbsp;&nbsp;--with-custom-odbc</td>
+      <td>
+        EXT_ODBC=ON<br>
+        EXT_ODBC_TYPE=generic
+      </td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>&nbsp;&nbsp;--without-iodbc</td>
+      <td></td>
+      <td>default</td>
+    </tr>
+    <tr>
+      <td>&nbsp;&nbsp;--with-iodbc</td>
+      <td>
+        EXT_ODBC=ON<br>
+        EXT_ODBC_TYPE=iODBC
+      </td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>&nbsp;&nbsp;--without-esoob</td>
+      <td></td>
+      <td>default</td>
+    </tr>
+    <tr>
+      <td>&nbsp;&nbsp;--with-esoob</td>
+      <td>
+        EXT_ODBC=ON<br>
+        EXT_ODBC_TYPE=esoob
+      </td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>&nbsp;&nbsp;--without-unixODBC</td>
+      <td></td>
+      <td>default</td>
+    </tr>
+    <tr>
+      <td>&nbsp;&nbsp;--with-unixODBC</td>
+      <td>
+        EXT_ODBC=ON<br>
+        EXT_ODBC_TYPE=unixODBC
+      </td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>&nbsp;&nbsp;--without-dbmaker</td>
+      <td></td>
+      <td>default</td>
+    </tr>
+    <tr>
+      <td>&nbsp;&nbsp;--with-dbmaker</td>
+      <td>
+        EXT_ODBC=ON<br>
+        EXT_ODBC_TYPE=dbmaker
+      </td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>&nbsp;&nbsp;--with-dbmaker=DIR</td>
+      <td>
+        EXT_ODBC=ON<br>
+        EXT_ODBC_TYPE=dbmaker<br>
+        ODBC_ROOT=DIR
+      </td>
+      <td></td>
     </tr>
     <tr>
       <td>&nbsp;&nbsp;--without-pdo-mysql</td>

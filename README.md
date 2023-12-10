@@ -287,7 +287,7 @@ repository.
 
 PHP works through the concept of SAPI modules located in the `sapi` directory.
 
-When running PHP in command line, the cli SAPI module is used:
+When running PHP on the command line, the cli SAPI module is used:
 
 ```sh
 /sapi/cli/php -v
@@ -2761,7 +2761,7 @@ Ninja will then handle the build process based on the CMake configuration.
 The `CMakePresets.json` and `CMakeUserPresets.json` files in project root
 directory are available since CMake 3.19 for sharing build configurations.
 
-Instead of manually entering `cmake -DFOO=BAR ...` in command line, users can
+Instead of manually entering `cmake -DFOO=BAR ...` on command line, users can
 simply store these configuration options in JSON file and have a shareable build
 settings for continuous integration, development, bug reporting etc.
 
@@ -2810,8 +2810,9 @@ the chosen build system.
 
 ![CMake GUI configuration](docs/images/cmake-gui-3.png)
 
-GUI is only meant to configure and generate the build in user friendly way.
-Building the sources to binaries can be then done in command line or IDE.
+GUI is only meant to configure and generate the build in user-friendly way.
+Building the sources into binaries can be then done using the command line or an
+IDE.
 
 ```sh
 cmake --build --preset default
@@ -2836,7 +2837,7 @@ ccmake .
 * `c` key will run the configuration step
 * `g` key will run the generation step (you might need to press `c` again)
 
-Much like the CMake GUI, the build step is executed via the command line
+Much like the CMake GUI, the build step is executed on the command line
 afterward.
 
 ```sh
@@ -2862,7 +2863,7 @@ CMake ships with a `ctest` utility that can run also this in a similar way.
 To enable testing the `enable_testing()` is added to the `CMakeLists.txt` file
 and the tests are added with `add_test()`.
 
-To run the tests using CMake in command line:
+To run the tests using CMake on the command line:
 
 ```sh
 ctest --progress --verbose
