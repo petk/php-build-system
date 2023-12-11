@@ -54,6 +54,9 @@ target_sources(
       php_%EXTNAME%.h
 )
 
+# If extension is Zend extension, enable the PHP_ZEND_EXTENSION target property.
+#set_target_properties(php_%EXTNAME% PROPERTIES PHP_ZEND_EXTENSION TRUE)
+
 # Installation step copies file(s) to their appropriate system destinations.
 install(
   TARGETS php_%EXTNAME%

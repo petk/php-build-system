@@ -48,11 +48,17 @@ define_property(
 )
 
 define_property(
+  TARGET
+  PROPERTY PHP_ZEND_EXTENSION
+  BRIEF_DOCS "Whether the extension target is Zend extension"
+)
+
+define_property(
   GLOBAL
   PROPERTY PHP_EXTENSIONS
   BRIEF_DOCS "A list of all enabled extensions"
-  FULL_DOCS "This property contains a list of all enabled PHP extensions for "
-            "the current configuration. Extensions are sorted by the directory "
+  FULL_DOCS "This property contains a list of all enabled extensions for the "
+            "current configuration. Extensions are sorted by the directory "
             "priority and their dependencies."
 )
 

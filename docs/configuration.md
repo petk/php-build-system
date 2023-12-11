@@ -187,7 +187,7 @@ alternatives.
   </thead>
   <tbody>
     <tr>
-      <td colspan="3"><strong>PHP configuration</strong></td>
+      <th colspan="3">PHP configuration</td>
     </tr>
     <tr>
       <td>--disable-re2c-cgoto</td>
@@ -414,7 +414,7 @@ alternatives.
       <td></td>
     </tr>
     <tr>
-      <td colspan="3"><strong>Zend engine configuration</strong></td>
+      <th colspan="3">Zend engine configuration</td>
     </tr>
     <tr>
       <td>--enable-gcc-global-regs</td>
@@ -457,7 +457,7 @@ alternatives.
       <td></td>
     </tr>
     <tr>
-      <td colspan="3"><strong>PHP SAPI modules configuration</strong></td>
+      <th colspan="3">PHP SAPI modules configuration</th>
     </tr>
     <tr>
       <td>--without-apxs2</td>

@@ -65,6 +65,8 @@ target_include_directories(
           ${CMAKE_CURRENT_BINARY_DIR}/jit
 )
 
+set_target_properties(php_opcache PROPERTIES PHP_ZEND_EXTENSION TRUE)
+
 check_c_compiler_flag(-Wno-implicit-fallthrough HAVE_WNO_IMPLICIT_FALLTHROUGH)
 if(HAVE_WNO_IMPLICIT_FALLTHROUGH)
   target_compile_options(php_opcache PRIVATE -Wno-implicit-fallthrough)

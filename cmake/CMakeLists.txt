@@ -108,29 +108,44 @@ endblock()
 
 enable_testing()
 
-include(ProcessorCount)
-processorcount(N)
-
-if(NOT N EQUAL 0)
-  set(_run_tests_jobs -j${N})
-endif()
-
 # TODO: Append options for running test script.
-add_test(
-  NAME php_test
-  COMMAND
-    ./sapi/cli/php
-      -n
-      -d open_basedir=
-      -d output_buffering=0
-      -d memory_limit=-1
-      run-tests.php
+block()
+  include(ProcessorCount)
+  processorcount(N)
+
+  if(NOT N EQUAL 0)
+    set(parallel -j${N})
+  endif()
+
+  get_cmake_property(extensions PHP_EXTENSIONS)
+  foreach(extension ${extensions})
+    get_target_property(extension_type php_${extension} TYPE)
+    if(extension_type MATCHES "^(MODULE|SHARED)_LIBRARY$")
+      get_target_property(is_zend_extension php_${extension} PHP_ZEND_EXTENSION)
+      if(is_zend_extension)
+        list(APPEND options -d zend_extension=${extension})
+      else()
+        list(APPEND options -d extension=${extension})
+      endif()
+    endif()
+  endforeach()
+
+  add_test(
+    NAME php_test
+    COMMAND
+      ./sapi/cli/php
         -n
-        -d extension_dir=modules
-        -d zend_extension=opcache
-        ${_run_tests_jobs}
-        -q
-)
+        -d open_basedir=
+        -d output_buffering=0
+        -d memory_limit=-1
+        run-tests.php
+          -n
+          -d extension_dir=modules
+          ${options}
+          ${parallel}
+          -q
+  )
+endblock()
 
 message("
 +--------------------------------------------------------------------+

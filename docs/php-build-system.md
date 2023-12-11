@@ -6,6 +6,8 @@
 * [2. PHP CMake modules](#2-php-cmake-modules)
   * [2.1. SearchLibraries](#21-searchlibraries)
   * [2.2. CheckBuiltin](#22-checkbuiltin)
+* [3. PHP extensions](#3-php-extensions)
+  * [3.1. Properties](#31-properties)
 
 ## 1. Interface library
 
@@ -64,3 +66,28 @@ include(PHP/CheckBuiltin)
 
 php_check_builtin(__builtin_clz PHP_HAVE_BUILTIN_CLZ)
 ```
+
+## 3. PHP extensions
+
+To build PHP extensions with CMake, a `CMakeLists.txt` file needs to be added to
+the extension's source directory.
+
+Example of `CMakeLists.txt` for PHP extensions can be found in the
+`ext/skeleton` directory.
+
+### 3.1. Properties
+
+Extensions can utilize the following custom CMake properties:
+
+* `PHP_ZEND_EXTENSION`
+
+  This property designates the extension as a Zend extension rather than a
+  standard PHP extension. Zend extensions function similarly to regular PHP
+  extensions, but they are loaded using the `zend_extension` INI directive and
+  possess an internally distinct structure with additional hooks. Typically
+  employed for advanced functionalities like debuggers and profilers, Zend
+  extensions offer enhanced capabilities.
+
+  ```cmake
+  set_target_properties(php_<extension_name> PROPERTIES PHP_ZEND_EXTENSION TRUE)
+  ```
