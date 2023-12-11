@@ -437,9 +437,15 @@ endif()
 # Check for GCC function attributes on all systems except ones without glibc.
 # Fix for these systems is already included in GCC 7, but not on GCC 6. At least
 # some versions of FreeBSD seem to have buggy ifunc support, see bug #77284.
-# Conservatively don't use ifuncs on FreeBSD.
-if(NOT CMAKE_HOST_SYSTEM_NAME MATCHES "^(Android|FreeBSD|OpenBSD)$"
-  AND NOT PHP_STD_LIBRARY MATCHES "^(musl|uclibc)$"
+# Conservatively don't use ifuncs on FreeBSD prior to version 12.
+if(
+  (
+    NOT CMAKE_HOST_SYSTEM_NAME MATCHES "^(Android|FreeBSD|OpenBSD)$"
+    AND NOT PHP_STD_LIBRARY MATCHES "^(musl|uclibc)$"
+  ) OR (
+    CMAKE_HOST_SYSTEM_NAME STREQUAL "FreeBSD"
+    AND CMAKE_HOST_SYSTEM_VERSION VERSION_GREATER_EQUAL 12
+  )
 )
   check_c_source_compiles("
     static int bar( void ) __attribute__((target(\"sse2\")));

@@ -6,8 +6,8 @@
 * [2. Zend engine configuration](#2-zend-engine-configuration)
 * [3. PHP SAPI modules configuration](#3-php-sapi-modules-configuration)
 * [4. PHP extensions configuration](#4-php-extensions-configuration)
-* [5. Autotools configure and CMake configuration options mapping](#5-autotools-configure-and-cmake-configuration-options-mapping)
-* [6. CMake presets](#6-cmake-presets)
+* [5. CMake presets](#5-cmake-presets)
+* [6. Autotools configure and CMake configuration options mapping](#6-autotools-configure-and-cmake-configuration-options-mapping)
 
 Configuration can be passed on the command line:
 
@@ -145,7 +145,34 @@ ccmake -S php-src -B php-build
 
     A list of additional ODBC library linker flags.
 
-## 5. Autotools configure and CMake configuration options mapping
+## 5. CMake presets
+
+The `CMakePresets.json` and `CMakeUserPresets.json` files in project root
+directory are available since CMake 3.19 for sharing build configurations.
+
+Instead of manually passing variables on the command line `cmake -DFOO=BAR ...`,
+users can simply store these configuration options in JSON file and have a
+shareable build settings for continuous integration, development, bug reporting
+etc.
+
+The [CMakePresets.json](/cmake/CMakePresets.json) example file includes some
+common configuration and build settings.
+
+To use the CMake presets:
+
+```sh
+# Configure project, replace "default" with the name of the "configurePresets"
+cmake --preset default
+
+# Build project using the "default" build preset
+cmake --build --preset default
+```
+
+File `CMakeUserPresets.json` is ignored in Git because it is intended for users
+to override the `CMakePresets.json` defaults with their own specific local
+configuration.
+
+## 6. Autotools configure and CMake configuration options mapping
 
 A list of Autoconf configure command-line configuration options and their CMake
 alternatives.
@@ -2284,7 +2311,7 @@ alternatives.
       <td></td>
     </tr>
     <tr>
-      <th colspan="3">Influential environment variables</th>
+      <th colspan="3">Influential variables</th>
     </tr>
     <tr>
       <td>LDFLAGS=&quot;...&quot;</td>
@@ -2360,29 +2387,3 @@ be used:
 | `EXTRA_LDFLAGS="..."` |                               | Append additional LDFLAGS     |
 | `INSTALL_ROOT="..."`  | `CMAKE_INSTALL_PREFIX="..."`  | Override the installation dir |
 |                       | or `cmake --install --prefix` |                               |
-
-## 6. CMake presets
-
-The `CMakePresets.json` and `CMakeUserPresets.json` files in project root
-directory are available since CMake 3.19 for sharing build configurations.
-
-Instead of manually entering `cmake -DFOO=BAR ...` on command line, users can
-simply store these configuration options in JSON file and have a shareable build
-settings for continuous integration, development, bug reporting etc.
-
-The [CMakePresets.json](/cmake/CMakePresets.json) example file includes some
-common configuration and build settings.
-
-To use the CMake presets:
-
-```sh
-# Configure project, replace "default" with the name of the "configurePresets".
-cmake --preset default
-
-# Build project using the "default" build preset.
-cmake --build --preset default
-```
-
-File `CMakeUserPresets.json` is ignored in Git because it is intended for users
-to override the `CMakePresets.json` defaults with their own specific local
-configuration.
