@@ -52,33 +52,40 @@ set_package_properties(LDAP PROPERTIES
 
 target_link_libraries(php_ldap PRIVATE LDAP::LDAP)
 
-message(STATUS "Checking for 3 arg ldap_set_rebind_proc")
+if(TARGET LDAP::LDAP)
+  cmake_push_check_state(RESET)
+    set(CMAKE_REQUIRED_LIBRARIES LDAP::LDAP)
+    set(CMAKE_REQUIRED_INCLUDES ${LDAP_INCLUDE_DIRS})
 
-cmake_push_check_state(RESET)
-  set(CMAKE_REQUIRED_LIBRARIES LDAP::LDAP)
+    message(CHECK_START "Checking for 3 arg ldap_set_rebind_proc")
+    check_c_source_compiles("
+      #include <ldap.h>
 
-  check_c_source_compiles("
-    #include <ldap.h>
+      int main(void) {
+        ldap_set_rebind_proc(0,0,0);
+        return 0;
+      }
+    " HAVE_3ARG_SETREBINDPROC)
+    if(HAVE_3ARG_SETREBINDPROC)
+      message(CHECK_PASS "yes")
+    else()
+      message(CHECK_PASS "no")
+    endif()
 
-    int main(void) {
-      ldap_set_rebind_proc(0,0,0);
-      return 0;
-    }
-  " HAVE_3ARG_SETREBINDPROC)
-
-  # Solaris 2.8 claims to be 2004 API, but doesn't have ldap_parse_reference()
-  # nor ldap_start_tls_s().
-  check_symbol_exists(ldap_parse_result "ldap.h" HAVE_LDAP_PARSE_RESULT)
-  check_symbol_exists(ldap_parse_reference "ldap.h" HAVE_LDAP_PARSE_REFERENCE)
-  check_symbol_exists(ldap_start_tls_s "ldap.h" HAVE_LDAP_START_TLS_S)
-  check_symbol_exists(ldap_control_find "ldap.h" HAVE_LDAP_CONTROL_FIND)
-  check_symbol_exists(ldap_parse_extended_result "ldap.h" HAVE_LDAP_PARSE_EXTENDED_RESULT)
-  check_symbol_exists(ldap_extended_operation "ldap.h" HAVE_LDAP_EXTENDED_OPERATION)
-  check_symbol_exists(ldap_extended_operation_s "ldap.h" HAVE_LDAP_EXTENDED_OPERATION_S)
-  check_symbol_exists(ldap_passwd "ldap.h" HAVE_LDAP_PASSWD)
-  check_symbol_exists(ldap_whoami_s "ldap.h" HAVE_LDAP_WHOAMI_S)
-  check_symbol_exists(ldap_refresh_s "ldap.h" HAVE_LDAP_REFRESH_S)
-cmake_pop_check_state()
+    # Solaris 2.8 claims to be 2004 API, but doesn't have ldap_parse_reference()
+    # nor ldap_start_tls_s().
+    check_symbol_exists(ldap_parse_result "ldap.h" HAVE_LDAP_PARSE_RESULT)
+    check_symbol_exists(ldap_parse_reference "ldap.h" HAVE_LDAP_PARSE_REFERENCE)
+    check_symbol_exists(ldap_start_tls_s "ldap.h" HAVE_LDAP_START_TLS_S)
+    check_symbol_exists(ldap_control_find "ldap.h" HAVE_LDAP_CONTROL_FIND)
+    check_symbol_exists(ldap_parse_extended_result "ldap.h" HAVE_LDAP_PARSE_EXTENDED_RESULT)
+    check_symbol_exists(ldap_extended_operation "ldap.h" HAVE_LDAP_EXTENDED_OPERATION)
+    check_symbol_exists(ldap_extended_operation_s "ldap.h" HAVE_LDAP_EXTENDED_OPERATION_S)
+    check_symbol_exists(ldap_passwd "ldap.h" HAVE_LDAP_PASSWD)
+    check_symbol_exists(ldap_whoami_s "ldap.h" HAVE_LDAP_WHOAMI_S)
+    check_symbol_exists(ldap_refresh_s "ldap.h" HAVE_LDAP_REFRESH_S)
+  cmake_pop_check_state()
+endif()
 
 if(EXT_LDAP_SASL)
   find_package(SASL)
@@ -91,16 +98,3 @@ if(EXT_LDAP_SASL)
 
   set(HAVE_LDAP_SASL 1 CACHE INTERNAL "Whether LDAP has SASL support")
 endif()
-
-# Sanity check.
-cmake_push_check_state(RESET)
-  set(CMAKE_REQUIRED_LIBRARIES LDAP::LDAP)
-
-  check_symbol_exists(ldap_sasl_bind_s "ldap.h" _have_ldap_sasl_bind_s)
-cmake_pop_check_state()
-
-if(NOT _have_ldap_sasl_bind_s)
-  message(FATAL_ERROR "LDAP build check failed. Please check logs for more information.")
-endif()
-
-unset(_have_ldap_sasl_bind_s CACHE)

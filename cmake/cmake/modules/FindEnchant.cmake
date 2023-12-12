@@ -53,7 +53,7 @@ if(Enchant_FOUND AND NOT TARGET Enchant::Enchant)
   add_library(Enchant::Enchant INTERFACE IMPORTED)
 
   set_target_properties(Enchant::Enchant PROPERTIES
-    INTERFACE_LINK_LIBRARIES "${Enchant_LIBRARIES}"
     INTERFACE_INCLUDE_DIRECTORIES "${Enchant_INCLUDE_DIRS}"
+    INTERFACE_LINK_LIBRARIES "${Enchant_LIBRARIES}"
   )
 endif()

@@ -1229,6 +1229,14 @@ alternatives.
       <td></td>
     </tr>
     <tr>
+      <td>&emsp;--with-ldap=DIR</td>
+      <td>
+        EXT_LDAP=ON<br>
+        LDAP_ROOT=DIR
+      </td>
+      <td></td>
+    </tr>
+    <tr>
       <td>&emsp;--without-ldap-sasl</td>
       <td>EXT_LDAP_SASL=OFF</td>
       <td>default</td>
@@ -1236,6 +1244,14 @@ alternatives.
     <tr>
       <td>&emsp;--with-ldap-sasl</td>
       <td>EXT_LDAP_SASL=ON</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>&emsp;--with-ldap-sasl SASL_CFLAGS=... SASL_LIBS=...</td>
+      <td>
+        EXT_LDAP_SASL=ON<br>
+        SASL_ROOT=...
+      </td>
       <td></td>
     </tr>
     <tr>

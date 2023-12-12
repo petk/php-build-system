@@ -34,6 +34,7 @@ Result variables:
     MySQL libraries.
 
 Hints:
+
   The MySQL_SOCKET variable can be overridden.
 
   The MySQL_ROOT variable adds custom search path.
@@ -144,7 +145,7 @@ if(MySQL_LIBRARY_FOUND AND NOT TARGET MySQL::MySQL)
   add_library(MySQL::MySQL INTERFACE IMPORTED)
 
   set_target_properties(MySQL::MySQL PROPERTIES
-    INTERFACE_LINK_LIBRARIES "${MySQL_LIBRARIES}"
     INTERFACE_INCLUDE_DIRECTORIES "${MySQL_INCLUDE_DIRS}"
+    INTERFACE_LINK_LIBRARIES "${MySQL_LIBRARIES}"
   )
 endif()

@@ -131,7 +131,7 @@ if(Readline_FOUND AND NOT TARGET Readline::Readline)
   add_library(Readline::Readline INTERFACE IMPORTED)
 
   set_target_properties(Readline::Readline PROPERTIES
-    INTERFACE_LINK_LIBRARIES "${Readline_LIBRARIES}"
     INTERFACE_INCLUDE_DIRECTORIES "${Readline_INCLUDE_DIRS}"
+    INTERFACE_LINK_LIBRARIES "${Readline_LIBRARIES}"
   )
 endif()

@@ -55,7 +55,7 @@ if(NOT TARGET Argon2::Argon2)
   add_library(Argon2::Argon2 INTERFACE IMPORTED)
 
   set_target_properties(Argon2::Argon2 PROPERTIES
-    INTERFACE_LINK_LIBRARIES "${Argon2_LIBRARIES}"
     INTERFACE_INCLUDE_DIRECTORIES "${Argon2_INCLUDE_DIRS}"
+    INTERFACE_LINK_LIBRARIES "${Argon2_LIBRARIES}"
   )
 endif()

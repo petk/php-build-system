@@ -51,7 +51,7 @@ if(NOT TARGET Cdb::Cdb)
   add_library(Cdb::Cdb INTERFACE IMPORTED)
 
   set_target_properties(Cdb::Cdb PROPERTIES
-    INTERFACE_LINK_LIBRARIES "${Cdb_LIBRARIES}"
     INTERFACE_INCLUDE_DIRECTORIES "${Cdb_INCLUDE_DIRS}"
+    INTERFACE_LINK_LIBRARIES "${Cdb_LIBRARIES}"
   )
 endif()

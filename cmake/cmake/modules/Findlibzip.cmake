@@ -55,7 +55,7 @@ if(libzip_FOUND AND NOT TARGET libzip::libzip)
   add_library(libzip::libzip INTERFACE IMPORTED)
 
   set_target_properties(libzip::libzip PROPERTIES
-    INTERFACE_LINK_LIBRARIES "${libzip_LIBRARIES}"
     INTERFACE_INCLUDE_DIRECTORIES "${libzip_INCLUDE_DIRS}"
+    INTERFACE_LINK_LIBRARIES "${libzip_LIBRARIES}"
   )
 endif()

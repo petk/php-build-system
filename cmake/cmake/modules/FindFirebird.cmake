@@ -80,7 +80,7 @@ if(Firebird_FOUND AND NOT TARGET Firebird::Firebird)
   add_library(Firebird::Firebird INTERFACE IMPORTED)
 
   set_target_properties(Firebird::Firebird PROPERTIES
-    INTERFACE_LINK_LIBRARIES "${Firebird_LIBRARIES}"
     INTERFACE_INCLUDE_DIRECTORIES "${Firebird_INCLUDE_DIRS}"
+    INTERFACE_LINK_LIBRARIES "${Firebird_LIBRARIES}"
   )
 endif()

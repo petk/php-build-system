@@ -494,7 +494,7 @@ if(NOT TARGET Crypt::Crypt)
   add_library(Crypt::Crypt INTERFACE IMPORTED)
 
   set_target_properties(Crypt::Crypt PROPERTIES
-    INTERFACE_LINK_LIBRARIES "${Crypt_LIBRARIES}"
     INTERFACE_INCLUDE_DIRECTORIES "${Crypt_INCLUDE_DIRS}"
+    INTERFACE_LINK_LIBRARIES "${Crypt_LIBRARIES}"
   )
 endif()

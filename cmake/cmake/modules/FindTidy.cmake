@@ -28,6 +28,7 @@ Cache variables:
     Whether tidyReleaseDate is available in one of tidy libraries.
 
 Hints:
+
   The Tidy_ROOT variable adds custom search path.
 #]=============================================================================]
 
@@ -77,7 +78,7 @@ if(Tidy_FOUND AND NOT TARGET Tidy::Tidy)
   add_library(Tidy::Tidy INTERFACE IMPORTED)
 
   set_target_properties(Tidy::Tidy PROPERTIES
-    INTERFACE_LINK_LIBRARIES "${Tidy_LIBRARIES}"
     INTERFACE_INCLUDE_DIRECTORIES "${Tidy_INCLUDE_DIRS}"
+    INTERFACE_LINK_LIBRARIES "${Tidy_LIBRARIES}"
   )
 endif()

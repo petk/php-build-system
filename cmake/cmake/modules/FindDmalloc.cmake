@@ -81,7 +81,7 @@ if(Dmalloc_FOUND AND NOT TARGET Dmalloc::Dmalloc)
   add_library(Dmalloc::Dmalloc INTERFACE IMPORTED)
 
   set_target_properties(Dmalloc::Dmalloc PROPERTIES
-    INTERFACE_LINK_LIBRARIES "${Dmalloc_LIBRARIES}"
     INTERFACE_INCLUDE_DIRECTORIES "${Dmalloc_INCLUDE_DIRS}"
+    INTERFACE_LINK_LIBRARIES "${Dmalloc_LIBRARIES}"
   )
 endif()

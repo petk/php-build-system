@@ -83,7 +83,7 @@ if(NOT TARGET AppArmor::AppArmor)
   add_library(AppArmor::AppArmor INTERFACE IMPORTED)
 
   set_target_properties(AppArmor::AppArmor PROPERTIES
-    INTERFACE_LINK_LIBRARIES "${AppArmor_LIBRARIES}"
     INTERFACE_INCLUDE_DIRECTORIES "${AppArmor_INCLUDE_DIRS}"
+    INTERFACE_LINK_LIBRARIES "${AppArmor_LIBRARIES}"
   )
 endif()

@@ -55,7 +55,7 @@ if(NOT TARGET Ndbm::Ndbm)
   add_library(Ndbm::Ndbm INTERFACE IMPORTED)
 
   set_target_properties(Ndbm::Ndbm PROPERTIES
-    INTERFACE_LINK_LIBRARIES "${Ndbm_LIBRARIES}"
     INTERFACE_INCLUDE_DIRECTORIES "${Ndbm_INCLUDE_DIRS}"
+    INTERFACE_LINK_LIBRARIES "${Ndbm_LIBRARIES}"
   )
 endif()

@@ -77,7 +77,7 @@ if(Editline_FOUND AND NOT TARGET Editline::Editline)
   add_library(Editline::Editline INTERFACE IMPORTED)
 
   set_target_properties(Editline::Editline PROPERTIES
-    INTERFACE_LINK_LIBRARIES "${Editline_LIBRARIES}"
     INTERFACE_INCLUDE_DIRECTORIES "${Editline_INCLUDE_DIRS}"
+    INTERFACE_LINK_LIBRARIES "${Editline_LIBRARIES}"
   )
 endif()

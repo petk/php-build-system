@@ -117,6 +117,8 @@ if(EXT_MYSQLND_SSL OR EXT_OPENSSL)
 endif()
 
 file(GLOB _php_mysqlnd_headers "${CMAKE_CURRENT_SOURCE_DIR}/*.h")
+# Exclude Windows header and specify it below separately.
+list(FILTER _php_mysqlnd_headers EXCLUDE REGEX ".*config-win\\.h$")
 
 target_sources(
   php_mysqlnd
@@ -124,6 +126,7 @@ target_sources(
     BASE_DIRS "${PROJECT_SOURCE_DIR}"
     FILES
       ${_php_mysqlnd_headers}
+      $<$<PLATFORM_ID:Windows>:config-win.h>
 )
 
 install(

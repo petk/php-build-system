@@ -90,7 +90,7 @@ if(Systemd_FOUND AND NOT TARGET Systemd::Systemd)
   add_library(Systemd::Systemd INTERFACE IMPORTED)
 
   set_target_properties(Systemd::Systemd PROPERTIES
-    INTERFACE_LINK_LIBRARIES "${Systemd_LIBRARIES}"
     INTERFACE_INCLUDE_DIRECTORIES "${Systemd_INCLUDE_DIRS}"
+    INTERFACE_LINK_LIBRARIES "${Systemd_LIBRARIES}"
   )
 endif()

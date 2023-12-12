@@ -65,7 +65,7 @@ if(Aspell_FOUND AND NOT TARGET Aspell::Aspell)
   add_library(Aspell::Aspell INTERFACE IMPORTED)
 
   set_target_properties(Aspell::Aspell PROPERTIES
-    INTERFACE_LINK_LIBRARIES "${Aspell_LIBRARIES}"
     INTERFACE_INCLUDE_DIRECTORIES "${Aspell_INCLUDE_DIRS}"
+    INTERFACE_LINK_LIBRARIES "${Aspell_LIBRARIES}"
   )
 endif()

@@ -47,7 +47,7 @@ if(Kerberos_FOUND AND NOT TARGET Kerberos::Kerberos)
   add_library(Kerberos::Kerberos INTERFACE IMPORTED)
 
   set_target_properties(Kerberos::Kerberos PROPERTIES
-    INTERFACE_LINK_LIBRARIES "${Kerberos_LIBRARIES}"
     INTERFACE_INCLUDE_DIRECTORIES "${Kerberos_INCLUDE_DIRS}"
+    INTERFACE_LINK_LIBRARIES "${Kerberos_LIBRARIES}"
   )
 endif()

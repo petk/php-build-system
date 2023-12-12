@@ -82,7 +82,7 @@ if(Oniguruma_FOUND AND NOT TARGET Oniguruma::Oniguruma)
   add_library(Oniguruma::Oniguruma INTERFACE IMPORTED)
 
   set_target_properties(Oniguruma::Oniguruma PROPERTIES
-    INTERFACE_LINK_LIBRARIES "${Oniguruma_LIBRARIES}"
     INTERFACE_INCLUDE_DIRECTORIES "${Oniguruma_INCLUDE_DIRS}"
+    INTERFACE_LINK_LIBRARIES "${Oniguruma_LIBRARIES}"
   )
 endif()

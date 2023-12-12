@@ -53,7 +53,7 @@ if(libavif_FOUND AND NOT TARGET libavif::libavif)
   add_library(libavif::libavif INTERFACE IMPORTED)
 
   set_target_properties(libavif::libavif PROPERTIES
-    INTERFACE_LINK_LIBRARIES "${libavif_LIBRARIES}"
     INTERFACE_INCLUDE_DIRECTORIES "${libavif_INCLUDE_DIRS}"
+    INTERFACE_LINK_LIBRARIES "${libavif_LIBRARIES}"
   )
 endif()

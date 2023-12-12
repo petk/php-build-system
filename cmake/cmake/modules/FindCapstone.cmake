@@ -51,7 +51,7 @@ if(Capstone_FOUND AND NOT TARGET Capstone::Capstone)
   add_library(Capstone::Capstone INTERFACE IMPORTED)
 
   set_target_properties(Capstone::Capstone PROPERTIES
-    INTERFACE_LINK_LIBRARIES "${Capstone_LIBRARIES}"
     INTERFACE_INCLUDE_DIRECTORIES "${Capstone_INCLUDE_DIRS}"
+    INTERFACE_LINK_LIBRARIES "${Capstone_LIBRARIES}"
   )
 endif()

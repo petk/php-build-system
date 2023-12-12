@@ -64,7 +64,7 @@ if(NOT TARGET Dbm::Dbm)
   add_library(Dbm::Dbm INTERFACE IMPORTED)
 
   set_target_properties(Dbm::Dbm PROPERTIES
-    INTERFACE_LINK_LIBRARIES "${Dbm_LIBRARIES}"
     INTERFACE_INCLUDE_DIRECTORIES "${Dbm_INCLUDE_DIRS}"
+    INTERFACE_LINK_LIBRARIES "${Dbm_LIBRARIES}"
   )
 endif()

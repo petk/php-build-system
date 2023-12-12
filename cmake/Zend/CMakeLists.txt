@@ -450,14 +450,17 @@ file(
   "#include <../main/php_config.h>\n"
 )
 
-file(GLOB_RECURSE _zend_headers "${CMAKE_CURRENT_SOURCE_DIR}/*.h")
+file(GLOB _zend_headers "${CMAKE_CURRENT_SOURCE_DIR}/*.h")
+# Exclude Windows header and specify it below separately.
+list(FILTER _zend_headers EXCLUDE REGEX ".*zend_config\\.w32\\.h$")
 
 target_sources(
   zend
   PUBLIC FILE_SET HEADERS
-    BASE_DIRS "${PROJECT_BINARY_DIR}" "${PROJECT_SOURCE_DIR}"
+    BASE_DIRS "${PHP_BINARY_DIR}" "${PHP_SOURCE_DIR}"
     FILES
       ${_zend_headers}
+      $<$<PLATFORM_ID:Windows>:zend_config.w32.h>
       "${CMAKE_CURRENT_BINARY_DIR}/zend_config.h"
       Optimizer/zend_call_graph.h
       Optimizer/zend_cfg.h

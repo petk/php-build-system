@@ -50,7 +50,7 @@ if(Sodium_FOUND AND NOT TARGET Sodium::Sodium)
   add_library(Sodium::Sodium INTERFACE IMPORTED)
 
   set_target_properties(Sodium::Sodium PROPERTIES
-    INTERFACE_LINK_LIBRARIES "${Sodium_LIBRARIES}"
     INTERFACE_INCLUDE_DIRECTORIES "${Sodium_INCLUDE_DIRS}"
+    INTERFACE_LINK_LIBRARIES "${Sodium_LIBRARIES}"
   )
 endif()

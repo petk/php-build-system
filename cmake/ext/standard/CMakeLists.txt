@@ -317,6 +317,8 @@ set(ENABLE_CHROOT_FUNC 1 CACHE INTERNAL "Whether to enable chroot() function")
 ################################################################################
 
 file(GLOB _php_standard_headers "${CMAKE_CURRENT_SOURCE_DIR}/*.h")
+# Exclude Windows header and specify it below separately.
+list(FILTER _php_standard_headers EXCLUDE REGEX ".*winver\\.h$")
 
 target_sources(
   php_standard
@@ -324,6 +326,7 @@ target_sources(
     BASE_DIRS "${PROJECT_SOURCE_DIR}"
     FILES
       ${_php_standard_headers}
+      $<$<PLATFORM_ID:Windows>:winver.h>
 )
 
 install(

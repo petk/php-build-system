@@ -54,7 +54,7 @@ if(EXT_ODBC)
       )
     endif()
   endblock()
-else()
+elseif(DEFINED EXT_ODBC_TYPE)
   # Hide variable.
   set_property(CACHE EXT_ODBC_TYPE PROPERTY TYPE INTERNAL)
 endif()

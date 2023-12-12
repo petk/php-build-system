@@ -51,7 +51,7 @@ if(NOT TARGET TokyoCabinet::TokyoCabinet)
   add_library(TokyoCabinet::TokyoCabinet INTERFACE IMPORTED)
 
   set_target_properties(TokyoCabinet::TokyoCabinet PROPERTIES
-    INTERFACE_LINK_LIBRARIES "${TokyoCabinet_LIBRARIES}"
     INTERFACE_INCLUDE_DIRECTORIES "${TokyoCabinet_INCLUDE_DIRS}"
+    INTERFACE_LINK_LIBRARIES "${TokyoCabinet_LIBRARIES}"
   )
 endif()

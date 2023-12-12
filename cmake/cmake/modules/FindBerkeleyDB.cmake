@@ -98,7 +98,7 @@ if(NOT TARGET BerkeleyDB::BerkeleyDB)
   add_library(BerkeleyDB::BerkeleyDB INTERFACE IMPORTED)
 
   set_target_properties(BerkeleyDB::BerkeleyDB PROPERTIES
-    INTERFACE_LINK_LIBRARIES "${BerkeleyDB_LIBRARIES}"
     INTERFACE_INCLUDE_DIRECTORIES "${BerkeleyDB_INCLUDE_DIRS}"
+    INTERFACE_LINK_LIBRARIES "${BerkeleyDB_LIBRARIES}"
   )
 endif()

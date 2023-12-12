@@ -144,7 +144,7 @@ if(NetSnmp_FOUND AND NOT TARGET NetSnmp::NetSnmp)
   add_library(NetSnmp::NetSnmp INTERFACE IMPORTED)
 
   set_target_properties(NetSnmp::NetSnmp PROPERTIES
-    INTERFACE_LINK_LIBRARIES "${NetSnmp_LIBRARIES}"
     INTERFACE_INCLUDE_DIRECTORIES "${NetSnmp_INCLUDE_DIRS}"
+    INTERFACE_LINK_LIBRARIES "${NetSnmp_LIBRARIES}"
   )
 endif()
