@@ -209,7 +209,7 @@ function(php_prepare_sources)
 
   # Clean temporary .git directory. Checks are done as safeguards.
   if(
-    PHP_SOURCE_DIR MATCHES "\\/php-8\\.[0-9][\\.-].*$"
+    PHP_SOURCE_DIR MATCHES "\\/php-8\\.[0-9][.-].*$"
     AND IS_DIRECTORY ${PHP_SOURCE_DIR}/.git/
     AND EXISTS ${PHP_SOURCE_DIR}/php.ini-development
     AND EXISTS ${PHP_SOURCE_DIR}/main/php_version.h

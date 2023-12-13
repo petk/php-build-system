@@ -4,7 +4,7 @@
 
 # Read the Zend engine version.
 file(READ "zend.h" _)
-string(REGEX MATCH "#[ \t]*define[ \t]+ZEND_VERSION[ \t]+\"([0-9\.]+)([^\"]+)" _ "${_}")
+string(REGEX MATCH "#[ \t]*define[ \t]+ZEND_VERSION[ \t]+\"([0-9.]+)([^\"]+)" _ "${_}")
 set(Zend_VERSION_LABEL "${CMAKE_MATCH_2}")
 
 project(

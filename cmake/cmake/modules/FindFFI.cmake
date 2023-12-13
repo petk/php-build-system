@@ -26,26 +26,57 @@ set_package_properties(FFI PROPERTIES
   DESCRIPTION "Foreign Function Interfaces library"
 )
 
-find_package(PkgConfig QUIET REQUIRED)
+set(_reason_failure_message)
 
-if(PKG_CONFIG_FOUND)
-  if(FFI_FIND_VERSION)
-    set(_pkg_module_spec "libffi>=${FFI_FIND_VERSION}")
-  else()
-    set(_pkg_module_spec "libffi")
+find_path(FFI_INCLUDE_DIRS ffi.h)
+
+if(NOT FFI_INCLUDE_DIRS)
+  string(
+    APPEND _reason_failure_message
+    "\n    ffi.h not found."
+  )
+endif()
+
+find_library(FFI_LIBRARIES NAMES ffi DOC "The FFI library")
+
+if(NOT FFI_LIBRARIES)
+  string(
+    APPEND _reason_failure_message
+    "\n    FFI not found. Please install the FFI library (libffi)."
+  )
+endif()
+
+block(PROPAGATE FFI_VERSION)
+  if(FFI_INCLUDE_DIRS)
+    file(
+      STRINGS
+      "${FFI_INCLUDE_DIRS}/ffi.h"
+      strings
+      REGEX
+      "^[ \t]*libffi[ \t]+[0-9.]+[ \t]*$"
+    )
+
+    foreach(line ${strings})
+      if(line MATCHES "^[ \t]*libffi[ \t]+([0-9.]+)[ \t]*$")
+        set(FFI_VERSION "${CMAKE_MATCH_1}")
+      endif()
+    endforeach()
   endif()
+endblock()
 
-  pkg_search_module(FFI QUIET "${_pkg_module_spec}")
-
-  unset(_pkg_module_spec)
+if(FFI_VERSION)
+  set(_ffi_version_argument VERSION_VAR FFI_VERSION)
 endif()
 
 find_package_handle_standard_args(
   FFI
-  REQUIRED_VARS FFI_LIBRARIES
-  VERSION_VAR FFI_VERSION
-  REASON_FAILURE_MESSAGE "FFI not found. Please install FFI library (libffi)."
+  REQUIRED_VARS FFI_LIBRARIES FFI_INCLUDE_DIRS
+  ${_ffi_version_argument}
+  REASON_FAILURE_MESSAGE "${_reason_failure_message}"
 )
+
+unset(_reason_failure_message)
+unset(_ffi_version_argument)
 
 if(FFI_FOUND AND NOT TARGET FFI::FFI)
   add_library(FFI::FFI INTERFACE IMPORTED)

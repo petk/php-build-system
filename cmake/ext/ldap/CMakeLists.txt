@@ -1,5 +1,3 @@
-# TODO: Recheck other LDAP implementations supported by ext/ldap.
-
 include(CheckCSourceCompiles)
 include(CheckSymbolExists)
 include(CMakeDependentOption)

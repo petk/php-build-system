@@ -118,6 +118,8 @@ if(LDAP_LIBRARIES AND LDAP_INCLUDE_DIRS)
     set(CMAKE_REQUIRED_LIBRARIES ${LDAP_LIBRARIES})
     set(CMAKE_REQUIRED_INCLUDES ${LDAP_INCLUDE_DIRS})
 
+    # TODO: Replace the ldap_sasl_bind_s check with something more ubiquitous.
+    # The ldap_simple_bind_s is deprecated in OpenLDAP.
     check_symbol_exists(ldap_sasl_bind_s "ldap.h" _ldap_sanity_check)
   cmake_pop_check_state()
 endif()

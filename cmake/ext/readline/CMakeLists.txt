@@ -98,7 +98,7 @@ set_package_properties(Curses PROPERTIES
   PURPOSE "Necessary to enable the readline extension."
 )
 
-# The Cmake's Curses find module, doesn't define IMPORTED target yet.
+# The CMake's Curses find module, doesn't define IMPORTED target yet.
 if(CURSES_FOUND AND NOT TARGET Curses::Curses)
   add_library(Curses::Curses INTERFACE IMPORTED)
 
