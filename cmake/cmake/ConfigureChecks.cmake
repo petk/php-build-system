@@ -455,15 +455,15 @@ if(
     }
   " HAVE_FUNC_ATTRIBUTE_TARGET)
 
-  check_c_source_compiles("
+  check_c_source_compiles([[
     int my_foo( void ) { return 0; }
     static int (*resolve_foo(void))(void) { return my_foo; }
-    int foo( void ) __attribute__((ifunc(\"resolve_foo\")));
+    int foo( void ) __attribute__((ifunc("resolve_foo")));
 
     int main(void) {
       return 0;
     }
-  " HAVE_FUNC_ATTRIBUTE_IFUNC)
+  ]] HAVE_FUNC_ATTRIBUTE_IFUNC)
 endif()
 
 include(PHP/CheckGethostbynameR)

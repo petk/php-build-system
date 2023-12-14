@@ -28,9 +28,25 @@ set_package_properties(Editline PROPERTIES
   DESCRIPTION "Command-line editor library for generic line editing, history, and tokenization"
 )
 
-find_path(Editline_INCLUDE_DIRS readline.h PATH_SUFFIXES editline)
+set(_reason_failure_message)
+
+find_path(Editline_INCLUDE_DIRS editline/readline.h)
+
+if(NOT Editline_INCLUDE_DIRS)
+  string(
+    APPEND _reason_failure_message
+    "\n    editline/readline.h not found."
+  )
+endif()
 
 find_library(Editline_LIBRARIES NAMES edit DOC "The Editline library")
+
+if(NOT Editline_LIBRARIES)
+  string(
+    APPEND _reason_failure_message
+    "\n    Editline library not found. Please install Editline library."
+  )
+endif()
 
 # Sanity check.
 if(Editline_LIBRARIES)
@@ -39,22 +55,6 @@ if(Editline_LIBRARIES)
     readline
     ""
     _editline_have_readline
-  )
-endif()
-
-set(_reason_failure_message)
-
-if(NOT Editline_INCLUDE_DIRS)
-  string(
-    APPEND _reason_failure_message
-    "\n    Include directory not found. Please install Editline library."
-  )
-endif()
-
-if(NOT Editline_LIBRARIES)
-  string(
-    APPEND _reason_failure_message
-    "\n    Editline library not found."
   )
 endif()
 

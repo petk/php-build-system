@@ -16,6 +16,10 @@ Result variables:
     A list of libraries for using Dmalloc library.
   Dmalloc_VERSION
     Version string of found Dmalloc library.
+
+Hints:
+
+  The Dmalloc_ROOT variable adds custom search path.
 #]=============================================================================]
 
 include(FeatureSummary)
@@ -26,56 +30,58 @@ set_package_properties(Dmalloc PROPERTIES
   DESCRIPTION "Debug Malloc Library"
 )
 
+set(_reason_failure_message)
+
 find_path(Dmalloc_INCLUDE_DIRS dmalloc.h)
+
+if(NOT Dmalloc_INCLUDE_DIRS)
+  string(
+    APPEND _reason_failure_message
+    "\n    dmalloc.h not found."
+  )
+endif()
 
 find_library(Dmalloc_LIBRARIES NAMES dmalloc DOC "The Dmalloc library")
 
-if(EXISTS "${Dmalloc_INCLUDE_DIRS}/dmalloc.h")
-  set(_dmalloc_h "${Dmalloc_INCLUDE_DIRS}/dmalloc.h")
-endif()
-
-if(Dmalloc_INCLUDE_DIRS AND _dmalloc_h)
-  file(
-    STRINGS
-    "${_dmalloc_h}"
-    _dmalloc_version_string
-    REGEX
-    "^#[ \t]*define[ \t]+DMALLOC_VERSION_(MAJOR|MINOR|PATCH)[ \t]+[0-9]+[ \t]*[^\r\n]*$"
+if(NOT Dmalloc_LIBRARIES)
+  string(
+    APPEND _reason_failure_message
+    "\n    Dmalloc library not found. Please install the Dmalloc library."
   )
-
-  unset(Dmalloc_VERSION)
-
-  foreach(version_part MAJOR MINOR PATCH)
-    foreach(version_line ${_dmalloc_version_string})
-      set(
-        _dmalloc_regex
-        "^#[ \t]*define[ \t]+DMALLOC_VERSION_${version_part}[ \t]+([0-9]+)[ \t]*[^\r\n]*$"
-      )
-
-      if(version_line MATCHES "${_dmalloc_regex}")
-        set(_dmalloc_version_part "${CMAKE_MATCH_1}")
-
-        if(Dmalloc_VERSION)
-          string(APPEND Dmalloc_VERSION ".${_dmalloc_version_part}")
-        else()
-          set(Dmalloc_VERSION "${_dmalloc_version_part}")
-        endif()
-
-        unset(_dmalloc_version_part)
-      endif()
-    endforeach()
-  endforeach()
-
-  unset(_dmalloc_h)
-  unset(_dmalloc_version_string)
 endif()
+
+block(PROPAGATE Dmalloc_VERSION)
+  if(Dmalloc_INCLUDE_DIRS)
+    file(
+      STRINGS
+      "${Dmalloc_INCLUDE_DIRS}/dmalloc.h"
+      strings
+      REGEX
+      "^#[ \t]*define[ \t]+DMALLOC_VERSION_(MAJOR|MINOR|PATCH)[ \t]+[0-9]+[ \t]*[^\r\n]*$"
+    )
+
+    foreach(item MAJOR MINOR PATCH)
+      foreach(line ${strings})
+        if(line MATCHES "^#[ \t]*define[ \t]+DMALLOC_VERSION_${item}[ \t]+([0-9]+)[ \t]*[^\r\n]*$")
+          if(Dmalloc_VERSION)
+            string(APPEND Dmalloc_VERSION ".${CMAKE_MATCH_1}")
+          else()
+            set(Dmalloc_VERSION "${CMAKE_MATCH_1}")
+          endif()
+        endif()
+      endforeach()
+    endforeach()
+  endif()
+endblock()
 
 find_package_handle_standard_args(
   Dmalloc
   REQUIRED_VARS Dmalloc_LIBRARIES Dmalloc_INCLUDE_DIRS
   VERSION_VAR Dmalloc_VERSION
-  REASON_FAILURE_MESSAGE "Dmalloc library not found. Please install the Dmalloc library."
+  REASON_FAILURE_MESSAGE "${_reason_failure_message}"
 )
+
+unset(_reason_failure_message)
 
 if(Dmalloc_FOUND AND NOT TARGET Dmalloc::Dmalloc)
   add_library(Dmalloc::Dmalloc INTERFACE IMPORTED)

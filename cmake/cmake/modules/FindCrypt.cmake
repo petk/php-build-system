@@ -51,17 +51,17 @@ function(_crypt_check_crypt_r_style library)
       set(CMAKE_REQUIRED_LIBRARIES ${library})
     endif()
 
-    check_c_source_compiles("
+    check_c_source_compiles([[
       #define _REENTRANT 1
       #include <crypt.h>
 
       int main(void) {
         CRYPTD buffer;
-        crypt_r(\"passwd\", \"hash\", &buffer);
+        crypt_r("passwd", "hash", &buffer);
 
         return 0;
       }
-    " CRYPT_R_CRYPTD)
+    ]] CRYPT_R_CRYPTD)
 
     if(CRYPT_R_CRYPTD)
       message(CHECK_PASS "cryptd")
@@ -69,17 +69,17 @@ function(_crypt_check_crypt_r_style library)
       return()
     endif()
 
-    check_c_source_compiles("
+    check_c_source_compiles([[
       #define _REENTRANT 1
       #include <crypt.h>
 
       int main(void) {
         struct crypt_data buffer;
-        crypt_r(\"passwd\", \"hash\", &buffer);
+        crypt_r("passwd", "hash", &buffer);
 
         return 0;
       }
-    " CRYPT_R_STRUCT_CRYPT_DATA)
+    ]] CRYPT_R_STRUCT_CRYPT_DATA)
 
     if(CRYPT_R_STRUCT_CRYPT_DATA)
       message(CHECK_PASS "struct crypt_data")
@@ -87,18 +87,18 @@ function(_crypt_check_crypt_r_style library)
       return()
     endif()
 
-    check_c_source_compiles("
+    check_c_source_compiles([[
       #define _REENTRANT 1
       #define _GNU_SOURCE
       #include <crypt.h>
 
       int main(void) {
         struct crypt_data buffer;
-        crypt_r(\"passwd\", \"hash\", &buffer);
+        crypt_r("passwd", "hash", &buffer);
 
         return 0;
       }
-    " CRYPT_R_GNU_SOURCE)
+    ]] CRYPT_R_GNU_SOURCE)
 
     if(CRYPT_R_GNU_SOURCE)
       set(
@@ -111,17 +111,17 @@ function(_crypt_check_crypt_r_style library)
       return()
     endif()
 
-    check_c_source_compiles("
+    check_c_source_compiles([[
       #include <stdlib.h>
       #include <unistd.h>
 
       int main(void) {
         struct crypt_data buffer;
-        crypt_r(\"passwd\", \"hash\", &buffer);
+        crypt_r("passwd", "hash", &buffer);
 
         return 0;
       }
-    " _CRYPT_R_STRUCT_CRYPT_DATA)
+    ]] _CRYPT_R_STRUCT_CRYPT_DATA)
 
     if(_CRYPT_R_STRUCT_CRYPT_DATA)
       set(
@@ -217,7 +217,7 @@ cmake_push_check_state(RESET)
     message(CHECK_PASS "yes (cross-compiling)")
     set(_crypt_des ON)
   else()
-    check_c_source_runs("
+    check_c_source_runs([[
       #include <string.h>
 
       #if HAVE_UNISTD_H
@@ -233,13 +233,13 @@ cmake_push_check_state(RESET)
 
       int main(void) {
       #if HAVE_CRYPT
-        char *encrypted = crypt(\"rasmuslerdorf\",\"rl\");
-        return !encrypted || strcmp(encrypted,\"rl.3StKT.4T8M\");
+        char *encrypted = crypt("rasmuslerdorf","rl");
+        return !encrypted || strcmp(encrypted,"rl.3StKT.4T8M");
       #else
         return 1;
       #endif
       }
-    " _crypt_des)
+    ]] _crypt_des)
 
     if(_crypt_des)
       message(CHECK_PASS "yes")
@@ -253,7 +253,7 @@ cmake_push_check_state(RESET)
   if(CMAKE_CROSSCOMPILING)
     message(CHECK_FAIL "no (cross-compiling)")
   else()
-    check_c_source_runs("
+    check_c_source_runs([[
       #if HAVE_UNISTD_H
       #include <unistd.h>
       #endif
@@ -267,13 +267,13 @@ cmake_push_check_state(RESET)
 
       int main(void) {
       #if HAVE_CRYPT
-        char *encrypted = crypt(\"rasmuslerdorf\",\"_J9..rasm\");
-        return !encrypted || strcmp(encrypted,\"_J9..rasmBYk8r9AiWNc\");
+        char *encrypted = crypt("rasmuslerdorf","_J9..rasm");
+        return !encrypted || strcmp(encrypted,"_J9..rasmBYk8r9AiWNc");
       #else
         return 1;
       #endif
       }
-    " _crypt_ext_des)
+    ]] _crypt_ext_des)
 
     if(_crypt_ext_des)
       message(CHECK_PASS "yes")
@@ -287,7 +287,7 @@ cmake_push_check_state(RESET)
   if(CMAKE_CROSSCOMPILING)
     message(CHECK_FAIL "no (cross-compiling)")
   else()
-    check_c_source_runs("
+    check_c_source_runs([[
       #if HAVE_UNISTD_H
       #include <unistd.h>
       #endif
@@ -308,16 +308,16 @@ cmake_push_check_state(RESET)
         salt[3]='r'; salt[4]='a'; salt[5]='s';
         salt[6]='m'; salt[7]='u'; salt[8]='s';
         salt[9]='l'; salt[10]='e'; salt[11]='$';
-        salt[12]='\\\\0';
+        salt[12]='\\0';
         strcpy(answer,salt);
-        strcat(answer,\"rISCgZzpwk3UhDidwXvin0\");
-        encrypted = crypt(\"rasmuslerdorf\",salt);
+        strcat(answer,"rISCgZzpwk3UhDidwXvin0");
+        encrypted = crypt("rasmuslerdorf",salt);
         return !encrypted || strcmp(encrypted,answer);
       #else
         return 1;
       #endif
       }
-    " _crypt_md5)
+    ]] _crypt_md5)
 
     if(_crypt_md5)
       message(CHECK_PASS "yes")
@@ -331,7 +331,7 @@ cmake_push_check_state(RESET)
   if(CMAKE_CROSSCOMPILING)
     message(CHECK_FAIL "no (cross-compiling)")
   else()
-    check_c_source_runs("
+    check_c_source_runs([[
       #if HAVE_UNISTD_H
       #include <unistd.h>
       #endif
@@ -349,17 +349,17 @@ cmake_push_check_state(RESET)
         char *encrypted;
 
         salt[0]='$'; salt[1]='2'; salt[2]='a'; salt[3]='$';
-        salt[4]='0'; salt[5]='7'; salt[6]='$'; salt[7]='\\\\0';
-        strcat(salt,\"rasmuslerd............\");
+        salt[4]='0'; salt[5]='7'; salt[6]='$'; salt[7]='\\0';
+        strcat(salt,"rasmuslerd............");
         strcpy(answer,salt);
-        strcpy(&answer[29],\"nIdrcHdxcUxWomQX9j6kvERCFjTg7Ra\");
-        encrypted = crypt(\"rasmuslerdorf\",salt);
+        strcpy(&answer[29],"nIdrcHdxcUxWomQX9j6kvERCFjTg7Ra");
+        encrypted = crypt("rasmuslerdorf",salt);
         return !encrypted || strcmp(encrypted,answer);
       #else
         return 1;
       #endif
       }
-    " _crypt_blowfish)
+    ]] _crypt_blowfish)
 
     if(_crypt_blowfish)
       message(CHECK_PASS "yes")
@@ -373,7 +373,7 @@ cmake_push_check_state(RESET)
   if(CMAKE_CROSSCOMPILING)
     message(CHECK_FAIL "no (cross-compiling)")
   else()
-    check_c_source_runs("
+    check_c_source_runs([[
       #if HAVE_UNISTD_H
       #include <unistd.h>
       #endif
@@ -390,16 +390,16 @@ cmake_push_check_state(RESET)
         char salt[21], answer[21+86];
         char *encrypted;
 
-        strcpy(salt,\"\\\\$6\\\\$rasmuslerdorf\\\\$\");
+        strcpy(salt,"$6$rasmuslerdorf$");
         strcpy(answer, salt);
-        strcat(answer, \"EeHCRjm0bljalWuALHSTs1NB9ipEiLEXLhYeXdOpx22gmlmVejnVXFhd84cEKbYxCo.XuUTrW.RLraeEnsvWs/\");
-        encrypted = crypt(\"rasmuslerdorf\",salt);
+        strcat(answer, "EeHCRjm0bljalWuALHSTs1NB9ipEiLEXLhYeXdOpx22gmlmVejnVXFhd84cEKbYxCo.XuUTrW.RLraeEnsvWs/");
+        encrypted = crypt("rasmuslerdorf",salt);
         return !encrypted || strcmp(encrypted,answer);
       #else
         return 1;
       #endif
       }
-    " _crypt_sha512)
+    ]] _crypt_sha512)
 
     if(_crypt_sha512)
       message(CHECK_PASS "yes")
@@ -413,7 +413,7 @@ cmake_push_check_state(RESET)
   if(CMAKE_CROSSCOMPILING)
     message(CHECK_FAIL "no (cross-compiling)")
   else()
-    check_c_source_runs("
+    check_c_source_runs([[
       #if HAVE_UNISTD_H
       #include <unistd.h>
       #endif
@@ -430,16 +430,16 @@ cmake_push_check_state(RESET)
         char salt[21], answer[21+43];
         char *encrypted;
 
-        strcpy(salt,\"\\\\$5\\\\$rasmuslerdorf\\\\$\");
+        strcpy(salt,"$5$rasmuslerdorf$");
         strcpy(answer, salt);
-        strcat(answer, \"cFAm2puLCujQ9t.0CxiFIIvFi4JyQx5UncCt/xRIX23\");
-        encrypted = crypt(\"rasmuslerdorf\",salt);
+        strcat(answer, "cFAm2puLCujQ9t.0CxiFIIvFi4JyQx5UncCt/xRIX23");
+        encrypted = crypt("rasmuslerdorf",salt);
         return !encrypted || strcmp(encrypted,answer);
       #else
         return 1;
       #endif
       }
-    " _crypt_sha256)
+    ]] _crypt_sha256)
 
     if(_crypt_sha256)
       message(CHECK_PASS "yes")

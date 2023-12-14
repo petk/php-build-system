@@ -17,7 +17,7 @@ if(NOT CMAKE_CROSSCOMPILING)
   try_run(
     ZEND_MM_RUN_RESULT
     ZEND_MM_COMPILE_RESULT
-    SOURCE_FROM_CONTENT src.c "
+    SOURCE_FROM_CONTENT src.c [[
       #include <stdio.h>
       #include <stdlib.h>
 
@@ -42,11 +42,11 @@ if(NOT CMAKE_CROSSCOMPILING)
           i = i >> 1;
         }
 
-        printf(\"(size_t)%zu (size_t)%d %d\\n\", ZEND_MM_ALIGNMENT, zeros, ZEND_MM_ALIGNMENT < 4);
+        printf("(size_t)%zu (size_t)%d %d\n", ZEND_MM_ALIGNMENT, zeros, ZEND_MM_ALIGNMENT < 4);
 
         return 0;
       }
-    "
+    ]]
     RUN_OUTPUT_STDOUT_VARIABLE ZEND_MM_OUTPUT
   )
 

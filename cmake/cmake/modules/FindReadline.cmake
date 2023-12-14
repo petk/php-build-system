@@ -30,7 +30,7 @@ set_package_properties(Readline PROPERTIES
   DESCRIPTION "GNU Readline library for command-line editing"
 )
 
-find_path(Readline_INCLUDE_DIRS readline.h PATH_SUFFIXES readline)
+find_path(Readline_INCLUDE_DIRS readline/readline.h)
 
 find_library(Readline_LIBRARIES NAMES readline DOC "The Readline library")
 
@@ -83,36 +83,29 @@ if(NOT _readline_have_rl_pending_input)
 endif()
 
 # Get version.
-if(Readline_INCLUDE_DIRS)
-  unset(Readline_VERSION)
+block(PROPAGATE Readline_VERSION)
+  if(Readline_INCLUDE_DIRS)
+    file(
+      STRINGS
+      "${Readline_INCLUDE_DIRS}/readline/readline.h"
+      strings
+      REGEX
+      "^#[ \t]*define[ \t]+RL_VERSION_(MAJOR|MINOR)[ \t]+[0-9]+[ \t]*$"
+    )
 
-  file(
-    STRINGS
-    "${Readline_INCLUDE_DIRS}/readline.h"
-    _readline_version_string
-    REGEX
-    "^#[ \t]*define[ \t]+RL_VERSION_(MAJOR|MINOR)[ \t]+[0-9]+[ \t]*$"
-  )
-
-  foreach(version_part MAJOR MINOR)
-    foreach(version_line ${_readline_version_string})
-      set(
-        _readline_regex
-        "^#[ \t]*define[ \t]+RL_VERSION_${version_part}[ \t]+([0-9]+)[ \t]*$"
-      )
-
-      if(version_line MATCHES "${_readline_regex}")
-        if(Readline_VERSION)
-          string(APPEND Readline_VERSION ".${CMAKE_MATCH_1}")
-        else()
-          set(Readline_VERSION "${CMAKE_MATCH_1}")
+    foreach(item MAJOR MINOR)
+      foreach(line ${strings})
+        if(line MATCHES "^#[ \t]*define[ \t]+RL_VERSION_${item}[ \t]+([0-9]+)[ \t]*$")
+          if(Readline_VERSION)
+            string(APPEND Readline_VERSION ".${CMAKE_MATCH_1}")
+          else()
+            set(Readline_VERSION "${CMAKE_MATCH_1}")
+          endif()
         endif()
-      endif()
+      endforeach()
     endforeach()
-  endforeach()
-
-  unset(_readline_version_string)
-endif()
+  endif()
+endblock()
 
 find_package_handle_standard_args(
   Readline

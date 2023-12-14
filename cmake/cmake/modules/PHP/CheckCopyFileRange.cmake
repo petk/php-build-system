@@ -17,7 +17,7 @@ message(CHECK_START "Checking for copy_file_range")
 list(APPEND CMAKE_MESSAGE_INDENT "  ")
 
 if(NOT CMAKE_CROSSCOMPILING)
-  check_c_source_runs("
+  check_c_source_runs([[
     #ifdef __linux__
     #ifndef _GNU_SOURCE
     #define _GNU_SOURCE
@@ -28,15 +28,15 @@ if(NOT CMAKE_CROSSCOMPILING)
     int main(void) {
       (void)copy_file_range(-1, 0, -1, 0, 0, 0);
     #if LINUX_VERSION_CODE < KERNEL_VERSION(5,3,0)
-    #error \"kernel too old\"
+    #error "kernel too old"
     #else
       return 0;
     #endif
     }
     #else
-    #error \"unsupported platform\"
+    #error "unsupported platform"
     #endif
-  " HAVE_COPY_FILE_RANGE)
+  ]] HAVE_COPY_FILE_RANGE)
 endif()
 
 list(POP_BACK CMAKE_MESSAGE_INDENT)

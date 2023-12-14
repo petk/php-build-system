@@ -22,7 +22,7 @@ message(CHECK_START "Checking for broken GCC optimize-strlen")
 list(APPEND CMAKE_MESSAGE_INDENT "  ")
 
 if(NOT CMAKE_CROSSCOMPILING)
-  check_c_source_runs("
+  check_c_source_runs([[
     #include <stdlib.h>
     #include <string.h>
     #include <stdio.h>
@@ -35,11 +35,11 @@ if(NOT CMAKE_CROSSCOMPILING)
     int main(void) {
       struct s *s = malloc(sizeof(struct s) + 3);
       s->i = 3;
-      strcpy(s->c, \"foo\");
+      strcpy(s->c, "foo");
 
       return strlen(s->c+1) == 2;
     }
-  " HAVE_BROKEN_OPTIMIZE_STRLEN)
+  ]] HAVE_BROKEN_OPTIMIZE_STRLEN)
 endif()
 
 list(POP_BACK CMAKE_MESSAGE_INDENT)

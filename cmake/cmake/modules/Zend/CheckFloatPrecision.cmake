@@ -124,24 +124,24 @@ message(
   CHECK_START
   "Checking whether FPU control word can be manipulated by inline assembler"
 )
-check_c_source_compiles("
+check_c_source_compiles([[
   int main(void) {
     unsigned int oldcw, cw;
     volatile double result;
     double a = 2877.0;
     volatile double b = 1000000.0;
 
-    __asm__ __volatile__ (\"fnstcw %0\" : \"=m\" (*&oldcw));
+    __asm__ __volatile__ ("fnstcw %0" : "=m" (*&oldcw));
     cw = (oldcw & ~0x0 & ~0x300) | 0x200;
-    __asm__ __volatile__ (\"fldcw %0\" : : \"m\" (*&cw));
+    __asm__ __volatile__ ("fldcw %0" : : "m" (*&cw));
 
     result = a / b;
 
-    __asm__ __volatile__ (\"fldcw %0\" : : \"m\" (*&oldcw));
+    __asm__ __volatile__ ("fldcw %0" : : "m" (*&oldcw));
 
     return 0;
   }
-" HAVE_FPU_INLINE_ASM_X86)
+  ]] HAVE_FPU_INLINE_ASM_X86)
 if(HAVE_FPU_INLINE_ASM_X86)
   message(CHECK_PASS "yes")
 else()

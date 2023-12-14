@@ -18,6 +18,10 @@ Result variables:
     A systemd command-line tool if available.
   Systemd_VERSION
     Version string of found systemd library if available.
+
+Hints:
+
+  The Systemd_ROOT variable adds custom search path.
 #]=============================================================================]
 
 include(FeatureSummary)

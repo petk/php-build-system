@@ -310,7 +310,7 @@ if(NOT EXT_GD_EXTERNAL)
   get_target_property(libraries php_gd LINK_LIBRARIES)
   set(_php_do_sanity_check TRUE)
   foreach(library ${libraries})
-    if(NOT TARGET ${library})
+    if(library MATCHES "^.+::.+$" AND NOT TARGET ${library})
       set(_php_do_sanity_check FALSE)
       break()
     endif()
@@ -320,9 +320,9 @@ if(NOT EXT_GD_EXTERNAL)
     cmake_push_check_state(RESET)
       set(CMAKE_REQUIRED_LIBRARIES ${libraries})
 
-      check_c_source_compiles("
+      check_c_source_compiles([[
         char foobar(void) {
-          return '\\\\0';
+          return '\\0';
         }
 
         char foobar();
@@ -331,7 +331,7 @@ if(NOT EXT_GD_EXTERNAL)
           foobar();
           return 0;
         }
-      " GD_SANITY_CHECK_COMPILES)
+      ]] GD_SANITY_CHECK_COMPILES)
     cmake_pop_check_state()
 
     if(NOT GD_SANITY_CHECK_COMPILES)

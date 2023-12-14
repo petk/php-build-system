@@ -16,21 +16,21 @@ message(CHECK_START "Checking for getaddrinfo()")
 
 list(APPEND CMAKE_MESSAGE_INDENT "  ")
 
-check_c_source_compiles("
+check_c_source_compiles([[
   #include <netdb.h>
 
   int main(void) {
     struct addrinfo *g,h;
     g = &h;
-    getaddrinfo(\"\", \"\", g, &g);
+    getaddrinfo("", "", g, &g);
 
     return 0;
   }
-" _have_getaddrinfo)
+]] _have_getaddrinfo)
 
 if(_have_getaddrinfo)
   if(NOT CMAKE_CROSSCOMPILING)
-    check_c_source_runs("
+    check_c_source_runs([[
       #include <netdb.h>
       #include <sys/types.h>
       #include <string.h>
@@ -45,7 +45,7 @@ if(_have_getaddrinfo)
         memset(&hints, 0, sizeof(hints));
         hints.ai_flags = AI_NUMERICHOST;
 
-        if (getaddrinfo(\"127.0.0.1\", 0, &hints, &ai) < 0) {
+        if (getaddrinfo("127.0.0.1", 0, &hints, &ai) < 0) {
           return 1;
         }
 
@@ -70,7 +70,7 @@ if(_have_getaddrinfo)
 
         return 0;
       }
-    " HAVE_GETADDRINFO)
+    ]] HAVE_GETADDRINFO)
   else()
     if(CMAKE_HOST_SYSTEM_NAME STREQUAL "Linux")
       set(

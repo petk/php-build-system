@@ -16,6 +16,10 @@ Result variables:
     A list of libraries to link when using FFI library.
   FFI_VERSION
     Version string of found FFI library.
+
+Hints:
+
+  The FFI_ROOT variable adds custom search path.
 #]=============================================================================]
 
 include(FeatureSummary)

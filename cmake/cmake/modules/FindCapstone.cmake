@@ -16,6 +16,10 @@ Result variables:
     A list of libraries for using Capstone library.
   Capstone_VERSION
     Version string of found Capstone library.
+
+Hints:
+
+  The Capstone_ROOT variable adds custom search path.
 #]=============================================================================]
 
 include(FeatureSummary)

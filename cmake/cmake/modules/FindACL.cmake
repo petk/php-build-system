@@ -14,6 +14,10 @@ Result variables:
     A list of include directories for using ACL library.
   ACL_LIBRARIES
     A list of libraries for using ACL library.
+
+Hints:
+
+  The ACL_ROOT variable adds custom search path.
 #]=============================================================================]
 
 include(FeatureSummary)

@@ -16,6 +16,10 @@ Result variables:
     A list of libraries for using Oniguruma library.
   Oniguruma_VERSION
     Version string of found Oniguruma library.
+
+Hints:
+
+  The Oniguruma_ROOT variable adds custom search path.
 #]=============================================================================]
 
 include(FeatureSummary)
@@ -26,55 +30,58 @@ set_package_properties(Oniguruma PROPERTIES
   DESCRIPTION "Regular expression library"
 )
 
+set(_reason_failure_message)
+
 find_path(Oniguruma_INCLUDE_DIRS NAMES oniguruma.h)
+
+if(NOT Oniguruma_INCLUDE_DIRS)
+  string(
+    APPEND _reason_failure_message
+    "\n    oniguruma.h not found."
+  )
+endif()
+
 find_library(Oniguruma_LIBRARIES NAMES onig DOC "The Oniguruma library")
 
-if(EXISTS "${Oniguruma_INCLUDE_DIRS}/oniguruma.h")
-  set(_oniguruma_h "${Oniguruma_INCLUDE_DIRS}/oniguruma.h")
-endif()
-
-if(Oniguruma_INCLUDE_DIRS AND _oniguruma_h)
-  file(
-    STRINGS
-    "${_oniguruma_h}"
-    _oniguruma_version_string
-    REGEX
-    "^#[ \t]*define[ \t]+ONIGURUMA_VERSION_(MAJOR|MINOR|TEENY)[ \t]+[0-9]+[ \t]*$"
+if(NOT Oniguruma_LIBRARIES)
+  string(
+    APPEND _reason_failure_message
+    "\n    Oniguruma not found. Please install the Oniguruma library (libonig)."
   )
-
-  unset(Oniguruma_VERSION)
-
-  foreach(version_part MAJOR MINOR TEENY)
-    foreach(version_line ${_oniguruma_version_string})
-      set(
-        _oniguruma_regex
-        "^#[ \t]*define[ \t]+ONIGURUMA_VERSION_${version_part}[ \t]+([0-9]+)[ \t]*$"
-      )
-
-      if(version_line MATCHES "${_oniguruma_regex}")
-        set(_oniguruma_version_part "${CMAKE_MATCH_1}")
-
-        if(Oniguruma_VERSION)
-          string(APPEND Oniguruma_VERSION ".${_oniguruma_version_part}")
-        else()
-          set(Oniguruma_VERSION "${_oniguruma_version_part}")
-        endif()
-
-        unset(_oniguruma_version_part)
-      endif()
-    endforeach()
-  endforeach()
-
-  unset(_oniguruma_h)
-  unset(_oniguruma_version_string)
 endif()
+
+block(PROPAGATE Oniguruma_VERSION)
+  if(Oniguruma_INCLUDE_DIRS)
+    file(
+      STRINGS
+      "${Oniguruma_INCLUDE_DIRS}/oniguruma.h"
+      strings
+      REGEX
+      "^#[ \t]*define[ \t]+ONIGURUMA_VERSION_(MAJOR|MINOR|TEENY)[ \t]+[0-9]+[ \t]*$"
+    )
+
+    foreach(item MAJOR MINOR TEENY)
+      foreach(line ${strings})
+        if(line MATCHES "^#[ \t]*define[ \t]+ONIGURUMA_VERSION_${item}[ \t]+([0-9]+)[ \t]*$")
+          if(Oniguruma_VERSION)
+            string(APPEND Oniguruma_VERSION ".${CMAKE_MATCH_1}")
+          else()
+            set(Oniguruma_VERSION "${CMAKE_MATCH_1}")
+          endif()
+        endif()
+      endforeach()
+    endforeach()
+  endif()
+endblock()
 
 find_package_handle_standard_args(
   Oniguruma
-  REQUIRED_VARS Oniguruma_LIBRARIES
+  REQUIRED_VARS Oniguruma_LIBRARIES Oniguruma_INCLUDE_DIRS
   VERSION_VAR Oniguruma_VERSION
-  REASON_FAILURE_MESSAGE "Oniguruma not found. Please install Oniguruma library (libonig)."
+  REASON_FAILURE_MESSAGE "${_reason_failure_message}"
 )
+
+unset(_reason_failure_message)
 
 mark_as_advanced(Oniguruma_INCLUDE_DIRS Oniguruma_LIBRARIES)
 

@@ -138,11 +138,11 @@ function(dtrace_target)
   file(
     GENERATE
     OUTPUT CMakeFiles/PatchDTraceHeader.cmake
-    CONTENT "
-      file(READ \"\$\{DTRACE_HEADER_FILE\}\" file_contents)
-      string(REPLACE \"PHP_\" \"DTRACE_\" file_contents \"\$\{file_contents\}\")
-      file(WRITE \"\$\{DTRACE_HEADER_FILE\}\" \"\$\{file_contents\}\")
-    "
+    CONTENT [[
+      file(READ "${DTRACE_HEADER_FILE}" content)
+      string(REPLACE "PHP_" "DTRACE_" content "${content}")
+      file(WRITE "${DTRACE_HEADER_FILE}" "${content}")
+    ]]
   )
   add_custom_target(
     ${parsed_TARGET}_patch_header

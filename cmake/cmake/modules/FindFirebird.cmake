@@ -33,13 +33,29 @@ set_package_properties(Firebird PROPERTIES
   DESCRIPTION "SQL relational database management system"
 )
 
+set(_reason_failure_message)
+
 find_path(Firebird_INCLUDE_DIRS ibase.h)
+
+if(NOT Firebird_INCLUDE_DIRS)
+  string(
+    APPEND _reason_failure_message
+    "\n    ibase.h not found."
+  )
+endif()
 
 find_library(
   Firebird_LIBRARIES
   NAMES fbclient gds ib_util
   DOC "The Firebird library"
 )
+
+if(NOT Firebird_LIBRARIES)
+  string(
+    APPEND _reason_failure_message
+    "\n    Firebird not found. Please install Firebird."
+  )
+endif()
 
 find_program(Firebird_CONFIG_EXECUTABLE fb_config)
 
@@ -51,6 +67,10 @@ if(Firebird_CONFIG_EXECUTABLE)
   )
 endif()
 
+if(Firebird_VERSION)
+  set(_firebird_version_argument VERSION_VAR Firebird_VERSION)
+endif()
+
 # Sanity check.
 if(Firebird_LIBRARIES)
   check_library_exists(
@@ -58,6 +78,13 @@ if(Firebird_LIBRARIES)
     isc_detach_database
     ""
     _firebird_have_isc_detach_database
+  )
+endif()
+
+if(NOT _firebird_have_isc_detach_database)
+  string(
+    APPEND _reason_failure_message
+    "\n    Firebird sanity check failed, isc_detach_database couldn't be found."
   )
 endif()
 
@@ -73,8 +100,12 @@ find_package_handle_standard_args(
     Firebird_LIBRARIES
     Firebird_INCLUDE_DIRS
     _firebird_have_isc_detach_database
-  VERSION_VAR Firebird_VERSION
+  ${_firebird_version_argument}
+  REASON_FAILURE_MESSAGE "${_reason_failure_message}"
 )
+
+unset(_reason_failure_message)
+unset(_firebird_version_argument)
 
 if(Firebird_FOUND AND NOT TARGET Firebird::Firebird)
   add_library(Firebird::Firebird INTERFACE IMPORTED)

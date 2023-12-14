@@ -4,7 +4,7 @@
 
 # Read the Zend engine version.
 file(READ "zend.h" _)
-string(REGEX MATCH "#[ \t]*define[ \t]+ZEND_VERSION[ \t]+\"([0-9.]+)([^\"]+)" _ "${_}")
+string(REGEX MATCH "#[ \t]*define[ \t]+ZEND_VERSION[ \t]+\"([0-9.]+)([^\"]*)" _ "${_}")
 set(Zend_VERSION_LABEL "${CMAKE_MATCH_2}")
 
 project(
@@ -296,14 +296,14 @@ if(BISON_FOUND)
   file(
     GENERATE
     OUTPUT CMakeFiles/PatchZendLanguageParserFiles.cmake
-    CONTENT "
-      file(READ \"${CMAKE_CURRENT_SOURCE_DIR}/zend_language_parser.h\" file_contents)
-      string(REPLACE \"int zendparse\" \"ZEND_API int zendparse\" file_contents \"\${file_contents}\")
-      file(WRITE \"${CMAKE_CURRENT_SOURCE_DIR}/zend_language_parser.h\" \"\${file_contents}\")
-      file(READ \"${CMAKE_CURRENT_SOURCE_DIR}/zend_language_parser.c\" file_contents)
-      string(REPLACE \"int zendparse\" \"ZEND_API int zendparse\" file_contents \"\${file_contents}\")
-      file(WRITE \"${CMAKE_CURRENT_SOURCE_DIR}/zend_language_parser.c\" \"\${file_contents}\")
-    "
+    CONTENT [[
+      file(READ "zend_language_parser.h" content)
+      string(REPLACE "int zendparse" "ZEND_API int zendparse" content "${content}")
+      file(WRITE "zend_language_parser.h" "${content}")
+      file(READ "zend_language_parser.c" content)
+      string(REPLACE "int zendparse" "ZEND_API int zendparse" content "${content}")
+      file(WRITE "zend_language_parser.c" "${content}")
+    ]]
   )
   add_custom_target(
     zend_patch_language_parser_files

@@ -41,12 +41,11 @@ ecosystem.
 
 ## 1. Introduction
 
-CMake is quite lenient regarding code style, but applying a certain framework
+CMake is quite lenient regarding code style, but applying a consistent framework
 for writing CMake files can enhance both code quality and comprehension of the
-build system, especially when multiple developers are involved. Consistency can
-make it easier to manage and extend the build system in the future. Following
-some naming conventions can maintain a clear and organized CMake project
-structure while avoiding conflicts with external libraries and CMake scope.
+build system, especially when multiple developers are involved. Following some
+naming conventions can maintain a clear and organized CMake project structure
+while avoiding conflicts with external libraries and CMake scope.
 
 For instance, it's important to note that CMake functions, macros, and commands
 are not case-sensitive. In other words, the following two expressions are
@@ -95,6 +94,22 @@ On the contrary, variable names are case-sensitive.
   This string is concatenated \
   to a single line.\
   ")
+  ```
+
+* Code strings or regular expressions, can alternatively be passed as bracket
+  arguments (`[[`, `]]`, `[=[`, `]=]`, `[==[`, `]==]`, etc), helping to avoid
+  the need for escaping characters:
+
+  ```cmake
+  install(CODE [[
+    execute_process(
+      COMMAND ${CMAKE_COMMAND} -E echo "${variable} references aren't evaluated"
+    )
+    set(version "1.2")
+    if(version MATCHES [=[^[0-9]\.[0-9]$]=])
+      message(STATUS "Nested bracket argument with varying '=' characters")
+    endif()
+  ]])
   ```
 
 * When defining path variables, exclude the trailing directory delimiter (`/`).
@@ -360,7 +375,7 @@ option(FOO "<help_text>" ON)
 # Conditional variables have 1/0 values.
 set(HAVE_FOO_H 1 CACHE INTERNAL "<help_text>")
 
-# Elsewhere in commands, functions etc. use TRUE/FALSE
+# Elsewhere in commands, functions, etc. use TRUE/FALSE
 set(CMAKE_C_STANDARD_REQUIRED TRUE)
 ```
 
@@ -481,7 +496,7 @@ define_property(<scope> PROPERTY PHP_CUSTOM_PROPERTY_NAME [...])
 
 ## 9. Determining platform
 
-CMake offers variables such as `APPLE`, `LINUX`, `UNIX`, `WIN32` etc. However,
+CMake offers variables such as `APPLE`, `LINUX`, `UNIX`, `WIN32`, etc. However,
 they might be removed in the future CMake versions. It is recommended to use:
 
 * `CMAKE_SYSTEM_NAME` in code or `PLATFORM_ID` in generator expressions to check
@@ -500,7 +515,7 @@ if(CMAKE_SYSTEM_NAME STREQUAL "Linux")
 endif()
 ```
 
-Detecting Apple systems targets such as macOS, OS X etc.:
+Detecting Apple systems targets such as macOS, OS X, etc.:
 
 ```cmake
 if(CMAKE_SYSTEM_NAME STREQUAL "Darwin")
@@ -642,8 +657,8 @@ checks CMake files:
 The `cmake-format.json` file is used to configure how `cmake-lint` and
 `cmake-format` tools work.
 
-There is `cmake/cmake/cmake-format.json` added to this repository and is used by
-the custom `bin/check-cmake.sh` script. It includes only changed configuration
+There is `bin/cmake-format.json` added to this repository and is used by the
+custom `bin/check-cmake.sh` script. It includes only changed configuration
 values from the upstream defaults.
 
 * `disabled_codes`

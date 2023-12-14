@@ -220,16 +220,16 @@ if(TARGET Iconv::Iconv)
     cmake_push_check_state(RESET)
       set(CMAKE_REQUIRED_LIBRARIES Iconv::Iconv)
 
-      check_c_source_runs("
+      check_c_source_runs([[
         #include <iconv.h>
         #include <stdlib.h>
 
         int main(void) {
-          iconv_t cd = iconv_open(\"UTF-8//IGNORE\", \"UTF-8\");
+          iconv_t cd = iconv_open("UTF-8//IGNORE", "UTF-8");
           if(cd == (iconv_t)-1) {
             return 1;
           }
-          char *in_p = \"\\\\xC3\\\\xC3\\\\xC3\\\\xB8\";
+          char *in_p = "\\xC3\\xC3\\xC3\\xB8";
           size_t in_left = 4, out_left = 4096;
           char *out = malloc(out_left);
           char *out_p = out;
@@ -239,7 +239,7 @@ if(TARGET Iconv::Iconv)
           }
           return 0;
         }
-      " _php_iconv_ignore_works)
+      ]] _php_iconv_ignore_works)
     cmake_pop_check_state()
   endif()
   if(_php_iconv_ignore_works)

@@ -14,6 +14,10 @@ Result variables:
     A list of include directories for using AppArmor library.
   AppArmor_LIBRARIES
     A list of libraries for using AppArmor library.
+
+Hints:
+
+  The AppArmor_ROOT variable adds custom search path.
 #]=============================================================================]
 
 include(CheckLibraryExists)

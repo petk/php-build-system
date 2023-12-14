@@ -152,7 +152,7 @@ directory are available since CMake 3.19 for sharing build configurations.
 
 Instead of manually passing variables on the command line `cmake -DFOO=BAR ...`,
 users can simply store these configuration options in JSON file and have a
-shareable build settings for continuous integration, development, bug reporting
+shareable build settings for continuous integration, development, bug reporting,
 etc.
 
 The [CMakePresets.json](/cmake/CMakePresets.json) example file includes some
@@ -303,6 +303,14 @@ alternatives.
       <td></td>
     </tr>
     <tr>
+      <td>&emsp;--with-valgrind VALGRIND_CFLAGS=... VALGRIND_LIBS=...</td>
+      <td>
+        PHP_VALGRIND=ON<br>
+        Valgrind_ROOT=DIR
+      </td>
+      <td></td>
+    </tr>
+    <tr>
       <td>--with-libdir=[NAME]</td>
       <td>CMAKE_INSTALL_LIBDIR=[NAME]</td>
       <td>See GNUInstallDirs</td>
@@ -362,7 +370,10 @@ alternatives.
     </tr>
     <tr>
       <td>&emsp;--enable-dmalloc</td>
-      <td>PHP_DMALLOC=ON</td>
+      <td>
+        PHP_DMALLOC=ON<br>
+        [Dmalloc_ROOT=DIR]
+      </td>
       <td></td>
     </tr>
     <tr>
@@ -546,13 +557,24 @@ alternatives.
       <td></td>
     </tr>
     <tr>
+      <td>&emsp;--with-fpm-systemd SYSTEMD_CFLAGS=... SYSTEMD_LIBS=...</td>
+      <td>
+        SAPI_FPM_SYSTEMD=ON<br>
+        Systemd_ROOT=DIR
+      </td>
+      <td></td>
+    </tr>
+    <tr>
       <td>&emsp;--without-fpm-acl</td>
       <td>SAPI_FPM_ACL=OFF</td>
       <td>default</td>
     </tr>
     <tr>
       <td>&emsp;--with-fpm-acl</td>
-      <td>SAPI_FPM_ACL=ON</td>
+      <td>
+        SAPI_FPM_ACL=ON<br>
+        [ACL_ROOT=DIR]
+      </td>
       <td></td>
     </tr>
     <tr>
@@ -562,7 +584,10 @@ alternatives.
     </tr>
     <tr>
       <td>&emsp;--with-fpm-apparmor</td>
-      <td>SAPI_FPM_APPARMOR=ON</td>
+      <td>
+        SAPI_FPM_APPARMOR=ON<br>
+        [AppArmor_ROOT=DIR]
+      </td>
       <td></td>
     </tr>
     <tr>
@@ -788,8 +813,11 @@ alternatives.
       <td>default</td>
     </tr>
     <tr>
-      <td>&emsp;--with-ndbm</td>
-      <td>EXT_DBA_NDBM=ON</td>
+      <td>&emsp;--with-ndbm[=DIR]</td>
+      <td>
+        EXT_DBA_NDBM=ON<br>
+        [Ndbm_ROOT=DIR]
+      </td>
       <td></td>
     </tr>
     <tr>
@@ -848,6 +876,14 @@ alternatives.
     <tr>
       <td>&emsp;--with-dbm</td>
       <td>EXT_DBA_DBM=ON</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>&emsp;--with-dbm=DIR</td>
+      <td>
+        EXT_DBA_DBM=ON<br>
+        Dbm_ROOT=DIR
+      </td>
       <td></td>
     </tr>
     <tr>
@@ -977,6 +1013,14 @@ alternatives.
     <tr>
       <td>&emsp;--with-ffi=shared</td>
       <td>EXT_FFI_SHARED=ON</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>&emsp;--with-ffi FFI_CFLAGS=... FFI_LIBS=...</td>
+      <td>
+        EXT_FFI=ON<br>
+        FFI_ROOT=DIR
+      </td>
       <td></td>
     </tr>
     <tr>
@@ -1209,7 +1253,7 @@ alternatives.
       <td>&emsp;--enable-intl ICU_CFLAGS=... ICU_LIBS=...</td>
       <td>
         EXT_INTL=ON<br>
-        ICU_ROOT=...
+        ICU_ROOT=DIR
       </td>
       <td></td>
     </tr>
@@ -1250,7 +1294,7 @@ alternatives.
       <td>&emsp;--with-ldap-sasl SASL_CFLAGS=... SASL_LIBS=...</td>
       <td>
         EXT_LDAP_SASL=ON<br>
-        SASL_ROOT=...
+        SASL_ROOT=DIR
       </td>
       <td></td>
     </tr>
@@ -1283,6 +1327,14 @@ alternatives.
       <td>&emsp;--enable-mbregex</td>
       <td>EXT_MBSTRING_MBREGEX=ON</td>
       <td>default</td>
+    </tr>
+    <tr>
+      <td>&emsp;--enable-mbregex ONIG_CFLAGS=... ONIG_LIBS=...</td>
+      <td>
+        EXT_MBSTRING_MBREGEX=ON<br>
+        Oniguruma_ROOT=DIR
+      </td>
+      <td></td>
     </tr>
     <tr>
       <td>&emsp;--disable-mbregex</td>
@@ -1575,6 +1627,14 @@ alternatives.
       <td></td>
     </tr>
     <tr>
+      <td>&emsp;--with-capstone CAPSTONE_CFLAGS=... CAPSTONE_LIBS=...</td>
+      <td>
+        EXT_OPCACHE_CAPSTONE=ON<br>
+        Capstone_ROOT=DIR
+      </td>
+      <td></td>
+    </tr>
+    <tr>
       <td>--without-openssl</td>
       <td>EXT_OPENSSL=OFF</td>
       <td>default</td>
@@ -1696,21 +1756,16 @@ alternatives.
       <td>default</td>
     </tr>
     <tr>
-      <td>&emsp;--with-pdo-firebird</td>
-      <td>EXT_PDO_FIREBIRD=ON</td>
+      <td>&emsp;--with-pdo-firebird[=DIR]</td>
+      <td>
+        EXT_PDO_FIREBIRD=ON<br>
+        [Firebird_ROOT=DIR]
+      </td>
       <td></td>
     </tr>
     <tr>
       <td>&emsp;--with-pdo-firebird=shared</td>
       <td>EXT_PDO_FIREBIRD_SHARED=ON</td>
-      <td></td>
-    </tr>
-    <tr>
-      <td>&emsp;--with-pdo-firebird=DIR</td>
-      <td>
-        EXT_PDO_FIREBIRD=ON<br>
-        Firebird_ROOT=DIR
-      </td>
       <td></td>
     </tr>
     <tr>
@@ -1810,6 +1865,14 @@ alternatives.
     <tr>
       <td>&emsp;--with-pdo-sqlite</td>
       <td>EXT_PDO_SQLITE=ON</td>
+      <td>default</td>
+    </tr>
+    <tr>
+      <td>&emsp;--with-pdo-sqlite SQLITE_CFLAGS=... SQLITE_LIBS=...</td>
+      <td>
+        EXT_PDO_SQLITE=ON<br>
+        SQLite3_ROOT=DIR
+      </td>
       <td>default</td>
     </tr>
     <tr>
@@ -1965,13 +2028,11 @@ alternatives.
       <td>default</td>
     </tr>
     <tr>
-      <td>&emsp;--with-mm</td>
-      <td>EXT_SESSION_MM=ON</td>
-      <td></td>
-    </tr>
-    <tr>
-      <td>&emsp;--with-mm=DIR</td>
-      <td>MM_ROOT=DIR</td>
+      <td>&emsp;--with-mm[=DIR]</td>
+      <td>
+        EXT_SESSION_MM=ON<br>
+        [MM_ROOT=DIR]
+      </td>
       <td></td>
     </tr>
     <tr>
@@ -2010,21 +2071,16 @@ alternatives.
       <td>default</td>
     </tr>
     <tr>
-      <td>&emsp;--with-snmp</td>
-      <td>EXT_SNMP=ON</td>
+      <td>&emsp;--with-snmp[=DIR]</td>
+      <td>
+        EXT_SNMP=ON<br>
+        [NetSnmp_ROOT=DIR]
+      </td>
       <td></td>
     </tr>
     <tr>
       <td>&emsp;--with-snmp=shared</td>
       <td>EXT_SNMP_SHARED=ON</td>
-      <td></td>
-    </tr>
-    <tr>
-      <td>&emsp;--with-snmp=DIR</td>
-      <td>
-        EXT_SNMP=ON<br>
-        NetSnmp_ROOT=DIR
-      </td>
       <td></td>
     </tr>
     <tr>
@@ -2075,6 +2131,14 @@ alternatives.
     <tr>
       <td>--with-sqlite3</td>
       <td>EXT_SQLITE3=ON</td>
+      <td>default</td>
+    </tr>
+    <tr>
+      <td>&emsp;--with-sqlite3 SQLITE_CFLAGS=... SQLITE_LIBS=...</td>
+      <td>
+        EXT_SQLITE3=ON<br>
+        SQLite3_ROOT=DIR
+      </td>
       <td>default</td>
     </tr>
     <tr>
@@ -2158,15 +2222,10 @@ alternatives.
       <td>default</td>
     </tr>
     <tr>
-      <td>&emsp;--with-tidy</td>
-      <td>EXT_TIDY=ON</td>
-      <td></td>
-    </tr>
-    <tr>
-      <td>&emsp;--with-tidy=DIR</td>
+      <td>&emsp;--with-tidy[=DIR]</td>
       <td>
         EXT_TIDY=ON<br>
-        Tidy_ROOT=DIR
+        [Tidy_ROOT=DIR]
       </td>
       <td></td>
     </tr>

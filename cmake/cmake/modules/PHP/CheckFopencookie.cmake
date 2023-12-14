@@ -57,7 +57,7 @@ if(CMAKE_CROSSCOMPILING AND CMAKE_HOST_SYSTEM_NAME STREQUAL "Linux")
     CACHE INTERNAL "Whether newer fopencookie seeker definition is available"
   )
 else()
-  check_c_source_runs("
+  check_c_source_runs([[
     #define _GNU_SOURCE
     #include <stdio.h>
     #include <stdlib.h>
@@ -88,14 +88,14 @@ else()
 
     int main(void) {
       struct cookiedata g = { 0 };
-      FILE *fp = fopencookie(&g, \"r\", funcs);
+      FILE *fp = fopencookie(&g, "r", funcs);
 
       if (fp && fseek(fp, 8192, SEEK_SET) == 0 && g.pos == 8192)
         return 0;
 
       return 1;
     }
-  " COOKIE_SEEKER_USES_OFF64_T)
+  ]] COOKIE_SEEKER_USES_OFF64_T)
 endif()
 
 if(CMAKE_CROSSCOMPILING AND COOKIE_SEEKER_USES_OFF64_T)

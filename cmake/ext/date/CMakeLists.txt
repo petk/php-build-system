@@ -43,16 +43,16 @@ target_compile_definitions(php_date
 set(HAVE_TIMELIB_CONFIG_H 1 CACHE INTERNAL "Have timelib_config.h")
 
 message(STATUS "Creating ext/date/lib/timelib_config.h")
-file(WRITE "${CMAKE_CURRENT_BINARY_DIR}/lib/timelib_config.h"
-  "#ifdef PHP_WIN32
-# include \"config.w32.h\"
+file(WRITE "${CMAKE_CURRENT_BINARY_DIR}/lib/timelib_config.h" [[
+#ifdef PHP_WIN32
+# include "config.w32.h"
 #else
 # include <php_config.h>
 #endif
 #include <inttypes.h>
 #include <stdint.h>
 
-#include \"zend.h\"
+#include "zend.h"
 
 #define timelib_malloc  emalloc
 #define timelib_realloc erealloc
@@ -60,7 +60,7 @@ file(WRITE "${CMAKE_CURRENT_BINARY_DIR}/lib/timelib_config.h"
 #define timelib_strdup  estrdup
 #define timelib_strndup estrndup
 #define timelib_free    efree
-")
+]])
 
 add_dependencies(php_date PHP::main Zend::Zend)
 

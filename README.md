@@ -415,7 +415,7 @@ command-line script and `main/php_config.h.in` header template.
 
 When running the `./configure`, many checks are done based on the running
 system. Things like C headers availability, C symbols, required library
-dependencies etc.
+dependencies, etc.
 
 The `configure` script creates `Makefile` where the `make` command then builds
 binary files from C source files. You can optionally pass the `-j` option which
