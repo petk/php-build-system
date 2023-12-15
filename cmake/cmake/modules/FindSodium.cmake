@@ -16,6 +16,10 @@ Result variables:
     A list of libraries for linking when using Sodium library.
   Sodium_VERSION
     Version string of found Sodium library.
+
+Hints:
+
+  The Sodium_ROOT variable adds custom search path.
 #]=============================================================================]
 
 include(FeatureSummary)
@@ -26,25 +30,53 @@ set_package_properties(Sodium PROPERTIES
   DESCRIPTION "Crypto library"
 )
 
-find_package(PkgConfig QUIET)
+set(_reason_failure_message)
 
-if(PKG_CONFIG_FOUND)
-  if(Sodium_FIND_VERSION)
-    set(_pkg_module_spec "libsodium>=${Sodium_FIND_VERSION}")
-  else()
-    set(_pkg_module_spec "libsodium")
-  endif()
+find_path(Sodium_INCLUDE_DIRS sodium.h)
 
-  pkg_search_module(Sodium QUIET "${_pkg_module_spec}")
-
-  unset(_pkg_module_spec)
+if(NOT Sodium_INCLUDE_DIRS)
+  string(
+    APPEND _reason_failure_message
+    "\n    sodium.h not found."
+  )
 endif()
+
+find_library(Sodium_LIBRARIES NAMES sodium DOC "The Sodium library")
+
+if(NOT Sodium_LIBRARIES)
+  string(
+    APPEND _reason_failure_message
+    "\n    Sodium not found. Please install Sodium library (libsodium)."
+  )
+endif()
+
+# Get version.
+block(PROPAGATE Sodium_VERSION)
+  if(Sodium_INCLUDE_DIRS AND EXISTS "${Sodium_INCLUDE_DIRS}/sodium/version.h")
+    file(
+      STRINGS
+      "${Sodium_INCLUDE_DIRS}/sodium/version.h"
+      results
+      REGEX
+      "^#[ \t]*define[ \t]+SODIUM_VERSION_STRING[ \t]+\"[0-9.]+\"[ \t]*$"
+    )
+
+    foreach(line ${results})
+      if(line MATCHES "^#[ \t]*define[ \t]+SODIUM_VERSION_STRING[ \t]+\"([0-9.]+)\"[ \t]*$")
+        set(Sodium_VERSION "${CMAKE_MATCH_1}")
+      endif()
+    endforeach()
+  endif()
+endblock()
 
 find_package_handle_standard_args(
   Sodium
-  REQUIRED_VARS Sodium_LIBRARIES
+  REQUIRED_VARS Sodium_LIBRARIES Sodium_INCLUDE_DIRS
   VERSION_VAR Sodium_VERSION
+  REASON_FAILURE_MESSAGE "${_reason_failure_message}"
 )
+
+unset(_reason_failure_message)
 
 if(Sodium_FOUND AND NOT TARGET Sodium::Sodium)
   add_library(Sodium::Sodium INTERFACE IMPORTED)

@@ -1099,8 +1099,11 @@ alternatives.
       <td>default</td>
     </tr>
     <tr>
-      <td>&emsp;--with-external-gd</td>
-      <td>EXT_GD_EXTERNAL=ON</td>
+      <td>&emsp;--with-external-gd [GDLIB_CFLAGS=...] [GDLIB_LIBS=...] </td>
+      <td>
+        EXT_GD_EXTERNAL=ON<br>
+        [GD_ROOT=DIR]
+      </td>
       <td></td>
     </tr>
     <tr>
@@ -1169,21 +1172,16 @@ alternatives.
       <td>default</td>
     </tr>
     <tr>
-      <td>&emsp;--with-gettext</td>
-      <td>EXT_GETTEXT=ON</td>
+      <td>&emsp;--with-gettext[=DIR]</td>
+      <td>
+        EXT_GETTEXT=ON<br>
+        [Intl_ROOT=DIR]
+      </td>
       <td></td>
     </tr>
     <tr>
       <td>&emsp;--with-gettext=shared</td>
       <td>EXT_GETTEXT_SHARED=ON</td>
-      <td></td>
-    </tr>
-    <tr>
-      <td>&emsp;--with-gettext=DIR</td>
-      <td>
-        EXT_GETTEXT=ON<br>
-        Intl_ROOT=DIR
-      </td>
       <td></td>
     </tr>
     <tr>
@@ -1193,7 +1191,10 @@ alternatives.
     </tr>
     <tr>
       <td>&emsp;--with-gmp[=DIR]</td>
-      <td>EXT_GMP=ON</td>
+      <td>
+        EXT_GMP=ON<br>
+        [GMP_ROOT=DIR]
+      </td>
       <td></td>
     </tr>
     <tr>
@@ -2119,8 +2120,11 @@ alternatives.
       <td>default</td>
     </tr>
     <tr>
-      <td>&emsp;--with-sodium</td>
-      <td>EXT_SODIUM=ON</td>
+      <td>&emsp;--with-sodium [LIBSODIUM_CFLAGS=...] [LIBSODIUM_LIBS=..]</td>
+      <td>
+        EXT_SODIUM=ON<br>
+        [Sodium_ROOT=DIR]
+      </td>
       <td></td>
     </tr>
     <tr>

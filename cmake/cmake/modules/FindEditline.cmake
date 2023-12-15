@@ -61,7 +61,7 @@ endif()
 if(NOT _editline_have_readline)
   string(
     APPEND _reason_failure_message
-    "\n    Editline sanity check failed - readline() not found in library."
+    "\n    Editline sanity check failed - readline() not found."
   )
 endif()
 

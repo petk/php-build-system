@@ -131,6 +131,12 @@ pkgconf --list-package-names
 # Print required linker flags to stdout for given package name:
 pkgconf --libs libcrypt
 
+# Print the version of the queried module:
+pkgconf --modversion libcrypt
+
+# Pring CFLAGS:
+pkgconf --cflags librypt
+
 # See --help for further info:
 pkgconf --help
 ```

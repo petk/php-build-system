@@ -55,12 +55,12 @@ block(PROPAGATE FFI_VERSION)
     file(
       STRINGS
       "${FFI_INCLUDE_DIRS}/ffi.h"
-      strings
+      results
       REGEX
       "^[ \t]*libffi[ \t]+[0-9.]+[ \t]*$"
     )
 
-    foreach(line ${strings})
+    foreach(line ${results})
       if(line MATCHES "^[ \t]*libffi[ \t]+([0-9.]+)[ \t]*$")
         set(FFI_VERSION "${CMAKE_MATCH_1}")
       endif()

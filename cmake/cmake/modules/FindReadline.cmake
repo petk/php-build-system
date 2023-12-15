@@ -88,13 +88,13 @@ block(PROPAGATE Readline_VERSION)
     file(
       STRINGS
       "${Readline_INCLUDE_DIRS}/readline/readline.h"
-      strings
+      results
       REGEX
       "^#[ \t]*define[ \t]+RL_VERSION_(MAJOR|MINOR)[ \t]+[0-9]+[ \t]*$"
     )
 
     foreach(item MAJOR MINOR)
-      foreach(line ${strings})
+      foreach(line ${results})
         if(line MATCHES "^#[ \t]*define[ \t]+RL_VERSION_${item}[ \t]+([0-9]+)[ \t]*$")
           if(Readline_VERSION)
             string(APPEND Readline_VERSION ".${CMAKE_MATCH_1}")

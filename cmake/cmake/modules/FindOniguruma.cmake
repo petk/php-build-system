@@ -55,13 +55,13 @@ block(PROPAGATE Oniguruma_VERSION)
     file(
       STRINGS
       "${Oniguruma_INCLUDE_DIRS}/oniguruma.h"
-      strings
+      results
       REGEX
       "^#[ \t]*define[ \t]+ONIGURUMA_VERSION_(MAJOR|MINOR|TEENY)[ \t]+[0-9]+[ \t]*$"
     )
 
     foreach(item MAJOR MINOR TEENY)
-      foreach(line ${strings})
+      foreach(line ${results})
         if(line MATCHES "^#[ \t]*define[ \t]+ONIGURUMA_VERSION_${item}[ \t]+([0-9]+)[ \t]*$")
           if(Oniguruma_VERSION)
             string(APPEND Oniguruma_VERSION ".${CMAKE_MATCH_1}")

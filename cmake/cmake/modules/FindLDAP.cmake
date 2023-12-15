@@ -93,13 +93,13 @@ block(PROPAGATE LDAP_VERSION)
     file(
       STRINGS
       "${LDAP_INCLUDE_DIRS}/ldap_features.h"
-      strings
+      results
       REGEX
       "^#[ \t]*define[ \t]+LDAP_VENDOR_VERSION_(MAJOR|MINOR|PATCH)[ \t]+[0-9]+[ \t]*$"
     )
 
     foreach(item MAJOR MINOR PATCH)
-      foreach(line ${strings})
+      foreach(line ${results})
         if(line MATCHES "^#[ \t]*define[ \t]+LDAP_VENDOR_VERSION_${item}[ \t]+([0-9]+)[ \t]*$")
           if(LDAP_VERSION)
             string(APPEND LDAP_VERSION ".${CMAKE_MATCH_1}")

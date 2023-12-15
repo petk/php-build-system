@@ -55,13 +55,13 @@ block(PROPAGATE SASL_VERSION)
     file(
       STRINGS
       "${SASL_INCLUDE_DIRS}/sasl/sasl.h"
-      strings
+      results
       REGEX
       "^#[ \t]*define[ \t]+SASL_VERSION_(MAJOR|MINOR|STEP)[ \t]+[0-9]+[ \t]*$"
     )
 
     foreach(item MAJOR MINOR STEP)
-      foreach(line ${strings})
+      foreach(line ${results})
         if(line MATCHES "^#[ \t]*define[ \t]+SASL_VERSION_${item}[ \t]+([0-9]+)[ \t]*$")
           if(SASL_VERSION)
             string(APPEND SASL_VERSION ".${CMAKE_MATCH_1}")

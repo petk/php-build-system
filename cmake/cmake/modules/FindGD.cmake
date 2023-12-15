@@ -16,6 +16,10 @@ Result variables:
     A list of libraries for using libgd.
   GD_VERSION
     Version string of found libgd.
+
+Hints:
+
+  The GD_ROOT variable adds custom search path.
 #]=============================================================================]
 
 include(FeatureSummary)
@@ -26,26 +30,59 @@ set_package_properties(GD PROPERTIES
   DESCRIPTION "Library for dynamic creation of images"
 )
 
-find_package(PkgConfig QUIET REQUIRED)
+set(_reason_failure_message)
 
-if(PKG_CONFIG_FOUND)
-  if(GD_FIND_VERSION)
-    set(_pkg_module_spec "gdlib>=${GD_FIND_VERSION}")
-  else()
-    set(_pkg_module_spec "gdlib")
-  endif()
+find_path(GD_INCLUDE_DIRS gd.h)
 
-  pkg_search_module(GD QUIET "${_pkg_module_spec}")
-
-  unset(_pkg_module_spec)
+if(NOT GD_INCLUDE_DIRS)
+  string(
+    APPEND _reason_failure_message
+    "\n    gd.h not found."
+  )
 endif()
+
+find_library(GD_LIBRARIES NAMES gd DOC "The GD library")
+
+if(NOT GD_LIBRARIES)
+  string(
+    APPEND _reason_failure_message
+    "\n    GD not found. Please install GD library (libgd)."
+  )
+endif()
+
+# Get version.
+block(PROPAGATE GD_VERSION)
+  if(GD_INCLUDE_DIRS)
+    file(
+      STRINGS
+      "${GD_INCLUDE_DIRS}/gd.h"
+      results
+      REGEX
+      "^#[ \t]*define[ \t]+GD_(MAJOR|MINOR|RELEASE)_VERSION[ \t]+[0-9]+[ \t]*[^\r\n]*$"
+    )
+
+    foreach(item MAJOR MINOR RELEASE)
+      foreach(line ${results})
+        if(line MATCHES "^#[ \t]*define[ \t]+GD_${item}_VERSION[ \t]+([0-9]+)[ \t]*[^\r\n]*$")
+          if(GD_VERSION)
+            string(APPEND GD_VERSION ".${CMAKE_MATCH_1}")
+          else()
+            set(GD_VERSION "${CMAKE_MATCH_1}")
+          endif()
+        endif()
+      endforeach()
+    endforeach()
+  endif()
+endblock()
 
 find_package_handle_standard_args(
   GD
   REQUIRED_VARS GD_LIBRARIES GD_INCLUDE_DIRS
   VERSION_VAR GD_VERSION
-  REASON_FAILURE_MESSAGE "GD not found. Please install GD library (libgd)."
+  REASON_FAILURE_MESSAGE "${_reason_failure_message}"
 )
+
+unset(_reason_failure_message)
 
 if(GD_FOUND AND NOT TARGET GD::GD)
   add_library(GD::GD INTERFACE IMPORTED)

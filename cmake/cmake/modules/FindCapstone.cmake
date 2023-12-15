@@ -61,13 +61,13 @@ block(PROPAGATE Capstone_VERSION)
     file(
       STRINGS
       "${Capstone_INCLUDE_DIR}/capstone/capstone.h"
-      strings
+      results
       REGEX
       "^#[ \t]*define[ \t]+(CS_API_MAJOR|CS_API_MINOR|CS_VERSION_EXTRA)[ \t]+[0-9]+[ \t]*$"
     )
 
     foreach(item CS_API_MAJOR CS_API_MINOR CS_VERSION_EXTRA)
-      foreach(line ${strings})
+      foreach(line ${results})
         if(line MATCHES "^#[ \t]*define[ \t]+${item}[ \t]+([0-9]+)[ \t]*$")
           if(Capstone_VERSION)
             string(APPEND Capstone_VERSION ".${CMAKE_MATCH_1}")

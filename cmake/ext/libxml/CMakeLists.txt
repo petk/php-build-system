@@ -15,6 +15,10 @@ add_library(php_libxml STATIC
   libxml.c
 )
 
+if(PHP_VERSION VERSION_GREATER_EQUAL 8.4)
+  target_sources(php_libxml PRIVATE mime_sniff.c)
+endif()
+
 target_compile_definitions(php_libxml PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE=1)
 
 find_package(LibXml2 ${PHP_LIBXML2_MIN_VERSION})
