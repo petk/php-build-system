@@ -37,6 +37,27 @@ ccmake -S php-src -B php-build
 ./configure --help
 ```
 
+To override the paths to dependencies, for example, when using a manual
+installation of a library, there are two main options to consider:
+
+* `CMAKE_PREFIX_PATH`
+
+  A list of additional paths searched by `find_*()` commands.
+
+  For example, to pass manual paths for iconv and SQLite3 libraries:
+
+  ```sh
+  cmake -DCMAKE_PREFIX_PATH="/path/to/libiconv;/path/to/sqlite3" -S php-src -B php-build
+  ```
+
+* `<PackageName>_ROOT` variables
+
+  These variables are used within the `find_package(<PackageName> ...)` command.
+
+  ```sh
+  cmake -DIconv_ROOT=/path/to/libiconv -DSQLite3_ROOT=/path/to/sqlite3 -S php-src -B php-build
+  ```
+
 ## 1. PHP configuration
 
 * `PHP_RE2C_CGOTO=OFF|ON`
@@ -284,12 +305,12 @@ alternatives.
     </tr>
     <tr>
       <td>--disable-fd-setsize</td>
-      <td>PHP_FD_SETSIZE=OFF</td>
+      <td>PHP_FD_SETSIZE=""</td>
       <td>default</td>
     </tr>
     <tr>
-      <td>&emsp;--enable-fd-setsize=[NUM]</td>
-      <td>PHP_FD_SETSIZE=[NUM]</td>
+      <td>&emsp;--enable-fd-setsize=NUM</td>
+      <td>PHP_FD_SETSIZE=NUM</td>
       <td></td>
     </tr>
     <tr>
@@ -298,21 +319,20 @@ alternatives.
       <td>default</td>
     </tr>
     <tr>
-      <td>&emsp;--with-valgrind</td>
-      <td>PHP_VALGRIND=ON</td>
-      <td></td>
-    </tr>
-    <tr>
-      <td>&emsp;--with-valgrind VALGRIND_CFLAGS=... VALGRIND_LIBS=...</td>
+      <td>
+        &emsp;--with-valgrind<br>
+        &emsp;[VALGRIND_CFLAGS=...]<br>
+        &emsp;[VALGRIND_LIBS=...]
+      </td>
       <td>
         PHP_VALGRIND=ON<br>
-        Valgrind_ROOT=DIR
+        [Valgrind_ROOT=DIR]
       </td>
       <td></td>
     </tr>
     <tr>
-      <td>--with-libdir=[NAME]</td>
-      <td>CMAKE_INSTALL_LIBDIR=[NAME]</td>
+      <td>--with-libdir=NAME</td>
+      <td>CMAKE_INSTALL_LIBDIR=NAME</td>
       <td>See GNUInstallDirs</td>
     </tr>
     <tr>
@@ -403,7 +423,10 @@ alternatives.
     </tr>
     <tr>
       <td>&emsp;--enable-gcov</td>
-      <td>PHP_GCOV=ON</td>
+      <td>
+        PHP_GCOV=ON<br>
+        [Gcov_ROOT=DIR]
+      </td>
       <td></td>
     </tr>
     <tr>
@@ -537,13 +560,13 @@ alternatives.
       <td></td>
     </tr>
     <tr>
-      <td>&emsp;--with-fpm-user[=USER]</td>
-      <td>SAPI_FPM_USER[=USER]</td>
+      <td>&emsp;[--with-fpm-user=USER]</td>
+      <td>[SAPI_FPM_USER=USER]</td>
       <td>default: nobody</td>
     </tr>
     <tr>
-      <td>&emsp;--with-fpm-group[=GROUP]</td>
-      <td>SAPI_FPM_GROUP[=GROUP]</td>
+      <td>&emsp;[--with-fpm-group=GROUP]</td>
+      <td>[SAPI_FPM_GROUP=GROUP]</td>
       <td>default: nobody</td>
     </tr>
     <tr>
@@ -552,15 +575,14 @@ alternatives.
       <td>default</td>
     </tr>
     <tr>
-      <td>&emsp;--with-fpm-systemd</td>
-      <td>SAPI_FPM_SYSTEMD=ON</td>
-      <td></td>
-    </tr>
-    <tr>
-      <td>&emsp;--with-fpm-systemd SYSTEMD_CFLAGS=... SYSTEMD_LIBS=...</td>
+      <td>
+        &emsp;--with-fpm-systemd<br>
+        &emsp;[SYSTEMD_CFLAGS=...]<br>
+        &emsp;[SYSTEMD_LIBS=...]
+      </td>
       <td>
         SAPI_FPM_SYSTEMD=ON<br>
-        Systemd_ROOT=DIR
+        [Systemd_ROOT=DIR]
       </td>
       <td></td>
     </tr>
@@ -597,7 +619,10 @@ alternatives.
     </tr>
     <tr>
       <td>&emsp;--with-fpm-selinux</td>
-      <td>SAPI_FPM_SELINUX=ON</td>
+      <td>
+        SAPI_FPM_SELINUX=ON<br>
+        [SELinux_ROOT=DIR]
+      </td>
       <td></td>
     </tr>
     <tr>
@@ -674,21 +699,16 @@ alternatives.
       <td>default</td>
     </tr>
     <tr>
-      <td>&emsp;--with-bz2</td>
-      <td>EXT_BZ2=ON</td>
+      <td>&emsp;--with-bz2[=DIR]</td>
+      <td>
+        EXT_BZ2=ON<br>
+        [BZip2_ROOT=DIR]
+      </td>
       <td></td>
     </tr>
     <tr>
       <td>&emsp;--with-bz2=shared</td>
       <td>EXT_BZ2_SHARED=ON</td>
-      <td></td>
-    </tr>
-    <tr>
-      <td>&emsp;--with-bz2=DIR</td>
-      <td>
-        EXT_BZ2=ON<br>
-        BZip2_ROOT=DIR
-      </td>
       <td></td>
     </tr>
     <tr>
@@ -727,8 +747,16 @@ alternatives.
       <td>default</td>
     </tr>
     <tr>
-      <td>&emsp;--with-curl</td>
-      <td>EXT_CURL=ON</td>
+      <td>
+        &emsp;--with-curl<br>
+        &emsp;[CURL_CFLAGS=...]<br>
+        &emsp;[CURL_LIBS=...]<br>
+        &emsp;[CURL_FEATURES=...]
+      </td>
+      <td>
+        EXT_CURL=ON<br>
+        [CURL_ROOT=DIR]
+      </td>
       <td></td>
     </tr>
     <tr>
@@ -777,15 +805,10 @@ alternatives.
       <td>default</td>
     </tr>
     <tr>
-      <td>&emsp;--with-qdbm</td>
-      <td>EXT_DBA_QDBM=ON</td>
-      <td></td>
-    </tr>
-    <tr>
-      <td>&emsp;--with-qdbm=DIR</td>
+      <td>&emsp;--with-qdbm[=DIR]</td>
       <td>
         EXT_DBA_QDBM=ON<br>
-        QDBM_ROOT=DIR
+        [QDBM_ROOT=DIR]
       </td>
       <td></td>
     </tr>
@@ -795,15 +818,10 @@ alternatives.
       <td>default</td>
     </tr>
     <tr>
-      <td>&emsp;--with-gdbm</td>
-      <td>EXT_DBA_GDBM=ON</td>
-      <td></td>
-    </tr>
-    <tr>
-      <td>&emsp;--with-gdbm=DIR</td>
+      <td>&emsp;--with-gdbm[=DIR]</td>
       <td>
         EXT_DBA_GDBM=ON<br>
-        GDBM_ROOT=DIR
+        [GDBM_ROOT=DIR]
       </td>
       <td></td>
     </tr>
@@ -826,15 +844,10 @@ alternatives.
       <td>default</td>
     </tr>
     <tr>
-      <td>&emsp;--with-db4</td>
-      <td>EXT_DBA_DB=ON</td>
-      <td></td>
-    </tr>
-    <tr>
-      <td>&emsp;--with-db4=DIR</td>
+      <td>&emsp;--with-db4[=DIR]</td>
       <td>
         EXT_DBA_DB=ON<br>
-        BerkeleyDB_ROOT=DIR
+        [BerkeleyDB_ROOT=DIR]
       </td>
       <td></td>
     </tr>
@@ -874,15 +887,10 @@ alternatives.
       <td>default</td>
     </tr>
     <tr>
-      <td>&emsp;--with-dbm</td>
-      <td>EXT_DBA_DBM=ON</td>
-      <td></td>
-    </tr>
-    <tr>
-      <td>&emsp;--with-dbm=DIR</td>
+      <td>&emsp;--with-dbm[=DIR]</td>
       <td>
         EXT_DBA_DBM=ON<br>
-        Dbm_ROOT=DIR
+        [Dbm_ROOT=DIR]
       </td>
       <td></td>
     </tr>
@@ -892,15 +900,10 @@ alternatives.
       <td>default</td>
     </tr>
     <tr>
-      <td>&emsp;--with-tcadb</td>
-      <td>EXT_DBA_TCADB=ON</td>
-      <td></td>
-    </tr>
-    <tr>
-      <td>&emsp;--with-tcadb=DIR</td>
+      <td>&emsp;--with-tcadb[=DIR]</td>
       <td>
         EXT_DBA_TCADB=ON<br>
-        TokyoCabinet_ROOT=DIR
+        [TokyoCabinet_ROOT=DIR]
       </td>
       <td></td>
     </tr>
@@ -910,15 +913,10 @@ alternatives.
       <td>default</td>
     </tr>
     <tr>
-      <td>&emsp;--with-lmdb</td>
-      <td>EXT_DBA_LMDB=ON</td>
-      <td></td>
-    </tr>
-    <tr>
-      <td>&emsp;--with-lmdb=DIR</td>
+      <td>&emsp;--with-lmdb[=DIR]</td>
       <td>
         EXT_DBA_LMDB=ON<br>
-        LMDB_ROOT=DIR
+        [LMDB_ROOT=DIR]
       </td>
       <td></td>
     </tr>
@@ -976,8 +974,17 @@ alternatives.
       <td>default</td>
     </tr>
     <tr>
-      <td>&emsp;--with-enchant</td>
-      <td>EXT_ENCHANT=ON</td>
+      <td>
+        &emsp;--with-enchant<br>
+        &emsp;[ENCHANT_CFLAGS=...]<br>
+        &emsp;[ENCHANT_LIBS=...]<br>
+        &emsp;[ENCHANT2_CFLAGS=...]<br>
+        &emsp;[ENCHANT2_LIBS=...]
+      </td>
+      <td>
+        EXT_ENCHANT=ON<br>
+        [Enchant_ROOT=DIR]
+      </td>
       <td></td>
     </tr>
     <tr>
@@ -1006,21 +1013,20 @@ alternatives.
       <td>default</td>
     </tr>
     <tr>
-      <td>&emsp;--with-ffi</td>
-      <td>EXT_FFI=ON</td>
+      <td>
+        &emsp;--with-ffi<br>
+        &emsp;[FFI_CFLAGS=...]<br>
+        &emsp;[FFI_LIBS=...]
+      </td>
+      <td>
+        EXT_FFI=ON<br>
+        [FFI_ROOT=DIR]
+      </td>
       <td></td>
     </tr>
     <tr>
       <td>&emsp;--with-ffi=shared</td>
       <td>EXT_FFI_SHARED=ON</td>
-      <td></td>
-    </tr>
-    <tr>
-      <td>&emsp;--with-ffi FFI_CFLAGS=... FFI_LIBS=...</td>
-      <td>
-        EXT_FFI=ON<br>
-        FFI_ROOT=DIR
-      </td>
       <td></td>
     </tr>
     <tr>
@@ -1099,7 +1105,11 @@ alternatives.
       <td>default</td>
     </tr>
     <tr>
-      <td>&emsp;--with-external-gd [GDLIB_CFLAGS=...] [GDLIB_LIBS=...] </td>
+      <td>
+        &emsp;--with-external-gd<br>
+        &emsp;[GDLIB_CFLAGS=...]<br>
+        &emsp;[GDLIB_LIBS=...]
+      </td>
       <td>
         EXT_GD_EXTERNAL=ON<br>
         [GD_ROOT=DIR]
@@ -1112,8 +1122,15 @@ alternatives.
       <td>default</td>
     </tr>
     <tr>
-      <td>&emsp;--with-avif</td>
-      <td>EXT_GD_AVIF=ON</td>
+      <td>
+        &emsp;--with-avif<br>
+        &emsp;[AVIF_CFLAGS=...]<br>
+        &emsp;[AVIF_LIBS=...]
+      </td>
+      <td>
+        EXT_GD_AVIF=ON<br>
+        [libavif_ROOT=DIR]
+      </td>
       <td></td>
     </tr>
     <tr>
@@ -1122,8 +1139,15 @@ alternatives.
       <td>default</td>
     </tr>
     <tr>
-      <td>&emsp;--with-webp</td>
-      <td>EXT_GD_WEBP=ON</td>
+      <td>
+        &emsp;--with-webp<br>
+        &emsp;[WEBP_CFLAGS=...]<br>
+        &emsp;[WEBP_LIBS=...]
+      </td>
+      <td>
+        EXT_GD_WEBP=ON<br>
+        [WebP_ROOT=DIR]
+      </td>
       <td></td>
     </tr>
     <tr>
@@ -1132,8 +1156,25 @@ alternatives.
       <td>default</td>
     </tr>
     <tr>
-      <td>&emsp;--with-jpeg</td>
-      <td>EXT_GD_JPEG=ON</td>
+      <td>
+        &emsp;--with-jpeg<br>
+        &emsp;[JPEG_CFLAGS=...]<br>
+        &emsp;[JPEG_LIBS=...]
+      </td>
+      <td>
+        EXT_GD_JPEG=ON<br>
+        [JPEG_ROOT=DIR]
+      </td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>
+        &emsp;[PNG_CFLAGS=...]<br>
+        &emsp;[PNG_LIBS=...]
+      </td>
+      <td>
+        [PNG_ROOT=DIR]
+      </td>
       <td></td>
     </tr>
     <tr>
@@ -1142,8 +1183,15 @@ alternatives.
       <td>default</td>
     </tr>
     <tr>
-      <td>&emsp;--with-xpm</td>
-      <td>EXT_GD_XPM=ON</td>
+      <td>
+        &emsp;--with-xpm<br>
+        &emsp;[XPM_CFLAGS=...]<br>
+        &emsp;[XPM_LIBS=...]
+      </td>
+      <td>
+        EXT_GD_XPM=ON<br>
+        [XPM_ROOT=DIR]
+      </td>
       <td></td>
     </tr>
     <tr>
@@ -1152,8 +1200,15 @@ alternatives.
       <td>default</td>
     </tr>
     <tr>
-      <td>&emsp;--with-freetype</td>
-      <td>EXT_GD_FREETYPE=ON</td>
+      <td>
+        &emsp;--with-freetype<br>
+        &emsp;[FREETYPE2_CFLAGS=...]<br>
+        &emsp;[FREETYPE2_LIBS=...]
+      </td>
+      <td>
+        EXT_GD_FREETYPE=ON<br>
+        [Freetype_ROOT=DIR]
+      </td>
       <td></td>
     </tr>
     <tr>
@@ -1213,21 +1268,16 @@ alternatives.
       <td></td>
     </tr>
     <tr>
-      <td>--with-iconv</td>
-      <td>EXT_ICONV=ON</td>
+      <td>--with-iconv[=DIR]</td>
+      <td>
+        EXT_ICONV=ON<br>
+        [Iconv_ROOT=DIR]
+      </td>
       <td>default</td>
     </tr>
     <tr>
       <td>&emsp;--with-iconv=shared</td>
       <td>EXT_ICONV_SHARED=ON</td>
-      <td></td>
-    </tr>
-    <tr>
-      <td>&emsp;--with-iconv=DIR</td>
-      <td>
-        EXT_ICONV=ON<br>
-        Iconv_ROOT=DIR
-      </td>
       <td></td>
     </tr>
     <tr>
@@ -1241,8 +1291,15 @@ alternatives.
       <td>default</td>
     </tr>
     <tr>
-      <td>&emsp;--enable-intl</td>
-      <td>EXT_INTL=ON</td>
+      <td>
+        &emsp;--enable-intl<br>
+        &emsp;[ICU_CFLAGS=...]<br>
+        &emsp;[ICU_LIBS=...]
+      </td>
+      <td>
+        EXT_INTL=ON<br>
+        [ICU_ROOT=DIR]
+      </td>
       <td></td>
     </tr>
     <tr>
@@ -1251,21 +1308,18 @@ alternatives.
       <td></td>
     </tr>
     <tr>
-      <td>&emsp;--enable-intl ICU_CFLAGS=... ICU_LIBS=...</td>
-      <td>
-        EXT_INTL=ON<br>
-        ICU_ROOT=DIR
-      </td>
-      <td></td>
-    </tr>
-    <tr>
       <td>--without-ldap</td>
       <td>EXT_LDAP=OFF</td>
       <td>default</td>
     </tr>
     <tr>
-      <td>&emsp;--with-ldap</td>
-      <td>EXT_LDAP=ON</td>
+      <td>
+        &emsp;--with-ldap[=DIR]
+      </td>
+      <td>
+        EXT_LDAP=ON<br>
+        [LDAP_ROOT=DIR]
+      </td>
       <td></td>
     </tr>
     <tr>
@@ -1274,34 +1328,32 @@ alternatives.
       <td></td>
     </tr>
     <tr>
-      <td>&emsp;--with-ldap=DIR</td>
-      <td>
-        EXT_LDAP=ON<br>
-        LDAP_ROOT=DIR
-      </td>
-      <td></td>
-    </tr>
-    <tr>
       <td>&emsp;--without-ldap-sasl</td>
       <td>EXT_LDAP_SASL=OFF</td>
       <td>default</td>
     </tr>
     <tr>
-      <td>&emsp;--with-ldap-sasl</td>
-      <td>EXT_LDAP_SASL=ON</td>
-      <td></td>
-    </tr>
-    <tr>
-      <td>&emsp;--with-ldap-sasl SASL_CFLAGS=... SASL_LIBS=...</td>
+      <td>
+        &emsp;--with-ldap-sasl<br>
+        &emsp;[SASL_CFLAGS=...]<br>
+        &emsp;[SASL_LIBS=...]
+      </td>
       <td>
         EXT_LDAP_SASL=ON<br>
-        SASL_ROOT=DIR
+        [SASL_ROOT=DIR]
       </td>
       <td></td>
     </tr>
     <tr>
-      <td>--with-libxml</td>
-      <td>EXT_LIBXML=ON</td>
+      <td>
+        --with-libxml<br>
+        [LIBXML_CFLAGS=...]<br>
+        [LIBXML_LIBS=...]
+      </td>
+      <td>
+        EXT_LIBXML=ON<br>
+        [LibXml2_ROOT=DIR]
+      </td>
       <td>default</td>
     </tr>
     <tr>
@@ -1325,17 +1377,16 @@ alternatives.
       <td></td>
     </tr>
     <tr>
-      <td>&emsp;--enable-mbregex</td>
-      <td>EXT_MBSTRING_MBREGEX=ON</td>
-      <td>default</td>
-    </tr>
-    <tr>
-      <td>&emsp;--enable-mbregex ONIG_CFLAGS=... ONIG_LIBS=...</td>
+      <td>
+        &emsp;--enable-mbregex<br>
+        &emsp;[ONIG_CFLAGS=...]<br>
+        &emsp;[ONIG_LIBS=...]
+      </td>
       <td>
         EXT_MBSTRING_MBREGEX=ON<br>
-        Oniguruma_ROOT=DIR
+        [Oniguruma_ROOT=DIR]
       </td>
-      <td></td>
+      <td>default</td>
     </tr>
     <tr>
       <td>&emsp;--disable-mbregex</td>
@@ -1527,10 +1578,15 @@ alternatives.
       <td>default</td>
     </tr>
     <tr>
-      <td>&emsp;--with-iodbc</td>
+      <td>
+        &emsp;--with-iodbc<br>
+        &emsp;[ODBC_CFLAGS=...]<br>
+        &emsp;[ODBC_LIBS=...]
+      </td>
       <td>
         EXT_ODBC=ON<br>
-        EXT_ODBC_TYPE=iODBC
+        EXT_ODBC_TYPE=iODBC<br>
+        [ODBC_ROOT=DIR]
       </td>
       <td></td>
     </tr>
@@ -1553,10 +1609,15 @@ alternatives.
       <td>default</td>
     </tr>
     <tr>
-      <td>&emsp;--with-unixODBC</td>
+      <td>
+        &emsp;--with-unixODBC<br>
+        &emsp;[ODBC_CFLAGS=...]<br>
+        &emsp;[ODBC_LIBS=...]
+      </td>
       <td>
         EXT_ODBC=ON<br>
-        EXT_ODBC_TYPE=unixODBC
+        EXT_ODBC_TYPE=unixODBC<br>
+        [ODBC_ROOT=DIR]
       </td>
       <td></td>
     </tr>
@@ -1623,15 +1684,14 @@ alternatives.
       <td>default</td>
     </tr>
     <tr>
-      <td>&emsp;--with-capstone</td>
-      <td>EXT_OPCACHE_CAPSTONE=ON</td>
-      <td></td>
-    </tr>
-    <tr>
-      <td>&emsp;--with-capstone CAPSTONE_CFLAGS=... CAPSTONE_LIBS=...</td>
+      <td>
+        &emsp;--with-capstone<br>
+        &emsp;[CAPSTONE_CFLAGS=...]<br>
+        &emsp;[CAPSTONE_LIBS=...]
+      </td>
       <td>
         EXT_OPCACHE_CAPSTONE=ON<br>
-        Capstone_ROOT=DIR
+        [Capstone_ROOT=DIR]
       </td>
       <td></td>
     </tr>
@@ -1641,8 +1701,15 @@ alternatives.
       <td>default</td>
     </tr>
     <tr>
-      <td>&emsp;--with-openssl</td>
-      <td>EXT_OPENSSL=ON</td>
+      <td>
+        &emsp;--with-openssl<br>
+        &emsp;[OPENSSL_CFLAGS=...]<br>
+        &emsp;[OPENSSL_LIBS=...]
+      </td>
+      <td>
+        EXT_OPENSSL=ON<br>
+        [OPENSSL_ROOT_DIR=DIR]
+      </td>
       <td></td>
     </tr>
     <tr>
@@ -1656,8 +1723,15 @@ alternatives.
       <td>default</td>
     </tr>
     <tr>
-      <td>&emsp;--with-kerberos</td>
-      <td>EXT_OPENSSL_KERBEROS=ON</td>
+      <td>
+        &emsp;--with-kerberos<br>
+        [KERBEROS_CFLAGS=...]<br>
+        [KERBEROS_LIBS=...]
+      </td>
+      <td>
+        EXT_OPENSSL_KERBEROS=ON<br>
+        [Kerberos_ROOT=DIR]
+      </td>
       <td></td>
     </tr>
     <tr>
@@ -1686,17 +1760,7 @@ alternatives.
       <td></td>
     </tr>
     <tr>
-      <td>--without-external-pcre</td>
-      <td>EXT_PCRE_EXTERNAL=OFF</td>
-      <td>default</td>
-    </tr>
-    <tr>
-      <td>&emsp;--with-external-pcre</td>
-      <td>EXT_PCRE_EXTERNAL=ON</td>
-      <td></td>
-    </tr>
-    <tr>
-      <td>&emsp;--with-pcre-jit</td>
+      <td>--with-pcre-jit</td>
       <td>EXT_PCRE_JIT=ON</td>
       <td>default</td>
     </tr>
@@ -1706,10 +1770,19 @@ alternatives.
       <td></td>
     </tr>
     <tr>
-      <td>&emsp;--with-external-pcre PCRE2_CFLAGS=... PCRE2_LIBS=...</td>
+      <td>&emsp;--without-external-pcre</td>
+      <td>EXT_PCRE_EXTERNAL=OFF</td>
+      <td>default</td>
+    </tr>
+    <tr>
+      <td>
+        &emsp;--with-external-pcre<br>
+        &emsp;[PCRE2_CFLAGS=...]<br>
+        &emsp;[PCRE2_LIBS=...]
+      </td>
       <td>
         EXT_PCRE_EXTERNAL=ON<br>
-        PCRE_ROOT=DIR
+        [PCRE_ROOT=DIR]
       </td>
       <td></td>
     </tr>
@@ -1734,21 +1807,18 @@ alternatives.
       <td>default</td>
     </tr>
     <tr>
-      <td>&emsp;--with-pdo-dblib</td>
-      <td>EXT_PDO_DBLIB=ON</td>
+      <td>
+        &emsp;--with-pdo-dblib[=DIR]
+      </td>
+      <td>
+        EXT_PDO_DBLIB=ON<br>
+        [FreeTDS_ROOT=DIR]
+      </td>
       <td></td>
     </tr>
     <tr>
       <td>&emsp;--with-pdo-dblib=shared</td>
       <td>EXT_PDO_DBLIB_SHARED=ON</td>
-      <td></td>
-    </tr>
-    <tr>
-      <td>&emsp;--with-pdo-dblib=DIR</td>
-      <td>
-        EXT_PDO_DBLIB=ON<br>
-        FreeTDS_ROOT=DIR
-      </td>
       <td></td>
     </tr>
     <tr>
@@ -1846,8 +1916,11 @@ alternatives.
       <td>default</td>
     </tr>
     <tr>
-      <td>&emsp;--with-pdo-pgsql</td>
-      <td>EXT_PDO_PGSQL=ON</td>
+      <td>&emsp;--with-pdo-pgsql[=DIR]</td>
+      <td>
+        EXT_PDO_PGSQL=ON<br>
+        [PostgreSQL_ROOT=DIR]
+      </td>
       <td></td>
     </tr>
     <tr>
@@ -1856,23 +1929,14 @@ alternatives.
       <td></td>
     </tr>
     <tr>
-      <td>&emsp;--with-pdo-pgsql=DIR</td>
       <td>
-        EXT_PDO_PGSQL=ON<br>
-        PostgreSQL_ROOT=DIR
+        &emsp;--with-pdo-sqlite<br>
+        &emsp;[SQLITE_CFLAGS=...]<br>
+        &emsp;[SQLITE_LIBS=...]
       </td>
-      <td></td>
-    </tr>
-    <tr>
-      <td>&emsp;--with-pdo-sqlite</td>
-      <td>EXT_PDO_SQLITE=ON</td>
-      <td>default</td>
-    </tr>
-    <tr>
-      <td>&emsp;--with-pdo-sqlite SQLITE_CFLAGS=... SQLITE_LIBS=...</td>
       <td>
         EXT_PDO_SQLITE=ON<br>
-        SQLite3_ROOT=DIR
+        [SQLite3_ROOT=DIR]
       </td>
       <td>default</td>
     </tr>
@@ -1892,21 +1956,16 @@ alternatives.
       <td>default</td>
     </tr>
     <tr>
-      <td>&emsp;--with-pgsql</td>
-      <td>EXT_PGSQL=ON</td>
+      <td>&emsp;--with-pgsql[=DIR]</td>
+      <td>
+        EXT_PGSQL=ON<br>
+        [PostgreSQL_ROOT=DIR]
+      </td>
       <td></td>
     </tr>
     <tr>
       <td>&emsp;--with-pgsql=shared</td>
       <td>EXT_PGSQL_SHARED=ON</td>
-      <td></td>
-    </tr>
-    <tr>
-      <td>&emsp;--with-pgsql=DIR</td>
-      <td>
-        EXT_PGSQL=ON<br>
-        PostgreSQL_ROOT=DIR
-      </td>
       <td></td>
     </tr>
     <tr>
@@ -1942,11 +2001,14 @@ alternatives.
     <tr>
       <td>--without-pspell</td>
       <td>EXT_PSPELL=OFF</td>
-      <td>default</td>
+      <td>default, PHP <= 8.3</td>
     </tr>
     <tr>
-      <td>&emsp;--with-pspell</td>
-      <td>EXT_PSPELL=ON</td>
+      <td>&emsp;--with-pspell[=DIR]</td>
+      <td>
+        EXT_PSPELL=ON<br>
+        [Aspell_ROOT=DIR]
+      </td>
       <td></td>
     </tr>
     <tr>
@@ -1960,15 +2022,14 @@ alternatives.
       <td>default</td>
     </tr>
     <tr>
-      <td>&emsp;--with-libedit</td>
-      <td>EXT_READLINE=ON</td>
-      <td></td>
-    </tr>
-    <tr>
-      <td>&emsp;--with-libedit EDIT_CFLAGS=... EDIT_LIBS=...</td>
+      <td>
+        &emsp;--with-libedit<br>
+        &emsp;[EDIT_CFLAGS=...]<br>
+        &emsp;[EDIT_LIBS=...]
+      </td>
       <td>
         EXT_READLINE=ON<br>
-        Editline_ROOT=DIR
+        [Editline_ROOT=DIR]
       </td>
       <td></td>
     </tr>
@@ -1983,10 +2044,11 @@ alternatives.
       <td>default</td>
     </tr>
     <tr>
-      <td>&emsp;--with-readline</td>
+      <td>&emsp;--with-readline[=DIR]</td>
       <td>
         EXT_READLINE=ON<br>
-        EXT_READLINE_LIBREADLINE=ON
+        EXT_READLINE_LIBREADLINE=ON<br>
+        [Readline_ROOT=DIR]
       </td>
       <td></td>
     </tr>
@@ -1996,15 +2058,6 @@ alternatives.
         EXT_READLINE=ON<br>
         EXT_READLINE_SHARED=ON<br>
         EXT_READLINE_LIBREADLINE=ON
-      </td>
-      <td></td>
-    </tr>
-    <tr>
-      <td>&emsp;--with-readline=DIR</td>
-      <td>
-        EXT_READLINE=ON<br>
-        EXT_READLINE_LIBREADLINE=ON<br>
-        Readline_ROOT=DIR
       </td>
       <td></td>
     </tr>
@@ -2120,7 +2173,11 @@ alternatives.
       <td>default</td>
     </tr>
     <tr>
-      <td>&emsp;--with-sodium [LIBSODIUM_CFLAGS=...] [LIBSODIUM_LIBS=..]</td>
+      <td>
+        &emsp;--with-sodium<br>
+        &emsp;[LIBSODIUM_CFLAGS=...]<br>
+        &emsp;[LIBSODIUM_LIBS=..]
+      </td>
       <td>
         EXT_SODIUM=ON<br>
         [Sodium_ROOT=DIR]
@@ -2133,15 +2190,14 @@ alternatives.
       <td></td>
     </tr>
     <tr>
-      <td>--with-sqlite3</td>
-      <td>EXT_SQLITE3=ON</td>
-      <td>default</td>
-    </tr>
-    <tr>
-      <td>&emsp;--with-sqlite3 SQLITE_CFLAGS=... SQLITE_LIBS=...</td>
+      <td>
+        --with-sqlite3<br>
+        [SQLITE_CFLAGS=...]<br>
+        [SQLITE_LIBS=...]
+      </td>
       <td>
         EXT_SQLITE3=ON<br>
-        SQLite3_ROOT=DIR
+        [SQLite3_ROOT=DIR]
       </td>
       <td>default</td>
     </tr>
@@ -2171,8 +2227,15 @@ alternatives.
       <td>default</td>
     </tr>
     <tr>
-      <td>&emsp;--with-password-argon2</td>
-      <td>EXT_STANDARD_ARGON2=ON</td>
+      <td>
+        &emsp;--with-password-argon2<br>
+        &emsp;[ARGON2_CFLAGS=...]<br>
+        &emsp;[ARGON2_LIBS=...]
+      </td>
+      <td>
+        EXT_STANDARD_ARGON2=ON<br>
+        [Argon2_ROOT=DIR]
+      </td>
       <td></td>
     </tr>
     <tr>
@@ -2274,8 +2337,15 @@ alternatives.
       <td>default</td>
     </tr>
     <tr>
-      <td>&emsp;--with-expat</td>
-      <td>EXT_XML_EXPAT=ON</td>
+      <td>
+        &emsp;--with-expat<br>
+        &emsp;[EXPAT_CFLAGS=...]<br>
+        &emsp;[EXPAT_LIBS=...]
+      </td>
+      <td>
+        EXT_XML_EXPAT=ON<br>
+        [EXPAT_ROOT=DIR]
+      </td>
       <td></td>
     </tr>
     <tr>
@@ -2284,8 +2354,18 @@ alternatives.
       <td>default</td>
     </tr>
     <tr>
-      <td>&emsp;--with-xsl</td>
-      <td>EXT_XSL=ON</td>
+      <td>
+        &emsp;--with-xsl<br>
+        &emsp;[XSL_CFLAGS=...]<br>
+        &emsp;[XSL_LIBS=...]<br>
+        &emsp;[EXSLT_CFLAGS=...]<br>
+        &emsp;[EXSLT_LIBS=...]
+      </td>
+      <td>
+        EXT_XSL=ON<br>
+        [LibXslt_ROOT=DIR]<br>
+        [CMAKE_PREFIX_PATH=DIR]
+      </td>
       <td></td>
     </tr>
     <tr>
@@ -2344,8 +2424,15 @@ alternatives.
       <td>default</td>
     </tr>
     <tr>
-      <td>&emsp;--with-zip</td>
-      <td>EXT_ZIP=ON</td>
+      <td>
+        &emsp;--with-zip<br>
+        &emsp;[LIBZIP_CFLAGS=...]<br>
+        &emsp;[LIBZIP_LIBS=...]
+      </td>
+      <td>
+        EXT_ZIP=ON<br>
+        libzip_ROOT=DIR
+      </td>
       <td></td>
     </tr>
     <tr>
@@ -2359,8 +2446,15 @@ alternatives.
       <td>default</td>
     </tr>
     <tr>
-      <td>&emsp;--with-zlib</td>
-      <td>EXT_ZLIB=ON</td>
+      <td>
+        &emsp;--with-zlib<br>
+        &emsp;[ZLIB_CFLAGS=...]<br>
+        &emsp;[ZLIB_LIBS=...]
+      </td>
+      <td>
+        EXT_ZLIB=ON<br>
+        [ZLIB_ROOT=DIR]
+      </td>
       <td></td>
     </tr>
     <tr>
@@ -2377,15 +2471,10 @@ alternatives.
       <td>default</td>
     </tr>
     <tr>
-      <td>&emsp;--with-pear</td>
-      <td>PHP_PEAR=ON</td>
-      <td></td>
-    </tr>
-    <tr>
-      <td>&emsp;--with-pear=DIR</td>
+      <td>&emsp;--with-pear[=DIR]</td>
       <td>
         PHP_PEAR=ON<br>
-        PHP_PEAR_DIR=DIR
+        [PHP_PEAR_DIR=DIR]
       </td>
       <td></td>
     </tr>

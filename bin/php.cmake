@@ -57,7 +57,7 @@ if(
   AND NOT PHP_VERSION MATCHES [[^[0-9]+\.[0-9]+-dev$]]
 )
   message(FATAL_ERROR "PHP version should match pattern {MAJOR}.{MINOR}.{PATCH}{EXTRA}")
-elseif(PHP_VERSION VERSION_LESS "8.3.0" OR PHP_VERSION VERSION_GREATER "8.4")
+elseif(PHP_VERSION VERSION_LESS 8.3.0 OR PHP_VERSION VERSION_GREATER 8.4)
   message(FATAL_ERROR "Unsupported PHP version.")
 endif()
 

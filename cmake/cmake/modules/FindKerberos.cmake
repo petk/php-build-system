@@ -20,6 +20,10 @@ Result variables:
     A list of libraries for linking when using Kerberos library.
   Kerberos_VERSION
     Version string of Kerberos library.
+
+Hints:
+
+  TODO: The Kerberos_ROOT variable adds custom search path.
 #]=============================================================================]
 
 include(FeatureSummary)

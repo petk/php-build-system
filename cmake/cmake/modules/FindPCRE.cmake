@@ -30,9 +30,9 @@ set_package_properties(PCRE PROPERTIES
   DESCRIPTION "Perl compatible regular expressions library"
 )
 
-find_path(PCRE_INCLUDE_DIRS NAMES pcre2.h DOC "PCRE library include directory")
-
 set(_reason_failure_message)
+
+find_path(PCRE_INCLUDE_DIRS NAMES pcre2.h DOC "PCRE library include directory")
 
 if(NOT PCRE_INCLUDE_DIRS)
   string(
@@ -50,34 +50,27 @@ if(NOT PCRE_LIBRARIES)
   )
 endif()
 
-if(PCRE_INCLUDE_DIRS)
-  set(_regex "#[ \t]*define[ \t]+PCRE2_(MAJOR|MINOR)[ \t]+([0-9]+)[ \t]*$")
+block(PROPAGATE PCRE_VERSION)
+  if(PCRE_INCLUDE_DIRS)
+    file(
+      STRINGS "${PCRE_INCLUDE_DIRS}/pcre2.h"
+      results
+      REGEX "^#[ \t]*define[ \t]+PCRE2_(MAJOR|MINOR)[ \t]+[0-9]+[^\r\n]*$"
+    )
 
-  file(
-    STRINGS
-    "${PCRE_INCLUDE_DIRS}/pcre2.h"
-    _pcre_version_string
-    REGEX "${_regex}"
-  )
-
-  unset(PCRE_VERSION)
-
-  foreach(version ${_pcre_version_string})
-    if(version MATCHES "${_regex}")
-      set(_pcre_version_part "${CMAKE_MATCH_2}")
-
-      if(PCRE_VERSION)
-        string(APPEND PCRE_VERSION ".${_pcre_version_part}")
-      else()
-        set(PCRE_VERSION "${_pcre_version_part}")
-      endif()
-
-      unset(_pcre_version_part)
-    endif()
-  endforeach()
-
-  unset(_pcre_version_string)
-endif()
+    foreach(item MAJOR MINOR)
+      foreach(line ${results})
+        if(line MATCHES "^#[ \t]*define[ \t]+PCRE2_${item}[ \t]+([0-9]+)[^\r\n]*$")
+          if(DEFINED PCRE_VERSION)
+            string(APPEND PCRE_VERSION ".${CMAKE_MATCH_1}")
+          else()
+            set(PCRE_VERSION "${CMAKE_MATCH_1}")
+          endif()
+        endif()
+      endforeach()
+    endforeach()
+  endif()
+endblock()
 
 find_package_handle_standard_args(
   PCRE

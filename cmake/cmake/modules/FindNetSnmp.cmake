@@ -72,25 +72,24 @@ else()
   find_library(NetSnmp_LIBRARY NAMES netsnmp DOC "The Net-SNMP library")
   set(NetSnmp_LIBRARIES ${NetSnmp_LIBRARY})
 
-  if(NetSnmp_INCLUDE_DIRS)
-    set(_regex "#[ \t]*define[ \t]+PACKAGE_VERSION[ \t]+\"([0-9.]+)\"[ \t]*$")
+  block(PROPAGATE NetSnmp_VERSION)
+    if(NetSnmp_INCLUDE_DIRS)
+      set(regex "^#[ \t]*define[ \t]+PACKAGE_VERSION[ \t]+\"([0-9.]+)\"[^\r\n]*$")
 
-    file(
-      STRINGS
-      "${NetSnmp_INCLUDE_DIRS}/net-snmp/net-snmp-config.h"
-      _netsnmp_version_string
-      REGEX "${_regex}"
-    )
+      file(
+        STRINGS "${NetSnmp_INCLUDE_DIRS}/net-snmp/net-snmp-config.h"
+        results
+        REGEX "${regex}"
+      )
 
-    foreach(version ${_netsnmp_version_string})
-      if(version MATCHES "${_regex}")
-        set(NetSnmp_VERSION "${CMAKE_MATCH_1}")
-        break()
-      endif()
-    endforeach()
-
-    unset(_regex)
-  endif()
+      foreach(line ${results})
+        if(line MATCHES "${regex}")
+          set(NetSnmp_VERSION "${CMAKE_MATCH_1}")
+          break()
+        endif()
+      endforeach()
+    endif()
+  endblock()
 endif()
 
 set(_reason_failure_message)

@@ -14,6 +14,10 @@ Result variables:
 Cache variables:
 
   HAVE_GCOV
+
+Hints:
+
+  The Gcov_ROOT variable adds custom search path.
 #]=============================================================================]
 
 include(FeatureSummary)

@@ -16,6 +16,10 @@ Result variables:
     A list of libraries for using libwebp.
   WebP_VERSION
     Version string of found libwebp.
+
+Hints:
+
+  TODO: The WebP_ROOT variable adds custom search path.
 #]=============================================================================]
 
 include(FeatureSummary)

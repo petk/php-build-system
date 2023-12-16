@@ -184,7 +184,7 @@ cmake_push_check_state(RESET)
   check_symbol_exists(memfd_create "sys/mman.h" HAVE_MEMFD_CREATE)
 cmake_pop_check_state()
 
-if(PHP_VERSION VERSION_GREATER_EQUAL "8.4")
+if(PHP_VERSION VERSION_GREATER_EQUAL 8.4)
   # Check for FreeBSD.
   check_symbol_exists(shm_create_largepage "sys/mman.h" HAVE_SHM_CREATE_LARGEPAGE)
 endif()

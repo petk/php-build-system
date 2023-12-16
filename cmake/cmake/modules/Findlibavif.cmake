@@ -18,6 +18,10 @@ Result variables:
     A list of libraries for using libavif.
   libavif_VERSION
     Version string of found libavif.
+
+Hints:
+
+  The libavif_ROOT variable adds custom search path.
 #]=============================================================================]
 
 include(FeatureSummary)
@@ -28,26 +32,56 @@ set_package_properties(libavif PROPERTIES
   DESCRIPTION "Library for encoding and decoding .avif files"
 )
 
-find_package(PkgConfig QUIET REQUIRED)
+set(_reason_failure_message)
 
-if(PKG_CONFIG_FOUND)
-  if(libavif_FIND_VERSION)
-    set(_pkg_module_spec "libavif>=${libavif_FIND_VERSION}")
-  else()
-    set(_pkg_module_spec "libavif")
-  endif()
+find_path(libavif_INCLUDE_DIRS NAMES avif/avif.h)
 
-  pkg_search_module(libavif QUIET "${_pkg_module_spec}")
-
-  unset(_pkg_module_spec)
+if(NOT libavif_INCLUDE_DIRS)
+  string(
+    APPEND _reason_failure_message
+    "\n    avif/avif.h not found."
+  )
 endif()
+
+find_library(libavif_LIBRARIES NAMES avif DOC "The libavif library")
+
+if(NOT libavif_LIBRARIES)
+  string(
+    APPEND _reason_failure_message
+    "\n    libavif not found. Please install the libavif library."
+  )
+endif()
+
+block(PROPAGATE libavif_VERSION)
+  if(libavif_INCLUDE_DIRS)
+    file(
+      STRINGS "${libavif_INCLUDE_DIRS}/avif/avif.h"
+      results
+      REGEX "^#[ \t]*define[ \t]+AVIF_VERSION_(MAJOR|MINOR|PATCH)[ \t]+[0-9]+[^\r\n]*$"
+    )
+
+    foreach(item MAJOR MINOR PATCH)
+      foreach(line ${results})
+        if(line MATCHES "^#[ \t]*define[ \t]+AVIF_VERSION_${item}[ \t]+([0-9]+)[^\r\n]*$")
+          if(DEFINED libavif_VERSION)
+            string(APPEND libavif_VERSION ".${CMAKE_MATCH_1}")
+          else()
+            set(libavif_VERSION "${CMAKE_MATCH_1}")
+          endif()
+        endif()
+      endforeach()
+    endforeach()
+  endif()
+endblock()
 
 find_package_handle_standard_args(
   libavif
-  REQUIRED_VARS libavif_LIBRARIES
+  REQUIRED_VARS libavif_LIBRARIES libavif_INCLUDE_DIRS
   VERSION_VAR libavif_VERSION
-  REASON_FAILURE_MESSAGE "libavif not found. Please install the libavif library."
+  REASON_FAILURE_MESSAGE "${_reason_failure_message}"
 )
+
+unset(_reason_failure_message)
 
 if(libavif_FOUND AND NOT TARGET libavif::libavif)
   add_library(libavif::libavif INTERFACE IMPORTED)

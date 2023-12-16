@@ -16,6 +16,10 @@ Result variables:
     A list of libraries for using Enchant library.
   Enchant_VERSION
     Version string of found Enchant library.
+
+Hints:
+
+  TODO: The Enchant_ROOT variable adds custom search path.
 #]=============================================================================]
 
 include(FeatureSummary)

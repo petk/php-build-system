@@ -16,6 +16,10 @@ Result variables:
     A list of libraries for using Argon2 library.
   Argon2_VERSION
     Version string of Argon2 library.
+
+Hints:
+
+  TODO: The Argon2_ROOT variable adds custom search path.
 #]=============================================================================]
 
 include(FeatureSummary)

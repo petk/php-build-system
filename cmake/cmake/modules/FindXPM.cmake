@@ -14,8 +14,10 @@ Result variables:
     A list of include directories for using libXpm library.
   XPM_LIBRARIES
     A list of libraries for using libXpm.
-  XPM_VERSION
-    Version string of found libXpm.
+
+Hints:
+
+  The XPM_ROOT variable adds custom search path.
 #]=============================================================================]
 
 include(FeatureSummary)
@@ -26,26 +28,33 @@ set_package_properties(XPM PROPERTIES
   DESCRIPTION "X Pixmap Library"
 )
 
-find_package(PkgConfig QUIET REQUIRED)
+set(_reason_failure_message)
 
-if(PKG_CONFIG_FOUND)
-  if(XPM_FIND_VERSION)
-    set(_pkg_module_spec "xpm>=${XPM_FIND_VERSION}")
-  else()
-    set(_pkg_module_spec "xpm")
-  endif()
+find_path(XPM_INCLUDE_DIRS X11/xpm.h DOC "XPM include directories")
 
-  pkg_search_module(XPM QUIET "${_pkg_module_spec}")
+if(NOT XPM_INCLUDE_DIRS)
+  string(
+    APPEND _reason_failure_message
+    "\n    The X11/xpm.h could not be found."
+  )
+endif()
 
-  unset(_pkg_module_spec)
+find_library(XPM_LIBRARIES NAMES Xpm DOC "XPM library")
+
+if(NOT XPM_LIBRARIES)
+  string(
+    APPEND _reason_failure_message
+    "\n    XPM library not found. Please install libXpm library."
+  )
 endif()
 
 find_package_handle_standard_args(
   XPM
-  REQUIRED_VARS XPM_LIBRARIES
-  VERSION_VAR XPM_VERSION
-  REASON_FAILURE_MESSAGE "libXpm not found. Please install libXpm library."
+  REQUIRED_VARS XPM_LIBRARIES XPM_INCLUDE_DIRS
+  REASON_FAILURE_MESSAGE "${_reason_failure_message}"
 )
+
+unset(_reason_failure_message)
 
 if(XPM_FOUND AND NOT TARGET XPM::XPM)
   add_library(XPM::XPM INTERFACE IMPORTED)

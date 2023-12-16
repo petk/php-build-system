@@ -14,6 +14,10 @@ Result variables:
     A list of include directories for using SELinux library.
   SELinux_LIBRARIES
     A list of libraries for using SELinux library.
+
+Hints:
+
+  The SELinux_ROOT variable adds custom search path.
 #]=============================================================================]
 
 include(CheckLibraryExists)

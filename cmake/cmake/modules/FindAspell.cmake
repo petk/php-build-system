@@ -22,6 +22,10 @@ Result variables:
     interface.
   Aspell_LIBRARIES
     A list of libraries for linking when using Aspell library.
+
+Hints:
+
+  The Aspell_ROOT variable adds custom search path.
 #]=============================================================================]
 
 include(CheckLibraryExists)
@@ -33,16 +37,32 @@ set_package_properties(Aspell PROPERTIES
   DESCRIPTION "GNU Aspell spell checker library"
 )
 
+set(_reason_failure_message)
+
 find_path(Aspell_INCLUDE_DIRS aspell.h)
+
+if(NOT Aspell_INCLUDE_DIRS)
+  string(
+    APPEND _reason_failure_message
+    "\n    The aspell.h could not be found."
+  )
+endif()
 
 # If there is also pspell interface.
 find_path(Aspell_PSPELL_INCLUDE_DIRS pspell.h PATH_SUFFIXES pspell)
 
-if(Aspell_PSPELL_INCLUDE_DIRS)
+if(Aspell_INCLUDE_DIRS AND Aspell_PSPELL_INCLUDE_DIRS)
   list(APPEND Aspell_INCLUDE_DIRS ${Aspell_PSPELL_INCLUDE_DIRS})
 endif()
 
 find_library(Aspell_LIBRARIES NAMES aspell DOC "The Aspell library")
+
+if(NOT Aspell_LIBRARIES)
+  string(
+    APPEND _reason_failure_message
+    "\n    Aspell not found. Please install the Aspell library."
+  )
+endif()
 
 # Sanity check.
 if(Aspell_LIBRARIES)
@@ -59,7 +79,10 @@ mark_as_advanced(Aspell_LIBRARIES Aspell_INCLUDE_DIRS)
 find_package_handle_standard_args(
   Aspell
   REQUIRED_VARS Aspell_LIBRARIES Aspell_INCLUDE_DIRS _aspell_have_new_aspell_config
+  REASON_FAILURE_MESSAGE "${reason_failure_message}"
 )
+
+unset(_reason_failure_message)
 
 if(Aspell_FOUND AND NOT TARGET Aspell::Aspell)
   add_library(Aspell::Aspell INTERFACE IMPORTED)
