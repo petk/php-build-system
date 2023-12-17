@@ -470,6 +470,7 @@ target_sources(
       Optimizer/zend_inference.h
       Optimizer/zend_optimizer.h
       Optimizer/zend_ssa.h
+      Optimizer/zend_worklist.h
 )
 
 install(

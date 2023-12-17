@@ -57,9 +57,6 @@ if(PHP_VERSION VERSION_GREATER_EQUAL 8.4)
     html5_serializer.c
     namespace_compat.c
     xml_document.c
-  )
-
-  target_sources(php_dom PRIVATE
     lexbor/lexbor/core/array_obj.c
     lexbor/lexbor/core/array.c
     lexbor/lexbor/core/avl.c

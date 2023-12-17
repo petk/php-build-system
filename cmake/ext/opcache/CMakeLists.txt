@@ -26,6 +26,10 @@ cmake_dependent_option(
   OFF
 )
 
+add_feature_info("ext/opcache JIT" EXT_OPCACHE_JIT
+  "Opcache's JIT (Just-In-Time compiler)"
+)
+
 cmake_dependent_option(
   EXT_OPCACHE_CAPSTONE
   "Support opcache JIT disassembly through Capstone"
@@ -93,13 +97,40 @@ if(EXT_OPCACHE_JIT)
 endif()
 
 if(EXT_OPCACHE_JIT)
-  set(HAVE_JIT 1 CACHE INTERNAL "Define to enable JIT")
+  set(HAVE_JIT 1 CACHE INTERNAL "Whether JIT is enabled")
 
   target_sources(php_opcache PRIVATE
-    jit/zend_jit_gdb.c
     jit/zend_jit_vm_helpers.c
     jit/zend_jit.c
   )
+
+  if(PHP_VERSION VERSION_LESS 8.4)
+    target_sources(php_opcache PRIVATE jit/zend_jit_gdb.c)
+  else()
+    target_sources(php_opcache PRIVATE
+      jit/ir/ir_cfg.c
+      jit/ir/ir_check.c
+      jit/ir/ir_dump.c
+      jit/ir/ir_emit.c
+      jit/ir/ir_gcm.c
+      jit/ir/ir_gdb.c
+      jit/ir/ir_patch.c
+      jit/ir/ir_perf.c
+      jit/ir/ir_ra.c
+      jit/ir/ir_save.c
+      jit/ir/ir_sccp.c
+      jit/ir/ir_strtab.c
+      jit/ir/ir.c
+    )
+
+    set(ZEND_JIT_IR 1 CACHE INTERNAL "Whether the JIT IR framework is used")
+
+    target_compile_definitions(php_opcache PRIVATE IR_PHP)
+
+    if(PHP_DEBUG)
+      target_compile_definitions(php_opcache PRIVATE IR_DEBUG)
+    endif()
+  endif()
 
   # Check for Capstone.
   if(EXT_OPCACHE_CAPSTONE)
@@ -109,6 +140,10 @@ if(EXT_OPCACHE_JIT)
       PURPOSE "Necessary to enable OPcache JIT disassembly through Capstone."
     )
 
+    if(PHP_VERSION VERSION_GREATER_EQUAL 8.4)
+      target_sources(php_opcache PRIVATE jit/ir/ir_disasm.c)
+    endif()
+
     target_link_libraries(php_opcache PRIVATE Capstone::Capstone)
 
     set(HAVE_CAPSTONE 1 CACHE INTERNAL "Capstone is available")
@@ -116,15 +151,23 @@ if(EXT_OPCACHE_JIT)
 
   # Find out which ABI to use.
   if(CMAKE_HOST_SYSTEM_PROCESSOR MATCHES "^(x86_64|amd64)$")
+    set(IR_TARGET "IR_TARGET_X64")
     set(DASM_FLAGS -D X64=1)
     set(DASM_ARCH "x86")
   elseif(CMAKE_HOST_SYSTEM_PROCESSOR MATCHES "i[34567]86.*")
+    set(IR_TARGET "IR_TARGET_X86")
     set(DASM_ARCH "x86")
   elseif(CMAKE_HOST_SYSTEM_PROCESSOR MATCHES "^x86.*")
+    set(IR_TARGET "IR_TARGET_X86")
     set(DASM_ARCH "x86")
   elseif(CMAKE_HOST_SYSTEM_PROCESSOR MATCHES "^aarch64.*")
-    set(DASM_FLAGS -D ARM64=1)
-    set(DASM_ARCH "arm64")
+    if(PHP_VERSION VERSION_LESS 8.4)
+      set(DASM_FLAGS -D ARM64=1)
+      set(DASM_ARCH "arm64")
+    else()
+      set(IR_TARGET "IR_TARGET_AARCH64")
+      set(DASM_ARCH "aarch64")
+    endif()
   endif()
 
   if(
@@ -134,43 +177,108 @@ if(EXT_OPCACHE_JIT)
     list(APPEND DASM_FLAGS -D X64APPLE=1)
   endif()
 
-  if(PHP_THREAD_SAFETY)
-    list(APPEND DASM_FLAGS -D ZTS=1)
+  if(PHP_VERSION VERSION_LESS 8.4)
+    if(PHP_THREAD_SAFETY)
+      list(APPEND DASM_FLAGS -D ZTS=1)
+    endif()
+
+    add_executable(php_opcache_minilua
+      jit/dynasm/minilua.c
+    )
+
+    set_target_properties(php_opcache_minilua PROPERTIES OUTPUT_NAME minilua)
+
+    target_link_libraries(php_opcache_minilua PRIVATE m)
+
+    # Create jit directory in the current build directory if it doesn't exist yet.
+    add_custom_command(
+      OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/jit
+      COMMAND ${CMAKE_COMMAND} -E make_directory ${CMAKE_CURRENT_BINARY_DIR}/jit
+      COMMENT "[ext/opcache] Creating ext/opcache/jit directory"
+    )
+
+    # Generate Zend Jit for architecture.
+    add_custom_command(
+      OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/jit/zend_jit_${DASM_ARCH}.c
+      COMMAND php_opcache_minilua ${CMAKE_CURRENT_LIST_DIR}/jit/dynasm/dynasm.lua
+        ${DASM_FLAGS}
+        -o ${CMAKE_CURRENT_BINARY_DIR}/jit/zend_jit_${DASM_ARCH}.c
+        ${CMAKE_CURRENT_LIST_DIR}/jit/zend_jit_${DASM_ARCH}.dasc
+      DEPENDS php_opcache_minilua ${CMAKE_CURRENT_BINARY_DIR}/jit
+      COMMENT "[ext/opcache] Generating ext/opcache/jit/zend_jit_${DASM_ARCH}.c"
+    )
+
+    add_custom_target(
+      php_opcache_build_jit
+      DEPENDS ${CMAKE_CURRENT_BINARY_DIR}/jit/zend_jit_${DASM_ARCH}.c
+      COMMENT "[ext/opcache] Building JIT for architecture ${DASM_ARCH}"
+    )
+
+    add_dependencies(php_opcache php_opcache_build_jit)
+  else()
+    add_executable(php_opcache_minilua
+      jit/ir/dynasm/minilua.c
+    )
+
+    set_target_properties(php_opcache_minilua PROPERTIES OUTPUT_NAME minilua)
+
+    target_link_libraries(php_opcache_minilua PRIVATE m)
+
+    # Create jit directory in the current build directory if it doesn't exist yet.
+    add_custom_command(
+      OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/jit
+      COMMAND ${CMAKE_COMMAND} -E make_directory ${CMAKE_CURRENT_BINARY_DIR}/jit
+      COMMENT "[ext/opcache] Creating ext/opcache/jit directory"
+    )
+
+    # Create IR folding engine generator.
+    add_executable(php_opcache_generator
+      jit/ir/gen_ir_fold_hash.c
+    )
+    target_compile_definitions(php_opcache_generator PRIVATE
+      ${IR_TARGET}
+      IR_PHP
+      IR_PHP_MM=0
+    )
+    set_target_properties(
+      php_opcache_generator
+      PROPERTIES
+        OUTPUT_NAME gen_ir_fold_hash
+    )
+
+    # Generate IR folding engine rules header.
+    add_custom_command(
+      OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/jit/ir/ir_fold_hash.h
+      COMMAND php_opcache_generator
+        < ${CMAKE_CURRENT_SOURCE_DIR}/jit/ir/ir_fold.h
+        > ${CMAKE_CURRENT_BINARY_DIR}/jit/ir/ir_fold_hash.h
+      DEPENDS php_opcache_generator ${CMAKE_CURRENT_BINARY_DIR}/jit
+      COMMENT "[ext/opcache] Generating folding engine rules ext/opcache/jit/ir/ir_fold_hash.h"
+    )
+
+    # Generate native code generator for selected architecture.
+    add_custom_command(
+      OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/jit/ir/ir_emit_${DASM_ARCH}.h
+      COMMAND php_opcache_minilua ${CMAKE_CURRENT_SOURCE_DIR}/jit/ir/dynasm/dynasm.lua
+        ${DASM_FLAGS}
+        -o ${CMAKE_CURRENT_BINARY_DIR}/jit/ir/ir_emit_${DASM_ARCH}.h
+        ${CMAKE_CURRENT_SOURCE_DIR}/jit/ir/ir_${DASM_ARCH}.dasc
+      DEPENDS php_opcache_minilua ${CMAKE_CURRENT_BINARY_DIR}/jit
+      COMMENT "[ext/opcache] Generating native code generator ext/opcache/jit/ir/ir_emit_${DASM_ARCH}.h"
+    )
+
+    add_custom_target(
+      php_opcache_build_jit
+      DEPENDS
+        ${CMAKE_CURRENT_BINARY_DIR}/jit/ir/ir_emit_${DASM_ARCH}.h
+        ${CMAKE_CURRENT_BINARY_DIR}/jit/ir/ir_fold_hash.h
+      COMMENT "[ext/opcache] Building JIT for architecture ${DASM_ARCH}"
+    )
+
+    add_dependencies(php_opcache php_opcache_build_jit)
+
+    target_compile_definitions(php_opcache PRIVATE ${IR_TARGET})
   endif()
-
-  add_executable(php_opcache_minilua
-    jit/dynasm/minilua.c
-  )
-
-  set_target_properties(php_opcache_minilua PROPERTIES OUTPUT_NAME minilua)
-
-  target_link_libraries(php_opcache_minilua PRIVATE m)
-
-  # Create jit directory in the current build directory if it doesn't exist yet.
-  add_custom_command(
-    OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/jit
-    COMMAND ${CMAKE_COMMAND} -E make_directory ${CMAKE_CURRENT_BINARY_DIR}/jit
-    COMMENT "[ext/opcache] Creating ext/opcache/jit directory"
-  )
-
-  # Generate Zend Jit for architecture.
-  add_custom_command(
-    OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/jit/zend_jit_${DASM_ARCH}.c
-    COMMAND php_opcache_minilua ${CMAKE_CURRENT_LIST_DIR}/jit/dynasm/dynasm.lua
-      ${DASM_FLAGS}
-      -o ${CMAKE_CURRENT_BINARY_DIR}/jit/zend_jit_${DASM_ARCH}.c
-      ${CMAKE_CURRENT_LIST_DIR}/jit/zend_jit_${DASM_ARCH}.dasc
-    DEPENDS php_opcache_minilua ${CMAKE_CURRENT_BINARY_DIR}/jit
-    COMMENT "[ext/opcache] Generating ext/opcache/jit/zend_jit_${DASM_ARCH}.c"
-  )
-
-  add_custom_target(
-    php_opcache_build_jit
-    DEPENDS ${CMAKE_CURRENT_BINARY_DIR}/jit/zend_jit_${DASM_ARCH}.c
-    COMMENT "[ext/opcache] Building Zend JIT for architecture ${DASM_ARCH}"
-  )
-
-  add_dependencies(php_opcache php_opcache_build_jit)
 endif()
 
 ################################################################################
@@ -184,10 +292,8 @@ cmake_push_check_state(RESET)
   check_symbol_exists(memfd_create "sys/mman.h" HAVE_MEMFD_CREATE)
 cmake_pop_check_state()
 
-if(PHP_VERSION VERSION_GREATER_EQUAL 8.4)
-  # Check for FreeBSD.
-  check_symbol_exists(shm_create_largepage "sys/mman.h" HAVE_SHM_CREATE_LARGEPAGE)
-endif()
+# For FreeBSD.
+check_symbol_exists(shm_create_largepage "sys/mman.h" HAVE_SHM_CREATE_LARGEPAGE)
 
 # Check for HAVE_SHM_IPC.
 include(PHP/CheckShmIpc)
