@@ -1291,9 +1291,6 @@
 /* Define to 1 if you have the `setsid' function. */
 #cmakedefine HAVE_SETSID @HAVE_SETSID@
 
-/* */
-#cmakedefine HAVE_SETSOCKOPT
-
 /* Libzip >= 1.0.0 with zip_file_set_mtime */
 #cmakedefine HAVE_SET_MTIME @HAVE_SET_MTIME@
 
@@ -2079,6 +2076,9 @@
 
 /* */
 #cmakedefine ZEND_FIBER_UCONTEXT @ZEND_FIBER_UCONTEXT@
+
+/* Use JIT IR framework */
+#cmakedefine ZEND_JIT_IR @ZEND_JIT_IR@
 
 /* Use zend max execution timers */
 #cmakedefine ZEND_MAX_EXECUTION_TIMERS @ZEND_MAX_EXECUTION_TIMERS@

@@ -67,6 +67,9 @@ patterns="
 #undef\sHAVE_SYSTEMD_SD_DAEMON_H
 #undef\sHAVE_ODBCSDK_H
 #undef\sHAVE_ODBC2
+#undef\sHAVE_SETSOCKOPT
+#undef\sHAVE_PGRAB
+#undef\sHAVE_LIBPROC
 "
 
 # Similar to the above patterns except the two lines above and one after the

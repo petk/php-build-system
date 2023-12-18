@@ -242,8 +242,16 @@ check_symbol_exists(getgrnam_r "grp.h" HAVE_GETGRNAM_R)
 check_symbol_exists(getpwuid_r "pwd.h" HAVE_GETPWUID_R)
 check_symbol_exists(getwd "unistd.h" HAVE_GETWD)
 check_symbol_exists(glob "glob.h" HAVE_GLOB)
-check_symbol_exists(inet_ntoa "arpa/inet.h" HAVE_INET_NTOA)
+
+if(PHP_VERSION VERSION_LESS 8.4)
+  check_symbol_exists(inet_ntoa "arpa/inet.h" HAVE_INET_NTOA)
+endif()
+
 check_symbol_exists(inet_ntop "arpa/inet.h" HAVE_INET_NTOP)
+if(NOT HAVE_INET_NTOP)
+  message(FATAL_ERROR "Cannot find inet_ntop which is required.")
+endif()
+
 check_symbol_exists(inet_pton "arpa/inet.h" HAVE_INET_PTON)
 check_symbol_exists(localtime_r "time.h" HAVE_LOCALTIME_R)
 check_symbol_exists(lchown "unistd.h" HAVE_LCHOWN)
@@ -290,8 +298,6 @@ cmake_push_check_state(RESET)
   set(CMAKE_REQUIRED_DEFINITIONS -D_GNU_SOURCE)
   check_symbol_exists(asprintf "stdio.h" HAVE_ASPRINTF)
 cmake_pop_check_state()
-
-check_symbol_exists(nanosleep "time.h" HAVE_NANOSLEEP)
 
 cmake_push_check_state(RESET)
   set(CMAKE_REQUIRED_DEFINITIONS -D_GNU_SOURCE)
@@ -500,9 +506,11 @@ endif()
 # includes it conditionally.
 set(HAVE_WCHAR_H 1 CACHE INTERNAL "Define to 1 if you have the <wchar.h> header file.")
 
-# string.h is always available as part of C89 standard. The opcache/jit/libudis86
-# bundled forked code still includes it conditionally.
-set(HAVE_STRING_H 1 CACHE INTERNAL "Define to 1 if you have the <string.h> header file.")
+if(PHP_VERSION VERSION_LESS 8.4)
+  # string.h is always available as part of C89 standard. The opcache/jit/libudis86
+  # bundled forked code still includes it conditionally.
+  set(HAVE_STRING_H 1 CACHE INTERNAL "Define to 1 if you have the <string.h> header file.")
+endif()
 
 # inttypes.h is always available as part of C99 standard. The libmagic still
 # includes it conditionally.
@@ -516,27 +524,37 @@ set(HAVE_STDINT_H 1 CACHE INTERNAL "Define to 1 if you have the <stdint.h> heade
 # Check for required libraries.
 ################################################################################
 
-check_symbol_exists(dlopen "dlfcn.h" HAVE_LIBDL)
+php_search_libraries(
+  dlopen
+  "dlfcn.h"
+  HAVE_LIBDL
+  _php_dlopen_library
+  LIBRARIES
+    ${CMAKE_DL_LIBS}
+    # Haiku has dlopen in root library, however library is already explicitly
+    # linked on the system. Here, check is noted only for documentation purpose.
+    # TODO: Should root be removed? CMake doesn't defined it in CMAKE_DL_LIBS
+    # since 2013 anymore.
+    root
+)
+if(_php_dlopen_library)
+  target_link_libraries(php_configuration INTERFACE ${_php_dlopen_library})
+endif()
 
-# TODO: Use CMAKE_DL_LIBS.
-if(NOT HAVE_LIBDL)
-  check_library_exists(dl dlopen "" HAVE_LIBDL)
-
-  if(HAVE_LIBDL)
-    target_link_libraries(php_configuration INTERFACE dl)
-  endif()
-
-  if(NOT HAVE_LIBDL)
-    check_library_exists(root dlopen "" HAVE_LIBDL)
-
-    if(HAVE_LIBDL)
-      target_link_libraries(php_configuration INTERFACE root)
-    endif()
-  endif()
+php_search_libraries(
+  dlsym
+  "dlfcn.h"
+  _php_have_dlsym
+  _php_dlsym_library
+  LIBRARIES
+    ${CMAKE_DL_LIBS}
+    root # For Haiku. Same as with dlopen.
+)
+if(_php_dlsym_library)
+  target_link_libraries(php_configuration INTERFACE ${_php_dlsym_library})
 endif()
 
 php_search_libraries(sin "math.h" HAVE_SIN M_LIBRARY LIBRARIES m)
-
 if(M_LIBRARY)
   target_link_libraries(php_configuration INTERFACE ${M_LIBRARY})
 endif()
@@ -556,7 +574,6 @@ php_search_libraries(
   SOCKET_LIBRARY
   LIBRARIES socket network
 )
-
 if(SOCKET_LIBRARY)
   target_link_libraries(php_configuration INTERFACE ${SOCKET_LIBRARY})
 endif()
@@ -568,9 +585,19 @@ php_search_libraries(
   SOCKETPAIR_LIBRARY
   LIBRARIES socket network
 )
-
 if(SOCKETPAIR_LIBRARY)
   target_link_libraries(php_configuration INTERFACE ${SOCKETPAIR_LIBRARY})
+endif()
+
+php_search_libraries(
+  htonl
+  "netinet/in.h;arpa/inet.h"
+  HAVE_HTONL
+  HTONL_LIBRARY
+  LIBRARIES socket network
+)
+if(HTONL_LIBRARY)
+  target_link_libraries(php_configuration INTERFACE ${HTONL_LIBRARY})
 endif()
 
 php_search_libraries(
@@ -580,7 +607,6 @@ php_search_libraries(
   GETHOSTNAME_LIBRARY
   LIBRARIES nsl network
 )
-
 if(GETHOSTNAME_LIBRARY)
   target_link_libraries(php_configuration INTERFACE ${GETHOSTNAME_LIBRARY})
 endif()
@@ -592,7 +618,6 @@ php_search_libraries(
   GETHOSTBYADDR_LIBRARY
   LIBRARIES nsl network
 )
-
 if(GETHOSTBYADDR_LIBRARY)
   target_link_libraries(php_configuration INTERFACE ${GETHOSTBYADDR_LIBRARY})
 endif()
@@ -604,7 +629,6 @@ php_search_libraries(
   OPENPTY_LIBRARY
   LIBRARIES util bsd
 )
-
 if(OPENPTY_LIBRARY)
   target_link_libraries(php_configuration INTERFACE ${OPENPTY_LIBRARY})
 endif()
@@ -616,7 +640,42 @@ php_search_libraries(
   INET_ATON_LIBRARY
   LIBRARIES resolv bind
 )
-
 if(INET_ATON_LIBRARY)
   target_link_libraries(php_configuration INTERFACE ${INET_ATON_LIBRARY})
+endif()
+
+# Some systems (like OpenSolaris) do not have nanosleep in libc.
+php_search_libraries(
+  nanosleep
+  "time.h"
+  HAVE_NANOSLEEP
+  NANOSLEEP_LIBRARY
+  LIBRARIES rt
+)
+if(NANOSLEEP_LIBRARY)
+  target_link_libraries(php_configuration INTERFACE )
+endif()
+
+# Haiku does not have network API in libc.
+php_search_libraries(
+  setsockopt
+  "sys/types.h;sys/socket.h"
+  HAVE_SETSOCKOPT
+  SETSOCKOPT_LIBRARY
+  LIBRARIES network
+)
+if(SETSOCKOPT_LIBRARY)
+  target_link_libraries(php_configuration INTERFACE ${SETSOCKOPT_LIBRARY})
+endif()
+
+# Check for Solaris/Illumos process mapping.
+php_search_libraries(
+  Pgrab
+  "libproc.h"
+  HAVE_PGRAB
+  PROC_LIBRARY
+  LIBRARIES proc
+)
+if(PROC_LIBRARY)
+  target_link_libraries(php_configuration INTERFACE ${PROC_LIBRARY})
 endif()

@@ -9,6 +9,8 @@ message("
 +--------------------------------------------------------------------+
 ")
 
+message(STATUS "CMake version: ${CMAKE_VERSION}")
+
 # Set the PHP_VERSION_* variables from configure.ac.
 include(cmake/Version.cmake)
 

@@ -205,7 +205,7 @@ if(TARGET ODBC::ODBC)
     )
 
     foreach(header ${headers})
-      string(REGEX REPLACE "\\." "_" const ${header})
+      string(REGEX REPLACE "[ ./]" "_" const ${header})
       string(TOUPPER ${const} const_upper)
 
       cmake_push_check_state(RESET)
