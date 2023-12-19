@@ -97,6 +97,9 @@ if(CMAKE_HOST_SYSTEM_PROCESSOR MATCHES "^mips")
   )
 endif()
 
+# Check unused linked libraries on executable and shared/module library targets.
+include(PHP/LinkWhatYouUse)
+
 # TODO: Fix these properly if really needed.
 set(_TANDEM_SOURCE 1 CACHE INTERNAL "")
 set(__STDC_WANT_MATH_SPEC_FUNCS__ 1 CACHE INTERNAL "")

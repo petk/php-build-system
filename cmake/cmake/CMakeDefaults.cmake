@@ -14,9 +14,6 @@ set(CMAKE_INCLUDE_CURRENT_DIR ON)
 # Put the source or build tree include directories before other includes.
 set(CMAKE_INCLUDE_DIRECTORIES_PROJECT_BEFORE ON)
 
-# Link only what is needed on executables and shared libraries.
-set(CMAKE_LINK_WHAT_YOU_USE ON)
-
 # Add colors to diagnostics output.
 if(NOT DEFINED CMAKE_COLOR_DIAGNOSTICS AND NOT DEFINED ENV{CMAKE_COLOR_DIAGNOSTICS})
   set(CMAKE_COLOR_DIAGNOSTICS ON)
