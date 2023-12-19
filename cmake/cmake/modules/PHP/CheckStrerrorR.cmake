@@ -12,7 +12,7 @@ Cache variables:
 
 include_guard(GLOBAL)
 
-include(CheckCSourceCompiles)
+include(CheckSourceCompiles)
 include(CheckSymbolExists)
 include(CMakePushCheckState)
 
@@ -24,7 +24,7 @@ endif()
 
 cmake_push_check_state(RESET)
   set(CMAKE_REQUIRED_DEFINITIONS -D_GNU_SOURCE)
-  check_c_source_compiles("
+  check_source_compiles(C "
     #include <string.h>
 
     int main(void) {

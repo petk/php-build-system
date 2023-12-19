@@ -12,12 +12,12 @@ Cache variables:
 
 include_guard(GLOBAL)
 
-include(CheckCSourceRuns)
+include(CheckSourceRuns)
 
 message(CHECK_START "Checking type of reentrant time-related functions")
 
 if(NOT CMAKE_CROSSCOMPILING)
-  check_c_source_runs("
+  check_source_runs(C "
     #include <time.h>
 
     int main(void) {
@@ -35,7 +35,7 @@ if(NOT CMAKE_CROSSCOMPILING)
   " PHP_HPUX_TIME_R)
 
   if(NOT PHP_HPUX_TIME_R)
-    check_c_source_runs("
+    check_source_runs(C "
       #include <time.h>
 
       int main(void) {

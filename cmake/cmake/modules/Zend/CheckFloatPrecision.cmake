@@ -19,10 +19,10 @@ Cache variables:
 
 include_guard(GLOBAL)
 
-include(CheckCSourceCompiles)
+include(CheckSourceCompiles)
 
 message(CHECK_START "Checking if _FPU_SETCW is usable")
-check_c_source_compiles("
+check_source_compiles(C "
   #include <fpu_control.h>
 
   int main(void) {
@@ -47,7 +47,7 @@ else()
 endif()
 
 message(CHECK_START "Checking if fpsetprec is usable")
-check_c_source_compiles("
+check_source_compiles(C "
   #include <machine/ieeefp.h>
 
   int main(void) {
@@ -72,7 +72,7 @@ endif()
 
 message(CHECK_START "Checking if _controlfp is usable")
 
-check_c_source_compiles("
+check_source_compiles(C "
   #include <float.h>
 
   int main(void) {
@@ -96,7 +96,7 @@ else()
 endif()
 
 message(CHECK_START "Checking if _controlfp_s is usable")
-check_c_source_compiles("
+check_source_compiles(C "
   #include <float.h>
 
   int main(void) {
@@ -124,7 +124,7 @@ message(
   CHECK_START
   "Checking whether FPU control word can be manipulated by inline assembler"
 )
-check_c_source_compiles([[
+check_source_compiles(C [[
   int main(void) {
     unsigned int oldcw, cw;
     volatile double result;

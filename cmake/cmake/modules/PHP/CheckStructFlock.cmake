@@ -9,13 +9,13 @@ Cache variables:
 
 include_guard(GLOBAL)
 
-include(CheckCSourceCompiles)
+include(CheckSourceCompiles)
 
 message(CHECK_START "Checking for struct flock")
 
 list(APPEND CMAKE_MESSAGE_INDENT "  ")
 
-check_c_source_compiles("
+check_source_compiles(C "
   #include <unistd.h>
   #include <fcntl.h>
 

@@ -19,14 +19,14 @@ Cache variables:
 
 include_guard(GLOBAL)
 
-include(CheckCSourceCompiles)
+include(CheckSourceCompiles)
 
 message(CHECK_START "Checking how many arguments gethostbyname_r() takes")
 
 list(APPEND CMAKE_MESSAGE_INDENT "  ")
 
 # Sanity check with 1 argument signature.
-check_c_source_compiles("
+check_source_compiles(C "
   #include <netdb.h>
 
   int main(void) {
@@ -45,7 +45,7 @@ if(_have_one_argument)
 endif()
 
 # Check for 6 arguments signature.
-check_c_source_compiles("
+check_source_compiles(C "
   #include <netdb.h>
 
   int main(void) {
@@ -62,7 +62,7 @@ check_c_source_compiles("
 
 # Check for 5 arguments signature.
 if(NOT HAVE_FUNC_GETHOSTBYNAME_R_6)
-  check_c_source_compiles("
+  check_source_compiles(C "
     #include <netdb.h>
 
     int main(void) {
@@ -80,7 +80,7 @@ endif()
 
 # Check for 3 arguments signature.
 if(NOT HAVE_FUNC_GETHOSTBYNAME_R_6 AND NOT HAVE_FUNC_GETHOSTBYNAME_R_5)
-  check_c_source_compiles("
+  check_source_compiles(C "
     #include <netdb.h>
 
     int main(void) {

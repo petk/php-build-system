@@ -11,13 +11,13 @@ Cache variables:
 
 include_guard(GLOBAL)
 
-include(CheckCSourceCompiles)
+include(CheckSourceCompiles)
 
 message(CHECK_START "Checking for fclose declaration")
 
 list(APPEND CMAKE_MESSAGE_INDENT "  ")
 
-check_c_source_compiles("
+check_source_compiles(C "
   #include <stdio.h>
 
   int main(void) {

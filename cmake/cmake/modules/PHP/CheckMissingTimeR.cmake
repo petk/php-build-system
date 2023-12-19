@@ -17,11 +17,11 @@ Cache variables:
 
 include_guard(GLOBAL)
 
-include(CheckCSourceCompiles)
+include(CheckSourceCompiles)
 
 message(STATUS "Checking for missing declarations of reentrant functions")
 
-check_c_source_compiles("
+check_source_compiles(C "
   #include <time.h>
 
   int main(void) {
@@ -34,7 +34,7 @@ if(NOT _have_localtime_r)
   set(MISSING_LOCALTIME_R_DECL 1 CACHE INTERNAL "Whether localtime_r is declared")
 endif()
 
-check_c_source_compiles("
+check_source_compiles(C "
   #include <time.h>
 
   int main(void) {
@@ -47,7 +47,7 @@ if(NOT _have_gm_time_r)
   set(MISSING_GMTIME_R_DECL 1 CACHE INTERNAL "Whether gmtime_r is declared")
 endif()
 
-check_c_source_compiles("
+check_source_compiles(C "
   #include <time.h>
 
   int main(void) {
@@ -60,7 +60,7 @@ if(NOT _have_asctime_r)
   set(MISSING_ASCTIME_R_DECL 1 CACHE INTERNAL "Whether asctime_r is declared")
 endif()
 
-check_c_source_compiles("
+check_source_compiles(C "
   #include <time.h>
 
   int main(void) {
@@ -73,7 +73,7 @@ if(NOT _have_ctime_r)
   set(MISSING_CTIME_R_DECL 1 CACHE INTERNAL "Whether ctime_r is declared")
 endif()
 
-check_c_source_compiles("
+check_source_compiles(C "
   #include <string.h>
 
   int main(void) {

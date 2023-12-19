@@ -1,4 +1,4 @@
-include(CheckCCompilerFlag)
+include(CheckCompilerFlag)
 include(CheckIncludeFile)
 include(CheckSymbolExists)
 
@@ -29,8 +29,8 @@ target_include_directories(php_date
   INTERFACE ${CMAKE_CURRENT_BINARY_DIR}/lib
 )
 
-check_c_compiler_flag(-Wno-implicit-fallthrough HAVE_WNO_IMPLICIT_FALLTHROUGH)
-if(HAVE_WNO_IMPLICIT_FALLTHROUGH)
+check_compiler_flag(C -Wno-implicit-fallthrough HAVE_WNO_IMPLICIT_FALLTHROUGH_C)
+if(HAVE_WNO_IMPLICIT_FALLTHROUGH_C)
   target_compile_options(php_date PRIVATE -Wno-implicit-fallthrough)
 endif()
 

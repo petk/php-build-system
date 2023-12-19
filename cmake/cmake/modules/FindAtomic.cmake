@@ -14,7 +14,7 @@ Result variables:
     A list of libraries needed in order to use atomic functionality.
 #]=============================================================================]
 
-include(CheckCSourceCompiles)
+include(CheckSourceCompiles)
 include(CMakePushCheckState)
 include(FindPackageHandleStandardArgs)
 
@@ -32,12 +32,12 @@ set(_atomic_test "
   }
 ")
 
-check_c_source_compiles("${_atomic_test}" _have_atomic)
+check_source_compiles(C "${_atomic_test}" _have_atomic)
 
 if(NOT _have_atomic)
   cmake_push_check_state(RESET)
     set(CMAKE_REQUIRED_LIBRARIES atomic)
-    check_c_source_compiles("${_atomic_test}" _have_atomic_in_library)
+    check_source_compiles(C "${_atomic_test}" _have_atomic_in_library)
   cmake_pop_check_state()
 endif()
 

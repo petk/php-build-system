@@ -6,8 +6,8 @@ include_guard(GLOBAL)
 
 # Include required modules.
 include(CheckCompilerFlag)
-include(CheckCSourceRuns)
 include(CheckLinkerFlag)
+include(CheckSourceRuns)
 include(CMakePushCheckState)
 
 # Check for broken GCC optimize-strlen.
@@ -269,7 +269,7 @@ if(PHP_UNDEFINED_SANITIZER)
     if(NOT CMAKE_CROSSCOMPILING)
       cmake_push_check_state(RESET)
         set(CMAKE_REQUIRED_FLAGS -fno-sanitize-recover=undefined)
-        check_c_source_runs("
+        check_source_runs(C "
           void foo(char *string) {}
           int main(void) {
             void (*f)(void *) = (void (*)(void *))foo;

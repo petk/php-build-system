@@ -1,4 +1,4 @@
-include(CheckCCompilerFlag)
+include(CheckCompilerFlag)
 include(FeatureSummary)
 
 option(EXT_HASH_MHASH "Enable the mhash support" OFF)
@@ -64,8 +64,8 @@ else()
   target_include_directories(php_hash PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/${_sha3_dir})
 
   # Add -Wno-implicit-fallthrough flag as it happens on 32-bit builds.
-  check_c_compiler_flag(-Wno-implicit-fallthrough HAVE_WNO_IMPLICIT_FALLTHROUGH)
-  if(HAVE_WNO_IMPLICIT_FALLTHROUGH)
+  check_compiler_flag(C -Wno-implicit-fallthrough HAVE_WNO_IMPLICIT_FALLTHROUGH_C)
+  if(HAVE_WNO_IMPLICIT_FALLTHROUGH_C)
     target_compile_options(php_hash PRIVATE -Wno-implicit-fallthrough)
   endif()
 

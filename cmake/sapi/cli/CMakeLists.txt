@@ -1,5 +1,5 @@
-include(CheckCSourceCompiles)
 include(CheckIncludeFile)
+include(CheckSourceCompiles)
 include(CheckSymbolExists)
 
 option(SAPI_CLI "Enable the CLI SAPI module" ON)
@@ -19,7 +19,7 @@ check_symbol_exists(setproctitle "unistd.h;stdlib.h" HAVE_SETPROCTITLE)
 check_include_file(sys/pstat.h HAVE_SYS_PSTAT_H)
 
 message(CHECK_START "Checking for PS_STRINGS")
-check_c_source_compiles("
+check_source_compiles(C "
   #include <machine/vmparam.h>
   #include <sys/exec.h>
 

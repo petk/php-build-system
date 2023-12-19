@@ -9,14 +9,14 @@ Cache variables:
 
 include_guard(GLOBAL)
 
-include(CheckCSourceRuns)
+include(CheckSourceRuns)
 
 message(CHECK_START "Checking for mmap() using MAP_ANON shared memory support")
 
 list(APPEND CMAKE_MESSAGE_INDENT "  ")
 
 if(NOT CMAKE_CROSSCOMPILING)
-  check_c_source_runs("
+  check_source_runs(C "
     #include <sys/types.h>
     #include <sys/wait.h>
     #include <sys/mman.h>

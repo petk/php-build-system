@@ -8,7 +8,7 @@ Module exposes the following function:
 
 include_guard(GLOBAL)
 
-include(CheckCSourceCompiles)
+include(CheckSourceCompiles)
 
 # cmake-lint: disable=R0912
 function(php_check_builtin builtin result)
@@ -55,7 +55,7 @@ function(php_check_builtin builtin result)
     set(call "${builtin}();")
   endif()
 
-  check_c_source_compiles("
+  check_source_compiles(C "
     int main(void) {
       ${call}
 

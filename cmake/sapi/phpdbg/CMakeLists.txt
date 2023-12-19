@@ -1,4 +1,4 @@
-include(CheckCSourceCompiles)
+include(CheckSourceCompiles)
 include(CMakeDependentOption)
 
 option(SAPI_PHPDBG "Enable the phpdbg SAPI module" ON)
@@ -78,13 +78,18 @@ if(CMAKE_HOST_SYSTEM_NAME STREQUAL "Darwin")
   set_target_properties(php_phpdbg PROPERTIES LINK_FLAGS "-undefined dynamic_lookup")
 endif()
 
-message(STATUS "Checking for userfaultfd faulting on write-protected memory support")
-check_c_source_compiles("
+message(CHECK_START "Checking for userfaultfd faulting on write-protected memory support")
+check_source_compiles(C "
   #include <linux/userfaultfd.h>
   #ifndef UFFDIO_WRITEPROTECT_MODE_WP
   # error userfaults on write-protected memory not supported
   #endif
 " HAVE_USERFAULTFD_WRITEFAULT)
+if(HAVE_USERFAULTFD_WRITEFAULT)
+  message(CHECK_PASS "yes")
+else()
+  message(CHECK_FAIL "no")
+endif()
 
 set_target_properties(php_phpdbg PROPERTIES ENABLE_EXPORTS TRUE)
 

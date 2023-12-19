@@ -1,6 +1,6 @@
-include(CheckCSourceCompiles)
-include(CheckCSourceRuns)
 include(CheckLibraryExists)
+include(CheckSourceCompiles)
+include(CheckSourceRuns)
 include(CheckSymbolExists)
 include(CMakeDependentOption)
 include(CMakePushCheckState)
@@ -105,7 +105,7 @@ if(TARGET Iconv::Iconv)
     cmake_push_check_state(RESET)
       set(CMAKE_REQUIRED_LIBRARIES Iconv::Iconv)
 
-      check_c_source_runs("
+      check_source_runs(C "
         #include <iconv.h>
         #include <stdio.h>
         int main(void) {
@@ -127,7 +127,7 @@ if(TARGET Iconv::Iconv)
     cmake_push_check_state(RESET)
       set(CMAKE_REQUIRED_LIBRARIES Iconv::Iconv)
 
-      check_c_source_compiles("
+      check_source_compiles(C "
         #include <gnu/libc-version.h>
         int main(void) {
           gnu_get_libc_version();
@@ -147,7 +147,7 @@ if(TARGET Iconv::Iconv)
     cmake_push_check_state(RESET)
       set(CMAKE_REQUIRED_LIBRARIES Iconv::Iconv)
 
-      check_c_source_compiles("
+      check_source_compiles(C "
         #include <iconv.h>
         int main(void) {
           iconv_ccs_init(NULL, NULL);
@@ -167,7 +167,7 @@ if(TARGET Iconv::Iconv)
     cmake_push_check_state(RESET)
       set(CMAKE_REQUIRED_LIBRARIES Iconv::Iconv)
 
-      check_c_source_compiles("
+      check_source_compiles(C "
         #include <iconv.h>
         int main(void) {
           cstoccsid(\"\");
@@ -194,7 +194,7 @@ if(TARGET Iconv::Iconv)
     cmake_push_check_state(RESET)
       set(CMAKE_REQUIRED_LIBRARIES Iconv::Iconv)
 
-      check_c_source_runs("
+      check_source_runs(C "
         #include <iconv.h>
         #include <errno.h>
 
@@ -231,7 +231,7 @@ if(TARGET Iconv::Iconv)
     cmake_push_check_state(RESET)
       set(CMAKE_REQUIRED_LIBRARIES Iconv::Iconv)
 
-      check_c_source_runs([[
+      check_source_runs(C [[
         #include <iconv.h>
         #include <stdlib.h>
 

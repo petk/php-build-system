@@ -9,7 +9,7 @@ Cache variables:
 
 include_guard(GLOBAL)
 
-include(CheckCSourceRuns)
+include(CheckSourceRuns)
 include(CMakePushCheckState)
 
 message(CHECK_START
@@ -24,7 +24,7 @@ if(NOT CMAKE_CROSSCOMPILING)
       set(CMAKE_REQUIRED_DEFINITIONS -DHAVE_UNISTD_H)
     endif()
 
-    check_c_source_runs([[
+    check_source_runs(C [[
       #include <stdio.h>
       #include <stdlib.h>
       #ifdef HAVE_UNISTD_H

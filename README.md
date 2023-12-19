@@ -682,7 +682,8 @@ version available on the operating system.
 * 3.17
   * `CMAKE_CURRENT_FUNCTION_LIST_DIR` variable
 * 3.19
-  * `check_compiler_flag()`
+  * `check_compiler_flag()`, `check_source_compiles()`, `check_source_runs()` to
+    generalize the `check_<LANG>_...()`
   * `CMakePresets.json` for sharing build configurations
 * 3.20
   * `CMAKE_C_BYTE_ORDER`, otherwise manual check should be done

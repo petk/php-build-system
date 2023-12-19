@@ -1,4 +1,4 @@
-include(CheckCSourceCompiles)
+include(CheckSourceCompiles)
 include(CMakeDependentOption)
 include(CMakePushCheckState)
 include(FeatureSummary)
@@ -108,7 +108,7 @@ if(EXT_MBSTRING_MBREGEX)
     set(CMAKE_REQUIRED_DEFINITIONS -D_GNU_SOURCE)
     set(CMAKE_REQUIRED_LIBRARIES Oniguruma::Oniguruma)
 
-    check_c_source_compiles("
+    check_source_compiles(C "
       #include <oniguruma.h>
 
       int main(void) {

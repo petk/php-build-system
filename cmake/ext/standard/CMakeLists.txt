@@ -1,7 +1,7 @@
-include(CheckCSourceCompiles)
 include(CheckIncludeFile)
 include(CheckIncludeFiles)
 include(CheckLibraryExists)
+include(CheckSourceCompiles)
 include(CheckSymbolExists)
 include(FeatureSummary)
 include(PHP/SearchLibraries)
@@ -181,7 +181,7 @@ else()
 endif()
 
 message(CHECK_START "Checking for usable getifaddrs")
-check_c_source_compiles("
+check_source_compiles(C "
   #include <sys/types.h>
   #include <ifaddrs.h>
 
@@ -203,7 +203,7 @@ endif()
 
 # Check for __attribute__ ((__aligned__)) support in the compiler.
 message(CHECK_START "Checking whether the compiler supports aligned attribute")
-check_c_source_compiles("
+check_source_compiles(C "
   int main(void) {
     unsigned char test[32] __attribute__ ((__aligned__ (__alignof__ (int))));
     return 0;

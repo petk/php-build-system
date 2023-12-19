@@ -9,6 +9,7 @@ ecosystem.
 * [2. General guidelines](#2-general-guidelines)
   * [2.1. End commands](#21-end-commands)
   * [2.2. Source and binary directories](#22-source-and-binary-directories)
+  * [2.3. Check modules](#23-check-modules)
 * [3. Variables](#3-variables)
   * [3.1. Variable scope](#31-variable-scope)
     * [3.1.1. Local variables](#311-local-variables)
@@ -187,6 +188,11 @@ these variables become distinct.
 * `<ProjectName>_SOURCE_DIR` and `<ProjectName>_BINARY_DIR` represent the
   project source and build directories from the most recent
   `project(ProjectName ...)` call.
+
+### 2.3. Check modules
+
+Use `check_compiler_flag()`, `check_source_compiles()`, `check_source_runs()`
+instead of language specific `check_<LANG>_...()`.
 
 ## 3. Variables
 

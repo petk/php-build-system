@@ -379,8 +379,8 @@ check_include_file(sys/types.h HAVE_SYS_TYPES_H)
 To determine if a C source file compiles and links into an executable:
 
 ```cmake
-include(CheckCSourceCompiles)
-check_c_source_compiles("int main(void) { return 0; }" HAVE_WORKING_HELLO_WORLD)
+include(CheckSourceCompiles)
+check_source_compiles(C "int main(void) { return 0; }" HAVE_WORKING_HELLO_WORLD)
 ```
 
 This command initiates a compilation and linking step, as illustrated here:
@@ -395,8 +395,8 @@ For a more comprehensive assessment that includes compiling, linking, and
 executing the C code:
 
 ```cmake
-include(CheckCSourceRuns)
-check_c_source_runs("int main(void) { return 0; }" HAVE_WORKING_HELLO_WORLD)
+include(CheckSourceRuns)
+check_source_runs(C "int main(void) { return 0; }" HAVE_WORKING_HELLO_WORLD)
 ```
 
 This will compile, link and also run the program to check if the return code is
@@ -417,7 +417,7 @@ programs isn't always feasible or guaranteed. Here's how to handle it:
 if(CMAKE_CROSSCOMPILING)
   message(STATUS "Cross-compiling: Certain checks may not be applicable.")
 else()
-  check_c_source_runs("int main(void) { return 0; }" HAVE_WORKING_HELLO_WORLD)
+  check_source_runs(C "int main(void) { return 0; }" HAVE_WORKING_HELLO_WORLD)
 endif()
 ```
 

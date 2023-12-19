@@ -1,4 +1,4 @@
-include(CheckCCompilerFlag)
+include(CheckCompilerFlag)
 include(CheckSymbolExists)
 include(CMakeDependentOption)
 include(CMakePushCheckState)
@@ -71,8 +71,8 @@ target_include_directories(
 
 set_target_properties(php_opcache PROPERTIES PHP_ZEND_EXTENSION TRUE)
 
-check_c_compiler_flag(-Wno-implicit-fallthrough HAVE_WNO_IMPLICIT_FALLTHROUGH)
-if(HAVE_WNO_IMPLICIT_FALLTHROUGH)
+check_compiler_flag(C -Wno-implicit-fallthrough HAVE_WNO_IMPLICIT_FALLTHROUGH_C)
+if(HAVE_WNO_IMPLICIT_FALLTHROUGH_C)
   target_compile_options(php_opcache PRIVATE -Wno-implicit-fallthrough)
 endif()
 

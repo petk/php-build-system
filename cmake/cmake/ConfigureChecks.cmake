@@ -7,6 +7,7 @@ include_guard(GLOBAL)
 # Include required modules.
 include(CheckIncludeFile)
 include(CheckLibraryExists)
+include(CheckSourceCompiles)
 include(CheckStructHasMember)
 include(CheckSymbolExists)
 include(CheckTypeSize)
@@ -428,7 +429,7 @@ endif()
 
 # Check for __alignof__ support in the compiler.
 message(CHECK_START "Checking whether the compiler supports __alignof__")
-check_c_source_compiles("
+check_source_compiles(C "
   int main(void) {
     int align = __alignof__(int);
     return 0;
@@ -453,7 +454,7 @@ if(
     AND CMAKE_HOST_SYSTEM_VERSION VERSION_GREATER_EQUAL 12
   )
 )
-  check_c_source_compiles("
+  check_source_compiles(C "
     static int bar( void ) __attribute__((target(\"sse2\")));
 
     int main(void) {
@@ -461,7 +462,7 @@ if(
     }
   " HAVE_FUNC_ATTRIBUTE_TARGET)
 
-  check_c_source_compiles([[
+  check_source_compiles(C [[
     int my_foo( void ) { return 0; }
     static int (*resolve_foo(void))(void) { return my_foo; }
     int foo( void ) __attribute__((ifunc("resolve_foo")));

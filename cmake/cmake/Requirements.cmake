@@ -4,7 +4,7 @@ Check system requirements and validate basic configuration.
 
 include_guard(GLOBAL)
 
-include(CheckCSourceRuns)
+include(CheckSourceRuns)
 include(FeatureSummary)
 
 ################################################################################
@@ -13,7 +13,7 @@ include(FeatureSummary)
 message(CHECK_START "Checking whether system uses EBCDIC")
 
 if(NOT CMAKE_CROSSCOMPILING)
-  check_c_source_runs("
+  check_source_runs(C "
     int main(void) {
       return (unsigned char)'A' != (unsigned char)0xC1;
     }

@@ -1,6 +1,6 @@
-include(CheckCSourceCompiles)
-include(CheckCSourceRuns)
 include(CheckIncludeFile)
+include(CheckSourceCompiles)
+include(CheckSourceRuns)
 include(CheckSymbolExists)
 include(CMakeDependentOption)
 include(CMakePushCheckState)
@@ -71,7 +71,7 @@ message(CHECK_START "Checking for working ttyname_r() implementation")
 if(CMAKE_CROSSCOMPILING)
   message(CHECK_FAIL "no (cross-compiling), posix_ttyname() will be thread-unsafe")
 else()
-  check_c_source_runs("
+  check_source_runs(C "
     #include <unistd.h>
 
     int main(int argc, char *argv[]) {
@@ -96,7 +96,7 @@ endif()
 
 message(CHECK_START "Checking for utsname.domainname")
 
-check_c_source_compiles("
+check_source_compiles(C "
   #define _GNU_SOURCE
   #include <sys/utsname.h>
 

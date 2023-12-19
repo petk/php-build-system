@@ -26,7 +26,7 @@ If re2c is found, the module exposes the following function:
               [DEPENDS <depends>...])
 #]=============================================================================]
 
-include(CheckCSourceCompiles)
+include(CheckSourceCompiles)
 include(FeatureSummary)
 include(FindPackageHandleStandardArgs)
 
@@ -80,7 +80,7 @@ if(RE2C_USE_COMPUTED_GOTOS)
 
   list(APPEND CMAKE_MESSAGE_INDENT "  ")
 
-  check_c_source_compiles("
+  check_source_compiles(C "
     int main(int argc, const char **argv) {
       argc = argc;
       argv = argv;

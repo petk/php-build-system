@@ -16,13 +16,13 @@ Interface library:
 
 include_guard(GLOBAL)
 
-include(CheckCSourceCompiles)
-include(CheckCSourceRuns)
+include(CheckSourceCompiles)
+include(CheckSourceRuns)
 include(CMakePushCheckState)
 
 message(CHECK_START "Checking for clock_gettime")
 
-check_c_source_compiles("
+check_source_compiles(C "
   #include <time.h>
 
   int main(void) {
@@ -35,7 +35,7 @@ check_c_source_compiles("
 if(NOT _have_clock_gettime_without_rt)
   cmake_push_check_state(RESET)
     set(CMAKE_REQUIRED_LIBRARIES rt)
-    check_c_source_compiles("
+    check_source_compiles(C "
       #include <time.h>
 
       int main(void) {
@@ -65,7 +65,7 @@ if(NOT HAVE_CLOCK_GETTIME)
   message(CHECK_START "Checking for clock_get_time")
 
   if(NOT CMAKE_CROSSCOMPILING)
-    check_c_source_runs("
+    check_source_runs(C "
       #include <mach/mach.h>
       #include <mach/clock.h>
       #include <mach/mach_error.h>

@@ -14,15 +14,15 @@ Cache variables:
 
 include_guard(GLOBAL)
 
-include(CheckCSourceCompiles)
-include(CheckCSourceRuns)
+include(CheckSourceCompiles)
+include(CheckSourceRuns)
 include(CMakePushCheckState)
 
 message(CHECK_START "Checking for TCP_INFO")
 
 list(APPEND CMAKE_MESSAGE_INDENT "  ")
 
-check_c_source_compiles("
+check_source_compiles(C "
   #include <netinet/tcp.h>
 
   int main(void) {
@@ -45,7 +45,7 @@ message(CHECK_START "Checking for TCP_CONNECTION_INFO")
 
 list(APPEND CMAKE_MESSAGE_INDENT "  ")
 
-check_c_source_compiles("
+check_source_compiles(C "
   #include <netinet/tcp.h>
 
   int main(void) {
@@ -69,7 +69,7 @@ if(NOT HAVE_LQ_TCP_INFO AND NOT HAVE_LQ_TCP_CONNECTION_INFO)
 
   list(APPEND CMAKE_MESSAGE_INDENT "  ")
 
-  check_c_source_compiles("
+  check_source_compiles(C "
     #include <sys/socket.h>
 
     int main(void) {

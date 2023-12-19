@@ -9,7 +9,7 @@ Cache variables:
 
 include_guard(GLOBAL)
 
-include(CheckCSourceCompiles)
+include(CheckSourceCompiles)
 include(CMakePushCheckState)
 
 message(CHECK_START "Checking for AVX-512 VBMI support in compiler")
@@ -19,7 +19,7 @@ list(APPEND CMAKE_MESSAGE_INDENT "  ")
 cmake_push_check_state(RESET)
   set(CMAKE_REQUIRED_FLAGS "-mavx512f -mavx512cd -mavx512vl -mavx512dq -mavx512bw -mavx512vbmi")
 
-  check_c_source_compiles("
+  check_source_compiles(C "
     #include <immintrin.h>
 
     int main(void) {

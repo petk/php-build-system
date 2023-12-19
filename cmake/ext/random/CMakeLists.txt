@@ -1,4 +1,4 @@
-include(CheckCSourceCompiles)
+include(CheckSourceCompiles)
 include(CheckSymbolExists)
 
 add_library(php_random STATIC
@@ -20,7 +20,7 @@ target_compile_definitions(php_random PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE=1)
 check_symbol_exists(arc4random_buf "stdlib.h" HAVE_DECL_ARC4RANDOM_BUF)
 
 # Check for CCRandomGenerateBytes. Header was absent in previous macOS releases.
-check_c_source_compiles("
+check_source_compiles(C "
   #include <sys/types.h>
   #include <Availability.h>
   #include <CommonCrypto/CommonCryptoError.h>

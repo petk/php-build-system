@@ -1,7 +1,7 @@
-include(CheckCSourceCompiles)
-include(CheckCSourceRuns)
 include(CheckIncludeFile)
 include(CheckLibraryExists)
+include(CheckSourceCompiles)
+include(CheckSourceRuns)
 include(CheckSymbolExists)
 include(CMakeDependentOption)
 include(CMakePushCheckState)
@@ -147,7 +147,7 @@ if(INET_ADDR_LIBRARY)
 endif()
 
 message(CHECK_START "Checking for setpflags")
-check_c_source_compiles("
+check_source_compiles(C "
   #include <priv.h>
 
   int main(void) {
@@ -182,7 +182,7 @@ if(
 endif()
 
 message(CHECK_START "Checking if gcc supports __sync_bool_compare_and_swap")
-check_c_source_compiles("
+check_source_compiles(C "
   int main(void) {
     int variable = 1;
     return (__sync_bool_compare_and_swap(&variable, 1, 2)
@@ -199,7 +199,7 @@ endif()
 include(PHP/CheckLq)
 
 message(CHECK_START "Checking for sysconf")
-check_c_source_compiles("
+check_source_compiles(C "
   #include <unistd.h>
 
   int main(void) {
@@ -214,7 +214,7 @@ else()
 endif()
 
 message(CHECK_START "Checking for times")
-check_c_source_compiles("
+check_source_compiles(C "
   #include <sys/times.h>
 
   int main(void) {
@@ -230,7 +230,7 @@ else()
 endif()
 
 message(CHECK_START "Checking for kqueue")
-check_c_source_compiles("
+check_source_compiles(C "
   #include <sys/types.h>
   #include <sys/event.h>
   #include <sys/time.h>
@@ -252,7 +252,7 @@ else()
 endif()
 
 message(CHECK_START "Checking for port framework")
-check_c_source_compiles("
+check_source_compiles(C "
   #include <port.h>
 
   int main(void) {
@@ -273,7 +273,7 @@ else()
 endif()
 
 message(CHECK_START "Checking for /dev/poll")
-check_c_source_compiles("
+check_source_compiles(C "
   #include <stdio.h>
   #include <sys/devpoll.h>
 
@@ -296,7 +296,7 @@ else()
 endif()
 
 message(CHECK_START "Checking for epoll")
-check_c_source_compiles("
+check_source_compiles(C "
   #include <sys/epoll.h>
 
   int main(void) {
@@ -336,7 +336,7 @@ cmake_push_check_state(RESET)
     set(CMAKE_REQUIRED_DEFINITIONS -DFD_SETSIZE=${PHP_FD_SETSIZE})
   endif()
 
-  check_c_source_compiles("
+  check_source_compiles(C "
     /* According to POSIX.1-2001 */
     #include <sys/select.h>
 
@@ -408,7 +408,7 @@ if(SAPI_FPM_ACL)
     cmake_push_check_state(RESET)
       set(CMAKE_REQUIRED_LIBRARIES ACL::ACL)
 
-      check_c_source_compiles("
+      check_source_compiles(C "
         #include <sys/acl.h>
 
         int main(void) {
@@ -434,7 +434,7 @@ if(SAPI_FPM_ACL)
         cmake_push_check_state(RESET)
           set(CMAKE_REQUIRED_LIBRARIES ACL::ACL)
 
-          check_c_source_runs("
+          check_source_runs(C "
             #include <sys/acl.h>
 
             int main(void) {

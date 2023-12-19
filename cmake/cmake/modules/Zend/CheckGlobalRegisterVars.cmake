@@ -9,13 +9,13 @@ Cache variables:
 
 include_guard(GLOBAL)
 
-include(CheckCSourceCompiles)
+include(CheckSourceCompiles)
 
 message(CHECK_START "Checking for global register variables support")
 
 list(APPEND CMAKE_MESSAGE_INDENT "  ")
 
-check_c_source_compiles("
+check_source_compiles(C "
   #if defined(__GNUC__)
   # define ZEND_GCC_VERSION (__GNUC__ * 1000 + __GNUC_MINOR__)
   #else

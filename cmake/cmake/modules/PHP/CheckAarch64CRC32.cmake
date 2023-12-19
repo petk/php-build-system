@@ -9,13 +9,13 @@ Cache variables:
 
 include_guard(GLOBAL)
 
-include(CheckCSourceCompiles)
+include(CheckSourceCompiles)
 
 message(CHECK_START "Checking for aarch64 CRC32 API availability")
 
 list(APPEND CMAKE_MESSAGE_INDENT "  ")
 
-check_c_source_compiles("
+check_source_compiles(C "
   #include <arm_acle.h>
 
   int main(void) {

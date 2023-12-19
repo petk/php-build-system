@@ -16,14 +16,14 @@ Cache variables:
 
 include_guard(GLOBAL)
 
-include(CheckCSourceRuns)
+include(CheckSourceRuns)
 
 message(CHECK_START "Checking for a working POSIX fnmatch() function")
 
 list(APPEND CMAKE_MESSAGE_INDENT "  ")
 
 if(NOT CMAKE_CROSSCOMPILING)
-  check_c_source_runs([[
+  check_source_runs(C [[
     #include <fnmatch.h>
     #define y(a, b, c) (fnmatch (a, b, c) == 0)
     #define n(a, b, c) (fnmatch (a, b, c) == FNM_NOMATCH)

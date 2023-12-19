@@ -9,7 +9,7 @@ Cache variables:
 
 include_guard(GLOBAL)
 
-include(CheckCSourceRuns)
+include(CheckSourceRuns)
 
 message(CHECK_START "Checking byte ordering")
 
@@ -20,7 +20,7 @@ elseif(CMAKE_C_BYTE_ORDER STREQUAL "LITTLE_ENDIAN")
   message(CHECK_PASS "little-endian")
 else()
   if(NOT CMAKE_CROSSCOMPILING)
-    check_c_source_runs("
+    check_source_runs(C "
       int main(void) {
         short one = 1;
         char *cp = (char *)&one;

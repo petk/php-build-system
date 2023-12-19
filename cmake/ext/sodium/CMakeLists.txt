@@ -1,4 +1,4 @@
-include(CheckCCompilerFlag)
+include(CheckCompilerFlag)
 include(CMakeDependentOption)
 include(FeatureSummary)
 
@@ -40,13 +40,13 @@ set_package_properties(Sodium PROPERTIES
 target_link_libraries(php_sodium PRIVATE Sodium::Sodium)
 
 # Add -Wno-type-limits and -Wno-logical-op as this may arise on 32bits platforms.
-check_c_compiler_flag(-Wno-type-limits HAVE_WNO_TYPE_LIMITS)
-if(HAVE_WNO_TYPE_LIMITS)
+check_compiler_flag(C -Wno-type-limits HAVE_WNO_TYPE_LIMITS_C)
+if(HAVE_WNO_TYPE_LIMITS_C)
   target_compile_options(php_sodium PRIVATE -Wno-type-limits)
 endif()
 
-check_c_compiler_flag(-Wno-logical-op HAVE_WNO_LOGICAL_OP)
-if(HAVE_WNO_LOGICAL_OP)
+check_compiler_flag(C -Wno-logical-op HAVE_WNO_LOGICAL_OP_C)
+if(HAVE_WNO_LOGICAL_OP_C)
   target_compile_options(php_sodium PRIVATE -Wno-logical-op)
 endif()
 

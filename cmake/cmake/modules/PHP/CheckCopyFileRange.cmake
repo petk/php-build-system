@@ -10,14 +10,14 @@ Cache variables:
 
 include_guard(GLOBAL)
 
-include(CheckCSourceRuns)
+include(CheckSourceRuns)
 
 message(CHECK_START "Checking for copy_file_range")
 
 list(APPEND CMAKE_MESSAGE_INDENT "  ")
 
 if(NOT CMAKE_CROSSCOMPILING)
-  check_c_source_runs([[
+  check_source_runs(C [[
     #ifdef __linux__
     #ifndef _GNU_SOURCE
     #define _GNU_SOURCE

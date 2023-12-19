@@ -14,8 +14,8 @@ Interface library:
 
 include_guard(GLOBAL)
 
-include(CheckCSourceRuns)
 include(CheckLibraryExists)
+include(CheckSourceRuns)
 include(CheckSymbolExists)
 include(CMakePushCheckState)
 include(PHP/SearchLibraries)
@@ -46,7 +46,7 @@ if(NOT CMAKE_CROSSCOMPILING)
       set(CMAKE_REQUIRED_LIBRARIES PHP::CheckShmMmapPosix)
     endif()
 
-    check_c_source_runs("
+    check_source_runs(C "
       #include <sys/types.h>
       #include <sys/wait.h>
       #include <sys/mman.h>

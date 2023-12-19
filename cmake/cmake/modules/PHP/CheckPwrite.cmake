@@ -11,7 +11,7 @@ Cache variables:
 
 include_guard(GLOBAL)
 
-include(CheckCSourceRuns)
+include(CheckSourceRuns)
 
 message(CHECK_START "Checking whether pwrite() works")
 
@@ -23,7 +23,7 @@ if(NOT CMAKE_CROSSCOMPILING)
     "${CMAKE_CURRENT_BINARY_DIR}/CMakeFiles/php_check_pwrite"
   )
 
-  check_c_source_runs("
+  check_source_runs(C "
     #include <sys/types.h>
     #include <sys/stat.h>
     #include <fcntl.h>
@@ -50,7 +50,7 @@ if(NOT HAVE_PWRITE AND NOT CMAKE_CROSSCOMPILING)
     "${CMAKE_CURRENT_BINARY_DIR}/CMakeFiles/php_check_pwrite64"
   )
 
-  check_c_source_runs("
+  check_source_runs(C "
     #include <sys/types.h>
     #include <sys/stat.h>
     #include <fcntl.h>

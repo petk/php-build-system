@@ -9,14 +9,14 @@ Cache variables:
 
 include_guard(GLOBAL)
 
-include(CheckCSourceCompiles)
-include(CheckCSourceRuns)
+include(CheckSourceCompiles)
+include(CheckSourceRuns)
 
 message(CHECK_START "Checking for getaddrinfo()")
 
 list(APPEND CMAKE_MESSAGE_INDENT "  ")
 
-check_c_source_compiles([[
+check_source_compiles(C [[
   #include <netdb.h>
 
   int main(void) {
@@ -30,7 +30,7 @@ check_c_source_compiles([[
 
 if(_have_getaddrinfo)
   if(NOT CMAKE_CROSSCOMPILING)
-    check_c_source_runs([[
+    check_source_runs(C [[
       #include <netdb.h>
       #include <sys/types.h>
       #include <string.h>

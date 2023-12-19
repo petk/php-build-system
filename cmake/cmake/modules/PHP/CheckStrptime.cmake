@@ -9,7 +9,7 @@ Cache variables:
 
 include_guard(GLOBAL)
 
-include(CheckCSourceCompiles)
+include(CheckSourceCompiles)
 include(CMakePushCheckState)
 
 message(CHECK_START "Checking whether strptime() declaration fails")
@@ -21,7 +21,7 @@ cmake_push_check_state(RESET)
     list(APPEND CMAKE_REQUIRED_DEFINITIONS -DHAVE_STRPTIME)
   endif()
 
-  check_c_source_compiles("
+  check_source_compiles(C "
     #include <time.h>
 
     int main(void) {

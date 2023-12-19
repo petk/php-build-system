@@ -27,7 +27,7 @@ Hints:
   The BerkeleyDB_ROOT variable adds custom search path.
 #]=============================================================================]
 
-include(CheckCSourceCompiles)
+include(CheckSourceCompiles)
 include(CMakePushCheckState)
 include(FeatureSummary)
 include(FindPackageHandleStandardArgs)
@@ -48,7 +48,7 @@ if(BerkeleyDB_USE_DB1)
     set(CMAKE_REQUIRED_LIBRARIES ${BerkeleyDB_LIBRARIES})
     set(CMAKE_REQUIRED_INCLUDES ${BerkeleyDB_DB1_INCLUDE_DIRS})
 
-    check_c_source_compiles("
+    check_source_compiles(C "
       #include <db_185.h>
       int main(void) {
         DB * dbp = dbopen(\"\", 0, 0, DB_HASH, 0);
@@ -75,7 +75,7 @@ cmake_push_check_state(RESET)
   set(CMAKE_REQUIRED_LIBRARIES "${BerkeleyDB_LIBRARIES}")
   set(CMAKE_REQUIRED_INCLUDES "${BerkeleyDB_INCLUDE_DIRS}")
 
-  check_c_source_compiles("
+  check_source_compiles(C "
     #include <db.h>
 
     int main(void) {

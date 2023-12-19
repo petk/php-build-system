@@ -9,7 +9,7 @@ Cache variables:
 
 include_guard(GLOBAL)
 
-include(CheckCSourceRuns)
+include(CheckSourceRuns)
 include(CMakePushCheckState)
 
 message(CHECK_START "Checking whether writing to stdout works")
@@ -24,7 +24,7 @@ else()
       list(APPEND CMAKE_REQUIRED_DEFINITIONS -DHAVE_UNISTD_H=1)
     endif()
 
-    check_c_source_runs("
+    check_source_runs(C "
       #ifdef HAVE_UNISTD_H
       # include <unistd.h>
       #endif

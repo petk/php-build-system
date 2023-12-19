@@ -24,8 +24,8 @@ Cache variables:
   CRYPT_R_GNU_SOURCE
 #]=============================================================================]
 
-include(CheckCSourceCompiles)
-include(CheckCSourceRuns)
+include(CheckSourceCompiles)
+include(CheckSourceRuns)
 include(CheckIncludeFile)
 include(CMakePushCheckState)
 include(FindPackageHandleStandardArgs)
@@ -51,7 +51,7 @@ function(_crypt_check_crypt_r_style library)
       set(CMAKE_REQUIRED_LIBRARIES ${library})
     endif()
 
-    check_c_source_compiles([[
+    check_source_compiles(C [[
       #define _REENTRANT 1
       #include <crypt.h>
 
@@ -69,7 +69,7 @@ function(_crypt_check_crypt_r_style library)
       return()
     endif()
 
-    check_c_source_compiles([[
+    check_source_compiles(C [[
       #define _REENTRANT 1
       #include <crypt.h>
 
@@ -87,7 +87,7 @@ function(_crypt_check_crypt_r_style library)
       return()
     endif()
 
-    check_c_source_compiles([[
+    check_source_compiles(C [[
       #define _REENTRANT 1
       #define _GNU_SOURCE
       #include <crypt.h>
@@ -111,7 +111,7 @@ function(_crypt_check_crypt_r_style library)
       return()
     endif()
 
-    check_c_source_compiles([[
+    check_source_compiles(C [[
       #include <stdlib.h>
       #include <unistd.h>
 
@@ -217,7 +217,7 @@ cmake_push_check_state(RESET)
     message(CHECK_PASS "yes (cross-compiling)")
     set(_crypt_des ON)
   else()
-    check_c_source_runs([[
+    check_source_runs(C [[
       #include <string.h>
 
       #if HAVE_UNISTD_H
@@ -253,7 +253,7 @@ cmake_push_check_state(RESET)
   if(CMAKE_CROSSCOMPILING)
     message(CHECK_FAIL "no (cross-compiling)")
   else()
-    check_c_source_runs([[
+    check_source_runs(C [[
       #if HAVE_UNISTD_H
       #include <unistd.h>
       #endif
@@ -287,7 +287,7 @@ cmake_push_check_state(RESET)
   if(CMAKE_CROSSCOMPILING)
     message(CHECK_FAIL "no (cross-compiling)")
   else()
-    check_c_source_runs([[
+    check_source_runs(C [[
       #if HAVE_UNISTD_H
       #include <unistd.h>
       #endif
@@ -331,7 +331,7 @@ cmake_push_check_state(RESET)
   if(CMAKE_CROSSCOMPILING)
     message(CHECK_FAIL "no (cross-compiling)")
   else()
-    check_c_source_runs([[
+    check_source_runs(C [[
       #if HAVE_UNISTD_H
       #include <unistd.h>
       #endif
@@ -373,7 +373,7 @@ cmake_push_check_state(RESET)
   if(CMAKE_CROSSCOMPILING)
     message(CHECK_FAIL "no (cross-compiling)")
   else()
-    check_c_source_runs([[
+    check_source_runs(C [[
       #if HAVE_UNISTD_H
       #include <unistd.h>
       #endif
@@ -413,7 +413,7 @@ cmake_push_check_state(RESET)
   if(CMAKE_CROSSCOMPILING)
     message(CHECK_FAIL "no (cross-compiling)")
   else()
-    check_c_source_runs([[
+    check_source_runs(C [[
       #if HAVE_UNISTD_H
       #include <unistd.h>
       #endif

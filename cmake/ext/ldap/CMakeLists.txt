@@ -1,4 +1,4 @@
-include(CheckCSourceCompiles)
+include(CheckSourceCompiles)
 include(CheckSymbolExists)
 include(CMakeDependentOption)
 include(CMakePushCheckState)
@@ -56,7 +56,7 @@ if(TARGET LDAP::LDAP)
     set(CMAKE_REQUIRED_INCLUDES ${LDAP_INCLUDE_DIRS})
 
     message(CHECK_START "Checking for 3 arg ldap_set_rebind_proc")
-    check_c_source_compiles("
+    check_source_compiles(C "
       #include <ldap.h>
 
       int main(void) {

@@ -1,4 +1,4 @@
-include(CheckCCompilerFlag)
+include(CheckCompilerFlag)
 include(CMakeDependentOption)
 include(FeatureSummary)
 
@@ -31,8 +31,8 @@ target_sources(php_tidy PRIVATE
 )
 
 # Add -Wno-ignored-qualifiers as this is an issue upstream.
-check_c_compiler_flag(-Wno-ignored-qualifiers HAVE_WNO_IGNORED_QUALIFIERS)
-if(HAVE_WNO_IGNORED_QUALIFIERS)
+check_compiler_flag(C -Wno-ignored-qualifiers HAVE_WNO_IGNORED_QUALIFIERS_C)
+if(HAVE_WNO_IGNORED_QUALIFIERS_C)
   target_compile_options(php_tidy PRIVATE -Wno-ignored-qualifiers)
 endif()
 

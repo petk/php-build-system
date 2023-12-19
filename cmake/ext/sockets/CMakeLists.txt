@@ -1,5 +1,5 @@
-include(CheckCSourceCompiles)
 include(CheckIncludeFile)
+include(CheckSourceCompiles)
 include(CheckSymbolExists)
 include(CMakeDependentOption)
 include(CMakePushCheckState)
@@ -53,7 +53,7 @@ check_include_file(linux/filter.h HAVE_LINUX_FILTER_H)
 
 message(CHECK_START "Checking for field ss_family in struct sockaddr_storage")
 
-check_c_source_compiles("
+check_source_compiles(C "
   #include <sys/socket.h>
   #include <sys/types.h>
   #include <netdb.h>
@@ -74,7 +74,7 @@ endif()
 
 message(CHECK_START "Checking if getaddrinfo supports AI_V4MAPPED")
 
-check_c_source_compiles("
+check_source_compiles(C "
   #include <netdb.h>
 
   int main(void) {
@@ -91,7 +91,7 @@ endif()
 
 message(CHECK_START "Checking if getaddrinfo supports AI_ALL")
 
-check_c_source_compiles("
+check_source_compiles(C "
   #include <netdb.h>
 
   int main(void) {
@@ -112,7 +112,7 @@ message(CHECK_START "Checking if getaddrinfo supports AI_IDN")
 cmake_push_check_state(RESET)
   set(CMAKE_REQUIRED_DEFINITIONS -D_GNU_SOURCE)
 
-  check_c_source_compiles("
+  check_source_compiles(C "
     #include <netdb.h>
 
     int main(void) {
@@ -133,7 +133,7 @@ endif()
 # E.g. DragonFlyBSD.
 message(CHECK_START "Checking if ancillary credentials uses ucred")
 
-check_c_source_compiles("
+check_source_compiles(C "
   #ifndef _GNU_SOURCE
   #define _GNU_SOURCE
   #endif
@@ -155,7 +155,7 @@ endif()
 # Check for struct cmsgcred.
 message(CHECK_START "Checking if ancillary credentials uses cmsgcred")
 
-check_c_source_compiles("
+check_source_compiles(C "
   #include <sys/socket.h>
   int main(void) {
     struct cmsgcred c = {0};

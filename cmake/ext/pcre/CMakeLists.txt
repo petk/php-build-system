@@ -1,6 +1,6 @@
-include(CheckCCompilerFlag)
-include(CheckCSourceCompiles)
-include(CheckCSourceRuns)
+include(CheckCompilerFlag)
+include(CheckSourceCompiles)
+include(CheckSourceRuns)
 include(CMakePushCheckState)
 include(FeatureSummary)
 
@@ -50,7 +50,7 @@ if(EXT_PCRE_EXTERNAL)
         set(CMAKE_REQUIRED_LIBRARIES PCRE::PCRE)
         set(CMAKE_REQUIRED_DEFINITIONS -DPCRE2_CODE_UNIT_WIDTH=${PCRE2_CODE_UNIT_WIDTH})
 
-        check_c_source_runs("
+        check_source_runs(C "
           #include <pcre2.h>
           #include <stdlib.h>
 
@@ -108,8 +108,8 @@ else()
     PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/pcre2lib
   )
 
-  check_c_compiler_flag(-Wno-implicit-fallthrough HAVE_WNO_IMPLICIT_FALLTHROUGH)
-  if(HAVE_WNO_IMPLICIT_FALLTHROUGH)
+  check_compiler_flag(C -Wno-implicit-fallthrough HAVE_WNO_IMPLICIT_FALLTHROUGH_C)
+  if(HAVE_WNO_IMPLICIT_FALLTHROUGH_C)
     target_compile_options(php_pcre PRIVATE -Wno-implicit-fallthrough)
   endif()
 
@@ -134,7 +134,7 @@ else()
 
     message(CHECK_START "Checking whether Intel CET is enabled")
 
-    check_c_source_compiles("
+    check_source_compiles(C "
       #ifndef __CET__
       # error CET is not enabled
       #endif

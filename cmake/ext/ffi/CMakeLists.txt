@@ -1,4 +1,4 @@
-include(CheckCSourceCompiles)
+include(CheckSourceCompiles)
 include(CheckTypeSize)
 include(CMakeDependentOption)
 include(CMakePushCheckState)
@@ -59,7 +59,7 @@ cmake_push_check_state(RESET)
   set(CMAKE_REQUIRED_LIBRARIES FFI::FFI)
   set(CMAKE_REQUIRED_INCLUDES "${FFI_INCLUDE_DIRS}")
 
-  check_c_source_compiles("
+  check_source_compiles(C "
     #include <ffi.h>
 
     int main(void) {
@@ -75,7 +75,7 @@ cmake_push_check_state(RESET)
 
   message(CHECK_START "Checking for thiscall calling convention")
 
-  check_c_source_compiles("
+  check_source_compiles(C "
     #include <ffi.h>
 
     int main(void) {
@@ -91,7 +91,7 @@ cmake_push_check_state(RESET)
 
   message(CHECK_START "Checking for stdcall calling convention")
 
-  check_c_source_compiles("
+  check_source_compiles(C "
     #include <ffi.h>
 
     int main(void) {
@@ -107,7 +107,7 @@ cmake_push_check_state(RESET)
 
   message(CHECK_START "Checking for pascal calling convention")
 
-  check_c_source_compiles("
+  check_source_compiles(C "
     #include <ffi.h>
 
     int main(void) {
@@ -123,7 +123,7 @@ cmake_push_check_state(RESET)
 
   message(CHECK_START "Checking for register calling convention")
 
-  check_c_source_compiles("
+  check_source_compiles(C "
     #include <ffi.h>
 
     int main(void) {
@@ -139,7 +139,7 @@ cmake_push_check_state(RESET)
 
   message(CHECK_START "Checking for ms_cdecl calling convention")
 
-  check_c_source_compiles("
+  check_source_compiles(C "
     #include <ffi.h>
 
     int main(void) {
@@ -155,7 +155,7 @@ cmake_push_check_state(RESET)
 
   message(CHECK_START "Checking for sysv calling convention")
 
-  check_c_source_compiles("
+  check_source_compiles(C "
     #include <ffi.h>
 
     int main(void) {

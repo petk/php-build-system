@@ -16,7 +16,7 @@ Cache variables:
 
 include_guard(GLOBAL)
 
-include(CheckCSourceCompiles)
+include(CheckSourceCompiles)
 include(CMakePushCheckState)
 
 function(_php_check_inline)
@@ -25,7 +25,7 @@ function(_php_check_inline)
   foreach(keyword "inline" "__inline__" "__inline")
     cmake_push_check_state(RESET)
       set(CMAKE_REQUIRED_DEFINITIONS -Dinline=${keyword})
-      check_c_source_compiles("
+      check_source_compiles(C "
         #ifndef __cplusplus
           typedef int foo_t;
 

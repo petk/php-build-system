@@ -1,6 +1,6 @@
-include(CheckCSourceRuns)
 include(CheckIncludeFile)
 include(CheckLibraryExists)
+include(CheckSourceRuns)
 include(CMakeDependentOption)
 include(CMakePushCheckState)
 include(FeatureSummary)
@@ -51,7 +51,7 @@ if(PHP_THREAD_SAFETY AND CURL_SSL_FOUND)
     cmake_push_check_state(RESET)
       set(CMAKE_REQUIRED_LIBRARIES CURL::libcurl)
 
-      check_c_source_runs("
+      check_source_runs(C "
         #include <strings.h>
         #include <curl/curl.h>
 

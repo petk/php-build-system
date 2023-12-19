@@ -9,8 +9,8 @@ Cache variables:
 
 include_guard(GLOBAL)
 
-include(CheckCSourceCompiles)
-include(CheckCSourceRuns)
+include(CheckSourceCompiles)
+include(CheckSourceRuns)
 
 message(CHECK_START "Checking for asm goto support")
 
@@ -29,9 +29,9 @@ set(_php_asm_goto_source [[
 ]])
 
 if(CMAKE_CROSSCOMPILING)
-  check_c_source_compiles("${_php_asm_goto_source}" HAVE_ASM_GOTO)
+  check_source_compiles(C "${_php_asm_goto_source}" HAVE_ASM_GOTO)
 else()
-  check_c_source_runs("${_php_asm_goto_source}" HAVE_ASM_GOTO)
+  check_source_runs(C "${_php_asm_goto_source}" HAVE_ASM_GOTO)
 endif()
 
 list(POP_BACK CMAKE_MESSAGE_INDENT)

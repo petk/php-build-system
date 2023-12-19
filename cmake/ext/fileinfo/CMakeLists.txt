@@ -1,4 +1,4 @@
-include(CheckCSourceRuns)
+include(CheckSourceRuns)
 include(CheckSymbolExists)
 include(CMakeDependentOption)
 include(FeatureSummary)
@@ -56,7 +56,7 @@ check_symbol_exists(strndup "string.h" HAVE_STRNDUP)
 message(CHECK_START "Checking for strcasestr")
 
 if(NOT CMAKE_CROSSCOMPILING)
-  check_c_source_runs([[
+  check_source_runs(C [[
     #include <string.h>
     #include <strings.h>
     #include <stdlib.h>

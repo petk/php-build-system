@@ -15,13 +15,13 @@ Cache variables:
 
 include_guard(GLOBAL)
 
-include(CheckCSourceCompiles)
-include(CheckCSourceRuns)
+include(CheckSourceCompiles)
+include(CheckSourceRuns)
 include(CMakePushCheckState)
 
 message(CHECK_START "Checking for ptrace")
 
-check_c_source_compiles("
+check_source_compiles(C "
   #include <sys/types.h>
   #include <sys/ptrace.h>
 
@@ -42,7 +42,7 @@ if(_have_ptrace)
   message(CHECK_START "Checking whether ptrace works")
 
   if(NOT CMAKE_CROSSCOMPILING)
-    check_c_source_runs("
+    check_source_runs(C "
       #include <unistd.h>
       #include <signal.h>
       #include <sys/wait.h>
@@ -123,7 +123,7 @@ endif()
 if(NOT HAVE_PTRACE)
   message(CHECK_START "Checking for mach_vm_read")
 
-  check_c_source_compiles("
+  check_source_compiles(C "
     #include <mach/mach.h>
     #include <mach/mach_vm.h>
 
@@ -151,7 +151,7 @@ endif()
 
 if(_php_proc_mem_file)
   if(NOT CMAKE_CROSSCOMPILING)
-    check_c_source_runs("
+    check_source_runs(C "
       #define _GNU_SOURCE
       #define _FILE_OFFSET_BITS 64
       #include <stdint.h>

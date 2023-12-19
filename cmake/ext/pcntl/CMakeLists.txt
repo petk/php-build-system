@@ -1,5 +1,5 @@
 # TODO: pcntl is a cli/cgi extension.
-include(CheckCSourceCompiles)
+include(CheckSourceCompiles)
 include(CheckSymbolExists)
 include(CMakeDependentOption)
 include(CMakePushCheckState)
@@ -79,7 +79,7 @@ cmake_push_check_state(RESET)
     list(APPEND CMAKE_REQUIRED_DEFINITIONS -DHAVE_SIGINFO_H)
   endif()
 
-  check_c_source_compiles("
+  check_source_compiles(C "
     #include <signal.h>
 
     #ifdef HAVE_SIGINFO_H

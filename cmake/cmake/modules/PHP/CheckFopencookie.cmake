@@ -11,8 +11,8 @@ Cache variables:
 
 include_guard(GLOBAL)
 
-include(CheckCSourceCompiles)
-include(CheckCSourceRuns)
+include(CheckSourceCompiles)
+include(CheckSourceRuns)
 include(CheckSymbolExists)
 include(CMakePushCheckState)
 
@@ -28,7 +28,7 @@ endif()
 # glibcs (since 2.1.2?) have a type called cookie_io_functions_t.
 message(CHECK_START "Checking whether cookie_io_functions_t is available")
 
-check_c_source_compiles("
+check_source_compiles(C "
   #define _GNU_SOURCE
   #include <stdio.h>
 
@@ -57,7 +57,7 @@ if(CMAKE_CROSSCOMPILING AND CMAKE_HOST_SYSTEM_NAME STREQUAL "Linux")
     CACHE INTERNAL "Whether newer fopencookie seeker definition is available"
   )
 else()
-  check_c_source_runs([[
+  check_source_runs(C [[
     #define _GNU_SOURCE
     #include <stdio.h>
     #include <stdlib.h>

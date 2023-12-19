@@ -1,5 +1,6 @@
 include(CheckCompilerFlag)
 include(CheckLibraryExists)
+include(CheckSourceCompiles)
 include(CMakeDependentOption)
 include(CMakePushCheckState)
 include(FeatureSummary)
@@ -320,7 +321,7 @@ if(NOT EXT_GD_EXTERNAL)
     cmake_push_check_state(RESET)
       set(CMAKE_REQUIRED_LIBRARIES ${libraries})
 
-      check_c_source_compiles([[
+      check_source_compiles(C [[
         char foobar(void) {
           return '\\0';
         }

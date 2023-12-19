@@ -25,10 +25,9 @@ file(READ "zend_modules.h" _)
 string(REGEX MATCH "#[ \t]*define[ \t]+ZEND_MODULE_API_NO[ \t]+([0-9]+)" _ "${_}")
 message(STATUS "Zend module API number: ${CMAKE_MATCH_1}")
 
-include(CheckCCompilerFlag)
-include(CheckCSourceCompiles)
-include(CheckCSourceRuns)
 include(CheckIncludeFile)
+include(CheckSourceCompiles)
+include(CheckSourceRuns)
 include(CheckSymbolExists)
 include(CMakePushCheckState)
 include(PHP/SearchLibraries)
@@ -188,7 +187,7 @@ cmake_push_check_state(RESET)
 cmake_pop_check_state()
 
 message(CHECK_START "Checking whether __cpuid_count is available")
-check_c_source_compiles("
+check_source_compiles(C "
   #include <cpuid.h>
   int main(void) {
     unsigned eax, ebx, ecx, edx;
@@ -338,7 +337,7 @@ endif()
 # Check whether syscall to create shadow stack exists.
 message(CHECK_START "Whether syscall to create shadow stack exists")
 if(NOT CMAKE_CROSSCOMPILING)
-  check_c_source_runs("
+  check_source_runs(C "
     #include <unistd.h>
     #include <sys/mman.h>
     int main(void) {

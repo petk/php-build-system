@@ -1,4 +1,4 @@
-include(CheckCSourceCompiles)
+include(CheckSourceCompiles)
 include(CMakeDependentOption)
 include(FeatureSummary)
 
@@ -32,7 +32,7 @@ target_sources(php_sysvsem PRIVATE
 
 message(CHECK_START "Checking for union semun")
 
-check_c_source_compiles("
+check_source_compiles(C "
   #include <sys/types.h>
   #include <sys/ipc.h>
   #include <sys/sem.h>
