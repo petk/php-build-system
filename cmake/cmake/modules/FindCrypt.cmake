@@ -308,7 +308,7 @@ cmake_push_check_state(RESET)
         salt[3]='r'; salt[4]='a'; salt[5]='s';
         salt[6]='m'; salt[7]='u'; salt[8]='s';
         salt[9]='l'; salt[10]='e'; salt[11]='$';
-        salt[12]='\\0';
+        salt[12]='\0';
         strcpy(answer,salt);
         strcat(answer,"rISCgZzpwk3UhDidwXvin0");
         encrypted = crypt("rasmuslerdorf",salt);
@@ -349,7 +349,7 @@ cmake_push_check_state(RESET)
         char *encrypted;
 
         salt[0]='$'; salt[1]='2'; salt[2]='a'; salt[3]='$';
-        salt[4]='0'; salt[5]='7'; salt[6]='$'; salt[7]='\\0';
+        salt[4]='0'; salt[5]='7'; salt[6]='$'; salt[7]='\0';
         strcat(salt,"rasmuslerd............");
         strcpy(answer,salt);
         strcpy(&answer[29],"nIdrcHdxcUxWomQX9j6kvERCFjTg7Ra");

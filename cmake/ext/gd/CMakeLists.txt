@@ -323,7 +323,7 @@ if(NOT EXT_GD_EXTERNAL)
 
       check_source_compiles(C [[
         char foobar(void) {
-          return '\\0';
+          return '\0';
         }
 
         char foobar();

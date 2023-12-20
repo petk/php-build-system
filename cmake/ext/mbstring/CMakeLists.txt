@@ -162,8 +162,8 @@ target_include_directories(
 
 target_sources(
   php_mbstring
-  PUBLIC FILE_SET HEADERS
-    BASE_DIRS "${PROJECT_BINARY_DIR}" "${PROJECT_SOURCE_DIR}"
+  PUBLIC FILE_SET headers_source TYPE HEADERS
+    BASE_DIRS "${PROJECT_SOURCE_DIR}"
     FILES
       libmbfl/mbfl/eaw_table.h
       libmbfl/mbfl/mbfilter_8bit.h
@@ -178,12 +178,17 @@ target_sources(
       libmbfl/mbfl/mbfl_language.h
       libmbfl/mbfl/mbfl_memory_device.h
       libmbfl/mbfl/mbfl_string.h
-      "${CMAKE_CURRENT_BINARY_DIR}/libmbfl/config.h"
       mbstring.h
+  # A separate file set so binary dir can also be created within a source dir.
+  PUBLIC FILE_SET headers_binary TYPE HEADERS
+    BASE_DIRS "${PROJECT_BINARY_DIR}"
+    FILES
+      "${CMAKE_CURRENT_BINARY_DIR}/libmbfl/config.h"
 )
 
 install(
   TARGETS php_mbstring
   ARCHIVE EXCLUDE_FROM_ALL
-  FILE_SET HEADERS
+  FILE_SET headers_source
+  FILE_SET headers_binary
 )

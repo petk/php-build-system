@@ -254,10 +254,14 @@ file(GLOB_RECURSE _php_main_headers "${CMAKE_CURRENT_SOURCE_DIR}/*.h")
 
 target_sources(
   php_main
-  PUBLIC FILE_SET HEADERS
-    BASE_DIRS "${PROJECT_BINARY_DIR}" "${PROJECT_SOURCE_DIR}"
+  PUBLIC FILE_SET headers_source TYPE HEADERS
+    BASE_DIRS "${PROJECT_SOURCE_DIR}"
     FILES
       ${_php_main_headers}
+  # A separate file set so binary dir can also be created within a source dir.
+  PUBLIC FILE_SET headers_binary TYPE HEADERS
+    BASE_DIRS "${PROJECT_BINARY_DIR}"
+    FILES
       "${CMAKE_CURRENT_BINARY_DIR}/build-defs.h"
       "${CMAKE_CURRENT_BINARY_DIR}/php_config.h"
 )
@@ -265,5 +269,6 @@ target_sources(
 install(
   TARGETS php_main
   ARCHIVE EXCLUDE_FROM_ALL
-  FILE_SET HEADERS
+  FILE_SET headers_source
+  FILE_SET headers_binary
 )

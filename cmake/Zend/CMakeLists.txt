@@ -455,12 +455,11 @@ list(FILTER _zend_headers EXCLUDE REGEX ".*zend_config\\.w32\\.h$")
 
 target_sources(
   zend
-  PUBLIC FILE_SET HEADERS
-    BASE_DIRS "${PHP_BINARY_DIR}" "${PHP_SOURCE_DIR}"
+  PUBLIC FILE_SET headers_source TYPE HEADERS
+    BASE_DIRS "${PHP_SOURCE_DIR}"
     FILES
       ${_zend_headers}
       $<$<PLATFORM_ID:Windows>:zend_config.w32.h>
-      "${CMAKE_CURRENT_BINARY_DIR}/zend_config.h"
       Optimizer/zend_call_graph.h
       Optimizer/zend_cfg.h
       Optimizer/zend_dfg.h
@@ -470,10 +469,16 @@ target_sources(
       Optimizer/zend_optimizer.h
       Optimizer/zend_ssa.h
       Optimizer/zend_worklist.h
+  # A separate file set so binary dir can also be created within a source dir.
+  PUBLIC FILE_SET headers_binary TYPE HEADERS
+    BASE_DIRS "${PHP_BINARY_DIR}"
+    FILES
+      "${CMAKE_CURRENT_BINARY_DIR}/zend_config.h"
 )
 
 install(
   TARGETS zend
   ARCHIVE EXCLUDE_FROM_ALL
-  FILE_SET HEADERS
+  FILE_SET headers_source
+  FILE_SET headers_binary
 )

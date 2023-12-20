@@ -243,17 +243,6 @@ check_symbol_exists(getgrnam_r "grp.h" HAVE_GETGRNAM_R)
 check_symbol_exists(getpwuid_r "pwd.h" HAVE_GETPWUID_R)
 check_symbol_exists(getwd "unistd.h" HAVE_GETWD)
 check_symbol_exists(glob "glob.h" HAVE_GLOB)
-
-if(PHP_VERSION VERSION_LESS 8.4)
-  check_symbol_exists(inet_ntoa "arpa/inet.h" HAVE_INET_NTOA)
-endif()
-
-check_symbol_exists(inet_ntop "arpa/inet.h" HAVE_INET_NTOP)
-if(NOT HAVE_INET_NTOP)
-  message(FATAL_ERROR "Cannot find inet_ntop which is required.")
-endif()
-
-check_symbol_exists(inet_pton "arpa/inet.h" HAVE_INET_PTON)
 check_symbol_exists(localtime_r "time.h" HAVE_LOCALTIME_R)
 check_symbol_exists(lchown "unistd.h" HAVE_LCHOWN)
 check_symbol_exists(memcntl "sys/mman.h" HAVE_MEMCNTL)
@@ -534,8 +523,8 @@ php_search_libraries(
     ${CMAKE_DL_LIBS}
     # Haiku has dlopen in root library, however library is already explicitly
     # linked on the system. Here, check is noted only for documentation purpose.
-    # TODO: Should root be removed? CMake doesn't defined it in CMAKE_DL_LIBS
-    # since 2013 anymore.
+    # TODO: Should root be removed? CMake doesn't add it in CMAKE_DL_LIBS
+    # anymore since 2013.
     root
 )
 if(_php_dlopen_library)
@@ -634,12 +623,64 @@ if(OPENPTY_LIBRARY)
   target_link_libraries(php_configuration INTERFACE ${OPENPTY_LIBRARY})
 endif()
 
+if(PHP_VERSION VERSION_LESS 8.4)
+  php_search_libraries(
+    inet_ntoa
+    "arpa/inet.h"
+    HAVE_INET_NTOA
+    _php_inet_ntoa_library
+    LIBRARIES
+      network # Haiku
+  )
+  if(_php_inet_ntoa_library)
+    target_link_libraries(php_configuration INTERFACE ${_php_inet_ntoa_library})
+  endif()
+endif()
+
+php_search_libraries(
+  inet_ntop
+  "arpa/inet.h"
+  HAVE_INET_NTOP
+  _php_inet_ntop_library
+  LIBRARIES
+    # TODO: Update the libraries list here for Solaris. Solaris 11 has these in
+    # the C library or linked explicitly already like Linux systems.
+    nsl     # Solaris 8..10
+    resolv  # Solaris 2.6..7
+    network # Haiku
+)
+if(_php_inet_ntop_library)
+  target_link_libraries(php_configuration INTERFACE ${_php_inet_ntop_library})
+endif()
+if(NOT HAVE_INET_NTOP)
+  message(FATAL_ERROR "Cannot find inet_ntop which is required.")
+endif()
+
+php_search_libraries(
+  inet_pton
+  "arpa/inet.h"
+  HAVE_INET_PTON
+  _php_inet_pton_library
+  LIBRARIES
+    # TODO: Update the libraries list here for Solaris. Solaris 11 has these in
+    # the C library or linked explicitly already like Linux systems.
+    nsl     # Solaris 8..10
+    resolv  # Solaris 2.6..7
+    network # Haiku
+)
+if(_php_inet_pton_library)
+  target_link_libraries(php_configuration INTERFACE ${_php_inet_pton_library})
+endif()
+
 php_search_libraries(
   inet_aton
   "sys/socket.h;netinet/in.h;arpa/inet.h"
   HAVE_INET_ATON
   INET_ATON_LIBRARY
-  LIBRARIES resolv bind
+  LIBRARIES
+    resolv
+    bind
+    network # Haiku
 )
 if(INET_ATON_LIBRARY)
   target_link_libraries(php_configuration INTERFACE ${INET_ATON_LIBRARY})
