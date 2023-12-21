@@ -70,6 +70,7 @@ patterns="
 #undef\sHAVE_SETSOCKOPT
 #undef\sHAVE_PGRAB
 #undef\sHAVE_LIBPROC
+#undef\sin_addr_t
 "
 
 # Similar to the above patterns except the two lines above and one after the
