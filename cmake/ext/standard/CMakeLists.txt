@@ -240,7 +240,9 @@ php_search_libraries(
   resolv.h
   HAVE_RES_NSEARCH
   RES_NSEARCH_LIBRARY
-  LIBRARIES resolv bind socket
+  LIBRARIES
+    resolv
+    socket
 )
 if(RES_NSEARCH_LIBRARY)
   target_link_libraries(php_standard PRIVATE ${RES_NSEARCH_LIBRARY})
@@ -251,7 +253,9 @@ php_search_libraries(
   resolv.h
   HAVE_RES_NDESTROY
   RES_NDESTROY_LIBRARY
-  LIBRARIES resolv bind socket
+  LIBRARIES
+    resolv
+    socket
 )
 if(RES_NDESTROY_LIBRARY)
   target_link_libraries(php_standard PRIVATE ${RES_NDESTROY_LIBRARY})
@@ -262,7 +266,9 @@ php_search_libraries(
   resolv.h
   HAVE_DNS_SEARCH
   DNS_SEARCH_LIBRARY
-  LIBRARIES resolv bind socket
+  LIBRARIES
+    resolv
+    socket
 )
 if(DNS_SEARCH_LIBRARY)
   target_link_libraries(php_standard PRIVATE ${DNS_SEARCH_LIBRARY})
@@ -273,7 +279,9 @@ php_search_libraries(
   resolv.h
   HAVE_DN_EXPAND
   DN_EXPAND_LIBRARY
-  LIBRARIES resolv bind socket
+  LIBRARIES
+    resolv
+    socket
 )
 if(DN_EXPAND_LIBRARY)
   target_link_libraries(php_standard PRIVATE ${DN_EXPAND_LIBRARY})
@@ -284,7 +292,9 @@ php_search_libraries(
   resolv.h
   HAVE_DN_SKIPNAME
   DN_SKIPNAME_LIBRARY
-  LIBRARIES resolv bind socket
+  LIBRARIES
+    resolv
+    socket
 )
 if(DN_SKIPNAME_LIBRARY)
   target_link_libraries(php_standard PRIVATE ${DN_SKIPNAME_LIBRARY})
@@ -296,7 +306,9 @@ php_search_libraries(
   resolv.h
   HAVE_RES_SEARCH
   RES_SEARCH_LIBRARY
-  LIBRARIES resolv bind socket
+  LIBRARIES
+    resolv
+    socket
 )
 if(RES_SEARCH_LIBRARY)
   target_link_libraries(php_standard PRIVATE ${RES_SEARCH_LIBRARY})

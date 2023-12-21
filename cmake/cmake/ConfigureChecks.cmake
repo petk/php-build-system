@@ -679,32 +679,31 @@ php_search_libraries(
   INET_ATON_LIBRARY
   LIBRARIES
     resolv
-    bind
     network # Haiku
 )
 if(INET_ATON_LIBRARY)
   target_link_libraries(php_configuration INTERFACE ${INET_ATON_LIBRARY})
 endif()
 
-# Some systems (like OpenSolaris) do not have nanosleep in libc.
 php_search_libraries(
   nanosleep
   "time.h"
   HAVE_NANOSLEEP
   NANOSLEEP_LIBRARY
-  LIBRARIES rt
+  LIBRARIES
+    rt # Some systems (like OpenSolaris) do not have nanosleep in libc.
 )
 if(NANOSLEEP_LIBRARY)
   target_link_libraries(php_configuration INTERFACE )
 endif()
 
-# Haiku does not have network API in libc.
 php_search_libraries(
   setsockopt
   "sys/types.h;sys/socket.h"
   HAVE_SETSOCKOPT
   SETSOCKOPT_LIBRARY
-  LIBRARIES network
+  LIBRARIES
+    network # Haiku does not have network API in libc.
 )
 if(SETSOCKOPT_LIBRARY)
   target_link_libraries(php_configuration INTERFACE ${SETSOCKOPT_LIBRARY})
