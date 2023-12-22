@@ -448,6 +448,16 @@ alternatives.
       <td></td>
     </tr>
     <tr>
+      <td>--disable-libgcc</td>
+      <td>PHP_LIBGCC=OFF</td>
+      <td>default</td>
+    </tr>
+    <tr>
+      <td>&emsp;--enable-libgcc</td>
+      <td>PHP_LIBGCC=ON</td>
+      <td></td>
+    </tr>
+    <tr>
       <th colspan="3">Zend engine configuration</td>
     </tr>
     <tr>

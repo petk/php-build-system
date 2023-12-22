@@ -247,6 +247,7 @@ check_symbol_exists(localtime_r "time.h" HAVE_LOCALTIME_R)
 check_symbol_exists(lchown "unistd.h" HAVE_LCHOWN)
 check_symbol_exists(memcntl "sys/mman.h" HAVE_MEMCNTL)
 check_symbol_exists(memmove "string.h" HAVE_MEMMOVE)
+check_symbol_exists(mempcpy "string.h" HAVE_MEMPCPY)
 check_symbol_exists(mkstemp "stdlib.h" HAVE_MKSTEMP)
 check_symbol_exists(mmap "sys/mman.h" HAVE_MMAP)
 check_symbol_exists(nice "unistd.h" HAVE_NICE)
@@ -720,3 +721,21 @@ php_search_libraries(
 if(PROC_LIBRARY)
   target_link_libraries(php_configuration INTERFACE ${PROC_LIBRARY})
 endif()
+
+block()
+  if(PHP_LIBGCC)
+    execute_process(
+      COMMAND gcc --print-libgcc-file-name
+      OUTPUT_VARIABLE libgcc_path
+      OUTPUT_STRIP_TRAILING_WHITESPACE
+    )
+
+    if(NOT EXISTS "${libgcc_path}")
+      message(FATAL_ERROR "Cannot locate libgcc.")
+    endif()
+
+    message(STATUS "Explicitly linking against libgcc (${libgcc_path})")
+
+    target_link_libraries(php_configuration INTERFACE ${libgcc_path})
+  endif()
+endblock()

@@ -1008,6 +1008,9 @@
 /* Define to 1 if you have the 'memmove' function. */
 #cmakedefine HAVE_MEMMOVE @HAVE_MEMMOVE@
 
+/* Define to 1 if you have the 'mempcpy' function. */
+#cmakedefine HAVE_MEMPCPY @HAVE_MEMPCPY@
+
 /* Define to 1 if you have the 'memrchr' function. */
 #cmakedefine HAVE_MEMRCHR @HAVE_MEMRCHR@
 

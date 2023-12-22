@@ -108,6 +108,8 @@ option(PHP_UNDEFINED_SANITIZER "Enable the undefined sanitizer compiler option" 
 
 option(PHP_GCOV "Enable GCOV code coverage and include GCOV symbols" OFF)
 
+option(PHP_LIBGCC "Explicitly link against libgcc" OFF)
+
 ################################################################################
 # Various global internal configuration.
 ################################################################################

@@ -99,7 +99,8 @@ Windows systems.
 ## 2008
 
 Idea to rewrite PHP build system in CMake first appeared during the Google
-Summer of Code in 2008 ([wiki](https://wiki.php.net/internals/cmake)).
+Summer of Code in 2008 ([wiki](https://wiki.php.net/internals/cmake),
+[php-cmake](https://github.com/gloob/php-cmake)).
 
 ## 2015
 
@@ -118,4 +119,4 @@ time, including removal of `aclocal.m4` in favor of the php related M4 macros in
 ## 2021
 
 Idea to move CMake forward and additionally use Conan was started on the
-[PHP internals mailing list](https://externals.io/message/116655#116794).
+[PHP internals mailing list](https://externals.io/message/116655).
