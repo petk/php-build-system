@@ -131,7 +131,7 @@ not recommended anymore.
 For example, do this:
 
 ```cmake
-if(FOO)
+if(foo)
   some_command(...)
 else()
   another_command(...)
@@ -141,9 +141,9 @@ endif()
 and not this:
 
 ```cmake
-if(BAR)
+if(bar)
   some_other_command(...)
-endif(BAR)
+endif(bar)
 ```
 
 ### 2.2. Source and binary directories

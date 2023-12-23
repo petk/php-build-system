@@ -34,9 +34,10 @@ understanding of its fundamentals.
 
 ## 1. Command-line usage
 
-CMake is a build system generator invoked on command line using `cmake` command.
-When working with CMake, there are two primary phases: the configuration and
-generation phase, followed by the build phase.
+[CMake](https://cmake.org/) is an open-source cross-platform build system
+generator created by Kitware and contributors. It is invoked on command line
+using `cmake` command. When working with CMake, there are two primary phases:
+the configuration and generation phase, followed by the build phase.
 
 ### 1.1. Configuration and generation phase
 

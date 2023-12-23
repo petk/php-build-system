@@ -1,16 +1,15 @@
-# PHP build system
+# PHP build system documentation
 
 ![ElePHPant](images/elephpant.jpg)
 
-## Index
-
-* [Autotools](autotools.md)
-* [Windows build system for PHP](windows.md)
-* [Quick introduction to CMake](cmake.md)
-* [PHP installation](php-installation.md)
-* [PHP embed SAPI module](embed.md)
-* [Dependencies in C/C++ projects](dependencies.md)
-* [CMake-based PHP build system](php-build-system.md)
-* [PHP build system configuration](configuration.md)
-* [CMake code style](cmake-code-style.md)
-* [PHP build system evolution](evolution.md)
+* [Quick introduction to CMake](/docs/cmake.md)
+* [CMake-based PHP build system](/docs/php-build-system.md)
+* [PHP build system configuration](/docs/configuration.md)
+* [Dependencies in C/C++ projects](/docs/dependencies.md)
+* [CMake code style](/docs/cmake-code-style.md)
+* [Autotools-based PHP build system](/docs/autotools.md)
+* [Windows build system for PHP](/docs/windows.md)
+* [PHP embed SAPI module](/docs/embed.md)
+* [PHP installation](/docs/php-installation.md)
+* [PHP build system evolution](/docs/evolution.md)
+* [Introduction to C](/docs/c.md)

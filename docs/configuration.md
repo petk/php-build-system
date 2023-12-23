@@ -7,7 +7,9 @@
 * [3. PHP SAPI modules configuration](#3-php-sapi-modules-configuration)
 * [4. PHP extensions configuration](#4-php-extensions-configuration)
 * [5. CMake presets](#5-cmake-presets)
-* [6. Autotools configure and CMake configuration options mapping](#6-autotools-configure-and-cmake-configuration-options-mapping)
+* [6. CMake GUI](#6-cmake-gui)
+* [7. Command-line interface ccmake](#7-command-line-interface-ccmake)
+* [8. Autotools configure and CMake configuration options mapping](#8-autotools-configure-and-cmake-configuration-options-mapping)
 
 Configuration can be passed on the command line:
 
@@ -193,7 +195,74 @@ File `CMakeUserPresets.json` is ignored in Git because it is intended for users
 to override the `CMakePresets.json` defaults with their own specific local
 configuration.
 
-## 6. Autotools configure and CMake configuration options mapping
+## 6. CMake GUI
+
+With CMake there comes also a basic graphical user interface to configure and
+generate the build system.
+
+Inside a CMake project, run:
+
+```sh
+cmake-gui .
+```
+
+![CMake GUI](/docs/images/cmake-gui.png)
+
+Here the build configuration can be done, such as enabling the PHP extensions,
+adjusting the build options and similar.
+
+CMake GUI makes it simpler to see available build options and settings and it
+also conveniently hides and sets the dependent options. For example, if some PHP
+extension provides multiple configuration options and it is disabled, the
+dependent options won't be displayed after configuration.
+
+![CMake GUI setup](/docs/images/cmake-gui-2-setup.png)
+
+After setting up, press the `Configure` button to start the configuration phase
+and prepare the build configuration. The `Generate` buttons can then generate
+the chosen build system.
+
+![CMake GUI configuration](/docs/images/cmake-gui-3.png)
+
+GUI is only meant to configure and generate the build in user-friendly way.
+Building the sources into binaries can be then done using the command line or an
+IDE.
+
+```sh
+cmake --build --preset default
+```
+
+## 7. Command-line interface ccmake
+
+The CMake curses interface (`ccmake`) is a command-line GUI, similar to the
+CMake GUI, that simplifies the project configuration process in an intuitive and
+straightforward manner.
+
+```sh
+# Run ccmake:
+ccmake -S source-directory -B build-directory
+
+# For in-source builds:
+ccmake .
+```
+
+![The ccmake GUI](/docs/images/ccmake.png)
+
+* `c` key will run the configuration step
+* `g` key will run the generation step (you might need to press `c` again)
+
+Much like the CMake GUI, the build step is executed on the command line
+afterward.
+
+```sh
+# Build the project sources from the specified build directory:
+cmake --build build-directory -j
+```
+
+`ccmake` does not support presets but can be utilized for simpler configurations
+during development and for similar workflows.
+
+## 8. Autotools configure and CMake configuration options mapping
 
 A list of Autoconf configure command-line configuration options and their CMake
 alternatives.
