@@ -527,6 +527,16 @@ alternatives.
       <td></td>
     </tr>
     <tr>
+      <td>--enable-all</td>
+      <td>Use CMake preset <code>--preset all-enabled</code></td>
+      <td>Enables all extensions and some additional configuration</td>
+    </tr>
+    <tr>
+      <td>--disable-all</td>
+      <td>Use CMake preset <code>--preset all-disabled</code></td>
+      <td>Disables all extensions and some additional configuration</td>
+    </tr>
+    <tr>
       <th colspan="3">Zend engine configuration</td>
     </tr>
     <tr>

@@ -1,3 +1,6 @@
+# TODO: Extension is not configured.
+return()
+
 include(CMakeDependentOption)
 include(FeatureSummary)
 

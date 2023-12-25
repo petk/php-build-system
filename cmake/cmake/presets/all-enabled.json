@@ -1,0 +1,129 @@
+{
+  "version": 4,
+  "configurePresets": [
+    {
+      "name": "all-enabled",
+      "displayName": "All extensions enabled",
+      "description": "PHP configuration with all PHP extensions enabled",
+      "cacheVariables": {
+        "PHP_PEAR": true,
+
+        "EXT_BCMATH": true,
+        "EXT_BZ2": true,
+        "EXT_CALENDAR": true,
+        "EXT_CURL": true,
+        "EXT_DBA": true,
+        "EXT_DL_TEST": true,
+        "EXT_ENCHANT": true,
+        "EXT_EXIF": true,
+        "EXT_FFI": true,
+        "EXT_FTP": true,
+        "EXT_GD": true,
+        "EXT_GD_AVIF": true,
+        "EXT_GD_WEBP": true,
+        "EXT_GD_JPEG": true,
+        "EXT_GD_XPM": true,
+        "EXT_GD_FREETYPE": true,
+        "EXT_GD_JIS": true,
+        "EXT_GETTEXT": true,
+        "EXT_GMP": true,
+        "EXT_HASH_MHASH": true,
+        "EXT_INTL": true,
+        "EXT_LDAP": true,
+        "EXT_LDAP_SASL": true,
+        "EXT_MBSTRING": true,
+        "EXT_MYSQLI": true,
+        "EXT_MYSQL_SOCK": true,
+        "EXT_MYSQLND": true,
+        "EXT_ODBC": true,
+        "EXT_OPCACHE_CAPSTONE": true,
+        "EXT_OPENSSL": true,
+        "EXT_PCNTL": true,
+        "EXT_PDO_DBLIB": true,
+        "EXT_PDO_FIREBIRD": true,
+        "EXT_PDO_MYSQL": true,
+        "EXT_PDO_ODBC": true,
+        "EXT_PDO_PGSQL": true,
+        "EXT_PGSQL": true,
+        "EXT_PSPELL": true,
+        "EXT_READLINE": true,
+        "EXT_SHMOP": true,
+        "EXT_SNMP": true,
+        "EXT_SOAP": true,
+        "EXT_SOCKETS": true,
+        "EXT_SODIUM": true,
+        "EXT_STANDARD_ARGON2": true,
+        "EXT_SYSVMSG": true,
+        "EXT_SYSVSEM": true,
+        "EXT_SYSVSHM": true,
+        "EXT_TIDY": true,
+        "EXT_XSL": true,
+        "EXT_ZEND_TEST": true,
+        "EXT_ZIP": true,
+        "EXT_ZLIB": true,
+
+        "SAPI_FPM": true,
+        "SAPI_FPM_SYSTEMD": true,
+        "SAPI_FPM_ACL": true,
+        "SAPI_FPM_APPARMOR": true,
+        "SAPI_FPM_SELINUX": true,
+        "SAPI_LITESPEED": true
+      }
+    },
+    {
+      "name": "all-enabled-2",
+      "inherits": "all-enabled",
+      "displayName": "PHP configuration with all extensions enabled with variations",
+      "description": "PHP build with all extensions enabled and different variation of options set",
+      "cacheVariables": {
+        "PHP_DMALLOC": true,
+        "PHP_DTRACE": true,
+
+        "EXT_OPENSSL_KERBEROS": true,
+        "EXT_OPENSSL_SYSTEM_CIPHERS": true,
+        "EXT_PCRE_EXTERNAL": true,
+        "EXT_SESSION_MM": true,
+        "EXT_STANDARD_EXTERNAL_LIBCRYPT": true,
+        "EXT_XML_EXPAT": true
+      }
+    },
+    {
+      "name": "ninja-full",
+      "inherits": "all-enabled",
+      "displayName": "Ninja PHP configuration",
+      "description": "PHP build using Ninja generator with all extensions enabled",
+      "generator": "Ninja"
+    }
+  ],
+  "buildPresets": [
+    {
+      "name": "all-enabled",
+      "configurePreset": "all-enabled"
+    },
+    {
+      "name": "all-enabled-2",
+      "configurePreset": "all-enabled-2"
+    },
+    {
+      "name": "ninja-full",
+      "configurePreset": "ninja-full"
+    }
+  ],
+  "testPresets": [
+    {
+      "name": "all-enabled",
+      "configurePreset": "all-enabled",
+      "output": {"verbosity": "verbose"}
+    },
+    {
+      "name": "all-enabled-2",
+      "configurePreset": "all-enabled-2",
+      "output": {"verbosity": "verbose"}
+    },
+    {
+      "name": "ninja-full",
+      "configurePreset": "ninja-full",
+      "output": {"verbosity": "verbose"}
+    }
+  ]
+}

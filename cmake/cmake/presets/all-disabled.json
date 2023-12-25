@@ -1,0 +1,43 @@
+{
+  "version": 4,
+  "configurePresets": [
+    {
+      "name": "all-disabled",
+      "displayName": "All extensions disabled",
+      "description": "PHP configuration with all PHP extensions disabled",
+      "cacheVariables": {
+        "EXT_CTYPE": false,
+        "EXT_DOM": false,
+        "EXT_FILEINFO": false,
+        "EXT_FILTER": false,
+        "EXT_ICONV": false,
+        "EXT_LIBXML": false,
+        "EXT_OPCACHE": false,
+        "EXT_PDO": false,
+        "EXT_PDO_SQLITE": false,
+        "EXT_PHAR": false,
+        "EXT_POSIX": false,
+        "EXT_SESSION": false,
+        "EXT_SIMPLEXML": false,
+        "EXT_SQLITE3": false,
+        "EXT_TOKENIZER": false,
+        "EXT_XML": false,
+        "EXT_XMLREADER": false,
+        "EXT_XMLWRITER": false
+      }
+    }
+  ],
+  "buildPresets": [
+    {
+      "name": "all-disabled",
+      "configurePreset": "all-disabled"
+    }
+  ],
+  "testPresets": [
+    {
+      "name": "all-disabled",
+      "configurePreset": "all-disabled",
+      "output": {"verbosity": "verbose"}
+    }
+  ]
+}

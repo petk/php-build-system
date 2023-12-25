@@ -212,7 +212,7 @@ root directory:
   "configurePresets": [
     {
       "name": "acme-php",
-      "inherits": "unix-full",
+      "inherits": "all-enabled",
       "displayName": "Acme PHP configuration",
       "description": "Customized PHP build",
       "installDir": "/install/path/prefix",
@@ -243,7 +243,7 @@ root directory:
 }
 ```
 
-Above file *inherits* from the `unix-full` configuration preset of the root
+Above file *inherits* from the `all-enabled` configuration preset of the root
 default `CMakePresets.json` file and adjusts the PHP installation.
 
 To build and install using the new preset:

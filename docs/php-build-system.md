@@ -35,6 +35,7 @@ Directory structure from the CMake perspective:
        ├─ Zend/              # Zend utility modules
        ├─ Find*.cmake        # Find modules that support the find_package()
        └─ *.cmake            # Any possible additional utility modules
+    ├─ presets/              # Additional presets included in CMakePresets.json
     └─ *.cmake               # Various CMake configurations and tools
  └─ ext/
     └─ date/
@@ -163,12 +164,13 @@ version available on the operating system.
   * `"version": 2` in `CMakePresets.json`
   * `Intl::Intl` IMPORTED target with CMake's FindIntl module
 * 3.21
-  * `"version": 3` in `CMakePresets.json` (for the `installDir` option)
+  * `"version": 3` in `CMakePresets.json` (for the `installDir` field)
 * 3.22
   * Full condition syntax in `cmake_dependent_option()`
 * 3.23
   * `target_sources(FILE_SET)`, otherwise `install(FILES)` should be used when
     installing files to their destinations
+  * `"version": 4` in `CMakePresets.json` (for the `include` field)
 * 3.24
   * `CMAKE_COLOR_DIAGNOSTICS`
   * `CMAKE_COMPILE_WARNING_AS_ERROR`, otherwise INTERFACE library should be used
@@ -451,5 +453,5 @@ CMake testing also supports presets so configuration can be coded and shared
 using the `CMakePresets.json` file and its `testPresets` field.
 
 ```sh
-ctest --preset unix-full
+ctest --preset all-enabled
 ```

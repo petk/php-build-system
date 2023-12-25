@@ -190,5 +190,5 @@ fi
 
 # Run CMake preset configuration and build.
 cd php-src
-eval "$cmake --preset $preset $cmake_debug_options $options $generator_option"
-eval "$cmake --build --preset $preset $cmake_verbose --parallel"
+eval "'$cmake' --preset $preset $cmake_debug_options $options $generator_option"
+eval "'$cmake' --build --preset $preset $cmake_verbose --parallel"

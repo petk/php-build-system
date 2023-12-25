@@ -125,8 +125,8 @@ jobs:
         run: |
           ./bin/php.cmake ${{ matrix.php }}
           cd php-${{ matrix.php }}
-          cmake --preset unix-full
-          cmake --build --preset unix-full -j
+          cmake --preset all-enabled
+          cmake --build --preset all-enabled -j
 
       - name: Setup SNMP agents
         run: |
