@@ -5,6 +5,7 @@
       "name": "all-disabled",
       "displayName": "All extensions disabled",
       "description": "PHP configuration with all PHP extensions disabled",
+      "binaryDir": "${sourceDir}",
       "cacheVariables": {
         "EXT_CTYPE": false,
         "EXT_DOM": false,

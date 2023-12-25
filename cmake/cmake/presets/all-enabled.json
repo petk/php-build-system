@@ -5,6 +5,7 @@
       "name": "all-enabled",
       "displayName": "All extensions enabled",
       "description": "PHP configuration with all PHP extensions enabled",
+      "binaryDir": "${sourceDir}",
       "cacheVariables": {
         "PHP_PEAR": true,
 
