@@ -1,16 +1,16 @@
 # Windows build system for PHP
 
-Windows build system in PHP is a separate of
-[JScript](https://en.wikipedia.org/wiki/JScript) files and command-line scripts.
-Some files are manually created unlike with Autoconf. For example, header files.
-Similarly to `*.m4` files there are `*.w32` files for each extension and SAPI
-module.
-
 ## Index
 
 * [1. Directory structure](#1-directory-structure)
 * [2. Windows prerequisites](#2-windows-prerequisites)
 * [3. See more](#3-see-more)
+
+Windows build system in PHP is a separate of
+[JScript](https://en.wikipedia.org/wiki/JScript) files and command-line scripts.
+Some files are manually created unlike with Autoconf. For example, header files.
+Similarly to `*.m4` files there are `*.w32` files for each extension and SAPI
+module.
 
 ## 1. Directory structure
 
@@ -48,7 +48,7 @@ Directory structure from the Windows build system perspective looks like this:
 * Windows operating system.
 * Visual Studio installed (e.g., Visual Studio 2019 or later).
 * Git installed (download from https://git-scm.com/downloads).
-* PHP source code downloaded from the PHP website (https://www.php.net/downloads.php).
+* PHP source code downloaded from the [PHP website](https://www.php.net/downloads.php).
 
 ## 3. See more
 

@@ -20,6 +20,7 @@ projects.
   * [4.1. find\_package](#41-find_package)
   * [4.2. FetchContent](#42-fetchcontent)
   * [4.3. CPM.cmake](#43-cpmcmake)
+* [5. PHP dependencies](#5-php-dependencies)
 
 ## 1. Introduction to dependencies
 
@@ -247,3 +248,86 @@ include(cmake/CPM.cmake)
 
 CPMAddPackage("gh:fmtlib/fmt#7.1.3")
 ```
+
+## 5. PHP dependencies
+
+A list of various dependencies needed to build PHP from source:
+
+* libxml for the ext/libxml, ext/dom, ext/simplexml, ext/xml, ext/xmlwriter, and
+  ext/xmlreader extensions
+* sqlite3 for the ext/sqlite3 and ext/pdo_sqlite extensions
+* libcapstone (for the OPcache `--with-capstone` option)
+* libssl (for OpenSSL `--with-openssl`)
+* libkrb5 (for the OpenSSL `--with-kerberos` option)
+* libaspell and libpspell (for the ext/pspell `--with-pspell` option)
+* zlib
+  * when using `--enable-gd` with bundled libgd
+  * when using `--with-zlib`
+  * when using `--with-pdo-mysql` or `--with-mysqli` (option
+    `--enable-mysqlnd-compression-support` needs it)
+* libpng
+  * when using `--enable-gd` with bundled libgd
+* libavif
+  * when using `--enable-gd` with bundled libgd and `--with-avif` option.
+* libwebp
+  * when using `--enable-gd` with bundled libgd and `--with-webp` option.
+* libjpeg
+  * when using `--enable-gd` with bundled libgd and `--with-jpeg` option.
+* libxpm
+  * when using `--enable-gd` with bundled libgd and `--with-xpm` option.
+* libfretype
+  * when using `--enable-gd` with bundled libgd and `--with-freetype` option.
+* libgd
+  * when using `--enable-gd` with external libgd `--with-external-gd`.
+* libonig
+  * when using `--enable-mbstring`
+* libtidy
+  * when using `--with-tidy`
+* libxslt
+  * when using `--with-xsl`
+* libzip
+  * when using `--with-zip`
+* libargon2
+  * when using `--with-password-argon2`
+* libedit
+  * when using `--with-libedit`
+* libreadline
+  * when using `--with-readline`
+* libsnmp
+  * when using `--with-snmp`
+* libexpat1
+  * when using the `--with-expat`
+* libacl
+  * when using the `--with-fpm-acl`
+* libapparmor
+  * when using the `--with-fpm-apparmor`
+* libselinux1
+  * when using the `--with-fpm-selinux`
+* libsystemd
+  * when using the `--with-fpm-systemd`
+* libldap2
+  * when using the `--with-ldap`
+* libsasl2
+  * when using the `--with-ldap-sasl`
+* libpq
+  * when using the `--with-pgsql` or `--with-pdo-pgsql`
+* libmm
+  * when using the `--with-mm`
+* libdmalloc
+  * when using the `--enable-dmalloc`
+* freetds
+  * when using the `--enable-pdo-dblib`
+* libcdb
+  * when using the `--with-cdb=DIR`
+* liblmdb
+  * when using the `--with-lmdb`
+* libtokyocabinet
+  * when using the `--with-tcadb`
+* libgdbm
+  * when using the `--with-gdbm`
+* libqdbm
+  * when using the `--with-qdbm`
+* libgdbm or library implementing the ndbm or dbm compatibility interface
+  * when using the `--with-dbm` or `--with-ndbm`
+* libdb
+  * when using the `--with-db4`, `--with-db3`, `--with-db2`, or `--with-db1`

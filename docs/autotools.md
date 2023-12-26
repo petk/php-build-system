@@ -5,32 +5,29 @@ system.
 
 ## Index
 
-* [1. \*nix build system](#1-nix-build-system)
-  * [1.1. Directory structure](#11-directory-structure)
-  * [1.2. \*nix build system diagram](#12-nix-build-system-diagram)
-  * [1.3. Build requirements](#13-build-requirements)
-  * [1.4. The configure command-line options](#14-the-configure-command-line-options)
-* [2. Determining platform](#2-determining-platform)
-* [3. Testing if program works](#3-testing-if-program-works)
-  * [3.1. AC\_COMPILE\_IFELSE](#31-ac_compile_ifelse)
-  * [3.2. AC\_LINK\_IFELSE](#32-ac_link_ifelse)
-  * [3.3. AC\_RUN\_IFELSE](#33-ac_run_ifelse)
-* [4. GNU Autoconf Archive](#4-gnu-autoconf-archive)
-* [5. Parser and lexer files](#5-parser-and-lexer-files)
-* [6. See more](#6-see-more)
-
-## 1. \*nix build system
+* [1. Directory structure](#1-directory-structure)
+* [2. Build system diagram](#2-build-system-diagram)
+* [3. Build requirements](#3-build-requirements)
+* [4. The configure command-line options](#4-the-configure-command-line-options)
+* [5. Determining platform](#5-determining-platform)
+* [6. Testing if program works](#6-testing-if-program-works)
+  * [6.1. AC\_COMPILE\_IFELSE](#61-ac_compile_ifelse)
+  * [6.2. AC\_LINK\_IFELSE](#62-ac_link_ifelse)
+  * [6.3. AC\_RUN\_IFELSE](#63-ac_run_ifelse)
+* [7. GNU Autoconf Archive](#7-gnu-autoconf-archive)
+* [8. Parser and lexer files](#8-parser-and-lexer-files)
+* [9. See more](#9-see-more)
 
 \*nix build system (Linux, macOS, FreeBSD, OpenBSD, Solaris, Haiku, etc.) in PHP
 uses [Autoconf](https://www.gnu.org/software/autoconf/) to build a `configure`
-shell script that further creates main `Makefile` to build sources to executable
+shell script that further creates a `Makefile` to build sources to executable
 binaries.
 
 ```sh
-# Create configure script
+# Create Autotools configure script
 ./buildconf
 
-# Create Makefile
+# Configure PHP build and create Makefile
 ./configure
 
 # Build PHP
@@ -38,16 +35,16 @@ make
 ```
 
 The `buildconf` is a simple shell script wrapper around `autoconf` and
-`autoheader` tools. It checks required Autoconf version, creates `configure`
-command-line script and `main/php_config.h.in` header template.
+`autoheader` command-line tools. It checks required Autoconf version, creates
+`configure` command-line script and `main/php_config.h.in` header template.
 
-When running the `./configure`, many checks are done based on the running
-system. Things like C headers availability, C symbols, required library
+When running the `./configure`, many checks are done based on the host and
+targeted system. Things like C headers availability, C symbols, required library
 dependencies, etc.
 
 The `configure` script creates `Makefile` where the `make` command then builds
-binary files from C source files. You can optionally pass the `-j` option which
-is the number of threads on current system, so it builds faster.
+binary files from C source files. You can optionally pass the `-j` option with
+the number of simultaneous jobs so the build runs faster in parallel.
 
 ```sh
 make -j 10
@@ -59,8 +56,10 @@ When compiling is done, the tests can be run with:
 make TEST_PHP_ARGS=-j10 test
 ```
 
-> Number of threads can be also automatically calculated using `$(nproc)` on
-> Linux, or `$(sysctl -n hw.ncpu)` on macOS.
+> Number of simultaneous jobs is often the number of available processor threads
+> of the build machine and can be also automatically calculated using the
+> `$(nproc)` on Linux, or `$(sysctl -n hw.ncpu)` on macOS.
+>
 > ```sh
 > make -j $(nproc)
 > ```
@@ -72,9 +71,9 @@ installation dependencies. Autotools is a veteran build system present since
 early C/C++ days. It is used for most Linux ecosystem out there and it might
 cause issues for C developers today.
 
-### 1.1. Directory structure
+## 1. Directory structure
 
-Build system is a collection of various files across the php-src repository:
+PHP build system is a collection of various files across the php-src repository:
 
 ```sh
 <php-src>/
@@ -124,11 +123,11 @@ Build system is a collection of various files across the php-src repository:
  └─ configure.ac           # Autoconf main input file for creating configure script
 ```
 
-### 1.2. \*nix build system diagram
+## 2. Build system diagram
 
 ![PHP *nix build system using Autotools](/docs/images/autotools.svg)
 
-### 1.3. Build requirements
+## 3. Build requirements
 
 Before you can build PHP on Linux and other Unix-like systems, you must first
 install certain third-party requirements. It's important to note that the names
@@ -136,8 +135,8 @@ of these requirements may vary depending on your specific system. For the sake
 of simplicity, we will use generic names here. When building PHP from source,
 one crucial requirement is a library containing development files. Such
 libraries are typically packaged under names like `libfoo-dev`, `libfoo-devel`,
-or similar conventions. For instance, to install the `libzip` library, you would
-look for the `libzip-dev` (or `libzip-devel`) package.
+or similar conventions. For instance, to install the `libxml2` library, you
+would look for the `libxml2-dev` (or `libxml2-devel`) package.
 
 Required:
 
@@ -146,7 +145,7 @@ Required:
 * gcc
 * g++
 * pkg-config
-* libxml
+* libxml2
 * libsqlite3
 
 Additionally required when building from Git repository source code:
@@ -154,90 +153,13 @@ Additionally required when building from Git repository source code:
 * bison
 * re2c
 
-Optional:
+## 4. The configure command-line options
 
-* libcapstone (for the OPcache `--with-capstone` option)
-* libssl (for OpenSSL `--with-openssl`)
-* libkrb5 (for the OpenSSL `--with-kerberos` option)
-* libaspell and libpspell (for the ext/pspell `--with-pspell` option)
-* zlib
-  * when using `--enable-gd` with bundled libgd
-  * when using `--with-zlib`
-  * when using `--with-pdo-mysql` or `--with-mysqli` (option
-    `--enable-mysqlnd-compression-support` needs it)
-* libpng
-  * when using `--enable-gd` with bundled libgd
-* libavif
-  * when using `--enable-gd` with bundled libgd and `--with-avif` option.
-* libwebp
-  * when using `--enable-gd` with bundled libgd and `--with-webp` option.
-* libjpeg
-  * when using `--enable-gd` with bundled libgd and `--with-jpeg` option.
-* libxpm
-  * when using `--enable-gd` with bundled libgd and `--with-xpm` option.
-* libfretype
-  * when using `--enable-gd` with bundled libgd and `--with-freetype` option.
-* libgd
-  * when using `--enable-gd` with external libgd `--with-external-gd`.
-* libonig
-  * when using `--enable-mbstring`
-* libtidy
-  * when using `--with-tidy`
-* libxslt
-  * when using `--with-xsl`
-* libzip
-  * when using `--with-zip`
-* libargon2
-  * when using `--with-password-argon2`
-* libedit
-  * when using `--with-libedit`
-* libreadline
-  * when using `--with-readline`
-* libsnmp
-  * when using `--with-snmp`
-* libexpat1
-  * when using the `--with-expat`
-* libacl
-  * when using the `--with-fpm-acl`
-* libapparmor
-  * when using the `--with-fpm-apparmor`
-* libselinux1
-  * when using the `--with-fpm-selinux`
-* libsystemd
-  * when using the `--with-fpm-systemd`
-* libldap2
-  * when using the `--with-ldap`
-* libsasl2
-  * when using the `--with-ldap-sasl`
-* libpq
-  * when using the `--with-pgsql` or `--with-pdo-pgsql`
-* libmm
-  * when using the `--with-mm`
-* libdmalloc
-  * when using the `--enable-dmalloc`
-* freetds
-  * when using the `--enable-pdo-dblib`
-* libcdb
-  * when using the `--with-cdb=DIR`
-* liblmdb
-  * when using the `--with-lmdb`
-* libtokyocabinet
-  * when using the `--with-tcadb`
-* libgdbm
-  * when using the `--with-gdbm`
-* libqdbm
-  * when using the `--with-qdbm`
-* libgdbm or library implementing the ndbm or dbm compatibility interface
-  * when using the `--with-dbm` or `--with-ndbm`
-* libdb
-  * when using the `--with-db4`, `--with-db3`, `--with-db2`, or `--with-db1`
+Configuration can be passed on the command line at the configuration phase:
 
-When PHP is built, the development libraries are no longer required to be
-installed and only libraries without development files are needed to run newly
-built PHP. In example of `ext/zip` extension, the `libzip` package is needed and
-so on.
-
-### 1.4. The configure command-line options
+```sh
+./configure VAR=VALUE --enable-FEATURE --with-PACKAGE
+```
 
 With Autoconf, there are two main types of command-line options for the
 `configure` script (`--enable-FEATURE` and `--with-PACKAGE`):
@@ -261,9 +183,9 @@ With Autoconf, there are two main types of command-line options for the
 Others custom options that don't follow this pattern are used for adjusting
 specific features during built process.
 
-See `./configure --help` for more info.
+See `./configure --help` for all available configuration options and variables.
 
-## 2. Determining platform
+## 5. Determining platform
 
 With Autotools there are several shell variables that help determine the
 platform characteristics such as CPU, operating system and vendor name. When
@@ -284,7 +206,7 @@ AS_CASE([$host_alias],[*freebsd*|*openbsd*],[
 ])
 ```
 
-## 3. Testing if program works
+## 6. Testing if program works
 
 There are 3 main Autoconf macros that check if certain test code is successful.
 
@@ -300,7 +222,7 @@ int main(void) {
 }
 ```
 
-### 3.1. AC_COMPILE_IFELSE
+### 6.1. AC_COMPILE_IFELSE
 
 ```m4
 AC_COMPILE_IFELSE([AC_LANG_PROGRAM([[#include <stdio.h>]],
@@ -327,7 +249,7 @@ The `AC_COMPILE_IFELSE` will run the compilation step, for example:
 gcc -o out -c hello_world.c
 ```
 
-### 3.2. AC_LINK_IFELSE
+### 6.2. AC_LINK_IFELSE
 
 ```m4
 AC_LINK_IFELSE([AC_LANG_PROGRAM([[#include <stdio.h>]],
@@ -342,7 +264,7 @@ This will run compilation and linking:
 gcc -o out hello_world.c
 ```
 
-### 3.3. AC_RUN_IFELSE
+### 6.3. AC_RUN_IFELSE
 
 This will compile, link and also run the program to check if the return code is
 0.
@@ -367,7 +289,7 @@ gcc -o out hello_world.c
 ./out
 ```
 
-## 4. GNU Autoconf Archive
+## 7. GNU Autoconf Archive
 
 To reuse the code there is a community collection of Autoconf macros available
 at [autoconf-archive](https://github.com/autoconf-archive/autoconf-archive).
@@ -394,7 +316,7 @@ AC_CONFIG_MACRO_DIR([path/to/m4/dir])
 
 However, the `aclocal` from Automake is needed for this to work.
 
-## 5. Parser and lexer files
+## 8. Parser and lexer files
 
 Parser and lexer files are generated upon the build step (`make`) with `bison`
 and `re2c` tools based on the targets in `Makefile.frag` files.
@@ -432,7 +354,7 @@ Autotools-based PHP build system files related to `bison` and `re2c`:
  └─ configure.ac                    # Minimum re2c and bison versions settings
 ```
 
-## 6. See more
+## 9. See more
 
 Useful resources to learn more about Autoconf and Autotools in general:
 

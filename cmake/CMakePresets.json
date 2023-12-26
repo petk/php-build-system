@@ -1,19 +1,22 @@
 {
   "version": 4,
+  "include": [
+    "cmake/presets/all-disabled.json",
+    "cmake/presets/all-enabled.json"
+  ],
   "configurePresets": [
     {
       "name": "default",
       "displayName": "Default PHP configuration",
-      "description": "Default PHP build using Unix Makefiles generator",
-      "generator": "Unix Makefiles",
+      "description": "Default PHP configuration",
       "binaryDir": "${sourceDir}",
       "installDir": "/tmp"
     },
     {
       "name": "ninja",
       "inherits": "default",
-      "displayName": "Ninja PHP configuration",
-      "description": "Default PHP build using Ninja generator",
+      "displayName": "Ninja generator with default PHP configuration",
+      "description": "Ninja generator with default PHP configuration",
       "generator": "Ninja"
     }
   ],
@@ -38,9 +41,5 @@
       "configurePreset": "ninja",
       "output": {"verbosity": "verbose"}
     }
-  ],
-  "include": [
-    "./cmake/presets/all-disabled.json",
-    "./cmake/presets/all-enabled.json"
   ]
 }

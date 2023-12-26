@@ -4,8 +4,9 @@
     {
       "name": "all-enabled",
       "displayName": "All extensions enabled",
-      "description": "PHP configuration with all PHP extensions enabled",
+      "description": "PHP configuration with all PHP extensions and SAPIs enabled",
       "binaryDir": "${sourceDir}",
+      "installDir": "/tmp",
       "cacheVariables": {
         "PHP_PEAR": true,
 
@@ -74,8 +75,8 @@
     {
       "name": "all-enabled-2",
       "inherits": "all-enabled",
-      "displayName": "PHP configuration with all extensions enabled with variations",
-      "description": "PHP build with all extensions enabled and different variation of options set",
+      "displayName": "All extensions enabled with different configuration",
+      "description": "PHP configuration with all PHP extensions and SAPIs enabled and different configuration options",
       "cacheVariables": {
         "PHP_DMALLOC": true,
         "PHP_DTRACE": true,
@@ -91,8 +92,8 @@
     {
       "name": "ninja-full",
       "inherits": "all-enabled",
-      "displayName": "Ninja PHP configuration",
-      "description": "PHP build using Ninja generator with all extensions enabled",
+      "displayName": "Ninja generator with all extensions enabled",
+      "description": "PHP build using Ninja generator with all PHP extensions and SAPIs enabled",
       "generator": "Ninja"
     }
   ],

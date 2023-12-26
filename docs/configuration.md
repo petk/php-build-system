@@ -2,30 +2,27 @@
 
 ## Index
 
-* [1. PHP configuration](#1-php-configuration)
-* [2. Zend engine configuration](#2-zend-engine-configuration)
-* [3. PHP SAPI modules configuration](#3-php-sapi-modules-configuration)
-* [4. PHP extensions configuration](#4-php-extensions-configuration)
-* [5. CMake presets](#5-cmake-presets)
+* [1. CMake presets](#1-cmake-presets)
+* [2. PHP configuration](#2-php-configuration)
+* [3. Zend engine configuration](#3-zend-engine-configuration)
+* [4. PHP SAPI modules configuration](#4-php-sapi-modules-configuration)
+* [5. PHP extensions configuration](#5-php-extensions-configuration)
 * [6. CMake GUI](#6-cmake-gui)
 * [7. Command-line interface ccmake](#7-command-line-interface-ccmake)
 * [8. Autotools configure and CMake configuration options mapping](#8-autotools-configure-and-cmake-configuration-options-mapping)
 
-Configuration can be passed on the command line:
+Build configuration can be passed on the command line at the configuration
+phase with the `-D` options:
 
 ```sh
-# With CMake at the configuration phase
 cmake -DCMAKE_FOO=ON -DPHP_BAR -DZEND_BAZ -DEXT_NAME=ON ... -S php-src -B php-build
-
-# With Autotools
-./configure VAR=VALUE --enable-FEATURE --with-PACKAGE
 ```
 
-To see all configuration options and variables:
+The `-LH` and `-LAH` command-line options list all available configuration cache
+variables with help texts after CMake configures cache:
 
 ```sh
-# To see configuration options, CMake needs to first configure cache and then
-# cache variables can be listed with help texts using the -LH and -LAH options.
+# List configuration
 cmake -LH -S php-src -B php-build
 
 # List also advanced cache variables
@@ -33,10 +30,6 @@ cmake -LAH -S php-src -B php-build
 
 # Another option is to use ccmake or cmake-gui tool
 ccmake -S php-src -B php-build
-
-# With Autotools
-./buildconf
-./configure --help
 ```
 
 To override the paths to dependencies, for example, when using a manual
@@ -60,7 +53,38 @@ installation of a library, there are two main options to consider:
   cmake -DIconv_ROOT=/path/to/libiconv -DSQLite3_ROOT=/path/to/sqlite3 -S php-src -B php-build
   ```
 
-## 1. PHP configuration
+## 1. CMake presets
+
+Instead of manually passing variables on the command line with
+`cmake -DFOO=BAR ...`, configuration options can be simply stored and shared in
+a JSON file `CMakePresets.json` at the project root directory.
+
+The [CMakePresets.json](/cmake/CMakePresets.json) file incorporates some common
+build configuration for development, continuous integration, bug reporting, etc.
+Additional configure presets are included from the `cmake/presets` directory.
+
+To use the CMake presets:
+
+```sh
+# List all available configure presets
+cmake --list-presets
+
+# Configure project; replace "default" with the name of the "configurePresets"
+cmake --preset default
+
+# Build project using the "default" build preset
+cmake --build --preset default
+```
+
+Custom local build configuration can be also stored in a Git-ignored file
+`CMakeUserPresets.json` intended to override the defaults in
+`CMakePresets.json`.
+
+CMake presets have been available since CMake 3.19, and depending on the
+`version` JSON field, the minimum required CMake version may vary based on the
+used JSON scheme.
+
+## 2. PHP configuration
 
 * `PHP_RE2C_CGOTO=OFF|ON`
 
@@ -95,11 +119,11 @@ installation of a library, there are two main options to consider:
   Disable runtime library search paths (rpath) in installation directory
   executables.
 
-## 2. Zend engine configuration
+## 3. Zend engine configuration
 
-## 3. PHP SAPI modules configuration
+## 4. PHP SAPI modules configuration
 
-## 4. PHP extensions configuration
+## 5. PHP extensions configuration
 
 * `EXT_ODBC=OFF|ON`
 
@@ -167,33 +191,6 @@ installation of a library, there are two main options to consider:
   * `EXT_PDO_ODBC_LDFLAGS`
 
     A list of additional ODBC library linker flags.
-
-## 5. CMake presets
-
-The `CMakePresets.json` and `CMakeUserPresets.json` files in project root
-directory are available since CMake 3.19 for sharing build configurations.
-
-Instead of manually passing variables on the command line `cmake -DFOO=BAR ...`,
-users can simply store these configuration options in JSON file and have a
-shareable build settings for continuous integration, development, bug reporting,
-etc.
-
-The [CMakePresets.json](/cmake/CMakePresets.json) example file includes some
-common configuration and build settings.
-
-To use the CMake presets:
-
-```sh
-# Configure project, replace "default" with the name of the "configurePresets"
-cmake --preset default
-
-# Build project using the "default" build preset
-cmake --build --preset default
-```
-
-File `CMakeUserPresets.json` is ignored in Git because it is intended for users
-to override the `CMakePresets.json` defaults with their own specific local
-configuration.
 
 ## 6. CMake GUI
 
@@ -528,12 +525,12 @@ alternatives.
     </tr>
     <tr>
       <td>--enable-all</td>
-      <td>Use CMake preset <code>--preset all-enabled</code></td>
+      <td>Use <code>cmake --preset all-enabled</code></td>
       <td>Enables all extensions and some additional configuration</td>
     </tr>
     <tr>
       <td>--disable-all</td>
-      <td>Use CMake preset <code>--preset all-disabled</code></td>
+      <td>Use <code>cmake --preset all-disabled</code></td>
       <td>Disables all extensions and some additional configuration</td>
     </tr>
     <tr>

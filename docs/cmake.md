@@ -1,4 +1,4 @@
-# Quick introduction to CMake
+# Introduction to CMake
 
 This is a simple introduction to CMake in general, aimed at providing a basic
 understanding of its fundamentals.

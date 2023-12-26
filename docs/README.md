@@ -2,9 +2,9 @@
 
 ![ElePHPant](images/elephpant.jpg)
 
-* [Quick introduction to CMake](/docs/cmake.md)
+* [Introduction to CMake](/docs/cmake.md)
 * [CMake-based PHP build system](/docs/php-build-system.md)
-* [PHP build system configuration](/docs/configuration.md)
+* [Configuration](/docs/configuration.md)
 * [Dependencies in C/C++ projects](/docs/dependencies.md)
 * [CMake code style](/docs/cmake-code-style.md)
 * [Autotools-based PHP build system](/docs/autotools.md)

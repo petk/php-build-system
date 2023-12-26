@@ -6,26 +6,27 @@ works and how it can be used.
 ## Index
 
 * [1. Directory structure](#1-directory-structure)
-* [2. CMake usage](#2-cmake-usage)
-  * [2.1. CMake-based PHP build system diagram](#21-cmake-based-php-build-system-diagram)
-  * [2.2. CMake generators for building PHP](#22-cmake-generators-for-building-php)
-    * [2.2.1. Unix Makefiles (default)](#221-unix-makefiles-default)
-    * [2.2.2. Ninja](#222-ninja)
-* [3. CMake minimum version for PHP](#3-cmake-minimum-version-for-php)
-* [4. Interface library](#4-interface-library)
-* [5. PHP CMake modules](#5-php-cmake-modules)
-  * [5.1. SearchLibraries](#51-searchlibraries)
-  * [5.2. CheckBuiltin](#52-checkbuiltin)
-* [6. PHP extensions](#6-php-extensions)
-  * [6.1. Properties](#61-properties)
-* [7. PHP SAPI (Server API) modules](#7-php-sapi-server-api-modules)
-* [8. Parser and lexer files](#8-parser-and-lexer-files)
-* [9. Performance](#9-performance)
-* [10. Testing](#10-testing)
+* [2. Build system diagram](#2-build-system-diagram)
+* [3. Build requirements](#3-build-requirements)
+* [4. CMake generators for building PHP](#4-cmake-generators-for-building-php)
+  * [4.1. Unix Makefiles (default)](#41-unix-makefiles-default)
+  * [4.2. Ninja](#42-ninja)
+* [5. CMake minimum version for PHP](#5-cmake-minimum-version-for-php)
+* [6. Interface library](#6-interface-library)
+* [7. PHP CMake modules](#7-php-cmake-modules)
+  * [7.1. SearchLibraries](#71-searchlibraries)
+  * [7.2. CheckBuiltin](#72-checkbuiltin)
+* [8. PHP extensions](#8-php-extensions)
+  * [8.1. Properties](#81-properties)
+* [9. PHP SAPI (Server API) modules](#9-php-sapi-server-api-modules)
+* [10. Parser and lexer files](#10-parser-and-lexer-files)
+* [11. Performance](#11-performance)
+* [12. Testing](#12-testing)
 
 ## 1. Directory structure
 
-Directory structure from the CMake perspective:
+CMake-based PHP build system is a collection of various files across the php-src
+repository:
 
 ```sh
 <php-src>/
@@ -65,27 +66,47 @@ system) are linked together:
 
 ![Diagram how PHP libraries are linked together](/docs/images/links.svg)
 
-## 2. CMake usage
-
-Using CMake in command line:
-
-```sh
-cmake .
-cmake --build .
-```
-
-### 2.1. CMake-based PHP build system diagram
+## 2. Build system diagram
 
 ![CMake-based PHP build system diagram](/docs/images/cmake.svg)
 
-### 2.2. CMake generators for building PHP
+## 3. Build requirements
+
+Before you can build PHP using CMake, you must first install certain third-party
+requirements. It's important to note that the names of these requirements may
+vary depending on your specific system. For the sake of simplicity, we will use
+generic names here. When building PHP from source, one crucial requirement is a
+library containing development files. Such libraries are typically packaged
+under names like `libfoo-dev`, `libfoo-devel`, or similar conventions on \*nix
+systems. For instance, to install the `libxml2` library, you would look for the
+`libxml2-dev` (or `libxml2-devel`) package.
+
+Required:
+
+* cmake
+* gcc
+* g++
+* libxml2
+* libsqlite3
+
+Additionally required when building from Git repository source code:
+
+* bison
+* re2c
+
+When PHP is built, the development libraries are no longer required to be
+installed and only libraries without development files are needed to run newly
+built PHP. In example of `ext/libxml` extension, the `libxml2` package is needed
+without the `libxml2-dev` and so on.
+
+## 4. CMake generators for building PHP
 
 When using CMake to build PHP, you have the flexibility to choose from various
 build systems through the concept of _generators_. CMake generators determine
 the type of project files or build scripts that CMake generates from your
 `CMakeLists.txt` file.
 
-#### 2.2.1. Unix Makefiles (default)
+### 4.1. Unix Makefiles (default)
 
 The Unix Makefiles generator is the most common and widely used generator for
 building projects on Unix-like systems, including Linux and macOS. It generates
@@ -121,7 +142,7 @@ advantage of multiple CPU cores:
 make -j$(nproc) # number of CPU cores you want to utilize.
 ```
 
-#### 2.2.2. Ninja
+### 4.2. Ninja
 
 [Ninja](https://ninja-build.org/) is another build system supported by CMake and
 is known for its fast build times due to its minimalistic design. To use the
@@ -146,7 +167,7 @@ ninja
 
 Ninja will then handle the build process based on the CMake configuration.
 
-## 3. CMake minimum version for PHP
+## 5. CMake minimum version for PHP
 
 The minimum required version of CMake is defined in the top project file
 `CMakeLists.txt` using the `cmake_minimum_required()`. Picking the minimum
@@ -189,7 +210,7 @@ properly in the future.
 CMake versions scheme across the systems is available at
 [pkgs.org](https://pkgs.org/download/cmake).
 
-## 4. Interface library
+## 6. Interface library
 
 The `php_configuration` library (aliased `PHP::configuration`) holds
 project-wide compilation flags, definitions, libraries and include directories.
@@ -204,7 +225,7 @@ It can be linked to a given target:
 target_link_libraries(target_name PRIVATE PHP::configuration)
 ```
 
-## 5. PHP CMake modules
+## 7. PHP CMake modules
 
 All PHP CMake utility modules are located in the `cmake/modules/PHP` directory.
 
@@ -216,7 +237,7 @@ Otherwise, a new module can be added by creating a new CMake file
 include(PHP/NewModule)
 ```
 
-### 5.1. SearchLibraries
+### 7.1. SearchLibraries
 
 The `SearchLibraries` module exposes a `php_search_libraries` function:
 
@@ -236,7 +257,7 @@ if(FUNCTION_LIBRARY)
 endif()
 ```
 
-### 5.2. CheckBuiltin
+### 7.2. CheckBuiltin
 
 The `CheckBuiltin` module exposes `php_check_builtin` function to check various
 sorts of builtins:
@@ -247,7 +268,7 @@ include(PHP/CheckBuiltin)
 php_check_builtin(__builtin_clz PHP_HAVE_BUILTIN_CLZ)
 ```
 
-## 6. PHP extensions
+## 8. PHP extensions
 
 PHP has several ways to install PHP extensions:
 
@@ -300,7 +321,7 @@ the extension's source directory.
 Example of `CMakeLists.txt` for PHP extensions can be found in the
 `ext/skeleton` directory.
 
-### 6.1. Properties
+### 8.1. Properties
 
 Extensions can utilize the following custom CMake properties:
 
@@ -317,7 +338,7 @@ Extensions can utilize the following custom CMake properties:
   set_target_properties(php_<extension_name> PROPERTIES PHP_ZEND_EXTENSION TRUE)
   ```
 
-## 7. PHP SAPI (Server API) modules
+## 9. PHP SAPI (Server API) modules
 
 PHP works through the concept of SAPI modules located in the `sapi` directory.
 
@@ -335,7 +356,7 @@ There are other SAPI modules located in the ecosystem:
 * [ngx-php](https://github.com/rryqszq4/ngx-php)
 * ...
 
-## 8. Parser and lexer files
+## 10. Parser and lexer files
 
 Some source files are generated with 3rd party tools. These include so called
 parser and lexer files which are generated with
@@ -413,7 +434,7 @@ Files related to `bison` and `re2c`:
     └─ zend_language_scanner.l      # Lexer source
 ```
 
-## 9. Performance
+## 11. Performance
 
 When CMake is doing configuration phase, the profiling options can be used to do
 build system performance analysis of CMake files.
@@ -424,7 +445,7 @@ cmake --profiling-output ./profile.json --profiling-format google-trace ../php-s
 
 ![CMake profiling](/docs/images/cmake-profiling.png)
 
-## 10. Testing
+## 12. Testing
 
 PHP source code tests (`*.phpt` files) are written in PHP and are executed with
 `run-tests.php` script from the very beginning of the PHP development. When

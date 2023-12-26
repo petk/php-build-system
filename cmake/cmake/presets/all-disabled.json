@@ -4,8 +4,9 @@
     {
       "name": "all-disabled",
       "displayName": "All extensions disabled",
-      "description": "PHP configuration with all PHP extensions disabled",
+      "description": "PHP configuration with all PHP extensions and SAPIs disabled, only with CLI SAPI",
       "binaryDir": "${sourceDir}",
+      "installDir": "/tmp",
       "cacheVariables": {
         "EXT_CTYPE": false,
         "EXT_DOM": false,
@@ -24,7 +25,10 @@
         "EXT_TOKENIZER": false,
         "EXT_XML": false,
         "EXT_XMLREADER": false,
-        "EXT_XMLWRITER": false
+        "EXT_XMLWRITER": false,
+
+        "SAPI_CGI": false,
+        "SAPI_PHPDBG": false
       }
     }
   ],

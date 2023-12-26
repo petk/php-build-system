@@ -208,7 +208,7 @@ root directory:
 
 ```json
 {
-  "version": 3,
+  "version": 4,
   "configurePresets": [
     {
       "name": "acme-php",
@@ -243,8 +243,8 @@ root directory:
 }
 ```
 
-Above file *inherits* from the `all-enabled` configuration preset of the root
-default `CMakePresets.json` file and adjusts the PHP installation.
+Above file *inherits* from the `all-enabled` configuration preset of the default
+`CMakePresets.json` file and adjusts the PHP installation.
 
 To build and install using the new preset:
 
