@@ -51,12 +51,6 @@ if(PHP_THREAD_SAFETY)
   set(ZTS 1 PARENT_SCOPE)
 endif()
 
-if(PHP_DEBUG OR PHP_DEBUG_ASSERTIONS)
-  set(ZEND_DEBUG 1 CACHE INTERNAL "Whether to enable debugging")
-else()
-  set(ZEND_DEBUG 0 CACHE INTERNAL "Whether to enable debugging")
-endif()
-
 ################################################################################
 # Add library.
 ################################################################################
@@ -279,12 +273,18 @@ endif()
 ################################################################################
 
 if(BISON_FOUND)
-  bison_target(zend_ini_parser zend_ini_parser.y "${CMAKE_CURRENT_SOURCE_DIR}/zend_ini_parser.c"
+  bison_target(
+    zend_ini_parser
+    zend_ini_parser.y
+    "${CMAKE_CURRENT_SOURCE_DIR}/zend_ini_parser.c"
     COMPILE_FLAGS "-Wall -v -d"
     DEFINES_FILE "${CMAKE_CURRENT_SOURCE_DIR}/zend_ini_parser.h"
   )
 
-  bison_target(zend_language_parser zend_language_parser.y "${CMAKE_CURRENT_SOURCE_DIR}/zend_language_parser.c"
+  bison_target(
+    zend_language_parser
+    zend_language_parser.y
+    "${CMAKE_CURRENT_SOURCE_DIR}/zend_language_parser.c"
     COMPILE_FLAGS "-Wall -v -d"
     DEFINES_FILE "${CMAKE_CURRENT_SOURCE_DIR}/zend_language_parser.h"
   )
@@ -296,17 +296,19 @@ if(BISON_FOUND)
     GENERATE
     OUTPUT CMakeFiles/PatchZendLanguageParserFiles.cmake
     CONTENT [[
-      file(READ "zend_language_parser.h" content)
+      file(READ "${SRC}/zend_language_parser.h" content)
       string(REPLACE "int zendparse" "ZEND_API int zendparse" content "${content}")
-      file(WRITE "zend_language_parser.h" "${content}")
-      file(READ "zend_language_parser.c" content)
+      file(WRITE "${SRC}/zend_language_parser.h" "${content}")
+      file(READ "${SRC}/zend_language_parser.c" content)
       string(REPLACE "int zendparse" "ZEND_API int zendparse" content "${content}")
-      file(WRITE "zend_language_parser.c" "${content}")
+      file(WRITE "${SRC}/zend_language_parser.c" "${content}")
     ]]
   )
   add_custom_target(
     zend_patch_language_parser_files
-    COMMAND ${CMAKE_COMMAND} -P "CMakeFiles/PatchZendLanguageParserFiles.cmake"
+    COMMAND ${CMAKE_COMMAND}
+      -D SRC=${CMAKE_CURRENT_SOURCE_DIR}
+      -P "CMakeFiles/PatchZendLanguageParserFiles.cmake"
     DEPENDS ${BISON_zend_language_parser_OUTPUTS}
     COMMENT "[Zend] Patching Zend language parser files"
   )

@@ -288,12 +288,15 @@ alternatives.
     </tr>
     <tr>
       <td>--disable-debug-assertions</td>
-      <td>PHP_DEBUG_ASSERTIONS=OFF</td>
+      <td></td>
       <td>default</td>
     </tr>
     <tr>
       <td>&emsp;--enable-debug-assertions</td>
-      <td>PHP_DEBUG_ASSERTIONS=ON</td>
+      <td>
+        Use <code>CMAKE_BUILD_TYPE=DebugAssertions</code> (single configuration builds) or<br>
+        <code>cmake --build . --config DebugAssertions</code> (multi configuration builds)
+      </td>
       <td></td>
     </tr>
     <tr>
@@ -314,8 +317,8 @@ alternatives.
     <tr>
       <td>&emsp;--enable-debug</td>
       <td>
-        CMAKE_BUILD_TYPE=Debug (single-configuration builds) or<br>
-        CMAKE_CONFIGURATION_TYPES=Debug (multi-configuration builds)
+        Use <code>CMAKE_BUILD_TYPE=Debug</code> (single configuration builds) or<br>
+        <code>cmake --build . --config Debug</code> (multi configuration builds)
       </td>
       <td></td>
     </tr>

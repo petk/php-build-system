@@ -125,11 +125,17 @@ if(EXT_OPCACHE_JIT)
 
     set(ZEND_JIT_IR 1 CACHE INTERNAL "Whether the JIT IR framework is used")
 
-    target_compile_definitions(php_opcache PRIVATE IR_PHP)
+    target_include_directories(
+      php_opcache
+      PRIVATE ${CMAKE_CURRENT_BINARY_DIR}/jit/ir
+    )
 
-    if(PHP_DEBUG)
-      target_compile_definitions(php_opcache PRIVATE IR_DEBUG)
-    endif()
+    target_compile_definitions(
+      php_opcache
+      PRIVATE
+        IR_PHP
+        $<$<CONFIG:Debug,DebugAssertions>:IR_DEBUG>
+    )
   endif()
 
   # Check for Capstone.

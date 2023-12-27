@@ -19,12 +19,6 @@ include(FeatureSummary)
 # Customizable variables.
 ################################################################################
 
-# Build type.
-# TODO: Fix this better.
-if(CMAKE_BUILD_TYPE STREQUAL "Debug" OR "Debug" IN_LIST CMAKE_CONFIGURATION_TYPES)
-  set(PHP_DEBUG TRUE)
-endif()
-
 set(PHP_UNAME "" CACHE STRING "Build system uname")
 
 if(CMAKE_UNAME AND NOT PHP_UNAME)
@@ -39,12 +33,16 @@ elseif(NOT PHP_UNAME AND CMAKE_HOST_SYSTEM)
 endif()
 
 set(PHP_BUILD_SYSTEM "${PHP_UNAME}" CACHE STRING "Build system uname")
+mark_as_advanced(PHP_BUILD_SYSTEM)
 
 set(PHP_BUILD_PROVIDER "" CACHE STRING "Build provider")
+mark_as_advanced(PHP_BUILD_PROVIDER)
 
 set(PHP_BUILD_COMPILER "" CACHE STRING "Compiler used for build")
+mark_as_advanced(PHP_BUILD_COMPILER)
 
 set(PHP_BUILD_ARCH "" CACHE STRING "Build architecture")
+mark_as_advanced(PHP_BUILD_ARCH)
 
 set(
   PHP_LAYOUT "PHP"
@@ -61,24 +59,25 @@ set(
   PHP_EXTENSION_DIR ""
   CACHE PATH "The extension_dir PHP INI directive absolute path"
 )
+mark_as_advanced(PHP_EXTENSION_DIR)
 
 set(
   PHP_CONFIG_FILE_SCAN_DIR ""
   CACHE PATH "The path where to scan for additional INI configuration files"
 )
+mark_as_advanced(PHP_CONFIG_FILE_SCAN_DIR)
 
 set(
   PHP_CONFIG_FILE_PATH ""
   CACHE FILEPATH "The path in which to look for php.ini."
 )
+mark_as_advanced(PHP_CONFIG_FILE_PATH)
 
 ################################################################################
 # General options.
 ################################################################################
 
 option(PHP_RE2C_CGOTO "Enable computed goto GCC extension with re2c" OFF)
-
-option(PHP_DEBUG_ASSERTIONS "Enable debug assertions in release mode" OFF)
 
 option(PHP_THREAD_SAFETY "Enable thread safety (ZTS)" OFF)
 

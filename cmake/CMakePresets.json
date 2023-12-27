@@ -8,7 +8,7 @@
     {
       "name": "default",
       "displayName": "Default PHP configuration",
-      "description": "Default PHP configuration",
+      "description": "Configuration with the most commonly used PHP extensions enabled",
       "binaryDir": "${sourceDir}",
       "installDir": "/tmp"
     },

@@ -37,6 +37,9 @@ set(CMAKE_C_STANDARD_REQUIRED TRUE)
 add_library(php_configuration INTERFACE)
 add_library(PHP::configuration ALIAS php_configuration)
 
+# Configure build types.
+include(cmake/BuildTypes.cmake)
+
 # Set platform specific configuration.
 include(cmake/Platform.cmake)
 

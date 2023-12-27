@@ -1106,9 +1106,6 @@
 #cmakedefine HAVE_PCRE_JIT_SUPPORT @HAVE_PCRE_JIT_SUPPORT@
 
 /* */
-#cmakedefine HAVE_PCRE_VALGRIND_SUPPORT @HAVE_PCRE_VALGRIND_SUPPORT@
-
-/* */
 #cmakedefine HAVE_PDO_DBLIB @HAVE_PDO_DBLIB@
 
 /* */
@@ -2074,8 +2071,11 @@
 /* Define if checking the stack limit is supported */
 #cmakedefine ZEND_CHECK_STACK_LIMIT @ZEND_CHECK_STACK_LIMIT@
 
-/* */
+/* Whether build type is Debug or DebugAssertions.
+   TODO: Fix this better. */
+#ifndef ZEND_DEBUG
 #cmakedefine01 ZEND_DEBUG
+#endif
 
 /* */
 #cmakedefine ZEND_FIBER_UCONTEXT @ZEND_FIBER_UCONTEXT@

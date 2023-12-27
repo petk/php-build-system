@@ -151,11 +151,11 @@ else()
     message(CHECK_FAIL "no")
   endif()
 
-  # Enable pcre Valgrind support only in DEBUG build (it affects performance).
-  if(PHP_VALGRIND AND PHP_DEBUG)
-    set(
-      HAVE_PCRE_VALGRIND_SUPPORT 1
-      CACHE INTERNAL "Whether to enable the Valgrind support in PCRE"
+  # Enable pcre Valgrind support only in Debug build (it affects performance).
+  if(PHP_VALGRIND)
+    target_compile_definitions(
+      php_pcre
+      PRIVATE $<$<CONFIG:Debug,DebugAssertions>:HAVE_PCRE_VALGRIND_SUPPORT=1>
     )
   endif()
 

@@ -6,7 +6,7 @@
 * [2. Windows prerequisites](#2-windows-prerequisites)
 * [3. See more](#3-see-more)
 
-Windows build system in PHP is a separate of
+Windows build system in PHP is a separate collection of
 [JScript](https://en.wikipedia.org/wiki/JScript) files and command-line scripts.
 Some files are manually created unlike with Autoconf. For example, header files.
 Similarly to `*.m4` files there are `*.w32` files for each extension and SAPI

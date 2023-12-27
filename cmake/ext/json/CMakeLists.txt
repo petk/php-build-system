@@ -8,7 +8,8 @@ add_library(php_json STATIC
 target_compile_definitions(php_json PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE=1)
 
 if(BISON_FOUND)
-  bison_target(php_json_parser
+  bison_target(
+    php_json_parser
     "${CMAKE_CURRENT_SOURCE_DIR}/json_parser.y"
     "${CMAKE_CURRENT_SOURCE_DIR}/json_parser.tab.c"
     COMPILE_FLAGS "-Wall --defines -l"
