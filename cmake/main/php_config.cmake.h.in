@@ -660,10 +660,10 @@
 /* Whether you have gcov */
 #cmakedefine HAVE_GCOV @HAVE_GCOV@
 
-/* */
+/* Does gdImageCreateFromAvif work? */
 #cmakedefine HAVE_GD_AVIF @HAVE_GD_AVIF@
 
-/* */
+/* Does gdImageCreateFromBmp work? */
 #cmakedefine HAVE_GD_BMP @HAVE_GD_BMP@
 
 /* */
@@ -675,22 +675,22 @@
 /* */
 #cmakedefine HAVE_GD_GET_INTERPOLATION @HAVE_GD_GET_INTERPOLATION@
 
-/* */
+/* Does gdImageCreateFromJpeg work? */
 #cmakedefine HAVE_GD_JPG @HAVE_GD_JPG@
 
 /* */
 #cmakedefine HAVE_GD_LIBVERSION @HAVE_GD_LIBVERSION@
 
-/* */
+/*  Does gdImageCreateFromPng work? */
 #cmakedefine HAVE_GD_PNG @HAVE_GD_PNG@
 
-/* */
+/* Does gdImageCreateFromTga work? */
 #cmakedefine HAVE_GD_TGA @HAVE_GD_TGA@
 
-/* */
+/* Does gdImageCreateFromWebp work? */
 #cmakedefine HAVE_GD_WEBP @HAVE_GD_WEBP@
 
-/* */
+/* Does gdImageCreateFromXpm work? */
 #cmakedefine HAVE_GD_XPM @HAVE_GD_XPM@
 
 /* Define if you have the getaddrinfo function */

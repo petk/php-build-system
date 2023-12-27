@@ -1,6 +1,7 @@
 include(CheckCompilerFlag)
 include(CheckLibraryExists)
 include(CheckSourceCompiles)
+include(CheckSourceRuns)
 include(CMakeDependentOption)
 include(CMakePushCheckState)
 include(FeatureSummary)
@@ -362,14 +363,54 @@ else()
       )
     endif()
 
-    check_library_exists(GD::GD gdImageCreateFromPng "" HAVE_GD_PNG)
-    check_library_exists(GD::GD gdImageCreateFromAvif "" HAVE_GD_AVIF)
-    check_library_exists(GD::GD gdImageCreateFromWebp "" HAVE_GD_WEBP)
-    check_library_exists(GD::GD gdImageCreateFromJpeg "" HAVE_GD_JPG)
-    check_library_exists(GD::GD gdImageCreateFromXpm "" HAVE_GD_XPM)
-    check_library_exists(GD::GD gdImageCreateFromBmp "" HAVE_GD_BMP)
-    check_library_exists(GD::GD gdImageCreateFromTga "" HAVE_GD_TGA)
-    check_library_exists(GD::GD gdImageStringFT "" HAVE_GD_FREETYPE)
+    # Build and run a program to determine if GD has support for the given
+    # format. The first argument is the proper-noun-capitalized name of the
+    # format -- basically the word Foo in gdImageCreateFromFoo -- such as
+    # Png. If support for format Foo exists, the second argument (the name
+    # of a constant) will be defined to 1. The reason for this charade is
+    # that gd defines "junk" versions of each gdImageCreateFromFoo function
+    # even when it does not support the Foo format. Those junk functions
+    # display a warning but eventually return normally, making a simple link
+    # or run test insufficient.
+    function(php_gd_check_format format result)
+      cmake_push_check_state(RESET)
+        set(CMAKE_REQUIRED_LIBRARIES GD::GD)
+
+        # gdImageCreateFromXpm() expects 'char *' type.
+        if(format STREQUAL "Xpm")
+          set(declaration [[char* f = "test.xpm"]])
+        else()
+          set(declaration "FILE* f = NULL")
+        endif()
+
+        check_source_runs(C "
+          #include <stdio.h>
+          #include <unistd.h>
+          #include <gd.h>
+          /* A custom gdErrorMethod */
+          void exit1(int priority, const char *format, va_list args) {
+            _exit(1);
+          }
+          /* Override the default gd_error_method with one that actually causes
+             the program to return an error. */
+          int main(int argc, char** argv) {
+            ${declaration};
+            gdSetErrorMethod(exit1);
+            gdImagePtr p = gdImageCreateFrom${format}(f);
+            return 0;
+          }" ${result})
+      cmake_pop_check_state()
+    endfunction()
+
+    php_gd_check_format(Png HAVE_GD_PNG)
+    php_gd_check_format(Avif HAVE_GD_AVIF)
+    php_gd_check_format(Webp HAVE_GD_WEBP)
+    php_gd_check_format(Jpeg HAVE_GD_JPG)
+    php_gd_check_format(Xpm HAVE_GD_XPM)
+    php_gd_check_format(Bmp HAVE_GD_BMP)
+    php_gd_check_format(Tga HAVE_GD_TGA)
+
+    check_library_exists(GD::GD gdFontCacheShutdown "" HAVE_GD_FREETYPE)
     check_library_exists(GD::GD gdVersionString "" HAVE_GD_LIBVERSION)
     check_library_exists(GD::GD gdImageGetInterpolationMethod "" HAVE_GD_GET_INTERPOLATION)
   endif()
