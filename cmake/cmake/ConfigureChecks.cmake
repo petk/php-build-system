@@ -92,9 +92,6 @@ include(PHP/CheckSockaddr)
 # Check types.
 ################################################################################
 
-# TODO: Should this be removed?
-check_type_size("short" SIZEOF_SHORT)
-
 check_type_size("int" SIZEOF_INT)
 if(NOT SIZEOF_INT)
   message(FATAL_ERROR "Cannot determine size of int.")

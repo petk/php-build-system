@@ -90,13 +90,6 @@ elseif(CMAKE_HOST_SYSTEM_NAME STREQUAL "HP-UX")
   )
 endif()
 
-# TODO: Should this be removed?
-if(CMAKE_HOST_SYSTEM_PROCESSOR MATCHES "^mips")
-  target_compile_definitions(php_configuration
-    INTERFACE "$<$<COMPILE_LANGUAGE:ASM,C,CXX>:_XPG_IV>"
-  )
-endif()
-
 # Check unused linked libraries on executable and shared/module library targets.
 include(PHP/LinkWhatYouUse)
 

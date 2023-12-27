@@ -198,19 +198,14 @@ cmake -G "Ninja Multi-Config" -S ../php-src -B build-directory
 cmake --build build-directory --config Debug -j
 ```
 
-Alternatively, CMake presets allow multi configuration generators the
-specification of the build type in the `configuration` JSON field within the
-`buildPresets` configuration:
+Alternatively, multi configuration generators can specify build type in the
+CMake presets JSON file using the `configuration` field:
 
 ```json
-// CMake presets JSON file
-// ...
 "buildPresets": [
   {
-    "name": "...",
-    "configurePreset": "...",
-    "configuration": "Debug",
-    // ...
+    "...": "...",
+    "configuration": "Debug"
   }
 ],
 ```

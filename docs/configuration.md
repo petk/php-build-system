@@ -287,6 +287,19 @@ alternatives.
       <td></td>
     </tr>
     <tr>
+      <td>--disable-debug</td>
+      <td></td>
+      <td>default</td>
+    </tr>
+    <tr>
+      <td>&emsp;--enable-debug</td>
+      <td>
+        Single configuration builds: <code>CMAKE_BUILD_TYPE=Debug</code><br>
+        Multi configuration builds: <code>cmake --build dir --config Debug</code>
+      </td>
+      <td></td>
+    </tr>
+    <tr>
       <td>--disable-debug-assertions</td>
       <td></td>
       <td>default</td>
@@ -294,8 +307,8 @@ alternatives.
     <tr>
       <td>&emsp;--enable-debug-assertions</td>
       <td>
-        Use <code>CMAKE_BUILD_TYPE=DebugAssertions</code> (single configuration builds) or<br>
-        <code>cmake --build . --config DebugAssertions</code> (multi configuration builds)
+        Single configuration builds: <code>CMAKE_BUILD_TYPE=DebugAssertions</code><br>
+        Multi configuration builds: <code>cmake --build dir --config DebugAssertions</code>
       </td>
       <td></td>
     </tr>
@@ -307,19 +320,6 @@ alternatives.
     <tr>
       <td>&emsp;--enable-sigchild</td>
       <td>PHP_SIGCHILD=ON</td>
-      <td></td>
-    </tr>
-    <tr>
-      <td>--disable-debug</td>
-      <td></td>
-      <td>default</td>
-    </tr>
-    <tr>
-      <td>&emsp;--enable-debug</td>
-      <td>
-        Use <code>CMAKE_BUILD_TYPE=Debug</code> (single configuration builds) or<br>
-        <code>cmake --build . --config Debug</code> (multi configuration builds)
-      </td>
       <td></td>
     </tr>
     <tr>

@@ -36,9 +36,7 @@ endblock()
 
 # TODO: Remove this in favor of generator expressions. Multi configuration
 # generators are otherwise not checked here like this.
-if(
-  CMAKE_BUILD_TYPE MATCHES "^(Debug|DebugAssertions)$"
-)
+if(CMAKE_BUILD_TYPE MATCHES "^(Debug|DebugAssertions)$")
   set(PHP_DEBUG TRUE)
   set(ZEND_DEBUG 1 CACHE INTERNAL "Whether to enable debugging")
 endif()
