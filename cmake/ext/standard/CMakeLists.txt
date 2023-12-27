@@ -8,7 +8,7 @@ include(PHP/SearchLibraries)
 
 option(EXT_STANDARD_ARGON2 "Include the Argon2 support in password_*" OFF)
 
-add_feature_info("Argon2" EXT_STANDARD_ARGON2
+add_feature_info("ext/standard Argon2" EXT_STANDARD_ARGON2
   "Argon2 support in password_* functions."
 )
 
