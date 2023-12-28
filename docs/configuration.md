@@ -294,8 +294,8 @@ alternatives.
     <tr>
       <td>&emsp;--enable-debug</td>
       <td>
-        Single configuration builds: <code>CMAKE_BUILD_TYPE=Debug</code><br>
-        Multi configuration builds: <code>cmake --build dir --config Debug</code>
+        Single configuration generators: <code>CMAKE_BUILD_TYPE=Debug</code><br>
+        Multi configuration generators: <code>cmake --build dir --config Debug</code>
       </td>
       <td></td>
     </tr>
@@ -307,8 +307,8 @@ alternatives.
     <tr>
       <td>&emsp;--enable-debug-assertions</td>
       <td>
-        Single configuration builds: <code>CMAKE_BUILD_TYPE=DebugAssertions</code><br>
-        Multi configuration builds: <code>cmake --build dir --config DebugAssertions</code>
+        Single configuration generators: <code>CMAKE_BUILD_TYPE=DebugAssertions</code><br>
+        Multi configuration generators: <code>cmake --build dir --config DebugAssertions</code>
       </td>
       <td></td>
     </tr>

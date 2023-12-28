@@ -7,7 +7,7 @@ use_cmake=0
 options=""
 preset="default"
 generator=""
-branch="PHP-8.3"
+branch="master"
 debug=0
 
 # Go to project root.
@@ -29,7 +29,8 @@ OPTIONS:
   -p, --preset VALUE     Use CMake preset with name VALUE, otherwise "default"
                          is used (see CMakePresets.json).
   -G <generator-name>    Specify a CMake build system generator.
-  -b, --branch VALUE     PHP branch to checkout. Defaults to PHP-8.3.
+  -b, --branch VALUE     Upstream php-src Git repository branch to checkout
+                         (e.g. PHP-8.3 ...). Default is master.
   -d, --debug            Debug mode. Here CMake profiling is enabled and debug
                          info displayed.
   -h, --help             Display this help.

@@ -521,22 +521,6 @@ if(CMAKE_SYSTEM_NAME STREQUAL "Linux")
 endif()
 ```
 
-Detecting Apple systems targets such as macOS, OS X, etc.:
-
-```cmake
-if(CMAKE_SYSTEM_NAME STREQUAL "Darwin")
-  # ...
-endif()
-```
-
-Detecting Windows target:
-
-```cmake
-if(CMAKE_SYSTEM_NAME STREQUAL "Windows")
-  # ...
-endif()
-```
-
 In generator expressions, `PLATFORM_ID` can be used to detect target platforms:
 
 ```cmake
@@ -547,13 +531,30 @@ target_compile_definitions(
 ```
 
 Some platforms require the regular expression matching. For example, checking if
-the host system is Cygwin:
+the host system environment is Cygwin:
 
 ```cmake
-if(CMAKE_HOST_SYSTEM_NAME MATCHES "CYGWIN.*")
+if(CMAKE_HOST_SYSTEM_NAME MATCHES "^CYGWIN.*")
   # ...
 endif()
 ```
+
+Operating system names:
+
+| `CMAKE_[HOST_]SYSTEM_NAME` | Note                                              |
+| -------------------------- | ------------------------------------------------- |
+| AIX                        | IBM Unix OS                                       |
+| Android                    |                                                   |
+| CYGWIN.*                   | Cygwin environment for Windows includes a version |
+| Darwin                     | Apple operating systems (macOS, OS X, etc.)       |
+| FreeBSD                    | All FreeBSD operating systems versions            |
+| Haiku                      | Unix operating system inspired by BeOS            |
+| HP-UX                      | Hewlett Packard Unix                              |
+| Linux                      | All Linux-based distributions                     |
+| OpenBSD                    | OpenBSD operating systems                         |
+| OS400                      | IBM Unix                                          |
+| SunOS                      | Solaris operating system                          |
+| Windows                    | All Windows systems                               |
 
 See also [CMakeDetermineSystem.cmake](https://gitlab.kitware.com/cmake/cmake/-/blob/master/Modules/CMakeDetermineSystem.cmake).
 
@@ -564,27 +565,32 @@ toolchain file. When compiling on the machine for which the build is also
 targeted, the `CMAKE_SYSTEM_PROCESSOR` and `CMAKE_HOST_SYSTEM_PROCESSOR` will be
 the same.
 
-Processor is determined by various ways depending on the system.
+Processor is determined by various ways depending on the system. For example, on
+FreeBSD the `x86_64` is detected as `amd64`:
 
-Some examples:
+```cmake
+if(CMAKE_HOST_SYSTEM_PROCESSOR MATCHES "^(x86_64|amd64)$")
+  # CPU is 64-bit x86.
+endif()
+```
 
-* On FreeBSD the `x86_64` is detected as `amd64`:
+Processor names:
 
-  ```cmake
-  if(CMAKE_HOST_SYSTEM_PROCESSOR MATCHES "^(x86_64|amd64)$")
-    # CPU is x86_64.
-  endif()
-  ```
-
-* The `aarch64` or `aarch64_be`:
-
-  ```cmake
-  if(CMAKE_HOST_SYSTEM_PROCESSOR MATCHES "^aarch64.*")
-    # CPU is aarch64.
-  endif()
-  ```
-
-* `sparc`, `sparc64`
+| `CMAKE_[HOST_]SYSTEM_PROCESSOR` | Note                                                 |
+| ------------------------------- | ---------------------------------------------------- |
+| aarch64.*                       | `aarch64` or `aarch64_be`, 64-bit ARM processor      |
+| alpha                           | 64-bit DEC Alpha processor                           |
+| amd64                           | 64-bit x86 processor on FreeBSD                      |
+| arm                             | 32-bit ARM processor                                 |
+| arm64                           | 64-bit ARM processor                                 |
+| mips                            | 32-bit MIPS processor                                |
+| mips64                          | 64-bit MIPS processor                                |
+| ppc                             | 32-bit PPC (PowerPC) processor                       |
+| ppc64                           | 64-bit PPC (PowerPC) processor                       |
+| riscv64.*                       | 64-bit RISC-V Open ISA processor                     |
+| sparc.*                         | `sparc`, `sparc64`                                   |
+| x86                             | 32-bit x86 processor                                 |
+| x86_64                          | 64-bit x86 processor, on FreeBSD it is named `amd64` |
 
 ## 10. See also
 

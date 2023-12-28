@@ -5,7 +5,7 @@
 
 # PHP configuration header file.
 filename="php_config.h.in"
-branch="PHP-8.3"
+branch="master"
 
 # Patterns of unused defines to remove from the configuration header file. One
 # line above and after the pattern will be also removed.
@@ -94,7 +94,8 @@ SYNOPSIS:
   php-config.sh [<options>]
 
 OPTIONS:
-  -b, --branch VALUE     PHP branch to checkout. Defaults to PHP-8.3.
+  -b, --branch VALUE     PHP Git branch to checkout (e.g. PHP-8.3). Default is
+                         master.
   -h, --help             Display this help.
 HELP
     exit 0

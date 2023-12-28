@@ -140,8 +140,22 @@ the build process, you can use the `-j` option to enable parallel builds, taking
 advantage of multiple CPU cores:
 
 ```sh
-make -j$(nproc) # number of CPU cores you want to utilize.
+cmake --build <build-directory> -j
 ```
+
+Above is equivalent to running the `make` command:
+
+```sh
+make -j $(nproc) # Number of CPU cores you want to utilize.
+```
+
+> Number of simultaneous jobs is often the number of available processor threads
+> of the build machine and can be also automatically calculated using the
+> `$(nproc)` on Linux, or `$(sysctl -n hw.ncpu)` on macOS.
+>
+> ```sh
+> make -j $(nproc)
+> ```
 
 ### 4.2. Ninja
 
@@ -163,10 +177,11 @@ CMake will generate the Ninja build files in the current directory.
 To build PHP with Ninja, execute the following command:
 
 ```sh
-ninja
+cmake --build <build-directory>
 ```
 
-Ninja will then handle the build process based on the CMake configuration.
+Which is equivalent to running `ninja`. Ninja will then handle the build process
+based on the CMake configuration. Ninja by default enables parallel build.
 
 ## 5. Build types
 
