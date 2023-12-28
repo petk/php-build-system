@@ -543,7 +543,7 @@ Operating system names:
 
 | `CMAKE_[HOST_]SYSTEM_NAME` | Note                                              |
 | -------------------------- | ------------------------------------------------- |
-| AIX                        | IBM Unix OS                                       |
+| AIX                        | IBM Unix operating system                         |
 | Android                    |                                                   |
 | CYGWIN.*                   | Cygwin environment for Windows includes a version |
 | Darwin                     | Apple operating systems (macOS, OS X, etc.)       |
@@ -551,9 +551,13 @@ Operating system names:
 | Haiku                      | Unix operating system inspired by BeOS            |
 | HP-UX                      | Hewlett Packard Unix                              |
 | Linux                      | All Linux-based distributions                     |
+| NetBSD                     | NetBSD operating systems                          |
 | OpenBSD                    | OpenBSD operating systems                         |
-| OS400                      | IBM Unix                                          |
+| OS400                      | IBM Unix operating system                         |
+| SCO_SV                     | SCO OpenServer 5                                  |
 | SunOS                      | Solaris operating system                          |
+| UNIX_SV                    | SCO UnixWare (pre release 7)                      |
+| UnixWare                   | SCO UnixWare 7                                    |
 | Windows                    | All Windows systems                               |
 
 See also [CMakeDetermineSystem.cmake](https://gitlab.kitware.com/cmake/cmake/-/blob/master/Modules/CMakeDetermineSystem.cmake).
@@ -576,21 +580,22 @@ endif()
 
 Processor names:
 
-| `CMAKE_[HOST_]SYSTEM_PROCESSOR` | Note                                                 |
-| ------------------------------- | ---------------------------------------------------- |
-| aarch64.*                       | `aarch64` or `aarch64_be`, 64-bit ARM processor      |
-| alpha                           | 64-bit DEC Alpha processor                           |
-| amd64                           | 64-bit x86 processor on FreeBSD                      |
-| arm                             | 32-bit ARM processor                                 |
-| arm64                           | 64-bit ARM processor                                 |
-| mips                            | 32-bit MIPS processor                                |
-| mips64                          | 64-bit MIPS processor                                |
-| ppc                             | 32-bit PPC (PowerPC) processor                       |
-| ppc64                           | 64-bit PPC (PowerPC) processor                       |
-| riscv64.*                       | 64-bit RISC-V Open ISA processor                     |
-| sparc.*                         | `sparc`, `sparc64`                                   |
-| x86                             | 32-bit x86 processor                                 |
-| x86_64                          | 64-bit x86 processor, on FreeBSD it is named `amd64` |
+| `CMAKE_[HOST_]SYSTEM_PROCESSOR` | Note                                             |
+| ------------------------------- | ------------------------------------------------ |
+| aarch64.*                       | 64-bit ARM processor (`aarch64` or `aarch64_be`) |
+| alpha                           | 64-bit DEC Alpha processor                       |
+| amd64                           | 64-bit x86 processor on FreeBSD                  |
+| arm                             | 32-bit ARM processor                             |
+| arm64                           | 64-bit ARM processor                             |
+| mips                            | 32-bit MIPS processor                            |
+| mips64                          | 64-bit MIPS processor                            |
+| ppc                             | 32-bit PPC (PowerPC) processor                   |
+| ppc64                           | 64-bit PPC (PowerPC) processor                   |
+| riscv64.*                       | 64-bit RISC-V Open ISA processor                 |
+| sparc                           | 32-bit SPARC processor                           |
+| sparc64                         | 64-bit SPARC processor                           |
+| x86                             | 32-bit x86 processor                             |
+| x86_64                          | 64-bit x86 processor, on FreeBSD named `amd64`   |
 
 ## 10. See also
 

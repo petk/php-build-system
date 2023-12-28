@@ -368,38 +368,32 @@ include(PHP/CheckAarch64CRC32)
 
 # Check POSIX Threads flags.
 if(PHP_THREAD_SAFETY)
-  string(TOLOWER "${CMAKE_HOST_SYSTEM}" host_os)
-  if(${host_os} MATCHES ".*solaris.*")
+  if(CMAKE_HOST_SYSTEM_NAME STREQUAL "SunOS")
     target_compile_definitions(
       php_configuration
       INTERFACE "$<$<COMPILE_LANGUAGE:ASM,C,CXX>:_POSIX_PTHREAD_SEMANTICS;_REENTRANT>"
     )
-  elseif(${host_os} MATCHES ".*freebsd.*")
+  elseif(CMAKE_HOST_SYSTEM_NAME STREQUAL "FreeBSD")
     target_compile_definitions(
       php_configuration
       INTERFACE "$<$<COMPILE_LANGUAGE:ASM,C,CXX>:_REENTRANT;_THREAD_SAFE>"
     )
-  elseif(${host_os} MATCHES ".*linux.*")
+  elseif(CMAKE_HOST_SYSTEM_NAME STREQUAL "Linux")
     target_compile_definitions(
       php_configuration
       INTERFACE "$<$<COMPILE_LANGUAGE:ASM,C,CXX>:_REENTRANT>"
     )
-  elseif(${host_os} MATCHES ".*aix.*")
+  elseif(CMAKE_HOST_SYSTEM_NAME STREQUAL "AIX")
     target_compile_definitions(
       php_configuration
       INTERFACE "$<$<COMPILE_LANGUAGE:ASM,C,CXX>:_THREAD_SAFE>"
     )
-  elseif(${host_os} MATCHES ".*irix.*")
-    target_compile_definitions(
-      php_configuration
-      INTERFACE "$<$<COMPILE_LANGUAGE:ASM,C,CXX>:_POSIX_THREAD_SAFE_FUNCTIONS>"
-    )
-  elseif(${host_os} MATCHES ".*hpux.*")
+  elseif(CMAKE_HOST_SYSTEM_NAME STREQUAL "HP-UX")
     target_compile_definitions(
       php_configuration
       INTERFACE "$<$<COMPILE_LANGUAGE:ASM,C,CXX>:_REENTRANT>"
     )
-  elseif(${host_os} MATCHES ".*sco.*")
+  elseif(CMAKE_HOST_SYSTEM_NAME MATCHES "^(SCO_SV|UNIX_SV|UnixWare)$")
     target_compile_definitions(
       php_configuration
       INTERFACE "$<$<COMPILE_LANGUAGE:ASM,C,CXX>:_REENTRANT>"

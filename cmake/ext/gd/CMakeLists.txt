@@ -365,13 +365,13 @@ else()
 
     # Build and run a program to determine if GD has support for the given
     # format. The first argument is the proper-noun-capitalized name of the
-    # format -- basically the word Foo in gdImageCreateFromFoo -- such as
-    # Png. If support for format Foo exists, the second argument (the name
-    # of a constant) will be defined to 1. The reason for this charade is
-    # that gd defines "junk" versions of each gdImageCreateFromFoo function
-    # even when it does not support the Foo format. Those junk functions
-    # display a warning but eventually return normally, making a simple link
-    # or run test insufficient.
+    # format -- basically the word Foo in gdImageCreateFromFoo -- such as Png.
+    # If support for format Foo exists, the second argument (the name of a
+    # constant) will be defined to 1. The reason for this charade is that gd
+    # defines "junk" versions of each gdImageCreateFromFoo function even when it
+    # does not support the Foo format. Those junk functions display a warning
+    # but eventually return normally, making a simple link or run test
+    # insufficient.
     function(php_gd_check_format format result)
       cmake_push_check_state(RESET)
         set(CMAKE_REQUIRED_LIBRARIES GD::GD)
