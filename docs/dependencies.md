@@ -142,7 +142,7 @@ pkgconf --cflags librypt
 pkgconf --help
 ```
 
-The `pkgconf` ships with M4 macro file `pkg.m4` for Autotools based build
+The `pkgconf` ships with M4 macro file `pkg.m4` for Autotools-based build
 systems.
 
 Compiler and linker flags can be also overridden with `pkgconf` macro which

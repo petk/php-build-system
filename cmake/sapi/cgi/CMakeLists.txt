@@ -1,3 +1,5 @@
+include(CheckStructHasMember)
+
 option(SAPI_CGI "Enable the CGI SAPI module" ON)
 
 if(NOT SAPI_CGI)
@@ -20,6 +22,19 @@ endif()
 
 # TODO: Check if there's a better solution here.
 set_target_properties(php_cgi PROPERTIES ENABLE_EXPORTS TRUE)
+
+# BSD systems.
+check_struct_has_member("struct sockaddr_un" sun_len sys/un.h HAVE_SOCKADDR_UN_SUN_LEN)
+
+message(CHECK_START "Checking whether accept() requires cross-process locking")
+if(CMAKE_HOST_SYSTEM_NAME STREQUAL "SunOS")
+  set(USE_LOCKING 1 CACHE INTERNAL "Whether accept() requires cross-process locking")
+endif()
+if(USE_LOCKING)
+  message(CHECK_PASS "yes")
+else()
+  message(CHECK_FAIL "no")
+endif()
 
 # Man documentation.
 configure_file(php-cgi.1.in php-cgi.1 @ONLY)

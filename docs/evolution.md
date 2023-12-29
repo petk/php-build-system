@@ -83,7 +83,7 @@ configure script.
 
 ## 1999
 
-Support for building external PHP extensions using a PEAR based tool `phpize`
+Support for building external PHP extensions using a PEAR-based tool `phpize`
 was added to PHP.
 
 ## 2002

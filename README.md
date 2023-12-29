@@ -14,10 +14,10 @@ intricacies of how to build PHP with CMake.
 ## Quick usage - TL;DR
 
 ```sh
-# Prerequisites for Debian based distributions:
+# Prerequisites for Debian-based distributions:
 sudo apt install cmake gcc g++ bison re2c libxml2-dev libsqlite3-dev
 
-# Prerequisites for Fedora based distributions:
+# Prerequisites for Fedora-based distributions:
 sudo dnf install cmake gcc gcc-c++ bison re2c libxml2-devel sqlite-devel
 
 # Prerequisites for FreeBSD:

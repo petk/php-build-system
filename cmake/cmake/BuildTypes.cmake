@@ -2,6 +2,8 @@
 Configure CMake build types.
 #]=============================================================================]
 
+include_guard(GLOBAL)
+
 block()
   if(CMAKE_SOURCE_DIR STREQUAL CMAKE_CURRENT_SOURCE_DIR)
     get_property(is_multi_config GLOBAL PROPERTY GENERATOR_IS_MULTI_CONFIG)

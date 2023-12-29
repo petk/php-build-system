@@ -42,11 +42,11 @@ ecosystem.
 
 ## 1. Introduction
 
-CMake is quite lenient regarding code style, but applying a consistent framework
-for writing CMake files can enhance both code quality and comprehension of the
-build system, especially when multiple developers are involved. Following some
-naming conventions can maintain a clear and organized CMake project structure
-while avoiding conflicts with external libraries and CMake scope.
+CMake is quite lenient regarding code style, but applying consistency for
+writing CMake files can enhance both code quality and comprehension of the build
+system, especially when multiple developers are involved. Following some naming
+conventions can maintain a clear and organized CMake project structure while
+avoiding conflicts with external libraries and CMake scope.
 
 For instance, it's important to note that CMake functions, macros, and commands
 are not case-sensitive. In other words, the following two expressions are
@@ -544,10 +544,11 @@ Operating system names:
 | `CMAKE_[HOST_]SYSTEM_NAME` | Note                                              |
 | -------------------------- | ------------------------------------------------- |
 | AIX                        | IBM Unix operating system                         |
-| Android                    |                                                   |
+| Android                    | Android operating system                          |
 | CYGWIN.*                   | Cygwin environment for Windows includes a version |
 | Darwin                     | Apple operating systems (macOS, OS X, etc.)       |
 | FreeBSD                    | All FreeBSD operating systems versions            |
+| GNU                        | GNU/Hurd-based operating system                   |
 | Haiku                      | Unix operating system inspired by BeOS            |
 | HP-UX                      | Hewlett Packard Unix                              |
 | Linux                      | All Linux-based distributions                     |
@@ -555,7 +556,7 @@ Operating system names:
 | OpenBSD                    | OpenBSD operating systems                         |
 | OS400                      | IBM Unix operating system                         |
 | SCO_SV                     | SCO OpenServer 5                                  |
-| SunOS                      | Solaris operating system                          |
+| SunOS                      | Oracle Solaris and illumos operating systems      |
 | UNIX_SV                    | SCO UnixWare (pre release 7)                      |
 | UnixWare                   | SCO UnixWare 7                                    |
 | Windows                    | All Windows systems                               |
@@ -587,6 +588,7 @@ Processor names:
 | amd64                           | 64-bit x86 processor on FreeBSD                  |
 | arm                             | 32-bit ARM processor                             |
 | arm64                           | 64-bit ARM processor                             |
+| i.?86.*                         | 32-bit x86 processor                             |
 | mips                            | 32-bit MIPS processor                            |
 | mips64                          | 64-bit MIPS processor                            |
 | ppc                             | 32-bit PPC (PowerPC) processor                   |

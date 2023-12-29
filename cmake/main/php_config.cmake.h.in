@@ -1355,7 +1355,7 @@
 #cmakedefine HAVE_SOCKADDR_STORAGE @HAVE_SOCKADDR_STORAGE@
 
 /* Define if sockaddr_un in sys/un.h contains a sun_len component */
-#cmakedefine HAVE_SOCKADDR_UN_SUN_LEN
+#cmakedefine HAVE_SOCKADDR_UN_SUN_LEN @HAVE_SOCKADDR_UN_SUN_LEN@
 
 /* Define to 1 if you have the 'sockatmark' function. */
 #cmakedefine HAVE_SOCKATMARK @HAVE_SOCKATMARK@
@@ -1972,7 +1972,7 @@
 #cmakedefine USE_GD_JISX0208 @USE_GD_JISX0208@
 
 /* Define if cross-process locking is required by accept() */
-#cmakedefine USE_LOCKING
+#cmakedefine USE_LOCKING @USE_LOCKING@
 
 /* Use system default cipher list instead of hardcoded value */
 #cmakedefine USE_OPENSSL_SYSTEM_CIPHERS @USE_OPENSSL_SYSTEM_CIPHERS@
