@@ -4,7 +4,7 @@ include(CheckSymbolExists)
 
 option(SAPI_CLI "Enable the CLI SAPI module" ON)
 
-message(CHECK_START "Checking whether to build PHP CLI SAPI")
+message(CHECK_START "Checking whether to build cli SAPI")
 if(SAPI_CLI)
   message(CHECK_PASS "yes")
 else()

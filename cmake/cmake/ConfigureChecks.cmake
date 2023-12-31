@@ -701,7 +701,7 @@ if(SETSOCKOPT_LIBRARY)
   target_link_libraries(php_configuration INTERFACE ${SETSOCKOPT_LIBRARY})
 endif()
 
-# Check for Solaris/Illumos process mapping.
+# Check for Solaris/illumos process mapping.
 php_search_libraries(
   Pgrab
   "libproc.h"

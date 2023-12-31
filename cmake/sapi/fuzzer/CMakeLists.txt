@@ -2,6 +2,13 @@ include(CheckCompilerFlag)
 
 option(SAPI_FUZZER "Enable the Fuzzer SAPI module" OFF)
 
+message(CHECK_START "Checking whether to build fuzzer SAPI")
+if(SAPI_FUZZER)
+  message(CHECK_PASS "yes")
+else()
+  message(CHECK_FAIL "no")
+endif()
+
 if(NOT SAPI_FUZZER)
   return()
 endif()

@@ -1,5 +1,12 @@
 option(SAPI_APACHE2HANDLER "Enable the Apache SAPI module" OFF)
 
+message(CHECK_START "Checking whether to build apache2handler SAPI")
+if(SAPI_APACHE2HANDLER)
+  message(CHECK_PASS "yes")
+else()
+  message(CHECK_FAIL "no")
+endif()
+
 if(NOT SAPI_APACHE2HANDLER)
   return()
 endif()

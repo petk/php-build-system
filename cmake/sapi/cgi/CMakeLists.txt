@@ -2,6 +2,13 @@ include(CheckStructHasMember)
 
 option(SAPI_CGI "Enable the CGI SAPI module" ON)
 
+message(CHECK_START "Checking whether to build cgi SAPI")
+if(SAPI_CGI)
+  message(CHECK_PASS "yes")
+else()
+  message(CHECK_FAIL "no")
+endif()
+
 if(NOT SAPI_CGI)
   return()
 endif()

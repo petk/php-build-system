@@ -556,7 +556,7 @@ Operating system names:
 | OpenBSD                    | OpenBSD operating systems                         |
 | OS400                      | IBM Unix operating system                         |
 | SCO_SV                     | SCO OpenServer 5                                  |
-| SunOS                      | Oracle Solaris and illumos operating systems      |
+| SunOS                      | Oracle Solaris and all illumos operating systems  |
 | UNIX_SV                    | SCO UnixWare (pre release 7)                      |
 | UnixWare                   | SCO UnixWare 7                                    |
 | Windows                    | All Windows systems                               |

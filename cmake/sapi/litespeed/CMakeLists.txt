@@ -1,5 +1,12 @@
 option(SAPI_LITESPEED "Enable the LiteSpeed SAPI module" OFF)
 
+message(CHECK_START "Checking whether to build litespeed SAPI")
+if(SAPI_LITESPEED)
+  message(CHECK_PASS "yes")
+else()
+  message(CHECK_FAIL "no")
+endif()
+
 if(NOT SAPI_LITESPEED)
   return()
 endif()

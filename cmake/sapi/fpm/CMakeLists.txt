@@ -13,7 +13,7 @@ include(PHP/SearchLibraries)
 
 option(SAPI_FPM "Enable the FPM SAPI module" OFF)
 
-message(CHECK_START "Checking whether to build PHP FPM SAPI")
+message(CHECK_START "Checking whether to build fpm SAPI")
 if(SAPI_FPM)
   message(CHECK_PASS "yes")
 else()
