@@ -242,5 +242,5 @@ commits:
 
 | Upstream php-src branch | Last included upstream php-src commit                          |
 | ----------------------- | -------------------------------------------------------------- |
-| master                  | [85e5635a8e](https://github.com/php/php-src/commit/85e5635a8e) |
-| PHP-8.3                 | [93951cf5ab](https://github.com/php/php-src/commit/93951cf5ab) |
+| master                  | [03547f6832](https://github.com/php/php-src/commit/03547f6832) |
+| PHP-8.3                 | [b32a1cc76f](https://github.com/php/php-src/commit/b32a1cc76f) |

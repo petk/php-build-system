@@ -1354,9 +1354,6 @@
 /* Whether you have struct sockaddr_storage */
 #cmakedefine HAVE_SOCKADDR_STORAGE @HAVE_SOCKADDR_STORAGE@
 
-/* Define if sockaddr_un in sys/un.h contains a sun_len component */
-#cmakedefine HAVE_SOCKADDR_UN_SUN_LEN @HAVE_SOCKADDR_UN_SUN_LEN@
-
 /* Define to 1 if you have the 'sockatmark' function. */
 #cmakedefine HAVE_SOCKATMARK @HAVE_SOCKATMARK@
 
@@ -1464,6 +1461,9 @@
 
 /* whether you have struct flock */
 #cmakedefine HAVE_STRUCT_FLOCK @HAVE_STRUCT_FLOCK@
+
+/* Define to 1 if 'sun_len' is a member of 'struct sockaddr_un'. */
+#cmakedefine HAVE_STRUCT_SOCKADDR_UN_SUN_LEN @HAVE_STRUCT_SOCKADDR_UN_SUN_LEN@
 
 /* Define to 1 if 'st_blksize' is a member of 'struct stat'. */
 #cmakedefine HAVE_STRUCT_STAT_ST_BLKSIZE @HAVE_STRUCT_STAT_ST_BLKSIZE@

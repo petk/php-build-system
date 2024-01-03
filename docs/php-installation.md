@@ -10,8 +10,9 @@ system package managers through automated scripts. Additionally, it is common
 practice to apply additional patches to tailor the PHP package to suit the
 specific requirements of the \*nix distribution in use.
 
-**Before running the `make install` or `cmake --install` command, be aware that
-files will be copied outside of your current build directory.**
+> [!CAUTION]
+> **Before running the `make install` or `cmake --install` command, be aware
+> that files will be copied outside of your current build directory.**
 
 ## Installing PHP with default Autotools
 

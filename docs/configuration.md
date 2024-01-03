@@ -3,13 +3,14 @@
 ## Index
 
 * [1. CMake presets](#1-cmake-presets)
-* [2. PHP configuration](#2-php-configuration)
-* [3. Zend engine configuration](#3-zend-engine-configuration)
-* [4. PHP SAPI modules configuration](#4-php-sapi-modules-configuration)
-* [5. PHP extensions configuration](#5-php-extensions-configuration)
-* [6. CMake GUI](#6-cmake-gui)
-* [7. Command-line interface ccmake](#7-command-line-interface-ccmake)
-* [8. Autotools configure and CMake configuration options mapping](#8-autotools-configure-and-cmake-configuration-options-mapping)
+* [2. CMake configuration](#2-cmake-configuration)
+* [3. PHP configuration](#3-php-configuration)
+* [4. Zend engine configuration](#4-zend-engine-configuration)
+* [5. PHP SAPI modules configuration](#5-php-sapi-modules-configuration)
+* [6. PHP extensions configuration](#6-php-extensions-configuration)
+* [7. CMake GUI](#7-cmake-gui)
+* [8. Command-line interface ccmake](#8-command-line-interface-ccmake)
+* [9. Configuration options mapping: Autotools, Windows JScript, and CMake](#9-configuration-options-mapping-autotools-windows-jscript-and-cmake)
 
 Build configuration can be passed on the command line at the configuration
 phase with the `-D` options:
@@ -35,9 +36,11 @@ ccmake -S php-src -B php-build
 To override the paths to dependencies, for example, when using a manual
 installation of a library, there are two main options to consider:
 
-* `CMAKE_PREFIX_PATH`
+* `CMAKE_PREFIX_PATH="DIR_1;DIR_2;..."`
 
-  A list of additional paths searched by `find_*()` commands.
+  A semicolon separated list of additional directories where packages can be
+  found by `find_*()` commands. Can be used as an alternative to above
+  &lt;PackageName&gt;_ROOT variables.
 
   For example, to pass manual paths for iconv and SQLite3 libraries:
 
@@ -84,7 +87,24 @@ CMake presets have been available since CMake 3.19, and depending on the
 `version` JSON field, the minimum required CMake version may vary based on the
 used JSON scheme.
 
-## 2. PHP configuration
+## 2. CMake configuration
+
+Some useful CMake configuration options that can be overridden when building
+with CMake:
+
+* `CMAKE_MESSAGE_CONTEXT_SHOW=OFF|ON`
+
+  Default: `OFF`
+
+  Show/hide context in configuration log ([ext/foo] Checking for...).
+
+* `BUILD_SHARED_LIBS=OFF|ON`
+
+  Default: `OFF`
+
+  Build all enabled PHP extensions as shared libraries.
+
+## 3. PHP configuration
 
 * `PHP_RE2C_CGOTO=OFF|ON`
 
@@ -119,11 +139,11 @@ used JSON scheme.
   Disable runtime library search paths (rpath) in installation directory
   executables.
 
-## 3. Zend engine configuration
+## 4. Zend engine configuration
 
-## 4. PHP SAPI modules configuration
+## 5. PHP SAPI modules configuration
 
-## 5. PHP extensions configuration
+## 6. PHP extensions configuration
 
 * `EXT_ODBC=OFF|ON`
 
@@ -192,7 +212,7 @@ used JSON scheme.
 
     A list of additional ODBC library linker flags.
 
-## 6. CMake GUI
+## 7. CMake GUI
 
 With CMake there comes also a basic graphical user interface to configure and
 generate the build system.
@@ -229,7 +249,7 @@ IDE.
 cmake --build --preset default
 ```
 
-## 7. Command-line interface ccmake
+## 8. Command-line interface ccmake
 
 The CMake curses interface (`ccmake`) is a command-line GUI, similar to the
 CMake GUI, that simplifies the project configuration process in an intuitive and
@@ -259,30 +279,33 @@ cmake --build build-directory -j
 `ccmake` does not support presets but can be utilized for simpler configurations
 during development and for similar workflows.
 
-## 8. Autotools configure and CMake configuration options mapping
+## 9. Configuration options mapping: Autotools, Windows JScript, and CMake
 
-A list of Autoconf configure command-line configuration options and their CMake
-alternatives.
+A list of Autoconf `configure` command-line configuration options, Windows
+`configure.bat` options and their CMake alternatives.
 
 <table>
   <thead>
     <tr>
       <th>configure</th>
+      <th>configure.bat</th>
       <th>CMake</th>
       <th>Notes</th>
     </tr>
   </thead>
   <tbody>
     <tr>
-      <th colspan="3">PHP configuration</td>
+      <th colspan="4">PHP configuration</td>
     </tr>
     <tr>
       <td>--disable-re2c-cgoto</td>
+      <td></td>
       <td>PHP_RE2C_CGOTO=OFF</td>
       <td>default</td>
     </tr>
     <tr>
       <td>&emsp;--enable-re2c-cgoto</td>
+      <td></td>
       <td>PHP_RE2C_CGOTO=ON</td>
       <td></td>
     </tr>
@@ -293,6 +316,7 @@ alternatives.
     </tr>
     <tr>
       <td>&emsp;--enable-debug</td>
+      <td></td>
       <td>
         Single configuration generators: <code>CMAKE_BUILD_TYPE=Debug</code><br>
         Multi configuration generators: <code>cmake --build dir --config Debug</code>
@@ -302,10 +326,12 @@ alternatives.
     <tr>
       <td>--disable-debug-assertions</td>
       <td></td>
+      <td></td>
       <td>default</td>
     </tr>
     <tr>
       <td>&emsp;--enable-debug-assertions</td>
+      <td></td>
       <td>
         Single configuration generators: <code>CMAKE_BUILD_TYPE=DebugAssertions</code><br>
         Multi configuration generators: <code>cmake --build dir --config DebugAssertions</code>
@@ -314,76 +340,91 @@ alternatives.
     </tr>
     <tr>
       <td>--disable-sigchild</td>
+      <td></td>
       <td>PHP_SIGCHILD=OFF</td>
       <td>default</td>
     </tr>
     <tr>
       <td>&emsp;--enable-sigchild</td>
+      <td></td>
       <td>PHP_SIGCHILD=ON</td>
       <td></td>
     </tr>
     <tr>
       <td>--enable-ipv6</td>
+      <td></td>
       <td>PHP_IPV6=ON</td>
       <td>default</td>
     </tr>
     <tr>
       <td>&emsp;--disable-ipv6</td>
+      <td></td>
       <td>PHP_IPV6=OFF</td>
       <td></td>
     </tr>
     <tr>
       <td>--disable-rtld-now</td>
+      <td></td>
       <td>PHP_USE_RTLD_NOW=OFF</td>
       <td>default</td>
     </tr>
     <tr>
       <td>&emsp;--enable-rtld-now</td>
+      <td></td>
       <td>PHP_USE_RTLD_NOW=ON</td>
       <td></td>
     </tr>
     <tr>
       <td>--enable-short-tags</td>
+      <td></td>
       <td>PHP_SHORT_TAGS=ON</td>
       <td>default</td>
     </tr>
     <tr>
       <td>&emsp;--disable-short-tags</td>
+      <td></td>
       <td>PHP_SHORT_TAGS=OFF</td>
       <td></td>
     </tr>
     <tr>
       <td>--disable-zts</td>
+      <td></td>
       <td>PHP_THREAD_SAFETY=OFF</td>
       <td>default</td>
     </tr>
     <tr>
       <td>&emsp;--enable-zts</td>
+      <td></td>
       <td>PHP_THREAD_SAFETY=ON</td>
       <td></td>
     </tr>
     <tr>
       <td>--disable-dtrace</td>
+      <td></td>
       <td>PHP_DTRACE=OFF</td>
       <td>default</td>
     </tr>
     <tr>
       <td>&emsp;--enable-dtrace</td>
+      <td></td>
       <td>PHP_DTRACE=ON</td>
       <td></td>
     </tr>
     <tr>
       <td>--disable-fd-setsize</td>
+      <td></td>
       <td>PHP_FD_SETSIZE=""</td>
       <td>default</td>
     </tr>
     <tr>
       <td>&emsp;--enable-fd-setsize=NUM</td>
+      <td></td>
       <td>PHP_FD_SETSIZE=NUM</td>
       <td></td>
     </tr>
     <tr>
       <td>--without-valgrind</td>
+      <td></td>
       <td>PHP_VALGRIND=OFF</td>
       <td>default</td>
     </tr>
@@ -393,6 +434,7 @@ alternatives.
         &emsp;[VALGRIND_CFLAGS=...]<br>
         &emsp;[VALGRIND_LIBS=...]
       </td>
+      <td></td>
       <td>
         PHP_VALGRIND=ON<br>
         [Valgrind_ROOT=DIR]
@@ -401,21 +443,25 @@ alternatives.
     </tr>
     <tr>
       <td>--with-libdir=NAME</td>
+      <td></td>
       <td>CMAKE_INSTALL_LIBDIR=NAME</td>
       <td>See GNUInstallDirs</td>
     </tr>
     <tr>
       <td>--with-layout=PHP|GNU</td>
+      <td></td>
       <td>PHP_LAYOUT=PHP|GNU</td>
       <td>default: PHP</td>
     </tr>
     <tr>
       <td>--disable-werror</td>
+      <td></td>
       <td>PHP_WERROR=OFF or --compile-no-warning-as-error</td>
       <td>default</td>
     </tr>
     <tr>
       <td>&emsp;--enable-werror</td>
+      <td></td>
       <td>
         PHP_WERROR=ON or<br>
         CMAKE_COMPILE_WARNING_AS_ERROR=ON
@@ -424,41 +470,49 @@ alternatives.
     </tr>
     <tr>
       <td>--disable-memory-sanitizer</td>
+      <td></td>
       <td>PHP_MEMORY_SANITIZER=OFF</td>
       <td>default</td>
     </tr>
     <tr>
       <td>&emsp;--enable-memory-sanitizer</td>
+      <td></td>
       <td>PHP_MEMORY_SANITIZER=ON</td>
       <td></td>
     </tr>
     <tr>
       <td>--disable-address-sanitizer</td>
+      <td></td>
       <td>PHP_ADDRESS_SANITIZER=OFF</td>
       <td>default</td>
     </tr>
     <tr>
       <td>&emsp;--enable-address-sanitizer</td>
+      <td></td>
       <td>PHP_ADDRESS_SANITIZER=ON</td>
       <td></td>
     </tr>
     <tr>
       <td>--disable-undefined-sanitizer</td>
+      <td></td>
       <td>PHP_UNDEFINED_SANITIZER=OFF</td>
       <td>default</td>
     </tr>
     <tr>
       <td>&emsp;--enable-undefined-sanitizer</td>
+      <td></td>
       <td>PHP_UNDEFINED_SANITIZER=ON</td>
       <td></td>
     </tr>
     <tr>
       <td>--disable-dmalloc</td>
+      <td></td>
       <td>PHP_DMALLOC=OFF</td>
       <td>default</td>
     </tr>
     <tr>
       <td>&emsp;--enable-dmalloc</td>
+      <td></td>
       <td>
         PHP_DMALLOC=ON<br>
         [Dmalloc_ROOT=DIR]
@@ -467,31 +521,37 @@ alternatives.
     </tr>
     <tr>
       <td>--without-config-file-scan-dir</td>
+      <td></td>
       <td>PHP_CONFIG_FILE_SCAN_DIR=""</td>
       <td>default</td>
     </tr>
     <tr>
       <td>&emsp;--with-config-file-scan-dir=DIR</td>
+      <td></td>
       <td>PHP_CONFIG_FILE_SCAN_DIR=DIR</td>
       <td></td>
     </tr>
     <tr>
       <td>--without-config-file-path</td>
+      <td></td>
       <td>PHP_CONFIG_FILE_PATH=""</td>
       <td>default</td>
     </tr>
     <tr>
       <td>&emsp;--with-config-file-path=PATH</td>
+      <td></td>
       <td>PHP_CONFIG_FILE_PATH=PATH</td>
       <td></td>
     </tr>
     <tr>
       <td>--disable-gcov</td>
+      <td></td>
       <td>PHP_GCOV=OFF</td>
       <td>default</td>
     </tr>
     <tr>
       <td>&emsp;--enable-gcov</td>
+      <td></td>
       <td>
         PHP_GCOV=ON<br>
         [Gcov_ROOT=DIR]
@@ -500,6 +560,7 @@ alternatives.
     </tr>
     <tr>
       <td>--enable-rpath</td>
+      <td></td>
       <td>
         CMAKE_SKIP_RPATH=OFF<br>
         CMAKE_SKIP_INSTALL_RPATH=OFF<br>
@@ -509,6 +570,7 @@ alternatives.
     </tr>
     <tr>
       <td>&emsp;--disable-rpath</td>
+      <td></td>
       <td>
         CMAKE_SKIP_RPATH=ON<br>
         or CMAKE_SKIP_INSTALL_RPATH=ON<br>
@@ -518,112 +580,139 @@ alternatives.
     </tr>
     <tr>
       <td>--disable-libgcc</td>
+      <td></td>
       <td>PHP_LIBGCC=OFF</td>
       <td>default</td>
     </tr>
     <tr>
       <td>&emsp;--enable-libgcc</td>
+      <td></td>
       <td>PHP_LIBGCC=ON</td>
       <td></td>
     </tr>
     <tr>
       <td>--enable-all</td>
+      <td></td>
       <td>Use <code>cmake --preset all-enabled</code></td>
       <td>Enables all extensions and some additional configuration</td>
     </tr>
     <tr>
       <td>--disable-all</td>
+      <td></td>
       <td>Use <code>cmake --preset all-disabled</code></td>
       <td>Disables all extensions and some additional configuration</td>
     </tr>
     <tr>
-      <th colspan="3">Zend engine configuration</td>
+      <th colspan="4">Zend engine configuration</td>
     </tr>
     <tr>
       <td>--enable-gcc-global-regs</td>
+      <td></td>
       <td>ZEND_GCC_GLOBAL_REGS=ON</td>
       <td>default</td>
     </tr>
     <tr>
       <td>&emsp;--disable-gcc-global-regs</td>
+      <td></td>
       <td>ZEND_GCC_GLOBAL_REGS=OFF</td>
       <td></td>
     </tr>
     <tr>
       <td>--enable-fiber-asm</td>
+      <td></td>
       <td>ZEND_FIBER_ASM=ON</td>
       <td>default</td>
     </tr>
     <tr>
       <td>&emsp;--disable-fiber-asm</td>
+      <td></td>
       <td>ZEND_FIBER_ASM=OFF</td>
       <td></td>
     </tr>
     <tr>
       <td>--enable-zend-signals</td>
+      <td></td>
       <td>ZEND_SIGNALS=ON</td>
       <td>default</td>
     </tr>
     <tr>
       <td>&emsp;--disable-zend-signals</td>
+      <td></td>
       <td>ZEND_SIGNALS=OFF</td>
       <td></td>
     </tr>
     <tr>
       <td>--disable-zend-max-execution-timers</td>
+      <td></td>
       <td>ZEND_MAX_EXECUTION_TIMERS=OFF</td>
       <td>default</td>
     </tr>
     <tr>
       <td>&emsp;--enable-zend-max-execution-timers</td>
+      <td></td>
       <td>ZEND_MAX_EXECUTION_TIMERS=ON</td>
       <td></td>
     </tr>
     <tr>
-      <th colspan="3">PHP SAPI modules configuration</th>
+      <th colspan="4">PHP SAPI modules configuration</th>
     </tr>
     <tr>
       <td>--without-apxs2</td>
+      <td></td>
       <td>SAPI_APACHE2HANDLER=OFF</td>
       <td>default</td>
     </tr>
     <tr>
       <td>&emsp;--with-apxs2[=FILE]</td>
+      <td></td>
       <td>SAPI_APACHE2HANDLER=ON</td>
       <td></td>
     </tr>
     <tr>
       <td>--enable-cgi</td>
+      <td></td>
       <td>SAPI_CGI=ON</td>
       <td>default</td>
     </tr>
     <tr>
       <td>&emsp;--disable-cgi</td>
+      <td></td>
       <td>SAPI_CGI=OFF</td>
       <td></td>
     </tr>
     <tr>
       <td>--enable-cli</td>
-      <td>CAPI_CLI=ON</td>
+      <td></td>
+      <td>SAPI_CLI=ON</td>
       <td>default</td>
     </tr>
     <tr>
       <td>&emsp;--disable-cli</td>
+      <td></td>
       <td>SAPI_CLI=OFF</td>
       <td></td>
     </tr>
     <tr>
+      <td></td>
+      <td>--enable-cli-win32</td>
+      <td>SAPI_CLI_WIN=ON</td>
+      <td>Windows only</td>
+    </tr>
+    <tr>
       <td>--disable-embed</td>
+      <td></td>
       <td>SAPI_EMBED=OFF</td>
       <td>default</td>
     </tr>
     <tr>
       <td>&emsp;--enable-embed</td>
+      <td></td>
       <td>SAPI_EMBED=ON</td>
       <td>will be build as shared</td>
     </tr>
     <tr>
       <td>&emsp;--enable-embed=shared</td>
+      <td></td>
       <td>
         SAPI_EMBED=ON<br>
         SAPI_EMBED_SHARED=ON
@@ -632,6 +721,7 @@ alternatives.
     </tr>
     <tr>
       <td>&emsp;--enable-embed=static</td>
+      <td></td>
       <td>
         SAPI_EMBED=ON<br>
         SAPI_EMBED_SHARED=OFF
@@ -640,26 +730,31 @@ alternatives.
     </tr>
     <tr>
       <td>--disable-fpm</td>
+      <td></td>
       <td>SAPI_FPM=OFF</td>
       <td>default</td>
     </tr>
     <tr>
       <td>&emsp;--enable-fpm</td>
+      <td></td>
       <td>SAPI_FPM=ON</td>
       <td></td>
     </tr>
     <tr>
       <td>&emsp;[--with-fpm-user=USER]</td>
+      <td></td>
       <td>[SAPI_FPM_USER=USER]</td>
       <td>default: nobody</td>
     </tr>
     <tr>
       <td>&emsp;[--with-fpm-group=GROUP]</td>
+      <td></td>
       <td>[SAPI_FPM_GROUP=GROUP]</td>
       <td>default: nobody</td>
     </tr>
     <tr>
       <td>&emsp;--without-fpm-systemd</td>
+      <td></td>
       <td>SAPI_FPM_SYSTEMD=OFF</td>
       <td>default</td>
     </tr>
@@ -669,6 +764,7 @@ alternatives.
         &emsp;[SYSTEMD_CFLAGS=...]<br>
         &emsp;[SYSTEMD_LIBS=...]
       </td>
+      <td></td>
       <td>
         SAPI_FPM_SYSTEMD=ON<br>
         [Systemd_ROOT=DIR]
@@ -677,11 +773,13 @@ alternatives.
     </tr>
     <tr>
       <td>&emsp;--without-fpm-acl</td>
+      <td></td>
       <td>SAPI_FPM_ACL=OFF</td>
       <td>default</td>
     </tr>
     <tr>
       <td>&emsp;--with-fpm-acl</td>
+      <td></td>
       <td>
         SAPI_FPM_ACL=ON<br>
         [ACL_ROOT=DIR]
@@ -690,11 +788,13 @@ alternatives.
     </tr>
     <tr>
       <td>&emsp;--without-fpm-apparmor</td>
+      <td></td>
       <td>SAPI_FPM_APPARMOR=OFF</td>
       <td>default</td>
     </tr>
     <tr>
       <td>&emsp;--with-fpm-apparmor</td>
+      <td></td>
       <td>
         SAPI_FPM_APPARMOR=ON<br>
         [AppArmor_ROOT=DIR]
@@ -703,11 +803,13 @@ alternatives.
     </tr>
     <tr>
       <td>&emsp;--without-fpm-selinux</td>
+      <td></td>
       <td>SAPI_FPM_SELINUX=OFF</td>
       <td>default</td>
     </tr>
     <tr>
       <td>&emsp;--with-fpm-selinux</td>
+      <td></td>
       <td>
         SAPI_FPM_SELINUX=ON<br>
         [SELinux_ROOT=DIR]
@@ -716,79 +818,94 @@ alternatives.
     </tr>
     <tr>
       <td>--disable-fuzzer</td>
+      <td></td>
       <td>SAPI_FUZZER=OFF</td>
       <td>default</td>
     </tr>
     <tr>
       <td>&emsp;--enable-fuzzer</td>
+      <td></td>
       <td>SAPI_FUZZER=ON</td>
       <td></td>
     </tr>
     <tr>
       <td>--disable-litespeed</td>
+      <td></td>
       <td>SAPI_LITESPEED=OFF</td>
       <td>default</td>
     </tr>
     <tr>
       <td>&emsp;--enable-litespeed</td>
+      <td></td>
       <td>SAPI_LITESPEED=ON</td>
       <td></td>
     </tr>
     <tr>
       <td>--enable-phpdbg</td>
+      <td></td>
       <td>SAPI_PHPDBG=ON</td>
       <td>default</td>
     </tr>
     <tr>
       <td>&emsp;--disable-phpdbg</td>
+      <td></td>
       <td>SAPI_PHPDBG=OFF</td>
       <td></td>
     </tr>
     <tr>
       <td>&emsp;--disable-phpdbg-debug</td>
+      <td></td>
       <td>SAPI_PHPDBG_DEBUG=OFF</td>
       <td>default</td>
     </tr>
     <tr>
       <td>&emsp;--enable-phpdbg-debug</td>
+      <td></td>
       <td>SAPI_PHPDBG_DEBUG=ON</td>
       <td></td>
     </tr>
     <tr>
       <td>&emsp;--disable-phpdbg-readline</td>
+      <td></td>
       <td>SAPI_PHPDBG_READLINE=OFF</td>
       <td>default</td>
     </tr>
     <tr>
       <td>&emsp;--enable-phpdbg-readline</td>
+      <td></td>
       <td>SAPI_PHPDBG_READLINE=ON</td>
       <td></td>
     </tr>
     <tr>
-      <th colspan="3">PHP extensions</th>
+      <th colspan="4">PHP extensions</th>
     </tr>
     <tr>
       <td>--disable-bcmath</td>
+      <td></td>
       <td>EXT_BCMATH=OFF</td>
       <td>default</td>
     </tr>
     <tr>
       <td>&emsp;--enable-bcmath</td>
+      <td></td>
       <td>EXT_BCMATH=ON</td>
       <td></td>
     </tr>
     <tr>
       <td>&emsp;--enable-bcmath=shared</td>
+      <td></td>
       <td>EXT_BCMATH_SHARED=ON</td>
       <td></td>
     </tr>
     <tr>
       <td>--without-bz2</td>
+      <td></td>
       <td>EXT_BZ2=OFF</td>
       <td>default</td>
     </tr>
     <tr>
       <td>&emsp;--with-bz2[=DIR]</td>
+      <td></td>
       <td>
         EXT_BZ2=ON<br>
         [BZip2_ROOT=DIR]
@@ -797,41 +914,49 @@ alternatives.
     </tr>
     <tr>
       <td>&emsp;--with-bz2=shared</td>
+      <td></td>
       <td>EXT_BZ2_SHARED=ON</td>
       <td></td>
     </tr>
     <tr>
       <td>--disable-calendar</td>
+      <td></td>
       <td>EXT_CALENDAR=OFF</td>
       <td>default</td>
     </tr>
     <tr>
       <td>&emsp;--enable-calendar</td>
+      <td></td>
       <td>EXT_CALENDAR=ON</td>
       <td></td>
     </tr>
     <tr>
       <td>&emsp;--enable-calendar=shared</td>
+      <td></td>
       <td>EXT_CALENDAR_SHARED=ON</td>
       <td></td>
     </tr>
     <tr>
       <td>--enable-ctype</td>
+      <td></td>
       <td>EXT_CTYPE=ON</td>
       <td>default</td>
     </tr>
     <tr>
       <td>&emsp;--enable-ctype=shared</td>
+      <td></td>
       <td>EXT_CTYPE_SHARED=ON</td>
       <td></td>
     </tr>
     <tr>
       <td>&emsp;--disable-ctype</td>
+      <td></td>
       <td>EXT_CTYPE=OFF</td>
       <td></td>
     </tr>
     <tr>
       <td>--without-curl</td>
+      <td></td>
       <td>EXT_CURL=OFF</td>
       <td>default</td>
     </tr>
@@ -842,6 +967,7 @@ alternatives.
         &emsp;[CURL_LIBS=...]<br>
         &emsp;[CURL_FEATURES=...]
       </td>
+      <td></td>
       <td>
         EXT_CURL=ON<br>
         [CURL_ROOT=DIR]
@@ -850,51 +976,61 @@ alternatives.
     </tr>
     <tr>
       <td>&emsp;--with-curl=shared</td>
+      <td></td>
       <td>EXT_CURL_SHARED=ON</td>
       <td></td>
     </tr>
     <tr>
       <td>--disable-dba</td>
+      <td></td>
       <td>EXT_DBA=OFF</td>
       <td>default</td>
     </tr>
     <tr>
       <td>&emsp;--enable-dba</td>
+      <td></td>
       <td>EXT_DBA=ON</td>
       <td></td>
     </tr>
     <tr>
       <td>&emsp;--enable-dba=shared</td>
+      <td></td>
       <td>EXT_DBA_SHARED=ON</td>
       <td></td>
     </tr>
     <tr>
       <td>&emsp;--with-flatfile</td>
+      <td></td>
       <td>EXT_DBA_FLATFILE=ON</td>
       <td>default</td>
     </tr>
     <tr>
       <td>&emsp;--without-flatfile</td>
+      <td></td>
       <td>EXT_DBA_FLATFILE=OFF</td>
       <td></td>
     </tr>
     <tr>
       <td>&emsp;--with-inifile</td>
+      <td></td>
       <td>EXT_DBA_INIFILE=ON</td>
       <td>default</td>
     </tr>
     <tr>
       <td>&emsp;--without-inifile</td>
+      <td></td>
       <td>EXT_DBA_INIFILE=OFF</td>
       <td></td>
     </tr>
     <tr>
       <td>&emsp;--without-qdbm</td>
+      <td></td>
       <td>EXT_DBA_QDBM=OFF</td>
       <td>default</td>
     </tr>
     <tr>
       <td>&emsp;--with-qdbm[=DIR]</td>
+      <td></td>
       <td>
         EXT_DBA_QDBM=ON<br>
         [QDBM_ROOT=DIR]
@@ -903,11 +1039,13 @@ alternatives.
     </tr>
     <tr>
       <td>&emsp;--without-gdbm</td>
+      <td></td>
       <td>EXT_DBA_GDBM=OFF</td>
       <td>default</td>
     </tr>
     <tr>
       <td>&emsp;--with-gdbm[=DIR]</td>
+      <td></td>
       <td>
         EXT_DBA_GDBM=ON<br>
         [GDBM_ROOT=DIR]
@@ -916,11 +1054,13 @@ alternatives.
     </tr>
     <tr>
       <td>&emsp;--without-ndbm</td>
+      <td></td>
       <td>EXT_DBA_NDBM=OFF</td>
       <td>default</td>
     </tr>
     <tr>
       <td>&emsp;--with-ndbm[=DIR]</td>
+      <td></td>
       <td>
         EXT_DBA_NDBM=ON<br>
         [Ndbm_ROOT=DIR]
@@ -929,11 +1069,13 @@ alternatives.
     </tr>
     <tr>
       <td>&emsp;--without-db4</td>
+      <td></td>
       <td>EXT_DBA_DB=OFF</td>
       <td>default</td>
     </tr>
     <tr>
       <td>&emsp;--with-db4[=DIR]</td>
+      <td></td>
       <td>
         EXT_DBA_DB=ON<br>
         [BerkeleyDB_ROOT=DIR]
@@ -942,41 +1084,49 @@ alternatives.
     </tr>
     <tr>
       <td>&emsp;--without-db3</td>
+      <td></td>
       <td>EXT_DBA_DB3=OFF</td>
       <td>default</td>
     </tr>
     <tr>
       <td>&emsp;--with-db3</td>
+      <td></td>
       <td>EXT_DBA_DB3=ON</td>
       <td></td>
     </tr>
     <tr>
       <td>&emsp;--without-db2</td>
+      <td></td>
       <td>EXT_DBA_DB2=OFF</td>
       <td>default</td>
     </tr>
     <tr>
       <td>&emsp;--with-db2</td>
+      <td></td>
       <td>EXT_DBA_DB2=ON</td>
       <td></td>
     </tr>
     <tr>
       <td>&emsp;--without-db1</td>
+      <td></td>
       <td>EXT_DBA_DB_1=OFF</td>
       <td>default</td>
     </tr>
     <tr>
       <td>&emsp;--with-db1</td>
+      <td></td>
       <td>EXT_DBA_DB_1=ON</td>
       <td></td>
     </tr>
     <tr>
       <td>&emsp;--without-dbm</td>
+      <td></td>
       <td>EXT_DBA_DBM=OFF</td>
       <td>default</td>
     </tr>
     <tr>
       <td>&emsp;--with-dbm[=DIR]</td>
+      <td></td>
       <td>
         EXT_DBA_DBM=ON<br>
         [Dbm_ROOT=DIR]
@@ -985,11 +1135,13 @@ alternatives.
     </tr>
     <tr>
       <td>&emsp;--without-tcadb</td>
+      <td></td>
       <td>EXT_DBA_TCADB=OFF</td>
       <td>default</td>
     </tr>
     <tr>
       <td>&emsp;--with-tcadb[=DIR]</td>
+      <td></td>
       <td>
         EXT_DBA_TCADB=ON<br>
         [TokyoCabinet_ROOT=DIR]
@@ -998,11 +1150,13 @@ alternatives.
     </tr>
     <tr>
       <td>&emsp;--without-lmdb</td>
+      <td></td>
       <td>EXT_DBA_LMDB=OFF</td>
       <td>default</td>
     </tr>
     <tr>
       <td>&emsp;--with-lmdb[=DIR]</td>
+      <td></td>
       <td>
         EXT_DBA_LMDB=ON<br>
         [LMDB_ROOT=DIR]
@@ -1011,11 +1165,13 @@ alternatives.
     </tr>
     <tr>
       <td>&emsp;--with-cdb</td>
+      <td></td>
       <td>EXT_DBA_CDB=ON</td>
       <td>default</td>
     </tr>
     <tr>
       <td>&emsp;--with-cdb=DIR</td>
+      <td></td>
       <td>
         EXT_DBA_CDB_EXTERNAL=ON<br>
         Cdb_ROOT=DIR
@@ -1024,41 +1180,49 @@ alternatives.
     </tr>
     <tr>
       <td>&emsp;--without-cdb</td>
+      <td></td>
       <td>EXT_DBA_CDB=OFF</td>
       <td></td>
     </tr>
     <tr>
       <td>--disable-dl-test</td>
+      <td></td>
       <td>EXT_DL_TEST=OFF</td>
       <td>default</td>
     </tr>
     <tr>
       <td>&emsp;--enable-dl-test</td>
+      <td></td>
       <td>EXT_DL_TEST=ON</td>
       <td>will be shared</td>
     </tr>
     <tr>
       <td>&emsp;--enable-dl-test=shared</td>
+      <td></td>
       <td>EXT_DL_TEST=ON</td>
       <td>will be shared</td>
     </tr>
     <tr>
       <td>--enable-dom</td>
+      <td></td>
       <td>EXT_DOM=ON</td>
       <td>default</td>
     </tr>
     <tr>
       <td>&emsp;--enable-dom=shared</td>
+      <td></td>
       <td>EXT_DOM_SHARED=ON</td>
       <td></td>
     </tr>
     <tr>
       <td>&emsp;--disable-dom</td>
+      <td></td>
       <td>EXT_DOM=OFF</td>
       <td></td>
     </tr>
     <tr>
       <td>--without-enchant</td>
+      <td></td>
       <td>EXT_ENCHANT=OFF</td>
       <td>default</td>
     </tr>
@@ -1070,6 +1234,7 @@ alternatives.
         &emsp;[ENCHANT2_CFLAGS=...]<br>
         &emsp;[ENCHANT2_LIBS=...]
       </td>
+      <td></td>
       <td>
         EXT_ENCHANT=ON<br>
         [Enchant_ROOT=DIR]
@@ -1078,26 +1243,31 @@ alternatives.
     </tr>
     <tr>
       <td>&emsp;--with-enchant=shared</td>
+      <td></td>
       <td>EXT_ENCHANT_SHARED=ON</td>
       <td></td>
     </tr>
     <tr>
       <td>--disable-exif</td>
+      <td></td>
       <td>EXT_EXIF=OFF</td>
       <td>default</td>
     </tr>
     <tr>
       <td>&emsp;--enable-exif</td>
+      <td></td>
       <td>EXT_EXIF=ON</td>
       <td></td>
     </tr>
     <tr>
       <td>&emsp;--enable-exif=shared</td>
+      <td></td>
       <td>EXT_EXIF_SHARED=ON</td>
       <td></td>
     </tr>
     <tr>
       <td>--without-ffi</td>
+      <td></td>
       <td>EXT_FFI=OFF</td>
       <td>default</td>
     </tr>
@@ -1107,6 +1277,7 @@ alternatives.
         &emsp;[FFI_CFLAGS=...]<br>
         &emsp;[FFI_LIBS=...]
       </td>
+      <td></td>
       <td>
         EXT_FFI=ON<br>
         [FFI_ROOT=DIR]
@@ -1115,81 +1286,97 @@ alternatives.
     </tr>
     <tr>
       <td>&emsp;--with-ffi=shared</td>
+      <td></td>
       <td>EXT_FFI_SHARED=ON</td>
       <td></td>
     </tr>
     <tr>
       <td>--enable-fileinfo</td>
+      <td></td>
       <td>EXT_FILEINFO=ON</td>
       <td>default</td>
     </tr>
     <tr>
       <td>&emsp;--enable-fileinfo=shared</td>
+      <td></td>
       <td>EXT_FILEINFO_SHARED=ON</td>
       <td></td>
     </tr>
     <tr>
       <td>&emsp;--disable-fileinfo</td>
+      <td></td>
       <td>EXT_FILEINFO=OFF</td>
       <td></td>
     </tr>
     <tr>
       <td>--enable-filter</td>
+      <td></td>
       <td>EXT_FILTER=ON</td>
       <td>default</td>
     </tr>
     <tr>
       <td>&emsp;--enable-filter=shared</td>
+      <td></td>
       <td>EXT_FILTER_SHARED=ON</td>
       <td></td>
     </tr>
     <tr>
       <td>&emsp;--disable-filter</td>
+      <td></td>
       <td>EXT_FILTER=OFF</td>
       <td></td>
     </tr>
     <tr>
       <td>--disable-ftp</td>
+      <td></td>
       <td>EXT_FTP=OFF</td>
       <td>default</td>
     </tr>
     <tr>
       <td>&emsp;--enable-ftp</td>
+      <td></td>
       <td>EXT_FTP=ON</td>
       <td></td>
     </tr>
     <tr>
       <td>&emsp;--enable-ftp=shared</td>
+      <td></td>
       <td>EXT_FTP_SHARED=ON</td>
       <td></td>
     </tr>
     <tr>
       <td>&emsp;--without-openssl-dir</td>
+      <td></td>
       <td>EXT_FTP_SSL=OFF</td>
       <td>default</td>
     </tr>
     <tr>
       <td>&emsp;--with-openssl-dir</td>
+      <td></td>
       <td>EXT_FTP_SSL=ON</td>
       <td></td>
     </tr>
     <tr>
       <td>--disable-gd</td>
+      <td></td>
       <td>EXT_GD=OFF</td>
       <td>default</td>
     </tr>
     <tr>
       <td>&emsp;--enable-gd</td>
+      <td></td>
       <td>EXT_GD=ON</td>
       <td></td>
     </tr>
     <tr>
       <td>&emsp;--enable-gd=shared</td>
+      <td></td>
       <td>EXT_GD_SHARED=ON</td>
       <td></td>
     </tr>
     <tr>
       <td>&emsp;--without-external-gd</td>
+      <td></td>
       <td>EXT_GD_EXTERNAL=OFF</td>
       <td>default</td>
     </tr>
@@ -1199,6 +1386,7 @@ alternatives.
         &emsp;[GDLIB_CFLAGS=...]<br>
         &emsp;[GDLIB_LIBS=...]
       </td>
+      <td></td>
       <td>
         EXT_GD_EXTERNAL=ON<br>
         [GD_ROOT=DIR]
@@ -1207,6 +1395,7 @@ alternatives.
     </tr>
     <tr>
       <td>&emsp;--without-avif</td>
+      <td></td>
       <td>EXT_GD_AVIF=OFF</td>
       <td>default</td>
     </tr>
@@ -1216,6 +1405,7 @@ alternatives.
         &emsp;[AVIF_CFLAGS=...]<br>
         &emsp;[AVIF_LIBS=...]
       </td>
+      <td></td>
       <td>
         EXT_GD_AVIF=ON<br>
         [libavif_ROOT=DIR]
@@ -1224,6 +1414,7 @@ alternatives.
     </tr>
     <tr>
       <td>&emsp;--without-webp</td>
+      <td></td>
       <td>EXT_GD_WEBP=OFF</td>
       <td>default</td>
     </tr>
@@ -1233,6 +1424,7 @@ alternatives.
         &emsp;[WEBP_CFLAGS=...]<br>
         &emsp;[WEBP_LIBS=...]
       </td>
+      <td></td>
       <td>
         EXT_GD_WEBP=ON<br>
         [WebP_ROOT=DIR]
@@ -1241,6 +1433,7 @@ alternatives.
     </tr>
     <tr>
       <td>&emsp;--without-jpeg</td>
+      <td></td>
       <td>EXT_GD_JPEG=OFF</td>
       <td>default</td>
     </tr>
@@ -1250,6 +1443,7 @@ alternatives.
         &emsp;[JPEG_CFLAGS=...]<br>
         &emsp;[JPEG_LIBS=...]
       </td>
+      <td></td>
       <td>
         EXT_GD_JPEG=ON<br>
         [JPEG_ROOT=DIR]
@@ -1261,6 +1455,7 @@ alternatives.
         &emsp;[PNG_CFLAGS=...]<br>
         &emsp;[PNG_LIBS=...]
       </td>
+      <td></td>
       <td>
         [PNG_ROOT=DIR]
       </td>
@@ -1268,6 +1463,7 @@ alternatives.
     </tr>
     <tr>
       <td>&emsp;--without-xpm</td>
+      <td></td>
       <td>EXT_GD_XPM=OFF</td>
       <td>default</td>
     </tr>
@@ -1277,6 +1473,7 @@ alternatives.
         &emsp;[XPM_CFLAGS=...]<br>
         &emsp;[XPM_LIBS=...]
       </td>
+      <td></td>
       <td>
         EXT_GD_XPM=ON<br>
         [XPM_ROOT=DIR]
@@ -1285,6 +1482,7 @@ alternatives.
     </tr>
     <tr>
       <td>&emsp;--without-freetype</td>
+      <td></td>
       <td>EXT_GD_FREETYPE=OFF</td>
       <td>default</td>
     </tr>
@@ -1294,6 +1492,7 @@ alternatives.
         &emsp;[FREETYPE2_CFLAGS=...]<br>
         &emsp;[FREETYPE2_LIBS=...]
       </td>
+      <td></td>
       <td>
         EXT_GD_FREETYPE=ON<br>
         [Freetype_ROOT=DIR]
@@ -1302,21 +1501,25 @@ alternatives.
     </tr>
     <tr>
       <td>&emsp;--disable-gd-jis-conv</td>
+      <td></td>
       <td>EXT_GD_JIS=OFF</td>
       <td>default</td>
     </tr>
     <tr>
       <td>&emsp;--enable-gd-jis-conv</td>
+      <td></td>
       <td>EXT_GD_JIS=ON</td>
       <td></td>
     </tr>
     <tr>
       <td>--without-gettext</td>
+      <td></td>
       <td>EXT_GETTEXT=OFF</td>
       <td>default</td>
     </tr>
     <tr>
       <td>&emsp;--with-gettext[=DIR]</td>
+      <td></td>
       <td>
         EXT_GETTEXT=ON<br>
         [Intl_ROOT=DIR]
@@ -1325,16 +1528,19 @@ alternatives.
     </tr>
     <tr>
       <td>&emsp;--with-gettext=shared</td>
+      <td></td>
       <td>EXT_GETTEXT_SHARED=ON</td>
       <td></td>
     </tr>
     <tr>
       <td>--without-gmp</td>
+      <td></td>
       <td>EXT_GMP=OFF</td>
       <td>default</td>
     </tr>
     <tr>
       <td>&emsp;--with-gmp[=DIR]</td>
+      <td></td>
       <td>
         EXT_GMP=ON<br>
         [GMP_ROOT=DIR]
@@ -1343,21 +1549,25 @@ alternatives.
     </tr>
     <tr>
       <td>&emsp;--with-gmp=shared</td>
+      <td></td>
       <td>EXT_GMP_SHARED=ON</td>
       <td></td>
     </tr>
     <tr>
       <td>--without-mhash</td>
+      <td></td>
       <td>EXT_HASH_MHASH=OFF</td>
       <td>default</td>
     </tr>
     <tr>
       <td>&emsp;--with-mhash</td>
+      <td></td>
       <td>EXT_HASH_MHASH=ON</td>
       <td></td>
     </tr>
     <tr>
       <td>--with-iconv[=DIR]</td>
+      <td></td>
       <td>
         EXT_ICONV=ON<br>
         [Iconv_ROOT=DIR]
@@ -1366,16 +1576,19 @@ alternatives.
     </tr>
     <tr>
       <td>&emsp;--with-iconv=shared</td>
+      <td></td>
       <td>EXT_ICONV_SHARED=ON</td>
       <td></td>
     </tr>
     <tr>
       <td>&emsp;--without-iconv</td>
+      <td></td>
       <td>EXT_ICONV=OFF</td>
       <td></td>
     </tr>
     <tr>
       <td>--disable-intl</td>
+      <td></td>
       <td>EXT_INTL=OFF</td>
       <td>default</td>
     </tr>
@@ -1385,6 +1598,7 @@ alternatives.
         &emsp;[ICU_CFLAGS=...]<br>
         &emsp;[ICU_LIBS=...]
       </td>
+      <td></td>
       <td>
         EXT_INTL=ON<br>
         [ICU_ROOT=DIR]
@@ -1393,11 +1607,13 @@ alternatives.
     </tr>
     <tr>
       <td>&emsp;--enable-intl=shared</td>
+      <td></td>
       <td>EXT_INTL_SHARED=ON</td>
       <td></td>
     </tr>
     <tr>
       <td>--without-ldap</td>
+      <td></td>
       <td>EXT_LDAP=OFF</td>
       <td>default</td>
     </tr>
@@ -1405,6 +1621,7 @@ alternatives.
       <td>
         &emsp;--with-ldap[=DIR]
       </td>
+      <td></td>
       <td>
         EXT_LDAP=ON<br>
         [LDAP_ROOT=DIR]
@@ -1413,11 +1630,13 @@ alternatives.
     </tr>
     <tr>
       <td>&emsp;--with-ldap=shared</td>
+      <td></td>
       <td>EXT_LDAP_SHARED=ON</td>
       <td></td>
     </tr>
     <tr>
       <td>&emsp;--without-ldap-sasl</td>
+      <td></td>
       <td>EXT_LDAP_SASL=OFF</td>
       <td>default</td>
     </tr>
@@ -1427,6 +1646,7 @@ alternatives.
         &emsp;[SASL_CFLAGS=...]<br>
         &emsp;[SASL_LIBS=...]
       </td>
+      <td></td>
       <td>
         EXT_LDAP_SASL=ON<br>
         [SASL_ROOT=DIR]
@@ -1439,6 +1659,7 @@ alternatives.
         [LIBXML_CFLAGS=...]<br>
         [LIBXML_LIBS=...]
       </td>
+      <td></td>
       <td>
         EXT_LIBXML=ON<br>
         [LibXml2_ROOT=DIR]
@@ -1447,21 +1668,25 @@ alternatives.
     </tr>
     <tr>
       <td>&emsp;--without-libxml</td>
+      <td></td>
       <td>EXT_LIBXML=OFF</td>
       <td></td>
     </tr>
     <tr>
       <td>--disable-mbstring</td>
+      <td></td>
       <td>EXT_MBSTRING=OFF</td>
       <td>default</td>
     </tr>
     <tr>
       <td>&emsp;--enable-mbstring</td>
+      <td></td>
       <td>EXT_MBSTRING=ON</td>
       <td></td>
     </tr>
     <tr>
       <td>&emsp;--enable-mbstring=shared</td>
+      <td></td>
       <td>EXT_MBSTRING_SHARED=ON</td>
       <td></td>
     </tr>
@@ -1471,6 +1696,7 @@ alternatives.
         &emsp;[ONIG_CFLAGS=...]<br>
         &emsp;[ONIG_LIBS=...]
       </td>
+      <td></td>
       <td>
         EXT_MBSTRING_MBREGEX=ON<br>
         [Oniguruma_ROOT=DIR]
@@ -1479,36 +1705,43 @@ alternatives.
     </tr>
     <tr>
       <td>&emsp;--disable-mbregex</td>
+      <td></td>
       <td>EXT_MBSTRING_MBREGEX=OFF</td>
       <td></td>
     </tr>
     <tr>
       <td>--without-mysqli</td>
+      <td></td>
       <td>EXT_MYSQLI=OFF</td>
       <td>default</td>
     </tr>
     <tr>
       <td>&emsp;--with-mysqli</td>
+      <td></td>
       <td>EXT_MYSQLI=ON</td>
       <td></td>
     </tr>
     <tr>
       <td>&emsp;--with-mysqli=shared</td>
+      <td></td>
       <td>EXT_MYSQLI_SHARED=ON</td>
       <td></td>
     </tr>
     <tr>
       <td>--without-mysql-sock</td>
+      <td></td>
       <td>EXT_MYSQL_SOCK=OFF</td>
       <td>default</td>
     </tr>
     <tr>
       <td>&emsp;--with-mysql-sock</td>
+      <td></td>
       <td>EXT_MYSQL_SOCK=ON</td>
       <td></td>
     </tr>
     <tr>
       <td>&emsp;--with-mysql-sock=SOCKET</td>
+      <td></td>
       <td>
         EXT_MYSQL_SOCK=ON<br>
         EXT_MYSQL_SOCK_PATH=/path/to/mysql.sock
@@ -1517,66 +1750,79 @@ alternatives.
     </tr>
     <tr>
       <td>--disable-mysqlnd</td>
+      <td></td>
       <td>EXT_MYSQLND=OFF</td>
       <td>default</td>
     </tr>
     <tr>
       <td>&emsp;--enable-mysqlnd</td>
+      <td></td>
       <td>EXT_MYSQLND=ON</td>
       <td></td>
     </tr>
     <tr>
       <td>&emsp;--enable-mysqlnd=shared</td>
+      <td></td>
       <td>EXT_MYSQLND_SHARED=ON</td>
       <td></td>
     </tr>
     <tr>
       <td>&emsp;--enable-mysqlnd-compression-support</td>
+      <td></td>
       <td>EXT_MYSQLND_COMPRESSION=ON</td>
       <td>default</td>
     </tr>
     <tr>
       <td>&emsp;--disable-mysqlnd-compression-support</td>
+      <td></td>
       <td>EXT_MYSQLND_COMPRESSION=OFF</td>
       <td></td>
     </tr>
     <tr>
+      <td></td>
       <td></td>
       <td>EXT_MYSQLND_SSL=OFF</td>
       <td>default, see also --with-openssl-dir and EXT_FTP_SSL</td>
     </tr>
     <tr>
       <td></td>
+      <td></td>
       <td>EXT_MYSQLND_SSL=ON</td>
       <td></td>
     </tr>
     <tr>
+      <td></td>
       <td></td>
       <td>EXT_ODBC=OFF</td>
       <td>default</td>
     </tr>
     <tr>
       <td></td>
+      <td></td>
       <td>EXT_ODBC=ON</td>
       <td></td>
     </tr>
     <tr>
       <td>&emsp;--without-odbcver</td>
+      <td></td>
       <td>EXT_ODBC_VERSION="0x0350"</td>
       <td>default: 0x0350</td>
     </tr>
     <tr>
       <td>&emsp;--with-odbcver[=HEX]</td>
+      <td></td>
       <td>EXT_ODBC_VERSION=HEX</td>
       <td>default: 0x0350</td>
     </tr>
     <tr>
       <td>&emsp;--without-adabas</td>
       <td></td>
+      <td></td>
       <td>default</td>
     </tr>
     <tr>
       <td>&emsp;--with-adabas</td>
+      <td></td>
       <td>
         EXT_ODBC=ON<br>
         EXT_ODBC_TYPE=adabas
@@ -1586,10 +1832,12 @@ alternatives.
     <tr>
       <td>&emsp;--without-sapdb</td>
       <td></td>
+      <td></td>
       <td>default</td>
     </tr>
     <tr>
       <td>&emsp;--with-sapdb</td>
+      <td></td>
       <td>
         EXT_ODBC=ON<br>
         EXT_ODBC_TYPE=sapdb
@@ -1599,10 +1847,12 @@ alternatives.
     <tr>
       <td>&emsp;--without-solid</td>
       <td></td>
+      <td></td>
       <td>default</td>
     </tr>
     <tr>
       <td>&emsp;--with-solid</td>
+      <td></td>
       <td>
         EXT_ODBC=ON<br>
         EXT_ODBC_TYPE=solid
@@ -1612,10 +1862,12 @@ alternatives.
     <tr>
       <td>&emsp;--without-ibm-db2</td>
       <td></td>
+      <td></td>
       <td>default</td>
     </tr>
     <tr>
       <td>&emsp;--with-ibm-db2</td>
+      <td></td>
       <td>
         EXT_ODBC=ON<br>
         EXT_ODBC_TYPE=ibm-db2
@@ -1625,10 +1877,12 @@ alternatives.
     <tr>
       <td>&emsp;--without-empress</td>
       <td></td>
+      <td></td>
       <td>default</td>
     </tr>
     <tr>
       <td>&emsp;--with-empress</td>
+      <td></td>
       <td>
         EXT_ODBC=ON<br>
         EXT_ODBC_TYPE=empress
@@ -1638,10 +1892,12 @@ alternatives.
     <tr>
       <td>&emsp;--without-empress-bcs</td>
       <td></td>
+      <td></td>
       <td>default</td>
     </tr>
     <tr>
       <td>&emsp;--with-empress-bcs</td>
+      <td></td>
       <td>
         EXT_ODBC=ON<br>
         EXT_ODBC_TYPE=empress-bcs
@@ -1651,10 +1907,12 @@ alternatives.
     <tr>
       <td>&emsp;--without-custom-odbc</td>
       <td></td>
+      <td></td>
       <td>default</td>
     </tr>
     <tr>
       <td>&emsp;--with-custom-odbc</td>
+      <td></td>
       <td>
         EXT_ODBC=ON<br>
         EXT_ODBC_TYPE=generic
@@ -1664,6 +1922,7 @@ alternatives.
     <tr>
       <td>&emsp;--without-iodbc</td>
       <td></td>
+      <td></td>
       <td>default</td>
     </tr>
     <tr>
@@ -1672,6 +1931,7 @@ alternatives.
         &emsp;[ODBC_CFLAGS=...]<br>
         &emsp;[ODBC_LIBS=...]
       </td>
+      <td></td>
       <td>
         EXT_ODBC=ON<br>
         EXT_ODBC_TYPE=iODBC<br>
@@ -1682,10 +1942,12 @@ alternatives.
     <tr>
       <td>&emsp;--without-esoob</td>
       <td></td>
+      <td></td>
       <td>default</td>
     </tr>
     <tr>
       <td>&emsp;--with-esoob</td>
+      <td></td>
       <td>
         EXT_ODBC=ON<br>
         EXT_ODBC_TYPE=esoob
@@ -1695,6 +1957,7 @@ alternatives.
     <tr>
       <td>&emsp;--without-unixODBC</td>
       <td></td>
+      <td></td>
       <td>default</td>
     </tr>
     <tr>
@@ -1703,6 +1966,7 @@ alternatives.
         &emsp;[ODBC_CFLAGS=...]<br>
         &emsp;[ODBC_LIBS=...]
       </td>
+      <td></td>
       <td>
         EXT_ODBC=ON<br>
         EXT_ODBC_TYPE=unixODBC<br>
@@ -1713,10 +1977,12 @@ alternatives.
     <tr>
       <td>&emsp;--without-dbmaker</td>
       <td></td>
+      <td></td>
       <td>default</td>
     </tr>
     <tr>
       <td>&emsp;--with-dbmaker</td>
+      <td></td>
       <td>
         EXT_ODBC=ON<br>
         EXT_ODBC_TYPE=dbmaker
@@ -1725,6 +1991,7 @@ alternatives.
     </tr>
     <tr>
       <td>&emsp;--with-dbmaker=DIR</td>
+      <td></td>
       <td>
         EXT_ODBC=ON<br>
         EXT_ODBC_TYPE=dbmaker<br>
@@ -1734,41 +2001,49 @@ alternatives.
     </tr>
     <tr>
       <td>--enable-opcache</td>
+      <td></td>
       <td>EXT_OPCACHE=ON</td>
       <td>default, will be shared</td>
     </tr>
     <tr>
       <td>&emsp;--enable-opcache=shared</td>
+      <td></td>
       <td>EXT_OPCACHE=ON</td>
       <td>will be shared</td>
     </tr>
     <tr>
       <td>&emsp;--disable-opcache</td>
+      <td></td>
       <td>EXT_OPCACHE=OFF</td>
       <td></td>
     </tr>
     <tr>
       <td>&emsp;--enable-huge-code-pages</td>
+      <td></td>
       <td>EXT_OPCACHE_HUGE_CODE_PAGES=ON</td>
       <td>default</td>
     </tr>
     <tr>
       <td>&emsp;--disable-huge-code-pages</td>
+      <td></td>
       <td>EXT_OPCACHE_HUGE_CODE_PAGES=OFF</td>
       <td></td>
     </tr>
     <tr>
       <td>&emsp;--enable-opcache-jit</td>
+      <td></td>
       <td>EXT_OPCACHE_JIT=ON</td>
       <td>default</td>
     </tr>
     <tr>
       <td>&emsp;--disable-opcache-jit</td>
+      <td></td>
       <td>EXT_OPCACHE_JIT=OFF</td>
       <td></td>
     </tr>
     <tr>
       <td>&emsp;--without-capstone</td>
+      <td></td>
       <td>EXT_OPCACHE_CAPSTONE=OFF</td>
       <td>default</td>
     </tr>
@@ -1778,6 +2053,7 @@ alternatives.
         &emsp;[CAPSTONE_CFLAGS=...]<br>
         &emsp;[CAPSTONE_LIBS=...]
       </td>
+      <td></td>
       <td>
         EXT_OPCACHE_CAPSTONE=ON<br>
         [Capstone_ROOT=DIR]
@@ -1786,6 +2062,7 @@ alternatives.
     </tr>
     <tr>
       <td>--without-openssl</td>
+      <td></td>
       <td>EXT_OPENSSL=OFF</td>
       <td>default</td>
     </tr>
@@ -1795,6 +2072,7 @@ alternatives.
         &emsp;[OPENSSL_CFLAGS=...]<br>
         &emsp;[OPENSSL_LIBS=...]
       </td>
+      <td></td>
       <td>
         EXT_OPENSSL=ON<br>
         [OPENSSL_ROOT_DIR=DIR]
@@ -1803,11 +2081,13 @@ alternatives.
     </tr>
     <tr>
       <td>&emsp;--with-openssl=shared</td>
+      <td></td>
       <td>EXT_OPENSSL_SHARED=ON</td>
       <td></td>
     </tr>
     <tr>
       <td>&emsp;--without-kerberos</td>
+      <td></td>
       <td>EXT_OPENSSL_KERBEROS=OFF</td>
       <td>default</td>
     </tr>
@@ -1817,6 +2097,7 @@ alternatives.
         [KERBEROS_CFLAGS=...]<br>
         [KERBEROS_LIBS=...]
       </td>
+      <td></td>
       <td>
         EXT_OPENSSL_KERBEROS=ON<br>
         [Kerberos_ROOT=DIR]
@@ -1825,41 +2106,49 @@ alternatives.
     </tr>
     <tr>
       <td>&emsp;--without-system-ciphers</td>
+      <td></td>
       <td>EXT_OPENSSL_SYSTEM_CIPHERS=OFF</td>
       <td>default</td>
     </tr>
     <tr>
       <td>&emsp;--with-system-ciphers</td>
+      <td></td>
       <td>EXT_OPENSSL_SYSTEM_CIPHERS=ON</td>
       <td></td>
     </tr>
     <tr>
       <td>--disable-pcntl</td>
+      <td></td>
       <td>EXT_PCNTL=OFF</td>
       <td>default</td>
     </tr>
     <tr>
       <td>&emsp;--enable-pcntl</td>
+      <td></td>
       <td>EXT_PCNTL=ON</td>
       <td></td>
     </tr>
     <tr>
       <td>&emsp;--enable-pcntl=shared</td>
+      <td></td>
       <td>EXT_PCNTL_SHARED=ON</td>
       <td></td>
     </tr>
     <tr>
       <td>--with-pcre-jit</td>
+      <td></td>
       <td>EXT_PCRE_JIT=ON</td>
       <td>default</td>
     </tr>
     <tr>
       <td>&emsp;--without-pcre-jit</td>
+      <td></td>
       <td>EXT_PCRE_JIT=OFF</td>
       <td></td>
     </tr>
     <tr>
       <td>&emsp;--without-external-pcre</td>
+      <td></td>
       <td>EXT_PCRE_EXTERNAL=OFF</td>
       <td>default</td>
     </tr>
@@ -1869,6 +2158,7 @@ alternatives.
         &emsp;[PCRE2_CFLAGS=...]<br>
         &emsp;[PCRE2_LIBS=...]
       </td>
+      <td></td>
       <td>
         EXT_PCRE_EXTERNAL=ON<br>
         [PCRE_ROOT=DIR]
@@ -1877,21 +2167,25 @@ alternatives.
     </tr>
     <tr>
       <td>--enable-pdo</td>
+      <td></td>
       <td>EXT_PDO=ON</td>
       <td>default</td>
     </tr>
     <tr>
       <td>&emsp;--enable-pdo=shared</td>
+      <td></td>
       <td>EXT_PDO_SHARED=ON</td>
       <td></td>
     </tr>
     <tr>
       <td>&emsp;--disable-pdo</td>
+      <td></td>
       <td>EXT_PDO=OFF</td>
       <td></td>
     </tr>
     <tr>
       <td>&emsp;--without-pdo-dblib</td>
+      <td></td>
       <td>EXT_PDO_DBLIB=OFF</td>
       <td>default</td>
     </tr>
@@ -1899,6 +2193,7 @@ alternatives.
       <td>
         &emsp;--with-pdo-dblib[=DIR]
       </td>
+      <td></td>
       <td>
         EXT_PDO_DBLIB=ON<br>
         [FreeTDS_ROOT=DIR]
@@ -1907,16 +2202,19 @@ alternatives.
     </tr>
     <tr>
       <td>&emsp;--with-pdo-dblib=shared</td>
+      <td></td>
       <td>EXT_PDO_DBLIB_SHARED=ON</td>
       <td></td>
     </tr>
     <tr>
       <td>&emsp;--without-pdo-firebird</td>
+      <td></td>
       <td>EXT_PDO_FIREBIRD=OFF</td>
       <td>default</td>
     </tr>
     <tr>
       <td>&emsp;--with-pdo-firebird[=DIR]</td>
+      <td></td>
       <td>
         EXT_PDO_FIREBIRD=ON<br>
         [Firebird_ROOT=DIR]
@@ -1925,26 +2223,31 @@ alternatives.
     </tr>
     <tr>
       <td>&emsp;--with-pdo-firebird=shared</td>
+      <td></td>
       <td>EXT_PDO_FIREBIRD_SHARED=ON</td>
       <td></td>
     </tr>
     <tr>
       <td>&emsp;--without-pdo-mysql</td>
+      <td></td>
       <td>EXT_PDO_MYSQL=OFF</td>
       <td>default</td>
     </tr>
     <tr>
       <td>&emsp;--with-pdo-mysql</td>
+      <td></td>
       <td>EXT_PDO_MYSQL=ON</td>
       <td></td>
     </tr>
     <tr>
       <td>&emsp;--with-pdo-mysql=shared</td>
+      <td></td>
       <td>EXT_PDO_MYSQL_SHARED=ON</td>
       <td></td>
     </tr>
     <tr>
       <td>&emsp;--with-pdo-mysql=/usr</td>
+      <td></td>
       <td>
         EXT_PDO_MYSQL=ON<br>
         EXT_PDO_MYSQL_DRIVER=mysql
@@ -1953,6 +2256,7 @@ alternatives.
     </tr>
     <tr>
       <td>&emsp;--with-pdo-mysql=DIR</td>
+      <td></td>
       <td>
         EXT_PDO_MYSQL=ON<br>
         EXT_PDO_MYSQL_DRIVER=mysql<br>
@@ -1962,6 +2266,7 @@ alternatives.
     </tr>
     <tr>
       <td>&emsp;--with-pdo-mysql=path/to/mysql_config</td>
+      <td></td>
       <td>
         EXT_PDO_MYSQL=ON<br>
         EXT_PDO_MYSQL_DRIVER=mysql<br>
@@ -1971,11 +2276,13 @@ alternatives.
     </tr>
     <tr>
       <td>&emsp;--without-pdo-odbc</td>
+      <td></td>
       <td>EXT_PDO_ODBC=OFF</td>
       <td>default</td>
     </tr>
     <tr>
       <td>&emsp;--with-pdo-odbc=flavour</td>
+      <td></td>
       <td>
         EXT_PDO_ODBC=ON<br>
         EXT_PDO_ODBC_TYPE=flavour
@@ -1984,6 +2291,7 @@ alternatives.
     </tr>
     <tr>
       <td>&emsp;--with-pdo-odbc=flavour,dir,libname,ldflags,cflags</td>
+      <td></td>
       <td>
         EXT_PDO_ODBC=ON<br>
         EXT_PDO_ODBC_TYPE=flavour<br>
@@ -1996,16 +2304,19 @@ alternatives.
     </tr>
     <tr>
       <td>&emsp;--with-pdo-odbc=shared</td>
+      <td></td>
       <td>EXT_PDO_ODBC_SHARED=ON</td>
       <td></td>
     </tr>
     <tr>
       <td>&emsp;--without-pdo-pgsql</td>
+      <td></td>
       <td>EXT_PDO_PGSQL=OFF</td>
       <td>default</td>
     </tr>
     <tr>
       <td>&emsp;--with-pdo-pgsql[=DIR]</td>
+      <td></td>
       <td>
         EXT_PDO_PGSQL=ON<br>
         [PostgreSQL_ROOT=DIR]
@@ -2014,6 +2325,7 @@ alternatives.
     </tr>
     <tr>
       <td>&emsp;--with-pdo-pgsql=shared</td>
+      <td></td>
       <td>EXT_PDO_PGSQL_SHARED=ON</td>
       <td></td>
     </tr>
@@ -2023,6 +2335,7 @@ alternatives.
         &emsp;[SQLITE_CFLAGS=...]<br>
         &emsp;[SQLITE_LIBS=...]
       </td>
+      <td></td>
       <td>
         EXT_PDO_SQLITE=ON<br>
         [SQLite3_ROOT=DIR]
@@ -2031,21 +2344,25 @@ alternatives.
     </tr>
     <tr>
       <td>&emsp;--with-pdo-sqlite=shared</td>
+      <td></td>
       <td>EXT_PDO_SQLITE_SHARED=ON</td>
       <td></td>
     </tr>
     <tr>
       <td>&emsp;--without-pdo-sqlite</td>
+      <td></td>
       <td>EXT_PDO_SQLITE=OFF</td>
       <td></td>
     </tr>
     <tr>
       <td>--without-pgsql</td>
+      <td></td>
       <td>EXT_PGSQL=OFF</td>
       <td>default</td>
     </tr>
     <tr>
       <td>&emsp;--with-pgsql[=DIR]</td>
+      <td></td>
       <td>
         EXT_PGSQL=ON<br>
         [PostgreSQL_ROOT=DIR]
@@ -2054,46 +2371,55 @@ alternatives.
     </tr>
     <tr>
       <td>&emsp;--with-pgsql=shared</td>
+      <td></td>
       <td>EXT_PGSQL_SHARED=ON</td>
       <td></td>
     </tr>
     <tr>
       <td>--enable-phar</td>
+      <td></td>
       <td>EXT_PHAR=ON</td>
       <td>default</td>
     </tr>
     <tr>
       <td>&emsp;--enable-phar=shared</td>
+      <td></td>
       <td>EXT_PHAR_SHARED=ON</td>
       <td></td>
     </tr>
     <tr>
       <td>&emsp;--disable-phar</td>
+      <td></td>
       <td>EXT_PHAR=OFF</td>
       <td></td>
     </tr>
     <tr>
       <td>--enable-posix</td>
+      <td></td>
       <td>EXT_POSIX=ON</td>
       <td>default</td>
     </tr>
     <tr>
       <td>&emsp;--enable-posix=shared</td>
+      <td></td>
       <td>EXT_POSIX_SHARED=ON</td>
       <td></td>
     </tr>
     <tr>
       <td>&emsp;--disable-posix</td>
+      <td></td>
       <td>EXT_POSIX=OFF</td>
       <td></td>
     </tr>
     <tr>
       <td>--without-pspell</td>
+      <td></td>
       <td>EXT_PSPELL=OFF</td>
       <td>default, PHP <= 8.3</td>
     </tr>
     <tr>
       <td>&emsp;--with-pspell[=DIR]</td>
+      <td></td>
       <td>
         EXT_PSPELL=ON<br>
         [Aspell_ROOT=DIR]
@@ -2102,11 +2428,13 @@ alternatives.
     </tr>
     <tr>
       <td>&emsp;--with-pspell=shared</td>
+      <td></td>
       <td>EXT_PSPELL_SHARED=ON</td>
       <td></td>
     </tr>
     <tr>
       <td>--without-libedit</td>
+      <td></td>
       <td>EXT_READLINE=OFF</td>
       <td>default</td>
     </tr>
@@ -2116,6 +2444,7 @@ alternatives.
         &emsp;[EDIT_CFLAGS=...]<br>
         &emsp;[EDIT_LIBS=...]
       </td>
+      <td></td>
       <td>
         EXT_READLINE=ON<br>
         [Editline_ROOT=DIR]
@@ -2124,16 +2453,19 @@ alternatives.
     </tr>
     <tr>
       <td>&emsp;--with-libedit=shared</td>
+      <td></td>
       <td>EXT_READLINE_SHARED=ON</td>
       <td></td>
     </tr>
     <tr>
       <td>&emsp;--without-readline</td>
+      <td></td>
       <td>EXT_READLINE=OFF</td>
       <td>default</td>
     </tr>
     <tr>
       <td>&emsp;--with-readline[=DIR]</td>
+      <td></td>
       <td>
         EXT_READLINE=ON<br>
         EXT_READLINE_LIBREADLINE=ON<br>
@@ -2143,6 +2475,7 @@ alternatives.
     </tr>
     <tr>
       <td>&emsp;--with-readline=shared</td>
+      <td></td>
       <td>
         EXT_READLINE=ON<br>
         EXT_READLINE_SHARED=ON<br>
@@ -2152,26 +2485,31 @@ alternatives.
     </tr>
     <tr>
       <td>--enable-session</td>
+      <td></td>
       <td>EXT_SESSION=ON</td>
       <td>default</td>
     </tr>
     <tr>
       <td>&emsp;--enable-session=shared</td>
+      <td></td>
       <td>EXT_SESSION_SHARED=ON</td>
       <td></td>
     </tr>
     <tr>
       <td>&emsp;--disable-session</td>
+      <td></td>
       <td>EXT_SESSION=OFF</td>
       <td></td>
     </tr>
     <tr>
       <td>&emsp;--without-mm</td>
+      <td></td>
       <td>EXT_SESSION_MM=OFF</td>
       <td>default</td>
     </tr>
     <tr>
       <td>&emsp;--with-mm[=DIR]</td>
+      <td></td>
       <td>
         EXT_SESSION_MM=ON<br>
         [MM_ROOT=DIR]
@@ -2180,41 +2518,49 @@ alternatives.
     </tr>
     <tr>
       <td>--disable-shmop</td>
+      <td></td>
       <td>EXT_SHMOP=OFF</td>
       <td>default</td>
     </tr>
     <tr>
       <td>&emsp;--enable-shmop</td>
+      <td></td>
       <td>EXT_SHMOP=ON</td>
       <td></td>
     </tr>
     <tr>
       <td>&emsp;--enable-shmop=shared</td>
+      <td></td>
       <td>EXT_SHMOP_SHARED=ON</td>
       <td></td>
     </tr>
     <tr>
       <td>--enable-simplexml</td>
+      <td></td>
       <td>EXT_SIMPLEXML=ON</td>
       <td>default</td>
     </tr>
     <tr>
       <td>&emsp;--enable-simplexml=shared</td>
+      <td></td>
       <td>EXT_SIMPLEXML_SHARED=ON</td>
       <td></td>
     </tr>
     <tr>
       <td>&emsp;--disable-simplexml</td>
+      <td></td>
       <td>EXT_SIMPLEXML=OFF</td>
       <td></td>
     </tr>
     <tr>
       <td>--without-snmp</td>
+      <td></td>
       <td>EXT_SNMP=OFF</td>
       <td>default</td>
     </tr>
     <tr>
       <td>&emsp;--with-snmp[=DIR]</td>
+      <td></td>
       <td>
         EXT_SNMP=ON<br>
         [NetSnmp_ROOT=DIR]
@@ -2223,41 +2569,49 @@ alternatives.
     </tr>
     <tr>
       <td>&emsp;--with-snmp=shared</td>
+      <td></td>
       <td>EXT_SNMP_SHARED=ON</td>
       <td></td>
     </tr>
     <tr>
       <td>--disable-soap</td>
+      <td></td>
       <td>EXT_SOAP=OFF</td>
       <td>default</td>
     </tr>
     <tr>
       <td>&emsp;--enable-soap</td>
+      <td></td>
       <td>EXT_SOAP=ON</td>
       <td></td>
     </tr>
     <tr>
       <td>&emsp;--enable-soap=shared</td>
+      <td></td>
       <td>EXT_SOAP_SHARED=ON</td>
       <td></td>
     </tr>
     <tr>
       <td>--disable-sockets</td>
+      <td></td>
       <td>EXT_SOCKETS=OFF</td>
       <td>default</td>
     </tr>
     <tr>
       <td>&emsp;--enable-sockets</td>
+      <td></td>
       <td>EXT_SOCKETS=ON</td>
       <td></td>
     </tr>
     <tr>
       <td>&emsp;--enable-sockets=shared</td>
+      <td></td>
       <td>EXT_SOCKETS_SHARED=ON</td>
       <td></td>
     </tr>
     <tr>
       <td>--without-sodium</td>
+      <td></td>
       <td>EXT_SODIUM=OFF</td>
       <td>default</td>
     </tr>
@@ -2267,6 +2621,7 @@ alternatives.
         &emsp;[LIBSODIUM_CFLAGS=...]<br>
         &emsp;[LIBSODIUM_LIBS=..]
       </td>
+      <td></td>
       <td>
         EXT_SODIUM=ON<br>
         [Sodium_ROOT=DIR]
@@ -2275,6 +2630,7 @@ alternatives.
     </tr>
     <tr>
       <td>&emsp;--with-sodium=shared</td>
+      <td></td>
       <td>EXT_SODIUM_SHARED=ON</td>
       <td></td>
     </tr>
@@ -2284,6 +2640,7 @@ alternatives.
         [SQLITE_CFLAGS=...]<br>
         [SQLITE_LIBS=...]
       </td>
+      <td></td>
       <td>
         EXT_SQLITE3=ON<br>
         [SQLite3_ROOT=DIR]
@@ -2292,26 +2649,31 @@ alternatives.
     </tr>
     <tr>
       <td>&emsp;--with-sqlite3=shared</td>
+      <td></td>
       <td>EXT_SQLITE3_SHARED</td>
       <td></td>
     </tr>
     <tr>
       <td>&emsp;--without-sqlite3</td>
+      <td></td>
       <td>EXT_SQLITE3=OFF</td>
       <td></td>
     </tr>
     <tr>
       <td>--without-external-libcrypt</td>
+      <td></td>
       <td>EXT_STANDARD_EXTERNAL_LIBCRYPT=OFF</td>
       <td>default</td>
     </tr>
     <tr>
       <td>&emsp;--with-external-libcrypt</td>
+      <td></td>
       <td>EXT_STANDARD_EXTERNAL_LIBCRYPT=ON</td>
       <td></td>
     </tr>
     <tr>
       <td>&emsp;--without-password-argon2</td>
+      <td></td>
       <td>EXT_STANDARD_ARGON2=OFF</td>
       <td>default</td>
     </tr>
@@ -2321,6 +2683,7 @@ alternatives.
         &emsp;[ARGON2_CFLAGS=...]<br>
         &emsp;[ARGON2_LIBS=...]
       </td>
+      <td></td>
       <td>
         EXT_STANDARD_ARGON2=ON<br>
         [Argon2_ROOT=DIR]
@@ -2329,56 +2692,67 @@ alternatives.
     </tr>
     <tr>
       <td>--disable-sysvmsg</td>
+      <td></td>
       <td>EXT_SYSVMSG=OFF</td>
       <td>default</td>
     </tr>
     <tr>
       <td>&emsp;--enable-sysvmsg</td>
+      <td></td>
       <td>EXT_SYSVMSG=ON</td>
       <td></td>
     </tr>
     <tr>
       <td>&emsp;--enable-sysvmsg=shared</td>
+      <td></td>
       <td>EXT_SYSVMSG_SHARED=ON</td>
       <td></td>
     </tr>
     <tr>
       <td>--disable-sysvsem</td>
+      <td></td>
       <td>EXT_SYSVSEM=OFF</td>
       <td>default</td>
     </tr>
     <tr>
       <td>&emsp;--enable-sysvsem</td>
+      <td></td>
       <td>EXT_SYSVSEM=ON</td>
       <td></td>
     </tr>
     <tr>
       <td>&emsp;--enable-sysvsem=shared</td>
+      <td></td>
       <td>EXT_SYSVSEM_SHARED=ON</td>
       <td></td>
     </tr>
     <tr>
       <td>--disable-sysvshm</td>
+      <td></td>
       <td>EXT_SYSVSHM=OFF</td>
       <td>default</td>
     </tr>
     <tr>
       <td>&emsp;--enable-sysvshm</td>
+      <td></td>
       <td>EXT_SYSVSHM=ON</td>
       <td></td>
     </tr>
     <tr>
       <td>&emsp;--enable-sysvshm=shared</td>
+      <td></td>
       <td>EXT_SYSVSHM_SHARED=ON</td>
       <td></td>
     </tr>
     <tr>
       <td>--without-tidy</td>
+      <td></td>
       <td>EXT_TIDY=OFF</td>
       <td>default</td>
     </tr>
     <tr>
       <td>&emsp;--with-tidy[=DIR]</td>
+      <td></td>
       <td>
         EXT_TIDY=ON<br>
         [Tidy_ROOT=DIR]
@@ -2387,41 +2761,49 @@ alternatives.
     </tr>
     <tr>
       <td>&emsp;--with-tidy=shared</td>
+      <td></td>
       <td>EXT_TIDY_SHARED=ON</td>
       <td></td>
     </tr>
     <tr>
       <td>--enable-tokenizer</td>
+      <td></td>
       <td>EXT_TOKENIZER=ON</td>
       <td>default</td>
     </tr>
     <tr>
       <td>&emsp;--enable-tokenizer=shared</td>
+      <td></td>
       <td>EXT_TOKENIZER_SHARED=ON</td>
       <td></td>
     </tr>
     <tr>
       <td>&emsp;--disable-tokenizer</td>
+      <td></td>
       <td>EXT_TOKENIZER=OFF</td>
       <td></td>
     </tr>
     <tr>
       <td>--enable-xml</td>
+      <td></td>
       <td>EXT_XML=ON</td>
       <td>default</td>
     </tr>
     <tr>
       <td>&emsp;--enable-xml=shared</td>
+      <td></td>
       <td>EXT_XML_SHARED=ON</td>
       <td></td>
     </tr>
     <tr>
       <td>&emsp;--disable-xml</td>
+      <td></td>
       <td>EXT_XML=OFF</td>
       <td></td>
     </tr>
     <tr>
       <td>&emsp;--without-expat</td>
+      <td></td>
       <td>EXT_XML_EXPAT=OFF</td>
       <td>default</td>
     </tr>
@@ -2431,6 +2813,7 @@ alternatives.
         &emsp;[EXPAT_CFLAGS=...]<br>
         &emsp;[EXPAT_LIBS=...]
       </td>
+      <td></td>
       <td>
         EXT_XML_EXPAT=ON<br>
         [EXPAT_ROOT=DIR]
@@ -2439,6 +2822,7 @@ alternatives.
     </tr>
     <tr>
       <td>--without-xsl</td>
+      <td></td>
       <td>EXT_XSL=OFF</td>
       <td>default</td>
     </tr>
@@ -2450,6 +2834,7 @@ alternatives.
         &emsp;[EXSLT_CFLAGS=...]<br>
         &emsp;[EXSLT_LIBS=...]
       </td>
+      <td></td>
       <td>
         EXT_XSL=ON<br>
         [LibXslt_ROOT=DIR]<br>
@@ -2459,56 +2844,67 @@ alternatives.
     </tr>
     <tr>
       <td>&emsp;--with-xsl=shared</td>
+      <td></td>
       <td>EXT_XSL_SHARED=ON</td>
       <td></td>
     </tr>
     <tr>
       <td>--enable-xmlreader</td>
+      <td></td>
       <td>EXT_XMLREADER=ON</td>
       <td>default</td>
     </tr>
     <tr>
       <td>&emsp;--enable-xmlreader=shared</td>
+      <td></td>
       <td>EXT_XMLREADER_SHARED=ON</td>
       <td></td>
     </tr>
     <tr>
       <td>&emsp;--disable-xmlreader</td>
+      <td></td>
       <td>EXT_XMLREADER=OFF</td>
       <td></td>
     </tr>
     <tr>
       <td>--enable-xmlwriter</td>
+      <td></td>
       <td>EXT_XMLWRITER=ON</td>
       <td>default</td>
     </tr>
     <tr>
       <td>&emsp;--enable-xmlwriter=shared</td>
+      <td></td>
       <td>EXT_XMLWRITER_SHARED=ON</td>
       <td></td>
     </tr>
     <tr>
       <td>&emsp;--disable-xmlwriter</td>
+      <td></td>
       <td>EXT_XMLWRITER=OFF</td>
       <td></td>
     </tr>
     <tr>
       <td>--disable-zend-test</td>
+      <td></td>
       <td>EXT_ZEND_TEST=OFF</td>
       <td>default</td>
     </tr>
     <tr>
       <td>&emsp;--enable-zend-test</td>
+      <td></td>
       <td>EXT_ZEND_TEST=ON</td>
       <td></td>
     </tr>
     <tr>
       <td>&emsp;--enable-zend-test=shared</td>
+      <td></td>
       <td>EXT_ZEND_TEST_SHARED=ON</td>
       <td></td>
     </tr>
     <tr>
       <td>--without-zip</td>
+      <td></td>
       <td>EXT_ZIP=OFF</td>
       <td>default</td>
     </tr>
@@ -2518,6 +2914,7 @@ alternatives.
         &emsp;[LIBZIP_CFLAGS=...]<br>
         &emsp;[LIBZIP_LIBS=...]
       </td>
+      <td></td>
       <td>
         EXT_ZIP=ON<br>
         libzip_ROOT=DIR
@@ -2526,11 +2923,13 @@ alternatives.
     </tr>
     <tr>
       <td>&emsp;--with-zip=shared</td>
+      <td></td>
       <td>EXT_ZIP_SHARED=ON</td>
       <td></td>
     </tr>
     <tr>
       <td>--without-zlib</td>
+      <td></td>
       <td>EXT_ZLIB=OFF</td>
       <td>default</td>
     </tr>
@@ -2540,6 +2939,7 @@ alternatives.
         &emsp;[ZLIB_CFLAGS=...]<br>
         &emsp;[ZLIB_LIBS=...]
       </td>
+      <td></td>
       <td>
         EXT_ZLIB=ON<br>
         [ZLIB_ROOT=DIR]
@@ -2548,19 +2948,22 @@ alternatives.
     </tr>
     <tr>
       <td>&emsp;--with-zlib=shared</td>
+      <td></td>
       <td>EXT_ZLIB_SHARED=ON</td>
       <td></td>
     </tr>
     <tr>
-      <th colspan="3">PEAR configuration</th>
+      <th colspan="4">PEAR configuration</th>
     </tr>
     <tr>
       <td>--without-pear</td>
+      <td></td>
       <td>PHP_PEAR=OFF</td>
       <td>default</td>
     </tr>
     <tr>
       <td>&emsp;--with-pear[=DIR]</td>
+      <td></td>
       <td>
         PHP_PEAR=ON<br>
         [PHP_PEAR_DIR=DIR]
@@ -2568,69 +2971,67 @@ alternatives.
       <td></td>
     </tr>
     <tr>
-      <th colspan="3">Influential variables</th>
+      <th colspan="4">Influential variables</th>
     </tr>
     <tr>
+      <td>CFLAGS=&quot;...&quot;</td>
+      <td>CFLAGS=&quot;...&quot;</td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>LDFLAGS=&quot;...&quot;</td>
       <td>LDFLAGS=&quot;...&quot;</td>
       <td>CMAKE_EXE_LINKER_FLAGS=&quot;...&quot;</td>
       <td></td>
     </tr>
     <tr>
       <td></td>
+      <td></td>
       <td>CMAKE_SHARED_LINKER_FLAGS=&quot;...&quot;</td>
       <td></td>
     </tr>
     <tr>
       <td>PHP_EXTRA_VERSION=&quot;-acme&quot;</td>
+      <td></td>
       <td>PHP_VERSION_LABEL=&quot;-acme&quot;</td>
       <td>-dev or empty</td>
     </tr>
     <tr>
       <td>PHP_UNAME=&quot;ACME Linux&quot;</td>
+      <td></td>
       <td>PHP_UNAME=&quot;ACME Linux&quot;</td>
       <td>uname -a ouput override</td>
     </tr>
     <tr>
       <td>PHP_BUILD_SYSTEM=&quot;ACME Linux&quot;</td>
+      <td></td>
       <td>PHP_BUILD_SYSTEM=&quot;ACME Linux&quot;</td>
       <td>Builder system name, defaults to uname -a output</td>
     </tr>
     <tr>
       <td>PHP_BUILD_PROVIDER=&quot;ACME&quot;</td>
+      <td></td>
       <td>PHP_BUILD_PROVIDER=&quot;ACME&quot;</td>
       <td>Build provider</td>
     </tr>
     <tr>
       <td>PHP_BUILD_COMPILER=&quot;...&quot;</td>
+      <td></td>
       <td>PHP_BUILD_COMPILER=&quot;...&quot;</td>
       <td>Compiler used for build</td>
     </tr>
     <tr>
       <td>PHP_BUILD_ARCH=&quot;...&quot;</td>
+      <td></td>
       <td>PHP_BUILD_ARCH=&quot;...&quot;</td>
       <td>Build architecture</td>
     </tr>
     <tr>
       <td>EXTENSION_DIR=&quot;path/to/ext&quot;</td>
+      <td></td>
       <td>PHP_EXTENSION_DIR=&quot;path/to/ext&quot;</td>
       <td>Override the INI extension_dir</td>
-    </tr>
-    <tr>
-      <td></td>
-      <td>BUILD_SHARED_LIBS=OFF|ON</td>
-      <td>Build all enabled PHP extensions as shared libraries</td>
-    </tr>
-    <tr>
-      <td></td>
-      <td>CMAKE_MESSAGE_CONTEXT_SHOW=OFF|ON</td>
-      <td>Show/hide context in configuration log ([ext/foo] Checking for...)</td>
-    </tr>
-    <tr>
-      <td></td>
-      <td>CMAKE_PREFIX_PATH=DIR_1;DIR_2;...</td>
-      <td>A semicolon separated list of directories where packages can be found.
-      Can be used as an alternative to above &lt;PackageName&gt;_ROOT variables.
-      </td>
     </tr>
   </tbody>
 </table>

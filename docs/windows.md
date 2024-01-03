@@ -4,13 +4,15 @@
 
 * [1. Directory structure](#1-directory-structure)
 * [2. Windows prerequisites](#2-windows-prerequisites)
-* [3. See more](#3-see-more)
+* [3. Building PHP on Windows](#3-building-php-on-windows)
+* [4. The configure.bat command-line options](#4-the-configurebat-command-line-options)
+* [5. See more](#5-see-more)
 
 Windows build system in PHP is a separate collection of
 [JScript](https://en.wikipedia.org/wiki/JScript) files and command-line scripts.
 Some files are manually created unlike with Autoconf. For example, header files.
-Similarly to `*.m4` files there are `*.w32` files for each extension and SAPI
-module.
+Similarly to `*.m4` files for \*nix build system, on Windows there are `*.w32`
+files for each extension and SAPI module.
 
 ## 1. Directory structure
 
@@ -47,9 +49,78 @@ Directory structure from the Windows build system perspective looks like this:
 
 * Windows operating system.
 * Visual Studio installed (e.g., Visual Studio 2019 or later).
+* [NMAKE](https://learn.microsoft.com/en-us/cpp/build/reference/nmake-reference)
+  command-line tool for creating Makefiles on Windows; comes installed with
+  Visual Studio.
 * Git installed (download from https://git-scm.com/downloads).
-* PHP source code downloaded from the [PHP website](https://www.php.net/downloads.php).
 
-## 3. See more
+## 3. Building PHP on Windows
+
+To build PHP on Windows using provided JScript build system files, a separate
+repository [php-sdk-binary-tools](https://github.com/php/php-sdk-binary-tools)
+provides required scripts, files, and helpers to simplify the build process:
+
+```sh
+# Clone SDK binary tools Git repository
+git clone https://github.com/php/php-sdk-binary-tools C:\php-sdk
+cd C:\php-sdk
+
+# Setup the build environment
+.\phpsdk-vs17-x64.bat
+
+# Create build tree
+phpsdk_buildtree phpmaster
+
+# Clone php-src Git repository
+git clone https://github.com/php/php-src
+cd php-src
+
+# Download and configure dependencies
+phpsdk_deps --update --branch --master
+
+# Create Windows configure.bat script
+.\buildconf.bat
+
+# Configure PHP build and create Makefile
+.\configure.bat
+
+# Build PHP
+nmake
+```
+
+## 4. The configure.bat command-line options
+
+Configuration can be passed on the command line at the configuration phase:
+
+```sh
+.\configure.bat VAR=VALUE --enable-FEATURE --with-PACKAGE
+```
+
+There are two main types of command-line options for the `configure.bat` script
+(`--enable-FEATURE` and `--with-PACKAGE`):
+
+* `--enable-FEATURE[=ARG]` and its belonging opposite `--disable-FEATURE`
+
+  `--disable-FEATURE` is the same as `--enable-FEATURE=no`
+
+  These normally don't require 3rd party library or package installed on the
+  system. For some extensions, PHP bundles 3rd party dependencies in the
+  extension itself. For example, `bcmath`, `gd`, etc.
+
+* `--with-PACKAGE[=ARG]` and its belonging opposite `--without-PACKAGE`
+
+  `--without-PACKAGE` is the same as `--with-PACKAGE=no`
+
+  These require 3rd party package installed on the system. PHP has even some
+  libraries bundled in PHP source code. For example, the PCRE library and
+  similar.
+
+Other custom options that don't follow this pattern are used for adjusting
+specific features during the build process.
+
+See `.\configure.bat --help` for all available configuration options and
+variables.
+
+## 5. See more
 
 * [PHP Wiki: Build PHP on Windows](https://wiki.php.net/internals/windows/stepbystepbuild_sdk_2)

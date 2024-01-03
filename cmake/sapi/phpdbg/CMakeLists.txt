@@ -103,9 +103,19 @@ check_source_compiles(C "
   #ifndef UFFDIO_WRITEPROTECT_MODE_WP
   # error userfaults on write-protected memory not supported
   #endif
-" HAVE_USERFAULTFD_WRITEFAULT)
-if(HAVE_USERFAULTFD_WRITEFAULT)
-  message(CHECK_PASS "yes")
+" _HAVE_USERFAULTFD_WRITEFAULT)
+if(_HAVE_USERFAULTFD_WRITEFAULT)
+  if(PHP_THREAD_SAFETY)
+    set(
+      HAVE_USERFAULTFD_WRITEFAULT 1
+      CACHE INTERNAL "Whether faulting on write-protected memory support can \
+be compiled for userfaultfd"
+    )
+    message(CHECK_PASS "yes")
+  else()
+    # TODO: Add threads flags check here and set the variable accordingly.
+    message(CHECK_PASS "no")
+  endif()
 else()
   message(CHECK_FAIL "no")
 endif()

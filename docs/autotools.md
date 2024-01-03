@@ -56,6 +56,7 @@ When compiling is done, the tests can be run with:
 make TEST_PHP_ARGS=-j10 test
 ```
 
+> [!NOTE]
 > Number of simultaneous jobs is often the number of available processor threads
 > of the build machine and can be also automatically calculated using the
 > `$(nproc)` on Linux, or `$(sysctl -n hw.ncpu)` on macOS.
@@ -180,8 +181,8 @@ With Autoconf, there are two main types of command-line options for the
   libraries bundled in PHP source code. For example, the PCRE library and
   similar.
 
-Others custom options that don't follow this pattern are used for adjusting
-specific features during built process.
+Other custom options that don't follow this pattern are used for adjusting
+specific features during the build process.
 
 See `./configure --help` for all available configuration options and variables.
 

@@ -143,6 +143,7 @@ Above is equivalent to running the `make` command:
 make -j $(nproc) # Number of CPU cores you want to utilize.
 ```
 
+> [!NOTE]
 > Number of simultaneous jobs is often the number of available processor threads
 > of the build machine and can be also automatically calculated using the
 > `$(nproc)` on Linux, or `$(sysctl -n hw.ncpu)` on macOS.
