@@ -541,25 +541,26 @@ endif()
 
 Operating system names:
 
-| `CMAKE_[HOST_]SYSTEM_NAME` | Note                                              |
-| -------------------------- | ------------------------------------------------- |
-| AIX                        | IBM Unix operating system                         |
-| Android                    | Android operating system                          |
-| CYGWIN.*                   | Cygwin environment for Windows includes a version |
-| Darwin                     | Apple operating systems (macOS, OS X, etc.)       |
-| FreeBSD                    | All FreeBSD operating systems versions            |
-| GNU                        | GNU/Hurd-based operating system                   |
-| Haiku                      | Unix operating system inspired by BeOS            |
-| HP-UX                      | Hewlett Packard Unix                              |
-| Linux                      | All Linux-based distributions                     |
-| NetBSD                     | NetBSD operating systems                          |
-| OpenBSD                    | OpenBSD operating systems                         |
-| OS400                      | IBM Unix operating system                         |
-| SCO_SV                     | SCO OpenServer 5                                  |
-| SunOS                      | Oracle Solaris and all illumos operating systems  |
-| UNIX_SV                    | SCO UnixWare (pre release 7)                      |
-| UnixWare                   | SCO UnixWare 7                                    |
-| Windows                    | All Windows systems                               |
+| `CMAKE_[HOST_]SYSTEM_NAME` | Note                                             |
+| -------------------------- | ------------------------------------------------ |
+| AIX                        | IBM Unix operating system                        |
+| Android                    | Android operating system                         |
+| CYGWIN.*                   | Cygwin environment for Windows, includes version |
+| Darwin                     | Apple operating systems (macOS, OS X, etc.)      |
+| Emscripten                 | Compiler toolchain to WebAssembly                |
+| FreeBSD                    | All FreeBSD operating systems versions           |
+| GNU                        | GNU/Hurd-based operating system                  |
+| Haiku                      | Unix operating system inspired by BeOS           |
+| HP-UX                      | Hewlett Packard Unix                             |
+| Linux                      | All Linux-based distributions                    |
+| NetBSD                     | NetBSD operating systems                         |
+| OpenBSD                    | OpenBSD operating systems                        |
+| OS400                      | IBM Unix operating system                        |
+| SCO_SV                     | SCO OpenServer 5                                 |
+| SunOS                      | Oracle Solaris and all illumos operating systems |
+| UNIX_SV                    | SCO UnixWare (pre release 7)                     |
+| UnixWare                   | SCO UnixWare 7                                   |
+| Windows                    | All Windows systems                              |
 
 See also [CMakeDetermineSystem.cmake](https://gitlab.kitware.com/cmake/cmake/-/blob/master/Modules/CMakeDetermineSystem.cmake).
 

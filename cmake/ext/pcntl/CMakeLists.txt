@@ -1,3 +1,8 @@
+# Extension is only for *nix systems.
+if(CMAKE_SYSTEM_NAME STREQUAL "Windows")
+  return()
+endif()
+
 # TODO: pcntl is a cli/cgi extension.
 include(CheckSourceCompiles)
 include(CheckSymbolExists)

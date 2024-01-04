@@ -104,14 +104,6 @@ with CMake:
 
   Build all enabled PHP extensions as shared libraries.
 
-## 3. PHP configuration
-
-* `PHP_RE2C_CGOTO=OFF|ON`
-
-  Default: `OFF`
-
-  Enable the goto C statements when using re2c.
-
 * `CMAKE_SKIP_RPATH=OFF|ON`
 
   Default: `OFF`
@@ -138,6 +130,32 @@ with CMake:
 
   Disable runtime library search paths (rpath) in installation directory
   executables.
+
+## 3. PHP configuration
+
+* `PHP_RE2C_CGOTO=OFF|ON`
+
+  Default: `OFF`
+
+  Enable the goto C statements when using re2c.
+
+* `PHP_BUILD_ARCH`
+
+  Default: `${CMAKE_SYSTEM_PROCESSOR}`
+
+  Build target architecture displayed in phpinfo.
+
+* `PHP_BUILD_COMPILER`
+
+  Default: `${CMAKE_C_COMPILER_ID} ${CMAKE_C_COMPILER_VERSION}`
+
+  Compiler used for build displayed in phpinfo.
+
+* `PHP_BUILD_PROVIDER`
+
+  Default empty
+
+  Build provider displayed in phpinfo.
 
 ## 4. Zend engine configuration
 
@@ -881,19 +899,19 @@ A list of Autoconf `configure` command-line configuration options, Windows
     </tr>
     <tr>
       <td>--disable-bcmath</td>
-      <td></td>
+      <td>--disable-bcmath</td>
       <td>EXT_BCMATH=OFF</td>
-      <td>default</td>
+      <td>default in *nix and CMake (on Windows enabled by default)</td>
     </tr>
     <tr>
       <td>&emsp;--enable-bcmath</td>
-      <td></td>
+      <td>--enable-bcmath</td>
       <td>EXT_BCMATH=ON</td>
       <td></td>
     </tr>
     <tr>
       <td>&emsp;--enable-bcmath=shared</td>
-      <td></td>
+      <td>--enable-bcmath=shared</td>
       <td>EXT_BCMATH_SHARED=ON</td>
       <td></td>
     </tr>
@@ -920,37 +938,49 @@ A list of Autoconf `configure` command-line configuration options, Windows
     </tr>
     <tr>
       <td>--disable-calendar</td>
-      <td></td>
+      <td>--disable-calendar</td>
       <td>EXT_CALENDAR=OFF</td>
-      <td>default</td>
+      <td>default in *nix and CMake (on Windows enabled by default)</td>
     </tr>
     <tr>
       <td>&emsp;--enable-calendar</td>
-      <td></td>
+      <td>--enable-calendar</td>
       <td>EXT_CALENDAR=ON</td>
       <td></td>
     </tr>
     <tr>
       <td>&emsp;--enable-calendar=shared</td>
-      <td></td>
+      <td>--enable-calendar=shared</td>
       <td>EXT_CALENDAR_SHARED=ON</td>
       <td></td>
     </tr>
     <tr>
-      <td>--enable-ctype</td>
       <td></td>
+      <td>--enable-com-dotnet</td>
+      <td>EXT_COM_DOTNET=ON</td>
+      <td>default; Windows only</td>
+    </tr>
+    <tr>
+      <td></td>
+      <td>--disable-com-dotnet</td>
+      <td>EXT_COM_DOTNET=OFF</td>
+      <td>Windows only</td>
+    </tr>
+    <tr>
+      <td>--enable-ctype</td>
+      <td>--enable-ctype</td>
       <td>EXT_CTYPE=ON</td>
       <td>default</td>
     </tr>
     <tr>
       <td>&emsp;--enable-ctype=shared</td>
-      <td></td>
+      <td>--enable-ctype=shared</td>
       <td>EXT_CTYPE_SHARED=ON</td>
       <td></td>
     </tr>
     <tr>
       <td>&emsp;--disable-ctype</td>
-      <td></td>
+      <td>--disable-ctype</td>
       <td>EXT_CTYPE=OFF</td>
       <td></td>
     </tr>
@@ -1186,19 +1216,19 @@ A list of Autoconf `configure` command-line configuration options, Windows
     </tr>
     <tr>
       <td>--disable-dl-test</td>
-      <td></td>
+      <td>--disable-dl-test</td>
       <td>EXT_DL_TEST=OFF</td>
       <td>default</td>
     </tr>
     <tr>
       <td>&emsp;--enable-dl-test</td>
-      <td></td>
+      <td>--enable-dl-test</td>
       <td>EXT_DL_TEST=ON</td>
       <td>will be shared</td>
     </tr>
     <tr>
       <td>&emsp;--enable-dl-test=shared</td>
-      <td></td>
+      <td>--enable-dl-test=shared</td>
       <td>EXT_DL_TEST=ON</td>
       <td>will be shared</td>
     </tr>
@@ -1249,19 +1279,19 @@ A list of Autoconf `configure` command-line configuration options, Windows
     </tr>
     <tr>
       <td>--disable-exif</td>
-      <td></td>
+      <td>--disable-exif</td>
       <td>EXT_EXIF=OFF</td>
       <td>default</td>
     </tr>
     <tr>
       <td>&emsp;--enable-exif</td>
-      <td></td>
+      <td>--enable-exif</td>
       <td>EXT_EXIF=ON</td>
       <td></td>
     </tr>
     <tr>
       <td>&emsp;--enable-exif=shared</td>
-      <td></td>
+      <td>--enable-exif=shared</td>
       <td>EXT_EXIF_SHARED=ON</td>
       <td></td>
     </tr>
@@ -1292,37 +1322,37 @@ A list of Autoconf `configure` command-line configuration options, Windows
     </tr>
     <tr>
       <td>--enable-fileinfo</td>
-      <td></td>
+      <td>--enable-fileinfo</td>
       <td>EXT_FILEINFO=ON</td>
-      <td>default</td>
+      <td>default in *nix and Cmake (on Windows by default disabled and can be only shared)</td>
     </tr>
     <tr>
       <td>&emsp;--enable-fileinfo=shared</td>
-      <td></td>
+      <td>--enable-fileinfo=shared</td>
       <td>EXT_FILEINFO_SHARED=ON</td>
       <td></td>
     </tr>
     <tr>
       <td>&emsp;--disable-fileinfo</td>
-      <td></td>
+      <td>--disable-fileinfo</td>
       <td>EXT_FILEINFO=OFF</td>
       <td></td>
     </tr>
     <tr>
       <td>--enable-filter</td>
-      <td></td>
+      <td>--enable-filter</td>
       <td>EXT_FILTER=ON</td>
       <td>default</td>
     </tr>
     <tr>
       <td>&emsp;--enable-filter=shared</td>
-      <td></td>
+      <td>--enable-filter=shared</td>
       <td>EXT_FILTER_SHARED=ON</td>
       <td></td>
     </tr>
     <tr>
       <td>&emsp;--disable-filter</td>
-      <td></td>
+      <td>--disable-filter</td>
       <td>EXT_FILTER=OFF</td>
       <td></td>
     </tr>
@@ -2518,19 +2548,19 @@ A list of Autoconf `configure` command-line configuration options, Windows
     </tr>
     <tr>
       <td>--disable-shmop</td>
-      <td></td>
+      <td>--disable-shmop</td>
       <td>EXT_SHMOP=OFF</td>
       <td>default</td>
     </tr>
     <tr>
       <td>&emsp;--enable-shmop</td>
-      <td></td>
+      <td>--enable-shmop</td>
       <td>EXT_SHMOP=ON</td>
       <td></td>
     </tr>
     <tr>
       <td>&emsp;--enable-shmop=shared</td>
-      <td></td>
+      <td>--enable-shmop=shared</td>
       <td>EXT_SHMOP_SHARED=ON</td>
       <td></td>
     </tr>
@@ -2728,19 +2758,19 @@ A list of Autoconf `configure` command-line configuration options, Windows
     </tr>
     <tr>
       <td>--disable-sysvshm</td>
-      <td></td>
+      <td>--disable-sysvshm</td>
       <td>EXT_SYSVSHM=OFF</td>
       <td>default</td>
     </tr>
     <tr>
       <td>&emsp;--enable-sysvshm</td>
-      <td></td>
+      <td>--enable-sysvshm</td>
       <td>EXT_SYSVSHM=ON</td>
       <td></td>
     </tr>
     <tr>
       <td>&emsp;--enable-sysvshm=shared</td>
-      <td></td>
+      <td>--enable-sysvshm=shared</td>
       <td>EXT_SYSVSHM_SHARED=ON</td>
       <td></td>
     </tr>
@@ -2767,19 +2797,19 @@ A list of Autoconf `configure` command-line configuration options, Windows
     </tr>
     <tr>
       <td>--enable-tokenizer</td>
-      <td></td>
+      <td>--enable-tokenizer</td>
       <td>EXT_TOKENIZER=ON</td>
       <td>default</td>
     </tr>
     <tr>
       <td>&emsp;--enable-tokenizer=shared</td>
-      <td></td>
+      <td>--enable-tokenizer=shared</td>
       <td>EXT_TOKENIZER_SHARED=ON</td>
       <td></td>
     </tr>
     <tr>
       <td>&emsp;--disable-tokenizer</td>
-      <td></td>
+      <td>--disable-tokenizer</td>
       <td>EXT_TOKENIZER=OFF</td>
       <td></td>
     </tr>
@@ -2886,19 +2916,19 @@ A list of Autoconf `configure` command-line configuration options, Windows
     </tr>
     <tr>
       <td>--disable-zend-test</td>
-      <td></td>
+      <td>--disable-zend-test</td>
       <td>EXT_ZEND_TEST=OFF</td>
       <td>default</td>
     </tr>
     <tr>
       <td>&emsp;--enable-zend-test</td>
-      <td></td>
+      <td>--enable-zend-test</td>
       <td>EXT_ZEND_TEST=ON</td>
       <td></td>
     </tr>
     <tr>
       <td>&emsp;--enable-zend-test=shared</td>
-      <td></td>
+      <td>--enable-zend-test=shared</td>
       <td>EXT_ZEND_TEST_SHARED=ON</td>
       <td></td>
     </tr>
@@ -3005,25 +3035,25 @@ A list of Autoconf `configure` command-line configuration options, Windows
     </tr>
     <tr>
       <td>PHP_BUILD_SYSTEM=&quot;ACME Linux&quot;</td>
-      <td></td>
-      <td>PHP_BUILD_SYSTEM=&quot;ACME Linux&quot;</td>
+      <td>PHP_BUILD_SYSTEM=&quot;Microsoft Windows...&quot;</td>
+      <td>PHP_BUILD_SYSTEM=&quot;...&quot;</td>
       <td>Builder system name, defaults to uname -a output</td>
     </tr>
     <tr>
       <td>PHP_BUILD_PROVIDER=&quot;ACME&quot;</td>
-      <td></td>
+      <td>PHP_BUILD_PROVIDER=&quot;ACME&quot;</td>
       <td>PHP_BUILD_PROVIDER=&quot;ACME&quot;</td>
       <td>Build provider</td>
     </tr>
     <tr>
       <td>PHP_BUILD_COMPILER=&quot;...&quot;</td>
-      <td></td>
+      <td>PHP_BUILD_COMPILER=&quot;...&quot;</td>
       <td>PHP_BUILD_COMPILER=&quot;...&quot;</td>
       <td>Compiler used for build</td>
     </tr>
     <tr>
       <td>PHP_BUILD_ARCH=&quot;...&quot;</td>
-      <td></td>
+      <td>PHP_BUILD_ARCH=&quot;...&quot;</td>
       <td>PHP_BUILD_ARCH=&quot;...&quot;</td>
       <td>Build architecture</td>
     </tr>

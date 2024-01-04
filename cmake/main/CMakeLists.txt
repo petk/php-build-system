@@ -228,16 +228,21 @@ function(_php_main_create_files)
   # Set shared library object extension.
   string(REPLACE "." "" SHLIB_DL_SUFFIX_NAME ${CMAKE_SHARED_MODULE_SUFFIX})
 
-  message(STATUS "Creating main/build-defs.h")
-  configure_file(main/build-defs.h.in main/build-defs.h @ONLY)
+  if(CMAKE_SYSTEM_NAME STREQUAL "Windows")
+    message(STATUS "Creating main/config.w32.h")
+    configure_file(main/config.w32.cmake.h.in main/config.w32.h @ONLY)
+  else()
+    message(STATUS "Creating main/build-defs.h")
+    configure_file(main/build-defs.h.in main/build-defs.h @ONLY)
 
-  set(
-    HAVE_BUILD_DEFS_H 1
-    CACHE INTERNAL "Whether build-defs.h header file is present."
-  )
+    set(
+      HAVE_BUILD_DEFS_H 1
+      CACHE INTERNAL "Whether build-defs.h header file is present."
+    )
 
-  message(STATUS "Creating main/php_config.h")
-  configure_file(main/php_config.cmake.h.in main/php_config.h @ONLY)
+    message(STATUS "Creating main/php_config.h")
+    configure_file(main/php_config.cmake.h.in main/php_config.h @ONLY)
+  endif()
 
   message(STATUS "Creating main/php_version.h")
   configure_file(main/php_version.h.in main/php_version.h @ONLY)
@@ -262,8 +267,9 @@ target_sources(
   PUBLIC FILE_SET headers_binary TYPE HEADERS
     BASE_DIRS "${PROJECT_BINARY_DIR}"
     FILES
-      "${CMAKE_CURRENT_BINARY_DIR}/build-defs.h"
-      "${CMAKE_CURRENT_BINARY_DIR}/php_config.h"
+      $<$<PLATFORM_ID:Windows>:${CMAKE_CURRENT_BINARY_DIR}/config.w32.h>
+      $<$<NOT:$<PLATFORM_ID:Windows>>:${CMAKE_CURRENT_BINARY_DIR}/build-defs.h>
+      $<$<NOT:$<PLATFORM_ID:Windows>>:${CMAKE_CURRENT_BINARY_DIR}/php_config.h>
 )
 
 install(

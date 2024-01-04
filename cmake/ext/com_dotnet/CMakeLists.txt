@@ -6,10 +6,10 @@ endif()
 include(CMakeDependentOption)
 include(FeatureSummary)
 
-option(EXT_COM_DOTNET "Enable the com_dotnet extension" OFF)
+option(EXT_COM_DOTNET "Enable the com_dotnet extension" ON)
 
 add_feature_info("ext/com_dotnet" EXT_COM_DOTNET
-  "Component Object Model support."
+  "Component Object Model (COM) and .NET support."
 )
 
 cmake_dependent_option(

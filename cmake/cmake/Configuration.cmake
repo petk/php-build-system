@@ -35,14 +35,20 @@ endif()
 set(PHP_BUILD_SYSTEM "${PHP_UNAME}" CACHE STRING "Build system uname")
 mark_as_advanced(PHP_BUILD_SYSTEM)
 
-set(PHP_BUILD_PROVIDER "" CACHE STRING "Build provider")
-mark_as_advanced(PHP_BUILD_PROVIDER)
+set(
+  PHP_BUILD_ARCH "${CMAKE_SYSTEM_PROCESSOR}"
+  CACHE STRING "Build target architecture displayed in phpinfo"
+)
+mark_as_advanced(PHP_BUILD_ARCH)
 
-set(PHP_BUILD_COMPILER "" CACHE STRING "Compiler used for build")
+set(
+  PHP_BUILD_COMPILER "${CMAKE_C_COMPILER_ID} ${CMAKE_C_COMPILER_VERSION}"
+  CACHE STRING "Compiler used for build displayed in phpinfo"
+)
 mark_as_advanced(PHP_BUILD_COMPILER)
 
-set(PHP_BUILD_ARCH "" CACHE STRING "Build architecture")
-mark_as_advanced(PHP_BUILD_ARCH)
+set(PHP_BUILD_PROVIDER "" CACHE STRING "Build provider displayed in phpinfo")
+mark_as_advanced(PHP_BUILD_PROVIDER)
 
 set(
   PHP_LAYOUT "PHP"

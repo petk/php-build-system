@@ -186,6 +186,12 @@ specific features during the build process.
 
 See `./configure --help` for all available configuration options and variables.
 
+Some common arguments can be passed to command-line options:
+
+* To build extension as shared: `--enable-EXT=shared` or `--with-EXT=shared`.
+* Some options accept multiple arguments separated by comma (`,`). For example,
+  passing the library location and similar: `--with-EXT=shared,/usr`
+
 ## 5. Determining platform
 
 With Autotools there are several shell variables that help determine the

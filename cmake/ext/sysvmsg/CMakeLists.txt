@@ -1,3 +1,8 @@
+# Extension is only for *nix systems.
+if(CMAKE_SYSTEM_NAME STREQUAL "Windows")
+  return()
+endif()
+
 include(CheckIncludeFile)
 include(CMakeDependentOption)
 include(FeatureSummary)
