@@ -37,20 +37,18 @@ if(NOT EXT_XML)
     "PEAR requires the xml extension to be enabled. Set EXT_XML to 'ON'.")
 endif()
 
-# The INSTALL_PREFIX generator expression is used because on the CODE level,
-# variable values are incoded to the string. Install prefix can be set also at
-# the installation phase using the CMake --prefix command-line option.
 if(NOT PHP_PEAR_DIR)
   if(PHP_LAYOUT STREQUAL "GNU")
-    set(_php_pear_dir "$<INSTALL_PREFIX>/${CMAKE_INSTALL_DATADIR}/pear")
+    set(_php_pear_dir "\${CMAKE_INSTALL_PREFIX}/${CMAKE_INSTALL_DATADIR}/pear")
   else()
-    set(_php_pear_dir "$<INSTALL_PREFIX>/${CMAKE_INSTALL_LIBDIR}/php")
+    set(_php_pear_dir "\${CMAKE_INSTALL_PREFIX}/${CMAKE_INSTALL_LIBDIR}/php")
   endif()
 else()
   set(_php_pear_dir "${PHP_PEAR_DIR}")
 endif()
 
 # Defined for build-defs.h.
+# TODO: INSTALL_PREFIX here cannot be evaluated during the install phase.
 set(EXPANDED_PEAR_INSTALLDIR "${_php_pear_dir}" CACHE INTERNAL "PEAR dir")
 
 set(_php_pear_installer_url "https://pear.php.net/install-pear-nozlib.phar")
@@ -96,7 +94,7 @@ install(CODE "
     if(EXISTS ${CMAKE_CURRENT_BINARY_DIR}/install-pear-nozlib.phar)
       # PEAR reads the INSTALL_ROOT environment variable to install pear.conf.
       # TODO: Adjust this further.
-      #set(ENV{INSTALL_ROOT} \"$<INSTALL_PREFIX>\")
+      #set(ENV{INSTALL_ROOT} \"\${CMAKE_INSTALL_PREFIX}\")
 
       execute_process(
         COMMAND ${PHP_BINARY_DIR}/sapi/cli/php
@@ -108,9 +106,9 @@ install(CODE "
           -ddetect_unicode=0
           ${CMAKE_CURRENT_BINARY_DIR}/install-pear-nozlib.phar
             --dir \"${_php_pear_dir}\"
-            --bin \"$<INSTALL_PREFIX>/${CMAKE_INSTALL_BINDIR}\"
-            --config \"$<INSTALL_PREFIX>/${CMAKE_INSTALL_SYSCONFDIR}\"
-            --metadata \"$<INSTALL_PREFIX>/${CMAKE_INSTALL_DATADIR}\"
+            --bin \"\${CMAKE_INSTALL_PREFIX}/${CMAKE_INSTALL_BINDIR}\"
+            --config \"\${CMAKE_INSTALL_PREFIX}/${CMAKE_INSTALL_SYSCONFDIR}\"
+            --metadata \"\${CMAKE_INSTALL_PREFIX}/${CMAKE_INSTALL_DATADIR}\"
             -dp a${_php_pear_program_prefix}
             -ds a$(_php_pear_program_suffix)
       )

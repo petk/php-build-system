@@ -536,14 +536,12 @@ install(
   DESTINATION "${CMAKE_INSTALL_MANDIR}/man8"
 )
 
-install(CODE "
-  file(
-    MAKE_DIRECTORY
-    \"$<INSTALL_PREFIX>/${CMAKE_INSTALL_LOCALSTATEDIR}/log\"
-    \"$<INSTALL_PREFIX>/${CMAKE_INSTALL_LOCALSTATEDIR}/run\"
-  )
+# Create log and run directories on installation.
+install(DIRECTORY DESTINATION ${CMAKE_INSTALL_LOCALSTATEDIR}/log)
+install(DIRECTORY DESTINATION ${CMAKE_INSTALL_LOCALSTATEDIR}/run)
 
-  if(EXISTS \"$<INSTALL_PREFIX>/${CMAKE_INSTALL_SYSCONFDIR}/php-fpm.conf\")
+install(CODE "
+  if(EXISTS \"\${CMAKE_INSTALL_PREFIX}/${CMAKE_INSTALL_SYSCONFDIR}/php-fpm.conf\")
     message(
       STATUS
       \"Skipping PHP FPM defconfig installation. Files already exist.\"
@@ -552,24 +550,24 @@ install(CODE "
     message(
       STATUS
       \"Installing PHP FPM defconfig to \"
-      \"$<INSTALL_PREFIX>/${CMAKE_INSTALL_SYSCONFDIR}\"
+      \"\${CMAKE_INSTALL_PREFIX}/${CMAKE_INSTALL_SYSCONFDIR}\"
     )
 
     file(
       MAKE_DIRECTORY
-      \"$<INSTALL_PREFIX>/${CMAKE_INSTALL_SYSCONFDIR}/php-fpm.d\"
+      \"\${CMAKE_INSTALL_PREFIX}/${CMAKE_INSTALL_SYSCONFDIR}/php-fpm.d\"
     )
 
     file(
       COPY_FILE
       \"${CMAKE_CURRENT_BINARY_DIR}/php-fpm.conf\"
-      \"$<INSTALL_PREFIX>/${CMAKE_INSTALL_SYSCONFDIR}/php-fpm.conf.default\"
+      \"\${CMAKE_INSTALL_PREFIX}/${CMAKE_INSTALL_SYSCONFDIR}/php-fpm.conf.default\"
     )
 
     file(
       COPY_FILE
       \"${CMAKE_CURRENT_BINARY_DIR}/www.conf\"
-      \"$<INSTALL_PREFIX>/${CMAKE_INSTALL_SYSCONFDIR}/php-fpm.d/www.conf.default\"
+      \"\${CMAKE_INSTALL_PREFIX}/${CMAKE_INSTALL_SYSCONFDIR}/php-fpm.d/www.conf.default\"
     )
   endif()
 ")

@@ -88,7 +88,6 @@ if(HAVE_PLATFORM_STRCASESTR)
 else()
   target_sources(php_fileinfo PRIVATE libmagic/strcasestr.c)
   message(CHECK_FAIL "using libmagic strcasestr")
-  message(WARNING "Using libmagic strcasestr implementation instead of platform")
 endif()
 
 target_include_directories(

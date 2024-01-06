@@ -547,8 +547,10 @@ Operating system names:
 | Android                    | Android operating system                         |
 | CYGWIN.*                   | Cygwin environment for Windows, includes version |
 | Darwin                     | Apple operating systems (macOS, OS X, etc.)      |
+| DragonFly                  | BSD-derived operating system                     |
 | Emscripten                 | Compiler toolchain to WebAssembly                |
 | FreeBSD                    | All FreeBSD operating systems versions           |
+| Generic                    | Some platforms, e.g. bare metal embedded devices |
 | GNU                        | GNU/Hurd-based operating system                  |
 | Haiku                      | Unix operating system inspired by BeOS           |
 | HP-UX                      | Hewlett Packard Unix                             |
@@ -556,11 +558,15 @@ Operating system names:
 | NetBSD                     | NetBSD operating systems                         |
 | OpenBSD                    | OpenBSD operating systems                        |
 | OS400                      | IBM Unix operating system                        |
+| QNX                        | Unix-like operating system by BlackBerry         |
 | SCO_SV                     | SCO OpenServer 5                                 |
 | SunOS                      | Oracle Solaris and all illumos operating systems |
 | UNIX_SV                    | SCO UnixWare (pre release 7)                     |
 | UnixWare                   | SCO UnixWare 7                                   |
-| Windows                    | All Windows systems                              |
+| Windows                    | Windows stationary operating systems             |
+| WindowsCE                  | Windows Embedded Compact                         |
+| WindowsPhone               | Windows mobile phone system                      |
+| WindowsStore               | Universal Windows Platform applications          |
 
 See also [CMakeDetermineSystem.cmake](https://gitlab.kitware.com/cmake/cmake/-/blob/master/Modules/CMakeDetermineSystem.cmake).
 

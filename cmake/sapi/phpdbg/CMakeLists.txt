@@ -146,10 +146,5 @@ install(
 )
 
 # Create log and run directories on installation.
-install(CODE "
-  file(
-    MAKE_DIRECTORY
-    \"$<INSTALL_PREFIX>/${CMAKE_INSTALL_LOCALSTATEDIR}/log\"
-    \"$<INSTALL_PREFIX>/${CMAKE_INSTALL_LOCALSTATEDIR}/run\"
-  )
-")
+install(DIRECTORY DESTINATION ${CMAKE_INSTALL_LOCALSTATEDIR}/log)
+install(DIRECTORY DESTINATION ${CMAKE_INSTALL_LOCALSTATEDIR}/run)

@@ -138,20 +138,21 @@ cmake --build <build-directory> -j
 If you want to speed up the build process, you can use the `-j` option to enable
 parallel builds, taking advantage of multiple CPU cores.
 
-Above is equivalent to running the `make` command:
-
-```sh
-make -j $(nproc) # Number of CPU cores you want to utilize.
-```
-
 > [!NOTE]
-> Number of simultaneous jobs is often the number of available processor threads
-> of the build machine and can be also automatically calculated using the
-> `$(nproc)` on Linux, or `$(sysctl -n hw.ncpu)` on macOS.
+> On some systems, the `-j` option requires argument. Number of simultaneous
+> jobs is often the number of available processor threads of the build machine
+> and can be also automatically calculated using the `$(nproc)` on Linux, or
+> `$(sysctl -n hw.ncpu)` on macOS and BSD-based systems.
 >
 > ```sh
-> make -j $(nproc)
+> cmake --build <build-directory> -j $(nproc)
 > ```
+
+The `cmake --build` is equivalent to running the `make` command:
+
+```sh
+make -j $(nproc) # Number of CPUs you want to utilize.
+```
 
 ### 4.2. Ninja
 
@@ -255,6 +256,7 @@ version available on the operating system.
   * New `try_run` signature
 * 3.27
   * `COMPILE_ONLY` generator expression
+  * `INSTALL_PREFIX` generator expression in `install(CODE)`
 * 3.29
   * `CMAKE_LINKER_TYPE`
 
@@ -264,6 +266,12 @@ properly in the future.
 
 CMake versions scheme across the systems is available at
 [pkgs.org](https://pkgs.org/download/cmake).
+
+> [!TIP]
+> While the CMake version on some systems may be outdated, there are various
+> options available to install the latest version. For instance, on Ubuntu, the
+> most recent CMake version can be installed using `snap` or through the
+> [APT repository](https://apt.kitware.com/).
 
 ## 7. Interface library
 

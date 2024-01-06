@@ -5,6 +5,7 @@ Check system requirements and validate basic configuration.
 include_guard(GLOBAL)
 
 include(CheckSourceRuns)
+include(CMakePushCheckState)
 include(FeatureSummary)
 
 ################################################################################
@@ -13,11 +14,14 @@ include(FeatureSummary)
 message(CHECK_START "Checking whether system uses EBCDIC")
 
 if(NOT CMAKE_CROSSCOMPILING)
-  check_source_runs(C "
-    int main(void) {
-      return (unsigned char)'A' != (unsigned char)0xC1;
-    }
-  " _php_is_ebcdic)
+  cmake_push_check_state(RESET)
+    set(CMAKE_REQUIRED_QUIET TRUE)
+    check_source_runs(C "
+      int main(void) {
+        return (unsigned char)'A' != (unsigned char)0xC1;
+      }
+    " _php_is_ebcdic)
+  cmake_pop_check_state()
 endif()
 
 if(_php_is_ebcdic)

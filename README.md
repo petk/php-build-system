@@ -20,7 +20,7 @@ sudo apt install cmake gcc g++ bison re2c libxml2-dev libsqlite3-dev
 # Prerequisites for Fedora-based distributions:
 sudo dnf install cmake gcc gcc-c++ bison re2c libxml2-devel sqlite-devel
 
-# Prerequisites for FreeBSD:
+# Prerequisites for BSD-based systems:
 sudo pkg install cmake bison re2c libxml2 sqlite3
 
 # Clone this repository:

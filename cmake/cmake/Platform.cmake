@@ -93,6 +93,13 @@ endif()
 # Check unused linked libraries on executable and shared/module library targets.
 include(PHP/LinkWhatYouUse)
 
+# To speed up the Windows build experience with Visual Studio generators, these
+# are always known on Windows systems.
+# TODO: Update and fix this better.
+if(CMAKE_SYSTEM_NAME STREQUAL "Windows")
+  set(HAVE_SYSLOG_H 1)
+endif()
+
 # TODO: Fix these properly if really needed.
 set(_TANDEM_SOURCE 1 CACHE INTERNAL "")
 set(__STDC_WANT_MATH_SPEC_FUNCS__ 1 CACHE INTERNAL "")

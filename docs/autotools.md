@@ -59,7 +59,7 @@ make TEST_PHP_ARGS=-j10 test
 > [!NOTE]
 > Number of simultaneous jobs is often the number of available processor threads
 > of the build machine and can be also automatically calculated using the
-> `$(nproc)` on Linux, or `$(sysctl -n hw.ncpu)` on macOS.
+> `$(nproc)` on Linux, or `$(sysctl -n hw.ncpu)` on macOS and BSD-based systems.
 >
 > ```sh
 > make -j $(nproc)

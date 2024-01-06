@@ -30,6 +30,7 @@ block(PROPAGATE CMAKE_LINK_WHAT_YOU_USE)
   execute_process(
     COMMAND ldd --help
     OUTPUT_VARIABLE output
+    ERROR_QUIET
   )
 
   if(output MATCHES "(-r, --function-relocs.*-u, --unused.*)")

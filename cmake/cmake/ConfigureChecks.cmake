@@ -631,20 +631,21 @@ endif()
 
 php_search_libraries(
   inet_ntop
-  "arpa/inet.h"
-  HAVE_INET_NTOP
+  "arpa/inet.h;ws2tcpip.h"
+  _HAVE_INET_NTOP
   _php_inet_ntop_library
   LIBRARIES
     # TODO: Update the libraries list here for Solaris. Solaris 11 has these in
     # the C library or linked explicitly already like Linux systems.
-    nsl     # Solaris 8..10
-    resolv  # Solaris 2.6..7
-    network # Haiku
+    nsl        # Solaris 8..10
+    resolv     # Solaris 2.6..7
+    network    # Haiku
+    Ws2_32.lib # Windows
 )
 if(_php_inet_ntop_library)
   target_link_libraries(php_configuration INTERFACE ${_php_inet_ntop_library})
 endif()
-if(NOT HAVE_INET_NTOP)
+if(NOT _HAVE_INET_NTOP)
   message(FATAL_ERROR "Cannot find inet_ntop which is required.")
 endif()
 
