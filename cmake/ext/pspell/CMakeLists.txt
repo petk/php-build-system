@@ -1,8 +1,3 @@
-# Extension has been unbundled in PHP 8.4.
-if(PHP_VERSION VERSION_GREATER_EQUAL 8.4)
-  return()
-endif()
-
 include(CMakeDependentOption)
 include(FeatureSummary)
 

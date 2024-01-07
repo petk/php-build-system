@@ -202,9 +202,6 @@
 /* Define to enable JIT */
 #cmakedefine HAVE_JIT @HAVE_JIT@
 
-/* Use JIT IR framework */
-#cmakedefine ZEND_JIT_IR @ZEND_JIT_IR@
-
 /* Using bundled PCRE library */
 #define HAVE_BUNDLED_PCRE 1
 

@@ -179,7 +179,6 @@ php_check_builtin(__builtin_smull_overflow PHP_HAVE_BUILTIN_SMULL_OVERFLOW)
 php_check_builtin(__builtin_smulll_overflow PHP_HAVE_BUILTIN_SMULLL_OVERFLOW)
 php_check_builtin(__builtin_ssubl_overflow PHP_HAVE_BUILTIN_SSUBL_OVERFLOW)
 php_check_builtin(__builtin_ssubll_overflow PHP_HAVE_BUILTIN_SSUBLL_OVERFLOW)
-php_check_builtin(__builtin_unreachable PHP_HAVE_BUILTIN_UNREACHABLE)
 php_check_builtin(__builtin_usub_overflow PHP_HAVE_BUILTIN_USUB_OVERFLOW)
 
 ################################################################################
@@ -244,7 +243,6 @@ check_symbol_exists(localtime_r "time.h" HAVE_LOCALTIME_R)
 check_symbol_exists(lchown "unistd.h" HAVE_LCHOWN)
 check_symbol_exists(memcntl "sys/mman.h" HAVE_MEMCNTL)
 check_symbol_exists(memmove "string.h" HAVE_MEMMOVE)
-check_symbol_exists(mempcpy "string.h" HAVE_MEMPCPY)
 check_symbol_exists(mkstemp "stdlib.h" HAVE_MKSTEMP)
 check_symbol_exists(mmap "sys/mman.h" HAVE_MMAP)
 check_symbol_exists(nice "unistd.h" HAVE_NICE)
@@ -488,11 +486,9 @@ endif()
 # includes it conditionally.
 set(HAVE_WCHAR_H 1 CACHE INTERNAL "Define to 1 if you have the <wchar.h> header file.")
 
-if(PHP_VERSION VERSION_LESS 8.4)
-  # string.h is always available as part of C89 standard. The opcache/jit/libudis86
-  # bundled forked code still includes it conditionally.
-  set(HAVE_STRING_H 1 CACHE INTERNAL "Define to 1 if you have the <string.h> header file.")
-endif()
+# string.h is always available as part of C89 standard. The opcache/jit/libudis86
+# bundled forked code still includes it conditionally.
+set(HAVE_STRING_H 1 CACHE INTERNAL "Define to 1 if you have the <string.h> header file.")
 
 # inttypes.h is always available as part of C99 standard. The libmagic still
 # includes it conditionally.
@@ -615,24 +611,22 @@ if(OPENPTY_LIBRARY)
   target_link_libraries(php_configuration INTERFACE ${OPENPTY_LIBRARY})
 endif()
 
-if(PHP_VERSION VERSION_LESS 8.4)
-  php_search_libraries(
-    inet_ntoa
-    "arpa/inet.h"
-    HAVE_INET_NTOA
-    _php_inet_ntoa_library
-    LIBRARIES
-      network # Haiku
-  )
-  if(_php_inet_ntoa_library)
-    target_link_libraries(php_configuration INTERFACE ${_php_inet_ntoa_library})
-  endif()
+php_search_libraries(
+  inet_ntoa
+  "arpa/inet.h"
+  HAVE_INET_NTOA
+  _php_inet_ntoa_library
+  LIBRARIES
+    network # Haiku
+)
+if(_php_inet_ntoa_library)
+  target_link_libraries(php_configuration INTERFACE ${_php_inet_ntoa_library})
 endif()
 
 php_search_libraries(
   inet_ntop
   "arpa/inet.h;ws2tcpip.h"
-  _HAVE_INET_NTOP
+  HAVE_INET_NTOP
   _php_inet_ntop_library
   LIBRARIES
     # TODO: Update the libraries list here for Solaris. Solaris 11 has these in
@@ -645,7 +639,7 @@ php_search_libraries(
 if(_php_inet_ntop_library)
   target_link_libraries(php_configuration INTERFACE ${_php_inet_ntop_library})
 endif()
-if(NOT _HAVE_INET_NTOP)
+if(NOT HAVE_INET_NTOP)
   message(FATAL_ERROR "Cannot find inet_ntop which is required.")
 endif()
 

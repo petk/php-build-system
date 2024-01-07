@@ -81,9 +81,7 @@ target_sources(php_mbstring PRIVATE
   php_unicode.c
 )
 
-if(PHP_VERSION VERSION_LESS 8.4)
-  target_sources(php_mbstring PRIVATE libmbfl/filters/mbfilter_utf8_mobile.c)
-endif()
+target_sources(php_mbstring PRIVATE libmbfl/filters/mbfilter_utf8_mobile.c)
 
 message(STATUS "Creating ext/mbstring/libmbfl/config.h")
 file(WRITE

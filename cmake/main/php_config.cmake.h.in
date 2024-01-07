@@ -80,6 +80,9 @@
 /* Whether to build iconv as dynamic module */
 #cmakedefine COMPILE_DL_ICONV @COMPILE_DL_ICONV@
 
+/* Whether to build imap as dynamic module */
+#cmakedefine COMPILE_DL_IMAP @COMPILE_DL_IMAP@
+
 /* Whether to build intl as dynamic module */
 #cmakedefine COMPILE_DL_INTL @COMPILE_DL_INTL@
 
@@ -615,6 +618,9 @@
 /* Define to 1 if you have the 'forkx' function. */
 #cmakedefine HAVE_FORKX @HAVE_FORKX@
 
+/* Define to 1 if you have the 'fpathconf' function. */
+#cmakedefine HAVE_FPATHCONF @HAVE_FPATHCONF@
+
 /* do we have acl support? */
 #cmakedefine HAVE_FPM_ACL @HAVE_FPM_ACL@
 
@@ -816,6 +822,30 @@
 /* Define to 1 if you have the 'if_nametoindex' function. */
 #cmakedefine HAVE_IF_NAMETOINDEX @HAVE_IF_NAMETOINDEX@
 
+/* */
+#cmakedefine HAVE_IMAP @HAVE_IMAP@
+
+/* */
+#cmakedefine HAVE_IMAP2000 @HAVE_IMAP2000@
+
+/* */
+#cmakedefine HAVE_IMAP2001 @HAVE_IMAP2001@
+
+/* */
+#cmakedefine HAVE_IMAP2004 @HAVE_IMAP2004@
+
+/* */
+#cmakedefine HAVE_IMAP_AUTH_GSS @HAVE_IMAP_AUTH_GSS@
+
+/* Whether IMAP extension has Kerberos support */
+#cmakedefine HAVE_IMAP_KRB @HAVE_IMAP_KRB@
+
+/* */
+#cmakedefine HAVE_IMAP_MUTF7 @HAVE_IMAP_MUTF7@
+
+/* */
+#cmakedefine HAVE_IMAP_SSL @HAVE_IMAP_SSL@
+
 /* Define to 1 if you have the <immintrin.h> header file. */
 #cmakedefine HAVE_IMMINTRIN_H @HAVE_IMMINTRIN_H@
 
@@ -824,6 +854,9 @@
 
 /* Define to 1 if you have the 'inet_ntoa' function. */
 #cmakedefine HAVE_INET_NTOA @HAVE_INET_NTOA@
+
+/* Define to 1 if you have the 'inet_ntop' function. */
+#cmakedefine HAVE_INET_NTOP @HAVE_INET_NTOP@
 
 /* Define to 1 if you have the 'inet_pton' function. */
 #cmakedefine HAVE_INET_PTON @HAVE_INET_PTON@
@@ -1005,9 +1038,6 @@
 /* Define to 1 if you have the 'memmove' function. */
 #cmakedefine HAVE_MEMMOVE @HAVE_MEMMOVE@
 
-/* Define to 1 if you have the 'mempcpy' function. */
-#cmakedefine HAVE_MEMPCPY @HAVE_MEMPCPY@
-
 /* Define to 1 if you have the 'memrchr' function. */
 #cmakedefine HAVE_MEMRCHR @HAVE_MEMRCHR@
 
@@ -1099,6 +1129,9 @@
 /* Define to 1 if you have the <os/signpost.h> header file. */
 #cmakedefine HAVE_OS_SIGNPOST_H @HAVE_OS_SIGNPOST_H@
 
+/* Define to 1 if you have the 'pathconf' function. */
+#cmakedefine HAVE_PATHCONF @HAVE_PATHCONF@
+
 /* */
 #cmakedefine HAVE_PCRE_JIT_SUPPORT @HAVE_PCRE_JIT_SUPPORT@
 
@@ -1146,12 +1179,6 @@
 
 /* whether to include POSIX-like functions */
 #cmakedefine HAVE_POSIX @HAVE_POSIX@
-
-/* Define to 1 if you have the 'fpathconf' function. */
-#cmakedefine HAVE_FPATHCONF @HAVE_FPATHCONF@
-
-/* Define to 1 if you have the 'pathconf' function. */
-#cmakedefine HAVE_PATHCONF @HAVE_PATHCONF@
 
 /* */
 #cmakedefine HAVE_POSIX_SPAWN_FILE_ACTIONS_ADDCHDIR_NP @HAVE_POSIX_SPAWN_FILE_ACTIONS_ADDCHDIR_NP@
@@ -1294,9 +1321,6 @@
 /* */
 #cmakedefine HAVE_SHMOP @HAVE_SHMOP@
 
-/* Define to 1 if you have the 'shm_create_largepage' function. */
-#cmakedefine HAVE_SHM_CREATE_LARGEPAGE @HAVE_SHM_CREATE_LARGEPAGE@
-
 /* Define if you have SysV IPC SHM support */
 #cmakedefine HAVE_SHM_IPC @HAVE_SHM_IPC@
 
@@ -1350,6 +1374,9 @@
 
 /* Whether you have struct sockaddr_storage */
 #cmakedefine HAVE_SOCKADDR_STORAGE @HAVE_SOCKADDR_STORAGE@
+
+/* Define to 1 if 'sun_len' is a member of 'struct sockaddr_un'. */
+#cmakedefine HAVE_SOCKADDR_UN_SUN_LEN @HAVE_SOCKADDR_UN_SUN_LEN@
 
 /* Define to 1 if you have the 'sockatmark' function. */
 #cmakedefine HAVE_SOCKATMARK @HAVE_SOCKATMARK@
@@ -1458,9 +1485,6 @@
 
 /* whether you have struct flock */
 #cmakedefine HAVE_STRUCT_FLOCK @HAVE_STRUCT_FLOCK@
-
-/* Define to 1 if 'sun_len' is a member of 'struct sockaddr_un'. */
-#cmakedefine HAVE_STRUCT_SOCKADDR_UN_SUN_LEN @HAVE_STRUCT_SOCKADDR_UN_SUN_LEN@
 
 /* Define to 1 if 'st_blksize' is a member of 'struct stat'. */
 #cmakedefine HAVE_STRUCT_STAT_ST_BLKSIZE @HAVE_STRUCT_STAT_ST_BLKSIZE@
@@ -1844,9 +1868,6 @@
 /* Whether the compiler supports __builtin_ssubl_overflow */
 #cmakedefine01 PHP_HAVE_BUILTIN_SSUBL_OVERFLOW
 
-/* Whether the compiler supports __builtin_unreachable */
-#cmakedefine01 PHP_HAVE_BUILTIN_UNREACHABLE
-
 /* Whether the compiler supports __builtin_usub_overflow */
 #cmakedefine01 PHP_HAVE_BUILTIN_USUB_OVERFLOW
 
@@ -2076,9 +2097,6 @@
 
 /* */
 #cmakedefine ZEND_FIBER_UCONTEXT @ZEND_FIBER_UCONTEXT@
-
-/* Use JIT IR framework */
-#cmakedefine ZEND_JIT_IR @ZEND_JIT_IR@
 
 /* Use zend max execution timers */
 #cmakedefine ZEND_MAX_EXECUTION_TIMERS @ZEND_MAX_EXECUTION_TIMERS@
