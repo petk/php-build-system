@@ -10,11 +10,6 @@
 > You are browsing the `PHP-8.3` branch of this repository. For the latest
 > sources and documentation checkout the `master` branch.
 
-This repository delves into the core of the PHP build system, elucidating the
-intricacies of how to build PHP with CMake.
-
-![ElePHPant](docs/images/elephpant.jpg)
-
 ## Quick usage - TL;DR
 
 ```sh
