@@ -509,11 +509,6 @@ php_search_libraries(
   _php_dlopen_library
   LIBRARIES
     ${CMAKE_DL_LIBS}
-    # Haiku has dlopen in root library, however library is already explicitly
-    # linked on the system. Here, check is noted only for documentation purpose.
-    # TODO: Should root be removed? CMake doesn't add it in CMAKE_DL_LIBS
-    # anymore since 2013.
-    root
 )
 if(_php_dlopen_library)
   target_link_libraries(php_configuration INTERFACE ${_php_dlopen_library})
@@ -526,7 +521,6 @@ php_search_libraries(
   _php_dlsym_library
   LIBRARIES
     ${CMAKE_DL_LIBS}
-    root # For Haiku. Same as with dlopen.
 )
 if(_php_dlsym_library)
   target_link_libraries(php_configuration INTERFACE ${_php_dlsym_library})
@@ -645,15 +639,16 @@ endif()
 
 php_search_libraries(
   inet_pton
-  "arpa/inet.h"
+  "arpa/inet.h;ws2tcpip.h"
   HAVE_INET_PTON
   _php_inet_pton_library
   LIBRARIES
     # TODO: Update the libraries list here for Solaris. Solaris 11 has these in
     # the C library or linked explicitly already like Linux systems.
-    nsl     # Solaris 8..10
-    resolv  # Solaris 2.6..7
-    network # Haiku
+    nsl        # Solaris 8..10
+    resolv     # Solaris 2.6..7
+    network    # Haiku
+    Ws2_32.lib # Windows
 )
 if(_php_inet_pton_library)
   target_link_libraries(php_configuration INTERFACE ${_php_inet_pton_library})
