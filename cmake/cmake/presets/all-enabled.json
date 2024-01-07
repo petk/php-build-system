@@ -47,7 +47,6 @@
         "EXT_PDO_ODBC": true,
         "EXT_PDO_PGSQL": true,
         "EXT_PGSQL": true,
-        "EXT_PSPELL": true,
         "EXT_READLINE": true,
         "EXT_SHMOP": true,
         "EXT_SNMP": true,

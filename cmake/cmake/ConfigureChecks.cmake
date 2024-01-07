@@ -488,12 +488,6 @@ endif()
 # includes it conditionally.
 set(HAVE_WCHAR_H 1 CACHE INTERNAL "Define to 1 if you have the <wchar.h> header file.")
 
-if(PHP_VERSION VERSION_LESS 8.4)
-  # string.h is always available as part of C89 standard. The opcache/jit/libudis86
-  # bundled forked code still includes it conditionally.
-  set(HAVE_STRING_H 1 CACHE INTERNAL "Define to 1 if you have the <string.h> header file.")
-endif()
-
 # inttypes.h is always available as part of C99 standard. The libmagic still
 # includes it conditionally.
 set(HAVE_INTTYPES_H 1 CACHE INTERNAL "Define to 1 if you have the <inttypes.h> header file.")
@@ -613,20 +607,6 @@ php_search_libraries(
 )
 if(OPENPTY_LIBRARY)
   target_link_libraries(php_configuration INTERFACE ${OPENPTY_LIBRARY})
-endif()
-
-if(PHP_VERSION VERSION_LESS 8.4)
-  php_search_libraries(
-    inet_ntoa
-    "arpa/inet.h"
-    HAVE_INET_NTOA
-    _php_inet_ntoa_library
-    LIBRARIES
-      network # Haiku
-  )
-  if(_php_inet_ntoa_library)
-    target_link_libraries(php_configuration INTERFACE ${_php_inet_ntoa_library})
-  endif()
 endif()
 
 php_search_libraries(

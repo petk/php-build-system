@@ -19,9 +19,9 @@ list(APPEND CMAKE_MESSAGE_INDENT "  ")
 set(_php_asm_goto_source [[
   int main(void) {
     #if defined(__x86_64__) || defined(__i386__)
-      __asm__ goto("jmp %l0\\n" :::: end);
+      __asm__ goto("jmp %l0\n" :::: end);
     #elif defined(__aarch64__)
-      __asm__ goto("b %l0\\n" :::: end);
+      __asm__ goto("b %l0\n" :::: end);
     #endif
     end:
       return 0;

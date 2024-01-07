@@ -13,11 +13,8 @@ endif()
 # This extension can be built only as a STATIC library.
 add_library(php_libxml STATIC
   libxml.c
+  mime_sniff.c
 )
-
-if(PHP_VERSION VERSION_GREATER_EQUAL 8.4)
-  target_sources(php_libxml PRIVATE mime_sniff.c)
-endif()
 
 target_compile_definitions(php_libxml PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE=1)
 
