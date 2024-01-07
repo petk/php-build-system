@@ -526,7 +526,11 @@ endif()
 
 php_search_libraries(sin "math.h" HAVE_SIN M_LIBRARY LIBRARIES m)
 if(M_LIBRARY)
-  target_link_libraries(php_configuration INTERFACE ${M_LIBRARY})
+  target_link_libraries(
+    php_configuration
+    INTERFACE
+      "$<$<NOT:$<IN_LIST:$<TARGET_PROPERTY:TYPE>,MODULE_LIBRARY;SHARED_LIBRARY>>:${M_LIBRARY}>"
+  )
 endif()
 
 if(CMAKE_HOST_SYSTEM_PROCESSOR MATCHES "riscv64.*")

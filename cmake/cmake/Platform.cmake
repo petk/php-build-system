@@ -93,11 +93,9 @@ endif()
 # Check unused linked libraries on executable and shared/module library targets.
 include(PHP/LinkWhatYouUse)
 
-# To speed up the Windows build experience with Visual Studio generators, these
-# are always known on Windows systems.
-# TODO: Update and fix this better.
+# Windows platform.
 if(CMAKE_SYSTEM_NAME STREQUAL "Windows")
-  set(HAVE_SYSLOG_H 1)
+  include(platform/Windows.cmake)
 endif()
 
 # TODO: Fix these properly if really needed.

@@ -443,13 +443,15 @@ endif()
 # Create files and set installation.
 ################################################################################
 
-message(STATUS "Creating Zend/zend_config.h")
+if(NOT CMAKE_SYSTEM_NAME STREQUAL "Windows")
+  message(STATUS "Creating Zend/zend_config.h")
 
-file(
-  WRITE
-  "${CMAKE_CURRENT_BINARY_DIR}/zend_config.h"
-  "#include <../main/php_config.h>\n"
-)
+  file(
+    WRITE
+    "${CMAKE_CURRENT_BINARY_DIR}/zend_config.h"
+    "#include <../main/php_config.h>\n"
+  )
+endif()
 
 file(GLOB _zend_headers "${CMAKE_CURRENT_SOURCE_DIR}/*.h")
 # Exclude Windows header and specify it below separately.
@@ -475,7 +477,7 @@ target_sources(
   PUBLIC FILE_SET headers_binary TYPE HEADERS
     BASE_DIRS "${PHP_BINARY_DIR}"
     FILES
-      "${CMAKE_CURRENT_BINARY_DIR}/zend_config.h"
+      $<$<NOT:$<PLATFORM_ID:Windows>>:${CMAKE_CURRENT_BINARY_DIR}/zend_config.h>
 )
 
 install(
