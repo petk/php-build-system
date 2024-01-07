@@ -539,34 +539,36 @@ if(CMAKE_HOST_SYSTEM_NAME MATCHES "^CYGWIN.*")
 endif()
 ```
 
-Operating system names:
+Values for `CMAKE_SYSTEM_NAME`, `CMAKE_HOST_SYSTEM_NAME`, and `PLATFORM_ID`:
 
-| `CMAKE_[HOST_]SYSTEM_NAME` | Note                                             |
-| -------------------------- | ------------------------------------------------ |
-| AIX                        | IBM Unix operating system                        |
-| Android                    | Android operating system                         |
-| CYGWIN.*                   | Cygwin environment for Windows, includes version |
-| Darwin                     | Apple operating systems (macOS, OS X, etc.)      |
-| DragonFly                  | BSD-derived operating system                     |
-| Emscripten                 | Compiler toolchain to WebAssembly                |
-| FreeBSD                    | All FreeBSD operating systems versions           |
-| Generic                    | Some platforms, e.g. bare metal embedded devices |
-| GNU                        | GNU/Hurd-based operating system                  |
-| Haiku                      | Unix operating system inspired by BeOS           |
-| HP-UX                      | Hewlett Packard Unix                             |
-| Linux                      | All Linux-based distributions                    |
-| NetBSD                     | NetBSD operating systems                         |
-| OpenBSD                    | OpenBSD operating systems                        |
-| OS400                      | IBM Unix operating system                        |
-| QNX                        | Unix-like operating system by BlackBerry         |
-| SCO_SV                     | SCO OpenServer 5                                 |
-| SunOS                      | Oracle Solaris and all illumos operating systems |
-| UNIX_SV                    | SCO UnixWare (pre release 7)                     |
-| UnixWare                   | SCO UnixWare 7                                   |
-| Windows                    | Windows stationary operating systems             |
-| WindowsCE                  | Windows Embedded Compact                         |
-| WindowsPhone               | Windows mobile phone system                      |
-| WindowsStore               | Universal Windows Platform applications          |
+| Value          | Note                                               |
+| -------------- | -------------------------------------------------- |
+| `AIX`          | IBM Unix operating system                          |
+| `Android`      | Android operating system                           |
+| `CYGWIN.*`     | Cygwin environment for Windows; has version        |
+| `Darwin`       | Apple operating systems (macOS, OS X, etc.)        |
+| `DragonFly`    | BSD-derived operating system                       |
+| `Emscripten`   | Compiler toolchain to WebAssembly                  |
+| `FreeBSD`      | All FreeBSD operating systems versions             |
+| `Generic`      | Some platforms, e.g. bare metal embedded devices   |
+| `GNU`          | GNU/Hurd-based operating system                    |
+| `Haiku`        | Unix operating system inspired by BeOS             |
+| `HP-UX`        | Hewlett Packard Unix                               |
+| `Linux`        | All Linux-based distributions                      |
+| `MSYS`         | MSYS environment, also `Windows` or `MINGW.*`      |
+| `MINGW.*`      | `MINGW32.*`, `MINGW64.*` environments; has version |
+| `NetBSD`       | NetBSD operating systems                           |
+| `OpenBSD`      | OpenBSD operating systems                          |
+| `OS400`        | IBM Unix operating system                          |
+| `QNX`          | Unix-like operating system by BlackBerry           |
+| `SCO_SV`       | SCO OpenServer 5                                   |
+| `SunOS`        | Oracle Solaris and all illumos operating systems   |
+| `UNIX_SV`      | SCO UnixWare (pre release 7)                       |
+| `UnixWare`     | SCO UnixWare 7                                     |
+| `Windows`      | Windows stationary operating systems               |
+| `WindowsCE`    | Windows Embedded Compact                           |
+| `WindowsPhone` | Windows mobile phone system                        |
+| `WindowsStore` | Universal Windows Platform applications            |
 
 See also [CMakeDetermineSystem.cmake](https://gitlab.kitware.com/cmake/cmake/-/blob/master/Modules/CMakeDetermineSystem.cmake).
 
@@ -586,25 +588,25 @@ if(CMAKE_HOST_SYSTEM_PROCESSOR MATCHES "^(x86_64|amd64)$")
 endif()
 ```
 
-Processor names:
+Values for `CMAKE_SYSTEM_PROCESSOR` and `CMAKE_HOST_SYSTEM_PROCESSOR`:
 
-| `CMAKE_[HOST_]SYSTEM_PROCESSOR` | Note                                             |
-| ------------------------------- | ------------------------------------------------ |
-| aarch64.*                       | 64-bit ARM processor (`aarch64` or `aarch64_be`) |
-| alpha                           | 64-bit DEC Alpha processor                       |
-| amd64                           | 64-bit x86 processor on FreeBSD                  |
-| arm                             | 32-bit ARM processor                             |
-| arm64                           | 64-bit ARM processor                             |
-| i.?86.*                         | 32-bit x86 processor                             |
-| mips                            | 32-bit MIPS processor                            |
-| mips64                          | 64-bit MIPS processor                            |
-| ppc                             | 32-bit PPC (PowerPC) processor                   |
-| ppc64                           | 64-bit PPC (PowerPC) processor                   |
-| riscv64.*                       | 64-bit RISC-V Open ISA processor                 |
-| sparc                           | 32-bit SPARC processor                           |
-| sparc64                         | 64-bit SPARC processor                           |
-| x86                             | 32-bit x86 processor                             |
-| x86_64                          | 64-bit x86 processor, on FreeBSD named `amd64`   |
+| Value       | Note                                             |
+| ----------- | ------------------------------------------------ |
+| `aarch64.*` | 64-bit ARM processor (`aarch64` or `aarch64_be`) |
+| `alpha`     | 64-bit DEC Alpha processor                       |
+| `amd64`     | 64-bit x86 processor on FreeBSD                  |
+| `arm`       | 32-bit ARM processor                             |
+| `arm64`     | 64-bit ARM processor                             |
+| `i.?86.*`   | 32-bit x86 processor                             |
+| `mips`      | 32-bit MIPS processor                            |
+| `mips64`    | 64-bit MIPS processor                            |
+| `ppc`       | 32-bit PPC (PowerPC) processor                   |
+| `ppc64`     | 64-bit PPC (PowerPC) processor                   |
+| `riscv64.*` | 64-bit RISC-V Open ISA processor                 |
+| `sparc`     | 32-bit SPARC processor                           |
+| `sparc64`   | 64-bit SPARC processor                           |
+| `x86`       | 32-bit x86 processor                             |
+| `x86_64`    | 64-bit x86 processor, on FreeBSD named `amd64`   |
 
 ## 10. See also
 
