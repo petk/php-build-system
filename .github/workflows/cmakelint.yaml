@@ -2,14 +2,14 @@ name: Run CMake checks
 
 on:
   push:
-    branches: [main]
+    branches: [master]
     paths-ignore:
       - 'docs/**'
       - '.editorconfig'
       - '.gitignore'
       - 'README.md'
   pull_request:
-    branches: [main]
+    branches: [master]
     paths-ignore:
       - 'docs/**'
       - '.editorconfig'
