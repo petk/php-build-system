@@ -10,6 +10,14 @@ else()
   message(CHECK_FAIL "no")
 endif()
 
+cmake_dependent_option(
+  SAPI_PHPDBG_SHARED
+  "Build phpdbg SAPI as a shared module"
+  OFF
+  "SAPI_PHPDBG"
+  OFF
+)
+
 # TODO: Check if this can be simplified in favor of the CMake's Debug build type.
 cmake_dependent_option(
   SAPI_PHPDBG_DEBUG
@@ -32,7 +40,7 @@ if(NOT SAPI_PHPDBG)
   return()
 endif()
 
-add_executable(php_phpdbg
+set(php_phpdbg_sources
   phpdbg_bp.c
   phpdbg_break.c
   phpdbg_btree.c
@@ -55,6 +63,8 @@ add_executable(php_phpdbg
   phpdbg.c
 )
 
+add_executable(php_phpdbg ${php_phpdbg_sources})
+
 set_target_properties(php_phpdbg PROPERTIES OUTPUT_NAME phpdbg)
 
 target_compile_definitions(
@@ -62,9 +72,42 @@ target_compile_definitions(
   PRIVATE
     _GNU_SOURCE
     ZEND_ENABLE_STATIC_TSRMLS_CACHE=1
+    $<$<PLATFORM_ID:Windows>:YY_NO_UNISTD_H>
 )
 
-target_link_libraries(php_phpdbg PRIVATE PHP::main)
+target_link_libraries(
+  php_phpdbg
+  PRIVATE
+    PHP::main
+    $<$<PLATFORM_ID:Windows>:ws2_32;user32>
+)
+
+target_link_options(
+  php_phpdbg
+  PRIVATE
+    $<$<PLATFORM_ID:Windows>:/stack:8388608>
+)
+
+if(SAPI_PHPDBG_SHARED)
+  add_library(php_phpdbg_shared SHARED)
+
+  set_target_properties(php_phpdbg_shared PROPERTIES OUTPUT_NAME phpdbg)
+
+  target_sources(php_phpdbg_shared PRIVATE ${php_phpdbg_sources})
+
+  target_compile_definitions(
+    php_phpdbg_shared
+    PRIVATE
+      $<$<PLATFORM_ID:Windows>:YY_NO_UNISTD_H>
+  )
+
+  target_link_libraries(
+    php_phpdbg_shared
+    PRIVATE
+      PHP::main
+      $<$<PLATFORM_ID:Windows>:ws2_32;user32>
+  )
+endif()
 
 if(BISON_FOUND)
   bison_target(

@@ -615,10 +615,10 @@ php_search_libraries(
   LIBRARIES
     # TODO: Update the libraries list here for Solaris. Solaris 11 has these in
     # the C library or linked explicitly already like Linux systems.
-    nsl        # Solaris 8..10
-    resolv     # Solaris 2.6..7
-    network    # Haiku
-    Ws2_32.lib # Windows
+    nsl     # Solaris 8..10
+    resolv  # Solaris 2.6..7
+    network # Haiku
+    ws2_32  # Windows
 )
 if(_php_inet_ntop_library)
   target_link_libraries(php_configuration INTERFACE ${_php_inet_ntop_library})
@@ -635,10 +635,10 @@ php_search_libraries(
   LIBRARIES
     # TODO: Update the libraries list here for Solaris. Solaris 11 has these in
     # the C library or linked explicitly already like Linux systems.
-    nsl        # Solaris 8..10
-    resolv     # Solaris 2.6..7
-    network    # Haiku
-    Ws2_32.lib # Windows
+    nsl     # Solaris 8..10
+    resolv  # Solaris 2.6..7
+    network # Haiku
+    ws2_32  # Windows
 )
 if(_php_inet_pton_library)
   target_link_libraries(php_configuration INTERFACE ${_php_inet_pton_library})

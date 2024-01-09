@@ -34,6 +34,8 @@ if(HAVE_WNO_IMPLICIT_FALLTHROUGH_C)
   target_compile_options(php_date PRIVATE -Wno-implicit-fallthrough)
 endif()
 
+target_compile_options(php_date PRIVATE $<$<COMPILE_LANG_AND_ID:C,MSVC>:/wd4244>)
+
 target_compile_definitions(php_date
   PRIVATE
     ZEND_ENABLE_STATIC_TSRMLS_CACHE=1
