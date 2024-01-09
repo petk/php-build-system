@@ -1,3 +1,8 @@
+# SAPI is only for *nix systems.
+if(CMAKE_SYSTEM_NAME STREQUAL "Windows")
+  return()
+endif()
+
 option(SAPI_LITESPEED "Enable the LiteSpeed SAPI module" OFF)
 
 message(CHECK_START "Checking whether to build litespeed SAPI")

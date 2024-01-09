@@ -1,6 +1,8 @@
 include(CheckIncludeFile)
 include(CheckSourceCompiles)
 include(CheckSymbolExists)
+include(CMakeDependentOption)
+include(FeatureSummary)
 
 option(SAPI_CLI "Enable the CLI SAPI module" ON)
 
@@ -14,6 +16,17 @@ endif()
 if(NOT SAPI_CLI)
   return()
 endif()
+
+cmake_dependent_option(
+  SAPI_CLI_WIN_NO_CONSOLE
+  "Build console-less CLI SAPI"
+  OFF
+  [[SAPI_CLI AND CMAKE_SYSTEM_NAME STREQUAL "Windows"]]
+  OFF
+)
+add_feature_info("sapi/cli without console" SAPI_CLI_WIN_NO_CONSOLE
+  "[Windows only] Same as CLI SAPI but without console (no output is given)."
+)
 
 check_symbol_exists(setproctitle "unistd.h;stdlib.h" HAVE_SETPROCTITLE)
 check_include_file(sys/pstat.h HAVE_SYS_PSTAT_H)
@@ -48,7 +61,27 @@ set_target_properties(php_cli PROPERTIES OUTPUT_NAME php)
 
 target_compile_definitions(php_cli PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE=1)
 
-target_link_libraries(php_cli PRIVATE PHP::main)
+target_link_libraries(
+  php_cli
+  PRIVATE
+    PHP::main
+    $<$<PLATFORM_ID:Windows>:ws2_32;shell32>
+)
+
+target_link_options(
+  php_cli
+  PRIVATE
+    $<$<PLATFORM_ID:Windows>:/stack:67108864>
+)
+
+if(CMAKE_SYSTEM_NAME STREQUAL "Windows")
+  find_package(Editline)
+
+  if(Editline_FOUND)
+    target_link_libraries(php_cli PRIVATE Editline::Editline)
+    target_compile_definitions(php_cli PRIVATE HAVE_LIBEDIT)
+  endif()
+endif()
 
 if(CMAKE_HOST_SYSTEM_NAME STREQUAL "Darwin")
   set_target_properties(php_cli PROPERTIES LINK_FLAGS "-undefined dynamic_lookup")
@@ -56,6 +89,22 @@ endif()
 
 # TODO: Check if there's a better solution here.
 set_target_properties(php_cli PROPERTIES ENABLE_EXPORTS TRUE)
+
+if(SAPI_CLI_WIN_NO_CONSOLE)
+  add_executable(php_cli_win_no_console
+    cli_win32.c
+    php_cli_process_title.c
+    ps_title.c
+  )
+
+  set_target_properties(php_cli_win_no_console PROPERTIES OUTPUT_NAME php-win)
+
+  target_compile_definitions(php_cli_win_no_console PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE=1)
+
+  target_link_options(php_cli_win_no_console PRIVATE /stack:67108864)
+
+  target_link_libraries(php_cli_win_no_console PRIVATE shell32)
+endif()
 
 # Man documentation.
 block()

@@ -2,10 +2,16 @@
 Windows platform specific configuration.
 ]=============================================================================]#
 
+include_guard(GLOBAL)
+
 # Common compilation definitions.
 target_compile_definitions(
   php_configuration
-  INTERFACE $<$<PLATFORM_ID:Windows>:PHP_WIN32;ZEND_WIN32>
+  INTERFACE
+    PHP_WIN32  # For PHP code
+    _WIN32     # Defined by all compilers
+    WIN32      # Defined by GCC and Clang compilers
+    ZEND_WIN32 # For Zend engine
 )
 
 # To speed up the Windows build experience with Visual Studio generators, these

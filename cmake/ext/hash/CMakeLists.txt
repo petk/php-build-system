@@ -47,21 +47,28 @@ if(WORDS_BIGENDIAN)
   set(HAVE_SLOW_HASH3 1 CACHE INTERNAL "Define if hash3 algo is available")
   message(WARNING "Using SHA3 slow implementation on bigendian")
 else()
-  if(CMAKE_SIZEOF_VOID_P EQUAL 4)
-    message(STATUS "Using 32-bit platform")
+  block()
+    if(CMAKE_SIZEOF_VOID_P EQUAL 4)
+      set(sha3_dir "sha3/generic32lc")
+      target_sources(php_hash PRIVATE "${sha3_dir}/KeccakP-1600-inplace32BI.c")
+    else()
+      set(sha3_dir "sha3/generic64lc")
+      target_sources(php_hash PRIVATE "${sha3_dir}/KeccakP-1600-opt64.c")
+    endif()
 
-    set(_sha3_dir "sha3/generic32lc")
-    target_sources(php_hash PRIVATE "${_sha3_dir}/KeccakP-1600-inplace32BI.c")
-  else()
-    message(STATUS "Using 64-bit platform")
+    target_sources(
+      php_hash
+      PRIVATE
+        ${sha3_dir}/KeccakHash.c
+        ${sha3_dir}/KeccakSponge.c
+    )
 
-    set(_sha3_dir "sha3/generic64lc")
-    target_sources(php_hash PRIVATE "${_sha3_dir}/KeccakP-1600-opt64.c")
-  endif()
-
-  target_sources(php_hash PRIVATE ${_sha3_dir}/KeccakHash.c ${_sha3_dir}/KeccakSponge.c)
-
-  target_include_directories(php_hash PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/${_sha3_dir})
+    target_include_directories(
+      php_hash
+      PRIVATE
+        ${CMAKE_CURRENT_SOURCE_DIR}/${sha3_dir}
+    )
+  endblock()
 
   # Add -Wno-implicit-fallthrough flag as it happens on 32-bit builds.
   check_compiler_flag(C -Wno-implicit-fallthrough HAVE_WNO_IMPLICIT_FALLTHROUGH_C)
@@ -84,10 +91,10 @@ target_sources(
     FILES
       php_hash_adler32.h
       php_hash_crc32.h
-      php_hash_fnv.h
+      $<$<NOT:$<PLATFORM_ID:Windows>>:php_hash_fnv.h>
       php_hash_gost.h
       php_hash_haval.h
-      php_hash_joaat.h
+      $<$<NOT:$<PLATFORM_ID:Windows>>:php_hash_joaat.h>
       php_hash_md.h
       php_hash_murmur.h
       php_hash_ripemd.h

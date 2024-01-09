@@ -95,7 +95,7 @@ include(PHP/LinkWhatYouUse)
 
 # Windows platform.
 if(CMAKE_SYSTEM_NAME STREQUAL "Windows")
-  include(platform/Windows.cmake)
+  include(${CMAKE_CURRENT_LIST_DIR}/platform/Windows.cmake)
 endif()
 
 # TODO: Fix these properly if really needed.

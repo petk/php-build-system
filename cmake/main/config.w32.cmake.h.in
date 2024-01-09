@@ -193,6 +193,8 @@
 /* Have timelib_config.h */
 #define HAVE_TIMELIB_CONFIG_H 1
 
+#cmakedefine PHP_MHASH_BC @PHP_MHASH_BC@
+
 /* Have EXIF Support */
 #cmakedefine HAVE_EXIF @HAVE_EXIF@
 
