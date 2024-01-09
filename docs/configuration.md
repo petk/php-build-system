@@ -688,43 +688,49 @@ A list of Autoconf `configure` command-line configuration options, Windows
     </tr>
     <tr>
       <td>--enable-cgi</td>
-      <td></td>
+      <td>--enable-cgi</td>
       <td>SAPI_CGI=ON</td>
       <td>default</td>
     </tr>
     <tr>
       <td>&emsp;--disable-cgi</td>
-      <td></td>
+      <td>--disable-cgi</td>
       <td>SAPI_CGI=OFF</td>
       <td></td>
     </tr>
     <tr>
       <td>--enable-cli</td>
-      <td></td>
+      <td>--enable-cli</td>
       <td>SAPI_CLI=ON</td>
       <td>default</td>
     </tr>
     <tr>
       <td>&emsp;--disable-cli</td>
-      <td></td>
+      <td>--disable-cli</td>
       <td>SAPI_CLI=OFF</td>
       <td></td>
     </tr>
     <tr>
       <td></td>
+      <td>--disable-cli-win32</td>
+      <td>SAPI_CLI_WIN_NO_CONSOLE=OFF</td>
+      <td>default; Windows only</td>
+    </tr>
+    <tr>
+      <td></td>
       <td>--enable-cli-win32</td>
-      <td>SAPI_CLI_WIN=ON</td>
+      <td>SAPI_CLI_WIN_NO_CONSOLE=ON</td>
       <td>Windows only</td>
     </tr>
     <tr>
       <td>--disable-embed</td>
-      <td></td>
+      <td>--disable-embed</td>
       <td>SAPI_EMBED=OFF</td>
       <td>default</td>
     </tr>
     <tr>
       <td>&emsp;--enable-embed</td>
-      <td></td>
+      <td>--enable-embed</td>
       <td>SAPI_EMBED=ON</td>
       <td>will be build as shared</td>
     </tr>
@@ -860,13 +866,13 @@ A list of Autoconf `configure` command-line configuration options, Windows
     </tr>
     <tr>
       <td>--enable-phpdbg</td>
-      <td></td>
+      <td>--enable-phpdbg</td>
       <td>SAPI_PHPDBG=ON</td>
-      <td>default</td>
+      <td>default (disabled on Windows)</td>
     </tr>
     <tr>
       <td>&emsp;--disable-phpdbg</td>
-      <td></td>
+      <td>--disable-phpdbg</td>
       <td>SAPI_PHPDBG=OFF</td>
       <td></td>
     </tr>
@@ -892,6 +898,18 @@ A list of Autoconf `configure` command-line configuration options, Windows
       <td>&emsp;--enable-phpdbg-readline</td>
       <td></td>
       <td>SAPI_PHPDBG_READLINE=ON</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td></td>
+      <td>--disable-phpdbgs</td>
+      <td>SAPI_PHPDBG_SHARED=OFF</td>
+      <td>default</td>
+    </tr>
+    <tr>
+      <td></td>
+      <td>--enable-phpdbgs</td>
+      <td>SAPI_PHPDBG_SHARED=ON</td>
       <td></td>
     </tr>
     <tr>
@@ -1585,13 +1603,13 @@ A list of Autoconf `configure` command-line configuration options, Windows
     </tr>
     <tr>
       <td>--without-mhash</td>
-      <td></td>
+      <td>--without-mhash</td>
       <td>EXT_HASH_MHASH=OFF</td>
       <td>default</td>
     </tr>
     <tr>
       <td>&emsp;--with-mhash</td>
-      <td></td>
+      <td>--with-mhash</td>
       <td>EXT_HASH_MHASH=ON</td>
       <td></td>
     </tr>

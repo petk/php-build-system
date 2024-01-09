@@ -555,8 +555,8 @@ Values for `CMAKE_SYSTEM_NAME`, `CMAKE_HOST_SYSTEM_NAME`, and `PLATFORM_ID`:
 | `Haiku`        | Unix operating system inspired by BeOS             |
 | `HP-UX`        | Hewlett Packard Unix                               |
 | `Linux`        | All Linux-based distributions                      |
-| `MSYS`         | MSYS environment, also `Windows` or `MINGW.*`      |
 | `MINGW.*`      | `MINGW32.*`, `MINGW64.*` environments; has version |
+| `MSYS`         | MSYS environment, also `Windows` or `MINGW.*`      |
 | `NetBSD`       | NetBSD operating systems                           |
 | `OpenBSD`      | OpenBSD operating systems                          |
 | `OS400`        | IBM Unix operating system                          |
@@ -605,8 +605,8 @@ Values for `CMAKE_SYSTEM_PROCESSOR` and `CMAKE_HOST_SYSTEM_PROCESSOR`:
 | `riscv64.*` | 64-bit RISC-V Open ISA processor                 |
 | `sparc`     | 32-bit SPARC processor                           |
 | `sparc64`   | 64-bit SPARC processor                           |
-| `x86`       | 32-bit x86 processor                             |
 | `x86_64`    | 64-bit x86 processor, on FreeBSD named `amd64`   |
+| `x86`       | 32-bit x86 processor                             |
 
 ## 10. See also
 

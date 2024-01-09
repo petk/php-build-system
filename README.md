@@ -23,6 +23,9 @@ sudo dnf install cmake gcc gcc-c++ bison re2c libxml2-devel sqlite-devel
 # Prerequisites for BSD-based systems:
 sudo pkg install cmake bison re2c libxml2 sqlite3
 
+# Prerequisites for Haiku:
+pkgman install cmake bison re2c libxml2_devel sqlite_devel
+
 # Clone this repository:
 git clone https://github.com/petk/php-build-system
 
@@ -67,24 +70,24 @@ developers with repetitive tasks and ensures consistency and correctness in the
 build process for various platforms and hardware out there.
 
 A key function of a build system in the context of C/C++ software development is
-to establish a structured framework that guides how C code should be written.
+to establish a structured framework that guides how code should be written.
 Beyond its primary role of compiling source files into executable programs, the
 build system plays a pivotal educational role, imparting best practices and
-coding standards to C developers. By enforcing consistency and adherence to
-coding conventions, it fosters the creation of high-quality C and C++ code,
-ultimately enhancing software maintainability and reliability.
+coding standards to developers. By enforcing consistency and adherence to coding
+conventions, it fosters the creation of high-quality code, ultimately enhancing
+software maintainability and reliability.
 
-Additionally, the build system aims to enable C developers to work efficiently
-by abstracting away system-specific details, allowing them to focus on the logic
-and usability of their code. When adding a new C/C++ source file or making minor
+Additionally, the build system aims to enable developers to work efficiently by
+abstracting away system-specific details, allowing them to focus on the logic
+and usability of their code. When adding a new source file or making minor
 modifications, developers shouldn't have to delve into the inner workings of the
 build system, sift through extensive build system documentation or extensively
 explore the complexities of the underlying system.
 
-There are numerous well-known build systems available for C projects, ranging
-from the veteran GNU Autotools and the widely adopted CMake, to the efficient
-Ninja, versatile SCons, adaptable Meson, nimble xmake, and even the simplest
-manual usage of Make.
+There are numerous well-known build systems available, ranging from the veteran
+GNU Autotools and the widely adopted CMake, to the efficient Ninja, versatile
+SCons, adaptable Meson, nimble xmake, and even the simplest manual usage of
+Make.
 
 ## PHP directory structure
 

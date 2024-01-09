@@ -78,7 +78,7 @@ git clone https://github.com/php/php-src
 cd php-src
 
 # Download and configure dependencies
-phpsdk_deps --update --branch --master
+phpsdk_deps --update --branch master
 
 # Create Windows configure.bat script
 .\buildconf.bat

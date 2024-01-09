@@ -37,6 +37,7 @@ repository:
        ├─ Zend/              # Zend utility modules
        ├─ Find*.cmake        # Find modules that support the find_package()
        └─ *.cmake            # Any possible additional utility modules
+    ├─ platform/             # Additional platform specific configuration
     ├─ presets/              # Additional presets included in CMakePresets.json
     └─ *.cmake               # Various CMake configurations and tools
  └─ ext/
