@@ -152,7 +152,9 @@ endif()
 if(_php_proc_mem_file)
   if(NOT CMAKE_CROSSCOMPILING)
     check_source_runs(C "
+      #ifndef _GNU_SOURCE
       #define _GNU_SOURCE
+      #endif
       #define _FILE_OFFSET_BITS 64
       #include <stdint.h>
       #include <unistd.h>

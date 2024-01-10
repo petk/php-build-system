@@ -52,7 +52,9 @@ function(_crypt_check_crypt_r_style library)
     endif()
 
     check_source_compiles(C [[
+      #ifndef _REENTRANT
       #define _REENTRANT 1
+      #endif
       #include <crypt.h>
 
       int main(void) {
@@ -70,7 +72,9 @@ function(_crypt_check_crypt_r_style library)
     endif()
 
     check_source_compiles(C [[
+      #ifndef _REENTRANT
       #define _REENTRANT 1
+      #endif
       #include <crypt.h>
 
       int main(void) {
@@ -88,8 +92,12 @@ function(_crypt_check_crypt_r_style library)
     endif()
 
     check_source_compiles(C [[
+      #ifndef _REENTRANT
       #define _REENTRANT 1
+      #endif
+      #ifndef _GNU_SOURCE
       #define _GNU_SOURCE
+      #endif
       #include <crypt.h>
 
       int main(void) {
