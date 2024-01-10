@@ -366,41 +366,6 @@ endif()
 # Check for aarch64 CRC32 API.
 include(PHP/CheckAarch64CRC32)
 
-# Check POSIX Threads flags.
-if(PHP_THREAD_SAFETY)
-  if(CMAKE_HOST_SYSTEM_NAME STREQUAL "SunOS")
-    target_compile_definitions(
-      php_configuration
-      INTERFACE "$<$<COMPILE_LANGUAGE:ASM,C,CXX>:_POSIX_PTHREAD_SEMANTICS;_REENTRANT>"
-    )
-  elseif(CMAKE_HOST_SYSTEM_NAME STREQUAL "FreeBSD")
-    target_compile_definitions(
-      php_configuration
-      INTERFACE "$<$<COMPILE_LANGUAGE:ASM,C,CXX>:_REENTRANT;_THREAD_SAFE>"
-    )
-  elseif(CMAKE_HOST_SYSTEM_NAME STREQUAL "Linux")
-    target_compile_definitions(
-      php_configuration
-      INTERFACE "$<$<COMPILE_LANGUAGE:ASM,C,CXX>:_REENTRANT>"
-    )
-  elseif(CMAKE_HOST_SYSTEM_NAME STREQUAL "AIX")
-    target_compile_definitions(
-      php_configuration
-      INTERFACE "$<$<COMPILE_LANGUAGE:ASM,C,CXX>:_THREAD_SAFE>"
-    )
-  elseif(CMAKE_HOST_SYSTEM_NAME STREQUAL "HP-UX")
-    target_compile_definitions(
-      php_configuration
-      INTERFACE "$<$<COMPILE_LANGUAGE:ASM,C,CXX>:_REENTRANT>"
-    )
-  elseif(CMAKE_HOST_SYSTEM_NAME MATCHES "^(SCO_SV|UNIX_SV|UnixWare)$")
-    target_compile_definitions(
-      php_configuration
-      INTERFACE "$<$<COMPILE_LANGUAGE:ASM,C,CXX>:_REENTRANT>"
-    )
-  endif()
-endif()
-
 # TODO: Check if further adjustment are needed here.
 if(HAVE_ALLOCA_H)
   check_symbol_exists(alloca "alloca.h" HAVE_ALLOCA)

@@ -102,7 +102,9 @@ endif()
 message(CHECK_START "Checking for utsname.domainname")
 
 check_source_compiles(C "
+  #ifndef _GNU_SOURCE
   #define _GNU_SOURCE
+  #endif
   #include <sys/utsname.h>
 
   int main(void) {

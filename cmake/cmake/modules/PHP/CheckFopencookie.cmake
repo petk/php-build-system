@@ -29,7 +29,9 @@ endif()
 message(CHECK_START "Checking whether cookie_io_functions_t is available")
 
 check_source_compiles(C "
+  #ifndef _GNU_SOURCE
   #define _GNU_SOURCE
+  #endif
   #include <stdio.h>
 
   int main(void) {
@@ -58,7 +60,9 @@ if(CMAKE_CROSSCOMPILING AND CMAKE_HOST_SYSTEM_NAME STREQUAL "Linux")
   )
 else()
   check_source_runs(C [[
+    #ifndef _GNU_SOURCE
     #define _GNU_SOURCE
+    #endif
     #include <stdio.h>
     #include <stdlib.h>
 
