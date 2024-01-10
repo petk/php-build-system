@@ -406,13 +406,13 @@ A list of Autoconf `configure` command-line configuration options, Windows
     </tr>
     <tr>
       <td>--disable-zts</td>
-      <td></td>
+      <td>--disable-zts</td>
       <td>PHP_THREAD_SAFETY=OFF</td>
-      <td>default</td>
+      <td>default in *nix and CMake (on Windows enabled by default)</td>
     </tr>
     <tr>
       <td>&emsp;--enable-zts</td>
-      <td></td>
+      <td>--enable-zts</td>
       <td>PHP_THREAD_SAFETY=ON</td>
       <td></td>
     </tr>
@@ -868,7 +868,7 @@ A list of Autoconf `configure` command-line configuration options, Windows
       <td>--enable-phpdbg</td>
       <td>--enable-phpdbg</td>
       <td>SAPI_PHPDBG=ON</td>
-      <td>default (disabled on Windows)</td>
+      <td>default in *nix and CMake (on Windows disabled by default)</td>
     </tr>
     <tr>
       <td>&emsp;--disable-phpdbg</td>
