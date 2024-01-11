@@ -35,7 +35,15 @@ target_sources(php_soap PRIVATE
   soap.c
 )
 
-target_compile_definitions(php_soap PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE=1)
+target_compile_definitions(
+  php_soap
+  PRIVATE
+    ZEND_ENABLE_STATIC_TSRMLS_CACHE=1
+    $<$<AND:$<PLATFORM_ID:Windows>,$<NOT:$<IN_LIST:$<TARGET_PROPERTY:TYPE>,MODULE_LIBRARY;SHARED_LIBRARY>>>:LIBXML_STATIC>
+)
+
+# TODO: Windows build system has different name than *nix.
+set(HAVE_PHP_SOAP 1 CACHE INTERNAL "Whether the soap extension is enabled")
 
 find_package(LibXml2 ${PHP_LIBXML2_MIN_VERSION})
 set_package_properties(LibXml2 PROPERTIES

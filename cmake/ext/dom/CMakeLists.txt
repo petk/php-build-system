@@ -50,6 +50,12 @@ target_sources(php_dom PRIVATE
   xpath.c
 )
 
+target_compile_definitions(
+  php_dom
+  PRIVATE
+    $<$<AND:$<PLATFORM_ID:Windows>,$<NOT:$<IN_LIST:$<TARGET_PROPERTY:TYPE>,MODULE_LIBRARY;SHARED_LIBRARY>>>:LIBXML_STATIC>
+)
+
 find_package(LibXml2 ${PHP_LIBXML2_MIN_VERSION})
 set_package_properties(LibXml2 PROPERTIES
   TYPE REQUIRED

@@ -1,4 +1,4 @@
-include(CheckSourceCompiles)
+include(CheckSymbolExists)
 include(CheckTypeSize)
 include(CMakeDependentOption)
 include(CMakePushCheckState)
@@ -53,20 +53,12 @@ else()
   message(WARNING "Cannot determine size of long double.")
 endif()
 
-message(CHECK_START "Checking for fastcall calling convention")
-
 cmake_push_check_state(RESET)
   set(CMAKE_REQUIRED_LIBRARIES FFI::FFI)
   set(CMAKE_REQUIRED_INCLUDES "${FFI_INCLUDE_DIRS}")
 
-  check_source_compiles(C "
-    #include <ffi.h>
-
-    int main(void) {
-      return FFI_FASTCALL;
-    }
-  " HAVE_FFI_FASTCALL)
-
+  message(CHECK_START "Checking for fastcall calling convention")
+  check_symbol_exists(FFI_FASTCALL "ffi.h" HAVE_FFI_FASTCALL)
   if(HAVE_FFI_FASTCALL)
     message(CHECK_PASS "yes")
   else()
@@ -74,15 +66,7 @@ cmake_push_check_state(RESET)
   endif()
 
   message(CHECK_START "Checking for thiscall calling convention")
-
-  check_source_compiles(C "
-    #include <ffi.h>
-
-    int main(void) {
-      return FFI_THISCALL;
-    }
-  " HAVE_FFI_THISCALL)
-
+  check_symbol_exists(FFI_THISCALL "ffi.h" HAVE_FFI_THISCALL)
   if(HAVE_FFI_THISCALL)
     message(CHECK_PASS "yes")
   else()
@@ -90,15 +74,7 @@ cmake_push_check_state(RESET)
   endif()
 
   message(CHECK_START "Checking for stdcall calling convention")
-
-  check_source_compiles(C "
-    #include <ffi.h>
-
-    int main(void) {
-      return FFI_STDCALL;
-    }
-  " HAVE_FFI_STDCALL)
-
+  check_symbol_exists(FFI_STDCALL "ffi.h" HAVE_FFI_STDCALL)
   if(HAVE_FFI_STDCALL)
     message(CHECK_PASS "yes")
   else()
@@ -106,15 +82,7 @@ cmake_push_check_state(RESET)
   endif()
 
   message(CHECK_START "Checking for pascal calling convention")
-
-  check_source_compiles(C "
-    #include <ffi.h>
-
-    int main(void) {
-      return FFI_PASCAL;
-    }
-  " HAVE_FFI_PASCAL)
-
+  check_symbol_exists(FFI_PASCAL "ffi.h" HAVE_FFI_PASCAL)
   if(HAVE_FFI_PASCAL)
     message(CHECK_PASS "yes")
   else()
@@ -122,15 +90,7 @@ cmake_push_check_state(RESET)
   endif()
 
   message(CHECK_START "Checking for register calling convention")
-
-  check_source_compiles(C "
-    #include <ffi.h>
-
-    int main(void) {
-      return FFI_REGISTER;
-    }
-  " HAVE_FFI_REGISTER)
-
+  check_symbol_exists(FFI_REGISTER "ffi.h" HAVE_FFI_REGISTER)
   if(HAVE_FFI_REGISTER)
     message(CHECK_PASS "yes")
   else()
@@ -138,15 +98,7 @@ cmake_push_check_state(RESET)
   endif()
 
   message(CHECK_START "Checking for ms_cdecl calling convention")
-
-  check_source_compiles(C "
-    #include <ffi.h>
-
-    int main(void) {
-      return FFI_MS_CDECL;
-    }
-  " HAVE_FFI_MS_CDECL)
-
+  check_symbol_exists(FFI_MS_CDECL "ffi.h" HAVE_FFI_MS_CDECL)
   if(HAVE_FFI_MS_CDECL)
     message(CHECK_PASS "yes")
   else()
@@ -154,16 +106,17 @@ cmake_push_check_state(RESET)
   endif()
 
   message(CHECK_START "Checking for sysv calling convention")
-
-  check_source_compiles(C "
-    #include <ffi.h>
-
-    int main(void) {
-      return FFI_SYSV;
-    }
-  " HAVE_FFI_SYSV)
-
+  check_symbol_exists(FFI_SYSV "ffi.h" HAVE_FFI_SYSV)
   if(HAVE_FFI_SYSV)
+    message(CHECK_PASS "yes")
+  else()
+    message(CHECK_FAIL "no")
+  endif()
+
+  # Available only in https://github.com/winlibs/libffi fork.
+  message(CHECK_START "Checking for vectorcall calling convention")
+  check_symbol_exists(FFI_VECTORCALL_PARTIAL "ffi.h" HAVE_FFI_VECTORCALL_PARTIAL)
+  if(HAVE_FFI_VECTORCALL_PARTIAL)
     message(CHECK_PASS "yes")
   else()
     message(CHECK_FAIL "no")

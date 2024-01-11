@@ -15,6 +15,7 @@ option(EXT_PCRE_JIT "Enable PCRE JIT functionality" ON)
 
 add_library(php_pcre STATIC
   php_pcre.c
+  php_pcre.def
 )
 
 target_compile_definitions(php_pcre

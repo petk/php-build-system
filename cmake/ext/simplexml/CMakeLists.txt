@@ -29,6 +29,13 @@ target_sources(php_simplexml PRIVATE
   simplexml.c
 )
 
+target_compile_definitions(
+  php_simplexml
+  PRIVATE
+    $<$<AND:$<PLATFORM_ID:Windows>,$<NOT:$<IN_LIST:$<TARGET_PROPERTY:TYPE>,MODULE_LIBRARY;SHARED_LIBRARY>>>:LIBXML_STATIC>
+    $<$<PLATFORM_ID:Windows>:PHP_SIMPLEXML_EXPORTS>
+)
+
 set_property(
   TARGET php_simplexml
   PROPERTY PHP_EXTENSION_DEPENDENCIES php_libxml

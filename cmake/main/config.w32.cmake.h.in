@@ -191,18 +191,51 @@
 #cmakedefine HAVE_CTYPE @HAVE_CTYPE@
 
 /* Have timelib_config.h */
-#define HAVE_TIMELIB_CONFIG_H 1
+#cmakedefine HAVE_TIMELIB_CONFIG_H @HAVE_TIMELIB_CONFIG_H@
 
-#cmakedefine PHP_MHASH_BC @PHP_MHASH_BC@
+/* DOM support */
+#cmakedefine HAVE_DOM @HAVE_DOM@
 
 /* Have EXIF Support */
 #cmakedefine HAVE_EXIF @HAVE_EXIF@
+
+/* ffi support enabled */
+#cmakedefine HAVE_FFI @HAVE_FFI@
+
+/* Whether libffi supports fastcall calling convention */
+#cmakedefine HAVE_FFI_FASTCALL @HAVE_FFI_FASTCALL@
+
+/* Whether libffi supports ms_cdecl calling convention */
+#cmakedefine HAVE_FFI_MS_CDECL @HAVE_FFI_MS_CDECL@
+
+/* Whether libffi supports pascal calling convention */
+#cmakedefine HAVE_FFI_PASCAL @HAVE_FFI_PASCAL@
+
+/* Whether libffi supports register calling convention */
+#cmakedefine HAVE_FFI_REGISTER @HAVE_FFI_REGISTER@
+
+/* Whether libffi supports stdcall calling convention */
+#cmakedefine HAVE_FFI_STDCALL @HAVE_FFI_STDCALL@
+
+/* Whether libffi supports sysv calling convention */
+#cmakedefine HAVE_FFI_SYSV @HAVE_FFI_SYSV@
+
+/* Whether libffi supports thiscall calling convention */
+#cmakedefine HAVE_FFI_THISCALL @HAVE_FFI_THISCALL@
+
+/* Whether libffi supports vectorcall calling convention */
+#cmakedefine HAVE_FFI_VECTORCALL_PARTIAL @HAVE_FFI_VECTORCALL_PARTIAL@
+
+#cmakedefine PHP_MHASH_BC @PHP_MHASH_BC@
 
 /* have the zlib.h header file */
 #define HAVE_ZLIB_H 0
 
 /* Define to enable JIT */
 #cmakedefine HAVE_JIT @HAVE_JIT@
+
+/* LibXML support */
+#cmakedefine HAVE_LIBXML @HAVE_LIBXML@
 
 /* Using bundled PCRE library */
 #define HAVE_BUNDLED_PCRE 1
@@ -219,10 +252,30 @@
 /* Have SHMOP support */
 #cmakedefine HAVE_SHMOP @HAVE_SHMOP@
 
+/* Simple XML support */
+#cmakedefine HAVE_SIMPLEXML @HAVE_SIMPLEXML@
+
 #cmakedefine HAVE_SYSVSHM @HAVE_SYSVSHM@
 
 /* Session support */
 #cmakedefine HAVE_PHP_SESSION @HAVE_PHP_SESSION@
+
+/* SOAP support */
+#cmakedefine HAVE_SOAP @HAVE_SOAP@
+
+/* SOAP support */
+#cmakedefine HAVE_PHP_SOAP @HAVE_PHP_SOAP@
+
+#cmakedefine HAVE_SOCKETS @HAVE_SOCKETS@
+
+/* XMLReader support */
+#cmakedefine HAVE_XMLREADER @HAVE_XMLREADER@
+
+/* XMLWriter support */
+#cmakedefine HAVE_XMLWRITER @HAVE_XMLWRITER@
+
+/* XML support */
+#cmakedefine HAVE_XML @HAVE_XML@
 
 #define PHP_CONFIG_FILE_SCAN_DIR ""
 
