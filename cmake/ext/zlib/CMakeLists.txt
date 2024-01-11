@@ -26,6 +26,7 @@ else()
 endif()
 
 target_sources(php_zlib PRIVATE
+  php_zlib.def
   zlib_filter.c
   zlib_fopen_wrapper.c
   zlib.c

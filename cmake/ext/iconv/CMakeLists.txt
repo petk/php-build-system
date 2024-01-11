@@ -32,6 +32,7 @@ endif()
 
 target_sources(php_iconv PRIVATE
   iconv.c
+  php_iconv.def
 )
 
 target_compile_definitions(php_iconv PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE=1)

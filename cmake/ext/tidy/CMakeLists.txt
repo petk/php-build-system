@@ -27,6 +27,7 @@ else()
 endif()
 
 target_sources(php_tidy PRIVATE
+  php_tidy.def
   tidy.c
 )
 

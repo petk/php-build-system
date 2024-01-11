@@ -217,6 +217,12 @@ target_sources(php_dom PRIVATE
 target_compile_definitions(php_dom PRIVATE LEXBOR_STATIC)
 target_include_directories(php_dom PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/lexbor)
 
+target_compile_definitions(
+  php_dom
+  PRIVATE
+    $<$<AND:$<PLATFORM_ID:Windows>,$<NOT:$<IN_LIST:$<TARGET_PROPERTY:TYPE>,MODULE_LIBRARY;SHARED_LIBRARY>>>:LIBXML_STATIC>
+)
+
 find_package(LibXml2 ${PHP_LIBXML2_MIN_VERSION})
 set_package_properties(LibXml2 PROPERTIES
   TYPE REQUIRED
