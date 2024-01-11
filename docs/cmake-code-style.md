@@ -314,13 +314,15 @@ that context.
 set(_temporary_variable <value>)
 ```
 
-Variables named `_` can be used for values that are not important for code:
-
-```cmake
-# For example, here only the matched value of CMAKE_MATCH_1 is important.
-string(REGEX MATCH "foo\\(([0-9]+)\\)" _ "${content}")
-message(STATUS "${CMAKE_MATCH_1}")
-```
+> [!TIP]
+> Variables named `_` can be used for values that are not important for code.
+> For example, here only the matched value of variable `CMAKE_MATCH_1` is
+> important:
+>
+> ```cmake
+> string(REGEX MATCH "foo\\(([0-9]+)\\)" _ "${content}")
+> message(STATUS "${CMAKE_MATCH_1}")
+> ```
 
 ## 4. Modules
 

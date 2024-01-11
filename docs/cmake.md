@@ -23,6 +23,8 @@ works and how it can be used.
 * [11. Parser and lexer files](#11-parser-and-lexer-files)
 * [12. Performance](#12-performance)
 * [13. Testing](#13-testing)
+* [14. Windows notes](#14-windows-notes)
+  * [14.1. Module-definition (.def) files](#141-module-definition-def-files)
 
 ## 1. Directory structure
 
@@ -43,6 +45,9 @@ repository:
  └─ ext/
     └─ date/
        └─ CMakeLists.txt     # Extension's CMake file
+    └─ iconv/
+       ├─ CMakeLists.txt
+       └─ php_iconv.def      # Module-definition file for linker when building DLL
  └─ main/
     ├─ CMakeLists.txt        # CMake file for main binding
     ├─ config.w32.cmake.h.in # Windows configuration header template
@@ -539,4 +544,17 @@ using the `CMakePresets.json` file and its `testPresets` field.
 
 ```sh
 ctest --preset all-enabled
+```
+
+## 14. Windows notes
+
+### 14.1. Module-definition (.def) files
+
+[Module-definition (.def) files](https://learn.microsoft.com/en-us/cpp/build/reference/module-definition-dot-def-files)
+are added to certain php-src folders where linker needs them when building DLL.
+
+In CMake they can be simply added to the target sources:
+
+```cmake
+target_sources(php_extension_name php_extension_name.def)
 ```

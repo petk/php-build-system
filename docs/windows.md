@@ -6,7 +6,8 @@
 * [2. Windows prerequisites](#2-windows-prerequisites)
 * [3. Building PHP on Windows](#3-building-php-on-windows)
 * [4. The configure.bat command-line options](#4-the-configurebat-command-line-options)
-* [5. See more](#5-see-more)
+* [5. Dependencies](#5-dependencies)
+* [6. See more](#6-see-more)
 
 Windows build system in PHP is a separate collection of
 [JScript](https://en.wikipedia.org/wiki/JScript) files and command-line scripts.
@@ -38,12 +39,14 @@ Directory structure from the Windows build system perspective looks like this:
        └─ config.w32           # Windows build system item file for CLI SAPI
  └─ win32/                     # Windows build system and adjusted files
     └─ build/                  # Windows build system configuration and scripts
+       ├─ config.w32           # Main configuration file to create configure.js
        ├─ config.w32.h.in      # Windows configuration header template
+       ├─ confutils.js         # The configure script utilities
        └─ Makefile             # Windows build system Makefile template
  └─ TSRM/
     └─ config.w32              # Windows build system script item
  └─ Zend/
-    └─ zend_config.w32.h       # Windows configuration header for Zend directory
+    └─ zend_config.w32.h       # Windows configuration header for Zend engine
  └─ buildconf.bat              # Windows build system configuration builder
 ```
 
@@ -127,6 +130,11 @@ Some common arguments can be passed to command-line options:
 
 * To build extension as shared: `--enable-EXT=shared` or `--with-EXT=shared`.
 
-## 5. See more
+## 5. Dependencies
+
+PHP Windows build uses forks for some dependencies. Sources are available at
+[github.com/winlibs](https://github.com/winlibs).
+
+## 6. See more
 
 * [PHP Wiki: Build PHP on Windows](https://wiki.php.net/internals/windows/stepbystepbuild_sdk_2)

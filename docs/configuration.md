@@ -1252,19 +1252,19 @@ A list of Autoconf `configure` command-line configuration options, Windows
     </tr>
     <tr>
       <td>--enable-dom</td>
-      <td></td>
+      <td>--enable-dom</td>
       <td>EXT_DOM=ON</td>
       <td>default</td>
     </tr>
     <tr>
       <td>&emsp;--enable-dom=shared</td>
-      <td></td>
+      <td>--enable-dom=shared</td>
       <td>EXT_DOM_SHARED=ON</td>
       <td></td>
     </tr>
     <tr>
       <td>&emsp;--disable-dom</td>
-      <td></td>
+      <td>--disable-dom</td>
       <td>EXT_DOM=OFF</td>
       <td></td>
     </tr>
@@ -1315,7 +1315,7 @@ A list of Autoconf `configure` command-line configuration options, Windows
     </tr>
     <tr>
       <td>--without-ffi</td>
-      <td></td>
+      <td>--without-ffi</td>
       <td>EXT_FFI=OFF</td>
       <td>default</td>
     </tr>
@@ -1325,7 +1325,7 @@ A list of Autoconf `configure` command-line configuration options, Windows
         &emsp;[FFI_CFLAGS=...]<br>
         &emsp;[FFI_LIBS=...]
       </td>
-      <td></td>
+      <td>--with-ffi</td>
       <td>
         EXT_FFI=ON<br>
         [FFI_ROOT=DIR]
@@ -1334,7 +1334,7 @@ A list of Autoconf `configure` command-line configuration options, Windows
     </tr>
     <tr>
       <td>&emsp;--with-ffi=shared</td>
-      <td></td>
+      <td>--with-ffi=shared</td>
       <td>EXT_FFI_SHARED=ON</td>
       <td></td>
     </tr>
@@ -1707,7 +1707,7 @@ A list of Autoconf `configure` command-line configuration options, Windows
         [LIBXML_CFLAGS=...]<br>
         [LIBXML_LIBS=...]
       </td>
-      <td></td>
+      <td>--with-libxml</td>
       <td>
         EXT_LIBXML=ON<br>
         [LibXml2_ROOT=DIR]
@@ -1716,7 +1716,7 @@ A list of Autoconf `configure` command-line configuration options, Windows
     </tr>
     <tr>
       <td>&emsp;--without-libxml</td>
-      <td></td>
+      <td>--without-libxml</td>
       <td>EXT_LIBXML=OFF</td>
       <td></td>
     </tr>
@@ -2533,19 +2533,19 @@ A list of Autoconf `configure` command-line configuration options, Windows
     </tr>
     <tr>
       <td>--enable-session</td>
-      <td></td>
+      <td>--enable-session</td>
       <td>EXT_SESSION=ON</td>
       <td>default</td>
     </tr>
     <tr>
       <td>&emsp;--enable-session=shared</td>
-      <td></td>
+      <td>N/A</td>
       <td>EXT_SESSION_SHARED=ON</td>
       <td></td>
     </tr>
     <tr>
       <td>&emsp;--disable-session</td>
-      <td></td>
+      <td>--disable-session</td>
       <td>EXT_SESSION=OFF</td>
       <td></td>
     </tr>
@@ -2584,19 +2584,19 @@ A list of Autoconf `configure` command-line configuration options, Windows
     </tr>
     <tr>
       <td>--enable-simplexml</td>
-      <td></td>
+      <td>--enable-simplexml</td>
       <td>EXT_SIMPLEXML=ON</td>
       <td>default</td>
     </tr>
     <tr>
       <td>&emsp;--enable-simplexml=shared</td>
-      <td></td>
+      <td>--enable-simplexml=shared</td>
       <td>EXT_SIMPLEXML_SHARED=ON</td>
       <td></td>
     </tr>
     <tr>
       <td>&emsp;--disable-simplexml</td>
-      <td></td>
+      <td>--disable-simplexml</td>
       <td>EXT_SIMPLEXML=OFF</td>
       <td></td>
     </tr>
@@ -2623,37 +2623,37 @@ A list of Autoconf `configure` command-line configuration options, Windows
     </tr>
     <tr>
       <td>--disable-soap</td>
-      <td></td>
+      <td>--disable-soap</td>
       <td>EXT_SOAP=OFF</td>
       <td>default</td>
     </tr>
     <tr>
       <td>&emsp;--enable-soap</td>
-      <td></td>
+      <td>--enable-soap</td>
       <td>EXT_SOAP=ON</td>
       <td></td>
     </tr>
     <tr>
       <td>&emsp;--enable-soap=shared</td>
-      <td></td>
+      <td>--enable-soap=shared</td>
       <td>EXT_SOAP_SHARED=ON</td>
       <td></td>
     </tr>
     <tr>
       <td>--disable-sockets</td>
-      <td></td>
+      <td>--disable-sockets</td>
       <td>EXT_SOCKETS=OFF</td>
       <td>default</td>
     </tr>
     <tr>
       <td>&emsp;--enable-sockets</td>
-      <td></td>
+      <td>--enable-sockets</td>
       <td>EXT_SOCKETS=ON</td>
       <td></td>
     </tr>
     <tr>
       <td>&emsp;--enable-sockets=shared</td>
-      <td></td>
+      <td>--enable-sockets=shared</td>
       <td>EXT_SOCKETS_SHARED=ON</td>
       <td></td>
     </tr>
@@ -2833,19 +2833,19 @@ A list of Autoconf `configure` command-line configuration options, Windows
     </tr>
     <tr>
       <td>--enable-xml</td>
-      <td></td>
+      <td>--enable-xml</td>
       <td>EXT_XML=ON</td>
       <td>default</td>
     </tr>
     <tr>
       <td>&emsp;--enable-xml=shared</td>
-      <td></td>
+      <td>--enable-xml=shared</td>
       <td>EXT_XML_SHARED=ON</td>
       <td></td>
     </tr>
     <tr>
       <td>&emsp;--disable-xml</td>
-      <td></td>
+      <td>--disable-xml</td>
       <td>EXT_XML=OFF</td>
       <td></td>
     </tr>
@@ -2866,6 +2866,42 @@ A list of Autoconf `configure` command-line configuration options, Windows
         EXT_XML_EXPAT=ON<br>
         [EXPAT_ROOT=DIR]
       </td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>--enable-xmlreader</td>
+      <td>--enable-xmlreader</td>
+      <td>EXT_XMLREADER=ON</td>
+      <td>default</td>
+    </tr>
+    <tr>
+      <td>&emsp;--enable-xmlreader=shared</td>
+      <td>--enable-xmlreader=shared</td>
+      <td>EXT_XMLREADER_SHARED=ON</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>&emsp;--disable-xmlreader</td>
+      <td>--disable-xmlreader</td>
+      <td>EXT_XMLREADER=OFF</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>--enable-xmlwriter</td>
+      <td>--enable-xmlwriter</td>
+      <td>EXT_XMLWRITER=ON</td>
+      <td>default</td>
+    </tr>
+    <tr>
+      <td>&emsp;--enable-xmlwriter=shared</td>
+      <td>--enable-xmlwriter=shared</td>
+      <td>EXT_XMLWRITER_SHARED=ON</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>&emsp;--disable-xmlwriter</td>
+      <td>--disable-xmlwriter</td>
+      <td>EXT_XMLWRITER=OFF</td>
       <td></td>
     </tr>
     <tr>
@@ -2894,42 +2930,6 @@ A list of Autoconf `configure` command-line configuration options, Windows
       <td>&emsp;--with-xsl=shared</td>
       <td></td>
       <td>EXT_XSL_SHARED=ON</td>
-      <td></td>
-    </tr>
-    <tr>
-      <td>--enable-xmlreader</td>
-      <td></td>
-      <td>EXT_XMLREADER=ON</td>
-      <td>default</td>
-    </tr>
-    <tr>
-      <td>&emsp;--enable-xmlreader=shared</td>
-      <td></td>
-      <td>EXT_XMLREADER_SHARED=ON</td>
-      <td></td>
-    </tr>
-    <tr>
-      <td>&emsp;--disable-xmlreader</td>
-      <td></td>
-      <td>EXT_XMLREADER=OFF</td>
-      <td></td>
-    </tr>
-    <tr>
-      <td>--enable-xmlwriter</td>
-      <td></td>
-      <td>EXT_XMLWRITER=ON</td>
-      <td>default</td>
-    </tr>
-    <tr>
-      <td>&emsp;--enable-xmlwriter=shared</td>
-      <td></td>
-      <td>EXT_XMLWRITER_SHARED=ON</td>
-      <td></td>
-    </tr>
-    <tr>
-      <td>&emsp;--disable-xmlwriter</td>
-      <td></td>
-      <td>EXT_XMLWRITER=OFF</td>
       <td></td>
     </tr>
     <tr>
