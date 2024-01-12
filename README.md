@@ -22,8 +22,12 @@ sudo dnf install cmake gcc gcc-c++ bison re2c libxml2-devel sqlite-devel
 # Prerequisites for BSD-based systems:
 sudo pkg install cmake bison re2c libxml2 sqlite3
 
+# Prerequisites for Haiku:
+pkgman install cmake bison re2c libxml2_devel sqlite_devel
+
 # Clone this repository:
 git clone https://github.com/petk/php-build-system
+git checkout PHP-8.3
 
 # Download latest PHP and add CMake files:
 cmake -P php-build-system/bin/php.cmake 8.3-dev

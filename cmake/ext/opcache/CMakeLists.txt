@@ -14,7 +14,7 @@ cmake_dependent_option(
   EXT_OPCACHE_HUGE_CODE_PAGES
   "Enable copying PHP CODE pages into HUGE PAGES"
   ON
-  "EXT_OPCACHE"
+  [[EXT_OPCACHE AND NOT CMAKE_SYSTEM_NAME STREQUAL "Windows"]]
   OFF
 )
 
@@ -48,9 +48,10 @@ endif()
 
 # OPcache extension can be built only as a shared library.
 add_library(php_opcache SHARED
-  shared_alloc_mmap.c
-  shared_alloc_posix.c
-  shared_alloc_shm.c
+  $<$<NOT:$<PLATFORM_ID:Windows>>:shared_alloc_mmap.c>
+  $<$<NOT:$<PLATFORM_ID:Windows>>:shared_alloc_posix.c>
+  $<$<NOT:$<PLATFORM_ID:Windows>>:shared_alloc_shm.c>
+  $<$<PLATFORM_ID:Windows>:shared_alloc_win32.c>
   zend_accelerator_blacklist.c
   zend_accelerator_debug.c
   zend_accelerator_hash.c
@@ -100,7 +101,7 @@ if(EXT_OPCACHE_JIT)
   set(HAVE_JIT 1 CACHE INTERNAL "Whether JIT is enabled")
 
   target_sources(php_opcache PRIVATE
-    jit/zend_jit_gdb.c
+    $<$<NOT:$<PLATFORM_ID:Windows>>:jit/zend_jit_gdb.c>
     jit/zend_jit_vm_helpers.c
     jit/zend_jit.c
   )
@@ -122,13 +123,11 @@ if(EXT_OPCACHE_JIT)
   if(CMAKE_HOST_SYSTEM_PROCESSOR MATCHES "^(x86_64|amd64)$")
     set(DASM_FLAGS -D X64=1)
     set(DASM_ARCH "x86")
-  elseif(CMAKE_HOST_SYSTEM_PROCESSOR MATCHES "i[34567]86.*")
-    set(DASM_ARCH "x86")
-  elseif(CMAKE_HOST_SYSTEM_PROCESSOR MATCHES "^x86.*")
+  elseif(CMAKE_HOST_SYSTEM_PROCESSOR MATCHES "^(i[34567]86.*|x86.*)$")
     set(DASM_ARCH "x86")
   elseif(CMAKE_HOST_SYSTEM_PROCESSOR MATCHES "^aarch64.*")
-      set(DASM_FLAGS -D ARM64=1)
-      set(DASM_ARCH "arm64")
+    set(DASM_FLAGS -D ARM64=1)
+    set(DASM_ARCH "arm64")
   endif()
 
   if(
@@ -136,6 +135,17 @@ if(EXT_OPCACHE_JIT)
     AND CMAKE_HOST_SYSTEM_NAME STREQUAL "Darwin"
   )
     list(APPEND DASM_FLAGS -D X64APPLE=1)
+  endif()
+
+  if(CMAKE_SYSTEM_NAME STREQUAL "Windows")
+    list(APPEND DASM_FLAGS -D WIN=1)
+  endif()
+
+  if(
+    CMAKE_HOST_SYSTEM_PROCESSOR STREQUAL "x86_64"
+    AND CMAKE_SYSTEM_NAME STREQUAL "Windows"
+  )
+    list(APPEND DASM_FLAGS -D X64WIN=1)
   endif()
 
   if(PHP_THREAD_SAFETY)
@@ -194,24 +204,26 @@ cmake_push_check_state(RESET)
   check_symbol_exists(memfd_create "sys/mman.h" HAVE_MEMFD_CREATE)
 cmake_pop_check_state()
 
-# Check for HAVE_SHM_IPC.
-include(PHP/CheckShmIpc)
+if(NOT CMAKE_SYSTEM_NAME STREQUAL "Windows")
+  # Check for HAVE_SHM_IPC.
+  include(PHP/CheckShmIpc)
 
-# Check for HAVE_SHM_MMAP_ANON.
-include(PHP/CheckShmMmap)
+  # Check for HAVE_SHM_MMAP_ANON.
+  include(PHP/CheckShmMmap)
 
-# Check for HAVE_SHM_MMAP_POSIX.
-include(PHP/CheckShmMmapPosix)
-if(TARGET PHP::CheckShmMmapPosix)
-  target_link_libraries(php_opcache PRIVATE PHP::CheckShmMmapPosix)
-endif()
+  # Check for HAVE_SHM_MMAP_POSIX.
+  include(PHP/CheckShmMmapPosix)
+  if(TARGET PHP::CheckShmMmapPosix)
+    target_link_libraries(php_opcache PRIVATE PHP::CheckShmMmapPosix)
+  endif()
 
-if(NOT HAVE_SHM_IPC AND NOT HAVE_SHM_MMAP_ANON AND NOT HAVE_SHM_MMAP_POSIX)
-  message(
-    FATAL_ERROR
-    "No supported shared memory caching support was found when configuring "
-    "opcache. Please check logs for any errors or missing dependencies."
-  )
+  if(NOT HAVE_SHM_IPC AND NOT HAVE_SHM_MMAP_ANON AND NOT HAVE_SHM_MMAP_POSIX)
+    message(
+      FATAL_ERROR
+      "No supported shared memory caching support was found when configuring "
+      "opcache. Please check CMake logs for any errors or missing dependencies."
+    )
+  endif()
 endif()
 
 install(
