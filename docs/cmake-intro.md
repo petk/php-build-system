@@ -8,7 +8,6 @@ understanding of its fundamentals.
 * [1. Command-line usage](#1-command-line-usage)
   * [1.1. Configuration and generation phase](#11-configuration-and-generation-phase)
   * [1.2. Build phase](#12-build-phase)
-  * [1.3. In-source builds](#13-in-source-builds)
 * [2. CMakeLists.txt](#2-cmakeliststxt)
   * [2.1. Including other CMake files](#21-including-other-cmake-files)
 * [3. CMake syntax](#3-cmake-syntax)
@@ -46,10 +45,10 @@ the configuration and generation phase, followed by the build phase.
 
 ### 1.1. Configuration and generation phase
 
-In this phase, CMake performs essential tasks to set up a build environment.
-During this process, CMake reads source files (`CMakeLists.txt`) from the source
-directory, configures the build system, and generates the necessary build system
-files, such as Makefiles, into a build directory.
+In this phase, CMake performs essential tasks to set up a build environment. It
+reads source files (`CMakeLists.txt`) from the source directory, configures the
+build system, and generates the necessary build system files, such as Makefiles,
+into a build directory.
 
 ```sh
 # Generate build system from a source directory to a build directory
@@ -68,27 +67,26 @@ enables concurrent build processes for faster compilation.
 cmake --build build-directory --parallel
 ```
 
-### 1.3. In-source builds
-
-So called in-source builds are a simplification when building inside a source
-directory (when source and build directories are the same):
-
-```sh
-cmake .
-cmake --build . --parallel
-```
-
-The build system generates multiple files that are not intended to be tracked by
-Git. Therefore, it is recommended to establish a distinct build directory right
-from the start. For instance, you can also consider creating a build directory
-within the source directory:
-
-```sh
-mkdir build-directory
-cd build-directory
-cmake ..
-cmake --build . --parallel
-```
+> [!NOTE]
+> So called **in-source builds** are a simplification when building inside a
+> source directory (when source and build directories are the same):
+>
+> ```sh
+> cmake .
+> cmake --build . --parallel
+> ```
+>
+> The build system generates multiple files not intended to be tracked by Git.
+> Therefore, it is recommended to establish a distinct build directory right
+> from the start. For instance, you can also consider creating a build directory
+> within the source directory:
+>
+> ```sh
+> mkdir build-directory
+> cd build-directory
+> cmake ..
+> cmake --build . --parallel
+> ```
 
 ## 2. CMakeLists.txt
 

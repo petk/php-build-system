@@ -47,7 +47,7 @@ repository:
        └─ CMakeLists.txt     # Extension's CMake file
     └─ iconv/
        ├─ CMakeLists.txt
-       └─ php_iconv.def      # Module-definition file for linker when building DLL
+       └─ php_iconv.def      # Module-definition for building DLL on Windows
  └─ main/
     ├─ CMakeLists.txt        # CMake file for main binding
     ├─ config.w32.cmake.h.in # Windows configuration header template
@@ -62,6 +62,9 @@ repository:
     └─ CMakeLists.txt        # CMake file for creating scripts files
  └─ TSRM/
     └─ CMakeLists.txt        # CMake file for thread safe resource manager
+ └─ win32/                   # Windows build files
+    ├─ cp_enc_map.c          # Generated from win32/cp_enc_map_gen.c
+    └─ CMakeLists.txt        # CMake file for Windows build
  └─ Zend/
     └─ CMakeLists.txt        # CMake file for Zend engine
  ├─ CMakeLists.txt           # Root CMake file

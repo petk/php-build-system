@@ -2049,19 +2049,19 @@ A list of Autoconf `configure` command-line configuration options, Windows
     </tr>
     <tr>
       <td>--enable-opcache</td>
-      <td></td>
+      <td>--enable-opcache</td>
       <td>EXT_OPCACHE=ON</td>
       <td>default, will be shared</td>
     </tr>
     <tr>
       <td>&emsp;--enable-opcache=shared</td>
-      <td></td>
+      <td>--enable-opcache=shared</td>
       <td>EXT_OPCACHE=ON</td>
       <td>will be shared</td>
     </tr>
     <tr>
       <td>&emsp;--disable-opcache</td>
-      <td></td>
+      <td>--disable-opcache</td>
       <td>EXT_OPCACHE=OFF</td>
       <td></td>
     </tr>
@@ -2069,23 +2069,23 @@ A list of Autoconf `configure` command-line configuration options, Windows
       <td>&emsp;--enable-huge-code-pages</td>
       <td></td>
       <td>EXT_OPCACHE_HUGE_CODE_PAGES=ON</td>
-      <td>default</td>
+      <td>default; For non-Windows platforms</td>
     </tr>
     <tr>
       <td>&emsp;--disable-huge-code-pages</td>
       <td></td>
       <td>EXT_OPCACHE_HUGE_CODE_PAGES=OFF</td>
-      <td></td>
+      <td>For non-Windows platforms</td>
     </tr>
     <tr>
       <td>&emsp;--enable-opcache-jit</td>
-      <td></td>
+      <td>--enable-opcache-jit</td>
       <td>EXT_OPCACHE_JIT=ON</td>
       <td>default</td>
     </tr>
     <tr>
       <td>&emsp;--disable-opcache-jit</td>
-      <td></td>
+      <td>--disable-opcache-jit</td>
       <td>EXT_OPCACHE_JIT=OFF</td>
       <td></td>
     </tr>
@@ -2093,7 +2093,7 @@ A list of Autoconf `configure` command-line configuration options, Windows
       <td>&emsp;--without-capstone</td>
       <td></td>
       <td>EXT_OPCACHE_CAPSTONE=OFF</td>
-      <td>default</td>
+      <td>default; For non-Windows platforms</td>
     </tr>
     <tr>
       <td>
@@ -2106,7 +2106,7 @@ A list of Autoconf `configure` command-line configuration options, Windows
         EXT_OPCACHE_CAPSTONE=ON<br>
         [Capstone_ROOT=DIR]
       </td>
-      <td></td>
+      <td>For non-Windows platforms</td>
     </tr>
     <tr>
       <td>--without-openssl</td>
@@ -3022,16 +3022,58 @@ A list of Autoconf `configure` command-line configuration options, Windows
       <th colspan="4">Influential variables</th>
     </tr>
     <tr>
+      <td>CC=&quot;...&quot;</td>
+      <td></td>
+      <td>CMAKE_C_COMPILER=&quot;...&quot;</td>
+      <td>C compiler command</td>
+    </tr>
+    <tr>
+      <td>CXX=&quot;...&quot;</td>
+      <td></td>
+      <td>CMAKE_CXX_COMPILER=&quot;...&quot;</td>
+      <td>C++ compiler command</td>
+    </tr>
+    <tr>
       <td>CFLAGS=&quot;...&quot;</td>
       <td>CFLAGS=&quot;...&quot;</td>
+      <td>CFLAGS (environment variable) or CMAKE_C_FLAGS</td>
+      <td>C compiler flags</td>
+    </tr>
+    <tr>
+      <td>CXXFLAGS=&quot;...&quot;</td>
+      <td></td>
+      <td>CXXFLAGS (environment variable) or CMAKE_CXX_FLAGS</td>
+      <td>C++ compiler flags</td>
+    </tr>
+    <tr>
+      <td>CPPFLAGS=&quot;...&quot;</td>
+      <td></td>
+      <td>N/A</td>
+      <td>preprocessor flags</td>
+    </tr>
+    <tr>
+      <td>CPP=&quot;...&quot;</td>
       <td></td>
       <td></td>
+      <td>C preprocessor</td>
+    </tr>
+    <tr>
+      <td>CXXCPP=&quot;...&quot;</td>
+      <td></td>
+      <td></td>
+      <td>C++ preprocessor</td>
     </tr>
     <tr>
       <td>LDFLAGS=&quot;...&quot;</td>
       <td>LDFLAGS=&quot;...&quot;</td>
       <td>CMAKE_EXE_LINKER_FLAGS=&quot;...&quot;</td>
+      <td>linker flags</td>
+    </tr>
+    <tr>
+      <td>LIBS=&quot;...&quot;</td>
       <td></td>
+      <td>CMAKE_&lt;LANG&gt;_STANDARD_LIBRARIES</td>
+      <td>libraries to pass to the linker</td>
     </tr>
     <tr>
       <td></td>
@@ -3080,6 +3122,24 @@ A list of Autoconf `configure` command-line configuration options, Windows
       <td></td>
       <td>PHP_EXTENSION_DIR=&quot;path/to/ext&quot;</td>
       <td>Override the INI extension_dir</td>
+    </tr>
+    <tr>
+      <td>PKG_CONFIG=&quot;path/to/pkgconf&quot;</td>
+      <td></td>
+      <td></td>
+      <td>path to pkg-config utility</td>
+    </tr>
+    <tr>
+      <td>PKG_CONFIG_PATH=&quot;...&quot;</td>
+      <td></td>
+      <td></td>
+      <td>directories to add to pkg-config's search path</td>
+    </tr>
+    <tr>
+      <td>PKG_CONFIG_LIBDIR=&quot;...&quot;</td>
+      <td></td>
+      <td></td>
+      <td>path overriding pkg-config's built-in search path</td>
     </tr>
   </tbody>
 </table>
