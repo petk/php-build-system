@@ -52,6 +52,10 @@ target_include_directories(
 target_link_libraries(php_main PUBLIC Zend::Zend)
 target_link_libraries(php_main PUBLIC PHP::configuration)
 
+if(CMAKE_SYSTEM_NAME STREQUAL "Windows")
+  target_link_libraries(php_main PUBLIC PHP::win32)
+endif()
+
 # Add Zend's PUBLIC/INTERFACE compile options to configuration.
 # Cleaner COMPILE_ONLY generator expression is available in CMake >= 3.27.
 if(CMAKE_VERSION VERSION_GREATER_EQUAL 3.27)

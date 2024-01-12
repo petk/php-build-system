@@ -118,7 +118,7 @@ target_sources(
   PUBLIC FILE_SET HEADERS
     BASE_DIRS "${PROJECT_SOURCE_DIR}"
     FILES
-      cli.h
+      $<$<NOT:$<PLATFORM_ID:Windows>>:cli.h>
 )
 
 install(

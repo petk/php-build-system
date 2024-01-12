@@ -74,7 +74,13 @@ if(EXT_SESSION_MM)
     set(HAVE_LIBMM 1 CACHE INTERNAL "Whether you have libmm")
   endif()
 
-  target_sources(php_session PUBLIC FILE_SET HEADERS FILES mod_mm.h)
+  target_sources(
+    php_session
+    PUBLIC FILE_SET HEADERS
+      BASE_DIRS "${PROJECT_SOURCE_DIR}"
+      FILES
+        mod_mm.h
+  )
 endif()
 
 target_sources(
