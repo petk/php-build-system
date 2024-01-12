@@ -14,7 +14,7 @@ cmake_dependent_option(
   EXT_OPCACHE_HUGE_CODE_PAGES
   "Enable copying PHP CODE pages into HUGE PAGES"
   ON
-  "EXT_OPCACHE"
+  [[EXT_OPCACHE AND NOT CMAKE_SYSTEM_NAME STREQUAL "Windows"]]
   OFF
 )
 
@@ -48,9 +48,10 @@ endif()
 
 # OPcache extension can be built only as a shared library.
 add_library(php_opcache SHARED
-  shared_alloc_mmap.c
-  shared_alloc_posix.c
-  shared_alloc_shm.c
+  $<$<NOT:$<PLATFORM_ID:Windows>>:shared_alloc_mmap.c>
+  $<$<NOT:$<PLATFORM_ID:Windows>>:shared_alloc_posix.c>
+  $<$<NOT:$<PLATFORM_ID:Windows>>:shared_alloc_shm.c>
+  $<$<PLATFORM_ID:Windows>:shared_alloc_win32.c>
   zend_accelerator_blacklist.c
   zend_accelerator_debug.c
   zend_accelerator_hash.c
@@ -106,9 +107,9 @@ if(EXT_OPCACHE_JIT)
     jit/ir/ir_dump.c
     jit/ir/ir_emit.c
     jit/ir/ir_gcm.c
-    jit/ir/ir_gdb.c
+    $<$<NOT:$<PLATFORM_ID:Windows>>:jit/ir/ir_gdb.c>
     jit/ir/ir_patch.c
-    jit/ir/ir_perf.c
+    $<$<NOT:$<PLATFORM_ID:Windows>>:jit/ir/ir_perf.c>
     jit/ir/ir_ra.c
     jit/ir/ir_save.c
     jit/ir/ir_sccp.c
@@ -121,13 +122,6 @@ if(EXT_OPCACHE_JIT)
   target_include_directories(
     php_opcache
     PRIVATE ${CMAKE_CURRENT_BINARY_DIR}/jit/ir
-  )
-
-  target_compile_definitions(
-    php_opcache
-    PRIVATE
-      IR_PHP
-      $<$<CONFIG:Debug,DebugAssertions>:IR_DEBUG>
   )
 
   # Check for Capstone.
@@ -150,10 +144,7 @@ if(EXT_OPCACHE_JIT)
     set(IR_TARGET "IR_TARGET_X64")
     set(DASM_FLAGS -D X64=1)
     set(DASM_ARCH "x86")
-  elseif(CMAKE_HOST_SYSTEM_PROCESSOR MATCHES "i[34567]86.*")
-    set(IR_TARGET "IR_TARGET_X86")
-    set(DASM_ARCH "x86")
-  elseif(CMAKE_HOST_SYSTEM_PROCESSOR MATCHES "^x86.*")
+  elseif(CMAKE_HOST_SYSTEM_PROCESSOR MATCHES "^(i[34567]86.*|x86.*)$")
     set(IR_TARGET "IR_TARGET_X86")
     set(DASM_ARCH "x86")
   elseif(CMAKE_HOST_SYSTEM_PROCESSOR MATCHES "^aarch64.*")
@@ -167,6 +158,25 @@ if(EXT_OPCACHE_JIT)
   )
     list(APPEND DASM_FLAGS -D X64APPLE=1)
   endif()
+
+  if(CMAKE_SYSTEM_NAME STREQUAL "Windows")
+    list(APPEND DASM_FLAGS -D WIN=1)
+  endif()
+
+  if(
+    CMAKE_HOST_SYSTEM_PROCESSOR STREQUAL "x86_64"
+    AND CMAKE_SYSTEM_NAME STREQUAL "Windows"
+  )
+    list(APPEND DASM_FLAGS -D X64WIN=1)
+  endif()
+
+  target_compile_definitions(
+    php_opcache
+    PRIVATE
+      IR_PHP
+      ${IR_TARGET}
+      $<$<CONFIG:Debug,DebugAssertions>:IR_DEBUG>
+  )
 
   add_executable(php_opcache_jit_minilua
     jit/ir/dynasm/minilua.c
@@ -238,8 +248,6 @@ if(EXT_OPCACHE_JIT)
   )
 
   add_dependencies(php_opcache php_opcache_jit)
-
-  target_compile_definitions(php_opcache PRIVATE ${IR_TARGET})
 endif()
 
 ################################################################################
@@ -256,24 +264,26 @@ cmake_pop_check_state()
 # For FreeBSD.
 check_symbol_exists(shm_create_largepage "sys/mman.h" HAVE_SHM_CREATE_LARGEPAGE)
 
-# Check for HAVE_SHM_IPC.
-include(PHP/CheckShmIpc)
+if(NOT CMAKE_SYSTEM_NAME STREQUAL "Windows")
+  # Check for HAVE_SHM_IPC.
+  include(PHP/CheckShmIpc)
 
-# Check for HAVE_SHM_MMAP_ANON.
-include(PHP/CheckShmMmap)
+  # Check for HAVE_SHM_MMAP_ANON.
+  include(PHP/CheckShmMmap)
 
-# Check for HAVE_SHM_MMAP_POSIX.
-include(PHP/CheckShmMmapPosix)
-if(TARGET PHP::CheckShmMmapPosix)
-  target_link_libraries(php_opcache PRIVATE PHP::CheckShmMmapPosix)
-endif()
+  # Check for HAVE_SHM_MMAP_POSIX.
+  include(PHP/CheckShmMmapPosix)
+  if(TARGET PHP::CheckShmMmapPosix)
+    target_link_libraries(php_opcache PRIVATE PHP::CheckShmMmapPosix)
+  endif()
 
-if(NOT HAVE_SHM_IPC AND NOT HAVE_SHM_MMAP_ANON AND NOT HAVE_SHM_MMAP_POSIX)
-  message(
-    FATAL_ERROR
-    "No supported shared memory caching support was found when configuring "
-    "opcache. Please check logs for any errors or missing dependencies."
-  )
+  if(NOT HAVE_SHM_IPC AND NOT HAVE_SHM_MMAP_ANON AND NOT HAVE_SHM_MMAP_POSIX)
+    message(
+      FATAL_ERROR
+      "No supported shared memory caching support was found when configuring "
+      "opcache. Please check CMake logs for any errors or missing dependencies."
+    )
+  endif()
 endif()
 
 install(
