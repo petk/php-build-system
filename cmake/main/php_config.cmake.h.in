@@ -687,7 +687,7 @@
 /* */
 #cmakedefine HAVE_GD_LIBVERSION @HAVE_GD_LIBVERSION@
 
-/*  Does gdImageCreateFromPng work? */
+/* Does gdImageCreateFromPng work? */
 #cmakedefine HAVE_GD_PNG @HAVE_GD_PNG@
 
 /* Does gdImageCreateFromTga work? */

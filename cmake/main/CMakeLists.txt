@@ -52,7 +52,7 @@ target_include_directories(
 target_link_libraries(php_main PUBLIC Zend::Zend)
 target_link_libraries(php_main PUBLIC PHP::configuration)
 
-if(CMAKE_SYSTEM_NAME STREQUAL "Windows")
+if(TARGET PHP::win32)
   target_link_libraries(php_main PUBLIC PHP::win32)
 endif()
 
