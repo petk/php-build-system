@@ -3066,7 +3066,10 @@ A list of Autoconf `configure` command-line configuration options, Windows
     <tr>
       <td>LDFLAGS=&quot;...&quot;</td>
       <td>LDFLAGS=&quot;...&quot;</td>
-      <td>CMAKE_EXE_LINKER_FLAGS=&quot;...&quot;</td>
+      <td>
+        CMAKE_EXE_LINKER_FLAGS=&quot;...&quot;<br>
+        CMAKE_SHARED_LINKER_FLAGS=&quot;...&quot;
+      </td>
       <td>linker flags</td>
     </tr>
     <tr>
@@ -3074,12 +3077,6 @@ A list of Autoconf `configure` command-line configuration options, Windows
       <td></td>
       <td>CMAKE_&lt;LANG&gt;_STANDARD_LIBRARIES</td>
       <td>libraries to pass to the linker</td>
-    </tr>
-    <tr>
-      <td></td>
-      <td></td>
-      <td>CMAKE_SHARED_LINKER_FLAGS=&quot;...&quot;</td>
-      <td></td>
     </tr>
     <tr>
       <td>PHP_EXTRA_VERSION=&quot;-acme&quot;</td>

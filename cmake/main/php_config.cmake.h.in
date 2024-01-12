@@ -1748,6 +1748,9 @@
 /* */
 #cmakedefine PDO_MYSQL_UNIX_ADDR "@PDO_MYSQL_UNIX_ADDR@"
 
+/* have sqlite3 with extension support */
+#cmakedefine PDO_SQLITE_OMIT_LOAD_EXTENSION @PDO_SQLITE_OMIT_LOAD_EXTENSION@
+
 /* Whether pdo_mysql uses mysqlnd */
 #cmakedefine PDO_USE_MYSQLND @PDO_USE_MYSQLND@
 

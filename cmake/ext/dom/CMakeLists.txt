@@ -211,6 +211,7 @@ target_sources(php_dom PRIVATE
   processinginstruction.c
   text.c
   xml_document.c
+  xpath_callbacks.c
   xpath.c
 )
 
@@ -239,6 +240,7 @@ target_sources(
     BASE_DIRS "${PROJECT_SOURCE_DIR}"
     FILES
       xml_common.h
+      xpath_callbacks.h
 )
 
 install(

@@ -75,4 +75,11 @@ if(TARGET SQLite::SQLite3)
     ""
     HAVE_SQLITE3_COLUMN_TABLE_NAME
   )
+
+  check_library_exists(
+    SQLite::SQLite3
+    sqlite3_load_extension
+    ""
+    PDO_SQLITE_OMIT_LOAD_EXTENSION
+  )
 endif()
