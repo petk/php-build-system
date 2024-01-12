@@ -35,7 +35,12 @@ target_sources(php_iconv PRIVATE
   php_iconv.def
 )
 
-target_compile_definitions(php_iconv PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE=1)
+target_compile_definitions(
+  php_iconv
+  PRIVATE
+    ZEND_ENABLE_STATIC_TSRMLS_CACHE=1
+    $<$<PLATFORM_ID:Windows>:PHP_ICONV_EXPORTS>
+)
 
 # Adjustment when overriding the iconv library path, otherwise Iconv is first
 # searched in C library.

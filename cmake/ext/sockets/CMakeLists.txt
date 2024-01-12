@@ -185,6 +185,7 @@ target_sources(
     BASE_DIRS "${PROJECT_SOURCE_DIR}"
     FILES
       php_sockets.h
+      $<$<PLATFORM_ID:Windows>:windows_common.h>
 )
 
 install(

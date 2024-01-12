@@ -51,3 +51,17 @@ if(HAVE_WNO_LOGICAL_OP_C)
 endif()
 
 set(HAVE_LIBSODIUMLIB 1 CACHE INTERNAL "Whether the libsodium is available")
+
+target_sources(
+  php_sodium
+  PUBLIC FILE_SET HEADERS
+    BASE_DIRS "${PROJECT_SOURCE_DIR}"
+    FILES
+      $<$<PLATFORM_ID:Windows>:php_libsodium.h>
+)
+
+install(
+  TARGETS php_sodium
+  ARCHIVE EXCLUDE_FROM_ALL
+  FILE_SET HEADERS
+)
