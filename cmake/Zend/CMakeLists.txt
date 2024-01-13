@@ -37,14 +37,18 @@ include(PHP/SearchLibraries)
 ################################################################################
 
 option(ZEND_GCC_GLOBAL_REGS "Enable GCC global register variables" ON)
+mark_as_advanced(ZEND_GCC_GLOBAL_REGS)
 
 option(ZEND_FIBER_ASM "Enable the use of Boost fiber assembly files" ON)
+mark_as_advanced(ZEND_FIBER_ASM)
 
 option(ZEND_SIGNALS "Enable Zend signal handling" ON)
+mark_as_advanced(ZEND_SIGNALS)
 
 # TODO: Check if default value can be improved. Once cached variable is set, it
 # can't be changed based on PHP_THREAD_SAFETY value on the 2nd configuration run.
 option(ZEND_MAX_EXECUTION_TIMERS "Enable Zend max execution timers" ${PHP_THREAD_SAFETY})
+mark_as_advanced(ZEND_MAX_EXECUTION_TIMERS)
 
 # TODO: Fix this better.
 if(PHP_THREAD_SAFETY)
@@ -98,7 +102,7 @@ add_library(zend STATIC
   zend_fibers.c
   zend_float.c
   zend_gc.c
-  zend_gdb.c
+  $<$<NOT:$<PLATFORM_ID:Windows>>:zend_gdb.c>
   zend_generators.c
   zend_hash.c
   zend_highlight.c
@@ -113,7 +117,7 @@ add_library(zend STATIC
   zend_language_scanner.c
   zend_list.c
   zend_llist.c
-  zend_max_execution_timer.c
+  $<$<NOT:$<PLATFORM_ID:Windows>>:zend_max_execution_timer.c>
   zend_multibyte.c
   zend_object_handlers.c
   zend_objects_API.c
@@ -122,7 +126,7 @@ add_library(zend STATIC
   zend_opcode.c
   zend_operators.c
   zend_ptr_stack.c
-  zend_signal.c
+  $<$<NOT:$<PLATFORM_ID:Windows>>:zend_signal.c>
   zend_smart_str.c
   zend_sort.c
   zend_stack.c
@@ -336,107 +340,9 @@ endif()
 # Configure fibers.
 ################################################################################
 
-# Check whether syscall to create shadow stack exists.
-message(CHECK_START "Whether syscall to create shadow stack exists")
-if(NOT CMAKE_CROSSCOMPILING)
-  check_source_runs(C "
-    #include <unistd.h>
-    #include <sys/mman.h>
-    int main(void) {
-      void* base = (void *)syscall(451, 0, 0x20000, 0x1);
-      if (base != (void*)-1) {
-        munmap(base, 0x20000);
-        return 0;
-      }
-      else
-        return 1;
-    }
-  " SHADOW_STACK_SYSCALL)
-endif()
-if(SHADOW_STACK_SYSCALL)
-  message(CHECK_PASS "yes")
-else()
-  # If the syscall doesn't exist, we may block the final ELF from
-  # __PROPERTY_SHSTK via redefine macro as "-D__CET__=1".
-  message(CHECK_FAIL "no")
-endif()
-
-message(CHECK_START "Checking fibers ASM support")
-
-if(ZEND_FIBER_ASM)
-  if(CMAKE_HOST_SYSTEM_PROCESSOR MATCHES "^(x86_64|amd64)$")
-    set(_zend_fiber_asm_file_prefix "x86_64_sysv")
-  elseif(CMAKE_HOST_SYSTEM_PROCESSOR MATCHES "x86.*|amd.*|i.?86.*|pentium")
-    set(_zend_fiber_cpu "i386")
-    set(_zend_fiber_asm_file_prefix "i386_sysv")
-  elseif(CMAKE_HOST_SYSTEM_PROCESSOR MATCHES "aarch64.*|arm64.*")
-    set(_zend_fiber_asm_file_prefix "arm64_aapcs")
-  elseif(CMAKE_HOST_SYSTEM_PROCESSOR MATCHES "arm.*")
-    set(_zend_fiber_asm_file_prefix "arm_aapcs")
-  elseif(CMAKE_HOST_SYSTEM_PROCESSOR MATCHES "ppc64.*|powerpc64.*")
-    set(_zend_fiber_asm_file_prefix "ppc64_sysv")
-  elseif(CMAKE_HOST_SYSTEM_PROCESSOR MATCHES "ppc.*|powerpc.*")
-    set(_zend_fiber_asm_file_prefix "ppc32_sysv")
-  elseif(CMAKE_HOST_SYSTEM_PROCESSOR MATCHES "riscv64.*")
-    set(_zend_fiber_asm_file_prefix "riscv64_sysv")
-  elseif(CMAKE_HOST_SYSTEM_PROCESSOR MATCHES "s390x.*")
-    set(_zend_fiber_asm_file_prefix "s390x_sysv")
-  elseif(CMAKE_HOST_SYSTEM_PROCESSOR STREQUAL "mips64")
-    set(_zend_fiber_asm_file_prefix "mips64_n64")
-  elseif(CMAKE_HOST_SYSTEM_PROCESSOR STREQUAL "mips")
-    set(_zend_fiber_asm_file_prefix "mips32_o32")
-  else()
-    set(_zend_fiber_asm_file_prefix "unknown")
-  endif()
-
-  if(CMAKE_HOST_SYSTEM_NAME STREQUAL "Darwin")
-    set(_zend_fiber_asm_file "combined_sysv_macho_gas")
-  elseif(CMAKE_HOST_SYSTEM_NAME MATCHES "^(AIX|OS400)$")
-    # AIX uses a different calling convention (shared with non-_CALL_ELF Linux).
-    # The AIX assembler isn't GNU, but the file is compatible.
-    set(_zend_fiber_asm_file "${_zend_fiber_asm_file_prefix}_xcoff_gas")
-  elseif(CMAKE_HOST_SYSTEM_NAME STREQUAL "FreeBSD")
-    if(NOT _zend_fiber_cpu STREQUAL "i386")
-      set(_zend_fiber_asm_file "${_zend_fiber_asm_file_prefix}_elf_gas")
-    endif()
-  elseif(NOT _zend_fiber_asm_file_prefix STREQUAL "unknown")
-    set(_zend_fiber_asm_file "${_zend_fiber_asm_file_prefix}_elf_gas")
-  endif()
-endif()
-
-if(_zend_fiber_asm_file)
-  message(CHECK_PASS "yes - ${_zend_fiber_asm_file}")
-
-  target_sources(zend PRIVATE
-    asm/jump_${_zend_fiber_asm_file}.S
-    asm/make_${_zend_fiber_asm_file}.S
-  )
-
-  # The ASM files can't see macro from defined constant, workaround via CFLAG.
-  if(SHADOW_STACK_SYSCALL)
-    target_compile_definitions(zend PRIVATE
-      $<$<COMPILE_LANGUAGE:ASM>:SHADOW_STACK_SYSCALL=1>
-    )
-  endif()
-else()
-  message(CHECK_FAIL "no")
-
-  cmake_push_check_state(RESET)
-    if(CMAKE_HOST_SYSTEM_NAME STREQUAL "Darwin")
-      set(CMAKE_REQUIRED_DEFINITIONS -D_XOPEN_SOURCE)
-      # TODO: Fix this better.
-      set(_XOPEN_SOURCE 1 CACHE INTERNAL "")
-    endif()
-
-    check_include_file(ucontext.h ZEND_FIBER_UCONTEXT)
-  cmake_pop_check_state()
-
-  if(NOT ZEND_FIBER_UCONTEXT)
-    message(
-      FATAL_ERROR
-      "Fibers are not available on this platform, ucontext.h not found"
-    )
-  endif()
+include(Zend/Fibers)
+if(TARGET Zend::Fibers)
+  target_link_libraries(zend PRIVATE Zend::Fibers)
 endif()
 
 ################################################################################
