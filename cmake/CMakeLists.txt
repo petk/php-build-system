@@ -22,16 +22,11 @@ project(
   LANGUAGES C CXX ASM
 )
 
-# TODO: Adjust setting ccache.
-find_program(CCACHE_EXECUTABLE ccache)
-if(CCACHE_EXECUTABLE AND NOT CCACHE_DISABLE AND NOT "$ENV{CCACHE_DISABLE}")
-  message(STATUS "Using ccache")
-  set(CMAKE_C_COMPILER_LAUNCHER ccache)
-  set(CMAKE_CXX_COMPILER_LAUNCHER ccache)
-endif()
-
 set(CMAKE_C_STANDARD 99)
 set(CMAKE_C_STANDARD_REQUIRED TRUE)
+
+# Setup Ccache.
+include(PHP/Ccache)
 
 # Create a project wide INTERFACE library with project configuration.
 add_library(php_configuration INTERFACE)

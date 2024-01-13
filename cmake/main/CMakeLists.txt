@@ -1,12 +1,13 @@
 add_library(php_main STATIC
-  explicit_bzero.c
+  $<$<NOT:$<PLATFORM_ID:Windows>>:explicit_bzero.c>
   fastcgi.c
   fopen_wrappers.c
+  getopt.c
   internal_functions_cli.c
   internal_functions.c
   main.c
   network.c
-  output.c getopt.c
+  output.c
   php_content_types.c
   php_ini_builder.c
   php_ini.c
