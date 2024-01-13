@@ -582,26 +582,32 @@ targeted, the `CMAKE_SYSTEM_PROCESSOR` and `CMAKE_HOST_SYSTEM_PROCESSOR` will be
 the same.
 
 Processor is determined by various ways depending on the system. For example, on
-FreeBSD the `x86_64` is detected as `amd64`:
+FreeBSD the `x86_64` is detected as `amd64`, on Windows it is `AMD64` (detected
+from the `PROCESSOR_ARCHITECTURE` environment variable):
 
 ```cmake
-if(CMAKE_HOST_SYSTEM_PROCESSOR MATCHES "^(x86_64|amd64)$")
+if(CMAKE_SYSTEM_PROCESSOR MATCHES "^(x86_64|amd64|AMD64)$")
   # CPU is 64-bit x86.
 endif()
 ```
 
-Values for `CMAKE_SYSTEM_PROCESSOR` and `CMAKE_HOST_SYSTEM_PROCESSOR`:
+Values for `CMAKE_HOST_SYSTEM_PROCESSOR` and `CMAKE_SYSTEM_PROCESSOR`:
 
 | Value       | Note                                             |
 | ----------- | ------------------------------------------------ |
 | `aarch64.*` | 64-bit ARM processor (`aarch64` or `aarch64_be`) |
 | `alpha`     | 64-bit DEC Alpha processor                       |
 | `amd64`     | 64-bit x86 processor on FreeBSD                  |
+| `AMD64`     | 64-bit x86 processor on Windows                  |
 | `arm`       | 32-bit ARM processor                             |
 | `arm64`     | 64-bit ARM processor                             |
+| `ARM64`     | 64-bit ARM processor on Windows                  |
+| `EM64T`     | 64-bit processor on Windows XP-64 (obsolete)     |
 | `i.?86.*`   | 32-bit x86 processor                             |
+| `IA-64`     | 64-bit Intel Itanium processor on Windows        |
 | `mips`      | 32-bit MIPS processor                            |
 | `mips64`    | 64-bit MIPS processor                            |
+| `powerpc`   | PowerPC processor                                |
 | `ppc`       | 32-bit PPC (PowerPC) processor                   |
 | `ppc64`     | 64-bit PPC (PowerPC) processor                   |
 | `riscv64.*` | 64-bit RISC-V Open ISA processor                 |
@@ -609,6 +615,7 @@ Values for `CMAKE_SYSTEM_PROCESSOR` and `CMAKE_HOST_SYSTEM_PROCESSOR`:
 | `sparc64`   | 64-bit SPARC processor                           |
 | `x86_64`    | 64-bit x86 processor, on FreeBSD named `amd64`   |
 | `x86`       | 32-bit x86 processor                             |
+| `X86`       | 32-bit x86 processor on Windows                  |
 
 ## 10. See also
 
