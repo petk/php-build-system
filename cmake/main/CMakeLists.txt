@@ -39,7 +39,12 @@ add_library(php_main STATIC
 
 add_library(PHP::main ALIAS php_main)
 
-target_compile_definitions(php_main PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE=1)
+target_compile_definitions(
+  php_main
+  PRIVATE
+    ZEND_ENABLE_STATIC_TSRMLS_CACHE=1
+    $<$<PLATFORM_ID:Windows>:SAPI_EXPORTS>
+)
 
 target_include_directories(
   php_configuration

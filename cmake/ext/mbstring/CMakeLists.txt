@@ -82,10 +82,14 @@ target_sources(php_mbstring PRIVATE
 )
 
 message(STATUS "Creating ext/mbstring/libmbfl/config.h")
-file(WRITE
-  "${CMAKE_CURRENT_BINARY_DIR}/libmbfl/config.h"
-  "#include \"php_config.h\"\n"
-)
+if(CMAKE_SYSTEM_NAME STREQUAL "Windows")
+  configure_file(libmbfl/config.h.w32 libmbfl/config.h)
+else()
+  file(WRITE
+    "${CMAKE_CURRENT_BINARY_DIR}/libmbfl/config.h"
+    "#include \"php_config.h\"\n"
+  )
+endif()
 
 if(EXT_MBSTRING_MBREGEX)
   find_package(Oniguruma)

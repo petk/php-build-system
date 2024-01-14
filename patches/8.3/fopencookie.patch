@@ -1,5 +1,5 @@
 diff --git a/build/php.m4 b/build/php.m4
-index 53ba394231..672c366824 100644
+index 25d820c238..1177b08991 100644
 --- a/build/php.m4
 +++ b/build/php.m4
 @@ -1431,18 +1431,14 @@ AC_DEFUN([PHP_FOPENCOOKIE], [

@@ -11,7 +11,13 @@ target_link_libraries(php_tsrm PRIVATE PHP::configuration)
 
 target_include_directories(php_tsrm INTERFACE "${CMAKE_CURRENT_SOURCE_DIR}")
 
-target_compile_definitions(php_tsrm PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE=1)
+target_compile_definitions(
+  php_tsrm
+  PRIVATE
+    ZEND_ENABLE_STATIC_TSRMLS_CACHE=1
+  PUBLIC
+    $<$<PLATFORM_ID:Windows>:TSRM_EXPORTS>
+)
 
 # Check POSIX Threads.
 function(_php_tsrm_thread_safety)

@@ -13,6 +13,10 @@ CMake.
 
   See https://github.com/php/php-src/pull/8465
 
+* `docs.patch`
+
+  Modifications done on php-src docs files.
+
 ## PHP 8.3
 
 * `cmake.patch`

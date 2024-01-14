@@ -22,6 +22,7 @@ patch-cmake-8.3-dmalloc
 patch-cmake-8.3-fopencookie
 patch-cmake-8.4
 patch-cmake-8.4-dmalloc
+patch-cmake-8.4-docs
 "
 php_versions="8.3 8.4"
 
