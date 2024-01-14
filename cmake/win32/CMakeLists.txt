@@ -32,6 +32,15 @@ target_sources(
     wsyslog.c
 )
 
+target_compile_definitions(php_win32 PUBLIC PHP_EXPORTS)
+
+target_compile_definitions(
+  php_configuration
+  INTERFACE
+    _MBCS
+    _USE_MATH_DEFINES
+)
+
 target_link_libraries(php_win32 PRIVATE PHP::configuration)
 
 file(GLOB _php_win32_headers "${CMAKE_CURRENT_SOURCE_DIR}/*.h")

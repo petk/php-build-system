@@ -1,0 +1,40 @@
+diff --git a/README.md b/README.md
+index 5c1bfc6890..2f8089ed64 100644
+--- a/README.md
++++ b/README.md
+@@ -36,8 +36,35 @@ For other systems, see the [installation chapter](https://php.net/install).
+ 
+ ### Building PHP source code
+ 
++#### CMake
++
++On Debian-based systems:
++
++    sudo apt install -y cmake gcc g++ bison re2c libxml2-dev libsqlite3-dev
++
++On Fedora-based systems:
++
++    sudo dnf install cmake gcc gcc-c++ bison re2c libxml2-devel sqlite-devel
++
++Create a build directory:
++
++    mkdir php-build
++
++Generate build system:
++
++    cd php-build
++    cmake ..
++
++Build PHP:
++
++    cmake --build .. -j
++
++#### Windows using JScript
++
+ *For Windows, see [Build your own PHP on Windows](https://wiki.php.net/internals/windows/stepbystepbuild_sdk_2).*
+ 
++#### Autotools
++
+ For a minimal PHP build from Git, you will need autoconf, bison, and re2c. For
+ a default build, you will additionally need libxml2 and libsqlite3.
+ 

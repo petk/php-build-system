@@ -44,8 +44,7 @@ if(NOT CMAKE_CROSSCOMPILING)
         munmap(base, 0x20000);
         return 0;
       }
-      else
-        return 1;
+      return 1;
     }
   ]] SHADOW_STACK_SYSCALL)
 endif()
@@ -149,7 +148,6 @@ block(PROPAGATE zend_fibers_asm_file zend_fibers_asm_sources)
       ${zend_fibers_asm_sources}
       PROPERTIES
         COMPILE_OPTIONS ${compile_options}
-
     )
   endif()
 

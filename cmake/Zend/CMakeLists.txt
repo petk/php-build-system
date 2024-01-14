@@ -152,7 +152,12 @@ target_include_directories(zend
 
 target_link_libraries(zend PUBLIC PHP::TSRM)
 
-target_compile_definitions(zend PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE=1)
+target_compile_definitions(
+  zend
+  PRIVATE
+    ZEND_ENABLE_STATIC_TSRMLS_CACHE=1
+    $<$<PLATFORM_ID:Windows>:LIBZEND_EXPORTS>
+)
 
 ################################################################################
 # Configuration checks.
