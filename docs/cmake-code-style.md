@@ -587,7 +587,7 @@ from the `PROCESSOR_ARCHITECTURE` environment variable):
 
 ```cmake
 if(CMAKE_SYSTEM_PROCESSOR MATCHES "^(x86_64|amd64|AMD64)$")
-  # CPU is 64-bit x86.
+  # Target CPU is 64-bit x86.
 endif()
 ```
 
