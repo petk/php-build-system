@@ -48,7 +48,7 @@ target_compile_definitions(
 target_link_libraries(
   php_sockets
   PRIVATE
-    $<$<PLATFORM_ID:Windows>:ws2_32;Iphlpapi>
+    $<$<PLATFORM_ID:Windows>:ws2_32;iphlpapi>
 )
 
 cmake_push_check_state(RESET)
