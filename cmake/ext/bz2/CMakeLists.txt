@@ -31,6 +31,12 @@ target_sources(php_bz2 PRIVATE
   bz2.c
 )
 
+target_compile_definitions(
+  php_bz2
+  PRIVATE
+    $<$<AND:$<PLATFORM_ID:Windows>,$<IN_LIST:$<TARGET_PROPERTY:TYPE>,MODULE_LIBRARY;SHARED_LIBRARY>>:PHP_BZ2_EXPORTS>
+)
+
 find_package(BZip2 1.0.0)
 set_package_properties(BZip2 PROPERTIES
   TYPE REQUIRED

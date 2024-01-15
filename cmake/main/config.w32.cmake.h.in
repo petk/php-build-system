@@ -181,6 +181,9 @@
 /* Have BCMATH library */
 #cmakedefine HAVE_BCMATH @HAVE_BCMATH@
 
+/* Have BZ2 library */
+#cmakedefine HAVE_BZ2 @HAVE_BZ2@
+
 /* Have calendar */
 #cmakedefine HAVE_CALENDAR @HAVE_CALENDAR@
 
@@ -253,16 +256,16 @@
 #cmakedefine PHP_ONIG_BAD_KOI8_ENTRY @PHP_ONIG_BAD_KOI8_ENTRY@
 
 /* Using bundled PCRE library */
-#define HAVE_BUNDLED_PCRE 1
+#cmakedefine HAVE_BUNDLED_PCRE @HAVE_BUNDLED_PCRE@
 
-/* Have PCRE library */
-#define PCRE2_CODE_UNIT_WIDTH 8
+/* Number of bits in non-UTF mode for PCRE library */
+#cmakedefine PCRE2_CODE_UNIT_WIDTH @PCRE2_CODE_UNIT_WIDTH@
 
-/*  */
-#define PCRE2_STATIC 1
+/* Whether a static PCRE library is linked */
+#cmakedefine PCRE2_STATIC @PCRE2_STATIC@
 
-/* PCRE library */
-#define HAVE_PCRE_JIT_SUPPORT 1
+/* Whether to enable the PCRE JIT support */
+#cmakedefine HAVE_PCRE_JIT_SUPPORT @HAVE_PCRE_JIT_SUPPORT@
 
 /* Have SHMOP support */
 #cmakedefine HAVE_SHMOP @HAVE_SHMOP@
@@ -292,9 +295,9 @@
 /* XML support */
 #cmakedefine HAVE_XML @HAVE_XML@
 
-#define PHP_CONFIG_FILE_SCAN_DIR ""
+#define PHP_CONFIG_FILE_SCAN_DIR "@PHP_CONFIG_FILE_SCAN_DIR@"
 
-#define PHP_USE_PHP_CRYPT_R 1
+#cmakedefine PHP_USE_PHP_CRYPT_R @PHP_USE_PHP_CRYPT_R@
 
 /* Tokenizer support */
 #cmakedefine HAVE_TOKENIZER @HAVE_TOKENIZER@

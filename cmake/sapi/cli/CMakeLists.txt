@@ -75,7 +75,8 @@ target_link_options(
 )
 
 if(CMAKE_SYSTEM_NAME STREQUAL "Windows")
-  find_package(Editline)
+  # TODO: Add also readline as alternative here.
+  find_package(Editline QUIET)
 
   if(Editline_FOUND)
     target_link_libraries(php_cli PRIVATE Editline::Editline)
@@ -103,7 +104,12 @@ if(SAPI_CLI_WIN_NO_CONSOLE)
 
   target_link_options(php_cli_win_no_console PRIVATE /stack:67108864)
 
-  target_link_libraries(php_cli_win_no_console PRIVATE shell32)
+  target_link_libraries(
+    php_cli_win_no_console
+    PRIVATE
+      PHP::main
+      shell32
+  )
 endif()
 
 # Man documentation.

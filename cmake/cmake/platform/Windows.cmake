@@ -17,4 +17,12 @@ target_compile_definitions(
 # To speed up the Windows build experience with Visual Studio generators, these
 # are always known on Windows systems.
 # TODO: Update and fix this better.
+
+# PHP has custom syslog.h for Windows platform.
 set(HAVE_SYSLOG_H 1)
+
+# PHP has custom usleep for Windows platform.
+set(HAVE_USLEEP 1)
+
+# PHP has custom nanosleep for Windows platform.
+set(HAVE_NANOSLEEP 1)

@@ -116,6 +116,7 @@ else()
 
   target_compile_definitions(php_pcre
     PRIVATE HAVE_CONFIG_H
+    $<$<PLATFORM_ID:Windows>:PCRE2_STATIC>
   )
 
   set(

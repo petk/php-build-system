@@ -28,7 +28,6 @@ add_library(php_standard STATIC
   base64.c
   basic_functions.c
   browscap.c
-  crc32_x86.c
   crc32.c
   credits.c
   crypt.c
@@ -36,6 +35,7 @@ add_library(php_standard STATIC
   datetime.c
   dir.c
   dl.c
+  $<$<PLATFORM_ID:Windows>:dns_win32.c>
   dns.c
   exec.c
   file.c
@@ -88,6 +88,11 @@ add_library(php_standard STATIC
   versioning.c
 )
 
+# Check for ARM64 processor on Windows.
+if(NOT CMAKE_SYSTEM_PROCESSOR STREQUAL "ARM64")
+  target_sources(php_standard PRIVATE crc32_x86.c)
+endif()
+
 target_include_directories(
   php_standard
   PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/libavifinfo
@@ -97,8 +102,13 @@ target_compile_definitions(php_standard PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE=
 
 add_dependencies(php_standard Zend::Zend)
 
-# TODO: Can this be fixed better?
-target_link_libraries(php_standard PRIVATE PHP::main)
+target_link_libraries(
+  php_standard
+  PRIVATE
+    $<$<PLATFORM_ID:Windows>:iphlpapi>
+    # TODO: Can this be fixed better?
+    PHP::main
+)
 
 ################################################################################
 # Generate lexers.
