@@ -539,13 +539,13 @@ A list of Autoconf `configure` command-line configuration options, Windows
     </tr>
     <tr>
       <td>--without-config-file-scan-dir</td>
-      <td></td>
+      <td>--without-config-file-scan-dir</td>
       <td>PHP_CONFIG_FILE_SCAN_DIR=""</td>
       <td>default</td>
     </tr>
     <tr>
       <td>&emsp;--with-config-file-scan-dir=DIR</td>
-      <td></td>
+      <td>--with-config-file-scan-dir=DIR</td>
       <td>PHP_CONFIG_FILE_SCAN_DIR=DIR</td>
       <td></td>
     </tr>
@@ -736,7 +736,7 @@ A list of Autoconf `configure` command-line configuration options, Windows
     </tr>
     <tr>
       <td>&emsp;--enable-embed=shared</td>
-      <td></td>
+      <td>N/A</td>
       <td>
         SAPI_EMBED=ON<br>
         SAPI_EMBED_SHARED=ON
@@ -745,7 +745,7 @@ A list of Autoconf `configure` command-line configuration options, Windows
     </tr>
     <tr>
       <td>&emsp;--enable-embed=static</td>
-      <td></td>
+      <td>--enable-embed</td>
       <td>
         SAPI_EMBED=ON<br>
         SAPI_EMBED_SHARED=OFF
@@ -754,31 +754,31 @@ A list of Autoconf `configure` command-line configuration options, Windows
     </tr>
     <tr>
       <td>--disable-fpm</td>
-      <td></td>
+      <td>N/A</td>
       <td>SAPI_FPM=OFF</td>
       <td>default</td>
     </tr>
     <tr>
       <td>&emsp;--enable-fpm</td>
-      <td></td>
+      <td>N/A</td>
       <td>SAPI_FPM=ON</td>
       <td></td>
     </tr>
     <tr>
       <td>&emsp;[--with-fpm-user=USER]</td>
-      <td></td>
+      <td>N/A</td>
       <td>[SAPI_FPM_USER=USER]</td>
       <td>default: nobody</td>
     </tr>
     <tr>
       <td>&emsp;[--with-fpm-group=GROUP]</td>
-      <td></td>
+      <td>N/A</td>
       <td>[SAPI_FPM_GROUP=GROUP]</td>
       <td>default: nobody</td>
     </tr>
     <tr>
       <td>&emsp;--without-fpm-systemd</td>
-      <td></td>
+      <td>N/A</td>
       <td>SAPI_FPM_SYSTEMD=OFF</td>
       <td>default</td>
     </tr>
@@ -788,7 +788,7 @@ A list of Autoconf `configure` command-line configuration options, Windows
         &emsp;[SYSTEMD_CFLAGS=...]<br>
         &emsp;[SYSTEMD_LIBS=...]
       </td>
-      <td></td>
+      <td>N/A</td>
       <td>
         SAPI_FPM_SYSTEMD=ON<br>
         [Systemd_ROOT=DIR]
@@ -797,13 +797,13 @@ A list of Autoconf `configure` command-line configuration options, Windows
     </tr>
     <tr>
       <td>&emsp;--without-fpm-acl</td>
-      <td></td>
+      <td>N/A</td>
       <td>SAPI_FPM_ACL=OFF</td>
       <td>default</td>
     </tr>
     <tr>
       <td>&emsp;--with-fpm-acl</td>
-      <td></td>
+      <td>N/A</td>
       <td>
         SAPI_FPM_ACL=ON<br>
         [ACL_ROOT=DIR]
@@ -812,13 +812,13 @@ A list of Autoconf `configure` command-line configuration options, Windows
     </tr>
     <tr>
       <td>&emsp;--without-fpm-apparmor</td>
-      <td></td>
+      <td>N/A</td>
       <td>SAPI_FPM_APPARMOR=OFF</td>
       <td>default</td>
     </tr>
     <tr>
       <td>&emsp;--with-fpm-apparmor</td>
-      <td></td>
+      <td>N/A</td>
       <td>
         SAPI_FPM_APPARMOR=ON<br>
         [AppArmor_ROOT=DIR]
@@ -827,13 +827,13 @@ A list of Autoconf `configure` command-line configuration options, Windows
     </tr>
     <tr>
       <td>&emsp;--without-fpm-selinux</td>
-      <td></td>
+      <td>N/A</td>
       <td>SAPI_FPM_SELINUX=OFF</td>
       <td>default</td>
     </tr>
     <tr>
       <td>&emsp;--with-fpm-selinux</td>
-      <td></td>
+      <td>N/A</td>
       <td>
         SAPI_FPM_SELINUX=ON<br>
         [SELinux_ROOT=DIR]
@@ -842,25 +842,25 @@ A list of Autoconf `configure` command-line configuration options, Windows
     </tr>
     <tr>
       <td>--disable-fuzzer</td>
-      <td></td>
+      <td>N/A</td>
       <td>SAPI_FUZZER=OFF</td>
       <td>default</td>
     </tr>
     <tr>
       <td>&emsp;--enable-fuzzer</td>
-      <td></td>
+      <td>N/A</td>
       <td>SAPI_FUZZER=ON</td>
       <td></td>
     </tr>
     <tr>
       <td>--disable-litespeed</td>
-      <td></td>
+      <td>N/A</td>
       <td>SAPI_LITESPEED=OFF</td>
       <td>default</td>
     </tr>
     <tr>
       <td>&emsp;--enable-litespeed</td>
-      <td></td>
+      <td>N/A</td>
       <td>SAPI_LITESPEED=ON</td>
       <td></td>
     </tr>
@@ -935,13 +935,13 @@ A list of Autoconf `configure` command-line configuration options, Windows
     </tr>
     <tr>
       <td>--without-bz2</td>
-      <td></td>
+      <td>--without-bz2</td>
       <td>EXT_BZ2=OFF</td>
       <td>default</td>
     </tr>
     <tr>
       <td>&emsp;--with-bz2[=DIR]</td>
-      <td></td>
+      <td>--with-bz2</td>
       <td>
         EXT_BZ2=ON<br>
         [BZip2_ROOT=DIR]
@@ -950,7 +950,7 @@ A list of Autoconf `configure` command-line configuration options, Windows
     </tr>
     <tr>
       <td>&emsp;--with-bz2=shared</td>
-      <td></td>
+      <td>--with-bz2=shared</td>
       <td>EXT_BZ2_SHARED=ON</td>
       <td></td>
     </tr>
@@ -2190,19 +2190,19 @@ A list of Autoconf `configure` command-line configuration options, Windows
     </tr>
     <tr>
       <td>--with-pcre-jit</td>
-      <td></td>
+      <td>--with-pcre-jit</td>
       <td>EXT_PCRE_JIT=ON</td>
       <td>default</td>
     </tr>
     <tr>
       <td>&emsp;--without-pcre-jit</td>
-      <td></td>
+      <td>--without-pcre-jit</td>
       <td>EXT_PCRE_JIT=OFF</td>
       <td></td>
     </tr>
     <tr>
       <td>&emsp;--without-external-pcre</td>
-      <td></td>
+      <td>N/A</td>
       <td>EXT_PCRE_EXTERNAL=OFF</td>
       <td>default</td>
     </tr>
@@ -2212,7 +2212,7 @@ A list of Autoconf `configure` command-line configuration options, Windows
         &emsp;[PCRE2_CFLAGS=...]<br>
         &emsp;[PCRE2_LIBS=...]
       </td>
-      <td></td>
+      <td>N/A</td>
       <td>
         EXT_PCRE_EXTERNAL=ON<br>
         [PCRE_ROOT=DIR]
@@ -2715,19 +2715,19 @@ A list of Autoconf `configure` command-line configuration options, Windows
     </tr>
     <tr>
       <td>--without-external-libcrypt</td>
-      <td></td>
+      <td>N/A</td>
       <td>EXT_STANDARD_EXTERNAL_LIBCRYPT=OFF</td>
       <td>default</td>
     </tr>
     <tr>
       <td>&emsp;--with-external-libcrypt</td>
-      <td></td>
+      <td>N/A</td>
       <td>EXT_STANDARD_EXTERNAL_LIBCRYPT=ON</td>
       <td></td>
     </tr>
     <tr>
       <td>&emsp;--without-password-argon2</td>
-      <td></td>
+      <td>--without-password-argon2</td>
       <td>EXT_STANDARD_ARGON2=OFF</td>
       <td>default</td>
     </tr>
@@ -2737,7 +2737,7 @@ A list of Autoconf `configure` command-line configuration options, Windows
         &emsp;[ARGON2_CFLAGS=...]<br>
         &emsp;[ARGON2_LIBS=...]
       </td>
-      <td></td>
+      <td>--with-password-argon2</td>
       <td>
         EXT_STANDARD_ARGON2=ON<br>
         [Argon2_ROOT=DIR]

@@ -53,7 +53,7 @@ repository:
        └─ libmbfl/
           └─ config.h.in       # Configuration header template for libmbfl
  └─ main/
-    ├─ internal_functions.c.in # Template for internal functions files.
+    ├─ internal_functions.c.in # Template for internal functions files
     ├─ CMakeLists.txt          # CMake file for main binding
     ├─ config.w32.cmake.h.in   # Windows configuration header template
     └─ php_config.cmake.h.in   # Configuration header template
