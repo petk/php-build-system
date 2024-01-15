@@ -51,7 +51,7 @@ repository:
        └─ php_iconv.def        # Module-definition for building DLL on Windows
     └─ mbstring/
        └─ libmbfl/
-          └─ config.h.w32      # libmbfl Windows configuration header template
+          └─ config.h.in       # Configuration header template for libmbfl
  └─ main/
     ├─ internal_functions.c.in # Template for internal functions files.
     ├─ CMakeLists.txt          # CMake file for main binding

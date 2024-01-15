@@ -878,36 +878,36 @@ A list of Autoconf `configure` command-line configuration options, Windows
     </tr>
     <tr>
       <td>&emsp;--disable-phpdbg-debug</td>
-      <td></td>
+      <td>N/A</td>
       <td>SAPI_PHPDBG_DEBUG=OFF</td>
       <td>default</td>
     </tr>
     <tr>
       <td>&emsp;--enable-phpdbg-debug</td>
-      <td></td>
+      <td>N/A</td>
       <td>SAPI_PHPDBG_DEBUG=ON</td>
       <td></td>
     </tr>
     <tr>
       <td>&emsp;--disable-phpdbg-readline</td>
-      <td></td>
+      <td>N/A</td>
       <td>SAPI_PHPDBG_READLINE=OFF</td>
       <td>default</td>
     </tr>
     <tr>
       <td>&emsp;--enable-phpdbg-readline</td>
-      <td></td>
+      <td>N/A</td>
       <td>SAPI_PHPDBG_READLINE=ON</td>
       <td></td>
     </tr>
     <tr>
-      <td></td>
+      <td>N/A</td>
       <td>--disable-phpdbgs</td>
       <td>SAPI_PHPDBG_SHARED=OFF</td>
       <td>default</td>
     </tr>
     <tr>
-      <td></td>
+      <td>N/A</td>
       <td>--enable-phpdbgs</td>
       <td>SAPI_PHPDBG_SHARED=ON</td>
       <td></td>
@@ -977,6 +977,12 @@ A list of Autoconf `configure` command-line configuration options, Windows
       <td>--enable-com-dotnet</td>
       <td>EXT_COM_DOTNET=ON</td>
       <td>default; Windows only</td>
+    </tr>
+    <tr>
+      <td></td>
+      <td>--enable-com-dotnet=shared</td>
+      <td>EXT_COM_DOTNET_SHARED=ON</td>
+      <td>Windows only</td>
     </tr>
     <tr>
       <td></td>
@@ -1722,19 +1728,19 @@ A list of Autoconf `configure` command-line configuration options, Windows
     </tr>
     <tr>
       <td>--disable-mbstring</td>
-      <td></td>
+      <td>--disable-mbstring</td>
       <td>EXT_MBSTRING=OFF</td>
       <td>default</td>
     </tr>
     <tr>
       <td>&emsp;--enable-mbstring</td>
-      <td></td>
+      <td>--enable-mbstring</td>
       <td>EXT_MBSTRING=ON</td>
       <td></td>
     </tr>
     <tr>
       <td>&emsp;--enable-mbstring=shared</td>
-      <td></td>
+      <td>--enable-mbstring=shared</td>
       <td>EXT_MBSTRING_SHARED=ON</td>
       <td></td>
     </tr>
@@ -1744,16 +1750,16 @@ A list of Autoconf `configure` command-line configuration options, Windows
         &emsp;[ONIG_CFLAGS=...]<br>
         &emsp;[ONIG_LIBS=...]
       </td>
-      <td></td>
+      <td>--enable-mbregex</td>
       <td>
         EXT_MBSTRING_MBREGEX=ON<br>
         [Oniguruma_ROOT=DIR]
       </td>
-      <td>default</td>
+      <td>default in *nix and CMake (on Windows disabled)</td>
     </tr>
     <tr>
       <td>&emsp;--disable-mbregex</td>
-      <td></td>
+      <td>--disable-mbregex</td>
       <td>EXT_MBSTRING_MBREGEX=OFF</td>
       <td></td>
     </tr>
@@ -2482,7 +2488,7 @@ A list of Autoconf `configure` command-line configuration options, Windows
     </tr>
     <tr>
       <td>--without-libedit</td>
-      <td></td>
+      <td>--without-readline</td>
       <td>EXT_READLINE=OFF</td>
       <td>default</td>
     </tr>
@@ -2492,7 +2498,7 @@ A list of Autoconf `configure` command-line configuration options, Windows
         &emsp;[EDIT_CFLAGS=...]<br>
         &emsp;[EDIT_LIBS=...]
       </td>
-      <td></td>
+      <td>--with-readline</td>
       <td>
         EXT_READLINE=ON<br>
         [Editline_ROOT=DIR]
@@ -2501,19 +2507,19 @@ A list of Autoconf `configure` command-line configuration options, Windows
     </tr>
     <tr>
       <td>&emsp;--with-libedit=shared</td>
-      <td></td>
+      <td>--with-readline=shared</td>
       <td>EXT_READLINE_SHARED=ON</td>
       <td></td>
     </tr>
     <tr>
       <td>&emsp;--without-readline</td>
-      <td></td>
+      <td>--without-readline</td>
       <td>EXT_READLINE=OFF</td>
       <td>default</td>
     </tr>
     <tr>
       <td>&emsp;--with-readline[=DIR]</td>
-      <td></td>
+      <td>N/A</td>
       <td>
         EXT_READLINE=ON<br>
         EXT_READLINE_LIBREADLINE=ON<br>
@@ -2523,7 +2529,7 @@ A list of Autoconf `configure` command-line configuration options, Windows
     </tr>
     <tr>
       <td>&emsp;--with-readline=shared</td>
-      <td></td>
+      <td>N/A</td>
       <td>
         EXT_READLINE=ON<br>
         EXT_READLINE_SHARED=ON<br>
