@@ -101,7 +101,7 @@ block(PROPAGATE zend_fibers_asm_file zend_fibers_asm_sources)
 
       set(
         compile_options
-        nologo
+        /nologo
         # TODO: Recheck; "-machine" is a linker option.
         -machine ARM64
       )
@@ -113,7 +113,7 @@ block(PROPAGATE zend_fibers_asm_file zend_fibers_asm_sources)
     )
       set(
         compile_options
-        nologo
+        /nologo
       )
 
       set(

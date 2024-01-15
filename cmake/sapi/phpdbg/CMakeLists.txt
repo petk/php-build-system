@@ -1,6 +1,10 @@
 include(CheckSourceCompiles)
 include(CMakeDependentOption)
 
+################################################################################
+# Configuration options.
+################################################################################
+
 option(SAPI_PHPDBG "Enable the phpdbg SAPI module" ON)
 
 message(CHECK_START "Checking whether to build phpdbg SAPI")
@@ -27,7 +31,8 @@ cmake_dependent_option(
   OFF
 )
 
-# TODO: Check if this can be simplified and removed in favor of the readline option.
+# TODO: Check if this can be simplified and removed by checking if ext/readline
+# extension is available in the C code directly.
 cmake_dependent_option(
   SAPI_PHPDBG_READLINE
   "Enable readline support in phpdbg (depends on static ext/readline)"
@@ -39,6 +44,10 @@ cmake_dependent_option(
 if(NOT SAPI_PHPDBG)
   return()
 endif()
+
+################################################################################
+# Executable and library.
+################################################################################
 
 set(php_phpdbg_sources
   phpdbg_bp.c
@@ -88,6 +97,12 @@ target_link_options(
     $<$<PLATFORM_ID:Windows>:/stack:8388608>
 )
 
+set_target_properties(php_phpdbg PROPERTIES ENABLE_EXPORTS TRUE)
+
+if(CMAKE_HOST_SYSTEM_NAME STREQUAL "Darwin")
+  set_target_properties(php_phpdbg PROPERTIES LINK_FLAGS "-undefined dynamic_lookup")
+endif()
+
 if(SAPI_PHPDBG_SHARED)
   add_library(php_phpdbg_shared SHARED)
 
@@ -98,16 +113,72 @@ if(SAPI_PHPDBG_SHARED)
   target_compile_definitions(
     php_phpdbg_shared
     PRIVATE
+      $<TARGET_PROPERTY:PHP::main,INTERFACE_COMPILE_DEFINITIONS>
       $<$<PLATFORM_ID:Windows>:YY_NO_UNISTD_H>
+  )
+
+  target_include_directories(
+    php_phpdbg_shared
+    PRIVATE
+      $<TARGET_PROPERTY:PHP::main,INTERFACE_INCLUDE_DIRECTORIES>
+  )
+
+  target_compile_options(
+    php_phpdbg_shared
+    PRIVATE $<TARGET_PROPERTY:PHP::main,INTERFACE_COMPILE_OPTIONS>
   )
 
   target_link_libraries(
     php_phpdbg_shared
     PRIVATE
-      PHP::main
+      # TODO: fix this better in the future (building with -fPIC etc).
+      #PHP::main
       $<$<PLATFORM_ID:Windows>:ws2_32;user32>
   )
 endif()
+
+################################################################################
+# Readline support.
+################################################################################
+
+# TODO: This depends on the static ext/readline.
+if(SAPI_PHPDBG_READLINE)
+  message(CHECK_START "Checking if readline is available")
+
+  if(EXT_READLINE)
+    set(HAVE_PHPDBG_READLINE 1 CACHE INTERNAL "Whether phpdbg has readline support")
+
+    if(EXT_READLINE_LIBREADLINE)
+      find_package(Readline)
+      set_package_properties(Readline PROPERTIES
+        TYPE REQUIRED
+        PURPOSE "Necessary to enable readline support in phpdbg."
+      )
+      target_link_libraries(php_phpdbg PRIVATE Readline::Readline)
+    else()
+      find_package(Editline)
+      set_package_properties(Editline PROPERTIES
+        TYPE REQUIRED
+        PURPOSE "Necessary to enable readline support in phpdbg."
+      )
+      target_link_libraries(php_phpdbg PRIVATE Editline::Editline)
+    endif()
+
+    if(Readline_FOUND OR Editline_FOUND)
+      message(CHECK_PASS "yes")
+    else()
+      message(CHECK_FAIL "no")
+      message(WARNING "Readline support in phpdbg not enabled")
+    endif()
+  else()
+    message(CHECK_FAIL "no")
+    message(WARNING "Set 'EXT_READLINE=ON' to enable readline support in phpdbg")
+  endif()
+endif()
+
+################################################################################
+# Generate lexers and parsers.
+################################################################################
 
 if(BISON_FOUND)
   bison_target(
@@ -128,9 +199,9 @@ if(RE2C_FOUND)
   )
 endif()
 
-if(CMAKE_HOST_SYSTEM_NAME STREQUAL "Darwin")
-  set_target_properties(php_phpdbg PROPERTIES LINK_FLAGS "-undefined dynamic_lookup")
-endif()
+################################################################################
+# Configuration checks.
+################################################################################
 
 include(PHP/CheckTiocgwinsz)
 
@@ -181,9 +252,11 @@ else()
   message(CHECK_FAIL "no")
 endif()
 
-set_target_properties(php_phpdbg PROPERTIES ENABLE_EXPORTS TRUE)
-
 set(HAVE_PHPDBG 1 CACHE INTERNAL "Whether the phpdbg SAPI is enabled")
+
+################################################################################
+# Installation.
+################################################################################
 
 # Man documentation.
 block()
