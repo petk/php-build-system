@@ -28,6 +28,12 @@ target_link_libraries(
     $<$<PLATFORM_ID:Windows>:ws2_32;kernel32;advapi32>
 )
 
+target_link_options(
+  php_cgi
+  PRIVATE
+    $<$<PLATFORM_ID:Windows>:/stack:67108864>
+)
+
 if(CMAKE_HOST_SYSTEM_NAME STREQUAL "Darwin")
   set_target_properties(php_cgi PROPERTIES LINK_FLAGS "-undefined dynamic_lookup")
 endif()

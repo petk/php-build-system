@@ -187,6 +187,9 @@
 /* Have COM_DOTNET support */
 #cmakedefine HAVE_COM_DOTNET @HAVE_COM_DOTNET@
 
+/* have the mscoree.h header file */
+#cmakedefine HAVE_MSCOREE_H @HAVE_MSCOREE_H@
+
 /* Have ctype */
 #cmakedefine HAVE_CTYPE @HAVE_CTYPE@
 
@@ -236,6 +239,15 @@
 
 /* LibXML support */
 #cmakedefine HAVE_LIBXML @HAVE_LIBXML@
+
+/* Have mbstring support */
+#cmakedefine HAVE_MBSTRING @HAVE_MBSTRING@
+
+/* whether to have multibyte regex support */
+#cmakedefine HAVE_MBREGEX @HAVE_MBREGEX@
+
+/* define to 1 if oniguruma has an invalid entry for KOI8 encoding */
+#cmakedefine PHP_ONIG_BAD_KOI8_ENTRY @PHP_ONIG_BAD_KOI8_ENTRY@
 
 /* Using bundled PCRE library */
 #define HAVE_BUNDLED_PCRE 1

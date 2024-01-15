@@ -3,6 +3,7 @@ if(NOT CMAKE_SYSTEM_NAME STREQUAL "Windows")
   return()
 endif()
 
+include(CheckIncludeFile)
 include(CMakeDependentOption)
 include(FeatureSummary)
 
@@ -46,3 +47,7 @@ target_sources(php_com_dotnet PRIVATE
 )
 
 target_compile_definitions(php_com_dotnet PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE=1)
+
+target_link_libraries(php_com_dotnet PRIVATE oleaut32)
+
+check_include_file(mscoree.h HAVE_MSCOREE_H)

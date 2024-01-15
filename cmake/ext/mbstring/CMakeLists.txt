@@ -83,14 +83,12 @@ target_sources(php_mbstring PRIVATE
 )
 
 message(STATUS "Creating ext/mbstring/libmbfl/config.h")
-if(CMAKE_SYSTEM_NAME STREQUAL "Windows")
-  configure_file(libmbfl/config.h.w32 libmbfl/config.h)
-else()
-  file(WRITE
-    "${CMAKE_CURRENT_BINARY_DIR}/libmbfl/config.h"
-    "#include \"php_config.h\"\n"
-  )
-endif()
+block()
+  # TODO: Add also config.h when using phpize which creates config.h.in.
+  set(PHP_CONFIG_H_INCLUDE "php_config.h")
+
+  configure_file(libmbfl/config.h.in libmbfl/config.h)
+endblock()
 
 if(EXT_MBSTRING_MBREGEX)
   find_package(Oniguruma)
@@ -101,10 +99,7 @@ if(EXT_MBSTRING_MBREGEX)
 
   target_link_libraries(php_mbstring PRIVATE Oniguruma::Oniguruma)
 
-  message(
-    CHECK_START
-    "Checking if Oniguruma has an invalid entry for KOI8 encoding"
-  )
+  message(CHECK_START "Checking if Oniguruma has invalid entry for KOI8 encoding")
   cmake_push_check_state(RESET)
     set(CMAKE_REQUIRED_DEFINITIONS -D_GNU_SOURCE)
     set(CMAKE_REQUIRED_LIBRARIES Oniguruma::Oniguruma)
@@ -117,7 +112,6 @@ if(EXT_MBSTRING_MBREGEX)
       }
     " PHP_ONIG_KOI8)
   cmake_pop_check_state()
-
   if(PHP_ONIG_KOI8)
     message(CHECK_PASS "no")
   else()
@@ -125,24 +119,26 @@ if(EXT_MBSTRING_MBREGEX)
 
     set(
       PHP_ONIG_BAD_KOI8_ENTRY 1
-      CACHE INTERNAL
-      "Define to 1 if Oniguruma has an invalid entry for KOI8 encoding"
+      CACHE INTERNAL "Whether Oniguruma has invalid entry for KOI8 encoding"
     )
   endif()
 
   target_compile_definitions(
     php_mbstring
     PRIVATE
-      ONIG_ESCAPE_UCHAR_COLLISION=1
-      UChar=OnigUChar
+      $<$<NOT:$<PLATFORM_ID:Windows>>:ONIG_ESCAPE_UCHAR_COLLISION=1>
+      $<$<NOT:$<PLATFORM_ID:Windows>>:UChar=OnigUChar>
+      # TODO: On Windows, the Oniguruma library is only usable as a static
+      # library ATM, code change required to link with a DLL.
+      $<$<PLATFORM_ID:Windows>:ONIG_EXTERN=extern>
   )
 
   set(HAVE_MBREGEX 1 CACHE INTERNAL "Whether multibyte regex support is enabled")
 
-  target_sources(php_mbstring PRIVATE php_mbregex.c)
-
   target_sources(
     php_mbstring
+    PRIVATE
+      php_mbregex.c
     PUBLIC FILE_SET HEADERS
       BASE_DIRS "${PROJECT_SOURCE_DIR}"
       FILES

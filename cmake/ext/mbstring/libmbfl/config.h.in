@@ -1,0 +1,5 @@
+#ifdef _WIN32
+# define HAVE_STRICMP 1
+#else
+# include "@PHP_CONFIG_H_INCLUDE@"
+#endif
