@@ -2172,21 +2172,21 @@ A list of Autoconf `configure` command-line configuration options, Windows
     </tr>
     <tr>
       <td>--disable-pcntl</td>
-      <td></td>
+      <td>N/A</td>
       <td>EXT_PCNTL=OFF</td>
-      <td>default</td>
+      <td>default; for *nix platforms only</td>
     </tr>
     <tr>
       <td>&emsp;--enable-pcntl</td>
-      <td></td>
+      <td>N/A</td>
       <td>EXT_PCNTL=ON</td>
-      <td></td>
+      <td>for *nix platforms only</td>
     </tr>
     <tr>
       <td>&emsp;--enable-pcntl=shared</td>
-      <td></td>
+      <td>N/A</td>
       <td>EXT_PCNTL_SHARED=ON</td>
-      <td></td>
+      <td>for *nix platforms only</td>
     </tr>
     <tr>
       <td>--with-pcre-jit</td>
@@ -2449,21 +2449,21 @@ A list of Autoconf `configure` command-line configuration options, Windows
     </tr>
     <tr>
       <td>--enable-posix</td>
-      <td></td>
+      <td>N/A</td>
       <td>EXT_POSIX=ON</td>
-      <td>default</td>
+      <td>default; for *nix platforms only</td>
     </tr>
     <tr>
       <td>&emsp;--enable-posix=shared</td>
-      <td></td>
+      <td>N/A</td>
       <td>EXT_POSIX_SHARED=ON</td>
-      <td></td>
+      <td>for *nix platforms only</td>
     </tr>
     <tr>
       <td>&emsp;--disable-posix</td>
-      <td></td>
+      <td>N/A</td>
       <td>EXT_POSIX=OFF</td>
-      <td></td>
+      <td>for *nix platforms only</td>
     </tr>
     <tr>
       <td>--without-pspell</td>
@@ -2746,39 +2746,39 @@ A list of Autoconf `configure` command-line configuration options, Windows
     </tr>
     <tr>
       <td>--disable-sysvmsg</td>
-      <td></td>
+      <td>N/A</td>
       <td>EXT_SYSVMSG=OFF</td>
-      <td>default</td>
+      <td>default; for *nix platforms only</td>
     </tr>
     <tr>
       <td>&emsp;--enable-sysvmsg</td>
-      <td></td>
+      <td>N/A</td>
       <td>EXT_SYSVMSG=ON</td>
-      <td></td>
+      <td>for *nix platforms only</td>
     </tr>
     <tr>
       <td>&emsp;--enable-sysvmsg=shared</td>
-      <td></td>
+      <td>N/A</td>
       <td>EXT_SYSVMSG_SHARED=ON</td>
-      <td></td>
+      <td>for *nix platforms only</td>
     </tr>
     <tr>
       <td>--disable-sysvsem</td>
-      <td></td>
+      <td>N/A</td>
       <td>EXT_SYSVSEM=OFF</td>
-      <td>default</td>
+      <td>default; for *nix platforms only</td>
     </tr>
     <tr>
       <td>&emsp;--enable-sysvsem</td>
-      <td></td>
+      <td>N/A</td>
       <td>EXT_SYSVSEM=ON</td>
-      <td></td>
+      <td>for *nix platforms only</td>
     </tr>
     <tr>
       <td>&emsp;--enable-sysvsem=shared</td>
-      <td></td>
+      <td>N/A</td>
       <td>EXT_SYSVSEM_SHARED=ON</td>
-      <td></td>
+      <td>for *nix platforms only</td>
     </tr>
     <tr>
       <td>--disable-sysvshm</td>
