@@ -63,7 +63,20 @@ target_link_libraries(
     ws2_32
 )
 
-# TODO: Generate wsyslog.h file with message compiler (MC).
+# Generate wsyslog.h file with message compiler (mc).
+find_package(MC)
+set_package_properties(MC PROPERTIES
+  TYPE REQUIRED
+  PURPOSE "Necessary to generate win32/wsyslog.h."
+)
+
+mc_target(
+  NAME php_win32_wsyslog
+  INPUT build/wsyslog.mc
+  XDBG_DIR ${CMAKE_CURRENT_BINARY_DIR}
+)
+
+add_dependencies(php_win32 php_win32_wsyslog)
 
 file(GLOB _php_win32_headers "${CMAKE_CURRENT_SOURCE_DIR}/*.h")
 

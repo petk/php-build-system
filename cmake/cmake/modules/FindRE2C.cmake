@@ -24,6 +24,17 @@ If re2c is found, the module exposes the following function:
               OUTPUT <output>
               [OPTIONS <options>...]
               [DEPENDS <depends>...])
+
+    NAME
+      Target name.
+    INPUT
+      The re2c template file input.
+    OUTPUT
+      The output file.
+    OPTIONS
+      List of additional options to pass to re2c command-line tool.
+    DEPENDS
+      Optional list of dependent files to regenerate the output file.
 #]=============================================================================]
 
 include(CheckSourceCompiles)
