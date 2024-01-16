@@ -12,6 +12,7 @@ include(CheckStructHasMember)
 include(CheckSymbolExists)
 include(CheckTypeSize)
 include(CMakePushCheckState)
+include(FeatureSummary)
 include(PHP/SearchLibraries)
 
 ################################################################################
