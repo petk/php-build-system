@@ -60,7 +60,7 @@ if(NOT EXT_READLINE_LIBREADLINE)
     PURPOSE "Necessary to enable the readline extension."
   )
 
-  target_link_libraries(php_readline PRIVATE Editline::Editline)
+  target_link_libraries(php_readline PUBLIC Editline::Editline)
 
   check_library_exists(Editline::Editline rl_callback_read_char "" HAVE_RL_CALLBACK_READ_CHAR)
   check_library_exists(Editline::Editline rl_on_new_line "" HAVE_RL_ON_NEW_LINE)
@@ -75,7 +75,7 @@ else()
     PURPOSE "Necessary to enable the readline extension."
   )
 
-  target_link_libraries(php_readline PRIVATE Readline::Readline)
+  target_link_libraries(php_readline PUBLIC Readline::Readline)
 
   check_library_exists(Readline::Readline rl_callback_read_char "" HAVE_RL_CALLBACK_READ_CHAR)
   check_library_exists(Readline::Readline rl_on_new_line "" HAVE_RL_ON_NEW_LINE)

@@ -11,7 +11,17 @@ if(NOT SAPI_APACHE2HANDLER)
   return()
 endif()
 
-#add_library(php_apache2handler STATIC)
+add_library(php_apache2handler SHARED)
+
+target_sources(
+  php_apache2handler
+  PRIVATE
+    apache_config.c
+    mod_php.c
+    php_functions.c
+    sapi_apache2.c
+)
+
 #set_target_properties(php_apache2handler PROPERTIES OUTPUT_NAME apache)
 #install(TARGETS php_apache2handler DESTINATION "${CMAKE_INSTALL_LIBDIR}")
 #target_link_libraries(php_apache2hanlder PRIVATE PHP::main)

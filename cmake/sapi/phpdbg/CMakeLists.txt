@@ -31,11 +31,11 @@ cmake_dependent_option(
   OFF
 )
 
-# TODO: Check if this can be simplified and removed by checking if ext/readline
-# extension is available in the C code directly.
+# TODO: Check if this can be simplified and removed by only checking if
+# ext/readline extension has been enabled during the build.
 cmake_dependent_option(
   SAPI_PHPDBG_READLINE
-  "Enable readline support in phpdbg (depends on static ext/readline)"
+  "Enable readline support in phpdbg (depends on ext/readline)"
   OFF
   "SAPI_PHPDBG"
   OFF
@@ -103,6 +103,39 @@ if(CMAKE_HOST_SYSTEM_NAME STREQUAL "Darwin")
   set_target_properties(php_phpdbg PROPERTIES LINK_FLAGS "-undefined dynamic_lookup")
 endif()
 
+################################################################################
+# Readline support.
+################################################################################
+
+message(CHECK_START "Checking for readline support in phpdbg")
+
+if(SAPI_PHPDBG_READLINE AND EXT_READLINE)
+  if(EXT_READLINE_LIBREADLINE)
+    message(CHECK_PASS "enabled (readline)")
+  else()
+    message(CHECK_PASS "enabled (libedit)")
+  endif()
+
+  # Check and use ext/readline if enabled and built statically.
+  target_link_libraries(
+    php_phpdbg
+    PRIVATE
+      $<$<TARGET_EXISTS:php_readline>:$<TARGET_PROPERTY:php_readline,IMPORTED_LINK_INTERFACE_LIBRARIES>>
+  )
+
+  set(HAVE_PHPDBG_READLINE 1 CACHE INTERNAL "Whether phpdbg has readline support")
+elseif(SAPI_PHPDBG_READLINE)
+  message(CHECK_FAIL "disabled")
+  message(WARNING "Set 'EXT_READLINE=ON' to enable readline support in phpdbg")
+else()
+  message(CHECK_FAIL "disabled")
+endif()
+
+################################################################################
+# The phpdbg shared library.
+################################################################################
+
+# TODO: Should ext/readline be linked here also like in the phpdbg executable?
 if(SAPI_PHPDBG_SHARED)
   add_library(php_phpdbg_shared SHARED)
 
@@ -135,45 +168,6 @@ if(SAPI_PHPDBG_SHARED)
       #PHP::main
       $<$<PLATFORM_ID:Windows>:ws2_32;user32>
   )
-endif()
-
-################################################################################
-# Readline support.
-################################################################################
-
-# TODO: This depends on the static ext/readline.
-if(SAPI_PHPDBG_READLINE)
-  message(CHECK_START "Checking if readline is available")
-
-  if(EXT_READLINE)
-    set(HAVE_PHPDBG_READLINE 1 CACHE INTERNAL "Whether phpdbg has readline support")
-
-    if(EXT_READLINE_LIBREADLINE)
-      find_package(Readline)
-      set_package_properties(Readline PROPERTIES
-        TYPE REQUIRED
-        PURPOSE "Necessary to enable readline support in phpdbg."
-      )
-      target_link_libraries(php_phpdbg PRIVATE Readline::Readline)
-    else()
-      find_package(Editline)
-      set_package_properties(Editline PROPERTIES
-        TYPE REQUIRED
-        PURPOSE "Necessary to enable readline support in phpdbg."
-      )
-      target_link_libraries(php_phpdbg PRIVATE Editline::Editline)
-    endif()
-
-    if(Readline_FOUND OR Editline_FOUND)
-      message(CHECK_PASS "yes")
-    else()
-      message(CHECK_FAIL "no")
-      message(WARNING "Readline support in phpdbg not enabled")
-    endif()
-  else()
-    message(CHECK_FAIL "no")
-    message(WARNING "Set 'EXT_READLINE=ON' to enable readline support in phpdbg")
-  endif()
 endif()
 
 ################################################################################
