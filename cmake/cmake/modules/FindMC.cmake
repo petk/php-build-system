@@ -37,7 +37,7 @@ Module exposes the following function:
     RC_DIR
       Set the export directory for rc files.
     XDBG_DIR
-      Where to create the .dbg C include file that maps message ID's to their
+      Where to create the .dbg C include file that maps message IDs to their
       symbolic name.
     OPTIONS
       A list of additional options to pass to message compiler tool.

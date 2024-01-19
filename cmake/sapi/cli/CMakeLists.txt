@@ -59,7 +59,11 @@ add_executable(php_cli
 
 set_target_properties(php_cli PROPERTIES OUTPUT_NAME php)
 
-target_compile_definitions(php_cli PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE=1)
+target_compile_definitions(
+  php_cli
+  PRIVATE
+    ZEND_ENABLE_STATIC_TSRMLS_CACHE=1
+)
 
 target_link_libraries(
   php_cli
@@ -75,13 +79,12 @@ target_link_options(
 )
 
 if(CMAKE_SYSTEM_NAME STREQUAL "Windows")
-  # TODO: Add also readline as alternative here.
-  find_package(Editline QUIET)
-
-  if(Editline_FOUND)
-    target_link_libraries(php_cli PRIVATE Editline::Editline)
-    target_compile_definitions(php_cli PRIVATE HAVE_LIBEDIT)
-  endif()
+  # Link ext/readline's interface library if enabled and built statically.
+  target_link_libraries(
+    php_cli
+    PRIVATE
+      $<$<AND:$<TARGET_EXISTS:php_readline>,$<NOT:$<IN_LIST:$<TARGET_PROPERTY:php_readline,TYPE>,MODULE_LIBRARY;SHARED_LIBRARY>>>:<$TARGET_PROPERTY:php_readline,IMPORTED_LINK_INTERFACE_LIBRARIES>>
+  )
 endif()
 
 if(CMAKE_HOST_SYSTEM_NAME STREQUAL "Darwin")
@@ -100,15 +103,23 @@ if(SAPI_CLI_WIN_NO_CONSOLE)
 
   set_target_properties(php_cli_win_no_console PROPERTIES OUTPUT_NAME php-win)
 
-  target_compile_definitions(php_cli_win_no_console PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE=1)
-
-  target_link_options(php_cli_win_no_console PRIVATE /stack:67108864)
+  target_compile_definitions(
+    php_cli_win_no_console
+    PRIVATE
+      ZEND_ENABLE_STATIC_TSRMLS_CACHE=1
+  )
 
   target_link_libraries(
     php_cli_win_no_console
     PRIVATE
       PHP::main
       shell32
+  )
+
+  target_link_options(
+    php_cli_win_no_console
+    PRIVATE
+      /stack:67108864
   )
 endif()
 

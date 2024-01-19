@@ -17,6 +17,10 @@ CMake.
 
   Modifications done on php-src docs files.
 
+* `phpdbg-local-console.patch`
+
+  See https://github.com/php/php-src/pull/13199
+
 ## PHP 8.3
 
 * `cmake.patch`
@@ -35,3 +39,7 @@ CMake.
 * `fopencookie.patch`
 
   See https://github.com/php/php-src/pull/12236
+
+* `phpdbg-local-console.patch`
+
+  See https://github.com/php/php-src/pull/13199

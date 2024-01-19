@@ -267,6 +267,9 @@
 /* Whether to enable the PCRE JIT support */
 #cmakedefine HAVE_PCRE_JIT_SUPPORT @HAVE_PCRE_JIT_SUPPORT@
 
+/* */
+#cmakedefine HAVE_LIBEDIT @HAVE_LIBEDIT@
+
 /* Have SHMOP support */
 #cmakedefine HAVE_SHMOP @HAVE_SHMOP@
 

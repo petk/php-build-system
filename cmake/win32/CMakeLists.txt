@@ -78,6 +78,18 @@ mc_target(
 
 add_dependencies(php_win32 php_win32_wsyslog)
 
+# Generate cp_enc_map.c.
+add_executable(php_win32_encoding_map_generator cp_enc_map_gen.c)
+
+add_custom_target(
+  php_win32_encoding_map
+  DEPENDS php_win32_encoding_map_generator
+  COMMAND php_win32_encoding_map_generator > cp_enc_map.c
+  COMMENT "Generating win32/cp_enc_map.c"
+)
+
+add_dependencies(php_win32 php_win32_encoding_map)
+
 file(GLOB _php_win32_headers "${CMAKE_CURRENT_SOURCE_DIR}/*.h")
 
 target_sources(
