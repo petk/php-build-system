@@ -119,7 +119,9 @@ development workflows.
 
 `pkgconf` is more actively maintained standalone project similar and compatible
 with the initial Freedesktop's
-[pkg-config](https://gitlab.freedesktop.org/pkg-config/pkg-config).
+[pkg-config](https://gitlab.freedesktop.org/pkg-config/pkg-config). Systems
+usually provide both `pkgconf` and `pkg-config` as a symbolic link on the
+command line.
 
 PHP Autotools build system requires `pkgconf` to locate system dependencies.
 
@@ -143,17 +145,19 @@ pkgconf --help
 ```
 
 The `pkgconf` ships with M4 macro file `pkg.m4` for Autotools-based build
-systems.
+systems and provides several macros, such as `PKG_CHECK_MODULES`.
 
-Compiler and linker flags can be also overridden with `pkgconf` macro which
-creates so called precious variables that can be used when calling configure
-script (see `./configure --help`). For example, when certain library on system
-is manually built on a different location and `pkgconf` cannot find it among the
-installed system packages, these variables can help build system to find the
-library:
+`PKG_CHECK_MODULES` creates so called precious variables `*_LIBS` and `_CFLAGS`
+for using dependency in the build system. See `./configure --help` for all the
+available variables. These compiler and linker flags can be also overridden. For
+example, when developing, or when dependency is manually installed to a custom
+location and `pkgconf` cannot find it among the system packages.
 
 ```sh
-./configure LIBZIP_LIBS=... LIBZIP_CFLAGS=... --with-zip
+# When using custom libzip installation:
+./configure LIBZIP_LIBS="-L/path/to/libzip/lib -lzip" \
+            LIBZIP_CFLAGS="-I/path/to/libzip/include" \
+            --with-zip
 ```
 
 CMake has a

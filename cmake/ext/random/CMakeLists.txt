@@ -36,6 +36,7 @@ target_sources(
   PUBLIC FILE_SET HEADERS
     BASE_DIRS "${PROJECT_SOURCE_DIR}"
     FILES
+      php_random_uint128.h
       php_random.h
 )
 
