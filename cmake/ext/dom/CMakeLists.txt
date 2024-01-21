@@ -223,12 +223,12 @@ target_sources(
         xpath_callbacks.h
 )
 
-target_compile_definitions(php_dom PRIVATE LEXBOR_STATIC)
 target_include_directories(php_dom PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/lexbor)
 
 target_compile_definitions(
   php_dom
   PRIVATE
+    LEXBOR_STATIC
     $<$<AND:$<PLATFORM_ID:Windows>,$<NOT:$<IN_LIST:$<TARGET_PROPERTY:TYPE>,MODULE_LIBRARY;SHARED_LIBRARY>>>:LIBXML_STATIC>
 )
 
