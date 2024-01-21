@@ -1,17 +1,27 @@
 include(CheckSourceCompiles)
 include(CheckSymbolExists)
 
-add_library(php_random STATIC
-  csprng.c
-  engine_combinedlcg.c
-  engine_mt19937.c
-  engine_pcgoneseq128xslrr64.c
-  engine_secure.c
-  engine_user.c
-  engine_xoshiro256starstar.c
-  gammasection.c
-  random.c
-  randomizer.c
+add_library(php_random STATIC)
+
+target_sources(
+  php_random
+  PRIVATE
+    csprng.c
+    engine_combinedlcg.c
+    engine_mt19937.c
+    engine_pcgoneseq128xslrr64.c
+    engine_secure.c
+    engine_user.c
+    engine_xoshiro256starstar.c
+    gammasection.c
+    random.c
+    randomizer.c
+  PUBLIC
+    FILE_SET HEADERS
+      BASE_DIRS "${PHP_SOURCE_DIR}"
+      FILES
+        php_random_uint128.h
+        php_random.h
 )
 
 target_compile_definitions(php_random PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE=1)
@@ -30,15 +40,6 @@ check_source_compiles(C "
     return 0;
   }
 " HAVE_COMMONCRYPTO_COMMONRANDOM_H)
-
-target_sources(
-  php_random
-  PUBLIC FILE_SET HEADERS
-    BASE_DIRS "${PROJECT_SOURCE_DIR}"
-    FILES
-      php_random_uint128.h
-      php_random.h
-)
 
 install(
   TARGETS php_random

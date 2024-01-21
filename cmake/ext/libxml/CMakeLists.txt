@@ -11,10 +11,19 @@ if(NOT EXT_LIBXML)
 endif()
 
 # This extension can be built only as a STATIC library.
-add_library(php_libxml STATIC
-  libxml.c
-  mime_sniff.c
-  php_libxml2.def
+add_library(php_libxml STATIC)
+
+target_sources(
+  php_libxml
+  PRIVATE
+    libxml.c
+    mime_sniff.c
+    php_libxml2.def
+  PUBLIC
+    FILE_SET HEADERS
+      BASE_DIRS "${PHP_SOURCE_DIR}"
+      FILES
+        php_libxml.h
 )
 
 target_compile_definitions(
@@ -39,14 +48,6 @@ if(LIBXML2_VERSION_STRING VERSION_LESS 2.10)
 endif()
 
 target_link_libraries(php_libxml PUBLIC LibXml2::LibXml2)
-
-target_sources(
-  php_libxml
-  PUBLIC FILE_SET HEADERS
-    BASE_DIRS "${PROJECT_SOURCE_DIR}"
-    FILES
-      php_libxml.h
-)
 
 install(
   TARGETS php_libxml
