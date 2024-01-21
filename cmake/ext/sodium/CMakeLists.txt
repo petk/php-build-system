@@ -26,9 +26,16 @@ else()
   add_library(php_sodium)
 endif()
 
-target_sources(php_sodium PRIVATE
-  libsodium.c
-  sodium_pwhash.c
+target_sources(
+  php_sodium
+  PRIVATE
+    libsodium.c
+    sodium_pwhash.c
+  PUBLIC
+    FILE_SET HEADERS
+      BASE_DIRS "${PHP_SOURCE_DIR}"
+      FILES
+        php_libsodium.h
 )
 
 find_package(Sodium 1.0.8)
@@ -51,14 +58,6 @@ if(HAVE_WNO_LOGICAL_OP_C)
 endif()
 
 set(HAVE_LIBSODIUMLIB 1 CACHE INTERNAL "Whether the libsodium is available")
-
-target_sources(
-  php_sodium
-  PUBLIC FILE_SET HEADERS
-    BASE_DIRS "${PROJECT_SOURCE_DIR}"
-    FILES
-      $<$<PLATFORM_ID:Windows>:php_libsodium.h>
-)
 
 install(
   TARGETS php_sodium

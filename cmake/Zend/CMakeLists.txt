@@ -59,89 +59,116 @@ endif()
 # Add library.
 ################################################################################
 
-add_library(zend STATIC
-  Optimizer/block_pass.c
-  Optimizer/compact_literals.c
-  Optimizer/compact_vars.c
-  Optimizer/dce.c
-  Optimizer/dfa_pass.c
-  Optimizer/escape_analysis.c
-  Optimizer/nop_removal.c
-  Optimizer/optimize_func_calls.c
-  Optimizer/optimize_temp_vars_5.c
-  Optimizer/pass1.c
-  Optimizer/pass3.c
-  Optimizer/sccp.c
-  Optimizer/scdf.c
-  Optimizer/zend_call_graph.c
-  Optimizer/zend_cfg.c
-  Optimizer/zend_dfg.c
-  Optimizer/zend_dump.c
-  Optimizer/zend_func_info.c
-  Optimizer/zend_inference.c
-  Optimizer/zend_optimizer.c
-  Optimizer/zend_ssa.c
-  zend_alloc.c
-  zend_API.c
-  zend_ast.c
-  zend_atomic.c
-  zend_attributes.c
-  zend_builtin_functions.c
-  zend_call_stack.c
-  zend_closures.c
-  zend_compile.c
-  zend_constants.c
-  zend_cpuinfo.c
-  zend_default_classes.c
-  zend_dtrace.c
-  zend_enum.c
-  zend_exceptions.c
-  zend_execute_API.c
-  zend_execute.c
-  zend_extensions.c
-  zend_fibers.c
-  zend_float.c
-  zend_gc.c
-  $<$<NOT:$<PLATFORM_ID:Windows>>:zend_gdb.c>
-  zend_generators.c
-  zend_hash.c
-  zend_highlight.c
-  zend_hrtime.c
-  zend_inheritance.c
-  zend_ini_parser.c
-  zend_ini_scanner.c
-  zend_ini.c
-  zend_interfaces.c
-  zend_iterators.c
-  zend_language_parser.c
-  zend_language_scanner.c
-  zend_list.c
-  zend_llist.c
-  $<$<NOT:$<PLATFORM_ID:Windows>>:zend_max_execution_timer.c>
-  zend_multibyte.c
-  zend_object_handlers.c
-  zend_objects_API.c
-  zend_objects.c
-  zend_observer.c
-  zend_opcode.c
-  zend_operators.c
-  zend_ptr_stack.c
-  $<$<NOT:$<PLATFORM_ID:Windows>>:zend_signal.c>
-  zend_smart_str.c
-  zend_sort.c
-  zend_stack.c
-  zend_stream.c
-  zend_string.c
-  zend_strtod.c
-  zend_system_id.c
-  zend_variables.c
-  zend_virtual_cwd.c
-  zend_vm_opcodes.c
-  zend_weakrefs.c
-  zend.c
-)
-
+add_library(zend STATIC)
 add_library(Zend::Zend ALIAS zend)
+
+file(GLOB _zend_headers "${CMAKE_CURRENT_SOURCE_DIR}/*.h")
+# Exclude Windows header and specify it below separately.
+list(FILTER _zend_headers EXCLUDE REGEX ".*zend_config\\.w32\\.h$")
+
+target_sources(
+  zend
+  PRIVATE
+    Optimizer/block_pass.c
+    Optimizer/compact_literals.c
+    Optimizer/compact_vars.c
+    Optimizer/dce.c
+    Optimizer/dfa_pass.c
+    Optimizer/escape_analysis.c
+    Optimizer/nop_removal.c
+    Optimizer/optimize_func_calls.c
+    Optimizer/optimize_temp_vars_5.c
+    Optimizer/pass1.c
+    Optimizer/pass3.c
+    Optimizer/sccp.c
+    Optimizer/scdf.c
+    Optimizer/zend_call_graph.c
+    Optimizer/zend_cfg.c
+    Optimizer/zend_dfg.c
+    Optimizer/zend_dump.c
+    Optimizer/zend_func_info.c
+    Optimizer/zend_inference.c
+    Optimizer/zend_optimizer.c
+    Optimizer/zend_ssa.c
+    zend_alloc.c
+    zend_API.c
+    zend_ast.c
+    zend_atomic.c
+    zend_attributes.c
+    zend_builtin_functions.c
+    zend_call_stack.c
+    zend_closures.c
+    zend_compile.c
+    zend_constants.c
+    zend_cpuinfo.c
+    zend_default_classes.c
+    zend_dtrace.c
+    zend_enum.c
+    zend_exceptions.c
+    zend_execute_API.c
+    zend_execute.c
+    zend_extensions.c
+    zend_fibers.c
+    zend_float.c
+    zend_gc.c
+    $<$<NOT:$<PLATFORM_ID:Windows>>:zend_gdb.c>
+    zend_generators.c
+    zend_hash.c
+    zend_highlight.c
+    zend_hrtime.c
+    zend_inheritance.c
+    zend_ini_parser.c
+    zend_ini_scanner.c
+    zend_ini.c
+    zend_interfaces.c
+    zend_iterators.c
+    zend_language_parser.c
+    zend_language_scanner.c
+    zend_list.c
+    zend_llist.c
+    $<$<NOT:$<PLATFORM_ID:Windows>>:zend_max_execution_timer.c>
+    zend_multibyte.c
+    zend_object_handlers.c
+    zend_objects_API.c
+    zend_objects.c
+    zend_observer.c
+    zend_opcode.c
+    zend_operators.c
+    zend_ptr_stack.c
+    $<$<NOT:$<PLATFORM_ID:Windows>>:zend_signal.c>
+    zend_smart_str.c
+    zend_sort.c
+    zend_stack.c
+    zend_stream.c
+    zend_string.c
+    zend_strtod.c
+    zend_system_id.c
+    zend_variables.c
+    zend_virtual_cwd.c
+    zend_vm_opcodes.c
+    zend_weakrefs.c
+    zend.c
+  PUBLIC
+    FILE_SET headers_source TYPE HEADERS
+      BASE_DIRS "${PHP_SOURCE_DIR}"
+      FILES
+        ${_zend_headers}
+        $<$<PLATFORM_ID:Windows>:zend_config.w32.h>
+        Optimizer/zend_call_graph.h
+        Optimizer/zend_cfg.h
+        Optimizer/zend_dfg.h
+        Optimizer/zend_dump.h
+        Optimizer/zend_func_info.h
+        Optimizer/zend_inference.h
+        Optimizer/zend_optimizer.h
+        Optimizer/zend_ssa.h
+        Optimizer/zend_worklist.h
+    # A separate file set so binary dir can also be created within a source dir.
+    FILE_SET headers_binary TYPE HEADERS
+      BASE_DIRS "${PHP_BINARY_DIR}"
+      FILES
+        $<$<NOT:$<PLATFORM_ID:Windows>>:${CMAKE_CURRENT_BINARY_DIR}/zend_config.h>
+)
 
 target_link_libraries(zend PRIVATE PHP::configuration)
 
@@ -363,33 +390,6 @@ if(NOT CMAKE_SYSTEM_NAME STREQUAL "Windows")
     "#include <../main/php_config.h>\n"
   )
 endif()
-
-file(GLOB _zend_headers "${CMAKE_CURRENT_SOURCE_DIR}/*.h")
-# Exclude Windows header and specify it below separately.
-list(FILTER _zend_headers EXCLUDE REGEX ".*zend_config\\.w32\\.h$")
-
-target_sources(
-  zend
-  PUBLIC FILE_SET headers_source TYPE HEADERS
-    BASE_DIRS "${PHP_SOURCE_DIR}"
-    FILES
-      ${_zend_headers}
-      $<$<PLATFORM_ID:Windows>:zend_config.w32.h>
-      Optimizer/zend_call_graph.h
-      Optimizer/zend_cfg.h
-      Optimizer/zend_dfg.h
-      Optimizer/zend_dump.h
-      Optimizer/zend_func_info.h
-      Optimizer/zend_inference.h
-      Optimizer/zend_optimizer.h
-      Optimizer/zend_ssa.h
-      Optimizer/zend_worklist.h
-  # A separate file set so binary dir can also be created within a source dir.
-  PUBLIC FILE_SET headers_binary TYPE HEADERS
-    BASE_DIRS "${PHP_BINARY_DIR}"
-    FILES
-      $<$<NOT:$<PLATFORM_ID:Windows>>:${CMAKE_CURRENT_BINARY_DIR}/zend_config.h>
-)
 
 install(
   TARGETS zend

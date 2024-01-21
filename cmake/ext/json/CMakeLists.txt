@@ -1,8 +1,19 @@
-add_library(php_json STATIC
-  json_encoder.c
-  json_parser.tab.c
-  json_scanner.c
-  json.c
+add_library(php_json STATIC)
+
+target_sources(
+  php_json
+  PRIVATE
+    json_encoder.c
+    json_parser.tab.c
+    json_scanner.c
+    json.c
+  PUBLIC
+    FILE_SET HEADERS
+      BASE_DIRS "${PHP_SOURCE_DIR}"
+      FILES
+        php_json_parser.h
+        php_json_scanner.h
+        php_json.h
 )
 
 target_compile_definitions(php_json PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE=1)
@@ -32,16 +43,6 @@ endif()
 if(NOT CMAKE_SYSTEM_NAME STREQUAL "Windows")
   set(HAVE_JSON 1 CACHE INTERNAL "Whether to enable the json extension.")
 endif()
-
-target_sources(
-  php_json
-  PUBLIC FILE_SET HEADERS
-    BASE_DIRS "${PROJECT_SOURCE_DIR}"
-    FILES
-      php_json_parser.h
-      php_json_scanner.h
-      php_json.h
-)
 
 install(
   TARGETS php_json

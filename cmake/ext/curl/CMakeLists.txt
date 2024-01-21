@@ -29,11 +29,18 @@ else()
   add_library(php_curl)
 endif()
 
-target_sources(php_curl PRIVATE
-  curl_file.c
-  interface.c
-  multi.c
-  share.c
+target_sources(
+  php_curl
+  PRIVATE
+    curl_file.c
+    interface.c
+    multi.c
+    share.c
+  PUBLIC
+    FILE_SET HEADERS
+      BASE_DIRS "${PHP_SOURCE_DIR}"
+      FILES
+        php_curl.h
 )
 
 find_package(CURL 7.29.0 OPTIONAL_COMPONENTS SSL)
@@ -106,14 +113,6 @@ if(TARGET CURL::libcurl)
     )
   endif()
 endif()
-
-target_sources(
-  php_curl
-  PUBLIC FILE_SET HEADERS
-    BASE_DIRS "${PROJECT_SOURCE_DIR}"
-    FILES
-      php_curl.h
-)
 
 install(
   TARGETS php_curl

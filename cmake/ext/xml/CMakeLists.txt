@@ -33,8 +33,16 @@ else()
   add_library(php_xml)
 endif()
 
-target_sources(php_xml PRIVATE
-  xml.c
+target_sources(
+  php_xml
+  PRIVATE
+    xml.c
+  PUBLIC
+    FILE_SET HEADERS
+      BASE_DIRS "${PHP_SOURCE_DIR}"
+      FILES
+        expat_compat.h
+        php_xml.h
 )
 
 target_compile_definitions(php_xml PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE=1)
@@ -76,16 +84,6 @@ else()
 
   set(HAVE_LIBEXPAT 1 CACHE INTERNAL "Whether libexpat is used")
 endif()
-
-target_sources(
-  php_xml
-  PUBLIC FILE_SET HEADERS
-    BASE_DIRS "${PROJECT_SOURCE_DIR}"
-    FILES
-      expat_compat.h
-      php_xml.h
-      xml_arginfo.h
-)
 
 install(
   TARGETS php_xml

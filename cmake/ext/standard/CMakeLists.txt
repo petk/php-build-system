@@ -22,70 +22,84 @@ add_feature_info("External librcypt" EXT_STANDARD_EXTERNAL_LIBCRYPT
 # Add library.
 ################################################################################
 
-add_library(php_standard STATIC
-  array.c
-  assert.c
-  base64.c
-  basic_functions.c
-  browscap.c
-  crc32.c
-  credits.c
-  crypt.c
-  css.c
-  datetime.c
-  dir.c
-  dl.c
-  $<$<PLATFORM_ID:Windows>:dns_win32.c>
-  dns.c
-  exec.c
-  file.c
-  filestat.c
-  filters.c
-  flock_compat.c
-  formatted_print.c
-  fsock.c
-  ftok.c
-  ftp_fopen_wrapper.c
-  head.c
-  hrtime.c
-  html.c
-  http_fopen_wrapper.c
-  http.c
-  image.c
-  incomplete_class.c
-  info.c
-  iptc.c
-  levenshtein.c
-  libavifinfo/avifinfo.c
-  link.c
-  mail.c
-  math.c
-  md5.c
-  metaphone.c
-  microtime.c
-  net.c
-  pack.c
-  pageinfo.c
-  password.c
-  php_fopen_wrapper.c
-  proc_open.c
-  quot_print.c
-  scanf.c
-  sha1.c
-  soundex.c
-  streamsfuncs.c
-  string.c
-  strnatcmp.c
-  syslog.c
-  type.c
-  uniqid.c
-  url_scanner_ex.c
-  url.c
-  user_filters.c
-  uuencode.c
-  var_unserializer.c
-  var.c
-  versioning.c
+add_library(php_standard STATIC)
+
+file(GLOB _php_standard_headers "${CMAKE_CURRENT_SOURCE_DIR}/*.h")
+# Exclude Windows header and specify it below separately.
+list(FILTER _php_standard_headers EXCLUDE REGEX ".*winver\\.h$")
+
+target_sources(
+  php_standard
+  PRIVATE
+    array.c
+    assert.c
+    base64.c
+    basic_functions.c
+    browscap.c
+    crc32.c
+    credits.c
+    crypt.c
+    css.c
+    datetime.c
+    dir.c
+    dl.c
+    $<$<PLATFORM_ID:Windows>:dns_win32.c>
+    dns.c
+    exec.c
+    file.c
+    filestat.c
+    filters.c
+    flock_compat.c
+    formatted_print.c
+    fsock.c
+    ftok.c
+    ftp_fopen_wrapper.c
+    head.c
+    hrtime.c
+    html.c
+    http_fopen_wrapper.c
+    http.c
+    image.c
+    incomplete_class.c
+    info.c
+    iptc.c
+    levenshtein.c
+    libavifinfo/avifinfo.c
+    link.c
+    mail.c
+    math.c
+    md5.c
+    metaphone.c
+    microtime.c
+    net.c
+    pack.c
+    pageinfo.c
+    password.c
+    php_fopen_wrapper.c
+    proc_open.c
+    quot_print.c
+    scanf.c
+    sha1.c
+    soundex.c
+    streamsfuncs.c
+    string.c
+    strnatcmp.c
+    syslog.c
+    type.c
+    uniqid.c
+    url_scanner_ex.c
+    url.c
+    user_filters.c
+    uuencode.c
+    var_unserializer.c
+    var.c
+    versioning.c
+  PUBLIC
+    FILE_SET HEADERS
+      BASE_DIRS "${PHP_SOURCE_DIR}"
+      FILES
+        ${_php_standard_headers}
+        $<$<PLATFORM_ID:Windows>:winver.h>
 )
 
 # Check for ARM64 processor on Windows.
@@ -151,12 +165,14 @@ endif()
 ################################################################################
 
 if(NOT EXT_STANDARD_EXTERNAL_LIBCRYPT)
-  target_sources(php_standard PRIVATE
-    crypt_blowfish.c
-    crypt_freesec.c
-    crypt_sha256.c
-    crypt_sha512.c
-    php_crypt_r.c
+  target_sources(
+    php_standard
+    PRIVATE
+      crypt_blowfish.c
+      crypt_freesec.c
+      crypt_sha256.c
+      crypt_sha512.c
+      php_crypt_r.c
   )
 
   set(PHP_USE_PHP_CRYPT_R 1 CACHE INTERNAL "Whether PHP uses its own crypt_r")
@@ -335,21 +351,8 @@ check_symbol_exists(
 set(ENABLE_CHROOT_FUNC 1 CACHE INTERNAL "Whether to enable chroot() function")
 
 ################################################################################
-# Install headers.
+# Installation.
 ################################################################################
-
-file(GLOB _php_standard_headers "${CMAKE_CURRENT_SOURCE_DIR}/*.h")
-# Exclude Windows header and specify it below separately.
-list(FILTER _php_standard_headers EXCLUDE REGEX ".*winver\\.h$")
-
-target_sources(
-  php_standard
-  PUBLIC FILE_SET HEADERS
-    BASE_DIRS "${PROJECT_SOURCE_DIR}"
-    FILES
-      ${_php_standard_headers}
-      $<$<PLATFORM_ID:Windows>:winver.h>
-)
 
 install(
   TARGETS php_standard

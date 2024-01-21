@@ -114,54 +114,70 @@ else()
   add_library(php_gd)
 endif()
 
-target_sources(php_gd PRIVATE
-  gd.c
-)
-
 file(GLOB _php_gd_headers "${CMAKE_CURRENT_SOURCE_DIR}/*.h")
 
+target_sources(
+  php_gd
+  PRIVATE
+    gd.c
+  PUBLIC
+    FILE_SET HEADERS
+      BASE_DIRS "${PHP_SOURCE_DIR}"
+      FILES
+        ${_php_gd_headers}
+)
+
 if(NOT EXT_GD_EXTERNAL)
-  target_sources(php_gd PRIVATE
-    libgd/gd_avif.c
-    libgd/gd_bmp.c
-    libgd/gd_color_match.c
-    libgd/gd_crop.c
-    libgd/gd_filter.c
-    libgd/gd_gd.c
-    libgd/gd_gd2.c
-    libgd/gd_gif_in.c
-    libgd/gd_gif_out.c
-    libgd/gd_interpolation.c
-    libgd/gd_io_dp.c
-    libgd/gd_io_file.c
-    libgd/gd_io_ss.c
-    libgd/gd_io.c
-    libgd/gd_jpeg.c
-    libgd/gd_matrix.c
-    libgd/gd_pixelate.c
-    libgd/gd_png.c
-    libgd/gd_rotate.c
-    libgd/gd_security.c
-    libgd/gd_ss.c
-    libgd/gd_tga.c
-    libgd/gd_topal.c
-    libgd/gd_transform.c
-    libgd/gd_wbmp.c
-    libgd/gd_webp.c
-    libgd/gd_xbm.c
-    libgd/gd.c
-    libgd/gdcache.c
-    libgd/gdfontg.c
-    libgd/gdfontl.c
-    libgd/gdfontmb.c
-    libgd/gdfonts.c
-    libgd/gdfontt.c
-    libgd/gdft.c
-    libgd/gdhelpers.c
-    libgd/gdkanji.c
-    libgd/gdtables.c
-    libgd/gdxpm.c
-    libgd/wbmp.c
+  file(GLOB _php_gd_libgd_headers "${CMAKE_CURRENT_SOURCE_DIR}/libgd/*.h")
+
+  target_sources(
+    php_gd
+    PRIVATE
+      libgd/gd_avif.c
+      libgd/gd_bmp.c
+      libgd/gd_color_match.c
+      libgd/gd_crop.c
+      libgd/gd_filter.c
+      libgd/gd_gd.c
+      libgd/gd_gd2.c
+      libgd/gd_gif_in.c
+      libgd/gd_gif_out.c
+      libgd/gd_interpolation.c
+      libgd/gd_io_dp.c
+      libgd/gd_io_file.c
+      libgd/gd_io_ss.c
+      libgd/gd_io.c
+      libgd/gd_jpeg.c
+      libgd/gd_matrix.c
+      libgd/gd_pixelate.c
+      libgd/gd_png.c
+      libgd/gd_rotate.c
+      libgd/gd_security.c
+      libgd/gd_ss.c
+      libgd/gd_tga.c
+      libgd/gd_topal.c
+      libgd/gd_transform.c
+      libgd/gd_wbmp.c
+      libgd/gd_webp.c
+      libgd/gd_xbm.c
+      libgd/gd.c
+      libgd/gdcache.c
+      libgd/gdfontg.c
+      libgd/gdfontl.c
+      libgd/gdfontmb.c
+      libgd/gdfonts.c
+      libgd/gdfontt.c
+      libgd/gdft.c
+      libgd/gdhelpers.c
+      libgd/gdkanji.c
+      libgd/gdtables.c
+      libgd/gdxpm.c
+      libgd/wbmp.c
+    PUBLIC
+      FILE_SET HEADERS
+        BASE_DIRS "${PHP_SOURCE_DIR}"
+        FILES
+          ${_php_gd_libgd_headers}
   )
 
   set(HAVE_GD_BUNDLED 1 CACHE INTERNAL "Whether the bundled libgd is used")
@@ -181,9 +197,6 @@ if(NOT EXT_GD_EXTERNAL)
     HAVE_GD_TGA 1
     CACHE INTERNAL "Whether the TGA functionality can be used with libgd"
   )
-
-  file(GLOB _php_gd_libgd_headers "${CMAKE_CURRENT_SOURCE_DIR}/libgd/*.h")
-  list(APPEND _php_gd_headers ${_php_gd_libgd_headers})
 
   # Check for fabsf and floorf which are available since C99.
   cmake_push_check_state(RESET)
@@ -417,14 +430,6 @@ else()
     check_library_exists(GD::GD gdImageGetInterpolationMethod "" HAVE_GD_GET_INTERPOLATION)
   endif()
 endif()
-
-target_sources(
-  php_gd
-  PUBLIC FILE_SET HEADERS
-    BASE_DIRS "${PROJECT_SOURCE_DIR}"
-    FILES
-      ${_php_gd_headers}
-)
 
 install(
   TARGETS php_gd

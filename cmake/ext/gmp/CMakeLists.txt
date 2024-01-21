@@ -25,8 +25,15 @@ else()
   add_library(php_gmp)
 endif()
 
-target_sources(php_gmp PRIVATE
-  gmp.c
+target_sources(
+  php_gmp
+  PRIVATE
+    gmp.c
+  PUBLIC
+    FILE_SET HEADERS
+      BASE_DIRS "${PHP_SOURCE_DIR}"
+      FILES
+        php_gmp_int.h
 )
 
 target_compile_definitions(php_gmp PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE=1)
@@ -38,14 +45,6 @@ set_package_properties(GMP PROPERTIES
 )
 
 target_link_libraries(php_gmp PRIVATE GMP::GMP)
-
-target_sources(
-  php_gmp
-  PUBLIC FILE_SET HEADERS
-    BASE_DIRS "${PROJECT_SOURCE_DIR}"
-    FILES
-      php_gmp_int.h
-)
 
 install(
   TARGETS php_gmp

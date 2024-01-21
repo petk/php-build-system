@@ -25,22 +25,21 @@ else()
   add_library(php_filter)
 endif()
 
-target_sources(php_filter PRIVATE
-  callback_filter.c
-  filter.c
-  logical_filters.c
-  sanitizing_filters.c
+target_sources(
+  php_filter
+  PRIVATE
+    callback_filter.c
+    filter.c
+    logical_filters.c
+    sanitizing_filters.c
+  PUBLIC
+    FILE_SET HEADERS
+      BASE_DIRS "${PHP_SOURCE_DIR}"
+      FILES
+        php_filter.h
 )
 
 target_compile_definitions(php_filter PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE=1)
-
-target_sources(
-  php_filter
-  PUBLIC FILE_SET HEADERS
-    BASE_DIRS "${PROJECT_SOURCE_DIR}"
-    FILES
-      php_filter.h
-)
 
 install(
   TARGETS php_filter

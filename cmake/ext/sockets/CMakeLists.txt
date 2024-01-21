@@ -29,12 +29,20 @@ else()
   add_library(php_sockets)
 endif()
 
-target_sources(php_sockets PRIVATE
-  conversions.c
-  multicast.c
-  sendrecvmsg.c
-  sockaddr_conv.c
-  sockets.c
+target_sources(
+  php_sockets
+  PRIVATE
+    conversions.c
+    multicast.c
+    sendrecvmsg.c
+    sockaddr_conv.c
+    sockets.c
+  PUBLIC
+    FILE_SET HEADERS
+      BASE_DIRS "${PHP_SOURCE_DIR}"
+      FILES
+        php_sockets.h
+        $<$<PLATFORM_ID:Windows>:windows_common.h>
 )
 
 target_compile_definitions(
@@ -178,15 +186,6 @@ if(ANC_CREDS_CMSGCRED)
 else()
   message(CHECK_FAIL "no")
 endif()
-
-target_sources(
-  php_sockets
-  PUBLIC FILE_SET HEADERS
-    BASE_DIRS "${PROJECT_SOURCE_DIR}"
-    FILES
-      php_sockets.h
-      $<$<PLATFORM_ID:Windows>:windows_common.h>
-)
 
 install(
   TARGETS php_sockets

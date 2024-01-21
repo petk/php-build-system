@@ -40,18 +40,17 @@ else()
 endif()
 
 # Add library target sources.
-target_sources(php_%EXTNAME% PRIVATE
-  %EXTNAME%.c
-)
-
-# If extension provides header(s) used by other sources and should be installed,
-# add header(s) to a file set.
 target_sources(
   php_%EXTNAME%
-  PUBLIC FILE_SET HEADERS
-    BASE_DIRS "${PROJECT_SOURCE_DIR}"
-    FILES
-      php_%EXTNAME%.h
+  PRIVATE
+    %EXTNAME%.c
+  # If extension provides header(s) that will be consumed by other sources and
+  # should be installed, add header(s) to a file set.
+  PUBLIC
+    FILE_SET HEADERS
+      BASE_DIRS "${PHP_SOURCE_DIR}"
+      FILES
+        php_%EXTNAME%.h
 )
 
 # If extension is Zend extension, enable the PHP_ZEND_EXTENSION target property.

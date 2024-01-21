@@ -9,18 +9,33 @@ check_include_file(io.h HAVE_IO_H)
 check_symbol_exists(atoll "stdlib.h" HAVE_ATOLL)
 check_symbol_exists(strtoll "stdlib.h" HAVE_STRTOLL)
 
-add_library(php_date STATIC
-  lib/astro.c
-  lib/dow.c
-  lib/interval.c
-  lib/parse_date.c
-  lib/parse_iso_intervals.c
-  lib/parse_posix.c
-  lib/parse_tz.c
-  lib/timelib.c
-  lib/tm2unixtime.c
-  lib/unixtime2tm.c
-  php_date.c
+add_library(php_date STATIC)
+
+target_sources(
+  php_date
+  PRIVATE
+    lib/astro.c
+    lib/dow.c
+    lib/interval.c
+    lib/parse_date.c
+    lib/parse_iso_intervals.c
+    lib/parse_posix.c
+    lib/parse_tz.c
+    lib/timelib.c
+    lib/tm2unixtime.c
+    lib/unixtime2tm.c
+    php_date.c
+  PUBLIC
+    FILE_SET headers_source TYPE HEADERS
+      BASE_DIRS "${PHP_SOURCE_DIR}"
+      FILES
+        lib/timelib.h
+        php_date.h
+    # A separate file set so binary dir can also be created within a source dir.
+    FILE_SET headers_binary TYPE HEADERS
+      BASE_DIRS "${PHP_BINARY_DIR}"
+      FILES
+        "${CMAKE_CURRENT_BINARY_DIR}/lib/timelib_config.h"
 )
 
 target_include_directories(php_date
@@ -65,20 +80,6 @@ file(WRITE "${CMAKE_CURRENT_BINARY_DIR}/lib/timelib_config.h" [[
 ]])
 
 add_dependencies(php_date PHP::main Zend::Zend)
-
-target_sources(
-  php_date
-  PUBLIC FILE_SET headers_source TYPE HEADERS
-    BASE_DIRS "${PROJECT_SOURCE_DIR}"
-    FILES
-      lib/timelib.h
-      php_date.h
-  # A separate file set so binary dir can also be created within a source dir.
-  PUBLIC FILE_SET headers_binary TYPE HEADERS
-    BASE_DIRS "${PROJECT_BINARY_DIR}"
-    FILES
-      "${CMAKE_CURRENT_BINARY_DIR}/lib/timelib_config.h"
-)
 
 install(
   TARGETS php_date

@@ -4,8 +4,9 @@ if(NOT CMAKE_SYSTEM_NAME STREQUAL "Windows")
 endif()
 
 add_library(php_win32 STATIC)
-
 add_library(PHP::win32 ALIAS php_win32)
+
+file(GLOB _php_win32_headers "${CMAKE_CURRENT_SOURCE_DIR}/*.h")
 
 target_sources(
   php_win32
@@ -30,6 +31,16 @@ target_sources(
     time.c
     winutil.c
     wsyslog.c
+  PUBLIC
+    FILE_SET headers_source TYPE HEADERS
+      BASE_DIRS "${PHP_SOURCE_DIR}"
+      FILES
+        ${_php_win32_headers}
+    # A separate file set so binary dir can also be created within a source dir.
+    FILE_SET headers_binary TYPE HEADERS
+      BASE_DIRS "${PHP_BINARY_DIR}"
+      FILES
+        ${CMAKE_CURRENT_BINARY_DIR}/wsyslog.h
 )
 
 target_compile_definitions(
@@ -90,18 +101,9 @@ add_custom_target(
 
 add_dependencies(php_win32 php_win32_encoding_map)
 
-file(GLOB _php_win32_headers "${CMAKE_CURRENT_SOURCE_DIR}/*.h")
-
-target_sources(
-  php_win32
-  PUBLIC FILE_SET HEADERS
-    BASE_DIRS "${PROJECT_SOURCE_DIR}"
-    FILES
-      ${_php_win32_headers}
-)
-
 install(
   TARGETS php_win32
   ARCHIVE EXCLUDE_FROM_ALL
-  FILE_SET HEADERS
+  FILE_SET headers_source
+  FILE_SET headers_binary
 )

@@ -25,12 +25,21 @@ else()
   add_library(php_pdo)
 endif()
 
-target_sources(php_pdo PRIVATE
-  pdo_dbh.c
-  pdo_sql_parser.c
-  pdo_sqlstate.c
-  pdo_stmt.c
-  pdo.c
+target_sources(
+  php_pdo
+  PRIVATE
+    pdo_dbh.c
+    pdo_sql_parser.c
+    pdo_sqlstate.c
+    pdo_stmt.c
+    pdo.c
+  PUBLIC
+    FILE_SET HEADERS
+      BASE_DIRS "${PHP_SOURCE_DIR}"
+      FILES
+        php_pdo.h
+        php_pdo_driver.h
+        php_pdo_error.h
 )
 
 if(RE2C_FOUND)
@@ -41,16 +50,6 @@ if(RE2C_FOUND)
     OPTIONS "--no-generation-date"
   )
 endif()
-
-target_sources(
-  php_pdo
-  PUBLIC FILE_SET HEADERS
-    BASE_DIRS "${PROJECT_SOURCE_DIR}"
-    FILES
-      php_pdo.h
-      php_pdo_driver.h
-      php_pdo_error.h
-)
 
 install(
   TARGETS php_pdo
