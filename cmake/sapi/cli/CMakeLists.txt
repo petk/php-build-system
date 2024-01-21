@@ -63,7 +63,7 @@ target_sources(
     FILE_SET HEADERS
       BASE_DIRS "${PHP_SOURCE_DIR}"
       FILES
-        $<$<NOT:$<PLATFORM_ID:Windows>>:cli.h>
+        cli.h
 )
 
 set_target_properties(php_cli PROPERTIES OUTPUT_NAME php)

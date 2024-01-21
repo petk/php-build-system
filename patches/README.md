@@ -43,3 +43,7 @@ CMake.
 * `phpdbg-local-console.patch`
 
   See https://github.com/php/php-src/pull/13199
+
+* `hash.patch`
+
+  See https://github.com/php/php-src/pull/13210
