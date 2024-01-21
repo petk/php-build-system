@@ -29,16 +29,23 @@ else()
   add_library(php_phar)
 endif()
 
-target_sources(php_phar PRIVATE
-  dirstream.c
-  func_interceptors.c
-  phar_object.c
-  phar_path_check.c
-  phar.c
-  stream.c
-  tar.c
-  util.c
-  zip.c
+target_sources(
+  php_phar
+  PRIVATE
+    dirstream.c
+    func_interceptors.c
+    phar_object.c
+    phar_path_check.c
+    phar.c
+    stream.c
+    tar.c
+    util.c
+    zip.c
+  PUBLIC
+    FILE_SET HEADERS
+      BASE_DIRS "${PHP_SOURCE_DIR}"
+      FILES
+        php_phar.h
 )
 
 target_compile_definitions(php_phar PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE=1)
@@ -133,14 +140,6 @@ add_custom_target(php_phar_generated_files ALL
 # Man documentation.
 configure_file(phar.1.in phar.1 @ONLY)
 configure_file(phar.phar.1.in phar.phar.1 @ONLY)
-
-target_sources(
-  php_phar
-  PUBLIC FILE_SET HEADERS
-    BASE_DIRS "${PROJECT_SOURCE_DIR}"
-    FILES
-      php_phar.h
-)
 
 install(
   TARGETS php_phar

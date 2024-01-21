@@ -41,14 +41,14 @@ endif()
 #
 # Check if bison is required.
 if(
-  NOT EXISTS "${PROJECT_SOURCE_DIR}/Zend/zend_ini_parser.c"
-  OR NOT EXISTS "${PROJECT_SOURCE_DIR}/Zend/zend_ini_parser.h"
-  OR NOT EXISTS "${PROJECT_SOURCE_DIR}/Zend/zend_language_parser.c"
-  OR NOT EXISTS "${PROJECT_SOURCE_DIR}/Zend/zend_language_parser.h"
-  OR NOT EXISTS "${PROJECT_SOURCE_DIR}/sapi/phpdbg/phpdbg_parser.c"
-  OR NOT EXISTS "${PROJECT_SOURCE_DIR}/sapi/phpdbg/phpdbg_parser.h"
-  OR NOT EXISTS "${PROJECT_SOURCE_DIR}/ext/json/json_parser.tab.c"
-  OR NOT EXISTS "${PROJECT_SOURCE_DIR}/ext/json/json_parser.tab.h"
+  NOT EXISTS "${PHP_SOURCE_DIR}/Zend/zend_ini_parser.c"
+  OR NOT EXISTS "${PHP_SOURCE_DIR}/Zend/zend_ini_parser.h"
+  OR NOT EXISTS "${PHP_SOURCE_DIR}/Zend/zend_language_parser.c"
+  OR NOT EXISTS "${PHP_SOURCE_DIR}/Zend/zend_language_parser.h"
+  OR NOT EXISTS "${PHP_SOURCE_DIR}/sapi/phpdbg/phpdbg_parser.c"
+  OR NOT EXISTS "${PHP_SOURCE_DIR}/sapi/phpdbg/phpdbg_parser.h"
+  OR NOT EXISTS "${PHP_SOURCE_DIR}/ext/json/json_parser.tab.c"
+  OR NOT EXISTS "${PHP_SOURCE_DIR}/ext/json/json_parser.tab.h"
 )
   find_package(BISON 3.0.0)
   set_package_properties(BISON PROPERTIES
@@ -59,14 +59,14 @@ endif()
 
 # Check if re2c is required.
 if(
-  NOT EXISTS "${PROJECT_SOURCE_DIR}/Zend/zend_language_scanner.c"
-  OR NOT EXISTS "${PROJECT_SOURCE_DIR}/Zend/zend_ini_scanner.c"
-  OR NOT EXISTS "${PROJECT_SOURCE_DIR}/ext/json/json_scanner.c"
-  OR NOT EXISTS "${PROJECT_SOURCE_DIR}/ext/pdo/pdo_sql_parser.c"
-  OR NOT EXISTS "${PROJECT_SOURCE_DIR}/ext/phar/phar_path_check.c"
-  OR NOT EXISTS "${PROJECT_SOURCE_DIR}/ext/standard/var_unserializer.c"
-  OR NOT EXISTS "${PROJECT_SOURCE_DIR}/ext/standard/url_scanner_ex.c"
-  OR NOT EXISTS "${PROJECT_SOURCE_DIR}/sapi/phpdbg/phpdbg_lexer.c"
+  NOT EXISTS "${PHP_SOURCE_DIR}/Zend/zend_language_scanner.c"
+  OR NOT EXISTS "${PHP_SOURCE_DIR}/Zend/zend_ini_scanner.c"
+  OR NOT EXISTS "${PHP_SOURCE_DIR}/ext/json/json_scanner.c"
+  OR NOT EXISTS "${PHP_SOURCE_DIR}/ext/pdo/pdo_sql_parser.c"
+  OR NOT EXISTS "${PHP_SOURCE_DIR}/ext/phar/phar_path_check.c"
+  OR NOT EXISTS "${PHP_SOURCE_DIR}/ext/standard/var_unserializer.c"
+  OR NOT EXISTS "${PHP_SOURCE_DIR}/ext/standard/url_scanner_ex.c"
+  OR NOT EXISTS "${PHP_SOURCE_DIR}/sapi/phpdbg/phpdbg_lexer.c"
 )
   if(PHP_RE2C_CGOTO)
     set(RE2C_USE_COMPUTED_GOTOS TRUE)
@@ -94,7 +94,7 @@ function(_php_check_enabled_sapis)
     GLOB_RECURSE
     subdirectories
     LIST_DIRECTORIES TRUE
-    "${PROJECT_SOURCE_DIR}/sapi/*/" "sapi/*/CMakeLists.txt"
+    "${PHP_SOURCE_DIR}/sapi/*/" "sapi/*/CMakeLists.txt"
   )
 
   foreach(dir ${subdirectories})

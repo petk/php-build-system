@@ -1,43 +1,60 @@
-add_library(php_main STATIC
-  $<$<NOT:$<PLATFORM_ID:Windows>>:explicit_bzero.c>
-  fastcgi.c
-  fopen_wrappers.c
-  getopt.c
-  internal_functions_cli.c
-  internal_functions.c
-  main.c
-  network.c
-  output.c
-  php_content_types.c
-  php_ini_builder.c
-  php_ini.c
-  php_odbc_utils.c
-  php_open_temporary_file.c
-  php_scandir.c
-  php_syslog.c
-  php_ticks.c
-  php_variables.c
-  reentrancy.c
-  rfc1867.c
-  safe_bcmp.c
-  SAPI.c
-  snprintf.c
-  spprintf.c
-  streams/cast.c
-  streams/filter.c
-  streams/glob_wrapper.c
-  streams/memory.c
-  streams/mmap.c
-  streams/plain_wrapper.c
-  streams/streams.c
-  streams/transports.c
-  streams/userspace.c
-  streams/xp_socket.c
-  strlcat.c
-  strlcpy.c
-)
-
+add_library(php_main STATIC)
 add_library(PHP::main ALIAS php_main)
+
+file(GLOB_RECURSE _php_main_headers "${CMAKE_CURRENT_SOURCE_DIR}/*.h")
+
+target_sources(
+  php_main
+  PRIVATE
+    $<$<NOT:$<PLATFORM_ID:Windows>>:explicit_bzero.c>
+    fastcgi.c
+    fopen_wrappers.c
+    getopt.c
+    internal_functions_cli.c
+    internal_functions.c
+    main.c
+    network.c
+    output.c
+    php_content_types.c
+    php_ini_builder.c
+    php_ini.c
+    php_odbc_utils.c
+    php_open_temporary_file.c
+    php_scandir.c
+    php_syslog.c
+    php_ticks.c
+    php_variables.c
+    reentrancy.c
+    rfc1867.c
+    safe_bcmp.c
+    SAPI.c
+    snprintf.c
+    spprintf.c
+    streams/cast.c
+    streams/filter.c
+    streams/glob_wrapper.c
+    streams/memory.c
+    streams/mmap.c
+    streams/plain_wrapper.c
+    streams/streams.c
+    streams/transports.c
+    streams/userspace.c
+    streams/xp_socket.c
+    strlcat.c
+    strlcpy.c
+  PUBLIC
+    FILE_SET headers_source TYPE HEADERS
+      BASE_DIRS "${PHP_SOURCE_DIR}"
+      FILES
+        ${_php_main_headers}
+    # A separate file set so binary dir can also be created within a source dir.
+    FILE_SET headers_binary TYPE HEADERS
+      BASE_DIRS "${PHP_BINARY_DIR}"
+      FILES
+        $<$<PLATFORM_ID:Windows>:${CMAKE_CURRENT_BINARY_DIR}/config.w32.h>
+        $<$<NOT:$<PLATFORM_ID:Windows>>:${CMAKE_CURRENT_BINARY_DIR}/build-defs.h>
+        $<$<NOT:$<PLATFORM_ID:Windows>>:${CMAKE_CURRENT_BINARY_DIR}/php_config.h>
+)
 
 target_compile_definitions(
   php_main
@@ -50,13 +67,17 @@ target_include_directories(
   php_configuration
   INTERFACE ${CMAKE_CURRENT_BINARY_DIR}
             ${CMAKE_CURRENT_SOURCE_DIR}
-            ${PROJECT_BINARY_DIR}
-            ${PROJECT_SOURCE_DIR}
+            ${PHP_BINARY_DIR}
+            ${PHP_SOURCE_DIR}
 )
 
-# Link publicly for PHP SAPIs to consume it also.
-target_link_libraries(php_main PUBLIC Zend::Zend)
-target_link_libraries(php_main PUBLIC PHP::configuration)
+target_link_libraries(
+  php_main
+  # Link publicly for PHP SAPIs.
+  PUBLIC
+    PHP::configuration
+    Zend::Zend
+)
 
 if(TARGET PHP::win32)
   target_link_libraries(php_main PUBLIC PHP::win32)
@@ -91,14 +112,14 @@ if(PHP_DTRACE)
 
     dtrace_target(
       TARGET php_main
-      INPUT ${PROJECT_SOURCE_DIR}/Zend/zend_dtrace.d
-      HEADER ${PROJECT_BINARY_DIR}/Zend/zend_dtrace_gen.h
-      SOURCES ${PROJECT_SOURCE_DIR}/main/main.c
-              ${PROJECT_SOURCE_DIR}/Zend/zend_API.c
-              ${PROJECT_SOURCE_DIR}/Zend/zend_dtrace.c
-              ${PROJECT_SOURCE_DIR}/Zend/zend_exceptions.c
-              ${PROJECT_SOURCE_DIR}/Zend/zend_execute.c
-              ${PROJECT_SOURCE_DIR}/Zend/zend.c
+      INPUT ${PHP_SOURCE_DIR}/Zend/zend_dtrace.d
+      HEADER ${PHP_BINARY_DIR}/Zend/zend_dtrace_gen.h
+      SOURCES ${PHP_SOURCE_DIR}/main/main.c
+              ${PHP_SOURCE_DIR}/Zend/zend_API.c
+              ${PHP_SOURCE_DIR}/Zend/zend_dtrace.c
+              ${PHP_SOURCE_DIR}/Zend/zend_exceptions.c
+              ${PHP_SOURCE_DIR}/Zend/zend_execute.c
+              ${PHP_SOURCE_DIR}/Zend/zend.c
       INCLUDES ${_php_dtrace_includes}
     )
 
@@ -194,9 +215,7 @@ function(_php_main_create_files)
       continue()
     endif()
 
-    file(GLOB_RECURSE extension_headers
-      "${PROJECT_SOURCE_DIR}/ext/${extension}/*.h"
-    )
+    file(GLOB_RECURSE extension_headers ${PHP_SOURCE_DIR}/ext/${extension}/*.h)
 
     foreach(extension_header IN LISTS extension_headers)
       file(READ "${extension_header}" file_content)
@@ -261,25 +280,8 @@ endfunction()
 # Run at the end of the configuration.
 cmake_language(
   DEFER
-    DIRECTORY ${PROJECT_SOURCE_DIR}
+    DIRECTORY ${PHP_SOURCE_DIR}
   CALL _php_main_create_files
-)
-
-file(GLOB_RECURSE _php_main_headers "${CMAKE_CURRENT_SOURCE_DIR}/*.h")
-
-target_sources(
-  php_main
-  PUBLIC FILE_SET headers_source TYPE HEADERS
-    BASE_DIRS "${PROJECT_SOURCE_DIR}"
-    FILES
-      ${_php_main_headers}
-  # A separate file set so binary dir can also be created within a source dir.
-  PUBLIC FILE_SET headers_binary TYPE HEADERS
-    BASE_DIRS "${PROJECT_BINARY_DIR}"
-    FILES
-      $<$<PLATFORM_ID:Windows>:${CMAKE_CURRENT_BINARY_DIR}/config.w32.h>
-      $<$<NOT:$<PLATFORM_ID:Windows>>:${CMAKE_CURRENT_BINARY_DIR}/build-defs.h>
-      $<$<NOT:$<PLATFORM_ID:Windows>>:${CMAKE_CURRENT_BINARY_DIR}/php_config.h>
 )
 
 install(

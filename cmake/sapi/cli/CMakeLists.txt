@@ -49,12 +49,21 @@ else()
   message(CHECK_FAIL "no")
 endif()
 
-add_executable(php_cli
-  php_cli_process_title.c
-  php_cli_server.c
-  php_cli.c
-  php_http_parser.c
-  ps_title.c
+add_executable(php_cli)
+
+target_sources(
+  php_cli
+  PRIVATE
+    php_cli_process_title.c
+    php_cli_server.c
+    php_cli.c
+    php_http_parser.c
+    ps_title.c
+  PUBLIC
+    FILE_SET HEADERS
+      BASE_DIRS "${PHP_SOURCE_DIR}"
+      FILES
+        $<$<NOT:$<PLATFORM_ID:Windows>>:cli.h>
 )
 
 set_target_properties(php_cli PROPERTIES OUTPUT_NAME php)
@@ -129,14 +138,6 @@ block()
   set(program_prefix "")
   configure_file(php.1.in php.1 @ONLY)
 endblock()
-
-target_sources(
-  php_cli
-  PUBLIC FILE_SET HEADERS
-    BASE_DIRS "${PROJECT_SOURCE_DIR}"
-    FILES
-      $<$<NOT:$<PLATFORM_ID:Windows>>:cli.h>
-)
 
 install(
   TARGETS php_cli

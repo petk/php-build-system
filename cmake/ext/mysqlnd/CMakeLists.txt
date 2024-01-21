@@ -57,29 +57,41 @@ else()
   add_library(php_mysqlnd)
 endif()
 
-target_sources(php_mysqlnd PRIVATE
-  mysqlnd_alloc.c
-  mysqlnd_auth.c
-  mysqlnd_block_alloc.c
-  mysqlnd_charset.c
-  mysqlnd_commands.c
-  mysqlnd_connection.c
-  mysqlnd_debug.c
-  mysqlnd_driver.c
-  mysqlnd_ext_plugin.c
-  mysqlnd_loaddata.c
-  mysqlnd_plugin.c
-  mysqlnd_protocol_frame_codec.c
-  mysqlnd_ps_codec.c
-  mysqlnd_ps.c
-  mysqlnd_read_buffer.c
-  mysqlnd_result_meta.c
-  mysqlnd_result.c
-  mysqlnd_reverse_api.c
-  mysqlnd_statistics.c
-  mysqlnd_vio.c
-  mysqlnd_wireprotocol.c
-  php_mysqlnd.c
+file(GLOB _php_mysqlnd_headers "${CMAKE_CURRENT_SOURCE_DIR}/*.h")
+# Exclude Windows header and specify it below separately.
+list(FILTER _php_mysqlnd_headers EXCLUDE REGEX ".*config-win\\.h$")
+
+target_sources(
+  php_mysqlnd
+  PRIVATE
+    mysqlnd_alloc.c
+    mysqlnd_auth.c
+    mysqlnd_block_alloc.c
+    mysqlnd_charset.c
+    mysqlnd_commands.c
+    mysqlnd_connection.c
+    mysqlnd_debug.c
+    mysqlnd_driver.c
+    mysqlnd_ext_plugin.c
+    mysqlnd_loaddata.c
+    mysqlnd_plugin.c
+    mysqlnd_protocol_frame_codec.c
+    mysqlnd_ps_codec.c
+    mysqlnd_ps.c
+    mysqlnd_read_buffer.c
+    mysqlnd_result_meta.c
+    mysqlnd_result.c
+    mysqlnd_reverse_api.c
+    mysqlnd_statistics.c
+    mysqlnd_vio.c
+    mysqlnd_wireprotocol.c
+    php_mysqlnd.c
+  PUBLIC
+    FILE_SET HEADERS
+      BASE_DIRS "${PHP_SOURCE_DIR}"
+      FILES
+        ${_php_mysqlnd_headers}
+        $<$<PLATFORM_ID:Windows>:config-win.h>
 )
 
 target_compile_definitions(php_mysqlnd PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE=1)
@@ -115,19 +127,6 @@ if(EXT_MYSQLND_SSL OR EXT_OPENSSL)
     CACHE INTERNAL "Enable mysqlnd code that uses OpenSSL directly"
   )
 endif()
-
-file(GLOB _php_mysqlnd_headers "${CMAKE_CURRENT_SOURCE_DIR}/*.h")
-# Exclude Windows header and specify it below separately.
-list(FILTER _php_mysqlnd_headers EXCLUDE REGEX ".*config-win\\.h$")
-
-target_sources(
-  php_mysqlnd
-  PUBLIC FILE_SET HEADERS
-    BASE_DIRS "${PROJECT_SOURCE_DIR}"
-    FILES
-      ${_php_mysqlnd_headers}
-      $<$<PLATFORM_ID:Windows>:config-win.h>
-)
 
 install(
   TARGETS php_mysqlnd

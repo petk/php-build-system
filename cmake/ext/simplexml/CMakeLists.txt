@@ -25,8 +25,16 @@ else()
   add_library(php_simplexml)
 endif()
 
-target_sources(php_simplexml PRIVATE
-  simplexml.c
+target_sources(
+  php_simplexml
+  PRIVATE
+    simplexml.c
+  PUBLIC
+    FILE_SET HEADERS
+      BASE_DIRS "${PHP_SOURCE_DIR}"
+      FILES
+        php_simplexml_exports.h
+        php_simplexml.h
 )
 
 target_compile_definitions(
@@ -48,15 +56,6 @@ set_package_properties(LibXml2 PROPERTIES
 )
 
 target_link_libraries(php_simplexml PRIVATE LibXml2::LibXml2)
-
-target_sources(
-  php_simplexml
-  PUBLIC FILE_SET HEADERS
-    BASE_DIRS "${PROJECT_SOURCE_DIR}"
-    FILES
-      php_simplexml_exports.h
-      php_simplexml.h
-)
 
 install(
   TARGETS php_simplexml

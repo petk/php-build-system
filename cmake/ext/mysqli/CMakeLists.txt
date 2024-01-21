@@ -48,16 +48,24 @@ else()
   add_library(php_mysqli)
 endif()
 
-target_sources(php_mysqli PRIVATE
-  mysqli_api.c
-  mysqli_driver.c
-  mysqli_exception.c
-  mysqli_nonapi.c
-  mysqli_prop.c
-  mysqli_report.c
-  mysqli_result_iterator.c
-  mysqli_warning.c
-  mysqli.c
+target_sources(
+  php_mysqli
+  PRIVATE
+    mysqli_api.c
+    mysqli_driver.c
+    mysqli_exception.c
+    mysqli_nonapi.c
+    mysqli_prop.c
+    mysqli_report.c
+    mysqli_result_iterator.c
+    mysqli_warning.c
+    mysqli.c
+  PUBLIC
+    FILE_SET HEADERS
+      BASE_DIRS "${PHP_SOURCE_DIR}"
+      FILES
+        mysqli_mysqlnd.h
+        php_mysqli_structs.h
 )
 
 set_target_properties(php_mysqli PROPERTIES PHP_EXTENSION_DEPENDENCIES php_mysqlnd)
@@ -82,15 +90,6 @@ if(MySQL_SOCKET)
     CACHE INTERNAL "MySQL Unix socket pointer"
   )
 endif()
-
-target_sources(
-  php_mysqli
-  PUBLIC FILE_SET HEADERS
-    BASE_DIRS "${PROJECT_SOURCE_DIR}"
-    FILES
-      mysqli_mysqlnd.h
-      php_mysqli_structs.h
-)
 
 install(
   TARGETS php_mysqli

@@ -13,9 +13,18 @@ EXT_PCRE_EXTERNAL is set, external PCRE library will be used.\
 
 option(EXT_PCRE_JIT "Enable PCRE JIT functionality" ON)
 
-add_library(php_pcre STATIC
-  php_pcre.c
-  php_pcre.def
+add_library(php_pcre STATIC)
+
+target_sources(
+  php_pcre
+  PRIVATE
+    php_pcre.c
+    php_pcre.def
+  PUBLIC
+    FILE_SET HEADERS
+      BASE_DIRS "${PHP_SOURCE_DIR}"
+      FILES
+        php_pcre.h
 )
 
 target_compile_definitions(php_pcre
@@ -74,34 +83,43 @@ if(EXT_PCRE_EXTERNAL)
 else()
   message(STATUS "Using bundled PCRE library")
 
-  target_sources(php_pcre PRIVATE
-    pcre2lib/pcre2_auto_possess.c
-    pcre2lib/pcre2_chartables.c
-    pcre2lib/pcre2_compile.c
-    pcre2lib/pcre2_config.c
-    pcre2lib/pcre2_context.c
-    pcre2lib/pcre2_convert.c
-    pcre2lib/pcre2_dfa_match.c
-    pcre2lib/pcre2_error.c
-    pcre2lib/pcre2_extuni.c
-    pcre2lib/pcre2_find_bracket.c
-    pcre2lib/pcre2_jit_compile.c
-    pcre2lib/pcre2_maketables.c
-    pcre2lib/pcre2_match_data.c
-    pcre2lib/pcre2_match.c
-    pcre2lib/pcre2_newline.c
-    pcre2lib/pcre2_ord2utf.c
-    pcre2lib/pcre2_pattern_info.c
-    pcre2lib/pcre2_script_run.c
-    pcre2lib/pcre2_serialize.c
-    pcre2lib/pcre2_string_utils.c
-    pcre2lib/pcre2_study.c
-    pcre2lib/pcre2_substitute.c
-    pcre2lib/pcre2_substring.c
-    pcre2lib/pcre2_tables.c
-    pcre2lib/pcre2_ucd.c
-    pcre2lib/pcre2_valid_utf.c
-    pcre2lib/pcre2_xclass.c
+  file(GLOB _php_pcre_headers "${CMAKE_CURRENT_SOURCE_DIR}/pcre2lib/*.h")
+
+  target_sources(
+    php_pcre
+    PRIVATE
+      pcre2lib/pcre2_auto_possess.c
+      pcre2lib/pcre2_chartables.c
+      pcre2lib/pcre2_compile.c
+      pcre2lib/pcre2_config.c
+      pcre2lib/pcre2_context.c
+      pcre2lib/pcre2_convert.c
+      pcre2lib/pcre2_dfa_match.c
+      pcre2lib/pcre2_error.c
+      pcre2lib/pcre2_extuni.c
+      pcre2lib/pcre2_find_bracket.c
+      pcre2lib/pcre2_jit_compile.c
+      pcre2lib/pcre2_maketables.c
+      pcre2lib/pcre2_match_data.c
+      pcre2lib/pcre2_match.c
+      pcre2lib/pcre2_newline.c
+      pcre2lib/pcre2_ord2utf.c
+      pcre2lib/pcre2_pattern_info.c
+      pcre2lib/pcre2_script_run.c
+      pcre2lib/pcre2_serialize.c
+      pcre2lib/pcre2_string_utils.c
+      pcre2lib/pcre2_study.c
+      pcre2lib/pcre2_substitute.c
+      pcre2lib/pcre2_substring.c
+      pcre2lib/pcre2_tables.c
+      pcre2lib/pcre2_ucd.c
+      pcre2lib/pcre2_valid_utf.c
+      pcre2lib/pcre2_xclass.c
+    PUBLIC
+      FILE_SET HEADERS
+        BASE_DIRS "${PHP_SOURCE_DIR}"
+        FILES
+          ${_php_pcre_headers}
   )
 
   target_include_directories(
@@ -135,14 +153,12 @@ else()
     message(CHECK_PASS "yes")
 
     message(CHECK_START "Checking whether Intel CET is enabled")
-
     check_source_compiles(C "
       #ifndef __CET__
       # error CET is not enabled
       #endif
       " HAVE_PCRE2_INTEL_CET
     )
-
     if(HAVE_PCRE2_INTEL_CET)
       message(CHECK_PASS "yes")
       target_compile_options(php_pcre PRIVATE -mshstk)
@@ -160,21 +176,10 @@ else()
       PRIVATE $<$<CONFIG:Debug,DebugAssertions>:HAVE_PCRE_VALGRIND_SUPPORT=1>
     )
   endif()
-
-  file(GLOB _php_pcre_headers "${CMAKE_CURRENT_SOURCE_DIR}/pcre2lib/*.h")
 endif()
 
 add_feature_info("ext/pcre with PCRE JIT" HAVE_PCRE_JIT_SUPPORT
   "PCRE JIT support"
-)
-
-target_sources(
-  php_pcre
-  PUBLIC FILE_SET HEADERS
-    BASE_DIRS "${PROJECT_SOURCE_DIR}"
-    FILES
-      php_pcre.h
-      ${_php_pcre_headers}
 )
 
 install(

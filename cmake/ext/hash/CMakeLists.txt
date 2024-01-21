@@ -16,25 +16,50 @@ if(EXT_HASH_MHASH)
   set(PHP_MHASH_BC 1 CACHE INTERNAL "Whether the mhash support is included")
 endif()
 
-add_library(php_hash STATIC
-  hash_adler32.c
-  hash_crc32.c
-  hash_fnv.c
-  hash_gost.c
-  hash_haval.c
-  hash_joaat.c
-  hash_md.c
-  hash_murmur.c
-  hash_ripemd.c
-  hash_sha.c
-  hash_sha3.c
-  hash_snefru.c
-  hash_tiger.c
-  hash_whirlpool.c
-  hash_xxhash.c
-  hash.c
-  murmur/PMurHash.c
-  murmur/PMurHash128.c
+add_library(php_hash STATIC)
+
+target_sources(
+  php_hash
+  PRIVATE
+    hash_adler32.c
+    hash_crc32.c
+    hash_fnv.c
+    hash_gost.c
+    hash_haval.c
+    hash_joaat.c
+    hash_md.c
+    hash_murmur.c
+    hash_ripemd.c
+    hash_sha.c
+    hash_sha3.c
+    hash_snefru.c
+    hash_tiger.c
+    hash_whirlpool.c
+    hash_xxhash.c
+    hash.c
+    murmur/PMurHash.c
+    murmur/PMurHash128.c
+  PUBLIC
+    FILE_SET HEADERS
+      BASE_DIRS "${PHP_SOURCE_DIR}"
+      FILES
+        php_hash_adler32.h
+        php_hash_crc32.h
+        php_hash_fnv.h
+        php_hash_gost.h
+        php_hash_haval.h
+        php_hash_joaat.h
+        php_hash_md.h
+        php_hash_murmur.h
+        php_hash_ripemd.h
+        php_hash_sha.h
+        php_hash_sha3.h
+        php_hash_snefru.h
+        php_hash_tiger.h
+        php_hash_whirlpool.h
+        php_hash_xxhash.h
+        php_hash.h
+        xxhash/xxhash.h
 )
 
 target_include_directories(
@@ -83,29 +108,6 @@ else()
             ZEND_ENABLE_STATIC_TSRMLS_CACHE=1
   )
 endif()
-
-target_sources(
-  php_hash
-  PUBLIC FILE_SET HEADERS
-    BASE_DIRS "${PROJECT_SOURCE_DIR}"
-    FILES
-      php_hash_adler32.h
-      php_hash_crc32.h
-      $<$<NOT:$<PLATFORM_ID:Windows>>:php_hash_fnv.h>
-      php_hash_gost.h
-      php_hash_haval.h
-      $<$<NOT:$<PLATFORM_ID:Windows>>:php_hash_joaat.h>
-      php_hash_md.h
-      php_hash_murmur.h
-      php_hash_ripemd.h
-      php_hash_sha.h
-      php_hash_sha3.h
-      php_hash_snefru.h
-      php_hash_tiger.h
-      php_hash_whirlpool.h
-      php_hash_xxhash.h
-      php_hash.h
-)
 
 install(
   TARGETS php_hash

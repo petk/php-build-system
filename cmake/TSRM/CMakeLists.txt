@@ -1,11 +1,18 @@
 add_library(php_tsrm STATIC)
-
-target_sources(php_tsrm PRIVATE
-  $<$<PLATFORM_ID:Windows>:tsrm_win32.c>
-  TSRM.c
-)
-
 add_library(PHP::TSRM ALIAS php_tsrm)
+
+target_sources(
+  php_tsrm
+  PRIVATE
+    $<$<PLATFORM_ID:Windows>:tsrm_win32.c>
+    TSRM.c
+  PUBLIC
+    FILE_SET HEADERS
+      BASE_DIRS "${PHP_SOURCE_DIR}"
+      FILES
+        $<$<PLATFORM_ID:Windows>:tsrm_win32.h>
+        TSRM.h
+)
 
 target_link_libraries(php_tsrm PRIVATE PHP::configuration)
 
@@ -85,17 +92,8 @@ endfunction()
 # Run at the end of the configuration.
 cmake_language(
   DEFER
-    DIRECTORY ${PROJECT_SOURCE_DIR}
+    DIRECTORY ${PHP_SOURCE_DIR}
   CALL _php_tsrm_thread_safety
-)
-
-target_sources(
-  php_tsrm
-  PUBLIC FILE_SET HEADERS
-    BASE_DIRS "${PROJECT_SOURCE_DIR}"
-    FILES
-      $<$<PLATFORM_ID:Windows>:tsrm_win32.h>
-      TSRM.h
 )
 
 install(

@@ -37,12 +37,20 @@ else()
   add_library(php_session)
 endif()
 
-target_sources(php_session PRIVATE
-  mod_files.c
-  mod_mm.c
-  mod_user_class.c
-  mod_user.c
-  session.c
+target_sources(
+  php_session
+  PRIVATE
+    mod_files.c
+    mod_user_class.c
+    mod_user.c
+    session.c
+  PUBLIC
+    FILE_SET HEADERS
+      BASE_DIRS "${PHP_SOURCE_DIR}"
+      FILES
+        mod_files.h
+        mod_user.h
+        php_session.h
 )
 
 target_compile_definitions(php_session PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE=1)
@@ -61,6 +69,17 @@ if(EXT_SESSION_MM)
     message(FATAL_ERROR "Thread safety and libmm cannot be done together.")
   endif()
 
+  target_sources(
+    php_session
+    PRIVATE
+      mod_mm.c
+    PUBLIC
+      FILE_SET HEADERS
+        BASE_DIRS "${PHP_SOURCE_DIR}"
+        FILES
+          mod_mm.h
+  )
+
   find_package(MM)
   set_package_properties(MM PROPERTIES
     TYPE REQUIRED
@@ -73,25 +92,7 @@ if(EXT_SESSION_MM)
   if(TARGET MM::MM)
     set(HAVE_LIBMM 1 CACHE INTERNAL "Whether you have libmm")
   endif()
-
-  target_sources(
-    php_session
-    PUBLIC FILE_SET HEADERS
-      BASE_DIRS "${PROJECT_SOURCE_DIR}"
-      FILES
-        mod_mm.h
-  )
 endif()
-
-target_sources(
-  php_session
-  PUBLIC FILE_SET HEADERS
-    BASE_DIRS "${PROJECT_SOURCE_DIR}"
-    FILES
-      mod_files.h
-      mod_user.h
-      php_session.h
-)
 
 install(
   TARGETS php_session

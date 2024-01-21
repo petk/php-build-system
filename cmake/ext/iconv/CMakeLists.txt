@@ -30,9 +30,16 @@ else()
   add_library(php_iconv)
 endif()
 
-target_sources(php_iconv PRIVATE
-  iconv.c
-  php_iconv.def
+target_sources(
+  php_iconv
+  PRIVATE
+    iconv.c
+    php_iconv.def
+  PUBLIC
+    FILE_SET HEADERS
+      BASE_DIRS "${PHP_SOURCE_DIR}"
+      FILES
+        php_iconv.h
 )
 
 target_compile_definitions(
@@ -267,15 +274,6 @@ if(TARGET Iconv::Iconv)
     set(ICONV_BROKEN_IGNORE 1 CACHE INTERNAL "Whether iconv supports IGNORE")
   endif()
 endif()
-
-target_sources(
-  php_iconv
-  PUBLIC FILE_SET HEADERS
-    BASE_DIRS "${PROJECT_SOURCE_DIR}"
-    FILES
-      iconv_arginfo.h
-      php_iconv.h
-)
 
 install(
   TARGETS php_iconv
