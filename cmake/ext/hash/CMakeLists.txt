@@ -65,7 +65,6 @@ target_sources(
 target_include_directories(
   php_hash
   PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/murmur
-          ${CMAKE_CURRENT_SOURCE_DIR}/xxhash
 )
 
 if(WORDS_BIGENDIAN)
