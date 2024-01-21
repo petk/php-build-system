@@ -147,7 +147,7 @@ pkgconf --help
 The `pkgconf` ships with M4 macro file `pkg.m4` for Autotools-based build
 systems and provides several macros, such as `PKG_CHECK_MODULES`.
 
-`PKG_CHECK_MODULES` creates so called precious variables `*_LIBS` and `_CFLAGS`
+`PKG_CHECK_MODULES` creates so called precious variables `*_LIBS` and `*_CFLAGS`
 for using dependency in the build system. See `./configure --help` for all the
 available variables. These compiler and linker flags can be also overridden. For
 example, when developing, or when dependency is manually installed to a custom
