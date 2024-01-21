@@ -25,29 +25,36 @@ else()
   add_library(php_dom)
 endif()
 
-target_sources(php_dom PRIVATE
-  attr.c
-  cdatasection.c
-  characterdata.c
-  comment.c
-  document.c
-  documentfragment.c
-  documenttype.c
-  dom_iterators.c
-  domexception.c
-  domimplementation.c
-  element.c
-  entity.c
-  entityreference.c
-  namednodemap.c
-  node.c
-  nodelist.c
-  notation.c
-  parentnode.c
-  php_dom.c
-  processinginstruction.c
-  text.c
-  xpath.c
+target_sources(
+  php_dom
+  PRIVATE
+    attr.c
+    cdatasection.c
+    characterdata.c
+    comment.c
+    document.c
+    documentfragment.c
+    documenttype.c
+    dom_iterators.c
+    domexception.c
+    domimplementation.c
+    element.c
+    entity.c
+    entityreference.c
+    namednodemap.c
+    node.c
+    nodelist.c
+    notation.c
+    parentnode.c
+    php_dom.c
+    processinginstruction.c
+    text.c
+    xpath.c
+  PUBLIC
+    FILE_SET HEADERS
+      BASE_DIRS "${PHP_SOURCE_DIR}"
+      FILES
+        xml_common.h
 )
 
 target_compile_definitions(
@@ -65,14 +72,6 @@ set_package_properties(LibXml2 PROPERTIES
 target_link_libraries(php_dom PRIVATE LibXml2::LibXml2)
 
 set_target_properties(php_dom PROPERTIES PHP_EXTENSION_DEPENDENCIES php_libxml)
-
-target_sources(
-  php_dom
-  PUBLIC FILE_SET HEADERS
-    BASE_DIRS "${PROJECT_SOURCE_DIR}"
-    FILES
-      xml_common.h
-)
 
 install(
   TARGETS php_dom
