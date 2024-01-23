@@ -12,9 +12,6 @@ if(SAPI_FUZZER)
   message(CHECK_PASS "yes")
 else()
   message(CHECK_FAIL "no")
-endif()
-
-if(NOT SAPI_FUZZER)
   return()
 endif()
 

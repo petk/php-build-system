@@ -13,6 +13,7 @@ include(CheckSymbolExists)
 include(CheckTypeSize)
 include(CMakePushCheckState)
 include(FeatureSummary)
+include(PHP/CheckFunctionAttribute)
 include(PHP/SearchLibraries)
 
 ################################################################################
@@ -399,23 +400,8 @@ if(
     AND CMAKE_HOST_SYSTEM_VERSION VERSION_GREATER_EQUAL 12
   )
 )
-  check_source_compiles(C "
-    static int bar( void ) __attribute__((target(\"sse2\")));
-
-    int main(void) {
-      return 0;
-    }
-  " HAVE_FUNC_ATTRIBUTE_TARGET)
-
-  check_source_compiles(C [[
-    int my_foo( void ) { return 0; }
-    static int (*resolve_foo(void))(void) { return my_foo; }
-    int foo( void ) __attribute__((ifunc("resolve_foo")));
-
-    int main(void) {
-      return 0;
-    }
-  ]] HAVE_FUNC_ATTRIBUTE_IFUNC)
+  php_check_function_attribute(ifunc HAVE_FUNC_ATTRIBUTE_IFUNC)
+  php_check_function_attribute(target HAVE_FUNC_ATTRIBUTE_TARGET)
 endif()
 
 include(PHP/CheckGethostbynameR)

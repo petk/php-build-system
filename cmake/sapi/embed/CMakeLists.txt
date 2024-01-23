@@ -1,6 +1,10 @@
 option(SAPI_EMBED "Enable the Embed SAPI module" OFF)
 
-if(NOT SAPI_EMBED)
+message(CHECK_START "Checking whether to build embed SAPI")
+if(SAPI_EMBED)
+  message(CHECK_PASS "yes")
+else()
+  message(CHECK_FAIL "no")
   return()
 endif()
 
@@ -17,14 +21,17 @@ target_sources(
         php_embed.h
 )
 
-set_target_properties(php_embed PROPERTIES OUTPUT_NAME libphp)
-
 target_link_libraries(php_embed PRIVATE PHP::main)
 
 target_compile_definitions(php_embed PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE=1)
 
-# TODO: Check if there's a better solution here.
-set_target_properties(php_embed PROPERTIES ENABLE_EXPORTS TRUE)
+set_target_properties(
+  php_embed
+  PROPERTIES
+    OUTPUT_NAME libphp
+    # TODO: Check if there's a better solution here:
+    ENABLE_EXPORTS TRUE
+)
 
 install(
   TARGETS php_embed

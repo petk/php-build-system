@@ -5,9 +5,6 @@ if(SAPI_APACHE2HANDLER)
   message(CHECK_PASS "yes")
 else()
   message(CHECK_FAIL "no")
-endif()
-
-if(NOT SAPI_APACHE2HANDLER)
   return()
 endif()
 
@@ -22,6 +19,15 @@ target_sources(
     sapi_apache2.c
 )
 
-#set_target_properties(php_apache2handler PROPERTIES OUTPUT_NAME apache)
-#install(TARGETS php_apache2handler DESTINATION "${CMAKE_INSTALL_LIBDIR}")
-#target_link_libraries(php_apache2hanlder PRIVATE PHP::main)
+target_link_libraries(php_apache2hanlder PRIVATE PHP::main)
+
+set_target_properties(
+  php_apache2handler
+  PROPERTIES
+    OUTPUT_NAME apache
+)
+
+install(
+  TARGETS php_apache2handler
+  DESTINATION "${CMAKE_INSTALL_LIBDIR}"
+)

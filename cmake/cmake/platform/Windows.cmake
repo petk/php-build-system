@@ -1,5 +1,5 @@
 #[=============================================================================[
-Windows platform specific configuration.
+Specific configuration for Windows platform target.
 ]=============================================================================]#
 
 include_guard(GLOBAL)

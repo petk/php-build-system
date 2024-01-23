@@ -17,10 +17,6 @@ include(GNUInstallDirs)
 
 set(CMAKE_INSTALL_INCLUDEDIR "${CMAKE_INSTALL_INCLUDEDIR}/php")
 
-if(CMAKE_SYSTEM_NAME STREQUAL "Darwin")
-  set(DARWIN 1 CACHE INTERNAL "Define if the target system is Darwin")
-endif()
-
 if(CMAKE_HOST_SYSTEM_NAME STREQUAL "Darwin")
   # TODO: Fix this properly and add it to required definitions.
   set(_DARWIN_C_SOURCE 1 CACHE INTERNAL "")
@@ -93,9 +89,11 @@ endif()
 # Check unused linked libraries on executable and shared/module library targets.
 include(PHP/LinkWhatYouUse)
 
-# Windows platform.
+# Platform specific configuration.
 if(CMAKE_SYSTEM_NAME STREQUAL "Windows")
   include(${CMAKE_CURRENT_LIST_DIR}/platform/Windows.cmake)
+elseif(CMAKE_SYSTEM_NAME STREQUAL "Darwin")
+  include(${CMAKE_CURRENT_LIST_DIR}/platform/Darwin.cmake)
 endif()
 
 # TODO: Fix these properly if really needed.

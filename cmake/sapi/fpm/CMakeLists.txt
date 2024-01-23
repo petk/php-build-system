@@ -18,13 +18,6 @@ include(PHP/SearchLibraries)
 
 option(SAPI_FPM "Enable the FPM SAPI module" OFF)
 
-message(CHECK_START "Checking whether to build fpm SAPI")
-if(SAPI_FPM)
-  message(CHECK_PASS "yes")
-else()
-  message(CHECK_FAIL "no")
-endif()
-
 if(SAPI_FPM)
   set(
     SAPI_FPM_USER "nobody"
@@ -78,7 +71,11 @@ cmake_dependent_option(
   OFF
 )
 
-if(NOT SAPI_FPM)
+message(CHECK_START "Checking whether to build fpm SAPI")
+if(SAPI_FPM)
+  message(CHECK_PASS "yes")
+else()
+  message(CHECK_FAIL "no")
   return()
 endif()
 
@@ -117,8 +114,6 @@ add_executable(php_fpm
   fpm/zlog.c
 )
 
-set_target_properties(php_fpm PROPERTIES OUTPUT_NAME php-fpm)
-
 target_include_directories(
   php_fpm
   PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/fpm
@@ -128,8 +123,13 @@ target_compile_definitions(php_fpm PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE=1)
 
 target_link_libraries(php_fpm PRIVATE PHP::main)
 
-# TODO: Check if there's a better solution here.
-set_target_properties(php_fpm PROPERTIES ENABLE_EXPORTS TRUE)
+set_target_properties(
+  php_fpm
+  PROPERTIES
+    OUTPUT_NAME php-fpm
+    # TODO: Check if there's a better solution here:
+    ENABLE_EXPORTS TRUE
+)
 
 ################################################################################
 # Configuration checks.
