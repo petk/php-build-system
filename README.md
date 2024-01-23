@@ -19,13 +19,25 @@ sudo apt install cmake gcc g++ bison re2c libxml2-dev libsqlite3-dev
 
 # Prerequisites for Fedora-based distributions:
 sudo dnf install cmake gcc gcc-c++ bison re2c libxml2-devel sqlite-devel
+```
 
-# Prerequisites for BSD-based systems:
-sudo pkg install cmake bison re2c libxml2 sqlite3
+<details>
+  <summary>Click here for other platforms</summary>
 
-# Prerequisites for Haiku:
-pkgman install cmake bison re2c libxml2_devel sqlite_devel
+  ```sh
+  # Prerequisites for BSD-based systems:
+  sudo pkg install cmake bison re2c libxml2 sqlite3
 
+  # Prerequisites for Haiku:
+  pkgman install cmake bison re2c libxml2_devel sqlite_devel
+
+  # Prerequisites for macOS:
+  xcode-select --install        # XCode command line tools
+  brew install cmake bison re2c # Brew packages
+  ```
+</details>
+
+```sh
 # Clone this repository:
 git clone https://github.com/petk/php-build-system
 
