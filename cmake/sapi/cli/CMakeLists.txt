@@ -11,9 +11,6 @@ if(SAPI_CLI)
   message(CHECK_PASS "yes")
 else()
   message(CHECK_FAIL "no")
-endif()
-
-if(NOT SAPI_CLI)
   return()
 endif()
 
@@ -66,8 +63,6 @@ target_sources(
         cli.h
 )
 
-set_target_properties(php_cli PROPERTIES OUTPUT_NAME php)
-
 target_compile_definitions(
   php_cli
   PRIVATE
@@ -87,6 +82,14 @@ target_link_options(
     $<$<PLATFORM_ID:Windows>:/stack:67108864>
 )
 
+set_target_properties(
+  php_cli
+  PROPERTIES
+    OUTPUT_NAME php
+    # TODO: Check if there's a better solution here:
+    ENABLE_EXPORTS TRUE
+)
+
 if(CMAKE_SYSTEM_NAME STREQUAL "Windows")
   # Link ext/readline's interface library if enabled and built statically.
   target_link_libraries(
@@ -95,13 +98,6 @@ if(CMAKE_SYSTEM_NAME STREQUAL "Windows")
       $<$<AND:$<TARGET_EXISTS:php_readline>,$<NOT:$<IN_LIST:$<TARGET_PROPERTY:php_readline,TYPE>,MODULE_LIBRARY;SHARED_LIBRARY>>>:<$TARGET_PROPERTY:php_readline,IMPORTED_LINK_INTERFACE_LIBRARIES>>
   )
 endif()
-
-if(CMAKE_HOST_SYSTEM_NAME STREQUAL "Darwin")
-  set_target_properties(php_cli PROPERTIES LINK_FLAGS "-undefined dynamic_lookup")
-endif()
-
-# TODO: Check if there's a better solution here.
-set_target_properties(php_cli PROPERTIES ENABLE_EXPORTS TRUE)
 
 if(SAPI_CLI_WIN_NO_CONSOLE)
   add_executable(php_cli_win_no_console

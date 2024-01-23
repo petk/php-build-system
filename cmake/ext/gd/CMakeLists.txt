@@ -114,8 +114,6 @@ else()
   add_library(php_gd)
 endif()
 
-file(GLOB _php_gd_headers "${CMAKE_CURRENT_SOURCE_DIR}/*.h")
-
 target_sources(
   php_gd
   PRIVATE
@@ -124,7 +122,7 @@ target_sources(
     FILE_SET HEADERS
       BASE_DIRS "${PHP_SOURCE_DIR}"
       FILES
-        ${_php_gd_headers}
+        php_gd.h
 )
 
 if(NOT EXT_GD_EXTERNAL)

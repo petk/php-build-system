@@ -183,15 +183,11 @@ foreach(extension IN LISTS extensions)
   get_target_property(extension_type php_${extension} TYPE)
 
   if(extension_type MATCHES "^(MODULE|SHARED)_LIBRARY$")
-    set_property(TARGET php_${extension} PROPERTY POSITION_INDEPENDENT_CODE TRUE)
-
-    # On macOS, additional linker flags need to be passed for shared libraries.
-    if(CMAKE_HOST_SYSTEM_NAME STREQUAL "Darwin")
-      set_target_properties(
-        php_${extension}
-        PROPERTIES LINK_FLAGS "-undefined dynamic_lookup"
-      )
-    endif()
+    set_target_properties(
+      php_${extension}
+      PROPERTIES
+        POSITION_INDEPENDENT_CODE TRUE
+    )
   else()
     target_link_libraries(php_main PRIVATE PHP::${extension})
   endif()

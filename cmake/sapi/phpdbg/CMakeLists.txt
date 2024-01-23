@@ -7,13 +7,6 @@ include(CMakeDependentOption)
 
 option(SAPI_PHPDBG "Enable the phpdbg SAPI module" ON)
 
-message(CHECK_START "Checking whether to build phpdbg SAPI")
-if(SAPI_PHPDBG)
-  message(CHECK_PASS "yes")
-else()
-  message(CHECK_FAIL "no")
-endif()
-
 cmake_dependent_option(
   SAPI_PHPDBG_SHARED
   "Build phpdbg SAPI as a shared module"
@@ -41,7 +34,11 @@ cmake_dependent_option(
   OFF
 )
 
-if(NOT SAPI_PHPDBG)
+message(CHECK_START "Checking whether to build phpdbg SAPI")
+if(SAPI_PHPDBG)
+  message(CHECK_PASS "yes")
+else()
+  message(CHECK_FAIL "no")
   return()
 endif()
 
@@ -74,8 +71,6 @@ set(php_phpdbg_sources
 
 add_executable(php_phpdbg ${php_phpdbg_sources})
 
-set_target_properties(php_phpdbg PROPERTIES OUTPUT_NAME phpdbg)
-
 target_compile_definitions(
   php_phpdbg
   PRIVATE
@@ -97,11 +92,13 @@ target_link_options(
     $<$<PLATFORM_ID:Windows>:/stack:8388608>
 )
 
-set_target_properties(php_phpdbg PROPERTIES ENABLE_EXPORTS TRUE)
-
-if(CMAKE_HOST_SYSTEM_NAME STREQUAL "Darwin")
-  set_target_properties(php_phpdbg PROPERTIES LINK_FLAGS "-undefined dynamic_lookup")
-endif()
+set_target_properties(
+  php_phpdbg
+  PROPERTIES
+    OUTPUT_NAME phpdbg
+    # TODO: Check if there's a better solution here:
+    ENABLE_EXPORTS TRUE
+)
 
 ################################################################################
 # Readline support.
