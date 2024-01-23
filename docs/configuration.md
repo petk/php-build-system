@@ -676,14 +676,38 @@ A list of Autoconf `configure` command-line configuration options, Windows
     </tr>
     <tr>
       <td>--without-apxs2</td>
-      <td></td>
+      <td>--disable-apache2handler</td>
       <td>SAPI_APACHE2HANDLER=OFF</td>
       <td>default</td>
     </tr>
     <tr>
       <td>&emsp;--with-apxs2[=FILE]</td>
-      <td></td>
+      <td>--enable-apache2handler</td>
       <td>SAPI_APACHE2HANDLER=ON</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>N/A</td>
+      <td>--disable-apache2-2handler</td>
+      <td></td>
+      <td>default</td>
+    </tr>
+    <tr>
+      <td>N/A</td>
+      <td>--enable-apache2-2handler</td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>N/A</td>
+      <td>--disable-apache2-4handler</td>
+      <td></td>
+      <td>default</td>
+    </tr>
+    <tr>
+      <td>N/A</td>
+      <td>--enable-apache2-4handler</td>
+      <td></td>
       <td></td>
     </tr>
     <tr>

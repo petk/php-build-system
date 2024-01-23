@@ -543,34 +543,38 @@ endif()
 
 Values for `CMAKE_SYSTEM_NAME`, `CMAKE_HOST_SYSTEM_NAME`, and `PLATFORM_ID`:
 
-| Value          | Note                                               |
-| -------------- | -------------------------------------------------- |
-| `AIX`          | IBM Unix operating system                          |
-| `Android`      | Android operating system                           |
-| `CYGWIN.*`     | Cygwin environment for Windows; has version        |
-| `Darwin`       | Apple operating systems (macOS, OS X, etc.)        |
-| `DragonFly`    | BSD-derived operating system                       |
-| `Emscripten`   | Compiler toolchain to WebAssembly                  |
-| `FreeBSD`      | All FreeBSD operating systems versions             |
-| `Generic`      | Some platforms, e.g. bare metal embedded devices   |
-| `GNU`          | GNU/Hurd-based operating system                    |
-| `Haiku`        | Unix operating system inspired by BeOS             |
-| `HP-UX`        | Hewlett Packard Unix                               |
-| `Linux`        | All Linux-based distributions                      |
-| `MINGW.*`      | `MINGW32.*`, `MINGW64.*` environments; has version |
-| `MSYS`         | MSYS environment, also `Windows` or `MINGW.*`      |
-| `NetBSD`       | NetBSD operating systems                           |
-| `OpenBSD`      | OpenBSD operating systems                          |
-| `OS400`        | IBM Unix operating system                          |
-| `QNX`          | Unix-like operating system by BlackBerry           |
-| `SCO_SV`       | SCO OpenServer 5                                   |
-| `SunOS`        | Oracle Solaris and all illumos operating systems   |
-| `UNIX_SV`      | SCO UnixWare (pre release 7)                       |
-| `UnixWare`     | SCO UnixWare 7                                     |
-| `Windows`      | Windows stationary operating systems               |
-| `WindowsCE`    | Windows Embedded Compact                           |
-| `WindowsPhone` | Windows mobile phone system                        |
-| `WindowsStore` | Universal Windows Platform applications            |
+| Value          | Note                                                   |
+| -------------- | ------------------------------------------------------ |
+| `AIX`          | IBM Unix operating system                              |
+| `Android`      | Android operating system                               |
+| `CYGWIN.*`     | Cygwin environment for Windows; has version            |
+| `Darwin`       | Apple stationary operating systems (macOS, OS X, etc.) |
+| `DragonFly`    | BSD-derived operating system                           |
+| `Emscripten`   | Compiler toolchain to WebAssembly                      |
+| `FreeBSD`      | All FreeBSD operating systems versions                 |
+| `Generic`      | Some platforms, e.g. bare metal embedded devices       |
+| `GNU`          | GNU/Hurd-based operating system                        |
+| `Haiku`        | Unix operating system inspired by BeOS                 |
+| `HP-UX`        | Hewlett Packard Unix                                   |
+| `iOS`          | Apple mobile phone operating system                    |
+| `Linux`        | All Linux-based distributions                          |
+| `MINGW.*`      | `MINGW32.*`, `MINGW64.*` environments; has version     |
+| `MSYS`         | MSYS environment, also `Windows` or `MINGW.*`          |
+| `NetBSD`       | NetBSD operating systems                               |
+| `OpenBSD`      | OpenBSD operating systems                              |
+| `OS400`        | IBM Unix operating system                              |
+| `QNX`          | Unix-like operating system by BlackBerry               |
+| `SCO_SV`       | SCO OpenServer 5                                       |
+| `SunOS`        | Oracle Solaris and all illumos operating systems       |
+| `tvOS`         | Apple TV operating system                              |
+| `UNIX_SV`      | SCO UnixWare (pre release 7)                           |
+| `UnixWare`     | SCO UnixWare 7                                         |
+| `visionOS`     | Apple mixed reality operating system                   |
+| `watchOS`      | Apple watch operating system                           |
+| `Windows`      | Windows stationary operating systems                   |
+| `WindowsCE`    | Windows Embedded Compact                               |
+| `WindowsPhone` | Windows mobile phone operating system                  |
+| `WindowsStore` | Universal Windows Platform applications                |
 
 See also [CMakeDetermineSystem.cmake](https://gitlab.kitware.com/cmake/cmake/-/blob/master/Modules/CMakeDetermineSystem.cmake).
 
