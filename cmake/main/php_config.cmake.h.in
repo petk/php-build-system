@@ -1041,9 +1041,6 @@
 /* Define to 1 if you have the <net/if.h> header file. */
 #cmakedefine HAVE_NET_IF_H @HAVE_NET_IF_H@
 
-/* Whether utf8_mime2text() has new signature */
-#cmakedefine HAVE_NEW_MIME2TEXT @HAVE_NEW_MIME2TEXT@
-
 /* */
 #cmakedefine HAVE_NGETTEXT @HAVE_NGETTEXT@
 
@@ -1215,9 +1212,6 @@
 
 /* */
 #cmakedefine HAVE_RES_SEARCH @HAVE_RES_SEARCH@
-
-/* */
-#cmakedefine HAVE_RFC822_OUTPUT_ADDRESS_LIST @HAVE_RFC822_OUTPUT_ADDRESS_LIST@
 
 /* Define to 1 if you have the 'rfork' function. */
 #cmakedefine HAVE_RFORK @HAVE_RFORK@

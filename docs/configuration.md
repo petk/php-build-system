@@ -1665,6 +1665,59 @@ A list of Autoconf `configure` command-line configuration options, Windows
       <td></td>
     </tr>
     <tr>
+      <td>--without-imap</td>
+      <td>--without-imap</td>
+      <td>EXT_IMAP=OFF</td>
+      <td>default, PHP <= 8.3</td>
+    </tr>
+    <tr>
+      <td>&emsp;--with-imap[=DIR]</td>
+      <td>--with-imap</td>
+      <td>
+        EXT_IMAP=ON<br>
+        [CClient_ROOT=DIR]
+      </td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>&emsp;--without-kerberos</td>
+      <td>N/A</td>
+      <td>EXT_IMAP_KERBEROS=OFF</td>
+      <td>default</td>
+    </tr>
+    <tr>
+      <td>
+        &emsp;--with-kerberos<br>
+        &emsp;[KERBEROS_CFLAGS=...]<br>
+        &emsp;[KERBEROS_LIBS=...]
+      </td>
+      <td>N/A</td>
+      <td>
+        EXT_IMAP_KERBEROS=ON<br>
+        [Kerberos_ROOT=...]
+      </td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>&emsp;--without-imap-ssl</td>
+      <td>N/A</td>
+      <td>EXT_IMAP_SSL=OFF</td>
+      <td>default</td>
+    </tr>
+    <tr>
+      <td>
+        &emsp;--with-imap-ssl<br>
+        &emsp;[OPENSSL_CFLAGS=...]<br>
+        &emsp;[OPENSSL_LIBS=...]
+      </td>
+      <td>N/A</td>
+      <td>
+        EXT_IMAP_SSL=ON<br>
+        [OPENSSL_ROOT_DIR=DIR]
+      </td>
+      <td></td>
+    </tr>
+    <tr>
       <td>--disable-intl</td>
       <td></td>
       <td>EXT_INTL=OFF</td>
