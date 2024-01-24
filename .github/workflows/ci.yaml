@@ -114,7 +114,11 @@ jobs:
             libpq-dev \
             libmm-dev \
             zlib1g-dev \
-            libdmalloc-dev;
+            libdmalloc-dev \
+            dovecot-core \
+            dovecot-pop3d \
+            dovecot-imapd \
+            sendmail;
 
       - name: Checkout
         uses: actions/checkout@v4
@@ -134,6 +138,12 @@ jobs:
           sudo cp ext/snmp/tests/snmpd.conf /etc/snmp
           sudo cp ext/snmp/tests/bigtest /etc/snmp
           sudo systemctl restart snmpd
+
+      - name: Setup Dovecot for testing imap extension
+        run: |
+          cd php-${{ matrix.php }}
+          sudo sh ext/imap/tests/setup/setup.sh
+          sudo systemctl restart dovecot
 
       - name: Run tests
         run: |
