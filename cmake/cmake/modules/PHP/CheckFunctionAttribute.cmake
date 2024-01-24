@@ -1,15 +1,15 @@
 #[=============================================================================[
 Check if GNU C function attribute is supported by the compiler.
 
-Function:
+Module exposes the following function:
 
   php_check_function_attribute(<attribute-name> <result>)
 
     <attribute-name>
       Name of the function attribute to check.
     <result>
-      Cache variable set whether function attribute <attribute> is supported by
-      the compiler.
+      Name of the cache variable to store the check result of whether function
+      attribute <attribute-name> is supported by the compiler.
 
 Supported attributes:
 
