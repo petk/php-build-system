@@ -37,9 +37,11 @@ function(_php_tsrm_thread_safety)
 
   set(THREADS_PREFER_PTHREAD_FLAG TRUE)
   find_package(Threads)
-  set_package_properties(Threads PROPERTIES
-    TYPE REQUIRED
-    PURPOSE "Necessary to enable PHP thread safety."
+  set_package_properties(
+    Threads
+    PROPERTIES
+      TYPE REQUIRED
+      PURPOSE "Necessary to enable PHP thread safety."
   )
 
   if(Threads_FOUND)

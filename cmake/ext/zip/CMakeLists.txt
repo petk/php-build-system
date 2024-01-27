@@ -32,9 +32,11 @@ target_sources(php_zip PRIVATE
 )
 
 find_package(libzip 1.7.1)
-set_package_properties(libzip PROPERTIES
-  TYPE REQUIRED
-  PURPOSE "Necessary to enable the zip extension."
+set_package_properties(
+  libzip
+  PROPERTIES
+    TYPE REQUIRED
+    PURPOSE "Necessary to enable the zip extension."
 )
 
 if(NOT libzip_FOUND)

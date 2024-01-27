@@ -12,7 +12,7 @@ Components:
   LIBRARY
     The MySQL library.
 
-Module defines the following IMPORTED targets:
+Module defines the following IMPORTED target(s):
 
   MySQL::MySQL
     The MySQL-compatible library, if found, when using the LIBRARY component.
@@ -25,13 +25,20 @@ Result variables:
     socket pointer is set to it instead.
   MySQL_SOCKET_FOUND
     Whether the MySQL Unix socket pointer has been determined.
-  MySQL_CONFIG_EXECUTABLE
-    The mysql_config command-line tool on *nix systems to get MySQL installation
-    info.
   MySQL_INCLUDE_DIRS
     MySQL include directories.
   MySQL_LIBRARIES
     MySQL libraries.
+
+Cache variables:
+
+  MySQL_CONFIG_EXECUTABLE
+    The mysql_config command-line tool on *nix systems for getting MySQL
+    installation info.
+  Mysql_INCLUDE_DIR
+    Directory containing package library headers.
+  Mysql_LIBRARY
+    The path to the package library.
 
 Hints:
 
@@ -43,14 +50,20 @@ Hints:
 include(FeatureSummary)
 include(FindPackageHandleStandardArgs)
 
-set_package_properties(MySQL PROPERTIES
-  DESCRIPTION "MySQL-compatible database"
+set_package_properties(
+  MySQL
+  PROPERTIES
+    DESCRIPTION "MySQL-compatible database"
 )
 
-# Check if MySQL config command-line tool is available.
-find_program(MySQL_CONFIG_EXECUTABLE mysql_config)
+set(_reason "")
 
-set(_reason_failure_message)
+# Check if MySQL config command-line tool is available.
+find_program(
+  MySQL_CONFIG_EXECUTABLE
+  NAMES mysql_config
+  DOC "The mysql_config command-line tool for getting MySQL installation info"
+)
 
 # MySQL socket component.
 if("SOCKET" IN_LIST MySQL_FIND_COMPONENTS)
@@ -84,10 +97,7 @@ if("SOCKET" IN_LIST MySQL_FIND_COMPONENTS)
   endif()
 
   if(NOT MySQL_SOCKET)
-    string(
-      APPEND _reason_failure_message
-      "\n    MySQL Unix Socket pointer not found."
-    )
+    string(APPEND _reason "MySQL Unix Socket pointer not found. ")
   else()
     set(MySQL_SOCKET_FOUND TRUE)
   endif()
@@ -98,37 +108,43 @@ if("LIBRARY" IN_LIST MySQL_FIND_COMPONENTS)
   if(MySQL_CONFIG_EXECUTABLE)
     execute_process(
       COMMAND ${MySQL_CONFIG_EXECUTABLE} --variable=pkgincludedir
-      OUTPUT_VARIABLE MySQL_INCLUDE_DIRS
+      OUTPUT_VARIABLE _mysql_include_dir
       OUTPUT_STRIP_TRAILING_WHITESPACE
+      ERROR_QUIET
     )
 
-    # TODO: This adds unused direct dependencies.
     execute_process(
-      COMMAND ${MySQL_CONFIG_EXECUTABLE} --libs
-      OUTPUT_VARIABLE MySQL_LIBRARIES
+      COMMAND ${MySQL_CONFIG_EXECUTABLE} --variable=pkglibdir
+      OUTPUT_VARIABLE _mysql_library_dir
       OUTPUT_STRIP_TRAILING_WHITESPACE
-    )
-  else()
-    find_path(MySQL_INCLUDE_DIRS mysql.h PATH_SUFFIXES mysql)
-
-    find_library(MySQL_LIBRARIES NAMES mysqlclient mysql)
-  endif()
-
-  if(NOT MySQL_INCLUDE_DIRS)
-    string(
-      APPEND _reason_failure_message
-      "\n    The MySQL include dirs not found."
+      ERROR_QUIET
     )
   endif()
 
-  if(NOT MySQL_LIBRARIES)
-    string(
-      APPEND _reason_failure_message
-      "\n    The MySQL library not found."
-    )
+  find_path(
+    MySQL_INCLUDE_DIR
+    NAMES mysql.h
+    PATHS ${_mysql_include_dir}
+    PATH_SUFFIXES mysql
+    DOC "Directory containing MySQL library headers"
+  )
+
+  find_library(
+    MySQL_LIBRARY
+    NAMES mysqlclient mysql
+    PATHS ${_mysql_library_dir}
+    DOC "The path to the MySQL library"
+  )
+
+  if(NOT MySQL_INCLUDE_DIR)
+    string(APPEND _reason "mysql.h not found. ")
   endif()
 
-  if(MySQL_INCLUDE_DIRS AND MySQL_LIBRARIES)
+  if(NOT MySQL_LIBRARY)
+    string(APPEND _reason "The MySQL library not found. ")
+  endif()
+
+  if(MySQL_INCLUDE_DIR AND MySQL_LIBRARY)
     set(MySQL_LIBRARY_FOUND TRUE)
   endif()
 endif()
@@ -136,16 +152,25 @@ endif()
 find_package_handle_standard_args(
   MySQL
   HANDLE_COMPONENTS
-  REASON_FAILURE_MESSAGE "${_reason_failure_message}"
+  REASON_FAILURE_MESSAGE "${_reason}"
 )
 
-unset(_reason_failure_message)
+unset(_reason)
+
+if(NOT MySQL_FOUND)
+  return()
+endif()
+
+set(MySQL_INCLUDE_DIRS ${MySQL_INCLUDE_DIR})
+set(MySQL_LIBRARIES ${MySQL_LIBRARY})
 
 if(MySQL_LIBRARY_FOUND AND NOT TARGET MySQL::MySQL)
-  add_library(MySQL::MySQL INTERFACE IMPORTED)
+  add_library(MySQL::MySQL UNKNOWN IMPORTED)
 
-  set_target_properties(MySQL::MySQL PROPERTIES
-    INTERFACE_INCLUDE_DIRECTORIES "${MySQL_INCLUDE_DIRS}"
-    INTERFACE_LINK_LIBRARIES "${MySQL_LIBRARIES}"
+  set_target_properties(
+    MySQL::MySQL
+    PROPERTIES
+      IMPORTED_LOCATION "${MySQL_LIBRARY}"
+      INTERFACE_INCLUDE_DIRECTORIES "${MySQL_INCLUDE_DIR}"
   )
 endif()

@@ -38,9 +38,11 @@ set(
 
 if(EXT_PCRE_EXTERNAL)
   find_package(PCRE 10.30)
-  set_package_properties(PCRE PROPERTIES
-    TYPE REQUIRED
-    PURPOSE "Necessary to enable the pcre extension with external PCRE library."
+  set_package_properties(
+    PCRE
+    PROPERTIES
+      TYPE REQUIRED
+      PURPOSE "Necessary to use external PCRE library in the pcre extension."
   )
 
   target_link_libraries(php_pcre PRIVATE PCRE::PCRE)

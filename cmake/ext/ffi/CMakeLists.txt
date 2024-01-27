@@ -36,9 +36,11 @@ target_sources(php_ffi PRIVATE
 target_compile_definitions(php_ffi PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE=1)
 
 find_package(FFI 3.0.11)
-set_package_properties(FFI PROPERTIES
-  TYPE REQUIRED
-  PURPOSE "Necessary to enable the ffi extension."
+set_package_properties(
+  FFI
+  PROPERTIES
+    TYPE REQUIRED
+    PURPOSE "Necessary to enable the ffi extension."
 )
 
 target_link_libraries(php_ffi PRIVATE FFI::FFI)

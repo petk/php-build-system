@@ -218,17 +218,21 @@ if(NOT EXT_GD_EXTERNAL)
   endif()
 
   find_package(ZLIB)
-  set_package_properties(ZLIB PROPERTIES
-    TYPE REQUIRED
-    PURPOSE "Necessary to enable the gd extension."
+  set_package_properties(
+    ZLIB
+    PROPERTIES
+      TYPE REQUIRED
+      PURPOSE "Necessary to enable the gd extension."
   )
 
   target_link_libraries(php_gd PRIVATE ZLIB::ZLIB)
 
   find_package(PNG)
-  set_package_properties(PNG PROPERTIES
-    TYPE REQUIRED
-    PURPOSE "Necessary to enable the gd extension."
+  set_package_properties(
+    PNG
+    PROPERTIES
+      TYPE REQUIRED
+      PURPOSE "Necessary to enable the gd extension."
   )
 
   target_link_libraries(php_gd PRIVATE PNG::PNG)
@@ -237,9 +241,11 @@ if(NOT EXT_GD_EXTERNAL)
 
   if(EXT_GD_AVIF)
     find_package(libavif 0.8.2)
-    set_package_properties(libavif PROPERTIES
-      TYPE REQUIRED
-      PURPOSE "Necessary to enable the AVIF support in the gd extension."
+    set_package_properties(
+      libavif
+      PROPERTIES
+        TYPE REQUIRED
+        PURPOSE "Necessary to enable the AVIF support in the gd extension."
     )
 
     target_link_libraries(php_gd PRIVATE libavif::libavif)
@@ -250,9 +256,11 @@ if(NOT EXT_GD_EXTERNAL)
 
   if(EXT_GD_WEBP)
     find_package(WebP 0.2.0)
-    set_package_properties(WebP PROPERTIES
-      TYPE REQUIRED
-      PURPOSE "Necessary to enable the WebP support in the gd extension."
+    set_package_properties(
+      WebP
+      PROPERTIES
+        TYPE REQUIRED
+        PURPOSE "Necessary to enable the WebP support in the gd extension."
     )
 
     target_link_libraries(php_gd PRIVATE WebP::WebP)
@@ -263,9 +271,11 @@ if(NOT EXT_GD_EXTERNAL)
 
   if(EXT_GD_JPEG)
     find_package(JPEG)
-    set_package_properties(JPEG PROPERTIES
-      TYPE REQUIRED
-      PURPOSE "Necessary to enable the JPEG support in the gd extension."
+    set_package_properties(
+      JPEG
+      PROPERTIES
+        TYPE REQUIRED
+        PURPOSE "Necessary to enable the JPEG support in the gd extension."
     )
 
     target_link_libraries(php_gd PRIVATE JPEG::JPEG)
@@ -276,9 +286,11 @@ if(NOT EXT_GD_EXTERNAL)
 
   if(EXT_GD_XPM)
     find_package(XPM)
-    set_package_properties(XPM PROPERTIES
-      TYPE REQUIRED
-      PURPOSE "Necessary to enable the XPM support in the gd extension."
+    set_package_properties(
+      XPM
+      PROPERTIES
+        TYPE REQUIRED
+        PURPOSE "Necessary to enable the XPM support in the gd extension."
     )
 
     target_link_libraries(php_gd PRIVATE XPM::XPM)
@@ -289,9 +301,11 @@ if(NOT EXT_GD_EXTERNAL)
 
   if(EXT_GD_FREETYPE)
     find_package(Freetype)
-    set_package_properties(Freetype PROPERTIES
-      TYPE REQUIRED
-      PURPOSE "Necessary to enable the Freetype support in the gd extension."
+    set_package_properties(
+      Freetype
+      PROPERTIES
+        TYPE REQUIRED
+        PURPOSE "Necessary to enable the Freetype support in the gd extension."
     )
 
     target_link_libraries(php_gd PRIVATE Freetype::Freetype)
@@ -353,9 +367,11 @@ if(NOT EXT_GD_EXTERNAL)
   endif()
 else()
   find_package(GD 2.1.0)
-  set_package_properties(GD PROPERTIES
-    TYPE REQUIRED
-    PURPOSE "Necessary to enable the gd extension with external GD library."
+  set_package_properties(
+    GD
+    PROPERTIES
+      TYPE REQUIRED
+      PURPOSE "Necessary to enable the gd extension with external GD library."
   )
 
   target_link_libraries(php_gd PRIVATE GD::GD)

@@ -55,9 +55,11 @@ endif()
 
 if(NOT EXT_READLINE_LIBREADLINE)
   find_package(Editline)
-  set_package_properties(Editline PROPERTIES
-    TYPE REQUIRED
-    PURPOSE "Necessary to enable the readline extension."
+  set_package_properties(
+    Editline
+    PROPERTIES
+      TYPE REQUIRED
+      PURPOSE "Necessary to enable the readline extension."
   )
 
   target_link_libraries(php_readline PUBLIC Editline::Editline)
@@ -70,9 +72,11 @@ if(NOT EXT_READLINE_LIBREADLINE)
   set(HAVE_LIBEDIT 1 CACHE INTERNAL "Whether Editline is used for ext/readline")
 else()
   find_package(Readline)
-  set_package_properties(Readline PROPERTIES
-    TYPE REQUIRED
-    PURPOSE "Necessary to enable the readline extension."
+  set_package_properties(
+    Readline
+    PROPERTIES
+      TYPE REQUIRED
+      PURPOSE "Necessary to enable the readline extension."
   )
 
   target_link_libraries(php_readline PUBLIC Readline::Readline)
@@ -93,19 +97,23 @@ endif()
 #[[
 set(CURSES_NEED_NCURSES TRUE)
 find_package(Curses)
-set_package_properties(Curses PROPERTIES
-  TYPE REQUIRED
-  PURPOSE "Necessary to enable the readline extension."
+set_package_properties(
+  Curses
+  PROPERTIES
+    TYPE REQUIRED
+    PURPOSE "Necessary to enable the readline extension."
 )
 
 # The CMake's Curses find module, doesn't define IMPORTED target yet.
 if(CURSES_FOUND AND NOT TARGET Curses::Curses)
   add_library(Curses::Curses INTERFACE IMPORTED)
 
-  set_target_properties(Curses::Curses PROPERTIES
-    INTERFACE_LINK_LIBRARIES "${CURSES_LIBRARIES}"
-    INTERFACE_INCLUDE_DIRECTORIES "${CURSES_INCLUDE_DIRS}"
-    INTERFACE_COMPILE_OPTIONS "${CURSES_CFLAGS}"
+  set_target_properties(
+    Curses::Curses
+    PROPERTIES
+      INTERFACE_LINK_LIBRARIES "${CURSES_LIBRARIES}"
+      INTERFACE_INCLUDE_DIRECTORIES "${CURSES_INCLUDE_DIRS}"
+      INTERFACE_COMPILE_OPTIONS "${CURSES_CFLAGS}"
   )
 endif()
 

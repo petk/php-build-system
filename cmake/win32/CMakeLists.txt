@@ -76,9 +76,11 @@ target_link_libraries(
 
 # Generate wsyslog.h file with message compiler (mc).
 find_package(MC)
-set_package_properties(MC PROPERTIES
-  TYPE REQUIRED
-  PURPOSE "Necessary to generate win32/wsyslog.h."
+set_package_properties(
+  MC
+  PROPERTIES
+    TYPE REQUIRED
+    PURPOSE "Necessary to generate win32/wsyslog.h."
 )
 
 mc_target(

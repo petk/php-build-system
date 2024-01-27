@@ -31,9 +31,11 @@ target_sources(php_snmp PRIVATE
 )
 
 find_package(NetSnmp 5.3)
-set_package_properties(NetSnmp PROPERTIES
-  TYPE REQUIRED
-  PURPOSE "Necessary to enable the snmp extension."
+set_package_properties(
+  NetSnmp
+  PROPERTIES
+    TYPE REQUIRED
+    PURPOSE "Necessary to enable the snmp extension."
 )
 
 target_link_libraries(php_snmp PRIVATE NetSnmp::NetSnmp)

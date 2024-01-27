@@ -1,21 +1,28 @@
 #[=============================================================================[
 Find the PCRE library.
 
-Module defines the following IMPORTED targets:
+Module defines the following IMPORTED target(s):
 
   PCRE::PCRE
-    The PCRE library, if found.
+    The package library, if found.
 
 Result variables:
 
   PCRE_FOUND
-    Whether PCRE library is found.
+    Whether the package has been found.
   PCRE_INCLUDE_DIRS
-    A list of include directories for using PCRE library.
+    Include directories needed to use this package.
   PCRE_LIBRARIES
-    A list of libraries for using PCRE library.
+    Libraries needed to link to the package library.
   PCRE_VERSION
-    Version string of found PCRE library.
+    Package version, if found.
+
+Cache variables:
+
+  PCRE_INCLUDE_DIR
+    Directory containing package library headers.
+  PCRE_LIBRARY
+    The path to the package library.
 
 Hints:
 
@@ -25,38 +32,50 @@ Hints:
 include(FeatureSummary)
 include(FindPackageHandleStandardArgs)
 
-set_package_properties(PCRE PROPERTIES
-  URL "https://www.pcre.org/"
-  DESCRIPTION "Perl compatible regular expressions library"
+set_package_properties(
+  PCRE
+  PROPERTIES
+    URL "https://www.pcre.org/"
+    DESCRIPTION "Perl compatible regular expressions library"
 )
 
-set(_reason_failure_message)
+set(_reason "")
 
-find_path(PCRE_INCLUDE_DIRS NAMES pcre2.h DOC "PCRE library include directory")
+# Use pkgconf, if available on the system.
+find_package(PkgConfig QUIET)
+pkg_check_modules(PC_PCRE QUIET libpcre2-8)
 
-if(NOT PCRE_INCLUDE_DIRS)
-  string(
-    APPEND _reason_failure_message
-    "\n    PCRE include directory not found."
-  )
+find_path(
+  PCRE_INCLUDE_DIR
+  NAMES pcre2.h
+  PATHS ${PC_PCRE_INCLUDE_DIRS}
+  DOC "Directory containing PCRE library headers"
+)
+
+if(NOT PCRE_INCLUDE_DIR)
+  string(APPEND _reason "pcre2.h not found. ")
 endif()
 
-find_library(PCRE_LIBRARIES NAMES pcre2-8 DOC "The PCRE library")
+find_library(
+  PCRE_LIBRARY
+  NAMES pcre2-8
+  PATHS ${PC_PCRE_LIBRARY_DIRS}
+  DOC "The path to the PCRE library"
+)
 
 if(NOT PCRE_LIBRARIES)
-  string(
-    APPEND _reason_failure_message
-    "\n    PCRE library not found."
-  )
+  string(APPEND _reason "PCRE library not found. ")
 endif()
 
 block(PROPAGATE PCRE_VERSION)
-  if(PCRE_INCLUDE_DIRS)
+  if(PCRE_INCLUDE_DIR)
     file(
-      STRINGS "${PCRE_INCLUDE_DIRS}/pcre2.h"
+      STRINGS "${PCRE_INCLUDE_DIR}/pcre2.h"
       results
       REGEX "^#[ \t]*define[ \t]+PCRE2_(MAJOR|MINOR)[ \t]+[0-9]+[^\r\n]*$"
     )
+
+    unset(PCRE_VERSION)
 
     foreach(item MAJOR MINOR)
       foreach(line ${results})
@@ -72,20 +91,33 @@ block(PROPAGATE PCRE_VERSION)
   endif()
 endblock()
 
+mark_as_advanced(PCRE_INCLUDE_DIR PCRE_LIBRARY)
+
 find_package_handle_standard_args(
   PCRE
-  REQUIRED_VARS PCRE_LIBRARIES PCRE_INCLUDE_DIRS
+  REQUIRED_VARS
+    PCRE_LIBRARY
+    PCRE_INCLUDE_DIR
   VERSION_VAR PCRE_VERSION
-  REASON_FAILURE_MESSAGE "${_reason_failure_message}"
+  REASON_FAILURE_MESSAGE "${_reason}"
 )
 
-unset(_reason_failure_message)
+unset(_reason)
 
-if(PCRE_FOUND AND NOT TARGET PCRE::PCRE)
-  add_library(PCRE::PCRE INTERFACE IMPORTED)
+if(NOT PCRE_FOUND)
+  return()
+endif()
 
-  set_target_properties(PCRE::PCRE PROPERTIES
-    INTERFACE_INCLUDE_DIRECTORIES "${PCRE_INCLUDE_DIRS}"
-    INTERFACE_LINK_LIBRARIES "${PCRE_LIBRARIES}"
+set(PCRE_INCLUDE_DIRS ${PCRE_INCLUDE_DIR})
+set(PCRE_LIBRARIES ${PCRE_LIBRARY})
+
+if(NOT TARGET PCRE::PCRE)
+  add_library(PCRE::PCRE UNKNOWN IMPORTED)
+
+  set_target_properties(
+    PCRE::PCRE
+    PROPERTIES
+      IMPORTED_LOCATION "${PCRE_LIBRARY}"
+      INTERFACE_INCLUDE_DIRECTORIES "${PCRE_INCLUDE_DIR}"
   )
 endif()

@@ -49,9 +49,11 @@ target_include_directories(
 )
 
 find_package(SQLite3 3.7.7)
-set_package_properties(SQLite3 PROPERTIES
-  TYPE REQUIRED
-  PURPOSE "Necessary to enable the pdo_sqlite extension."
+set_package_properties(
+  SQLite3
+  PROPERTIES
+    TYPE REQUIRED
+    PURPOSE "Necessary to enable the pdo_sqlite extension."
 )
 
 target_link_libraries(php_pdo_sqlite PRIVATE SQLite::SQLite3)

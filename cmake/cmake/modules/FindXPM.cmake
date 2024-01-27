@@ -1,7 +1,7 @@
 #[=============================================================================[
 Find the libXpm library.
 
-Module defines the following IMPORTED targets:
+Module defines the following IMPORTED target(s):
 
   XPM::XPM
     The libXpm library, if found.
@@ -9,11 +9,20 @@ Module defines the following IMPORTED targets:
 Result variables:
 
   XPM_FOUND
-    Whether libXpm library is found.
+    Whether the package has been found.
   XPM_INCLUDE_DIRS
-    A list of include directories for using libXpm library.
+    Include directories needed to use this package.
   XPM_LIBRARIES
-    A list of libraries for using libXpm.
+    Libraries needed to link to the package library.
+  XPM_VERSION
+    Package version, if found.
+
+Cache variables:
+
+  XPM_INCLUDE_DIR
+    Directory containing package library headers.
+  XPM_LIBRARY
+    The path to the package library.
 
 Hints:
 
@@ -23,44 +32,80 @@ Hints:
 include(FeatureSummary)
 include(FindPackageHandleStandardArgs)
 
-set_package_properties(XPM PROPERTIES
-  URL "https://gitlab.freedesktop.org/xorg/lib/libxpm"
-  DESCRIPTION "X Pixmap Library"
+set_package_properties(
+  XPM
+  PROPERTIES
+    URL "https://gitlab.freedesktop.org/xorg/lib/libxpm"
+    DESCRIPTION "X Pixmap Library"
 )
 
-set(_reason_failure_message)
+set(_reason "")
 
-find_path(XPM_INCLUDE_DIRS X11/xpm.h DOC "XPM include directories")
+# Use pkgconf, if available on the system.
+find_package(PkgConfig QUIET)
+pkg_check_modules(PC_XPM QUIET xpm)
 
-if(NOT XPM_INCLUDE_DIRS)
-  string(
-    APPEND _reason_failure_message
-    "\n    The X11/xpm.h could not be found."
-  )
+find_path(
+  XPM_INCLUDE_DIR
+  NAMES X11/xpm.h
+  PATHS ${PC_XPM_INCLUDE_DIRS}
+  DOC "Directory containing XPM library headers"
+)
+
+if(NOT XPM_INCLUDE_DIR)
+  string(APPEND _reason "X11/xpm.h not found. ")
 endif()
 
-find_library(XPM_LIBRARIES NAMES Xpm DOC "XPM library")
+find_library(
+  XPM_LIBRARY
+  NAMES Xpm
+  PATHS ${PC_XPM_LIBRARY_DIRS}
+  DOC "The path to the XPM library"
+)
 
-if(NOT XPM_LIBRARIES)
-  string(
-    APPEND _reason_failure_message
-    "\n    XPM library not found. Please install libXpm library."
-  )
+if(NOT XPM_LIBRARY)
+  string(APPEND _reason "libXpm library not found. ")
 endif()
+
+# Get version.
+block(PROPAGATE XPM_VERSION)
+  # libXpm headers don't provide version. Try pkgconf version, if found.
+  if(PC_XPM_VERSION)
+    cmake_path(COMPARE "${PC_XPM_INCLUDEDIR}" EQUAL "${XPM_INCLUDE_DIR}" isEqual)
+
+    if(isEqual)
+      set(XPM_VERSION ${PC_XPM_VERSION})
+    endif()
+  endif()
+endblock()
+
+mark_as_advanced(XPM_INCLUDE_DIR XPM_LIBRARY)
 
 find_package_handle_standard_args(
   XPM
-  REQUIRED_VARS XPM_LIBRARIES XPM_INCLUDE_DIRS
-  REASON_FAILURE_MESSAGE "${_reason_failure_message}"
+  REQUIRED_VARS
+    XPM_LIBRARY
+    XPM_INCLUDE_DIR
+  VERSION_VAR XPM_VERSION
+  REASON_FAILURE_MESSAGE "${_reason}"
 )
 
-unset(_reason_failure_message)
+unset(_reason)
 
-if(XPM_FOUND AND NOT TARGET XPM::XPM)
-  add_library(XPM::XPM INTERFACE IMPORTED)
+if(NOT XPM_FOUND)
+  return()
+endif()
 
-  set_target_properties(XPM::XPM PROPERTIES
-    INTERFACE_INCLUDE_DIRECTORIES "${XPM_INCLUDE_DIRS}"
-    INTERFACE_LINK_LIBRARIES "${XPM_LIBRARIES}"
+set(XPM_INCLUDE_DIRS ${XPM_INCLUDE_DIR})
+set(XPM_LIBRARIES ${XPM_LIBRARY})
+
+if(NOT TARGET XPM::XPM)
+  add_library(XPM::XPM UNKNOWN IMPORTED)
+
+  set_target_properties(
+    XPM::XPM
+    PROPERTIES
+      IMPORTED_LOCATION "${XPM_LIBRARY}"
+      INTERFACE_INCLUDE_DIRECTORIES "${XPM_INCLUDE_DIR}"
   )
 endif()

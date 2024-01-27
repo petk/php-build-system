@@ -1,21 +1,28 @@
 #[=============================================================================[
 Find the GNU Readline library.
 
-Module defines the following IMPORTED targets:
+Module defines the following IMPORTED target(s):
 
   Readline::Readline
-    The Readline library, if found.
+    The package library, if found.
 
 Result variables:
 
   Readline_FOUND
-    Whether GNU Readline library is found.
+    Whether the package has been found.
   Readline_INCLUDE_DIRS
-    A list of include directories for using GNU Readline library.
+    Include directories needed to use this package.
   Readline_LIBRARIES
-    A list of libraries for using GNU Readline library.
+    Libraries needed to link to the package library.
   Readline_VERSION
-    Version string of found GNU Readline library.
+    Package version, if found.
+
+Cache variables:
+
+  Readline_INCLUDE_DIR
+    Directory containing package library headers.
+  Readline_LIBRARY
+    The path to the package library.
 
 Hints:
 
@@ -25,78 +32,87 @@ Hints:
 include(FeatureSummary)
 include(FindPackageHandleStandardArgs)
 
-set_package_properties(Readline PROPERTIES
-  URL "https://tiswww.case.edu/php/chet/readline/rltop.html"
-  DESCRIPTION "GNU Readline library for command-line editing"
+set_package_properties(
+  Readline
+  PROPERTIES
+    URL "https://tiswww.case.edu/php/chet/readline/rltop.html"
+    DESCRIPTION "GNU Readline library for command-line editing"
 )
 
-find_path(Readline_INCLUDE_DIRS readline/readline.h)
+set(_reason "")
 
-find_library(Readline_LIBRARIES NAMES readline DOC "The Readline library")
+# Use pkgconf, if available on the system.
+find_package(PkgConfig QUIET)
+pkg_check_modules(PC_Readline QUIET readline)
 
-if(Readline_LIBRARIES)
+find_path(
+  Readline_INCLUDE_DIR
+  NAMES readline/readline.h
+  PATHS ${PC_Readline_INCLUDE_DIRS}
+  DOC "Directory containing Readline library headers"
+)
+
+if(NOT Readline_INCLUDE_DIR)
+  string(APPEND _reason "readline/readline.h not found. ")
+endif()
+
+find_library(
+  Readline_LIBRARY
+  NAMES readline
+  PATHS ${PC_Readline_LIBRARY_DIRS}
+  DOC "The path to the Readline library"
+)
+
+if(NOT Readline_LIBRARY)
+  string(APPEND _reason "Readline library not found. ")
+endif()
+
+if(Readline_LIBRARY)
   # Sanity check.
   check_library_exists(
-    "${Readline_LIBRARIES}"
+    "${Readline_LIBRARY}"
     readline
     ""
     _readline_have_readline
   )
 
+  if(NOT _readline_have_readline)
+    string(APPEND _reason "Sanity check failed: readline() not found. ")
+  endif()
+
   # Library version check.
   check_library_exists(
-    "${Readline_LIBRARIES}"
+    "${Readline_LIBRARY}"
     rl_pending_input
     ""
     _readline_have_rl_pending_input
   )
-endif()
 
-set(_reason_failure_message)
-
-if(NOT Readline_INCLUDE_DIRS)
-  string(
-    APPEND _reason_failure_message
-    "\n    Include directory not found. Please install Readline library."
-  )
-endif()
-
-if(NOT Readline_LIBRARIES)
-  string(
-    APPEND _reason_failure_message
-    "\n    Readline library not found."
-  )
-endif()
-
-if(NOT _readline_have_readline)
-  string(
-    APPEND _reason_failure_message
-    "\n    Readline sanity check failed - readline() not found in library."
-  )
-endif()
-
-if(NOT _readline_have_rl_pending_input)
-  string(
-    APPEND _reason_failure_message
-    "\n    Invalid Readline library detected. Try EditLine instead."
-  )
+  if(NOT _readline_have_rl_pending_input)
+    string(
+      APPEND _reason
+      "Invalid Readline library detected. Try EditLine instead. "
+    )
+  endif()
 endif()
 
 # Get version.
 block(PROPAGATE Readline_VERSION)
-  if(Readline_INCLUDE_DIRS)
+  if(Readline_INCLUDE_DIR)
     file(
       STRINGS
-      "${Readline_INCLUDE_DIRS}/readline/readline.h"
+      "${Readline_INCLUDE_DIR}/readline/readline.h"
       results
       REGEX
       "^#[ \t]*define[ \t]+RL_VERSION_(MAJOR|MINOR)[ \t]+[0-9]+[ \t]*$"
     )
 
+    unset(Readline_VERSION)
+
     foreach(item MAJOR MINOR)
       foreach(line ${results})
         if(line MATCHES "^#[ \t]*define[ \t]+RL_VERSION_${item}[ \t]+([0-9]+)[ \t]*$")
-          if(Readline_VERSION)
+          if(DEFINED Readline_VERSION)
             string(APPEND Readline_VERSION ".${CMAKE_MATCH_1}")
           else()
             set(Readline_VERSION "${CMAKE_MATCH_1}")
@@ -107,24 +123,35 @@ block(PROPAGATE Readline_VERSION)
   endif()
 endblock()
 
+mark_as_advanced(Readline_INCLUDE_DIR Readline_LIBRARY)
+
 find_package_handle_standard_args(
   Readline
   REQUIRED_VARS
-    Readline_LIBRARIES
-    Readline_INCLUDE_DIRS
+    Readline_LIBRARY
+    Readline_INCLUDE_DIR
     _readline_have_readline
     _readline_have_rl_pending_input
   VERSION_VAR Readline_VERSION
-  REASON_FAILURE_MESSAGE "${_reason_failure_message}"
+  REASON_FAILURE_MESSAGE "${_reason}"
 )
 
-unset(_reason_failure_message)
+unset(_reason)
 
-if(Readline_FOUND AND NOT TARGET Readline::Readline)
-  add_library(Readline::Readline INTERFACE IMPORTED)
+if(NOT Readline_FOUND)
+  return()
+endif()
 
-  set_target_properties(Readline::Readline PROPERTIES
-    INTERFACE_INCLUDE_DIRECTORIES "${Readline_INCLUDE_DIRS}"
-    INTERFACE_LINK_LIBRARIES "${Readline_LIBRARIES}"
+set(Readline_INCLUDE_DIRS ${Readline_INCLUDE_DIR})
+set(Readline_LIBRARIES ${Readline_LIBRARY})
+
+if(NOT TARGET Readline::Readline)
+  add_library(Readline::Readline UNKNOWN IMPORTED)
+
+  set_target_properties(
+    Readline::Readline
+    PROPERTIES
+      IMPORTED_LOCATION "${Readline_LIBRARY}"
+      INTERFACE_INCLUDE_DIRECTORIES "${Readline_INCLUDE_DIR}"
   )
 endif()

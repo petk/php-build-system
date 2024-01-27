@@ -150,9 +150,11 @@ endif()
 
 if(EXT_STANDARD_ARGON2)
   find_package(Argon2 20171227)
-  set_package_properties(Argon2 PROPERTIES
-    TYPE REQUIRED
-    PURPOSE "Necessary to include Argon2 support in password_*."
+  set_package_properties(
+    Argon2
+    PROPERTIES
+      TYPE REQUIRED
+      PURPOSE "Necessary to include Argon2 support in password_*."
   )
 
   target_link_libraries(php_standard PRIVATE Argon2::Argon2)
@@ -178,9 +180,11 @@ if(NOT EXT_STANDARD_EXTERNAL_LIBCRYPT)
   set(PHP_USE_PHP_CRYPT_R 1 CACHE INTERNAL "Whether PHP uses its own crypt_r")
 else()
   find_package(Crypt)
-  set_package_properties(Crypt PROPERTIES
-    TYPE REQUIRED
-    PURPOSE "Necessary to use external crypt library."
+  set_package_properties(
+    Crypt
+    PROPERTIES
+      TYPE REQUIRED
+      PURPOSE "Necessary to use external crypt library."
   )
 
   target_link_libraries(php_standard PRIVATE Crypt::Crypt)

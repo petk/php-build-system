@@ -51,9 +51,11 @@ if(
   OR NOT EXISTS "${PHP_SOURCE_DIR}/ext/json/json_parser.tab.h"
 )
   find_package(BISON 3.0.0)
-  set_package_properties(BISON PROPERTIES
-    TYPE REQUIRED
-    PURPOSE "Necessary to generate PHP parser files."
+  set_package_properties(
+    BISON
+    PROPERTIES
+      TYPE REQUIRED
+      PURPOSE "Necessary to generate PHP parser files."
   )
 endif()
 
@@ -73,9 +75,11 @@ if(
   endif()
 
   find_package(RE2C 1.0.3)
-  set_package_properties(RE2C PROPERTIES
-    TYPE REQUIRED
-    PURPOSE "Necessary to generate PHP lexer files."
+  set_package_properties(
+    RE2C
+    PROPERTIES
+      TYPE REQUIRED
+      PURPOSE "Necessary to generate PHP lexer files."
   )
 endif()
 
@@ -142,8 +146,12 @@ _php_check_enabled_sapis()
 ################################################################################
 if(PHP_VALGRIND)
   find_package(Valgrind)
-  set_package_properties(Valgrind PROPERTIES
-    TYPE REQUIRED
-    PURPOSE "Necessary to enable Valgrind support."
+  set_package_properties(
+    Valgrind
+    PROPERTIES
+      TYPE REQUIRED
+      PURPOSE "Necessary to enable Valgrind support."
   )
+
+  target_link_libraries(php_configuration INTERFACE Valgrind::Valgrind)
 endif()

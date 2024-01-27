@@ -42,9 +42,11 @@ target_sources(php_ftp PRIVATE
 
 if(EXT_FTP_SSL OR EXT_OPENSSL)
   find_package(OpenSSL ${PHP_OPENSSL_MIN_VERSION})
-  set_package_properties(OpenSSL PROPERTIES
-    TYPE REQUIRED
-    PURPOSE "Necessary to enable the ftp extension."
+  set_package_properties(
+    OpenSSL
+    PROPERTIES
+      TYPE REQUIRED
+      PURPOSE "Necessary to enable the ftp extension."
   )
 
   target_link_libraries(php_ftp PRIVATE OpenSSL::SSL)

@@ -35,9 +35,11 @@ target_sources(php_zlib PRIVATE
 target_compile_definitions(php_zlib PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE=1)
 
 find_package(ZLIB 1.2.0.4)
-set_package_properties(ZLIB PROPERTIES
-  TYPE REQUIRED
-  PURPOSE "Necessary to enable the zlib extension."
+set_package_properties(
+  ZLIB
+  PROPERTIES
+    TYPE REQUIRED
+    PURPOSE "Necessary to enable the zlib extension."
 )
 
 target_link_libraries(php_zlib PRIVATE ZLIB::ZLIB)

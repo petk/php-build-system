@@ -10,6 +10,9 @@ Result variables:
 
   MC_FOUND
     Whether message compiler is found.
+
+Cache variables:
+
   MC_EXECUTABLE
     Path to the message compiler if found.
 
@@ -48,9 +51,11 @@ Module exposes the following function:
 include(FeatureSummary)
 include(FindPackageHandleStandardArgs)
 
-set_package_properties(MC PROPERTIES
-  URL "https://learn.microsoft.com/windows/win32/wes/message-compiler--mc-exe-"
-  DESCRIPTION "Compiler for instrumentation manifests and message text files"
+set_package_properties(
+  MC
+  PROPERTIES
+    URL "https://learn.microsoft.com/windows/win32/wes/message-compiler--mc-exe-"
+    DESCRIPTION "Compiler for instrumentation manifests and message text files"
 )
 
 # Query Windows registry. Message compiler (mc.exe) is not in PATH by default.
@@ -128,22 +133,27 @@ block()
   )
 endblock()
 
-set(_reason_failure_message)
+set(_reason "")
 
-if(NOT MC_EXECUTABLE)
-  string(
-    APPEND _reason_failure_message
-    "\n    Message compiler command-line tool (mc) could not be found."
-  )
+if(NOT MC_EXECUTABLE OR NOT EXISTS MC_EXECUTABLE)
+  string(APPEND _reason "Message compiler command-line tool (mc) not found. ")
+else()
+  # If MC_EXECUTABLE was found or was set by the user and path exists.
+  set(_mc_exists TRUE)
 endif()
+
+mark_as_advanced(MC_EXECUTABLE)
 
 find_package_handle_standard_args(
   MC
-  REQUIRED_VARS MC_EXECUTABLE
-  REASON_FAILURE_MESSAGE "${_reason_failure_message}"
+  REQUIRED_VARS
+    MC_EXECUTABLE
+    _mc_exists
+  REASON_FAILURE_MESSAGE "${_reason}"
 )
 
-unset(_reason_failure_message)
+unset(_reason)
+unset(_mc_exists)
 
 function(mc_target)
   cmake_parse_arguments(

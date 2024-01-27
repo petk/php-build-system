@@ -39,9 +39,11 @@ target_sources(
 )
 
 find_package(Sodium 1.0.8)
-set_package_properties(Sodium PROPERTIES
-  TYPE REQUIRED
-  PURPOSE "Necessary to enable the sodium extension."
+set_package_properties(
+  Sodium
+  PROPERTIES
+    TYPE REQUIRED
+    PURPOSE "Necessary to enable the sodium extension."
 )
 
 target_link_libraries(php_sodium PRIVATE Sodium::Sodium)

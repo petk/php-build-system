@@ -55,9 +55,11 @@ target_include_directories(
 )
 
 find_package(FreeTDS)
-set_package_properties(FreeTDS PROPERTIES
-  TYPE REQUIRED
-  PURPOSE "Necessary to enable the pdo_dblib extension."
+set_package_properties(
+  FreeTDS
+  PROPERTIES
+    TYPE REQUIRED
+    PURPOSE "Necessary to enable the pdo_dblib extension."
 )
 
 target_link_libraries(php_pdo_dblib PRIVATE FreeTDS::FreeTDS)

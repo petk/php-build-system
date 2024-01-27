@@ -65,9 +65,11 @@ if(NOT EXT_XML_EXPAT)
   )
 
   find_package(LibXml2 ${PHP_LIBXML2_MIN_VERSION})
-  set_package_properties(LibXml2 PROPERTIES
-    TYPE REQUIRED
-    PURPOSE "Necessary to enable the xml extension."
+  set_package_properties(
+    LibXml2
+    PROPERTIES
+      TYPE REQUIRED
+      PURPOSE "Necessary to enable the xml extension."
   )
 
   target_link_libraries(php_xml PRIVATE LibXml2::LibXml2)
@@ -75,9 +77,11 @@ if(NOT EXT_XML_EXPAT)
   set_target_properties(php_xml PROPERTIES PHP_EXTENSION_DEPENDENCIES php_libxml)
 else()
   find_package(EXPAT)
-  set_package_properties(EXPAT PROPERTIES
-    TYPE REQUIRED
-    PURPOSE "Necessary to enable the xml extension."
+  set_package_properties(
+    EXPAT
+    PROPERTIES
+      TYPE REQUIRED
+      PURPOSE "Necessary to enable the xml extension."
   )
 
   target_link_libraries(php_xml PRIVATE EXPAT::EXPAT)

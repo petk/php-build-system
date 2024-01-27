@@ -39,9 +39,11 @@ target_sources(
 target_compile_definitions(php_gmp PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE=1)
 
 find_package(GMP 4.2)
-set_package_properties(GMP PROPERTIES
-  TYPE REQUIRED
-  PURPOSE "Necessary to enable the gmp extension."
+set_package_properties(
+  GMP
+  PROPERTIES
+    TYPE REQUIRED
+    PURPOSE "Necessary to enable the gmp extension."
 )
 
 target_link_libraries(php_gmp PRIVATE GMP::GMP)

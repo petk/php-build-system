@@ -50,9 +50,11 @@ set_property(
 )
 
 find_package(LibXml2 ${PHP_LIBXML2_MIN_VERSION})
-set_package_properties(LibXml2 PROPERTIES
-  TYPE REQUIRED
-  PURPOSE "Necessary to enable the simplexml extension."
+set_package_properties(
+  LibXml2
+  PROPERTIES
+    TYPE REQUIRED
+    PURPOSE "Necessary to enable the simplexml extension."
 )
 
 target_link_libraries(php_simplexml PRIVATE LibXml2::LibXml2)

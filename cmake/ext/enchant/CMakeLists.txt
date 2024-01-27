@@ -31,9 +31,11 @@ target_sources(php_enchant PRIVATE
 )
 
 find_package(Enchant 2.0)
-set_package_properties(Enchant PROPERTIES
-  TYPE REQUIRED
-  PURPOSE "Necessary to enable the enchant extension."
+set_package_properties(
+  Enchant
+  PROPERTIES
+    TYPE REQUIRED
+    PURPOSE "Necessary to enable the enchant extension."
 )
 
 if(Enchant_FOUND)
@@ -45,10 +47,20 @@ else()
 
   if(TARGET Enchant::Enchant)
     # enchant_get_version since 1.6.0.
-    check_library_exists(Enchant::Enchant enchant_get_version "" HAVE_ENCHANT_GET_VERSION)
+    check_library_exists(
+      Enchant::Enchant
+      enchant_get_version
+      ""
+      HAVE_ENCHANT_GET_VERSION
+    )
 
     # enchant_broker_set_param since 1.5.0 and removed in 2.x.
-    check_library_exists(Enchant::Enchant enchant_broker_set_param "" HAVE_ENCHANT_BROKER_SET_PARAM)
+    check_library_exists(
+      Enchant::Enchant
+      enchant_broker_set_param
+      ""
+      HAVE_ENCHANT_BROKER_SET_PARAM
+    )
   endif()
 endif()
 

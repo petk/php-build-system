@@ -1,21 +1,28 @@
 #[=============================================================================[
 Find the Net-SNMP library.
 
-Module defines the following IMPORTED targets:
+Module defines the following IMPORTED target(s):
 
   NetSnmp::NetSnmp
-    The Net-SNMP library, if found.
+    The package library, if found.
 
 Result variables:
 
   NetSnmp_FOUND
-    Whether Net-SNMP library is found.
+    Whether the package has been found.
   NetSnmp_INCLUDE_DIRS
-    A list of include directories for using Net-SNMP library.
+    Include directories needed to use this package.
   NetSnmp_LIBRARIES
-    A list of libraries for using Net-SNMP library.
+    Libraries needed to link to the package library.
   NetSnmp_VERSION
-    Version string of found Net-SNMP library.
+    Package version, if found.
+
+Cache variables:
+
+  NetSnmp_INCLUDE_DIR
+    Directory containing package library headers.
+  NetSnmp_LIBRARY
+    The path to the package library.
   NetSnmp_EXECUTABLE
     Path to net-snmp-config utility.
 
@@ -28,122 +35,170 @@ include(CheckLibraryExists)
 include(FeatureSummary)
 include(FindPackageHandleStandardArgs)
 
-set_package_properties(NetSnmp PROPERTIES
-  URL "http://www.net-snmp.org/"
-  DESCRIPTION "Simple network management protocol library"
+set_package_properties(
+  NetSnmp
+  PROPERTIES
+    URL "http://www.net-snmp.org/"
+    DESCRIPTION "Simple network management protocol library"
 )
 
-find_program(NetSnmp_EXECUTABLE net-snmp-config)
+set(_reason "")
+
+# Use pkgconf, if available on the system.
+find_package(PkgConfig QUIET)
+pkg_check_modules(PC_NetSnmp QUIET netsnmp)
+
+find_program(
+  NetSnmp_EXECUTABLE
+  NAMES net-snmp-config
+  DOC "Path to net-snmp-config utility"
+)
 
 if(NetSnmp_EXECUTABLE)
   execute_process(
-    COMMAND ${NetSnmp_EXECUTABLE} --prefix
-    OUTPUT_VARIABLE NetSnmp_INCLUDE_DIRS
+    COMMAND "${NetSnmp_EXECUTABLE}" --prefix
+    OUTPUT_VARIABLE _netsnmp_config_include_dir
     OUTPUT_STRIP_TRAILING_WHITESPACE
+    ERROR_QUIET
   )
 
-  string(APPEND NetSnmp_INCLUDE_DIRS "/include")
+  if(_netsnmp_config_include_dir)
+    string(APPEND _netsnmp_config_include_dir "/include")
+  endif()
+
+  # TODO: To be added.
+  execute_process(
+    COMMAND "${NetSnmp_EXECUTABLE}" --external-libs
+    OUTPUT_VARIABLE _netsnmp_config_external_libraries
+    OUTPUT_STRIP_TRAILING_WHITESPACE
+    ERROR_QUIET
+  )
 
   execute_process(
-    COMMAND ${NetSnmp_EXECUTABLE} --netsnmp-libs
-    OUTPUT_VARIABLE NetSnmp_LIBRARY
+    COMMAND "${NetSnmp_EXECUTABLE}" --libdir
+    OUTPUT_VARIABLE _netsnmp_config_libdir
     OUTPUT_STRIP_TRAILING_WHITESPACE
+    ERROR_QUIET
   )
+
+  if(_netsnmp_config_libdir)
+    string(REGEX REPLACE "^-L" "" _netsnmp_config_libdir ${_netsnmp_config_libdir})
+  endif()
 
   execute_process(
-    COMMAND ${NetSnmp_EXECUTABLE} --external-libs
-    OUTPUT_VARIABLE _external_libraries
+    COMMAND "${NetSnmp_EXECUTABLE}" --version
+    OUTPUT_VARIABLE _netsnmp_config_version
     OUTPUT_STRIP_TRAILING_WHITESPACE
+    ERROR_QUIET
   )
-
-  set(NetSnmp_LIBRARIES "${NetSnmp_LIBRARY} ${_external_libraries}")
-
-  execute_process(
-    COMMAND ${NetSnmp_EXECUTABLE} --version
-    OUTPUT_VARIABLE NetSnmp_VERSION
-    OUTPUT_STRIP_TRAILING_WHITESPACE
-  )
-else()
-  find_path(
-    NetSnmp_INCLUDE_DIRS "net-snmp/net-snmp-config.h"
-    DOC "Net-SNMP include directories"
-  )
-
-  find_library(NetSnmp_LIBRARY NAMES netsnmp DOC "The Net-SNMP library")
-  set(NetSnmp_LIBRARIES ${NetSnmp_LIBRARY})
-
-  block(PROPAGATE NetSnmp_VERSION)
-    if(NetSnmp_INCLUDE_DIRS)
-      set(regex "^#[ \t]*define[ \t]+PACKAGE_VERSION[ \t]+\"([0-9.]+)\"[^\r\n]*$")
-
-      file(
-        STRINGS "${NetSnmp_INCLUDE_DIRS}/net-snmp/net-snmp-config.h"
-        results
-        REGEX "${regex}"
-      )
-
-      foreach(line ${results})
-        if(line MATCHES "${regex}")
-          set(NetSnmp_VERSION "${CMAKE_MATCH_1}")
-          break()
-        endif()
-      endforeach()
-    endif()
-  endblock()
 endif()
 
-set(_reason_failure_message)
+find_path(
+  NetSnmp_INCLUDE_DIR
+  NAMES net-snmp/net-snmp-config.h
+  PATHS
+    ${PC_NetSnmp_INCLUDE_DIRS}
+    ${_netsnmp_config_include_dir}
+  DOC "Directory containing Net-SNMP library headers"
+)
 
-if(NOT NetSnmp_INCLUDE_DIRS)
-  string(
-    APPEND _reason_failure_message
-    "\n    Net-SNMP include directory not found."
-  )
+if(NOT NetSnmp_INCLUDE_DIR)
+  string(APPEND _reason "net-snmp/net-snmp-config.h not found. ")
 endif()
+
+find_library(
+  NetSnmp_LIBRARY
+  NAMES netsnmp
+  PATHS
+    ${PC_NetSnmp_LIBRARY_DIRS}
+    ${_netsnmp_config_libdir}
+  DOC "The path to the Net-SNMP library"
+)
 
 if(NOT NetSnmp_LIBRARY)
-  string(
-    APPEND _reason_failure_message
-    "\n    Net-SNMP library not found."
-  )
+  string(APPEND _reason "Net-SNMP library not found. ")
 endif()
 
-if(NOT NetSnmp_VERSION)
-  string(
-    APPEND _reason_failure_message
-    "\n    Net-SNMP version not found."
-  )
-endif()
+# Get version.
+block(PROPAGATE NetSnmp_VERSION)
+  if(NetSnmp_INCLUDE_DIR)
+    set(regex "^[ \t]*#[ \t]*define[ \t]+PACKAGE_VERSION[ \t]+\"([0-9.]+)\"[^\r\n]*$")
+
+    file(
+      STRINGS "${NetSnmp_INCLUDE_DIR}/net-snmp/net-snmp-config.h"
+      results
+      REGEX "${regex}"
+    )
+
+    foreach(line ${results})
+      if(line MATCHES "${regex}")
+        set(NetSnmp_VERSION "${CMAKE_MATCH_1}")
+        break()
+      endif()
+    endforeach()
+  endif()
+
+  # Try finding version with pkgconf.
+  if(NOT NetSnmp_VERSION AND PC_NetSNMP_VERSION)
+    cmake_path(
+      COMPARE
+      "${PC_NetSnmp_INCLUDEDIR}" EQUAL "${NetSnmp_INCLUDE_DIR}"
+      isEqual
+    )
+
+    if(isEqual)
+      set(NetSnmp_VERSION ${PC_NetSnmp_VERSION})
+    endif()
+  endif()
+
+  # Try finding version with net-snmp-config.
+  if(NOT NetSnmp_VERSION AND _netsnmp_config_version AND _netsnmp_config_libdir)
+    cmake_path(GET NetSnmp_LIBRARY PARENT_PATH parent)
+    cmake_path(COMPARE "${_netsnmp_config_libdir}" EQUAL "${parent}" isEqual)
+
+    if(isEqual)
+      set(NetSnmp_VERSION ${_netsnmp_config_version})
+    endif()
+  endif()
+endblock()
 
 # Sanity check.
 if(NetSnmp_LIBRARY)
-  check_library_exists("${NetSnmp_LIBRARY}" init_snmp "" HAVE_INIT_SNMP)
+  check_library_exists("${NetSnmp_LIBRARY}" init_snmp "" _netsnmp_sanity_check)
+
+  if(NOT _netsnmp_sanity_check)
+    string(APPEND _reason "Sanity check failed: init_snmp not found. ")
+  endif()
 endif()
 
-if(NOT HAVE_INIT_SNMP)
-  string(
-    APPEND _reason_failure_message
-    "\n    SNMP sanity check failed. The init_snmp was not found in the "
-    "Net-SNMP library."
-  )
-endif()
-
-mark_as_advanced(NetSnmp_INCLUDE_DIRS NetSnmp_LIBRARIES)
+mark_as_advanced(NetSnmp_INCLUDE_DIR NetSnmp_LIBRARY NetSnmp_EXECUTABLE)
 
 find_package_handle_standard_args(
   NetSnmp
-  REQUIRED_VARS NetSnmp_LIBRARY NetSnmp_INCLUDE_DIRS HAVE_INIT_SNMP
+  REQUIRED_VARS
+    NetSnmp_LIBRARY
+    NetSnmp_INCLUDE_DIR
+    _netsnmp_sanity_check
   VERSION_VAR NetSnmp_VERSION
-  REASON_FAILURE_MESSAGE "${_reason_failure_message}"
+  REASON_FAILURE_MESSAGE "${_reason}"
 )
 
-unset(_reason_failure_message)
+unset(_reason)
 
-if(NetSnmp_FOUND AND NOT TARGET NetSnmp::NetSnmp)
-  add_library(NetSnmp::NetSnmp INTERFACE IMPORTED)
+if(NOT NetSnmp_FOUND)
+  return()
+endif()
 
-  set_target_properties(NetSnmp::NetSnmp PROPERTIES
-    INTERFACE_INCLUDE_DIRECTORIES "${NetSnmp_INCLUDE_DIRS}"
-    INTERFACE_LINK_LIBRARIES "${NetSnmp_LIBRARIES}"
+set(NetSnmp_INCLUDE_DIRS ${NetSnmp_INCLUDE_DIR})
+set(NetSnmp_LIBRARIES ${NetSnmp_LIBRARY})
+
+if(NOT TARGET NetSnmp::NetSnmp)
+  add_library(NetSnmp::NetSnmp UNKNOWN IMPORTED)
+
+  set_target_properties(
+    NetSnmp::NetSnmp
+    PROPERTIES
+      IMPORTED_LOCATION "${NetSnmp_LIBRARY}"
+      INTERFACE_INCLUDE_DIRECTORIES "${NetSnmp_INCLUDE_DIR}"
   )
 endif()

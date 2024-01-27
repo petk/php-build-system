@@ -5,10 +5,10 @@ Result variables:
 
   Sendmail_FOUND
     Whether sendmail has been found.
-  Sendmail_EXECUTABLE
-    Path to the sendmail executable if found.
 
 Cache variables:
+  Sendmail_EXECUTABLE
+    Path to the sendmail executable, if found.
   PROG_SENDMAIL
     Path to the sendmail program.
 #]=============================================================================]
@@ -16,14 +16,18 @@ Cache variables:
 include(FeatureSummary)
 include(FindPackageHandleStandardArgs)
 
-set_package_properties(Sendmail PROPERTIES
-  URL "https://sendmail.org"
-  DESCRIPTION "Mail Transport Agent"
+set_package_properties(
+  Sendmail
+  PROPERTIES
+    URL "https://sendmail.org"
+    DESCRIPTION "Mail Transport Agent"
 )
 
-find_program(Sendmail_EXECUTABLE sendmail DOC "The sendmail executable path")
-
-mark_as_advanced(Sendmail_EXECUTABLE)
+find_program(
+  Sendmail_EXECUTABLE
+  NAMES sendmail
+  DOC "The path to the sendmail executable"
+)
 
 if(Sendmail_EXECUTABLE)
   set(_sendmail ${Sendmail_EXECUTABLE})
@@ -32,6 +36,8 @@ else()
 endif()
 
 set(PROG_SENDMAIL "${_sendmail}" CACHE INTERNAL "Path to sendmail executable")
+
+mark_as_advanced(Sendmail_EXECUTABLE)
 
 find_package_handle_standard_args(
   Sendmail

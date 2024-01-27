@@ -1,21 +1,28 @@
 #[=============================================================================[
 Find the Tidy library.
 
-Module defines the following IMPORTED targets:
+Module defines the following IMPORTED target(s):
 
   Tidy::Tidy
-    The Tidy library, if found.
+    The package library, if found.
 
 Result variables:
 
   Tidy_FOUND
-    Whether tidy library has been found.
+    Whether the package has been found.
   Tidy_INCLUDE_DIRS
-    A list of Tidy library include directories.
+    Include directories needed to use this package.
   Tidy_LIBRARIES
-    A list of Tidy libraries.
+    Libraries needed to link to the package library.
+  Tidy_VERSION
+    Package version, if found.
 
 Cache variables:
+
+  Tidy_INCLUDE_DIR
+    Directory containing package library headers.
+  Tidy_LIBRARY
+    The path to the package library.
   HAVE_TIDYBUFFIO_H
     Whether tidybuffio.h is available.
   HAVE_TIDY_H
@@ -38,47 +45,104 @@ include(CMakePushCheckState)
 include(FeatureSummary)
 include(FindPackageHandleStandardArgs)
 
-set_package_properties(Tidy PROPERTIES
-  URL "https://www.html-tidy.org/"
-  DESCRIPTION "HTML syntax checker"
+set_package_properties(
+  Tidy
+  PROPERTIES
+    URL "https://www.html-tidy.org/"
+    DESCRIPTION "HTML syntax checker"
 )
 
-# tidyp was a fork of the tidy library.
-find_path(Tidy_INCLUDE_DIRS tidy.h PATH_SUFFIXES tidy tidyp)
+set(_reason "")
 
-find_library(Tidy_LIBRARIES NAMES tidy tidy5 tidyp DOC "The Tidy library")
+# Use pkgconf, if available on the system.
+find_package(PkgConfig QUIET)
+pkg_check_modules(PC_Tidy QUIET tidy)
+
+find_path(
+  Tidy_INCLUDE_DIR
+  NAMES tidy.h
+  PATHS ${PC_Tidy_INCLUDE_DIRS}
+  PATH_SUFFIXES
+    tidy
+    tidyp # Tidy library fork (obsolete).
+  DOC "Directory containing Tidy library headers"
+)
+
+if(NOT Tidy_INCLUDE_DIR)
+  string(APPEND _reason "tidy.h not found. ")
+endif()
+
+find_library(
+  Tidy_LIBRARY
+  NAMES tidy tidy5 tidyp
+  PATHS ${PC_Tidy_LIBRARY_DIRS}
+  DOC "The path to the Tidy library"
+)
+
+if(NOT Tidy_LIBRARY)
+  string(APPEND _reason "Tidy library not found. ")
+endif()
 
 # Check for tidybuffio.h (as opposed to simply buffio.h) which indicates that we
 # are building against tidy-html5 and not the legacy htmltidy. The two are
 # compatible, except for with regard to this header file.
-if(Tidy_INCLUDE_DIRS)
+if(Tidy_INCLUDE_DIR)
   cmake_push_check_state(RESET)
-    if(Tidy_INCLUDE_DIRS)
-      set(CMAKE_REQUIRED_INCLUDES ${Tidy_INCLUDE_DIRS})
-    endif()
+    set(CMAKE_REQUIRED_INCLUDES ${Tidy_INCLUDE_DIR})
     check_include_file(tidybuffio.h HAVE_TIDYBUFFIO_H)
     check_include_file(tidy.h HAVE_TIDY_H)
     check_include_file(tidyp.h HAVE_TIDYP_H)
   cmake_pop_check_state()
 endif()
 
-if(Tidy_LIBRARIES)
-  check_library_exists("${Tidy_LIBRARIES}" tidyOptGetDoc "" HAVE_TIDYOPTGETDOC)
-  check_library_exists("${Tidy_LIBRARIES}" tidyReleaseDate "" HAVE_TIDYRELEASEDATE)
+if(Tidy_LIBRARY)
+  check_library_exists("${Tidy_LIBRARY}" tidyOptGetDoc "" HAVE_TIDYOPTGETDOC)
+  check_library_exists("${Tidy_LIBRARY}" tidyReleaseDate "" HAVE_TIDYRELEASEDATE)
 endif()
 
-mark_as_advanced(Tidy_INCLUDE_DIRS Tidy_LIBRARIES)
+# Get version.
+block(PROPAGATE Tidy_VERSION)
+  # Tidy headers don't provide version. Try pkgconf version, if found.
+  if(PC_Tidy_VERSION)
+    cmake_path(
+      COMPARE
+      "${PC_Tidy_INCLUDEDIR}" EQUAL "${Tidy_INCLUDE_DIR}"
+      isEqual
+    )
+
+    if(isEqual)
+      set(Tidy_VERSION ${PC_Tidy_VERSION})
+    endif()
+  endif()
+endblock()
+
+mark_as_advanced(Tidy_INCLUDE_DIR Tidy_LIBRARY)
 
 find_package_handle_standard_args(
   Tidy
-  REQUIRED_VARS Tidy_INCLUDE_DIRS Tidy_LIBRARIES
+  REQUIRED_VARS
+    Tidy_INCLUDE_DIR
+    Tidy_LIBRARY
+  VERSION_VAR Tidy_VERSION
+  REASON_FAILURE_MESSAGE "${_reason}"
 )
 
-if(Tidy_FOUND AND NOT TARGET Tidy::Tidy)
-  add_library(Tidy::Tidy INTERFACE IMPORTED)
+unset(_reason)
 
-  set_target_properties(Tidy::Tidy PROPERTIES
-    INTERFACE_INCLUDE_DIRECTORIES "${Tidy_INCLUDE_DIRS}"
-    INTERFACE_LINK_LIBRARIES "${Tidy_LIBRARIES}"
+if(NOT Tidy_FOUND)
+  return()
+endif()
+
+set(Tidy_INCLUDE_DIRS ${Tidy_INCLUDE_DIR})
+set(Tidy_LIBRARIES ${Tidy_LIBRARY})
+
+if(NOT TARGET Tidy::Tidy)
+  add_library(Tidy::Tidy UNKNOWN IMPORTED)
+
+  set_target_properties(
+    Tidy::Tidy
+    PROPERTIES
+      IMPORTED_LOCATION "${Tidy_LIBRARY}"
+      INTERFACE_INCLUDE_DIRECTORIES "${Tidy_INCLUDE_DIR}"
   )
 endif()

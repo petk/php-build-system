@@ -32,9 +32,11 @@ target_sources(php_pgsql PRIVATE
 target_compile_definitions(php_pgsql PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE=1)
 
 find_package(PostgreSQL 9.1)
-set_package_properties(PostgreSQL PROPERTIES
-  TYPE REQUIRED
-  PURPOSE "Necessary to enable the pgsql extension."
+set_package_properties(
+  PostgreSQL
+  PROPERTIES
+    TYPE REQUIRED
+    PURPOSE "Necessary to enable the pgsql extension."
 )
 
 target_link_libraries(php_pgsql PUBLIC PostgreSQL::PostgreSQL)

@@ -1,23 +1,30 @@
 #[=============================================================================[
 Find the systemd library (libsystemd).
 
-Module defines the following IMPORTED targets:
+Module defines the following IMPORTED target(s):
 
   Systemd::Systemd
-    The systemd library, if found.
+    The package library, if found.
 
 Result variables:
 
   Systemd_FOUND
-    Whether systemd library is found.
+    Whether the package has been found.
   Systemd_INCLUDE_DIRS
-    A list of include directories for using systemd library.
+    Include directories needed to use this package.
   Systemd_LIBRARIES
-    A list of libraries for using systemd library.
-  Systemd_EXECUTABLE
-    A systemd command-line tool if available.
+    Libraries needed to link to the package library.
   Systemd_VERSION
-    Version string of found systemd library if available.
+    Package version, if found.
+
+Cache variables:
+
+  Systemd_INCLUDE_DIR
+    Directory containing package library headers.
+  Systemd_LIBRARY
+    The path to the package library.
+  Systemd_EXECUTABLE
+    A systemd command-line tool, if available.
 
 Hints:
 
@@ -27,33 +34,39 @@ Hints:
 include(FeatureSummary)
 include(FindPackageHandleStandardArgs)
 
-set_package_properties(Systemd PROPERTIES
-  URL "https://www.freedesktop.org/wiki/Software/systemd/"
-  DESCRIPTION "System and service manager library"
+set_package_properties(
+  Systemd
+  PROPERTIES
+    URL "https://www.freedesktop.org/wiki/Software/systemd/"
+    DESCRIPTION "System and service manager library"
 )
 
-set(_reason_failure_message)
+set(_reason "")
+
+# Use pkgconf, if available on the system.
+find_package(PkgConfig QUIET)
+pkg_check_modules(PC_Systemd QUIET libsystemd)
 
 find_path(
-  Systemd_INCLUDE_DIRS
+  Systemd_INCLUDE_DIR
   NAMES systemd/sd-daemon.h
-  DOC "The systemd include directories"
+  PATHS ${PC_Systemd_INCLUDE_DIRS}
+  DOC "Directory containing systemd library headers"
 )
 
-if(NOT Systemd_INCLUDE_DIRS)
-  string(
-    APPEND _reason_failure_message
-    "\n    systemd/sd-daemon.h couldn't be found. System doesn't support systemd."
-  )
+if(NOT Systemd_INCLUDE_DIR)
+  string(APPEND _reason "systemd/sd-daemon.h not found. ")
 endif()
 
-find_library(Systemd_LIBRARIES NAMES systemd DOC "The systemd library")
+find_library(
+  Systemd_LIBRARY
+  NAMES systemd
+  PATHS ${PC_Systemd_LIBRARY_DIRS}
+  DOC "The path to the systemd library"
+)
 
-if(NOT Systemd_LIBRARIES)
-  string(
-    APPEND _reason_failure_message
-    "\n    The systemd not found. Please install systemd library."
-  )
+if(NOT Systemd_LIBRARY)
+  string(APPEND _reason "The systemd library not found. ")
 endif()
 
 find_program(
@@ -62,39 +75,62 @@ find_program(
   DOC "The systemd executable"
 )
 
-if(Systemd_EXECUTABLE)
-  execute_process(
-    COMMAND ${Systemd_EXECUTABLE} --version
-    OUTPUT_VARIABLE Systemd_VERSION_STRING
-    OUTPUT_STRIP_TRAILING_WHITESPACE
-  )
+block(PROPAGATE Systemd_VERSION)
+  if(Systemd_EXECUTABLE)
+    execute_process(
+      COMMAND "${Systemd_EXECUTABLE}" --version
+      OUTPUT_VARIABLE result
+      OUTPUT_STRIP_TRAILING_WHITESPACE
+    )
 
-  string(REGEX MATCH " ([0-9]+) " _ "${Systemd_VERSION_STRING}")
+    string(REGEX MATCH " ([0-9]+) " _ "${result}")
 
-  if(CMAKE_MATCH_1)
-    set(Systemd_VERSION "${CMAKE_MATCH_1}")
+    if(CMAKE_MATCH_1)
+      set(Systemd_VERSION "${CMAKE_MATCH_1}")
+    endif()
   endif()
-endif()
 
-if(Systemd_VERSION)
-  set(_systemd_version_argument VERSION_VAR Systemd_VERSION)
-endif()
+  # Try finding version with pkgconf.
+  if(NOT Systemd_VERSION AND PC_Systemd_VERSION)
+    cmake_path(
+      COMPARE
+      "${PC_Systemd_INCLUDEDIR}" EQUAL "${Systemd_INCLUDE_DIR}"
+      isEqual
+    )
+
+    if(isEqual)
+      set(Systemd_VERSION ${PC_Systemd_VERSION})
+    endif()
+  endif()
+endblock()
+
+mark_as_advanced(Systemd_INCLUDE_DIR Systemd_LIBRARY Systemd_EXECUTABLE)
 
 find_package_handle_standard_args(
   Systemd
-  REQUIRED_VARS Systemd_LIBRARIES Systemd_INCLUDE_DIRS
-  ${_systemd_version_argument}
-  REASON_FAILURE_MESSAGE "${reason_failure_message}"
+  REQUIRED_VARS
+    Systemd_LIBRARY
+    Systemd_INCLUDE_DIR
+  VERSION_VAR Systemd_VERSION
+  REASON_FAILURE_MESSAGE "${_reason}"
 )
 
-unset(_reason_failure_message)
-unset(_systemd_version_argument)
+unset(_reason)
 
-if(Systemd_FOUND AND NOT TARGET Systemd::Systemd)
-  add_library(Systemd::Systemd INTERFACE IMPORTED)
+if(NOT Systemd_FOUND)
+  return()
+endif()
 
-  set_target_properties(Systemd::Systemd PROPERTIES
-    INTERFACE_INCLUDE_DIRECTORIES "${Systemd_INCLUDE_DIRS}"
-    INTERFACE_LINK_LIBRARIES "${Systemd_LIBRARIES}"
+set(Systemd_INCLUDE_DIRS ${Systemd_INCLUDE_DIR})
+set(Systemd_LIBRARIES ${Systemd_LIBRARY})
+
+if(NOT TARGET Systemd::Systemd)
+  add_library(Systemd::Systemd UNKNOWN IMPORTED)
+
+  set_target_properties(
+    Systemd::Systemd
+    PROPERTIES
+      IMPORTED_LOCATION "${Systemd_LIBRARY}"
+      INTERFACE_INCLUDE_DIRECTORIES "${Systemd_INCLUDE_DIR}"
   )
 endif()

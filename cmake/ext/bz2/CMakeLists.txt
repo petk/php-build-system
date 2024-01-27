@@ -38,9 +38,11 @@ target_compile_definitions(
 )
 
 find_package(BZip2 1.0.0)
-set_package_properties(BZip2 PROPERTIES
-  TYPE REQUIRED
-  PURPOSE "Necessary to enable the bz2 extension."
+set_package_properties(
+  BZip2
+  PROPERTIES
+    TYPE REQUIRED
+    PURPOSE "Necessary to enable the bz2 extension."
 )
 
 # Link with PUBLIC scope if include directories are on non-standard places.

@@ -130,63 +130,87 @@ set(PHP_LIBXML2_MIN_VERSION 2.9.0)
 set(PHP_OPENSSL_MIN_VERSION 1.0.2)
 
 # Additional metadata for external packages to avoid duplication.
-set_package_properties(BISON PROPERTIES
-  URL "https://www.gnu.org/software/bison/"
-  DESCRIPTION "General-purpose parser generator"
+set_package_properties(
+  BISON
+  PROPERTIES
+    URL "https://www.gnu.org/software/bison/"
+    DESCRIPTION "General-purpose parser generator"
 )
 
-set_package_properties(BZip2 PROPERTIES
-  URL "https://sourceware.org/bzip2/"
-  DESCRIPTION "Block-sorting file compressor library"
+set_package_properties(
+  BZip2
+  PROPERTIES
+    URL "https://sourceware.org/bzip2/"
+    DESCRIPTION "Block-sorting file compressor library"
 )
 
-set_package_properties(CURL PROPERTIES
-  URL "https://curl.se/"
-  DESCRIPTION "Library for transferring data with URLs"
+set_package_properties(
+  CURL
+  PROPERTIES
+    URL "https://curl.se/"
+    DESCRIPTION "Library for transferring data with URLs"
 )
 
-set_package_properties(EXPAT PROPERTIES
-  URL "https://libexpat.github.io/"
-  DESCRIPTION "Stream-oriented XML parser library"
+set_package_properties(
+  EXPAT
+  PROPERTIES
+    URL "https://libexpat.github.io/"
+    DESCRIPTION "Stream-oriented XML parser library"
 )
 
-set_package_properties(Iconv PROPERTIES
-  DESCRIPTION "Internationalization conversion library"
+set_package_properties(
+  Iconv
+  PROPERTIES
+    DESCRIPTION "Internationalization conversion library"
 )
 
-set_package_properties(ICU PROPERTIES
-  URL "https://icu.unicode.org/"
-  DESCRIPTION "International Components for Unicode"
+set_package_properties(
+  ICU
+  PROPERTIES
+    URL "https://icu.unicode.org/"
+    DESCRIPTION "International Components for Unicode"
 )
 
-set_package_properties(LibXml2 PROPERTIES
-  URL "https://gitlab.gnome.org/GNOME/libxml2"
-  DESCRIPTION "XML parser and toolkit"
+set_package_properties(
+  LibXml2
+  PROPERTIES
+    URL "https://gitlab.gnome.org/GNOME/libxml2"
+    DESCRIPTION "XML parser and toolkit"
 )
 
-set_package_properties(LibXslt PROPERTIES
-  URL "https://gitlab.gnome.org/GNOME/libxslt"
-  DESCRIPTION "XSLT processor library"
+set_package_properties(
+  LibXslt
+  PROPERTIES
+    URL "https://gitlab.gnome.org/GNOME/libxslt"
+    DESCRIPTION "XSLT processor library"
 )
 
-set_package_properties(OpenSSL PROPERTIES
-  URL "https://www.openssl.org/"
-  DESCRIPTION "General-purpose cryptography and secure communication"
+set_package_properties(
+  OpenSSL
+  PROPERTIES
+    URL "https://www.openssl.org/"
+    DESCRIPTION "General-purpose cryptography and secure communication"
 )
 
-set_package_properties(PostgreSQL PROPERTIES
-  URL "https://www.postgresql.org/"
-  DESCRIPTION "PostgreSQL database library"
+set_package_properties(
+  PostgreSQL
+  PROPERTIES
+    URL "https://www.postgresql.org/"
+    DESCRIPTION "PostgreSQL database library"
 )
 
-set_package_properties(SQLite3 PROPERTIES
-  URL "https://www.sqlite.org/"
-  DESCRIPTION "SQL database engine library"
+set_package_properties(
+  SQLite3
+  PROPERTIES
+    URL "https://www.sqlite.org/"
+    DESCRIPTION "SQL database engine library"
 )
 
-set_package_properties(ZLIB PROPERTIES
-  URL "https://zlib.net/"
-  DESCRIPTION "Compression library"
+set_package_properties(
+  ZLIB
+  PROPERTIES
+    URL "https://zlib.net/"
+    DESCRIPTION "Compression library"
 )
 
 ################################################################################

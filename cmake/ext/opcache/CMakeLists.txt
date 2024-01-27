@@ -109,9 +109,11 @@ if(EXT_OPCACHE_JIT)
   # Check for Capstone.
   if(EXT_OPCACHE_CAPSTONE)
     find_package(Capstone 3.0.0)
-    set_package_properties(Capstone PROPERTIES
-      TYPE REQUIRED
-      PURPOSE "Necessary to enable OPcache JIT disassembly through Capstone."
+    set_package_properties(
+      Capstone
+      PROPERTIES
+        TYPE REQUIRED
+        PURPOSE "Necessary to enable OPcache JIT disassembly through Capstone."
     )
 
     target_link_libraries(php_opcache PRIVATE Capstone::Capstone)

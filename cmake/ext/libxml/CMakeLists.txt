@@ -33,9 +33,11 @@ target_compile_definitions(
 )
 
 find_package(LibXml2 ${PHP_LIBXML2_MIN_VERSION})
-set_package_properties(LibXml2 PROPERTIES
-  TYPE REQUIRED
-  PURPOSE "Necessary to enable the libxml extension."
+set_package_properties(
+  LibXml2
+  PROPERTIES
+    TYPE REQUIRED
+    PURPOSE "Necessary to enable the libxml extension."
 )
 
 # HAVE_WIN32_THREADS is not needed on newer libxml2 versions anymore.
