@@ -138,10 +138,13 @@ pkgconf --libs libcrypt
 pkgconf --modversion libcrypt
 
 # Pring CFLAGS:
-pkgconf --cflags librypt
+pkgconf --cflags libcrypt
 
 # See --help for further info:
 pkgconf --help
+
+# Pass additional .pc file(s):
+PKG_CONFIG_PATH=/path/to/pkgconfig pkgconf --modversion libcrypt
 ```
 
 The `pkgconf` ships with M4 macro file `pkg.m4` for Autotools-based build
@@ -206,9 +209,11 @@ The `FeatureSummary` CMake module can add metadata to package.
 
 include(FeatureSummary)
 
-set_package_properties(PackageName PROPERTIES
-  URL "https://example.com/"
-  DESCRIPTION "Package library"
+set_package_properties(
+  PackageName
+  PROPERTIES
+    URL "https://example.com/"
+    DESCRIPTION "Package library"
 )
 ```
 
@@ -224,6 +229,131 @@ set_package_properties(PackageName PROPERTIES
 
 # If PackageName was not found, configuration step will stop here:
 feature_summary(WHAT ALL FATAL_ON_MISSING_REQUIRED_PACKAGES)
+```
+
+Example of a `FindFoo.cmake` module:
+
+```cmake
+#[=============================================================================[
+Find the Foo package.
+
+Module defines the following IMPORTED target(s):
+
+  Foo::Foo
+    The package library, if found.
+
+Result variables:
+
+  Foo_FOUND
+    Whether the package has been found.
+  Foo_INCLUDE_DIRS
+    Include directories needed to use this package.
+  Foo_LIBRARIES
+    Libraries needed to link to the package library.
+  Foo_VERSION
+    Package version, if found.
+
+Cache variables:
+
+  Foo_INCLUDE_DIR
+    Directory containing package library headers.
+  Foo_LIBRARY
+    The path to the package library.
+
+Hints:
+
+  The Foo_ROOT variable adds custom search path.
+#]=============================================================================]
+
+include(FeatureSummary)
+include(FindPackageHandleStandardArgs)
+
+set_package_properties(
+  Foo
+  PROPERTIES
+    URL "https://example.com"
+    DESCRIPTION "Foo package example"
+)
+
+set(_reason "")
+
+# Use pkgconf, if available on the system.
+find_package(PkgConfig QUIET)
+pkg_check_modules(PC_Foo QUIET libfoo)
+
+find_path(
+  Foo_INCLUDE_DIR
+  NAMES foo.h
+  PATHS ${PC_Foo_INCLUDE_DIRS}
+  DOC "Directory containing Foo library headers"
+)
+
+if(NOT Foo_INCLUDE_DIR)
+  string(APPEND _reason "foo.h not found. ")
+endif()
+
+find_library(
+  Foo_LIBRARY
+  NAMES foo
+  PATHS ${PC_Foo_LIBRARY_DIRS}
+  DOC "The path to the Foo library"
+)
+
+if(NOT Foo_LIBRARY)
+  string(APPEND _reason "Foo library not found. ")
+endif()
+
+# Get version.
+block(PROPAGATE Foo_VERSION)
+  # Try finding version from the library header file.
+  # ...
+
+  # If library doesn't have version in headers, try pkgconf version, if found.
+  if(NOT Foo_VERSION AND PC_Foo_VERSION)
+    # Check if result found by find_library() and pkgconf are the same library.
+    cmake_path(COMPARE "${PC_Foo_INCLUDEDIR}" EQUAL "${Foo_INCLUDE_DIR}" isEqual)
+
+    if(isEqual)
+      set(Foo_VERSION ${PC_Foo_VERSION})
+    endif()
+  endif()
+
+  if(NOT Foo_VERSION)
+    # Use different ways to find package version, when pkgconf is not available.
+    # ...
+  endif()
+endblock()
+
+mark_as_advanced(Foo_INCLUDE_DIR Foo_LIBRARY)
+
+find_package_handle_standard_args(
+  Foo
+  REQUIRED_VARS
+    Foo_LIBRARY
+    Foo_INCLUDE_DIR
+  VERSION_VAR Foo_VERSION
+  REASON_FAILURE_MESSAGE "${_reason}"
+)
+
+unset(_reason)
+
+if(NOT Foo_FOUND)
+  return()
+endif()
+
+set(Foo_INCLUDE_DIRS ${Foo_INCLUDE_DIR})
+set(Foo_LIBRARIES ${Foo_LIBRARY})
+
+if(NOT TARGET Foo::Foo)
+  add_library(Foo::Foo UNKNOWN IMPORTED)
+
+  set_target_properties(
+    Foo::Foo
+    PROPERTIES
+      IMPORTED_LOCATION "${Foo_LIBRARY}"
+      INTERFACE_INCLUDE_DIRECTORIES "${Foo_INCLUDE_DIR}"
+  )
+endif()
 ```
 
 ### 4.2. FetchContent

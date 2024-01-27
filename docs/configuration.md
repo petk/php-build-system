@@ -1675,7 +1675,7 @@ A list of Autoconf `configure` command-line configuration options, Windows
       <td>--with-imap</td>
       <td>
         EXT_IMAP=ON<br>
-        [CClient_ROOT=DIR]
+        [Cclient_ROOT=DIR]
       </td>
       <td></td>
     </tr>
@@ -3206,13 +3206,13 @@ A list of Autoconf `configure` command-line configuration options, Windows
     <tr>
       <td>PKG_CONFIG=&quot;path/to/pkgconf&quot;</td>
       <td></td>
-      <td></td>
+      <td>PKG_CONFIG_EXECUTABLE=&quot;path/to/pkgconf&quot;</td>
       <td>path to pkg-config utility</td>
     </tr>
     <tr>
       <td>PKG_CONFIG_PATH=&quot;...&quot;</td>
       <td></td>
-      <td></td>
+      <td>ENV{PKG_CONFIG_PATH}=&quot;...&quot; (environment variable)</td>
       <td>directories to add to pkg-config's search path</td>
     </tr>
     <tr>
