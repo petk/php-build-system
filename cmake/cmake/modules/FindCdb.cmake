@@ -1,19 +1,28 @@
 #[=============================================================================[
 Find the cdb library.
 
-Module defines the following IMPORTED targets:
+Module defines the following IMPORTED target(s):
 
   Cdb::Cdb
-    The cdb library, if found.
+    The package library, if found.
 
 Result variables:
 
   Cdb_FOUND
-    Whether cdb has been found.
+    Whether the package has been found.
   Cdb_INCLUDE_DIRS
-    A list of include directories for using cdb library.
+    Include directories needed to use this package.
   Cdb_LIBRARIES
-    A list of libraries for linking when using cdb library.
+    Libraries needed to link to the package library.
+  Cdb_VERSION
+    Package version, if found.
+
+Cache variables:
+
+  Cdb_INCLUDE_DIR
+    Directory containing package library headers.
+  Cdb_LIBRARY
+    The path to the package library.
 
 Hints:
 
@@ -24,34 +33,93 @@ include(CheckLibraryExists)
 include(FeatureSummary)
 include(FindPackageHandleStandardArgs)
 
-set_package_properties(Cdb PROPERTIES
-  URL "https://en.wikipedia.org/wiki/Cdb_(software)"
-  DESCRIPTION "A constant database library"
+set_package_properties(
+  Cdb
+  PROPERTIES
+    URL "https://en.wikipedia.org/wiki/Cdb_(software)"
+    DESCRIPTION "A constant database library"
 )
 
-find_path(Cdb_INCLUDE_DIRS cdb.h)
+set(_reason "")
 
-find_library(Cdb_LIBRARIES NAMES cdb DOC "The cdb library")
+# Use pkgconf, if available on the system.
+find_package(PkgConfig QUIET)
+pkg_check_modules(PC_Cdb QUIET libcdb)
 
-mark_as_advanced(Cdb_LIBRARIES Cdb_INCLUDE_DIRS)
+find_path(
+  Cdb_INCLUDE_DIR
+  NAMES cdb.h
+  PATHS ${PC_Cdb_INCLUDE_DIRS}
+  DOC "Directory containing cdb library headers"
+)
+
+if(NOT Cdb_INCLUDE_DIR)
+  string(APPEND _reason "cdb.h not found. ")
+endif()
+
+find_library(
+  Cdb_LIBRARY
+  NAMES cdb
+  PATHS ${PC_Cdb_LIBRARY_DIRS}
+  DOC "The path to the cdb library"
+)
+
+if(NOT Cdb_LIBRARY)
+  string(APPEND _reason "cdb library not found. ")
+endif()
 
 # Sanity check.
-check_library_exists("${Cdb_LIBRARIES}" cdb_read "" HAVE_CDB_READ)
+if(Cdb_LIBRARY)
+  check_library_exists("${Cdb_LIBRARY}" cdb_read "" _cdb_sanity_check)
+
+  if(NOT _cdb_sanity_check)
+    string(APPEND _reason "Sanity check failed: cdb_read not found. ")
+  endif()
+endif()
+
+block(PROPAGATE Cdb_VERSION)
+  if(Cdb_INCLUDE_DIR)
+    set(regex [[^[ \t]*#[ \t]*define[ \t]+TINYCDB_VERSION[ \t]+([0-9.]+)[ \t]*$]])
+
+    file(STRINGS "${Cdb_INCLUDE_DIR}/cdb.h" results REGEX "${regex}")
+
+    foreach(line ${results})
+      if(line MATCHES "${regex}")
+        set(Cdb_VERSION "${CMAKE_MATCH_1}")
+        break()
+      endif()
+    endforeach()
+  endif()
+endblock()
+
+mark_as_advanced(Cdb_INCLUDE_DIR Cdb_LIBRARY)
 
 find_package_handle_standard_args(
   Cdb
-  REQUIRED_VARS Cdb_LIBRARIES Cdb_INCLUDE_DIRS HAVE_CDB_READ
+  REQUIRED_VARS
+    Cdb_LIBRARY
+    Cdb_INCLUDE_DIR
+    _cdb_sanity_check
+  VERSION_VAR Cdb_VERSION
+  REASON_FAILURE_MESSAGE "${_reason}"
 )
+
+unset(_reason)
 
 if(NOT Cdb_FOUND)
   return()
 endif()
 
-if(NOT TARGET Cdb::Cdb)
-  add_library(Cdb::Cdb INTERFACE IMPORTED)
+set(Cdb_INCLUDE_DIRS ${Cdb_INCLUDE_DIR})
+set(Cdb_LIBRARIES ${Cdb_LIBRARY})
 
-  set_target_properties(Cdb::Cdb PROPERTIES
-    INTERFACE_INCLUDE_DIRECTORIES "${Cdb_INCLUDE_DIRS}"
-    INTERFACE_LINK_LIBRARIES "${Cdb_LIBRARIES}"
+if(NOT TARGET Cdb::Cdb)
+  add_library(Cdb::Cdb UNKNOWN IMPORTED)
+
+  set_target_properties(
+    Cdb::Cdb
+    PROPERTIES
+      IMPORTED_LOCATION "${Cdb_LIBRARY}"
+      INTERFACE_INCLUDE_DIRECTORIES "${Cdb_INCLUDE_DIR}"
   )
 endif()

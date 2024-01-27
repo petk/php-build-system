@@ -44,9 +44,11 @@ target_sources(
 )
 
 find_package(CURL 7.29.0 OPTIONAL_COMPONENTS SSL)
-set_package_properties(CURL PROPERTIES
-  TYPE REQUIRED
-  PURPOSE "Necessary to enable the curl extension."
+set_package_properties(
+  CURL
+  PROPERTIES
+    TYPE REQUIRED
+    PURPOSE "Necessary to enable the curl extension."
 )
 
 target_link_libraries(php_curl PRIVATE CURL::libcurl)
@@ -90,9 +92,11 @@ if(PHP_THREAD_SAFETY AND CURL_SSL_FOUND)
   if(HAVE_CURL_OLD_OPENSSL)
     # TODO: Should a minimum OpenSSL version be used here?
     find_package(OpenSSL)
-    set_package_properties(OpenSSL PROPERTIES
-      TYPE REQUIRED
-      PURPOSE "Necessary to enable the curl extension."
+    set_package_properties(
+      OpenSSL
+      PROPERTIES
+        TYPE REQUIRED
+        PURPOSE "Necessary to enable the curl extension."
     )
 
     target_link_libraries(php_curl PRIVATE OpenSSL::Crypto)

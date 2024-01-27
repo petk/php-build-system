@@ -208,15 +208,17 @@ if(EXT_DBA_CDB AND NOT EXT_DBA_CDB_EXTERNAL)
   )
 elseif(EXT_DBA_CDB AND EXT_DBA_CDB_EXTERNAL)
   find_package(Cdb)
-  set_package_properties(Cdb PROPERTIES
-    TYPE REQUIRED
-    PURPOSE "Necessary to enable the cdb support in the dba extension."
+  set_package_properties(
+    Cdb
+    PROPERTIES
+      TYPE REQUIRED
+      PURPOSE "Necessary to enable the cdb support in the dba extension."
   )
 
   target_link_libraries(php_dba PRIVATE Cdb::Cdb)
 
   set(
-    CDB_INCLUDE_FILE "${Cdb_INCLUDE_DIRS}/cdb.h"
+    CDB_INCLUDE_FILE "${Cdb_INCLUDE_DIR}/cdb.h"
     CACHE INTERNAL "The cdb header file"
   )
 
@@ -225,15 +227,17 @@ endif()
 
 if(EXT_DBA_LMDB)
   find_package(LMDB)
-  set_package_properties(LMDB PROPERTIES
-    TYPE REQUIRED
-    PURPOSE "Necessary to enable the LMDB support in the dba extension."
+  set_package_properties(
+    LMDB
+    PROPERTIES
+      TYPE REQUIRED
+      PURPOSE "Necessary to enable the LMDB support in the dba extension."
   )
 
   target_link_libraries(php_dba PRIVATE LMDB::LMDB)
 
   set(
-    LMDB_INCLUDE_FILE "${LMDB_INCLUDE_DIRS}/lmdb.h"
+    LMDB_INCLUDE_FILE "${LMDB_INCLUDE_DIR}/lmdb.h"
     CACHE INTERNAL "The LMDB header file"
   )
 
@@ -242,15 +246,17 @@ endif()
 
 if(EXT_DBA_TCDB)
   find_package(TokyoCabinet)
-  set_package_properties(TokyoCabinet PROPERTIES
-    TYPE REQUIRED
-    PURPOSE "Necessary to enable the Tokyo Cabinet support in the dba extension."
+  set_package_properties(
+    TokyoCabinet
+    PROPERTIES
+      TYPE REQUIRED
+      PURPOSE "Necessary to enable the Tokyo Cabinet support in the dba extension."
   )
 
   target_link_libraries(php_dba PRIVATE TokyoCabinet::TokyoCabinet)
 
   set(
-    TCADB_INCLUDE_FILE "${TokyoCabinet_INCLUDE_DIRS}/tcadb.h"
+    TCADB_INCLUDE_FILE "${TokyoCabinet_INCLUDE_DIR}/tcadb.h"
     CACHE INTERNAL "The Tokyo Cabinet header file"
   )
 
@@ -259,30 +265,34 @@ endif()
 
 if(EXT_DBA_GDBM)
   find_package(GDBM)
-  set_package_properties(GDBM PROPERTIES
-    TYPE REQUIRED
-    PURPOSE "Necessary to enable the GDBM support in the dba extension."
+  set_package_properties(
+    GDBM
+    PROPERTIES
+      TYPE REQUIRED
+      PURPOSE "Necessary to enable the GDBM support in the dba extension."
   )
 
   target_link_libraries(php_dba PRIVATE GDBM::GDBM)
 
   set(
-    GDBM_INCLUDE_FILE "${GDBM_INCLUDE_DIRS}/gdbm.h"
+    GDBM_INCLUDE_FILE "${GDBM_INCLUDE_DIR}/gdbm.h"
     CACHE INTERNAL "The GDBM header file"
   )
 
   set(DBA_GDBM 1 CACHE INTERNAL "Whether the GDBM support is enabled")
 elseif(EXT_DBA_QDBM)
   find_package(QDBM)
-  set_package_properties(QDBM PROPERTIES
-    TYPE REQUIRED
-    PURPOSE "Necessary to enable the QDBM support in the dba extension."
+  set_package_properties(
+    QDBM
+    PROPERTIES
+      TYPE REQUIRED
+      PURPOSE "Necessary to enable the QDBM support in the dba extension."
   )
 
   target_link_libraries(php_dba PRIVATE QDBM::QDBM)
 
   set(
-    QDBM_INCLUDE_FILE "${QDBM_INCLUDE_DIRS}/depot.h"
+    QDBM_INCLUDE_FILE "${QDBM_INCLUDE_DIR}/depot.h"
     CACHE INTERNAL "The QDBM header file"
   )
 
@@ -291,15 +301,17 @@ endif()
 
 if(EXT_DBA_NDBM)
   find_package(Ndbm)
-  set_package_properties(Ndbm PROPERTIES
-    TYPE REQUIRED
-    PURPOSE "Necessary to enable the ndbm support in the dba extension."
+  set_package_properties(
+    Ndbm
+    PROPERTIES
+      TYPE REQUIRED
+      PURPOSE "Necessary to enable the ndbm support in the dba extension."
   )
 
   target_link_libraries(php_dba PRIVATE Ndbm::Ndbm)
 
   set(
-    NDBM_INCLUDE_FILE "${Ndbm_INCLUDE_DIRS}/ndbm.h"
+    NDBM_INCLUDE_FILE "${Ndbm_INCLUDE_DIR}/ndbm.h"
     CACHE INTERNAL "The ndbm header file"
   )
 
@@ -308,15 +320,17 @@ endif()
 
 if(EXT_DBA_DBM)
   find_package(Dbm)
-  set_package_properties(Dbm PROPERTIES
-    TYPE REQUIRED
-    PURPOSE "Necessary to enable the DBM support in the dba extension."
+  set_package_properties(
+    Dbm
+    PROPERTIES
+      TYPE REQUIRED
+      PURPOSE "Necessary to enable the DBM support in the dba extension."
   )
 
   target_link_libraries(php_dba PRIVATE Dbm::Dbm)
 
   set(
-    DBM_INCLUDE_FILE "${Dbm_INCLUDE_DIRS}/dbm.h"
+    DBM_INCLUDE_FILE "${Dbm_INCLUDE_DIR}/dbm.h"
     CACHE INTERNAL "The dbm header file"
   )
 
@@ -334,9 +348,11 @@ if(EXT_DBA_DB)
   endif()
 
   find_package(BerkeleyDB)
-  set_package_properties(BerkeleyDB PROPERTIES
-    TYPE REQUIRED
-    PURPOSE "Necessary to enable the Berkeley DB support in the dba extension."
+  set_package_properties(
+    BerkeleyDB
+    PROPERTIES
+      TYPE REQUIRED
+      PURPOSE "Necessary to enable the Berkeley DB support in the dba extension."
   )
 
   target_link_libraries(php_dba PRIVATE BerkeleyDB::BerkeleyDB)
@@ -359,7 +375,7 @@ if(EXT_DBA_DB)
   endif()
 
   set(
-    DB4_INCLUDE_FILE "${BerkeleyDB_INCLUDE_DIRS}/db.h"
+    DB4_INCLUDE_FILE "${BerkeleyDB_INCLUDE_DIR}/db.h"
     CACHE INTERNAL "The Berkeley DB header file"
   )
 

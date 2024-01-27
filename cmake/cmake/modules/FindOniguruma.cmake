@@ -1,21 +1,28 @@
 #[=============================================================================[
 Find the Oniguruma library.
 
-Module defines the following IMPORTED targets:
+Module defines the following IMPORTED target(s):
 
   Oniguruma::Oniguruma
-    The Oniguruma library, if found.
+    The package library, if found.
 
 Result variables:
 
   Oniguruma_FOUND
-    Whether Oniguruma library is found.
+    Whether the package has been found.
   Oniguruma_INCLUDE_DIRS
-    A list of include directories for using Oniguruma library.
+    Include directories needed to use this package.
   Oniguruma_LIBRARIES
-    A list of libraries for using Oniguruma library.
+    Libraries needed to link to the package library.
   Oniguruma_VERSION
-    Version string of found Oniguruma library.
+    Package version, if found.
+
+Cache variables:
+
+  Oniguruma_INCLUDE_DIR
+    Directory containing package library headers.
+  Oniguruma_LIBRARY
+    The path to the package library.
 
 Hints:
 
@@ -25,45 +32,57 @@ Hints:
 include(FeatureSummary)
 include(FindPackageHandleStandardArgs)
 
-set_package_properties(Oniguruma PROPERTIES
-  URL "https://github.com/kkos/oniguruma"
-  DESCRIPTION "Regular expression library"
+set_package_properties(
+  Oniguruma
+  PROPERTIES
+    URL "https://github.com/kkos/oniguruma"
+    DESCRIPTION "Regular expression library"
 )
 
-set(_reason_failure_message)
+set(_reason "")
 
-find_path(Oniguruma_INCLUDE_DIRS NAMES oniguruma.h)
+# Use pkgconf, if available on the system.
+find_package(PkgConfig QUIET)
+pkg_check_modules(PC_Oniguruma QUIET oniguruma)
 
-if(NOT Oniguruma_INCLUDE_DIRS)
-  string(
-    APPEND _reason_failure_message
-    "\n    oniguruma.h not found."
-  )
+find_path(
+  Oniguruma_INCLUDE_DIR
+  NAMES oniguruma.h
+  PATHS ${PC_Oniguruma_INCLUDE_DIRS}
+  DOC "Directory containing Oniguruma library headers"
+)
+
+if(NOT Oniguruma_INCLUDE_DIR)
+  string(APPEND _reason "oniguruma.h not found. ")
 endif()
 
-find_library(Oniguruma_LIBRARIES NAMES onig DOC "The Oniguruma library")
+find_library(
+  Oniguruma_LIBRARY
+  NAMES onig
+  PATHS ${PC_Oniguruma_LIBRARY_DIRS}
+  DOC "The path to the Oniguruma library"
+)
 
-if(NOT Oniguruma_LIBRARIES)
-  string(
-    APPEND _reason_failure_message
-    "\n    Oniguruma not found. Please install the Oniguruma library (libonig)."
-  )
+if(NOT Oniguruma_LIBRARY)
+  string(APPEND _reason "Oniguruma library (libonig) not found. ")
 endif()
 
 block(PROPAGATE Oniguruma_VERSION)
-  if(Oniguruma_INCLUDE_DIRS)
+  if(Oniguruma_INCLUDE_DIR)
     file(
       STRINGS
-      "${Oniguruma_INCLUDE_DIRS}/oniguruma.h"
+      "${Oniguruma_INCLUDE_DIR}/oniguruma.h"
       results
       REGEX
       "^#[ \t]*define[ \t]+ONIGURUMA_VERSION_(MAJOR|MINOR|TEENY)[ \t]+[0-9]+[ \t]*$"
     )
 
+    unset(Oniguruma_VERSION)
+
     foreach(item MAJOR MINOR TEENY)
       foreach(line ${results})
         if(line MATCHES "^#[ \t]*define[ \t]+ONIGURUMA_VERSION_${item}[ \t]+([0-9]+)[ \t]*$")
-          if(Oniguruma_VERSION)
+          if(DEFINED Oniguruma_VERSION)
             string(APPEND Oniguruma_VERSION ".${CMAKE_MATCH_1}")
           else()
             set(Oniguruma_VERSION "${CMAKE_MATCH_1}")
@@ -74,22 +93,33 @@ block(PROPAGATE Oniguruma_VERSION)
   endif()
 endblock()
 
+mark_as_advanced(Oniguruma_INCLUDE_DIR Oniguruma_LIBRARY)
+
 find_package_handle_standard_args(
   Oniguruma
-  REQUIRED_VARS Oniguruma_LIBRARIES Oniguruma_INCLUDE_DIRS
+  REQUIRED_VARS
+    Oniguruma_LIBRARY
+    Oniguruma_INCLUDE_DIR
   VERSION_VAR Oniguruma_VERSION
-  REASON_FAILURE_MESSAGE "${_reason_failure_message}"
+  REASON_FAILURE_MESSAGE "${_reason}"
 )
 
-unset(_reason_failure_message)
+unset(_reason)
 
-mark_as_advanced(Oniguruma_INCLUDE_DIRS Oniguruma_LIBRARIES)
+if(NOT Oniguruma_FOUND)
+  return()
+endif()
 
-if(Oniguruma_FOUND AND NOT TARGET Oniguruma::Oniguruma)
-  add_library(Oniguruma::Oniguruma INTERFACE IMPORTED)
+set(Oniguruma_INCLUDE_DIRS ${Oniguruma_INCLUDE_DIR})
+set(Oniguruma_LIBRARIES ${Oniguruma_LIBRARY})
 
-  set_target_properties(Oniguruma::Oniguruma PROPERTIES
-    INTERFACE_INCLUDE_DIRECTORIES "${Oniguruma_INCLUDE_DIRS}"
-    INTERFACE_LINK_LIBRARIES "${Oniguruma_LIBRARIES}"
+if(NOT TARGET Oniguruma::Oniguruma)
+  add_library(Oniguruma::Oniguruma UNKNOWN IMPORTED)
+
+  set_target_properties(
+    Oniguruma::Oniguruma
+    PROPERTIES
+      IMPORTED_LOCATION "${Oniguruma_LIBRARY}"
+      INTERFACE_INCLUDE_DIRECTORIES "${Oniguruma_INCLUDE_DIR}"
   )
 endif()

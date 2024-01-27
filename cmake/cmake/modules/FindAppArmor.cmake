@@ -1,19 +1,28 @@
 #[=============================================================================[
 Find the AppArmor library.
 
-Module defines the following IMPORTED targets:
+Module defines the following IMPORTED target(s):
 
   AppArmor::AppArmor
-    The AppArmor library, if found.
+    The package library, if found.
 
 Result variables:
 
   AppArmor_FOUND
-    Whether AppArmor library is found.
+    Whether the package has been found.
   AppArmor_INCLUDE_DIRS
-    A list of include directories for using AppArmor library.
+    Include directories needed to use this package.
   AppArmor_LIBRARIES
-    A list of libraries for using AppArmor library.
+    Libraries needed to link to the package library.
+  AppArmor_VERSION
+    Package version, if found.
+
+Cache variables:
+
+  AppArmor_INCLUDE_DIR
+    Directory containing package library headers.
+  AppArmor_LIBRARY
+    The path to the package library.
 
 Hints:
 
@@ -24,39 +33,45 @@ include(CheckLibraryExists)
 include(FeatureSummary)
 include(FindPackageHandleStandardArgs)
 
-set_package_properties(AppArmor PROPERTIES
-  URL "https://apparmor.net/"
-  DESCRIPTION "Kernel security module library to confine programs"
+set_package_properties(
+  AppArmor
+  PROPERTIES
+    URL "https://apparmor.net/"
+    DESCRIPTION "Kernel security module library to confine programs"
 )
 
-set(_reason_failure_message)
+set(_reason "")
+
+# Use pkgconf, if available on the system.
+find_package(PkgConfig QUIET)
+pkg_check_modules(PC_AppArmor QUIET libapparmor)
 
 find_path(
-  AppArmor_INCLUDE_DIRS
+  AppArmor_INCLUDE_DIR
   NAMES sys/apparmor.h
-  DOC "The AppArmor include directories"
+  PATHS ${PC_AppArmor_INCLUDE_DIRS}
+  DOC "Directory containing AppArmor library headers"
 )
 
-if(NOT AppArmor_INCLUDE_DIRS)
-  string(
-    APPEND _reason_failure_message
-    "\n    The sys/apparmor.h could not be found."
-  )
+if(NOT AppArmor_INCLUDE_DIR)
+  string(APPEND _reason "sys/apparmor.h not found. ")
 endif()
 
-find_library(AppArmor_LIBRARIES NAMES apparmor DOC "The AppArmor library")
+find_library(
+  AppArmor_LIBRARY
+  NAMES apparmor
+  PATHS ${PC_AppArmor_LIBRARY_DIRS}
+  DOC "The path to the AppArmor library"
+)
 
-if(NOT AppArmor_LIBRARIES)
-  string(
-    APPEND _reason_failure_message
-    "\n    AppArmor not found. Please install the AppArmor library."
-  )
+if(NOT AppArmor_LIBRARY)
+  string(APPEND _reason "AppArmor library not found. ")
 endif()
 
 # Sanity check.
-if(AppArmor_LIBRARIES)
+if(AppArmor_LIBRARY)
   check_library_exists(
-    "${AppArmor_LIBRARIES}"
+    "${AppArmor_LIBRARY}"
     aa_change_profile
     ""
     _apparmor_sanity_check
@@ -64,30 +79,53 @@ if(AppArmor_LIBRARIES)
 endif()
 
 if(NOT _apparmor_sanity_check)
-  string(
-    APPEND _reason_failure_message
-    "\n    Sanity check failed. The aa_change_profile could not be found in "
-    "the AppArmor library."
-  )
+  string(APPEND _reason "Sanity check failed: aa_change_profile not found. ")
 endif()
+
+# Get version.
+block(PROPAGATE AppArmor_VERSION)
+  # AppArmor headers don't provide version. Try pkgconf version, if found.
+  if(PC_AppArmor_VERSION)
+    cmake_path(
+      COMPARE
+      "${PC_AppArmor_INCLUDEDIR}" EQUAL "${AppArmor_INCLUDE_DIR}"
+      isEqual
+    )
+
+    if(isEqual)
+      set(AppArmor_VERSION ${PC_AppArmor_VERSION})
+    endif()
+  endif()
+endblock()
+
+mark_as_advanced(AppArmor_INCLUDE_DIR AppArmor_LIBRARY)
 
 find_package_handle_standard_args(
   AppArmor
-  REQUIRED_VARS AppArmor_LIBRARIES AppArmor_INCLUDE_DIRS _apparmor_sanity_check
-  REASON_FAILURE_MESSAGE "${reason_failure_message}"
+  REQUIRED_VARS
+    AppArmor_LIBRARY
+    AppArmor_INCLUDE_DIR
+    _apparmor_sanity_check
+  VERSION_VAR AppArmor_VERSION
+  REASON_FAILURE_MESSAGE "${_reason}"
 )
 
-unset(_reason_failure_message)
+unset(_reason)
 
 if(NOT AppArmor_FOUND)
   return()
 endif()
 
-if(NOT TARGET AppArmor::AppArmor)
-  add_library(AppArmor::AppArmor INTERFACE IMPORTED)
+set(AppArmor_INCLUDE_DIRS ${AppArmor_INCLUDE_DIR})
+set(AppArmor_LIBRARIES ${AppArmor_LIBRARY})
 
-  set_target_properties(AppArmor::AppArmor PROPERTIES
-    INTERFACE_INCLUDE_DIRECTORIES "${AppArmor_INCLUDE_DIRS}"
-    INTERFACE_LINK_LIBRARIES "${AppArmor_LIBRARIES}"
+if(NOT TARGET AppArmor::AppArmor)
+  add_library(AppArmor::AppArmor UNKNOWN IMPORTED)
+
+  set_target_properties(
+    AppArmor::AppArmor
+    PROPERTIES
+      IMPORTED_LOCATION "${AppArmor_LIBRARY}"
+      INTERFACE_INCLUDE_DIRECTORIES "${AppArmor_INCLUDE_DIR}"
   )
 endif()

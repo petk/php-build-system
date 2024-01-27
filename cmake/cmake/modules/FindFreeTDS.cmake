@@ -1,19 +1,26 @@
 #[=============================================================================[
 Find the FreeTDS set of libraries.
 
-Module defines the following IMPORTED targets:
+Module defines the following IMPORTED target(s):
 
   FreeTDS::FreeTDS
-    The FreeTDS library, if found.
+    The package library, if found.
 
 Result variables:
 
   FreeTDS_FOUND
-    Whether FreeTDS has been found.
+    Whether the package has been found.
   FreeTDS_INCLUDE_DIRS
-    A list of include directories for using FreeTDS set of libraries.
+    Include directories needed to use this package.
   FreeTDS_LIBRARIES
-    A list of libraries for linking when using FreeTDS library.
+    Libraries needed to link to the package library.
+
+Cache variables:
+
+  FreeTDS_INCLUDE_DIR
+    Directory containing package library headers.
+  FreeTDS_LIBRARY
+    The path to the package library.
 
 Hints:
 
@@ -24,63 +31,72 @@ include(CheckLibraryExists)
 include(FeatureSummary)
 include(FindPackageHandleStandardArgs)
 
-set_package_properties(FreeTDS PROPERTIES
-  URL "https://www.freetds.org/"
-  DESCRIPTION "TDS (Tabular DataStream) protocol library for Sybase and MS SQL"
+set_package_properties(
+  FreeTDS
+  PROPERTIES
+    URL "https://www.freetds.org/"
+    DESCRIPTION "TDS (Tabular DataStream) protocol library for Sybase and MS SQL"
 )
 
-find_path(FreeTDS_INCLUDE_DIRS sybdb.h PATH_SUFFIXES freetds)
+set(_reason "")
 
-set(_reason_failure_message)
+find_path(
+  FreeTDS_INCLUDE_DIR
+  NAMES sybdb.h
+  PATH_SUFFIXES freetds
+  DOC "Directory containing FreeTDS library headers"
+)
 
-if(NOT FreeTDS_INCLUDE_DIRS)
-  string(
-    APPEND _reason_failure_message
-    "\n    FreeTDS include directory not found."
-  )
+if(NOT FreeTDS_INCLUDE_DIR)
+  string(APPEND _reason "sybdb.h not found. ")
 endif()
 
-find_library(FreeTDS_LIBRARIES NAMES sybdb DOC "The FreeTDS library")
+find_library(
+  FreeTDS_LIBRARY
+  NAMES sybdb
+  DOC "The path to the FreeTDS library"
+)
 
-if(NOT FreeTDS_LIBRARIES)
-  string(
-    APPEND _reason_failure_message
-    "\n    FreeTDS library not found."
-  )
+if(NOT FreeTDS_LIBRARY)
+  string(APPEND _reason "FreeTDS library not found. ")
 endif()
 
 # Sanity check.
-if(FreeTDS_LIBRARIES)
-  check_library_exists(
-    "${FreeTDS_LIBRARIES}"
-    dbsqlexec
-    ""
-    FreeTDS_HAVE_DBSQLEXEC
-  )
+if(FreeTDS_LIBRARY)
+  check_library_exists("${FreeTDS_LIBRARY}" dbsqlexec "" _freetds_sanity_check)
+
+  if(NOT _freetds_sanity_check)
+    string(APPEND _reason "Sanity check failed: dbsqlexec not found. ")
+  endif()
 endif()
 
-if(NOT FreeTDS_HAVE_DBSQLEXEC)
-  string(
-    APPEND _reason_failure_message
-    "\n    The dbsqlexec was not found in the FreeTDS library."
-  )
-endif()
-
-mark_as_advanced(FreeTDS_LIBRARIES FreeTDS_INCLUDE_DIRS)
+mark_as_advanced(FreeTDS_INCLUDE_DIR FreeTDS_LIBRARY)
 
 find_package_handle_standard_args(
   FreeTDS
-  REQUIRED_VARS FreeTDS_LIBRARIES FreeTDS_INCLUDE_DIRS FreeTDS_HAVE_DBSQLEXEC
-  REASON_FAILURE_MESSAGE "${_reason_failure_message}"
+  REQUIRED_VARS
+    FreeTDS_LIBRARY
+    FreeTDS_INCLUDE_DIR
+    _freetds_sanity_check
+  REASON_FAILURE_MESSAGE "${_reason}"
 )
 
-unset(_reason_failure_message)
+unset(_reason)
+
+if(NOT FreeTDS_FOUND)
+  return()
+endif()
+
+set(FreeTDS_INCLUDE_DIRS ${FreeTDS_INCLUDE_DIR})
+set(FreeTDS_LIBRARIES ${FreeTDS_LIBRARY})
 
 if(FreeTDS_FOUND AND NOT TARGET FreeTDS::FreeTDS)
-  add_library(FreeTDS::FreeTDS INTERFACE IMPORTED)
+  add_library(FreeTDS::FreeTDS UNKNOWN IMPORTED)
 
-  set_target_properties(FreeTDS::FreeTDS PROPERTIES
-    INTERFACE_INCLUDE_DIRECTORIES "${FreeTDS_INCLUDE_DIRS}"
-    INTERFACE_LINK_LIBRARIES "${FreeTDS_LIBRARIES}"
+  set_target_properties(
+    FreeTDS::FreeTDS
+    PROPERTIES
+      IMPORTED_LOCATION "${FreeTDS_LIBRARY}"
+      INTERFACE_INCLUDE_DIRECTORIES "${FreeTDS_INCLUDE_DIR}"
   )
 endif()

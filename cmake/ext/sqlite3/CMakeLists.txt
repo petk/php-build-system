@@ -33,9 +33,11 @@ target_sources(php_sqlite3 PRIVATE
 target_compile_definitions(php_sqlite3 PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE=1)
 
 find_package(SQLite3 3.7.7)
-set_package_properties(SQLite3 PROPERTIES
-  TYPE REQUIRED
-  PURPOSE "Necessary to enable the sqlite3 extension."
+set_package_properties(
+  SQLite3
+  PROPERTIES
+    TYPE REQUIRED
+    PURPOSE "Necessary to enable the sqlite3 extension."
 )
 
 target_link_libraries(php_sqlite3 PRIVATE SQLite::SQLite3)

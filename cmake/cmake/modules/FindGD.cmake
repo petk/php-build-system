@@ -1,21 +1,28 @@
 #[=============================================================================[
 Find the GD library.
 
-Module defines the following IMPORTED targets:
+Module defines the following IMPORTED target(s):
 
   GD::GD
-    The GD library, if found.
+    The package library, if found.
 
 Result variables:
 
   GD_FOUND
-    Whether libgd is found.
+    Whether the package has been found.
   GD_INCLUDE_DIRS
-    A list of include directories for using libgd.
+    Include directories needed to use this package.
   GD_LIBRARIES
-    A list of libraries for using libgd.
+    Libraries needed to link to the package library.
   GD_VERSION
-    Version string of found libgd.
+    Package version, if found.
+
+Cache variables:
+
+  GD_INCLUDE_DIR
+    Directory containing package library headers.
+  GD_LIBRARY
+    The path to the package library.
 
 Hints:
 
@@ -25,46 +32,58 @@ Hints:
 include(FeatureSummary)
 include(FindPackageHandleStandardArgs)
 
-set_package_properties(GD PROPERTIES
-  URL "https://libgd.github.io/"
-  DESCRIPTION "Library for dynamic creation of images"
+set_package_properties(
+  GD
+  PROPERTIES
+    URL "https://libgd.github.io/"
+    DESCRIPTION "Library for dynamic creation of images"
 )
 
-set(_reason_failure_message)
+set(_reason "")
 
-find_path(GD_INCLUDE_DIRS gd.h)
+# Use pkgconf, if available on the system.
+find_package(PkgConfig QUIET)
+pkg_check_modules(PC_GD QUIET gdlib)
 
-if(NOT GD_INCLUDE_DIRS)
-  string(
-    APPEND _reason_failure_message
-    "\n    gd.h not found."
-  )
+find_path(
+  GD_INCLUDE_DIR
+  NAMES gd.h
+  PATHS ${PC_GD_INCLUDE_DIRS}
+  DOC "Directory containing GD library headers"
+)
+
+if(NOT GD_INCLUDE_DIR)
+  string(APPEND _reason "gd.h not found. ")
 endif()
 
-find_library(GD_LIBRARIES NAMES gd DOC "The GD library")
+find_library(
+  GD_LIBRARY
+  NAMES gd
+  PATHS ${PC_GD_LIBRARY_DIRS}
+  DOC "The path to the GD library"
+)
 
-if(NOT GD_LIBRARIES)
-  string(
-    APPEND _reason_failure_message
-    "\n    GD not found. Please install GD library (libgd)."
-  )
+if(NOT GD_LIBRARY)
+  string(APPEND _reason "GD library (libgd) not found. ")
 endif()
 
 # Get version.
 block(PROPAGATE GD_VERSION)
-  if(GD_INCLUDE_DIRS)
+  if(GD_INCLUDE_DIR)
     file(
       STRINGS
-      "${GD_INCLUDE_DIRS}/gd.h"
+      "${GD_INCLUDE_DIR}/gd.h"
       results
       REGEX
       "^#[ \t]*define[ \t]+GD_(MAJOR|MINOR|RELEASE)_VERSION[ \t]+[0-9]+[ \t]*[^\r\n]*$"
     )
 
+    unset(GD_VERSION)
+
     foreach(item MAJOR MINOR RELEASE)
       foreach(line ${results})
         if(line MATCHES "^#[ \t]*define[ \t]+GD_${item}_VERSION[ \t]+([0-9]+)[ \t]*[^\r\n]*$")
-          if(GD_VERSION)
+          if(DEFINED GD_VERSION)
             string(APPEND GD_VERSION ".${CMAKE_MATCH_1}")
           else()
             set(GD_VERSION "${CMAKE_MATCH_1}")
@@ -75,20 +94,33 @@ block(PROPAGATE GD_VERSION)
   endif()
 endblock()
 
+mark_as_advanced(GD_INCLUDE_DIR GD_LIBRARY)
+
 find_package_handle_standard_args(
   GD
-  REQUIRED_VARS GD_LIBRARIES GD_INCLUDE_DIRS
+  REQUIRED_VARS
+    GD_LIBRARY
+    GD_INCLUDE_DIR
   VERSION_VAR GD_VERSION
-  REASON_FAILURE_MESSAGE "${_reason_failure_message}"
+  REASON_FAILURE_MESSAGE "${_reason}"
 )
 
-unset(_reason_failure_message)
+unset(_reason)
 
-if(GD_FOUND AND NOT TARGET GD::GD)
-  add_library(GD::GD INTERFACE IMPORTED)
+if(NOT GD_FOUND)
+  return()
+endif()
 
-  set_target_properties(GD::GD PROPERTIES
-    INTERFACE_INCLUDE_DIRECTORIES "${GD_INCLUDE_DIRS}"
-    INTERFACE_LINK_LIBRARIES "${GD_LIBRARIES}"
+set(GD_INCLUDE_DIRS ${GD_INCLUDE_DIR})
+set(GD_LIBRARIES ${GD_LIBRARY})
+
+if(NOT TARGET GD::GD)
+  add_library(GD::GD UNKNOWN IMPORTED)
+
+  set_target_properties(
+    GD::GD
+    PROPERTIES
+      IMPORTED_LOCATION "${GD_LIBRARY}"
+      INTERFACE_INCLUDE_DIRECTORIES "${GD_INCLUDE_DIR}"
   )
 endif()

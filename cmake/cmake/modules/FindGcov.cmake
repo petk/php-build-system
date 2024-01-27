@@ -1,79 +1,107 @@
 #[=============================================================================[
 Find the Gcov coverage programs and features.
 
-Module defines the following IMPORTED targets:
+Module defines the following IMPORTED target(s):
 
   Gcov::Gcov
-    The interface library, if found.
+    The package library, if found.
 
 Result variables:
 
   Gcov_FOUND
-    Whether gcov features have been found.
+    Whether the package has been found.
 
 Cache variables:
 
+  Gcov_GCOVR_EXECUTABLE
+  Gcov_GENHTML_EXECUTABLE
+  Gcov_LCOV_EXECUTABLE
+
   HAVE_GCOV
+    Whether the Gcov is available.
 
 Hints:
 
   The Gcov_ROOT variable adds custom search path.
+
+Module exposes the following macro that generates HTML coverage report:
+
+  gcov_generate_report()
 #]=============================================================================]
 
 include(FeatureSummary)
 include(FindPackageHandleStandardArgs)
 
-set_package_properties(Gcov PROPERTIES
-  DESCRIPTION "Coverage report - gcov and lcov"
+set_package_properties(
+  Gcov
+  PROPERTIES
+    DESCRIPTION "Coverage report - gcov and lcov"
 )
 
-set(_reason_failure_message)
+set(_reason "")
 
 # TODO: Remove all optimization flags.
 
-set(HAVE_GCOV 1 CACHE INTERNAL "Whether to enable GCOV.")
+find_program(
+  Gcov_LCOV_EXECUTABLE
+  NAMES lcov
+  DOC "Path to the graphical GCOV front-end"
+)
 
-# Generate HTML coverage report.
-find_program(Gcov_LCOV_EXECUTABLE lcov)
-find_program(Gcov_GENHTML_EXECUTABLE genhtml)
-find_program(Gcov_GCOVR_EXECUTABLE gcovr)
+find_program(
+  Gcov_GENHTML_EXECUTABLE
+  NAMES genhtml
+  DOC "Path to the generator for HTML view from LCOV coverage data files"
+)
+
+find_program(
+  Gcov_GCOVR_EXECUTABLE
+  NAMES gcovr
+  DOC "Path to the generator for simple coverage reports"
+)
 
 if(NOT Gcov_LCOV_EXECUTABLE)
-  string(
-    APPEND _reason_failure_message
-    "\n    Required lcov program was not found."
-  )
+  string(APPEND _reason "Required lcov program was not found. ")
 endif()
 
 if(NOT Gcov_GENHTML_EXECUTABLE)
-  string(
-    APPEND _reason_failure_message
-    "\n    Required genhtml program was not found."
-  )
+  string(APPEND _reason "Required genhtml program was not found. ")
 endif()
 
 if(NOT Gcov_GCOVR_EXECUTABLE)
-  string(
-    APPEND _reason_failure_message
-    "\n    Required gcovr program was not found."
-  )
+  string(APPEND _reason "Required gcovr program was not found. ")
 endif()
+
+mark_as_advanced(
+  Gcov_GCOVR_EXECUTABLE
+  Gcov_GENHTML_EXECUTABLE
+  Gcov_LCOV_EXECUTABLE
+)
 
 find_package_handle_standard_args(
   Gcov
-  REQUIRED_VARS Gcov_LCOV_EXECUTABLE Gcov_GENHTML_EXECUTABLE Gcov_GCOVR_EXECUTABLE
-  REASON_FAILURE_MESSAGE "${_reason_failure_message}"
+  REQUIRED_VARS
+    Gcov_GCOVR_EXECUTABLE
+    Gcov_GENHTML_EXECUTABLE
+    Gcov_LCOV_EXECUTABLE
+  REASON_FAILURE_MESSAGE "${_reason}"
 )
 
-unset(_reason_failure_message)
+unset(_reason)
 
 if(Gcov_FOUND AND NOT TARGET Gcov::Gcov)
-  add_library(Gcov::Gcov INTERFACE IMPORTED)
+  set(HAVE_GCOV 1 CACHE INTERNAL "Whether GCOV is available.")
 
-  set_target_properties(Gcov::Gcov PROPERTIES
-    # Add the special GCC flags.
-    INTERFACE_COMPILE_OPTIONS "$<$<COMPILE_LANGUAGE:ASM,C,CXX>:-fprofile-arcs;-ftest-coverage>"
-    INTERFACE_LINK_OPTIONS "$<$<COMPILE_LANGUAGE:ASM,C,CXX>:-lgcov;--coverage>"
+  add_library(Gcov::Gcov INTERFACE)
+
+  set_target_properties(
+    Gcov::Gcov
+    PROPERTIES
+      # Add the special GCC flags.
+      INTERFACE_COMPILE_OPTIONS
+        $<$<COMPILE_LANGUAGE:ASM,C,CXX>:-fprofile-arcs;-ftest-coverage>
+      INTERFACE_LINK_OPTIONS
+        $<$<COMPILE_LANGUAGE:ASM,C,CXX>:-lgcov;--coverage>
   )
 endif()
 

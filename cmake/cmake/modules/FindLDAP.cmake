@@ -1,24 +1,35 @@
 #[=============================================================================[
 Find the LDAP library.
 
-Module defines the following IMPORTED targets:
+Module defines the following IMPORTED target(s):
 
   LDAP::LDAP
     The LDAP library, if found.
 
+  LDAP::LBER
+    OpenLDAP LBER Lightweight Basic Encoding Rules library, if found. Linked to
+    LDAP::LDAP.
+
 Result variables:
 
   LDAP_FOUND
-    Whether LDAP library is found.
+    Whether the package has been found.
   LDAP_INCLUDE_DIRS
-    A list of include directories for using LDAP library.
+    Include directories needed to use this package.
   LDAP_LIBRARIES
-    A list of libraries for using LDAP library.
+    Libraries needed to link to the package library.
   LDAP_VERSION
-    Version string of found LDAP library.
+    Package version, if found.
 
 Cache variables:
 
+  LDAP_INCLUDE_DIR
+    Directory containing package library headers.
+  LDAP_LIBRARY
+    The path to the package library.
+  LDAP_LBER_LIBRARY
+    The path to the OpenLDAP LBER Lightweight Basic Encoding Rules library, if
+    found.
   HAVE_ORALDAP
     Whether the Oracle LDAP library is used.
 
@@ -32,16 +43,24 @@ include(CMakePushCheckState)
 include(FeatureSummary)
 include(FindPackageHandleStandardArgs)
 
-set_package_properties(LDAP PROPERTIES
-  URL "https://www.openldap.org/"
-  DESCRIPTION "Lightweight directory access protocol library"
-  PURPOSE "https://en.wikipedia.org/wiki/List_of_LDAP_software"
+set_package_properties(
+  LDAP
+  PROPERTIES
+    URL "https://www.openldap.org/"
+    DESCRIPTION "Lightweight directory access protocol library"
+    PURPOSE "https://en.wikipedia.org/wiki/List_of_LDAP_software"
 )
 
-set(_reason_failure_message)
+set(_reason "")
+
+# Use pkgconf, if available on the system.
+find_package(PkgConfig QUIET)
+pkg_check_modules(PC_LDAP QUIET ldap)
 
 find_path(
-  LDAP_INCLUDE_DIRS ldap.h
+  LDAP_INCLUDE_DIR
+  NAMES ldap.h
+  PATHS ${PC_LDAP_INCLUDE_DIRS}
   PATH_SUFFIXES
     # For LDAP on Oracle.
     ldap/public
@@ -49,59 +68,63 @@ find_path(
     sdk/include
     # TODO: Oracle Instant Client RPM install.
     # /usr/include/oracle/.../client...
+  DOC "Directory containing LDAP library headers"
 )
 
-if(NOT LDAP_INCLUDE_DIRS)
-  string(
-    APPEND _reason_failure_message
-    "\n    ldap.h not found."
-  )
+if(NOT LDAP_INCLUDE_DIR)
+  string(APPEND _reason "ldap.h not found. ")
 endif()
 
-find_library(LDAP_LIBRARY NAMES ldap DOC "The LDAP library")
+find_library(
+  LDAP_LIBRARY
+  NAMES ldap
+  PATHS ${PC_LDAP_LIBRARY_DIRS}
+  DOC "The path to the LDAP library"
+)
 
 if(LDAP_LIBRARY)
-  list(APPEND LDAP_LIBRARIES ${LDAP_LIBRARY})
+  pkg_check_modules(PC_LDAP_LBER QUIET lber)
 
   find_library(
-    LDAP_LBER_LIBRARY NAMES lber
-    DOC "The OpenLDAP LBER Lightweight Basic Encoding Rules library"
+    LDAP_LBER_LIBRARY
+    NAMES lber
+    PATHS ${PC_LDAP_LBER_LIBRARY_DIRS}
+    DOC "The path to the OpenLDAP LBER Lightweight Basic Encoding Rules library"
   )
-
-  if(LDAP_LBER_LIBRARY)
-    list(APPEND LDAP_LIBRARIES ${LDAP_LBER_LIBRARY})
-  endif()
 else()
   # Check for Oracle LDAP.
-  find_library(LDAP_CLNTSH_LIBRARY NAMES clntsh DOC "The Oracle LDAP library")
+  find_library(
+    LDAP_LIBRARY
+    NAMES clntsh
+    DOC "The path to the Oracle LDAP library"
+  )
 
-  if(LDAP_CLNTSH_LIBRARY)
-    list(APPEND LDAP_LIBRARIES ${LDAP_CLNTSH_LIBRARY})
+  if(LDAP_LIBRARY)
     set(HAVE_ORALDAP 1 CACHE INTERNAL "Whether to use Oracle LDAP library")
   endif()
 endif()
 
-if(NOT LDAP_LIBRARIES)
-  string(
-    APPEND _reason_failure_message
-    "\n    LDAP not found. Please install the LDAP library."
-  )
+if(NOT LDAP_LIBRARY)
+  string(APPEND _reason "LDAP library not found. ")
 endif()
 
+# Get version.
 block(PROPAGATE LDAP_VERSION)
-  if(LDAP_INCLUDE_DIRS AND EXISTS "${LDAP_INCLUDE_DIRS}/ldap_features.h")
+  if(LDAP_INCLUDE_DIR AND EXISTS "${LDAP_INCLUDE_DIR}/ldap_features.h")
     file(
       STRINGS
-      "${LDAP_INCLUDE_DIRS}/ldap_features.h"
+      "${LDAP_INCLUDE_DIR}/ldap_features.h"
       results
       REGEX
       "^#[ \t]*define[ \t]+LDAP_VENDOR_VERSION_(MAJOR|MINOR|PATCH)[ \t]+[0-9]+[ \t]*$"
     )
 
+    unset(LDAP_VERSION)
+
     foreach(item MAJOR MINOR PATCH)
       foreach(line ${results})
         if(line MATCHES "^#[ \t]*define[ \t]+LDAP_VENDOR_VERSION_${item}[ \t]+([0-9]+)[ \t]*$")
-          if(LDAP_VERSION)
+          if(DEFINED LDAP_VERSION)
             string(APPEND LDAP_VERSION ".${CMAKE_MATCH_1}")
           else()
             set(LDAP_VERSION "${CMAKE_MATCH_1}")
@@ -113,38 +136,72 @@ block(PROPAGATE LDAP_VERSION)
 endblock()
 
 # Sanity check.
-if(LDAP_LIBRARIES AND LDAP_INCLUDE_DIRS)
+if(LDAP_LIBRARY AND LDAP_INCLUDE_DIR)
   cmake_push_check_state(RESET)
-    set(CMAKE_REQUIRED_LIBRARIES ${LDAP_LIBRARIES})
-    set(CMAKE_REQUIRED_INCLUDES ${LDAP_INCLUDE_DIRS})
+    set(CMAKE_REQUIRED_LIBRARIES ${LDAP_LIBRARY})
+    set(CMAKE_REQUIRED_INCLUDES ${LDAP_INCLUDE_DIR})
+    set(CMAKE_REQUIRED_QUIET TRUE)
 
     # TODO: Replace the ldap_sasl_bind_s check with something more ubiquitous.
     # The ldap_simple_bind_s is deprecated in OpenLDAP.
     check_symbol_exists(ldap_sasl_bind_s "ldap.h" _ldap_sanity_check)
   cmake_pop_check_state()
+
+  if(NOT _ldap_sanity_check)
+    string(APPEND _reason "Sanity check failed: ldap_bind_s() not found. ")
+  endif()
 endif()
 
-if(NOT _ldap_sanity_check)
-  string(
-    APPEND _reason_failure_message
-    "\n    LDAP sanity check failed, ldap_bind_s() could not be found."
-  )
-endif()
+mark_as_advanced(
+  LDAP_INCLUDE_DIR
+  LDAP_LBER_LIBRARY
+  LDAP_LIBRARY
+)
 
 find_package_handle_standard_args(
   LDAP
-  REQUIRED_VARS LDAP_LIBRARIES LDAP_INCLUDE_DIRS _ldap_sanity_check
+  REQUIRED_VARS
+    LDAP_LIBRARY
+    LDAP_INCLUDE_DIR
+    _ldap_sanity_check
   VERSION_VAR LDAP_VERSION
-  REASON_FAILURE_MESSAGE "${_reason_failure_message}"
+  REASON_FAILURE_MESSAGE "${_reason}"
 )
 
-unset(_reason_failure_message)
+unset(_reason)
 
-if(LDAP_FOUND AND NOT TARGET LDAP::LDAP)
-  add_library(LDAP::LDAP INTERFACE IMPORTED)
+if(NOT LDAP_FOUND)
+  return()
+endif()
 
-  set_target_properties(LDAP::LDAP PROPERTIES
-    INTERFACE_INCLUDE_DIRECTORIES "${LDAP_INCLUDE_DIRS}"
-    INTERFACE_LINK_LIBRARIES "${LDAP_LIBRARIES}"
+set(LDAP_INCLUDE_DIRS ${LDAP_INCLUDE_DIR})
+set(LDAP_LIBRARIES ${LDAP_LIBRARY} ${LDAP_LBER_LIBRARY})
+
+if(LDAP_LBER_LIBRARY AND NOT TARGET LDAP::LBER)
+  add_library(LDAP::LBER UNKNOWN IMPORTED)
+
+  set_target_properties(
+    LDAP::LBER
+    PROPERTIES
+      IMPORTED_LOCATION "${LDAP_LBER_LIBRARY}"
+      INTERFACE_INCLUDE_DIRECTORIES "${LDAP_LBER_INCLUDE_DIR}"
   )
+endif()
+
+if(NOT TARGET LDAP::LDAP)
+  add_library(LDAP::LDAP UNKNOWN IMPORTED)
+
+  set_target_properties(
+    LDAP::LDAP
+    PROPERTIES
+      IMPORTED_LOCATION "${LDAP_LIBRARY}"
+      INTERFACE_INCLUDE_DIRECTORIES "${LDAP_INCLUDE_DIR}"
+  )
+
+  if(TARGET LDAP::LBER)
+    set_target_properties(
+      LDAP::LDAP
+      PROPERTIES
+        INTERFACE_LINK_LIBRARIES LDAP::LBER)
+  endif()
 endif()

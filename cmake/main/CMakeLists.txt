@@ -98,9 +98,11 @@ if(PHP_DTRACE)
   message(CHECK_START "Checking for DTrace support")
 
   find_package(DTrace)
-  set_package_properties(DTrace PROPERTIES
-    TYPE REQUIRED
-    PURPOSE "Necessary to enable the DTrace support."
+  set_package_properties(
+    DTrace
+    PROPERTIES
+      TYPE REQUIRED
+      PURPOSE "Necessary to enable the DTrace support."
   )
 
   if(DTrace_FOUND)
@@ -134,9 +136,11 @@ if(PHP_DMALLOC)
   message(CHECK_START "Checking for Dmalloc support")
 
   find_package(Dmalloc)
-  set_package_properties(Dmalloc PROPERTIES
-    TYPE REQUIRED
-    PURPOSE "Necessary to use Dmalloc memory debugger."
+  set_package_properties(
+    Dmalloc
+    PROPERTIES
+      TYPE REQUIRED
+      PURPOSE "Necessary to use Dmalloc memory debugger."
   )
 
   target_compile_definitions(

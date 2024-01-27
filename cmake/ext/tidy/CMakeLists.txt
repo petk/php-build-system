@@ -40,9 +40,11 @@ endif()
 target_compile_definitions(php_tidy PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE=1)
 
 find_package(Tidy)
-set_package_properties(Tidy PROPERTIES
-  TYPE REQUIRED
-  PURPOSE "Necessary to enable the tidy extension."
+set_package_properties(
+  Tidy
+  PROPERTIES
+    TYPE REQUIRED
+    PURPOSE "Necessary to enable the tidy extension."
 )
 
 target_link_libraries(php_tidy PRIVATE Tidy::Tidy)

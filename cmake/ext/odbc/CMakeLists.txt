@@ -87,9 +87,11 @@ target_sources(php_odbc PRIVATE
 target_compile_definitions(php_odbc PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE=1)
 
 find_package(ODBC)
-set_package_properties(ODBC PROPERTIES
-  TYPE REQUIRED
-  PURPOSE "Necessary to enable the odbc extension."
+set_package_properties(
+  ODBC
+  PROPERTIES
+    TYPE REQUIRED
+    PURPOSE "Necessary to enable the odbc extension."
 )
 
 target_link_libraries(php_odbc PRIVATE ODBC::ODBC)

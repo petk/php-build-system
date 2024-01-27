@@ -5,11 +5,11 @@ Result variables:
 
   DTrace_FOUND
     Whether DTrace library is found.
-  DTrace_EXECUTABLE
-    Path to the DTrace command-line utility.
 
 Cache variables:
 
+  DTrace_EXECUTABLE
+    Path to the DTrace command-line utility.
   HAVE_DTRACE
     Whether DTrace support is enabled.
 
@@ -38,45 +38,45 @@ include(CheckIncludeFile)
 include(FeatureSummary)
 include(FindPackageHandleStandardArgs)
 
-set_package_properties(DTrace PROPERTIES
-  URL "https://dtrace.org/"
-  DESCRIPTION "Performance analysis and troubleshooting tool"
-  PURPOSE "https://sourceware.org/systemtap"
+set_package_properties(
+  DTrace
+  PROPERTIES
+    URL "https://dtrace.org/"
+    DESCRIPTION "Performance analysis and troubleshooting tool"
+    PURPOSE "https://sourceware.org/systemtap"
 )
 
-set(_reason_failure_message)
-
-check_include_file(sys/sdt.h HAVE_SYS_SDT_H)
-
-if(NOT HAVE_SYS_SDT_H)
-  string(
-    APPEND _reason_failure_message
-    "\n    Cannot find sys/sdt.h which is required for DTrace support."
-  )
-endif()
+set(_reason "")
 
 find_program(
   DTrace_EXECUTABLE
-  dtrace
+  NAMES dtrace
   PATHS /usr/bin /usr/sbin
-  DOC "The dtrace executable path"
+  DOC "The path to the executable dtrace generation tool"
 )
-mark_as_advanced(DTrace_EXECUTABLE)
 
 if(NOT DTrace_EXECUTABLE)
-  string(
-    APPEND _reason_failure_message
-    "\n    Could not find the dtrace generation tool. Please install DTrace."
-  )
+  string(APPEND _reason "DTrace generation tool not found. Please install DTrace. ")
 endif()
+
+# Sanity check.
+check_include_file(sys/sdt.h _dtrace_sanity_check)
+
+if(NOT _dtrace_sanity_check)
+  string(APPEND _reason "Missing sys/sdt.h which is required for DTrace support. ")
+endif()
+
+mark_as_advanced(DTrace_EXECUTABLE)
 
 find_package_handle_standard_args(
   DTrace
-  REQUIRED_VARS DTrace_EXECUTABLE HAVE_SYS_SDT_H
-  REASON_FAILURE_MESSAGE "${_reason_failure_message}"
+  REQUIRED_VARS
+    DTrace_EXECUTABLE
+    _dtrace_sanity_check
+  REASON_FAILURE_MESSAGE "${_reason}"
 )
 
-unset(_reason_failure_message)
+unset(_reason)
 
 if(NOT DTrace_FOUND)
   return()

@@ -122,9 +122,11 @@ target_compile_definitions(php_intl
     ZEND_ENABLE_STATIC_TSRMLS_CACHE=1
 )
 
-set_target_properties(php_intl PROPERTIES
-  CXX_STANDARD 11
-  CXX_STANDARD_REQUIRED TRUE
+set_target_properties(
+  php_intl
+  PROPERTIES
+    CXX_STANDARD 11
+    CXX_STANDARD_REQUIRED TRUE
 )
 
 target_compile_definitions(
@@ -143,9 +145,11 @@ find_package(ICU 50.1 COMPONENTS io uc i18n)
 # Upstream CMake module doesn't set this as advanced variable.
 # TODO: Remove this once CMake fixes this.
 mark_as_advanced(ICU_INCLUDE_DIR)
-set_package_properties(ICU PROPERTIES
-  TYPE REQUIRED
-  PURPOSE "Necessary to enable the intl extension."
+set_package_properties(
+  ICU
+  PROPERTIES
+    TYPE REQUIRED
+    PURPOSE "Necessary to enable the intl extension."
 )
 
 target_link_libraries(php_intl PRIVATE ICU::io ICU::uc ICU::i18n)

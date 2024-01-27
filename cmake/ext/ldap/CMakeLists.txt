@@ -43,9 +43,11 @@ target_sources(php_ldap PRIVATE
 target_compile_definitions(php_ldap PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE=1)
 
 find_package(LDAP)
-set_package_properties(LDAP PROPERTIES
-  TYPE REQUIRED
-  PURPOSE "Necessary to enable the ldap extension."
+set_package_properties(
+  LDAP
+  PROPERTIES
+    TYPE REQUIRED
+    PURPOSE "Necessary to enable the ldap extension."
 )
 
 target_link_libraries(php_ldap PRIVATE LDAP::LDAP)
@@ -87,9 +89,11 @@ endif()
 
 if(EXT_LDAP_SASL)
   find_package(SASL)
-  set_package_properties(SASL PROPERTIES
-    TYPE REQUIRED
-    PURPOSE "Necessary to enable the Cyrus SASL support in the ldap extension."
+  set_package_properties(
+    SASL
+    PROPERTIES
+      TYPE REQUIRED
+      PURPOSE "Necessary to enable the Cyrus SASL support in the ldap extension."
   )
 
   target_link_libraries(php_ldap PRIVATE SASL::SASL)

@@ -63,19 +63,23 @@ if(EXT_OPENSSL_KERBEROS)
     "been removed as of OpenSSL 1.1.0 upstream library."
   )
 
-  find_package(Kerberos)
-  set_package_properties(Kerberos PROPERTIES
-    TYPE REQUIRED
-    PURPOSE "Necessary to use Kerberos support in the openssl extension."
+  find_package(Kerberos COMPONENTS Krb5 GSSAPI)
+  set_package_properties(
+    Kerberos
+    PROPERTIES
+      TYPE REQUIRED
+      PURPOSE "Necessary to use Kerberos support in the openssl extension."
   )
 
-  target_link_libraries(php_openssl PRIVATE Kerberos::Kerberos)
+  target_link_libraries(php_openssl PRIVATE Kerberos::Krb5 Kerberos::GSSAPI)
 endif()
 
 find_package(OpenSSL ${PHP_OPENSSL_MIN_VERSION})
-set_package_properties(OpenSSL PROPERTIES
-  TYPE REQUIRED
-  PURPOSE "Necessary to enable the openssl extension."
+set_package_properties(
+  OpenSSL
+  PROPERTIES
+    TYPE REQUIRED
+    PURPOSE "Necessary to enable the openssl extension."
 )
 
 target_link_libraries(php_openssl PRIVATE OpenSSL::SSL)

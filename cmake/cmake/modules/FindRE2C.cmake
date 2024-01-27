@@ -10,12 +10,15 @@ is supported by the C compiler.
 
 Result variables:
 
-  RE2C_EXECUTABLE
-    Path to the re2c program.
   RE2C_FOUND
     Whether re2c program was found.
   RE2C_VERSION
     Version of re2c program.
+
+Cache variables:
+
+  RE2C_EXECUTABLE
+    Path to the re2c program.
 
 If re2c is found, the module exposes the following function:
 
@@ -41,13 +44,18 @@ include(CheckSourceCompiles)
 include(FeatureSummary)
 include(FindPackageHandleStandardArgs)
 
-set_package_properties(RE2C PROPERTIES
-  URL "https://re2c.org/"
-  DESCRIPTION "Free and open-source lexer generator"
+set_package_properties(
+  RE2C
+  PROPERTIES
+    URL "https://re2c.org/"
+    DESCRIPTION "Free and open-source lexer generator"
 )
 
-find_program(RE2C_EXECUTABLE re2c DOC "The re2c executable path")
-mark_as_advanced(RE2C_EXECUTABLE)
+find_program(
+  RE2C_EXECUTABLE
+  NAMES re2c
+  DOC "The re2c executable path"
+)
 
 if(RE2C_EXECUTABLE)
   execute_process(
@@ -74,9 +82,13 @@ if(RE2C_EXECUTABLE)
   set(RE2C_VERSION "${RE2C_VERSION_MAJOR}.${RE2C_VERSION_MINOR}.${RE2C_VERSION_PATCH}")
 endif()
 
+mark_as_advanced(RE2C_EXECUTABLE)
+
 find_package_handle_standard_args(
   RE2C
-  REQUIRED_VARS RE2C_EXECUTABLE RE2C_VERSION
+  REQUIRED_VARS
+    RE2C_EXECUTABLE
+    RE2C_VERSION
   VERSION_VAR RE2C_VERSION
   REASON_FAILURE_MESSAGE "re2c not found. Please install re2c."
 )
@@ -101,11 +113,11 @@ if(RE2C_USE_COMPUTED_GOTOS)
       goto *adr[0];
       return 0;
     }
-  " HAVE_RE2C_COMPUTED_GOTOS)
+  " _RE2C_HAVE_COMPUTED_GOTOS)
 
   list(POP_BACK CMAKE_MESSAGE_INDENT)
 
-  if(HAVE_RE2C_COMPUTED_GOTOS)
+  if(_RE2C_HAVE_COMPUTED_GOTOS)
     message(CHECK_PASS "yes")
   else()
     message(CHECK_FAIL "no")
@@ -143,7 +155,7 @@ function(re2c_target)
 
   separate_arguments(options NATIVE_COMMAND "${parsed_OPTIONS}")
 
-  if(RE2C_USE_COMPUTED_GOTOS AND HAVE_RE2C_COMPUTED_GOTOS)
+  if(RE2C_USE_COMPUTED_GOTOS AND _RE2C_HAVE_COMPUTED_GOTOS)
     list(APPEND options "-g")
   endif()
 

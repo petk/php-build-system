@@ -1,21 +1,28 @@
 #[=============================================================================[
 Find the FFI library.
 
-Module defines the following IMPORTED targets:
+Module defines the following IMPORTED target(s):
 
   FFI::FFI
-    The FFI library, if found.
+    The package library, if found.
 
 Result variables:
 
   FFI_FOUND
-    Whether FFI library is found.
+    Whether the package has been found.
   FFI_INCLUDE_DIRS
-    A list of include directories for using FFI library.
+    Include directories needed to use this package.
   FFI_LIBRARIES
-    A list of libraries to link when using FFI library.
+    Libraries needed to link to the package library.
   FFI_VERSION
-    Version string of found FFI library.
+    Package version, if found.
+
+Cache variables:
+
+  FFI_INCLUDE_DIR
+    Directory containing package library headers.
+  FFI_LIBRARY
+    The path to the package library.
 
 Hints:
 
@@ -25,68 +32,91 @@ Hints:
 include(FeatureSummary)
 include(FindPackageHandleStandardArgs)
 
-set_package_properties(FFI PROPERTIES
-  URL "https://sourceware.org/libffi/"
-  DESCRIPTION "Foreign Function Interfaces library"
+set_package_properties(
+  FFI
+  PROPERTIES
+    URL "https://sourceware.org/libffi/"
+    DESCRIPTION "Foreign Function Interfaces library"
 )
 
-set(_reason_failure_message)
+set(_reason "")
 
-find_path(FFI_INCLUDE_DIRS ffi.h)
+# Use pkgconf, if available on the system.
+find_package(PkgConfig QUIET)
+pkg_check_modules(PC_FFI QUIET libffi)
 
-if(NOT FFI_INCLUDE_DIRS)
-  string(
-    APPEND _reason_failure_message
-    "\n    ffi.h not found."
-  )
+find_path(
+  FFI_INCLUDE_DIR
+  NAMES ffi.h
+  PATHS ${PC_FFI_INCLUDE_DIRS}
+  DOC "Directory containing FFI library headers"
+)
+
+if(NOT FFI_INCLUDE_DIR)
+  string(APPEND _reason "ffi.h not found. ")
 endif()
 
-find_library(FFI_LIBRARIES NAMES ffi DOC "The FFI library")
+find_library(
+  FFI_LIBRARY
+  NAMES ffi
+  PATHS ${PC_FFI_LIBRARY_DIRS}
+  DOC "The path to the FFI library"
+)
 
-if(NOT FFI_LIBRARIES)
-  string(
-    APPEND _reason_failure_message
-    "\n    FFI not found. Please install the FFI library (libffi)."
-  )
+if(NOT FFI_LIBRARY)
+  string(APPEND _reason "FFI library (libffi) not found. ")
 endif()
 
 block(PROPAGATE FFI_VERSION)
-  if(FFI_INCLUDE_DIRS)
-    file(
-      STRINGS
-      "${FFI_INCLUDE_DIRS}/ffi.h"
-      results
-      REGEX
-      "^[ \t]*libffi[ \t]+[0-9.]+[ \t]*$"
-    )
+  if(FFI_INCLUDE_DIR)
+    set(regex [[^[ \t]*libffi[ \t]+([0-9.]+)[ \t]*$]])
+    file(STRINGS "${FFI_INCLUDE_DIR}/ffi.h" results REGEX "${regex}")
 
     foreach(line ${results})
-      if(line MATCHES "^[ \t]*libffi[ \t]+([0-9.]+)[ \t]*$")
+      if(line MATCHES "${regex}")
         set(FFI_VERSION "${CMAKE_MATCH_1}")
+        break()
       endif()
     endforeach()
   endif()
+
+  # Version was not found in the header. Try pkgconf, if found.
+  if(NOT FFI_VERSION AND PC_FFI_VERSION)
+    cmake_path(COMPARE "${PC_FFI_INCLUDEDIR}" EQUAL "${FFI_INCLUDE_DIR}" isEqual)
+
+    if(isEqual)
+      set(FFI_VERSION ${PC_FFI_VERSION})
+    endif()
+  endif()
 endblock()
 
-if(FFI_VERSION)
-  set(_ffi_version_argument VERSION_VAR FFI_VERSION)
-endif()
+mark_as_advanced(FFI_INCLUDE_DIR FFI_LIBRARY)
 
 find_package_handle_standard_args(
   FFI
-  REQUIRED_VARS FFI_LIBRARIES FFI_INCLUDE_DIRS
-  ${_ffi_version_argument}
-  REASON_FAILURE_MESSAGE "${_reason_failure_message}"
+  REQUIRED_VARS
+    FFI_LIBRARY
+    FFI_INCLUDE_DIR
+  VERSION_VAR FFI_VERSION
+  REASON_FAILURE_MESSAGE "${_reason}"
 )
 
-unset(_reason_failure_message)
-unset(_ffi_version_argument)
+unset(_reason)
 
-if(FFI_FOUND AND NOT TARGET FFI::FFI)
-  add_library(FFI::FFI INTERFACE IMPORTED)
+if(NOT FFI_FOUND)
+  return()
+endif()
 
-  set_target_properties(FFI::FFI PROPERTIES
-    INTERFACE_INCLUDE_DIRECTORIES "${FFI_INCLUDE_DIRS}"
-    INTERFACE_LINK_LIBRARIES "${FFI_LIBRARIES}"
+set(FFI_INCLUDE_DIRS ${FFI_INCLUDE_DIR})
+set(FFI_LIBRARIES ${FFI_LIBRARY})
+
+if(NOT TARGET FFI::FFI)
+  add_library(FFI::FFI UNKNOWN IMPORTED)
+
+  set_target_properties(
+    FFI::FFI
+    PROPERTIES
+      IMPORTED_LOCATION "${FFI_LIBRARY}"
+      INTERFACE_INCLUDE_DIRECTORIES "${FFI_INCLUDE_DIR}"
   )
 endif()

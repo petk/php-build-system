@@ -98,9 +98,11 @@ target_compile_definitions(php_mysqlnd PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE=1
 
 if(EXT_MYSQLND_COMPRESSION)
   find_package(ZLIB)
-  set_package_properties(ZLIB PROPERTIES
-    TYPE REQUIRED
-    PURPOSE "Necessary to enable compression in the mysqlnd extension."
+  set_package_properties(
+    ZLIB
+    PROPERTIES
+      TYPE REQUIRED
+      PURPOSE "Necessary to enable compression in the mysqlnd extension."
   )
 
   target_link_libraries(php_mysqlnd PRIVATE ZLIB::ZLIB)
@@ -115,9 +117,11 @@ set(MYSQLND_SSL_SUPPORTED 1 CACHE INTERNAL "Enable core mysqlnd SSL code")
 
 if(EXT_MYSQLND_SSL OR EXT_OPENSSL)
   find_package(OpenSSL ${PHP_OPENSSL_MIN_VERSION})
-  set_package_properties(OpenSSL PROPERTIES
-    TYPE REQUIRED
-    PURPOSE "Necessary to enable SSL in the mysqlnd extension."
+  set_package_properties(
+    OpenSSL
+    PROPERTIES
+      TYPE REQUIRED
+      PURPOSE "Necessary to enable SSL in the mysqlnd extension."
   )
 
   target_link_libraries(php_mysqlnd PRIVATE OpenSSL::Crypto)

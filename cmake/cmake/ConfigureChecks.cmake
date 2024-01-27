@@ -424,9 +424,11 @@ if(PHP_GCOV)
   endif()
 
   find_package(Gcov)
-  set_package_properties(Gcov PROPERTIES
-    TYPE REQUIRED
-    PURPOSE "Necessary to enable GCOV coverage report and symbols."
+  set_package_properties(
+    Gcov
+    PROPERTIES
+      TYPE REQUIRED
+      PURPOSE "Necessary to enable GCOV coverage report and symbols."
   )
 
   if(TARGET Gcov::Gcov)

@@ -81,9 +81,11 @@ if(EXT_SESSION_MM)
   )
 
   find_package(MM)
-  set_package_properties(MM PROPERTIES
-    TYPE REQUIRED
-    PURPOSE "Necessary to enable the mm session storage."
+  set_package_properties(
+    MM
+    PROPERTIES
+      TYPE REQUIRED
+      PURPOSE "Necessary to enable the mm session storage."
   )
 
   # Link with PUBLIC scope if include directories are on non-standard places.

@@ -142,11 +142,11 @@ if(EXT_PDO_ODBC_TYPE STREQUAL "ibm-db2")
   if(NOT EXT_PDO_ODBC_ROOT)
     set(ODBC_ROOT "/home/db2inst1/sqllib")
   endif()
-  set(ODBC_LIBRARY "db2")
+  set(ODBC_TYPE "db2")
 elseif(EXT_PDO_ODBC_TYPE STREQUAL "iODBC")
-  set(ODBC_LIBRARY "iodbc")
+  set(ODBC_TYPE "iodbc")
 elseif(EXT_PDO_ODBC_TYPE STREQUAL "unixODBC")
-  set(ODBC_LIBRARY "odbc")
+  set(ODBC_TYPE "odbc")
 endif()
 
 block()
@@ -163,14 +163,16 @@ if(EXT_PDO_ODBC_ROOT AND NOT ODBC_ROOT)
   set(ODBC_ROOT ${EXT_PDO_ODBC_ROOT})
 endif()
 
-if(EXT_PDO_ODBC_LIBRARY AND NOT ODBC_LIBRARY)
-  set(ODBC_LIBRARY ${EXT_PDO_ODBC_LIBRARY})
+if(EXT_PDO_ODBC_LIBRARY AND NOT ODBC_TYPE)
+  set(ODBC_TYPE ${EXT_PDO_ODBC_LIBRARY})
 endif()
 
 find_package(ODBC)
-set_package_properties(ODBC PROPERTIES
-  TYPE REQUIRED
-  PURPOSE "Necessary to enable the pdo_odbc extension."
+set_package_properties(
+  ODBC
+  PROPERTIES
+    TYPE REQUIRED
+    PURPOSE "Necessary to enable the pdo_odbc extension."
 )
 
 if(TARGET ODBC::ODBC)
@@ -224,7 +226,7 @@ if(TARGET ODBC::ODBC)
   endblock()
 
   # Check for an ODBC 1.0 function to assert that the libraries work.
-  check_library_exists("${ODBC_LIBRARIES}" SQLBindCol "" HAVE_SQLBINDCOL)
+  check_library_exists("${ODBC_LIBRARY}" SQLBindCol "" HAVE_SQLBINDCOL)
 
   if(NOT HAVE_SQLBINDCOL)
     message(

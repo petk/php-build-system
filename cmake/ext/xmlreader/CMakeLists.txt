@@ -36,9 +36,11 @@ target_compile_definitions(
 )
 
 find_package(LibXml2 ${PHP_LIBXML2_MIN_VERSION})
-set_package_properties(LibXml2 PROPERTIES
-  TYPE REQUIRED
-  PURPOSE "Necessary to enable the xmlreader extension."
+set_package_properties(
+  LibXml2
+  PROPERTIES
+    TYPE REQUIRED
+    PURPOSE "Necessary to enable the xmlreader extension."
 )
 
 target_link_libraries(php_xmlreader PRIVATE LibXml2::LibXml2)

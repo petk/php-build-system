@@ -1,21 +1,28 @@
 #[=============================================================================[
 Find the crypt library and run a set of checks for PHP to use the crypt library.
 
-Module defines the following IMPORTED targets:
+# TODO: Fix this better.
+
+Module defines the following IMPORTED target(s):
 
   Crypt::Crypt
-    The crypt library, if found.
+    The package library, if found.
 
 Result variables:
 
   Crypt_FOUND
-    Whether crypt has been found.
+    Whether the package has been found.
   Crypt_INCLUDE_DIRS
-    A list of include directories for using crypt library.
+    Include directories needed to use this package.
   Crypt_LIBRARIES
-    A list of libraries for linking when using crypt library.
+    Libraries needed to link to the package library.
 
 Cache variables:
+
+  Crypt_INCLUDE_DIR
+    Directory containing package library headers.
+  Crypt_LIBRARY
+    The path to the package library.
   HAVE_CRYPT_H
   HAVE_CRYPT
   HAVE_CRYPT_R
@@ -31,8 +38,10 @@ include(CMakePushCheckState)
 include(FindPackageHandleStandardArgs)
 include(PHP/SearchLibraries)
 
-set_package_properties(Crypt PROPERTIES
-  DESCRIPTION "Crypt library"
+set_package_properties(
+  Crypt
+  PROPERTIES
+    DESCRIPTION "Crypt library"
 )
 
 ################################################################################
@@ -155,7 +164,17 @@ endfunction()
 
 check_include_file(crypt.h HAVE_CRYPT_H)
 
-find_path(Crypt_INCLUDE_DIRS crypt.h)
+set(_reason "")
+
+find_path(
+  Crypt_INCLUDE_DIR
+  NAMES crypt.h
+  DOC "Directory containing Crypt library headers"
+)
+
+if(NOT Crypt_INCLUDE_DIR)
+  string(APPEND _reason "crypt.h not found. ")
+endif()
 
 php_search_libraries(
   crypt
@@ -177,13 +196,8 @@ php_search_libraries(
   LIBRARIES crypt
 )
 
-set(_reason_failure_message)
-
 if(NOT HAVE_CRYPT_R)
-  string(
-    APPEND _reason_failure_message
-    "\n    Required crypt_r could not be found."
-  )
+  string(APPEND _reason "Required crypt_r could not be found. ")
 endif()
 
 if(CRYPT_R_LIBRARY)
@@ -193,10 +207,7 @@ endif()
 _crypt_check_crypt_r_style(${CRYPT_R_LIBRARY})
 
 if(NOT CRYPT_R_WORKS)
-  string(
-    APPEND _reason_failure_message
-    "\n    Unable to detect data struct used by crypt_r."
-  )
+  string(APPEND _reason "Unable to detect data struct used by crypt_r. ")
 endif()
 
 ################################################################################
@@ -466,8 +477,8 @@ if(
   OR NOT _crypt_sha256
 )
   string(
-    APPEND _reason_failure_message
-    "\n    Cannot use external crypt library as some algos are missing."
+    APPEND _reason
+    "Cannot use external crypt library as some algos are missing. "
   )
 endif()
 
@@ -479,7 +490,7 @@ find_package_handle_standard_args(
   Crypt
   REQUIRED_VARS
     Crypt_LIBRARIES
-    Crypt_INCLUDE_DIRS
+    Crypt_INCLUDE_DIR
     HAVE_CRYPT_R
     CRYPT_R_WORKS
     _crypt_des
@@ -488,21 +499,26 @@ find_package_handle_standard_args(
     _crypt_blowfish
     _crypt_sha512
     _crypt_sha256
-  REASON_FAILURE_MESSAGE "${_reason_failure_message}"
+  REASON_FAILURE_MESSAGE "${_reason}"
 )
 
-unset(_reason_failure_message)
+unset(_reason)
 unset(CRYPT_R_WORKS)
 
 if(NOT Crypt_FOUND)
   return()
 endif()
 
+set(Crypt_INCLUDE_DIRS ${Crypt_INCLUDE_DIR})
+#set(Crypt_LIBRARIES ${Crypt_LIBRARY})
+
 if(NOT TARGET Crypt::Crypt)
   add_library(Crypt::Crypt INTERFACE IMPORTED)
 
-  set_target_properties(Crypt::Crypt PROPERTIES
-    INTERFACE_INCLUDE_DIRECTORIES "${Crypt_INCLUDE_DIRS}"
-    INTERFACE_LINK_LIBRARIES "${Crypt_LIBRARIES}"
+  set_target_properties(
+    Crypt::Crypt
+    PROPERTIES
+      INTERFACE_LINK_LIBRARIES "${Crypt_LIBRARIES}"
+      INTERFACE_INCLUDE_DIRECTORIES "${Crypt_INCLUDE_DIR}"
   )
 endif()

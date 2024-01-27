@@ -50,9 +50,11 @@ if(CMAKE_PREFIX_PATH OR Intl_ROOT)
 endif()
 
 find_package(Intl)
-set_package_properties(Intl PROPERTIES
-  TYPE REQUIRED
-  PURPOSE "Necessary to enable the gettext extension."
+set_package_properties(
+  Intl
+  PROPERTIES
+    TYPE REQUIRED
+    PURPOSE "Necessary to enable the gettext extension."
 )
 
 target_link_libraries(php_gettext PRIVATE Intl::Intl)

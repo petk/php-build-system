@@ -1,21 +1,28 @@
 #[=============================================================================[
 Find the Firebird library.
 
-Module defines the following IMPORTED targets:
+Module defines the following IMPORTED target(s):
 
   Firebird::Firebird
-    The Firebird library, if found.
+    The package library, if found.
 
 Result variables:
 
   Firebird_FOUND
-    Whether Firebird has been found.
+    Whether the package has been found.
   Firebird_INCLUDE_DIRS
-    A list of include directories for using Firebird library.
+    Include directories needed to use this package.
   Firebird_LIBRARIES
-    A list of libraries for linking when using Firebird library.
+    Libraries needed to link to the package library.
   Firebird_VERSION
     Version of Firebird if fb-config utility is available.
+
+Cache variables:
+
+  Firebird_INCLUDE_DIR
+    Directory containing package library headers.
+  Firebird_LIBRARY
+    The path to the package library.
   Firebird_CONFIG_EXECUTABLE
     Path to the fb_config Firebird command-line utility.
 
@@ -28,90 +35,96 @@ include(CheckLibraryExists)
 include(FeatureSummary)
 include(FindPackageHandleStandardArgs)
 
-set_package_properties(Firebird PROPERTIES
-  URL "https://firebirdsql.org/"
-  DESCRIPTION "SQL relational database management system"
+set_package_properties(
+  Firebird
+  PROPERTIES
+    URL "https://firebirdsql.org/"
+    DESCRIPTION "SQL relational database management system"
 )
 
-set(_reason_failure_message)
+set(_reason "")
 
-find_path(Firebird_INCLUDE_DIRS ibase.h)
+find_path(
+  Firebird_INCLUDE_DIR
+  NAMES ibase.h
+  DOC "Directory containing Firebird library headers"
+)
 
-if(NOT Firebird_INCLUDE_DIRS)
-  string(
-    APPEND _reason_failure_message
-    "\n    ibase.h not found."
-  )
+if(NOT Firebird_INCLUDE_DIR)
+  string(APPEND _reason "ibase.h not found. ")
 endif()
 
 find_library(
-  Firebird_LIBRARIES
+  Firebird_LIBRARY
   NAMES fbclient gds ib_util
-  DOC "The Firebird library"
+  DOC "The path to the Firebird library"
 )
 
-if(NOT Firebird_LIBRARIES)
-  string(
-    APPEND _reason_failure_message
-    "\n    Firebird not found. Please install Firebird."
-  )
+if(NOT Firebird_LIBRARY)
+  string(APPEND _reason "Firebird library not found. ")
 endif()
 
-find_program(Firebird_CONFIG_EXECUTABLE fb_config)
+find_program(
+  Firebird_CONFIG_EXECUTABLE
+  NAMES fb_config
+  DOC "Path to the fb_config Firebird command-line utility"
+)
 
 if(Firebird_CONFIG_EXECUTABLE)
   execute_process(
-    COMMAND ${Firebird_CONFIG_EXECUTABLE} --version
+    COMMAND "${Firebird_CONFIG_EXECUTABLE}" --version
     OUTPUT_VARIABLE Firebird_VERSION
     OUTPUT_STRIP_TRAILING_WHITESPACE
+    ERROR_QUIET
   )
-endif()
-
-if(Firebird_VERSION)
-  set(_firebird_version_argument VERSION_VAR Firebird_VERSION)
 endif()
 
 # Sanity check.
-if(Firebird_LIBRARIES)
+if(Firebird_LIBRARY)
   check_library_exists(
-    "${Firebird_LIBRARIES}"
+    "${Firebird_LIBRARY}"
     isc_detach_database
     ""
-    _firebird_have_isc_detach_database
+    _firebird_sanity_check
   )
 endif()
 
-if(NOT _firebird_have_isc_detach_database)
-  string(
-    APPEND _reason_failure_message
-    "\n    Firebird sanity check failed, isc_detach_database couldn't be found."
-  )
+if(NOT _firebird_sanity_check)
+  string(APPEND _reason "Sanity check failed: isc_detach_database not found. ")
 endif()
 
 mark_as_advanced(
-  Firebird_LIBRARIES
-  Firebird_INCLUDE_DIRS
   Firebird_CONFIG_EXECUTABLE
+  Firebird_INCLUDE_DIR
+  Firebird_LIBRARY
 )
 
 find_package_handle_standard_args(
   Firebird
   REQUIRED_VARS
-    Firebird_LIBRARIES
-    Firebird_INCLUDE_DIRS
-    _firebird_have_isc_detach_database
-  ${_firebird_version_argument}
-  REASON_FAILURE_MESSAGE "${_reason_failure_message}"
+    Firebird_LIBRARY
+    Firebird_INCLUDE_DIR
+    _firebird_sanity_check
+  VERSION_VAR Firebird_VERSION
+  REASON_FAILURE_MESSAGE "${_reason}"
 )
 
-unset(_reason_failure_message)
-unset(_firebird_version_argument)
+unset(_reason)
 
-if(Firebird_FOUND AND NOT TARGET Firebird::Firebird)
-  add_library(Firebird::Firebird INTERFACE IMPORTED)
+if(NOT Firebird_FOUND)
+  return()
+endif()
 
-  set_target_properties(Firebird::Firebird PROPERTIES
-    INTERFACE_INCLUDE_DIRECTORIES "${Firebird_INCLUDE_DIRS}"
-    INTERFACE_LINK_LIBRARIES "${Firebird_LIBRARIES}"
+set(Firebird_INCLUDE_DIRS ${Firebird_INCLUDE_DIR})
+set(Firebird_LIBRARIES ${Firebird_LIBRARY})
+
+if(NOT TARGET Firebird::Firebird)
+  add_library(Firebird::Firebird UNKNOWN IMPORTED)
+
+  set_target_properties(
+    Firebird::Firebird
+    PROPERTIES
+      IMPORTED_LOCATION "${Firebird_LIBRARY}"
+      INTERFACE_INCLUDE_DIRECTORIES "${Firebird_INCLUDE_DIR}"
   )
 endif()

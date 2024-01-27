@@ -74,9 +74,11 @@ if(CMAKE_PREFIX_PATH OR Iconv_ROOT)
 endif()
 
 find_package(Iconv)
-set_package_properties(Iconv PROPERTIES
-  TYPE REQUIRED
-  PURPOSE "Necessary to enable the iconv extension."
+set_package_properties(
+  Iconv
+  PROPERTIES
+    TYPE REQUIRED
+    PURPOSE "Necessary to enable the iconv extension."
 )
 
 target_link_libraries(php_iconv PRIVATE Iconv::Iconv)

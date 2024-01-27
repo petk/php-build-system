@@ -1,7 +1,7 @@
 #[=============================================================================[
 Find the atomic instructions.
 
-Module defines the following IMPORTED targets:
+Module defines the following IMPORTED target(s):
 
   Atomic::Atomic
     The Atomic library, if found.
@@ -18,7 +18,7 @@ include(CheckSourceCompiles)
 include(CMakePushCheckState)
 include(FindPackageHandleStandardArgs)
 
-set(_atomic_test "
+set(_atomic_test [[
   #include <stdatomic.h>
 
   int main(void) {
@@ -30,7 +30,7 @@ set(_atomic_test "
 
     return 0;
   }
-")
+]])
 
 check_source_compiles(C "${_atomic_test}" _have_atomic)
 
@@ -50,8 +50,6 @@ if(_have_atomic_in_library)
 endif()
 
 unset(_atomic_test)
-unset(_have_atomic CACHE)
-unset(_have_atomic_in_library CACHE)
 
 find_package_handle_standard_args(
   ATOMIC
@@ -59,10 +57,16 @@ find_package_handle_standard_args(
   REASON_FAILURE_MESSAGE "ATOMIC not found. Please install compiler that supports atomic."
 )
 
-if(Atomic_FOUND AND NOT TARGET Atomic::Atomic)
+if(NOT Atomic_FOUND)
+  return()
+endif()
+
+if(NOT TARGET Atomic::Atomic)
   add_library(Atomic::Atomic INTERFACE IMPORTED)
 
-  set_target_properties(Atomic::Atomic PROPERTIES
-    INTERFACE_LINK_LIBRARIES "${Atomic_LIBRARIES}"
+  set_target_properties(
+    Atomic::Atomic
+    PROPERTIES
+      INTERFACE_LINK_LIBRARIES "${Atomic_LIBRARIES}"
   )
 endif()

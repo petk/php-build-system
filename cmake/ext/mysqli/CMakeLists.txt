@@ -78,9 +78,11 @@ if(EXT_MYSQL_SOCK)
   endif()
 
   find_package(MySQL OPTIONAL_COMPONENTS SOCKET)
-  set_package_properties(MySQL PROPERTIES
-    TYPE REQUIRED
-    PURPOSE "Necessary to set the MySQL socket in mysqli extension."
+  set_package_properties(
+    MySQL
+    PROPERTIES
+      TYPE REQUIRED
+      PURPOSE "Necessary to set the MySQL socket in mysqli extension."
   )
 endif()
 

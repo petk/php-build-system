@@ -48,9 +48,11 @@ target_include_directories(
 )
 
 find_package(Firebird)
-set_package_properties(Firebird PROPERTIES
-  TYPE REQUIRED
-  PURPOSE "Necessary to enable the pdo_firebird extension."
+set_package_properties(
+  Firebird
+  PROPERTIES
+    TYPE REQUIRED
+    PURPOSE "Necessary to enable the pdo_firebird extension."
 )
 
 target_link_libraries(php_pdo_firebird PRIVATE Firebird::Firebird)

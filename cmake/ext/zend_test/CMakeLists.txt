@@ -38,9 +38,11 @@ target_compile_definitions(php_zend_test PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE
 # If ext/libxml is enabled, link libxml library.
 if(EXT_LIBXML)
   find_package(LibXml2 ${PHP_LIBXML2_MIN_VERSION})
-  set_package_properties(LibXml2 PROPERTIES
-    TYPE REQUIRED
-    PURPOSE "Necessary to add XML support to zend_test extension."
+  set_package_properties(
+    LibXml2
+    PROPERTIES
+      TYPE REQUIRED
+      PURPOSE "Necessary to add XML support to zend_test extension."
   )
 
   target_link_libraries(php_zend_test PRIVATE LibXml2::LibXml2)

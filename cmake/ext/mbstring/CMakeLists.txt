@@ -116,9 +116,11 @@ endblock()
 
 if(EXT_MBSTRING_MBREGEX)
   find_package(Oniguruma)
-  set_package_properties(Oniguruma PROPERTIES
-    TYPE REQUIRED
-    PURPOSE "Necessary for multibyte regex in the mbstring extension."
+  set_package_properties(
+    Oniguruma
+    PROPERTIES
+      TYPE REQUIRED
+      PURPOSE "Necessary for multibyte regex in the mbstring extension."
   )
 
   target_link_libraries(php_mbstring PRIVATE Oniguruma::Oniguruma)

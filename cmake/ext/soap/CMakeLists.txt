@@ -46,9 +46,11 @@ target_compile_definitions(
 set(HAVE_PHP_SOAP 1 CACHE INTERNAL "Whether the soap extension is enabled")
 
 find_package(LibXml2 ${PHP_LIBXML2_MIN_VERSION})
-set_package_properties(LibXml2 PROPERTIES
-  TYPE REQUIRED
-  PURPOSE "Necessary to enable the soap extension."
+set_package_properties(
+  LibXml2
+  PROPERTIES
+    TYPE REQUIRED
+    PURPOSE "Necessary to enable the soap extension."
 )
 
 target_link_libraries(php_soap PRIVATE LibXml2::LibXml2)
