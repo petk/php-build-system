@@ -52,10 +52,12 @@ target_sources(
 
 target_compile_definitions(php_imap PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE=1)
 
-find_package(CClient)
-set_package_properties(CClient PROPERTIES
-  TYPE REQUIRED
-  PURPOSE "Necessary to enable the imap extension."
+find_package(Cclient)
+set_package_properties(
+  Cclient
+  PROPERTIES
+    TYPE REQUIRED
+    PURPOSE "Necessary to enable the imap extension."
 )
 
 target_link_libraries(
@@ -64,28 +66,27 @@ target_link_libraries(
     $<$<PLATFORM_ID:Windows>:ws2_32;secur32;crypt32;winmm>
   # Link publicly for internal_functions files.
   PUBLIC
-    CClient::CClient
+    Cclient::Cclient
 )
+
+# Whether c-client version is 2000 or newer and c-client.h should be included
+# instead of only rfc822.h on prior versions.
+if(EXISTS ${Cclient_INCLUDE_DIR}/c-client.h)
+  set(HAVE_IMAP2000 1 CACHE INTERNAL "Whether c-client version is 2000 or newer")
+endif()
 
 block()
   message(CHECK_START "Checking for c-client version 2001")
 
-  set(regex [[^[ \t]*#[ \t]*define[ \t]*IMAPSSLPORT[ \t]*\(]])
-  file(STRINGS ${CClient_INCLUDE_DIRS}/imap4r1.h results REGEX "${regex}")
+  file(
+    STRINGS ${Cclient_INCLUDE_DIR}/imap4r1.h
+    imapsslport_results
+    REGEX [[^[ \t]*#[ \t]*define[ \t]*IMAPSSLPORT[ \t]*\(.+\)]]
+  )
 
-  foreach(line ${results})
-    if(line MATCHES "${regex}")
-      set(have_imapsslport TRUE)
-      break()
-    endif()
-  endforeach()
-
-  if(have_imapsslport)
+  if(imapsslport_results)
     message(CHECK_PASS "yes")
-    set(
-      HAVE_IMAP2001 1
-      CACHE INTERNAL "Whether c-client version is 2001 or newer"
-    )
+    set(HAVE_IMAP2001 1 CACHE INTERNAL "Whether c-client version is 2001 or more")
   else()
     message(CHECK_FAIL "no")
   endif()
@@ -101,7 +102,7 @@ endif()
 
 message(CHECK_START "Checking for new utf8_mime2text signature")
 cmake_push_check_state(RESET)
-  set(CMAKE_REQUIRED_LIBRARIES CClient::CClient)
+  set(CMAKE_REQUIRED_LIBRARIES Cclient::Cclient)
   set(CMAKE_REQUIRED_QUIET TRUE)
 
   check_source_compiles(C [[
@@ -127,7 +128,7 @@ endif()
 
 check_symbol_exists(
   U8T_DECOMPOSE
-  "${CClient_INCLUDE_DIRS}/c-client.h"
+  ${Cclient_INCLUDE_DIR}/c-client.h
   _HAVE_U8T_DECOMPOSE
 )
 
@@ -148,24 +149,22 @@ endif()
 block()
   message(CHECK_START "Checking for Kerberos support in imap extension")
 
-  set(regex [[auth_gss;$]])
-  file(STRINGS ${CClient_INCLUDE_DIRS}/linkage.h results REGEX "${regex}")
+  file(
+    STRINGS ${Cclient_INCLUDE_DIR}/linkage.h
+    auth_gss_results
+    REGEX [[auth_gss;$]]
+  )
 
-  foreach(line ${results})
-    if(line MATCHES "${regex}")
-      set(have_auth_gss TRUE)
-      break()
-    endif()
-  endforeach()
-
-  if((NOT EXT_IMAP_KERBEROS AND have_auth_gss) OR EXT_IMAP_KERBEROS)
+  if((NOT EXT_IMAP_KERBEROS AND auth_gss_results) OR EXT_IMAP_KERBEROS)
     find_package(Kerberos COMPONENTS Krb5 GSSAPI)
-    set_package_properties(Kerberos PROPERTIES
-      TYPE REQUIRED
-      PURPOSE "Necessary for Kerberos support in the imap extension."
+    set_package_properties(
+      Kerberos
+      PROPERTIES
+        TYPE REQUIRED
+        PURPOSE "Necessary for Kerberos support in the imap extension."
     )
 
-    target_link_libraries(php_imap PRIVATE Kerberos::Kerberos)
+    target_link_libraries(php_imap PRIVATE Kerberos::Krb5 Kerberos::GSSAPI)
 
     if(Kerberos_FOUND)
       set(HAVE_IMAP_KRB 1 CACHE INTERNAL "Whether imap has Kerberos support")
@@ -173,7 +172,7 @@ block()
     else()
       message(CHECK_FAIL "failed")
 
-      if(have_auth_gss)
+      if(auth_gss_results)
         message(
           WARNING
           "The imap extenson requires Kerberos because c-client library is "
@@ -189,21 +188,19 @@ endblock()
 block()
   message(CHECK_START "Checking for SSL support in imap extension")
 
-  set(regex [[ssl_onceonlyinit[ \t]*\(\);$]])
-  file(STRINGS ${CClient_INCLUDE_DIRS}/linkage.c results REGEX "${regex}")
+  file(
+    STRINGS ${Cclient_INCLUDE_DIR}/linkage.c
+    ssl_onceonlyinit_results
+    REGEX [[ssl_onceonlyinit[ \t]*\(\);$]]
+  )
 
-  foreach(line ${results})
-    if(line MATCHES "${regex}")
-      set(have_ssl_onceonlyinit TRUE)
-      break()
-    endif()
-  endforeach()
-
-  if((NOT EXT_IMAP_SSL AND have_ssl_onceonlyinit) OR EXT_IMAP_SSL)
+  if((NOT EXT_IMAP_SSL AND ssl_onceonlyinit_results) OR EXT_IMAP_SSL)
     find_package(OpenSSL ${PHP_OPENSSL_MIN_VERSION})
-    set_package_properties(OpenSSL PROPERTIES
-      TYPE REQUIRED
-      PURPOSE "Necessary to enable SSL in the imap extension."
+    set_package_properties(
+      OpenSSL
+      PROPERTIES
+        TYPE REQUIRED
+        PURPOSE "Necessary to enable SSL in the imap extension."
     )
 
     target_link_libraries(php_imap PRIVATE OpenSSL::SSL)
@@ -214,7 +211,7 @@ block()
     else()
       message(CHECK_FAIL "failed")
 
-      if(have_ssl_onceonlyinit)
+      if(ssl_onceonlyinit_results)
         message(
           WARNING
           "The imap extension requires SSL becasue c-client library is built "
