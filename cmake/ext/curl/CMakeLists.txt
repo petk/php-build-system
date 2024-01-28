@@ -53,14 +53,20 @@ set_package_properties(
 
 target_link_libraries(php_curl PRIVATE CURL::libcurl)
 
-# Checking if libcurl is linked against old OpenSSL.
-# TODO: OpenSSL 3.x is here detected as old OpenSSL. Is this ok?
+# Check whether to link against OpenSSL to have crypto locking callbacks when
+# thread safety is enabled. If libcurl is linked against OpenSSL 1.1 or newer,
+# linking isn't needed anymore.
 if(PHP_THREAD_SAFETY AND CURL_SSL_FOUND)
+  message(CHECK_START "Checking if libcurl is linked against old OpenSSL < 1.1")
+
   if(NOT CMAKE_CROSSCOMPILING)
     cmake_push_check_state(RESET)
       set(CMAKE_REQUIRED_LIBRARIES CURL::libcurl)
+      set(CMAKE_REQUIRED_INCLUDES ${CURL_INCLUDE_DIRS})
+      set(CMAKE_REQUIRED_QUIET TRUE)
 
-      check_source_runs(C "
+      check_source_runs(C [[
+        #include <stdio.h>
         #include <strings.h>
         #include <curl/curl.h>
 
@@ -71,11 +77,20 @@ if(PHP_THREAD_SAFETY AND CURL_SSL_FOUND)
             const char *ptr = data->ssl_version;
 
             while(*ptr == ' ') ++ptr;
-            if (strncasecmp(ptr, \"OpenSSL/1.1\", sizeof(\"OpenSSL/1.1\")-1) == 0) {
-              /* New OpenSSL version */
-              return 3;
+            int major, minor;
+            if (sscanf(ptr, "OpenSSL/%d", &major) == 1) {
+              if (major >= 3) {
+                /* OpenSSL version 3 or later */
+                return 4;
+              }
             }
-            if (strncasecmp(ptr, \"OpenSSL\", sizeof(\"OpenSSL\")-1) == 0) {
+            if (sscanf(ptr, "OpenSSL/%d.%d", &major, &minor) == 2) {
+              if (major > 1 || (major == 1 && minor >= 1)) {
+                /* OpenSSL version 1.1 or later */
+                return 3;
+              }
+            }
+            if (strncasecmp(ptr, "OpenSSL", sizeof("OpenSSL")-1) == 0) {
               /* Old OpenSSL version */
               return 0;
             }
@@ -85,18 +100,20 @@ if(PHP_THREAD_SAFETY AND CURL_SSL_FOUND)
           /* No SSL support */
           return 1;
         }
-      " HAVE_CURL_OLD_OPENSSL)
+      ]] HAVE_CURL_OLD_OPENSSL)
     cmake_pop_check_state()
   endif()
 
-  if(HAVE_CURL_OLD_OPENSSL)
-    # TODO: Should a minimum OpenSSL version be used here?
-    find_package(OpenSSL)
+  if(NOT HAVE_CURL_OLD_OPENSSL)
+    message(CHECK_FAIL "no")
+  else()
+    message(CHECK_PASS "yes")
+    find_package(OpenSSL ${PHP_OPENSSL_MIN_VERSION})
     set_package_properties(
       OpenSSL
       PROPERTIES
         TYPE REQUIRED
-        PURPOSE "Necessary to enable the curl extension."
+        PURPOSE "Necessary for crypto locking callbacks in the curl extension."
     )
 
     target_link_libraries(php_curl PRIVATE OpenSSL::Crypto)
