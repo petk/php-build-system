@@ -142,9 +142,11 @@ if(CMAKE_HOST_SYSTEM_NAME MATCHES "^CYGWIN.*")
 endif()
 
 find_package(ICU 50.1 COMPONENTS io uc i18n)
-# Upstream CMake module doesn't set this as advanced variable.
-# TODO: Remove this once CMake fixes this.
-mark_as_advanced(ICU_INCLUDE_DIR)
+# Upstream CMake module doesn't mark these as advanced variables.
+# https://gitlab.kitware.com/cmake/cmake/-/merge_requests/9199
+if(CMAKE_VERSION VERSION_LESS 3.29)
+  mark_as_advanced(ICU_INCLUDE_DIR)
+endif()
 set_package_properties(
   ICU
   PROPERTIES
