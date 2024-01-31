@@ -43,7 +43,7 @@ target_sources(
         php_curl.h
 )
 
-find_package(CURL 7.29.0 OPTIONAL_COMPONENTS SSL)
+find_package(CURL 7.61.0 OPTIONAL_COMPONENTS SSL)
 set_package_properties(
   CURL
   PROPERTIES

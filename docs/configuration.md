@@ -194,14 +194,6 @@ with CMake:
 
     Select the MySQL driver for pdo_mysql extension.
 
-  * `EXT_PDO_MYSQL_ROOT`
-
-    Set path to MySQL library.
-
-  * `EXT_PDO_MYSQL_CONFIG`
-
-    Set path to the MySQL config command-line tool.
-
 * `EXT_PDO_ODBC=OFF|ON`
 
   Default: `OFF`
@@ -1187,13 +1179,13 @@ A list of Autoconf `configure` command-line configuration options, Windows
     <tr>
       <td>&emsp;--without-db1</td>
       <td></td>
-      <td>EXT_DBA_DB_1=OFF</td>
+      <td>EXT_DBA_DB1=OFF</td>
       <td>default</td>
     </tr>
     <tr>
       <td>&emsp;--with-db1</td>
       <td></td>
-      <td>EXT_DBA_DB_1=ON</td>
+      <td>EXT_DBA_DB1=ON</td>
       <td></td>
     </tr>
     <tr>
@@ -1861,21 +1853,21 @@ A list of Autoconf `configure` command-line configuration options, Windows
     <tr>
       <td>--without-mysql-sock</td>
       <td></td>
-      <td>EXT_MYSQL_SOCK=OFF</td>
+      <td>EXT_MYSQL_SOCKET=OFF</td>
       <td>default</td>
     </tr>
     <tr>
       <td>&emsp;--with-mysql-sock</td>
       <td></td>
-      <td>EXT_MYSQL_SOCK=ON</td>
+      <td>EXT_MYSQL_SOCKET=ON</td>
       <td></td>
     </tr>
     <tr>
       <td>&emsp;--with-mysql-sock=SOCKET</td>
       <td></td>
       <td>
-        EXT_MYSQL_SOCK=ON<br>
-        EXT_MYSQL_SOCK_PATH=/path/to/mysql.sock
+        EXT_MYSQL_SOCKET=ON<br>
+        EXT_MYSQL_SOCKET_PATH=/path/to/mysql.sock
       </td>
       <td></td>
     </tr>
@@ -2371,6 +2363,12 @@ A list of Autoconf `configure` command-line configuration options, Windows
       <td></td>
     </tr>
     <tr>
+      <td>&emsp;--with-pdo-mysql=mysqlnd</td>
+      <td></td>
+      <td>EXT_PDO_MYSQL=ON</td>
+      <td></td>
+    </tr>
+    <tr>
       <td>&emsp;--with-pdo-mysql=shared</td>
       <td></td>
       <td>EXT_PDO_MYSQL_SHARED=ON</td>
@@ -2391,7 +2389,7 @@ A list of Autoconf `configure` command-line configuration options, Windows
       <td>
         EXT_PDO_MYSQL=ON<br>
         EXT_PDO_MYSQL_DRIVER=mysql<br>
-        EXT_PDO_MYSQL_ROOT=DIR
+        MySQL_ROOT=DIR
       </td>
       <td></td>
     </tr>
@@ -2401,7 +2399,7 @@ A list of Autoconf `configure` command-line configuration options, Windows
       <td>
         EXT_PDO_MYSQL=ON<br>
         EXT_PDO_MYSQL_DRIVER=mysql<br>
-        EXT_PDO_MYSQL_CONFIG=path/to/mysql_config
+        MySQL_CONFIG_EXECUTABLE=path/to/mysql_config
       </td>
       <td></td>
     </tr>
