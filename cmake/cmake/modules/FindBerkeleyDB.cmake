@@ -1,9 +1,6 @@
 #[=============================================================================[
 Find the Berkeley DB library.
 
-Set BerkeleyDB_USE_DB1 to TRUE before calling find_package(BerkeleyDB) to enable
-the Berkeley DB 1.x support/emulation.
-
 Module defines the following IMPORTED target(s):
 
   BerkeleyDB::BerkeleyDB
@@ -17,10 +14,6 @@ Result variables:
     Include directories needed to use this package.
   BerkeleyDB_LIBRARIES
     Libraries needed to link to the package library.
-  BerkeleyDB_DB1_VERSION_STRING
-    Version string of Berkeley DB 1.x support/emulation.
-  BerkeleyDB_DB1_HEADER
-    Path to the db_185.h if available.
 
 Cache variables:
 
@@ -28,10 +21,15 @@ Cache variables:
     Directory containing package library headers.
   BerkeleyDB_LIBRARY
     The path to the package library.
+  BerkeleyDB_DB1_INCLUDE_DIR
+    Directory containing headers for DB1 emulation support in Berkeley DB.
 
 Hints:
 
   The BerkeleyDB_ROOT variable adds custom search path.
+
+  Set BerkeleyDB_USE_DB1 to TRUE before calling find_package(BerkeleyDB) to
+  enable the Berkeley DB 1.x support/emulation.
 #]=============================================================================]
 
 include(CheckSourceCompiles)
@@ -79,23 +77,19 @@ if(BerkeleyDB_USE_DB1)
     set(CMAKE_REQUIRED_LIBRARIES ${BerkeleyDB_LIBRARY})
     set(CMAKE_REQUIRED_INCLUDES ${BerkeleyDB_DB1_INCLUDE_DIR})
 
-    check_source_compiles(C "
+    check_source_compiles(C [[
       #include <db_185.h>
       int main(void) {
-        DB * dbp = dbopen(\"\", 0, 0, DB_HASH, 0);
+        DB * dbp = dbopen("", 0, 0, DB_HASH, 0);
         return 0;
       }
-    " _berkeleydb_db1_sanity_check)
+    ]] _berkeleydb_db1_sanity_check)
   cmake_pop_check_state()
 
-  if(BerkeleyDB_DB1_INCLUDE_DIR AND _berkeleydb_db1_sanity_check)
-    list(APPEND BerkeleyDB_INCLUDE_DIRS ${BerkeleyDB_DB1_INCLUDE_DIR})
-    list(REMOVE_DUPLICATES BerkeleyDB_INCLUDE_DIRS)
-
-    set(BerkeleyDB_DB1_VERSION_STRING "Berkeley DB 1.85 emulation in DB")
-    set(BerkeleyDB_DB1_HEADER "${BerkeleyDB_DB1_INCLUDE_DIR}/db_185.h")
+  if(NOT _berkeleydb_db1_sanity_check)
+    unset(BerkeleyDB_DB1_INCLUDE_DIR CACHE)
   else()
-    message(WARNING "Berkeley DB 1.x support/emulation not found")
+    message(WARNING "Berkeley DB 1.x support/emulation not enabled")
   endif()
 endif()
 
@@ -141,7 +135,12 @@ if(NOT BerkeleyDB_FOUND)
   return()
 endif()
 
-set(BerkeleyDB_INCLUDE_DIRS ${BerkeleyDB_INCLUDE_DIR} ${BerkeleyDB_DB1_INCLUDE_DIR})
+set(
+  BerkeleyDB_INCLUDE_DIRS
+  ${BerkeleyDB_INCLUDE_DIR}
+  ${BerkeleyDB_DB1_INCLUDE_DIR}
+)
+list(REMOVE_DUPLICATES BerkeleyDB_INCLUDE_DIRS)
 set(BerkeleyDB_LIBRARIES ${BerkeleyDB_LIBRARY})
 
 if(NOT TARGET BerkeleyDB::BerkeleyDB)
@@ -151,6 +150,6 @@ if(NOT TARGET BerkeleyDB::BerkeleyDB)
     BerkeleyDB::BerkeleyDB
     PROPERTIES
       IMPORTED_LOCATION "${BerkeleyDB_LIBRARY}"
-      INTERFACE_INCLUDE_DIRECTORIES "${BerkeleyDB_INCLUDE_DIR}"
+      INTERFACE_INCLUDE_DIRECTORIES "${BerkeleyDB_INCLUDE_DIR};${BerkeleyDB_DB1_INCLUDE_DIR}"
   )
 endif()

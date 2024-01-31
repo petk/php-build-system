@@ -489,11 +489,11 @@ if(M_LIBRARY)
   )
 endif()
 
-if(CMAKE_HOST_SYSTEM_PROCESSOR MATCHES "riscv64.*")
+if(CMAKE_HOST_SYSTEM_PROCESSOR MATCHES "^riscv64.*")
   find_package(Atomic)
 
-  if(Atomic_FOUND AND Atomic_LIBRARIES)
-    target_link_libraries(php_configuration INTERFACE ${Atomic_LIBRARIES})
+  if(Atomic_FOUND)
+    target_link_libraries(php_configuration INTERFACE Atomic::Atomic)
   endif()
 endif()
 

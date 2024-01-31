@@ -6,25 +6,28 @@ searches for MySQL Unix socket pointer and can be extended more in the future.
 
 Components:
 
-  SOCKET
+  Socket
     The MySQL Unix socket pointer.
 
-  LIBRARY
-    The MySQL library.
+  Lib
+    The MySQL library or client.
 
 Module defines the following IMPORTED target(s):
 
   MySQL::MySQL
-    The MySQL-compatible library, if found, when using the LIBRARY component.
+    The MySQL-compatible library, if found, when using the Lib component.
 
 Result variables:
 
-  MySQL_SOCKET
-    Path to the MySQL Unix socket if one has been found in the predefined
-    default locations. If Mysql_PATH variable is set, the MySQL Unix
-    socket pointer is set to it instead.
-  MySQL_SOCKET_FOUND
+  MySQL_Socket_FOUND
     Whether the MySQL Unix socket pointer has been determined.
+  MySQL_Socket_PATH
+    Path to the MySQL Unix socket if one has been found in the predefined
+    default locations.
+  MySQL_Lib_FOUND
+    Whether the Lib component has been found.
+  MySQL_FOUND
+    Whether the package with requested components has been found.
   MySQL_INCLUDE_DIRS
     MySQL include directories.
   MySQL_LIBRARIES
@@ -33,8 +36,7 @@ Result variables:
 Cache variables:
 
   MySQL_CONFIG_EXECUTABLE
-    The mysql_config command-line tool on *nix systems for getting MySQL
-    installation info.
+    The mysql_config command-line tool for getting MySQL installation info.
   Mysql_INCLUDE_DIR
     Directory containing package library headers.
   Mysql_LIBRARY
@@ -42,7 +44,7 @@ Cache variables:
 
 Hints:
 
-  The MySQL_SOCKET variable can be overridden.
+  The MySQL_Socket_PATH variable can be overridden.
 
   The MySQL_ROOT variable adds custom search path.
 ]=============================================================================]#
@@ -65,46 +67,47 @@ find_program(
   DOC "The mysql_config command-line tool for getting MySQL installation info"
 )
 
-# MySQL socket component.
-if("SOCKET" IN_LIST MySQL_FIND_COMPONENTS)
-  if(NOT MySQL_SOCKET AND MySQL_CONFIG_EXECUTABLE)
+# Find the Socket component.
+if("Socket" IN_LIST MySQL_FIND_COMPONENTS)
+  if(NOT MySQL_Socket_PATH AND MySQL_CONFIG_EXECUTABLE)
     execute_process(
       COMMAND ${MySQL_CONFIG_EXECUTABLE} --socket
-      OUTPUT_VARIABLE MySQL_SOCKET
+      OUTPUT_VARIABLE MySQL_Socket_PATH
       OUTPUT_STRIP_TRAILING_WHITESPACE
+      ERROR_QUIET
     )
   endif()
 
-  if(NOT MySQL_SOCKET)
-    set(_mysql_sockets
-      /var/run/mysqld/mysqld.sock
-      /var/tmp/mysql.sock
-      /var/run/mysql/mysql.sock
-      /var/lib/mysql/mysql.sock
-      /var/mysql/mysql.sock
-      /usr/local/mysql/var/mysql.sock
-      /Private/tmp/mysql.sock
-      /private/tmp/mysql.sock
-      /tmp/mysql.sock
+  if(NOT MySQL_Socket_PATH)
+    foreach(
+      socket
+      IN ITEMS
+        /var/run/mysqld/mysqld.sock
+        /var/tmp/mysql.sock
+        /var/run/mysql/mysql.sock
+        /var/lib/mysql/mysql.sock
+        /var/mysql/mysql.sock
+        /usr/local/mysql/var/mysql.sock
+        /Private/tmp/mysql.sock
+        /private/tmp/mysql.sock
+        /tmp/mysql.sock
     )
-
-    foreach(socket ${_mysql_sockets})
       if(EXISTS ${socket})
-        set(MySQL_SOCKET ${socket})
+        set(MySQL_Socket_PATH ${socket})
         break()
       endif()
     endforeach()
   endif()
 
-  if(NOT MySQL_SOCKET)
+  if(NOT MySQL_Socket_PATH)
     string(APPEND _reason "MySQL Unix Socket pointer not found. ")
   else()
-    set(MySQL_SOCKET_FOUND TRUE)
+    set(MySQL_Socket_FOUND TRUE)
   endif()
 endif()
 
 # MySQL library component.
-if("LIBRARY" IN_LIST MySQL_FIND_COMPONENTS)
+if("Lib" IN_LIST MySQL_FIND_COMPONENTS)
   if(MySQL_CONFIG_EXECUTABLE)
     execute_process(
       COMMAND ${MySQL_CONFIG_EXECUTABLE} --variable=pkgincludedir
@@ -145,7 +148,7 @@ if("LIBRARY" IN_LIST MySQL_FIND_COMPONENTS)
   endif()
 
   if(MySQL_INCLUDE_DIR AND MySQL_LIBRARY)
-    set(MySQL_LIBRARY_FOUND TRUE)
+    set(MySQL_Lib_FOUND TRUE)
   endif()
 endif()
 
@@ -164,7 +167,7 @@ endif()
 set(MySQL_INCLUDE_DIRS ${MySQL_INCLUDE_DIR})
 set(MySQL_LIBRARIES ${MySQL_LIBRARY})
 
-if(MySQL_LIBRARY_FOUND AND NOT TARGET MySQL::MySQL)
+if(MySQL_Lib_FOUND AND NOT TARGET MySQL::MySQL)
   add_library(MySQL::MySQL UNKNOWN IMPORTED)
 
   set_target_properties(

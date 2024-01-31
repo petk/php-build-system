@@ -115,10 +115,12 @@ else()
   add_library(php_pdo_odbc)
 endif()
 
-target_sources(php_pdo_odbc PRIVATE
-  odbc_driver.c
-  odbc_stmt.c
-  pdo_odbc.c
+target_sources(
+  php_pdo_odbc
+  PRIVATE
+    odbc_driver.c
+    odbc_stmt.c
+    pdo_odbc.c
 )
 
 set_target_properties(
@@ -186,27 +188,27 @@ if(TARGET ODBC::ODBC)
 
   # Sanity checks.
   block()
-    set(headers
-      cli0cli.h
-      cli0core.h
-      cli0defs.h
-      cli0env.h
-      cli0ext.h
-      iodbc.h
-      isql.h
-      isqlext.h
-      LibraryManager.h
-      odbc.h
-      sql.h
-      sqlcli1.h
-      sqlext.h
-      sqltypes.h
-      sqlucode.h
-      sqlunix.h
-      udbcext.h
+    foreach(
+      header
+      IN ITEMS
+        cli0cli.h
+        cli0core.h
+        cli0defs.h
+        cli0env.h
+        cli0ext.h
+        iodbc.h
+        isql.h
+        isqlext.h
+        LibraryManager.h
+        odbc.h
+        sql.h
+        sqlcli1.h
+        sqlext.h
+        sqltypes.h
+        sqlucode.h
+        sqlunix.h
+        udbcext.h
     )
-
-    foreach(header ${headers})
       string(REGEX REPLACE "[ ./]" "_" const ${header})
       string(TOUPPER ${const} const_upper)
 
@@ -226,9 +228,9 @@ if(TARGET ODBC::ODBC)
   endblock()
 
   # Check for an ODBC 1.0 function to assert that the libraries work.
-  check_library_exists("${ODBC_LIBRARY}" SQLBindCol "" HAVE_SQLBINDCOL)
+  check_library_exists("${ODBC_LIBRARY}" SQLBindCol "" _HAVE_SQLBINDCOL)
 
-  if(NOT HAVE_SQLBINDCOL)
+  if(NOT _HAVE_SQLBINDCOL)
     message(
       FATAL_ERROR
       "Could not find the SQLBindCol ODBC 1.0 function in the ODBC library."
@@ -236,9 +238,9 @@ if(TARGET ODBC::ODBC)
   endif()
 
   # Check for an ODBC 3.0 function to assert that they're *good* libraries.
-  check_library_exists("${ODBC_LIBRARIES}" SQLAllocHandle "" HAVE_SQLALLOCHANDLE)
+  check_library_exists("${ODBC_LIBRARIES}" SQLAllocHandle "" _HAVE_SQLALLOCHANDLE)
 
-  if(NOT HAVE_SQLALLOCHANDLE)
+  if(NOT _HAVE_SQLALLOCHANDLE)
     message(
       FATAL_ERROR
       "Could not find the ODBC 3.0 function SQLAllocHandle in the ODBC "

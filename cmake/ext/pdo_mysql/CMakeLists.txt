@@ -42,34 +42,6 @@ elseif(DEFINED EXT_PDO_MYSQL_DRIVER)
   set_property(CACHE EXT_PDO_MYSQL_DRIVER PROPERTY TYPE INTERNAL)
 endif()
 
-# MySQL library directory.
-if(EXT_PDO_MYSQL_DRIVER STREQUAL "mysql")
-  set(
-    EXT_PDO_MYSQL_ROOT ""
-    CACHE PATH "Set the path to MySQL library root directory"
-  )
-  mark_as_advanced(EXT_PDO_MYSQL_ROOT)
-  # Change from INTERNAL type to show variable on consecutive configuration run.
-  set_property(CACHE EXT_PDO_MYSQL_ROOT PROPERTY TYPE PATH)
-elseif(DEFINED EXT_PDO_MYSQL_ROOT)
-  # Hide variable.
-  set_property(CACHE EXT_PDO_MYSQL_ROOT PROPERTY TYPE INTERNAL)
-endif()
-
-# MySQL config command-line tool.
-if(EXT_PDO_MYSQL_DRIVER STREQUAL "mysql")
-  set(
-    EXT_PDO_MYSQL_CONFIG ""
-    CACHE FILEPATH "Set the path to MySQL config command-line tool"
-  )
-  mark_as_advanced(EXT_PDO_MYSQL_CONFIG)
-  # Change from INTERNAL type to show variable on consecutive configuration run.
-  set_property(CACHE EXT_PDO_MYSQL_CONFIG PROPERTY TYPE FILEPATH)
-elseif(DEFINED EXT_PDO_MYSQL_CONFIG)
-  # Hide variable.
-  set_property(CACHE EXT_PDO_MYSQL_CONFIG PROPERTY TYPE INTERNAL)
-endif()
-
 if(NOT EXT_PDO_MYSQL)
   return()
 endif()
@@ -101,12 +73,12 @@ target_include_directories(
   "${CMAKE_CURRENT_SOURCE_DIR}/.."
 )
 
-if(EXT_MYSQL_SOCK)
-  if(EXT_MYSQL_SOCK_PATH)
-    set(MySQL_SOCKET "${EXT_MYSQL_SOCK_PATH}")
+if(EXT_MYSQL_SOCKET)
+  if(EXT_MYSQL_SOCKET_PATH)
+    set(MySQL_Socket_PATH "${EXT_MYSQL_SOCKET_PATH}")
   endif()
 
-  find_package(MySQL OPTIONAL_COMPONENTS SOCKET)
+  find_package(MySQL OPTIONAL_COMPONENTS Socket)
   set_package_properties(
     MySQL
     PROPERTIES
@@ -115,9 +87,9 @@ if(EXT_MYSQL_SOCK)
   )
 endif()
 
-if(MySQL_SOCKET)
+if(MySQL_Socket_PATH)
   set(
-    PHP_MYSQL_UNIX_SOCK_ADDR "${MySQL_SOCKET}"
+    PHP_MYSQL_UNIX_SOCK_ADDR "${MySQL_Socket_PATH}"
     CACHE INTERNAL "MySQL Unix socket pointer"
   )
 endif()
@@ -130,13 +102,7 @@ if(NOT EXT_PDO_MYSQL_DRIVER STREQUAL "mysql")
 
   set(PDO_USE_MYSQLND 1 CACHE INTERNAL "Whether pdo_mysql uses mysqlnd")
 else()
-  if(EXT_PDO_MYSQL_ROOT)
-    set(MySQL_ROOT ${EXT_PDO_MYSQL_ROOT})
-  endif()
-  if(EXT_PDO_MYSQL_CONFIG)
-    set(MySQL_CONFIG_EXECUTABLE ${EXT_PDO_MYSQL_CONFIG})
-  endif()
-  find_package(MySQL COMPONENTS LIBRARY OPTIONAL_COMPONENTS SOCKET)
+  find_package(MySQL COMPONENTS Lib OPTIONAL_COMPONENTS Socket)
   set_package_properties(MySQL PROPERTIES
     TYPE REQUIRED
     PURPOSE "Necessary to enable the pdo_mysql extension."
@@ -144,9 +110,9 @@ else()
 
   target_link_libraries(php_pdo_mysql PRIVATE MySQL::MySQL)
 
-  if(MySQL_SOCKET)
+  if(MySQL_Socket_PATH)
     set(
-      PDO_MYSQL_UNIX_ADDR "${MySQL_SOCKET}"
+      PDO_MYSQL_UNIX_ADDR "${MySQL_Socket_PATH}"
       CACHE INTERNAL "MySQL Unix socket pointer"
     )
   endif()
