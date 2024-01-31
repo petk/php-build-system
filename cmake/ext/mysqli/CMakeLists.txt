@@ -17,26 +17,28 @@ cmake_dependent_option(
 
 # Common configuration option for ext/mysqli and ext/pdo_mysql.
 cmake_dependent_option(
-  EXT_MYSQL_SOCK
+  EXT_MYSQL_SOCKET
   "MySQLi/PDO_MYSQL: Use MySQL Unix socket pointer from default locations."
   OFF
   "EXT_MYSQLI OR EXT_PDO_MYSQL"
   OFF
 )
 
-if((EXT_MYSQLI OR EXT_PDO_MYSQL) AND EXT_MYSQL_SOCK)
+if((EXT_MYSQLI OR EXT_PDO_MYSQL) AND EXT_MYSQL_SOCKET)
   set(
-    EXT_MYSQL_SOCK_PATH ""
+    EXT_MYSQL_SOCKET_PATH ""
     CACHE FILEPATH
     "MySQLi/PDO_MYSQL: Override MySQL Unix socket pointer location."
   )
   # Change from INTERNAL type to show variable on consecutive configuration run.
-  set_property(CACHE EXT_MYSQL_SOCK_PATH PROPERTY TYPE FILEPATH)
-elseif(DEFINED EXT_MYSQL_SOCK_PATH)
+  set_property(CACHE EXT_MYSQL_SOCKET_PATH PROPERTY TYPE FILEPATH)
+elseif(DEFINED EXT_MYSQL_SOCKET_PATH)
   # Hide variable.
-  set_property(CACHE EXT_MYSQL_SOCK_PATH PROPERTY TYPE INTERNAL)
+  set_property(CACHE EXT_MYSQL_SOCKET_PATH PROPERTY TYPE INTERNAL)
   unset(PHP_MYSQL_UNIX_SOCK_ADDR CACHE)
 endif()
+
+mark_as_advanced(EXT_MYSQL_SOCKET EXT_MYSQL_SOCKET_PATH)
 
 if(NOT EXT_MYSQLI)
   return()
@@ -72,12 +74,12 @@ set_target_properties(php_mysqli PROPERTIES PHP_EXTENSION_DEPENDENCIES php_mysql
 
 target_compile_definitions(php_mysqli PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE=1)
 
-if(EXT_MYSQL_SOCK)
-  if(EXT_MYSQL_SOCK_PATH)
-    set(MySQL_SOCKET "${EXT_MYSQL_SOCK_PATH}")
+if(EXT_MYSQL_SOCKET)
+  if(EXT_MYSQL_SOCKET_PATH)
+    set(MySQL_Socket_PATH "${EXT_MYSQL_SOCKET_PATH}")
   endif()
 
-  find_package(MySQL OPTIONAL_COMPONENTS SOCKET)
+  find_package(MySQL OPTIONAL_COMPONENTS Socket)
   set_package_properties(
     MySQL
     PROPERTIES
@@ -86,9 +88,9 @@ if(EXT_MYSQL_SOCK)
   )
 endif()
 
-if(MySQL_SOCKET)
+if(MySQL_Socket_PATH)
   set(
-    PHP_MYSQL_UNIX_SOCK_ADDR "${MySQL_SOCKET}"
+    PHP_MYSQL_UNIX_SOCK_ADDR "${MySQL_Socket_PATH}"
     CACHE INTERNAL "MySQL Unix socket pointer"
   )
 endif()

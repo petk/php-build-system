@@ -35,7 +35,7 @@
         "EXT_LDAP_SASL": true,
         "EXT_MBSTRING": true,
         "EXT_MYSQLI": true,
-        "EXT_MYSQL_SOCK": true,
+        "EXT_MYSQL_SOCKET": true,
         "EXT_MYSQLND": true,
         "EXT_ODBC": true,
         "EXT_OPCACHE_CAPSTONE": true,

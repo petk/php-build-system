@@ -77,6 +77,7 @@ if(Cdb_LIBRARY)
   endif()
 endif()
 
+# Get version.
 block(PROPAGATE Cdb_VERSION)
   if(Cdb_INCLUDE_DIR)
     set(regex [[^[ \t]*#[ \t]*define[ \t]+TINYCDB_VERSION[ \t]+([0-9.]+)[ \t]*$]])

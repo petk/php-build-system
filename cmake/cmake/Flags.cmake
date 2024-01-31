@@ -15,8 +15,10 @@ include(PHP/CheckBrokenGccStrlenOpt)
 if(HAVE_BROKEN_OPTIMIZE_STRLEN)
   check_compiler_flag(C -fno-optimize-strlen HAVE_FNO_OPTIMIZE_STRLEN_C)
   if(HAVE_FNO_OPTIMIZE_STRLEN_C)
-    target_compile_options(php_configuration
-      INTERFACE $<$<COMPILE_LANGUAGE:ASM,C>:-fno-optimize-strlen>
+    target_compile_options(
+      php_configuration
+      INTERFACE
+        $<$<COMPILE_LANGUAGE:ASM,C>:-fno-optimize-strlen>
     )
   endif()
 endif()
@@ -25,29 +27,39 @@ endif()
 # supports it. This can help reduce the binary size and startup time.
 check_compiler_flag(C -fvisibility=hidden HAVE_FVISIBILITY_HIDDEN_C)
 if(HAVE_FVISIBILITY_HIDDEN_C)
-  target_compile_options(php_configuration
-    INTERFACE "$<$<COMPILE_LANGUAGE:ASM,C>:-fvisibility=hidden>"
+  target_compile_options(
+    php_configuration
+    INTERFACE
+      $<$<COMPILE_LANGUAGE:ASM,C>:-fvisibility=hidden>
   )
 endif()
 
-target_compile_options(php_configuration
-  BEFORE INTERFACE
-    "$<$<COMPILE_LANG_AND_ID:ASM,GNU>:-Wall;-Wextra;-Wno-unused-parameter;-Wno-sign-compare>"
-    "$<$<COMPILE_LANG_AND_ID:C,GNU>:-Wall;-Wextra;-Wno-unused-parameter;-Wno-sign-compare>"
-    "$<$<COMPILE_LANG_AND_ID:CXX,GNU>:-Wall;-Wextra;-Wno-unused-parameter;-Wno-sign-compare>"
+target_compile_options(
+  php_configuration
+  BEFORE
+  INTERFACE
+    $<$<COMPILE_LANG_AND_ID:ASM,GNU>:-Wall;-Wextra;-Wno-unused-parameter;-Wno-sign-compare>
+    $<$<COMPILE_LANG_AND_ID:C,GNU>:-Wall;-Wextra;-Wno-unused-parameter;-Wno-sign-compare>
+    $<$<COMPILE_LANG_AND_ID:CXX,GNU>:-Wall;-Wextra;-Wno-unused-parameter;-Wno-sign-compare>
 )
 
 # Check if compiler supports -Wno-clobbered (only GCC).
 check_compiler_flag(C -Wno-clobbered HAVE_WNO_CLOBBERED_C)
 if(HAVE_WNO_CLOBBERED_C)
-  target_compile_options(php_configuration
-    BEFORE INTERFACE "$<$<COMPILE_LANGUAGE:ASM,C>:-Wno-clobbered>"
+  target_compile_options(
+    php_configuration
+    BEFORE
+    INTERFACE
+      $<$<COMPILE_LANGUAGE:ASM,C>:-Wno-clobbered>
   )
 endif()
 check_compiler_flag(CXX -Wno-clobbered HAVE_WNO_CLOBBERED_CXX)
 if(HAVE_WNO_CLOBBERED_CXX)
-  target_compile_options(php_configuration
-    BEFORE INTERFACE "$<$<COMPILE_LANGUAGE:CXX>:-Wno-clobbered>"
+  target_compile_options(
+    php_configuration
+    BEFORE
+    INTERFACE
+      $<$<COMPILE_LANGUAGE:CXX>:-Wno-clobbered>
   )
 endif()
 
@@ -55,81 +67,113 @@ endif()
 # CFLAGS as level 3 is enabled in -Wextra.
 check_compiler_flag(C -Wimplicit-fallthrough=1 HAVE_WIMPLICIT_FALLTHROUGH_C)
 if(HAVE_WIMPLICIT_FALLTHROUGH_C)
-  target_compile_options(php_configuration
+  target_compile_options(
+    php_configuration
     INTERFACE
-      "$<$<COMPILE_LANGUAGE:ASM,C>:-Wimplicit-fallthrough=1>"
+      $<$<COMPILE_LANGUAGE:ASM,C>:-Wimplicit-fallthrough=1>
   )
 endif()
 check_compiler_flag(CXX -Wimplicit-fallthrough=1 HAVE_WIMPLICIT_FALLTHROUGH_CXX)
 if(HAVE_WIMPLICIT_FALLTHROUGH_CXX)
-  target_compile_options(php_configuration
+  target_compile_options(
+    php_configuration
     INTERFACE
-      "$<$<COMPILE_LANGUAGE:CXX>:-Wimplicit-fallthrough=1>"
+      $<$<COMPILE_LANGUAGE:CXX>:-Wimplicit-fallthrough=1>
   )
 endif()
 
 check_compiler_flag(C -Wduplicated-cond HAVE_WDUPLICATED_COND_C)
 if(HAVE_WDUPLICATED_COND_C)
-  target_compile_options(php_configuration
-    BEFORE INTERFACE "$<$<COMPILE_LANGUAGE:ASM,C>:-Wduplicated-cond>"
+  target_compile_options(
+    php_configuration
+    BEFORE
+    INTERFACE
+      $<$<COMPILE_LANGUAGE:ASM,C>:-Wduplicated-cond>
   )
 endif()
 check_compiler_flag(CXX -Wduplicated-cond HAVE_WDUPLICATED_COND_CXX)
 if(HAVE_WDUPLICATED_COND_CXX)
-  target_compile_options(php_configuration
-    BEFORE INTERFACE "$<$<COMPILE_LANGUAGE:CXX>:-Wduplicated-cond>"
+  target_compile_options(
+    php_configuration
+    BEFORE
+    INTERFACE
+      $<$<COMPILE_LANGUAGE:CXX>:-Wduplicated-cond>
   )
 endif()
 
 check_compiler_flag(C -Wlogical-op HAVE_WLOGICAL_OP_C)
 if(HAVE_WLOGICAL_OP_C)
-  target_compile_options(php_configuration
-    BEFORE INTERFACE "$<$<COMPILE_LANGUAGE:ASM,C>:-Wlogical-op>"
+  target_compile_options(
+    php_configuration
+    BEFORE
+    INTERFACE
+      $<$<COMPILE_LANGUAGE:ASM,C>:-Wlogical-op>
   )
 endif()
 check_compiler_flag(CXX -Wlogical-op HAVE_WLOGICAL_OP_CXX)
 if(HAVE_WLOGICAL_OP_CXX)
-  target_compile_options(php_configuration
-    BEFORE INTERFACE "$<$<COMPILE_LANGUAGE:CXX>:-Wlogical-op>"
+  target_compile_options(
+    php_configuration
+    BEFORE
+    INTERFACE
+      $<$<COMPILE_LANGUAGE:CXX>:-Wlogical-op>
   )
 endif()
 
 check_compiler_flag(C -Wformat-truncation HAVE_WFORMAT_TRUNCATION_C)
 if(HAVE_WFORMAT_TRUNCATION_C)
-  target_compile_options(php_configuration
-    BEFORE INTERFACE "$<$<COMPILE_LANGUAGE:ASM,C>:-Wformat-truncation>"
+  target_compile_options(
+    php_configuration
+    BEFORE
+    INTERFACE
+      $<$<COMPILE_LANGUAGE:ASM,C>:-Wformat-truncation>
   )
 endif()
 check_compiler_flag(CXX -Wformat-truncation HAVE_WFORMAT_TRUNCATION_CXX)
 if(HAVE_WFORMAT_TRUNCATION_CXX)
-  target_compile_options(php_configuration
-    BEFORE INTERFACE "$<$<COMPILE_LANGUAGE:CXX>:-Wformat-truncation>"
+  target_compile_options(
+    php_configuration
+    BEFORE
+    INTERFACE
+      $<$<COMPILE_LANGUAGE:CXX>:-Wformat-truncation>
   )
 endif()
 
 check_compiler_flag(C -Wstrict-prototypes HAVE_WSTRICT_PROTOTYPES_C)
 if(HAVE_WSTRICT_PROTOTYPES_C)
-  target_compile_options(php_configuration
-    BEFORE INTERFACE "$<$<COMPILE_LANGUAGE:ASM,C>:-Wstrict-prototypes>"
+  target_compile_options(
+    php_configuration
+    BEFORE
+    INTERFACE
+      $<$<COMPILE_LANGUAGE:ASM,C>:-Wstrict-prototypes>
   )
 endif()
 check_compiler_flag(CXX -Wstrict-prototypes HAVE_WSTRICT_PROTOTYPES_CXX)
 if(HAVE_WSTRICT_PROTOTYPES_CXX)
-  target_compile_options(php_configuration
-    BEFORE INTERFACE "$<$<COMPILE_LANGUAGE:CXX>:-Wstrict-prototypes>"
+  target_compile_options(
+    php_configuration
+    BEFORE
+    INTERFACE
+      $<$<COMPILE_LANGUAGE:CXX>:-Wstrict-prototypes>
   )
 endif()
 
 check_compiler_flag(C -fno-common HAVE_FNO_COMMON_C)
 if(HAVE_FNO_COMMON_C)
-  target_compile_options(php_configuration
-    BEFORE INTERFACE "$<$<COMPILE_LANGUAGE:ASM,C>:-fno-common>"
+  target_compile_options(
+    php_configuration
+    BEFORE
+    INTERFACE
+      $<$<COMPILE_LANGUAGE:ASM,C>:-fno-common>
   )
 endif()
 check_compiler_flag(CXX -fno-common HAVE_FNO_COMMON_CXX)
 if(HAVE_FNO_COMMON_C_XX)
-  target_compile_options(php_configuration
-    BEFORE INTERFACE "$<$<COMPILE_LANGUAGE:CXX>:-fno-common>"
+  target_compile_options(
+    php_configuration
+    BEFORE
+    INTERFACE
+      $<$<COMPILE_LANGUAGE:CXX>:-fno-common>
   )
 endif()
 
@@ -179,12 +223,16 @@ if(PHP_MEMORY_SANITIZER)
   cmake_pop_check_state()
 
   if(HAVE_MEMORY_SANITIZER_C AND HAVE_MEMORY_SANITIZER_CXX)
-    target_compile_options(php_configuration
-      INTERFACE "$<$<COMPILE_LANGUAGE:ASM,C,CXX>:-fsanitize=memory;-fsanitize-memory-track-origins>"
+    target_compile_options(
+      php_configuration
+      INTERFACE
+        $<$<COMPILE_LANGUAGE:ASM,C,CXX>:-fsanitize=memory;-fsanitize-memory-track-origins>
     )
 
-    target_link_options(php_configuration
-      INTERFACE "$<$<COMPILE_LANGUAGE:ASM,C,CXX>:-fsanitize=memory;-fsanitize-memory-track-origins>"
+    target_link_options(
+      php_configuration
+      INTERFACE
+        $<$<COMPILE_LANGUAGE:ASM,C,CXX>:-fsanitize=memory;-fsanitize-memory-track-origins>
     )
 
     message(CHECK_PASS "Success")
@@ -334,48 +382,56 @@ if(CMAKE_HOST_SYSTEM_NAME STREQUAL "Linux"
 )
   check_linker_flag(
     C
-    "-Wl,-zcommon-page-size=2097152;-Wl,-zmax-page-size=2097152"
+    "LINKER:-z,common-page-size=2097152;LINKER:-z,max-page-size=2097152"
     HAVE_ALIGNMENT_FLAGS_C
   )
 
   if(HAVE_ALIGNMENT_FLAGS_C)
-    target_link_options(php_configuration
-      INTERFACE "$<$<AND:$<STREQUAL:$<TARGET_PROPERTY:TYPE>,EXECUTABLE>,$<COMPILE_LANGUAGE:ASM,C>>:-Wl,-zcommon-page-size=2097152;-Wl,-zmax-page-size=2097152>"
+    target_link_options(
+      php_configuration
+      INTERFACE
+        $<$<AND:$<STREQUAL:$<TARGET_PROPERTY:TYPE>,EXECUTABLE>,$<COMPILE_LANGUAGE:ASM,C>>:LINKER:SHELL:-z,common-page-size=2097152;LINKER:SHELL:-z,max-page-size=2097152>
     )
   else()
     check_linker_flag(
       C
-      "-Wl,-zmax-page-size=2097152"
+      "LINKER:-z,max-page-size=2097152"
       HAVE_ZMAX_PAGE_SIZE_C
     )
 
     if(HAVE_ZMAX_PAGE_SIZE_C)
-      target_link_options(php_configuration
-        INTERFACE "$<$<AND:$<STREQUAL:$<TARGET_PROPERTY:TYPE>,EXECUTABLE>,$<COMPILE_LANGUAGE:ASM,C>>:-Wl,-zmax-page-size=2097152>"
+      target_link_options(
+        php_configuration
+        INTERFACE
+          $<$<AND:$<STREQUAL:$<TARGET_PROPERTY:TYPE>,EXECUTABLE>,$<COMPILE_LANGUAGE:ASM,C>>:LINKER:SHELL:-z,max-page-size=2097152>
       )
     endif()
   endif()
 
   check_linker_flag(
     CXX
-    "-Wl,-zcommon-page-size=2097152;-Wl,-zmax-page-size=2097152"
+    "LINKER:-z,common-page-size=2097152;LINKER:-z,max-page-size=2097152"
     HAVE_ALIGNMENT_FLAGS_CXX
   )
 
   if(HAVE_ALIGNMENT_FLAGS_CXX)
-    target_link_options(php_configuration
-      INTERFACE "$<$<AND:$<STREQUAL:$<TARGET_PROPERTY:TYPE>,EXECUTABLE>,$<COMPILE_LANGUAGE:CXX>>:-Wl,-zcommon-page-size=2097152;-Wl,-zmax-page-size=2097152>"
+    target_link_options(
+      php_configuration
+      INTERFACE
+        $<$<AND:$<STREQUAL:$<TARGET_PROPERTY:TYPE>,EXECUTABLE>,$<COMPILE_LANGUAGE:CXX>>:LINKER:SHELL:-z,common-page-size=2097152;LINKER:SHELL:-z,max-page-size=2097152>
     )
   else()
     check_linker_flag(
       CXX
-      "-Wl,-zmax-page-size=2097152"
+      "LINKER:-z,max-page-size=2097152"
       HAVE_ZMAX_PAGE_SIZE_CXX
     )
 
     if(HAVE_ZMAX_PAGE_SIZE_CXX)
-      target_link_options(php_configuration
-        INTERFACE "$<$<AND:$<STREQUAL:$<TARGET_PROPERTY:TYPE>,EXECUTABLE>,$<COMPILE_LANGUAGE:CXX>>:-Wl,-zmax-page-size=2097152>"
+      target_link_options(
+        php_configuration
+        INTERFACE
+          $<$<AND:$<STREQUAL:$<TARGET_PROPERTY:TYPE>,EXECUTABLE>,$<COMPILE_LANGUAGE:CXX>>:LINKER:SHELL:-z,max-page-size=2097152>
       )
     endif()
   endif()

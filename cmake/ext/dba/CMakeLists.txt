@@ -89,7 +89,7 @@ cmake_dependent_option(
 )
 
 cmake_dependent_option(
-  EXT_DBA_DB_1
+  EXT_DBA_DB1
   "DBA: Enable the Oracle Berkeley DB 1.x support/emulation"
   OFF
   "EXT_DBA;EXT_DBA_DB"
@@ -343,7 +343,7 @@ if(EXT_DBA_DBM)
 endif()
 
 if(EXT_DBA_DB)
-  if(EXT_DBA_DB_1)
+  if(EXT_DBA_DB1)
     set(BerkeleyDB_USE_DB1 TRUE)
   endif()
 
@@ -357,9 +357,9 @@ if(EXT_DBA_DB)
 
   target_link_libraries(php_dba PRIVATE BerkeleyDB::BerkeleyDB)
 
-  if(BerkeleyDB_DB1_HEADER)
+  if(BerkeleyDB_DB1_INCLUDE_DIR)
     set(
-      DB1_INCLUDE_FILE "${BerkeleyDB_DB1_HEADER}"
+      DB1_INCLUDE_FILE "${BerkeleyDB_DB1_INCLUDE_DIR}/db_185.h"
       CACHE INTERNAL "The Berkeley DB 1.x support/emulation header"
     )
 
@@ -369,7 +369,7 @@ if(EXT_DBA_DB)
     )
 
     set(
-      DB1_VERSION "${BerkeleyDB_DB1_VERSION_STRING}"
+      DB1_VERSION "Berkeley DB 1.85 emulation in DB"
       CACHE INTERNAL "Berkeley DB1 version string"
     )
   endif()
