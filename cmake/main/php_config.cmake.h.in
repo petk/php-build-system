@@ -852,9 +852,6 @@
 /* Define to enable JIT */
 #cmakedefine HAVE_JIT @HAVE_JIT@
 
-/* whether to enable JavaScript Object Serialization support */
-#cmakedefine HAVE_JSON @HAVE_JSON@
-
 /* Define to 1 if you have the 'kill' function. */
 #cmakedefine HAVE_KILL @HAVE_KILL@
 
