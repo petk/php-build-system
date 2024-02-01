@@ -20,6 +20,7 @@ target_sources(
     FILE_SET HEADERS
       BASE_DIRS "${PHP_SOURCE_DIR}"
       FILES
+        php_random_csprng.h
         php_random_uint128.h
         php_random.h
 )

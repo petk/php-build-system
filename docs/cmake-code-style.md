@@ -532,22 +532,13 @@ target_compile_definitions(
 )
 ```
 
-Some platforms require the regular expression matching. For example, checking if
-the host system environment is Cygwin:
-
-```cmake
-if(CMAKE_HOST_SYSTEM_NAME MATCHES "^CYGWIN.*")
-  # ...
-endif()
-```
-
 Values for `CMAKE_SYSTEM_NAME`, `CMAKE_HOST_SYSTEM_NAME`, and `PLATFORM_ID`:
 
 | Value          | Note                                                   |
 | -------------- | ------------------------------------------------------ |
 | `AIX`          | IBM Unix operating system                              |
 | `Android`      | Android operating system                               |
-| `CYGWIN.*`     | Cygwin environment for Windows; has version            |
+| `CYGWIN`       | Cygwin environment for Windows                         |
 | `Darwin`       | Apple stationary operating systems (macOS, OS X, etc.) |
 | `DragonFly`    | BSD-derived operating system                           |
 | `Emscripten`   | Compiler toolchain to WebAssembly                      |
@@ -558,8 +549,7 @@ Values for `CMAKE_SYSTEM_NAME`, `CMAKE_HOST_SYSTEM_NAME`, and `PLATFORM_ID`:
 | `HP-UX`        | Hewlett Packard Unix                                   |
 | `iOS`          | Apple mobile phone operating system                    |
 | `Linux`        | All Linux-based distributions                          |
-| `MINGW.*`      | `MINGW32.*`, `MINGW64.*` environments; has version     |
-| `MSYS`         | MSYS environment, also `Windows` or `MINGW.*`          |
+| `MSYS`         | MSYS environment                                       |
 | `NetBSD`       | NetBSD operating systems                               |
 | `OpenBSD`      | OpenBSD operating systems                              |
 | `OS400`        | IBM Unix operating system                              |
