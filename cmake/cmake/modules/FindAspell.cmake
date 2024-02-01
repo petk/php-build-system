@@ -106,7 +106,10 @@ if(NOT Aspell_FOUND)
   return()
 endif()
 
-set(Aspell_INCLUDE_DIRS ${Aspell_INCLUDE_DIR} ${Aspell_PSPELL_INCLUDE_DIR})
+set(Aspell_INCLUDE_DIRS ${Aspell_INCLUDE_DIR})
+if(Aspell_PSPELL_INCLUDE_DIR)
+  list(APPEND Aspell_INCLUDE_DIRS ${Aspell_PSPELL_INCLUDE_DIR})
+endif()
 set(Aspell_LIBRARIES ${Aspell_LIBRARY})
 
 if(NOT TARGET Aspell::Aspell)
@@ -116,6 +119,14 @@ if(NOT TARGET Aspell::Aspell)
     Aspell::Aspell
     PROPERTIES
       IMPORTED_LOCATION "${Aspell_LIBRARY}"
-      INTERFACE_INCLUDE_DIRECTORIES "${Aspell_INCLUDE_DIR};${Aspell_PSPELL_INCLUDE_DIR}"
+      INTERFACE_INCLUDE_DIRECTORIES "${Aspell_INCLUDE_DIR}"
   )
+
+  if(Aspell_PSPELL_INCLUDE_DIR)
+    set_property(
+      TARGET Aspell::Aspell
+      APPEND PROPERTY
+        INTERFACE_INCLUDE_DIRECTORIES "${Aspell_PSPELL_INCLUDE_DIR}"
+    )
+  endif()
 endif()
