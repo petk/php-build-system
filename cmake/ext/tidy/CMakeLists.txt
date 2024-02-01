@@ -4,7 +4,9 @@ include(FeatureSummary)
 
 option(EXT_TIDY "Enable the tidy extension" OFF)
 
-add_feature_info("ext/tidy" EXT_TIDY
+add_feature_info(
+  "ext/tidy"
+  EXT_TIDY
   "Tidy HTML utility support to handle HTML, XHTML and XML documents."
 )
 
@@ -26,9 +28,11 @@ else()
   add_library(php_tidy)
 endif()
 
-target_sources(php_tidy PRIVATE
-  php_tidy.def
-  tidy.c
+target_sources(
+  php_tidy
+  PRIVATE
+    php_tidy.def
+    tidy.c
 )
 
 # Add -Wno-ignored-qualifiers as this is an issue upstream.

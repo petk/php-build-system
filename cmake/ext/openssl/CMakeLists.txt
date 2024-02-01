@@ -8,7 +8,9 @@ include(FeatureSummary)
 
 option(EXT_OPENSSL "Enable the openssl extension" OFF)
 
-add_feature_info("ext/openssl" EXT_OPENSSL
+add_feature_info(
+  "ext/openssl"
+  EXT_OPENSSL
   "OpenSSL library support for encryption and decryption."
 )
 
@@ -28,10 +30,12 @@ cmake_dependent_option(
   OFF
 )
 
-add_feature_info("ext/openssl Kerberos" EXT_OPENSSL_KERBEROS "\
-When using OpenSSL library built with Kerberos enabled. Deprecated. Kerberos \
-support has been removed as of OpenSSL 1.1.0.\
-")
+add_feature_info(
+  "ext/openssl Kerberos"
+  EXT_OPENSSL_KERBEROS
+  "When using OpenSSL library built with Kerberos enabled. Deprecated. \
+Kerberos support has been removed as of OpenSSL 1.1.0."
+)
 
 cmake_dependent_option(
   EXT_OPENSSL_SYSTEM_CIPHERS
@@ -51,9 +55,11 @@ else()
   add_library(php_openssl)
 endif()
 
-target_sources(php_openssl PRIVATE
-  openssl.c
-  xp_ssl.c
+target_sources(
+  php_openssl
+  PRIVATE
+    openssl.c
+    xp_ssl.c
 )
 
 if(EXT_OPENSSL_KERBEROS)

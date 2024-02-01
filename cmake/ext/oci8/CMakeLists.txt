@@ -6,7 +6,9 @@ include(FeatureSummary)
 
 option(EXT_OCI8 "Enable the oci8 extension" OFF)
 
-add_feature_info("ext/oci8" EXT_OCI8
+add_feature_info(
+  "ext/oci8"
+  EXT_OCI8
   "Oracle database support."
 )
 
@@ -28,6 +30,13 @@ else()
   add_library(php_oci8)
 endif()
 
-#target_sources(php_oci8 PRIVATE
-  #...
-#)
+target_sources(
+  php_oci8
+  PRIVATE
+    oci8_collection.c
+    oci8_failover.c
+    oci8_interface.c
+    oci8_lob.c
+    oci8_statement.c
+    oci8.c
+)

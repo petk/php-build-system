@@ -11,7 +11,9 @@ cmake_dependent_option(
   OFF
 )
 
-add_feature_info("ext/pdo_mysql" EXT_PDO_MYSQL
+add_feature_info(
+  "ext/pdo_mysql"
+  EXT_PDO_MYSQL
   "MySQL-compatible database support in PDO (PHP Data Objects) interface."
 )
 
@@ -52,10 +54,12 @@ else()
   add_library(php_pdo_mysql)
 endif()
 
-target_sources(php_pdo_mysql PRIVATE
-  mysql_driver.c
-  mysql_statement.c
-  pdo_mysql.c
+target_sources(
+  php_pdo_mysql
+  PRIVATE
+    mysql_driver.c
+    mysql_statement.c
+    pdo_mysql.c
 )
 
 set_target_properties(

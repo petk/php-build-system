@@ -4,7 +4,9 @@ include(FeatureSummary)
 
 option(EXT_SQLITE3 "Enable the sqlite3 extension" ON)
 
-add_feature_info("ext/sqlite3" EXT_SQLITE3
+add_feature_info(
+  "ext/sqlite3"
+  EXT_SQLITE3
   "SQLite 3 database support."
 )
 
@@ -26,8 +28,10 @@ else()
   add_library(php_sqlite3)
 endif()
 
-target_sources(php_sqlite3 PRIVATE
-  sqlite3.c
+target_sources(
+  php_sqlite3
+  PRIVATE
+    sqlite3.c
 )
 
 target_compile_definitions(php_sqlite3 PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE=1)

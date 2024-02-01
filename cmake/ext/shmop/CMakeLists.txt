@@ -3,7 +3,9 @@ include(FeatureSummary)
 
 option(EXT_SHMOP "Enable the shmop extension" OFF)
 
-add_feature_info("ext/shmop" EXT_SHMOP
+add_feature_info(
+  "ext/shmop"
+  EXT_SHMOP
   "Support for handling shared memory segments."
 )
 
@@ -25,6 +27,8 @@ else()
   add_library(php_shmop)
 endif()
 
-target_sources(php_shmop PRIVATE
-  shmop.c
+target_sources(
+  php_shmop
+  PRIVATE
+    shmop.c
 )

@@ -6,7 +6,9 @@ include(FeatureSummary)
 
 option(EXT_FFI "Enable the ffi extension" OFF)
 
-add_feature_info("ext/ffi" EXT_FFI
+add_feature_info(
+  "ext/ffi"
+  EXT_FFI
   "Foreign Function Interface (FFI) support."
 )
 
@@ -28,9 +30,11 @@ else()
   add_library(php_ffi)
 endif()
 
-target_sources(php_ffi PRIVATE
-  ffi_parser.c
-  ffi.c
+target_sources(
+  php_ffi
+  PRIVATE
+    ffi_parser.c
+    ffi.c
 )
 
 target_compile_definitions(php_ffi PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE=1)

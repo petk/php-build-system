@@ -12,7 +12,9 @@ include(FeatureSummary)
 
 option(EXT_PCNTL "Enable the pcntl extension (CLI/CGI only)" OFF)
 
-add_feature_info("ext/pcntl" EXT_PCNTL
+add_feature_info(
+  "ext/pcntl"
+  EXT_PCNTL
   "Process control support (CLI/CGI only)."
 )
 
@@ -34,9 +36,11 @@ else()
   add_library(php_pcntl)
 endif()
 
-target_sources(php_pcntl PRIVATE
-  pcntl.c
-  php_signal.c
+target_sources(
+  php_pcntl
+  PRIVATE
+    pcntl.c
+    php_signal.c
 )
 
 target_compile_definitions(php_pcntl PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE=1)

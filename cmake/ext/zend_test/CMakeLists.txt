@@ -3,7 +3,9 @@ include(FeatureSummary)
 
 option(EXT_ZEND_TEST "Enable the zend_test extension" OFF)
 
-add_feature_info("ext/zend_test" EXT_ZEND_TEST
+add_feature_info(
+  "ext/zend_test"
+  EXT_ZEND_TEST
   "Additional support for testing PHP."
 )
 
@@ -25,12 +27,14 @@ else()
   add_library(php_zend_test)
 endif()
 
-target_sources(php_zend_test PRIVATE
-  fiber.c
-  iterators.c
-  object_handlers.c
-  observer.c
-  test.c
+target_sources(
+  php_zend_test
+  PRIVATE
+    fiber.c
+    iterators.c
+    object_handlers.c
+    observer.c
+    test.c
 )
 
 target_compile_definitions(php_zend_test PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE=1)

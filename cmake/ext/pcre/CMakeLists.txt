@@ -6,10 +6,12 @@ include(FeatureSummary)
 
 option(EXT_PCRE_EXTERNAL "Use external library for PCRE support" OFF)
 
-add_feature_info("ext/pcre with external PCRE library" EXT_PCRE_EXTERNAL "\
-By default the bundled PCRE library will be used for compiling and linking. If \
-EXT_PCRE_EXTERNAL is set, external PCRE library will be used.\
-")
+add_feature_info(
+  "ext/pcre with external PCRE library"
+  EXT_PCRE_EXTERNAL
+  "By default the bundled PCRE library will be used for compiling and linking. \
+If EXT_PCRE_EXTERNAL is set, external PCRE library will be used."
+)
 
 option(EXT_PCRE_JIT "Enable PCRE JIT functionality" ON)
 
@@ -180,7 +182,9 @@ else()
   endif()
 endif()
 
-add_feature_info("ext/pcre with PCRE JIT" HAVE_PCRE_JIT_SUPPORT
+add_feature_info(
+  "ext/pcre with PCRE JIT"
+  HAVE_PCRE_JIT_SUPPORT
   "PCRE JIT support"
 )
 

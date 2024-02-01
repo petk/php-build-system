@@ -9,7 +9,9 @@ include(FeatureSummary)
 
 option(EXT_SYSVSEM "Enable the sysvsem extension" OFF)
 
-add_feature_info("ext/sysvsem" EXT_SYSVSEM
+add_feature_info(
+  "ext/sysvsem"
+  EXT_SYSVSEM
   "System V semaphore support."
 )
 
@@ -31,8 +33,10 @@ else()
   add_library(php_sysvsem)
 endif()
 
-target_sources(php_sysvsem PRIVATE
-  sysvsem.c
+target_sources(
+  php_sysvsem
+  PRIVATE
+    sysvsem.c
 )
 
 message(CHECK_START "Checking for union semun")

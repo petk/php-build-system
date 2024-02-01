@@ -3,7 +3,9 @@ include(FeatureSummary)
 
 option(EXT_TOKENIZER "Enable the tokenizer extension" ON)
 
-add_feature_info("ext/tokenizer" EXT_TOKENIZER
+add_feature_info(
+  "ext/tokenizer"
+  EXT_TOKENIZER
   "Interface to the PHP tokenizer embedded in the Zend engine."
 )
 
@@ -25,9 +27,11 @@ else()
   add_library(php_tokenizer)
 endif()
 
-target_sources(php_tokenizer PRIVATE
-  tokenizer_data.c
-  tokenizer.c
+target_sources(
+  php_tokenizer
+  PRIVATE
+    tokenizer_data.c
+    tokenizer.c
 )
 
 # Run the ext/tokenizer/tokenizer_data_gen.php script after PHP cli SAPI has

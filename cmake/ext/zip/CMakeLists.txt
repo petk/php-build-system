@@ -4,7 +4,9 @@ include(FeatureSummary)
 
 option(EXT_ZIP "Enable the zip extension" OFF)
 
-add_feature_info("ext/zip" EXT_ZIP
+add_feature_info(
+  "ext/zip"
+  EXT_ZIP
   "Support for reading and writing ZIP compressed archives."
 )
 
@@ -26,9 +28,11 @@ else()
   add_library(php_zip)
 endif()
 
-target_sources(php_zip PRIVATE
-  php_zip.c
-  zip_stream.c
+target_sources(
+  php_zip
+  PRIVATE
+    php_zip.c
+    zip_stream.c
 )
 
 find_package(libzip 1.7.1)

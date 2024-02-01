@@ -6,7 +6,9 @@ include(FeatureSummary)
 
 option(EXT_LDAP "Enable the ldap extension" OFF)
 
-add_feature_info("ext/ldap" EXT_LDAP
+add_feature_info(
+  "ext/ldap"
+  EXT_LDAP
   "Support for LDAP (Lightweight Directory Access Protocol)."
 )
 
@@ -36,8 +38,10 @@ else()
   add_library(php_ldap)
 endif()
 
-target_sources(php_ldap PRIVATE
-  ldap.c
+target_sources(
+  php_ldap
+  PRIVATE
+    ldap.c
 )
 
 target_compile_definitions(php_ldap PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE=1)

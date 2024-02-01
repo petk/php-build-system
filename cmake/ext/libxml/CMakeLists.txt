@@ -2,7 +2,9 @@ include(FeatureSummary)
 
 option(EXT_LIBXML "Enable the libxml extension" ON)
 
-add_feature_info("ext/libxml" EXT_LIBXML
+add_feature_info(
+  "ext/libxml"
+  EXT_LIBXML
   "Support for XML parser and toolkit libxml. Can be built only as static."
 )
 

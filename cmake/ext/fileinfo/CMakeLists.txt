@@ -5,7 +5,9 @@ include(FeatureSummary)
 
 option(EXT_FILEINFO "Enable the fileinfo extension" ON)
 
-add_feature_info("ext/fileinfo" EXT_FILEINFO
+add_feature_info(
+  "ext/fileinfo"
+  EXT_FILEINFO
   "Support for file content type and encoding."
 )
 
@@ -27,27 +29,29 @@ else()
   add_library(php_fileinfo)
 endif()
 
-target_sources(php_fileinfo PRIVATE
-  fileinfo.c
-  php_libmagic.c
-  libmagic/apprentice.c
-  libmagic/apptype.c
-  libmagic/ascmagic.c
-  libmagic/buffer.c
-  libmagic/cdf_time.c
-  libmagic/cdf.c
-  libmagic/compress.c
-  libmagic/der.c
-  libmagic/encoding.c
-  libmagic/fsmagic.c
-  libmagic/funcs.c
-  libmagic/is_csv.c
-  libmagic/is_json.c
-  libmagic/is_tar.c
-  libmagic/magic.c
-  libmagic/print.c
-  libmagic/readcdf.c
-  libmagic/softmagic.c
+target_sources(
+  php_fileinfo
+  PRIVATE
+    fileinfo.c
+    php_libmagic.c
+    libmagic/apprentice.c
+    libmagic/apptype.c
+    libmagic/ascmagic.c
+    libmagic/buffer.c
+    libmagic/cdf_time.c
+    libmagic/cdf.c
+    libmagic/compress.c
+    libmagic/der.c
+    libmagic/encoding.c
+    libmagic/fsmagic.c
+    libmagic/funcs.c
+    libmagic/is_csv.c
+    libmagic/is_json.c
+    libmagic/is_tar.c
+    libmagic/magic.c
+    libmagic/print.c
+    libmagic/readcdf.c
+    libmagic/softmagic.c
 )
 
 check_symbol_exists(utimes "sys/time.h" HAVE_UTIMES)

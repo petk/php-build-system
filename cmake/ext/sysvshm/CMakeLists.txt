@@ -3,7 +3,9 @@ include(FeatureSummary)
 
 option(EXT_SYSVSHM "Enable the sysvshm extension" OFF)
 
-add_feature_info("ext/sysvshm" EXT_SYSVSHM
+add_feature_info(
+  "ext/sysvshm"
+  EXT_SYSVSHM
   "System V shared memory support."
 )
 
@@ -25,6 +27,8 @@ else()
   add_library(php_sysvshm)
 endif()
 
-target_sources(php_sysvshm PRIVATE
-  sysvshm.c
+target_sources(
+  php_sysvshm
+  PRIVATE
+    sysvshm.c
 )

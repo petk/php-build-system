@@ -9,7 +9,9 @@ include(FeatureSummary)
 
 option(EXT_SYSVMSG "Enable the sysvmsg extension" OFF)
 
-add_feature_info("ext/sysvmsg" EXT_SYSVMSG
+add_feature_info(
+  "ext/sysvmsg"
+  EXT_SYSVMSG
   "System V IPC support."
 )
 
@@ -31,8 +33,10 @@ else()
   add_library(php_sysvmsg)
 endif()
 
-target_sources(php_sysvmsg PRIVATE
-  sysvmsg.c
+target_sources(
+  php_sysvmsg
+  PRIVATE
+    sysvmsg.c
 )
 
 check_include_file(sys/msg.h HAVE_SYS_MSG_H)

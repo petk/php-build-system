@@ -8,7 +8,9 @@ include(FeatureSummary)
 
 option(EXT_ICONV "Enable the iconv extension" ON)
 
-add_feature_info("ext/iconv" EXT_ICONV
+add_feature_info(
+  "ext/iconv"
+  EXT_ICONV
   "Support for interface to iconv character set conversion facility."
 )
 

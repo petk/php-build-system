@@ -6,7 +6,9 @@ include(FeatureSummary)
 
 option(EXT_READLINE "Enable the readline extension" OFF)
 
-add_feature_info("ext/readline" EXT_READLINE
+add_feature_info(
+  "ext/readline"
+  EXT_READLINE
   "Interface for using Editline library. CLI/CGI only."
 )
 
@@ -26,7 +28,9 @@ cmake_dependent_option(
   OFF
 )
 
-add_feature_info("ext/readline with GNU Readline" EXT_READLINE_LIBREADLINE
+add_feature_info(
+  "ext/readline with GNU Readline"
+  EXT_READLINE_LIBREADLINE
   "GNU Readline library support instead of Editline."
 )
 
@@ -40,9 +44,11 @@ else()
   add_library(php_readline)
 endif()
 
-target_sources(php_readline PRIVATE
-  readline_cli.c
-  readline.c
+target_sources(
+  php_readline
+  PRIVATE
+    readline_cli.c
+    readline.c
 )
 
 # Add -Wno-strict-prototypes as depends on user libs.

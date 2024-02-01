@@ -87,7 +87,9 @@ option(PHP_RE2C_CGOTO "Enable computed goto GCC extension with re2c" OFF)
 
 option(PHP_THREAD_SAFETY "Enable thread safety (ZTS)" OFF)
 
-add_feature_info("PHP/ZTS" PHP_THREAD_SAFETY
+add_feature_info(
+  "PHP/ZTS"
+  PHP_THREAD_SAFETY
   "PHP thread safety"
 )
 

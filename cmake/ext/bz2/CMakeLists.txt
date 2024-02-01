@@ -4,7 +4,9 @@ include(FeatureSummary)
 
 option(EXT_BZ2 "Enable the bz2 extension" OFF)
 
-add_feature_info("ext/bz2" EXT_BZ2
+add_feature_info(
+  "ext/bz2"
+  EXT_BZ2
   "Support for reading and writing BZip2 (.bz2) compressed files."
 )
 
@@ -26,9 +28,11 @@ else()
   add_library(php_bz2)
 endif()
 
-target_sources(php_bz2 PRIVATE
-  bz2_filter.c
-  bz2.c
+target_sources(
+  php_bz2
+  PRIVATE
+    bz2_filter.c
+    bz2.c
 )
 
 target_compile_definitions(

@@ -9,7 +9,9 @@ cmake_dependent_option(
   OFF
 )
 
-add_feature_info("ext/pdo_dblib" EXT_PDO_DBLIB
+add_feature_info(
+  "ext/pdo_dblib"
+  EXT_PDO_DBLIB
   "Microsoft SQL Server and Sybase database support in PDO (PHP Data Objects)."
 )
 
@@ -31,10 +33,12 @@ else()
   add_library(php_pdo_dblib)
 endif()
 
-target_sources(php_pdo_dblib PRIVATE
-  dblib_driver.c
-  dblib_stmt.c
-  pdo_dblib.c
+target_sources(
+  php_pdo_dblib
+  PRIVATE
+    dblib_driver.c
+    dblib_stmt.c
+    pdo_dblib.c
 )
 
 set_target_properties(

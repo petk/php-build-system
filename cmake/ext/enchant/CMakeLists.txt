@@ -4,7 +4,9 @@ include(FeatureSummary)
 
 option(EXT_ENCHANT "Enable the enchant extension" OFF)
 
-add_feature_info("ext/enchant" EXT_ENCHANT
+add_feature_info(
+  "ext/enchant"
+  EXT_ENCHANT
   "PHP binding for the Enchant spelling library."
 )
 
@@ -26,8 +28,10 @@ else()
   add_library(php_enchant)
 endif()
 
-target_sources(php_enchant PRIVATE
-  enchant.c
+target_sources(
+  php_enchant
+  PRIVATE
+    enchant.c
 )
 
 find_package(Enchant 2.0)

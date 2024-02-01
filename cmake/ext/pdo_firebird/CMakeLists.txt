@@ -9,7 +9,9 @@ cmake_dependent_option(
   OFF
 )
 
-add_feature_info("ext/pdo_firebird" EXT_PDO_FIREBIRD
+add_feature_info(
+  "ext/pdo_firebird"
+  EXT_PDO_FIREBIRD
   "Firebird database support in PDO (PHP Data Objects) interface."
 )
 
@@ -31,10 +33,12 @@ else()
   add_library(php_pdo_firebird)
 endif()
 
-target_sources(php_pdo_firebird PRIVATE
-  firebird_driver.c
-  firebird_statement.c
-  pdo_firebird.c
+target_sources(
+  php_pdo_firebird
+  PRIVATE
+    firebird_driver.c
+    firebird_statement.c
+    pdo_firebird.c
 )
 
 set_target_properties(

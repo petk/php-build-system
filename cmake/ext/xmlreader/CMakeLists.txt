@@ -3,7 +3,9 @@ include(FeatureSummary)
 
 option(EXT_XMLREADER "Enable the xmlreader extension" ON)
 
-add_feature_info("ext/xmlreader" EXT_XMLREADER
+add_feature_info(
+  "ext/xmlreader"
+  EXT_XMLREADER
   "Support for XML pull parser."
 )
 
@@ -25,8 +27,10 @@ else()
   add_library(php_xmlreader)
 endif()
 
-target_sources(php_xmlreader PRIVATE
-  php_xmlreader.c
+target_sources(
+  php_xmlreader
+  PRIVATE
+    php_xmlreader.c
 )
 
 target_compile_definitions(

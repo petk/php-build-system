@@ -3,7 +3,9 @@ include(FeatureSummary)
 
 option(EXT_PGSQL "Enable the pgsql extension" OFF)
 
-add_feature_info("ext/pgsql" EXT_PGSQL
+add_feature_info(
+  "ext/pgsql"
+  EXT_PGSQL
   "PostgreSQL database support."
 )
 
@@ -25,8 +27,10 @@ else()
   add_library(php_pgsql)
 endif()
 
-target_sources(php_pgsql PRIVATE
-  pgsql.c
+target_sources(
+  php_pgsql
+  PRIVATE
+    pgsql.c
 )
 
 target_compile_definitions(php_pgsql PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE=1)
