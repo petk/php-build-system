@@ -3,7 +3,9 @@ include(FeatureSummary)
 
 option(EXT_HASH_MHASH "Enable the mhash support" OFF)
 
-add_feature_info("ext/hash with mhash" EXT_HASH_MHASH
+add_feature_info(
+  "ext/hash with mhash"
+  EXT_HASH_MHASH
   "The mhash emulation in the hash extension. Deprecated as of PHP 8.1.0."
 )
 

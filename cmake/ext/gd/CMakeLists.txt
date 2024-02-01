@@ -8,7 +8,9 @@ include(FeatureSummary)
 
 option(EXT_GD "Enable the gd extension" OFF)
 
-add_feature_info("ext/gd" EXT_GD
+add_feature_info(
+  "ext/gd"
+  EXT_GD
   "Image processing and graphics draw (GD) support."
 )
 
@@ -28,7 +30,9 @@ cmake_dependent_option(
   OFF
 )
 
-add_feature_info("ext/gd with external GD library" EXT_GD_EXTERNAL
+add_feature_info(
+  "ext/gd with external GD library"
+  EXT_GD_EXTERNAL
   "Support for external GD library instead of bundled one."
 )
 
@@ -40,7 +44,9 @@ cmake_dependent_option(
   OFF
 )
 
-add_feature_info("ext/gd AVIF" EXT_GD_AVIF
+add_feature_info(
+  "ext/gd AVIF"
+  EXT_GD_AVIF
   "AVIF support for gd extension."
 )
 
@@ -52,7 +58,9 @@ cmake_dependent_option(
   OFF
 )
 
-add_feature_info("ext/gd WebP" EXT_GD_WEBP
+add_feature_info(
+  "ext/gd WebP"
+  EXT_GD_WEBP
   "WebP support for gd extension."
 )
 
@@ -64,7 +72,9 @@ cmake_dependent_option(
   OFF
 )
 
-add_feature_info("ext/gd JPEG" EXT_GD_JPEG
+add_feature_info(
+  "ext/gd JPEG"
+  EXT_GD_JPEG
   "JPEG support for gd extension."
 )
 
@@ -76,7 +86,9 @@ cmake_dependent_option(
   OFF
 )
 
-add_feature_info("ext/gd XPM" EXT_GD_XPM
+add_feature_info(
+  "ext/gd XPM"
+  EXT_GD_XPM
   "XPM support for gd extension."
 )
 
@@ -88,7 +100,9 @@ cmake_dependent_option(
   OFF
 )
 
-add_feature_info("ext/gd FreeType" EXT_GD_FREETYPE
+add_feature_info(
+  "ext/gd FreeType"
+  EXT_GD_FREETYPE
   "FreeType 2 support for gd extension."
 )
 
@@ -100,7 +114,9 @@ cmake_dependent_option(
   OFF
 )
 
-add_feature_info("ext/gd JIS" EXT_GD_JIS
+add_feature_info(
+  "ext/gd JIS"
+  EXT_GD_JIS
   "JIS-mapped Japanese font support for gd extension (only for bundled libgd)."
 )
 
@@ -212,8 +228,10 @@ if(NOT EXT_GD_EXTERNAL)
   # Add -Wno-strict-prototypes C flag.
   check_compiler_flag(C -Wno-strict-prototypes HAVE_WNO_STRICT_PROTOTYPES_C)
   if(HAVE_WNO_STRICT_PROTOTYPES_C)
-    target_compile_options(php_gd
-      PRIVATE "$<$<COMPILE_LANGUAGE:C>:-Wno-strict-prototypes>"
+    target_compile_options(
+      php_gd
+      PRIVATE
+        $<$<COMPILE_LANGUAGE:C>:-Wno-strict-prototypes>
     )
   endif()
 
@@ -334,37 +352,39 @@ if(NOT EXT_GD_EXTERNAL)
   endif()
 
   # Do sanity check when all required packages are found.
-  get_target_property(libraries php_gd LINK_LIBRARIES)
-  set(_php_do_sanity_check TRUE)
-  foreach(library ${libraries})
-    if(library MATCHES "^.+::.+$" AND NOT TARGET ${library})
-      set(_php_do_sanity_check FALSE)
-      break()
+  block()
+    get_target_property(libraries php_gd LINK_LIBRARIES)
+    set(doSanityCheck TRUE)
+    foreach(library ${libraries})
+      if(library MATCHES "^.+::.+$" AND NOT TARGET ${library})
+        set(doSanityCheck FALSE)
+        break()
+      endif()
+    endforeach()
+
+    if(doSanityCheck)
+      cmake_push_check_state(RESET)
+        set(CMAKE_REQUIRED_LIBRARIES ${libraries})
+
+        check_source_compiles(C [[
+          char foobar(void) {
+            return '\0';
+          }
+
+          char foobar();
+
+          int main(void) {
+            foobar();
+            return 0;
+          }
+        ]] _GD_SANITY_CHECK_COMPILES)
+      cmake_pop_check_state()
+
+      if(NOT _GD_SANITY_CHECK_COMPILES)
+        message(FATAL_ERROR "GD build test failed. Please check logs for details.")
+      endif()
     endif()
-  endforeach()
-
-  if(_php_do_sanity_check)
-    cmake_push_check_state(RESET)
-      set(CMAKE_REQUIRED_LIBRARIES ${libraries})
-
-      check_source_compiles(C [[
-        char foobar(void) {
-          return '\0';
-        }
-
-        char foobar();
-
-        int main(void) {
-          foobar();
-          return 0;
-        }
-      ]] GD_SANITY_CHECK_COMPILES)
-    cmake_pop_check_state()
-
-    if(NOT GD_SANITY_CHECK_COMPILES)
-      message(FATAL_ERROR "GD build test failed. Please check logs for details.")
-    endif()
-  endif()
+  endblock()
 else()
   find_package(GD 2.1.0)
   set_package_properties(

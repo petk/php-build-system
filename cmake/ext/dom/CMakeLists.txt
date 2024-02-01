@@ -3,7 +3,9 @@ include(FeatureSummary)
 
 option(EXT_DOM "Enable the dom extension" ON)
 
-add_feature_info("ext/dom" EXT_DOM
+add_feature_info(
+  "ext/dom"
+  EXT_DOM
   "Support for operations on XML and HTML through Document Object Model (DOM)."
 )
 

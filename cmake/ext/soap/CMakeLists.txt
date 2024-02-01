@@ -3,7 +3,9 @@ include(FeatureSummary)
 
 option(EXT_SOAP "Enable the soap extension" OFF)
 
-add_feature_info("ext/soap" EXT_SOAP
+add_feature_info(
+  "ext/soap"
+  EXT_SOAP
   "Support for writing SOAP servers and clients."
 )
 
@@ -25,14 +27,16 @@ else()
   add_library(php_soap)
 endif()
 
-target_sources(php_soap PRIVATE
-  php_encoding.c
-  php_http.c
-  php_packet_soap.c
-  php_schema.c
-  php_sdl.c
-  php_xml.c
-  soap.c
+target_sources(
+  php_soap
+  PRIVATE
+    php_encoding.c
+    php_http.c
+    php_packet_soap.c
+    php_schema.c
+    php_sdl.c
+    php_xml.c
+    soap.c
 )
 
 target_compile_definitions(

@@ -7,7 +7,9 @@ include(FeatureSummary)
 
 option(EXT_CURL "Enable the curl extension" OFF)
 
-add_feature_info("ext/curl" EXT_CURL
+add_feature_info(
+  "ext/curl"
+  EXT_CURL
   "Support for using CURL - Client URL Library."
 )
 

@@ -10,7 +10,9 @@ cmake_dependent_option(
   OFF
 )
 
-add_feature_info("ext/pdo_sqlite" EXT_PDO_SQLITE
+add_feature_info(
+  "ext/pdo_sqlite"
+  EXT_PDO_SQLITE
   "SQLite 3 database support in PDO (PHP Data Objects) interface."
 )
 
@@ -32,10 +34,12 @@ else()
   add_library(php_pdo_sqlite)
 endif()
 
-target_sources(php_pdo_sqlite PRIVATE
-  pdo_sqlite.c
-  sqlite_driver.c
-  sqlite_statement.c
+target_sources(
+  php_pdo_sqlite
+  PRIVATE
+    pdo_sqlite.c
+    sqlite_driver.c
+    sqlite_statement.c
 )
 
 set_target_properties(

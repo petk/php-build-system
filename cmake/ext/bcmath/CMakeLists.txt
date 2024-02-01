@@ -3,7 +3,9 @@ include(FeatureSummary)
 
 option(EXT_BCMATH "Enable the bcmath extension" OFF)
 
-add_feature_info("ext/bcmath" EXT_BCMATH
+add_feature_info(
+  "ext/bcmath"
+  EXT_BCMATH
   "Basic Calculator (BC) style precision math functions support."
 )
 
@@ -25,29 +27,31 @@ else()
   add_library(php_bcmath)
 endif()
 
-target_sources(php_bcmath PRIVATE
-  bcmath.c
-  libbcmath/src/add.c
-  libbcmath/src/compare.c
-  libbcmath/src/debug.c
-  libbcmath/src/div.c
-  libbcmath/src/divmod.c
-  libbcmath/src/doaddsub.c
-  libbcmath/src/init.c
-  libbcmath/src/int2num.c
-  libbcmath/src/nearzero.c
-  libbcmath/src/neg.c
-  libbcmath/src/num2long.c
-  libbcmath/src/num2str.c
-  libbcmath/src/output.c
-  libbcmath/src/raise.c
-  libbcmath/src/raisemod.c
-  libbcmath/src/recmul.c
-  libbcmath/src/rmzero.c
-  libbcmath/src/sqrt.c
-  libbcmath/src/str2num.c
-  libbcmath/src/sub.c
-  libbcmath/src/zero.c
+target_sources(
+  php_bcmath
+  PRIVATE
+    bcmath.c
+    libbcmath/src/add.c
+    libbcmath/src/compare.c
+    libbcmath/src/debug.c
+    libbcmath/src/div.c
+    libbcmath/src/divmod.c
+    libbcmath/src/doaddsub.c
+    libbcmath/src/init.c
+    libbcmath/src/int2num.c
+    libbcmath/src/nearzero.c
+    libbcmath/src/neg.c
+    libbcmath/src/num2long.c
+    libbcmath/src/num2str.c
+    libbcmath/src/output.c
+    libbcmath/src/raise.c
+    libbcmath/src/raisemod.c
+    libbcmath/src/recmul.c
+    libbcmath/src/rmzero.c
+    libbcmath/src/sqrt.c
+    libbcmath/src/str2num.c
+    libbcmath/src/sub.c
+    libbcmath/src/zero.c
 )
 
 target_compile_definitions(php_bcmath PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE=1)

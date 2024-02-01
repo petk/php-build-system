@@ -13,7 +13,9 @@ include(FeatureSummary)
 
 option(EXT_POSIX "Enable the posix extension (POSIX-like functions)" ON)
 
-add_feature_info("ext/posix" EXT_POSIX
+add_feature_info(
+  "ext/posix"
+  EXT_POSIX
   "Interface for using IEEE 1003.1 (POSIX.1) functions."
 )
 
@@ -35,8 +37,10 @@ else()
   add_library(php_posix)
 endif()
 
-target_sources(php_posix PRIVATE
-  posix.c
+target_sources(
+  php_posix
+  PRIVATE
+    posix.c
 )
 
 target_compile_definitions(php_posix PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE=1)

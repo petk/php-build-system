@@ -3,7 +3,9 @@ include(FeatureSummary)
 
 option(EXT_XMLWRITER "Enable the xmlwriter extension" ON)
 
-add_feature_info("ext/xmlwriter" EXT_XMLWRITER
+add_feature_info(
+  "ext/xmlwriter"
+  EXT_XMLWRITER
   "Support for libxml xmlWriter API."
 )
 
@@ -25,8 +27,10 @@ else()
   add_library(php_xmlwriter)
 endif()
 
-target_sources(php_xmlwriter PRIVATE
-  php_xmlwriter.c
+target_sources(
+  php_xmlwriter
+  PRIVATE
+    php_xmlwriter.c
 )
 
 target_compile_definitions(

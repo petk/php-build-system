@@ -3,7 +3,9 @@ include(FeatureSummary)
 
 option(EXT_XML "Enable the xml extension" ON)
 
-add_feature_info("ext/xml" EXT_XML
+add_feature_info(
+  "ext/xml"
+  EXT_XML
   "Support for parsing XML."
 )
 

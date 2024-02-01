@@ -3,7 +3,9 @@ include(FeatureSummary)
 
 option(EXT_GMP "Enable the gmp extension" OFF)
 
-add_feature_info("ext/gmp" EXT_GMP
+add_feature_info(
+  "ext/gmp"
+  EXT_GMP
   "GNU Multiple Precision Arithmetic support."
 )
 

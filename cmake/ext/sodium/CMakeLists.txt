@@ -4,7 +4,9 @@ include(FeatureSummary)
 
 option(EXT_SODIUM "Enable the sodium extension" OFF)
 
-add_feature_info("ext/sodium" EXT_SODIUM
+add_feature_info(
+  "ext/sodium"
+  EXT_SODIUM
   "Support for encryption, decryption, signatures and password hashing."
 )
 

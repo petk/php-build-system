@@ -3,7 +3,9 @@ include(FeatureSummary)
 
 option(EXT_XSL "Enable the xsl extension" OFF)
 
-add_feature_info("ext/xsl" EXT_XSL
+add_feature_info(
+  "ext/xsl"
+  EXT_XSL
   "XSL standard support for performing XSLT transformations."
 )
 
@@ -25,9 +27,11 @@ else()
   add_library(php_xsl)
 endif()
 
-target_sources(php_xsl PRIVATE
-  php_xsl.c
-  xsltprocessor.c
+target_sources(
+  php_xsl
+  PRIVATE
+    php_xsl.c
+    xsltprocessor.c
 )
 
 find_package(LibXml2 ${PHP_LIBXML2_MIN_VERSION})
@@ -42,7 +46,8 @@ target_link_libraries(php_xsl PRIVATE LibXml2::LibXml2)
 
 set_target_properties(
   php_xsl
-  PROPERTIES PHP_EXTENSION_DEPENDENCIES "php_libxml;php_dom"
+  PROPERTIES
+    PHP_EXTENSION_DEPENDENCIES "php_libxml;php_dom"
 )
 
 find_package(LibXslt 1.1.0)
@@ -69,6 +74,8 @@ if(TARGET LibXslt::LibExslt)
   target_link_libraries(php_xsl PRIVATE LibXslt::LibExslt)
 endif()
 
-add_feature_info("ext/xsl with EXSLT" HAVE_XSL_EXSLT
+add_feature_info(
+  "ext/xsl with EXSLT"
+  HAVE_XSL_EXSLT
   "Adds support for XSLT extensions (EXSLT)."
 )

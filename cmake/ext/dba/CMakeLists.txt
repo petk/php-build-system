@@ -3,7 +3,9 @@ include(FeatureSummary)
 
 option(EXT_DBA "Enable the dba extension" OFF)
 
-add_feature_info("ext/dba" EXT_DBA
+add_feature_info(
+  "ext/dba"
+  EXT_DBA
   "Database (dbm-style) abstraction layer support."
 )
 
@@ -153,21 +155,23 @@ else()
   add_library(php_dba)
 endif()
 
-target_sources(php_dba PRIVATE
-  dba.c
-  dba_cdb.c
-  dba_dbm.c
-  dba_gdbm.c
-  dba_ndbm.c
-  dba_db1.c
-  dba_db2.c
-  dba_db3.c
-  dba_db4.c
-  dba_flatfile.c
-  dba_inifile.c
-  dba_qdbm.c
-  dba_tcadb.c
-  dba_lmdb.c
+target_sources(
+  php_dba
+  PRIVATE
+    dba.c
+    dba_cdb.c
+    dba_dbm.c
+    dba_gdbm.c
+    dba_ndbm.c
+    dba_db1.c
+    dba_db2.c
+    dba_db3.c
+    dba_db4.c
+    dba_flatfile.c
+    dba_inifile.c
+    dba_qdbm.c
+    dba_tcadb.c
+    dba_lmdb.c
 )
 
 target_compile_definitions(php_dba PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE=1)
@@ -201,10 +205,12 @@ if(EXT_DBA_CDB AND NOT EXT_DBA_CDB_EXTERNAL)
 
   set(DBA_CDB 1 CACHE INTERNAL "Whether the cdb support is enabled")
 
-  target_sources(php_dba PRIVATE
-    libcdb/cdb.c
-    libcdb/cdb_make.c
-    libcdb/uint32.c
+  target_sources(
+    php_dba
+    PRIVATE
+      libcdb/cdb.c
+      libcdb/cdb_make.c
+      libcdb/uint32.c
   )
 elseif(EXT_DBA_CDB AND EXT_DBA_CDB_EXTERNAL)
   find_package(Cdb)

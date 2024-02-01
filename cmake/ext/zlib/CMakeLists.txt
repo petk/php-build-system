@@ -3,7 +3,9 @@ include(FeatureSummary)
 
 option(EXT_ZLIB "Enable the zlib extension" OFF)
 
-add_feature_info("ext/zlib" EXT_ZLIB
+add_feature_info(
+  "ext/zlib"
+  EXT_ZLIB
   "Support for reading and writing gzip (.gz) compressed files."
 )
 
@@ -25,11 +27,13 @@ else()
   add_library(php_zlib)
 endif()
 
-target_sources(php_zlib PRIVATE
-  php_zlib.def
-  zlib_filter.c
-  zlib_fopen_wrapper.c
-  zlib.c
+target_sources(
+  php_zlib
+  PRIVATE
+    php_zlib.def
+    zlib_filter.c
+    zlib_fopen_wrapper.c
+    zlib.c
 )
 
 target_compile_definitions(php_zlib PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE=1)

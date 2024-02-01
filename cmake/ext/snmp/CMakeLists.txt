@@ -4,7 +4,9 @@ include(FeatureSummary)
 
 option(EXT_SNMP "Enable the snmp extension" OFF)
 
-add_feature_info("ext/snmp" EXT_SNMP
+add_feature_info(
+  "ext/snmp"
+  EXT_SNMP
   "Simple Network Management Protocol (SNMP) support."
 )
 
@@ -26,8 +28,10 @@ else()
   add_library(php_snmp)
 endif()
 
-target_sources(php_snmp PRIVATE
-  snmp.c
+target_sources(
+  php_snmp
+  PRIVATE
+    snmp.c
 )
 
 find_package(NetSnmp 5.3)

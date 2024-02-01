@@ -12,7 +12,9 @@ cmake_dependent_option(
   OFF
 )
 
-add_feature_info("ext/pdo_oci" EXT_PDO_OCI
+add_feature_info(
+  "ext/pdo_oci"
+  EXT_PDO_OCI
   "Oracle database support in PDO (PHP Data Objects) interface."
 )
 
@@ -34,18 +36,21 @@ else()
   add_library(php_pdo_oci)
 endif()
 
-#[[
-target_sources(php_pdo_oci PRIVATE
-  ...
+target_sources(
+  php_pdo_oci
+  PRIVATE
+    oci_driver.c
+    oci_statement.c
+    pdo_oci.c
 )
 
 set_target_properties(
   php_pdo_oci
-  PROPERTIES PHP_EXTENSION_DEPENDENCIES php_pdo
+  PROPERTIES
+    PHP_EXTENSION_DEPENDENCIES php_pdo
 )
 
 target_include_directories(
   php_pdo_oci
   PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/.."
 )
-#]]

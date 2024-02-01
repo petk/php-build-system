@@ -9,7 +9,9 @@ cmake_dependent_option(
   OFF
 )
 
-add_feature_info("ext/pdo_pgsql" EXT_PDO_PGSQL
+add_feature_info(
+  "ext/pdo_pgsql"
+  EXT_PDO_PGSQL
   "PostgreSQL database support in PDO (PHP Data Objects)."
 )
 
@@ -31,15 +33,18 @@ else()
   add_library(php_pdo_pgsql)
 endif()
 
-target_sources(php_pdo_pgsql PRIVATE
-  pdo_pgsql.c
-  pgsql_driver.c
-  pgsql_statement.c
+target_sources(
+  php_pdo_pgsql
+  PRIVATE
+    pdo_pgsql.c
+    pgsql_driver.c
+    pgsql_statement.c
 )
 
 set_target_properties(
   php_pdo_pgsql
-  PROPERTIES PHP_EXTENSION_DEPENDENCIES php_pdo
+  PROPERTIES
+    PHP_EXTENSION_DEPENDENCIES php_pdo
 )
 
 target_include_directories(

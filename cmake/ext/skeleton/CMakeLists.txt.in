@@ -13,7 +13,9 @@ include(FeatureSummary)
 option(EXT_%EXTNAMECAPS% "Enable the %EXTNAME% extension" OFF)
 
 # Extension features are visible in the configuration summary output.
-add_feature_info("ext/%EXTNAME%" EXT_%EXTNAMECAPS%
+add_feature_info(
+  "ext/%EXTNAME%"
+  EXT_%EXTNAMECAPS%
   "Describe the extension features."
 )
 

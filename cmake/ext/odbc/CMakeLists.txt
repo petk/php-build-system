@@ -5,7 +5,9 @@ include(FeatureSummary)
 
 option(EXT_ODBC "Enable the odbc extension" OFF)
 
-add_feature_info("ext/odbc" EXT_ODBC
+add_feature_info(
+  "ext/odbc"
+  EXT_ODBC
   "Unified ODBC databases support (Open Database Connectivity)."
 )
 
@@ -79,9 +81,11 @@ else()
   add_library(php_odbc)
 endif()
 
-target_sources(php_odbc PRIVATE
-  odbc_utils.c
-  php_odbc.c
+target_sources(
+  php_odbc
+  PRIVATE
+    odbc_utils.c
+    php_odbc.c
 )
 
 target_compile_definitions(php_odbc PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE=1)

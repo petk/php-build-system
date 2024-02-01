@@ -21,7 +21,9 @@ cmake_dependent_option(
   [[SAPI_CLI AND CMAKE_SYSTEM_NAME STREQUAL "Windows"]]
   OFF
 )
-add_feature_info("sapi/cli without console" SAPI_CLI_WIN_NO_CONSOLE
+add_feature_info(
+  "sapi/cli without console"
+  SAPI_CLI_WIN_NO_CONSOLE
   "[Windows only] Same as CLI SAPI but without console (no output is given)."
 )
 

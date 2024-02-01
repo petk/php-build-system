@@ -3,7 +3,9 @@ include(FeatureSummary)
 
 option(PHP_PEAR "Whether to install PEAR" OFF)
 
-add_feature_info("PEAR" PHP_PEAR
+add_feature_info(
+  "PEAR"
+  PHP_PEAR
   "PHP Extension and Application Repository package manager"
 )
 

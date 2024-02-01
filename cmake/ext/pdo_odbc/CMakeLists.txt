@@ -12,7 +12,9 @@ cmake_dependent_option(
   OFF
 )
 
-add_feature_info("ext/pdo_odbc" EXT_PDO_ODBC
+add_feature_info(
+  "ext/pdo_odbc"
+  EXT_PDO_ODBC
   "Unified ODBC support in PDO (Open Database Connectivity)."
 )
 

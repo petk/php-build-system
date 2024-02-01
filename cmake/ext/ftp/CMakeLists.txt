@@ -3,7 +3,9 @@ include(FeatureSummary)
 
 option(EXT_FTP "Enable the ftp extension" OFF)
 
-add_feature_info("ext/ftp" EXT_FTP
+add_feature_info(
+  "ext/ftp"
+  EXT_FTP
   "File Transfer Protocol (FTP) support."
 )
 
@@ -35,9 +37,11 @@ else()
   add_library(php_ftp)
 endif()
 
-target_sources(php_ftp PRIVATE
-  ftp.c
-  php_ftp.c
+target_sources(
+  php_ftp
+  PRIVATE
+    ftp.c
+    php_ftp.c
 )
 
 if(EXT_FTP_SSL OR EXT_OPENSSL)

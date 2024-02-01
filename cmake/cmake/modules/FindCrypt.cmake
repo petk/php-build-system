@@ -495,7 +495,7 @@ endfunction()
 
 set(_reason "")
 
-# If no compiler is loaded, intl in C library can't be checked anyway.
+# If no compiler is loaded, Crypt in C library can't be checked anyway.
 if(NOT CMAKE_C_COMPILER_LOADED AND NOT CMAKE_CXX_COMPILER_LOADED)
   set(Crypt_IS_BUILT_IN FALSE)
 endif()

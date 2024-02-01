@@ -6,7 +6,9 @@ include(FeatureSummary)
 
 option(EXT_OPCACHE "Enable the opcache extension" ON)
 
-add_feature_info("ext/opcache" EXT_OPCACHE
+add_feature_info(
+  "ext/opcache"
+  EXT_OPCACHE
   "PHP OPcode caching engine."
 )
 
@@ -26,7 +28,9 @@ cmake_dependent_option(
   OFF
 )
 
-add_feature_info("ext/opcache JIT" EXT_OPCACHE_JIT
+add_feature_info(
+  "ext/opcache JIT"
+  EXT_OPCACHE_JIT
   "Opcache's JIT (Just-In-Time compiler)"
 )
 

@@ -3,7 +3,9 @@ include(FeatureSummary)
 
 option(EXT_CTYPE "Enable the ctype extension" ON)
 
-add_feature_info("ext/ctype" EXT_CTYPE
+add_feature_info(
+  "ext/ctype"
+  EXT_CTYPE
   "Support for character type checking according to the locale."
 )
 
@@ -25,6 +27,8 @@ else()
   add_library(php_ctype)
 endif()
 
-target_sources(php_ctype PRIVATE
-  ctype.c
+target_sources(
+  php_ctype
+  PRIVATE
+    ctype.c
 )
