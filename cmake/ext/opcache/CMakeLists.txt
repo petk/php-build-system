@@ -51,21 +51,25 @@ endif()
 ################################################################################
 
 # OPcache extension can be built only as a shared library.
-add_library(php_opcache SHARED
-  $<$<NOT:$<PLATFORM_ID:Windows>>:shared_alloc_mmap.c>
-  $<$<NOT:$<PLATFORM_ID:Windows>>:shared_alloc_posix.c>
-  $<$<NOT:$<PLATFORM_ID:Windows>>:shared_alloc_shm.c>
-  $<$<PLATFORM_ID:Windows>:shared_alloc_win32.c>
-  zend_accelerator_blacklist.c
-  zend_accelerator_debug.c
-  zend_accelerator_hash.c
-  zend_accelerator_module.c
-  zend_accelerator_util_funcs.c
-  zend_file_cache.c
-  zend_persist_calc.c
-  zend_persist.c
-  zend_shared_alloc.c
-  ZendAccelerator.c
+add_library(php_opcache SHARED)
+
+target_sources(
+  php_opcache
+  PRIVATE
+    $<$<NOT:$<PLATFORM_ID:Windows>>:shared_alloc_mmap.c>
+    $<$<NOT:$<PLATFORM_ID:Windows>>:shared_alloc_posix.c>
+    $<$<NOT:$<PLATFORM_ID:Windows>>:shared_alloc_shm.c>
+    $<$<PLATFORM_ID:Windows>:shared_alloc_win32.c>
+    zend_accelerator_blacklist.c
+    zend_accelerator_debug.c
+    zend_accelerator_hash.c
+    zend_accelerator_module.c
+    zend_accelerator_util_funcs.c
+    zend_file_cache.c
+    zend_persist_calc.c
+    zend_persist.c
+    zend_shared_alloc.c
+    ZendAccelerator.c
 )
 
 target_include_directories(
@@ -105,22 +109,24 @@ if(EXT_OPCACHE_JIT)
   set(HAVE_JIT 1 CACHE INTERNAL "Whether JIT is enabled")
   set(ZEND_JIT_IR 1 CACHE INTERNAL "Whether the JIT IR framework is used")
 
-  target_sources(php_opcache PRIVATE
-    jit/ir/ir_cfg.c
-    jit/ir/ir_check.c
-    jit/ir/ir_dump.c
-    jit/ir/ir_emit.c
-    jit/ir/ir_gcm.c
-    $<$<NOT:$<PLATFORM_ID:Windows>>:jit/ir/ir_gdb.c>
-    jit/ir/ir_patch.c
-    $<$<NOT:$<PLATFORM_ID:Windows>>:jit/ir/ir_perf.c>
-    jit/ir/ir_ra.c
-    jit/ir/ir_save.c
-    jit/ir/ir_sccp.c
-    jit/ir/ir_strtab.c
-    jit/ir/ir.c
-    jit/zend_jit_vm_helpers.c
-    jit/zend_jit.c
+  target_sources(
+    php_opcache
+    PRIVATE
+      jit/ir/ir_cfg.c
+      jit/ir/ir_check.c
+      jit/ir/ir_dump.c
+      jit/ir/ir_emit.c
+      jit/ir/ir_gcm.c
+      $<$<NOT:$<PLATFORM_ID:Windows>>:jit/ir/ir_gdb.c>
+      jit/ir/ir_patch.c
+      $<$<NOT:$<PLATFORM_ID:Windows>>:jit/ir/ir_perf.c>
+      jit/ir/ir_ra.c
+      jit/ir/ir_save.c
+      jit/ir/ir_sccp.c
+      jit/ir/ir_strtab.c
+      jit/ir/ir.c
+      jit/zend_jit_vm_helpers.c
+      jit/zend_jit.c
   )
 
   target_include_directories(
@@ -184,7 +190,8 @@ if(EXT_OPCACHE_JIT)
       $<$<CONFIG:Debug,DebugAssertions>:IR_DEBUG>
   )
 
-  add_executable(php_opcache_jit_minilua
+  add_executable(
+    php_opcache_jit_minilua
     jit/ir/dynasm/minilua.c
   )
   set_target_properties(
