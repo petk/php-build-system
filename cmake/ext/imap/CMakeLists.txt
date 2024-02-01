@@ -6,7 +6,9 @@ include(FeatureSummary)
 
 option(EXT_IMAP "Enable the imap extension" OFF)
 
-add_feature_info("ext/imap" EXT_IMAP
+add_feature_info(
+  "ext/imap"
+  EXT_IMAP
   "Support for operating with the IMAP protocol."
 )
 

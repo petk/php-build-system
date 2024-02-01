@@ -51,21 +51,25 @@ endif()
 ################################################################################
 
 # OPcache extension can be built only as a shared library.
-add_library(php_opcache SHARED
-  $<$<NOT:$<PLATFORM_ID:Windows>>:shared_alloc_mmap.c>
-  $<$<NOT:$<PLATFORM_ID:Windows>>:shared_alloc_posix.c>
-  $<$<NOT:$<PLATFORM_ID:Windows>>:shared_alloc_shm.c>
-  $<$<PLATFORM_ID:Windows>:shared_alloc_win32.c>
-  zend_accelerator_blacklist.c
-  zend_accelerator_debug.c
-  zend_accelerator_hash.c
-  zend_accelerator_module.c
-  zend_accelerator_util_funcs.c
-  zend_file_cache.c
-  zend_persist_calc.c
-  zend_persist.c
-  zend_shared_alloc.c
-  ZendAccelerator.c
+add_library(php_opcache SHARED)
+
+target_sources(
+  php_opcache
+  PRIVATE
+    $<$<NOT:$<PLATFORM_ID:Windows>>:shared_alloc_mmap.c>
+    $<$<NOT:$<PLATFORM_ID:Windows>>:shared_alloc_posix.c>
+    $<$<NOT:$<PLATFORM_ID:Windows>>:shared_alloc_shm.c>
+    $<$<PLATFORM_ID:Windows>:shared_alloc_win32.c>
+    zend_accelerator_blacklist.c
+    zend_accelerator_debug.c
+    zend_accelerator_hash.c
+    zend_accelerator_module.c
+    zend_accelerator_util_funcs.c
+    zend_file_cache.c
+    zend_persist_calc.c
+    zend_persist.c
+    zend_shared_alloc.c
+    ZendAccelerator.c
 )
 
 target_include_directories(
@@ -104,10 +108,12 @@ endif()
 if(EXT_OPCACHE_JIT)
   set(HAVE_JIT 1 CACHE INTERNAL "Whether JIT is enabled")
 
-  target_sources(php_opcache PRIVATE
-    $<$<NOT:$<PLATFORM_ID:Windows>>:jit/zend_jit_gdb.c>
-    jit/zend_jit_vm_helpers.c
-    jit/zend_jit.c
+  target_sources(
+    php_opcache
+    PRIVATE
+      $<$<NOT:$<PLATFORM_ID:Windows>>:jit/zend_jit_gdb.c>
+      jit/zend_jit_vm_helpers.c
+      jit/zend_jit.c
   )
 
   # Check for Capstone.
