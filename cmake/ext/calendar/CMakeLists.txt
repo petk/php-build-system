@@ -6,7 +6,7 @@ option(EXT_CALENDAR "Enable the calendar extension" OFF)
 add_feature_info(
   "ext/calendar"
   EXT_CALENDAR
-  "Calendar support."
+  "Calendar conversion support."
 )
 
 cmake_dependent_option(

@@ -39,7 +39,6 @@ endif()
 
 # HAVE_JSON is always 1 as of php 8.0 and the constant will be removed in the
 # future. Note that HAVE_JSON was never defined for Windows builds.
-# TODO: Remove this in the future PHP versions.
 if(NOT CMAKE_SYSTEM_NAME STREQUAL "Windows")
   set(HAVE_JSON 1 CACHE INTERNAL "Whether to enable the json extension.")
 endif()

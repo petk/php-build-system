@@ -174,8 +174,17 @@ if(NOT Kerberos_FOUND)
   return()
 endif()
 
-set(Kerberos_INCLUDE_DIRS ${Kerberos_INCLUDE_DIR} ${Kerberos_GSSAPI_INCLUDE_DIR})
-set(Kerberos_LIBRARIES ${Kerberos_LIBRARY} ${Kerberos_GSSAPI_LIBRARY})
+set(Kerberos_INCLUDE_DIRS ${Kerberos_INCLUDE_DIR})
+
+if(Kerberos_GSSAPI_INCLUDE_DIR)
+  list(APPEND Kerberos_INCLUDE_DIRS ${Kerberos_GSSAPI_INCLUDE_DIR})
+endif()
+
+set(Kerberos_LIBRARIES ${Kerberos_LIBRARY})
+
+if(Kerberos_GSSAPI_LIBRARY)
+  list(APPEND Kerberos_LIBRARIES ${Kerberos_GSSAPI_LIBRARY})
+endif()
 
 if(NOT TARGET Kerberos::Krb5)
   add_library(Kerberos::Krb5 UNKNOWN IMPORTED)
@@ -188,7 +197,7 @@ if(NOT TARGET Kerberos::Krb5)
   )
 endif()
 
-if(NOT TARGET Kerberos::GSSAPI)
+if(Kerberos_GSSAPI_FOUND AND NOT TARGET Kerberos::GSSAPI)
   add_library(Kerberos::GSSAPI UNKNOWN IMPORTED)
 
   set_target_properties(
