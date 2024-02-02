@@ -1,12 +1,12 @@
 include(CheckCompilerFlag)
 include(FeatureSummary)
 
-option(EXT_HASH_MHASH "Enable the mhash support" OFF)
+option(EXT_HASH_MHASH "Enable the mhash support (deprecated as of PHP 8.1)" OFF)
 
 add_feature_info(
   "ext/hash with mhash"
   EXT_HASH_MHASH
-  "The mhash emulation in the hash extension. Deprecated as of PHP 8.1.0."
+  "The mhash emulation in the hash extension."
 )
 
 if(EXT_HASH_MHASH)
@@ -64,35 +64,30 @@ target_sources(
         xxhash/xxhash.h
 )
 
-target_include_directories(
-  php_hash
-  PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/murmur
-)
-
 if(WORDS_BIGENDIAN)
   set(HAVE_SLOW_HASH3 1 CACHE INTERNAL "Define if hash3 algo is available")
   message(WARNING "Using SHA3 slow implementation on bigendian")
 else()
   block()
     if(CMAKE_SIZEOF_VOID_P EQUAL 4)
-      set(sha3_dir "sha3/generic32lc")
-      target_sources(php_hash PRIVATE "${sha3_dir}/KeccakP-1600-inplace32BI.c")
+      set(sha3Dir "sha3/generic32lc")
+      target_sources(php_hash PRIVATE ${sha3Dir}/KeccakP-1600-inplace32BI.c)
     else()
-      set(sha3_dir "sha3/generic64lc")
-      target_sources(php_hash PRIVATE "${sha3_dir}/KeccakP-1600-opt64.c")
+      set(sha3Dir "sha3/generic64lc")
+      target_sources(php_hash PRIVATE ${sha3Dir}/KeccakP-1600-opt64.c)
     endif()
 
     target_sources(
       php_hash
       PRIVATE
-        ${sha3_dir}/KeccakHash.c
-        ${sha3_dir}/KeccakSponge.c
+        ${sha3Dir}/KeccakHash.c
+        ${sha3Dir}/KeccakSponge.c
     )
 
     target_include_directories(
       php_hash
       PRIVATE
-        ${CMAKE_CURRENT_SOURCE_DIR}/${sha3_dir}
+        ${CMAKE_CURRENT_SOURCE_DIR}/${sha3Dir}
     )
   endblock()
 
@@ -102,11 +97,13 @@ else()
     target_compile_options(php_hash PRIVATE -Wno-implicit-fallthrough)
   endif()
 
-  target_compile_definitions(php_hash
-    PRIVATE KeccakP200_excluded
-            KeccakP400_excluded
-            KeccakP800_excluded
-            ZEND_ENABLE_STATIC_TSRMLS_CACHE=1
+  target_compile_definitions(
+    php_hash
+    PRIVATE
+      KeccakP200_excluded
+      KeccakP400_excluded
+      KeccakP800_excluded
+      ZEND_ENABLE_STATIC_TSRMLS_CACHE=1
   )
 endif()
 

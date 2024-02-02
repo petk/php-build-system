@@ -54,9 +54,9 @@ target_link_libraries(php_bz2 PUBLIC BZip2::BZip2)
 
 # Sanity check.
 if(TARGET BZip2::BZip2)
-  check_library_exists(BZip2::BZip2 BZ2_bzerror "" HAVE_BZ2_BZERROR)
+  check_library_exists(BZip2::BZip2 BZ2_bzerror "" _HAVE_BZ2_BZERROR)
 
-  if(NOT HAVE_BZ2_BZERROR)
+  if(NOT _HAVE_BZ2_BZERROR)
     message(
       FATAL_ERROR
       "BZip2 package is not working as expected. The bz2 extension requires "
