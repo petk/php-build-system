@@ -37,7 +37,13 @@ target_sources(
     test.c
 )
 
-target_compile_definitions(php_zend_test PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE=1)
+target_compile_definitions(
+  php_zend_test
+  PRIVATE
+    ZEND_ENABLE_STATIC_TSRMLS_CACHE=1
+    # TODO: PHP_ZEND_TEST_EXPORTS is currently unused.
+    $<$<AND:$<PLATFORM_ID:Windows>,$<IN_LIST:$<TARGET_PROPERTY:TYPE>,MODULE_LIBRARY;SHARED_LIBRARY>>:PHP_ZEND_TEST_EXPORTS>
+)
 
 # If ext/libxml is enabled, link libxml library.
 if(EXT_LIBXML)

@@ -71,7 +71,7 @@ block(PROPAGATE Oniguruma_VERSION)
   if(Oniguruma_INCLUDE_DIR)
     file(
       STRINGS
-      "${Oniguruma_INCLUDE_DIR}/oniguruma.h"
+      ${Oniguruma_INCLUDE_DIR}/oniguruma.h
       results
       REGEX
       "^#[ \t]*define[ \t]+ONIGURUMA_VERSION_(MAJOR|MINOR|TEENY)[ \t]+[0-9]+[ \t]*$"

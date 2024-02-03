@@ -70,7 +70,7 @@ endif()
 block(PROPAGATE FFI_VERSION)
   if(FFI_INCLUDE_DIR)
     set(regex [[^[ \t]*libffi[ \t]+([0-9.]+)[ \t]*$]])
-    file(STRINGS "${FFI_INCLUDE_DIR}/ffi.h" results REGEX "${regex}")
+    file(STRINGS ${FFI_INCLUDE_DIR}/ffi.h results REGEX "${regex}")
 
     foreach(line ${results})
       if(line MATCHES "${regex}")

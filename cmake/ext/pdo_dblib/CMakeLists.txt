@@ -43,7 +43,8 @@ target_sources(
 
 set_target_properties(
   php_pdo_dblib
-  PROPERTIES PHP_EXTENSION_DEPENDENCIES php_pdo
+  PROPERTIES
+    PHP_EXTENSION_DEPENDENCIES php_pdo
 )
 
 target_compile_definitions(
@@ -55,7 +56,8 @@ target_compile_definitions(
 
 target_include_directories(
   php_pdo_dblib
-  PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/.."
+  PRIVATE
+    ${CMAKE_CURRENT_SOURCE_DIR}/..
 )
 
 find_package(FreeTDS)

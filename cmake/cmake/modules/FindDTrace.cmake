@@ -160,7 +160,8 @@ function(dtrace_target)
   if(parsed_INCLUDES)
     target_include_directories(
       ${parsed_TARGET}_object
-      PRIVATE ${parsed_INCLUDES}
+      PRIVATE
+        ${parsed_INCLUDES}
     )
   endif()
 

@@ -81,9 +81,11 @@ block()
   message(CHECK_START "Checking for c-client version 2001")
 
   file(
-    STRINGS ${Cclient_INCLUDE_DIR}/imap4r1.h
+    STRINGS
+    ${Cclient_INCLUDE_DIR}/imap4r1.h
     imapsslport_results
-    REGEX [[^[ \t]*#[ \t]*define[ \t]*IMAPSSLPORT[ \t]*\(.+\)]]
+    REGEX
+    [[^[ \t]*#[ \t]*define[ \t]*IMAPSSLPORT[ \t]*\(.+\)]]
   )
 
   if(imapsslport_results)
@@ -152,9 +154,11 @@ block()
   message(CHECK_START "Checking for Kerberos support in imap extension")
 
   file(
-    STRINGS ${Cclient_INCLUDE_DIR}/linkage.h
+    STRINGS
+    ${Cclient_INCLUDE_DIR}/linkage.h
     auth_gss_results
-    REGEX [[auth_gss;$]]
+    REGEX
+    [[auth_gss;$]]
   )
 
   if((NOT EXT_IMAP_KERBEROS AND auth_gss_results) OR EXT_IMAP_KERBEROS)
@@ -191,9 +195,11 @@ block()
   message(CHECK_START "Checking for SSL support in imap extension")
 
   file(
-    STRINGS ${Cclient_INCLUDE_DIR}/linkage.c
+    STRINGS
+    ${Cclient_INCLUDE_DIR}/linkage.c
     ssl_onceonlyinit_results
-    REGEX [[ssl_onceonlyinit[ \t]*\(\);$]]
+    REGEX
+    [[ssl_onceonlyinit[ \t]*\(\);$]]
   )
 
   if((NOT EXT_IMAP_SSL AND ssl_onceonlyinit_results) OR EXT_IMAP_SSL)

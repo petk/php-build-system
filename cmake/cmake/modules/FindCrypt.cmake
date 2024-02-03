@@ -578,10 +578,10 @@ endif()
 
 # Get version.
 block(PROPAGATE Crypt_VERSION)
-  if(Crypt_INCLUDE_DIR AND EXISTS "${Crypt_INCLUDE_DIR}/crypt.h")
+  if(Crypt_INCLUDE_DIR AND EXISTS ${Crypt_INCLUDE_DIR}/crypt.h)
     set(regex [[^[ \t]*#[ \t]*define[ \t]+XCRYPT_VERSION_STR[ \t]+"?([0-9.]+)"?[ \t]*$]])
 
-    file(STRINGS "${Crypt_INCLUDE_DIR}/crypt.h" results REGEX "${regex}")
+    file(STRINGS ${Crypt_INCLUDE_DIR}/crypt.h results REGEX "${regex}")
 
     foreach(line ${results})
       if(line MATCHES "${regex}")

@@ -110,10 +110,10 @@ endif()
 
 # Get version.
 block(PROPAGATE LDAP_VERSION)
-  if(LDAP_INCLUDE_DIR AND EXISTS "${LDAP_INCLUDE_DIR}/ldap_features.h")
+  if(LDAP_INCLUDE_DIR AND EXISTS ${LDAP_INCLUDE_DIR}/ldap_features.h)
     file(
       STRINGS
-      "${LDAP_INCLUDE_DIR}/ldap_features.h"
+      ${LDAP_INCLUDE_DIR}/ldap_features.h
       results
       REGEX
       "^#[ \t]*define[ \t]+LDAP_VENDOR_VERSION_(MAJOR|MINOR|PATCH)[ \t]+[0-9]+[ \t]*$"

@@ -254,16 +254,22 @@ if(PHP_ADDRESS_SANITIZER)
   cmake_pop_check_state()
 
   if(HAVE_ADDRESS_SANITIZER_C AND HAVE_ADDRESS_SANITIZER_CXX)
-    target_compile_options(php_configuration
-      INTERFACE "$<$<COMPILE_LANGUAGE:ASM,C,CXX>:-fsanitize=address>"
+    target_compile_options(
+      php_configuration
+      INTERFACE
+        $<$<COMPILE_LANGUAGE:ASM,C,CXX>:-fsanitize=address>
     )
 
-    target_link_options(php_configuration
-      INTERFACE "$<$<COMPILE_LANGUAGE:ASM,C,CXX>:-fsanitize=address>"
+    target_link_options(
+      php_configuration
+      INTERFACE
+        $<$<COMPILE_LANGUAGE:ASM,C,CXX>:-fsanitize=address>
     )
 
-    target_compile_definitions(php_configuration
-      INTERFACE $<$<COMPILE_LANGUAGE:ASM,C,CXX>:ZEND_TRACK_ARENA_ALLOC>
+    target_compile_definitions(
+      php_configuration
+      INTERFACE
+        $<$<COMPILE_LANGUAGE:ASM,C,CXX>:ZEND_TRACK_ARENA_ALLOC>
     )
 
     message(CHECK_PASS "Success")
@@ -285,12 +291,16 @@ if(PHP_UNDEFINED_SANITIZER)
   cmake_pop_check_state()
 
   if(HAVE_UNDEFINED_SANITIZER_C AND HAVE_UNDEFINED_SANITIZER_CXX)
-    target_compile_options(php_configuration
-      INTERFACE "$<$<COMPILE_LANGUAGE:ASM,C,CXX>:-fsanitize=undefined;-fno-sanitize-recover=undefined>"
+    target_compile_options(
+      php_configuration
+      INTERFACE
+        $<$<COMPILE_LANGUAGE:ASM,C,CXX>:-fsanitize=undefined;-fno-sanitize-recover=undefined>
     )
 
-    target_link_options(php_configuration
-      INTERFACE "$<$<COMPILE_LANGUAGE:ASM,C,CXX>:-fsanitize=undefined;-fno-sanitize-recover=undefined>"
+    target_link_options(
+      php_configuration
+      INTERFACE
+        $<$<COMPILE_LANGUAGE:ASM,C,CXX>:-fsanitize=undefined;-fno-sanitize-recover=undefined>
     )
 
     # Disable object-size sanitizer, because it is incompatible with the
@@ -303,12 +313,16 @@ if(PHP_UNDEFINED_SANITIZER)
     cmake_pop_check_state()
 
     if(HAVE_OBJECT_SIZE_SANITIZER_C AND HAVE_OBJECT_SIZE_SANITIZER_CXX)
-      target_compile_options(php_configuration
-        INTERFACE "$<$<COMPILE_LANGUAGE:ASM,C,CXX>:-fno-sanitize=object-size>"
+      target_compile_options(
+        php_configuration
+        INTERFACE
+          $<$<COMPILE_LANGUAGE:ASM,C,CXX>:-fno-sanitize=object-size>
       )
 
-      target_link_options(php_configuration
-        INTERFACE "$<$<COMPILE_LANGUAGE:ASM,C,CXX>:-fno-sanitize=object-size>"
+      target_link_options(
+        php_configuration
+        INTERFACE
+          $<$<COMPILE_LANGUAGE:ASM,C,CXX>:-fno-sanitize=object-size>
       )
     endif()
 
@@ -317,13 +331,13 @@ if(PHP_UNDEFINED_SANITIZER)
     if(NOT CMAKE_CROSSCOMPILING)
       cmake_push_check_state(RESET)
         set(CMAKE_REQUIRED_FLAGS -fno-sanitize-recover=undefined)
-        check_source_runs(C "
+        check_source_runs(C [[
           void foo(char *string) {}
           int main(void) {
             void (*f)(void *) = (void (*)(void *))foo;
-            f(\"foo\");
+            f("foo");
           }
-        " _php_ubsan_works)
+        ]] _php_ubsan_works)
       cmake_pop_check_state()
 
       if(NOT _php_ubsan_works)
@@ -331,14 +345,18 @@ if(PHP_UNDEFINED_SANITIZER)
         check_compiler_flag(CXX -fno-sanitize=function HAVE_FNO_SANITIZE_FUNCTION_CXX)
 
         if(HAVE_FNO_SANITIZE_FUNCTION_C)
-          target_compile_options(php_configuration
-            INTERFACE "$<$<COMPILE_LANGUAGE:ASM,C>:-fno-sanitize=function>"
+          target_compile_options(
+            php_configuration
+            INTERFACE
+              $<$<COMPILE_LANGUAGE:ASM,C>:-fno-sanitize=function>
           )
         endif()
 
         if(HAVE_FNO_SANITIZE_FUNCTION_CXX)
-          target_compile_options(php_configuration
-            INTERFACE "$<$<COMPILE_LANGUAGE:CXX>:-fno-sanitize=function>"
+          target_compile_options(
+            php_configuration
+            INTERFACE
+              $<$<COMPILE_LANGUAGE:CXX>:-fno-sanitize=function>
           )
         endif()
       endif()
@@ -356,14 +374,18 @@ if(PHP_MEMORY_SANITIZER OR PHP_ADDRESS_SANITIZER OR PHP_UNDEFINED_SANITIZER)
   check_compiler_flag(CXX -fno-omit-frame-pointer HAVE_FNO_OMIT_FRAME_POINTER_CXX)
 
   if(HAVE_FNO_OMIT_FRAME_POINTER_C)
-    target_compile_options(php_configuration
-      INTERFACE "$<$<COMPILE_LANGUAGE:ASM,C>:-fno-omit-frame-pointer>"
+    target_compile_options(
+      php_configuration
+      INTERFACE
+        $<$<COMPILE_LANGUAGE:ASM,C>:-fno-omit-frame-pointer>
     )
   endif()
 
   if(HAVE_FNO_OMIT_FRAME_POINTER_CXX)
-    target_compile_options(php_configuration
-      INTERFACE "$<$<COMPILE_LANGUAGE:CXX>:-fno-omit-frame-pointer>"
+    target_compile_options(
+      php_configuration
+      INTERFACE
+        $<$<COMPILE_LANGUAGE:CXX>:-fno-omit-frame-pointer>
     )
   endif()
 endif()

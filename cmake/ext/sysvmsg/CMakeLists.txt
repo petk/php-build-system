@@ -12,7 +12,7 @@ option(EXT_SYSVMSG "Enable the sysvmsg extension" OFF)
 add_feature_info(
   "ext/sysvmsg"
   EXT_SYSVMSG
-  "System V IPC support."
+  "System V message based IPC support."
 )
 
 cmake_dependent_option(
@@ -39,8 +39,8 @@ target_sources(
     sysvmsg.c
 )
 
-check_include_file(sys/msg.h HAVE_SYS_MSG_H)
+check_include_file(sys/msg.h _HAVE_SYS_MSG_H)
 
-if(NOT HAVE_SYS_MSG_H)
+if(NOT _HAVE_SYS_MSG_H)
   message(FATAL_ERROR "Cannot enable System V IPC support, sys/msg.h is missing")
 endif()

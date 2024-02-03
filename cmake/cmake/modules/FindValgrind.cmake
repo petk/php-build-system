@@ -59,7 +59,7 @@ block(PROPAGATE Valgrind_VERSION)
   if(Valgrind_INCLUDE_DIR AND EXISTS ${Valgrind_INCLUDE_DIR}/valgrind/config.h)
     set(regex [[^[ \t]*#[ \t]*define[ \t]+VERSION[ \t]+"?([0-9.]+)"?[ \t]*$]])
 
-    file(STRINGS "${Valgrind_INCLUDE_DIR}/valgrind/config.h" results REGEX "${regex}")
+    file(STRINGS ${Valgrind_INCLUDE_DIR}/valgrind/config.h results REGEX "${regex}")
 
     foreach(line ${results})
       if(line MATCHES "${regex}")

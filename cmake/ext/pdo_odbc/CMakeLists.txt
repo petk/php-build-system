@@ -127,12 +127,14 @@ target_sources(
 
 set_target_properties(
   php_pdo_odbc
-  PROPERTIES PHP_EXTENSION_DEPENDENCIES php_pdo
+  PROPERTIES
+    PHP_EXTENSION_DEPENDENCIES php_pdo
 )
 
 target_include_directories(
   php_pdo_odbc
-  PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/.."
+  PRIVATE
+    ${CMAKE_CURRENT_SOURCE_DIR}/..
 )
 
 # TODO: Can this be fixed better?
@@ -159,7 +161,8 @@ block()
   endif()
   target_compile_definitions(
     php_pdo_odbc
-    PRIVATE PDO_ODBC_TYPE=\"${EXT_PDO_ODBC_TYPE}${type}\"
+    PRIVATE
+      PDO_ODBC_TYPE=\"${EXT_PDO_ODBC_TYPE}${type}\"
   )
 endblock()
 

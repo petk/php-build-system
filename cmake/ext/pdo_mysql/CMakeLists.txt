@@ -64,17 +64,20 @@ target_sources(
 
 set_target_properties(
   php_pdo_mysql
-  PROPERTIES PHP_EXTENSION_DEPENDENCIES "php_pdo"
+  PROPERTIES
+    PHP_EXTENSION_DEPENDENCIES php_pdo
 )
 
 target_compile_definitions(
   php_pdo_mysql
-  PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE=1
+  PRIVATE
+    ZEND_ENABLE_STATIC_TSRMLS_CACHE=1
 )
 
 target_include_directories(
-  php_pdo_mysql PRIVATE
-  "${CMAKE_CURRENT_SOURCE_DIR}/.."
+  php_pdo_mysql
+  PRIVATE
+    ${CMAKE_CURRENT_SOURCE_DIR}/..
 )
 
 if(EXT_MYSQL_SOCKET)
@@ -101,7 +104,8 @@ endif()
 if(NOT EXT_PDO_MYSQL_DRIVER STREQUAL "mysql")
   set_target_properties(
     php_pdo_mysql
-    PROPERTIES PHP_EXTENSION_DEPENDENCIES "php_mysqlnd"
+    PROPERTIES
+      PHP_EXTENSION_DEPENDENCIES php_mysqlnd
   )
 
   set(PDO_USE_MYSQLND 1 CACHE INTERNAL "Whether pdo_mysql uses mysqlnd")

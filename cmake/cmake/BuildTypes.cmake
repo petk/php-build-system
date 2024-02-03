@@ -23,8 +23,9 @@ block()
                         # release mode.
       )
 
-      set_property(CACHE CMAKE_BUILD_TYPE PROPERTY
-        STRINGS "${allowed_build_types}"
+      set_property(
+        CACHE CMAKE_BUILD_TYPE
+        PROPERTY STRINGS "${allowed_build_types}"
       )
 
       if(NOT CMAKE_BUILD_TYPE)
@@ -45,5 +46,6 @@ endif()
 
 target_compile_definitions(
   php_configuration
-  INTERFACE $<IF:$<CONFIG:Debug,DebugAssertions>,ZEND_DEBUG=1,ZEND_DEBUG=0>
+  INTERFACE
+    $<IF:$<CONFIG:Debug,DebugAssertions>,ZEND_DEBUG=1,ZEND_DEBUG=0>
 )

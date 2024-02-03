@@ -28,7 +28,7 @@ add_feature_info(
 
 add_library(php_standard STATIC)
 
-file(GLOB _php_standard_headers "${CMAKE_CURRENT_SOURCE_DIR}/*.h")
+file(GLOB _php_standard_headers ${CMAKE_CURRENT_SOURCE_DIR}/*.h)
 # Exclude Windows header and specify it below separately.
 list(FILTER _php_standard_headers EXCLUDE REGEX ".*winver\\.h$")
 
@@ -113,7 +113,8 @@ endif()
 
 target_include_directories(
   php_standard
-  PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/libavifinfo
+  PRIVATE
+    ${CMAKE_CURRENT_SOURCE_DIR}/libavifinfo
 )
 
 target_compile_definitions(php_standard PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE=1)

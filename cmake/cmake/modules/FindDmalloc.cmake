@@ -65,7 +65,7 @@ block(PROPAGATE Dmalloc_VERSION)
   if(Dmalloc_INCLUDE_DIR)
     file(
       STRINGS
-      "${Dmalloc_INCLUDE_DIR}/dmalloc.h"
+      ${Dmalloc_INCLUDE_DIR}/dmalloc.h
       results
       REGEX
       "^#[ \t]*define[ \t]+DMALLOC_VERSION_(MAJOR|MINOR|PATCH)[ \t]+[0-9]+[ \t]*[^\r\n]*$"

@@ -142,7 +142,7 @@ target_sources(
 )
 
 if(NOT EXT_GD_EXTERNAL)
-  file(GLOB _php_gd_libgd_headers "${CMAKE_CURRENT_SOURCE_DIR}/libgd/*.h")
+  file(GLOB _php_gd_libgd_headers ${CMAKE_CURRENT_SOURCE_DIR}/libgd/*.h)
 
   target_sources(
     php_gd
@@ -223,7 +223,7 @@ if(NOT EXT_GD_EXTERNAL)
     target_link_libraries(php_gd PRIVATE m)
   endif()
 
-  target_include_directories(php_gd PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/libgd")
+  target_include_directories(php_gd PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/libgd)
 
   # Add -Wno-strict-prototypes C flag.
   check_compiler_flag(C -Wno-strict-prototypes HAVE_WNO_STRICT_PROTOTYPES_C)

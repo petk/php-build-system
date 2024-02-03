@@ -46,9 +46,10 @@ target_compile_definitions(
     $<$<PLATFORM_ID:Windows>:PHP_SIMPLEXML_EXPORTS>
 )
 
-set_property(
-  TARGET php_simplexml
-  PROPERTY PHP_EXTENSION_DEPENDENCIES php_libxml
+set_target_properties(
+  php_simplexml
+  PROPERTIES
+    PHP_EXTENSION_DEPENDENCIES php_libxml
 )
 
 find_package(LibXml2 ${PHP_LIBXML2_MIN_VERSION})

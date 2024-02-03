@@ -1,7 +1,7 @@
 add_library(php_main STATIC)
 add_library(PHP::main ALIAS php_main)
 
-file(GLOB_RECURSE _php_main_headers "${CMAKE_CURRENT_SOURCE_DIR}/*.h")
+file(GLOB_RECURSE _php_main_headers ${CMAKE_CURRENT_SOURCE_DIR}/*.h)
 
 target_sources(
   php_main
@@ -65,10 +65,11 @@ target_compile_definitions(
 
 target_include_directories(
   php_configuration
-  INTERFACE ${CMAKE_CURRENT_BINARY_DIR}
-            ${CMAKE_CURRENT_SOURCE_DIR}
-            ${PHP_BINARY_DIR}
-            ${PHP_SOURCE_DIR}
+  INTERFACE
+    ${CMAKE_CURRENT_BINARY_DIR}
+    ${CMAKE_CURRENT_SOURCE_DIR}
+    ${PHP_BINARY_DIR}
+    ${PHP_SOURCE_DIR}
 )
 
 target_link_libraries(
@@ -88,8 +89,10 @@ endif()
 if(CMAKE_VERSION VERSION_GREATER_EQUAL 3.27)
   target_link_libraries(php_configuration INTERFACE $<COMPILE_ONLY:Zend::Zend>)
 else()
-  target_include_directories(php_configuration
-    INTERFACE $<TARGET_PROPERTY:Zend::Zend,INTERFACE_INCLUDE_DIRECTORIES>
+  target_include_directories(
+    php_configuration
+    INTERFACE
+      $<TARGET_PROPERTY:Zend::Zend,INTERFACE_INCLUDE_DIRECTORIES>
   )
 endif()
 
@@ -116,12 +119,13 @@ if(PHP_DTRACE)
       TARGET php_main
       INPUT ${PHP_SOURCE_DIR}/Zend/zend_dtrace.d
       HEADER ${PHP_BINARY_DIR}/Zend/zend_dtrace_gen.h
-      SOURCES ${PHP_SOURCE_DIR}/main/main.c
-              ${PHP_SOURCE_DIR}/Zend/zend_API.c
-              ${PHP_SOURCE_DIR}/Zend/zend_dtrace.c
-              ${PHP_SOURCE_DIR}/Zend/zend_exceptions.c
-              ${PHP_SOURCE_DIR}/Zend/zend_execute.c
-              ${PHP_SOURCE_DIR}/Zend/zend.c
+      SOURCES
+        ${PHP_SOURCE_DIR}/main/main.c
+        ${PHP_SOURCE_DIR}/Zend/zend_API.c
+        ${PHP_SOURCE_DIR}/Zend/zend_dtrace.c
+        ${PHP_SOURCE_DIR}/Zend/zend_exceptions.c
+        ${PHP_SOURCE_DIR}/Zend/zend_execute.c
+        ${PHP_SOURCE_DIR}/Zend/zend.c
       INCLUDES ${_php_dtrace_includes}
     )
 
@@ -145,7 +149,8 @@ if(PHP_DMALLOC)
 
   target_compile_definitions(
     php_configuration
-    INTERFACE $<$<COMPILE_LANGUAGE:ASM,C,CXX>:MALLOC_FUNC_CHECK>
+    INTERFACE
+      $<$<COMPILE_LANGUAGE:ASM,C,CXX>:MALLOC_FUNC_CHECK>
   )
 
   target_link_libraries(php_main PRIVATE Dmalloc::Dmalloc)
@@ -171,15 +176,18 @@ foreach(extension IN LISTS extensions)
       INTERFACE $<COMPILE_ONLY:PHP::${extension}>
     )
   else()
-    target_include_directories(php_configuration
-      INTERFACE $<TARGET_PROPERTY:PHP::${extension},INTERFACE_INCLUDE_DIRECTORIES>
+    target_include_directories(
+      php_configuration
+      INTERFACE
+        $<TARGET_PROPERTY:PHP::${extension},INTERFACE_INCLUDE_DIRECTORIES>
     )
   endif()
 
   target_link_libraries(php_${extension} PRIVATE PHP::configuration)
 
   # Add configuration compile options before the extension compile options.
-  target_compile_options(php_${extension}
+  target_compile_options(
+    php_${extension}
     BEFORE PRIVATE
       $<TARGET_PROPERTY:php_configuration,INTERFACE_COMPILE_OPTIONS>
   )

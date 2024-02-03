@@ -286,6 +286,9 @@
 
 #cmakedefine HAVE_SOCKETS @HAVE_SOCKETS@
 
+/* Have the Sodium library */
+#cmakedefine HAVE_LIBSODIUMLIB @HAVE_LIBSODIUMLIB@
+
 /* XMLReader support */
 #cmakedefine HAVE_XMLREADER @HAVE_XMLREADER@
 

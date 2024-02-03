@@ -29,9 +29,7 @@ target_sources(
         php_pcre.h
 )
 
-target_compile_definitions(php_pcre
-  PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE=1
-)
+target_compile_definitions(php_pcre PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE=1)
 
 set(
   PCRE2_CODE_UNIT_WIDTH 8
@@ -87,7 +85,7 @@ if(EXT_PCRE_EXTERNAL)
 else()
   message(STATUS "Using bundled PCRE library")
 
-  file(GLOB _php_pcre_headers "${CMAKE_CURRENT_SOURCE_DIR}/pcre2lib/*.h")
+  file(GLOB _php_pcre_headers ${CMAKE_CURRENT_SOURCE_DIR}/pcre2lib/*.h)
 
   target_sources(
     php_pcre
@@ -128,7 +126,8 @@ else()
 
   target_include_directories(
     php_pcre
-    PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/pcre2lib
+    PRIVATE
+      ${CMAKE_CURRENT_SOURCE_DIR}/pcre2lib
   )
 
   check_compiler_flag(C -Wno-implicit-fallthrough HAVE_WNO_IMPLICIT_FALLTHROUGH_C)
@@ -136,9 +135,11 @@ else()
     target_compile_options(php_pcre PRIVATE -Wno-implicit-fallthrough)
   endif()
 
-  target_compile_definitions(php_pcre
-    PRIVATE HAVE_CONFIG_H
-    $<$<PLATFORM_ID:Windows>:PCRE2_STATIC>
+  target_compile_definitions(
+    php_pcre
+    PRIVATE
+      HAVE_CONFIG_H
+      $<$<PLATFORM_ID:Windows>:PCRE2_STATIC>
   )
 
   set(
@@ -177,7 +178,8 @@ else()
   if(PHP_VALGRIND)
     target_compile_definitions(
       php_pcre
-      PRIVATE $<$<CONFIG:Debug,DebugAssertions>:HAVE_PCRE_VALGRIND_SUPPORT=1>
+      PRIVATE
+        $<$<CONFIG:Debug,DebugAssertions>:HAVE_PCRE_VALGRIND_SUPPORT=1>
     )
   endif()
 endif()

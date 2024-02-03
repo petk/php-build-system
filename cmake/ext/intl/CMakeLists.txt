@@ -117,13 +117,15 @@ if(HAVE_WNO_WRITE_STRINGS_CXX)
   )
 endif()
 
-target_compile_definitions(php_intl
+target_compile_definitions(
+  php_intl
   PRIVATE
     U_NO_DEFAULT_INCLUDE_UTF_HEADERS=1
     __STDC_LIMIT_MACROS
     __STDC_CONSTANT_MACROS
     __STDC_FORMAT_MACROS
     ZEND_ENABLE_STATIC_TSRMLS_CACHE=1
+    $<$<COMPILE_LANGUAGE:CXX>:UNISTR_FROM_CHAR_EXPLICIT=explicit;UNISTR_FROM_STRING_EXPLICIT=explicit>
 )
 
 set_target_properties(
@@ -133,15 +135,11 @@ set_target_properties(
     CXX_STANDARD_REQUIRED TRUE
 )
 
-target_compile_definitions(
-  php_intl
-  PRIVATE "$<$<COMPILE_LANGUAGE:CXX>:UNISTR_FROM_CHAR_EXPLICIT=explicit;UNISTR_FROM_STRING_EXPLICIT=explicit>"
-)
-
 if(CMAKE_HOST_SYSTEM_NAME STREQUAL "CYGWIN")
   target_compile_definitions(
     php_intl
-    PRIVATE "$<$<COMPILE_LANGUAGE:CXX>:_POSIX_C_SOURCE=200809L>"
+    PRIVATE
+      $<$<COMPILE_LANGUAGE:CXX>:_POSIX_C_SOURCE=200809L>
   )
 endif()
 

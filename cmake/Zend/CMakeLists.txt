@@ -3,7 +3,7 @@
 ################################################################################
 
 # Read the Zend engine version.
-file(READ "zend.h" _)
+file(READ zend.h _)
 string(REGEX MATCH "#[ \t]*define[ \t]+ZEND_VERSION[ \t]+\"([0-9.]+)([^\"]*)" _ "${_}")
 set(Zend_VERSION_LABEL "${CMAKE_MATCH_2}")
 
@@ -17,11 +17,11 @@ project(
 string(APPEND Zend_VERSION "${Zend_VERSION_LABEL}")
 message(STATUS "Zend engine version: ${Zend_VERSION}")
 
-file(READ "zend_extensions.h" _)
+file(READ zend_extensions.h _)
 string(REGEX MATCH "#[ \t]*define[ \t]+ZEND_EXTENSION_API_NO[ \t]+([0-9]+)" _ "${_}")
 message(STATUS "Zend extension API number: ${CMAKE_MATCH_1}")
 
-file(READ "zend_modules.h" _)
+file(READ zend_modules.h _)
 string(REGEX MATCH "#[ \t]*define[ \t]+ZEND_MODULE_API_NO[ \t]+([0-9]+)" _ "${_}")
 message(STATUS "Zend module API number: ${CMAKE_MATCH_1}")
 
@@ -62,7 +62,7 @@ endif()
 add_library(zend STATIC)
 add_library(Zend::Zend ALIAS zend)
 
-file(GLOB _zend_headers "${CMAKE_CURRENT_SOURCE_DIR}/*.h")
+file(GLOB _zend_headers ${CMAKE_CURRENT_SOURCE_DIR}/*.h)
 # Exclude Windows header and specify it below separately.
 list(FILTER _zend_headers EXCLUDE REGEX ".*zend_config\\.w32\\.h$")
 
@@ -172,9 +172,11 @@ target_sources(
 
 target_link_libraries(zend PRIVATE PHP::configuration)
 
-target_include_directories(zend
-  INTERFACE "${CMAKE_CURRENT_SOURCE_DIR}"
-            "${CMAKE_CURRENT_BINARY_DIR}"
+target_include_directories(
+  zend
+  INTERFACE
+    ${CMAKE_CURRENT_SOURCE_DIR}
+    ${CMAKE_CURRENT_BINARY_DIR}
 )
 
 target_link_libraries(zend PUBLIC PHP::TSRM)
@@ -386,7 +388,7 @@ if(NOT CMAKE_SYSTEM_NAME STREQUAL "Windows")
 
   file(
     WRITE
-    "${CMAKE_CURRENT_BINARY_DIR}/zend_config.h"
+    ${CMAKE_CURRENT_BINARY_DIR}/zend_config.h
     "#include <../main/php_config.h>\n"
   )
 endif()

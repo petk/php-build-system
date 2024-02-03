@@ -83,7 +83,8 @@ endif()
 # Add executable.
 ################################################################################
 
-add_executable(php_fpm
+add_executable(
+  php_fpm
   fpm/events/devpoll.c
   fpm/events/epoll.c
   fpm/events/kqueue.c
@@ -116,7 +117,8 @@ add_executable(php_fpm
 
 target_include_directories(
   php_fpm
-  PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/fpm
+  PRIVATE
+    ${CMAKE_CURRENT_SOURCE_DIR}/fpm
 )
 
 target_compile_definitions(php_fpm PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE=1)
@@ -176,7 +178,7 @@ endif()
 include(PHP/CheckPtrace)
 if(
   PHP_TRACE_TYPE
-  AND EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/fpm/fpm_trace_${PHP_TRACE_TYPE}.c"
+  AND EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/fpm/fpm_trace_${PHP_TRACE_TYPE}.c
 )
   target_sources(
     php_fpm
@@ -586,6 +588,6 @@ install(CODE "
 
 install(
   FILES
-    "${CMAKE_CURRENT_BINARY_DIR}/status.html"
-  DESTINATION "${CMAKE_INSTALL_DATADIR}/fpm"
+    ${CMAKE_CURRENT_BINARY_DIR}/status.html
+  DESTINATION ${CMAKE_INSTALL_DATADIR}/fpm
 )

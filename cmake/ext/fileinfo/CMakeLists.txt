@@ -96,5 +96,6 @@ endif()
 
 target_include_directories(
   php_fileinfo
-  PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/libmagic
+  PRIVATE
+    ${CMAKE_CURRENT_SOURCE_DIR}/libmagic
 )
