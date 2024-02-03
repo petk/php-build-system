@@ -188,7 +188,7 @@ function(php_prepare_sources)
 
   # Apply patches for php-src.
   string(REGEX MATCH [[([0-9]+\.[0-9]+).*$]] _ "${PHP_VERSION}")
-  file(GLOB_RECURSE patches "${PHP_ROOT_DIR}/patches/${CMAKE_MATCH_1}/*.patch")
+  file(GLOB_RECURSE patches ${PHP_ROOT_DIR}/patches/${CMAKE_MATCH_1}/*.patch)
 
   foreach(patch ${patches})
     # Execute the patch command.

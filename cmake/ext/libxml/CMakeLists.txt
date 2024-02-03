@@ -46,8 +46,9 @@ set_package_properties(
 # HAVE_WIN32_THREADS is not needed on newer libxml2 versions anymore.
 if(LIBXML2_VERSION_STRING VERSION_LESS 2.10)
   target_compile_definitions(
-    php_libxml PRIVATE
-    $<$<PLATFORM_ID:Windows>:HAVE_WIN32_THREADS>
+    php_libxml
+    PRIVATE
+      $<$<PLATFORM_ID:Windows>:HAVE_WIN32_THREADS>
   )
 endif()
 

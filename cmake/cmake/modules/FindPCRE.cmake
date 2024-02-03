@@ -70,7 +70,8 @@ endif()
 block(PROPAGATE PCRE_VERSION)
   if(PCRE_INCLUDE_DIR)
     file(
-      STRINGS "${PCRE_INCLUDE_DIR}/pcre2.h"
+      STRINGS
+      ${PCRE_INCLUDE_DIR}/pcre2.h
       results
       REGEX "^#[ \t]*define[ \t]+PCRE2_(MAJOR|MINOR)[ \t]+[0-9]+[^\r\n]*$"
     )

@@ -19,7 +19,7 @@ cmake_dependent_option(
 
 cmake_dependent_option(
   EXT_SESSION_MM
-  "Include libmm support for session storage"
+  "Include libmm support for session storage (only for non-ZTS build)"
   OFF
   "EXT_SESSION"
   OFF
@@ -28,7 +28,7 @@ cmake_dependent_option(
 add_feature_info(
   "ext/session with mm"
   EXT_SESSION_MM
-  "mm library support for session storage. Works only on non-ZTS build."
+  "mm library support for session storage."
 )
 
 if(NOT EXT_SESSION)

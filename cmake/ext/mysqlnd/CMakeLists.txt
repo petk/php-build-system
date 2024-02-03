@@ -63,7 +63,7 @@ else()
   add_library(php_mysqlnd)
 endif()
 
-file(GLOB _php_mysqlnd_headers "${CMAKE_CURRENT_SOURCE_DIR}/*.h")
+file(GLOB _php_mysqlnd_headers ${CMAKE_CURRENT_SOURCE_DIR}/*.h)
 # Exclude Windows header and specify it below separately.
 list(FILTER _php_mysqlnd_headers EXCLUDE REGEX ".*config-win\\.h$")
 

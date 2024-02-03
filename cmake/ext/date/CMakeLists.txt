@@ -38,10 +38,13 @@ target_sources(
         "${CMAKE_CURRENT_BINARY_DIR}/lib/timelib_config.h"
 )
 
-target_include_directories(php_date
-  PRIVATE ${CMAKE_CURRENT_BINARY_DIR}/lib
-          ${CMAKE_CURRENT_SOURCE_DIR}/lib
-  INTERFACE ${CMAKE_CURRENT_BINARY_DIR}/lib
+target_include_directories(
+  php_date
+  PRIVATE
+    ${CMAKE_CURRENT_BINARY_DIR}/lib
+    ${CMAKE_CURRENT_SOURCE_DIR}/lib
+  INTERFACE
+    ${CMAKE_CURRENT_BINARY_DIR}/lib
 )
 
 check_compiler_flag(C -Wno-implicit-fallthrough HAVE_WNO_IMPLICIT_FALLTHROUGH_C)
@@ -51,7 +54,8 @@ endif()
 
 target_compile_options(php_date PRIVATE $<$<COMPILE_LANG_AND_ID:C,MSVC>:/wd4244>)
 
-target_compile_definitions(php_date
+target_compile_definitions(
+  php_date
   PRIVATE
     ZEND_ENABLE_STATIC_TSRMLS_CACHE=1
     HAVE_TIMELIB_CONFIG_H=1
@@ -60,7 +64,7 @@ target_compile_definitions(php_date
 set(HAVE_TIMELIB_CONFIG_H 1 CACHE INTERNAL "Have timelib_config.h")
 
 message(STATUS "Creating ext/date/lib/timelib_config.h")
-file(WRITE "${CMAKE_CURRENT_BINARY_DIR}/lib/timelib_config.h" [[
+file(WRITE ${CMAKE_CURRENT_BINARY_DIR}/lib/timelib_config.h [[
 #ifdef PHP_WIN32
 # include "config.w32.h"
 #else

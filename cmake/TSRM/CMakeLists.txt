@@ -16,7 +16,7 @@ target_sources(
 
 target_link_libraries(php_tsrm PRIVATE PHP::configuration)
 
-target_include_directories(php_tsrm INTERFACE "${CMAKE_CURRENT_SOURCE_DIR}")
+target_include_directories(php_tsrm INTERFACE ${CMAKE_CURRENT_SOURCE_DIR})
 
 target_compile_definitions(
   php_tsrm

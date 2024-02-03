@@ -82,7 +82,7 @@ block(PROPAGATE LMDB_VERSION)
   if(LMDB_INCLUDE_DIR)
     file(
       STRINGS
-      "${LMDB_INCLUDE_DIR}/lmdb.h"
+      ${LMDB_INCLUDE_DIR}/lmdb.h
       results
       REGEX
       "^#[ \t]*define[ \t]+MDB_VERSION_(MAJOR|MINOR|PATCH)[ \t]+[0-9]+[ \t]*$"

@@ -72,7 +72,7 @@ block(PROPAGATE SASL_VERSION)
   if(SASL_INCLUDE_DIR)
     file(
       STRINGS
-      "${SASL_INCLUDE_DIR}/sasl/sasl.h"
+      ${SASL_INCLUDE_DIR}/sasl/sasl.h
       results
       REGEX
       "^#[ \t]*define[ \t]+SASL_VERSION_(MAJOR|MINOR|STEP)[ \t]+[0-9]+[ \t]*$"

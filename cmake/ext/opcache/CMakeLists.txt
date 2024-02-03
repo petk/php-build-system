@@ -74,8 +74,9 @@ target_sources(
 
 target_include_directories(
   php_opcache
-  PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/jit
-          ${CMAKE_CURRENT_BINARY_DIR}/jit
+  PRIVATE
+    ${CMAKE_CURRENT_SOURCE_DIR}/jit
+    ${CMAKE_CURRENT_BINARY_DIR}/jit
 )
 
 set_target_properties(php_opcache PROPERTIES PHP_ZEND_EXTENSION TRUE)

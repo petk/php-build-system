@@ -126,7 +126,7 @@ endmacro()
 
 # Get a sorted list of subdirectories related to extensions.
 function(_php_extensions_get directory result)
-  file(GLOB extensions "${directory}/*/CMakeLists.txt")
+  file(GLOB extensions ${directory}/*/CMakeLists.txt)
 
   foreach(extension ${extensions})
     cmake_path(GET extension PARENT_PATH dir)
@@ -182,7 +182,7 @@ function(_php_extensions_sort_by_priority directories result)
   set(extensions_after "")
 
   foreach(dir ${directories})
-    file(READ "${dir}/CMakeLists.txt" content)
+    file(READ ${dir}/CMakeLists.txt content)
 
     string(CONCAT regex
       # Command invocation:
@@ -245,7 +245,7 @@ endfunction()
 function(_php_extensions_get_dependencies directory result)
   unset(${result} PARENT_SCOPE)
 
-  file(READ "${directory}/CMakeLists.txt" content)
+  file(READ ${directory}/CMakeLists.txt content)
 
   string(CONCAT regex
     # Command invocation:
@@ -377,7 +377,7 @@ function(_php_extensions_eval_options directories)
 
     message(DEBUG "Parsing and evaluating ${extension} options")
 
-    file(READ "${dir}/CMakeLists.txt" content)
+    file(READ ${dir}/CMakeLists.txt content)
     string(TOUPPER "${extension}" extension_upper)
 
     # If extension has option(EXT_<extension> ...).

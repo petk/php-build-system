@@ -69,10 +69,10 @@ endif()
 
 # Get version.
 block(PROPAGATE Sodium_VERSION)
-  if(Sodium_INCLUDE_DIR AND EXISTS "${Sodium_INCLUDE_DIR}/sodium/version.h")
+  if(Sodium_INCLUDE_DIR AND EXISTS ${Sodium_INCLUDE_DIR}/sodium/version.h)
     set(regex [[^#[ \t]*define[ \t]+SODIUM_VERSION_STRING[ \t]+"([0-9.]+)"[ \t]*$]])
 
-    file(STRINGS "${Sodium_INCLUDE_DIR}/sodium/version.h" results REGEX "${regex}")
+    file(STRINGS ${Sodium_INCLUDE_DIR}/sodium/version.h results REGEX "${regex}")
 
     foreach(line ${results})
       if(line MATCHES "${regex}")

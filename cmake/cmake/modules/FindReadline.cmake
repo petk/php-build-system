@@ -101,7 +101,7 @@ block(PROPAGATE Readline_VERSION)
   if(Readline_INCLUDE_DIR)
     file(
       STRINGS
-      "${Readline_INCLUDE_DIR}/readline/readline.h"
+      ${Readline_INCLUDE_DIR}/readline/readline.h
       results
       REGEX
       "^#[ \t]*define[ \t]+RL_VERSION_(MAJOR|MINOR)[ \t]+[0-9]+[ \t]*$"

@@ -15,4 +15,10 @@ endif()
 # The dl_test extension can be built only as a shared library.
 add_library(php_dl_test SHARED dl_test.c)
 
-target_compile_definitions(php_dl_test PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE=1)
+target_compile_definitions(
+  php_dl_test
+  PRIVATE
+    ZEND_ENABLE_STATIC_TSRMLS_CACHE=1
+    # TODO: PHP_DL_TEST_EXPORTS is currently unused.
+    $<$<AND:$<PLATFORM_ID:Windows>,$<IN_LIST:$<TARGET_PROPERTY:TYPE>,MODULE_LIBRARY;SHARED_LIBRARY>>:PHP_DL_TEST_EXPORTS>
+)

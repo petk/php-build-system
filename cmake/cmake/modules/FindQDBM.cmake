@@ -82,7 +82,7 @@ block(PROPAGATE QDBM_VERSION)
   if(QDBM_INCLUDE_DIR)
     set(regex [[^[ \t]*#[ \t]*define[ \t]+_QDBM_VERSION[ \t]+"?([0-9.]+)"?[ \t]*$]])
 
-    file(STRINGS "${QDBM_INCLUDE_DIR}/depot.h" results REGEX "${regex}")
+    file(STRINGS ${QDBM_INCLUDE_DIR}/depot.h results REGEX "${regex}")
 
     foreach(line ${results})
       if(line MATCHES "${regex}")

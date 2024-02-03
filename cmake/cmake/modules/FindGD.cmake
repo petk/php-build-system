@@ -72,7 +72,7 @@ block(PROPAGATE GD_VERSION)
   if(GD_INCLUDE_DIR)
     file(
       STRINGS
-      "${GD_INCLUDE_DIR}/gd.h"
+      ${GD_INCLUDE_DIR}/gd.h
       results
       REGEX
       "^#[ \t]*define[ \t]+GD_(MAJOR|MINOR|RELEASE)_VERSION[ \t]+[0-9]+[ \t]*[^\r\n]*$"

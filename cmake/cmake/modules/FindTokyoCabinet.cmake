@@ -87,7 +87,7 @@ block(PROPAGATE TokyoCabinet_VERSION)
   if(TokyoCabinet_INCLUDE_DIR AND EXISTS ${TokyoCabinet_INCLUDE_DIR}/tcutil.h)
     set(regex [[^[ \t]*#[ \t]*define[ \t]+_TC_VERSION[ \t]+"?([0-9.]+)"?[ \t]*$]])
 
-    file(STRINGS "${TokyoCabinet_INCLUDE_DIR}/tcutil.h" results REGEX "${regex}")
+    file(STRINGS ${TokyoCabinet_INCLUDE_DIR}/tcutil.h results REGEX "${regex}")
 
     foreach(line ${results})
       if(line MATCHES "${regex}")

@@ -135,7 +135,7 @@ endblock()
 
 set(_reason "")
 
-if(NOT MC_EXECUTABLE OR NOT EXISTS MC_EXECUTABLE)
+if(NOT MC_EXECUTABLE OR NOT EXISTS ${MC_EXECUTABLE})
   string(APPEND _reason "Message compiler command-line tool (mc) not found. ")
 else()
   # If MC_EXECUTABLE was found or was set by the user and path exists.

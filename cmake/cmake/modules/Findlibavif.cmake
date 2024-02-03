@@ -72,9 +72,11 @@ endif()
 block(PROPAGATE libavif_VERSION)
   if(libavif_INCLUDE_DIR)
     file(
-      STRINGS "${libavif_INCLUDE_DIR}/avif/avif.h"
+      STRINGS
+      ${libavif_INCLUDE_DIR}/avif/avif.h
       results
-      REGEX "^#[ \t]*define[ \t]+AVIF_VERSION_(MAJOR|MINOR|PATCH)[ \t]+[0-9]+[^\r\n]*$"
+      REGEX
+      "^#[ \t]*define[ \t]+AVIF_VERSION_(MAJOR|MINOR|PATCH)[ \t]+[0-9]+[^\r\n]*$"
     )
 
     unset(libavif_VERSION)

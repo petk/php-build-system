@@ -81,9 +81,11 @@ if(php_cli_suffix)
   string(APPEND php_cli_filename ${php_cli_suffix})
 endif()
 
-file(GLOB_RECURSE _phar_dependent_files
-  "${CMAKE_CURRENT_SOURCE_DIR}/phar/*.inc"
-  "${CMAKE_CURRENT_SOURCE_DIR}/phar/*.php"
+file(
+  GLOB_RECURSE
+  _phar_dependent_files
+  ${CMAKE_CURRENT_SOURCE_DIR}/phar/*.inc
+  ${CMAKE_CURRENT_SOURCE_DIR}/phar/*.php
 )
 
 # TODO: Generate based on CMAKE_CROSSCOMPILING.

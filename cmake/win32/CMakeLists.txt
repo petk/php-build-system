@@ -6,7 +6,7 @@ endif()
 add_library(php_win32 STATIC)
 add_library(PHP::win32 ALIAS php_win32)
 
-file(GLOB _php_win32_headers "${CMAKE_CURRENT_SOURCE_DIR}/*.h")
+file(GLOB _php_win32_headers ${CMAKE_CURRENT_SOURCE_DIR}/*.h)
 
 target_sources(
   php_win32
@@ -55,7 +55,9 @@ target_compile_definitions(
 # time_t defaults to 64-bit. Ask for 32-bit.
 # TODO: Add 32-bit flags.
 target_compile_options(
-  php_configuration INTERFACE /wd4996
+  php_configuration
+  INTERFACE
+    /wd4996
 )
 
 target_link_libraries(php_win32 PRIVATE PHP::configuration)

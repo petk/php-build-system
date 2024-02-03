@@ -211,18 +211,19 @@ check_symbol_exists(ctime_r "time.h" HAVE_CTIME_R)
 check_symbol_exists(explicit_memset "string.h" HAVE_EXPLICIT_MEMSET)
 check_symbol_exists(fdatasync "unistd.h" HAVE_FDATASYNC)
 
-cmake_push_check_state(RESET)
-  if(HAVE_FCNTL_H)
-    list(APPEND _php_flock_headers "fcntl.h")
-  endif()
+block()
+  cmake_push_check_state(RESET)
+    if(HAVE_FCNTL_H)
+      list(APPEND headers "fcntl.h")
+    endif()
 
-  if(HAVE_SYS_FILE_H)
-    list(APPEND _php_flock_headers "sys/file.h")
-  endif()
+    if(HAVE_SYS_FILE_H)
+      list(APPEND headers "sys/file.h")
+    endif()
 
-  check_symbol_exists(flock "${_php_flock_headers}" HAVE_FLOCK)
-  unset(_php_flock_headers)
-cmake_pop_check_state()
+    check_symbol_exists(flock "${headers}" HAVE_FLOCK)
+  cmake_pop_check_state()
+endblock()
 
 check_symbol_exists(ftok "sys/ipc.h" HAVE_FTOK)
 check_symbol_exists(funopen "stdio.h" HAVE_FUNOPEN)
@@ -349,7 +350,8 @@ if(PHP_FD_SETSIZE GREATER 0)
   message(CHECK_PASS "using FD_SETSIZE=${PHP_FD_SETSIZE}")
   target_compile_definitions(
     php_configuration
-    INTERFACE $<$<COMPILE_LANGUAGE:ASM,C,CXX>:FD_SETSIZE=${PHP_FD_SETSIZE}>
+    INTERFACE
+      $<$<COMPILE_LANGUAGE:ASM,C,CXX>:FD_SETSIZE=${PHP_FD_SETSIZE}>
   )
 elseif(NOT PHP_FD_SETSIZE STREQUAL "" AND NOT PHP_FD_SETSIZE GREATER 0)
   message(FATAL_ERROR "Invalid value PHP_FD_SETSIZE=${PHP_FD_SETSIZE}")

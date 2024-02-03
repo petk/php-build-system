@@ -125,9 +125,11 @@ block(PROPAGATE NetSnmp_VERSION)
     set(regex "^[ \t]*#[ \t]*define[ \t]+PACKAGE_VERSION[ \t]+\"([0-9.]+)\"[^\r\n]*$")
 
     file(
-      STRINGS "${NetSnmp_INCLUDE_DIR}/net-snmp/net-snmp-config.h"
+      STRINGS
+      ${NetSnmp_INCLUDE_DIR}/net-snmp/net-snmp-config.h
       results
-      REGEX "${regex}"
+      REGEX
+      "${regex}"
     )
 
     foreach(line ${results})

@@ -228,7 +228,7 @@ endif()
 # Set default PHP_EXTENSION_DIR based on the layout used.
 block()
   if(NOT PHP_EXTENSION_DIR)
-    file(READ "${PHP_SOURCE_DIR}/Zend/zend_modules.h" content)
+    file(READ ${PHP_SOURCE_DIR}/Zend/zend_modules.h content)
     string(REGEX MATCH "#define ZEND_MODULE_API_NO ([0-9]*)" _ "${content}")
     set(zend_module_api_no ${CMAKE_MATCH_1})
 
