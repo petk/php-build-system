@@ -94,6 +94,9 @@ phpsdk_deps --update --branch master
 
 # Build PHP
 nmake
+
+# Built files reside in the <architecture>\Release_TS directory. For example
+x64\Release_TS\php.exe -v
 ```
 
 ## 4. The configure.bat command-line options

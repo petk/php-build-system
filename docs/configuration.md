@@ -989,19 +989,19 @@ A list of Autoconf `configure` command-line configuration options, Windows
       <td></td>
     </tr>
     <tr>
-      <td></td>
+      <td>N/A</td>
       <td>--enable-com-dotnet</td>
       <td>EXT_COM_DOTNET=ON</td>
       <td>default; Windows only</td>
     </tr>
     <tr>
-      <td></td>
+      <td>N/A</td>
       <td>--enable-com-dotnet=shared</td>
       <td>EXT_COM_DOTNET_SHARED=ON</td>
       <td>Windows only</td>
     </tr>
     <tr>
-      <td></td>
+      <td>N/A</td>
       <td>--disable-com-dotnet</td>
       <td>EXT_COM_DOTNET=OFF</td>
       <td>Windows only</td>
@@ -2632,13 +2632,13 @@ A list of Autoconf `configure` command-line configuration options, Windows
     </tr>
     <tr>
       <td>&emsp;--without-mm</td>
-      <td></td>
+      <td>N/A</td>
       <td>EXT_SESSION_MM=OFF</td>
       <td>default</td>
     </tr>
     <tr>
       <td>&emsp;--with-mm[=DIR]</td>
-      <td></td>
+      <td>N/A</td>
       <td>
         EXT_SESSION_MM=ON<br>
         [MM_ROOT=DIR]
