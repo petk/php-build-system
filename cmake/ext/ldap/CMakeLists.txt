@@ -59,7 +59,6 @@ target_link_libraries(php_ldap PRIVATE LDAP::LDAP)
 if(TARGET LDAP::LDAP)
   cmake_push_check_state(RESET)
     set(CMAKE_REQUIRED_LIBRARIES LDAP::LDAP)
-    set(CMAKE_REQUIRED_INCLUDES ${LDAP_INCLUDE_DIRS})
 
     message(CHECK_START "Checking for 3 arg ldap_set_rebind_proc")
     check_source_compiles(C "

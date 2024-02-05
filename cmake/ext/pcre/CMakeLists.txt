@@ -4,16 +4,21 @@ include(CheckSourceRuns)
 include(CMakePushCheckState)
 include(FeatureSummary)
 
-option(EXT_PCRE_EXTERNAL "Use external library for PCRE support" OFF)
+option(
+  EXT_PCRE_EXTERNAL
+  "Use external (system) PCRE library in ext/pcre instead of the bundled library"
+  OFF
+)
 
 add_feature_info(
-  "ext/pcre with external PCRE library"
+  "ext/pcre external library"
   EXT_PCRE_EXTERNAL
-  "By default the bundled PCRE library will be used for compiling and linking. \
-If EXT_PCRE_EXTERNAL is set, external PCRE library will be used."
+  "Using system PCRE library instead of the bundled library."
 )
 
 option(EXT_PCRE_JIT "Enable PCRE JIT functionality" ON)
+
+mark_as_advanced(EXT_PCRE_EXTERNAL EXT_PCRE_JIT)
 
 add_library(php_pcre STATIC)
 
@@ -51,7 +56,11 @@ if(EXT_PCRE_EXTERNAL)
     message(CHECK_START "Checking for JIT support in PCRE2")
 
     if(CMAKE_CROSSCOMPILING)
-      if(CMAKE_HOST_SYSTEM_PROCESSOR MATCHES "^(arm.*|i[34567]86|x86_64|amd64|mips.*|powerpc.*|sparc.*)$")
+      if(
+        CMAKE_HOST_SYSTEM_PROCESSOR
+        MATCHES
+        "^(arm.*|i[34567]86|x86_64|amd64|mips.*|powerpc.*|sparc.*|AMD64|ARM64)$"
+      )
         set(
           HAVE_PCRE_JIT_SUPPORT 1
           CACHE INTERNAL "Whether to enable the PCRE JIT support"
@@ -60,7 +69,12 @@ if(EXT_PCRE_EXTERNAL)
     else()
       cmake_push_check_state(RESET)
         set(CMAKE_REQUIRED_LIBRARIES PCRE::PCRE)
-        set(CMAKE_REQUIRED_DEFINITIONS -DPCRE2_CODE_UNIT_WIDTH=${PCRE2_CODE_UNIT_WIDTH})
+        # Before including pcre2.h, the PCRE2_CODE_UNIT_WIDTH must be set.
+        set(
+          CMAKE_REQUIRED_DEFINITIONS
+          -DPCRE2_CODE_UNIT_WIDTH=${PCRE2_CODE_UNIT_WIDTH}
+        )
+        set(CMAKE_REQUIRED_QUIET TRUE)
 
         check_source_runs(C "
           #include <pcre2.h>
@@ -124,22 +138,19 @@ else()
           ${_php_pcre_headers}
   )
 
-  target_include_directories(
-    php_pcre
-    PRIVATE
-      ${CMAKE_CURRENT_SOURCE_DIR}/pcre2lib
-  )
-
-  check_compiler_flag(C -Wno-implicit-fallthrough HAVE_WNO_IMPLICIT_FALLTHROUGH_C)
-  if(HAVE_WNO_IMPLICIT_FALLTHROUGH_C)
+  check_compiler_flag(C -Wno-implicit-fallthrough _HAVE_WNO_IMPLICIT_FALLTHROUGH_C)
+  if(_HAVE_WNO_IMPLICIT_FALLTHROUGH_C)
     target_compile_options(php_pcre PRIVATE -Wno-implicit-fallthrough)
+  endif()
+
+  if(CMAKE_SYSTEM_NAME STREQUAL "Windows")
+    set(PCRE2_STATIC 1 CACHE INTERNAL "Whether a static PCRE library is linked")
   endif()
 
   target_compile_definitions(
     php_pcre
     PRIVATE
       HAVE_CONFIG_H
-      $<$<PLATFORM_ID:Windows>:PCRE2_STATIC>
   )
 
   set(
@@ -158,15 +169,22 @@ else()
     message(CHECK_PASS "yes")
 
     message(CHECK_START "Checking whether Intel CET is enabled")
-    check_source_compiles(C "
-      #ifndef __CET__
-      # error CET is not enabled
-      #endif
-      " HAVE_PCRE2_INTEL_CET
-    )
-    if(HAVE_PCRE2_INTEL_CET)
+    cmake_push_check_state(RESET)
+      set(CMAKE_REQUIRED_QUIET TRUE)
+      check_source_compiles(C "
+        #ifndef __CET__
+        # error CET is not enabled
+        #endif
+        int main(void) { return 0; }"
+        _HAVE_PCRE2_INTEL_CET
+      )
+    cmake_pop_check_state()
+    if(_HAVE_PCRE2_INTEL_CET)
       message(CHECK_PASS "yes")
-      target_compile_options(php_pcre PRIVATE -mshstk)
+      check_compiler_flag(C -mshstk _HAVE_MSHSTK_C)
+      if(_HAVE_MSHSTK_C)
+        target_compile_options(php_pcre PRIVATE -mshstk)
+      endif()
     else()
       message(CHECK_FAIL "no")
     endif()
@@ -185,7 +203,7 @@ else()
 endif()
 
 add_feature_info(
-  "ext/pcre with PCRE JIT"
+  "ext/pcre JIT"
   HAVE_PCRE_JIT_SUPPORT
   "PCRE JIT support"
 )

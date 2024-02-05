@@ -60,6 +60,7 @@ if(TARGET BZip2::BZip2)
     message(
       FATAL_ERROR
       "BZip2 package is not working as expected. The bz2 extension requires "
-      "libbz2 >= 1.0.0. Please see logs.")
+      "libbz2 >= 1.0.0. Please see logs."
+    )
   endif()
 endif()

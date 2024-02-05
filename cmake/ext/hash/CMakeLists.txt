@@ -92,8 +92,8 @@ else()
   endblock()
 
   # Add -Wno-implicit-fallthrough flag as it happens on 32-bit builds.
-  check_compiler_flag(C -Wno-implicit-fallthrough HAVE_WNO_IMPLICIT_FALLTHROUGH_C)
-  if(HAVE_WNO_IMPLICIT_FALLTHROUGH_C)
+  check_compiler_flag(C -Wno-implicit-fallthrough _HAVE_WNO_IMPLICIT_FALLTHROUGH_C)
+  if(_HAVE_WNO_IMPLICIT_FALLTHROUGH_C)
     target_compile_options(php_hash PRIVATE -Wno-implicit-fallthrough)
   endif()
 

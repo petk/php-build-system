@@ -61,7 +61,6 @@ endif()
 
 cmake_push_check_state(RESET)
   set(CMAKE_REQUIRED_LIBRARIES FFI::FFI)
-  set(CMAKE_REQUIRED_INCLUDES "${FFI_INCLUDE_DIRS}")
 
   message(CHECK_START "Checking for fastcall calling convention")
   check_symbol_exists(FFI_FASTCALL "ffi.h" HAVE_FFI_FASTCALL)
