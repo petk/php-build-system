@@ -208,13 +208,13 @@ loops, such as `foreach`.
 
 ```cmake
 # Create a list
-set(list_variable a b c)
+set(listVariable a b c)
 
 # Or
-set(list_variable "a;b;c")
+set(listVariable "a;b;c")
 
 # This is a normal string, not a list
-set(string_variable "a b c")
+set(stringVariable "a b c")
 ```
 
 The `list()` command performs operations on lists.

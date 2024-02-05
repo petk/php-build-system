@@ -117,8 +117,8 @@ On the contrary, variable names are case-sensitive.
   This practice facilitates concatenation of such variables:
 
   ```cmake
-  set(parent_dir "foo/bar")
-  set(child_dir "${parent_dir}/baz")
+  set(parentDir "foo/bar")
+  set(childDir "${parentDir}/baz")
   ```
 
 ### 2.1. End commands
@@ -163,15 +163,15 @@ and `PROJECT_BINARY_DIR`, or `<ProjectName>_SOURCE_DIR` and
 For example, instead of:
 
 ```cmake
-set(some_path ${CMAKE_SOURCE_DIR}/main/php_config.h)
+set(somePath ${CMAKE_SOURCE_DIR}/main/php_config.h)
 ```
 
 use:
 
 ```cmake
-set(some_path ${PROJECT_SOURCE_DIR}/file.h)
+set(somePath ${PROJECT_SOURCE_DIR}/file.h)
 # and
-set(some_path ${PHP_SOURCE_DIR}/main/php_config.h)
+set(somePath ${PHP_SOURCE_DIR}/main/php_config.h)
 ```
 
 These variables succinctly define the root directories of the project, ensuring
@@ -203,11 +203,12 @@ and manage them effectively within the project.
 
 #### 3.1.1. Local variables
 
-Variables with a scope inside functions and blocks. These should be lower_case.
+Variables with a scope inside functions and blocks. These should preferably be
+in *camelCase*.
 
 ```cmake
 function(foo)
-  set(variable_name <value>)
+  set(variableName <value>)
   # ...
 endfunction()
 ```
@@ -228,7 +229,8 @@ Variable `bar` in the above example is uninitialized beyond the block's scope.
 #### 3.1.2. Directory variables
 
 Directory variables are those confined to the current `CMakeLists.txt` and its
-child directories. To distinguish them, these variables should be in UPPER_CASE.
+child directories. To distinguish them, these variables should be in
+*UPPER_CASE*.
 
 ```cmake
 set(VAR <value>)
@@ -240,7 +242,7 @@ directory and its descendants.
 #### 3.1.3. Cache variables
 
 Cache variables are stored and persist across the entire build system. They
-should be UPPER_CASE.
+should be *UPPER_CASE*.
 
 ```cmake
 # Cache variable
@@ -305,13 +307,12 @@ any case.
 #### 3.2.3. Temporary variables
 
 It's customary to prefix temporary variables that are intended for use within a
-specific code block with an underscore (`_`) and write them in lower_case. This
-naming convention indicates that these variables are meant exclusively for
-internal use within the current CMake file and should not be accessed outside of
-that context.
+specific code block with an underscore (`_`). This naming convention indicates
+that these variables are meant exclusively for internal use within the current
+CMake file and should not be accessed outside of that context.
 
 ```cmake
-set(_temporary_variable <value>)
+set(_temporaryVariable <value>)
 ```
 
 > [!TIP]
@@ -349,7 +350,7 @@ find_package(PackageName)
 target_link_libraries(php PRIVATE PackageName::PackageName)
 ```
 
-`PackageName` can be in any case (a-zA-Z0-9), with PascalCase or package
+`PackageName` can be in any case (a-zA-Z0-9), with *PascalCase* or package
 original name case preferred.
 
 ### 4.2. Utility modules
@@ -396,7 +397,7 @@ within the current scope of CMake code is required.
 
 CMake function and macro names possess global scope, so it is recommended to
 prefix them contextually, for example `php_`. It is preferred to adhere to the
-snake_case style.
+*snake_case* style.
 
 ```cmake
 function(php_function_name argument_name)
@@ -494,7 +495,7 @@ add_custom_target(php_generate_something ...)
 
 ## 8. Properties
 
-In this repository, CMake custom properties follow the UPPER_CASE naming
+In this repository, CMake custom properties follow the *UPPER_CASE* naming
 convention and are consistently prefixed with a context-specific identifier,
 such as `PHP_`.
 
@@ -504,8 +505,11 @@ define_property(<scope> PROPERTY PHP_CUSTOM_PROPERTY_NAME [...])
 
 ## 9. Determining platform
 
-CMake offers variables such as `APPLE`, `LINUX`, `UNIX`, `WIN32`, etc. However,
-they might be removed in the future CMake versions. It is recommended to use:
+CMake provides variables such as `APPLE`, `LINUX`, `UNIX`, `WIN32`, etc, for the
+target systems, and `CMAKE_HOST_APPLE`, `CMAKE_HOST_LINUX`, etc, for the host
+systems. However, they some might be removed in the future CMake versions and
+they can be also ambiguous in certain cases. Better practice is to be specific
+and use:
 
 * `CMAKE_SYSTEM_NAME` in code or `PLATFORM_ID` in generator expressions to check
   the target platform (which is also the name used during cross-compilation).
@@ -526,47 +530,13 @@ endif()
 In generator expressions, `PLATFORM_ID` can be used to detect target platforms:
 
 ```cmake
-target_compile_definitions(
-  php
-  PRIVATE $<$<PLATFORM_ID:Linux,FreeBSD>:FOOBAR>
-)
+target_compile_definitions(php PRIVATE $<$<PLATFORM_ID:Linux,FreeBSD>:FOOBAR>)
 ```
 
-Values for `CMAKE_SYSTEM_NAME`, `CMAKE_HOST_SYSTEM_NAME`, and `PLATFORM_ID`:
-
-| Value          | Note                                                   |
-| -------------- | ------------------------------------------------------ |
-| `AIX`          | IBM Unix operating system                              |
-| `Android`      | Android operating system                               |
-| `CYGWIN`       | Cygwin environment for Windows                         |
-| `Darwin`       | Apple stationary operating systems (macOS, OS X, etc.) |
-| `DragonFly`    | BSD-derived operating system                           |
-| `Emscripten`   | Compiler toolchain to WebAssembly                      |
-| `FreeBSD`      | All FreeBSD operating systems versions                 |
-| `Generic`      | Some platforms, e.g. bare metal embedded devices       |
-| `GNU`          | GNU/Hurd-based operating system                        |
-| `Haiku`        | Unix operating system inspired by BeOS                 |
-| `HP-UX`        | Hewlett Packard Unix                                   |
-| `iOS`          | Apple mobile phone operating system                    |
-| `Linux`        | All Linux-based distributions                          |
-| `MSYS`         | MSYS environment                                       |
-| `NetBSD`       | NetBSD operating systems                               |
-| `OpenBSD`      | OpenBSD operating systems                              |
-| `OS400`        | IBM Unix operating system                              |
-| `QNX`          | Unix-like operating system by BlackBerry               |
-| `SCO_SV`       | SCO OpenServer 5                                       |
-| `SunOS`        | Oracle Solaris and all illumos operating systems       |
-| `tvOS`         | Apple TV operating system                              |
-| `UNIX_SV`      | SCO UnixWare (pre release 7)                           |
-| `UnixWare`     | SCO UnixWare 7                                         |
-| `visionOS`     | Apple mixed reality operating system                   |
-| `watchOS`      | Apple watch operating system                           |
-| `Windows`      | Windows stationary operating systems                   |
-| `WindowsCE`    | Windows Embedded Compact                               |
-| `WindowsPhone` | Windows mobile phone operating system                  |
-| `WindowsStore` | Universal Windows Platform applications                |
-
-See also [CMakeDetermineSystem.cmake](https://gitlab.kitware.com/cmake/cmake/-/blob/master/Modules/CMakeDetermineSystem.cmake).
+> [!NOTE]
+> All possible values for `CMAKE_SYSTEM_NAME`, `CMAKE_HOST_SYSTEM_NAME`, and
+> `PLATFORM_ID`, known to CMake, are listed in the
+> [CMake documentation](https://cmake.org/cmake/help/latest/variable/CMAKE_SYSTEM_NAME.html).
 
 ### 9.1. Determining processor
 
