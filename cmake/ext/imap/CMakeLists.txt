@@ -80,13 +80,15 @@ endif()
 block()
   message(CHECK_START "Checking for c-client version 2001")
 
-  file(
-    STRINGS
-    ${Cclient_INCLUDE_DIR}/imap4r1.h
-    imapsslport_results
-    REGEX
-    [[^[ \t]*#[ \t]*define[ \t]*IMAPSSLPORT[ \t]*\(.+\)]]
-  )
+  if(EXISTS ${Cclient_INCLUDE_DIR}/imap4r1.h)
+    file(
+      STRINGS
+      ${Cclient_INCLUDE_DIR}/imap4r1.h
+      imapsslport_results
+      REGEX
+      [[^[ \t]*#[ \t]*define[ \t]*IMAPSSLPORT[ \t]*\(.+\)]]
+    )
+  endif()
 
   if(imapsslport_results)
     message(CHECK_PASS "yes")

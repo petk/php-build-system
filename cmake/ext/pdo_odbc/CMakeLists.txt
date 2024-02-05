@@ -218,7 +218,7 @@ if(TARGET ODBC::ODBC)
       string(TOUPPER ${const} const_upper)
 
       cmake_push_check_state(RESET)
-        set(CMAKE_REQUIRED_INCLUDES ${ODBC_INCLUDE_DIRS})
+        set(CMAKE_REQUIRED_LIBRARIES ODBC::ODBC)
         check_include_file(${header} HAVE_${const_upper})
       cmake_pop_check_state()
 

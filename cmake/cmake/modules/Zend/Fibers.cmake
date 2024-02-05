@@ -83,7 +83,7 @@ block(PROPAGATE zend_fibers_asm_file zend_fibers_asm_sources)
 
   if(CMAKE_HOST_SYSTEM_NAME STREQUAL "Darwin")
     set(zend_fibers_asm_file "combined_sysv_macho_gas.S")
-  elseif(CMAKE_HOST_SYSTEM_NAME MATCHES "^(AIX|OS400)$")
+  elseif(CMAKE_HOST_SYSTEM_NAME STREQUAL "AIX")
     # AIX uses a different calling convention (shared with non-_CALL_ELF Linux).
     # The AIX assembler isn't GNU, but the file is compatible.
     set(zend_fibers_asm_file "${prefix}_xcoff_gas.S")

@@ -64,7 +64,6 @@ if(PHP_THREAD_SAFETY AND CURL_SSL_FOUND)
   if(NOT CMAKE_CROSSCOMPILING)
     cmake_push_check_state(RESET)
       set(CMAKE_REQUIRED_LIBRARIES CURL::libcurl)
-      set(CMAKE_REQUIRED_INCLUDES ${CURL_INCLUDE_DIRS})
       set(CMAKE_REQUIRED_QUIET TRUE)
 
       check_source_runs(C [[

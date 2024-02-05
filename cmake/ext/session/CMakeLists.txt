@@ -21,7 +21,7 @@ cmake_dependent_option(
   EXT_SESSION_MM
   "Include libmm support for session storage (only for non-ZTS build)"
   OFF
-  "EXT_SESSION"
+  "EXT_SESSION;NOT PHP_THREAD_SAFETY"
   OFF
 )
 
