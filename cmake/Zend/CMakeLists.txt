@@ -110,6 +110,7 @@ target_sources(
     zend_extensions.c
     zend_fibers.c
     zend_float.c
+    zend_frameless_function.c
     zend_gc.c
     $<$<NOT:$<PLATFORM_ID:Windows>>:zend_gdb.c>
     zend_generators.c

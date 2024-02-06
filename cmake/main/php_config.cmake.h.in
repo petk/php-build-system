@@ -1631,8 +1631,8 @@
 /* Define to 1 if you have the <utime.h> header file. */
 #cmakedefine HAVE_UTIME_H @HAVE_UTIME_H@
 
-/* Whether struct utsname has domainname */
-#cmakedefine HAVE_UTSNAME_DOMAINNAME @HAVE_UTSNAME_DOMAINNAME@
+/* Define to 1 if 'domainname' is a member of 'struct utsname'. */
+#cmakedefine HAVE_STRUCT_UTSNAME_DOMAINNAME @HAVE_STRUCT_UTSNAME_DOMAINNAME@
 
 /* */
 #cmakedefine HAVE_VALGRIND @HAVE_VALGRIND@

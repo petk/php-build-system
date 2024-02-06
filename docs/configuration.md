@@ -1914,6 +1914,63 @@ A list of Autoconf `configure` command-line configuration options, Windows
       <td></td>
     </tr>
     <tr>
+      <td>--without-oci8</td>
+      <td>N/A</td>
+      <td>EXT_OCI8=OFF</td>
+      <td>default, PHP <= 8.3</td>
+    </tr>
+    <tr>
+      <td>&emsp;--with-oci8[=DIR]</td>
+      <td>N/A</td>
+      <td>
+        EXT_OCI8=ON<br>
+        [...]
+      </td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>&emsp;--with-oci8=shared</td>
+      <td>N/A</td>
+      <td>EXT_OCI8_SHARED=ON</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>N/A</td>
+      <td>--without-oci8-11g</td>
+      <td>EXT_OCI8_11G=OFF</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>N/A</td>
+      <td>--with-oci8-11g</td>
+      <td>EXT_OCI8_11G=ON</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>N/A</td>
+      <td>--without-oci8-12c</td>
+      <td>EXT_OCI8_12C=OFF</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>N/A</td>
+      <td>--with-oci8-12c</td>
+      <td>EXT_OCI8_12C=ON</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>N/A</td>
+      <td>--without-oci8-19</td>
+      <td>EXT_OCI8_19=OFF</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>N/A</td>
+      <td>--with-oci8-19</td>
+      <td>EXT_OCI8_19=ON</td>
+      <td></td>
+    </tr>
+    <tr>
       <td></td>
       <td></td>
       <td>EXT_ODBC=OFF</td>
@@ -2401,6 +2458,27 @@ A list of Autoconf `configure` command-line configuration options, Windows
         EXT_PDO_MYSQL_DRIVER=mysql<br>
         MySQL_CONFIG_EXECUTABLE=path/to/mysql_config
       </td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>&emsp;--without-pdo-oci</td>
+      <td>&emsp;--without-pdo-oci</td>
+      <td>EXT_PDO_OCI=OFF</td>
+      <td>default, PHP <= 8.3</td>
+    </tr>
+    <tr>
+      <td>&emsp;--with-pdo-oci[=DIR]</td>
+      <td>&emsp;--with-pdo-oci[=DIR]</td>
+      <td>
+        EXT_PDO_OCI=ON<br>
+        [...]
+      </td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>&emsp;--with-pdo-oci=shared</td>
+      <td>&emsp;--with-pdo-oci=shared</td>
+      <td>EXT_PDO_OCI_SHARED=ON</td>
       <td></td>
     </tr>
     <tr>

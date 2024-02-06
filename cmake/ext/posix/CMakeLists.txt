@@ -109,6 +109,6 @@ cmake_push_check_state(RESET)
     "struct utsname"
     domainname
     sys/utsname.h
-    HAVE_UTSNAME_DOMAINNAME
+    HAVE_STRUCT_UTSNAME_DOMAINNAME
   )
 cmake_pop_check_state()
