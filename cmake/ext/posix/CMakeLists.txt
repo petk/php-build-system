@@ -4,8 +4,8 @@ if(CMAKE_SYSTEM_NAME STREQUAL "Windows")
 endif()
 
 include(CheckIncludeFile)
-include(CheckSourceCompiles)
 include(CheckSourceRuns)
+include(CheckStructHasMember)
 include(CheckSymbolExists)
 include(CMakeDependentOption)
 include(CMakePushCheckState)
@@ -99,25 +99,16 @@ else()
   if(HAVE_TTYNAME_R)
     message(CHECK_PASS "yes")
   else()
-    message(CHECK_FAIL "no")
+    message(CHECK_FAIL "no (posix_ttyname() will be thread-unsafe)")
   endif()
 endif()
 
-message(CHECK_START "Checking for utsname.domainname")
-
-check_source_compiles(C "
-  #ifndef _GNU_SOURCE
-  #define _GNU_SOURCE
-  #endif
-  #include <sys/utsname.h>
-
-  int main(void) {
-    return sizeof(((struct utsname *)0)->domainname);
-  }
-" HAVE_UTSNAME_DOMAINNAME)
-
-if(HAVE_UTSNAME_DOMAINNAME)
-  message(CHECK_PASS "yes")
-else()
-  message(CHECK_FAIL "no")
-endif()
+cmake_push_check_state(RESET)
+  set(CMAKE_REQUIRED_DEFINITIONS -D_GNU_SOURCE)
+  check_struct_has_member(
+    "struct utsname"
+    domainname
+    sys/utsname.h
+    HAVE_UTSNAME_DOMAINNAME
+  )
+cmake_pop_check_state()
