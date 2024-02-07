@@ -19,9 +19,6 @@ include(GNUInstallDirs)
 set(CMAKE_INSTALL_INCLUDEDIR "${CMAKE_INSTALL_INCLUDEDIR}/php")
 
 if(CMAKE_HOST_SYSTEM_NAME STREQUAL "Darwin")
-  # TODO: Fix this properly and add it to required definitions.
-  set(_DARWIN_C_SOURCE 1 CACHE INTERNAL "")
-
   # On macOS, the ar command runs the ranlib, which causes the "has no symbols" errors.
   message(STATUS "Setting -no_warning_for_no_symbols for targets")
 
