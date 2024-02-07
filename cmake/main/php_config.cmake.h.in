@@ -242,9 +242,6 @@
 /* Define to 1 if using 'alloca.c'. */
 #cmakedefine C_ALLOCA @C_ALLOCA@
 
-/* Define if the target system is darwin */
-#cmakedefine DARWIN @DARWIN@
-
 /* */
 #cmakedefine DB1_INCLUDE_FILE "@DB1_INCLUDE_FILE@"
 
