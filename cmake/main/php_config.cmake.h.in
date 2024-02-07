@@ -1916,7 +1916,7 @@
 /* Size of ssize_t */
 #cmakedefine SIZEOF_SSIZE_T @SIZEOF_SSIZE_T@
 
-/* have sqlite3 with extension support */
+/* Sqlite3 without extension support */
 #cmakedefine SQLITE_OMIT_LOAD_EXTENSION @SQLITE_OMIT_LOAD_EXTENSION@
 
 /* Needed in sqlunix.h for wchar defs */
