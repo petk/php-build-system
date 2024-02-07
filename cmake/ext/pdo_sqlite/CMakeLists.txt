@@ -88,6 +88,13 @@ if(TARGET SQLite::SQLite3)
     SQLite::SQLite3
     sqlite3_load_extension
     ""
-    PDO_SQLITE_OMIT_LOAD_EXTENSION
+    HAVE_SQLITE3_LOAD_EXTENSION
   )
+
+  if(NOT HAVE_SQLITE3_LOAD_EXTENSION)
+    set(
+      PDO_SQLITE_OMIT_LOAD_EXTENSION 1
+      CACHE INTERNAL "Sqlite3 without extension support"
+    )
+  endif()
 endif()
