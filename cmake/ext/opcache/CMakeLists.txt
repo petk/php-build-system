@@ -100,8 +100,16 @@ endif()
 ################################################################################
 
 if(EXT_OPCACHE_JIT)
-  if(NOT CMAKE_HOST_SYSTEM_PROCESSOR MATCHES "^(i[34567]86.*|x86.*|amd64|aarch64.*)$")
-    message(WARNING "JIT is not supported by host architecture")
+  if(
+    # *nix:
+    NOT CMAKE_SYSTEM_PROCESSOR MATCHES "^(i[34567]86.*|x86.*|amd64|aarch64.*)$"
+    # Windows:
+    AND NOT CMAKE_SYSTEM_PROCESSOR MATCHES "^(X86|AMD64)$"
+  )
+    message(
+      WARNING
+      "JIT is not supported by target architecture ${CMAKE_SYSTEM_PROCESSOR}"
+    )
     set_property(CACHE EXT_OPCACHE_JIT PROPERTY VALUE 0)
   endif()
 endif()
@@ -133,19 +141,19 @@ if(EXT_OPCACHE_JIT)
   endif()
 
   # Find out which ABI to use.
-  if(CMAKE_HOST_SYSTEM_PROCESSOR MATCHES "^(x86_64|amd64)$")
+  if(CMAKE_SYSTEM_PROCESSOR MATCHES "^(x86_64|amd64|AMD64)$")
     set(DASM_FLAGS -D X64=1)
     set(DASM_ARCH "x86")
-  elseif(CMAKE_HOST_SYSTEM_PROCESSOR MATCHES "^(i[34567]86.*|x86.*)$")
+  elseif(CMAKE_SYSTEM_PROCESSOR MATCHES "^(i[34567]86.*|x86.*|X86)$")
     set(DASM_ARCH "x86")
-  elseif(CMAKE_HOST_SYSTEM_PROCESSOR MATCHES "^aarch64.*")
+  elseif(CMAKE_SYSTEM_PROCESSOR MATCHES "^aarch64.*")
     set(DASM_FLAGS -D ARM64=1)
     set(DASM_ARCH "arm64")
   endif()
 
   if(
-    CMAKE_HOST_SYSTEM_PROCESSOR STREQUAL "x86_64"
-    AND CMAKE_HOST_SYSTEM_NAME STREQUAL "Darwin"
+    CMAKE_SYSTEM_PROCESSOR STREQUAL "x86_64"
+    AND CMAKE_SYSTEM_NAME STREQUAL "Darwin"
   )
     list(APPEND DASM_FLAGS -D X64APPLE=1)
   endif()
@@ -155,7 +163,7 @@ if(EXT_OPCACHE_JIT)
   endif()
 
   if(
-    CMAKE_HOST_SYSTEM_PROCESSOR STREQUAL "x86_64"
+    CMAKE_SYSTEM_PROCESSOR STREQUAL "AMD64"
     AND CMAKE_SYSTEM_NAME STREQUAL "Windows"
   )
     list(APPEND DASM_FLAGS -D X64WIN=1)
@@ -227,7 +235,7 @@ if(NOT CMAKE_SYSTEM_NAME STREQUAL "Windows")
   # Check for HAVE_SHM_MMAP_POSIX.
   include(PHP/CheckShmMmapPosix)
   if(TARGET PHP::CheckShmMmapPosix)
-    target_link_libraries(php_opcache PRIVATE PHP::CheckShmMmapPosix)
+    target_link_libraries(php_configuration INTERFACE PHP::CheckShmMmapPosix)
   endif()
 
   if(NOT HAVE_SHM_IPC AND NOT HAVE_SHM_MMAP_ANON AND NOT HAVE_SHM_MMAP_POSIX)
