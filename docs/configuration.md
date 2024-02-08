@@ -2199,13 +2199,13 @@ A list of Autoconf `configure` command-line configuration options, Windows
     </tr>
     <tr>
       <td>&emsp;--enable-huge-code-pages</td>
-      <td></td>
+      <td>N/A</td>
       <td>EXT_OPCACHE_HUGE_CODE_PAGES=ON</td>
       <td>default; For non-Windows platforms</td>
     </tr>
     <tr>
       <td>&emsp;--disable-huge-code-pages</td>
-      <td></td>
+      <td>N/A</td>
       <td>EXT_OPCACHE_HUGE_CODE_PAGES=OFF</td>
       <td>For non-Windows platforms</td>
     </tr>
@@ -2223,7 +2223,7 @@ A list of Autoconf `configure` command-line configuration options, Windows
     </tr>
     <tr>
       <td>&emsp;--without-capstone</td>
-      <td></td>
+      <td>N/A</td>
       <td>EXT_OPCACHE_CAPSTONE=OFF</td>
       <td>default; For non-Windows platforms</td>
     </tr>
@@ -2233,7 +2233,7 @@ A list of Autoconf `configure` command-line configuration options, Windows
         &emsp;[CAPSTONE_CFLAGS=...]<br>
         &emsp;[CAPSTONE_LIBS=...]
       </td>
-      <td></td>
+      <td>N/A</td>
       <td>
         EXT_OPCACHE_CAPSTONE=ON<br>
         [Capstone_ROOT=DIR]
