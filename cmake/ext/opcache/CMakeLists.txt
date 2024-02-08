@@ -104,7 +104,7 @@ if(EXT_OPCACHE_JIT)
     # *nix:
     NOT CMAKE_SYSTEM_PROCESSOR MATCHES "^(i[34567]86.*|x86.*|amd64|aarch64.*)$"
     # Windows:
-    AND NOT CMAKE_SYSTEM_PROCESSOR MATCHES "^(X86|AMD64)$"
+    AND NOT CMAKE_SYSTEM_PROCESSOR MATCHES "^(X86|AMD64|ARM64)$"
   )
     message(
       WARNING
@@ -141,7 +141,7 @@ if(EXT_OPCACHE_JIT)
   endif()
 
   # Find out which ABI to use.
-  if(CMAKE_SYSTEM_PROCESSOR MATCHES "^(x86_64|amd64|AMD64)$")
+  if(CMAKE_SYSTEM_PROCESSOR MATCHES "^(x86_64|amd64|AMD64|ARM64)$")
     set(DASM_FLAGS -D X64=1)
     set(DASM_ARCH "x86")
   elseif(CMAKE_SYSTEM_PROCESSOR MATCHES "^(i[34567]86.*|x86.*|X86)$")
@@ -163,7 +163,7 @@ if(EXT_OPCACHE_JIT)
   endif()
 
   if(
-    CMAKE_SYSTEM_PROCESSOR STREQUAL "AMD64"
+    CMAKE_SYSTEM_PROCESSOR MATCHES "^(AMD64|ARM64)$"
     AND CMAKE_SYSTEM_NAME STREQUAL "Windows"
   )
     list(APPEND DASM_FLAGS -D X64WIN=1)
@@ -182,7 +182,11 @@ if(EXT_OPCACHE_JIT)
     PROPERTIES
       OUTPUT_NAME minilua
   )
-  target_link_libraries(php_opcache_jit_minilua PRIVATE m)
+  target_link_libraries(
+    php_opcache_jit_minilua
+    PRIVATE
+      $<$<NOT:$<PLATFORM_ID:Windows>>:m>
+  )
 
   # Create jit directory in the current build directory if it doesn't exist yet.
   add_custom_command(

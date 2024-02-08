@@ -214,13 +214,15 @@ if(NOT EXT_GD_EXTERNAL)
 
   # Check for fabsf and floorf which are available since C99.
   cmake_push_check_state(RESET)
-    set(CMAKE_REQUIRED_LIBRARIES m)
+    if(NOT CMAKE_SYSTEM_NAME STREQUAL "Windows")
+      set(CMAKE_REQUIRED_LIBRARIES m)
+    endif()
     check_symbol_exists(fabsf "math.h" HAVE_FABSF)
     check_symbol_exists(floorf "math.h" HAVE_FLOORF)
   cmake_pop_check_state()
 
   if(HAVE_FABSF OR HAVE_FLOORF)
-    target_link_libraries(php_gd PRIVATE m)
+    target_link_libraries(php_gd PRIVATE $<$<NOT:$<PLATFORM_ID:Windows>>:m>)
   endif()
 
   target_include_directories(php_gd PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/libgd)

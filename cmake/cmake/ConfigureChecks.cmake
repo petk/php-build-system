@@ -636,7 +636,7 @@ php_search_libraries(
     rt # Some systems (like OpenSolaris) do not have nanosleep in libc.
 )
 if(NANOSLEEP_LIBRARY)
-  target_link_libraries(php_configuration INTERFACE )
+  target_link_libraries(php_configuration INTERFACE ${NANOSLEEP_LIBRARY})
 endif()
 
 php_search_libraries(
