@@ -46,7 +46,7 @@ if(NOT CMAKE_CROSSCOMPILING)
       set(CMAKE_REQUIRED_LIBRARIES PHP::CheckShmMmapPosix)
     endif()
 
-    check_source_runs(C "
+    check_source_runs(C [[
       #include <sys/types.h>
       #include <sys/wait.h>
       #include <sys/mman.h>
@@ -68,7 +68,7 @@ if(NOT CMAKE_CROSSCOMPILING)
         char *shm;
         char tmpname[4096];
 
-        sprintf(tmpname,\"/opcache.test.shm.%dXXXXXX\", getpid());
+        sprintf(tmpname,"/opcache.test.shm.%dXXXXXX", getpid());
         if (mktemp(tmpname) == NULL) {
           return 1;
         }
@@ -89,13 +89,13 @@ if(NOT CMAKE_CROSSCOMPILING)
         shm_unlink(tmpname);
         close(fd);
 
-        strcpy(shm, \"hello\");
+        strcpy(shm, "hello");
 
         pid = fork();
         if (pid < 0) {
           return 5;
         } else if (pid == 0) {
-          strcpy(shm, \"bye\");
+          strcpy(shm, "bye");
           return 6;
         }
         if (wait(&status) != pid) {
@@ -104,12 +104,12 @@ if(NOT CMAKE_CROSSCOMPILING)
         if (!WIFEXITED(status) || WEXITSTATUS(status) != 6) {
           return 8;
         }
-        if (strcmp(shm, \"bye\") != 0) {
+        if (strcmp(shm, "bye") != 0) {
           return 9;
         }
         return 0;
       }
-    " HAVE_SHM_MMAP_POSIX)
+    ]] HAVE_SHM_MMAP_POSIX)
   cmake_pop_check_state()
 endif()
 
