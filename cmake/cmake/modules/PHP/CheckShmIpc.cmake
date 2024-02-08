@@ -16,7 +16,7 @@ message(CHECK_START "Checking for SysV IPC SHM (shared memory) support")
 list(APPEND CMAKE_MESSAGE_INDENT "  ")
 
 if(NOT CMAKE_CROSSCOMPILING)
-  check_source_runs(C "
+  check_source_runs(C [[
     #include <sys/types.h>
     #include <sys/wait.h>
     #include <sys/ipc.h>
@@ -60,13 +60,13 @@ if(NOT CMAKE_CROSSCOMPILING)
 
       shmctl(ipc_id, IPC_RMID, NULL);
 
-      strcpy(shm, \"hello\");
+      strcpy(shm, "hello");
 
       pid = fork();
       if (pid < 0) {
         return 5;
       } else if (pid == 0) {
-        strcpy(shm, \"bye\");
+        strcpy(shm, "bye");
         return 6;
       }
       if (wait(&status) != pid) {
@@ -75,12 +75,12 @@ if(NOT CMAKE_CROSSCOMPILING)
       if (!WIFEXITED(status) || WEXITSTATUS(status) != 6) {
         return 8;
       }
-      if (strcmp(shm, \"bye\") != 0) {
+      if (strcmp(shm, "bye") != 0) {
         return 9;
       }
       return 0;
     }
-  " HAVE_SHM_IPC)
+  ]] HAVE_SHM_IPC)
 endif()
 
 list(POP_BACK CMAKE_MESSAGE_INDENT)

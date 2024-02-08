@@ -61,3 +61,35 @@ target_sources(
     oci8_statement.c
     oci8.c
 )
+
+set(PHP_OCI8_INSTANT_CLIENT "")
+
+# Warn about Apache if oci8 extension is enabled on Linux without PHP_SIGCHILD.
+function(_php_oci8_notice)
+  if(
+    PHP_SIGCHILD
+    OR PHP_OCI8_INSTANT_CLIENT
+    OR CMAKE_SYSTEM_NAME STREQUAL "Windows"
+  )
+    return()
+  endif()
+
+  message(NOTICE "
++--------------------------------------------------------------------+
+| The oci8 extension notice:                                         |
+| If you encounter <defunc> processes when using a local Oracle      |
+| database, set the value BEQUEATH_DETACH=YES in Oracle Net's        |
+| sqlnet.ora file on the PHP host, or set the environment variable   |
+| BEQUEATH_DETACH to YES before starting Apache.  If the problem     |
+| still occurs, then recompile PHP and specify --enable-sigchild     |
+| when configuring.                                                  |
++--------------------------------------------------------------------+
+")
+endfunction()
+
+# Run at the end of the configuration.
+cmake_language(
+  DEFER
+    DIRECTORY ${PHP_SOURCE_DIR}
+  CALL _php_oci8_notice
+)
