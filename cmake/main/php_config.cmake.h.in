@@ -101,9 +101,6 @@
 /* Whether to build mysqlnd as dynamic module */
 #cmakedefine COMPILE_DL_MYSQLND @COMPILE_DL_MYSQLND@
 
-/* Whether to build oci8 as dynamic module */
-#cmakedefine COMPILE_DL_OCI8 @COMPILE_DL_OCI8@
-
 /* Whether to build odbc as dynamic module */
 #cmakedefine COMPILE_DL_ODBC @COMPILE_DL_ODBC@
 
@@ -130,9 +127,6 @@
 
 /* Whether to build pdo_mysql as dynamic module */
 #cmakedefine COMPILE_DL_PDO_MYSQL @COMPILE_DL_PDO_MYSQL@
-
-/* Whether to build pdo_oci as dynamic module */
-#cmakedefine COMPILE_DL_PDO_OCI @COMPILE_DL_PDO_OCI@
 
 /* Whether to build pdo_odbc as dynamic module */
 #cmakedefine COMPILE_DL_PDO_ODBC @COMPILE_DL_PDO_ODBC@
@@ -1047,28 +1041,6 @@
 /* Define to 1 if you have the <nmmintrin.h> header file. */
 #cmakedefine HAVE_NMMINTRIN_H @HAVE_NMMINTRIN_H@
 
-/* Defined to 1 if the PHP OCI8 extension for Oracle Database is configured */
-#cmakedefine HAVE_OCI8 @HAVE_OCI8@
-
-/* Defined to 1 if PHP OCI8 DTrace support was enabled during configuration */
-#cmakedefine HAVE_OCI8_DTRACE
-
-/* */
-#cmakedefine HAVE_OCIENVCREATE
-
-/* */
-#cmakedefine HAVE_OCIENVNLSCREATE
-
-/* */
-#cmakedefine HAVE_OCILOBREAD2
-
-/* */
-#cmakedefine HAVE_OCISTMTFETCH2
-
-/* Defined to 1 if OCI8 configuration located Oracle's Instant Client
-   libraries */
-#cmakedefine HAVE_OCI_INSTANT_CLIENT
-
 /* */
 #cmakedefine HAVE_ODBC_H @HAVE_ODBC_H@
 
@@ -1844,20 +1816,11 @@
 /* */
 #cmakedefine PHP_MYSQL_UNIX_SOCK_ADDR "@PHP_MYSQL_UNIX_SOCK_ADDR@"
 
-/* */
-#cmakedefine PHP_OCI8_DEF_DIR
-
-/* */
-#cmakedefine PHP_OCI8_DEF_SHARED_LIBADD
-
 /* define to 1 if oniguruma has an invalid entry for KOI8 encoding */
 #cmakedefine PHP_ONIG_BAD_KOI8_ENTRY @PHP_ONIG_BAD_KOI8_ENTRY@
 
 /* uname output */
 #define PHP_OS "@CMAKE_SYSTEM_NAME@"
-
-/* */
-#cmakedefine PHP_PDO_OCI_CLIENT_VERSION
 
 /* whether pread64 is default */
 #cmakedefine PHP_PREAD_64 @PHP_PREAD_64@
