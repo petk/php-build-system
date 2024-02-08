@@ -53,7 +53,7 @@ message(
   "Checking whether newer fopencookie seeker definition is available"
 )
 
-if(CMAKE_CROSSCOMPILING AND CMAKE_HOST_SYSTEM_NAME STREQUAL "Linux")
+if(CMAKE_CROSSCOMPILING AND CMAKE_SYSTEM_NAME STREQUAL "Linux")
   set(
     COOKIE_SEEKER_USES_OFF64_T 1
     CACHE INTERNAL "Whether newer fopencookie seeker definition is available"

@@ -52,37 +52,37 @@ function(_php_tsrm_thread_safety)
 
   target_link_libraries(php_configuration INTERFACE Threads::Threads)
 
-  if(CMAKE_HOST_SYSTEM_NAME STREQUAL "SunOS")
+  if(CMAKE_SYSTEM_NAME STREQUAL "SunOS")
     target_compile_definitions(
       php_configuration
       INTERFACE
         $<$<COMPILE_LANGUAGE:ASM,C,CXX>:_POSIX_PTHREAD_SEMANTICS;_REENTRANT>
     )
-  elseif(CMAKE_HOST_SYSTEM_NAME STREQUAL "FreeBSD")
+  elseif(CMAKE_SYSTEM_NAME STREQUAL "FreeBSD")
     target_compile_definitions(
       php_configuration
       INTERFACE
         $<$<COMPILE_LANGUAGE:ASM,C,CXX>:_REENTRANT;_THREAD_SAFE>
     )
-  elseif(CMAKE_HOST_SYSTEM_NAME STREQUAL "Linux")
+  elseif(CMAKE_SYSTEM_NAME STREQUAL "Linux")
     target_compile_definitions(
       php_configuration
       INTERFACE
         $<$<COMPILE_LANGUAGE:ASM,C,CXX>:_REENTRANT>
     )
-  elseif(CMAKE_HOST_SYSTEM_NAME STREQUAL "AIX")
+  elseif(CMAKE_SYSTEM_NAME STREQUAL "AIX")
     target_compile_definitions(
       php_configuration
       INTERFACE
         $<$<COMPILE_LANGUAGE:ASM,C,CXX>:_THREAD_SAFE>
     )
-  elseif(CMAKE_HOST_SYSTEM_NAME STREQUAL "HP-UX")
+  elseif(CMAKE_SYSTEM_NAME STREQUAL "HP-UX")
     target_compile_definitions(
       php_configuration
       INTERFACE
         $<$<COMPILE_LANGUAGE:ASM,C,CXX>:_REENTRANT>
     )
-  elseif(CMAKE_HOST_SYSTEM_NAME MATCHES "^(SCO_SV|UNIX_SV|UnixWare)$")
+  elseif(CMAKE_SYSTEM_NAME MATCHES "^(SCO_SV|UNIX_SV|UnixWare)$")
     target_compile_definitions(
       php_configuration
       INTERFACE

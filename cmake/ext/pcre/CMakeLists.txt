@@ -57,9 +57,9 @@ if(EXT_PCRE_EXTERNAL)
 
     if(CMAKE_CROSSCOMPILING)
       if(
-        CMAKE_HOST_SYSTEM_PROCESSOR
+        CMAKE_SYSTEM_PROCESSOR
         MATCHES
-        "^(arm.*|i[34567]86|x86_64|amd64|mips.*|powerpc.*|sparc.*|AMD64|ARM64)$"
+        "^(arm.*|i[34567]86|x86_64|amd64|mips.*|powerpc.*|sparc.*|X86|AMD64|ARM64)$"
       )
         set(
           HAVE_PCRE_JIT_SUPPORT 1

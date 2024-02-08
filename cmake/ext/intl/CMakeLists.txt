@@ -135,7 +135,7 @@ set_target_properties(
     CXX_STANDARD_REQUIRED TRUE
 )
 
-if(CMAKE_HOST_SYSTEM_NAME STREQUAL "CYGWIN")
+if(CMAKE_SYSTEM_NAME STREQUAL "CYGWIN")
   target_compile_definitions(
     php_intl
     PRIVATE

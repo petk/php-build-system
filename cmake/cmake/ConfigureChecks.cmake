@@ -315,7 +315,7 @@ include(PHP/CheckFopencookie)
 # Some systems, notably Solaris, cause getcwd() or realpath to fail if a
 # component of the path has execute but not read permissions.
 message(CHECK_START "Checking for broken getcwd()")
-if(CMAKE_HOST_SYSTEM_NAME STREQUAL "SunOS")
+if(CMAKE_SYSTEM_NAME STREQUAL "SunOS")
   set(HAVE_BROKEN_GETCWD 1 CACHE INTERNAL "Define if system has broken getcwd")
   message(CHECK_PASS "yes")
 else()
@@ -397,11 +397,11 @@ endif()
 # Conservatively don't use ifuncs on FreeBSD prior to version 12.
 if(
   (
-    NOT CMAKE_HOST_SYSTEM_NAME MATCHES "^(Android|FreeBSD|OpenBSD)$"
+    NOT CMAKE_SYSTEM_NAME MATCHES "^(Android|FreeBSD|OpenBSD)$"
     AND NOT PHP_STD_LIBRARY MATCHES "^(musl|uclibc)$"
   ) OR (
-    CMAKE_HOST_SYSTEM_NAME STREQUAL "FreeBSD"
-    AND CMAKE_HOST_SYSTEM_VERSION VERSION_GREATER_EQUAL 12
+    CMAKE_SYSTEM_NAME STREQUAL "FreeBSD"
+    AND CMAKE_SYSTEM_VERSION VERSION_GREATER_EQUAL 12
   )
 )
   php_check_function_attribute(ifunc HAVE_FUNC_ATTRIBUTE_IFUNC)
@@ -489,7 +489,7 @@ if(M_LIBRARY)
   )
 endif()
 
-if(CMAKE_HOST_SYSTEM_PROCESSOR MATCHES "^riscv64.*")
+if(CMAKE_SYSTEM_PROCESSOR MATCHES "^riscv64.*")
   find_package(Atomic)
 
   if(Atomic_FOUND)

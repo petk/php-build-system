@@ -247,7 +247,7 @@ endif()
 
 # Check Zend max execution timers.
 message(CHECK_START "Checking whether to enable Zend max execution timers")
-if(ZEND_MAX_EXECUTION_TIMERS AND CMAKE_HOST_SYSTEM_NAME STREQUAL "Linux")
+if(ZEND_MAX_EXECUTION_TIMERS AND CMAKE_SYSTEM_NAME STREQUAL "Linux")
   php_search_libraries(
     timer_create
     "time.h"
