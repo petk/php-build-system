@@ -72,7 +72,7 @@ if(_have_getaddrinfo)
       }
     ]] HAVE_GETADDRINFO)
   else()
-    if(CMAKE_HOST_SYSTEM_NAME STREQUAL "Linux")
+    if(CMAKE_SYSTEM_NAME STREQUAL "Linux")
       set(
         HAVE_GETADDRINFO 1
         CACHE INTERNAL "Define if you have the getaddrinfo() function"

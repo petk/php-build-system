@@ -399,8 +399,8 @@ message(
   CHECK_START
   "Checking linker support for aligning segments on huge page boundary"
 )
-if(CMAKE_HOST_SYSTEM_NAME STREQUAL "Linux"
-  AND CMAKE_HOST_SYSTEM_PROCESSOR MATCHES "^(i[3456]86.*|x86_64)$"
+if(CMAKE_SYSTEM_NAME STREQUAL "Linux"
+  AND CMAKE_SYSTEM_PROCESSOR MATCHES "^(i[3456]86.*|x86_64)$"
 )
   check_linker_flag(
     C

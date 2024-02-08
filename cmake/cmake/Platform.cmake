@@ -74,13 +74,13 @@ elseif(CMAKE_SYSTEM_PROCESSOR MATCHES "^sparc")
   endif()
 endif()
 
-if(CMAKE_HOST_SYSTEM_NAME STREQUAL "SunOS")
+if(CMAKE_SYSTEM_NAME STREQUAL "SunOS")
   target_compile_definitions(
     php_configuration
     INTERFACE
       $<$<COMPILE_LANGUAGE:ASM,C,CXX>:_POSIX_PTHREAD_SEMANTICS>
   )
-elseif(CMAKE_HOST_SYSTEM_NAME STREQUAL "HP-UX")
+elseif(CMAKE_SYSTEM_NAME STREQUAL "HP-UX")
   target_compile_definitions(
     php_configuration
     INTERFACE
