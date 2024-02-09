@@ -239,7 +239,7 @@ if(NOT CMAKE_SYSTEM_NAME STREQUAL "Windows")
   # Check for HAVE_SHM_MMAP_POSIX.
   include(PHP/CheckShmMmapPosix)
   if(TARGET PHP::CheckShmMmapPosix)
-    target_link_libraries(php_configuration INTERFACE PHP::CheckShmMmapPosix)
+    target_link_libraries(php_opcache PRIVATE PHP::CheckShmMmapPosix)
   endif()
 
   if(NOT HAVE_SHM_IPC AND NOT HAVE_SHM_MMAP_ANON AND NOT HAVE_SHM_MMAP_POSIX)
