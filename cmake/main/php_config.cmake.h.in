@@ -1675,9 +1675,6 @@
 /* Whether ctime_r is declared */
 #cmakedefine MISSING_CTIME_R_DECL @MISSING_CTIME_R_DECL@
 
-/* */
-#cmakedefine01 MISSING_FCLOSE_DECL
-
 /* Whether gmtime_r is declared */
 #cmakedefine MISSING_GMTIME_R_DECL @MISSING_GMTIME_R_DECL@
 
