@@ -2347,19 +2347,19 @@ A list of Autoconf `configure` command-line configuration options, Windows
     </tr>
     <tr>
       <td>--enable-pdo</td>
-      <td></td>
+      <td>--enable-pdo</td>
       <td>EXT_PDO=ON</td>
-      <td>default</td>
+      <td>default in *nix and CMake (on Windows disabled by default)</td>
     </tr>
     <tr>
       <td>&emsp;--enable-pdo=shared</td>
-      <td></td>
+      <td>&emsp;--enable-pdo=shared</td>
       <td>EXT_PDO_SHARED=ON</td>
-      <td></td>
+      <td>(on Windows can't be built as shared yet)</td>
     </tr>
     <tr>
       <td>&emsp;--disable-pdo</td>
-      <td></td>
+      <td>&emsp;--disable-pdo</td>
       <td>EXT_PDO=OFF</td>
       <td></td>
     </tr>
