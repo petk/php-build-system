@@ -72,6 +72,10 @@
 #define HAVE_REGCOMP 1
 #define HAVE_SHUTDOWN 1
 #define HAVE_STRCASECMP 1
+
+/* Define to 1 if you have the 'strcasestr' function. */
+#cmakedefine HAVE_STRCASESTR @HAVE_STRCASESTR@
+
 #define HAVE_UTIME 1
 #undef HAVE_DIRENT_H
 #define HAVE_FCNTL_H 1

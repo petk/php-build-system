@@ -9,12 +9,11 @@ Module exposes the following function:
 include_guard(GLOBAL)
 
 include(CheckSourceCompiles)
+include(CMakePushCheckState)
 
 # cmake-lint: disable=R0912
 function(php_check_builtin builtin result)
   message(CHECK_START "Checking for ${builtin}")
-
-  list(APPEND CMAKE_MESSAGE_INDENT "  ")
 
   if(builtin STREQUAL "__builtin_clz")
     set(call "return __builtin_clz(1) ? 1 : 0;")
@@ -55,15 +54,17 @@ function(php_check_builtin builtin result)
     set(call "${builtin}();")
   endif()
 
-  check_source_compiles(C "
-    int main(void) {
-      ${call}
+  cmake_push_check_state(RESET)
+    set(CMAKE_REQUIRED_QUIET TRUE)
 
-      return 0;
-    }
-  " ${result})
+    check_source_compiles(C "
+      int main(void) {
+        ${call}
 
-  list(POP_BACK CMAKE_MESSAGE_INDENT)
+        return 0;
+      }
+    " ${result})
+  cmake_pop_check_state()
 
   if(${${result}})
     message(CHECK_PASS "yes")

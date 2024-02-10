@@ -59,6 +59,12 @@ target_sources(
 
 target_compile_definitions(php_session PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE=1)
 
+set_target_properties(
+  php_session
+  PROPERTIES
+    PHP_EXTENSION_DEPENDENCIES "php_hash;php_spl"
+)
+
 # Check whether pwrite() works.
 include(PHP/CheckPwrite)
 

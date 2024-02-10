@@ -476,11 +476,13 @@ function(_php_extensions_configure directories)
       endif()
     endforeach()
 
+    get_cmake_property(always_enabled_extensions PHP_ALWAYS_ENABLED_EXTENSIONS)
+
     # If extension is enabled, enable also all its dependencies.
     foreach(dependency ${dependencies})
       string(TOUPPER "${dependency}" dependency_upper)
 
-      if(EXT_${dependency_upper})
+      if(EXT_${dependency_upper} OR dependency IN_LIST always_enabled_extensions)
         continue()
       endif()
 

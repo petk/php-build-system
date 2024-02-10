@@ -231,9 +231,10 @@ function(_php_main_create_files)
 
       if(NOT pattern_index EQUAL -1)
         cmake_path(GET extension_header FILENAME file_name)
-        set(
+        string(
+          APPEND
           EXT_INCLUDE_CODE
-          "${EXT_INCLUDE_CODE}\n#include \"ext/${extension}/${file_name}\""
+          "#include \"ext/${extension}/${file_name}\"\n"
         )
       endif()
     endforeach()
