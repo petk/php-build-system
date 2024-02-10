@@ -52,6 +52,12 @@ target_sources(
 
 target_compile_definitions(php_phar PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE=1)
 
+set_target_properties(
+  php_phar
+  PROPERTIES
+    PHP_EXTENSION_DEPENDENCIES "php_hash;php_spl"
+)
+
 if(RE2C_FOUND)
   re2c_target(
     NAME php_phar_path_check

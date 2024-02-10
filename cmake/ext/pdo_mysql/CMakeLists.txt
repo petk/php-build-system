@@ -102,10 +102,10 @@ if(MySQL_Socket_PATH)
 endif()
 
 if(NOT EXT_PDO_MYSQL_DRIVER STREQUAL "mysql")
-  set_target_properties(
-    php_pdo_mysql
-    PROPERTIES
-      PHP_EXTENSION_DEPENDENCIES php_mysqlnd
+  set_property(
+    TARGET php_pdo_mysql
+    APPEND
+    PROPERTY PHP_EXTENSION_DEPENDENCIES php_mysqlnd
   )
 
   set(PDO_USE_MYSQLND 1 CACHE INTERNAL "Whether pdo_mysql uses mysqlnd")

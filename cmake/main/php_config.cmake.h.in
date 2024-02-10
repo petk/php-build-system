@@ -1450,6 +1450,9 @@
 /* Define to 1 if you have the 'strcasecmp' function. */
 #cmakedefine HAVE_STRCASECMP @HAVE_STRCASECMP@
 
+/* Define to 1 if you have the 'strcasestr' function. */
+#cmakedefine HAVE_STRCASESTR @HAVE_STRCASESTR@
+
 /* Define if you have 'strerror_r'. */
 #cmakedefine HAVE_STRERROR_R @HAVE_STRERROR_R@
 
