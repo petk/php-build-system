@@ -2584,20 +2584,38 @@ A list of Autoconf `configure` command-line configuration options, Windows
     </tr>
     <tr>
       <td>--enable-phar</td>
-      <td></td>
+      <td>--enable-phar</td>
       <td>EXT_PHAR=ON</td>
       <td>default</td>
     </tr>
     <tr>
       <td>&emsp;--enable-phar=shared</td>
-      <td></td>
+      <td>--enable-phar=shared</td>
       <td>EXT_PHAR_SHARED=ON</td>
       <td></td>
     </tr>
     <tr>
       <td>&emsp;--disable-phar</td>
-      <td></td>
+      <td>--disable-phar</td>
       <td>EXT_PHAR=OFF</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>N/A</td>
+      <td>--disable-phar-native-ssl</td>
+      <td>EXT_PHAR_NATIVE_SSL=OFF</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>N/A</td>
+      <td>--enable-phar-native-ssl</td>
+      <td>EXT_PHAR_NATIVE_SSL=ON</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>N/A</td>
+      <td>--enable-phar-native-ssl=shared</td>
+      <td>EXT_PHAR_SHARED=ON</td>
       <td></td>
     </tr>
     <tr>
