@@ -88,10 +88,9 @@ set_package_properties(
     PURPOSE "Necessary to enable the openssl extension."
 )
 
-target_link_libraries(php_openssl PRIVATE OpenSSL::SSL)
-target_link_libraries(php_openssl PRIVATE OpenSSL::Crypto)
+target_link_libraries(php_openssl PRIVATE OpenSSL::SSL OpenSSL::Crypto)
 
-set(HAVE_OPENSSL_EXT 1 CACHE INTERNAL "Whether the OpenSSL extension is available")
+set(HAVE_OPENSSL_EXT 1 CACHE INTERNAL "Whether the openssl extension is available")
 
 if(TARGET OpenSSL::SSL)
   cmake_push_check_state(RESET)

@@ -32,5 +32,5 @@ set_target_properties(
 install(
   TARGETS php_litespeed
   RUNTIME
-    DESTINATION "${CMAKE_INSTALL_BINDIR}"
+    DESTINATION ${CMAKE_INSTALL_BINDIR}
 )
