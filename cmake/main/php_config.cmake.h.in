@@ -380,9 +380,6 @@
 /* Define if system has broken getcwd */
 #cmakedefine HAVE_BROKEN_GETCWD @HAVE_BROKEN_GETCWD@
 
-/* Konstantin Chuguev's iconv implementation */
-#cmakedefine HAVE_BSD_ICONV @HAVE_BSD_ICONV@
-
 /* */
 #cmakedefine HAVE_BUILD_DEFS_H @HAVE_BUILD_DEFS_H@
 

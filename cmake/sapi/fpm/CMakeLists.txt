@@ -541,13 +541,13 @@ block()
 endblock()
 
 # TODO: Add program file prefix and suffix.
-install(TARGETS php_fpm DESTINATION "${CMAKE_INSTALL_SBINDIR}")
+install(TARGETS php_fpm DESTINATION ${CMAKE_INSTALL_SBINDIR})
 
 # TODO: Add file suffix.
 install(
   FILES
-    "${CMAKE_CURRENT_BINARY_DIR}/php-fpm.8"
-  DESTINATION "${CMAKE_INSTALL_MANDIR}/man8"
+    ${CMAKE_CURRENT_BINARY_DIR}/php-fpm.8
+  DESTINATION ${CMAKE_INSTALL_MANDIR}/man8
 )
 
 # Create log and run directories on installation.

@@ -29,5 +29,5 @@ set_target_properties(
 
 install(
   TARGETS php_apache2handler
-  DESTINATION "${CMAKE_INSTALL_LIBDIR}"
+  DESTINATION ${CMAKE_INSTALL_LIBDIR}
 )

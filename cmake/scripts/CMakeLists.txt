@@ -15,13 +15,13 @@ endblock()
 
 install(
   FILES
-    "${PROJECT_BINARY_DIR}/scripts/man1/php-config.1"
-    "${PROJECT_BINARY_DIR}/scripts/man1/phpize.1"
+    ${PROJECT_BINARY_DIR}/scripts/man1/php-config.1
+    ${PROJECT_BINARY_DIR}/scripts/man1/phpize.1
   DESTINATION ${CMAKE_INSTALL_MANDIR}/man1
 )
 
 install(
   FILES
-    "${PROJECT_BINARY_DIR}/scripts/php-config"
+    ${PROJECT_BINARY_DIR}/scripts/php-config
   DESTINATION ${CMAKE_INSTALL_BINDIR}
 )

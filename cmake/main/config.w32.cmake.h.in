@@ -272,6 +272,12 @@
 #cmakedefine HAVE_PCRE_JIT_SUPPORT @HAVE_PCRE_JIT_SUPPORT@
 
 /* */
+#cmakedefine PHAR_HAVE_OPENSSL @PHAR_HAVE_OPENSSL@
+
+/* Whether to build phar as dynamic module */
+#cmakedefine COMPILE_DL_PHAR @COMPILE_DL_PHAR@
+
+/* */
 #cmakedefine HAVE_LIBEDIT @HAVE_LIBEDIT@
 
 /* Have SHMOP support */

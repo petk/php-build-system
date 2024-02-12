@@ -260,14 +260,14 @@ endblock()
 install(
   TARGETS php_phpdbg
   RUNTIME
-    DESTINATION "${CMAKE_INSTALL_BINDIR}"
+    DESTINATION ${CMAKE_INSTALL_BINDIR}
 )
 
 # TODO: Add prefix and suffix to installed man documentation file.
 install(
   FILES
-    "${CMAKE_CURRENT_BINARY_DIR}/phpdbg.1"
-  DESTINATION "${CMAKE_INSTALL_MANDIR}/man1"
+    ${CMAKE_CURRENT_BINARY_DIR}/phpdbg.1
+  DESTINATION ${CMAKE_INSTALL_MANDIR}/man1
 )
 
 # Create log and run directories on installation.

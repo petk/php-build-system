@@ -170,17 +170,20 @@ if(TARGET Iconv::Iconv)
           iconv_ccs_init(NULL, NULL);
           return 0;
         }
-      " HAVE_BSD_ICONV)
+      " _HAVE_BSD_ICONV)
     cmake_pop_check_state()
   endif()
 
-  if(HAVE_BSD_ICONV)
+  if(_HAVE_BSD_ICONV)
     message(CHECK_PASS "BSD iconv")
-    set(PHP_ICONV_IMPL "BSD iconv" CACHE INTERNAL "The iconv library implementation")
+    set(
+      PHP_ICONV_IMPL "BSD iconv"
+      CACHE INTERNAL "The iconv library implementation"
+    )
   endif()
 
   # Check for IBM iconv implementation.
-  if(NOT _have_gnu_libiconv AND NOT HAVE_GLIBC_ICONV AND NOT HAVE_BSD_ICONV)
+  if(NOT _have_gnu_libiconv AND NOT HAVE_GLIBC_ICONV AND NOT _HAVE_BSD_ICONV)
     cmake_push_check_state(RESET)
       set(CMAKE_REQUIRED_LIBRARIES Iconv::Iconv)
 
