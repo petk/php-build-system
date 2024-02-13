@@ -269,7 +269,7 @@ Configuration variables are cache variables designed to be adjusted by the user
 during the configuration phase, either through the presets, command line, or by
 using GUI, such as cmake-gui or ccmake. It is recommended to prefix them with
 `PHP_`, `ZEND_`, `EXT_`, and similar to facilitate their grouping within the
-GUI.
+GUI or IDE.
 
 ```cmake
 # PHP configuration variables
@@ -286,10 +286,11 @@ option(EXT_FOO "<help_text>" [value])
 
 While it's a good practice to consider grouping variables inside an extension by
 the extension name for clarity (for example, `EXT_<extension>`,
-`EXT_<extension>_FOO`), it's worth noting that GUI may not distinguish such
-subgrouping. Therefore, the decision to additionally group them by the extension
-name beside the primary prefix `EXT_` can be optional and context-dependent,
-when the extension involves multiple options:
+`EXT_<extension>_FOO`, etc.), it's worth noting that GUI may group variables
+only up to the first underscore and may not distinguish such subgrouping.
+Therefore, the decision to additionally group them by the extension name beside
+the primary prefix `EXT_` can be optional and context-dependent, when the
+extension involves multiple options:
 
 ```cmake
 option(EXT_GD "<help_text>" [value])
@@ -534,8 +535,8 @@ target_compile_definitions(php PRIVATE $<$<PLATFORM_ID:Linux,FreeBSD>:FOOBAR>)
 ```
 
 > [!NOTE]
-> All possible values for `CMAKE_SYSTEM_NAME`, `CMAKE_HOST_SYSTEM_NAME`, and
-> `PLATFORM_ID`, known to CMake, are listed in the
+> All values known to CMake for `CMAKE_SYSTEM_NAME`, `CMAKE_HOST_SYSTEM_NAME`,
+> and `PLATFORM_ID` are listed in the
 > [CMake documentation](https://cmake.org/cmake/help/latest/variable/CMAKE_SYSTEM_NAME.html).
 
 ### 9.1. Determining processor

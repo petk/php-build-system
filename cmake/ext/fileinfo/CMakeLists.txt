@@ -46,6 +46,7 @@ target_sources(
     libmagic/funcs.c
     libmagic/is_csv.c
     libmagic/is_json.c
+    libmagic/is_simh.c
     libmagic/is_tar.c
     libmagic/magic.c
     libmagic/print.c
