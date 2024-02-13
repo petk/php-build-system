@@ -1,6 +1,5 @@
 include(CheckIncludeFile)
 include(CheckIncludeFiles)
-include(CheckLibraryExists)
 include(CheckSourceCompiles)
 include(CheckSymbolExists)
 include(FeatureSummary)

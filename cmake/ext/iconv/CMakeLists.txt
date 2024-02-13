@@ -187,13 +187,13 @@ if(TARGET Iconv::Iconv)
     cmake_push_check_state(RESET)
       set(CMAKE_REQUIRED_LIBRARIES Iconv::Iconv)
 
-      check_source_compiles(C "
+      check_source_compiles(C [[
         #include <iconv.h>
         int main(void) {
-          cstoccsid(\"\");
+          cstoccsid("");
           return 0;
         }
-      " HAVE_IBM_ICONV)
+      ]] HAVE_IBM_ICONV)
     cmake_pop_check_state()
   endif()
 
@@ -214,13 +214,13 @@ if(TARGET Iconv::Iconv)
     cmake_push_check_state(RESET)
       set(CMAKE_REQUIRED_LIBRARIES Iconv::Iconv)
 
-      check_source_runs(C "
+      check_source_runs(C [[
         #include <iconv.h>
         #include <errno.h>
 
         int main(void) {
           iconv_t cd;
-          cd = iconv_open(\"*blahblah*\", \"*blahblahblah*\");
+          cd = iconv_open("*blahblah*", "*blahblahblah*");
           if (cd == (iconv_t)(-1)) {
             if (errno == EINVAL) {
               return 0;
@@ -228,10 +228,10 @@ if(TARGET Iconv::Iconv)
               return 1;
             }
           }
-          iconv_close( cd );
+          iconv_close(cd);
           return 2;
         }
-      " _php_iconv_errno_works)
+      ]] _php_iconv_errno_works)
     cmake_pop_check_state()
   endif()
 

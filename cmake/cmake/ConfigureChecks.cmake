@@ -6,7 +6,6 @@ include_guard(GLOBAL)
 
 # Include required modules.
 include(CheckIncludeFile)
-include(CheckLibraryExists)
 include(CheckSourceCompiles)
 include(CheckStructHasMember)
 include(CheckSymbolExists)

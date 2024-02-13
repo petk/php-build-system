@@ -95,7 +95,7 @@ if(EXT_PHAR_NATIVE_SSL)
       PURPOSE "Necessary to enable the OpenSSL support in the phar extension."
   )
 
-  target_link_libraries(php_openssl PRIVATE OpenSSL::SSL OpenSSL::Crypto)
+  target_link_libraries(php_phar PRIVATE OpenSSL::SSL OpenSSL::Crypto)
 
   if(OpenSSL_FOUND)
     set(PHAR_HAVE_OPENSSL 1 CACHE INTERNAL "Whether phar has OpenSSL support")

@@ -14,9 +14,7 @@ Interface library:
 
 include_guard(GLOBAL)
 
-include(CheckLibraryExists)
 include(CheckSourceRuns)
-include(CheckSymbolExists)
 include(CMakePushCheckState)
 include(PHP/SearchLibraries)
 

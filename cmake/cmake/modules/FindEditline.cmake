@@ -29,6 +29,7 @@ Hints:
   The Editline_ROOT variable adds custom search path.
 #]=============================================================================]
 
+include(CheckLibraryExists)
 include(FeatureSummary)
 include(FindPackageHandleStandardArgs)
 
