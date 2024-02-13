@@ -29,8 +29,6 @@ Hints:
   The GMP_ROOT variable adds custom search path.
 #]=============================================================================]
 
-include(CheckLibraryExists)
-include(CMakePushCheckState)
 include(FeatureSummary)
 include(FindPackageHandleStandardArgs)
 

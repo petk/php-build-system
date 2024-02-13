@@ -29,6 +29,7 @@ Hints:
   The Readline_ROOT variable adds custom search path.
 #]=============================================================================]
 
+include(CheckLibraryExists)
 include(FeatureSummary)
 include(FindPackageHandleStandardArgs)
 

@@ -1885,9 +1885,9 @@
 /* If using the C implementation of alloca, define if you know the
    direction of stack growth for your system; otherwise it will be
    automatically deduced at runtime.
-	STACK_DIRECTION > 0 => grows toward higher addresses
-	STACK_DIRECTION < 0 => grows toward lower addresses
-	STACK_DIRECTION = 0 => direction of growth unknown */
+   STACK_DIRECTION > 0 => grows toward higher addresses
+   STACK_DIRECTION < 0 => grows toward lower addresses
+   STACK_DIRECTION = 0 => direction of growth unknown */
 #cmakedefine STACK_DIRECTION
 
 /* Define to 1 if all of the C90 standard headers exist (not just the ones
@@ -1999,7 +1999,6 @@
 #ifndef _XOPEN_SOURCE
 # cmakedefine _XOPEN_SOURCE @_XOPEN_SOURCE@
 #endif
-
 
 /* Define if processor uses big-endian word */
 #cmakedefine WORDS_BIGENDIAN @WORDS_BIGENDIAN@

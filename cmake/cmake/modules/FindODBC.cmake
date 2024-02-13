@@ -32,7 +32,6 @@ Hints:
     TODO: Fix this better.
 #]=============================================================================]
 
-include(CheckLibraryExists)
 include(FeatureSummary)
 include(FindPackageHandleStandardArgs)
 

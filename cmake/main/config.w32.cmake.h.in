@@ -1,6 +1,4 @@
-/*
-	Build Configuration Template for Win32.
-*/
+/* Build Configuration Template for Win32. */
 
 /* Define the minimum supported version */
 #undef _WIN32_WINNT
@@ -15,7 +13,7 @@
 #define PHP_BINDIR "@PREFIX@"
 #define PHP_DATADIR "@PREFIX@"
 #define PHP_EXTENSION_DIR "@PREFIX@\\ext"
-#define PHP_INCLUDE_PATH	".;@PREFIX@\\pear"
+#define PHP_INCLUDE_PATH ".;@PREFIX@\\pear"
 #define PHP_LIBDIR "@PREFIX@"
 #define PHP_LOCALSTATEDIR "@PREFIX@"
 #define PHP_PREFIX "@PREFIX@"
@@ -235,6 +233,12 @@
 
 /* Whether libffi supports vectorcall calling convention */
 #cmakedefine HAVE_FFI_VECTORCALL_PARTIAL @HAVE_FFI_VECTORCALL_PARTIAL@
+
+/* Have FTP support */
+#cmakedefine HAVE_FTP @HAVE_FTP@
+
+/* Have FTP over SSL support */
+#cmakedefine HAVE_FTP_SSL @HAVE_FTP_SSL@
 
 #cmakedefine PHP_MHASH_BC @PHP_MHASH_BC@
 
