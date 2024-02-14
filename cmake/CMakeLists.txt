@@ -74,13 +74,6 @@ php_extensions_add(ext)
 
 message("
 +--------------------------------------------------------------------+
-| Configuring PEAR                                                   |
-+--------------------------------------------------------------------+
-")
-add_subdirectory(pear)
-
-message("
-+--------------------------------------------------------------------+
 | Configuring Zend engine                                            |
 +--------------------------------------------------------------------+
 ")
@@ -91,6 +84,7 @@ message("
 | Configuring PHP                                                    |
 +--------------------------------------------------------------------+
 ")
+add_subdirectory(pear)
 add_subdirectory(TSRM)
 add_subdirectory(win32)
 add_subdirectory(main)

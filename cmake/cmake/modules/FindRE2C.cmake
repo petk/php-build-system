@@ -41,6 +41,7 @@ If re2c is found, the module exposes the following function:
 #]=============================================================================]
 
 include(CheckSourceCompiles)
+include(CMakePushCheckState)
 include(FeatureSummary)
 include(FindPackageHandleStandardArgs)
 
@@ -99,23 +100,22 @@ endif()
 
 # Check for re2c --computed-gotos option.
 if(RE2C_USE_COMPUTED_GOTOS)
-  message(CHECK_START "Checking if re2c --computed-gotos option is supported")
+  message(CHECK_START "Checking for re2c --computed-gotos option support")
 
-  list(APPEND CMAKE_MESSAGE_INDENT "  ")
-
-  check_source_compiles(C "
-    int main(int argc, const char **argv) {
-      argc = argc;
-      argv = argv;
-    label1:
-    label2:
-      static void *adr[] = { &&label1, &&label2};
-      goto *adr[0];
-      return 0;
-    }
-  " _RE2C_HAVE_COMPUTED_GOTOS)
-
-  list(POP_BACK CMAKE_MESSAGE_INDENT)
+  cmake_push_check_state(RESET)
+    set(CMAKE_REQUIRED_QUIET TRUE)
+    check_source_compiles(C "
+      int main(int argc, const char **argv) {
+        argc = argc;
+        argv = argv;
+      label1:
+      label2:
+        static void *adr[] = { &&label1, &&label2};
+        goto *adr[0];
+        return 0;
+      }
+    " _RE2C_HAVE_COMPUTED_GOTOS)
+  cmake_pop_check_state()
 
   if(_RE2C_HAVE_COMPUTED_GOTOS)
     message(CHECK_PASS "yes")
@@ -126,11 +126,11 @@ endif()
 
 function(re2c_target)
   cmake_parse_arguments(
-    parsed                      # prefix
-    ""                          # options
-    "NAME;INPUT;OUTPUT;OPTIONS" # one-value keywords
-    "DEPENDS"                   # multi-value keywords
-    ${ARGN}                     # strings to parse
+    parsed              # prefix
+    ""                  # options
+    "NAME;INPUT;OUTPUT" # one-value keywords
+    "OPTIONS;DEPENDS"   # multi-value keywords
+    ${ARGN}             # strings to parse
   )
 
   if(parsed_UNPARSED_ARGUMENTS)
@@ -153,26 +153,24 @@ function(re2c_target)
     message(FATAL_ERROR "re2c_target expects an output filename")
   endif()
 
-  separate_arguments(options NATIVE_COMMAND "${parsed_OPTIONS}")
-
   if(RE2C_USE_COMPUTED_GOTOS AND _RE2C_HAVE_COMPUTED_GOTOS)
-    list(APPEND options "-g")
+    list(APPEND parsed_OPTIONS "-g")
   endif()
 
   add_custom_command(
-    OUTPUT "${parsed_OUTPUT}"
+    OUTPUT ${parsed_OUTPUT}
     COMMAND ${RE2C_EXECUTABLE}
-      ${options}
-      -o "${parsed_OUTPUT}"
-      "${parsed_INPUT}"
-    DEPENDS "${parsed_INPUT}" ${parsed_DEPENDS}
+      ${parsed_OPTIONS}
+      -o ${parsed_OUTPUT}
+      ${parsed_INPUT}
+    DEPENDS ${parsed_INPUT} ${parsed_DEPENDS}
     COMMENT "[RE2C][${parsed_NAME}] Building lexer with re2c ${RE2C_VERSION}"
   )
 
   add_custom_target(
     ${parsed_NAME}
-    SOURCES "${parsed_INPUT}"
-    DEPENDS "${parsed_OUTPUT}"
+    SOURCES ${parsed_INPUT}
+    DEPENDS ${parsed_OUTPUT}
     COMMENT "[RE2C] Building lexer with re2c ${RE2C_VERSION}"
   )
 endfunction()

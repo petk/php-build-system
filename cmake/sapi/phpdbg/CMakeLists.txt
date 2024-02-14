@@ -184,9 +184,9 @@ endif()
 if(RE2C_FOUND)
   re2c_target(
     NAME php_phpdbg_lexer
-    INPUT "${CMAKE_CURRENT_SOURCE_DIR}/phpdbg_lexer.l"
-    OUTPUT "${CMAKE_CURRENT_SOURCE_DIR}/phpdbg_lexer.c"
-    OPTIONS "--no-generation-date -cbdF"
+    INPUT ${CMAKE_CURRENT_SOURCE_DIR}/phpdbg_lexer.l
+    OUTPUT ${CMAKE_CURRENT_SOURCE_DIR}/phpdbg_lexer.c
+    OPTIONS --no-generation-date -cbdF
   )
 endif()
 

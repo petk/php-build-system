@@ -4,8 +4,8 @@ if(CMAKE_SYSTEM_NAME STREQUAL "Windows")
 endif()
 
 # TODO: pcntl is a cli/cgi extension.
-include(CheckSourceCompiles)
 include(CheckSymbolExists)
+include(CheckTypeSize)
 include(CMakeDependentOption)
 include(CMakePushCheckState)
 include(FeatureSummary)
@@ -76,35 +76,11 @@ cmake_pop_check_state()
 check_symbol_exists(rfork "unistd.h" HAVE_RFORK)
 check_symbol_exists(forkx "sys/fork.h" HAVE_FORKX)
 
-# The siginfo_t is defined in signal.h according to POSIX. Some systems don't
-# conform to POSIX and have siginfo_t defined in siginfo.h.
-# TODO: Recheck siginfo.h again if this is still needed on current systems.
-message(CHECK_START "Checking for siginfo_t")
-check_include_file(siginfo.h HAVE_SIGINFO_H)
 cmake_push_check_state(RESET)
-  set(CMAKE_REQUIRED_DEFINITIONS -D_GNU_SOURCE)
-
-  if(HAVE_SIGINFO_H)
-    list(APPEND CMAKE_REQUIRED_DEFINITIONS -DHAVE_SIGINFO_H)
-  endif()
-
-  check_source_compiles(C "
-    #include <signal.h>
-
-    #ifdef HAVE_SIGINFO_H
-    # include <siginfo.h>
-    #endif
-
-    int main(void) {
-      siginfo_t info;
-      return 0;
-    }
-  " HAVE_STRUCT_SIGINFO_T)
+  set(CMAKE_EXTRA_INCLUDE_FILES "signal.h")
+  check_type_size(siginfo_t HAVE_STRUCT_SIGINFO_T)
 cmake_pop_check_state()
 
 if(HAVE_STRUCT_SIGINFO_T)
-  message(CHECK_PASS "yes")
   target_compile_definitions(php_pcntl PRIVATE HAVE_STRUCT_SIGINFO_T=1)
-else()
-  message(CHECK_FAIL "no")
 endif()

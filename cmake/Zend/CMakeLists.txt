@@ -358,16 +358,24 @@ endif()
 if(RE2C_FOUND)
   re2c_target(
     NAME zend_language_scanner
-    INPUT "${CMAKE_CURRENT_SOURCE_DIR}/zend_language_scanner.l"
-    OUTPUT "${CMAKE_CURRENT_SOURCE_DIR}/zend_language_scanner.c"
-    OPTIONS "--no-generation-date --case-inverted -cbdFt \"${CMAKE_CURRENT_SOURCE_DIR}/zend_language_scanner_defs.h\""
+    INPUT ${CMAKE_CURRENT_SOURCE_DIR}/zend_language_scanner.l
+    OUTPUT ${CMAKE_CURRENT_SOURCE_DIR}/zend_language_scanner.c
+    OPTIONS
+      --no-generation-date
+      --case-inverted
+      -cbdF
+      -t ${CMAKE_CURRENT_SOURCE_DIR}/zend_language_scanner_defs.h
   )
 
   re2c_target(
     NAME zend_ini_scanner
-    INPUT "${CMAKE_CURRENT_SOURCE_DIR}/zend_ini_scanner.l"
-    OUTPUT "${CMAKE_CURRENT_SOURCE_DIR}/zend_ini_scanner.c"
-    OPTIONS "--no-generation-date --case-inverted -cbdFt \"${CMAKE_CURRENT_SOURCE_DIR}/zend_ini_scanner_defs.h\""
+    INPUT ${CMAKE_CURRENT_SOURCE_DIR}/zend_ini_scanner.l
+    OUTPUT ${CMAKE_CURRENT_SOURCE_DIR}/zend_ini_scanner.c
+    OPTIONS
+      --no-generation-date
+      --case-inverted
+      -cbdF
+      -t ${CMAKE_CURRENT_SOURCE_DIR}/zend_ini_scanner_defs.h
   )
 endif()
 

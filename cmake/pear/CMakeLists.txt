@@ -22,8 +22,13 @@ elseif(DEFINED PHP_PEAR_DIR)
   set_property(CACHE PHP_PEAR_DIR PROPERTY TYPE INTERNAL)
 endif()
 
+message(CHECK_START "Checking for PEAR")
+
 if(NOT PHP_PEAR)
+  message(CHECK_FAIL "no")
   return()
+else()
+  message(CHECK_PASS "yes")
 endif()
 
 message(DEPRECATION "The PHP_PEAR option is deprecated.")
