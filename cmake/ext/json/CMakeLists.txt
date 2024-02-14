@@ -31,9 +31,12 @@ endif()
 if(RE2C_FOUND)
   re2c_target(
     NAME php_json_scanner
-    INPUT "${CMAKE_CURRENT_SOURCE_DIR}/json_scanner.re"
-    OUTPUT "${CMAKE_CURRENT_SOURCE_DIR}/json_scanner.c"
-    OPTIONS "--no-generation-date -bci -t \"${CMAKE_CURRENT_SOURCE_DIR}/php_json_scanner_defs.h\""
+    INPUT ${CMAKE_CURRENT_SOURCE_DIR}/json_scanner.re
+    OUTPUT ${CMAKE_CURRENT_SOURCE_DIR}/json_scanner.c
+    OPTIONS
+      --no-generation-date
+      -bci
+      -t ${CMAKE_CURRENT_SOURCE_DIR}/php_json_scanner_defs.h
   )
 endif()
 

@@ -78,9 +78,9 @@ set_target_properties(
 if(RE2C_FOUND)
   re2c_target(
     NAME php_phar_path_check
-    INPUT "${CMAKE_CURRENT_SOURCE_DIR}/phar_path_check.re"
-    OUTPUT "${CMAKE_CURRENT_SOURCE_DIR}/phar_path_check.c"
-    OPTIONS "--no-generation-date -b"
+    INPUT ${CMAKE_CURRENT_SOURCE_DIR}/phar_path_check.re
+    OUTPUT ${CMAKE_CURRENT_SOURCE_DIR}/phar_path_check.c
+    OPTIONS --no-generation-date -b
   )
 endif()
 
@@ -138,8 +138,8 @@ block()
             -d output_buffering=0
             -d memory_limit=-1
             -d phar.readonly=0
-            ${CMAKE_CURRENT_SOURCE_DIR}/build_precommand.php
-        OUTPUT_FILE ${CMAKE_CURRENT_BINARY_DIR}/phar.php
+            ${CURRENT_SOURCE_DIR}/build_precommand.php
+        OUTPUT_FILE ${CURRENT_BINARY_DIR}/phar.php
         OUTPUT_QUIET
       )
 
@@ -153,22 +153,22 @@ block()
             -d output_buffering=0
             -d memory_limit=-1
             -d phar.readonly=0
-            ${CMAKE_CURRENT_BINARY_DIR}/phar.php
+            ${CURRENT_BINARY_DIR}/phar.php
               pack
-              -f ${CMAKE_CURRENT_BINARY_DIR}/phar.phar
+              -f ${CURRENT_BINARY_DIR}/phar.phar
               -a pharcommand
               -c auto
               -p 0
-              -s ${CMAKE_CURRENT_SOURCE_DIR}/phar/phar.php
+              -s ${CURRENT_SOURCE_DIR}/phar/phar.php
               -h sha1
-              -b "${CMAKE_INSTALL_FULL_BINDIR}/${php_cli_filename}"
-              ${CMAKE_CURRENT_SOURCE_DIR}/phar
+              -b ${INSTALL_FULL_BINDIR}/${php_cli_filename}
+              ${CURRENT_SOURCE_DIR}/phar
       )
 
       # Set phar.phar permissions.
       file(
         CHMOD
-        ${CMAKE_CURRENT_BINARY_DIR}/phar.phar
+        ${CURRENT_BINARY_DIR}/phar.phar
         FILE_PERMISSIONS
           OWNER_READ
           OWNER_WRITE
@@ -203,9 +203,9 @@ block()
       -D EXT_PHAR_SHARED=${EXT_PHAR_SHARED}
       -D PHP_BINARY_DIR=${PHP_BINARY_DIR}
       -D php_cli_filename=${php_cli_filename}
-      -D CMAKE_CURRENT_SOURCE_DIR=${CMAKE_CURRENT_SOURCE_DIR}
-      -D CMAKE_CURRENT_BINARY_DIR=${CMAKE_CURRENT_BINARY_DIR}
-      -D CMAKE_INSTALL_FULL_BINDIR=${CMAKE_INSTALL_FULL_BINDIR}
+      -D CURRENT_SOURCE_DIR=${CMAKE_CURRENT_SOURCE_DIR}
+      -D CURRENT_BINARY_DIR=${CMAKE_CURRENT_BINARY_DIR}
+      -D INSTALL_FULL_BINDIR=${CMAKE_INSTALL_FULL_BINDIR}
       -P
       ${CMAKE_CURRENT_BINARY_DIR}/CMakeFiles/GeneratePhar.cmake
     DEPENDS
