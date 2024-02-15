@@ -514,6 +514,10 @@ function(_php_extensions_post_configure directory)
 
   set_property(GLOBAL APPEND PROPERTY PHP_EXTENSIONS ${extension})
 
+  if(NOT TARGET PHP::${extension})
+    add_library(PHP::${extension} ALIAS php_${extension})
+  endif()
+
   # Check if extension is always enabled.
   get_cmake_property(extensions PHP_ALWAYS_ENABLED_EXTENSIONS)
   if(extension IN_LIST extensions)

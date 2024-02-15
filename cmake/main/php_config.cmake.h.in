@@ -1483,7 +1483,7 @@
 /* Define to 1 if you have the 'strtoll' function. */
 #cmakedefine HAVE_STRTOLL @HAVE_STRTOLL@
 
-/* whether you have struct flock */
+/* Define to 1 if the system has the type 'struct flock'. */
 #cmakedefine HAVE_STRUCT_FLOCK @HAVE_STRUCT_FLOCK@
 
 /* Define to 1 if 'st_blksize' is a member of 'struct stat'. */
