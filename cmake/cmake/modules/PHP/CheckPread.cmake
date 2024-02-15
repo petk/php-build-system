@@ -12,6 +12,7 @@ Cache variables:
 include_guard(GLOBAL)
 
 include(CheckSourceRuns)
+include(CMakePushCheckState)
 
 message(CHECK_START "Checking whether pread() works")
 
@@ -23,49 +24,55 @@ if(NOT CMAKE_CROSSCOMPILING)
 
   file(WRITE "${_php_check_pread_file}" "test\n")
 
-  check_source_runs(C "
-    #include <sys/types.h>
-    #include <sys/stat.h>
-    #include <fcntl.h>
-    #include <unistd.h>
-    #include <errno.h>
-    #include <stdlib.h>
+  cmake_push_check_state(RESET)
+    set(CMAKE_REQUIRED_QUIET TRUE)
+    check_source_runs(C "
+      #include <sys/types.h>
+      #include <sys/stat.h>
+      #include <fcntl.h>
+      #include <unistd.h>
+      #include <errno.h>
+      #include <stdlib.h>
 
-    int main(void) {
-      char buf[3];
-      int fd = open(\"${_php_check_pread_file}\", O_RDONLY);
-      if (fd < 0) return 1;
-      if (pread(fd, buf, 2, 0) != 2) return 1;
-      /* Linux glibc breakage until 2.2.5 */
-      if (pread(fd, buf, 2, -1) != -1 || errno != EINVAL) return 1;
+      int main(void) {
+        char buf[3];
+        int fd = open(\"${_php_check_pread_file}\", O_RDONLY);
+        if (fd < 0) return 1;
+        if (pread(fd, buf, 2, 0) != 2) return 1;
+        /* Linux glibc breakage until 2.2.5 */
+        if (pread(fd, buf, 2, -1) != -1 || errno != EINVAL) return 1;
 
-      return 0;
-    }
-  " HAVE_PREAD)
+        return 0;
+      }
+    " HAVE_PREAD)
+  cmake_pop_check_state()
 endif()
 
 if(NOT HAVE_PREAD AND NOT CMAKE_CROSSCOMPILING)
-  check_source_runs(C "
-    #include <sys/types.h>
-    #include <sys/stat.h>
-    #include <fcntl.h>
-    #include <unistd.h>
-    #include <errno.h>
-    #include <stdlib.h>
+  cmake_push_check_state(RESET)
+    set(CMAKE_REQUIRED_QUIET TRUE)
+    check_source_runs(C "
+      #include <sys/types.h>
+      #include <sys/stat.h>
+      #include <fcntl.h>
+      #include <unistd.h>
+      #include <errno.h>
+      #include <stdlib.h>
 
-    ssize_t pread(int, void *, size_t, off64_t);
+      ssize_t pread(int, void *, size_t, off64_t);
 
-    int main(void) {
-      char buf[3];
-      int fd = open(\"${_php_check_pread_file}\", O_RDONLY);
-      if (fd < 0) return 1;
-      if (pread(fd, buf, 2, 0) != 2) return 1;
-      /* Linux glibc breakage until 2.2.5 */
-      if (pread(fd, buf, 2, -1) != -1 || errno != EINVAL) return 1;
+      int main(void) {
+        char buf[3];
+        int fd = open(\"${_php_check_pread_file}\", O_RDONLY);
+        if (fd < 0) return 1;
+        if (pread(fd, buf, 2, 0) != 2) return 1;
+        /* Linux glibc breakage until 2.2.5 */
+        if (pread(fd, buf, 2, -1) != -1 || errno != EINVAL) return 1;
 
-      return 0;
-    }
-  " PHP_PREAD_64)
+        return 0;
+      }
+    " PHP_PREAD_64)
+  cmake_pop_check_state()
 
   if(PHP_PREAD_64)
     set(HAVE_PREAD 1 CACHE INTERNAL "Whether pread() works")

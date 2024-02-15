@@ -83,11 +83,22 @@ check_struct_has_member("struct stat" st_blksize sys/stat.h HAVE_STRUCT_STAT_ST_
 check_struct_has_member("struct stat" st_blocks sys/stat.h HAVE_STRUCT_STAT_ST_BLOCKS)
 check_struct_has_member("struct stat" st_rdev sys/stat.h HAVE_STRUCT_STAT_ST_RDEV)
 
-# Check struct flock.
-include(PHP/CheckStructFlock)
+cmake_push_check_state(RESET)
+  set(CMAKE_EXTRA_INCLUDE_FILES "fcntl.h")
+  check_type_size("struct flock" STRUCT_FLOCK)
+cmake_pop_check_state()
 
 # Check for sockaddr_storage and sockaddr.sa_len.
-include(PHP/CheckSockaddr)
+cmake_push_check_state(RESET)
+  set(CMAKE_EXTRA_INCLUDE_FILES "sys/socket.h")
+  check_type_size("struct sockaddr_storage" SOCKADDR_STORAGE)
+  check_struct_has_member(
+    "struct sockaddr"
+    sa_len
+    "sys/socket.h"
+    HAVE_SOCKADDR_SA_LEN
+  )
+cmake_pop_check_state()
 
 ################################################################################
 # Check types.
@@ -150,7 +161,7 @@ endif()
 # Check for socklen_t type.
 cmake_push_check_state(RESET)
   if(HAVE_SYS_SOCKET_H)
-    list(APPEND CMAKE_EXTRA_INCLUDE_FILES sys/socket.h)
+    set(CMAKE_EXTRA_INCLUDE_FILES sys/socket.h)
   endif()
   check_type_size("socklen_t" SIZEOF_SOCKLEN_T)
   if(HAVE_SIZEOF_SOCKLEN_T)

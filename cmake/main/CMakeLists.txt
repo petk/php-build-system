@@ -165,10 +165,6 @@ endif()
 
 get_cmake_property(extensions PHP_EXTENSIONS)
 foreach(extension IN LISTS extensions)
-  if(NOT TARGET PHP::${extension})
-    add_library(PHP::${extension} ALIAS php_${extension})
-  endif()
-
   # Add extension's PUBLIC/INTERFACE compile options to configuration.
   # Cleaner COMPILE_ONLY generator expression is available in CMake >= 3.27.
   if(CMAKE_VERSION VERSION_GREATER_EQUAL 3.27)
