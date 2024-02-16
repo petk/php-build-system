@@ -86,7 +86,7 @@ if(CMAKE_SYSTEM_NAME STREQUAL "Windows")
 endif()
 
 # Check for field ss_family in sockaddr_storage (missing in AIX until 5.3).
-check_struct_has_member("struct sockaddr_storage" ss_family sys/socket.h HAVE_SA_SS_FAMILY)
+check_struct_has_member("struct sockaddr_storage" ss_family sys/socket.h HAVE_STRUCT_SOCKADDR_STORAGE_SS_FAMILY)
 
 message(CHECK_START "Checking if getaddrinfo supports AI_V4MAPPED")
 check_source_compiles(C "

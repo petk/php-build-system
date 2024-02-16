@@ -1191,8 +1191,8 @@
 /* */
 #cmakedefine HAVE_SAPDB @HAVE_SAPDB@
 
-/* Whether you have sockaddr_storage.ss_family */
-#cmakedefine HAVE_SA_SS_FAMILY @HAVE_SA_SS_FAMILY@
+/* Define to 1 if 'ss_family' is a member of 'struct sockaddr_storage'. */
+#cmakedefine HAVE_STRUCT_SOCKADDR_STORAGE_SS_FAMILY @HAVE_STRUCT_SOCKADDR_STORAGE_SS_FAMILY@
 
 /* Define to 1 if you have the 'scandir' function. */
 #cmakedefine HAVE_SCANDIR @HAVE_SCANDIR@
@@ -1293,11 +1293,11 @@
 /* */
 #cmakedefine HAVE_SOAP @HAVE_SOAP@
 
-/* Whether struct sockaddr has field sa_len */
-#cmakedefine HAVE_SOCKADDR_SA_LEN @HAVE_SOCKADDR_SA_LEN@
+/* Define to 1 if 'sa_len' is a member of 'struct sockaddr'. */
+#cmakedefine HAVE_STRUCT_SOCKADDR_SA_LEN @HAVE_STRUCT_SOCKADDR_SA_LEN@
 
-/* Whether you have struct sockaddr_storage */
-#cmakedefine HAVE_SOCKADDR_STORAGE @HAVE_SOCKADDR_STORAGE@
+/* Define to 1 if the system has the type 'struct sockaddr_storage'. */
+#cmakedefine HAVE_STRUCT_SOCKADDR_STORAGE @HAVE_STRUCT_SOCKADDR_STORAGE@
 
 /* Define to 1 if you have the 'sockatmark' function. */
 #cmakedefine HAVE_SOCKATMARK @HAVE_SOCKATMARK@

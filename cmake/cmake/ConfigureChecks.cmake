@@ -91,12 +91,12 @@ cmake_pop_check_state()
 # Check for sockaddr_storage and sockaddr.sa_len.
 cmake_push_check_state(RESET)
   set(CMAKE_EXTRA_INCLUDE_FILES "sys/socket.h")
-  check_type_size("struct sockaddr_storage" SOCKADDR_STORAGE)
+  check_type_size("struct sockaddr_storage" STRUCT_SOCKADDR_STORAGE)
   check_struct_has_member(
     "struct sockaddr"
     sa_len
     "sys/socket.h"
-    HAVE_SOCKADDR_SA_LEN
+    HAVE_STRUCT_SOCKADDR_SA_LEN
   )
 cmake_pop_check_state()
 
