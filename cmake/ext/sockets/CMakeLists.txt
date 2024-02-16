@@ -1,5 +1,6 @@
 include(CheckIncludeFile)
 include(CheckSourceCompiles)
+include(CheckStructHasMember)
 include(CheckSymbolExists)
 include(CMakeDependentOption)
 include(CMakePushCheckState)
@@ -84,24 +85,8 @@ if(CMAKE_SYSTEM_NAME STREQUAL "Windows")
   endif()
 endif()
 
-message(CHECK_START "Checking for field ss_family in struct sockaddr_storage")
-check_source_compiles(C "
-  #include <sys/socket.h>
-  #include <sys/types.h>
-  #include <netdb.h>
-
-  int main(void) {
-    struct sockaddr_storage sa_store;
-    sa_store.ss_family = AF_INET6;
-
-    return 0;
-  }
-" HAVE_SA_SS_FAMILY)
-if(HAVE_SA_SS_FAMILY)
-  message(CHECK_PASS "yes")
-else()
-  message(CHECK_FAIL "no")
-endif()
+# Check for field ss_family in sockaddr_storage (missing in AIX until 5.3).
+check_struct_has_member("struct sockaddr_storage" ss_family sys/socket.h HAVE_SA_SS_FAMILY)
 
 message(CHECK_START "Checking if getaddrinfo supports AI_V4MAPPED")
 check_source_compiles(C "
