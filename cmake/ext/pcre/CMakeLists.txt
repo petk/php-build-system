@@ -106,6 +106,7 @@ else()
     PRIVATE
       pcre2lib/pcre2_auto_possess.c
       pcre2lib/pcre2_chartables.c
+      pcre2lib/pcre2_chkdint.c
       pcre2lib/pcre2_compile.c
       pcre2lib/pcre2_config.c
       pcre2lib/pcre2_context.c
