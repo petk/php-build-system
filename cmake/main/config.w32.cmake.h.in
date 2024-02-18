@@ -298,9 +298,6 @@
 /* SOAP support */
 #cmakedefine HAVE_SOAP @HAVE_SOAP@
 
-/* SOAP support */
-#cmakedefine HAVE_PHP_SOAP @HAVE_PHP_SOAP@
-
 #cmakedefine HAVE_SOCKETS @HAVE_SOCKETS@
 
 /* Have the Sodium library */
