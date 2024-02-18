@@ -104,6 +104,7 @@ endif()
 # JIT.
 ################################################################################
 
+# Check JIT requirements.
 if(EXT_OPCACHE_JIT)
   if(
     # *nix:
@@ -114,6 +115,16 @@ if(EXT_OPCACHE_JIT)
     message(
       WARNING
       "JIT is not supported by target architecture ${CMAKE_SYSTEM_PROCESSOR}"
+    )
+    set_property(CACHE EXT_OPCACHE_JIT PROPERTY VALUE 0)
+  elseif(
+    CMAKE_SYSTEM_NAME STREQUAL "Darwin"
+    AND CMAKE_SYSTEM_PROCESSOR MATCHES "^aarch64.*$"
+    AND PHP_THREAD_SAFETY
+  )
+    message(
+      WARNING
+      "JIT is not supported on Apple Silicon with thread safety enabled"
     )
     set_property(CACHE EXT_OPCACHE_JIT PROPERTY VALUE 0)
   endif()
