@@ -198,9 +198,6 @@ php_check_builtin(__builtin_usub_overflow PHP_HAVE_BUILTIN_USUB_OVERFLOW)
 # Check compiler characteristics.
 ################################################################################
 
-# Check compiler inline keyword.
-include(PHP/CheckInline)
-
 # Check AVX-512.
 include(PHP/CheckAVX512)
 
