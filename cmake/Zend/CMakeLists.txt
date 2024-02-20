@@ -220,14 +220,17 @@ cmake_push_check_state(RESET)
 cmake_pop_check_state()
 
 message(CHECK_START "Checking whether __cpuid_count is available")
-check_source_compiles(C "
-  #include <cpuid.h>
-  int main(void) {
-    unsigned eax, ebx, ecx, edx;
-    __cpuid_count(0, 0, eax, ebx, ecx, edx);
-    return 0;
-  }
-" HAVE_CPUID_COUNT)
+cmake_push_check_state(RESET)
+  set(CMAKE_REQUIRED_QUIET TRUE)
+  check_source_compiles(C "
+    #include <cpuid.h>
+    int main(void) {
+      unsigned eax, ebx, ecx, edx;
+      __cpuid_count(0, 0, eax, ebx, ecx, edx);
+      return 0;
+    }
+  " HAVE_CPUID_COUNT)
+cmake_pop_check_state()
 if(HAVE_CPUID_COUNT)
   message(CHECK_PASS "yes")
 else()

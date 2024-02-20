@@ -68,3 +68,12 @@ if(NOT HAVE_STRCASESTR)
   message(STATUS "Using libmagic strcasestr implementation")
   target_sources(php_fileinfo PRIVATE libmagic/strcasestr.c)
 endif()
+
+target_compile_definitions(
+  php_fileinfo
+  PRIVATE
+    # The wchar.h and inttypes.h headers are always available by C99 standard.
+    # The libmagic still includes them conditionally.
+    HAVE_WCHAR_H=1
+    HAVE_INTTYPES_H=1
+)

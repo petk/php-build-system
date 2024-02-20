@@ -816,9 +816,6 @@
 /* Define to 1 if you have the 'initgroups' function. */
 #cmakedefine HAVE_INITGROUPS @HAVE_INITGROUPS@
 
-/* Define to 1 if you have the <inttypes.h> header file. */
-#cmakedefine HAVE_INTTYPES_H @HAVE_INTTYPES_H@
-
 /* */
 #cmakedefine HAVE_IODBC @HAVE_IODBC@
 
@@ -965,9 +962,6 @@
 
 /* Define to 1 if you have the 'makedev' function. */
 #cmakedefine HAVE_MAKEDEV @HAVE_MAKEDEV@
-
-/* Define to 1 if you have the <malloc.h> header file. */
-#cmakedefine HAVE_MALLOC_H @HAVE_MALLOC_H@
 
 /* whether to have multibyte regex support */
 #cmakedefine HAVE_MBREGEX @HAVE_MBREGEX@
@@ -1362,9 +1356,6 @@
 /* Define to 1 if you have the 'statvfs' function. */
 #cmakedefine HAVE_STATVFS @HAVE_STATVFS@
 
-/* Define to 1 if you have the <stdint.h> header file. */
-#cmakedefine HAVE_STDINT_H @HAVE_STDINT_H@
-
 /* Define to 1 if you have the 'std_syslog' function. */
 #cmakedefine HAVE_STD_SYSLOG @HAVE_STD_SYSLOG@
 
@@ -1617,9 +1608,6 @@
 
 /* Define to 1 if you have the 'waitpid' function. */
 #cmakedefine HAVE_WAITPID @HAVE_WAITPID@
-
-/* Define to 1 if you have the <wchar.h> header file. */
-#cmakedefine HAVE_WCHAR_H @HAVE_WCHAR_H@
 
 /* Define to 1 if you have the <wmmintrin.h> header file. */
 #cmakedefine HAVE_WMMINTRIN_H @HAVE_WMMINTRIN_H@

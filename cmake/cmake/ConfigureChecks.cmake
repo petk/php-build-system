@@ -6,6 +6,7 @@ include_guard(GLOBAL)
 
 # Include required modules.
 include(CheckIncludeFile)
+include(CheckIncludeFiles)
 include(CheckSourceCompiles)
 include(CheckStructHasMember)
 include(CheckSymbolExists)
@@ -30,13 +31,19 @@ check_include_file(grp.h HAVE_GRP_H)
 check_include_file(ieeefp.h HAVE_IEEEFP_H)
 check_include_file(langinfo.h HAVE_LANGINFO_H)
 check_include_file(linux/sock_diag.h HAVE_LINUX_SOCK_DIAG_H)
-check_include_file(malloc.h HAVE_MALLOC_H)
 check_include_file(netinet/in.h HAVE_NETINET_IN_H)
 check_include_file(os/signpost.h HAVE_OS_SIGNPOST_H)
 check_include_file(poll.h HAVE_POLL_H)
 check_include_file(pty.h HAVE_PTY_H)
 check_include_file(pwd.h HAVE_PWD_H)
-check_include_file(resolv.h HAVE_RESOLV_H)
+
+# BSD-based systems (FreeBSD <=13...) need netinet/in.h header.
+if(HAVE_NETINET_IN_H)
+  check_include_files("netinet/in.h;resolv.h" HAVE_RESOLV_H)
+else()
+  check_include_file(resolv.h HAVE_RESOLV_H)
+endif()
+
 check_include_file(strings.h HAVE_STRINGS_H)
 check_include_file(sys/file.h HAVE_SYS_FILE_H)
 check_include_file(sys/ioctl.h HAVE_SYS_IOCTL_H)
@@ -374,11 +381,14 @@ endif()
 # Check for aarch64 CRC32 API.
 include(PHP/CheckAarch64CRC32)
 
-# TODO: Check if further adjustment are needed here.
 if(HAVE_ALLOCA_H)
+  # Most *.nix systems.
   check_symbol_exists(alloca "alloca.h" HAVE_ALLOCA)
+elseif(CMAKE_SYSTEM_NAME STREQUAL "Windows")
+  check_symbol_exists(alloca "malloc.h" HAVE_ALLOCA)
 else()
-  check_symbol_exists(alloca "stdlib.h;malloc.h" HAVE_ALLOCA)
+  # BSD-based systems.
+  check_symbol_exists(alloca "stdlib.h" HAVE_ALLOCA)
 endif()
 
 # Check for __alignof__ support in the compiler.
@@ -443,18 +453,6 @@ if(PHP_GCOV)
     gcov_generate_report()
   endif()
 endif()
-
-# wchar.h is always available as part of C99 standard. The libmagic still
-# includes it conditionally.
-set(HAVE_WCHAR_H 1 CACHE INTERNAL "Define to 1 if you have the <wchar.h> header file.")
-
-# inttypes.h is always available as part of C99 standard. The libmagic still
-# includes it conditionally.
-set(HAVE_INTTYPES_H 1 CACHE INTERNAL "Define to 1 if you have the <inttypes.h> header file.")
-
-# stdint.h is always available as part of C99 standard. The libmagic,
-# ext/date/lib still include it conditionally.
-set(HAVE_STDINT_H 1 CACHE INTERNAL "Define to 1 if you have the <stdint.h> header file.")
 
 ################################################################################
 # Check for required libraries.

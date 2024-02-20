@@ -10,32 +10,33 @@ Cache variables:
 include_guard(GLOBAL)
 
 include(CheckSourceRuns)
+include(CMakePushCheckState)
 
 message(CHECK_START "Checking whether the stack grows downwards")
 
-list(APPEND CMAKE_MESSAGE_INDENT "  ")
+cmake_push_check_state(RESET)
+  set(CMAKE_REQUIRED_QUIET TRUE)
 
-if(NOT CMAKE_CROSSCOMPILING)
-  check_source_runs(C "
-    #include <stdint.h>
+  if(NOT CMAKE_CROSSCOMPILING)
+    check_source_runs(C "
+      #include <stdint.h>
 
-    int (*volatile f)(uintptr_t);
+      int (*volatile f)(uintptr_t);
 
-    int stack_grows_downwards(uintptr_t arg) {
-      int local;
-      return (uintptr_t)&local < arg;
-    }
+      int stack_grows_downwards(uintptr_t arg) {
+        int local;
+        return (uintptr_t)&local < arg;
+      }
 
-    int main(void) {
-      int local;
+      int main(void) {
+        int local;
 
-      f = stack_grows_downwards;
-      return f((uintptr_t)&local) ? 0 : 1;
-    }
-  " ZEND_CHECK_STACK_LIMIT)
-endif()
-
-list(POP_BACK CMAKE_MESSAGE_INDENT)
+        f = stack_grows_downwards;
+        return f((uintptr_t)&local) ? 0 : 1;
+      }
+    " ZEND_CHECK_STACK_LIMIT)
+  endif()
+cmake_pop_check_state()
 
 if(ZEND_CHECK_STACK_LIMIT)
   message(CHECK_PASS "yes")
