@@ -15,76 +15,76 @@ message(
 )
 
 if(NOT CMAKE_CROSSCOMPILING)
-  if(HAVE_DLFCN_H)
-    set(_zend_dlfcn_definitions "-DHAVE_DLFCN_H=1")
-  endif()
+  block()
+    if(HAVE_DLFCN_H)
+      set(definitions "-DHAVE_DLFCN_H=1")
+    endif()
 
-  try_run(
-    ZEND_DLSYM_RUN_RESULT
-    ZEND_DLSYM_COMPILE_RESULT
-    SOURCE_FROM_CONTENT src.c "
-      #if HAVE_DLFCN_H
-      #include <dlfcn.h>
-      #endif
+    try_run(
+      ZEND_DLSYM_RUN_RESULT
+      ZEND_DLSYM_COMPILE_RESULT
+      SOURCE_FROM_CONTENT src.c [[
+        #if HAVE_DLFCN_H
+        #include <dlfcn.h>
+        #endif
 
-      #include <stdio.h>
-      #include <stdlib.h>
+        #include <stdio.h>
+        #include <stdlib.h>
 
-      #ifdef RTLD_GLOBAL
-      #  define LT_DLGLOBAL RTLD_GLOBAL
-      #else
-      #  ifdef DL_GLOBAL
-      #    define LT_DLGLOBAL DL_GLOBAL
-      #  else
-      #    define LT_DLGLOBAL 0
-      #  endif
-      #endif
+        #ifdef RTLD_GLOBAL
+        #  define LT_DLGLOBAL RTLD_GLOBAL
+        #else
+        #  ifdef DL_GLOBAL
+        #    define LT_DLGLOBAL DL_GLOBAL
+        #  else
+        #    define LT_DLGLOBAL 0
+        #  endif
+        #endif
 
-      /* We may need to define LT_DLLAZY_OR_NOW on the command line if we
-         discover that it does not work on some platform. */
-      #ifndef LT_DLLAZY_OR_NOW
-      #  ifdef RTLD_LAZY
-      #    define LT_DLLAZY_OR_NOW       RTLD_LAZY
-      #  else
-      #    ifdef DL_LAZY
-      #      define LT_DLLAZY_OR_NOW     DL_LAZY
-      #    else
-      #      ifdef RTLD_NOW
-      #        define LT_DLLAZY_OR_NOW   RTLD_NOW
-      #      else
-      #        ifdef DL_NOW
-      #          define LT_DLLAZY_OR_NOW DL_NOW
-      #        else
-      #          define LT_DLLAZY_OR_NOW 0
-      #        endif
-      #      endif
-      #    endif
-      #  endif
-      #endif
+        /* We may need to define LT_DLLAZY_OR_NOW on the command line if we
+          discover that it does not work on some platform. */
+        #ifndef LT_DLLAZY_OR_NOW
+        #  ifdef RTLD_LAZY
+        #    define LT_DLLAZY_OR_NOW       RTLD_LAZY
+        #  else
+        #    ifdef DL_LAZY
+        #      define LT_DLLAZY_OR_NOW     DL_LAZY
+        #    else
+        #      ifdef RTLD_NOW
+        #        define LT_DLLAZY_OR_NOW   RTLD_NOW
+        #      else
+        #        ifdef DL_NOW
+        #          define LT_DLLAZY_OR_NOW DL_NOW
+        #        else
+        #          define LT_DLLAZY_OR_NOW 0
+        #        endif
+        #      endif
+        #    endif
+        #  endif
+        #endif
 
-      void fnord() {
-        int i = 42;
-      }
-
-      int main(void) {
-        void *self = dlopen(0, LT_DLGLOBAL|LT_DLLAZY_OR_NOW);
-        int status = 0;
-
-        if (self) {
-          if (dlsym(self,\"fnord\"))       status = 1;
-          else if (dlsym(self,\"_fnord\")) status = 2;
-          /* dlclose(self); */
-        } else {
-          puts(dlerror());
+        void fnord() {
+          int i = 42;
         }
 
-        return (status);
-      }
-    "
-    COMPILE_DEFINITIONS ${_zend_dlfcn_definitions}
-  )
+        int main(void) {
+          void *self = dlopen(0, LT_DLGLOBAL|LT_DLLAZY_OR_NOW);
+          int status = 0;
 
-  unset(_zend_dlfcn_definitions)
+          if (self) {
+            if (dlsym(self, "fnord"))       status = 1;
+            else if (dlsym(self, "_fnord")) status = 2;
+            /* dlclose(self); */
+          } else {
+            puts(dlerror());
+          }
+
+          return (status);
+        }
+      ]]
+      COMPILE_DEFINITIONS ${definitions}
+    )
+  endblock()
 
   if(ZEND_DLSYM_COMPILE_RESULT AND ZEND_DLSYM_RUN_RESULT EQUAL 2)
     set(

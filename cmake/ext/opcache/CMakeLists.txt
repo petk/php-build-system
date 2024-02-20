@@ -141,6 +141,10 @@ if(EXT_OPCACHE_JIT)
       jit/zend_jit.c
   )
 
+  # The string.h header is always available with C89 standard. The bundled
+  # ext/opcache/jit/libudis86 still includes it conditionally.
+  target_compile_definitions(php_opcache PRIVATE HAVE_STRING_H=1)
+
   # Check for Capstone.
   if(EXT_OPCACHE_CAPSTONE)
     find_package(Capstone 3.0.0)

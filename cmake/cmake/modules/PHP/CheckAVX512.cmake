@@ -14,10 +14,9 @@ include(CMakePushCheckState)
 
 message(CHECK_START "Checking for AVX-512 support in compiler")
 
-list(APPEND CMAKE_MESSAGE_INDENT "  ")
-
 cmake_push_check_state(RESET)
   set(CMAKE_REQUIRED_FLAGS "-mavx512f -mavx512cd -mavx512vl -mavx512dq -mavx512bw")
+  set(CMAKE_REQUIRED_QUIET TRUE)
 
   check_source_compiles(C "
     #include <immintrin.h>
@@ -31,8 +30,6 @@ cmake_push_check_state(RESET)
     }
   " PHP_HAVE_AVX512_SUPPORTS)
 cmake_pop_check_state()
-
-list(POP_BACK CMAKE_MESSAGE_INDENT)
 
 if(PHP_HAVE_AVX512_SUPPORTS)
   message(CHECK_PASS "yes")
