@@ -1288,7 +1288,7 @@
 /* Define to 1 if you have the 'setitimer' function. */
 #cmakedefine HAVE_SETITIMER @HAVE_SETITIMER@
 
-/* do we have setpflags? */
+/* Define to 1 if you have the 'setpflags' function. */
 #cmakedefine HAVE_SETPFLAGS @HAVE_SETPFLAGS@
 
 /* Define to 1 if you have the 'setpriority' function. */
@@ -1615,7 +1615,7 @@
 /* Have timelib_config.h */
 #cmakedefine HAVE_TIMELIB_CONFIG_H @HAVE_TIMELIB_CONFIG_H@
 
-/* do we have times? */
+/* Define to 1 if you have the 'times' function. */
 #cmakedefine HAVE_TIMES @HAVE_TIMES@
 
 /* Define to 1 if you have the <tmmintrin.h> header file. */
