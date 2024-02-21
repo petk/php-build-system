@@ -138,8 +138,10 @@ set_target_properties(
 ################################################################################
 
 check_symbol_exists(clearenv "stdlib.h" HAVE_CLEARENV)
+check_symbol_exists(setpflags "priv.h" HAVE_SETPFLAGS)
 check_symbol_exists(setproctitle "unistd.h;stdlib.h" HAVE_SETPROCTITLE)
 check_symbol_exists(setproctitle_fast "unistd.h" HAVE_SETPROCTITLE_FAST)
+check_symbol_exists(times "sys/times.h" HAVE_TIMES)
 
 php_search_libraries(
   inet_addr
@@ -151,21 +153,6 @@ php_search_libraries(
 
 if(INET_ADDR_LIBRARY)
   target_link_libraries(php_fpm PRIVATE ${INET_ADDR_LIBRARY})
-endif()
-
-message(CHECK_START "Checking for setpflags")
-check_source_compiles(C "
-  #include <priv.h>
-
-  int main(void) {
-    setpflags(0, 0);
-    return 0;
-  }
-" HAVE_SETPFLAGS)
-if(HAVE_SETPFLAGS)
-  message(CHECK_PASS "yes")
-else()
-  message(CHECK_FAIL "no")
 endif()
 
 # Check for clock_get*time.
@@ -215,22 +202,6 @@ check_source_compiles(C "
   }
 " HAVE_SYSCONF)
 if(HAVE_SYSCONF)
-  message(CHECK_PASS "yes")
-else()
-  message(CHECK_FAIL "no")
-endif()
-
-message(CHECK_START "Checking for times")
-check_source_compiles(C "
-  #include <sys/times.h>
-
-  int main(void) {
-    struct tms t;
-    times(&t);
-    return 0;
-  }
-" HAVE_TIMES)
-if(HAVE_TIMES)
   message(CHECK_PASS "yes")
 else()
   message(CHECK_FAIL "no")
