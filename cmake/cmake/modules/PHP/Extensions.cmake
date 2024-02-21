@@ -552,12 +552,13 @@ function(_php_extensions_post_configure directory)
   endif()
 
   # Define COMPILE_DL_<extension-name> constant for php_config.h to indicate
-  # extension is built as a shared library.
+  # extension is built as a shared library and add compile definitions.
   string(TOUPPER "COMPILE_DL_${extension}" constant)
   set(
     ${constant} 1
-    CACHE INTERNAL "Whether to build ${extension} as a shared library."
+    CACHE INTERNAL "Whether ${extension} is built as a shared library."
   )
+  target_compile_definitions(php_${extension} PRIVATE ZEND_COMPILE_DL_EXT=1)
 endfunction()
 
 # Validate extensions and their dependencies defined with the custom target
