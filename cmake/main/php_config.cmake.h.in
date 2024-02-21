@@ -1174,13 +1174,13 @@
 /* */
 #cmakedefine HAVE_POSIX_SPAWN_FILE_ACTIONS_ADDCHDIR_NP @HAVE_POSIX_SPAWN_FILE_ACTIONS_ADDCHDIR_NP@
 
-/* do we have prctl? */
+/* Define to 1 if you have the 'prctl' function. */
 #cmakedefine HAVE_PRCTL @HAVE_PRCTL@
 
 /* */
 #cmakedefine HAVE_PREAD @HAVE_PREAD@
 
-/* do we have procctl? */
+/* Define to 1 if you have the 'procctl' function. */
 #cmakedefine HAVE_PROCCTL @HAVE_PROCCTL@
 
 /* Libzip >= 1.3.0 with zip_register_progress_callback_with_state function */
