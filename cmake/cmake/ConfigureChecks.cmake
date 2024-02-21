@@ -582,13 +582,13 @@ if(_php_inet_ntop_library)
   target_link_libraries(php_configuration INTERFACE ${_php_inet_ntop_library})
 endif()
 if(NOT _HAVE_INET_NTOP)
-  message(FATAL_ERROR "Cannot find inet_ntop which is required.")
+  message(FATAL_ERROR "Required inet_ntop not found.")
 endif()
 
 php_search_libraries(
   inet_pton
   "arpa/inet.h;ws2tcpip.h"
-  HAVE_INET_PTON
+  _HAVE_INET_PTON
   _php_inet_pton_library
   LIBRARIES
     # TODO: Update the libraries list here for Solaris. Solaris 11 has these in
@@ -600,6 +600,9 @@ php_search_libraries(
 )
 if(_php_inet_pton_library)
   target_link_libraries(php_configuration INTERFACE ${_php_inet_pton_library})
+endif()
+if(NOT _HAVE_INET_PTON)
+  message(FATAL_ERROR "Required inet_pton not found.")
 endif()
 
 php_search_libraries(
