@@ -42,5 +42,5 @@ target_sources(
 
 cmake_push_check_state(RESET)
   set(CMAKE_EXTRA_INCLUDE_FILES "sys/types.h;sys/ipc.h;sys/sem.h")
-  check_type_size("union semun" SEMUN)
+  check_type_size("union semun" UNION_SEMUN)
 cmake_pop_check_state()

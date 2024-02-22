@@ -1195,7 +1195,7 @@
 #cmakedefine HAVE_SELINUX @HAVE_SELINUX@
 
 /* Define to 1 if the system has the type 'union semun'. */
-#cmakedefine01 HAVE_SEMUN
+#cmakedefine HAVE_UNION_SEMUN
 
 /* Define to 1 if you have the 'setegid' function. */
 #cmakedefine HAVE_SETEGID @HAVE_SETEGID@
@@ -1415,9 +1415,6 @@
 
 /* Define to 1 if you have the 'symlink' function. */
 #cmakedefine HAVE_SYMLINK @HAVE_SYMLINK@
-
-/* do we have sysconf? */
-#cmakedefine HAVE_SYSCONF @HAVE_SYSCONF@
 
 /* Define to 1 if you have the <sysexits.h> header file. */
 #cmakedefine HAVE_SYSEXITS_H @HAVE_SYSEXITS_H@

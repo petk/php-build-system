@@ -142,7 +142,6 @@ check_symbol_exists(setpflags "priv.h" HAVE_SETPFLAGS)
 check_symbol_exists(setproctitle "unistd.h;stdlib.h" HAVE_SETPROCTITLE)
 check_symbol_exists(setproctitle_fast "unistd.h" HAVE_SETPROCTITLE_FAST)
 check_symbol_exists(times "sys/times.h" HAVE_TIMES)
-check_symbol_exists(sysconf "unistd.h" HAVE_SYSCONF)
 
 php_search_libraries(
   inet_addr
