@@ -996,7 +996,7 @@
 /* Define to 1 if the system has the type 'long double'. */
 #cmakedefine HAVE_LONG_DOUBLE @HAVE_LONG_DOUBLE@
 
-/* do we have SO_LISTENQxxx? */
+/* do we have SO_LISTENQ? */
 #cmakedefine HAVE_LQ_SO_LISTENQ @HAVE_LQ_SO_LISTENQ@
 
 /* do we have TCP_CONNECTION_INFO? */
@@ -1273,7 +1273,7 @@
 /* SElinux available */
 #cmakedefine HAVE_SELINUX @HAVE_SELINUX@
 
-/* */
+/* Define to 1 if the system has the type 'union semun'. */
 #cmakedefine01 HAVE_SEMUN
 
 /* Define to 1 if you have the 'setegid' function. */
