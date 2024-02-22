@@ -3,8 +3,9 @@ if(CMAKE_SYSTEM_NAME STREQUAL "Windows")
   return()
 endif()
 
-include(CheckSourceCompiles)
+include(CheckTypeSize)
 include(CMakeDependentOption)
+include(CMakePushCheckState)
 include(FeatureSummary)
 
 option(EXT_SYSVSEM "Enable the sysvsem extension" OFF)
@@ -39,22 +40,7 @@ target_sources(
     sysvsem.c
 )
 
-message(CHECK_START "Checking for union semun")
-
-check_source_compiles(C "
-  #include <sys/types.h>
-  #include <sys/ipc.h>
-  #include <sys/sem.h>
-
-  int main(void) {
-    union semun x;
-
-    return 0;
-  }
-" HAVE_SEMUN)
-
-if(HAVE_SEMUN)
-  message(CHECK_PASS "yes")
-else()
-  message(CHECK_FAIL "no")
-endif()
+cmake_push_check_state(RESET)
+  set(CMAKE_EXTRA_INCLUDE_FILES "sys/types.h;sys/ipc.h;sys/sem.h")
+  check_type_size("union semun" SEMUN)
+cmake_pop_check_state()

@@ -128,13 +128,6 @@ target_compile_definitions(
     $<$<COMPILE_LANGUAGE:CXX>:UNISTR_FROM_CHAR_EXPLICIT=explicit;UNISTR_FROM_STRING_EXPLICIT=explicit>
 )
 
-set_target_properties(
-  php_intl
-  PROPERTIES
-    CXX_STANDARD 11
-    CXX_STANDARD_REQUIRED TRUE
-)
-
 if(CMAKE_SYSTEM_NAME STREQUAL "CYGWIN")
   target_compile_definitions(
     php_intl
@@ -155,6 +148,22 @@ set_package_properties(
     TYPE REQUIRED
     PURPOSE "Necessary to enable the intl extension."
 )
+
+if(ICU_VERSION VERSION_GREATER_EQUAL 74)
+  set_target_properties(
+    php_intl
+    PROPERTIES
+      CXX_STANDARD 17
+      CXX_STANDARD_REQUIRED TRUE
+  )
+else()
+  set_target_properties(
+    php_intl
+    PROPERTIES
+      CXX_STANDARD 11
+      CXX_STANDARD_REQUIRED TRUE
+  )
+endif()
 
 target_link_libraries(php_intl PRIVATE ICU::io ICU::uc ICU::i18n)
 

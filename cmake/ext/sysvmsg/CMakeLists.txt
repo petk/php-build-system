@@ -27,6 +27,12 @@ if(NOT EXT_SYSVMSG)
   return()
 endif()
 
+check_include_file(sys/msg.h _HAVE_SYS_MSG_H)
+
+if(NOT _HAVE_SYS_MSG_H)
+  message(FATAL_ERROR "Cannot enable System V IPC support, sys/msg.h is missing")
+endif()
+
 if(EXT_SYSVMSG_SHARED)
   add_library(php_sysvmsg SHARED)
 else()
@@ -38,9 +44,3 @@ target_sources(
   PRIVATE
     sysvmsg.c
 )
-
-check_include_file(sys/msg.h _HAVE_SYS_MSG_H)
-
-if(NOT _HAVE_SYS_MSG_H)
-  message(FATAL_ERROR "Cannot enable System V IPC support, sys/msg.h is missing")
-endif()
