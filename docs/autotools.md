@@ -10,10 +10,12 @@ system.
 * [3. Build requirements](#3-build-requirements)
 * [4. The configure command-line options](#4-the-configure-command-line-options)
 * [5. Determining platform](#5-determining-platform)
-* [6. Testing if program works](#6-testing-if-program-works)
-  * [6.1. AC\_COMPILE\_IFELSE](#61-ac_compile_ifelse)
-  * [6.2. AC\_LINK\_IFELSE](#62-ac_link_ifelse)
-  * [6.3. AC\_RUN\_IFELSE](#63-ac_run_ifelse)
+* [6. Common checks](#6-common-checks)
+  * [6.1. Testing if program works](#61-testing-if-program-works)
+    * [6.1.1. AC\_COMPILE\_IFELSE](#611-ac_compile_ifelse)
+    * [6.1.2. AC\_LINK\_IFELSE](#612-ac_link_ifelse)
+    * [6.1.3. AC\_RUN\_IFELSE](#613-ac_run_ifelse)
+  * [6.2. Functions](#62-functions)
 * [7. GNU Autoconf Archive](#7-gnu-autoconf-archive)
 * [8. Parser and lexer files](#8-parser-and-lexer-files)
 * [9. See more](#9-see-more)
@@ -213,7 +215,9 @@ AS_CASE([$host_alias],[*freebsd*|*openbsd*],[
 ])
 ```
 
-## 6. Testing if program works
+## 6. Common checks
+
+### 6.1. Testing if program works
 
 There are 3 main Autoconf macros that check if certain test code is successful.
 
@@ -229,7 +233,7 @@ int main(void) {
 }
 ```
 
-### 6.1. AC_COMPILE_IFELSE
+#### 6.1.1. AC_COMPILE_IFELSE
 
 ```m4
 AC_COMPILE_IFELSE([AC_LANG_PROGRAM([[#include <stdio.h>]],
@@ -256,7 +260,7 @@ The `AC_COMPILE_IFELSE` will run the compilation step, for example:
 gcc -o out -c hello_world.c
 ```
 
-### 6.2. AC_LINK_IFELSE
+#### 6.1.2. AC_LINK_IFELSE
 
 ```m4
 AC_LINK_IFELSE([AC_LANG_PROGRAM([[#include <stdio.h>]],
@@ -271,7 +275,7 @@ This will run compilation and linking:
 gcc -o out hello_world.c
 ```
 
-### 6.3. AC_RUN_IFELSE
+#### 6.1.3. AC_RUN_IFELSE
 
 This will compile, link and also run the program to check if the return code is
 0.
@@ -294,6 +298,38 @@ This does something like this:
 ```sh
 gcc -o out hello_world.c
 ./out
+```
+
+### 6.2. Functions
+
+Testing if function exists within the given header.
+
+A common way to check for function is using the `AC_CHECK_FUNC` or
+`AC_CHECK_FUNCS` macros. These check if the linker sees the function in the
+usual libraries (libc and the ones appended to the `LIBS` variable). However,
+many times, functions also have their belonging headers, so it makes sence to
+check for both using this:
+
+```m4
+AC_CHECK_HEADER([priv.h], [AC_CHECK_FUNCS([setpflags])])
+```
+
+This first checks if header `priv.h` exists, and if so, it then checks if linker
+sees the function. They can be used like this:
+
+```c
+#ifdef HAVE_SETPFLAGS
+# include <priv.h>
+#endif
+
+/* ... */
+
+/* Call setpflags. */
+#ifdef HAVE_SETPFLAGS
+    setpflags(...)
+#else
+    /* ... */
+#endif
 ```
 
 ## 7. GNU Autoconf Archive
