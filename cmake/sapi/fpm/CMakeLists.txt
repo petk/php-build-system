@@ -142,6 +142,7 @@ check_symbol_exists(setpflags "priv.h" HAVE_SETPFLAGS)
 check_symbol_exists(setproctitle "unistd.h;stdlib.h" HAVE_SETPROCTITLE)
 check_symbol_exists(setproctitle_fast "unistd.h" HAVE_SETPROCTITLE_FAST)
 check_symbol_exists(times "sys/times.h" HAVE_TIMES)
+check_symbol_exists(sysconf "unistd.h" HAVE_SYSCONF)
 
 php_search_libraries(
   inet_addr
@@ -191,21 +192,6 @@ endif()
 
 # Check for TCP_INFO.
 include(PHP/CheckLq)
-
-message(CHECK_START "Checking for sysconf")
-check_source_compiles(C "
-  #include <unistd.h>
-
-  int main(void) {
-    sysconf(_SC_CLK_TCK);
-    return 0;
-  }
-" HAVE_SYSCONF)
-if(HAVE_SYSCONF)
-  message(CHECK_PASS "yes")
-else()
-  message(CHECK_FAIL "no")
-endif()
 
 message(CHECK_START "Checking for kqueue")
 check_source_compiles(C "
