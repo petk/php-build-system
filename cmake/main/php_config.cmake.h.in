@@ -885,7 +885,7 @@
 /* */
 #cmakedefine HAVE_LIBAVIF @HAVE_LIBAVIF@
 
-/* */
+/* Define to 1 if the dl library is available. */
 #cmakedefine HAVE_LIBDL @HAVE_LIBDL@
 
 /* */
