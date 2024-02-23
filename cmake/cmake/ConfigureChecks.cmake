@@ -474,18 +474,6 @@ if(_php_dlopen_library)
   target_link_libraries(php_configuration INTERFACE ${_php_dlopen_library})
 endif()
 
-php_search_libraries(
-  dlsym
-  "dlfcn.h"
-  _php_have_dlsym
-  _php_dlsym_library
-  LIBRARIES
-    ${CMAKE_DL_LIBS}
-)
-if(_php_dlsym_library)
-  target_link_libraries(php_configuration INTERFACE ${_php_dlsym_library})
-endif()
-
 php_search_libraries(sin "math.h" HAVE_SIN M_LIBRARY LIBRARIES m)
 if(M_LIBRARY)
   target_link_libraries(

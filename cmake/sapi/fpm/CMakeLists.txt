@@ -10,7 +10,6 @@ include(CheckSourceRuns)
 include(CheckSymbolExists)
 include(CMakeDependentOption)
 include(CMakePushCheckState)
-include(PHP/SearchLibraries)
 
 ################################################################################
 # FPM configuration.
@@ -143,18 +142,6 @@ check_symbol_exists(setproctitle "unistd.h;stdlib.h" HAVE_SETPROCTITLE)
 check_symbol_exists(setproctitle_fast "unistd.h" HAVE_SETPROCTITLE_FAST)
 check_symbol_exists(times "sys/times.h" HAVE_TIMES)
 check_symbol_exists(sysconf "unistd.h" HAVE_SYSCONF)
-
-php_search_libraries(
-  inet_addr
-  "sys/socket.h;netinet/in.h;arpa/inet.h"
-  HAVE_INET_ADDR
-  INET_ADDR_LIBRARY
-  LIBRARIES nsl
-)
-
-if(INET_ADDR_LIBRARY)
-  target_link_libraries(php_fpm PRIVATE ${INET_ADDR_LIBRARY})
-endif()
 
 # Check for clock_get*time.
 include(PHP/CheckClockGettime)

@@ -115,5 +115,7 @@ if(NOT TARGET Dmalloc::Dmalloc)
     PROPERTIES
       IMPORTED_LOCATION "${Dmalloc_LIBRARY}"
       INTERFACE_INCLUDE_DIRECTORIES "${Dmalloc_INCLUDE_DIR}"
+      # Enable the Dmalloc check-funcs token:
+      INTERFACE_COMPILE_DEFINITIONS DMALLOC_FUNC_CHECK
   )
 endif()
