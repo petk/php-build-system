@@ -593,19 +593,6 @@ if(NOT _HAVE_INET_PTON)
 endif()
 
 php_search_libraries(
-  inet_aton
-  "sys/socket.h;netinet/in.h;arpa/inet.h"
-  HAVE_INET_ATON
-  INET_ATON_LIBRARY
-  LIBRARIES
-    resolv
-    network # Haiku
-)
-if(INET_ATON_LIBRARY)
-  target_link_libraries(php_configuration INTERFACE ${INET_ATON_LIBRARY})
-endif()
-
-php_search_libraries(
   nanosleep
   "time.h"
   HAVE_NANOSLEEP

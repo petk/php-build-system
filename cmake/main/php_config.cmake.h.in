@@ -807,9 +807,6 @@
 /* Define to 1 if you have the <immintrin.h> header file. */
 #cmakedefine HAVE_IMMINTRIN_H @HAVE_IMMINTRIN_H@
 
-/* */
-#cmakedefine HAVE_INET_ATON @HAVE_INET_ATON@
-
 /* Define to 1 if you have the 'initgroups' function. */
 #cmakedefine HAVE_INITGROUPS @HAVE_INITGROUPS@
 

@@ -19,7 +19,6 @@ target_sources(
     getrusage.c
     glob.c
     globals.c
-    inet.c
     ioutil.c
     nice.c
     readdir.c
