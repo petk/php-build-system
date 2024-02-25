@@ -141,31 +141,24 @@ else()
 endif()
 
 # Check for struct ucred. Checking the header is not enough. E.g. DragonFlyBSD.
-message(CHECK_START "Checking if ancillary credentials uses ucred")
-check_source_compiles(C "
-  #ifndef _GNU_SOURCE
-  #define _GNU_SOURCE
-  #endif
-  #include <sys/socket.h>
-
-  int main(void) {
-    struct ucred u = {.gid = 0};
-
-    return 0;
-  }
-" ANC_CREDS_UCRED)
-if(ANC_CREDS_UCRED)
-  message(CHECK_PASS "yes")
-else()
-  message(CHECK_FAIL "no")
+cmake_push_check_state(RESET)
+  set(CMAKE_REQUIRED_DEFINITIONS -D_GNU_SOURCE)
+  set(CMAKE_EXTRA_INCLUDE_FILES "sys/socket.h")
+  check_type_size("struct ucred" STRUCT_UCRED)
+cmake_pop_check_state()
+if(HAVE_STRUCT_UCRED)
+  set(
+    ANC_CREDS_UCRED 1
+    CACHE INTERNAL "Define to 1 if the system has the type 'struct ucred'."
+  )
 endif()
 
 # Check for struct cmsgcred.
 cmake_push_check_state(RESET)
   set(CMAKE_EXTRA_INCLUDE_FILES "sys/socket.h")
-  check_type_size("struct cmsgcred" CMSGCRED)
+  check_type_size("struct cmsgcred" STRUCT_CMSGCRED)
 cmake_pop_check_state()
-if(CMSGCRED)
+if(HAVE_STRUCT_CMSGCRED)
   set(
     ANC_CREDS_CMSGCRED 1
     CACHE INTERNAL "Define to 1 if the system has the type 'struct cmsgcred'."
