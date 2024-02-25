@@ -2,6 +2,7 @@ include(CheckIncludeFile)
 include(CheckSourceCompiles)
 include(CheckStructHasMember)
 include(CheckSymbolExists)
+include(CheckTypeSize)
 include(CMakeDependentOption)
 include(CMakePushCheckState)
 include(FeatureSummary)
@@ -160,19 +161,15 @@ else()
 endif()
 
 # Check for struct cmsgcred.
-message(CHECK_START "Checking if ancillary credentials uses cmsgcred")
-check_source_compiles(C "
-  #include <sys/socket.h>
-  int main(void) {
-    struct cmsgcred c = {0};
-
-    return 0;
-  }
-" ANC_CREDS_CMSGCRED)
-if(ANC_CREDS_CMSGCRED)
-  message(CHECK_PASS "yes")
-else()
-  message(CHECK_FAIL "no")
+cmake_push_check_state(RESET)
+  set(CMAKE_EXTRA_INCLUDE_FILES "sys/socket.h")
+  check_type_size("struct cmsgcred" CMSGCRED)
+cmake_pop_check_state()
+if(CMSGCRED)
+  set(
+    ANC_CREDS_CMSGCRED 1
+    CACHE INTERNAL "Define to 1 if the system has the type 'struct cmsgcred'."
+  )
 endif()
 
 install(
