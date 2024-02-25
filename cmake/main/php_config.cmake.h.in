@@ -11,8 +11,8 @@
 
 #define ZEND_DLIMPORT
 
-/* Uses cmsgcred struct */
-#cmakedefine ANC_CREDS_CMSGCRED @ANC_CREDS_CMSGCRED@
+/* Define to 1 if the system has the type 'struct cmsgcred'. */
+#cmakedefine ANC_CREDS_CMSGCRED 1
 
 /* Uses ucred struct */
 #cmakedefine ANC_CREDS_UCRED @ANC_CREDS_UCRED@
@@ -1035,9 +1035,6 @@
 /* Libzip >= 1.7.0 with zip_*_method_supported functions */
 #cmakedefine HAVE_METHOD_SUPPORTED @HAVE_METHOD_SUPPORTED@
 
-/* Define to 1 if you have the <minix/config.h> header file. */
-#cmakedefine HAVE_MINIX_CONFIG_H
-
 /* Define to 1 if you have the 'mkfifo' function. */
 #cmakedefine HAVE_MKFIFO @HAVE_MKFIFO@
 
@@ -1056,8 +1053,8 @@
 /* Define to 1 if you have the 'mremap' function. */
 #cmakedefine HAVE_MREMAP @HAVE_MREMAP@
 
-/* */
-#cmakedefine HAVE_NANOSLEEP @HAVE_NANOSLEEP@
+/* Define to 1 if you have the 'nanosleep' function. */
+#cmakedefine HAVE_NANOSLEEP 1
 
 /* Define to 1 if you have the <netinet/in.h> header file. */
 #cmakedefine HAVE_NETINET_IN_H @HAVE_NETINET_IN_H@
@@ -1171,8 +1168,9 @@
 /* whether to include POSIX-like functions */
 #cmakedefine HAVE_POSIX @HAVE_POSIX@
 
-/* */
-#cmakedefine HAVE_POSIX_SPAWN_FILE_ACTIONS_ADDCHDIR_NP @HAVE_POSIX_SPAWN_FILE_ACTIONS_ADDCHDIR_NP@
+/* Define to 1 if you have the 'posix_spawn_file_actions_addchdir_np'
+   function. */
+#cmakedefine HAVE_POSIX_SPAWN_FILE_ACTIONS_ADDCHDIR_NP 1
 
 /* Define to 1 if you have the 'prctl' function. */
 #cmakedefine HAVE_PRCTL @HAVE_PRCTL@
@@ -1334,7 +1332,7 @@
 #cmakedefine HAVE_SIGPROCMASK @HAVE_SIGPROCMASK@
 
 /* Define to 1 if you have the 'sigsetjmp' function. */
-#cmakedefine HAVE_SIGSETJMP @HAVE_SIGSETJMP@
+#cmakedefine HAVE_SIGSETJMP 1
 
 /* Define to 1 if you have the 'sigtimedwait' function. */
 #cmakedefine HAVE_SIGTIMEDWAIT @HAVE_SIGTIMEDWAIT@
