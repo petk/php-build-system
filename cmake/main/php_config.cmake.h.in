@@ -12,10 +12,10 @@
 #define ZEND_DLIMPORT
 
 /* Define to 1 if the system has the type 'struct cmsgcred'. */
-#cmakedefine ANC_CREDS_CMSGCRED 1
+#cmakedefine HAVE_STRUCT_CMSGCRED 1
 
 /* Define to 1 if the system has the type 'struct ucred'. */
-#cmakedefine ANC_CREDS_UCRED 1
+#cmakedefine HAVE_STRUCT_UCRED 1
 
 /* */
 #cmakedefine CDB_INCLUDE_FILE "@CDB_INCLUDE_FILE@"

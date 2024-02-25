@@ -146,24 +146,12 @@ cmake_push_check_state(RESET)
   set(CMAKE_EXTRA_INCLUDE_FILES "sys/socket.h")
   check_type_size("struct ucred" STRUCT_UCRED)
 cmake_pop_check_state()
-if(HAVE_STRUCT_UCRED)
-  set(
-    ANC_CREDS_UCRED 1
-    CACHE INTERNAL "Define to 1 if the system has the type 'struct ucred'."
-  )
-endif()
 
 # Check for struct cmsgcred.
 cmake_push_check_state(RESET)
   set(CMAKE_EXTRA_INCLUDE_FILES "sys/socket.h")
   check_type_size("struct cmsgcred" STRUCT_CMSGCRED)
 cmake_pop_check_state()
-if(HAVE_STRUCT_CMSGCRED)
-  set(
-    ANC_CREDS_CMSGCRED 1
-    CACHE INTERNAL "Define to 1 if the system has the type 'struct cmsgcred'."
-  )
-endif()
 
 install(
   TARGETS php_sockets
