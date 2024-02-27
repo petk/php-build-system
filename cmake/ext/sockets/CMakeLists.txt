@@ -72,6 +72,13 @@ cmake_pop_check_state()
 check_symbol_exists(if_nametoindex "net/if.h" HAVE_IF_NAMETOINDEX)
 check_symbol_exists(if_indextoname "net/if.h" HAVE_IF_INDEXTONAME)
 check_symbol_exists(sockatmark "sys/socket.h" HAVE_SOCKATMARK)
+check_symbol_exists(AI_V4MAPPED "netdb.h" HAVE_AI_V4MAPPED)
+check_symbol_exists(AI_ALL "netdb.h" HAVE_AI_ALL)
+
+cmake_push_check_state(RESET)
+  set(CMAKE_REQUIRED_DEFINITIONS -D_GNU_SOURCE)
+  check_symbol_exists(AI_IDN "netdb.h" HAVE_AI_IDN)
+cmake_pop_check_state()
 
 check_include_file(sys/sockio.h HAVE_SYS_SOCKIO_H)
 check_include_file(linux/filter.h HAVE_LINUX_FILTER_H)
@@ -88,57 +95,6 @@ endif()
 
 # Check for field ss_family in sockaddr_storage (missing in AIX until 5.3).
 check_struct_has_member("struct sockaddr_storage" ss_family sys/socket.h HAVE_STRUCT_SOCKADDR_STORAGE_SS_FAMILY)
-
-message(CHECK_START "Checking if getaddrinfo supports AI_V4MAPPED")
-check_source_compiles(C "
-  #include <netdb.h>
-
-  int main(void) {
-    int flag = AI_V4MAPPED;
-    return 0;
-  }
-" HAVE_AI_V4MAPPED)
-if(HAVE_AI_V4MAPPED)
-  message(CHECK_PASS "yes")
-else()
-  message(CHECK_FAIL "no")
-endif()
-
-message(CHECK_START "Checking if getaddrinfo supports AI_ALL")
-check_source_compiles(C "
-  #include <netdb.h>
-
-  int main(void) {
-    int flag = AI_ALL;
-
-    return 0;
-  }
-" HAVE_AI_ALL)
-if(HAVE_AI_ALL)
-  message(CHECK_PASS "yes")
-else()
-  message(CHECK_FAIL "no")
-endif()
-
-message(CHECK_START "Checking if getaddrinfo supports AI_IDN")
-cmake_push_check_state(RESET)
-  set(CMAKE_REQUIRED_DEFINITIONS -D_GNU_SOURCE)
-
-  check_source_compiles(C "
-    #include <netdb.h>
-
-    int main(void) {
-      int flag = AI_IDN;
-
-      return 0;
-    }
-  " HAVE_AI_IDN)
-cmake_pop_check_state()
-if(HAVE_AI_IDN)
-  message(CHECK_PASS "yes")
-else()
-  message(CHECK_FAIL "no")
-endif()
 
 # Check for struct ucred. Checking the header is not enough. E.g. DragonFlyBSD.
 cmake_push_check_state(RESET)
