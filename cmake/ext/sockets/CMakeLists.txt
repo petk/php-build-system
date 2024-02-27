@@ -72,13 +72,6 @@ cmake_pop_check_state()
 check_symbol_exists(if_nametoindex "net/if.h" HAVE_IF_NAMETOINDEX)
 check_symbol_exists(if_indextoname "net/if.h" HAVE_IF_INDEXTONAME)
 check_symbol_exists(sockatmark "sys/socket.h" HAVE_SOCKATMARK)
-check_symbol_exists(AI_V4MAPPED "netdb.h" HAVE_AI_V4MAPPED)
-check_symbol_exists(AI_ALL "netdb.h" HAVE_AI_ALL)
-
-cmake_push_check_state(RESET)
-  set(CMAKE_REQUIRED_DEFINITIONS -D_GNU_SOURCE)
-  check_symbol_exists(AI_IDN "netdb.h" HAVE_AI_IDN)
-cmake_pop_check_state()
 
 check_include_file(sys/sockio.h HAVE_SYS_SOCKIO_H)
 check_include_file(linux/filter.h HAVE_LINUX_FILTER_H)
