@@ -11,9 +11,9 @@ Cache variables:
 
 include_guard(GLOBAL)
 
-include(CheckSourceCompiles)
 include(CheckSourceRuns)
 include(CheckSymbolExists)
+include(CheckTypeSize)
 include(CMakePushCheckState)
 
 cmake_push_check_state(RESET)
@@ -26,26 +26,11 @@ if(NOT _have_fopencookie)
 endif()
 
 # glibcs (since 2.1.2?) have a type called cookie_io_functions_t.
-message(CHECK_START "Checking whether cookie_io_functions_t is available")
-
-check_source_compiles(C "
-  #ifndef _GNU_SOURCE
-  #define _GNU_SOURCE
-  #endif
-  #include <stdio.h>
-
-  int main(void) {
-    cookie_io_functions_t cookie;
-    return 0;
-  }
-" HAVE_FOPENCOOKIE)
-
-if(NOT HAVE_FOPENCOOKIE)
-  message(CHECK_FAIL "no")
-  return()
-else()
-  message(CHECK_PASS "yes")
-endif()
+cmake_push_check_state(RESET)
+  set(CMAKE_REQUIRED_DEFINITIONS -D_GNU_SOURCE)
+  set(CMAKE_EXTRA_INCLUDE_FILES "stdio.h")
+  check_type_size("cookie_io_functions_t" FOPENCOOKIE)
+cmake_pop_check_state()
 
 # Newer glibcs have a different seeker definition.
 message(

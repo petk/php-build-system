@@ -396,7 +396,7 @@
 #cmakedefine HAVE_CHROOT @HAVE_CHROOT@
 
 /* Define to 1 if you have the 'clearenv' function. */
-#cmakedefine HAVE_CLEARENV @HAVE_CLEARENV@
+#cmakedefine HAVE_CLEARENV 1
 
 /* */
 #cmakedefine HAVE_CLI0CLI_H @HAVE_CLI0CLI_H@
@@ -413,11 +413,11 @@
 /* */
 #cmakedefine HAVE_CLI0EXT_H @HAVE_CLI0EXT_H@
 
-/* do we have clock_gettime? */
-#cmakedefine HAVE_CLOCK_GETTIME @HAVE_CLOCK_GETTIME@
+/* Define to 1 if you have the 'clock_gettime' function. */
+#cmakedefine HAVE_CLOCK_GETTIME 1
 
-/* do we have clock_get_time? */
-#cmakedefine HAVE_CLOCK_GET_TIME @HAVE_CLOCK_GET_TIME@
+/* Define to 1 if you have the 'clock_get_time' function. */
+#cmakedefine HAVE_CLOCK_GET_TIME 1
 
 /* */
 #cmakedefine HAVE_CODBC @HAVE_CODBC@
@@ -1017,8 +1017,8 @@
 /* */
 #cmakedefine HAVE_ODBC_H @HAVE_ODBC_H@
 
-/* */
-#cmakedefine HAVE_OPENPTY @HAVE_OPENPTY@
+/* Define to 1 if you have the 'openpty' function. */
+#cmakedefine HAVE_OPENPTY 1
 
 /* Define to 1 if you have the <openssl/crypto.h> header file. */
 #cmakedefine HAVE_OPENSSL_CRYPTO_H @HAVE_OPENSSL_CRYPTO_H@
@@ -1077,8 +1077,8 @@
 /* Define to 1 if you have the <poll.h> header file. */
 #cmakedefine HAVE_POLL_H @HAVE_POLL_H@
 
-/* do we have port framework? */
-#cmakedefine HAVE_PORT @HAVE_PORT@
+/* Define to 1 if you have the 'port_create' function. */
+#cmakedefine HAVE_PORT 1
 
 /* whether to include POSIX-like functions */
 #cmakedefine HAVE_POSIX @HAVE_POSIX@
@@ -1196,16 +1196,16 @@
 #cmakedefine HAVE_SETITIMER @HAVE_SETITIMER@
 
 /* Define to 1 if you have the 'setpflags' function. */
-#cmakedefine HAVE_SETPFLAGS @HAVE_SETPFLAGS@
+#cmakedefine HAVE_SETPFLAGS 1
 
 /* Define to 1 if you have the 'setpriority' function. */
 #cmakedefine HAVE_SETPRIORITY @HAVE_SETPRIORITY@
 
 /* Define to 1 if you have the 'setproctitle' function. */
-#cmakedefine HAVE_SETPROCTITLE @HAVE_SETPROCTITLE@
+#cmakedefine HAVE_SETPROCTITLE 1
 
 /* Define to 1 if you have the 'setproctitle_fast' function. */
-#cmakedefine HAVE_SETPROCTITLE_FAST @HAVE_SETPROCTITLE_FAST@
+#cmakedefine HAVE_SETPROCTITLE_FAST 1
 
 /* Define to 1 if you have the 'setrlimit' function. */
 #cmakedefine HAVE_SETRLIMIT @HAVE_SETRLIMIT@
