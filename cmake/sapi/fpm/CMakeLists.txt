@@ -137,11 +137,12 @@ set_target_properties(
 ################################################################################
 
 check_symbol_exists(clearenv "stdlib.h" HAVE_CLEARENV)
+check_symbol_exists(port_create "port.h" HAVE_PORT)
 check_symbol_exists(setpflags "priv.h" HAVE_SETPFLAGS)
 check_symbol_exists(setproctitle "unistd.h;stdlib.h" HAVE_SETPROCTITLE)
 check_symbol_exists(setproctitle_fast "unistd.h" HAVE_SETPROCTITLE_FAST)
-check_symbol_exists(times "sys/times.h" HAVE_TIMES)
 check_symbol_exists(sysconf "unistd.h" HAVE_SYSCONF)
+check_symbol_exists(times "sys/times.h" HAVE_TIMES)
 
 # Check for clock_get*time.
 include(PHP/CheckClockGettime)
@@ -197,27 +198,6 @@ check_source_compiles(C "
   }
 " HAVE_KQUEUE)
 if(HAVE_KQUEUE)
-  message(CHECK_PASS "yes")
-else()
-  message(CHECK_FAIL "no")
-endif()
-
-message(CHECK_START "Checking for port framework")
-check_source_compiles(C "
-  #include <port.h>
-
-  int main(void) {
-    int port;
-
-    port = port_create();
-    if (port < 0) {
-      return 1;
-    }
-
-    return 0;
-  }
-" HAVE_PORT)
-if(HAVE_PORT)
   message(CHECK_PASS "yes")
 else()
   message(CHECK_FAIL "no")
