@@ -1078,7 +1078,7 @@
 #cmakedefine HAVE_POLL_H @HAVE_POLL_H@
 
 /* Define to 1 if you have the 'port_create' function. */
-#cmakedefine HAVE_PORT 1
+#cmakedefine HAVE_PORT_CREATE 1
 
 /* whether to include POSIX-like functions */
 #cmakedefine HAVE_POSIX @HAVE_POSIX@

@@ -137,7 +137,7 @@ set_target_properties(
 ################################################################################
 
 check_symbol_exists(clearenv "stdlib.h" HAVE_CLEARENV)
-check_symbol_exists(port_create "port.h" HAVE_PORT)
+check_symbol_exists(port_create "port.h" HAVE_PORT_CREATE)
 check_symbol_exists(setpflags "priv.h" HAVE_SETPFLAGS)
 check_symbol_exists(setproctitle "unistd.h;stdlib.h" HAVE_SETPROCTITLE)
 check_symbol_exists(setproctitle_fast "unistd.h" HAVE_SETPROCTITLE_FAST)
