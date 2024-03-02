@@ -262,6 +262,12 @@ check_symbol_exists(glob "glob.h" HAVE_GLOB)
 check_symbol_exists(localtime_r "time.h" HAVE_LOCALTIME_R)
 check_symbol_exists(lchown "unistd.h" HAVE_LCHOWN)
 check_symbol_exists(memcntl "sys/mman.h" HAVE_MEMCNTL)
+
+cmake_push_check_state(RESET)
+  set(CMAKE_REQUIRED_DEFINITIONS -D_GNU_SOURCE)
+  check_symbol_exists(memfd_create "sys/mman.h" HAVE_MEMFD_CREATE)
+cmake_pop_check_state()
+
 check_symbol_exists(memmove "string.h" HAVE_MEMMOVE)
 check_symbol_exists(mkstemp "stdlib.h" HAVE_MKSTEMP)
 check_symbol_exists(mmap "sys/mman.h" HAVE_MMAP)

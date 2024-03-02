@@ -573,26 +573,26 @@
 /* Have ffi support */
 #cmakedefine HAVE_FFI @HAVE_FFI@
 
-/* Whether libffi supports fastcall calling convention */
-#cmakedefine HAVE_FFI_FASTCALL @HAVE_FFI_FASTCALL@
+/* Whether libffi supports the 'FFI_FASTCALL' calling convention. */
+#cmakedefine HAVE_FFI_FASTCALL 1
 
-/* Whether libffi supports ms_cdecl calling convention */
-#cmakedefine HAVE_FFI_MS_CDECL @HAVE_FFI_MS_CDECL@
+/* Whether libffi supports the 'FFI_MS_CDECL' calling convention. */
+#cmakedefine HAVE_FFI_MS_CDECL 1
 
-/* Whether libffi supports pascal calling convention */
-#cmakedefine HAVE_FFI_PASCAL @HAVE_FFI_PASCAL@
+/* Whether libffi supports the 'FFI_PASCAL' calling convention. */
+#cmakedefine HAVE_FFI_PASCAL 1
 
-/* Whether libffi supports register calling convention */
-#cmakedefine HAVE_FFI_REGISTER @HAVE_FFI_REGISTER@
+/* Whether libffi supports the 'FFI_REGISTER' calling convention. */
+#cmakedefine HAVE_FFI_REGISTER 1
 
-/* Whether libffi supports stdcall calling convention */
-#cmakedefine HAVE_FFI_STDCALL @HAVE_FFI_STDCALL@
+/* Whether libffi supports the 'FFI_STDCALL' calling convention. */
+#cmakedefine HAVE_FFI_STDCALL 1
 
-/* Whether libffi supports sysv calling convention */
-#cmakedefine HAVE_FFI_SYSV @HAVE_FFI_SYSV@
+/* Whether libffi supports the 'FFI_SYSV' calling convention. */
+#cmakedefine HAVE_FFI_SYSV 1
 
-/* Whether libffi supports thiscall calling convention */
-#cmakedefine HAVE_FFI_THISCALL @HAVE_FFI_THISCALL@
+/* Whether libffi supports the 'FFI_THISCALL' calling convention. */
+#cmakedefine HAVE_FFI_THISCALL 1
 
 /* Define to 1 if you have the 'flock' function. */
 #cmakedefine HAVE_FLOCK @HAVE_FLOCK@
