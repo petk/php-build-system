@@ -967,7 +967,7 @@
 #cmakedefine HAVE_MEMMOVE @HAVE_MEMMOVE@
 
 /* Define to 1 if you have the 'mempcpy' function. */
-#cmakedefine HAVE_MEMPCPY @HAVE_MEMPCPY@
+#cmakedefine HAVE_MEMPCPY 1
 
 /* Define to 1 if you have the 'memrchr' function. */
 #cmakedefine HAVE_MEMRCHR @HAVE_MEMRCHR@
@@ -1181,7 +1181,7 @@
 #cmakedefine HAVE_SELINUX @HAVE_SELINUX@
 
 /* Define to 1 if the system has the type 'union semun'. */
-#cmakedefine HAVE_UNION_SEMUN
+#cmakedefine HAVE_UNION_SEMUN 1
 
 /* Define to 1 if you have the 'setegid' function. */
 #cmakedefine HAVE_SETEGID @HAVE_SETEGID@
@@ -1220,7 +1220,7 @@
 #cmakedefine HAVE_SHMOP @HAVE_SHMOP@
 
 /* Define to 1 if you have the 'shm_create_largepage' function. */
-#cmakedefine HAVE_SHM_CREATE_LARGEPAGE @HAVE_SHM_CREATE_LARGEPAGE@
+#cmakedefine HAVE_SHM_CREATE_LARGEPAGE 1
 
 /* Define if you have SysV IPC SHM support */
 #cmakedefine HAVE_SHM_IPC @HAVE_SHM_IPC@
@@ -1671,7 +1671,7 @@
 #cmakedefine PDO_MYSQL_UNIX_ADDR "@PDO_MYSQL_UNIX_ADDR@"
 
 /* Sqlite3 without extension support */
-#cmakedefine PDO_SQLITE_OMIT_LOAD_EXTENSION @PDO_SQLITE_OMIT_LOAD_EXTENSION@
+#cmakedefine PDO_SQLITE_OMIT_LOAD_EXTENSION 1
 
 /* Whether pdo_mysql uses mysqlnd */
 #cmakedefine PDO_USE_MYSQLND @PDO_USE_MYSQLND@
@@ -1975,7 +1975,7 @@
 #cmakedefine ZEND_FIBER_UCONTEXT @ZEND_FIBER_UCONTEXT@
 
 /* Use JIT IR framework */
-#cmakedefine ZEND_JIT_IR @ZEND_JIT_IR@
+#cmakedefine ZEND_JIT_IR 1
 
 /* Use zend max execution timers */
 #cmakedefine ZEND_MAX_EXECUTION_TIMERS 1
