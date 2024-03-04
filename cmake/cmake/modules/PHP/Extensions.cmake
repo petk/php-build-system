@@ -66,8 +66,8 @@ define_property(
   GLOBAL
   PROPERTY PHP_ALWAYS_ENABLED_EXTENSIONS
   BRIEF_DOCS "A list of always enabled PHP extensions"
-  FULL_DOCS "This property contains a list of always enabled PHP extenions "
-            "which don't need HAVE_<extension-name> contants and can be "
+  FULL_DOCS "This property contains a list of always enabled PHP extensions "
+            "which don't need HAVE_<extension-name> symbols and can be "
             "considered as part of the core PHP engine."
 )
 
@@ -530,10 +530,10 @@ function(_php_extensions_post_configure directory)
     set_property(TARGET php_${extension} PROPERTY OUTPUT_NAME ${extension})
   endif()
 
-  # Define HAVE_<extension-name> constant for php_config.h.
-  string(TOUPPER "HAVE_${extension}" constant)
+  # Define HAVE_<extension-name> symbol for php_config.h.
+  string(TOUPPER "HAVE_${extension}" symbol)
   set(
-    ${constant} 1
+    ${symbol} 1
     CACHE INTERNAL "Whether to enable the ${extension} extension."
   )
 
@@ -551,11 +551,11 @@ function(_php_extensions_post_configure directory)
     )
   endif()
 
-  # Define COMPILE_DL_<extension-name> constant for php_config.h to indicate
+  # Define COMPILE_DL_<extension-name> symbol for php_config.h to indicate
   # extension is built as a shared library and add compile definitions.
-  string(TOUPPER "COMPILE_DL_${extension}" constant)
+  string(TOUPPER "COMPILE_DL_${extension}" symbol)
   set(
-    ${constant} 1
+    ${symbol} 1
     CACHE INTERNAL "Whether ${extension} is built as a shared library."
   )
   target_compile_definitions(php_${extension} PRIVATE ZEND_COMPILE_DL_EXT=1)

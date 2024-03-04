@@ -20,79 +20,82 @@ Cache variables:
 include_guard(GLOBAL)
 
 include(CheckSourceCompiles)
+include(CMakePushCheckState)
 
 message(CHECK_START "Checking how many arguments gethostbyname_r() takes")
 
-list(APPEND CMAKE_MESSAGE_INDENT "  ")
+cmake_push_check_state(RESET)
+  set(CMAKE_REQUIRED_QUIET TRUE)
 
-# Sanity check with 1 argument signature.
-check_source_compiles(C "
-  #include <netdb.h>
-
-  int main(void) {
-    char *name = \"www.gnu.org\";
-    (void)gethostbyname_r(name);
-
-    return 0;
-  }
-" _have_one_argument)
-
-if(_have_one_argument)
-  list(POP_BACK CMAKE_MESSAGE_INDENT)
-  message(CHECK_FAIL "can't tell")
-  message(WARNING "Cannot find function declaration in netdb.h")
-  return()
-endif()
-
-# Check for 6 arguments signature.
-check_source_compiles(C "
-  #include <netdb.h>
-
-  int main(void) {
-    char *name = \"www.gnu.org\";
-    struct hostent ret, *retp;
-    char buf[1024];
-    int buflen = 1024;
-    int my_h_errno;
-    (void)gethostbyname_r(name, &ret, buf, buflen, &retp, &my_h_errno);
-
-    return 0;
-  }
-" HAVE_FUNC_GETHOSTBYNAME_R_6)
-
-# Check for 5 arguments signature.
-if(NOT HAVE_FUNC_GETHOSTBYNAME_R_6)
-  check_source_compiles(C "
+  # Sanity check with 1 argument signature.
+  check_source_compiles(C [[
     #include <netdb.h>
 
     int main(void) {
-      char *name = \"www.gnu.org\";
-      struct hostent ret;
+      char *name = "www.gnu.org";
+      (void)gethostbyname_r(name);
+
+      return 0;
+    }
+  ]] _have_one_argument)
+
+  if(_have_one_argument)
+    cmake_pop_check_state()
+    message(CHECK_FAIL "can't tell")
+    message(WARNING "Cannot find function declaration in netdb.h")
+    return()
+  endif()
+
+  # Check for 6 arguments signature.
+  check_source_compiles(C [[
+    #include <netdb.h>
+
+    int main(void) {
+      char *name = "www.gnu.org";
+      struct hostent ret, *retp;
       char buf[1024];
       int buflen = 1024;
       int my_h_errno;
-      (void)gethostbyname_r(name, &ret, buf, buflen, &my_h_errno);
+      (void)gethostbyname_r(name, &ret, buf, buflen, &retp, &my_h_errno);
 
       return 0;
     }
-  " HAVE_FUNC_GETHOSTBYNAME_R_5)
-endif()
+  ]] HAVE_FUNC_GETHOSTBYNAME_R_6)
 
-# Check for 3 arguments signature.
-if(NOT HAVE_FUNC_GETHOSTBYNAME_R_6 AND NOT HAVE_FUNC_GETHOSTBYNAME_R_5)
-  check_source_compiles(C "
-    #include <netdb.h>
+  # Check for 5 arguments signature.
+  if(NOT HAVE_FUNC_GETHOSTBYNAME_R_6)
+    check_source_compiles(C [[
+      #include <netdb.h>
 
-    int main(void) {
-      char *name = \"www.gnu.org\";
-      struct hostent ret;
-      struct hostent_data data;
-      (void)gethostbyname_r(name, &ret, &data);
+      int main(void) {
+        char *name = "www.gnu.org";
+        struct hostent ret;
+        char buf[1024];
+        int buflen = 1024;
+        int my_h_errno;
+        (void)gethostbyname_r(name, &ret, buf, buflen, &my_h_errno);
 
-      return 0;
-    }
-  " HAVE_FUNC_GETHOSTBYNAME_R_3)
-endif()
+        return 0;
+      }
+    ]] HAVE_FUNC_GETHOSTBYNAME_R_5)
+  endif()
+
+  # Check for 3 arguments signature.
+  if(NOT HAVE_FUNC_GETHOSTBYNAME_R_6 AND NOT HAVE_FUNC_GETHOSTBYNAME_R_5)
+    check_source_compiles(C [[
+      #include <netdb.h>
+
+      int main(void) {
+        char *name = "www.gnu.org";
+        struct hostent ret;
+        struct hostent_data data;
+        (void)gethostbyname_r(name, &ret, &data);
+
+        return 0;
+      }
+    ]] HAVE_FUNC_GETHOSTBYNAME_R_3)
+  endif()
+cmake_pop_check_state()
 
 if(
   HAVE_FUNC_GETHOSTBYNAME_R_3
@@ -104,8 +107,6 @@ if(
     CACHE INTERNAL "Define to 1 if you have some form of gethostbyname_r()."
   )
 endif()
-
-list(POP_BACK CMAKE_MESSAGE_INDENT)
 
 if(HAVE_FUNC_GETHOSTBYNAME_R_3)
   message(CHECK_PASS "three")

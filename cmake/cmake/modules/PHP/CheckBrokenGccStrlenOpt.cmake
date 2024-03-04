@@ -12,6 +12,7 @@ Cache variables:
 include_guard(GLOBAL)
 
 include(CheckSourceRuns)
+include(CMakePushCheckState)
 
 if(NOT CMAKE_C_COMPILER_ID STREQUAL "GNU")
   return()
@@ -19,30 +20,30 @@ endif()
 
 message(CHECK_START "Checking for broken GCC optimize-strlen")
 
-list(APPEND CMAKE_MESSAGE_INDENT "  ")
+cmake_push_check_state(RESET)
+  set(CMAKE_REQUIRED_QUIET TRUE)
 
-if(NOT CMAKE_CROSSCOMPILING)
-  check_source_runs(C [[
-    #include <stdlib.h>
-    #include <string.h>
-    #include <stdio.h>
+  if(NOT CMAKE_CROSSCOMPILING)
+    check_source_runs(C [[
+      #include <stdlib.h>
+      #include <string.h>
+      #include <stdio.h>
 
-    struct s {
-      int i;
-      char c[1];
-    };
+      struct s {
+        int i;
+        char c[1];
+      };
 
-    int main(void) {
-      struct s *s = malloc(sizeof(struct s) + 3);
-      s->i = 3;
-      strcpy(s->c, "foo");
+      int main(void) {
+        struct s *s = malloc(sizeof(struct s) + 3);
+        s->i = 3;
+        strcpy(s->c, "foo");
 
-      return strlen(s->c+1) == 2;
-    }
-  ]] HAVE_BROKEN_OPTIMIZE_STRLEN)
-endif()
-
-list(POP_BACK CMAKE_MESSAGE_INDENT)
+        return strlen(s->c+1) == 2;
+      }
+    ]] HAVE_BROKEN_OPTIMIZE_STRLEN)
+  endif()
+cmake_pop_check_state()
 
 if(HAVE_BROKEN_OPTIMIZE_STRLEN)
   message(CHECK_PASS "yes")

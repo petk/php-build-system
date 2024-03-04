@@ -12,22 +12,23 @@ Cache variables:
 include_guard(GLOBAL)
 
 include(CheckSourceCompiles)
+include(CMakePushCheckState)
 
 message(CHECK_START "Checking for fclose declaration")
 
-list(APPEND CMAKE_MESSAGE_INDENT "  ")
+cmake_push_check_state(RESET)
+  set(CMAKE_REQUIRED_QUIET TRUE)
 
-check_source_compiles(C "
-  #include <stdio.h>
+  check_source_compiles(C "
+    #include <stdio.h>
 
-  int main(void) {
-    int (*func)() = fclose;
+    int main(void) {
+      int (*func)() = fclose;
 
-    return 0;
-  }
-" HAVE_FCLOSE_DECL)
-
-list(POP_BACK CMAKE_MESSAGE_INDENT)
+      return 0;
+    }
+  " HAVE_FCLOSE_DECL)
+cmake_pop_check_state()
 
 if(NOT HAVE_FCLOSE_DECL)
   message(CHECK_FAIL "missing")

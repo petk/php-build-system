@@ -16,10 +16,10 @@ message(CHECK_START
   "Checking whether flush should be called explicitly after a buffered io"
 )
 
-list(APPEND CMAKE_MESSAGE_INDENT "  ")
-
 if(NOT CMAKE_CROSSCOMPILING)
   cmake_push_check_state(RESET)
+    set(CMAKE_REQUIRED_QUIET TRUE)
+
     if(HAVE_UNISTD_H)
       set(CMAKE_REQUIRED_DEFINITIONS -DHAVE_UNISTD_H)
     endif()
@@ -64,8 +64,6 @@ if(NOT CMAKE_CROSSCOMPILING)
     ]] HAVE_FLUSHIO)
   cmake_pop_check_state()
 endif()
-
-list(POP_BACK CMAKE_MESSAGE_INDENT)
 
 if(HAVE_FLUSHIO)
   message(CHECK_PASS "yes")

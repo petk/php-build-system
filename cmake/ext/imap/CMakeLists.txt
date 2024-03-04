@@ -183,7 +183,7 @@ block()
       if(auth_gss_results)
         message(
           WARNING
-          "The imap extenson requires Kerberos because c-client library is "
+          "The imap extension requires Kerberos because c-client library is "
           "built with Kerberos support."
         )
       endif()
@@ -224,7 +224,7 @@ block()
       if(ssl_onceonlyinit_results)
         message(
           WARNING
-          "The imap extension requires SSL becasue c-client library is built "
+          "The imap extension requires SSL because c-client library is built "
           "with SSL support."
         )
       endif()

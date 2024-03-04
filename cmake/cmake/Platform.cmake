@@ -7,6 +7,9 @@ include_guard(GLOBAL)
 message(STATUS "Host system: ${CMAKE_HOST_SYSTEM}")
 message(STATUS "Target system: ${CMAKE_SYSTEM}")
 
+# Enable C and POSIX extensions.
+include(PHP/SystemExtensions)
+
 target_compile_definitions(
   php_configuration
   INTERFACE
@@ -99,22 +102,3 @@ if(CMAKE_SYSTEM_NAME STREQUAL "Windows")
 elseif(CMAKE_SYSTEM_NAME STREQUAL "Darwin")
   include(${CMAKE_CURRENT_LIST_DIR}/platform/Darwin.cmake)
 endif()
-
-# TODO: Fix these properly if really needed.
-set(_TANDEM_SOURCE 1 CACHE INTERNAL "")
-set(__STDC_WANT_MATH_SPEC_FUNCS__ 1 CACHE INTERNAL "")
-set(__STDC_WANT_LIB_EXT2__ 1 CACHE INTERNAL "")
-set(__STDC_WANT_IEC_60559_FUNCS_EXT__ 1 CACHE INTERNAL "")
-set(STDC_HEADERS 1 CACHE INTERNAL "")
-set(_ALL_SOURCE 1 CACHE INTERNAL "")
-set(__EXTENSIONS__ 1 CACHE INTERNAL "")
-set(_GNU_SOURCE 1 CACHE INTERNAL "")
-set(_POSIX_PTHREAD_SEMANTICS 1 CACHE INTERNAL "")
-set(__STDC_WANT_IEC_60559_ATTRIBS_EXT__ 1 CACHE INTERNAL "")
-set(__STDC_WANT_IEC_60559_BFP_EXT__ 1 CACHE INTERNAL "")
-set(__STDC_WANT_IEC_60559_DFP_EXT__ 1 CACHE INTERNAL "")
-set(__STDC_WANT_IEC_60559_TYPES_EXT__ 1 CACHE INTERNAL "")
-set(_OPENBSD_SOURCE 1 CACHE INTERNAL "")
-# TODO: See ext/pcre/pcre2lib.
-set(_NETBSD_SOURCE 1 CACHE INTERNAL "")
-set(_HPUX_ALT_XOPEN_SOCKET_API 1 CACHE INTERNAL "")

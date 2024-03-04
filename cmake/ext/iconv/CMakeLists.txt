@@ -70,7 +70,7 @@ if(CMAKE_PREFIX_PATH OR Iconv_ROOT)
 
   if(php_iconv_INCLUDE_DIR)
     set(Iconv_INCLUDE_DIR ${php_iconv_INCLUDE_DIR})
-    # Disable built-in iconv when overridding search paths in CMake's FindIconv.
+    # Disable built-in iconv when overriding search paths in CMake's FindIconv.
     set(Iconv_IS_BUILT_IN FALSE)
   endif()
 endif()

@@ -34,7 +34,7 @@ target_sources(
     gettext.c
 )
 
-# Disable built-in intl when overridding search paths in CMake's FindIntl.
+# Disable built-in intl when overriding search paths in CMake's FindIntl.
 if(CMAKE_PREFIX_PATH OR Intl_ROOT)
   find_path(
     php_gettext_INCLUDE_DIR
