@@ -295,7 +295,7 @@
 #cmakedefine HAVE_SOAP @HAVE_SOAP@
 
 /* SOAP support */
-#cmakedefine HAVE_PHP_SOAP @HAVE_PHP_SOAP@
+#cmakedefine HAVE_PHP_SOAP 1
 
 #cmakedefine HAVE_SOCKETS @HAVE_SOCKETS@
 

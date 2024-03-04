@@ -820,43 +820,43 @@
 #cmakedefine HAVE_IF_NAMETOINDEX @HAVE_IF_NAMETOINDEX@
 
 /* */
-#cmakedefine HAVE_IMAP @HAVE_IMAP@
+#cmakedefine HAVE_IMAP 1
 
 /* */
-#cmakedefine HAVE_IMAP2000 @HAVE_IMAP2000@
+#cmakedefine HAVE_IMAP2000 1
 
 /* */
-#cmakedefine HAVE_IMAP2001 @HAVE_IMAP2001@
+#cmakedefine HAVE_IMAP2001 1
 
 /* */
-#cmakedefine HAVE_IMAP2004 @HAVE_IMAP2004@
+#cmakedefine HAVE_IMAP2004 1
 
 /* */
-#cmakedefine HAVE_IMAP_AUTH_GSS @HAVE_IMAP_AUTH_GSS@
+#cmakedefine HAVE_IMAP_AUTH_GSS 1
 
 /* Whether IMAP extension has Kerberos support */
-#cmakedefine HAVE_IMAP_KRB @HAVE_IMAP_KRB@
+#cmakedefine HAVE_IMAP_KRB 1
 
 /* */
-#cmakedefine HAVE_IMAP_MUTF7 @HAVE_IMAP_MUTF7@
+#cmakedefine HAVE_IMAP_MUTF7 1
 
 /* */
-#cmakedefine HAVE_IMAP_SSL @HAVE_IMAP_SSL@
+#cmakedefine HAVE_IMAP_SSL 1
 
 /* Define to 1 if you have the <immintrin.h> header file. */
 #cmakedefine HAVE_IMMINTRIN_H @HAVE_IMMINTRIN_H@
 
-/* */
-#cmakedefine HAVE_INET_ATON @HAVE_INET_ATON@
+/* Define to 1 if you have the 'inet_aton' function. */
+#cmakedefine HAVE_INET_ATON 1
 
 /* Define to 1 if you have the 'inet_ntoa' function. */
-#cmakedefine HAVE_INET_NTOA @HAVE_INET_NTOA@
+#cmakedefine HAVE_INET_NTOA 1
 
 /* Define to 1 if you have the 'inet_ntop' function. */
-#cmakedefine HAVE_INET_NTOP @HAVE_INET_NTOP@
+#cmakedefine HAVE_INET_NTOP 1
 
 /* Define to 1 if you have the 'inet_pton' function. */
-#cmakedefine HAVE_INET_PTON @HAVE_INET_PTON@
+#cmakedefine HAVE_INET_PTON 1
 
 /* Define to 1 if you have the 'initgroups' function. */
 #cmakedefine HAVE_INITGROUPS @HAVE_INITGROUPS@
@@ -883,7 +883,7 @@
 #cmakedefine HAVE_JIT @HAVE_JIT@
 
 /* whether to enable JavaScript Object Serialization support */
-#cmakedefine HAVE_JSON @HAVE_JSON@
+#cmakedefine HAVE_JSON 1
 
 /* Define to 1 if you have the 'kill' function. */
 #cmakedefine HAVE_KILL @HAVE_KILL@
@@ -1063,7 +1063,7 @@
 #cmakedefine HAVE_NET_IF_H @HAVE_NET_IF_H@
 
 /* Whether utf8_mime2text() has new signature */
-#cmakedefine HAVE_NEW_MIME2TEXT @HAVE_NEW_MIME2TEXT@
+#cmakedefine HAVE_NEW_MIME2TEXT 1
 
 /* */
 #cmakedefine HAVE_NGETTEXT @HAVE_NGETTEXT@
@@ -1078,26 +1078,26 @@
 #cmakedefine HAVE_NMMINTRIN_H @HAVE_NMMINTRIN_H@
 
 /* Defined to 1 if the PHP OCI8 extension for Oracle Database is configured */
-#cmakedefine HAVE_OCI8 @HAVE_OCI8@
+#cmakedefine HAVE_OCI8 1
 
 /* Defined to 1 if PHP OCI8 DTrace support was enabled during configuration */
-#cmakedefine HAVE_OCI8_DTRACE
+#cmakedefine HAVE_OCI8_DTRACE 1
 
 /* */
-#cmakedefine HAVE_OCIENVCREATE
+#cmakedefine HAVE_OCIENVCREATE 1
 
 /* */
-#cmakedefine HAVE_OCIENVNLSCREATE
+#cmakedefine HAVE_OCIENVNLSCREATE 1
 
 /* */
-#cmakedefine HAVE_OCILOBREAD2
+#cmakedefine HAVE_OCILOBREAD2 1
 
 /* */
-#cmakedefine HAVE_OCISTMTFETCH2
+#cmakedefine HAVE_OCISTMTFETCH2 1
 
 /* Defined to 1 if OCI8 configuration located Oracle's Instant Client
    libraries */
-#cmakedefine HAVE_OCI_INSTANT_CLIENT
+#cmakedefine HAVE_OCI_INSTANT_CLIENT 1
 
 /* */
 #cmakedefine HAVE_ODBC_H @HAVE_ODBC_H@
@@ -1185,7 +1185,7 @@
 #cmakedefine HAVE_PROGRESS_CALLBACK @HAVE_PROGRESS_CALLBACK@
 
 /* */
-#cmakedefine HAVE_PSPELL @HAVE_PSPELL@
+#cmakedefine HAVE_PSPELL 1
 
 /* Define to 1 if the PS_STRINGS thing exists. */
 #cmakedefine HAVE_PS_STRINGS @HAVE_PS_STRINGS@
@@ -1242,7 +1242,7 @@
 #cmakedefine HAVE_RES_SEARCH @HAVE_RES_SEARCH@
 
 /* */
-#cmakedefine HAVE_RFC822_OUTPUT_ADDRESS_LIST @HAVE_RFC822_OUTPUT_ADDRESS_LIST@
+#cmakedefine HAVE_RFC822_OUTPUT_ADDRESS_LIST 1
 
 /* Define to 1 if you have the 'rfork' function. */
 #cmakedefine HAVE_RFORK @HAVE_RFORK@
@@ -1490,7 +1490,7 @@
 /* Define to 1 if you have the 'symlink' function. */
 #cmakedefine HAVE_SYMLINK 1
 
-/* do we have sysconf? */
+/* Define to 1 if you have the 'sysconf' function. */
 #cmakedefine HAVE_SYSCONF 1
 
 /* Define to 1 if you have the <sysexits.h> header file. */
@@ -1542,7 +1542,7 @@
 #cmakedefine HAVE_SYS_POLL_H @HAVE_SYS_POLL_H@
 
 /* Define to 1 if you have the <sys/procctl.h> header file. */
-#cmakedefine HAVE_SYS_PROCCTL_H @HAVE_SYS_PROCCTL_H@
+#cmakedefine HAVE_SYS_PROCCTL_H 1
 
 /* Define to 1 if you have the <sys/pstat.h> header file. */
 #cmakedefine HAVE_SYS_PSTAT_H @HAVE_SYS_PSTAT_H@
@@ -1870,10 +1870,10 @@
 #cmakedefine PHP_MYSQL_UNIX_SOCK_ADDR "@PHP_MYSQL_UNIX_SOCK_ADDR@"
 
 /* */
-#cmakedefine PHP_OCI8_DEF_DIR
+#cmakedefine PHP_OCI8_DEF_DIR "@PHP_OCI8_DEF_DIR@"
 
 /* */
-#cmakedefine PHP_OCI8_DEF_SHARED_LIBADD
+#cmakedefine PHP_OCI8_DEF_SHARED_LIBADD "@PHP_OCI8_DEF_SHARED_LIBADD@"
 
 /* define to 1 if oniguruma has an invalid entry for KOI8 encoding */
 #cmakedefine PHP_ONIG_BAD_KOI8_ENTRY @PHP_ONIG_BAD_KOI8_ENTRY@
@@ -1882,7 +1882,7 @@
 #define PHP_OS "@CMAKE_SYSTEM_NAME@"
 
 /* */
-#cmakedefine PHP_PDO_OCI_CLIENT_VERSION
+#cmakedefine PHP_PDO_OCI_CLIENT_VERSION "@PHP_PDO_OCI_CLIENT_VERSION@"
 
 /* whether pread64 is default */
 #cmakedefine PHP_PREAD_64 @PHP_PREAD_64@
