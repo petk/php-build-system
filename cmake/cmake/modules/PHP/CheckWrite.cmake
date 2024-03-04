@@ -14,12 +14,12 @@ include(CMakePushCheckState)
 
 message(CHECK_START "Checking whether writing to stdout works")
 
-list(APPEND CMAKE_MESSAGE_INDENT "  ")
-
 if(CMAKE_CROSSCOMPILING AND CMAKE_SYSTEM_NAME STREQUAL "Linux")
   set(PHP_WRITE_STDOUT 1 CACHE INTERNAL "Whether write(2) works")
 else()
   cmake_push_check_state(RESET)
+    set(CMAKE_REQUIRED_QUIET TRUE)
+
     if(HAVE_UNISTD_H)
       list(APPEND CMAKE_REQUIRED_DEFINITIONS -DHAVE_UNISTD_H=1)
     endif()
@@ -40,8 +40,6 @@ else()
     " PHP_WRITE_STDOUT)
   cmake_pop_check_state()
 endif()
-
-list(POP_BACK CMAKE_MESSAGE_INDENT)
 
 if(PHP_WRITE_STDOUT)
   message(CHECK_PASS "yes")

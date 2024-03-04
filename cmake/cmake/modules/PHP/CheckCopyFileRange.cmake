@@ -11,35 +11,36 @@ Cache variables:
 include_guard(GLOBAL)
 
 include(CheckSourceRuns)
+include(CMakePushCheckState)
 
 message(CHECK_START "Checking for copy_file_range")
 
-list(APPEND CMAKE_MESSAGE_INDENT "  ")
+cmake_push_check_state(RESET)
+  set(CMAKE_REQUIRED_QUIET TRUE)
 
-if(NOT CMAKE_CROSSCOMPILING)
-  check_source_runs(C [[
-    #ifdef __linux__
-    #ifndef _GNU_SOURCE
-    #define _GNU_SOURCE
-    #endif
-    #include <linux/version.h>
-    #include <unistd.h>
+  if(NOT CMAKE_CROSSCOMPILING)
+    check_source_runs(C [[
+      #ifdef __linux__
+      #ifndef _GNU_SOURCE
+      #define _GNU_SOURCE
+      #endif
+      #include <linux/version.h>
+      #include <unistd.h>
 
-    int main(void) {
-      (void)copy_file_range(-1, 0, -1, 0, 0, 0);
-    #if LINUX_VERSION_CODE < KERNEL_VERSION(5,3,0)
-    #error "kernel too old"
-    #else
-      return 0;
-    #endif
-    }
-    #else
-    #error "unsupported platform"
-    #endif
-  ]] HAVE_COPY_FILE_RANGE)
-endif()
-
-list(POP_BACK CMAKE_MESSAGE_INDENT)
+      int main(void) {
+        (void)copy_file_range(-1, 0, -1, 0, 0, 0);
+      #if LINUX_VERSION_CODE < KERNEL_VERSION(5,3,0)
+      #error "kernel too old"
+      #else
+        return 0;
+      #endif
+      }
+      #else
+      #error "unsupported platform"
+      #endif
+    ]] HAVE_COPY_FILE_RANGE)
+  endif()
+cmake_pop_check_state()
 
 if(HAVE_COPY_FILE_RANGE)
   message(CHECK_PASS "yes")

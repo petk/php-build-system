@@ -15,12 +15,9 @@ Cache variables:
 include_guard(GLOBAL)
 
 include(CheckSourceCompiles)
-include(CheckSourceRuns)
 include(CMakePushCheckState)
 
 message(CHECK_START "Checking for TCP_INFO")
-
-list(APPEND CMAKE_MESSAGE_INDENT "  ")
 
 check_source_compiles(C "
   #include <netinet/tcp.h>
@@ -33,8 +30,6 @@ check_source_compiles(C "
   }
 " HAVE_LQ_TCP_INFO)
 
-list(POP_BACK CMAKE_MESSAGE_INDENT)
-
 if(HAVE_LQ_TCP_INFO)
   message(CHECK_PASS "yes")
 else()
@@ -42,8 +37,6 @@ else()
 endif()
 
 message(CHECK_START "Checking for TCP_CONNECTION_INFO")
-
-list(APPEND CMAKE_MESSAGE_INDENT "  ")
 
 check_source_compiles(C "
   #include <netinet/tcp.h>
@@ -56,8 +49,6 @@ check_source_compiles(C "
   }
 " HAVE_LQ_TCP_CONNECTION_INFO)
 
-list(POP_BACK CMAKE_MESSAGE_INDENT)
-
 if(HAVE_LQ_TCP_CONNECTION_INFO)
   message(CHECK_PASS "yes")
 else()
@@ -66,9 +57,6 @@ endif()
 
 if(NOT HAVE_LQ_TCP_INFO AND NOT HAVE_LQ_TCP_CONNECTION_INFO)
   message(CHECK_START "Checking for SO_LISTENQLEN")
-
-  list(APPEND CMAKE_MESSAGE_INDENT "  ")
-
   check_source_compiles(C "
     #include <sys/socket.h>
 
@@ -79,9 +67,6 @@ if(NOT HAVE_LQ_TCP_INFO AND NOT HAVE_LQ_TCP_CONNECTION_INFO)
       return 0;
     }
   " HAVE_LQ_SO_LISTENQ)
-
-  list(POP_BACK CMAKE_MESSAGE_INDENT)
-
   if(HAVE_LQ_SO_LISTENQ)
     message(CHECK_PASS "yes")
   else()

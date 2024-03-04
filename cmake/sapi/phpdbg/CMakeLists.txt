@@ -1,4 +1,4 @@
-include(CheckSourceCompiles)
+include(CheckSymbolExists)
 include(CMakeDependentOption)
 
 ################################################################################
@@ -74,7 +74,6 @@ add_executable(php_phpdbg ${php_phpdbg_sources})
 target_compile_definitions(
   php_phpdbg
   PRIVATE
-    _GNU_SOURCE
     ZEND_ENABLE_STATIC_TSRMLS_CACHE=1
     $<$<PLATFORM_ID:Windows>:YY_NO_UNISTD_H>
 )
@@ -202,43 +201,36 @@ else()
   set(PHPDBG_DEBUG 0 CACHE INTERNAL "Whether phpdbg debugging is enabled")
 endif()
 
-message(CHECK_START "Checking for userfaultfd faulting on write-protected memory support")
-check_source_compiles(C "
-  #include <linux/userfaultfd.h>
-  #ifndef UFFDIO_WRITEPROTECT_MODE_WP
-  # error userfaults on write-protected memory not supported
-  #endif
-  int main(void) {
-    return 0;
-  }
-" _HAVE_USERFAULTFD_WRITEFAULT)
-if(_HAVE_USERFAULTFD_WRITEFAULT)
-  if(PHP_THREAD_SAFETY)
-    set(
-      HAVE_USERFAULTFD_WRITEFAULT 1
-      CACHE INTERNAL "Whether faulting on write-protected memory support can \
-be compiled for userfaultfd"
-    )
-    message(CHECK_PASS "yes")
-  else()
+message(
+  CHECK_START
+  "Checking for userfaultfd faulting on write-protected memory support"
+)
+check_symbol_exists(
+  UFFDIO_WRITEPROTECT_MODE_WP
+  "linux/userfaultfd.h"
+  HAVE_UFFDIO_WRITEPROTECT_MODE_WP
+)
+if(HAVE_UFFDIO_WRITEPROTECT_MODE_WP)
+  if(NOT PHP_THREAD_SAFETY)
     set(THREADS_PREFER_PTHREAD_FLAG TRUE)
     find_package(Threads)
-
     if(Threads_FOUND)
-      message(CHECK_PASS "yes")
-
-      set(
-        HAVE_USERFAULTFD_WRITEFAULT 1
-        CACHE INTERNAL "Whether faulting on write-protected memory support can \
-be compiled for userfaultfd"
-      )
-
       target_link_libraries(php_phpdbg PRIVATE Threads::Threads)
     else()
-      message(CHECK_FAIL "no")
       message(WARNING "Threads not available.")
     endif()
   endif()
+
+  if(PHP_THREAD_SAFETY OR Threads_FOUND)
+    set(
+      HAVE_USERFAULTFD_WRITEFAULT 1
+      CACHE INTERNAL "Whether faulting on write-protected memory support can \
+  be compiled for userfaultfd"
+    )
+  endif()
+endif()
+if(HAVE_USERFAULTFD_WRITEFAULT)
+  message(CHECK_PASS "yes")
 else()
   message(CHECK_FAIL "no")
 endif()

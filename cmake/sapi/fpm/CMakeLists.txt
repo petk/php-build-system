@@ -260,8 +260,9 @@ else()
 endif()
 
 message(CHECK_START "Checking for select")
-list(APPEND CMAKE_MESSAGE_INDENT "  ")
 cmake_push_check_state(RESET)
+  set(CMAKE_REQUIRED_QUIET TRUE)
+
   if(PHP_FD_SETSIZE)
     set(CMAKE_REQUIRED_DEFINITIONS -DFD_SETSIZE=${PHP_FD_SETSIZE})
   endif()
@@ -288,7 +289,6 @@ cmake_push_check_state(RESET)
     }
   " HAVE_SELECT)
 cmake_pop_check_state()
-list(POP_BACK CMAKE_MESSAGE_INDENT)
 if(HAVE_SELECT)
   message(CHECK_PASS "yes")
 else()
@@ -333,12 +333,12 @@ if(SAPI_FPM_ACL)
   target_link_libraries(php_fpm PRIVATE ACL::ACL)
 
   message(CHECK_START "Checking ACL user/group permissions support")
-  list(APPEND CMAKE_MESSAGE_INDENT "  ")
 
   check_include_file(sys/acl.h HAVE_SYS_ACL_H)
 
   if(TARGET ACL::ACL)
     cmake_push_check_state(RESET)
+      set(CMAKE_REQUIRED_QUIET TRUE)
       set(CMAKE_REQUIRED_LIBRARIES ACL::ACL)
 
       check_source_compiles(C "
@@ -365,6 +365,7 @@ if(SAPI_FPM_ACL)
     if(NOT _php_have_acl_free)
       if(NOT CMAKE_CROSSCOMPILING)
         cmake_push_check_state(RESET)
+          set(CMAKE_REQUIRED_QUIET TRUE)
           set(CMAKE_REQUIRED_LIBRARIES ACL::ACL)
 
           check_source_runs(C "
@@ -387,7 +388,6 @@ if(SAPI_FPM_ACL)
     endif()
   endif()
 
-  list(POP_BACK CMAKE_MESSAGE_INDENT)
   if(_php_have_acl_free OR _php_have_working_acl)
     message(CHECK_PASS "Success")
     set(HAVE_FPM_ACL 1 CACHE INTERNAL "Whether the ACL support is present")
