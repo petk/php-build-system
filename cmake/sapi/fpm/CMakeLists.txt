@@ -323,6 +323,27 @@ else()
 endif()
 
 if(SAPI_FPM_ACL)
+  # Disable built-in ACL when overriding search paths in FindACL.
+  if(CMAKE_PREFIX_PATH OR ACL_ROOT)
+    find_path(
+      php_fpm_acl_INCLUDE_DIR
+      NAMES
+        sys/acl.h
+      PATHS
+        ${CMAKE_PREFIX_PATH}
+        ${ACL_ROOT}
+      PATH_SUFFIXES
+        include
+      NO_DEFAULT_PATH
+    )
+
+    if(php_fpm_acl_INCLUDE_DIR)
+      set(ACL_INCLUDE_DIR ${php_fpm_acl_INCLUDE_DIR})
+      set(ACL_IS_BUILT_IN FALSE)
+    endif()
+  endif()
+
+  set(ACL_USE_USER_GROUP TRUE)
   find_package(ACL)
   set_package_properties(
     ACL
@@ -333,67 +354,13 @@ if(SAPI_FPM_ACL)
 
   target_link_libraries(php_fpm PRIVATE ACL::ACL)
 
-  message(CHECK_START "Checking ACL user/group permissions support")
-
-  check_include_file(sys/acl.h HAVE_SYS_ACL_H)
-
   if(TARGET ACL::ACL)
     cmake_push_check_state(RESET)
-      set(CMAKE_REQUIRED_QUIET TRUE)
       set(CMAKE_REQUIRED_LIBRARIES ACL::ACL)
-
-      check_source_compiles(C "
-        #include <sys/acl.h>
-
-        int main(void) {
-          acl_t acl;
-          acl_entry_t user, group;
-          acl = acl_init(1);
-          acl_create_entry(&acl, &user);
-          acl_set_tag_type(user, ACL_USER);
-          acl_create_entry(&acl, &group);
-          acl_set_tag_type(user, ACL_GROUP);
-          acl_free(acl);
-          return 0;
-        }
-      " _php_acl_successful)
+      check_include_file(sys/acl.h HAVE_SYS_ACL_H)
     cmake_pop_check_state()
 
-    if(_php_acl_successful)
-      check_library_exists(ACL::ACL acl_free "" _php_have_acl_free)
-    endif()
-
-    if(NOT _php_have_acl_free)
-      if(NOT CMAKE_CROSSCOMPILING)
-        cmake_push_check_state(RESET)
-          set(CMAKE_REQUIRED_QUIET TRUE)
-          set(CMAKE_REQUIRED_LIBRARIES ACL::ACL)
-
-          check_source_runs(C "
-            #include <sys/acl.h>
-
-            int main(void) {
-              acl_t acl;
-              acl_entry_t user, group;
-              acl = acl_init(1);
-              acl_create_entry(&acl, &user);
-              acl_set_tag_type(user, ACL_USER);
-              acl_create_entry(&acl, &group);
-              acl_set_tag_type(user, ACL_GROUP);
-              acl_free(acl);
-              return 0;
-            }
-          " _php_have_working_acl)
-        cmake_pop_check_state()
-      endif()
-    endif()
-  endif()
-
-  if(_php_have_acl_free OR _php_have_working_acl)
-    message(CHECK_PASS "Success")
-    set(HAVE_FPM_ACL 1 CACHE INTERNAL "Whether the ACL support is present")
-  else()
-    message(CHECK_FAIL "Failed")
+    set(HAVE_FPM_ACL 1 CACHE INTERNAL "Whether FPM has ACL support")
   endif()
 endif()
 

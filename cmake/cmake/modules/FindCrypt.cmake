@@ -501,7 +501,7 @@ if(NOT CMAKE_C_COMPILER_LOADED AND NOT CMAKE_CXX_COMPILER_LOADED)
 endif()
 
 if(NOT DEFINED Crypt_IS_BUILT_IN)
-  block(PROPAGATE Crypt_IS_BUILT_IN)
+  block(PROPAGATE Crypt_IS_BUILT_IN _crypt_works)
     _crypt_check_crypt(_crypt_works)
     if(_crypt_works)
       _crypt_check_crypt_r(_crypt_r_works)
@@ -566,6 +566,8 @@ else()
   _crypt_check_crypt_r(_crypt_r_works)
 
   _crypt_check_crypt_is_usable(_crypt_is_usable)
+
+  mark_as_advanced(Crypt_INCLUDE_DIR Crypt_LIBRARY)
 endif()
 
 if(NOT HAVE_CRYPT_R)
@@ -625,6 +627,8 @@ find_package_handle_standard_args(
 
 unset(_reason)
 unset(_Crypt_REQUIRED_VARS)
+unset(_Crypt_IS_BUILT_IN_MSG)
+unset(_crypt_r_works)
 
 if(NOT Crypt_FOUND)
   return()
