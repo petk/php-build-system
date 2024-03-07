@@ -38,7 +38,7 @@ target_compile_definitions(php_pcre PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE=1)
 
 set(
   PCRE2_CODE_UNIT_WIDTH 8
-  CACHE INTERNAL "Number of bits in non-UTF mode for PCRE library"
+  CACHE INTERNAL "Number of bits in non-UTF mode for PCRE library."
 )
 
 if(EXT_PCRE_EXTERNAL)

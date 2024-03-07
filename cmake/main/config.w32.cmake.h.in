@@ -252,8 +252,8 @@
 /* Using bundled PCRE library */
 #cmakedefine HAVE_BUNDLED_PCRE 1
 
-/* Number of bits in non-UTF mode for PCRE library */
-#cmakedefine PCRE2_CODE_UNIT_WIDTH 1
+/* Number of bits in non-UTF mode for PCRE library. */
+#cmakedefine PCRE2_CODE_UNIT_WIDTH @PCRE2_CODE_UNIT_WIDTH@
 
 /* Whether a static PCRE library is linked */
 #cmakedefine PCRE2_STATIC 1
