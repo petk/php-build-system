@@ -235,7 +235,7 @@
 #cmakedefine HAVE_JIT 1
 
 /* Use JIT IR framework */
-#cmakedefine ZEND_JIT_IR @ZEND_JIT_IR@
+#cmakedefine ZEND_JIT_IR 1
 
 /* LibXML support */
 #cmakedefine HAVE_LIBXML 1

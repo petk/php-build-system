@@ -386,13 +386,13 @@ A list of Autoconf `configure` command-line configuration options, Windows
     </tr>
     <tr>
       <td>--enable-short-tags</td>
-      <td></td>
+      <td>N/A</td>
       <td>PHP_SHORT_TAGS=ON</td>
       <td>default</td>
     </tr>
     <tr>
       <td>&emsp;--disable-short-tags</td>
-      <td></td>
+      <td>N/A</td>
       <td>PHP_SHORT_TAGS=OFF</td>
       <td></td>
     </tr>
@@ -543,15 +543,15 @@ A list of Autoconf `configure` command-line configuration options, Windows
     </tr>
     <tr>
       <td>--without-config-file-path</td>
-      <td></td>
+      <td>N/A</td>
       <td>PHP_CONFIG_FILE_PATH=""</td>
-      <td>default</td>
+      <td>default (only for *nix)</td>
     </tr>
     <tr>
       <td>&emsp;--with-config-file-path=PATH</td>
-      <td></td>
+      <td>N/A</td>
       <td>PHP_CONFIG_FILE_PATH=PATH</td>
-      <td></td>
+      <td>(only for *nix)</td>
     </tr>
     <tr>
       <td>--disable-gcov</td>
