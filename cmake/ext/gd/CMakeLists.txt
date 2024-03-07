@@ -5,6 +5,7 @@ include(CheckSourceRuns)
 include(CMakeDependentOption)
 include(CMakePushCheckState)
 include(FeatureSummary)
+include(PHP/SearchLibraries)
 
 option(EXT_GD "Enable the gd extension" OFF)
 
@@ -212,17 +213,17 @@ if(NOT EXT_GD_EXTERNAL)
     CACHE INTERNAL "Whether the TGA functionality can be used with libgd"
   )
 
-  # Check for fabsf and floorf which are available since C99.
-  cmake_push_check_state(RESET)
-    if(NOT CMAKE_SYSTEM_NAME STREQUAL "Windows")
-      set(CMAKE_REQUIRED_LIBRARIES m)
-    endif()
-    check_symbol_exists(fabsf "math.h" HAVE_FABSF)
-    check_symbol_exists(floorf "math.h" HAVE_FLOORF)
-  cmake_pop_check_state()
+  target_compile_definitions(
+    php_gd
+    PRIVATE
+      # Bundled GD library uses the C99 standard fabsf and floorf conditionally.
+      HAVE_FABSF=1
+      HAVE_FLOORF=1
+  )
 
-  if(HAVE_FABSF OR HAVE_FLOORF)
-    target_link_libraries(php_gd PRIVATE $<$<NOT:$<PLATFORM_ID:Windows>>:m>)
+  php_search_libraries(fabsf "math.h" HAVE_FABSF M_LIBRARY LIBRARIES m)
+  if(M_LIBRARY)
+    target_link_libraries(php_gd INTERFACE ${M_LIBRARY})
   endif()
 
   target_include_directories(php_gd PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/libgd)
