@@ -8,7 +8,6 @@
 
 /* Default PHP / PEAR directories */
 #define PHP_CONFIG_FILE_PATH ""
-#define CONFIGURATION_FILE_PATH "php.ini"
 #define PEAR_INSTALLDIR "@PREFIX@\\pear"
 #define PHP_BINDIR "@PREFIX@"
 #define PHP_DATADIR "@PREFIX@"
@@ -20,9 +19,7 @@
 #define PHP_SYSCONFDIR "@PREFIX@"
 
 /* PHP Runtime Configuration */
-#define PHP_URL_FOPEN 1
-#define USE_CONFIG_FILE 1
-#define DEFAULT_SHORT_OPEN_TAG "1"
+#define DEFAULT_SHORT_OPEN_TAG "@DEFAULT_SHORT_OPEN_TAG@"
 
 /* Platform-Specific Configuration. Should not be changed. */
 /* Alignment for Zend memory allocator */
@@ -38,7 +35,6 @@
 #define STDIN_FILENO 0
 #define STDOUT_FILENO 1
 #define STDERR_FILENO 2
-#define HAVE_ERRMSG_H 0
 #undef HAVE_ADABAS
 #undef HAVE_SOLID
 #undef HAVE_SYMLINK
@@ -48,8 +44,6 @@
 #define HAVE_NANOSLEEP 1
 
 #define HAVE_GETCWD 1
-#define NEED_ISBLANK 1
-#define DISCARD_PATH 0
 #undef HAVE_SETITIMER
 #undef HAVE_SIGSETJMP
 #undef HAVE_IODBC
@@ -63,16 +57,13 @@
 #undef HAVE_STRUCT_STAT_ST_BLKSIZE
 #undef HAVE_STRUCT_STAT_ST_BLOCKS
 #define HAVE_STRUCT_STAT_ST_RDEV 1
-#define REGEX 1
-#define HSREGEX 1
 #define HAVE_GETLOGIN 1
 #define HAVE_MEMMOVE 1
-#define HAVE_REGCOMP 1
 #define HAVE_SHUTDOWN 1
 #define HAVE_STRCASECMP 1
 
 /* Define to 1 if you have the 'strcasestr' function. */
-#cmakedefine HAVE_STRCASESTR @HAVE_STRCASESTR@
+#cmakedefine HAVE_STRCASESTR 1
 
 #define HAVE_UTIME 1
 #undef HAVE_DIRENT_H
@@ -88,7 +79,6 @@
 #undef HAVE_ALLOCA_H
 #undef HAVE_KILL
 #define HAVE_GETPID 1
-#undef HAVE_RINT
 /* int and long are still 32bit in 64bit compiles */
 #define SIZEOF_INT 4
 #define SIZEOF_LONG 4
@@ -180,34 +170,34 @@
 #define __SSE2__ 1
 
 /* Have BCMATH library */
-#cmakedefine HAVE_BCMATH @HAVE_BCMATH@
+#cmakedefine HAVE_BCMATH 1
 
 /* Have BZ2 library */
-#cmakedefine HAVE_BZ2 @HAVE_BZ2@
+#cmakedefine HAVE_BZ2 1
 
 /* Have calendar */
-#cmakedefine HAVE_CALENDAR @HAVE_CALENDAR@
+#cmakedefine HAVE_CALENDAR 1
 
 /* Have COM_DOTNET support */
-#cmakedefine HAVE_COM_DOTNET @HAVE_COM_DOTNET@
+#cmakedefine HAVE_COM_DOTNET 1
 
 /* have the mscoree.h header file */
-#cmakedefine HAVE_MSCOREE_H @HAVE_MSCOREE_H@
+#cmakedefine HAVE_MSCOREE_H 1
 
 /* Have ctype */
-#cmakedefine HAVE_CTYPE @HAVE_CTYPE@
+#cmakedefine HAVE_CTYPE 1
 
 /* Have timelib_config.h */
-#cmakedefine HAVE_TIMELIB_CONFIG_H @HAVE_TIMELIB_CONFIG_H@
+#cmakedefine HAVE_TIMELIB_CONFIG_H 1
 
 /* DOM support */
-#cmakedefine HAVE_DOM @HAVE_DOM@
+#cmakedefine HAVE_DOM 1
 
 /* Have EXIF Support */
-#cmakedefine HAVE_EXIF @HAVE_EXIF@
+#cmakedefine HAVE_EXIF 1
 
 /* ffi support enabled */
-#cmakedefine HAVE_FFI @HAVE_FFI@
+#cmakedefine HAVE_FFI 1
 
 /* Whether libffi supports the 'FFI_FASTCALL' calling convention. */
 #cmakedefine HAVE_FFI_FASTCALL 1
@@ -234,89 +224,89 @@
 #cmakedefine HAVE_FFI_VECTORCALL_PARTIAL 1
 
 /* Have FTP support */
-#cmakedefine HAVE_FTP @HAVE_FTP@
+#cmakedefine HAVE_FTP 1
 
 /* Have FTP over SSL support */
-#cmakedefine HAVE_FTP_SSL @HAVE_FTP_SSL@
+#cmakedefine HAVE_FTP_SSL 1
 
-#cmakedefine PHP_MHASH_BC @PHP_MHASH_BC@
+#cmakedefine PHP_MHASH_BC 1
 
 /* have the zlib.h header file */
 #define HAVE_ZLIB_H 0
 
 /* Define to enable JIT */
-#cmakedefine HAVE_JIT @HAVE_JIT@
+#cmakedefine HAVE_JIT 1
 
 /* LibXML support */
-#cmakedefine HAVE_LIBXML @HAVE_LIBXML@
+#cmakedefine HAVE_LIBXML 1
 
 /* Have mbstring support */
-#cmakedefine HAVE_MBSTRING @HAVE_MBSTRING@
+#cmakedefine HAVE_MBSTRING 1
 
 /* whether to have multibyte regex support */
-#cmakedefine HAVE_MBREGEX @HAVE_MBREGEX@
+#cmakedefine HAVE_MBREGEX 1
 
 /* define to 1 if oniguruma has an invalid entry for KOI8 encoding */
-#cmakedefine PHP_ONIG_BAD_KOI8_ENTRY @PHP_ONIG_BAD_KOI8_ENTRY@
+#cmakedefine PHP_ONIG_BAD_KOI8_ENTRY 1
 
 /* Using bundled PCRE library */
-#cmakedefine HAVE_BUNDLED_PCRE @HAVE_BUNDLED_PCRE@
+#cmakedefine HAVE_BUNDLED_PCRE 1
 
 /* Number of bits in non-UTF mode for PCRE library */
-#cmakedefine PCRE2_CODE_UNIT_WIDTH @PCRE2_CODE_UNIT_WIDTH@
+#cmakedefine PCRE2_CODE_UNIT_WIDTH 1
 
 /* Whether a static PCRE library is linked */
-#cmakedefine PCRE2_STATIC @PCRE2_STATIC@
+#cmakedefine PCRE2_STATIC 1
 
 /* Whether to enable the PCRE JIT support */
-#cmakedefine HAVE_PCRE_JIT_SUPPORT @HAVE_PCRE_JIT_SUPPORT@
+#cmakedefine HAVE_PCRE_JIT_SUPPORT 1
 
 /* */
-#cmakedefine PHAR_HAVE_OPENSSL @PHAR_HAVE_OPENSSL@
+#cmakedefine PHAR_HAVE_OPENSSL 1
 
 /* Whether to build phar as dynamic module */
-#cmakedefine COMPILE_DL_PHAR @COMPILE_DL_PHAR@
+#cmakedefine COMPILE_DL_PHAR 1
 
 /* */
-#cmakedefine HAVE_LIBEDIT @HAVE_LIBEDIT@
+#cmakedefine HAVE_LIBEDIT 1
 
 /* Have SHMOP support */
-#cmakedefine HAVE_SHMOP @HAVE_SHMOP@
+#cmakedefine HAVE_SHMOP 1
 
 /* Simple XML support */
-#cmakedefine HAVE_SIMPLEXML @HAVE_SIMPLEXML@
+#cmakedefine HAVE_SIMPLEXML 1
 
-#cmakedefine HAVE_SYSVSHM @HAVE_SYSVSHM@
+#cmakedefine HAVE_SYSVSHM 1
 
 /* Session support */
-#cmakedefine HAVE_PHP_SESSION @HAVE_PHP_SESSION@
+#cmakedefine HAVE_PHP_SESSION 1
 
 /* SOAP support */
-#cmakedefine HAVE_SOAP @HAVE_SOAP@
+#cmakedefine HAVE_SOAP 1
 
 /* SOAP support */
 #cmakedefine HAVE_PHP_SOAP 1
 
-#cmakedefine HAVE_SOCKETS @HAVE_SOCKETS@
+#cmakedefine HAVE_SOCKETS 1
 
 /* Have the Sodium library */
-#cmakedefine HAVE_LIBSODIUMLIB @HAVE_LIBSODIUMLIB@
+#cmakedefine HAVE_LIBSODIUMLIB 1
 
 /* XMLReader support */
-#cmakedefine HAVE_XMLREADER @HAVE_XMLREADER@
+#cmakedefine HAVE_XMLREADER 1
 
 /* XMLWriter support */
-#cmakedefine HAVE_XMLWRITER @HAVE_XMLWRITER@
+#cmakedefine HAVE_XMLWRITER 1
 
 /* XML support */
-#cmakedefine HAVE_XML @HAVE_XML@
+#cmakedefine HAVE_XML 1
 
 #define PHP_CONFIG_FILE_SCAN_DIR "@PHP_CONFIG_FILE_SCAN_DIR@"
 
-#cmakedefine PHP_USE_PHP_CRYPT_R @PHP_USE_PHP_CRYPT_R@
+#cmakedefine PHP_USE_PHP_CRYPT_R 1
 
 /* Tokenizer support */
-#cmakedefine HAVE_TOKENIZER @HAVE_TOKENIZER@
+#cmakedefine HAVE_TOKENIZER 1
 
 #if __has_include("main/config.pickle.h")
 #include "main/config.pickle.h"

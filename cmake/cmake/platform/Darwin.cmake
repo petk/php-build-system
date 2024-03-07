@@ -8,9 +8,6 @@ include(CheckLinkerFlag)
 
 set(DARWIN 1 CACHE INTERNAL "Define if the target system is Darwin")
 
-# TODO: Fix this properly and add it to required definitions.
-set(_DARWIN_C_SOURCE 1 CACHE INTERNAL "")
-
 # TODO: This is still needed for shared extensions on macOS, otherwise undefined
 # symbol errors happen in the linking step when using Clang.
 check_linker_flag(

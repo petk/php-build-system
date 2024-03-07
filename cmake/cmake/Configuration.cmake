@@ -73,11 +73,13 @@ set(
 )
 mark_as_advanced(PHP_CONFIG_FILE_SCAN_DIR)
 
-set(
-  PHP_CONFIG_FILE_PATH ""
-  CACHE FILEPATH "The path in which to look for php.ini."
-)
-mark_as_advanced(PHP_CONFIG_FILE_PATH)
+if(NOT CMAKE_SYSTEM_NAME STREQUAL "Windows")
+  set(
+    PHP_CONFIG_FILE_PATH ""
+    CACHE FILEPATH "The path in which to look for php.ini."
+  )
+  mark_as_advanced(PHP_CONFIG_FILE_PATH)
+endif()
 
 ################################################################################
 # General options.
