@@ -64,12 +64,17 @@ target_compile_definitions(
 )
 
 target_include_directories(
-  php_configuration
+  php_main
   INTERFACE
     ${CMAKE_CURRENT_BINARY_DIR}
     ${CMAKE_CURRENT_SOURCE_DIR}
-    ${PHP_BINARY_DIR}
-    ${PHP_SOURCE_DIR}
+)
+
+# Add main PUBLIC/INTERFACE include directories to configuration.
+target_include_directories(
+  php_configuration
+  INTERFACE
+    $<TARGET_PROPERTY:PHP::main,INTERFACE_INCLUDE_DIRECTORIES>
 )
 
 target_link_libraries(
@@ -82,18 +87,6 @@ target_link_libraries(
 
 if(TARGET PHP::win32)
   target_link_libraries(php_main PUBLIC PHP::win32)
-endif()
-
-# Add Zend's PUBLIC/INTERFACE compile options to configuration.
-# Cleaner COMPILE_ONLY generator expression is available in CMake >= 3.27.
-if(CMAKE_VERSION VERSION_GREATER_EQUAL 3.27)
-  target_link_libraries(php_configuration INTERFACE $<COMPILE_ONLY:Zend::Zend>)
-else()
-  target_include_directories(
-    php_configuration
-    INTERFACE
-      $<TARGET_PROPERTY:Zend::Zend,INTERFACE_INCLUDE_DIRECTORIES>
-  )
 endif()
 
 # Add DTrace.
@@ -109,12 +102,6 @@ if(PHP_DTRACE)
   )
 
   if(DTrace_FOUND)
-    get_target_property(
-      _php_dtrace_includes
-      php_configuration
-      INTERFACE_INCLUDE_DIRECTORIES
-    )
-
     dtrace_target(
       TARGET php_main
       INPUT ${PHP_SOURCE_DIR}/Zend/zend_dtrace.d
@@ -126,7 +113,8 @@ if(PHP_DTRACE)
         ${PHP_SOURCE_DIR}/Zend/zend_exceptions.c
         ${PHP_SOURCE_DIR}/Zend/zend_execute.c
         ${PHP_SOURCE_DIR}/Zend/zend.c
-      INCLUDES ${_php_dtrace_includes}
+      INCLUDES
+        $<TARGET_PROPERTY:PHP::configuration,INTERFACE_INCLUDE_DIRECTORIES>
     )
 
     message(CHECK_PASS "yes")

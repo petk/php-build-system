@@ -8,19 +8,26 @@ Result variables:
 
 Cache variables:
 
+  DTrace_INCLUDE_DIR
+    Directory containing DTrace library headers.
   DTrace_EXECUTABLE
     Path to the DTrace command-line utility.
   HAVE_DTRACE
     Whether DTrace support is enabled.
 
+Hints:
+
+  The DTrace_ROOT variable adds custom search path.
+
 Module defines the following function:
 
-  dtrace_target(TARGET <target-name>
-                INPUT <input>
-                HEADER <header>
-                SOURCES <source>...
-                [INCLUDES <includes>...]
-               )
+  dtrace_target(
+    TARGET <target-name>
+    INPUT <input>
+    HEADER <header>
+    SOURCES <source>...
+    [INCLUDES <includes>...]
+  )
 
     TARGET
       Target name to append the generated DTrace probe definition object file.
@@ -34,7 +41,6 @@ Module defines the following function:
       A list of include directories for appending to DTrace object.
 #]=============================================================================]
 
-include(CheckIncludeFile)
 include(FeatureSummary)
 include(FindPackageHandleStandardArgs)
 
@@ -48,10 +54,15 @@ set_package_properties(
 
 set(_reason "")
 
+find_path(
+  DTrace_INCLUDE_DIR
+  NAMES sys/sdt.h
+  DOC "Directory containing DTrace library headers"
+)
+
 find_program(
   DTrace_EXECUTABLE
   NAMES dtrace
-  PATHS /usr/bin /usr/sbin
   DOC "The path to the executable dtrace generation tool"
 )
 
@@ -59,11 +70,8 @@ if(NOT DTrace_EXECUTABLE)
   string(APPEND _reason "DTrace generation tool not found. Please install DTrace. ")
 endif()
 
-# Sanity check.
-check_include_file(sys/sdt.h _dtrace_sanity_check)
-
-if(NOT _dtrace_sanity_check)
-  string(APPEND _reason "Missing sys/sdt.h which is required for DTrace support. ")
+if(NOT DTrace_INCLUDE_DIR)
+  string(APPEND _reason "sys/sdt.h not found. ")
 endif()
 
 mark_as_advanced(DTrace_EXECUTABLE)
@@ -72,7 +80,7 @@ find_package_handle_standard_args(
   DTrace
   REQUIRED_VARS
     DTrace_EXECUTABLE
-    _dtrace_sanity_check
+    DTrace_INCLUDE_DIR
   REASON_FAILURE_MESSAGE "${_reason}"
 )
 
@@ -105,6 +113,10 @@ function(dtrace_target)
     message(FATAL_ERROR "dtrace_target expects a target name")
   endif()
 
+  if(NOT TARGET ${parsed_TARGET})
+    message(FATAL_ERROR "dtrace_target: ${parsed_TARGET} is not a target")
+  endif()
+
   if(NOT parsed_INPUT)
     message(FATAL_ERROR "dtrace_target expects an input filename")
   endif()
@@ -115,10 +127,6 @@ function(dtrace_target)
 
   if(NOT parsed_SOURCES)
     message(FATAL_ERROR "dtrace_target expects a list of source files")
-  endif()
-
-  if(NOT TARGET ${parsed_TARGET})
-    message(FATAL_ERROR "dtrace_target: ${parsed_TARGET} is not a target")
   endif()
 
   # Generate DTrace header.
@@ -157,13 +165,12 @@ function(dtrace_target)
 
   add_dependencies(${parsed_TARGET}_object ${parsed_TARGET}_patch_header)
 
-  if(parsed_INCLUDES)
-    target_include_directories(
-      ${parsed_TARGET}_object
-      PRIVATE
-        ${parsed_INCLUDES}
-    )
-  endif()
+  target_include_directories(
+    ${parsed_TARGET}_object
+    PRIVATE
+      ${DTrace_INCLUDE_DIR}
+      ${parsed_INCLUDES}
+  )
 
   cmake_path(GET parsed_INPUT FILENAME input)
   set(output_filename CMakeFiles/${input}.o)
@@ -174,10 +181,12 @@ function(dtrace_target)
       -s ${parsed_INPUT} $<TARGET_OBJECTS:${parsed_TARGET}_object>
       -G # Generate a systemtap probe definition object file.
       -o ${output_filename}
+      -I${DTrace_INCLUDE_DIR}
     DEPENDS ${parsed_TARGET}_object
     COMMENT "[DTrace] Generating DTrace probe object ${output_filename}"
     VERBATIM
   )
 
   target_sources(${parsed_TARGET} PRIVATE ${output_filename})
+  target_include_directories(${parsed_TARGET} PUBLIC ${DTrace_INCLUDE_DIR})
 endfunction()

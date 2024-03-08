@@ -31,6 +31,9 @@ include(PHP/Ccache)
 # Create a project wide INTERFACE library with project configuration.
 add_library(php_configuration INTERFACE)
 add_library(PHP::configuration ALIAS php_configuration)
+target_include_directories(
+  php_configuration INTERFACE ${PHP_BINARY_DIR} ${PHP_SOURCE_DIR}
+)
 
 # Configure build types.
 include(cmake/BuildTypes.cmake)
