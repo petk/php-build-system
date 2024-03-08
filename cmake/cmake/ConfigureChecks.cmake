@@ -535,17 +535,6 @@ if(SOCKETPAIR_LIBRARY)
 endif()
 
 php_search_libraries(
-  htonl
-  "netinet/in.h;arpa/inet.h"
-  HAVE_HTONL
-  HTONL_LIBRARY
-  LIBRARIES socket network
-)
-if(HTONL_LIBRARY)
-  target_link_libraries(php_configuration INTERFACE ${HTONL_LIBRARY})
-endif()
-
-php_search_libraries(
   gethostname
   "unistd.h"
   HAVE_GETHOSTNAME
