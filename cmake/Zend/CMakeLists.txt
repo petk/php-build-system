@@ -188,6 +188,13 @@ target_compile_definitions(
     $<$<PLATFORM_ID:Windows>:LIBZEND_EXPORTS>
 )
 
+# Add Zend PUBLIC/INTERFACE include directories to configuration.
+target_include_directories(
+  php_configuration
+  INTERFACE
+    $<TARGET_PROPERTY:Zend::Zend,INTERFACE_INCLUDE_DIRECTORIES>
+)
+
 ################################################################################
 # Configuration checks.
 ################################################################################
