@@ -213,15 +213,7 @@ if(NOT EXT_GD_EXTERNAL)
     CACHE INTERNAL "Whether the TGA functionality can be used with libgd"
   )
 
-  target_compile_definitions(
-    php_gd
-    PRIVATE
-      # Bundled GD library uses the C99 standard fabsf and floorf conditionally.
-      HAVE_FABSF=1
-      HAVE_FLOORF=1
-  )
-
-  php_search_libraries(fabsf "math.h" HAVE_FABSF M_LIBRARY LIBRARIES m)
+  php_search_libraries(floorf "math.h" _HAVE_FLOORF M_LIBRARY LIBRARIES m)
   if(M_LIBRARY)
     target_link_libraries(php_gd INTERFACE ${M_LIBRARY})
   endif()
