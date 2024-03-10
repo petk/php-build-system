@@ -151,6 +151,8 @@ else()
   target_compile_definitions(
     php_pcre
     PRIVATE
+      # PCRE2 library uses C99 memmove() function conditionally in some files.
+      HAVE_MEMMOVE
       HAVE_CONFIG_H
   )
 

@@ -1,6 +1,11 @@
 #[=============================================================================[
 Check for ptrace().
 
+Result variables:
+
+  PHP_TRACE_TYPE
+    Name of the trace type that should be used in FPM.
+
 Cache variables:
 
   HAVE_PTRACE
@@ -9,40 +14,22 @@ Cache variables:
     Whether ptrace() didn't work and the mach_vm_read() is present.
   PROC_MEM_FILE
     String of the /proc/pid/mem interface.
-  PHP_TRACE_TYPE
-    Name of the trace type that should be used in FPM.
 ]=============================================================================]#
 
 include_guard(GLOBAL)
 
 include(CheckSourceCompiles)
 include(CheckSourceRuns)
+include(CheckSymbolExists)
 include(CMakePushCheckState)
 
-message(CHECK_START "Checking for ptrace")
-
-check_source_compiles(C "
-  #include <sys/types.h>
-  #include <sys/ptrace.h>
-
-  int main(void) {
-    ptrace(0, 0, (void *) 0, 0);
-
-    return 0;
-  }
-" _have_ptrace)
-
-if(_have_ptrace)
-  message(CHECK_PASS "Success")
-else()
-  message(CHECK_FAIL "Failed")
-endif()
+check_symbol_exists(ptrace "sys/ptrace.h" _have_ptrace)
 
 if(_have_ptrace)
   message(CHECK_START "Checking whether ptrace works")
 
   if(NOT CMAKE_CROSSCOMPILING)
-    check_source_runs(C "
+    check_source_runs(C [[
       #include <unistd.h>
       #include <signal.h>
       #include <sys/wait.h>
@@ -63,7 +50,8 @@ if(_have_ptrace)
       #endif
 
       int main(void) {
-        long v1 = (unsigned int) -1; /* copy will fail if sizeof(long) == 8 and we've got \"int ptrace()\" */
+        /* copy will fail if sizeof(long) == 8 and we've got "int ptrace()" */
+        long v1 = (unsigned int) -1;
         long v2;
         pid_t child;
         int status;
@@ -102,13 +90,12 @@ if(_have_ptrace)
           kill(child, SIGKILL);
 
           return ret ? ret : (v1 != v2);
-        }
-        else { /* child */
+        } else { /* child */
           sleep(10);
           return 0;
         }
       }
-    " HAVE_PTRACE)
+    ]] HAVE_PTRACE)
   else()
     set(HAVE_PTRACE 1 CACHE INTERNAL "Whether ptrace() is present and works")
   endif()
@@ -121,9 +108,7 @@ if(_have_ptrace)
 endif()
 
 if(NOT HAVE_PTRACE)
-  message(CHECK_START "Checking for mach_vm_read")
-
-  check_source_compiles(C "
+  check_source_compiles(C [[
     #include <mach/mach.h>
     #include <mach/mach_vm.h>
 
@@ -131,13 +116,7 @@ if(NOT HAVE_PTRACE)
       mach_vm_read((vm_map_t)0, (mach_vm_address_t)0, (mach_vm_size_t)0, (vm_offset_t *)0, (mach_msg_type_number_t*)0);
       return 0;
     }
-  " HAVE_MACH_VM_READ)
-
-  if(HAVE_MACH_VM_READ)
-    message(CHECK_PASS "yes")
-  else()
-    message(CHECK_FAIL "no")
-  endif()
+  ]] HAVE_MACH_VM_READ)
 endif()
 
 # TODO: Check if /proc/self is sufficient location instead of the /proc/$$ as in
@@ -191,11 +170,11 @@ if(_php_proc_mem_file AND _php_proc_mem_successful)
 endif()
 
 if(HAVE_PTRACE)
-  set(PHP_TRACE_TYPE "ptrace" CACHE INTERNAL "")
+  set(PHP_TRACE_TYPE "ptrace")
 elseif(_php_proc_mem_file)
-  set(PHP_TRACE_TYPE "pread" CACHE INTERNAL "")
+  set(PHP_TRACE_TYPE "pread")
 elseif(HAVE_MACH_VM_READ)
-  set(PHP_TRACE_TYPE "mach" CACHE INTERNAL "")
+  set(PHP_TRACE_TYPE "mach")
 endif()
 
 if(PHP_TRACE_TYPE)

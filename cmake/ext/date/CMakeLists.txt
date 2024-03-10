@@ -1,13 +1,8 @@
 include(CheckCompilerFlag)
 include(CheckIncludeFile)
-include(CheckSymbolExists)
 
 # Check for headers needed by timelib.
 check_include_file(io.h HAVE_IO_H)
-
-# Check for strtoll, atoll.
-check_symbol_exists(atoll "stdlib.h" HAVE_ATOLL)
-check_symbol_exists(strtoll "stdlib.h" HAVE_STRTOLL)
 
 add_library(php_date STATIC)
 
@@ -59,6 +54,8 @@ target_compile_definitions(
   PRIVATE
     ZEND_ENABLE_STATIC_TSRMLS_CACHE=1
     HAVE_TIMELIB_CONFIG_H=1
+    # The timelib uses C99 strtoll() function conditionally.
+    HAVE_STRTOLL
 )
 
 set(HAVE_TIMELIB_CONFIG_H 1 CACHE INTERNAL "Have timelib_config.h")

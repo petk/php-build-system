@@ -353,9 +353,6 @@
 /* Define to 1 if you have the 'asprintf' function. */
 #cmakedefine HAVE_ASPRINTF 1
 
-/* Define to 1 if you have the 'atoll' function. */
-#cmakedefine HAVE_ATOLL 1
-
 /* whether the compiler supports __attribute__ ((__aligned__)) */
 #cmakedefine HAVE_ATTRIBUTE_ALIGNED 1
 
@@ -954,9 +951,6 @@
 /* Define to 1 if you have the 'memmem' function. */
 #cmakedefine HAVE_MEMMEM 1
 
-/* Define to 1 if you have the 'memmove' function. */
-#cmakedefine HAVE_MEMMOVE 1
-
 /* Define to 1 if you have the 'mempcpy' function. */
 #cmakedefine HAVE_MEMPCPY 1
 
@@ -1111,7 +1105,7 @@
 /* Define to 1 if you have the 'pthread_stackseg_np' function. */
 #cmakedefine HAVE_PTHREAD_STACKSEG_NP 1
 
-/* do we have ptrace? */
+/* Define to 1 if 'ptrace' function works. */
 #cmakedefine HAVE_PTRACE 1
 
 /* Whether ptrdiff_t is available */
@@ -1365,9 +1359,6 @@
 
 /* Define to 1 if you have the 'strtok_r' function. */
 #cmakedefine HAVE_STRTOK_R 1
-
-/* Define to 1 if you have the 'strtoll' function. */
-#cmakedefine HAVE_STRTOLL 1
 
 /* Define to 1 if the system has the type 'struct flock'. */
 #cmakedefine HAVE_STRUCT_FLOCK 1
