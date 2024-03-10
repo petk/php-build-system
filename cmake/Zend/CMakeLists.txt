@@ -286,9 +286,6 @@ else()
   message(CHECK_FAIL "no")
 endif()
 
-# Check if dlsym() needs underscore.
-include(Zend/CheckDlsym)
-
 # Check MM alignment.
 include(Zend/CheckMMAlignment)
 

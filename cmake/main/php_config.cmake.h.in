@@ -299,9 +299,6 @@
 /* */
 #define DEFAULT_SHORT_OPEN_TAG "@DEFAULT_SHORT_OPEN_TAG@"
 
-/* Define if dlsym() requires a leading underscore in symbol names. */
-#cmakedefine DLSYM_NEEDS_UNDERSCORE 1
-
 /* Whether to enable chroot() function */
 #cmakedefine ENABLE_CHROOT_FUNC 1
 
