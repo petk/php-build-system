@@ -268,7 +268,6 @@ cmake_push_check_state(RESET)
   check_symbol_exists(memfd_create "sys/mman.h" HAVE_MEMFD_CREATE)
 cmake_pop_check_state()
 
-check_symbol_exists(memmove "string.h" HAVE_MEMMOVE)
 check_symbol_exists(mkstemp "stdlib.h" HAVE_MKSTEMP)
 check_symbol_exists(mmap "sys/mman.h" HAVE_MMAP)
 check_symbol_exists(nice "unistd.h" HAVE_NICE)
@@ -517,7 +516,10 @@ php_search_libraries(
   "sys/socket.h"
   HAVE_SOCKET
   SOCKET_LIBRARY
-  LIBRARIES socket network
+  LIBRARIES
+    socket  # Solaris/illumos
+    network # Haiku
+    ws2_32  # Windows
 )
 if(SOCKET_LIBRARY)
   target_link_libraries(php_configuration INTERFACE ${SOCKET_LIBRARY})
@@ -528,7 +530,9 @@ php_search_libraries(
   "sys/socket.h"
   HAVE_SOCKETPAIR
   SOCKETPAIR_LIBRARY
-  LIBRARIES socket network
+  LIBRARIES
+    socket  # Solaris/illumos
+    network # Haiku
 )
 if(SOCKETPAIR_LIBRARY)
   target_link_libraries(php_configuration INTERFACE ${SOCKETPAIR_LIBRARY})

@@ -26,3 +26,6 @@ set(HAVE_USLEEP 1)
 
 # PHP has custom nanosleep for Windows platform.
 set(HAVE_NANOSLEEP 1)
+
+# PHP supports socketpair by the emulation in win32/sockets.c
+set(HAVE_SOCKETPAIR 1)
