@@ -215,12 +215,14 @@ target_sources(
     processinginstruction.c
     text.c
     xml_document.c
+    xml_serializer.c
     xpath_callbacks.c
     xpath.c
   PUBLIC
     FILE_SET HEADERS
       BASE_DIRS "${PHP_SOURCE_DIR}"
       FILES
+        namespace_compat.h
         xml_common.h
         xpath_callbacks.h
 )
