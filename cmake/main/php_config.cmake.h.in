@@ -690,9 +690,6 @@
 /* Define to 1 if you have the 'getlogin' function. */
 #cmakedefine HAVE_GETLOGIN 1
 
-/* Define to 1 if you have the 'getopt' function. */
-#cmakedefine HAVE_GETOPT 1
-
 /* Define to 1 if you have the 'getpgid' function. */
 #cmakedefine HAVE_GETPGID 1
 

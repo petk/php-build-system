@@ -189,12 +189,17 @@ target_compile_definitions(
     $<$<PLATFORM_ID:Windows>:LIBZEND_EXPORTS>
 )
 
-# Add Zend PUBLIC/INTERFACE include directories to configuration.
-target_include_directories(
-  php_configuration
-  INTERFACE
-    $<TARGET_PROPERTY:Zend::Zend,INTERFACE_INCLUDE_DIRECTORIES>
-)
+# Add Zend PUBLIC/INTERFACE compile options to configuration.
+# Cleaner COMPILE_ONLY generator expression is available in CMake >= 3.27.
+if(CMAKE_VERSION VERSION_GREATER_EQUAL 3.27)
+  target_link_libraries(php_configuration INTERFACE $<COMPILE_ONLY:Zend::Zend>)
+else()
+  target_include_directories(
+    php_configuration
+    INTERFACE
+      $<TARGET_PROPERTY:Zend::Zend,INTERFACE_INCLUDE_DIRECTORIES>
+  )
+endif()
 
 ################################################################################
 # Configuration checks.
