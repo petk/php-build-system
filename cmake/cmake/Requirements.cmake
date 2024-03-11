@@ -115,7 +115,7 @@ function(_php_check_enabled_sapis)
 
       string(
         REGEX MATCH
-        "option\\(SAPI_${sapi_name}[\\r\\n\\t ]+.*\"[\\r\\n\\t ]+([A-Z]+)\\)"
+        "option\\(SAPI_${sapi_name}[ \t\r\n]+.*\"[ \t\r\n]+([A-Z]+)\\)"
         _
         ${content}
       )
@@ -134,8 +134,9 @@ function(_php_check_enabled_sapis)
 
   if(NOT at_least_one_sapi_is_enabled)
     message(
-      FATAL_ERROR
-      "To build PHP you must enable at least one PHP SAPI module"
+      WARNING
+      "None of the PHP SAPIs have been enabled. If this is intentional, you "
+      "can disregard this warning."
     )
   endif()
 endfunction()

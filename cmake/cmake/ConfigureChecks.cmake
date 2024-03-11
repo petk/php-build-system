@@ -323,8 +323,6 @@ cmake_pop_check_state()
 check_symbol_exists(strlcat "string.h" HAVE_STRLCAT)
 check_symbol_exists(strlcpy "string.h" HAVE_STRLCPY)
 check_symbol_exists(explicit_bzero "string.h" HAVE_EXPLICIT_BZERO)
-# TODO: Remove getopt redundant check or adjust PHP C code to use system getopt.
-check_symbol_exists(getopt "unistd.h" HAVE_GETOPT)
 
 # Check for missing declarations of reentrant functions.
 include(PHP/CheckMissingTimeR)
