@@ -39,7 +39,7 @@ Cache variables:
   MAJOR_IN_MKDEV
     Define to 1 if 'major', 'minor', and 'makedev' are declared in
     <sys/mkdev.h>.
-  MAJOR_IN_SYSMACROS_H
+  MAJOR_IN_SYSMACROS
     Define to 1 if 'major', 'minor', and 'makedev' are declared in
     <sysmacros.h>.
   HAVE_MAKEDEV
@@ -68,7 +68,7 @@ block()
     check_symbol_exists(major "sys/mkdev.h" MAJOR_IN_MKDEV)
     list(APPEND headers "sys/mkdev.h")
   elseif(HAVE_SYS_SYSMACROS_H)
-    check_symbol_exists(major "sys/sysmacros.h" MAJOR_IN_SYSMACROS_H)
+    check_symbol_exists(major "sys/sysmacros.h" MAJOR_IN_SYSMACROS)
     list(APPEND headers "sys/sysmacros.h")
   endif()
 
