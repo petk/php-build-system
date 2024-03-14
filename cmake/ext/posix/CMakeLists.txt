@@ -45,9 +45,6 @@ target_sources(
 
 target_compile_definitions(php_posix PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE=1)
 
-check_include_file(sys/mkdev.h HAVE_SYS_MKDEV_H)
-check_include_file(sys/sysmacros.h HAVE_SYS_SYSMACROS_H)
-
 cmake_push_check_state(RESET)
   set(CMAKE_REQUIRED_DEFINITIONS -D_GNU_SOURCE)
   check_symbol_exists(eaccess "unistd.h" HAVE_EACCESS)
@@ -60,7 +57,6 @@ check_symbol_exists(getpgid "unistd.h" HAVE_GETPGID)
 check_symbol_exists(getrlimit "sys/resource.h" HAVE_GETRLIMIT)
 check_symbol_exists(getsid "unistd.h" HAVE_GETSID)
 check_symbol_exists(initgroups "grp.h" HAVE_INITGROUPS)
-check_symbol_exists(makedev "sys/sysmacros.h" HAVE_MAKEDEV)
 check_symbol_exists(mkfifo "sys/stat.h" HAVE_MKFIFO)
 check_symbol_exists(mknod "sys/stat.h" HAVE_MKNOD)
 

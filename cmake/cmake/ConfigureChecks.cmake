@@ -446,6 +446,9 @@ endif()
 
 include(PHP/CheckGethostbynameR)
 
+# Check for major, minor, and makedev.
+include(PHP/CheckSysMacros)
+
 # Check GCOV.
 if(PHP_GCOV)
   if(NOT CMAKE_C_COMPILER_ID STREQUAL "GNU")
