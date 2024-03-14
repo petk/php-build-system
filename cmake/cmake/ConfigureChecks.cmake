@@ -211,7 +211,26 @@ include(PHP/CheckAVX512)
 include(PHP/CheckAVX512VBMI)
 
 # Check for asm goto.
-include(PHP/CheckAsmGoto)
+message(CHECK_START "Checking for asm goto support")
+cmake_push_check_state(RESET)
+  set(CMAKE_REQUIRED_QUIET TRUE)
+  check_source_compiles(C [[
+    int main(void) {
+      #if defined(__x86_64__) || defined(__i386__)
+        __asm__ goto("jmp %l0\n" :::: end);
+      #elif defined(__aarch64__)
+        __asm__ goto("b %l0\n" :::: end);
+      #endif
+      end:
+        return 0;
+    }
+  ]] HAVE_ASM_GOTO)
+cmake_pop_check_state()
+if(HAVE_ASM_GOTO)
+  message(CHECK_PASS "yes")
+else()
+  message(CHECK_FAIL "no")
+endif()
 
 ################################################################################
 # Check functions.
@@ -410,12 +429,15 @@ endif()
 
 # Check for __alignof__ support in the compiler.
 message(CHECK_START "Checking whether the compiler supports __alignof__")
-check_source_compiles(C "
-  int main(void) {
-    int align = __alignof__(int);
-    return 0;
-  }
-" HAVE_ALIGNOF)
+cmake_push_check_state(RESET)
+  set(CMAKE_REQUIRED_QUIET TRUE)
+  check_source_compiles(C "
+    int main(void) {
+      int align = __alignof__(int);
+      return 0;
+    }
+  " HAVE_ALIGNOF)
+cmake_pop_check_state()
 if(HAVE_ALIGNOF)
   message(CHECK_PASS "yes")
 else()

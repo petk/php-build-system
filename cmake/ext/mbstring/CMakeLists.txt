@@ -111,12 +111,7 @@ target_sources(
 )
 
 message(STATUS "Creating ext/mbstring/libmbfl/config.h")
-block()
-  # TODO: Add also config.h when using phpize which creates config.h.in.
-  set(PHP_CONFIG_H_INCLUDE "php_config.h")
-
-  configure_file(libmbfl/config.h.in libmbfl/config.h)
-endblock()
+configure_file(libmbfl/config.h.in libmbfl/config.h)
 
 if(EXT_MBSTRING_MBREGEX)
   find_package(Oniguruma)
