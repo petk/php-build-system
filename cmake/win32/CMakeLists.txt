@@ -50,14 +50,17 @@ target_compile_definitions(
     PHP_EXPORTS
 )
 
-# MS deprecated ANSI stdio and similar functions. Disable warnings. In addition,
-# time_t defaults to 64-bit. Ask for 32-bit.
-# TODO: Add 32-bit flags.
+# MS deprecated ANSI stdio and similar functions. Disable warnings.
 target_compile_options(
   php_configuration
   INTERFACE
     /wd4996
 )
+
+# The time_t defaults to 64-bit. Force 32-bit time_t on 32-bit architecture.
+if(CMAKE_SIZEOF_VOID_P EQUAL 4)
+  target_compile_definitions(php_configuration INTERFACE _USE_32BIT_TIME_T=1)
+endif()
 
 target_link_libraries(php_win32 PRIVATE PHP::configuration)
 
