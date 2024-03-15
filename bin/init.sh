@@ -189,7 +189,17 @@ if test -n "$generator"; then
   generator_option="-G \"$generator\""
 fi
 
+# Check if make -j requires argument (Berkeley-based make implementations).
+if make -h 2>&1 | grep "\[-j\ max_jobs\]"; then
+  # Linux has nproc, macOS and some BSD-based systems have sysctl.
+  if command -v nproc &> /dev/null; then
+    jobs="$(nproc)"
+  elif command -v sysctl &> /dev/null; then
+    jobs=$(sysctl -n hw.ncpu)
+  fi
+fi
+
 # Run CMake preset configuration and build.
 cd php-src
 eval "'$cmake' --preset $preset $cmake_debug_options $options $generator_option"
-eval "'$cmake' --build --preset $preset $cmake_verbose --parallel"
+eval "'$cmake' --build --preset $preset $cmake_verbose --parallel $jobs"

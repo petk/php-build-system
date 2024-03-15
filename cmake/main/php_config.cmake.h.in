@@ -606,7 +606,7 @@
 /* Define to 1 if you have the 'fpathconf' function. */
 #cmakedefine HAVE_FPATHCONF 1
 
-/* do we have acl support? */
+/* Whether FPM has acl support. */
 #cmakedefine HAVE_FPM_ACL 1
 
 /* whether fpsetprec is present and usable */
@@ -1250,7 +1250,7 @@
 /* do we have select? */
 #cmakedefine HAVE_SELECT 1
 
-/* SElinux available */
+/* Whether SELinux is available. */
 #cmakedefine HAVE_SELINUX 1
 
 /* Define to 1 if the system has the type 'union semun'. */
@@ -1478,7 +1478,7 @@
 /* Define to 1 if you have the <syslog.h> header file. */
 #cmakedefine HAVE_SYSLOG_H 1
 
-/* FPM use systemd integration */
+/* Whether FPM has systemd integration. */
 #cmakedefine HAVE_SYSTEMD 1
 
 /* */
