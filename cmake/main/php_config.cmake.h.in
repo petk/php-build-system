@@ -1411,9 +1411,6 @@
 /* Define to 1 if you have the <sys/loadavg.h> header file. */
 #cmakedefine HAVE_SYS_LOADAVG_H 1
 
-/* Define to 1 if you have the <sys/mkdev.h> header file. */
-#cmakedefine HAVE_SYS_MKDEV_H 1
-
 /* Define to 1 if you have the <sys/mman.h> header file. */
 #cmakedefine HAVE_SYS_MMAN_H 1
 
