@@ -215,7 +215,14 @@ cmake_push_check_state(RESET)
   check_symbol_exists(pthread_getattr_np "pthread.h" HAVE_PTHREAD_GETATTR_NP)
 cmake_pop_check_state()
 
-check_symbol_exists(pthread_attr_get_np "pthread.h" HAVE_PTHREAD_ATTR_GET_NP)
+# BSD-based systems have pthread_attr_get_np in pthread_np.h.
+check_include_file(pthread_np.h _HAVE_PTHREAD_NP_H)
+if(_HAVE_PTHREAD_NP_H)
+  check_symbol_exists(pthread_attr_get_np "pthread_np.h" HAVE_PTHREAD_ATTR_GET_NP)
+else()
+  check_symbol_exists(pthread_attr_get_np "pthread.h" HAVE_PTHREAD_ATTR_GET_NP)
+endif()
+
 check_symbol_exists(pthread_get_stackaddr_np "pthread.h" HAVE_PTHREAD_GET_STACKADDR_NP)
 check_symbol_exists(pthread_attr_getstack "pthread.h" HAVE_PTHREAD_ATTR_GETSTACK)
 check_symbol_exists(pthread_stackseg_np "pthread.h" HAVE_PTHREAD_STACKSEG_NP)

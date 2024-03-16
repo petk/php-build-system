@@ -37,7 +37,8 @@ check_include_file(poll.h HAVE_POLL_H)
 check_include_file(pty.h HAVE_PTY_H)
 check_include_file(pwd.h HAVE_PWD_H)
 
-# BSD-based systems (FreeBSD <=13...) need netinet/in.h header.
+# BSD-based systems (FreeBSD<=13) need also netinet/in.h for resolv.h to work.
+# https://bugs.freebsd.org/bugzilla/show_bug.cgi?id=182466
 if(HAVE_NETINET_IN_H)
   check_include_files("netinet/in.h;resolv.h" HAVE_RESOLV_H)
 else()
@@ -65,6 +66,7 @@ check_include_file(sys/time.h HAVE_SYS_TIME_H)
 check_include_file(sys/types.h HAVE_SYS_TYPES_H)
 check_include_file(sys/uio.h HAVE_SYS_UIO_H)
 check_include_file(sys/utsname.h HAVE_SYS_UTSNAME_H)
+# Solaris <= 10, other systems have statvfs.h.
 check_include_file(sys/vfs.h HAVE_SYS_VFS_H)
 check_include_file(sys/wait.h HAVE_SYS_WAIT_H)
 check_include_file(sysexits.h HAVE_SYSEXITS_H)
@@ -301,7 +303,14 @@ check_symbol_exists(setitimer "sys/time.h" HAVE_SETITIMER)
 check_symbol_exists(setenv "stdlib.h" HAVE_SETENV)
 check_symbol_exists(shutdown "sys/socket.h" HAVE_SHUTDOWN)
 check_symbol_exists(sigprocmask "signal.h" HAVE_SIGPROCMASK)
-check_symbol_exists(statfs "sys/statfs.h" HAVE_STATFS)
+
+# BSD-based systems have statfs in sys/mount.h.
+if(HAVE_SYS_MOUNT_H)
+  check_symbol_exists(statfs "sys/mount.h" HAVE_STATFS)
+else()
+  check_symbol_exists(statfs "sys/statfs.h" HAVE_STATFS)
+endif()
+
 check_symbol_exists(statvfs "sys/statvfs.h" HAVE_STATVFS)
 check_symbol_exists(std_syslog "sys/syslog.h" HAVE_STD_SYSLOG)
 check_symbol_exists(strcasecmp "strings.h" HAVE_STRCASECMP)

@@ -271,7 +271,8 @@ include(PHP/CheckFnmatch)
 # HAVE_FULL_DNS_FUNCS.
 php_search_libraries(
   res_nsearch
-  resolv.h
+  # BSD-based systems (FreeBSD<=13) need also netinet/in.h for resolv.h to work.
+  "netinet/in.h;resolv.h"
   HAVE_RES_NSEARCH
   RES_NSEARCH_LIBRARY
   LIBRARIES
@@ -284,7 +285,8 @@ endif()
 
 php_search_libraries(
   res_ndestroy
-  resolv.h
+  # BSD-based systems (FreeBSD<=13) need also netinet/in.h for resolv.h to work.
+  "netinet/in.h;resolv.h"
   HAVE_RES_NDESTROY
   RES_NDESTROY_LIBRARY
   LIBRARIES
@@ -297,7 +299,8 @@ endif()
 
 php_search_libraries(
   dns_search
-  resolv.h
+  # BSD-based systems (FreeBSD<=13) need also netinet/in.h for resolv.h to work.
+  "netinet/in.h;resolv.h"
   HAVE_DNS_SEARCH
   DNS_SEARCH_LIBRARY
   LIBRARIES
@@ -310,7 +313,8 @@ endif()
 
 php_search_libraries(
   dn_expand
-  resolv.h
+  # BSD-based systems (FreeBSD<=13) need also netinet/in.h for resolv.h to work.
+  "netinet/in.h;resolv.h"
   HAVE_DN_EXPAND
   DN_EXPAND_LIBRARY
   LIBRARIES
@@ -323,7 +327,8 @@ endif()
 
 php_search_libraries(
   dn_skipname
-  resolv.h
+  # BSD-based systems (FreeBSD<=13) need also netinet/in.h for resolv.h to work.
+  "netinet/in.h;resolv.h"
   HAVE_DN_SKIPNAME
   DN_SKIPNAME_LIBRARY
   LIBRARIES
@@ -337,7 +342,8 @@ endif()
 # res_search() is deprecated and should be replaced with res_nsearch().
 php_search_libraries(
   res_search
-  resolv.h
+  # BSD-based systems (FreeBSD<=13) need also netinet/in.h for resolv.h to work.
+  "netinet/in.h;resolv.h"
   HAVE_RES_SEARCH
   RES_SEARCH_LIBRARY
   LIBRARIES
