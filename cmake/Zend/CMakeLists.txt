@@ -216,11 +216,14 @@ cmake_push_check_state(RESET)
 cmake_pop_check_state()
 
 # BSD-based systems have pthread_attr_get_np in pthread_np.h.
-check_include_file(pthread_np.h _HAVE_PTHREAD_NP_H)
-if(_HAVE_PTHREAD_NP_H)
-  check_symbol_exists(pthread_attr_get_np "pthread_np.h" HAVE_PTHREAD_ATTR_GET_NP)
-else()
-  check_symbol_exists(pthread_attr_get_np "pthread.h" HAVE_PTHREAD_ATTR_GET_NP)
+block()
+  check_include_file(pthread_np.h _HAVE_PTHREAD_NP_H)
+
+  if(_HAVE_PTHREAD_NP_H)
+    set(headers "pthread_np.h")
+  endif()
+
+  check_symbol_exists(pthread_attr_get_np "${headers};pthread.h" HAVE_PTHREAD_ATTR_GET_NP)
 endif()
 
 check_symbol_exists(pthread_get_stackaddr_np "pthread.h" HAVE_PTHREAD_GET_STACKADDR_NP)
