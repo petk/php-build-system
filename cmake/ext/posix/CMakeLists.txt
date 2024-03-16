@@ -56,7 +56,14 @@ check_symbol_exists(getgroups "unistd.h" HAVE_GETGROUPS)
 check_symbol_exists(getpgid "unistd.h" HAVE_GETPGID)
 check_symbol_exists(getrlimit "sys/resource.h" HAVE_GETRLIMIT)
 check_symbol_exists(getsid "unistd.h" HAVE_GETSID)
-check_symbol_exists(initgroups "grp.h" HAVE_INITGROUPS)
+
+# BSD-based systems have initgroups in unistd.h.
+if(HAVE_GRP_H)
+  check_symbol_exists(initgroups "grp.h" HAVE_INITGROUPS)
+else()
+  check_symbol_exists(initgroups "unistd.h" HAVE_INITGROUPS)
+endif()
+
 check_symbol_exists(mkfifo "sys/stat.h" HAVE_MKFIFO)
 check_symbol_exists(mknod "sys/stat.h" HAVE_MKNOD)
 
