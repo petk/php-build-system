@@ -120,7 +120,6 @@ PHP tests and other associated files:
 ```sh
 <php-src>/
  ├─ .git/                         # Git configuration and source directory
- ├─ appveyor/                     # Appveyor CI service files
  ├─ benchmark/                    # Benchmark some common applications in CI
  ├─ build/                        # *nix build system files
  ├─ docs/                         # PHP internals documentation
