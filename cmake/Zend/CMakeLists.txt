@@ -225,7 +225,7 @@ block()
   endif()
 
   check_symbol_exists(pthread_attr_get_np "${headers};pthread.h" HAVE_PTHREAD_ATTR_GET_NP)
-endif()
+endblock()
 
 check_symbol_exists(pthread_get_stackaddr_np "pthread.h" HAVE_PTHREAD_GET_STACKADDR_NP)
 check_symbol_exists(pthread_attr_getstack "pthread.h" HAVE_PTHREAD_ATTR_GETSTACK)
