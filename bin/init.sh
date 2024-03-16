@@ -190,11 +190,11 @@ if test -n "$generator"; then
 fi
 
 # Check if make -j requires argument (Berkeley-based make implementations).
-if make -h 2>&1 | grep "\[-j\ max_jobs\]"; then
+if make -h 2>&1 | grep -q "\[-j max_jobs\]"; then
   # Linux has nproc, macOS and some BSD-based systems have sysctl.
-  if command -v nproc &> /dev/null; then
-    jobs="$(nproc)"
-  elif command -v sysctl &> /dev/null; then
+  if command -v nproc > /dev/null; then
+    jobs=$(nproc)
+  elif command -v sysctl > /dev/null; then
     jobs=$(sysctl -n hw.ncpu)
   fi
 fi

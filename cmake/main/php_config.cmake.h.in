@@ -344,7 +344,7 @@
 /* Define to 1 if you have the 'asctime_r' function. */
 #cmakedefine HAVE_ASCTIME_R 1
 
-/* Define if asm goto support */
+/* Define if asm goto support is available. */
 #cmakedefine HAVE_ASM_GOTO 1
 
 /* Define to 1 if you have the 'asprintf' function. */
