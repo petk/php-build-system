@@ -65,7 +65,7 @@ check_include_file(sys/time.h HAVE_SYS_TIME_H)
 check_include_file(sys/types.h HAVE_SYS_TYPES_H)
 check_include_file(sys/uio.h HAVE_SYS_UIO_H)
 check_include_file(sys/utsname.h HAVE_SYS_UTSNAME_H)
-# Solaris <= 10, other systems have statvfs.h.
+# Solaris <= 10, other systems have sys/statvfs.h.
 check_include_file(sys/vfs.h HAVE_SYS_VFS_H)
 check_include_file(sys/wait.h HAVE_SYS_WAIT_H)
 check_include_file(sysexits.h HAVE_SYSEXITS_H)
@@ -239,9 +239,7 @@ endif()
 ################################################################################
 
 check_symbol_exists(alphasort "dirent.h" HAVE_ALPHASORT)
-check_symbol_exists(asctime_r "time.h" HAVE_ASCTIME_R)
 check_symbol_exists(chroot "unistd.h" HAVE_CHROOT)
-check_symbol_exists(ctime_r "time.h" HAVE_CTIME_R)
 check_symbol_exists(explicit_memset "string.h" HAVE_EXPLICIT_MEMSET)
 check_symbol_exists(fdatasync "unistd.h" HAVE_FDATASYNC)
 
@@ -271,13 +269,11 @@ check_symbol_exists(getservbyname "netdb.h" HAVE_GETSERVBYNAME)
 check_symbol_exists(getservbyport "netdb.h" HAVE_GETSERVBYPORT)
 check_symbol_exists(getrusage "sys/resource.h" HAVE_GETRUSAGE)
 check_symbol_exists(gettimeofday "sys/time.h" HAVE_GETTIMEOFDAY)
-check_symbol_exists(gmtime_r "time.h" HAVE_GMTIME_R)
 check_symbol_exists(getpwnam_r "pwd.h" HAVE_GETPWNAM_R)
 check_symbol_exists(getgrnam_r "grp.h" HAVE_GETGRNAM_R)
 check_symbol_exists(getpwuid_r "pwd.h" HAVE_GETPWUID_R)
 check_symbol_exists(getwd "unistd.h" HAVE_GETWD)
 check_symbol_exists(glob "glob.h" HAVE_GLOB)
-check_symbol_exists(localtime_r "time.h" HAVE_LOCALTIME_R)
 check_symbol_exists(lchown "unistd.h" HAVE_LCHOWN)
 check_symbol_exists(memcntl "sys/mman.h" HAVE_MEMCNTL)
 
@@ -328,7 +324,6 @@ cmake_push_check_state(RESET)
   check_symbol_exists(strptime "time.h" HAVE_STRPTIME)
 cmake_pop_check_state()
 
-check_symbol_exists(strtok_r "string.h" HAVE_STRTOK_R)
 check_symbol_exists(symlink "unistd.h" HAVE_SYMLINK)
 check_symbol_exists(tzset "time.h" HAVE_TZSET)
 check_symbol_exists(unsetenv "stdlib.h" HAVE_UNSETENV)
@@ -359,8 +354,8 @@ check_symbol_exists(strlcat "string.h" HAVE_STRLCAT)
 check_symbol_exists(strlcpy "string.h" HAVE_STRLCPY)
 check_symbol_exists(explicit_bzero "string.h" HAVE_EXPLICIT_BZERO)
 
-# Check for missing declarations of reentrant functions.
-include(PHP/CheckMissingTimeR)
+# Check reentrant functions.
+include(PHP/CheckReentrantFunctions)
 
 # Check fopencookie.
 include(PHP/CheckFopencookie)
