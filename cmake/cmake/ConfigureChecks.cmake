@@ -302,12 +302,21 @@ check_symbol_exists(setenv "stdlib.h" HAVE_SETENV)
 check_symbol_exists(shutdown "sys/socket.h" HAVE_SHUTDOWN)
 check_symbol_exists(sigprocmask "signal.h" HAVE_SIGPROCMASK)
 
-# BSD-based systems have statfs in sys/mount.h.
-if(HAVE_SYS_MOUNT_H)
-  check_symbol_exists(statfs "sys/mount.h" HAVE_STATFS)
-else()
-  check_symbol_exists(statfs "sys/statfs.h" HAVE_STATFS)
-endif()
+# Check for statfs().
+block()
+  set(headers "")
+
+  # BSD-based systems have statfs in sys/mount.h.
+  if(HAVE_SYS_MOUNT_H)
+    list(APPEND headers "sys/mount.h")
+  endif()
+
+  if(HAVE_SYS_STATFS_H)
+    list(APPEND headers "sys/statfs.h")
+  endif()
+
+  check_symbol_exists(statfs "${headers}" HAVE_STATFS)
+endblock()
 
 check_symbol_exists(statvfs "sys/statvfs.h" HAVE_STATVFS)
 check_symbol_exists(std_syslog "sys/syslog.h" HAVE_STD_SYSLOG)
