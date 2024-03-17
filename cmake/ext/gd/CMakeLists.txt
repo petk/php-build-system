@@ -366,7 +366,7 @@ if(NOT EXT_GD_EXTERNAL)
             return '\0';
           }
 
-          char foobar();
+          char foobar(void);
 
           int main(void) {
             foobar();
