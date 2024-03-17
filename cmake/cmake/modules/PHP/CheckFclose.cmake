@@ -14,7 +14,7 @@ include_guard(GLOBAL)
 include(CheckSourceCompiles)
 include(CMakePushCheckState)
 
-message(CHECK_START "Checking for fclose declaration")
+message(CHECK_START "Checking fclose declaration")
 
 cmake_push_check_state(RESET)
   set(CMAKE_REQUIRED_QUIET TRUE)
@@ -23,7 +23,7 @@ cmake_push_check_state(RESET)
     #include <stdio.h>
 
     int main(void) {
-      int (*func)() = fclose;
+      int (*func)(void) = fclose;
 
       return 0;
     }
@@ -38,5 +38,5 @@ if(NOT HAVE_FCLOSE_DECL)
     CACHE INTERNAL "Whether fclose declaration is missing"
   )
 else()
-  message(CHECK_PASS "ok")
+  message(CHECK_PASS "found")
 endif()
