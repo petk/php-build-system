@@ -87,7 +87,7 @@ function(cclient_check_symbol symbol result)
 
       void ${symbol}(void);
       void (*f)(void);
-      char foobar() {
+      char foobar(void) {
         f = ${symbol};
       }
 
