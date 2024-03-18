@@ -21,6 +21,13 @@ CMake.
 
   See https://github.com/php/php-src/pull/13199
 
+* `typedef-warnings.patch`
+
+  This fixes many warnings in the build to make the build experience friendlier
+  due to various compilation flags used in some cases. It was decided to not
+  port upstream but is kept here until C11 is the standard used in PHP:
+  https://github.com/php/php-src/pull/13347
+
 ## PHP 8.3
 
 * `cmake.patch`
