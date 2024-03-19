@@ -1,3 +1,30 @@
+From: Peter Kokot <peterkokot@gmail.com>
+Subject: Fix typedef redefinition warnings
+
+PHP at this point still requires only C99, so this fixes warnings
+"redefinition of typedef '...' is a C11 feature [-Wtypedef-redefinition]"
+when building with Clang and -Wtypedef-redefinition or using -std
+compiler flag with certain standard features.
+
+This removes emitting warnings on two places:
+
+- ext/dom
+- Zend
+
+These are left out due to too much complexity of the patch:
+
+- ext/libxml
+- ext/opcache/ir
+
+This was decided to not port upstream but is kept here until C11 is the
+standard used in PHP:
+https://github.com/php/php-src/pull/13347
+---
+ Zend/zend_frameless_function.h | 6 +-----
+ ext/dom/namespace_compat.h     | 3 +++
+ ext/dom/php_dom.h              | 3 +++
+ 3 files changed, 7 insertions(+), 5 deletions(-)
+
 diff --git a/Zend/zend_frameless_function.h b/Zend/zend_frameless_function.h
 index 6821654bc4..94e9812ed9 100644
 --- a/Zend/zend_frameless_function.h
@@ -22,3 +49,35 @@ index 6821654bc4..94e9812ed9 100644
  typedef void (*zend_frameless_function_0)(zval *return_value);
  typedef void (*zend_frameless_function_1)(zval *return_value, zval *op1);
  typedef void (*zend_frameless_function_2)(zval *return_value, zval *op1, zval *op2);
+diff --git a/ext/dom/namespace_compat.h b/ext/dom/namespace_compat.h
+index 1147c62892..a98a2077f3 100644
+--- a/ext/dom/namespace_compat.h
++++ b/ext/dom/namespace_compat.h
+@@ -30,8 +30,11 @@
+ struct php_dom_ns_magic_token;
+ typedef struct php_dom_ns_magic_token php_dom_ns_magic_token;
+ 
++#ifndef _PHP_DOM_LIBXML_NS_MAPPER
++#define _PHP_DOM_LIBXML_NS_MAPPER
+ struct _php_dom_libxml_ns_mapper;
+ typedef struct _php_dom_libxml_ns_mapper php_dom_libxml_ns_mapper;
++#endif
+ 
+ PHP_DOM_EXPORT extern const php_dom_ns_magic_token *php_dom_ns_is_html_magic_token;
+ PHP_DOM_EXPORT extern const php_dom_ns_magic_token *php_dom_ns_is_mathml_magic_token;
+diff --git a/ext/dom/php_dom.h b/ext/dom/php_dom.h
+index 503c70b111..6b323fc4ff 100644
+--- a/ext/dom/php_dom.h
++++ b/ext/dom/php_dom.h
+@@ -114,8 +114,11 @@ typedef enum _dom_iterator_type {
+ 	DOM_HTMLCOLLECTION,
+ } dom_iterator_type;
+ 
++#ifndef _PHP_DOM_LIBXML_NS_MAPPER
++#define _PHP_DOM_LIBXML_NS_MAPPER
+ struct _php_dom_libxml_ns_mapper;
+ typedef struct _php_dom_libxml_ns_mapper php_dom_libxml_ns_mapper;
++#endif
+ 
+ static inline dom_object_namespace_node *php_dom_namespace_node_obj_from_obj(zend_object *obj) {
+ 	return (dom_object_namespace_node*)((char*)(obj) - XtOffsetOf(dom_object_namespace_node, dom.std));

@@ -1,56 +1,17 @@
 # Patches for php-src
 
 This is a collection of patch files for various PHP versions in order to use
-CMake.
+CMake. Each patch has a description attached in its header. They are
+automatically applied only when using the `bin/init.sh` or `bin/php.cmake`
+scripts.
 
-## PHP 8.4
+To recreate these patches on a local machine, a separate `php-src` Git
+repository should be cloned next to this repository. At the time of this
+writing, they aren't available on GitHub yet.
 
-* `cmake.patch`
+Patches are then created from the list of the specified Git branches in the
+`bin/make-patches.sh` script:
 
-  Overall CMake specific changes.
-
-* `dmalloc.patch`
-
-  See https://github.com/php/php-src/pull/8465
-
-* `docs.patch`
-
-  Modifications done on php-src docs files.
-
-* `phpdbg-local-console.patch`
-
-  See https://github.com/php/php-src/pull/13199
-
-* `typedef-warnings.patch`
-
-  This fixes many warnings in the build to make the build experience friendlier
-  due to various compilation flags used in some cases. It was decided to not
-  port upstream but is kept here until C11 is the standard used in PHP:
-  https://github.com/php/php-src/pull/13347
-
-## PHP 8.3
-
-* `cmake.patch`
-
-  Overall CMake specific changes.
-
-* `aspell.patch`
-
-  Patch for using GNU Aspell library without the old and deprecated pspell
-  interface.
-
-* `dmalloc.patch`
-
-  See https://github.com/php/php-src/pull/8465
-
-* `fopencookie.patch`
-
-  See https://github.com/php/php-src/pull/12236
-
-* `phpdbg-local-console.patch`
-
-  See https://github.com/php/php-src/pull/13199
-
-* `hash.patch`
-
-  See https://github.com/php/php-src/pull/13210
+```sh
+./bin/make-patches.sh
+```

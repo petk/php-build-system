@@ -1,3 +1,16 @@
+From: Peter Kokot <peterkokot@gmail.com>
+Subject: Add overall CMake changes for PHP-8.3 branch
+
+- EditorConfig adjustments for code style support in editors and IDEs.
+- CMake build system files added to .gitignore.
+- CMake line added to run-tests.php for info about failing tests and few
+  checks.
+---
+ .editorconfig |  2 +-
+ .gitignore    | 13 +++++++++++++
+ run-tests.php | 24 ++++++++++++++++++------
+ 3 files changed, 32 insertions(+), 7 deletions(-)
+
 diff --git a/.editorconfig b/.editorconfig
 index 7911bf8490..0ca142015f 100644
 --- a/.editorconfig
