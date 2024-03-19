@@ -79,5 +79,14 @@ for branch in $branches; do
   fi
 
   echo "Creating patches/${php_version}/${patch_filename}"
-  git --no-pager show --format= ${branch} > ${patch}
+
+  git --no-pager format-patch -1 ${branch} \
+    --stdout \
+    --no-signature \
+    --subject-prefix="" \
+    > ${patch}
+
+  # Remove redundant patch header information.
+  sed -i '/^From /d' ${patch}
+  sed -i '/^Date: /d' ${patch}
 done

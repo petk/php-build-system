@@ -1,3 +1,14 @@
+From: Peter Kokot <peterkokot@gmail.com>
+Subject: Fix Dmalloc build
+
+Header php.h needs to be included ahead when building with
+--enable-dmalloc.
+
+See: https://github.com/php/php-src/pull/8465
+---
+ sapi/cli/php_cli_server.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
 diff --git a/sapi/cli/php_cli_server.c b/sapi/cli/php_cli_server.c
 index e84defb3da..77026cd878 100644
 --- a/sapi/cli/php_cli_server.c

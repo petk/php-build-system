@@ -1,5 +1,28 @@
+From: Peter Kokot <peterkokot@gmail.com>
+Subject: Remove _IO_cookie_io_functions_t in favor of cookie_io_functions_t
+
+As noted in glibc, the cookie_io_functions_t should be used instead of
+internal _IO_cookie_io_functions_t.
+
+The _IO_cookie_io_functions_t was once used as a convenience for not
+having the cookie_io_functions_t available (glibc <=2.1.1) as noted in
+67bb9d1ae23fe4c7e4160dabfb4f07b51dccabf1.
+
+Check in the build system was also always setting the
+COOKIE_IO_FUNCTIONS_T to cookie_io_functions_t due to a typo. There is
+unused variable have_IO_cookie_io_functions_t vs.
+have_cookie_io_functions_t.
+
+- COOKIE_IO_FUNCTIONS_T removed
+
+See: https://github.com/php/php-src/pull/12236
+---
+ build/php.m4        | 24 +++---------------------
+ main/streams/cast.c |  6 +++---
+ 2 files changed, 6 insertions(+), 24 deletions(-)
+
 diff --git a/build/php.m4 b/build/php.m4
-index 25d820c238..1177b08991 100644
+index 933ada51dc..79b22ab64d 100644
 --- a/build/php.m4
 +++ b/build/php.m4
 @@ -1431,18 +1431,14 @@ AC_DEFUN([PHP_FOPENCOOKIE], [

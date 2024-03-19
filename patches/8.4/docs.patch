@@ -1,5 +1,14 @@
+From: Peter Kokot <peterkokot@gmail.com>
+Subject: Add docs related to CMake
+
+These are only quick README adjustments and fixes on how to use CMake
+with PHP.
+---
+ README.md | 27 +++++++++++++++++++++++++++
+ 1 file changed, 27 insertions(+)
+
 diff --git a/README.md b/README.md
-index 5c1bfc6890..2f8089ed64 100644
+index 13b4423b49..3236414a36 100644
 --- a/README.md
 +++ b/README.md
 @@ -36,8 +36,35 @@ For other systems, see the [installation chapter](https://php.net/install).
