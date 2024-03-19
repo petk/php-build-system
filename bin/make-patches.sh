@@ -26,6 +26,7 @@ patch-cmake-8.4
 patch-cmake-8.4-dmalloc
 patch-cmake-8.4-docs
 patch-cmake-8.4-phpdbg-local-console
+patch-cmake-8.4-typedef-warnings
 "
 php_versions="8.3 8.4"
 
