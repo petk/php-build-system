@@ -13,6 +13,19 @@ block()
   configure_file(php-config.in php-config @ONLY)
 endblock()
 
+# Configure pkgconf php.pc metadata file.
+block()
+  set(prefix "${CMAKE_INSTALL_PREFIX}")
+  set(includedir "${CMAKE_INSTALL_INCLUDEDIR}")
+  set(libdir "${CMAKE_INSTALL_LIBDIR}")
+  set(exec_prefix "${CMAKE_INSTALL_PREFIX}")
+  configure_file(
+    ${PHP_SOURCE_DIR}/build/php.pc.in
+    ${PHP_BINARY_DIR}/build/php.pc
+    @ONLY
+  )
+endblock()
+
 install(
   FILES
     ${PROJECT_BINARY_DIR}/scripts/man1/php-config.1
@@ -24,4 +37,10 @@ install(
   FILES
     ${PROJECT_BINARY_DIR}/scripts/php-config
   DESTINATION ${CMAKE_INSTALL_BINDIR}
+)
+
+install(
+  FILES
+    ${PHP_BINARY_DIR}/build/php.pc
+  DESTINATION ${CMAKE_INSTALL_LIBDIR}/pkgconfig
 )

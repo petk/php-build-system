@@ -33,6 +33,15 @@ set_target_properties(
     ENABLE_EXPORTS TRUE
 )
 
+# Configure pkgconf php-embed.pc metadata file.
+block()
+  set(prefix "${CMAKE_INSTALL_PREFIX}")
+  set(includedir "${CMAKE_INSTALL_INCLUDEDIR}")
+  set(libdir "${CMAKE_INSTALL_LIBDIR}")
+  set(exec_prefix "${CMAKE_INSTALL_PREFIX}")
+  configure_file(php-embed.pc.in php-embed.pc @ONLY)
+endblock()
+
 install(
   TARGETS php_embed
   RUNTIME
@@ -40,4 +49,10 @@ install(
   LIBRARY
     DESTINATION ${CMAKE_INSTALL_LIBDIR}
   FILE_SET HEADERS
+)
+
+install(
+  FILES
+    ${CMAKE_CURRENT_BINARY_DIR}/php-embed.pc
+  DESTINATION ${CMAKE_INSTALL_LIBDIR}/pkgconfig
 )
