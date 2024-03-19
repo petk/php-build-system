@@ -1,3 +1,15 @@
+From: Peter Kokot <peterkokot@gmail.com>
+Subject: Fix phpdbg local console mode when using libedit/readline
+
+When using libedit/readline integration in phpdbg, EOF makes editline
+write prompt again in local console mode. For example, this can be
+noticed when reading phpt test files from STDIN and running phpdbg.
+
+See: https://github.com/php/php-src/pull/13199
+---
+ sapi/phpdbg/phpdbg_cmd.c | 34 +++++++++++++++++++++++++---------
+ 1 file changed, 25 insertions(+), 9 deletions(-)
+
 diff --git a/sapi/phpdbg/phpdbg_cmd.c b/sapi/phpdbg/phpdbg_cmd.c
 index 503b3c8027..f0c54e0fc7 100644
 --- a/sapi/phpdbg/phpdbg_cmd.c

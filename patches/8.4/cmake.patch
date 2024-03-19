@@ -1,3 +1,19 @@
+From: Peter Kokot <peterkokot@gmail.com>
+Subject: Add overall CMake changes for PHP-8.4 branch
+
+- EditorConfig adjustments for code style support in editors and IDEs.
+- CMake build system files added to .gitignore.
+- CMake line added to run-tests.php for info about failing tests and few
+  checks.
+- CMakeLists.txt template and modifications added to ext/skeleton.
+---
+ .editorconfig              |  2 +-
+ .gitignore                 | 13 +++++++++++++
+ ext/ext_skel.php           |  1 +
+ ext/skeleton/.gitignore.in | 13 +++++++++++++
+ run-tests.php              | 24 ++++++++++++++++++------
+ 5 files changed, 46 insertions(+), 7 deletions(-)
+
 diff --git a/.editorconfig b/.editorconfig
 index 7911bf8490..0ca142015f 100644
 --- a/.editorconfig
@@ -12,10 +28,10 @@ index 7911bf8490..0ca142015f 100644
  indent_style             = space
  
 diff --git a/.gitignore b/.gitignore
-index 52cfc57936..061d4972ad 100644
+index cf11cd0ac2..d8f32fc243 100644
 --- a/.gitignore
 +++ b/.gitignore
-@@ -297,3 +297,16 @@ tmp-php.ini
+@@ -296,3 +296,16 @@ tmp-php.ini
  !/ext/dom/lexbor/patches/*.patch
  !/ext/pcre/pcre2lib/config.h
  !/win32/build/Makefile

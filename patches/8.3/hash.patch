@@ -1,3 +1,21 @@
+From: Peter Kokot <peterkokot@gmail.com>
+Subject: Sync ext/hash installed headers
+
+This syncs ext/hash headers installation on *nix and Windows:
+- php_hash_joaat.h and php_hash_fnv.h added also on Windows installation
+- xxhash/xxhash.h added on both installations as it is included in
+  php_hash_xxhash.h
+- Include path for xxhash.h changed to relative so the php_hash_xxhash.h
+  can be included outside of php-src
+- Redundant include flags removed
+
+See: https://github.com/php/php-src/pull/13210
+---
+ ext/hash/config.m4         | 3 +--
+ ext/hash/config.w32        | 8 ++------
+ ext/hash/php_hash_xxhash.h | 2 +-
+ 3 files changed, 4 insertions(+), 9 deletions(-)
+
 diff --git a/ext/hash/config.m4 b/ext/hash/config.m4
 index dd0b24a132..ff79668780 100644
 --- a/ext/hash/config.m4
