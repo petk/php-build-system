@@ -67,7 +67,7 @@ if(NOT CMAKE_CROSSCOMPILING)
         #  endif
         #endif
 
-        void fnord() {
+        void fnord(void) {
           int i = 42;
         }
 
