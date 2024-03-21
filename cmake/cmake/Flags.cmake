@@ -412,7 +412,7 @@ if(CMAKE_SYSTEM_NAME STREQUAL "Linux"
     target_link_options(
       php_configuration
       INTERFACE
-        $<$<AND:$<STREQUAL:$<TARGET_PROPERTY:TYPE>,EXECUTABLE>,$<COMPILE_LANGUAGE:ASM,C>>:LINKER:SHELL:-z,common-page-size=2097152;LINKER:SHELL:-z,max-page-size=2097152>
+        $<$<AND:$<STREQUAL:$<TARGET_PROPERTY:TYPE>,EXECUTABLE>,$<COMPILE_LANGUAGE:ASM,C>>:LINKER:-z,common-page-size=2097152;LINKER:-z,max-page-size=2097152>
     )
   else()
     check_linker_flag(
@@ -425,7 +425,7 @@ if(CMAKE_SYSTEM_NAME STREQUAL "Linux"
       target_link_options(
         php_configuration
         INTERFACE
-          $<$<AND:$<STREQUAL:$<TARGET_PROPERTY:TYPE>,EXECUTABLE>,$<COMPILE_LANGUAGE:ASM,C>>:LINKER:SHELL:-z,max-page-size=2097152>
+          $<$<AND:$<STREQUAL:$<TARGET_PROPERTY:TYPE>,EXECUTABLE>,$<COMPILE_LANGUAGE:ASM,C>>:LINKER:-z,max-page-size=2097152>
       )
     endif()
   endif()
@@ -440,7 +440,7 @@ if(CMAKE_SYSTEM_NAME STREQUAL "Linux"
     target_link_options(
       php_configuration
       INTERFACE
-        $<$<AND:$<STREQUAL:$<TARGET_PROPERTY:TYPE>,EXECUTABLE>,$<COMPILE_LANGUAGE:CXX>>:LINKER:SHELL:-z,common-page-size=2097152;LINKER:SHELL:-z,max-page-size=2097152>
+        $<$<AND:$<STREQUAL:$<TARGET_PROPERTY:TYPE>,EXECUTABLE>,$<COMPILE_LANGUAGE:CXX>>:LINKER:-z,common-page-size=2097152;LINKER:-z,max-page-size=2097152>
     )
   else()
     check_linker_flag(
@@ -453,7 +453,7 @@ if(CMAKE_SYSTEM_NAME STREQUAL "Linux"
       target_link_options(
         php_configuration
         INTERFACE
-          $<$<AND:$<STREQUAL:$<TARGET_PROPERTY:TYPE>,EXECUTABLE>,$<COMPILE_LANGUAGE:CXX>>:LINKER:SHELL:-z,max-page-size=2097152>
+          $<$<AND:$<STREQUAL:$<TARGET_PROPERTY:TYPE>,EXECUTABLE>,$<COMPILE_LANGUAGE:CXX>>:LINKER:-z,max-page-size=2097152>
       )
     endif()
   endif()

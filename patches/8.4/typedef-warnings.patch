@@ -22,8 +22,8 @@ https://github.com/php/php-src/pull/13347
 ---
  Zend/zend_frameless_function.h | 6 +-----
  ext/dom/namespace_compat.h     | 3 +++
- ext/dom/php_dom.h              | 3 +++
- 3 files changed, 7 insertions(+), 5 deletions(-)
+ ext/dom/php_dom.h              | 6 ++++++
+ 3 files changed, 10 insertions(+), 5 deletions(-)
 
 diff --git a/Zend/zend_frameless_function.h b/Zend/zend_frameless_function.h
 index 6821654bc4..94e9812ed9 100644
@@ -66,18 +66,19 @@ index 1147c62892..a98a2077f3 100644
  PHP_DOM_EXPORT extern const php_dom_ns_magic_token *php_dom_ns_is_html_magic_token;
  PHP_DOM_EXPORT extern const php_dom_ns_magic_token *php_dom_ns_is_mathml_magic_token;
 diff --git a/ext/dom/php_dom.h b/ext/dom/php_dom.h
-index 503c70b111..6b323fc4ff 100644
+index 1b214d1154..c2d36c9690 100644
 --- a/ext/dom/php_dom.h
 +++ b/ext/dom/php_dom.h
-@@ -114,8 +114,11 @@ typedef enum _dom_iterator_type {
+@@ -114,6 +114,12 @@ typedef enum _dom_iterator_type {
  	DOM_HTMLCOLLECTION,
  } dom_iterator_type;
  
 +#ifndef _PHP_DOM_LIBXML_NS_MAPPER
 +#define _PHP_DOM_LIBXML_NS_MAPPER
- struct _php_dom_libxml_ns_mapper;
- typedef struct _php_dom_libxml_ns_mapper php_dom_libxml_ns_mapper;
++struct _php_dom_libxml_ns_mapper;
++typedef struct _php_dom_libxml_ns_mapper php_dom_libxml_ns_mapper;
 +#endif
- 
++
  static inline dom_object_namespace_node *php_dom_namespace_node_obj_from_obj(zend_object *obj) {
  	return (dom_object_namespace_node*)((char*)(obj) - XtOffsetOf(dom_object_namespace_node, dom.std));
+ }
