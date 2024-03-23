@@ -1,4 +1,8 @@
-option(SAPI_APACHE2HANDLER "Enable the Apache SAPI module" OFF)
+option(
+  SAPI_APACHE2HANDLER
+  "Enable the Apache SAPI (shared Apache 2 handler module via DSO)"
+  OFF
+)
 
 message(CHECK_START "Checking whether to build apache2handler SAPI")
 if(SAPI_APACHE2HANDLER)
@@ -19,12 +23,25 @@ target_sources(
     sapi_apache2.c
 )
 
-target_link_libraries(php_apache2hanlder PRIVATE PHP::main)
-
 set_target_properties(
   php_apache2handler
   PROPERTIES
     OUTPUT_NAME apache
+)
+
+find_package(Apache)
+set_package_properties(
+  Apache
+  PROPERTIES
+    TYPE REQUIRED
+    PURPOSE "Necessary to enable the Apache PHP SAPI."
+)
+
+target_link_libraries(
+  php_apache2handler
+  PRIVATE
+    PHP::main
+    Apache::Apache
 )
 
 install(
