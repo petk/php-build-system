@@ -244,26 +244,10 @@ endif()
 
 check_symbol_exists(mprotect "sys/mman.h" HAVE_MPROTECT)
 
-if(NOT CMAKE_SYSTEM_NAME STREQUAL "Windows")
-  # Check for HAVE_SHM_IPC.
-  include(PHP/CheckShmIpc)
-
-  # Check for HAVE_SHM_MMAP_ANON.
-  include(PHP/CheckShmMmap)
-
-  # Check for HAVE_SHM_MMAP_POSIX.
-  include(PHP/CheckShmMmapPosix)
-  if(TARGET PHP::CheckShmMmapPosix)
-    target_link_libraries(php_opcache PRIVATE PHP::CheckShmMmapPosix)
-  endif()
-
-  if(NOT HAVE_SHM_IPC AND NOT HAVE_SHM_MMAP_ANON AND NOT HAVE_SHM_MMAP_POSIX)
-    message(
-      FATAL_ERROR
-      "No supported shared memory caching support was found when configuring "
-      "opcache. Please check CMake logs for any errors or missing dependencies."
-    )
-  endif()
+# Check for shared memory support.
+include(PHP/CheckSHM)
+if(TARGET PHP::CheckSHM)
+  target_link_libraries(php_opcache PRIVATE PHP::CheckSHM)
 endif()
 
 install(

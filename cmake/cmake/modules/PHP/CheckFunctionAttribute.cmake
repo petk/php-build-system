@@ -37,7 +37,7 @@ function(_php_check_function_attribute_code attribute)
     ]])
   elseif(attribute STREQUAL "target")
     set(code [[
-      static int bar(void) __attribute__((target("sse2")));
+      int bar(void) __attribute__((target("sse2")));
 
       int main(void) {
         return 0;

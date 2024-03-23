@@ -10,6 +10,7 @@ include(CheckSourceRuns)
 include(CheckSymbolExists)
 include(CMakeDependentOption)
 include(CMakePushCheckState)
+include(FeatureSummary)
 
 ################################################################################
 # FPM configuration.
