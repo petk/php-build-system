@@ -16,8 +16,8 @@ Cache variables:
 
 Interface library:
 
-  PHP::CheckSHM
-    INTERFACE library containing SHM functions.
+  PHP::CheckSHMLibrary
+    INTERFACE library containing SHM POSIX functions, if available.
 ]=============================================================================]#
 
 include_guard(GLOBAL)
@@ -207,15 +207,15 @@ php_search_libraries(
 
 if(SHM_LIBRARY)
   add_library(php_check_shm INTERFACE)
-  add_library(PHP::CheckSHM ALIAS php_check_shm)
+  add_library(PHP::CheckSHMLibrary ALIAS php_check_shm)
 
   target_link_libraries(php_check_shm INTERFACE ${SHM_LIBRARY})
 endif()
 
 if(NOT CMAKE_CROSSCOMPILING)
   cmake_push_check_state(RESET)
-    if(TARGET PHP::CheckSHM)
-      set(CMAKE_REQUIRED_LIBRARIES PHP::CheckSHM)
+    if(TARGET PHP::CheckSHMLibrary)
+      set(CMAKE_REQUIRED_LIBRARIES PHP::CheckSHMLibrary)
     endif()
 
     check_source_runs(C [[
