@@ -303,8 +303,8 @@ check_symbol_exists(shm_create_largepage "sys/mman.h" HAVE_SHM_CREATE_LARGEPAGE)
 
 # Check for shared memory support.
 include(PHP/CheckSHM)
-if(TARGET PHP::CheckSHM)
-  target_link_libraries(php_opcache PRIVATE PHP::CheckSHM)
+if(TARGET PHP::CheckSHMLibrary AND HAVE_SHM_MMAP_POSIX)
+  target_link_libraries(php_opcache PRIVATE PHP::CheckSHMLibrary)
 endif()
 
 install(
