@@ -392,8 +392,6 @@ A list of various dependencies needed to build PHP from source:
 * sqlite3 for the ext/sqlite3 and ext/pdo_sqlite extensions
 * libcapstone (for the OPcache `--with-capstone` option)
 * libssl (for OpenSSL `--with-openssl`)
-* libkrb5 (for the OpenSSL `--with-kerberos` option)
-* libaspell and libpspell (for the ext/pspell `--with-pspell` option)
 * zlib
   * when using `--enable-gd` with bundled libgd
   * when using `--with-zlib`

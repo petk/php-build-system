@@ -131,7 +131,7 @@ option(PHP_LIBGCC "Explicitly link against libgcc" OFF)
 set(PHP_LIBXML2_MIN_VERSION 2.9.0)
 
 # Minimum required version for the OpenSSL dependency.
-set(PHP_OPENSSL_MIN_VERSION 1.0.2)
+set(PHP_OPENSSL_MIN_VERSION 1.1.1)
 
 # Additional metadata for external packages to avoid duplication.
 set_package_properties(

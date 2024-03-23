@@ -23,21 +23,6 @@ cmake_dependent_option(
 )
 
 cmake_dependent_option(
-  EXT_OPENSSL_KERBEROS
-  "Include Kerberos support for OpenSSL"
-  OFF
-  "EXT_OPENSSL"
-  OFF
-)
-
-add_feature_info(
-  "ext/openssl Kerberos"
-  EXT_OPENSSL_KERBEROS
-  "When using OpenSSL library built with Kerberos enabled. Deprecated. \
-Kerberos support has been removed as of OpenSSL 1.1.0."
-)
-
-cmake_dependent_option(
   EXT_OPENSSL_SYSTEM_CIPHERS
   "Use system default cipher list instead of hardcoded value for OpenSSL"
   OFF
@@ -61,24 +46,6 @@ target_sources(
     openssl.c
     xp_ssl.c
 )
-
-if(EXT_OPENSSL_KERBEROS)
-  message(
-    DEPRECATION
-    "Support for Kerberos in the openssl extension is deprecated. Kerberos has "
-    "been removed as of OpenSSL 1.1.0 upstream library."
-  )
-
-  find_package(Kerberos COMPONENTS Krb5 GSSAPI)
-  set_package_properties(
-    Kerberos
-    PROPERTIES
-      TYPE REQUIRED
-      PURPOSE "Necessary to use Kerberos support in the openssl extension."
-  )
-
-  target_link_libraries(php_openssl PRIVATE Kerberos::Krb5 Kerberos::GSSAPI)
-endif()
 
 find_package(OpenSSL ${PHP_OPENSSL_MIN_VERSION})
 set_package_properties(

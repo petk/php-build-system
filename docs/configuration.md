@@ -1679,7 +1679,7 @@ A list of Autoconf `configure` command-line configuration options, Windows
       <td>&emsp;--without-kerberos</td>
       <td>N/A</td>
       <td>EXT_IMAP_KERBEROS=OFF</td>
-      <td>default</td>
+      <td>default, PHP <= 8.3</td>
     </tr>
     <tr>
       <td>
@@ -1698,7 +1698,7 @@ A list of Autoconf `configure` command-line configuration options, Windows
       <td>&emsp;--without-imap-ssl</td>
       <td>N/A</td>
       <td>EXT_IMAP_SSL=OFF</td>
-      <td>default</td>
+      <td>default, PHP <= 8.3</td>
     </tr>
     <tr>
       <td>
@@ -1930,7 +1930,7 @@ A list of Autoconf `configure` command-line configuration options, Windows
         EXT_OCI8=ON<br>
         [...]
       </td>
-      <td></td>
+      <td>PHP <= 8.3</td>
     </tr>
     <tr>
       <td>&emsp;--with-oci8=shared</td>
@@ -2273,7 +2273,7 @@ A list of Autoconf `configure` command-line configuration options, Windows
       <td>&emsp;--without-kerberos</td>
       <td></td>
       <td>EXT_OPENSSL_KERBEROS=OFF</td>
-      <td>default</td>
+      <td>default, PHP <= 8.3</td>
     </tr>
     <tr>
       <td>
@@ -2286,7 +2286,7 @@ A list of Autoconf `configure` command-line configuration options, Windows
         EXT_OPENSSL_KERBEROS=ON<br>
         [Kerberos_ROOT=DIR]
       </td>
-      <td></td>
+      <td>PHP <= 8.3</td>
     </tr>
     <tr>
       <td>&emsp;--without-system-ciphers</td>

@@ -74,7 +74,6 @@ jobs:
             libenchant-2-dev \
             libpng-dev \
             libgmp-dev \
-            libkrb5-dev \
             libjpeg-dev \
             libxpm-dev \
             libfreetype-dev \
