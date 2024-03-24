@@ -124,28 +124,30 @@ if(EXT_MBSTRING_MBREGEX)
 
   target_link_libraries(php_mbstring PRIVATE Oniguruma::Oniguruma)
 
-  message(CHECK_START "Checking if Oniguruma has invalid entry for KOI8 encoding")
-  cmake_push_check_state(RESET)
-    set(CMAKE_REQUIRED_DEFINITIONS -D_GNU_SOURCE)
-    set(CMAKE_REQUIRED_LIBRARIES Oniguruma::Oniguruma)
+  if(TARGET Oniguruma::Oniguruma)
+    message(CHECK_START "Checking if Oniguruma has invalid entry for KOI8 encoding")
+    cmake_push_check_state(RESET)
+      set(CMAKE_REQUIRED_DEFINITIONS -D_GNU_SOURCE)
+      set(CMAKE_REQUIRED_LIBRARIES Oniguruma::Oniguruma)
 
-    check_source_compiles(C "
-      #include <oniguruma.h>
+      check_source_compiles(C "
+        #include <oniguruma.h>
 
-      int main(void) {
-        return (int)(ONIG_ENCODING_KOI8 + 1);
-      }
-    " PHP_ONIG_KOI8)
-  cmake_pop_check_state()
-  if(PHP_ONIG_KOI8)
-    message(CHECK_PASS "no")
-  else()
-    message(CHECK_FAIL "yes")
+        int main(void) {
+          return (int)(ONIG_ENCODING_KOI8 + 1);
+        }
+      " PHP_ONIG_KOI8)
+    cmake_pop_check_state()
+    if(PHP_ONIG_KOI8)
+      message(CHECK_PASS "no")
+    else()
+      message(CHECK_FAIL "yes")
 
-    set(
-      PHP_ONIG_BAD_KOI8_ENTRY 1
-      CACHE INTERNAL "Whether Oniguruma has invalid entry for KOI8 encoding"
-    )
+      set(
+        PHP_ONIG_BAD_KOI8_ENTRY 1
+        CACHE INTERNAL "Whether Oniguruma has invalid entry for KOI8 encoding"
+      )
+    endif()
   endif()
 
   target_compile_definitions(

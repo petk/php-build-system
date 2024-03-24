@@ -14,9 +14,12 @@ as portable as possible on different systems.
 SYNOPSIS:
   ./bin/php.cmake [<PHP_VERSION>]
 
-    PHP version to download in form of {MAJOR}.{MINOR}.{PATCH}{EXTRA}
+    PHP version to download: MAJOR.MINOR[.PATCH][EXTRA]
 
 Usage examples:
+  Download latest stable release from php.net:
+    cmake -P bin/php.cmake 8.3
+
   Download specific version from php.net:
     cmake -P bin/php.cmake 8.3.0RC6
 
@@ -27,18 +30,59 @@ Usage examples:
     ./bin/php.cmake 8.3-dev
 
   Download the current Git master branch:
-    ./bin/php.cmake 8.4-dev
+    ./bin/php.cmake
 #]=============================================================================]
 
 ################################################################################
 # Set default variables.
 ################################################################################
 
+# The MAJOR.MINOR version currently in development.
+set(PHP_VERSION_DEV "8.4")
+# The latest stable PHP version as a fallback when version cannot be discovered
+# from remote JSON output.
+set(PHP_VERSION_FALLBACK "8.3.4")
+
 # Set PHP version.
 if(CMAKE_ARGV3)
   set(PHP_VERSION "${CMAKE_ARGV3}")
 else()
-  set(PHP_VERSION "8.4-dev")
+  set(PHP_VERSION "${PHP_VERSION_DEV}-dev")
+endif()
+
+# Get latest PHP stable version from JSON API.
+if(
+  PHP_VERSION MATCHES [[^[0-9]+\.[0-9]+$]]
+  AND NOT PHP_VERSION STREQUAL "${PHP_VERSION_DEV}"
+)
+  block(PROPAGATE PHP_VERSION)
+    string(TIMESTAMP t)
+    set(file ".release-${t}.json")
+    file(DOWNLOAD "https://www.php.net/releases/index.php?json" "${file}")
+    file(READ "${file}" json)
+    file(REMOVE "${file}")
+
+    string(
+      JSON
+      filename
+      ERROR_VARIABLE error
+      GET "${json}"
+      8 source 0 filename
+    )
+
+    if(error)
+      message(
+        WARNING
+        "Could not determine latest PHP version from remote JSON."
+        "Using ${PHP_VERSION_FALLBACK}."
+        "Error: ${error}"
+      )
+      set(PHP_VERSION "${PHP_VERSION_FALLBACK}")
+    else()
+      string(REGEX MATCH [[php-([0-9]+.[0-9]+.[0-9]+).tar.gz]] _ "${filename}")
+      set(PHP_VERSION "${CMAKE_MATCH_1}")
+    endif()
+  endblock()
 endif()
 
 # Set working paths.
@@ -56,14 +100,23 @@ if(
   NOT PHP_VERSION MATCHES [[^[0-9]+\.[0-9]+\.[0-9]+[a-zA-Z0-9-]*$]]
   AND NOT PHP_VERSION MATCHES [[^[0-9]+\.[0-9]+-dev$]]
 )
-  message(FATAL_ERROR "PHP version should match pattern {MAJOR}.{MINOR}.{PATCH}{EXTRA}")
-elseif(PHP_VERSION VERSION_LESS 8.3.0 OR PHP_VERSION VERSION_GREATER 8.4)
+  message(
+    FATAL_ERROR
+    "PHP version should match pattern MAJOR.MINOR[.PATCH][EXTRA]"
+  )
+elseif(
+  PHP_VERSION VERSION_LESS 8.3.0
+  OR PHP_VERSION VERSION_GREATER "${PHP_VERSION_DEV}"
+)
   message(FATAL_ERROR "Unsupported PHP version.")
 endif()
 
 # Check if source directory exists.
 if(EXISTS "${PHP_SOURCE_DIR}")
-  message(FATAL_ERROR "To continue, please remove existing directory ${PHP_SOURCE_DIR_NAME}")
+  message(
+    FATAL_ERROR
+    "To continue, please remove existing directory ${PHP_SOURCE_DIR_NAME}"
+  )
 endif()
 
 # Check if curl or wget is available.
@@ -112,7 +165,10 @@ endfunction()
 # Helper that downloads PHP sources.
 function(php_download)
   # Determine the download URL.
-  if(PHP_VERSION MATCHES "8.4-dev")
+  if(
+    PHP_VERSION STREQUAL "${PHP_VERSION_DEV}"
+    OR PHP_VERSION MATCHES "${PHP_VERSION_DEV}-dev"
+  )
     set(php_branch "master")
 
     list(APPEND urls "https://github.com/php/php-src/archive/refs/heads/${php_branch}.tar.gz")

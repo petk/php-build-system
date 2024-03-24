@@ -51,17 +51,19 @@ target_link_libraries(php_ffi PRIVATE FFI::FFI)
 
 check_type_size("long double" LONG_DOUBLE)
 
-cmake_push_check_state(RESET)
-  set(CMAKE_REQUIRED_LIBRARIES FFI::FFI)
+if(TARGET FFI::FFI)
+  cmake_push_check_state(RESET)
+    set(CMAKE_REQUIRED_LIBRARIES FFI::FFI)
 
-  check_symbol_exists(FFI_FASTCALL "ffi.h" HAVE_FFI_FASTCALL)
-  check_symbol_exists(FFI_THISCALL "ffi.h" HAVE_FFI_THISCALL)
-  check_symbol_exists(FFI_STDCALL "ffi.h" HAVE_FFI_STDCALL)
-  check_symbol_exists(FFI_PASCAL "ffi.h" HAVE_FFI_PASCAL)
-  check_symbol_exists(FFI_REGISTER "ffi.h" HAVE_FFI_REGISTER)
-  check_symbol_exists(FFI_MS_CDECL "ffi.h" HAVE_FFI_MS_CDECL)
-  check_symbol_exists(FFI_SYSV "ffi.h" HAVE_FFI_SYSV)
+    check_symbol_exists(FFI_FASTCALL "ffi.h" HAVE_FFI_FASTCALL)
+    check_symbol_exists(FFI_THISCALL "ffi.h" HAVE_FFI_THISCALL)
+    check_symbol_exists(FFI_STDCALL "ffi.h" HAVE_FFI_STDCALL)
+    check_symbol_exists(FFI_PASCAL "ffi.h" HAVE_FFI_PASCAL)
+    check_symbol_exists(FFI_REGISTER "ffi.h" HAVE_FFI_REGISTER)
+    check_symbol_exists(FFI_MS_CDECL "ffi.h" HAVE_FFI_MS_CDECL)
+    check_symbol_exists(FFI_SYSV "ffi.h" HAVE_FFI_SYSV)
 
-  # Available only in https://github.com/winlibs/libffi fork.
-  check_symbol_exists(FFI_VECTORCALL_PARTIAL "ffi.h" HAVE_FFI_VECTORCALL_PARTIAL)
-cmake_pop_check_state()
+    # Available only in https://github.com/winlibs/libffi fork.
+    check_symbol_exists(FFI_VECTORCALL_PARTIAL "ffi.h" HAVE_FFI_VECTORCALL_PARTIAL)
+  cmake_pop_check_state()
+endif()

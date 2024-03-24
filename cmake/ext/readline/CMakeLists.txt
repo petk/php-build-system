@@ -70,10 +70,12 @@ if(NOT EXT_READLINE_LIBREADLINE)
 
   target_link_libraries(php_readline PUBLIC Editline::Editline)
 
-  check_library_exists(Editline::Editline rl_callback_read_char "" HAVE_RL_CALLBACK_READ_CHAR)
-  check_library_exists(Editline::Editline rl_on_new_line "" HAVE_RL_ON_NEW_LINE)
-  check_library_exists(Editline::Editline rl_completion_matches "" HAVE_RL_COMPLETION_MATCHES)
-  check_library_exists(Editline::Editline history_list "" HAVE_HISTORY_LIST)
+  if(TARGET Editline::Editline)
+    check_library_exists(Editline::Editline rl_callback_read_char "" HAVE_RL_CALLBACK_READ_CHAR)
+    check_library_exists(Editline::Editline rl_on_new_line "" HAVE_RL_ON_NEW_LINE)
+    check_library_exists(Editline::Editline rl_completion_matches "" HAVE_RL_COMPLETION_MATCHES)
+    check_library_exists(Editline::Editline history_list "" HAVE_HISTORY_LIST)
+  endif()
 
   set(HAVE_LIBEDIT 1 CACHE INTERNAL "Whether Editline is used for ext/readline")
 else()
@@ -87,9 +89,11 @@ else()
 
   target_link_libraries(php_readline PUBLIC Readline::Readline)
 
-  check_library_exists(Readline::Readline rl_callback_read_char "" HAVE_RL_CALLBACK_READ_CHAR)
-  check_library_exists(Readline::Readline rl_on_new_line "" HAVE_RL_ON_NEW_LINE)
-  check_library_exists(Readline::Readline rl_completion_matches "" HAVE_RL_COMPLETION_MATCHES)
+  if(TARGET Readline::Readline)
+    check_library_exists(Readline::Readline rl_callback_read_char "" HAVE_RL_CALLBACK_READ_CHAR)
+    check_library_exists(Readline::Readline rl_on_new_line "" HAVE_RL_ON_NEW_LINE)
+    check_library_exists(Readline::Readline rl_completion_matches "" HAVE_RL_COMPLETION_MATCHES)
+  endif()
 
   set(HAVE_HISTORY_LIST 1 CACHE INTERNAL "Whether Readline library has history_list")
   set(HAVE_LIBREADLINE 1 CACHE INTERNAL "Whether Readline is used for ext/readline")
