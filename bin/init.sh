@@ -7,7 +7,7 @@ use_cmake=0
 options=""
 preset="default"
 generator=""
-branch="master"
+branch=""
 debug=0
 
 # Go to project root.
@@ -22,18 +22,21 @@ SYNOPSIS:
   init.sh [<options>]
 
 OPTIONS:
-  -n, --no-update        Don't pull branches in the php-src Git repository.
-  -c, --cmake            Run cmake configuration and build commands.
-  -o, --options VALUE    CMake options which are appended to the CMake command.
-                           cmake -DOPTION .
-  -p, --preset VALUE     Use CMake preset with name VALUE, otherwise "default"
-                         is used (see CMakePresets.json).
-  -G <generator-name>    Specify a CMake build system generator.
-  -b, --branch VALUE     Upstream php-src Git repository branch to checkout
-                         (e.g. PHP-8.3 ...). Default is master.
-  -d, --debug            Debug mode. Here CMake profiling is enabled and debug
-                         info displayed.
-  -h, --help             Display this help.
+  -n, --no-update      Don't pull branches in the php-src Git repository.
+  -c, --cmake          Run cmake configuration and build commands.
+  -o, --options VALUE  CMake options which are appended to the CMake command.
+                         cmake -DOPTION .
+  -p, --preset VALUE   Use CMake preset with name VALUE, otherwise "default" is
+                       used (see CMakePresets.json).
+  -G <generator-name>  Specify a CMake build system generator.
+  -b, --branch VALUE   By default, the php-src Git repository branch to checkout
+                       is automatically determined from the current
+                       php-build-system Git repository branch name (e.g.
+                       PHP-8.3). Defaults to "master", if can't be determined.
+                       This option overrides the php-src branch name.
+  -d, --debug          Debug mode. Here CMake profiling is enabled and debug
+                       info displayed.
+  -h, --help           Display this help and exit.
 HELP
     exit 0
   fi
@@ -120,6 +123,18 @@ if test ! -d "php-src"; then
   fi
 fi
 
+# Determine PHP branch from the current php-build-system repository branch.
+if test -z "$branch"; then
+  branch=$(git rev-parse --abbrev-ref HEAD)
+  case $branch in
+    PHP-[0-9]\.[0-9]*)
+      ;;
+    *)
+      branch="master"
+      ;;
+  esac
+fi
+
 # Make sure we're in the php-src respository.
 cd php-src
 
@@ -133,7 +148,7 @@ fi
 # Check if given branch is available.
 if test -z "`"$git" show-ref refs/heads/${branch}`"; then
   if test -z "`"$git" ls-remote --heads origin refs/heads/${branch}`"; then
-    echo "Branch ${branch} is missing." >&2
+    echo "PHP branch ${branch} is missing." >&2
     exit 1
   fi
 
