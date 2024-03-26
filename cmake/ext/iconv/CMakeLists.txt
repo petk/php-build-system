@@ -51,30 +51,6 @@ target_compile_definitions(
     $<$<PLATFORM_ID:Windows>:PHP_ICONV_EXPORTS>
 )
 
-# Adjustment when overriding the iconv library path, otherwise Iconv is first
-# searched in C library.
-if(CMAKE_PREFIX_PATH OR Iconv_ROOT)
-  find_path(
-    php_iconv_INCLUDE_DIR
-    NAMES iconv.h
-    PATHS
-      ${CMAKE_PREFIX_PATH}
-      ${Iconv_ROOT}
-    PATH_SUFFIXES
-      # GNU libiconv on Alpine Linux has header located on a special location:
-      include/gnu-libiconv
-      # For other paths try with the standard suffix:
-      include
-    NO_DEFAULT_PATH
-  )
-
-  if(php_iconv_INCLUDE_DIR)
-    set(Iconv_INCLUDE_DIR ${php_iconv_INCLUDE_DIR})
-    # Disable built-in iconv when overriding search paths in CMake's FindIconv.
-    set(Iconv_IS_BUILT_IN FALSE)
-  endif()
-endif()
-
 find_package(Iconv)
 set_package_properties(
   Iconv

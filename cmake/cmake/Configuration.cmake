@@ -81,6 +81,12 @@ if(NOT CMAKE_SYSTEM_NAME STREQUAL "Windows")
   mark_as_advanced(PHP_CONFIG_FILE_PATH)
 endif()
 
+set(PHP_PROGRAM_PREFIX "" CACHE STRING "Prepend prefix to the program names")
+mark_as_advanced(PHP_PROGRAM_PREFIX)
+
+set(PHP_PROGRAM_SUFFIX "" CACHE STRING "Append suffix to the program names")
+mark_as_advanced(PHP_PROGRAM_SUFFIX)
+
 ################################################################################
 # General options.
 ################################################################################
@@ -160,12 +166,6 @@ set_package_properties(
   PROPERTIES
     URL "https://libexpat.github.io/"
     DESCRIPTION "Stream-oriented XML parser library"
-)
-
-set_package_properties(
-  Iconv
-  PROPERTIES
-    DESCRIPTION "Internationalization conversion library"
 )
 
 set_package_properties(

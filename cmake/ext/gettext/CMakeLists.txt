@@ -34,25 +34,6 @@ target_sources(
     gettext.c
 )
 
-# Disable built-in intl when overriding search paths in CMake's FindIntl.
-if(CMAKE_PREFIX_PATH OR Intl_ROOT)
-  find_path(
-    php_gettext_INCLUDE_DIR
-    NAMES libintl.h
-    PATHS
-      ${CMAKE_PREFIX_PATH}
-      ${Intl_ROOT}
-    PATH_SUFFIXES
-      include
-    NO_DEFAULT_PATH
-  )
-
-  if(php_gettext_INCLUDE_DIR)
-    set(Intl_INCLUDE_DIR ${php_gettext_INCLUDE_DIR})
-    set(Intl_IS_BUILT_IN FALSE)
-  endif()
-endif()
-
 find_package(Intl)
 set_package_properties(
   Intl

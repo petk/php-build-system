@@ -132,8 +132,7 @@ endif()
 
 # Man documentation.
 block()
-  # TODO: Add @program_prefix@
-  set(program_prefix "")
+  set(program_prefix "${PHP_PROGRAM_PREFIX}")
   configure_file(php.1.in php.1 @ONLY)
 endblock()
 

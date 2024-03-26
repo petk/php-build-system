@@ -1,21 +1,19 @@
 block()
   find_program(SED sed)
-  # TODO: Add program_prefix.
-  set(program_prefix "")
+
+  set(program_prefix "${PHP_PROGRAM_PREFIX}")
+  set(program_suffix "${PHP_PROGRAM_SUFFIX}")
   set(prefix "${CMAKE_INSTALL_PREFIX}")
   set(exec_prefix "${CMAKE_INSTALL_PREFIX}")
   set(includedir "${CMAKE_INSTALL_FULL_INCLUDEDIR}")
-
   # TODO: Sync this with the PHP_LAYOUT.
-  set(datarootdir ${CMAKE_INSTALL_FULL_DATADIR})
+  set(datarootdir "${CMAKE_INSTALL_FULL_DATADIR}")
   # TODO: Add PHP_LDFLAGS.
   set(PHP_LDFLAGS "")
   # TODO: Add EXTRA_LIBS.
   set(EXTRA_LIBS "")
   set(EXTENSION_DIR "${PHP_EXTENSION_DIR}")
   set(mandir "${CMAKE_INSTALL_FULL_MANDIR}")
-  # TODO: Add program_sufix.
-  set(program_suffix "")
   set(EXEEXT "${CMAKE_EXECUTABLE_SUFFIX}")
   # TODO: Add CONFIGURE_OPTIONS.
   set(CONFIGURE_OPTIONS "")

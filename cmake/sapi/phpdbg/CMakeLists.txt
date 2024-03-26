@@ -243,8 +243,7 @@ set(HAVE_PHPDBG 1 CACHE INTERNAL "Whether the phpdbg SAPI is enabled")
 
 # Man documentation.
 block()
-  # TODO: Add @program_prefix@
-  set(program_prefix "")
+  set(program_prefix "${PHP_PROGRAM_PREFIX}")
   configure_file(phpdbg.1.in phpdbg.1 @ONLY)
 endblock()
 
