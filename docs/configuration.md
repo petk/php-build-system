@@ -3200,6 +3200,27 @@ A list of Autoconf `configure` command-line configuration options, Windows
       <td></td>
     </tr>
     <tr>
+      <th colspan="4">Autoconf options</th>
+    </tr>
+    <tr>
+      <td>--program-prefix=prefix</td>
+      <td>N/A</td>
+      <td>PHP_PROGRAM_PREFIX="prefix"</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>--program-suffix=suffix</td>
+      <td>N/A</td>
+      <td>PHP_PROGRAM_SUFFIX="suffix"</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>--program-transform-name=expression</td>
+      <td>N/A</td>
+      <td>N/A</td>
+      <td></td>
+    </tr>
+    <tr>
       <th colspan="4">Influential variables</th>
     </tr>
     <tr>
