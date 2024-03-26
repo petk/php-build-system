@@ -77,9 +77,15 @@ HELP
 done
 
 # Check requirements.
+which=$(which which 2>/dev/null)
 cmake=$(which cmake 2>/dev/null)
 patch=$(which patch 2>/dev/null)
 git=$(which git 2>/dev/null)
+
+if test -z "$which"; then
+  echo "init.sh: which command (coreutils) not found." >&2
+  exit 1
+fi
 
 if test -z "$cmake"; then
   echo "init.sh: cmake not found." >&2

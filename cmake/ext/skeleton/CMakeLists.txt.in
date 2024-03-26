@@ -1,7 +1,19 @@
 # CMakeLists.txt file for the %EXTNAME% extension.
 
-# Comments in this file start with the string '#'.
-# Remove where necessary.
+# Set minimum required CMake version.
+cmake_minimum_required(VERSION 3.25)
+
+# Append extension's local CMake modules.
+list(APPEND CMAKE_MODULE_PATH "cmake/modules")
+
+# Set the extension project metadata.
+project(
+  %EXTNAME%
+  VERSION 0.1.0
+  DESCRIPTION "Describe the extension"
+  HOMEPAGE_URL "https://example.org"
+  LANGUAGES C
+)
 
 # Include CMake module to use cmake_dependent_option().
 include(CMakeDependentOption)
@@ -57,6 +69,13 @@ target_sources(
 
 # If extension is Zend extension, enable the PHP_ZEND_EXTENSION target property.
 #set_target_properties(php_%EXTNAME% PROPERTIES PHP_ZEND_EXTENSION TRUE)
+
+# Find PHP package on the system.
+find_package(PHP REQUIRED)
+
+# The PHP::PHP library contains INTERFACE include directories for the extension.
+# Link PHP and extension targets.
+target_link_libraries(php_%EXTNAME% PHP::PHP)
 
 # Installation step copies file(s) to their appropriate system destinations.
 install(

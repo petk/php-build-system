@@ -60,10 +60,6 @@ set(EXPANDED_PEAR_INSTALLDIR "${_php_pear_dir}" CACHE INTERNAL "PEAR dir")
 
 set(_php_pear_installer_url "https://pear.php.net/install-pear-nozlib.phar")
 
-# TODO: Add program prefix and suffix.
-set(_php_pear_program_prefix "")
-set(_php_pear_program_suffix "")
-
 # TODO: Recheck if _php_pear_dir needs to be manually created here.
 install(CODE "
   message(STATUS \"Installing PEAR environment: ${_php_pear_dir}\")
@@ -116,8 +112,8 @@ install(CODE "
             --bin \"\${CMAKE_INSTALL_PREFIX}/${CMAKE_INSTALL_BINDIR}\"
             --config \"\${CMAKE_INSTALL_PREFIX}/${CMAKE_INSTALL_SYSCONFDIR}\"
             --metadata \"\${CMAKE_INSTALL_PREFIX}/${CMAKE_INSTALL_DATADIR}\"
-            -dp a${_php_pear_program_prefix}
-            -ds a$(_php_pear_program_suffix)
+            -dp a${PHP_PROGRAM_PREFIX}
+            -ds a$(PHP_PROGRAM_SUFFIX)
       )
     else()
       file(READ \"${CMAKE_CURRENT_SOURCE_DIR}/install-pear.txt\" _php_pear_content)
