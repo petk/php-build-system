@@ -92,16 +92,16 @@ unset(_reason)
 if(Gcov_FOUND AND NOT TARGET Gcov::Gcov)
   set(HAVE_GCOV 1 CACHE INTERNAL "Whether GCOV is available.")
 
-  add_library(Gcov::Gcov INTERFACE)
+  add_library(Gcov::Gcov INTERFACE IMPORTED)
 
   set_target_properties(
     Gcov::Gcov
     PROPERTIES
       # Add the special GCC flags.
       INTERFACE_COMPILE_OPTIONS
-        $<$<COMPILE_LANGUAGE:ASM,C,CXX>:-fprofile-arcs;-ftest-coverage>
+        "$<$<COMPILE_LANGUAGE:ASM,C,CXX>:-fprofile-arcs;-ftest-coverage>"
       INTERFACE_LINK_OPTIONS
-        $<$<COMPILE_LANGUAGE:ASM,C,CXX>:-lgcov;--coverage>
+        "$<$<COMPILE_LANGUAGE:ASM,C,CXX>:-lgcov;--coverage>"
   )
 endif()
 
@@ -192,21 +192,25 @@ macro(gcov_generate_report)
     "
   )
 
+  # Create a list of PHP sapis with genex for usage in the add_custom_command.
+  block(PROPAGATE php_sapis)
+    set(php_sapis)
+    file(GLOB directories ${PROJECT_SOURCE_DIR}/sapi/*)
+    foreach(dir ${directories})
+      cmake_path(GET dir FILENAME sapi)
+      list(APPEND php_sapis "$<TARGET_NAME_IF_EXISTS:php_${sapi}>")
+    endforeach()
+  endblock()
+
   add_custom_command(
     OUTPUT ${PROJECT_BINARY_DIR}/php_lcov.info
     COMMAND ${CMAKE_COMMAND} -P "CMakeFiles/GenerateGcovReport.cmake"
     DEPENDS
-      # TODO: Can the list of PHP SAPIs be retrieved programmatically?
-      $<TARGET_NAME_IF_EXISTS:php_apache2handler>
-      $<TARGET_NAME_IF_EXISTS:php_cgi>
-      $<TARGET_NAME_IF_EXISTS:php_cli>
-      $<TARGET_NAME_IF_EXISTS:php_embed>
-      $<TARGET_NAME_IF_EXISTS:php_fpm>
-      $<TARGET_NAME_IF_EXISTS:php_fuzzer>
-      $<TARGET_NAME_IF_EXISTS:php_litespeed>
-      $<TARGET_NAME_IF_EXISTS:php_phpdbg>
+      ${php_sapis}
     COMMENT "[GCOV] Generating GCOV coverage report"
   )
+
+  unset(php_sapis)
 
   # Create target which consumes the command via DEPENDS.
   add_custom_target(gcov ALL

@@ -50,7 +50,7 @@ set_package_properties(
   PHP
   PROPERTIES
     URL "https://www.php.net"
-    DESCRIPTION "General purpose scripting language"
+    DESCRIPTION "General-purpose scripting language"
 )
 
 set(_reason "")
