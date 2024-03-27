@@ -75,7 +75,7 @@ find_package(PHP REQUIRED)
 
 # The PHP::PHP library contains INTERFACE include directories for the extension.
 # Link PHP and extension targets.
-target_link_libraries(php_%EXTNAME% PHP::PHP)
+target_link_libraries(php_%EXTNAME% PRIVATE PHP::PHP)
 
 # Installation step copies file(s) to their appropriate system destinations.
 install(

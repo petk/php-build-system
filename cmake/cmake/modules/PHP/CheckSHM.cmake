@@ -194,9 +194,11 @@ endif()
 message(CHECK_START "Checking for mmap() using shm_open() shared memory support")
 
 # Check for POSIX shared memory functions (shm_open(), shm_unlink()...) and link
-# required libraries: real-time library (rt) for old Linux distributions and
-# Solaris, root for some Haiku versions (nightly). Most systems have them in C
-# library.
+# required library as needed:
+# - rt (real-time) library: old Linux, Solaris <= 10
+# - root: Haiku nightly version
+# - most systems have them in C library: new Linux, Solaris 11.4, illumos, Haiku
+#   R1/beta3, macOS, BSD-based systems, etc.
 php_search_libraries(
   shm_open
   "sys/mman.h"
