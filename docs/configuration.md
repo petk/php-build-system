@@ -89,8 +89,19 @@ used JSON scheme.
 
 ## 2. CMake configuration
 
-Some useful CMake configuration options that can be overridden when building
-with CMake:
+Some useful overridable configuration options built into CMake itself. All these
+`CMAKE_*` variables are also documented in the CMake documentation.
+
+* `CMAKE_LINKER_TYPE` (CMake 3.29+)
+
+  Default empty
+
+  Specify which linker will be used for the link step.
+
+  ```sh
+  # For example, to use the mold linker:
+  cmake -S php-src -B php-build -DCMAKE_LINKER_TYPE=MOLD
+  ```
 
 * `CMAKE_MESSAGE_CONTEXT_SHOW=OFF|ON`
 
