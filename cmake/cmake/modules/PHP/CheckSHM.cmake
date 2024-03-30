@@ -195,10 +195,10 @@ message(CHECK_START "Checking for mmap() using shm_open() shared memory support"
 
 # Check for POSIX shared memory functions (shm_open(), shm_unlink()...) and link
 # required library as needed:
-# - rt (real-time) library: old Linux, Solaris <= 10
-# - root: Haiku nightly version
-# - most systems have them in C library: new Linux, Solaris 11.4, illumos, Haiku
-#   R1/beta3, macOS, BSD-based systems, etc.
+# - most systems have them in the C library: newer Linux, Solaris 11.4, illumos,
+#   macOS, BSD-based systems, etc. Haiku has them in the C library called root,
+#   which is linked by default when using compilers on Haiku.
+# - rt (real-time) library: older Linux, Solaris <= 10
 php_search_libraries(
   shm_open
   "sys/mman.h"
@@ -206,7 +206,6 @@ php_search_libraries(
   SHM_LIBRARY
   LIBRARIES
     rt
-    root
 )
 
 if(SHM_LIBRARY)
@@ -216,7 +215,7 @@ if(SHM_LIBRARY)
   target_link_libraries(php_check_shm INTERFACE ${SHM_LIBRARY})
 endif()
 
-if(NOT CMAKE_CROSSCOMPILING)
+if(HAVE_SHM_OPEN AND NOT CMAKE_CROSSCOMPILING)
   cmake_push_check_state(RESET)
     if(TARGET PHP::CheckSHMLibrary)
       set(CMAKE_REQUIRED_LIBRARIES PHP::CheckSHMLibrary)
