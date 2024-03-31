@@ -52,9 +52,9 @@ endblock()
 # Configure pkgconf php.pc metadata file.
 block()
   set(prefix "${CMAKE_INSTALL_PREFIX}")
-  set(includedir "${CMAKE_INSTALL_FULL_INCLUDEDIR}")
-  set(libdir "${CMAKE_INSTALL_LIBDIR}")
   set(exec_prefix "${CMAKE_INSTALL_PREFIX}")
+  set(includedir "${CMAKE_INSTALL_FULL_INCLUDEDIR}")
+  set(libdir "${CMAKE_INSTALL_FULL_LIBDIR}")
   configure_file(php.pc.in php.pc @ONLY)
 endblock()
 

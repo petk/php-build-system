@@ -17,7 +17,6 @@ target_sources(
     php_embed.c
   PUBLIC
     FILE_SET HEADERS
-      BASE_DIRS "${PHP_SOURCE_DIR}"
       FILES
         php_embed.h
 )
@@ -37,9 +36,9 @@ set_target_properties(
 # Configure pkgconf php-embed.pc metadata file.
 block()
   set(prefix "${CMAKE_INSTALL_PREFIX}")
-  set(includedir "${CMAKE_INSTALL_INCLUDEDIR}")
-  set(libdir "${CMAKE_INSTALL_LIBDIR}")
   set(exec_prefix "${CMAKE_INSTALL_PREFIX}")
+  set(includedir "${CMAKE_INSTALL_FULL_INCLUDEDIR}")
+  set(libdir "${CMAKE_INSTALL_FULL_LIBDIR}")
   configure_file(php-embed.pc.in php-embed.pc @ONLY)
 endblock()
 
@@ -50,6 +49,7 @@ install(
   LIBRARY
     DESTINATION ${CMAKE_INSTALL_LIBDIR}
   FILE_SET HEADERS
+    DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/sapi/embed
 )
 
 install(

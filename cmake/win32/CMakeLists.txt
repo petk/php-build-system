@@ -32,12 +32,11 @@ target_sources(
     wsyslog.c
   PUBLIC
     FILE_SET headers_source TYPE HEADERS
-      BASE_DIRS "${PHP_SOURCE_DIR}"
       FILES
         ${_php_win32_headers}
     # A separate file set so binary dir can also be created within a source dir.
     FILE_SET headers_binary TYPE HEADERS
-      BASE_DIRS "${PHP_BINARY_DIR}"
+      BASE_DIRS ${CMAKE_CURRENT_BINARY_DIR}
       FILES
         ${CMAKE_CURRENT_BINARY_DIR}/wsyslog.h
 )
@@ -111,5 +110,7 @@ install(
   TARGETS php_win32
   ARCHIVE EXCLUDE_FROM_ALL
   FILE_SET headers_source
+    DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/win32
   FILE_SET headers_binary
+    DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/win32
 )

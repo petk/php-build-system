@@ -99,7 +99,6 @@ target_sources(
     versioning.c
   PUBLIC
     FILE_SET HEADERS
-      BASE_DIRS "${PHP_SOURCE_DIR}"
       FILES
         ${_php_standard_headers}
         $<$<PLATFORM_ID:Windows>:winver.h>
@@ -372,4 +371,5 @@ install(
   TARGETS php_standard
   ARCHIVE EXCLUDE_FROM_ALL
   FILE_SET HEADERS
+    DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/ext/standard
 )

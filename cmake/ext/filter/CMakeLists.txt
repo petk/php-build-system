@@ -36,7 +36,6 @@ target_sources(
     sanitizing_filters.c
   PUBLIC
     FILE_SET HEADERS
-      BASE_DIRS "${PHP_SOURCE_DIR}"
       FILES
         php_filter.h
 )
@@ -49,4 +48,5 @@ install(
   TARGETS php_filter
   ARCHIVE EXCLUDE_FROM_ALL
   FILE_SET HEADERS
+    DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/ext/filter
 )

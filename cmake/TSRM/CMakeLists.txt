@@ -8,7 +8,6 @@ target_sources(
     TSRM.c
   PUBLIC
     FILE_SET HEADERS
-      BASE_DIRS "${PHP_SOURCE_DIR}"
       FILES
         $<$<PLATFORM_ID:Windows>:tsrm_win32.h>
         TSRM.h
@@ -102,4 +101,5 @@ install(
   TARGETS php_tsrm
   ARCHIVE EXCLUDE_FROM_ALL
   FILE_SET HEADERS
+    DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/TSRM
 )

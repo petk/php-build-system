@@ -40,7 +40,6 @@ target_sources(
     share.c
   PUBLIC
     FILE_SET HEADERS
-      BASE_DIRS "${PHP_SOURCE_DIR}"
       FILES
         php_curl.h
 )
@@ -140,4 +139,5 @@ install(
   TARGETS php_curl
   ARCHIVE EXCLUDE_FROM_ALL
   FILE_SET HEADERS
+    DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/ext/curl
 )

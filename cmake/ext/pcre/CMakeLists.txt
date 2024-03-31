@@ -29,7 +29,6 @@ target_sources(
     php_pcre.def
   PUBLIC
     FILE_SET HEADERS
-      BASE_DIRS "${PHP_SOURCE_DIR}"
       FILES
         php_pcre.h
 )
@@ -134,7 +133,6 @@ else()
       pcre2lib/pcre2_xclass.c
     PUBLIC
       FILE_SET HEADERS
-        BASE_DIRS "${PHP_SOURCE_DIR}"
         FILES
           ${_php_pcre_headers}
   )
@@ -215,4 +213,5 @@ install(
   TARGETS php_pcre
   ARCHIVE EXCLUDE_FROM_ALL
   FILE_SET HEADERS
+    DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/ext/pcre
 )

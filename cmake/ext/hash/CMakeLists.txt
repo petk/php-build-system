@@ -43,7 +43,6 @@ target_sources(
     murmur/PMurHash128.c
   PUBLIC
     FILE_SET HEADERS
-      BASE_DIRS "${PHP_SOURCE_DIR}"
       FILES
         php_hash_adler32.h
         php_hash_crc32.h
@@ -111,4 +110,5 @@ install(
   TARGETS php_hash
   ARCHIVE EXCLUDE_FROM_ALL
   FILE_SET HEADERS
+    DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/ext/hash
 )

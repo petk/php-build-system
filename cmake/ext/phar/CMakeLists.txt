@@ -55,7 +55,6 @@ target_sources(
     zip.c
   PUBLIC
     FILE_SET HEADERS
-      BASE_DIRS "${PHP_SOURCE_DIR}"
       FILES
         php_phar.h
 )
@@ -234,6 +233,7 @@ install(
   TARGETS php_phar
   ARCHIVE EXCLUDE_FROM_ALL
   FILE_SET HEADERS
+    DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/ext/phar
 )
 
 install(

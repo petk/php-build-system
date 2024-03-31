@@ -33,7 +33,6 @@ target_sources(
     gmp.c
   PUBLIC
     FILE_SET HEADERS
-      BASE_DIRS "${PHP_SOURCE_DIR}"
       FILES
         php_gmp_int.h
 )
@@ -54,4 +53,5 @@ install(
   TARGETS php_gmp
   ARCHIVE EXCLUDE_FROM_ALL
   FILE_SET HEADERS
+    DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/ext/gmp
 )

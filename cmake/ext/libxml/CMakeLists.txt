@@ -23,7 +23,6 @@ target_sources(
     php_libxml2.def
   PUBLIC
     FILE_SET HEADERS
-      BASE_DIRS "${PHP_SOURCE_DIR}"
       FILES
         php_libxml.h
 )
@@ -58,4 +57,5 @@ install(
   TARGETS php_libxml
   ARCHIVE EXCLUDE_FROM_ALL
   FILE_SET HEADERS
+    DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/ext/libxml
 )

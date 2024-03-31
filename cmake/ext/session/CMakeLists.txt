@@ -50,7 +50,6 @@ target_sources(
     session.c
   PUBLIC
     FILE_SET HEADERS
-      BASE_DIRS "${PHP_SOURCE_DIR}"
       FILES
         mod_files.h
         mod_user.h
@@ -85,7 +84,6 @@ if(EXT_SESSION_MM)
       mod_mm.c
     PUBLIC
       FILE_SET HEADERS
-        BASE_DIRS "${PHP_SOURCE_DIR}"
         FILES
           mod_mm.h
   )
@@ -110,4 +108,5 @@ install(
   TARGETS php_session
   ARCHIVE EXCLUDE_FROM_ALL
   FILE_SET HEADERS
+    DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/ext/session
 )

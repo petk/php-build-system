@@ -87,7 +87,6 @@ target_sources(
     php_unicode.c
   PUBLIC
     FILE_SET headers_source TYPE HEADERS
-      BASE_DIRS "${PHP_SOURCE_DIR}"
       FILES
         libmbfl/mbfl/eaw_table.h
         libmbfl/mbfl/mbfilter_8bit.h
@@ -105,7 +104,7 @@ target_sources(
         mbstring.h
     # A separate file set so binary dir can also be created within a source dir.
     FILE_SET headers_binary TYPE HEADERS
-      BASE_DIRS "${PHP_BINARY_DIR}"
+      BASE_DIRS ${CMAKE_CURRENT_BINARY_DIR}
       FILES
         "${CMAKE_CURRENT_BINARY_DIR}/libmbfl/config.h"
 )
@@ -167,8 +166,7 @@ if(EXT_MBSTRING_MBREGEX)
     PRIVATE
       php_mbregex.c
     PUBLIC
-      FILE_SET HEADERS
-        BASE_DIRS "${PHP_SOURCE_DIR}"
+      FILE_SET headers_source TYPE HEADERS
         FILES
           php_mbregex.h
           php_onig_compat.h
@@ -189,5 +187,7 @@ install(
   TARGETS php_mbstring
   ARCHIVE EXCLUDE_FROM_ALL
   FILE_SET headers_source
+    DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/ext/mbstring
   FILE_SET headers_binary
+    DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/ext/mbstring
 )

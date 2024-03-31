@@ -62,7 +62,6 @@ target_sources(
   # should be installed, add header(s) to a file set.
   PUBLIC
     FILE_SET HEADERS
-      BASE_DIRS "${PHP_SOURCE_DIR}"
       FILES
         php_%EXTNAME%.h
 )
@@ -82,4 +81,5 @@ install(
   TARGETS php_%EXTNAME%
   ARCHIVE EXCLUDE_FROM_ALL
   FILE_SET HEADERS
+    DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/ext/%EXTNAME%
 )
