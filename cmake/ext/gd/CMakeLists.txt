@@ -137,7 +137,6 @@ target_sources(
     gd.c
   PUBLIC
     FILE_SET HEADERS
-      BASE_DIRS "${PHP_SOURCE_DIR}"
       FILES
         php_gd.h
 )
@@ -190,7 +189,6 @@ if(NOT EXT_GD_EXTERNAL)
       libgd/wbmp.c
     PUBLIC
       FILE_SET HEADERS
-        BASE_DIRS "${PHP_SOURCE_DIR}"
         FILES
           ${_php_gd_libgd_headers}
   )
@@ -472,4 +470,5 @@ install(
   TARGETS php_gd
   ARCHIVE EXCLUDE_FROM_ALL
   FILE_SET HEADERS
+    DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/ext/gd
 )

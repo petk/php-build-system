@@ -43,7 +43,6 @@ target_sources(
     sockets.c
   PUBLIC
     FILE_SET HEADERS
-      BASE_DIRS "${PHP_SOURCE_DIR}"
       FILES
         php_sockets.h
         $<$<PLATFORM_ID:Windows>:windows_common.h>
@@ -125,4 +124,5 @@ install(
   TARGETS php_sockets
   ARCHIVE EXCLUDE_FROM_ALL
   FILE_SET HEADERS
+    DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/ext/sockets
 )

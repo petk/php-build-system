@@ -94,7 +94,6 @@ target_sources(
     php_mysqlnd.c
   PUBLIC
     FILE_SET HEADERS
-      BASE_DIRS "${PHP_SOURCE_DIR}"
       FILES
         ${_php_mysqlnd_headers}
         $<$<PLATFORM_ID:Windows>:config-win.h>
@@ -142,4 +141,5 @@ install(
   TARGETS php_mysqlnd
   ARCHIVE EXCLUDE_FROM_ALL
   FILE_SET HEADERS
+    DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/ext/mysqlnd
 )

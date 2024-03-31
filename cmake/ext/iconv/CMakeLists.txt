@@ -39,7 +39,6 @@ target_sources(
     php_iconv.def
   PUBLIC
     FILE_SET HEADERS
-      BASE_DIRS "${PHP_SOURCE_DIR}"
       FILES
         php_iconv.h
 )
@@ -262,4 +261,5 @@ install(
   TARGETS php_iconv
   ARCHIVE EXCLUDE_FROM_ALL
   FILE_SET HEADERS
+    DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/ext/iconv
 )

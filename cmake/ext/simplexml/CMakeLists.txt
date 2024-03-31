@@ -33,7 +33,6 @@ target_sources(
     simplexml.c
   PUBLIC
     FILE_SET HEADERS
-      BASE_DIRS "${PHP_SOURCE_DIR}"
       FILES
         php_simplexml_exports.h
         php_simplexml.h
@@ -66,4 +65,5 @@ install(
   TARGETS php_simplexml
   ARCHIVE EXCLUDE_FROM_ALL
   FILE_SET HEADERS
+    DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/ext/simplexml
 )

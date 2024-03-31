@@ -60,7 +60,6 @@ target_sources(
     ps_title.c
   PUBLIC
     FILE_SET HEADERS
-      BASE_DIRS "${PHP_SOURCE_DIR}"
       FILES
         cli.h
 )
@@ -141,6 +140,7 @@ install(
   RUNTIME
     DESTINATION ${CMAKE_INSTALL_BINDIR}
   FILE_SET HEADERS
+    DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/sapi/cli
 )
 
 install(

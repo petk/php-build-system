@@ -15,7 +15,6 @@ target_sources(
     spl_observer.c
   PUBLIC
     FILE_SET HEADERS
-      BASE_DIRS "${PHP_SOURCE_DIR}"
       FILES
         php_spl.h
         spl_array.h
@@ -42,4 +41,5 @@ install(
   TARGETS php_spl
   ARCHIVE EXCLUDE_FROM_ALL
   FILE_SET HEADERS
+    DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/ext/spl
 )

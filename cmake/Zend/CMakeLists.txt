@@ -150,7 +150,6 @@ target_sources(
     zend.c
   PUBLIC
     FILE_SET headers_source TYPE HEADERS
-      BASE_DIRS "${PHP_SOURCE_DIR}"
       FILES
         ${_zend_headers}
         $<$<PLATFORM_ID:Windows>:zend_config.w32.h>
@@ -165,7 +164,7 @@ target_sources(
         Optimizer/zend_worklist.h
     # A separate file set so binary dir can also be created within a source dir.
     FILE_SET headers_binary TYPE HEADERS
-      BASE_DIRS "${PHP_BINARY_DIR}"
+      BASE_DIRS ${CMAKE_CURRENT_BINARY_DIR}
       FILES
         $<$<NOT:$<PLATFORM_ID:Windows>>:${CMAKE_CURRENT_BINARY_DIR}/zend_config.h>
 )
@@ -430,5 +429,7 @@ install(
   TARGETS zend
   ARCHIVE EXCLUDE_FROM_ALL
   FILE_SET headers_source
+    DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/Zend
   FILE_SET headers_binary
+    DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/Zend
 )

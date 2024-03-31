@@ -22,15 +22,14 @@ target_sources(
     php_date.c
   PUBLIC
     FILE_SET headers_source TYPE HEADERS
-      BASE_DIRS "${PHP_SOURCE_DIR}"
       FILES
         lib/timelib.h
         php_date.h
     # A separate file set so binary dir can also be created within a source dir.
     FILE_SET headers_binary TYPE HEADERS
-      BASE_DIRS "${PHP_BINARY_DIR}"
+      BASE_DIRS ${CMAKE_CURRENT_BINARY_DIR}
       FILES
-        "${CMAKE_CURRENT_BINARY_DIR}/lib/timelib_config.h"
+        ${CMAKE_CURRENT_BINARY_DIR}/lib/timelib_config.h
 )
 
 target_include_directories(
@@ -86,5 +85,7 @@ install(
   TARGETS php_date
   ARCHIVE EXCLUDE_FROM_ALL
   FILE_SET headers_source
+    DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/ext/date
   FILE_SET headers_binary
+    DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/ext/date
 )

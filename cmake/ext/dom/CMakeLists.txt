@@ -54,7 +54,6 @@ target_sources(
     xpath.c
   PUBLIC
     FILE_SET HEADERS
-      BASE_DIRS "${PHP_SOURCE_DIR}"
       FILES
         xml_common.h
 )
@@ -81,4 +80,5 @@ install(
   TARGETS php_dom
   ARCHIVE EXCLUDE_FROM_ALL
   FILE_SET HEADERS
+    DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/ext/dom
 )

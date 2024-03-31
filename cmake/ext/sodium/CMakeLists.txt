@@ -35,7 +35,6 @@ target_sources(
     sodium_pwhash.c
   PUBLIC
     FILE_SET HEADERS
-      BASE_DIRS "${PHP_SOURCE_DIR}"
       FILES
         php_libsodium.h
 )
@@ -67,4 +66,5 @@ install(
   TARGETS php_sodium
   ARCHIVE EXCLUDE_FROM_ALL
   FILE_SET HEADERS
+    DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/ext/sodium
 )

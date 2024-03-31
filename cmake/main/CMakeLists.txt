@@ -44,12 +44,11 @@ target_sources(
     strlcpy.c
   PUBLIC
     FILE_SET headers_source TYPE HEADERS
-      BASE_DIRS "${PHP_SOURCE_DIR}"
       FILES
         ${_php_main_headers}
     # A separate file set so binary dir can also be created within a source dir.
     FILE_SET headers_binary TYPE HEADERS
-      BASE_DIRS "${PHP_BINARY_DIR}"
+      BASE_DIRS ${CMAKE_CURRENT_BINARY_DIR}
       FILES
         $<$<PLATFORM_ID:Windows>:${CMAKE_CURRENT_BINARY_DIR}/config.w32.h>
         $<$<NOT:$<PLATFORM_ID:Windows>>:${CMAKE_CURRENT_BINARY_DIR}/build-defs.h>
@@ -281,5 +280,7 @@ install(
   TARGETS php_main
   ARCHIVE EXCLUDE_FROM_ALL
   FILE_SET headers_source
+    DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/main
   FILE_SET headers_binary
+    DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/main
 )
