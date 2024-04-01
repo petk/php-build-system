@@ -374,8 +374,12 @@ include(PHP/CheckStrerrorR)
 
 # Check getaddrinfo().
 include(PHP/CheckGetaddrinfo)
-if(TARGET PHP::CheckGetaddrinfo)
-  target_link_libraries(php_configuration INTERFACE PHP::CheckGetaddrinfo)
+if(TARGET PHP::CheckGetaddrinfoLibrary)
+  target_link_libraries(
+    php_configuration
+    INTERFACE
+      PHP::CheckGetaddrinfoLibrary
+  )
 endif()
 
 # Check copy_file_range().

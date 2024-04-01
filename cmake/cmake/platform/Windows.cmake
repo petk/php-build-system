@@ -29,3 +29,6 @@ set(HAVE_NANOSLEEP 1)
 
 # PHP supports socketpair by the emulation in win32/sockets.c
 set(HAVE_SOCKETPAIR 1)
+
+# PHP has unconditional getaddrinfo() support on Windows for now.
+set(HAVE_GETADDRINFO 1)

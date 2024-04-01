@@ -6,10 +6,10 @@ Cache variables:
   HAVE_GETADDRINFO
     Whether getaddrinfo() function is working as expected.
 
-Interface library:
+IMPORTED target:
 
-  PHP::CheckGetaddrinfo
-    INTERFACE library containing getaddrinfo(), if available.
+  PHP::CheckGetaddrinfoLibrary
+    IMPORTED library containing getaddrinfo(), if available.
 ]=============================================================================]#
 
 include_guard(GLOBAL)
@@ -25,29 +25,35 @@ message(CHECK_START "Checking for getaddrinfo()")
 block()
   php_search_libraries(
     getaddrinfo
-    "netdb.h"
+    "netdb.h;ws2tcpip.h"
     _have_getaddrinfo_symbol
     getaddrinfo_library
     LIBRARIES
       socket  # Solaris <= 11.3
       network # Haiku
+      ws2_32  # Windows
   )
   if(getaddrinfo_library)
-    add_library(php_check_getaddrinfo INTERFACE)
-    add_library(PHP::CheckGetaddrinfo ALIAS php_check_getaddrinfo)
+    add_library(PHP::CheckGetaddrinfoLibrary INTERFACE IMPORTED)
 
     target_link_libraries(
-      php_check_getaddrinfo
+      PHP::CheckGetaddrinfoLibrary
       INTERFACE
         ${getaddrinfo_library}
     )
   endif()
 endblock()
 
+# If the HAVE_GETADDRINFO variable has been set the module stops here.
+if(HAVE_GETADDRINFO)
+  message(CHECK_PASS "yes (cached)")
+  return()
+endif()
+
 cmake_push_check_state(RESET)
   set(CMAKE_REQUIRED_QUIET TRUE)
-  if(TARGET PHP::CheckGetaddrinfo)
-    set(CMAKE_REQUIRED_LIBRARIES PHP::CheckGetaddrinfo)
+  if(TARGET PHP::CheckGetaddrinfoLibrary)
+    set(CMAKE_REQUIRED_LIBRARIES PHP::CheckGetaddrinfoLibrary)
   endif()
 
   check_source_compiles(C [[

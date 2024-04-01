@@ -14,10 +14,10 @@ Cache variables:
   HAVE_SHM_MMAP_POSIX
     Whether POSIX mmap() SHM support is found.
 
-Interface library:
+IMPORTED target:
 
   PHP::CheckSHMLibrary
-    INTERFACE library containing SHM POSIX functions, if available.
+    IMPORTED library containing SHM POSIX functions, if available.
 ]=============================================================================]#
 
 include_guard(GLOBAL)
@@ -209,10 +209,9 @@ php_search_libraries(
 )
 
 if(SHM_LIBRARY)
-  add_library(php_check_shm INTERFACE)
-  add_library(PHP::CheckSHMLibrary ALIAS php_check_shm)
+  add_library(PHP::CheckSHMLibrary INTERFACE IMPORTED)
 
-  target_link_libraries(php_check_shm INTERFACE ${SHM_LIBRARY})
+  target_link_libraries(PHP::CheckSHMLibrary INTERFACE ${SHM_LIBRARY})
 endif()
 
 if(HAVE_SHM_OPEN AND NOT CMAKE_CROSSCOMPILING)

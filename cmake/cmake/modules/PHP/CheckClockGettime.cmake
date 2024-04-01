@@ -8,9 +8,9 @@ Cache variables:
   HAVE_CLOCK_GET_TIME
     Whether clock_get_time() is present.
 
-Interface library:
+IMPORTED target:
 
-  PHP::CheckClockGettime
+  PHP::CheckClockGettimeLibrary
     If there are additional libraries that need to be linked.
 ]=============================================================================]#
 
@@ -20,20 +20,26 @@ include(CheckSourceRuns)
 include(CMakePushCheckState)
 include(PHP/SearchLibraries)
 
-php_search_libraries(
-  clock_gettime
-  "time.h"
-  HAVE_CLOCK_GETTIME
-  _php_clock_gettime_library
-  LIBRARIES
-    rt # Solaris 10
-)
-if(_php_clock_gettime_library)
-  add_library(php_check_clock_gettime INTERFACE)
-  add_library(PHP::CheckClockGettime ALIAS php_check_clock_gettime)
+block()
+  php_search_libraries(
+    clock_gettime
+    "time.h"
+    HAVE_CLOCK_GETTIME
+    clock_gettime_library
+    LIBRARIES
+      rt # Solaris 10
+  )
 
-  target_link_libraries(php_check_clock_gettime INTERFACE ${_php_clock_gettime_library})
-endif()
+  if(clock_gettime_library)
+    add_library(PHP::CheckClockGettimeLibrary INTERFACE IMPORTED)
+
+    target_link_libraries(
+      PHP::CheckClockGettimeLibrary
+      INTERFACE
+        ${clock_gettime_library}
+    )
+  endif()
+endblock()
 
 if(NOT HAVE_CLOCK_GETTIME)
   message(CHECK_START "Checking for clock_get_time")

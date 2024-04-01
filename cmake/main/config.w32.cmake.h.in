@@ -125,7 +125,7 @@
 #define HAVE_FUNC_ATTRIBUTE_TARGET 1
 #endif
 
-#define HAVE_GETADDRINFO 1
+#cmakedefine HAVE_GETADDRINFO 1
 
 /* values determined by configure.js */
 
