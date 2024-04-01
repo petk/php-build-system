@@ -259,7 +259,6 @@ endblock()
 
 check_symbol_exists(ftok "sys/ipc.h" HAVE_FTOK)
 check_symbol_exists(funopen "stdio.h" HAVE_FUNOPEN)
-check_symbol_exists(gai_strerror "netdb.h" HAVE_GAI_STRERROR)
 check_symbol_exists(getcwd "unistd.h" HAVE_GETCWD)
 check_symbol_exists(getloadavg "stdlib.h" HAVE_GETLOADAVG)
 check_symbol_exists(getlogin "unistd.h" HAVE_GETLOGIN)
@@ -375,6 +374,9 @@ include(PHP/CheckStrerrorR)
 
 # Check getaddrinfo().
 include(PHP/CheckGetaddrinfo)
+if(TARGET PHP::CheckGetaddrinfo)
+  target_link_libraries(php_configuration INTERFACE PHP::CheckGetaddrinfo)
+endif()
 
 # Check copy_file_range().
 include(PHP/CheckCopyFileRange)
@@ -542,13 +544,14 @@ if(CMAKE_SYSTEM_PROCESSOR MATCHES "^riscv64.*")
   endif()
 endif()
 
+# The socket() is in C library on most systems (Solaris 11.4...)
 php_search_libraries(
   socket
-  "sys/socket.h"
+  "sys/socket.h;winsock.h"
   HAVE_SOCKET
   SOCKET_LIBRARY
   LIBRARIES
-    socket  # Solaris/illumos
+    socket  # Solaris <= 11.3, illumos
     network # Haiku
     ws2_32  # Windows
 )
@@ -556,36 +559,45 @@ if(SOCKET_LIBRARY)
   target_link_libraries(php_configuration INTERFACE ${SOCKET_LIBRARY})
 endif()
 
+# The socketpair() is in C library on most systems (Solaris 11.4...), except
+# Windows.
 php_search_libraries(
   socketpair
   "sys/socket.h"
   HAVE_SOCKETPAIR
   SOCKETPAIR_LIBRARY
   LIBRARIES
-    socket  # Solaris/illumos
+    socket  # Solaris <= 11.3, illumos
     network # Haiku
 )
 if(SOCKETPAIR_LIBRARY)
   target_link_libraries(php_configuration INTERFACE ${SOCKETPAIR_LIBRARY})
 endif()
 
+# The gethostname() is in C library on most systems (Solaris/illumos...).
 php_search_libraries(
   gethostname
-  "unistd.h"
+  "unistd.h;winsock.h"
   HAVE_GETHOSTNAME
   GETHOSTNAME_LIBRARY
-  LIBRARIES nsl network
+  LIBRARIES
+    network # Haiku
+    ws2_32  # Windows
 )
 if(GETHOSTNAME_LIBRARY)
   target_link_libraries(php_configuration INTERFACE ${GETHOSTNAME_LIBRARY})
 endif()
 
+# The gethostbyaddr() is in C library on most systems (Solaris 11.4...)
 php_search_libraries(
   gethostbyaddr
-  "netdb.h;sys/socket.h"
+  "netdb.h;sys/socket.h;winsock.h"
   HAVE_GETHOSTBYADDR
   GETHOSTBYADDR_LIBRARY
-  LIBRARIES nsl network
+  LIBRARIES
+    nsl     # Solaris <= 11.3, illumos
+    network # Haiku
+    ws2_32  # Windows
 )
 if(GETHOSTBYADDR_LIBRARY)
   target_link_libraries(php_configuration INTERFACE ${GETHOSTBYADDR_LIBRARY})
@@ -602,6 +614,8 @@ if(OPENPTY_LIBRARY)
   target_link_libraries(php_configuration INTERFACE ${OPENPTY_LIBRARY})
 endif()
 
+# The inet_ntop() is in C library on most systems (Solaris 11.4, illumos, BSD*,
+# Linux...).
 php_search_libraries(
   inet_ntop
   "arpa/inet.h;ws2tcpip.h"
@@ -656,11 +670,12 @@ endif()
 
 php_search_libraries(
   setsockopt
-  "sys/types.h;sys/socket.h"
+  "sys/types.h;sys/socket.h;winsock.h"
   HAVE_SETSOCKOPT
   SETSOCKOPT_LIBRARY
   LIBRARIES
     network # Haiku does not have network API in libc.
+    ws2_32  # Windows
 )
 if(SETSOCKOPT_LIBRARY)
   target_link_libraries(php_configuration INTERFACE ${SETSOCKOPT_LIBRARY})
@@ -676,6 +691,20 @@ php_search_libraries(
 )
 if(PROC_LIBRARY)
   target_link_libraries(php_configuration INTERFACE ${PROC_LIBRARY})
+endif()
+
+# The gai_strerror() is in C library on most systems (illumos, Solaris 11.4...)
+php_search_libraries(
+  gai_strerror
+  "netdb.h"
+  HAVE_GAI_STRERROR
+  GAI_STRERROR_LIBRARY
+  LIBRARIES
+    socket  # Solaris <= 11.3
+    network # Haiku
+)
+if(GAI_STRERROR_LIBRARY)
+  target_link_libraries(php_configuration INTERFACE ${GAI_STRERROR_LIBRARY})
 endif()
 
 block()

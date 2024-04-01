@@ -5,6 +5,11 @@ Cache variables:
 
   HAVE_GETADDRINFO
     Whether getaddrinfo() function is working as expected.
+
+Interface library:
+
+  PHP::CheckGetaddrinfo
+    INTERFACE library containing getaddrinfo(), if available.
 ]=============================================================================]#
 
 include_guard(GLOBAL)
@@ -12,11 +17,38 @@ include_guard(GLOBAL)
 include(CheckSourceCompiles)
 include(CheckSourceRuns)
 include(CMakePushCheckState)
+include(PHP/SearchLibraries)
 
 message(CHECK_START "Checking for getaddrinfo()")
 
+# The getaddrinfo() is in C library on most systems (Solaris 11.4, illumos...)
+block()
+  php_search_libraries(
+    getaddrinfo
+    "netdb.h"
+    _have_getaddrinfo_symbol
+    getaddrinfo_library
+    LIBRARIES
+      socket  # Solaris <= 11.3
+      network # Haiku
+  )
+  if(getaddrinfo_library)
+    add_library(php_check_getaddrinfo INTERFACE)
+    add_library(PHP::CheckGetaddrinfo ALIAS php_check_getaddrinfo)
+
+    target_link_libraries(
+      php_check_getaddrinfo
+      INTERFACE
+        ${getaddrinfo_library}
+    )
+  endif()
+endblock()
+
 cmake_push_check_state(RESET)
   set(CMAKE_REQUIRED_QUIET TRUE)
+  if(TARGET PHP::CheckGetaddrinfo)
+    set(CMAKE_REQUIRED_LIBRARIES PHP::CheckGetaddrinfo)
+  endif()
 
   check_source_compiles(C [[
     #include <netdb.h>
