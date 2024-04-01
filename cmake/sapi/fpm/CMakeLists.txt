@@ -147,8 +147,8 @@ check_symbol_exists(times "sys/times.h" HAVE_TIMES)
 
 # Check for clock_get*time.
 include(PHP/CheckClockGettime)
-if(TARGET PHP::CheckClockGettime)
-  target_link_libraries(php_fpm PRIVATE PHP::CheckClockGettime)
+if(TARGET PHP::CheckClockGettimeLibrary)
+  target_link_libraries(php_fpm PRIVATE PHP::CheckClockGettimeLibrary)
 endif()
 
 # Check for ptrace.
