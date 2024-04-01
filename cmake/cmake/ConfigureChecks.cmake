@@ -708,18 +708,6 @@ if(SETSOCKOPT_LIBRARY)
   target_link_libraries(php_configuration INTERFACE ${SETSOCKOPT_LIBRARY})
 endif()
 
-# Check for Solaris/illumos process mapping.
-php_search_libraries(
-  Pgrab
-  "libproc.h"
-  HAVE_PGRAB
-  PROC_LIBRARY
-  LIBRARIES proc
-)
-if(PROC_LIBRARY)
-  target_link_libraries(php_configuration INTERFACE ${PROC_LIBRARY})
-endif()
-
 # The gai_strerror() is in C library on most systems (illumos, Solaris 11.4...)
 php_search_libraries(
   gai_strerror
