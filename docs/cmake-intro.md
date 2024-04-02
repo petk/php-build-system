@@ -163,8 +163,8 @@ set(FOOBAR "value" CACHE STRING "Documentation for this variable")
 
 Cache variables, in particular, are noteworthy because they offer a means to
 store values that remain consistent across different CMake runs and are
-accessible to various parts of your project. You can even provide documentation
-to describe the purpose of a cache variable.
+accessible to various parts of your project. These variables also require a
+short documentation help text to describe their purpose.
 
 #### 3.1.2. Working with cache variables
 
