@@ -1,7 +1,7 @@
 # CMakeLists.txt file for the %EXTNAME% extension.
 
 # Set minimum required CMake version.
-cmake_minimum_required(VERSION 3.25)
+cmake_minimum_required(VERSION 3.25 FATAL_ERROR)
 
 # Append extension's local CMake modules.
 list(APPEND CMAKE_MODULE_PATH "cmake/modules")

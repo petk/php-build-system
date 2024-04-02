@@ -79,6 +79,20 @@ if(NOT CMAKE_SYSTEM_NAME STREQUAL "Windows")
     CACHE FILEPATH "The path in which to look for php.ini."
   )
   mark_as_advanced(PHP_CONFIG_FILE_PATH)
+
+  if(NOT PHP_CONFIG_FILE_PATH)
+    if(PHP_LAYOUT STREQUAL "GNU")
+      set_property(
+        CACHE PHP_CONFIG_FILE_PATH
+        PROPERTY VALUE "${CMAKE_INSTALL_FULL_SYSCONFDIR}"
+      )
+    else()
+      set_property(
+        CACHE PHP_CONFIG_FILE_PATH
+        PROPERTY VALUE "${CMAKE_INSTALL_FULL_LIBDIR}"
+      )
+    endif()
+  endif()
 endif()
 
 set(PHP_PROGRAM_PREFIX "" CACHE STRING "Prepend prefix to the program names")
@@ -267,17 +281,3 @@ block()
     set_property(CACHE PHP_EXTENSION_DIR PROPERTY VALUE "${extension_dir}")
   endif()
 endblock()
-
-if(NOT PHP_CONFIG_FILE_PATH)
-  if(PHP_LAYOUT STREQUAL "GNU")
-    set_property(
-      CACHE PHP_CONFIG_FILE_PATH
-      PROPERTY VALUE "${CMAKE_INSTALL_FULL_SYSCONFDIR}"
-    )
-  else()
-    set_property(
-      CACHE PHP_CONFIG_FILE_PATH
-      PROPERTY VALUE "${CMAKE_INSTALL_FULL_LIBDIR}"
-    )
-  endif()
-endif()
