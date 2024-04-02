@@ -33,6 +33,8 @@ Usage examples:
     ./bin/php.cmake
 #]=============================================================================]
 
+cmake_minimum_required(VERSION 3.25 FATAL_ERROR)
+
 ################################################################################
 # Set default variables.
 ################################################################################
@@ -140,7 +142,7 @@ endif()
 find_program(GIT_EXECUTABLE git)
 
 if(NOT GIT_EXECUTABLE)
-  message(FATAL_ERROR "Git not found. Please install Git.")
+  message(FATAL_ERROR "Git not found. Please install Git: https://git-scm.com")
 endif()
 
 ################################################################################

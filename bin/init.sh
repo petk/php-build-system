@@ -83,28 +83,29 @@ patch=$(which patch 2>/dev/null)
 git=$(which git 2>/dev/null)
 
 if test -z "$which"; then
-  echo "init.sh: which command (coreutils) not found." >&2
+  echo "init.sh: The 'which' command not found." >&2
+  echo "         Please install coreutils." >&2
   exit 1
 fi
 
 if test -z "$cmake"; then
-  echo "init.sh: cmake not found." >&2
-  echo "         Install cmake:" >&2
-  echo "         https://cmake.org/" >&2
+  echo "init.sh: The 'cmake' command not found." >&2
+  echo "         Please install cmake:" >&2
+  echo "         https://cmake.org" >&2
   echo "" >&2
 fi
 
 if test -z "$patch"; then
-  echo "init.sh: patch command not found." >&2
-  echo "         Install patch utilities:" >&2
-  echo "         http://savannah.gnu.org/projects/patch/" >&2
+  echo "init.sh: The 'patch' command not found." >&2
+  echo "         Please install patch utilities:" >&2
+  echo "         http://savannah.gnu.org/projects/patch" >&2
   echo "" >&2
 fi
 
 if test -z "$git"; then
-  echo "init.sh: git command not found." >&2
-  echo "         Install Git:" >&2
-  echo "         https://git-scm.com/" >&2
+  echo "init.sh: The 'git' command not found." >&2
+  echo "         Please install Git:" >&2
+  echo "         https://git-scm.com" >&2
   echo "" >&2
 fi
 

@@ -69,11 +69,13 @@ if test -z "$download_tool"; then
 fi
 
 if test -z "$autoreconf"; then
-  echo "autotools.sh: Please install Autoconf." >&2
+  echo "autotools.sh: Please install Autoconf:" >&2
+  echo "              https://savannah.gnu.org/projects/autoconf" >&2
 fi
 
 if test -z "$git"; then
-  echo "autotools.sh: Please install Git." >&2
+  echo "autotools.sh: Please install Git:" >&2
+  echo "              https://git-scm.com" >&2
 fi
 
 if test -z "$download_tool" \

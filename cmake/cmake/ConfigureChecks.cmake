@@ -607,12 +607,16 @@ if(GETHOSTBYADDR_LIBRARY)
   target_link_libraries(php_configuration INTERFACE ${GETHOSTBYADDR_LIBRARY})
 endif()
 
+# The openpty() is in C library on some systems (Solaris 11.4+, Linux, etc).
+# Solaris <= 11.3 and illumos don't have it.
 php_search_libraries(
   openpty
   pty.h
   HAVE_OPENPTY
   OPENPTY_LIBRARY
-  LIBRARIES util bsd
+  LIBRARIES
+    util # Some BSD-based systems
+    bsd  # Haiku
 )
 if(OPENPTY_LIBRARY)
   target_link_libraries(php_configuration INTERFACE ${OPENPTY_LIBRARY})

@@ -18,8 +18,8 @@ cmakelang_cmakeformat=$(which cmake-format 2>/dev/null)
 
 # Check if cmakelint is installed.
 if test -z "$cmakelint"; then
-  echo "check-cmake.sh: cmakelint tool not found." >&2
-  echo "                Install cmakelint:" >&2
+  echo "check-cmake.sh: The 'cmakelint' tool not found." >&2
+  echo "                Please install cmakelint:" >&2
   echo "                https://github.com/cmake-lint/cmake-lint" >&2
   echo "" >&2
 fi
@@ -28,8 +28,8 @@ fi
 if test -z "$cmakelang_cmakelint" \
   || test -z "$cmakelang_cmakeformat"
 then
-  echo "check-cmake.sh: cmakelang tools not found." >&2
-  echo "                Install cmakelang:" >&2
+  echo "check-cmake.sh: The 'cmakelang' tools not found." >&2
+  echo "                Please install cmakelang:" >&2
   echo "                https://cmake-format.readthedocs.io" >&2
 fi
 
