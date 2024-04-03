@@ -40,12 +40,22 @@ Module exposes the following function:
       <target> with the scope of PRIVATE, PUBLIC, or INTERFACE. It is
       homogeneous to
       target_link_libraries(<target> PRIVATE|PUBLIC|INTERFACE <library>).
+
+  The following variables may be set before calling this function to modify the
+  way the check is run. See
+  https://cmake.org/cmake/help/latest/module/CheckSymbolExists.html
+
+    CMAKE_REQUIRED_FLAGS
+    CMAKE_REQUIRED_DEFINITIONS
+    CMAKE_REQUIRED_INCLUDES
+    CMAKE_REQUIRED_LINK_OPTIONS
+    CMAKE_REQUIRED_LIBRARIES
+    CMAKE_REQUIRED_QUIET
 ]=============================================================================]#
 
 include_guard(GLOBAL)
 
 include(CheckIncludeFile)
-include(CheckLibraryExists)
 include(CheckSymbolExists)
 include(CMakePushCheckState)
 
@@ -99,8 +109,11 @@ function(php_search_libraries)
     string(MAKE_C_IDENTIFIER "${header}" const)
     string(TOUPPER "${const}" const)
 
-    cmake_push_check_state(RESET)
-      set(CMAKE_REQUIRED_QUIET TRUE)
+    cmake_push_check_state()
+      cmake_language(GET_MESSAGE_LOG_LEVEL log_level)
+      if(NOT log_level MATCHES "^(VERBOSE|DEBUG|TRACE)$")
+        set(CMAKE_REQUIRED_QUIET TRUE)
+      endif()
       check_include_file(${header} HAVE_${const})
     cmake_pop_check_state()
 
@@ -123,10 +136,32 @@ function(php_search_libraries)
   # Now, check if any library needs to be linked.
   unset(${result_function_variable} CACHE)
 
+  # Check if linking library helps finding the function.
   foreach(library ${libraries})
-    check_library_exists(${library} ${function} "" ${result_function_variable})
+    if(NOT CMAKE_REQUIRED_QUIET)
+      message(CHECK_START "Looking for ${function} in ${library}")
+    endif()
+
+    cmake_push_check_state()
+      list(APPEND CMAKE_REQUIRED_LIBRARIES ${library})
+      set(CMAKE_REQUIRED_QUIET TRUE)
+
+      # Instead of using the check_library_exists() or check_function_exists(),
+      # the check_symbol_exists() also works for edge cases, where the symbol
+      # might be a macro definition. It would not be found using the other two
+      # commands because they don't include required headers.
+      check_symbol_exists(
+        ${function}
+        "${checked_headers}"
+        ${result_function_variable}
+      )
+    cmake_pop_check_state()
 
     if(${${result_function_variable}})
+      if(NOT CMAKE_REQUIRED_QUIET)
+        message(CHECK_PASS "found")
+      endif()
+
       if(result_library_variable)
         set(${result_library_variable} ${library} PARENT_SCOPE)
       endif()
@@ -138,6 +173,10 @@ function(php_search_libraries)
 
       return()
     else()
+      if(NOT CMAKE_REQUIRED_QUIET)
+        message(CHECK_FAIL "not found")
+      endif()
+
       unset(${result_function_variable} CACHE)
     endif()
   endforeach()
