@@ -275,16 +275,13 @@ if(ZEND_MAX_EXECUTION_TIMERS AND CMAKE_SYSTEM_NAME STREQUAL "Linux")
     timer_create
     "time.h"
     HAVE_TIMER_CREATE
-    TIMER_CREATE_LIBRARY
-    LIBRARIES rt
+    LIBRARIES
+      rt # Solaris <= 10, older Linux
+    TARGET zend PRIVATE
   )
 
   if(NOT HAVE_TIMER_CREATE)
     set_property(CACHE ZEND_MAX_EXECUTION_TIMERS PROPERTY VALUE 0)
-  else()
-    if(TIMER_CREATE_LIBRARY)
-      target_link_libraries(zend PRIVATE ${TIMER_CREATE_LIBRARY})
-    endif()
   endif()
 
   if(ZEND_MAX_EXECUTION_TIMERS)

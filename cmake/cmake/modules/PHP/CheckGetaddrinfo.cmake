@@ -27,19 +27,19 @@ block()
     getaddrinfo
     "netdb.h;ws2tcpip.h"
     _have_getaddrinfo_symbol
-    getaddrinfo_library
     LIBRARIES
       socket  # Solaris <= 11.3
       network # Haiku
       ws2_32  # Windows
+    LIBRARY_VARIABLE library
   )
-  if(getaddrinfo_library)
+  if(library)
     add_library(PHP::CheckGetaddrinfoLibrary INTERFACE IMPORTED)
 
     target_link_libraries(
       PHP::CheckGetaddrinfoLibrary
       INTERFACE
-        ${getaddrinfo_library}
+        ${library}
     )
   endif()
 endblock()

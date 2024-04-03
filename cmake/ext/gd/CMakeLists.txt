@@ -219,10 +219,13 @@ if(NOT EXT_GD_EXTERNAL)
       HAVE_FLOORF=1
   )
 
-  php_search_libraries(fabsf "math.h" HAVE_FABSF M_LIBRARY LIBRARIES m)
-  if(M_LIBRARY)
-    target_link_libraries(php_gd INTERFACE ${M_LIBRARY})
-  endif()
+  php_search_libraries(
+    fabsf
+    "math.h"
+    HAVE_FABSF
+    LIBRARIES m
+    TARGET php_gd PRIVATE
+  )
 
   target_include_directories(php_gd PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/libgd)
 

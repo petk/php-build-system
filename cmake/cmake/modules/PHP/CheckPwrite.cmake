@@ -24,7 +24,7 @@ if(NOT CMAKE_CROSSCOMPILING)
 
   cmake_push_check_state(RESET)
     cmake_language(GET_MESSAGE_LOG_LEVEL log_level)
-    if(NOT log_level IN_LIST "VERBOSE;DEBUG;TRACE")
+    if(NOT log_level MATCHES "^(VERBOSE|DEBUG|TRACE)$")
       set(CMAKE_REQUIRED_QUIET TRUE)
     endif()
     check_source_runs(C "

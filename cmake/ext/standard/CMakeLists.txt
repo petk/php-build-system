@@ -273,70 +273,55 @@ php_search_libraries(
   # BSD-based systems (FreeBSD<=13) need also netinet/in.h for resolv.h to work.
   "netinet/in.h;resolv.h"
   HAVE_RES_NSEARCH
-  RES_NSEARCH_LIBRARY
   LIBRARIES
     resolv
     socket
+  TARGET php_standard PRIVATE
 )
-if(RES_NSEARCH_LIBRARY)
-  target_link_libraries(php_standard PRIVATE ${RES_NSEARCH_LIBRARY})
-endif()
 
 php_search_libraries(
   res_ndestroy
   # BSD-based systems (FreeBSD<=13) need also netinet/in.h for resolv.h to work.
   "netinet/in.h;resolv.h"
   HAVE_RES_NDESTROY
-  RES_NDESTROY_LIBRARY
   LIBRARIES
     resolv
     socket
+  TARGET php_standard PRIVATE
 )
-if(RES_NDESTROY_LIBRARY)
-  target_link_libraries(php_standard PRIVATE ${RES_NDESTROY_LIBRARY})
-endif()
 
 php_search_libraries(
   dns_search
   # BSD-based systems (FreeBSD<=13) need also netinet/in.h for resolv.h to work.
   "netinet/in.h;resolv.h"
   HAVE_DNS_SEARCH
-  DNS_SEARCH_LIBRARY
   LIBRARIES
     resolv
     socket
+  TARGET php_standard PRIVATE
 )
-if(DNS_SEARCH_LIBRARY)
-  target_link_libraries(php_standard PRIVATE ${DNS_SEARCH_LIBRARY})
-endif()
 
 php_search_libraries(
   dn_expand
   # BSD-based systems (FreeBSD<=13) need also netinet/in.h for resolv.h to work.
   "netinet/in.h;resolv.h"
   HAVE_DN_EXPAND
-  DN_EXPAND_LIBRARY
   LIBRARIES
     resolv
     socket
+  TARGET php_standard PRIVATE
 )
-if(DN_EXPAND_LIBRARY)
-  target_link_libraries(php_standard PRIVATE ${DN_EXPAND_LIBRARY})
-endif()
 
 php_search_libraries(
   dn_skipname
   # BSD-based systems (FreeBSD<=13) need also netinet/in.h for resolv.h to work.
   "netinet/in.h;resolv.h"
   HAVE_DN_SKIPNAME
-  DN_SKIPNAME_LIBRARY
   LIBRARIES
     resolv
     socket
+  TARGET php_standard PRIVATE
 )
-if(DN_SKIPNAME_LIBRARY)
-  target_link_libraries(php_standard PRIVATE ${DN_SKIPNAME_LIBRARY})
-endif()
 
 # res_search() is deprecated and should be replaced with res_nsearch().
 php_search_libraries(
@@ -344,14 +329,11 @@ php_search_libraries(
   # BSD-based systems (FreeBSD<=13) need also netinet/in.h for resolv.h to work.
   "netinet/in.h;resolv.h"
   HAVE_RES_SEARCH
-  RES_SEARCH_LIBRARY
   LIBRARIES
     resolv
     socket
+  TARGET php_standard PRIVATE
 )
-if(RES_SEARCH_LIBRARY)
-  target_link_libraries(php_standard PRIVATE ${RES_SEARCH_LIBRARY})
-endif()
 
 check_symbol_exists(
   posix_spawn_file_actions_addchdir_np
