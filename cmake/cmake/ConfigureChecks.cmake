@@ -608,11 +608,13 @@ php_search_libraries(
   TARGET php_configuration INTERFACE
 )
 
+# The inet_ntoa() is in C library on most systems (Solaris 11.4, illumos...)
 php_search_libraries(
   inet_ntoa
   "arpa/inet.h"
   HAVE_INET_NTOA
   LIBRARIES
+    nsl     # Solaris <= 11.3
     network # Haiku
   TARGET php_configuration INTERFACE
 )
@@ -624,9 +626,7 @@ php_search_libraries(
   "arpa/inet.h;ws2tcpip.h"
   HAVE_INET_NTOP
   LIBRARIES
-    # TODO: Update the libraries list here for Solaris. Solaris 11 has these in
-    # the C library or linked explicitly already like Linux systems.
-    nsl     # Solaris 8..10
+    nsl     # Solaris <= 11.3
     resolv  # Solaris 2.6..7
     network # Haiku
     ws2_32  # Windows
@@ -636,45 +636,49 @@ if(NOT HAVE_INET_NTOP)
   message(FATAL_ERROR "Cannot find inet_ntop which is required.")
 endif()
 
+# The inet_pton() is in C library on most systems (Solaris 11.4, illumos...)
 php_search_libraries(
   inet_pton
   "arpa/inet.h;ws2tcpip.h"
   HAVE_INET_PTON
   LIBRARIES
-    # TODO: Update the libraries list here for Solaris. Solaris 11 has these in
-    # the C library or linked explicitly already like Linux systems.
-    nsl     # Solaris 8..10
+    nsl     # Solaris <= 11.3
     resolv  # Solaris 2.6..7
     network # Haiku
     ws2_32  # Windows
   TARGET php_configuration INTERFACE
 )
 
+# The inet_aton() is in C library on most systems (Solaris 11.4, illumos...)
 php_search_libraries(
   inet_aton
   "sys/socket.h;netinet/in.h;arpa/inet.h"
   HAVE_INET_ATON
   LIBRARIES
-    resolv
+    nsl     # Solaris <= 11.3
+    resolv  # Solaris 2.6..7
     network # Haiku
   TARGET php_configuration INTERFACE
 )
 
+# The nanosleep is in C library on most systems (Solaris 11, illumos...)
 php_search_libraries(
   nanosleep
   "time.h"
   HAVE_NANOSLEEP
   LIBRARIES
-    rt # Solaris 10
+    rt # Solaris <= 10
   TARGET php_configuration INTERFACE
 )
 
+# The setsockopt() is in C library on most systems (Solaris 11.4...)
 php_search_libraries(
   setsockopt
   "sys/types.h;sys/socket.h;winsock.h"
   HAVE_SETSOCKOPT
   LIBRARIES
-    network # Haiku does not have network API in libc.
+    socket  # Solaris <= 11.3, illumos
+    network # Haiku
     ws2_32  # Windows
   TARGET php_configuration INTERFACE
 )

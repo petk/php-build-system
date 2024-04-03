@@ -274,8 +274,7 @@ php_search_libraries(
   "netinet/in.h;resolv.h"
   HAVE_RES_NSEARCH
   LIBRARIES
-    resolv
-    socket
+    resolv # Solaris/illumos
   TARGET php_standard PRIVATE
 )
 
@@ -285,8 +284,7 @@ php_search_libraries(
   "netinet/in.h;resolv.h"
   HAVE_RES_NDESTROY
   LIBRARIES
-    resolv
-    socket
+    resolv # Solaris/illumos
   TARGET php_standard PRIVATE
 )
 
@@ -296,8 +294,7 @@ php_search_libraries(
   "netinet/in.h;resolv.h"
   HAVE_DNS_SEARCH
   LIBRARIES
-    resolv
-    socket
+    resolv # Solaris/illumos
   TARGET php_standard PRIVATE
 )
 
@@ -307,8 +304,7 @@ php_search_libraries(
   "netinet/in.h;resolv.h"
   HAVE_DN_EXPAND
   LIBRARIES
-    resolv
-    socket
+    resolv # Solaris/illumos
   TARGET php_standard PRIVATE
 )
 
@@ -318,8 +314,7 @@ php_search_libraries(
   "netinet/in.h;resolv.h"
   HAVE_DN_SKIPNAME
   LIBRARIES
-    resolv
-    socket
+    resolv # Solaris/illumos
   TARGET php_standard PRIVATE
 )
 
@@ -330,8 +325,7 @@ php_search_libraries(
   "netinet/in.h;resolv.h"
   HAVE_RES_SEARCH
   LIBRARIES
-    resolv
-    socket
+    resolv # Solaris/illumos
   TARGET php_standard PRIVATE
 )
 
