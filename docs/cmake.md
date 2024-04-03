@@ -326,13 +326,19 @@ php_search_libraries(
   function_name
   "header.h;header_2.h"
   HAVE_FUNCTION_NAME
-  FUNCTION_LIBRARY
-  LIBRARIES lib_1 lib_2...
-)
 
-if(FUNCTION_LIBRARY)
-  target_link_libraries(target PRIVATE ${FUNCTION_LIBRARY})
-endif()
+  # A list of additional libraries to check the existence of the funtion_name().
+  LIBRARIES lib_1 lib_2...
+
+  # If default linked libraries (C library) don't contain function_name(), the
+  # additional needed library can be also linked to the given <target> with the
+  # scopes of PRIVATE|PUBLIC|INTERFACE.
+  TARGET <target> PRIVATE
+
+  # If default linked libraries (C library) don't contain function_name(), the
+  # additional needed library is stored in the <variable-name>.
+  LIBRARY_VARIABLE <variable-name>
+)
 ```
 
 ### 8.2. CheckBuiltin
