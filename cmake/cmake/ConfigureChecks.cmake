@@ -523,22 +523,18 @@ php_search_libraries(
   dlopen
   "dlfcn.h"
   HAVE_LIBDL
-  _php_dlopen_library
   LIBRARIES
     ${CMAKE_DL_LIBS}
+  TARGET php_configuration INTERFACE
 )
-if(_php_dlopen_library)
-  target_link_libraries(php_configuration INTERFACE ${_php_dlopen_library})
-endif()
 
-php_search_libraries(sin "math.h" HAVE_SIN M_LIBRARY LIBRARIES m)
-if(M_LIBRARY)
-  target_link_libraries(
-    php_configuration
-    INTERFACE
-      "$<$<NOT:$<IN_LIST:$<TARGET_PROPERTY:TYPE>,MODULE_LIBRARY;SHARED_LIBRARY>>:${M_LIBRARY}>"
-  )
-endif()
+php_search_libraries(
+  sin
+  "math.h"
+  HAVE_SIN
+  LIBRARIES m
+  TARGET php_configuration INTERFACE
+)
 
 if(CMAKE_SYSTEM_PROCESSOR MATCHES "^riscv64.*")
   find_package(Atomic)
@@ -553,15 +549,12 @@ php_search_libraries(
   socket
   "sys/socket.h;winsock.h"
   HAVE_SOCKET
-  SOCKET_LIBRARY
   LIBRARIES
     socket  # Solaris <= 11.3, illumos
     network # Haiku
     ws2_32  # Windows
+  TARGET php_configuration INTERFACE
 )
-if(SOCKET_LIBRARY)
-  target_link_libraries(php_configuration INTERFACE ${SOCKET_LIBRARY})
-endif()
 
 # The socketpair() is in C library on most systems (Solaris 11.4...), except
 # Windows.
@@ -569,43 +562,34 @@ php_search_libraries(
   socketpair
   "sys/socket.h"
   HAVE_SOCKETPAIR
-  SOCKETPAIR_LIBRARY
   LIBRARIES
     socket  # Solaris <= 11.3, illumos
     network # Haiku
+  TARGET php_configuration INTERFACE
 )
-if(SOCKETPAIR_LIBRARY)
-  target_link_libraries(php_configuration INTERFACE ${SOCKETPAIR_LIBRARY})
-endif()
 
 # The gethostname() is in C library on most systems (Solaris/illumos...).
 php_search_libraries(
   gethostname
   "unistd.h;winsock.h"
   HAVE_GETHOSTNAME
-  GETHOSTNAME_LIBRARY
   LIBRARIES
     network # Haiku
     ws2_32  # Windows
+  TARGET php_configuration INTERFACE
 )
-if(GETHOSTNAME_LIBRARY)
-  target_link_libraries(php_configuration INTERFACE ${GETHOSTNAME_LIBRARY})
-endif()
 
 # The gethostbyaddr() is in C library on most systems (Solaris 11.4...)
 php_search_libraries(
   gethostbyaddr
   "netdb.h;sys/socket.h;winsock.h"
   HAVE_GETHOSTBYADDR
-  GETHOSTBYADDR_LIBRARY
   LIBRARIES
     nsl     # Solaris <= 11.3, illumos
     network # Haiku
     ws2_32  # Windows
+  TARGET php_configuration INTERFACE
 )
-if(GETHOSTBYADDR_LIBRARY)
-  target_link_libraries(php_configuration INTERFACE ${GETHOSTBYADDR_LIBRARY})
-endif()
 
 # The openpty() is in C library on some systems (Solaris 11.4+, Linux, etc).
 # Solaris <= 11.3 and illumos don't have it.
@@ -613,14 +597,11 @@ php_search_libraries(
   openpty
   pty.h
   HAVE_OPENPTY
-  OPENPTY_LIBRARY
   LIBRARIES
     util # Some BSD-based systems
     bsd  # Haiku
+  TARGET php_configuration INTERFACE
 )
-if(OPENPTY_LIBRARY)
-  target_link_libraries(php_configuration INTERFACE ${OPENPTY_LIBRARY})
-endif()
 
 # The inet_ntop() is in C library on most systems (Solaris 11.4, illumos, BSD*,
 # Linux...).
@@ -628,7 +609,6 @@ php_search_libraries(
   inet_ntop
   "arpa/inet.h;ws2tcpip.h"
   _HAVE_INET_NTOP
-  _php_inet_ntop_library
   LIBRARIES
     # TODO: Update the libraries list here for Solaris. Solaris 11 has these in
     # the C library or linked explicitly already like Linux systems.
@@ -636,10 +616,8 @@ php_search_libraries(
     resolv  # Solaris 2.6..7
     network # Haiku
     ws2_32  # Windows
+  TARGET php_configuration INTERFACE
 )
-if(_php_inet_ntop_library)
-  target_link_libraries(php_configuration INTERFACE ${_php_inet_ntop_library})
-endif()
 if(NOT _HAVE_INET_NTOP)
   message(FATAL_ERROR "Required inet_ntop not found.")
 endif()
@@ -648,7 +626,6 @@ php_search_libraries(
   inet_pton
   "arpa/inet.h;ws2tcpip.h"
   _HAVE_INET_PTON
-  _php_inet_pton_library
   LIBRARIES
     # TODO: Update the libraries list here for Solaris. Solaris 11 has these in
     # the C library or linked explicitly already like Linux systems.
@@ -656,10 +633,8 @@ php_search_libraries(
     resolv  # Solaris 2.6..7
     network # Haiku
     ws2_32  # Windows
+  TARGET php_configuration INTERFACE
 )
-if(_php_inet_pton_library)
-  target_link_libraries(php_configuration INTERFACE ${_php_inet_pton_library})
-endif()
 if(NOT _HAVE_INET_PTON)
   message(FATAL_ERROR "Required inet_pton not found.")
 endif()
@@ -668,26 +643,20 @@ php_search_libraries(
   nanosleep
   "time.h"
   HAVE_NANOSLEEP
-  NANOSLEEP_LIBRARY
   LIBRARIES
     rt # Solaris 10
+  TARGET php_configuration INTERFACE
 )
-if(NANOSLEEP_LIBRARY)
-  target_link_libraries(php_configuration INTERFACE ${NANOSLEEP_LIBRARY})
-endif()
 
 php_search_libraries(
   setsockopt
   "sys/types.h;sys/socket.h;winsock.h"
   HAVE_SETSOCKOPT
-  SETSOCKOPT_LIBRARY
   LIBRARIES
     network # Haiku does not have network API in libc.
     ws2_32  # Windows
+  TARGET php_configuration INTERFACE
 )
-if(SETSOCKOPT_LIBRARY)
-  target_link_libraries(php_configuration INTERFACE ${SETSOCKOPT_LIBRARY})
-endif()
 
 # Check for Solaris/illumos process mapping.
 php_search_libraries(
@@ -706,14 +675,11 @@ php_search_libraries(
   gai_strerror
   "netdb.h"
   HAVE_GAI_STRERROR
-  GAI_STRERROR_LIBRARY
   LIBRARIES
     socket  # Solaris <= 11.3
     network # Haiku
+  TARGET php_configuration INTERFACE
 )
-if(GAI_STRERROR_LIBRARY)
-  target_link_libraries(php_configuration INTERFACE ${GAI_STRERROR_LIBRARY})
-endif()
 
 block()
   if(PHP_LIBGCC)

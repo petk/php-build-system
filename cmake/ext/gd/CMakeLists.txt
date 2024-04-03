@@ -211,10 +211,13 @@ if(NOT EXT_GD_EXTERNAL)
     CACHE INTERNAL "Whether the TGA functionality can be used with libgd"
   )
 
-  php_search_libraries(floorf "math.h" _HAVE_FLOORF M_LIBRARY LIBRARIES m)
-  if(M_LIBRARY)
-    target_link_libraries(php_gd INTERFACE ${M_LIBRARY})
-  endif()
+  php_search_libraries(
+    floorf
+    "math.h"
+    _HAVE_FLOORF
+    LIBRARIES m
+    TARGET php_gd PRIVATE
+  )
 
   target_include_directories(php_gd PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/libgd)
 

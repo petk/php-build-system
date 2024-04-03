@@ -25,18 +25,18 @@ block()
     clock_gettime
     "time.h"
     HAVE_CLOCK_GETTIME
-    clock_gettime_library
     LIBRARIES
       rt # Solaris 10
+    LIBRARY_VARIABLE library
   )
 
-  if(clock_gettime_library)
+  if(library)
     add_library(PHP::CheckClockGettimeLibrary INTERFACE IMPORTED)
 
     target_link_libraries(
       PHP::CheckClockGettimeLibrary
       INTERFACE
-        ${clock_gettime_library}
+        ${library}
     )
   endif()
 endblock()
