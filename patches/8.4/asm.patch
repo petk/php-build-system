@@ -1,0 +1,190 @@
+From: Peter Kokot <peterkokot@gmail.com>
+Subject: Sync boost.context ASM files with upstream
+
+This fixes few build errors on Solaris/illumos systems where processor
+is 64-bit but 'uname -p' gives i386, and similar. Other fixes are ported
+from the upstream https://github.com/boostorg/context repository.
+---
+ Zend/asm/jump_i386_sysv_elf_gas.S    |  6 ++++++
+ Zend/asm/jump_s390x_sysv_elf_gas.S   | 24 ++++++++++++++----------
+ Zend/asm/jump_sparc64_sysv_elf_gas.S | 12 +++++++-----
+ Zend/asm/make_i386_sysv_elf_gas.S    |  6 ++++++
+ Zend/asm/make_ppc64_sysv_macho_gas.S |  1 +
+ Zend/asm/make_s390x_sysv_elf_gas.S   | 14 +++++++-------
+ Zend/asm/make_sparc64_sysv_elf_gas.S |  4 ++--
+ 7 files changed, 43 insertions(+), 24 deletions(-)
+
+diff --git a/Zend/asm/jump_i386_sysv_elf_gas.S b/Zend/asm/jump_i386_sysv_elf_gas.S
+index 47be9e7782..ed83717ce2 100644
+--- a/Zend/asm/jump_i386_sysv_elf_gas.S
++++ b/Zend/asm/jump_i386_sysv_elf_gas.S
+@@ -24,6 +24,10 @@
+  *                                                                                      *
+  ****************************************************************************************/
+ 
++#ifdef __x86_64__
++#include "jump_x86_64_sysv_elf_gas.S"
++#else
++
+ .file "jump_i386_sysv_elf_gas.S"
+ .text
+ .globl jump_fcontext
+@@ -91,3 +95,5 @@ jump_fcontext:
+ 
+ /* Mark that we don't need executable stack.  */
+ .section .note.GNU-stack,"",%progbits
++
++#endif
+diff --git a/Zend/asm/jump_s390x_sysv_elf_gas.S b/Zend/asm/jump_s390x_sysv_elf_gas.S
+index c2a578b266..fa71467756 100644
+--- a/Zend/asm/jump_s390x_sysv_elf_gas.S
++++ b/Zend/asm/jump_s390x_sysv_elf_gas.S
+@@ -49,11 +49,12 @@
+ .type	jump_fcontext, @function
+ 
+ #define ARG_OFFSET         0
+-#define GR_OFFSET	   16
+-#define FP_OFFSET	   96
+-#define FPC_OFFSET	   160
+-#define PC_OFFSET	   168
+-#define CONTEXT_SIZE	   176
++#define GR_OFFSET          16
++#define R14_OFFSET         88
++#define FP_OFFSET          96
++#define FPC_OFFSET         160
++#define PC_OFFSET          168
++#define CONTEXT_SIZE       176
+ 
+ #define REG_SAVE_AREA_SIZE 160
+ 
+@@ -131,11 +132,14 @@ jump_fcontext:
+ 	ltg	%r2,GR_OFFSET(%r15)
+ 	jnz	use_return_slot
+ 
+-	/* We restore a make_fcontext context.  Use the function
+-	   argument slot in the context we just saved and allocate the
+-	   register save area for the target function.  */
+-	la	%r2,ARG_OFFSET(%r1)
+-	aghi	%r15,-REG_SAVE_AREA_SIZE
++	/* We're restoring a context created by make_fcontext.
++	   This is going to be the argument of the entry point
++	   of the fiber. We're placing it on top of the ABI
++	   defined register save area of the fiber's own stack. */
++	la	%r2,REG_SAVE_AREA_SIZE(%r15)
++
++	/* REG_SAVE_AREA_SIZE + sizeof(transfer_t) */
++	aghi	%r15,-(REG_SAVE_AREA_SIZE+16)
+ 
+ use_return_slot:
+ 	/* Save the two fields in transfer_t.  When calling a
+diff --git a/Zend/asm/jump_sparc64_sysv_elf_gas.S b/Zend/asm/jump_sparc64_sysv_elf_gas.S
+index 727687aad8..61101fb1f6 100644
+--- a/Zend/asm/jump_sparc64_sysv_elf_gas.S
++++ b/Zend/asm/jump_sparc64_sysv_elf_gas.S
+@@ -6,12 +6,14 @@
+ */
+ 
+ /*
+- * typedef struct {
+- *	void *handle;
+- *	zend_fiber_transfer *transfer;
+- * } boost_context_data;
++ * typedef void*	fcontext_t;
+  *
+- * boost_context_data jump_fcontext(void *to, zend_fiber_transfer *transfer);
++ * struct transfer_t {
++ *	fcontext_t	fctx;
++ *	void	*	data;
++ * };
++ *
++ * transfer_t jump_fcontext(fcontext_t const to, void *vp);
+  */
+ #define CC64FSZ 176
+ #define BIAS 2047
+diff --git a/Zend/asm/make_i386_sysv_elf_gas.S b/Zend/asm/make_i386_sysv_elf_gas.S
+index 9261e566c0..c6e0b36558 100644
+--- a/Zend/asm/make_i386_sysv_elf_gas.S
++++ b/Zend/asm/make_i386_sysv_elf_gas.S
+@@ -24,6 +24,10 @@
+  *                                                                                      *
+  ****************************************************************************************/
+ 
++#ifdef __x86_64__
++#include "make_x86_64_sysv_elf_gas.S"
++#else
++
+ .file "make_i386_sysv_elf_gas.S"
+ .text
+ .globl make_fcontext
+@@ -111,3 +115,5 @@ finish:
+ 
+ /* Mark that we don't need executable stack.  */
+ .section .note.GNU-stack,"",%progbits
++
++#endif
+diff --git a/Zend/asm/make_ppc64_sysv_macho_gas.S b/Zend/asm/make_ppc64_sysv_macho_gas.S
+index fb5cada265..dd7bf2c5c0 100644
+--- a/Zend/asm/make_ppc64_sysv_macho_gas.S
++++ b/Zend/asm/make_ppc64_sysv_macho_gas.S
+@@ -64,6 +64,7 @@
+  *  |    FCTX   |    DATA   |           |           |  *
+  *  -------------------------------------------------  *
+  *                                                     *
++ *******************************************************/
+ 
+ .text
+ .globl _make_fcontext
+diff --git a/Zend/asm/make_s390x_sysv_elf_gas.S b/Zend/asm/make_s390x_sysv_elf_gas.S
+index e7e2d5f6e0..4dd423e2a4 100644
+--- a/Zend/asm/make_s390x_sysv_elf_gas.S
++++ b/Zend/asm/make_s390x_sysv_elf_gas.S
+@@ -49,12 +49,12 @@
+ .type	make_fcontext, @function
+ 
+ #define ARG_OFFSET         0
+-#define GR_OFFSET	   16
+-#define R14_OFFSET	   88
+-#define FP_OFFSET	   96
+-#define FPC_OFFSET	   160
+-#define PC_OFFSET	   168
+-#define CONTEXT_SIZE	   176
++#define GR_OFFSET          16
++#define R14_OFFSET         88
++#define FP_OFFSET          96
++#define FPC_OFFSET         160
++#define PC_OFFSET          168
++#define CONTEXT_SIZE       176
+ 
+ /*
+ 
+@@ -72,7 +72,7 @@ r4 - The address of the context function
+ make_fcontext:
+ 	.machine "z10"
+ 	/* Align the stack to an 8 byte boundary.  */
+-	nill    %r2,0xfff0
++	nill    %r2,0xfff8
+ 
+ 	/* Allocate stack space for the context.  */
+ 	aghi	%r2,-CONTEXT_SIZE
+diff --git a/Zend/asm/make_sparc64_sysv_elf_gas.S b/Zend/asm/make_sparc64_sysv_elf_gas.S
+index 52ff70b996..3e7ee809c9 100644
+--- a/Zend/asm/make_sparc64_sysv_elf_gas.S
++++ b/Zend/asm/make_sparc64_sysv_elf_gas.S
+@@ -6,7 +6,7 @@
+ */
+ 
+ /*
+- * void *make_fcontext(void *sp, size_t size, void (*fn)(boost_context_data));
++ * fcontext_t *make_fcontext(void *sp, size_t size, void (*fn)(transfer_t));
+  */
+ #define CC64FSZ 176
+ #define BIAS 2047
+@@ -56,7 +56,7 @@ make_fcontext:
+ trampoline:
+ 	ldx	[%sp + BIAS + I7], %l0
+ 
+-	# no need to setup boost_context_data, already in %o0 and %o1
++	# no need to setup transfer_t, already in %o0 and %o1
+ 	jmpl	%l0, %o7
+ 	 nop
+ 
