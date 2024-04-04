@@ -13,6 +13,8 @@ intricacies of how to build PHP with CMake.
 
 ## Quick usage - TL;DR
 
+### Step 1 - Install prerequisites
+
 ```sh
 # Prerequisites for Debian-based distributions:
 sudo apt install cmake gcc g++ bison re2c libxml2-dev libsqlite3-dev
@@ -22,35 +24,58 @@ sudo dnf install cmake gcc gcc-c++ bison re2c libxml2-devel sqlite-devel
 ```
 
 <details>
-  <summary>Click here for other platforms</summary>
+  <summary>Click here for more platforms</summary>
 
   ```sh
+  # Prerequisites for macOS:
+  xcode-select --install        # XCode command line tools
+  brew install cmake bison re2c # Brew packages
+
+  # Prerequisites for Alpine Linux:
+  sudo apk add --no-cache cmake make gcc g++ bison re2c libxml2-dev sqlite-dev
+
   # Prerequisites for BSD-based systems:
   sudo pkg install cmake bison re2c libxml2 sqlite3
 
   # Prerequisites for Haiku:
   pkgman install cmake bison re2c libxml2_devel sqlite_devel
 
-  # Prerequisites for macOS:
-  xcode-select --install        # XCode command line tools
-  brew install cmake bison re2c # Brew packages
+  # Prerequisites for Solaris/illumos-based systems:
+  sudo pkg install cmake bison re2c libxml2 sqlite-3
   ```
 </details>
 
+### Step 2 - Clone this repository
+
 ```sh
-# Clone this repository:
 git clone https://github.com/petk/php-build-system
 
-# Download latest PHP and add CMake files:
-cmake -P php-build-system/bin/php.cmake
+cd php-build-system
+```
 
-# Generate build system from sources to a new build directory:
-cmake -S php-build-system/php-8.4-dev -B my-php-build
+### Step 3 - Download PHP and add CMake files
 
-# Build PHP in parallel:
-cmake --build my-php-build -j
+```sh
+cmake -P bin/php.cmake
+```
 
-./my-php-build/sapi/cli/php -v
+### Step 4 - Generate build system to a build directory
+
+```sh
+cmake -S php-8.4-dev -B php-build
+```
+
+### Step 5 - Build PHP in parallel
+
+```sh
+cmake --build php-build -j
+```
+
+After build is complete, you should have a PHP binary that can be run on the
+command line:
+
+```sh
+./php-build/sapi/cli/php -v
 ```
 
 ## Introduction
