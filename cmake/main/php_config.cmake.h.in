@@ -1373,7 +1373,7 @@
 #cmakedefine HAVE_STRUCT_TM_TM_GMTOFF 1
 
 /* Define to 1 if 'tm_zone' is a member of 'struct tm'. */
-#cmakedefine01 HAVE_STRUCT_TM_TM_ZONE
+#cmakedefine HAVE_STRUCT_TM_TM_ZONE 1
 
 /* Define to 1 if you have the 'symlink' function. */
 #cmakedefine HAVE_SYMLINK 1
