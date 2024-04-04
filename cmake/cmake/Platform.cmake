@@ -5,7 +5,9 @@ Platform specific configuration.
 include_guard(GLOBAL)
 
 message(STATUS "Host system: ${CMAKE_HOST_SYSTEM}")
+message(STATUS "Host CPU: ${CMAKE_HOST_SYSTEM_PROCESSOR}")
 message(STATUS "Target system: ${CMAKE_SYSTEM}")
+message(STATUS "Target CPU: ${CMAKE_SYSTEM_PROCESSOR}")
 
 # Enable C and POSIX extensions.
 include(PHP/SystemExtensions)

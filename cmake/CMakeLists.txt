@@ -42,7 +42,10 @@ include(PHP/Ccache)
 add_library(php_configuration INTERFACE)
 add_library(PHP::configuration ALIAS php_configuration)
 target_include_directories(
-  php_configuration INTERFACE ${PHP_BINARY_DIR} ${PHP_SOURCE_DIR}
+  php_configuration
+  INTERFACE
+    ${PHP_BINARY_DIR}
+    ${PHP_SOURCE_DIR}
 )
 
 # Configure build types.
@@ -130,7 +133,11 @@ if(TARGET php_cli)
     foreach(extension ${extensions})
       get_target_property(extension_type php_${extension} TYPE)
       if(extension_type MATCHES "^(MODULE|SHARED)_LIBRARY$")
-        get_target_property(is_zend_extension php_${extension} PHP_ZEND_EXTENSION)
+        get_target_property(
+          is_zend_extension
+          php_${extension}
+          PHP_ZEND_EXTENSION
+        )
         if(is_zend_extension)
           list(APPEND options -d zend_extension=${extension})
         else()

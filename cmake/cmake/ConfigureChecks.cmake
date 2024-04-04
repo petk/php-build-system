@@ -265,10 +265,6 @@ check_symbol_exists(funopen "stdio.h" HAVE_FUNOPEN)
 check_symbol_exists(getcwd "unistd.h" HAVE_GETCWD)
 check_symbol_exists(getloadavg "stdlib.h" HAVE_GETLOADAVG)
 check_symbol_exists(getlogin "unistd.h" HAVE_GETLOGIN)
-check_symbol_exists(getprotobyname "netdb.h" HAVE_GETPROTOBYNAME)
-check_symbol_exists(getprotobynumber "netdb.h" HAVE_GETPROTOBYNUMBER)
-check_symbol_exists(getservbyname "netdb.h" HAVE_GETSERVBYNAME)
-check_symbol_exists(getservbyport "netdb.h" HAVE_GETSERVBYPORT)
 check_symbol_exists(getrusage "sys/resource.h" HAVE_GETRUSAGE)
 check_symbol_exists(gettimeofday "sys/time.h" HAVE_GETTIMEOFDAY)
 check_symbol_exists(getpwnam_r "pwd.h" HAVE_GETPWNAM_R)
@@ -296,7 +292,6 @@ check_symbol_exists(putenv "stdlib.h" HAVE_PUTENV)
 check_symbol_exists(scandir "dirent.h" HAVE_SCANDIR)
 check_symbol_exists(setitimer "sys/time.h" HAVE_SETITIMER)
 check_symbol_exists(setenv "stdlib.h" HAVE_SETENV)
-check_symbol_exists(shutdown "sys/socket.h" HAVE_SHUTDOWN)
 check_symbol_exists(sigprocmask "signal.h" HAVE_SIGPROCMASK)
 
 # Check for statfs().
@@ -549,7 +544,7 @@ if(CMAKE_SYSTEM_PROCESSOR MATCHES "^riscv64.*")
   endif()
 endif()
 
-# The socket() is in C library on most systems (Solaris 11.4...)
+# The socket() is mostly in C library (Solaris 11.4...)
 php_search_libraries(
   socket
   "sys/socket.h;winsock.h"
@@ -561,8 +556,7 @@ php_search_libraries(
   TARGET php_configuration INTERFACE
 )
 
-# The socketpair() is in C library on most systems (Solaris 11.4...), except
-# Windows.
+# The socketpair() is mostly in C library (Solaris 11.4...), except Windows.
 php_search_libraries(
   socketpair
   "sys/socket.h"
@@ -573,7 +567,7 @@ php_search_libraries(
   TARGET php_configuration INTERFACE
 )
 
-# The gethostname() is in C library on most systems (Solaris/illumos...).
+# The gethostname() is mostly in C library (Solaris/illumos...)
 php_search_libraries(
   gethostname
   "unistd.h;winsock.h"
@@ -584,7 +578,7 @@ php_search_libraries(
   TARGET php_configuration INTERFACE
 )
 
-# The gethostbyaddr() is in C library on most systems (Solaris 11.4...)
+# The gethostbyaddr() is mostly in C library (Solaris 11.4...)
 php_search_libraries(
   gethostbyaddr
   "netdb.h;sys/socket.h;winsock.h"
@@ -596,8 +590,8 @@ php_search_libraries(
   TARGET php_configuration INTERFACE
 )
 
-# The openpty() is in C library on some systems (Solaris 11.4+, Linux, etc).
-# Solaris <= 11.3 and illumos don't have it.
+# The openpty() can be in C library (Solaris 11.4+, Linux, etc). Solaris <= 11.3
+# and illumos don't have it.
 php_search_libraries(
   openpty
   pty.h
@@ -608,7 +602,7 @@ php_search_libraries(
   TARGET php_configuration INTERFACE
 )
 
-# The inet_ntoa() is in C library on most systems (Solaris 11.4, illumos...)
+# The inet_ntoa() is mostly in C library (Solaris 11.4, illumos...)
 php_search_libraries(
   inet_ntoa
   "arpa/inet.h"
@@ -619,8 +613,7 @@ php_search_libraries(
   TARGET php_configuration INTERFACE
 )
 
-# The inet_ntop() is in C library on most systems (Solaris 11.4, illumos, BSD*,
-# Linux...).
+# The inet_ntop() is mostly in C library (Solaris 11.4, illumos, BSD*, Linux...)
 php_search_libraries(
   inet_ntop
   "arpa/inet.h;ws2tcpip.h"
@@ -636,7 +629,7 @@ if(NOT HAVE_INET_NTOP)
   message(FATAL_ERROR "Cannot find inet_ntop which is required.")
 endif()
 
-# The inet_pton() is in C library on most systems (Solaris 11.4, illumos...)
+# The inet_pton() is mostly in C library (Solaris 11.4, illumos...)
 php_search_libraries(
   inet_pton
   "arpa/inet.h;ws2tcpip.h"
@@ -649,7 +642,7 @@ php_search_libraries(
   TARGET php_configuration INTERFACE
 )
 
-# The inet_aton() is in C library on most systems (Solaris 11.4, illumos...)
+# The inet_aton() is mostly in C library (Solaris 11.4, illumos...)
 php_search_libraries(
   inet_aton
   "sys/socket.h;netinet/in.h;arpa/inet.h"
@@ -661,7 +654,7 @@ php_search_libraries(
   TARGET php_configuration INTERFACE
 )
 
-# The nanosleep is in C library on most systems (Solaris 11, illumos...)
+# The nanosleep is mostly in C library (Solaris 11, illumos...)
 php_search_libraries(
   nanosleep
   "time.h"
@@ -671,7 +664,7 @@ php_search_libraries(
   TARGET php_configuration INTERFACE
 )
 
-# The setsockopt() is in C library on most systems (Solaris 11.4...)
+# The setsockopt() is mostly in C library (Solaris 11.4...)
 php_search_libraries(
   setsockopt
   "sys/types.h;sys/socket.h;winsock.h"
@@ -683,14 +676,74 @@ php_search_libraries(
   TARGET php_configuration INTERFACE
 )
 
-# The gai_strerror() is in C library on most systems (illumos, Solaris 11.4...)
+# The gai_strerror() is mostly in C library (Solaris 11.4...)
 php_search_libraries(
   gai_strerror
   "netdb.h"
   HAVE_GAI_STRERROR
   LIBRARIES
-    socket  # Solaris <= 11.3
+    socket  # Solaris <= 11.3, illumos
     network # Haiku
+  TARGET php_configuration INTERFACE
+)
+
+# The getprotobyname() is mostly in C library (Solaris 11.4...)
+php_search_libraries(
+  getprotobyname
+  "netdb.h;winsock.h"
+  HAVE_GETPROTOBYNAME
+  LIBRARIES
+    socket  # Solaris <= 11.3, illumos
+    network # Haiku
+    ws2_32  # Windows
+  TARGET php_configuration INTERFACE
+)
+
+# The getprotobynumber() is mostly in C library (Solaris 11.4...)
+php_search_libraries(
+  getprotobynumber
+  "netdb.h;winsock.h"
+  HAVE_GETPROTOBYNUMBER
+  LIBRARIES
+    socket  # Solaris <= 11.3, illumos
+    network # Haiku
+    ws2_32  # Windows
+  TARGET php_configuration INTERFACE
+)
+
+# The getservbyname() is mostly in C library (Solaris 11.4...)
+php_search_libraries(
+  getservbyname
+  "netdb.h;winsock.h"
+  HAVE_GETSERVBYNAME
+  LIBRARIES
+    socket  # Solaris <= 11.3, illumos
+    network # Haiku
+    ws2_32  # Windows
+  TARGET php_configuration INTERFACE
+)
+
+# The getservbyport() is mostly in C library (Solaris 11.4...)
+php_search_libraries(
+  getservbyport
+  "netdb.h;winsock.h"
+  HAVE_GETSERVBYPORT
+  LIBRARIES
+    socket  # Solaris <= 11.3, illumos
+    network # Haiku
+    ws2_32  # Windows
+  TARGET php_configuration INTERFACE
+)
+
+# The shutdown() is mostly in C library (Solaris 11.4...)
+php_search_libraries(
+  shutdown
+  "sys/socket.h;winsock.h"
+  HAVE_SHUTDOWN
+  LIBRARIES
+    socket  # Solaris <= 11.3, illumos
+    network # Haiku
+    ws2_32  # Windows
   TARGET php_configuration INTERFACE
 )
 

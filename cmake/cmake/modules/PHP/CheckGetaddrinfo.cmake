@@ -21,7 +21,7 @@ include(PHP/SearchLibraries)
 
 message(CHECK_START "Checking for getaddrinfo()")
 
-# The getaddrinfo() is in C library on most systems (Solaris 11.4, illumos...)
+# The getaddrinfo() is mostly in C library (Solaris 11.4, illumos...)
 block()
   php_search_libraries(
     getaddrinfo
