@@ -17,12 +17,14 @@ if test -z "$REPO"; then
   REPO="php-src"
 fi
 branches="patch-cmake-8.3
+patch-cmake-8.3-asm
 patch-cmake-8.3-aspell
 patch-cmake-8.3-dmalloc
 patch-cmake-8.3-fopencookie
 patch-cmake-8.3-phpdbg-local-console
 patch-cmake-8.3-hash
 patch-cmake-8.4
+patch-cmake-8.4-asm
 patch-cmake-8.4-dmalloc
 patch-cmake-8.4-docs
 patch-cmake-8.4-phpdbg-local-console
