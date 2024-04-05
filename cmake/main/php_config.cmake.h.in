@@ -1050,6 +1050,9 @@
 /* */
 #cmakedefine HAVE_PHP_SESSION 1
 
+/* Define to 1 if you have the 'pidfd_open' function. */
+#cmakedefine HAVE_PIDFD_OPEN 1
+
 /* Define to 1 if you have the 'poll' function. */
 #cmakedefine HAVE_POLL 1
 

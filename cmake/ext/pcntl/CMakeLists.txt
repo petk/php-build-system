@@ -75,6 +75,7 @@ cmake_push_check_state(RESET)
 cmake_pop_check_state()
 check_symbol_exists(rfork "unistd.h" HAVE_RFORK)
 check_symbol_exists(forkx "sys/fork.h" HAVE_FORKX)
+check_symbol_exists(SYS_pidfd_open "sys/syscall.h" HAVE_PIDFD_OPEN)
 
 cmake_push_check_state(RESET)
   set(CMAKE_EXTRA_INCLUDE_FILES "signal.h")
