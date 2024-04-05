@@ -106,7 +106,7 @@ function(php_search_libraries)
 
   # Check if given header(s) can be included.
   foreach(header ${headers})
-    string(MAKE_C_IDENTIFIER "${header}" const)
+    string(MAKE_C_IDENTIFIER "HAVE_${header}" const)
     string(TOUPPER "${const}" const)
 
     cmake_push_check_state()
@@ -114,10 +114,10 @@ function(php_search_libraries)
       if(NOT log_level MATCHES "^(VERBOSE|DEBUG|TRACE)$")
         set(CMAKE_REQUIRED_QUIET TRUE)
       endif()
-      check_include_file(${header} HAVE_${const})
+      check_include_file(${header} ${const})
     cmake_pop_check_state()
 
-    if(HAVE_${const})
+    if(${${const}})
       list(APPEND checked_headers ${header})
     endif()
   endforeach()
