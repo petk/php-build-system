@@ -214,15 +214,15 @@ if(TARGET ODBC::ODBC)
         sqlunix.h
         udbcext.h
     )
-      string(MAKE_C_IDENTIFIER "${header}" const)
+      string(MAKE_C_IDENTIFIER "HAVE_${header}" const)
       string(TOUPPER "${const}" const)
 
       cmake_push_check_state(RESET)
         set(CMAKE_REQUIRED_LIBRARIES ODBC::ODBC)
-        check_include_file(${header} HAVE_${const})
+        check_include_file(${header} ${const})
       cmake_pop_check_state()
 
-      if(HAVE_${const})
+      if(${${const}})
         set(have_headers TRUE)
       endif()
     endforeach()
