@@ -1601,8 +1601,8 @@
 /* iconv() is aliased to libiconv() in -liconv */
 #cmakedefine ICONV_ALIASED_LIBICONV 1
 
-/* Whether iconv supports IGNORE */
-#cmakedefine01 ICONV_BROKEN_IGNORE
+/* Whether iconv has broken IGNORE. */
+#cmakedefine ICONV_BROKEN_IGNORE 1
 
 /* */
 #cmakedefine JISX0208 1
