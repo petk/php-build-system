@@ -1,5 +1,4 @@
 include(CheckLibraryExists)
-include(CheckSourceCompiles)
 include(CheckSourceRuns)
 include(CheckSymbolExists)
 include(CMakeDependentOption)
@@ -70,8 +69,8 @@ if(TARGET Iconv::Iconv)
     if(NOT HAVE_ICONV)
       check_symbol_exists(libiconv "iconv.h" HAVE_LIBICONV)
     endif()
-  elseif(Iconv_LIBRARIES)
-    check_library_exists("${Iconv_LIBRARIES}" libiconv "" HAVE_LIBICONV)
+  else()
+    check_library_exists(Iconv::Iconv libiconv "" HAVE_LIBICONV)
 
     if(HAVE_LIBICONV)
       set(
@@ -79,7 +78,7 @@ if(TARGET Iconv::Iconv)
         CACHE INTERNAL "iconv() is aliased to libiconv() in -liconv"
       )
     else()
-      check_library_exists("${Iconv_LIBRARIES}" iconv "" HAVE_ICONV)
+      check_library_exists(Iconv::Iconv iconv "" HAVE_ICONV)
     endif()
   endif()
 
@@ -93,63 +92,45 @@ if(TARGET Iconv::Iconv)
   message(CHECK_START "Checking the iconv implementation")
 
   # Check for GNU libiconv implementation.
-  if(NOT CMAKE_CROSSCOMPILING)
-    cmake_push_check_state(RESET)
-      set(CMAKE_REQUIRED_LIBRARIES Iconv::Iconv)
-
-      check_source_runs(C "
-        #include <iconv.h>
-        #include <stdio.h>
-        int main(void) {
-          printf(\"%d\", _libiconv_version);
-          return 0;
-        }
-      " _have_gnu_libiconv)
-    cmake_pop_check_state()
-  endif()
-
+  cmake_push_check_state(RESET)
+    set(CMAKE_REQUIRED_LIBRARIES Iconv::Iconv)
+    set(CMAKE_REQUIRED_QUIET TRUE)
+    check_symbol_exists(_libiconv_version "iconv.h" _have_gnu_libiconv)
+  cmake_pop_check_state()
   if(_have_gnu_libiconv)
     message(CHECK_PASS "GNU libiconv")
     set(HAVE_LIBICONV 1 CACHE INTERNAL "")
-    set(PHP_ICONV_IMPL "libiconv" CACHE INTERNAL "The iconv library implementation")
+    set(
+      PHP_ICONV_IMPL "libiconv"
+      CACHE INTERNAL "The iconv library implementation"
+    )
   endif()
 
   # Check for glibc implementation.
   if(NOT _have_gnu_libiconv)
     cmake_push_check_state(RESET)
       set(CMAKE_REQUIRED_LIBRARIES Iconv::Iconv)
-
-      check_source_compiles(C "
-        #include <gnu/libc-version.h>
-        int main(void) {
-          gnu_get_libc_version();
-          return 0;
-        }
-      " HAVE_GLIBC_ICONV)
+      set(CMAKE_REQUIRED_QUIET TRUE)
+      check_symbol_exists(gnu_get_libc_version gnu/libc-version.h HAVE_GLIBC_ICONV)
     cmake_pop_check_state()
   endif()
-
   if(HAVE_GLIBC_ICONV)
     message(CHECK_PASS "GNU C library")
-    set(PHP_ICONV_IMPL "glibc" CACHE INTERNAL "The iconv library implementation")
+    set(
+      PHP_ICONV_IMPL "glibc"
+      CACHE INTERNAL "The iconv library implementation"
+    )
   endif()
 
   # Check for Konstantin Chuguev's iconv implementation.
   if(NOT _have_gnu_libiconv AND NOT HAVE_GLIBC_ICONV)
     cmake_push_check_state(RESET)
       set(CMAKE_REQUIRED_LIBRARIES Iconv::Iconv)
-
-      check_source_compiles(C "
-        #include <iconv.h>
-        int main(void) {
-          iconv_ccs_init(NULL, NULL);
-          return 0;
-        }
-      " _HAVE_BSD_ICONV)
+      set(CMAKE_REQUIRED_QUIET TRUE)
+      check_symbol_exists(iconv_ccs_init iconv.h _have_bsd_iconv)
     cmake_pop_check_state()
   endif()
-
-  if(_HAVE_BSD_ICONV)
+  if(_have_bsd_iconv)
     message(CHECK_PASS "BSD iconv")
     set(
       PHP_ICONV_IMPL "BSD iconv"
@@ -158,23 +139,19 @@ if(TARGET Iconv::Iconv)
   endif()
 
   # Check for IBM iconv implementation.
-  if(NOT _have_gnu_libiconv AND NOT HAVE_GLIBC_ICONV AND NOT _HAVE_BSD_ICONV)
+  if(NOT _have_gnu_libiconv AND NOT HAVE_GLIBC_ICONV AND NOT _have_bsd_iconv)
     cmake_push_check_state(RESET)
       set(CMAKE_REQUIRED_LIBRARIES Iconv::Iconv)
-
-      check_source_compiles(C [[
-        #include <iconv.h>
-        int main(void) {
-          cstoccsid("");
-          return 0;
-        }
-      ]] HAVE_IBM_ICONV)
+      set(CMAKE_REQUIRED_QUIET TRUE)
+      check_symbol_exists(cstoccsid iconv.h HAVE_IBM_ICONV)
     cmake_pop_check_state()
   endif()
-
   if(HAVE_IBM_ICONV)
     message(CHECK_PASS "IBM iconv")
-    set(PHP_ICONV_IMPL "IBM iconv" CACHE INTERNAL "The iconv library implementation")
+    set(
+      PHP_ICONV_IMPL "IBM iconv"
+      CACHE INTERNAL "The iconv library implementation"
+    )
   endif()
 
   if(NOT PHP_ICONV_IMPL)
@@ -188,6 +165,7 @@ if(TARGET Iconv::Iconv)
   else()
     cmake_push_check_state(RESET)
       set(CMAKE_REQUIRED_LIBRARIES Iconv::Iconv)
+      set(CMAKE_REQUIRED_QUIET TRUE)
 
       check_source_runs(C [[
         #include <iconv.h>
@@ -225,6 +203,7 @@ if(TARGET Iconv::Iconv)
   else()
     cmake_push_check_state(RESET)
       set(CMAKE_REQUIRED_LIBRARIES Iconv::Iconv)
+      set(CMAKE_REQUIRED_QUIET TRUE)
 
       check_source_runs(C [[
         #include <iconv.h>
@@ -250,10 +229,9 @@ if(TARGET Iconv::Iconv)
   endif()
   if(_php_iconv_ignore_works)
     message(CHECK_PASS "yes")
-    set(ICONV_BROKEN_IGNORE 0 CACHE INTERNAL "Whether iconv supports IGNORE")
   else()
     message(CHECK_FAIL "no")
-    set(ICONV_BROKEN_IGNORE 1 CACHE INTERNAL "Whether iconv supports IGNORE")
+    set(ICONV_BROKEN_IGNORE 1 CACHE INTERNAL "Whether iconv has broken IGNORE.")
   endif()
 endif()
 
