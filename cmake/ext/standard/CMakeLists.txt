@@ -2,6 +2,7 @@ include(CheckIncludeFile)
 include(CheckIncludeFiles)
 include(CheckSourceCompiles)
 include(CheckSymbolExists)
+include(CMakePushCheckState)
 include(FeatureSummary)
 include(PHP/SearchLibraries)
 
@@ -201,7 +202,9 @@ endif()
 # handles it receives.
 message(CHECK_START "Checking if OS can spawn processes with inherited handles")
 check_symbol_exists(fork "unistd.h" HAVE_FORK)
-check_symbol_exists(CreateProcess "windows.h" HAVE_CREATEPROCESS)
+if(NOT HAVE_FORK)
+  check_symbol_exists(CreateProcess "windows.h" HAVE_CREATEPROCESS)
+endif()
 if(HAVE_FORK OR HAVE_CREATEPROCESS)
   set(
     PHP_CAN_SUPPORT_PROC_OPEN 1
@@ -213,26 +216,43 @@ else()
   message(CHECK_FAIL "no")
 endif()
 
-message(CHECK_START "Checking for usable getifaddrs")
-check_source_compiles(C "
-  #include <sys/types.h>
-  #include <ifaddrs.h>
+block()
+  # The getifaddrs() is available in C library some systems (Solaris 11.4...)
+  php_search_libraries(
+    getifaddrs
+    ifaddrs.h
+    _HAVE_GETIFADDRS
+    LIBRARIES
+      socket  # Solaris 11..11.3, illumos
+      network # Haiku
+    LIBRARY_VARIABLE library
+    TARGET php_standard PRIVATE
+  )
 
-  int main(void) {
-    struct ifaddrs *interfaces;
-
-    if (!getifaddrs(&interfaces)) {
-      freeifaddrs(interfaces);
-    }
-
-    return 0;
-  }
-" HAVE_GETIFADDRS)
-if(HAVE_GETIFADDRS)
-  message(CHECK_PASS "yes")
-else()
-  message(CHECK_FAIL "no")
-endif()
+  if(_HAVE_GETIFADDRS)
+    message(CHECK_START "Checking for usable getifaddrs")
+    cmake_push_check_state(RESET)
+      set(CMAKE_REQUIRED_LIBRARIES ${library})
+      set(CMAKE_REQUIRED_QUIET TRUE)
+      check_source_compiles(C "
+        #include <sys/types.h>
+        #include <ifaddrs.h>
+        int main(void) {
+          struct ifaddrs *interfaces;
+          if (!getifaddrs(&interfaces)) {
+            freeifaddrs(interfaces);
+          }
+          return 0;
+        }
+      " HAVE_GETIFADDRS)
+    cmake_pop_check_state()
+    if(HAVE_GETIFADDRS)
+      message(CHECK_PASS "yes")
+    else()
+      message(CHECK_FAIL "no")
+    endif()
+  endif()
+endblock()
 
 # Check for __attribute__ ((__aligned__)) support in the compiler.
 message(CHECK_START "Checking whether the compiler supports aligned attribute")
