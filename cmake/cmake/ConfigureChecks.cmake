@@ -591,10 +591,10 @@ php_search_libraries(
 )
 
 # The openpty() can be in C library (Solaris 11.4+, Linux, etc). Solaris <= 11.3
-# and illumos don't have it.
+# and illumos don't have it. FreeBSD defines openpty in libutil.h.
 php_search_libraries(
   openpty
-  pty.h
+  "pty.h;libutil.h"
   HAVE_OPENPTY
   LIBRARIES
     util # Some BSD-based systems
