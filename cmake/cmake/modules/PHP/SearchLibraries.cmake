@@ -1,14 +1,18 @@
 #[=============================================================================[
-Check if function exists in one of the libraries.
+Check if symbol exists in given header(s). If not found in default linked
+libraries (for example, C library), a given list of libraries is searched and
+found library is linked as needed.
 
 Depending on the system, C functions can be located in one of the default linked
-libraries when using compiler (for example, C library), while they can be also
-in separate system libraries. The usual check_symbol_exists() doesn't find them
+libraries (for example, C library) when using compiler, or they can be also in
+separate system libraries. The usual check_symbol_exists() doesn't find them
 unless the CMAKE_REQUIRED_LIBRARIES is also specified.
 
-CMake at the time of this writing doesn't have a built-in command where symbol
-is checked using given headers and if not found in default linked libraries, a
-given list of libraries is searched and found library is linked as needed.
+For example, math functions (math.h) can be on most *nix systems in math library
+(m), however macOS, Windows and Haiku have them in C library. So linking math
+library (-lm) isn't always necessary. Also, many systems might be in transition
+of moving functions from their dedicated libraries to C library. For example,
+illumos-based systems (-lnsl...), and similar.
 
 The logic in this module is somehow following the Autoconf's AC_SEARCH_LIBS.
 

@@ -4,7 +4,7 @@ Find the crypt library and run a set of PHP specific checks if library works.
 The Crypt library can be on some systems part of the standard C library. The
 crypt() and crypt_r() functions are usually declared in the unistd.h or crypt.h.
 The GNU C library removed the crypt library in version 2.39 and replaced it with
-the libxcrypt, at the time of this writing, located at
+the libxcrypt, at the time of writing, located at
 https://github.com/besser82/libxcrypt.
 
 Module defines the following IMPORTED target(s):

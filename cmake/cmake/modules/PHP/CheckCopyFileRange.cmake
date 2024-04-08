@@ -17,13 +17,11 @@ message(CHECK_START "Checking for copy_file_range")
 
 cmake_push_check_state(RESET)
   set(CMAKE_REQUIRED_QUIET TRUE)
+  set(CMAKE_REQUIRED_DEFINITIONS -D_GNU_SOURCE)
 
   if(NOT CMAKE_CROSSCOMPILING)
     check_source_runs(C [[
       #ifdef __linux__
-      #ifndef _GNU_SOURCE
-      #define _GNU_SOURCE
-      #endif
       #include <linux/version.h>
       #include <unistd.h>
 

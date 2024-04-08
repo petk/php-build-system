@@ -9,35 +9,24 @@ message(STATUS "Host CPU: ${CMAKE_HOST_SYSTEM_PROCESSOR}")
 message(STATUS "Target system: ${CMAKE_SYSTEM}")
 message(STATUS "Target CPU: ${CMAKE_SYSTEM_PROCESSOR}")
 
+# Check unused linked libraries on executable and shared/module library targets.
+include(PHP/LinkWhatYouUse)
+
 # Enable C and POSIX extensions.
 include(PHP/SystemExtensions)
 
-target_compile_definitions(
-  php_configuration
-  INTERFACE
-    $<$<COMPILE_LANGUAGE:ASM,C,CXX>:_GNU_SOURCE>
-)
+# The above system extensions will be defined in the main/php_config.h. The
+# php-src code at the time of writing doesn't include C headers in order to
+# utilize them. The main/php_config.h should be the first inclusion before
+# including any system header. Perhaps in php.h file. Until then, the compile
+# definitions also need to be added when compiling and using PHP API. Mainly the
+# _GNU_SOURCE.
+target_link_libraries(php_configuration INTERFACE PHP::SystemExtensions)
 
 # Set GNU standard installation directories.
 include(GNUInstallDirs)
 
 set(CMAKE_INSTALL_INCLUDEDIR "${CMAKE_INSTALL_INCLUDEDIR}/php")
-
-if(CMAKE_HOST_SYSTEM_NAME STREQUAL "Darwin")
-  # On macOS, the ar command runs the ranlib, which causes the "has no symbols" errors.
-  message(STATUS "Setting -no_warning_for_no_symbols for targets")
-
-  set(CMAKE_C_ARCHIVE_CREATE   "<CMAKE_AR> Scr <TARGET> <LINK_FLAGS> <OBJECTS>")
-  set(CMAKE_CXX_ARCHIVE_CREATE "<CMAKE_AR> Scr <TARGET> <LINK_FLAGS> <OBJECTS>")
-  set(CMAKE_ASM_ARCHIVE_CREATE "<CMAKE_AR> Scr <TARGET> <LINK_FLAGS> <OBJECTS>")
-
-  # Xcode's libtool supports the -no_warning_for_no_symbols but llvm-ranlib doesn't.
-  if(NOT CMAKE_RANLIB MATCHES ".*llvm-ranlib$")
-    set(CMAKE_C_ARCHIVE_FINISH   "<CMAKE_RANLIB> -no_warning_for_no_symbols -c <TARGET>")
-    set(CMAKE_CXX_ARCHIVE_FINISH "<CMAKE_RANLIB> -no_warning_for_no_symbols -c <TARGET>")
-    set(CMAKE_ASM_ARCHIVE_FINISH "<CMAKE_RANLIB> -no_warning_for_no_symbols -c <TARGET>")
-  endif()
-endif()
 
 # Detect C standard library implementation.
 # TODO: Fix this better.
@@ -79,28 +68,12 @@ elseif(CMAKE_SYSTEM_PROCESSOR MATCHES "^sparc")
   endif()
 endif()
 
-if(CMAKE_SYSTEM_NAME STREQUAL "SunOS")
-  target_compile_definitions(
-    php_configuration
-    INTERFACE
-      $<$<COMPILE_LANGUAGE:ASM,C,CXX>:_POSIX_PTHREAD_SEMANTICS>
-  )
-elseif(CMAKE_SYSTEM_NAME STREQUAL "HP-UX")
-  target_compile_definitions(
-    php_configuration
-    INTERFACE
-      $<$<COMPILE_LANG_AND_ID:ASM,GNU>:_XOPEN_SOURCE_EXTENDED>
-      $<$<COMPILE_LANG_AND_ID:C,GNU>:_XOPEN_SOURCE_EXTENDED>
-      $<$<COMPILE_LANG_AND_ID:CXX,GNU>:_XOPEN_SOURCE_EXTENDED>
+# Platform specific configuration. When cross-compiling, the host and target can
+# be different values with different configurations.
+if(NOT CMAKE_HOST_SYSTEM_NAME EQUAL CMAKE_SYSTEM_NAME)
+  include(
+    ${CMAKE_CURRENT_LIST_DIR}/platform/${CMAKE_HOST_SYSTEM_NAME}.cmake
+    OPTIONAL
   )
 endif()
-
-# Check unused linked libraries on executable and shared/module library targets.
-include(PHP/LinkWhatYouUse)
-
-# Platform specific configuration.
-if(CMAKE_SYSTEM_NAME STREQUAL "Windows")
-  include(${CMAKE_CURRENT_LIST_DIR}/platform/Windows.cmake)
-elseif(CMAKE_SYSTEM_NAME STREQUAL "Darwin")
-  include(${CMAKE_CURRENT_LIST_DIR}/platform/Darwin.cmake)
-endif()
+include(${CMAKE_CURRENT_LIST_DIR}/platform/${CMAKE_SYSTEM_NAME}.cmake OPTIONAL)

@@ -23,6 +23,9 @@ Obsolete preprocessor macros that are not defined by this module:
   _MINIX
   _POSIX_SOURCE
   _POSIX_1_SOURCE
+
+TODO: Appending compile definitions to CMAKE_C_FLAGS is for now not added:
+  string(APPEND CMAKE_C_FLAGS " -D${extension}=1 ")
 ]=============================================================================]#
 
 include_guard(GLOBAL)
@@ -31,40 +34,51 @@ include(CheckIncludeFile)
 include(CheckSourceCompiles)
 include(CMakePushCheckState)
 
+add_library(php_system_extensions INTERFACE IMPORTED)
+add_library(PHP::SystemExtensions ALIAS php_system_extensions)
+
+message(CHECK_START "Enabling C and POSIX extensions")
+
 ################################################################################
-# The following variables are always defined unconditionally.
+# The following extensions are always enabled unconditionally.
 ################################################################################
 
-set(
-  extensions
-    _GNU_SOURCE
-    _DARWIN_C_SOURCE
-    _NETBSD_SOURCE
-    _OPENBSD_SOURCE
-    _ALL_SOURCE
-    _TANDEM_SOURCE
-    _POSIX_PTHREAD_SEMANTICS
-    __STDC_WANT_IEC_60559_ATTRIBS_EXT__
-    __STDC_WANT_IEC_60559_BFP_EXT__
-    __STDC_WANT_IEC_60559_EXT__
-    __STDC_WANT_IEC_60559_FUNCS_EXT__
-    __STDC_WANT_IEC_60559_DFP_EXT__
-    __STDC_WANT_IEC_60559_TYPES_EXT__
-    __STDC_WANT_LIB_EXT2__
-    __STDC_WANT_MATH_SPEC_FUNCS__
-    _HPUX_ALT_XOPEN_SOCKET_API
+target_compile_definitions(
+  php_system_extensions
+  INTERFACE
+    _ALL_SOURCE=1
+    _DARWIN_C_SOURCE=1
+    _GNU_SOURCE=1
+    _HPUX_ALT_XOPEN_SOCKET_API=1
+    _NETBSD_SOURCE=1
+    _OPENBSD_SOURCE=1
+    _POSIX_PTHREAD_SEMANTICS=1
+    _TANDEM_SOURCE=1
+    __STDC_WANT_IEC_60559_ATTRIBS_EXT__=1
+    __STDC_WANT_IEC_60559_BFP_EXT__=1
+    __STDC_WANT_IEC_60559_DFP_EXT__=1
+    __STDC_WANT_IEC_60559_EXT__=1
+    __STDC_WANT_IEC_60559_FUNCS_EXT__=1
+    __STDC_WANT_IEC_60559_TYPES_EXT__=1
+    __STDC_WANT_LIB_EXT2__=1
+    __STDC_WANT_MATH_SPEC_FUNCS__=1
 )
 
 ################################################################################
-# The following variables are defined based on platform and other checks.
+# Check whether to enable __EXTENSIONS__.
 ################################################################################
 
-check_include_file(strings.h HAVE_STRINGS_H)
-check_include_file(sys/types.h HAVE_SYS_TYPES_H)
-check_include_file(sys/stat.h HAVE_SYS_STAT_H)
-check_include_file(unistd.h HAVE_UNISTD_H)
-
 cmake_push_check_state(RESET)
+  cmake_language(GET_MESSAGE_LOG_LEVEL log_level)
+  if(NOT log_level MATCHES "^(VERBOSE|DEBUG|TRACE)$")
+    set(CMAKE_REQUIRED_QUIET TRUE)
+  endif()
+
+  check_include_file(strings.h HAVE_STRINGS_H)
+  check_include_file(sys/types.h HAVE_SYS_TYPES_H)
+  check_include_file(sys/stat.h HAVE_SYS_STAT_H)
+  check_include_file(unistd.h HAVE_UNISTD_H)
+
   if(HAVE_STRINGS_H)
     list(APPEND CMAKE_REQUIRED_DEFINITIONS -DHAVE_STRINGS_H)
   endif()
@@ -109,7 +123,54 @@ cmake_push_check_state(RESET)
 cmake_pop_check_state()
 
 if(__EXTENSIONS__)
-  list(APPEND extensions __EXTENSIONS__)
+  target_compile_definitions(
+    php_system_extensions
+    INTERFACE
+      __EXTENSIONS__=1
+  )
+endif()
+
+################################################################################
+# Check whether to enable _XOPEN_SOURCE.
+################################################################################
+
+# HP-UX 11.11 didn't define mbstate_t without setting _XOPEN_SOURCE. This is
+# set conditionally, because BSD-based systems might have issues with this.
+if(CMAKE_SYSTEM_NAME STREQUAL "HP-UX")
+  # Reset any possible previous value.
+  unset(_XOPEN_SOURCE)
+
+  cmake_push_check_state(RESET)
+    cmake_language(GET_MESSAGE_LOG_LEVEL log_level)
+    if(NOT log_level MATCHES "^(VERBOSE|DEBUG|TRACE)$")
+      set(CMAKE_REQUIRED_QUIET TRUE)
+    endif()
+
+    check_source_compiles(C [[
+      #include <wchar.h>
+      mbstate_t x;
+      int main(void) { return 0; }
+    ]] _HAVE_MBSTATE_T)
+
+    if(NOT _HAVE_MBSTATE_T)
+      check_source_compiles(C [[
+        #define _XOPEN_SOURCE 500
+        #include <wchar.h>
+        mbstate_t x;
+        int main(void) { return 0; }
+      ]] _HAVE_MBSTATE_T_WITH_XOPEN_SOURCE)
+
+      if(_HAVE_MBSTATE_T_WITH_XOPEN_SOURCE)
+        set(_XOPEN_SOURCE 500)
+
+        target_compile_definitions(
+          php_system_extensions
+          INTERFACE
+            _XOPEN_SOURCE=${_XOPEN_SOURCE}
+        )
+      endif()
+    endif()
+  cmake_pop_check_state()
 endif()
 
 ################################################################################
@@ -119,11 +180,11 @@ endif()
 set(PHP_SYSTEM_EXTENSIONS [[
 /* Enable extensions on AIX, Interix, z/OS.  */
 #ifndef _ALL_SOURCE
-# cmakedefine _ALL_SOURCE 1
+# define _ALL_SOURCE 1
 #endif
 /* Enable general extensions on macOS.  */
 #ifndef _DARWIN_C_SOURCE
-# cmakedefine _DARWIN_C_SOURCE 1
+# define _DARWIN_C_SOURCE 1
 #endif
 /* Enable general extensions on Solaris.  */
 #ifndef __EXTENSIONS__
@@ -131,86 +192,71 @@ set(PHP_SYSTEM_EXTENSIONS [[
 #endif
 /* Enable GNU extensions on systems that have them.  */
 #ifndef _GNU_SOURCE
-# cmakedefine _GNU_SOURCE 1
+# define _GNU_SOURCE 1
 #endif
 /* Enable X/Open compliant socket functions that do not require linking
    with -lxnet on HP-UX 11.11.  */
 #ifndef _HPUX_ALT_XOPEN_SOCKET_API
-# cmakedefine _HPUX_ALT_XOPEN_SOCKET_API 1
+# define _HPUX_ALT_XOPEN_SOCKET_API 1
 #endif
 /* Enable general extensions on NetBSD.
    Enable NetBSD compatibility extensions on Minix.  */
 #ifndef _NETBSD_SOURCE
-# cmakedefine _NETBSD_SOURCE 1
+# define _NETBSD_SOURCE 1
 #endif
 /* Enable OpenBSD compatibility extensions on NetBSD.
    Oddly enough, this does nothing on OpenBSD.  */
 #ifndef _OPENBSD_SOURCE
-# cmakedefine _OPENBSD_SOURCE 1
+# define _OPENBSD_SOURCE 1
 #endif
 /* Enable POSIX-compatible threading on Solaris.  */
 #ifndef _POSIX_PTHREAD_SEMANTICS
-# cmakedefine _POSIX_PTHREAD_SEMANTICS 1
+# define _POSIX_PTHREAD_SEMANTICS 1
 #endif
 /* Enable extensions specified by ISO/IEC TS 18661-5:2014.  */
 #ifndef __STDC_WANT_IEC_60559_ATTRIBS_EXT__
-# cmakedefine __STDC_WANT_IEC_60559_ATTRIBS_EXT__ 1
+# define __STDC_WANT_IEC_60559_ATTRIBS_EXT__ 1
 #endif
 /* Enable extensions specified by ISO/IEC TS 18661-1:2014.  */
 #ifndef __STDC_WANT_IEC_60559_BFP_EXT__
-# cmakedefine __STDC_WANT_IEC_60559_BFP_EXT__ 1
+# define __STDC_WANT_IEC_60559_BFP_EXT__ 1
 #endif
 /* Enable extensions specified by ISO/IEC TS 18661-2:2015.  */
 #ifndef __STDC_WANT_IEC_60559_DFP_EXT__
-# cmakedefine __STDC_WANT_IEC_60559_DFP_EXT__ 1
+# define __STDC_WANT_IEC_60559_DFP_EXT__ 1
 #endif
 /* Enable extensions specified by C23 Annex F.  */
 #ifndef __STDC_WANT_IEC_60559_EXT__
-# cmakedefine __STDC_WANT_IEC_60559_EXT__ 1
+# define __STDC_WANT_IEC_60559_EXT__ 1
 #endif
 /* Enable extensions specified by ISO/IEC TS 18661-4:2015.  */
 #ifndef __STDC_WANT_IEC_60559_FUNCS_EXT__
-# cmakedefine __STDC_WANT_IEC_60559_FUNCS_EXT__ 1
+# define __STDC_WANT_IEC_60559_FUNCS_EXT__ 1
 #endif
 /* Enable extensions specified by C23 Annex H and ISO/IEC TS 18661-3:2015.  */
 #ifndef __STDC_WANT_IEC_60559_TYPES_EXT__
-# cmakedefine __STDC_WANT_IEC_60559_TYPES_EXT__ 1
+# define __STDC_WANT_IEC_60559_TYPES_EXT__ 1
 #endif
 /* Enable extensions specified by ISO/IEC TR 24731-2:2010.  */
 #ifndef __STDC_WANT_LIB_EXT2__
-# cmakedefine __STDC_WANT_LIB_EXT2__ 1
+# define __STDC_WANT_LIB_EXT2__ 1
 #endif
 /* Enable extensions specified by ISO/IEC 24747:2009.  */
 #ifndef __STDC_WANT_MATH_SPEC_FUNCS__
-# cmakedefine __STDC_WANT_MATH_SPEC_FUNCS__ 1
+# define __STDC_WANT_MATH_SPEC_FUNCS__ 1
 #endif
 /* Enable extensions on HP NonStop.  */
 #ifndef _TANDEM_SOURCE
-# cmakedefine _TANDEM_SOURCE 1
+# define _TANDEM_SOURCE 1
 #endif
 /* Enable X/Open extensions.  Define to 500 only if necessary
    to make mbstate_t available.  */
 #ifndef _XOPEN_SOURCE
-# cmakedefine _XOPEN_SOURCE 1
-#endif
-]])
+# cmakedefine _XOPEN_SOURCE @_XOPEN_SOURCE@
+#endif]])
 
-add_library(php_system_extensions INTERFACE IMPORTED)
-add_library(PHP::SystemExtensions ALIAS php_system_extensions)
+string(CONFIGURE "${PHP_SYSTEM_EXTENSIONS}" PHP_SYSTEM_EXTENSIONS)
 
-block(PROPAGATE PHP_SYSTEM_EXTENSIONS)
-  foreach(extension ${extensions})
-    set(${extension} 1)
-    # TODO: Appending compile definitions to CMAKE_C_FLAGS is disabled for now:
-    #string(APPEND CMAKE_C_FLAGS " -D${extension}=1 ")
-    target_compile_definitions(
-      php_system_extensions
-      INTERFACE
-        ${extension}=1
-    )
-  endforeach()
+unset(_XOPEN_SOURCE)
 
-  string(CONFIGURE "${PHP_SYSTEM_EXTENSIONS}" PHP_SYSTEM_EXTENSIONS)
-endblock()
-
-unset(extensions)
+message(CHECK_PASS "done")

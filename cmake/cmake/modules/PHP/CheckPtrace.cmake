@@ -130,35 +130,35 @@ endif()
 
 if(_php_proc_mem_file)
   if(NOT CMAKE_CROSSCOMPILING)
-    check_source_runs(C "
-      #ifndef _GNU_SOURCE
-      #define _GNU_SOURCE
-      #endif
-      #define _FILE_OFFSET_BITS 64
-      #include <stdint.h>
-      #include <unistd.h>
-      #include <sys/types.h>
-      #include <sys/stat.h>
-      #include <fcntl.h>
-      #include <stdio.h>
+    cmake_push_check_state(RESET)
+      set(CMAKE_REQUIRED_DEFINITIONS -D_GNU_SOURCE)
+      check_source_runs(C "
+        #define _FILE_OFFSET_BITS 64
+        #include <stdint.h>
+        #include <unistd.h>
+        #include <sys/types.h>
+        #include <sys/stat.h>
+        #include <fcntl.h>
+        #include <stdio.h>
 
-      int main(void) {
-        long v1 = (unsigned int) -1, v2 = 0;
-        char buf[128];
-        int fd;
-        sprintf(buf, \"/proc/%d/${_php_proc_mem_file}\", getpid());
-        fd = open(buf, O_RDONLY);
-        if (0 > fd) {
-          return 1;
-        }
-        if (sizeof(long) != pread(fd, &v2, sizeof(long), (uintptr_t) &v1)) {
+        int main(void) {
+          long v1 = (unsigned int) -1, v2 = 0;
+          char buf[128];
+          int fd;
+          sprintf(buf, \"/proc/%d/${_php_proc_mem_file}\", getpid());
+          fd = open(buf, O_RDONLY);
+          if (0 > fd) {
+            return 1;
+          }
+          if (sizeof(long) != pread(fd, &v2, sizeof(long), (uintptr_t) &v1)) {
+            close(fd);
+            return 1;
+          }
           close(fd);
-          return 1;
+          return v1 != v2;
         }
-        close(fd);
-        return v1 != v2;
-      }
-    " _php_proc_mem_successful)
+      " _php_proc_mem_successful)
+    cmake_pop_check_state()
   endif()
 endif()
 
