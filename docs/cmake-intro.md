@@ -32,7 +32,6 @@ understanding of its fundamentals.
   * [5.1. Header availability check](#51-header-availability-check)
   * [5.2. C source compilation check](#52-c-source-compilation-check)
   * [5.3. C source compilation and execution check](#53-c-source-compilation-and-execution-check)
-  * [5.4. Cross-compilation considerations](#54-cross-compilation-considerations)
 * [6. Generating a configuration header](#6-generating-a-configuration-header)
 * [7. Where to go from here?](#7-where-to-go-from-here)
 
@@ -460,27 +459,6 @@ This will compile, link and also run the program to check if the return code is
 ```sh
 gcc -o out check_program.c
 ./out
-```
-
-### 5.4. Cross-compilation considerations
-
-Cross-compilation is a method where a project is compiled on one system but
-targeted to run on another. In cross-compilation scenarios, running C test
-programs isn't always feasible or guaranteed. Here's how to handle it:
-
-```cmake
-if(CMAKE_CROSSCOMPILING)
-  message(STATUS "Cross-compiling: Certain checks may not be applicable.")
-else()
-  check_source_runs(C "int main(void) { return 0; }" HAVE_WORKING_HELLO_WORLD)
-endif()
-```
-
-Cross compilation uses so called toolchain files, where all the unknown
-variables are manually defined for the targeted platform.
-
-```sh
-cmake --toolchain customToolchain.cmake -S ../php-src -B build-directory
 ```
 
 ## 6. Generating a configuration header

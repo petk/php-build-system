@@ -11,5 +11,6 @@
 * [Windows build system for PHP](/docs/windows.md)
 * [PHP embed SAPI module](/docs/embed.md)
 * [PHP installation](/docs/php-installation.md)
+* [Cross-compiling](/docs/cross-compiling.md)
 * [PHP build system evolution](/docs/evolution.md)
 * [Introduction to C](/docs/c.md)

@@ -4,11 +4,13 @@ if(CMAKE_SYSTEM_NAME STREQUAL "Windows")
 endif()
 
 # TODO: pcntl is a cli/cgi extension.
+include(CheckSourceRuns)
 include(CheckSymbolExists)
 include(CheckTypeSize)
 include(CMakeDependentOption)
 include(CMakePushCheckState)
 include(FeatureSummary)
+include(PHP/SearchLibraries)
 
 option(EXT_PCNTL "Enable the pcntl extension (CLI/CGI only)" OFF)
 
@@ -69,10 +71,6 @@ check_symbol_exists(wait3 "sys/wait.h" HAVE_WAIT3)
 check_symbol_exists(wait4 "sys/wait.h" HAVE_WAIT4)
 check_symbol_exists(sigwaitinfo "signal.h" HAVE_SIGWAITINFO)
 check_symbol_exists(sigtimedwait "signal.h" HAVE_SIGTIMEDWAIT)
-cmake_push_check_state(RESET)
-  set(CMAKE_REQUIRED_DEFINITIONS -D_GNU_SOURCE)
-  check_symbol_exists(unshare "sched.h" HAVE_UNSHARE)
-cmake_pop_check_state()
 check_symbol_exists(rfork "unistd.h" HAVE_RFORK)
 check_symbol_exists(forkx "sys/fork.h" HAVE_FORKX)
 check_symbol_exists(SYS_pidfd_open "sys/syscall.h" HAVE_PIDFD_OPEN)
@@ -85,3 +83,39 @@ cmake_pop_check_state()
 if(HAVE_STRUCT_SIGINFO_T)
   target_compile_definitions(php_pcntl PRIVATE HAVE_STRUCT_SIGINFO_T=1)
 endif()
+
+cmake_push_check_state(RESET)
+  set(CMAKE_REQUIRED_DEFINITIONS -D_GNU_SOURCE)
+
+  check_symbol_exists(unshare "sched.h" HAVE_UNSHARE)
+  check_symbol_exists(sched_setaffinity "sched.h" HAVE_SCHED_SETAFFINITY)
+
+  # Check if sched_getcpu() is supported. Value -1 means ENOSYS in this context.
+  block()
+    php_search_libraries(
+      sched_getcpu
+      "sched.h"
+      _HAVE_SCHED_GETCPU
+      LIBRARIES
+        gnu # Haiku
+      LIBRARY_VARIABLE library
+    )
+
+    if(_HAVE_SCHED_GETCPU AND NOT CMAKE_CROSSCOMPILING)
+      set(CMAKE_REQUIRED_LIBRARIES ${library})
+      check_source_runs(C [[
+        #include <sched.h>
+        int main(void) {
+          if (sched_getcpu() == -1) {
+              return 1;
+          }
+          return 0;
+        }
+      ]] HAVE_SCHED_GETCPU)
+    endif()
+
+    if(HAVE_SCHED_GETCPU)
+      target_link_libraries(php_pcntl PRIVATE ${library})
+    endif()
+  endblock()
+cmake_pop_check_state()

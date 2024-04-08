@@ -175,6 +175,12 @@ endif()
 
 target_compile_definitions(php_mbstring PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE=1)
 
+target_compile_options(
+  php_mbstring
+  PRIVATE
+    $<$<PLATFORM_ID:Windows>:/utf-8>
+)
+
 target_include_directories(
   php_mbstring
   PRIVATE

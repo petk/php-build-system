@@ -1156,6 +1156,12 @@
 /* Define to 1 if you have the 'scandir' function. */
 #cmakedefine HAVE_SCANDIR 1
 
+/* Whether sched_getcpu is properly supported */
+#cmakedefine HAVE_SCHED_GETCPU 1
+
+/* Define to 1 if you have the 'sched_setaffinity' function. */
+#cmakedefine HAVE_SCHED_SETAFFINITY 1
+
 /* do we have select? */
 #cmakedefine HAVE_SELECT 1
 

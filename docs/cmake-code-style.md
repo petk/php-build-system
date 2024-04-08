@@ -541,7 +541,7 @@ target_compile_definitions(php PRIVATE $<$<PLATFORM_ID:Linux,FreeBSD>:FOOBAR>)
 
 ### 9.1. Determining processor
 
-When cross compiling the `CMAKE_SYSTEM_PROCESSOR` is determined from the
+When cross-compiling the `CMAKE_SYSTEM_PROCESSOR` is determined from the
 toolchain file. When compiling on the machine for which the build is also
 targeted, the `CMAKE_SYSTEM_PROCESSOR` and `CMAKE_HOST_SYSTEM_PROCESSOR` will be
 the same.
@@ -558,29 +558,31 @@ endif()
 
 Values for `CMAKE_HOST_SYSTEM_PROCESSOR` and `CMAKE_SYSTEM_PROCESSOR`:
 
-| Value       | Note                                             |
-| ----------- | ------------------------------------------------ |
-| `aarch64.*` | 64-bit ARM processor (`aarch64` or `aarch64_be`) |
-| `alpha`     | 64-bit DEC Alpha processor                       |
-| `amd64`     | 64-bit x86 processor on FreeBSD                  |
-| `AMD64`     | 64-bit x86 processor on Windows                  |
-| `arm`       | 32-bit ARM processor                             |
-| `arm64`     | 64-bit ARM processor                             |
-| `ARM64`     | 64-bit ARM processor on Windows                  |
-| `EM64T`     | 64-bit processor on Windows XP-64 (obsolete)     |
-| `i.?86.*`   | 32-bit x86 processor                             |
-| `IA-64`     | 64-bit Intel Itanium processor on Windows        |
-| `mips`      | 32-bit MIPS processor                            |
-| `mips64`    | 64-bit MIPS processor                            |
-| `powerpc`   | PowerPC processor                                |
-| `ppc`       | 32-bit PPC (PowerPC) processor                   |
-| `ppc64`     | 64-bit PPC (PowerPC) processor                   |
-| `riscv64.*` | 64-bit RISC-V Open ISA processor                 |
-| `sparc`     | 32-bit SPARC processor                           |
-| `sparc64`   | 64-bit SPARC processor                           |
-| `x86_64`    | 64-bit x86 processor, on FreeBSD named `amd64`   |
-| `x86`       | 32-bit x86 processor                             |
-| `X86`       | 32-bit x86 processor on Windows                  |
+| Value         | Note                                             |
+| ------------- | ------------------------------------------------ |
+| `aarch64.*`   | 64-bit ARM processor (`aarch64` or `aarch64_be`) |
+| `alpha`       | 64-bit DEC Alpha processor                       |
+| `amd64`       | 64-bit x86 processor on FreeBSD                  |
+| `AMD64`       | 64-bit x86 processor on Windows                  |
+| `arm`         | 32-bit ARM processor                             |
+| `arm64`       | 64-bit ARM processor                             |
+| `ARM64`       | 64-bit ARM processor on Windows                  |
+| `EM64T`       | 64-bit processor on Windows XP-64 (obsolete)     |
+| `i.?86.*`     | 32-bit x86 processor                             |
+| `IA-64`       | 64-bit Intel Itanium processor on Windows        |
+| `loongarch32` | 32-bit Loongson processor                        |
+| `loongarch64` | 64-bit Loongson processor                        |
+| `mips`        | 32-bit MIPS processor                            |
+| `mips64`      | 64-bit MIPS processor                            |
+| `powerpc`     | PowerPC processor                                |
+| `ppc`         | 32-bit PPC (PowerPC) processor                   |
+| `ppc64`       | 64-bit PPC (PowerPC) processor                   |
+| `riscv64.*`   | 64-bit RISC-V Open ISA processor                 |
+| `sparc`       | 32-bit SPARC processor                           |
+| `sparc64`     | 64-bit SPARC processor                           |
+| `x86_64`      | 64-bit x86 processor, on FreeBSD named `amd64`   |
+| `x86`         | 32-bit x86 processor                             |
+| `X86`         | 32-bit x86 processor on Windows                  |
 
 ## 10. See also
 

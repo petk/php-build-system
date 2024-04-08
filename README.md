@@ -241,10 +241,9 @@ PHP tests and other associated files:
 
 ## Why CMake?
 
-At the time of this writing, CMake is actively developed, and many developers
-may already be familiar with it, making C code more appealing to new
-contributors. Numerous IDEs offer excellent CMake integration for C/C++
-projects.
+At the time of writing, CMake is actively developed, and many developers may
+already be familiar with it, making C code more appealing to new contributors.
+Numerous IDEs offer excellent CMake integration for C/C++ projects.
 
 CMake shares many similarities with Autotools, which simplifies the learning
 curve for those already accustomed to building C code using existing systems.
@@ -269,15 +268,6 @@ some even incorporate it alongside CMake.
 * [Windows build system for PHP](/docs/windows.md)
 * [PHP embed SAPI module](/docs/embed.md)
 * [PHP installation](/docs/php-installation.md)
+* [Cross-compiling](/docs/cross-compiling.md)
 * [PHP build system evolution](/docs/evolution.md)
 * [Introduction to C](/docs/c.md)
-
-## Project status
-
-CMake files in this repository are synced up to these upstream php-src Git
-commits:
-
-| Upstream php-src branch | Last included upstream php-src commit                          |
-| ----------------------- | -------------------------------------------------------------- |
-| master                  | [03547f6832](https://github.com/php/php-src/commit/03547f6832) |
-| PHP-8.3                 | [b32a1cc76f](https://github.com/php/php-src/commit/b32a1cc76f) |
