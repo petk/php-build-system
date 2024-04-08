@@ -311,10 +311,11 @@ php_search_libraries(
 php_search_libraries(
   dns_search
   # BSD-based systems (FreeBSD<=13) need also netinet/in.h for resolv.h to work.
-  "netinet/in.h;resolv.h"
+  # macOS has dns_search() in dns.h.
+  "netinet/in.h;resolv.h;dns.h"
   HAVE_DNS_SEARCH
   LIBRARIES
-    resolv # Solaris/illumos
+    resolv # Solaris/illumos, macOS
   TARGET php_standard PRIVATE
 )
 
