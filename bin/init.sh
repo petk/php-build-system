@@ -182,7 +182,13 @@ else
   php_version=$(echo $branch | sed 's/PHP-\([0-9.]*\).*$/\1/')
 fi
 
-patches=$(find ./patches/${php_version} -maxdepth 1 -type f -name "*.patch" 2>/dev/null)
+patches=$(find ./patches/${php_version} -type f -name "*.patch" -prune 2>/dev/null)
+
+if test -z "$patches"; then
+  echo "No patches found."
+else
+  echo "Applying patches"
+fi
 
 for file in $patches; do
   case $file in

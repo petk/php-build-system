@@ -47,7 +47,7 @@ cd $(CDPATH= cd -- "$(dirname -- "$0")/.." && pwd -P)
 echo "Checking for unused modules"
 
 modules=$(find ./cmake/cmake/modules -maxdepth 2 -name "*.cmake" ! -name "Find*.cmake")
-modules="${modules} "$(find ./cmake/cmake -maxdepth 1 -name "*.cmake")
+modules="${modules} "$(find ./cmake/cmake -name "*.cmake" -prune)
 
 for module in $modules; do
   module_name=$(basename $module | sed -e "s/.cmake$//")

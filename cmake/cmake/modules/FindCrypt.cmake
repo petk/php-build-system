@@ -114,9 +114,7 @@ function(_crypt_check_crypt_r result)
     set(CMAKE_REQUIRED_QUIET TRUE)
 
     check_source_compiles(C [[
-      #ifndef _REENTRANT
       #define _REENTRANT 1
-      #endif
       #include <crypt.h>
 
       int main(void) {
@@ -134,9 +132,7 @@ function(_crypt_check_crypt_r result)
     endif()
 
     check_source_compiles(C [[
-      #ifndef _REENTRANT
       #define _REENTRANT 1
-      #endif
       #include <crypt.h>
 
       int main(void) {
@@ -153,22 +149,20 @@ function(_crypt_check_crypt_r result)
       return()
     endif()
 
-    check_source_compiles(C [[
-      #ifndef _REENTRANT
-      #define _REENTRANT 1
-      #endif
-      #ifndef _GNU_SOURCE
-      #define _GNU_SOURCE
-      #endif
-      #include <crypt.h>
+    cmake_push_check_state()
+      list(APPEND CMAKE_REQUIRED_DEFINITIONS -D_GNU_SOURCE)
+      check_source_compiles(C [[
+        #define _REENTRANT 1
+        #include <crypt.h>
 
-      int main(void) {
-        struct crypt_data buffer;
-        crypt_r("passwd", "hash", &buffer);
+        int main(void) {
+          struct crypt_data buffer;
+          crypt_r("passwd", "hash", &buffer);
 
-        return 0;
-      }
-    ]] CRYPT_R_GNU_SOURCE)
+          return 0;
+        }
+      ]] CRYPT_R_GNU_SOURCE)
+    cmake_pop_check_state()
 
     if(CRYPT_R_GNU_SOURCE)
       set(
