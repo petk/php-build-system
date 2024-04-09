@@ -279,9 +279,6 @@ endif()
 # Check how flush should be called.
 include(PHP/CheckFlushIo)
 
-# Check whether the strptime() declaration fails.
-include(PHP/CheckStrptime)
-
 # Check for fnmatch() implementation.
 include(PHP/CheckFnmatch)
 

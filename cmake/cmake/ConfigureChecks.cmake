@@ -244,23 +244,37 @@ check_symbol_exists(explicit_memset "string.h" HAVE_EXPLICIT_MEMSET)
 check_symbol_exists(fdatasync "unistd.h" HAVE_FDATASYNC)
 
 block()
-  cmake_push_check_state(RESET)
-    if(HAVE_FCNTL_H)
-      list(APPEND headers "fcntl.h")
-    endif()
+  if(HAVE_FCNTL_H)
+    list(APPEND headers "fcntl.h")
+  endif()
 
-    if(HAVE_SYS_FILE_H)
-      list(APPEND headers "sys/file.h")
-    endif()
+  if(HAVE_SYS_FILE_H)
+    list(APPEND headers "sys/file.h")
+  endif()
 
-    check_symbol_exists(flock "${headers}" HAVE_FLOCK)
-  cmake_pop_check_state()
+  check_symbol_exists(flock "${headers}" HAVE_FLOCK)
 endblock()
 
 check_symbol_exists(ftok "sys/ipc.h" HAVE_FTOK)
 check_symbol_exists(funopen "stdio.h" HAVE_FUNOPEN)
 check_symbol_exists(getcwd "unistd.h" HAVE_GETCWD)
-check_symbol_exists(getloadavg "stdlib.h" HAVE_GETLOADAVG)
+
+block()
+  set(headers stdlib.h)
+
+  # illumos: https://www.illumos.org/issues/9021
+  if(HAVE_SYS_TYPES_H)
+    list(APPEND headers sys/types.h)
+  endif()
+
+  # Solaris, illumos.
+  if(HAVE_SYS_LOADAVG_H)
+    list(APPEND headers sys/loadavg.h)
+  endif()
+
+  check_symbol_exists(getloadavg "${headers}" HAVE_GETLOADAVG)
+endblock()
+
 check_symbol_exists(getlogin "unistd.h" HAVE_GETLOGIN)
 check_symbol_exists(getrusage "sys/resource.h" HAVE_GETRUSAGE)
 check_symbol_exists(gettimeofday "sys/time.h" HAVE_GETTIMEOFDAY)
@@ -312,12 +326,6 @@ check_symbol_exists(statvfs "sys/statvfs.h" HAVE_STATVFS)
 check_symbol_exists(std_syslog "sys/syslog.h" HAVE_STD_SYSLOG)
 check_symbol_exists(strcasecmp "strings.h" HAVE_STRCASECMP)
 check_symbol_exists(strnlen "string.h" HAVE_STRNLEN)
-
-cmake_push_check_state(RESET)
-  set(CMAKE_REQUIRED_DEFINITIONS -D_GNU_SOURCE)
-  check_symbol_exists(strptime "time.h" HAVE_STRPTIME)
-cmake_pop_check_state()
-
 check_symbol_exists(symlink "unistd.h" HAVE_SYMLINK)
 check_symbol_exists(tzset "time.h" HAVE_TZSET)
 check_symbol_exists(unsetenv "stdlib.h" HAVE_UNSETENV)
@@ -347,6 +355,9 @@ cmake_pop_check_state()
 check_symbol_exists(strlcat "string.h" HAVE_STRLCAT)
 check_symbol_exists(strlcpy "string.h" HAVE_STRLCPY)
 check_symbol_exists(explicit_bzero "string.h" HAVE_EXPLICIT_BZERO)
+
+# Check strptime().
+include(PHP/CheckStrptime)
 
 # Check reentrant functions.
 include(PHP/CheckReentrantFunctions)
