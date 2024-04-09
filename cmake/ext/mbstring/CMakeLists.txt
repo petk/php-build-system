@@ -175,11 +175,10 @@ endif()
 
 target_compile_definitions(php_mbstring PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE=1)
 
-target_compile_options(
-  php_mbstring
-  PRIVATE
-    $<$<PLATFORM_ID:Windows>:/utf-8>
-)
+# The mbstring_arginfo.h has some special characters.
+if(CMAKE_C_COMPILER_ID STREQUAL "MSVC")
+  set_property(SOURCE mbstring.c PROPERTY COMPILE_FLAGS /utf-8)
+endif()
 
 target_include_directories(
   php_mbstring

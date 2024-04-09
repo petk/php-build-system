@@ -12,8 +12,8 @@
 
 Cross-compilation is a method where a project is compiled on one system but
 targeted to run on another. In cross-compilation scenarios, running C test
-programs using `try_run`, `check_source_runs()`, or `check_<LANG>_source_runs`
-isn't always feasible or guaranteed.
+programs using `try_run()`, `check_source_runs()`, or
+`check_<LANG>_source_runs()` isn't always feasible or guaranteed.
 
 A minimum simplistic example of cross-compilation:
 
@@ -25,6 +25,7 @@ project(PHP LANGUAGES C)
 
 include(CheckSourceRuns)
 
+# Compile and run a test program.
 check_source_runs(C [[
   #include <stdio.h>
   int main(void) {
@@ -39,8 +40,8 @@ check_source_runs(C [[
 cmake . -DCMAKE_SYSTEM_NAME=Linux
 ```
 
-CMake will emit error indicating that cache variable `HAVE_WORKING_HELLO_WORLD`
-should be set manually:
+CMake will emit error indicating that cache variable
+`HAVE_WORKING_HELLO_WORLD_EXITCODE` should be set manually:
 
 ```txt
 -- Performing Test HAVE_WORKING_HELLO_WORLD
@@ -56,6 +57,9 @@ Here are some options to consider, when encountering cross-compilation.
 
 ### 1.1. Setting known cache variables manually
 
+When the target system is known how certain check is working, the cache
+variables can be set manually. For example:
+
 ```sh
 cmake . -DCMAKE_SYSTEM_NAME=Linux -DHAVE_WORKING_HELLO_WORLD_EXITCODE=0
 ```
@@ -63,7 +67,7 @@ cmake . -DCMAKE_SYSTEM_NAME=Linux -DHAVE_WORKING_HELLO_WORLD_EXITCODE=0
 ### 1.2. CMAKE_CROSSCOMPILING
 
 When CMake is in cross-compilation mode, the `CMAKE_CROSSCOMPILING` variable is
-set.
+set. It can be used to run certain checks conditionally.
 
 ```cmake
 if(CMAKE_CROSSCOMPILING)
@@ -81,8 +85,9 @@ endif()
 
 ### 1.3 CMAKE_CROSSCOMPILING_EMULATOR
 
-Setting the `CMAKE_CROSSCOMPILING_EMULATOR` variable can be then run with
-provided emulator if possible on the host system and for the targeted platform.
+By setting the `CMAKE_CROSSCOMPILING_EMULATOR` variable, test programs can be
+then run with provided emulator if possible on the host system and for the
+targeted platform.
 
 ```sh
 cmake . -DCMAKE_SYSTEM_NAME=Linux -DCMAKE_CROSSCOMPILING_EMULATOR=/usr/bin/env
