@@ -25,8 +25,10 @@ message(CHECK_START "Checking for getaddrinfo()")
 block()
   php_search_libraries(
     getaddrinfo
-    "netdb.h;ws2tcpip.h"
     _have_getaddrinfo_symbol
+    HEADERS
+      netdb.h
+      ws2tcpip.h
     LIBRARIES
       socket  # Solaris <= 11.3
       network # Haiku

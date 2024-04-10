@@ -273,8 +273,8 @@ message(CHECK_START "Checking whether to enable Zend max execution timers")
 if(ZEND_MAX_EXECUTION_TIMERS AND CMAKE_SYSTEM_NAME STREQUAL "Linux")
   php_search_libraries(
     timer_create
-    "time.h"
     HAVE_TIMER_CREATE
+    HEADERS time.h
     LIBRARIES
       rt # Solaris <= 10, older Linux
     TARGET zend PRIVATE

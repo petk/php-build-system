@@ -23,8 +23,8 @@ include(PHP/SearchLibraries)
 block()
   php_search_libraries(
     clock_gettime
-    "time.h"
     HAVE_CLOCK_GETTIME
+    HEADERS time.h
     LIBRARIES
       rt # Solaris 10
     LIBRARY_VARIABLE library
