@@ -5,6 +5,7 @@ Project-wide configuration checks.
 include_guard(GLOBAL)
 
 # Include required modules.
+include(CheckFunctionExists)
 include(CheckIncludeFile)
 include(CheckIncludeFiles)
 include(CheckSourceCompiles)
@@ -22,7 +23,15 @@ include(PHP/SearchLibraries)
 
 check_include_file(alloca.h HAVE_ALLOCA_H)
 check_include_file(arpa/inet.h HAVE_ARPA_INET_H)
-check_include_file(arpa/nameser.h HAVE_ARPA_NAMESER_H)
+check_include_file(sys/types.h HAVE_SYS_TYPES_H)
+
+if(HAVE_SYS_TYPES_H)
+  # On Solaris/illumos arpa/nameser.h depends on sys/types.h.
+  check_include_files("sys/types.h;arpa/nameser.h" HAVE_ARPA_NAMESER_H)
+else()
+  check_include_file(arpa/nameser.h HAVE_ARPA_NAMESER_H)
+endif()
+
 check_include_file(dirent.h HAVE_DIRENT_H)
 check_include_file(dlfcn.h HAVE_DLFCN_H)
 check_include_file(dns.h HAVE_DNS_H)
@@ -61,7 +70,6 @@ check_include_file(sys/statfs.h HAVE_SYS_STATFS_H)
 check_include_file(sys/statvfs.h HAVE_SYS_STATVFS_H)
 check_include_file(sys/sysexits.h HAVE_SYS_SYSEXITS_H)
 check_include_file(sys/time.h HAVE_SYS_TIME_H)
-check_include_file(sys/types.h HAVE_SYS_TYPES_H)
 check_include_file(sys/uio.h HAVE_SYS_UIO_H)
 check_include_file(sys/utsname.h HAVE_SYS_UTSNAME_H)
 # Solaris <= 10, other systems have sys/statvfs.h.
@@ -241,6 +249,11 @@ check_symbol_exists(alphasort "dirent.h" HAVE_ALPHASORT)
 check_symbol_exists(chroot "unistd.h" HAVE_CHROOT)
 check_symbol_exists(explicit_memset "string.h" HAVE_EXPLICIT_MEMSET)
 check_symbol_exists(fdatasync "unistd.h" HAVE_FDATASYNC)
+# The fdatasync declaration on macOS is missing in headers, yet is in C library.
+if(NOT HAVE_FDATASYNC)
+  unset(HAVE_FDATASYNC CACHE)
+  check_function_exists(fdatasync HAVE_FDATASYNC)
+endif()
 
 block()
   if(HAVE_FCNTL_H)
@@ -596,10 +609,11 @@ php_search_libraries(
 )
 
 # The openpty() can be in C library (Solaris 11.4+, Linux, etc). Solaris <= 11.3
-# and illumos don't have it. FreeBSD defines openpty in libutil.h.
+# and illumos don't have it. FreeBSD has openpty in libutil.h, macOS in util.h,
+# Solaris,illumos, some BSD-based systems in termios.h.
 php_search_libraries(
   openpty
-  "pty.h;libutil.h"
+  "pty.h;libutil.h;util.h;termios.h"
   HAVE_OPENPTY
   LIBRARIES
     util # Some BSD-based systems
