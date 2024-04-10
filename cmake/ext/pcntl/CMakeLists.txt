@@ -94,8 +94,8 @@ cmake_push_check_state(RESET)
   block()
     php_search_libraries(
       sched_getcpu
-      "sched.h"
       _HAVE_SCHED_GETCPU
+      HEADERS sched.h
       LIBRARIES
         gnu # Haiku
       LIBRARY_VARIABLE library

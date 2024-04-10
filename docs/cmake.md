@@ -324,11 +324,19 @@ include(PHP/SearchLibraries)
 
 php_search_libraries(
   function_name
-  "header.h;header_2.h"
   HAVE_FUNCTION_NAME
 
+  # A list of headers where to look for the funtion_name().
+  HEADERS
+    header.h
+    header_2.h
+    ...
+
   # A list of additional libraries to check the existence of the funtion_name().
-  LIBRARIES lib_1 lib_2...
+  LIBRARIES
+    lib_1
+    lib_2
+    ...
 
   # If default linked libraries (C library) don't contain function_name(), the
   # additional needed library can be also linked to the given <target> with the

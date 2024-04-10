@@ -696,8 +696,8 @@ php_search_libraries(
 # Check for Solaris/illumos process mapping.
 php_search_libraries(
   Pgrab
-  "libproc.h"
   HAVE_PGRAB
+  HEADERS libproc.h
   LIBRARIES proc
   TARGET php_configuration INTERFACE
 )
