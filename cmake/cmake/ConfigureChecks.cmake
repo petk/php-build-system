@@ -539,8 +539,8 @@ endif()
 
 php_search_libraries(
   dlopen
-  "dlfcn.h"
   HAVE_LIBDL
+  HEADERS dlfcn.h
   LIBRARIES
     ${CMAKE_DL_LIBS}
   TARGET php_configuration INTERFACE
@@ -548,8 +548,8 @@ php_search_libraries(
 
 php_search_libraries(
   sin
-  "math.h"
   HAVE_SIN
+  HEADERS math.h
   LIBRARIES m
   TARGET php_configuration INTERFACE
 )
@@ -565,8 +565,10 @@ endif()
 # The socket() is mostly in C library (Solaris 11.4...)
 php_search_libraries(
   socket
-  "sys/socket.h;winsock.h"
   HAVE_SOCKET
+  HEADERS
+    sys/socket.h
+    winsock.h
   LIBRARIES
     socket  # Solaris <= 11.3, illumos
     network # Haiku
@@ -577,8 +579,8 @@ php_search_libraries(
 # The socketpair() is mostly in C library (Solaris 11.4...), except Windows.
 php_search_libraries(
   socketpair
-  "sys/socket.h"
   HAVE_SOCKETPAIR
+  HEADERS sys/socket.h
   LIBRARIES
     socket  # Solaris <= 11.3, illumos
     network # Haiku
@@ -588,8 +590,10 @@ php_search_libraries(
 # The gethostname() is mostly in C library (Solaris/illumos...)
 php_search_libraries(
   gethostname
-  "unistd.h;winsock.h"
   HAVE_GETHOSTNAME
+  HEADERS
+    unistd.h
+    winsock.h
   LIBRARIES
     network # Haiku
     ws2_32  # Windows
@@ -599,8 +603,11 @@ php_search_libraries(
 # The gethostbyaddr() is mostly in C library (Solaris 11.4...)
 php_search_libraries(
   gethostbyaddr
-  "netdb.h;sys/socket.h;winsock.h"
   HAVE_GETHOSTBYADDR
+  HEADERS
+    netdb.h
+    sys/socket.h
+    winsock.h
   LIBRARIES
     nsl     # Solaris <= 11.3, illumos
     network # Haiku
@@ -609,12 +616,15 @@ php_search_libraries(
 )
 
 # The openpty() can be in C library (Solaris 11.4+, Linux, etc). Solaris <= 11.3
-# and illumos don't have it. FreeBSD has openpty in libutil.h, macOS in util.h,
-# Solaris,illumos, some BSD-based systems in termios.h.
+# and illumos don't have it.
 php_search_libraries(
   openpty
-  "pty.h;libutil.h;util.h;termios.h"
   HAVE_OPENPTY
+  HEADERS
+    pty.h
+    libutil.h # FreeBSD
+    util.h    # macOS
+    termios.h # Solaris, illumos, some BSD-based systems
   LIBRARIES
     util # Some BSD-based systems
     bsd  # Haiku
@@ -624,8 +634,10 @@ php_search_libraries(
 # The inet_ntop() is mostly in C library (Solaris 11.4, illumos, BSD*, Linux...)
 php_search_libraries(
   inet_ntop
-  "arpa/inet.h;ws2tcpip.h"
   _HAVE_INET_NTOP
+  HEADERS
+    arpa/inet.h
+    ws2tcpip.h
   LIBRARIES
     nsl     # Solaris <= 11.3
     resolv  # Solaris 2.6..7
@@ -640,8 +652,10 @@ endif()
 # The inet_pton() is mostly in C library (Solaris 11.4, illumos...)
 php_search_libraries(
   inet_pton
-  "arpa/inet.h;ws2tcpip.h"
   _HAVE_INET_PTON
+  HEADERS
+    arpa/inet.h
+    ws2tcpip.h
   LIBRARIES
     nsl     # Solaris <= 11.3
     resolv  # Solaris 2.6..7
@@ -656,8 +670,9 @@ endif()
 # The nanosleep is mostly in C library (Solaris 11, illumos...)
 php_search_libraries(
   nanosleep
-  "time.h"
   HAVE_NANOSLEEP
+  HEADERS
+    time.h
   LIBRARIES
     rt # Solaris <= 10
   TARGET php_configuration INTERFACE
@@ -666,8 +681,11 @@ php_search_libraries(
 # The setsockopt() is mostly in C library (Solaris 11.4...)
 php_search_libraries(
   setsockopt
-  "sys/types.h;sys/socket.h;winsock.h"
   HAVE_SETSOCKOPT
+  HEADERS
+    sys/types.h
+    sys/socket.h
+    winsock.h
   LIBRARIES
     socket  # Solaris <= 11.3, illumos
     network # Haiku
@@ -687,8 +705,8 @@ php_search_libraries(
 # The gai_strerror() is mostly in C library (Solaris 11.4...)
 php_search_libraries(
   gai_strerror
-  "netdb.h"
   HAVE_GAI_STRERROR
+  HEADERS netdb.h
   LIBRARIES
     socket  # Solaris <= 11.3, illumos
     network # Haiku
@@ -698,8 +716,10 @@ php_search_libraries(
 # The getprotobyname() is mostly in C library (Solaris 11.4...)
 php_search_libraries(
   getprotobyname
-  "netdb.h;winsock.h"
   HAVE_GETPROTOBYNAME
+  HEADERS
+    netdb.h
+    winsock.h
   LIBRARIES
     socket  # Solaris <= 11.3, illumos
     network # Haiku
@@ -710,8 +730,10 @@ php_search_libraries(
 # The getprotobynumber() is mostly in C library (Solaris 11.4...)
 php_search_libraries(
   getprotobynumber
-  "netdb.h;winsock.h"
   HAVE_GETPROTOBYNUMBER
+  HEADERS
+    netdb.h
+    winsock.h
   LIBRARIES
     socket  # Solaris <= 11.3, illumos
     network # Haiku
@@ -722,8 +744,10 @@ php_search_libraries(
 # The getservbyname() is mostly in C library (Solaris 11.4...)
 php_search_libraries(
   getservbyname
-  "netdb.h;winsock.h"
   HAVE_GETSERVBYNAME
+  HEADERS
+    netdb.h
+    winsock.h
   LIBRARIES
     socket  # Solaris <= 11.3, illumos
     network # Haiku
@@ -734,8 +758,10 @@ php_search_libraries(
 # The getservbyport() is mostly in C library (Solaris 11.4...)
 php_search_libraries(
   getservbyport
-  "netdb.h;winsock.h"
   HAVE_GETSERVBYPORT
+  HEADERS
+    netdb.h
+    winsock.h
   LIBRARIES
     socket  # Solaris <= 11.3, illumos
     network # Haiku
@@ -746,8 +772,10 @@ php_search_libraries(
 # The shutdown() is mostly in C library (Solaris 11.4...)
 php_search_libraries(
   shutdown
-  "sys/socket.h;winsock.h"
   HAVE_SHUTDOWN
+  HEADERS
+    sys/socket.h
+    winsock.h
   LIBRARIES
     socket  # Solaris <= 11.3, illumos
     network # Haiku

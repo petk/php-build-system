@@ -199,8 +199,8 @@ message(CHECK_START "Checking for mmap() using shm_open() shared memory support"
 block()
   php_search_libraries(
     shm_open
-    "sys/mman.h"
     HAVE_SHM_OPEN
+    HEADERS sys/mman.h
     LIBRARIES
       rt # Solaris <= 10, older Linux
     LIBRARY_VARIABLE library

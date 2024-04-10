@@ -220,8 +220,8 @@ block()
   # The getifaddrs() is available in C library some systems (Solaris 11.4...)
   php_search_libraries(
     getifaddrs
-    ifaddrs.h
     _HAVE_GETIFADDRS
+    HEADERS ifaddrs.h
     LIBRARIES
       socket  # Solaris 11..11.3, illumos
       network # Haiku
@@ -287,9 +287,10 @@ include(PHP/CheckFnmatch)
 # HAVE_FULL_DNS_FUNCS.
 php_search_libraries(
   res_nsearch
-  # BSD-based systems (FreeBSD<=13) need also netinet/in.h for resolv.h to work.
-  "netinet/in.h;resolv.h"
   HAVE_RES_NSEARCH
+  HEADERS
+    netinet/in.h # BSD-based systems (FreeBSD<=13) need it for resolv.h to work.
+    resolv.h
   LIBRARIES
     resolv # Solaris/illumos
   TARGET php_standard PRIVATE
@@ -297,9 +298,10 @@ php_search_libraries(
 
 php_search_libraries(
   res_ndestroy
-  # BSD-based systems (FreeBSD<=13) need also netinet/in.h for resolv.h to work.
-  "netinet/in.h;resolv.h"
   HAVE_RES_NDESTROY
+  HEADERS
+    netinet/in.h # BSD-based systems (FreeBSD<=13) need it for resolv.h to work.
+    resolv.h
   LIBRARIES
     resolv # Solaris/illumos
   TARGET php_standard PRIVATE
@@ -307,10 +309,11 @@ php_search_libraries(
 
 php_search_libraries(
   dns_search
-  # BSD-based systems (FreeBSD<=13) need also netinet/in.h for resolv.h to work.
-  # macOS has dns_search() in dns.h.
-  "netinet/in.h;resolv.h;dns.h"
   HAVE_DNS_SEARCH
+  HEADERS
+    netinet/in.h # BSD-based systems (FreeBSD<=13) need it for resolv.h to work.
+    resolv.h
+    dns.h        # macOS
   LIBRARIES
     resolv # Solaris/illumos, macOS
   TARGET php_standard PRIVATE
@@ -318,9 +321,10 @@ php_search_libraries(
 
 php_search_libraries(
   dn_expand
-  # BSD-based systems (FreeBSD<=13) need also netinet/in.h for resolv.h to work.
-  "netinet/in.h;resolv.h"
   HAVE_DN_EXPAND
+  HEADERS
+    netinet/in.h # BSD-based systems (FreeBSD<=13) need it for resolv.h to work.
+    resolv.h
   LIBRARIES
     resolv # Solaris/illumos
   TARGET php_standard PRIVATE
@@ -328,9 +332,10 @@ php_search_libraries(
 
 php_search_libraries(
   dn_skipname
-  # BSD-based systems (FreeBSD<=13) need also netinet/in.h for resolv.h to work.
-  "netinet/in.h;resolv.h"
   HAVE_DN_SKIPNAME
+  HEADERS
+    netinet/in.h # BSD-based systems (FreeBSD<=13) need it for resolv.h to work.
+    resolv.h
   LIBRARIES
     resolv # Solaris/illumos
   TARGET php_standard PRIVATE
@@ -339,9 +344,10 @@ php_search_libraries(
 # res_search() is deprecated and should be replaced with res_nsearch().
 php_search_libraries(
   res_search
-  # BSD-based systems (FreeBSD<=13) need also netinet/in.h for resolv.h to work.
-  "netinet/in.h;resolv.h"
   HAVE_RES_SEARCH
+  HEADERS
+    netinet/in.h # BSD-based systems (FreeBSD<=13) need it for resolv.h to work.
+    resolv.h
   LIBRARIES
     resolv # Solaris/illumos
   TARGET php_standard PRIVATE

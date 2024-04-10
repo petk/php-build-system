@@ -213,8 +213,8 @@ if(NOT EXT_GD_EXTERNAL)
 
   php_search_libraries(
     floorf
-    "math.h"
     _HAVE_FLOORF
+    HEADERS math.h
     LIBRARIES m
     TARGET php_gd PRIVATE
   )

@@ -19,24 +19,27 @@ The logic in this module is somehow following the Autoconf's AC_SEARCH_LIBS.
 Module exposes the following function:
 
   php_search_libraries(
-    <function>
-    <header(s)>
-    <function_variable>
+    <symbol>
+    <symbol_variable>
+    HEADERS <header(s)>
     [LIBRARIES <library>...]
     [LIBRARY_VARIABLE <library_variable>]
     [TARGET <target> <PRIVATE|PUBLIC|INTERFACE>]
   )
 
-    Check that the <function> is available after including the <header> (or a
-    semicolon separated list of <headers>) and store the result in an internal
-    cache variable <function_variable>.
+    Check that the <symbol> is available after including the <header> (or a list
+    of <headers>) and store the result in an internal cache variable
+    <symbol_variable>.
+
+    HEADERS
+      A header (or a list of headers) where to look for the symbol declaration.
 
     LIBRARIES
-      If function is not found in the default libraries (C library), then the
+      If symbol is not found in the default libraries (C library), then the
       LIBRARIES list is searched.
 
     LIBRARY_VARIABLE
-      When function is not found in the default libraries, the resulting library
+      When symbol is not found in the default libraries, the resulting library
       is stored in this regular variable name.
 
     TARGET
@@ -59,29 +62,33 @@ Module exposes the following function:
 
 include_guard(GLOBAL)
 
-include(CheckIncludeFile)
+include(CheckIncludeFiles)
 include(CheckSymbolExists)
 include(CMakePushCheckState)
 
 function(php_search_libraries)
   cmake_parse_arguments(
     PARSE_ARGV
-    3
-    parsed             # prefix
-    ""                 # options
-    "LIBRARY_VARIABLE" # one-value keywords
-    "LIBRARIES;TARGET" # multi-value keywords
+    2
+    parsed                     # prefix
+    ""                         # options
+    "LIBRARY_VARIABLE"         # one-value keywords
+    "HEADERS;LIBRARIES;TARGET" # multi-value keywords
   )
 
   if(parsed_UNPARSED_ARGUMENTS)
     message(FATAL_ERROR "Bad arguments: ${parsed_UNPARSED_ARGUMENTS}")
   endif()
 
-  set(function ${ARGV0})
-  set(headers ${ARGV1})
-  set(result_function_variable ${ARGV2})
-  set(result_library_variable ${parsed_LIBRARY_VARIABLE})
+  set(symbol ${ARGV0})
+  set(symbol_result_variable ${ARGV1})
+  set(headers ${parsed_HEADERS})
   set(libraries ${parsed_LIBRARIES})
+  set(library_result_variable ${parsed_LIBRARY_VARIABLE})
+
+  if(NOT parsed_HEADERS)
+    message(FATAL_ERROR "php_search_libraries: missing HEADERS")
+  endif()
 
   # Validate optional TARGET.
   if(parsed_TARGET)
@@ -118,32 +125,38 @@ function(php_search_libraries)
       if(NOT log_level MATCHES "^(VERBOSE|DEBUG|TRACE)$")
         set(CMAKE_REQUIRED_QUIET TRUE)
       endif()
-      check_include_file(${header} ${const})
+
+      # Check multiple headers appended one after the other instead of a single
+      # header check. In some edge cases certain headers are not self-contained
+      # and need additional headers. For example, arpa/nameser.h on FreeBSD<=13
+      # needs sys/types.h to work. On Solaris/illumos, similar bug happens when
+      # including sys/loadavg.h without sys/types.h.
+      check_include_files("${headers_found};${header}" ${const})
     cmake_pop_check_state()
 
     if(${${const}})
-      list(APPEND checked_headers ${header})
+      list(APPEND headers_found ${header})
     endif()
   endforeach()
 
   # First, check if symbol exists without linking additional libraries.
   check_symbol_exists(
-    ${function}
-    "${checked_headers}"
-    ${result_function_variable}
+    ${symbol}
+    "${headers_found}"
+    ${symbol_result_variable}
   )
 
-  if(${${result_function_variable}})
+  if(${${symbol_result_variable}})
     return()
   endif()
 
   # Now, check if any library needs to be linked.
-  unset(${result_function_variable} CACHE)
+  unset(${symbol_result_variable} CACHE)
 
-  # Check if linking library helps finding the function.
+  # Check if linking library helps finding the symbol.
   foreach(library ${libraries})
     if(NOT CMAKE_REQUIRED_QUIET)
-      message(CHECK_START "Looking for ${function} in ${library}")
+      message(CHECK_START "Looking for ${symbol} in ${library}")
     endif()
 
     cmake_push_check_state()
@@ -155,19 +168,19 @@ function(php_search_libraries)
       # might be a macro definition. It would not be found using the other two
       # commands because they don't include required headers.
       check_symbol_exists(
-        ${function}
-        "${checked_headers}"
-        ${result_function_variable}
+        ${symbol}
+        "${headers_found}"
+        ${symbol_result_variable}
       )
     cmake_pop_check_state()
 
-    if(${${result_function_variable}})
+    if(${${symbol_result_variable}})
       if(NOT CMAKE_REQUIRED_QUIET)
         message(CHECK_PASS "found")
       endif()
 
-      if(result_library_variable)
-        set(${result_library_variable} ${library} PARENT_SCOPE)
+      if(library_result_variable)
+        set(${library_result_variable} ${library} PARENT_SCOPE)
       endif()
 
       # Link found library to the optionally given target.
@@ -181,7 +194,7 @@ function(php_search_libraries)
         message(CHECK_FAIL "not found")
       endif()
 
-      unset(${result_function_variable} CACHE)
+      unset(${symbol_result_variable} CACHE)
     endif()
   endforeach()
 endfunction()
