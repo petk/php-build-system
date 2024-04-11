@@ -1,16 +1,16 @@
 #[=============================================================================[
 Check if symbol exists in given header(s). If not found in default linked
-libraries (for example, C library), a given list of libraries is searched and
-found library is linked as needed.
+libraries (for example, C library), a given list of libraries is iterated and
+found library can be linked as needed.
 
 Depending on the system, C functions can be located in one of the default linked
-libraries (for example, C library) when using compiler, or they can be also in
-separate system libraries. The usual check_symbol_exists() doesn't find them
-unless the CMAKE_REQUIRED_LIBRARIES is also specified.
+libraries when using compiler, or they can be also in separate system libraries,
+that need to be manually passed to linker. The usual check_symbol_exists()
+doesn't find them unless the CMAKE_REQUIRED_LIBRARIES is specified.
 
-For example, math functions (math.h) can be on most *nix systems in math library
-(m), however macOS, Windows and Haiku have them in C library. So linking math
-library (-lm) isn't always necessary. Also, many systems might be in transition
+For example, math functions (math.h) can be in math library (m), however some
+systems, like macOS, Windows and Haiku, have them in C library. Linking math
+library (-lm) there isn't necessary. Also, some systems might be in transition
 of moving functions from their dedicated libraries to C library. For example,
 illumos-based systems (-lnsl...), and similar.
 
@@ -21,7 +21,7 @@ Module exposes the following function:
   php_search_libraries(
     <symbol>
     <symbol_variable>
-    HEADERS <header(s)>
+    HEADERS <header>...
     [LIBRARIES <library>...]
     [LIBRARY_VARIABLE <library_variable>]
     [TARGET <target> <PRIVATE|PUBLIC|INTERFACE>]
@@ -33,14 +33,21 @@ Module exposes the following function:
 
     HEADERS
       A header (or a list of headers) where to look for the symbol declaration.
+      Headers are checked in iteration with check_include_files() and are
+      appended to the list of found headers instead of a single header check. In
+      some cases a header might not be self-contained (it requires including
+      prior additional headers). For example, to be able to use arpa/nameser.h
+      on FreeBSD<=13, the sys/types.h must be included before.
 
     LIBRARIES
       If symbol is not found in the default libraries (C library), then the
-      LIBRARIES list is searched.
+      LIBRARIES list is iterated. Instead of using the check_library_exists() or check_function_exists(), the check_symbol_exists() is used, which also
+      works when symbol might be a macro definition. It would not be found using
+      the other two commands because they don't include required headers.
 
     LIBRARY_VARIABLE
       When symbol is not found in the default libraries, the resulting library
-      is stored in this regular variable name.
+      that contains the symbol is stored in this regular variable name.
 
     TARGET
       If the TARGET is given, the resulting library is linked to a given
@@ -48,16 +55,23 @@ Module exposes the following function:
       homogeneous to
       target_link_libraries(<target> PRIVATE|PUBLIC|INTERFACE <library>).
 
-  The following variables may be set before calling this function to modify the
-  way the check is run. See
-  https://cmake.org/cmake/help/latest/module/CheckSymbolExists.html
+The following variables may be set before calling this function to modify the
+way the check is run. See
+https://cmake.org/cmake/help/latest/module/CheckSymbolExists.html
 
-    CMAKE_REQUIRED_FLAGS
-    CMAKE_REQUIRED_DEFINITIONS
-    CMAKE_REQUIRED_INCLUDES
-    CMAKE_REQUIRED_LINK_OPTIONS
-    CMAKE_REQUIRED_LIBRARIES
-    CMAKE_REQUIRED_QUIET
+  CMAKE_REQUIRED_FLAGS
+  CMAKE_REQUIRED_DEFINITIONS
+  CMAKE_REQUIRED_INCLUDES
+  CMAKE_REQUIRED_LINK_OPTIONS
+  CMAKE_REQUIRED_LIBRARIES
+  CMAKE_REQUIRED_QUIET
+
+Caveats:
+
+If symbol declaration is missing in its belonging headers, it won't be found
+with this function. There are still rare cases of such functions on some systems
+(for example, fdatasync() on macOS). In such cases it is better to use other
+approaches, such as check_function_exists().
 ]=============================================================================]#
 
 include_guard(GLOBAL)
@@ -126,11 +140,8 @@ function(php_search_libraries)
         set(CMAKE_REQUIRED_QUIET TRUE)
       endif()
 
-      # Check multiple headers appended one after the other instead of a single
-      # header check. In some edge cases certain headers are not self-contained
-      # and need additional headers. For example, arpa/nameser.h on FreeBSD<=13
-      # needs sys/types.h to work. On Solaris/illumos, similar bug happens when
-      # including sys/loadavg.h without sys/types.h.
+      # Check multiple headers appended with each iteration. If a header is not
+      # self-contained, it may require including prior additional headers.
       check_include_files("${headers_found};${header}" ${const})
     cmake_pop_check_state()
 
@@ -150,11 +161,10 @@ function(php_search_libraries)
     return()
   endif()
 
-  # Now, check if any library needs to be linked.
-  unset(${symbol_result_variable} CACHE)
-
-  # Check if linking library helps finding the symbol.
+  # Now, check if linking any given library helps finding the symbol.
   foreach(library ${libraries})
+    unset(${symbol_result_variable} CACHE)
+
     if(NOT CMAKE_REQUIRED_QUIET)
       message(CHECK_START "Looking for ${symbol} in ${library}")
     endif()
@@ -163,10 +173,6 @@ function(php_search_libraries)
       list(APPEND CMAKE_REQUIRED_LIBRARIES ${library})
       set(CMAKE_REQUIRED_QUIET TRUE)
 
-      # Instead of using the check_library_exists() or check_function_exists(),
-      # the check_symbol_exists() also works for edge cases, where the symbol
-      # might be a macro definition. It would not be found using the other two
-      # commands because they don't include required headers.
       check_symbol_exists(
         ${symbol}
         "${headers_found}"
@@ -193,8 +199,6 @@ function(php_search_libraries)
       if(NOT CMAKE_REQUIRED_QUIET)
         message(CHECK_FAIL "not found")
       endif()
-
-      unset(${symbol_result_variable} CACHE)
     endif()
   endforeach()
 endfunction()

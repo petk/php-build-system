@@ -54,7 +54,8 @@ target_compile_definitions(
 target_compile_options(
   php_configuration
   INTERFACE
-    /wd4996
+    $<$<COMPILE_LANG_AND_ID:C,MSVC>:/wd4996>
+    $<$<COMPILE_LANG_AND_ID:CXX,MSVC>:/wd4996>
 )
 
 # The time_t defaults to 64-bit. Force 32-bit time_t on 32-bit architecture.

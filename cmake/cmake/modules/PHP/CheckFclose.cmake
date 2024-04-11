@@ -1,9 +1,8 @@
 #[=============================================================================[
-Check if fclose declaration is missing.
+Check if fclose declaration is missing. Some systems have broken header files
+like SunOS has. This check is obsolete on current Solaris/illumos versions.
 
-Some systems have broken header files like SunOS has.
-
-Cache variables:
+Result variables:
 
   MISSING_FCLOSE_DECL
     Whether fclose declaration is missing.
@@ -11,32 +10,20 @@ Cache variables:
 
 include_guard(GLOBAL)
 
-include(CheckSourceCompiles)
+include(CheckSymbolExists)
 include(CMakePushCheckState)
 
 message(CHECK_START "Checking fclose declaration")
 
+# Checking if symbol exists also checks if it is declared.
 cmake_push_check_state(RESET)
   set(CMAKE_REQUIRED_QUIET TRUE)
-
-  check_source_compiles(C "
-    #include <stdio.h>
-
-    int main(void) {
-      int (*func)(void) = fclose;
-
-      return 0;
-    }
-  " HAVE_FCLOSE_DECL)
+  check_symbol_exists(fclose stdio.h _HAVE_FCLOSE)
 cmake_pop_check_state()
 
-if(NOT HAVE_FCLOSE_DECL)
+if(NOT _HAVE_FCLOSE)
   message(CHECK_FAIL "missing")
-
-  set(
-    MISSING_FCLOSE_DECL 1
-    CACHE INTERNAL "Whether fclose declaration is missing"
-  )
+  set(MISSING_FCLOSE_DECL 1)
 else()
   message(CHECK_PASS "found")
 endif()

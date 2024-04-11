@@ -88,7 +88,7 @@ target_link_libraries(
 target_link_options(
   php_phpdbg
   PRIVATE
-    $<$<PLATFORM_ID:Windows>:/stack:8388608>
+    $<$<COMPILE_LANG_AND_ID:C,MSVC>:/stack:8388608>
 )
 
 set_target_properties(

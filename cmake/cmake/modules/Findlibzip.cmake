@@ -161,6 +161,7 @@ find_package_handle_standard_args(
     libzip_LIBRARY
     libzip_INCLUDE_DIR
   VERSION_VAR libzip_VERSION
+  HANDLE_VERSION_RANGE
   REASON_FAILURE_MESSAGE "${_reason}"
 )
 
