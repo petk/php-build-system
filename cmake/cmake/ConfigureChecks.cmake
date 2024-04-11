@@ -213,11 +213,8 @@ php_check_builtin(__builtin_usub_overflow PHP_HAVE_BUILTIN_USUB_OVERFLOW)
 # Check compiler characteristics.
 ################################################################################
 
-# Check AVX-512.
+# Check AVX-512 extensions.
 include(PHP/CheckAVX512)
-
-# Check AVX-512 VBMI.
-include(PHP/CheckAVX512VBMI)
 
 # Check for asm goto.
 message(CHECK_START "Checking for asm goto support")

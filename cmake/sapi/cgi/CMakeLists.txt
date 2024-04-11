@@ -26,7 +26,7 @@ target_link_libraries(
 target_link_options(
   php_cgi
   PRIVATE
-    $<$<PLATFORM_ID:Windows>:/stack:67108864>
+    $<$<COMPILE_LANG_AND_ID:C,MSVC>:/stack:67108864>
 )
 
 set_target_properties(

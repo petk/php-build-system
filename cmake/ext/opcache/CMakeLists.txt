@@ -225,10 +225,14 @@ if(EXT_OPCACHE_JIT)
       OUTPUT_NAME minilua
       RUNTIME_OUTPUT_DIRECTORY jit/ir
   )
-  target_link_libraries(
-    php_opcache_jit_minilua
-    PRIVATE
-      $<$<NOT:$<PLATFORM_ID:Windows>>:m>
+
+  # Link math library as needed.
+  php_search_libraries(
+    floor
+    _HAVE_FLOOR
+    HEADERS math.h
+    LIBRARIES m
+    TARGET php_opcache_jit_minilua PRIVATE
   )
 
   # Create jit directory in the current build directory if it doesn't exist yet.
