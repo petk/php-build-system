@@ -72,7 +72,7 @@ endif()
 find_program(
   Systemd_EXECUTABLE
   NAMES systemd systemctl
-  DOC "The systemd executable"
+  DOC "Path to the systemd executable"
 )
 
 block(PROPAGATE Systemd_VERSION)

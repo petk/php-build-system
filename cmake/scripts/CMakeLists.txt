@@ -1,5 +1,16 @@
 block()
-  find_program(SED sed)
+  find_program(
+    SED_EXECUTABLE
+    NAMES sed
+    DOC "Path to the stream editor for filtering and transforming text"
+  )
+  mark_as_advanced(SED_EXECUTABLE)
+  if(SED_EXECUTABLE)
+    set(SED "${SED_EXECUTABLE}")
+  else()
+    message(WARNING "sed not found, setting default to /usr/bin/sed")
+    set(SED /usr/bin/sed)
+  endif()
 
   set(program_prefix "${PHP_PROGRAM_PREFIX}")
   set(program_suffix "${PHP_PROGRAM_SUFFIX}")

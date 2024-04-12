@@ -26,11 +26,13 @@ Result variables:
     Libraries needed to link to the package library.
   PHP_VERSION
     Package version, if found.
+  PHP_INSTALL_INCLUDEDIR
+    Relative path to the CMAKE_PREFIX_INSTALL containing PHP headers.
 
 Cache variables:
 
   PHP_CONFIG_EXECUTABLE
-    The php-config helper development script.
+    Path to the php-config development helper tool.
   PHP_INCLUDE_DIR
     Directory containing PHP headers.
   PHP_Embed_LIBRARY
@@ -55,13 +57,18 @@ set_package_properties(
 
 set(_reason "")
 
-# Find php-config helper development command-line tool.
-find_program(PHP_CONFIG_EXECUTABLE NAMES php-config)
+# Find php-config tool.
+find_program(
+  PHP_CONFIG_EXECUTABLE
+  NAMES php-config
+  DOC "Path to the php-config development helper command-line tool"
+)
 
 # Use pkgconf, if available on the system.
 find_package(PkgConfig QUIET)
 pkg_check_modules(PC_PHP QUIET php)
 
+# Get PHP include directories.
 if(PHP_CONFIG_EXECUTABLE)
   execute_process(
     COMMAND "${PHP_CONFIG_EXECUTABLE}" --includes
@@ -87,6 +94,33 @@ find_path(
 
 if(NOT PHP_INCLUDE_DIR)
   string(APPEND _reason "main/php_config.h not found. ")
+endif()
+
+# Get relative PHP include directory path.
+if(PHP_CONFIG_EXECUTABLE)
+  execute_process(
+    COMMAND "${PHP_CONFIG_EXECUTABLE}" --include-dir
+    OUTPUT_VARIABLE PHP_INSTALL_INCLUDEDIR
+    OUTPUT_STRIP_TRAILING_WHITESPACE
+    ERROR_QUIET
+  )
+  execute_process(
+    COMMAND "${PHP_CONFIG_EXECUTABLE}" --prefix
+    OUTPUT_VARIABLE PHP_INSTALL_PREFIX
+    OUTPUT_STRIP_TRAILING_WHITESPACE
+    ERROR_QUIET
+  )
+  cmake_path(
+    RELATIVE_PATH
+    PHP_INSTALL_INCLUDEDIR
+    BASE_DIRECTORY "${PHP_INSTALL_PREFIX}"
+  )
+elseif(PC_PHP_PREFIX)
+  cmake_path(
+    RELATIVE_PATH
+    PHP_INSTALL_INCLUDEDIR
+    BASE_DIRECTORY "${PHP_INSTALL_PREFIX}"
+  )
 endif()
 
 pkg_check_modules(PC_PHP_Embed QUIET php-embed)

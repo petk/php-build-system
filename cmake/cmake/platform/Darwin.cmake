@@ -41,4 +41,10 @@ if(CMAKE_SYSTEM_NAME STREQUAL "Darwin")
         $<$<IN_LIST:$<TARGET_PROPERTY:TYPE>,MODULE_LIBRARY;SHARED_LIBRARY>:LINKER:-undefined,dynamic_lookup>
     )
   endif()
+
+  # Help Darwin systems a bit, because these are not available there.
+  set(SAPI_FPM_SYSTEMD OFF)
+  set(SAPI_FPM_ACL OFF)
+  set(SAPI_FPM_APPARMOR OFF)
+  set(SAPI_FPM_SELINUX OFF)
 endif()

@@ -35,6 +35,15 @@ set(CMAKE_STATIC_LIBRARY_PREFIX_CXX "")
 
 # Show message context in configuration log. Added as an overridable option.
 option(CMAKE_MESSAGE_CONTEXT_SHOW "Show the context in configuration log" OFF)
+mark_as_advanced(CMAKE_MESSAGE_CONTEXT_SHOW)
 
 # Whether to build all libraries as shared. Added as an overridable option.
 option(BUILD_SHARED_LIBS "Build all enabled PHP extensions as shared libraries" OFF)
+
+# https://cmake.org/cmake/help/latest/variable/CMAKE_COMPILE_WARNING_AS_ERROR.html
+option(
+  CMAKE_COMPILE_WARNING_AS_ERROR
+  "Treat all compile warnings on targets as errors (-Werror, /WX ...)"
+  OFF
+)
+mark_as_advanced(CMAKE_COMPILE_WARNING_AS_ERROR)

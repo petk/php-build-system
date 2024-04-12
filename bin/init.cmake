@@ -17,7 +17,7 @@ Usage:
 cmake_minimum_required(VERSION 3.25 FATAL_ERROR)
 
 # Check if git command is available.
-find_program(GIT_EXECUTABLE git)
+find_program(GIT_EXECUTABLE git DOC "Path to the Git executable")
 
 if(NOT GIT_EXECUTABLE)
   message(FATAL_ERROR "Git not found. Please install Git: https://git-scm.com")

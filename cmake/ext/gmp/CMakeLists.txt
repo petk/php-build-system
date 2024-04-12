@@ -47,7 +47,7 @@ set_package_properties(
     PURPOSE "Necessary to enable the gmp extension."
 )
 
-target_link_libraries(php_gmp PRIVATE GMP::GMP)
+target_link_libraries(php_gmp PUBLIC GMP::GMP)
 
 install(
   TARGETS php_gmp

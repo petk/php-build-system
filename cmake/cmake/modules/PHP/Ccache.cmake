@@ -8,7 +8,11 @@ Cache variables:
     Path to the ccache executable.
 ]=============================================================================]#
 
-find_program(CCACHE_EXECUTABLE ccache)
+find_program(
+  CCACHE_EXECUTABLE
+  NAMES ccache
+  DOC "Path to the ccache executable"
+)
 mark_as_advanced(CCACHE_EXECUTABLE)
 
 if(NOT CCACHE_EXECUTABLE OR CCACHE_DISABLE OR "$ENV{CCACHE_DISABLE}")
