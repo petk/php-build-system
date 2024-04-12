@@ -20,6 +20,7 @@ include(FeatureSummary)
 ################################################################################
 
 set(PHP_UNAME "" CACHE STRING "Build system uname")
+mark_as_advanced(PHP_UNAME)
 
 if(CMAKE_UNAME AND NOT PHP_UNAME)
   execute_process(
@@ -56,6 +57,7 @@ set(
   "Set how installed files will be laid out. Type can be PHP (default) or GNU"
 )
 set_property(CACHE PHP_LAYOUT PROPERTY STRINGS "GNU" "PHP")
+mark_as_advanced(PHP_LAYOUT)
 
 if(NOT PHP_LAYOUT STREQUAL "GNU")
   # TODO: DATAROOTDIR should be "php" instead of default "share".
@@ -106,6 +108,7 @@ mark_as_advanced(PHP_PROGRAM_SUFFIX)
 ################################################################################
 
 option(PHP_RE2C_CGOTO "Enable computed goto GCC extension with re2c" OFF)
+mark_as_advanced(PHP_RE2C_CGOTO)
 
 option(PHP_THREAD_SAFETY "Enable thread safety (ZTS)" OFF)
 
@@ -116,32 +119,43 @@ add_feature_info(
 )
 
 option(PHP_USE_RTLD_NOW "Use dlopen with RTLD_NOW instead of RTLD_LAZY for extensions" OFF)
+mark_as_advanced(PHP_USE_RTLD_NOW)
 
 option(PHP_SIGCHILD "Enable PHP's own SIGCHLD handler" OFF)
+mark_as_advanced(PHP_SIGCHILD)
 
 option(PHP_SHORT_TAGS "Enable the short-form <? start tag by default" ON)
+mark_as_advanced(PHP_SHORT_TAGS)
 
 option(PHP_IPV6 "Enable IPv6 support" ON)
+mark_as_advanced(PHP_IPV6)
 
 option(PHP_DMALLOC "Enable the Dmalloc memory debugger library" OFF)
+mark_as_advanced(PHP_DMALLOC)
 
 option(PHP_DTRACE "Enable DTrace support" OFF)
+mark_as_advanced(PHP_DTRACE)
 
 set(PHP_FD_SETSIZE "" CACHE STRING "Size of descriptor sets")
+mark_as_advanced(PHP_FD_SETSIZE)
 
 option(PHP_VALGRIND "Enable the Valgrind support" OFF)
-
-option(PHP_WERROR "Enable the -Werror compiler option" OFF)
+mark_as_advanced(PHP_VALGRIND)
 
 option(PHP_MEMORY_SANITIZER "Enable the memory sanitizer compiler options (clang only)" OFF)
+mark_as_advanced(PHP_MEMORY_SANITIZER)
 
 option(PHP_ADDRESS_SANITIZER "Enable the address sanitizer compiler option" OFF)
+mark_as_advanced(PHP_ADDRESS_SANITIZER)
 
 option(PHP_UNDEFINED_SANITIZER "Enable the undefined sanitizer compiler option" OFF)
+mark_as_advanced(PHP_UNDEFINED_SANITIZER)
 
 option(PHP_GCOV "Enable GCOV code coverage and include GCOV symbols" OFF)
+mark_as_advanced(PHP_GCOV)
 
 option(PHP_LIBGCC "Explicitly link against libgcc" OFF)
+mark_as_advanced(PHP_LIBGCC)
 
 ################################################################################
 # Various global internal configuration.
@@ -180,13 +194,6 @@ set_package_properties(
   PROPERTIES
     URL "https://libexpat.github.io/"
     DESCRIPTION "Stream-oriented XML parser library"
-)
-
-set_package_properties(
-  ICU
-  PROPERTIES
-    URL "https://icu.unicode.org/"
-    DESCRIPTION "International Components for Unicode"
 )
 
 set_package_properties(

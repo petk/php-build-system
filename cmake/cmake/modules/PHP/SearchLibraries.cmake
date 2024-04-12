@@ -41,7 +41,8 @@ Module exposes the following function:
 
     LIBRARIES
       If symbol is not found in the default libraries (C library), then the
-      LIBRARIES list is iterated. Instead of using the check_library_exists() or check_function_exists(), the check_symbol_exists() is used, which also
+      LIBRARIES list is iterated. Instead of using the check_library_exists() or
+      check_function_exists(), the check_symbol_exists() is used, since it also
       works when symbol might be a macro definition. It would not be found using
       the other two commands because they don't include required headers.
 

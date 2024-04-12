@@ -177,16 +177,6 @@ if(HAVE_FNO_COMMON_C_XX)
   )
 endif()
 
-# Enable -Werror.
-if(PHP_WERROR OR CMAKE_COMPILE_WARNING_AS_ERROR)
-  message(
-    STATUS
-    "Enabling compiler option to treat warnings on compile as errors (-Werror)"
-  )
-
-  set(CMAKE_COMPILE_WARNING_AS_ERROR TRUE)
-endif()
-
 ################################################################################
 # Sanitizer flags.
 ################################################################################

@@ -24,11 +24,11 @@ Result variables:
 Cache variables:
 
   Apache_APXS_EXECUTABLE
-    Path to the APache eXtenSion tool command-line utility.
+    Path to the APache eXtenSion tool command-line tool.
   Apache_APR_CONFIG_EXECUTABLE
-    Path to the apr library command-line configuration utility.
+    Path to the apr library command-line configuration tool.
   Apache_APU_CONFIG_EXECUTABLE
-    Path to the Apache Portable Runtime Utilities config command-line utility.
+    Path to the Apache Portable Runtime Utilities config command-line tool.
   Apache_EXECUTABLE
     Path to the Apache command-line server program.
   Apache_INCLUDE_DIR
@@ -59,7 +59,11 @@ set(_reason "")
 # APXS.
 ################################################################################
 
-find_program(Apache_APXS_EXECUTABLE NAMES apxs apxs2)
+find_program(
+  Apache_APXS_EXECUTABLE
+  NAMES apxs apxs2
+  DOC "Path to the APache eXtenSion tool"
+)
 
 if(NOT Apache_APXS_EXECUTABLE)
   string(APPEND _reason "apxs tool not found. ")
@@ -108,6 +112,7 @@ find_program(
   Apache_APR_CONFIG_EXECUTABLE
   NAMES apr-1-config apr-config
   PATHS ${_Apache_APR_BINDIR}
+  DOC "Path to the apr library command-line tool for retrieving metainformation"
 )
 
 if(Apache_APR_CONFIG_EXECUTABLE)
@@ -164,13 +169,18 @@ find_program(
   Apache_APU_CONFIG_EXECUTABLE
   NAMES apu-1-config apu-config
   PATHS ${_Apache_APU_BINDIR}
+  DOC "Path to the Apache Portable Runtime Utilities config command-line tool"
 )
 
 ################################################################################
 # Apache.
 ################################################################################
 
-find_program(Apache_EXECUTABLE NAMES apache2)
+find_program(
+  Apache_EXECUTABLE
+  NAMES apache2
+  DOC "Path to the Apache command-line server program"
+)
 
 execute_process(
   COMMAND "${Apache_APXS_EXECUTABLE}" -q INCLUDEDIR

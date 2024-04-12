@@ -144,12 +144,12 @@ if(EXISTS "${PHP_SOURCE_DIR}")
 endif()
 
 # Check if curl or wget is available.
-find_program(DOWNLOAD_TOOL curl)
+find_program(DOWNLOAD_TOOL curl DOC "Path to the download executable tool")
 
 if(DOWNLOAD_TOOL)
   set(DOWNLOAD_TOOL ${DOWNLOAD_TOOL} --silent --head --fail)
 else()
-  find_program(DOWNLOAD_TOOL wget)
+  find_program(DOWNLOAD_TOOL wget DOC "Path to the download executable tool")
 
   if(DOWNLOAD_TOOL)
     set(DOWNLOAD_TOOL ${DOWNLOAD_TOOL} --quiet --method=HEAD)
@@ -161,7 +161,7 @@ if(NOT DOWNLOAD_TOOL)
 endif()
 
 # Check if git command is available.
-find_program(GIT_EXECUTABLE git)
+find_program(GIT_EXECUTABLE git DOC "Path to the Git executable")
 
 if(NOT GIT_EXECUTABLE)
   message(FATAL_ERROR "Git not found. Please install Git: https://git-scm.com")

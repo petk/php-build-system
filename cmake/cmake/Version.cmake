@@ -14,6 +14,7 @@ set(
   PHP_VERSION_LABEL "${CMAKE_MATCH_2}"
   CACHE STRING "Extra PHP version label suffix, e.g. '-dev', 'rc1', '-acme'"
 )
+mark_as_advanced(PHP_VERSION_LABEL)
 
 # This is automatically executed with the project(PHP...) invocation.
 macro(_php_post_project)

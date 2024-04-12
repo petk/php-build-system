@@ -142,13 +142,22 @@ if(LDAP_LIBRARY AND LDAP_INCLUDE_DIR)
     set(CMAKE_REQUIRED_INCLUDES ${LDAP_INCLUDE_DIR})
     set(CMAKE_REQUIRED_QUIET TRUE)
 
-    # TODO: Replace the ldap_sasl_bind_s check with something more ubiquitous.
-    # The ldap_simple_bind_s is deprecated in OpenLDAP.
     check_symbol_exists(ldap_sasl_bind_s "ldap.h" _ldap_sanity_check)
+
+    # Fallback to deprecated ldap_simple_bind_s().
+    if(NOT _ldap_sanity_check)
+      unset(_ldap_sanity_check CACHE)
+      check_symbol_exists(ldap_simple_bind_s "ldap.h" _ldap_sanity_check)
+    endif()
   cmake_pop_check_state()
 
   if(NOT _ldap_sanity_check)
-    string(APPEND _reason "Sanity check failed: ldap_bind_s() not found. ")
+    string(
+      APPEND
+      _reason
+      "Sanity check failed: ldap_sasl_bind_s() or ldap_simple_bind_s() not "
+      "found. "
+    )
   endif()
 endif()
 
