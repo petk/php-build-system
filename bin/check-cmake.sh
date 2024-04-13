@@ -136,7 +136,7 @@ status=$?
 # Run cmake-lint from the cmakelang project.
 echo
 echo "Running cmake-lint (cmakelang)"
-$cmakelang_cmakelint --config-files bin/cmake-format.json --suppress-decorations -- $files
+$cmakelang_cmakelint --config-files bin/check-cmake/cmake-format.json --suppress-decorations -- $files
 status=$?
 # Disabled due to outdated syntax checks.
 #test "x$status" != "x0" && exit_code=$status
