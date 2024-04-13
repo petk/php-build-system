@@ -71,7 +71,7 @@ index 933ada51dc..79b22ab64d 100644
          AC_DEFINE(COOKIE_SEEKER_USES_OFF64_T, 1, [ ])
        fi
 diff --git a/main/streams/cast.c b/main/streams/cast.c
-index 3bad65fbac..dbeeff7b09 100644
+index 8d9f4a9d2d..238212c745 100644
 --- a/main/streams/cast.c
 +++ b/main/streams/cast.c
 @@ -42,9 +42,9 @@ typedef struct {
@@ -86,7 +86,7 @@ index 3bad65fbac..dbeeff7b09 100644
  {
  	return funopen(cookie, funcs->reader, funcs->writer, funcs->seeker, funcs->closer);
  }
-@@ -133,7 +133,7 @@ static int stream_cookie_closer(void *cookie)
+@@ -129,7 +129,7 @@ static int stream_cookie_closer(void *cookie)
  #endif /* elif defined(HAVE_FOPENCOOKIE) */
  
  #if HAVE_FOPENCOOKIE

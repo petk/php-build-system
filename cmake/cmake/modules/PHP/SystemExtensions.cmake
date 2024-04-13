@@ -11,7 +11,7 @@ Usage:
 INTERFACE library:
 
   PHP::SystemExtensions
-    Interface library target with all required compile defintions for usage in
+    Interface library target with all required compile definitions for usage in
     CMake checks where needed.
 
 Logic here closely follows the Autoconf's AC_USE_SYSTEM_EXTENSIONS macro with

@@ -1,0 +1,61 @@
+From: Peter Kokot <peterkokot@gmail.com>
+Subject: Remove sed from php-config script
+
+The Autoconf configure options are replaced in main/build-defs.h.in and
+scripts/php-config.in. Instead of doing redundant quotes removal step
+each time the php-config script is run by the user on PHP installation,
+they can be removed before the variable substitution step directly only
+at the PHP configuration build phase. This also removes the unused
+CONFIGURE_OPTIONS Make variable in root and phpize generated Makefiles.
+The configure options in main/build-defs.h.in remain quoted.
+
+Also, sed substituted value can have issues in cases where build is
+happening on one machine and targeted machine has different path to sed
+command. For example, on build machine it is in /usr/bin/sed, and on
+target in /bin/sed.
+
+This should be further improved because some PHP installations manually
+adjust the php-config script and inject also variables such as CFLAGS
+and similar. For example, variables passed to configure after quotes
+removal can include malformed value with spaces and without any quotes.
+---
+ build/php.m4          | 4 +++-
+ scripts/php-config.in | 4 ----
+ 2 files changed, 3 insertions(+), 5 deletions(-)
+
+diff --git a/build/php.m4 b/build/php.m4
+index be5763c520..1d100d9f94 100644
+--- a/build/php.m4
++++ b/build/php.m4
+@@ -2049,7 +2049,9 @@ EOF
+   chmod +x $1
+   CONFIGURE_COMMAND="$CONFIGURE_COMMAND $CONFIGURE_OPTIONS"
+   PHP_SUBST_OLD(CONFIGURE_COMMAND)
+-  PHP_SUBST_OLD(CONFIGURE_OPTIONS)
++dnl Remove quotes.
++  CONFIGURE_OPTIONS=$(echo $CONFIGURE_OPTIONS | $SED -e "s#'##g")
++  AC_SUBST([CONFIGURE_OPTIONS])
+ ])
+ 
+ dnl
+diff --git a/scripts/php-config.in b/scripts/php-config.in
+index 879299f9cf..c5345d7844 100644
+--- a/scripts/php-config.in
++++ b/scripts/php-config.in
+@@ -1,6 +1,5 @@
+ #! /bin/sh
+ 
+-SED="@SED@"
+ prefix="@prefix@"
+ datarootdir="@datarootdir@"
+ exec_prefix="@exec_prefix@"
+@@ -50,9 +49,6 @@ elif test "$php_embed_type" = "static"; then
+   php_embed_lib=@SAPI_LIBNAME_STATIC@
+ fi
+ 
+-# Remove quotes
+-configure_options=`echo $configure_options | $SED -e "s#'##g"`
+-
+ case "$1" in
+ --prefix)
+   echo $prefix;;
