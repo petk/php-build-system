@@ -144,7 +144,7 @@ status=$?
 # Run cmake-format.
 echo
 echo "Running cmake-format (cmakelang)"
-$cmakelang_cmakeformat --config-files bin/cmake-format.json --check -- $files
+$cmakelang_cmakeformat --config-files bin/check-cmake/cmake-format.json --check -- $files
 status=$?
 # Disabled due to outdated syntax checks.
 #test "x$status" != "x0" && exit_code=$status
@@ -156,7 +156,7 @@ status=$?
 echo
 echo "Running codespell"
 $codespell \
-  --config bin/codespell/.codespellrc \
+  --config bin/check-cmake/.codespellrc \
   .github \
   bin \
   cmake \

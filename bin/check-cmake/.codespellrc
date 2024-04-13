@@ -5,4 +5,4 @@
 builtin = clear,rare,informal,usage,code,names,en-GB_to_en-US
 check-hidden =
 hard-encoding-detection =
-ignore-words = bin/codespell/ignores.txt
+ignore-words = bin/check-cmake/ignores.txt
