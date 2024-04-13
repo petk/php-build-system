@@ -1,8 +1,10 @@
 block()
   find_program(
     SED_EXECUTABLE
-    NAMES sed
-    DOC "Path to the stream editor for filtering and transforming text"
+    NAMES
+      sed  # Default name available on most *nix systems
+      gsed # Brew gnu-sed package
+    DOC "Path to the stream editor (sed) for filtering and transforming text"
   )
   mark_as_advanced(SED_EXECUTABLE)
   if(SED_EXECUTABLE)

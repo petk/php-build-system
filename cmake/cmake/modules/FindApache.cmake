@@ -1,7 +1,7 @@
 #[=============================================================================[
 Find the Apache packages and tools.
 
-The Apache development package usualy contains Apache header files, the apr
+The Apache development package usually contains Apache header files, the apr
 (Apache Portable Runtime) library and its headers, apr config command-line tool,
 and apxs command-line tool.
 
