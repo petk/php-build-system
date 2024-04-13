@@ -168,6 +168,14 @@ Some useful overridable configuration options built into CMake itself. All these
 
   Build provider displayed in phpinfo.
 
+* `SED_EXECUTABLE`
+
+  Default path to the sed on the host system.
+
+  Path to the sed, which can be manually overriden to the sed on the target
+  system. This is only used in generated phpize (and php-config) scripts on *nix
+  systems. There is also a patch that removes sed usage from the php-config.
+
 ## 4. Zend engine configuration
 
 ## 5. PHP SAPI modules configuration
@@ -476,17 +484,14 @@ A list of Autoconf `configure` command-line configuration options, Windows
     </tr>
     <tr>
       <td>--disable-werror</td>
-      <td></td>
-      <td>PHP_WERROR=OFF or --compile-no-warning-as-error</td>
+      <td>N/A</td>
+      <td>--compile-no-warning-as-error</td>
       <td>default</td>
     </tr>
     <tr>
       <td>&emsp;--enable-werror</td>
-      <td></td>
-      <td>
-        PHP_WERROR=ON or<br>
-        CMAKE_COMPILE_WARNING_AS_ERROR=ON
-      </td>
+      <td>CFLAGS=/WX</td>
+      <td>CMAKE_COMPILE_WARNING_AS_ERROR=ON</td>
       <td></td>
     </tr>
     <tr>
