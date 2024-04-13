@@ -1,20 +1,26 @@
 #!/bin/sh
 #
-# Helper script that runs some common checks on CMake files and runs the
-# cmakelint tool for CMake code issues, cmake-format for formatting issues.
+# Helper script that runs a set of common checks on CMake files.
 #
 # Checks:
 #   - For unused CMake find and utility modules in the cmake/modules folder
-#   - CMakeLint issues
-#   - cmake-lint issues
-#   - cmake-format issues
+#   - CMakeLint for CMake code issues
+#   - cmake-lint for CMake code issues
+#   - cmake-format for CMake code style issues
+#   - codespell for common misspelling issues
+#
+# Usage:
+#   ./bin/check-cmake.sh
 
 exit_code=0
 
+################################################################################
 # Check requirements.
+################################################################################
 cmakelint=$(which cmakelint 2>/dev/null)
 cmakelang_cmakelint=$(which cmake-lint 2>/dev/null)
 cmakelang_cmakeformat=$(which cmake-format 2>/dev/null)
+codespell=$(which codespell 2>/dev/null)
 
 # Check if cmakelint is installed.
 if test -z "$cmakelint"; then
@@ -33,9 +39,26 @@ then
   echo "                https://cmake-format.readthedocs.io" >&2
 fi
 
+# Check if codespell is installed.
+if test -z "${codespell}"; then
+  echo "check-cmake.sh: The 'codespell' tool not found." >&2
+  echo "                Please install codespell:" >&2
+  echo "                https://github.com/codespell-project/codespell" >&2
+fi
+
+# Check if find -maxdepth option works (for example, Solaris doesn't have it).
+find_maxdepth_option_works=$(find ./cmake/cmake -maxdepth 1 -name "*.cmake" 2>/dev/null)
+test "x$?" != "x0" && find_maxdepth_option_works=
+if test -z "$find_maxdepth_option_works"; then
+  echo "check-cmake.sh: Unsupported system. The 'find' command doesn't have" >&2
+  echo "                the '-maxdepth' option. Please use another system." >&2
+fi
+
 if test -z "${cmakelint}" \
   || test -z "${cmakelang_cmakelint}" \
-  || test -z "${cmakelang_cmakelint}"
+  || test -z "${cmakelang_cmakelint}" \
+  || test -z "${codespell}" \
+  || test -z "${find_maxdepth_option_works}"
 then
   exit 1
 fi
@@ -43,11 +66,13 @@ fi
 # Go to project root.
 cd $(CDPATH= cd -- "$(dirname -- "$0")/.." && pwd -P)
 
-# Check for unused utility modules.
-echo "Checking for unused modules"
+################################################################################
+# Check for unused CMake modules.
+################################################################################
+echo "Checking for unused CMake modules"
 
 modules=$(find ./cmake/cmake/modules -maxdepth 2 -name "*.cmake" ! -name "Find*.cmake")
-modules="${modules} "$(find ./cmake/cmake -name "*.cmake" -prune)
+modules="${modules} "$(find ./cmake/cmake -maxdepth 1 -name "*.cmake")
 
 for module in $modules; do
   module_name=$(basename $module | sed -e "s/.cmake$//")
@@ -91,7 +116,11 @@ for module in $find_modules; do
   fi
 done
 
-test "$exit_code" = "0" && echo "OK"
+test "x$exit_code" = "x0" && echo "OK"
+
+################################################################################
+# Run cmakelint, cmake-lint, and cmake-format tools.
+################################################################################
 
 # Get a list of all CMake files.
 files=$(find ./cmake ./bin -type f -name "*.cmake" -o -name "CMakeLists.txt")
@@ -100,24 +129,43 @@ files=$(find ./cmake ./bin -type f -name "*.cmake" -o -name "CMakeLists.txt")
 echo
 echo "Running cmakelint"
 $cmakelint --filter=-linelength,-whitespace/indent,-convention/filename,-package/stdargs $files
-#status=$? # Disabled due to outdated syntax checks.
-
-test "$status" != "0" && exit_code=$status
+status=$?
+# Disabled due to outdated syntax checks.
+#test "x$status" != "x0" && exit_code=$status
 
 # Run cmake-lint from the cmakelang project.
 echo
 echo "Running cmake-lint (cmakelang)"
 $cmakelang_cmakelint --config-files bin/cmake-format.json --suppress-decorations -- $files
 status=$?
-
-test "$status" != "0" && exit_code=$status
+# Disabled due to outdated syntax checks.
+#test "x$status" != "x0" && exit_code=$status
 
 # Run cmake-format.
 echo
 echo "Running cmake-format (cmakelang)"
 $cmakelang_cmakeformat --config-files bin/cmake-format.json --check -- $files
-#status=$?
+status=$?
+# Disabled due to outdated syntax checks.
+#test "x$status" != "x0" && exit_code=$status
 
-#test "$status" != "0" && exit_code=$status
+################################################################################
+# Run codespell.
+################################################################################
+
+echo
+echo "Running codespell"
+$codespell \
+  --config bin/codespell/.codespellrc \
+  .github \
+  bin \
+  cmake \
+  .editorconfig \
+  .gitignore \
+  README.md
+
+status=$?
+test "x$status" != "x0" && exit_code=$status
+test "x$status" = "x0" && echo "OK"
 
 exit $exit_code

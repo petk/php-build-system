@@ -142,7 +142,7 @@ if test -z "$branch"; then
   esac
 fi
 
-# Make sure we're in the php-src respository.
+# Make sure we're in the php-src repository.
 cd php-src
 
 if test ! -f "main/php_version.h" \

@@ -48,7 +48,7 @@ if(NOT GIT_BRANCH MATCHES "^PHP-[0-9]+\.[0-9]+$")
   set(GIT_BRANCH "master")
 endif()
 
-# Make sure the cloned php-src respository is the correct php-src repository.
+# Make sure the cloned php-src repository is the correct php-src repository.
 if(
   NOT EXISTS ${PHP_SRC_DIR}/main/php_version.h
   OR NOT EXISTS ${PHP_SRC_DIR}/php.ini-development
