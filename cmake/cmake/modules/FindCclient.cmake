@@ -99,7 +99,7 @@ function(cclient_check_symbol symbol result)
     " ${result})
   cmake_pop_check_state()
 
-  if(${${result}})
+  if(${result})
     message(CHECK_PASS "found")
   else()
     message(CHECK_PASS "not found")

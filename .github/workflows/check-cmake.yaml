@@ -29,7 +29,7 @@ jobs:
       - name: Setup Python
         uses: actions/setup-python@v4
 
-      - name: Install CMakeLint and cmakelang
+      - name: Install checking tools
         run: |
           pipx install cmakelint
           pipx install cmakelang

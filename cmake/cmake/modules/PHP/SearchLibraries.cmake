@@ -25,6 +25,7 @@ Module exposes the following function:
     [LIBRARIES <library>...]
     [LIBRARY_VARIABLE <library_variable>]
     [TARGET <target> <PRIVATE|PUBLIC|INTERFACE>]
+    [RECHECK_HEADERS]
   )
 
     Check that the <symbol> is available after including the <header> (or a list
@@ -56,6 +57,15 @@ Module exposes the following function:
       homogeneous to
       target_link_libraries(<target> PRIVATE|PUBLIC|INTERFACE <library>).
 
+    RECHECK_HEADERS
+      Enabling this option will recheck the header(s) by using specific
+      _PHP_SEARCH_LIBRARIES_HEADER_<HEADER_NAMES_H...> cache variable names
+      instead of the more common HAVE_<HEADER_NAME>_H. When checking headers in
+      iteration, by default, the HAVE_<HEADER_NAME>_H cache variables are
+      defined, so the entire check is slightly more performant if header(s) have
+      already been checked elsewhere in the application using the
+      check_header_include(). In most cases this won't be needed.
+
 The following variables may be set before calling this function to modify the
 way the check is run. See
 https://cmake.org/cmake/help/latest/module/CheckSymbolExists.html
@@ -81,12 +91,35 @@ include(CheckIncludeFiles)
 include(CheckSymbolExists)
 include(CMakePushCheckState)
 
+# Helper macro that populates target and user passed library variable.
+macro(_php_search_libraries_populate)
+  if(${library_internal_variable})
+    # Link found library to the optionally given target.
+    if(target)
+      target_link_libraries(
+        ${target}
+        ${target_scope}
+        ${${library_internal_variable}}
+      )
+    endif()
+
+    # Store found library in a regular variable provided by the user.
+    if(library_result_variable)
+      set(
+        ${library_result_variable}
+        ${${library_internal_variable}}
+        PARENT_SCOPE
+      )
+    endif()
+  endif()
+endmacro()
+
 function(php_search_libraries)
   cmake_parse_arguments(
     PARSE_ARGV
     2
     parsed                     # prefix
-    ""                         # options
+    "RECHECK_HEADERS"          # options
     "LIBRARY_VARIABLE"         # one-value keywords
     "HEADERS;LIBRARIES;TARGET" # multi-value keywords
   )
@@ -98,8 +131,10 @@ function(php_search_libraries)
   set(symbol ${ARGV0})
   set(symbol_result_variable ${ARGV1})
   set(headers ${parsed_HEADERS})
+  set(headers_recheck ${parsed_RECHECK_HEADERS})
   set(libraries ${parsed_LIBRARIES})
   set(library_result_variable ${parsed_LIBRARY_VARIABLE})
+  set(library_internal_variable _PHP_SEARCH_LIBRARIES_LIBRARY_${ARGV1})
 
   if(NOT parsed_HEADERS)
     message(FATAL_ERROR "php_search_libraries: missing HEADERS")
@@ -130,9 +165,25 @@ function(php_search_libraries)
     endif()
   endif()
 
+  # Check if there are cached values stored from any previous run.
+  if(DEFINED ${symbol_result_variable})
+    _php_search_libraries_populate()
+
+    return()
+  endif()
+
   # Check if given header(s) can be included.
   foreach(header ${headers})
-    string(MAKE_C_IDENTIFIER "HAVE_${header}" const)
+    if(headers_recheck)
+      set(id _PHP_SEARCH_LIBRARIES_HEADER_${headers_found}_${header})
+    else()
+      set(id HAVE_${header})
+    endif()
+    string(
+      MAKE_C_IDENTIFIER
+      "${id}"
+      const
+    )
     string(TOUPPER "${const}" const)
 
     cmake_push_check_state()
@@ -146,21 +197,25 @@ function(php_search_libraries)
       check_include_files("${headers_found};${header}" ${const})
     cmake_pop_check_state()
 
-    if(${${const}})
+    if(${const})
       list(APPEND headers_found ${header})
     endif()
   endforeach()
 
-  # First, check if symbol exists without linking additional libraries.
+  # Check if symbol exists without linking additional libraries.
   check_symbol_exists(
     ${symbol}
     "${headers_found}"
     ${symbol_result_variable}
   )
 
-  if(${${symbol_result_variable}})
+  if(${symbol_result_variable})
     return()
   endif()
+
+  # Clear any cached library value if running consecutively and symbol result
+  # variable has been unset in the code after the check.
+  unset(${library_internal_variable} CACHE)
 
   # Now, check if linking any given library helps finding the symbol.
   foreach(library ${libraries})
@@ -181,19 +236,18 @@ function(php_search_libraries)
       )
     cmake_pop_check_state()
 
-    if(${${symbol_result_variable}})
+    if(${symbol_result_variable})
       if(NOT CMAKE_REQUIRED_QUIET)
         message(CHECK_PASS "found")
       endif()
 
-      if(library_result_variable)
-        set(${library_result_variable} ${library} PARENT_SCOPE)
-      endif()
+      # Store found library in a cache variable for internal purpose.
+      set(
+        ${library_internal_variable} ${library}
+        CACHE INTERNAL "Library required to use '${symbol}'."
+      )
 
-      # Link found library to the optionally given target.
-      if(target)
-        target_link_libraries(${target} ${target_scope} ${library})
-      endif()
+      _php_search_libraries_populate()
 
       return()
     else()

@@ -15,7 +15,7 @@ Cache variables:
 IMPORTED target:
 
   PHP::CheckSHMLibrary
-    IMPORTED library containing SHM POSIX functions, if available.
+    If there is additional library to be linked for using SHM POSIX functions.
 ]=============================================================================]#
 
 include_guard(GLOBAL)
@@ -196,28 +196,18 @@ message(CHECK_START "Checking for mmap() using shm_open() shared memory support"
 # Linux, Solaris 11.4, illumos, macOS, BSD-based systems, etc. Haiku has them in
 # the C library called root, which is linked by default when using compilers on
 # Haiku.
-block()
-  php_search_libraries(
-    shm_open
-    HAVE_SHM_OPEN
-    HEADERS sys/mman.h
-    LIBRARIES
-      rt # Solaris <= 10, older Linux
-    LIBRARY_VARIABLE library
-  )
-
-  if(library)
-    add_library(PHP::CheckSHMLibrary INTERFACE IMPORTED)
-
-    target_link_libraries(PHP::CheckSHMLibrary INTERFACE ${library})
-  endif()
-endblock()
+php_search_libraries(
+  shm_open
+  HAVE_SHM_OPEN
+  HEADERS sys/mman.h
+  LIBRARIES
+    rt # Solaris <= 10, older Linux
+  LIBRARY_VARIABLE libraryForShmOpen
+)
 
 if(HAVE_SHM_OPEN AND NOT CMAKE_CROSSCOMPILING)
   cmake_push_check_state(RESET)
-    if(TARGET PHP::CheckSHMLibrary)
-      set(CMAKE_REQUIRED_LIBRARIES PHP::CheckSHMLibrary)
-    endif()
+    set(CMAKE_REQUIRED_LIBRARIES ${libraryForShmOpen})
 
     check_source_runs(C [[
       #include <sys/types.h>
@@ -287,6 +277,10 @@ if(HAVE_SHM_OPEN AND NOT CMAKE_CROSSCOMPILING)
 endif()
 
 if(HAVE_SHM_MMAP_POSIX)
+  if(libraryForShmOpen)
+    add_library(PHP::CheckSHMLibrary INTERFACE IMPORTED)
+    target_link_libraries(PHP::CheckSHMLibrary INTERFACE ${libraryForShmOpen})
+  endif()
   message(CHECK_PASS "yes")
 else()
   message(CHECK_FAIL "no")
