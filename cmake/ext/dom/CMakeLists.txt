@@ -43,6 +43,7 @@ target_sources(
     element.c
     entity.c
     entityreference.c
+    html_collection.c
     html_document.c
     html5_parser.c
     html5_serializer.c

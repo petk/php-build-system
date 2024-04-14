@@ -174,7 +174,7 @@ Some useful overridable configuration options built into CMake itself. All these
 
   Path to the sed, which can be manually overriden to the sed on the target
   system. This is only used in generated phpize (and php-config) scripts on *nix
-  systems. There is also a patch that removes sed usage from the php-config.
+  systems.
 
 ## 4. Zend engine configuration
 
