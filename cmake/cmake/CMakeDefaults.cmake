@@ -1,6 +1,8 @@
 #[=============================================================================[
 Setting CMake defaults to manage how CMake works. These can be set before
 calling the project().
+
+https://cmake.org/cmake/help/latest/manual/cmake-variables.7.html
 #]=============================================================================]
 
 include_guard(GLOBAL)
@@ -15,7 +17,10 @@ set(CMAKE_INCLUDE_CURRENT_DIR ON)
 set(CMAKE_INCLUDE_DIRECTORIES_PROJECT_BEFORE ON)
 
 # Add colors to diagnostics output.
-if(NOT DEFINED CMAKE_COLOR_DIAGNOSTICS AND NOT DEFINED ENV{CMAKE_COLOR_DIAGNOSTICS})
+if(
+  NOT DEFINED CMAKE_COLOR_DIAGNOSTICS
+  AND NOT DEFINED ENV{CMAKE_COLOR_DIAGNOSTICS}
+)
   set(CMAKE_COLOR_DIAGNOSTICS ON)
 endif()
 
@@ -30,20 +35,26 @@ set(CMAKE_SHARED_LIBRARY_PREFIX_CXX "")
 set(CMAKE_SHARED_MODULE_PREFIX_CXX "")
 set(CMAKE_STATIC_LIBRARY_PREFIX_CXX "")
 
-# TODO: Set this in debug mode, maybe.
-#set(CMAKE_VERBOSE_MAKEFILE ON)
+# Whether to enable verbose output from Makefile builds.
+option(CMAKE_VERBOSE_MAKEFILE "Enable verbose output from Makefile builds" OFF)
+mark_as_advanced(CMAKE_VERBOSE_MAKEFILE)
 
-# Show message context in configuration log. Added as an overridable option.
-option(CMAKE_MESSAGE_CONTEXT_SHOW "Show the context in configuration log" OFF)
+# Whether to show message context in configuration log.
+option(
+  CMAKE_MESSAGE_CONTEXT_SHOW
+  "Show message context in configuration log, where possible"
+  OFF
+)
 mark_as_advanced(CMAKE_MESSAGE_CONTEXT_SHOW)
 
-# Whether to build all libraries as shared. Added as an overridable option.
-option(BUILD_SHARED_LIBS "Build all enabled PHP extensions as shared libraries" OFF)
+# Whether to build all libraries as shared.
+option(BUILD_SHARED_LIBS "Build enabled PHP extensions as shared libraries" OFF)
 
-# https://cmake.org/cmake/help/latest/variable/CMAKE_COMPILE_WARNING_AS_ERROR.html
+# Treat all compile warnings as errors at the build phase, if compiler supports
+# such compile option, like -Werror, /WX, or similar.
 option(
   CMAKE_COMPILE_WARNING_AS_ERROR
-  "Treat all compile warnings on targets as errors (-Werror, /WX ...)"
+  "Treat all compile warnings as errors at the build phase"
   OFF
 )
 mark_as_advanced(CMAKE_COMPILE_WARNING_AS_ERROR)

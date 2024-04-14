@@ -67,7 +67,7 @@ function(php_check_function_attribute attribute result)
     check_source_compiles(C "${code}" ${result})
   cmake_pop_check_state()
 
-  if(${${result}})
+  if(${result})
     message(CHECK_PASS "yes")
   else()
     message(CHECK_FAIL "no")

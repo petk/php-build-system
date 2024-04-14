@@ -66,7 +66,7 @@ function(php_check_builtin builtin result)
     " ${result})
   cmake_pop_check_state()
 
-  if(${${result}})
+  if(${result})
     message(CHECK_PASS "yes")
   else()
     message(CHECK_FAIL "no")

@@ -222,7 +222,7 @@ if(TARGET ODBC::ODBC)
         check_include_file(${header} ${const})
       cmake_pop_check_state()
 
-      if(${${const}})
+      if(${const})
         set(have_headers TRUE)
       endif()
     endforeach()

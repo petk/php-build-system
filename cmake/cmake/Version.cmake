@@ -1,5 +1,18 @@
 #[=============================================================================[
-Read the PHP version from the configure.ac file and set PHP version variables.
+Set PHP version variables.
+
+PHP version variables are read from the configure.ac file, and PHP_VERSION_API
+number is retrieved from main/php.h header file.
+
+Variables:
+
+  PHP_VERSION
+  PHP_VERSION_MAJOR
+  PHP_VERSION_MINOR
+  PHP_VERSION_PATCH
+  PHP_VERSION_LABEL
+  PHP_API_VERSION
+
 ]=============================================================================]#
 
 include_guard(GLOBAL)
@@ -36,7 +49,8 @@ macro(_php_post_project)
     # Read PHP API version.
     file(READ main/php.h _)
     string(REGEX MATCH "#[ \t]*define[ \t]+PHP_API_VERSION[ \t]+([0-9]+)" _ "${_}")
-    message(STATUS "PHP API version: ${CMAKE_MATCH_1}")
+    set(PHP_API_VERSION "${CMAKE_MATCH_1}")
+    message(STATUS "PHP API version: ${PHP_API_VERSION}")
   endif()
 endmacro()
 variable_watch(PHP_HOMEPAGE_URL _php_post_project)

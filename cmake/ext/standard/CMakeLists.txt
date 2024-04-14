@@ -216,43 +216,41 @@ else()
   message(CHECK_FAIL "no")
 endif()
 
-block()
-  # The getifaddrs() is available in C library some systems (Solaris 11.4...)
-  php_search_libraries(
-    getifaddrs
-    _HAVE_GETIFADDRS
-    HEADERS ifaddrs.h
-    LIBRARIES
-      socket  # Solaris 11..11.3, illumos
-      network # Haiku
-    LIBRARY_VARIABLE library
-    TARGET php_standard PRIVATE
-  )
+# The getifaddrs() is available in C library some systems (Solaris 11.4...)
+php_search_libraries(
+  getifaddrs
+  _HAVE_GETIFADDRS
+  HEADERS ifaddrs.h
+  LIBRARIES
+    socket  # Solaris 11..11.3, illumos
+    network # Haiku
+  LIBRARY_VARIABLE libraryForGetifaddrs
+  TARGET php_standard PRIVATE
+)
 
-  if(_HAVE_GETIFADDRS)
-    message(CHECK_START "Checking for usable getifaddrs")
-    cmake_push_check_state(RESET)
-      set(CMAKE_REQUIRED_LIBRARIES ${library})
-      set(CMAKE_REQUIRED_QUIET TRUE)
-      check_source_compiles(C "
-        #include <sys/types.h>
-        #include <ifaddrs.h>
-        int main(void) {
-          struct ifaddrs *interfaces;
-          if (!getifaddrs(&interfaces)) {
-            freeifaddrs(interfaces);
-          }
-          return 0;
+if(_HAVE_GETIFADDRS)
+  message(CHECK_START "Checking for usable getifaddrs")
+  cmake_push_check_state(RESET)
+    set(CMAKE_REQUIRED_LIBRARIES ${libraryForGetifaddrs})
+    set(CMAKE_REQUIRED_QUIET TRUE)
+    check_source_compiles(C "
+      #include <sys/types.h>
+      #include <ifaddrs.h>
+      int main(void) {
+        struct ifaddrs *interfaces;
+        if (!getifaddrs(&interfaces)) {
+          freeifaddrs(interfaces);
         }
-      " HAVE_GETIFADDRS)
-    cmake_pop_check_state()
-    if(HAVE_GETIFADDRS)
-      message(CHECK_PASS "yes")
-    else()
-      message(CHECK_FAIL "no")
-    endif()
+        return 0;
+      }
+    " HAVE_GETIFADDRS)
+  cmake_pop_check_state()
+  if(HAVE_GETIFADDRS)
+    message(CHECK_PASS "yes")
+  else()
+    message(CHECK_FAIL "no")
   endif()
-endblock()
+endif()
 
 # Check for __attribute__ ((__aligned__)) support in the compiler.
 message(CHECK_START "Checking whether the compiler supports aligned attribute")

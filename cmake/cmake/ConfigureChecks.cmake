@@ -94,9 +94,24 @@ check_include_file(immintrin.h HAVE_IMMINTRIN_H)
 
 check_struct_has_member("struct tm" tm_gmtoff time.h HAVE_STRUCT_TM_TM_GMTOFF)
 check_struct_has_member("struct tm" tm_zone time.h HAVE_STRUCT_TM_TM_ZONE)
-check_struct_has_member("struct stat" st_blksize sys/stat.h HAVE_STRUCT_STAT_ST_BLKSIZE)
-check_struct_has_member("struct stat" st_blocks sys/stat.h HAVE_STRUCT_STAT_ST_BLOCKS)
-check_struct_has_member("struct stat" st_rdev sys/stat.h HAVE_STRUCT_STAT_ST_RDEV)
+check_struct_has_member(
+  "struct stat"
+  st_blksize
+  sys/stat.h
+  HAVE_STRUCT_STAT_ST_BLKSIZE
+)
+check_struct_has_member(
+  "struct stat"
+  st_blocks
+  sys/stat.h
+  HAVE_STRUCT_STAT_ST_BLOCKS
+)
+check_struct_has_member(
+  "struct stat"
+  st_rdev
+  sys/stat.h
+  HAVE_STRUCT_STAT_ST_RDEV
+)
 
 cmake_push_check_state(RESET)
   set(CMAKE_EXTRA_INCLUDE_FILES "fcntl.h")
@@ -146,12 +161,18 @@ endif()
 
 check_type_size("gid_t" SIZEOF_GID_T)
 if(NOT HAVE_SIZEOF_GID_T)
-  set(gid_t int CACHE INTERNAL "Define as 'int' if <sys/types.h> doesn't define.")
+  set(
+    gid_t int
+    CACHE INTERNAL "Define as 'int' if <sys/types.h> doesn't define."
+  )
 endif()
 
 check_type_size("uid_t" SIZEOF_UID_T)
 if(NOT HAVE_SIZEOF_UID_T)
-  set(uid_t int CACHE INTERNAL "Define as 'int' if <sys/types.h> doesn't define.")
+  set(
+    uid_t int
+    CACHE INTERNAL "Define as 'int' if <sys/types.h> doesn't define."
+  )
 endif()
 
 check_type_size("intmax_t" SIZEOF_INTMAX_T)
@@ -308,7 +329,11 @@ check_symbol_exists(nl_langinfo "langinfo.h" HAVE_NL_LANGINFO)
 check_symbol_exists(prctl "sys/prctl.h" HAVE_PRCTL)
 check_symbol_exists(procctl "sys/procctl.h" HAVE_PROCCTL)
 check_symbol_exists(poll "poll.h" HAVE_POLL)
-check_symbol_exists(pthread_jit_write_protect_np "pthread.h" HAVE_PTHREAD_JIT_WRITE_PROTECT_NP)
+check_symbol_exists(
+  pthread_jit_write_protect_np
+  "pthread.h"
+  HAVE_PTHREAD_JIT_WRITE_PROTECT_NP
+)
 check_symbol_exists(putenv "stdlib.h" HAVE_PUTENV)
 check_symbol_exists(scandir "dirent.h" HAVE_SCANDIR)
 check_symbol_exists(setitimer "sys/time.h" HAVE_SETITIMER)

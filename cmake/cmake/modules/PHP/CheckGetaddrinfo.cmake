@@ -9,7 +9,7 @@ Cache variables:
 IMPORTED target:
 
   PHP::CheckGetaddrinfoLibrary
-    IMPORTED library containing getaddrinfo(), if available.
+    If there is additional library to be linked for using getaddrinfo().
 ]=============================================================================]#
 
 include_guard(GLOBAL)
@@ -22,31 +22,30 @@ include(PHP/SearchLibraries)
 message(CHECK_START "Checking for getaddrinfo()")
 
 # The getaddrinfo() is mostly in C library (Solaris 11.4, illumos...)
-block()
-  php_search_libraries(
-    getaddrinfo
-    _have_getaddrinfo_symbol
-    HEADERS
-      netdb.h
-      ws2tcpip.h
-    LIBRARIES
-      socket  # Solaris <= 11.3
-      network # Haiku
-      ws2_32  # Windows
-    LIBRARY_VARIABLE library
+php_search_libraries(
+  getaddrinfo
+  _have_getaddrinfo_symbol
+  HEADERS
+    netdb.h
+    ws2tcpip.h
+  LIBRARIES
+    socket  # Solaris <= 11.3
+    network # Haiku
+    ws2_32  # Windows
+  LIBRARY_VARIABLE libraryForGetaddrinfo
+)
+if(libraryForGetaddrinfo)
+  add_library(PHP::CheckGetaddrinfoLibrary INTERFACE IMPORTED)
+
+  target_link_libraries(
+    PHP::CheckGetaddrinfoLibrary
+    INTERFACE
+      ${libraryForGetaddrinfo}
   )
-  if(library)
-    add_library(PHP::CheckGetaddrinfoLibrary INTERFACE IMPORTED)
+endif()
 
-    target_link_libraries(
-      PHP::CheckGetaddrinfoLibrary
-      INTERFACE
-        ${library}
-    )
-  endif()
-endblock()
-
-# If the HAVE_GETADDRINFO variable has been set the module stops here.
+# If the variable HAVE_GETADDRINFO has been overridden (for example, on Windows)
+# or cached in consecutive runs, the module stops here.
 if(HAVE_GETADDRINFO)
   message(CHECK_PASS "yes (cached)")
   return()
