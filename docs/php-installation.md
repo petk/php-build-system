@@ -1,7 +1,11 @@
 # PHP installation
 
+> [!CAUTION]
+> **Before running the `make install` or `cmake --install` command, be aware
+> that files will be copied outside of your current build directory.**
+
 Installation of built files is a simple copy to a predefined directory structure
-of given system. In this phase the executable binary files, dynamic library
+on a given system. In this phase the executable binary files, dynamic library
 objects, header files, \*nix man documentation pages, and similar files are
 copied to system directories.
 
@@ -10,11 +14,7 @@ system package managers through automated scripts. Additionally, it is common
 practice to apply additional patches to tailor the PHP package to suit the
 specific requirements of the \*nix distribution in use.
 
-> [!CAUTION]
-> **Before running the `make install` or `cmake --install` command, be aware
-> that files will be copied outside of your current build directory.**
-
-## Installing PHP with default Autotools
+## Installing PHP with Autotools-based build system
 
 The default way to install PHP using Autotools across the system directories can
 be done like this:
@@ -47,7 +47,7 @@ however for historical reasons and since PHP doesn't use Automake, the
 `INSTALL_ROOT` variable name is used in PHP instead.
 
 The files are then copied to a predefined directory structure (GNU or PHP
-style). The optional PHP Autotools configuration option
+layout). The optional PHP Autotools configuration option
 `--with-layout=[GNU|PHP]` defines the installation directory structure. By
 default it is set to PHP style directory structure:
 
@@ -70,7 +70,7 @@ default it is set to PHP style directory structure:
           └─ php/                   # PHP shared libraries and other build files
              ├─ build/              # Various PHP development and build files
              └─ extensions/
-                └─ no-debug-non-zts-20230831/ # PHP shared extensions (*.so files)
+                └─ no-debug-non-zts-20230901/ # PHP shared extensions (*.so files)
        └─ php/
           └─ man/
              ├─ man1/               # PHP man section 1 pages for *nix systems
@@ -102,7 +102,7 @@ This is how the GNU layout directory structure looks like (`--with-layout=GNU`):
              └─ Zend/
        └─ lib/
           └─ php/
-             ├─ 20230831/         # PHP shared extensions (*.so files)
+             ├─ 20230901/         # PHP shared extensions (*.so files)
              └─ build/
        ├─ sbin/
        └─ share/                  # Directory with shareable files
@@ -136,10 +136,16 @@ information:
 
 * `EXTENSION_DIR` - absolute path that overrides path to extensions shared
   objects (`.so` files). By default it is set to
-  `/usr/local/lib/php/extensions/no-debug-non-zts-2023.../` or
-  `/usr/local/lib/php/2023.../`.
+  `/usr/local/lib/php/extensions/no-debug-non-zts-20230901` or
+  `/usr/local/lib/php/20230901`, when using the `--with-layout=GNU`. To override
+  it in the context of the prefix, it can be also set like this:
 
-Common practice is to also add program prefixes and suffixes (`php83`):
+  ```sh
+  ./configure --prefix=/usr EXTENSION_DIR=\${prefix}/lib/php/extensions
+  ```
+
+Common practice is to also add program prefix and suffix (for example, to have
+`php83` and similar):
 
 * `--program-prefix=PREFIX` - prepends built binaries with given prefix.
 * `--program-suffix=SUFFIX` - appends suffix to binaries.
@@ -186,8 +192,7 @@ cmake --install . --prefix "/install/path/prefix"
 
 To adjust the installation locations, the
 [GNUInstallDirs](https://cmake.org/cmake/help/latest/module/GNUInstallDirs.html)
-is used in the root `CMakeLists.txt` file which sets some additional
-`CMAKE_INSTALL_*` variables.
+module is used and it sets some additional `CMAKE_INSTALL_*` variables.
 
 * `CMAKE_INSTALL_BINDIR` - name of the bin directory.
 * `CMAKE_INSTALL_SBINDIR` - name of the sbin directory.
@@ -195,9 +200,9 @@ is used in the root `CMakeLists.txt` file which sets some additional
 * `CMAKE_INSTALL_LOCALSTATEDIR` - name of the var directory.
 * ...
 
-These variables are by default all relative path names. When customized, they
-can be either relative or absolute. When changed to absolute values the
-installation prefix will not be taken into account.
+These variables are by default relative paths. When customized, they can be
+either relative or absolute. When changed to absolute values the installation
+prefix will not be taken into account.
 
 Instead of setting the `CMAKE_INSTALL_PREFIX` variable at the configuration
 phase, or using the `--prefix` installation option, there is also `installDir`

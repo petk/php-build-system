@@ -1096,6 +1096,9 @@
 /* Define to 1 if you have the 'pthread_jit_write_protect_np' function. */
 #cmakedefine HAVE_PTHREAD_JIT_WRITE_PROTECT_NP 1
 
+/* Define to 1 if you have the 'pthread_set_qos_class_self_np' function. */
+#cmakedefine HAVE_PTHREAD_SET_QOS_CLASS_SELF_NP 1
+
 /* Define to 1 if you have the 'pthread_stackseg_np' function. */
 #cmakedefine HAVE_PTHREAD_STACKSEG_NP 1
 

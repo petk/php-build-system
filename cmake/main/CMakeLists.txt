@@ -56,6 +56,43 @@ target_sources(
         $<$<NOT:$<PLATFORM_ID:Windows>>:${CMAKE_CURRENT_BINARY_DIR}/php_config.h>
 )
 
+check_symbol_exists(__ELF__ "" _HAVE_ELF)
+if(_HAVE_ELF)
+  target_sources(
+    php_main
+    PRIVATE
+    $<$<CONFIG:Debug,DebugAssertions,RelWithDebInfo>:debug_gdb_scripts.c>
+  )
+
+  # Regenerate main/debug_gdb_scripts.c after PHP cli SAPI has been built.
+  file(
+    GENERATE
+    OUTPUT CMakeFiles/GenerateDebugGDBScripts.cmake
+    CONTENT [[
+      if(EXISTS ${PHP_EXECUTABLE})
+        execute_process(
+          COMMAND ${PHP_EXECUTABLE}
+            ${PHP_SOURCE_DIR}/scripts/gdb/debug_gdb_scripts_gen.php
+        )
+      endif()
+    ]]
+  )
+
+  add_custom_command(
+    OUTPUT ${CMAKE_CURRENT_SOURCE_DIR}/debug_gdb_scripts.c
+    COMMAND ${CMAKE_COMMAND}
+            -D PHP_EXECUTABLE=${PHP_BINARY_DIR}/sapi/cli/php
+            -D PHP_SOURCE_DIR=${PHP_SOURCE_DIR}
+            -P CMakeFiles/GenerateDebugGDBScripts.cmake
+    DEPENDS
+      ${PHP_SOURCE_DIR}/scripts/gdb/debug_gdb_scripts_gen.php
+      ${PHP_SOURCE_DIR}/scripts/gdb/php_gdb.py
+      ${PHP_SOURCE_DIR}/.gdbinit
+    COMMENT "[main] Regenerating main/debug_gdb_scripts.c"
+    VERBATIM
+  )
+endif()
+
 target_compile_definitions(
   php_main
   PRIVATE
