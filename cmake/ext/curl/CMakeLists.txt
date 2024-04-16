@@ -134,10 +134,3 @@ if(TARGET CURL::libcurl)
     )
   endif()
 endif()
-
-install(
-  TARGETS php_curl
-  ARCHIVE EXCLUDE_FROM_ALL
-  FILE_SET HEADERS
-    DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/ext/curl
-)

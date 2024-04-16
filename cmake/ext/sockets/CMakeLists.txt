@@ -100,10 +100,3 @@ cmake_push_check_state(RESET)
   set(CMAKE_EXTRA_INCLUDE_FILES "sys/socket.h")
   check_type_size("struct cmsgcred" STRUCT_CMSGCRED)
 cmake_pop_check_state()
-
-install(
-  TARGETS php_sockets
-  ARCHIVE EXCLUDE_FROM_ALL
-  FILE_SET HEADERS
-    DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/ext/sockets
-)

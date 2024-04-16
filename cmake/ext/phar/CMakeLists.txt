@@ -230,13 +230,6 @@ configure_file(phar.1.in phar.1 @ONLY)
 configure_file(phar.phar.1.in phar.phar.1 @ONLY)
 
 install(
-  TARGETS php_phar
-  ARCHIVE EXCLUDE_FROM_ALL
-  FILE_SET HEADERS
-    DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/ext/phar
-)
-
-install(
   FILES
     ${CMAKE_CURRENT_BINARY_DIR}/phar.1
     ${CMAKE_CURRENT_BINARY_DIR}/phar.phar.1

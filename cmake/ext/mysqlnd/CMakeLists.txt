@@ -136,10 +136,3 @@ if(EXT_MYSQLND_SSL OR EXT_OPENSSL)
     CACHE INTERNAL "Enable mysqlnd code that uses OpenSSL directly"
   )
 endif()
-
-install(
-  TARGETS php_mysqlnd
-  ARCHIVE EXCLUDE_FROM_ALL
-  FILE_SET HEADERS
-    DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/ext/mysqlnd
-)

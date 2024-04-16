@@ -1,4 +1,3 @@
-From: Peter Kokot <peterkokot@gmail.com>
 Subject: Fix Dmalloc build
 
 Header php.h needs to be included ahead when building with

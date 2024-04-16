@@ -1,4 +1,3 @@
-From: Peter Kokot <peterkokot@gmail.com>
 Subject: Fix typedef redefinition warnings
 
 PHP at this point still requires only C99, so this fixes warnings

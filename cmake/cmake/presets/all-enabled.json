@@ -63,11 +63,12 @@
         "EXT_ZIP": true,
         "EXT_ZLIB": true,
 
+        "SAPI_EMBED": true,
         "SAPI_FPM": true,
-        "SAPI_FPM_SYSTEMD": true,
         "SAPI_FPM_ACL": true,
         "SAPI_FPM_APPARMOR": true,
         "SAPI_FPM_SELINUX": true,
+        "SAPI_FPM_SYSTEMD": true,
         "SAPI_LITESPEED": true
       }
     },

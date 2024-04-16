@@ -21,12 +21,13 @@ target_sources(
     lib/unixtime2tm.c
     php_date.c
   PUBLIC
-    FILE_SET headers_source TYPE HEADERS
+    FILE_SET HEADERS
       FILES
         lib/timelib.h
         php_date.h
-    # A separate file set so binary dir can also be created within a source dir.
-    FILE_SET headers_binary TYPE HEADERS
+  # A separate file set so binary dir can also be created within a source dir.
+  PUBLIC
+    FILE_SET HEADERS
       BASE_DIRS ${CMAKE_CURRENT_BINARY_DIR}
       FILES
         ${CMAKE_CURRENT_BINARY_DIR}/lib/timelib_config.h
@@ -80,12 +81,3 @@ file(WRITE ${CMAKE_CURRENT_BINARY_DIR}/lib/timelib_config.h [[
 ]])
 
 add_dependencies(php_date PHP::main Zend::Zend)
-
-install(
-  TARGETS php_date
-  ARCHIVE EXCLUDE_FROM_ALL
-  FILE_SET headers_source
-    DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/ext/date
-  FILE_SET headers_binary
-    DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/ext/date
-)

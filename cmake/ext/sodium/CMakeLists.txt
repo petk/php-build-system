@@ -61,10 +61,3 @@ if(HAVE_WNO_LOGICAL_OP_C)
 endif()
 
 set(HAVE_LIBSODIUMLIB 1 CACHE INTERNAL "Whether the libsodium is available")
-
-install(
-  TARGETS php_sodium
-  ARCHIVE EXCLUDE_FROM_ALL
-  FILE_SET HEADERS
-    DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/ext/sodium
-)

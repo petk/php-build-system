@@ -103,10 +103,3 @@ if(EXT_SESSION_MM)
     set(HAVE_LIBMM 1 CACHE INTERNAL "Whether you have libmm")
   endif()
 endif()
-
-install(
-  TARGETS php_session
-  ARCHIVE EXCLUDE_FROM_ALL
-  FILE_SET HEADERS
-    DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/ext/session
-)

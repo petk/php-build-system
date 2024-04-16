@@ -1,4 +1,3 @@
-From: Peter Kokot <peterkokot@gmail.com>
 Subject: Sync ext/hash installed headers
 
 This syncs ext/hash headers installation on *nix and Windows:

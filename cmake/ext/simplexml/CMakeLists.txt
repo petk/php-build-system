@@ -60,10 +60,3 @@ set_package_properties(
 )
 
 target_link_libraries(php_simplexml PRIVATE LibXml2::LibXml2)
-
-install(
-  TARGETS php_simplexml
-  ARCHIVE EXCLUDE_FROM_ALL
-  FILE_SET HEADERS
-    DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/ext/simplexml
-)

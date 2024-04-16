@@ -232,10 +232,3 @@ if(TARGET Iconv::Iconv)
     set(ICONV_BROKEN_IGNORE 1 CACHE INTERNAL "Whether iconv has broken IGNORE.")
   endif()
 endif()
-
-install(
-  TARGETS php_iconv
-  ARCHIVE EXCLUDE_FROM_ALL
-  FILE_SET HEADERS
-    DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/ext/iconv
-)

@@ -38,10 +38,3 @@ if(RE2C_FOUND)
       -t ${CMAKE_CURRENT_SOURCE_DIR}/php_json_scanner_defs.h
   )
 endif()
-
-install(
-  TARGETS php_json
-  ARCHIVE EXCLUDE_FROM_ALL
-  FILE_SET HEADERS
-    DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/ext/json
-)
