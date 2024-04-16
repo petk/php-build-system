@@ -48,10 +48,3 @@ set_package_properties(
 )
 
 target_link_libraries(php_gmp PUBLIC GMP::GMP)
-
-install(
-  TARGETS php_gmp
-  ARCHIVE EXCLUDE_FROM_ALL
-  FILE_SET HEADERS
-    DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/ext/gmp
-)

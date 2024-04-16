@@ -36,10 +36,3 @@ set_target_properties(
   PROPERTIES
     PHP_EXTENSION_DEPENDENCIES "php_json;php_pcre;php_standard"
 )
-
-install(
-  TARGETS php_spl
-  ARCHIVE EXCLUDE_FROM_ALL
-  FILE_SET HEADERS
-    DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/ext/spl
-)

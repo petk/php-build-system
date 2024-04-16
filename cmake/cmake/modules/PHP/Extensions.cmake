@@ -518,16 +518,28 @@ function(_php_extensions_post_configure directory)
     add_library(PHP::${extension} ALIAS php_${extension})
   endif()
 
-  # Check if extension is always enabled.
-  get_cmake_property(extensions PHP_ALWAYS_ENABLED_EXTENSIONS)
-  if(extension IN_LIST extensions)
-    return()
-  endif()
-
   # Set target output filename to "<extension>".
   get_target_property(output php_${extension} OUTPUT_NAME)
   if(NOT output)
     set_property(TARGET php_${extension} PROPERTY OUTPUT_NAME ${extension})
+  endif()
+
+  # Add extension's default installation instructions.
+  install(
+    TARGETS php_${extension}
+    ARCHIVE EXCLUDE_FROM_ALL
+    RUNTIME
+      DESTINATION ${PHP_EXTENSION_DIR}
+    LIBRARY
+      DESTINATION ${PHP_EXTENSION_DIR}
+    FILE_SET HEADERS
+      DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/ext/${extension}
+  )
+
+  # Check if extension is always enabled.
+  get_cmake_property(extensions PHP_ALWAYS_ENABLED_EXTENSIONS)
+  if(extension IN_LIST extensions)
+    return()
   endif()
 
   # Define HAVE_<extension-name> symbol for php_config.h.

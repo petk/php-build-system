@@ -1,4 +1,3 @@
-From: Peter Kokot <peterkokot@gmail.com>
 Subject: Remove _IO_cookie_io_functions_t in favor of cookie_io_functions_t
 
 As noted in glibc, the cookie_io_functions_t should be used instead of

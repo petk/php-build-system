@@ -89,10 +89,3 @@ else()
 
   set(HAVE_LIBEXPAT 1 CACHE INTERNAL "Whether libexpat is used")
 endif()
-
-install(
-  TARGETS php_xml
-  ARCHIVE EXCLUDE_FROM_ALL
-  FILE_SET HEADERS
-    DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/ext/xml
-)

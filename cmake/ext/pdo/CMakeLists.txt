@@ -53,10 +53,3 @@ if(RE2C_FOUND)
     OPTIONS --no-generation-date
   )
 endif()
-
-install(
-  TARGETS php_pdo
-  ARCHIVE EXCLUDE_FROM_ALL
-  FILE_SET HEADERS
-    DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/ext/pdo
-)

@@ -468,10 +468,3 @@ else()
     check_library_exists(GD::GD gdImageGetInterpolationMethod "" HAVE_GD_GET_INTERPOLATION)
   endif()
 endif()
-
-install(
-  TARGETS php_gd
-  ARCHIVE EXCLUDE_FROM_ALL
-  FILE_SET HEADERS
-    DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/ext/gd
-)

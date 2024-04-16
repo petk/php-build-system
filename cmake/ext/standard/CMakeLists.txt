@@ -360,14 +360,3 @@ check_symbol_exists(
 # TODO: Check whether to enable the chroot() function by checking which SAPI is
 # being built.
 set(ENABLE_CHROOT_FUNC 1 CACHE INTERNAL "Whether to enable chroot() function")
-
-################################################################################
-# Installation.
-################################################################################
-
-install(
-  TARGETS php_standard
-  ARCHIVE EXCLUDE_FROM_ALL
-  FILE_SET HEADERS
-    DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/ext/standard
-)

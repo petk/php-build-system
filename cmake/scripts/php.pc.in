@@ -5,6 +5,7 @@ prefix=@prefix@
 exec_prefix=@exec_prefix@
 includedir=@includedir@
 libdir=@libdir@
+extensiondir=@PHP_EXTENSION_DIR@
 
 Name: PHP
 Description: A general-purpose scripting language

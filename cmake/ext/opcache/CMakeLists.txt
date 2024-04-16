@@ -254,11 +254,3 @@ include(PHP/CheckSHM)
 if(TARGET PHP::CheckSHMLibrary)
   target_link_libraries(php_opcache PRIVATE PHP::CheckSHMLibrary)
 endif()
-
-install(
-  TARGETS php_opcache
-  RUNTIME
-    DESTINATION ${PHP_EXTENSION_DIR}
-  LIBRARY
-    DESTINATION ${PHP_EXTENSION_DIR}
-)

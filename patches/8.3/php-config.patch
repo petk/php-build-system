@@ -1,18 +1,17 @@
-From: Peter Kokot <peterkokot@gmail.com>
 Subject: Enhance php-config script
 
 Changes:
 
-* Add PHP API version number to php-config
+* Add --php-api, --zend-extension-api and --zend-module-api options
 
-  This adds a new option '--php-api' to the php-config script to output
-  the PHP API version number as defined in the main/php.h file
-  (PHP_API_VERSION). There is also ZEND_MODULE_API_NO that matches the
-  PHP API value and is used in the extension directory path. Perhaps,
-  the --php-api should output the ZEND_MODULE_API_NO, or another option
-  added like --zend-api. There are also PHP installations, that already
-  use similar patched approaches, such as --phpapi on Debian and Ubuntu,
-  where the value matches the ZEND_MODULE_API_NO.
+  This adds new options to the php-config script to output the PHP
+  internal API version number (PHP_API_VERSION in main/php.h), the Zend
+  module API number (ZEND_MODULE_API_NO in Zend/zend_modules.h) and Zend
+  extension API number (ZEND_EXTENSION_API_NO in
+  Zend/zend_extensions.h). The man pages are updated with brief
+  information about these values. There are existing PHP installations,
+  that already use similar patches, such as --phpapi on Debian and
+  Ubuntu, where the output value matches the ZEND_MODULE_API_NO.
 
 * Remove sed from php-config script
 
@@ -27,8 +26,8 @@ Changes:
 
   Also, sed substituted value can have issues in cases where build is
   happening on one machine and targeted machine has different path to
-  sed command. For example, on build machine it is in /usr/bin/sed, and
-  on target in /bin/sed.
+  the sed command. For example, on build machine it is at /usr/bin/sed,
+  and on target at /bin/sed.
 
   This should be further improved because some PHP installations
   manually adjust the php-config script and inject variables in
@@ -37,11 +36,11 @@ Changes:
   and without any quotes around them. Perhaps removing quotes should be
   done only on configure options and not variable arguments.
 ---
- build/php.m4                 | 4 +++-
- configure.ac                 | 3 +++
- scripts/man1/php-config.1.in | 4 ++++
- scripts/php-config.in        | 8 ++++----
- 4 files changed, 14 insertions(+), 5 deletions(-)
+ build/php.m4                 |  4 +++-
+ configure.ac                 |  6 +++++
+ scripts/man1/php-config.1.in | 18 +++++++++++++++
+ scripts/php-config.in        | 44 +++++++++++++++++++++---------------
+ 4 files changed, 53 insertions(+), 19 deletions(-)
 
 diff --git a/build/php.m4 b/build/php.m4
 index 933ada51dc..4909484a3b 100644
@@ -59,36 +58,60 @@ index 933ada51dc..4909484a3b 100644
  
  dnl
 diff --git a/configure.ac b/configure.ac
-index 01e2e7ab79..bf80beb052 100644
+index 01e2e7ab79..2940dbd90c 100644
 --- a/configure.ac
 +++ b/configure.ac
-@@ -1482,6 +1482,9 @@ AC_SUBST(EXPANDED_LOCALSTATEDIR)
+@@ -1469,6 +1469,9 @@ exec_prefix=$old_exec_prefix
+ libdir=$old_libdir
+ datadir=$old_datadir
+ 
++ZEND_EXTENSION_API_NO=$($EGREP '#define ZEND_EXTENSION_API_NO' $srcdir/Zend/zend_extensions.h | "${SED}" -e 's/^[^0-9]*//')
++PHP_API_VERSION=$($EGREP '#define PHP_API_VERSION ' $srcdir/main/php.h | "${SED}" -e 's/^[^0-9]*//')
++
+ AC_SUBST(INCLUDE_PATH)
+ AC_SUBST(EXPANDED_PEAR_INSTALLDIR)
+ AC_SUBST(EXPANDED_EXTENSION_DIR)
+@@ -1481,6 +1484,9 @@ AC_SUBST(EXPANDED_SYSCONFDIR)
+ AC_SUBST(EXPANDED_LOCALSTATEDIR)
  AC_SUBST(EXPANDED_PHP_CONFIG_FILE_PATH)
  AC_SUBST(EXPANDED_PHP_CONFIG_FILE_SCAN_DIR)
- 
-+PHP_API_VERSION=$($EGREP '#define PHP_API_VERSION ' $srcdir/main/php.h | "${SED}" -e 's/^[^0-9]*//')
 +AC_SUBST([PHP_API_VERSION])
-+
++AC_SUBST([ZEND_MODULE_API_NO])
++AC_SUBST([ZEND_EXTENSION_API_NO])
+ 
  PHP_UTILIZE_RPATHS
  
- PHP_REMOVE_USR_LIB(PHP_LDFLAGS)
 diff --git a/scripts/man1/php-config.1.in b/scripts/man1/php-config.1.in
-index 8ccd171641..333978f35c 100644
+index 8ccd171641..bd81c24df8 100644
 --- a/scripts/man1/php-config.1.in
 +++ b/scripts/man1/php-config.1.in
-@@ -39,6 +39,10 @@ Directory where extensions are searched by default
- Directory prefix where header files are installed by default
- .TP
+@@ -57,6 +57,24 @@ PHP version
  .PD 0
-+.B \-\-php-api
-+PHP API version number
+ .B \-\-vernum
+ PHP version as integer
 +.TP
 +.PD 0
- .B \-\-php-binary
- Full path to php CLI or CGI binary
- .TP
++.B \-\-php-api
++Internal PHP API version number
++.TP
++.PD 0
++.B \-\-zend-module-api
++Internal API version number for PHP extensions (dynamically loaded with
++\fBextension\fP INI directive). This is the \fBZEND_MODULE_API_NO\fP number in
++Zend/zend_modules.h and ensures that built extension is compatible with
++particular PHP build.
++.TP
++.PD 0
++.B \-\-zend-extension-api
++Internal API version number for Zend extensions in PHP (dynamically loaded with
++\fBzend_extension\fP INI directive), such as opcache, debuggers, profilers, etc.
++This is the \fBZEND_EXTENSION_API_NO\fP number in Zend/zend_extensions.h and
++ensures that built extension is compatible with particular PHP build.
+ .RS
+ .PD 1
+ .P
 diff --git a/scripts/php-config.in b/scripts/php-config.in
-index 9271e87286..0ab01a82cb 100644
+index 9271e87286..deab0ebd59 100644
 --- a/scripts/php-config.in
 +++ b/scripts/php-config.in
 @@ -1,6 +1,5 @@
@@ -98,15 +121,17 @@ index 9271e87286..0ab01a82cb 100644
  prefix="@prefix@"
  datarootdir="@datarootdir@"
  exec_prefix="@exec_prefix@"
-@@ -21,6 +20,7 @@ configure_options="@CONFIGURE_OPTIONS@"
+@@ -21,6 +20,9 @@ configure_options="@CONFIGURE_OPTIONS@"
  php_sapis="@PHP_INSTALLED_SAPIS@"
  ini_dir="@EXPANDED_PHP_CONFIG_FILE_SCAN_DIR@"
  ini_path="@EXPANDED_PHP_CONFIG_FILE_PATH@"
 +php_api="@PHP_API_VERSION@"
++zend_module_api="@ZEND_MODULE_API_NO@"
++zend_extension_api="@ZEND_EXTENSION_API_NO@"
  
  # Set php_cli_binary and php_cgi_binary if available
  for sapi in $php_sapis; do
-@@ -41,9 +41,6 @@ else
+@@ -41,9 +43,6 @@ else
    php_binary="$php_cgi_binary"
  fi
  
@@ -116,20 +141,51 @@ index 9271e87286..0ab01a82cb 100644
  case "$1" in
  --prefix)
    echo $prefix;;
-@@ -57,6 +54,8 @@ case "$1" in
-   echo $extension_dir;;
- --include-dir)
-   echo $include_dir;;
+@@ -73,24 +72,33 @@ case "$1" in
+   echo $version;;
+ --vernum)
+   echo $vernum;;
 +--php-api)
 +  echo $php_api;;
- --php-binary)
-   echo $php_binary;;
- --php-sapis)
-@@ -84,6 +83,7 @@ Options:
-   --extension-dir     [$extension_dir]
-   --include-dir       [$include_dir]
-   --man-dir           [$man_dir]
-+  --php-api           [$php_api]
-   --php-binary        [$php_binary]
-   --php-sapis         [$php_sapis]
-   --ini-path          [$ini_path]
++--zend-module-api)
++  echo $zend_module_api;;
++--zend-extension-api)
++  echo $zend_extension_api;;
+ *)
+   cat << EOF
+ Usage: $0 [OPTION]
+ Options:
+-  --prefix            [$prefix]
+-  --includes          [$includes]
+-  --ldflags           [$ldflags]
+-  --libs              [$libs]
+-  --extension-dir     [$extension_dir]
+-  --include-dir       [$include_dir]
+-  --man-dir           [$man_dir]
+-  --php-binary        [$php_binary]
+-  --php-sapis         [$php_sapis]
+-  --ini-path          [$ini_path]
+-  --ini-dir           [$ini_dir]
+-  --configure-options [$configure_options]
+-  --version           [$version]
+-  --vernum            [$vernum]
++  --prefix             [$prefix]
++  --includes           [$includes]
++  --ldflags            [$ldflags]
++  --libs               [$libs]
++  --extension-dir      [$extension_dir]
++  --include-dir        [$include_dir]
++  --man-dir            [$man_dir]
++  --php-binary         [$php_binary]
++  --php-sapis          [$php_sapis]
++  --ini-path           [$ini_path]
++  --ini-dir            [$ini_dir]
++  --configure-options  [$configure_options]
++  --version            [$version]
++  --vernum             [$vernum]
++  --php-api            [$php_api]
++  --zend-module-api    [$zend_module_api]
++  --zend-extension-api [$zend_extension_api]
+ EOF
+   exit 1;;
+ esac

@@ -207,10 +207,3 @@ add_feature_info(
   HAVE_PCRE_JIT_SUPPORT
   "PCRE JIT support"
 )
-
-install(
-  TARGETS php_pcre
-  ARCHIVE EXCLUDE_FROM_ALL
-  FILE_SET HEADERS
-    DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/ext/pcre
-)

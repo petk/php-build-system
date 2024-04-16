@@ -149,7 +149,7 @@ target_sources(
     zend_weakrefs.c
     zend.c
   PUBLIC
-    FILE_SET headers_source TYPE HEADERS
+    FILE_SET HEADERS
       FILES
         ${_zend_headers}
         $<$<PLATFORM_ID:Windows>:zend_config.w32.h>
@@ -162,8 +162,9 @@ target_sources(
         Optimizer/zend_optimizer.h
         Optimizer/zend_ssa.h
         Optimizer/zend_worklist.h
-    # A separate file set so binary dir can also be created within a source dir.
-    FILE_SET headers_binary TYPE HEADERS
+  # A separate file set so binary dir can also be created within a source dir.
+  PUBLIC
+    FILE_SET HEADERS
       BASE_DIRS ${CMAKE_CURRENT_BINARY_DIR}
       FILES
         $<$<NOT:$<PLATFORM_ID:Windows>>:${CMAKE_CURRENT_BINARY_DIR}/zend_config.h>
@@ -425,8 +426,6 @@ endif()
 install(
   TARGETS zend
   ARCHIVE EXCLUDE_FROM_ALL
-  FILE_SET headers_source
-    DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/Zend
-  FILE_SET headers_binary
+  FILE_SET HEADERS
     DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/Zend
 )

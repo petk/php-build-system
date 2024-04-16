@@ -1,4 +1,3 @@
-From: Peter Kokot <peterkokot@gmail.com>
 Subject: Fix phpdbg local console mode when using libedit/readline
 
 When using libedit/readline integration in phpdbg, EOF makes editline

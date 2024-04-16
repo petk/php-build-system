@@ -99,10 +99,3 @@ if(MySQL_Socket_PATH)
     CACHE INTERNAL "MySQL Unix socket pointer"
   )
 endif()
-
-install(
-  TARGETS php_mysqli
-  ARCHIVE EXCLUDE_FROM_ALL
-  FILE_SET HEADERS
-    DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/ext/mysqli
-)

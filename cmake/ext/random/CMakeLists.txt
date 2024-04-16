@@ -38,10 +38,3 @@ block()
 
   check_include_files("${headers}" HAVE_COMMONCRYPTO_COMMONRANDOM_H)
 endblock()
-
-install(
-  TARGETS php_random
-  ARCHIVE EXCLUDE_FROM_ALL
-  FILE_SET HEADERS
-    DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/ext/random
-)

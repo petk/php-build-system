@@ -75,10 +75,3 @@ set_package_properties(
 target_link_libraries(php_dom PRIVATE LibXml2::LibXml2)
 
 set_target_properties(php_dom PROPERTIES PHP_EXTENSION_DEPENDENCIES php_libxml)
-
-install(
-  TARGETS php_dom
-  ARCHIVE EXCLUDE_FROM_ALL
-  FILE_SET HEADERS
-    DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/ext/dom
-)

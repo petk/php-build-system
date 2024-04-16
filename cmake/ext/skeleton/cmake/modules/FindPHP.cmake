@@ -3,17 +3,18 @@ Find PHP.
 
 Components:
 
-  PHP
-    The PHP, general-purpose scripting language component.
-  PHP-Embed
+  php
+    The PHP, general-purpose scripting language, component for building
+    extensions.
+  embed
     The PHP Embed SAPI component - A lightweight SAPI to embed PHP into
     application using C bindings.
 
 Module defines the following IMPORTED target(s):
 
-  PHP::PHP
-    The PHP package library, if found.
-  PHP:Embed
+  PHP::php
+    The PHP package IMPORTED target, if found.
+  PHP:embed
     The PHP embed SAPI, if found.
 
 Result variables:
@@ -28,6 +29,19 @@ Result variables:
     Package version, if found.
   PHP_INSTALL_INCLUDEDIR
     Relative path to the CMAKE_PREFIX_INSTALL containing PHP headers.
+  PHP_EXTENSION_DIR
+    Path to the directory where shared extensions are installed.
+  PHP_API_VERSION
+    Internal PHP API version number (PHP_API_VERSION in main/php.h).
+  PHP_ZEND_MODULE_API
+    Internal API version number for PHP extensions (ZEND_MODULE_API_NO in
+    Zend/zend_modules.h). These are most common PHP extensions either built-in
+    or loaded dynamically with 'extension' INI directive.
+  PHP_ZEND_EXTENSION_API
+    Internal API version number for Zend extensions (ZEND_EXTENSION_API_NO in
+    Zend/zend_extensions.h). Zend extensions are, for example, opcache,
+    debuggers, profilers and similar advanced extensions. They are either
+    built-in or dynamically loaded with 'zend_extension' INI directive.
 
 Cache variables:
 
@@ -35,14 +49,26 @@ Cache variables:
     Path to the php-config development helper tool.
   PHP_INCLUDE_DIR
     Directory containing PHP headers.
-  PHP_Embed_LIBRARY
+  PHP_EMBED_LIBRARY
     The path to the PHP Embed library.
-  PHP_Embed_INCLUDE_DIR
+  PHP_EMBED_INCLUDE_DIR
     Directory containing PHP Embed header(s).
 
 Hints:
 
   The PHP_ROOT variable adds custom search path.
+
+Examples:
+
+  # Find PHP
+  find_package(PHP)
+
+  # Find PHP embed component
+  find_package(PHP COMPONENTS embed)
+
+  # Override where to find PHP
+  set(PHP_ROOT /path/to/php/installation)
+  find_package(PHP)
 #]=============================================================================]
 
 include(FeatureSummary)
@@ -57,12 +83,20 @@ set_package_properties(
 
 set(_reason "")
 
+################################################################################
+# php-config
+################################################################################
+
 # Find php-config tool.
 find_program(
   PHP_CONFIG_EXECUTABLE
   NAMES php-config
   DOC "Path to the php-config development helper command-line tool"
 )
+
+################################################################################
+# The PHP component.
+################################################################################
 
 # Use pkgconf, if available on the system.
 find_package(PkgConfig QUIET)
@@ -94,6 +128,8 @@ find_path(
 
 if(NOT PHP_INCLUDE_DIR)
   string(APPEND _reason "main/php_config.h not found. ")
+else()
+  set(PHP_php_FOUND TRUE)
 endif()
 
 # Get relative PHP include directory path.
@@ -123,37 +159,58 @@ elseif(PC_PHP_PREFIX)
   )
 endif()
 
-pkg_check_modules(PC_PHP_Embed QUIET php-embed)
+# Get PHP_EXTENSION_DIR.
+if(PHP_CONFIG_EXECUTABLE)
+  execute_process(
+    COMMAND "${PHP_CONFIG_EXECUTABLE}" --extension-dir
+    OUTPUT_VARIABLE PHP_EXTENSION_DIR
+    OUTPUT_STRIP_TRAILING_WHITESPACE
+    ERROR_QUIET
+  )
+endif()
+if(NOT PHP_EXTENSION_DIR)
+  pkg_get_variable(PHP_EXTENSION_DIR php extensiondir)
+endif()
+
+################################################################################
+# PHP Embed component.
+################################################################################
+
+pkg_check_modules(PC_PHP_EMBED QUIET php-embed)
 
 find_library(
-  PHP_Embed_LIBRARY
+  PHP_EMBED_LIBRARY
   NAMES php
-  PATHS ${PC_PHP_Embed_LIBRARY_DIRS}
+  PATHS ${PC_PHP_EMBED_LIBRARY_DIRS}
   DOC "The path to the libphp embed library"
 )
 
 find_path(
-  PHP_Embed_INCLUDE_DIR
+  PHP_EMBED_INCLUDE_DIR
   NAMES sapi/embed/php_embed.h
   PATHS
-    ${PC_PHP_Embed_INCLUDE_DIRS}
+    ${PC_PHP_EMBED_INCLUDE_DIRS}
     ${PHP_INCLUDE_DIRS}
   DOC "Directory containing PHP Embed SAPI header(s)"
 )
 
-if(PHP_Embed_LIBRARY AND PHP_Embed_INCLUDE_DIR)
-  set(PHP_Embed_FOUND TRUE)
-elseif("Embed" IN_LIST PHP_FIND_COMPONENTS)
-  if(NOT PHP_Embed_INCLUDE_DIR)
+if(PHP_EMBED_LIBRARY AND PHP_EMBED_INCLUDE_DIR)
+  set(PHP_embed_FOUND TRUE)
+elseif("embed" IN_LIST PHP_FIND_COMPONENTS)
+  if(NOT PHP_EMBED_INCLUDE_DIR)
     string(APPEND _reason "sapi/embed/php_embed.h not found. ")
   endif()
 
-  if(NOT PHP_Embed_LIBRARY)
+  if(NOT PHP_EMBED_LIBRARY)
     string(APPEND _reason "PHP library (libphp) not found. ")
   endif()
 endif()
 
-# Get version.
+################################################################################
+# Get PHP version and API numbers.
+################################################################################
+
+# Get PHP version.
 block(PROPAGATE PHP_VERSION)
   if(PHP_INCLUDE_DIR AND EXISTS ${PHP_INCLUDE_DIR}/main/php_version.h)
     file(
@@ -188,17 +245,39 @@ block(PROPAGATE PHP_VERSION)
   endif()
 endblock()
 
+# Get PHP API version number.
+file(READ ${PHP_INCLUDE_DIR}/main/php.h _)
+string(REGEX MATCH "#[ \t]*define[ \t]+PHP_API_VERSION[ \t]+([0-9]+)" _ "${_}")
+set(PHP_API_VERSION "${CMAKE_MATCH_1}")
+
+# Get PHP extensions API version number.
+file(READ ${PHP_INCLUDE_DIR}/Zend/zend_modules.h _)
+string(REGEX MATCH "#[ \t]*define[ \t]+ZEND_MODULE_API_NO[ \t]+([0-9]+)" _ "${_}")
+set(PHP_ZEND_MODULE_API "${CMAKE_MATCH_1}")
+
+# Get Zend extensions API version number.
+file(READ ${PHP_INCLUDE_DIR}/Zend/zend_extensions.h _)
+string(REGEX MATCH "#[ \t]*define[ \t]+ZEND_EXTENSION_API_NO[ \t]+([0-9]+)" _ "${_}")
+set(PHP_ZEND_EXTENSION_API "${CMAKE_MATCH_1}")
+
 mark_as_advanced(
   PHP_CONFIG_EXECUTABLE
   PHP_INCLUDE_DIR
-  PHP_Embed_LIBRARY
-  PHP_Embed_INCLUDE_DIR
+  PHP_EMBED_LIBRARY
+  PHP_EMBED_INCLUDE_DIR
 )
+
+################################################################################
+# Handle package standard arguments.
+################################################################################
 
 find_package_handle_standard_args(
   PHP
   REQUIRED_VARS
     PHP_INCLUDE_DIR
+    PHP_API_VERSION
+    PHP_ZEND_MODULE_API
+    PHP_ZEND_EXTENSION_API
   VERSION_VAR PHP_VERSION
   HANDLE_COMPONENTS
   REASON_FAILURE_MESSAGE "${_reason}"
@@ -210,7 +289,11 @@ if(NOT PHP_FOUND)
   return()
 endif()
 
-set(PHP_LIBRARIES ${PHP_Embed_LIBRARY})
+################################################################################
+# Post-find configuration.
+################################################################################
+
+set(PHP_LIBRARIES ${PHP_EMBED_LIBRARY})
 
 if(NOT TARGET PHP::PHP)
   add_library(PHP::PHP UNKNOWN IMPORTED)
@@ -222,13 +305,13 @@ if(NOT TARGET PHP::PHP)
   )
 endif()
 
-if(PHP_Embed_FOUND AND NOT TARGET PHP::Embed)
-  add_library(PHP::Embed UNKNOWN IMPORTED)
+if(PHP_embed_FOUND AND NOT TARGET PHP::EMBED)
+  add_library(PHP::EMBED UNKNOWN IMPORTED)
 
   set_target_properties(
-    PHP::Embed
+    PHP::EMBED
     PROPERTIES
-      IMPORTED_LOCATION "${PHP_Embed_LIBRARY}"
-      INTERFACE_INCLUDE_DIRECTORIES "${PHP_Embed_INCLUDE_DIR}"
+      IMPORTED_LOCATION "${PHP_EMBED_LIBRARY}"
+      INTERFACE_INCLUDE_DIRECTORIES "${PHP_EMBED_INCLUDE_DIR}"
   )
 endif()

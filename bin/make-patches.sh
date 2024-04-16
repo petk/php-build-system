@@ -160,5 +160,6 @@ for branch in $branches; do
 
   # Remove redundant patch header information.
   sed -i '/^From /d' ${patch}
+  sed -i '/^From: /d' ${patch}
   sed -i '/^Date: /d' ${patch}
 done

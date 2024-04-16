@@ -119,10 +119,3 @@ if(HAVE_STRUCT_CMSGCRED)
     CACHE INTERNAL "Define to 1 if the system has the type 'struct cmsgcred'."
   )
 endif()
-
-install(
-  TARGETS php_sockets
-  ARCHIVE EXCLUDE_FROM_ALL
-  FILE_SET HEADERS
-    DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/ext/sockets
-)

@@ -44,10 +44,3 @@ endif()
 if(NOT CMAKE_SYSTEM_NAME STREQUAL "Windows")
   set(HAVE_JSON 1 CACHE INTERNAL "Whether to enable the json extension.")
 endif()
-
-install(
-  TARGETS php_json
-  ARCHIVE EXCLUDE_FROM_ALL
-  FILE_SET HEADERS
-    DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/ext/json
-)
