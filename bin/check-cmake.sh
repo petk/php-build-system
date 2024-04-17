@@ -157,9 +157,11 @@ echo
 echo "Running codespell"
 $codespell \
   --config bin/check-cmake/.codespellrc \
+  --skip *.svg \
   .github \
   bin \
   cmake \
+  docs \
   .editorconfig \
   .gitignore \
   README.md

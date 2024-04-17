@@ -23,10 +23,12 @@ include(PHP/SystemExtensions)
 # _GNU_SOURCE.
 target_link_libraries(php_configuration INTERFACE PHP::SystemExtensions)
 
-# Set GNU standard installation directories.
+# Set installation directories.
+set(
+  CMAKE_INSTALL_INCLUDEDIR "include/php"
+  CACHE STRING "Include directory containing PHP header files (include/php)"
+)
 include(GNUInstallDirs)
-
-set(CMAKE_INSTALL_INCLUDEDIR "${CMAKE_INSTALL_INCLUDEDIR}/php")
 
 # Detect C standard library implementation.
 # TODO: Fix this better.
