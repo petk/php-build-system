@@ -69,7 +69,10 @@ to be defined."
 )
 mark_as_advanced(EXT_ODBC_VERSION)
 
-set(ODBCVER "${EXT_ODBC_VERSION}" CACHE INTERNAL "The highest supported ODBC version")
+set(
+  ODBCVER "${EXT_ODBC_VERSION}"
+  CACHE INTERNAL "The highest supported ODBC version"
+)
 
 if(NOT EXT_ODBC)
   return()
@@ -125,14 +128,41 @@ elseif(EXT_ODBC_TYPE STREQUAL "generic")
   set(HAVE_CODBC 1 CACHE INTERNAL "Whether the ODBC type is generic custom.")
 endif()
 
-# TODO: Set ODBC_CFLAGS, ODBC_LFLAGS, ODBC_LIBS.
-set(ODBC_CFLAGS "")
-set(ODBC_LFLAGS "")
-set(ODBC_LIBS "")
-set(ODBC_TYPE "${EXT_ODBC_TYPE}" CACHE INTERNAL "")
+################################################################################
+# Set ODBC_* variables for main/build-defs.h file.
+################################################################################
+block()
+  get_target_property(cflags ODBC::ODBC INTERFACE_COMPILE_OPTIONS)
+  string(REPLACE ";" " " cflags "${cflags}")
+  set(ODBC_CFLAGS "${cflags}" CACHE INTERNAL "ODBC CFLAGS")
+
+  get_target_property(libraries ODBC::ODBC IMPORTED_LOCATION)
+
+  foreach(library ${libraries})
+    cmake_path(GET library PARENT_PATH path)
+    list(APPEND ldflags "-L${path}")
+
+    cmake_path(GET library STEM name)
+    string(REGEX REPLACE "^lib" "" name "${name}")
+    list(APPEND libs "-l${name}")
+  endforeach()
+
+  list(REMOVE_DUPLICATES ldflags)
+  list(REMOVE_DUPLICATES libs)
+
+  string(REPLACE ";" " " ldflags "${ldflags}")
+  string(REPLACE ";" " " libs "${libs}")
+
+  set(ODBC_LFLAGS "${ldflags}" CACHE INTERNAL "ODBC linker flags")
+  set(ODBC_LIBS "${libs}" CACHE INTERNAL "ODBC libraries")
+  set(ODBC_TYPE "${EXT_ODBC_TYPE}" CACHE INTERNAL "ODBC type")
+endblock()
 
 if(NOT EXT_ODBC_TYPE MATCHES "^(dbmaker|solid)$")
-  set(HAVE_SQLDATASOURCES 1 CACHE INTERNAL "Whether SQL datasources are available")
+  set(
+    HAVE_SQLDATASOURCES 1
+    CACHE INTERNAL "Whether SQL datasources are available"
+  )
 endif()
 
 set(HAVE_UODBC 1 CACHE INTERNAL "Whether the odbc extension is enabled")

@@ -53,7 +53,6 @@ target_compile_definitions(
   PRIVATE
     ZEND_ENABLE_STATIC_TSRMLS_CACHE=1
     $<$<PLATFORM_ID:Darwin>:__APPLE_USE_RFC_3542>
-    # TODO: Should this be added for shared sockets extension only?
     $<$<PLATFORM_ID:Windows>:PHP_SOCKETS_EXPORTS>
 )
 

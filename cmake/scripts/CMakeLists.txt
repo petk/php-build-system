@@ -19,8 +19,7 @@ block()
   set(prefix "${CMAKE_INSTALL_PREFIX}")
   set(exec_prefix "${CMAKE_INSTALL_PREFIX}")
   set(includedir "${CMAKE_INSTALL_FULL_INCLUDEDIR}")
-  # TODO: Sync this with the PHP_LAYOUT.
-  set(datarootdir "${CMAKE_INSTALL_FULL_DATADIR}")
+  set(datarootdir "${CMAKE_INSTALL_FULL_DATAROOTDIR}")
   # TODO: Add PHP_LDFLAGS.
   set(PHP_LDFLAGS "")
   # TODO: Add EXTRA_LIBS.
