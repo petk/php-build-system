@@ -77,7 +77,7 @@ default it is set to PHP style directory structure:
              └─ man8/               # PHP man section 8 pages for *nix systems
           └─ php/
              └─ fpm/                # Additional FPM static HTML files
-       ├─ sbin/                     # Executable binaries for root priviledges
+       ├─ sbin/                     # Executable binaries for root privileges
        └─ var/                      # The Linux var directory
           ├─ log/                   # Directory for PHP logs
           └─ run/                   # Runtime data directory

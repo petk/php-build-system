@@ -61,7 +61,7 @@ if(_HAVE_ELF)
   target_sources(
     php_main
     PRIVATE
-    $<$<CONFIG:Debug,DebugAssertions,RelWithDebInfo>:debug_gdb_scripts.c>
+      $<$<CONFIG:Debug,DebugAssertions,RelWithDebInfo>:debug_gdb_scripts.c>
   )
 
   # Regenerate main/debug_gdb_scripts.c after PHP cli SAPI has been built.

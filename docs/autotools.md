@@ -281,7 +281,7 @@ This will compile, link and also run the program to check if the return code is
 0.
 
 Issue with `AC_RUN_IFELSE` is when doing so called cross-compilation. That is
-bulding C software on one platform with purpose of running it on some other
+building C software on one platform with purpose of running it on some other
 platform. In this case the program cannot be run and we cannot be sure of if it
 is running successfully or not.
 
@@ -307,7 +307,7 @@ Testing if function exists within the given header.
 A common way to check for function is using the `AC_CHECK_FUNC` or
 `AC_CHECK_FUNCS` macros. These check if the linker sees the function in the
 usual libraries (libc and the ones appended to the `LIBS` variable). However,
-many times, functions also have their belonging headers, so it makes sence to
+many times, functions also have their belonging headers, so it makes sense to
 check for both using this:
 
 ```m4

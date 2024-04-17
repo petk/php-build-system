@@ -18,6 +18,8 @@ projects.
   * [3.7. pkgconf](#37-pkgconf)
 * [4. CMake](#4-cmake)
   * [4.1. find\_package](#41-find_package)
+    * [4.1.1. Find module example](#411-find-module-example)
+    * [4.1.2. How to override CMake find module](#412-how-to-override-cmake-find-module)
   * [4.2. FetchContent](#42-fetchcontent)
   * [4.3. CPM.cmake](#43-cpmcmake)
 * [5. PHP dependencies](#5-php-dependencies)
@@ -137,7 +139,7 @@ pkgconf --libs libcrypt
 # Print the version of the queried module:
 pkgconf --modversion libcrypt
 
-# Pring CFLAGS:
+# Print CFLAGS:
 pkgconf --cflags libcrypt
 
 # See --help for further info:
@@ -230,6 +232,8 @@ set_package_properties(PackageName PROPERTIES
 # If PackageName was not found, configuration step will stop here:
 feature_summary(WHAT ALL FATAL_ON_MISSING_REQUIRED_PACKAGES)
 ```
+
+#### 4.1.1. Find module example
 
 Example of a `FindFoo.cmake` module:
 
@@ -355,6 +359,58 @@ if(NOT TARGET Foo::Foo)
   )
 endif()
 ```
+
+#### 4.1.2. How to override CMake find module
+
+CMake by default includes many find modules. If a case is encountered where the
+default CMake find module doesn't suffice for the project usage, this is one of
+the approaches that can be taken.
+
+The `CMakeLists.txt` example:
+
+```cmake
+# CMakeLists.txt
+
+cmake_minimum_required(VERSION 3.25)
+
+# Append project local CMake modules.
+list(APPEND CMAKE_MODULE_PATH "cmake/modules")
+
+project(PHP)
+
+find_package(Iconv)
+```
+
+Create a module with the same name in your local project CMake modules
+directory. For example:
+
+```cmake
+# cmake/modules/FindIconv.cmake
+
+# Here, find module can be customized before including the upstream module. For
+# example, adding search paths, changing initial values of the find module,
+# adding pkgconf/pkg-config functionality, and similar.
+
+# Find Iconv with upstream CMake module; override CMAKE_MODULE_PATH to prevent
+# the maximum nesting/recursion depth error on some systems, like macOS.
+set(_php_cmake_module_path ${CMAKE_MODULE_PATH})
+unset(CMAKE_MODULE_PATH)
+include(FindIconv)
+set(CMAKE_MODULE_PATH ${_php_cmake_module_path})
+unset(_php_cmake_module_path)
+
+# Here, find module can be customized after including the upstream module. For
+# example, adding new result variables.
+```
+
+With this, when calling the find_package(Iconv), the local FindIconv module will
+be used and the upstream CMake module will be included in it, making it possible
+to adjust code before and after the inclusion.
+
+Instead of calling `find_package()` inside a find module, the `include()` can be
+used and `CMAKE_MODULE_PATH` disabled. Otherwise, on some systems the maximum
+nesting/recursion depth error occurs because CMake will try to include the
+local FindIconv recursively.
 
 ### 4.2. FetchContent
 

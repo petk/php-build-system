@@ -172,7 +172,7 @@ Some useful overridable configuration options built into CMake itself. All these
 
   Default path to the sed on the host system.
 
-  Path to the sed, which can be manually overriden to the sed on the target
+  Path to the sed, which can be manually overridden to the sed on the target
   system. This is only used in generated phpize (and php-config) scripts on *nix
   systems.
 
@@ -2508,20 +2508,20 @@ A list of Autoconf `configure` command-line configuration options, Windows
       <td>default</td>
     </tr>
     <tr>
-      <td>&emsp;--with-pdo-odbc=flavour</td>
+      <td>&emsp;--with-pdo-odbc=flavor</td>
       <td></td>
       <td>
         EXT_PDO_ODBC=ON<br>
-        EXT_PDO_ODBC_TYPE=flavour
+        EXT_PDO_ODBC_TYPE=flavor
       </td>
-      <td>Default flavour: unixODBC</td>
+      <td>Default flavor: unixODBC</td>
     </tr>
     <tr>
-      <td>&emsp;--with-pdo-odbc=flavour,dir,libname,ldflags,cflags</td>
+      <td>&emsp;--with-pdo-odbc=flavor,dir,libname,ldflags,cflags</td>
       <td></td>
       <td>
         EXT_PDO_ODBC=ON<br>
-        EXT_PDO_ODBC_TYPE=flavour<br>
+        EXT_PDO_ODBC_TYPE=flavor<br>
         EXT_PDO_ODBC_ROOT=dir<br>
         EXT_PDO_ODBC_LIBRARY=libname<br>
         EXT_PDO_ODBC_LDFLAGS=ldflags<br>
@@ -3306,13 +3306,13 @@ A list of Autoconf `configure` command-line configuration options, Windows
       <td>PHP_UNAME=&quot;ACME Linux&quot;</td>
       <td></td>
       <td>PHP_UNAME=&quot;ACME Linux&quot;</td>
-      <td>uname -a ouput override</td>
+      <td><code>uname -a</code> output override</td>
     </tr>
     <tr>
       <td>PHP_BUILD_SYSTEM=&quot;ACME Linux&quot;</td>
       <td>PHP_BUILD_SYSTEM=&quot;Microsoft Windows...&quot;</td>
       <td>PHP_BUILD_SYSTEM=&quot;...&quot;</td>
-      <td>Builder system name, defaults to uname -a output</td>
+      <td>Builder system name, defaults to <code>uname -a</code> output</td>
     </tr>
     <tr>
       <td>PHP_BUILD_PROVIDER=&quot;ACME&quot;</td>
