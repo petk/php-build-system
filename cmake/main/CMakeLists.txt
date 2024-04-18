@@ -1,3 +1,5 @@
+include(FeatureSummary)
+
 add_library(php_main STATIC)
 add_library(PHP::main ALIAS php_main)
 

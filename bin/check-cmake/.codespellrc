@@ -5,3 +5,4 @@
 builtin = clear,rare,informal,usage,code,names,en-GB_to_en-US
 check-hidden =
 ignore-words = bin/check-cmake/codespell-ignores.txt
+skip = *.svg

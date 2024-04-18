@@ -4,9 +4,7 @@ if(CMAKE_SYSTEM_NAME STREQUAL "Windows")
 endif()
 
 include(CheckIncludeFile)
-include(CheckLibraryExists)
 include(CheckSourceCompiles)
-include(CheckSourceRuns)
 include(CheckSymbolExists)
 include(CMakeDependentOption)
 include(CMakePushCheckState)
@@ -324,26 +322,6 @@ else()
 endif()
 
 if(SAPI_FPM_ACL)
-  # Disable built-in ACL when overriding search paths in FindACL.
-  if(CMAKE_PREFIX_PATH OR ACL_ROOT)
-    find_path(
-      php_fpm_acl_INCLUDE_DIR
-      NAMES
-        sys/acl.h
-      PATHS
-        ${CMAKE_PREFIX_PATH}
-        ${ACL_ROOT}
-      PATH_SUFFIXES
-        include
-      NO_DEFAULT_PATH
-    )
-
-    if(php_fpm_acl_INCLUDE_DIR)
-      set(ACL_INCLUDE_DIR ${php_fpm_acl_INCLUDE_DIR})
-      set(ACL_IS_BUILT_IN FALSE)
-    endif()
-  endif()
-
   set(ACL_USE_USER_GROUP TRUE)
   find_package(ACL)
   set_package_properties(

@@ -19,7 +19,7 @@ while test $# -gt 0; do
 PHP CMake initialization helper
 
 SYNOPSIS:
-  init.sh [<options>]
+  $0 [<options>]
 
 OPTIONS:
   -n, --no-update      Don't pull branches in the php-src Git repository.

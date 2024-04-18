@@ -1,3 +1,5 @@
+include(FeatureSummary)
+
 add_library(php_tsrm STATIC)
 add_library(PHP::TSRM ALIAS php_tsrm)
 

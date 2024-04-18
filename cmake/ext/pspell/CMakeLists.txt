@@ -1,3 +1,4 @@
+include(CheckCompilerFlag)
 include(CMakeDependentOption)
 include(FeatureSummary)
 

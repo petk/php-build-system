@@ -1,7 +1,6 @@
 include(CheckCompilerFlag)
 include(CheckSymbolExists)
 include(CMakeDependentOption)
-include(CMakePushCheckState)
 include(FeatureSummary)
 include(PHP/SearchLibraries)
 

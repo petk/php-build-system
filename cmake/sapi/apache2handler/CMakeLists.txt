@@ -1,3 +1,5 @@
+include(FeatureSummary)
+
 option(
   SAPI_APACHE2HANDLER
   "Enable the Apache SAPI (shared Apache 2 handler module via DSO)"
