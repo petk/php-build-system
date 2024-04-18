@@ -171,7 +171,7 @@ cmake_push_check_state(RESET)
         return 0;
       }
     ]] HAVE_SHM_MMAP_ANON)
-  elseif(CMAKE_CROSSCOMPILING AND CMAKE_SYSTEM_NAME STREQUAL "Linux")
+  elseif(CMAKE_CROSSCOMPILING AND CMAKE_SYSTEM_NAME MATCHES "^(Linux|Midipix)$")
     set(
       HAVE_SHM_MMAP_ANON 1
       CACHE INTERNAL "Whether mmap(MAP_ANON) SHM support is available"

@@ -14,7 +14,7 @@ include(CMakePushCheckState)
 
 message(CHECK_START "Checking whether writing to stdout works")
 
-if(CMAKE_CROSSCOMPILING AND CMAKE_SYSTEM_NAME STREQUAL "Linux")
+if(CMAKE_CROSSCOMPILING AND CMAKE_SYSTEM_NAME MATCHES "^(Linux|Midipix)$")
   set(PHP_WRITE_STDOUT 1 CACHE INTERNAL "Whether write(2) works")
 else()
   cmake_push_check_state(RESET)

@@ -39,8 +39,7 @@ installation of a library, there are two main options to consider:
 * `CMAKE_PREFIX_PATH="DIR_1;DIR_2;..."`
 
   A semicolon separated list of additional directories where packages can be
-  found by `find_*()` commands. Can be used as an alternative to above
-  &lt;PackageName&gt;_ROOT variables.
+  found by `find_*()` commands.
 
   For example, to pass manual paths for iconv and SQLite3 libraries:
 
@@ -50,7 +49,8 @@ installation of a library, there are two main options to consider:
 
 * `<PackageName>_ROOT` variables
 
-  These variables are used within the `find_package(<PackageName> ...)` command.
+  Path where to look for `PackageName`, when calling the
+  `find_package(<PackageName> ...)` command.
 
   ```sh
   cmake -DIconv_ROOT=/path/to/libiconv -DSQLite3_ROOT=/path/to/sqlite3 -S php-src -B php-build

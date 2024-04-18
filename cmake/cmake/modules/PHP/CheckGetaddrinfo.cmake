@@ -113,7 +113,7 @@ cmake_push_check_state(RESET)
         }
       ]] HAVE_GETADDRINFO)
     else()
-      if(CMAKE_SYSTEM_NAME STREQUAL "Linux")
+      if(CMAKE_SYSTEM_NAME MATCHES "^(Linux|Midipix)$")
         set(
           HAVE_GETADDRINFO 1
           CACHE INTERNAL "Define if you have the getaddrinfo() function"
