@@ -51,11 +51,6 @@ set_target_properties(
 )
 
 find_package(LibXslt 1.1.0)
-# Upstream CMake module doesn't mark these as advanced variables.
-# https://gitlab.kitware.com/cmake/cmake/-/merge_requests/8807
-if(CMAKE_VERSION VERSION_LESS 3.28)
-  mark_as_advanced(LIBXSLT_EXSLT_INCLUDE_DIR LIBXSLT_LIBRARY)
-endif()
 set_package_properties(
   LibXslt
   PROPERTIES

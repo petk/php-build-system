@@ -38,7 +38,7 @@ Module exposes the following function:
       appended to the list of found headers instead of a single header check. In
       some cases a header might not be self-contained (it requires including
       prior additional headers). For example, to be able to use arpa/nameser.h
-      on FreeBSD<=13, the sys/types.h must be included before.
+      on Solaris, the sys/types.h must be included before.
 
     LIBRARIES
       If symbol is not found in the default libraries (C library), then the

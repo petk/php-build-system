@@ -3,7 +3,6 @@ if(CMAKE_SYSTEM_NAME STREQUAL "Windows")
   return()
 endif()
 
-include(CheckIncludeFile)
 include(CheckSourceRuns)
 include(CheckStructHasMember)
 include(CheckSymbolExists)

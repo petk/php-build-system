@@ -89,6 +89,28 @@ function(_acl_check result)
 endfunction()
 
 ################################################################################
+# Disable built-in ACL when overriding search paths in FindACL.
+################################################################################
+if(CMAKE_PREFIX_PATH OR ACL_ROOT)
+  find_path(
+    _acl_INCLUDE_DIR
+    NAMES
+      sys/acl.h
+    PATHS
+      ${CMAKE_PREFIX_PATH}
+      ${ACL_ROOT}
+    PATH_SUFFIXES
+      include
+    NO_DEFAULT_PATH
+  )
+
+  if(_acl_INCLUDE_DIR)
+    set(ACL_INCLUDE_DIR ${_acl_INCLUDE_DIR})
+    set(ACL_IS_BUILT_IN FALSE)
+  endif()
+endif()
+
+################################################################################
 # Find package.
 ################################################################################
 

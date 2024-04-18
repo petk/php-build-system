@@ -1,22 +1,56 @@
 #!/bin/sh
 #
 # Helper script that runs a set of common checks on CMake files.
-#
-# Checks:
-#   - For unused CMake find and utility modules in the cmake/modules folder
-#   - CMakeLint for CMake code issues
-#   - cmake-lint for CMake code issues
-#   - cmake-format for CMake code style issues
-#   - codespell for common misspelling issues
-#
-# Usage:
-#   ./bin/check-cmake.sh
 
-exit_code=0
+enableCMakeLint=0
+enableCMakeLang=0
+exitCode=0
+
+################################################################################
+# Parse options and arguments.
+################################################################################
+
+while test $# -gt 0; do
+  if test "$1" = "-h" || test "$1" = "--help"; then
+    cat << HELP
+CMake code checker
+
+SYNOPSIS:
+  $0 [<options>]
+
+OPTIONS:
+  -d, --debug    Output additional debug mode information.
+  -h, --help     Display this help and exit.
+  --cmakelint    Run CMake cmakelint tool.
+  --cmakelang    Run CMake-lang project tools (cmake-lint and cmake-format).
+
+Checks:
+  - Unused CMake find and utility module files
+  - Missing and redundant CMake module includes
+  - CMakeLint for CMake code issues
+  - cmake-lint for CMake code issues
+  - cmake-format for CMake code style issues
+  - codespell for common misspelling issues
+
+USAGE:
+  $0 [<options>]
+HELP
+    exit 0
+  elif test "$1" = "-d" || test "$1" = "--debug"; then
+    debug=1
+  elif test "$1" = "--cmakelint"; then
+    enableCMakeLint=1
+  elif test "$1" = "--cmakelang"; then
+    enableCMakeLang=1
+  fi
+
+  shift
+done
 
 ################################################################################
 # Check requirements.
 ################################################################################
+
 cmakelint=$(which cmakelint 2>/dev/null)
 cmakelang_cmakelint=$(which cmake-lint 2>/dev/null)
 cmakelang_cmakeformat=$(which cmake-format 2>/dev/null)
@@ -47,9 +81,9 @@ if test -z "${codespell}"; then
 fi
 
 # Check if find -maxdepth option works (for example, Solaris doesn't have it).
-find_maxdepth_option_works=$(find ./cmake/cmake -maxdepth 1 -name "*.cmake" 2>/dev/null)
-test "x$?" != "x0" && find_maxdepth_option_works=
-if test -z "$find_maxdepth_option_works"; then
+findMaxdepthOptionWorks=$(find ./cmake/cmake -maxdepth 1 -name "*.cmake" 2>/dev/null)
+test "x$?" != "x0" && findMaxdepthOptionWorks=
+if test -z "$findMaxdepthOptionWorks"; then
   echo "check-cmake.sh: Unsupported system. The 'find' command doesn't have" >&2
   echo "                the '-maxdepth' option. Please use another system." >&2
 fi
@@ -58,7 +92,7 @@ if test -z "${cmakelint}" \
   || test -z "${cmakelang_cmakelint}" \
   || test -z "${cmakelang_cmakelint}" \
   || test -z "${codespell}" \
-  || test -z "${find_maxdepth_option_works}"
+  || test -z "${findMaxdepthOptionWorks}"
 then
   exit 1
 fi
@@ -67,38 +101,39 @@ fi
 cd $(CDPATH= cd -- "$(dirname -- "$0")/.." && pwd -P)
 
 ################################################################################
-# Check for unused CMake modules.
+# Check for unused CMake module files.
 ################################################################################
-echo "Checking for unused CMake modules"
+
+echo "Checking for unused CMake module files"
 
 modules=$(find ./cmake/cmake/modules -maxdepth 2 -name "*.cmake" ! -name "Find*.cmake")
 modules="${modules} "$(find ./cmake/cmake -maxdepth 1 -name "*.cmake")
 
 for module in $modules; do
-  module_name=$(basename $module | sed -e "s/.cmake$//")
-  found=$(grep -Er "include\(.*${module_name}(\.cmake)?.?\)" cmake)
+  moduleName=$(basename $module | sed -e "s/.cmake$//")
+  found=$(grep -Er "include\(.*${moduleName}(\.cmake)?.?\)" cmake)
 
   if test -z "$found"; then
     echo "E: ${module} is not used" >&2
-    exit_code=1
+    exitCode=1
   fi
 done
 
 # Check for unused module artifacts.
-module_items=$(find ./cmake/cmake/modules/PHP -mindepth 2)
+moduleItems=$(find ./cmake/cmake/modules/PHP -mindepth 2)
 
-for item in $module_items; do
+for item in $moduleItems; do
   # Check if item is submodule.
-  module_name=$(basename $item | sed -e "s/.cmake$//")
-  found_included=$(grep -Er "include\(.*${module_name}(\.cmake)?.?\)" cmake)
+  moduleName=$(basename $item | sed -e "s/.cmake$//")
+  foundIncluded=$(grep -Er "include\(.*${moduleName}(\.cmake)?.?\)" cmake)
 
   # Check if item is any other file.
-  item_name=$(basename $item)
-  found=$(grep -Er "${item_name}" cmake)
+  itemName=$(basename $item)
+  found=$(grep -Er "${itemName}" cmake)
 
-  if test -z "$found_included" && test -z "$found"; then
+  if test -z "$foundIncluded" && test -z "$found"; then
     echo "E: ${item} is not used" >&2
-    exit_code=1
+    exitCode=1
   fi
 done
 
@@ -106,48 +141,27 @@ done
 find_modules=$(find ./cmake/cmake/modules -type f -name "Find*.cmake")
 
 for module in $find_modules; do
-  module_name=$(basename $module)
-  package_name=$(echo ${module_name} | sed -e "s/Find\(.*\).cmake$/\1/")
-  found=$(grep -Er "find_package\([[:space:]]*${package_name}.*" cmake)
+  moduleName=$(basename $module)
+  packageName=$(echo ${moduleName} | sed -e "s/Find\(.*\).cmake$/\1/")
+  found=$(grep -Er "find_package\([[:space:]]*${packageName}.*" cmake)
 
   if test -z "$found"; then
-    echo "E: ${module_name} is not used" >&2
-    exit_code=1
+    echo "E: ${moduleName} is not used" >&2
+    exitCode=1
   fi
 done
 
-test "x$exit_code" = "x0" && echo "OK"
+test "x$exitCode" = "x0" && echo "OK"
 
 ################################################################################
-# Run cmakelint, cmake-lint, and cmake-format tools.
+# Check CMake includes.
 ################################################################################
 
-# Get a list of all CMake files.
-files=$(find ./cmake ./bin -type f -name "*.cmake" -o -name "CMakeLists.txt")
-
-# Run cmakelint. Some options are disabled and cmake-format checks them instead.
 echo
-echo "Running cmakelint"
-$cmakelint --filter=-linelength,-whitespace/indent,-convention/filename,-package/stdargs $files
+echo "Checking CMake includes"
+./bin/check-cmake/cmake-includes.sh cmake
 status=$?
-# Disabled due to outdated syntax checks.
-#test "x$status" != "x0" && exit_code=$status
-
-# Run cmake-lint from the cmakelang project.
-echo
-echo "Running cmake-lint (cmakelang)"
-$cmakelang_cmakelint --config-files bin/check-cmake/cmake-format.json --suppress-decorations -- $files
-status=$?
-# Disabled due to outdated syntax checks.
-#test "x$status" != "x0" && exit_code=$status
-
-# Run cmake-format.
-echo
-echo "Running cmake-format (cmakelang)"
-$cmakelang_cmakeformat --config-files bin/check-cmake/cmake-format.json --check -- $files
-status=$?
-# Disabled due to outdated syntax checks.
-#test "x$status" != "x0" && exit_code=$status
+test "x$status" != "x0" && exitCode=$status || echo "OK"
 
 ################################################################################
 # Run codespell.
@@ -157,7 +171,6 @@ echo
 echo "Running codespell"
 $codespell \
   --config bin/check-cmake/.codespellrc \
-  --skip *.svg \
   .github \
   bin \
   cmake \
@@ -167,7 +180,47 @@ $codespell \
   README.md
 
 status=$?
-test "x$status" != "x0" && exit_code=$status
-test "x$status" = "x0" && echo "OK"
+test "x$status" != "x0" && exitCode=$status || echo "OK"
 
-exit $exit_code
+################################################################################
+# Run cmakelint, cmake-lint, and cmake-format tools.
+################################################################################
+
+# Get a list of all CMake files.
+files=$(find ./cmake ./bin -type f -name "*.cmake" -o -name "CMakeLists.txt")
+
+# Run cmakelint. Some options are disabled and cmake-format checks them instead.
+if test "x$enableCMakeLint" != "x0"; then
+  echo
+  echo "Running cmakelint"
+  $cmakelint \
+    --filter=-linelength,-whitespace/indent,-convention/filename,-package/stdargs \
+    $files
+  status=$?
+  test "x$status" != "x0" && exitCode=$status
+fi
+
+# Run cmake-lint and cmake-format from the cmakelang project.
+if test "x$enableCMakeLang" != "x0"; then
+  # cmake-lint
+  echo
+  echo "Running cmake-lint (cmakelang)"
+  $cmakelang_cmakelint \
+    --config-files bin/check-cmake/cmake-format.json \
+    --suppress-decorations \
+    -- $files
+  status=$?
+  test "x$status" != "x0" && exitCode=$status
+
+  # cmake-format.
+  echo
+  echo "Running cmake-format (cmakelang)"
+  $cmakelang_cmakeformat \
+    --config-files bin/check-cmake/cmake-format.json \
+    --check \
+    -- $files
+  status=$?
+  test "x$status" != "x0" && exitCode=$status
+fi
+
+exit $exitCode

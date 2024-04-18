@@ -1,4 +1,3 @@
-include(CMakeDependentOption)
 include(FeatureSummary)
 
 option(PHP_PEAR "Whether to install PEAR" OFF)

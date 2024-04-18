@@ -1,5 +1,4 @@
 include(CheckIncludeFile)
-include(CheckSourceCompiles)
 include(CheckStructHasMember)
 include(CheckSymbolExists)
 include(CheckTypeSize)

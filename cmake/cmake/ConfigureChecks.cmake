@@ -4,7 +4,6 @@ Project-wide configuration checks.
 
 include_guard(GLOBAL)
 
-# Include required modules.
 include(CheckFunctionExists)
 include(CheckIncludeFile)
 include(CheckIncludeFiles)

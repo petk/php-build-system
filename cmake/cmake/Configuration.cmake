@@ -204,13 +204,6 @@ set_package_properties(
 )
 
 set_package_properties(
-  LibXslt
-  PROPERTIES
-    URL "https://gitlab.gnome.org/GNOME/libxslt"
-    DESCRIPTION "XSLT processor library"
-)
-
-set_package_properties(
   OpenSSL
   PROPERTIES
     URL "https://www.openssl.org/"

@@ -15,7 +15,6 @@ Cache variables:
 include_guard(GLOBAL)
 
 include(CheckSourceCompiles)
-include(CMakePushCheckState)
 
 message(CHECK_START "Checking for TCP_INFO")
 

@@ -27,7 +27,6 @@ message(STATUS "Zend module API number: ${CMAKE_MATCH_1}")
 
 include(CheckIncludeFile)
 include(CheckSourceCompiles)
-include(CheckSourceRuns)
 include(CheckSymbolExists)
 include(CMakePushCheckState)
 include(PHP/SearchLibraries)

@@ -46,7 +46,7 @@ code. There needs to be a php-src repository clone locally one directory above
 with patched branch.
 
 SYNOPSIS:
-   make-patches.sh [<options>]
+   $0 [<options>]
 
 OPTIONS:
   -r, --refresh    Iterate over php-src branches with CMake patches and rebase
@@ -57,7 +57,7 @@ ENVIRONMENT VARIABLES:
    The following optional variables are supported:
 
    REPO    Overrides the location to the locally patched php-src repository.
-           REPO=php-src-repo ./bin/make-patches.sh
+           REPO=php-src-repo $0
 HELP
     exit 0
   fi

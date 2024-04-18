@@ -14,7 +14,7 @@ while test $# -gt 0; do
 Check and update PHP Autotools build system.
 
 SYNOPSIS:
-  autotools.sh [<options>]
+  $0 [<options>]
 
 OPTIONS:
   -b, --branch BRANCH  Branch to checkout (default master branch).
@@ -23,13 +23,13 @@ OPTIONS:
 
 USAGE:
   Update and check all Autotools files in the cloned php-src repository:
-    ./bin/autotools.sh
+    $0
 
   Update and check all Autotools files on specific branch:
-    ./bin/autotools.sh -b PHP-8.3
+    $0 -b PHP-8.3
 
   Check all Autotools files without resetting the php-src repository:
-    ./bin/autotools.sh -n
+    $0 -n
 HELP
     exit 0
   fi

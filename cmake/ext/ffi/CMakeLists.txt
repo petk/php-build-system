@@ -64,6 +64,10 @@ if(TARGET FFI::FFI)
     check_symbol_exists(FFI_SYSV "ffi.h" HAVE_FFI_SYSV)
 
     # Available only in https://github.com/winlibs/libffi fork.
-    check_symbol_exists(FFI_VECTORCALL_PARTIAL "ffi.h" HAVE_FFI_VECTORCALL_PARTIAL)
+    check_symbol_exists(
+      FFI_VECTORCALL_PARTIAL
+      "ffi.h"
+      HAVE_FFI_VECTORCALL_PARTIAL
+    )
   cmake_pop_check_state()
 endif()
