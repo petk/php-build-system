@@ -1,70 +1,64 @@
 #!/bin/sh
 #
-# Helper script to check PHP Autotools build system.
+# Helper script to check PHP Autotools-based build system.
 
-update=1
 branch="master"
+exitCode=0
 
-# Go to project root.
-cd $(CDPATH= cd -- "$(dirname -- "$0")/.." && pwd -P)
+################################################################################
+# Parse options and arguments.
+################################################################################
 
 while test $# -gt 0; do
   if test "$1" = "-h" || test "$1" = "--help"; then
     cat << HELP
-Check and update PHP Autotools build system.
+Check and update PHP Autotools-based build system.
 
 SYNOPSIS:
   $0 [<options>]
 
 OPTIONS:
   -b, --branch BRANCH  Branch to checkout (default master branch).
-  -n, --no-update      Don't reset and pull the php-src Git repository.
   -h, --help           Display this help.
 
 USAGE:
-  Update and check all Autotools files in the cloned php-src repository:
+  Check and update all Autotools related files in the php-src repository:
     $0
 
-  Update and check all Autotools files on specific branch:
+  Specify a PHP branch:
     $0 -b PHP-8.3
-
-  Check all Autotools files without resetting the php-src repository:
-    $0 -n
 HELP
     exit 0
-  fi
-
-  if test "$1" = "-b" || test "$1" = "--branch"; then
+  elif test "$1" = "-b" || test "$1" = "--branch"; then
     branch=$2
 
     check=$(echo "$branch" | grep -Eq ^master\|PHP-[0-9]+.[0-9.]+.*$)
     if test "x$?" != "x0"; then
-      echo "Branch ${branch} is not valid name"
+      echo "Branch ${branch} is not valid name" >&2
       exit 1
     fi
 
     shift
   fi
 
-  if test "$1" = "-n" || test "$1" = "--no-update"; then
-    update=0
-  fi
-
   shift
 done
 
+################################################################################
 # Check requirements.
-download_tool=$(which curl 2>/dev/null)
-download_tool_options="--progress-bar --output"
+################################################################################
+
+downloadTool=$(which curl 2>/dev/null)
+downloadToolOptions="--progress-bar --output"
 autoreconf=$(which autoreconf 2>/dev/null)
 git=$(which git 2>/dev/null)
 
-if test -z "$download_tool"; then
-  download_tool=$(which wget 2>/dev/null)
-  download_tool_options="--no-verbose -O"
+if test -z "$downloadTool"; then
+  downloadTool=$(which wget 2>/dev/null)
+  downloadToolOptions="--no-verbose -O"
 fi
 
-if test -z "$download_tool"; then
+if test -z "$downloadTool"; then
   echo "autotools.sh: Please install wget or curl." >&2
 fi
 
@@ -78,12 +72,22 @@ if test -z "$git"; then
   echo "              https://git-scm.com" >&2
 fi
 
-if test -z "$download_tool" \
+if test -z "$downloadTool" \
   || test -z "$autoreconf" \
   || test -z "$git"
 then
   exit 1
 fi
+
+################################################################################
+# Go to project root.
+################################################################################
+
+cd $(CDPATH= cd -- "$(dirname -- "$0")/.." && pwd -P)
+
+################################################################################
+# Prepare php-src Git repository.
+################################################################################
 
 # Clone a fresh latest php-src repository.
 if test ! -d "php-src"; then
@@ -101,60 +105,76 @@ fi
 
 # Make sure we're in the php-src Git repository.
 cd php-src
+if test -f "main/php_version.h" && test -f "php.ini-development"; then
+  # Check if given branch is available.
+  if test -z "$($git show-ref refs/heads/${branch})"; then
+    if test -z "$($git ls-remote --heads origin refs/heads/${branch})"; then
+      echo "Branch ${branch} is missing." >&2
+      exit 1
+    fi
 
-if test ! -f "main/php_version.h" \
-  || test ! -f "php.ini-development"
-then
-  echo "Git repository doesn't seem to be php-src." >&2
-  exit 1
-fi
-
-# Check if given branch is available.
-if test -z "$($git show-ref refs/heads/${branch})"; then
-  if test -z "$($git ls-remote --heads origin refs/heads/${branch})"; then
-    echo "Branch ${branch} is missing." >&2
-    exit 1
+    $git checkout --track origin/${branch}
   fi
 
-  $git checkout --track origin/${branch}
-fi
-
-# Reset php-src Git working directory and checkout branch.
-if test "x$update" = "x1"; then
+  # Reset php-src Git working directory and checkout branch.
   $git reset --hard
   $git clean -dffx
   $git checkout ${branch}
   $git pull --rebase
   echo
+else
+  echo "Git repository doesn't seem to be php-src." >&2
+  exit 1
 fi
 
+################################################################################
 # Generate configure script with warnings enabled to check for issues.
+################################################################################
+
 echo "Running autoreconf --warnings=all --verbose --force"
 $autoreconf --warnings=all --verbose --force
 
-# Download latest build/config.guess and build/config.sub files. These two
-# determine the platform characteristics and are bundled in PHP from upstream.
+################################################################################
+# Run manual checks.
+################################################################################
+
+# Check there are no erroneous dnl strings attached in the generated configure
+# script. The dnl is a M4 macro (Discard to Next Line) and shouldn't be there
+# unless it is part of some string or word.
+nodnl=$(grep dnl configure)
+if test -n "$nodnl"; then
+  echo "WARNING: Generated configure script contains dnl" >&2
+  exitCode=1
+fi
+
+################################################################################
+# Download bundled files from upstream sources.
+################################################################################
+
+# Download build/config.guess and build/config.sub. These two determine platform
+# characteristics.
 echo
 echo "Updating build/config.guess"
-$download_tool $download_tool_options build/config.guess \
+$downloadTool $downloadToolOptions build/config.guess \
   https://git.savannah.gnu.org/cgit/config.git/plain/config.guess
 
 echo
 echo "Updating build/config.sub"
-$download_tool $download_tool_options build/config.sub \
+$downloadTool $downloadToolOptions build/config.sub \
   https://git.savannah.gnu.org/cgit/config.git/plain/config.sub
 
+# Download pkg.m4.
 echo
 echo "Updating build/pkg.m4"
-$download_tool $download_tool_options build/pkg.m4 \
+$downloadTool $downloadToolOptions build/pkg.m4 \
   https://raw.githubusercontent.com/pkgconf/pkgconf/master/pkg.m4
 
-# Update GNU Autoconf Archive macros.
+# Download GNU Autoconf Archive macros.
 # https://github.com/autoconf-archive/autoconf-archive/
 m4="
-ax_check_compile_flag.m4
-ax_func_which_gethostbyname_r.m4
-ax_gcc_func_attribute.m4
+  ax_check_compile_flag.m4
+  ax_func_which_gethostbyname_r.m4
+  ax_gcc_func_attribute.m4
 "
 
 for file in $m4; do
@@ -162,12 +182,15 @@ for file in $m4; do
     echo
     echo "Updating build/${file}"
 
-    $download_tool $download_tool_options build/${file} \
+    $downloadTool $downloadToolOptions build/${file} \
       https://raw.githubusercontent.com/autoconf-archive/autoconf-archive/master/m4/${file}
   fi
 done
 
-# Run autoupdate script on all M4 files for using newest Autoconf.
+################################################################################
+# Run autoupdate on all M4 files.
+################################################################################
+
 echo
 echo "Running autoupdate"
 echo
@@ -186,3 +209,5 @@ printf "\e[2K"
 
 echo
 echo "Finished."
+
+exit $exitCode
