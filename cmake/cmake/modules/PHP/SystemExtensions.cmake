@@ -11,8 +11,16 @@ Usage:
 INTERFACE library:
 
   PHP::SystemExtensions
-    Interface library target with all required compile definitions for usage in
-    CMake checks where needed.
+    Interface library target with all required compile definitions (-D).
+
+    When check requires _GNU_SOURCE or other extensions:
+      cmake_push_check_state(RESET)
+        set(CMAKE_REQUIRED_LIBRARIES PHP::SystemExtensions)
+        check_symbol_exists(<symbol> <headers> HAVE_<symbol>)
+      cmake_pop_check_state()
+
+    Linking to targets that require system extensions:
+      target_link_libraries(<target> ... PHP::SystemExtensions)
 
 Logic here closely follows the Autoconf's AC_USE_SYSTEM_EXTENSIONS macro with
 some simplifications for the obsolete systems. See:
@@ -24,8 +32,8 @@ Obsolete preprocessor macros that are not defined by this module:
   _POSIX_SOURCE
   _POSIX_1_SOURCE
 
-TODO: Appending compile definitions to CMAKE_C_FLAGS is for now not added:
-  string(APPEND CMAKE_C_FLAGS " -D${extension}=1 ")
+Compile definitions are not appended to CMAKE_C_FLAGS for cleaner build system:
+  string(APPEND CMAKE_C_FLAGS " -D<extension>=1 ")
 ]=============================================================================]#
 
 include_guard(GLOBAL)
@@ -34,10 +42,10 @@ include(CheckIncludeFile)
 include(CheckSourceCompiles)
 include(CMakePushCheckState)
 
+message(CHECK_START "Enabling C and POSIX extensions")
+
 add_library(php_system_extensions INTERFACE IMPORTED)
 add_library(PHP::SystemExtensions ALIAS php_system_extensions)
-
-message(CHECK_START "Enabling C and POSIX extensions")
 
 ################################################################################
 # The following extensions are always enabled unconditionally.

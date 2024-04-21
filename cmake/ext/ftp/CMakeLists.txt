@@ -17,11 +17,11 @@ cmake_dependent_option(
   OFF
 )
 
-# TODO: Check if a single option should set ext/ftp and ext/mysqlnd. Sync this
-# with Autoconf's --with-openssl-dir option.
 cmake_dependent_option(
   EXT_FTP_SSL
-  "Explicitly enable SSL support for ext/ftp when not using ext/openssl"
+  "Explicitly enable SSL support in ext/ftp when not building with ext/openssl.\
+  If ext/openssl is enabled at the configuration phase, SSL in ext/ftp is\
+  enabled implicitly."
   OFF
   "EXT_FTP"
   OFF

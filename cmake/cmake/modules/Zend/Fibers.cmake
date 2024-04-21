@@ -145,7 +145,8 @@ block(PROPAGATE zend_fibers_asm_file zend_fibers_asm_sources)
     ${CMAKE_CURRENT_SOURCE_DIR}/asm/make_${zend_fibers_asm_file}
   )
 
-  # The ASM files can't see macro from defined constant, workaround via CFLAG.
+  # Workaround with compile definitions, because ASM files can't see macro
+  # definitions from configuration header.
   if(SHADOW_STACK_SYSCALL)
     list(APPEND
       compile_definitions

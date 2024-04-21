@@ -31,11 +31,11 @@ add_feature_info(
   "MySQL compressed protocol support in the mysqlnd extension."
 )
 
-# TODO: Check if a single option should set ext/ftp and ext/mysqlnd. Sync this
-# with Autoconf's --with-openssl-dir option.
 cmake_dependent_option(
   EXT_MYSQLND_SSL
-  "Explicitly enable SSL support for ext/mysqlnd when not using ext/openssl"
+  "Explicitly enable SSL support in ext/mysqlnd when not building with\
+  ext/openssl. If ext/openssl is enabled at the configuration phase, SSL in\
+  ext/mysqlnd is enabled implicitly."
   OFF
   "EXT_MYSQLND"
   OFF
