@@ -3,7 +3,6 @@ if(CMAKE_SYSTEM_NAME STREQUAL "Windows")
   return()
 endif()
 
-include(CheckSourceRuns)
 include(CheckStructHasMember)
 include(CheckSymbolExists)
 include(CMakeDependentOption)
@@ -86,32 +85,7 @@ check_symbol_exists(seteuid "unistd.h" HAVE_SETEUID)
 check_symbol_exists(setrlimit "sys/resource.h" HAVE_SETRLIMIT)
 check_symbol_exists(setsid "unistd.h" HAVE_SETSID)
 
-message(CHECK_START "Checking for working ttyname_r() implementation")
-if(CMAKE_CROSSCOMPILING)
-  message(CHECK_FAIL "no (cross-compiling), posix_ttyname() will be thread-unsafe")
-else()
-  check_source_runs(C "
-    #include <unistd.h>
-
-    int main(int argc, char *argv[]) {
-      char buf[64];
-
-      /*
-        Autoconf implementation uses a different return due to Autoconf's
-        configure using the file descriptor 0 which results below in an error.
-        The file descriptor 0 with CMake script execution is available and
-        doesn't result in an error when calling ttyname_r().
-      */
-      return ttyname_r(0, buf, 64) ? 1 : 0;
-    }
-  " HAVE_TTYNAME_R)
-
-  if(HAVE_TTYNAME_R)
-    message(CHECK_PASS "yes")
-  else()
-    message(CHECK_FAIL "no (posix_ttyname() will be thread-unsafe)")
-  endif()
-endif()
+include(PHP/CheckTtynameR)
 
 cmake_push_check_state(RESET)
   set(CMAKE_REQUIRED_DEFINITIONS -D_GNU_SOURCE)

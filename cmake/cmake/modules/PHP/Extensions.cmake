@@ -602,7 +602,7 @@ function(_php_extensions_validate extensions)
           "You've enabled the '${extension}' extension, which depends on the "
           "'${dependency}' extension, but you've either not enabled "
           "'${dependency}', or have disabled it. Please set "
-          "'EXT_${dependency_upper}' to 'ON'."
+          "'EXT_${dependency_upper}' to 'ON' if available."
         )
       endif()
 
