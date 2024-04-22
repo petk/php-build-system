@@ -1,13 +1,13 @@
 #[=============================================================================[
 Check ttyname_r().
 
-Autoconf PHP build check uses a different return due to Autoconf's configure
-using the file descriptor 0 which results below in an error. The file descriptor
-0 with CMake script execution is available and doesn't result in an error when
-calling ttyname_r().
+On Solaris/illumos ttyname_r() works only with larger buffers (>= 128), unlike,
+for example, on Linux and other systems, where buffer size can be any size_t
+size, also < 128. PHP code uses ttyname_r() with large buffers, so it wouldn't
+be necessary to check small buffers but the run check below is kept for brevity.
 
-TODO:
-- The ttyname_r return value doesn't behave the same on Solaris Autoconf/CMake.
+On modern systems a simpler check is sufficient in the future:
+  check_symbol_exists(ttyname_r unistd.h HAVE_TTYNAME_R)
 
 Cache variables:
 
@@ -17,44 +17,62 @@ Cache variables:
 
 include_guard(GLOBAL)
 
+include(CheckPrototypeDefinition)
 include(CheckSourceRuns)
-include(CheckSymbolExists)
 include(CMakePushCheckState)
 
 message(CHECK_START "Checking for working ttyname_r()")
 
-if(CMAKE_CROSSCOMPILING)
-  message(
-    CHECK_FAIL
-    "no (cross-compiling), posix_ttyname() will be thread-unsafe"
-  )
-else()
-  cmake_push_check_state(RESET)
+cmake_push_check_state(RESET)
+  cmake_language(GET_MESSAGE_LOG_LEVEL log_level)
+  if(NOT log_level MATCHES "^(VERBOSE|DEBUG|TRACE)$")
     set(CMAKE_REQUIRED_QUIET TRUE)
-
-    # To get the declaration conforming to standards (with return type int), on
-    # Solaris <=10, _POSIX_PTHREAD_SEMANTICS is required, and on macOS
-    # _DARWIN_C_SOURCE.
-    set(CMAKE_REQUIRED_LIBRARIES PHP::SystemExtensions)
-
-    check_symbol_exists(ttyname_r unistd.h _HAVE_TTYNAME_R)
-
-    if(_HAVE_TTYNAME_R)
-      check_source_runs(C [[
-        #include <unistd.h>
-
-        int main(int argc, char *argv[]) {
-          char buf[64];
-
-          return ttyname_r(0, buf, 64) ? 1 : 0;
-        }
-      ]] HAVE_TTYNAME_R)
-    endif()
-  cmake_pop_check_state()
-
-  if(HAVE_TTYNAME_R)
-    message(CHECK_PASS "yes")
-  else()
-    message(CHECK_FAIL "no (posix_ttyname() will be thread-unsafe)")
   endif()
-endif()
+
+  # To get the standard declaration with return type int instead of the char *:
+  # - _POSIX_PTHREAD_SEMANTICS is needed on Solaris<=11.3 and illumos
+  # - _DARWIN_C_SOURCE on older Mac OS X 10.4
+  set(CMAKE_REQUIRED_LIBRARIES PHP::SystemExtensions)
+
+  check_prototype_definition(
+    ttyname_r
+    "int ttyname_r(int fd, char *buf, size_t buflen)"
+    "0"
+    "unistd.h"
+    _HAVE_TTYNAME_R
+  )
+
+  if(NOT _HAVE_TTYNAME_R)
+    message(CHECK_FAIL "no (non-standard declaration)")
+  elseif(CMAKE_CROSSCOMPILING AND _HAVE_TTYNAME_R)
+    set(HAVE_TTYNAME_R TRUE CACHE INTERNAL "Whether ttyname_r() works.")
+    message(CHECK_PASS "guessing yes (cross-compiling)")
+  else()
+    # PHP Autotools-based build system check uses a different return below due
+    # to Autoconf's configure using the file descriptor 0 which results in an
+    # error. The file descriptor 0 with CMake script execution is available and
+    # doesn't result in an error when calling ttyname_r().
+    check_source_runs(C [[
+      #include <unistd.h>
+
+      int main(void) {
+        #ifdef _SC_TTY_NAME_MAX
+          int buflen = sysconf(_SC_TTY_NAME_MAX);
+        #else
+          int buflen = 32; /* Small buffers < 128 */
+        #endif
+        if (buflen < 1) {
+          buflen = 32;
+        }
+        char buf[buflen];
+
+        return ttyname_r(0, buf, buflen) ? 1 : 0;
+      }
+    ]] HAVE_TTYNAME_R)
+    if(HAVE_TTYNAME_R)
+      message(CHECK_PASS "yes")
+    else()
+      message(CHECK_FAIL "no (posix_ttyname() will be thread-unsafe)")
+    endif()
+  endif()
+cmake_pop_check_state()
