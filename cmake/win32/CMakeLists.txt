@@ -3,6 +3,8 @@ if(NOT CMAKE_SYSTEM_NAME STREQUAL "Windows")
   return()
 endif()
 
+include(FeatureSummary)
+
 add_library(php_win32 STATIC)
 add_library(PHP::win32 ALIAS php_win32)
 
