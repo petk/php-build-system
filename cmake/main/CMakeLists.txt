@@ -1,3 +1,4 @@
+include(CheckSymbolExists)
 include(FeatureSummary)
 
 add_library(php_main STATIC)
