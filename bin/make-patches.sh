@@ -25,10 +25,10 @@ patch-cmake-8.4-typedef-warnings
 "
 
 # A list of supported PHP versions.
-php_versions="8.3 8.4"
+phpVersions="8.3 8.4"
 
 # The PHP MAJOR.MINOR version currently in development
-php_version_dev="8.4"
+phpVersionDev="8.4"
 
 # Whether to rebase the patch branches against their tracked origins.
 refresh=0
@@ -60,9 +60,7 @@ ENVIRONMENT VARIABLES:
            REPO=php-src-repo $0
 HELP
     exit 0
-  fi
-
-  if test "$1" = "-r" || test "$1" = "--refresh"; then
+  elif test "$1" = "-r" || test "$1" = "--refresh"; then
     refresh=1
   fi
 
@@ -70,12 +68,12 @@ HELP
 done
 
 cd ../
-current_repo=$(basename "$PWD")
+currentRepository=$(basename "$PWD")
 cd ../
 
 # Check if there is local patched php-src repository available.
 if test ! -d ${REPO}; then
-  echo "Patched php-src Git repository is missing." >&2
+  echo "E: Patched php-src Git repository is missing." >&2
   exit 1
 fi
 
@@ -84,73 +82,74 @@ cd ${REPO}
 # Check if local branch with patches is available in the php-src repository.
 for branch in $branches; do
   if test -z "$(git show-ref refs/heads/${branch})"; then
-    echo "Branch ${branch} is missing." >&2
+    echo "E: Branch ${branch} is missing." >&2
     exit 1
   fi
 done
 
-for php in $php_versions; do
+for php in $phpVersions; do
   # Refresh php-src branches with patches and rebase with origin latest changes.
   if test "$refresh" = "1"; then
-    if test "$php" = "$php_version_dev"; then
+    if test "$php" = "$phpVersionDev"; then
       git checkout master
     else
       git checkout PHP-${php}
     fi
 
     if test "x$?" != "x0"; then
-      echo "ERROR: The branch couldn't be checked out." >&2
-      echo "       You have unstaged changes. Please stash or commit them." >&2
+      echo "E: The branch couldn't be checked out." >&2
+      echo "   You have unstaged changes. Please stash or commit them." >&2
       exit 1
     fi
 
     git pull --rebase
   fi
 
-  if test -d ../${current_repo}/patches/${php}; then
+  if test -d ../${currentRepository}/patches/${php}; then
     # Clean existing patches.
-    rm -rf ../${current_repo}/patches/${php}
+    rm -rf ../${currentRepository}/patches/${php}
   fi
 
-  mkdir -p ../${current_repo}/patches/${php}
+  mkdir -p ../${currentRepository}/patches/${php}
 done
 
 # Create patch files.
 for branch in $branches; do
-  php_version=$(echo $branch | sed 's/patch-cmake-\([0-9.]*\).*$/\1/')
+  phpVersion=$(echo $branch | sed 's/patch-cmake-\([0-9.]*\).*$/\1/')
 
   if test "$refresh" = "1"; then
     git checkout ${branch}
 
-    if test "$php_version" = "$php_version_dev"; then
+    if test "x$phpVersion" = "x$phpVersionDev"; then
       echo "Rebasing ${branch} on top of master"
       git rebase master
     else
-      echo "Rebasing ${branch} on top of PHP-${php_version}"
-      git rebase PHP-${php_version}
+      echo "Rebasing ${branch} on top of PHP-${phpVersion}"
+      git rebase PHP-${phpVersion}
     fi
 
     if test "x$?" != "x0"; then
-      echo "ERROR: The branch ${branch} couldn't be rebased." >&2
-      echo "       Go to php-src and resolve conflicts manually." >&2
+      echo "E: The branch ${branch} couldn't be rebased." >&2
+      echo "   Go to php-src and resolve conflicts manually." >&2
       exit 1
     fi
   fi
 
-  patch_filename="$(echo $branch | sed 's/patch-cmake-[0-9.]*-*\(.*\)$/\1/')"
-  if test -z "${patch_filename}"; then
-    patch_filename="cmake"
+  patchFilename="$(echo $branch | sed 's/patch-cmake-[0-9.]*-*\(.*\)$/\1/')"
+  if test -z "${patchFilename}"; then
+    patchFilename="cmake"
   fi
-  patch_filename="${patch_filename}.patch"
+  patchFilename="${patchFilename}.patch"
 
-  patch="../${current_repo}/patches/${php_version}/${patch_filename}"
+  patch="../${currentRepository}/patches/${phpVersion}/${patchFilename}"
 
   if test -f $patch; then
-    echo "Patch ${patch_filename} already exists. Rename the branch ${branch}." >&2
+    echo "E: Patch ${patchFilename} already exists." >&2
+    echo "   Rename the branch ${branch}." >&2
     exit 1
   fi
 
-  echo "Creating patches/${php_version}/${patch_filename}"
+  echo "Creating patches/${phpVersion}/${patchFilename}"
 
   git --no-pager format-patch -1 ${branch} \
     --stdout \
