@@ -118,8 +118,6 @@ target_include_directories(
 
 target_compile_definitions(php_standard PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE=1)
 
-add_dependencies(php_standard Zend::Zend)
-
 target_link_libraries(
   php_standard
   PRIVATE

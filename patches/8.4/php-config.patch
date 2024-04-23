@@ -43,7 +43,7 @@ Changes:
  4 files changed, 55 insertions(+), 21 deletions(-)
 
 diff --git a/build/php.m4 b/build/php.m4
-index be5763c520..36b2991126 100644
+index 767040bab7..14b129fb8e 100644
 --- a/build/php.m4
 +++ b/build/php.m4
 @@ -2049,7 +2049,9 @@ EOF
@@ -58,10 +58,10 @@ index be5763c520..36b2991126 100644
  
  dnl
 diff --git a/configure.ac b/configure.ac
-index db5fd69f6c..8e0df23753 100644
+index f2cb130c63..a46b283d92 100644
 --- a/configure.ac
 +++ b/configure.ac
-@@ -1452,6 +1452,9 @@ exec_prefix=$old_exec_prefix
+@@ -1463,6 +1463,9 @@ exec_prefix=$old_exec_prefix
  libdir=$old_libdir
  datadir=$old_datadir
  
@@ -71,10 +71,10 @@ index db5fd69f6c..8e0df23753 100644
  AC_SUBST(INCLUDE_PATH)
  AC_SUBST(EXPANDED_PEAR_INSTALLDIR)
  AC_SUBST(EXPANDED_EXTENSION_DIR)
-@@ -1464,6 +1467,9 @@ AC_SUBST(EXPANDED_SYSCONFDIR)
- AC_SUBST(EXPANDED_LOCALSTATEDIR)
- AC_SUBST(EXPANDED_PHP_CONFIG_FILE_PATH)
- AC_SUBST(EXPANDED_PHP_CONFIG_FILE_SCAN_DIR)
+@@ -1478,6 +1481,9 @@ AC_SUBST(EXPANDED_PHP_CONFIG_FILE_SCAN_DIR)
+ AC_SUBST([PHP_INSTALLED_SAPIS])
+ AC_SUBST([SAPI_LIBNAME_SHARED])
+ AC_SUBST([SAPI_LIBNAME_STATIC])
 +AC_SUBST([PHP_API_VERSION])
 +AC_SUBST([ZEND_MODULE_API_NO])
 +AC_SUBST([ZEND_EXTENSION_API_NO])

@@ -33,14 +33,7 @@ target_sources(
         ${CMAKE_CURRENT_BINARY_DIR}/lib/timelib_config.h
 )
 
-target_include_directories(
-  php_date
-  PRIVATE
-    ${CMAKE_CURRENT_BINARY_DIR}/lib
-    ${CMAKE_CURRENT_SOURCE_DIR}/lib
-  INTERFACE
-    ${CMAKE_CURRENT_BINARY_DIR}/lib
-)
+target_include_directories(php_date PUBLIC ${CMAKE_CURRENT_BINARY_DIR}/lib)
 
 check_compiler_flag(C -Wno-implicit-fallthrough _HAVE_WNO_IMPLICIT_FALLTHROUGH_C)
 if(_HAVE_WNO_IMPLICIT_FALLTHROUGH_C)
@@ -79,5 +72,3 @@ file(WRITE ${CMAKE_CURRENT_BINARY_DIR}/lib/timelib_config.h [[
 #define timelib_strndup estrndup
 #define timelib_free    efree
 ]])
-
-add_dependencies(php_date PHP::main Zend::Zend)
