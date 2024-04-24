@@ -1,8 +1,6 @@
 #!/bin/sh
 #
-# Helper for checking redundant and missing CMake module includes. Module
-# follows philosophy of "include what you use" - each CMake file should have
-# those include() calls of which modules are used in them.
+# Check redundant and missing CMake include() commands.
 
 # Initial values.
 debug=0
@@ -15,6 +13,12 @@ while test $# -gt 0; do
   if test "$1" = "-h" || test "$1" = "--help"; then
     cat << HELP
 CMake module includes checker
+
+Checks redundant and missing CMake module include() invocations. It follows
+the philosophy of "include what you use" - each CMake file should include only
+those modules of which commands are used in it. Transitive includes should be
+avoided. For example, where a CMake module is included in one CMake file and it
+is then transitively used in other files via nested includes or similar.
 
 SYNOPSIS:
   $0 [<options>] <path...>

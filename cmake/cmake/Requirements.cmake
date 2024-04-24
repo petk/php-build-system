@@ -74,6 +74,8 @@ if(
     set(RE2C_USE_COMPUTED_GOTOS TRUE)
   endif()
 
+  set(RE2C_ENABLE_DOWNLOAD TRUE)
+
   find_package(RE2C 1.0.3)
   set_package_properties(
     RE2C
