@@ -108,6 +108,9 @@ Required:
 Additionally required when building from Git repository source code:
 
 * bison
+
+Optional when building from Git repository source code:
+
 * re2c
 
 When PHP is built, the development libraries are no longer required to be

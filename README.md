@@ -17,10 +17,10 @@ intricacies of how to build PHP with CMake.
 
 ```sh
 # Prerequisites for Debian-based distributions:
-sudo apt install cmake gcc g++ bison re2c libxml2-dev libsqlite3-dev
+sudo apt install cmake gcc g++ bison libxml2-dev libsqlite3-dev
 
 # Prerequisites for Fedora-based distributions:
-sudo dnf install cmake gcc gcc-c++ bison re2c libxml2-devel sqlite-devel
+sudo dnf install cmake gcc gcc-c++ bison libxml2-devel sqlite-devel
 ```
 
 <details>
@@ -28,20 +28,20 @@ sudo dnf install cmake gcc gcc-c++ bison re2c libxml2-devel sqlite-devel
 
   ```sh
   # Prerequisites for macOS:
-  xcode-select --install        # XCode command line tools
-  brew install cmake bison re2c # Brew packages
+  xcode-select --install   # XCode command line tools
+  brew install cmake bison # Brew packages
 
   # Prerequisites for Alpine Linux:
-  sudo apk add --no-cache cmake make gcc g++ bison re2c libxml2-dev sqlite-dev
+  sudo apk add --no-cache cmake make gcc g++ bison libxml2-dev sqlite-dev
 
   # Prerequisites for BSD-based systems:
-  sudo pkg install cmake bison re2c libxml2 sqlite3
+  sudo pkg install cmake bison libxml2 sqlite3
 
   # Prerequisites for Haiku:
-  pkgman install cmake bison re2c libxml2_devel sqlite_devel
+  pkgman install cmake bison libxml2_devel sqlite_devel
 
   # Prerequisites for Solaris/illumos-based systems:
-  sudo pkg install cmake bison re2c libxml2 sqlite-3
+  sudo pkg install cmake bison libxml2 sqlite-3
   ```
 </details>
 
