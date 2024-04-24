@@ -4,10 +4,6 @@ Find re2c.
 The minimum required version of re2c can be specified using the standard CMake
 syntax, e.g. 'find_package(RE2C 0.15.3)'.
 
-Set RE2C_USE_COMPUTED_GOTOS to TRUE before calling find_package(re2c) to enable
-the re2c --computed-gotos option if the non-standard C "computed goto" extension
-is supported by the C compiler.
-
 Result variables:
 
   RE2C_FOUND
@@ -20,13 +16,27 @@ Cache variables:
   RE2C_EXECUTABLE
     Path to the re2c program.
 
-If re2c is found, the module exposes the following function:
+Hints:
 
-  re2c_target(NAME <name>
-              INPUT <input>
-              OUTPUT <output>
-              [OPTIONS <options>...]
-              [DEPENDS <depends>...])
+  RE2C_USE_COMPUTED_GOTOS
+    Set to TRUE before calling find_package(RE2C) to enable the re2c
+    --computed-gotos option if the non-standard C "computed goto" extension is
+    supported by the C compiler.
+
+  RE2C_ENABLE_DOWNLOAD
+    This module can also download and build re2c from its Git repository using
+    the FetchContent module. Set to TRUE to enable downloading re2c, when not
+    found on the system.
+
+If re2c is found, the following function is exposed:
+
+  re2c_target(
+    NAME <name>
+    INPUT <input>
+    OUTPUT <output>
+    [OPTIONS <options>...]
+    [DEPENDS <depends>...]
+  )
 
     NAME
       Target name.
@@ -81,6 +91,42 @@ if(RE2C_EXECUTABLE)
   )
 
   set(RE2C_VERSION "${RE2C_VERSION_MAJOR}.${RE2C_VERSION_MINOR}.${RE2C_VERSION_PATCH}")
+elseif(RE2C_ENABLE_DOWNLOAD)
+  include(FetchContent)
+
+  # Set the re2c version to download.
+  set(RE2C_VERSION 3.1)
+
+  message(STATUS "Downloading re2c ${RE2C_VERSION}")
+
+  # Configure re2c.
+  set(RE2C_BUILD_RE2GO OFF CACHE INTERNAL "")
+  set(RE2C_BUILD_RE2RUST OFF CACHE INTERNAL "")
+
+  # Disable searching for Python as it is not needed in FetchContent build.
+  set(CMAKE_DISABLE_FIND_PACKAGE_Python3 TRUE)
+  set(Python3_VERSION 3.12)
+
+  set(FETCHCONTENT_QUIET FALSE)
+
+  FetchContent_Declare(
+    RE2C
+    GIT_REPOSITORY https://github.com/skvadrik/re2c
+    GIT_TAG ${RE2C_VERSION}
+    GIT_PROGRESS TRUE
+    GIT_SHALLOW TRUE
+    GIT_SUBMODULES ""
+  )
+
+  FetchContent_MakeAvailable(RE2C)
+
+  # Set executable to re2c target name.
+  set(RE2C_EXECUTABLE re2c)
+
+  # Unset temporary variables.
+  unset(CMAKE_DISABLE_FIND_PACKAGE_Python3)
+  unset(Python3_VERSION)
+  unset(FETCHCONTENT_QUIET)
 endif()
 
 mark_as_advanced(RE2C_EXECUTABLE)

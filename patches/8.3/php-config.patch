@@ -58,7 +58,7 @@ index 933ada51dc..4909484a3b 100644
  
  dnl
 diff --git a/configure.ac b/configure.ac
-index 01e2e7ab79..2940dbd90c 100644
+index f07e78ca62..f6d7335ab6 100644
 --- a/configure.ac
 +++ b/configure.ac
 @@ -1469,6 +1469,9 @@ exec_prefix=$old_exec_prefix

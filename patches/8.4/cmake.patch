@@ -2,16 +2,15 @@ Subject: Add overall CMake changes for PHP-8.4 branch
 
 - EditorConfig adjustments for code style support in editors and IDEs.
 - CMake build system files added to .gitignore.
-- CMake line added to run-tests.php for info about failing tests and few
-  checks.
+- CMake added to run-tests.php for info about failing tests and checks.
 - CMakeLists.txt template and modifications added to ext/skeleton.
 ---
  .editorconfig              |  2 +-
- .gitignore                 | 13 +++++++++++++
+ .gitignore                 | 14 ++++++++++++++
  ext/ext_skel.php           |  1 +
- ext/skeleton/.gitignore.in | 13 +++++++++++++
+ ext/skeleton/.gitignore.in | 14 ++++++++++++++
  run-tests.php              | 24 ++++++++++++++++++------
- 5 files changed, 46 insertions(+), 7 deletions(-)
+ 5 files changed, 48 insertions(+), 7 deletions(-)
 
 diff --git a/.editorconfig b/.editorconfig
 index 7911bf8490..0ca142015f 100644
@@ -27,10 +26,10 @@ index 7911bf8490..0ca142015f 100644
  indent_style             = space
  
 diff --git a/.gitignore b/.gitignore
-index cf11cd0ac2..d8f32fc243 100644
+index cf11cd0ac2..82274c860d 100644
 --- a/.gitignore
 +++ b/.gitignore
-@@ -296,3 +296,16 @@ tmp-php.ini
+@@ -296,3 +296,17 @@ tmp-php.ini
  !/ext/dom/lexbor/patches/*.patch
  !/ext/pcre/pcre2lib/config.h
  !/win32/build/Makefile
@@ -38,6 +37,7 @@ index cf11cd0ac2..d8f32fc243 100644
 +# ------------------------------------------------------------------------------
 +# CMake build system files
 +# ------------------------------------------------------------------------------
++/_deps/
 +/.ninja*
 +/build.ninja
 +/CMakeUserPresets.json
@@ -60,10 +60,10 @@ index ae7a3a987c..648e3728b8 100755
  
      foreach($files as $config_script) {
 diff --git a/ext/skeleton/.gitignore.in b/ext/skeleton/.gitignore.in
-index ae434fef97..2fb847586c 100644
+index ae434fef97..3b25e9e131 100644
 --- a/ext/skeleton/.gitignore.in
 +++ b/ext/skeleton/.gitignore.in
-@@ -39,3 +39,16 @@ tests/**/*.sh
+@@ -39,3 +39,17 @@ tests/**/*.sh
  tests/**/*.db
  tests/**/*.mem
  tmp-php.ini
@@ -71,6 +71,7 @@ index ae434fef97..2fb847586c 100644
 +# ------------------------------------------------------------------------------
 +# CMake build system files
 +# ------------------------------------------------------------------------------
++/_deps/
 +/.ninja*
 +/build.ninja
 +/CMakeUserPresets.json
