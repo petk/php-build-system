@@ -49,7 +49,4 @@ set_package_properties(
 
 target_link_libraries(php_xmlwriter PRIVATE LibXml2::LibXml2)
 
-set_target_properties(
-  php_xmlwriter
-  PROPERTIES PHP_EXTENSION_DEPENDENCIES php_libxml
-)
+add_dependencies(php_xmlwriter php_libxml)

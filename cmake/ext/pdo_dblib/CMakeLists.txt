@@ -41,11 +41,7 @@ target_sources(
     pdo_dblib.c
 )
 
-set_target_properties(
-  php_pdo_dblib
-  PROPERTIES
-    PHP_EXTENSION_DEPENDENCIES php_pdo
-)
+add_dependencies(php_pdo_dblib php_pdo)
 
 target_compile_definitions(
   php_pdo_dblib

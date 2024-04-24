@@ -56,4 +56,4 @@ set_package_properties(
 
 target_link_libraries(php_soap PRIVATE LibXml2::LibXml2)
 
-set_target_properties(php_soap PROPERTIES PHP_EXTENSION_DEPENDENCIES php_libxml)
+add_dependencies(php_soap php_libxml)

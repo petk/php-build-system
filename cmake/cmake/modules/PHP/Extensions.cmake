@@ -4,10 +4,16 @@ Add subdirectories of PHP extensions via add_subdirectory().
 This module is responsible for traversing CMakeLists.txt files of PHP extensions
 and adding them via add_subdirectory(). It sorts extension directories based on
 the optional directory property PHP_PRIORITY value and the dependencies listed
-in the PHP_EXTENSION_DEPENDENCIES target property. If an extension has specified
-dependencies, this module ensures that all dependencies are enabled. If any of
-the dependencies are built as SHARED libraries, the extension must also be built
-as a SHARED library.
+in the add_dependencies(). If an extension has specified dependencies, this
+module ensures that all dependencies are enabled. If any of the dependencies are
+built as SHARED libraries, the extension must also be built as a SHARED library.
+
+The add_dependencies() is CMake's built-in command that builds target
+dependencies before the target itself. This module reads the add_dependencies()
+invocations in extensions and automatically enables and configures them as
+SHARED depending on the configuration if they haven't been explicitly
+configured. If it fails to configure extension dependencies automatically it
+will result in a fatal error during the configuration phase.
 
 Exposed macro: php_extensions_add(subdirectory)
 ]=============================================================================]#
@@ -30,21 +36,6 @@ define_property(
             "By default extensions are sorted alphabetically and added in "
             "between. This enables having extension variables visible in "
             "depending extensions."
-)
-
-define_property(
-  TARGET
-  PROPERTY PHP_EXTENSION_DEPENDENCIES
-  BRIEF_DOCS "A list of depending PHP extensions targets"
-  FULL_DOCS "This property enables the specification of dependencies for PHP "
-            "extension targets. When defining PHP extension targets, these "
-            "dependencies are automatically enabled if they haven't been "
-            "explicitly configured. If any of the specified dependencies are "
-            "built as SHARED, the PHP extension target itself must also be "
-            "built as SHARED. Failing to do so will result in a fatal error "
-            "during the configuration phase. Additionally, the dependencies "
-            "are added to the beginning of the extensions list when added with "
-            "add_subdirectory()."
 )
 
 define_property(
@@ -82,6 +73,12 @@ set_property(GLOBAL PROPERTY PHP_ALWAYS_ENABLED_EXTENSIONS
   standard
 )
 
+define_property(
+  GLOBAL
+  PROPERTY PHP_ALL_EXTENSIONS
+  BRIEF_DOCS "A list of all extensions in the ext directory"
+)
+
 ################################################################################
 # Module macro(s) to be used externally.
 ################################################################################
@@ -91,6 +88,12 @@ set_property(GLOBAL PROPERTY PHP_ALWAYS_ENABLED_EXTENSIONS
 macro(php_extensions_add directory)
   # Get a sorted list of subdirectories related to extensions.
   _php_extensions_get("${directory}" directories)
+
+  # Get a list of all extensions.
+  foreach(dir ${directories})
+    cmake_path(GET dir FILENAME extension)
+    set_property(GLOBAL APPEND PROPERTY PHP_ALL_EXTENSIONS ${extension})
+  endforeach()
 
   # Evaluate options of extensions.
   _php_extensions_eval_options("${directories}")
@@ -139,8 +142,7 @@ function(_php_extensions_get directory result)
   set(${result} ${sorted} PARENT_SCOPE)
 endfunction()
 
-# Sort subdirectories of extensions by the target property
-# PHP_EXTENSION_DEPENDENCIES.
+# Sort subdirectories of extensions by the add_dependencies() usage.
 function(_php_extensions_sort_by_dependencies directories result)
   set(extensions_before "")
   set(extensions_middle "")
@@ -241,44 +243,31 @@ function(_php_extensions_sort_by_priority directories result)
   set(${result} ${extensions_sorted} PARENT_SCOPE)
 endfunction()
 
-# Get extension dependencies from the PHP_EXTENSION_DEPENDENCIES property.
+# Get extension dependencies from the add_dependencies().
 function(_php_extensions_get_dependencies directory result)
   unset(${result} PARENT_SCOPE)
+
+  cmake_path(GET directory FILENAME extension)
 
   file(READ ${directory}/CMakeLists.txt content)
 
   string(CONCAT regex
     # Command invocation:
-    "set_target_properties[ \t]*\\("
-    # Starting properties keyword:
-    ".*PROPERTIES[ \t\r\n]+.*"
-    # Custom property name:
-    "PHP_EXTENSION_DEPENDENCIES[ \t\r\n]+"
-    # Target names:
-    "[\"]?(php_[a-zA-Z0-9_;]+)"
+    "add_dependencies[ \t]*\\("
+    # Target name:
+    "[ \t\r\n]*php_${extension}[ \t\r\n]+"
+    # Dependencies:
+    "[\"]?(php_[a-zA-Z0-9_; \t\r\n]+)"
   )
 
   string(REGEX MATCH "${regex}" _ "${content}")
-
-  if(NOT CMAKE_MATCH_1)
-    string(CONCAT regex
-      # Command invocation:
-      "set_property[ \t]*\\([ \t\r\n]*"
-      # Scope:
-      "TARGET[ \t\r\n]+.*"
-      # Custom property:
-      "PROPERTY[ \t\r\n]+PHP_EXTENSION_DEPENDENCIES[ \t\r\n]+"
-      # A list of dependencies:
-      "[\"]?(php_[a-zA-Z0-9_; \t\r\n]+)"
-    )
-
-    string(REGEX MATCH "${regex}" _ "${content}")
-  endif()
 
   if(CMAKE_MATCH_1)
     string(STRIP "${CMAKE_MATCH_1}" dependencies)
     string(REPLACE " " ";" dependencies "${dependencies}")
     list(TRANSFORM dependencies REPLACE "^php_" "")
+
+    message(DEBUG "${extension} dependencies: ${dependencies}")
 
     set(${result} ${dependencies} PARENT_SCOPE)
   endif()
@@ -367,11 +356,16 @@ endfunction()
 function(_php_extensions_eval_options directories)
   set(code "")
   get_cmake_property(always_enabled_extensions PHP_ALWAYS_ENABLED_EXTENSIONS)
+  get_cmake_property(all_extensions PHP_ALL_EXTENSIONS)
 
   foreach(dir ${directories})
     cmake_path(GET dir FILENAME extension)
 
-    if(extension IN_LIST always_enabled_extensions)
+    # Skip if extension is always enabled or if dependency is not extension.
+    if(
+      extension IN_LIST always_enabled_extensions
+      OR NOT extension IN_LIST all_extensions
+    )
       continue()
     endif()
 
@@ -573,8 +567,7 @@ function(_php_extensions_post_configure directory)
   target_compile_definitions(php_${extension} PRIVATE ZEND_COMPILE_DL_EXT=1)
 endfunction()
 
-# Validate extensions and their dependencies defined with the custom target
-# property PHP_EXTENSION_DEPENDENCIES.
+# Validate extensions and their dependencies defined via add_dependencies().
 function(_php_extensions_validate extensions)
   foreach(extension ${extensions})
     if(NOT TARGET php_${extension})
@@ -584,7 +577,7 @@ function(_php_extensions_validate extensions)
     get_target_property(
       dependencies
       php_${extension}
-      PHP_EXTENSION_DEPENDENCIES
+      MANUALLY_ADDED_DEPENDENCIES
     )
 
     if(NOT dependencies)
@@ -593,7 +586,14 @@ function(_php_extensions_validate extensions)
 
     list(TRANSFORM dependencies REPLACE "^php_" "")
 
+    get_cmake_property(all_extensions PHP_ALL_EXTENSIONS)
+
     foreach(dependency ${dependencies})
+      # Skip dependencies that are not PHP extensions.
+      if(NOT dependency IN_LIST all_extensions)
+        continue()
+      endif()
+
       string(TOUPPER "${dependency}" dependency_upper)
 
       if(NOT TARGET php_${dependency} OR NOT dependency IN_LIST extensions)

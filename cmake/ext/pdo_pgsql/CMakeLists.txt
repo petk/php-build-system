@@ -42,11 +42,7 @@ target_sources(
     pgsql_statement.c
 )
 
-set_target_properties(
-  php_pdo_pgsql
-  PROPERTIES
-    PHP_EXTENSION_DEPENDENCIES php_pdo
-)
+add_dependencies(php_pdo_pgsql php_pdo)
 
 target_include_directories(
   php_pdo_pgsql

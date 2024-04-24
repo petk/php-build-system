@@ -43,7 +43,7 @@ target_sources(
         php_pdo_error.h
 )
 
-set_target_properties(php_pdo PROPERTIES PHP_EXTENSION_DEPENDENCIES php_spl)
+add_dependencies(php_pdo php_spl)
 
 if(RE2C_FOUND)
   re2c_target(

@@ -71,11 +71,7 @@ target_sources(
         php_mysqli_structs.h
 )
 
-set_target_properties(
-  php_mysqli
-  PROPERTIES
-    PHP_EXTENSION_DEPENDENCIES php_mysqlnd
-)
+add_dependencies(php_mysqli php_mysqlnd)
 
 target_compile_definitions(php_mysqli PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE=1)
 

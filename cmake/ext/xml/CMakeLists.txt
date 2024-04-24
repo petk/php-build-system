@@ -75,7 +75,7 @@ if(NOT EXT_XML_EXPAT)
 
   target_link_libraries(php_xml PRIVATE LibXml2::LibXml2)
 
-  set_target_properties(php_xml PROPERTIES PHP_EXTENSION_DEPENDENCIES php_libxml)
+  add_dependencies(php_xml php_libxml)
 else()
   find_package(EXPAT)
   set_package_properties(
