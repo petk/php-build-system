@@ -42,4 +42,4 @@ target_sources(
 
 target_compile_definitions(php_filter PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE=1)
 
-set_target_properties(php_filter PROPERTIES PHP_EXTENSION_DEPENDENCIES php_pcre)
+add_dependencies(php_filter php_pcre)

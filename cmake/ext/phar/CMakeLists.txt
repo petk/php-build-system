@@ -68,11 +68,7 @@ target_link_options(
     $<$<AND:$<NOT:$<CONFIG:Debug,DebugAssertions>>,$<C_COMPILER_ID:MSVC>>:LINKER:/IGNORE:4089>
 )
 
-set_target_properties(
-  php_phar
-  PROPERTIES
-    PHP_EXTENSION_DEPENDENCIES "php_hash;php_spl"
-)
+add_dependencies(php_phar php_hash php_spl)
 
 if(RE2C_FOUND)
   re2c_target(

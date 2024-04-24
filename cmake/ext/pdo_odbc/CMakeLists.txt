@@ -125,11 +125,7 @@ target_sources(
     pdo_odbc.c
 )
 
-set_target_properties(
-  php_pdo_odbc
-  PROPERTIES
-    PHP_EXTENSION_DEPENDENCIES php_pdo
-)
+add_dependencies(php_pdo_odbc php_pdo)
 
 target_include_directories(
   php_pdo_odbc

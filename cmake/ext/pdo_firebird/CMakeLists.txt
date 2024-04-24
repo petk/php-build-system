@@ -41,11 +41,7 @@ target_sources(
     pdo_firebird.c
 )
 
-set_target_properties(
-  php_pdo_firebird
-  PROPERTIES
-    PHP_EXTENSION_DEPENDENCIES php_pdo
-)
+add_dependencies(php_pdo_firebird php_pdo)
 
 target_include_directories(
   php_pdo_firebird

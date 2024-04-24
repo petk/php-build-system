@@ -41,11 +41,7 @@ target_sources(
     pdo_oci.c
 )
 
-set_target_properties(
-  php_pdo_oci
-  PROPERTIES
-    PHP_EXTENSION_DEPENDENCIES php_pdo
-)
+add_dependencies(php_pdo_oci php_pdo)
 
 target_include_directories(
   php_pdo_oci

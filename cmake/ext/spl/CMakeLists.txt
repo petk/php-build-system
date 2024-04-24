@@ -31,8 +31,4 @@ target_sources(
 
 target_compile_definitions(php_spl PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE=1)
 
-set_target_properties(
-  php_spl
-  PROPERTIES
-    PHP_EXTENSION_DEPENDENCIES "php_json;php_pcre;php_standard"
-)
+add_dependencies(php_spl php_json php_pcre php_standard)
