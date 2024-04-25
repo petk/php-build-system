@@ -1,6 +1,6 @@
 # PHP build system evolution
 
-## 1995
+## PHP 1 (1995)
 
 First public release of PHP 1 - Personal Home Page Tools started with a single
 Makefile.
@@ -76,25 +76,28 @@ Makefile.
   ```
 </details>
 
-## 1998
+## PHP 2.0 (1998)
 
-PHP quickly grew and a new version was created - PHP 2 (PHP/FI) with Autoconf
-configure script.
+PHP quickly grew and a new version was created - PHP 2.0 (PHP/FI) with Autoconf
+2.9 based configure script.
 
-## 1999
+## PHP 4.0 (2000)
 
-Support for building external PHP extensions using a PEAR-based tool `phpize`
-was added to PHP.
+In 1999, support for building external PHP extensions using a PEAR-based tool
+`phpize` was added to PHP which became available in 2000 in the PHP 4.0 release.
+Autoconf minimum required version was set to `2.13`.
 
-## 2002
+## PHP 4.3 (2002)
 
-Build system gets rewritten and modernized for the Autoconf versions available.
-Dependency on Automake has been removed.
+Build system gets rewritten and modernized for the Autoconf versions available
+at the time. Dependency on Automake has been removed.
 
-## 2003
+## PHP 5.0 (2004)
 
-PHP gets new additional Windows dedicated build system for building PHP on
-Windows systems.
+In 2003, a new additional Windows dedicated build system for building PHP on
+Windows systems was developed and added to PHP 5.0 released in 2004.
+Freedesktop's `pkg-config` tool was optionally used in PHP Autotools-based *nix
+build system to find the OpenSSL dependency on the system.
 
 ## 2008
 
@@ -102,18 +105,25 @@ Idea to rewrite PHP build system in CMake first appeared during the Google
 Summer of Code in 2008 ([wiki](https://wiki.php.net/internals/cmake),
 [php-cmake](https://github.com/gloob/php-cmake)).
 
-## 2015
+## PHP 5.4 (2012)
 
-The `configure.in` renamed to `configure.ac` according to Autoconf evolution.
+Autoconf minimum required version was increased to `2.59`.
 
-## 2018
+## PHP 7.2 (2015)
 
-Support for Freedesktop's `pkg-config` tool added in the PHP repository.
+The `configure.in` was renamed to `configure.ac` according to Autoconf
+evolution. Autoconf minimum required version was increased to `2.64`.
 
-## 2019
+## PHP 7.3 (2018)
 
-Build system gets cleaned up and adjusted for Autoconf versions available at the
-time, including removal of `aclocal.m4` in favor of the php related M4 macros in
+Autoconf minimum required version was increased to `2.68`.
+
+## PHP 7.4 (2019)
+
+In 2018, support for Freedesktop's `pkg-config` M4 macros was added in the PHP
+repository to simplify finding system dependencies. In 2019, build system was
+heavily cleaned up and adjusted for Autoconf versions available at the time,
+including the removal of `aclocal.m4` in favor of the php related M4 macros in
 `php.m4`.
 
 ## 2021
