@@ -86,14 +86,8 @@ define_property(
 # Add subdirectories of extensions. Macro enables variable scope of the current
 # CMakeLists.txt and adds ability to pass around directory variables.
 macro(php_extensions_add directory)
-  # Get a sorted list of subdirectories related to extensions.
-  _php_extensions_get("${directory}" directories)
-
-  # Get a list of all extensions.
-  foreach(dir ${directories})
-    cmake_path(GET dir FILENAME extension)
-    set_property(GLOBAL APPEND PROPERTY PHP_ALL_EXTENSIONS ${extension})
-  endforeach()
+  _php_extensions_get(${directory} directories)
+  _php_extensions_sort(directories)
 
   # Evaluate options of extensions.
   _php_extensions_eval_options("${directories}")
@@ -127,23 +121,66 @@ endmacro()
 # Module internal helper functions.
 ################################################################################
 
-# Get a sorted list of subdirectories related to extensions.
+# Get a list of subdirectories related to extensions.
 function(_php_extensions_get directory result)
-  file(GLOB extensions ${directory}/*/CMakeLists.txt)
+  file(GLOB paths ${directory}/*/CMakeLists.txt)
 
-  foreach(extension ${extensions})
-    cmake_path(GET extension PARENT_PATH dir)
+  set(directories "")
+
+  foreach(path ${paths})
+    cmake_path(GET path PARENT_PATH dir)
     list(APPEND directories "${dir}")
+
+    # Add extension name to a list of all extensions.
+    cmake_path(GET dir FILENAME extension)
+    set_property(GLOBAL APPEND PROPERTY PHP_ALL_EXTENSIONS ${extension})
   endforeach()
 
-  _php_extensions_sort_by_dependencies("${directories}" sorted)
-  _php_extensions_sort_by_priority("${sorted}" sorted)
+  set(${result} ${directories} PARENT_SCOPE)
+endfunction()
 
-  set(${result} ${sorted} PARENT_SCOPE)
+# Get a sorted list of subdirectories related to extensions.
+function(_php_extensions_sort)
+  cmake_parse_arguments(
+    PARSE_ARGV
+    1
+    parsed # prefix
+    ""     # options
+    ""     # one-value keywords
+    ""     # multi-value keywords
+  )
+
+  if(parsed_UNPARSED_ARGUMENTS)
+    message(FATAL_ERROR "Bad arguments: ${parsed_UNPARSED_ARGUMENTS}")
+  endif()
+
+  set(result ${ARGV0})
+  set(directories ${${ARGV0}})
+
+  _php_extensions_sort_by_dependencies(${result})
+  _php_extensions_sort_by_priority(${result})
+
+  set(${result} ${directories} PARENT_SCOPE)
 endfunction()
 
 # Sort subdirectories of extensions by the add_dependencies() usage.
-function(_php_extensions_sort_by_dependencies directories result)
+function(_php_extensions_sort_by_dependencies)
+  cmake_parse_arguments(
+    PARSE_ARGV
+    1
+    parsed # prefix
+    ""     # options
+    ""     # one-value keywords
+    ""     # multi-value keywords
+  )
+
+  if(parsed_UNPARSED_ARGUMENTS)
+    message(FATAL_ERROR "Bad arguments: ${parsed_UNPARSED_ARGUMENTS}")
+  endif()
+
+  set(result ${ARGV0})
+  set(directories ${${ARGV0}})
+
   set(extensions_before "")
   set(extensions_middle "")
 
@@ -178,7 +215,23 @@ function(_php_extensions_sort_by_dependencies directories result)
 endfunction()
 
 # Sort subdirectories of extensions by the directory property PHP_PRIORITY.
-function(_php_extensions_sort_by_priority directories result)
+function(_php_extensions_sort_by_priority)
+  cmake_parse_arguments(
+    PARSE_ARGV
+    1
+    parsed # prefix
+    ""     # options
+    ""     # one-value keywords
+    ""     # multi-value keywords
+  )
+
+  if(parsed_UNPARSED_ARGUMENTS)
+    message(FATAL_ERROR "Bad arguments: ${parsed_UNPARSED_ARGUMENTS}")
+  endif()
+
+  set(result ${ARGV0})
+  set(directories ${${ARGV0}})
+
   set(extensions_before "")
   set(extensions_middle "")
   set(extensions_after "")
@@ -249,7 +302,15 @@ function(_php_extensions_get_dependencies directory result)
 
   cmake_path(GET directory FILENAME extension)
 
+  if(NOT EXISTS ${directory}/CMakeLists.txt)
+    message(DEBUG "${extension}: ${directory}/CMakeLists.txt not found")
+    return()
+  endif()
+
   file(READ ${directory}/CMakeLists.txt content)
+
+  # Remove line comments from CMake code content.
+  string(REGEX REPLACE "#[^\r\n]*[\r\n]" "" content "${content}")
 
   string(CONCAT regex
     # Command invocation:
@@ -260,16 +321,35 @@ function(_php_extensions_get_dependencies directory result)
     "[\"]?(php_[a-zA-Z0-9_; \t\r\n]+)"
   )
 
-  string(REGEX MATCH "${regex}" _ "${content}")
+  string(REGEX MATCHALL "${regex}" matches "${content}")
 
-  if(CMAKE_MATCH_1)
-    string(STRIP "${CMAKE_MATCH_1}" dependencies)
-    string(REPLACE " " ";" dependencies "${dependencies}")
-    list(TRANSFORM dependencies REPLACE "^php_" "")
+  set(all_dependencies "")
 
-    message(DEBUG "${extension} dependencies: ${dependencies}")
+  foreach(match ${matches})
+    if(match MATCHES "${regex}")
+      if(CMAKE_MATCH_1)
+        string(STRIP "${CMAKE_MATCH_1}" dependencies)
+        string(REPLACE " " ";" dependencies "${dependencies}")
+        list(TRANSFORM dependencies REPLACE "^php_" "")
+        list(APPEND all_dependencies ${dependencies})
+      endif()
+    endif()
+  endforeach()
 
-    set(${result} ${dependencies} PARENT_SCOPE)
+  if(all_dependencies)
+    list(REMOVE_DUPLICATES all_dependencies)
+
+    get_cmake_property(all_extensions PHP_ALL_EXTENSIONS)
+
+    foreach(dependency ${all_dependencies})
+      if(NOT "${dependency}" IN_LIST all_extensions)
+        list(REMOVE_ITEM all_dependencies ${dependency})
+      endif()
+    endforeach()
+
+    message(DEBUG "${extension} dependencies: ${all_dependencies}")
+
+    set(${result} "${all_dependencies}" PARENT_SCOPE)
   endif()
 endfunction()
 
