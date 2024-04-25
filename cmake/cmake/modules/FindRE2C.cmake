@@ -26,7 +26,7 @@ Hints:
   RE2C_ENABLE_DOWNLOAD
     This module can also download and build re2c from its Git repository using
     the FetchContent module. Set to TRUE to enable downloading re2c, when not
-    found on the system.
+    found on the system or system version is not suitable.
 
 If re2c is found, the following function is exposed:
 
@@ -91,7 +91,11 @@ if(RE2C_EXECUTABLE)
   )
 
   set(RE2C_VERSION "${RE2C_VERSION_MAJOR}.${RE2C_VERSION_MINOR}.${RE2C_VERSION_PATCH}")
-elseif(RE2C_ENABLE_DOWNLOAD)
+
+  find_package_check_version("${RE2C_VERSION}" _re2c_version_valid)
+endif()
+
+if(RE2C_ENABLE_DOWNLOAD AND (NOT RE2C_EXECUTABLE OR NOT _re2c_version_valid))
   include(FetchContent)
 
   # Set the re2c version to download.
@@ -139,6 +143,8 @@ find_package_handle_standard_args(
   VERSION_VAR RE2C_VERSION
   REASON_FAILURE_MESSAGE "re2c not found. Please install re2c."
 )
+
+unset(_re2c_version_valid)
 
 if(NOT RE2C_FOUND)
   return()
