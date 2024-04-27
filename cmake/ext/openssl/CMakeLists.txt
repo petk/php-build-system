@@ -1,6 +1,3 @@
-# The ext/openssl variables are needed by some other extensions.
-set_directory_properties(PROPERTIES PHP_PRIORITY 1)
-
 include(CheckSymbolExists)
 include(CMakeDependentOption)
 include(CMakePushCheckState)

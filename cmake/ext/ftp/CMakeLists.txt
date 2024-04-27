@@ -44,16 +44,33 @@ target_sources(
     php_ftp.c
 )
 
-if(EXT_FTP_SSL OR EXT_OPENSSL)
-  find_package(OpenSSL ${PHP_OPENSSL_MIN_VERSION})
-  set_package_properties(
-    OpenSSL
-    PROPERTIES
-      TYPE REQUIRED
-      PURPOSE "Necessary to enable the ftp extension."
+# A deferred configuration, so it is executed after the ext/openssl to have the
+# EXT_OPENSSL variable available.
+function(php_ftp_post_configuration)
+  if(EXT_FTP_SSL OR EXT_OPENSSL)
+    find_package(OpenSSL ${PHP_OPENSSL_MIN_VERSION})
+    set_package_properties(
+      OpenSSL
+      PROPERTIES
+        TYPE REQUIRED
+        PURPOSE "Necessary to enable the ftp extension."
+    )
+
+    target_link_libraries(php_ftp PRIVATE OpenSSL::SSL)
+
+    set(HAVE_FTP_SSL 1 CACHE INTERNAL "Whether FTP over SSL is enabled")
+  endif()
+
+  add_feature_info(
+    "ext/ftp SSL"
+    HAVE_FTP_SSL
+    "FTP SSL support"
   )
+endfunction()
 
-  target_link_libraries(php_ftp PRIVATE OpenSSL::SSL)
-
-  set(HAVE_FTP_SSL 1 CACHE INTERNAL "Whether FTP over SSL is enabled")
-endif()
+# Run at the end of the configuration.
+cmake_language(
+  DEFER
+    DIRECTORY ${PHP_SOURCE_DIR}
+  CALL php_ftp_post_configuration
+)

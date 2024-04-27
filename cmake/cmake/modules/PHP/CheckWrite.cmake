@@ -9,6 +9,7 @@ Cache variables:
 
 include_guard(GLOBAL)
 
+include(CheckIncludeFile)
 include(CheckSourceRuns)
 include(CMakePushCheckState)
 
@@ -20,16 +21,18 @@ else()
   cmake_push_check_state(RESET)
     set(CMAKE_REQUIRED_QUIET TRUE)
 
+    check_include_file(unistd.h HAVE_UNISTD_H)
+
     if(HAVE_UNISTD_H)
       list(APPEND CMAKE_REQUIRED_DEFINITIONS -DHAVE_UNISTD_H=1)
     endif()
 
-    check_source_runs(C "
+    check_source_runs(C [[
       #ifdef HAVE_UNISTD_H
       # include <unistd.h>
       #endif
 
-      #define TEXT \"This is the test message -- \"
+      #define TEXT "This is the test message -- "
 
       int main(void) {
         int n;
@@ -37,7 +40,7 @@ else()
         n = write(1, TEXT, sizeof(TEXT)-1);
         return (!(n == sizeof(TEXT)-1));
       }
-    " PHP_WRITE_STDOUT)
+    ]] PHP_WRITE_STDOUT)
   cmake_pop_check_state()
 endif()
 

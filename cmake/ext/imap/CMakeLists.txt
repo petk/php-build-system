@@ -106,6 +106,8 @@ else()
   message(CHECK_FAIL "no")
 endif()
 
+# TODO: Check all further checks here conditionally if Cclient::Cclient is
+# available (on a new installation without c-client installed yet).
 message(CHECK_START "Checking for new utf8_mime2text signature")
 cmake_push_check_state(RESET)
   set(CMAKE_REQUIRED_LIBRARIES Cclient::Cclient)
