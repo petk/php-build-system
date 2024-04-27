@@ -41,18 +41,6 @@ cmake_dependent_option(
   OFF
 )
 
-if(EXT_MYSQLND_SSL OR EXT_OPENSSL)
-  set(_ext_mysqlnd_ssl TRUE)
-else()
-  set(_ext_mysqlnd_ssl FALSE)
-endif()
-
-add_feature_info(
-  "ext/mysqlnd SSL"
-  ${_ext_mysqlnd_ssl}
-  "SSL support in the mysqlnd extension."
-)
-
 if(NOT EXT_MYSQLND)
   return()
 endif()
@@ -120,19 +108,36 @@ endif()
 
 set(MYSQLND_SSL_SUPPORTED 1 CACHE INTERNAL "Enable core mysqlnd SSL code")
 
-if(EXT_MYSQLND_SSL OR EXT_OPENSSL)
-  find_package(OpenSSL ${PHP_OPENSSL_MIN_VERSION})
-  set_package_properties(
-    OpenSSL
-    PROPERTIES
-      TYPE REQUIRED
-      PURPOSE "Necessary to enable SSL in the mysqlnd extension."
-  )
+# A deferred configuration, so it is executed after the ext/openssl to have the
+# EXT_OPENSSL variable available.
+function(php_mysqlnd_post_configuration)
+  if(EXT_MYSQLND_SSL OR EXT_OPENSSL)
+    find_package(OpenSSL ${PHP_OPENSSL_MIN_VERSION})
+    set_package_properties(
+      OpenSSL
+      PROPERTIES
+        TYPE REQUIRED
+        PURPOSE "Necessary to enable SSL in the mysqlnd extension."
+    )
 
-  target_link_libraries(php_mysqlnd PRIVATE OpenSSL::Crypto)
+    target_link_libraries(php_mysqlnd PRIVATE OpenSSL::Crypto)
 
-  set(
-    MYSQLND_HAVE_SSL 1
-    CACHE INTERNAL "Enable mysqlnd code that uses OpenSSL directly"
+    set(
+      MYSQLND_HAVE_SSL 1
+      CACHE INTERNAL "Enable mysqlnd extended SSL that uses OpenSSL directly"
+    )
+  endif()
+
+  add_feature_info(
+    "ext/mysqlnd SSL"
+    MYSQLND_HAVE_SSL
+    "Extended SSL support with OpenSSL"
   )
-endif()
+endfunction()
+
+# Run at the end of the configuration.
+cmake_language(
+  DEFER
+    DIRECTORY ${PHP_SOURCE_DIR}
+  CALL php_mysqlnd_post_configuration
+)

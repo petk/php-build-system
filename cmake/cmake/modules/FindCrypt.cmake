@@ -64,7 +64,6 @@ set_package_properties(
 function(_crypt_check_crypt result)
   message(CHECK_START "Checking basic crypt functionality")
 
-  unset(HAVE_UNISTD_H CACHE)
   unset(HAVE_CRYPT_H CACHE)
   unset(HAVE_CRYPT CACHE)
   unset(HAVE_CRYPT_R CACHE)

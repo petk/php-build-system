@@ -15,6 +15,10 @@ SHARED depending on the configuration if they haven't been explicitly
 configured. If it fails to configure extension dependencies automatically it
 will result in a fatal error during the configuration phase.
 
+Order of the extensions is important when generating the
+main/internal_functions*.c files (for the list of phpext_<extension>_ptr in the
+zend_module_entry php_builtin_extensions).
+
 Exposed macro: php_extensions_add(subdirectory)
 ]=============================================================================]#
 
@@ -155,12 +159,11 @@ function(_php_extensions_sort)
   endif()
 
   set(result ${ARGV0})
-  set(directories ${${ARGV0}})
 
   _php_extensions_sort_by_dependencies(${result})
   _php_extensions_sort_by_priority(${result})
 
-  set(${result} ${directories} PARENT_SCOPE)
+  set(${result} ${${result}} PARENT_SCOPE)
 endfunction()
 
 # Sort subdirectories of extensions by the add_dependencies() usage.
@@ -556,7 +559,10 @@ function(_php_extensions_configure directories)
     foreach(dependency ${dependencies})
       string(TOUPPER "${dependency}" dependency_upper)
 
-      if(EXT_${dependency_upper} OR dependency IN_LIST always_enabled_extensions)
+      if(
+        EXT_${dependency_upper}
+        OR dependency IN_LIST always_enabled_extensions
+      )
         continue()
       endif()
 

@@ -79,32 +79,6 @@ if(RE2C_FOUND)
   )
 endif()
 
-message(CHECK_START "Checking for phar OpenSSL support")
-
-if(EXT_PHAR_NATIVE_SSL)
-  find_package(OpenSSL ${PHP_OPENSSL_MIN_VERSION})
-  set_package_properties(
-    OpenSSL
-    PROPERTIES
-      TYPE REQUIRED
-      PURPOSE "Necessary to enable the OpenSSL support in the phar extension."
-  )
-
-  target_link_libraries(php_phar PRIVATE OpenSSL::SSL OpenSSL::Crypto)
-
-  if(OpenSSL_FOUND)
-    set(PHAR_HAVE_OPENSSL 1 CACHE INTERNAL "Whether phar has OpenSSL support")
-    message(CHECK_PASS "yes")
-  else()
-    message(CHECK_FAIL "no")
-  endif()
-elseif(EXT_OPENSSL AND NOT EXT_OPENSSL_SHARED AND NOT BUILD_SHARED_LIBS)
-  message(CHECK_PASS "yes, OpenSSL support enabled")
-  set(PHAR_HAVE_OPENSSL 1 CACHE INTERNAL "Whether phar has OpenSSL support")
-else()
-  message(CHECK_FAIL "no, the openssl extension is disabled or shared")
-endif()
-
 ################################################################################
 # Generate files.
 ################################################################################
@@ -236,4 +210,50 @@ install(
   FILES
     ${CMAKE_CURRENT_BINARY_DIR}/phar.phar
   DESTINATION ${CMAKE_INSTALL_BINDIR}
+)
+
+# A deferred configuration, so it is explicitly executed after the ext/openssl
+# to have the EXT_OPENSSL variable available.
+function(php_phar_post_configuration)
+  message(CHECK_START "Checking for phar OpenSSL support")
+
+  # TODO: Simplify this if possible. PHP code already checks for ext/openssl
+  # properly but perhaps only needs to link OpenSSL to phar extension correctly
+  # when building ext/openssl as shared.
+  if(EXT_PHAR_NATIVE_SSL)
+    find_package(OpenSSL ${PHP_OPENSSL_MIN_VERSION})
+    set_package_properties(
+      OpenSSL
+      PROPERTIES
+        TYPE REQUIRED
+        PURPOSE "Necessary to enable the OpenSSL support in the phar extension."
+    )
+
+    target_link_libraries(php_phar PRIVATE OpenSSL::SSL OpenSSL::Crypto)
+
+    if(OpenSSL_FOUND)
+      set(PHAR_HAVE_OPENSSL 1 CACHE INTERNAL "Whether phar has OpenSSL support")
+      message(CHECK_PASS "yes")
+    else()
+      message(CHECK_FAIL "no")
+    endif()
+  elseif(EXT_OPENSSL AND NOT EXT_OPENSSL_SHARED AND NOT BUILD_SHARED_LIBS)
+    message(CHECK_PASS "yes, OpenSSL support enabled")
+    set(PHAR_HAVE_OPENSSL 1 CACHE INTERNAL "Whether phar has OpenSSL support")
+  else()
+    message(CHECK_FAIL "no, the openssl extension is disabled or shared")
+  endif()
+
+  add_feature_info(
+    "ext/phar SSL"
+    PHAR_HAVE_OPENSSL
+    "SSL support in the phar extension"
+  )
+endfunction()
+
+# Run at the end of the configuration.
+cmake_language(
+  DEFER
+    DIRECTORY ${PHP_SOURCE_DIR}
+  CALL php_phar_post_configuration
 )

@@ -248,6 +248,12 @@
 /* define to 1 if oniguruma has an invalid entry for KOI8 encoding */
 #cmakedefine PHP_ONIG_BAD_KOI8_ENTRY 1
 
+/* Enable mysqlnd code that uses OpenSSL directly */
+#cmakedefine MYSQLND_HAVE_SSL 1
+
+/* Enable core mysqlnd SSL code */
+#cmakedefine MYSQLND_SSL_SUPPORTED 1
+
 /* Using bundled PCRE library */
 #cmakedefine HAVE_BUNDLED_PCRE 1
 
