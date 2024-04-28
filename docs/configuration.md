@@ -2635,13 +2635,13 @@ A list of Autoconf `configure` command-line configuration options, Windows
     <tr>
       <td>N/A</td>
       <td>--disable-phar-native-ssl</td>
-      <td>EXT_PHAR_NATIVE_SSL=OFF</td>
+      <td>EXT_PHAR_SSL=OFF</td>
       <td></td>
     </tr>
     <tr>
       <td>N/A</td>
       <td>--enable-phar-native-ssl</td>
-      <td>EXT_PHAR_NATIVE_SSL=ON</td>
+      <td>EXT_PHAR_SSL=ON</td>
       <td></td>
     </tr>
     <tr>
