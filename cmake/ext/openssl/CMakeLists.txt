@@ -27,6 +27,14 @@ cmake_dependent_option(
   OFF
 )
 
+cmake_dependent_option(
+  EXT_OPENSSL_LEGACY_PROVIDER
+  "Load OpenSSL legacy algorithm provider in addition to default provider"
+  OFF
+  "EXT_OPENSSL"
+  OFF
+)
+
 if(NOT EXT_OPENSSL)
   return()
 endif()
@@ -69,5 +77,13 @@ if(EXT_OPENSSL_SYSTEM_CIPHERS)
   set(
     USE_OPENSSL_SYSTEM_CIPHERS 1
     CACHE INTERNAL "Use system default cipher list instead of hardcoded value"
+  )
+endif()
+
+if(EXT_OPENSSL_LEGACY_PROVIDER)
+  set(
+    LOAD_OPENSSL_LEGACY_PROVIDER 1
+    CACHE INTERNAL
+    "Load legacy algorithm provider in addition to default provider"
   )
 endif()

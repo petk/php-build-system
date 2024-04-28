@@ -2286,6 +2286,18 @@ A list of Autoconf `configure` command-line configuration options, Windows
       <td></td>
     </tr>
     <tr>
+      <td>&emsp;--without-openssl-legacy-provider</td>
+      <td>N/A</td>
+      <td>EXT_OPENSSL_LEGACY_PROVIDER=OFF</td>
+      <td>default, PHP >= 8.4</td>
+    </tr>
+    <tr>
+      <td>&emsp;--with-openssl-legacy-provider</td>
+      <td>N/A</td>
+      <td>EXT_OPENSSL_LEGACY_PROVIDER=ON</td>
+      <td>PHP >= 8.4</td>
+    </tr>
+    <tr>
       <td>&emsp;--without-kerberos</td>
       <td></td>
       <td>EXT_OPENSSL_KERBEROS=OFF</td>

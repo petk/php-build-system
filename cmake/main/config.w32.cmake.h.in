@@ -254,6 +254,9 @@
 /* Enable core mysqlnd SSL code */
 #cmakedefine MYSQLND_SSL_SUPPORTED 1
 
+/* Load legacy algorithm provider in addition to default provider */
+#cmakedefine LOAD_OPENSSL_LEGACY_PROVIDER 1
+
 /* Using bundled PCRE library */
 #cmakedefine HAVE_BUNDLED_PCRE 1
 
