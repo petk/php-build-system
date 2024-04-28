@@ -29,7 +29,7 @@ cmake_dependent_option(
 
 cmake_dependent_option(
   EXT_OPENSSL_LEGACY_PROVIDER
-  "Load OpenSSL legacy algorithm provider in addition to default provider"
+  "OpenSSL >= 3: Load legacy algorithm provider in addition to default provider"
   OFF
   "EXT_OPENSSL"
   OFF
@@ -80,7 +80,7 @@ if(EXT_OPENSSL_SYSTEM_CIPHERS)
   )
 endif()
 
-if(EXT_OPENSSL_LEGACY_PROVIDER)
+if(OPENSSL_VERSION VERSION_GREATER_EQUAL 3 AND EXT_OPENSSL_LEGACY_PROVIDER)
   set(
     LOAD_OPENSSL_LEGACY_PROVIDER 1
     CACHE INTERNAL
