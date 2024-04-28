@@ -1,7 +1,7 @@
 #[=============================================================================[
 Early releases of GCC 8 shipped with a strlen() optimization bug, so they didn't
-properly handle the 'char val[1]' struct hack. See bug #76510. If check is
-successful the -fno-optimize-strlen compiler flag should be used.
+properly handle the 'char val[1]' struct hack. See https://bugs.php.net/76510.
+If check is successful the -fno-optimize-strlen compiler flag should be used.
 
 Cache variables:
 

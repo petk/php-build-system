@@ -45,7 +45,7 @@ elseif(_php_ldd_version MATCHES ".*uclibc.*")
   set(PHP_STD_LIBRARY "uclibc")
 endif()
 
-# See bug #28605.
+# See https://bugs.php.net/28605.
 if(CMAKE_SYSTEM_PROCESSOR MATCHES "^alpha")
   if(CMAKE_C_COMPILER_ID STREQUAL "GNU")
     target_compile_options(
