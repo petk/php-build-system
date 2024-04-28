@@ -504,8 +504,9 @@ endif()
 
 # Check for GCC function attributes on all systems except ones without glibc.
 # Fix for these systems is already included in GCC 7, but not on GCC 6. At least
-# some versions of FreeBSD seem to have buggy ifunc support, see bug #77284.
-# Conservatively don't use ifuncs on FreeBSD prior to version 12.
+# some versions of FreeBSD seem to have buggy ifunc support, see
+# https://bugs.php.net/77284. Conservatively don't use ifuncs on FreeBSD prior
+# to version 12.
 if(
   (
     NOT CMAKE_SYSTEM_NAME MATCHES "^(Android|FreeBSD|OpenBSD)$"
