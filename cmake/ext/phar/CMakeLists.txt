@@ -10,22 +10,24 @@ add_feature_info(
 )
 
 cmake_dependent_option(
-  EXT_PHAR_NATIVE_SSL
-  "Link the phar extension against the OpenSSL library directly"
-  OFF
-  "EXT_PHAR"
-  OFF
-)
-
-mark_as_advanced(EXT_PHAR_NATIVE_SSL)
-
-cmake_dependent_option(
   EXT_PHAR_SHARED
   "Build the phar extension as a shared library"
   OFF
   "EXT_PHAR;NOT BUILD_SHARED_LIBS"
   OFF
 )
+
+cmake_dependent_option(
+  EXT_PHAR_SSL
+  "Explicitly enable SSL support in ext/phar when not building with ext/openssl\
+  (native SSL). If ext/openssl is enabled at the configuration phase, SSL in\
+  ext/phar is enabled implicitly."
+  OFF
+  "EXT_PHAR"
+  OFF
+)
+
+mark_as_advanced(EXT_PHAR_SSL)
 
 if(NOT EXT_PHAR)
   return()
@@ -217,10 +219,7 @@ install(
 function(php_phar_post_configuration)
   message(CHECK_START "Checking for phar OpenSSL support")
 
-  # TODO: Simplify this if possible. PHP code already checks for ext/openssl
-  # properly but perhaps only needs to link OpenSSL to phar extension correctly
-  # when building ext/openssl as shared.
-  if(EXT_PHAR_NATIVE_SSL)
+  if(EXT_OPENSSL OR EXT_PHAR_SSL)
     find_package(OpenSSL ${PHP_OPENSSL_MIN_VERSION})
     set_package_properties(
       OpenSSL
@@ -229,19 +228,17 @@ function(php_phar_post_configuration)
         PURPOSE "Necessary to enable the OpenSSL support in the phar extension."
     )
 
-    target_link_libraries(php_phar PRIVATE OpenSSL::SSL OpenSSL::Crypto)
+    target_link_libraries(php_phar PUBLIC OpenSSL::SSL OpenSSL::Crypto)
 
     if(OpenSSL_FOUND)
       set(PHAR_HAVE_OPENSSL 1 CACHE INTERNAL "Whether phar has OpenSSL support")
-      message(CHECK_PASS "yes")
-    else()
-      message(CHECK_FAIL "no")
     endif()
-  elseif(EXT_OPENSSL AND NOT EXT_OPENSSL_SHARED AND NOT BUILD_SHARED_LIBS)
-    message(CHECK_PASS "yes, OpenSSL support enabled")
-    set(PHAR_HAVE_OPENSSL 1 CACHE INTERNAL "Whether phar has OpenSSL support")
+  endif()
+
+  if(PHAR_HAVE_OPENSSL)
+    message(CHECK_PASS "yes")
   else()
-    message(CHECK_FAIL "no, the openssl extension is disabled or shared")
+    message(CHECK_FAIL "no")
   endif()
 
   add_feature_info(
