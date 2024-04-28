@@ -2636,7 +2636,7 @@ A list of Autoconf `configure` command-line configuration options, Windows
       <td>N/A</td>
       <td>--disable-phar-native-ssl</td>
       <td>EXT_PHAR_SSL=OFF</td>
-      <td></td>
+      <td>default</td>
     </tr>
     <tr>
       <td>N/A</td>
