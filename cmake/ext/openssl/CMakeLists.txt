@@ -26,7 +26,7 @@ cmake_dependent_option(
   "EXT_OPENSSL"
   OFF
 )
-mark_as_advanced(EXT_OPENSSL_KERBEROS)
+mark_as_advanced(EXT_OPENSSL_SYSTEM_CIPHERS)
 
 cmake_dependent_option(
   EXT_OPENSSL_LEGACY_PROVIDER
@@ -35,7 +35,7 @@ cmake_dependent_option(
   "EXT_OPENSSL"
   OFF
 )
-mark_as_advanced(EXT_OPENSSL_SYSTEM_CIPHERS)
+mark_as_advanced(EXT_OPENSSL_LEGACY_PROVIDER)
 
 if(NOT EXT_OPENSSL)
   return()
@@ -76,19 +76,28 @@ if(TARGET OpenSSL::SSL)
     set(CMAKE_REQUIRED_LIBRARIES OpenSSL::SSL)
     check_symbol_exists(RAND_egd "openssl/rand.h" HAVE_RAND_EGD)
   cmake_pop_check_state()
+
+  if(OPENSSL_VERSION VERSION_LESS 3 AND EXT_OPENSSL_LEGACY_PROVIDER)
+    message(
+      WARNING
+      "EXT_OPENSSL_LEGACY_PROVIDER is not available for OpenSSL version "
+      "${OPENSSL_VERSION} and won't be enabled."
+    )
+  elseif(
+    OPENSSL_VERSION VERSION_GREATER_EQUAL 3
+    AND EXT_OPENSSL_LEGACY_PROVIDER
+  )
+    set(
+      LOAD_OPENSSL_LEGACY_PROVIDER 1
+      CACHE INTERNAL
+      "Load legacy algorithm provider in addition to default provider"
+    )
+  endif()
 endif()
 
 if(EXT_OPENSSL_SYSTEM_CIPHERS)
   set(
     USE_OPENSSL_SYSTEM_CIPHERS 1
     CACHE INTERNAL "Use system default cipher list instead of hardcoded value"
-  )
-endif()
-
-if(OPENSSL_VERSION VERSION_GREATER_EQUAL 3 AND EXT_OPENSSL_LEGACY_PROVIDER)
-  set(
-    LOAD_OPENSSL_LEGACY_PROVIDER 1
-    CACHE INTERNAL
-    "Load legacy algorithm provider in addition to default provider"
   )
 endif()
