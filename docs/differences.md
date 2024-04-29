@@ -1,7 +1,7 @@
 # PHP native and CMake-based build system differences
 
-How CMake-based PHP build system differs compared to PHP Autotools and Windows
-based build system:
+How CMake-based PHP build system differs compared to its Autotools and Windows
+build system:
 
 ## Enhancements
 
@@ -32,3 +32,6 @@ based build system:
 
 * Building inside folder with spaces:
   https://bugs.php.net/bug.php?id=49270
+
+* Detecting GNU libiconv:
+  https://github.com/php/php-src/issues/12213
