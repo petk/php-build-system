@@ -20,17 +20,17 @@ target_compile_definitions(php_json PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE=1)
 if(BISON_FOUND)
   bison_target(
     php_json_parser
-    "${CMAKE_CURRENT_SOURCE_DIR}/json_parser.y"
-    "${CMAKE_CURRENT_SOURCE_DIR}/json_parser.tab.c"
+    json_parser.y
+    ${CMAKE_CURRENT_SOURCE_DIR}/json_parser.tab.c
     COMPILE_FLAGS "-Wall --defines -l"
-    DEFINES_FILE "${CMAKE_CURRENT_SOURCE_DIR}/json_parser.tab.h"
+    DEFINES_FILE ${CMAKE_CURRENT_SOURCE_DIR}/json_parser.tab.h
   )
 endif()
 
 if(RE2C_FOUND)
   re2c_target(
     NAME php_json_scanner
-    INPUT ${CMAKE_CURRENT_SOURCE_DIR}/json_scanner.re
+    INPUT json_scanner.re
     OUTPUT ${CMAKE_CURRENT_SOURCE_DIR}/json_scanner.c
     OPTIONS
       --no-generation-date

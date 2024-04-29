@@ -48,7 +48,7 @@ add_dependencies(php_pdo php_spl)
 if(RE2C_FOUND)
   re2c_target(
     NAME php_pdo_sql_parser
-    INPUT ${CMAKE_CURRENT_SOURCE_DIR}/pdo_sql_parser.re
+    INPUT pdo_sql_parser.re
     OUTPUT ${CMAKE_CURRENT_SOURCE_DIR}/pdo_sql_parser.c
     OPTIONS --no-generation-date
   )

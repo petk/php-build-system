@@ -106,136 +106,136 @@ else()
   message(CHECK_FAIL "no")
 endif()
 
-# TODO: Check all further checks here conditionally if Cclient::Cclient is
-# available (on a new installation without c-client installed yet).
-message(CHECK_START "Checking for new utf8_mime2text signature")
-cmake_push_check_state(RESET)
-  set(CMAKE_REQUIRED_LIBRARIES Cclient::Cclient)
-  set(CMAKE_REQUIRED_QUIET TRUE)
+if(TARGET Cclient::Cclient)
+  message(CHECK_START "Checking for new utf8_mime2text signature")
+  cmake_push_check_state(RESET)
+    set(CMAKE_REQUIRED_LIBRARIES Cclient::Cclient)
+    set(CMAKE_REQUIRED_QUIET TRUE)
 
-  check_source_compiles(C [[
-    #include <stdio.h>
-    #include <c-client.h>
+    check_source_compiles(C [[
+      #include <stdio.h>
+      #include <c-client.h>
 
-    int main(void) {
-      SIZEDTEXT *src, *dst;
-      utf8_mime2text(src, dst);
-      return 0;
-    }
-  ]] _HAVE_OLD_MIME2TEXT)
-cmake_pop_check_state()
-if(_HAVE_OLD_MIME2TEXT)
-  message(CHECK_FAIL "no")
-else()
-  set(
-    HAVE_NEW_MIME2TEXT 1
-    CACHE INTERNAL "Whether utf8_mime2text() has new signature"
-  )
-  message(CHECK_PASS "yes")
-endif()
+      int main(void) {
+        SIZEDTEXT *src, *dst;
+        utf8_mime2text(src, dst);
+        return 0;
+      }
+    ]] _HAVE_OLD_MIME2TEXT)
+    if(_HAVE_OLD_MIME2TEXT)
+      message(CHECK_FAIL "no")
+    else()
+      set(
+        HAVE_NEW_MIME2TEXT 1
+        CACHE INTERNAL "Whether utf8_mime2text() has new signature"
+      )
+      message(CHECK_PASS "yes")
+    endif()
 
-check_symbol_exists(
-  U8T_DECOMPOSE
-  ${Cclient_INCLUDE_DIR}/c-client.h
-  _HAVE_U8T_DECOMPOSE
-)
+    check_symbol_exists(
+      U8T_DECOMPOSE
+      ${Cclient_INCLUDE_DIR}/c-client.h
+      _HAVE_U8T_DECOMPOSE
+    )
+  cmake_pop_check_state()
 
-if(HAVE_NEW_MIME2TEXT AND NOT _HAVE_U8T_DECOMPOSE)
-  message(
-    FATAL_ERROR
-    "utf8_mime2text() has new signature, but U8T_CANONICAL is missing. This "
-    "should not happen. Check CMake logs for additional information."
-  )
-elseif(_HAVE_OLD_MIME2TEXT AND _HAVE_U8T_DECOMPOSE)
-  message(
-    FATAL_ERROR
-    "utf8_mime2text() has old signature, but U8T_CANONICAL is present. This "
-    "should not happen. Check CMake logs for additional information."
-  )
-endif()
+  if(HAVE_NEW_MIME2TEXT AND NOT _HAVE_U8T_DECOMPOSE)
+    message(
+      FATAL_ERROR
+      "utf8_mime2text() has new signature, but U8T_CANONICAL is missing. This "
+      "should not happen. Check CMake logs for additional information."
+    )
+  elseif(_HAVE_OLD_MIME2TEXT AND _HAVE_U8T_DECOMPOSE)
+    message(
+      FATAL_ERROR
+      "utf8_mime2text() has old signature, but U8T_CANONICAL is present. This "
+      "should not happen. Check CMake logs for additional information."
+    )
+  endif()
 
-block()
-  message(CHECK_START "Checking for Kerberos support in imap extension")
+  block()
+    message(CHECK_START "Checking for Kerberos support in imap extension")
 
-  file(
-    STRINGS
-    ${Cclient_INCLUDE_DIR}/linkage.h
-    auth_gss_results
-    REGEX
-    [[auth_gss;$]]
-  )
-
-  if((NOT EXT_IMAP_KERBEROS AND auth_gss_results) OR EXT_IMAP_KERBEROS)
-    find_package(Kerberos COMPONENTS Krb5 GSSAPI)
-    set_package_properties(
-      Kerberos
-      PROPERTIES
-        TYPE REQUIRED
-        PURPOSE "Necessary for Kerberos support in the imap extension."
+    file(
+      STRINGS
+      ${Cclient_INCLUDE_DIR}/linkage.h
+      auth_gss_results
+      REGEX
+      [[auth_gss;$]]
     )
 
-    target_link_libraries(php_imap PRIVATE Kerberos::Krb5 Kerberos::GSSAPI)
+    if((NOT EXT_IMAP_KERBEROS AND auth_gss_results) OR EXT_IMAP_KERBEROS)
+      find_package(Kerberos COMPONENTS Krb5 GSSAPI)
+      set_package_properties(
+        Kerberos
+        PROPERTIES
+          TYPE REQUIRED
+          PURPOSE "Necessary for Kerberos support in the imap extension."
+      )
 
-    if(Kerberos_FOUND)
-      set(HAVE_IMAP_KRB 1 CACHE INTERNAL "Whether imap has Kerberos support")
-      message(CHECK_PASS "yes")
-    else()
-      message(CHECK_FAIL "failed")
+      target_link_libraries(php_imap PRIVATE Kerberos::Krb5 Kerberos::GSSAPI)
 
-      if(auth_gss_results)
-        message(
-          WARNING
-          "The imap extension requires Kerberos because c-client library is "
-          "built with Kerberos support."
-        )
+      if(Kerberos_FOUND)
+        set(HAVE_IMAP_KRB 1 CACHE INTERNAL "Whether imap has Kerberos support")
+        message(CHECK_PASS "yes")
+      else()
+        message(CHECK_FAIL "failed")
+
+        if(auth_gss_results)
+          message(
+            WARNING
+            "The imap extension requires Kerberos because c-client library is "
+            "built with Kerberos support."
+          )
+        endif()
       endif()
+    else()
+      message(CHECK_FAIL "no")
     endif()
-  else()
-    message(CHECK_FAIL "no")
-  endif()
-endblock()
+  endblock()
 
-block()
-  message(CHECK_START "Checking for SSL support in imap extension")
+  block()
+    message(CHECK_START "Checking for SSL support in imap extension")
 
-  file(
-    STRINGS
-    ${Cclient_INCLUDE_DIR}/linkage.c
-    ssl_onceonlyinit_results
-    REGEX
-    [[ssl_onceonlyinit[ \t]*\(\);$]]
-  )
-
-  if((NOT EXT_IMAP_SSL AND ssl_onceonlyinit_results) OR EXT_IMAP_SSL)
-    find_package(OpenSSL ${PHP_OPENSSL_MIN_VERSION})
-    set_package_properties(
-      OpenSSL
-      PROPERTIES
-        TYPE REQUIRED
-        PURPOSE "Necessary to enable SSL in the imap extension."
+    file(
+      STRINGS
+      ${Cclient_INCLUDE_DIR}/linkage.c
+      ssl_onceonlyinit_results
+      REGEX
+      [[ssl_onceonlyinit[ \t]*\(\);$]]
     )
 
-    target_link_libraries(php_imap PRIVATE OpenSSL::SSL)
+    if((NOT EXT_IMAP_SSL AND ssl_onceonlyinit_results) OR EXT_IMAP_SSL)
+      find_package(OpenSSL ${PHP_OPENSSL_MIN_VERSION})
+      set_package_properties(
+        OpenSSL
+        PROPERTIES
+          TYPE REQUIRED
+          PURPOSE "Necessary to enable SSL in the imap extension."
+      )
 
-    if(OpenSSL_FOUND)
-      set(HAVE_IMAP_SSL 1 CACHE INTERNAL "Whether imap extension has SSL")
-      message(CHECK_PASS "yes")
-    else()
-      message(CHECK_FAIL "failed")
+      target_link_libraries(php_imap PRIVATE OpenSSL::SSL)
 
-      if(ssl_onceonlyinit_results)
-        message(
-          WARNING
-          "The imap extension requires SSL because c-client library is built "
-          "with SSL support."
-        )
+      if(OpenSSL_FOUND)
+        set(HAVE_IMAP_SSL 1 CACHE INTERNAL "Whether imap extension has SSL")
+        message(CHECK_PASS "yes")
+      else()
+        message(CHECK_FAIL "failed")
+
+        if(ssl_onceonlyinit_results)
+          message(
+            WARNING
+            "The imap extension requires SSL because c-client library is built "
+            "with SSL support."
+          )
+        endif()
       endif()
+    else()
+      message(CHECK_FAIL "no")
     endif()
-  else()
-    message(CHECK_FAIL "no")
-  endif()
-endblock()
+  endblock()
 
-cclient_check_symbol(rfc822_output_address_list HAVE_RFC822_OUTPUT_ADDRESS_LIST)
-cclient_check_symbol(auth_gssapi_valid HAVE_IMAP_AUTH_GSS)
-cclient_check_symbol(utf8_to_mutf7 HAVE_IMAP_MUTF7)
+  cclient_check_symbol(rfc822_output_address_list HAVE_RFC822_OUTPUT_ADDRESS_LIST)
+  cclient_check_symbol(auth_gssapi_valid HAVE_IMAP_AUTH_GSS)
+  cclient_check_symbol(utf8_to_mutf7 HAVE_IMAP_MUTF7)
+endif()

@@ -35,12 +35,20 @@ target_sources(
 
 target_include_directories(php_date PUBLIC ${CMAKE_CURRENT_BINARY_DIR}/lib)
 
-check_compiler_flag(C -Wno-implicit-fallthrough _HAVE_WNO_IMPLICIT_FALLTHROUGH_C)
+check_compiler_flag(
+  C
+  -Wno-implicit-fallthrough
+  _HAVE_WNO_IMPLICIT_FALLTHROUGH_C
+)
 if(_HAVE_WNO_IMPLICIT_FALLTHROUGH_C)
   target_compile_options(php_date PRIVATE -Wno-implicit-fallthrough)
 endif()
 
-target_compile_options(php_date PRIVATE $<$<COMPILE_LANG_AND_ID:C,MSVC>:/wd4244>)
+target_compile_options(
+  php_date
+  PRIVATE
+    $<$<COMPILE_LANG_AND_ID:C,MSVC>:/wd4244>
+)
 
 target_compile_definitions(
   php_date

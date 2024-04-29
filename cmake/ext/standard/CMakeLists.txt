@@ -133,14 +133,14 @@ target_link_libraries(
 if(RE2C_FOUND)
   re2c_target(
     NAME php_standard_var_unserializer
-    INPUT ${CMAKE_CURRENT_SOURCE_DIR}/var_unserializer.re
+    INPUT var_unserializer.re
     OUTPUT ${CMAKE_CURRENT_SOURCE_DIR}/var_unserializer.c
     OPTIONS --no-generation-date -b
   )
 
   re2c_target(
     NAME php_standard_url_scanner_ex
-    INPUT ${CMAKE_CURRENT_SOURCE_DIR}/url_scanner_ex.re
+    INPUT url_scanner_ex.re
     OUTPUT ${CMAKE_CURRENT_SOURCE_DIR}/url_scanner_ex.c
     OPTIONS --no-generation-date -b
   )
