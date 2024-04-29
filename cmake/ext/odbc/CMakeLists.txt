@@ -131,32 +131,34 @@ endif()
 ################################################################################
 # Set ODBC_* variables for main/build-defs.h file.
 ################################################################################
-block()
-  get_target_property(cflags ODBC::ODBC INTERFACE_COMPILE_OPTIONS)
-  string(REPLACE ";" " " cflags "${cflags}")
-  set(ODBC_CFLAGS "${cflags}" CACHE INTERNAL "ODBC CFLAGS")
+if(TARGET ODBC::ODBC)
+  block()
+    get_target_property(cflags ODBC::ODBC INTERFACE_COMPILE_OPTIONS)
+    string(REPLACE ";" " " cflags "${cflags}")
+    set(ODBC_CFLAGS "${cflags}" CACHE INTERNAL "ODBC CFLAGS")
 
-  get_target_property(libraries ODBC::ODBC IMPORTED_LOCATION)
+    get_target_property(libraries ODBC::ODBC IMPORTED_LOCATION)
 
-  foreach(library ${libraries})
-    cmake_path(GET library PARENT_PATH path)
-    list(APPEND ldflags "-L${path}")
+    foreach(library ${libraries})
+      cmake_path(GET library PARENT_PATH path)
+      list(APPEND ldflags "-L${path}")
 
-    cmake_path(GET library STEM name)
-    string(REGEX REPLACE "^lib" "" name "${name}")
-    list(APPEND libs "-l${name}")
-  endforeach()
+      cmake_path(GET library STEM name)
+      string(REGEX REPLACE "^lib" "" name "${name}")
+      list(APPEND libs "-l${name}")
+    endforeach()
 
-  list(REMOVE_DUPLICATES ldflags)
-  list(REMOVE_DUPLICATES libs)
+    list(REMOVE_DUPLICATES ldflags)
+    list(REMOVE_DUPLICATES libs)
 
-  string(REPLACE ";" " " ldflags "${ldflags}")
-  string(REPLACE ";" " " libs "${libs}")
+    string(REPLACE ";" " " ldflags "${ldflags}")
+    string(REPLACE ";" " " libs "${libs}")
 
-  set(ODBC_LFLAGS "${ldflags}" CACHE INTERNAL "ODBC linker flags")
-  set(ODBC_LIBS "${libs}" CACHE INTERNAL "ODBC libraries")
-  set(ODBC_TYPE "${EXT_ODBC_TYPE}" CACHE INTERNAL "ODBC type")
-endblock()
+    set(ODBC_LFLAGS "${ldflags}" CACHE INTERNAL "ODBC linker flags")
+    set(ODBC_LIBS "${libs}" CACHE INTERNAL "ODBC libraries")
+    set(ODBC_TYPE "${EXT_ODBC_TYPE}" CACHE INTERNAL "ODBC type")
+  endblock()
+endif()
 
 if(NOT EXT_ODBC_TYPE MATCHES "^(dbmaker|solid)$")
   set(

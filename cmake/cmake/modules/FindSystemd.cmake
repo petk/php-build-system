@@ -69,40 +69,42 @@ if(NOT Systemd_LIBRARY)
   string(APPEND _reason "The systemd library not found. ")
 endif()
 
-find_program(
-  Systemd_EXECUTABLE
-  NAMES systemd systemctl
-  DOC "Path to the systemd executable"
-)
+if(Systemd_INCLUDE_DIR AND Systemd_LIBRARY)
+  find_program(
+    Systemd_EXECUTABLE
+    NAMES systemd systemctl
+    DOC "Path to the systemd executable"
+  )
 
-block(PROPAGATE Systemd_VERSION)
-  if(Systemd_EXECUTABLE)
-    execute_process(
-      COMMAND "${Systemd_EXECUTABLE}" --version
-      OUTPUT_VARIABLE result
-      OUTPUT_STRIP_TRAILING_WHITESPACE
-    )
+  block(PROPAGATE Systemd_VERSION)
+    if(Systemd_EXECUTABLE)
+      execute_process(
+        COMMAND "${Systemd_EXECUTABLE}" --version
+        OUTPUT_VARIABLE result
+        OUTPUT_STRIP_TRAILING_WHITESPACE
+      )
 
-    string(REGEX MATCH " ([0-9]+) " _ "${result}")
+      string(REGEX MATCH " ([0-9]+) " _ "${result}")
 
-    if(CMAKE_MATCH_1)
-      set(Systemd_VERSION "${CMAKE_MATCH_1}")
+      if(CMAKE_MATCH_1)
+        set(Systemd_VERSION "${CMAKE_MATCH_1}")
+      endif()
     endif()
-  endif()
 
-  # Try finding version with pkgconf.
-  if(NOT Systemd_VERSION AND PC_Systemd_VERSION)
-    cmake_path(
-      COMPARE
-      "${PC_Systemd_INCLUDEDIR}" EQUAL "${Systemd_INCLUDE_DIR}"
-      isEqual
-    )
+    # Try finding version with pkgconf.
+    if(NOT Systemd_VERSION AND PC_Systemd_VERSION)
+      cmake_path(
+        COMPARE
+        "${PC_Systemd_INCLUDEDIR}" EQUAL "${Systemd_INCLUDE_DIR}"
+        isEqual
+      )
 
-    if(isEqual)
-      set(Systemd_VERSION ${PC_Systemd_VERSION})
+      if(isEqual)
+        set(Systemd_VERSION ${PC_Systemd_VERSION})
+      endif()
     endif()
-  endif()
-endblock()
+  endblock()
+endif()
 
 mark_as_advanced(Systemd_INCLUDE_DIR Systemd_LIBRARY Systemd_EXECUTABLE)
 

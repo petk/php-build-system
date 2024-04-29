@@ -41,7 +41,8 @@ If re2c is found, the following function is exposed:
     NAME
       Target name.
     INPUT
-      The re2c template file input.
+      The re2c template file input. Relative source file path is interpreted as
+      being relative to the current source directory.
     OUTPUT
       The output file.
     OPTIONS
@@ -209,19 +210,24 @@ function(re2c_target)
     list(APPEND parsed_OPTIONS "-g")
   endif()
 
+  set(input "${parsed_INPUT}")
+  if(NOT IS_ABSOLUTE "${input}")
+    set(input "${CMAKE_CURRENT_SOURCE_DIR}/${input}")
+  endif()
+
   add_custom_command(
     OUTPUT ${parsed_OUTPUT}
     COMMAND ${RE2C_EXECUTABLE}
       ${parsed_OPTIONS}
       -o ${parsed_OUTPUT}
-      ${parsed_INPUT}
-    DEPENDS ${parsed_INPUT} ${parsed_DEPENDS}
+      ${input}
+    DEPENDS ${input} ${parsed_DEPENDS}
     COMMENT "[RE2C][${parsed_NAME}] Building lexer with re2c ${RE2C_VERSION}"
   )
 
   add_custom_target(
     ${parsed_NAME}
-    SOURCES ${parsed_INPUT}
+    SOURCES ${input}
     DEPENDS ${parsed_OUTPUT}
     COMMENT "[RE2C] Building lexer with re2c ${RE2C_VERSION}"
   )

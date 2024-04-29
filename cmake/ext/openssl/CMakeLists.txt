@@ -26,6 +26,7 @@ cmake_dependent_option(
   "EXT_OPENSSL"
   OFF
 )
+mark_as_advanced(EXT_OPENSSL_KERBEROS)
 
 cmake_dependent_option(
   EXT_OPENSSL_LEGACY_PROVIDER
@@ -34,6 +35,7 @@ cmake_dependent_option(
   "EXT_OPENSSL"
   OFF
 )
+mark_as_advanced(EXT_OPENSSL_SYSTEM_CIPHERS)
 
 if(NOT EXT_OPENSSL)
   return()
@@ -64,7 +66,10 @@ set_package_properties(
 # extensions (for example, ext/phar), when the ext/openssl is enabled.
 target_link_libraries(php_openssl PUBLIC OpenSSL::SSL OpenSSL::Crypto)
 
-set(HAVE_OPENSSL_EXT 1 CACHE INTERNAL "Whether the openssl extension is available")
+set(
+  HAVE_OPENSSL_EXT 1
+  CACHE INTERNAL "Whether the openssl extension is available"
+)
 
 if(TARGET OpenSSL::SSL)
   cmake_push_check_state(RESET)
