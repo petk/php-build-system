@@ -1,0 +1,185 @@
+Subject: Enable native OpenSSL in ext/phar when ext/openssl is shared
+
+SSL support in ext/phar is enabled either as native (using the system's
+OpenSSL and its Crypto library) or as a wrapper using ext/openssl.
+
+Native OpenSSL support couldn't be enabled when building with shared
+ext/openssl:
+
+    ./configure --with-openssl=shared --enable-phar=shared
+
+or:
+
+    ./configure --with-openssl=shared --enable-phar
+
+Some PHP packages build both of these extensions as shared and it makes
+sense to provide native OpenSSL support in ext/phar also when
+ext/openssl is build as shared.
+
+In CMake-based build system OpenSSL is linked into ext/phar regardless
+whether ext/openssl is built statically or as shared to have synced
+Windows and *nix behavior.
+
+Changed tests:
+
+- ext/phar/tests/**/phar_setsignaturealgo2.phpt - depend on ext/openssl
+    to be enabled (openssl_get_privatekey)
+- ext/phar/tests/phar_setsignaturealgo.phpt - test when ext/phar has
+    native OpenSSL support enabled but ext/openssl is not enabled.
+
+Shared phar extension with native OpenSSL gets libcrypto linked:
+
+    ldd modules/phar.so
+        linux-vdso.so.1
+        libcrypto.so.3 => /lib/x86_64-linux-gnu/libcrypto.so.3
+        libc.so.6 => /lib/x86_64-linux-gnu/libc.so.6
+        /lib64/ld-linux-x86-64.so.2
+---
+ ext/phar/tests/phar_setsignaturealgo.phpt     | 99 +++++++++++++++++++
+ ext/phar/tests/phar_setsignaturealgo2.phpt    |  1 +
+ .../tests/tar/phar_setsignaturealgo2.phpt     |  1 +
+ .../tests/zip/phar_setsignaturealgo2.phpt     |  1 +
+ 4 files changed, 102 insertions(+)
+ create mode 100644 ext/phar/tests/phar_setsignaturealgo.phpt
+
+diff --git a/ext/phar/tests/phar_setsignaturealgo.phpt b/ext/phar/tests/phar_setsignaturealgo.phpt
+new file mode 100644
+index 0000000000..f2bf21ccaa
+--- /dev/null
++++ b/ext/phar/tests/phar_setsignaturealgo.phpt
+@@ -0,0 +1,99 @@
++--TEST--
++Phar::setSupportedSignatures() without ext/openssl
++--EXTENSIONS--
++phar
++--SKIPIF--
++<?php
++if (extension_loaded("openssl")) die("skip ext/openssl must be disabled for this test");
++$arr = Phar::getSupportedSignatures();
++if (!in_array("OpenSSL", $arr)) die("skip openssl support required");
++?>
++--INI--
++phar.require_hash=0
++phar.readonly=0
++--FILE--
++<?php
++$fname = __DIR__ . '/' . basename(__FILE__, '.php') . '.phar';
++$p = new Phar($fname);
++$p['file1.txt'] = 'hi';
++var_dump($p->getSignature());
++$p->setSignatureAlgorithm(Phar::MD5);
++var_dump($p->getSignature());
++$p->setSignatureAlgorithm(Phar::SHA1);
++var_dump($p->getSignature());
++try {
++$p->setSignatureAlgorithm(Phar::SHA256);
++var_dump($p->getSignature());
++} catch (Exception $e) {
++echo $e->getMessage();
++}
++try {
++$p->setSignatureAlgorithm(Phar::SHA512);
++var_dump($p->getSignature());
++} catch (Exception $e) {
++echo $e->getMessage();
++}
++try {
++$pkey = '-----BEGIN PRIVATE KEY-----
++MIICdwIBADANBgkqhkiG9w0BAQEFAASCAmEwggJdAgEAAoGBAMDcANSIpkgSF6Rh
++KHM8JncsVuCsO5XjiMf3g50lB+poJAG9leoygbVtY55h9tzeI7SAdZbdIoHbtJ/V
++kGdzlzX5jMGbH1sWKk5fZbai4pLZigd4ihH2V4M27jKrAGy6CAU8ZU/Ez2KQQj5g
++A4ZVMJ3iZXlqCmRWwcs0lZvP+c9XAgMBAAECgYAaJLioFu4TjwBNdC47kMfWF9if
++FDnvk6yTDuZ0gvSTvhJDeiO8X6Rdp7p9WeJRBnvomBFYphlraREPKbAtlenFVuIY
++v10O9BjxkQ0O1Y7L2ztMO3E2LFtmWgoGimAnsbUHTkuB61Hd2AWdA7C357eQ67vZ
++GlLu2HIFpSbzMcJFIQJBAPD6Hm7ETuL0ILwofImXAahHbwpmCtKmjvjJaFD5vWXP
++FD6uTbBOgUP+n5Y17+d/vxhSX9yrQueAIodju3bbxUsCQQDM4fMCO4OUYbMroql7
++ruIqBd34akrA+v2JoV+bMAE6RHBC6DgsI3uySbMJfmnPGoxlbXE0gKN4ONawwDd3
++gTKlAkEAnJc8DWidhpdzajG488Pf/NUmkBBNOiOnxn1Cv1P6Ql01X6HutAHfuCqO
++05KLKdj2ebyVtJTJrhuy1F33pL4dTwJBAKnIEB3ofahnshdV64cALJFQXVpvktUK
++6TG1Vcn/ZPUJI9J+J5aELQxYwJH8fOhQAspGgEpW06Bb0aWVFCHnIbUCQBFVhu+P
++RcHLpdSl7lZmws1bCnDUmt5GzKBw9diHxuyfGEJ0c0clDTWVEMyO80u0jxrliMkT
++8h5bvpPaY8KIlkg=
++-----END PRIVATE KEY-----';
++$p->setSignatureAlgorithm(Phar::OPENSSL, $pkey);
++var_dump($p->getSignature());
++} catch (Exception $e) {
++echo $e->getMessage();
++}
++?>
++--CLEAN--
++<?php
++unlink(__DIR__ . '/' . basename(__FILE__, '.clean.php') . '.phar');
++?>
++--EXPECTF--
++array(2) {
++  ["hash"]=>
++  string(%d) "%s"
++  ["hash_type"]=>
++  string(7) "SHA-256"
++}
++array(2) {
++  ["hash"]=>
++  string(%d) "%s"
++  ["hash_type"]=>
++  string(3) "MD5"
++}
++array(2) {
++  ["hash"]=>
++  string(%d) "%s"
++  ["hash_type"]=>
++  string(5) "SHA-1"
++}
++array(2) {
++  ["hash"]=>
++  string(%d) "%s"
++  ["hash_type"]=>
++  string(7) "SHA-256"
++}
++array(2) {
++  ["hash"]=>
++  string(%d) "%s"
++  ["hash_type"]=>
++  string(7) "SHA-512"
++}
++array(2) {
++  ["hash"]=>
++  string(%d) "%s"
++  ["hash_type"]=>
++  string(7) "OpenSSL"
++}
+diff --git a/ext/phar/tests/phar_setsignaturealgo2.phpt b/ext/phar/tests/phar_setsignaturealgo2.phpt
+index 4f31836fbb..c713b42d17 100644
+--- a/ext/phar/tests/phar_setsignaturealgo2.phpt
++++ b/ext/phar/tests/phar_setsignaturealgo2.phpt
+@@ -1,6 +1,7 @@
+ --TEST--
+ Phar::setSupportedSignatures() with hash
+ --EXTENSIONS--
++openssl
+ phar
+ --SKIPIF--
+ <?php
+diff --git a/ext/phar/tests/tar/phar_setsignaturealgo2.phpt b/ext/phar/tests/tar/phar_setsignaturealgo2.phpt
+index 1a3a84303e..d56fe2c98c 100644
+--- a/ext/phar/tests/tar/phar_setsignaturealgo2.phpt
++++ b/ext/phar/tests/tar/phar_setsignaturealgo2.phpt
+@@ -1,6 +1,7 @@
+ --TEST--
+ Phar::setSupportedSignatures() with hash, tar-based
+ --EXTENSIONS--
++openssl
+ phar
+ --SKIPIF--
+ <?php
+diff --git a/ext/phar/tests/zip/phar_setsignaturealgo2.phpt b/ext/phar/tests/zip/phar_setsignaturealgo2.phpt
+index 4fb9a155c5..aec1867c03 100644
+--- a/ext/phar/tests/zip/phar_setsignaturealgo2.phpt
++++ b/ext/phar/tests/zip/phar_setsignaturealgo2.phpt
+@@ -1,6 +1,7 @@
+ --TEST--
+ Phar::setSupportedSignatures() with hash, zip-based
+ --EXTENSIONS--
++openssl
+ phar
+ --SKIPIF--
+ <?php
