@@ -36,6 +36,7 @@ target_sources(
     libbcmath/src/div.c
     libbcmath/src/divmod.c
     libbcmath/src/doaddsub.c
+    libbcmath/src/floor_or_ceil.c
     libbcmath/src/init.c
     libbcmath/src/int2num.c
     libbcmath/src/nearzero.c
@@ -47,6 +48,7 @@ target_sources(
     libbcmath/src/raisemod.c
     libbcmath/src/recmul.c
     libbcmath/src/rmzero.c
+    libbcmath/src/round.c
     libbcmath/src/sqrt.c
     libbcmath/src/str2num.c
     libbcmath/src/sub.c
