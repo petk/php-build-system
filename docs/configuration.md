@@ -633,49 +633,49 @@ A list of Autoconf `configure` command-line configuration options, Windows
     </tr>
     <tr>
       <td>--enable-gcc-global-regs</td>
-      <td></td>
+      <td>N/A</td>
       <td>ZEND_GCC_GLOBAL_REGS=ON</td>
       <td>default</td>
     </tr>
     <tr>
       <td>&emsp;--disable-gcc-global-regs</td>
-      <td></td>
+      <td>N/A</td>
       <td>ZEND_GCC_GLOBAL_REGS=OFF</td>
       <td></td>
     </tr>
     <tr>
       <td>--enable-fiber-asm</td>
-      <td></td>
+      <td>N/A</td>
       <td>ZEND_FIBER_ASM=ON</td>
       <td>default</td>
     </tr>
     <tr>
       <td>&emsp;--disable-fiber-asm</td>
-      <td></td>
+      <td>N/A</td>
       <td>ZEND_FIBER_ASM=OFF</td>
       <td></td>
     </tr>
     <tr>
       <td>--enable-zend-signals</td>
-      <td></td>
+      <td>N/A</td>
       <td>ZEND_SIGNALS=ON</td>
       <td>default</td>
     </tr>
     <tr>
       <td>&emsp;--disable-zend-signals</td>
-      <td></td>
+      <td>N/A</td>
       <td>ZEND_SIGNALS=OFF</td>
       <td></td>
     </tr>
     <tr>
       <td>--disable-zend-max-execution-timers</td>
-      <td></td>
+      <td>N/A</td>
       <td>ZEND_MAX_EXECUTION_TIMERS=OFF</td>
       <td>default</td>
     </tr>
     <tr>
       <td>&emsp;--enable-zend-max-execution-timers</td>
-      <td></td>
+      <td>N/A</td>
       <td>ZEND_MAX_EXECUTION_TIMERS=ON</td>
       <td></td>
     </tr>
