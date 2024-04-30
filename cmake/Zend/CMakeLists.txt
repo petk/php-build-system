@@ -3,13 +3,21 @@
 ################################################################################
 
 # Read the Zend engine version.
-file(READ zend.h _)
-string(REGEX MATCH "#[ \t]*define[ \t]+ZEND_VERSION[ \t]+\"([0-9.]+)([^\"]*)" _ "${_}")
-set(Zend_VERSION_LABEL "${CMAKE_MATCH_2}")
+block(PROPAGATE Zend_VERSION Zend_VERSION_LABEL)
+  file(READ zend.h content)
+  string(
+    REGEX MATCH
+    "#[ \t]*define[ \t]+ZEND_VERSION[ \t]+\"([0-9.]+)([^\"]*)"
+    _
+    "${content}"
+  )
+  set(Zend_VERSION "${CMAKE_MATCH_1}")
+  set(Zend_VERSION_LABEL "${CMAKE_MATCH_2}")
+endblock()
 
 project(
   Zend
-  VERSION ${CMAKE_MATCH_1}
+  VERSION ${Zend_VERSION}
   DESCRIPTION "Zend engine library"
   LANGUAGES C CXX ASM
 )
@@ -17,13 +25,25 @@ project(
 string(APPEND Zend_VERSION "${Zend_VERSION_LABEL}")
 message(STATUS "Zend engine version: ${Zend_VERSION}")
 
-file(READ zend_extensions.h _)
-string(REGEX MATCH "#[ \t]*define[ \t]+ZEND_EXTENSION_API_NO[ \t]+([0-9]+)" _ "${_}")
-message(STATUS "Zend extension API number: ${CMAKE_MATCH_1}")
+block()
+  file(READ zend_extensions.h content)
+  string(
+    REGEX MATCH
+    "#[ \t]*define[ \t]+ZEND_EXTENSION_API_NO[ \t]+([0-9]+)"
+    _
+    "${content}"
+  )
+  message(STATUS "Zend extension API number: ${CMAKE_MATCH_1}")
 
-file(READ zend_modules.h _)
-string(REGEX MATCH "#[ \t]*define[ \t]+ZEND_MODULE_API_NO[ \t]+([0-9]+)" _ "${_}")
-message(STATUS "Zend module API number: ${CMAKE_MATCH_1}")
+  file(READ zend_modules.h content)
+  string(
+    REGEX MATCH
+    "#[ \t]*define[ \t]+ZEND_MODULE_API_NO[ \t]+([0-9]+)"
+    _
+    "${content}"
+  )
+  message(STATUS "Zend module API number: ${CMAKE_MATCH_1}")
+endblock()
 
 include(CheckIncludeFile)
 include(CheckSourceCompiles)
@@ -45,8 +65,12 @@ option(ZEND_SIGNALS "Enable Zend signal handling" ON)
 mark_as_advanced(ZEND_SIGNALS)
 
 # TODO: Check if default value can be improved. Once cached variable is set, it
-# can't be changed based on PHP_THREAD_SAFETY value on the 2nd configuration run.
-option(ZEND_MAX_EXECUTION_TIMERS "Enable Zend max execution timers" ${PHP_THREAD_SAFETY})
+# can't be changed to PHP_THREAD_SAFETY value on the 2nd configuration run.
+option(
+  ZEND_MAX_EXECUTION_TIMERS
+  "Enable Zend max execution timers"
+  ${PHP_THREAD_SAFETY}
+)
 mark_as_advanced(ZEND_MAX_EXECUTION_TIMERS)
 
 # TODO: Fix this better.
@@ -222,11 +246,23 @@ block()
     set(headers "pthread_np.h")
   endif()
 
-  check_symbol_exists(pthread_attr_get_np "${headers};pthread.h" HAVE_PTHREAD_ATTR_GET_NP)
+  check_symbol_exists(
+    pthread_attr_get_np
+    "${headers};pthread.h"
+    HAVE_PTHREAD_ATTR_GET_NP
+  )
 endblock()
 
-check_symbol_exists(pthread_get_stackaddr_np "pthread.h" HAVE_PTHREAD_GET_STACKADDR_NP)
-check_symbol_exists(pthread_attr_getstack "pthread.h" HAVE_PTHREAD_ATTR_GETSTACK)
+check_symbol_exists(
+  pthread_get_stackaddr_np
+  "pthread.h"
+  HAVE_PTHREAD_GET_STACKADDR_NP
+)
+check_symbol_exists(
+  pthread_attr_getstack
+  "pthread.h"
+  HAVE_PTHREAD_ATTR_GETSTACK
+)
 check_symbol_exists(pthread_stackseg_np "pthread.h" HAVE_PTHREAD_STACKSEG_NP)
 
 cmake_push_check_state(RESET)
@@ -242,14 +278,14 @@ cmake_pop_check_state()
 message(CHECK_START "Checking whether __cpuid_count is available")
 cmake_push_check_state(RESET)
   set(CMAKE_REQUIRED_QUIET TRUE)
-  check_source_compiles(C "
+  check_source_compiles(C [[
     #include <cpuid.h>
     int main(void) {
       unsigned eax, ebx, ecx, edx;
       __cpuid_count(0, 0, eax, ebx, ecx, edx);
       return 0;
     }
-  " HAVE_CPUID_COUNT)
+  ]] HAVE_CPUID_COUNT)
 cmake_pop_check_state()
 if(HAVE_CPUID_COUNT)
   message(CHECK_PASS "yes")
@@ -313,8 +349,8 @@ include(Zend/CheckStackLimit)
 # Check float precision.
 include(Zend/CheckFloatPrecision)
 
-# TODO: zend_config.h (or its parent php_config.h) isn't included in some zend_*
-# files, therefore we need to add compilation definitions also like this here.
+# zend_config.h (or its parent php_config.h) isn't included in some zend_*
+# files, therefore also compilation definitions need to be added.
 if(PHP_THREAD_SAFETY)
   target_compile_definitions(zend PRIVATE ZTS)
 endif()
@@ -356,10 +392,22 @@ if(BISON_FOUND)
     OUTPUT CMakeFiles/PatchZendLanguageParserFiles.cmake
     CONTENT [[
       file(READ "${SRC}/zend_language_parser.h" content)
-      string(REPLACE "int zendparse" "ZEND_API int zendparse" content "${content}")
+      string(
+        REPLACE
+        "int zendparse"
+        "ZEND_API int zendparse"
+        content
+        "${content}"
+      )
       file(WRITE "${SRC}/zend_language_parser.h" "${content}")
       file(READ "${SRC}/zend_language_parser.c" content)
-      string(REPLACE "int zendparse" "ZEND_API int zendparse" content "${content}")
+      string(
+        REPLACE
+        "int zendparse"
+        "ZEND_API int zendparse"
+        content
+        "${content}"
+      )
       file(WRITE "${SRC}/zend_language_parser.c" "${content}")
     ]]
   )

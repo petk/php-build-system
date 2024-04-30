@@ -18,7 +18,7 @@ cmake_push_check_state(RESET)
   set(CMAKE_REQUIRED_QUIET TRUE)
 
   if(NOT CMAKE_CROSSCOMPILING)
-    check_source_runs(C "
+    check_source_runs(C [[
       #include <stdint.h>
 
       int (*volatile f)(uintptr_t);
@@ -34,7 +34,7 @@ cmake_push_check_state(RESET)
         f = stack_grows_downwards;
         return f((uintptr_t)&local) ? 0 : 1;
       }
-    " ZEND_CHECK_STACK_LIMIT)
+    ]] ZEND_CHECK_STACK_LIMIT)
   endif()
 cmake_pop_check_state()
 

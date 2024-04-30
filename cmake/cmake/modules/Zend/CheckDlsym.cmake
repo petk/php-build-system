@@ -13,12 +13,16 @@ Cache variables:
 
 include_guard(GLOBAL)
 
+include(CheckIncludeFile)
+
 message(
   CHECK_START
   "Checking whether dlsym() requires a leading underscore in symbol names"
 )
 
 if(NOT CMAKE_CROSSCOMPILING)
+  check_include_file(dlfcn.h HAVE_DLFCN_H)
+
   block()
     if(HAVE_DLFCN_H)
       set(definitions "-DHAVE_DLFCN_H=1")
@@ -87,6 +91,7 @@ if(NOT CMAKE_CROSSCOMPILING)
         }
       ]]
       COMPILE_DEFINITIONS ${definitions}
+      LINK_LIBRARIES ${CMAKE_DL_LIBS}
     )
   endblock()
 
