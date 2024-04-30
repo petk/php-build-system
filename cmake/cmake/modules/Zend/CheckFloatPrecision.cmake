@@ -25,8 +25,8 @@ include(CMakePushCheckState)
 cmake_push_check_state(RESET)
   set(CMAKE_REQUIRED_QUIET TRUE)
 
-  message(CHECK_START "Checking if _FPU_SETCW is usable")
-  check_source_compiles(C "
+  message(CHECK_START "Checking for usable _FPU_SETCW")
+  check_source_compiles(C [[
     #include <fpu_control.h>
 
     int main(void) {
@@ -43,15 +43,15 @@ cmake_push_check_state(RESET)
 
       return 0;
     }
-  " HAVE__FPU_SETCW)
+  ]] HAVE__FPU_SETCW)
   if(HAVE__FPU_SETCW)
     message(CHECK_PASS "yes")
   else()
     message(CHECK_FAIL "no")
   endif()
 
-  message(CHECK_START "Checking if fpsetprec is usable")
-  check_source_compiles(C "
+  message(CHECK_START "Checking for usable fpsetprec")
+  check_source_compiles(C [[
     #include <machine/ieeefp.h>
 
     int main(void) {
@@ -67,15 +67,15 @@ cmake_push_check_state(RESET)
 
       return 0;
     }
-  " HAVE_FPSETPREC)
+  ]] HAVE_FPSETPREC)
   if(HAVE_FPSETPREC)
     message(CHECK_PASS "yes")
   else()
     message(CHECK_FAIL "no")
   endif()
 
-  message(CHECK_START "Checking if _controlfp is usable")
-  check_source_compiles(C "
+  message(CHECK_START "Checking for usable _controlfp")
+  check_source_compiles(C [[
     #include <float.h>
 
     int main(void) {
@@ -91,15 +91,15 @@ cmake_push_check_state(RESET)
 
       return 0;
     }
-  " HAVE__CONTROLFP)
+  ]] HAVE__CONTROLFP)
   if(HAVE__CONTROLFP)
     message(CHECK_PASS "yes")
   else()
     message(CHECK_FAIL "no")
   endif()
 
-  message(CHECK_START "Checking if _controlfp_s is usable")
-  check_source_compiles(C "
+  message(CHECK_START "Checking for usable _controlfp_s")
+  check_source_compiles(C [[
     #include <float.h>
 
     int main(void) {
@@ -116,7 +116,7 @@ cmake_push_check_state(RESET)
 
       return 0;
     }
-  " HAVE__CONTROLFP_S)
+  ]] HAVE__CONTROLFP_S)
   if(HAVE__CONTROLFP_S)
     message(CHECK_PASS "yes")
   else()

@@ -43,7 +43,12 @@ block()
             i = i >> 1;
           }
 
-          printf("(size_t)%zu (size_t)%d %d\n", ZEND_MM_ALIGNMENT, zeros, ZEND_MM_ALIGNMENT < 4);
+          printf(
+            "(size_t)%zu (size_t)%d %d\n",
+            ZEND_MM_ALIGNMENT,
+            zeros,
+            ZEND_MM_ALIGNMENT < 4
+          );
 
           return 0;
         }
