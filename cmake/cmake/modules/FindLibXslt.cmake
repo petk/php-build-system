@@ -22,7 +22,7 @@ set_package_properties(
     DESCRIPTION "XSLT processor library"
 )
 
-# Find LibXslt with upstream CMake module; override CMAKE_MODULE_PATH to prevent
+# Find package with upstream CMake module; override CMAKE_MODULE_PATH to prevent
 # the maximum nesting/recursion depth error on some systems, like macOS.
 set(_php_cmake_module_path ${CMAKE_MODULE_PATH})
 unset(CMAKE_MODULE_PATH)

@@ -178,6 +178,9 @@ if(BISON_FOUND)
     COMPILE_FLAGS "-Wall -v -d"
     DEFINES_FILE ${CMAKE_CURRENT_SOURCE_DIR}/phpdbg_parser.h
   )
+
+  add_custom_target(php_phpdbg_parser DEPENDS ${BISON_TARGET_outputs})
+  add_dependencies(php_generate_files php_phpdbg_parser)
 endif()
 
 if(RE2C_FOUND)
@@ -187,6 +190,8 @@ if(RE2C_FOUND)
     OUTPUT ${CMAKE_CURRENT_SOURCE_DIR}/phpdbg_lexer.c
     OPTIONS --no-generation-date -cbdF
   )
+
+  add_dependencies(php_generate_files php_phpdbg_lexer)
 endif()
 
 ################################################################################

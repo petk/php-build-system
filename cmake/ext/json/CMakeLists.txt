@@ -25,6 +25,9 @@ if(BISON_FOUND)
     COMPILE_FLAGS "-Wall --defines -l"
     DEFINES_FILE ${CMAKE_CURRENT_SOURCE_DIR}/json_parser.tab.h
   )
+
+  add_custom_target(php_json_parser DEPENDS ${BISON_TARGET_outputs})
+  add_dependencies(php_generate_files php_json_parser)
 endif()
 
 if(RE2C_FOUND)
@@ -37,6 +40,8 @@ if(RE2C_FOUND)
       -bci
       -t ${CMAKE_CURRENT_SOURCE_DIR}/php_json_scanner_defs.h
   )
+
+  add_dependencies(php_generate_files php_json_scanner)
 endif()
 
 # HAVE_JSON is always 1 as of php 8.0 and the constant will be removed in the

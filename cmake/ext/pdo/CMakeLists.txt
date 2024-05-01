@@ -52,4 +52,6 @@ if(RE2C_FOUND)
     OUTPUT ${CMAKE_CURRENT_SOURCE_DIR}/pdo_sql_parser.c
     OPTIONS --no-generation-date
   )
+
+  add_dependencies(php_generate_files php_pdo_sql_parser)
 endif()
