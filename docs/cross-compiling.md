@@ -95,7 +95,7 @@ cmake . -DCMAKE_SYSTEM_NAME=Linux -DCMAKE_CROSSCOMPILING_EMULATOR=/usr/bin/env
 
 ## 2. Toolchain files
 
-Cross-compilation uses so called toolchain files, where all the unknown
+Cross-compilation uses so-called toolchain files, where all the unknown
 variables are manually defined for the targeted platform.
 
 ```sh

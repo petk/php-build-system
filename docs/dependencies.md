@@ -152,7 +152,7 @@ PKG_CONFIG_PATH=/path/to/pkgconfig pkgconf --modversion libcrypt
 The `pkgconf` ships with M4 macro file `pkg.m4` for Autotools-based build
 systems and provides several macros, such as `PKG_CHECK_MODULES`.
 
-`PKG_CHECK_MODULES` creates so called precious variables `*_LIBS` and `*_CFLAGS`
+`PKG_CHECK_MODULES` creates so-called precious variables `*_LIBS` and `*_CFLAGS`
 for using dependency in the build system. See `./configure --help` for all the
 available variables. These compiler and linker flags can be also overridden. For
 example, when developing, or when dependency is manually installed to a custom
@@ -391,7 +391,7 @@ directory. For example:
 # example, adding search paths, changing initial values of the find module,
 # adding pkgconf/pkg-config functionality, and similar.
 
-# Find Iconv with upstream CMake module; override CMAKE_MODULE_PATH to prevent
+# Find package with upstream CMake module; override CMAKE_MODULE_PATH to prevent
 # the maximum nesting/recursion depth error on some systems, like macOS.
 set(_php_cmake_module_path ${CMAKE_MODULE_PATH})
 unset(CMAKE_MODULE_PATH)

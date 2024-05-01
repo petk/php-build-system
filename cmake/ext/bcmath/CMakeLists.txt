@@ -33,6 +33,7 @@ target_sources(
     bcmath.c
     libbcmath/src/add.c
     libbcmath/src/compare.c
+    libbcmath/src/convert.c
     libbcmath/src/div.c
     libbcmath/src/divmod.c
     libbcmath/src/doaddsub.c

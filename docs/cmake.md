@@ -484,21 +484,17 @@ also tracked in the Git repository for a smoother workflow:
 
 ### 11.1. Parser and lexer files
 
-Some source files are generated with 3rd party tools. These include so called
-parser and lexer files which are generated with
-[bison](https://www.gnu.org/software/bison/) and [re2c](https://re2c.org/).
+So-called parser files are generated with
+[bison](https://www.gnu.org/software/bison/) tool from `*.y` source files to C
+source code and header files.
 
-Parser files are generated with `bison` tool from `*.y` source files to C source
-code and header files.
+Lexer files are generated with [re2c](https://re2c.org/) tool from `*.l` and
+`*.re` source files to C source code and header files.
 
-Lexer files are generated with `re2c` tool from `*.l` and `*.re` source files to
-C source code and header files.
-
-To use `bison` and `re2c` in CMake there are
-`FindBison` and `FindRE2C` modules that provide `bison_target()` and
-`re2c_target()` commands.
+To use `bison` and `re2c` in CMake the `FindBison` and `FindRE2C` modules
+provide `bison_target()` and `re2c_target()` commands.
 [FindBison](https://cmake.org/cmake/help/latest/module/FindBISON.html) is a
-CMake built-in module, while FindRE2C is manually created and added at
+CMake built-in module, while `FindRE2C` is manually created at
 `cmake/modules/FindRE2C`.
 
 Files related to `bison` and `re2c`:
@@ -558,6 +554,20 @@ Files related to `bison` and `re2c`:
     ├─ zend_language_scanner_defs.h # Generated with re2c
     ├─ zend_language_scanner.c      # Generated with re2c
     └─ zend_language_scanner.l      # Lexer source
+```
+
+When building PHP from the released archives (`php-*.tar.gz`) from
+[php.net](https://www.php.net/downloads.php) these files are already included in
+the tarball itself so `re2c` and `bison` are not required.
+
+These are generated automatically when building PHP from the Git repository.
+
+To re-generate these files manually apart from the main build itself, a separate
+CMake target `php_generate_files` can be used:
+
+```sh
+cmake -S <source-dir> -B <build-dir>
+cmake --build <build-dir> -t php_generate_files
 ```
 
 ## 12. Performance

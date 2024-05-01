@@ -280,7 +280,7 @@ gcc -o out hello_world.c
 This will compile, link and also run the program to check if the return code is
 0.
 
-Issue with `AC_RUN_IFELSE` is when doing so called cross-compilation. That is
+Issue with `AC_RUN_IFELSE` is when doing so-called cross-compilation. That is
 building C software on one platform with purpose of running it on some other
 platform. In this case the program cannot be run and we cannot be sure of if it
 is running successfully or not.

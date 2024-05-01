@@ -67,7 +67,7 @@ cmake --build build-directory --parallel
 ```
 
 > [!NOTE]
-> So called **in-source builds** are a simplification when building inside a
+> So-called **in-source builds** are a simplification when building inside a
 > source directory (when source and build directories are the same):
 >
 > ```sh

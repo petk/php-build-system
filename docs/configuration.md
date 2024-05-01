@@ -92,6 +92,13 @@ used JSON scheme.
 Some useful overridable configuration options built into CMake itself. All these
 `CMAKE_*` variables are also documented in the CMake documentation.
 
+* `CMAKE_EXPORT_COMPILE_COMMANDS=OFF|ON`
+
+  Default: `OFF`
+
+  Create compilation database file `compile_commands.json` during generation.
+  Various other development tools can then use it. For example, `clang-check`.
+
 * `CMAKE_LINKER_TYPE` (CMake 3.29+)
 
   Default empty
@@ -129,18 +136,18 @@ Some useful overridable configuration options built into CMake itself. All these
   objdump -x ./php-src/sapi/cli/php | grep 'R.*PATH'
   ```
 
-* `CMAKE_SKIP_BUILD_RPATH=OFF|ON`
+  * `CMAKE_SKIP_BUILD_RPATH=OFF|ON`
 
-  Default: `OFF`
+    Default: `OFF`
 
-  Disable runtime library search paths (rpath) in build directory executables.
+    Disable runtime library search paths (rpath) in build directory executables.
 
-* `CMAKE_SKIP_INSTALL_RPATH=OFF|ON`
+  * `CMAKE_SKIP_INSTALL_RPATH=OFF|ON`
 
-  Default: `OFF`
+    Default: `OFF`
 
-  Disable runtime library search paths (rpath) in installation directory
-  executables.
+    Disable runtime library search paths (rpath) in installation directory
+    executables.
 
 ## 3. PHP configuration
 
