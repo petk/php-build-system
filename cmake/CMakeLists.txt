@@ -48,6 +48,10 @@ target_include_directories(
     ${PHP_SOURCE_DIR}
 )
 
+# Create a custom target for generating files (parsers, lexers, etc.) manually:
+#   cmake --build <dir> -t php_generate_files
+add_custom_target(php_generate_files)
+
 # Configure build types.
 include(cmake/BuildTypes.cmake)
 

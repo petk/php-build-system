@@ -102,8 +102,6 @@ if(RE2C_ENABLE_DOWNLOAD AND (NOT RE2C_EXECUTABLE OR NOT _re2c_version_valid))
   # Set the re2c version to download.
   set(RE2C_VERSION 3.1)
 
-  message(STATUS "Downloading re2c ${RE2C_VERSION}")
-
   # Configure re2c.
   set(RE2C_BUILD_RE2GO OFF CACHE INTERNAL "")
   set(RE2C_BUILD_RE2RUST OFF CACHE INTERNAL "")
@@ -116,11 +114,7 @@ if(RE2C_ENABLE_DOWNLOAD AND (NOT RE2C_EXECUTABLE OR NOT _re2c_version_valid))
 
   FetchContent_Declare(
     RE2C
-    GIT_REPOSITORY https://github.com/skvadrik/re2c
-    GIT_TAG ${RE2C_VERSION}
-    GIT_PROGRESS TRUE
-    GIT_SHALLOW TRUE
-    GIT_SUBMODULES ""
+    URL https://github.com/skvadrik/re2c/archive/refs/tags/${RE2C_VERSION}.tar.gz
   )
 
   FetchContent_MakeAvailable(RE2C)
