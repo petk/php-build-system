@@ -233,7 +233,11 @@ fi
 if test -n "$normalizator"; then
   echo
   echo "Running normalizator.phar"
-  paths=$(find . -maxdepth 1 -name "*" -not -path "./php-src" -a -not -path ".")
+  paths=$(find . -maxdepth 1 -name "*" \
+    -not -path "./php-src" \
+    -a -not -path "." \
+    -a -not -path "./.git"
+  )
   $normalizator check $paths
   status=$?
   test "x$status" != "x0" && exitCode=$status
