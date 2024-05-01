@@ -29,11 +29,19 @@ jobs:
       - name: Setup Python
         uses: actions/setup-python@v4
 
+      - name: Setup PHP with Composer
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: 8.3
+
       - name: Install checking tools
         run: |
           pipx install cmakelint
           pipx install cmakelang
           pipx install codespell
+          curl -OL https://github.com/petk/normalizator/releases/latest/download/normalizator.phar
+          chmod +x normalizator.phar
+          mv normalizator.phar /usr/local/bin/normalizator
 
       - name: Run CMake checks
         run: ./bin/check-cmake.sh
