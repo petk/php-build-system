@@ -31,6 +31,7 @@ Checks:
   - cmake-lint for CMake code issues
   - cmake-format for CMake code style issues
   - codespell for common misspelling issues
+  - Basic Git repository and code style issues with github.com/petk/normalizator
 
 USAGE:
   $0 [<options>]
@@ -55,9 +56,10 @@ cmakelint=$(which cmakelint 2>/dev/null)
 cmakelang_cmakelint=$(which cmake-lint 2>/dev/null)
 cmakelang_cmakeformat=$(which cmake-format 2>/dev/null)
 codespell=$(which codespell 2>/dev/null)
+normalizator=$(which normalizator 2>/dev/null)
 
 # Check if cmakelint is installed.
-if test -z "$cmakelint"; then
+if test "x$enableCMakeLint" = "x1" && test -z "$cmakelint"; then
   echo "check-cmake.sh: The 'cmakelint' tool not found." >&2
   echo "                Please install cmakelint:" >&2
   echo "                https://github.com/cmake-lint/cmake-lint" >&2
@@ -65,8 +67,9 @@ if test -z "$cmakelint"; then
 fi
 
 # Check if cmakelang tools are installed.
-if test -z "$cmakelang_cmakelint" \
-  || test -z "$cmakelang_cmakeformat"
+if test "x$enableCMakeLang" = "x1" \
+  && (test -z "$cmakelang_cmakelint" \
+  || test -z "$cmakelang_cmakeformat")
 then
   echo "check-cmake.sh: The 'cmakelang' tools not found." >&2
   echo "                Please install cmakelang:" >&2
@@ -88,9 +91,9 @@ if test -z "$findMaxdepthOptionWorks"; then
   echo "                the '-maxdepth' option. Please use another system." >&2
 fi
 
-if test -z "${cmakelint}" \
-  || test -z "${cmakelang_cmakelint}" \
-  || test -z "${cmakelang_cmakelint}" \
+if (test "x$enableCMakeLint" = "x1" && test -z "${cmakelint}") \
+  || (test "x$enableCMakeLang" = "x1" && \
+     (test -z "${cmakelang_cmakelint}" || test -z "${cmakelang_cmakeformat}")) \
   || test -z "${codespell}" \
   || test -z "${findMaxdepthOptionWorks}"
 then
@@ -219,6 +222,19 @@ if test "x$enableCMakeLang" != "x0"; then
     --config-files bin/check-cmake/cmake-format.json \
     --check \
     -- $files
+  status=$?
+  test "x$status" != "x0" && exitCode=$status
+fi
+
+################################################################################
+# Run normalizator.phar.
+################################################################################
+
+if test -n "$normalizator"; then
+  echo
+  echo "Running normalizator.phar"
+  paths=$(find . -maxdepth 1 -name "*" -not -path "./php-src" -a -not -path ".")
+  $normalizator check $paths
   status=$?
   test "x$status" != "x0" && exitCode=$status
 fi
