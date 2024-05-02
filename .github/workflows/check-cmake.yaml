@@ -1,24 +1,14 @@
-name: Run CMake checks
+name: Run code style checks
 
 on:
   push:
     branches: [PHP-8.3]
-    paths-ignore:
-      - 'docs/**'
-      - '.editorconfig'
-      - '.gitignore'
-      - 'README.md'
   pull_request:
     branches: [PHP-8.3]
-    paths-ignore:
-      - 'docs/**'
-      - '.editorconfig'
-      - '.gitignore'
-      - 'README.md'
 
 jobs:
   check:
-    name: Check CMake files
+    name: Check code style
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -29,7 +19,7 @@ jobs:
       - name: Setup Python
         uses: actions/setup-python@v4
 
-      - name: Setup PHP with Composer
+      - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
           php-version: 8.3
@@ -43,5 +33,5 @@ jobs:
           chmod +x normalizator.phar
           mv normalizator.phar /usr/local/bin/normalizator
 
-      - name: Run CMake checks
+      - name: Run checks
         run: ./bin/check-cmake.sh
