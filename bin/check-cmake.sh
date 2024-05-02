@@ -1,9 +1,7 @@
 #!/bin/sh
 #
-# Helper script that runs a set of common checks on CMake files.
+# Helper script that runs a set of checks on CMake files.
 
-enableCMakeLint=0
-enableCMakeLang=0
 exitCode=0
 
 ################################################################################
@@ -21,17 +19,18 @@ SYNOPSIS:
 OPTIONS:
   -d, --debug    Output additional debug mode information.
   -h, --help     Display this help and exit.
-  --cmakelint    Run CMake cmakelint tool.
-  --cmakelang    Run CMake-lang project tools (cmake-lint and cmake-format).
 
 Checks:
   - Unused CMake find and utility module files
   - Missing and redundant CMake module includes
+
+  When additional tools are installed:
+
+  - codespell for common misspelling issues
+  - github.com/petk/normalizator for Git repository and code style issues
   - CMakeLint for CMake code issues
   - cmake-lint for CMake code issues
   - cmake-format for CMake code style issues
-  - codespell for common misspelling issues
-  - Basic Git repository and code style issues with github.com/petk/normalizator
 
 USAGE:
   $0 [<options>]
@@ -39,10 +38,6 @@ HELP
     exit 0
   elif test "$1" = "-d" || test "$1" = "--debug"; then
     debug=1
-  elif test "$1" = "--cmakelint"; then
-    enableCMakeLint=1
-  elif test "$1" = "--cmakelang"; then
-    enableCMakeLang=1
   fi
 
   shift
@@ -52,29 +47,30 @@ done
 # Check requirements.
 ################################################################################
 
+# Check if find -maxdepth option works (for example, Solaris doesn't have it).
+findMaxdepthOptionWorks=$(find ./cmake/cmake \
+  -maxdepth 1 \
+  -name "*.cmake" 2>/dev/null
+)
+test "x$?" != "x0" && findMaxdepthOptionWorks=
+if test -z "$findMaxdepthOptionWorks"; then
+  echo "check-cmake.sh: Unsupported system. The 'find' command doesn't have" >&2
+  echo "                the '-maxdepth' option. Please use another system." >&2
+fi
+
+if test -z "${findMaxdepthOptionWorks}"; then
+  exit 1
+fi
+
+################################################################################
+# Check for available tools.
+################################################################################
+
+codespell=$(which codespell 2>/dev/null)
+normalizator=$(which normalizator 2>/dev/null)
 cmakelint=$(which cmakelint 2>/dev/null)
 cmakelang_cmakelint=$(which cmake-lint 2>/dev/null)
 cmakelang_cmakeformat=$(which cmake-format 2>/dev/null)
-codespell=$(which codespell 2>/dev/null)
-normalizator=$(which normalizator 2>/dev/null)
-
-# Check if cmakelint is installed.
-if test "x$enableCMakeLint" = "x1" && test -z "$cmakelint"; then
-  echo "check-cmake.sh: The 'cmakelint' tool not found." >&2
-  echo "                Please install cmakelint:" >&2
-  echo "                https://github.com/cmake-lint/cmake-lint" >&2
-  echo "" >&2
-fi
-
-# Check if cmakelang tools are installed.
-if test "x$enableCMakeLang" = "x1" \
-  && (test -z "$cmakelang_cmakelint" \
-  || test -z "$cmakelang_cmakeformat")
-then
-  echo "check-cmake.sh: The 'cmakelang' tools not found." >&2
-  echo "                Please install cmakelang:" >&2
-  echo "                https://cmake-format.readthedocs.io" >&2
-fi
 
 # Check if codespell is installed.
 if test -z "${codespell}"; then
@@ -83,21 +79,28 @@ if test -z "${codespell}"; then
   echo "                https://github.com/codespell-project/codespell" >&2
 fi
 
-# Check if find -maxdepth option works (for example, Solaris doesn't have it).
-findMaxdepthOptionWorks=$(find ./cmake/cmake -maxdepth 1 -name "*.cmake" 2>/dev/null)
-test "x$?" != "x0" && findMaxdepthOptionWorks=
-if test -z "$findMaxdepthOptionWorks"; then
-  echo "check-cmake.sh: Unsupported system. The 'find' command doesn't have" >&2
-  echo "                the '-maxdepth' option. Please use another system." >&2
+# Check if normalizator is installed.
+if test -z "${normalizator}"; then
+  echo "" >&2
+  echo "check-cmake.sh: The 'normalizator' tool not found." >&2
+  echo "                Please install normalizator:" >&2
+  echo "                https://github.com/petk/normalizator" >&2
 fi
 
-if (test "x$enableCMakeLint" = "x1" && test -z "${cmakelint}") \
-  || (test "x$enableCMakeLang" = "x1" && \
-     (test -z "${cmakelang_cmakelint}" || test -z "${cmakelang_cmakeformat}")) \
-  || test -z "${codespell}" \
-  || test -z "${findMaxdepthOptionWorks}"
-then
-  exit 1
+# Check if cmakelint is installed.
+if test -z "$cmakelint"; then
+  echo "" >&2
+  echo "check-cmake.sh: The 'cmakelint' tool not found." >&2
+  echo "                Please install cmakelint:" >&2
+  echo "                https://github.com/cmake-lint/cmake-lint" >&2
+fi
+
+# Check if cmakelang tools are installed.
+if test -z "$cmakelang_cmakelint" || test -z "$cmakelang_cmakeformat"; then
+  echo "" >&2
+  echo "check-cmake.sh: The cmake language tools not found." >&2
+  echo "                Please install cmakelang:" >&2
+  echo "                https://cmake-format.readthedocs.io" >&2
 fi
 
 # Go to project root.
@@ -107,9 +110,13 @@ cd $(CDPATH= cd -- "$(dirname -- "$0")/.." && pwd -P)
 # Check for unused CMake module files.
 ################################################################################
 
+echo
 echo "Checking for unused CMake module files"
 
-modules=$(find ./cmake/cmake/modules -maxdepth 2 -name "*.cmake" ! -name "Find*.cmake")
+modules=$(find ./cmake/cmake/modules \
+  -maxdepth 2 \
+  -name "*.cmake" ! -name "Find*.cmake"
+)
 modules="${modules} "$(find ./cmake/cmake -maxdepth 1 -name "*.cmake")
 
 for module in $modules; do
@@ -162,7 +169,10 @@ test "x$exitCode" = "x0" && echo "OK"
 
 echo
 echo "Checking CMake includes"
-./bin/check-cmake/cmake-includes.sh cmake
+if test -n "$debug"; then
+  cmakeIncludesOptions=--debug
+fi
+./bin/check-cmake/cmake-includes.sh $cmakeIncludesOptions cmake
 status=$?
 test "x$status" != "x0" && exitCode=$status || echo "OK"
 
@@ -170,20 +180,34 @@ test "x$status" != "x0" && exitCode=$status || echo "OK"
 # Run codespell.
 ################################################################################
 
-echo
-echo "Running codespell"
-$codespell \
-  --config bin/check-cmake/.codespellrc \
-  .github \
-  bin \
-  cmake \
-  docs \
-  .editorconfig \
-  .gitignore \
-  README.md
+if test -n "$codespell"; then
+  echo
+  echo "Running codespell"
+  $codespell \
+    --config bin/check-cmake/.codespellrc \
+    .github \
+    bin \
+    cmake \
+    docs \
+    .editorconfig \
+    .gitignore \
+    README.md
 
-status=$?
-test "x$status" != "x0" && exitCode=$status || echo "OK"
+  status=$?
+  test "x$status" != "x0" && exitCode=$status || echo "OK"
+fi
+
+################################################################################
+# Run normalizator.
+################################################################################
+
+if test -n "$normalizator"; then
+  echo
+  echo "Running normalizator"
+  $normalizator check --not php-src --not .git .
+  status=$?
+  test "x$status" != "x0" && exitCode=$status
+fi
 
 ################################################################################
 # Run cmakelint, cmake-lint, and cmake-format tools.
@@ -193,7 +217,7 @@ test "x$status" != "x0" && exitCode=$status || echo "OK"
 files=$(find ./cmake ./bin -type f -name "*.cmake" -o -name "CMakeLists.txt")
 
 # Run cmakelint. Some options are disabled and cmake-format checks them instead.
-if test "x$enableCMakeLint" != "x0"; then
+if test -n "$cmakelint"; then
   echo
   echo "Running cmakelint"
   $cmakelint \
@@ -203,9 +227,8 @@ if test "x$enableCMakeLint" != "x0"; then
   test "x$status" != "x0" && exitCode=$status
 fi
 
-# Run cmake-lint and cmake-format from the cmakelang project.
-if test "x$enableCMakeLang" != "x0"; then
-  # cmake-lint
+# Run cmakelang's cmake-lint.
+if test -n "$cmakelang_cmakelint"; then
   echo
   echo "Running cmake-lint (cmakelang)"
   $cmakelang_cmakelint \
@@ -214,8 +237,10 @@ if test "x$enableCMakeLang" != "x0"; then
     -- $files
   status=$?
   test "x$status" != "x0" && exitCode=$status
+fi
 
-  # cmake-format.
+# Run cmakelang's cmake-format.
+if test -n "$cmakelang_cmakeformat"; then
   echo
   echo "Running cmake-format (cmakelang)"
   $cmakelang_cmakeformat \
@@ -227,20 +252,7 @@ if test "x$enableCMakeLang" != "x0"; then
 fi
 
 ################################################################################
-# Run normalizator.phar.
+# Exit step.
 ################################################################################
-
-if test -n "$normalizator"; then
-  echo
-  echo "Running normalizator.phar"
-  paths=$(find . -maxdepth 1 -name "*" \
-    -not -path "./php-src" \
-    -a -not -path "." \
-    -a -not -path "./.git"
-  )
-  $normalizator check $paths
-  status=$?
-  test "x$status" != "x0" && exitCode=$status
-fi
 
 exit $exitCode
