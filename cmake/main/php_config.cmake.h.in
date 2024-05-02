@@ -672,9 +672,6 @@
 /* Define to 1 if you have the 'getgroups' function. */
 #cmakedefine HAVE_GETGROUPS 1
 
-/* */
-#cmakedefine HAVE_GETHOSTBYADDR 1
-
 /* Define to 1 if you have some form of gethostbyname_r(). */
 #cmakedefine HAVE_GETHOSTBYNAME_R 1
 
