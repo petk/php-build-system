@@ -26,8 +26,6 @@ jobs:
 
       - name: Install checking tools
         run: |
-          pipx install cmakelint
-          pipx install cmakelang
           pipx install codespell
           curl -OL https://github.com/petk/normalizator/releases/latest/download/normalizator.phar
           chmod +x normalizator.phar
