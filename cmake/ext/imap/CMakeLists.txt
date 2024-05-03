@@ -1,7 +1,4 @@
-include(CheckSourceCompiles)
-include(CheckSymbolExists)
 include(CMakeDependentOption)
-include(CMakePushCheckState)
 include(FeatureSummary)
 
 option(EXT_IMAP "Enable the imap extension" OFF)
