@@ -64,16 +64,20 @@ endif()
 
 # Check for support for implicit fallthrough level 1, also add after previous
 # CFLAGS as level 3 is enabled in -Wextra.
-check_compiler_flag(C -Wimplicit-fallthrough=1 HAVE_WIMPLICIT_FALLTHROUGH_C)
-if(HAVE_WIMPLICIT_FALLTHROUGH_C)
+check_compiler_flag(C -Wimplicit-fallthrough=1 HAVE_WIMPLICIT_FALLTHROUGH_1_C)
+if(HAVE_WIMPLICIT_FALLTHROUGH_1_C)
   target_compile_options(
     php_configuration
     INTERFACE
       $<$<COMPILE_LANGUAGE:ASM,C>:-Wimplicit-fallthrough=1>
   )
 endif()
-check_compiler_flag(CXX -Wimplicit-fallthrough=1 HAVE_WIMPLICIT_FALLTHROUGH_CXX)
-if(HAVE_WIMPLICIT_FALLTHROUGH_CXX)
+check_compiler_flag(
+  CXX
+  -Wimplicit-fallthrough=1
+  HAVE_WIMPLICIT_FALLTHROUGH_1_CXX
+)
+if(HAVE_WIMPLICIT_FALLTHROUGH_1_CXX)
   target_compile_options(
     php_configuration
     INTERFACE
