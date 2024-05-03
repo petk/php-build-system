@@ -5,7 +5,7 @@
       "name": "all-disabled",
       "displayName": "All extensions disabled",
       "description": "PHP configuration with all PHP extensions and SAPIs disabled, only with CLI SAPI",
-      "binaryDir": "${sourceDir}",
+      "binaryDir": "${sourceDir}/php-build/all-disabled",
       "installDir": "/tmp",
       "cacheVariables": {
         "EXT_CTYPE": false,
@@ -30,19 +30,38 @@
         "SAPI_CGI": false,
         "SAPI_PHPDBG": false
       }
+    },
+    {
+      "name": "all-disabled-ts",
+      "inherits": "all-disabled",
+      "displayName": "Thread safety (ZTS) with all extensions disabled",
+      "description": "PHP thread safe (ZTS) build with all PHP extensions and SAPIs disabled, only with CLI SAPI",
+      "binaryDir": "${sourceDir}/php-build/all-disabled-ts",
+      "cacheVariables": {
+        "PHP_THREAD_SAFETY": true
+      }
+    },
+    {
+      "name": "all-disabled-ninja",
+      "inherits": "all-disabled",
+      "displayName": "Ninja generator with all extensions disabled",
+      "description": "PHP build using Ninja generator with all PHP extensions and SAPIs disabled, only with CLI SAPI",
+      "binaryDir": "${sourceDir}/php-build/all-disabled-ninja",
+      "generator": "Ninja"
     }
   ],
   "buildPresets": [
     {
       "name": "all-disabled",
       "configurePreset": "all-disabled"
-    }
-  ],
-  "testPresets": [
+    },
     {
-      "name": "all-disabled",
-      "configurePreset": "all-disabled",
-      "output": {"verbosity": "verbose"}
+      "name": "all-disabled-ts",
+      "configurePreset": "all-disabled-ts"
+    },
+    {
+      "name": "all-disabled-ninja",
+      "configurePreset": "all-disabled-ninja"
     }
   ]
 }

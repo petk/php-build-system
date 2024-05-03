@@ -148,4 +148,4 @@ jobs:
       - name: Run tests
         run: |
           cd php-${{ matrix.php }}
-          ./sapi/cli/php run-tests.php -j$(/usr/bin/nproc)
+          ctest --preset all-enabled

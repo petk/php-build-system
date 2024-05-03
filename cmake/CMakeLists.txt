@@ -35,9 +35,6 @@ if(CMAKE_VERSION VERSION_GREATER_EQUAL 3.29)
   endif()
 endif()
 
-# Setup Ccache.
-include(PHP/Ccache)
-
 # Create a project wide INTERFACE library with project configuration.
 add_library(php_configuration INTERFACE)
 add_library(PHP::configuration ALIAS php_configuration)
@@ -166,6 +163,7 @@ if(TARGET php_cli)
             ${options}
             ${parallel}
             -q
+      WORKING_DIRECTORY ${PHP_SOURCE_DIR}
     )
   endblock()
 endif()

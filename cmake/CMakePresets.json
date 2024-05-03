@@ -9,14 +9,25 @@
       "name": "default",
       "displayName": "Default PHP configuration",
       "description": "Configuration with the most commonly used PHP extensions enabled",
-      "binaryDir": "${sourceDir}",
+      "binaryDir": "${sourceDir}/php-build/default",
       "installDir": "/tmp"
     },
     {
-      "name": "ninja",
+      "name": "default-ts",
+      "inherits": "default",
+      "displayName": "Default PHP configuration with thread safety (ZTS)",
+      "description": "Configuration with the most commonly used PHP extensions enabled and thread safety enabled (ZTS)",
+      "binaryDir": "${sourceDir}/php-build/default-ts",
+      "cacheVariables": {
+        "PHP_THREAD_SAFETY": true
+      }
+    },
+    {
+      "name": "default-ninja",
       "inherits": "default",
       "displayName": "Ninja generator with default PHP configuration",
       "description": "Ninja generator with default PHP configuration",
+      "binaryDir": "${sourceDir}/php-build/default-ninja",
       "generator": "Ninja"
     }
   ],
@@ -26,20 +37,75 @@
       "configurePreset": "default"
     },
     {
-      "name": "ninja",
-      "configurePreset": "ninja"
+      "name": "default-ts",
+      "configurePreset": "default-ts"
+    },
+    {
+      "name": "default-ninja",
+      "configurePreset": "default-ninja"
     }
   ],
   "testPresets": [
     {
       "name": "default",
       "configurePreset": "default",
-      "output": {"verbosity": "verbose"}
+      "environment": {
+        "SKIP_IO_CAPTURE_TESTS": "1"
+      },
+      "output": {
+        "shortProgress": true,
+        "verbosity": "verbose"
+      }
     },
     {
-      "name": "ninja",
-      "configurePreset": "ninja",
-      "output": {"verbosity": "verbose"}
+      "name": "default-ts",
+      "configurePreset": "default-ts",
+      "inherits": "default"
+    },
+    {
+      "name": "default-ninja",
+      "configurePreset": "default-ninja",
+      "inherits": "default"
+    },
+    {
+      "name": "all-disabled",
+      "configurePreset": "all-disabled",
+      "inherits": "default"
+    },
+    {
+      "name": "all-disabled-ts",
+      "configurePreset": "all-disabled-ts",
+      "inherits": "default"
+    },
+    {
+      "name": "all-disabled-ninja",
+      "configurePreset": "all-disabled-ninja",
+      "inherits": "default"
+    },
+    {
+      "name": "all-enabled",
+      "configurePreset": "all-enabled",
+      "inherits": "default"
+    },
+    {
+      "name": "all-enabled-shared",
+      "configurePreset": "all-enabled-shared",
+      "inherits": "default"
+    },
+    {
+      "name": "all-enabled-ts",
+      "configurePreset": "all-enabled-ts",
+      "inherits": "default"
+    },
+    {
+      "name": "all-enabled-2",
+      "configurePreset": "all-enabled-2",
+      "inherits": "default"
+    },
+    {
+      "name": "all-enabled-ninja",
+      "configurePreset": "all-enabled-ninja",
+      "inherits": "default"
     }
   ]
 }

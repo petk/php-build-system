@@ -5,7 +5,7 @@
       "name": "all-enabled",
       "displayName": "All extensions enabled",
       "description": "PHP configuration with all PHP extensions and SAPIs enabled",
-      "binaryDir": "${sourceDir}",
+      "binaryDir": "${sourceDir}/php-build/all-enabled",
       "installDir": "/tmp",
       "cacheVariables": {
         "PHP_PEAR": true,
@@ -77,10 +77,31 @@
       }
     },
     {
+      "name": "all-enabled-shared",
+      "inherits": "all-enabled",
+      "displayName": "All extensions enabled and build as shared",
+      "description": "PHP configuration with all PHP extensions shared and SAPIs enabled",
+      "binaryDir": "${sourceDir}/php-build/all-enabled-shared",
+      "cacheVariables": {
+        "BUILD_SHARED_LIBS": true
+      }
+    },
+    {
+      "name": "all-enabled-ts",
+      "inherits": "all-enabled",
+      "displayName": "All extensions enabled with thread safety (ZTS)",
+      "description": "PHP thread safe (ZTS) configuration with all PHP extensions and SAPIs enabled",
+      "binaryDir": "${sourceDir}/php-build/all-enabled-ts",
+      "cacheVariables": {
+        "PHP_THREAD_SAFETY": true
+      }
+    },
+    {
       "name": "all-enabled-2",
       "inherits": "all-enabled",
       "displayName": "All extensions enabled with different configuration",
       "description": "PHP configuration with all PHP extensions and SAPIs enabled and different configuration options",
+      "binaryDir": "${sourceDir}/php-build/all-enabled-2",
       "cacheVariables": {
         "PHP_DMALLOC": true,
         "PHP_DTRACE": true,
@@ -94,10 +115,11 @@
       }
     },
     {
-      "name": "ninja-full",
+      "name": "all-enabled-ninja",
       "inherits": "all-enabled",
       "displayName": "Ninja generator with all extensions enabled",
       "description": "PHP build using Ninja generator with all PHP extensions and SAPIs enabled",
+      "binaryDir": "${sourceDir}/php-build/all-enabled-ninja",
       "generator": "Ninja"
     }
   ],
@@ -107,29 +129,20 @@
       "configurePreset": "all-enabled"
     },
     {
+      "name": "all-enabled-shared",
+      "configurePreset": "all-enabled-shared"
+    },
+    {
+      "name": "all-enabled-ts",
+      "configurePreset": "all-enabled-ts"
+    },
+    {
       "name": "all-enabled-2",
       "configurePreset": "all-enabled-2"
     },
     {
-      "name": "ninja-full",
-      "configurePreset": "ninja-full"
-    }
-  ],
-  "testPresets": [
-    {
-      "name": "all-enabled",
-      "configurePreset": "all-enabled",
-      "output": {"verbosity": "verbose"}
-    },
-    {
-      "name": "all-enabled-2",
-      "configurePreset": "all-enabled-2",
-      "output": {"verbosity": "verbose"}
-    },
-    {
-      "name": "ninja-full",
-      "configurePreset": "ninja-full",
-      "output": {"verbosity": "verbose"}
+      "name": "all-enabled-ninja",
+      "configurePreset": "all-enabled-ninja"
     }
   ]
 }
