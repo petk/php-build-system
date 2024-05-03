@@ -8,7 +8,7 @@ else()
   return()
 endif()
 
-add_library(php_embed)
+add_library(php_embed STATIC)
 add_library(PHP::embed ALIAS php_embed)
 
 target_sources(

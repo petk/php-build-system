@@ -525,6 +525,10 @@ include(PHP/CheckGethostbynameR)
 # Check for major, minor, and makedev.
 include(PHP/CheckSysMacros)
 
+if(PHP_CCACHE)
+  find_package(Ccache)
+endif()
+
 # Check GCOV.
 if(PHP_GCOV)
   if(NOT CMAKE_C_COMPILER_ID STREQUAL "GNU")
@@ -536,7 +540,8 @@ if(PHP_GCOV)
     message(
       WARNING
       "ccache should be disabled when PHP_GCOV='ON' option is used. You can "
-      "disable ccache by setting environment variable CCACHE_DISABLE=1."
+      "disable ccache by setting option PHP_CCACHE='OFF' or environment "
+      "variable CCACHE_DISABLE=1."
     )
   endif()
 

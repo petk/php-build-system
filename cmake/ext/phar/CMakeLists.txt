@@ -94,7 +94,7 @@ block()
     OUTPUT CMakeFiles/GeneratePhar.cmake
     CONTENT [[
       # Generate phar.php.
-      if(EXT_PHAR_SHARED)
+      if(EXT_PHAR_SHARED OR BUILD_SHARED_LIBS)
         set(
           phar_shared_options
             -d extension_dir=${PHP_BINARY_DIR}/modules
@@ -174,6 +174,7 @@ block()
     COMMAND
       ${CMAKE_COMMAND}
       -D EXT_PHAR_SHARED=${EXT_PHAR_SHARED}
+      -D BUILD_SHARED_LIBS=${BUILD_SHARED_LIBS}
       -D PHP_BINARY_DIR=${PHP_BINARY_DIR}
       -D php_cli_filename=${php_cli_filename}
       -D CURRENT_SOURCE_DIR=${CMAKE_CURRENT_SOURCE_DIR}
