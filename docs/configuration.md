@@ -75,8 +75,8 @@ cmake --list-presets
 # Configure project; replace "default" with the name of the "configurePresets"
 cmake --preset default
 
-# Build project using the "default" build preset
-cmake --build --preset default
+# Build project using the "default" build preset in parallel (-j)
+cmake --build --preset default -j
 ```
 
 Custom local build configuration can be also stored in a Git-ignored file
@@ -90,7 +90,8 @@ used JSON scheme.
 ## 2. CMake configuration
 
 Some useful overridable configuration options built into CMake itself. All these
-`CMAKE_*` variables are also documented in the CMake documentation.
+`CMAKE_*` and `BUILD_SHARED_LIBS` variables are also documented in the CMake
+documentation.
 
 * `CMAKE_EXPORT_COMPILE_COMMANDS=OFF|ON`
 
@@ -182,6 +183,15 @@ Some useful overridable configuration options built into CMake itself. All these
   Path to the sed, which can be manually overridden to the sed on the target
   system. This is only used in generated phpize (and php-config) scripts on *nix
   systems.
+
+* `PHP_CCACHE=ON|OFF`
+
+  Default: `ON`
+
+  If ccache is installed on the system it will be used for faster compilation
+  time. If not found, it is not used. It can be explicitly turned off with this
+  option or by setting environment variable `CCACHE_DISABLE=1`. A custom path to
+  the `ccache` installation directory can be also set with the `Ccache_ROOT`.
 
 ## 4. Zend engine configuration
 

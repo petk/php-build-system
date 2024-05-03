@@ -31,7 +31,7 @@ build system:
 ## Bugs fixed
 
 * Building inside folder with spaces:
-  https://bugs.php.net/bug.php?id=49270
+  https://bugs.php.net/49270
 
 * Detecting GNU libiconv:
   https://github.com/php/php-src/issues/12213

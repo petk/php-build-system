@@ -588,13 +588,13 @@ Values for `CMAKE_HOST_SYSTEM_PROCESSOR` and `CMAKE_SYSTEM_PROCESSOR`:
 
 ### 10.1. Tools
 
-There are several tools available for formatting and linting CMake files, each
-with varying levels of maintenance and utility. While these tools can offer
-valuable assistance, it's worth emphasizing that the current recommendation is
-generally not to rely on any specific linting tool. This is primarily due to
-their varying levels of maturity and a lack of updates to keep pace with new
-CMake versions. It's worth mentioning that this recommendation may evolve in the
-future as these tools continue to develop and adapt.
+There are some tools available for formatting and linting CMake files, each with
+varying levels of maintenance and utility. While these tools can offer valuable
+assistance, it's worth emphasizing that the current recommendation is generally
+not to rely on any specific linting tool. This is primarily due to their varying
+levels of maturity and a lack of updates to keep pace with new CMake versions.
+It's worth mentioning that this recommendation may evolve in the future as these
+tools continue to develop and adapt.
 
 #### 10.1.1. cmake-format (by cmakelang project)
 
