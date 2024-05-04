@@ -465,6 +465,42 @@ endif()
 # Create files and set installation.
 ################################################################################
 
+if(PHPSystem_EXECUTABLE)
+  set(PHP_EXECUTABLE ${PHPSystem_EXECUTABLE})
+elseif(NOT CMAKE_CROSSCOMPILING)
+  set(PHP_EXECUTABLE "$<TARGET_FILE:php_cli>")
+endif()
+
+if(PHP_EXECUTABLE)
+  # Run the Zend/zend_vm_gen.php script.
+  file(
+    GENERATE
+    OUTPUT CMakeFiles/GenerateZendVm.cmake
+    CONTENT [[
+      if(EXISTS ${PHP_EXECUTABLE})
+        execute_process(
+          COMMAND ${PHP_EXECUTABLE} ${CURRENT_SOURCE_DIR}/zend_vm_gen.php
+        )
+      endif()
+    ]]
+  )
+
+  add_custom_command(
+    OUTPUT zend_vm
+    COMMAND ${CMAKE_COMMAND}
+            -D PHP_EXECUTABLE=${PHP_EXECUTABLE}
+            -D CURRENT_SOURCE_DIR=${CMAKE_CURRENT_SOURCE_DIR}
+            -P CMakeFiles/GenerateZendVm.cmake
+    DEPENDS ${CMAKE_CURRENT_SOURCE_DIR}/zend_vm_execute.skl
+    COMMENT "[Zend] Regenerating zend_vm_execute.h and zend_vm_opcodes.{h,c}"
+    VERBATIM
+  )
+
+  add_custom_target(zend_generate_vm ALL DEPENDS zend_vm)
+
+  set_property(SOURCE zend_vm PROPERTY SYMBOLIC TRUE)
+endif()
+
 if(NOT CMAKE_SYSTEM_NAME STREQUAL "Windows")
   message(STATUS "Creating Zend/zend_config.h")
 

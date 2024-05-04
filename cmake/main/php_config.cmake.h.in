@@ -675,7 +675,7 @@
 /* Define to 1 if you have some form of gethostbyname_r(). */
 #cmakedefine HAVE_GETHOSTBYNAME_R 1
 
-/* */
+/* Define to 1 if you have the 'gethostname' function. */
 #cmakedefine HAVE_GETHOSTNAME 1
 
 /* whether getifaddrs is present and usable */

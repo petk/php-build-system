@@ -34,30 +34,41 @@ target_sources(
     tokenizer.c
 )
 
-# Run the ext/tokenizer/tokenizer_data_gen.php script after PHP cli SAPI has
-# been built depending on the state of Zend/zend_language_parser.y.
-file(
-  GENERATE
-  OUTPUT CMakeFiles/GenerateTokenizerData.cmake
-  CONTENT [[
-    if(EXISTS ${PHP_EXECUTABLE})
-      execute_process(
-        COMMAND ${PHP_EXECUTABLE} ${CURRENT_SOURCE_DIR}/tokenizer_data_gen.php
-      )
-    endif()
-  ]]
-)
-
-add_custom_command(
-  OUTPUT ${CMAKE_CURRENT_SOURCE_DIR}/tokenizer_data.c
-  COMMAND ${CMAKE_COMMAND}
-          -D PHP_EXECUTABLE=${PHP_BINARY_DIR}/sapi/cli/php
-          -D CURRENT_SOURCE_DIR=${CMAKE_CURRENT_SOURCE_DIR}
-          -P CMakeFiles/GenerateTokenizerData.cmake
-  DEPENDS ${PHP_SOURCE_DIR}/Zend/zend_language_parser.y
-  COMMENT "[ext/tokenizer] Regenerating ext/tokenizer/tokenizer_data.c"
-  VERBATIM
-)
-
-# The tokenizer depends on Zend language scanner definitions header.
+# The tokenizer sources depend on Zend language scanner definitions header.
 add_dependencies(php_tokenizer Zend::Zend)
+
+if(PHPSystem_EXECUTABLE)
+  set(PHP_EXECUTABLE ${PHPSystem_EXECUTABLE})
+elseif(NOT CMAKE_CROSSCOMPILING)
+  set(PHP_EXECUTABLE "$<TARGET_FILE:php_cli>")
+endif()
+
+if(PHP_EXECUTABLE)
+  # Run the ext/tokenizer/tokenizer_data_gen.php script.
+  file(
+    GENERATE
+    OUTPUT CMakeFiles/GenerateTokenizerData.cmake
+    CONTENT [[
+      if(EXISTS ${PHP_EXECUTABLE})
+        execute_process(
+          COMMAND ${PHP_EXECUTABLE} ${CURRENT_SOURCE_DIR}/tokenizer_data_gen.php
+        )
+      endif()
+    ]]
+  )
+
+  add_custom_command(
+    OUTPUT php_tokenizer_data
+    COMMAND ${CMAKE_COMMAND}
+            -D PHP_EXECUTABLE=${PHP_EXECUTABLE}
+            -D CURRENT_SOURCE_DIR=${CMAKE_CURRENT_SOURCE_DIR}
+            -P CMakeFiles/GenerateTokenizerData.cmake
+    DEPENDS ${PHP_SOURCE_DIR}/Zend/zend_language_parser.y
+    COMMENT "[ext/tokenizer] Regenerating ext/tokenizer/tokenizer_data.c"
+    VERBATIM
+  )
+
+  add_custom_target(php_tokenizer_generate_data ALL DEPENDS php_tokenizer_data)
+
+  set_property(SOURCE php_tokenizer_data PROPERTY SYMBOLIC TRUE)
+endif()

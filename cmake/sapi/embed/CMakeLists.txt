@@ -34,13 +34,21 @@ set_target_properties(
 )
 
 # Configure pkgconf php-embed.pc metadata file.
-block()
-  set(prefix "${CMAKE_INSTALL_PREFIX}")
-  set(exec_prefix "${CMAKE_INSTALL_PREFIX}")
-  set(includedir "${CMAKE_INSTALL_FULL_INCLUDEDIR}")
-  set(libdir "${CMAKE_INSTALL_FULL_LIBDIR}")
-  configure_file(php-embed.pc.in php-embed.pc @ONLY)
-endblock()
+include(PHP/PkgConfigGenerator)
+pkgconfig_generate_pc(
+  php-embed.pc.in
+  php-embed.pc
+  TARGET php_embed
+  VARIABLES
+    prefix "${CMAKE_INSTALL_PREFIX}"
+    exec_prefix "${CMAKE_INSTALL_PREFIX}"
+    includedir "${CMAKE_INSTALL_FULL_INCLUDEDIR}"
+    libdir "${CMAKE_INSTALL_FULL_LIBDIR}"
+    PHP_VERSION "${PHP_VERSION}"
+    PHP_EXTENSION_DIR "${PHP_EXTENSION_DIR}"
+    PHP_CONFIG_FILE_SCAN_DIR "${PHP_CONFIG_FILE_SCAN_DIR}"
+    PHP_CONFIG_FILE_PATH "${PHP_CONFIG_FILE_PATH}"
+)
 
 install(
   TARGETS php_embed
