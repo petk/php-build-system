@@ -88,6 +88,7 @@ modules="
   ProcessorCount
 
   PHP/SearchLibraries
+  PHP/PkgConfigGenerator
 "
 
 # Commands contained in CMake modules.
@@ -146,6 +147,7 @@ FindPackageMessage="find_package_message"
 ProcessorCount="processorcount"
 
 PHP_SearchLibraries="php_search_libraries"
+PHP_PkgConfigGenerator="pkgconfig_generate_pc"
 
 if test -n "$directories"; then
   filesFound=$(find $directories -type f \

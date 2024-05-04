@@ -28,6 +28,6 @@ URL: https://www.php.net
 License: PHP
 Version: @PHP_VERSION@
 Cflags.private: @PHP_CFLAGS_PRIVATE@
-Cflags: -I${includedir} -I${includedir}/main -I${includedir}/TSRM -I${includedir}/Zend -I${includedir}/ext -I${includedir}/ext/date/lib
+Cflags: -I${includedir} -I${includedir}/main -I${includedir}/TSRM -I${includedir}/Zend -I${includedir}/ext
 Libs.private: @PHP_LIBS_PRIVATE@
 Libs:

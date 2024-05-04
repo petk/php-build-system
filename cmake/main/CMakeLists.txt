@@ -238,6 +238,7 @@ function(_php_main_create_files)
   set(CONFIGURE_COMMAND "cmake")
   # Set the 'include_path' INI directive.
   set(INCLUDE_PATH ".:${EXPANDED_PEAR_INSTALLDIR}")
+  # TODO: Fix the installation prefix when passed via --prefix option.
   set(EXPANDED_EXTENSION_DIR "${PHP_EXTENSION_DIR}")
   set(EXPANDED_PHP_CONFIG_FILE_PATH "${PHP_CONFIG_FILE_PATH}")
   set(EXPANDED_PHP_CONFIG_FILE_SCAN_DIR "${PHP_CONFIG_FILE_SCAN_DIR}")

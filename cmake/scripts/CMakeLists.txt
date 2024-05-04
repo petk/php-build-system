@@ -52,11 +52,21 @@ endblock()
 
 # Configure pkgconf php.pc metadata file.
 block()
-  set(prefix "${CMAKE_INSTALL_PREFIX}")
-  set(exec_prefix "${CMAKE_INSTALL_PREFIX}")
-  set(includedir "${CMAKE_INSTALL_FULL_INCLUDEDIR}")
-  set(libdir "${CMAKE_INSTALL_FULL_LIBDIR}")
-  configure_file(php.pc.in php.pc @ONLY)
+  include(PHP/PkgConfigGenerator)
+  pkgconfig_generate_pc(
+    php.pc.in
+    php.pc
+    TARGET php_cli
+    VARIABLES
+      prefix "${CMAKE_INSTALL_PREFIX}"
+      exec_prefix "${CMAKE_INSTALL_PREFIX}"
+      includedir "${CMAKE_INSTALL_FULL_INCLUDEDIR}"
+      libdir "${CMAKE_INSTALL_FULL_LIBDIR}"
+      PHP_VERSION "${PHP_VERSION}"
+      PHP_EXTENSION_DIR "${PHP_EXTENSION_DIR}"
+      PHP_CONFIG_FILE_SCAN_DIR "${PHP_CONFIG_FILE_SCAN_DIR}"
+      PHP_CONFIG_FILE_PATH "${PHP_CONFIG_FILE_PATH}"
+  )
 endblock()
 
 install(

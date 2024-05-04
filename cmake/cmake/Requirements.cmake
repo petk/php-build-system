@@ -162,3 +162,11 @@ if(PHP_VALGRIND)
 
   target_link_libraries(php_configuration INTERFACE Valgrind::Valgrind)
 endif()
+
+################################################################################
+# Find PHP installed on the system for generating stub files (*_arginfo.h),
+# Zend/zend_vm_gen.php, ext/tokenizer_data_gen.php and similar where it can be
+# used. Otherwise the built cli sapi is used at the build phase. Minimum
+# supported version for gen_stub.php is PHP 7.4.
+################################################################################
+find_package(PHPSystem 7.4)
