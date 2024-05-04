@@ -44,7 +44,6 @@ target_sources(
     libbcmath/src/neg.c
     libbcmath/src/num2long.c
     libbcmath/src/num2str.c
-    libbcmath/src/output.c
     libbcmath/src/raise.c
     libbcmath/src/raisemod.c
     libbcmath/src/recmul.c
