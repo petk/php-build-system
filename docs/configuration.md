@@ -100,6 +100,19 @@ documentation.
   Create compilation database file `compile_commands.json` during generation.
   Various other development tools can then use it. For example, `clang-check`.
 
+* `CMAKE_INTERPROCEDURAL_OPTIMIZATION=ON|OFF`
+
+  Default: `ON`
+
+  Run link-time optimizer on all targets if interprocedural optimization (IPO)
+  is supported by the compiler and PHP code.
+
+  * `CMAKE_INTERPROCEDURAL_OPTIMIZATION_<CONFIG>=ON|OFF`
+
+    Enable or disable IPO based on the build type (`CMAKE_BUILD_TYPE`). For
+    example, to disable IPO for the `Debug` build type set
+    `CMAKE_INTERPROCEDURALOPTIMIZATION_DEBUG=OFF`.
+
 * `CMAKE_LINKER_TYPE` (CMake 3.29+)
 
   Default empty
