@@ -25,15 +25,8 @@ project(
 set(CMAKE_C_STANDARD 99)
 set(CMAKE_C_STANDARD_REQUIRED TRUE)
 
-# Output linker information.
-if(CMAKE_VERSION VERSION_GREATER_EQUAL 3.29)
-  if(CMAKE_C_COMPILER_LINKER)
-    message(STATUS "C linker: ${CMAKE_C_COMPILER_LINKER}")
-  endif()
-  if(CMAKE_CXX_COMPILER_LINKER)
-    message(STATUS "CXX linker: ${CMAKE_CXX_COMPILER_LINKER}")
-  endif()
-endif()
+# Configure project.
+include(cmake/Bootstrap.cmake)
 
 # Create a project wide INTERFACE library with project configuration.
 add_library(php_configuration INTERFACE)
