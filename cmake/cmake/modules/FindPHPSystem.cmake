@@ -25,7 +25,7 @@ set_package_properties(
   PHPSystem
   PROPERTIES
     URL "https://www.php.net"
-    DESCRIPTION "PHP, hypertext preprocessor"
+    DESCRIPTION "PHP: Hypertext Preprocessor"
 )
 
 set(_reason "")

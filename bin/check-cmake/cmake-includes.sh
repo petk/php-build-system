@@ -68,6 +68,7 @@ modules="
   CheckIncludeFile
   CheckIncludeFileCXX
   CheckIncludeFiles
+  CheckIPOSupported
   CheckLanguage
   CheckLibraryExists
   CheckLinkerFlag
@@ -87,8 +88,8 @@ modules="
   FindPackageMessage
   ProcessorCount
 
-  PHP/SearchLibraries
   PHP/PkgConfigGenerator
+  PHP/SearchLibraries
 "
 
 # Commands contained in CMake modules.
@@ -104,6 +105,7 @@ CheckFunctionExists="check_function_exists"
 CheckIncludeFile="check_include_file"
 CheckIncludeFileCXX="check_include_file_cxx"
 CheckIncludeFiles="check_include_files"
+CheckIPOSupported="check_ipo_supported"
 CheckLanguage="check_language"
 CheckLibraryExists="check_library_exists"
 CheckLinkerFlag="check_linker_flag"
@@ -146,8 +148,8 @@ FindPackageHandleStandardArgs="
 FindPackageMessage="find_package_message"
 ProcessorCount="processorcount"
 
-PHP_SearchLibraries="php_search_libraries"
 PHP_PkgConfigGenerator="pkgconfig_generate_pc"
+PHP_SearchLibraries="php_search_libraries"
 
 if test -n "$directories"; then
   filesFound=$(find $directories -type f \
