@@ -6,7 +6,7 @@ option(EXT_MYSQLI "Enable the mysqli extension" OFF)
 add_feature_info(
   "ext/mysqli"
   EXT_MYSQLI
-  "MySQL-compatible database support."
+  "MySQL-compatible database support"
 )
 
 cmake_dependent_option(

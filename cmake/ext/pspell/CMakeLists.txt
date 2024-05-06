@@ -7,7 +7,7 @@ option(EXT_PSPELL "Enable the pspell extension" OFF)
 add_feature_info(
   "ext/pspell"
   EXT_PSPELL
-  "Spellchecking support."
+  "Spellchecking support"
 )
 
 cmake_dependent_option(

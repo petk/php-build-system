@@ -24,7 +24,7 @@ cmake_dependent_option(
 add_feature_info(
   "sapi/cli without console"
   SAPI_CLI_WIN_NO_CONSOLE
-  "[Windows only] Same as CLI SAPI but without console (no output is given)."
+  "[Windows only] Same as CLI SAPI but without console (no output is given)"
 )
 
 check_symbol_exists(setproctitle "unistd.h;stdlib.h" HAVE_SETPROCTITLE)

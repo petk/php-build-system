@@ -8,7 +8,7 @@ option(EXT_MBSTRING "Enable the mbstring extension" OFF)
 add_feature_info(
   "ext/mbstring"
   EXT_MBSTRING
-  "Multibyte string support."
+  "Multibyte string support"
 )
 
 cmake_dependent_option(
@@ -30,7 +30,7 @@ cmake_dependent_option(
 add_feature_info(
   "ext/mbstring with multibyte regex"
   EXT_MBSTRING_MBREGEX
-  "Multibyte regex support (requires Oniguruma)."
+  "Multibyte regex support using Oniguruma library"
 )
 
 if(NOT EXT_MBSTRING)

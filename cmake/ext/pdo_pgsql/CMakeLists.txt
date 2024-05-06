@@ -13,7 +13,7 @@ cmake_dependent_option(
 add_feature_info(
   "ext/pdo_pgsql"
   EXT_PDO_PGSQL
-  "PostgreSQL database support in PDO (PHP Data Objects)."
+  "PostgreSQL database support in PDO (PHP Data Objects)"
 )
 
 cmake_dependent_option(

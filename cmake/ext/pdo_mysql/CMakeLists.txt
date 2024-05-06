@@ -14,7 +14,7 @@ cmake_dependent_option(
 add_feature_info(
   "ext/pdo_mysql"
   EXT_PDO_MYSQL
-  "MySQL-compatible database support in PDO (PHP Data Objects) interface."
+  "MySQL-compatible database support in PDO (PHP Data Objects) interface"
 )
 
 cmake_dependent_option(

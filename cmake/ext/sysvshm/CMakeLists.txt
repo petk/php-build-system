@@ -6,7 +6,7 @@ option(EXT_SYSVSHM "Enable the sysvshm extension" OFF)
 add_feature_info(
   "ext/sysvshm"
   EXT_SYSVSHM
-  "System V shared memory support."
+  "System V shared memory support"
 )
 
 cmake_dependent_option(

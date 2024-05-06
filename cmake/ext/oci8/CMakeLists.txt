@@ -6,7 +6,7 @@ option(EXT_OCI8 "Enable the oci8 extension" OFF)
 add_feature_info(
   "ext/oci8"
   EXT_OCI8
-  "Oracle database support."
+  "Oracle database support"
 )
 
 cmake_dependent_option(

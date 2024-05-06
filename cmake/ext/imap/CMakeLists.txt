@@ -6,7 +6,7 @@ option(EXT_IMAP "Enable the imap extension" OFF)
 add_feature_info(
   "ext/imap"
   EXT_IMAP
-  "Support for operating with the IMAP protocol."
+  "Support for operating with the IMAP protocol"
 )
 
 cmake_dependent_option(

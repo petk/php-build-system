@@ -13,7 +13,7 @@ option(
 add_feature_info(
   "ext/pcre external library"
   EXT_PCRE_EXTERNAL
-  "Using system PCRE library instead of the bundled library."
+  "Using system PCRE library instead of the bundled library"
 )
 
 option(EXT_PCRE_JIT "Enable PCRE JIT functionality" ON)

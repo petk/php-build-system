@@ -6,7 +6,7 @@ option(EXT_PDO "Enable the pdo extension" ON)
 add_feature_info(
   "ext/pdo"
   EXT_PDO
-  "PHP Data Objects (PDO) support."
+  "PHP Data Objects (PDO) support"
 )
 
 cmake_dependent_option(

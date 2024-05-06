@@ -7,7 +7,7 @@ option(EXT_BZ2 "Enable the bz2 extension" OFF)
 add_feature_info(
   "ext/bz2"
   EXT_BZ2
-  "Support for reading and writing BZip2 (.bz2) compressed files."
+  "Support for reading and writing BZip2 (.bz2) compressed files"
 )
 
 cmake_dependent_option(

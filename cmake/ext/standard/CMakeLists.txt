@@ -11,7 +11,7 @@ option(EXT_STANDARD_ARGON2 "Include the Argon2 support in password_*" OFF)
 add_feature_info(
   "ext/standard Argon2"
   EXT_STANDARD_ARGON2
-  "Argon2 support in password_* functions."
+  "Argon2 support in password_* functions"
 )
 
 option(EXT_STANDARD_EXTERNAL_LIBCRYPT "Use external libcrypt or libxcrypt" OFF)
@@ -19,7 +19,7 @@ option(EXT_STANDARD_EXTERNAL_LIBCRYPT "Use external libcrypt or libxcrypt" OFF)
 add_feature_info(
   "External librcypt"
   EXT_STANDARD_EXTERNAL_LIBCRYPT
-  "External libcrypt or libxcrypt library."
+  "External libcrypt or libxcrypt library"
 )
 
 ################################################################################

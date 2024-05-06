@@ -8,7 +8,7 @@ option(EXT_ODBC "Enable the odbc extension" OFF)
 add_feature_info(
   "ext/odbc"
   EXT_ODBC
-  "Unified ODBC databases support (Open Database Connectivity)."
+  "Unified ODBC databases support (Open Database Connectivity)"
 )
 
 cmake_dependent_option(

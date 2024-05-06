@@ -8,7 +8,7 @@ option(EXT_OPENSSL "Enable the openssl extension" OFF)
 add_feature_info(
   "ext/openssl"
   EXT_OPENSSL
-  "OpenSSL library support for encryption and decryption."
+  "OpenSSL library support for encryption and decryption"
 )
 
 cmake_dependent_option(
@@ -31,8 +31,8 @@ mark_as_advanced(EXT_OPENSSL_KERBEROS)
 add_feature_info(
   "ext/openssl Kerberos"
   EXT_OPENSSL_KERBEROS
-  "When using OpenSSL library built with Kerberos enabled. Deprecated. \
-Kerberos support has been removed as of OpenSSL 1.1.0."
+  "Using OpenSSL library built with Kerberos enabled. Deprecated. Kerberos\
+  support has been removed as of OpenSSL 1.1.0."
 )
 
 cmake_dependent_option(

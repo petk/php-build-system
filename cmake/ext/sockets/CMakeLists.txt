@@ -11,7 +11,7 @@ option(EXT_SOCKETS "Enable the sockets extension" OFF)
 add_feature_info(
   "ext/sockets"
   EXT_SOCKETS
-  "Support for a low-level socket communication interface."
+  "Support for a low-level socket communication interface"
 )
 
 cmake_dependent_option(

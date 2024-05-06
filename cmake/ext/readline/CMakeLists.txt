@@ -9,7 +9,7 @@ option(EXT_READLINE "Enable the readline extension" OFF)
 add_feature_info(
   "ext/readline"
   EXT_READLINE
-  "Interface for using Editline library. CLI/CGI only."
+  "Interface for using Editline library. CLI/CGI only"
 )
 
 cmake_dependent_option(
@@ -31,7 +31,7 @@ cmake_dependent_option(
 add_feature_info(
   "ext/readline with GNU Readline"
   EXT_READLINE_LIBREADLINE
-  "GNU Readline library support instead of Editline."
+  "GNU Readline library support instead of Editline"
 )
 
 if(NOT EXT_READLINE)
