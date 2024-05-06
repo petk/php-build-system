@@ -7,7 +7,7 @@ option(EXT_SQLITE3 "Enable the sqlite3 extension" ON)
 add_feature_info(
   "ext/sqlite3"
   EXT_SQLITE3
-  "SQLite 3 database support."
+  "SQLite 3 database support"
 )
 
 cmake_dependent_option(

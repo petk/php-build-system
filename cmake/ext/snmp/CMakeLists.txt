@@ -7,7 +7,7 @@ option(EXT_SNMP "Enable the snmp extension" OFF)
 add_feature_info(
   "ext/snmp"
   EXT_SNMP
-  "Simple Network Management Protocol (SNMP) support."
+  "Simple Network Management Protocol (SNMP) support"
 )
 
 cmake_dependent_option(

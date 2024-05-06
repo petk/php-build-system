@@ -6,7 +6,7 @@ option(EXT_FILTER "Enable the filter extension" ON)
 add_feature_info(
   "ext/filter"
   EXT_FILTER
-  "Data filtering support."
+  "Data filtering support"
 )
 
 cmake_dependent_option(

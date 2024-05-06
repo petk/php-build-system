@@ -6,7 +6,7 @@ option(EXT_XSL "Enable the xsl extension" OFF)
 add_feature_info(
   "ext/xsl"
   EXT_XSL
-  "XSL standard support for performing XSLT transformations."
+  "XSL standard support for performing XSLT transformations"
 )
 
 cmake_dependent_option(
@@ -68,5 +68,5 @@ endif()
 add_feature_info(
   "ext/xsl with EXSLT"
   HAVE_XSL_EXSLT
-  "Adds support for XSLT extensions (EXSLT)."
+  "Adds support for XSLT extensions (EXSLT)"
 )

@@ -6,7 +6,7 @@ option(EXT_HASH_MHASH "Enable the mhash support (deprecated as of PHP 8.1)" OFF)
 add_feature_info(
   "ext/hash with mhash"
   EXT_HASH_MHASH
-  "The mhash emulation in the hash extension."
+  "The mhash emulation in the hash extension"
 )
 
 if(EXT_HASH_MHASH)

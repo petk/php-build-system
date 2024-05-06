@@ -12,7 +12,7 @@ cmake_dependent_option(
 add_feature_info(
   "ext/pdo_firebird"
   EXT_PDO_FIREBIRD
-  "Firebird database support in PDO (PHP Data Objects) interface."
+  "Firebird database support in PDO (PHP Data Objects) interface"
 )
 
 cmake_dependent_option(

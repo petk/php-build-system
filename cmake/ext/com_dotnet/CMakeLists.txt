@@ -12,7 +12,7 @@ option(EXT_COM_DOTNET "Enable the com_dotnet extension" ON)
 add_feature_info(
   "ext/com_dotnet"
   EXT_COM_DOTNET
-  "Component Object Model (COM) and .NET support."
+  "Component Object Model (COM) and .NET support"
 )
 
 cmake_dependent_option(

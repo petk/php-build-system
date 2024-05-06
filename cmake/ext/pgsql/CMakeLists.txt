@@ -7,7 +7,7 @@ option(EXT_PGSQL "Enable the pgsql extension" OFF)
 add_feature_info(
   "ext/pgsql"
   EXT_PGSQL
-  "PostgreSQL database support."
+  "PostgreSQL database support"
 )
 
 cmake_dependent_option(

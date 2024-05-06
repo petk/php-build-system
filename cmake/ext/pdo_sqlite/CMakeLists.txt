@@ -13,7 +13,7 @@ cmake_dependent_option(
 add_feature_info(
   "ext/pdo_sqlite"
   EXT_PDO_SQLITE
-  "SQLite 3 database support in PDO (PHP Data Objects) interface."
+  "SQLite 3 database support in PDO (PHP Data Objects) interface"
 )
 
 cmake_dependent_option(

@@ -6,7 +6,7 @@ option(EXT_DBA "Enable the dba extension" OFF)
 add_feature_info(
   "ext/dba"
   EXT_DBA
-  "Database (dbm-style) abstraction layer support."
+  "Database (dbm-style) abstraction layer support"
 )
 
 cmake_dependent_option(

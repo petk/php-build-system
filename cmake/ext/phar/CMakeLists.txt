@@ -6,7 +6,7 @@ option(EXT_PHAR "Enable the phar extension" ON)
 add_feature_info(
   "ext/phar"
   EXT_PHAR
-  "PHP archives (phar) support."
+  "PHP archives (phar) support"
 )
 
 cmake_dependent_option(

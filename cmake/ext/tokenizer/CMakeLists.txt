@@ -6,7 +6,7 @@ option(EXT_TOKENIZER "Enable the tokenizer extension" ON)
 add_feature_info(
   "ext/tokenizer"
   EXT_TOKENIZER
-  "Interface to the PHP tokenizer embedded in the Zend engine."
+  "Interface to the PHP tokenizer embedded in the Zend engine"
 )
 
 cmake_dependent_option(

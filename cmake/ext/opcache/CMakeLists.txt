@@ -9,7 +9,7 @@ option(EXT_OPCACHE "Enable the opcache extension" ON)
 add_feature_info(
   "ext/opcache"
   EXT_OPCACHE
-  "PHP OPcode caching engine."
+  "PHP OPcode caching engine"
 )
 
 cmake_dependent_option(
