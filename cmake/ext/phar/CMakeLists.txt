@@ -74,9 +74,9 @@ add_dependencies(php_phar php_hash php_spl)
 
 if(RE2C_FOUND)
   re2c_target(
-    NAME php_phar_path_check
-    INPUT phar_path_check.re
-    OUTPUT ${CMAKE_CURRENT_SOURCE_DIR}/phar_path_check.c
+    php_phar_path_check
+    phar_path_check.re
+    ${CMAKE_CURRENT_SOURCE_DIR}/phar_path_check.c
     OPTIONS --no-generation-date -b
   )
 

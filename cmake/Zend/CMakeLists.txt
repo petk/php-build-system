@@ -392,7 +392,7 @@ if(BISON_FOUND)
   # https://git.savannah.gnu.org/cgit/bison.git/tree/data/README.md for more.
   file(
     GENERATE
-    OUTPUT CMakeFiles/PatchZendLanguageParserFiles.cmake
+    OUTPUT CMakeFiles/PatchLanguageParser.cmake
     CONTENT [[
       file(READ "${SRC}/zend_language_parser.h" content)
       string(
@@ -415,40 +415,39 @@ if(BISON_FOUND)
     ]]
   )
   add_custom_target(
-    zend_patch_language_parser_files
+    zend_patch_language_parser
     COMMAND ${CMAKE_COMMAND}
       -D SRC=${CMAKE_CURRENT_SOURCE_DIR}
-      -P "CMakeFiles/PatchZendLanguageParserFiles.cmake"
+      -P "CMakeFiles/PatchLanguageParser.cmake"
     DEPENDS ${BISON_zend_language_parser_OUTPUTS}
     COMMENT "[Zend] Patching Zend language parser files"
   )
 
-  add_dependencies(zend zend_patch_language_parser_files)
-
-  add_dependencies(php_generate_files zend_patch_language_parser_files)
+  add_dependencies(zend zend_patch_language_parser)
+  add_dependencies(php_generate_files zend_patch_language_parser)
 endif()
 
 if(RE2C_FOUND)
   re2c_target(
-    NAME zend_language_scanner
-    INPUT zend_language_scanner.l
-    OUTPUT ${CMAKE_CURRENT_SOURCE_DIR}/zend_language_scanner.c
+    zend_language_scanner
+    zend_language_scanner.l
+    ${CMAKE_CURRENT_SOURCE_DIR}/zend_language_scanner.c
+    HEADER ${CMAKE_CURRENT_SOURCE_DIR}/zend_language_scanner_defs.h
     OPTIONS
       --no-generation-date
       --case-inverted
       -cbdF
-      -t ${CMAKE_CURRENT_SOURCE_DIR}/zend_language_scanner_defs.h
   )
 
   re2c_target(
-    NAME zend_ini_scanner
-    INPUT zend_ini_scanner.l
-    OUTPUT ${CMAKE_CURRENT_SOURCE_DIR}/zend_ini_scanner.c
+    zend_ini_scanner
+    zend_ini_scanner.l
+    ${CMAKE_CURRENT_SOURCE_DIR}/zend_ini_scanner.c
+    HEADER ${CMAKE_CURRENT_SOURCE_DIR}/zend_ini_scanner_defs.h
     OPTIONS
       --no-generation-date
       --case-inverted
       -cbdF
-      -t ${CMAKE_CURRENT_SOURCE_DIR}/zend_ini_scanner_defs.h
   )
 
   add_dependencies(php_generate_files zend_language_scanner zend_ini_scanner)

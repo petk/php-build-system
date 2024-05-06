@@ -31,20 +31,25 @@ Hints:
 If re2c is found, the following function is exposed:
 
   re2c_target(
-    NAME <name>
-    INPUT <input>
-    OUTPUT <output>
+    <name>
+    <input>
+    <output>
+    [HEADER <header>]
     [OPTIONS <options>...]
     [DEPENDS <depends>...]
   )
 
-    NAME
+    <name>
       Target name.
-    INPUT
+    <input>
       The re2c template file input. Relative source file path is interpreted as
       being relative to the current source directory.
-    OUTPUT
-      The output file.
+    <output>
+      The output file. Relative output file path is interpreted as being
+      relative to the current source directory.
+    HEADER
+      Generate a <header> file. Relative header file path is interpreted as
+      being relative to the current binary directory.
     OPTIONS
       List of additional options to pass to re2c command-line tool.
     DEPENDS
@@ -147,7 +152,7 @@ endif()
 
 # Check for re2c --computed-gotos option.
 if(RE2C_USE_COMPUTED_GOTOS)
-  message(CHECK_START "Checking for re2c --computed-gotos option support")
+  message(CHECK_START "Checking for re2c --computed-gotos (-g) option support")
 
   cmake_push_check_state(RESET)
     set(CMAKE_REQUIRED_QUIET TRUE)
@@ -173,11 +178,12 @@ endif()
 
 function(re2c_target)
   cmake_parse_arguments(
-    parsed              # prefix
-    ""                  # options
-    "NAME;INPUT;OUTPUT" # one-value keywords
-    "OPTIONS;DEPENDS"   # multi-value keywords
-    ${ARGN}             # strings to parse
+    PARSE_ARGV
+    3
+    parsed            # prefix
+    ""                # options
+    "HEADER"          # one-value keywords
+    "OPTIONS;DEPENDS" # multi-value keywords
   )
 
   if(parsed_UNPARSED_ARGUMENTS)
@@ -188,41 +194,60 @@ function(re2c_target)
     message(FATAL_ERROR "Missing values for: ${parsed_KEYWORDS_MISSING_VALUES}")
   endif()
 
-  if(NOT parsed_NAME)
-    message(FATAL_ERROR "re2c_target expects a target name")
-  endif()
-
-  if(NOT parsed_INPUT)
-    message(FATAL_ERROR "re2c_target expects an input filename")
-  endif()
-
-  if(NOT parsed_OUTPUT)
-    message(FATAL_ERROR "re2c_target expects an output filename")
-  endif()
+  set(options ${parsed_OPTIONS})
 
   if(RE2C_USE_COMPUTED_GOTOS AND _RE2C_HAVE_COMPUTED_GOTOS)
-    list(APPEND parsed_OPTIONS "-g")
+    list(APPEND options "--computed-gotos")
   endif()
 
-  set(input "${parsed_INPUT}")
+  set(input ${ARGV1})
   if(NOT IS_ABSOLUTE "${input}")
-    set(input "${CMAKE_CURRENT_SOURCE_DIR}/${input}")
+    set(input ${CMAKE_CURRENT_SOURCE_DIR}/${input})
+  endif()
+
+  set(output ${ARGV2})
+  if(NOT IS_ABSOLUTE "${output}")
+    set(output ${CMAKE_CURRENT_BINARY_DIR}/${output})
+  endif()
+
+  set(outputs ${output})
+
+  if(parsed_HEADER)
+    set(header ${parsed_HEADER})
+    if(NOT IS_ABSOLUTE "${header}")
+      set(header ${CMAKE_CURRENT_BINARY_DIR}/${header})
+    endif()
+
+    list(APPEND outputs ${header})
+
+    # Before version 1.2 also --bit-vectors (-c) option is required when header
+    # option is used.
+    if(RE2C_VERSION VERSION_LESS_EQUAL 1.2)
+      list(APPEND options "--bit-vectors")
+    endif()
+
+    # Since version 3.0, --header is the new alias option for --type-header.
+    if(RE2C_VERSION VERSION_GREATER_EQUAL 3.0)
+      list(APPEND options --header ${header})
+    else()
+      list(APPEND options --type-header ${header})
+    endif()
   endif()
 
   add_custom_command(
-    OUTPUT ${parsed_OUTPUT}
+    OUTPUT ${outputs}
     COMMAND ${RE2C_EXECUTABLE}
-      ${parsed_OPTIONS}
-      -o ${parsed_OUTPUT}
+      ${options}
+      --output ${output}
       ${input}
     DEPENDS ${input} ${parsed_DEPENDS}
-    COMMENT "[RE2C][${parsed_NAME}] Building lexer with re2c ${RE2C_VERSION}"
+    COMMENT "[RE2C][${ARGV0}] Building lexer with re2c ${RE2C_VERSION}"
   )
 
   add_custom_target(
-    ${parsed_NAME}
+    ${ARGV0}
     SOURCES ${input}
-    DEPENDS ${parsed_OUTPUT}
+    DEPENDS ${outputs}
     COMMENT "[RE2C] Building lexer with re2c ${RE2C_VERSION}"
   )
 endfunction()
