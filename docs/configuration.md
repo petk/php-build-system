@@ -111,7 +111,7 @@ documentation.
 
     Enable or disable IPO based on the build type (`CMAKE_BUILD_TYPE`). For
     example, to disable IPO for the `Debug` build type set
-    `CMAKE_INTERPROCEDURALOPTIMIZATION_DEBUG=OFF`.
+    `CMAKE_INTERPROCEDURAL_OPTIMIZATION_DEBUG` to `OFF`.
 
 * `CMAKE_LINKER_TYPE` (CMake 3.29+)
 
