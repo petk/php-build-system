@@ -118,6 +118,9 @@ target_include_directories(
 
 target_compile_definitions(php_standard PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE=1)
 
+# The ext/standard depends on the generated Zend language parser header.
+add_dependencies(php_standard zend_patch_language_parser)
+
 target_link_libraries(
   php_standard
   PRIVATE
@@ -132,16 +135,16 @@ target_link_libraries(
 
 if(RE2C_FOUND)
   re2c_target(
-    NAME php_standard_var_unserializer
-    INPUT var_unserializer.re
-    OUTPUT ${CMAKE_CURRENT_SOURCE_DIR}/var_unserializer.c
+    php_standard_var_unserializer
+    var_unserializer.re
+    ${CMAKE_CURRENT_SOURCE_DIR}/var_unserializer.c
     OPTIONS --no-generation-date -b
   )
 
   re2c_target(
-    NAME php_standard_url_scanner_ex
-    INPUT url_scanner_ex.re
-    OUTPUT ${CMAKE_CURRENT_SOURCE_DIR}/url_scanner_ex.c
+    php_standard_url_scanner_ex
+    url_scanner_ex.re
+    ${CMAKE_CURRENT_SOURCE_DIR}/url_scanner_ex.c
     OPTIONS --no-generation-date -b
   )
 
