@@ -100,9 +100,15 @@ add_subdirectory(win32)
 add_subdirectory(main)
 add_subdirectory(scripts)
 
-# Execute all deferred calls.
+# Check thread safety.
+include(PHP/ThreadSafety)
+
+# Execute all deferred calls. Calls are additionally sorted with natural
+# comparison method by their IDs. If call hasn't set any ID number, CMake
+# assigns it a default value of __<number>.
 block()
   cmake_language(DEFER GET_CALL_IDS ids)
+  list(SORT ids COMPARE NATURAL)
   foreach(id ${ids})
     cmake_language(DEFER GET_CALL ${id} call)
     list(POP_FRONT call command)

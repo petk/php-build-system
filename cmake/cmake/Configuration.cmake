@@ -112,12 +112,6 @@ mark_as_advanced(PHP_RE2C_CGOTO)
 
 option(PHP_THREAD_SAFETY "Enable thread safety (ZTS)" OFF)
 
-add_feature_info(
-  "PHP/ZTS"
-  PHP_THREAD_SAFETY
-  "PHP thread safety"
-)
-
 option(PHP_USE_RTLD_NOW "Use dlopen with RTLD_NOW instead of RTLD_LAZY for extensions" OFF)
 mark_as_advanced(PHP_USE_RTLD_NOW)
 
@@ -256,6 +250,8 @@ block()
     if(PHP_LAYOUT STREQUAL "GNU")
       set(extension_dir "${extension_dir}/${zend_module_api_no}")
 
+      # TODO: When apache2handler SAPI enforces the thread safe build (as done
+      # in the Autotools), the PHP_THREAD_SAFETY variable isn't yet available.
       if(PHP_THREAD_SAFETY)
         set(extension_dir "${extension_dir}-zts")
       endif()

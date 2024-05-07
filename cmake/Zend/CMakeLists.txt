@@ -73,11 +73,6 @@ option(
 )
 mark_as_advanced(ZEND_MAX_EXECUTION_TIMERS)
 
-# TODO: Fix this better.
-if(PHP_THREAD_SAFETY)
-  set(ZTS 1 PARENT_SCOPE)
-endif()
-
 ################################################################################
 # Add library.
 ################################################################################
@@ -351,10 +346,6 @@ include(Zend/CheckFloatPrecision)
 
 # zend_config.h (or its parent php_config.h) isn't included in some zend_*
 # files, therefore also compilation definitions need to be added.
-if(PHP_THREAD_SAFETY)
-  target_compile_definitions(zend PRIVATE ZTS)
-endif()
-
 if(ZEND_SIGNALS)
   target_compile_definitions(zend PRIVATE ZEND_SIGNALS)
 endif()

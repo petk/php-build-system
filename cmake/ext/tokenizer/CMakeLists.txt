@@ -34,8 +34,8 @@ target_sources(
     tokenizer.c
 )
 
-# The ext/tokenizer depends on the generated Zend language scanner header.
-add_dependencies(php_tokenizer zend_language_scanner)
+# The ext/tokenizer depends on the generated Zend scanner and parser headers.
+add_dependencies(php_tokenizer Zend::Zend)
 
 if(PHPSystem_EXECUTABLE)
   set(PHP_EXECUTABLE ${PHPSystem_EXECUTABLE})
