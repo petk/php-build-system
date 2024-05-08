@@ -67,8 +67,6 @@ endfunction()
 # automatically enable thread safety by setting PHP_THREAD_SAFETY to 'ON'
 # during the configuration. Elsewhere, thread safety should be opt-in and
 # automatic enabling in the configuration phase shouldn't be encouraged.
-# TODO: Recheck if apache2handler automatic enforced thread safety build should
-# be removed in CMake and a FATAL_ERROR can be done instead.
 cmake_language(
   DEFER
     DIRECTORY ${PHP_SOURCE_DIR}

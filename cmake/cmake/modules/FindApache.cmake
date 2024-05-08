@@ -20,6 +20,8 @@ Result variables:
     Libraries needed to link to the package library.
   Apache_VERSION
     Package version, if found.
+  Apache_THREADED
+    Whether Apache requires thread safety.
 
 Cache variables:
 
@@ -64,6 +66,7 @@ find_program(
   NAMES apxs apxs2
   DOC "Path to the APache eXtenSion tool"
 )
+mark_as_advanced(Apache_APXS_EXECUTABLE)
 
 if(NOT Apache_APXS_EXECUTABLE)
   string(APPEND _reason "apxs tool not found. ")
@@ -77,7 +80,7 @@ else()
     RESULT_VARIABLE _result
   )
 
-  if(result STREQUAL "0")
+  if(_result STREQUAL "0")
     set(_Apache_APXS_SANITY_CHECK TRUE)
   else()
     string(
@@ -114,6 +117,7 @@ find_program(
   PATHS ${_Apache_APR_BINDIR}
   DOC "Path to the apr library command-line tool for retrieving metainformation"
 )
+mark_as_advanced(Apache_APR_CONFIG_EXECUTABLE)
 
 if(Apache_APR_CONFIG_EXECUTABLE)
   execute_process(
@@ -122,6 +126,9 @@ if(Apache_APR_CONFIG_EXECUTABLE)
     OUTPUT_STRIP_TRAILING_WHITESPACE
     ERROR_QUIET
   )
+
+  string(STRIP _Apache_APR_CPPFLAGS "${_Apache_APR_CPPFLAGS}")
+  string(REPLACE " " ";" _Apache_APR_CPPFLAGS "${_Apache_APR_CPPFLAGS}")
 
   execute_process(
     COMMAND "${Apache_APR_CONFIG_EXECUTABLE}" --includedir
@@ -156,6 +163,7 @@ find_library(
   PATHS ${PC_Apache_APR_LIBRARY_DIRS}
   DOC "The path to the apr library"
 )
+mark_as_advanced(Apache_APR_LIBRARY)
 
 if(NOT Apache_APR_LIBRARY)
   string(APPEND _reason "Apache apr library not found. ")
@@ -171,6 +179,7 @@ find_program(
   PATHS ${_Apache_APU_BINDIR}
   DOC "Path to the Apache Portable Runtime Utilities config command-line tool"
 )
+mark_as_advanced(Apache_APU_CONFIG_EXECUTABLE)
 
 ################################################################################
 # Apache.
@@ -179,8 +188,13 @@ find_program(
 find_program(
   Apache_EXECUTABLE
   NAMES apache2
-  DOC "Path to the Apache command-line server program"
+  DOC "Path to the Apache HTTP server command-line utility"
 )
+mark_as_advanced(Apache_EXECUTABLE)
+
+if(NOT Apache_EXECUTABLE)
+  string(APPEND _reason "Apache HTTP server command-line utility not found. ")
+endif()
 
 execute_process(
   COMMAND "${Apache_APXS_EXECUTABLE}" -q INCLUDEDIR
@@ -196,6 +210,7 @@ find_path(
   PATHS ${_Apache_APXS_INCLUDE_DIR}
   DOC "Directory containing Apache headers"
 )
+mark_as_advanced(Apache_INCLUDE_DIR)
 
 if(NOT Apache_INCLUDE_DIR)
   string(APPEND _reason "httpd.h not found. ")
@@ -232,8 +247,18 @@ block(PROPAGATE Apache_VERSION)
     endforeach()
   endif()
 
-  # If Apache headers don't provide version, try Apache command-line tool.
-  if(Apache_EXECUTABLE)
+  # If Apache headers don't provide version, try apxs command-line tool.
+  if(NOT Apache_VERSION AND Apache_APXS_EXECUTABLE)
+    execute_process(
+      COMMAND "${Apache_APXS_EXECUTABLE}" -q HTTPD_VERSION
+      OUTPUT_VARIABLE Apache_VERSION
+      OUTPUT_STRIP_TRAILING_WHITESPACE
+      ERROR_QUIET
+    )
+  endif()
+
+  # If version is still not found, try Apache command-line tool.
+  if(NOT Apache_VERSION AND Apache_EXECUTABLE)
     execute_process(
       COMMAND "${Apache_EXECUTABLE}" -v
       OUTPUT_VARIABLE version
@@ -249,11 +274,42 @@ block(PROPAGATE Apache_VERSION)
   endif()
 endblock()
 
-mark_as_advanced(
-  Apache_APXS_EXECUTABLE
-  Apache_INCLUDE_DIR
-  Apache_APR_LIBRARY
-)
+################################################################################
+# Check if Apache requires thread safety.
+################################################################################
+
+block(PROPAGATE Apache_THREADED)
+  set(Apache_THREADED FALSE)
+
+  # MPM_NAME query string for apxs was removed in Apache 2.4 (2.3.3 dev branch).
+  if(Apache_VERSION VERSION_LESS 2.4)
+    execute_process(
+      COMMAND "${Apache_APXS_EXECUTABLE}" -q MPM_NAME
+      OUTPUT_VARIABLE name
+      OUTPUT_STRIP_TRAILING_WHITESPACE
+      ERROR_QUIET
+    )
+
+    if(NOT name MATCHES "^(prefork|peruser|itk)$")
+      set(Apache_THREADED TRUE)
+    endif()
+  else()
+    execute_process(
+      COMMAND "${Apache_EXECUTABLE}" -V
+      OUTPUT_VARIABLE result
+      OUTPUT_STRIP_TRAILING_WHITESPACE
+      ERROR_QUIET
+    )
+
+    if(result MATCHES " threaded:.*yes")
+      set(Apache_THREADED TRUE)
+    endif()
+  endif()
+endblock()
+
+################################################################################
+# Handle package arguments.
+################################################################################
 
 find_package_handle_standard_args(
   Apache
@@ -262,6 +318,7 @@ find_package_handle_standard_args(
     _Apache_APXS_SANITY_CHECK
     Apache_INCLUDE_DIR
     Apache_APR_INCLUDE_DIR
+    Apache_EXECUTABLE
   VERSION_VAR Apache_VERSION
   REASON_FAILURE_MESSAGE "${_reason}"
 )
@@ -288,7 +345,7 @@ if(NOT TARGET Apache::Apache)
   if(_Apache_APR_CPPFLAGS)
     target_compile_definitions(
       Apache::Apache
-      INTERFACE "${_Apache_APR_CFLAGS}"
+      INTERFACE ${_Apache_APR_CPPFLAGS}
     )
   endif()
 endif()
