@@ -31,13 +31,39 @@ set_target_properties(
     OUTPUT_NAME apache
 )
 
-find_package(Apache)
+find_package(Apache 2.0.44)
 set_package_properties(
   Apache
   PROPERTIES
     TYPE REQUIRED
     PURPOSE "Necessary to enable the Apache PHP SAPI."
 )
+
+if(Apache_THREADED)
+  if(NOT PHP_THREAD_SAFETY)
+    set_property(CACHE PHP_THREAD_SAFETY PROPERTY VALUE TRUE)
+    message(
+      WARNING
+      "Apache's current threaded MPM requires thread safety. "
+      "PHP_THREAD_SAFETY has been automatically set to 'ON'."
+    )
+  endif()
+
+  add_feature_info(
+    "sapi/apache2handler"
+    SAPI_APACHE2HANDLER
+    "Apache 2 handler SAPI with Apache's current threaded MPM"
+  )
+else()
+  add_feature_info(
+    "sapi/apache2handler"
+    SAPI_APACHE2HANDLER
+    "Apache 2 handler SAPI with Apache's current non-threaded MPM
+
+    Notice: If you change Apache to use a threaded MPM, make sure
+    PHP is configured and built with PHP_THREAD_SAFETY set to 'ON'.
+  ")
+endif()
 
 target_link_libraries(
   php_apache2handler
