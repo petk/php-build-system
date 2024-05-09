@@ -714,18 +714,30 @@ A list of Autoconf `configure` command-line configuration options, Windows
     </tr>
     <tr>
       <td>--without-apxs2</td>
-      <td>--disable-apache2handler</td>
+      <td>--disable-apache2-4handler</td>
       <td>SAPI_APACHE2HANDLER=OFF</td>
       <td>default</td>
     </tr>
     <tr>
       <td>&emsp;--with-apxs2[=PATH_TO_APXS]</td>
-      <td>--enable-apache2handler</td>
+      <td>--enable-apache2-4handler</td>
       <td>
         SAPI_APACHE2HANDLER=ON<br>
         [Apache_ROOT=PATH_TO_APACHE]<br>
         [Apache_APXS_EXECUTABLE=PATH_TO_APXS]
       </td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>N/A</td>
+      <td>--disable-apache2handler</td>
+      <td>N/A</td>
+      <td>default</td>
+    </tr>
+    <tr>
+      <td>N/A</td>
+      <td>--enable-apache2handler</td>
+      <td>N/A</td>
       <td></td>
     </tr>
     <tr>
@@ -737,18 +749,6 @@ A list of Autoconf `configure` command-line configuration options, Windows
     <tr>
       <td>N/A</td>
       <td>--enable-apache2-2handler</td>
-      <td>N/A</td>
-      <td></td>
-    </tr>
-    <tr>
-      <td>N/A</td>
-      <td>--disable-apache2-4handler</td>
-      <td>N/A</td>
-      <td>default</td>
-    </tr>
-    <tr>
-      <td>N/A</td>
-      <td>--enable-apache2-4handler</td>
       <td>N/A</td>
       <td></td>
     </tr>

@@ -97,22 +97,6 @@ On the contrary, variable names are case-sensitive.
   ")
   ```
 
-* Code strings or regular expressions, can alternatively be passed as bracket
-  arguments (`[[`, `]]`, `[=[`, `]=]`, `[==[`, `]==]`, etc), helping to avoid
-  the need for escaping characters:
-
-  ```cmake
-  install(CODE [[
-    execute_process(
-      COMMAND ${CMAKE_COMMAND} -E echo "${variable} references aren't evaluated"
-    )
-    set(version "1.2")
-    if(version MATCHES [=[^[0-9]\.[0-9]$]=])
-      message(STATUS "Nested bracket argument with varying '=' characters")
-    endif()
-  ]])
-  ```
-
 * When defining path variables, exclude the trailing directory delimiter (`/`).
   This practice facilitates concatenation of such variables:
 
@@ -120,6 +104,23 @@ On the contrary, variable names are case-sensitive.
   set(parentDir "foo/bar")
   set(childDir "${parentDir}/baz")
   ```
+
+> [!TIP]
+> Code strings or regular expressions, can alternatively be passed as bracket
+> arguments (`[[`, `]]`, `[=[`, `]=]`, `[==[`, `]==]`, etc), helping to avoid
+> the need for escaping characters:
+>
+> ```cmake
+> install(CODE [[
+>   execute_process(
+>     COMMAND ${CMAKE_COMMAND} -E echo "${variable} references aren't evaluated"
+>   )
+>   set(version "1.2")
+>   if(version MATCHES [=[^[0-9]\.[0-9]$]=])
+>     message(STATUS "Nested bracket argument with varying '=' characters")
+>   endif()
+> ]])
+> ```
 
 ### 2.1. End commands
 
