@@ -33,11 +33,12 @@ add_feature_info(
 
 cmake_dependent_option(
   EXT_MYSQLND_SSL
-  "Explicitly enable SSL support in ext/mysqlnd when not building with\
-  ext/openssl. If ext/openssl is enabled at the configuration phase, SSL in\
-  ext/mysqlnd will be enabled implicitly and this option can be skipped."
+  "Explicitly enable SSL support in ext/mysqlnd when building without\
+  ext/openssl (EXT_OPENSSL=OFF). If ext/openssl is enabled (EXT_OPENSSL=ON) at\
+  the configuration phase, SSL in ext/mysqlnd will be enabled implicitly\
+  regardless of this option."
   OFF
-  "EXT_MYSQLND"
+  "EXT_MYSQLND;NOT EXT_OPENSSL"
   OFF
 )
 

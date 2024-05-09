@@ -16,6 +16,12 @@ include(FeatureSummary)
 
 option(SAPI_FPM "Enable the FPM SAPI module" OFF)
 
+add_feature_info(
+  "sapi/fpm"
+  SAPI_FPM
+  "FPM SAPI module"
+)
+
 if(SAPI_FPM)
   set(
     SAPI_FPM_USER "nobody"
@@ -45,12 +51,24 @@ cmake_dependent_option(
   OFF
 )
 
+add_feature_info(
+  "sapi/fpm systemd"
+  SAPI_FPM
+  "FPM SAPI module with systemd integration"
+)
+
 cmake_dependent_option(
   SAPI_FPM_ACL
   "Use POSIX Access Control Lists"
   OFF
   "SAPI_FPM"
   OFF
+)
+
+add_feature_info(
+  "sapi/fpm ACL"
+  SAPI_FPM
+  "FPM SAPI module with integrated POSIX Access Control Lists"
 )
 
 cmake_dependent_option(
@@ -61,12 +79,24 @@ cmake_dependent_option(
   OFF
 )
 
+add_feature_info(
+  "sapi/fpm AppArmor"
+  SAPI_FPM
+  "FPM SAPI module with AppArmor confinement enabled"
+)
+
 cmake_dependent_option(
   SAPI_FPM_SELINUX
   "Enable the SELinux policy library support"
   OFF
   "SAPI_FPM"
   OFF
+)
+
+add_feature_info(
+  "sapi/fpm SELinux"
+  SAPI_FPM
+  "FPM SAPI module with SELinux policy library support"
 )
 
 message(CHECK_START "Checking whether to build fpm SAPI")

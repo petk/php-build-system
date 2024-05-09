@@ -5,6 +5,11 @@ include(CMakeDependentOption)
 include(FeatureSummary)
 
 option(SAPI_CLI "Enable the CLI SAPI module" ON)
+add_feature_info(
+  "sapi/cli"
+  SAPI_CLI
+  "Command-line interface SAPI executable"
+)
 
 message(CHECK_START "Checking whether to build cli SAPI")
 if(SAPI_CLI)

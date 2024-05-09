@@ -19,11 +19,12 @@ cmake_dependent_option(
 
 cmake_dependent_option(
   EXT_FTP_SSL
-  "Explicitly enable SSL support in ext/ftp when not building with ext/openssl.\
-  If ext/openssl is enabled at the configuration phase, SSL in ext/ftp will be\
-  enabled implicitly and this option can be skipped."
+  "Explicitly enable FTP SSL support when building without ext/openssl\
+  (EXT_OPENSSL=OFF). If ext/openssl is enabled (EXT_OPENSSL=ON) at the\
+  configuration phase, FTP SSL will be enabled implicitly regardless of this\
+  option."
   OFF
-  "EXT_FTP"
+  "EXT_FTP;NOT EXT_OPENSSL"
   OFF
 )
 

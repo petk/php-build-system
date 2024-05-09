@@ -1,5 +1,5 @@
 #[=============================================================================[
-Check for thread safety.
+Check for thread safety, a.k.a. ZTS (Zend thread safety) build.
 
 Cache variables:
 
@@ -12,7 +12,7 @@ include_guard(GLOBAL)
 include(FeatureSummary)
 
 function(_php_thread_safety)
-  message(CHECK_START "Checking whether to enable thread safety")
+  message(CHECK_START "Checking whether to enable thread safety (ZTS)")
 
   add_feature_info(
     "Thread safety"
