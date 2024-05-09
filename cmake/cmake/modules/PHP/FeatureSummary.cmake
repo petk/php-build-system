@@ -38,7 +38,7 @@ block()
   set(php "")
 
   foreach(feature ${enabledFeatures})
-    if(feature MATCHES "^${parent} ")
+    if(parent AND feature MATCHES "^${parent} ")
       set(item "   * ${feature}")
     else()
       set(item " * ${feature}")

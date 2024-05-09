@@ -137,9 +137,19 @@ else()
           ${_php_pcre_headers}
   )
 
-  check_compiler_flag(C -Wno-implicit-fallthrough _HAVE_WNO_IMPLICIT_FALLTHROUGH_C)
+  # For pcre2lib/sljit/sljitNativeARM_64.c on ARM 64 processors build.
+  check_compiler_flag(
+    C
+    -Wno-implicit-fallthrough
+    _HAVE_WNO_IMPLICIT_FALLTHROUGH_C
+  )
   if(_HAVE_WNO_IMPLICIT_FALLTHROUGH_C)
-    target_compile_options(php_pcre PRIVATE -Wno-implicit-fallthrough)
+    set_property(
+      SOURCE pcre2lib/pcre2_jit_compile.c
+      APPEND
+      PROPERTY
+        COMPILE_FLAGS -Wno-implicit-fallthrough
+    )
   endif()
 
   if(CMAKE_SYSTEM_NAME STREQUAL "Windows")
