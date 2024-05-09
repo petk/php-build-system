@@ -1,4 +1,3 @@
-include(CheckCompilerFlag)
 include(CheckSymbolExists)
 include(CMakeDependentOption)
 include(FeatureSummary)
@@ -86,11 +85,6 @@ set_target_properties(
   PROPERTIES
     PHP_ZEND_EXTENSION TRUE
 )
-
-check_compiler_flag(C -Wno-implicit-fallthrough _HAVE_WNO_IMPLICIT_FALLTHROUGH_C)
-if(_HAVE_WNO_IMPLICIT_FALLTHROUGH_C)
-  target_compile_options(php_opcache PRIVATE -Wno-implicit-fallthrough)
-endif()
 
 target_compile_definitions(php_opcache PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE=1)
 
