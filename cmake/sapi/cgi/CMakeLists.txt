@@ -1,8 +1,15 @@
 include(CheckStructHasMember)
+include(FeatureSummary)
 
-option(SAPI_CGI "Enable the CGI SAPI module" ON)
+option(SAPI_CGI "Enable the CGI SAPI executable" ON)
 
-message(CHECK_START "Checking whether to build cgi SAPI")
+add_feature_info(
+  "sapi/cgi"
+  SAPI_CGI
+  "CGI SAPI executable"
+)
+
+message(CHECK_START "Checking whether to build CGI SAPI")
 if(SAPI_CGI)
   message(CHECK_PASS "yes")
 else()

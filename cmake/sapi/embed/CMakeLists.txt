@@ -1,4 +1,12 @@
+include(FeatureSummary)
+
 option(SAPI_EMBED "Enable the Embed SAPI module" OFF)
+
+add_feature_info(
+  "sapi/embed"
+  SAPI_EMBED
+  "Embed SAPI module"
+)
 
 message(CHECK_START "Checking whether to build embed SAPI")
 if(SAPI_EMBED)

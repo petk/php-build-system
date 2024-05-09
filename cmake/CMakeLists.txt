@@ -167,16 +167,7 @@ if(TARGET php_cli)
   endblock()
 endif()
 
-message("
-+--------------------------------------------------------------------+
-| Summary                                                            |
-+--------------------------------------------------------------------+
-")
-include(FeatureSummary)
-feature_summary(
-  FATAL_ON_MISSING_REQUIRED_PACKAGES
-  WHAT ENABLED_FEATURES REQUIRED_PACKAGES_NOT_FOUND
-)
+include(PHP/FeatureSummary)
 
 message("
 +--------------------------------------------------------------------+

@@ -1,11 +1,18 @@
 include(CheckSymbolExists)
 include(CMakeDependentOption)
+include(FeatureSummary)
 
 ################################################################################
 # Configuration options.
 ################################################################################
 
 option(SAPI_PHPDBG "Enable the phpdbg SAPI module" ON)
+
+add_feature_info(
+  "sapi/phpdbg"
+  SAPI_PHPDBG
+  "PHPDBG SAPI module"
+)
 
 cmake_dependent_option(
   SAPI_PHPDBG_SHARED

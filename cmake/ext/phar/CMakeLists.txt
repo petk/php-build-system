@@ -19,11 +19,12 @@ cmake_dependent_option(
 
 cmake_dependent_option(
   EXT_PHAR_SSL
-  "Explicitly enable SSL support in ext/phar (native SSL) when not building \
-  with ext/openssl. If ext/openssl is enabled at the configuration phase, SSL\
-  in ext/phar will be enabled implicitly and this option can be skipped."
+  "Explicitly enable SSL support in ext/phar (native SSL) when building without\
+  ext/openssl (EXT_OPENSSL=OFF). If ext/openssl is enabled (EXT_OPENSSL=ON) at\
+  the configuration phase, SSL in ext/phar will be enabled implicitly\
+  regardless of this option."
   OFF
-  "EXT_PHAR"
+  "EXT_PHAR;NOT EXT_OPENSSL"
   OFF
 )
 

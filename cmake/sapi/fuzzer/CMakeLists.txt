@@ -4,8 +4,15 @@ if(CMAKE_SYSTEM_NAME STREQUAL "Windows")
 endif()
 
 include(CheckCompilerFlag)
+include(FeatureSummary)
 
 option(SAPI_FUZZER "Enable the Fuzzer SAPI module" OFF)
+
+add_feature_info(
+  "sapi/fuzzer"
+  SAPI_FUZZER
+  "Fuzzer SAPI module"
+)
 
 message(CHECK_START "Checking whether to build fuzzer SAPI")
 if(SAPI_FUZZER)

@@ -2,8 +2,20 @@ include(FeatureSummary)
 
 option(
   SAPI_APACHE2HANDLER
-  "Enable the Apache SAPI (shared Apache 2 handler module via DSO)"
+  "Enable the shared Apache 2 handler SAPI module
+
+  Loadable via Apache's Dynamic Shared Object (DSO) support; If Apache will use\
+  PHP with one of the threaded Multi-Processing Modules (MPMs), PHP must be\
+  configured and built with PHP_THREAD_SAFETY set to 'ON'. Thread safety will\
+  be set automatically during the configuration step, if threaded Apache can be\
+  discovered on the system."
   OFF
+)
+
+add_feature_info(
+  "sapi/apache2handler"
+  SAPI_APACHE2HANDLER
+  "Apache 2 handler SAPI module"
 )
 
 message(CHECK_START "Checking whether to build apache2handler SAPI")
@@ -76,3 +88,20 @@ install(
   TARGETS php_apache2handler
   DESTINATION ${CMAKE_INSTALL_LIBDIR}
 )
+
+# Manually enable runtime linking on AIX.
+if(CMAKE_SYSTEM_NAME STREQUAL "AIX" AND EXISTS ${Apache_LIBEXECDIR}/httpd.exp)
+  include(CheckLinkerFlag)
+  check_linker_flag(
+    C
+    "LINKER:-brtl;LINKER:-bI${Apache_LIBEXECDIR}/httpd.exp"
+    _HAVE_BRTL_FLAG_C
+  )
+  if(_HAVE_BRTL_FLAG_C)
+    target_link_options(
+      php_apache2handler
+      PRIVATE
+        "$<$<PLATFORM_ID:AIX>LINKER:-brtl;LINKER:-bI${Apache_LIBEXECDIR}/httpd.exp>"
+    )
+  endif()
+endif()

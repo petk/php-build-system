@@ -3,7 +3,7 @@ Find the Apache packages and tools.
 
 The Apache development package usually contains Apache header files, the apr
 (Apache Portable Runtime) library and its headers, apr config command-line tool,
-and apxs command-line tool.
+and the apxs command-line tool.
 
 Module defines the following IMPORTED target(s):
 
@@ -22,13 +22,20 @@ Result variables:
     Package version, if found.
   Apache_THREADED
     Whether Apache requires thread safety.
+  Apache_LIBEXECDIR
+    Path to the directory containing all Apache modules and httpd.exp file (list
+    of exported symbols).
 
 Cache variables:
 
   Apache_APXS_EXECUTABLE
     Path to the APache eXtenSion tool command-line tool.
+  Apache_APXS_DEFINITIONS
+    A list of compile definitions (-D) from the apxs CFLAGS query string.
   Apache_APR_CONFIG_EXECUTABLE
     Path to the apr library command-line configuration tool.
+  Apache_APR_CPPFLAGS
+    A list of C preprocessor flags for the APR library.
   Apache_APU_CONFIG_EXECUTABLE
     Path to the Apache Portable Runtime Utilities config command-line tool.
   Apache_EXECUTABLE
@@ -74,7 +81,7 @@ else()
   # Sanity check for apxs.
   execute_process(
     COMMAND "${Apache_APXS_EXECUTABLE}" -q CFLAGS
-    OUTPUT_VARIABLE _Apache_APXS_CFLAGS
+    OUTPUT_VARIABLE Apache_APXS_DEFINITIONS
     OUTPUT_STRIP_TRAILING_WHITESPACE
     ERROR_QUIET
     RESULT_VARIABLE _result
@@ -82,6 +89,14 @@ else()
 
   if(_result STREQUAL "0")
     set(_Apache_APXS_SANITY_CHECK TRUE)
+
+    # Get all compile definitions from the above CFLAGS result if found.
+    string(
+      REGEX MATCHALL
+      "-D[^ ]+"
+      Apache_APXS_DEFINITIONS
+      "${Apache_APXS_DEFINITIONS}"
+    )
   else()
     string(
       APPEND
@@ -105,6 +120,34 @@ else()
     OUTPUT_STRIP_TRAILING_WHITESPACE
     ERROR_QUIET
   )
+
+  execute_process(
+    COMMAND "${Apache_APXS_EXECUTABLE}" -q LIBEXECDIR
+    OUTPUT_VARIABLE Apache_LIBEXECDIR
+    OUTPUT_STRIP_TRAILING_WHITESPACE
+    ERROR_QUIET
+  )
+
+  execute_process(
+    COMMAND "${Apache_APXS_EXECUTABLE}" -q TARGET
+    OUTPUT_VARIABLE _Apache_NAME
+    OUTPUT_STRIP_TRAILING_WHITESPACE
+    ERROR_QUIET
+  )
+
+  execute_process(
+    COMMAND "${Apache_APXS_EXECUTABLE}" -q SBINDIR
+    OUTPUT_VARIABLE _Apache_SBINDIR
+    OUTPUT_STRIP_TRAILING_WHITESPACE
+    ERROR_QUIET
+  )
+
+  execute_process(
+    COMMAND "${Apache_APXS_EXECUTABLE}" -q INCLUDEDIR
+    OUTPUT_VARIABLE _Apache_APXS_INCLUDE_DIR
+    OUTPUT_STRIP_TRAILING_WHITESPACE
+    ERROR_QUIET
+  )
 endif()
 
 ################################################################################
@@ -122,13 +165,12 @@ mark_as_advanced(Apache_APR_CONFIG_EXECUTABLE)
 if(Apache_APR_CONFIG_EXECUTABLE)
   execute_process(
     COMMAND "${Apache_APR_CONFIG_EXECUTABLE}" --cppflags
-    OUTPUT_VARIABLE _Apache_APR_CPPFLAGS
+    OUTPUT_VARIABLE Apache_APR_CPPFLAGS
     OUTPUT_STRIP_TRAILING_WHITESPACE
     ERROR_QUIET
   )
 
-  string(STRIP _Apache_APR_CPPFLAGS "${_Apache_APR_CPPFLAGS}")
-  string(REPLACE " " ";" _Apache_APR_CPPFLAGS "${_Apache_APR_CPPFLAGS}")
+  string(REGEX MATCHALL "[^ ]+" Apache_APR_CPPFLAGS "${Apache_APR_CPPFLAGS}")
 
   execute_process(
     COMMAND "${Apache_APR_CONFIG_EXECUTABLE}" --includedir
@@ -187,7 +229,8 @@ mark_as_advanced(Apache_APU_CONFIG_EXECUTABLE)
 
 find_program(
   Apache_EXECUTABLE
-  NAMES apache2
+  NAMES ${_Apache_NAME} apache2
+  PATHS ${_Apache_SBINDIR}
   DOC "Path to the Apache HTTP server command-line utility"
 )
 mark_as_advanced(Apache_EXECUTABLE)
@@ -195,13 +238,6 @@ mark_as_advanced(Apache_EXECUTABLE)
 if(NOT Apache_EXECUTABLE)
   string(APPEND _reason "Apache HTTP server command-line utility not found. ")
 endif()
-
-execute_process(
-  COMMAND "${Apache_APXS_EXECUTABLE}" -q INCLUDEDIR
-  OUTPUT_VARIABLE _Apache_APXS_INCLUDE_DIR
-  OUTPUT_STRIP_TRAILING_WHITESPACE
-  ERROR_QUIET
-)
 
 find_path(
   Apache_INCLUDE_DIR
@@ -282,7 +318,7 @@ block(PROPAGATE Apache_THREADED)
   set(Apache_THREADED FALSE)
 
   # MPM_NAME query string for apxs was removed in Apache 2.4 (2.3.3 dev branch).
-  if(Apache_VERSION VERSION_LESS 2.4)
+  if(Apache_APXS_EXECUTABLE AND Apache_VERSION VERSION_LESS 2.4)
     execute_process(
       COMMAND "${Apache_APXS_EXECUTABLE}" -q MPM_NAME
       OUTPUT_VARIABLE name
@@ -293,7 +329,7 @@ block(PROPAGATE Apache_THREADED)
     if(NOT name MATCHES "^(prefork|peruser|itk)$")
       set(Apache_THREADED TRUE)
     endif()
-  else()
+  elseif(Apache_EXECUTABLE)
     execute_process(
       COMMAND "${Apache_EXECUTABLE}" -V
       OUTPUT_VARIABLE result
@@ -342,10 +378,10 @@ if(NOT TARGET Apache::Apache)
       INTERFACE_INCLUDE_DIRECTORIES "${Apache_INCLUDE_DIRS}"
   )
 
-  if(_Apache_APR_CPPFLAGS)
-    target_compile_definitions(
-      Apache::Apache
-      INTERFACE ${_Apache_APR_CPPFLAGS}
-    )
-  endif()
+  target_compile_definitions(
+    Apache::Apache
+    INTERFACE
+      ${Apache_APR_CPPFLAGS}
+      ${Apache_APXS_DEFINITIONS}
+  )
 endif()
