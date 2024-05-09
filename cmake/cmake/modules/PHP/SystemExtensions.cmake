@@ -8,7 +8,7 @@ Usage:
   - Add @PHP_SYSTEM_EXTENSIONS@ placeholder to configuration header template,
     which will be replaced with required system extensions definitions.
 
-INTERFACE library:
+IMPORTED target:
 
   PHP::SystemExtensions
     Interface library target with all required compile definitions (-D).
@@ -44,15 +44,14 @@ include(CMakePushCheckState)
 
 message(CHECK_START "Enabling C and POSIX extensions")
 
-add_library(php_system_extensions INTERFACE IMPORTED)
-add_library(PHP::SystemExtensions ALIAS php_system_extensions)
+add_library(PHP::SystemExtensions INTERFACE IMPORTED)
 
 ################################################################################
 # The following extensions are always enabled unconditionally.
 ################################################################################
 
 target_compile_definitions(
-  php_system_extensions
+  PHP::SystemExtensions
   INTERFACE
     _ALL_SOURCE=1
     _DARWIN_C_SOURCE=1
@@ -132,7 +131,7 @@ cmake_pop_check_state()
 
 if(__EXTENSIONS__)
   target_compile_definitions(
-    php_system_extensions
+    PHP::SystemExtensions
     INTERFACE
       __EXTENSIONS__=1
   )
@@ -172,7 +171,7 @@ if(CMAKE_SYSTEM_NAME STREQUAL "HP-UX")
         set(_XOPEN_SOURCE 500)
 
         target_compile_definitions(
-          php_system_extensions
+          PHP::SystemExtensions
           INTERFACE
             _XOPEN_SOURCE=${_XOPEN_SOURCE}
         )
