@@ -43,6 +43,12 @@ set_target_properties(
     OUTPUT_NAME apache
 )
 
+target_compile_definitions(
+  php_apache2handler
+  PRIVATE
+    ZEND_ENABLE_STATIC_TSRMLS_CACHE=1
+)
+
 find_package(Apache 2.0.44)
 set_package_properties(
   Apache

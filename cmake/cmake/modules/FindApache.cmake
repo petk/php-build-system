@@ -156,11 +156,25 @@ endif()
 
 find_program(
   Apache_APR_CONFIG_EXECUTABLE
-  NAMES apr-1-config apr-config
+  NAMES apr-config apr-1-config
   PATHS ${_Apache_APR_BINDIR}
   DOC "Path to the apr library command-line tool for retrieving metainformation"
 )
 mark_as_advanced(Apache_APR_CONFIG_EXECUTABLE)
+
+block()
+  if(NOT Apache_APR_CONFIG_EXECUTABLE AND Apache_APXS_EXECUTABLE)
+    execute_process(
+      COMMAND "${Apache_APXS_EXECUTABLE}" -q APR_CONFIG
+      OUTPUT_VARIABLE path
+      OUTPUT_STRIP_TRAILING_WHITESPACE
+      ERROR_QUIET
+    )
+    if(IS_EXECUTABLE ${path})
+      set_property(CACHE Apache_APR_CONFIG_EXECUTABLE PROPERTY VALUE ${path})
+    endif()
+  endif()
+endblock()
 
 if(Apache_APR_CONFIG_EXECUTABLE)
   execute_process(
@@ -191,6 +205,7 @@ find_path(
   PATHS
     ${PC_Apache_APR_INCLUDE_DIRS}
     ${_Apache_APR_INCLUDE_DIR}
+    ${_Apache_APU_INCLUDE_DIR}
   PATH_SUFFIXES apr-1
   DOC "Directory containing apr library headers"
 )
@@ -217,11 +232,34 @@ endif()
 
 find_program(
   Apache_APU_CONFIG_EXECUTABLE
-  NAMES apu-1-config apu-config
+  NAMES apu-config apu-1-config
   PATHS ${_Apache_APU_BINDIR}
   DOC "Path to the Apache Portable Runtime Utilities config command-line tool"
 )
 mark_as_advanced(Apache_APU_CONFIG_EXECUTABLE)
+
+block()
+  if(NOT Apache_APU_CONFIG_EXECUTABLE AND Apache_APXS_EXECUTABLE)
+    execute_process(
+      COMMAND "${Apache_APXS_EXECUTABLE}" -q APU_CONFIG
+      OUTPUT_VARIABLE path
+      OUTPUT_STRIP_TRAILING_WHITESPACE
+      ERROR_QUIET
+    )
+    if(IS_EXECUTABLE ${path})
+      set_property(CACHE Apache_APU_CONFIG_EXECUTABLE PROPERTY VALUE ${path})
+    endif()
+  endif()
+endblock()
+
+if(Apache_APU_CONFIG_EXECUTABLE)
+  execute_process(
+    COMMAND "${Apache_APU_CONFIG_EXECUTABLE}" --includedir
+    OUTPUT_VARIABLE _Apache_APU_INCLUDE_DIR
+    OUTPUT_STRIP_TRAILING_WHITESPACE
+    ERROR_QUIET
+  )
+endif()
 
 ################################################################################
 # Apache.

@@ -1,119 +1,103 @@
 #[=============================================================================[
-Check which gethostbyname_r() function should be used.
+Check gethostbyname_r().
 
-The gethostbyname_r() function has different signatures on different systems.
+The non-standard gethostbyname_r() function has different signatures across
+systems:
 
-See https://github.com/autoconf-archive/autoconf-archive/blob/master/m4/ax_func_which_gethostbyname_r.m4
+* Linux, BSD: 6 arguments
+* Solaris, illumos: 5 arguments
+* AIX, HP-UX: 3 arguments
+* Haiku: network library has it for internal purposes, not intended for usage
+  from the system headers.
+
+See also:
+https://www.gnu.org/software/autoconf-archive/ax_func_which_gethostbyname_r.html
 
 Cache variables:
 
   HAVE_GETHOSTBYNAME_R
     Whether gethostbyname_r() is available.
-  HAVE_FUNC_GETHOSTBYNAME_R_3
-    Whether function has 3 arguments.
-  HAVE_FUNC_GETHOSTBYNAME_R_5
-    Whether function has 5 arguments.
   HAVE_FUNC_GETHOSTBYNAME_R_6
-    Whether function has 6 arguments.
+    Whether gethostbyname_r() has 6 arguments.
+  HAVE_FUNC_GETHOSTBYNAME_R_5
+    Whether gethostbyname_r() has 5 arguments.
+  HAVE_FUNC_GETHOSTBYNAME_R_3
+    Whether gethostbyname_r() has 3 arguments.
 ]=============================================================================]#
 
 include_guard(GLOBAL)
 
-include(CheckSourceCompiles)
+include(CheckPrototypeDefinition)
+include(CheckSymbolExists)
 include(CMakePushCheckState)
 
-message(CHECK_START "Checking how many arguments gethostbyname_r() takes")
+function(_php_check_gethostbyname_r)
+  message(CHECK_START "Checking number of gethostbyname_r() arguments")
 
-cmake_push_check_state(RESET)
-  set(CMAKE_REQUIRED_QUIET TRUE)
-
-  # Sanity check with 1 argument signature.
-  check_source_compiles(C [[
-    #include <netdb.h>
-
-    int main(void) {
-      char *name = "www.gnu.org";
-      (void)gethostbyname_r(name);
-
-      return 0;
-    }
-  ]] _have_one_argument)
-
-  if(_have_one_argument)
-    cmake_pop_check_state()
-    message(CHECK_FAIL "can't tell")
-    message(WARNING "Cannot find function declaration in netdb.h")
+  # Check whether gethostname_r() is available.
+  check_symbol_exists(gethostbyname_r netdb.h _HAVE_GETHOSTBYNAME_R)
+  if(NOT _HAVE_GETHOSTBYNAME_R)
+    message(CHECK_FAIL "not found")
     return()
   endif()
 
   # Check for 6 arguments signature.
-  check_source_compiles(C [[
-    #include <netdb.h>
-
-    int main(void) {
-      char *name = "www.gnu.org";
-      struct hostent ret, *retp;
-      char buf[1024];
-      int buflen = 1024;
-      int my_h_errno;
-      (void)gethostbyname_r(name, &ret, buf, buflen, &retp, &my_h_errno);
-
-      return 0;
-    }
-  ]] HAVE_FUNC_GETHOSTBYNAME_R_6)
+  check_prototype_definition(
+    gethostbyname_r
+    "int gethostbyname_r(const char *name, struct hostent *ret, char *buf, \
+      size_t buflen, struct hostent **result, int *h_errnop)"
+    "0"
+    netdb.h
+    HAVE_FUNC_GETHOSTBYNAME_R_6
+  )
+  if(HAVE_FUNC_GETHOSTBYNAME_R_6)
+    message(CHECK_PASS "six")
+    return()
+  endif()
 
   # Check for 5 arguments signature.
-  if(NOT HAVE_FUNC_GETHOSTBYNAME_R_6)
-    check_source_compiles(C [[
-      #include <netdb.h>
-
-      int main(void) {
-        char *name = "www.gnu.org";
-        struct hostent ret;
-        char buf[1024];
-        int buflen = 1024;
-        int my_h_errno;
-        (void)gethostbyname_r(name, &ret, buf, buflen, &my_h_errno);
-
-        return 0;
-      }
-    ]] HAVE_FUNC_GETHOSTBYNAME_R_5)
+  check_prototype_definition(
+    gethostbyname_r
+    "struct hostent *gethostbyname_r(const char *name, struct hostent *result, \
+      char *buffer, int buflen, int *h_errnop)"
+    "0"
+    netdb.h
+    HAVE_FUNC_GETHOSTBYNAME_R_5
+  )
+  if(HAVE_FUNC_GETHOSTBYNAME_R_5)
+    message(CHECK_PASS "five")
+    return()
   endif()
 
   # Check for 3 arguments signature.
-  if(NOT HAVE_FUNC_GETHOSTBYNAME_R_6 AND NOT HAVE_FUNC_GETHOSTBYNAME_R_5)
-    check_source_compiles(C [[
-      #include <netdb.h>
-
-      int main(void) {
-        char *name = "www.gnu.org";
-        struct hostent ret;
-        struct hostent_data data;
-        (void)gethostbyname_r(name, &ret, &data);
-
-        return 0;
-      }
-    ]] HAVE_FUNC_GETHOSTBYNAME_R_3)
+  check_prototype_definition(
+    gethostbyname_r
+    "int gethostbyname_r(const char *name, struct hostent *htent, \
+      struct hostent_data *data)"
+    "0"
+    netdb.h
+    HAVE_FUNC_GETHOSTBYNAME_R_3
+  )
+  if(HAVE_FUNC_GETHOSTBYNAME_R_3)
+    message(CHECK_PASS "three")
+    return()
   endif()
+
+  message(CHECK_FAIL "unknown")
+endfunction()
+
+cmake_push_check_state(RESET)
+  set(CMAKE_REQUIRED_QUIET TRUE)
+  _php_check_gethostbyname_r()
 cmake_pop_check_state()
 
 if(
-  HAVE_FUNC_GETHOSTBYNAME_R_3
+  HAVE_FUNC_GETHOSTBYNAME_R_6
   OR HAVE_FUNC_GETHOSTBYNAME_R_5
-  OR HAVE_FUNC_GETHOSTBYNAME_R_6
+  OR HAVE_FUNC_GETHOSTBYNAME_R_3
 )
   set(
     HAVE_GETHOSTBYNAME_R 1
     CACHE INTERNAL "Define to 1 if you have some form of gethostbyname_r()."
   )
-endif()
-
-if(HAVE_FUNC_GETHOSTBYNAME_R_3)
-  message(CHECK_PASS "three")
-elseif(HAVE_FUNC_GETHOSTBYNAME_R_5)
-  message(CHECK_PASS "five")
-elseif(HAVE_FUNC_GETHOSTBYNAME_R_6)
-  message(CHECK_PASS "six")
-else()
-  message(CHECK_FAIL "can't tell")
 endif()
