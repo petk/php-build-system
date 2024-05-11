@@ -52,12 +52,12 @@ function(php_check_function_attribute attribute result)
   message(CHECK_START "Checking for __attribute__(${attribute})")
 
   cmake_push_check_state(RESET)
-    # By default, compiler doesn't treat warnings as errors, so flag needs to be
-    # set for the time of the test to make the check useful.
-    if(CMAKE_C_COMPILER_ID STREQUAL "MSVC")
-      set(CMAKE_REQUIRED_FLAGS "/WX")
-    else()
-      set(CMAKE_REQUIRED_FLAGS "-Werror")
+    # Compilers by default mostly don't treat attribute warnings as errors
+    # (-Werror=attributes), so some error flag needs to be set for the time of
+    # the test to make the check certain. Here, the internal CMake variable
+    # CMAKE_C_COMPILE_OPTIONS_WARNING_AS_ERROR is used, if available.
+    if(CMAKE_C_COMPILE_OPTIONS_WARNING_AS_ERROR)
+      set(CMAKE_REQUIRED_FLAGS "${CMAKE_C_COMPILE_OPTIONS_WARNING_AS_ERROR}")
     endif()
 
     set(CMAKE_REQUIRED_QUIET TRUE)

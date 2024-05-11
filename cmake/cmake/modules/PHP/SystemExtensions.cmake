@@ -7,6 +7,7 @@ Usage:
   - Include the module: "include(PHP/SystemExtensions)"
   - Add @PHP_SYSTEM_EXTENSIONS@ placeholder to configuration header template,
     which will be replaced with required system extensions definitions.
+  - Link PHP::SystemExtensions target where needed.
 
 IMPORTED target:
 
