@@ -23,22 +23,42 @@ Cache variables:
     Whether gethostbyname_r() has 5 arguments.
   HAVE_FUNC_GETHOSTBYNAME_R_3
     Whether gethostbyname_r() has 3 arguments.
+
+INTERFACE library:
+
+  PHP::CheckGethostbynameR
+    Created when additional system library needs to be linked.
+
 ]=============================================================================]#
 
 include_guard(GLOBAL)
 
 include(CheckPrototypeDefinition)
-include(CheckSymbolExists)
 include(CMakePushCheckState)
+include(PHP/SearchLibraries)
 
 function(_php_check_gethostbyname_r)
   message(CHECK_START "Checking number of gethostbyname_r() arguments")
 
-  # Check whether gethostname_r() is available.
-  check_symbol_exists(gethostbyname_r netdb.h _HAVE_GETHOSTBYNAME_R)
+  # Check whether gethostname_r() is available. On systems that have it, it is
+  # mostly in the default libraries (C library) - Linux, Solaris 11.4...
+  php_search_libraries(
+    gethostbyname_r
+    _HAVE_GETHOSTBYNAME_R
+    HEADERS netdb.h
+    LIBRARIES
+      nsl # Solaris <= 11.3, illumos
+    LIBRARY_VARIABLE library
+  )
   if(NOT _HAVE_GETHOSTBYNAME_R)
     message(CHECK_FAIL "not found")
     return()
+  endif()
+
+  if(library)
+    add_library(php_check_gethostbyname_r INTERFACE)
+    add_library(PHP::CheckGethostbynameR ALIAS php_check_gethostbyname_r)
+    target_link_libraries(php_check_gethostbyname_r INTERFACE ${library})
   endif()
 
   # Check for 6 arguments signature.

@@ -4,7 +4,9 @@
 cmake_minimum_required(VERSION 3.25 FATAL_ERROR)
 
 # Append extension's local CMake modules.
-list(APPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_LIST_DIR}/cmake/modules)
+if(NOT ${CMAKE_CURRENT_LIST_DIR}/cmake/modules IN_LIST CMAKE_MODULE_PATH)
+  list(APPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_LIST_DIR}/cmake/modules)
+endif()
 
 # Set the extension project metadata.
 project(

@@ -93,21 +93,21 @@ include(CMakePushCheckState)
 
 # Helper macro that populates target and user passed library variable.
 macro(_php_search_libraries_populate)
-  if(${library_internal_variable})
+  if(${libraryInternalVariable})
     # Link found library to the optionally given target.
     if(target)
       target_link_libraries(
         ${target}
-        ${target_scope}
-        ${${library_internal_variable}}
+        ${targetScope}
+        ${${libraryInternalVariable}}
       )
     endif()
 
     # Store found library in a regular variable provided by the user.
-    if(library_result_variable)
+    if(libraryResultVariable)
       set(
-        ${library_result_variable}
-        ${${library_internal_variable}}
+        ${libraryResultVariable}
+        ${${libraryInternalVariable}}
         PARENT_SCOPE
       )
     endif()
@@ -129,44 +129,49 @@ function(php_search_libraries)
   endif()
 
   set(symbol ${ARGV0})
-  set(symbol_result_variable ${ARGV1})
+  set(symbolResultVariable ${ARGV1})
   set(headers ${parsed_HEADERS})
-  set(headers_recheck ${parsed_RECHECK_HEADERS})
+  set(recheckHeaders ${parsed_RECHECK_HEADERS})
   set(libraries ${parsed_LIBRARIES})
-  set(library_result_variable ${parsed_LIBRARY_VARIABLE})
-  set(library_internal_variable _PHP_SEARCH_LIBRARIES_LIBRARY_${ARGV1})
+  set(libraryResultVariable ${parsed_LIBRARY_VARIABLE})
+  set(libraryInternalVariable _PHP_SEARCH_LIBRARIES_LIBRARY_${ARGV1})
 
   if(NOT parsed_HEADERS)
     message(FATAL_ERROR "php_search_libraries: missing HEADERS")
   endif()
 
+  # Clear LIBRARY_VARIABLE of any existing value is set.
+  if(${libraryResultVariable})
+    unset(${libraryResultVariable} PARENT_SCOPE)
+  endif()
+
   # Validate optional TARGET.
   if(parsed_TARGET)
     list(GET parsed_TARGET 0 target)
-    list(GET parsed_TARGET 1 target_scope)
+    list(GET parsed_TARGET 1 targetScope)
 
     if(NOT TARGET ${target})
       message(FATAL_ERROR "Bad TARGET arguments: ${target} is not a target")
     endif()
 
-    if(NOT target_scope)
+    if(NOT targetScope)
       message(
         FATAL_ERROR
         "Bad TARGET arguments: Target scope PRIVATE|PUBLIC|INTERFACE is missing"
       )
     endif()
 
-    if(NOT target_scope MATCHES "^(PRIVATE|PUBLIC|INTERFACE)$")
+    if(NOT targetScope MATCHES "^(PRIVATE|PUBLIC|INTERFACE)$")
       message(
         FATAL_ERROR
-        "Bad TARGET arguments: ${target_scope} is not a target scope. Use one "
+        "Bad TARGET arguments: ${targetScope} is not a target scope. Use one "
         "of PRIVATE|PUBLIC|INTERFACE."
       )
     endif()
   endif()
 
   # Check if there are cached values stored from any previous run.
-  if(DEFINED ${symbol_result_variable})
+  if(DEFINED ${symbolResultVariable})
     _php_search_libraries_populate()
 
     return()
@@ -174,8 +179,8 @@ function(php_search_libraries)
 
   # Check if given header(s) can be included.
   foreach(header ${headers})
-    if(headers_recheck)
-      set(id _PHP_SEARCH_LIBRARIES_HEADER_${headers_found}_${header})
+    if(recheckHeaders)
+      set(id _PHP_SEARCH_LIBRARIES_HEADER_${headersFound}_${header})
     else()
       set(id HAVE_${header})
     endif()
@@ -187,63 +192,71 @@ function(php_search_libraries)
     string(TOUPPER "${const}" const)
 
     cmake_push_check_state()
-      cmake_language(GET_MESSAGE_LOG_LEVEL log_level)
-      if(NOT log_level MATCHES "^(VERBOSE|DEBUG|TRACE)$")
+      cmake_language(GET_MESSAGE_LOG_LEVEL level)
+      if(NOT level MATCHES "^(VERBOSE|DEBUG|TRACE)$")
         set(CMAKE_REQUIRED_QUIET TRUE)
       endif()
 
       # Check multiple headers appended with each iteration. If a header is not
       # self-contained, it may require including prior additional headers.
-      check_include_files("${headers_found};${header}" ${const})
+      check_include_files("${headersFound};${header}" ${const})
     cmake_pop_check_state()
 
     if(${const})
-      list(APPEND headers_found ${header})
+      list(APPEND headersFound ${header})
     endif()
   endforeach()
 
   # Check if symbol exists without linking additional libraries.
   check_symbol_exists(
     ${symbol}
-    "${headers_found}"
-    ${symbol_result_variable}
+    "${headersFound}"
+    ${symbolResultVariable}
   )
 
-  if(${symbol_result_variable})
+  if(${symbolResultVariable})
     return()
   endif()
 
   # Clear any cached library value if running consecutively and symbol result
   # variable has been unset in the code after the check.
-  unset(${library_internal_variable} CACHE)
+  unset(${libraryInternalVariable} CACHE)
 
   # Now, check if linking any given library helps finding the symbol.
   foreach(library ${libraries})
-    unset(${symbol_result_variable} CACHE)
+    unset(${symbolResultVariable} CACHE)
 
     if(NOT CMAKE_REQUIRED_QUIET)
       message(CHECK_START "Looking for ${symbol} in ${library}")
     endif()
 
     cmake_push_check_state()
-      list(APPEND CMAKE_REQUIRED_LIBRARIES ${library})
+      # Make check friendlier and skip appending nonexistent IMPORTED or ALIAS
+      # targets (with double-colon) to not result in a FATAL_ERROR (CMP0028).
+      if(
+        (NOT TARGET ${library} AND NOT ${library} MATCHES "::")
+        OR TARGET ${library}
+      )
+        list(APPEND CMAKE_REQUIRED_LIBRARIES ${library})
+      endif()
+
       set(CMAKE_REQUIRED_QUIET TRUE)
 
       check_symbol_exists(
         ${symbol}
-        "${headers_found}"
-        ${symbol_result_variable}
+        "${headersFound}"
+        ${symbolResultVariable}
       )
     cmake_pop_check_state()
 
-    if(${symbol_result_variable})
+    if(${symbolResultVariable})
       if(NOT CMAKE_REQUIRED_QUIET)
         message(CHECK_PASS "found")
       endif()
 
       # Store found library in a cache variable for internal purpose.
       set(
-        ${library_internal_variable} ${library}
+        ${libraryInternalVariable} ${library}
         CACHE INTERNAL "Library required to use '${symbol}'."
       )
 

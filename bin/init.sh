@@ -219,7 +219,7 @@ fi
 
 # Check if make -j requires argument (Berkeley-based make implementations).
 if make -h 2>&1 | grep -q "\[-j max_jobs\]" \
-  || make -h 2>&1 | grep "\-j dmake_max_jobs"; then
+  || make -h 2>&1 | grep -q "\-j dmake_max_jobs"; then
   # Linux, illumos has nproc, macOS and some BSD-based systems have sysctl.
   if command -v nproc > /dev/null; then
     jobs=$(nproc)
@@ -228,7 +228,11 @@ if make -h 2>&1 | grep -q "\[-j max_jobs\]" \
   fi
 fi
 
-# Run CMake preset configuration and build.
 cd php-src
+
+# Run CMake preset configuration.
 eval "'$cmake' --preset $preset $cmake_debug_options $options $generator_option"
-eval "'$cmake' --build --preset $preset $cmake_verbose --parallel $jobs"
+
+# Run build step using preset and jobs arguments passed after the arguments for
+# exotic make implementations, such as dmake on illumos.
+eval "'$cmake' --build --preset $preset $cmake_verbose -- -j $jobs"
