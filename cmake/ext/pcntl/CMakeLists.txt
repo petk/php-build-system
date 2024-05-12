@@ -65,6 +65,7 @@ if(NOT HAVE_SIGACTION)
   message(FATAL_ERROR "pcntl: sigaction() is not supported by this platform")
 endif()
 
+check_symbol_exists(getcpuid "sys/processor.h" HAVE_GETCPUID)
 check_symbol_exists(getpriority "sys/resource.h" HAVE_GETPRIORITY)
 check_symbol_exists(setpriority "sys/resource.h" HAVE_SETPRIORITY)
 check_symbol_exists(wait3 "sys/wait.h" HAVE_WAIT3)
