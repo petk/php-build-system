@@ -221,7 +221,7 @@ if(NOT EXT_GD_EXTERNAL)
 
   target_include_directories(php_gd PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/libgd)
 
-  # Add -Wno-strict-prototypes C flag.
+  # Add -Wno-strict-prototypes C flag: https://github.com/php/php-src/pull/10803
   check_compiler_flag(C -Wno-strict-prototypes HAVE_WNO_STRICT_PROTOTYPES_C)
   if(HAVE_WNO_STRICT_PROTOTYPES_C)
     target_compile_options(
