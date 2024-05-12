@@ -117,7 +117,7 @@ function(pkgconfig_generate_pc)
         message(STATUS "Libraries from objdump: ${libraries}")
       endif()
 
-      string(REPLACE ";" " " PHP_LIBS_PRIVATE "${libraries}")
+      list(JOIN libraries " " PHP_LIBS_PRIVATE)
       configure_file(${TEMPLATE} ${OUTPUT} @ONLY)
     ]=]
   )

@@ -88,7 +88,7 @@ modules="
   FindPackageMessage
   ProcessorCount
 
-  PHP/CheckFunctionAttribute
+  PHP/CheckAttribute
   PHP/PkgConfigGenerator
   PHP/SearchLibraries
 "
@@ -149,7 +149,10 @@ FindPackageHandleStandardArgs="
 FindPackageMessage="find_package_message"
 ProcessorCount="processorcount"
 
-PHP_CheckFunctionAttribute="php_check_function_attribute"
+PHP_CheckAttribute="
+  php_check_function_attribute
+  php_check_variable_attribute
+"
 PHP_PkgConfigGenerator="pkgconfig_generate_pc"
 PHP_SearchLibraries="php_search_libraries"
 

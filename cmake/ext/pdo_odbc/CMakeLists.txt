@@ -46,7 +46,7 @@ block()
     set_property(CACHE EXT_PDO_ODBC_TYPE PROPERTY TYPE STRING)
 
     if(NOT EXT_PDO_ODBC_TYPE IN_LIST odbc_types)
-      string(REPLACE ";" ", " odbc_types_string "${odbc_types}")
+      list(JOIN odbc_types ", " odbc_types_string)
 
       message(
         FATAL_ERROR

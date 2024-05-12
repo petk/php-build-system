@@ -151,15 +151,6 @@ if(HAVE_WSTRICT_PROTOTYPES_C)
       $<$<COMPILE_LANGUAGE:ASM,C>:-Wstrict-prototypes>
   )
 endif()
-check_compiler_flag(CXX -Wstrict-prototypes HAVE_WSTRICT_PROTOTYPES_CXX)
-if(HAVE_WSTRICT_PROTOTYPES_CXX)
-  target_compile_options(
-    php_configuration
-    BEFORE
-    INTERFACE
-      $<$<COMPILE_LANGUAGE:CXX>:-Wstrict-prototypes>
-  )
-endif()
 
 check_compiler_flag(C -fno-common HAVE_FNO_COMMON_C)
 if(HAVE_FNO_COMMON_C)

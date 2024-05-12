@@ -259,20 +259,6 @@ if(_HAVE_GETIFADDRS)
   endif()
 endif()
 
-# Check for __attribute__ ((__aligned__)) support in the compiler.
-message(CHECK_START "Checking whether the compiler supports aligned attribute")
-check_source_compiles(C "
-  int main(void) {
-    unsigned char test[32] __attribute__ ((__aligned__ (__alignof__ (int))));
-    return 0;
-  }
-" HAVE_ATTRIBUTE_ALIGNED)
-if(HAVE_ATTRIBUTE_ALIGNED)
-  message(CHECK_PASS "yes")
-else()
-  message(CHECK_FAIL "no")
-endif()
-
 # Check net/if.h for PHP net_get_interfaces().
 if(HAVE_SYS_SOCKET_H)
   # Darwin and BSD-like systems also need sys/socket.h to include net/if.h.

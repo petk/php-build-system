@@ -47,7 +47,7 @@ if(EXT_ODBC)
     )
 
     if(NOT EXT_ODBC_TYPE IN_LIST odbc_types)
-      string(REPLACE ";" ", " odbc_types_string "${odbc_types}")
+      list(JOIN odbc_types ", " odbc_types_string)
 
       message(
         FATAL_ERROR
@@ -134,7 +134,7 @@ endif()
 if(TARGET ODBC::ODBC)
   block()
     get_target_property(cflags ODBC::ODBC INTERFACE_COMPILE_OPTIONS)
-    string(REPLACE ";" " " cflags "${cflags}")
+    list(JOIN cflags " " cflags)
     set(ODBC_CFLAGS "${cflags}" CACHE INTERNAL "ODBC CFLAGS")
 
     get_target_property(libraries ODBC::ODBC IMPORTED_LOCATION)
@@ -151,8 +151,8 @@ if(TARGET ODBC::ODBC)
     list(REMOVE_DUPLICATES ldflags)
     list(REMOVE_DUPLICATES libs)
 
-    string(REPLACE ";" " " ldflags "${ldflags}")
-    string(REPLACE ";" " " libs "${libs}")
+    list(JOIN ldflags " " ldflags)
+    list(JOIN libs " " libs)
 
     set(ODBC_LFLAGS "${ldflags}" CACHE INTERNAL "ODBC linker flags")
     set(ODBC_LIBS "${libs}" CACHE INTERNAL "ODBC libraries")
