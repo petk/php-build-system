@@ -140,7 +140,7 @@ function(php_search_libraries)
     message(FATAL_ERROR "php_search_libraries: missing HEADERS")
   endif()
 
-  # Clear LIBRARY_VARIABLE of any existing value is set.
+  # Clear LIBRARY_VARIABLE of any existing value if set in the parent scope.
   if(${libraryResultVariable})
     unset(${libraryResultVariable} PARENT_SCOPE)
   endif()

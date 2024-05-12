@@ -13,7 +13,7 @@ include(CheckSymbolExists)
 include(CheckTypeSize)
 include(CMakePushCheckState)
 include(FeatureSummary)
-include(PHP/CheckFunctionAttribute)
+include(PHP/CheckAttribute)
 include(PHP/SearchLibraries)
 
 ################################################################################
@@ -525,6 +525,9 @@ if(
   php_check_function_attribute(ifunc HAVE_FUNC_ATTRIBUTE_IFUNC)
   php_check_function_attribute(target HAVE_FUNC_ATTRIBUTE_TARGET)
 endif()
+
+# Check for variable __attribute__((aligned)) support in the compiler.
+php_check_variable_attribute(aligned HAVE_ATTRIBUTE_ALIGNED)
 
 include(PHP/CheckGethostbynameR)
 if(TARGET PHP::CheckGethostbynameR)
