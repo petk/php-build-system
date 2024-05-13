@@ -33,7 +33,10 @@ function(_php_check_attribute_get_function_code attribute result)
       int my_foo(void) { return 0; }
       static int (*resolve_foo(void))(void) { return my_foo; }
       int foo(void) __attribute__((ifunc("resolve_foo")));
-      int main(void) { return 0; }
+      int main(void) {
+        resolve_foo();
+        return 0;
+      }
     ]])
   elseif(attribute STREQUAL "target")
     set(${result} [[

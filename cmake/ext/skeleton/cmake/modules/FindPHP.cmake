@@ -112,8 +112,8 @@ if(PHP_CONFIG_EXECUTABLE)
   )
 
   if(PHP_INCLUDE_DIRS)
-    string(REPLACE "-I" "" PHP_INCLUDE_DIRS "${PHP_INCLUDE_DIRS}")
-    string(REPLACE " " ";" PHP_INCLUDE_DIRS "${PHP_INCLUDE_DIRS}")
+    separate_arguments(PHP_INCLUDE_DIRS NATIVE_COMMAND "${PHP_INCLUDE_DIRS}")
+    list(TRANSFORM PHP_INCLUDE_DIRS REPLACE "^-I" "")
   endif()
 endif()
 

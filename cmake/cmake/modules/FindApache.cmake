@@ -91,12 +91,12 @@ else()
     set(_Apache_APXS_SANITY_CHECK TRUE)
 
     # Get all compile definitions from the above CFLAGS result if found.
-    string(
-      REGEX MATCHALL
-      "-D[^ ]+"
+    separate_arguments(
       Apache_APXS_DEFINITIONS
+      NATIVE_COMMAND
       "${Apache_APXS_DEFINITIONS}"
     )
+    list(FILTER Apache_APXS_DEFINITIONS INCLUDE REGEX "^-D")
   else()
     string(
       APPEND
@@ -184,7 +184,11 @@ if(Apache_APR_CONFIG_EXECUTABLE)
     ERROR_QUIET
   )
 
-  string(REGEX MATCHALL "[^ ]+" Apache_APR_CPPFLAGS "${Apache_APR_CPPFLAGS}")
+  separate_arguments(
+    Apache_APR_CPPFLAGS
+    NATIVE_COMMAND
+    "${Apache_APR_CPPFLAGS}"
+  )
 
   execute_process(
     COMMAND "${Apache_APR_CONFIG_EXECUTABLE}" --includedir
