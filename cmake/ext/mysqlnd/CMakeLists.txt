@@ -90,6 +90,12 @@ target_sources(
 
 target_compile_definitions(php_mysqlnd PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE=1)
 
+target_link_libraries(
+  php_mysqlnd
+  PRIVATE
+    $<$<PLATFORM_ID:Windows>:ws2_32>
+)
+
 if(EXT_MYSQLND_COMPRESSION)
   find_package(ZLIB)
   set_package_properties(

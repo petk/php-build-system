@@ -3,14 +3,14 @@ Check if GNU C function or variable attribute is supported by the compiler.
 
 Module exposes the following functions:
 
-  php_check_function_attribute(<attribute-name> <result>)
-  php_check_variable_attribute(<attribute-name> <result>)
+  php_check_function_attribute(<attribute> <result>)
+  php_check_variable_attribute(<attribute> <result>)
 
-    <attribute-name>
+    <attribute>
       Name of the attribute to check.
     <result>
-      Cache variable name to store the result of whether attribute
-      <attribute-name> is supported by the compiler.
+      Cache variable name to store the result of whether the compiler supports
+      the attribute <attribute>.
 
 Supported function attributes:
 
@@ -89,10 +89,11 @@ function(_php_check_attribute what attribute result)
   message(CHECK_START "Checking for ${what} attribute ${attribute}")
 
   cmake_push_check_state(RESET)
-    # Compilers by default may not treat attribute warnings as errors
-    # (-Werror=attributes), so some error flag needs to be set to make the check
-    # certain. Here, the internal CMake variable
-    # CMAKE_C_COMPILE_OPTIONS_WARNING_AS_ERROR is used, if available.
+    # Compilers by default may not treat attribute warnings as errors, so some
+    # error flag needs to be set to make the check certain (-Werror=attributes,
+    # clang's -Werror=unknown-attributes, -Werror...). Use the internal CMake
+    # compiler-agnostic variable CMAKE_C_COMPILE_OPTIONS_WARNING_AS_ERROR
+    # (-Werror or other compiler-based option), if available.
     list(JOIN CMAKE_C_COMPILE_OPTIONS_WARNING_AS_ERROR " " CMAKE_REQUIRED_FLAGS)
 
     set(CMAKE_REQUIRED_QUIET TRUE)
