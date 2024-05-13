@@ -1448,33 +1448,45 @@ A list of Autoconf `configure` command-line configuration options, Windows
     </tr>
     <tr>
       <td>--disable-ftp</td>
-      <td></td>
+      <td>--disable-ftp</td>
       <td>EXT_FTP=OFF</td>
       <td>default</td>
     </tr>
     <tr>
       <td>&emsp;--enable-ftp</td>
-      <td></td>
+      <td>--enable-ftp</td>
       <td>EXT_FTP=ON</td>
       <td></td>
     </tr>
     <tr>
       <td>&emsp;--enable-ftp=shared</td>
-      <td></td>
+      <td>--enable-ftp=shared</td>
       <td>EXT_FTP_SHARED=ON</td>
       <td></td>
     </tr>
     <tr>
-      <td>&emsp;--without-openssl-dir</td>
-      <td></td>
+      <td>&emsp;--without-ftp-ssl</td>
+      <td>N/A</td>
       <td>EXT_FTP_SSL=OFF</td>
-      <td>default</td>
+      <td>default, PHP >= 8.4</td>
+    </tr>
+    <tr>
+      <td>&emsp;--with-ftp-ssl</td>
+      <td>N/A</td>
+      <td>EXT_FTP_SSL=ON</td>
+      <td>PHP >= 8.4</td>
+    </tr>
+    <tr>
+      <td>&emsp;--without-openssl-dir</td>
+      <td>N/A</td>
+      <td>EXT_FTP_SSL=OFF</td>
+      <td>default, PHP <= 8.3</td>
     </tr>
     <tr>
       <td>&emsp;--with-openssl-dir</td>
-      <td></td>
+      <td>N/A</td>
       <td>EXT_FTP_SSL=ON</td>
-      <td></td>
+      <td>PHP <= 8.3</td>
     </tr>
     <tr>
       <td>--disable-gd</td>
@@ -1923,45 +1935,45 @@ A list of Autoconf `configure` command-line configuration options, Windows
     </tr>
     <tr>
       <td>--disable-mysqlnd</td>
-      <td></td>
+      <td>--without-mysqlnd</td>
       <td>EXT_MYSQLND=OFF</td>
-      <td>default</td>
+      <td>default in *nix and CMake (on Windows enabled by default)</td>
     </tr>
     <tr>
       <td>&emsp;--enable-mysqlnd</td>
-      <td></td>
+      <td>--with-mysqlnd</td>
       <td>EXT_MYSQLND=ON</td>
       <td></td>
     </tr>
     <tr>
       <td>&emsp;--enable-mysqlnd=shared</td>
-      <td></td>
+      <td>N/A</td>
       <td>EXT_MYSQLND_SHARED=ON</td>
       <td></td>
     </tr>
     <tr>
       <td>&emsp;--enable-mysqlnd-compression-support</td>
-      <td></td>
+      <td>N/A (enabled by default)</td>
       <td>EXT_MYSQLND_COMPRESSION=ON</td>
       <td>default</td>
     </tr>
     <tr>
       <td>&emsp;--disable-mysqlnd-compression-support</td>
-      <td></td>
+      <td>N/A</td>
       <td>EXT_MYSQLND_COMPRESSION=OFF</td>
       <td></td>
     </tr>
     <tr>
-      <td></td>
-      <td></td>
+      <td>--without-mysqlnd-ssl</td>
+      <td>N/A</td>
       <td>EXT_MYSQLND_SSL=OFF</td>
-      <td>default, see also --with-openssl-dir and EXT_FTP_SSL</td>
+      <td>default, PHP >= 8.4</td>
     </tr>
     <tr>
-      <td></td>
-      <td></td>
+      <td>--with-mysqlnd-ssl</td>
+      <td>N/A</td>
       <td>EXT_MYSQLND_SSL=ON</td>
-      <td></td>
+      <td>PHP >= 8.4</td>
     </tr>
     <tr>
       <td>--without-oci8</td>
