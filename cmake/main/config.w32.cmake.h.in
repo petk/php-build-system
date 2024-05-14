@@ -278,6 +278,9 @@
 /* */
 #cmakedefine HAVE_LIBEDIT 1
 
+/* PostgreSQL 12 or later */
+#cmakedefine HAVE_PG_RESULT_MEMORY_SIZE 1
+
 /* Have SHMOP support */
 #cmakedefine HAVE_SHMOP 1
 

@@ -1038,6 +1038,9 @@
 /* PostgreSQL 9.3 or later */
 #cmakedefine HAVE_PG_LO64 1
 
+/* PostgreSQL 12 or later */
+#cmakedefine HAVE_PG_RESULT_MEMORY_SIZE 1
+
 /* */
 #cmakedefine HAVE_PHPDBG 1
 
