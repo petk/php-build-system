@@ -63,6 +63,8 @@ target_sources(
         xxhash/xxhash.h
 )
 
+target_include_directories(php_hash PRIVATE xxhash)
+
 if(WORDS_BIGENDIAN)
   set(HAVE_SLOW_HASH3 1 CACHE INTERNAL "Define if hash3 algo is available")
   message(WARNING "Using SHA3 slow implementation on bigendian")

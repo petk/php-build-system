@@ -233,6 +233,9 @@
 /* Whether to build zlib as dynamic module */
 #cmakedefine COMPILE_DL_ZLIB 1
 
+/* */
+#define COOKIE_IO_FUNCTIONS_T cookie_io_functions_t
+
 /* Whether newer fopencookie seeker definition is available. */
 #cmakedefine COOKIE_SEEKER_USES_OFF64_T 1
 
