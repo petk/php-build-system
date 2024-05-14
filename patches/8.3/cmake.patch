@@ -1,50 +1,10 @@
 Subject: Add CMake changes for PHP-8.3 branch
 
-* EditorConfig adjustments for code style support in editors and IDEs
-* CMake build system files added to .gitignore
 * CMake added to run-tests.php for info about failing tests and checks
 ---
- .editorconfig |  2 +-
- .gitignore    | 15 +++++++++++++++
  run-tests.php | 24 ++++++++++++++++++------
- 3 files changed, 34 insertions(+), 7 deletions(-)
+ 1 file changed, 18 insertions(+), 6 deletions(-)
 
-diff --git a/.editorconfig b/.editorconfig
-index 7911bf8490..0ca142015f 100644
---- a/.editorconfig
-+++ b/.editorconfig
-@@ -17,7 +17,7 @@ indent_style             = tab
- indent_size              = 4
- indent_style             = space
- 
--[*.{ac,m4,sh,yml}]
-+[{CMakeLists.txt,*.{ac,cmake,json,m4,sh,yml}}]
- indent_size              = 2
- indent_style             = space
- 
-diff --git a/.gitignore b/.gitignore
-index 49acc9f2e1..02f2879c67 100644
---- a/.gitignore
-+++ b/.gitignore
-@@ -297,3 +297,18 @@ tmp-php.ini
- !/ext/fileinfo/magicdata.patch
- !/ext/pcre/pcre2lib/config.h
- !/win32/build/Makefile
-+
-+# ------------------------------------------------------------------------------
-+# CMake build system files
-+# ------------------------------------------------------------------------------
-+/_deps/
-+/.ninja*
-+/build.ninja
-+/CMakeUserPresets.json
-+/compile-commands.json
-+/CTestTestfile.cmake
-+/profile.json
-+/Testing/
-+cmake_install.cmake
-+CMakeCache.txt
-+CMakeFiles/
 diff --git a/run-tests.php b/run-tests.php
 index 71a8fdc80f..352951667b 100755
 --- a/run-tests.php

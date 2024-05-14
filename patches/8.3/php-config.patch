@@ -43,10 +43,10 @@ Changes:
  4 files changed, 53 insertions(+), 19 deletions(-)
 
 diff --git a/build/php.m4 b/build/php.m4
-index 933ada51dc..4909484a3b 100644
+index 5397be202e..b6753cd03b 100644
 --- a/build/php.m4
 +++ b/build/php.m4
-@@ -2159,7 +2159,9 @@ EOF
+@@ -2158,7 +2158,9 @@ EOF
    chmod +x $1
    CONFIGURE_COMMAND="$CONFIGURE_COMMAND $CONFIGURE_OPTIONS"
    PHP_SUBST_OLD(CONFIGURE_COMMAND)
