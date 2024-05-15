@@ -294,6 +294,9 @@
 
 #cmakedefine HAVE_SOCKETS 1
 
+/* Whether you have libmm */
+#cmakedefine HAVE_LIBMM 1
+
 /* Have the Sodium library */
 #cmakedefine HAVE_LIBSODIUMLIB 1
 
