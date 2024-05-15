@@ -56,22 +56,33 @@ target_sources(
         php_session.h
 )
 
-target_compile_definitions(php_session PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE=1)
+target_compile_definitions(
+  php_session
+  PRIVATE
+    ZEND_ENABLE_STATIC_TSRMLS_CACHE=1
+)
 
-add_dependencies(php_session php_hash php_spl)
+# For spl autoloading https://bugs.php.net/53141
+add_dependencies(php_session php_spl)
 
-# Check whether pwrite() works.
-include(PHP/CheckPwrite)
+# Check whether pread() and pwrite() work.
+include(PHP/CheckPreadPwrite)
 
-# Check whether pread() works.
-include(PHP/CheckPread)
-
-set(HAVE_PHP_SESSION 1 CACHE INTERNAL "Define to 1 if session extension is enabled")
+set(
+  HAVE_PHP_SESSION 1
+  CACHE INTERNAL "Whether the session extension is available."
+)
 
 if(EXT_SESSION_MM)
   # The mm library is not thread-safe, and mod_mm.c refuses to compile.
   if(PHP_THREAD_SAFETY)
-    message(FATAL_ERROR "Thread safety and libmm cannot be done together.")
+    message(
+      FATAL_ERROR
+      "The mm library (libmm) is not thread safe. Thread safety and libmm "
+      "cannot be used together. Please either disable thread safety by setting "
+      "PHP_THREAD_SAFETY to 'OFF', or disable libmm by setting EXT_SESSION_MM "
+      "to 'OFF'."
+    )
   endif()
 
   target_sources(
