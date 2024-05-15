@@ -74,6 +74,7 @@ check_symbol_exists(sigwaitinfo "signal.h" HAVE_SIGWAITINFO)
 check_symbol_exists(sigtimedwait "signal.h" HAVE_SIGTIMEDWAIT)
 check_symbol_exists(rfork "unistd.h" HAVE_RFORK)
 check_symbol_exists(forkx "sys/fork.h" HAVE_FORKX)
+check_symbol_exists(pset_bind "sys/pset.h" HAVE_PSET_BIND)
 check_symbol_exists(SYS_pidfd_open "sys/syscall.h" HAVE_PIDFD_OPEN)
 check_symbol_exists(
   pthread_set_qos_class_self_np

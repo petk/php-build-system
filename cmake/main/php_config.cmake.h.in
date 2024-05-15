@@ -1081,6 +1081,9 @@
 /* Libzip >= 1.3.0 with zip_register_progress_callback_with_state function */
 #cmakedefine HAVE_PROGRESS_CALLBACK 1
 
+/* Define to 1 if you have the 'pset_bind' function. */
+#cmakedefine HAVE_PSET_BIND 1
+
 /* Define to 1 if the PS_STRINGS thing exists. */
 #cmakedefine HAVE_PS_STRINGS 1
 
