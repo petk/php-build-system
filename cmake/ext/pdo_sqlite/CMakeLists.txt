@@ -61,11 +61,6 @@ set_package_properties(
 target_link_libraries(php_pdo_sqlite PRIVATE SQLite::SQLite3)
 
 if(TARGET SQLite::SQLite3)
-  set(
-    HAVE_PDO_SQLITELIB 1
-    CACHE INTERNAL "Define to 1 if you have the pdo_sqlite extension enabled."
-  )
-
   check_library_exists(
     SQLite::SQLite3
     sqlite3_close_v2

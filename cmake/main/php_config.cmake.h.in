@@ -1023,9 +1023,6 @@
 /* Whether to build PostgreSQL for PDO support or not */
 #cmakedefine HAVE_PDO_PGSQL 1
 
-/* Define to 1 if you have the pdo_sqlite extension enabled. */
-#cmakedefine HAVE_PDO_SQLITELIB 1
-
 /* Whether to build PostgreSQL support or not */
 #cmakedefine HAVE_PGSQL 1
 
