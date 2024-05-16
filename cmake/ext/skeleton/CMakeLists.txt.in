@@ -60,15 +60,17 @@ target_sources(
   php_%EXTNAME%
   PRIVATE
     %EXTNAME%.c
-  # If extension provides header(s) that will be consumed by other sources and
-  # should be installed, add header(s) to a file set.
+  # Add headers to a file set, if extension provides headers that should be
+  # installed and will be consumed by other sources.
   PUBLIC
     FILE_SET HEADERS
       FILES
         php_%EXTNAME%.h
 )
 
-# If extension is Zend extension, enable the PHP_ZEND_EXTENSION target property.
+# Configure extension as Zend extension. Zend extensions are loaded with the
+# 'zend_extension' INI directive and include additional advanced hooks. Use only
+# when building advanced extensions, such as debuggers, profilers, caching, etc.
 #set_target_properties(php_%EXTNAME% PROPERTIES PHP_ZEND_EXTENSION TRUE)
 
 # Find PHP package on the system.
@@ -78,7 +80,7 @@ find_package(PHP REQUIRED)
 # Link PHP and extension targets.
 target_link_libraries(php_%EXTNAME% PRIVATE PHP::PHP)
 
-# Installation step copies file(s) to their appropriate system destinations.
+# Install files to system destinations when running 'cmake --install'.
 install(
   TARGETS php_%EXTNAME%
   ARCHIVE EXCLUDE_FROM_ALL

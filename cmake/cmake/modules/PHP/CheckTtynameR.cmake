@@ -20,6 +20,7 @@ include_guard(GLOBAL)
 include(CheckPrototypeDefinition)
 include(CheckSourceRuns)
 include(CMakePushCheckState)
+include(PHP/SystemExtensions)
 
 message(CHECK_START "Checking for working ttyname_r()")
 

@@ -1,37 +1,53 @@
 #[=============================================================================[
-Enable extensions to C or Posix on systems that by default disable them to
+Enable extensions to C or POSIX on systems that by default disable them to
 conform to standards or namespace issues.
 
-Usage:
-
-  - Include the module: "include(PHP/SystemExtensions)"
-  - Add @PHP_SYSTEM_EXTENSIONS@ placeholder to configuration header template,
-    which will be replaced with required system extensions definitions.
-  - Link PHP::SystemExtensions target where needed.
-
-IMPORTED target:
-
-  PHP::SystemExtensions
-    Interface library target with all required compile definitions (-D).
-
-    When check requires _GNU_SOURCE or other extensions:
-      cmake_push_check_state(RESET)
-        set(CMAKE_REQUIRED_LIBRARIES PHP::SystemExtensions)
-        check_symbol_exists(<symbol> <headers> HAVE_<symbol>)
-      cmake_pop_check_state()
-
-    Linking to targets that require system extensions:
-      target_link_libraries(<target> ... PHP::SystemExtensions)
-
-Logic here closely follows the Autoconf's AC_USE_SYSTEM_EXTENSIONS macro with
-some simplifications for the obsolete systems. See:
+Logic follows the Autoconf's AC_USE_SYSTEM_EXTENSIONS macro:
 https://www.gnu.org/software/autoconf/manual/autoconf-2.72/html_node/C-and-Posix-Variants.html
+with some simplifications for the obsolete systems.
 
 Obsolete preprocessor macros that are not defined by this module:
 
   _MINIX
   _POSIX_SOURCE
   _POSIX_1_SOURCE
+
+Conditionally defined preprocessor macros:
+
+  __EXTENSIONS__
+    Enabled on Solaris and illumos-based systems.
+
+Result variables:
+
+  PHP_SYSTEM_EXTENSIONS
+    String for containing all system extensions definitions for usage in the
+    configuration header template.
+
+IMPORTED target:
+
+  PHP::SystemExtensions
+    Interface library target with all required compile definitions (-D).
+
+Usage:
+
+- Include the module:
+  include(PHP/SystemExtensions)
+
+- Add @PHP_SYSTEM_EXTENSIONS@ placeholder to configuration header template:
+
+  # php_config.h
+  @PHP_SYSTEM_EXTENSIONS@
+
+- Link targets that require system extensions:
+    target_link_libraries(<target> ... PHP::SystemExtensions)
+
+- When some check requires, for example, _GNU_SOURCE or some other extensions,
+  link the PHP::SystemExtensions target:
+
+  cmake_push_check_state(RESET)
+    set(CMAKE_REQUIRED_LIBRARIES PHP::SystemExtensions)
+    check_symbol_exists(<symbol> <headers> HAVE_<symbol>)
+  cmake_pop_check_state()
 
 Compile definitions are not appended to CMAKE_C_FLAGS for cleaner build system:
   string(APPEND CMAKE_C_FLAGS " -D<extension>=1 ")
@@ -56,7 +72,7 @@ target_compile_definitions(
   INTERFACE
     _ALL_SOURCE=1
     _DARWIN_C_SOURCE=1
-    _GNU_SOURCE=1
+    _GNU_SOURCE
     _HPUX_ALT_XOPEN_SOCKET_API=1
     _NETBSD_SOURCE=1
     _OPENBSD_SOURCE=1
@@ -73,77 +89,84 @@ target_compile_definitions(
 )
 
 ################################################################################
-# Check whether to enable __EXTENSIONS__.
+# Check whether to enable __EXTENSIONS__ on Solaris and illumos-based systems.
+#
+# Defining __EXTENSIONS__ may break the system headers on some obsolete systems.
+# Conditional check is obsolete and is left here for compliance with logic in
+# Autoconf 2.72+. On current Solaris and illumos-based systems the
+# __EXTENSIONS__ can be enabled unconditionally without checking default headers
+# compilation.
 ################################################################################
 
-cmake_push_check_state(RESET)
-  cmake_language(GET_MESSAGE_LOG_LEVEL log_level)
-  if(NOT log_level MATCHES "^(VERBOSE|DEBUG|TRACE)$")
-    set(CMAKE_REQUIRED_QUIET TRUE)
+if(CMAKE_SYSTEM_NAME STREQUAL "SunOS")
+  cmake_push_check_state(RESET)
+    cmake_language(GET_MESSAGE_LOG_LEVEL log_level)
+    if(NOT log_level MATCHES "^(VERBOSE|DEBUG|TRACE)$")
+      set(CMAKE_REQUIRED_QUIET TRUE)
+    endif()
+
+    check_include_file(strings.h HAVE_STRINGS_H)
+    check_include_file(sys/types.h HAVE_SYS_TYPES_H)
+    check_include_file(sys/stat.h HAVE_SYS_STAT_H)
+    check_include_file(unistd.h HAVE_UNISTD_H)
+
+    if(HAVE_STRINGS_H)
+      list(APPEND CMAKE_REQUIRED_DEFINITIONS -DHAVE_STRINGS_H)
+    endif()
+
+    if(HAVE_SYS_TYPES_H)
+      list(APPEND CMAKE_REQUIRED_DEFINITIONS -DHAVE_SYS_TYPES_H)
+    endif()
+
+    if(HAVE_SYS_STAT_H)
+      list(APPEND CMAKE_REQUIRED_DEFINITIONS -DHAVE_SYS_STAT_H)
+    endif()
+
+    if(HAVE_UNISTD_H)
+      list(APPEND CMAKE_REQUIRED_DEFINITIONS -DHAVE_UNISTD_H)
+    endif()
+
+    check_source_compiles(C [[
+      #define __EXTENSIONS__ 1
+      #include <stddef.h>
+      #include <stdio.h>
+      #include <stdlib.h>
+      #include <string.h>
+      #include <inttypes.h>
+      #include <stdint.h>
+      #ifdef HAVE_STRINGS_H
+      # include <strings.h>
+      #endif
+      #ifdef HAVE_SYS_TYPES_H
+      # include <sys/types.h>
+      #endif
+      #ifdef HAVE_SYS_STAT_H
+      # include <sys/stat.h>
+      #endif
+      #ifdef HAVE_UNISTD_H
+      # include <unistd.h>
+      #endif
+      int main(void) { return 0; }
+    ]] __EXTENSIONS__)
+  cmake_pop_check_state()
+
+  if(__EXTENSIONS__)
+    target_compile_definitions(PHP::SystemExtensions INTERFACE __EXTENSIONS__=1)
+  else()
+    message(
+      WARNING
+      "__EXTENSIONS__ could not be enabled because system headers failed to "
+      "compile. Please see the CMake configure logs."
+    )
   endif()
-
-  check_include_file(strings.h HAVE_STRINGS_H)
-  check_include_file(sys/types.h HAVE_SYS_TYPES_H)
-  check_include_file(sys/stat.h HAVE_SYS_STAT_H)
-  check_include_file(unistd.h HAVE_UNISTD_H)
-
-  if(HAVE_STRINGS_H)
-    list(APPEND CMAKE_REQUIRED_DEFINITIONS -DHAVE_STRINGS_H)
-  endif()
-
-  if(HAVE_SYS_TYPES_H)
-    list(APPEND CMAKE_REQUIRED_DEFINITIONS -DHAVE_SYS_TYPES_H)
-  endif()
-
-  if(HAVE_SYS_STAT_H)
-    list(APPEND CMAKE_REQUIRED_DEFINITIONS -DHAVE_SYS_STAT_H)
-  endif()
-
-  if(HAVE_UNISTD_H)
-    list(APPEND CMAKE_REQUIRED_DEFINITIONS -DHAVE_UNISTD_H)
-  endif()
-
-  # Defining __EXTENSIONS__ may break the system headers on some old systems.
-  # This check is mostly obsolete and is left here only for compliance with
-  # Autotools build system logic in Autoconf 2.72.
-  check_source_compiles(C [[
-    #define __EXTENSIONS__ 1
-    #include <stddef.h>
-    #include <stdio.h>
-    #include <stdlib.h>
-    #include <string.h>
-    #include <inttypes.h>
-    #include <stdint.h>
-    #ifdef HAVE_STRINGS_H
-    # include <strings.h>
-    #endif
-    #ifdef HAVE_SYS_TYPES_H
-    # include <sys/types.h>
-    #endif
-    #ifdef HAVE_SYS_STAT_H
-    # include <sys/stat.h>
-    #endif
-    #ifdef HAVE_UNISTD_H
-    # include <unistd.h>
-    #endif
-    int main(void) { return 0; }
-  ]] __EXTENSIONS__)
-cmake_pop_check_state()
-
-if(__EXTENSIONS__)
-  target_compile_definitions(
-    PHP::SystemExtensions
-    INTERFACE
-      __EXTENSIONS__=1
-  )
 endif()
 
 ################################################################################
 # Check whether to enable _XOPEN_SOURCE.
 ################################################################################
 
-# HP-UX 11.11 didn't define mbstate_t without setting _XOPEN_SOURCE. This is
-# set conditionally, because BSD-based systems might have issues with this.
+# HP-UX 11.11 didn't define mbstate_t without setting _XOPEN_SOURCE. This is set
+# conditionally, because BSD-based systems might have issues with this.
 if(CMAKE_SYSTEM_NAME STREQUAL "HP-UX")
   # Reset any possible previous value.
   unset(_XOPEN_SOURCE)
@@ -200,7 +223,7 @@ set(PHP_SYSTEM_EXTENSIONS [[
 #endif
 /* Enable GNU extensions on systems that have them.  */
 #ifndef _GNU_SOURCE
-# define _GNU_SOURCE 1
+# define _GNU_SOURCE
 #endif
 /* Enable X/Open compliant socket functions that do not require linking
    with -lxnet on HP-UX 11.11.  */
