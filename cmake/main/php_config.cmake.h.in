@@ -237,7 +237,7 @@
    to ~2.1.2), which used the _IO_cookie_io_functions_t symbol. However, there
    is a bug in PHP-8.3 check and it never got defined to anything but
    cookie_io_functions_t. This has been fixed in PHP-8.4 and the bypass here is
-   provided only for PHP-8.3.*/
+   provided only for PHP-8.3. */
 #define COOKIE_IO_FUNCTIONS_T cookie_io_functions_t
 
 /* Whether newer fopencookie seeker definition is available. */
