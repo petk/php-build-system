@@ -91,6 +91,7 @@ modules="
   PHP/CheckAttribute
   PHP/PkgConfigGenerator
   PHP/SearchLibraries
+  PHP/SystemExtensions
 "
 
 # Commands contained in CMake modules.
@@ -155,6 +156,7 @@ PHP_CheckAttribute="
 "
 PHP_PkgConfigGenerator="pkgconfig_generate_pc"
 PHP_SearchLibraries="php_search_libraries"
+PHP_SystemExtensions='PHP::SystemExtensions'
 
 if test -n "$directories"; then
   filesFound=$(find $directories -type f \
@@ -187,7 +189,16 @@ for file in $files; do
     commands=$(eval echo "\${$moduleKey}")
     for command in $commands; do
       test -n "$regex" && regex="$regex || "
-      regex="$regex /^[[:blank:]]*$command[[:space:]]*\(/"
+      case "$command" in
+        # Targets with double-colon:
+        *\:\:*)
+          regex="$regex /[[:blank:]]*$command[[:space:]]*/"
+          ;;
+        # All commands ending with opening parentheses:
+        *)
+          regex="$regex /^[[:blank:]]*$command[[:space:]]*\(/"
+          ;;
+      esac
     done
 
     foundModules=$(echo "$content" | grep -a -E "include\($module\)")

@@ -25,6 +25,7 @@ include_guard(GLOBAL)
 include(CheckFunctionExists)
 include(CheckSourceRuns)
 include(CMakePushCheckState)
+include(PHP/SystemExtensions)
 
 ################################################################################
 # Check pread().
