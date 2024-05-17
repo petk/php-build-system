@@ -133,6 +133,8 @@ function(php_mysqlnd_post_configuration)
       MYSQLND_HAVE_SSL 1
       CACHE INTERNAL "Enable mysqlnd extended SSL that uses OpenSSL directly"
     )
+
+    add_dependencies(php_mysqlnd php_hash)
   endif()
 
   add_feature_info(
