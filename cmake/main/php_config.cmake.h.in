@@ -783,6 +783,9 @@
 /* Define to 1 if you have the 'initgroups' function. */
 #cmakedefine HAVE_INITGROUPS 1
 
+/* Whether the intl extension is available. */
+#cmakedefine HAVE_INTL 1
+
 /* */
 #cmakedefine HAVE_IODBC 1
 
@@ -1014,10 +1017,10 @@
 /* */
 #cmakedefine HAVE_PCRE_JIT_SUPPORT 1
 
-/* */
+/* Whether the pdo_dblib extension is available. */
 #cmakedefine HAVE_PDO_DBLIB 1
 
-/* */
+/* Whether the pdo_firebird extension is available. */
 #cmakedefine HAVE_PDO_FIREBIRD 1
 
 /* Whether to build PostgreSQL for PDO support or not */
@@ -1509,6 +1512,9 @@
 
 /* Define to 1 if you have the <tmmintrin.h> header file. */
 #cmakedefine HAVE_TMMINTRIN_H 1
+
+/* Whether the tokenizer extension is available. */
+#cmakedefine HAVE_TOKENIZER 1
 
 /* Whether you have a working ttyname_r */
 #cmakedefine HAVE_TTYNAME_R 1

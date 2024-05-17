@@ -227,6 +227,9 @@
 
 #cmakedefine PHP_MHASH_BC 1
 
+/* Whether the intl extension is available. */
+#cmakedefine HAVE_INTL 1
+
 /* have the zlib.h header file */
 #define HAVE_ZLIB_H 0
 
@@ -268,6 +271,12 @@
 
 /* Whether to enable the PCRE JIT support */
 #cmakedefine HAVE_PCRE_JIT_SUPPORT 1
+
+/* Whether the pdo_dblib extension is available. */
+#cmakedefine HAVE_PDO_DBLIB 1
+
+/* Whether the pdo_firebird extension is available. */
+#cmakedefine HAVE_PDO_FIREBIRD 1
 
 /* */
 #cmakedefine PHAR_HAVE_OPENSSL 1
@@ -316,7 +325,7 @@
 
 #cmakedefine PHP_USE_PHP_CRYPT_R 1
 
-/* Tokenizer support */
+/* Whether the tokenizer extension is available. */
 #cmakedefine HAVE_TOKENIZER 1
 
 #if __has_include("main/config.pickle.h")
