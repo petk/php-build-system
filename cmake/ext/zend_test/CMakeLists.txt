@@ -47,7 +47,8 @@ target_compile_definitions(
 
 # If ext/libxml is enabled, link libxml library.
 if(EXT_LIBXML)
-  find_package(LibXml2 ${PHP_LIBXML2_MIN_VERSION})
+  include(Packages/LibXml2)
+
   set_package_properties(
     LibXml2
     PROPERTIES

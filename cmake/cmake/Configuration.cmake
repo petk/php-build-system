@@ -158,9 +158,6 @@ mark_as_advanced(PHP_CCACHE)
 # Various global internal configuration.
 ################################################################################
 
-# Minimum required version for the libxml2 dependency.
-set(PHP_LIBXML2_MIN_VERSION 2.9.0)
-
 # Minimum required version for the OpenSSL dependency.
 set(PHP_OPENSSL_MIN_VERSION 1.1.1)
 
@@ -191,13 +188,6 @@ set_package_properties(
   PROPERTIES
     URL "https://libexpat.github.io/"
     DESCRIPTION "Stream-oriented XML parser library"
-)
-
-set_package_properties(
-  LibXml2
-  PROPERTIES
-    URL "https://gitlab.gnome.org/GNOME/libxml2"
-    DESCRIPTION "XML parser and toolkit"
 )
 
 set_package_properties(
