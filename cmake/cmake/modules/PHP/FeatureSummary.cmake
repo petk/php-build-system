@@ -79,4 +79,5 @@ feature_summary(
   FATAL_ON_MISSING_REQUIRED_PACKAGES
   WHAT REQUIRED_PACKAGES_NOT_FOUND
   QUIET_ON_EMPTY
+  DESCRIPTION "The following REQUIRED packages have not been found:"
 )

@@ -48,7 +48,8 @@ target_compile_definitions(
 
 set(HAVE_PHP_SOAP 1 CACHE INTERNAL "Whether the soap extension is enabled")
 
-find_package(LibXml2 ${PHP_LIBXML2_MIN_VERSION})
+include(Packages/LibXml2)
+
 set_package_properties(
   LibXml2
   PROPERTIES

@@ -33,7 +33,8 @@ target_compile_definitions(
     $<$<PLATFORM_ID:Windows>:LIBXML_STATIC;LIBXML_STATIC_FOR_DLL>
 )
 
-find_package(LibXml2 ${PHP_LIBXML2_MIN_VERSION})
+include(Packages/LibXml2)
+
 set_package_properties(
   LibXml2
   PROPERTIES

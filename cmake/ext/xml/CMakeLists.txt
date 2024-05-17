@@ -65,7 +65,8 @@ if(NOT EXT_XML_EXPAT)
       $<$<AND:$<PLATFORM_ID:Windows>,$<NOT:$<IN_LIST:$<TARGET_PROPERTY:TYPE>,MODULE_LIBRARY;SHARED_LIBRARY>>>:LIBXML_STATIC>
   )
 
-  find_package(LibXml2 ${PHP_LIBXML2_MIN_VERSION})
+  include(Packages/LibXml2)
+
   set_package_properties(
     LibXml2
     PROPERTIES
