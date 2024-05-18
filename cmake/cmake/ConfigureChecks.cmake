@@ -491,16 +491,16 @@ else()
   check_symbol_exists(alloca "stdlib.h" HAVE_ALLOCA)
 endif()
 
-# Check for __alignof__ support in the compiler.
 message(CHECK_START "Checking whether the compiler supports __alignof__")
 cmake_push_check_state(RESET)
   set(CMAKE_REQUIRED_QUIET TRUE)
-  check_source_compiles(C "
+  check_source_compiles(C [[
     int main(void) {
       int align = __alignof__(int);
+      (void)align;
       return 0;
     }
-  " HAVE_ALIGNOF)
+  ]] HAVE_ALIGNOF)
 cmake_pop_check_state()
 if(HAVE_ALIGNOF)
   message(CHECK_PASS "yes")

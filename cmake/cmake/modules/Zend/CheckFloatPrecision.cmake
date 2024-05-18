@@ -25,6 +25,7 @@ include(CMakePushCheckState)
 cmake_push_check_state(RESET)
   set(CMAKE_REQUIRED_QUIET TRUE)
 
+  # Obsolete in favor of C99 fenv.h functions to control FPU rounding modes.
   message(CHECK_START "Checking for usable _FPU_SETCW")
   check_source_compiles(C [[
     #include <fpu_control.h>
@@ -40,6 +41,7 @@ cmake_push_check_state(RESET)
       _FPU_SETCW(fpu_cw);
       result = a / b;
       _FPU_SETCW(fpu_oldcw);
+      (void)result;
 
       return 0;
     }
@@ -64,6 +66,7 @@ cmake_push_check_state(RESET)
       fpsetprec(FP_PD);
       result = a / b;
       fpsetprec(fpu_oldprec);
+      (void)result;
 
       return 0;
     }
@@ -88,6 +91,7 @@ cmake_push_check_state(RESET)
       _controlfp(_PC_53, _MCW_PC);
       result = a / b;
       _controlfp(fpu_oldcw, _MCW_PC);
+      (void)result;
 
       return 0;
     }
@@ -113,6 +117,7 @@ cmake_push_check_state(RESET)
       _controlfp_s(&fpu_cw, _PC_53, _MCW_PC);
       result = a / b;
       _controlfp_s(&fpu_cw, fpu_oldcw, _MCW_PC);
+      (void)result;
 
       return 0;
     }
@@ -137,10 +142,9 @@ cmake_push_check_state(RESET)
       __asm__ __volatile__ ("fnstcw %0" : "=m" (*&oldcw));
       cw = (oldcw & ~0x0 & ~0x300) | 0x200;
       __asm__ __volatile__ ("fldcw %0" : : "m" (*&cw));
-
       result = a / b;
-
       __asm__ __volatile__ ("fldcw %0" : : "m" (*&oldcw));
+      (void)result;
 
       return 0;
     }

@@ -207,8 +207,7 @@ else()
   message(CHECK_FAIL "no")
 endif()
 
-# Check for TCP_INFO.
-include(PHP/CheckLq)
+include(PHP/CheckListeningQueue)
 
 message(CHECK_START "Checking for kqueue")
 check_source_compiles(C "

@@ -17,7 +17,7 @@ message(CHECK_START "Checking for IPv6 support")
 cmake_push_check_state(RESET)
   set(CMAKE_REQUIRED_QUIET TRUE)
 
-  check_source_compiles(C "
+  check_source_compiles(C [[
     #include <sys/types.h>
     #include <sys/socket.h>
     #include <netinet/in.h>
@@ -26,12 +26,13 @@ cmake_push_check_state(RESET)
       struct sockaddr_in6 s;
       struct in6_addr t = in6addr_any;
       int i = AF_INET6;
-      s;
+      (void)s;
       t.s6_addr[0] = 0;
+      (void)i;
 
       return 0;
     }
-  " HAVE_IPV6)
+  ]] HAVE_IPV6)
 cmake_pop_check_state()
 
 if(HAVE_IPV6)

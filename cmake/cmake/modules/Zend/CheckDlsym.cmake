@@ -37,7 +37,6 @@ if(NOT CMAKE_CROSSCOMPILING)
         #endif
 
         #include <stdio.h>
-        #include <stdlib.h>
 
         #ifdef RTLD_GLOBAL
         #  define LT_DLGLOBAL RTLD_GLOBAL
@@ -71,17 +70,26 @@ if(NOT CMAKE_CROSSCOMPILING)
         #  endif
         #endif
 
-        void fnord(void) {
-          int i = 42;
-        }
+        /* When -fvisibility=hidden is used, assume the code has been annotated
+           correspondingly for the symbols needed.  */
+        #if defined __GNUC__ && (((__GNUC__ == 3) && (__GNUC_MINOR__ >= 3)) || (__GNUC__ > 3))
+        int fnord(void) __attribute__((visibility("default")));
+        #endif
+
+        int fnord(void) { return 42; }
 
         int main(void) {
           void *self = dlopen(0, LT_DLGLOBAL|LT_DLLAZY_OR_NOW);
           int status = 0;
 
           if (self) {
-            if (dlsym(self, "fnord"))       status = 1;
-            else if (dlsym(self, "_fnord")) status = 2;
+            if (dlsym(self, "fnord")) {
+              status = 1;
+            } else if (dlsym(self, "_fnord")) {
+              status = 2;
+            } else {
+              puts (dlerror());
+            }
             /* dlclose(self); */
           } else {
             puts(dlerror());
