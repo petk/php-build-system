@@ -75,7 +75,7 @@ check_symbol_exists(mknod "sys/stat.h" HAVE_MKNOD)
 
 # Skip pathconf and fpathconf check on musl libc due to limited implementation
 # (first argument is not validated and has different error).
-if(NOT PHP_STD_LIBRARY STREQUAL "musl")
+if(NOT PHP_C_STANDARD_LIBRARY STREQUAL "musl")
   check_symbol_exists(pathconf "unistd.h" HAVE_PATHCONF)
   check_symbol_exists(fpathconf "unistd.h" HAVE_FPATHCONF)
 endif()

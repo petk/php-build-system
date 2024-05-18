@@ -1,12 +1,19 @@
 #[=============================================================================[
-Check if fopencookie() is working as expected.
+Check if fopencookie() works as expected.
+
+Module first checks if fopencookie() and type cookie_io_functions_t are
+available. Then it checks whether the fopencookie seeker uses type off64_t.
+Since off64_t is non-standard and obsolescent, the standard off_t type can be
+used on both 64-bit and 32-bit systems, where the _FILE_OFFSET_BITS=64 can make
+it behave like off64_t on 32-bit. Since code is in the transition process to use
+off_t only, check is left here when using glibc.
 
 Cache variables:
 
   HAVE_FOPENCOOKIE
     Whether fopencookie() and cookie_io_functions_t are available.
   COOKIE_SEEKER_USES_OFF64_T
-    Whether a newer seeker definition for fopencookie() is available.
+    Whether fopencookie seeker uses the off64_t type.
 ]=============================================================================]#
 
 include_guard(GLOBAL)
@@ -25,23 +32,30 @@ if(NOT _have_fopencookie)
   return()
 endif()
 
-# glibcs (since 2.1.2?) have a type called cookie_io_functions_t.
 cmake_push_check_state(RESET)
   set(CMAKE_REQUIRED_DEFINITIONS -D_GNU_SOURCE)
   set(CMAKE_EXTRA_INCLUDE_FILES "stdio.h")
   check_type_size("cookie_io_functions_t" FOPENCOOKIE)
 cmake_pop_check_state()
 
-# Newer glibcs have a different seeker definition.
+if(NOT HAVE_FOPENCOOKIE)
+  return()
+endif()
+
+# GNU C library can have a different seeker definition using off64_t.
 message(
   CHECK_START
-  "Checking whether newer fopencookie seeker definition is available"
+  "Checking whether fopencookie seeker uses off64_t"
 )
 
-if(CMAKE_CROSSCOMPILING AND CMAKE_SYSTEM_NAME STREQUAL "Linux")
+if(
+  CMAKE_CROSSCOMPILING
+  AND CMAKE_SYSTEM_NAME STREQUAL "Linux"
+  AND PHP_C_STANDARD_LIBRARY STREQUAL "glibc"
+)
   set(
     COOKIE_SEEKER_USES_OFF64_T 1
-    CACHE INTERNAL "Whether newer fopencookie seeker definition is available"
+    CACHE INTERNAL "Whether fopencookie seeker uses off64_t"
   )
 else()
   cmake_push_check_state(RESET)
@@ -55,19 +69,25 @@ else()
       };
 
       ssize_t reader(void *cookie, char *buffer, size_t size) {
+        (void)cookie;
+        (void)buffer;
         return size;
       }
 
       ssize_t writer(void *cookie, const char *buffer, size_t size) {
+        (void)cookie;
+        (void)buffer;
         return size;
       }
 
       int closer(void *cookie) {
+        (void)cookie;
         return 0;
       }
 
       int seeker(void *cookie, off64_t *position, int whence) {
         ((struct cookiedata*)cookie)->pos = *position;
+        (void)whence;
         return 0;
       }
 
