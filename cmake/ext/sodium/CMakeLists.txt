@@ -49,15 +49,17 @@ set_package_properties(
 
 target_link_libraries(php_sodium PRIVATE Sodium::Sodium)
 
-# Add -Wno-type-limits and -Wno-logical-op as this may arise on 32bits platforms.
-check_compiler_flag(C -Wno-type-limits HAVE_WNO_TYPE_LIMITS_C)
-if(HAVE_WNO_TYPE_LIMITS_C)
-  target_compile_options(php_sodium PRIVATE -Wno-type-limits)
-endif()
+# Suppress some warnings on 32-bit with -Wno-type-limits and -Wno-logical-op.
+if(CMAKE_SIZEOF_VOID_P EQUAL 4)
+  check_compiler_flag(C -Wno-type-limits HAVE_WNO_TYPE_LIMITS_C)
+  if(HAVE_WNO_TYPE_LIMITS_C)
+    target_compile_options(php_sodium PRIVATE -Wno-type-limits)
+  endif()
 
-check_compiler_flag(C -Wno-logical-op HAVE_WNO_LOGICAL_OP_C)
-if(HAVE_WNO_LOGICAL_OP_C)
-  target_compile_options(php_sodium PRIVATE -Wno-logical-op)
+  check_compiler_flag(C -Wno-logical-op HAVE_WNO_LOGICAL_OP_C)
+  if(HAVE_WNO_LOGICAL_OP_C)
+    target_compile_options(php_sodium PRIVATE -Wno-logical-op)
+  endif()
 endif()
 
 set(HAVE_LIBSODIUMLIB 1 CACHE INTERNAL "Whether the libsodium is available")
