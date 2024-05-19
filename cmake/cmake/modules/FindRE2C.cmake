@@ -156,17 +156,17 @@ if(RE2C_USE_COMPUTED_GOTOS)
 
   cmake_push_check_state(RESET)
     set(CMAKE_REQUIRED_QUIET TRUE)
-    check_source_compiles(C "
-      int main(int argc, const char **argv) {
-        argc = argc;
-        argv = argv;
+    check_source_compiles(C [[
+      int main(void) {
       label1:
+        ;
       label2:
-        static void *adr[] = { &&label1, &&label2};
+        ;
+        static void *adr[] = { &&label1, &&label2 };
         goto *adr[0];
         return 0;
       }
-    " _RE2C_HAVE_COMPUTED_GOTOS)
+    ]] _RE2C_HAVE_COMPUTED_GOTOS)
   cmake_pop_check_state()
 
   if(_RE2C_HAVE_COMPUTED_GOTOS)
