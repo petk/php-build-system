@@ -384,7 +384,7 @@
 /* Define to 1 if you have the 'asprintf' function. */
 #cmakedefine HAVE_ASPRINTF 1
 
-/* whether the compiler supports __attribute__ ((__aligned__)) */
+/* Define to 1 if the compiler supports the 'aligned' variable attribute. */
 #cmakedefine HAVE_ATTRIBUTE_ALIGNED 1
 
 /* Whether you have bcmath */

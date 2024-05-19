@@ -29,14 +29,17 @@ include(CMakePushCheckState)
 
 function(_php_check_attribute_get_function_code attribute result)
   if(attribute STREQUAL "ifunc")
+    # Clang versions prior to 19 emitted unused function warning for static
+    # resolvers: https://github.com/llvm/llvm-project/pull/87130
     set(${result} [[
       int my_foo(void) { return 0; }
+      #if defined(__clang__) && (__clang_major__ < 19)
+      int (*resolve_foo(void))(void) { return my_foo; }
+      #else
       static int (*resolve_foo(void))(void) { return my_foo; }
+      #endif
       int foo(void) __attribute__((ifunc("resolve_foo")));
-      int main(void) {
-        resolve_foo();
-        return 0;
-      }
+      int main(void) { return 0; }
     ]])
   elseif(attribute STREQUAL "target")
     set(${result} [[
