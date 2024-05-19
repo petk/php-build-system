@@ -43,20 +43,21 @@ if(NOT HAVE_FOPENCOOKIE)
 endif()
 
 # GNU C library can have a different seeker definition using off64_t.
-message(
-  CHECK_START
-  "Checking whether fopencookie seeker uses off64_t"
-)
+message(CHECK_START "Checking whether fopencookie seeker uses off64_t")
 
 if(
   CMAKE_CROSSCOMPILING
   AND CMAKE_SYSTEM_NAME STREQUAL "Linux"
   AND PHP_C_STANDARD_LIBRARY STREQUAL "glibc"
 )
+  message(CHECK_PASS "yes (cross-compiling)")
+
   set(
     COOKIE_SEEKER_USES_OFF64_T 1
     CACHE INTERNAL "Whether fopencookie seeker uses off64_t"
   )
+
+  return()
 else()
   cmake_push_check_state(RESET)
     set(CMAKE_REQUIRED_DEFINITIONS -D_GNU_SOURCE)
@@ -107,9 +108,7 @@ else()
   cmake_pop_check_state()
 endif()
 
-if(CMAKE_CROSSCOMPILING AND COOKIE_SEEKER_USES_OFF64_T)
-  message(CHECK_PASS "yes (cross-compiling)")
-elseif(COOKIE_SEEKER_USES_OFF64_T)
+if(COOKIE_SEEKER_USES_OFF64_T)
   message(CHECK_PASS "yes")
 else()
   message(CHECK_FAIL "no")

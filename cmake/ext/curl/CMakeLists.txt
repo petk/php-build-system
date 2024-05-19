@@ -70,33 +70,40 @@ if(PHP_THREAD_SAFETY AND CURL_SSL_FOUND)
         #include <strings.h>
         #include <curl/curl.h>
 
-        int main(int argc, char *argv[]) {
+        int main(void) {
           curl_version_info_data *data = curl_version_info(CURLVERSION_NOW);
 
           if (data && data->ssl_version && *data->ssl_version) {
             const char *ptr = data->ssl_version;
 
-            while(*ptr == ' ') ++ptr;
+            while(*ptr == ' ') {
+              ++ptr;
+            }
+
             int major, minor;
-            if (sscanf(ptr, "OpenSSL/%d", &major) == 1) {
-              if (major >= 3) {
-                /* OpenSSL version 3 or later */
-                return 4;
-              }
+
+            /* OpenSSL >= 3 */
+            if (sscanf(ptr, "OpenSSL/%d", &major) == 1 && major >= 3) {
+              return 4;
             }
-            if (sscanf(ptr, "OpenSSL/%d.%d", &major, &minor) == 2) {
-              if (major > 1 || (major == 1 && minor >= 1)) {
-                /* OpenSSL version 1.1 or later */
-                return 3;
-              }
+
+            /* OpenSSL >= 1.1 */
+            if (
+              sscanf(ptr, "OpenSSL/%d.%d", &major, &minor) == 2 &&
+              (major > 1 || (major == 1 && minor >= 1))
+            ) {
+              return 3;
             }
+
+            /* OpenSSL < 1.1 */
             if (strncasecmp(ptr, "OpenSSL", sizeof("OpenSSL")-1) == 0) {
-              /* Old OpenSSL version */
               return 0;
             }
+
             /* Different SSL library */
             return 2;
           }
+
           /* No SSL support */
           return 1;
         }
@@ -118,13 +125,23 @@ if(PHP_THREAD_SAFETY AND CURL_SSL_FOUND)
 
     target_link_libraries(php_curl PRIVATE OpenSSL::Crypto)
 
-    check_include_file(openssl/crypto.h HAVE_OPENSSL_CRYPTO_H)
+    if(TARGET OpenSSL::Crypto)
+      cmake_push_check_state(RESET)
+        set(CMAKE_REQUIRED_LIBRARIES OpenSSL::Crypto)
+        check_include_file(openssl/crypto.h HAVE_OPENSSL_CRYPTO_H)
+      cmake_pop_check_state()
+    endif()
   endif()
 endif()
 
 # Sanity check.
 if(TARGET CURL::libcurl)
-  check_library_exists(CURL::libcurl curl_easy_perform "" HAVE_CURL_EASY_PERFORM)
+  check_library_exists(
+    CURL::libcurl
+    curl_easy_perform
+    ""
+    HAVE_CURL_EASY_PERFORM
+  )
 
   if(NOT HAVE_CURL_EASY_PERFORM)
     message(

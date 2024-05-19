@@ -377,7 +377,10 @@ if(NOT EXT_GD_EXTERNAL)
       cmake_pop_check_state()
 
       if(NOT _GD_SANITY_CHECK_COMPILES)
-        message(FATAL_ERROR "GD build test failed. Please check logs for details.")
+        message(
+          FATAL_ERROR
+          "GD build test failed. Please check logs for details."
+        )
       endif()
     endif()
   endblock()
@@ -435,8 +438,8 @@ else()
             void exit1(int priority, const char *format, va_list args) {
               _exit(1);
             }
-            /* Override the default gd_error_method with one that actually causes
-              the program to return an error. */
+            /* Override the default gd_error_method with one that actually
+              causes the program to return an error. */
             int main(int argc, char** argv) {
               ${declaration};
               gdSetErrorMethod(exit1);
@@ -457,6 +460,11 @@ else()
 
     check_library_exists(GD::GD gdFontCacheShutdown "" HAVE_GD_FREETYPE)
     check_library_exists(GD::GD gdVersionString "" HAVE_GD_LIBVERSION)
-    check_library_exists(GD::GD gdImageGetInterpolationMethod "" HAVE_GD_GET_INTERPOLATION)
+    check_library_exists(
+      GD::GD
+      gdImageGetInterpolationMethod
+      ""
+      HAVE_GD_GET_INTERPOLATION
+    )
   endif()
 endif()

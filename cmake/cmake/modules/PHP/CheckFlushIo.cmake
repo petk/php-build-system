@@ -35,7 +35,7 @@ if(NOT CMAKE_CROSSCOMPILING)
       #endif
       #include <string.h>
 
-      int main(int argc, char **argv) {
+      int main(void) {
         char *filename = tmpnam(NULL);
         char buffer[64];
         int result = 1;
