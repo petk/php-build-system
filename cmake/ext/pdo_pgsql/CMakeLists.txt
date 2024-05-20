@@ -71,4 +71,13 @@ if(TARGET PostgreSQL::PostgreSQL)
       "library. See the logs."
     )
   endif()
+
+  if(PostgreSQL_VERSION_STRING VERSION_GREATER_EQUAL 12)
+    check_library_exists(
+      PostgreSQL::PostgreSQL
+      PQresultMemorySize
+      ""
+      HAVE_PG_RESULT_MEMORY_SIZE
+    )
+  endif()
 endif()

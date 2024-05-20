@@ -87,4 +87,13 @@ if(TARGET PostgreSQL::PostgreSQL)
       HAVE_PG_RESULT_MEMORY_SIZE
     )
   endif()
+
+  if(PostgreSQL_VERSION_STRING VERSION_GREATER_EQUAL 17)
+    check_library_exists(
+      PostgreSQL::PostgreSQL
+      PQchangePassword
+      ""
+      HAVE_PG_CHANGE_PASSWORD
+    )
+  endif()
 endif()

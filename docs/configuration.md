@@ -913,7 +913,10 @@ A list of Autoconf `configure` command-line configuration options, Windows
       <td>default</td>
     </tr>
     <tr>
-      <td>&emsp;--enable-fuzzer</td>
+      <td>
+        &emsp;--enable-fuzzer<br>
+        &emsp;[LIB_FUZZING_ENGINE=...]
+      </td>
       <td>N/A</td>
       <td>SAPI_FUZZER=ON</td>
       <td></td>
@@ -2910,7 +2913,7 @@ A list of Autoconf `configure` command-line configuration options, Windows
     </tr>
     <tr>
       <td>--without-sodium</td>
-      <td></td>
+      <td>--without-sodium</td>
       <td>EXT_SODIUM=OFF</td>
       <td>default</td>
     </tr>
@@ -2920,7 +2923,7 @@ A list of Autoconf `configure` command-line configuration options, Windows
         &emsp;[LIBSODIUM_CFLAGS=...]<br>
         &emsp;[LIBSODIUM_LIBS=..]
       </td>
-      <td></td>
+      <td>--with-sodium</td>
       <td>
         EXT_SODIUM=ON<br>
         [Sodium_ROOT=DIR]
@@ -2929,7 +2932,7 @@ A list of Autoconf `configure` command-line configuration options, Windows
     </tr>
     <tr>
       <td>&emsp;--with-sodium=shared</td>
-      <td></td>
+      <td>--with-sodium=shared</td>
       <td>EXT_SODIUM_SHARED=ON</td>
       <td></td>
     </tr>
