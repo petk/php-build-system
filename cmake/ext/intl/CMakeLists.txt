@@ -105,15 +105,19 @@ target_sources(
 
 check_compiler_flag(C -Wno-write-strings HAVE_WNO_WRITE_STRINGS_C)
 if(HAVE_WNO_WRITE_STRINGS_C)
-  target_compile_options(php_intl PRIVATE
-    "$<$<COMPILE_LANGUAGE:C>:-Wno-write-strings>"
+  target_compile_options(
+    php_intl
+    PRIVATE
+      $<$<COMPILE_LANGUAGE:C>:-Wno-write-strings>
   )
 endif()
 
 check_compiler_flag(CXX -Wno-write-strings HAVE_WNO_WRITE_STRINGS_CXX)
 if(HAVE_WNO_WRITE_STRINGS_CXX)
-  target_compile_options(php_intl PRIVATE
-    "$<$<COMPILE_LANGUAGE:CXX>:-Wno-write-strings>"
+  target_compile_options(
+    php_intl
+    PRIVATE
+      $<$<COMPILE_LANGUAGE:CXX>:-Wno-write-strings>
   )
 endif()
 
