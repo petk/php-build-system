@@ -54,8 +54,10 @@ target_sources(
 # Add -Wno-strict-prototypes as depends on user libs.
 check_compiler_flag(C -Wno-strict-prototypes HAVE_WNO_STRICT_PROTOTYPES_C)
 if(HAVE_WNO_STRICT_PROTOTYPES_C)
-  target_compile_options(php_readline
-    PRIVATE "$<$<COMPILE_LANGUAGE:C>:-Wno-strict-prototypes>"
+  target_compile_options(
+    php_readline
+    PRIVATE
+      $<$<COMPILE_LANGUAGE:C>:-Wno-strict-prototypes>
   )
 endif()
 

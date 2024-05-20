@@ -171,6 +171,17 @@ if(HAVE_FNO_COMMON_C_XX)
   )
 endif()
 
+# Explicitly disable floating-point expression contraction, even if already done
+# by CMAKE_C_STANDARD. See https://github.com/php/php-src/issues/14140
+check_compiler_flag(C -ffp-contract=off HAVE_FFP_CONTRACT_OFF_C)
+if(HAVE_FFP_CONTRACT_OFF_C)
+  target_compile_options(
+    php_configuration
+    INTERFACE
+      $<$<COMPILE_LANGUAGE:ASM,C>:-ffp-contract=off>
+  )
+endif()
+
 ################################################################################
 # Sanitizer flags.
 ################################################################################
