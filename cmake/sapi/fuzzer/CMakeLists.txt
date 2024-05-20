@@ -4,6 +4,7 @@ if(CMAKE_SYSTEM_NAME STREQUAL "Windows")
 endif()
 
 include(CheckCompilerFlag)
+include(CMakePushCheckState)
 include(FeatureSummary)
 
 option(
