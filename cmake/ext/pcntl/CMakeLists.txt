@@ -45,23 +45,22 @@ target_sources(
 
 target_compile_definitions(php_pcntl PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE=1)
 
-check_symbol_exists(fork "unistd.h" HAVE_FORK)
+# Check for required functions.
+block()
+  check_symbol_exists(fork "unistd.h" HAVE_FORK)
+  check_symbol_exists(sigaction "signal.h" HAVE_SIGACTION)
+  check_symbol_exists(waitpid "sys/wait.h" HAVE_WAITPID)
 
-if(NOT HAVE_FORK)
-  message(FATAL_ERROR "pcntl: fork() is not supported by this platform")
-endif()
-
-check_symbol_exists(waitpid "sys/wait.h" HAVE_WAITPID)
-
-if(NOT HAVE_WAITPID)
-  message(FATAL_ERROR "pcntl: waitpid() is not supported by this platform")
-endif()
-
-check_symbol_exists(sigaction "signal.h" HAVE_SIGACTION)
-
-if(NOT HAVE_SIGACTION)
-  message(FATAL_ERROR "pcntl: sigaction() is not supported by this platform")
-endif()
+  foreach(function fork sigaction waitpid)
+    string(TOUPPER ${function} const)
+    if(NOT HAVE_${const})
+      message(
+        FATAL_ERROR
+        "ext/pcntl: required function ${function}() not found."
+      )
+    endif()
+  endforeach()
+endblock()
 
 check_symbol_exists(getpriority "sys/resource.h" HAVE_GETPRIORITY)
 check_symbol_exists(setpriority "sys/resource.h" HAVE_SETPRIORITY)
