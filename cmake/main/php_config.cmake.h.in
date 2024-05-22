@@ -1565,9 +1565,6 @@
 /* Define to 1 if you have the 'wait4' function. */
 #cmakedefine HAVE_WAIT4 1
 
-/* Define to 1 if you have the 'waitpid' function. */
-#cmakedefine HAVE_WAITPID 1
-
 /* Define to 1 if you have the <wmmintrin.h> header file. */
 #cmakedefine HAVE_WMMINTRIN_H 1
 
