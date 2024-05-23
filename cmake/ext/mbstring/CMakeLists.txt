@@ -113,7 +113,8 @@ target_sources(
 message(STATUS "Creating ext/mbstring/libmbfl/config.h")
 configure_file(libmbfl/config.h.in libmbfl/config.h)
 
-# The ext/mbstring doesn't seem to support interprocedural optimization (IPO).
+# The mbstring extension doesn't seem to support interprocedural optimization
+# (IPO).
 set_target_properties(php_mbstring PROPERTIES INTERPROCEDURAL_OPTIMIZATION OFF)
 
 if(EXT_MBSTRING_MBREGEX)

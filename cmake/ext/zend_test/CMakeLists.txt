@@ -45,7 +45,7 @@ target_compile_definitions(
     $<$<AND:$<PLATFORM_ID:Windows>,$<IN_LIST:$<TARGET_PROPERTY:TYPE>,MODULE_LIBRARY;SHARED_LIBRARY>>:PHP_ZEND_TEST_EXPORTS>
 )
 
-# If ext/libxml is enabled, link libxml library.
+# If libxml extension is enabled, link libxml library.
 if(EXT_LIBXML)
   include(Packages/LibXml2)
 

@@ -97,7 +97,7 @@ set_target_properties(
 )
 
 if(CMAKE_SYSTEM_NAME STREQUAL "Windows")
-  # Link ext/readline's interface library if enabled and built statically.
+  # Link readline extension interface library if enabled and built statically.
   target_link_libraries(
     php_cli
     PRIVATE

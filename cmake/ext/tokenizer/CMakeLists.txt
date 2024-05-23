@@ -34,7 +34,7 @@ target_sources(
     tokenizer.c
 )
 
-# The ext/tokenizer depends on the generated Zend scanner and parser headers.
+# The tokenizer extension depends on the generated Zend scanner and parser.
 add_dependencies(php_tokenizer Zend::Zend)
 
 if(PHPSystem_EXECUTABLE)
@@ -44,7 +44,7 @@ elseif(NOT CMAKE_CROSSCOMPILING)
 endif()
 
 if(PHP_EXECUTABLE)
-  # Run the ext/tokenizer/tokenizer_data_gen.php script.
+  # Run the tokenizer_data_gen.php script.
   file(
     GENERATE
     OUTPUT CMakeFiles/GenerateTokenizerData.cmake

@@ -31,11 +31,11 @@ cmake_dependent_option(
   OFF
 )
 
-# TODO: Check if this can be simplified and removed by only checking if
-# ext/readline extension has been enabled during the build.
+# TODO: Check if this can be simplified and removed by only checking if readline
+# extension has been enabled during the build.
 cmake_dependent_option(
   SAPI_PHPDBG_READLINE
-  "Enable readline support in phpdbg (depends on ext/readline)"
+  "Enable readline support in phpdbg (depends on the readline extension)"
   OFF
   "SAPI_PHPDBG"
   OFF
@@ -119,7 +119,7 @@ if(SAPI_PHPDBG_READLINE AND EXT_READLINE)
     message(CHECK_PASS "enabled (libedit)")
   endif()
 
-  # Check and use ext/readline if enabled and built statically.
+  # Check and use readline extension if enabled and built statically.
   target_link_libraries(
     php_phpdbg
     PRIVATE
@@ -138,7 +138,7 @@ endif()
 # The phpdbg shared library.
 ################################################################################
 
-# TODO: Should ext/readline be linked here also like in the phpdbg executable?
+# TODO: Should readline extension be linked here like in the phpdbg executable?
 if(SAPI_PHPDBG_SHARED)
   add_library(php_phpdbg_shared SHARED)
 

@@ -1,7 +1,7 @@
 #[=============================================================================[
 Find MySQL-compatible (MySQL, MariaDB, Percona, etc.) database.
 
-This is customized find module for PHP ext/mysqli and pdo_mysql extensions. It
+This is customized find module for PHP mysqli and pdo_mysql extensions. It
 searches for MySQL Unix socket pointer and can be extended more in the future.
 
 Components:
