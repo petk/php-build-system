@@ -33,12 +33,12 @@ Cache variables:
 include_guard(GLOBAL)
 
 include(CheckFunctionExists)
-include(CheckSourceCompiles)
+include(CheckSymbolExists)
 include(CMakePushCheckState)
 
 # Define HAVE_<symbol> if linker sees the function, and MISSING_<symbol>_DECL if
-# function is not declared by checking the required header and given test body.
-function(_php_check_reentrant_function symbol header body)
+# function is not declared by checking the required header and test body.
+function(_php_check_reentrant_function symbol header)
   string(TOUPPER "${symbol}" const)
 
   # Check if linker sees the function.
@@ -48,17 +48,10 @@ function(_php_check_reentrant_function symbol header body)
 
   cmake_push_check_state(RESET)
     set(CMAKE_REQUIRED_QUIET TRUE)
-
-    check_source_compiles(C "
-      #include <${header}>
-      int main(void) {
-        ${body};
-        return 0;
-      }
-    " _have_${symbol}_declaration)
+    check_symbol_exists(${symbol} ${header} _have_${symbol})
   cmake_pop_check_state()
 
-  if(NOT _have_${symbol}_declaration)
+  if(NOT _have_${symbol})
     message(CHECK_FAIL "missing")
 
     set(
@@ -70,31 +63,8 @@ function(_php_check_reentrant_function symbol header body)
   endif()
 endfunction()
 
-_php_check_reentrant_function(
-  localtime_r
-  time.h
-  "struct tm *(*func)(void) = localtime_r"
-)
-
-_php_check_reentrant_function(
-  gmtime_r
-  time.h
-  "struct tm *(*func)(void) = gmtime_r"
-)
-
-_php_check_reentrant_function(
-  asctime_r
-  time.h
-  "char *(*func)(void) = asctime_r"
-)
-_php_check_reentrant_function(
-  ctime_r
-  time.h
-  "char *(*func)(void) = ctime_r"
-)
-
-_php_check_reentrant_function(
-  strtok_r
-  string.h
-  "char *(*func)(void) = strtok_r"
-)
+_php_check_reentrant_function(localtime_r time.h)
+_php_check_reentrant_function(gmtime_r time.h)
+_php_check_reentrant_function(asctime_r time.h)
+_php_check_reentrant_function(ctime_r time.h)
+_php_check_reentrant_function(strtok_r string.h)
