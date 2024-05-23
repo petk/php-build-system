@@ -140,7 +140,7 @@ if(NOT extension_type MATCHES "^(MODULE|SHARED)_LIBRARY$")
 endif()
 
 if(EXT_PDO_ODBC_TYPE STREQUAL "ibm-db2")
-  # Set some sensibile default root directory.
+  # Set some sensible default root directory.
   if(NOT EXT_PDO_ODBC_ROOT)
     set(ODBC_ROOT "/home/db2inst1/sqllib")
   endif()
