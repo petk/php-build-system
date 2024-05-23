@@ -17,7 +17,7 @@ cmake_dependent_option(
   OFF
 )
 
-# Common configuration option for ext/mysqli and ext/pdo_mysql.
+# Common configuration option for mysqli and pdo_mysql extensions.
 cmake_dependent_option(
   EXT_MYSQL_SOCKET
   "MySQLi/PDO_MYSQL: Use MySQL Unix socket pointer from default locations."

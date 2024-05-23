@@ -1,6 +1,10 @@
 include(FeatureSummary)
 
-option(EXT_LIBXML "Enable the libxml extension (can be built only as static)" ON)
+option(
+  EXT_LIBXML
+  "Enable the libxml extension (can be built only statically)"
+  ON
+)
 
 add_feature_info(
   "ext/libxml"
@@ -12,7 +16,7 @@ if(NOT EXT_LIBXML)
   return()
 endif()
 
-# This extension can be built only as a STATIC library.
+# Extension cannot be built as a SHARED library.
 add_library(php_libxml STATIC)
 
 target_sources(

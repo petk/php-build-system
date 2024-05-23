@@ -19,8 +19,8 @@ cmake_dependent_option(
 
 cmake_dependent_option(
   EXT_FTP_SSL
-  "Explicitly enable FTP SSL support when building without ext/openssl\
-  (EXT_OPENSSL=OFF). If ext/openssl is enabled (EXT_OPENSSL=ON) at the\
+  "Explicitly enable FTP SSL support when building without openssl extension\
+  (EXT_OPENSSL=OFF). If openssl extension is enabled (EXT_OPENSSL=ON) at the\
   configuration phase, FTP SSL will be enabled implicitly regardless of this\
   option."
   OFF
@@ -45,8 +45,8 @@ target_sources(
     php_ftp.c
 )
 
-# A deferred configuration, so it is executed after the ext/openssl to have the
-# EXT_OPENSSL variable available.
+# A deferred configuration, so it is executed after the openssl extension to
+# have the EXT_OPENSSL variable available.
 function(php_ftp_post_configuration)
   if(EXT_FTP_SSL OR EXT_OPENSSL)
     find_package(OpenSSL ${PHP_OPENSSL_MIN_VERSION})

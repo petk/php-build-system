@@ -87,8 +87,7 @@ set_package_properties(
     PURPOSE "Necessary to enable the openssl extension."
 )
 
-# Link publicly to transitively pass OpenSSL::SSL target items to possible other
-# extensions (for example, ext/phar), when the ext/openssl is enabled.
+# Link publicly for internal_functions files.
 target_link_libraries(php_openssl PUBLIC OpenSSL::SSL OpenSSL::Crypto)
 
 set(

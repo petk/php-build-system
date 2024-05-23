@@ -6,7 +6,8 @@ include(FeatureSummary)
 
 option(
   EXT_PCRE_EXTERNAL
-  "Use external (system) PCRE library in ext/pcre instead of the bundled library"
+  "Use external (system) PCRE library in pcre extension instead of the bundled\
+  library"
   OFF
 )
 

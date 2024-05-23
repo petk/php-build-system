@@ -33,10 +33,10 @@ add_feature_info(
 
 cmake_dependent_option(
   EXT_MYSQLND_SSL
-  "Explicitly enable SSL support in ext/mysqlnd when building without\
-  ext/openssl (EXT_OPENSSL=OFF). If ext/openssl is enabled (EXT_OPENSSL=ON) at\
-  the configuration phase, SSL in ext/mysqlnd will be enabled implicitly\
-  regardless of this option."
+  "Explicitly enable SSL support in mysqlnd extension when building without\
+  openssl extension (EXT_OPENSSL=OFF). If openssl extension is enabled\
+  (EXT_OPENSSL=ON) at the configuration phase, SSL in mysqlnd will be enabled\
+  implicitly regardless of this option."
   OFF
   "EXT_MYSQLND;NOT EXT_OPENSSL"
   OFF
@@ -115,8 +115,8 @@ endif()
 
 set(MYSQLND_SSL_SUPPORTED 1 CACHE INTERNAL "Enable core mysqlnd SSL code")
 
-# A deferred configuration, so it is executed after the ext/openssl to have the
-# EXT_OPENSSL variable available.
+# A deferred configuration, so it is executed after the openssl extension to
+# have the EXT_OPENSSL variable available.
 function(php_mysqlnd_post_configuration)
   if(EXT_MYSQLND_SSL OR EXT_OPENSSL)
     find_package(OpenSSL ${PHP_OPENSSL_MIN_VERSION})

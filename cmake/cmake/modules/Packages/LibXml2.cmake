@@ -48,8 +48,7 @@ if(NOT LibXml2_FOUND)
   set(LIBXML2_WITH_PYTHON OFF)
   set(LIBXML2_WITH_LZMA OFF)
 
-  # The above EXPORT_FROM_ALL was introduced in CMake 3.28 to prevent installing
-  # the LibXml2 package files.
+  # The above EXCLUDE_FROM_ALL was introduced in CMake 3.28.
   if(CMAKE_VERSION VERSION_GREATER_EQUAL 3.28)
     FetchContent_MakeAvailable(LibXml2)
   else()

@@ -50,7 +50,7 @@ if(
   AND CMAKE_SYSTEM_NAME STREQUAL "Linux"
   AND PHP_C_STANDARD_LIBRARY STREQUAL "glibc"
 )
-  message(CHECK_PASS "yes (cross-compiling)")
+  message(CHECK_PASS "yes (cross-compiling for Linux and GNU C library)")
 
   set(
     COOKIE_SEEKER_USES_OFF64_T 1
@@ -58,7 +58,7 @@ if(
   )
 
   return()
-else()
+elseif(NOT CMAKE_CROSSCOMPILING)
   cmake_push_check_state(RESET)
     set(CMAKE_REQUIRED_DEFINITIONS -D_GNU_SOURCE)
     check_source_runs(C [[
@@ -69,24 +69,28 @@ else()
         off64_t pos;
       };
 
-      ssize_t reader(void *cookie, char *buffer, size_t size) {
+      ssize_t reader(void *cookie, char *buffer, size_t size)
+      {
         (void)cookie;
         (void)buffer;
         return size;
       }
 
-      ssize_t writer(void *cookie, const char *buffer, size_t size) {
+      ssize_t writer(void *cookie, const char *buffer, size_t size)
+      {
         (void)cookie;
         (void)buffer;
         return size;
       }
 
-      int closer(void *cookie) {
+      int closer(void *cookie)
+      {
         (void)cookie;
         return 0;
       }
 
-      int seeker(void *cookie, off64_t *position, int whence) {
+      int seeker(void *cookie, off64_t *position, int whence)
+      {
         ((struct cookiedata*)cookie)->pos = *position;
         (void)whence;
         return 0;

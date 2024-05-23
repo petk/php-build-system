@@ -79,7 +79,10 @@ if(NOT EXT_READLINE_LIBREADLINE)
     check_library_exists(Editline::Editline history_list "" HAVE_HISTORY_LIST)
   endif()
 
-  set(HAVE_LIBEDIT 1 CACHE INTERNAL "Whether Editline is used for ext/readline")
+  set(
+    HAVE_LIBEDIT 1
+    CACHE INTERNAL "Whether Editline is used for readline extension"
+  )
 else()
   find_package(Readline)
   set_package_properties(
@@ -97,8 +100,14 @@ else()
     check_library_exists(Readline::Readline rl_completion_matches "" HAVE_RL_COMPLETION_MATCHES)
   endif()
 
-  set(HAVE_HISTORY_LIST 1 CACHE INTERNAL "Whether Readline library has history_list")
-  set(HAVE_LIBREADLINE 1 CACHE INTERNAL "Whether Readline is used for ext/readline")
+  set(
+    HAVE_HISTORY_LIST 1
+    CACHE INTERNAL "Whether Readline library has history_list"
+  )
+  set(
+    HAVE_LIBREADLINE 1
+    CACHE INTERNAL "Whether Readline is used for readline extension"
+  )
 endif()
 
 # TODO: Editline/Readline dependent libraries shouldn't be linked on this level.

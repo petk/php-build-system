@@ -187,8 +187,8 @@ function(cclient_check_symbol_exists symbol header result)
     # _BSD_SOURCE, which emits a warning when including system's features.h.
     # When building with clang, such warning results in an error. This can be
     # bypassed with defining the _DEFAULT_SOURCE to indicate that the source is
-    # being transitioned to use the new macro, or in this case ext/imap being
-    # unbunbled in the PHP-8.4.
+    # being transitioned to use the new macro, or in this case imap extension
+    # being unbunbled in the PHP-8.4.
     list(APPEND CMAKE_REQUIRED_DEFINITIONS -D_DEFAULT_SOURCE)
 
     set(CMAKE_REQUIRED_QUIET TRUE)
