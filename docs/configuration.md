@@ -1079,7 +1079,7 @@ A list of Autoconf `configure` command-line configuration options, Windows
     </tr>
     <tr>
       <td>--without-curl</td>
-      <td></td>
+      <td>--without-curl</td>
       <td>EXT_CURL=OFF</td>
       <td>default</td>
     </tr>
@@ -1090,7 +1090,7 @@ A list of Autoconf `configure` command-line configuration options, Windows
         &emsp;[CURL_LIBS=...]<br>
         &emsp;[CURL_FEATURES=...]
       </td>
-      <td></td>
+      <td>--with-curl</td>
       <td>
         EXT_CURL=ON<br>
         [CURL_ROOT=DIR]
@@ -1099,7 +1099,7 @@ A list of Autoconf `configure` command-line configuration options, Windows
     </tr>
     <tr>
       <td>&emsp;--with-curl=shared</td>
-      <td></td>
+      <td>--with-curl=shared</td>
       <td>EXT_CURL_SHARED=ON</td>
       <td></td>
     </tr>
