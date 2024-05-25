@@ -183,13 +183,12 @@ if(ZEND_FIBER_ASM AND zend_fibers_asm_file)
   )
 else()
   cmake_push_check_state(RESET)
-    # To use ucontext.h on macOS, the _XOPEN_SOURCE needs to be defined. POSIX
-    # marked ucontext functions as obsolete and on macOS, the ucontext.h
-    # functions are marked as deprecated. At the time of writing no solution is
-    # on the horizon yet.
+    # To use ucontext.h on macOS, the _XOPEN_SOURCE needs to be defined to any
+    # value. POSIX marked ucontext functions as obsolete and on macOS, the
+    # ucontext.h functions are marked as deprecated. At the time of writing no
+    # solution is on the horizon yet.
     if(CMAKE_SYSTEM_NAME STREQUAL "Darwin")
       set(CMAKE_REQUIRED_DEFINITIONS -D_XOPEN_SOURCE)
-      target_compile_definitions(zend_fibers INTERFACE _XOPEN_SOURCE=1)
     endif()
 
     check_include_file(ucontext.h ZEND_FIBER_UCONTEXT)

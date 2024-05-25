@@ -76,7 +76,7 @@ if(PHP_THREAD_SAFETY AND CURL_SSL_FOUND)
           if (data && data->ssl_version && *data->ssl_version) {
             const char *ptr = data->ssl_version;
 
-            while(*ptr == ' ') {
+            while (*ptr == ' ') {
               ++ptr;
             }
 
@@ -89,8 +89,8 @@ if(PHP_THREAD_SAFETY AND CURL_SSL_FOUND)
 
             /* OpenSSL >= 1.1 */
             if (
-              sscanf(ptr, "OpenSSL/%d.%d", &major, &minor) == 2 &&
-              (major > 1 || (major == 1 && minor >= 1))
+              sscanf(ptr, "OpenSSL/%d.%d", &major, &minor) == 2
+              && (major > 1 || (major == 1 && minor >= 1))
             ) {
               return 3;
             }
