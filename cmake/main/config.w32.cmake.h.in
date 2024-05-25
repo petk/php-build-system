@@ -186,6 +186,12 @@
 /* Have ctype */
 #cmakedefine HAVE_CTYPE 1
 
+/* */
+#cmakedefine HAVE_CURL 1
+
+/* Have cURL with old OpenSSL */
+#cmakedefine HAVE_CURL_OLD_OPENSSL 1
+
 /* Have timelib_config.h */
 #cmakedefine HAVE_TIMELIB_CONFIG_H 1
 

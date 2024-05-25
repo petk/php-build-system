@@ -451,6 +451,16 @@ endif()
 include(Zend/Fibers)
 if(TARGET Zend::Fibers)
   target_link_libraries(zend PRIVATE Zend::Fibers)
+
+  # For using ucontext.h on macOS.
+  if(ZEND_FIBER_UCONTEXT AND CMAKE_SYSTEM_NAME STREQUAL "Darwin")
+    set_property(
+      SOURCE zend_fibers.c
+      APPEND
+      PROPERTY
+        COMPILE_DEFINITIONS _XOPEN_SOURCE
+    )
+  endif()
 endif()
 
 ################################################################################

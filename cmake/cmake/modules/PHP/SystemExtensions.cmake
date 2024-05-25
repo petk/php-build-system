@@ -15,7 +15,10 @@ Obsolete preprocessor macros that are not defined by this module:
 Conditionally defined preprocessor macros:
 
   __EXTENSIONS__
-    Enabled on Solaris and illumos-based systems.
+    Defined on Solaris and illumos-based systems.
+
+  _XOPEN_SOURCE=500
+    Defined on HP-UX.
 
 Result variables:
 
@@ -57,6 +60,7 @@ include_guard(GLOBAL)
 
 include(CheckIncludeFile)
 include(CheckSourceCompiles)
+include(CheckTypeSize)
 include(CMakePushCheckState)
 
 message(CHECK_START "Enabling C and POSIX extensions")
@@ -127,7 +131,7 @@ if(CMAKE_SYSTEM_NAME STREQUAL "SunOS")
     endif()
 
     check_source_compiles(C [[
-      #define __EXTENSIONS__ 1
+      #define __EXTENSIONS__
       #include <stddef.h>
       #include <stdio.h>
       #include <stdlib.h>
@@ -151,7 +155,7 @@ if(CMAKE_SYSTEM_NAME STREQUAL "SunOS")
   cmake_pop_check_state()
 
   if(__EXTENSIONS__)
-    target_compile_definitions(PHP::SystemExtensions INTERFACE __EXTENSIONS__=1)
+    target_compile_definitions(PHP::SystemExtensions INTERFACE __EXTENSIONS__)
   else()
     message(
       WARNING
@@ -165,8 +169,8 @@ endif()
 # Check whether to enable _XOPEN_SOURCE.
 ################################################################################
 
-# HP-UX 11.11 didn't define mbstate_t without setting _XOPEN_SOURCE. This is set
-# conditionally, because BSD-based systems might have issues with this.
+# HP-UX 11.11 didn't define mbstate_t without setting _XOPEN_SOURCE to 500. This
+# is set conditionally, because BSD-based systems might have issues with this.
 if(CMAKE_SYSTEM_NAME STREQUAL "HP-UX")
   # Reset any possible previous value.
   unset(_XOPEN_SOURCE)
@@ -177,21 +181,14 @@ if(CMAKE_SYSTEM_NAME STREQUAL "HP-UX")
       set(CMAKE_REQUIRED_QUIET TRUE)
     endif()
 
-    check_source_compiles(C [[
-      #include <wchar.h>
-      mbstate_t x;
-      int main(void) { return 0; }
-    ]] _HAVE_MBSTATE_T)
+    set(CMAKE_EXTRA_INCLUDE_FILES "wchar.h")
+    check_type_size(mbstate_t phpSystemExtensionsMbStateT)
 
-    if(NOT _HAVE_MBSTATE_T)
-      check_source_compiles(C [[
-        #define _XOPEN_SOURCE 500
-        #include <wchar.h>
-        mbstate_t x;
-        int main(void) { return 0; }
-      ]] _HAVE_MBSTATE_T_WITH_XOPEN_SOURCE)
+    if(NOT HAVE_phpSystemExtensionsMbStateT)
+      set(CMAKE_REQUIRED_DEFINITIONS -D_XOPEN_SOURCE=500)
+      check_type_size(mbstate_t phpSystemExtensionsMbStateTWithXOpenSource)
 
-      if(_HAVE_MBSTATE_T_WITH_XOPEN_SOURCE)
+      if(HAVE_phpSystemExtensionsMbStateTWithXOpenSource)
         set(_XOPEN_SOURCE 500)
 
         target_compile_definitions(
@@ -219,7 +216,7 @@ set(PHP_SYSTEM_EXTENSIONS [[
 #endif
 /* Enable general extensions on Solaris.  */
 #ifndef __EXTENSIONS__
-# cmakedefine __EXTENSIONS__ 1
+# cmakedefine __EXTENSIONS__
 #endif
 /* Enable GNU extensions on systems that have them.  */
 #ifndef _GNU_SOURCE
