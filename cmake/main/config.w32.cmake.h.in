@@ -260,6 +260,18 @@
 /* Enable core mysqlnd SSL code */
 #cmakedefine MYSQLND_SSL_SUPPORTED 1
 
+/* Define to 1 if you have the <openssl/crypto.h> header file. */
+#cmakedefine HAVE_OPENSSL_CRYPTO_H 1
+
+/* */
+@HAVE_OPENSSL_EXT@
+
+/* */
+#cmakedefine HAVE_OPENSSL 1
+
+/* Define to 1 if you have the 'RAND_egd' function. */
+#cmakedefine HAVE_RAND_EGD 1
+
 /* Using bundled PCRE library */
 #cmakedefine HAVE_BUNDLED_PCRE 1
 
