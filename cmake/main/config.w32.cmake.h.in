@@ -272,6 +272,9 @@
 /* Define to 1 if you have the 'RAND_egd' function. */
 #cmakedefine HAVE_RAND_EGD 1
 
+/* Use system default cipher list instead of hardcoded value */
+#cmakedefine USE_OPENSSL_SYSTEM_CIPHERS 1
+
 /* Using bundled PCRE library */
 #cmakedefine HAVE_BUNDLED_PCRE 1
 

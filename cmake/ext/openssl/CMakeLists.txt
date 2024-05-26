@@ -44,6 +44,12 @@ cmake_dependent_option(
 )
 mark_as_advanced(EXT_OPENSSL_SYSTEM_CIPHERS)
 
+add_feature_info(
+  "ext/openssl system ciphers"
+  EXT_OPENSSL_SYSTEM_CIPHERS
+  "Using system default cipher list instead of hardcoded value for OpenSSL"
+)
+
 # There is a platform symbol definition inconsistency that is being addressed:
 # https://github.com/php/php-src/pull/14333. The HAVE_OPENSS_EXT on Windows is
 # defined to 0/1 value based on the openssl extension built as shared or
@@ -122,11 +128,11 @@ if(TARGET OpenSSL::SSL)
     set(CMAKE_REQUIRED_LIBRARIES OpenSSL::SSL)
     check_symbol_exists(RAND_egd "openssl/rand.h" HAVE_RAND_EGD)
   cmake_pop_check_state()
-endif()
 
-if(EXT_OPENSSL_SYSTEM_CIPHERS)
-  set(
-    USE_OPENSSL_SYSTEM_CIPHERS 1
-    CACHE INTERNAL "Use system default cipher list instead of hardcoded value"
-  )
+  if(EXT_OPENSSL_SYSTEM_CIPHERS)
+    set(
+      USE_OPENSSL_SYSTEM_CIPHERS 1
+      CACHE INTERNAL "Use system default cipher list instead of hardcoded value"
+    )
+  endif()
 endif()
