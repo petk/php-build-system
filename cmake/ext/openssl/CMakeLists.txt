@@ -44,7 +44,7 @@ cmake_dependent_option(
 mark_as_advanced(EXT_OPENSSL_LEGACY_PROVIDER)
 
 add_feature_info(
-  "ext/openssl legacy algorightm provider"
+  "ext/openssl legacy algorithm provider"
   EXT_OPENSSL_LEGACY_PROVIDER
   "Legacy algorithm provider in addition to default provider will be loaded"
 )
