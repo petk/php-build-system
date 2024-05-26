@@ -28,6 +28,12 @@ cmake_dependent_option(
 )
 mark_as_advanced(EXT_OPENSSL_SYSTEM_CIPHERS)
 
+add_feature_info(
+  "ext/openssl system ciphers"
+  EXT_OPENSSL_SYSTEM_CIPHERS
+  "Using system default cipher list instead of hardcoded value for OpenSSL"
+)
+
 cmake_dependent_option(
   EXT_OPENSSL_LEGACY_PROVIDER
   "OpenSSL >= 3: Load legacy algorithm provider in addition to default provider"
@@ -36,6 +42,12 @@ cmake_dependent_option(
   OFF
 )
 mark_as_advanced(EXT_OPENSSL_LEGACY_PROVIDER)
+
+add_feature_info(
+  "ext/openssl legacy algorightm provider"
+  EXT_OPENSSL_LEGACY_PROVIDER
+  "Legacy algorithm provider in addition to default provider will be loaded"
+)
 
 # There is a platform symbol definition inconsistency that is being addressed:
 # https://github.com/php/php-src/pull/14333. The HAVE_OPENSS_EXT on Windows is
@@ -114,11 +126,11 @@ if(TARGET OpenSSL::SSL)
       "Load legacy algorithm provider in addition to default provider"
     )
   endif()
-endif()
 
-if(EXT_OPENSSL_SYSTEM_CIPHERS)
-  set(
-    USE_OPENSSL_SYSTEM_CIPHERS 1
-    CACHE INTERNAL "Use system default cipher list instead of hardcoded value"
-  )
+  if(EXT_OPENSSL_SYSTEM_CIPHERS)
+    set(
+      USE_OPENSSL_SYSTEM_CIPHERS 1
+      CACHE INTERNAL "Use system default cipher list instead of hardcoded value"
+    )
+  endif()
 endif()
