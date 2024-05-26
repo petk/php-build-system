@@ -37,6 +37,15 @@ cmake_dependent_option(
 )
 mark_as_advanced(EXT_OPENSSL_LEGACY_PROVIDER)
 
+# There is a platform symbol definition inconsistency that is being addressed:
+# https://github.com/php/php-src/pull/14333. The HAVE_OPENSS_EXT on Windows is
+# defined to 0/1 value based on the openssl extension built as shared or
+# statically, elsewhere it is defined to value 1.
+set(
+  HAVE_OPENSSL_EXT "/* #undef HAVE_OPENSSL_EXT */"
+  CACHE INTERNAL "Whether the openssl extension is available"
+)
+
 if(NOT EXT_OPENSSL)
   return()
 endif()
@@ -65,10 +74,23 @@ set_package_properties(
 # Link publicly for internal_functions files.
 target_link_libraries(php_openssl PUBLIC OpenSSL::SSL OpenSSL::Crypto)
 
-set(
-  HAVE_OPENSSL_EXT 1
-  CACHE INTERNAL "Whether the openssl extension is available"
-)
+block()
+  set_property(
+    CACHE HAVE_OPENSSL_EXT
+    PROPERTY VALUE "#define HAVE_OPENSSL_EXT 1"
+  )
+
+  get_target_property(type php_openssl TYPE)
+  if(
+    CMAKE_SYSTEM_NAME STREQUAL "Windows" AND
+    type MATCHES "^(MODULE|SHARED)_LIBRARY$"
+  )
+    set_property(
+      CACHE HAVE_OPENSSL_EXT
+      PROPERTY VALUE "#define HAVE_OPENSSL_EXT 0"
+    )
+  endif()
+endblock()
 
 if(TARGET OpenSSL::SSL)
   cmake_push_check_state(RESET)
