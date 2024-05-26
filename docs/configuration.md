@@ -2307,7 +2307,7 @@ A list of Autoconf `configure` command-line configuration options, Windows
     </tr>
     <tr>
       <td>--without-openssl</td>
-      <td></td>
+      <td>--without-openssl</td>
       <td>EXT_OPENSSL=OFF</td>
       <td>default</td>
     </tr>
@@ -2317,7 +2317,7 @@ A list of Autoconf `configure` command-line configuration options, Windows
         &emsp;[OPENSSL_CFLAGS=...]<br>
         &emsp;[OPENSSL_LIBS=...]
       </td>
-      <td></td>
+      <td>--with-openssl</td>
       <td>
         EXT_OPENSSL=ON<br>
         [OPENSSL_ROOT_DIR=DIR]
@@ -2326,7 +2326,7 @@ A list of Autoconf `configure` command-line configuration options, Windows
     </tr>
     <tr>
       <td>&emsp;--with-openssl=shared</td>
-      <td></td>
+      <td>--with-openssl=shared</td>
       <td>EXT_OPENSSL_SHARED=ON</td>
       <td></td>
     </tr>
@@ -2344,7 +2344,7 @@ A list of Autoconf `configure` command-line configuration options, Windows
     </tr>
     <tr>
       <td>&emsp;--without-kerberos</td>
-      <td></td>
+      <td>N/A</td>
       <td>EXT_OPENSSL_KERBEROS=OFF</td>
       <td>default, PHP <= 8.3</td>
     </tr>
@@ -2354,7 +2354,7 @@ A list of Autoconf `configure` command-line configuration options, Windows
         [KERBEROS_CFLAGS=...]<br>
         [KERBEROS_LIBS=...]
       </td>
-      <td></td>
+      <td>N/A</td>
       <td>
         EXT_OPENSSL_KERBEROS=ON<br>
         [Kerberos_ROOT=DIR]
@@ -2363,13 +2363,13 @@ A list of Autoconf `configure` command-line configuration options, Windows
     </tr>
     <tr>
       <td>&emsp;--without-system-ciphers</td>
-      <td></td>
+      <td>N/A</td>
       <td>EXT_OPENSSL_SYSTEM_CIPHERS=OFF</td>
       <td>default</td>
     </tr>
     <tr>
       <td>&emsp;--with-system-ciphers</td>
-      <td></td>
+      <td>N/A</td>
       <td>EXT_OPENSSL_SYSTEM_CIPHERS=ON</td>
       <td></td>
     </tr>
