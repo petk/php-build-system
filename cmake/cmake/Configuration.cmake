@@ -13,6 +13,7 @@ For the preferred configuration customization, opt for CMake presets:
 
 include_guard(GLOBAL)
 
+include(CMakeDependentOption)
 include(FeatureSummary)
 
 ################################################################################
@@ -115,7 +116,13 @@ option(PHP_THREAD_SAFETY "Enable thread safety (ZTS)" OFF)
 option(PHP_USE_RTLD_NOW "Use dlopen with RTLD_NOW instead of RTLD_LAZY for extensions" OFF)
 mark_as_advanced(PHP_USE_RTLD_NOW)
 
-option(PHP_SIGCHILD "Enable PHP's own SIGCHLD handler" OFF)
+cmake_dependent_option(
+  PHP_SIGCHILD
+  "Enable PHP's own SIGCHLD handler"
+  OFF
+  [[NOT CMAKE_SYSTEM_NAME STREQUAL "Windows"]]
+  OFF
+)
 mark_as_advanced(PHP_SIGCHILD)
 
 option(PHP_SHORT_TAGS "Enable the short-form <? start tag by default" ON)
