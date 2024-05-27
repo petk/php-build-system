@@ -358,24 +358,24 @@ A list of Autoconf `configure` command-line configuration options, Windows
     </tr>
     <tr>
       <td>--disable-re2c-cgoto</td>
-      <td></td>
+      <td>N/A</td>
       <td>PHP_RE2C_CGOTO=OFF</td>
       <td>default</td>
     </tr>
     <tr>
       <td>&emsp;--enable-re2c-cgoto</td>
-      <td></td>
+      <td>N/A</td>
       <td>PHP_RE2C_CGOTO=ON</td>
       <td></td>
     </tr>
     <tr>
       <td>--disable-debug</td>
-      <td></td>
+      <td>--disable-debug</td>
       <td>default</td>
     </tr>
     <tr>
       <td>&emsp;--enable-debug</td>
-      <td></td>
+      <td>--enable-debug</td>
       <td>
         Single configuration generators: <code>CMAKE_BUILD_TYPE=Debug</code><br>
         Multi configuration generators: <code>cmake --build dir --config Debug</code>
@@ -384,13 +384,13 @@ A list of Autoconf `configure` command-line configuration options, Windows
     </tr>
     <tr>
       <td>--disable-debug-assertions</td>
-      <td></td>
+      <td>N/A</td>
       <td></td>
       <td>default</td>
     </tr>
     <tr>
       <td>&emsp;--enable-debug-assertions</td>
-      <td></td>
+      <td>N/A</td>
       <td>
         Single configuration generators: <code>CMAKE_BUILD_TYPE=DebugAssertions</code><br>
         Multi configuration generators: <code>cmake --build dir --config DebugAssertions</code>
@@ -398,26 +398,38 @@ A list of Autoconf `configure` command-line configuration options, Windows
       <td></td>
     </tr>
     <tr>
-      <td>--disable-sigchild</td>
+      <td>N/A</td>
+      <td>--disable-debug-pack</td>
       <td></td>
-      <td>PHP_SIGCHILD=OFF</td>
       <td>default</td>
     </tr>
     <tr>
-      <td>&emsp;--enable-sigchild</td>
+      <td>N/A</td>
+      <td>--enable-debug-pack</td>
       <td></td>
-      <td>PHP_SIGCHILD=ON</td>
       <td></td>
     </tr>
     <tr>
+      <td>--disable-sigchild</td>
+      <td>N/A</td>
+      <td>PHP_SIGCHILD=OFF</td>
+      <td>default (not available on Windows)</td>
+    </tr>
+    <tr>
+      <td>&emsp;--enable-sigchild</td>
+      <td>N/A</td>
+      <td>PHP_SIGCHILD=ON</td>
+      <td>(not available on Windows)</td>
+    </tr>
+    <tr>
       <td>--enable-ipv6</td>
-      <td></td>
+      <td>--enable-ipv6</td>
       <td>PHP_IPV6=ON</td>
       <td>default</td>
     </tr>
     <tr>
       <td>&emsp;--disable-ipv6</td>
-      <td></td>
+      <td>--disable-ipv6</td>
       <td>PHP_IPV6=OFF</td>
       <td></td>
     </tr>
@@ -1345,7 +1357,7 @@ A list of Autoconf `configure` command-line configuration options, Windows
     </tr>
     <tr>
       <td>--without-enchant</td>
-      <td></td>
+      <td>--without-enchant</td>
       <td>EXT_ENCHANT=OFF</td>
       <td>default</td>
     </tr>
@@ -1357,7 +1369,7 @@ A list of Autoconf `configure` command-line configuration options, Windows
         &emsp;[ENCHANT2_CFLAGS=...]<br>
         &emsp;[ENCHANT2_LIBS=...]
       </td>
-      <td></td>
+      <td>--with-enchant</td>
       <td>
         EXT_ENCHANT=ON<br>
         [Enchant_ROOT=DIR]
@@ -1366,7 +1378,7 @@ A list of Autoconf `configure` command-line configuration options, Windows
     </tr>
     <tr>
       <td>&emsp;--with-enchant=shared</td>
-      <td></td>
+      <td>--with-enchant=shared</td>
       <td>EXT_ENCHANT_SHARED=ON</td>
       <td></td>
     </tr>
