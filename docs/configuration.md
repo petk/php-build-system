@@ -2838,19 +2838,19 @@ A list of Autoconf `configure` command-line configuration options, Windows
     </tr>
     <tr>
       <td>--enable-simplexml</td>
-      <td>--enable-simplexml</td>
+      <td>--with-simplexml</td>
       <td>EXT_SIMPLEXML=ON</td>
       <td>default</td>
     </tr>
     <tr>
       <td>&emsp;--enable-simplexml=shared</td>
-      <td>--enable-simplexml=shared</td>
+      <td>--with-simplexml=shared</td>
       <td>EXT_SIMPLEXML_SHARED=ON</td>
       <td></td>
     </tr>
     <tr>
       <td>&emsp;--disable-simplexml</td>
-      <td>--disable-simplexml</td>
+      <td>--without-simplexml</td>
       <td>EXT_SIMPLEXML=OFF</td>
       <td></td>
     </tr>
@@ -3160,7 +3160,7 @@ A list of Autoconf `configure` command-line configuration options, Windows
     </tr>
     <tr>
       <td>--without-xsl</td>
-      <td></td>
+      <td>--without-xsl</td>
       <td>EXT_XSL=OFF</td>
       <td>default</td>
     </tr>
@@ -3172,7 +3172,7 @@ A list of Autoconf `configure` command-line configuration options, Windows
         &emsp;[EXSLT_CFLAGS=...]<br>
         &emsp;[EXSLT_LIBS=...]
       </td>
-      <td></td>
+      <td>--with-xsl</td>
       <td>
         EXT_XSL=ON<br>
         [LibXslt_ROOT=DIR]<br>
@@ -3182,7 +3182,7 @@ A list of Autoconf `configure` command-line configuration options, Windows
     </tr>
     <tr>
       <td>&emsp;--with-xsl=shared</td>
-      <td></td>
+      <td>--with-xsl=shared</td>
       <td>EXT_XSL_SHARED=ON</td>
       <td></td>
     </tr>
@@ -3231,9 +3231,9 @@ A list of Autoconf `configure` command-line configuration options, Windows
     </tr>
     <tr>
       <td>--without-zlib</td>
-      <td></td>
+      <td>--disable-zlib</td>
       <td>EXT_ZLIB=OFF</td>
-      <td>default</td>
+      <td>default in *nix and CMake (on Windows enabled by default)</td>
     </tr>
     <tr>
       <td>
@@ -3241,7 +3241,7 @@ A list of Autoconf `configure` command-line configuration options, Windows
         &emsp;[ZLIB_CFLAGS=...]<br>
         &emsp;[ZLIB_LIBS=...]
       </td>
-      <td></td>
+      <td>--enable-zlib</td>
       <td>
         EXT_ZLIB=ON<br>
         [ZLIB_ROOT=DIR]
@@ -3250,7 +3250,7 @@ A list of Autoconf `configure` command-line configuration options, Windows
     </tr>
     <tr>
       <td>&emsp;--with-zlib=shared</td>
-      <td></td>
+      <td>--enable-zlib=shared</td>
       <td>EXT_ZLIB_SHARED=ON</td>
       <td></td>
     </tr>
