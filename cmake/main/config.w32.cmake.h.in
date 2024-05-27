@@ -195,6 +195,15 @@
 /* DOM support */
 #cmakedefine HAVE_DOM 1
 
+/* */
+#cmakedefine HAVE_ENCHANT 1
+
+/* enchant_broker_set_param since 1.5.0 and removed in 2.x */
+#cmakedefine HAVE_ENCHANT_BROKER_SET_PARAM 1
+
+/* enchant_get_version since 1.6.0 */
+#cmakedefine HAVE_ENCHANT_GET_VERSION 1
+
 /* Have EXIF Support */
 #cmakedefine HAVE_EXIF 1
 
