@@ -34,6 +34,21 @@ target_sources(
     xsltprocessor.c
 )
 
+target_compile_definitions(
+  php_xsl
+  PRIVATE
+    # TODO: Fix LIBXML_STATIC usage based on the static/shared libxml2 package.
+    $<$<AND:$<PLATFORM_ID:Windows>,$<NOT:$<IN_LIST:$<TARGET_PROPERTY:TYPE>,MODULE_LIBRARY;SHARED_LIBRARY>>>:DOM_EXPORTS;LIBXML_STATIC>
+    # TODO: Fix based on the static/shared xslt package.
+    $<$<PLATFORM_ID:Windows>:LIBXSLT_STATIC>
+)
+
+target_link_options(
+  php_xsl
+  PRIVATE
+    $<$<AND:$<CONFIG:Debug,DebugAssertions>,$<C_COMPILER_ID:MSVC>>:LINKER:/nodefaultlib:msvcrt>
+)
+
 include(Packages/LibXml2)
 
 set_package_properties(
@@ -64,6 +79,13 @@ if(TARGET LibXslt::LibExslt)
   )
 
   target_link_libraries(php_xsl PRIVATE LibXslt::LibExslt)
+
+  target_compile_definitions(
+    php_xsl
+    PRIVATE
+    # TODO: Fix based on the static/shared xslt package.
+    $<$<PLATFORM_ID:Windows>:LIBEXSLT_STATIC>
+  )
 endif()
 
 add_feature_info(

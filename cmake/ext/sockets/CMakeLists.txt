@@ -84,7 +84,12 @@ if(CMAKE_SYSTEM_NAME STREQUAL "Windows")
 endif()
 
 # Check for field ss_family in sockaddr_storage (missing in AIX until 5.3).
-check_struct_has_member("struct sockaddr_storage" ss_family sys/socket.h HAVE_STRUCT_SOCKADDR_STORAGE_SS_FAMILY)
+check_struct_has_member(
+  "struct sockaddr_storage"
+  ss_family
+  sys/socket.h
+  HAVE_STRUCT_SOCKADDR_STORAGE_SS_FAMILY
+)
 
 # Check for struct ucred. Checking the header is not enough. E.g. DragonFlyBSD.
 cmake_push_check_state(RESET)

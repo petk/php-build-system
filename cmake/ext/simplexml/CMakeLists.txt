@@ -41,6 +41,7 @@ target_sources(
 target_compile_definitions(
   php_simplexml
   PRIVATE
+    # TODO: Fix LIBXML_STATIC usage based on the static/shared libxml2 package.
     $<$<AND:$<PLATFORM_ID:Windows>,$<NOT:$<IN_LIST:$<TARGET_PROPERTY:TYPE>,MODULE_LIBRARY;SHARED_LIBRARY>>>:LIBXML_STATIC>
     $<$<PLATFORM_ID:Windows>:PHP_SIMPLEXML_EXPORTS>
 )
