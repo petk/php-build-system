@@ -30,7 +30,7 @@ endif()
 target_sources(
   php_zlib
   PRIVATE
-    php_zlib.def
+    $<$<AND:$<PLATFORM_ID:Windows>,$<NOT:$<IN_LIST:$<TARGET_PROPERTY:TYPE>,MODULE_LIBRARY;SHARED_LIBRARY>>>:php_zlib.def>
     zlib_filter.c
     zlib_fopen_wrapper.c
     zlib.c
