@@ -64,6 +64,12 @@
 /* Define to 1 if you have the 'strcasestr' function. */
 #cmakedefine HAVE_STRCASESTR 1
 
+/* Define to 1 if you have the 'strndup' function. */
+#cmakedefine HAVE_STRNDUP 1
+
+/* Define to 1 if you have the 'utimes' function. */
+#cmakedefine HAVE_UTIMES 1
+
 #define HAVE_UTIME 1
 #undef HAVE_DIRENT_H
 #define HAVE_FCNTL_H 1
@@ -159,7 +165,7 @@
 
 #define HAVE_GAI_STRERROR 1
 
-#define HAVE_IPV6 1
+#cmakedefine HAVE_IPV6 1
 
 #define __SSE__ 1
 

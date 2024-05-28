@@ -58,7 +58,7 @@ target_sources(
 check_symbol_exists(utimes "sys/time.h" HAVE_UTIMES)
 check_symbol_exists(strndup "string.h" HAVE_STRNDUP)
 
-# The strcasestr is missing on Windows and Solaris 10 (Solaris 11 has it).
+# The strcasestr is missing on Windows and Solaris <= 10 (Solaris 11 has it).
 cmake_push_check_state(RESET)
   set(CMAKE_REQUIRED_DEFINITIONS -D_GNU_SOURCE)
   check_symbol_exists(strcasestr "string.h" HAVE_STRCASESTR)
@@ -76,4 +76,11 @@ target_compile_definitions(
     # The libmagic still includes them conditionally.
     HAVE_WCHAR_H=1
     HAVE_INTTYPES_H=1
+)
+
+set_property(
+  SOURCE libmagic/apprentice.c
+  APPEND
+  PROPERTY
+    OBJECT_DEPENDS ${CMAKE_CURRENT_SOURCE_DIR}/data_file.c
 )
