@@ -172,6 +172,12 @@
 
 #define __SSE2__ 1
 
+/* Whether fopencookie seeker uses off64_t. */
+#cmakedefine COOKIE_SEEKER_USES_OFF64_T 1
+
+/* Define to 1 if you have the 'fopencookie' function. */
+#cmakedefine HAVE_FOPENCOOKIE 1
+
 /* Have BCMATH library */
 #cmakedefine HAVE_BCMATH 1
 
@@ -306,6 +312,12 @@
 /* Whether to enable the PCRE JIT support */
 #cmakedefine HAVE_PCRE_JIT_SUPPORT 1
 
+/* have sqlite3_close_v2 */
+#cmakedefine HAVE_SQLITE3_CLOSE_V2 1
+
+/* have sqlite3_column_table_name */
+#cmakedefine HAVE_SQLITE3_COLUMN_TABLE_NAME 1
+
 /* */
 #cmakedefine PHAR_HAVE_OPENSSL 1
 
@@ -342,6 +354,18 @@
 
 /* Have the Sodium library */
 #cmakedefine HAVE_LIBSODIUMLIB 1
+
+/* Define to 1 if you have the sqlite3 extension enabled. */
+#cmakedefine HAVE_SQLITE3 1
+
+/* Define to 1 if SQLite library has the 'sqlite3_errstr' function. */
+#cmakedefine HAVE_SQLITE3_ERRSTR 1
+
+/* Define to 1 if SQLite library has the 'sqlite3_expanded_sql' function. */
+#cmakedefine HAVE_SQLITE3_EXPANDED_SQL 1
+
+/* Sqlite3 without extension support */
+#cmakedefine SQLITE_OMIT_LOAD_EXTENSION 1
 
 /* XMLReader support */
 #cmakedefine HAVE_XMLREADER 1
