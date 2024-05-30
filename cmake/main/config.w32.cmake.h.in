@@ -318,6 +318,9 @@
 /* have sqlite3_column_table_name */
 #cmakedefine HAVE_SQLITE3_COLUMN_TABLE_NAME 1
 
+/* Sqlite3 without extension support */
+#cmakedefine PDO_SQLITE_OMIT_LOAD_EXTENSION 1
+
 /* */
 #cmakedefine PHAR_HAVE_OPENSSL 1
 

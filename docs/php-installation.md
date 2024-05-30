@@ -192,7 +192,7 @@ cmake --install . --prefix "/install/path/prefix"
 
 To adjust the installation locations, the
 [GNUInstallDirs](https://cmake.org/cmake/help/latest/module/GNUInstallDirs.html)
-module is used and it sets some additional `CMAKE_INSTALL_*` variables.
+module is used to set additional `CMAKE_INSTALL_*` variables.
 
 * `CMAKE_INSTALL_BINDIR` - name of the bin directory.
 * `CMAKE_INSTALL_SBINDIR` - name of the sbin directory.

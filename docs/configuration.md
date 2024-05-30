@@ -2631,22 +2631,22 @@ A list of Autoconf `configure` command-line configuration options, Windows
         &emsp;[SQLITE_CFLAGS=...]<br>
         &emsp;[SQLITE_LIBS=...]
       </td>
-      <td></td>
+      <td>--with-pdo-sqlite</td>
       <td>
         EXT_PDO_SQLITE=ON<br>
         [SQLite3_ROOT=DIR]
       </td>
-      <td>default</td>
+      <td>default in *nix and CMake (on Windows disabled by default)</td>
     </tr>
     <tr>
       <td>&emsp;--with-pdo-sqlite=shared</td>
-      <td></td>
+      <td>--with-pdo-sqlite=shared</td>
       <td>EXT_PDO_SQLITE_SHARED=ON</td>
       <td></td>
     </tr>
     <tr>
       <td>&emsp;--without-pdo-sqlite</td>
-      <td></td>
+      <td>--without-pdo-sqlite</td>
       <td>EXT_PDO_SQLITE=OFF</td>
       <td></td>
     </tr>
@@ -2954,22 +2954,22 @@ A list of Autoconf `configure` command-line configuration options, Windows
         [SQLITE_CFLAGS=...]<br>
         [SQLITE_LIBS=...]
       </td>
-      <td></td>
+      <td>--with-sqlite3</td>
       <td>
         EXT_SQLITE3=ON<br>
         [SQLite3_ROOT=DIR]
       </td>
-      <td>default</td>
+      <td>default in *nix and CMake (on Windows disabled by default)</td>
     </tr>
     <tr>
       <td>&emsp;--with-sqlite3=shared</td>
-      <td></td>
+      <td>--with-sqlite3=shared</td>
       <td>EXT_SQLITE3_SHARED</td>
       <td></td>
     </tr>
     <tr>
       <td>&emsp;--without-sqlite3</td>
-      <td></td>
+      <td>--without-sqlite3</td>
       <td>EXT_SQLITE3=OFF</td>
       <td></td>
     </tr>
