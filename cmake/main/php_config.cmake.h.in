@@ -240,7 +240,7 @@
    provided only for PHP-8.3. */
 #define COOKIE_IO_FUNCTIONS_T cookie_io_functions_t
 
-/* Whether newer fopencookie seeker definition is available. */
+/* Whether fopencookie seeker uses off64_t. */
 #cmakedefine COOKIE_SEEKER_USES_OFF64_T 1
 
 /* Define if crypt_r has uses CRYPTD */

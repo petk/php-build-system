@@ -1,6 +1,6 @@
 include(CheckCompilerFlag)
-include(CheckSourceCompiles)
 include(CheckSourceRuns)
+include(CheckSymbolExists)
 include(CMakePushCheckState)
 include(FeatureSummary)
 
@@ -197,13 +197,7 @@ else()
     message(CHECK_START "Checking whether Intel CET is enabled")
     cmake_push_check_state(RESET)
       set(CMAKE_REQUIRED_QUIET TRUE)
-      check_source_compiles(C "
-        #ifndef __CET__
-        # error CET is not enabled
-        #endif
-        int main(void) { return 0; }"
-        _HAVE_PCRE2_INTEL_CET
-      )
+      check_symbol_exists(__CET__ "" _HAVE_PCRE2_INTEL_CET)
     cmake_pop_check_state()
     if(_HAVE_PCRE2_INTEL_CET)
       message(CHECK_PASS "yes")

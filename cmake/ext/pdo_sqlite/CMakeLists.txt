@@ -50,7 +50,7 @@ target_include_directories(
     ${CMAKE_CURRENT_SOURCE_DIR}/..
 )
 
-find_package(SQLite3 3.7.7)
+find_package(SQLite3 ${PHP_SQLITE_MIN_VERSION})
 set_package_properties(
   SQLite3
   PROPERTIES

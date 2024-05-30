@@ -168,6 +168,9 @@ mark_as_advanced(PHP_CCACHE)
 # Minimum required version for the OpenSSL dependency.
 set(PHP_OPENSSL_MIN_VERSION 1.0.2)
 
+# Minimum required version for the SQLite dependency.
+set(PHP_SQLITE_MIN_VERSION 3.7.7)
+
 # Additional metadata for external packages to avoid duplication.
 set_package_properties(
   BISON
