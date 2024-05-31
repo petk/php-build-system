@@ -494,7 +494,7 @@
 
 /* Define to 1 if you have the declaration of 'arc4random_buf', and to 0 if
    you don't. */
-#cmakedefine HAVE_DECL_ARC4RANDOM_BUF 1
+#cmakedefine01 HAVE_DECL_ARC4RANDOM_BUF
 
 /* do we have /dev/poll? */
 #cmakedefine HAVE_DEVPOLL 1
@@ -1794,10 +1794,10 @@
 /* fpm user name */
 #cmakedefine PHP_FPM_USER "@PHP_FPM_USER@"
 
-/* Whether the compiler supports AVX512 */
+/* Whether the compiler supports AVX-512. */
 #cmakedefine01 PHP_HAVE_AVX512_SUPPORTS
 
-/* Whether the compiler supports AVX512 VBMI */
+/* Whether the compiler supports AVX-512 VBMI. */
 #cmakedefine01 PHP_HAVE_AVX512_VBMI_SUPPORTS
 
 /* Whether the compiler supports __builtin_clz */
