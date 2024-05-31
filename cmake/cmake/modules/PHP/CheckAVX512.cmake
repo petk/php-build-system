@@ -1,5 +1,9 @@
 #[=============================================================================[
-Check whether compiler supports AVX-512 extensions.
+Check whether compiler supports AVX-512 extensions. Note that this is a compiler
+check, not a runtime check where further adjustments are done in the php-src C
+code to use these extensions.
+
+TODO: Adjust checks for MSVC.
 
 Cache variables:
 
@@ -17,7 +21,10 @@ include(CMakePushCheckState)
 message(CHECK_START "Checking for AVX-512 extensions support")
 
 cmake_push_check_state(RESET)
-  set(CMAKE_REQUIRED_FLAGS "-mavx512f -mavx512cd -mavx512vl -mavx512dq -mavx512bw")
+  set(
+    CMAKE_REQUIRED_FLAGS
+    "-mavx512f -mavx512cd -mavx512vl -mavx512dq -mavx512bw"
+  )
 
   check_source_compiles(C [[
     #include <immintrin.h>
@@ -33,7 +40,10 @@ cmake_push_check_state(RESET)
 cmake_pop_check_state()
 
 cmake_push_check_state(RESET)
-  set(CMAKE_REQUIRED_FLAGS "-mavx512f -mavx512cd -mavx512vl -mavx512dq -mavx512bw -mavx512vbmi")
+  set(
+    CMAKE_REQUIRED_FLAGS
+    "-mavx512f -mavx512cd -mavx512vl -mavx512dq -mavx512bw -mavx512vbmi"
+  )
 
   check_source_compiles(C [[
     #include <immintrin.h>

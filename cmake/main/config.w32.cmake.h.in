@@ -178,6 +178,16 @@
 /* Define to 1 if you have the 'fopencookie' function. */
 #cmakedefine HAVE_FOPENCOOKIE 1
 
+/* Whether the compiler supports AVX-512. */
+#cmakedefine01 PHP_HAVE_AVX512_SUPPORTS
+
+/* Whether the compiler supports AVX-512 VBMI. */
+#cmakedefine01 PHP_HAVE_AVX512_VBMI_SUPPORTS
+
+/* Define to 1 if you have the declaration of 'arc4random_buf', and to 0 if
+   you don't. */
+#cmakedefine01 HAVE_DECL_ARC4RANDOM_BUF
+
 /* Have BCMATH library */
 #cmakedefine HAVE_BCMATH 1
 
