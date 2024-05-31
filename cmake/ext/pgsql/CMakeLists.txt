@@ -95,5 +95,12 @@ if(TARGET PostgreSQL::PostgreSQL)
       ""
       HAVE_PG_CHANGE_PASSWORD
     )
+
+    check_library_exists(
+      PostgreSQL::PostgreSQL
+      PQsocketPoll
+      ""
+      HAVE_PG_SOCKET_POLL
+    )
   endif()
 endif()

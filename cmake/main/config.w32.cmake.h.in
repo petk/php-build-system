@@ -346,6 +346,9 @@
 /* PostgreSQL 12 or later */
 #cmakedefine HAVE_PG_RESULT_MEMORY_SIZE 1
 
+/* PostgreSQL 17 or later */
+#cmakedefine HAVE_PG_SOCKET_POLL 1
+
 /* Have SHMOP support */
 #cmakedefine HAVE_SHMOP 1
 
