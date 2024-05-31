@@ -191,6 +191,9 @@
 /* Have BCMATH library */
 #cmakedefine HAVE_BCMATH 1
 
+/* */
+#cmakedefine HAVE_BUILD_DEFS_H 1
+
 /* Have BZ2 library */
 #cmakedefine HAVE_BZ2 1
 
