@@ -239,11 +239,11 @@ function(_crypt_check_crypt_is_usable result)
       check_source_runs(C [[
         #include <string.h>
 
-        #if HAVE_UNISTD_H
+        #ifdef HAVE_UNISTD_H
         #include <unistd.h>
         #endif
 
-        #if HAVE_CRYPT_H
+        #ifdef HAVE_CRYPT_H
         #include <crypt.h>
         #endif
 
@@ -251,7 +251,7 @@ function(_crypt_check_crypt_is_usable result)
         #include <string.h>
 
         int main(void) {
-        #if HAVE_CRYPT
+        #ifdef HAVE_CRYPT
           char *encrypted = crypt("rasmuslerdorf", "rl");
           return !encrypted || strcmp(encrypted, "rl.3StKT.4T8M");
         #else
@@ -273,11 +273,11 @@ function(_crypt_check_crypt_is_usable result)
       message(CHECK_FAIL "no (cross-compiling)")
     else()
       check_source_runs(C [[
-        #if HAVE_UNISTD_H
+        #ifdef HAVE_UNISTD_H
         #include <unistd.h>
         #endif
 
-        #if HAVE_CRYPT_H
+        #ifdef HAVE_CRYPT_H
         #include <crypt.h>
         #endif
 
@@ -285,7 +285,7 @@ function(_crypt_check_crypt_is_usable result)
         #include <string.h>
 
         int main(void) {
-        #if HAVE_CRYPT
+        #ifdef HAVE_CRYPT
           char *encrypted = crypt("rasmuslerdorf", "_J9..rasm");
           return !encrypted || strcmp(encrypted, "_J9..rasmBYk8r9AiWNc");
         #else
@@ -307,11 +307,11 @@ function(_crypt_check_crypt_is_usable result)
       message(CHECK_FAIL "no (cross-compiling)")
     else()
       check_source_runs(C [[
-        #if HAVE_UNISTD_H
+        #ifdef HAVE_UNISTD_H
         #include <unistd.h>
         #endif
 
-        #if HAVE_CRYPT_H
+        #ifdef HAVE_CRYPT_H
         #include <crypt.h>
         #endif
 
@@ -319,7 +319,7 @@ function(_crypt_check_crypt_is_usable result)
         #include <string.h>
 
         int main(void) {
-        #if HAVE_CRYPT
+        #ifdef HAVE_CRYPT
           char salt[15], answer[40];
           char *encrypted;
 
@@ -351,11 +351,11 @@ function(_crypt_check_crypt_is_usable result)
       message(CHECK_FAIL "no (cross-compiling)")
     else()
       check_source_runs(C [[
-        #if HAVE_UNISTD_H
+        #ifdef HAVE_UNISTD_H
         #include <unistd.h>
         #endif
 
-        #if HAVE_CRYPT_H
+        #ifdef HAVE_CRYPT_H
         #include <crypt.h>
         #endif
 
@@ -363,7 +363,7 @@ function(_crypt_check_crypt_is_usable result)
         #include <string.h>
 
         int main(void) {
-        #if HAVE_CRYPT
+        #ifdef HAVE_CRYPT
           char salt[30], answer[70];
           char *encrypted;
 
@@ -393,11 +393,11 @@ function(_crypt_check_crypt_is_usable result)
       message(CHECK_FAIL "no (cross-compiling)")
     else()
       check_source_runs(C [[
-        #if HAVE_UNISTD_H
+        #ifdef HAVE_UNISTD_H
         #include <unistd.h>
         #endif
 
-        #if HAVE_CRYPT_H
+        #ifdef HAVE_CRYPT_H
         #include <crypt.h>
         #endif
 
@@ -405,7 +405,7 @@ function(_crypt_check_crypt_is_usable result)
         #include <string.h>
 
         int main(void) {
-        #if HAVE_CRYPT
+        #ifdef HAVE_CRYPT
           char salt[21], answer[21+86];
           char *encrypted;
 
@@ -433,11 +433,11 @@ function(_crypt_check_crypt_is_usable result)
       message(CHECK_FAIL "no (cross-compiling)")
     else()
       check_source_runs(C [[
-        #if HAVE_UNISTD_H
+        #ifdef HAVE_UNISTD_H
         #include <unistd.h>
         #endif
 
-        #if HAVE_CRYPT_H
+        #ifdef HAVE_CRYPT_H
         #include <crypt.h>
         #endif
 
@@ -445,7 +445,7 @@ function(_crypt_check_crypt_is_usable result)
         #include <string.h>
 
         int main(void) {
-        #if HAVE_CRYPT
+        #ifdef HAVE_CRYPT
           char salt[21], answer[21+43];
           char *encrypted;
 

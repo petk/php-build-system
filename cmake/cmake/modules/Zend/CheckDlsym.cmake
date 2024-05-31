@@ -32,7 +32,7 @@ if(NOT CMAKE_CROSSCOMPILING)
       ZEND_DLSYM_RUN_RESULT
       ZEND_DLSYM_COMPILE_RESULT
       SOURCE_FROM_CONTENT src.c [[
-        #if HAVE_DLFCN_H
+        #ifdef HAVE_DLFCN_H
         #include <dlfcn.h>
         #endif
 

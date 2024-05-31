@@ -42,10 +42,11 @@ target_compile_definitions(
   PRIVATE
     ZEND_ENABLE_STATIC_TSRMLS_CACHE=1
     # TODO: PHP_ZEND_TEST_EXPORTS is currently unused.
-    $<$<AND:$<PLATFORM_ID:Windows>,$<IN_LIST:$<TARGET_PROPERTY:TYPE>,MODULE_LIBRARY;SHARED_LIBRARY>>:PHP_ZEND_TEST_EXPORTS>
+    $<$<PLATFORM_ID:Windows>:PHP_ZEND_TEST_EXPORTS>
 )
 
-# If libxml extension is enabled, link libxml library.
+# If libxml extension is enabled, link libxml library as headers are used.
+# TODO: Reconfigure this for static/shared LibXml library on Windows.
 if(EXT_LIBXML)
   include(Packages/LibXml2)
 
