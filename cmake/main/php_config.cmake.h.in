@@ -1513,7 +1513,7 @@
 /* Define to 1 if you have the <tmmintrin.h> header file. */
 #cmakedefine HAVE_TMMINTRIN_H 1
 
-/* Whether you have a working ttyname_r */
+/* Define to 1 if you have a working ttyname_r. */
 #cmakedefine HAVE_TTYNAME_R 1
 
 /* Define to 1 if you have the 'tzset' function. */

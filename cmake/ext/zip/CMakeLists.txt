@@ -65,6 +65,7 @@ target_link_libraries(php_zip PRIVATE libzip::libzip)
 # TODO: Adjust this if the libzip is a static library.
 if(TODO)
   set(ZIP_STATIC 1 CACHE INTERNAL "Whether the libzip is a static library.")
+  #set(LZMA_API_STATIC 1)
 endif()
 
 # TODO: When downloading and building libzip from source additional deps are

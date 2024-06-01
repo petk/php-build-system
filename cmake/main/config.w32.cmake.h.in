@@ -325,6 +325,9 @@
 /* Whether to enable the PCRE JIT support */
 #cmakedefine HAVE_PCRE_JIT_SUPPORT 1
 
+/* Define to 1 if you have a working ttyname_r. */
+#cmakedefine HAVE_TTYNAME_R 1
+
 /* have sqlite3_close_v2 */
 #cmakedefine HAVE_SQLITE3_CLOSE_V2 1
 
