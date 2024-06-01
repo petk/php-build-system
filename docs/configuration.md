@@ -3218,9 +3218,9 @@ A list of Autoconf `configure` command-line configuration options, Windows
     </tr>
     <tr>
       <td>--without-zip</td>
-      <td></td>
+      <td>--disable-zip</td>
       <td>EXT_ZIP=OFF</td>
-      <td>default</td>
+      <td>default in *nix and CMake (on Windows enabled and shared by default)</td>
     </tr>
     <tr>
       <td>
@@ -3228,7 +3228,7 @@ A list of Autoconf `configure` command-line configuration options, Windows
         &emsp;[LIBZIP_CFLAGS=...]<br>
         &emsp;[LIBZIP_LIBS=...]
       </td>
-      <td></td>
+      <td>--enable-zip</td>
       <td>
         EXT_ZIP=ON<br>
         libzip_ROOT=DIR
@@ -3237,7 +3237,7 @@ A list of Autoconf `configure` command-line configuration options, Windows
     </tr>
     <tr>
       <td>&emsp;--with-zip=shared</td>
-      <td></td>
+      <td>--enable-zip=shared</td>
       <td>EXT_ZIP_SHARED=ON</td>
       <td></td>
     </tr>

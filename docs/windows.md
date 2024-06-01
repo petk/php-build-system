@@ -74,7 +74,7 @@ git clone https://github.com/php/php-sdk-binary-tools C:\php-sdk
 cd C:\php-sdk
 
 # Setup the build environment
-.\phpsdk-vs17-x64.bat
+.\phpsdk-vs16-x64.bat
 
 # Create build tree
 phpsdk_buildtree phpmaster
