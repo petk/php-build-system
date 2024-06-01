@@ -35,6 +35,8 @@ target_sources(
     zip_stream.c
 )
 
+add_dependencies(php_zip php_pcre)
+
 find_package(libzip 1.7.1)
 set_package_properties(
   libzip
