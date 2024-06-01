@@ -1691,6 +1691,9 @@
 #cmakedefine HAVE_ZIP 1
 
 /* */
+#cmakedefine ZIP_STATIC 1
+
+/* */
 #cmakedefine HAVE_ZLIB 1
 
 /* whether _controlfp is present usable */
