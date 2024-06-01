@@ -132,7 +132,7 @@ block(PROPAGATE libzip_VERSION)
         HAVE_ENCRYPTION
       )
 
-      if(HAVE_ENCRIPTION)
+      if(HAVE_ENCRYPTION)
         set(libzip_VERSION 1.2.0)
       endif()
 

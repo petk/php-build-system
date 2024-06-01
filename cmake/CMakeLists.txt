@@ -124,22 +124,22 @@ if(TARGET php_cli)
 
   block()
     include(ProcessorCount)
-    processorcount(N)
+    processorcount(processors)
 
-    if(NOT N EQUAL 0)
-      set(parallel -j${N})
+    if(NOT processors EQUAL 0)
+      set(parallel -j${processors})
     endif()
 
     get_cmake_property(extensions PHP_EXTENSIONS)
     foreach(extension ${extensions})
-      get_target_property(extension_type php_${extension} TYPE)
-      if(extension_type MATCHES "^(MODULE|SHARED)_LIBRARY$")
+      get_target_property(type php_${extension} TYPE)
+      if(type MATCHES "^(MODULE|SHARED)_LIBRARY$")
         get_target_property(
-          is_zend_extension
+          zend
           php_${extension}
           PHP_ZEND_EXTENSION
         )
-        if(is_zend_extension)
+        if(zend)
           list(APPEND options -d zend_extension=${extension})
         elseif(NOT extension STREQUAL "dl_test")
           list(APPEND options -d extension=${extension})
