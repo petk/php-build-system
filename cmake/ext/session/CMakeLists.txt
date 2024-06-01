@@ -63,7 +63,9 @@ target_compile_definitions(
 )
 
 # For spl autoloading https://bugs.php.net/53141
-add_dependencies(php_session php_spl)
+if(TARGET php_spl)
+  add_dependencies(php_session php_spl)
+endif()
 
 # Check whether pread() and pwrite() work.
 include(PHP/CheckPreadPwrite)
