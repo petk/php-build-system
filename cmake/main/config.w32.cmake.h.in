@@ -161,7 +161,8 @@
 
 #define HAVE_STRNLEN 1
 
-#define ZEND_CHECK_STACK_LIMIT 1
+/* Define to 1 if checking the stack limit is supported. */
+#cmakedefine ZEND_CHECK_STACK_LIMIT 1
 
 /* have the wspiapi.h header file */
 #define HAVE_WSPIAPI_H 1
@@ -294,6 +295,15 @@
 /* Enable core mysqlnd SSL code */
 #cmakedefine MYSQLND_SSL_SUPPORTED 1
 
+/* Define to 1 if you have the SysV IPC SHM support. */
+#cmakedefine HAVE_SHM_IPC 1
+
+/* Define to 1 if you have the mmap(MAP_ANON) SHM support. */
+#cmakedefine HAVE_SHM_MMAP_ANON 1
+
+/* Define if you have POSIX mmap() SHM support */
+#cmakedefine HAVE_SHM_MMAP_POSIX 1
+
 /* Define to 1 if you have the <openssl/crypto.h> header file. */
 #cmakedefine HAVE_OPENSSL_CRYPTO_H 1
 
@@ -338,6 +348,9 @@
 
 /* */
 #cmakedefine HAVE_LIBEDIT 1
+
+/* */
+#cmakedefine HAVE_LIBEXPAT 1
 
 /* Have SHMOP support */
 #cmakedefine HAVE_SHMOP 1
@@ -424,6 +437,12 @@
 
 /* Tokenizer support */
 #cmakedefine HAVE_TOKENIZER 1
+
+/* Define to 1 if you have the 'clock_gettime' function. */
+#cmakedefine HAVE_CLOCK_GETTIME 1
+
+/* Define to 1 if you have the 'clock_get_time' function. */
+#cmakedefine HAVE_CLOCK_GET_TIME 1
 
 #if __has_include("main/config.pickle.h")
 #include "main/config.pickle.h"

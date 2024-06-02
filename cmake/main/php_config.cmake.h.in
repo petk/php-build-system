@@ -1299,10 +1299,10 @@
 /* */
 #cmakedefine HAVE_SHMOP 1
 
-/* Define if you have SysV IPC SHM support */
+/* Define to 1 if you have the SysV IPC SHM support. */
 #cmakedefine HAVE_SHM_IPC 1
 
-/* Define if you have mmap(MAP_ANON) SHM support */
+/* Define to 1 if you have the mmap(MAP_ANON) SHM support. */
 #cmakedefine HAVE_SHM_MMAP_ANON 1
 
 /* Define if you have POSIX mmap() SHM support */
@@ -1964,7 +1964,7 @@
 /* Define if processor uses big-endian word */
 #cmakedefine WORDS_BIGENDIAN
 
-/* Define if checking the stack limit is supported */
+/* Define to 1 if checking the stack limit is supported. */
 #cmakedefine ZEND_CHECK_STACK_LIMIT 1
 
 /* Whether build type is Debug or DebugAssertions.
