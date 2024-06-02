@@ -164,6 +164,8 @@ determine the platform characteristics. For example:
   ac_cv_c_bigendian_php=no \
   ac_cv_write_stdout=yes \
   php_cv_iconv_ignore=yes \
+  php_cv_shm_ipc=yes \
+  php_cv_shm_mmap_anon=yes \
   php_cv_shm_mmap_posix=yes \
   php_cv_func_sched_getcpu=yes \
   ac_cv_have_pcre2_jit=yes \
@@ -174,5 +176,7 @@ determine the platform characteristics. For example:
   ac_cv_crypt_md5=yes \
   ac_cv_crypt_blowfish=yes \
   ac_cv_crypt_sha512=yes \
-  ac_cv_crypt_sha256=yes
+  ac_cv_crypt_sha256=yes \
+  php_cv_func_clock_get_time=yes \
+  php_cv_have_stack_limit=yes
 ```

@@ -3099,25 +3099,25 @@ A list of Autoconf `configure` command-line configuration options, Windows
     </tr>
     <tr>
       <td>--enable-xml</td>
-      <td>--enable-xml</td>
+      <td>--with-xml</td>
       <td>EXT_XML=ON</td>
       <td>default</td>
     </tr>
     <tr>
       <td>&emsp;--enable-xml=shared</td>
-      <td>--enable-xml=shared</td>
+      <td>--with-xml=shared</td>
       <td>EXT_XML_SHARED=ON</td>
       <td></td>
     </tr>
     <tr>
       <td>&emsp;--disable-xml</td>
-      <td>--disable-xml</td>
+      <td>--without-xml</td>
       <td>EXT_XML=OFF</td>
       <td></td>
     </tr>
     <tr>
       <td>&emsp;--without-expat</td>
-      <td></td>
+      <td>N/A</td>
       <td>EXT_XML_EXPAT=OFF</td>
       <td>default</td>
     </tr>
@@ -3127,7 +3127,7 @@ A list of Autoconf `configure` command-line configuration options, Windows
         &emsp;[EXPAT_CFLAGS=...]<br>
         &emsp;[EXPAT_LIBS=...]
       </td>
-      <td></td>
+      <td>N/A</td>
       <td>
         EXT_XML_EXPAT=ON<br>
         [EXPAT_ROOT=DIR]
