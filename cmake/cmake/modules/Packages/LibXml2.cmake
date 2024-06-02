@@ -1,7 +1,7 @@
 #[=============================================================================[
-Wrapper for finding LibXml2 library.
+Wrapper for finding libxml2 library.
 
-Module first tries to find the LibXml2 library on the system. If not successful
+Module first tries to find the libxml2 library on the system. If not successful
 it tries to download it from the upstream source with FetchContent module and
 build it together with the PHP build.
 

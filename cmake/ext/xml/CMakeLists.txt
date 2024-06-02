@@ -19,10 +19,16 @@ cmake_dependent_option(
 
 cmake_dependent_option(
   EXT_XML_EXPAT
-  "Build xml extension with Expat support instead of libxml2"
+  "Build xml extension with the Expat library support instead of the libxml2"
   OFF
   "EXT_XML"
   OFF
+)
+
+add_feature_info(
+  "ext/xml Expat"
+  EXT_XML_EXPAT
+  "XML support with the Expat library instead of the libxml2"
 )
 
 if(NOT EXT_XML)
@@ -62,6 +68,7 @@ if(NOT EXT_XML_EXPAT)
   target_compile_definitions(
     php_xml
     PRIVATE
+      # TODO: Fix LIBXML_STATIC usage based on the static/shared libxml2 package
       $<$<AND:$<PLATFORM_ID:Windows>,$<NOT:$<IN_LIST:$<TARGET_PROPERTY:TYPE>,MODULE_LIBRARY;SHARED_LIBRARY>>>:LIBXML_STATIC>
   )
 
