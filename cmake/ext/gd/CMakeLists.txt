@@ -432,9 +432,9 @@ else()
 
         # gdImageCreateFromXpm() expects 'char *' type.
         if(format STREQUAL "Xpm")
-          set(declaration [[char* f = "test.xpm"]])
+          set(definition [[char* f = "test.xpm"]])
         else()
-          set(declaration "FILE* f = NULL")
+          set(definition "FILE* f = NULL")
         endif()
 
         if(NOT CMAKE_CROSSCOMPILING)
@@ -442,16 +442,27 @@ else()
             #include <stdio.h>
             #include <unistd.h>
             #include <gd.h>
+
             /* A custom gdErrorMethod */
-            void exit1(int priority, const char *format, va_list args) {
+            void exit1(int priority, const char *format, va_list args)
+            {
+              (void)priority;
+              (void)format;
+              (void)args;
               _exit(1);
             }
-            /* Override the default gd_error_method with one that actually
-              causes the program to return an error. */
-            int main(int argc, char** argv) {
-              ${declaration};
+
+            int main(void)
+            {
+              ${definition};
+
+              /* Override the default gd_error_method with one that actually
+                 causes the program to return an error. */
               gdSetErrorMethod(exit1);
+
               gdImagePtr p = gdImageCreateFrom${format}(f);
+              (void)p;
+
               return 0;
             }" ${result})
         endif()

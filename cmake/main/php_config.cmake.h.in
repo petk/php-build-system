@@ -661,10 +661,10 @@
 /* Whether you have gcov */
 #cmakedefine HAVE_GCOV 1
 
-/* Does gdImageCreateFromAvif work? */
+/* Define to 1 if GD library has 'gdImageCreateFromAvif'. */
 #cmakedefine HAVE_GD_AVIF 1
 
-/* Does gdImageCreateFromBmp work? */
+/* Define to 1 if GD library has 'gdImageCreateFromBmp'. */
 #cmakedefine HAVE_GD_BMP 1
 
 /* */
@@ -676,22 +676,22 @@
 /* */
 #cmakedefine HAVE_GD_GET_INTERPOLATION 1
 
-/* Does gdImageCreateFromJpeg work? */
+/* Define to 1 if GD library has 'gdImageCreateFromJpeg'. */
 #cmakedefine HAVE_GD_JPG 1
 
 /* */
 #cmakedefine HAVE_GD_LIBVERSION 1
 
-/* Does gdImageCreateFromPng work? */
+/* Define to 1 if GD library has 'gdImageCreateFromPng'. */
 #cmakedefine HAVE_GD_PNG 1
 
-/* Does gdImageCreateFromTga work? */
+/* Define to 1 if GD library has 'gdImageCreateFromTga'. */
 #cmakedefine HAVE_GD_TGA 1
 
-/* Does gdImageCreateFromWebp work? */
+/* Define to 1 if GD library has 'gdImageCreateFromWebp'. */
 #cmakedefine HAVE_GD_WEBP 1
 
-/* Does gdImageCreateFromXpm work? */
+/* Define to 1 if GD library has 'gdImageCreateFromXpm'. */
 #cmakedefine HAVE_GD_XPM 1
 
 /* Define if you have the getaddrinfo function */
