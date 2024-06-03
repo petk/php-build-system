@@ -70,12 +70,6 @@ target_compile_definitions(
     ZEND_ENABLE_STATIC_TSRMLS_CACHE=1
 )
 
-target_include_directories(
-  php_pdo_mysql
-  PRIVATE
-    ${CMAKE_CURRENT_SOURCE_DIR}/..
-)
-
 if(EXT_MYSQL_SOCKET)
   if(EXT_MYSQL_SOCKET_PATH)
     set(MySQL_Socket_PATH "${EXT_MYSQL_SOCKET_PATH}")

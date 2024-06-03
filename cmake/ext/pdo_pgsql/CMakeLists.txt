@@ -44,12 +44,6 @@ target_sources(
 
 add_dependencies(php_pdo_pgsql php_pdo)
 
-target_include_directories(
-  php_pdo_pgsql
-  PRIVATE
-    ${CMAKE_CURRENT_SOURCE_DIR}/..
-)
-
 find_package(PostgreSQL 9.1)
 set_package_properties(
   PostgreSQL

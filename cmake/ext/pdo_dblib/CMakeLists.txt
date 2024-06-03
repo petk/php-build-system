@@ -50,12 +50,6 @@ target_compile_definitions(
     PDO_DBLIB_FLAVOUR="freetds"
 )
 
-target_include_directories(
-  php_pdo_dblib
-  PRIVATE
-    ${CMAKE_CURRENT_SOURCE_DIR}/..
-)
-
 find_package(FreeTDS)
 set_package_properties(
   FreeTDS

@@ -127,12 +127,6 @@ target_sources(
 
 add_dependencies(php_pdo_odbc php_pdo)
 
-target_include_directories(
-  php_pdo_odbc
-  PRIVATE
-    ${CMAKE_CURRENT_SOURCE_DIR}/..
-)
-
 # TODO: Can this be fixed better?
 get_target_property(extension_type php_pdo_odbc TYPE)
 if(NOT extension_type MATCHES "^(MODULE|SHARED)_LIBRARY$")

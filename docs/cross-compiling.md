@@ -101,6 +101,23 @@ targeted platform.
 cmake . -DCMAKE_SYSTEM_NAME=Linux -DCMAKE_CROSSCOMPILING_EMULATOR=/usr/bin/env
 ```
 
+To use the cross-compiling emulator, run check can be then adjusted in the
+following way:
+
+```cmake
+if(CMAKE_CROSSCOMPILING_EMULATOR OR NOT CMAKE_CROSSCOMPILING)
+  check_source_runs(C [[
+    #include <stdio.h>
+    int main(void) {
+      printf("Hello world");
+      return 0;
+    }
+  ]] HAVE_WORKING_HELLO_WORLD)
+else()
+  message(STATUS "Cross-compiling: Certain checks may not be applicable.")
+endif()
+```
+
 ### 2.4. Toolchain files
 
 Cross-compilation uses so-called toolchain files, where all the unknown
@@ -158,7 +175,6 @@ determine the platform characteristics. For example:
   ac_cv_syscall_shadow_stack_exists=yes \
   php_cv_ubsan_no_function=yes \
   ac_cv_time_r_type=yes \
-  ac_cv_ebcdic=no \
   ac_cv_have_broken_gcc_strlen_opt=no \
   php_cv_type_cookie_off64_t=yes \
   ac_cv_c_bigendian_php=no \

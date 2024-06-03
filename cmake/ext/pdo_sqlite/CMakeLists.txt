@@ -44,12 +44,6 @@ target_sources(
 
 add_dependencies(php_pdo_sqlite php_pdo)
 
-target_include_directories(
-  php_pdo_sqlite
-  PRIVATE
-    ${CMAKE_CURRENT_SOURCE_DIR}/..
-)
-
 find_package(SQLite3 ${PHP_SQLITE_MIN_VERSION})
 set_package_properties(
   SQLite3

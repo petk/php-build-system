@@ -210,9 +210,8 @@ In M4 files platform can be then determined using above shell variables in
 variety of ways:
 
 ```m4
-AS_CASE([$host_alias],[*freebsd*|*openbsd*],[
-  # Action that is run only on FreeBSD and OpenBSD systems.
-])
+AS_CASE([$host_alias], [*freebsd*|*openbsd*],
+  [AC_MSG_NOTICE([Action that is run only on FreeBSD and OpenBSD systems.])])
 ```
 
 ## 6. Common checks
@@ -236,8 +235,8 @@ int main(void) {
 #### 6.1.1. AC_COMPILE_IFELSE
 
 ```m4
-AC_COMPILE_IFELSE([AC_LANG_PROGRAM([[#include <stdio.h>]],
-  [[printf("Hello World")]])],
+AC_COMPILE_IFELSE([AC_LANG_PROGRAM([#include <stdio.h>],
+  [printf("Hello World")])],
   [php_cv_func_printf_works=yes],
   [php_cv_func_printf_works=no])
 ```
@@ -263,8 +262,8 @@ gcc -o out -c hello_world.c
 #### 6.1.2. AC_LINK_IFELSE
 
 ```m4
-AC_LINK_IFELSE([AC_LANG_PROGRAM([[#include <stdio.h>]],
-  [[printf("Hello World")]])],
+AC_LINK_IFELSE([AC_LANG_PROGRAM([#include <stdio.h>],
+  [printf("Hello World")])],
   [php_cv_func_printf_works=yes],
   [php_cv_func_printf_works=no])
 ```
@@ -286,8 +285,8 @@ platform. In this case the program cannot be run and we cannot be sure of if it
 is running successfully or not.
 
 ```m4
-AC_RUN_IFELSE([AC_LANG_PROGRAM([[#include <stdio.h>]],
-  [[printf("Hello World")]])],
+AC_RUN_IFELSE([AC_LANG_PROGRAM([#include <stdio.h>],
+  [printf("Hello World")])],
   [php_cv_func_printf_works=yes],
   [php_cv_func_printf_works=no],
   [php_cv_func_printf_works=cross-compiling])

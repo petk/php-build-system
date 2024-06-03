@@ -43,12 +43,6 @@ target_sources(
 
 add_dependencies(php_pdo_firebird php_pdo)
 
-target_include_directories(
-  php_pdo_firebird
-  PRIVATE
-    ${CMAKE_CURRENT_SOURCE_DIR}/..
-)
-
 find_package(Firebird)
 set_package_properties(
   Firebird
