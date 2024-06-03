@@ -9,11 +9,10 @@ include(CMakePushCheckState)
 include(FeatureSummary)
 
 ################################################################################
-# Check whether the system uses EBCDIC (not ASCII) as its native codeset.
+# Check whether the system uses EBCDIC (not ASCII) as its native character set.
 ################################################################################
-message(CHECK_START "Checking whether system uses EBCDIC")
-
-if(NOT CMAKE_CROSSCOMPILING)
+message(CHECK_START "Checking system character set")
+if(NOT CMAKE_CROSSCOMPILING OR CMAKE_CROSSCOMPILING_EMULATOR)
   cmake_push_check_state(RESET)
     set(CMAKE_REQUIRED_QUIET TRUE)
     check_source_runs(C "
@@ -22,12 +21,15 @@ if(NOT CMAKE_CROSSCOMPILING)
       }
     " _php_is_ebcdic)
   cmake_pop_check_state()
-endif()
 
-if(_php_is_ebcdic)
-  message(FATAL_ERROR "PHP does not support EBCDIC targets")
+  if(_php_is_ebcdic)
+    message(CHECK_FAIL "EBCDIC")
+    message(FATAL_ERROR "PHP does not support EBCDIC targets")
+  else()
+    message(CHECK_PASS "ASCII")
+  endif()
 else()
-  message(CHECK_PASS "OK, using ASCII")
+  message(CHECK_FAIL "unknown, assuming ASCII (cross-compiling)")
 endif()
 
 ################################################################################

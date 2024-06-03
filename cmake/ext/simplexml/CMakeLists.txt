@@ -46,7 +46,7 @@ target_compile_definitions(
     $<$<PLATFORM_ID:Windows>:PHP_SIMPLEXML_EXPORTS>
 )
 
-add_dependencies(php_simplexml php_spl php_libxml)
+add_dependencies(php_simplexml php_libxml php_spl)
 
 include(Packages/LibXml2)
 

@@ -269,6 +269,66 @@
 
 #cmakedefine PHP_MHASH_BC 1
 
+/* Define to 1 if GD library has 'gdImageCreateFromAvif'. */
+#cmakedefine HAVE_GD_AVIF 1
+
+/* Define to 1 if GD library has 'gdImageCreateFromBmp'. */
+#cmakedefine HAVE_GD_BMP 1
+
+/* */
+#cmakedefine HAVE_GD_BUNDLED 1
+
+/* */
+#cmakedefine HAVE_GD_FREETYPE 1
+
+/* */
+#cmakedefine HAVE_GD_GET_INTERPOLATION 1
+
+/* Define to 1 if GD library has 'gdImageCreateFromJpeg'. */
+#cmakedefine HAVE_GD_JPG 1
+
+/* */
+#cmakedefine HAVE_GD_LIBVERSION 1
+
+/* Define to 1 if GD library has 'gdImageCreateFromPng'. */
+#cmakedefine HAVE_GD_PNG 1
+
+/* Define to 1 if GD library has 'gdImageCreateFromTga'. */
+#cmakedefine HAVE_GD_TGA 1
+
+/* Define to 1 if GD library has 'gdImageCreateFromWebp'. */
+#cmakedefine HAVE_GD_WEBP 1
+
+/* Define to 1 if GD library has 'gdImageCreateFromXpm'. */
+#cmakedefine HAVE_GD_XPM 1
+
+/* */
+#cmakedefine HAVE_LIBAVIF 1
+
+/* */
+#cmakedefine HAVE_LIBFREETYPE 1
+
+/* */
+#cmakedefine HAVE_LIBGD 1
+
+/* */
+#cmakedefine HAVE_LIBJPEG 1
+
+/* */
+#cmakedefine HAVE_LIBPNG 1
+
+/* */
+#cmakedefine HAVE_LIBWEBP 1
+
+/* */
+#cmakedefine HAVE_XPM 1
+
+/* */
+#cmakedefine JISX0208 1
+
+/* */
+#cmakedefine USE_GD_JISX0208 1
+
 /* have the zlib.h header file */
 #define HAVE_ZLIB_H 0
 
