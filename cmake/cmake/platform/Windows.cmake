@@ -10,8 +10,12 @@ if(CMAKE_SYSTEM_NAME STREQUAL "Windows")
     php_configuration
     INTERFACE
       PHP_WIN32  # For PHP code
-      _WIN32     # Defined by all compilers
-      WIN32      # Defined by GCC and Clang compilers
+      _WIN32     # Defined by all compilers when targeting Windows. Left here
+                 # to match the native PHP Windows build system.
+      WIN32      # Defined by Windows SDK and some compilers (GCC and Clang)
+                 # when targeting Windows. Left here for BC for possible PECL
+                 # extensions not being updated yet. In new code it is being
+                 # replaced with _WIN32.
       ZEND_WIN32 # For Zend engine
   )
 
