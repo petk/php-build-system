@@ -5,11 +5,11 @@
 * [1. Cross-compilation considerations](#1-cross-compilation-considerations)
 * [2. Cross-compilation with CMake](#2-cross-compilation-with-cmake)
   * [2.1. Setting known cache variables manually](#21-setting-known-cache-variables-manually)
-  * [2.2. CMAKE\_CROSSCOMPILING](#22-cmake_crosscompiling)
-  * [2.3. CMAKE\_CROSSCOMPILING\_EMULATOR](#23-cmake_crosscompiling_emulator)
+  * [2.2. CMAKE\_CROSSCOMPILING variable](#22-cmake_crosscompiling-variable)
+  * [2.3. CMAKE\_CROSSCOMPILING\_EMULATOR variable](#23-cmake_crosscompiling_emulator-variable)
   * [2.4. Toolchain files](#24-toolchain-files)
 * [3. Cross-compilation with Autotools](#3-cross-compilation-with-autotools)
-  * [3.1. Cache variables](#31-cache-variables)
+  * [3.1. PHP cache variables](#31-php-cache-variables)
 
 ## 1. Cross-compilation considerations
 
@@ -23,7 +23,7 @@ CMake has `try_run()`, `check_source_runs()`, and
 `check_<LANG>_source_runs()` to check whether a test program compiles and runs
 as expected.
 
-A minimum simplistic example of cross-compilation:
+A minimum simplistic example:
 
 ```cmake
 # CMakeLists.txt
@@ -36,46 +36,48 @@ include(CheckSourceRuns)
 # Compile and run a test program.
 check_source_runs(C [[
   #include <stdio.h>
-  int main(void) {
+  int main(void)
+  {
     printf("Hello world");
     return 0;
   }
-]] HAVE_WORKING_HELLO_WORLD)
+]] HAVE_HELLO_WORLD)
 ```
 
+Setting target system name puts CMake in the cross-compilation mode:
+
 ```sh
-# Setting target system name puts CMake in the cross-compilation mode.
 cmake . -DCMAKE_SYSTEM_NAME=Linux
 ```
 
-CMake will emit error indicating that cache variable
-`HAVE_WORKING_HELLO_WORLD_EXITCODE` should be set manually:
+CMake will emit error indicating that cache variable `HAVE_HELLO_WORLD_EXITCODE`
+should be set manually:
 
 ```txt
--- Performing Test HAVE_WORKING_HELLO_WORLD
+-- Performing Test HAVE_HELLO_WORLD
 CMake Error: try_run() invoked in cross-compiling mode, please set the following
 cache variables appropriately:
-   HAVE_WORKING_HELLO_WORLD_EXITCODE (advanced)
+   HAVE_HELLO_WORLD_EXITCODE (advanced)
 For details see .../TryRunResults.cmake
--- Performing Test HAVE_WORKING_HELLO_WORLD - Failed
+-- Performing Test HAVE_HELLO_WORLD - Failed
 -- Configuring incomplete, errors occurred!
 ```
 
-Here are some options to consider, when encountering cross-compilation.
+Here are some options to consider, when encountering cross-compilation in CMake.
 
 ### 2.1. Setting known cache variables manually
 
-When the target system is known how certain check is working, the cache
-variables can be set manually. For example:
+When certain check result is known for the target system, the cache variables
+can be set manually. For example:
 
 ```sh
-cmake . -DCMAKE_SYSTEM_NAME=Linux -DHAVE_WORKING_HELLO_WORLD_EXITCODE=0
+cmake . -DCMAKE_SYSTEM_NAME=Linux -DHAVE_HELLO_WORLD_EXITCODE=0
 ```
 
-### 2.2. CMAKE_CROSSCOMPILING
+### 2.2. CMAKE_CROSSCOMPILING variable
 
 When CMake is in cross-compilation mode, the `CMAKE_CROSSCOMPILING` variable is
-set. It can be used to run certain checks conditionally.
+automatically set. It can be used to run certain checks conditionally.
 
 ```cmake
 if(CMAKE_CROSSCOMPILING)
@@ -83,36 +85,37 @@ if(CMAKE_CROSSCOMPILING)
 else()
   check_source_runs(C [[
     #include <stdio.h>
-    int main(void) {
+    int main(void)
+    {
       printf("Hello world");
       return 0;
     }
-  ]] HAVE_WORKING_HELLO_WORLD)
+  ]] HAVE_HELLO_WORLD)
 endif()
 ```
 
-### 2.3. CMAKE_CROSSCOMPILING_EMULATOR
+### 2.3. CMAKE_CROSSCOMPILING_EMULATOR variable
 
 By setting the `CMAKE_CROSSCOMPILING_EMULATOR` variable, test programs can be
-then run with provided emulator if possible on the host system and for the
-targeted platform.
+then run with provided emulator as they were running on the targeted system if
+such emulator exists on the host system.
 
 ```sh
 cmake . -DCMAKE_SYSTEM_NAME=Linux -DCMAKE_CROSSCOMPILING_EMULATOR=/usr/bin/env
 ```
 
-To use the cross-compiling emulator, run check can be then adjusted in the
-following way:
+Example, how to use the cross-compiling emulator with the run check:
 
 ```cmake
 if(CMAKE_CROSSCOMPILING_EMULATOR OR NOT CMAKE_CROSSCOMPILING)
   check_source_runs(C [[
     #include <stdio.h>
-    int main(void) {
+    int main(void)
+    {
       printf("Hello world");
       return 0;
     }
-  ]] HAVE_WORKING_HELLO_WORLD)
+  ]] HAVE_HELLO_WORLD)
 else()
   message(STATUS "Cross-compiling: Certain checks may not be applicable.")
 endif()
@@ -129,9 +132,8 @@ cmake --toolchain customToolchain.cmake -S ../php-src -B build-directory
 
 ## 3. Cross-compilation with Autotools
 
-Autotools has `AC_RUN_IFELSE` macro to check whether a test program compiles and
-runs as expected. To cross-compile PHP when using native Autotools-based build
-system can be done by setting the `host` manually:
+To cross-compile PHP when using native Autotools-based build system the `host`
+option needs to be set:
 
 ```sh
 # Generate configure script
@@ -148,10 +150,10 @@ The target triplet is in format of `cpu-vendor-os`. For example,
 `x86_64-w64-mingw64`.
 
 > [!NOTE]
-> In Autoconf the convention is to use the `--host` option to define the target
-> system. There is also a `--target` option, which sets the type of system for
-> which any compiler tools in the package produce code. It is rarely needed if
-> not at all. By default, it is the same as host.
+> Autoconf convention is to use the `--host` option to define the target system.
+> There is also a `--target` option, which sets the type of system for which any
+> compiler tools in the package produce code. It is rarely needed. By default,
+> it is the same as host.
 
 In cross-compilation mode the `cross_compiling` variable is set to `yes`:
 
@@ -160,13 +162,63 @@ AS_VAR_IF([cross_compiling], [yes],
   [AC_MSG_NOTICE([Cross-compiling: Certain checks may not be applicable.])])
 ```
 
-### 3.1. Cache variables
+Autotools has `AC_RUN_IFELSE` macro to check whether a test program compiles and
+runs as expected.
+
+```m4
+AC_MSG_CHECKING([for working hello world])
+AC_RUN_IFELSE([AC_LANG_SOURCE([
+  #include <stdio.h>
+  int main(void)
+  {
+    printf("Hello world");
+    return 0;
+  }
+])],
+[AC_MSG_RESULT([yes])
+AC_DEFINE([HAVE_HELLO_WORLD], [1], [Define if hello world is working.])],
+[AC_MSG_RESULT([no])],
+[AC_MSG_RESULT([no (cross-compiling)])])
+```
+
+By adjusting the run check with cache variables, users can override the
+cross-compilation result. For example:
+
+```m4
+AC_CACHE_CHECK([for working hello world], [php_cv_have_hello_world],
+  [AC_RUN_IFELSE([AC_LANG_SOURCE([
+    #include <stdio.h>
+    int main(void)
+    {
+      printf("Hello world");
+      return 0;
+    }
+  ])],
+  [php_cv_have_hello_world=yes],
+  [php_cv_have_hello_world=no],
+  [php_cv_have_hello_world=no])])
+
+AS_VAR_IF([php_cv_have_hello_world], [yes],
+  [AC_DEFINE([HAVE_HELLO_WORLD], [1], [Define if hello world is working.])])
+```
+
+Cache variables can be then passed to configure script to override the check:
+
+```sh
+./configure \
+  --host=<target-triplet> \
+  php_cv_have_hello_world=yes
+```
 
 Ideally, running test programs with `AC_RUN_IFELSE` should be avoided in favor
 of compile or link checks. However certain checks require runtime (to run the
 executable binary test programs), which might not be possible in cross-compiling
-mode. In these cases the Autoconf cache variables can be used to manually
-determine the platform characteristics. For example:
+mode.
+
+### 3.1. PHP cache variables
+
+Autoconf cache variables can be used to manually determine the platform
+characteristics. PHP cache variables to consider adjusting when cross-compiling:
 
 ```sh
 ./configure --host=<target-triplet> \
@@ -194,5 +246,11 @@ determine the platform characteristics. For example:
   ac_cv_crypt_sha512=yes \
   ac_cv_crypt_sha256=yes \
   php_cv_func_clock_get_time=yes \
-  php_cv_have_stack_limit=yes
+  php_cv_have_stack_limit=yes \
+  php_cv_have_common_page_size=yes \
+  php_cv_have_max_page_size=yes \
+  php_cv_lib_curl_ssl=no
 ```
+
+> [!WARNING]
+> Cache variable names might change across the PHP versions.

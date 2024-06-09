@@ -20,7 +20,6 @@ target_sources(
         spl_array.h
         spl_directory.h
         spl_dllist.h
-        spl_engine.h
         spl_exceptions.h
         spl_fixedarray.h
         spl_functions.h

@@ -395,6 +395,9 @@
 /* Whether to enable the PCRE JIT support */
 #cmakedefine HAVE_PCRE_JIT_SUPPORT 1
 
+/* Define to 1 if PGVerbosity enum has PQERRORS_SQLSTATE. */
+#cmakedefine HAVE_PQERRORS_SQLSTATE 1
+
 /* Define to 1 if you have a working ttyname_r. */
 #cmakedefine HAVE_TTYNAME_R 1
 

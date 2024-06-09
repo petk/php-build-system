@@ -1,5 +1,7 @@
 include(CheckLibraryExists)
+include(CheckSourceCompiles)
 include(CMakeDependentOption)
+include(CMakePushCheckState)
 include(FeatureSummary)
 
 option(EXT_PGSQL "Enable the pgsql extension" OFF)
@@ -79,6 +81,7 @@ if(TARGET PostgreSQL::PostgreSQL)
     HAVE_PG_CONTEXT_VISIBILITY
   )
 
+  # Available since PostgreSQL 12.
   if(PostgreSQL_VERSION_STRING VERSION_GREATER_EQUAL 12)
     check_library_exists(
       PostgreSQL::PostgreSQL
@@ -86,8 +89,17 @@ if(TARGET PostgreSQL::PostgreSQL)
       ""
       HAVE_PG_RESULT_MEMORY_SIZE
     )
+
+    cmake_push_check_state(RESET)
+      set(CMAKE_REQUIRED_LIBRARIES PostgreSQL::PostgreSQL)
+      check_source_compiles(C [[
+        #include <libpq-fe.h>
+        int main(void) { PGVerbosity e = PQERRORS_SQLSTATE; (void)e; return 0; }
+      ]] HAVE_PQERRORS_SQLSTATE)
+    cmake_pop_check_state()
   endif()
 
+  # Available since PostgreSQL 17.
   if(PostgreSQL_VERSION_STRING VERSION_GREATER_EQUAL 17)
     check_library_exists(
       PostgreSQL::PostgreSQL
