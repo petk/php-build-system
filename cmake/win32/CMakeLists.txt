@@ -8,8 +8,6 @@ include(FeatureSummary)
 add_library(php_win32 STATIC)
 add_library(PHP::win32 ALIAS php_win32)
 
-file(GLOB _php_win32_headers ${CMAKE_CURRENT_SOURCE_DIR}/*.h)
-
 target_sources(
   php_win32
   PRIVATE
@@ -35,7 +33,27 @@ target_sources(
   PUBLIC
     FILE_SET HEADERS
       FILES
-        ${_php_win32_headers}
+        codepage.h
+        console.h
+        fnmatch.h
+        getrusage.h
+        glob.h
+        inet.h
+        ioutil.h
+        ipc.h
+        nice.h
+        param.h
+        php_registry.h
+        php_win32_globals.h
+        readdir.h
+        select.h
+        sendmail.h
+        signal.h
+        sockets.h
+        syslog.h
+        time.h
+        unistd.h
+        winutil.h
   # A separate file set so binary dir can also be created within a source dir.
   PUBLIC
     FILE_SET HEADERS
