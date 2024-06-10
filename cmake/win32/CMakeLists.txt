@@ -38,7 +38,6 @@ target_sources(
         fnmatch.h
         getrusage.h
         glob.h
-        inet.h
         ioutil.h
         ipc.h
         nice.h
