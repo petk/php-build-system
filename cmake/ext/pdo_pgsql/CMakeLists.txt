@@ -50,7 +50,7 @@ target_include_directories(
     ${CMAKE_CURRENT_SOURCE_DIR}/..
 )
 
-find_package(PostgreSQL 9.1)
+find_package(PostgreSQL ${PHP_POSTGRESQL_MIN_VERSION})
 set_package_properties(
   PostgreSQL
   PROPERTIES

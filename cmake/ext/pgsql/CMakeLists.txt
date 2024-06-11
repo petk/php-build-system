@@ -36,7 +36,9 @@ target_sources(
 
 target_compile_definitions(php_pgsql PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE=1)
 
-find_package(PostgreSQL 9.1)
+add_dependencies(php_pgsql php_pcre)
+
+find_package(PostgreSQL ${PHP_POSTGRESQL_MIN_VERSION})
 set_package_properties(
   PostgreSQL
   PROPERTIES
