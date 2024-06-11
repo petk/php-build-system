@@ -44,7 +44,7 @@ target_sources(
 
 add_dependencies(php_pdo_pgsql php_pdo)
 
-find_package(PostgreSQL 9.1)
+find_package(PostgreSQL ${PHP_POSTGRESQL_MIN_VERSION})
 set_package_properties(
   PostgreSQL
   PROPERTIES
