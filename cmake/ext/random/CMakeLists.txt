@@ -27,7 +27,6 @@ target_sources(
 
 target_compile_definitions(php_random PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE=1)
 
-# Check for arc4random on BSD systems.
 check_symbol_exists(arc4random_buf "stdlib.h" HAVE_DECL_ARC4RANDOM_BUF)
 
 # Check for CCRandomGenerateBytes. Header was absent in previous macOS releases.
