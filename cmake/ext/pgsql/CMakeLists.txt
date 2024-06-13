@@ -64,13 +64,6 @@ if(TARGET PostgreSQL::PostgreSQL)
 
   check_library_exists(
     PostgreSQL::PostgreSQL
-    pg_encoding_to_char
-    ""
-    HAVE_PGSQL_WITH_MULTIBYTE_SUPPORT
-  )
-
-  check_library_exists(
-    PostgreSQL::PostgreSQL
     lo_truncate64
     ""
     HAVE_PG_LO64

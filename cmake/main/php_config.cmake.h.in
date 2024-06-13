@@ -1023,9 +1023,6 @@
 /* Whether to build PostgreSQL support or not */
 #cmakedefine HAVE_PGSQL 1
 
-/* Whether libpq is compiled with --enable-multibyte */
-#cmakedefine HAVE_PGSQL_WITH_MULTIBYTE_SUPPORT 1
-
 /* PostgreSQL 17 or later */
 #cmakedefine HAVE_PG_CHANGE_PASSWORD 1
 

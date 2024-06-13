@@ -16,6 +16,7 @@ target_sources(
     gammasection.c
     random.c
     randomizer.c
+    zend_utils.c
   PUBLIC
     FILE_SET HEADERS
       FILES
