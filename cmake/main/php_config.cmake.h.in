@@ -1770,9 +1770,6 @@
 /* */
 #cmakedefine PHAR_HAVE_OPENSSL 1
 
-/* */
-#cmakedefine01 PHPDBG_DEBUG
-
 /* build architecture */
 #cmakedefine PHP_BUILD_ARCH "@PHP_BUILD_ARCH@"
 
