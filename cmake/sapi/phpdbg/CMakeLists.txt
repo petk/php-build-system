@@ -22,14 +22,15 @@ cmake_dependent_option(
   OFF
 )
 
-# TODO: Check if this can be simplified in favor of the CMake's Debug build type.
 cmake_dependent_option(
   SAPI_PHPDBG_DEBUG
-  "Build phpdbg SAPI in debug mode"
+  "Build phpdbg in debug mode to enable additional diagnostic output for\
+  developing and troubleshooting phpdbg itself"
   OFF
   "SAPI_PHPDBG"
   OFF
 )
+mark_as_advanced(SAPI_PHPDBG_DEBUG)
 
 # TODO: Check if this can be simplified and removed by only checking if readline
 # extension has been enabled during the build.
@@ -83,6 +84,7 @@ target_compile_definitions(
   PRIVATE
     ZEND_ENABLE_STATIC_TSRMLS_CACHE=1
     $<$<PLATFORM_ID:Windows>:YY_NO_UNISTD_H>
+    $<IF:$<BOOL:${SAPI_PHPDBG_DEBUG}>,PHPDBG_DEBUG=1,PHPDBG_DEBUG=0>
 )
 
 target_link_libraries(
@@ -151,6 +153,7 @@ if(SAPI_PHPDBG_SHARED)
     PRIVATE
       $<TARGET_PROPERTY:PHP::main,INTERFACE_COMPILE_DEFINITIONS>
       $<$<PLATFORM_ID:Windows>:YY_NO_UNISTD_H>
+      $<IF:$<BOOL:${SAPI_PHPDBG_DEBUG}>,PHPDBG_DEBUG=1,PHPDBG_DEBUG=0>
   )
 
   target_include_directories(
@@ -206,12 +209,6 @@ endif()
 ################################################################################
 
 include(PHP/CheckTiocgwinsz)
-
-if(SAPI_PHPDBG_DEBUG)
-  set(PHPDBG_DEBUG 1 CACHE INTERNAL "Whether phpdbg debugging is enabled")
-else()
-  set(PHPDBG_DEBUG 0 CACHE INTERNAL "Whether phpdbg debugging is enabled")
-endif()
 
 message(
   CHECK_START

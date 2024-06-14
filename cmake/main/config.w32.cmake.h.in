@@ -505,7 +505,7 @@
 
 #define PHP_CONFIG_FILE_SCAN_DIR "@PHP_CONFIG_FILE_SCAN_DIR@"
 
-#cmakedefine PHP_USE_PHP_CRYPT_R 1
+#cmakedefine01 PHP_USE_PHP_CRYPT_R 1
 
 /* Define to 1 if you have the 'clock_gettime' function. */
 #cmakedefine HAVE_CLOCK_GETTIME 1
