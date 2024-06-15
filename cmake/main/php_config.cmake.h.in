@@ -11,12 +11,6 @@
 
 #define ZEND_DLIMPORT
 
-/* Define to 1 if the system has the type 'struct cmsgcred'. */
-#cmakedefine HAVE_STRUCT_CMSGCRED 1
-
-/* Define to 1 if the system has the type 'struct ucred'. */
-#cmakedefine HAVE_STRUCT_UCRED 1
-
 /* */
 #cmakedefine CDB_INCLUDE_FILE "@CDB_INCLUDE_FILE@"
 
@@ -1155,9 +1149,6 @@
 /* */
 #cmakedefine HAVE_SAPDB 1
 
-/* Define to 1 if 'ss_family' is a member of 'struct sockaddr_storage'. */
-#cmakedefine HAVE_STRUCT_SOCKADDR_STORAGE_SS_FAMILY 1
-
 /* Define to 1 if you have the 'scandir' function. */
 #cmakedefine HAVE_SCANDIR 1
 
@@ -1172,9 +1163,6 @@
 
 /* Whether SELinux is available. */
 #cmakedefine HAVE_SELINUX 1
-
-/* Define to 1 if the system has the type 'union semun'. */
-#cmakedefine HAVE_UNION_SEMUN 1
 
 /* Define to 1 if you have the 'setegid' function. */
 #cmakedefine HAVE_SETEGID 1
@@ -1262,12 +1250,6 @@
 
 /* */
 #cmakedefine HAVE_SOAP 1
-
-/* Define to 1 if 'sa_len' is a member of 'struct sockaddr'. */
-#cmakedefine HAVE_STRUCT_SOCKADDR_SA_LEN 1
-
-/* Define to 1 if the system has the type 'struct sockaddr_storage'. */
-#cmakedefine HAVE_STRUCT_SOCKADDR_STORAGE 1
 
 /* Define to 1 if you have the 'sockatmark' function. */
 #cmakedefine HAVE_SOCKATMARK 1
@@ -1368,8 +1350,20 @@
 /* Define to 1 if you have the 'strtok_r' function. */
 #cmakedefine HAVE_STRTOK_R 1
 
+/* Define to 1 if the system has the type 'struct cmsgcred'. */
+#cmakedefine HAVE_STRUCT_CMSGCRED 1
+
 /* Define to 1 if the system has the type 'struct flock'. */
 #cmakedefine HAVE_STRUCT_FLOCK 1
+
+/* Define to 1 if 'sa_len' is a member of 'struct sockaddr'. */
+#cmakedefine HAVE_STRUCT_SOCKADDR_SA_LEN 1
+
+/* Define to 1 if the system has the type 'struct sockaddr_storage'. */
+#cmakedefine HAVE_STRUCT_SOCKADDR_STORAGE 1
+
+/* Define to 1 if 'ss_family' is a member of 'struct sockaddr_storage'. */
+#cmakedefine HAVE_STRUCT_SOCKADDR_STORAGE_SS_FAMILY 1
 
 /* Define to 1 if 'sun_len' is a member of 'struct sockaddr_un'. */
 #cmakedefine HAVE_STRUCT_SOCKADDR_UN_SUN_LEN 1
@@ -1388,6 +1382,12 @@
 
 /* Define to 1 if 'tm_zone' is a member of 'struct tm'. */
 #cmakedefine HAVE_STRUCT_TM_TM_ZONE 1
+
+/* Define to 1 if the system has the type 'struct ucred'. */
+#cmakedefine HAVE_STRUCT_UCRED 1
+
+/* Define to 1 if 'domainname' is a member of 'struct utsname'. */
+#cmakedefine HAVE_STRUCT_UTSNAME_DOMAINNAME 1
 
 /* Define to 1 if you have the 'symlink' function. */
 #cmakedefine HAVE_SYMLINK 1
@@ -1521,6 +1521,9 @@
 /* */
 #cmakedefine HAVE_UDBCEXT_H 1
 
+/* Define to 1 if the system has the type 'union semun'. */
+#cmakedefine HAVE_UNION_SEMUN 1
+
 /* Define to 1 if you have the <unistd.h> header file. */
 #cmakedefine HAVE_UNISTD_H 1
 
@@ -1554,9 +1557,6 @@
 
 /* Define to 1 if you have the <utime.h> header file. */
 #cmakedefine HAVE_UTIME_H 1
-
-/* Define to 1 if 'domainname' is a member of 'struct utsname'. */
-#cmakedefine HAVE_STRUCT_UTSNAME_DOMAINNAME 1
 
 /* */
 #cmakedefine HAVE_VALGRIND 1
