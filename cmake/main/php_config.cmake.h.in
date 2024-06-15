@@ -1806,9 +1806,6 @@
 /* */
 #cmakedefine QDBM_INCLUDE_FILE "@QDBM_INCLUDE_FILE@"
 
-/* */
-#cmakedefine SHADOW_STACK_SYSCALL 1
-
 /* The size of 'int', as computed by sizeof. */
 #cmakedefine SIZEOF_INT @SIZEOF_INT@
 
