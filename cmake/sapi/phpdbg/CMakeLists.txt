@@ -84,7 +84,7 @@ target_compile_definitions(
   PRIVATE
     ZEND_ENABLE_STATIC_TSRMLS_CACHE=1
     $<$<PLATFORM_ID:Windows>:YY_NO_UNISTD_H>
-    $<IF:$<BOOL:${SAPI_PHPDBG_DEBUG}>,PHPDBG_DEBUG=1>
+    $<IF:$<BOOL:${SAPI_PHPDBG_DEBUG}>,PHPDBG_DEBUG=1,>
 )
 
 target_link_libraries(
@@ -153,7 +153,7 @@ if(SAPI_PHPDBG_SHARED)
     PRIVATE
       $<TARGET_PROPERTY:PHP::main,INTERFACE_COMPILE_DEFINITIONS>
       $<$<PLATFORM_ID:Windows>:YY_NO_UNISTD_H>
-      $<IF:$<BOOL:${SAPI_PHPDBG_DEBUG}>,PHPDBG_DEBUG=1>
+      $<IF:$<BOOL:${SAPI_PHPDBG_DEBUG}>,PHPDBG_DEBUG=1,>
   )
 
   target_include_directories(
