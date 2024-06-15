@@ -11,9 +11,6 @@ Interface library:
 
 Cache variables:
 
-  SHADOW_STACK_SYSCALL
-    Whether syscall to create shadow stack exists.
-
   ZEND_FIBER_UCONTEXT
     Whether ucontext.h is available and should be used.
 
@@ -137,15 +134,6 @@ block(PROPAGATE zend_fibers_asm_file zend_fibers_asm_sources)
     ${CMAKE_CURRENT_SOURCE_DIR}/asm/make_${zend_fibers_asm_file}
   )
 
-  # Workaround with compile definitions, because ASM files can't see macro
-  # definitions from configuration header.
-  if(SHADOW_STACK_SYSCALL)
-    list(APPEND
-      compile_definitions
-      "SHADOW_STACK_SYSCALL=1"
-    )
-  endif()
-
   if(compile_options)
     set_source_files_properties(
       ${zend_fibers_asm_sources}
@@ -172,6 +160,14 @@ if(ZEND_FIBER_ASM AND zend_fibers_asm_file)
     zend_fibers
     INTERFACE
       ${zend_fibers_asm_sources}
+  )
+
+  # Use compile definitions because ASM files can't see macro definitions from
+  # the PHP configuration header (php_config.h/config.w32.h).
+  target_compile_definitions(
+    zend_fibers
+    INTERFACE
+      $<IF:$<BOOL:${SHADOW_STACK_SYSCALL}>,SHADOW_STACK_SYSCALL=1,SHADOW_STACK_SYSCALL=0>
   )
 else()
   cmake_push_check_state(RESET)
