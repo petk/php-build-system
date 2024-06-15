@@ -109,5 +109,12 @@ if(TARGET PostgreSQL::PostgreSQL)
       ""
       HAVE_PG_SOCKET_POLL
     )
+
+    check_library_exists(
+      PostgreSQL::PostgreSQL
+      PQsetChunkedRowsMode
+      ""
+      HAVE_PG_SET_CHUNKED_ROWS_SIZE
+    )
   endif()
 endif()

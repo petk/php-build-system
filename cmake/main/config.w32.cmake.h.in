@@ -422,6 +422,9 @@
 #cmakedefine HAVE_PG_RESULT_MEMORY_SIZE 1
 
 /* PostgreSQL 17 or later */
+#cmakedefine HAVE_PG_SET_CHUNKED_ROWS_SIZE 1
+
+/* PostgreSQL 17 or later */
 #cmakedefine HAVE_PG_SOCKET_POLL 1
 
 /* */

@@ -224,7 +224,7 @@ characteristics. PHP cache variables to consider adjusting when cross-compiling:
 ./configure --host=<target-triplet> \
   ac_cv_func_getaddrinfo=yes \
   ac_cv_copy_file_range=yes \
-  ac_cv_syscall_shadow_stack_exists=yes \
+  php_cv_have_shadow_stack_syscall=yes \
   php_cv_ubsan_no_function=yes \
   ac_cv_time_r_type=yes \
   ac_cv_have_broken_gcc_strlen_opt=no \
