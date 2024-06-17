@@ -29,7 +29,7 @@ sudo dnf install cmake gcc gcc-c++ bison libxml2-devel sqlite-devel
   ```sh
   # Prerequisites for macOS:
   xcode-select --install   # XCode command line tools
-  brew install cmake bison # Brew packages
+  brew install cmake bison # See https://brew.sh how to install Homebrew
 
   # Prerequisites for Alpine Linux:
   sudo apk add --no-cache cmake make gcc g++ bison libxml2-dev sqlite-dev

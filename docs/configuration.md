@@ -961,13 +961,13 @@ A list of Autoconf `configure` command-line configuration options, Windows
       <td>&emsp;--disable-phpdbg-debug</td>
       <td>--disable-phpdbg-debug</td>
       <td>SAPI_PHPDBG_DEBUG=OFF</td>
-      <td>default (on Windows since >= PHP 8.4)</td>
+      <td>default (on Windows since PHP >= 8.4)</td>
     </tr>
     <tr>
       <td>&emsp;--enable-phpdbg-debug</td>
       <td>--enable-phpdbg-debug</td>
       <td>SAPI_PHPDBG_DEBUG=ON</td>
-      <td>(on Windows since >= PHP 8.4)</td>
+      <td>(on Windows since PHP >= 8.4)</td>
     </tr>
     <tr>
       <td>&emsp;--disable-phpdbg-readline</td>
