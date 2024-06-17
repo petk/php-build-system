@@ -239,7 +239,7 @@ if(NOT EXT_GD_EXTERNAL)
     )
   endif()
 
-  find_package(ZLIB)
+  find_package(ZLIB ${PHP_ZLIB_MIN_VERSION})
   set_package_properties(
     ZLIB
     PROPERTIES
