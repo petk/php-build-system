@@ -1122,7 +1122,7 @@
 /* */
 #cmakedefine HAVE_PWRITE 1
 
-/* Define to 1 if you have the 'RAND_egd' function. */
+/* Define to 1 if OpenSSL crypto library has the 'RAND_egd' function. */
 #cmakedefine HAVE_RAND_EGD 1
 
 /* Define to 1 if you have the <resolv.h> header file. */
