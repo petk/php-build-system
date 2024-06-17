@@ -38,7 +38,7 @@ target_sources(
 
 target_compile_definitions(php_zlib PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE=1)
 
-find_package(ZLIB 1.2.0.4)
+find_package(ZLIB ${PHP_ZLIB_MIN_VERSION})
 set_package_properties(
   ZLIB
   PROPERTIES
