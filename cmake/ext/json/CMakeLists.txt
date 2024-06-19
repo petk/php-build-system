@@ -36,9 +36,7 @@ if(RE2C_FOUND)
     json_scanner.re
     ${CMAKE_CURRENT_SOURCE_DIR}/json_scanner.c
     HEADER ${CMAKE_CURRENT_SOURCE_DIR}/php_json_scanner_defs.h
-    OPTIONS
-      --no-generation-date
-      -bci
+    OPTIONS -bci
   )
 
   add_dependencies(php_generate_files php_json_scanner)

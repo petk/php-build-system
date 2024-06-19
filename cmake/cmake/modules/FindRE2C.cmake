@@ -18,15 +18,20 @@ Cache variables:
 
 Hints:
 
-  RE2C_USE_COMPUTED_GOTOS
-    Set to TRUE before calling find_package(RE2C) to enable the re2c
-    --computed-gotos option if the non-standard C "computed goto" extension is
-    supported by the C compiler.
+  RE2C_DEFAULT_OPTIONS
+    A ;-list of default global options to pass to re2c for all re2c_target()
+    invocations. Set before calling the find_package(RE2C). Options are
+    prepended to additional options passed with re2c_target() arguments.
 
   RE2C_ENABLE_DOWNLOAD
     This module can also download and build re2c from its Git repository using
     the FetchContent module. Set to TRUE to enable downloading re2c, when not
     found on the system or system version is not suitable.
+
+  RE2C_USE_COMPUTED_GOTOS
+    Set to TRUE before calling find_package(RE2C) to enable the re2c
+    --computed-gotos option if the non-standard C "computed goto" extension is
+    supported by the C compiler.
 
 If re2c is found, the following function is exposed:
 
@@ -37,6 +42,8 @@ If re2c is found, the following function is exposed:
     [HEADER <header>]
     [OPTIONS <options>...]
     [DEPENDS <depends>...]
+    [NO_DEFAULT_OPTIONS]
+    [NO_COMPUTED_GOTOS]
   )
 
     <name>
@@ -54,6 +61,12 @@ If re2c is found, the following function is exposed:
       List of additional options to pass to re2c command-line tool.
     DEPENDS
       Optional list of dependent files to regenerate the output file.
+    NO_DEFAULT_OPTIONS
+      If specified, then the options from RE2C_DEFAULT_OPTIONS are not passed to
+      the re2c invocation.
+    NO_COMPUTED_GOTOS
+      If specified when using the RE2C_USE_COMPUTED_GOTOS, then the computed
+      gotos option is not passed to the re2c invocation.
 #]=============================================================================]
 
 include(CheckSourceCompiles)
@@ -180,10 +193,10 @@ function(re2c_target)
   cmake_parse_arguments(
     PARSE_ARGV
     3
-    parsed            # prefix
-    ""                # options
-    "HEADER"          # one-value keywords
-    "OPTIONS;DEPENDS" # multi-value keywords
+    parsed                                 # prefix
+    "NO_DEFAULT_OPTIONS;NO_COMPUTED_GOTOS" # options
+    "HEADER"                               # one-value keywords
+    "OPTIONS;DEPENDS"                      # multi-value keywords
   )
 
   if(parsed_UNPARSED_ARGUMENTS)
@@ -196,8 +209,16 @@ function(re2c_target)
 
   set(options ${parsed_OPTIONS})
 
-  if(RE2C_USE_COMPUTED_GOTOS AND _RE2C_HAVE_COMPUTED_GOTOS)
-    list(APPEND options "--computed-gotos")
+  if(
+    RE2C_USE_COMPUTED_GOTOS
+    AND _RE2C_HAVE_COMPUTED_GOTOS
+    AND NOT parsed_NO_COMPUTED_GOTOS
+  )
+    list(PREPEND options "--computed-gotos")
+  endif()
+
+  if(RE2C_DEFAULT_OPTIONS AND NOT parsed_NO_DEFAULT_OPTIONS)
+    list(PREPEND options ${RE2C_DEFAULT_OPTIONS})
   endif()
 
   set(input ${ARGV1})
