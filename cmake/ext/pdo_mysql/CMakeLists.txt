@@ -58,6 +58,7 @@ target_sources(
   php_pdo_mysql
   PRIVATE
     mysql_driver.c
+    mysql_sql_parser.c
     mysql_statement.c
     pdo_mysql.c
 )
@@ -110,4 +111,15 @@ else()
       CACHE INTERNAL "MySQL Unix socket pointer"
     )
   endif()
+endif()
+
+if(RE2C_FOUND)
+  re2c_target(
+    php_pdo_mysql_sql_parser
+    mysql_sql_parser.re
+    ${CMAKE_CURRENT_SOURCE_DIR}/mysql_sql_parser.c
+    OPTIONS --no-generation-date
+  )
+
+  add_dependencies(php_generate_files php_pdo_mysql_sql_parser)
 endif()

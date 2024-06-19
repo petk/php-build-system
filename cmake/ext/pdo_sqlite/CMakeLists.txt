@@ -39,6 +39,7 @@ target_sources(
   PRIVATE
     pdo_sqlite.c
     sqlite_driver.c
+    sqlite_sql_parser.c
     sqlite_statement.c
 )
 
@@ -82,4 +83,15 @@ if(TARGET SQLite::SQLite3)
       CACHE INTERNAL "Sqlite3 without extension support"
     )
   endif()
+endif()
+
+if(RE2C_FOUND)
+  re2c_target(
+    php_pdo_sqlite_sql_parser
+    sqlite_sql_parser.re
+    ${CMAKE_CURRENT_SOURCE_DIR}/sqlite_sql_parser.c
+    OPTIONS --no-generation-date
+  )
+
+  add_dependencies(php_generate_files php_pdo_sqlite_sql_parser)
 endif()

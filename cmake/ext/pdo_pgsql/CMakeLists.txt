@@ -39,6 +39,7 @@ target_sources(
   PRIVATE
     pdo_pgsql.c
     pgsql_driver.c
+    pgsql_sql_parser.c
     pgsql_statement.c
 )
 
@@ -74,4 +75,15 @@ if(TARGET PostgreSQL::PostgreSQL)
       HAVE_PG_RESULT_MEMORY_SIZE
     )
   endif()
+endif()
+
+if(RE2C_FOUND)
+  re2c_target(
+    php_pdo_pgsql_sql_parser
+    pgsql_sql_parser.re
+    ${CMAKE_CURRENT_SOURCE_DIR}/pgsql_sql_parser.c
+    OPTIONS --no-generation-date
+  )
+
+  add_dependencies(php_generate_files php_pdo_pgsql_sql_parser)
 endif()

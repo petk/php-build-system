@@ -35,6 +35,7 @@ target_sources(
     object_handlers.c
     observer.c
     test.c
+    zend_mm_custom_handlers.c
 )
 
 target_compile_definitions(
