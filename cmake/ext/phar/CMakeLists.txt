@@ -78,7 +78,7 @@ if(RE2C_FOUND)
     php_phar_path_check
     phar_path_check.re
     ${CMAKE_CURRENT_SOURCE_DIR}/phar_path_check.c
-    OPTIONS --no-generation-date -b
+    OPTIONS -b
   )
 
   add_dependencies(php_generate_files php_phar_path_check)

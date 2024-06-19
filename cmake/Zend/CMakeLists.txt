@@ -424,10 +424,7 @@ if(RE2C_FOUND)
     zend_language_scanner.l
     ${CMAKE_CURRENT_SOURCE_DIR}/zend_language_scanner.c
     HEADER ${CMAKE_CURRENT_SOURCE_DIR}/zend_language_scanner_defs.h
-    OPTIONS
-      --no-generation-date
-      --case-inverted
-      -cbdF
+    OPTIONS --case-inverted -cbdF
   )
 
   re2c_target(
@@ -435,10 +432,7 @@ if(RE2C_FOUND)
     zend_ini_scanner.l
     ${CMAKE_CURRENT_SOURCE_DIR}/zend_ini_scanner.c
     HEADER ${CMAKE_CURRENT_SOURCE_DIR}/zend_ini_scanner_defs.h
-    OPTIONS
-      --no-generation-date
-      --case-inverted
-      -cbdF
+    OPTIONS --case-inverted -cbdF
   )
 
   add_dependencies(php_generate_files zend_language_scanner zend_ini_scanner)

@@ -198,7 +198,7 @@ if(RE2C_FOUND)
     php_phpdbg_lexer
     phpdbg_lexer.l
     ${CMAKE_CURRENT_SOURCE_DIR}/phpdbg_lexer.c
-    OPTIONS --no-generation-date -cbdF
+    OPTIONS -cbdF
   )
 
   add_dependencies(php_generate_files php_phpdbg_lexer)

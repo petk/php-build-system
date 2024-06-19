@@ -80,6 +80,7 @@ if(
   endif()
 
   set(RE2C_ENABLE_DOWNLOAD TRUE)
+  set(RE2C_DEFAULT_OPTIONS --no-generation-date)
 
   find_package(RE2C 1.0.3)
   set_package_properties(

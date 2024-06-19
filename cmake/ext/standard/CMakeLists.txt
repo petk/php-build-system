@@ -138,14 +138,14 @@ if(RE2C_FOUND)
     php_standard_var_unserializer
     var_unserializer.re
     ${CMAKE_CURRENT_SOURCE_DIR}/var_unserializer.c
-    OPTIONS --no-generation-date -b
+    OPTIONS -b
   )
 
   re2c_target(
     php_standard_url_scanner_ex
     url_scanner_ex.re
     ${CMAKE_CURRENT_SOURCE_DIR}/url_scanner_ex.c
-    OPTIONS --no-generation-date -b
+    OPTIONS -b
   )
 
   add_dependencies(
