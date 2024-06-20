@@ -70,6 +70,9 @@ if(
   OR NOT EXISTS ${PHP_SOURCE_DIR}/ext/json/json_scanner.c
   OR NOT EXISTS ${PHP_SOURCE_DIR}/ext/json/php_json_scanner_defs.h
   OR NOT EXISTS ${PHP_SOURCE_DIR}/ext/pdo/pdo_sql_parser.c
+  OR NOT EXISTS ${PHP_SOURCE_DIR}/ext/pdo_mysql/mysql_sql_parser.c
+  OR NOT EXISTS ${PHP_SOURCE_DIR}/ext/pdo_pgsql/pgsql_sql_parser.c
+  OR NOT EXISTS ${PHP_SOURCE_DIR}/ext/pdo_sqlite/sqlite_sql_parser.c
   OR NOT EXISTS ${PHP_SOURCE_DIR}/ext/phar/phar_path_check.c
   OR NOT EXISTS ${PHP_SOURCE_DIR}/ext/standard/url_scanner_ex.c
   OR NOT EXISTS ${PHP_SOURCE_DIR}/ext/standard/var_unserializer.c
