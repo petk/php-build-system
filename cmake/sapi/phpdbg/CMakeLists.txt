@@ -200,8 +200,6 @@ if(RE2C_FOUND)
     ${CMAKE_CURRENT_SOURCE_DIR}/phpdbg_lexer.c
     OPTIONS -cbdF
   )
-
-  add_dependencies(php_generate_files php_phpdbg_lexer)
 endif()
 
 ################################################################################

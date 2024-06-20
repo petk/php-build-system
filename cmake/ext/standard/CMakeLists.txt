@@ -147,12 +147,6 @@ if(RE2C_FOUND)
     ${CMAKE_CURRENT_SOURCE_DIR}/url_scanner_ex.c
     OPTIONS -b
   )
-
-  add_dependencies(
-    php_generate_files
-    php_standard_var_unserializer
-    php_standard_url_scanner_ex
-  )
 endif()
 
 ################################################################################

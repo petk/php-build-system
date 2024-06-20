@@ -38,6 +38,4 @@ if(RE2C_FOUND)
     HEADER ${CMAKE_CURRENT_SOURCE_DIR}/php_json_scanner_defs.h
     OPTIONS -bci
   )
-
-  add_dependencies(php_generate_files php_json_scanner)
 endif()

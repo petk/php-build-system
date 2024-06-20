@@ -16,6 +16,14 @@ Cache variables:
   RE2C_EXECUTABLE
     Path to the re2c program.
 
+Custom target:
+
+  re2c_generate_files
+    A custom target for generating lexer files:
+      cmake --build <dir> -t re2c_generate_files
+    or to add it as a dependency to other targets:
+      add_dependencies(some_target re2c_generate_files)
+
 Hints:
 
   RE2C_DEFAULT_OPTIONS
@@ -80,6 +88,10 @@ set_package_properties(
     URL "https://re2c.org/"
     DESCRIPTION "Free and open-source lexer generator"
 )
+
+if(NOT TARGET re2c_generate_files)
+  add_custom_target(re2c_generate_files)
+endif()
 
 find_program(
   RE2C_EXECUTABLE
@@ -271,4 +283,6 @@ function(re2c_target)
     DEPENDS ${outputs}
     COMMENT "[RE2C] Building lexer with re2c ${RE2C_VERSION}"
   )
+
+  add_dependencies(re2c_generate_files ${ARGV0})
 endfunction()

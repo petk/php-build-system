@@ -432,8 +432,6 @@ if(RE2C_FOUND)
     HEADER ${CMAKE_CURRENT_SOURCE_DIR}/zend_ini_scanner_defs.h
     OPTIONS --case-inverted -cbdF
   )
-
-  add_dependencies(php_generate_files zend_language_scanner zend_ini_scanner)
 endif()
 
 ################################################################################

@@ -80,8 +80,6 @@ if(RE2C_FOUND)
     ${CMAKE_CURRENT_SOURCE_DIR}/phar_path_check.c
     OPTIONS -b
   )
-
-  add_dependencies(php_generate_files php_phar_path_check)
 endif()
 
 ################################################################################
