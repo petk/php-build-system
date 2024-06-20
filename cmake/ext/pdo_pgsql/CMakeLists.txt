@@ -83,6 +83,4 @@ if(RE2C_FOUND)
     pgsql_sql_parser.re
     ${CMAKE_CURRENT_SOURCE_DIR}/pgsql_sql_parser.c
   )
-
-  add_dependencies(php_generate_files php_pdo_pgsql_sql_parser)
 endif()
