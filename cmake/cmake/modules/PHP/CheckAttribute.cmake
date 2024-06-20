@@ -16,6 +16,7 @@ Supported function attributes:
 
   ifunc
   target
+  visibility
 
 Supported variable attributes:
 
@@ -44,6 +45,14 @@ function(_php_check_attribute_get_function_code attribute result)
   elseif(attribute STREQUAL "target")
     set(${result} [[
       int bar(void) __attribute__((target("sse2")));
+      int main(void) { return 0; }
+    ]])
+  elseif(attribute STREQUAL "visibility")
+    set(${result} [[
+      int foo_default(void) __attribute__((visibility("default")));
+      int foo_hidden(void) __attribute__((visibility("hidden")));
+      int foo_internal(void) __attribute__((visibility("internal")));
+      int foo_protected(void) __attribute__((visibility("protected")));
       int main(void) { return 0; }
     ]])
   else()
