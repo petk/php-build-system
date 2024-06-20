@@ -450,7 +450,7 @@ if(TARGET Zend::Fibers)
       SOURCE zend_fibers.c
       APPEND
       PROPERTY
-        COMPILE_DEFINITIONS _XOPEN_SOURCE
+        COMPILE_DEFINITIONS _XOPEN_SOURCE=600
     )
   endif()
 endif()
