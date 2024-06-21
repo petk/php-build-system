@@ -62,13 +62,13 @@ target_link_libraries(php_pdo_pgsql PUBLIC PostgreSQL::PostgreSQL)
 
 # Sanity check.
 if(TARGET PostgreSQL::PostgreSQL)
-  check_library_exists(PostgreSQL::PostgreSQL PQlibVersion "" HAVE_PQLIBVERSION)
-
-  if(NOT HAVE_PQLIBVERSION)
+  # PostgreSQL library minimum version sanity check.
+  check_library_exists(PostgreSQL::PostgreSQL PQlibVersion "" _PHP_LIBPQ_CHECK)
+  if(NOT _PHP_LIBPQ_CHECK)
     message(
       FATAL_ERROR
-      "PQlibVersion could not be found. Something is wrong with the libpq "
-      "library. See the logs."
+      "PostgreSQL check failed: libpq ${PHP_POSTGRESQL_MIN_VERSION} or later "
+      "is required, please see CMake logs for details."
     )
   endif()
 endif()
