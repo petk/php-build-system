@@ -349,6 +349,9 @@
 /* define to 1 if oniguruma has an invalid entry for KOI8 encoding */
 #cmakedefine PHP_ONIG_BAD_KOI8_ENTRY 1
 
+/* Define to 1 if mysqlnd has compressed protocol support. */
+#cmakedefine MYSQLND_COMPRESSION_ENABLED 1
+
 /* Enable mysqlnd code that uses OpenSSL directly */
 #cmakedefine MYSQLND_HAVE_SSL 1
 
@@ -488,7 +491,7 @@
 /* Libzip >= 1.7.0 with zip_*_method_supported functions */
 #cmakedefine HAVE_METHOD_SUPPORTED 1
 
-/* ZLIB support */
+/* Define to 1 if zlib extension is available. */
 #cmakedefine HAVE_ZLIB 1
 
 #define PHP_CONFIG_FILE_SCAN_DIR "@PHP_CONFIG_FILE_SCAN_DIR@"

@@ -1693,7 +1693,7 @@
 /* */
 #cmakedefine ZIP_STATIC 1
 
-/* */
+/* Define to 1 if zlib extension is available. */
 #cmakedefine HAVE_ZLIB 1
 
 /* whether _controlfp is present usable */
@@ -1743,7 +1743,7 @@
 /* Whether strtok_r is declared */
 #cmakedefine MISSING_STRTOK_R_DECL 1
 
-/* Enable compressed protocol support */
+/* Define to 1 if mysqlnd has compressed protocol support. */
 #cmakedefine MYSQLND_COMPRESSION_ENABLED 1
 
 /* Enable mysqlnd code that uses OpenSSL directly */
