@@ -132,6 +132,9 @@
 #define HAVE_FUNC_ATTRIBUTE_TARGET 1
 #endif
 
+/* Define to 1 if the system has the 'visibility' function attribute */
+#cmakedefine HAVE_FUNC_ATTRIBUTE_VISIBILITY 1
+
 #cmakedefine HAVE_GETADDRINFO 1
 
 /* values determined by configure.js */

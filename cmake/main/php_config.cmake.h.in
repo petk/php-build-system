@@ -599,6 +599,9 @@
 /* Define to 1 if the system has the 'target' function attribute */
 #cmakedefine HAVE_FUNC_ATTRIBUTE_TARGET 1
 
+/* Define to 1 if the system has the 'visibility' function attribute */
+#cmakedefine HAVE_FUNC_ATTRIBUTE_VISIBILITY 1
+
 /* Define to 1 if you have the three-argument form of gethostbyname_r(). */
 #cmakedefine HAVE_FUNC_GETHOSTBYNAME_R_3 1
 

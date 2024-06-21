@@ -70,7 +70,7 @@ if(NOT HAVE_STRCASESTR)
   target_sources(php_fileinfo PRIVATE libmagic/strcasestr.c)
 endif()
 
-php_check_function_attribute(visibility HAVE_VISIBILITY)
+php_check_function_attribute(visibility HAVE_FUNC_ATTRIBUTE_VISIBILITY)
 
 target_compile_definitions(
   php_fileinfo
@@ -79,7 +79,6 @@ target_compile_definitions(
     # The libmagic still includes them conditionally.
     HAVE_WCHAR_H=1
     HAVE_INTTYPES_H=1
-    $<IF:$<BOOL:${HAVE_VISIBILITY}>,HAVE_VISIBILITY=1,HAVE_VISIBILITY=0>
 )
 
 set_property(
