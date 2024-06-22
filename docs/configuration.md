@@ -2606,22 +2606,26 @@ A list of Autoconf `configure` command-line configuration options, Windows
     </tr>
     <tr>
       <td>&emsp;--without-pdo-pgsql</td>
-      <td></td>
+      <td>--without-pdo-pgsql</td>
       <td>EXT_PDO_PGSQL=OFF</td>
       <td>default</td>
     </tr>
     <tr>
-      <td>&emsp;--with-pdo-pgsql[=DIR]</td>
-      <td></td>
+      <td>
+        &emsp;--with-pdo-pgsql[=DIR]<br>
+        &emsp;[PGSQL_CFLAGS=...]<br>
+        &emsp;[PGSQL_LIBS=...]
+      </td>
+      <td>--with-pdo-pgsql</td>
       <td>
         EXT_PDO_PGSQL=ON<br>
         [PostgreSQL_ROOT=DIR]
       </td>
-      <td></td>
+      <td>Autotools PGSQL_CFLAGS and PGSQL_LIBS available since PHP >= 8.4</td>
     </tr>
     <tr>
       <td>&emsp;--with-pdo-pgsql=shared</td>
-      <td></td>
+      <td>--with-pdo-pgsql=shared</td>
       <td>EXT_PDO_PGSQL_SHARED=ON</td>
       <td></td>
     </tr>
@@ -2652,22 +2656,26 @@ A list of Autoconf `configure` command-line configuration options, Windows
     </tr>
     <tr>
       <td>--without-pgsql</td>
-      <td></td>
+      <td>--without-pgsql</td>
       <td>EXT_PGSQL=OFF</td>
       <td>default</td>
     </tr>
     <tr>
-      <td>&emsp;--with-pgsql[=DIR]</td>
-      <td></td>
+      <td>
+        &emsp;--with-pgsql[=DIR]<br>
+        &emsp;[PGSQL_CFLAGS=...]<br>
+        &emsp;[PGSQL_LIBS=...]
+      </td>
+      <td>--with-pgsql</td>
       <td>
         EXT_PGSQL=ON<br>
         [PostgreSQL_ROOT=DIR]
       </td>
-      <td></td>
+      <td>Autotools PGSQL_CFLAGS and PGSQL_LIBS available since PHP >= 8.4</td>
     </tr>
     <tr>
       <td>&emsp;--with-pgsql=shared</td>
-      <td></td>
+      <td>--with-pgsql=shared</td>
       <td>EXT_PGSQL_SHARED=ON</td>
       <td></td>
     </tr>
