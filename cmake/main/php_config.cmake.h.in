@@ -248,16 +248,16 @@
 /* */
 #cmakedefine DBA_CDB_BUILTIN 1
 
-/* */
+/* Define to 1 if Berkeley DB is compatible with version 1. */
 #cmakedefine DBA_DB1 1
 
-/* */
+/* Define to 1 if Berkeley DB is compatible with version 2. */
 #cmakedefine DBA_DB2 1
 
-/* */
+/* Define to 1 if Berkeley DB is compatible with version 3. */
 #cmakedefine DBA_DB3 1
 
-/* */
+/* Define to 1 if Berkeley DB is compatible with version 4. */
 #cmakedefine DBA_DB4 1
 
 /* */

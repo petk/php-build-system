@@ -41,7 +41,7 @@ target_compile_definitions(
     $<$<AND:$<PLATFORM_ID:Windows>,$<IN_LIST:$<TARGET_PROPERTY:TYPE>,MODULE_LIBRARY;SHARED_LIBRARY>>:PHP_BZ2_EXPORTS>
 )
 
-find_package(BZip2 1.0.0)
+find_package(BZip2 ${PHP_BZIP2_MIN_VERSION})
 set_package_properties(
   BZip2
   PROPERTIES
@@ -60,7 +60,8 @@ if(TARGET BZip2::BZip2)
     message(
       FATAL_ERROR
       "BZip2 package is not working as expected. The bz2 extension requires "
-      "libbz2 >= 1.0.0. Please see logs."
+      "BZip2 library (libbzip2) version ${PHP_BZIP2_MIN_VERSION} or later. "
+      "Please see the CMake logs."
     )
   endif()
 endif()

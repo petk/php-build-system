@@ -68,6 +68,14 @@ target_sources(
         php_%EXTNAME%.h
 )
 
+# Add compile definitions.
+target_compile_definitions(
+  php_%EXTNAME%
+  PRIVATE
+    # Enable "Thread Safety Resource Manager Local Storage" static cache.
+    ZEND_ENABLE_STATIC_TSRMLS_CACHE=1
+)
+
 # Configure extension as Zend extension. Zend extensions are loaded with the
 # 'zend_extension' INI directive and include additional advanced hooks. Use only
 # when building advanced extensions, such as debuggers, profilers, caching, etc.
