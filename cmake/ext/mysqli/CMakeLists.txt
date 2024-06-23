@@ -20,9 +20,9 @@ cmake_dependent_option(
 # Common configuration option for mysqli and pdo_mysql extensions.
 cmake_dependent_option(
   EXT_MYSQL_SOCKET
-  "MySQLi/PDO_MYSQL: Use MySQL Unix socket pointer from default locations."
+  "mysqli/pdo_mysql: Use MySQL Unix socket pointer from default locations"
   OFF
-  "EXT_MYSQLI OR EXT_PDO_MYSQL"
+  [[(EXT_MYSQLI OR EXT_PDO_MYSQL) AND NOT CMAKE_SYSTEM_NAME STREQUAL "Windows"]]
   OFF
 )
 
@@ -30,7 +30,8 @@ if((EXT_MYSQLI OR EXT_PDO_MYSQL) AND EXT_MYSQL_SOCKET)
   set(
     EXT_MYSQL_SOCKET_PATH ""
     CACHE FILEPATH
-    "MySQLi/PDO_MYSQL: Override MySQL Unix socket pointer location."
+    "mysqli/pdo_mysql: Specify path to the MySQL Unix socket pointer location. \
+If unspecified, default locations are searched."
   )
   # Change from INTERNAL type to show variable on consecutive configuration run.
   set_property(CACHE EXT_MYSQL_SOCKET_PATH PROPERTY TYPE FILEPATH)
