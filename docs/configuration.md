@@ -1911,42 +1911,42 @@ A list of Autoconf `configure` command-line configuration options, Windows
     </tr>
     <tr>
       <td>--without-mysqli</td>
-      <td></td>
+      <td>--without-mysqli</td>
       <td>EXT_MYSQLI=OFF</td>
       <td>default</td>
     </tr>
     <tr>
       <td>&emsp;--with-mysqli</td>
-      <td></td>
+      <td>--with-mysqli</td>
       <td>EXT_MYSQLI=ON</td>
       <td></td>
     </tr>
     <tr>
       <td>&emsp;--with-mysqli=shared</td>
-      <td></td>
+      <td>--with-mysqli=shared</td>
       <td>EXT_MYSQLI_SHARED=ON</td>
       <td></td>
     </tr>
     <tr>
       <td>--without-mysql-sock</td>
-      <td></td>
+      <td>N/A</td>
       <td>EXT_MYSQL_SOCKET=OFF</td>
-      <td>default</td>
+      <td>default, not available on Windows</td>
     </tr>
     <tr>
       <td>&emsp;--with-mysql-sock</td>
-      <td></td>
+      <td>N/A</td>
       <td>EXT_MYSQL_SOCKET=ON</td>
-      <td></td>
+      <td>Not available on Windows</td>
     </tr>
     <tr>
       <td>&emsp;--with-mysql-sock=SOCKET</td>
-      <td></td>
+      <td>N/A</td>
       <td>
         EXT_MYSQL_SOCKET=ON<br>
         EXT_MYSQL_SOCKET_PATH=/path/to/mysql.sock
       </td>
-      <td></td>
+      <td>Not available on Windows</td>
     </tr>
     <tr>
       <td>--disable-mysqlnd</td>

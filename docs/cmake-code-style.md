@@ -297,6 +297,16 @@ extension involves multiple options:
 option(EXT_GD "<help_text>" [value])
 cmake_dependent_option(EXT_GD_AVIF "<help_text>" OFF "EXT_GD" OFF)
 cmake_dependent_option(EXT_GD_WEBP "<help_text>" OFF "EXT_GD" OFF)
+
+option(EXT_MYSQLI "<help_text>" [value])
+option(EXT_PDO_MYSQL "<help_text>" [value])
+cmake_dependent_option(
+  EXT_MYSQL_SOCKET
+  "<help_text>"
+  OFF
+  "EXT_MYSQLI OR EXT_MYSQL_PDO"
+  OFF
+)
 ```
 
 #### 3.2.2. Find module variables
