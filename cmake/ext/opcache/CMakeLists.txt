@@ -79,7 +79,11 @@ target_include_directories(
     ${CMAKE_CURRENT_BINARY_DIR}/jit
 )
 
-add_dependencies(php_opcache php_pcre)
+add_dependencies(php_opcache php_date php_pcre)
+
+if(CMAKE_SYSTEM_NAME STREQUAL "Windows")
+  add_dependencies(php_opcache php_hash)
+endif()
 
 set_target_properties(
   php_opcache
