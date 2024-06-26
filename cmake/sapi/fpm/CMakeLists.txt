@@ -221,6 +221,7 @@ check_source_compiles(C "
     kfd = kqueue();
     /* 0 -> STDIN_FILENO */
     EV_SET(&k, 0, EVFILT_READ , EV_ADD | EV_CLEAR, 0, 0, NULL);
+    (void)kfd;
 
     return 0;
   }
@@ -243,7 +244,8 @@ check_source_compiles(C "
     dvp.dp_fds = NULL;
     dvp.dp_nfds = 0;
     dvp.dp_timeout = 0;
-    n = ioctl(dp, DP_POLL, &dvp)
+    n = ioctl(dp, DP_POLL, &dvp);
+    (void)n;
 
     return 0;
   }
@@ -314,6 +316,7 @@ cmake_push_check_state(RESET)
       /* 0 -> STDIN_FILENO */
       FD_SET(0, &fds);
       select(FD_SETSIZE, &fds, NULL, NULL, &t);
+
       return 0;
     }
   " HAVE_SELECT)
