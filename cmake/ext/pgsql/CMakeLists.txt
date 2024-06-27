@@ -57,7 +57,12 @@ target_link_libraries(php_pgsql PUBLIC PostgreSQL::PostgreSQL)
 
 if(TARGET PostgreSQL::PostgreSQL)
   # PostgreSQL library minimum version sanity check.
-  check_library_exists(PostgreSQL::PostgreSQL PQlibVersion "" _PHP_LIBPQ_CHECK)
+  check_library_exists(
+    PostgreSQL::PostgreSQL
+    PQencryptPasswordConn
+    ""
+    _PHP_LIBPQ_CHECK
+  )
   if(NOT _PHP_LIBPQ_CHECK)
     message(
       FATAL_ERROR
@@ -65,20 +70,6 @@ if(TARGET PostgreSQL::PostgreSQL)
       "is required, please see CMake logs for details."
     )
   endif()
-
-  check_library_exists(
-    PostgreSQL::PostgreSQL
-    lo_truncate64
-    ""
-    HAVE_PG_LO64
-  )
-
-  check_library_exists(
-    PostgreSQL::PostgreSQL
-    PQsetErrorContextVisibility
-    ""
-    HAVE_PG_CONTEXT_VISIBILITY
-  )
 
   # Available since PostgreSQL 12.
   if(PostgreSQL_VERSION_STRING VERSION_GREATER_EQUAL 12)

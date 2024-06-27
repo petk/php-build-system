@@ -58,7 +58,12 @@ target_link_libraries(php_pdo_pgsql PUBLIC PostgreSQL::PostgreSQL)
 # Sanity check.
 if(TARGET PostgreSQL::PostgreSQL)
   # PostgreSQL library minimum version sanity check.
-  check_library_exists(PostgreSQL::PostgreSQL PQlibVersion "" _PHP_LIBPQ_CHECK)
+  check_library_exists(
+    PostgreSQL::PostgreSQL
+    PQencryptPasswordConn
+    ""
+    _PHP_LIBPQ_CHECK
+  )
   if(NOT _PHP_LIBPQ_CHECK)
     message(
       FATAL_ERROR

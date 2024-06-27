@@ -47,6 +47,7 @@ target_sources(
     html_document.c
     html5_parser.c
     html5_serializer.c
+    infra.c
     lexbor/lexbor/core/array_obj.c
     lexbor/lexbor/core/array.c
     lexbor/lexbor/core/avl.c

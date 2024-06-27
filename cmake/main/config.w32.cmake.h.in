@@ -327,12 +327,6 @@
 /* */
 #cmakedefine HAVE_LIBWEBP 1
 
-/* PostgreSQL 9.6 or later */
-#cmakedefine HAVE_PG_CONTEXT_VISIBILITY 1
-
-/* PostgreSQL 9.3 or later */
-#cmakedefine HAVE_PG_LO64 1
-
 /* Whether to build PostgreSQL support or not */
 #cmakedefine HAVE_PGSQL 1
 

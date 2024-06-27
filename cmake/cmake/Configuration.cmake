@@ -172,7 +172,7 @@ set(PHP_OPENSSL_MIN_VERSION 1.1.1)
 set(PHP_SQLITE_MIN_VERSION 3.7.7)
 
 # Minimum required version for the PostgreSQL dependency.
-set(PHP_POSTGRESQL_MIN_VERSION 9.1)
+set(PHP_POSTGRESQL_MIN_VERSION 10.0)
 
 # Minimum required version for the zlib dependency.
 set(PHP_ZLIB_MIN_VERSION 1.2.11)

@@ -1023,12 +1023,6 @@
 /* PostgreSQL 17 or later */
 #cmakedefine HAVE_PG_CHANGE_PASSWORD 1
 
-/* PostgreSQL 9.6 or later */
-#cmakedefine HAVE_PG_CONTEXT_VISIBILITY 1
-
-/* PostgreSQL 9.3 or later */
-#cmakedefine HAVE_PG_LO64 1
-
 /* PostgreSQL 12 or later */
 #cmakedefine HAVE_PG_RESULT_MEMORY_SIZE 1
 
