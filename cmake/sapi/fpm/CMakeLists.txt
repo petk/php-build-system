@@ -193,13 +193,14 @@ if(
 endif()
 
 message(CHECK_START "Checking if gcc supports __sync_bool_compare_and_swap")
-check_source_compiles(C "
-  int main(void) {
+check_source_compiles(C [[
+  int main(void)
+  {
     int variable = 1;
     return (__sync_bool_compare_and_swap(&variable, 1, 2)
            && __sync_add_and_fetch(&variable, 1)) ? 1 : 0;
   }
-" HAVE_BUILTIN_ATOMIC)
+]] HAVE_BUILTIN_ATOMIC)
 if(HAVE_BUILTIN_ATOMIC)
   message(CHECK_PASS "yes")
 else()
@@ -209,12 +210,13 @@ endif()
 include(PHP/CheckListeningQueue)
 
 message(CHECK_START "Checking for kqueue")
-check_source_compiles(C "
+check_source_compiles(C [[
   #include <sys/types.h>
   #include <sys/event.h>
   #include <sys/time.h>
 
-  int main(void) {
+  int main(void)
+  {
     int kfd;
     struct kevent k;
     kfd = kqueue();
@@ -224,19 +226,21 @@ check_source_compiles(C "
 
     return 0;
   }
-" HAVE_KQUEUE)
+]] HAVE_KQUEUE)
 if(HAVE_KQUEUE)
   message(CHECK_PASS "yes")
 else()
   message(CHECK_FAIL "no")
 endif()
 
+# For Solaris < 10.
 message(CHECK_START "Checking for /dev/poll")
-check_source_compiles(C "
+check_source_compiles(C [[
   #include <stdio.h>
   #include <sys/devpoll.h>
 
-  int main(void) {
+  int main(void)
+  {
     int n, dp;
     struct dvpoll dvp;
     dp = 0;
@@ -248,7 +252,7 @@ check_source_compiles(C "
 
     return 0;
   }
-" HAVE_DEVPOLL)
+]] HAVE_DEVPOLL)
 if(HAVE_DEVPOLL)
   message(CHECK_PASS "yes")
 else()
@@ -256,10 +260,11 @@ else()
 endif()
 
 message(CHECK_START "Checking for epoll")
-check_source_compiles(C "
+check_source_compiles(C [[
   #include <sys/epoll.h>
 
-  int main(void) {
+  int main(void)
+  {
     int epollfd;
     struct epoll_event e;
 
@@ -282,7 +287,7 @@ check_source_compiles(C "
 
     return 0;
   }
-" HAVE_EPOLL)
+]] HAVE_EPOLL)
 if(HAVE_EPOLL)
   message(CHECK_PASS "yes")
 else()
@@ -297,7 +302,7 @@ cmake_push_check_state(RESET)
     set(CMAKE_REQUIRED_DEFINITIONS -DFD_SETSIZE=${PHP_FD_SETSIZE})
   endif()
 
-  check_source_compiles(C "
+  check_source_compiles(C [[
     /* According to POSIX.1-2001 */
     #include <sys/select.h>
 
@@ -306,7 +311,8 @@ cmake_push_check_state(RESET)
     #include <sys/types.h>
     #include <unistd.h>
 
-    int main(void) {
+    int main(void)
+    {
       fd_set fds;
       struct timeval t;
       t.tv_sec = 0;
@@ -318,7 +324,7 @@ cmake_push_check_state(RESET)
 
       return 0;
     }
-  " HAVE_SELECT)
+  ]] HAVE_SELECT)
 cmake_pop_check_state()
 if(HAVE_SELECT)
   message(CHECK_PASS "yes")

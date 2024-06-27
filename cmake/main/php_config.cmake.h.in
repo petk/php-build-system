@@ -416,7 +416,7 @@
 /* Define if copy_file_range support */
 #cmakedefine HAVE_COPY_FILE_RANGE 1
 
-/* whether __cpuid_count is available */
+/* Define to 1 if '__cpuid_count' is available. */
 #cmakedefine HAVE_CPUID_COUNT 1
 
 /* Define to 1 if you have the <cpuid.h> header file. */
@@ -455,7 +455,7 @@
 /* */
 #cmakedefine HAVE_DCNGETTEXT 1
 
-/* do we have /dev/poll? */
+/* Define to 1 if system has a working '/dev/poll'. */
 #cmakedefine HAVE_DEVPOLL 1
 
 /* Define to 1 if you have the <dirent.h> header file. */
@@ -506,7 +506,7 @@
 /* Libzip >= 1.2.0 with encryption support */
 #cmakedefine HAVE_ENCRYPTION 1
 
-/* do we have epoll? */
+/* Define to 1 if system has a working epoll. */
 #cmakedefine HAVE_EPOLL 1
 
 /* */
@@ -617,7 +617,8 @@
 /* Define to 1 if you have the 'gai_strerror' function. */
 #cmakedefine HAVE_GAI_STRERROR 1
 
-/* Define if the target system has support for global register variables */
+/* Define to 1 if the target system has support for global register variables.
+   */
 #cmakedefine HAVE_GCC_GLOBAL_REGS 1
 
 /* Whether you have gcov */
@@ -806,7 +807,7 @@
 /* Define to 1 if you have the 'kill' function. */
 #cmakedefine HAVE_KILL 1
 
-/* do we have kqueue? */
+/* Define to 1 if system has a working 'kqueue' function. */
 #cmakedefine HAVE_KQUEUE 1
 
 /* Define to 1 if you have the <langinfo.h> header file. */
@@ -1164,7 +1165,7 @@
 /* Define to 1 if you have the 'sched_setaffinity' function. */
 #cmakedefine HAVE_SCHED_SETAFFINITY 1
 
-/* do we have select? */
+/* Define to 1 if system has a working 'select' function. */
 #cmakedefine HAVE_SELECT 1
 
 /* Whether SELinux is available. */

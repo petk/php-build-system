@@ -100,7 +100,10 @@
 # define SIZEOF_PTRDIFF_T 4
 #endif
 #define SIZEOF_OFF_T 4
-#define HAVE_FNMATCH
+
+/* Define to 1 if your system has a working POSIX 'fnmatch' function. */
+#define HAVE_FNMATCH 1
+
 #define HAVE_GLOB
 #define PHP_SHLIB_SUFFIX "dll"
 #define PHP_SHLIB_EXT_PREFIX "php_"
