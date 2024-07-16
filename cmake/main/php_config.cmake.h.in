@@ -1710,6 +1710,9 @@
 /* */
 #cmakedefine PDO_MYSQL_UNIX_ADDR "@PDO_MYSQL_UNIX_ADDR@"
 
+/* Define to the ODBC driver or driver manager value. */
+#cmakedefine PDO_ODBC_TYPE "@PDO_ODBC_TYPE@"
+
 /* Sqlite3 without extension support */
 #cmakedefine PDO_SQLITE_OMIT_LOAD_EXTENSION 1
 
