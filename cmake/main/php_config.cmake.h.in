@@ -512,6 +512,9 @@
 /* Define to 1 if system has a working epoll. */
 #cmakedefine HAVE_EPOLL 1
 
+/* Define to 1 if edit/readline library has 'rl_erase_empty_line' variable. */
+#cmakedefine HAVE_ERASE_EMPTY_LINE 1
+
 /* */
 #cmakedefine HAVE_ESOOB 1
 

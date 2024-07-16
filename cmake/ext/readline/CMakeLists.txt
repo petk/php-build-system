@@ -1,7 +1,9 @@
 # TODO: ext/readline is cli extension only.
 include(CheckCompilerFlag)
 include(CheckLibraryExists)
+include(CheckSymbolExists)
 include(CMakeDependentOption)
+include(CMakePushCheckState)
 include(FeatureSummary)
 
 option(EXT_READLINE "Enable the readline extension" OFF)
@@ -83,6 +85,15 @@ if(NOT EXT_READLINE_LIBREADLINE)
     HAVE_LIBEDIT 1
     CACHE INTERNAL "Whether Editline is used for readline extension"
   )
+
+  cmake_push_check_state(RESET)
+    set(CMAKE_REQUIRED_LIBRARIES Editline::Editline)
+    check_symbol_exists(
+      rl_erase_empty_line
+      editline/readline.h
+      HAVE_ERASE_EMPTY_LINE
+    )
+  cmake_pop_check_state()
 else()
   find_package(Readline)
   set_package_properties(
@@ -108,6 +119,15 @@ else()
     HAVE_LIBREADLINE 1
     CACHE INTERNAL "Whether Readline is used for readline extension"
   )
+
+  cmake_push_check_state(RESET)
+    set(CMAKE_REQUIRED_LIBRARIES Readline::Readline)
+    check_symbol_exists(
+      rl_erase_empty_line
+      readline/readline.h
+      HAVE_ERASE_EMPTY_LINE
+    )
+  cmake_pop_check_state()
 endif()
 
 # TODO: Editline/Readline dependent libraries shouldn't be linked on this level.
