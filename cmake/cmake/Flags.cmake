@@ -239,6 +239,15 @@ endif()
 
 # Enable address sanitizer compiler option.
 if(PHP_ADDRESS_SANITIZER)
+  if(PHP_VALGRIND)
+    message(
+      FATAL_ERROR
+      "Valgrind and address sanitizer are not compatible. Either disable "
+      "Valgrind (set 'PHP_VALGRIND' to 'OFF') or disable address sanitizer "
+      "(set 'PHP_ADDRESS_SANITIZER' to 'OFF')."
+    )
+  endif()
+
   message(CHECK_START "Checking address sanitizer compiler option")
 
   cmake_push_check_state(RESET)
