@@ -1,6 +1,6 @@
 #[=============================================================================[
-Test and set the alignment define for ZEND_MM. This also does the logarithmic
-test for ZEND_MM.
+Test and set the alignment defines for the Zend memory manager (ZEND_MM). This
+also does the logarithmic test.
 
 Cache variables:
 
@@ -11,7 +11,7 @@ Cache variables:
 
 include_guard(GLOBAL)
 
-message(CHECK_START "Checking for MM alignment and log values")
+message(CHECK_START "Checking for Zend memory manager alignment and log values")
 
 block()
   if(NOT CMAKE_CROSSCOMPILING)
@@ -67,13 +67,15 @@ block()
       list(GET ZEND_MM_OUTPUT 2 zend_mm_need_eight_byte_realignment)
     else()
       message(CHECK_FAIL "Failed")
-      message(WARNING "MM alignment values were not set")
+      message(
+        FATAL_ERROR
+        "ZEND_MM alignment defines failed. Please, check CMake logs.")
     endif()
   else()
     message(CHECK_FAIL "Using defaults (cross-compiling)")
 
-    set(zend_mm_alignment 8)
-    set(zend_mm_alignment_log2 3)
+    set(zend_mm_alignment "(size_t)8")
+    set(zend_mm_alignment_log2 "(size_t)3")
     set(zend_mm_need_eight_byte_realignment 0)
   endif()
 

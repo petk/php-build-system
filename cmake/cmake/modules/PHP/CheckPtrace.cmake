@@ -20,10 +20,24 @@ include_guard(GLOBAL)
 
 include(CheckSourceCompiles)
 include(CheckSourceRuns)
-include(CheckSymbolExists)
 include(CMakePushCheckState)
 
-check_symbol_exists(ptrace "sys/ptrace.h" _have_ptrace)
+message(CHECK_START "Checking for ptrace")
+check_source_compiles(C [[
+  #include <sys/types.h>
+  #include <sys/ptrace.h>
+
+  int main(void)
+  {
+    ptrace(0, 0, (void *) 0, 0);
+    return 0;
+  }
+]] _have_ptrace)
+if(_have_ptrace)
+  message(CHECK_PASS "yes")
+else()
+  message(CHECK_FAIL "no")
+endif()
 
 if(_have_ptrace)
   message(CHECK_START "Checking whether ptrace works")
@@ -113,7 +127,13 @@ if(NOT HAVE_PTRACE)
     #include <mach/mach_vm.h>
 
     int main(void) {
-      mach_vm_read((vm_map_t)0, (mach_vm_address_t)0, (mach_vm_size_t)0, (vm_offset_t *)0, (mach_msg_type_number_t*)0);
+      mach_vm_read(
+        (vm_map_t)0,
+        (mach_vm_address_t)0,
+        (mach_vm_size_t)0,
+        (vm_offset_t *)0,
+        (mach_msg_type_number_t*)0
+      );
       return 0;
     }
   ]] HAVE_MACH_VM_READ)

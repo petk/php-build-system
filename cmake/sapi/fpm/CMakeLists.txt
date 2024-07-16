@@ -193,7 +193,7 @@ if(
   )
 endif()
 
-message(CHECK_START "Checking if gcc supports __sync_bool_compare_and_swap")
+message(CHECK_START "Checking if compiler supports __sync_bool_compare_and_swap")
 check_source_compiles(C [[
   int main(void)
   {

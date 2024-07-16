@@ -26,10 +26,10 @@ else()
         char *cp = (char *)&one;
 
         if (*cp == 0) {
-          return(0);
-        } else {
-          return(1);
+          return 0;
         }
+
+        return 1;
       }
     " WORDS_BIGENDIAN)
 

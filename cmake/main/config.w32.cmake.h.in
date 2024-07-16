@@ -22,10 +22,18 @@
 #define DEFAULT_SHORT_OPEN_TAG "@DEFAULT_SHORT_OPEN_TAG@"
 
 /* Platform-Specific Configuration. Should not be changed. */
+
 /* Alignment for Zend memory allocator */
+
+/* Number of bytes for the ZEND_MM alignment. */
 #define ZEND_MM_ALIGNMENT (size_t)8
+
+/* Number of bytes for the logarithmic ZEND_MM alignment. */
 #define ZEND_MM_ALIGNMENT_LOG2 (size_t)3
+
+/* Define to 1 if ZEND_MM needs 8-byte realignment, and to 0 if not. */
 #define ZEND_MM_NEED_EIGHT_BYTE_REALIGNMENT 0
+
 #define PHP_SIGCHILD 0
 #define HAVE_GETSERVBYNAME 1
 #define HAVE_GETSERVBYPORT 1
@@ -139,6 +147,7 @@
 /* Define to 1 if the system has the 'target' function attribute */
 #cmakedefine HAVE_FUNC_ATTRIBUTE_TARGET 1
 
+/* Define to 1 if you have the 'getaddrinfo' function. */
 #cmakedefine HAVE_GETADDRINFO 1
 
 /* values determined by configure.js */
@@ -174,6 +183,7 @@
 
 #define HAVE_GAI_STRERROR 1
 
+/* Define to 1 if IPv6 is enabled and supported. */
 #cmakedefine HAVE_IPV6 1
 
 #define __SSE__ 1
@@ -217,10 +227,10 @@
 /* Have ctype */
 #cmakedefine HAVE_CTYPE 1
 
-/* */
+/* Define to 1 if curl extension is available. */
 #cmakedefine HAVE_CURL 1
 
-/* Have cURL with old OpenSSL */
+/* Define to 1 if libcurl is linked against old OpenSSL < 1.1. */
 #cmakedefine HAVE_CURL_OLD_OPENSSL 1
 
 /* Have timelib_config.h */
@@ -366,7 +376,7 @@
 /* whether to have multibyte regex support */
 #cmakedefine HAVE_MBREGEX 1
 
-/* define to 1 if oniguruma has an invalid entry for KOI8 encoding */
+/* Define to 1 if oniguruma has an invalid entry for KOI8 encoding. */
 #cmakedefine PHP_ONIG_BAD_KOI8_ENTRY 1
 
 /* Define to 1 if mysqlnd has compressed protocol support. */
@@ -411,7 +421,7 @@
 /* Whether a static PCRE library is linked */
 #cmakedefine PCRE2_STATIC 1
 
-/* Whether to enable the PCRE JIT support */
+/* Define to 1 if PCRE JIT is enabled and supported. */
 #cmakedefine HAVE_PCRE_JIT_SUPPORT 1
 
 /* Define to 1 if you have a working ttyname_r. */
@@ -516,6 +526,8 @@
 
 #define PHP_CONFIG_FILE_SCAN_DIR "@PHP_CONFIG_FILE_SCAN_DIR@"
 
+/* Define to 1 if PHP uses its own crypt_r, and to 0 if using the external crypt
+   library. */
 #cmakedefine01 PHP_USE_PHP_CRYPT_R 1
 
 /* Tokenizer support */
