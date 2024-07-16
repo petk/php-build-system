@@ -155,11 +155,7 @@ block()
   if(EXT_PDO_ODBC_TYPE STREQUAL "generic" AND EXT_PDO_ODBC_LIBRARY)
     set(type "-${EXT_PDO_ODBC_LIBRARY}")
   endif()
-  target_compile_definitions(
-    php_pdo_odbc
-    PRIVATE
-      PDO_ODBC_TYPE=\"${EXT_PDO_ODBC_TYPE}${type}\"
-  )
+  set(PDO_ODBC_TYPE "${EXT_PDO_ODBC_TYPE}${type}" CACHE INTERNAL "ODBC driver")
 endblock()
 
 if(EXT_PDO_ODBC_ROOT AND NOT ODBC_ROOT)
