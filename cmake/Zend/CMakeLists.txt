@@ -153,6 +153,7 @@ target_sources(
     zend_observer.c
     zend_opcode.c
     zend_operators.c
+    zend_property_hooks.c
     zend_ptr_stack.c
     $<$<NOT:$<PLATFORM_ID:Windows>>:zend_signal.c>
     zend_smart_str.c

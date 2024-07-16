@@ -197,11 +197,11 @@
 /* Define to 1 if you have the 'fopencookie' function. */
 #cmakedefine HAVE_FOPENCOOKIE 1
 
-/* Whether the compiler supports AVX-512. */
-#cmakedefine01 PHP_HAVE_AVX512_SUPPORTS
+/* Define to 1 if the compiler supports AVX-512. */
+#cmakedefine PHP_HAVE_AVX512_SUPPORTS 1
 
-/* Whether the compiler supports AVX-512 VBMI. */
-#cmakedefine01 PHP_HAVE_AVX512_VBMI_SUPPORTS
+/* Define to 1 if the compiler supports AVX-512 VBMI. */
+#cmakedefine PHP_HAVE_AVX512_VBMI_SUPPORTS 1
 
 /* Define to 1 if you have the 'arc4random_buf' function. */
 #cmakedefine HAVE_ARC4RANDOM_BUF 1
@@ -357,9 +357,6 @@
 
 /* Define to enable JIT */
 #cmakedefine HAVE_JIT 1
-
-/* Use JIT IR framework */
-#cmakedefine ZEND_JIT_IR 1
 
 /* LibXML support */
 #cmakedefine HAVE_LIBXML 1

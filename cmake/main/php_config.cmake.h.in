@@ -455,6 +455,9 @@
 /* */
 #cmakedefine HAVE_DCNGETTEXT 1
 
+/* Define to 1 if you have the declaration of 'strptime'. */
+#cmakedefine HAVE_DECL_STRPTIME 1
+
 /* Define to 1 if system has a working '/dev/poll'. */
 #cmakedefine HAVE_DEVPOLL 1
 
@@ -1342,9 +1345,6 @@
 /* Define to 1 if you have the 'strptime' function. */
 #cmakedefine HAVE_STRPTIME 1
 
-/* Define to 1 if you have the declaration of 'strptime'. */
-#cmakedefine HAVE_STRPTIME_DECL_FAILS 1
-
 /* Define to 1 if you have the 'strtok_r' function. */
 #cmakedefine HAVE_STRTOK_R 1
 
@@ -1559,6 +1559,9 @@
 /* Define to 1 if Valgrind is enabled and supported. */
 #cmakedefine HAVE_VALGRIND 1
 
+/* Define to 1 if you have the <valgrind/cachegrind.h> header file. */
+#cmakedefine HAVE_VALGRIND_CACHEGRIND_H 1
+
 /* Define to 1 if you have the 'vasprintf' function. */
 #cmakedefine HAVE_VASPRINTF 1
 
@@ -1690,11 +1693,11 @@
 /* Define if your system has fork/vfork/CreateProcess */
 #cmakedefine PHP_CAN_SUPPORT_PROC_OPEN 1
 
-/* Whether the compiler supports AVX-512. */
-#cmakedefine01 PHP_HAVE_AVX512_SUPPORTS
+/* Define to 1 if the compiler supports AVX-512. */
+#cmakedefine PHP_HAVE_AVX512_SUPPORTS 1
 
-/* Whether the compiler supports AVX-512 VBMI. */
-#cmakedefine01 PHP_HAVE_AVX512_VBMI_SUPPORTS
+/* Define to 1 if the compiler supports AVX-512 VBMI. */
+#cmakedefine PHP_HAVE_AVX512_VBMI_SUPPORTS 1
 
 /* Whether the compiler supports __builtin_clz */
 #cmakedefine01 PHP_HAVE_BUILTIN_CLZ
@@ -1860,9 +1863,6 @@
 
 /* */
 #cmakedefine ZEND_FIBER_UCONTEXT 1
-
-/* Use JIT IR framework */
-#cmakedefine ZEND_JIT_IR 1
 
 /* Define to 1 if Zend max execution timers are supported and enabled. */
 #cmakedefine ZEND_MAX_EXECUTION_TIMERS 1

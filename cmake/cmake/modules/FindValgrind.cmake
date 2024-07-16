@@ -19,12 +19,16 @@ Cache variables:
     Directory containing package library headers.
   HAVE_VALGRIND
     Whether Valgrind is enabled.
+  HAVE_VALGRIND_CACHEGRIND_H
+    Whether Cachegrind is available.
 
 Hints:
 
   The Valgrind_ROOT variable adds custom search path.
 #]=============================================================================]
 
+include(CheckIncludeFile)
+include(CMakePushCheckState)
 include(FeatureSummary)
 include(FindPackageHandleStandardArgs)
 
@@ -99,3 +103,8 @@ if(NOT TARGET Valgrind::Valgrind)
       INTERFACE_INCLUDE_DIRECTORIES "${Valgrind_INCLUDE_DIR}"
   )
 endif()
+
+cmake_push_check_state(RESET)
+  set(CMAKE_REQUIRED_LIBRARIES Valgrind::Valgrind)
+  check_include_file(valgrind/cachegrind.h HAVE_VALGRIND_CACHEGRIND_H)
+cmake_pop_check_state()

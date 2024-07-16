@@ -38,9 +38,11 @@ target_sources(
   PUBLIC
     FILE_SET HEADERS
       FILES
-        php_pdo.h
+        pdo_sql_parser.h
         php_pdo_driver.h
         php_pdo_error.h
+        php_pdo_int.h
+        php_pdo.h
 )
 
 add_dependencies(php_pdo php_spl)

@@ -48,6 +48,7 @@ target_sources(
     html5_parser.c
     html5_serializer.c
     infra.c
+    inner_html_mixin.c
     lexbor/lexbor/core/array_obj.c
     lexbor/lexbor/core/array.c
     lexbor/lexbor/core/avl.c
@@ -64,6 +65,22 @@ target_sources(
     lexbor/lexbor/core/shs.c
     lexbor/lexbor/core/str.c
     lexbor/lexbor/core/strtod.c
+    lexbor/lexbor/css/css.c
+    lexbor/lexbor/css/log.c
+    lexbor/lexbor/css/parser.c
+    lexbor/lexbor/css/selectors/pseudo_state.c
+    lexbor/lexbor/css/selectors/pseudo.c
+    lexbor/lexbor/css/selectors/selector.c
+    lexbor/lexbor/css/selectors/selectors.c
+    lexbor/lexbor/css/selectors/state.c
+    lexbor/lexbor/css/state.c
+    lexbor/lexbor/css/syntax/anb.c
+    lexbor/lexbor/css/syntax/parser.c
+    lexbor/lexbor/css/syntax/state.c
+    lexbor/lexbor/css/syntax/syntax.c
+    lexbor/lexbor/css/syntax/token.c
+    lexbor/lexbor/css/syntax/tokenizer.c
+    lexbor/lexbor/css/syntax/tokenizer/error.c
     lexbor/lexbor/dom/interface.c
     lexbor/lexbor/dom/interfaces/attr.c
     lexbor/lexbor/dom/interfaces/cdata_section.c
@@ -205,17 +222,20 @@ target_sources(
     lexbor/lexbor/html/tree/open_elements.c
     lexbor/lexbor/ns/ns.c
     lexbor/lexbor/ports/posix/lexbor/core/memory.c
-    lexbor/lexbor/selectors/selectors.c
+    lexbor/lexbor/selectors-adapted/selectors.c
     lexbor/lexbor/tag/tag.c
     namednodemap.c
     namespace_compat.c
     node.c
     nodelist.c
     notation.c
-    parentnode.c
+    parentnode/css_selectors.c
+    parentnode/tree.c
     php_dom.c
+    private_data.c
     processinginstruction.c
     text.c
+    token_list.c
     xml_document.c
     xml_serializer.c
     xpath_callbacks.c

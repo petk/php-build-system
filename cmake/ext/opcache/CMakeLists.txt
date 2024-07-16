@@ -131,7 +131,6 @@ endif()
 
 if(EXT_OPCACHE_JIT)
   set(HAVE_JIT 1 CACHE INTERNAL "Whether JIT is enabled")
-  set(ZEND_JIT_IR 1 CACHE INTERNAL "Whether the JIT IR framework is used")
 
   target_sources(
     php_opcache

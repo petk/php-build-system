@@ -10,8 +10,8 @@ Cache variables:
 
 Result variables:
 
-  HAVE_STRPTIME_DECL_FAILS
-    Whether strptime() declaration fails.
+  HAVE_DECL_STRPTIME
+    Whether strptime() is declared.
 ]=============================================================================]#
 
 include_guard(GLOBAL)
@@ -27,7 +27,7 @@ cmake_push_check_state(RESET)
 cmake_pop_check_state()
 
 if(HAVE_STRPTIME)
-  set(HAVE_STRPTIME_DECL_FAILS 1)
+  set(HAVE_DECL_STRPTIME 1)
   return()
 endif()
 
@@ -51,20 +51,11 @@ message(CHECK_START "Checking whether strptime() is declared")
 cmake_push_check_state(RESET)
   set(CMAKE_REQUIRED_DEFINITIONS -D_GNU_SOURCE)
   set(CMAKE_REQUIRED_QUIET TRUE)
-
-  # Use invalid declaration to see if it fails to compile.
-  check_source_compiles(C "
-    #include <time.h>
-    int main(void) {
-      int strptime(const char *s, const char *format, struct tm *tm);
-      return 0;
-    }
-  " HAVE_STRPTIME_DECL)
+  check_symbol_exists(strptime "time.h" HAVE_DECL_STRPTIME)
 cmake_pop_check_state()
 
-if(NOT HAVE_STRPTIME_DECL)
+if(HAVE_DECL_STRPTIME)
   message(CHECK_PASS "yes")
-  set(HAVE_STRPTIME_DECL_FAILS 1)
 else()
   message(CHECK_FAIL "no")
 endif()
