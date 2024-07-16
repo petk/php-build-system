@@ -12,6 +12,7 @@ include(CMakeDependentOption)
 include(CMakePushCheckState)
 include(FeatureSummary)
 include(PHP/SearchLibraries)
+include(PHP/SystemExtensions)
 
 option(EXT_PCNTL "Enable the pcntl extension (CLI/CGI only)" OFF)
 
