@@ -17,7 +17,6 @@ Result variables:
 include_guard(GLOBAL)
 
 include(CheckFunctionExists)
-include(CheckSourceCompiles)
 include(CheckSymbolExists)
 include(CMakePushCheckState)
 
@@ -33,8 +32,7 @@ endif()
 
 # The rest of this module is obsolete because strptime(), where available,
 # simply needs the _GNU_SOURCE defined or compiler flag -std=gnuXX appended to
-# be declared in time.h. This part can be removed in favor of the above
-# check_symbol_exists().
+# be declared in time.h.
 
 # Check if linker sees the function.
 if(NOT HAVE_STRPTIME)
