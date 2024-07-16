@@ -218,13 +218,13 @@
 /* Whether fopencookie seeker uses off64_t. */
 #cmakedefine COOKIE_SEEKER_USES_OFF64_T 1
 
-/* Define if crypt_r has uses CRYPTD */
+/* Define to 1 if crypt_r uses CRYPTD. */
 #cmakedefine CRYPT_R_CRYPTD 1
 
-/* Define if struct crypt_data requires _GNU_SOURCE */
+/* Define to 1 if struct crypt_data requires _GNU_SOURCE. */
 #cmakedefine CRYPT_R_GNU_SOURCE 1
 
-/* Define if crypt_r uses struct crypt_data */
+/* Define to 1 if crypt_r uses struct crypt_data. */
 #cmakedefine CRYPT_R_STRUCT_CRYPT_DATA 1
 
 /* */
@@ -302,16 +302,16 @@
 /* Define to 1 if 'TIOCGWINSZ' requires <sys/ioctl.h>. */
 #cmakedefine GWINSZ_IN_SYS_IOCTL 1
 
-/* Whether 3 arg set_rebind_proc() */
+/* Define to 1 if 'ldap_set_rebind_proc' has 3 arguments. */
 #cmakedefine HAVE_3ARG_SETREBINDPROC 1
 
-/* Define when aarch64 CRC32 API is available. */
+/* Define to 1 when aarch64 CRC32 API is available. */
 #cmakedefine HAVE_AARCH64_CRC32 1
 
 /* */
 #cmakedefine HAVE_ADABAS 1
 
-/* whether the compiler supports __alignof__ */
+/* Define to 1 if the compiler supports '__alignof__'. */
 #cmakedefine HAVE_ALIGNOF 1
 
 /* Define to 1 if you have 'alloca', as a function or macro. */
@@ -323,7 +323,7 @@
 /* Define to 1 if you have the 'alphasort' function. */
 #cmakedefine HAVE_ALPHASORT 1
 
-/* AppArmor confinement available */
+/* Define to 1 if AppArmor confinement is available for PHP-FPM. */
 #cmakedefine HAVE_APPARMOR 1
 
 /* Define to 1 if you have the 'arc4random_buf' function. */
@@ -341,7 +341,7 @@
 /* Define to 1 if you have the 'asctime_r' function. */
 #cmakedefine HAVE_ASCTIME_R 1
 
-/* Define if asm goto support is available. */
+/* Define to 1 if asm goto support is available. */
 #cmakedefine HAVE_ASM_GOTO 1
 
 /* Define to 1 if you have the 'asprintf' function. */
@@ -362,7 +362,7 @@
 /* */
 #cmakedefine HAVE_BUILD_DEFS_H 1
 
-/* Define to 1 if gcc supports __sync_bool_compare_and_swap() a.o. */
+/* Define to 1 if compiler supports __sync_bool_compare_and_swap() a.o. */
 #cmakedefine HAVE_BUILTIN_ATOMIC 1
 
 /* */
@@ -413,7 +413,7 @@
 /* Define to 1 if you have the <CommonCrypto/CommonRandom.h> header file. */
 #cmakedefine HAVE_COMMONCRYPTO_COMMONRANDOM_H 1
 
-/* Define if copy_file_range support */
+/* Define to 1 if you have the 'copy_file_range' function. */
 #cmakedefine HAVE_COPY_FILE_RANGE 1
 
 /* Define to 1 if '__cpuid_count' is available. */
@@ -440,10 +440,10 @@
 /* */
 #cmakedefine HAVE_CTYPE 1
 
-/* */
+/* Define to 1 if curl extension is available. */
 #cmakedefine HAVE_CURL 1
 
-/* Have cURL with old OpenSSL */
+/* Define to 1 if libcurl is linked against old OpenSSL < 1.1. */
 #cmakedefine HAVE_CURL_OLD_OPENSSL 1
 
 /* */
@@ -464,7 +464,7 @@
 /* Define to 1 if you have the <dlfcn.h> header file. */
 #cmakedefine HAVE_DLFCN_H 1
 
-/* Whether you have dmalloc */
+/* Define to 1 if you have dmalloc. */
 #cmakedefine HAVE_DMALLOC 1
 
 /* */
@@ -485,7 +485,7 @@
 /* */
 #cmakedefine HAVE_DOM 1
 
-/* Whether to enable DTrace support */
+/* Define to 1 if DTrace support is enabled. */
 #cmakedefine HAVE_DTRACE 1
 
 /* Define to 1 if you have the 'eaccess' function. */
@@ -557,7 +557,7 @@
 /* Define to 1 if you have the 'flock' function. */
 #cmakedefine HAVE_FLOCK 1
 
-/* Define if flush should be called explicitly after a buffered io. */
+/* Define to 1 if flush should be called explicitly after a buffered io. */
 #cmakedefine HAVE_FLUSHIO 1
 
 /* Define to 1 if your system has a working POSIX 'fnmatch' function. */
@@ -575,13 +575,13 @@
 /* Define to 1 if you have the 'fpathconf' function. */
 #cmakedefine HAVE_FPATHCONF 1
 
-/* Whether FPM has acl support. */
+/* Define to 1 if PHP-FPM has ACL support. */
 #cmakedefine HAVE_FPM_ACL 1
 
-/* whether fpsetprec is present and usable */
+/* Define to 1 if fpsetprec is present and usable. */
 #cmakedefine HAVE_FPSETPREC 1
 
-/* whether FPU control word can be manipulated by inline assembler */
+/* Define to 1 if FPU control word can be manipulated by inline assembler. */
 #cmakedefine HAVE_FPU_INLINE_ASM_X86 1
 
 /* Define to 1 if you have the 'ftok' function. */
@@ -657,7 +657,7 @@
 /* Define to 1 if GD library has 'gdImageCreateFromXpm'. */
 #cmakedefine HAVE_GD_XPM 1
 
-/* Define if you have the getaddrinfo function */
+/* Define to 1 if you have the 'getaddrinfo' function. */
 #cmakedefine HAVE_GETADDRINFO 1
 
 /* Define to 1 if you have the 'getcpuid' function. */
@@ -681,7 +681,7 @@
 /* Define to 1 if you have the 'gethostname' function. */
 #cmakedefine HAVE_GETHOSTNAME 1
 
-/* whether getifaddrs is present and usable */
+/* Define to 1 if you have the 'getifaddrs' function. */
 #cmakedefine HAVE_GETIFADDRS 1
 
 /* Define to 1 if you have the 'getloadavg' function. */
@@ -786,19 +786,19 @@
 /* */
 #cmakedefine HAVE_IODBC 1
 
-/* */
+/* Define to 1 if you have the <iodbc.h> header file. */
 #cmakedefine HAVE_IODBC_H 1
 
 /* Define to 1 if you have the <io.h> header file. */
 #cmakedefine HAVE_IO_H 1
 
-/* Whether to enable IPv6 support */
+/* Define to 1 if IPv6 is enabled and supported. */
 #cmakedefine HAVE_IPV6 1
 
-/* */
+/* Define to 1 if you have the <isqlext.h> header file. */
 #cmakedefine HAVE_ISQLEXT_H 1
 
-/* */
+/* Define to 1 if you have the <isql.h> header file. */
 #cmakedefine HAVE_ISQL_H 1
 
 /* Define to enable JIT */
@@ -915,16 +915,16 @@
 /* Define to 1 if the system has the type 'long double'. */
 #cmakedefine HAVE_LONG_DOUBLE 1
 
-/* do we have SO_LISTENQ? */
+/* Define to 1 if you have 'SO_LISTENQ*'. */
 #cmakedefine HAVE_LQ_SO_LISTENQ 1
 
-/* do we have TCP_CONNECTION_INFO? */
+/* Define to 1 if you have 'TCP_CONNECTION_INFO'. */
 #cmakedefine HAVE_LQ_TCP_CONNECTION_INFO 1
 
-/* do we have TCP_INFO? */
+/* Define to 1 if you have 'TCP_INFO'. */
 #cmakedefine HAVE_LQ_TCP_INFO 1
 
-/* do we have mach_vm_read? */
+/* Define to 1 if you have the 'mach_vm_read' function. */
 #cmakedefine HAVE_MACH_VM_READ 1
 
 /* Define to 1 if you have the 'makedev' function. */
@@ -1011,7 +1011,7 @@
 /* Define to 1 if you have the 'pathconf' function. */
 #cmakedefine HAVE_PATHCONF 1
 
-/* */
+/* Define to 1 if PCRE JIT is enabled and supported. */
 #cmakedefine HAVE_PCRE_JIT_SUPPORT 1
 
 /* Whether to build PostgreSQL for PDO support or not */
@@ -1031,9 +1031,6 @@
 
 /* PostgreSQL 17 or later */
 #cmakedefine HAVE_PG_SOCKET_POLL 1
-
-/* */
-#cmakedefine HAVE_PHPDBG 1
 
 /* */
 #cmakedefine HAVE_PHPDBG_READLINE 1
@@ -1078,7 +1075,7 @@
 /* Define to 1 if you have the 'pset_bind' function. */
 #cmakedefine HAVE_PSET_BIND 1
 
-/* Define to 1 if the PS_STRINGS thing exists. */
+/* Define if the PS_STRINGS exists. */
 #cmakedefine HAVE_PS_STRINGS 1
 
 /* Define to 1 if you have the 'pthread_attr_getstack' function. */
@@ -1102,7 +1099,7 @@
 /* Define to 1 if you have the 'pthread_stackseg_np' function. */
 #cmakedefine HAVE_PTHREAD_STACKSEG_NP 1
 
-/* Define to 1 if 'ptrace' function works. */
+/* Define to 1 if you have the 'ptrace' function. */
 #cmakedefine HAVE_PTRACE 1
 
 /* Whether ptrdiff_t is available */
@@ -1162,7 +1159,7 @@
 /* Define to 1 if system has a working 'select' function. */
 #cmakedefine HAVE_SELECT 1
 
-/* Whether SELinux is available. */
+/* Define to 1 if SELinux is available in PHP-FPM. */
 #cmakedefine HAVE_SELINUX 1
 
 /* Define to 1 if you have the 'setegid' function. */
@@ -1273,7 +1270,7 @@
 /* */
 #cmakedefine HAVE_SOLID_35 1
 
-/* */
+/* Define to 1 if you have the <sqlcli1.h> header file. */
 #cmakedefine HAVE_SQLCLI1_H 1
 
 /* */
@@ -1297,16 +1294,16 @@
 /* have sqlite3_expanded_sql function */
 #cmakedefine HAVE_SQLITE3_EXPANDED_SQL 1
 
-/* */
+/* Define to 1 if you have the <sqltypes.h> header file. */
 #cmakedefine HAVE_SQLTYPES_H 1
 
-/* */
+/* Define to 1 if you have the <sqlucode.h> header file. */
 #cmakedefine HAVE_SQLUCODE_H 1
 
-/* */
+/* Define to 1 if you have the <sqlunix.h> header file. */
 #cmakedefine HAVE_SQLUNIX_H 1
 
-/* */
+/* Define to 1 if you have the <sql.h> header file. */
 #cmakedefine HAVE_SQL_H 1
 
 /* Define to 1 if you have the 'statfs' function. */
@@ -1345,7 +1342,7 @@
 /* Define to 1 if you have the 'strptime' function. */
 #cmakedefine HAVE_STRPTIME 1
 
-/* whether strptime() declaration fails */
+/* Define to 1 if you have the declaration of 'strptime'. */
 #cmakedefine HAVE_STRPTIME_DECL_FAILS 1
 
 /* Define to 1 if you have the 'strtok_r' function. */
@@ -1399,7 +1396,7 @@
 /* Define to 1 if you have the <syslog.h> header file. */
 #cmakedefine HAVE_SYSLOG_H 1
 
-/* Whether FPM has systemd integration. */
+/* Define to 1 if FPM has systemd integration. */
 #cmakedefine HAVE_SYSTEMD 1
 
 /* */
@@ -1519,7 +1516,7 @@
 /* Define to 1 if you have the 'tzset' function. */
 #cmakedefine HAVE_TZSET 1
 
-/* */
+/* Define to 1 if you have the <udbcext.h> header file. */
 #cmakedefine HAVE_UDBCEXT_H 1
 
 /* Define to 1 if the system has the type 'union semun'. */
@@ -1543,8 +1540,8 @@
 /* */
 #cmakedefine HAVE_UODBC 1
 
-/* Whether faulting on write-protected memory support can be compiled for
-   userfaultfd */
+/* Define to 1 if faulting on write-protected memory support can be compiled
+   for userfaultfd. */
 #cmakedefine HAVE_USERFAULTFD_WRITEFAULT 1
 
 /* Define to 1 if you have the 'usleep' function. */
@@ -1559,7 +1556,7 @@
 /* Define to 1 if you have the <utime.h> header file. */
 #cmakedefine HAVE_UTIME_H 1
 
-/* */
+/* Define to 1 if Valgrind is enabled and supported. */
 #cmakedefine HAVE_VALGRIND 1
 
 /* Define to 1 if you have the 'vasprintf' function. */
@@ -1601,13 +1598,13 @@
 /* Define to 1 if zlib extension is available. */
 #cmakedefine HAVE_ZLIB 1
 
-/* whether _controlfp is present usable */
+/* Define to 1 if _controlfp is present and usable. */
 #cmakedefine HAVE__CONTROLFP 1
 
-/* whether _controlfp_s is present and usable */
+/* Define to 1 if _controlfp_s is present and usable. */
 #cmakedefine HAVE__CONTROLFP_S 1
 
-/* whether _FPU_SETCW is present and usable */
+/* Define to 1 if _FPU_SETCW is present and usable. */
 #cmakedefine HAVE__FPU_SETCW 1
 
 /* iconv() is aliased to libiconv() in -liconv */
@@ -1693,15 +1690,6 @@
 /* Define if your system has fork/vfork/CreateProcess */
 #cmakedefine PHP_CAN_SUPPORT_PROC_OPEN 1
 
-/* fpm group name */
-#cmakedefine PHP_FPM_GROUP "@PHP_FPM_GROUP@"
-
-/* fpm systemd service type */
-#cmakedefine PHP_FPM_SYSTEMD "@PHP_FPM_SYSTEMD@"
-
-/* fpm user name */
-#cmakedefine PHP_FPM_USER "@PHP_FPM_USER@"
-
 /* Whether the compiler supports AVX-512. */
 #cmakedefine01 PHP_HAVE_AVX512_SUPPORTS
 
@@ -1759,13 +1747,13 @@
 /* Whether the compiler supports __builtin_usub_overflow */
 #cmakedefine01 PHP_HAVE_BUILTIN_USUB_OVERFLOW
 
-/* Whether you have HP-UX 10.x */
+/* Define to 1 if you have HP-UX 10.x.-style reentrant time functions. */
 #cmakedefine PHP_HPUX_TIME_R 1
 
 /* Which iconv implementation to use */
 #cmakedefine PHP_ICONV_IMPL "@PHP_ICONV_IMPL@"
 
-/* Whether you have IRIX-style functions */
+/* Define to 1 you have IRIX-style reentrant time functions. */
 #cmakedefine PHP_IRIX_TIME_R 1
 
 /* */
@@ -1774,7 +1762,7 @@
 /* */
 #cmakedefine PHP_MYSQL_UNIX_SOCK_ADDR "@PHP_MYSQL_UNIX_SOCK_ADDR@"
 
-/* define to 1 if oniguruma has an invalid entry for KOI8 encoding */
+/* Define to 1 if oniguruma has an invalid entry for KOI8 encoding. */
 #cmakedefine PHP_ONIG_BAD_KOI8_ENTRY 1
 
 /* uname output */
@@ -1792,16 +1780,17 @@
 /* uname -a output */
 #cmakedefine PHP_UNAME "@PHP_UNAME@"
 
-/* Whether PHP has to use its own crypt_r */
+/* Define to 1 if PHP uses its own crypt_r, and to 0 if using the external crypt
+   library. */
 #cmakedefine01 PHP_USE_PHP_CRYPT_R
 
 /* Use dlopen with RTLD_NOW instead of RTLD_LAZY */
 #cmakedefine PHP_USE_RTLD_NOW 1
 
-/* whether write(2) works */
+/* Define to 1 if 'write(2)' works. */
 #cmakedefine PHP_WRITE_STDOUT 1
 
-/* /proc/pid/mem interface */
+/* Define to the /proc/pid/mem interface filename value. */
 #cmakedefine PROC_MEM_FILE "@PROC_MEM_FILE@"
 
 /* */
@@ -1857,7 +1846,7 @@
 
 @PHP_SYSTEM_EXTENSIONS@
 
-/* Define if processor uses big-endian word */
+/* Define if processor uses big-endian word. */
 #cmakedefine WORDS_BIGENDIAN
 
 /* Define to 1 if checking the stack limit is supported. */
@@ -1875,19 +1864,19 @@
 /* Use JIT IR framework */
 #cmakedefine ZEND_JIT_IR 1
 
-/* Use zend max execution timers */
+/* Define to 1 if Zend max execution timers are supported and enabled. */
 #cmakedefine ZEND_MAX_EXECUTION_TIMERS 1
 
-/* */
+/* Number of bytes for the ZEND_MM alignment. */
 #cmakedefine ZEND_MM_ALIGNMENT @ZEND_MM_ALIGNMENT@
 
-/* */
+/* Number of bytes for the logarithmic ZEND_MM alignment. */
 #cmakedefine ZEND_MM_ALIGNMENT_LOG2 @ZEND_MM_ALIGNMENT_LOG2@
 
-/* */
+/* Define to 1 if ZEND_MM needs 8-byte realignment, and to 0 if not. */
 #cmakedefine01 ZEND_MM_NEED_EIGHT_BYTE_REALIGNMENT
 
-/* Use zend signal handling */
+/* Define to 1 if Zend signal handling is supported and enabled. */
 #cmakedefine ZEND_SIGNALS 1
 
 /* */

@@ -231,8 +231,8 @@ if(HAVE_UFFDIO_WRITEPROTECT_MODE_WP)
   if(PHP_THREAD_SAFETY OR Threads_FOUND)
     set(
       HAVE_USERFAULTFD_WRITEFAULT 1
-      CACHE INTERNAL "Whether faulting on write-protected memory support can \
-  be compiled for userfaultfd"
+      CACHE INTERNAL "Define to 1 if faulting on write-protected memory support\
+ can be compiled for userfaultfd."
     )
   endif()
 endif()
@@ -241,8 +241,6 @@ if(HAVE_USERFAULTFD_WRITEFAULT)
 else()
   message(CHECK_FAIL "no")
 endif()
-
-set(HAVE_PHPDBG 1 CACHE INTERNAL "Whether the phpdbg SAPI is enabled")
 
 ################################################################################
 # Installation.

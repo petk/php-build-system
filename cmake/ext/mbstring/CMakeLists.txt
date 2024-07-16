@@ -135,10 +135,11 @@ if(EXT_MBSTRING_MBREGEX)
       set(CMAKE_REQUIRED_LIBRARIES Oniguruma::Oniguruma)
 
       check_source_compiles(C "
+        #include <stdint.h>
         #include <oniguruma.h>
 
         int main(void) {
-          return (int)(ONIG_ENCODING_KOI8 + 1);
+          return (intptr_t)(ONIG_ENCODING_KOI8 + 1);
         }
       " PHP_ONIG_KOI8)
     cmake_pop_check_state()
@@ -149,7 +150,7 @@ if(EXT_MBSTRING_MBREGEX)
 
       set(
         PHP_ONIG_BAD_KOI8_ENTRY 1
-        CACHE INTERNAL "Whether Oniguruma has invalid entry for KOI8 encoding"
+        CACHE INTERNAL "Define to 1 if oniguruma has an invalid entry for KOI8 encoding."
       )
     endif()
   endif()
