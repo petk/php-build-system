@@ -43,7 +43,7 @@ default the `--prefix` is set to `/usr/local` and `INSTALL_ROOT` is empty.
 The `INSTALL_ROOT` variable name is customized for PHP and software from the
 early Autotools days. Automake uses a more common variable name
 [`DESTDIR`](https://www.gnu.org/software/automake/manual/html_node/DESTDIR.html),
-however for historical reasons and since PHP doesn't use Automake, the
+however, for historical reasons and since PHP doesn't use Automake, the
 `INSTALL_ROOT` variable name is used in PHP instead.
 
 The files are then copied to a predefined directory structure (GNU or PHP

@@ -132,22 +132,31 @@ cmake --toolchain customToolchain.cmake -S ../php-src -B build-directory
 
 ## 3. Cross-compilation with Autotools
 
-To cross-compile PHP when using native Autotools-based build system the `host`
-option needs to be set:
+To cross-compile PHP when using native Autotools-based build system, the `host`
+and `build` options need to be set:
 
 ```sh
 # Generate configure script
 ./buildconf
 
 # Configure PHP build
-./configure --host=<target-triplet>
+./configure --build=<build-triplet> --host=<target-triplet>
 
 # Compile PHP sources
 make
 ```
 
-The target triplet is in format of `cpu-vendor-os`. For example,
-`x86_64-w64-mingw64`.
+The `--build` sets the system on which PHP is being built, and the `--host`
+option sets the system for which the PHP is targeted to run on.
+
+The triplet is in format of `cpu-vendor-os`. For example, the build triplet
+`x86_64-pc-linux-gnu` and target triplet `x86_64-w64-mingw64` will mean to build
+PHP on 64-bit Linux with x86_64 processor to run on Windows 64-bit system with
+x86_64 processor:
+
+```sh
+./configure --build=x86_64-pc-linux-gnu --host=x86_64-w64-mingw64
+```
 
 > [!NOTE]
 > Autoconf convention is to use the `--host` option to define the target system.
@@ -168,25 +177,6 @@ runs as expected.
 ```m4
 AC_MSG_CHECKING([for working hello world])
 AC_RUN_IFELSE([AC_LANG_SOURCE([
-  #include <stdio.h>
-  int main(void)
-  {
-    printf("Hello world");
-    return 0;
-  }
-])],
-[AC_MSG_RESULT([yes])
-AC_DEFINE([HAVE_HELLO_WORLD], [1], [Define if hello world is working.])],
-[AC_MSG_RESULT([no])],
-[AC_MSG_RESULT([no (cross-compiling)])])
-```
-
-By adjusting the run check with cache variables, users can override the
-cross-compilation result. For example:
-
-```m4
-AC_CACHE_CHECK([for working hello world], [php_cv_have_hello_world],
-  [AC_RUN_IFELSE([AC_LANG_SOURCE([
     #include <stdio.h>
     int main(void)
     {
@@ -194,6 +184,31 @@ AC_CACHE_CHECK([for working hello world], [php_cv_have_hello_world],
       return 0;
     }
   ])],
+  [AC_MSG_RESULT([yes])
+    AC_DEFINE([HAVE_HELLO_WORLD], [1], [Define if hello world is working.])],
+  [AC_MSG_RESULT([no])],
+  [AC_MSG_RESULT([no (cross-compiling)])])
+```
+
+The 3 action arguments at the end of `AC_RUN_IFELSE`:
+
+* action if test program ran successfully
+* action if test program didn't run successfully
+* action when cross-compiling
+
+By adjusting the run check with cache variables, users can override the
+cross-compilation result. For example:
+
+```m4
+AC_CACHE_CHECK([for working hello world], [php_cv_have_hello_world],
+  [AC_RUN_IFELSE([AC_LANG_SOURCE([
+      #include <stdio.h>
+      int main(void)
+      {
+        printf("Hello world");
+        return 0;
+      }
+    ])],
   [php_cv_have_hello_world=yes],
   [php_cv_have_hello_world=no],
   [php_cv_have_hello_world=no])])
@@ -206,12 +221,13 @@ Cache variables can be then passed to configure script to override the check:
 
 ```sh
 ./configure \
+  --build=<build-triplet> \
   --host=<target-triplet> \
   php_cv_have_hello_world=yes
 ```
 
 Ideally, running test programs with `AC_RUN_IFELSE` should be avoided in favor
-of compile or link checks. However certain checks require runtime (to run the
+of compile or link checks. However, certain checks require runtime (to run the
 executable binary test programs), which might not be possible in cross-compiling
 mode.
 
@@ -221,24 +237,21 @@ Autoconf cache variables can be used to manually determine the platform
 characteristics. PHP cache variables to consider adjusting when cross-compiling:
 
 ```sh
-./configure --host=<target-triplet> \
-  ac_cv_func_getaddrinfo=yes \
-  ac_cv_copy_file_range=yes \
+./configure --host=<target-triplet> --build=<build-triplet> \
+  php_cv_func_getaddrinfo=yes \
+  php_cv_func_copy_file_range=yes \
   php_cv_have_shadow_stack_syscall=yes \
   php_cv_ubsan_no_function=yes \
-  ac_cv_time_r_type=yes \
-  ac_cv_have_broken_gcc_strlen_opt=no \
   php_cv_type_cookie_off64_t=yes \
+  php_cv_have_write_stdout=yes \
   ac_cv_c_bigendian_php=no \
-  ac_cv_write_stdout=yes \
   php_cv_iconv_ignore=yes \
   php_cv_shm_ipc=yes \
   php_cv_shm_mmap_anon=yes \
   php_cv_shm_mmap_posix=yes \
   php_cv_func_sched_getcpu=yes \
-  ac_cv_have_pcre2_jit=yes \
-  php_cv_func_ttyname_r=yes \
-  ac_cv_flush_io=yes \
+  php_cv_have_pcre2_jit=yes \
+  php_cv_have_flush_io=yes \
   ac_cv_crypt_des=yes \
   ac_cv_crypt_ext_des=yes \
   ac_cv_crypt_md5=yes \
@@ -249,7 +262,13 @@ characteristics. PHP cache variables to consider adjusting when cross-compiling:
   php_cv_have_stack_limit=yes \
   php_cv_have_common_page_size=yes \
   php_cv_have_max_page_size=yes \
-  php_cv_lib_curl_ssl=no
+  php_cv_lib_curl_ssl=no \
+  php_cv_lib_gd_gdImageCreateFrom*=yes \
+  php_cv_sizeof_*=... \
+  php_cv_func_ptrace=yes \
+  php_cv_func_mach_vm_read=yes \
+  php_cv_file_proc_mem=as|mem \
+  php_cv_align_mm="(size_t)8 (size_t)3 0" \
 ```
 
 > [!WARNING]
