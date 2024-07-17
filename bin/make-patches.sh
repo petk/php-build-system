@@ -21,7 +21,6 @@ patch-cmake-8.4-docs
 patch-cmake-8.4-phar
 patch-cmake-8.4-php-config
 patch-cmake-8.4-phpdbg-local-console
-patch-cmake-8.4-typedef-warnings
 "
 
 # A list of supported PHP versions.
