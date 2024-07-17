@@ -243,6 +243,7 @@ target_sources(
   PUBLIC
     FILE_SET HEADERS
       FILES
+        dom_ce.h
         namespace_compat.h
         xml_common.h
         xpath_callbacks.h
