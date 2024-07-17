@@ -36,45 +36,44 @@ Changes:
   and without any quotes around them. Perhaps removing quotes should be
   done only on configure options and not variable arguments.
 ---
- build/php.m4                 |  4 ++-
+ build/php.m4                 |  3 ++-
  configure.ac                 |  6 +++++
  scripts/man1/php-config.1.in | 18 ++++++++++++++
  scripts/php-config.in        | 48 +++++++++++++++++++++---------------
- 4 files changed, 55 insertions(+), 21 deletions(-)
+ 4 files changed, 54 insertions(+), 21 deletions(-)
 
 diff --git a/build/php.m4 b/build/php.m4
-index e8794a3633..5d89d11760 100644
+index b804eea142..c99d8788bf 100644
 --- a/build/php.m4
 +++ b/build/php.m4
-@@ -2048,7 +2048,9 @@ EOF
+@@ -2112,7 +2112,8 @@ EOF
+   echo '"[$]@"' >> $1
    chmod +x $1
    CONFIGURE_COMMAND="$CONFIGURE_COMMAND $CONFIGURE_OPTIONS"
-   PHP_SUBST_OLD(CONFIGURE_COMMAND)
--  PHP_SUBST_OLD(CONFIGURE_OPTIONS)
+-  AC_SUBST([CONFIGURE_COMMAND])
 +  dnl Remove quotes.
 +  CONFIGURE_OPTIONS=$(echo $CONFIGURE_OPTIONS | $SED -e "s#'##g")
-+  AC_SUBST([CONFIGURE_OPTIONS])
+   AC_SUBST([CONFIGURE_OPTIONS])
  ])
  
- dnl
 diff --git a/configure.ac b/configure.ac
-index df86325e84..d9be4c6658 100644
+index d106cf50d7..68d0cb85e3 100644
 --- a/configure.ac
 +++ b/configure.ac
-@@ -1479,6 +1479,9 @@ exec_prefix=$old_exec_prefix
+@@ -1413,6 +1413,9 @@ exec_prefix=$old_exec_prefix
  libdir=$old_libdir
  datadir=$old_datadir
  
 +ZEND_EXTENSION_API_NO=$($EGREP '#define ZEND_EXTENSION_API_NO' $srcdir/Zend/zend_extensions.h | "${SED}" -e 's/^[^0-9]*//')
 +PHP_API_VERSION=$($EGREP '#define PHP_API_VERSION ' $srcdir/main/php.h | "${SED}" -e 's/^[^0-9]*//')
 +
- AC_SUBST(INCLUDE_PATH)
- AC_SUBST(EXPANDED_PEAR_INSTALLDIR)
- AC_SUBST(EXPANDED_EXTENSION_DIR)
-@@ -1494,6 +1497,9 @@ AC_SUBST(EXPANDED_PHP_CONFIG_FILE_SCAN_DIR)
- AC_SUBST([PHP_INSTALLED_SAPIS])
- AC_SUBST([SAPI_LIBNAME_SHARED])
- AC_SUBST([SAPI_LIBNAME_STATIC])
+ AC_SUBST([INCLUDE_PATH])
+ AC_SUBST([EXPANDED_PEAR_INSTALLDIR])
+ AC_SUBST([EXPANDED_EXTENSION_DIR])
+@@ -1431,6 +1434,9 @@ AC_SUBST([SAPI_LIBNAME_STATIC])
+ AC_SUBST([PHP_VERSION])
+ AC_SUBST([PHP_VERSION_ID])
+ AC_SUBST([PHP_LDFLAGS])
 +AC_SUBST([PHP_API_VERSION])
 +AC_SUBST([ZEND_MODULE_API_NO])
 +AC_SUBST([ZEND_EXTENSION_API_NO])

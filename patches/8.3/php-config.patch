@@ -43,10 +43,10 @@ Changes:
  4 files changed, 53 insertions(+), 19 deletions(-)
 
 diff --git a/build/php.m4 b/build/php.m4
-index 5397be202e..b6753cd03b 100644
+index ab2db520bf..90e035e04d 100644
 --- a/build/php.m4
 +++ b/build/php.m4
-@@ -2158,7 +2158,9 @@ EOF
+@@ -2146,7 +2146,9 @@ EOF
    chmod +x $1
    CONFIGURE_COMMAND="$CONFIGURE_COMMAND $CONFIGURE_OPTIONS"
    PHP_SUBST_OLD(CONFIGURE_COMMAND)
@@ -58,7 +58,7 @@ index 5397be202e..b6753cd03b 100644
  
  dnl
 diff --git a/configure.ac b/configure.ac
-index 99dd9fab64..f41fa45819 100644
+index 62606b305c..5134828300 100644
 --- a/configure.ac
 +++ b/configure.ac
 @@ -1472,6 +1472,9 @@ exec_prefix=$old_exec_prefix
