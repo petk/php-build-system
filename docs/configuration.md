@@ -726,13 +726,15 @@ A list of Autoconf `configure` command-line configuration options, Windows
     </tr>
     <tr>
       <td>--without-apxs2</td>
-      <td>--disable-apache2-4handler</td>
+      <td>--disable-apache2handler or --disable-apache2-4handler</td>
       <td>SAPI_APACHE2HANDLER=OFF</td>
-      <td>default</td>
+      <td>
+        default, in PHP >= 8.4 <code>--disable-apache2handler</code> is for
+        Apache 2.4 and not Apache 2.0 anymore</td>
     </tr>
     <tr>
       <td>&emsp;--with-apxs2[=PATH_TO_APXS]</td>
-      <td>--enable-apache2-4handler</td>
+      <td>--enable-apache2handler or --enable-apache2-4handler</td>
       <td>
         SAPI_APACHE2HANDLER=ON<br>
         [Apache_ROOT=PATH_TO_APACHE]<br>
@@ -744,25 +746,25 @@ A list of Autoconf `configure` command-line configuration options, Windows
       <td>N/A</td>
       <td>--disable-apache2handler</td>
       <td>N/A</td>
-      <td>default</td>
+      <td>default, in PHP <= 8.3 this was for Apache 2.0</td>
     </tr>
     <tr>
       <td>N/A</td>
       <td>--enable-apache2handler</td>
       <td>N/A</td>
-      <td></td>
+      <td>in PHP <= 8.3 this was for Apache 2.0</td>
     </tr>
     <tr>
       <td>N/A</td>
       <td>--disable-apache2-2handler</td>
       <td>N/A</td>
-      <td>default</td>
+      <td>default, removed since PHP >= 8.4</td>
     </tr>
     <tr>
       <td>N/A</td>
       <td>--enable-apache2-2handler</td>
       <td>N/A</td>
-      <td></td>
+      <td>removed since PHP >= 8.4</td>
     </tr>
     <tr>
       <td>--enable-cgi</td>

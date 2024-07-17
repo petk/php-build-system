@@ -49,7 +49,7 @@ target_compile_definitions(
     ZEND_ENABLE_STATIC_TSRMLS_CACHE=1
 )
 
-find_package(Apache 2.0.44)
+find_package(Apache 2.4.0)
 set_package_properties(
   Apache
   PROPERTIES

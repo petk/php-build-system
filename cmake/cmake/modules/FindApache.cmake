@@ -359,19 +359,7 @@ endblock()
 block(PROPAGATE Apache_THREADED)
   set(Apache_THREADED FALSE)
 
-  # MPM_NAME query string for apxs was removed in Apache 2.4 (2.3.3 dev branch).
-  if(Apache_APXS_EXECUTABLE AND Apache_VERSION VERSION_LESS 2.4)
-    execute_process(
-      COMMAND "${Apache_APXS_EXECUTABLE}" -q MPM_NAME
-      OUTPUT_VARIABLE name
-      OUTPUT_STRIP_TRAILING_WHITESPACE
-      ERROR_QUIET
-    )
-
-    if(NOT name MATCHES "^(prefork|peruser|itk)$")
-      set(Apache_THREADED TRUE)
-    endif()
-  elseif(Apache_EXECUTABLE)
+  if(Apache_EXECUTABLE)
     execute_process(
       COMMAND "${Apache_EXECUTABLE}" -V
       OUTPUT_VARIABLE result
