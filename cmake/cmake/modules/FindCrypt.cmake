@@ -222,10 +222,6 @@ function(_crypt_check_crypt_is_usable result)
       list(APPEND CMAKE_REQUIRED_DEFINITIONS -DHAVE_CRYPT_H=1)
     endif()
 
-    if(HAVE_CRYPT)
-      list(APPEND CMAKE_REQUIRED_DEFINITIONS -DHAVE_CRYPT=1)
-    endif()
-
     set(CMAKE_REQUIRED_LIBRARIES ${Crypt_LIBRARY})
     set(CMAKE_REQUIRED_INCLUDES ${Crypt_INCLUDE_DIR})
     set(CMAKE_REQUIRED_QUIET TRUE)
@@ -251,12 +247,8 @@ function(_crypt_check_crypt_is_usable result)
         #include <string.h>
 
         int main(void) {
-        #ifdef HAVE_CRYPT
           char *encrypted = crypt("rasmuslerdorf", "rl");
           return !encrypted || strcmp(encrypted, "rl.3StKT.4T8M");
-        #else
-          return 1;
-        #endif
         }
       ]] _crypt_des)
 
@@ -285,12 +277,8 @@ function(_crypt_check_crypt_is_usable result)
         #include <string.h>
 
         int main(void) {
-        #ifdef HAVE_CRYPT
           char *encrypted = crypt("rasmuslerdorf", "_J9..rasm");
           return !encrypted || strcmp(encrypted, "_J9..rasmBYk8r9AiWNc");
-        #else
-          return 1;
-        #endif
         }
       ]] _crypt_ext_des)
 
@@ -319,7 +307,6 @@ function(_crypt_check_crypt_is_usable result)
         #include <string.h>
 
         int main(void) {
-        #ifdef HAVE_CRYPT
           char salt[15], answer[40];
           char *encrypted;
 
@@ -332,9 +319,6 @@ function(_crypt_check_crypt_is_usable result)
           strcat(answer, "rISCgZzpwk3UhDidwXvin0");
           encrypted = crypt("rasmuslerdorf", salt);
           return !encrypted || strcmp(encrypted, answer);
-        #else
-          return 1;
-        #endif
         }
       ]] _crypt_md5)
 
@@ -363,7 +347,6 @@ function(_crypt_check_crypt_is_usable result)
         #include <string.h>
 
         int main(void) {
-        #ifdef HAVE_CRYPT
           char salt[30], answer[70];
           char *encrypted;
 
@@ -374,9 +357,6 @@ function(_crypt_check_crypt_is_usable result)
           strcpy(&answer[29], "nIdrcHdxcUxWomQX9j6kvERCFjTg7Ra");
           encrypted = crypt("rasmuslerdorf", salt);
           return !encrypted || strcmp(encrypted, answer);
-        #else
-          return 1;
-        #endif
         }
       ]] _crypt_blowfish)
 
@@ -405,7 +385,6 @@ function(_crypt_check_crypt_is_usable result)
         #include <string.h>
 
         int main(void) {
-        #ifdef HAVE_CRYPT
           char salt[21], answer[21+86];
           char *encrypted;
 
@@ -414,9 +393,6 @@ function(_crypt_check_crypt_is_usable result)
           strcat(answer, "EeHCRjm0bljalWuALHSTs1NB9ipEiLEXLhYeXdOpx22gmlmVejnVXFhd84cEKbYxCo.XuUTrW.RLraeEnsvWs/");
           encrypted = crypt("rasmuslerdorf", salt);
           return !encrypted || strcmp(encrypted, answer);
-        #else
-          return 1;
-        #endif
         }
       ]] _crypt_sha512)
 
@@ -445,7 +421,6 @@ function(_crypt_check_crypt_is_usable result)
         #include <string.h>
 
         int main(void) {
-        #ifdef HAVE_CRYPT
           char salt[21], answer[21+43];
           char *encrypted;
 
@@ -454,9 +429,6 @@ function(_crypt_check_crypt_is_usable result)
           strcat(answer, "cFAm2puLCujQ9t.0CxiFIIvFi4JyQx5UncCt/xRIX23");
           encrypted = crypt("rasmuslerdorf", salt);
           return !encrypted || strcmp(encrypted, answer);
-        #else
-          return 1;
-        #endif
         }
       ]] _crypt_sha256)
 
