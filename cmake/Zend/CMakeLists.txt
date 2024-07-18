@@ -273,7 +273,14 @@ cmake_push_check_state(RESET)
 cmake_pop_check_state()
 
 check_symbol_exists(pthread_stackseg_np "pthread.h" HAVE_PTHREAD_STACKSEG_NP)
-check_symbol_exists(sigsetjmp "setjmp.h" HAVE_SIGSETJMP)
+
+# Check for POSIX sigsetjmp. It can be a function or defined as a macro. Note,
+# that POSIX-compliant *nix systems mostly all should have it. On Windows the
+# setjmp can be used instead.
+check_symbol_exists(sigsetjmp "setjmp.h" _HAVE_SIGSETJMP)
+if(NOT CMAKE_SYSTEM_NAME STREQUAL "Windows" AND NOT _HAVE_SIGSETJMP)
+  message(FATAL_ERROR "Required sigsetjmp not found. Please, check CMake logs.")
+endif()
 
 message(CHECK_START "Checking whether __cpuid_count is available")
 cmake_push_check_state(RESET)

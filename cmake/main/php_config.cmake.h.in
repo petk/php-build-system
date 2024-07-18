@@ -1260,9 +1260,6 @@
 /* Define to 1 if you have the 'sigprocmask' function. */
 #cmakedefine HAVE_SIGPROCMASK 1
 
-/* Define to 1 if you have the 'sigsetjmp' function. */
-#cmakedefine HAVE_SIGSETJMP 1
-
 /* Define to 1 if you have the 'sigtimedwait' function. */
 #cmakedefine HAVE_SIGTIMEDWAIT 1
 
