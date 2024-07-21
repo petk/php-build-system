@@ -113,7 +113,6 @@ endif()
 
 add_executable(
   php_fpm
-  fpm/events/devpoll.c
   fpm/events/epoll.c
   fpm/events/kqueue.c
   fpm/events/poll.c
@@ -228,32 +227,6 @@ check_source_compiles(C [[
   }
 ]] HAVE_KQUEUE)
 if(HAVE_KQUEUE)
-  message(CHECK_PASS "yes")
-else()
-  message(CHECK_FAIL "no")
-endif()
-
-# For Solaris < 10.
-message(CHECK_START "Checking for /dev/poll")
-check_source_compiles(C [[
-  #include <stdio.h>
-  #include <sys/devpoll.h>
-
-  int main(void)
-  {
-    int n, dp;
-    struct dvpoll dvp;
-    dp = 0;
-    dvp.dp_fds = NULL;
-    dvp.dp_nfds = 0;
-    dvp.dp_timeout = 0;
-    n = ioctl(dp, DP_POLL, &dvp);
-    (void)n;
-
-    return 0;
-  }
-]] HAVE_DEVPOLL)
-if(HAVE_DEVPOLL)
   message(CHECK_PASS "yes")
 else()
   message(CHECK_FAIL "no")
