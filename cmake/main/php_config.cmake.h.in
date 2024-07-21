@@ -1728,7 +1728,7 @@
 /* builder uname output */
 #cmakedefine PHP_BUILD_SYSTEM "@PHP_BUILD_SYSTEM@"
 
-/* Define if your system has fork/vfork/CreateProcess */
+/* Define to 1 if your system has fork/vfork/CreateProcess. */
 #cmakedefine PHP_CAN_SUPPORT_PROC_OPEN 1
 
 /* Define to 1 if the compiler supports AVX-512. */

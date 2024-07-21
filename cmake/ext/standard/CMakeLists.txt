@@ -209,7 +209,7 @@ endif()
 if(HAVE_FORK OR HAVE_CREATEPROCESS)
   set(
     PHP_CAN_SUPPORT_PROC_OPEN 1
-    CACHE INTERNAL "Define if system has fork/vfork/CreateProcess"
+    CACHE INTERNAL "Define to 1 if your system has fork/vfork/CreateProcess."
   )
 
   message(CHECK_PASS "yes")
