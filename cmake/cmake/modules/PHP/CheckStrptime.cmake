@@ -20,6 +20,7 @@ include(CheckFunctionExists)
 include(CheckSymbolExists)
 include(CMakePushCheckState)
 
+# Check whether linker sees the strptime and it is declared in time.h.
 cmake_push_check_state(RESET)
   set(CMAKE_REQUIRED_DEFINITIONS -D_GNU_SOURCE)
   check_symbol_exists(strptime "time.h" HAVE_STRPTIME)
@@ -35,25 +36,5 @@ endif()
 # be declared in time.h.
 
 # Check if linker sees the function.
-if(NOT HAVE_STRPTIME)
-  unset(HAVE_STRPTIME CACHE)
-  check_function_exists(strptime HAVE_STRPTIME)
-endif()
-
-if(NOT HAVE_STRPTIME)
-  return()
-endif()
-
-message(CHECK_START "Checking whether strptime() is declared")
-
-cmake_push_check_state(RESET)
-  set(CMAKE_REQUIRED_DEFINITIONS -D_GNU_SOURCE)
-  set(CMAKE_REQUIRED_QUIET TRUE)
-  check_symbol_exists(strptime "time.h" HAVE_DECL_STRPTIME)
-cmake_pop_check_state()
-
-if(HAVE_DECL_STRPTIME)
-  message(CHECK_PASS "yes")
-else()
-  message(CHECK_FAIL "no")
-endif()
+unset(HAVE_STRPTIME CACHE)
+check_function_exists(strptime HAVE_STRPTIME)
