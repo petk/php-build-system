@@ -35,34 +35,52 @@ if(NOT CMAKE_CROSSCOMPILING)
       #endif
       #include <string.h>
 
-      int main(void) {
+      int main(void)
+      {
         char *filename = tmpnam(NULL);
         char buffer[64];
         int result = 1;
 
         FILE *fp = fopen(filename, "wb");
-        if (NULL == fp)
+        if (NULL == fp) {
           return 1;
+        }
+
         fputs("line 1\n", fp);
         fputs("line 2\n", fp);
         fclose(fp);
 
         fp = fopen(filename, "rb+");
-        if (NULL == fp)
+        if (NULL == fp) {
           return 1;
-        fgets(buffer, sizeof(buffer), fp);
+        }
+
+        if (fgets(buffer, sizeof(buffer), fp) == NULL) {
+          return 1;
+        }
+
         fputs("line 3\n", fp);
         rewind(fp);
-        fgets(buffer, sizeof(buffer), fp);
-        if (0 != strcmp(buffer, "line 1\n"))
+        if (fgets(buffer, sizeof(buffer), fp) == NULL) {
+          return 1;
+        }
+
+        if (0 != strcmp(buffer, "line 1\n")) {
           result = 0;
-        fgets(buffer, sizeof(buffer), fp);
-        if (0 != strcmp(buffer, "line 3\n"))
+        }
+
+        if (fgets(buffer, sizeof(buffer), fp) == NULL) {
+          return 1;
+        }
+
+        if (0 != strcmp(buffer, "line 3\n")) {
           result = 0;
+        }
+
         fclose(fp);
         unlink(filename);
 
-        exit(result);
+        return result;
       }
     ]] HAVE_FLUSHIO)
   cmake_pop_check_state()
