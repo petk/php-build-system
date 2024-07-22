@@ -56,12 +56,14 @@ if(NOT CMAKE_CROSSCOMPILING)
         }
 
         if (fgets(buffer, sizeof(buffer), fp) == NULL) {
+          fclose(fp);
           return 1;
         }
 
         fputs("line 3\n", fp);
         rewind(fp);
         if (fgets(buffer, sizeof(buffer), fp) == NULL) {
+          fclose(fp);
           return 1;
         }
 
@@ -70,6 +72,7 @@ if(NOT CMAKE_CROSSCOMPILING)
         }
 
         if (fgets(buffer, sizeof(buffer), fp) == NULL) {
+          fclose(fp);
           return 1;
         }
 
