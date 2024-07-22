@@ -271,10 +271,6 @@ message(CHECK_START "Checking for select")
 cmake_push_check_state(RESET)
   set(CMAKE_REQUIRED_QUIET TRUE)
 
-  if(PHP_FD_SETSIZE)
-    set(CMAKE_REQUIRED_DEFINITIONS -DFD_SETSIZE=${PHP_FD_SETSIZE})
-  endif()
-
   check_source_compiles(C [[
     /* According to POSIX.1-2001 */
     #include <sys/select.h>
