@@ -1821,8 +1821,8 @@
 /* uname -a output */
 #cmakedefine PHP_UNAME "@PHP_UNAME@"
 
-/* Define to 1 if PHP uses its own crypt_r, and to 0 if using the external crypt
-   library. */
+/* Define to 1 if PHP uses its own crypt_r, and to 0 if using the external
+   crypt library. */
 #cmakedefine01 PHP_USE_PHP_CRYPT_R
 
 /* Use dlopen with RTLD_NOW instead of RTLD_LAZY */
