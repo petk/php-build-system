@@ -459,13 +459,13 @@
 /* Define to 1 if you have the <cpuid.h> header file. */
 #cmakedefine HAVE_CPUID_H 1
 
-/* */
+/* Define to 1 if you have the 'crypt' function. */
 #cmakedefine HAVE_CRYPT 1
 
 /* Define to 1 if you have the <crypt.h> header file. */
 #cmakedefine HAVE_CRYPT_H 1
 
-/* */
+/* Define to 1 if you have the 'crypt_r' function. */
 #cmakedefine HAVE_CRYPT_R 1
 
 /* Define to 1 if you have the 'ctermid' function. */
