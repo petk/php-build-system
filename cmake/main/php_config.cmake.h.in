@@ -1101,9 +1101,6 @@
 /* */
 @HAVE_OPENSSL_EXT@
 
-/* */
-#cmakedefine HAVE_ORALDAP 1
-
 /* Define to 1 if you have the <os/signpost.h> header file. */
 #cmakedefine HAVE_OS_SIGNPOST_H 1
 
