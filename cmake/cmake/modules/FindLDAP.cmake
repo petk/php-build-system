@@ -30,8 +30,6 @@ Cache variables:
   LDAP_LBER_LIBRARY
     The path to the OpenLDAP LBER Lightweight Basic Encoding Rules library, if
     found.
-  HAVE_ORALDAP
-    Whether the Oracle LDAP library is used.
 
 Hints:
 
@@ -61,13 +59,6 @@ find_path(
   LDAP_INCLUDE_DIR
   NAMES ldap.h
   PATHS ${PC_LDAP_INCLUDE_DIRS}
-  PATH_SUFFIXES
-    # For LDAP on Oracle.
-    ldap/public
-    # For Oracle Instant Client ZIP install.
-    sdk/include
-    # TODO: Oracle Instant Client RPM install.
-    # /usr/include/oracle/.../client...
   DOC "Directory containing LDAP library headers"
 )
 
@@ -91,17 +82,6 @@ if(LDAP_LIBRARY)
     PATHS ${PC_LDAP_LBER_LIBRARY_DIRS}
     DOC "The path to the OpenLDAP LBER Lightweight Basic Encoding Rules library"
   )
-else()
-  # Check for Oracle LDAP.
-  find_library(
-    LDAP_LIBRARY
-    NAMES clntsh
-    DOC "The path to the Oracle LDAP library"
-  )
-
-  if(LDAP_LIBRARY)
-    set(HAVE_ORALDAP 1 CACHE INTERNAL "Whether to use Oracle LDAP library")
-  endif()
 endif()
 
 if(NOT LDAP_LIBRARY)

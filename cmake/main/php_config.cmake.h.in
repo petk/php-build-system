@@ -1040,9 +1040,6 @@
 /* Define to 1 if the openssl extension is available. */
 #cmakedefine HAVE_OPENSSL_EXT 1
 
-/* */
-#cmakedefine HAVE_ORALDAP 1
-
 /* Define to 1 if you have the 'pathconf' function. */
 #cmakedefine HAVE_PATHCONF 1
 

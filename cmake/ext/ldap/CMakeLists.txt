@@ -61,14 +61,14 @@ if(TARGET LDAP::LDAP)
     set(CMAKE_REQUIRED_LIBRARIES LDAP::LDAP)
 
     message(CHECK_START "Checking for 3 arg ldap_set_rebind_proc")
-    check_source_compiles(C "
+    check_source_compiles(C [[
       #include <ldap.h>
 
       int main(void) {
         ldap_set_rebind_proc(0,0,0);
         return 0;
       }
-    " HAVE_3ARG_SETREBINDPROC)
+    ]] HAVE_3ARG_SETREBINDPROC)
     if(HAVE_3ARG_SETREBINDPROC)
       message(CHECK_PASS "yes")
     else()
