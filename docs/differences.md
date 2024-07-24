@@ -35,3 +35,7 @@ build system:
 
 * Detecting GNU libiconv:
   https://github.com/php/php-src/issues/12213
+
+* Oracle Instant Client integration in ldap extension is removed in CMake due to
+  missing LDAP features causing build errors:
+  https://github.com/php/php-src/issues/15051
