@@ -147,9 +147,12 @@ endif()
 
 block()
   if(EXT_PDO_ODBC_TYPE STREQUAL "generic" AND EXT_PDO_ODBC_LIBRARY)
-    set(type "-${EXT_PDO_ODBC_LIBRARY}")
+    set(type "${EXT_PDO_ODBC_TYPE}-${EXT_PDO_ODBC_LIBRARY}")
+  else()
+    set(type "${EXT_PDO_ODBC_TYPE}")
   endif()
-  set(PDO_ODBC_TYPE "${EXT_PDO_ODBC_TYPE}${type}" CACHE INTERNAL "ODBC driver")
+
+  set(PDO_ODBC_TYPE "${type}" CACHE INTERNAL "ODBC driver")
 endblock()
 
 if(EXT_PDO_ODBC_ROOT AND NOT ODBC_ROOT)

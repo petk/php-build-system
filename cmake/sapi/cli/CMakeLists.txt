@@ -36,17 +36,17 @@ check_symbol_exists(setproctitle "unistd.h;stdlib.h" HAVE_SETPROCTITLE)
 check_include_file(sys/pstat.h HAVE_SYS_PSTAT_H)
 
 message(CHECK_START "Checking for PS_STRINGS")
-check_source_compiles(C "
+check_source_compiles(C [[
   #include <machine/vmparam.h>
   #include <sys/exec.h>
 
   int main(void) {
     PS_STRINGS->ps_nargvstr = 1;
-    PS_STRINGS->ps_argvstr = \"foo\";
+    PS_STRINGS->ps_argvstr = "foo";
 
     return 0;
   }
-" HAVE_PS_STRINGS)
+]] HAVE_PS_STRINGS)
 if(HAVE_PS_STRINGS)
   message(CHECK_PASS "yes")
 else()

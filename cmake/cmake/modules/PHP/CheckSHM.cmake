@@ -207,7 +207,9 @@ php_search_libraries(
 
 if(HAVE_SHM_OPEN AND NOT CMAKE_CROSSCOMPILING)
   cmake_push_check_state(RESET)
-    set(CMAKE_REQUIRED_LIBRARIES ${libraryForShmOpen})
+    if(libraryForShmOpen)
+      set(CMAKE_REQUIRED_LIBRARIES ${libraryForShmOpen})
+    endif()
 
     check_source_runs(C [[
       #include <sys/types.h>

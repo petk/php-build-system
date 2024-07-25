@@ -232,7 +232,9 @@ php_search_libraries(
 if(_HAVE_GETIFADDRS)
   message(CHECK_START "Checking for usable getifaddrs")
   cmake_push_check_state(RESET)
-    set(CMAKE_REQUIRED_LIBRARIES ${libraryForGetifaddrs})
+    if(libraryForGetifaddrs)
+      set(CMAKE_REQUIRED_LIBRARIES ${libraryForGetifaddrs})
+    endif()
     set(CMAKE_REQUIRED_QUIET TRUE)
     check_source_compiles(C "
       #include <sys/types.h>

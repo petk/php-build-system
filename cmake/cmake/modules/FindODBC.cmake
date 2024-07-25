@@ -59,6 +59,10 @@ if(NOT ODBC_INCLUDE_DIR)
   string(APPEND _reason "ODBC sql.h not found. ")
 endif()
 
+if(NOT ODBC_TYPE)
+  set(ODBC_TYPE "")
+endif()
+
 find_library(
   ODBC_LIBRARY
   NAMES ${ODBC_TYPE} odbc

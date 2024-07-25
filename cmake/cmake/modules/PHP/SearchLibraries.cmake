@@ -178,6 +178,7 @@ function(php_search_libraries)
   endif()
 
   # Check if given header(s) can be included.
+  set(headersFound "")
   foreach(header ${headers})
     if(recheckHeaders)
       set(id _PHP_SEARCH_LIBRARIES_HEADER_${headersFound}_${header})
