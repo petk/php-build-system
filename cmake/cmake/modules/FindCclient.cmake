@@ -150,10 +150,10 @@ function(cclient_check_function_exists function result)
 
       char ${function}(void);
 
-      int main(int ac, char* av[]) {
+      int main(int argc, char* argv[]) {
         ${function}();
-        if (ac > 1000) {
-          return *av[0];
+        if (argc > 1000) {
+          return *argv[0];
         }
         return 0;
       }

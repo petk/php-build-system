@@ -246,9 +246,11 @@ block()
     set(headers "pthread_np.h")
   endif()
 
+  list(APPEND headers pthread.h)
+
   check_symbol_exists(
     pthread_attr_get_np
-    "${headers};pthread.h"
+    "${headers}"
     HAVE_PTHREAD_ATTR_GET_NP
   )
 endblock()
