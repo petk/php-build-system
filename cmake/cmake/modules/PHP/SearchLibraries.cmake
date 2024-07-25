@@ -4,15 +4,15 @@ libraries (for example, C library), a given list of libraries is iterated and
 found library can be linked as needed.
 
 Depending on the system, C functions can be located in one of the default linked
-libraries when using compiler, or they can be also in separate system libraries,
-that need to be manually passed to linker. The usual check_symbol_exists()
-doesn't find them unless the CMAKE_REQUIRED_LIBRARIES is specified.
+libraries when using the compiler, or they can be in separate system libraries
+that need to be manually passed to the linker. The usual check_symbol_exists()
+doesn't find them unless CMAKE_REQUIRED_LIBRARIES is specified.
 
-For example, math functions (math.h) can be in math library (m), however some
-systems, like macOS, Windows and Haiku, have them in C library. Linking math
-library (-lm) there isn't necessary. Also, some systems might be in transition
-of moving functions from their dedicated libraries to C library. For example,
-illumos-based systems (-lnsl...), and similar.
+For example, math functions (math.h) can be in the math library (m); however,
+some systems, like macOS, Windows, and Haiku, have them in the C library.
+Linking the math library (-lm) there isn't necessary. Additionally, some systems
+might be in the process of moving functions from their dedicated libraries to
+the C library. For example, illumos-based systems (-lnsl...), and similar.
 
 The logic in this module is somehow following the Autoconf's AC_SEARCH_LIBS.
 

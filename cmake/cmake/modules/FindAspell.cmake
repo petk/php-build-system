@@ -1,10 +1,10 @@
 #[=============================================================================[
 Find the GNU Aspell library.
 
-In the past there was also a pspell library which has been superseded by GNU's
+In the past, there was a pspell library, which has been superseded by GNU's
 Aspell library. The Aspell library provides a simple pspell interface (pspell.h)
-for backwards compatibility. On some systems there is a package libpspell-dev,
-however relying on it is not encouraged.
+for backward compatibility. On some systems, there is a package called
+libpspell-dev; however, relying on it is not encouraged.
 
 Module defines the following IMPORTED target(s):
 
