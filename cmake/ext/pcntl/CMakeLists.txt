@@ -142,7 +142,9 @@ cmake_push_check_state(RESET)
     )
 
     if(_HAVE_SCHED_GETCPU AND NOT CMAKE_CROSSCOMPILING)
-      set(CMAKE_REQUIRED_LIBRARIES ${library})
+      if(library)
+        set(CMAKE_REQUIRED_LIBRARIES ${library})
+      endif()
       check_source_runs(C [[
         #include <sched.h>
         int main(void) {
@@ -154,7 +156,7 @@ cmake_push_check_state(RESET)
       ]] HAVE_SCHED_GETCPU)
     endif()
 
-    if(HAVE_SCHED_GETCPU)
+    if(HAVE_SCHED_GETCPU AND library)
       target_link_libraries(php_pcntl PRIVATE ${library})
     endif()
   endblock()
