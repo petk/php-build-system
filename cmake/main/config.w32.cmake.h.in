@@ -209,6 +209,9 @@
 /* Have BCMATH library */
 #cmakedefine HAVE_BCMATH 1
 
+/* Define to 1 if you have the 'bind_textdomain_codeset' function. */
+#cmakedefine HAVE_BIND_TEXTDOMAIN_CODESET 1
+
 /* */
 #cmakedefine HAVE_BUILD_DEFS_H 1
 
@@ -224,6 +227,9 @@
 /* have the mscoree.h header file */
 #cmakedefine HAVE_MSCOREE_H 1
 
+/* Define to 1 if Capstone is available. */
+#cmakedefine HAVE_CAPSTONE 1
+
 /* Have ctype */
 #cmakedefine HAVE_CTYPE 1
 
@@ -236,7 +242,13 @@
 /* Have timelib_config.h */
 #cmakedefine HAVE_TIMELIB_CONFIG_H 1
 
-/* DOM support */
+/* Define to 1 if you have the 'dcngettext' function. */
+#cmakedefine HAVE_DCNGETTEXT 1
+
+/* Define to 1 if you have the 'dngettext' function. */
+#cmakedefine HAVE_DNGETTEXT 1
+
+/* Define to 1 if dom extension is available. */
 #cmakedefine HAVE_DOM 1
 
 /* */
@@ -328,6 +340,9 @@
 /* */
 #cmakedefine HAVE_LIBGD 1
 
+/* Define to 1 if you have the 'intl' library. */
+#cmakedefine HAVE_LIBINTL 1
+
 /* */
 #cmakedefine HAVE_LIBJPEG 1
 
@@ -336,6 +351,9 @@
 
 /* */
 #cmakedefine HAVE_LIBWEBP 1
+
+/* Define to 1 if you have the 'ngettext' function. */
+#cmakedefine HAVE_NGETTEXT 1
 
 /* PostgreSQL 9.6 or later */
 #cmakedefine HAVE_PG_CONTEXT_VISIBILITY 1
@@ -367,7 +385,7 @@
 /* Define to enable JIT */
 #cmakedefine HAVE_JIT 1
 
-/* LibXML support */
+/* Define to 1 if libxml extension is available. */
 #cmakedefine HAVE_LIBXML 1
 
 /* Have mbstring support */
@@ -382,7 +400,7 @@
 /* Define to 1 if mysqlnd has compressed protocol support. */
 #cmakedefine MYSQLND_COMPRESSION_ENABLED 1
 
-/* Enable mysqlnd code that uses OpenSSL directly */
+/* Define to 1 if mysqlnd has extended SSL support through OpenSSL. */
 #cmakedefine MYSQLND_HAVE_SSL 1
 
 /* Enable core mysqlnd SSL code */
@@ -448,7 +466,7 @@
 /* Have SHMOP support */
 #cmakedefine HAVE_SHMOP 1
 
-/* Simple XML support */
+/* Define to 1 if simplexml extension is available. */
 #cmakedefine HAVE_SIMPLEXML 1
 
 #cmakedefine HAVE_SYSVSHM 1
@@ -456,7 +474,7 @@
 /* Session support */
 #cmakedefine HAVE_PHP_SESSION 1
 
-/* SOAP support */
+/* Define to 1 if soap extension is available. */
 #cmakedefine HAVE_SOAP 1
 
 /* SOAP support */
@@ -482,14 +500,14 @@
 /* Sqlite3 without extension support */
 #cmakedefine SQLITE_OMIT_LOAD_EXTENSION 1
 
-/* XMLReader support */
+/* Define to 1 if xml extension is available. */
+#cmakedefine HAVE_XML 1
+
+/* Define to 1 if xmlreader extension is available. */
 #cmakedefine HAVE_XMLREADER 1
 
-/* XMLWriter support */
+/* Define to 1 if xmlwriter extension is available. */
 #cmakedefine HAVE_XMLWRITER 1
-
-/* XML support */
-#cmakedefine HAVE_XML 1
 
 /* Define if xsl extension is enabled */
 #cmakedefine HAVE_XSL 1
