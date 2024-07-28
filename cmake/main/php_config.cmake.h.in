@@ -1219,10 +1219,10 @@
 /* Define to 1 if you have the 'res_ndestroy' function. */
 #cmakedefine HAVE_RES_NDESTROY 1
 
-/* Define to 1 if you have the 'res_search' function. */
+/* Define to 1 if you have the 'res_nsearch' function. */
 #cmakedefine HAVE_RES_NSEARCH 1
 
-/* */
+/* Define to 1 if you have the 'res_search' function. */
 #cmakedefine HAVE_RES_SEARCH 1
 
 /* */
