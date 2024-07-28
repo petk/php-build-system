@@ -140,7 +140,7 @@ function(php_mysqlnd_post_configuration)
   add_feature_info(
     "ext/mysqlnd SSL"
     MYSQLND_HAVE_SSL
-    "Extended SSL support with OpenSSL"
+    "Extended SSL support through OpenSSL"
   )
 endfunction()
 

@@ -19,7 +19,7 @@ Hints:
 
   The DTrace_ROOT variable adds custom search path.
 
-Module defines the following function:
+Module defines the following function to initialize the DTrace support.
 
   dtrace_target(
     TARGET <target-name>
