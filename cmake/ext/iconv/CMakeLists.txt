@@ -63,10 +63,10 @@ if(TARGET Iconv::Iconv)
   # Sanity and library type checks.
   if(Iconv_IS_BUILT_IN)
     # When iconv is built into C library, first check if iconv function exists.
-    check_symbol_exists(iconv "iconv.h" HAVE_ICONV)
+    check_symbol_exists(iconv "iconv.h" _HAVE_ICONV)
 
     # And if not, then check for libiconv function.
-    if(NOT HAVE_ICONV)
+    if(NOT _HAVE_ICONV)
       check_symbol_exists(libiconv "iconv.h" HAVE_LIBICONV)
     endif()
   else()
@@ -75,17 +75,18 @@ if(TARGET Iconv::Iconv)
     if(HAVE_LIBICONV)
       set(
         ICONV_ALIASED_LIBICONV 1
-        CACHE INTERNAL "iconv() is aliased to libiconv() in -liconv"
+        CACHE INTERNAL "iconv() is aliased to libiconv()"
       )
     else()
-      check_library_exists(Iconv::Iconv iconv "" HAVE_ICONV)
+      check_library_exists(Iconv::Iconv iconv "" _HAVE_ICONV)
     endif()
   endif()
 
-  if(NOT HAVE_ICONV AND NOT HAVE_LIBICONV)
+  if(NOT _HAVE_ICONV AND NOT HAVE_LIBICONV)
     message(
       FATAL_ERROR
-      "The iconv sanity check failed. Neither iconv or libiconv could be found."
+      "The iconv sanity check failed. Neither iconv() or libiconv() functions "
+      "could be found."
     )
   endif()
 
@@ -102,7 +103,7 @@ if(TARGET Iconv::Iconv)
     set(HAVE_LIBICONV 1 CACHE INTERNAL "")
     set(
       PHP_ICONV_IMPL "libiconv"
-      CACHE INTERNAL "The iconv library implementation"
+      CACHE INTERNAL "The iconv implementation"
     )
   endif()
 
@@ -118,7 +119,7 @@ if(TARGET Iconv::Iconv)
     message(CHECK_PASS "GNU C library")
     set(
       PHP_ICONV_IMPL "glibc"
-      CACHE INTERNAL "The iconv library implementation"
+      CACHE INTERNAL "The iconv implementation"
     )
   endif()
 
@@ -134,7 +135,7 @@ if(TARGET Iconv::Iconv)
     message(CHECK_PASS "BSD iconv")
     set(
       PHP_ICONV_IMPL "BSD iconv"
-      CACHE INTERNAL "The iconv library implementation"
+      CACHE INTERNAL "The iconv implementation"
     )
   endif()
 
@@ -150,7 +151,7 @@ if(TARGET Iconv::Iconv)
     message(CHECK_PASS "IBM iconv")
     set(
       PHP_ICONV_IMPL "IBM iconv"
-      CACHE INTERNAL "The iconv library implementation"
+      CACHE INTERNAL "The iconv implementation"
     )
   endif()
 

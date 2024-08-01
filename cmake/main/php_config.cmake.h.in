@@ -582,28 +582,28 @@
 /* Have ffi support */
 #cmakedefine HAVE_FFI 1
 
-/* Whether libffi supports the 'FFI_FASTCALL' calling convention. */
+/* Define to 1 if libffi supports the 'FFI_FASTCALL' calling convention. */
 #cmakedefine HAVE_FFI_FASTCALL 1
 
-/* Whether libffi supports the 'FFI_MS_CDECL' calling convention. */
+/* Define to 1 if libffi supports the 'FFI_MS_CDECL' calling convention. */
 #cmakedefine HAVE_FFI_MS_CDECL 1
 
-/* Whether libffi supports the 'FFI_PASCAL' calling convention. */
+/* Define to 1 if libffi supports the 'FFI_PASCAL' calling convention. */
 #cmakedefine HAVE_FFI_PASCAL 1
 
-/* Whether libffi supports the 'FFI_REGISTER' calling convention. */
+/* Define to 1 if libffi supports the 'FFI_REGISTER' calling convention. */
 #cmakedefine HAVE_FFI_REGISTER 1
 
-/* Whether libffi supports the 'FFI_STDCALL' calling convention. */
+/* Define to 1 if libffi supports the 'FFI_STDCALL' calling convention. */
 #cmakedefine HAVE_FFI_STDCALL 1
 
-/* Whether libffi supports the 'FFI_SYSV' calling convention. */
+/* Define to 1 if libffi supports the 'FFI_SYSV' calling convention. */
 #cmakedefine HAVE_FFI_SYSV 1
 
-/* Whether libffi supports the 'FFI_THISCALL' calling convention. */
+/* Define to 1 if libffi supports the 'FFI_THISCALL' calling convention. */
 #cmakedefine HAVE_FFI_THISCALL 1
 
-/* Whether libffi supports the 'FFI_VECTORCALL' calling convention. */
+/* Define to 1 if libffi supports the 'FFI_VECTORCALL' calling convention. */
 #cmakedefine HAVE_FFI_VECTORCALL_PARTIAL 1
 
 /* Define to 1 if you have the 'flock' function. */
@@ -787,7 +787,7 @@
 /* Define to 1 if you have the 'getwd' function. */
 #cmakedefine HAVE_GETWD 1
 
-/* glibc's iconv implementation */
+/* Define to 1 if iconv implementation is glibc. */
 #cmakedefine HAVE_GLIBC_ICONV 1
 
 /* Define to 1 if you have the 'glob' function. */
@@ -814,7 +814,7 @@
 /* */
 #cmakedefine HAVE_IBMDB2 1
 
-/* IBM iconv implementation */
+/* Define to 1 if iconv implementation is IBM. */
 #cmakedefine HAVE_IBM_ICONV 1
 
 /* Define to 1 if PHP extension 'iconv' is available. */
@@ -922,7 +922,7 @@
 /* */
 #cmakedefine HAVE_LIBGD 1
 
-/* Whether libiconv is used */
+/* Define to 1 if you have the 'libiconv' function. */
 #cmakedefine HAVE_LIBICONV 1
 
 /* Define to 1 if you have the 'intl' library. */
@@ -1659,10 +1659,10 @@
 /* Define to 1 if _FPU_SETCW is present and usable. */
 #cmakedefine HAVE__FPU_SETCW 1
 
-/* iconv() is aliased to libiconv() in -liconv */
+/* Define to 1 if 'iconv()' is aliased to 'libiconv()'. */
 #cmakedefine ICONV_ALIASED_LIBICONV 1
 
-/* Whether iconv has broken IGNORE. */
+/* Define to 1 if iconv has broken IGNORE. */
 #cmakedefine ICONV_BROKEN_IGNORE 1
 
 /* */
@@ -1805,7 +1805,7 @@
 /* Define to 1 if you have HP-UX 10.x.-style reentrant time functions. */
 #cmakedefine PHP_HPUX_TIME_R 1
 
-/* Which iconv implementation to use */
+/* The iconv implementation. */
 #cmakedefine PHP_ICONV_IMPL "@PHP_ICONV_IMPL@"
 
 /* Define to 1 you have IRIX-style reentrant time functions. */
