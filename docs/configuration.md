@@ -435,15 +435,15 @@ A list of Autoconf `configure` command-line configuration options, Windows
     </tr>
     <tr>
       <td>--disable-rtld-now</td>
-      <td></td>
+      <td>N/A</td>
       <td>PHP_USE_RTLD_NOW=OFF</td>
-      <td>default</td>
+      <td>default (not available on Windows)</td>
     </tr>
     <tr>
       <td>&emsp;--enable-rtld-now</td>
-      <td></td>
+      <td>N/A</td>
       <td>PHP_USE_RTLD_NOW=ON</td>
-      <td></td>
+      <td>(not available on Windows)</td>
     </tr>
     <tr>
       <td>--enable-short-tags</td>
