@@ -335,7 +335,8 @@
 /* */
 #cmakedefine DBM_VERSION "@DBM_VERSION@"
 
-/* */
+/* Define to string "1" if PHP short open tags '<?' are enabled by default,
+   and to string "0" if they are not.*/
 #define DEFAULT_SHORT_OPEN_TAG "@DEFAULT_SHORT_OPEN_TAG@"
 
 /* Define if dlsym() requires a leading underscore in symbol names. */
@@ -413,7 +414,7 @@
 /* Define to 1 if system has a broken 'getcwd'. */
 #cmakedefine HAVE_BROKEN_GETCWD 1
 
-/* */
+/* Define to 1 if PHP has the <main/build-defs.h> header file. */
 #cmakedefine HAVE_BUILD_DEFS_H 1
 
 /* Define to 1 if compiler supports __sync_bool_compare_and_swap() a.o. */
@@ -676,7 +677,7 @@
    */
 #cmakedefine HAVE_GCC_GLOBAL_REGS 1
 
-/* Whether you have gcov */
+/* Define to 1 if GCOV code coverage is enabled. */
 #cmakedefine HAVE_GCOV 1
 
 /* Define to 1 if GD library has 'gdImageCreateFromAvif'. */
@@ -946,7 +947,7 @@
 /* */
 #cmakedefine HAVE_LIBAVIF 1
 
-/* Define to 1 if the dl library is available. */
+/* Define to 1 if you have the 'dl' library (-ldl). */
 #cmakedefine HAVE_LIBDL 1
 
 /* */
@@ -1902,7 +1903,7 @@
 /* Define to 1 if 'pwrite' declaration with 'off64_t' is missing. */
 #cmakedefine PHP_PWRITE_64 1
 
-/* */
+/* Define to 1 if PHP uses its own SIGCHLD handler, and to 0 if not. */
 #cmakedefine01 PHP_SIGCHILD
 
 /* uname -a output */
@@ -1912,7 +1913,8 @@
    crypt library. */
 #cmakedefine01 PHP_USE_PHP_CRYPT_R
 
-/* Use dlopen with RTLD_NOW instead of RTLD_LAZY */
+/* Define to 1 if 'dlopen()' uses the 'RTLD_NOW' mode flag instead of
+   'RTLD_LAZY'. */
 #cmakedefine PHP_USE_RTLD_NOW 1
 
 /* Define to 1 if 'write(2)' works. */
@@ -1986,7 +1988,7 @@
 #cmakedefine01 ZEND_DEBUG
 #endif
 
-/* */
+/* Define to 1 if Zend fiber uses ucontext instead of boost context. */
 #cmakedefine ZEND_FIBER_UCONTEXT 1
 
 /* Define to 1 if Zend max execution timers are supported and enabled. */
@@ -2007,7 +2009,7 @@
 /* */
 #cmakedefine ZTS 1
 
-/* Define when using musl libc */
+/* Define to 1 when using musl libc. */
 #cmakedefine __MUSL__ 1
 
 /* Define to 'int' if <sys/types.h> doesn't define. */

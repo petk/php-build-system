@@ -113,7 +113,14 @@ mark_as_advanced(PHP_RE2C_CGOTO)
 
 option(PHP_THREAD_SAFETY "Enable thread safety (ZTS)" OFF)
 
-option(PHP_USE_RTLD_NOW "Use dlopen with RTLD_NOW instead of RTLD_LAZY for extensions" OFF)
+cmake_dependent_option(
+  PHP_USE_RTLD_NOW
+  "Use dlopen with the RTLD_NOW mode flag instead of RTLD_LAZY when loading\
+  shared extensions"
+  OFF
+  [[NOT CMAKE_SYSTEM_NAME STREQUAL "Windows"]]
+  OFF
+)
 mark_as_advanced(PHP_USE_RTLD_NOW)
 
 cmake_dependent_option(
