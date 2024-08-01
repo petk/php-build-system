@@ -20,217 +20,234 @@
 /* */
 #cmakedefine CDB_INCLUDE_FILE "@CDB_INCLUDE_FILE@"
 
-/* Whether to build bcmath as dynamic module */
+/* Define to 1 if the PHP extension 'bcmath' is built as a dynamic module. */
 #cmakedefine COMPILE_DL_BCMATH 1
 
-/* Whether to build bz2 as dynamic module */
+/* Define to 1 if the PHP extension 'bz2' is built as a dynamic module. */
 #cmakedefine COMPILE_DL_BZ2 1
 
-/* Whether to build calendar as dynamic module */
+/* Define to 1 if the PHP extension 'calendar' is built as a dynamic module.
+   */
 #cmakedefine COMPILE_DL_CALENDAR 1
 
-/* Whether to build ctype as dynamic module */
+/* Define to 1 if the PHP extension 'ctype' is built as a dynamic module. */
 #cmakedefine COMPILE_DL_CTYPE 1
 
-/* Whether to build curl as dynamic module */
+/* Define to 1 if the PHP extension 'curl' is built as a dynamic module. */
 #cmakedefine COMPILE_DL_CURL 1
 
-/* Whether to build date as dynamic module */
+/* Define to 1 if the PHP extension 'date' is built as a dynamic module. */
 #cmakedefine COMPILE_DL_DATE 1
 
-/* Whether to build dba as dynamic module */
+/* Define to 1 if the PHP extension 'dba' is built as a dynamic module. */
 #cmakedefine COMPILE_DL_DBA 1
 
-/* Whether to build dl_test as dynamic module */
+/* Define to 1 if the PHP extension 'dl_test' is built as a dynamic module. */
 #cmakedefine COMPILE_DL_DL_TEST 1
 
-/* Whether to build dom as dynamic module */
+/* Define to 1 if the PHP extension 'dom' is built as a dynamic module. */
 #cmakedefine COMPILE_DL_DOM 1
 
-/* Whether to build enchant as dynamic module */
+/* Define to 1 if the PHP extension 'enchant' is built as a dynamic module. */
 #cmakedefine COMPILE_DL_ENCHANT 1
 
-/* Whether to build exif as dynamic module */
+/* Define to 1 if the PHP extension 'exif' is built as a dynamic module. */
 #cmakedefine COMPILE_DL_EXIF 1
 
-/* Whether to build ffi as dynamic module */
+/* Define to 1 if the PHP extension 'ffi' is built as a dynamic module. */
 #cmakedefine COMPILE_DL_FFI 1
 
-/* Whether to build fileinfo as dynamic module */
+/* Define to 1 if the PHP extension 'fileinfo' is built as a dynamic module.
+   */
 #cmakedefine COMPILE_DL_FILEINFO 1
 
-/* Whether to build filter as dynamic module */
+/* Define to 1 if the PHP extension 'filter' is built as a dynamic module. */
 #cmakedefine COMPILE_DL_FILTER 1
 
-/* Whether to build ftp as dynamic module */
+/* Define to 1 if the PHP extension 'ftp' is built as a dynamic module. */
 #cmakedefine COMPILE_DL_FTP 1
 
-/* Whether to build gd as dynamic module */
+/* Define to 1 if the PHP extension 'gd' is built as a dynamic module. */
 #cmakedefine COMPILE_DL_GD 1
 
-/* Whether to build gettext as dynamic module */
+/* Define to 1 if the PHP extension 'gettext' is built as a dynamic module. */
 #cmakedefine COMPILE_DL_GETTEXT 1
 
-/* Whether to build gmp as dynamic module */
+/* Define to 1 if the PHP extension 'gmp' is built as a dynamic module. */
 #cmakedefine COMPILE_DL_GMP 1
 
-/* Whether to build hash as dynamic module */
+/* Define to 1 if the PHP extension 'hash' is built as a dynamic module. */
 #cmakedefine COMPILE_DL_HASH 1
 
-/* Whether to build iconv as dynamic module */
+/* Define to 1 if the PHP extension 'iconv' is built as a dynamic module. */
 #cmakedefine COMPILE_DL_ICONV 1
 
-/* Whether to build imap as dynamic module */
+/* Define to 1 if the PHP extension 'imap' is built as a dynamic module. */
 #cmakedefine COMPILE_DL_IMAP 1
 
-/* Whether to build intl as dynamic module */
+/* Define to 1 if the PHP extension 'intl' is built as a dynamic module. */
 #cmakedefine COMPILE_DL_INTL 1
 
-/* Whether to build json as dynamic module */
+/* Define to 1 if the PHP extension 'json' is built as a dynamic module. */
 #cmakedefine COMPILE_DL_JSON 1
 
-/* Whether to build ldap as dynamic module */
+/* Define to 1 if the PHP extension 'ldap' is built as a dynamic module. */
 #cmakedefine COMPILE_DL_LDAP 1
 
-/* Whether to build libxml as dynamic module */
+/* Define to 1 if the PHP extension 'libxml' is built as a dynamic module. */
 #cmakedefine COMPILE_DL_LIBXML 1
 
-/* Whether to build mbstring as dynamic module */
+/* Define to 1 if the PHP extension 'mbstring' is built as a dynamic module.
+   */
 #cmakedefine COMPILE_DL_MBSTRING 1
 
-/* Whether to build mysqli as dynamic module */
+/* Define to 1 if the PHP extension 'mysqli' is built as a dynamic module. */
 #cmakedefine COMPILE_DL_MYSQLI 1
 
-/* Whether to build mysqlnd as dynamic module */
+/* Define to 1 if the PHP extension 'mysqlnd' is built as a dynamic module. */
 #cmakedefine COMPILE_DL_MYSQLND 1
 
-/* Whether to build oci8 as dynamic module */
+/* Define to 1 if the PHP extension 'oci8' is built as a dynamic module. */
 #cmakedefine COMPILE_DL_OCI8 1
 
-/* Whether to build odbc as dynamic module */
+/* Define to 1 if the PHP extension 'odbc' is built as a dynamic module. */
 #cmakedefine COMPILE_DL_ODBC 1
 
-/* Whether to build opcache as dynamic module */
+/* Define to 1 if the PHP extension 'opcache' is built as a dynamic module. */
 #cmakedefine COMPILE_DL_OPCACHE 1
 
-/* Whether to build openssl as dynamic module */
+/* Define to 1 if the PHP extension 'openssl' is built as a dynamic module. */
 #cmakedefine COMPILE_DL_OPENSSL 1
 
-/* Whether to build pcntl as dynamic module */
+/* Define to 1 if the PHP extension 'pcntl' is built as a dynamic module. */
 #cmakedefine COMPILE_DL_PCNTL 1
 
-/* Whether to build pcre as dynamic module */
+/* Define to 1 if the PHP extension 'pcre' is built as a dynamic module. */
 #cmakedefine COMPILE_DL_PCRE 1
 
-/* Whether to build pdo as dynamic module */
+/* Define to 1 if the PHP extension 'pdo' is built as a dynamic module. */
 #cmakedefine COMPILE_DL_PDO 1
 
-/* Whether to build pdo_dblib as dynamic module */
+/* Define to 1 if the PHP extension 'pdo_dblib' is built as a dynamic module.
+   */
 #cmakedefine COMPILE_DL_PDO_DBLIB 1
 
-/* Whether to build pdo_firebird as dynamic module */
+/* Define to 1 if the PHP extension 'pdo_firebird' is built as a dynamic
+   module. */
 #cmakedefine COMPILE_DL_PDO_FIREBIRD 1
 
-/* Whether to build pdo_mysql as dynamic module */
+/* Define to 1 if the PHP extension 'pdo_mysql' is built as a dynamic module.
+   */
 #cmakedefine COMPILE_DL_PDO_MYSQL 1
 
-/* Whether to build pdo_oci as dynamic module */
+/* Define to 1 if the PHP extension 'pdo_oci' is built as a dynamic module. */
 #cmakedefine COMPILE_DL_PDO_OCI 1
 
-/* Whether to build pdo_odbc as dynamic module */
+/* Define to 1 if the PHP extension 'pdo_odbc' is built as a dynamic module.
+   */
 #cmakedefine COMPILE_DL_PDO_ODBC 1
 
-/* Whether to build pdo_pgsql as dynamic module */
+/* Define to 1 if the PHP extension 'pdo_pgsql' is built as a dynamic module.
+   */
 #cmakedefine COMPILE_DL_PDO_PGSQL 1
 
-/* Whether to build pdo_sqlite as dynamic module */
+/* Define to 1 if the PHP extension 'pdo_sqlite' is built as a dynamic module.
+   */
 #cmakedefine COMPILE_DL_PDO_SQLITE 1
 
-/* Whether to build pgsql as dynamic module */
+/* Define to 1 if the PHP extension 'pgsql' is built as a dynamic module. */
 #cmakedefine COMPILE_DL_PGSQL 1
 
-/* Whether to build phar as dynamic module */
+/* Define to 1 if the PHP extension 'phar' is built as a dynamic module. */
 #cmakedefine COMPILE_DL_PHAR 1
 
-/* Whether to build posix as dynamic module */
+/* Define to 1 if the PHP extension 'posix' is built as a dynamic module. */
 #cmakedefine COMPILE_DL_POSIX 1
 
-/* Whether to build pspell as dynamic module */
+/* Define to 1 if the PHP extension 'pspell' is built as a dynamic module. */
 #cmakedefine COMPILE_DL_PSPELL 1
 
-/* Whether to build random as dynamic module */
+/* Define to 1 if the PHP extension 'random' is built as a dynamic module. */
 #cmakedefine COMPILE_DL_RANDOM 1
 
-/* Whether to build readline as dynamic module */
+/* Define to 1 if the PHP extension 'readline' is built as a dynamic module.
+   */
 #cmakedefine COMPILE_DL_READLINE 1
 
-/* Whether to build reflection as dynamic module */
+/* Define to 1 if the PHP extension 'reflection' is built as a dynamic module.
+   */
 #cmakedefine COMPILE_DL_REFLECTION 1
 
-/* Whether to build session as dynamic module */
+/* Define to 1 if the PHP extension 'session' is built as a dynamic module. */
 #cmakedefine COMPILE_DL_SESSION 1
 
-/* Whether to build shmop as dynamic module */
+/* Define to 1 if the PHP extension 'shmop' is built as a dynamic module. */
 #cmakedefine COMPILE_DL_SHMOP 1
 
-/* Whether to build simplexml as dynamic module */
+/* Define to 1 if the PHP extension 'simplexml' is built as a dynamic module.
+   */
 #cmakedefine COMPILE_DL_SIMPLEXML 1
 
-/* Whether to build snmp as dynamic module */
+/* Define to 1 if the PHP extension 'snmp' is built as a dynamic module. */
 #cmakedefine COMPILE_DL_SNMP 1
 
-/* Whether to build soap as dynamic module */
+/* Define to 1 if the PHP extension 'soap' is built as a dynamic module. */
 #cmakedefine COMPILE_DL_SOAP 1
 
-/* Whether to build sockets as dynamic module */
+/* Define to 1 if the PHP extension 'sockets' is built as a dynamic module. */
 #cmakedefine COMPILE_DL_SOCKETS 1
 
-/* Whether to build sodium as dynamic module */
+/* Define to 1 if the PHP extension 'sodium' is built as a dynamic module. */
 #cmakedefine COMPILE_DL_SODIUM 1
 
-/* Whether to build spl as dynamic module */
+/* Define to 1 if the PHP extension 'spl' is built as a dynamic module. */
 #cmakedefine COMPILE_DL_SPL 1
 
-/* Whether to build sqlite3 as dynamic module */
+/* Define to 1 if the PHP extension 'sqlite3' is built as a dynamic module. */
 #cmakedefine COMPILE_DL_SQLITE3 1
 
-/* Whether to build standard as dynamic module */
+/* Define to 1 if the PHP extension 'standard' is built as a dynamic module.
+   */
 #cmakedefine COMPILE_DL_STANDARD 1
 
-/* Whether to build sysvmsg as dynamic module */
+/* Define to 1 if the PHP extension 'sysvmsg' is built as a dynamic module. */
 #cmakedefine COMPILE_DL_SYSVMSG 1
 
-/* Whether to build sysvsem as dynamic module */
+/* Define to 1 if the PHP extension 'sysvsem' is built as a dynamic module. */
 #cmakedefine COMPILE_DL_SYSVSEM 1
 
-/* Whether to build sysvshm as dynamic module */
+/* Define to 1 if the PHP extension 'sysvshm' is built as a dynamic module. */
 #cmakedefine COMPILE_DL_SYSVSHM 1
 
-/* Whether to build tidy as dynamic module */
+/* Define to 1 if the PHP extension 'tidy' is built as a dynamic module. */
 #cmakedefine COMPILE_DL_TIDY 1
 
-/* Whether to build tokenizer as dynamic module */
+/* Define to 1 if the PHP extension 'tokenizer' is built as a dynamic module.
+   */
 #cmakedefine COMPILE_DL_TOKENIZER 1
 
-/* Whether to build xml as dynamic module */
+/* Define to 1 if the PHP extension 'xml' is built as a dynamic module. */
 #cmakedefine COMPILE_DL_XML 1
 
-/* Whether to build xmlreader as dynamic module */
+/* Define to 1 if the PHP extension 'xmlreader' is built as a dynamic module.
+   */
 #cmakedefine COMPILE_DL_XMLREADER 1
 
-/* Whether to build xmlwriter as dynamic module */
+/* Define to 1 if the PHP extension 'xmlwriter' is built as a dynamic module.
+   */
 #cmakedefine COMPILE_DL_XMLWRITER 1
 
-/* Whether to build xsl as dynamic module */
+/* Define to 1 if the PHP extension 'xsl' is built as a dynamic module. */
 #cmakedefine COMPILE_DL_XSL 1
 
-/* Whether to build zend_test as dynamic module */
+/* Define to 1 if the PHP extension 'zend_test' is built as a dynamic module.
+   */
 #cmakedefine COMPILE_DL_ZEND_TEST 1
 
-/* Whether to build zip as dynamic module */
+/* Define to 1 if the PHP extension 'zip' is built as a dynamic module. */
 #cmakedefine COMPILE_DL_ZIP 1
 
-/* Whether to build zlib as dynamic module */
+/* Define to 1 if the PHP extension 'zlib' is built as a dynamic module. */
 #cmakedefine COMPILE_DL_ZLIB 1
 
 /* Autotools-based build system in PHP-8.3 checked for older glibc versions (up
@@ -240,7 +257,7 @@
    provided only for PHP-8.3. */
 #define COOKIE_IO_FUNCTIONS_T cookie_io_functions_t
 
-/* Whether fopencookie seeker uses off64_t. */
+/* Define to 1 if fopencookie seeker uses off64_t. */
 #cmakedefine COOKIE_SEEKER_USES_OFF64_T 1
 
 /* Define to 1 if crypt_r uses CRYPTD. */
@@ -393,7 +410,7 @@
 /* Define to 1 if you have the 'bind_textdomain_codeset' function. */
 #cmakedefine HAVE_BIND_TEXTDOMAIN_CODESET 1
 
-/* Define if system has broken getcwd */
+/* Define to 1 if system has a broken 'getcwd'. */
 #cmakedefine HAVE_BROKEN_GETCWD 1
 
 /* */
@@ -800,7 +817,7 @@
 /* IBM iconv implementation */
 #cmakedefine HAVE_IBM_ICONV 1
 
-/* */
+/* Define to 1 if PHP extension 'iconv' is available. */
 #cmakedefine HAVE_ICONV 1
 
 /* Define to 1 if you have the <ieeefp.h> header file. */
@@ -935,7 +952,7 @@
 /* */
 #cmakedefine HAVE_LIBEDIT 1
 
-/* */
+/* Define to 1 if the system has the Expat XML parser library. */
 #cmakedefine HAVE_LIBEXPAT 1
 
 /* */
@@ -1159,7 +1176,7 @@
 /* Define to 1 if you have the 'prctl' function. */
 #cmakedefine HAVE_PRCTL 1
 
-/* */
+/* Define to 1 if you have the 'pread' function. */
 #cmakedefine HAVE_PREAD 1
 
 /* Define to 1 if you have the 'procctl' function. */
@@ -1195,7 +1212,7 @@
 /* Define to 1 if you have the 'ptrace' function. */
 #cmakedefine HAVE_PTRACE 1
 
-/* Whether ptrdiff_t is available */
+/* Define to 1 if the system has the type 'ptrdiff_t'. */
 #cmakedefine HAVE_PTRDIFF_T 1
 
 /* Define to 1 if you have the <pty.h> header file. */
@@ -1207,7 +1224,7 @@
 /* Define to 1 if you have the <pwd.h> header file. */
 #cmakedefine HAVE_PWD_H 1
 
-/* */
+/* Define to 1 if you have the 'pwrite' function. */
 #cmakedefine HAVE_PWRITE 1
 
 /* Define to 1 if you have the 'RAND_egd' function. */
@@ -1679,7 +1696,7 @@
 /* */
 #cmakedefine HAVE_XSL 1
 
-/* */
+/* Define to 1 if system has the EXSLT extension library for XSLT. */
 #cmakedefine HAVE_XSL_EXSLT 1
 
 /* */
@@ -1720,19 +1737,20 @@
    <sysmacros.h>. */
 #cmakedefine MAJOR_IN_SYSMACROS 1
 
-/* Whether asctime_r is declared */
+/* Define to 1 if 'asctime_r' declaration is missing. */
 #cmakedefine MISSING_ASCTIME_R_DECL 1
 
-/* Whether ctime_r is declared */
+/* Define to 1 if 'ctime_r' declaration is missing. */
 #cmakedefine MISSING_CTIME_R_DECL 1
 
-/* */
+/* Define to 1 if 'fclose' declaration is missing, and to 0 if declaration is
+   available. */
 #cmakedefine01 MISSING_FCLOSE_DECL
 
-/* Whether gmtime_r is declared */
+/* Define to 1 if 'gmtime_r' declaration is missing. */
 #cmakedefine MISSING_GMTIME_R_DECL 1
 
-/* Whether localtime_r is declared */
+/* Define to 1 if 'localtime_r' declaration is missing. */
 #cmakedefine MISSING_LOCALTIME_R_DECL 1
 
 /* Whether strtok_r is declared */
@@ -1789,52 +1807,63 @@
 /* Whether the compiler supports AVX-512 VBMI. */
 #cmakedefine01 PHP_HAVE_AVX512_VBMI_SUPPORTS
 
-/* Whether the compiler supports __builtin_clz */
+/* Define to 1 if the compiler supports '__builtin_clz', and to 0 if not. */
 #cmakedefine01 PHP_HAVE_BUILTIN_CLZ
 
-/* Whether the compiler supports __builtin_clzl */
+/* Define to 1 if the compiler supports '__builtin_clzl', and to 0 if not. */
 #cmakedefine01 PHP_HAVE_BUILTIN_CLZL
 
-/* Whether the compiler supports __builtin_clzll */
+/* Define to 1 if the compiler supports '__builtin_clzll', and to 0 if not. */
 #cmakedefine01 PHP_HAVE_BUILTIN_CLZLL
 
-/* Whether the compiler supports __builtin_cpu_init */
+/* Define to 1 if the compiler supports '__builtin_cpu_init', and to 0 if not.
+   */
 #cmakedefine01 PHP_HAVE_BUILTIN_CPU_INIT
 
-/* Whether the compiler supports __builtin_cpu_supports */
+/* Define to 1 if the compiler supports '__builtin_cpu_supports', and to 0 if
+   not. */
 #cmakedefine01 PHP_HAVE_BUILTIN_CPU_SUPPORTS
 
-/* Whether the compiler supports __builtin_ctzl */
+/* Define to 1 if the compiler supports '__builtin_ctzl', and to 0 if not. */
 #cmakedefine01 PHP_HAVE_BUILTIN_CTZL
 
-/* Whether the compiler supports __builtin_ctzll */
+/* Define to 1 if the compiler supports '__builtin_ctzll', and to 0 if not. */
 #cmakedefine01 PHP_HAVE_BUILTIN_CTZLL
 
-/* Whether the compiler supports __builtin_expect */
+/* Define to 1 if the compiler supports '__builtin_expect', and to 0 if not.
+   */
 #cmakedefine01 PHP_HAVE_BUILTIN_EXPECT
 
-/* Whether the compiler supports __builtin_frame_address */
+/* Define to 1 if the compiler supports '__builtin_frame_address', and to 0 if
+   not. */
 #cmakedefine01 PHP_HAVE_BUILTIN_FRAME_ADDRESS
 
-/* Whether the compiler supports __builtin_saddll_overflow */
+/* Define to 1 if the compiler supports '__builtin_saddll_overflow', and to 0
+   if not */
 #cmakedefine01 PHP_HAVE_BUILTIN_SADDLL_OVERFLOW
 
-/* Whether the compiler supports __builtin_saddl_overflow */
+/* Define to 1 if the compiler supports '__builtin_saddl_overflow', and to 0
+   if not. */
 #cmakedefine01 PHP_HAVE_BUILTIN_SADDL_OVERFLOW
 
-/* Whether the compiler supports __builtin_smulll_overflow */
+/* Define to 1 if the compiler supports '__builtin_smulll_overflow', and to 0
+   if not. */
 #cmakedefine01 PHP_HAVE_BUILTIN_SMULLL_OVERFLOW
 
-/* Whether the compiler supports __builtin_smull_overflow */
+/* Define to 1 if the compiler supports '__builtin_smull_overflow', and to 0
+   if not. */
 #cmakedefine01 PHP_HAVE_BUILTIN_SMULL_OVERFLOW
 
-/* Whether the compiler supports __builtin_ssubll_overflow */
+/* Define to 1 if the compiler supports '__builtin_ssubll_overflow', and to 0
+   if not. */
 #cmakedefine01 PHP_HAVE_BUILTIN_SSUBLL_OVERFLOW
 
-/* Whether the compiler supports __builtin_ssubl_overflow */
+/* Define to 1 if the compiler supports '__builtin_ssubl_overflow', and to 0
+   if not. */
 #cmakedefine01 PHP_HAVE_BUILTIN_SSUBL_OVERFLOW
 
-/* Whether the compiler supports __builtin_usub_overflow */
+/* Define to 1 if the compiler supports '__builtin_usub_overflow', and to 0 if
+   not. */
 #cmakedefine01 PHP_HAVE_BUILTIN_USUB_OVERFLOW
 
 /* Define to 1 if you have HP-UX 10.x.-style reentrant time functions. */
@@ -1867,10 +1896,10 @@
 /* */
 #cmakedefine PHP_PDO_OCI_CLIENT_VERSION "@PHP_PDO_OCI_CLIENT_VERSION@"
 
-/* whether pread64 is default */
+/* Define to 1 if 'pread' declaration with 'off64_t' is missing. */
 #cmakedefine PHP_PREAD_64 1
 
-/* whether pwrite64 is default */
+/* Define to 1 if 'pwrite' declaration with 'off64_t' is missing. */
 #cmakedefine PHP_PWRITE_64 1
 
 /* */
@@ -1898,8 +1927,8 @@
 /* The size of 'int', as computed by sizeof. */
 #cmakedefine SIZEOF_INT @SIZEOF_INT@
 
-/* Size of intmax_t */
-#define SIZEOF_INTMAX_T @SIZEOF_INTMAX_T@
+/* The size of 'intmax_t', as computed by sizeof. */
+#cmakedefine SIZEOF_INTMAX_T @SIZEOF_INTMAX_T@
 
 /* The size of 'long', as computed by sizeof. */
 #cmakedefine SIZEOF_LONG @SIZEOF_LONG@
@@ -1910,13 +1939,13 @@
 /* The size of 'off_t', as computed by sizeof. */
 #cmakedefine SIZEOF_OFF_T @SIZEOF_OFF_T@
 
-/* Size of ptrdiff_t */
+/* The size of 'ptrdiff_t', as computed by sizeof. */
 #cmakedefine SIZEOF_PTRDIFF_T @SIZEOF_PTRDIFF_T@
 
 /* The size of 'size_t', as computed by sizeof. */
 #cmakedefine SIZEOF_SIZE_T @SIZEOF_SIZE_T@
 
-/* Size of ssize_t */
+/* The size of 'ssize_t', as computed by sizeof. */
 #cmakedefine SIZEOF_SSIZE_T @SIZEOF_SSIZE_T@
 
 /* Sqlite3 without extension support */
