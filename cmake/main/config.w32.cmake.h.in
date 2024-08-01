@@ -6,6 +6,240 @@
 #define _WIN32_WINNT 0x0602
 #define NTDDI_VERSION 0x06010000
 
+/* Define to 1 if the PHP extension 'bcmath' is built as a dynamic module. */
+#cmakedefine COMPILE_DL_BCMATH 1
+
+/* Define to 1 if the PHP extension 'bz2' is built as a dynamic module. */
+#cmakedefine COMPILE_DL_BZ2 1
+
+/* Define to 1 if the PHP extension 'calendar' is built as a dynamic module.
+   */
+#cmakedefine COMPILE_DL_CALENDAR 1
+
+/* Define to 1 if the PHP extension 'com_dotnet' is built as a dynamic module.
+   */
+#cmakedefine COMPILE_DL_COM_DOTNET 1
+
+/* Define to 1 if the PHP extension 'ctype' is built as a dynamic module. */
+#cmakedefine COMPILE_DL_CTYPE 1
+
+/* Define to 1 if the PHP extension 'curl' is built as a dynamic module. */
+#cmakedefine COMPILE_DL_CURL 1
+
+/* Define to 1 if the PHP extension 'date' is built as a dynamic module. */
+#cmakedefine COMPILE_DL_DATE 1
+
+/* Define to 1 if the PHP extension 'dba' is built as a dynamic module. */
+#cmakedefine COMPILE_DL_DBA 1
+
+/* Define to 1 if the PHP extension 'dl_test' is built as a dynamic module. */
+#cmakedefine COMPILE_DL_DL_TEST 1
+
+/* Define to 1 if the PHP extension 'dom' is built as a dynamic module. */
+#cmakedefine COMPILE_DL_DOM 1
+
+/* Define to 1 if the PHP extension 'enchant' is built as a dynamic module. */
+#cmakedefine COMPILE_DL_ENCHANT 1
+
+/* Define to 1 if the PHP extension 'exif' is built as a dynamic module. */
+#cmakedefine COMPILE_DL_EXIF 1
+
+/* Define to 1 if the PHP extension 'ffi' is built as a dynamic module. */
+#cmakedefine COMPILE_DL_FFI 1
+
+/* Define to 1 if the PHP extension 'fileinfo' is built as a dynamic module.
+   */
+#cmakedefine COMPILE_DL_FILEINFO 1
+
+/* Define to 1 if the PHP extension 'filter' is built as a dynamic module. */
+#cmakedefine COMPILE_DL_FILTER 1
+
+/* Define to 1 if the PHP extension 'ftp' is built as a dynamic module. */
+#cmakedefine COMPILE_DL_FTP 1
+
+/* Define to 1 if the PHP extension 'gd' is built as a dynamic module. */
+#cmakedefine COMPILE_DL_GD 1
+
+/* Define to 1 if the PHP extension 'gettext' is built as a dynamic module. */
+#cmakedefine COMPILE_DL_GETTEXT 1
+
+/* Define to 1 if the PHP extension 'gmp' is built as a dynamic module. */
+#cmakedefine COMPILE_DL_GMP 1
+
+/* Define to 1 if the PHP extension 'hash' is built as a dynamic module. */
+#cmakedefine COMPILE_DL_HASH 1
+
+/* Define to 1 if the PHP extension 'iconv' is built as a dynamic module. */
+#cmakedefine COMPILE_DL_ICONV 1
+
+/* Define to 1 if the PHP extension 'imap' is built as a dynamic module. */
+#cmakedefine COMPILE_DL_IMAP 1
+
+/* Define to 1 if the PHP extension 'intl' is built as a dynamic module. */
+#cmakedefine COMPILE_DL_INTL 1
+
+/* Define to 1 if the PHP extension 'json' is built as a dynamic module. */
+#cmakedefine COMPILE_DL_JSON 1
+
+/* Define to 1 if the PHP extension 'ldap' is built as a dynamic module. */
+#cmakedefine COMPILE_DL_LDAP 1
+
+/* Define to 1 if the PHP extension 'libxml' is built as a dynamic module. */
+#cmakedefine COMPILE_DL_LIBXML 1
+
+/* Define to 1 if the PHP extension 'mbstring' is built as a dynamic module.
+   */
+#cmakedefine COMPILE_DL_MBSTRING 1
+
+/* Define to 1 if the PHP extension 'mysqli' is built as a dynamic module. */
+#cmakedefine COMPILE_DL_MYSQLI 1
+
+/* Define to 1 if the PHP extension 'mysqlnd' is built as a dynamic module. */
+#cmakedefine COMPILE_DL_MYSQLND 1
+
+/* Define to 1 if the PHP extension 'oci8' is built as a dynamic module. */
+#cmakedefine COMPILE_DL_OCI8 1
+
+/* Define to 1 if the PHP extension 'odbc' is built as a dynamic module. */
+#cmakedefine COMPILE_DL_ODBC 1
+
+/* Define to 1 if the PHP extension 'opcache' is built as a dynamic module. */
+#cmakedefine COMPILE_DL_OPCACHE 1
+
+/* Define to 1 if the PHP extension 'openssl' is built as a dynamic module. */
+#cmakedefine COMPILE_DL_OPENSSL 1
+
+/* Define to 1 if the PHP extension 'pcntl' is built as a dynamic module. */
+#cmakedefine COMPILE_DL_PCNTL 1
+
+/* Define to 1 if the PHP extension 'pcre' is built as a dynamic module. */
+#cmakedefine COMPILE_DL_PCRE 1
+
+/* Define to 1 if the PHP extension 'pdo' is built as a dynamic module. */
+#cmakedefine COMPILE_DL_PDO 1
+
+/* Define to 1 if the PHP extension 'pdo_dblib' is built as a dynamic module.
+   */
+#cmakedefine COMPILE_DL_PDO_DBLIB 1
+
+/* Define to 1 if the PHP extension 'pdo_firebird' is built as a dynamic
+   module. */
+#cmakedefine COMPILE_DL_PDO_FIREBIRD 1
+
+/* Define to 1 if the PHP extension 'pdo_mysql' is built as a dynamic module.
+   */
+#cmakedefine COMPILE_DL_PDO_MYSQL 1
+
+/* Define to 1 if the PHP extension 'pdo_oci' is built as a dynamic module. */
+#cmakedefine COMPILE_DL_PDO_OCI 1
+
+/* Define to 1 if the PHP extension 'pdo_odbc' is built as a dynamic module.
+   */
+#cmakedefine COMPILE_DL_PDO_ODBC 1
+
+/* Define to 1 if the PHP extension 'pdo_pgsql' is built as a dynamic module.
+   */
+#cmakedefine COMPILE_DL_PDO_PGSQL 1
+
+/* Define to 1 if the PHP extension 'pdo_sqlite' is built as a dynamic module.
+   */
+#cmakedefine COMPILE_DL_PDO_SQLITE 1
+
+/* Define to 1 if the PHP extension 'pgsql' is built as a dynamic module. */
+#cmakedefine COMPILE_DL_PGSQL 1
+
+/* Define to 1 if the PHP extension 'phar' is built as a dynamic module. */
+#cmakedefine COMPILE_DL_PHAR 1
+
+/* Define to 1 if the PHP extension 'posix' is built as a dynamic module. */
+#cmakedefine COMPILE_DL_POSIX 1
+
+/* Define to 1 if the PHP extension 'pspell' is built as a dynamic module. */
+#cmakedefine COMPILE_DL_PSPELL 1
+
+/* Define to 1 if the PHP extension 'random' is built as a dynamic module. */
+#cmakedefine COMPILE_DL_RANDOM 1
+
+/* Define to 1 if the PHP extension 'readline' is built as a dynamic module.
+   */
+#cmakedefine COMPILE_DL_READLINE 1
+
+/* Define to 1 if the PHP extension 'reflection' is built as a dynamic module.
+   */
+#cmakedefine COMPILE_DL_REFLECTION 1
+
+/* Define to 1 if the PHP extension 'session' is built as a dynamic module. */
+#cmakedefine COMPILE_DL_SESSION 1
+
+/* Define to 1 if the PHP extension 'shmop' is built as a dynamic module. */
+#cmakedefine COMPILE_DL_SHMOP 1
+
+/* Define to 1 if the PHP extension 'simplexml' is built as a dynamic module.
+   */
+#cmakedefine COMPILE_DL_SIMPLEXML 1
+
+/* Define to 1 if the PHP extension 'snmp' is built as a dynamic module. */
+#cmakedefine COMPILE_DL_SNMP 1
+
+/* Define to 1 if the PHP extension 'soap' is built as a dynamic module. */
+#cmakedefine COMPILE_DL_SOAP 1
+
+/* Define to 1 if the PHP extension 'sockets' is built as a dynamic module. */
+#cmakedefine COMPILE_DL_SOCKETS 1
+
+/* Define to 1 if the PHP extension 'sodium' is built as a dynamic module. */
+#cmakedefine COMPILE_DL_SODIUM 1
+
+/* Define to 1 if the PHP extension 'spl' is built as a dynamic module. */
+#cmakedefine COMPILE_DL_SPL 1
+
+/* Define to 1 if the PHP extension 'sqlite3' is built as a dynamic module. */
+#cmakedefine COMPILE_DL_SQLITE3 1
+
+/* Define to 1 if the PHP extension 'standard' is built as a dynamic module.
+   */
+#cmakedefine COMPILE_DL_STANDARD 1
+
+/* Define to 1 if the PHP extension 'sysvmsg' is built as a dynamic module. */
+#cmakedefine COMPILE_DL_SYSVMSG 1
+
+/* Define to 1 if the PHP extension 'sysvsem' is built as a dynamic module. */
+#cmakedefine COMPILE_DL_SYSVSEM 1
+
+/* Define to 1 if the PHP extension 'sysvshm' is built as a dynamic module. */
+#cmakedefine COMPILE_DL_SYSVSHM 1
+
+/* Define to 1 if the PHP extension 'tidy' is built as a dynamic module. */
+#cmakedefine COMPILE_DL_TIDY 1
+
+/* Define to 1 if the PHP extension 'tokenizer' is built as a dynamic module.
+   */
+#cmakedefine COMPILE_DL_TOKENIZER 1
+
+/* Define to 1 if the PHP extension 'xml' is built as a dynamic module. */
+#cmakedefine COMPILE_DL_XML 1
+
+/* Define to 1 if the PHP extension 'xmlreader' is built as a dynamic module.
+   */
+#cmakedefine COMPILE_DL_XMLREADER 1
+
+/* Define to 1 if the PHP extension 'xmlwriter' is built as a dynamic module.
+   */
+#cmakedefine COMPILE_DL_XMLWRITER 1
+
+/* Define to 1 if the PHP extension 'xsl' is built as a dynamic module. */
+#cmakedefine COMPILE_DL_XSL 1
+
+/* Define to 1 if the PHP extension 'zend_test' is built as a dynamic module.
+   */
+#cmakedefine COMPILE_DL_ZEND_TEST 1
+
+/* Define to 1 if the PHP extension 'zip' is built as a dynamic module. */
+#cmakedefine COMPILE_DL_ZIP 1
+
+/* Define to 1 if the PHP extension 'zlib' is built as a dynamic module. */
+#cmakedefine COMPILE_DL_ZLIB 1
+
 /* Default PHP / PEAR directories */
 #define PHP_CONFIG_FILE_PATH ""
 #define PEAR_INSTALLDIR "@PREFIX@\\pear"
@@ -190,7 +424,7 @@
 
 #define __SSE2__ 1
 
-/* Whether fopencookie seeker uses off64_t. */
+/* Define to 1 if fopencookie seeker uses off64_t. */
 #cmakedefine COOKIE_SEEKER_USES_OFF64_T 1
 
 /* Define to 1 if you have the 'fopencookie' function. */
@@ -375,6 +609,9 @@
 /* have the zlib.h header file */
 #define HAVE_ZLIB_H 0
 
+/* Define to 1 if PHP extension 'iconv' is available. */
+#cmakedefine HAVE_ICONV 1
+
 /* Define to enable JIT */
 #cmakedefine HAVE_JIT 1
 
@@ -520,7 +757,7 @@
 /* Define if xsl extension is enabled */
 #cmakedefine HAVE_XSL 1
 
-/* */
+/* Define to 1 if system has the EXSLT extension library for XSLT. */
 #cmakedefine HAVE_XSL_EXSLT 1
 
 /* */
