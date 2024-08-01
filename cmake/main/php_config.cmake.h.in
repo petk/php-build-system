@@ -817,7 +817,7 @@
 /* IBM iconv implementation */
 #cmakedefine HAVE_IBM_ICONV 1
 
-/* */
+/* Define to 1 if PHP extension 'iconv' is available. */
 #cmakedefine HAVE_ICONV 1
 
 /* Define to 1 if you have the <ieeefp.h> header file. */
@@ -1638,7 +1638,7 @@
 /* */
 #cmakedefine HAVE_XSL 1
 
-/* */
+/* Define to 1 if system has the EXSLT extension library for XSLT. */
 #cmakedefine HAVE_XSL_EXSLT 1
 
 /* */
@@ -1872,7 +1872,7 @@
 /* The size of 'size_t', as computed by sizeof. */
 #cmakedefine SIZEOF_SIZE_T @SIZEOF_SIZE_T@
 
-/* The size of 'ssize_t', as computed by sizeof.  */
+/* The size of 'ssize_t', as computed by sizeof. */
 #cmakedefine SIZEOF_SSIZE_T @SIZEOF_SSIZE_T@
 
 /* Sqlite3 without extension support */
