@@ -254,6 +254,9 @@
 #define PHP_SYSCONFDIR "@PREFIX@"
 
 /* PHP Runtime Configuration */
+
+/* Define to string "1" if PHP short open tags '<?' are enabled by default,
+   and to string "0" if they are not.*/
 #define DEFAULT_SHORT_OPEN_TAG "@DEFAULT_SHORT_OPEN_TAG@"
 
 /* Platform-Specific Configuration. Should not be changed. */
@@ -269,7 +272,9 @@
 /* Define to 1 if ZEND_MM needs 8-byte realignment, and to 0 if not. */
 #define ZEND_MM_NEED_EIGHT_BYTE_REALIGNMENT 0
 
+/* Define to 1 if PHP uses its own SIGCHLD handler, and to 0 if not. */
 #define PHP_SIGCHILD 0
+
 #define HAVE_GETSERVBYNAME 1
 #define HAVE_GETSERVBYPORT 1
 #define HAVE_GETPROTOBYNAME 1
@@ -289,6 +294,8 @@
 #define HAVE_GETCWD 1
 #undef HAVE_SETITIMER
 #undef HAVE_IODBC
+
+/* Define to 1 if you have the 'dl' library. */
 #define HAVE_LIBDL 1
 #define HAVE_GETTIMEOFDAY 1
 #define HAVE_PUTENV 1
@@ -445,7 +452,7 @@
 /* Define to 1 if you have the 'bind_textdomain_codeset' function. */
 #cmakedefine HAVE_BIND_TEXTDOMAIN_CODESET 1
 
-/* */
+/* Define to 1 if PHP has the <main/build-defs.h> header file. */
 #cmakedefine HAVE_BUILD_DEFS_H 1
 
 /* Have BZ2 library */
