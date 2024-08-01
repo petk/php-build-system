@@ -500,28 +500,28 @@
 /* ffi support enabled */
 #cmakedefine HAVE_FFI 1
 
-/* Whether libffi supports the 'FFI_FASTCALL' calling convention. */
+/* Define to 1 if libffi supports the 'FFI_FASTCALL' calling convention. */
 #cmakedefine HAVE_FFI_FASTCALL 1
 
-/* Whether libffi supports the 'FFI_MS_CDECL' calling convention. */
+/* Define to 1 if libffi supports the 'FFI_MS_CDECL' calling convention. */
 #cmakedefine HAVE_FFI_MS_CDECL 1
 
-/* Whether libffi supports the 'FFI_PASCAL' calling convention. */
+/* Define to 1 if libffi supports the 'FFI_PASCAL' calling convention. */
 #cmakedefine HAVE_FFI_PASCAL 1
 
-/* Whether libffi supports the 'FFI_REGISTER' calling convention. */
+/* Define to 1 if libffi supports the 'FFI_REGISTER' calling convention. */
 #cmakedefine HAVE_FFI_REGISTER 1
 
-/* Whether libffi supports the 'FFI_STDCALL' calling convention. */
+/* Define to 1 if libffi supports the 'FFI_STDCALL' calling convention. */
 #cmakedefine HAVE_FFI_STDCALL 1
 
-/* Whether libffi supports the 'FFI_SYSV' calling convention. */
+/* Define to 1 if libffi supports the 'FFI_SYSV' calling convention. */
 #cmakedefine HAVE_FFI_SYSV 1
 
-/* Whether libffi supports the 'FFI_THISCALL' calling convention. */
+/* Define to 1 if libffi supports the 'FFI_THISCALL' calling convention. */
 #cmakedefine HAVE_FFI_THISCALL 1
 
-/* Whether libffi supports the 'FFI_VECTORCALL' calling convention. */
+/* Define to 1 if libffi supports the 'FFI_VECTORCALL' calling convention. */
 #cmakedefine HAVE_FFI_VECTORCALL_PARTIAL 1
 
 /* Have FTP support */
@@ -564,6 +564,12 @@
 
 /* Define to 1 if GD library has 'gdImageCreateFromXpm'. */
 #cmakedefine HAVE_GD_XPM 1
+
+/* Define to 1 if iconv implementation is glibc. */
+#cmakedefine HAVE_GLIBC_ICONV 1
+
+/* Define to 1 if iconv implementation is IBM. */
+#cmakedefine HAVE_IBM_ICONV 1
 
 /* */
 #cmakedefine HAVE_LIBAVIF 1
@@ -700,6 +706,9 @@
 /* */
 #cmakedefine HAVE_LIBEXPAT 1
 
+/* Define to 1 if you have the 'libiconv' function. */
+#cmakedefine HAVE_LIBICONV 1
+
 /* Have SHMOP support */
 #cmakedefine HAVE_SHMOP 1
 
@@ -793,6 +802,15 @@
 
 /* Define to 1 if you have the 'clock_get_time' function. */
 #cmakedefine HAVE_CLOCK_GET_TIME 1
+
+/* Define to 1 if 'iconv()' is aliased to 'libiconv()'. */
+#cmakedefine ICONV_ALIASED_LIBICONV 1
+
+/* Define to 1 if iconv has broken IGNORE. */
+#cmakedefine ICONV_BROKEN_IGNORE 1
+
+/* The iconv implementation. */
+#cmakedefine PHP_ICONV_IMPL "@PHP_ICONV_IMPL@"
 
 #if __has_include("main/config.pickle.h")
 #include "main/config.pickle.h"
