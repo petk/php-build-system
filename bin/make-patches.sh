@@ -13,14 +13,12 @@ patch-cmake-8.3-aspell
 patch-cmake-8.3-dmalloc
 patch-cmake-8.3-phar
 patch-cmake-8.3-php-config
-patch-cmake-8.3-phpdbg-local-console
 patch-cmake-8.4
 patch-cmake-8.4-asm
 patch-cmake-8.4-dmalloc
 patch-cmake-8.4-docs
 patch-cmake-8.4-phar
 patch-cmake-8.4-php-config
-patch-cmake-8.4-phpdbg-local-console
 "
 
 # A list of supported PHP versions.
