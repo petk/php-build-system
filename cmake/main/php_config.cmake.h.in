@@ -336,7 +336,7 @@
 #cmakedefine DBM_VERSION "@DBM_VERSION@"
 
 /* Define to string "1" if PHP short open tags '<?' are enabled by default,
-   and to string "0" if they are not.*/
+   and to string "0" if they are not. */
 #define DEFAULT_SHORT_OPEN_TAG "@DEFAULT_SHORT_OPEN_TAG@"
 
 /* Define if dlsym() requires a leading underscore in symbol names. */
