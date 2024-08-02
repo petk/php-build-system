@@ -256,7 +256,7 @@
 /* PHP Runtime Configuration */
 
 /* Define to string "1" if PHP short open tags '<?' are enabled by default,
-   and to string "0" if they are not.*/
+   and to string "0" if they are not. */
 #define DEFAULT_SHORT_OPEN_TAG "@DEFAULT_SHORT_OPEN_TAG@"
 
 /* Platform-Specific Configuration. Should not be changed. */
