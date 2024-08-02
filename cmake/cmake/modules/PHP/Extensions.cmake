@@ -640,7 +640,7 @@ function(_php_extensions_post_configure directory)
   string(TOUPPER "HAVE_${extension}" symbol)
   set(
     ${symbol} 1
-    CACHE INTERNAL "Whether to enable the ${extension} extension."
+    CACHE INTERNAL "Whether to enable the PHP extension '${extension}'."
   )
 
   get_target_property(extension_type php_${extension} TYPE)
@@ -662,7 +662,8 @@ function(_php_extensions_post_configure directory)
   string(TOUPPER "COMPILE_DL_${extension}" symbol)
   set(
     ${symbol} 1
-    CACHE INTERNAL "Whether ${extension} is built as a shared library."
+    CACHE INTERNAL
+    "Whether the PHP extension '${extension}' is built as a dynamic module."
   )
   target_compile_definitions(php_${extension} PRIVATE ZEND_COMPILE_DL_EXT=1)
 endfunction()

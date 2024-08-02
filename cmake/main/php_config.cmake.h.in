@@ -405,7 +405,7 @@
 /* Define to 1 if the compiler supports the 'aligned' variable attribute. */
 #cmakedefine HAVE_ATTRIBUTE_ALIGNED 1
 
-/* Whether you have bcmath */
+/* Define to 1 if the PHP extension 'bcmath' is available. */
 #cmakedefine HAVE_BCMATH 1
 
 /* Define to 1 if you have the 'bind_textdomain_codeset' function. */
@@ -423,10 +423,10 @@
 /* */
 #cmakedefine HAVE_BUNDLED_PCRE 1
 
-/* */
+/* Define to 1 if the PHP extension 'bz2' is available. */
 #cmakedefine HAVE_BZ2 1
 
-/* */
+/* Define to 1 if the PHP extension 'calendar' is available. */
 #cmakedefine HAVE_CALENDAR 1
 
 /* Libzip >= 1.6.0 with zip_register_cancel_callback_with_state function */
@@ -492,16 +492,16 @@
 /* Define to 1 if you have the 'ctime_r' function. */
 #cmakedefine HAVE_CTIME_R 1
 
-/* */
+/* Define to 1 if the PHP extension 'ctype' is available. */
 #cmakedefine HAVE_CTYPE 1
 
-/* Define to 1 if curl extension is available. */
+/* Define to 1 if the PHP extension 'curl' is available. */
 #cmakedefine HAVE_CURL 1
 
 /* Define to 1 if libcurl is linked against old OpenSSL < 1.1. */
 #cmakedefine HAVE_CURL_OLD_OPENSSL 1
 
-/* */
+/* Define to 1 if the PHP extension 'dba' is available. */
 #cmakedefine HAVE_DBA 1
 
 /* Whether you want DBMaker */
@@ -541,7 +541,7 @@
 /* Define to 1 if you have the 'dn_skipname' function. */
 #cmakedefine HAVE_DN_SKIPNAME 1
 
-/* Define to 1 if dom extension is available. */
+/* Define to 1 if the PHP extension 'dom' is available. */
 #cmakedefine HAVE_DOM 1
 
 /* Define to 1 if DTrace support is enabled. */
@@ -553,7 +553,7 @@
 /* */
 #cmakedefine HAVE_EMPRESS 1
 
-/* */
+/* Define to 1 if the PHP extension 'enchant' is available. */
 #cmakedefine HAVE_ENCHANT 1
 
 /* enchant_broker_set_param since 1.5.0 and removed in 2.x */
@@ -571,7 +571,7 @@
 /* */
 #cmakedefine HAVE_ESOOB 1
 
-/* Whether you want EXIF (metadata from images) support */
+/* Define to 1 if the PHP extension 'exif' is available. */
 #cmakedefine HAVE_EXIF 1
 
 /* Define to 1 if you have the 'explicit_bzero' function. */
@@ -586,7 +586,7 @@
 /* Define to 1 if you have the 'fdatasync' function. */
 #cmakedefine HAVE_FDATASYNC 1
 
-/* Have ffi support */
+/* Define to 1 if the PHP extension 'ffi' is available. */
 #cmakedefine HAVE_FFI 1
 
 /* Define to 1 if libffi supports the 'FFI_FASTCALL' calling convention. */
@@ -646,7 +646,7 @@
 /* Define to 1 if you have the 'ftok' function. */
 #cmakedefine HAVE_FTOK 1
 
-/* Whether you want FTP support */
+/* Define to 1 if the PHP extension 'ftp' is available. */
 #cmakedefine HAVE_FTP 1
 
 /* Whether FTP over SSL is supported */
@@ -794,7 +794,7 @@
 /* Define to 1 if you have the 'glob' function. */
 #cmakedefine HAVE_GLOB 1
 
-/* */
+/* Define to 1 if the PHP extension 'gmp' is available. */
 #cmakedefine HAVE_GMP 1
 
 /* Define to 1 if you have the 'gmtime_r' function. */
@@ -818,7 +818,7 @@
 /* Define to 1 if iconv implementation is IBM. */
 #cmakedefine HAVE_IBM_ICONV 1
 
-/* Define to 1 if PHP extension 'iconv' is available. */
+/* Define to 1 if the PHP extension 'iconv' is available. */
 #cmakedefine HAVE_ICONV 1
 
 /* Define to 1 if you have the <ieeefp.h> header file. */
@@ -908,7 +908,7 @@
 /* Define to 1 if you have the 'lchown' function. */
 #cmakedefine HAVE_LCHOWN 1
 
-/* */
+/* Define to 1 if the PHP extension 'ldap' is available. */
 #cmakedefine HAVE_LDAP 1
 
 /* Define to 1 if you have the 'ldap_control_find' function. */
@@ -989,7 +989,7 @@
 /* */
 #cmakedefine HAVE_LIBWEBP 1
 
-/* Define to 1 if libxml extension is available. */
+/* Define to 1 if the PHP extension 'libxml' is available. */
 #cmakedefine HAVE_LIBXML 1
 
 /* Libzip >= 1.3.1 with zip_libzip_version function */
@@ -1025,7 +1025,7 @@
 /* whether to have multibyte regex support */
 #cmakedefine HAVE_MBREGEX 1
 
-/* whether to have multibyte string support */
+/* Define to 1 if the PHP extension 'mbstring' is available. */
 #cmakedefine HAVE_MBSTRING 1
 
 /* Define to 1 if you have the 'memcntl' function. */
@@ -1134,13 +1134,13 @@
 /* */
 #cmakedefine HAVE_PDO_FIREBIRD 1
 
-/* Whether to build PostgreSQL for PDO support or not */
+/* Define to 1 if the PHP extension 'pdo_pgsql' is available. */
 #cmakedefine HAVE_PDO_PGSQL 1
 
 /* Define to 1 if you have the pdo_sqlite extension enabled. */
 #cmakedefine HAVE_PDO_SQLITELIB 1
 
-/* Whether to build PostgreSQL support or not */
+/* Define to 1 if the PHP extension 'pgsql' is available. */
 #cmakedefine HAVE_PGSQL 1
 
 /* Whether libpq is compiled with --enable-multibyte */
@@ -1155,7 +1155,7 @@
 /* */
 #cmakedefine HAVE_PHPDBG_READLINE 1
 
-/* */
+/* Define to 1 if the PHP extension 'session' is available. */
 #cmakedefine HAVE_PHP_SESSION 1
 
 /* Define to 1 if you have the 'poll' function. */
@@ -1167,7 +1167,7 @@
 /* Define to 1 if you have the 'port_create' function. */
 #cmakedefine HAVE_PORT 1
 
-/* whether to include POSIX-like functions */
+/* Define to 1 if the PHP extension 'posix' is available. */
 #cmakedefine HAVE_POSIX 1
 
 /* Define to 1 if you have the 'posix_spawn_file_actions_addchdir_np'
@@ -1309,7 +1309,7 @@
 /* Libzip >= 1.0.0 with zip_file_set_mtime */
 #cmakedefine HAVE_SET_MTIME 1
 
-/* */
+/* Define to 1 if the PHP extension 'shmop' is available. */
 #cmakedefine HAVE_SHMOP 1
 
 /* Define to 1 if you have the SysV IPC SHM support. */
@@ -1342,13 +1342,13 @@
 /* Define to 1 if you have the 'sigwaitinfo' function. */
 #cmakedefine HAVE_SIGWAITINFO 1
 
-/* Define to 1 if simplexml extension is available. */
+/* Define to 1 if the PHP extension 'simplexml' is available. */
 #cmakedefine HAVE_SIMPLEXML 1
 
 /* Define if hash3 algo is available */
 #cmakedefine HAVE_SLOW_HASH3 1
 
-/* */
+/* Define to 1 if the PHP extension 'snmp' is available. */
 #cmakedefine HAVE_SNMP 1
 
 /* */
@@ -1357,7 +1357,7 @@
 /* */
 #cmakedefine HAVE_SNMP_SHA512 1
 
-/* Define to 1 if soap extension is available. */
+/* Define to 1 if the PHP extension 'soap' is available. */
 #cmakedefine HAVE_SOAP 1
 
 /* Define to 1 if 'sa_len' is a member of 'struct sockaddr'. */
@@ -1375,7 +1375,7 @@
 /* Define to 1 if you have the 'socketpair' function. */
 #cmakedefine HAVE_SOCKETPAIR 1
 
-/* */
+/* Define to 1 if the PHP extension 'sockets' is available. */
 #cmakedefine HAVE_SOCKETS 1
 
 /* Define to 1 if the system has the type 'socklen_t'. */
@@ -1399,7 +1399,7 @@
 /* Define to 1 if you have the <sqlext.h> header file. */
 #cmakedefine HAVE_SQLEXT_H 1
 
-/* Define to 1 if you have the sqlite3 extension enabled. */
+/* Define to 1 if the PHP extension 'sqlite3' is available. */
 #cmakedefine HAVE_SQLITE3 1
 
 /* have sqlite3_close_v2 */
@@ -1501,13 +1501,13 @@
 /* Define to 1 if FPM has systemd integration. */
 #cmakedefine HAVE_SYSTEMD 1
 
-/* */
+/* Define to 1 if the PHP extension 'sysvmsg' is available. */
 #cmakedefine HAVE_SYSVMSG 1
 
-/* */
+/* Define to 1 if the PHP extension 'sysvsem' is available. */
 #cmakedefine HAVE_SYSVSEM 1
 
-/* */
+/* Define to 1 if the PHP extension 'sysvshm' is available. */
 #cmakedefine HAVE_SYSVSHM 1
 
 /* Define to 1 if you have the <sys/acl.h> header file. */
@@ -1591,7 +1591,7 @@
 /* Define to 1 if you have the <sys/wait.h> header file. */
 #cmakedefine HAVE_SYS_WAIT_H 1
 
-/* */
+/* Define to 1 if the PHP extension 'tidy' is available. */
 #cmakedefine HAVE_TIDY 1
 
 /* defined if tidybuffio.h exists */
@@ -1642,7 +1642,7 @@
 /* Define to 1 if you have the 'unshare' function. */
 #cmakedefine HAVE_UNSHARE 1
 
-/* */
+/* Define to 1 if the PHP extension 'odbc' is available. */
 #cmakedefine HAVE_UODBC 1
 
 /* Define to 1 if faulting on write-protected memory support can be compiled
@@ -1682,31 +1682,31 @@
 /* Define to 1 if you have the <wmmintrin.h> header file. */
 #cmakedefine HAVE_WMMINTRIN_H 1
 
-/* Define to 1 if xml extension is available. */
+/* Define to 1 if the PHP extension 'xml' is available. */
 #cmakedefine HAVE_XML 1
 
-/* Define to 1 if xmlreader extension is available. */
+/* Define to 1 if the PHP extension 'xmlreader' is available. */
 #cmakedefine HAVE_XMLREADER 1
 
-/* Define to 1 if xmlwriter extension is available. */
+/* Define to 1 if the PHP extension 'xmlwriter' is available. */
 #cmakedefine HAVE_XMLWRITER 1
 
 /* */
 #cmakedefine HAVE_XPM 1
 
-/* */
+/* Define to 1 if the PHP extension 'xsl' is available. */
 #cmakedefine HAVE_XSL 1
 
 /* Define to 1 if system has the EXSLT extension library for XSLT. */
 #cmakedefine HAVE_XSL_EXSLT 1
 
-/* */
+/* Define to 1 if the PHP extension 'zip' is available. */
 #cmakedefine HAVE_ZIP 1
 
 /* */
 #cmakedefine ZIP_STATIC 1
 
-/* Define to 1 if zlib extension is available. */
+/* Define to 1 if the PHP extension 'zlib' is available. */
 #cmakedefine HAVE_ZLIB 1
 
 /* Define to 1 if _controlfp is present and usable. */
