@@ -382,6 +382,9 @@
 
 #define HAVE_NICE
 
+/* Define to 1 if the system has the 'libargon2' library. */
+#cmakedefine HAVE_ARGON2LIB 1
+
 /* Define to 1 if the system has the 'ifunc' function attribute */
 #cmakedefine HAVE_FUNC_ATTRIBUTE_IFUNC 1
 
@@ -483,7 +486,7 @@
 /* Define to 1 if the PHP extension 'dba' is available. */
 #cmakedefine HAVE_DBA 1
 
-/* Have timelib_config.h */
+/* Define to 1 if you have the <timelib_config.h> header file. */
 #cmakedefine HAVE_TIMELIB_CONFIG_H 1
 
 /* Define to 1 if you have the 'dcngettext' function. */
@@ -543,6 +546,7 @@
 /* Define to 1 if the PHP extension 'gmp' is available. */
 #cmakedefine HAVE_GMP 1
 
+/* Define to 1 if mhash support is enabled. */
 #cmakedefine PHP_MHASH_BC 1
 
 /* Define to 1 if GD library has 'gdImageCreateFromAvif'. */
@@ -620,6 +624,9 @@
 /* Whether libpq is compiled with --enable-multibyte */
 #cmakedefine HAVE_PGSQL_WITH_MULTIBYTE_SUPPORT 1
 
+/* Define to 1 if the phpdbg SAPI has libedit/readline integration. */
+#cmakedefine HAVE_PHPDBG_READLINE 1
+
 /* Define to 1 if the PHP extension 'pdo_pgsql' is available. */
 #cmakedefine HAVE_PDO_PGSQL 1
 
@@ -638,7 +645,7 @@
 /* Define to 1 if the PHP extension 'iconv' is available. */
 #cmakedefine HAVE_ICONV 1
 
-/* Define to enable JIT */
+/* Define to 1 to enable JIT. */
 #cmakedefine HAVE_JIT 1
 
 /* Define to 1 if the PHP extension 'ldap' is available. */
@@ -650,7 +657,7 @@
 /* Define to 1 if the PHP extension 'mbstring' is available. */
 #cmakedefine HAVE_MBSTRING 1
 
-/* whether to have multibyte regex support */
+/* Define to 1 if mbstring has multibyte regex support enabled. */
 #cmakedefine HAVE_MBREGEX 1
 
 /* Define to 1 if oniguruma has an invalid entry for KOI8 encoding. */
@@ -686,7 +693,8 @@
 /* Define to 1 if you have the 'RAND_egd' function. */
 #cmakedefine HAVE_RAND_EGD 1
 
-/* Use system default cipher list instead of hardcoded value */
+/* Define to 1 to use system default cipher list instead of the hardcoded
+   value in OpenSSL. */
 #cmakedefine USE_OPENSSL_SYSTEM_CIPHERS 1
 
 /* Using bundled PCRE library */
@@ -701,7 +709,7 @@
 /* Define to 1 if PCRE JIT is enabled and supported. */
 #cmakedefine HAVE_PCRE_JIT_SUPPORT 1
 
-/* Define to 1 if you have a working ttyname_r. */
+/* Define to 1 if you have a working 'ttyname_r' function. */
 #cmakedefine HAVE_TTYNAME_R 1
 
 /* */
@@ -749,7 +757,7 @@
 /* Define to 1 if the PHP extension 'sockets' is available. */
 #cmakedefine HAVE_SOCKETS 1
 
-/* Whether you have libmm */
+/* Define to 1 if the system has the 'mm' library. */
 #cmakedefine HAVE_LIBMM 1
 
 /* Have the Sodium library */
@@ -785,7 +793,7 @@
 /* Define to 1 if the PHP extension 'xsl' is available. */
 #cmakedefine HAVE_XSL 1
 
-/* Define to 1 if system has the EXSLT extension library for XSLT. */
+/* Define to 1 if the system has the EXSLT extension library for XSLT. */
 #cmakedefine HAVE_XSL_EXSLT 1
 
 /* Define to 1 if the PHP extension 'zip' is available. */

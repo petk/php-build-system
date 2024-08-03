@@ -342,7 +342,7 @@
 /* Define if dlsym() requires a leading underscore in symbol names. */
 #cmakedefine DLSYM_NEEDS_UNDERSCORE 1
 
-/* Whether to enable chroot() function */
+/* Define to 1 to enable the 'chroot' function. */
 #cmakedefine ENABLE_CHROOT_FUNC 1
 
 /* */
@@ -384,7 +384,7 @@
 /* Define to 1 if AppArmor confinement is available for PHP-FPM. */
 #cmakedefine HAVE_APPARMOR 1
 
-/* */
+/* Define to 1 if the system has the 'libargon2' library. */
 #cmakedefine HAVE_ARGON2LIB 1
 
 /* Define to 1 if you have the <arpa/inet.h> header file. */
@@ -809,7 +809,7 @@
 /* Define to 1 if you have the 'hstrerror' function. */
 #cmakedefine HAVE_HSTRERROR 1
 
-/* Define to enable copying PHP CODE pages into HUGE PAGES (experimental) */
+/* Define to 1 to enable copying PHP CODE pages into HUGE PAGES. */
 #cmakedefine HAVE_HUGE_CODE_PAGES 1
 
 /* */
@@ -890,7 +890,7 @@
 /* Define to 1 if you have the <isql.h> header file. */
 #cmakedefine HAVE_ISQL_H 1
 
-/* Define to enable JIT */
+/* Define to 1 to enable JIT. */
 #cmakedefine HAVE_JIT 1
 
 /* whether to enable JavaScript Object Serialization support */
@@ -971,7 +971,7 @@
 /* */
 #cmakedefine HAVE_LIBJPEG 1
 
-/* Whether you have libmm */
+/* Define to 1 if the system has the 'mm' library. */
 #cmakedefine HAVE_LIBMM 1
 
 /* */
@@ -1022,7 +1022,7 @@
 /* Define to 1 if you have the 'makedev' function. */
 #cmakedefine HAVE_MAKEDEV 1
 
-/* whether to have multibyte regex support */
+/* Define to 1 if mbstring has multibyte regex support enabled. */
 #cmakedefine HAVE_MBREGEX 1
 
 /* Define to 1 if the PHP extension 'mbstring' is available. */
@@ -1152,7 +1152,7 @@
 /* PostgreSQL 9.3 or later */
 #cmakedefine HAVE_PG_LO64 1
 
-/* */
+/* Define to 1 if the phpdbg SAPI has libedit/readline integration. */
 #cmakedefine HAVE_PHPDBG_READLINE 1
 
 /* Define to 1 if the PHP extension 'session' is available. */
@@ -1345,7 +1345,7 @@
 /* Define to 1 if the PHP extension 'simplexml' is available. */
 #cmakedefine HAVE_SIMPLEXML 1
 
-/* Define if hash3 algo is available */
+/* Define to 1 if the PHP hash extension uses the slow SHA3 algorithm. */
 #cmakedefine HAVE_SLOW_HASH3 1
 
 /* Define to 1 if the PHP extension 'snmp' is available. */
@@ -1609,7 +1609,7 @@
 /* Define to 1 if you have the <tidy.h> header file. */
 #cmakedefine HAVE_TIDY_H 1
 
-/* Have timelib_config.h */
+/* Define to 1 if you have the <timelib_config.h> header file. */
 #cmakedefine HAVE_TIMELIB_CONFIG_H 1
 
 /* Define to 1 if you have the 'times' function. */
@@ -1618,7 +1618,7 @@
 /* Define to 1 if you have the <tmmintrin.h> header file. */
 #cmakedefine HAVE_TMMINTRIN_H 1
 
-/* Define to 1 if you have a working ttyname_r. */
+/* Define to 1 if you have a working 'ttyname_r' function. */
 #cmakedefine HAVE_TTYNAME_R 1
 
 /* Define to 1 if you have the 'tzset' function. */
@@ -1697,7 +1697,7 @@
 /* Define to 1 if the PHP extension 'xsl' is available. */
 #cmakedefine HAVE_XSL 1
 
-/* Define to 1 if system has the EXSLT extension library for XSLT. */
+/* Define to 1 if the system has the EXSLT extension library for XSLT. */
 #cmakedefine HAVE_XSL_EXSLT 1
 
 /* Define to 1 if the PHP extension 'zip' is available. */
@@ -1876,7 +1876,7 @@
 /* Define to 1 you have IRIX-style reentrant time functions. */
 #cmakedefine PHP_IRIX_TIME_R 1
 
-/* */
+/* Define to 1 if mhash support is enabled. */
 #cmakedefine PHP_MHASH_BC 1
 
 /* */
@@ -1968,10 +1968,11 @@
 /* */
 #cmakedefine USE_GD_JISX0208 1
 
-/* Define if cross-process locking is required by accept() */
+/* Define to 1 if cross-process locking is required by 'accept()'. */
 #cmakedefine USE_LOCKING 1
 
-/* Use system default cipher list instead of hardcoded value */
+/* Define to 1 to use system default cipher list instead of the hardcoded
+   value in OpenSSL. */
 #cmakedefine USE_OPENSSL_SYSTEM_CIPHERS 1
 
 @PHP_SYSTEM_EXTENSIONS@
