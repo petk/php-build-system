@@ -49,7 +49,7 @@ target_compile_definitions(
     HAVE_STRTOLL
 )
 
-set(HAVE_TIMELIB_CONFIG_H 1 CACHE INTERNAL "Have timelib_config.h")
+set(HAVE_TIMELIB_CONFIG_H 1 CACHE INTERNAL "Whether you have timelib_config.h.")
 
 message(STATUS "Creating ext/date/lib/timelib_config.h")
 file(WRITE ${CMAKE_CURRENT_BINARY_DIR}/lib/timelib_config.h [[

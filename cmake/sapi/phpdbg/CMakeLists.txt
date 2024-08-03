@@ -128,7 +128,10 @@ if(SAPI_PHPDBG_READLINE AND EXT_READLINE)
       $<$<TARGET_EXISTS:php_readline>:$<TARGET_PROPERTY:php_readline,IMPORTED_LINK_INTERFACE_LIBRARIES>>
   )
 
-  set(HAVE_PHPDBG_READLINE 1 CACHE INTERNAL "Whether phpdbg has readline support")
+  set(
+    HAVE_PHPDBG_READLINE 1
+    CACHE INTERNAL "Whether phpdbg has libedit/readline support"
+  )
 elseif(SAPI_PHPDBG_READLINE)
   message(CHECK_FAIL "disabled")
   message(WARNING "Set 'EXT_READLINE=ON' to enable readline support in phpdbg")

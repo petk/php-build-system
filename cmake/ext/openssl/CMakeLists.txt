@@ -108,7 +108,7 @@ if(TARGET OpenSSL::SSL)
   if(EXT_OPENSSL_SYSTEM_CIPHERS)
     set(
       USE_OPENSSL_SYSTEM_CIPHERS 1
-      CACHE INTERNAL "Use system default cipher list instead of hardcoded value"
+      CACHE INTERNAL "Whether to use system default cipher list instead of hardcoded value"
     )
   endif()
 endif()
