@@ -19,10 +19,10 @@ cmake_dependent_option(
 
 cmake_dependent_option(
   EXT_FTP_SSL
-  "Explicitly enable FTP SSL support when building without openssl extension\
-  (EXT_OPENSSL=OFF). If openssl extension is enabled (EXT_OPENSSL=ON) at the\
-  configuration phase, FTP SSL will be enabled implicitly regardless of this\
-  option."
+  "Explicitly enable FTP over SSL support when building without openssl\
+  extension (EXT_OPENSSL=OFF) or when using phpize. If the openssl extension is\
+  enabled at the configure step (EXT_OPENSSL=ON), FTP-SSL is enabled implicitly\
+  regardless of this option."
   OFF
   "EXT_FTP;NOT EXT_OPENSSL"
   OFF
@@ -65,7 +65,7 @@ function(php_ftp_post_configuration)
   add_feature_info(
     "ext/ftp SSL"
     HAVE_FTP_SSL
-    "FTP SSL support"
+    "FTP over SSL support"
   )
 endfunction()
 

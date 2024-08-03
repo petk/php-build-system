@@ -33,10 +33,10 @@ add_feature_info(
 
 cmake_dependent_option(
   EXT_MYSQLND_SSL
-  "Explicitly enable SSL support in mysqlnd extension when building without\
-  openssl extension (EXT_OPENSSL=OFF). If openssl extension is enabled\
-  (EXT_OPENSSL=ON) at the configuration phase, SSL in mysqlnd will be enabled\
-  implicitly regardless of this option."
+  "Explicitly enable extended SSL support in the mysqlnd extension when\
+  building without openssl extension (EXT_OPENSSL=OFF) or when using phpize. If\
+  the openssl extension is enabled at the configure step (EXT_OPENSSL=ON),\
+  extended SSL is enabled implicitly regardless of this option."
   OFF
   "EXT_MYSQLND;NOT EXT_OPENSSL"
   OFF
