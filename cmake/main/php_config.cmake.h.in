@@ -1200,7 +1200,7 @@
 /* Define to 1 if you have the 'scandir' function. */
 #cmakedefine HAVE_SCANDIR 1
 
-/* Whether sched_getcpu is properly supported */
+/* Define to 1 if the 'sched_getcpu' function is properly supported. */
 #cmakedefine HAVE_SCHED_GETCPU 1
 
 /* Define to 1 if you have the 'sched_setaffinity' function. */
@@ -1672,7 +1672,8 @@
 /* */
 #cmakedefine LMDB_INCLUDE_FILE "@LMDB_INCLUDE_FILE@"
 
-/* Load legacy algorithm provider in addition to default provider */
+/* Define to 1 to load the OpenSSL legacy algorithm provider in addition to
+   the default provider. */
 #cmakedefine LOAD_OPENSSL_LEGACY_PROVIDER 1
 
 /* Define to 1 if 'major', 'minor', and 'makedev' are declared in <mkdev.h>.

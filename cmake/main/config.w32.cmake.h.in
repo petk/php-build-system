@@ -668,7 +668,8 @@
 /* Enable core mysqlnd SSL code */
 #cmakedefine MYSQLND_SSL_SUPPORTED 1
 
-/* Load legacy algorithm provider in addition to default provider */
+/* Define to 1 to load the OpenSSL legacy algorithm provider in addition to
+   the default provider. */
 #cmakedefine LOAD_OPENSSL_LEGACY_PROVIDER 1
 
 /* Define to 1 if you have the SysV IPC SHM support. */
