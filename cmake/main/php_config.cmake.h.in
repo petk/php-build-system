@@ -330,7 +330,7 @@
 /* Define to 1 when aarch64 CRC32 API is available. */
 #cmakedefine HAVE_AARCH64_CRC32 1
 
-/* */
+/* Define to 1 if the odbc extension uses the Adabas D. */
 #cmakedefine HAVE_ADABAS 1
 
 /* Define to 1 if the compiler supports '__alignof__'. */
@@ -429,7 +429,7 @@
 /* Define to 1 if you have the 'clock_get_time' function. */
 #cmakedefine HAVE_CLOCK_GET_TIME 1
 
-/* */
+/* Define to 1 if the odbc extension uses custom ODBC installation. */
 #cmakedefine HAVE_CODBC 1
 
 /* Define to 1 if you have the <CommonCrypto/CommonRandom.h> header file. */
@@ -471,7 +471,7 @@
 /* Define to 1 if the PHP extension 'dba' is available. */
 #cmakedefine HAVE_DBA 1
 
-/* Whether you want DBMaker */
+/* Define to 1 if the odbc extension uses the DBMaker. */
 #cmakedefine HAVE_DBMAKER 1
 
 /* Define to 1 if you have the 'dcngettext' function. */
@@ -545,7 +545,7 @@
 /* Define to 1 if you have the 'eaccess' function. */
 #cmakedefine HAVE_EACCESS 1
 
-/* */
+/* Define to 1 if the odbc extension uses the Empress. */
 #cmakedefine HAVE_EMPRESS 1
 
 /* Define to 1 if the PHP extension 'enchant' is available. */
@@ -566,7 +566,7 @@
 /* Define to 1 if edit/readline library has 'rl_erase_empty_line' variable. */
 #cmakedefine HAVE_ERASE_EMPTY_LINE 1
 
-/* */
+/* Define to 1 if the odbc extension uses the Easysoft OOB. */
 #cmakedefine HAVE_ESOOB 1
 
 /* Define to 1 if the PHP extension 'exif' is available. */
@@ -816,7 +816,7 @@
 /* Define to 1 to enable copying PHP CODE pages into HUGE PAGES. */
 #cmakedefine HAVE_HUGE_CODE_PAGES 1
 
-/* */
+/* Define to 1 if the odbc extension uses the IBM DB2. */
 #cmakedefine HAVE_IBMDB2 1
 
 /* Define to 1 if iconv implementation is IBM. */
@@ -840,7 +840,7 @@
 /* Define to 1 if you have the 'initgroups' function. */
 #cmakedefine HAVE_INITGROUPS 1
 
-/* */
+/* Define to 1 if the odbc extension uses the iODBC. */
 #cmakedefine HAVE_IODBC 1
 
 /* Define to 1 if you have the <iodbc.h> header file. */
@@ -1198,7 +1198,7 @@
 /* */
 #cmakedefine HAVE_RL_ON_NEW_LINE 1
 
-/* */
+/* Define to 1 if the odbc extension uses the SAP DB. */
 #cmakedefine HAVE_SAPDB 1
 
 /* Define to 1 if you have the 'scandir' function. */
@@ -1312,13 +1312,13 @@
 /* Define to 1 if the system has the type 'socklen_t'. */
 #cmakedefine HAVE_SOCKLEN_T 1
 
-/* */
+/* Define to 1 if the odbc extension uses the Solid DB. */
 #cmakedefine HAVE_SOLID 1
 
-/* */
+/* Define to 1 if Solid DB 3.0 is used. */
 #cmakedefine HAVE_SOLID_30 1
 
-/* */
+/* Define to 1 if Solid DB 3.5 is used. */
 #cmakedefine HAVE_SOLID_35 1
 
 /* Define to 1 if you have the <sqlcli1.h> header file. */
@@ -1574,7 +1574,7 @@
 /* Define to 1 if you have the <unistd.h> header file. */
 #cmakedefine HAVE_UNISTD_H 1
 
-/* */
+/* Define to 1 if the odbc extension uses the unixODBC. */
 #cmakedefine HAVE_UNIXODBC 1
 
 /* Define to 1 if you have the <unix.h> header file. */
@@ -1716,7 +1716,7 @@
 /* The NDBM handler header file. */
 #cmakedefine NDBM_INCLUDE_FILE "@NDBM_INCLUDE_FILE@"
 
-/* The highest supported ODBC version */
+/* The highest supported ODBC version. */
 #cmakedefine ODBCVER @ODBCVER@
 
 /* Number of bits in non-UTF mode for PCRE library. */
@@ -1886,10 +1886,12 @@
 /* Sqlite3 without extension support */
 #cmakedefine SQLITE_OMIT_LOAD_EXTENSION 1
 
-/* Needed in sqlunix.h for wchar defs */
+/* Define to 1 to be able to use the wchar defs in the obsolete <sqlunix.h>
+   header file on some FreeBSD systems. */
 #cmakedefine SS_FBX 1
 
-/* Needed in sqlunix.h */
+/* Define to 1 to be able to use the obsolete <sqlunix.h> header file on some
+   Linux systems. */
 #cmakedefine SS_LINUX 1
 
 /* Define to 1 if strerror_r returns char *. */
