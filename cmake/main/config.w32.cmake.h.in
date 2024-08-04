@@ -367,8 +367,6 @@
 #define STDIN_FILENO 0
 #define STDOUT_FILENO 1
 #define STDERR_FILENO 2
-#undef HAVE_ADABAS
-#undef HAVE_SOLID
 #undef HAVE_SYMLINK
 
 /* its in win32/time.c */
@@ -465,6 +463,9 @@
 #define HAVE_FTOK 1
 
 #define HAVE_NICE
+
+/* Define to 1 if the odbc extension uses the Adabas D. */
+#cmakedefine HAVE_ADABAS 1
 
 /* Define to 1 if the system has the 'libargon2' library. */
 #cmakedefine HAVE_ARGON2LIB 1
@@ -771,6 +772,9 @@
 /* Define to 1 if mbstring has multibyte regex support enabled. */
 #cmakedefine HAVE_MBREGEX 1
 
+/* Define to 1 if the odbc extension uses the Solid DB. */
+#cmakedefine HAVE_SOLID 1
+
 /* Define to 1 if oniguruma has an invalid entry for KOI8 encoding. */
 #cmakedefine PHP_ONIG_BAD_KOI8_ENTRY 1
 
@@ -967,6 +971,9 @@
 
 /* Define to 1 if iconv has broken IGNORE. */
 #cmakedefine ICONV_BROKEN_IGNORE 1
+
+/* The highest supported ODBC version. */
+#cmakedefine ODBCVER @ODBCVER@
 
 /* The iconv implementation. */
 #cmakedefine PHP_ICONV_IMPL "@PHP_ICONV_IMPL@"
