@@ -355,7 +355,6 @@
 #define HAVE_GLOB
 #define PHP_SHLIB_SUFFIX "dll"
 #define PHP_SHLIB_EXT_PREFIX "php_"
-#define HAVE_SQLDATASOURCES
 
 /* Win32 supports socketpair by the emulation in win32/sockets.c */
 #define HAVE_SOCKETPAIR 1
@@ -762,6 +761,10 @@
 
 /* Have the Sodium library */
 #cmakedefine HAVE_LIBSODIUMLIB 1
+
+/* Define to 1 if ODBC library has 'SQLDataSources', as a function or macro.
+   */
+#cmakedefine HAVE_SQLDATASOURCES 1
 
 /* Define to 1 if the PHP extension 'sqlite3' is available. */
 #cmakedefine HAVE_SQLITE3 1

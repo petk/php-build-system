@@ -163,7 +163,7 @@ endif()
 if(NOT EXT_ODBC_TYPE MATCHES "^(dbmaker|solid)$")
   set(
     HAVE_SQLDATASOURCES 1
-    CACHE INTERNAL "Whether SQL datasources are available"
+    CACHE INTERNAL "Whether SQLDataSources function or macro is available."
   )
 endif()
 
