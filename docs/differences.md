@@ -30,15 +30,15 @@ build system:
 
 ## Bugs fixed
 
-* Building inside folder with spaces:
-  https://bugs.php.net/49270
+* Building inside folder with spaces.
+  See: https://bugs.php.net/49270
 
-* Detecting GNU libiconv:
-  https://github.com/php/php-src/issues/12213
+* Detecting GNU libiconv.
+  See: https://github.com/php/php-src/issues/12213
 
 * Oracle Instant Client integration in ldap extension is removed in CMake due to
-  missing LDAP features causing build errors:
-  https://github.com/php/php-src/issues/15051
+  missing LDAP features causing build errors.
+  See: https://github.com/php/php-src/issues/15051
 
 ## Behavior
 
@@ -46,3 +46,7 @@ build system:
   See: https://github.com/php/php-src/pull/13184
 
 * ext/session can be built as shared on Windows (in testing phase).
+
+* Obsolete check whether the `dlsym()` requires a leading underscore in symbol
+  name is removed in CMake.
+  See: https://github.com/php/php-src/pull/13655
