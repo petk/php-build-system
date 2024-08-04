@@ -17,7 +17,7 @@
 /* Define to 1 if the system has the type 'struct ucred'. */
 #cmakedefine ANC_CREDS_UCRED 1
 
-/* */
+/* The cdb handler header file. */
 #cmakedefine CDB_INCLUDE_FILE "@CDB_INCLUDE_FILE@"
 
 /* Define to 1 if the PHP extension 'bcmath' is built as a dynamic module. */
@@ -272,67 +272,71 @@
 /* Define if the target system is Darwin. */
 #cmakedefine DARWIN 1
 
-/* */
+/* The DB1 handler header file. */
 #cmakedefine DB1_INCLUDE_FILE "@DB1_INCLUDE_FILE@"
 
-/* */
+/* The DB1 handler version information. */
 #cmakedefine DB1_VERSION "@DB1_VERSION@"
 
-/* */
+/* The DB2 handler header file. */
 #cmakedefine DB2_INCLUDE_FILE "@DB2_INCLUDE_FILE@"
 
-/* */
+/* The DB3 handler header file. */
 #cmakedefine DB3_INCLUDE_FILE "@DB3_INCLUDE_FILE@"
 
-/* */
+/* The DB4 handler header file. */
 #cmakedefine DB4_INCLUDE_FILE "@DB4_INCLUDE_FILE@"
 
-/* */
+/* Define to 1 if the dba extension uses the cdb handler. */
 #cmakedefine DBA_CDB 1
 
-/* */
+/* Define to 1 if the dba extension uses the PHP built-in cdb handler. */
 #cmakedefine DBA_CDB_BUILTIN 1
 
-/* Define to 1 if Berkeley DB is compatible with version 1. */
+/* Define to 1 if the dba extension uses the Berkeley DB version 1 (DB1)
+   handler. */
 #cmakedefine DBA_DB1 1
 
-/* Define to 1 if Berkeley DB is compatible with version 2. */
+/* Define to 1 if the dba extension uses the Berkeley DB version 2 (DB2)
+   handler. */
 #cmakedefine DBA_DB2 1
 
-/* Define to 1 if Berkeley DB is compatible with version 3. */
+/* Define to 1 if the dba extension uses the Berkeley DB version 3 (DB3)
+   handler. */
 #cmakedefine DBA_DB3 1
 
-/* Define to 1 if Berkeley DB is compatible with version 4. */
+/* Define to 1 if the dba extension uses the Berkeley DB version 4 (DB4)
+   handler. */
 #cmakedefine DBA_DB4 1
 
-/* */
+/* Define to 1 if the dba extension uses the DBM handler. */
 #cmakedefine DBA_DBM 1
 
-/* */
+/* Define to 1 if the dba extension uses the bundled flatfile handler. */
 #cmakedefine DBA_FLATFILE 1
 
-/* */
+/* Define to 1 if the dba extension uses the GDBM handler. */
 #cmakedefine DBA_GDBM 1
 
-/* */
+/* Define to 1 if the dba extension uses the bundled inifile handler. */
 #cmakedefine DBA_INIFILE 1
 
-/* */
+/* Define to 1 if the dba extension uses the LMDB handler. */
 #cmakedefine DBA_LMDB 1
 
-/* */
+/* Define to 1 if the dba extension uses the NDBM handler. */
 #cmakedefine DBA_NDBM 1
 
-/* */
+/* Define to 1 if the dba extension uses the QDBM handler. */
 #cmakedefine DBA_QDBM 1
 
-/* */
+/* Define to 1 if the dba extension uses the Tokyo Cabinet handler. */
 #cmakedefine DBA_TCADB 1
 
-/* */
+/* The DBM handler include file. */
 #cmakedefine DBM_INCLUDE_FILE "@DBM_INCLUDE_FILE@"
 
-/* */
+/* The DBM handler version information. */
 #cmakedefine DBM_VERSION "@DBM_VERSION@"
 
 /* Define to string "1" if PHP short open tags '<?' are enabled by default,
@@ -345,7 +349,7 @@
 /* Define to 1 to enable the 'chroot' function. */
 #cmakedefine ENABLE_CHROOT_FUNC 1
 
-/* */
+/* The GDBM handler header file. */
 #cmakedefine GDBM_INCLUDE_FILE "@GDBM_INCLUDE_FILE@"
 
 /* Define to 1 if 'TIOCGWINSZ' requires <sys/ioctl.h>. */
@@ -1728,7 +1732,7 @@
 /* */
 #cmakedefine JISX0208 1
 
-/* */
+/* The LMDB handler header file. */
 #cmakedefine LMDB_INCLUDE_FILE "@LMDB_INCLUDE_FILE@"
 
 /* Define to 1 if 'major', 'minor', and 'makedev' are declared in <mkdev.h>.
@@ -1767,7 +1771,7 @@
 /* Define to 1 if mysqlnd core SSL is enabled. */
 #cmakedefine MYSQLND_SSL_SUPPORTED 1
 
-/* */
+/* The NDBM handler header file. */
 #cmakedefine NDBM_INCLUDE_FILE "@NDBM_INCLUDE_FILE@"
 
 /* The highest supported ODBC version */
@@ -1924,7 +1928,7 @@
 /* Define to the /proc/pid/mem interface filename value. */
 #cmakedefine PROC_MEM_FILE "@PROC_MEM_FILE@"
 
-/* */
+/* The QDBM handler header file. */
 #cmakedefine QDBM_INCLUDE_FILE "@QDBM_INCLUDE_FILE@"
 
 /* The size of 'int', as computed by sizeof. */
@@ -1963,7 +1967,7 @@
 /* Define to 1 if strerror_r returns char *. */
 #cmakedefine STRERROR_R_CHAR_P 1
 
-/* */
+/* The Tokyo Cabinet handler header file. */
 #cmakedefine TCADB_INCLUDE_FILE "@TCADB_INCLUDE_FILE@"
 
 /* */
