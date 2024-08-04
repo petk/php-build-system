@@ -1320,7 +1320,8 @@
 /* Define to 1 if you have the <sqlcli1.h> header file. */
 #cmakedefine HAVE_SQLCLI1_H 1
 
-/* */
+/* Define to 1 if ODBC library has 'SQLDataSources', as a function or macro.
+   */
 #cmakedefine HAVE_SQLDATASOURCES 1
 
 /* Define to 1 if you have the <sqlext.h> header file. */
