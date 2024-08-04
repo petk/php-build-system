@@ -383,7 +383,7 @@
 /* Define to 1 if compiler supports __sync_bool_compare_and_swap() a.o. */
 #cmakedefine HAVE_BUILTIN_ATOMIC 1
 
-/* */
+/* Define to 1 if PHP uses the bundled PCRE library. */
 #cmakedefine HAVE_BUNDLED_PCRE 1
 
 /* Define to 1 if the PHP extension 'bz2' is available. */
@@ -896,7 +896,7 @@
 /* Define to 1 if you have the 'ldap_refresh_s' function. */
 #cmakedefine HAVE_LDAP_REFRESH_S 1
 
-/* LDAP SASL support */
+/* Define to 1 if the ldap extension has SASL support enabled. */
 #cmakedefine HAVE_LDAP_SASL 1
 
 /* Define to 1 if you have the 'ldap_start_tls_s' function. */
@@ -911,7 +911,7 @@
 /* Define to 1 if you have the 'dl' library (-ldl). */
 #cmakedefine HAVE_LIBDL 1
 
-/* */
+/* Define to 1 if readline extension uses the 'libedit' library. */
 #cmakedefine HAVE_LIBEDIT 1
 
 /* Define to 1 if the system has the Expat XML parser library. */
@@ -941,7 +941,7 @@
 /* Define to 1 if you have the <LibraryManager.h> header file. */
 #cmakedefine HAVE_LIBRARYMANAGER_H 1
 
-/* */
+/* Define to 1 if readline extension uses the 'readline' library. */
 #cmakedefine HAVE_LIBREADLINE 1
 
 /* */
@@ -1257,7 +1257,7 @@
 /* Define to 1 if you have the mmap(MAP_ANON) SHM support. */
 #cmakedefine HAVE_SHM_MMAP_ANON 1
 
-/* Define if you have POSIX mmap() SHM support */
+/* Define to 1 if you have the POSIX mmap() SHM support. */
 #cmakedefine HAVE_SHM_MMAP_POSIX 1
 
 /* Define to 1 if you have the 'shutdown' function. */
@@ -1727,7 +1727,7 @@
 /* Sqlite3 without extension support */
 #cmakedefine PDO_SQLITE_OMIT_LOAD_EXTENSION 1
 
-/* Whether pdo_mysql uses mysqlnd */
+/* Define to 1 if the pdo_mysql extension uses mysqlnd. */
 #cmakedefine PDO_USE_MYSQLND 1
 
 /* */

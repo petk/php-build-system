@@ -646,6 +646,33 @@
 /* Define to 1 if the PHP extension 'ldap' is available. */
 #cmakedefine HAVE_LDAP 1
 
+/* Define to 1 if you have the 'ldap_control_find' function. */
+#cmakedefine HAVE_LDAP_CONTROL_FIND 1
+
+/* Define to 1 if you have the 'ldap_extended_operation' function. */
+#cmakedefine HAVE_LDAP_EXTENDED_OPERATION 1
+
+/* Define to 1 if you have the 'ldap_extended_operation_s' function. */
+#cmakedefine HAVE_LDAP_EXTENDED_OPERATION_S 1
+
+/* Define to 1 if you have the 'ldap_parse_extended_result' function. */
+#cmakedefine HAVE_LDAP_PARSE_EXTENDED_RESULT 1
+
+/* Define to 1 if you have the 'ldap_parse_reference' function. */
+#cmakedefine HAVE_LDAP_PARSE_REFERENCE 1
+
+/* Define to 1 if you have the 'ldap_parse_result' function. */
+#cmakedefine HAVE_LDAP_PARSE_RESULT 1
+
+/* Define to 1 if you have the 'ldap_passwd' function. */
+#cmakedefine HAVE_LDAP_PASSWD 1
+
+/* Define to 1 if you have the 'ldap_refresh_s' function. */
+#cmakedefine HAVE_LDAP_REFRESH_S 1
+
+/* Define to 1 if the ldap extension has SASL support enabled. */
+#cmakedefine HAVE_LDAP_SASL 1
+
 /* Define to 1 if the PHP extension 'libxml' is available. */
 #cmakedefine HAVE_LIBXML 1
 
@@ -677,7 +704,7 @@
 /* Define to 1 if you have the mmap(MAP_ANON) SHM support. */
 #cmakedefine HAVE_SHM_MMAP_ANON 1
 
-/* Define if you have POSIX mmap() SHM support */
+/* Define to 1 if you have the POSIX mmap() SHM support. */
 #cmakedefine HAVE_SHM_MMAP_POSIX 1
 
 /* Define to 1 if you have the <openssl/crypto.h> header file. */
@@ -693,13 +720,13 @@
    value in OpenSSL. */
 #cmakedefine USE_OPENSSL_SYSTEM_CIPHERS 1
 
-/* Using bundled PCRE library */
+/* Define to 1 if PHP uses the bundled PCRE library. */
 #cmakedefine HAVE_BUNDLED_PCRE 1
 
 /* Number of bits in non-UTF mode for PCRE library. */
 #cmakedefine PCRE2_CODE_UNIT_WIDTH @PCRE2_CODE_UNIT_WIDTH@
 
-/* Whether a static PCRE library is linked */
+/* Define to 1 if PCRE library is built statically. */
 #cmakedefine PCRE2_STATIC 1
 
 /* Define to 1 if PCRE JIT is enabled and supported. */
@@ -717,10 +744,10 @@
 /* */
 #cmakedefine PHAR_HAVE_OPENSSL 1
 
-/* Whether to build phar as dynamic module */
-#cmakedefine COMPILE_DL_PHAR 1
+/* Define to 1 if readline extension uses the 'readline' library. */
+#cmakedefine HAVE_LIBREADLINE 1
 
-/* */
+/* Define to 1 if readline extension uses the 'libedit' library. */
 #cmakedefine HAVE_LIBEDIT 1
 
 /* PostgreSQL 17 or later */
@@ -837,6 +864,9 @@
 
 /* Define to 1 if the PHP extension 'zlib' is available. */
 #cmakedefine HAVE_ZLIB 1
+
+/* Define to 1 if the pdo_mysql extension uses mysqlnd. */
+#cmakedefine PDO_USE_MYSQLND 1
 
 #define PHP_CONFIG_FILE_SCAN_DIR "@PHP_CONFIG_FILE_SCAN_DIR@"
 
