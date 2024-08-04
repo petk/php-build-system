@@ -181,7 +181,7 @@ else()
 
   set(
     HAVE_BUNDLED_PCRE 1
-    CACHE INTERNAL "Whether the bundled PCRE library is used"
+    CACHE INTERNAL "Whether the bundled PCRE library is used."
   )
 
   message(CHECK_START "Checking whether to enable PCRE JIT support")
