@@ -39,3 +39,10 @@ build system:
 * Oracle Instant Client integration in ldap extension is removed in CMake due to
   missing LDAP features causing build errors:
   https://github.com/php/php-src/issues/15051
+
+## Behavior
+
+* ext/readline uses the libedit (EditLine) library by default.
+  See: https://github.com/php/php-src/pull/13184
+
+* ext/session can be built as shared on Windows (in testing phase).
