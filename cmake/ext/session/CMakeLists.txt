@@ -76,14 +76,13 @@ set(
 )
 
 if(EXT_SESSION_MM)
-  # The mm library is not thread-safe, and mod_mm.c refuses to compile.
   if(PHP_THREAD_SAFETY)
     message(
       FATAL_ERROR
-      "The mm library (libmm) is not thread safe. Thread safety and libmm "
-      "cannot be used together. Please either disable thread safety by setting "
-      "PHP_THREAD_SAFETY to 'OFF', or disable libmm by setting EXT_SESSION_MM "
-      "to 'OFF'."
+      "Thread safety and libmm cannot be used together. The mm library (libmm) "
+      "is not thread-safe, and mod_mm_c refuses to compile. Either disable the "
+      "thread safety by setting PHP_THREAD_SAFETY to 'OFF', or disable libmm "
+      "by setting EXT_SESSION_MM to 'OFF'."
     )
   endif()
 
@@ -109,6 +108,6 @@ if(EXT_SESSION_MM)
   target_link_libraries(php_session PUBLIC MM::MM)
 
   if(TARGET MM::MM)
-    set(HAVE_LIBMM 1 CACHE INTERNAL "Whether you have libmm")
+    set(HAVE_LIBMM 1 CACHE INTERNAL "Whether system has the libmm library.")
   endif()
 endif()
