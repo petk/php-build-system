@@ -339,7 +339,7 @@
    and to string "0" if they are not. */
 #define DEFAULT_SHORT_OPEN_TAG "@DEFAULT_SHORT_OPEN_TAG@"
 
-/* Define if dlsym() requires a leading underscore in symbol names. */
+/* Define to 1 if 'dlsym()' requires a leading underscore in symbol names. */
 #cmakedefine DLSYM_NEEDS_UNDERSCORE 1
 
 /* Define to 1 to enable the 'chroot' function. */
