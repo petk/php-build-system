@@ -594,6 +594,9 @@
 /* Define to 1 if edit/readline library has 'rl_erase_empty_line' variable. */
 #cmakedefine HAVE_ERASE_EMPTY_LINE 1
 
+/* Define to 1 if edit/readline library has the 'history_list' function. */
+#cmakedefine HAVE_HISTORY_LIST 1
+
 /* Define to 1 if the PHP extension 'exif' is available. */
 #cmakedefine HAVE_EXIF 1
 
@@ -710,6 +713,17 @@
 
 /* Define to 1 if the PHP extension 'pdo_pgsql' is available. */
 #cmakedefine HAVE_PDO_PGSQL 1
+
+/* Define to 1 if edit/readline library has the 'rl_callback_read_char'
+   function. */
+#cmakedefine HAVE_RL_CALLBACK_READ_CHAR 1
+
+/* Define to 1 if edit/readline library has the 'rl_completion_matches'
+   function. */
+#cmakedefine HAVE_RL_COMPLETION_MATCHES 1
+
+/* Define to 1 if edit/readline library has the 'rl_on_new_line' function. */
+#cmakedefine HAVE_RL_ON_NEW_LINE 1
 
 /* */
 #cmakedefine HAVE_XPM 1

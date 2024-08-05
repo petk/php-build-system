@@ -80,21 +80,6 @@ if(Readline_LIBRARY)
   if(NOT _readline_have_readline)
     string(APPEND _reason "Sanity check failed: readline() not found. ")
   endif()
-
-  # Library version check.
-  check_library_exists(
-    "${Readline_LIBRARY}"
-    rl_pending_input
-    ""
-    _readline_have_rl_pending_input
-  )
-
-  if(NOT _readline_have_rl_pending_input)
-    string(
-      APPEND _reason
-      "Invalid Readline library detected. Try EditLine instead. "
-    )
-  endif()
 endif()
 
 # Get version.
