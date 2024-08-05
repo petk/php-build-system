@@ -591,7 +591,8 @@
 /* enchant_get_version since 1.6.0 */
 #cmakedefine HAVE_ENCHANT_GET_VERSION 1
 
-/* Define to 1 if edit/readline library has 'rl_erase_empty_line' variable. */
+/* Define to 1 if edit/readline library has the 'rl_erase_empty_line'
+   variable. */
 #cmakedefine HAVE_ERASE_EMPTY_LINE 1
 
 /* Define to 1 if edit/readline library has the 'history_list' function. */

@@ -563,7 +563,8 @@
 /* Define to 1 if system has a working epoll. */
 #cmakedefine HAVE_EPOLL 1
 
-/* Define to 1 if edit/readline library has 'rl_erase_empty_line' variable. */
+/* Define to 1 if edit/readline library has the 'rl_erase_empty_line'
+   variable. */
 #cmakedefine HAVE_ERASE_EMPTY_LINE 1
 
 /* Define to 1 if the odbc extension uses the Easysoft OOB. */
