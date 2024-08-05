@@ -1,6 +1,7 @@
 # TODO: ext/readline is cli extension only.
 include(CheckCompilerFlag)
 include(CheckLibraryExists)
+include(CheckSymbolExists)
 include(CMakeDependentOption)
 include(CMakePushCheckState)
 include(FeatureSummary)
@@ -124,8 +125,8 @@ else()
 
       check_symbol_exists(
         rl_pending_input
-        # The <readline/readline.h> is not self-contained header and on some
-        # systems like macOS needs <stdio.h> to have FILE type available.
+        # The <readline/readline.h> is not self-contained header and some
+        # systems, like macOS, need <stdio.h> to have FILE type available.
         "stdio.h;readline/readline.h"
         _readline_have_rl_pending_input
       )
