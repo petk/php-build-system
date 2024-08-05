@@ -183,7 +183,9 @@ else()
     set(CMAKE_REQUIRED_LIBRARIES Readline::Readline)
     check_symbol_exists(
       rl_erase_empty_line
-      readline/readline.h
+      # The <readline/readline.h> is not self-contained header and on some
+      # systems like macOS needs <stdio.h> to have FILE type available.
+      "stdio.h;readline/readline.h"
       HAVE_ERASE_EMPTY_LINE
     )
   cmake_pop_check_state()
