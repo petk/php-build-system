@@ -117,7 +117,6 @@ find_package_handle_standard_args(
     Readline_LIBRARY
     Readline_INCLUDE_DIR
     _readline_have_readline
-    _readline_have_rl_pending_input
   VERSION_VAR Readline_VERSION
   REASON_FAILURE_MESSAGE "${_reason}"
 )
