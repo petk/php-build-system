@@ -2,6 +2,7 @@
 include(CheckCompilerFlag)
 include(CheckLibraryExists)
 include(CMakeDependentOption)
+include(CMakePushCheckState)
 include(FeatureSummary)
 
 option(EXT_READLINE "Enable the readline extension" OFF)
@@ -73,10 +74,30 @@ if(NOT EXT_READLINE_LIBREADLINE)
   target_link_libraries(php_readline PUBLIC Editline::Editline)
 
   if(TARGET Editline::Editline)
-    check_library_exists(Editline::Editline rl_callback_read_char "" HAVE_RL_CALLBACK_READ_CHAR)
-    check_library_exists(Editline::Editline rl_on_new_line "" HAVE_RL_ON_NEW_LINE)
-    check_library_exists(Editline::Editline rl_completion_matches "" HAVE_RL_COMPLETION_MATCHES)
-    check_library_exists(Editline::Editline history_list "" HAVE_HISTORY_LIST)
+    check_library_exists(
+      Editline::Editline
+      rl_callback_read_char
+      ""
+      HAVE_RL_CALLBACK_READ_CHAR
+    )
+    check_library_exists(
+      Editline::Editline
+      rl_on_new_line
+      ""
+      HAVE_RL_ON_NEW_LINE
+    )
+    check_library_exists(
+      Editline::Editline
+      rl_completion_matches
+      ""
+      HAVE_RL_COMPLETION_MATCHES
+    )
+    check_library_exists(
+      Editline::Editline
+      history_list
+      ""
+      HAVE_HISTORY_LIST
+    )
   endif()
 
   set(
@@ -95,9 +116,48 @@ else()
   target_link_libraries(php_readline PUBLIC Readline::Readline)
 
   if(TARGET Readline::Readline)
-    check_library_exists(Readline::Readline rl_callback_read_char "" HAVE_RL_CALLBACK_READ_CHAR)
-    check_library_exists(Readline::Readline rl_on_new_line "" HAVE_RL_ON_NEW_LINE)
-    check_library_exists(Readline::Readline rl_completion_matches "" HAVE_RL_COMPLETION_MATCHES)
+    # Sanity minimum version check if Readline library has the
+    # 'rl_pending_input' variable. There was once an outdated Readline library
+    # installed on old obsolete macOS. See https://bugs.php.net/48608.
+    cmake_push_check_state(RESET)
+      set(CMAKE_REQUIRED_LIBRARIES Readline::Readline)
+
+      check_symbol_exists(
+        rl_pending_input
+        # The <readline/readline.h> is not self-contained header and on some
+        # systems like macOS needs <stdio.h> to have FILE type available.
+        "stdio.h;readline/readline.h"
+        _readline_have_rl_pending_input
+      )
+    cmake_pop_check_state()
+
+    if(NOT _readline_have_rl_pending_input)
+      message(
+        FATAL_ERROR
+        "Readline library check failed. Variable rl_pending_input missing. "
+        "This version of Readline installation is not supported. Try using "
+        "libedit instead (set EXT_READLINE_LIBREADLINE to 'OFF')."
+      )
+    endif()
+
+    check_library_exists(
+      Readline::Readline
+      rl_callback_read_char
+      ""
+      HAVE_RL_CALLBACK_READ_CHAR
+    )
+    check_library_exists(
+      Readline::Readline
+      rl_on_new_line
+      ""
+      HAVE_RL_ON_NEW_LINE
+    )
+    check_library_exists(
+      Readline::Readline
+      rl_completion_matches
+      ""
+      HAVE_RL_COMPLETION_MATCHES
+    )
   endif()
 
   set(

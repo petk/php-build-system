@@ -807,7 +807,7 @@
 /* Define to 1 if you have the <grp.h> header file. */
 #cmakedefine HAVE_GRP_H 1
 
-/* Define to 1 if libzip has the 'history_list' function. */
+/* Define to 1 if edit/readline library has the 'history_list' function. */
 #cmakedefine HAVE_HISTORY_LIST 1
 
 /* Define to 1 if you have the 'hstrerror' function. */
@@ -1253,13 +1253,15 @@
 /* Define to 1 if you have the 'rfork' function. */
 #cmakedefine HAVE_RFORK 1
 
-/* */
+/* Define to 1 if edit/readline library has the 'rl_callback_read_char'
+   function. */
 #cmakedefine HAVE_RL_CALLBACK_READ_CHAR 1
 
-/* */
+/* Define to 1 if edit/readline library has the 'rl_completion_matches'
+   function. */
 #cmakedefine HAVE_RL_COMPLETION_MATCHES 1
 
-/* */
+/* Define to 1 if edit/readline library has the 'rl_on_new_line' function. */
 #cmakedefine HAVE_RL_ON_NEW_LINE 1
 
 /* Define to 1 if the odbc extension uses the SAP DB. */
