@@ -688,7 +688,7 @@
 /* Define to 1 if GD library has 'gdImageCreateFromBmp'. */
 #cmakedefine HAVE_GD_BMP 1
 
-/* */
+/* Define to 1 if gd extension uses GD library bundled in PHP. */
 #cmakedefine HAVE_GD_BUNDLED 1
 
 /* */
@@ -925,7 +925,7 @@
 /* */
 #cmakedefine HAVE_LIBFREETYPE 1
 
-/* */
+/* Define to 1 if gd extension uses external system GD library. */
 #cmakedefine HAVE_LIBGD 1
 
 /* Define to 1 if you have the 'libiconv' function. */
