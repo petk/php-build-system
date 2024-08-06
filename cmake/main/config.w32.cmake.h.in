@@ -591,7 +591,7 @@
 /* enchant_get_version since 1.6.0 */
 #cmakedefine HAVE_ENCHANT_GET_VERSION 1
 
-/* Define to 1 if edit/readline library has the 'rl_erase_empty_line'
+/* Define to 1 if edit/readline library has the 'rl_erase_empty_line' global
    variable. */
 #cmakedefine HAVE_ERASE_EMPTY_LINE 1
 
@@ -1001,6 +1001,9 @@
 
 /* The iconv implementation. */
 #cmakedefine PHP_ICONV_IMPL "@PHP_ICONV_IMPL@"
+
+/* Define to 1 if thread safety (ZTS) is enabled. */
+#cmakedefine ZTS 1
 
 #if __has_include("main/config.pickle.h")
 #include "main/config.pickle.h"
