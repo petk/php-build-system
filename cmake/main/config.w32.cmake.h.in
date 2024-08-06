@@ -586,10 +586,12 @@
 /* Define to 1 if the PHP extension 'enchant' is available. */
 #cmakedefine HAVE_ENCHANT 1
 
-/* enchant_broker_set_param since 1.5.0 and removed in 2.x */
+/* Define to 1 if Enchant library has the 'enchant_broker_set_param' function
+   (available since 1.5.0 and removed in 2.x). */
 #cmakedefine HAVE_ENCHANT_BROKER_SET_PARAM 1
 
-/* enchant_get_version since 1.6.0 */
+/* Define to 1 if Enchant library has the 'enchant_get_version' function
+   (available since 1.6.0). */
 #cmakedefine HAVE_ENCHANT_GET_VERSION 1
 
 /* Define to 1 if edit/readline library has the 'history_list' function. */
@@ -865,10 +867,12 @@
 /* Define to 1 if the PHP extension 'snmp' is available. */
 #cmakedefine HAVE_SNMP 1
 
-/* */
+/* Define to 1 if SNMP library has the 'usmHMAC192SHA256AuthProtocol' array.
+   */
 #cmakedefine HAVE_SNMP_SHA256 1
 
-/* */
+/* Define to 1 if SNMP library has the 'usmHMAC384SHA512AuthProtocol' array.
+   */
 #cmakedefine HAVE_SNMP_SHA512 1
 
 /* Define to 1 if the PHP extension 'sysvshm' is available. */
@@ -891,6 +895,9 @@
 
 /* Have the Sodium library */
 #cmakedefine HAVE_LIBSODIUMLIB 1
+
+/* Define to 1 if SNMP library has the 'shutdown_snmp_logging' function. */
+#cmakedefine HAVE_SHUTDOWN_SNMP_LOGGING 1
 
 /* Define to 1 if ODBC library has 'SQLDataSources', as a function or macro.
    */

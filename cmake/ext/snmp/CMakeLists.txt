@@ -1,5 +1,6 @@
-include(CheckLibraryExists)
+include(CheckSymbolExists)
 include(CMakeDependentOption)
+include(CMakePushCheckState)
 include(FeatureSummary)
 
 option(EXT_SNMP "Enable the snmp extension" OFF)
@@ -45,24 +46,25 @@ set_package_properties(
 target_link_libraries(php_snmp PRIVATE NetSnmp::NetSnmp)
 
 if(TARGET NetSnmp::NetSnmp)
-  check_library_exists(
-    NetSnmp::NetSnmp
-    shutdown_snmp_logging
-    ""
-    HAVE_SHUTDOWN_SNMP_LOGGING
-  )
+  cmake_push_check_state(RESET)
+    set(CMAKE_REQUIRED_LIBRARIES NetSnmp::NetSnmp)
 
-  check_library_exists(
-    NetSnmp::NetSnmp
-    usmHMAC192SHA256AuthProtocol
-    ""
-    HAVE_SNMP_SHA256
-  )
+    check_symbol_exists(
+      shutdown_snmp_logging
+      "net-snmp/net-snmp-config.h;net-snmp/net-snmp-includes.h"
+      HAVE_SHUTDOWN_SNMP_LOGGING
+    )
 
-  check_library_exists(
-    NetSnmp::NetSnmp
-    usmHMAC384SHA512AuthProtocol
-    ""
-    HAVE_SNMP_SHA512
-  )
+    check_symbol_exists(
+      usmHMAC192SHA256AuthProtocol
+      "net-snmp/net-snmp-config.h;net-snmp/net-snmp-includes.h"
+      HAVE_SNMP_SHA256
+    )
+
+    check_symbol_exists(
+      usmHMAC384SHA512AuthProtocol
+      "net-snmp/net-snmp-config.h;net-snmp/net-snmp-includes.h"
+      HAVE_SNMP_SHA512
+    )
+  cmake_pop_check_state()
 endif()
