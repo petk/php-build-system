@@ -1196,7 +1196,7 @@
 #cmakedefine HAVE_PSPELL 1
 
 /* Define if the PS_STRINGS exists. */
-#cmakedefine HAVE_PS_STRINGS 1
+#cmakedefine HAVE_PS_STRINGS
 
 /* Define to 1 if you have the 'pthread_attr_getstack' function. */
 #cmakedefine HAVE_PTHREAD_ATTR_GETSTACK 1
