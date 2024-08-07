@@ -48,14 +48,6 @@ if(CMAKE_SYSTEM_PROCESSOR MATCHES "^alpha")
         $<$<COMPILE_LANGUAGE:ASM,C>:-ieee>
     )
   endif()
-elseif(CMAKE_SYSTEM_PROCESSOR MATCHES "^sparc")
-  if(CMAKE_C_COMPILER_ID STREQUAL "SunPro")
-    target_compile_options(
-      php_configuration
-      INTERFACE
-        $<$<COMPILE_LANGUAGE:ASM,C>:-xmemalign=8s>
-    )
-  endif()
 endif()
 
 # Platform specific configuration. When cross-compiling, the host and target can
