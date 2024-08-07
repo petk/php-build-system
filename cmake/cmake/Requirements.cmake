@@ -9,6 +9,19 @@ include(CMakePushCheckState)
 include(FeatureSummary)
 
 ################################################################################
+# Check whether some minimum supported compiler is used.
+################################################################################
+if(CMAKE_C_COMPILER_ID STREQUAL "SunPro")
+  message(
+    FATAL_ERROR
+    "Using unsupported compiler: Oracle Solaris Studio.\n"
+    "Please, install a compatible C compiler such as GNU C or Clang. You can "
+    "set CMAKE_C_COMPILER (and CMAKE_CXX_COMPILER) to the compiler path on the "
+    "system."
+  )
+endif()
+
+################################################################################
 # Check whether the system uses EBCDIC (not ASCII) as its native character set.
 ################################################################################
 message(CHECK_START "Checking system character set")
