@@ -1605,16 +1605,16 @@
 /* Define to 1 if the PHP extension 'tidy' is available. */
 #cmakedefine HAVE_TIDY 1
 
-/* defined if tidybuffio.h exists */
+/* Define to 1 if you have the <tidybuffio.h> header file. */
 #cmakedefine HAVE_TIDYBUFFIO_H 1
 
-/* */
+/* Define to 1 if Tidy library has the 'tidyOptGetDoc' function. */
 #cmakedefine HAVE_TIDYOPTGETDOC 1
 
 /* Define to 1 if you have the <tidyp.h> header file. */
 #cmakedefine HAVE_TIDYP_H 1
 
-/* */
+/* Define to 1 if Tidy library has the 'tidyReleaseDate' function. */
 #cmakedefine HAVE_TIDYRELEASEDATE 1
 
 /* Define to 1 if you have the <tidy.h> header file. */

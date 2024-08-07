@@ -918,6 +918,21 @@
 /* Define to 1 if SQLite library has the 'sqlite3_expanded_sql' function. */
 #cmakedefine HAVE_SQLITE3_EXPANDED_SQL 1
 
+/* Define to 1 if you have the <tidybuffio.h> header file. */
+#cmakedefine HAVE_TIDYBUFFIO_H 1
+
+/* Define to 1 if Tidy library has the 'tidyOptGetDoc' function. */
+#cmakedefine HAVE_TIDYOPTGETDOC 1
+
+/* Define to 1 if you have the <tidyp.h> header file. */
+#cmakedefine HAVE_TIDYP_H 1
+
+/* Define to 1 if Tidy library has the 'tidyReleaseDate' function. */
+#cmakedefine HAVE_TIDYRELEASEDATE 1
+
+/* Define to 1 if you have the <tidy.h> header file. */
+#cmakedefine HAVE_TIDY_H 1
+
 /* Sqlite3 without extension support */
 #cmakedefine SQLITE_OMIT_LOAD_EXTENSION 1
 
