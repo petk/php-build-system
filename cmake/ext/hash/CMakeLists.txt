@@ -32,6 +32,8 @@ target_sources(
     hash_md.c
     hash_murmur.c
     hash_ripemd.c
+    hash_sha_ni.c
+    hash_sha_sse2.c
     hash_sha.c
     hash_sha3.c
     hash_snefru.c
