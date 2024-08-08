@@ -88,7 +88,7 @@ endif()
 if(MySQL_Socket_PATH)
   set(
     PHP_MYSQL_UNIX_SOCK_ADDR "${MySQL_Socket_PATH}"
-    CACHE INTERNAL "MySQL Unix socket pointer"
+    CACHE INTERNAL "The MySQL Unix socket location."
   )
 endif()
 
@@ -108,7 +108,7 @@ else()
   if(MySQL_Socket_PATH)
     set(
       PDO_MYSQL_UNIX_ADDR "${MySQL_Socket_PATH}"
-      CACHE INTERNAL "MySQL Unix socket pointer"
+      CACHE INTERNAL "The MySQL Unix socket location defined by mysql_config."
     )
   endif()
 endif()

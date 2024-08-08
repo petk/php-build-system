@@ -93,6 +93,6 @@ endif()
 if(MySQL_Socket_PATH)
   set(
     PHP_MYSQL_UNIX_SOCK_ADDR "${MySQL_Socket_PATH}"
-    CACHE INTERNAL "MySQL Unix socket pointer"
+    CACHE INTERNAL "The MySQL Unix socket location."
   )
 endif()
