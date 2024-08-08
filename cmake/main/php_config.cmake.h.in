@@ -1794,7 +1794,8 @@
 /* Number of bits in non-UTF mode for PCRE library. */
 #cmakedefine PCRE2_CODE_UNIT_WIDTH @PCRE2_CODE_UNIT_WIDTH@
 
-/* */
+/* The MySQL Unix socket location as defined by 'mysql_config' for use with
+   the pdo_mysql extension.*/
 #cmakedefine PDO_MYSQL_UNIX_ADDR "@PDO_MYSQL_UNIX_ADDR@"
 
 /* Define to the ODBC driver or driver manager value. */
@@ -1898,7 +1899,7 @@
 /* Define to 1 if mhash support is enabled. */
 #cmakedefine PHP_MHASH_BC 1
 
-/* */
+/* The MySQL Unix socket location. */
 #cmakedefine PHP_MYSQL_UNIX_SOCK_ADDR "@PHP_MYSQL_UNIX_SOCK_ADDR@"
 
 /* */
