@@ -906,10 +906,12 @@
 /* Define to 1 if the PHP extension 'sqlite3' is available. */
 #cmakedefine HAVE_SQLITE3 1
 
-/* have sqlite3_close_v2 */
+/* Define to 1 if SQLite library has the 'sqlite3_close_v2' function. */
 #cmakedefine HAVE_SQLITE3_CLOSE_V2 1
 
-/* have sqlite3_column_table_name */
+/* Define to 1 if SQLite library was compiled with the
+   SQLITE_ENABLE_COLUMN_METADATA and has the 'sqlite3_column_table_name'
+   function. */
 #cmakedefine HAVE_SQLITE3_COLUMN_TABLE_NAME 1
 
 /* Define to 1 if SQLite library has the 'sqlite3_errstr' function. */
@@ -933,7 +935,10 @@
 /* Define to 1 if you have the <tidy.h> header file. */
 #cmakedefine HAVE_TIDY_H 1
 
-/* Sqlite3 without extension support */
+/* Define to 1 if SQLite library was compiled with the
+   SQLITE_OMIT_LOAD_EXTENSION and does not have the extension support with the
+   'sqlite3_load_extension' function. For usage in the sqlite3 PHP extension.
+   See https://www.sqlite.org/compile.html. */
 #cmakedefine SQLITE_OMIT_LOAD_EXTENSION 1
 
 /* Define to 1 if the PHP extension 'xml' is available. */
