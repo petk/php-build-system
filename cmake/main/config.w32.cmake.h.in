@@ -906,7 +906,7 @@
 /* Define to 1 if the system has the 'mm' library. */
 #cmakedefine HAVE_LIBMM 1
 
-/* Have the Sodium library */
+/* Define to 1 if the PHP extension 'sodium' is available. */
 #cmakedefine HAVE_LIBSODIUMLIB 1
 
 /* Define to 1 if SNMP library has the 'shutdown_snmp_logging' function. */

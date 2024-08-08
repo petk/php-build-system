@@ -62,4 +62,4 @@ if(CMAKE_SIZEOF_VOID_P EQUAL 4)
   endif()
 endif()
 
-set(HAVE_LIBSODIUMLIB 1 CACHE INTERNAL "Whether the libsodium is available")
+set(HAVE_LIBSODIUMLIB 1 CACHE INTERNAL "Whether the sodium is available.")
