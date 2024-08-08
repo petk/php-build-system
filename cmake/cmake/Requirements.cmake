@@ -14,7 +14,7 @@ include(FeatureSummary)
 if(CMAKE_C_COMPILER_ID STREQUAL "SunPro")
   message(
     FATAL_ERROR
-    "Using unsupported compiler: Oracle Solaris Studio.\n"
+    "Using unsupported compiler: Oracle Developer Studio.\n"
     "Please, install a compatible C compiler such as GNU C or Clang. You can "
     "set CMAKE_C_COMPILER (and CMAKE_CXX_COMPILER) to the compiler path on the "
     "system."
