@@ -856,16 +856,20 @@
 /* Define to 1 if readline extension uses the 'libedit' library. */
 #cmakedefine HAVE_LIBEDIT 1
 
-/* PostgreSQL 17 or later */
+/* Define to 1 if libpq has the 'PQchangePassword' function (PostgreSQL 17 or
+   later). */
 #cmakedefine HAVE_PG_CHANGE_PASSWORD 1
 
-/* PostgreSQL 12 or later */
+/* Define to 1 if libpq has the 'PQresultMemorySize' function (PostgreSQL 12
+   or later). */
 #cmakedefine HAVE_PG_RESULT_MEMORY_SIZE 1
 
-/* PostgreSQL 17 or later */
+/* Define to 1 if libpq has the 'PQsetChunkedRowsMode' function (PostgreSQL
+   17 or later). */
 #cmakedefine HAVE_PG_SET_CHUNKED_ROWS_SIZE 1
 
-/* PostgreSQL 17 or later */
+/* Define to 1 if libpq has the 'PQsocketPoll' function (PostgreSQL 17 or
+   later). */
 #cmakedefine HAVE_PG_SOCKET_POLL 1
 
 /* */

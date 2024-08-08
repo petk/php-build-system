@@ -1082,16 +1082,20 @@
 /* Define to 1 if the PHP extension 'pgsql' is available. */
 #cmakedefine HAVE_PGSQL 1
 
-/* PostgreSQL 17 or later */
+/* Define to 1 if libpq has the 'PQchangePassword' function (PostgreSQL 17 or
+   later). */
 #cmakedefine HAVE_PG_CHANGE_PASSWORD 1
 
-/* PostgreSQL 12 or later */
+/* Define to 1 if libpq has the 'PQresultMemorySize' function (PostgreSQL 12
+   or later). */
 #cmakedefine HAVE_PG_RESULT_MEMORY_SIZE 1
 
-/* PostgreSQL 17 or later */
+/* Define to 1 if libpq has the 'PQsetChunkedRowsMode' function (PostgreSQL
+   17 or later). */
 #cmakedefine HAVE_PG_SET_CHUNKED_ROWS_SIZE 1
 
-/* PostgreSQL 17 or later */
+/* Define to 1 if libpq has the 'PQsocketPoll' function (PostgreSQL 17 or
+   later). */
 #cmakedefine HAVE_PG_SOCKET_POLL 1
 
 /* Define to 1 if the phpdbg SAPI has libedit/readline integration. */
