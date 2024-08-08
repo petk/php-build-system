@@ -50,3 +50,6 @@ build system:
 * Obsolete check whether the `dlsym()` requires a leading underscore in symbol
   name is removed in CMake.
   See: https://github.com/php/php-src/pull/13655
+
+* Compiler shipped with Oracle Developer Studio is not supported.
+  See: https://github.com/php/php-src/issues/15272
