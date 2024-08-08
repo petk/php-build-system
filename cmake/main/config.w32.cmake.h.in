@@ -642,37 +642,38 @@
 /* Define to 1 if mhash support is enabled. */
 #cmakedefine PHP_MHASH_BC 1
 
-/* Define to 1 if GD library has 'gdImageCreateFromAvif'. */
+/* Define to 1 if gd extension has AVIF support. */
 #cmakedefine HAVE_GD_AVIF 1
 
-/* Define to 1 if GD library has 'gdImageCreateFromBmp'. */
+/* Define to 1 if gd extension has BMP support. */
 #cmakedefine HAVE_GD_BMP 1
 
 /* Define to 1 if gd extension uses GD library bundled in PHP. */
 #cmakedefine HAVE_GD_BUNDLED 1
 
-/* */
+/* Define to 1 if gd extension has FreeType support. */
 #cmakedefine HAVE_GD_FREETYPE 1
 
-/* */
+/* Define to 1 if GD library has the 'gdImageGetInterpolationMethod' function.
+   */
 #cmakedefine HAVE_GD_GET_INTERPOLATION 1
 
-/* Define to 1 if GD library has 'gdImageCreateFromJpeg'. */
+/* Define to 1 if gd extension has JPEG support. */
 #cmakedefine HAVE_GD_JPG 1
 
-/* */
+/* Define to 1 if GD library has the 'gdVersionString' function. */
 #cmakedefine HAVE_GD_LIBVERSION 1
 
-/* Define to 1 if GD library has 'gdImageCreateFromPng'. */
+/* Define to 1 if gd extension has PNG support. */
 #cmakedefine HAVE_GD_PNG 1
 
-/* Define to 1 if GD library has 'gdImageCreateFromTga'. */
+/* Define to 1 if gd extension has TGA support. */
 #cmakedefine HAVE_GD_TGA 1
 
-/* Define to 1 if GD library has 'gdImageCreateFromWebp'. */
+/* Define to 1 if gd extension has WebP support. */
 #cmakedefine HAVE_GD_WEBP 1
 
-/* Define to 1 if GD library has 'gdImageCreateFromXpm'. */
+/* Define to 1 if gd extension has XPM support. */
 #cmakedefine HAVE_GD_XPM 1
 
 /* Define to 1 if iconv implementation is glibc. */
@@ -681,10 +682,10 @@
 /* Define to 1 if iconv implementation is IBM. */
 #cmakedefine HAVE_IBM_ICONV 1
 
-/* */
+/* Define to 1 if you have the libavif library. */
 #cmakedefine HAVE_LIBAVIF 1
 
-/* */
+/* Define to 1 if you have the FreeType library. */
 #cmakedefine HAVE_LIBFREETYPE 1
 
 /* Define to 1 gd extension uses external system GD library. */
@@ -693,13 +694,13 @@
 /* Define to 1 if you have the 'intl' library. */
 #cmakedefine HAVE_LIBINTL 1
 
-/* */
+/* Define to 1 if you have the libjpeg library. */
 #cmakedefine HAVE_LIBJPEG 1
 
-/* */
+/* Define to 1 if you have the libpng library. */
 #cmakedefine HAVE_LIBPNG 1
 
-/* */
+/* Define to 1 if you have the libwebp library. */
 #cmakedefine HAVE_LIBWEBP 1
 
 /* Define to 1 if you have the 'ngettext' function. */
@@ -728,13 +729,13 @@
 /* Define to 1 if edit/readline library has the 'rl_on_new_line' function. */
 #cmakedefine HAVE_RL_ON_NEW_LINE 1
 
-/* */
+/* Define to 1 if you have the xpm library. */
 #cmakedefine HAVE_XPM 1
 
-/* */
+/* Define to 1 if libgd has JIS-mapped Japanese font support. */
 #cmakedefine JISX0208 1
 
-/* */
+/* Define to 1 if gd extension has JIS-mapped Japanese font support. */
 #cmakedefine USE_GD_JISX0208 1
 
 /* have the zlib.h header file */
