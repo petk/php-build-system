@@ -1763,16 +1763,16 @@
 /* */
 #cmakedefine PHAR_HAVE_OPENSSL 1
 
-/* build architecture */
+/* The build architecture. */
 #cmakedefine PHP_BUILD_ARCH "@PHP_BUILD_ARCH@"
 
-/* used compiler for build */
+/* The compiler used for the PHP build. */
 #cmakedefine PHP_BUILD_COMPILER "@PHP_BUILD_COMPILER@"
 
-/* build provider */
+/* The PHP build provider information. */
 #cmakedefine PHP_BUILD_PROVIDER "@PHP_BUILD_PROVIDER@"
 
-/* builder uname output */
+/* The system that PHP was built on. */
 #cmakedefine PHP_BUILD_SYSTEM "@PHP_BUILD_SYSTEM@"
 
 /* Define to 1 if your system has fork/vfork/CreateProcess. */
@@ -1853,7 +1853,7 @@
 /* Define to 1 if oniguruma has an invalid entry for KOI8 encoding. */
 #cmakedefine PHP_ONIG_BAD_KOI8_ENTRY 1
 
-/* uname output */
+/* The 'uname' output. */
 #define PHP_OS "@CMAKE_SYSTEM_NAME@"
 
 /* Define to 1 if 'pread' declaration with 'off64_t' is missing. */
@@ -1865,7 +1865,7 @@
 /* Define to 1 if PHP uses its own SIGCHLD handler, and to 0 if not. */
 #cmakedefine01 PHP_SIGCHILD
 
-/* uname -a output */
+/* The 'uname -a' output. */
 #cmakedefine PHP_UNAME "@PHP_UNAME@"
 
 /* Define to 1 if PHP uses its own crypt_r, and to 0 if using the external

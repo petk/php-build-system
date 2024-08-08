@@ -479,21 +479,22 @@
 /* Define to 1 if you have the 'getaddrinfo' function. */
 #cmakedefine HAVE_GETADDRINFO 1
 
-/* values determined by configure.js */
+/* The PHP build provider information. */
+#cmakedefine PHP_BUILD_PROVIDER "@PHP_BUILD_PROVIDER@"
 
-/* Windows build system version */
+/* The system that PHP was built on. */
 #cmakedefine PHP_BUILD_SYSTEM "@PHP_BUILD_SYSTEM@"
 
 /* Configure line */
 #cmakedefine CONFIGURE_COMMAND "@CONFIGURE_COMMAND@"
 
-/* Detected compiler version */
+/* The compiler used for the PHP build. */
 #cmakedefine PHP_BUILD_COMPILER "@PHP_BUILD_COMPILER@"
 
 /* Compiler compatibility ID */
 #cmakedefine PHP_COMPILER_ID "@PHP_COMPILER_ID@"
 
-/* Detected compiler architecture */
+/* The build architecture. */
 #cmakedefine PHP_BUILD_ARCH "@PHP_BUILD_ARCH@"
 
 /* Linker major version */
