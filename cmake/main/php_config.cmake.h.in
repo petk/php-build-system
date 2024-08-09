@@ -1746,7 +1746,7 @@
 /* Define to 1 if iconv has broken IGNORE. */
 #cmakedefine ICONV_BROKEN_IGNORE 1
 
-/* Define to 1 if libgd has JIS-mapped Japanese font support. */
+/* Define to 1 if GD library has JIS-mapped Japanese font support. */
 #cmakedefine JISX0208 1
 
 /* The LMDB handler header file. */
@@ -1798,7 +1798,7 @@
 #cmakedefine PCRE2_CODE_UNIT_WIDTH @PCRE2_CODE_UNIT_WIDTH@
 
 /* The MySQL Unix socket location as defined by 'mysql_config' for use with
-   the pdo_mysql extension.*/
+   the pdo_mysql extension. */
 #cmakedefine PDO_MYSQL_UNIX_ADDR "@PDO_MYSQL_UNIX_ADDR@"
 
 /* Define to the ODBC driver or driver manager value. */
