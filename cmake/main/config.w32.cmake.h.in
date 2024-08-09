@@ -733,7 +733,7 @@
 /* Define to 1 if you have the xpm library. */
 #cmakedefine HAVE_XPM 1
 
-/* Define to 1 if libgd has JIS-mapped Japanese font support. */
+/* Define to 1 if GD library has JIS-mapped Japanese font support. */
 #cmakedefine JISX0208 1
 
 /* Define to 1 if gd extension has JIS-mapped Japanese font support. */
