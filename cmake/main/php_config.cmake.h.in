@@ -547,6 +547,9 @@
 /* Define to 1 if you have the 'eaccess' function. */
 #cmakedefine HAVE_EACCESS 1
 
+/* Define to 1 if you have the 'elf_aux_info' function. */
+#cmakedefine HAVE_ELF_AUX_INFO 1
+
 /* Define to 1 if the odbc extension uses the Empress. */
 #cmakedefine HAVE_EMPRESS 1
 

@@ -346,6 +346,12 @@ check_symbol_exists(
   HAVE_POSIX_SPAWN_FILE_ACTIONS_ADDCHDIR_NP
 )
 
+check_symbol_exists(
+  elf_aux_info
+  "sys/auxv.h"
+  HAVE_ELF_AUX_INFO
+)
+
 # TODO: Check whether to enable the chroot() function by checking which SAPI is
 # being built.
 set(ENABLE_CHROOT_FUNC 1 CACHE INTERNAL "Whether to enable chroot() function")

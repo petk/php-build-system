@@ -583,6 +583,9 @@
 /* Define to 1 if the PHP extension 'dom' is available. */
 #cmakedefine HAVE_DOM 1
 
+/* Define to 1 if you have the 'elf_aux_info' function. */
+#cmakedefine HAVE_ELF_AUX_INFO 1
+
 /* Define to 1 if the PHP extension 'enchant' is available. */
 #cmakedefine HAVE_ENCHANT 1
 
