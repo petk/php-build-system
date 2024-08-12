@@ -53,3 +53,6 @@ build system:
 
 * Compiler shipped with Oracle Developer Studio is not supported.
   See: https://github.com/php/php-src/issues/15272
+
+* ext/phar can be built as shared with native OpenSSL support.
+  See: https://github.com/php/php-src/pull/14578
