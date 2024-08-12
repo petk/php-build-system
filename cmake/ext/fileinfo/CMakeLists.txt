@@ -87,3 +87,5 @@ set_property(
   PROPERTY
     OBJECT_DEPENDS ${CMAKE_CURRENT_SOURCE_DIR}/data_file.c
 )
+
+add_dependencies(php_fileinfo php_pcre)
