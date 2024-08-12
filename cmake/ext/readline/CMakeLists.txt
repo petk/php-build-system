@@ -118,8 +118,10 @@ else()
 
   if(TARGET Readline::Readline)
     # Sanity minimum version check if Readline library has the
-    # 'rl_pending_input' variable. There was once an outdated Readline library
-    # installed on old obsolete macOS. See https://bugs.php.net/48608.
+    # 'rl_pending_input' variable. The macOS systems might have an outdated
+    # forked Readline library installed on the system by default, which doesn't
+    # have this variable.
+    # See https://bugs.php.net/48608.
     cmake_push_check_state(RESET)
       set(CMAKE_REQUIRED_LIBRARIES Readline::Readline)
 
