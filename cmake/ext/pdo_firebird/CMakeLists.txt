@@ -38,7 +38,22 @@ target_sources(
   PRIVATE
     firebird_driver.c
     firebird_statement.c
+    pdo_firebird_utils.cpp
     pdo_firebird.c
+)
+
+set_target_properties(
+  php_pdo_firebird
+  PROPERTIES
+    CXX_STANDARD 11
+    CXX_STANDARD_REQUIRED TRUE
+)
+
+target_compile_options(
+  php_pdo_firebird
+  PRIVATE
+    $<$<COMPILE_LANG_AND_ID:C,MSVC>:/EHsc>
+    $<$<COMPILE_LANG_AND_ID:CXX,MSVC>:/EHsc>
 )
 
 add_dependencies(php_pdo_firebird php_pdo)
