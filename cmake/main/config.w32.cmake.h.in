@@ -646,6 +646,9 @@
 /* Define to 1 if mhash support is enabled. */
 #cmakedefine PHP_MHASH_BC 1
 
+/* Define to 1 if you have the 'getrandom' function. */
+#cmakedefine HAVE_GETRANDOM 1
+
 /* Define to 1 if gd extension has AVIF support. */
 #cmakedefine HAVE_GD_AVIF 1
 
