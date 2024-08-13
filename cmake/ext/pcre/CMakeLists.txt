@@ -164,7 +164,7 @@ else()
       SOURCE pcre2lib/pcre2_jit_compile.c
       APPEND
       PROPERTY
-        COMPILE_FLAGS -Wno-implicit-fallthrough
+        COMPILE_OPTIONS -Wno-implicit-fallthrough
     )
   endif()
 

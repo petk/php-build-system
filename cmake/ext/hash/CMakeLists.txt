@@ -85,7 +85,7 @@ else()
           SOURCE ${sha3Dir}/KeccakP-1600-inplace32BI.c
           APPEND
           PROPERTY
-            COMPILE_FLAGS -Wno-implicit-fallthrough
+            COMPILE_OPTIONS -Wno-implicit-fallthrough
         )
       endif()
     else()
