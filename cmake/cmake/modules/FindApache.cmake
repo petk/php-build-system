@@ -326,6 +326,7 @@ block(PROPAGATE Apache_VERSION)
   endif()
 
   # If Apache headers don't provide version, try apxs command-line tool.
+  # The 'apxs -q' HTTPD_VERSION variable was added in Apache 2.4.17.
   if(NOT Apache_VERSION AND Apache_APXS_EXECUTABLE)
     execute_process(
       COMMAND "${Apache_APXS_EXECUTABLE}" -q HTTPD_VERSION
