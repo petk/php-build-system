@@ -15,3 +15,4 @@
 * [Cross-compiling](/docs/cross-compiling.md)
 * [PHP build system evolution](/docs/evolution.md)
 * [Introduction to C](/docs/c.md)
+* [Frequently asked questions](/docs/faq.md)
