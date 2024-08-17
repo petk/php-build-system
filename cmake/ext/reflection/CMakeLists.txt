@@ -5,3 +5,5 @@ target_compile_definitions(
   PRIVATE
     ZEND_ENABLE_STATIC_TSRMLS_CACHE=1
 )
+
+add_dependencies(php_reflection php_random)

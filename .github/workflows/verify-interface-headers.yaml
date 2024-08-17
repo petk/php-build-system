@@ -1,0 +1,136 @@
+name: Verify interface headers
+
+on:
+  push:
+    branches: [PHP-8.3]
+    paths-ignore:
+      - 'docs/**'
+      - '.editorconfig'
+      - '.gitignore'
+      - 'README.md'
+  pull_request:
+    branches: [PHP-8.3]
+    paths-ignore:
+      - 'docs/**'
+      - '.editorconfig'
+      - '.gitignore'
+      - 'README.md'
+
+jobs:
+  linux:
+    name: Linux.${{ matrix.os.label }}.${{ matrix.compiler.name }}.${{ matrix.generator }}
+    runs-on: ${{ matrix.os.label }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os:
+          - { label: ubuntu-latest }
+        compiler:
+          - { name: GNU13,  CC: gcc-13,   CXX: g++-13,     packages: gcc-13 g++-13 }
+        build_type:
+          - Release
+        target:
+          - build
+        generator:
+          - Unix Makefiles
+        php:
+          - 8.3-dev
+    env:
+      CC: ${{ matrix.compiler.CC }}
+      CXX: ${{ matrix.compiler.CXX }}
+      SRC_DIR: ${{ github.workspace }}/php-src
+      BINARY_DIR: ${{ github.workspace }}/php-src
+      INSTALL_PREFIX: ${{ github.workspace }}/php-src/install
+      CMAKE_BUILD_TYPE: ${{ matrix.build_type }}
+      GENERATOR: ${{ matrix.generator }}
+      TARGET: ${{ matrix.target }}
+    steps:
+      - name: Install compiler ${{ matrix.compiler.name }}
+        run: |
+          # Remove azure mirror because it is unreliable and sometimes unpredictably leads to failed CI
+          sudo sed -i 's/azure\.//' /etc/apt/sources.list
+          sudo add-apt-repository ppa:ubuntu-toolchain-r/test
+          sudo add-apt-repository -y universe
+          sudo add-apt-repository -y multiverse
+          sudo apt-get update
+          sudo apt-get -y install \
+            ${{ matrix.compiler.packages }}
+
+      - name: Install base dependencies
+        run: |
+          sudo apt-get -y install \
+            build-essential \
+            re2c \
+            bison \
+            libxml2-dev \
+            libssl-dev \
+            libpcre++-dev \
+            libsqlite3-dev \
+            libbz2-dev \
+            libcurl4-openssl-dev \
+            libdb5.3++-dev \
+            libdb-dev \
+            libenchant-2-dev \
+            libpng-dev \
+            libgmp-dev \
+            libc-client-dev \
+            libkrb5-dev \
+            libjpeg-dev \
+            libxpm-dev \
+            libfreetype-dev \
+            libldap2-dev \
+            unixodbc-dev \
+            libodbc2 \
+            freetds-dev \
+            libsnmp-dev \
+            snmp \
+            apache2-dev \
+            firebird-dev \
+            libsodium-dev \
+            libicu-dev \
+            libzip-dev \
+            libaspell-dev \
+            libavif-dev \
+            libwebp-dev \
+            libxpm-dev \
+            libonig-dev \
+            libtidy-dev \
+            libargon2-dev \
+            libxslt1-dev \
+            libcapstone-dev \
+            libreadline-dev \
+            libedit-dev \
+            libsnmp-dev \
+            snmpd \
+            snmp-mibs-downloader \
+            libexpat1-dev \
+            libacl1-dev \
+            libapparmor-dev \
+            libselinux1-dev \
+            libsystemd-dev \
+            libldap2-dev \
+            libsasl2-dev \
+            libpq-dev \
+            libmm-dev \
+            zlib1g-dev \
+            libdmalloc-dev \
+            dovecot-core \
+            dovecot-pop3d \
+            dovecot-imapd \
+            sendmail;
+
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
+
+      - name: Configure build
+        run: |
+          ./bin/php.cmake ${{ matrix.php }}
+          cd php-${{ matrix.php }}
+          cmake --preset all-enabled -DCMAKE_VERIFY_INTERFACE_HEADER_SETS=ON
+
+      - name: Build
+        run: |
+          cd php-${{ matrix.php }}
+          cmake --build --target all_verify_interface_header_sets -j

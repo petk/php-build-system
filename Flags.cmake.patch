@@ -1,0 +1,67 @@
+diff --git a/cmake/cmake/Flags.cmake b/cmake/cmake/Flags.cmake
+index 230e04e..c5391d2 100644
+--- a/cmake/cmake/Flags.cmake
++++ b/cmake/cmake/Flags.cmake
+@@ -413,11 +413,26 @@ if(CMAKE_SYSTEM_NAME STREQUAL "Linux"
+   )
+ 
+   if(HAVE_ALIGNMENT_FLAGS_C)
+-    target_link_options(
+-      php_configuration
+-      INTERFACE
+-        $<$<AND:$<STREQUAL:$<TARGET_PROPERTY:TYPE>,EXECUTABLE>,$<COMPILE_LANGUAGE:ASM,C>>:LINKER:-z,common-page-size=2097152;LINKER:-z,max-page-size=2097152>
+-    )
++    cmake_push_check_state(RESET)
++      set(
++        CMAKE_REQUIRED_LINK_OPTIONS
++        LINKER:-z,common-page-size=2097152
++        LINKER:-z,max-page-size=2097152
++      )
++      check_source_runs(
++        C
++        [[int main(void) { return 0; }]]
++        HAVE_ALIGNMENT_FLAGS_C_SOURCE_RUNS
++      )
++    cmake_pop_check_state()
++
++    if(HAVE_ALIGNMENT_FLAGS_C_SOURCE_RUNS)
++      target_link_options(
++        php_configuration
++        INTERFACE
++          $<$<AND:$<STREQUAL:$<TARGET_PROPERTY:TYPE>,EXECUTABLE>,$<COMPILE_LANGUAGE:ASM,C>>:LINKER:-z,common-page-size=2097152;LINKER:-z,max-page-size=2097152>
++      )
++    endif()
+   else()
+     check_linker_flag(
+       C
+@@ -426,11 +441,25 @@ if(CMAKE_SYSTEM_NAME STREQUAL "Linux"
+     )
+ 
+     if(HAVE_ZMAX_PAGE_SIZE_C)
+-      target_link_options(
+-        php_configuration
+-        INTERFACE
+-          $<$<AND:$<STREQUAL:$<TARGET_PROPERTY:TYPE>,EXECUTABLE>,$<COMPILE_LANGUAGE:ASM,C>>:LINKER:-z,max-page-size=2097152>
+-      )
++      cmake_push_check_state(RESET)
++        set(
++          CMAKE_REQUIRED_LINK_OPTIONS
++          LINKER:-z,max-page-size=2097152
++        )
++        check_source_runs(
++          C
++          [[int main(void) { return 0; }]]
++          HAVE_ALIGNMENT_FLAG_C_SOURCE_RUNS
++        )
++      cmake_pop_check_state()
++
++      if(HAVE_ALIGNMENT_FLAG_C_SOURCE_RUNS)
++        target_link_options(
++          php_configuration
++          INTERFACE
++            $<$<AND:$<STREQUAL:$<TARGET_PROPERTY:TYPE>,EXECUTABLE>,$<COMPILE_LANGUAGE:ASM,C>>:LINKER:-z,max-page-size=2097152>
++        )
++      endif()
+     endif()
+   endif()
+ 

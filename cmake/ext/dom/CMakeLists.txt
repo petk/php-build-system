@@ -269,4 +269,4 @@ set_package_properties(
 
 target_link_libraries(php_dom PRIVATE LibXml2::LibXml2)
 
-add_dependencies(php_dom php_libxml)
+add_dependencies(php_dom php_libxml php_random)
