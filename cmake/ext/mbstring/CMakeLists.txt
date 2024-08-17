@@ -111,6 +111,8 @@ target_sources(
         ${CMAKE_CURRENT_BINARY_DIR}/libmbfl/config.h
 )
 
+add_dependencies(php_mbstring php_pcre)
+
 message(STATUS "Creating ext/mbstring/libmbfl/config.h")
 configure_file(libmbfl/config.h.in libmbfl/config.h)
 

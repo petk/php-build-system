@@ -35,6 +35,8 @@ target_sources(
     snmp.c
 )
 
+add_dependencies(php_snmp php_spl)
+
 find_package(NetSnmp 5.3)
 set_package_properties(
   NetSnmp

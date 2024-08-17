@@ -48,3 +48,5 @@ set_package_properties(
 )
 
 target_link_libraries(php_gmp PUBLIC GMP::GMP)
+
+add_dependencies(php_gmp php_random)
