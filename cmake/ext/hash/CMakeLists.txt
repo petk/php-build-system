@@ -1,5 +1,5 @@
-include(CheckCompilerFlag)
 include(FeatureSummary)
+include(PHP/CheckCompilerFlag)
 
 option(EXT_HASH_MHASH "Enable the mhash support (deprecated as of PHP 8.1)" OFF)
 
@@ -75,7 +75,7 @@ else()
       target_sources(php_hash PRIVATE ${sha3Dir}/KeccakP-1600-inplace32BI.c)
 
       # Add -Wno-implicit-fallthrough flag due to warnings on 32-bit builds.
-      check_compiler_flag(
+      php_check_compiler_flag(
         C
         -Wno-implicit-fallthrough
         _HAVE_WNO_IMPLICIT_FALLTHROUGH_C

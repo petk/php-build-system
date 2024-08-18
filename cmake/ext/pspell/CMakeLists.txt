@@ -1,6 +1,6 @@
-include(CheckCompilerFlag)
 include(CMakeDependentOption)
 include(FeatureSummary)
+include(PHP/CheckCompilerFlag)
 
 option(EXT_PSPELL "Enable the pspell extension" OFF)
 
@@ -35,7 +35,7 @@ target_sources(
 )
 
 # Add -Wno-strict-prototypes as depends on user libs.
-check_compiler_flag(C -Wno-strict-prototypes HAVE_WNO_STRICT_PROTOTYPES_C)
+php_check_compiler_flag(C -Wno-strict-prototypes HAVE_WNO_STRICT_PROTOTYPES_C)
 if(HAVE_WNO_STRICT_PROTOTYPES_C)
   target_compile_options(
     php_pspell

@@ -1,6 +1,6 @@
-include(CheckCompilerFlag)
 include(CMakeDependentOption)
 include(FeatureSummary)
+include(PHP/CheckCompilerFlag)
 
 option(EXT_TIDY "Enable the tidy extension" OFF)
 
@@ -36,7 +36,7 @@ target_sources(
 )
 
 # Add -Wno-ignored-qualifiers as this is an issue upstream.
-check_compiler_flag(C -Wno-ignored-qualifiers HAVE_WNO_IGNORED_QUALIFIERS_C)
+php_check_compiler_flag(C -Wno-ignored-qualifiers HAVE_WNO_IGNORED_QUALIFIERS_C)
 if(HAVE_WNO_IGNORED_QUALIFIERS_C)
   target_compile_options(php_tidy PRIVATE -Wno-ignored-qualifiers)
 endif()
