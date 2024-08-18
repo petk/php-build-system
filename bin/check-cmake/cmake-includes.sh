@@ -89,6 +89,7 @@ modules="
   ProcessorCount
 
   PHP/CheckAttribute
+  PHP/CheckCompilerFlag
   PHP/PkgConfigGenerator
   PHP/SearchLibraries
   PHP/SystemExtensions
@@ -154,6 +155,7 @@ PHP_CheckAttribute="
   php_check_function_attribute
   php_check_variable_attribute
 "
+PHP_CheckCompilerFlag="php_check_compiler_flag"
 PHP_PkgConfigGenerator="pkgconfig_generate_pc"
 PHP_SearchLibraries="php_search_libraries"
 PHP_SystemExtensions='PHP::SystemExtensions'

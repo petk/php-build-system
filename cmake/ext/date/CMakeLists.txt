@@ -1,5 +1,5 @@
-include(CheckCompilerFlag)
 include(CheckIncludeFile)
+include(PHP/CheckCompilerFlag)
 
 # Check for headers needed by timelib.
 check_include_file(io.h HAVE_IO_H)
@@ -44,7 +44,7 @@ target_include_directories(php_date PUBLIC ${CMAKE_CURRENT_BINARY_DIR}/lib)
 # Suppress possible -Wundef warnings produced by the bundled timelib if such
 # warning level is set by the compiler. On Windows MSVC the warning C4668 is
 # equivalent to GCC or Clang's -Wundef.
-check_compiler_flag(C -Wno-undef _HAVE_WNO_UNDEF_C)
+php_check_compiler_flag(C -Wno-undef _HAVE_WNO_UNDEF_C)
 
 set(
   php_date_timelib_compile_options
