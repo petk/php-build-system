@@ -8,6 +8,7 @@ include(CheckCompilerFlag)
 include(CheckLinkerFlag)
 include(CheckSourceRuns)
 include(CMakePushCheckState)
+include(PHP/CheckCompilerFlag)
 
 # Check for broken GCC optimize-strlen.
 include(PHP/CheckBrokenGccStrlenOpt)
@@ -482,7 +483,11 @@ endif()
 # feature. Clang has this option to turn off these warnings. As of C11, the
 # typedef redefinitions are valid programming, and this can be removed once a
 # required CMAKE_C_STANDARD 11 will be used.
-check_compiler_flag(C -Wno-typedef-redefinition _HAVE_WNO_TYPEDEF_REDEFINITION)
+php_check_compiler_flag(
+  C
+  -Wno-typedef-redefinition
+  _HAVE_WNO_TYPEDEF_REDEFINITION
+)
 if(_HAVE_WNO_TYPEDEF_REDEFINITION)
   target_compile_options(
     php_configuration
