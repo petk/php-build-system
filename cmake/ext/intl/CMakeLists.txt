@@ -1,6 +1,6 @@
-include(CheckCompilerFlag)
 include(CMakeDependentOption)
 include(FeatureSummary)
+include(PHP/CheckCompilerFlag)
 
 option(EXT_INTL "Enable the intl extension" OFF)
 
@@ -103,7 +103,7 @@ target_sources(
     uchar/uchar.c
 )
 
-check_compiler_flag(C -Wno-write-strings HAVE_WNO_WRITE_STRINGS_C)
+php_check_compiler_flag(C -Wno-write-strings HAVE_WNO_WRITE_STRINGS_C)
 if(HAVE_WNO_WRITE_STRINGS_C)
   target_compile_options(
     php_intl
@@ -112,7 +112,7 @@ if(HAVE_WNO_WRITE_STRINGS_C)
   )
 endif()
 
-check_compiler_flag(CXX -Wno-write-strings HAVE_WNO_WRITE_STRINGS_CXX)
+php_check_compiler_flag(CXX -Wno-write-strings HAVE_WNO_WRITE_STRINGS_CXX)
 if(HAVE_WNO_WRITE_STRINGS_CXX)
   target_compile_options(
     php_intl

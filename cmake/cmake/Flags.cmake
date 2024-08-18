@@ -4,7 +4,6 @@ Check and configure compilation options.
 
 include_guard(GLOBAL)
 
-include(CheckCompilerFlag)
 include(CheckLinkerFlag)
 include(CheckSourceRuns)
 include(CMakePushCheckState)
@@ -13,7 +12,7 @@ include(PHP/CheckCompilerFlag)
 # Check for broken GCC optimize-strlen.
 include(PHP/CheckBrokenGccStrlenOpt)
 if(HAVE_BROKEN_OPTIMIZE_STRLEN)
-  check_compiler_flag(C -fno-optimize-strlen HAVE_FNO_OPTIMIZE_STRLEN_C)
+  php_check_compiler_flag(C -fno-optimize-strlen HAVE_FNO_OPTIMIZE_STRLEN_C)
   if(HAVE_FNO_OPTIMIZE_STRLEN_C)
     target_compile_options(
       php_configuration
@@ -25,7 +24,7 @@ endif()
 
 # Mark symbols hidden by default if the compiler (for example, GCC >= 4)
 # supports it. This can help reduce the binary size and startup time.
-check_compiler_flag(C -fvisibility=hidden HAVE_FVISIBILITY_HIDDEN_C)
+php_check_compiler_flag(C -fvisibility=hidden HAVE_FVISIBILITY_HIDDEN_C)
 if(HAVE_FVISIBILITY_HIDDEN_C)
   target_compile_options(
     php_configuration
@@ -44,7 +43,7 @@ target_compile_options(
 )
 
 # Check if compiler supports -Wno-clobbered (only GCC).
-check_compiler_flag(C -Wno-clobbered HAVE_WNO_CLOBBERED_C)
+php_check_compiler_flag(C -Wno-clobbered HAVE_WNO_CLOBBERED_C)
 if(HAVE_WNO_CLOBBERED_C)
   target_compile_options(
     php_configuration
@@ -53,7 +52,7 @@ if(HAVE_WNO_CLOBBERED_C)
       $<$<COMPILE_LANGUAGE:ASM,C>:-Wno-clobbered>
   )
 endif()
-check_compiler_flag(CXX -Wno-clobbered HAVE_WNO_CLOBBERED_CXX)
+php_check_compiler_flag(CXX -Wno-clobbered HAVE_WNO_CLOBBERED_CXX)
 if(HAVE_WNO_CLOBBERED_CXX)
   target_compile_options(
     php_configuration
@@ -65,7 +64,11 @@ endif()
 
 # Check for support for implicit fallthrough level 1, also add after previous
 # CFLAGS as level 3 is enabled in -Wextra.
-check_compiler_flag(C -Wimplicit-fallthrough=1 HAVE_WIMPLICIT_FALLTHROUGH_1_C)
+php_check_compiler_flag(
+  C
+  -Wimplicit-fallthrough=1
+  HAVE_WIMPLICIT_FALLTHROUGH_1_C
+)
 if(HAVE_WIMPLICIT_FALLTHROUGH_1_C)
   target_compile_options(
     php_configuration
@@ -73,7 +76,7 @@ if(HAVE_WIMPLICIT_FALLTHROUGH_1_C)
       $<$<COMPILE_LANGUAGE:ASM,C>:-Wimplicit-fallthrough=1>
   )
 endif()
-check_compiler_flag(
+php_check_compiler_flag(
   CXX
   -Wimplicit-fallthrough=1
   HAVE_WIMPLICIT_FALLTHROUGH_1_CXX
@@ -86,7 +89,7 @@ if(HAVE_WIMPLICIT_FALLTHROUGH_1_CXX)
   )
 endif()
 
-check_compiler_flag(C -Wduplicated-cond HAVE_WDUPLICATED_COND_C)
+php_check_compiler_flag(C -Wduplicated-cond HAVE_WDUPLICATED_COND_C)
 if(HAVE_WDUPLICATED_COND_C)
   target_compile_options(
     php_configuration
@@ -95,7 +98,7 @@ if(HAVE_WDUPLICATED_COND_C)
       $<$<COMPILE_LANGUAGE:ASM,C>:-Wduplicated-cond>
   )
 endif()
-check_compiler_flag(CXX -Wduplicated-cond HAVE_WDUPLICATED_COND_CXX)
+php_check_compiler_flag(CXX -Wduplicated-cond HAVE_WDUPLICATED_COND_CXX)
 if(HAVE_WDUPLICATED_COND_CXX)
   target_compile_options(
     php_configuration
@@ -105,7 +108,7 @@ if(HAVE_WDUPLICATED_COND_CXX)
   )
 endif()
 
-check_compiler_flag(C -Wlogical-op HAVE_WLOGICAL_OP_C)
+php_check_compiler_flag(C -Wlogical-op HAVE_WLOGICAL_OP_C)
 if(HAVE_WLOGICAL_OP_C)
   target_compile_options(
     php_configuration
@@ -114,7 +117,7 @@ if(HAVE_WLOGICAL_OP_C)
       $<$<COMPILE_LANGUAGE:ASM,C>:-Wlogical-op>
   )
 endif()
-check_compiler_flag(CXX -Wlogical-op HAVE_WLOGICAL_OP_CXX)
+php_check_compiler_flag(CXX -Wlogical-op HAVE_WLOGICAL_OP_CXX)
 if(HAVE_WLOGICAL_OP_CXX)
   target_compile_options(
     php_configuration
@@ -124,7 +127,7 @@ if(HAVE_WLOGICAL_OP_CXX)
   )
 endif()
 
-check_compiler_flag(C -Wformat-truncation HAVE_WFORMAT_TRUNCATION_C)
+php_check_compiler_flag(C -Wformat-truncation HAVE_WFORMAT_TRUNCATION_C)
 if(HAVE_WFORMAT_TRUNCATION_C)
   target_compile_options(
     php_configuration
@@ -133,7 +136,7 @@ if(HAVE_WFORMAT_TRUNCATION_C)
       $<$<COMPILE_LANGUAGE:ASM,C>:-Wformat-truncation>
   )
 endif()
-check_compiler_flag(CXX -Wformat-truncation HAVE_WFORMAT_TRUNCATION_CXX)
+php_check_compiler_flag(CXX -Wformat-truncation HAVE_WFORMAT_TRUNCATION_CXX)
 if(HAVE_WFORMAT_TRUNCATION_CXX)
   target_compile_options(
     php_configuration
@@ -143,7 +146,7 @@ if(HAVE_WFORMAT_TRUNCATION_CXX)
   )
 endif()
 
-check_compiler_flag(C -Wstrict-prototypes HAVE_WSTRICT_PROTOTYPES_C)
+php_check_compiler_flag(C -Wstrict-prototypes HAVE_WSTRICT_PROTOTYPES_C)
 if(HAVE_WSTRICT_PROTOTYPES_C)
   target_compile_options(
     php_configuration
@@ -153,7 +156,7 @@ if(HAVE_WSTRICT_PROTOTYPES_C)
   )
 endif()
 
-check_compiler_flag(C -fno-common HAVE_FNO_COMMON_C)
+php_check_compiler_flag(C -fno-common HAVE_FNO_COMMON_C)
 if(HAVE_FNO_COMMON_C)
   target_compile_options(
     php_configuration
@@ -162,7 +165,7 @@ if(HAVE_FNO_COMMON_C)
       $<$<COMPILE_LANGUAGE:ASM,C>:-fno-common>
   )
 endif()
-check_compiler_flag(CXX -fno-common HAVE_FNO_COMMON_CXX)
+php_check_compiler_flag(CXX -fno-common HAVE_FNO_COMMON_CXX)
 if(HAVE_FNO_COMMON_C_XX)
   target_compile_options(
     php_configuration
@@ -174,7 +177,7 @@ endif()
 
 # Explicitly disable floating-point expression contraction, even if already done
 # by CMAKE_C_STANDARD. See https://github.com/php/php-src/issues/14140
-check_compiler_flag(C -ffp-contract=off HAVE_FFP_CONTRACT_OFF_C)
+php_check_compiler_flag(C -ffp-contract=off HAVE_FFP_CONTRACT_OFF_C)
 if(HAVE_FFP_CONTRACT_OFF_C)
   target_compile_options(
     php_configuration
@@ -205,13 +208,13 @@ if(PHP_MEMORY_SANITIZER)
       -fsanitize-memory-track-origins
     )
 
-    check_compiler_flag(
+    php_check_compiler_flag(
       C
       "-fsanitize=memory;-fsanitize-memory-track-origins"
       HAVE_MEMORY_SANITIZER_C
     )
 
-    check_compiler_flag(
+    php_check_compiler_flag(
       CXX
       "-fsanitize=memory;-fsanitize-memory-track-origins"
       HAVE_MEMORY_SANITIZER_CXX
@@ -254,8 +257,8 @@ if(PHP_ADDRESS_SANITIZER)
   cmake_push_check_state(RESET)
     set(CMAKE_REQUIRED_LINK_OPTIONS "-fsanitize=address")
 
-    check_compiler_flag(C "-fsanitize=address" HAVE_ADDRESS_SANITIZER_C)
-    check_compiler_flag(CXX "-fsanitize=address" HAVE_ADDRESS_SANITIZER_CXX)
+    php_check_compiler_flag(C "-fsanitize=address" HAVE_ADDRESS_SANITIZER_C)
+    php_check_compiler_flag(CXX "-fsanitize=address" HAVE_ADDRESS_SANITIZER_CXX)
   cmake_pop_check_state()
 
   if(HAVE_ADDRESS_SANITIZER_C AND HAVE_ADDRESS_SANITIZER_CXX)
@@ -291,8 +294,8 @@ if(PHP_UNDEFINED_SANITIZER)
   cmake_push_check_state(RESET)
     set(CMAKE_REQUIRED_LINK_OPTIONS "-fsanitize=undefined")
 
-    check_compiler_flag(C "-fsanitize=undefined" HAVE_UNDEFINED_SANITIZER_C)
-    check_compiler_flag(CXX "-fsanitize=undefined" HAVE_UNDEFINED_SANITIZER_CXX)
+    php_check_compiler_flag(C "-fsanitize=undefined" HAVE_UNDEFINED_SANITIZER_C)
+    php_check_compiler_flag(CXX "-fsanitize=undefined" HAVE_UNDEFINED_SANITIZER_CXX)
   cmake_pop_check_state()
 
   if(HAVE_UNDEFINED_SANITIZER_C AND HAVE_UNDEFINED_SANITIZER_CXX)
@@ -313,8 +316,8 @@ if(PHP_UNDEFINED_SANITIZER)
     cmake_push_check_state(RESET)
       set(CMAKE_REQUIRED_LINK_OPTIONS "-fno-sanitize=object-size")
 
-      check_compiler_flag(C "-fno-sanitize=object-size" HAVE_OBJECT_SIZE_SANITIZER_C)
-      check_compiler_flag(CXX "-fno-sanitize=object-size" HAVE_OBJECT_SIZE_SANITIZER_CXX)
+      php_check_compiler_flag(C "-fno-sanitize=object-size" HAVE_OBJECT_SIZE_SANITIZER_C)
+      php_check_compiler_flag(CXX "-fno-sanitize=object-size" HAVE_OBJECT_SIZE_SANITIZER_CXX)
     cmake_pop_check_state()
 
     if(HAVE_OBJECT_SIZE_SANITIZER_C AND HAVE_OBJECT_SIZE_SANITIZER_CXX)
@@ -346,8 +349,8 @@ if(PHP_UNDEFINED_SANITIZER)
       cmake_pop_check_state()
 
       if(NOT _php_ubsan_works)
-        check_compiler_flag(C -fno-sanitize=function HAVE_FNO_SANITIZE_FUNCTION_C)
-        check_compiler_flag(CXX -fno-sanitize=function HAVE_FNO_SANITIZE_FUNCTION_CXX)
+        php_check_compiler_flag(C -fno-sanitize=function HAVE_FNO_SANITIZE_FUNCTION_C)
+        php_check_compiler_flag(CXX -fno-sanitize=function HAVE_FNO_SANITIZE_FUNCTION_CXX)
 
         if(HAVE_FNO_SANITIZE_FUNCTION_C)
           target_compile_options(
@@ -375,8 +378,8 @@ if(PHP_UNDEFINED_SANITIZER)
 endif()
 
 if(PHP_MEMORY_SANITIZER OR PHP_ADDRESS_SANITIZER OR PHP_UNDEFINED_SANITIZER)
-  check_compiler_flag(C -fno-omit-frame-pointer HAVE_FNO_OMIT_FRAME_POINTER_C)
-  check_compiler_flag(CXX -fno-omit-frame-pointer HAVE_FNO_OMIT_FRAME_POINTER_CXX)
+  php_check_compiler_flag(C -fno-omit-frame-pointer HAVE_FNO_OMIT_FRAME_POINTER_C)
+  php_check_compiler_flag(CXX -fno-omit-frame-pointer HAVE_FNO_OMIT_FRAME_POINTER_CXX)
 
   if(HAVE_FNO_OMIT_FRAME_POINTER_C)
     target_compile_options(

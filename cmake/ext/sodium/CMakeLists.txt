@@ -1,6 +1,6 @@
-include(CheckCompilerFlag)
 include(CMakeDependentOption)
 include(FeatureSummary)
+include(PHP/CheckCompilerFlag)
 
 option(EXT_SODIUM "Enable the sodium extension" OFF)
 
@@ -51,12 +51,12 @@ target_link_libraries(php_sodium PRIVATE Sodium::Sodium)
 
 # Suppress some warnings on 32-bit with -Wno-type-limits and -Wno-logical-op.
 if(CMAKE_SIZEOF_VOID_P EQUAL 4)
-  check_compiler_flag(C -Wno-type-limits HAVE_WNO_TYPE_LIMITS_C)
+  php_check_compiler_flag(C -Wno-type-limits HAVE_WNO_TYPE_LIMITS_C)
   if(HAVE_WNO_TYPE_LIMITS_C)
     target_compile_options(php_sodium PRIVATE -Wno-type-limits)
   endif()
 
-  check_compiler_flag(C -Wno-logical-op HAVE_WNO_LOGICAL_OP_C)
+  php_check_compiler_flag(C -Wno-logical-op HAVE_WNO_LOGICAL_OP_C)
   if(HAVE_WNO_LOGICAL_OP_C)
     target_compile_options(php_sodium PRIVATE -Wno-logical-op)
   endif()

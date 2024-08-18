@@ -1,8 +1,8 @@
-include(CheckCompilerFlag)
 include(CheckSourceRuns)
 include(CheckSymbolExists)
 include(CMakePushCheckState)
 include(FeatureSummary)
+include(PHP/CheckCompilerFlag)
 
 option(
   EXT_PCRE_EXTERNAL
@@ -154,7 +154,7 @@ else()
   endblock()
 
   # For pcre2lib/sljit/sljitNativeARM_64.c on ARM 64 processors build.
-  check_compiler_flag(
+  php_check_compiler_flag(
     C
     -Wno-implicit-fallthrough
     _HAVE_WNO_IMPLICIT_FALLTHROUGH_C
@@ -202,7 +202,7 @@ else()
     cmake_pop_check_state()
     if(_HAVE_PCRE2_INTEL_CET)
       message(CHECK_PASS "yes")
-      check_compiler_flag(C -mshstk _HAVE_MSHSTK_C)
+      php_check_compiler_flag(C -mshstk _HAVE_MSHSTK_C)
       if(_HAVE_MSHSTK_C)
         target_compile_options(php_pcre PRIVATE -mshstk)
       endif()

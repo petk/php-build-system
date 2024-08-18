@@ -3,9 +3,9 @@ if(CMAKE_SYSTEM_NAME STREQUAL "Windows")
   return()
 endif()
 
-include(CheckCompilerFlag)
 include(CMakePushCheckState)
 include(FeatureSummary)
+include(PHP/CheckCompilerFlag)
 
 option(
   SAPI_FUZZER
@@ -66,13 +66,13 @@ else()
   cmake_push_check_state(RESET)
     set(CMAKE_REQUIRED_LINK_OPTIONS -fsanitize=fuzzer-no-link)
 
-    check_compiler_flag(
+    php_check_compiler_flag(
       C
       -fsanitize=fuzzer-no-link
       HAVE_FSANITIZE_FUZZER_NO_LINK_C
     )
 
-    check_compiler_flag(
+    php_check_compiler_flag(
       CXX
       -fsanitize=fuzzer-no-link
       HAVE_FSANITIZE_FUZZER_NO_LINK_CXX
