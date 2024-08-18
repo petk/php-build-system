@@ -35,10 +35,6 @@ function(php_check_compiler_flag lang flag result)
     message(FATAL_ERROR "Missing arguments")
   endif()
 
-  if(parsed_UNPARSED_ARGUMENTS)
-    message(FATAL_ERROR "Bad arguments: ${parsed_UNPARSED_ARGUMENTS}")
-  endif()
-
   if(NOT lang MATCHES "^(C|CXX)$")
     message(FATAL_ERROR "Wrong argument passed: ${lang}")
   endif()
