@@ -43,11 +43,14 @@ function(php_check_compiler_flag lang flag result)
     message(FATAL_ERROR "Wrong argument passed: ${lang}")
   endif()
 
-  # When checking '-Wno-...' compile options, GCC by default accepts them
-  # without issuing any diagnostics. GCC solution can be to revert these checks
-  # into checking for the -W... compile option instead.
+  # When checking the '-Wno-...' compile options, GCC by default accepts them
+  # without issuing any diagnostic messages. When using GCC compiler solution is
+  # to revert these checks into checking for the -W... compile option instead.
+  # This behavior was introduced since GCC 4.4:
+  # https://gcc.gnu.org/gcc-4.4/changes.html
   if(
-    CMAKE_C_COMPILER_ID STREQUAL "GNU"
+    CMAKE_${lang}_COMPILER_ID STREQUAL "GNU"
+    AND CMAKE_${lang}_COMPILER_VERSION VERSION_GREATER_EQUAL 4.4
     AND flag MATCHES "^-Wno-"
     AND NOT flag MATCHES "^-Wno-error(=|$)"
   )
