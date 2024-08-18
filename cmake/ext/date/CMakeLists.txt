@@ -1,3 +1,4 @@
+include(CheckCompilerFlag)
 include(CheckIncludeFile)
 
 # Check for headers needed by timelib.
@@ -5,19 +6,25 @@ check_include_file(io.h HAVE_IO_H)
 
 add_library(php_date STATIC)
 
+# A list of bundled timelib source files.
+set(
+  php_date_timelib_sources
+    ${CMAKE_CURRENT_SOURCE_DIR}/lib/astro.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/lib/dow.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/lib/interval.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/lib/parse_date.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/lib/parse_iso_intervals.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/lib/parse_posix.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/lib/parse_tz.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/lib/timelib.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/lib/tm2unixtime.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/lib/unixtime2tm.c
+)
+
 target_sources(
   php_date
   PRIVATE
-    lib/astro.c
-    lib/dow.c
-    lib/interval.c
-    lib/parse_date.c
-    lib/parse_iso_intervals.c
-    lib/parse_posix.c
-    lib/parse_tz.c
-    lib/timelib.c
-    lib/tm2unixtime.c
-    lib/unixtime2tm.c
+    ${php_date_timelib_sources}
     php_date.c
   PUBLIC
     FILE_SET HEADERS
@@ -33,6 +40,24 @@ target_sources(
 )
 
 target_include_directories(php_date PUBLIC ${CMAKE_CURRENT_BINARY_DIR}/lib)
+
+# Suppress possible -Wundef warnings produced by the bundled timelib if such
+# warning level is set by the compiler. On Windows MSVC the warning C4668 is
+# equivalent to GCC or Clang's -Wundef.
+check_compiler_flag(C -Wno-undef _HAVE_WNO_UNDEF_C)
+
+set(
+  php_date_timelib_compile_options
+    $<$<COMPILE_LANG_AND_ID:C,MSVC>:/wd4668>
+    $<IF:$<BOOL:${_HAVE_WNO_UNDEF_C}>,-Wno-undef,>
+)
+
+set_source_files_properties(
+  ${php_date_timelib_sources}
+  PROPERTIES
+    COMPILE_OPTIONS
+      "${php_date_timelib_compile_options}"
+)
 
 target_compile_options(
   php_date
