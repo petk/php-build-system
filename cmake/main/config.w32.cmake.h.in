@@ -555,7 +555,7 @@
 #cmakedefine HAVE_COM_DOTNET 1
 
 /* have the mscoree.h header file */
-#cmakedefine HAVE_MSCOREE_H 1
+#cmakedefine01 HAVE_MSCOREE_H 1
 
 /* Define to 1 if Capstone is available. */
 #cmakedefine HAVE_CAPSTONE 1
