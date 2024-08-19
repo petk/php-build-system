@@ -1,21 +1,36 @@
 #[=============================================================================[
 Check whether the compiler supports given compile option.
 
-CMake's CheckCompilerFlag module and its check_compiler_flag() macro at time of
-writing don't support some common edge cases, such as detecting GCC's '-Wno-'
-options and similar. This module aims to bypass these issues but still providing
-similar functionality on top of CMake's CheckCompilerFlag.
+CMake's 'CheckCompilerFlag' module and its 'check_compiler_flag()' macro, at the
+time of writing, do not support certain edge cases for certain compilers. This
+module aims to address these issues to make checking compile options easier and
+more intuitive, while still providing similar functionality on top of CMake's
+'CheckCompilerFlag'.
+
+Bypasses:
+
+- Compile options to disable warnings (-Wno-*)
+  When checking the -Wno-* flags, some compilers (GCC, Oracle Developer Studio
+  compiler, and most likely some others) don't issue any diagnostic message when
+  encountering unsupported -Wno-* flag. This modules checks for their opposite
+  compile option instead (-W*). For example, the silent -Wno-* compile flags
+  behavior was introduced since GCC 4.4:
+  https://gcc.gnu.org/gcc-4.4/changes.html
+
+  See: https://gitlab.kitware.com/cmake/cmake/-/issues/26228
 
 Module exposes the following function:
 
   php_check_compiler_flag(<lang> <flag> <result_var>)
 
-    Check that the <flag> is accepted by the <lang> compiler without a
-    diagnostic. The result is stored in an internal cache entry named
-    <result_var>. The language of the check (<lang>) can be C or CXX.
+    Check that the <flag> is accepted by the <lang> compiler without issuing
+    any diagnostic message. The result is stored in an internal cache entry
+    named <result_var>. The language <lang> can be one of the supported
+    languages by the CMake's CheckCompilerFlag module.
 ]=============================================================================]#
 
 include(CheckCompilerFlag)
+include(CMakePushCheckState)
 
 function(php_check_compiler_flag lang flag result)
   cmake_parse_arguments(
@@ -35,24 +50,47 @@ function(php_check_compiler_flag lang flag result)
     message(FATAL_ERROR "Missing arguments")
   endif()
 
-  if(NOT lang MATCHES "^(C|CXX)$")
-    message(FATAL_ERROR "Wrong argument passed: ${lang}")
+  if(NOT CMAKE_REQUIRED_QUIET)
+    message(CHECK_START "Checking whether the ${lang} compiler accepts ${flag}")
   endif()
 
-  # When checking the '-Wno-...' compile options, GCC by default accepts them
-  # without issuing any diagnostic messages. When using GCC compiler solution is
-  # to revert these checks into checking for the -W... compile option instead.
-  # This behavior was introduced since GCC 4.4:
-  # https://gcc.gnu.org/gcc-4.4/changes.html
-  if(
-    CMAKE_${lang}_COMPILER_ID STREQUAL "GNU"
-    AND CMAKE_${lang}_COMPILER_VERSION VERSION_GREATER_EQUAL 4.4
-    AND flag MATCHES "^-Wno-"
-    # The '-Wno-error' and '-Wno-attributes' need to be excluded.
-    AND NOT flag MATCHES "^-Wno-error(=|$)|^-Wno-attributes(=|$)"
-  )
-    string(REGEX REPLACE "^-Wno-" "-W" flag ${flag})
-  endif()
+  cmake_push_check_state()
+    set(CMAKE_REQUIRED_QUIET TRUE)
 
-  check_compiler_flag(${lang} ${flag} ${result})
+    # Bypass the '-Wno-*' compile options for all compilers except those known
+    # to emit diagnostic messages for unknown -Wno-* flags.
+    if(
+      NOT CMAKE_${lang}_COMPILER_ID MATCHES "^(AppleClang|Clang|MSVC)$"
+      AND flag MATCHES "^-Wno-"
+      # Exclude the '-Wno-error' and '-Wno-attributes=*' flags.
+      AND NOT flag MATCHES "^-Wno-error(=|$)|^-Wno-attributes="
+    )
+      string(REGEX REPLACE "^-Wno-" "-W" flag ${flag})
+    endif()
+
+    # Append -Wunknown-warning-option option if compiler supports it (Clang or
+    # similar) and was by any chance configured with -Wno-unknown-warning-option
+    # (via environment CFLAGS or CMAKE_C_FLAGS).
+    if(flag MATCHES "^-W")
+      check_compiler_flag(
+        ${lang}
+        -Wunknown-warning-option
+        _php_check_compiler_flag_${lang}_unknown_warning_option
+      )
+
+      if(_php_check_compiler_flag_${lang}_unknown_warning_option)
+        string(APPEND CMAKE_REQUIRED_FLAGS " -Wunknown-warning-option")
+      endif()
+    endif()
+
+    check_compiler_flag(${lang} ${flag} ${result})
+  cmake_pop_check_state()
+
+  if(NOT CMAKE_REQUIRED_QUIET)
+    if(${result})
+      message(CHECK_PASS "yes")
+    else()
+      message(CHECK_FAIL "no")
+    endif()
+  endif()
 endfunction()
