@@ -40,6 +40,13 @@ build system:
   missing LDAP features causing build errors.
   See: https://github.com/php/php-src/issues/15051
 
+* Consistent configuration macro definitions.
+  The `CHECK_HEADER_ADD_INCLUDE` function from the upstream PHP Windows build
+  system in `win32/build/confutils.js` defines results as `0` or `1` which is
+  not tuned with the Autotools build system, where macros are mostly of style
+  *undefined/defined to 1*.
+  See: https://github.com/php/php-src/issues/15501
+
 ## Behavior
 
 * ext/readline uses the libedit (EditLine) library by default.
@@ -56,9 +63,3 @@ build system:
 
 * ext/phar can be built as shared with native OpenSSL support.
   See: https://github.com/php/php-src/pull/14578
-
-* Consistent configuration macro definitions
-  The `CHECK_HEADER_ADD_INCLUDE` function from the upstream PHP Windows build
-  system in win32/build/confutils.js defines results as 0 or 1 which is not
-  tuned with the Autotools build system, where macros are mostly of style
-  *undefined/defined to 1*.
