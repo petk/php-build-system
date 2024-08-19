@@ -58,7 +58,7 @@ target_compile_options(
 
 add_dependencies(php_pdo_firebird php_pdo)
 
-find_package(Firebird)
+find_package(Firebird 3.0)
 set_package_properties(
   Firebird
   PROPERTIES
@@ -72,14 +72,14 @@ target_link_libraries(php_pdo_firebird PRIVATE Firebird::Firebird)
 if(TARGET Firebird::Firebird)
   check_library_exists(
     Firebird::Firebird
-    isc_detach_database
+    fb_get_master_interface
     ""
     _php_pdo_firebird_sanity_check
   )
   if(NOT _php_pdo_firebird_sanity_check)
     message(
       FATAL_ERROR
-      "Firebird sanity check failed: isc_detach_database() not found."
+      "Firebird sanity check failed: fb_get_master_interface() not found."
     )
   endif()
 endif()
