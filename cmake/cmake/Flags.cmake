@@ -58,7 +58,7 @@ if(MSVC)
     php_configuration
     BEFORE
     INTERFACE
-      $<$<COMPILE_LANGUAGE:ASM,C,CXX>:/W4;/WX>
+      $<$<COMPILE_LANGUAGE:ASM,C,CXX>:/W4>
   )
 else()
   target_compile_options(
