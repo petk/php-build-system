@@ -48,7 +48,8 @@ function(php_check_compiler_flag lang flag result)
     CMAKE_${lang}_COMPILER_ID STREQUAL "GNU"
     AND CMAKE_${lang}_COMPILER_VERSION VERSION_GREATER_EQUAL 4.4
     AND flag MATCHES "^-Wno-"
-    AND NOT flag MATCHES "^-Wno-error(=|$)"
+    # The '-Wno-error' and '-Wno-attributes' need to be excluded.
+    AND NOT flag MATCHES "^-Wno-error(=|$)|^-Wno-attributes(=|$)"
   )
     string(REGEX REPLACE "^-Wno-" "-W" flag ${flag})
   endif()
