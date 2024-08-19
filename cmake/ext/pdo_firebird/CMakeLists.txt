@@ -67,3 +67,19 @@ set_package_properties(
 )
 
 target_link_libraries(php_pdo_firebird PRIVATE Firebird::Firebird)
+
+# Sanity check.
+if(TARGET Firebird::Firebird)
+  check_library_exists(
+    Firebird::Firebird
+    isc_detach_database
+    ""
+    _php_pdo_firebird_sanity_check
+  )
+  if(NOT _php_pdo_firebird_sanity_check)
+    message(
+      FATAL_ERROR
+      "Firebird sanity check failed: isc_detach_database() not found."
+    )
+  endif()
+endif()
