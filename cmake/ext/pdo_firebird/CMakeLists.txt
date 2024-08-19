@@ -1,3 +1,4 @@
+include(CheckLibraryExists)
 include(CMakeDependentOption)
 include(FeatureSummary)
 
