@@ -17,6 +17,7 @@ works and how it can be used.
 * [8. PHP CMake modules](#8-php-cmake-modules)
   * [8.1. SearchLibraries](#81-searchlibraries)
   * [8.2. CheckBuiltin](#82-checkbuiltin)
+  * [8.3 CheckCompilerFlag](#83-checkcompilerflag)
 * [9. PHP extensions](#9-php-extensions)
   * [9.1. Properties](#91-properties)
 * [10. PHP SAPI (Server API) modules](#10-php-sapi-server-api-modules)
@@ -361,6 +362,18 @@ sorts of builtins:
 include(PHP/CheckBuiltin)
 
 php_check_builtin(__builtin_clz PHP_HAVE_BUILTIN_CLZ)
+```
+
+### 8.3 CheckCompilerFlag
+
+The `CheckCompilerFlag` module is built on top of CMake's corresponding module
+and exposes the `php_check_compiler_flag` function to check for compiler flag.
+It bypasses some edge cases where upstream module can give false positives.
+
+```cmake
+include(PHP/CheckCompilerFlag)
+
+php_check_compiler_flag(C -Wno-clobbered PHP_HAVE_WNO_CLOBBERED)
 ```
 
 ## 9. PHP extensions
