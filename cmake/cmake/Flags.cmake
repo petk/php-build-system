@@ -33,14 +33,41 @@ if(HAVE_FVISIBILITY_HIDDEN_C)
   )
 endif()
 
-target_compile_options(
-  php_configuration
-  BEFORE
-  INTERFACE
-    $<$<COMPILE_LANG_AND_ID:ASM,GNU>:-Wall;-Wextra;-Wno-unused-parameter;-Wno-sign-compare>
-    $<$<COMPILE_LANG_AND_ID:C,GNU>:-Wall;-Wextra;-Wno-unused-parameter;-Wno-sign-compare>
-    $<$<COMPILE_LANG_AND_ID:CXX,GNU>:-Wall;-Wextra;-Wno-unused-parameter;-Wno-sign-compare>
-)
+php_check_compiler_flag(C -Wno-sign-compare _HAVE_WNO_SIGN_COMPARE)
+if(_HAVE_WNO_SIGN_COMPARE)
+  target_compile_options(
+    php_configuration
+    BEFORE
+    INTERFACE
+      $<$<COMPILE_LANGUAGE:ASM,C,CXX>:-Wno-sign-compare>
+  )
+endif()
+
+php_check_compiler_flag(C -Wno-unused-parameter _HAVE_WNO_UNUSED_PARAMETER)
+if(_HAVE_WNO_UNUSED_PARAMETER)
+  target_compile_options(
+    php_configuration
+    BEFORE
+    INTERFACE
+      $<$<COMPILE_LANGUAGE:ASM,C,CXX>:-Wno-unused-parameter>
+  )
+endif()
+
+if(MSVC)
+  target_compile_options(
+    php_configuration
+    BEFORE
+    INTERFACE
+      $<$<COMPILE_LANGUAGE:ASM,C,CXX>:/W4;/WX>
+  )
+else()
+  target_compile_options(
+    php_configuration
+    BEFORE
+    INTERFACE
+      $<$<COMPILE_LANGUAGE:ASM,C,CXX>:-Wall;-Wextra>
+  )
+endif()
 
 # Check if compiler supports -Wno-clobbered (only GCC).
 php_check_compiler_flag(C -Wno-clobbered HAVE_WNO_CLOBBERED_C)
