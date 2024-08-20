@@ -405,7 +405,10 @@
 #define HAVE_UTIME 1
 #undef HAVE_DIRENT_H
 #define HAVE_FCNTL_H 1
-#define HAVE_GRP_H 0
+
+/* Define to 1 if you have the <grp.h> header file. */
+#cmakedefine HAVE_GRP_H 1
+
 #undef HAVE_PWD_H
 #undef HAVE_SYS_FILE_H
 #undef HAVE_SYS_SOCKET_H
@@ -508,9 +511,6 @@
 /* Define to 1 if checking the stack limit is supported. */
 #cmakedefine ZEND_CHECK_STACK_LIMIT 1
 
-/* have the wspiapi.h header file */
-#define HAVE_WSPIAPI_H 1
-
 #define HAVE_GAI_STRERROR 1
 
 /* Define to 1 if IPv6 is enabled and supported. */
@@ -553,8 +553,8 @@
 /* Define to 1 if the PHP extension 'com_dotnet' is available. */
 #cmakedefine HAVE_COM_DOTNET 1
 
-/* have the mscoree.h header file */
-#cmakedefine01 HAVE_MSCOREE_H
+/* Define to 1 if you have the <mscoree.h> header file. */
+#cmakedefine HAVE_MSCOREE_H 1
 
 /* Define to 1 if Capstone is available. */
 #cmakedefine HAVE_CAPSTONE 1
@@ -745,8 +745,8 @@
 /* Define to 1 if gd extension has JIS-mapped Japanese font support. */
 #cmakedefine USE_GD_JISX0208 1
 
-/* have the zlib.h header file */
-#define HAVE_ZLIB_H 0
+/* Define to 1 if you have the <zlib.h> header file. */
+#cmakedefine HAVE_ZLIB_H 1
 
 /* Define to 1 if the PHP extension 'iconv' is available. */
 #cmakedefine HAVE_ICONV 1
