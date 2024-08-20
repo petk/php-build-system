@@ -67,7 +67,7 @@ if(TARGET php_spl)
   add_dependencies(php_session php_spl)
 endif()
 
-add_dependencies(php_session php_random)
+add_dependencies(php_session php_date php_random)
 
 # Check whether pread() and pwrite() work.
 include(PHP/CheckPreadPwrite)

@@ -169,3 +169,5 @@ target_link_libraries(php_intl PRIVATE ICU::io ICU::uc ICU::i18n)
 if(ICU_VERSION VERSION_GREATER_EQUAL 60)
   target_compile_definitions(php_intl PRIVATE U_HIDE_OBSOLETE_UTF_OLD_H=1)
 endif()
+
+add_dependencies(php_intl php_date)
