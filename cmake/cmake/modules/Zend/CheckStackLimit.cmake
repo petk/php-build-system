@@ -21,18 +21,35 @@ cmake_push_check_state(RESET)
     check_source_runs(C [[
       #include <stdint.h>
 
+      #ifdef __has_builtin
+      # if __has_builtin(__builtin_frame_address)
+      #  define builtin_frame_address __builtin_frame_address(0)
+      # endif
+      #endif
+
       int (*volatile f)(uintptr_t);
 
       int stack_grows_downwards(uintptr_t arg) {
+      #ifdef builtin_frame_address
+        uintptr_t addr = (uintptr_t)builtin_frame_address;
+      #else
         int local;
-        return (uintptr_t)&local < arg;
+        uintptr_t addr = (uintptr_t)&local;
+      #endif
+
+        return addr < arg;
       }
 
       int main(void) {
+      #ifdef builtin_frame_address
+        uintptr_t addr = (uintptr_t)builtin_frame_address;
+      #else
         int local;
+        uintptr_t addr = (uintptr_t)&local;
+      #endif
 
         f = stack_grows_downwards;
-        return f((uintptr_t)&local) ? 0 : 1;
+        return f(addr) ? 0 : 1;
       }
     ]] ZEND_CHECK_STACK_LIMIT)
   endif()
