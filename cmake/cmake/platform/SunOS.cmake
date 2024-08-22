@@ -5,8 +5,8 @@ Specific configuration for SunOS patform (Solaris, illumos, etc.).
 include_guard(GLOBAL)
 
 if(CMAKE_SYSTEM_NAME STREQUAL "SunOS")
-  # Issue a warning for Solaris 10 system on this build system due to too
-  # possible compilation warnings and issues with outdated.
+  # Issue a warning for Solaris 10 system on this build system due to compile
+  # warnings and issues with outdated dependencies.
   if(CMAKE_SYSTEM_VERSION VERSION_LESS 5.11)
     message(
       WARNING
