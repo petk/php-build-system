@@ -119,7 +119,7 @@ target_include_directories(
 target_compile_definitions(php_standard PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE=1)
 
 # The standard extension depends on the generated Zend language parser.
-add_dependencies(php_standard zend_patch_language_parser)
+add_dependencies(php_standard Zend::Zend)
 
 target_link_libraries(
   php_standard
