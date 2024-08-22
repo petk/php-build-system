@@ -28,7 +28,7 @@ set_package_properties(
 )
 
 # Minimum required version for the libxml2 dependency.
-set(PHP_LIBXML2_MIN_VERSION 2.9.0)
+set(PHP_LIBXML2_MIN_VERSION 2.9.4)
 
 # Download version when system dependency is not found.
 set(PHP_LIBXML2_DOWNLOAD_VERSION 2.12.7)
