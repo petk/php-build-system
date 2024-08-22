@@ -225,6 +225,7 @@ endif()
 ################################################################################
 
 check_include_file(cpuid.h HAVE_CPUID_H)
+check_include_file(libproc.h HAVE_LIBPROC_H)
 
 check_symbol_exists(getpid "unistd.h" HAVE_GETPID)
 

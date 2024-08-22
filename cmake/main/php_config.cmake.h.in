@@ -955,6 +955,9 @@
 /* Define to 1 if you have the libpng library. */
 #cmakedefine HAVE_LIBPNG 1
 
+/* Define to 1 if you have the <libproc.h> header file. */
+#cmakedefine HAVE_LIBPROC_H 1
+
 /* Define to 1 if you have the <LibraryManager.h> header file. */
 #cmakedefine HAVE_LIBRARYMANAGER_H 1
 
