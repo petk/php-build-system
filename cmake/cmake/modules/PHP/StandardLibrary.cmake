@@ -4,7 +4,9 @@ Determine the C standard library used for the build.
 Result variables:
   PHP_C_STANDARD_LIBRARY
     Lowercase name of the C standard library:
+    - dietlibc
     - glibc
+    - llvm
     - musl
     - uclibc
 
@@ -32,6 +34,17 @@ if(_PHP_C_STANDARD_LIBRARY_UCLIBC)
   return()
 endif()
 
+# The diet libc.
+cmake_push_check_state(RESET)
+  set(CMAKE_REQUIRED_QUIET TRUE)
+  check_symbol_exists(__dietlibc__ features.h _PHP_C_STANDARD_LIBRARY_DIETLIBC)
+cmake_pop_check_state()
+if(_PHP_C_STANDARD_LIBRARY_DIETLIBC)
+  set(PHP_C_STANDARD_LIBRARY "dietlibc")
+  message(CHECK_PASS "diet libc")
+  return()
+endif()
+
 # The GNU C standard library has __GLIBC__ and __GLIBC_MINOR__ symbols since the
 # very early version 2.0.
 cmake_push_check_state(RESET)
@@ -41,6 +54,17 @@ cmake_pop_check_state()
 if(_PHP_C_STANDARD_LIBRARY_GLIBC)
   set(PHP_C_STANDARD_LIBRARY "glibc")
   message(CHECK_PASS "GNU C (glibc)")
+  return()
+endif()
+
+# The LLVM libc.
+cmake_push_check_state(RESET)
+  set(CMAKE_REQUIRED_QUIET TRUE)
+  check_symbol_exists(__LLVM_LIBC__ features.h _PHP_C_STANDARD_LIBRARY_LLVM)
+cmake_pop_check_state()
+if(_PHP_C_STANDARD_LIBRARY_LLVM)
+  set(PHP_C_STANDARD_LIBRARY "llvm")
+  message(CHECK_PASS "LLVM libc")
   return()
 endif()
 
