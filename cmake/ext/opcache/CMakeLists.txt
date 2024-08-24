@@ -262,7 +262,7 @@ if(EXT_OPCACHE_JIT)
 
   # Suppress typedef redefinition warnings on Clang. At time of writing, PHP is
   # using C99.
-  if(CMAKE_C_STANDARD STREQUAL "C99")
+  if(CMAKE_C_STANDARD EQUAL 99)
     php_check_compiler_flag(
       C
       -Wno-typedef-redefinition
