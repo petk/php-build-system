@@ -34,6 +34,14 @@ elseif(CMAKE_C_COMPILER_ID STREQUAL "GNU")
     "Interprocedural optimization (IPO) disabled (GCC global register "
     "variables)"
   )
+elseif(CMAKE_C_COMPILER_ID STREQUAL "AppleClang")
+  # See: https://gitlab.kitware.com/cmake/cmake/-/issues/25202
+  set(CMAKE_INTERPROCEDURAL_OPTIMIZATION OFF)
+
+  message(
+    STATUS
+    "Interprocedural optimization (IPO) disabled (AppleClang)"
+  )
 else()
   include(CheckIPOSupported)
   check_ipo_supported(RESULT result)
