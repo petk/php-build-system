@@ -271,7 +271,7 @@ if(EXT_OPCACHE_JIT)
     if(_HAVE_WNO_TYPEDEF_REDEFINITION)
       target_compile_options(
         php_opcache_jit_generator
-        INTERFACE
+        PRIVATE
           $<$<COMPILE_LANGUAGE:C>:-Wno-typedef-redefinition>
       )
     endif()
