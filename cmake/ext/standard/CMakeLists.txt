@@ -328,6 +328,19 @@ php_search_libraries(
   TARGET php_standard PRIVATE
 )
 
+# On macos the dn_skipname is defined as a macro but also requires resolv
+# library to work. For consistency, this is additional check whether the resolv
+# library needs to be linked on macOS.
+php_search_libraries(
+  res_9_dn_skipname
+  _HAVE_RES_9_DN_SKIPNAME
+  HEADERS
+    resolv.h
+  LIBRARIES
+    resolv # macOS
+  TARGET php_standard PRIVATE
+)
+
 # res_search() is deprecated and should be replaced with res_nsearch().
 php_search_libraries(
   res_search

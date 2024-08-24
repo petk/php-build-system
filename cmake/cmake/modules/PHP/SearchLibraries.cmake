@@ -79,10 +79,21 @@ https://cmake.org/cmake/help/latest/module/CheckSymbolExists.html
 
 Caveats:
 
-If symbol declaration is missing in its belonging headers, it won't be found
-with this function. There are still rare cases of such functions on some systems
-(for example, fdatasync() on macOS). In such cases it is better to use other
-approaches, such as check_function_exists().
+- If symbol declaration is missing in its belonging headers, it won't be found
+  with this module. There are still rare cases of such functions on some systems
+  (for example, fdatasync() on macOS). In such cases it is better to use other
+  approaches, such as check_function_exists().
+
+- If symbol is defined as a macro to a function that requires additional
+  libraries linked, this module will find the symbol but won't find the required
+  library. For example, the dn_skipname on macOS is defined as a macro in
+  <resolv.h> and resolves to a function res_9_dn_skipname() that requires the
+  resolv library linked to work:
+
+    #define dn_skipname res9_dn_skipname
+
+  As this is considered an architectural bug from this module point of view, in
+  such cases it is better to use additional library check.
 ]=============================================================================]#
 
 include_guard(GLOBAL)
