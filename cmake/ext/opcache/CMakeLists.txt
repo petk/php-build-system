@@ -1,6 +1,7 @@
 include(CheckSymbolExists)
 include(CMakeDependentOption)
 include(FeatureSummary)
+include(PHP/CheckCompilerFlag)
 include(PHP/SearchLibraries)
 
 option(EXT_OPCACHE "Enable the opcache extension" ON)
@@ -258,6 +259,23 @@ if(EXT_OPCACHE_JIT)
       OUTPUT_NAME gen_ir_fold_hash
       RUNTIME_OUTPUT_DIRECTORY jit/ir
   )
+
+  # Suppress typedef redefinition warnings on Clang. At time of writing, PHP is
+  # using C99.
+  if(CMAKE_C_STANDARD STREQUAL "C99")
+    php_check_compiler_flag(
+      C
+      -Wno-typedef-redefinition
+      _HAVE_WNO_TYPEDEF_REDEFINITION
+    )
+    if(_HAVE_WNO_TYPEDEF_REDEFINITION)
+      target_compile_options(
+        php_opcache_jit_generator
+        INTERFACE
+          $<$<COMPILE_LANGUAGE:C>:-Wno-typedef-redefinition>
+      )
+    endif()
+  endif()
 
   # Generate IR folding engine rules header.
   add_custom_command(
