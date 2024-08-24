@@ -861,9 +861,6 @@
    https://www.sqlite.org/compile.html. */
 #cmakedefine PDO_SQLITE_OMIT_LOAD_EXTENSION 1
 
-/* */
-#cmakedefine PHAR_HAVE_OPENSSL 1
-
 /* Define to 1 if readline extension uses the 'readline' library. */
 #cmakedefine HAVE_LIBREADLINE 1
 
