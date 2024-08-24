@@ -86,13 +86,13 @@ index ae7a3a987c..648e3728b8 100755
  
      foreach($files as $config_script) {
 diff --git a/ext/skeleton/.gitignore.in b/ext/skeleton/.gitignore.in
-index ae434fef97..8819949891 100644
+index 52fc9c864c..bfc274f5f4 100644
 --- a/ext/skeleton/.gitignore.in
 +++ b/ext/skeleton/.gitignore.in
-@@ -39,3 +39,23 @@ tests/**/*.sh
- tests/**/*.db
+@@ -41,3 +41,23 @@ tests/**/*.db
  tests/**/*.mem
  tmp-php.ini
+ *~
 +
 +# ------------------------------------------------------------------------------
 +# CMake-based build system files
