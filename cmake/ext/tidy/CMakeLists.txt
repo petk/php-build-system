@@ -35,10 +35,17 @@ target_sources(
     tidy.c
 )
 
-# Add -Wno-ignored-qualifiers as this is an issue upstream.
-php_check_compiler_flag(C -Wno-ignored-qualifiers HAVE_WNO_IGNORED_QUALIFIERS_C)
-if(HAVE_WNO_IGNORED_QUALIFIERS_C)
-  target_compile_options(php_tidy PRIVATE -Wno-ignored-qualifiers)
+# Add -Wno-ignored-qualifiers as this is an issue upstream. Fixed in tidy-html5
+# 5.7.20. See: https://github.com/htacg/tidy-html5/issues/866
+if(Tidy_VERSION VERSION_LESS 5.7.20)
+  php_check_compiler_flag(
+    C
+    -Wno-ignored-qualifiers
+    HAVE_WNO_IGNORED_QUALIFIERS_C
+  )
+  if(HAVE_WNO_IGNORED_QUALIFIERS_C)
+    target_compile_options(php_tidy PRIVATE -Wno-ignored-qualifiers)
+  endif()
 endif()
 
 target_compile_definitions(php_tidy PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE=1)
