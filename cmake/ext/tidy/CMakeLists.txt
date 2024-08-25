@@ -1,3 +1,4 @@
+include(CheckLibraryExists)
 include(CMakeDependentOption)
 include(FeatureSummary)
 include(PHP/CheckCompilerFlag)
@@ -59,3 +60,8 @@ set_package_properties(
 )
 
 target_link_libraries(php_tidy PRIVATE Tidy::Tidy)
+
+if(TARGET Tidy::Tidy)
+  check_library_exists(Tidy::Tidy tidyOptGetDoc "" HAVE_TIDYOPTGETDOC)
+  check_library_exists(Tidy::Tidy tidyReleaseDate "" HAVE_TIDYRELEASEDATE)
+endif()
