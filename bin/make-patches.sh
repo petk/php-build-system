@@ -11,7 +11,6 @@ branches="patch-cmake-8.3
 patch-cmake-8.3-asm
 patch-cmake-8.3-aspell
 patch-cmake-8.3-dmalloc
-patch-cmake-8.3-phar
 patch-cmake-8.3-php-config
 patch-cmake-8.4
 patch-cmake-8.4-asm

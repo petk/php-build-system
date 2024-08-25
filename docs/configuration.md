@@ -2702,19 +2702,19 @@ A list of Autoconf `configure` command-line configuration options, Windows
     <tr>
       <td>N/A</td>
       <td>--disable-phar-native-ssl</td>
-      <td>EXT_PHAR_SSL=OFF (PHP 8.3), removed in PHP 8.4</td>
+      <td>N/A</td>
       <td>default</td>
     </tr>
     <tr>
       <td>N/A</td>
       <td>--enable-phar-native-ssl</td>
-      <td>EXT_PHAR_SSL=ON (PHP 8.3), removed in PHP 8.4</td>
+      <td>N/A</td>
       <td></td>
     </tr>
     <tr>
       <td>N/A</td>
       <td>--enable-phar-native-ssl=shared</td>
-      <td>EXT_PHAR_SHARED=ON</td>
+      <td>N/A</td>
       <td></td>
     </tr>
     <tr>

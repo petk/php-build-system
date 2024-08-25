@@ -54,7 +54,6 @@ build system:
 * Compiler shipped with Oracle Developer Studio is not supported.
   See: https://github.com/php/php-src/issues/15272
 
-* ext/phar doesn't have native SSL support anymore as of PHP 8.4 in favor of SSL
-  through the PHP openssl extension:
-  See: https://github.com/php/php-src/pull/14578
+* ext/phar doesn't have native SSL support anymore in favor of SSL through the
+  PHP openssl extension:
   See: https://github.com/php/php-src/pull/15574
