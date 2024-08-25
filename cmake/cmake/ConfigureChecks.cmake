@@ -461,13 +461,24 @@ endif()
 message(CHECK_START "Checking for aarch64 CRC32 API availability")
 cmake_push_check_state(RESET)
   set(CMAKE_REQUIRED_QUIET TRUE)
-  check_source_compiles(C "
+  check_source_compiles(C [[
     #include <arm_acle.h>
-    int main(void) {
+    # if defined(__GNUC__)
+    #  if!defined(__clang__)
+    #   pragma GCC push_options
+    #   pragma GCC target ("+nothing+crc")
+    #  elif defined(__APPLE__)
+    #   pragma clang attribute push(__attribute__((target("crc"))), apply_to=function)
+    #  else
+    #   pragma clang attribute push(__attribute__((target("+nothing+crc"))), apply_to=function)
+    #  endif
+    # endif
+    int main(void)
+    {
       __crc32d(0, 0);
       return 0;
     }
-  " HAVE_AARCH64_CRC32)
+  ]] HAVE_AARCH64_CRC32)
 cmake_pop_check_state()
 if(HAVE_AARCH64_CRC32)
   message(CHECK_PASS "yes")
