@@ -58,10 +58,10 @@ index ab2db520bf..90e035e04d 100644
  
  dnl
 diff --git a/configure.ac b/configure.ac
-index 54a4d037f7..1210fa4d08 100644
+index d86aa0e485..815d8f3a78 100644
 --- a/configure.ac
 +++ b/configure.ac
-@@ -1472,6 +1472,9 @@ exec_prefix=$old_exec_prefix
+@@ -1486,6 +1486,9 @@ exec_prefix=$old_exec_prefix
  libdir=$old_libdir
  datadir=$old_datadir
  
@@ -71,7 +71,7 @@ index 54a4d037f7..1210fa4d08 100644
  AC_SUBST(INCLUDE_PATH)
  AC_SUBST(EXPANDED_PEAR_INSTALLDIR)
  AC_SUBST(EXPANDED_EXTENSION_DIR)
-@@ -1484,6 +1487,9 @@ AC_SUBST(EXPANDED_SYSCONFDIR)
+@@ -1498,6 +1501,9 @@ AC_SUBST(EXPANDED_SYSCONFDIR)
  AC_SUBST(EXPANDED_LOCALSTATEDIR)
  AC_SUBST(EXPANDED_PHP_CONFIG_FILE_PATH)
  AC_SUBST(EXPANDED_PHP_CONFIG_FILE_SCAN_DIR)

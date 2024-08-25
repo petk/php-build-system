@@ -17,19 +17,6 @@ cmake_dependent_option(
   OFF
 )
 
-cmake_dependent_option(
-  EXT_PHAR_SSL
-  "Explicitly enable SSL support in phar extension (native SSL) when building\
-  without openssl extension (EXT_OPENSSL=OFF). If openssl extension is enabled\
-  (EXT_OPENSSL=ON) at the configuration phase, SSL in phar extension will be\
-  enabled implicitly regardless of this option."
-  OFF
-  "EXT_PHAR;NOT EXT_OPENSSL"
-  OFF
-)
-
-mark_as_advanced(EXT_PHAR_SSL)
-
 if(NOT EXT_PHAR)
   return()
 endif()
@@ -208,45 +195,4 @@ install(
   FILES
     ${CMAKE_CURRENT_BINARY_DIR}/phar.phar
   DESTINATION ${CMAKE_INSTALL_BINDIR}
-)
-
-# A deferred configuration, so it is explicitly executed after the openssl
-# extension to have the EXT_OPENSSL variable available.
-function(php_phar_post_configuration)
-  message(CHECK_START "Checking for phar OpenSSL support")
-
-  if(EXT_OPENSSL OR EXT_PHAR_SSL)
-    find_package(OpenSSL ${PHP_OPENSSL_MIN_VERSION} COMPONENTS Crypto)
-    set_package_properties(
-      OpenSSL
-      PROPERTIES
-        TYPE REQUIRED
-        PURPOSE "Necessary to enable the OpenSSL support in the phar extension."
-    )
-
-    target_link_libraries(php_phar PUBLIC OpenSSL::Crypto)
-
-    if(OpenSSL_FOUND)
-      set(PHAR_HAVE_OPENSSL 1 CACHE INTERNAL "Whether phar has OpenSSL support")
-    endif()
-  endif()
-
-  if(PHAR_HAVE_OPENSSL)
-    message(CHECK_PASS "yes")
-  else()
-    message(CHECK_FAIL "no")
-  endif()
-
-  add_feature_info(
-    "ext/phar SSL"
-    PHAR_HAVE_OPENSSL
-    "SSL support in the phar extension"
-  )
-endfunction()
-
-# Run at the end of the configuration.
-cmake_language(
-  DEFER
-    DIRECTORY ${PHP_SOURCE_DIR}
-  CALL php_phar_post_configuration
 )

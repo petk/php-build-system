@@ -1810,9 +1810,6 @@
 /* Define to 1 if the pdo_mysql extension uses mysqlnd. */
 #cmakedefine PDO_USE_MYSQLND 1
 
-/* */
-#cmakedefine PHAR_HAVE_OPENSSL 1
-
 /* The build architecture. */
 #cmakedefine PHP_BUILD_ARCH "@PHP_BUILD_ARCH@"
 
