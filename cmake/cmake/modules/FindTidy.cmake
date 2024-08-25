@@ -1,5 +1,6 @@
 #[=============================================================================[
-Find the Tidy library.
+Find the Tidy library (tidy-html5, legacy htmltidy library, or the tidyp -
+obsolete fork).
 
 Module defines the following IMPORTED target(s):
 
@@ -28,11 +29,7 @@ Cache variables:
   HAVE_TIDY_H
     Whether tidy.h is available.
   HAVE_TIDYP_H
-    Whether tidy.h is available.
-  HAVE_TIDYOPTGETDOC
-    Whether tidyOptGetDoc is available in one of tidy libraries.
-  HAVE_TIDYRELEASEDATE
-    Whether tidyReleaseDate is available in one of tidy libraries.
+    If tidy.h is not available and whether the tidyp.h is available (tidy fork).
 
 Hints:
 
@@ -40,7 +37,6 @@ Hints:
 #]=============================================================================]
 
 include(CheckIncludeFile)
-include(CheckLibraryExists)
 include(CMakePushCheckState)
 include(FeatureSummary)
 include(FindPackageHandleStandardArgs)
@@ -60,7 +56,9 @@ pkg_check_modules(PC_Tidy QUIET tidy)
 
 find_path(
   Tidy_INCLUDE_DIR
-  NAMES tidy.h
+  NAMES
+    tidy.h
+    tidyp.h # Tidy library fork (obsolete)
   PATHS ${PC_Tidy_INCLUDE_DIRS}
   PATH_SUFFIXES
     tidy
@@ -74,7 +72,10 @@ endif()
 
 find_library(
   Tidy_LIBRARY
-  NAMES tidy tidy5 tidyp
+  NAMES
+    tidy
+    tidy5 # tidy-html5 on FreeBSD
+    tidyp
   PATHS ${PC_Tidy_LIBRARY_DIRS}
   DOC "The path to the Tidy library"
 )
@@ -83,21 +84,20 @@ if(NOT Tidy_LIBRARY)
   string(APPEND _reason "Tidy library not found. ")
 endif()
 
-# Check for tidybuffio.h (as opposed to simply buffio.h) which indicates that we
-# are building against tidy-html5 and not the legacy htmltidy. The two are
-# compatible, except for with regard to this header file.
 if(Tidy_INCLUDE_DIR)
   cmake_push_check_state(RESET)
     set(CMAKE_REQUIRED_INCLUDES ${Tidy_INCLUDE_DIR})
-    check_include_file(tidybuffio.h HAVE_TIDYBUFFIO_H)
-    check_include_file(tidy.h HAVE_TIDY_H)
-    check_include_file(tidyp.h HAVE_TIDYP_H)
-  cmake_pop_check_state()
-endif()
 
-if(Tidy_LIBRARY)
-  check_library_exists("${Tidy_LIBRARY}" tidyOptGetDoc "" HAVE_TIDYOPTGETDOC)
-  check_library_exists("${Tidy_LIBRARY}" tidyReleaseDate "" HAVE_TIDYRELEASEDATE)
+    # Check for tidybuffio.h (as opposed to simply buffio.h) which indicates
+    # that the found library is tidy-html5 and not the legacy htmltidy. The two
+    # are compatible, except the legacy doesn't have this header.
+    check_include_file(tidybuffio.h HAVE_TIDYBUFFIO_H)
+
+    check_include_file(tidy.h HAVE_TIDY_H)
+    if(NOT HAVE_TIDY_H)
+      check_include_file(tidyp.h HAVE_TIDYP_H)
+    endif()
+  cmake_pop_check_state()
 endif()
 
 # Get version.
