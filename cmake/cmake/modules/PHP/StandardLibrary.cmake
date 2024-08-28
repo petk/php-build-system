@@ -7,6 +7,7 @@ Result variables:
     - dietlibc
     - glibc
     - llvm
+    - mscrt
     - musl
     - uclibc
 
@@ -68,6 +69,17 @@ if(_PHP_C_STANDARD_LIBRARY_LLVM)
   return()
 endif()
 
+# The MS C runtime library (CRT).
+cmake_push_check_state(RESET)
+  set(CMAKE_REQUIRED_QUIET TRUE)
+  check_symbol_exists(_MSC_VER stdio.h _PHP_C_STANDARD_LIBRARY_MSCRT)
+cmake_pop_check_state()
+if(_PHP_C_STANDARD_LIBRARY_MSCRT)
+  set(PHP_C_STANDARD_LIBRARY "mscrt")
+  message(CHECK_PASS "MS C runtime library (CRT)")
+  return()
+endif()
+
 # The musl libc doesn't advertise itself with symbols, so it must be determined
 # heuristically.
 cmake_push_check_state(RESET)
@@ -97,4 +109,5 @@ if(PHP_C_STANDARD_LIBRARY STREQUAL "musl")
   return()
 endif()
 
-message(CHECK_FAIL "unknown")
+# Instead of an "unknown", output a common "libc" result.
+message(CHECK_FAIL "libc")

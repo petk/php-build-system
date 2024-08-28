@@ -155,7 +155,9 @@ if(TARGET Iconv::Iconv)
     )
   endif()
 
-  if(NOT PHP_ICONV_IMPL)
+  if(NOT PHP_ICONV_IMPL AND Iconv_IS_BUILT_IN)
+    message(CHECK_PASS "built in C library ${PHP_C_STANDARD_LIBRARY}")
+  elseif(NOT PHP_ICONV_IMPL)
     message(CHECK_FAIL "not found, unknown")
   endif()
 
@@ -174,7 +176,7 @@ if(TARGET Iconv::Iconv)
 
         int main(void) {
           iconv_t cd;
-          cd = iconv_open("*blahblah*", "*blahblahblah*");
+          cd = iconv_open("*to*", "*from*");
           if (cd == (iconv_t)(-1)) {
             if (errno == EINVAL) {
               return 0;
