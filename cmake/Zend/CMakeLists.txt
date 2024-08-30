@@ -143,6 +143,7 @@ target_sources(
     zend_iterators.c
     zend_language_parser.c
     zend_language_scanner.c
+    zend_lazy_objects.c
     zend_list.c
     zend_llist.c
     $<$<NOT:$<PLATFORM_ID:Windows>>:zend_max_execution_timer.c>
