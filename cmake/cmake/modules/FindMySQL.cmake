@@ -122,12 +122,18 @@ if("Lib" IN_LIST MySQL_FIND_COMPONENTS)
       OUTPUT_STRIP_TRAILING_WHITESPACE
       ERROR_QUIET
     )
+  else()
+    # Use pkgconf, if available on the system.
+    find_package(PkgConfig QUIET)
+    pkg_check_modules(PC_MySQL QUIET mysqlclient)
   endif()
 
   find_path(
     MySQL_INCLUDE_DIR
     NAMES mysql.h
-    PATHS ${_mysql_include_dir}
+    PATHS
+      ${_mysql_include_dir}
+      ${PC_MySQL_INCLUDE_DIRS}
     PATH_SUFFIXES mysql
     DOC "Directory containing MySQL library headers"
   )
@@ -135,7 +141,9 @@ if("Lib" IN_LIST MySQL_FIND_COMPONENTS)
   find_library(
     MySQL_LIBRARY
     NAMES mysqlclient mysql
-    PATHS ${_mysql_library_dir}
+    PATHS
+      ${_mysql_library_dir}
+      ${PC_MySQL_LIBRARY_DIRS}
     DOC "The path to the MySQL library"
   )
 
