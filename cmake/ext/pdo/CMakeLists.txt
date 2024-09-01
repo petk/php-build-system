@@ -41,7 +41,6 @@ target_sources(
         pdo_sql_parser.h
         php_pdo_driver.h
         php_pdo_error.h
-        php_pdo_int.h
         php_pdo.h
 )
 
