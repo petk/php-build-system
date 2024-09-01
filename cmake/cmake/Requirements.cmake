@@ -21,6 +21,14 @@ if(CMAKE_C_COMPILER_ID STREQUAL "SunPro")
   )
 endif()
 
+if(CMAKE_C_COMPILER_ID STREQUAL "MSVC" AND MSVC_VERSION VERSION_LESS 1920)
+  message(
+    FATAL_ERROR
+    "Visual Studio version ${MSVC_VERSION} is no longer supported. Please, "
+    "upgrade the Microsoft Visual Studio to 2019 version 16.1 (1921) or newer."
+  )
+endif()
+
 ################################################################################
 # Check whether the system uses EBCDIC (not ASCII) as its native character set.
 ################################################################################
