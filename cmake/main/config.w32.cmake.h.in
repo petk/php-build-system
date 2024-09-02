@@ -824,6 +824,9 @@
 /* Define to 1 if you have the POSIX mmap() SHM support. */
 #cmakedefine HAVE_SHM_MMAP_POSIX 1
 
+/* Define to 1 to enable OpenSSL argon2 password hashing. */
+#cmakedefine HAVE_OPENSSL_ARGON2 1
+
 /* Define to 1 if you have the <openssl/crypto.h> header file. */
 #cmakedefine HAVE_OPENSSL_CRYPTO_H 1
 

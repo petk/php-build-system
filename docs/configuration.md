@@ -2357,6 +2357,18 @@ A list of Autoconf `configure` command-line configuration options, Windows
       <td>PHP >= 8.4</td>
     </tr>
     <tr>
+      <td>&emsp;--without-openssl-argon2</td>
+      <td>--without-openssl-argon2</td>
+      <td>EXT_OPENSSL_ARGON2=OFF</td>
+      <td>default, PHP >= 8.4</td>
+    </tr>
+    <tr>
+      <td>&emsp;--with-openssl-argon2</td>
+      <td>--with-openssl-argon2</td>
+      <td>EXT_OPENSSL_ARGON2=ON</td>
+      <td>PHP >= 8.4</td>
+    </tr>
+    <tr>
       <td>&emsp;--without-kerberos</td>
       <td>N/A</td>
       <td>EXT_OPENSSL_KERBEROS=OFF</td>

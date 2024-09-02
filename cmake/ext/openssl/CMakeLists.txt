@@ -35,6 +35,21 @@ add_feature_info(
 )
 
 cmake_dependent_option(
+  EXT_OPENSSL_ARGON2
+  "Enable OpenSSL Argon2 password hashing (requires OpenSSL >= 3.2)"
+  OFF
+  "EXT_OPENSSL"
+  OFF
+)
+mark_as_advanced(EXT_OPENSSL_ARGON2)
+
+add_feature_info(
+  "ext/openssl Argon2"
+  EXT_OPENSSL_ARGON2
+  "Password hashing"
+)
+
+cmake_dependent_option(
   EXT_OPENSSL_LEGACY_PROVIDER
   "OpenSSL >= 3: Load legacy algorithm provider in addition to default provider"
   OFF
@@ -62,6 +77,7 @@ endif()
 target_sources(
   php_openssl
   PRIVATE
+    openssl_pwhash.c
     openssl.c
     xp_ssl.c
 )
@@ -110,5 +126,33 @@ if(TARGET OpenSSL::SSL)
       USE_OPENSSL_SYSTEM_CIPHERS 1
       CACHE INTERNAL "Whether to use system default cipher list instead of hardcoded value"
     )
+  endif()
+
+  if(EXT_OPENSSL_ARGON2)
+    if(PHP_THREAD_SAFETY)
+      message(
+        FATAL_ERROR
+        "The OpenSSL Argon2 password hashing is not supported in thread-safe "
+        "mode for now. Please, disable thread safety (set 'PHP_THREAD_SAFETY' "
+        "to 'OFF'), or build without OpenSSL Argon2 (set 'EXT_OPENSSL_ARGON2' "
+        "to 'OFF')."
+      )
+    endif()
+
+    cmake_push_check_state(RESET)
+      set(CMAKE_REQUIRED_LIBRARIES OpenSSL::SSL)
+      check_symbol_exists(
+        OSSL_set_max_threads
+        "openssl/thread.h"
+        HAVE_OPENSSL_ARGON2
+      )
+    cmake_pop_check_state()
+
+    if(OPENSSL_VERSION VERSION_LESS 3.2 OR NOT HAVE_OPENSSL_ARGON2)
+      message(
+        FATAL_ERROR
+        "The OpenSSL Argon2 password hashing requires OpenSSL 3.2 or newer."
+      )
+    endif()
   endif()
 endif()
