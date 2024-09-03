@@ -45,6 +45,10 @@ build system:
 * ext/readline uses the libedit (EditLine) library by default.
   See: https://github.com/php/php-src/pull/13184
 
+* sapi/phpdbg readline support works more intuitively regardless of the readline
+  extension being enabled during the build.
+  See: https://github.com/php/php-src/pull/15313
+
 * ext/session can be built as shared on Windows (in testing phase).
 
 * Obsolete check whether the `dlsym()` requires a leading underscore in symbol
