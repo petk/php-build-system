@@ -119,13 +119,18 @@ message(CHECK_START "Checking for readline support in phpdbg")
 if(SAPI_PHPDBG_READLINE OR EXT_READLINE)
   message(CHECK_PASS "enabled")
 
-  if(EXT_READLINE)
-    # Check and use the readline extension if enabled.
-    target_link_libraries(
-      php_phpdbg
-      PRIVATE
-        $<$<TARGET_EXISTS:php_readline>:$<TARGET_PROPERTY:php_readline,IMPORTED_LINK_INTERFACE_LIBRARIES>>
+  if(EXT_READLINE_LIBREADLINE)
+    find_package(Readline)
+    set_package_properties(
+      Readline
+      PROPERTIES
+        TYPE REQUIRED
+        PURPOSE "Necessary for the phpdbg readline support."
     )
+
+    target_link_libraries(php_phpdbg PRIVATE Readline::Readline)
+
+    set(HAVE_LIBREADLINE 1 CACHE INTERNAL "Whether the readline is available")
   else()
     find_package(Editline)
     set_package_properties(
