@@ -225,7 +225,6 @@ PHP tests and other associated files:
     └─ ...
  ├─ scripts/                      # php-config, phpize and internal development scripts
  ├─ tests/                        # Core features tests
- ├─ travis/                       # Travis CI service files
  ├─ TSRM/                         # Thread safe resource manager
  └─ Zend/                         # Zend engine
     ├─ asm/                       # Bundled from src/asm in https://github.com/boostorg/context
