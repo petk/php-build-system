@@ -32,15 +32,17 @@ cmake_dependent_option(
 )
 mark_as_advanced(SAPI_PHPDBG_DEBUG)
 
-# TODO: Check if this can be simplified and removed by only checking if readline
-# extension has been enabled during the build.
 cmake_dependent_option(
   SAPI_PHPDBG_READLINE
-  "Enable readline support in phpdbg (depends on the readline extension)"
+  "Explicitly enable readline support in phpdbg for command history accessible\
+  through arrow keys. Requires the Editline library. If the PHP extension\
+  'readline' is enabled during the build process, the phpdbg readline support\
+  is automatically enabled regardless of this option."
   OFF
   "SAPI_PHPDBG"
   OFF
 )
+mark_as_advanced(SAPI_PHPDBG_READLINE)
 
 message(CHECK_START "Checking whether to build phpdbg SAPI")
 if(SAPI_PHPDBG)
@@ -114,27 +116,34 @@ set_target_properties(
 
 message(CHECK_START "Checking for readline support in phpdbg")
 
-if(SAPI_PHPDBG_READLINE AND EXT_READLINE)
-  if(EXT_READLINE_LIBREADLINE)
-    message(CHECK_PASS "enabled (readline)")
-  else()
-    message(CHECK_PASS "enabled (libedit)")
-  endif()
+if(SAPI_PHPDBG_READLINE OR EXT_READLINE)
+  message(CHECK_PASS "enabled")
 
-  # Check and use readline extension if enabled and built statically.
-  target_link_libraries(
-    php_phpdbg
-    PRIVATE
-      $<$<TARGET_EXISTS:php_readline>:$<TARGET_PROPERTY:php_readline,IMPORTED_LINK_INTERFACE_LIBRARIES>>
-  )
+  if(EXT_READLINE)
+    # Check and use the readline extension if enabled.
+    target_link_libraries(
+      php_phpdbg
+      PRIVATE
+        $<$<TARGET_EXISTS:php_readline>:$<TARGET_PROPERTY:php_readline,IMPORTED_LINK_INTERFACE_LIBRARIES>>
+    )
+  else()
+    find_package(Editline)
+    set_package_properties(
+      Editline
+      PROPERTIES
+        TYPE REQUIRED
+        PURPOSE "Necessary for the phpdbg readline support."
+    )
+
+    target_link_libraries(php_phpdbg PRIVATE Editline::Editline)
+
+    set(HAVE_LIBEDIT 1 CACHE INTERNAL "Whether the libedit is available")
+  endif()
 
   set(
     HAVE_PHPDBG_READLINE 1
-    CACHE INTERNAL "Whether phpdbg has libedit/readline support"
+    CACHE INTERNAL "Whether phpdbg has readline support"
   )
-elseif(SAPI_PHPDBG_READLINE)
-  message(CHECK_FAIL "disabled")
-  message(WARNING "Set 'EXT_READLINE=ON' to enable readline support in phpdbg")
 else()
   message(CHECK_FAIL "disabled")
 endif()
