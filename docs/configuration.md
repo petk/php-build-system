@@ -660,13 +660,13 @@ A list of Autoconf `configure` command-line configuration options, Windows
     </tr>
     <tr>
       <td>--enable-all</td>
-      <td></td>
+      <td>--enable-snapshot-build</td>
       <td>Use <code>cmake --preset all-enabled</code></td>
       <td>Enables all extensions and some additional configuration</td>
     </tr>
     <tr>
       <td>--disable-all</td>
-      <td></td>
+      <td>--disable-all</td>
       <td>Use <code>cmake --preset all-disabled</code></td>
       <td>Disables all extensions and some additional configuration</td>
     </tr>
