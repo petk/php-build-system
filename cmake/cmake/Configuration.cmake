@@ -66,7 +66,10 @@ endif()
 
 set(
   PHP_EXTENSION_DIR ""
-  CACHE PATH "The extension_dir PHP INI directive absolute path"
+  CACHE PATH
+  "Default directory for dynamically loadable PHP extensions. If left empty, it\
+  is determined automatically. Can be overridden using the PHP 'extension_dir'\
+  INI directive."
 )
 mark_as_advanced(PHP_EXTENSION_DIR)
 
