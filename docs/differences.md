@@ -28,11 +28,11 @@ build system:
 
     Upstream Autotools-based draft: https://github.com/php/php-src/pull/13755
 
-* CMake presets simplifies the build configurations. The native PHP Autotools
-  build system has issues with the `--enable-all` option where, certain
-  configuration options are set by this but they also set additional variables
-  (e.g., `ext_shared`), where they shouldn't. PHP Windows build system has
-  similar configure option `--enable-snapshot-build` (and `--disable-all`).
+* CMake presets simplify the build configurations. The native PHP Autotools
+  build system has issues with the `--enable-all` option, where certain
+  configuration options are set but they also set additional variables (e.g.,
+  `ext_shared`) where they shouldn't. PHP Windows build system has similar
+  configure option `--enable-snapshot-build` (and `--disable-all`).
 
 ## Bugs fixed
 
