@@ -179,23 +179,33 @@ if(ZEND_FIBER_ASM AND zend_fibers_asm_file)
   )
 else()
   cmake_push_check_state(RESET)
-    # To use ucontext.h on macOS, the _XOPEN_SOURCE needs to be defined. POSIX
-    # marked ucontext functions as obsolete. On macOS the ucontext.h functions
-    # are deprecated. At the time of writing no solution is on the horizon yet.
+    # To use ucontext.h on macOS, the _XOPEN_SOURCE needs to be defined to any
+    # value. POSIX marked ucontext functions as obsolete and on macOS the
+    # ucontext.h functions are deprecated. At the time of writing no solution is
+    # on the horizon yet. Here, the _XOPEN_SOURCE is defined to empty value to
+    # enable proper X/Open symbols yet still to not enable some of the Single
+    # Unix specification definitions (values 500 or greater where the PHP
+    # thread-safe build would fail).
     if(CMAKE_SYSTEM_NAME STREQUAL "Darwin")
-      set(CMAKE_REQUIRED_DEFINITIONS -D_XOPEN_SOURCE=600)
+      set(CMAKE_REQUIRED_DEFINITIONS -D_XOPEN_SOURCE)
+
+      set_property(
+        SOURCE ${CMAKE_CURRENT_SOURCE_DIR}/zend_fibers.c
+        APPEND
+        PROPERTY
+          COMPILE_DEFINITIONS _XOPEN_SOURCE
+      )
     endif()
 
     check_include_file(ucontext.h ZEND_FIBER_UCONTEXT)
   cmake_pop_check_state()
 
-  if(ZEND_FIBER_UCONTEXT)
-    message(CHECK_PASS "yes, ucontext")
-  else()
+  if(NOT ZEND_FIBER_UCONTEXT)
     message(CHECK_FAIL "no")
     message(
       FATAL_ERROR
       "Fibers are not available on this platform, ucontext.h not found"
     )
   endif()
+  message(CHECK_PASS "yes, ucontext")
 endif()
