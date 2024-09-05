@@ -67,3 +67,7 @@ build system:
 * ext/phar doesn't have native SSL support anymore in favor of SSL through the
   PHP openssl extension:
   See: https://github.com/php/php-src/pull/15574
+
+* The _XOPEN_SOURCE compile definition to use ucontext.h on macOS when needed is
+  only defined for the Zend/zend_fibers.c file. Duplicate inconsistent
+  _XOPEN_SOURCE definition from the php_config.h is also removed with this.
