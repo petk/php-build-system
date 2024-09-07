@@ -7,10 +7,10 @@ with PHP.
  1 file changed, 27 insertions(+)
 
 diff --git a/README.md b/README.md
-index 4b22696cb3..101e8246c2 100644
+index c5376f6772..c39945251d 100644
 --- a/README.md
 +++ b/README.md
-@@ -36,8 +36,35 @@ For other systems, see the [installation chapter](https://www.php.net/install).
+@@ -35,8 +35,35 @@ For other systems, see the [installation chapter](https://www.php.net/install).
  
  ### Building PHP source code
  

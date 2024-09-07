@@ -43,10 +43,10 @@ Changes:
  4 files changed, 54 insertions(+), 21 deletions(-)
 
 diff --git a/build/php.m4 b/build/php.m4
-index 442779ba73..8e3f2d200f 100644
+index ad2bfd0ac3..4acb5ca4f8 100644
 --- a/build/php.m4
 +++ b/build/php.m4
-@@ -2126,7 +2126,8 @@ EOF
+@@ -2100,7 +2100,8 @@ EOF
    echo '"[$]@"' >> $1
    chmod +x $1
    CONFIGURE_COMMAND="$CONFIGURE_COMMAND $CONFIGURE_OPTIONS"
@@ -57,10 +57,10 @@ index 442779ba73..8e3f2d200f 100644
  ])
  
 diff --git a/configure.ac b/configure.ac
-index 2693ba09f4..6565e4fabf 100644
+index c7e36ca70c..18e0df4fe5 100644
 --- a/configure.ac
 +++ b/configure.ac
-@@ -1377,6 +1377,9 @@ exec_prefix=$old_exec_prefix
+@@ -1374,6 +1374,9 @@ exec_prefix=$old_exec_prefix
  libdir=$old_libdir
  datadir=$old_datadir
  
@@ -70,7 +70,7 @@ index 2693ba09f4..6565e4fabf 100644
  AC_SUBST([INCLUDE_PATH])
  AC_SUBST([EXPANDED_PEAR_INSTALLDIR])
  AC_SUBST([EXPANDED_EXTENSION_DIR])
-@@ -1395,6 +1398,9 @@ AC_SUBST([SAPI_LIBNAME_STATIC])
+@@ -1392,6 +1395,9 @@ AC_SUBST([SAPI_LIBNAME_STATIC])
  AC_SUBST([PHP_VERSION])
  AC_SUBST([PHP_VERSION_ID])
  AC_SUBST([PHP_LDFLAGS])
