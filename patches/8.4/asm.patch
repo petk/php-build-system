@@ -10,39 +10,16 @@ repository.
 There are some PHP specific adjustments only in php-src and not upstream
 which should be resolved in the future.
 ---
- Zend/asm/jump_i386_sysv_elf_gas.S    |  6 ++++++
  Zend/asm/jump_s390x_sysv_elf_gas.S   | 24 +++++++++++++----------
  Zend/asm/jump_sparc64_sysv_elf_gas.S | 12 +++++++-----
  Zend/asm/jump_x86_64_ms_pe_gas.S     |  4 ++++
  Zend/asm/jump_x86_64_sysv_elf_gas.S  |  8 --------
- Zend/asm/make_i386_sysv_elf_gas.S    |  6 ++++++
  Zend/asm/make_s390x_sysv_elf_gas.S   | 14 +++++++-------
  Zend/asm/make_sparc64_sysv_elf_gas.S |  4 ++--
  Zend/asm/make_x86_64_ms_pe_gas.S     |  4 ++++
  Zend/asm/make_x86_64_sysv_elf_gas.S  | 29 ----------------------------
- 10 files changed, 50 insertions(+), 61 deletions(-)
+ 8 files changed, 38 insertions(+), 61 deletions(-)
 
-diff --git a/Zend/asm/jump_i386_sysv_elf_gas.S b/Zend/asm/jump_i386_sysv_elf_gas.S
-index 47be9e7782..ed83717ce2 100644
---- a/Zend/asm/jump_i386_sysv_elf_gas.S
-+++ b/Zend/asm/jump_i386_sysv_elf_gas.S
-@@ -24,6 +24,10 @@
-  *                                                                                      *
-  ****************************************************************************************/
- 
-+#ifdef __x86_64__
-+#include "jump_x86_64_sysv_elf_gas.S"
-+#else
-+
- .file "jump_i386_sysv_elf_gas.S"
- .text
- .globl jump_fcontext
-@@ -91,3 +95,5 @@ jump_fcontext:
- 
- /* Mark that we don't need executable stack.  */
- .section .note.GNU-stack,"",%progbits
-+
-+#endif
 diff --git a/Zend/asm/jump_s390x_sysv_elf_gas.S b/Zend/asm/jump_s390x_sysv_elf_gas.S
 index c2a578b266..fa71467756 100644
 --- a/Zend/asm/jump_s390x_sysv_elf_gas.S
@@ -147,27 +124,6 @@ index be264bdc2e..ff303bfa0e 100644
  #if BOOST_CONTEXT_SHADOW_STACK
      /* grow the stack to reserve space for shadow stack pointer(SSP) */
      leaq  -0x8(%rsp), %rsp
-diff --git a/Zend/asm/make_i386_sysv_elf_gas.S b/Zend/asm/make_i386_sysv_elf_gas.S
-index 9261e566c0..c6e0b36558 100644
---- a/Zend/asm/make_i386_sysv_elf_gas.S
-+++ b/Zend/asm/make_i386_sysv_elf_gas.S
-@@ -24,6 +24,10 @@
-  *                                                                                      *
-  ****************************************************************************************/
- 
-+#ifdef __x86_64__
-+#include "make_x86_64_sysv_elf_gas.S"
-+#else
-+
- .file "make_i386_sysv_elf_gas.S"
- .text
- .globl make_fcontext
-@@ -111,3 +115,5 @@ finish:
- 
- /* Mark that we don't need executable stack.  */
- .section .note.GNU-stack,"",%progbits
-+
-+#endif
 diff --git a/Zend/asm/make_s390x_sysv_elf_gas.S b/Zend/asm/make_s390x_sysv_elf_gas.S
 index e7e2d5f6e0..4dd423e2a4 100644
 --- a/Zend/asm/make_s390x_sysv_elf_gas.S
