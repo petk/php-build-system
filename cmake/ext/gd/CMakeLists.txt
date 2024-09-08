@@ -362,18 +362,11 @@ if(NOT EXT_GD_EXTERNAL)
       cmake_push_check_state(RESET)
         set(CMAKE_REQUIRED_LIBRARIES ${libraries})
 
-        check_source_compiles(C [[
-          char foobar(void) {
-            return '\0';
-          }
-
-          char foobar(void);
-
-          int main(void) {
-            foobar();
-            return 0;
-          }
-        ]] _GD_SANITY_CHECK_COMPILES)
+        check_source_compiles(
+          C
+          [[int main(void) { return 0; }]]
+          _GD_SANITY_CHECK_COMPILES
+        )
       cmake_pop_check_state()
 
       if(NOT _GD_SANITY_CHECK_COMPILES)
