@@ -43,10 +43,10 @@ Changes:
  4 files changed, 54 insertions(+), 21 deletions(-)
 
 diff --git a/build/php.m4 b/build/php.m4
-index ad2bfd0ac3..4acb5ca4f8 100644
+index 176d4d4144..353dc762f8 100644
 --- a/build/php.m4
 +++ b/build/php.m4
-@@ -2100,7 +2100,8 @@ EOF
+@@ -2105,7 +2105,8 @@ EOF
    echo '"[$]@"' >> $1
    chmod +x $1
    CONFIGURE_COMMAND="$CONFIGURE_COMMAND $CONFIGURE_OPTIONS"
