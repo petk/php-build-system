@@ -135,8 +135,18 @@ cmake_dependent_option(
 )
 mark_as_advanced(PHP_SIGCHILD)
 
-option(PHP_SHORT_TAGS "Enable the short-form <? start tag by default" ON)
-mark_as_advanced(PHP_SHORT_TAGS)
+option(
+  PHP_DEFAULT_SHORT_OPEN_TAG
+  "Set the default value of 'short_open_tag' php.ini directive to 'On' to\
+  enable short-form of opening PHP tags '<?'."
+  ON
+)
+mark_as_advanced(PHP_DEFAULT_SHORT_OPEN_TAG)
+if(PHP_DEFAULT_SHORT_OPEN_TAG)
+  set(DEFAULT_SHORT_OPEN_TAG "1")
+else()
+  set(DEFAULT_SHORT_OPEN_TAG "0")
+endif()
 
 option(PHP_IPV6 "Enable IPv6 support" ON)
 mark_as_advanced(PHP_IPV6)
@@ -250,12 +260,6 @@ set_package_properties(
 ################################################################################
 # Adjust configuration.
 ################################################################################
-
-if(PHP_SHORT_TAGS)
-  set(DEFAULT_SHORT_OPEN_TAG "1")
-else()
-  set(DEFAULT_SHORT_OPEN_TAG "0")
-endif()
 
 # Set default PHP_EXTENSION_DIR based on the layout used.
 block()
