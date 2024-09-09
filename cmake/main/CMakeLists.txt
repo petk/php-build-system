@@ -192,10 +192,11 @@ foreach(extension IN LISTS extensions)
 endforeach()
 
 ################################################################################
-# Install headers.
+# Generate files and install headers.
 ################################################################################
 
-function(_php_main_create_files)
+# Create main/internal_functions*.c files based on the enabled extensions.
+function(_php_main_create_internal_functions)
   # Create main/internal_functions* files.
   set(EXT_INCLUDE_CODE "")
   set(EXT_MODULE_PTRS "")
@@ -233,6 +234,15 @@ function(_php_main_create_files)
 
   message(STATUS "Creating main/internal_functions_cli.c")
   configure_file(main/internal_functions.c.in main/internal_functions_cli.c)
+endfunction()
+
+# Create PHP configuration headers.
+function(_php_main_create_files)
+  _php_main_create_internal_functions()
+
+  ##############################################################################
+  # Map CMake variable names to names in PHP configuration headers where needed.
+  ##############################################################################
 
   # TODO: Set configure command string.
   set(CONFIGURE_COMMAND "cmake")
@@ -253,6 +263,12 @@ function(_php_main_create_files)
   # Set shared library object extension.
   string(REPLACE "." "" SHLIB_DL_SUFFIX_NAME ${CMAKE_SHARED_MODULE_SUFFIX})
 
+  if(PHP_DEFAULT_SHORT_OPEN_TAG)
+    set(DEFAULT_SHORT_OPEN_TAG "1")
+  else()
+    set(DEFAULT_SHORT_OPEN_TAG "0")
+  endif()
+
   if(CMAKE_SYSTEM_NAME STREQUAL "Windows")
     message(STATUS "Creating main/config.w32.h")
     configure_file(main/config.w32.cmake.h.in main/config.w32.h @ONLY)
@@ -260,10 +276,7 @@ function(_php_main_create_files)
     message(STATUS "Creating main/build-defs.h")
     configure_file(main/build-defs.h.in main/build-defs.h @ONLY)
 
-    set(
-      HAVE_BUILD_DEFS_H 1
-      CACHE INTERNAL "Whether build-defs.h header file is present."
-    )
+    set(HAVE_BUILD_DEFS_H 1)
 
     message(STATUS "Creating main/php_config.h")
     configure_file(main/php_config.cmake.h.in main/php_config.h @ONLY)
