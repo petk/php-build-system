@@ -142,11 +142,6 @@ option(
   ON
 )
 mark_as_advanced(PHP_DEFAULT_SHORT_OPEN_TAG)
-if(PHP_DEFAULT_SHORT_OPEN_TAG)
-  set(DEFAULT_SHORT_OPEN_TAG "1")
-else()
-  set(DEFAULT_SHORT_OPEN_TAG "0")
-endif()
 
 option(PHP_IPV6 "Enable IPv6 support" ON)
 mark_as_advanced(PHP_IPV6)
