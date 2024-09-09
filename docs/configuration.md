@@ -448,13 +448,13 @@ A list of Autoconf `configure` command-line configuration options, Windows
     <tr>
       <td>--enable-short-tags</td>
       <td>N/A</td>
-      <td>PHP_SHORT_TAGS=ON</td>
+      <td>PHP_DEFAULT_SHORT_OPEN_TAG=ON</td>
       <td>default</td>
     </tr>
     <tr>
       <td>&emsp;--disable-short-tags</td>
       <td>N/A</td>
-      <td>PHP_SHORT_TAGS=OFF</td>
+      <td>PHP_DEFAULT_SHORT_OPEN_TAG=OFF</td>
       <td></td>
     </tr>
     <tr>
