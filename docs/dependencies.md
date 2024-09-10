@@ -15,7 +15,7 @@ projects.
   * [3.4. Vcpkg](#34-vcpkg)
   * [3.5. Chocolatey for Windows](#35-chocolatey-for-windows)
   * [3.6. Building dependencies from source](#36-building-dependencies-from-source)
-  * [3.7. pkgconf](#37-pkgconf)
+  * [3.7. pkgconf/pkg-config](#37-pkgconfpkg-config)
 * [4. CMake](#4-cmake)
   * [4.1. find\_package](#41-find_package)
     * [4.1.1. Find module example](#411-find-module-example)
@@ -112,7 +112,7 @@ Sometimes, you may need to build dependencies from source. In this case, you can
 create scripts or use build automation tools (like Make or CMake) to build and
 include these dependencies as part of your project's build process.
 
-### 3.7. pkgconf
+### 3.7. pkgconf/pkg-config
 
 [pkgconf](http://pkgconf.org/) is a tool for managing package dependencies in
 Unix-based systems. It simplifies the process of locating and retrieving
@@ -125,7 +125,8 @@ with the initial Freedesktop's
 usually provide both `pkgconf` and `pkg-config` as a symbolic link on the
 command line.
 
-PHP Autotools build system requires `pkgconf` to locate system dependencies.
+PHP Autotools build system requires `pkgconf` to locate some system
+dependencies.
 
 Quick usage:
 
