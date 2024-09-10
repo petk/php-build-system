@@ -164,12 +164,16 @@ function(pkgconfig_generate_pc)
       list(POP_FRONT variables var value)
 
       # Normalize boolean values to either "yes" or "no".
-      if(var MATCHES "(.*):BOOL$" AND NOT parsed_SKIP_BOOL_NORMALIZATION)
+      if(var MATCHES ".*:BOOL$" AND NOT parsed_SKIP_BOOL_NORMALIZATION)
         if(value)
           set(value "yes")
         else()
           set(value "no")
         endif()
+      endif()
+
+      # Remove possible :<TYPE> part from the variable name.
+      if(var MATCHES "(.*):BOOL$")
         set(var ${CMAKE_MATCH_1})
       endif()
 
