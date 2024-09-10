@@ -17,7 +17,8 @@ pkgconfig_generate_pc(
   <pc-template-file>
   <pc-file-output>
   TARGET <target>
-  [VARIABLES [<variable> <value>]...]
+  [VARIABLES [<variable> <value>] [<variable_2>:BOOL <value_2>...]
+  SKIP_BOOL_NORMALIZATION
 )
 
   Generate pkgconfig <pc-file-output> from the given pc <pc-template-file>
@@ -26,7 +27,20 @@ pkgconfig_generate_pc(
   TARGET
     Name of the target for getting libraries.
   VARIABLES
-    Pairs of variable names and values.
+    Pairs of variable names and values. To pass booleans, add ':BOOL' to the
+    variable name. For example:
+      pkgconfig_generate_pc(
+        ...
+        VARIABLES
+          variable_name:BOOL "${variable_name}"
+      )
+
+  SKIP_BOOL_NORMALIZATION
+    CMake booleans have values yes, no, true, false, on, off, 1, 0, they can
+    even be case insensitive and so on. By default, all booleans (var:BOOL see
+    above) are normalized to values "yes" or "no". If this option is given,
+    boolean values are replaced in .pc template with the CMake format instead
+    (they will be replaced to 'ON' or 'OFF' and similar).
 ]=============================================================================]#
 
 include_guard(GLOBAL)
@@ -42,10 +56,10 @@ function(pkgconfig_generate_pc)
   cmake_parse_arguments(
     PARSE_ARGV
     2
-    parsed      # prefix
-    ""          # options
-    "TARGET"    # one-value keywords
-    "VARIABLES" # multi-value keywords
+    parsed                    # prefix
+    "SKIP_BOOL_NORMALIZATION" # options
+    "TARGET"                  # one-value keywords
+    "VARIABLES"               # multi-value keywords
   )
 
   if(parsed_UNPARSED_ARGUMENTS)
@@ -127,16 +141,38 @@ function(pkgconfig_generate_pc)
   endif()
 
   if(parsed_VARIABLES)
-    set(is_value FALSE)
+    set(variables "${parsed_VARIABLES}")
 
-    set(variables ${parsed_VARIABLES})
+    # Check for even number of keyword values.
+    list(LENGTH variables length)
+    math(EXPR modulus "${length} % 2")
+    if(NOT modulus EQUAL 0)
+      message(
+        FATAL_ERROR
+        "The keyword VARIABLES must be a list of pairs - variable-name and "
+        "value (it must contain an even number of items)."
+      )
+    endif()
+
+    set(is_value FALSE)
     set(variables_options "")
-    foreach(variable ${parsed_VARIABLES})
+    foreach(variable IN LISTS variables)
       if(is_value)
         set(is_value FALSE)
         continue()
       endif()
       list(POP_FRONT variables var value)
+
+      # Normalize boolean values to either "yes" or "no".
+      if(var MATCHES "(.*):BOOL$" AND NOT parsed_SKIP_BOOL_NORMALIZATION)
+        if(value)
+          set(value "yes")
+        else()
+          set(value "no")
+        endif()
+        set(var ${CMAKE_MATCH_1})
+      endif()
+
       list(APPEND variables_options -D ${var}="${value}")
       set(is_value TRUE)
     endforeach()

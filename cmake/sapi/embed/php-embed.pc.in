@@ -1,4 +1,4 @@
-# The .pc file for pkgconf/pkg-config command-line utility.
+# The pkg-config .pc file for PHP Embed SAPI.
 # https://en.wikipedia.org/wiki/Pkg-config
 #
 # Usage:
@@ -18,9 +18,13 @@ extensiondir=@PHP_EXTENSION_DIR@
 # PHP version as integer.
 php_vernum=@PHP_VERSION_ID@
 # The path where to scan for additional INI configuration files.
-php_inidir=@PHP_CONFIG_FILE_SCAN_DIR@
+php_ini_dir=@PHP_CONFIG_FILE_SCAN_DIR@
 # The path in which to look for php.ini.
-php_inipath=@PHP_CONFIG_FILE_PATH@
+php_ini_path=@PHP_CONFIG_FILE_PATH@
+# Whether PHP is built in debug mode (yes) or not (no).
+php_debug=@PHP_DEBUG@
+# Whether PHP is built with thread safety (yes) or not (no).
+php_zts=@PHP_THREAD_SAFETY@
 
 Name: PHP Embed SAPI
 Description: A lightweight SAPI to embed PHP into application using C bindings
