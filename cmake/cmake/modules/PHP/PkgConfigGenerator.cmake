@@ -17,7 +17,7 @@ pkgconfig_generate_pc(
   <pc-template-file>
   <pc-file-output>
   TARGET <target>
-  [VARIABLES [<variable> <value>] [<variable_2>:BOOL <value_2>...]
+  [VARIABLES [<variable> <value>] [<variable_2>:BOOL <value_2>...] ...]
   SKIP_BOOL_NORMALIZATION
 )
 
