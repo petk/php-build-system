@@ -23,7 +23,7 @@ message(CHECK_START "Checking for broken GCC optimize-strlen")
 cmake_push_check_state(RESET)
   set(CMAKE_REQUIRED_QUIET TRUE)
 
-  if(NOT CMAKE_CROSSCOMPILING)
+  if(NOT CMAKE_CROSSCOMPILING OR CMAKE_CROSSCOMPILING_EMULATOR)
     check_source_runs(C [[
       #include <stdlib.h>
       #include <string.h>
@@ -47,8 +47,6 @@ cmake_pop_check_state()
 
 if(HAVE_BROKEN_OPTIMIZE_STRLEN)
   message(CHECK_PASS "yes")
-elseif(CMAKE_CROSSCOMPILING)
-  message(CHECK_FAIL "no (cross-compiling)")
 else()
   message(CHECK_FAIL "no")
 endif()

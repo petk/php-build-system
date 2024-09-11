@@ -43,7 +43,7 @@ endif()
 
 message(CHECK_START "Checking for clock_get_time")
 
-if(NOT CMAKE_CROSSCOMPILING)
+if(NOT CMAKE_CROSSCOMPILING OR CMAKE_CROSSCOMPILING_EMULATOR)
   cmake_push_check_state(RESET)
     set(CMAKE_REQUIRED_QUIET TRUE)
 
