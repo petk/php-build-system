@@ -13,7 +13,7 @@
 
 ## 1. Cross-compilation considerations
 
-Cross-compilation is a method where a project is compiled on one system but
+Cross-compilation is a method where a project is compiled on one system and
 targeted to run on another. In cross-compilation scenarios, running C test
 programs with build system run checks isn't always feasible or guaranteed.
 
@@ -269,6 +269,8 @@ characteristics. PHP cache variables to consider adjusting when cross-compiling:
   php_cv_func_mach_vm_read=yes \
   php_cv_file_proc_mem=as|mem \
   php_cv_align_mm="(size_t)8 (size_t)3 0" \
+  php_cv_func_pwrite=yes \
+  php_cv_func_pread=yes
 ```
 
 > [!WARNING]
