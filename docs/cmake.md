@@ -36,13 +36,14 @@ repository:
 ```sh
 <php-src>/
  └─ cmake/                     # CMake-based PHP build system files
-    └─ modules/                # Project specific CMake modules
+    └─ modules/                # Project-specific CMake modules
        ├─ PHP/                 # PHP utility modules
        ├─ Zend/                # Zend utility modules
        ├─ Find*.cmake          # Find modules that support the find_package()
        └─ *.cmake              # Any possible additional utility modules
-    ├─ platform/               # Additional platform specific configuration
+    ├─ platforms/              # Platform-specific configuration
     ├─ presets/                # Presets included in CMakePresets.json
+    ├─ toolchains/             # CMake toolchain files
     └─ *.cmake                 # Various CMake configurations and tools
  └─ ext/
     └─ date/

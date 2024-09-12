@@ -193,7 +193,7 @@ these variables become distinct.
 ### 2.3. Check modules
 
 Use `check_compiler_flag()`, `check_source_compiles()`, `check_source_runs()`
-instead of language specific `check_<LANG>_...()`.
+instead of language-specific `check_<LANG>_...()`.
 
 ## 3. Variables
 
