@@ -1,5 +1,4 @@
 include(CheckIncludeFile)
-include(PHP/CheckCompilerFlag)
 
 # Check for headers needed by timelib.
 check_include_file(io.h HAVE_IO_H)
