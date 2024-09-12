@@ -1,0 +1,43 @@
+Subject: Fix -Wundef/C4668 warnings in ext/date
+
+---
+ ext/date/lib/timelib.h         | 2 ++
+ ext/date/lib/timelib_private.h | 6 +++---
+ 2 files changed, 5 insertions(+), 3 deletions(-)
+
+diff --git a/ext/date/lib/timelib.h b/ext/date/lib/timelib.h
+index a2c976af7e..06035f985c 100644
+--- a/ext/date/lib/timelib.h
++++ b/ext/date/lib/timelib.h
+@@ -373,6 +373,8 @@ typedef struct _timelib_tzdb {
+ #  define TIMELIB_USE_BUILTIN_STRNDUP 0
+ #  define timelib_strndup strndup
+ # endif
++#else
++# define TIMELIB_USE_BUILTIN_STRNDUP 0
+ #endif
+ 
+ #define TIMELIB_NONE             0x00
+diff --git a/ext/date/lib/timelib_private.h b/ext/date/lib/timelib_private.h
+index 3c5f9b2214..7e7fcc8440 100644
+--- a/ext/date/lib/timelib_private.h
++++ b/ext/date/lib/timelib_private.h
+@@ -49,15 +49,15 @@
+ # include <stdint.h>
+ #endif
+ 
+-#if HAVE_UNISTD_H
++#ifdef HAVE_UNISTD_H
+ # include <unistd.h>
+ #endif
+ 
+-#if HAVE_IO_H
++#ifdef HAVE_IO_H
+ # include <io.h>
+ #endif
+ 
+-#if HAVE_DIRENT_H
++#ifdef HAVE_DIRENT_H
+ # include <dirent.h>
+ #endif
+ 

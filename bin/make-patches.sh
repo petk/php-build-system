@@ -17,6 +17,7 @@ patch-cmake-8.4-asm
 patch-cmake-8.4-dmalloc
 patch-cmake-8.4-docs
 patch-cmake-8.4-php-config
+patch-cmake-8.4-timelib
 "
 
 # A list of supported PHP versions.
