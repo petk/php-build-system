@@ -61,40 +61,41 @@ if(EXT_PCRE_EXTERNAL)
   if(TARGET PCRE::PCRE AND EXT_PCRE_JIT)
     message(CHECK_START "Checking for PCRE JIT support")
 
-    if(CMAKE_CROSSCOMPILING)
-      if(
-        CMAKE_SYSTEM_PROCESSOR
-        MATCHES
+    if(
+      NOT DEFINED HAVE_PCRE_JIT_SUPPORT
+      AND CMAKE_CROSSCOMPILING
+      AND NOT CMAKE_CROSSCOMPILING_EMULATOR
+      AND CMAKE_SYSTEM_PROCESSOR MATCHES
         "^(arm.*|i[34567]86|x86_64|amd64|mips.*|powerpc.*|sparc.*|X86|AMD64|ARM64)$"
+    )
+      set(
+        HAVE_PCRE_JIT_SUPPORT 1
+        CACHE INTERNAL "Whether to enable the PCRE JIT support"
       )
-        set(
-          HAVE_PCRE_JIT_SUPPORT 1
-          CACHE INTERNAL "Whether to enable the PCRE JIT support"
-        )
-      endif()
-    else()
-      cmake_push_check_state(RESET)
-        set(CMAKE_REQUIRED_LIBRARIES PCRE::PCRE)
-        # Before including pcre2.h, the PCRE2_CODE_UNIT_WIDTH must be set.
-        set(
-          CMAKE_REQUIRED_DEFINITIONS
-          -DPCRE2_CODE_UNIT_WIDTH=${PCRE2_CODE_UNIT_WIDTH}
-        )
-        set(CMAKE_REQUIRED_QUIET TRUE)
-
-        check_source_runs(C [[
-          #include <pcre2.h>
-          #include <stdlib.h>
-
-          int main(void) {
-            uint32_t have_jit;
-            pcre2_config_8(PCRE2_CONFIG_JIT, &have_jit);
-
-            return !have_jit;
-          }
-        ]] HAVE_PCRE_JIT_SUPPORT)
-      cmake_pop_check_state()
     endif()
+
+    cmake_push_check_state(RESET)
+      set(CMAKE_REQUIRED_LIBRARIES PCRE::PCRE)
+      # Before including pcre2.h, the PCRE2_CODE_UNIT_WIDTH must be set.
+      set(
+        CMAKE_REQUIRED_DEFINITIONS
+        -DPCRE2_CODE_UNIT_WIDTH=${PCRE2_CODE_UNIT_WIDTH}
+      )
+      set(CMAKE_REQUIRED_QUIET TRUE)
+
+      check_source_runs(C [[
+        #include <pcre2.h>
+        #include <stdlib.h>
+
+        int main(void)
+        {
+          uint32_t have_jit;
+          pcre2_config_8(PCRE2_CONFIG_JIT, &have_jit);
+
+          return !have_jit;
+        }
+      ]] HAVE_PCRE_JIT_SUPPORT)
+    cmake_pop_check_state()
 
     if(HAVE_PCRE_JIT_SUPPORT)
       message(CHECK_PASS "yes")

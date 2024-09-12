@@ -16,41 +16,41 @@ include(CheckSourceRuns)
 
 message(CHECK_START "Checking type of reentrant time-related functions")
 
-if(NOT CMAKE_CROSSCOMPILING)
-  check_source_runs(C "
+check_source_runs(C [[
+  #include <time.h>
+
+  int main(void)
+  {
+    char buf[27];
+    struct tm t;
+    time_t old = 0;
+    int r, s;
+
+    s = gmtime_r(&old, &t);
+    r = (int) asctime_r(&t, buf, 26);
+    if (r == s && s == 0) return (0);
+
+    return (1);
+  }
+]] PHP_HPUX_TIME_R)
+
+if(NOT PHP_HPUX_TIME_R)
+  check_source_runs(C [[
     #include <time.h>
 
-    int main(void) {
-      char buf[27];
-      struct tm t;
+    int main(void)
+    {
+      struct tm t, *s;
       time_t old = 0;
-      int r, s;
+      char buf[27], *p;
 
       s = gmtime_r(&old, &t);
-      r = (int) asctime_r(&t, buf, 26);
-      if (r == s && s == 0) return (0);
+      p = asctime_r(&t, buf, 26);
+      if (p == buf && s == &t) return (0);
 
       return (1);
     }
-  " PHP_HPUX_TIME_R)
-
-  if(NOT PHP_HPUX_TIME_R)
-    check_source_runs(C "
-      #include <time.h>
-
-      int main(void) {
-        struct tm t, *s;
-        time_t old = 0;
-        char buf[27], *p;
-
-        s = gmtime_r(&old, &t);
-        p = asctime_r(&t, buf, 26);
-        if (p == buf && s == &t) return (0);
-
-        return (1);
-      }
-    " PHP_IRIX_TIME_R)
-  endif()
+  ]] PHP_IRIX_TIME_R)
 endif()
 
 if(PHP_HPUX_TIME_R)

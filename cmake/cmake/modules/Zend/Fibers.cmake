@@ -32,20 +32,20 @@ add_library(Zend::Fibers ALIAS zend_fibers)
 message(CHECK_START "Whether syscall to create shadow stack exists")
 cmake_push_check_state(RESET)
   set(CMAKE_REQUIRED_QUIET TRUE)
-  if(NOT CMAKE_CROSSCOMPILING)
-    check_source_runs(C [[
-      #include <unistd.h>
-      #include <sys/mman.h>
-      int main(void) {
-        void* base = (void *)syscall(451, 0, 0x20000, 0x1);
-        if (base != (void*)-1) {
-          munmap(base, 0x20000);
-          return 0;
-        }
-        return 1;
+
+  check_source_runs(C [[
+    #include <unistd.h>
+    #include <sys/mman.h>
+    int main(void)
+    {
+      void* base = (void *)syscall(451, 0, 0x20000, 0x1);
+      if (base != (void*)-1) {
+        munmap(base, 0x20000);
+        return 0;
       }
-    ]] SHADOW_STACK_SYSCALL)
-  endif()
+      return 1;
+    }
+  ]] SHADOW_STACK_SYSCALL)
 cmake_pop_check_state()
 if(SHADOW_STACK_SYSCALL)
   message(CHECK_PASS "yes")
