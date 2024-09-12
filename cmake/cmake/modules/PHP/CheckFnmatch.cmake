@@ -21,33 +21,38 @@ include(CMakePushCheckState)
 
 message(CHECK_START "Checking for a working POSIX fnmatch() function")
 
-if(NOT CMAKE_CROSSCOMPILING)
-  cmake_push_check_state(RESET)
-    set(CMAKE_REQUIRED_QUIET TRUE)
-
-    check_source_runs(C [[
-      #include <fnmatch.h>
-      #define y(a, b, c) (fnmatch (a, b, c) == 0)
-      #define n(a, b, c) (fnmatch (a, b, c) == FNM_NOMATCH)
-
-      int main(void) {
-        return
-          (!(y ("a*", "abc", 0)
-            && n ("d*/*1", "d/s/1", FNM_PATHNAME)
-            && y ("a\\bc", "abc", 0)
-            && n ("a\\bc", "abc", FNM_NOESCAPE)
-            && y ("*x", ".x", 0)
-            && n ("*x", ".x", FNM_PERIOD)
-            && 1));
-      }
-    ]] HAVE_FNMATCH)
-  cmake_pop_check_state()
-elseif(CMAKE_CROSSCOMPILING AND CMAKE_SYSTEM_NAME STREQUAL "Linux")
+if(
+  NOT DEFINED HAVE_FNMATCH
+  AND CMAKE_CROSSCOMPILING
+  AND CMAKE_SYSTEM_NAME STREQUAL "Linux"
+)
   set(
     HAVE_FNMATCH 1
     CACHE INTERNAL "Define to 1 if system has a working POSIX fnmatch function."
   )
 endif()
+
+cmake_push_check_state(RESET)
+  set(CMAKE_REQUIRED_QUIET TRUE)
+
+  check_source_runs(C [[
+    #include <fnmatch.h>
+    #define y(a, b, c) (fnmatch (a, b, c) == 0)
+    #define n(a, b, c) (fnmatch (a, b, c) == FNM_NOMATCH)
+
+    int main(void)
+    {
+      return
+        (!(y ("a*", "abc", 0)
+          && n ("d*/*1", "d/s/1", FNM_PATHNAME)
+          && y ("a\\bc", "abc", 0)
+          && n ("a\\bc", "abc", FNM_NOESCAPE)
+          && y ("*x", ".x", 0)
+          && n ("*x", ".x", FNM_PERIOD)
+          && 1));
+    }
+  ]] HAVE_FNMATCH)
+cmake_pop_check_state()
 
 if(HAVE_FNMATCH)
   message(CHECK_PASS "yes")
