@@ -422,35 +422,34 @@ else()
           set(definition "FILE* f = NULL")
         endif()
 
-        if(NOT CMAKE_CROSSCOMPILING)
-          check_source_runs(C "
-            #include <stdio.h>
-            #include <unistd.h>
-            #include <gd.h>
+        check_source_runs(C "
+          #include <stdio.h>
+          #include <unistd.h>
+          #include <gd.h>
 
-            /* A custom gdErrorMethod */
-            void exit1(int priority, const char *format, va_list args)
-            {
-              (void)priority;
-              (void)format;
-              (void)args;
-              _exit(1);
-            }
+          /* A custom gdErrorMethod */
+          void exit1(int priority, const char *format, va_list args)
+          {
+            (void)priority;
+            (void)format;
+            (void)args;
+            _exit(1);
+          }
 
-            int main(void)
-            {
-              ${definition};
+          int main(void)
+          {
+            ${definition};
 
-              /* Override the default gd_error_method with one that actually
-                 causes the program to return an error. */
-              gdSetErrorMethod(exit1);
+            /* Override the default gd_error_method with one that actually
+                causes the program to return an error. */
+            gdSetErrorMethod(exit1);
 
-              gdImagePtr p = gdImageCreateFrom${format}(f);
-              (void)p;
+            gdImagePtr p = gdImageCreateFrom${format}(f);
+            (void)p;
 
-              return 0;
-            }" ${result})
-        endif()
+            return 0;
+          }" ${result})
+
       cmake_pop_check_state()
     endfunction()
 

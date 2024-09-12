@@ -60,56 +60,55 @@ target_link_libraries(php_curl PRIVATE CURL::libcurl)
 if(PHP_THREAD_SAFETY AND CURL_SSL_FOUND)
   message(CHECK_START "Checking if libcurl is linked against old OpenSSL < 1.1")
 
-  if(NOT CMAKE_CROSSCOMPILING)
-    cmake_push_check_state(RESET)
-      set(CMAKE_REQUIRED_LIBRARIES CURL::libcurl)
-      set(CMAKE_REQUIRED_QUIET TRUE)
+  cmake_push_check_state(RESET)
+    set(CMAKE_REQUIRED_LIBRARIES CURL::libcurl)
+    set(CMAKE_REQUIRED_QUIET TRUE)
 
-      check_source_runs(C [[
-        #include <stdio.h>
-        #include <strings.h>
-        #include <curl/curl.h>
+    check_source_runs(C [[
+      #include <stdio.h>
+      #include <strings.h>
+      #include <curl/curl.h>
 
-        int main(void) {
-          curl_version_info_data *data = curl_version_info(CURLVERSION_NOW);
+      int main(void)
+      {
+        curl_version_info_data *data = curl_version_info(CURLVERSION_NOW);
 
-          if (data && data->ssl_version && *data->ssl_version) {
-            const char *ptr = data->ssl_version;
+        if (data && data->ssl_version && *data->ssl_version) {
+          const char *ptr = data->ssl_version;
 
-            while (*ptr == ' ') {
-              ++ptr;
-            }
-
-            int major, minor;
-
-            /* OpenSSL >= 3 */
-            if (sscanf(ptr, "OpenSSL/%d", &major) == 1 && major >= 3) {
-              return 4;
-            }
-
-            /* OpenSSL >= 1.1 */
-            if (
-              sscanf(ptr, "OpenSSL/%d.%d", &major, &minor) == 2
-              && (major > 1 || (major == 1 && minor >= 1))
-            ) {
-              return 3;
-            }
-
-            /* OpenSSL < 1.1 */
-            if (strncasecmp(ptr, "OpenSSL", sizeof("OpenSSL")-1) == 0) {
-              return 0;
-            }
-
-            /* Different SSL library */
-            return 2;
+          while (*ptr == ' ') {
+            ++ptr;
           }
 
-          /* No SSL support */
-          return 1;
+          int major, minor;
+
+          /* OpenSSL >= 3 */
+          if (sscanf(ptr, "OpenSSL/%d", &major) == 1 && major >= 3) {
+            return 4;
+          }
+
+          /* OpenSSL >= 1.1 */
+          if (
+            sscanf(ptr, "OpenSSL/%d.%d", &major, &minor) == 2
+            && (major > 1 || (major == 1 && minor >= 1))
+          ) {
+            return 3;
+          }
+
+          /* OpenSSL < 1.1 */
+          if (strncasecmp(ptr, "OpenSSL", sizeof("OpenSSL")-1) == 0) {
+            return 0;
+          }
+
+          /* Different SSL library */
+          return 2;
         }
-      ]] HAVE_CURL_OLD_OPENSSL)
-    cmake_pop_check_state()
-  endif()
+
+        /* No SSL support */
+        return 1;
+      }
+    ]] HAVE_CURL_OLD_OPENSSL)
+  cmake_pop_check_state()
 
   if(NOT HAVE_CURL_OLD_OPENSSL)
     message(CHECK_FAIL "no")
