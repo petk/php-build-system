@@ -128,6 +128,8 @@ variables are manually defined for the targeted platform.
 
 ```sh
 cmake --toolchain customToolchain.cmake -S ../php-src -B build-directory
+# Also a CMAKE_TOOLCHAIN_FILE variable can be used:
+cmake -DCMAKE_TOOLCHAIN_FILE=someToolchain.cmake -S ../php-src -B build-directory
 ```
 
 ## 3. Cross-compilation with Autotools
@@ -239,7 +241,6 @@ characteristics. PHP cache variables to consider adjusting when cross-compiling:
 ```sh
 ./configure --host=<target-triplet> --build=<build-triplet> \
   php_cv_func_getaddrinfo=yes \
-  php_cv_func_copy_file_range=yes \
   php_cv_have_shadow_stack_syscall=yes \
   php_cv_ubsan_no_function=yes \
   php_cv_type_cookie_off64_t=yes \

@@ -34,6 +34,9 @@ build system:
   `ext_shared`) where they shouldn't. PHP Windows build system has similar
   configure option `--enable-snapshot-build` (and `--disable-all`).
 
+* Better cross-compiling support with CMake toolchain files and ability to set
+  the cross-compiling emulator.
+
 ## Bugs fixed
 
 * Building inside folder with spaces.
