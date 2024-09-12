@@ -57,3 +57,6 @@ set(ZEND_MM_OUTPUT "(size_t)8 (size_t)3 0")
 
 # Set to exit code of the stack limit check.
 set(ZEND_CHECK_STACK_LIMIT_EXITCODE 1)
+
+# Set to exit code of the ttyname_r check.
+set(HAVE_TTYNAME_R_EXITCODE 0)

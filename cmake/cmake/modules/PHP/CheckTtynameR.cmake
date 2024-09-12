@@ -45,7 +45,12 @@ cmake_push_check_state(RESET)
 
   if(NOT _HAVE_TTYNAME_R)
     message(CHECK_FAIL "no (non-standard declaration)")
-  elseif(CMAKE_CROSSCOMPILING AND _HAVE_TTYNAME_R)
+  elseif(
+    NOT DEFINED HAVE_TTYNAME_R
+    CMAKE_CROSSCOMPILING
+    NOT CMAKE_CROSSCOMPILING_EMULATOR
+    AND _HAVE_TTYNAME_R
+  )
     set(HAVE_TTYNAME_R TRUE CACHE INTERNAL "Whether ttyname_r() works.")
     message(CHECK_PASS "guessing yes (cross-compiling)")
   else()
