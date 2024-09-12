@@ -70,56 +70,60 @@ cmake_push_check_state(RESET)
   ]] _have_getaddrinfo)
 
   if(_have_getaddrinfo)
-    if(NOT CMAKE_CROSSCOMPILING)
-      check_source_runs(C [[
-        #include <netdb.h>
-        #include <sys/types.h>
-        #include <string.h>
-        #include <stdlib.h>
-        #ifndef AF_INET
-        # include <sys/socket.h>
-        #endif
-
-        int main(void) {
-          struct addrinfo *ai, *pai, hints;
-
-          memset(&hints, 0, sizeof(hints));
-          hints.ai_flags = AI_NUMERICHOST;
-
-          if (getaddrinfo("127.0.0.1", 0, &hints, &ai) < 0) {
-            return 1;
-          }
-
-          if (ai == 0) {
-            return 1;
-          }
-
-          pai = ai;
-
-          while (pai) {
-            if (pai->ai_family != AF_INET) {
-              /* 127.0.0.1/NUMERICHOST should only resolve ONE way */
-              return 1;
-            }
-            if (pai->ai_addr->sa_family != AF_INET) {
-              /* 127.0.0.1/NUMERICHOST should only resolve ONE way */
-              return 1;
-            }
-            pai = pai->ai_next;
-          }
-          freeaddrinfo(ai);
-
-          return 0;
-        }
-      ]] HAVE_GETADDRINFO)
-    else()
-      if(CMAKE_SYSTEM_NAME STREQUAL "Linux")
-        set(
-          HAVE_GETADDRINFO 1
-          CACHE INTERNAL "Define if you have the getaddrinfo() function"
-        )
-      endif()
+    if(
+      NOT DEFINED HAVE_GETADDRINFO
+      AND CMAKE_CROSSCOMPILING
+      AND NOT CMAKE_CROSSCOMPILING_EMULATOR
+      AND CMAKE_SYSTEM_NAME STREQUAL "Linux"
+    )
+      set(
+        HAVE_GETADDRINFO 1
+        CACHE INTERNAL "Define if you have the getaddrinfo() function"
+      )
     endif()
+
+    check_source_runs(C [[
+      #include <netdb.h>
+      #include <sys/types.h>
+      #include <string.h>
+      #include <stdlib.h>
+      #ifndef AF_INET
+      # include <sys/socket.h>
+      #endif
+
+      int main(void)
+      {
+        struct addrinfo *ai, *pai, hints;
+
+        memset(&hints, 0, sizeof(hints));
+        hints.ai_flags = AI_NUMERICHOST;
+
+        if (getaddrinfo("127.0.0.1", 0, &hints, &ai) < 0) {
+          return 1;
+        }
+
+        if (ai == 0) {
+          return 1;
+        }
+
+        pai = ai;
+
+        while (pai) {
+          if (pai->ai_family != AF_INET) {
+            /* 127.0.0.1/NUMERICHOST should only resolve ONE way */
+            return 1;
+          }
+          if (pai->ai_addr->sa_family != AF_INET) {
+            /* 127.0.0.1/NUMERICHOST should only resolve ONE way */
+            return 1;
+          }
+          pai = pai->ai_next;
+        }
+        freeaddrinfo(ai);
+
+        return 0;
+      }
+    ]] HAVE_GETADDRINFO)
   endif()
 cmake_pop_check_state()
 
