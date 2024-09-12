@@ -60,3 +60,6 @@ set(ZEND_CHECK_STACK_LIMIT_EXITCODE 1)
 
 # Set to exit code of the ttyname_r check.
 set(HAVE_TTYNAME_R_EXITCODE 0)
+
+# Set to exit code of the sched_getcpu check.
+set(HAVE_SCHED_GETCPU_EXITCODE 0)

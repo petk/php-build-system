@@ -141,13 +141,14 @@ cmake_push_check_state(RESET)
       LIBRARY_VARIABLE library
     )
 
-    if(_HAVE_SCHED_GETCPU AND NOT CMAKE_CROSSCOMPILING)
+    if(_HAVE_SCHED_GETCPU)
       if(library)
         set(CMAKE_REQUIRED_LIBRARIES ${library})
       endif()
       check_source_runs(C [[
         #include <sched.h>
-        int main(void) {
+        int main(void)
+        {
           if (sched_getcpu() == -1) {
               return 1;
           }
