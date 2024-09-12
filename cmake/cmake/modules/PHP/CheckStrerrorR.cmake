@@ -1,5 +1,5 @@
 #[=============================================================================[
-Check for strerror_r, and if its a POSIX-compatible or a GNU specific version.
+Check for strerror_r, and if its a POSIX-compatible or a GNU-specific version.
 
 Cache variables:
 

@@ -408,7 +408,7 @@ else()
   message(CHECK_FAIL "no")
 endif()
 
-# Check for strerror_r, and if its a POSIX-compatible or a GNU specific version.
+# Check for strerror_r, and if its a POSIX-compatible or a GNU-specific version.
 include(PHP/CheckStrerrorR)
 
 # Check getaddrinfo().

@@ -1,5 +1,5 @@
 #[=============================================================================[
-Find the crypt library and run a set of PHP specific checks if library works.
+Find the crypt library and run a set of PHP-specific checks if library works.
 
 The Crypt library can be on some systems part of the standard C library. The
 crypt() and crypt_r() functions are usually declared in the unistd.h or crypt.h.
