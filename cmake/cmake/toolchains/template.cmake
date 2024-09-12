@@ -54,3 +54,6 @@ set(PHP_WRITE_STDOUT_EXITCODE 0)
 
 # TODO: Fix this better.
 set(ZEND_MM_OUTPUT "(size_t)8 (size_t)3 0")
+
+# Set to exit code of the stack limit check.
+set(ZEND_CHECK_STACK_LIMIT_EXITCODE 1)

@@ -17,48 +17,46 @@ message(CHECK_START "Checking whether the stack grows downwards")
 cmake_push_check_state(RESET)
   set(CMAKE_REQUIRED_QUIET TRUE)
 
-  if(NOT CMAKE_CROSSCOMPILING)
-    check_source_runs(C [[
-      #include <stdint.h>
+  check_source_runs(C [[
+    #include <stdint.h>
 
-      #ifdef __has_builtin
-      # if __has_builtin(__builtin_frame_address)
-      #  define builtin_frame_address __builtin_frame_address(0)
-      # endif
-      #endif
+    #ifdef __has_builtin
+    # if __has_builtin(__builtin_frame_address)
+    #  define builtin_frame_address __builtin_frame_address(0)
+    # endif
+    #endif
 
-      int (*volatile f)(uintptr_t);
+    int (*volatile f)(uintptr_t);
 
-      int stack_grows_downwards(uintptr_t arg) {
-      #ifdef builtin_frame_address
-        uintptr_t addr = (uintptr_t)builtin_frame_address;
-      #else
-        int local;
-        uintptr_t addr = (uintptr_t)&local;
-      #endif
+    int stack_grows_downwards(uintptr_t arg)
+    {
+    #ifdef builtin_frame_address
+      uintptr_t addr = (uintptr_t)builtin_frame_address;
+    #else
+      int local;
+      uintptr_t addr = (uintptr_t)&local;
+    #endif
 
-        return addr < arg;
-      }
+      return addr < arg;
+    }
 
-      int main(void) {
-      #ifdef builtin_frame_address
-        uintptr_t addr = (uintptr_t)builtin_frame_address;
-      #else
-        int local;
-        uintptr_t addr = (uintptr_t)&local;
-      #endif
+    int main(void)
+    {
+    #ifdef builtin_frame_address
+      uintptr_t addr = (uintptr_t)builtin_frame_address;
+    #else
+      int local;
+      uintptr_t addr = (uintptr_t)&local;
+    #endif
 
-        f = stack_grows_downwards;
-        return f(addr) ? 0 : 1;
-      }
-    ]] ZEND_CHECK_STACK_LIMIT)
-  endif()
+      f = stack_grows_downwards;
+      return f(addr) ? 0 : 1;
+    }
+  ]] ZEND_CHECK_STACK_LIMIT)
 cmake_pop_check_state()
 
 if(ZEND_CHECK_STACK_LIMIT)
   message(CHECK_PASS "yes")
-elseif(CMAKE_CROSSCOMPILING)
-  message(CHECK_FAIL "no (cross-compiling)")
 else()
   message(CHECK_FAIL "no")
 endif()
