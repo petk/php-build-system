@@ -46,5 +46,8 @@ set(HAVE_GD_TGA_EXITCODE 1)
 # Set to 0 if syscall to create shadow stack exists, and to 1 if it doesn't.
 set(SHADOW_STACK_SYSCALL_EXITCODE 1)
 
+# Set to exit code for the getaddrinfo() check.
+set(HAVE_GETADDRINFO_EXITCODE 0)
+
 # TODO: Fix this better.
 set(ZEND_MM_OUTPUT "(size_t)8 (size_t)3 0")
