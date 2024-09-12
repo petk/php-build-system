@@ -45,7 +45,7 @@ add_custom_target(php_generate_files)
 # Configure build types.
 include(cmake/BuildTypes.cmake)
 
-# Set platform specific configuration.
+# Set platform-specific configuration.
 include(cmake/Platform.cmake)
 
 # Set PHP configuration options and variables.

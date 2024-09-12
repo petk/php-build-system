@@ -2,9 +2,9 @@
 Check for reentrant functions and their declarations.
 
 Some systems didn't declare some reentrant functions if _REENTRANT was not
-defined. This is mostly obsolete and is intended for the PHP code specific
-usage. The check_symbol_exists() is sufficient to check for reentrant functions
-on current systems and this module might be obsolete in the future.
+defined. This is mostly obsolete and is intended specifically for the PHP code.
+The check_symbol_exists() is sufficient to check for reentrant functions on
+current systems and this module might be obsolete in the future.
 
 Cache variables:
 

@@ -1,5 +1,5 @@
 #[=============================================================================[
-Platform specific configuration.
+Platform-specific configuration.
 ]=============================================================================]#
 
 include_guard(GLOBAL)
@@ -58,7 +58,7 @@ elseif(CMAKE_SYSTEM_PROCESSOR MATCHES "^sparc")
   endif()
 endif()
 
-# Platform specific configuration. When cross-compiling, the host and target can
+# Platform-specific configuration. When cross-compiling, the host and target can
 # be different values with different configurations.
 if(NOT CMAKE_HOST_SYSTEM_NAME EQUAL CMAKE_SYSTEM_NAME)
   include(
