@@ -49,5 +49,8 @@ set(SHADOW_STACK_SYSCALL_EXITCODE 1)
 # Set to exit code for the getaddrinfo() check.
 set(HAVE_GETADDRINFO_EXITCODE 0)
 
+# Set to exit code for the writing to stdout check.
+set(PHP_WRITE_STDOUT_EXITCODE 0)
+
 # TODO: Fix this better.
 set(ZEND_MM_OUTPUT "(size_t)8 (size_t)3 0")
