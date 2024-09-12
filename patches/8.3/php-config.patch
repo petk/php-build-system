@@ -43,7 +43,7 @@ Changes:
  4 files changed, 53 insertions(+), 19 deletions(-)
 
 diff --git a/build/php.m4 b/build/php.m4
-index ab2db520bf..90e035e04d 100644
+index 61ee5c1675..1a8d67a783 100644
 --- a/build/php.m4
 +++ b/build/php.m4
 @@ -2146,7 +2146,9 @@ EOF
@@ -58,10 +58,10 @@ index ab2db520bf..90e035e04d 100644
  
  dnl
 diff --git a/configure.ac b/configure.ac
-index d6de747204..57dca70a14 100644
+index 8784bbf088..49f9094ac4 100644
 --- a/configure.ac
 +++ b/configure.ac
-@@ -1486,6 +1486,9 @@ exec_prefix=$old_exec_prefix
+@@ -1480,6 +1480,9 @@ exec_prefix=$old_exec_prefix
  libdir=$old_libdir
  datadir=$old_datadir
  
@@ -71,7 +71,7 @@ index d6de747204..57dca70a14 100644
  AC_SUBST(INCLUDE_PATH)
  AC_SUBST(EXPANDED_PEAR_INSTALLDIR)
  AC_SUBST(EXPANDED_EXTENSION_DIR)
-@@ -1498,6 +1501,9 @@ AC_SUBST(EXPANDED_SYSCONFDIR)
+@@ -1492,6 +1495,9 @@ AC_SUBST(EXPANDED_SYSCONFDIR)
  AC_SUBST(EXPANDED_LOCALSTATEDIR)
  AC_SUBST(EXPANDED_PHP_CONFIG_FILE_PATH)
  AC_SUBST(EXPANDED_PHP_CONFIG_FILE_SCAN_DIR)
