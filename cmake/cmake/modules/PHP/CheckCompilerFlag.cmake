@@ -29,6 +29,8 @@ Module exposes the following function:
     languages by the CMake's CheckCompilerFlag module.
 ]=============================================================================]#
 
+include_guard(GLOBAL)
+
 include(CheckCompilerFlag)
 include(CMakePushCheckState)
 
