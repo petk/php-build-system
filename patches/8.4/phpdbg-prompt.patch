@@ -29,7 +29,7 @@ terminals.
  1 file changed, 7 insertions(+), 3 deletions(-)
 
 diff --git a/sapi/phpdbg/phpdbg_utils.c b/sapi/phpdbg/phpdbg_utils.c
-index 329ee9a883..e72265ae8e 100644
+index 329ee9a883..1511a75bd0 100644
 --- a/sapi/phpdbg/phpdbg_utils.c
 +++ b/sapi/phpdbg/phpdbg_utils.c
 @@ -318,10 +318,14 @@ PHPDBG_API const char *phpdbg_get_prompt(void) /* {{{ */
@@ -39,14 +39,14 @@ index 329ee9a883..e72265ae8e 100644
 -#ifndef HAVE_LIBEDIT
 -	/* TODO: libedit doesn't seems to support coloured prompt */
 +#if !defined(HAVE_LIBEDIT) || (defined(HAVE_LIBEDIT) && defined(RL_PROMPT_START_IGNORE) && defined(RL_PROMPT_END_IGNORE))
++# if defined(HAVE_LIBEDIT) && defined(RL_PROMPT_START_IGNORE) && defined(RL_PROMPT_END_IGNORE)
++#  define PHPDBG_PROMPT "\1\033[%sm\2%s\1\033[0m\2 "
++# else
++#  define PHPDBG_PROMPT "\033[%sm%s\033[0m "
++# endif
  	if ((PHPDBG_G(flags) & PHPDBG_IS_COLOURED)) {
 -		ZEND_IGNORE_VALUE(asprintf(&PHPDBG_G(prompt)[1], "\033[%sm%s\033[0m ",
-+		ZEND_IGNORE_VALUE(asprintf(&PHPDBG_G(prompt)[1],
-+# if defined(HAVE_LIBEDIT) && defined(RL_PROMPT_START_IGNORE) && defined(RL_PROMPT_END_IGNORE)
-+			"\1\033[%sm\2%s\1\033[0m\2 ",
-+# else
-+			"\033[%sm%s\033[0m ",
-+# endif
++		ZEND_IGNORE_VALUE(asprintf(&PHPDBG_G(prompt)[1], PHPDBG_PROMPT,
  			PHPDBG_G(colors)[PHPDBG_COLOR_PROMPT]->code,
  			PHPDBG_G(prompt)[0]));
  	} else
