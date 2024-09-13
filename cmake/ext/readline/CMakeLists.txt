@@ -29,6 +29,7 @@ cmake_dependent_option(
   "EXT_READLINE"
   OFF
 )
+mark_as_advanced(EXT_READLINE_LIBREADLINE)
 
 add_feature_info(
   "ext/readline with GNU Readline"
@@ -106,6 +107,14 @@ if(NOT EXT_READLINE_LIBREADLINE)
     CACHE INTERNAL "Whether Editline is used for readline extension"
   )
 else()
+  message(
+    WARNING
+    "The GNU Readline library is licensed under the GNU GPL 3, which is not "
+    "compatible with the PHP license. The recommended library for using and "
+    "distributing the PHP 'readline' extension without limitations is libedit. "
+    "To build with libedit, remove the 'EXT_READLINE_LIBREADLINE', or set it "
+    "to 'OFF'."
+  )
   find_package(Readline)
   set_package_properties(
     Readline
