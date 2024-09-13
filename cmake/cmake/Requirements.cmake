@@ -25,6 +25,17 @@ elseif(CMAKE_C_COMPILER_ID STREQUAL "MSVC" AND MSVC_VERSION VERSION_LESS 1920)
     "Visual Studio version ${MSVC_VERSION} is no longer supported. Please, "
     "upgrade the Microsoft Visual Studio to 2019 version 16 (1920) or newer."
   )
+elseif(
+  CMAKE_C_COMPILER_ID STREQUAL "GNU"
+  AND CMAKE_C_COMPILER_VERSION VERSION_LESS 4.6
+)
+  # PHP also has a minimum gcc version required in an undocumented way.
+  # See: https://github.com/php/php-src/pull/15397
+  message(
+    FATAL_ERROR
+    "GNU C compiler version ${CMAKE_C_COMPILER_VERSION} is not supported. "
+    "Please upgrade GNU C compiler to at least 4.6 or newer."
+  )
 endif()
 
 ################################################################################
