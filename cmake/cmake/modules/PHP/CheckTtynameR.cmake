@@ -47,7 +47,7 @@ cmake_push_check_state(RESET)
     message(CHECK_FAIL "no (non-standard declaration)")
   elseif(
     NOT DEFINED HAVE_TTYNAME_R
-    CMAKE_CROSSCOMPILING
+    AND CMAKE_CROSSCOMPILING
     NOT CMAKE_CROSSCOMPILING_EMULATOR
     AND _HAVE_TTYNAME_R
   )
