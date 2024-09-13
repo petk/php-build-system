@@ -163,37 +163,34 @@ if(TARGET Iconv::Iconv)
 
   # Sanity check. Check if iconv supports errno.
   message(CHECK_START "Checking if iconv supports errno")
-  if(CMAKE_CROSSCOMPILING)
-    set(_php_iconv_errno_works 1)
-  else()
-    cmake_push_check_state(RESET)
-      set(CMAKE_REQUIRED_LIBRARIES Iconv::Iconv)
-      set(CMAKE_REQUIRED_QUIET TRUE)
+  cmake_push_check_state(RESET)
+    set(CMAKE_REQUIRED_LIBRARIES Iconv::Iconv)
+    set(CMAKE_REQUIRED_QUIET TRUE)
 
-      check_source_runs(C [[
-        #include <iconv.h>
-        #include <errno.h>
+    check_source_runs(C [[
+      #include <iconv.h>
+      #include <errno.h>
 
-        int main(void) {
-          iconv_t cd;
-          cd = iconv_open("*to*", "*from*");
-          if (cd == (iconv_t)(-1)) {
-            if (errno == EINVAL) {
-              return 0;
-            } else {
-              return 1;
-            }
+      int main(void)
+      {
+        iconv_t cd;
+        cd = iconv_open("*to*", "*from*");
+        if (cd == (iconv_t)(-1)) {
+          if (errno == EINVAL) {
+            return 0;
+          } else {
+            return 1;
           }
-          iconv_close(cd);
-          return 2;
         }
-      ]] _php_iconv_errno_works)
-    cmake_pop_check_state()
-  endif()
-
-  if(_php_iconv_errno_works)
+        iconv_close(cd);
+        return 2;
+      }
+    ]] PHP_ICONV_ERRNO_WORKS)
+  cmake_pop_check_state()
+  if(PHP_ICONV_ERRNO_WORKS)
     message(CHECK_PASS "yes")
   else()
+    message(CHECK_PASS "no")
     message(
       FATAL_ERROR
       "The iconv errno sanity check failed. Please check logs for details."
@@ -201,37 +198,41 @@ if(TARGET Iconv::Iconv)
   endif()
 
   message(CHECK_START "Checking if iconv supports //IGNORE")
-  if(NOT CMAKE_CROSSCOMPILING)
-    cmake_push_check_state(RESET)
-      set(CMAKE_REQUIRED_LIBRARIES Iconv::Iconv)
-      set(CMAKE_REQUIRED_QUIET TRUE)
+  cmake_push_check_state(RESET)
+    set(CMAKE_REQUIRED_LIBRARIES Iconv::Iconv)
+    set(CMAKE_REQUIRED_QUIET TRUE)
 
-      check_source_runs(C [[
-        #include <iconv.h>
-        #include <stdlib.h>
+    check_source_runs(C [[
+      #include <iconv.h>
+      #include <stdlib.h>
 
-        int main(void) {
-          iconv_t cd = iconv_open("UTF-8//IGNORE", "UTF-8");
-          if(cd == (iconv_t)-1) {
-            return 1;
-          }
-          char *in_p = "\xC3\xC3\xC3\xB8";
-          size_t in_left = 4, out_left = 4096;
-          char *out = malloc(out_left);
-          char *out_p = out;
-          size_t result = iconv(cd, (char **) &in_p, &in_left, (char **) &out_p, &out_left);
-          if(result == (size_t)-1) {
-            return 1;
-          }
+      int main(void)
+      {
+        iconv_t cd = iconv_open("UTF-8//IGNORE", "UTF-8");
+        if(cd == (iconv_t)-1) {
           return 0;
         }
-      ]] _php_iconv_ignore_works)
-    cmake_pop_check_state()
-  endif()
-  if(_php_iconv_ignore_works)
-    message(CHECK_PASS "yes")
-  else()
+        char *in_p = "\xC3\xC3\xC3\xB8";
+        size_t in_left = 4, out_left = 4096;
+        char *out = malloc(out_left);
+        char *out_p = out;
+        size_t result = iconv(
+          cd,
+          (char **) &in_p,
+          &in_left,
+          (char **) &out_p,
+          &out_left
+        );
+        if(result == (size_t)-1) {
+          return 0;
+        }
+        return 1;
+      }
+    ]] ICONV_BROKEN_IGNORE)
+  cmake_pop_check_state()
+  if(ICONV_BROKEN_IGNORE)
     message(CHECK_FAIL "no")
-    set(ICONV_BROKEN_IGNORE 1 CACHE INTERNAL "Whether iconv has broken IGNORE.")
+  else()
+    message(CHECK_PASS "yes")
   endif()
 endif()
