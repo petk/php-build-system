@@ -57,10 +57,10 @@ index e45b22b766..74f0e25b01 100644
  ])
  
 diff --git a/configure.ac b/configure.ac
-index c728970129..dd20f22534 100644
+index 198f04afd9..e4fd053bca 100644
 --- a/configure.ac
 +++ b/configure.ac
-@@ -1366,6 +1366,9 @@ exec_prefix=$old_exec_prefix
+@@ -1363,6 +1363,9 @@ exec_prefix=$old_exec_prefix
  libdir=$old_libdir
  datadir=$old_datadir
  
@@ -70,7 +70,7 @@ index c728970129..dd20f22534 100644
  AC_SUBST([INCLUDE_PATH])
  AC_SUBST([EXPANDED_PEAR_INSTALLDIR])
  AC_SUBST([EXPANDED_EXTENSION_DIR])
-@@ -1384,6 +1387,9 @@ AC_SUBST([SAPI_LIBNAME_STATIC])
+@@ -1381,6 +1384,9 @@ AC_SUBST([SAPI_LIBNAME_STATIC])
  AC_SUBST([PHP_VERSION])
  AC_SUBST([PHP_VERSION_ID])
  AC_SUBST([PHP_LDFLAGS])
