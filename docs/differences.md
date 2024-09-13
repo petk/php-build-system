@@ -49,6 +49,9 @@ build system:
   missing LDAP features causing build errors.
   See: https://github.com/php/php-src/issues/15051
 
+* The phpdbg prompt with libedit integration is colored.
+  See: https://github.com/php/php-src/pull/15722
+
 ## Behavior
 
 * ext/readline uses the libedit (EditLine) library by default.
