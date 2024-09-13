@@ -961,9 +961,6 @@
 /* Define to 1 if you have the <LibraryManager.h> header file. */
 #cmakedefine HAVE_LIBRARYMANAGER_H 1
 
-/* Define to 1 if readline extension uses the 'readline' library. */
-#cmakedefine HAVE_LIBREADLINE 1
-
 /* Define to 1 if the PHP extension 'sodium' is available. */
 #cmakedefine HAVE_LIBSODIUMLIB 1
 

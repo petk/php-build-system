@@ -2804,10 +2804,10 @@ A list of Autoconf `configure` command-line configuration options, Windows
       <td>N/A</td>
       <td>
         EXT_READLINE=ON<br>
-        EXT_READLINE_LIBREADLINE=ON<br>
-        [Readline_ROOT=DIR]
+        EXT_READLINE_LIBREADLINE=ON <i>(PHP &lt;= 8.3)</i><br>
+        [Readline_ROOT=DIR] <i>(PHP &lt;= 8.3)</i>
       </td>
-      <td></td>
+      <td>CMake PHP 8.4 Readline library was removed</td>
     </tr>
     <tr>
       <td>&emsp;--with-readline=shared</td>
@@ -2815,7 +2815,7 @@ A list of Autoconf `configure` command-line configuration options, Windows
       <td>
         EXT_READLINE=ON<br>
         EXT_READLINE_SHARED=ON<br>
-        EXT_READLINE_LIBREADLINE=ON
+        EXT_READLINE_LIBREADLINE=ON (PHP &lt;= 8.3)
       </td>
       <td></td>
     </tr>

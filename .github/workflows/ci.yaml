@@ -97,7 +97,6 @@ jobs:
             libargon2-dev \
             libxslt1-dev \
             libcapstone-dev \
-            libreadline-dev \
             libedit-dev \
             libsnmp-dev \
             snmpd \

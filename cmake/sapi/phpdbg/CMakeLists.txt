@@ -119,31 +119,17 @@ message(CHECK_START "Checking for readline support in phpdbg")
 if(SAPI_PHPDBG_READLINE OR EXT_READLINE)
   message(CHECK_PASS "enabled")
 
-  if(EXT_READLINE_LIBREADLINE)
-    find_package(Readline)
-    set_package_properties(
-      Readline
-      PROPERTIES
-        TYPE REQUIRED
-        PURPOSE "Necessary for the phpdbg readline support."
-    )
+  find_package(Editline)
+  set_package_properties(
+    Editline
+    PROPERTIES
+      TYPE REQUIRED
+      PURPOSE "Necessary for the phpdbg readline support."
+  )
 
-    target_link_libraries(php_phpdbg PRIVATE Readline::Readline)
+  target_link_libraries(php_phpdbg PRIVATE Editline::Editline)
 
-    set(HAVE_LIBREADLINE 1 CACHE INTERNAL "Whether the readline is available")
-  else()
-    find_package(Editline)
-    set_package_properties(
-      Editline
-      PROPERTIES
-        TYPE REQUIRED
-        PURPOSE "Necessary for the phpdbg readline support."
-    )
-
-    target_link_libraries(php_phpdbg PRIVATE Editline::Editline)
-
-    set(HAVE_LIBEDIT 1 CACHE INTERNAL "Whether the libedit is available")
-  endif()
+  set(HAVE_LIBEDIT 1 CACHE INTERNAL "Whether the libedit is available")
 
   set(
     HAVE_PHPDBG_READLINE 1
