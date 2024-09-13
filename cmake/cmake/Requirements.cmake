@@ -34,11 +34,11 @@ message(CHECK_START "Checking system character set")
 if(NOT CMAKE_CROSSCOMPILING OR CMAKE_CROSSCOMPILING_EMULATOR)
   cmake_push_check_state(RESET)
     set(CMAKE_REQUIRED_QUIET TRUE)
-    check_source_runs(C "
+    check_source_runs(C [[
       int main(void) {
         return (unsigned char)'A' != (unsigned char)0xC1;
       }
-    " _php_is_ebcdic)
+    ]] _php_is_ebcdic)
   cmake_pop_check_state()
 
   if(_php_is_ebcdic)
