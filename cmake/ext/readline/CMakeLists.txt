@@ -100,7 +100,6 @@ cmake_push_check_state(RESET)
   )
 cmake_pop_check_state()
 
-
 # TODO: Editline dependent libraries shouldn't be linked on this level.
 # Recheck if this is really needed. Either move to find modules or remove it.
 # Also, for example, Editline with Autoconf integration has even more thorough
