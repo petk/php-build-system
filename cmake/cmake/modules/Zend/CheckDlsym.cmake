@@ -20,7 +20,7 @@ message(
   "Checking whether dlsym() requires a leading underscore in symbol names"
 )
 
-if(NOT CMAKE_CROSSCOMPILING)
+if(CMAKE_CROSSCOMPILING_EMULATOR OR NOT CMAKE_CROSSCOMPILING)
   check_include_file(dlfcn.h HAVE_DLFCN_H)
 
   block()
@@ -78,7 +78,8 @@ if(NOT CMAKE_CROSSCOMPILING)
 
         int fnord(void) { return 42; }
 
-        int main(void) {
+        int main(void)
+        {
           void *self = dlopen(0, LT_DLGLOBAL|LT_DLLAZY_OR_NOW);
           int status = 0;
 
