@@ -1,6 +1,13 @@
-# This is a list of all exitcodes or result variables required when
+# This is a list of all exit codes or result variables required when
 # cross-compiling to help identify the target system when cross-compiling
-# emulator is not available.
+# emulator (CMAKE_CROSSCOMPILING_EMULATOR) is not available.
+
+# Set the exit codes for the alignment segments checks.
+# See PHP/CheckSegmentsAlignment.cmake
+set(PHP_HAVE_ALIGNMENT_FLAGS_C_EXITCODE 0)
+set(PHP_HAVE_ZMAX_PAGE_SIZE_C_EXITCODE 0)
+set(PHP_HAVE_ALIGNMENT_FLAGS_CXX_EXITCODE 0)
+set(PHP_HAVE_ZMAX_PAGE_SIZE_CXX_EXITCODE 0)
 
 # Set the exit code for check of GNU C compiler with broken strlen optimization
 # (relevant only for GCC version 8.2).
