@@ -1,12 +1,13 @@
 #[=============================================================================[
-Early releases of GCC 8 shipped with a strlen() optimization bug, so they didn't
-properly handle the 'char val[1]' struct hack. See https://bugs.php.net/76510.
-If check is successful the -fno-optimize-strlen compiler flag should be used.
+GCC 8.2 shipped with a strlen() optimization bug, so it didn't properly handle
+the 'char val[1]' struct hack. Fixed in GCC 8.3. See https://bugs.php.net/76510
+and https://gcc.gnu.org/bugzilla/show_bug.cgi?id=86914. If below check is
+successful the -fno-optimize-strlen compiler flag should be used.
 
 Cache variables:
 
-  HAVE_BROKEN_OPTIMIZE_STRLEN
-    Whether GCC's optimize-strlen is broken.
+  PHP_HAVE_BROKEN_OPTIMIZE_STRLEN
+    Whether GCC has broken strlen() optimization.
 ]=============================================================================]#
 
 include_guard(GLOBAL)
@@ -14,11 +15,17 @@ include_guard(GLOBAL)
 include(CheckSourceRuns)
 include(CMakePushCheckState)
 
-if(NOT CMAKE_C_COMPILER_ID STREQUAL "GNU")
+if(
+  NOT CMAKE_C_COMPILER_ID STREQUAL "GNU"
+  OR (
+    CMAKE_C_COMPILER_ID STREQUAL "GNU"
+    AND CMAKE_C_COMPILER_VERSION VERSION_GREATER_EQUAL 8.3
+  )
+)
   return()
 endif()
 
-message(CHECK_START "Checking for broken GCC optimize-strlen")
+message(CHECK_START "Checking if GCC has broken strlen() optimization")
 
 cmake_push_check_state(RESET)
   set(CMAKE_REQUIRED_QUIET TRUE)
@@ -41,10 +48,10 @@ cmake_push_check_state(RESET)
 
       return strlen(s->c+1) == 2;
     }
-  ]] HAVE_BROKEN_OPTIMIZE_STRLEN)
+  ]] PHP_HAVE_BROKEN_OPTIMIZE_STRLEN)
 cmake_pop_check_state()
 
-if(HAVE_BROKEN_OPTIMIZE_STRLEN)
+if(PHP_HAVE_BROKEN_OPTIMIZE_STRLEN)
   message(CHECK_PASS "yes")
 else()
   message(CHECK_FAIL "no")

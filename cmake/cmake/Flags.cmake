@@ -11,7 +11,7 @@ include(PHP/CheckCompilerFlag)
 
 # Check for broken GCC optimize-strlen.
 include(PHP/CheckBrokenGccStrlenOpt)
-if(HAVE_BROKEN_OPTIMIZE_STRLEN)
+if(PHP_HAVE_BROKEN_OPTIMIZE_STRLEN)
   php_check_compiler_flag(C -fno-optimize-strlen HAVE_FNO_OPTIMIZE_STRLEN_C)
   if(HAVE_FNO_OPTIMIZE_STRLEN_C)
     target_compile_options(

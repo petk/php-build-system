@@ -2,8 +2,9 @@
 # cross-compiling to help identify the target system when cross-compiling
 # emulator is not available.
 
-# Set the exit code for the GNU C compiler with broken strlen check.
-set(HAVE_BROKEN_OPTIMIZE_STRLEN_EXITCODE 1)
+# Set the exit code for check of GNU C compiler with broken strlen optimization
+# (relevant only for GCC version 8.2).
+set(PHP_HAVE_BROKEN_OPTIMIZE_STRLEN_EXITCODE 1)
 
 # Set the exit code for the clock_get_time() check.
 set(HAVE_CLOCK_GET_TIME_EXITCODE 0)
