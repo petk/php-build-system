@@ -37,25 +37,7 @@ build system:
 * Better cross-compiling support with CMake toolchain files and ability to set
   the cross-compiling emulator.
 
-## Bugs fixed
-
-* Building inside folder with spaces.
-  See: https://bugs.php.net/49270
-
-* Detecting GNU libiconv.
-  See: https://github.com/php/php-src/issues/12213
-
-* Oracle Instant Client integration in ldap extension is removed in CMake due to
-  missing LDAP features causing build errors.
-  See: https://github.com/php/php-src/issues/15051
-
-* The phpdbg prompt with libedit integration is colored.
-  See: https://github.com/php/php-src/pull/15722
-
 ## Behavior
-
-* ext/readline is linked with libedit by default instead of GNU Readline.
-  See: https://github.com/php/php-src/pull/13184
 
 * sapi/phpdbg readline support works more intuitively regardless of the readline
   extension being enabled during the build.
@@ -73,6 +55,25 @@ build system:
   PHP openssl extension:
   See: https://github.com/php/php-src/pull/15574
 
-* The _XOPEN_SOURCE compile definition to use ucontext.h on macOS when needed is
-  only defined for the Zend/zend_fibers.c file. Duplicate inconsistent
-  _XOPEN_SOURCE definition from the php_config.h is also removed with this.
+* The `_XOPEN_SOURCE` compile definition to use ucontext.h on macOS when needed
+  is only defined for the Zend/zend_fibers.c file. Duplicate inconsistent
+  `_XOPEN_SOURCE` definition in the php_config.h is also removed with this.
+
+## Bugs fixed
+
+* Building inside folder with spaces.
+  See: https://bugs.php.net/49270
+
+* Detecting GNU libiconv.
+  See: https://github.com/php/php-src/issues/12213
+
+* Oracle Instant Client integration in ldap extension is removed in CMake due to
+  missing LDAP features causing build errors.
+  See: https://github.com/php/php-src/issues/15051
+
+* The phpdbg prompt with libedit integration is colored.
+  See: https://github.com/php/php-src/pull/15722
+
+* ext/readline is linked with libedit by default instead of the GPL licensed GNU
+  Readline.
+  See: https://github.com/php/php-src/issues/15882
