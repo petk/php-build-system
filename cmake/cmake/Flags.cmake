@@ -425,85 +425,6 @@ if(PHP_MEMORY_SANITIZER OR PHP_ADDRESS_SANITIZER OR PHP_UNDEFINED_SANITIZER)
   endif()
 endif()
 
-################################################################################
-# Check linker flags.
-################################################################################
-
-# Align segments on huge page boundary.
-message(
-  CHECK_START
-  "Checking linker support for aligning segments on huge page boundary"
-)
-if(CMAKE_SYSTEM_NAME STREQUAL "Linux"
-  AND CMAKE_SYSTEM_PROCESSOR MATCHES "^(i[3456]86.*|x86_64)$"
-)
-  check_linker_flag(
-    C
-    "LINKER:-z,common-page-size=2097152;LINKER:-z,max-page-size=2097152"
-    HAVE_ALIGNMENT_FLAGS_C
-  )
-
-  if(HAVE_ALIGNMENT_FLAGS_C)
-    target_link_options(
-      php_configuration
-      INTERFACE
-        $<$<AND:$<STREQUAL:$<TARGET_PROPERTY:TYPE>,EXECUTABLE>,$<COMPILE_LANGUAGE:ASM,C>>:LINKER:-z,common-page-size=2097152;LINKER:-z,max-page-size=2097152>
-    )
-  else()
-    check_linker_flag(
-      C
-      "LINKER:-z,max-page-size=2097152"
-      HAVE_ZMAX_PAGE_SIZE_C
-    )
-
-    if(HAVE_ZMAX_PAGE_SIZE_C)
-      target_link_options(
-        php_configuration
-        INTERFACE
-          $<$<AND:$<STREQUAL:$<TARGET_PROPERTY:TYPE>,EXECUTABLE>,$<COMPILE_LANGUAGE:ASM,C>>:LINKER:-z,max-page-size=2097152>
-      )
-    endif()
-  endif()
-
-  check_linker_flag(
-    CXX
-    "LINKER:-z,common-page-size=2097152;LINKER:-z,max-page-size=2097152"
-    HAVE_ALIGNMENT_FLAGS_CXX
-  )
-
-  if(HAVE_ALIGNMENT_FLAGS_CXX)
-    target_link_options(
-      php_configuration
-      INTERFACE
-        $<$<AND:$<STREQUAL:$<TARGET_PROPERTY:TYPE>,EXECUTABLE>,$<COMPILE_LANGUAGE:CXX>>:LINKER:-z,common-page-size=2097152;LINKER:-z,max-page-size=2097152>
-    )
-  else()
-    check_linker_flag(
-      CXX
-      "LINKER:-z,max-page-size=2097152"
-      HAVE_ZMAX_PAGE_SIZE_CXX
-    )
-
-    if(HAVE_ZMAX_PAGE_SIZE_CXX)
-      target_link_options(
-        php_configuration
-        INTERFACE
-          $<$<AND:$<STREQUAL:$<TARGET_PROPERTY:TYPE>,EXECUTABLE>,$<COMPILE_LANGUAGE:CXX>>:LINKER:-z,max-page-size=2097152>
-      )
-    endif()
-  endif()
-
-  if(HAVE_ALIGNMENT_FLAGS_C AND HAVE_ALIGNMENT_FLAGS_CXX)
-    message(CHECK_PASS "yes")
-  elseif(HAVE_ZMAX_PAGE_SIZE_C AND HAVE_ZMAX_PAGE_SIZE_CXX)
-    message(CHECK_PASS "yes")
-  else()
-    message(CHECK_FAIL "no")
-  endif()
-else()
-  message(CHECK_FAIL "no")
-endif()
-
 # Check if compiler supports the -Wno-typedef-redefinition compile option. PHP
 # is written with C99 standard in mind, yet there is a possibility that typedef
 # redefinitions could happened in the source code. Since PHP CMake-based build
@@ -527,3 +448,10 @@ if(CMAKE_C_STANDARD EQUAL 99)
     )
   endif()
 endif()
+
+################################################################################
+# Check linker flags.
+################################################################################
+
+# Align segments on huge page boundary.
+include(PHP/CheckSegmentsAlignment)
