@@ -4,7 +4,6 @@ Check and configure compilation options.
 
 include_guard(GLOBAL)
 
-include(CheckLinkerFlag)
 include(CheckSourceRuns)
 include(CMakePushCheckState)
 include(PHP/CheckCompilerFlag)
@@ -365,12 +364,18 @@ if(PHP_UNDEFINED_SANITIZER)
     # args cannot be cast to void*. In that case, set -fno-sanitize=function.
     if(NOT CMAKE_CROSSCOMPILING)
       cmake_push_check_state(RESET)
-        set(CMAKE_REQUIRED_FLAGS -fno-sanitize-recover=undefined)
+        set(
+          CMAKE_REQUIRED_FLAGS
+          "-fsanitize=undefined -fno-sanitize-recover=undefined"
+        )
         check_source_runs(C [[
-          void foo(char *string) {}
+          void foo(char *string) {
+            (void)string;
+          }
           int main(void) {
             void (*f)(void *) = (void (*)(void *))foo;
             f("foo");
+            return 0;
           }
         ]] _php_ubsan_works)
       cmake_pop_check_state()
