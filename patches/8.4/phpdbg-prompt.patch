@@ -2,13 +2,12 @@ Subject: Fix phpdbg prompt with editline/readline integration
 
 When building phpdbg SAPI with libedit/readline integration, also start
 and end ignore characters need to be added in the prompt pattern. This
-should work now for libedit, readline, and phpdbg without
-readline/libedit.
+should work for libedit, readline, and phpdbg without readline/libedit.
 
 The RL_PROMPT_START_IGNORE and RL_PROMPT_END_IGNORE macros are checked
-there to ensure libedit has these available. Otherwise, this could be
-further improved by concatenating strings and literal strings into
-single argument or similar using these two symbols directly.
+to ensure libedit has these available. Otherwise, this could be further
+improved by concatenating strings and literal strings into single
+argument or similar using these two symbols directly.
 
 Autotools:
 
@@ -29,7 +28,7 @@ terminals.
  1 file changed, 7 insertions(+), 3 deletions(-)
 
 diff --git a/sapi/phpdbg/phpdbg_utils.c b/sapi/phpdbg/phpdbg_utils.c
-index 329ee9a883..1511a75bd0 100644
+index 329ee9a883..c2a73d3709 100644
 --- a/sapi/phpdbg/phpdbg_utils.c
 +++ b/sapi/phpdbg/phpdbg_utils.c
 @@ -318,10 +318,14 @@ PHPDBG_API const char *phpdbg_get_prompt(void) /* {{{ */
@@ -40,13 +39,13 @@ index 329ee9a883..1511a75bd0 100644
 -	/* TODO: libedit doesn't seems to support coloured prompt */
 +#if !defined(HAVE_LIBEDIT) || (defined(HAVE_LIBEDIT) && defined(RL_PROMPT_START_IGNORE) && defined(RL_PROMPT_END_IGNORE))
 +# if defined(HAVE_LIBEDIT) && defined(RL_PROMPT_START_IGNORE) && defined(RL_PROMPT_END_IGNORE)
-+#  define PHPDBG_PROMPT "\1\033[%sm\2%s\1\033[0m\2 "
++#  define PHPDBG_PROMPT_FORMAT "\1\033[%sm\2%s\1\033[0m\2 "
 +# else
-+#  define PHPDBG_PROMPT "\033[%sm%s\033[0m "
++#  define PHPDBG_PROMPT_FORMAT "\033[%sm%s\033[0m "
 +# endif
  	if ((PHPDBG_G(flags) & PHPDBG_IS_COLOURED)) {
 -		ZEND_IGNORE_VALUE(asprintf(&PHPDBG_G(prompt)[1], "\033[%sm%s\033[0m ",
-+		ZEND_IGNORE_VALUE(asprintf(&PHPDBG_G(prompt)[1], PHPDBG_PROMPT,
++		ZEND_IGNORE_VALUE(asprintf(&PHPDBG_G(prompt)[1], PHPDBG_PROMPT_FORMAT,
  			PHPDBG_G(colors)[PHPDBG_COLOR_PROMPT]->code,
  			PHPDBG_G(prompt)[0]));
  	} else
