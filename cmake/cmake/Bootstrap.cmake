@@ -16,3 +16,6 @@ endif()
 
 # Check whether to enable interprocedural optimization.
 include(PHP/InterproceduralOptimization)
+
+# Set CMAKE_POSITION_INDEPENDENT_CODE.
+include(PHP/PositionIndependentCode)
