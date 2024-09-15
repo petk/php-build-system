@@ -46,18 +46,13 @@ endif()
 message(CHECK_START "Checking whether fopencookie seeker uses off64_t")
 
 if(
-  CMAKE_CROSSCOMPILING
+  NOT DEFINED COOKIE_SEEKER_USES_OFF64_T_EXITCODE
+  AND CMAKE_CROSSCOMPILING
+  AND NOT CMAKE_CROSSCOMPILING_EMULATOR
   AND CMAKE_SYSTEM_NAME STREQUAL "Linux"
   AND PHP_C_STANDARD_LIBRARY STREQUAL "glibc"
 )
-  message(CHECK_PASS "yes (cross-compiling for Linux and GNU C library)")
-
-  set(
-    COOKIE_SEEKER_USES_OFF64_T 1
-    CACHE INTERNAL "Whether fopencookie seeker uses off64_t"
-  )
-
-  return()
+  set(COOKIE_SEEKER_USES_OFF64_T_EXITCODE 0)
 endif()
 
 cmake_push_check_state(RESET)

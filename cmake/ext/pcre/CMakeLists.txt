@@ -62,16 +62,13 @@ if(EXT_PCRE_EXTERNAL)
     message(CHECK_START "Checking for PCRE JIT support")
 
     if(
-      NOT DEFINED HAVE_PCRE_JIT_SUPPORT
+      NOT DEFINED HAVE_PCRE_JIT_SUPPORT_EXITCODE
       AND CMAKE_CROSSCOMPILING
       AND NOT CMAKE_CROSSCOMPILING_EMULATOR
       AND CMAKE_SYSTEM_PROCESSOR MATCHES
         "^(arm.*|i[34567]86|x86_64|amd64|mips.*|powerpc.*|sparc.*|X86|AMD64|ARM64)$"
     )
-      set(
-        HAVE_PCRE_JIT_SUPPORT 1
-        CACHE INTERNAL "Whether to enable the PCRE JIT support"
-      )
+      set(HAVE_PCRE_JIT_SUPPORT_EXITCODE 0)
     endif()
 
     cmake_push_check_state(RESET)

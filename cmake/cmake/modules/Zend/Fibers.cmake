@@ -124,30 +124,28 @@ block(PROPAGATE zend_fibers_asm_file zend_fibers_asm_sources)
     set(zend_fibers_asm_file "${prefix}_elf_gas.S")
   endif()
 
-  if(NOT zend_fibers_asm_file)
-    return()
-  endif()
-
-  set(
-    zend_fibers_asm_sources
-    ${CMAKE_CURRENT_SOURCE_DIR}/asm/jump_${zend_fibers_asm_file}
-    ${CMAKE_CURRENT_SOURCE_DIR}/asm/make_${zend_fibers_asm_file}
-  )
-
-  if(compile_options)
-    set_source_files_properties(
-      ${zend_fibers_asm_sources}
-      PROPERTIES
-        COMPILE_OPTIONS ${compile_options}
+  if(zend_fibers_asm_file)
+    set(
+      zend_fibers_asm_sources
+      ${CMAKE_CURRENT_SOURCE_DIR}/asm/jump_${zend_fibers_asm_file}
+      ${CMAKE_CURRENT_SOURCE_DIR}/asm/make_${zend_fibers_asm_file}
     )
-  endif()
 
-  if(compile_definitions)
-    set_source_files_properties(
-      ${zend_fibers_asm_sources}
-      PROPERTIES
-        COMPILE_DEFINITIONS ${compile_definitions}
-    )
+    if(compile_options)
+      set_source_files_properties(
+        ${zend_fibers_asm_sources}
+        PROPERTIES
+          COMPILE_OPTIONS ${compile_options}
+      )
+    endif()
+
+    if(compile_definitions)
+      set_source_files_properties(
+        ${zend_fibers_asm_sources}
+        PROPERTIES
+          COMPILE_DEFINITIONS ${compile_definitions}
+      )
+    endif()
   endif()
 endblock()
 

@@ -1,3 +1,15 @@
+# An example toolchain template when cross-building PHP.
+
+# These are always required to set:
+set(CMAKE_C_COMPILER "")
+set(CMAKE_C_COMPILER_ID "")
+set(CMAKE_C_COMPILER_VERSION "")
+set(CMAKE_CXX_COMPILER "")
+set(CMAKE_CXX_COMPILER_ID "")
+set(CMAKE_CXX_COMPILER_VERSION "")
+set(CMAKE_SYSTEM_NAME "")
+set(CMAKE_FIND_ROOT_PATH "")
+
 # This is a list of all exit codes or result variables required when
 # cross-compiling to help identify the target system when cross-compiling
 # emulator (CMAKE_CROSSCOMPILING_EMULATOR) is not available.
@@ -92,6 +104,10 @@ set(HAVE_SHM_MMAP_ANON_EXITCODE 0)
 
 # Set the exit code of the shm_open() shared memory check in opcache extension.
 set(HAVE_SHM_MMAP_POSIX_EXITCODE 0)
+
+# Set the exit code to 1 when using Clang 17 or later and -fno-sanitize=function
+# needs to be added for the PHP_UNDEFINED_SANITIZER option, otherwise set to 0.
+set(PHP_HAVE_UBSAN_EXITCODE 0)
 
 # TODO: Fix this better.
 set(ZEND_MM_OUTPUT "(size_t)8 (size_t)3 0")
