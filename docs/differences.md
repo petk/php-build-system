@@ -77,3 +77,6 @@ build system:
 * ext/readline is linked with libedit by default instead of the GPL licensed GNU
   Readline.
   See: https://github.com/php/php-src/issues/15882
+
+* Build with Clang on 32-bit systems.
+  See: https://github.com/php/php-src/issues/14467
