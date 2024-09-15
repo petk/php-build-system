@@ -18,32 +18,37 @@ if(CMAKE_C_BYTE_ORDER STREQUAL "BIG_ENDIAN")
 elseif(CMAKE_C_BYTE_ORDER STREQUAL "LITTLE_ENDIAN")
   message(CHECK_PASS "little-endian")
 else()
-  if(NOT CMAKE_CROSSCOMPILING OR CMAKE_CROSSCOMPILING_EMULATOR)
-    check_source_runs(C [[
-      int main(void)
-      {
-        short one = 1;
-        char *cp = (char *)&one;
-
-        if (*cp == 0) {
-          return 0;
-        }
-
-        return 1;
-      }
-    ]] WORDS_BIGENDIAN)
+  if(
+    NOT DEFINED WORDS_BIGENDIAN_EXITCODE
+    AND CMAKE_CROSSCOMPILING
+    AND NOT CMAKE_CROSSCOMPILING_EMULATOR
+  )
+    message(
+      NOTICE
+      "Byte ordering could not be detected, assuming the target system is "
+      "little-endian. Set 'WORDS_BIGENDIAN_EXITCODE' to '0' if targeting a "
+      "big-endian system."
+    )
+    set(WORDS_BIGENDIAN_EXITCODE 1)
   endif()
+
+  check_source_runs(C [[
+    int main(void)
+    {
+      short one = 1;
+      char *cp = (char *)&one;
+
+      if (*cp == 0) {
+        return 0;
+      }
+
+      return 1;
+    }
+  ]] WORDS_BIGENDIAN)
 
   if(WORDS_BIGENDIAN)
     message(CHECK_PASS "big-endian")
-  elseif(DEFINED WORDS_BIGENDIAN)
-    message(CHECK_PASS "little-endian")
   else()
-    message(CHECK_FAIL "unknown (cross-compiling)")
-    message(
-      WARNING
-      "Byte ordering could not be detected, assuming system is little-endian. "
-      "Set 'WORDS_BIGENDIAN' to 'ON' if targeting a big-endian system."
-    )
+    message(CHECK_PASS "little-endian")
   endif()
 endif()

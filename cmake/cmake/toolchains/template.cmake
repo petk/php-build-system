@@ -109,8 +109,14 @@ set(HAVE_SHM_MMAP_POSIX_EXITCODE 0)
 # needs to be added for the PHP_UNDEFINED_SANITIZER option, otherwise set to 0.
 set(PHP_HAVE_UBSAN_EXITCODE 0)
 
-# TODO: Fix this better.
-set(ZEND_MM_OUTPUT "(size_t)8 (size_t)3 0")
+# Set the exit code of the byte ordering fallback check. When targeting a
+# big-endian system, set it to 0, and for little-endian set it to 1.
+set(WORDS_BIGENDIAN_EXITCODE 1)
+
+# Set the exit code and the output of the ZEND_MM check.
+# See CheckMMAlignment.cmake.
+set(ZEND_MM_EXITCODE 0)
+set(ZEND_MM_EXITCODE__TRYRUN_OUTPUT "(size_t)8 (size_t)3 0")
 
 # Set the exit code of the sched_getcpu check.
 set(HAVE_SCHED_GETCPU_EXITCODE 0)
