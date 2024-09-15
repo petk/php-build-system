@@ -22,15 +22,12 @@ include(CMakePushCheckState)
 message(CHECK_START "Checking for a working POSIX fnmatch() function")
 
 if(
-  NOT DEFINED HAVE_FNMATCH
+  NOT DEFINED HAVE_FNMATCH_EXITCODE
   AND CMAKE_CROSSCOMPILING
   AND NOT CMAKE_CROSSCOMPILING_EMULATOR
   AND CMAKE_SYSTEM_NAME STREQUAL "Linux"
 )
-  set(
-    HAVE_FNMATCH 1
-    CACHE INTERNAL "Define to 1 if system has a working POSIX fnmatch function."
-  )
+  set(HAVE_FNMATCH_EXITCODE 0)
 endif()
 
 cmake_push_check_state(RESET)

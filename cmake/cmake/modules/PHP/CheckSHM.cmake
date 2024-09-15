@@ -117,20 +117,18 @@ endif()
 
 message(CHECK_START "Checking for mmap() using MAP_ANON shared memory support")
 
+if(
+  NOT DEFINED HAVE_SHM_MMAP_ANON_EXITCODE
+  AND CMAKE_CROSSCOMPILING
+  AND NOT CMAKE_CROSSCOMPILING_EMULATOR
+  AND CMAKE_SYSTEM_NAME MATCHES "^(Linux|Midipix)$"
+)
+  set(HAVE_SHM_MMAP_ANON_EXITCODE 0)
+endif()
+
 cmake_push_check_state(RESET)
   set(CMAKE_REQUIRED_QUIET TRUE)
 
-  if(
-    NOT DEFINED HAVE_SHM_MMAP_ANON
-    AND CMAKE_CROSSCOMPILING
-    AND NOT CMAKE_CROSSCOMPILING_EMULATOR
-    AND CMAKE_SYSTEM_NAME MATCHES "^(Linux|Midipix)$"
-  )
-    set(
-      HAVE_SHM_MMAP_ANON 1
-      CACHE INTERNAL "Whether mmap(MAP_ANON) SHM support is available"
-    )
-  endif()
   check_source_runs(C [[
     #include <sys/types.h>
     #include <sys/wait.h>

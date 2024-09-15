@@ -45,40 +45,43 @@ cmake_push_check_state(RESET)
 
   if(NOT _HAVE_TTYNAME_R)
     message(CHECK_FAIL "no (non-standard declaration)")
-  elseif(
-    NOT DEFINED HAVE_TTYNAME_R
+    cmake_pop_check_state()
+    return()
+  endif()
+
+  if(
+    NOT DEFINED HAVE_TTYNAME_R_EXITCODE
     AND CMAKE_CROSSCOMPILING
     AND NOT CMAKE_CROSSCOMPILING_EMULATOR
-    AND _HAVE_TTYNAME_R
   )
-    set(HAVE_TTYNAME_R TRUE CACHE INTERNAL "Whether ttyname_r() works.")
-    message(CHECK_PASS "guessing yes (cross-compiling)")
-  else()
-    # PHP Autotools-based build system check uses a different return below due
-    # to Autoconf's configure using the file descriptor 0 which results in an
-    # error. The file descriptor 0 with CMake script execution is available and
-    # doesn't result in an error when calling ttyname_r().
-    check_source_runs(C [[
-      #include <unistd.h>
+    set(HAVE_TTYNAME_R_EXITCODE 0)
+  endif()
 
-      int main(void) {
-        #ifdef _SC_TTY_NAME_MAX
-          int buflen = sysconf(_SC_TTY_NAME_MAX);
-        #else
-          int buflen = 32; /* Small buffers < 128 */
-        #endif
-        if (buflen < 1) {
-          buflen = 32;
-        }
-        char buf[buflen];
+  # PHP Autotools-based build system check uses a different return below due
+  # to Autoconf's configure using the file descriptor 0 which results in an
+  # error. The file descriptor 0 with CMake script execution is available and
+  # doesn't result in an error when calling ttyname_r().
+  check_source_runs(C [[
+    #include <unistd.h>
 
-        return ttyname_r(0, buf, buflen) ? 1 : 0;
+    int main(void)
+    {
+      #ifdef _SC_TTY_NAME_MAX
+        int buflen = sysconf(_SC_TTY_NAME_MAX);
+      #else
+        int buflen = 32; /* Small buffers < 128 */
+      #endif
+      if (buflen < 1) {
+        buflen = 32;
       }
-    ]] HAVE_TTYNAME_R)
-    if(HAVE_TTYNAME_R)
-      message(CHECK_PASS "yes")
-    else()
-      message(CHECK_FAIL "no (posix_ttyname() will be thread-unsafe)")
-    endif()
+      char buf[buflen];
+
+      return ttyname_r(0, buf, buflen) ? 1 : 0;
+    }
+  ]] HAVE_TTYNAME_R)
+  if(HAVE_TTYNAME_R)
+    message(CHECK_PASS "yes")
+  else()
+    message(CHECK_FAIL "no (posix_ttyname() will be thread-unsafe)")
   endif()
 cmake_pop_check_state()

@@ -71,15 +71,12 @@ cmake_push_check_state(RESET)
 
   if(_have_getaddrinfo)
     if(
-      NOT DEFINED HAVE_GETADDRINFO
+      NOT DEFINED HAVE_GETADDRINFO_EXITCODE
       AND CMAKE_CROSSCOMPILING
       AND NOT CMAKE_CROSSCOMPILING_EMULATOR
       AND CMAKE_SYSTEM_NAME MATCHES "^(Linux|Midipix)$"
     )
-      set(
-        HAVE_GETADDRINFO 1
-        CACHE INTERNAL "Define if you have the getaddrinfo() function"
-      )
+      set(HAVE_GETADDRINFO_EXITCODE 0)
     endif()
 
     check_source_runs(C [[

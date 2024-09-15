@@ -16,12 +16,12 @@ include(CMakePushCheckState)
 message(CHECK_START "Checking whether writing to stdout works")
 
 if(
-  NOT DEFINED PHP_WRITE_STDOUT
+  NOT DEFINED PHP_WRITE_STDOUT_EXITCODE
   AND CMAKE_CROSSCOMPILING
   AND NOT CMAKE_CROSSCOMPILING_EMULATOR
   AND CMAKE_SYSTEM_NAME MATCHES "^(Linux|Midipix)$"
 )
-  set(PHP_WRITE_STDOUT 1 CACHE INTERNAL "Whether write(2) works")
+  set(PHP_WRITE_STDOUT_EXITCODE 0)
 endif()
 
 cmake_push_check_state(RESET)
