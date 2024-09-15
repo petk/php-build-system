@@ -73,8 +73,11 @@ endif()
 # Generate files.
 ################################################################################
 
-# When cross-compiling php cli target executable cannot be executed.
-if(NOT CMAKE_CROSSCOMPILING)
+# When cross-compiling without emulator PHP CLI target executable cannot be run.
+if(
+  NOT CMAKE_CROSSCOMPILING
+  OR (CMAKE_CROSSCOMPILING AND CMAKE_CROSSCOMPILING_EMULATOR)
+)
   block()
     # Create CMake script that generates phar.phar file.
     file(

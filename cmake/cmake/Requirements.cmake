@@ -25,24 +25,24 @@ endif()
 # Check whether the system uses EBCDIC (not ASCII) as its native character set.
 ################################################################################
 message(CHECK_START "Checking system character set")
-if(NOT CMAKE_CROSSCOMPILING OR CMAKE_CROSSCOMPILING_EMULATOR)
-  cmake_push_check_state(RESET)
-    set(CMAKE_REQUIRED_QUIET TRUE)
-    check_source_runs(C [[
-      int main(void) {
-        return (unsigned char)'A' != (unsigned char)0xC1;
-      }
-    ]] _php_is_ebcdic)
-  cmake_pop_check_state()
+if(CMAKE_CROSSCOMPILING AND NOT CMAKE_CROSSCOMPILING_EMULATOR)
+  # EBCDIC targets are obsolete, assume that target uses ASCII when
+  # cross-compiling without emulator.
+  set(PHP_IS_EBCDIC_EXITCODE 1)
+endif()
 
-  if(_php_is_ebcdic)
-    message(CHECK_FAIL "EBCDIC")
-    message(FATAL_ERROR "PHP does not support EBCDIC targets")
-  else()
-    message(CHECK_PASS "ASCII")
-  endif()
+cmake_push_check_state(RESET)
+  set(CMAKE_REQUIRED_QUIET TRUE)
+  check_source_runs(C [[
+    int main(void) { return (unsigned char)'A' != (unsigned char)0xC1; }
+  ]] PHP_IS_EBCDIC)
+cmake_pop_check_state()
+
+if(PHP_IS_EBCDIC)
+  message(CHECK_FAIL "EBCDIC")
+  message(FATAL_ERROR "PHP does not support EBCDIC targets")
 else()
-  message(CHECK_FAIL "unknown, assuming ASCII (cross-compiling)")
+  message(CHECK_PASS "ASCII")
 endif()
 
 ################################################################################
