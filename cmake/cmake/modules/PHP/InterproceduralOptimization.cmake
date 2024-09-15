@@ -42,6 +42,14 @@ elseif(CMAKE_C_COMPILER_ID STREQUAL "AppleClang")
     STATUS
     "Interprocedural optimization (IPO) disabled (AppleClang)"
   )
+elseif(CMAKE_C_COMPILER_ID STREQUAL "Clang" AND CMAKE_SIZEOF_VOID_P EQUAL 4)
+  # On 32-bit Linux machine, this produced undefined references linker errors.
+  set(CMAKE_INTERPROCEDURAL_OPTIMIZATION OFF)
+
+  message(
+    STATUS
+    "Interprocedural optimization (IPO) disabled (Clang on 32-bit)"
+  )
 else()
   include(CheckIPOSupported)
   check_ipo_supported(RESULT result)

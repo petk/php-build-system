@@ -26,9 +26,6 @@ if(
   set(CMAKE_COLOR_DIAGNOSTICS ON)
 endif()
 
-# Disable PIC for all targets. PIC is enabled for shared extensions manually.
-set(CMAKE_POSITION_INDEPENDENT_CODE OFF)
-
 # Set empty prefix for targets instead of default "lib".
 set(CMAKE_SHARED_LIBRARY_PREFIX_C "")
 set(CMAKE_SHARED_MODULE_PREFIX_C "")
