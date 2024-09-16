@@ -1,5 +1,6 @@
 Subject: Fix deprecation warnings on 32-bit *nix systems
 
+See: https://github.com/php/php-src/issues/15899
 ---
  Zend/zend_vm_gen.php | 4 ++--
  1 file changed, 2 insertions(+), 2 deletions(-)
