@@ -2,12 +2,9 @@
 
 # These are always required to set:
 set(CMAKE_C_COMPILER "")
-set(CMAKE_C_COMPILER_ID "")
-set(CMAKE_C_COMPILER_VERSION "")
 set(CMAKE_CXX_COMPILER "")
-set(CMAKE_CXX_COMPILER_ID "")
-set(CMAKE_CXX_COMPILER_VERSION "")
 set(CMAKE_SYSTEM_NAME "")
+set(CMAKE_SYSTEM_PROCESSOR "")
 set(CMAKE_FIND_ROOT_PATH "")
 
 # This is a list of all exit codes or result variables required when

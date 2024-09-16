@@ -456,34 +456,20 @@ endif()
 
 if(PHPSystem_EXECUTABLE)
   set(PHP_EXECUTABLE ${PHPSystem_EXECUTABLE})
-elseif(
-  NOT CMAKE_CROSSCOMPILING
-  OR (CMAKE_CROSSCOMPILING AND CMAKE_CROSSCOMPILING_EMULATOR)
-)
+elseif(NOT CMAKE_CROSSCOMPILING)
   set(PHP_EXECUTABLE "$<TARGET_FILE:php_cli>")
+elseif(CMAKE_CROSSCOMPILING AND CMAKE_CROSSCOMPILING_EMULATOR)
+  set(PHP_EXECUTABLE "${CMAKE_CROSSCOMPILING_EMULATOR};$<TARGET_FILE:php_cli>")
 endif()
 
 if(PHP_EXECUTABLE)
   # Run the Zend/zend_vm_gen.php script.
-  file(
-    GENERATE
-    OUTPUT CMakeFiles/GenerateZendVm.cmake
-    CONTENT [[
-      if(EXISTS ${PHP_EXECUTABLE})
-        execute_process(
-          COMMAND ${PHP_EXECUTABLE} ${CURRENT_SOURCE_DIR}/zend_vm_gen.php
-        )
-      endif()
-    ]]
-  )
-
   add_custom_command(
     OUTPUT zend_vm
-    COMMAND ${CMAKE_COMMAND}
-            -D PHP_EXECUTABLE=${PHP_EXECUTABLE}
-            -D CURRENT_SOURCE_DIR=${CMAKE_CURRENT_SOURCE_DIR}
-            -P CMakeFiles/GenerateZendVm.cmake
-    DEPENDS ${CMAKE_CURRENT_SOURCE_DIR}/zend_vm_execute.skl
+    COMMAND ${PHP_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/zend_vm_gen.php
+    DEPENDS
+      php_cli
+      ${CMAKE_CURRENT_SOURCE_DIR}/zend_vm_execute.skl
     COMMENT "[Zend] Regenerating zend_vm_execute.h and zend_vm_opcodes.{h,c}"
     VERBATIM
   )
