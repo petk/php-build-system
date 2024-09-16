@@ -100,7 +100,25 @@ function(_pkgconfig_parse_variables variables)
     endif()
 
     list(APPEND result_variables ${var})
-    list(APPEND result_values "${value}")
+
+    # The result_values are for the install(CODE) and generator expression
+    # $<INSTALL_PREFIX> works since CMake 3.27, for earlier versions the escaped
+    # variable CMAKE_INSTALL_PREFIX can be used.
+    if(
+      CMAKE_VERSION VERSION_LESS 3.27
+      AND value MATCHES [[.*\$<INSTALL_PREFIX>.*]]
+    )
+      string(
+        REPLACE
+        "$<INSTALL_PREFIX>"
+        "\${CMAKE_INSTALL_PREFIX}"
+        replaced_value
+        "${value}"
+      )
+      list(APPEND result_values "${replaced_value}")
+    else()
+      list(APPEND result_values "${value}")
+    endif()
 
     # Replace possible INSTALL_PREFIX in value for usage in add_custom_command,
     # in the result_values above the intact genex is left for enabling the
