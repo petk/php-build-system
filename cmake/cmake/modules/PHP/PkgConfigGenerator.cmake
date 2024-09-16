@@ -9,16 +9,15 @@ Also there is a common issue with installation prefix not being applied when
 using --prefix command line option at the installation phase:
   cmake --install <build-dir> --prefix <prefix>
 
-TODO: This module will be refactored and changed further in the future.
-
 The following function is exposed:
 
 pkgconfig_generate_pc(
   <pc-template-file>
   <pc-file-output>
   TARGET <target>
+  [INSTALL_DESTINATION <path>]
   [VARIABLES [<variable> <value>] [<variable_2>:BOOL <value_2>...] ...]
-  SKIP_BOOL_NORMALIZATION
+  [SKIP_BOOL_NORMALIZATION]
 )
 
   Generate pkgconfig <pc-file-output> from the given pc <pc-template-file>
@@ -26,6 +25,10 @@ pkgconfig_generate_pc(
 
   TARGET
     Name of the target for getting libraries.
+  INSTALL_DESTINATION
+    Path to the pkgconfig directory where generated .pc file will be installed
+    to. Usually it is '${CMAKE_INSTALL_LIBDIR}/pkgconfig'. If not provided, .pc
+    file will not be installed.
   VARIABLES
     Pairs of variable names and values. To pass booleans, add ':BOOL' to the
     variable name. For example:
@@ -34,6 +37,11 @@ pkgconfig_generate_pc(
         VARIABLES
           variable_name:BOOL "${variable_name}"
       )
+
+    The $<INSTALL_PREFIX> generator expression can be used in variable values,
+    which is replaced with installation prefix either set via the
+    CMAKE_INSTALL_PREFIX variable at the configuration phase, or the
+    'cmake --install --prefix' option at the installation phase.
 
   SKIP_BOOL_NORMALIZATION
     CMake booleans have values yes, no, true, false, on, off, 1, 0, they can
@@ -52,14 +60,79 @@ find_program(
 )
 mark_as_advanced(PKGCONFIG_OBJDUMP_EXECUTABLE)
 
+# Parse given variables and create a list of options or variables for passing to
+# add_custom_command and configure_file().
+function(_pkgconfig_parse_variables variables)
+  # Check for even number of keyword values.
+  list(LENGTH variables length)
+  math(EXPR modulus "${length} % 2")
+  if(NOT modulus EQUAL 0)
+    message(
+      FATAL_ERROR
+      "The keyword VARIABLES must be a list of pairs - variable-name and "
+      "value (it must contain an even number of items)."
+    )
+  endif()
+
+  set(is_value FALSE)
+  set(variables_options "")
+  set(result_variables "")
+  set(result_values "")
+  foreach(variable IN LISTS variables)
+    if(is_value)
+      set(is_value FALSE)
+      continue()
+    endif()
+    list(POP_FRONT variables var value)
+
+    # Normalize boolean values to either "yes" or "no".
+    if(var MATCHES ".*:BOOL$" AND NOT parsed_SKIP_BOOL_NORMALIZATION)
+      if(value)
+        set(value "yes")
+      else()
+        set(value "no")
+      endif()
+    endif()
+
+    # Remove possible :<TYPE> part from the variable name.
+    if(var MATCHES "(.*):BOOL$")
+      set(var ${CMAKE_MATCH_1})
+    endif()
+
+    list(APPEND result_variables ${var})
+    list(APPEND result_values "${value}")
+
+    # Replace possible INSTALL_PREFIX in value for usage in add_custom_command,
+    # in the result_values above the intact genex is left for enabling the
+    # possible 'cmake --install --prefix ...' override.
+    if(value MATCHES [[.*\$<INSTALL_PREFIX>.*]])
+      string(
+        REPLACE
+        "$<INSTALL_PREFIX>"
+        "${CMAKE_INSTALL_PREFIX}"
+        value
+        "${value}"
+      )
+    endif()
+
+    list(APPEND variables_options -D ${var}="${value}")
+
+    set(is_value TRUE)
+  endforeach()
+
+  set(variables_options "${variables_options}" PARENT_SCOPE)
+  set(result_variables "${result_variables}" PARENT_SCOPE)
+  set(result_values "${result_values}" PARENT_SCOPE)
+endfunction()
+
 function(pkgconfig_generate_pc)
   cmake_parse_arguments(
     PARSE_ARGV
     2
-    parsed                    # prefix
-    "SKIP_BOOL_NORMALIZATION" # options
-    "TARGET"                  # one-value keywords
-    "VARIABLES"               # multi-value keywords
+    parsed                       # prefix
+    "SKIP_BOOL_NORMALIZATION"    # options
+    "TARGET;INSTALL_DESTINATION" # one-value keywords
+    "VARIABLES"                  # multi-value keywords
   )
 
   if(parsed_UNPARSED_ARGUMENTS)
@@ -106,7 +179,6 @@ function(pkgconfig_generate_pc)
           endif()
         endforeach()
         list(REMOVE_DUPLICATES libs)
-        message(STATUS "Libs from link.txt: ${libs}")
       endif()
 
       if(PKGCONFIG_OBJDUMP_EXECUTABLE)
@@ -127,8 +199,6 @@ function(pkgconfig_generate_pc)
             endif()
           endif()
         endforeach()
-
-        message(STATUS "Libraries from objdump: ${libraries}")
       endif()
 
       list(JOIN libraries " " PHP_LIBS_PRIVATE)
@@ -141,45 +211,7 @@ function(pkgconfig_generate_pc)
   endif()
 
   if(parsed_VARIABLES)
-    set(variables "${parsed_VARIABLES}")
-
-    # Check for even number of keyword values.
-    list(LENGTH variables length)
-    math(EXPR modulus "${length} % 2")
-    if(NOT modulus EQUAL 0)
-      message(
-        FATAL_ERROR
-        "The keyword VARIABLES must be a list of pairs - variable-name and "
-        "value (it must contain an even number of items)."
-      )
-    endif()
-
-    set(is_value FALSE)
-    set(variables_options "")
-    foreach(variable IN LISTS variables)
-      if(is_value)
-        set(is_value FALSE)
-        continue()
-      endif()
-      list(POP_FRONT variables var value)
-
-      # Normalize boolean values to either "yes" or "no".
-      if(var MATCHES ".*:BOOL$" AND NOT parsed_SKIP_BOOL_NORMALIZATION)
-        if(value)
-          set(value "yes")
-        else()
-          set(value "no")
-        endif()
-      endif()
-
-      # Remove possible :<TYPE> part from the variable name.
-      if(var MATCHES "(.*):BOOL$")
-        set(var ${CMAKE_MATCH_1})
-      endif()
-
-      list(APPEND variables_options -D ${var}="${value}")
-      set(is_value TRUE)
-    endforeach()
+    _pkgconfig_parse_variables("${parsed_VARIABLES}")
   endif()
 
   cmake_path(GET template FILENAME filename)
@@ -198,4 +230,29 @@ function(pkgconfig_generate_pc)
       -P CMakeFiles/PkgConfigGeneratePc.cmake
     COMMENT "[PkgConfig] Generating pkg-config ${filename} file"
   )
+
+  if(parsed_INSTALL_DESTINATION)
+    cmake_path(GET output FILENAME output_file)
+
+    install(CODE "
+      set(result_variables ${result_variables})
+      set(result_values \"${result_values}\")
+
+      foreach(var value IN ZIP_LISTS result_variables result_values)
+        set(\${var} \"\${value}\")
+      endforeach()
+
+      configure_file(
+        ${template}
+        ${CMAKE_CURRENT_BINARY_DIR}/CMakeFiles/${output_file}
+        @ONLY
+      )
+    ")
+
+    install(
+      FILES
+        ${CMAKE_CURRENT_BINARY_DIR}/CMakeFiles/${output_file}
+      DESTINATION ${parsed_INSTALL_DESTINATION}
+    )
+  endif()
 endfunction()

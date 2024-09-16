@@ -51,26 +51,25 @@ block()
 endblock()
 
 # Configure pkgconf php.pc metadata file.
-block()
-  include(PHP/PkgConfigGenerator)
-  pkgconfig_generate_pc(
-    php.pc.in
-    php.pc
-    TARGET php_cli
-    VARIABLES
-      prefix "${CMAKE_INSTALL_PREFIX}"
-      exec_prefix "${CMAKE_INSTALL_PREFIX}"
-      includedir "${CMAKE_INSTALL_FULL_INCLUDEDIR}"
-      libdir "${CMAKE_INSTALL_FULL_LIBDIR}"
-      PHP_VERSION "${PHP_VERSION}"
-      PHP_VERSION_ID "${PHP_VERSION_ID}"
-      PHP_EXTENSION_DIR "${PHP_EXTENSION_DIR}"
-      PHP_CONFIG_FILE_SCAN_DIR "${PHP_CONFIG_FILE_SCAN_DIR}"
-      PHP_CONFIG_FILE_PATH "${PHP_CONFIG_FILE_PATH}"
-      PHP_DEBUG:BOOL "${PHP_DEBUG}"
-      PHP_THREAD_SAFETY:BOOL "${PHP_THREAD_SAFETY}"
-  )
-endblock()
+include(PHP/PkgConfigGenerator)
+pkgconfig_generate_pc(
+  php.pc.in
+  php.pc
+  TARGET php_cli
+  INSTALL_DESTINATION ${CMAKE_INSTALL_LIBDIR}/pkgconfig
+  VARIABLES
+    prefix "$<INSTALL_PREFIX>"
+    exec_prefix "$<INSTALL_PREFIX>"
+    includedir "$<INSTALL_PREFIX>/${CMAKE_INSTALL_INCLUDEDIR}"
+    libdir "$<INSTALL_PREFIX>/${CMAKE_INSTALL_LIBDIR}"
+    PHP_VERSION "${PHP_VERSION}"
+    PHP_VERSION_ID "${PHP_VERSION_ID}"
+    PHP_EXTENSION_DIR "${PHP_EXTENSION_DIR}"
+    PHP_CONFIG_FILE_SCAN_DIR "${PHP_CONFIG_FILE_SCAN_DIR}"
+    PHP_CONFIG_FILE_PATH "${PHP_CONFIG_FILE_PATH}"
+    PHP_DEBUG:BOOL "${PHP_DEBUG}"
+    PHP_THREAD_SAFETY:BOOL "${PHP_THREAD_SAFETY}"
+)
 
 install(
   FILES
@@ -84,10 +83,4 @@ install(
     ${CMAKE_CURRENT_BINARY_DIR}/php-config
     ${CMAKE_CURRENT_BINARY_DIR}/phpize
   DESTINATION ${CMAKE_INSTALL_BINDIR}
-)
-
-install(
-  FILES
-    ${CMAKE_CURRENT_BINARY_DIR}/php.pc
-  DESTINATION ${CMAKE_INSTALL_LIBDIR}/pkgconfig
 )
