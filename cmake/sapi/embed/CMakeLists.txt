@@ -42,27 +42,25 @@ set_target_properties(
 )
 
 # Configure pkgconf php-embed.pc metadata file.
-block()
-  include(PHP/PkgConfigGenerator)
-
-  pkgconfig_generate_pc(
-    php-embed.pc.in
-    php-embed.pc
-    TARGET php_embed
-    VARIABLES
-      prefix "${CMAKE_INSTALL_PREFIX}"
-      exec_prefix "${CMAKE_INSTALL_PREFIX}"
-      includedir "${CMAKE_INSTALL_FULL_INCLUDEDIR}"
-      libdir "${CMAKE_INSTALL_FULL_LIBDIR}"
-      PHP_VERSION "${PHP_VERSION}"
-      PHP_VERSION_ID "${PHP_VERSION_ID}"
-      PHP_EXTENSION_DIR "${PHP_EXTENSION_DIR}"
-      PHP_CONFIG_FILE_SCAN_DIR "${PHP_CONFIG_FILE_SCAN_DIR}"
-      PHP_CONFIG_FILE_PATH "${PHP_CONFIG_FILE_PATH}"
-      PHP_DEBUG:BOOL "${PHP_DEBUG}"
-      PHP_THREAD_SAFETY:BOOL "${PHP_THREAD_SAFETY}"
-  )
-endblock()
+include(PHP/PkgConfigGenerator)
+pkgconfig_generate_pc(
+  php-embed.pc.in
+  php-embed.pc
+  TARGET php_embed
+  INSTALL_DESTINATION ${CMAKE_INSTALL_LIBDIR}/pkgconfig
+  VARIABLES
+    prefix "$<INSTALL_PREFIX>"
+    exec_prefix "$<INSTALL_PREFIX>"
+    includedir "$<INSTALL_PREFIX>/${CMAKE_INSTALL_INCLUDEDIR}"
+    libdir "$<INSTALL_PREFIX>/${CMAKE_INSTALL_LIBDIR}"
+    PHP_VERSION "${PHP_VERSION}"
+    PHP_VERSION_ID "${PHP_VERSION_ID}"
+    PHP_EXTENSION_DIR "${PHP_EXTENSION_DIR}"
+    PHP_CONFIG_FILE_SCAN_DIR "${PHP_CONFIG_FILE_SCAN_DIR}"
+    PHP_CONFIG_FILE_PATH "${PHP_CONFIG_FILE_PATH}"
+    PHP_DEBUG:BOOL "${PHP_DEBUG}"
+    PHP_THREAD_SAFETY:BOOL "${PHP_THREAD_SAFETY}"
+)
 
 install(
   TARGETS php_embed
@@ -72,10 +70,4 @@ install(
     DESTINATION ${CMAKE_INSTALL_LIBDIR}
   FILE_SET HEADERS
     DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/sapi/embed
-)
-
-install(
-  FILES
-    ${CMAKE_CURRENT_BINARY_DIR}/php-embed.pc
-  DESTINATION ${CMAKE_INSTALL_LIBDIR}/pkgconfig
 )
