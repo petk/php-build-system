@@ -73,114 +73,153 @@ endif()
 # Generate files.
 ################################################################################
 
-# When cross-compiling without emulator PHP CLI target executable cannot be run.
-if(
-  NOT CMAKE_CROSSCOMPILING
-  OR (CMAKE_CROSSCOMPILING AND CMAKE_CROSSCOMPILING_EMULATOR)
-)
-  block()
-    # Create CMake script that generates phar.phar file.
-    file(
-      GENERATE
-      OUTPUT CMakeFiles/GeneratePhar.cmake
-      CONTENT [[
-        # Generate phar.php.
-        if(EXT_PHAR_SHARED OR BUILD_SHARED_LIBS)
-          set(
-            phar_shared_options
-              -d extension_dir=${PHP_BINARY_DIR}/modules
-              -d extension=phar
-          )
-        endif()
+if(NOT CMAKE_CROSSCOMPILING)
+  set(PHP_EXECUTABLE "$<TARGET_FILE:php_cli>")
+elseif(CMAKE_CROSSCOMPILING AND CMAKE_CROSSCOMPILING_EMULATOR)
+  set(PHP_EXECUTABLE "${CMAKE_CROSSCOMPILING_EMULATOR};$<TARGET_FILE:php_cli>")
+endif()
 
-        execute_process(
-          COMMAND
-            ${PHP_EXECUTABLE}
-              -n
-              ${phar_shared_options}
-              -d open_basedir=
-              -d output_buffering=0
-              -d memory_limit=-1
-              -d phar.readonly=0
-              ${CURRENT_SOURCE_DIR}/build_precommand.php
-          OUTPUT_FILE ${CURRENT_BINARY_DIR}/phar.php
-          OUTPUT_QUIET
-        )
+# Generate phar.php.
+if(PHP_EXECUTABLE)
+  file(
+    GLOB_RECURSE
+    dependent_files
+    ${CMAKE_CURRENT_SOURCE_DIR}/phar/*.inc
+    ${CMAKE_CURRENT_SOURCE_DIR}/phar/*.php
+  )
 
-        # Generate phar.phar.
-        execute_process(
-          COMMAND
-            ${PHP_EXECUTABLE}
-              -n
-              ${phar_shared_options}
-              -d open_basedir=
-              -d output_buffering=0
-              -d memory_limit=-1
-              -d phar.readonly=0
-              ${CURRENT_BINARY_DIR}/phar.php
-                pack
-                -f ${CURRENT_BINARY_DIR}/phar.phar
-                -a pharcommand
-                -c auto
-                -p 0
-                -s ${CURRENT_SOURCE_DIR}/phar/phar.php
-                -h sha1
-                -b ${INSTALL_FULL_BINDIR}/${php_cli_filename}
-                ${CURRENT_SOURCE_DIR}/phar
-        )
-
-        # Set phar.phar permissions.
-        file(
-          CHMOD
-          ${CURRENT_BINARY_DIR}/phar.phar
-          FILE_PERMISSIONS
-            OWNER_READ
-            OWNER_WRITE
-            OWNER_EXECUTE
-            GROUP_READ
-            GROUP_WRITE
-            GROUP_EXECUTE
-            WORLD_READ
-            WORLD_EXECUTE
-        )
-      ]]
+  if(EXT_PHAR_SHARED OR BUILD_SHARED_LIBS)
+    set(
+      phar_shared_options
+        -d extension_dir=${PHP_BINARY_DIR}/modules
+        -d extension=phar
     )
+  endif()
 
-    file(
-      GLOB_RECURSE
-      dependent_files
-      ${CMAKE_CURRENT_SOURCE_DIR}/phar/*.inc
-      ${CMAKE_CURRENT_SOURCE_DIR}/phar/*.php
-    )
+  add_custom_command(
+    OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/phar.php
+    COMMAND
+      ${PHP_EXECUTABLE}
+        -n
+        ${phar_shared_options}
+        -d open_basedir=
+        -d output_buffering=0
+        -d memory_limit=-1
+        -d phar.readonly=0
+        ${CMAKE_CURRENT_SOURCE_DIR}/build_precommand.php
+        > ${CMAKE_CURRENT_BINARY_DIR}/phar.php
+    COMMENT "[ext/phar] Generating phar.php"
+    VERBATIM
+  )
 
-    add_custom_command(
-      OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/phar.phar
+  add_custom_command(
+    OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/phar.phar
+    COMMAND
+      ${PHP_EXECUTABLE}
+        -n
+        ${phar_shared_options}
+        -d open_basedir=
+        -d output_buffering=0
+        -d memory_limit=-1
+        -d phar.readonly=0
+        ${CMAKE_CURRENT_BINARY_DIR}/phar.php
+          pack
+          -f ${CMAKE_CURRENT_BINARY_DIR}/phar.phar
+          -a pharcommand
+          -c auto
+          -p 0
+          -s ${CMAKE_CURRENT_SOURCE_DIR}/phar/phar.php
+          -h sha1
+          -b "$<TARGET_FILE:php_cli>"
+          ${CMAKE_CURRENT_SOURCE_DIR}/phar
+    DEPENDS
+      ${CMAKE_CURRENT_BINARY_DIR}/phar.php
+    COMMENT "[ext/phar] Generating phar.phar"
+    VERBATIM
+  )
+
+  file(
+    GENERATE
+    OUTPUT CMakeFiles/GeneratePhar.cmake
+    CONTENT [[
+      # Set phar.phar permissions.
+      file(
+        CHMOD
+        ${CURRENT_BINARY_DIR}/phar.phar
+        FILE_PERMISSIONS
+          OWNER_READ
+          OWNER_WRITE
+          OWNER_EXECUTE
+          GROUP_READ
+          GROUP_WRITE
+          GROUP_EXECUTE
+          WORLD_READ
+          WORLD_EXECUTE
+      )
+    ]]
+  )
+
+  add_custom_command(
+    OUTPUT php_phar_generated_phar
+    COMMAND
+      ${CMAKE_COMMAND}
+      -D CURRENT_BINARY_DIR=${CMAKE_CURRENT_BINARY_DIR}
+      -P CMakeFiles/GeneratePhar.cmake
+    DEPENDS
+      ${CMAKE_CURRENT_BINARY_DIR}/phar.phar
+    COMMENT "[ext/phar] Generating phar"
+  )
+
+  add_custom_target(
+    php_phar_generate_file
+    ALL
+    DEPENDS
+      php_cli
+      php_phar
+      ${dependent_files}
+      php_phar_generated_phar
+  )
+  set_property(SOURCE php_phar_generated_phar PROPERTY SYMBOLIC TRUE)
+
+  # Install phar.phar file to destination. Here a duplicate phar.phar generation
+  # step is used to generate it to a destination directory because of the
+  # install prefix used in shebang (when using 'cmake --install --prefix ...').
+  install(CODE "
+    execute_process(
       COMMAND
-        ${CMAKE_COMMAND}
-        -D EXT_PHAR_SHARED=${EXT_PHAR_SHARED}
-        -D BUILD_SHARED_LIBS=${BUILD_SHARED_LIBS}
-        -D PHP_BINARY_DIR=${PHP_BINARY_DIR}
-        -D PHP_EXECUTABLE=$<TARGET_FILE:php_cli>
-        -D php_cli_filename=$<TARGET_FILE_NAME:php_cli>
-        -D CURRENT_SOURCE_DIR=${CMAKE_CURRENT_SOURCE_DIR}
-        -D CURRENT_BINARY_DIR=${CMAKE_CURRENT_BINARY_DIR}
-        -D INSTALL_FULL_BINDIR=${CMAKE_INSTALL_FULL_BINDIR}
-        -P CMakeFiles/GeneratePhar.cmake
-      DEPENDS
-        php_cli
-        php_phar
-        ${dependent_files}
-      COMMENT "[ext/phar] Generating phar.phar"
+        ${PHP_EXECUTABLE}
+          -n
+          ${phar_shared_options}
+          -d open_basedir=
+          -d output_buffering=0
+          -d memory_limit=-1
+          -d phar.readonly=0
+          ${CMAKE_CURRENT_BINARY_DIR}/phar.php
+            pack
+            -f \${CMAKE_INSTALL_PREFIX}/${CMAKE_INSTALL_BINDIR}/phar.phar
+            -a pharcommand
+            -c auto
+            -p 0
+            -s ${CMAKE_CURRENT_SOURCE_DIR}/phar/phar.php
+            -h sha1
+            -b \${CMAKE_INSTALL_PREFIX}/${CMAKE_INSTALL_BINDIR}/$<TARGET_FILE_NAME:php_cli>
+            ${CMAKE_CURRENT_SOURCE_DIR}/phar
     )
 
-    # Create target which consumes the command via DEPENDS.
-    add_custom_target(
-      php_phar_generated_files
-      ALL
-      DEPENDS ${CMAKE_CURRENT_BINARY_DIR}/phar.phar
-      COMMENT "[ext/phar] Generating phar files"
+    file(
+      CHMOD
+      \${CMAKE_INSTALL_PREFIX}/${CMAKE_INSTALL_BINDIR}/phar.phar
+      FILE_PERMISSIONS
+        OWNER_READ
+        OWNER_WRITE
+        OWNER_EXECUTE
+        GROUP_READ
+        GROUP_WRITE
+        GROUP_EXECUTE
+        WORLD_READ
+        WORLD_EXECUTE
     )
-  endblock()
+  ")
 endif()
 
 # Man documentation.
@@ -192,10 +231,4 @@ install(
     ${CMAKE_CURRENT_BINARY_DIR}/phar.1
     ${CMAKE_CURRENT_BINARY_DIR}/phar.phar.1
   DESTINATION ${CMAKE_INSTALL_MANDIR}/man1
-)
-
-install(
-  FILES
-    ${CMAKE_CURRENT_BINARY_DIR}/phar.phar
-  DESTINATION ${CMAKE_INSTALL_BINDIR}
 )
