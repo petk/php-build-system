@@ -36,7 +36,6 @@ Hints:
   The Crypt_ROOT variable adds custom search path.
 #]=============================================================================]
 
-
 include(CheckSymbolExists)
 include(CMakePushCheckState)
 include(FeatureSummary)
