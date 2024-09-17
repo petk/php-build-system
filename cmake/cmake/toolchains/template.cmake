@@ -110,6 +110,14 @@ set(PHP_HAVE_UBSAN_EXITCODE 0)
 # big-endian system, set it to 0, and for little-endian set it to 1.
 set(WORDS_BIGENDIAN_EXITCODE 1)
 
+# Set exit codes for the algos checks when using external crypt library
+# (EXT_STANDARD_EXTERNAL_LIBCRYPT).
+set(_PHP_CRYPT_HAVE_EXT_DES_EXITCODE 0)
+set(_PHP_CRYPT_HAVE_MD5_EXITCODE 0)
+set(_PHP_CRYPT_HAVE_BLOWFISH_EXITCODE 0)
+set(_PHP_CRYPT_HAVE_SHA256_EXITCODE 0)
+set(_PHP_CRYPT_HAVE_SHA512_EXITCODE 0)
+
 # Set the exit code and the output of the ZEND_MM check.
 # See CheckMMAlignment.cmake.
 set(ZEND_MM_EXITCODE 0)

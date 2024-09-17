@@ -192,6 +192,8 @@ else()
       PURPOSE "Necessary to use external crypt library."
   )
 
+  include(PHP/CheckCrypt)
+
   target_link_libraries(php_standard PRIVATE Crypt::Crypt)
 endif()
 
