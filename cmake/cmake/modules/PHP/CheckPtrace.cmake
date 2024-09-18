@@ -14,7 +14,7 @@ Cache variables:
     Whether ptrace() didn't work and the mach_vm_read() is present.
   PROC_MEM_FILE
     String of the /proc/pid/mem interface.
-]=============================================================================]#
+#]=============================================================================]
 
 include_guard(GLOBAL)
 

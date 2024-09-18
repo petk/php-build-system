@@ -8,7 +8,7 @@ Cache variables:
     Whether HP-UX 10.x is used.
   PHP_IRIX_TIME_R
     Whether IRIX-style functions are used.
-]=============================================================================]#
+#]=============================================================================]
 
 include_guard(GLOBAL)
 

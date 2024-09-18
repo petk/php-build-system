@@ -29,7 +29,7 @@ INTERFACE library:
   PHP::CheckGethostbynameR
     Created when additional system library needs to be linked.
 
-]=============================================================================]#
+#]=============================================================================]
 
 include_guard(GLOBAL)
 

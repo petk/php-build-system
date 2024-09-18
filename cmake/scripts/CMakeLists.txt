@@ -54,7 +54,36 @@ block()
 
   # The php-config script.
   message(STATUS "Creating scripts/php-config")
-  configure_file(php-config.in php-config @ONLY)
+  include(PHP/ConfigureFile)
+  php_configure_file(
+    php-config.in
+    php-config
+    INSTALL_DESTINATION ${CMAKE_INSTALL_BINDIR}
+    VARIABLES
+      SED "${SED}"
+      prefix "$<INSTALL_PREFIX>"
+      datarootdir "$<INSTALL_PREFIX>/${CMAKE_INSTALL_DATAROOTDIR}"
+      exec_prefix "$<INSTALL_PREFIX>"
+      PHP_VERSION "${PHP_VERSION}"
+      PHP_VERSION_ID "${PHP_VERSION_ID}"
+      include_dir "$<INSTALL_PREFIX>/${CMAKE_INSTALL_INCLUDEDIR}"
+      # TODO:
+      PHP_LDFLAGS ""
+      # TODO:
+      EXTRA_LIBS ""
+      EXTENSION_DIR "${PHP_EXTENSION_DIR}"
+      mandir "$<INSTALL_PREFIX>/${CMAKE_INSTALL_MANDIR}"
+      program_prefix "${PHP_PROGRAM_PREFIX}"
+      program_suffix "${PHP_PROGRAM_SUFFIX}"
+      EXEEXT "${CMAKE_EXECUTABLE_SUFFIX}"
+      # TODO:
+      CONFIGURE_OPTIONS ""
+      # TODO:
+      PHP_INSTALLED_SAPIS ""
+      EXPANDED_PHP_CONFIG_FILE_SCAN_DIR "${PHP_CONFIG_FILE_SCAN_DIR}"
+      EXPANDED_PHP_CONFIG_FILE_PATH "${PHP_CONFIG_FILE_PATH}"
+      bindir "$<INSTALL_PREFIX>/${CMAKE_INSTALL_BINDIR}"
+  )
 
   # The phpize script.
   message(STATUS "Creating scripts/phpize")
@@ -91,7 +120,6 @@ install(
 
 install(
   FILES
-    ${CMAKE_CURRENT_BINARY_DIR}/php-config
     ${CMAKE_CURRENT_BINARY_DIR}/phpize
   DESTINATION ${CMAKE_INSTALL_BINDIR}
 )

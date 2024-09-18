@@ -7,7 +7,7 @@ and other global PHP features. Common misconfiguration issues are summarized
 together with missing required system packages.
 
 https://cmake.org/cmake/help/latest/module/FeatureSummary.html
-]=============================================================================]#
+#]=============================================================================]
 
 include_guard(GLOBAL)
 

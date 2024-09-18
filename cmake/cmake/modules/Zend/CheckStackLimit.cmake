@@ -5,7 +5,7 @@ Cache variables:
 
   ZEND_CHECK_STACK_LIMIT
     Whether checking the stack limit is supported.
-]=============================================================================]#
+#]=============================================================================]
 
 include_guard(GLOBAL)
 

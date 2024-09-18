@@ -20,7 +20,7 @@ Caveats:
 
 TODO: Fix unused direct dependencies warnings and add option() for
 CMAKE_LINK_WHAT_YOU_USE.
-]=============================================================================]#
+#]=============================================================================]
 
 include_guard(GLOBAL)
 

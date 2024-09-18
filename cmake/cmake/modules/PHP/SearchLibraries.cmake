@@ -94,7 +94,7 @@ Caveats:
 
   As this is considered an architectural bug from this module point of view, in
   such cases it is better to use additional library check.
-]=============================================================================]#
+#]=============================================================================]
 
 include_guard(GLOBAL)
 

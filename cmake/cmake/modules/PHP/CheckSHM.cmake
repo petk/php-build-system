@@ -16,7 +16,7 @@ IMPORTED target:
 
   PHP::CheckSHMLibrary
     If there is additional library to be linked for using SHM POSIX functions.
-]=============================================================================]#
+#]=============================================================================]
 
 include_guard(GLOBAL)
 

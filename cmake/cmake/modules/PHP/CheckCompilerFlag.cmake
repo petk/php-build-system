@@ -27,7 +27,7 @@ Module exposes the following function:
     any diagnostic message. The result is stored in an internal cache entry
     named <result_var>. The language <lang> can be one of the supported
     languages by the CMake's CheckCompilerFlag module.
-]=============================================================================]#
+#]=============================================================================]
 
 include_guard(GLOBAL)
 

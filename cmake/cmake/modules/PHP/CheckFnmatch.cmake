@@ -12,7 +12,7 @@ Cache variables:
 
   HAVE_FNMATCH
     Whether fnmatch is a working POSIX variant.
-]=============================================================================]#
+#]=============================================================================]
 
 include_guard(GLOBAL)
 

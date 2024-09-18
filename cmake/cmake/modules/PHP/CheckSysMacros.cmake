@@ -44,7 +44,7 @@ Cache variables:
     <sysmacros.h>.
   HAVE_MAKEDEV
     Define to 1 if you have the 'makedev' function.
-]=============================================================================]#
+#]=============================================================================]
 
 include_guard(GLOBAL)
 

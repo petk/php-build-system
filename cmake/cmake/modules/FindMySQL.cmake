@@ -47,7 +47,7 @@ Hints:
   The MySQL_Socket_PATH variable can be overridden.
 
   The MySQL_ROOT variable adds custom search path.
-]=============================================================================]#
+#]=============================================================================]
 
 include(FeatureSummary)
 include(FindPackageHandleStandardArgs)

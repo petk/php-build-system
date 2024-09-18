@@ -18,7 +18,7 @@ Control variables:
 
   ZEND_FIBER_ASM
     Whether to use Boost fiber assembly files.
-]=============================================================================]#
+#]=============================================================================]
 
 include_guard(GLOBAL)
 

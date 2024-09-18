@@ -54,7 +54,7 @@ Usage:
 
 Compile definitions are not appended to CMAKE_C_FLAGS for cleaner build system:
   string(APPEND CMAKE_C_FLAGS " -D<extension>=1 ")
-]=============================================================================]#
+#]=============================================================================]
 
 include_guard(GLOBAL)
 
