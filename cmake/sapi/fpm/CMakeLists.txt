@@ -9,6 +9,7 @@ include(CheckSymbolExists)
 include(CMakeDependentOption)
 include(CMakePushCheckState)
 include(FeatureSummary)
+include(PHP/ConfigureFile)
 
 ################################################################################
 # FPM configuration.
@@ -385,46 +386,62 @@ endif()
 # Install files.
 ################################################################################
 
-block()
-  # Man documentation.
-  set(php_fpm_localstatedir "${CMAKE_INSTALL_FULL_LOCALSTATEDIR}")
-  set(php_fpm_sysconfdir "${CMAKE_INSTALL_FULL_SYSCONFDIR}")
-  set(php_fpm_prefix "${CMAKE_INSTALL_PREFIX}")
-  configure_file(php-fpm.8.in php-fpm.8 @ONLY)
+# Man documentation.
+php_configure_file(
+  php-fpm.8.in
+  php-fpm.8
+  # TODO: Add file suffix.
+  INSTALL_DESTINATION ${CMAKE_INSTALL_MANDIR}/man8
+  VARIABLES
+    php_fpm_localstatedir "$<INSTALL_PREFIX>/${CMAKE_INSTALL_LOCALSTATEDIR}"
+    php_fpm_sysconfdir "$<INSTALL_PREFIX>/${CMAKE_INSTALL_SYSCONFDIR}"
+    php_fpm_prefix "$<INSTALL_PREFIX>"
+    PHP_VERSION "${PHP_VERSION}"
+)
 
-  set(EXPANDED_LOCALSTATEDIR "${CMAKE_INSTALL_FULL_LOCALSTATEDIR}")
-  set(prefix "${CMAKE_INSTALL_PREFIX}")
-  configure_file(php-fpm.conf.in php-fpm.conf @ONLY)
+php_configure_file(
+  php-fpm.conf.in
+  php-fpm.conf
+  VARIABLES
+    prefix "$<INSTALL_PREFIX>"
+    EXPANDED_LOCALSTATEDIR "$<INSTALL_PREFIX>/${CMAKE_INSTALL_LOCALSTATEDIR}"
+    php_fpm_sysconfdir "$<INSTALL_PREFIX>/${CMAKE_INSTALL_SYSCONFDIR}"
+)
 
-  set(EXPANDED_DATADIR "${CMAKE_INSTALL_FULL_DATADIR}")
-  set(php_fpm_user "${SAPI_FPM_USER}")
-  set(php_fpm_group "${SAPI_FPM_GROUP}")
-  configure_file(www.conf.in www.conf @ONLY)
+php_configure_file(
+  www.conf.in
+  www.conf
+  VARIABLES
+    prefix "$<INSTALL_PREFIX>"
+    php_fpm_prefix "$<INSTALL_PREFIX>"
+    php_fpm_user "${SAPI_FPM_USER}"
+    php_fpm_group "${SAPI_FPM_GROUP}"
+    EXPANDED_DATADIR "$<INSTALL_PREFIX>/${CMAKE_INSTALL_DATADIR}"
+)
 
-  set(exec_prefix "${CMAKE_INSTALL_PREFIX}")
-  set(sbindir "${CMAKE_INSTALL_FULL_SBINDIR}")
-  set(sysconfdir "${CMAKE_INSTALL_FULL_SYSCONFDIR}")
-  set(localstatedir "${CMAKE_INSTALL_FULL_LOCALSTATEDIR}")
-  configure_file(init.d.php-fpm.in init.d.php-fpm @ONLY)
+php_configure_file(
+  init.d.php-fpm.in
+  init.d.php-fpm
+  VARIABLES
+    prefix "$<INSTALL_PREFIX>"
+    exec_prefix "$<INSTALL_PREFIX>"
+    sbindir "$<INSTALL_PREFIX>/${CMAKE_INSTALL_SBINDIR}"
+    sysconfdir "$<INSTALL_PREFIX>/${CMAKE_INSTALL_SYSCONFDIR}"
+    localstatedir "$<INSTALL_PREFIX>/${CMAKE_INSTALL_LOCALSTATEDIR}"
+)
 
-  set(php_fpm_systemd "${PHP_FPM_SYSTEMD}")
-  set(EXPANDED_SBINDIR "${CMAKE_INSTALL_FULL_SBINDIR}")
-  set(EXPANDED_SYSCONFDIR "${CMAKE_INSTALL_FULL_SYSCONFDIR}")
-  configure_file(php-fpm.service.in php-fpm.service @ONLY)
-
-  # FPM info status HTML page.
-  configure_file(status.html.in status.html @ONLY)
-endblock()
+php_configure_file(
+  php-fpm.service.in
+  php-fpm.service
+  VARIABLES
+    php_fpm_systemd "${PHP_FPM_SYSTEMD}"
+    EXPANDED_LOCALSTATEDIR "$<INSTALL_PREFIX>/${CMAKE_INSTALL_LOCALSTATEDIR}"
+    EXPANDED_SBINDIR "$<INSTALL_PREFIX>/${CMAKE_INSTALL_SBINDIR}"
+    EXPANDED_SYSCONFDIR "$<INSTALL_PREFIX>/${CMAKE_INSTALL_SYSCONFDIR}"
+)
 
 # TODO: Add program file prefix and suffix.
 install(TARGETS php_fpm DESTINATION ${CMAKE_INSTALL_SBINDIR})
-
-# TODO: Add file suffix.
-install(
-  FILES
-    ${CMAKE_CURRENT_BINARY_DIR}/php-fpm.8
-  DESTINATION ${CMAKE_INSTALL_MANDIR}/man8
-)
 
 # Create log and run directories on installation.
 install(DIRECTORY DESTINATION ${CMAKE_INSTALL_LOCALSTATEDIR}/log)
@@ -450,17 +467,20 @@ install(CODE "
 
     file(
       COPY_FILE
-      \"${CMAKE_CURRENT_BINARY_DIR}/php-fpm.conf\"
+      \"${CMAKE_CURRENT_BINARY_DIR}/CMakeFiles/php-fpm.conf\"
       \"\${CMAKE_INSTALL_PREFIX}/${CMAKE_INSTALL_SYSCONFDIR}/php-fpm.conf.default\"
     )
 
     file(
       COPY_FILE
-      \"${CMAKE_CURRENT_BINARY_DIR}/www.conf\"
+      \"${CMAKE_CURRENT_BINARY_DIR}/CMakeFiles/www.conf\"
       \"\${CMAKE_INSTALL_PREFIX}/${CMAKE_INSTALL_SYSCONFDIR}/php-fpm.d/www.conf.default\"
     )
   endif()
 ")
+
+# FPM info status HTML page.
+configure_file(status.html.in status.html @ONLY)
 
 install(
   FILES
