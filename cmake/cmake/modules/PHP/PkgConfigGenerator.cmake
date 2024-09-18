@@ -257,26 +257,26 @@ function(pkgconfig_generate_pc)
     COMMENT "[PkgConfig] Generating pkg-config ${filename} file"
   )
 
+  cmake_path(GET output FILENAME output_file)
+
+  install(CODE "
+    block()
+      set(result_variables ${result_variables})
+      set(result_values \"${result_values}\")
+
+      foreach(var value IN ZIP_LISTS result_variables result_values)
+        set(\${var} \"\${value}\")
+      endforeach()
+
+      configure_file(
+        ${template}
+        ${CMAKE_CURRENT_BINARY_DIR}/CMakeFiles/${output_file}
+        @ONLY
+      )
+    endblock()
+  ")
+
   if(parsed_INSTALL_DESTINATION)
-    cmake_path(GET output FILENAME output_file)
-
-    install(CODE "
-      block()
-        set(result_variables ${result_variables})
-        set(result_values \"${result_values}\")
-
-        foreach(var value IN ZIP_LISTS result_variables result_values)
-          set(\${var} \"\${value}\")
-        endforeach()
-
-        configure_file(
-          ${template}
-          ${CMAKE_CURRENT_BINARY_DIR}/CMakeFiles/${output_file}
-          @ONLY
-        )
-      endblock()
-    ")
-
     install(
       FILES
         ${CMAKE_CURRENT_BINARY_DIR}/CMakeFiles/${output_file}

@@ -1,3 +1,23 @@
+include(PHP/ConfigureFile)
+
+# Man documentation.
+block()
+  set(program_prefix "${PHP_PROGRAM_PREFIX}")
+
+  message(STATUS "Creating scripts/man1/php-config.1")
+  configure_file(man1/php-config.1.in man1/php-config.1 @ONLY)
+
+  message(STATUS "Creating scripts/man1/phpize.1")
+  configure_file(man1/phpize.1.in man1/phpize.1 @ONLY)
+endblock()
+
+install(
+  FILES
+    ${PROJECT_BINARY_DIR}/scripts/man1/php-config.1
+    ${PROJECT_BINARY_DIR}/scripts/man1/phpize.1
+  DESTINATION ${CMAKE_INSTALL_MANDIR}/man1
+)
+
 block()
   find_program(
     SED_EXECUTABLE
@@ -14,36 +34,8 @@ block()
     set(SED /usr/bin/sed)
   endif()
 
-  set(program_prefix "${PHP_PROGRAM_PREFIX}")
-  set(program_suffix "${PHP_PROGRAM_SUFFIX}")
-  set(prefix "${CMAKE_INSTALL_PREFIX}")
-  set(exec_prefix "${CMAKE_INSTALL_PREFIX}")
-  set(includedir "${CMAKE_INSTALL_FULL_INCLUDEDIR}")
-  set(datarootdir "${CMAKE_INSTALL_FULL_DATAROOTDIR}")
-  # TODO: Add PHP_LDFLAGS.
-  set(PHP_LDFLAGS "")
-  # TODO: Add EXTRA_LIBS.
-  set(EXTRA_LIBS "")
-  set(EXTENSION_DIR "${PHP_EXTENSION_DIR}")
-  set(mandir "${CMAKE_INSTALL_FULL_MANDIR}")
-  set(EXEEXT "${CMAKE_EXECUTABLE_SUFFIX}")
-  # TODO: Add CONFIGURE_OPTIONS.
-  set(CONFIGURE_OPTIONS "")
-  # TODO: Add PHP_INSTALLED_SAPIS.
-  set(PHP_INSTALLED_SAPIS "")
-  set(EXPANDED_PHP_CONFIG_FILE_SCAN_DIR "${PHP_CONFIG_FILE_SCAN_DIR}")
-  set(EXPANDED_PHP_CONFIG_FILE_PATH "${PHP_CONFIG_FILE_PATH}")
-  set(bindir "${CMAKE_INSTALL_FULL_BINDIR}")
-
-  # Man documentation.
-  message(STATUS "Creating scripts/man1/php-config.1")
-  configure_file(man1/php-config.1.in man1/php-config.1 @ONLY)
-  message(STATUS "Creating scripts/man1/phpize.1")
-  configure_file(man1/phpize.1.in man1/phpize.1 @ONLY)
-
   # The php-config script.
   message(STATUS "Creating scripts/php-config")
-  include(PHP/ConfigureFile)
   php_configure_file(
     php-config.in
     php-config
@@ -76,7 +68,18 @@ block()
 
   # The phpize script.
   message(STATUS "Creating scripts/phpize")
-  configure_file(phpize.in phpize @ONLY)
+  php_configure_file(
+    phpize.in
+    phpize
+    INSTALL_DESTINATION ${CMAKE_INSTALL_BINDIR}
+    VARIABLES
+      prefix "$<INSTALL_PREFIX>"
+      datarootdir "$<INSTALL_PREFIX>/${CMAKE_INSTALL_DATAROOTDIR}"
+      exec_prefix "$<INSTALL_PREFIX>"
+      libdir "$<INSTALL_PREFIX>/${CMAKE_INSTALL_LIBDIR}"
+      includedir "$<INSTALL_PREFIX>/${CMAKE_INSTALL_INCLUDEDIR}"
+      SED "${SED}"
+  )
 endblock()
 
 # Configure pkgconf php.pc metadata file.
@@ -98,17 +101,4 @@ pkgconfig_generate_pc(
     PHP_CONFIG_FILE_PATH "${PHP_CONFIG_FILE_PATH}"
     PHP_DEBUG:BOOL "${PHP_DEBUG}"
     PHP_THREAD_SAFETY:BOOL "${PHP_THREAD_SAFETY}"
-)
-
-install(
-  FILES
-    ${PROJECT_BINARY_DIR}/scripts/man1/php-config.1
-    ${PROJECT_BINARY_DIR}/scripts/man1/phpize.1
-  DESTINATION ${CMAKE_INSTALL_MANDIR}/man1
-)
-
-install(
-  FILES
-    ${CMAKE_CURRENT_BINARY_DIR}/phpize
-  DESTINATION ${CMAKE_INSTALL_BINDIR}
 )
