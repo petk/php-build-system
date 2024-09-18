@@ -24,7 +24,7 @@ be done like this:
 ./buildconf
 
 # Configure PHP build:
-./configure --prefix=/install/path/prefix
+./configure --prefix=/usr
 
 # Build PHP in parallel:
 make -j$(nproc)
@@ -33,27 +33,32 @@ make -j$(nproc)
 make TEST_PHP_ARGS=-j$(nproc) test
 
 # Finally, copy built files to their system locations:
-make INSTALL_ROOT="/install/path/prefix" install
+make INSTALL_ROOT="/stage" install
 ```
 
-Above, either the optional `--prefix` configure option, or the `INSTALL_ROOT`
-environment variable can prefix the locations where the files will be copied. By
-default the `--prefix` is set to `/usr/local` and `INSTALL_ROOT` is empty.
+Above, the optional `--prefix` configure option, sets the location where the
+built files layout is put. The optional `INSTALL_ROOT` environment variable can
+set the parent location where the prefixed built files layout will be put. By
+default the `--prefix` is set to `/usr/local` and `INSTALL_ROOT` is empty. The
+`INSTALL_ROOT` is usually used to set the stage directory on some systems to
+perform additional tasks on the built files before being packaged or
+distributed.
 
-The `INSTALL_ROOT` variable name is customized for PHP and software from the
-early Autotools days. Automake uses a more common variable name
-[`DESTDIR`](https://www.gnu.org/software/automake/manual/html_node/DESTDIR.html),
-however, for historical reasons and since PHP doesn't use Automake, the
-`INSTALL_ROOT` variable name is used in PHP instead.
+> [!NOTE]
+> The `INSTALL_ROOT` variable name is used in PHP and software from the early
+> Autotools days. Automake and other build systems use a more common variable
+> name [`DESTDIR`](https://www.gnu.org/software/automake/manual/html_node/DESTDIR.html),
+> however, for historical reasons and since PHP doesn't use Automake, the
+> `INSTALL_ROOT` variable name is still used in PHP instead.
 
 The files are then copied to a predefined directory structure (GNU or PHP
 layout). The optional PHP Autotools configuration option
 `--with-layout=[GNU|PHP]` defines the installation directory structure. By
-default it is set to PHP style directory structure:
+default it is set to a PHP style directory structure:
 
 ```sh
-/install/path/prefix/
- └─ usr/
+/INSTALL_ROOT
+ └─ /usr/
     └─ local/
        ├─ bin/                      # Executable binary directory
        └─ etc/                      # System configuration directory
@@ -86,8 +91,8 @@ default it is set to PHP style directory structure:
 This is how the GNU layout directory structure looks like (`--with-layout=GNU`):
 
 ```sh
-/install/path/prefix/
- └─ usr/
+/INSTALL_ROOT
+ └─ /usr/
     └─ local/
        ├─ bin/
        └─ etc/
@@ -122,7 +127,7 @@ Directory locations can be adjusted with several Autoconf default options:
 
 * `--bindir=DIR` - to set the user executables location
 * `--sbindir=DIR` - to set the root executables location
-* `--includedir=DIR` - to set the C header files location
+* `--includedir=DIR` - to set the project C header files location
 * `--libdir=DIR` - set the library location
 * `--mandir=DIR` - set the man documentation location
 * `--localstatedir=DIR` - set the var location
@@ -145,7 +150,7 @@ information:
   ```
 
 Common practice is to also add program prefix and suffix (for example, to have
-`php83` and similar):
+`php84` and similar):
 
 * `--program-prefix=PREFIX` - prepends built binaries with given prefix.
 * `--program-suffix=SUFFIX` - appends suffix to binaries.
@@ -160,7 +165,7 @@ Common practice is to also add program prefix and suffix (for example, to have
   EXTENSION_DIR=/path/to/php/extensions \
   --with-layout=GNU \
   --localstatedir=/var \
-  --program-suffix=83 \
+  --program-suffix=84 \
   # ...
 ```
 
@@ -172,7 +177,7 @@ In this repository, installing PHP with CMake can be done in a similar way:
 
 ```sh
 # Configuration and generation of build system files:
-cmake -DCMAKE_INSTALL_PREFIX="/install/path/prefix" .
+cmake -DCMAKE_INSTALL_PREFIX="/usr" .
 
 # Build PHP in parallel:
 cmake --build . -j
@@ -181,13 +186,19 @@ cmake --build . -j
 ctest --progress -V
 
 # Finally, copy built files to their system locations:
-cmake --install
+cmake --install .
+
+# Or
+cmake --install-prefix /usr .
+cmake --build . -j
+ctest --progress -V
+cmake --install .
 
 # Or
 cmake .
 cmake --build . -j
 ctest --progress -V
-cmake --install . --prefix "/install/path/prefix"
+cmake --install . --prefix /usr
 ```
 
 To adjust the installation locations, the
@@ -196,18 +207,23 @@ module is used to set additional `CMAKE_INSTALL_*` variables.
 
 * `CMAKE_INSTALL_BINDIR` - name of the bin directory.
 * `CMAKE_INSTALL_SBINDIR` - name of the sbin directory.
-* `CMAKE_INSTALL_SYSCONFDIR` - name of the etc directory.
+* `CMAKE_INSTALL_INCLUDEDIR` - name of the directory where project headers are
+  put.
+  `CMAKE_INSTALL_LIBDIR` - name of the directory containing libraries
 * `CMAKE_INSTALL_LOCALSTATEDIR` - name of the var directory.
+* `CMAKE_INSTALL_MANDIR` - name of the man documentation directory.
+* `CMAKE_INSTALL_RUNSTATEDIR` - name of the run-time data directory (var/run).
+* `CMAKE_INSTALL_SYSCONFDIR` - name of the etc directory.
 * ...
 
 These variables are by default relative paths. When customized, they can be
 either relative or absolute. When changed to absolute values the installation
 prefix will not be taken into account.
 
-Instead of setting the `CMAKE_INSTALL_PREFIX` variable at the configuration
-phase, or using the `--prefix` installation option, there is also `installDir`
-option which can be set in the `CMakePresets.json` or `CMakeUserPresets.json`
-file.
+Instead of setting the installation prefix at the configuration phase using
+`CMAKE_INSTALL_PREFIX` variable or `--install-prefix` option, there is
+also `installDir` field which can be set in the `CMakePresets.json` or
+`CMakeUserPresets.json` file.
 
 Example `CMakeUserPresets.json` file, which can be added to the PHP source code
 root directory:
@@ -221,7 +237,7 @@ root directory:
       "inherits": "all-enabled",
       "displayName": "Acme PHP configuration",
       "description": "Customized PHP build",
-      "installDir": "/install/path/prefix",
+      "installDir": "/install/prefix",
       "cacheVariables": {
         "CMAKE_INSTALL_BINDIR": "home/user/.local/bin",
         "PHP_BUILD_SYSTEM": "Acme Linux",
@@ -229,7 +245,7 @@ root directory:
         "PHP_BUILD_COMPILER": "GCC",
         "PHP_BUILD_ARCH": "x86",
         "PHP_VERSION_LABEL": "-acme",
-        "PHP_EXTENSION_DIR": "/install/path/prefix/lib/php83/extensions"
+        "PHP_EXTENSION_DIR": "/install/prefix/lib/php83/extensions"
       }
     }
   ],
