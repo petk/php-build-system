@@ -15,7 +15,7 @@ Cache variables:
     Whether _controlfp_s is present and usable.
   HAVE_FPU_INLINE_ASM_X86
     Whether FPU control word can be manipulated by inline assembler.
-]=============================================================================]#
+#]=============================================================================]
 
 include_guard(GLOBAL)
 

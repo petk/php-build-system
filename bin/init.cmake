@@ -121,15 +121,15 @@ foreach(patch ${patches})
   execute_process(
     COMMAND ${GIT_EXECUTABLE} apply --ignore-whitespace "${patch}"
     WORKING_DIRECTORY ${PHP_SRC_DIR}
-    RESULT_VARIABLE patch_result
+    RESULT_VARIABLE patchResult
   )
 
-  cmake_path(GET patch FILENAME patch_filename)
+  cmake_path(GET patch FILENAME patchFilename)
 
-  if(patch_result EQUAL 0)
-    message(STATUS "Patch ${patch_filename} applied successfully.")
+  if(patchResult EQUAL 0)
+    message(STATUS "Patch ${patchFilename} applied successfully.")
   else()
-    message(WARNING "Failed to apply patch ${patch_filename}.")
+    message(WARNING "Failed to apply patch ${patchFilename}.")
   endif()
 endforeach()
 

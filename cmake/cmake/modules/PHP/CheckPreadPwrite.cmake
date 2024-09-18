@@ -18,7 +18,7 @@ Cache variables:
     Whether pwrite() is available.
   PHP_PWRITE_64
     Whether pwrite64 is default.
-]=============================================================================]#
+#]=============================================================================]
 
 include_guard(GLOBAL)
 

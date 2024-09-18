@@ -8,7 +8,7 @@ Cache variables:
   STRERROR_R_CHAR_P
     Whether strerror_r returns a char * message, otherwise it returns an int
     error number.
-]=============================================================================]#
+#]=============================================================================]
 
 include_guard(GLOBAL)
 

@@ -1,7 +1,7 @@
 #[=============================================================================[
-Generate pkgconfig .pc file.
+Generate pkg-config .pc file.
 
-CMake at the time of writing doesn't provide a solution to generate pkgconfig
+CMake at the time of writing doesn't provide a solution to generate pkg-config
 pc files with getting clean linked libraries retrieved from the targets:
 https://gitlab.kitware.com/cmake/cmake/-/issues/22621
 
@@ -30,7 +30,7 @@ pkgconfig_generate_pc(
     to. Usually it is '${CMAKE_INSTALL_LIBDIR}/pkgconfig'. If not provided, .pc
     file will not be installed.
   VARIABLES
-    Pairs of variable names and values. To pass booleans, add ':BOOL' to the
+    Pairs of variable names and values. To pass booleans, append ':BOOL' to the
     variable name. For example:
       pkgconfig_generate_pc(
         ...
@@ -41,7 +41,7 @@ pkgconfig_generate_pc(
     The $<INSTALL_PREFIX> generator expression can be used in variable values,
     which is replaced with installation prefix either set via the
     CMAKE_INSTALL_PREFIX variable at the configuration phase, or the
-    'cmake --install --prefix' option at the installation phase.
+    '--prefix' option at the 'cmake --install' phase.
 
   SKIP_BOOL_NORMALIZATION
     CMake booleans have values yes, no, true, false, on, off, 1, 0, they can
@@ -49,7 +49,7 @@ pkgconfig_generate_pc(
     above) are normalized to values "yes" or "no". If this option is given,
     boolean values are replaced in .pc template with the CMake format instead
     (they will be replaced to 'ON' or 'OFF' and similar).
-]=============================================================================]#
+#]=============================================================================]
 
 include_guard(GLOBAL)
 
@@ -253,18 +253,20 @@ function(pkgconfig_generate_pc)
     cmake_path(GET output FILENAME output_file)
 
     install(CODE "
-      set(result_variables ${result_variables})
-      set(result_values \"${result_values}\")
+      block()
+        set(result_variables ${result_variables})
+        set(result_values \"${result_values}\")
 
-      foreach(var value IN ZIP_LISTS result_variables result_values)
-        set(\${var} \"\${value}\")
-      endforeach()
+        foreach(var value IN ZIP_LISTS result_variables result_values)
+          set(\${var} \"\${value}\")
+        endforeach()
 
-      configure_file(
-        ${template}
-        ${CMAKE_CURRENT_BINARY_DIR}/CMakeFiles/${output_file}
-        @ONLY
-      )
+        configure_file(
+          ${template}
+          ${CMAKE_CURRENT_BINARY_DIR}/CMakeFiles/${output_file}
+          @ONLY
+        )
+      endblock()
     ")
 
     install(

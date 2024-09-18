@@ -21,7 +21,7 @@ Supported function attributes:
 Supported variable attributes:
 
   aligned
-]=============================================================================]#
+#]=============================================================================]
 
 include_guard(GLOBAL)
 

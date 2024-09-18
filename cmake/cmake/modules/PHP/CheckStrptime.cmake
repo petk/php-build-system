@@ -12,7 +12,7 @@ Result variables:
 
   HAVE_STRPTIME_DECL_FAILS
     Whether strptime() declaration fails.
-]=============================================================================]#
+#]=============================================================================]
 
 include_guard(GLOBAL)
 

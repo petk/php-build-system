@@ -12,7 +12,7 @@ Cache variables:
 
   INLINE_KEYWORD_DEFINITION
     Header definition line that sets the compiler's inline keyword.
-]=============================================================================]#
+#]=============================================================================]
 
 include_guard(GLOBAL)
 

@@ -4,7 +4,7 @@ Check whether compiler supports one of the built-in functions __builtin_*().
 Module exposes the following function:
 
   php_check_builtin(<symbol_name> <result_var>)
-]=============================================================================]#
+#]=============================================================================]
 
 include_guard(GLOBAL)
 

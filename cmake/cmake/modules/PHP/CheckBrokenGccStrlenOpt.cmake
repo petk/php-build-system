@@ -8,7 +8,7 @@ Cache variables:
 
   PHP_HAVE_BROKEN_OPTIMIZE_STRLEN
     Whether GCC has broken strlen() optimization.
-]=============================================================================]#
+#]=============================================================================]
 
 include_guard(GLOBAL)
 

@@ -9,7 +9,7 @@ Cache variables:
 
   DLSYM_NEEDS_UNDERSCORE
     Whether dlsym() requires a leading underscore in symbol names.
-]=============================================================================]#
+#]=============================================================================]
 
 include_guard(GLOBAL)
 

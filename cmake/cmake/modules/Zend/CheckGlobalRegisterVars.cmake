@@ -5,7 +5,7 @@ Cache variables:
 
   HAVE_GCC_GLOBAL_REGS
     Whether the target system has support for global register variables.
-]=============================================================================]#
+#]=============================================================================]
 
 include_guard(GLOBAL)
 

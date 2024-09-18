@@ -9,7 +9,7 @@ Cache variables:
 
   GWINSZ_IN_SYS_IOCTL
     Whether sys/ioctl.h defines TIOCGWINSZ.
-]=============================================================================]#
+#]=============================================================================]
 
 include_guard(GLOBAL)
 

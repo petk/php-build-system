@@ -14,7 +14,7 @@ Cache variables:
     Whether fopencookie() and cookie_io_functions_t are available.
   COOKIE_SEEKER_USES_OFF64_T
     Whether fopencookie seeker uses the off64_t type.
-]=============================================================================]#
+#]=============================================================================]
 
 include_guard(GLOBAL)
 

@@ -11,7 +11,7 @@ Cache variables:
     Whether compiler supports AVX-512.
   PHP_HAVE_AVX512_VBMI_SUPPORTS
     Whether compiler supports AVX-512 VBMI.
-]=============================================================================]#
+#]=============================================================================]
 
 include_guard(GLOBAL)
 

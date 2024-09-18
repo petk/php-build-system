@@ -28,7 +28,7 @@ Cache variables:
     Whether strtok_r() is available.
   MISSING_STRTOK_R_DECL
     Whether strtok_r is not declared.
-]=============================================================================]#
+#]=============================================================================]
 
 include_guard(GLOBAL)
 

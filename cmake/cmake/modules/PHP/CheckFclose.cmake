@@ -6,7 +6,7 @@ Result variables:
 
   MISSING_FCLOSE_DECL
     Whether fclose declaration is missing.
-]=============================================================================]#
+#]=============================================================================]
 
 include_guard(GLOBAL)
 

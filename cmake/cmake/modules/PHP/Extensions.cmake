@@ -34,7 +34,7 @@ TODO: Improve this or simplify the sorting complexities in its entierity. PHP
 dependencies are handled very basically ATM.
 
 Exposed macro: php_extensions_add(subdirectory)
-]=============================================================================]#
+#]=============================================================================]
 
 include_guard(GLOBAL)
 

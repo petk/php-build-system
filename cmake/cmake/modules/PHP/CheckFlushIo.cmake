@@ -5,7 +5,7 @@ Cache variables:
 
   HAVE_FLUSHIO
     Whether flush should be called explicitly after a buffered io.
-]=============================================================================]#
+#]=============================================================================]
 
 include_guard(GLOBAL)
 

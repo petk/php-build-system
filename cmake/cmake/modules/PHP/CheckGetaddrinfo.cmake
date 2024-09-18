@@ -10,7 +10,7 @@ IMPORTED target:
 
   PHP::CheckGetaddrinfoLibrary
     If there is additional library to be linked for using getaddrinfo().
-]=============================================================================]#
+#]=============================================================================]
 
 include_guard(GLOBAL)
 

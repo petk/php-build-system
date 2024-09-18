@@ -10,7 +10,7 @@ Cache variables:
   HAVE_LQ_SO_LISTENQ
     Whether SO_LISTENQLEN and SO_LISTENQLIMIT are available as alternative to
     TCP_INFO and TCP_CONNECTION_INFO.
-]=============================================================================]#
+#]=============================================================================]
 
 include_guard(GLOBAL)
 
