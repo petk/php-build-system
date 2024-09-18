@@ -34,8 +34,13 @@ block()
   set(EXPANDED_PHP_CONFIG_FILE_SCAN_DIR "${PHP_CONFIG_FILE_SCAN_DIR}")
   set(EXPANDED_PHP_CONFIG_FILE_PATH "${PHP_CONFIG_FILE_PATH}")
   set(bindir "${CMAKE_INSTALL_FULL_BINDIR}")
-  set(SAPI_LIBNAME_SHARED "libphp.so")
-  set(SAPI_LIBNAME_STATIC "libphp.a")
+
+  # Man documentation.
+  message(STATUS "Creating scripts/man1/php-config.1")
+  configure_file(man1/php-config.1.in man1/php-config.1 @ONLY)
+  message(STATUS "Creating scripts/man1/phpize.1")
+  configure_file(man1/phpize.1.in man1/phpize.1 @ONLY)
+
   if(TARGET PHP::embed)
     get_target_property(embed_type PHP::embed TYPE)
     if(embed_type MATCHES "^(MODULE|SHARED)_LIBRARY$")
@@ -44,13 +49,6 @@ block()
       set(PHP_EMBED_TYPE "static")
     endif()
   endif()
-  set(orig_libdir "${CMAKE_INSTALL_FULL_LIBDIR}")
-
-  # Man documentation.
-  message(STATUS "Creating scripts/man1/php-config.1")
-  configure_file(man1/php-config.1.in man1/php-config.1 @ONLY)
-  message(STATUS "Creating scripts/man1/phpize.1")
-  configure_file(man1/phpize.1.in man1/phpize.1 @ONLY)
 
   # The php-config script.
   message(STATUS "Creating scripts/php-config")
@@ -83,6 +81,10 @@ block()
       EXPANDED_PHP_CONFIG_FILE_SCAN_DIR "${PHP_CONFIG_FILE_SCAN_DIR}"
       EXPANDED_PHP_CONFIG_FILE_PATH "${PHP_CONFIG_FILE_PATH}"
       bindir "$<INSTALL_PREFIX>/${CMAKE_INSTALL_BINDIR}"
+      orig_libdir "${CMAKE_INSTALL_FULL_LIBDIR}"
+      SAPI_LIBNAME_SHARED "libphp.so"
+      SAPI_LIBNAME_STATIC "libphp.a"
+      PHP_EMBED_TYPE "${PHP_EMBED_TYPE}"
   )
 
   # The phpize script.
