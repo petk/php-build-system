@@ -1022,7 +1022,7 @@
 /* Define to 1 if the pdo_mysql extension uses mysqlnd. */
 #cmakedefine PDO_USE_MYSQLND 1
 
-#define PHP_CONFIG_FILE_SCAN_DIR "@PHP_CONFIG_FILE_SCAN_DIR@"
+#define PHP_CONFIG_FILE_SCAN_DIR "@PHP_FULL_CONFIG_FILE_SCAN_DIR@"
 
 /* Define to 1 if PHP uses its own crypt_r, and to 0 if using the external
    crypt library. */
