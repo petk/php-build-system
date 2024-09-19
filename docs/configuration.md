@@ -3453,9 +3453,9 @@ A list of Autoconf `configure` command-line configuration options, Windows
 When running `make VAR=VALUE` commands, the following environment variables can
 be used:
 
-| make with Autotools   | CMake                         | Default value/notes           |
-| --------------------- | ----------------------------- | ----------------------------- |
-| `EXTRA_CFLAGS="..."`  |                               | Append additional CFLAGS      |
-| `EXTRA_LDFLAGS="..."` |                               | Append additional LDFLAGS     |
-| `INSTALL_ROOT="..."`  | `CMAKE_INSTALL_PREFIX="..."`  | Override the installation dir |
-|                       | or `cmake --install --prefix` |                               |
+| make with Autotools   | CMake                            | Default value/notes           |
+| --------------------- | -------------------------------- | ----------------------------- |
+| `EXTRA_CFLAGS="..."`  |                                  | Append additional CFLAGS      |
+| `EXTRA_LDFLAGS="..."` |                                  | Append additional LDFLAGS     |
+| `INSTALL_ROOT=...`    | `DESTDIR=...`                    | Override the installation dir |
+|                       | or `DESTDIR=... cmake --install` |                               |

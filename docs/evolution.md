@@ -126,7 +126,19 @@ heavily cleaned up and adjusted for Autoconf versions available at the time,
 including the removal of `aclocal.m4` in favor of the php related M4 macros in
 `php.m4`.
 
+## PHP 8.0 (2020)
+
+PHP coding standard now use the C99 standard.
+
 ## 2021
 
 Idea to move CMake forward and additionally use Conan was started on the
 [PHP internals mailing list](https://externals.io/message/116655).
+
+## PHP 8.4 (2024)
+
+Autotools-based build system was cleaned-up, updated, and refactored using the
+current Autoconf syntax for the current systems at the time. Cross-compiling was
+improved one step forward with cache variables synced enabling the manual
+overrides on many places. C preprocessor macros inconsistencies between Windows
+and Autotools configuration headers were synced to a nearly identical behavior.

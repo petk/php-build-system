@@ -537,6 +537,15 @@ Files related to `bison` and `re2c`:
     └─ pdo/
        ├─ pdo_sql_parser.c          # Generated with re2c
        └─ pdo_sql_parser.re         # Source for re2c
+    └─ pdo_mysql/
+       ├─ mysql_sql_parser.c        # Generated with re2c
+       └─ mysql_sql_parser.re       # Source for re2c
+    └─ pdo_pgsql/
+       ├─ pgsql_sql_parser.c        # Generated with re2c
+       └─ pgsql_sql_parser.re       # Source for re2c
+    └─ pdo_sqlite/
+       ├─ sqlite_sql_parser.c       # Generated with re2c
+       └─ sqlite_sql_parser.re      # Source for re2c
     └─ phar/
        ├─ phar_path_check.c         # Generated with re2c
        └─ phar_path_check.re        # Source for re2c

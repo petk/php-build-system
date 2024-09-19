@@ -28,7 +28,7 @@ foreach ($files as $file) {
     echo "Processing " . $relativeFilename . "\n";
 
     $content = file_get_contents($file);
-    preg_match('/#\[===+\[\s*(.*?)\s*#\]===+\]/s', $content, $matches);
+    preg_match('/^#\[===+\[\s*(.*?)\s*#\]===+\]/s', $content, $matches);
 
     if (isset($matches[1])) {
         $moduleName = basename($file, '.cmake');

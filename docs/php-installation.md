@@ -33,7 +33,7 @@ make -j$(nproc)
 make TEST_PHP_ARGS=-j$(nproc) test
 
 # Finally, copy built files to their system locations:
-make INSTALL_ROOT="/stage" install
+make INSTALL_ROOT=/stage install
 ```
 
 The optional `--prefix` configure option sets the location where the built files
@@ -45,7 +45,7 @@ packaged or distributed.
 
 > [!NOTE]
 > The `INSTALL_ROOT` variable name is used in PHP from the early Autotools days.
-> GNU standards and other build systems use a more common name
+> GNU standards, CMake, and other build systems use a more common name
 > [`DESTDIR`](https://www.gnu.org/prep/standards/html_node/DESTDIR.html).
 
 The files are then copied to a predefined directory structure. PHP Autotools has
@@ -183,20 +183,25 @@ cmake --build . -j
 ctest --progress -V
 
 # Finally, copy built files to their system locations:
-cmake --install .
+DESTDIR=/stage cmake --install .
 
 # Or
 cmake --install-prefix /usr .
 cmake --build . -j
 ctest --progress -V
-cmake --install .
+DESTDIR=/stage cmake --install .
 
 # Or
 cmake .
 cmake --build . -j
 ctest --progress -V
-cmake --install . --prefix /usr
+DESTDIR=/stage cmake --install . --prefix /usr
 ```
+
+> [!NOTE]
+> The CMake [`DESTDIR`](https://cmake.org/cmake/help/latest/envvar/DESTDIR.html)
+> environment variable behaves like the `INSTALL_ROOT` in PHP native
+> Autotools-based build system.
 
 To adjust the installation locations, the
 [GNUInstallDirs](https://cmake.org/cmake/help/latest/module/GNUInstallDirs.html)
