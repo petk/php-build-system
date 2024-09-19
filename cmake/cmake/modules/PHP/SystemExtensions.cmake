@@ -2,58 +2,68 @@
 Enable extensions to C or POSIX on systems that by default disable them to
 conform to standards or namespace issues.
 
-Logic follows the Autoconf's AC_USE_SYSTEM_EXTENSIONS macro:
+Logic follows the Autoconf's `AC_USE_SYSTEM_EXTENSIONS` macro:
 https://www.gnu.org/software/autoconf/manual/autoconf-2.72/html_node/C-and-Posix-Variants.html
 with some simplifications for the obsolete systems.
 
 Obsolete preprocessor macros that are not defined by this module:
 
-  _MINIX
-  _POSIX_SOURCE
-  _POSIX_1_SOURCE
+* `_MINIX`
+* `_POSIX_SOURCE`
+* `_POSIX_1_SOURCE`
 
 Conditionally defined preprocessor macros:
 
-  __EXTENSIONS__
-    Defined on Solaris and illumos-based systems.
+* `__EXTENSIONS__`
+  Defined on Solaris and illumos-based systems.
 
-  _XOPEN_SOURCE=500
-    Defined on HP-UX.
+* `_XOPEN_SOURCE=500`
+  Defined on HP-UX.
 
 Result variables:
 
-  PHP_SYSTEM_EXTENSIONS
-    String for containing all system extensions definitions for usage in the
-    configuration header template.
+* `PHP_SYSTEM_EXTENSIONS`
+  String for containing all system extensions definitions for usage in the
+  configuration header template.
 
 IMPORTED target:
 
-  PHP::SystemExtensions
-    Interface library target with all required compile definitions (-D).
+* `PHP::SystemExtensions`
+  Interface library target with all required compile definitions (`-D`).
 
-Usage:
+## Usage:
 
-- Include the module:
-  include(PHP/SystemExtensions)
+Include the module:
 
-- Add @PHP_SYSTEM_EXTENSIONS@ placeholder to configuration header template:
+```cmake
+include(PHP/SystemExtensions)
+```
 
-  # php_config.h
-  @PHP_SYSTEM_EXTENSIONS@
+Add `@PHP_SYSTEM_EXTENSIONS@` placeholder to configuration header template:
 
-- Link targets that require system extensions:
-    target_link_libraries(<target> ... PHP::SystemExtensions)
+```c
+# php_config.h
+@PHP_SYSTEM_EXTENSIONS@
+```
 
-- When some check requires, for example, _GNU_SOURCE or some other extensions,
-  link the PHP::SystemExtensions target:
+Link targets that require system extensions:
 
-  cmake_push_check_state(RESET)
-    set(CMAKE_REQUIRED_LIBRARIES PHP::SystemExtensions)
-    check_symbol_exists(<symbol> <headers> HAVE_<symbol>)
-  cmake_pop_check_state()
+```cmake
+target_link_libraries(<target> ... PHP::SystemExtensions)
+```
 
-Compile definitions are not appended to CMAKE_C_FLAGS for cleaner build system:
-  string(APPEND CMAKE_C_FLAGS " -D<extension>=1 ")
+When some check requires, for example, `_GNU_SOURCE` or some other extensions,
+link the `PHP::SystemExtensions` target:
+
+```cmake
+cmake_push_check_state(RESET)
+  set(CMAKE_REQUIRED_LIBRARIES PHP::SystemExtensions)
+  check_symbol_exists(<symbol> <headers> HAVE_<symbol>)
+cmake_pop_check_state()
+```
+
+Compile definitions are not appended to `CMAKE_C_FLAGS` for cleaner build
+system: `string(APPEND CMAKE_C_FLAGS " -D<extension>=1 ")`.
 #]=============================================================================]
 
 include_guard(GLOBAL)

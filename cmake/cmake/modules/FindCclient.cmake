@@ -280,7 +280,8 @@ if(Cclient_INCLUDE_DIR AND Cclient_LIBRARY)
     check_source_compiles(C "
       #include <c-client.h>
       ${_CCLIENT_DEFINITIONS}
-      int main(void) {
+      int main(void)
+      {
         SIZEDTEXT *src, *dst;
         long flags;
         utf8_mime2text(src, dst, flags);

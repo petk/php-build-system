@@ -3,8 +3,8 @@ Check for global register variables support.
 
 Cache variables:
 
-  HAVE_GCC_GLOBAL_REGS
-    Whether the target system has support for global register variables.
+* `HAVE_GCC_GLOBAL_REGS`
+  Whether the target system has support for global register variables.
 #]=============================================================================]
 
 include_guard(GLOBAL)
@@ -49,7 +49,8 @@ cmake_push_check_state(RESET)
     register void *FP  __asm__(ZEND_VM_FP_GLOBAL_REG);
     register const opcode_handler_t *IP __asm__(ZEND_VM_IP_GLOBAL_REG);
 
-    int emu(const opcode_handler_t *ip, void *fp) {
+    int emu(const opcode_handler_t *ip, void *fp)
+    {
       const opcode_handler_t *orig_ip = IP;
       void *orig_fp = FP;
       IP = ip;
@@ -59,7 +60,8 @@ cmake_push_check_state(RESET)
       IP = orig_ip;
     }
 
-    int main(void) {
+    int main(void)
+    {
       return 0;
     }
   ]] HAVE_GCC_GLOBAL_REGS)

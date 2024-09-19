@@ -245,7 +245,8 @@ message(CHECK_START "Checking for asm goto support")
 cmake_push_check_state(RESET)
   set(CMAKE_REQUIRED_QUIET TRUE)
   check_source_compiles(C [[
-    int main(void) {
+    int main(void)
+    {
       #if defined(__x86_64__) || defined(__i386__)
         __asm__ goto("jmp %l0\n" :::: end);
       #elif defined(__aarch64__)
@@ -506,7 +507,8 @@ message(CHECK_START "Checking whether the compiler supports __alignof__")
 cmake_push_check_state(RESET)
   set(CMAKE_REQUIRED_QUIET TRUE)
   check_source_compiles(C [[
-    int main(void) {
+    int main(void)
+    {
       int align = __alignof__(int);
       (void)align;
       return 0;

@@ -3,24 +3,27 @@ Check if GNU C function or variable attribute is supported by the compiler.
 
 Module exposes the following functions:
 
-  php_check_function_attribute(<attribute> <result>)
-  php_check_variable_attribute(<attribute> <result>)
+```cmake
+php_check_function_attribute(<attribute> <result>)
+php_check_variable_attribute(<attribute> <result>)
+```
 
-    <attribute>
-      Name of the attribute to check.
-    <result>
-      Cache variable name to store the result of whether the compiler supports
-      the attribute <attribute>.
+* `<attribute>`
+  Name of the attribute to check.
+
+* `<result>`
+  Cache variable name to store the result of whether the compiler supports the
+  attribute `<attribute>`.
 
 Supported function attributes:
 
-  ifunc
-  target
-  visibility
+* ifunc
+* target
+* visibility
 
 Supported variable attributes:
 
-  aligned
+* aligned
 #]=============================================================================]
 
 include_guard(GLOBAL)

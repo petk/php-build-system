@@ -1,11 +1,11 @@
 #[=============================================================================[
-Check if fclose declaration is missing. Some systems have broken header files
+Check if `fclose` declaration is missing. Some systems have broken header files
 like SunOS has. This check is obsolete on current Solaris/illumos versions.
 
 Result variables:
 
-  MISSING_FCLOSE_DECL
-    Whether fclose declaration is missing.
+* MISSING_FCLOSE_DECL
+  Whether `fclose` declaration is missing.
 #]=============================================================================]
 
 include_guard(GLOBAL)

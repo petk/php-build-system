@@ -64,7 +64,8 @@ if(TARGET LDAP::LDAP)
     check_source_compiles(C [[
       #include <ldap.h>
 
-      int main(void) {
+      int main(void)
+      {
         ldap_set_rebind_proc(0,0,0);
         return 0;
       }

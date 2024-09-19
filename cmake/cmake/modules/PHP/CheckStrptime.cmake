@@ -1,17 +1,17 @@
 #[=============================================================================[
-Check strptime() and its declaration.
+Check `strptime()` and its declaration.
 
-Note: This module is obsolete. PHP strptime() is deprecated as of PHP 8.1.0.
+Note: This module is obsolete. PHP `strptime()` is deprecated as of PHP 8.1.0.
 
 Cache variables:
 
-  HAVE_STRPTIME
-    Whether strptime() is available.
+* `HAVE_STRPTIME`
+  Whether `strptime()` is available.
 
 Result variables:
 
-  HAVE_STRPTIME_DECL_FAILS
-    Whether strptime() declaration fails.
+* `HAVE_STRPTIME_DECL_FAILS`
+  Whether `strptime()` declaration fails.
 #]=============================================================================]
 
 include_guard(GLOBAL)
@@ -53,13 +53,14 @@ cmake_push_check_state(RESET)
   set(CMAKE_REQUIRED_QUIET TRUE)
 
   # Use invalid declaration to see if it fails to compile.
-  check_source_compiles(C "
+  check_source_compiles(C [[
     #include <time.h>
-    int main(void) {
+    int main(void)
+    {
       int strptime(const char *s, const char *format, struct tm *tm);
       return 0;
     }
-  " HAVE_STRPTIME_DECL)
+  ]] HAVE_STRPTIME_DECL)
 cmake_pop_check_state()
 
 if(NOT HAVE_STRPTIME_DECL)

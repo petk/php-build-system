@@ -137,14 +137,15 @@ if(EXT_MBSTRING_MBREGEX)
       set(CMAKE_REQUIRED_DEFINITIONS -D_GNU_SOURCE)
       set(CMAKE_REQUIRED_LIBRARIES Oniguruma::Oniguruma)
 
-      check_source_compiles(C "
+      check_source_compiles(C [[
         #include <stdint.h>
         #include <oniguruma.h>
 
-        int main(void) {
+        int main(void)
+        {
           return (intptr_t)(ONIG_ENCODING_KOI8 + 1);
         }
-      " PHP_ONIG_KOI8)
+      ]] PHP_ONIG_KOI8)
     cmake_pop_check_state()
     if(PHP_ONIG_KOI8)
       message(CHECK_PASS "no")
