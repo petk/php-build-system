@@ -15,9 +15,6 @@ works and how it can be used.
 * [6. CMake minimum version for PHP](#6-cmake-minimum-version-for-php)
 * [7. Interface library](#7-interface-library)
 * [8. PHP CMake modules](#8-php-cmake-modules)
-  * [8.1. SearchLibraries](#81-searchlibraries)
-  * [8.2. CheckBuiltin](#82-checkbuiltin)
-  * [8.3 CheckCompilerFlag](#83-checkcompilerflag)
 * [9. PHP extensions](#9-php-extensions)
   * [9.1. Properties](#91-properties)
 * [10. PHP SAPI (Server API) modules](#10-php-sapi-server-api-modules)
@@ -320,62 +317,9 @@ Otherwise, a new module can be added by creating a new CMake file
 include(PHP/NewModule)
 ```
 
-### 8.1. SearchLibraries
-
-The `SearchLibraries` module exposes a `php_search_libraries` function:
-
-```cmake
-include(PHP/SearchLibraries)
-
-php_search_libraries(
-  function_name
-  HAVE_FUNCTION_NAME
-
-  # A list of headers where to look for the funtion_name().
-  HEADERS
-    header.h
-    header_2.h
-    ...
-
-  # A list of additional libraries to check the existence of the funtion_name().
-  LIBRARIES
-    lib_1
-    lib_2
-    ...
-
-  # If default linked libraries (C library) don't contain function_name(), the
-  # additional needed library can be also linked to the given <target> with the
-  # scopes of PRIVATE|PUBLIC|INTERFACE.
-  TARGET <target> PRIVATE
-
-  # If default linked libraries (C library) don't contain function_name(), the
-  # additional needed library is stored in the <variable-name>.
-  LIBRARY_VARIABLE <variable-name>
-)
-```
-
-### 8.2. CheckBuiltin
-
-The `CheckBuiltin` module exposes `php_check_builtin` function to check various
-sorts of builtins:
-
-```cmake
-include(PHP/CheckBuiltin)
-
-php_check_builtin(__builtin_clz PHP_HAVE_BUILTIN_CLZ)
-```
-
-### 8.3 CheckCompilerFlag
-
-The `CheckCompilerFlag` module is built on top of CMake's corresponding module
-and exposes the `php_check_compiler_flag` function to check for compiler flag.
-It bypasses some edge cases where upstream module can give false positives.
-
-```cmake
-include(PHP/CheckCompilerFlag)
-
-php_check_compiler_flag(C -Wno-clobbered PHP_HAVE_WNO_CLOBBERED)
-```
+* [PHP/CheckBuiltin](/docs/cmake-modules/PHP/CheckBuiltin.md)
+* [PHP/CheckCompilerFlag](/docs/cmake-modules/PHP/CheckCompilerFlag.md)
+* [PHP/SearchLibraries](/docs/cmake-modules/PHP/SearchLibraries.md)
 
 ## 9. PHP extensions
 
