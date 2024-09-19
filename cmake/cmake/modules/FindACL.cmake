@@ -68,7 +68,8 @@ function(_acl_check result)
       check_source_compiles(C [[
         #include <sys/acl.h>
 
-        int main(void) {
+        int main(void)
+        {
           acl_t acl;
           acl_entry_t user, group;
           acl = acl_init(1);

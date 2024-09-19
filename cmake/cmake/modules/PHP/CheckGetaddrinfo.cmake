@@ -1,15 +1,15 @@
 #[=============================================================================[
-Check for working getaddrinfo().
+Check for working `getaddrinfo()`.
 
 Cache variables:
 
-  HAVE_GETADDRINFO
-    Whether getaddrinfo() function is working as expected.
+* `HAVE_GETADDRINFO`
+  Whether `getaddrinfo()` function is working as expected.
 
 IMPORTED target:
 
-  PHP::CheckGetaddrinfoLibrary
-    If there is additional library to be linked for using getaddrinfo().
+* `PHP::CheckGetaddrinfoLibrary`
+  If there is additional library to be linked for using `getaddrinfo()`.
 #]=============================================================================]
 
 include_guard(GLOBAL)
@@ -60,7 +60,8 @@ cmake_push_check_state(RESET)
   check_source_compiles(C [[
     #include <netdb.h>
 
-    int main(void) {
+    int main(void)
+    {
       struct addrinfo *g,h;
       g = &h;
       getaddrinfo("", "", g, &g);

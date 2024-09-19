@@ -5,16 +5,16 @@ See: https://wiki.php.net/rfc/rounding
 
 Cache variables:
 
-  HAVE__FPU_SETCW
-    Whether _FPU_SETCW is usable.
-  HAVE_FPSETPREC
-    Whether fpsetprec is present and usable.
-  HAVE__CONTROLFP
-    Whether _controlfp is present and usable.
-  HAVE__CONTROLFP_S
-    Whether _controlfp_s is present and usable.
-  HAVE_FPU_INLINE_ASM_X86
-    Whether FPU control word can be manipulated by inline assembler.
+* `HAVE__FPU_SETCW`
+  Whether `_FPU_SETCW` is usable.
+* `HAVE_FPSETPREC`
+  Whether `fpsetprec` is present and usable.
+* `HAVE__CONTROLFP`
+  Whether `_controlfp` is present and usable.
+* `HAVE__CONTROLFP_S`
+  Whether `_controlfp_s` is present and usable.
+* `HAVE_FPU_INLINE_ASM_X86`
+  Whether FPU control word can be manipulated by inline assembler.
 #]=============================================================================]
 
 include_guard(GLOBAL)
@@ -30,7 +30,8 @@ cmake_push_check_state(RESET)
   check_source_compiles(C [[
     #include <fpu_control.h>
 
-    int main(void) {
+    int main(void)
+    {
       fpu_control_t fpu_oldcw, fpu_cw;
       volatile double result;
       double a = 2877.0;
@@ -56,7 +57,8 @@ cmake_push_check_state(RESET)
   check_source_compiles(C [[
     #include <machine/ieeefp.h>
 
-    int main(void) {
+    int main(void)
+    {
       fp_prec_t fpu_oldprec;
       volatile double result;
       double a = 2877.0;
@@ -81,7 +83,8 @@ cmake_push_check_state(RESET)
   check_source_compiles(C [[
     #include <float.h>
 
-    int main(void) {
+    int main(void)
+    {
       unsigned int fpu_oldcw;
       volatile double result;
       double a = 2877.0;
@@ -106,7 +109,8 @@ cmake_push_check_state(RESET)
   check_source_compiles(C [[
     #include <float.h>
 
-    int main(void) {
+    int main(void)
+    {
       unsigned int fpu_oldcw, fpu_cw;
       volatile double result;
       double a = 2877.0;
@@ -133,7 +137,8 @@ cmake_push_check_state(RESET)
     "Checking whether FPU control word can be manipulated by inline assembler"
   )
   check_source_compiles(C [[
-    int main(void) {
+    int main(void)
+    {
       unsigned int oldcw, cw;
       volatile double result;
       double a = 2877.0;

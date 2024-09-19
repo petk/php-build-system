@@ -1,8 +1,8 @@
 #[=============================================================================[
-Wrapper built on top of CMake's configure_file().
+Wrapper built on top of CMake's `configure_file()`.
 
 There is a common issue with installation prefix not being applied when using
-`--prefix` command-line option at the installation phase:
+the `--prefix` command-line option at the installation phase:
 
 ```sh
 cmake --install <build-dir> --prefix <prefix>

@@ -79,7 +79,8 @@ if(BerkeleyDB_USE_DB1)
 
     check_source_compiles(C [[
       #include <db_185.h>
-      int main(void) {
+      int main(void)
+      {
         DB * dbp = dbopen("", 0, 0, DB_HASH, 0);
         return 0;
       }
@@ -102,7 +103,8 @@ if(BerkeleyDB_LIBRARY)
     check_source_compiles(C [[
       #include <db.h>
 
-      int main(void) {
+      int main(void)
+      {
         (void)db_create((DB**)0, (DB_ENV*)0, 0);
         return 0;
       }

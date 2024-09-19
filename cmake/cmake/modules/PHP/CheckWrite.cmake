@@ -3,8 +3,8 @@ Check whether writing to stdout works.
 
 Cache variables:
 
-  PHP_WRITE_STDOUT
-    Whether write(2) works.
+* `PHP_WRITE_STDOUT`
+  Whether `write(2)` works.
 #]=============================================================================]
 
 include_guard(GLOBAL)
@@ -40,7 +40,8 @@ cmake_push_check_state(RESET)
 
     #define TEXT "This is the test message -- "
 
-    int main(void) {
+    int main(void)
+    {
       int n;
 
       n = write(1, TEXT, sizeof(TEXT)-1);

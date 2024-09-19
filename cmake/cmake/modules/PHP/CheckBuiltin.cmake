@@ -1,9 +1,15 @@
 #[=============================================================================[
-Check whether compiler supports one of the built-in functions __builtin_*().
+Check whether compiler supports one of the built-in functions `__builtin_*()`.
 
 Module exposes the following function:
 
-  php_check_builtin(<symbol_name> <result_var>)
+```cmake
+php_check_builtin(<builtin> <result_var>)
+```
+
+If builtin `<builtin>` is supported by the C compiler, store the check result in
+the cache variable `<result_var>`.
+
 #]=============================================================================]
 
 include_guard(GLOBAL)
@@ -11,7 +17,6 @@ include_guard(GLOBAL)
 include(CheckSourceCompiles)
 include(CMakePushCheckState)
 
-# cmake-lint: disable=R0912
 function(php_check_builtin builtin result)
   message(CHECK_START "Checking for ${builtin}")
 
@@ -58,7 +63,8 @@ function(php_check_builtin builtin result)
     set(CMAKE_REQUIRED_QUIET TRUE)
 
     check_source_compiles(C "
-      int main(void) {
+      int main(void)
+      {
         ${call}
 
         return 0;

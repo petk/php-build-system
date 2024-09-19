@@ -7,10 +7,10 @@ TODO: Adjust checks for MSVC.
 
 Cache variables:
 
-  PHP_HAVE_AVX512_SUPPORTS
-    Whether compiler supports AVX-512.
-  PHP_HAVE_AVX512_VBMI_SUPPORTS
-    Whether compiler supports AVX-512 VBMI.
+* `PHP_HAVE_AVX512_SUPPORTS`
+  Whether compiler supports AVX-512.
+* `PHP_HAVE_AVX512_VBMI_SUPPORTS`
+  Whether compiler supports AVX-512 VBMI.
 #]=============================================================================]
 
 include_guard(GLOBAL)
@@ -29,7 +29,8 @@ cmake_push_check_state(RESET)
   check_source_compiles(C [[
     #include <immintrin.h>
 
-    int main(void) {
+    int main(void)
+    {
       __m512i mask = _mm512_set1_epi32(0x1);
       char out[32];
       _mm512_storeu_si512(out, _mm512_shuffle_epi8(mask, mask));
@@ -48,7 +49,8 @@ cmake_push_check_state(RESET)
   check_source_compiles(C [[
     #include <immintrin.h>
 
-    int main(void) {
+    int main(void)
+    {
       __m512i mask = _mm512_set1_epi32(0x1);
       char out[32];
       _mm512_storeu_si512(out, _mm512_permutexvar_epi8(mask, mask));

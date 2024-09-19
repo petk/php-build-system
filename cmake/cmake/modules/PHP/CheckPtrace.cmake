@@ -3,17 +3,17 @@ Check for ptrace().
 
 Result variables:
 
-  PHP_TRACE_TYPE
-    Name of the trace type that should be used in FPM.
+* `PHP_TRACE_TYPE`
+  Name of the trace type that should be used in FPM.
 
 Cache variables:
 
-  HAVE_PTRACE
-    Whether ptrace() is present and working as expected.
-  HAVE_MACH_VM_READ
-    Whether ptrace() didn't work and the mach_vm_read() is present.
-  PROC_MEM_FILE
-    String of the /proc/pid/mem interface.
+* `HAVE_PTRACE`
+  Whether `ptrace()` is present and working as expected.
+* `HAVE_MACH_VM_READ`
+  Whether `ptrace()` didn't work and the `mach_vm_read()` is present.
+* `PROC_MEM_FILE`
+  String of the `/proc/pid/mem` interface.
 #]=============================================================================]
 
 include_guard(GLOBAL)
@@ -122,7 +122,8 @@ if(NOT HAVE_PTRACE)
     #include <mach/mach.h>
     #include <mach/mach_vm.h>
 
-    int main(void) {
+    int main(void)
+    {
       mach_vm_read(
         (vm_map_t)0,
         (mach_vm_address_t)0,
@@ -157,7 +158,8 @@ if(_php_proc_mem_file)
         #include <fcntl.h>
         #include <stdio.h>
 
-        int main(void) {
+        int main(void)
+        {
           long v1 = (unsigned int) -1, v2 = 0;
           char buf[128];
           int fd;

@@ -182,7 +182,8 @@ if(RE2C_USE_COMPUTED_GOTOS)
   cmake_push_check_state(RESET)
     set(CMAKE_REQUIRED_QUIET TRUE)
     check_source_compiles(C [[
-      int main(void) {
+      int main(void)
+      {
       label1:
         ;
       label2:

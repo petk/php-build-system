@@ -40,7 +40,8 @@ check_source_compiles(C [[
   #include <machine/vmparam.h>
   #include <sys/exec.h>
 
-  int main(void) {
+  int main(void)
+  {
     PS_STRINGS->ps_nargvstr = 1;
     PS_STRINGS->ps_argvstr = "foo";
 

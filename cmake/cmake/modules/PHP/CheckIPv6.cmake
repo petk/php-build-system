@@ -3,8 +3,8 @@ Check for IPv6 support.
 
 Cache variables:
 
-  HAVE_IPV6
-    Whether IPv6 support is enabled.
+* `HAVE_IPV6`
+  Whether IPv6 support is enabled.
 #]=============================================================================]
 
 include_guard(GLOBAL)
@@ -22,7 +22,8 @@ cmake_push_check_state(RESET)
     #include <sys/socket.h>
     #include <netinet/in.h>
 
-    int main(void) {
+    int main(void)
+    {
       struct sockaddr_in6 s;
       struct in6_addr t = in6addr_any;
       int i = AF_INET6;

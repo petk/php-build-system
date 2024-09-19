@@ -291,7 +291,8 @@ cmake_push_check_state(RESET)
   set(CMAKE_REQUIRED_QUIET TRUE)
   check_source_compiles(C [[
     #include <cpuid.h>
-    int main(void) {
+    int main(void)
+    {
       unsigned eax, ebx, ecx, edx;
       __cpuid_count(0, 0, eax, ebx, ecx, edx);
       return 0;

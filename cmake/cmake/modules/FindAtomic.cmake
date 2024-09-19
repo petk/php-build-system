@@ -22,7 +22,8 @@ block()
   set(test [[
     #include <stdatomic.h>
 
-    int main(void) {
+    int main(void)
+    {
       atomic_flag n8_flag = ATOMIC_FLAG_INIT;
       atomic_ullong n64 = ATOMIC_VAR_INIT(0);
 
