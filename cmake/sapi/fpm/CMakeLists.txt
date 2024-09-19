@@ -421,8 +421,8 @@ php_configure_file(
   # TODO: Add file suffix.
   INSTALL_DESTINATION ${CMAKE_INSTALL_MANDIR}/man8
   VARIABLES
-    php_fpm_localstatedir "$<INSTALL_PREFIX>/${CMAKE_INSTALL_LOCALSTATEDIR}"
-    php_fpm_sysconfdir "$<INSTALL_PREFIX>/${CMAKE_INSTALL_SYSCONFDIR}"
+    php_fpm_localstatedir "$<PHP_EXPAND:${CMAKE_INSTALL_LOCALSTATEDIR}>"
+    php_fpm_sysconfdir "$<PHP_EXPAND:${CMAKE_INSTALL_SYSCONFDIR}>"
     php_fpm_prefix "$<INSTALL_PREFIX>"
     PHP_VERSION "${PHP_VERSION}"
 )
@@ -432,8 +432,8 @@ php_configure_file(
   php-fpm.conf
   VARIABLES
     prefix "$<INSTALL_PREFIX>"
-    EXPANDED_LOCALSTATEDIR "$<INSTALL_PREFIX>/${CMAKE_INSTALL_LOCALSTATEDIR}"
-    php_fpm_sysconfdir "$<INSTALL_PREFIX>/${CMAKE_INSTALL_SYSCONFDIR}"
+    EXPANDED_LOCALSTATEDIR "$<PHP_EXPAND:${CMAKE_INSTALL_LOCALSTATEDIR}>"
+    php_fpm_sysconfdir "$<PHP_EXPAND:${CMAKE_INSTALL_SYSCONFDIR}>"
 )
 
 php_configure_file(
@@ -444,7 +444,7 @@ php_configure_file(
     php_fpm_prefix "$<INSTALL_PREFIX>"
     php_fpm_user "${SAPI_FPM_USER}"
     php_fpm_group "${SAPI_FPM_GROUP}"
-    EXPANDED_DATADIR "$<INSTALL_PREFIX>/${CMAKE_INSTALL_DATADIR}"
+    EXPANDED_DATADIR "$<PHP_EXPAND:${CMAKE_INSTALL_DATADIR}>"
 )
 
 php_configure_file(
@@ -453,9 +453,9 @@ php_configure_file(
   VARIABLES
     prefix "$<INSTALL_PREFIX>"
     exec_prefix "$<INSTALL_PREFIX>"
-    sbindir "$<INSTALL_PREFIX>/${CMAKE_INSTALL_SBINDIR}"
-    sysconfdir "$<INSTALL_PREFIX>/${CMAKE_INSTALL_SYSCONFDIR}"
-    localstatedir "$<INSTALL_PREFIX>/${CMAKE_INSTALL_LOCALSTATEDIR}"
+    sbindir "$<PHP_EXPAND:${CMAKE_INSTALL_SBINDIR}>"
+    sysconfdir "$<PHP_EXPAND:${CMAKE_INSTALL_SYSCONFDIR}>"
+    localstatedir "$<PHP_EXPAND:${CMAKE_INSTALL_LOCALSTATEDIR}>"
 )
 
 php_configure_file(
@@ -463,9 +463,9 @@ php_configure_file(
   php-fpm.service
   VARIABLES
     php_fpm_systemd "${PHP_FPM_SYSTEMD}"
-    EXPANDED_LOCALSTATEDIR "$<INSTALL_PREFIX>/${CMAKE_INSTALL_LOCALSTATEDIR}"
-    EXPANDED_SBINDIR "$<INSTALL_PREFIX>/${CMAKE_INSTALL_SBINDIR}"
-    EXPANDED_SYSCONFDIR "$<INSTALL_PREFIX>/${CMAKE_INSTALL_SYSCONFDIR}"
+    EXPANDED_LOCALSTATEDIR "$<PHP_EXPAND:${CMAKE_INSTALL_LOCALSTATEDIR}>"
+    EXPANDED_SBINDIR "$<PHP_EXPAND:${CMAKE_INSTALL_SBINDIR}>"
+    EXPANDED_SYSCONFDIR "$<PHP_EXPAND:${CMAKE_INSTALL_SYSCONFDIR}>"
 )
 
 # TODO: Add program file prefix and suffix.

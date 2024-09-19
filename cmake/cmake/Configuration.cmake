@@ -16,10 +16,6 @@ include_guard(GLOBAL)
 include(CMakeDependentOption)
 include(FeatureSummary)
 
-################################################################################
-# Customizable variables.
-################################################################################
-
 set(PHP_UNAME "" CACHE STRING "Build system uname")
 mark_as_advanced(PHP_UNAME)
 
@@ -65,39 +61,65 @@ if(NOT PHP_LAYOUT STREQUAL "GNU")
 endif()
 
 set(
-  PHP_EXTENSION_DIR ""
-  CACHE PATH
-  "Default directory for dynamically loadable PHP extensions. If left empty, it\
-  is determined automatically. Can be overridden using the PHP 'extension_dir'\
-  INI directive."
-)
-mark_as_advanced(PHP_EXTENSION_DIR)
-
-set(
   PHP_CONFIG_FILE_SCAN_DIR ""
-  CACHE PATH "The path where to scan for additional INI configuration files"
+  CACHE PATH "The path where to scan for additional INI configuration files; By\
+  default it is empty value; Pass it as a relative string inside the install\
+  prefix, which will be automatically prepended; If given as an absolute path,\
+  prefix is not prepended."
 )
 mark_as_advanced(PHP_CONFIG_FILE_SCAN_DIR)
+set(
+  PHP_FULL_CONFIG_FILE_SCAN_DIR "" CACHE INTERNAL
+  "Absolute path to the additional INI configuration files directory"
+)
+if(IS_ABSOLUTE "${PHP_CONFIG_FILE_SCAN_DIR}")
+  set_property(
+    CACHE PHP_FULL_CONFIG_FILE_SCAN_DIR
+    PROPERTY VALUE "${PHP_CONFIG_FILE_SCAN_DIR}"
+  )
+elseif(PHP_CONFIG_FILE_SCAN_DIR)
+  set_property(
+    CACHE PHP_FULL_CONFIG_FILE_SCAN_DIR
+    PROPERTY VALUE "${CMAKE_INSTALL_PREFIX}/${PHP_CONFIG_FILE_SCAN_DIR}"
+  )
+endif()
 
 if(NOT CMAKE_SYSTEM_NAME STREQUAL "Windows")
   set(
     PHP_CONFIG_FILE_PATH ""
-    CACHE FILEPATH "The path in which to look for php.ini."
+    CACHE FILEPATH "The path in which to look for php.ini; By default it is set\
+    to sysconfdir (for GNU layout) or libdir (for PHP layout); Pass it as a\
+    relative string inside the install prefix, which will be automatically\
+    prepended; If given as an absolute path, prefix is not appended."
   )
   mark_as_advanced(PHP_CONFIG_FILE_PATH)
-
   if(NOT PHP_CONFIG_FILE_PATH)
     if(PHP_LAYOUT STREQUAL "GNU")
       set_property(
         CACHE PHP_CONFIG_FILE_PATH
-        PROPERTY VALUE "${CMAKE_INSTALL_FULL_SYSCONFDIR}"
+        PROPERTY VALUE "${CMAKE_INSTALL_SYSCONFDIR}"
       )
     else()
       set_property(
         CACHE PHP_CONFIG_FILE_PATH
-        PROPERTY VALUE "${CMAKE_INSTALL_FULL_LIBDIR}"
+        PROPERTY VALUE "${CMAKE_INSTALL_LIBDIR}"
       )
     endif()
+  endif()
+  set(
+    PHP_FULL_CONFIG_FILE_PATH "" CACHE INTERNAL
+    "Absolute path in which to look for php.ini"
+  )
+  if(IS_ABSOLUTE "${PHP_CONFIG_FILE_PATH}")
+    set_property(
+      CACHE PHP_FULL_CONFIG_FILE_PATH
+      PROPERTY VALUE "${PHP_CONFIG_FILE_PATH}"
+    )
+  elseif(PHP_CONFIG_FILE_PATH)
+    set_property(
+      CACHE PHP_FULL_CONFIG_FILE_PATH
+      PROPERTY VALUE "${CMAKE_INSTALL_PREFIX}/${PHP_CONFIG_FILE_PATH}"
+    )
   endif()
 endif()
 
@@ -106,10 +128,6 @@ mark_as_advanced(PHP_PROGRAM_PREFIX)
 
 set(PHP_PROGRAM_SUFFIX "" CACHE STRING "Append suffix to the program names")
 mark_as_advanced(PHP_PROGRAM_SUFFIX)
-
-################################################################################
-# General options.
-################################################################################
 
 option(PHP_RE2C_CGOTO "Enable computed goto GCC extension with re2c" OFF)
 mark_as_advanced(PHP_RE2C_CGOTO)
@@ -175,6 +193,78 @@ mark_as_advanced(PHP_LIBGCC)
 
 option(PHP_CCACHE "Use ccache if available on the system" ON)
 mark_as_advanced(PHP_CCACHE)
+
+################################################################################
+# Set PHP_EXTENSION_DIR.
+################################################################################
+
+set(
+  PHP_EXTENSION_DIR ""
+  CACHE PATH
+  "Default directory for dynamically loadable PHP extensions. If left empty, it\
+  is determined automatically. Can be overridden using the PHP 'extension_dir'\
+  INI directive."
+)
+mark_as_advanced(PHP_EXTENSION_DIR)
+
+block()
+  if(NOT PHP_EXTENSION_DIR)
+    file(READ ${PHP_SOURCE_DIR}/Zend/zend_modules.h content)
+    string(REGEX MATCH "#define ZEND_MODULE_API_NO ([0-9]*)" _ "${content}")
+    set(zend_module_api_no ${CMAKE_MATCH_1})
+
+    set(extension_dir "${CMAKE_INSTALL_LIBDIR}/php")
+
+    if(PHP_LAYOUT STREQUAL "GNU")
+      set(extension_dir "${extension_dir}/${zend_module_api_no}")
+
+      # TODO: When apache2handler SAPI enforces the thread safe build (as done
+      # in the Autotools), the PHP_THREAD_SAFETY variable isn't yet available.
+      if(PHP_THREAD_SAFETY)
+        set(extension_dir "${extension_dir}-zts")
+      endif()
+
+      if(PHP_DEBUG)
+        set(extension_dir "${extension_dir}-debug")
+      endif()
+    else()
+      set(extension_dir "${extension_dir}/extensions")
+
+      if(PHP_DEBUG)
+        set(extension_dir "${extension_dir}/debug")
+      else()
+        set(extension_dir "${extension_dir}/no-debug")
+      endif()
+
+      if(PHP_THREAD_SAFETY)
+        set(extension_dir "${extension_dir}-zts")
+      else()
+        set(extension_dir "${extension_dir}-non-zts")
+      endif()
+
+      set(extension_dir "${extension_dir}-${zend_module_api_no}")
+    endif()
+
+    set_property(CACHE PHP_EXTENSION_DIR PROPERTY VALUE "${extension_dir}")
+  endif()
+endblock()
+
+set(
+  PHP_FULL_EXTENSION_DIR "" CACHE INTERNAL
+  "Absolute path for the dynamically loadable extensions."
+)
+
+if(IS_ABSOLUTE "${PHP_EXTENSION_DIR}")
+  set_property(
+    CACHE PHP_FULL_EXTENSION_DIR
+    PROPERTY VALUE "${PHP_EXTENSION_DIR}"
+  )
+elseif(PHP_EXTENSION_DIR)
+  set_property(
+    CACHE PHP_FULL_EXTENSION_DIR
+    PROPERTY VALUE "${CMAKE_INSTALL_PREFIX}/${PHP_EXTENSION_DIR}"
+  )
+endif()
 
 ################################################################################
 # Various global internal configuration.
@@ -251,50 +341,3 @@ set_package_properties(
     URL "https://zlib.net/"
     DESCRIPTION "Compression library"
 )
-
-################################################################################
-# Adjust configuration.
-################################################################################
-
-# Set default PHP_EXTENSION_DIR based on the layout used.
-block()
-  if(NOT PHP_EXTENSION_DIR)
-    file(READ ${PHP_SOURCE_DIR}/Zend/zend_modules.h content)
-    string(REGEX MATCH "#define ZEND_MODULE_API_NO ([0-9]*)" _ "${content}")
-    set(zend_module_api_no ${CMAKE_MATCH_1})
-
-    set(extension_dir "${CMAKE_INSTALL_FULL_LIBDIR}/php")
-
-    if(PHP_LAYOUT STREQUAL "GNU")
-      set(extension_dir "${extension_dir}/${zend_module_api_no}")
-
-      # TODO: When apache2handler SAPI enforces the thread safe build (as done
-      # in the Autotools), the PHP_THREAD_SAFETY variable isn't yet available.
-      if(PHP_THREAD_SAFETY)
-        set(extension_dir "${extension_dir}-zts")
-      endif()
-
-      if(PHP_DEBUG)
-        set(extension_dir "${extension_dir}-debug")
-      endif()
-    else()
-      set(extension_dir "${extension_dir}/extensions")
-
-      if(PHP_DEBUG)
-        set(extension_dir "${extension_dir}/debug")
-      else()
-        set(extension_dir "${extension_dir}/no-debug")
-      endif()
-
-      if(PHP_THREAD_SAFETY)
-        set(extension_dir "${extension_dir}-zts")
-      else()
-        set(extension_dir "${extension_dir}-non-zts")
-      endif()
-
-      set(extension_dir "${extension_dir}-${zend_module_api_no}")
-    endif()
-
-    set_property(CACHE PHP_EXTENSION_DIR PROPERTY VALUE "${extension_dir}")
-  endif()
-endblock()
