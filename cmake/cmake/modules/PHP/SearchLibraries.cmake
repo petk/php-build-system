@@ -77,6 +77,21 @@ of `<headers>`) and store the result in an internal cache variable
   checked elsewhere in the application using the `check_header_include()`. In
   most cases this won't be needed.
 
+For example:
+
+```cmake
+include(PHP/SearchLibraries)
+
+php_search_libraries(
+  dlopen
+  HAVE_LIBDL
+  HEADERS dlfcn.h
+  LIBRARIES
+    ${CMAKE_DL_LIBS}
+  TARGET php_configuration INTERFACE
+)
+```
+
 The following variables may be set before calling this function to modify the
 way the check is run. See
 https://cmake.org/cmake/help/latest/module/CheckSymbolExists.html

@@ -30,6 +30,14 @@ Check that the <flag> is accepted by the <lang> compiler without issuing any
 diagnostic message. The result is stored in an internal cache entry named
 `<result_var>`. The language `<lang>` can be one of the supported languages by
 the CMake's `CheckCompilerFlag` module.
+
+For example:
+
+```cmake
+include(PHP/CheckCompilerFlag)
+
+php_check_compiler_flag(C -Wno-clobbered PHP_HAVE_WNO_CLOBBERED)
+```
 #]=============================================================================]
 
 include_guard(GLOBAL)
