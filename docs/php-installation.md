@@ -4,10 +4,10 @@
 > **Before running the `make install` or `cmake --install` command, be aware
 > that files will be copied outside of your current build directory.**
 
-Installation of built files is a simple copy to a predefined directory structure
-on a given system. In this phase the executable binary files, dynamic library
-objects, header files, \*nix man documentation pages, and similar files are
-copied to system directories.
+Installation of built files is usually a simple copy to a predefined directory
+structure on a given system. In this phase the executable binary files, dynamic
+library objects, header files, \*nix man documentation pages, and similar files
+are copied to system directories.
 
 Please note that PHP installation on \*nix systems is typically handled by
 system package managers through automated scripts. Additionally, it is common
@@ -36,25 +36,22 @@ make TEST_PHP_ARGS=-j$(nproc) test
 make INSTALL_ROOT="/stage" install
 ```
 
-Above, the optional `--prefix` configure option, sets the location where the
-built files layout is put. The optional `INSTALL_ROOT` environment variable can
-set the parent location where the prefixed built files layout will be put. By
-default the `--prefix` is set to `/usr/local` and `INSTALL_ROOT` is empty. The
-`INSTALL_ROOT` is usually used to set the stage directory on some systems to
-perform additional tasks on the built files before being packaged or
-distributed.
+The optional `--prefix` configure option sets the location where the built files
+layout is put. By default it is set to `/usr/local`. The optional `INSTALL_ROOT`
+environment variable can set the parent location where the prefixed built files
+layout will be put. By default it is empty and it is usually used to set the
+stage directory to perform additional tasks on the built files before being
+packaged or distributed.
 
 > [!NOTE]
-> The `INSTALL_ROOT` variable name is used in PHP and software from the early
-> Autotools days. Automake and other build systems use a more common variable
-> name [`DESTDIR`](https://www.gnu.org/software/automake/manual/html_node/DESTDIR.html),
-> however, for historical reasons and since PHP doesn't use Automake, the
-> `INSTALL_ROOT` variable name is still used in PHP instead.
+> The `INSTALL_ROOT` variable name is used in PHP from the early Autotools days.
+> GNU standards and other build systems use a more common name
+> [`DESTDIR`](https://www.gnu.org/prep/standards/html_node/DESTDIR.html).
 
-The files are then copied to a predefined directory structure (GNU or PHP
-layout). The optional PHP Autotools configuration option
-`--with-layout=[GNU|PHP]` defines the installation directory structure. By
-default it is set to a PHP style directory structure:
+The files are then copied to a predefined directory structure. PHP Autotools has
+another optional configure option `--with-layout=[GNU|PHP]` (GNU or PHP layout).
+It defines the installation directory structure. By default it is set to a PHP
+style directory structure:
 
 ```sh
 /INSTALL_ROOT
@@ -91,8 +88,8 @@ default it is set to a PHP style directory structure:
 This is how the GNU layout directory structure looks like (`--with-layout=GNU`):
 
 ```sh
-/INSTALL_ROOT
- └─ /usr/
+/INSTALL_ROOT/
+ └─ usr/
     └─ local/
        ├─ bin/
        └─ etc/
@@ -245,7 +242,7 @@ root directory:
         "PHP_BUILD_COMPILER": "GCC",
         "PHP_BUILD_ARCH": "x86",
         "PHP_VERSION_LABEL": "-acme",
-        "PHP_EXTENSION_DIR": "/install/prefix/lib/php83/extensions"
+        "PHP_EXTENSION_DIR": "lib/php83/extensions"
       }
     }
   ],
