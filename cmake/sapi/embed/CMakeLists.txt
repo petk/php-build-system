@@ -8,11 +8,11 @@ add_feature_info(
   "Embed SAPI module"
 )
 
-message(CHECK_START "Checking whether to build embed SAPI")
+message(CHECK_START "Checking embed SAPI")
 if(SAPI_EMBED)
-  message(CHECK_PASS "yes")
+  message(CHECK_PASS "enabled")
 else()
-  message(CHECK_FAIL "no")
+  message(CHECK_FAIL "disabled")
   return()
 endif()
 

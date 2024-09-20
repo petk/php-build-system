@@ -44,11 +44,11 @@ cmake_dependent_option(
 )
 mark_as_advanced(SAPI_PHPDBG_READLINE)
 
-message(CHECK_START "Checking whether to build phpdbg SAPI")
+message(CHECK_START "Checking phpdbg SAPI")
 if(SAPI_PHPDBG)
-  message(CHECK_PASS "yes")
+  message(CHECK_PASS "enabled")
 else()
-  message(CHECK_FAIL "no")
+  message(CHECK_FAIL "disabled")
   return()
 endif()
 

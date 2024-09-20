@@ -62,10 +62,18 @@ endif()
 
 target_link_libraries(php_zip PRIVATE libzip::libzip)
 
-# TODO: Adjust this if the libzip is a static library.
-if(TODO)
-  set(ZIP_STATIC 1 CACHE INTERNAL "Whether the libzip is a static library.")
-  #set(LZMA_API_STATIC 1)
+# Note: ZIP_STATIC needs to be defined when using static libzip on Windows only
+# since version 1.0 to 1.3.2
+if(
+  CMAKE_SYSTEM_NAME STREQUAL "Windows"
+  AND libzip_VERSION VERSION_GREATER_EQUAL 1.0
+  AND libzip_VERSION VERSION_LESS 1.4.0
+)
+  # TODO: Adjust this if the libzip is a static library.
+  if(TODO)
+    set(ZIP_STATIC 1 CACHE INTERNAL "Whether the libzip is a static library.")
+    #set(LZMA_API_STATIC 1)
+  endif()
 endif()
 
 # TODO: When downloading and building libzip from source additional deps are
