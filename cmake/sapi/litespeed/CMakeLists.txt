@@ -13,11 +13,11 @@ add_feature_info(
   "LiteSpeed SAPI module"
 )
 
-message(CHECK_START "Checking whether to build litespeed SAPI")
+message(CHECK_START "Checking litespeed SAPI")
 if(SAPI_LITESPEED)
-  message(CHECK_PASS "yes")
+  message(CHECK_PASS "enabled")
 else()
-  message(CHECK_FAIL "no")
+  message(CHECK_FAIL "disabled")
   return()
 endif()
 

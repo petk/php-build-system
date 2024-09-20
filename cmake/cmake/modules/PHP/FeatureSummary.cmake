@@ -14,9 +14,8 @@ include_guard(GLOBAL)
 include(FeatureSummary)
 
 message("
-+--------------------------------------------------------------------+
-| Summary                                                            |
-+--------------------------------------------------------------------+
+Summary
+-------
 ")
 
 # Output enabled features.

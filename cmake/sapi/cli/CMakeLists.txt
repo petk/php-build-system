@@ -11,11 +11,11 @@ add_feature_info(
   "Command-line interface SAPI executable"
 )
 
-message(CHECK_START "Checking whether to build cli SAPI")
+message(CHECK_START "Checking cli SAPI")
 if(SAPI_CLI)
-  message(CHECK_PASS "yes")
+  message(CHECK_PASS "enabled")
 else()
-  message(CHECK_FAIL "no")
+  message(CHECK_FAIL "disabled")
   return()
 endif()
 

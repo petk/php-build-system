@@ -9,11 +9,11 @@ add_feature_info(
   "CGI SAPI executable"
 )
 
-message(CHECK_START "Checking whether to build CGI SAPI")
+message(CHECK_START "Checking cgi SAPI")
 if(SAPI_CGI)
-  message(CHECK_PASS "yes")
+  message(CHECK_PASS "enabled")
 else()
-  message(CHECK_FAIL "no")
+  message(CHECK_FAIL "disabled")
   return()
 endif()
 

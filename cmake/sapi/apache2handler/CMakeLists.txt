@@ -18,11 +18,11 @@ add_feature_info(
   "Apache 2 handler SAPI module"
 )
 
-message(CHECK_START "Checking whether to build apache2handler SAPI")
+message(CHECK_START "Checking apache2handler SAPI")
 if(SAPI_APACHE2HANDLER)
-  message(CHECK_PASS "yes")
+  message(CHECK_PASS "enabled")
 else()
-  message(CHECK_FAIL "no")
+  message(CHECK_FAIL "disabled")
   return()
 endif()
 

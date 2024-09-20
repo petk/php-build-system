@@ -4,9 +4,8 @@ cmake_minimum_required(VERSION 3.25 FATAL_ERROR)
 include(cmake/CMakeDefaults.cmake)
 
 message("
-+--------------------------------------------------------------------+
-| Running system checks                                              |
-+--------------------------------------------------------------------+
+Running system checks
+---------------------
 ")
 
 message(STATUS "CMake version: ${CMAKE_VERSION}")
@@ -28,42 +27,9 @@ set(CMAKE_C_STANDARD_REQUIRED TRUE)
 # Configure project.
 include(cmake/Bootstrap.cmake)
 
-# Create a project wide INTERFACE library with project configuration.
-add_library(php_configuration INTERFACE)
-add_library(PHP::configuration ALIAS php_configuration)
-target_include_directories(
-  php_configuration
-  INTERFACE
-    ${PHP_BINARY_DIR}
-    ${PHP_SOURCE_DIR}
-)
-
-# Create a custom target for generating files (parsers, lexers, etc.) manually:
-#   cmake --build <dir> -t php_generate_files
-add_custom_target(php_generate_files)
-
-# Configure build types.
-include(cmake/BuildTypes.cmake)
-
-# Set platform-specific configuration.
-include(cmake/Platform.cmake)
-
-# Set PHP configuration options and variables.
-include(cmake/Configuration.cmake)
-
-# Check requirements.
-include(cmake/Requirements.cmake)
-
-# Run PHP configuration checks.
-include(cmake/ConfigureChecks.cmake)
-
-# Check compilation options.
-include(cmake/Flags.cmake)
-
 message("
-+--------------------------------------------------------------------+
-| Configuring SAPI modules                                           |
-+--------------------------------------------------------------------+
+Configuring SAPI modules
+------------------------
 ")
 add_subdirectory(sapi/apache2handler)
 add_subdirectory(sapi/cgi)
@@ -75,24 +41,21 @@ add_subdirectory(sapi/litespeed)
 add_subdirectory(sapi/phpdbg)
 
 message("
-+--------------------------------------------------------------------+
-| Configuring PHP extensions                                         |
-+--------------------------------------------------------------------+
+Configuring PHP extensions
+--------------------------
 ")
 include(PHP/Extensions)
 php_extensions_add(ext)
 
 message("
-+--------------------------------------------------------------------+
-| Configuring Zend engine                                            |
-+--------------------------------------------------------------------+
+Configuring Zend engine
+-----------------------
 ")
 add_subdirectory(Zend)
 
 message("
-+--------------------------------------------------------------------+
-| Configuring PHP                                                    |
-+--------------------------------------------------------------------+
+Configuring PHP
+---------------
 ")
 add_subdirectory(pear)
 add_subdirectory(TSRM)
@@ -170,14 +133,14 @@ endif()
 include(PHP/FeatureSummary)
 
 message("
-+--------------------------------------------------------------------+
-| License:                                                           |
-| This software is subject to the PHP License, available in this     |
-| distribution in the file LICENSE. By continuing this installation  |
-| process, you are bound by the terms of this license agreement.     |
-| If you do not agree with the terms of this license, you must abort |
-| the installation process at this point.                            |
-+--------------------------------------------------------------------+
+License
+-------
+
+This software is subject to the PHP License, available in this
+distribution in the file LICENSE. By continuing this installation
+process, you are bound by the terms of this license agreement.
+If you do not agree with the terms of this license, you must abort
+the installation process at this point.
 
 Thank you for using PHP.
 ")
