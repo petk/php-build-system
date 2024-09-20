@@ -6,32 +6,28 @@ Aspell library. The Aspell library provides a simple pspell interface (pspell.h)
 for backward compatibility. On some systems, there is a package called
 libpspell-dev; however, relying on it is not encouraged.
 
-Module defines the following IMPORTED target(s):
+Module defines the following `IMPORTED` target(s):
 
-  Aspell::Aspell
-    The package library, if found.
+* `Aspell::Aspell` - The package library, if found.
 
 Result variables:
 
-  Aspell_FOUND
-    Whether the package has been found.
-  Aspell_INCLUDE_DIRS
+* `Aspell_FOUND` - Whether the package has been found.
+  `Aspell_INCLUDE_DIRS`
     Include directories needed to use this package.
-  Aspell_LIBRARIES
+  `Aspell_LIBRARIES`
     Libraries needed to link to the package library.
 
 Cache variables:
 
-  Aspell_INCLUDE_DIR
-    Directory containing package library headers.
-  Aspell_LIBRARY
-    The path to the package library.
-  Aspell_PSPELL_INCLUDE_DIR
-    Directory containing the pspell.h BC interface header if available.
+* `Aspell_INCLUDE_DIR` - Directory containing package library headers.
+* `Aspell_LIBRARY` - The path to the package library.
+* `Aspell_PSPELL_INCLUDE_DIR` - Directory containing the pspell.h BC interface
+  header if available.
 
 Hints:
 
-  The Aspell_ROOT variable adds custom search path.
+The `Aspell_ROOT` variable adds custom search path.
 #]=============================================================================]
 
 include(CheckLibraryExists)

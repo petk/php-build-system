@@ -3,44 +3,33 @@ Find the Kerberos library.
 
 Components:
 
-  Krb5
-  GSSAPI
+* Krb5
+* GSSAPI
 
-Module defines the following IMPORTED target(s):
+Module defines the following `IMPORTED` target(s):
 
-  Kerberos::Krb5
-    The Kerberos library, if found.
-
-  Kerberos::GSSAPI
-    The Kerberos GSSAPI component library, if found.
+* `Kerberos::Krb5` - The Kerberos library, if found.
+* `Kerberos::GSSAPI` - The Kerberos GSSAPI component library, if found.
 
 Result variables:
 
-  Kerberos_FOUND
-    Whether the package has been found.
-  Kerberos_INCLUDE_DIRS
-    Include directories needed to use this package.
-  Kerberos_LIBRARIES
-    Libraries needed to link to the package library.
-  Kerberos_VERSION
-    Package version, if found.
+* `Kerberos_FOUND` - Whether the package has been found.
+* `Kerberos_INCLUDE_DIRS` - Include directories needed to use this package.
+* `Kerberos_LIBRARIES` - Libraries needed to link to the package library.
+* `Kerberos_VERSION` - Package version, if found.
 
 Cache variables:
 
-  Kerberos_INCLUDE_DIR
-    Directory containing package library headers.
-  Kerberos_LIBRARY
-    The path to the package library.
-  Kerberos_EXECUTABLE
-    Path to the Kerberos command-line helper configuration script, if found.
-  Kerberos_GSSAPI_INCLUDE_DIR
-    Directory containing GSSAPI library headers.
-  Kerberos_GSSAPI_LIBRARY
-    The path to the GSSAPI library.
+* `Kerberos_INCLUDE_DIR` - Directory containing package library headers.
+* `Kerberos_LIBRARY` - The path to the package library.
+* `Kerberos_EXECUTABLE` - Path to the Kerberos command-line helper configuration
+  script, if found.
+* `Kerberos_GSSAPI_INCLUDE_DIR` -Directory containing GSSAPI library headers.
+* `Kerberos_GSSAPI_LIBRARY` - The path to the GSSAPI library.
 
 Hints:
 
-  The Kerberos_ROOT variable adds custom search path.
+The `Kerberos_ROOT` variable adds custom search path.
 #]=============================================================================]
 
 include(FeatureSummary)

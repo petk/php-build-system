@@ -1,32 +1,25 @@
 #[=============================================================================[
 Find the GNU Readline library.
 
-Module defines the following IMPORTED target(s):
+Module defines the following `IMPORTED` target(s):
 
-  Readline::Readline
-    The package library, if found.
+* `Readline::Readline` - The package library, if found.
 
 Result variables:
 
-  Readline_FOUND
-    Whether the package has been found.
-  Readline_INCLUDE_DIRS
-    Include directories needed to use this package.
-  Readline_LIBRARIES
-    Libraries needed to link to the package library.
-  Readline_VERSION
-    Package version, if found.
+* `Readline_FOUND` - Whether the package has been found.
+* `Readline_INCLUDE_DIRS` - Include directories needed to use this package.
+* `Readline_LIBRARIES` - Libraries needed to link to the package library.
+* `Readline_VERSION` - Package version, if found.
 
 Cache variables:
 
-  Readline_INCLUDE_DIR
-    Directory containing package library headers.
-  Readline_LIBRARY
-    The path to the package library.
+* `Readline_INCLUDE_DIR` - Directory containing package library headers.
+* `Readline_LIBRARY` - The path to the package library.
 
 Hints:
 
-  The Readline_ROOT variable adds custom search path.
+The `Readline_ROOT` variable adds custom search path.
 #]=============================================================================]
 
 include(CheckLibraryExists)

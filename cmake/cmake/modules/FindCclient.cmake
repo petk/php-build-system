@@ -5,73 +5,62 @@ Also called UW-IMAP library was once maintained by the Washington University.
 Today it is obsolete and its usage is discouraged. The c-client is a component
 of the IMAP library that can be found as a standalone package on systems.
 
-Module defines the following IMPORTED target(s):
+Module defines the following `IMPORTED` target(s):
 
-  Cclient::Cclient
-    The package library, if found.
+* `Cclient::Cclient` - The package library, if found.
 
 Result variables:
 
-  Cclient_FOUND
-    Whether the package has been found.
-  Cclient_INCLUDE_DIRS
-    Include directories needed to use this package.
-  Cclient_LIBRARIES
-    Libraries needed to link to the package library.
+* `Cclient_FOUND` - Whether the package has been found.
+* `Cclient_INCLUDE_DIRS` - Include directories needed to use this package.
+* `Cclient_LIBRARIES` - Libraries needed to link to the package library.
 
 Cache variables:
 
-  Cclient_INCLUDE_DIR
-    Directory containing package library headers.
-  Cclient_LIBRARY
-    The path to the package library.
-  HAVE_IMAP2000
-    Whether c-client version is 2000 or newer. If true, c-client.h should be
-    included instead of only rfc822.h on prior versions.
-  HAVE_IMAP2001
-    Whether c-client version is 2001 to 2004.
-  HAVE_IMAP2004
-    Whether c-client version is 2004 or newer.
-  HAVE_NEW_MIME2TEXT
-    Whether utf8_mime2text() has new signature.
-  HAVE_RFC822_OUTPUT_ADDRESS_LIST
-    Whether function rfc822_output_address_list() exists.
-  HAVE_IMAP_AUTH_GSS
-    Whether auth_gss exists.
-  HAVE_IMAP_MUTF7
-    Whether utf8_to_mutf7() function exists.
+* `Cclient_INCLUDE_DIR` - Directory containing package library headers.
+* `Cclient_LIBRARY` - The path to the package library.
+* `HAVE_IMAP2000` - Whether c-client version is 2000 or newer. If true,
+  c-client.h should be included instead of only rfc822.h on prior versions.
+* `HAVE_IMAP2001` - Whether c-client version is 2001 to 2004.
+* `HAVE_IMAP2004` - Whether c-client version is 2004 or newer.
+* `HAVE_NEW_MIME2TEXT` - Whether utf8_mime2text() has new signature.
+* `HAVE_RFC822_OUTPUT_ADDRESS_LIST` - Whether function
+  `rfc822_output_address_list()` exists.
+* `HAVE_IMAP_AUTH_GSS` - Whether `auth_gss` exists.
+* HAVE_IMAP_MUTF7 - Whether `utf8_to_mutf7()` function exists.
 
 Hints:
 
-  The Cclient_ROOT variable adds custom search path.
+The `Cclient_ROOT` variable adds custom search path.
 
 The UW-IMAP c-client library was not originally designed to be a shared library.
-The mm_<name> functions are callbacks, and are required to be implemented by the
-program that is linking to c-client. Therefore this module also exposes
-cclient_check_function_exists() and cclient_check_symbol_exists() functions,
+The `mm_<name>` functions are callbacks, and are required to be implemented by
+the program that is linking to c-client. Therefore this module also exposes
+`cclient_check_function_exists()` and cclient_check_symbol_exists() functions,
 which define them no-ops for doing additional checks during the configuration
 phase. Note that cclient_check_function_exists() is a link test. The undefined
 symbols will only cause problems if you actually try to link with c-client. For
 example, if your test is trivial enough to be optimized out, and if you link
 with --as-needed, the test/library may be omitted entirely from the final
 executable. In that case linking will of course succeed, but your luck won't
-necessarily apply at lower optimization levels or systems where --as-needed is
-not used. The cclient_check_symbol_exists() provides a basic solution over this
-issue.
+necessarily apply at lower optimization levels or systems where `--as-needed` is
+not used. The `cclient_check_symbol_exists()` provides a basic solution over
+this issue.
 
-  cclient_check_function_exists(<function> <result>)
-    <function>
-      Function name to check if it is available in the c-client.
-    <result>
-      Cache variable name for storing the check result.
+```cmake
+cclient_check_function_exists(<function> <result>)
+```
 
-  cclient_check_symbol_exists(<symbol> <header> <result>)
-    <symbol>
-      Symbol name to check if it is available in the c-client.
-    <header>
-      Header file to include.
-    <result>
-      Cache variable name for storing the check result.
+* `<function>` - Function name to check if it is available in the c-client.
+* `<result>` - Cache variable name for storing the check result.
+
+```cmake
+cclient_check_symbol_exists(<symbol> <header> <result>)
+```
+
+* `<symbol>` - Symbol name to check if it is available in the c-client.
+* `<header>` - Header file to include.
+* `<result>` - Cache variable name for storing the check result.
 #]=============================================================================]
 
 include(CheckSourceCompiles)
@@ -150,7 +139,8 @@ function(cclient_check_function_exists function result)
 
       char ${function}(void);
 
-      int main(int argc, char* argv[]) {
+      int main(int argc, char* argv[])
+      {
         ${function}();
         if (argc > 1000) {
           return *argv[0];
@@ -198,7 +188,8 @@ function(cclient_check_symbol_exists symbol header result)
 
       ${_CCLIENT_DEFINITIONS}
 
-      int main(int argc, char** argv) {
+      int main(int argc, char** argv)
+      {
         (void)argv;
         #ifndef ${symbol}
           return ((int*)(&${symbol}))[argc];

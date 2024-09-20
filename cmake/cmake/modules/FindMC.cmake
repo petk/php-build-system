@@ -8,44 +8,39 @@ https://sourceware.org/binutils/docs/binutils.html#windmc.
 
 Result variables:
 
-  MC_FOUND
-    Whether message compiler is found.
+* `MC_FOUND` - Whether message compiler is found.
 
 Cache variables:
 
-  MC_EXECUTABLE
-    Path to the message compiler if found.
+* `MC_EXECUTABLE` - Path to the message compiler if found.
 
 Hints:
 
-  The MC_ROOT variable adds custom search path.
+The `MC_ROOT` variable adds custom search path.
 
 Module exposes the following function:
 
-  mc_target(NAME <name>
-            INPUT <input>
-            [HEADER_DIR <header-directory>]
-            [RC_DIR <rc-directory>]
-            [XDBG_DIR <xdbg-directory>]
-            [OPTIONS <options>...]
-            [DEPENDS <depends>...])
+```cmake
+mc_target(
+  NAME <name>
+  INPUT <input>
+  [HEADER_DIR <header-directory>]
+  [RC_DIR <rc-directory>]
+  [XDBG_DIR <xdbg-directory>]
+  [OPTIONS <options>...]
+  [DEPENDS <depends>...]
+)
+```
 
-    NAME
-      Target name.
-    INPUT
-      Input message file to compile.
-    HEADER_DIR
-      Set the export directory for headers, otherwise current binary directory
-      will be used.
-    RC_DIR
-      Set the export directory for rc files.
-    XDBG_DIR
-      Where to create the .dbg C include file that maps message IDs to their
-      symbolic name.
-    OPTIONS
-      A list of additional options to pass to message compiler tool.
-    DEPENDS
-      Optional list of dependent files to recompile message file.
+* `NAME` - Target name.
+* `INPUT` - Input message file to compile.
+* `HEADER_DIR` - Set the export directory for headers, otherwise current binary
+  directory will be used.
+* `RC_DIR` - Set the export directory for rc files.
+* `XDBG_DIR` - Where to create the .dbg C include file that maps message IDs to
+  their symbolic name.
+* `OPTIONS` - A list of additional options to pass to message compiler tool.
+* `DEPENDS` - Optional list of dependent files to recompile message file.
 #]=============================================================================]
 
 include(FeatureSummary)
