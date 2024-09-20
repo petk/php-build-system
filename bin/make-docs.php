@@ -8,6 +8,36 @@
  *   ./bin/make-docs.php
  */
 
+/**
+ * Get CMake module header content.
+ */
+function generateModuleDocs(
+    string $file,
+    string $namespace,
+    string $destination
+): void {
+    $content = file_get_contents($file);
+    preg_match('/^#\[===+\[\s*(.*?)\s*#\]===+\]/s', $content, $matches);
+
+    if (isset($matches[1])) {
+        $moduleName = basename($file, '.cmake');
+
+        $content = '';
+        $content .= "# $namespace" . "$moduleName\n\n";
+        $content .= $matches[1];
+        $content .= "\n";
+
+        if (!file_exists($destination . '/' . $namespace)) {
+            mkdir($destination . '/' . $namespace, 0777, true);
+        }
+
+        file_put_contents(
+            $destination . '/' . $namespace . $moduleName . '.md',
+            $content
+        );
+    }
+}
+
 $docs = __DIR__ . '/../docs/cmake-modules';
 if (!file_exists($docs)) {
     mkdir($docs, 0777, true);
@@ -27,23 +57,15 @@ foreach ($files as $file) {
     $relativeFilename = trim(str_replace($modulesDirectory, '', $file), '/');
     echo "Processing " . $relativeFilename . "\n";
 
-    $content = file_get_contents($file);
-    preg_match('/^#\[===+\[\s*(.*?)\s*#\]===+\]/s', $content, $matches);
+    $namespace = trim(str_replace($modulesDirectory, '', dirname($file)), '/');
+    $namespace = ($namespace == '') ? '' : $namespace . '/';
 
-    if (isset($matches[1])) {
-        $moduleName = basename($file, '.cmake');
-        $namespace = trim(str_replace($modulesDirectory, '', dirname($file)), '/');
-        $namespace = ($namespace == '') ? '' : $namespace . '/';
-
-        $content = '';
-        $content .= "# $namespace" . "$moduleName\n\n";
-        $content .= $matches[1];
-        $content .= "\n";
-
-        if (!file_exists($docs . '/' . $namespace)) {
-            mkdir($docs . '/' . $namespace, 0777, true);
-        }
-
-        file_put_contents($docs . '/' . $namespace . $moduleName . '.md', $content);
-    }
+    generateModuleDocs($file, $namespace, $docs);
 }
+
+// Add ext/skeleton/cmake/modules/FindPHP.cmake.
+generateModuleDocs(
+    __DIR__ . '/../cmake/ext/skeleton/cmake/modules/FindPHP.cmake',
+    '',
+    $docs
+);
