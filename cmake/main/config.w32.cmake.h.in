@@ -906,6 +906,12 @@
    */
 #cmakedefine HAVE_SNMP_SHA512 1
 
+/* Define to 1 if the PHP extension 'sysvmsg' is available. */
+#cmakedefine HAVE_SYSVMSG 1
+
+/* Define to 1 if the PHP extension 'sysvsem' is available. */
+#cmakedefine HAVE_SYSVSEM 1
+
 /* Define to 1 if the PHP extension 'sysvshm' is available. */
 #cmakedefine HAVE_SYSVSHM 1
 
