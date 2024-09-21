@@ -37,10 +37,6 @@ target_compile_definitions(php_exif PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE=1)
 
 # Exif extension optionally depends on the mbstring extension when decoding
 # multibyte data in EXIF tags.
-# See: https://www.php.net/manual/en/exif.requirements.php
-# TODO: Inconsistent behavior between Windows and other systems. Does Windows
-# really need this extension always enabled or is it optional? C code doesn't
-# have this condition reflected properly.
 if(EXT_MBSTRING)
   add_dependencies(php_exif php_mbstring)
 endif()
