@@ -11,7 +11,7 @@ option(EXT_STANDARD_ARGON2 "Include the Argon2 support in password_*" OFF)
 add_feature_info(
   "ext/standard Argon2"
   EXT_STANDARD_ARGON2
-  "Argon2 support in password_* functions"
+  "Support for Argon2 hashing in password_*() PHP functions"
 )
 
 option(EXT_STANDARD_EXTERNAL_LIBCRYPT "Use external libcrypt or libxcrypt" OFF)
