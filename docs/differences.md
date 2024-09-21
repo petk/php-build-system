@@ -70,6 +70,15 @@ build system:
   yet for the header files.
   See: https://github.com/petk/php-build-system/issues/4
 
+* CMake configuration mostly follows Autotools defaults aiming to be consistent.
+  In native PHP build system there are various extensions by default
+  inconsistently enabled or disabled between Autotools and Windows.
+
+  For example:
+
+    * ext/bcmath (Windows: enabled, Autotools: disabled, CMake: disabled)
+    * ext/calendar (Windows: enabled, Autotools: disabled, CMake: disabled)
+
 ## Bugs fixed
 
 * Building inside folder with spaces.
