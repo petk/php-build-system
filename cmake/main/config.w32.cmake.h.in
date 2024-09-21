@@ -860,6 +860,9 @@
 /* Define to 1 if you have the 'libiconv' function. */
 #cmakedefine HAVE_LIBICONV 1
 
+/* Define to 1 if the system has the type 'union semun'. */
+#cmakedefine01 HAVE_SEMUN
+
 /* Define to 1 if the PHP extension 'shmop' is available. */
 #cmakedefine HAVE_SHMOP 1
 
