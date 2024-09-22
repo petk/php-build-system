@@ -17,6 +17,12 @@ message(CHECK_START
   "Checking whether flush should be called explicitly after a buffered io"
 )
 
+if(CMAKE_SYSTEM_NAME STREQUAL "Windows")
+  message(CHECK_FAIL "no")
+  set(HAVE_FLUSHIO FALSE CACHE INTERNAL "")
+  return()
+endif()
+
 cmake_push_check_state(RESET)
   set(CMAKE_REQUIRED_QUIET TRUE)
 
