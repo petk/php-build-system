@@ -135,6 +135,10 @@ PHP coding standard now use the C99 standard.
 Idea to move CMake forward and additionally use Conan was started on the
 [PHP internals mailing list](https://externals.io/message/116655).
 
+## PHP 8.3 (2023)
+
+Windows 8 became the minimum supported version by the PHP Windows build system.
+
 ## PHP 8.4 (2024)
 
 Autotools-based build system was cleaned-up, updated, and refactored using the
