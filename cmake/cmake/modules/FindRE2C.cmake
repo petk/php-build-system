@@ -99,27 +99,37 @@ if(RE2C_EXECUTABLE)
   execute_process(
     COMMAND ${RE2C_EXECUTABLE} --vernum
     OUTPUT_VARIABLE RE2C_VERSION_NUM
+    ERROR_VARIABLE _re2c_version_error
+    RESULT_VARIABLE _re2c_version_result
     OUTPUT_STRIP_TRAILING_WHITESPACE
   )
 
-  math(
-    EXPR RE2C_VERSION_MAJOR
-    "${RE2C_VERSION_NUM} / 10000"
-  )
+  if(NOT ${_re2c_version_result} EQUAL 0)
+    message(
+      SEND_ERROR
+      "Command \"${RE2C_EXECUTABLE} --vernum\" failed with output:\n"
+      "${_re2c_version_error}"
+    )
+  elseif(RE2C_VERSION_NUM)
+    math(
+      EXPR RE2C_VERSION_MAJOR
+      "${RE2C_VERSION_NUM} / 10000"
+    )
 
-  math(
-    EXPR RE2C_VERSION_MINOR
-    "(${RE2C_VERSION_NUM} - ${RE2C_VERSION_MAJOR} * 10000) / 100"
-  )
+    math(
+      EXPR RE2C_VERSION_MINOR
+      "(${RE2C_VERSION_NUM} - ${RE2C_VERSION_MAJOR} * 10000) / 100"
+    )
 
-  math(
-    EXPR RE2C_VERSION_PATCH
-    "${RE2C_VERSION_NUM} - ${RE2C_VERSION_MAJOR} * 10000 - ${RE2C_VERSION_MINOR} * 100"
-  )
+    math(
+      EXPR RE2C_VERSION_PATCH
+      "${RE2C_VERSION_NUM} - ${RE2C_VERSION_MAJOR} * 10000 - ${RE2C_VERSION_MINOR} * 100"
+    )
 
-  set(RE2C_VERSION "${RE2C_VERSION_MAJOR}.${RE2C_VERSION_MINOR}.${RE2C_VERSION_PATCH}")
+    set(RE2C_VERSION "${RE2C_VERSION_MAJOR}.${RE2C_VERSION_MINOR}.${RE2C_VERSION_PATCH}")
 
-  find_package_check_version("${RE2C_VERSION}" _re2c_version_valid)
+    find_package_check_version("${RE2C_VERSION}" _re2c_version_valid)
+  endif()
 endif()
 
 if(RE2C_ENABLE_DOWNLOAD AND (NOT RE2C_EXECUTABLE OR NOT _re2c_version_valid))
