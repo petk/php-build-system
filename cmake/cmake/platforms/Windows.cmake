@@ -37,4 +37,6 @@ if(CMAKE_SYSTEM_NAME STREQUAL "Windows")
 
   # PHP has unconditional getaddrinfo() support on Windows for now.
   set(HAVE_GETADDRINFO 1)
+
+  set(HAVE_NICE 1)
 endif()

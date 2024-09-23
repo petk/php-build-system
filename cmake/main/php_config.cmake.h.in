@@ -48,6 +48,10 @@
 /* Define to 1 if the PHP extension 'dom' is built as a dynamic module. */
 #cmakedefine COMPILE_DL_DOM 1
 
+/* Define to 1 if the PHP extension 'com_dotnet' is built as a dynamic module.
+   */
+#cmakedefine COMPILE_DL_COM_DOTNET 1
+
 /* Define to 1 if the PHP extension 'enchant' is built as a dynamic module. */
 #cmakedefine COMPILE_DL_ENCHANT 1
 
@@ -1143,10 +1147,10 @@
 /* Define to 1 if PCRE JIT is enabled and supported. */
 #cmakedefine HAVE_PCRE_JIT_SUPPORT 1
 
-/* */
+/* Define to 1 if the PHP extension 'pdo_dblib' is available. */
 #cmakedefine HAVE_PDO_DBLIB 1
 
-/* */
+/* Define to 1 if the PHP extension 'pdo_firebird' is available. */
 #cmakedefine HAVE_PDO_FIREBIRD 1
 
 /* Define to 1 if the PHP extension 'pdo_pgsql' is available. */
@@ -1728,9 +1732,6 @@
 /* Define to 1 if the PHP extension 'zip' is available. */
 #cmakedefine HAVE_ZIP 1
 
-/* */
-#cmakedefine ZIP_STATIC 1
-
 /* Define to 1 if the PHP extension 'zlib' is available. */
 #cmakedefine HAVE_ZLIB 1
 
@@ -2034,6 +2035,9 @@
 
 /* Define to 1 if Zend signal handling is supported and enabled. */
 #cmakedefine ZEND_SIGNALS 1
+
+/* */
+#cmakedefine ZIP_STATIC 1
 
 /* Define to 1 if thread safety (ZTS) is enabled. */
 #cmakedefine ZTS 1

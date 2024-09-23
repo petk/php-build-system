@@ -19,6 +19,12 @@
 # define _USE_32BIT_TIME_T 1
 #endif
 
+/* Define to 1 if the system has the type 'struct cmsgcred'. */
+#cmakedefine ANC_CREDS_CMSGCRED 1
+
+/* Define to 1 if the system has the type 'struct ucred'. */
+#cmakedefine ANC_CREDS_UCRED 1
+
 /* The cdb handler header file. */
 #cmakedefine CDB_INCLUDE_FILE "@CDB_INCLUDE_FILE@"
 
@@ -608,7 +614,20 @@
 /* Define to 1 to enable JIT. */
 #cmakedefine HAVE_JIT 1
 
-#undef HAVE_KILL
+/* whether to enable JavaScript Object Serialization support */
+#cmakedefine HAVE_JSON 1
+
+/* Define to 1 if you have the 'kill' function. */
+#cmakedefine HAVE_KILL 1
+
+/* Define to 1 if system has a working 'kqueue' function. */
+#cmakedefine HAVE_KQUEUE 1
+
+/* Define to 1 if you have the <langinfo.h> header file. */
+#cmakedefine HAVE_LANGINFO_H 1
+
+/* Define to 1 if you have the 'lchown' function. */
+#cmakedefine HAVE_LCHOWN 1
 
 /* Define to 1 if the PHP extension 'ldap' is available. */
 #cmakedefine HAVE_LDAP 1
@@ -708,12 +727,23 @@
 /* Define to 1 if you have the 'mknod' function. */
 #cmakedefine HAVE_MKNOD 1
 
-#define HAVE_NANOSLEEP 1
+/* Define to 1 if you have the 'nanosleep' function. */
+#cmakedefine HAVE_NANOSLEEP 1
+
+/* Define to 1 if you have the <netinet/in.h> header file. */
+#cmakedefine HAVE_NETINET_IN_H 1
+
+/* Define to 1 if you have the <net/if.h> header file. */
+#cmakedefine HAVE_NET_IF_H 1
+
+/* Whether utf8_mime2text() has new signature */
+#cmakedefine HAVE_NEW_MIME2TEXT 1
 
 /* Define to 1 if you have the 'ngettext' function. */
 #cmakedefine HAVE_NGETTEXT 1
 
-#define HAVE_NICE
+/* Define to 1 if you have the 'nice' function. */
+#cmakedefine HAVE_NICE 1
 
 /* Define to 1 if you have the <openssl/crypto.h> header file. */
 #cmakedefine HAVE_OPENSSL_CRYPTO_H 1
@@ -729,6 +759,12 @@
 
 /* Define to 1 if PCRE JIT is enabled and supported. */
 #cmakedefine HAVE_PCRE_JIT_SUPPORT 1
+
+/* Define to 1 if the PHP extension 'pdo_dblib' is available. */
+#cmakedefine HAVE_PDO_DBLIB 1
+
+/* Define to 1 if the PHP extension 'pdo_firebird' is available. */
+#cmakedefine HAVE_PDO_FIREBIRD 1
 
 /* Define to 1 if the PHP extension 'pdo_pgsql' is available. */
 #cmakedefine HAVE_PDO_PGSQL 1
@@ -795,9 +831,24 @@
 /* Define to 1 if you have the 'setpriority' function. */
 #cmakedefine HAVE_SETPRIORITY 1
 
+/* Define to 1 if you have the 'setproctitle' function. */
+#cmakedefine HAVE_SETPROCTITLE 1
+
+/* Define to 1 if you have the 'setproctitle_fast' function. */
+#cmakedefine HAVE_SETPROCTITLE_FAST 1
+
+/* Define to 1 if you have the 'setrlimit' function. */
+#cmakedefine HAVE_SETRLIMIT 1
+
+/* Define to 1 if you have the 'setsid' function. */
+#cmakedefine HAVE_SETSID 1
+
 /* Define to 1 if libzip library has the 'zip_file_set_mtime' function
    (available since 1.0.0). */
 #cmakedefine HAVE_SET_MTIME 1
+
+/* Define to 1 if the PHP extension 'shmop' is available. */
+#cmakedefine HAVE_SHMOP 1
 
 /* Define to 1 if you have the SysV IPC SHM support. */
 #cmakedefine HAVE_SHM_IPC 1
@@ -812,12 +863,6 @@
 
 #undef HAVE_SETITIMER
 
-/* Define to 1 if you have the 'setrlimit' function. */
-#cmakedefine HAVE_SETRLIMIT 1
-
-/* Define to 1 if you have the 'setsid' function. */
-#cmakedefine HAVE_SETSID 1
-
 /* Define to 1 if you have the 'sigaction' function. */
 #cmakedefine HAVE_SIGACTION 1
 
@@ -831,6 +876,12 @@
 
 /* Define to 1 if the odbc extension uses the Solid DB. */
 #cmakedefine HAVE_SOLID 1
+
+/* Define to 1 if Solid DB 3.0 is used. */
+#cmakedefine HAVE_SOLID_30 1
+
+/* Define to 1 if Solid DB 3.5 is used. */
+#cmakedefine HAVE_SOLID_35 1
 
 #define HAVE_STRCASECMP 1
 
@@ -847,9 +898,6 @@
 #define HAVE_STRUCT_STAT_ST_RDEV 1
 
 #undef HAVE_SYS_TIME_H
-
-/* Define to 1 if the PHP extension 'shmop' is available. */
-#cmakedefine HAVE_SHMOP 1
 
 /* Define to 1 if the PHP extension 'simplexml' is available. */
 #cmakedefine HAVE_SIMPLEXML 1
@@ -911,11 +959,185 @@
 /* Define to 1 if SQLite library has the 'sqlite3_expanded_sql' function. */
 #cmakedefine HAVE_SQLITE3_EXPANDED_SQL 1
 
-#undef HAVE_SYS_FILE_H
-#undef HAVE_SYS_SOCKET_H
-#undef HAVE_SYS_WAIT_H
-#define HAVE_SYSLOG_H 1
-#define HAVE_SYS_TYPES_H 1
+/* Define to 1 if you have the <sqltypes.h> header file. */
+#cmakedefine HAVE_SQLTYPES_H 1
+
+/* Define to 1 if you have the <sqlucode.h> header file. */
+#cmakedefine HAVE_SQLUCODE_H 1
+
+/* Define to 1 if you have the <sqlunix.h> header file. */
+#cmakedefine HAVE_SQLUNIX_H 1
+
+/* Define to 1 if you have the <sql.h> header file. */
+#cmakedefine HAVE_SQL_H 1
+
+/* Define to 1 if you have the 'statfs' function. */
+#cmakedefine HAVE_STATFS 1
+
+/* Define to 1 if you have the 'statvfs' function. */
+#cmakedefine HAVE_STATVFS 1
+
+/* Define to 1 if you have the 'std_syslog' function. */
+#cmakedefine HAVE_STD_SYSLOG 1
+
+/* Define to 1 if you have the 'strcasecmp' function. */
+#cmakedefine HAVE_STRCASECMP 1
+
+/* Define to 1 if you have the 'strcasestr' function. */
+#cmakedefine HAVE_STRCASESTR 1
+
+/* Define if you have 'strerror_r'. */
+#cmakedefine HAVE_STRERROR_R 1
+
+/* Define to 1 if you have the <strings.h> header file. */
+#cmakedefine HAVE_STRINGS_H 1
+
+/* Define to 1 if you have the 'strlcat' function. */
+#cmakedefine HAVE_STRLCAT 1
+
+/* Define to 1 if you have the 'strlcpy' function. */
+#cmakedefine HAVE_STRLCPY 1
+
+/* Define to 1 if you have the 'strndup' function. */
+#cmakedefine HAVE_STRNDUP 1
+
+/* Define to 1 if you have the 'strnlen' function. */
+#cmakedefine HAVE_STRNLEN 1
+
+/* Define to 1 if you have the 'strptime' function. */
+#cmakedefine HAVE_STRPTIME 1
+
+/* Define to 1 if you have the declaration of 'strptime'. */
+#cmakedefine HAVE_STRPTIME_DECL_FAILS 1
+
+/* Define to 1 if you have the 'strtok_r' function. */
+#cmakedefine HAVE_STRTOK_R 1
+
+/* Define to 1 if the system has the type 'struct flock'. */
+#cmakedefine HAVE_STRUCT_FLOCK 1
+
+/* Define to 1 if 'st_blksize' is a member of 'struct stat'. */
+#cmakedefine HAVE_STRUCT_STAT_ST_BLKSIZE 1
+
+/* Define to 1 if 'st_blocks' is a member of 'struct stat'. */
+#cmakedefine HAVE_STRUCT_STAT_ST_BLOCKS 1
+
+/* Define to 1 if 'st_rdev' is a member of 'struct stat'. */
+#cmakedefine HAVE_STRUCT_STAT_ST_RDEV 1
+
+/* Define to 1 if 'tm_gmtoff' is a member of 'struct tm'. */
+#cmakedefine HAVE_STRUCT_TM_TM_GMTOFF 1
+
+/* Define to 1 if 'tm_zone' is a member of 'struct tm'. */
+#cmakedefine HAVE_STRUCT_TM_TM_ZONE 1
+
+/* Define to 1 if you have the 'symlink' function. */
+#cmakedefine HAVE_SYMLINK 1
+
+/* Define to 1 if you have the 'sysconf' function. */
+#cmakedefine HAVE_SYSCONF 1
+
+/* Define to 1 if you have the <sysexits.h> header file. */
+#cmakedefine HAVE_SYSEXITS_H 1
+
+/* Define to 1 if you have the <syslog.h> header file. */
+#cmakedefine HAVE_SYSLOG_H 1
+
+/* Define to 1 if FPM has systemd integration. */
+#cmakedefine HAVE_SYSTEMD 1
+
+/* Define to 1 if the PHP extension 'sysvmsg' is available. */
+#cmakedefine HAVE_SYSVMSG 1
+
+/* Define to 1 if the PHP extension 'sysvsem' is available. */
+#cmakedefine HAVE_SYSVSEM 1
+
+/* Define to 1 if the PHP extension 'sysvshm' is available. */
+#cmakedefine HAVE_SYSVSHM 1
+
+/* Define to 1 if you have the <sys/acl.h> header file. */
+#cmakedefine HAVE_SYS_ACL_H 1
+
+/* Define to 1 if you have the <sys/file.h> header file. */
+#cmakedefine HAVE_SYS_FILE_H 1
+
+/* Define to 1 if you have the <sys/ioctl.h> header file. */
+#cmakedefine HAVE_SYS_IOCTL_H 1
+
+/* Define to 1 if you have the <sys/ipc.h> header file. */
+#cmakedefine HAVE_SYS_IPC_H 1
+
+/* Define to 1 if you have the <sys/loadavg.h> header file. */
+#cmakedefine HAVE_SYS_LOADAVG_H 1
+
+/* Define to 1 if you have the <sys/mkdev.h> header file. */
+#cmakedefine HAVE_SYS_MKDEV_H 1
+
+/* Define to 1 if you have the <sys/mman.h> header file. */
+#cmakedefine HAVE_SYS_MMAN_H 1
+
+/* Define to 1 if you have the <sys/mount.h> header file. */
+#cmakedefine HAVE_SYS_MOUNT_H 1
+
+/* Define to 1 if you have the <sys/param.h> header file. */
+#cmakedefine HAVE_SYS_PARAM_H 1
+
+/* Define to 1 if you have the <sys/poll.h> header file. */
+#cmakedefine HAVE_SYS_POLL_H 1
+
+/* Define to 1 if you have the <sys/procctl.h> header file. */
+#cmakedefine HAVE_SYS_PROCCTL_H 1
+
+/* Define to 1 if you have the <sys/pstat.h> header file. */
+#cmakedefine HAVE_SYS_PSTAT_H 1
+
+/* Define to 1 if you have the <sys/resource.h> header file. */
+#cmakedefine HAVE_SYS_RESOURCE_H 1
+
+/* Define to 1 if you have the <sys/select.h> header file. */
+#cmakedefine HAVE_SYS_SELECT_H 1
+
+/* Define to 1 if you have the <sys/socket.h> header file. */
+#cmakedefine HAVE_SYS_SOCKET_H 1
+
+/* Define to 1 if you have the <sys/sockio.h> header file. */
+#cmakedefine HAVE_SYS_SOCKIO_H 1
+
+/* Define to 1 if you have the <sys/statfs.h> header file. */
+#cmakedefine HAVE_SYS_STATFS_H 1
+
+/* Define to 1 if you have the <sys/statvfs.h> header file. */
+#cmakedefine HAVE_SYS_STATVFS_H 1
+
+/* Define to 1 if you have the <sys/stat.h> header file. */
+#cmakedefine HAVE_SYS_STAT_H 1
+
+/* Define to 1 if you have the <sys/sysexits.h> header file. */
+#cmakedefine HAVE_SYS_SYSEXITS_H 1
+
+/* Define to 1 if you have the <sys/sysmacros.h> header file. */
+#cmakedefine HAVE_SYS_SYSMACROS_H 1
+
+/* Define to 1 if you have the <sys/time.h> header file. */
+#cmakedefine HAVE_SYS_TIME_H 1
+
+/* Define to 1 if you have the <sys/types.h> header file. */
+#cmakedefine HAVE_SYS_TYPES_H 1
+
+/* Define to 1 if you have the <sys/uio.h> header file. */
+#cmakedefine HAVE_SYS_UIO_H 1
+
+/* Define to 1 if you have the <sys/utsname.h> header file. */
+#cmakedefine HAVE_SYS_UTSNAME_H 1
+
+/* Define to 1 if you have the <sys/vfs.h> header file. */
+#cmakedefine HAVE_SYS_VFS_H 1
+
+/* Define to 1 if you have the <sys/wait.h> header file. */
+#cmakedefine HAVE_SYS_WAIT_H 1
+
+/* Define to 1 if the PHP extension 'tidy' is available. */
+#cmakedefine HAVE_TIDY 1
 
 /* Define to 1 if you have the <tidybuffio.h> header file. */
 #cmakedefine HAVE_TIDYBUFFIO_H 1
@@ -929,14 +1151,17 @@
 /* Define to 1 if Tidy library has the 'tidyReleaseDate' function. */
 #cmakedefine HAVE_TIDYRELEASEDATE 1
 
-/* Define to 1 if the PHP extension 'tidy' is available. */
-#cmakedefine HAVE_TIDY 1
-
 /* Define to 1 if you have the <tidy.h> header file. */
 #cmakedefine HAVE_TIDY_H 1
 
 /* Define to 1 if you have the <timelib_config.h> header file. */
 #cmakedefine HAVE_TIMELIB_CONFIG_H 1
+
+/* Define to 1 if you have the 'times' function. */
+#cmakedefine HAVE_TIMES 1
+
+/* Define to 1 if you have the <tmmintrin.h> header file. */
+#cmakedefine HAVE_TMMINTRIN_H 1
 
 /* Tokenizer support */
 #cmakedefine HAVE_TOKENIZER 1
@@ -944,34 +1169,59 @@
 /* Define to 1 if you have a working 'ttyname_r' function. */
 #cmakedefine HAVE_TTYNAME_R 1
 
+/* Define to 1 if you have the 'tzset' function. */
 #define HAVE_TZSET 1
+
+/* Define to 1 if you have the <udbcext.h> header file. */
+#cmakedefine HAVE_UDBCEXT_H 1
+
+/* Define to 1 if you have the <unistd.h> header file. */
+#undef HAVE_UNISTD_H
+
+/* Define to 1 if the odbc extension uses the unixODBC. */
+#cmakedefine HAVE_UNIXODBC 1
+
+/* Define to 1 if you have the <unix.h> header file. */
+#cmakedefine HAVE_UNIX_H 1
 
 /* Define to 1 if the PHP extension 'odbc' is available. */
 #cmakedefine HAVE_UODBC 1
 
-#undef HAVE_UNISTD_H
-
 /* Define to 1 if you have the 'unshare' function. */
 #cmakedefine HAVE_UNSHARE 1
 
-#define HAVE_USLEEP 1
+/* Define to 1 if you have the 'usleep' function. */
+#cmakedefine HAVE_USLEEP 1
+
+/* Define to 1 if you have the 'utime' function. */
+#define HAVE_UTIME 1
 
 /* Define to 1 if you have the 'utimes' function. */
 #cmakedefine HAVE_UTIMES 1
 
-#define HAVE_UTIME 1
+/* Define to 1 if you have the <utime.h> header file. */
+#cmakedefine HAVE_UTIME_H 1
 
 /* Define to 1 if 'domainname' is a member of 'struct utsname'. */
 #cmakedefine HAVE_UTSNAME_DOMAINNAME 1
 
-/* Define to 1 if you have the 'waitpid' function. */
-#cmakedefine HAVE_WAITPID 1
+/* Define to 1 if Valgrind is enabled and supported. */
+#cmakedefine HAVE_VALGRIND 1
+
+/* Define to 1 if you have the 'vasprintf' function. */
+#cmakedefine HAVE_VASPRINTF 1
 
 /* Define to 1 if you have the 'wait3' function. */
 #cmakedefine HAVE_WAIT3 1
 
 /* Define to 1 if you have the 'wait4' function. */
 #cmakedefine HAVE_WAIT4 1
+
+/* Define to 1 if you have the 'waitpid' function. */
+#cmakedefine HAVE_WAITPID 1
+
+/* Define to 1 if you have the <wmmintrin.h> header file. */
+#cmakedefine HAVE_WMMINTRIN_H 1
 
 /* Define to 1 if the PHP extension 'xml' is available. */
 #cmakedefine HAVE_XML 1
@@ -1074,10 +1324,16 @@
 /* Whether the compiler supports AVX-512 VBMI. */
 #cmakedefine01 PHP_HAVE_AVX512_VBMI_SUPPORTS
 
+/* Define to 1 if you have HP-UX 10.x.-style reentrant time functions. */
+#cmakedefine PHP_HPUX_TIME_R 1
+
 /* The iconv implementation. */
 #cmakedefine PHP_ICONV_IMPL "@PHP_ICONV_IMPL@"
 
 #define PHP_INCLUDE_PATH ".;@PREFIX@\\pear"
+
+/* Define to 1 you have IRIX-style reentrant time functions. */
+#cmakedefine PHP_IRIX_TIME_R 1
 
 #define PHP_LIBDIR "@PREFIX@"
 
@@ -1101,13 +1357,20 @@
 #define PHP_SHLIB_SUFFIX "dll"
 
 /* Define to 1 if PHP uses its own SIGCHLD handler, and to 0 if not. */
-#define PHP_SIGCHILD 0
+#cmakedefine01 PHP_SIGCHILD
 
 #define PHP_SYSCONFDIR "@PREFIX@"
 
 /* Define to 1 if PHP uses its own crypt_r, and to 0 if using the external
    crypt library. */
 #cmakedefine01 PHP_USE_PHP_CRYPT_R 1
+
+/* Define to 1 if 'dlopen()' uses the 'RTLD_NOW' mode flag instead of
+   'RTLD_LAZY'. */
+#cmakedefine PHP_USE_RTLD_NOW 1
+
+/* Define to 1 if 'write(2)' works. */
+#cmakedefine PHP_WRITE_STDOUT 1
 
 /* The QDBM handler header file. */
 #cmakedefine QDBM_INCLUDE_FILE "@QDBM_INCLUDE_FILE@"
@@ -1138,11 +1401,25 @@
 #define STDOUT_FILENO 1
 #define STDERR_FILENO 2
 
+/* Define to 1 to be able to use the wchar defs in the obsolete <sqlunix.h>
+   header file on some FreeBSD systems. */
+#cmakedefine SS_FBX 1
+
+/* Define to 1 to be able to use the obsolete <sqlunix.h> header file on some
+   Linux systems. */
+#cmakedefine SS_LINUX 1
+
+/* Define to 1 if strerror_r returns char *. */
+#cmakedefine STRERROR_R_CHAR_P 1
+
 /* The Tokyo Cabinet handler header file. */
 #cmakedefine TCADB_INCLUDE_FILE "@TCADB_INCLUDE_FILE@"
 
 /* Define to 1 if gd extension has JIS-mapped Japanese font support. */
 #cmakedefine USE_GD_JISX0208 1
+
+/* Define to 1 if cross-process locking is required by 'accept()'. */
+#cmakedefine USE_LOCKING 1
 
 /* Define to 1 to use system default cipher list instead of the hardcoded
    value in OpenSSL. */
@@ -1150,6 +1427,12 @@
 
 /* Define to 1 if checking the stack limit is supported. */
 #cmakedefine ZEND_CHECK_STACK_LIMIT 1
+
+/* Define to 1 if Zend fiber uses ucontext instead of boost context. */
+#cmakedefine ZEND_FIBER_UCONTEXT 1
+
+/* Define to 1 if Zend max execution timers are supported and enabled. */
+#cmakedefine ZEND_MAX_EXECUTION_TIMERS 1
 
 /* Number of bytes for the ZEND_MM alignment. */
 #define ZEND_MM_ALIGNMENT (size_t)8
@@ -1165,6 +1448,9 @@
 
 /* Define to 1 if thread safety (ZTS) is enabled. */
 #cmakedefine ZTS 1
+
+/* Define to 1 when using musl libc. */
+#cmakedefine __MUSL__ 1
 
 #if __has_include("main/config.pickle.h")
 #include "main/config.pickle.h"
