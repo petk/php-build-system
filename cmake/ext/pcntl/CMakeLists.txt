@@ -76,10 +76,18 @@ check_symbol_exists(
   HAVE_PTHREAD_SET_QOS_CLASS_SELF_NP
 )
 check_symbol_exists(rfork "unistd.h" HAVE_RFORK)
+cmake_push_check_state(RESET)
+  set(CMAKE_REQUIRED_DEFINITIONS -D_GNU_SOURCE)
+  check_symbol_exists(sched_setaffinity "sched.h" HAVE_SCHED_SETAFFINITY)
+cmake_pop_check_state()
 check_symbol_exists(setpriority "sys/resource.h" HAVE_SETPRIORITY)
 check_symbol_exists(sigtimedwait "signal.h" HAVE_SIGTIMEDWAIT)
 check_symbol_exists(sigwaitinfo "signal.h" HAVE_SIGWAITINFO)
 check_symbol_exists(SYS_pidfd_open "sys/syscall.h" HAVE_PIDFD_OPEN)
+cmake_push_check_state(RESET)
+  set(CMAKE_REQUIRED_DEFINITIONS -D_GNU_SOURCE)
+  check_symbol_exists(unshare "sched.h" HAVE_UNSHARE)
+cmake_pop_check_state()
 check_symbol_exists(wait3 "sys/wait.h" HAVE_WAIT3)
 check_symbol_exists(wait4 "sys/wait.h" HAVE_WAIT4)
 check_symbol_exists(waitid "sys/wait.h" HAVE_WAITID)
@@ -125,9 +133,6 @@ endif()
 
 cmake_push_check_state(RESET)
   set(CMAKE_REQUIRED_DEFINITIONS -D_GNU_SOURCE)
-
-  check_symbol_exists(unshare "sched.h" HAVE_UNSHARE)
-  check_symbol_exists(sched_setaffinity "sched.h" HAVE_SCHED_SETAFFINITY)
 
   # Check if sched_getcpu() is supported. Value -1 means ENOSYS in this context.
   block()

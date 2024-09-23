@@ -402,6 +402,38 @@
 /* Define to 1 if you have the 'dcngettext' function. */
 #cmakedefine HAVE_DCNGETTEXT 1
 
+/* Define to 1 if you have the declaration of 'P_ALL', and to 0 if you don't.
+   */
+#cmakedefine01 HAVE_DECL_P_ALL
+
+/* Define to 1 if you have the declaration of 'P_JAILID', and to 0 if you
+   don't. */
+#cmakedefine01 HAVE_DECL_P_JAILID
+
+/* Define to 1 if you have the declaration of 'P_PIDFD', and to 0 if you
+   don't. */
+#cmakedefine01 HAVE_DECL_P_PIDFD
+
+/* Define to 1 if you have the declaration of 'P_UID', and to 0 if you don't.
+   */
+#cmakedefine01 HAVE_DECL_P_UID
+
+/* Define to 1 if you have the declaration of 'WCONTINUED', and to 0 if you
+   don't. */
+#cmakedefine01 HAVE_DECL_WCONTINUED
+
+/* Define to 1 if you have the declaration of 'WEXITED', and to 0 if you
+   don't. */
+#cmakedefine01 HAVE_DECL_WEXITED
+
+/* Define to 1 if you have the declaration of 'WNOWAIT', and to 0 if you
+   don't. */
+#cmakedefine01 HAVE_DECL_WNOWAIT
+
+/* Define to 1 if you have the declaration of 'WSTOPPED', and to 0 if you
+   don't. */
+#cmakedefine01 HAVE_DECL_WSTOPPED
+
 #undef HAVE_DIRENT_H
 
 /* Define to 1 if you have the 'dngettext' function. */
@@ -542,6 +574,9 @@
 
 /* Define to 1 if you have the 'getaddrinfo' function. */
 #cmakedefine HAVE_GETADDRINFO 1
+
+/* Define to 1 if you have the 'getcpuid' function. */
+#cmakedefine HAVE_GETCPUID 1
 
 #define HAVE_GETCWD 1
 
@@ -768,6 +803,9 @@
 /* Define to 1 if the phpdbg SAPI has libedit/readline integration. */
 #cmakedefine HAVE_PHPDBG_READLINE 1
 
+/* Define to 1 if you have the 'pidfd_open' function. */
+#cmakedefine HAVE_PIDFD_OPEN 1
+
 /* Define to 1 if the PHP extension 'posix' is available. */
 #cmakedefine HAVE_POSIX 1
 
@@ -778,6 +816,12 @@
    'zip_register_progress_callback_with_state' function (available since
    1.3.0). */
 #cmakedefine HAVE_PROGRESS_CALLBACK 1
+
+/* Define to 1 if you have the 'pset_bind' function. */
+#cmakedefine HAVE_PSET_BIND 1
+
+/* Define to 1 if you have the 'pthread_set_qos_class_self_np' function. */
+#cmakedefine HAVE_PTHREAD_SET_QOS_CLASS_SELF_NP 1
 
 #define HAVE_PUTENV 1
 
@@ -799,6 +843,12 @@
 
 /* Define to 1 if edit/readline library has the 'rl_on_new_line' function. */
 #cmakedefine HAVE_RL_ON_NEW_LINE 1
+
+/* Define to 1 if you have the 'sched_setaffinity' function. */
+#cmakedefine HAVE_SCHED_SETAFFINITY 1
+
+/* Define to 1 if the 'sched_getcpu' function is properly supported. */
+#cmakedefine HAVE_SCHED_GETCPU 1
 
 /* Define to 1 if you have the 'setegid' function. */
 #cmakedefine HAVE_SETEGID 1
@@ -979,14 +1029,17 @@
 
 #define HAVE_UTIME 1
 
-/* Define to 1 if you have the 'waitpid' function. */
-#cmakedefine HAVE_WAITPID 1
+/* Define to 1 if you have the 'waitid' function. */
+#cmakedefine HAVE_WAITID 1
 
 /* Define to 1 if you have the 'wait3' function. */
 #cmakedefine HAVE_WAIT3 1
 
 /* Define to 1 if you have the 'wait4' function. */
 #cmakedefine HAVE_WAIT4 1
+
+/* Define to 1 if you have the 'WIFCONTINUED' function. */
+#cmakedefine HAVE_WIFCONTINUED 1
 
 /* Define to 1 if the PHP extension 'xml' is available. */
 #cmakedefine HAVE_XML 1
