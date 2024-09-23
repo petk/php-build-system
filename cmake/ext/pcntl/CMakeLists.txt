@@ -69,6 +69,25 @@ endblock()
 check_symbol_exists(forkx "sys/fork.h" HAVE_FORKX)
 check_symbol_exists(getcpuid "sys/processor.h" HAVE_GETCPUID)
 check_symbol_exists(getpriority "sys/resource.h" HAVE_GETPRIORITY)
+check_symbol_exists(pset_bind "sys/pset.h" HAVE_PSET_BIND)
+check_symbol_exists(
+  pthread_set_qos_class_self_np
+  "pthread/qos.h"
+  HAVE_PTHREAD_SET_QOS_CLASS_SELF_NP
+)
+check_symbol_exists(rfork "unistd.h" HAVE_RFORK)
+check_symbol_exists(setpriority "sys/resource.h" HAVE_SETPRIORITY)
+check_symbol_exists(sigtimedwait "signal.h" HAVE_SIGTIMEDWAIT)
+check_symbol_exists(sigwaitinfo "signal.h" HAVE_SIGWAITINFO)
+check_symbol_exists(SYS_pidfd_open "sys/syscall.h" HAVE_PIDFD_OPEN)
+check_symbol_exists(wait3 "sys/wait.h" HAVE_WAIT3)
+check_symbol_exists(wait4 "sys/wait.h" HAVE_WAIT4)
+check_symbol_exists(waitid "sys/wait.h" HAVE_WAITID)
+check_symbol_exists(WCONTINUED "sys/wait.h" HAVE_DECL_WCONTINUED)
+check_symbol_exists(WEXITED "sys/wait.h" HAVE_DECL_WEXITED)
+check_symbol_exists(WIFCONTINUED "sys/wait.h" HAVE_WIFCONTINUED)
+check_symbol_exists(WNOWAIT "sys/wait.h" HAVE_DECL_WNOWAIT)
+check_symbol_exists(WSTOPPED "sys/wait.h" HAVE_DECL_WSTOPPED)
 
 cmake_push_check_state(RESET)
   # Some of these enum values require _GNU_SOURCE.
@@ -94,26 +113,6 @@ cmake_push_check_state(RESET)
     int main(void) { idtype_t e = P_UID; (void)e; return 0; }
   ]] HAVE_DECL_P_UID)
 cmake_pop_check_state()
-
-check_symbol_exists(pset_bind "sys/pset.h" HAVE_PSET_BIND)
-check_symbol_exists(
-  pthread_set_qos_class_self_np
-  "pthread/qos.h"
-  HAVE_PTHREAD_SET_QOS_CLASS_SELF_NP
-)
-check_symbol_exists(rfork "unistd.h" HAVE_RFORK)
-check_symbol_exists(setpriority "sys/resource.h" HAVE_SETPRIORITY)
-check_symbol_exists(sigtimedwait "signal.h" HAVE_SIGTIMEDWAIT)
-check_symbol_exists(sigwaitinfo "signal.h" HAVE_SIGWAITINFO)
-check_symbol_exists(SYS_pidfd_open "sys/syscall.h" HAVE_PIDFD_OPEN)
-check_symbol_exists(wait3 "sys/wait.h" HAVE_WAIT3)
-check_symbol_exists(wait4 "sys/wait.h" HAVE_WAIT4)
-check_symbol_exists(waitid "sys/wait.h" HAVE_WAITID)
-check_symbol_exists(WCONTINUED "sys/wait.h" HAVE_DECL_WCONTINUED)
-check_symbol_exists(WEXITED "sys/wait.h" HAVE_DECL_WEXITED)
-check_symbol_exists(WIFCONTINUED "sys/wait.h" HAVE_WIFCONTINUED)
-check_symbol_exists(WNOWAIT "sys/wait.h" HAVE_DECL_WNOWAIT)
-check_symbol_exists(WSTOPPED "sys/wait.h" HAVE_DECL_WSTOPPED)
 
 cmake_push_check_state(RESET)
   set(CMAKE_EXTRA_INCLUDE_FILES "signal.h")
