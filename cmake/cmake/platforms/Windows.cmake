@@ -39,4 +39,5 @@ if(CMAKE_SYSTEM_NAME STREQUAL "Windows")
   set(HAVE_GETADDRINFO 1)
 
   set(HAVE_NICE 1)
+  set(HAVE_FNMATCH 1)
 endif()
