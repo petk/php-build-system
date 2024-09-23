@@ -263,6 +263,13 @@
 /* Configure line */
 #cmakedefine CONFIGURE_COMMAND "@CONFIGURE_COMMAND@"
 
+/* Autotools-based build system in PHP-8.3 checked for older glibc versions (up
+   to ~2.1.2), which used the _IO_cookie_io_functions_t symbol. However, there
+   is a bug in PHP-8.3 check and it never got defined to anything but
+   cookie_io_functions_t. This has been fixed in PHP-8.4 and the bypass here is
+   provided only for PHP-8.3. */
+#define COOKIE_IO_FUNCTIONS_T cookie_io_functions_t
+
 /* Define to 1 if fopencookie seeker uses off64_t. */
 #cmakedefine COOKIE_SEEKER_USES_OFF64_T 1
 
@@ -274,6 +281,9 @@
 
 /* Define to 1 if crypt_r uses struct crypt_data. */
 #cmakedefine CRYPT_R_STRUCT_CRYPT_DATA 1
+
+/* Define if the target system is Darwin. */
+#cmakedefine DARWIN 1
 
 /* The DB1 handler header file. */
 #cmakedefine DB1_INCLUDE_FILE "@DB1_INCLUDE_FILE@"
@@ -345,6 +355,9 @@
 /* Define to string "1" if PHP short open tags '<?' are enabled by default,
    and to string "0" if they are not. */
 #define DEFAULT_SHORT_OPEN_TAG "@DEFAULT_SHORT_OPEN_TAG@"
+
+/* Define to 1 if 'dlsym()' requires a leading underscore in symbol names. */
+#cmakedefine DLSYM_NEEDS_UNDERSCORE 1
 
 /* Define to 1 to enable the 'chroot' function. */
 #cmakedefine ENABLE_CHROOT_FUNC 1
@@ -646,7 +659,17 @@
 /* Define to 1 if you have the 'fpathconf' function. */
 #cmakedefine HAVE_FPATHCONF 1
 
-#define HAVE_FTOK 1
+/* Define to 1 if PHP-FPM has ACL support. */
+#cmakedefine HAVE_FPM_ACL 1
+
+/* Define to 1 if fpsetprec is present and usable. */
+#cmakedefine HAVE_FPSETPREC 1
+
+/* Define to 1 if FPU control word can be manipulated by inline assembler. */
+#cmakedefine HAVE_FPU_INLINE_ASM_X86 1
+
+/* Define to 1 if you have the 'ftok' function. */
+#cmakedefine HAVE_FTOK 1
 
 /* Define to 1 if the PHP extension 'ftp' is available. */
 #cmakedefine HAVE_FTP 1
@@ -660,7 +683,27 @@
 /* Define to 1 if the system has the 'target' function attribute */
 #cmakedefine HAVE_FUNC_ATTRIBUTE_TARGET 1
 
-#define HAVE_GAI_STRERROR 1
+/* Define to 1 if you have the three-argument form of gethostbyname_r(). */
+#cmakedefine HAVE_FUNC_GETHOSTBYNAME_R_3 1
+
+/* Define to 1 if you have the five-argument form of gethostbyname_r(). */
+#cmakedefine HAVE_FUNC_GETHOSTBYNAME_R_5 1
+
+/* Define to 1 if you have the six-argument form of gethostbyname_r(). */
+#cmakedefine HAVE_FUNC_GETHOSTBYNAME_R_6 1
+
+/* Define to 1 if you have the 'funopen' function. */
+#cmakedefine HAVE_FUNOPEN 1
+
+/* Define to 1 if you have the 'gai_strerror' function. */
+#cmakedefine HAVE_GAI_STRERROR 1
+
+/* Define to 1 if the target system has support for global register variables.
+   */
+#cmakedefine HAVE_GCC_GLOBAL_REGS 1
+
+/* Define to 1 if GCOV code coverage is enabled. */
+#cmakedefine HAVE_GCOV 1
 
 /* Define to 1 if gd extension has AVIF support. */
 #cmakedefine HAVE_GD_AVIF 1
@@ -699,59 +742,107 @@
 /* Define to 1 if you have the 'getaddrinfo' function. */
 #cmakedefine HAVE_GETADDRINFO 1
 
-#define HAVE_GETCWD 1
-
-#define HAVE_GETHOSTNAME 1
+/* Define to 1 if you have the 'getcwd' function. */
+#cmakedefine HAVE_GETCWD 1
 
 /* Define to 1 if you have the 'getgrgid_r' function. */
 #cmakedefine HAVE_GETGRGID_R 1
 
+/* Define to 1 if you have the 'getgrnam_r' function. */
+#cmakedefine HAVE_GETGRNAM_R 1
+
 /* Define to 1 if you have the 'getgroups' function. */
 #cmakedefine HAVE_GETGROUPS 1
 
-#define HAVE_GETLOGIN 1
+/* Define to 1 if you have some form of gethostbyname_r(). */
+#cmakedefine HAVE_GETHOSTBYNAME_R 1
+
+/* Define to 1 if you have the 'gethostname' function. */
+#cmakedefine HAVE_GETHOSTNAME 1
+
+/* Define to 1 if you have the 'getifaddrs' function. */
+#cmakedefine HAVE_GETIFADDRS 1
+
+/* Define to 1 if you have the 'getloadavg' function. */
+#cmakedefine HAVE_GETLOADAVG 1
+
+/* Define to 1 if you have the 'getlogin' function. */
+#cmakedefine HAVE_GETLOGIN 1
 
 /* Define to 1 if you have the 'getpgid' function. */
 #cmakedefine HAVE_GETPGID 1
 
+/* Define to 1 if you have the 'getpid' function. */
+#cmakedefine HAVE_GETPID 1
+
 /* Define to 1 if you have the 'getpriority' function. */
 #cmakedefine HAVE_GETPRIORITY 1
 
-#define HAVE_GETPROTOBYNAME 1
+/* Define to 1 if you have the 'getprotobyname' function. */
+#cmakedefine HAVE_GETPROTOBYNAME 1
 
-#define HAVE_GETPROTOBYNUMBER 1
+/* Define to 1 if you have the 'getprotobynumber' function. */
+#cmakedefine HAVE_GETPROTOBYNUMBER 1
+
+/* Define to 1 if you have the 'getpwnam_r' function. */
+#cmakedefine HAVE_GETPWNAM_R 1
+
+/* Define to 1 if you have the 'getpwuid_r' function. */
+#cmakedefine HAVE_GETPWUID_R 1
 
 /* Define to 1 if you have the 'getrandom' function. */
 #cmakedefine HAVE_GETRANDOM 1
 
-#define HAVE_GETRUSAGE
-
-#define HAVE_GETSERVBYNAME 1
-
-#define HAVE_GETSERVBYPORT 1
-
-#define HAVE_GETTIMEOFDAY 1
-
-#define HAVE_GETPID 1
-
 /* Define to 1 if you have the 'getrlimit' function. */
 #cmakedefine HAVE_GETRLIMIT 1
+
+/* Define to 1 if you have the 'getrusage' function. */
+#cmakedefine HAVE_GETRUSAGE 1
+
+/* Define to 1 if you have the 'getservbyname' function. */
+#cmakedefine HAVE_GETSERVBYNAME 1
+
+/* Define to 1 if you have the 'getservbyport' function. */
+#cmakedefine HAVE_GETSERVBYPORT 1
 
 /* Define to 1 if you have the 'getsid' function. */
 #cmakedefine HAVE_GETSID 1
 
+/* Define to 1 if you have the 'gettid' function. */
+#cmakedefine HAVE_GETTID 1
+
+/* Define to 1 if you have the 'gettimeofday' function. */
+#cmakedefine HAVE_GETTIMEOFDAY 1
+
+/* Define to 1 if you have the 'getwd' function. */
+#cmakedefine HAVE_GETWD 1
+
 /* Define to 1 if iconv implementation is glibc. */
 #cmakedefine HAVE_GLIBC_ICONV 1
 
-#define HAVE_GLOB
+/* Define to 1 if you have the 'glob' function. */
+#cmakedefine HAVE_GLOB 1
 
 /* Define to 1 if the PHP extension 'gmp' is available. */
 #cmakedefine HAVE_GMP 1
 
-#define HAVE_GRP_H 0
+/* Define to 1 if you have the 'gmtime_r' function. */
+#cmakedefine HAVE_GMTIME_R 1
+
+/* Define to 1 if you have the <grp.h> header file. */
+#cmakedefine HAVE_GRP_H 1
 
 /* Define to 1 if edit/readline library has the 'history_list' function. */
 #cmakedefine HAVE_HISTORY_LIST 1
+
+/* Define to 1 if you have the 'hstrerror' function. */
+#cmakedefine HAVE_HSTRERROR 1
+
+/* Define to 1 to enable copying PHP CODE pages into HUGE PAGES. */
+#cmakedefine HAVE_HUGE_CODE_PAGES 1
+
+/* Define to 1 if the odbc extension uses the IBM DB2. */
+#cmakedefine HAVE_IBMDB2 1
 
 /* Define to 1 if iconv implementation is IBM. */
 #cmakedefine HAVE_IBM_ICONV 1
@@ -759,8 +850,53 @@
 /* Define to 1 if the PHP extension 'iconv' is available. */
 #cmakedefine HAVE_ICONV 1
 
-/* inet_pton() */
-#define HAVE_INET_PTON 1
+/* Define to 1 if you have the <ieeefp.h> header file. */
+#cmakedefine HAVE_IEEEFP_H 1
+
+/* Define to 1 if you have the 'if_indextoname' function. */
+#cmakedefine HAVE_IF_INDEXTONAME 1
+
+/* Define to 1 if you have the 'if_nametoindex' function. */
+#cmakedefine HAVE_IF_NAMETOINDEX 1
+
+/* */
+#cmakedefine HAVE_IMAP 1
+
+/* */
+#cmakedefine HAVE_IMAP2000 1
+
+/* */
+#cmakedefine HAVE_IMAP2001 1
+
+/* */
+#cmakedefine HAVE_IMAP2004 1
+
+/* */
+#cmakedefine HAVE_IMAP_AUTH_GSS 1
+
+/* Whether IMAP extension has Kerberos support */
+#cmakedefine HAVE_IMAP_KRB 1
+
+/* */
+#cmakedefine HAVE_IMAP_MUTF7 1
+
+/* */
+#cmakedefine HAVE_IMAP_SSL 1
+
+/* Define to 1 if you have the <immintrin.h> header file. */
+#cmakedefine HAVE_IMMINTRIN_H 1
+
+/* Define to 1 if you have the 'inet_aton' function. */
+#cmakedefine HAVE_INET_ATON 1
+
+/* Define to 1 if you have the 'inet_ntoa' function. */
+#cmakedefine HAVE_INET_NTOA 1
+
+/* Define to 1 if you have the 'inet_ntop' function. */
+#cmakedefine HAVE_INET_NTOP 1
+
+/* Define to 1 if you have the 'inet_pton' function. */
+#cmakedefine HAVE_INET_PTON 1
 
 /* Define to 1 if you have the 'initgroups' function. */
 #cmakedefine HAVE_INITGROUPS 1
@@ -938,9 +1074,6 @@
    (available since 1.7.0). */
 #cmakedefine HAVE_METHOD_SUPPORTED 1
 
-/* have the mscoree.h header file */
-#cmakedefine01 HAVE_MSCOREE_H
-
 /* Define to 1 if you have the 'mkfifo' function. */
 #cmakedefine HAVE_MKFIFO 1
 
@@ -958,6 +1091,9 @@
 
 /* Define to 1 if you have the 'mremap' function. */
 #cmakedefine HAVE_MREMAP 1
+
+/* Define to 1 if you have the <mscoree.h> header file, and to 0 if not. */
+#cmakedefine01 HAVE_MSCOREE_H
 
 /* Define to 1 if you have the 'nanosleep' function. */
 #cmakedefine HAVE_NANOSLEEP 1
@@ -982,6 +1118,28 @@
 
 /* Define to 1 if you have the <nmmintrin.h> header file. */
 #cmakedefine HAVE_NMMINTRIN_H 1
+
+/* Defined to 1 if the PHP OCI8 extension for Oracle Database is configured */
+#cmakedefine HAVE_OCI8 1
+
+/* Defined to 1 if PHP OCI8 DTrace support was enabled during configuration */
+#cmakedefine HAVE_OCI8_DTRACE 1
+
+/* */
+#cmakedefine HAVE_OCIENVCREATE 1
+
+/* */
+#cmakedefine HAVE_OCIENVNLSCREATE 1
+
+/* */
+#cmakedefine HAVE_OCILOBREAD2 1
+
+/* */
+#cmakedefine HAVE_OCISTMTFETCH2 1
+
+/* Defined to 1 if OCI8 configuration located Oracle's Instant Client
+   libraries */
+#cmakedefine HAVE_OCI_INSTANT_CLIENT 1
 
 /* Define to 1 if you have the <odbc.h> header file. */
 #cmakedefine HAVE_ODBC_H 1
@@ -1229,15 +1387,6 @@
 /* Define to 1 if you have the 'sigwaitinfo' function. */
 #cmakedefine HAVE_SIGWAITINFO 1
 
-/* Define to 1 if the odbc extension uses the Solid DB. */
-#cmakedefine HAVE_SOLID 1
-
-/* Define to 1 if Solid DB 3.0 is used. */
-#cmakedefine HAVE_SOLID_30 1
-
-/* Define to 1 if Solid DB 3.5 is used. */
-#cmakedefine HAVE_SOLID_35 1
-
 /* Define to 1 if the PHP extension 'simplexml' is available. */
 #cmakedefine HAVE_SIMPLEXML 1
 
@@ -1258,6 +1407,15 @@
 /* Define to 1 if the PHP extension 'soap' is available. */
 #cmakedefine HAVE_SOAP 1
 
+/* Define to 1 if 'sa_len' is a member of 'struct sockaddr'. */
+#cmakedefine HAVE_SOCKADDR_SA_LEN 1
+
+/* Whether you have struct sockaddr_storage */
+#cmakedefine HAVE_SOCKADDR_STORAGE 1
+
+/* Define to 1 if 'sun_len' is a member of 'struct sockaddr_un'. */
+#cmakedefine HAVE_SOCKADDR_UN_SUN_LEN 1
+
 /* Define to 1 if you have the 'sockatmark' function. */
 #cmakedefine HAVE_SOCKATMARK 1
 
@@ -1269,6 +1427,15 @@
 
 /* Define to 1 if the system has the type 'socklen_t'. */
 #cmakedefine HAVE_SOCKLEN_T 1
+
+/* Define to 1 if the odbc extension uses the Solid DB. */
+#cmakedefine HAVE_SOLID 1
+
+/* Define to 1 if Solid DB 3.0 is used. */
+#cmakedefine HAVE_SOLID_30 1
+
+/* Define to 1 if Solid DB 3.5 is used. */
+#cmakedefine HAVE_SOLID_35 1
 
 /* Define to 1 if you have the <sqlcli1.h> header file. */
 #cmakedefine HAVE_SQLCLI1_H 1
@@ -1501,7 +1668,7 @@
 /* Define to 1 if you have the <tmmintrin.h> header file. */
 #cmakedefine HAVE_TMMINTRIN_H 1
 
-/* Tokenizer support */
+/* Define to 1 if PHP extension 'tokenizer' is available. */
 #cmakedefine HAVE_TOKENIZER 1
 
 /* Define to 1 if you have a working 'ttyname_r' function. */
@@ -1592,8 +1759,8 @@
 /* Define to 1 if the PHP extension 'zlib' is available. */
 #cmakedefine HAVE_ZLIB 1
 
-/* have the zlib.h header file */
-#define HAVE_ZLIB_H 0
+/* Define to 1 if you have the <zlib.h> header file, and to 0 if not. */
+#cmakedefine01 HAVE_ZLIB_H
 
 /* Define to 1 if _controlfp is present and usable. */
 #cmakedefine HAVE__CONTROLFP 1
@@ -1694,7 +1861,7 @@
 /* Define to 1 if your system has fork/vfork/CreateProcess. */
 #cmakedefine PHP_CAN_SUPPORT_PROC_OPEN 1
 
-/* Compiler compatibility ID */
+/* Compiler identification string. */
 #cmakedefine PHP_COMPILER_ID "@PHP_COMPILER_ID@"
 
 /* The path in which to look for php.ini. */
@@ -1784,19 +1951,34 @@
 
 #define PHP_LIBDIR "@PREFIX@"
 
-/* Linker major version */
-#define PHP_LINKER_MAJOR 14
+/* Linker major version. */
+#cmakedefine PHP_LINKER_MAJOR @PHP_LINKER_MAJOR@
 
-/* Linker minor version */
-#define PHP_LINKER_MINOR 38
+/* Linker minor version. */
+#cmakedefine PHP_LINKER_MINOR @PHP_LINKER_MINOR@
 
 #define PHP_LOCALSTATEDIR "@PREFIX@"
 
 /* Define to 1 if mhash support is enabled. */
 #cmakedefine PHP_MHASH_BC 1
 
+/* The MySQL Unix socket location. */
+#cmakedefine PHP_MYSQL_UNIX_SOCK_ADDR "@PHP_MYSQL_UNIX_SOCK_ADDR@"
+
+/* */
+#cmakedefine PHP_OCI8_DEF_DIR "@PHP_OCI8_DEF_DIR@"
+
+/* */
+#cmakedefine PHP_OCI8_DEF_SHARED_LIBADD "@PHP_OCI8_DEF_SHARED_LIBADD@"
+
 /* Define to 1 if oniguruma has an invalid entry for KOI8 encoding. */
 #cmakedefine PHP_ONIG_BAD_KOI8_ENTRY 1
+
+/* The 'uname' output. */
+#define PHP_OS "@CMAKE_SYSTEM_NAME@"
+
+/* */
+#cmakedefine PHP_PDO_OCI_CLIENT_VERSION "@PHP_PDO_OCI_CLIENT_VERSION@"
 
 #define PHP_PREFIX "@PREFIX@"
 

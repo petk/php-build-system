@@ -1083,6 +1083,9 @@
 /* Define to 1 if you have the 'mremap' function. */
 #cmakedefine HAVE_MREMAP 1
 
+/* Define to 1 if you have the <mscoree.h> header file, and to 0 if not. */
+#cmakedefine01 HAVE_MSCOREE_H
+
 /* Define to 1 if you have the 'nanosleep' function. */
 #cmakedefine HAVE_NANOSLEEP 1
 
@@ -1176,6 +1179,9 @@
 
 /* Define to 1 if the PHP extension 'session' is available. */
 #cmakedefine HAVE_PHP_SESSION 1
+
+/* SOAP support */
+#cmakedefine HAVE_PHP_SOAP 1
 
 /* Define to 1 if the phpdbg SAPI has libedit/readline integration. */
 #cmakedefine HAVE_PHPDBG_READLINE 1
@@ -1650,6 +1656,9 @@
 /* Define to 1 if you have the <tmmintrin.h> header file. */
 #cmakedefine HAVE_TMMINTRIN_H 1
 
+/* Define to 1 if PHP extension 'tokenizer' is available. */
+#cmakedefine HAVE_TOKENIZER 1
+
 /* Define to 1 if you have a working 'ttyname_r' function. */
 #cmakedefine HAVE_TTYNAME_R 1
 
@@ -1737,6 +1746,9 @@
 
 /* Define to 1 if the PHP extension 'zlib' is available. */
 #cmakedefine HAVE_ZLIB 1
+
+/* Define to 1 if you have the <zlib.h> header file, and to 0 if not. */
+#cmakedefine01 HAVE_ZLIB_H
 
 /* Define to 1 if _controlfp is present and usable. */
 #cmakedefine HAVE__CONTROLFP 1
@@ -1832,6 +1844,9 @@
 /* Define to 1 if your system has fork/vfork/CreateProcess. */
 #cmakedefine PHP_CAN_SUPPORT_PROC_OPEN 1
 
+/* Compiler identification string. */
+#cmakedefine PHP_COMPILER_ID "@PHP_COMPILER_ID@"
+
 /* Whether the compiler supports AVX-512. */
 #cmakedefine01 PHP_HAVE_AVX512_SUPPORTS
 
@@ -1905,6 +1920,12 @@
 
 /* Define to 1 you have IRIX-style reentrant time functions. */
 #cmakedefine PHP_IRIX_TIME_R 1
+
+/* Linker major version. */
+#cmakedefine PHP_LINKER_MAJOR @PHP_LINKER_MAJOR@
+
+/* Linker minor version. */
+#cmakedefine PHP_LINKER_MINOR @PHP_LINKER_MINOR@
 
 /* Define to 1 if mhash support is enabled. */
 #cmakedefine PHP_MHASH_BC 1
