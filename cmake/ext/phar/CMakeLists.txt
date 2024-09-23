@@ -214,10 +214,16 @@ if(PHP_EXECUTABLE)
         OWNER_WRITE
         OWNER_EXECUTE
         GROUP_READ
-        GROUP_WRITE
         GROUP_EXECUTE
         WORLD_READ
         WORLD_EXECUTE
+    )
+
+    file(
+      CREATE_LINK
+      phar.phar
+      \${CMAKE_INSTALL_PREFIX}/${CMAKE_INSTALL_BINDIR}/phar
+      SYMBOLIC
     )
   ")
 endif()
