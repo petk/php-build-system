@@ -19,12 +19,6 @@
 # define _USE_32BIT_TIME_T 1
 #endif
 
-/* Define to 1 if the system has the type 'struct cmsgcred'. */
-#cmakedefine ANC_CREDS_CMSGCRED 1
-
-/* Define to 1 if the system has the type 'struct ucred'. */
-#cmakedefine ANC_CREDS_UCRED 1
-
 /* The cdb handler header file. */
 #cmakedefine CDB_INCLUDE_FILE "@CDB_INCLUDE_FILE@"
 
@@ -949,9 +943,15 @@
 
 #define HAVE_STRNLEN 1
 
+/* Define to 1 if the system has the type 'struct cmsgcred'. */
+#cmakedefine HAVE_STRUCT_CMSGCRED 1
+
 #undef HAVE_STRUCT_STAT_ST_BLKSIZE
 #undef HAVE_STRUCT_STAT_ST_BLOCKS
 #define HAVE_STRUCT_STAT_ST_RDEV 1
+
+/* Define to 1 if the system has the type 'struct ucred'. */
+#cmakedefine HAVE_STRUCT_UCRED 1
 
 #undef HAVE_SYS_TIME_H
 
