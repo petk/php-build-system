@@ -43,12 +43,11 @@ target_sources(
 
 target_compile_definitions(php_posix PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE=1)
 
+check_symbol_exists(ctermid "stdio.h" HAVE_CTERMID)
 cmake_push_check_state(RESET)
   set(CMAKE_REQUIRED_DEFINITIONS -D_GNU_SOURCE)
   check_symbol_exists(eaccess "unistd.h" HAVE_EACCESS)
 cmake_pop_check_state()
-
-check_symbol_exists(ctermid "stdio.h" HAVE_CTERMID)
 check_symbol_exists(getgrgid_r "grp.h" HAVE_GETGRGID_R)
 check_symbol_exists(getgroups "unistd.h" HAVE_GETGROUPS)
 check_symbol_exists(getpgid "unistd.h" HAVE_GETPGID)

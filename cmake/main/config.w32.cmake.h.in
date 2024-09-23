@@ -560,6 +560,9 @@
 /* Define to 1 if Capstone is available. */
 #cmakedefine HAVE_CAPSTONE 1
 
+/* Define to 1 if you have the 'ctermid' function. */
+#cmakedefine HAVE_CTERMID 1
+
 /* Define to 1 if the PHP extension 'ctype' is available. */
 #cmakedefine HAVE_CTYPE 1
 
@@ -572,9 +575,6 @@
 /* Define to 1 if the PHP extension 'dba' is available. */
 #cmakedefine HAVE_DBA 1
 
-/* Define to 1 if you have the <timelib_config.h> header file. */
-#cmakedefine HAVE_TIMELIB_CONFIG_H 1
-
 /* Define to 1 if you have the 'dcngettext' function. */
 #cmakedefine HAVE_DCNGETTEXT 1
 
@@ -583,6 +583,9 @@
 
 /* Define to 1 if the PHP extension 'dom' is available. */
 #cmakedefine HAVE_DOM 1
+
+/* Define to 1 if you have the 'eaccess' function. */
+#cmakedefine HAVE_EACCESS 1
 
 /* Define to 1 if the PHP extension 'enchant' is available. */
 #cmakedefine HAVE_ENCHANT 1
@@ -630,6 +633,9 @@
 
 /* Define to 1 if flush should be called explicitly after a buffered io. */
 #cmakedefine HAVE_FLUSHIO 1
+
+/* Define to 1 if you have the 'fpathconf' function. */
+#cmakedefine HAVE_FPATHCONF 1
 
 /* Define to 1 if the PHP extension 'ftp' is available. */
 #cmakedefine HAVE_FTP 1
@@ -683,8 +689,26 @@
 /* Define to 1 if iconv implementation is glibc. */
 #cmakedefine HAVE_GLIBC_ICONV 1
 
+/* Define to 1 if you have the 'getgrgid_r' function. */
+#cmakedefine HAVE_GETGRGID_R 1
+
+/* Define to 1 if you have the 'getgroups' function. */
+#cmakedefine HAVE_GETGROUPS 1
+
+/* Define to 1 if you have the 'getpgid' function. */
+#cmakedefine HAVE_GETPGID 1
+
+/* Define to 1 if you have the 'getrlimit' function. */
+#cmakedefine HAVE_GETRLIMIT 1
+
+/* Define to 1 if you have the 'getsid' function. */
+#cmakedefine HAVE_GETSID 1
+
 /* Define to 1 if iconv implementation is IBM. */
 #cmakedefine HAVE_IBM_ICONV 1
+
+/* Define to 1 if you have the 'initgroups' function. */
+#cmakedefine HAVE_INITGROUPS 1
 
 /* Define to 1 if you have the libavif library. */
 #cmakedefine HAVE_LIBAVIF 1
@@ -707,8 +731,17 @@
 /* Define to 1 if you have the libwebp library. */
 #cmakedefine HAVE_LIBWEBP 1
 
+/* Define to 1 if you have the 'mkfifo' function. */
+#cmakedefine HAVE_MKFIFO 1
+
+/* Define to 1 if you have the 'mknod' function. */
+#cmakedefine HAVE_MKNOD 1
+
 /* Define to 1 if you have the 'ngettext' function. */
 #cmakedefine HAVE_NGETTEXT 1
+
+/* Define to 1 if you have the 'pathconf' function. */
+#cmakedefine HAVE_PATHCONF 1
 
 /* PostgreSQL 9.6 or later */
 #cmakedefine HAVE_PG_CONTEXT_VISIBILITY 1
@@ -727,6 +760,9 @@
 
 /* Define to 1 if the PHP extension 'pdo_pgsql' is available. */
 #cmakedefine HAVE_PDO_PGSQL 1
+
+/* Define to 1 if the PHP extension 'posix' is available. */
+#cmakedefine HAVE_POSIX 1
 
 /* Define to 1 if edit/readline library has the 'rl_callback_read_char'
    function. */
@@ -796,8 +832,23 @@
 /* Define to 1 if mbstring has multibyte regex support enabled. */
 #cmakedefine HAVE_MBREGEX 1
 
+/* Define to 1 if you have the 'setegid' function. */
+#cmakedefine HAVE_SETEGID 1
+
+/* Define to 1 if you have the 'seteuid' function. */
+#cmakedefine HAVE_SETEUID 1
+
+/* Define to 1 if you have the 'setrlimit' function. */
+#cmakedefine HAVE_SETRLIMIT 1
+
+/* Define to 1 if you have the 'setsid' function. */
+#cmakedefine HAVE_SETSID 1
+
 /* Define to 1 if the odbc extension uses the Solid DB. */
 #cmakedefine HAVE_SOLID 1
+
+/* Define to 1 if 'domainname' is a member of 'struct utsname'. */
+#cmakedefine HAVE_UTSNAME_DOMAINNAME 1
 
 /* Define to 1 if oniguruma has an invalid entry for KOI8 encoding. */
 #cmakedefine PHP_ONIG_BAD_KOI8_ENTRY 1
@@ -948,6 +999,9 @@
 
 /* Define to 1 if you have the <tidy.h> header file. */
 #cmakedefine HAVE_TIDY_H 1
+
+/* Define to 1 if you have the <timelib_config.h> header file. */
+#cmakedefine HAVE_TIMELIB_CONFIG_H 1
 
 /* Define to 1 if SQLite library was compiled with the
    SQLITE_OMIT_LOAD_EXTENSION and does not have the extension support with the
