@@ -6,17 +6,20 @@ block()
 
   message(STATUS "Creating scripts/man1/php-config.1")
   configure_file(man1/php-config.1.in man1/php-config.1 @ONLY)
+  install(
+    FILES ${PROJECT_BINARY_DIR}/scripts/man1/php-config.1
+    RENAME ${PHP_PROGRAM_PREFIX}php-config${PHP_PROGRAM_SUFFIX}.1
+    DESTINATION ${CMAKE_INSTALL_MANDIR}/man1
+  )
 
   message(STATUS "Creating scripts/man1/phpize.1")
   configure_file(man1/phpize.1.in man1/phpize.1 @ONLY)
+  install(
+    FILES ${PROJECT_BINARY_DIR}/scripts/man1/phpize.1
+    RENAME ${PHP_PROGRAM_PREFIX}phpize${PHP_PROGRAM_SUFFIX}.1
+    DESTINATION ${CMAKE_INSTALL_MANDIR}/man1
+  )
 endblock()
-
-install(
-  FILES
-    ${PROJECT_BINARY_DIR}/scripts/man1/php-config.1
-    ${PROJECT_BINARY_DIR}/scripts/man1/phpize.1
-  DESTINATION ${CMAKE_INSTALL_MANDIR}/man1
-)
 
 block()
   find_program(
@@ -48,7 +51,6 @@ block()
   php_configure_file(
     php-config.in
     php-config
-    INSTALL_DESTINATION ${CMAKE_INSTALL_BINDIR}
     VARIABLES
       SED "${SED}"
       prefix "$<INSTALL_PREFIX>"
@@ -79,12 +81,18 @@ block()
       PHP_EMBED_TYPE "${PHP_EMBED_TYPE}"
   )
 
+  install(
+    PROGRAMS
+    ${CMAKE_CURRENT_BINARY_DIR}/php-config
+    DESTINATION ${CMAKE_INSTALL_BINDIR}
+    RENAME ${PHP_PROGRAM_PREFIX}php-config${PHP_PROGRAM_SUFFIX}
+  )
+
   # The phpize script.
   message(STATUS "Creating scripts/phpize")
   php_configure_file(
     phpize.in
     phpize
-    INSTALL_DESTINATION ${CMAKE_INSTALL_BINDIR}
     VARIABLES
       prefix "$<INSTALL_PREFIX>"
       datarootdir "$<PHP_EXPAND:${CMAKE_INSTALL_DATAROOTDIR}>"
@@ -92,6 +100,13 @@ block()
       libdir "$<PHP_EXPAND:${CMAKE_INSTALL_LIBDIR}>"
       includedir "$<PHP_EXPAND:${CMAKE_INSTALL_INCLUDEDIR}>"
       SED "${SED}"
+  )
+
+  install(
+    PROGRAMS
+    ${CMAKE_CURRENT_BINARY_DIR}/phpize
+    DESTINATION ${CMAKE_INSTALL_BINDIR}
+    RENAME ${PHP_PROGRAM_PREFIX}phpize${PHP_PROGRAM_SUFFIX}
   )
 endblock()
 
@@ -115,3 +130,30 @@ pkgconfig_generate_pc(
     PHP_DEBUG:BOOL "${PHP_DEBUG}"
     PHP_THREAD_SAFETY:BOOL "${PHP_THREAD_SAFETY}"
 )
+
+# Install Autotools build files.
+if(NOT CMAKE_SYSTEM_NAME STREQUAL "Windows")
+  install(
+    FILES
+      ${PHP_SOURCE_DIR}/build/ax_check_compile_flag.m4
+      ${PHP_SOURCE_DIR}/build/ax_gcc_func_attribute.m4
+      ${PHP_SOURCE_DIR}/build/gen_stub.php
+      ${PHP_SOURCE_DIR}/build/libtool.m4
+      ${PHP_SOURCE_DIR}/build/ltmain.sh
+      ${PHP_SOURCE_DIR}/build/Makefile.global
+      ${PHP_SOURCE_DIR}/build/php_cxx_compile_stdcxx.m4
+      ${PHP_SOURCE_DIR}/build/php.m4
+      ${PHP_SOURCE_DIR}/build/pkg.m4
+      ${PHP_SOURCE_DIR}/run-tests.php
+      ${PHP_SOURCE_DIR}/scripts/phpize.m4
+    DESTINATION ${CMAKE_INSTALL_LIBDIR}/php/build
+  )
+
+  install(
+    PROGRAMS
+      ${PHP_SOURCE_DIR}/build/config.guess
+      ${PHP_SOURCE_DIR}/build/config.sub
+      ${PHP_SOURCE_DIR}/build/shtool
+    DESTINATION ${CMAKE_INSTALL_LIBDIR}/php/build
+  )
+endif()

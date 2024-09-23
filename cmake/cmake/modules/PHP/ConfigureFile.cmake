@@ -13,16 +13,13 @@ The following function is exposed:
 ```cmake
 php_configure_file(
   <template-file>
-  <file-output>
-  [INSTALL_DESTINATION <path>]
+  <output-file>
   [VARIABLES [<variable> <value>] ...]
 )
 ```
 
-* `INSTALL_DESTINATION`
-  Path to the directory where the generated file `<file-output>` will be
-  installed to. If not provided, `<file-output>` will not be installed.
 * `VARIABLES`
+
   Pairs of variable names and values.
 
   The `$<INSTALL_PREFIX>` generator expression can be used in variable values,
@@ -37,31 +34,68 @@ php_configure_file(
 
 include_guard(GLOBAL)
 
-# Parse given variables and create a list of options or variables for passing to
+# Parse given variables and create variables and values lists for passing to the
 # configure_file().
-function(_php_configure_file_parse_variables variables)
+#   _php_configure_file_parse_variables(
+#     variables
+#     VARIABLES <variable-name>
+#     VALUES <values-variable-name>
+#     VALUES_IN_CODE <code-values-variable-name>
+#   )
+function(_php_configure_file_parse_variables)
+  cmake_parse_arguments(
+    PARSE_ARGV
+    1
+    parsed                            # prefix
+    ""                                # options
+    ""                                # one-value keywords
+    "VARIABLES;VALUES;VALUES_IN_CODE" # multi-value keywords
+  )
+
+  if(parsed_UNPARSED_ARGUMENTS)
+    message(FATAL_ERROR "Bad arguments: ${parsed_UNPARSED_ARGUMENTS}")
+  endif()
+
+  if(NOT ARGV0)
+    message(
+      FATAL_ERROR
+      "${CMAKE_CURRENT_FUNCTION} expects 1st argument"
+    )
+  endif()
+
+  foreach(item VARIABLES VALUES VALUES_IN_CODE)
+    if(NOT parsed_${item})
+      message(FATAL_ERROR "${CMAKE_CURRENT_FUNCTION}: missing keyword ${item}")
+    endif()
+  endforeach()
+
   # Check for even number of keyword values.
+  set(variables "${ARGV0}")
   list(LENGTH variables length)
   math(EXPR modulus "${length} % 2")
   if(NOT modulus EQUAL 0)
     message(
       FATAL_ERROR
-      "The keyword VARIABLES must be a list of pairs - variable-name and "
-      "value (it must contain an even number of items)."
+      "${CMAKE_CURRENT_FUNCTION}: The keyword VARIABLES must be a list of "
+      "pairs - variable-name and value (it must contain an even number of "
+      "items)."
     )
   endif()
 
-  set(is_value FALSE)
-  set(result_variables "")
-  set(result_values "")
+  set(isValue FALSE)
+  set(resultVariables "")
+  set(resultValues "")
+  set(resultValuesInCode "")
   foreach(variable IN LISTS variables)
-    if(is_value)
-      set(is_value FALSE)
+    if(isValue)
+      set(isValue FALSE)
       continue()
     endif()
+    set(isValue TRUE)
+
     list(POP_FRONT variables var value)
 
-    list(APPEND result_variables ${var})
+    list(APPEND resultVariables ${var})
 
     if(value MATCHES [[^\$<PHP_EXPAND:(.*)>.*]])
       if(IS_ABSOLUTE "${CMAKE_MATCH_1}")
@@ -73,9 +107,23 @@ function(_php_configure_file_parse_variables variables)
       endif()
     endif()
 
-    # The result_values are for the install(CODE) and generator expression
-    # $<INSTALL_PREFIX> works since CMake 3.27, for earlier versions the escaped
-    # variable CMAKE_INSTALL_PREFIX can be used.
+    # The resultValues are for the first configure_file().
+    if(value MATCHES [[.*\$<INSTALL_PREFIX>.*]])
+      string(
+        REPLACE
+        "$<INSTALL_PREFIX>"
+        "${CMAKE_INSTALL_PREFIX}"
+        replaced
+        "${value}"
+      )
+      list(APPEND resultValues ${replaced})
+    else()
+      list(APPEND resultValues ${value})
+    endif()
+
+    # The resultValuesInCode are for the configure_file inside the install(CODE)
+    # and generator expression $<INSTALL_PREFIX> works since CMake 3.27. For
+    # earlier versions the escaped variable CMAKE_INSTALL_PREFIX can be used.
     if(
       CMAKE_VERSION VERSION_LESS 3.27
       AND value MATCHES [[.*\$<INSTALL_PREFIX>.*]]
@@ -84,29 +132,28 @@ function(_php_configure_file_parse_variables variables)
         REPLACE
         "$<INSTALL_PREFIX>"
         "\${CMAKE_INSTALL_PREFIX}"
-        replaced_value
+        replaced
         "${value}"
       )
-      list(APPEND result_values "${replaced_value}")
+      list(APPEND resultValuesInCode "${replaced}")
     else()
-      list(APPEND result_values "${value}")
+      list(APPEND resultValuesInCode "${value}")
     endif()
-
-    set(is_value TRUE)
   endforeach()
 
-  set(result_variables "${result_variables}" PARENT_SCOPE)
-  set(result_values "${result_values}" PARENT_SCOPE)
+  set(${parsed_VARIABLES} "${resultVariables}" PARENT_SCOPE)
+  set(${parsed_VALUES} "${resultValues}" PARENT_SCOPE)
+  set(${parsed_VALUES_IN_CODE} "${resultValuesInCode}" PARENT_SCOPE)
 endfunction()
 
 function(php_configure_file)
   cmake_parse_arguments(
     PARSE_ARGV
     2
-    parsed                # prefix
-    ""                    # options
-    "INSTALL_DESTINATION" # one-value keywords
-    "VARIABLES"           # multi-value keywords
+    parsed      # prefix
+    ""          # options
+    ""          # one-value keywords
+    "VARIABLES" # multi-value keywords
   )
 
   if(parsed_UNPARSED_ARGUMENTS)
@@ -114,59 +161,64 @@ function(php_configure_file)
   endif()
 
   if(NOT ARGV0)
-    message(FATAL_ERROR "php_configure_file expects a template file name")
+    message(FATAL_ERROR "${CMAKE_CURRENT_FUNCTION} expects a template filename")
   endif()
 
   if(NOT ARGV1)
-    message(FATAL_ERROR "php_configure_file expects an output file name")
+    message(FATAL_ERROR "${CMAKE_CURRENT_FUNCTION} expects an output filename")
   endif()
 
-  set(template "${ARGV0}")
-  if(NOT IS_ABSOLUTE "${template}")
-    set(template "${CMAKE_CURRENT_SOURCE_DIR}/${template}")
+  set(___phpConfigureFileTemplate "${ARGV0}")
+  if(NOT IS_ABSOLUTE "${___phpConfigureFileTemplate}")
+    set(
+      ___phpConfigureFileTemplate
+      "${CMAKE_CURRENT_SOURCE_DIR}/${___phpConfigureFileTemplate}"
+    )
   endif()
 
-  set(output "${ARGV1}")
-  if(NOT IS_ABSOLUTE "${output}")
-    set(output "${CMAKE_CURRENT_BINARY_DIR}/${output}")
+  set(___phpConfigureFileOutput "${ARGV1}")
+  if(NOT IS_ABSOLUTE "${___phpConfigureFileOutput}")
+    set(
+      ___phpConfigureFileOutput
+      "${CMAKE_CURRENT_BINARY_DIR}/${___phpConfigureFileOutput}"
+    )
   endif()
 
   if(parsed_VARIABLES)
-    _php_configure_file_parse_variables("${parsed_VARIABLES}")
+    _php_configure_file_parse_variables(
+      "${parsed_VARIABLES}"
+      VARIABLES variables
+      VALUES values
+      VALUES_IN_CODE valuesInCode
+    )
   endif()
 
-  cmake_path(GET template FILENAME filename)
+  block()
+    foreach(var value IN ZIP_LISTS variables values)
+      set(${var} "${value}")
+    endforeach()
 
-  configure_file(
-    ${template}
-    ${output}
-    @ONLY
-  )
-
-  cmake_path(GET output FILENAME output_file)
+    configure_file(
+      ${___phpConfigureFileTemplate}
+      ${___phpConfigureFileOutput}
+      @ONLY
+    )
+  endblock()
 
   install(CODE "
     block()
-      set(result_variables ${result_variables})
-      set(result_values \"${result_values}\")
+      set(variables ${variables})
+      set(valuesInCode \"${valuesInCode}\")
 
-      foreach(var value IN ZIP_LISTS result_variables result_values)
+      foreach(var value IN ZIP_LISTS variables valuesInCode)
         set(\${var} \"\${value}\")
       endforeach()
 
       configure_file(
-        ${template}
-        ${CMAKE_CURRENT_BINARY_DIR}/CMakeFiles/${output_file}
+        ${___phpConfigureFileTemplate}
+        ${___phpConfigureFileOutput}
         @ONLY
       )
     endblock()
   ")
-
-  if(parsed_INSTALL_DESTINATION)
-    install(
-      FILES
-        ${CMAKE_CURRENT_BINARY_DIR}/CMakeFiles/${output_file}
-      DESTINATION ${parsed_INSTALL_DESTINATION}
-    )
-  endif()
 endfunction()

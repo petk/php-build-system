@@ -390,13 +390,16 @@ endif()
 php_configure_file(
   php-fpm.8.in
   php-fpm.8
-  # TODO: Add file suffix.
-  INSTALL_DESTINATION ${CMAKE_INSTALL_MANDIR}/man8
   VARIABLES
     php_fpm_localstatedir "$<PHP_EXPAND:${CMAKE_INSTALL_LOCALSTATEDIR}>"
     php_fpm_sysconfdir "$<PHP_EXPAND:${CMAKE_INSTALL_SYSCONFDIR}>"
     php_fpm_prefix "$<INSTALL_PREFIX>"
     PHP_VERSION "${PHP_VERSION}"
+)
+install(
+  FILES ${CMAKE_CURRENT_BINARY_DIR}/php-fpm.8
+  RENAME ${PHP_PROGRAM_PREFIX}php-fpm${PHP_PROGRAM_SUFFIX}.8
+  DESTINATION ${CMAKE_INSTALL_MANDIR}/man8
 )
 
 php_configure_file(
@@ -467,13 +470,13 @@ install(CODE "
 
     file(
       COPY_FILE
-      \"${CMAKE_CURRENT_BINARY_DIR}/CMakeFiles/php-fpm.conf\"
+      \"${CMAKE_CURRENT_BINARY_DIR}/php-fpm.conf\"
       \"\${CMAKE_INSTALL_PREFIX}/${CMAKE_INSTALL_SYSCONFDIR}/php-fpm.conf.default\"
     )
 
     file(
       COPY_FILE
-      \"${CMAKE_CURRENT_BINARY_DIR}/CMakeFiles/www.conf\"
+      \"${CMAKE_CURRENT_BINARY_DIR}/www.conf\"
       \"\${CMAKE_INSTALL_PREFIX}/${CMAKE_INSTALL_SYSCONFDIR}/php-fpm.d/www.conf.default\"
     )
   endif()
