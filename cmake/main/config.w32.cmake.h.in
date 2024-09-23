@@ -6,6 +6,22 @@
 #define _WIN32_WINNT 0x0602
 #define NTDDI_VERSION 0x06020000
 
+#define __SSE__ 1
+
+#define __SSE2__ 1
+
+#define _REENTRANT 1
+
+/* vs.net 2005 has a 64-bit time_t.  This will likely break
+ * 3rdParty libs that were built with older compilers; switch
+ * back to 32-bit */
+#ifndef _WIN64
+# define _USE_32BIT_TIME_T 1
+#endif
+
+/* The cdb handler header file. */
+#cmakedefine CDB_INCLUDE_FILE "@CDB_INCLUDE_FILE@"
+
 /* Define to 1 if the PHP extension 'bcmath' is built as a dynamic module. */
 #cmakedefine COMPILE_DL_BCMATH 1
 
@@ -240,23 +256,11 @@
 /* Define to 1 if the PHP extension 'zlib' is built as a dynamic module. */
 #cmakedefine COMPILE_DL_ZLIB 1
 
-/* Default PHP / PEAR directories */
-#define PHP_CONFIG_FILE_PATH ""
-#define PEAR_INSTALLDIR "@PREFIX@\\pear"
-#define PHP_BINDIR "@PREFIX@"
-#define PHP_SBINDIR "@PREFIX@"
-#define PHP_DATADIR "@PREFIX@"
-#define PHP_EXTENSION_DIR "@PREFIX@\\ext"
-#define PHP_INCLUDE_PATH ".;@PREFIX@\\pear"
-#define PHP_LIBDIR "@PREFIX@"
-#define PHP_LOCALSTATEDIR "@PREFIX@"
-#define PHP_PREFIX "@PREFIX@"
-#define PHP_SYSCONFDIR "@PREFIX@"
+/* Configure line */
+#cmakedefine CONFIGURE_COMMAND "@CONFIGURE_COMMAND@"
 
-/* PHP Runtime Configuration */
-
-/* The cdb handler header file. */
-#cmakedefine CDB_INCLUDE_FILE "@CDB_INCLUDE_FILE@"
+/* Define to 1 if fopencookie seeker uses off64_t. */
+#cmakedefine COOKIE_SEEKER_USES_OFF64_T 1
 
 /* The DB1 handler header file. */
 #cmakedefine DB1_INCLUDE_FILE "@DB1_INCLUDE_FILE@"
@@ -332,208 +336,18 @@
 /* The GDBM handler header file. */
 #cmakedefine GDBM_INCLUDE_FILE "@GDBM_INCLUDE_FILE@"
 
-/* The LMDB handler header file. */
-#cmakedefine LMDB_INCLUDE_FILE "@LMDB_INCLUDE_FILE@"
-
-/* The NDBM handler header file. */
-#cmakedefine NDBM_INCLUDE_FILE "@NDBM_INCLUDE_FILE@"
-
-/* The QDBM handler header file. */
-#cmakedefine QDBM_INCLUDE_FILE "@QDBM_INCLUDE_FILE@"
-
-/* The Tokyo Cabinet handler header file. */
-#cmakedefine TCADB_INCLUDE_FILE "@TCADB_INCLUDE_FILE@"
-
-/* Platform-Specific Configuration. Should not be changed. */
-
-/* Alignment for Zend memory allocator */
-
-/* Number of bytes for the ZEND_MM alignment. */
-#define ZEND_MM_ALIGNMENT (size_t)8
-
-/* Number of bytes for the logarithmic ZEND_MM alignment. */
-#define ZEND_MM_ALIGNMENT_LOG2 (size_t)3
-
-/* Define to 1 if ZEND_MM needs 8-byte realignment, and to 0 if not. */
-#define ZEND_MM_NEED_EIGHT_BYTE_REALIGNMENT 0
-
-/* Define to 1 if PHP uses its own SIGCHLD handler, and to 0 if not. */
-#define PHP_SIGCHILD 0
-
-#define HAVE_GETSERVBYNAME 1
-#define HAVE_GETSERVBYPORT 1
-#define HAVE_GETPROTOBYNAME 1
-#define HAVE_GETPROTOBYNUMBER 1
-#define HAVE_GETHOSTNAME 1
-#define STDIN_FILENO 0
-#define STDOUT_FILENO 1
-#define STDERR_FILENO 2
-#undef HAVE_SYMLINK
-
-/* its in win32/time.c */
-#define HAVE_USLEEP 1
-#define HAVE_NANOSLEEP 1
-
-#define HAVE_GETCWD 1
-#undef HAVE_SETITIMER
-#undef HAVE_IODBC
-
-/* Define to 1 if you have the 'dl' library. */
-#define HAVE_LIBDL 1
-#define HAVE_GETTIMEOFDAY 1
-#define HAVE_PUTENV 1
-#define HAVE_TZSET 1
-#undef HAVE_FLOCK
-#define HAVE_ALLOCA 1
-#undef HAVE_SYS_TIME_H
-#undef HAVE_STRUCT_STAT_ST_BLKSIZE
-#undef HAVE_STRUCT_STAT_ST_BLOCKS
-#define HAVE_STRUCT_STAT_ST_RDEV 1
-#define HAVE_GETLOGIN 1
-#define HAVE_SHUTDOWN 1
-#define HAVE_STRCASECMP 1
-
-/* Define to 1 if you have the 'strcasestr' function. */
-#cmakedefine HAVE_STRCASESTR 1
-
-/* Define to 1 if you have the 'strndup' function. */
-#cmakedefine HAVE_STRNDUP 1
-
-/* Define to 1 if you have the 'utimes' function. */
-#cmakedefine HAVE_UTIMES 1
-
-#define HAVE_UTIME 1
-#undef HAVE_DIRENT_H
-#define HAVE_FCNTL_H 1
-
-/* Define to 1 if you have the <grp.h> header file. */
-#cmakedefine HAVE_GRP_H 1
-
-#undef HAVE_PWD_H
-#undef HAVE_SYS_FILE_H
-#undef HAVE_SYS_SOCKET_H
-#undef HAVE_SYS_WAIT_H
-#define HAVE_SYSLOG_H 1
-#undef HAVE_UNISTD_H
-#define HAVE_SYS_TYPES_H 1
-#undef HAVE_ALLOCA_H
-#undef HAVE_KILL
-#define HAVE_GETPID 1
-/* int and long are still 32bit in 64bit compiles */
-#define SIZEOF_INT 4
-#define SIZEOF_LONG 4
-/* MSVC.6/NET don't allow 'long long' or know 'intmax_t' */
-#define SIZEOF_LONG_LONG 8 /* defined as __int64 */
-#define SIZEOF_INTMAX_T 0
-#define ssize_t SSIZE_T
-#ifdef _WIN64
-# define SIZEOF_SIZE_T 8
-# define SIZEOF_PTRDIFF_T 8
-#else
-# define SIZEOF_SIZE_T 4
-# define SIZEOF_PTRDIFF_T 4
-#endif
-#define SIZEOF_OFF_T 4
-
-/* Define to 1 if your system has a working POSIX 'fnmatch' function. */
-#define HAVE_FNMATCH 1
-
-#define HAVE_GLOB
-#define PHP_SHLIB_SUFFIX "dll"
-#define PHP_SHLIB_EXT_PREFIX "php_"
-
-/* Win32 supports socketpair by the emulation in win32/sockets.c */
-#define HAVE_SOCKETPAIR 1
-#define HAVE_SOCKLEN_T 1
-
-/* Define to 1 if your system has fork/vfork/CreateProcess. */
-#cmakedefine PHP_CAN_SUPPORT_PROC_OPEN 1
-
-/* vs.net 2005 has a 64-bit time_t.  This will likely break
- * 3rdParty libs that were built with older compilers; switch
- * back to 32-bit */
-#ifndef _WIN64
-# define _USE_32BIT_TIME_T 1
-#endif
-
-#define _REENTRANT 1
-
-#define HAVE_GETRUSAGE
-
-#define HAVE_FTOK 1
-
-#define HAVE_NICE
-
 /* Define to 1 if the odbc extension uses the Adabas D. */
 #cmakedefine HAVE_ADABAS 1
 
-/* Define to 1 if the system has the 'libargon2' library. */
-#cmakedefine HAVE_ARGON2LIB 1
+#define HAVE_ALLOCA 1
 
-/* Define to 1 if the system has the 'ifunc' function attribute */
-#cmakedefine HAVE_FUNC_ATTRIBUTE_IFUNC 1
-
-/* Define to 1 if the system has the 'target' function attribute */
-#cmakedefine HAVE_FUNC_ATTRIBUTE_TARGET 1
-
-/* Define to 1 if the system has the 'visibility' function attribute */
-#cmakedefine HAVE_FUNC_ATTRIBUTE_VISIBILITY 1
-
-/* Define to 1 if you have the 'getaddrinfo' function. */
-#cmakedefine HAVE_GETADDRINFO 1
-
-/* The PHP build provider information. */
-#cmakedefine PHP_BUILD_PROVIDER "@PHP_BUILD_PROVIDER@"
-
-/* The system that PHP was built on. */
-#cmakedefine PHP_BUILD_SYSTEM "@PHP_BUILD_SYSTEM@"
-
-/* Configure line */
-#cmakedefine CONFIGURE_COMMAND "@CONFIGURE_COMMAND@"
-
-/* The compiler used for the PHP build. */
-#cmakedefine PHP_BUILD_COMPILER "@PHP_BUILD_COMPILER@"
-
-/* Compiler compatibility ID */
-#cmakedefine PHP_COMPILER_ID "@PHP_COMPILER_ID@"
-
-/* The build architecture. */
-#cmakedefine PHP_BUILD_ARCH "@PHP_BUILD_ARCH@"
-
-/* Linker major version */
-#define PHP_LINKER_MAJOR 14
-
-/* Linker minor version */
-#define PHP_LINKER_MINOR 38
-
-#define HAVE_STRNLEN 1
-
-/* Define to 1 if checking the stack limit is supported. */
-#cmakedefine ZEND_CHECK_STACK_LIMIT 1
-
-#define HAVE_GAI_STRERROR 1
-
-/* Define to 1 if IPv6 is enabled and supported. */
-#cmakedefine HAVE_IPV6 1
-
-#define __SSE__ 1
-
-#define __SSE2__ 1
-
-/* Define to 1 if fopencookie seeker uses off64_t. */
-#cmakedefine COOKIE_SEEKER_USES_OFF64_T 1
-
-/* Define to 1 if you have the 'fopencookie' function. */
-#cmakedefine HAVE_FOPENCOOKIE 1
-
-/* Define to 1 if the compiler supports AVX-512. */
-#cmakedefine PHP_HAVE_AVX512_SUPPORTS 1
-
-/* Define to 1 if the compiler supports AVX-512 VBMI. */
-#cmakedefine PHP_HAVE_AVX512_VBMI_SUPPORTS 1
+#undef HAVE_ALLOCA_H
 
 /* Define to 1 if you have the 'arc4random_buf' function. */
 #cmakedefine HAVE_ARC4RANDOM_BUF 1
+
+/* Define to 1 if the system has the 'libargon2' library. */
+#cmakedefine HAVE_ARGON2LIB 1
 
 /* Define to 1 if the PHP extension 'bcmath' is available. */
 #cmakedefine HAVE_BCMATH 1
@@ -544,20 +358,31 @@
 /* Define to 1 if PHP has the <main/build-defs.h> header file. */
 #cmakedefine HAVE_BUILD_DEFS_H 1
 
+/* Define to 1 if PHP uses the bundled PCRE library. */
+#cmakedefine HAVE_BUNDLED_PCRE 1
+
 /* Define to 1 if the PHP extension 'bz2' is available. */
 #cmakedefine HAVE_BZ2 1
 
 /* Define to 1 if the PHP extension 'calendar' is available. */
 #cmakedefine HAVE_CALENDAR 1
 
-/* Define to 1 if the PHP extension 'com_dotnet' is available. */
-#cmakedefine HAVE_COM_DOTNET 1
-
-/* Define to 1 if you have the <mscoree.h> header file. */
-#cmakedefine HAVE_MSCOREE_H 1
+/* Define to 1 if libzip library has the
+   'zip_register_cancel_callback_with_state' function (available since 1.6.0).
+   */
+#cmakedefine HAVE_CANCEL_CALLBACK 1
 
 /* Define to 1 if Capstone is available. */
 #cmakedefine HAVE_CAPSTONE 1
+
+/* Define to 1 if you have the 'clock_get_time' function. */
+#cmakedefine HAVE_CLOCK_GET_TIME 1
+
+/* Define to 1 if you have the 'clock_gettime' function. */
+#cmakedefine HAVE_CLOCK_GETTIME 1
+
+/* Define to 1 if the PHP extension 'com_dotnet' is available. */
+#cmakedefine HAVE_COM_DOTNET 1
 
 /* Define to 1 if you have the 'ctermid' function. */
 #cmakedefine HAVE_CTERMID 1
@@ -577,17 +402,19 @@
 /* Define to 1 if you have the 'dcngettext' function. */
 #cmakedefine HAVE_DCNGETTEXT 1
 
+#undef HAVE_DIRENT_H
+
 /* Define to 1 if you have the 'dngettext' function. */
 #cmakedefine HAVE_DNGETTEXT 1
 
 /* Define to 1 if the PHP extension 'dom' is available. */
 #cmakedefine HAVE_DOM 1
 
-/* Define to 1 if you have the 'elf_aux_info' function. */
-#cmakedefine HAVE_ELF_AUX_INFO 1
-
 /* Define to 1 if you have the 'eaccess' function. */
 #cmakedefine HAVE_EACCESS 1
+
+/* Define to 1 if you have the 'elf_aux_info' function. */
+#cmakedefine HAVE_ELF_AUX_INFO 1
 
 /* Define to 1 if the PHP extension 'enchant' is available. */
 #cmakedefine HAVE_ENCHANT 1
@@ -600,15 +427,18 @@
    (available since 1.6.0). */
 #cmakedefine HAVE_ENCHANT_GET_VERSION 1
 
+/* Define to 1 if libzip library has encryption support (available since
+   1.2.0). */
+#cmakedefine HAVE_ENCRYPTION 1
+
 /* Define to 1 if edit/readline library has the 'rl_erase_empty_line' global
    variable. */
 #cmakedefine HAVE_ERASE_EMPTY_LINE 1
 
-/* Define to 1 if edit/readline library has the 'history_list' function. */
-#cmakedefine HAVE_HISTORY_LIST 1
-
 /* Define to 1 if the PHP extension 'exif' is available. */
 #cmakedefine HAVE_EXIF 1
+
+#define HAVE_FCNTL_H 1
 
 /* Define to 1 if the PHP extension 'ffi' is available. */
 #cmakedefine HAVE_FFI 1
@@ -637,11 +467,21 @@
 /* Define to 1 if libffi supports the 'FFI_VECTORCALL' calling convention. */
 #cmakedefine HAVE_FFI_VECTORCALL_PARTIAL 1
 
+#undef HAVE_FLOCK
+
 /* Define to 1 if flush should be called explicitly after a buffered io. */
 #cmakedefine HAVE_FLUSHIO 1
 
+/* Define to 1 if your system has a working POSIX 'fnmatch' function. */
+#define HAVE_FNMATCH 1
+
+/* Define to 1 if you have the 'fopencookie' function. */
+#cmakedefine HAVE_FOPENCOOKIE 1
+
 /* Define to 1 if you have the 'fpathconf' function. */
 #cmakedefine HAVE_FPATHCONF 1
+
+#define HAVE_FTOK 1
 
 /* Define to 1 if the PHP extension 'ftp' is available. */
 #cmakedefine HAVE_FTP 1
@@ -649,14 +489,16 @@
 /* Define to 1 if FTP over SSL is enabled. */
 #cmakedefine HAVE_FTP_SSL 1
 
-/* Define to 1 if the PHP extension 'gmp' is available. */
-#cmakedefine HAVE_GMP 1
+/* Define to 1 if the system has the 'ifunc' function attribute */
+#cmakedefine HAVE_FUNC_ATTRIBUTE_IFUNC 1
 
-/* Define to 1 if mhash support is enabled. */
-#cmakedefine PHP_MHASH_BC 1
+/* Define to 1 if the system has the 'target' function attribute */
+#cmakedefine HAVE_FUNC_ATTRIBUTE_TARGET 1
 
-/* Define to 1 if you have the 'getrandom' function. */
-#cmakedefine HAVE_GETRANDOM 1
+/* Define to 1 if the system has the 'visibility' function attribute */
+#cmakedefine HAVE_FUNC_ATTRIBUTE_VISIBILITY 1
+
+#define HAVE_GAI_STRERROR 1
 
 /* Define to 1 if gd extension has AVIF support. */
 #cmakedefine HAVE_GD_AVIF 1
@@ -692,8 +534,12 @@
 /* Define to 1 if gd extension has XPM support. */
 #cmakedefine HAVE_GD_XPM 1
 
-/* Define to 1 if iconv implementation is glibc. */
-#cmakedefine HAVE_GLIBC_ICONV 1
+/* Define to 1 if you have the 'getaddrinfo' function. */
+#cmakedefine HAVE_GETADDRINFO 1
+
+#define HAVE_GETCWD 1
+
+#define HAVE_GETHOSTNAME 1
 
 /* Define to 1 if you have the 'getgrgid_r' function. */
 #cmakedefine HAVE_GETGRGID_R 1
@@ -701,8 +547,27 @@
 /* Define to 1 if you have the 'getgroups' function. */
 #cmakedefine HAVE_GETGROUPS 1
 
+#define HAVE_GETLOGIN 1
+
 /* Define to 1 if you have the 'getpgid' function. */
 #cmakedefine HAVE_GETPGID 1
+
+#define HAVE_GETPROTOBYNAME 1
+
+#define HAVE_GETPROTOBYNUMBER 1
+
+/* Define to 1 if you have the 'getrandom' function. */
+#cmakedefine HAVE_GETRANDOM 1
+
+#define HAVE_GETRUSAGE
+
+#define HAVE_GETSERVBYNAME 1
+
+#define HAVE_GETSERVBYPORT 1
+
+#define HAVE_GETTIMEOFDAY 1
+
+#define HAVE_GETPID 1
 
 /* Define to 1 if you have the 'getrlimit' function. */
 #cmakedefine HAVE_GETRLIMIT 1
@@ -710,91 +575,38 @@
 /* Define to 1 if you have the 'getsid' function. */
 #cmakedefine HAVE_GETSID 1
 
+/* Define to 1 if iconv implementation is glibc. */
+#cmakedefine HAVE_GLIBC_ICONV 1
+
+#define HAVE_GLOB
+
+/* Define to 1 if the PHP extension 'gmp' is available. */
+#cmakedefine HAVE_GMP 1
+
+/* Define to 1 if you have the <grp.h> header file. */
+#cmakedefine HAVE_GRP_H 1
+
+/* Define to 1 if edit/readline library has the 'history_list' function. */
+#cmakedefine HAVE_HISTORY_LIST 1
+
 /* Define to 1 if iconv implementation is IBM. */
 #cmakedefine HAVE_IBM_ICONV 1
-
-/* Define to 1 if you have the 'initgroups' function. */
-#cmakedefine HAVE_INITGROUPS 1
-
-/* Define to 1 if you have the libavif library. */
-#cmakedefine HAVE_LIBAVIF 1
-
-/* Define to 1 if you have the FreeType library. */
-#cmakedefine HAVE_LIBFREETYPE 1
-
-/* Define to 1 gd extension uses external system GD library. */
-#cmakedefine HAVE_LIBGD 1
-
-/* Define to 1 if you have the 'intl' library. */
-#cmakedefine HAVE_LIBINTL 1
-
-/* Define to 1 if you have the libjpeg library. */
-#cmakedefine HAVE_LIBJPEG 1
-
-/* Define to 1 if you have the libpng library. */
-#cmakedefine HAVE_LIBPNG 1
-
-/* Define to 1 if you have the <libproc.h> header file. */
-#cmakedefine HAVE_LIBPROC_H 1
-
-/* Define to 1 if you have the libwebp library. */
-#cmakedefine HAVE_LIBWEBP 1
-
-/* Define to 1 if you have the 'mkfifo' function. */
-#cmakedefine HAVE_MKFIFO 1
-
-/* Define to 1 if you have the 'mknod' function. */
-#cmakedefine HAVE_MKNOD 1
-
-/* Define to 1 if you have the 'ngettext' function. */
-#cmakedefine HAVE_NGETTEXT 1
-
-/* Define to 1 if you have the 'pathconf' function. */
-#cmakedefine HAVE_PATHCONF 1
-
-/* Define to 1 if the PHP extension 'pgsql' is available. */
-#cmakedefine HAVE_PGSQL 1
-
-/* Whether libpq is compiled with --enable-multibyte */
-#cmakedefine HAVE_PGSQL_WITH_MULTIBYTE_SUPPORT 1
-
-/* Define to 1 if the phpdbg SAPI has libedit/readline integration. */
-#cmakedefine HAVE_PHPDBG_READLINE 1
-
-/* Define to 1 if the PHP extension 'pdo_pgsql' is available. */
-#cmakedefine HAVE_PDO_PGSQL 1
-
-/* Define to 1 if the PHP extension 'posix' is available. */
-#cmakedefine HAVE_POSIX 1
-
-/* Define to 1 if edit/readline library has the 'rl_callback_read_char'
-   function. */
-#cmakedefine HAVE_RL_CALLBACK_READ_CHAR 1
-
-/* Define to 1 if edit/readline library has the 'rl_completion_matches'
-   function. */
-#cmakedefine HAVE_RL_COMPLETION_MATCHES 1
-
-/* Define to 1 if edit/readline library has the 'rl_on_new_line' function. */
-#cmakedefine HAVE_RL_ON_NEW_LINE 1
-
-/* Define to 1 if you have the xpm library. */
-#cmakedefine HAVE_XPM 1
-
-/* Define to 1 if GD library has JIS-mapped Japanese font support. */
-#cmakedefine JISX0208 1
-
-/* Define to 1 if gd extension has JIS-mapped Japanese font support. */
-#cmakedefine USE_GD_JISX0208 1
-
-/* Define to 1 if you have the <zlib.h> header file. */
-#cmakedefine HAVE_ZLIB_H 1
 
 /* Define to 1 if the PHP extension 'iconv' is available. */
 #cmakedefine HAVE_ICONV 1
 
+/* Define to 1 if you have the 'initgroups' function. */
+#cmakedefine HAVE_INITGROUPS 1
+
+#undef HAVE_IODBC
+
+/* Define to 1 if IPv6 is enabled and supported. */
+#cmakedefine HAVE_IPV6 1
+
 /* Define to 1 to enable JIT. */
 #cmakedefine HAVE_JIT 1
+
+#undef HAVE_KILL
 
 /* Define to 1 if the PHP extension 'ldap' is available. */
 #cmakedefine HAVE_LDAP 1
@@ -826,8 +638,54 @@
 /* Define to 1 if the ldap extension has SASL support enabled. */
 #cmakedefine HAVE_LDAP_SASL 1
 
+/* Define to 1 if you have the libavif library. */
+#cmakedefine HAVE_LIBAVIF 1
+
+/* Define to 1 if you have the 'dl' library. */
+#define HAVE_LIBDL 1
+
+/* Define to 1 if readline extension uses the 'libedit' library. */
+#cmakedefine HAVE_LIBEDIT 1
+
+/* */
+#cmakedefine HAVE_LIBEXPAT 1
+
+/* Define to 1 if you have the FreeType library. */
+#cmakedefine HAVE_LIBFREETYPE 1
+
+/* Define to 1 gd extension uses external system GD library. */
+#cmakedefine HAVE_LIBGD 1
+
+/* Define to 1 if you have the 'libiconv' function. */
+#cmakedefine HAVE_LIBICONV 1
+
+/* Define to 1 if you have the 'intl' library. */
+#cmakedefine HAVE_LIBINTL 1
+
+/* Define to 1 if you have the libjpeg library. */
+#cmakedefine HAVE_LIBJPEG 1
+
+/* Define to 1 if the system has the 'mm' library. */
+#cmakedefine HAVE_LIBMM 1
+
+/* Define to 1 if you have the libpng library. */
+#cmakedefine HAVE_LIBPNG 1
+
+/* Define to 1 if you have the <libproc.h> header file. */
+#cmakedefine HAVE_LIBPROC_H 1
+
+/* Define to 1 if the PHP extension 'sodium' is available. */
+#cmakedefine HAVE_LIBSODIUMLIB 1
+
+/* Define to 1 if you have the libwebp library. */
+#cmakedefine HAVE_LIBWEBP 1
+
 /* Define to 1 if the PHP extension 'libxml' is available. */
 #cmakedefine HAVE_LIBXML 1
+
+/* Define to 1 if libzip library has the 'zip_libzip_version' function
+   (available since 1.3.1). */
+#cmakedefine HAVE_LIBZIP_VERSION 1
 
 /* Define to 1 if the PHP extension 'mbstring' is available. */
 #cmakedefine HAVE_MBSTRING 1
@@ -835,51 +693,28 @@
 /* Define to 1 if mbstring has multibyte regex support enabled. */
 #cmakedefine HAVE_MBREGEX 1
 
-/* Define to 1 if you have the 'setegid' function. */
-#cmakedefine HAVE_SETEGID 1
+/* Define to 1 if libzip library has 'zip_*_method_supported' functions
+   (available since 1.7.0). */
+#cmakedefine HAVE_METHOD_SUPPORTED 1
 
-/* Define to 1 if you have the 'seteuid' function. */
-#cmakedefine HAVE_SETEUID 1
+/* Define to 1 if you have the <mscoree.h> header file. */
+#cmakedefine HAVE_MSCOREE_H 1
 
-/* Define to 1 if you have the 'setrlimit' function. */
-#cmakedefine HAVE_SETRLIMIT 1
+/* Define to 1 if you have the 'mkfifo' function. */
+#cmakedefine HAVE_MKFIFO 1
 
-/* Define to 1 if you have the 'setsid' function. */
-#cmakedefine HAVE_SETSID 1
+/* Define to 1 if you have the 'mknod' function. */
+#cmakedefine HAVE_MKNOD 1
 
-/* Define to 1 if the odbc extension uses the Solid DB. */
-#cmakedefine HAVE_SOLID 1
+#define HAVE_NANOSLEEP 1
 
-/* Define to 1 if 'domainname' is a member of 'struct utsname'. */
-#cmakedefine HAVE_STRUCT_UTSNAME_DOMAINNAME 1
+/* Define to 1 if you have the 'ngettext' function. */
+#cmakedefine HAVE_NGETTEXT 1
 
-/* Define to 1 if oniguruma has an invalid entry for KOI8 encoding. */
-#cmakedefine PHP_ONIG_BAD_KOI8_ENTRY 1
-
-/* Define to 1 if mysqlnd has compressed protocol support. */
-#cmakedefine MYSQLND_COMPRESSION_ENABLED 1
-
-/* Define to 1 if mysqlnd extended SSL is enabled through OpenSSL. */
-#cmakedefine MYSQLND_HAVE_SSL 1
-
-/* Define to 1 if mysqlnd core SSL is enabled. */
-#cmakedefine MYSQLND_SSL_SUPPORTED 1
-
-/* Define to 1 to load the OpenSSL legacy algorithm provider in addition to
-   the default provider. */
-#cmakedefine LOAD_OPENSSL_LEGACY_PROVIDER 1
-
-/* Define to 1 if you have the SysV IPC SHM support. */
-#cmakedefine HAVE_SHM_IPC 1
-
-/* Define to 1 if you have the mmap(MAP_ANON) SHM support. */
-#cmakedefine HAVE_SHM_MMAP_ANON 1
-
-/* Define to 1 if you have the POSIX mmap() SHM support. */
-#cmakedefine HAVE_SHM_MMAP_POSIX 1
+#define HAVE_NICE
 
 /* Define to 1 to enable OpenSSL argon2 password hashing. */
-#cmakedefine HAVE_OPENSSL_ARGON2 1
++#cmakedefine HAVE_OPENSSL_ARGON2 1
 
 /* Define to 1 if you have the <openssl/crypto.h> header file. */
 #cmakedefine HAVE_OPENSSL_CRYPTO_H 1
@@ -887,39 +722,17 @@
 /* Define to 1 if the PHP extension 'openssl' is available. */
 #cmakedefine HAVE_OPENSSL_EXT 1
 
-/* Define to 1 if OpenSSL crypto library has the 'RAND_egd' function. */
-#cmakedefine HAVE_RAND_EGD 1
-
-/* Define to 1 to use system default cipher list instead of the hardcoded
-   value in OpenSSL. */
-#cmakedefine USE_OPENSSL_SYSTEM_CIPHERS 1
-
-/* Define to 1 if PHP uses the bundled PCRE library. */
-#cmakedefine HAVE_BUNDLED_PCRE 1
-
-/* Number of bits in non-UTF mode for PCRE library. */
-#cmakedefine PCRE2_CODE_UNIT_WIDTH @PCRE2_CODE_UNIT_WIDTH@
-
-/* Define to 1 if PCRE library is built statically. */
-#cmakedefine PCRE2_STATIC 1
+/* Define to 1 if you have the 'pathconf' function. */
+#cmakedefine HAVE_PATHCONF 1
 
 /* Define to 1 if PCRE JIT is enabled and supported. */
 #cmakedefine HAVE_PCRE_JIT_SUPPORT 1
 
-/* Define to 1 if PGVerbosity enum has PQERRORS_SQLSTATE. */
-#cmakedefine HAVE_PQERRORS_SQLSTATE 1
+/* Define to 1 if the PHP extension 'pdo_pgsql' is available. */
+#cmakedefine HAVE_PDO_PGSQL 1
 
-/* Define to 1 if you have a working 'ttyname_r' function. */
-#cmakedefine HAVE_TTYNAME_R 1
-
-/* Define to 1 if SQLite library was compiled with the
-   SQLITE_OMIT_LOAD_EXTENSION and does not have the extension support with the
-   'sqlite3_load_extension' function. For usage in the pdo_sqlite. See
-   https://www.sqlite.org/compile.html. */
-#cmakedefine PDO_SQLITE_OMIT_LOAD_EXTENSION 1
-
-/* Define to 1 if readline extension uses the 'libedit' library. */
-#cmakedefine HAVE_LIBEDIT 1
+/* Define to 1 if the PHP extension 'pgsql' is available. */
+#cmakedefine HAVE_PGSQL 1
 
 /* Define to 1 if libpq has the 'PQchangePassword' function (PostgreSQL 17 or
    later). */
@@ -937,11 +750,91 @@
    later). */
 #cmakedefine HAVE_PG_SOCKET_POLL 1
 
-/* */
-#cmakedefine HAVE_LIBEXPAT 1
+/* Whether libpq is compiled with --enable-multibyte */
+#cmakedefine HAVE_PGSQL_WITH_MULTIBYTE_SUPPORT 1
 
-/* Define to 1 if you have the 'libiconv' function. */
-#cmakedefine HAVE_LIBICONV 1
+/* Define to 1 if the PHP extension 'session' is available. */
+#cmakedefine HAVE_PHP_SESSION 1
+
+/* Define to 1 if the phpdbg SAPI has libedit/readline integration. */
+#cmakedefine HAVE_PHPDBG_READLINE 1
+
+/* Define to 1 if the PHP extension 'posix' is available. */
+#cmakedefine HAVE_POSIX 1
+
+/* Define to 1 if PGVerbosity enum has PQERRORS_SQLSTATE. */
+#cmakedefine HAVE_PQERRORS_SQLSTATE 1
+
+/* Define to 1 if libzip library has the
+   'zip_register_progress_callback_with_state' function (available since
+   1.3.0). */
+#cmakedefine HAVE_PROGRESS_CALLBACK 1
+
+#define HAVE_PUTENV 1
+
+#undef HAVE_PWD_H
+
+/* Define to 1 if OpenSSL crypto library has the 'RAND_egd' function. */
+#cmakedefine HAVE_RAND_EGD 1
+
+/* Define to 1 if edit/readline library has the 'rl_callback_read_char'
+   function. */
+#cmakedefine HAVE_RL_CALLBACK_READ_CHAR 1
+
+/* Define to 1 if edit/readline library has the 'rl_completion_matches'
+   function. */
+#cmakedefine HAVE_RL_COMPLETION_MATCHES 1
+
+/* Define to 1 if edit/readline library has the 'rl_on_new_line' function. */
+#cmakedefine HAVE_RL_ON_NEW_LINE 1
+
+/* Define to 1 if you have the 'setegid' function. */
+#cmakedefine HAVE_SETEGID 1
+
+/* Define to 1 if you have the 'seteuid' function. */
+#cmakedefine HAVE_SETEUID 1
+
+/* Define to 1 if libzip library has the 'zip_file_set_mtime' function
+   (available since 1.0.0). */
+#cmakedefine HAVE_SET_MTIME 1
+
+/* Define to 1 if you have the SysV IPC SHM support. */
+#cmakedefine HAVE_SHM_IPC 1
+
+/* Define to 1 if you have the mmap(MAP_ANON) SHM support. */
+#cmakedefine HAVE_SHM_MMAP_ANON 1
+
+/* Define to 1 if you have the POSIX mmap() SHM support. */
+#cmakedefine HAVE_SHM_MMAP_POSIX 1
+
+#define HAVE_SHUTDOWN 1
+
+#undef HAVE_SETITIMER
+
+/* Define to 1 if you have the 'setrlimit' function. */
+#cmakedefine HAVE_SETRLIMIT 1
+
+/* Define to 1 if you have the 'setsid' function. */
+#cmakedefine HAVE_SETSID 1
+
+/* Define to 1 if the odbc extension uses the Solid DB. */
+#cmakedefine HAVE_SOLID 1
+
+#define HAVE_STRCASECMP 1
+
+/* Define to 1 if you have the 'strcasestr' function. */
+#cmakedefine HAVE_STRCASESTR 1
+
+/* Define to 1 if you have the 'strndup' function. */
+#cmakedefine HAVE_STRNDUP 1
+
+#define HAVE_STRNLEN 1
+
+#undef HAVE_STRUCT_STAT_ST_BLKSIZE
+#undef HAVE_STRUCT_STAT_ST_BLOCKS
+#define HAVE_STRUCT_STAT_ST_RDEV 1
+
+#undef HAVE_SYS_TIME_H
 
 /* Define to 1 if the PHP extension 'shmop' is available. */
 #cmakedefine HAVE_SHMOP 1
@@ -960,6 +853,8 @@
    */
 #cmakedefine HAVE_SNMP_SHA512 1
 
+#undef HAVE_SYMLINK
+
 /* Define to 1 if the PHP extension 'sysvmsg' is available. */
 #cmakedefine HAVE_SYSVMSG 1
 
@@ -969,20 +864,16 @@
 /* Define to 1 if the PHP extension 'sysvshm' is available. */
 #cmakedefine HAVE_SYSVSHM 1
 
-/* Define to 1 if the PHP extension 'session' is available. */
-#cmakedefine HAVE_PHP_SESSION 1
-
 /* Define to 1 if the PHP extension 'soap' is available. */
 #cmakedefine HAVE_SOAP 1
+
+/* Win32 supports socketpair by the emulation in win32/sockets.c */
+#define HAVE_SOCKETPAIR 1
 
 /* Define to 1 if the PHP extension 'sockets' is available. */
 #cmakedefine HAVE_SOCKETS 1
 
-/* Define to 1 if the system has the 'mm' library. */
-#cmakedefine HAVE_LIBMM 1
-
-/* Define to 1 if the PHP extension 'sodium' is available. */
-#cmakedefine HAVE_LIBSODIUMLIB 1
+#define HAVE_SOCKLEN_T 1
 
 /* Define to 1 if SNMP library has the 'shutdown_snmp_logging' function. */
 #cmakedefine HAVE_SHUTDOWN_SNMP_LOGGING 1
@@ -1008,6 +899,15 @@
 /* Define to 1 if SQLite library has the 'sqlite3_expanded_sql' function. */
 #cmakedefine HAVE_SQLITE3_EXPANDED_SQL 1
 
+/* Define to 1 if 'domainname' is a member of 'struct utsname'. */
+#cmakedefine HAVE_STRUCT_UTSNAME_DOMAINNAME 1
+
+#undef HAVE_SYS_FILE_H
+#undef HAVE_SYS_SOCKET_H
+#undef HAVE_SYS_WAIT_H
+#define HAVE_SYSLOG_H 1
+#define HAVE_SYS_TYPES_H 1
+
 /* Define to 1 if you have the <tidybuffio.h> header file. */
 #cmakedefine HAVE_TIDYBUFFIO_H 1
 
@@ -1020,20 +920,34 @@
 /* Define to 1 if Tidy library has the 'tidyReleaseDate' function. */
 #cmakedefine HAVE_TIDYRELEASEDATE 1
 
+/* Define to 1 if the PHP extension 'tidy' is available. */
+#cmakedefine HAVE_TIDY 1
+
 /* Define to 1 if you have the <tidy.h> header file. */
 #cmakedefine HAVE_TIDY_H 1
-
-/* Define to 1 if the system has the type 'union semun'. */
-#cmakedefine HAVE_UNION_SEMUN 1
 
 /* Define to 1 if you have the <timelib_config.h> header file. */
 #cmakedefine HAVE_TIMELIB_CONFIG_H 1
 
-/* Define to 1 if SQLite library was compiled with the
-   SQLITE_OMIT_LOAD_EXTENSION and does not have the extension support with the
-   'sqlite3_load_extension' function. For usage in the sqlite3 PHP extension.
-   See https://www.sqlite.org/compile.html. */
-#cmakedefine SQLITE_OMIT_LOAD_EXTENSION 1
+/* Define to 1 if you have a working 'ttyname_r' function. */
+#cmakedefine HAVE_TTYNAME_R 1
+
+#define HAVE_TZSET 1
+
+/* Define to 1 if the PHP extension 'odbc' is available. */
+#cmakedefine HAVE_UODBC 1
+
+/* Define to 1 if you have the 'utimes' function. */
+#cmakedefine HAVE_UTIMES 1
+
+/* Define to 1 if the system has the type 'union semun'. */
+#cmakedefine HAVE_UNION_SEMUN 1
+
+#undef HAVE_UNISTD_H
+
+#define HAVE_USLEEP 1
+
+#define HAVE_UTIME 1
 
 /* Define to 1 if the PHP extension 'xml' is available. */
 #cmakedefine HAVE_XML 1
@@ -1044,6 +958,9 @@
 /* Define to 1 if the PHP extension 'xmlwriter' is available. */
 #cmakedefine HAVE_XMLWRITER 1
 
+/* Define to 1 if you have the xpm library. */
+#cmakedefine HAVE_XPM 1
+
 /* Define to 1 if the PHP extension 'xsl' is available. */
 #cmakedefine HAVE_XSL 1
 
@@ -1053,58 +970,11 @@
 /* Define to 1 if the PHP extension 'zip' is available. */
 #cmakedefine HAVE_ZIP 1
 
-/* */
-#cmakedefine ZIP_STATIC 1
-
-/* Define to 1 if libzip library has the 'zip_file_set_mtime' function
-   (available since 1.0.0). */
-#cmakedefine HAVE_SET_MTIME 1
-
-/* Define to 1 if libzip library has encryption support (available since
-   1.2.0). */
-#cmakedefine HAVE_ENCRYPTION 1
-
-/* Define to 1 if libzip library has the 'zip_libzip_version' function
-   (available since 1.3.1). */
-#cmakedefine HAVE_LIBZIP_VERSION 1
-
-/* Define to 1 if libzip library has the
-   'zip_register_progress_callback_with_state' function (available since
-   1.3.0). */
-#cmakedefine HAVE_PROGRESS_CALLBACK 1
-
-/* Define to 1 if libzip library has the
-   'zip_register_cancel_callback_with_state' function (available since 1.6.0).
-   */
-#cmakedefine HAVE_CANCEL_CALLBACK 1
-
-/* Define to 1 if libzip library has 'zip_*_method_supported' functions
-   (available since 1.7.0). */
-#cmakedefine HAVE_METHOD_SUPPORTED 1
-
 /* Define to 1 if the PHP extension 'zlib' is available. */
 #cmakedefine HAVE_ZLIB 1
 
-/* Define to 1 if the pdo_mysql extension uses mysqlnd. */
-#cmakedefine PDO_USE_MYSQLND 1
-
-#define PHP_CONFIG_FILE_SCAN_DIR "@PHP_FULL_CONFIG_FILE_SCAN_DIR@"
-
-/* Define to 1 if PHP uses its own crypt_r, and to 0 if using the external
-   crypt library. */
-#cmakedefine01 PHP_USE_PHP_CRYPT_R 1
-
-/* Define to 1 if you have the 'clock_gettime' function. */
-#cmakedefine HAVE_CLOCK_GETTIME 1
-
-/* Define to 1 if you have the 'clock_get_time' function. */
-#cmakedefine HAVE_CLOCK_GET_TIME 1
-
-/* Define to 1 if the PHP extension 'tidy' is available. */
-#cmakedefine HAVE_TIDY 1
-
-/* Define to 1 if the PHP extension 'odbc' is available. */
-#cmakedefine HAVE_UODBC 1
+/* Define to 1 if you have the <zlib.h> header file. */
+#cmakedefine HAVE_ZLIB_H 1
 
 /* Define to 1 if 'iconv()' is aliased to 'libiconv()'. */
 #cmakedefine ICONV_ALIASED_LIBICONV 1
@@ -1112,11 +982,174 @@
 /* Define to 1 if iconv has broken IGNORE. */
 #cmakedefine ICONV_BROKEN_IGNORE 1
 
+/* Define to 1 if GD library has JIS-mapped Japanese font support. */
+#cmakedefine JISX0208 1
+
+/* The LMDB handler header file. */
+#cmakedefine LMDB_INCLUDE_FILE "@LMDB_INCLUDE_FILE@"
+
+/* Define to 1 to load the OpenSSL legacy algorithm provider in addition to
+   the default provider. */
+#cmakedefine LOAD_OPENSSL_LEGACY_PROVIDER 1
+
+/* Define to 1 if mysqlnd has compressed protocol support. */
+#cmakedefine MYSQLND_COMPRESSION_ENABLED 1
+
+/* Define to 1 if mysqlnd extended SSL is enabled through OpenSSL. */
+#cmakedefine MYSQLND_HAVE_SSL 1
+
+/* Define to 1 if mysqlnd core SSL is enabled. */
+#cmakedefine MYSQLND_SSL_SUPPORTED 1
+
+/* The NDBM handler header file. */
+#cmakedefine NDBM_INCLUDE_FILE "@NDBM_INCLUDE_FILE@"
+
 /* The highest supported ODBC version. */
 #cmakedefine ODBCVER @ODBCVER@
 
+/* Number of bits in non-UTF mode for PCRE library. */
+#cmakedefine PCRE2_CODE_UNIT_WIDTH @PCRE2_CODE_UNIT_WIDTH@
+
+/* Define to 1 if PCRE library is built statically. */
+#cmakedefine PCRE2_STATIC 1
+
+/* Define to 1 if SQLite library was compiled with the
+   SQLITE_OMIT_LOAD_EXTENSION and does not have the extension support with the
+   'sqlite3_load_extension' function. For usage in the pdo_sqlite. See
+   https://www.sqlite.org/compile.html. */
+#cmakedefine PDO_SQLITE_OMIT_LOAD_EXTENSION 1
+
+/* Define to 1 if the pdo_mysql extension uses mysqlnd. */
+#cmakedefine PDO_USE_MYSQLND 1
+
+/* The PEAR installation directory. */
+#define PEAR_INSTALLDIR "@PREFIX@\\pear"
+
+#define PHP_BINDIR "@PREFIX@"
+
+/* The build architecture. */
+#cmakedefine PHP_BUILD_ARCH "@PHP_BUILD_ARCH@"
+
+/* The compiler used for the PHP build. */
+#cmakedefine PHP_BUILD_COMPILER "@PHP_BUILD_COMPILER@"
+
+/* The PHP build provider information. */
+#cmakedefine PHP_BUILD_PROVIDER "@PHP_BUILD_PROVIDER@"
+
+/* The system that PHP was built on. */
+#cmakedefine PHP_BUILD_SYSTEM "@PHP_BUILD_SYSTEM@"
+
+/* Define to 1 if your system has fork/vfork/CreateProcess. */
+#cmakedefine PHP_CAN_SUPPORT_PROC_OPEN 1
+
+/* Compiler compatibility ID */
+#cmakedefine PHP_COMPILER_ID "@PHP_COMPILER_ID@"
+
+/* The path in which to look for php.ini. */
+#define PHP_CONFIG_FILE_PATH ""
+
+#define PHP_CONFIG_FILE_SCAN_DIR "@PHP_FULL_CONFIG_FILE_SCAN_DIR@"
+
+#define PHP_DATADIR "@PREFIX@"
+
+#define PHP_EXTENSION_DIR "@PREFIX@\\ext"
+
+/* Define to 1 if the compiler supports AVX-512. */
+#cmakedefine PHP_HAVE_AVX512_SUPPORTS 1
+
+/* Define to 1 if the compiler supports AVX-512 VBMI. */
+#cmakedefine PHP_HAVE_AVX512_VBMI_SUPPORTS 1
+
 /* The iconv implementation. */
 #cmakedefine PHP_ICONV_IMPL "@PHP_ICONV_IMPL@"
+
+#define PHP_INCLUDE_PATH ".;@PREFIX@\\pear"
+
+#define PHP_LIBDIR "@PREFIX@"
+
+/* Linker major version */
+#define PHP_LINKER_MAJOR 14
+
+/* Linker minor version */
+#define PHP_LINKER_MINOR 38
+
+#define PHP_LOCALSTATEDIR "@PREFIX@"
+
+/* Define to 1 if mhash support is enabled. */
+#cmakedefine PHP_MHASH_BC 1
+
+/* Define to 1 if oniguruma has an invalid entry for KOI8 encoding. */
+#cmakedefine PHP_ONIG_BAD_KOI8_ENTRY 1
+
+#define PHP_PREFIX "@PREFIX@"
+
+#define PHP_SBINDIR "@PREFIX@"
+
+#define PHP_SHLIB_EXT_PREFIX "php_"
+#define PHP_SHLIB_SUFFIX "dll"
+
+/* Define to 1 if PHP uses its own SIGCHLD handler, and to 0 if not. */
+#define PHP_SIGCHILD 0
+
+#define PHP_SYSCONFDIR "@PREFIX@"
+
+/* Define to 1 if PHP uses its own crypt_r, and to 0 if using the external
+   crypt library. */
+#cmakedefine01 PHP_USE_PHP_CRYPT_R 1
+
+/* The QDBM handler header file. */
+#cmakedefine QDBM_INCLUDE_FILE "@QDBM_INCLUDE_FILE@"
+
+/* int and long are still 32bit in 64bit compiles */
+#define SIZEOF_INT 4
+#define SIZEOF_LONG 4
+/* MSVC.6/NET don't allow 'long long' or know 'intmax_t' */
+#define SIZEOF_LONG_LONG 8 /* defined as __int64 */
+#define SIZEOF_INTMAX_T 0
+#define ssize_t SSIZE_T
+#ifdef _WIN64
+# define SIZEOF_SIZE_T 8
+# define SIZEOF_PTRDIFF_T 8
+#else
+# define SIZEOF_SIZE_T 4
+# define SIZEOF_PTRDIFF_T 4
+#endif
+#define SIZEOF_OFF_T 4
+
+/* Define to 1 if SQLite library was compiled with the
+   SQLITE_OMIT_LOAD_EXTENSION and does not have the extension support with the
+   'sqlite3_load_extension' function. For usage in the sqlite3 PHP extension.
+   See https://www.sqlite.org/compile.html. */
+#cmakedefine SQLITE_OMIT_LOAD_EXTENSION 1
+
+#define STDIN_FILENO 0
+#define STDOUT_FILENO 1
+#define STDERR_FILENO 2
+
+/* The Tokyo Cabinet handler header file. */
+#cmakedefine TCADB_INCLUDE_FILE "@TCADB_INCLUDE_FILE@"
+
+/* Define to 1 if gd extension has JIS-mapped Japanese font support. */
+#cmakedefine USE_GD_JISX0208 1
+
+/* Define to 1 to use system default cipher list instead of the hardcoded
+   value in OpenSSL. */
+#cmakedefine USE_OPENSSL_SYSTEM_CIPHERS 1
+
+/* Define to 1 if checking the stack limit is supported. */
+#cmakedefine ZEND_CHECK_STACK_LIMIT 1
+
+/* Number of bytes for the ZEND_MM alignment. */
+#define ZEND_MM_ALIGNMENT (size_t)8
+
+/* Number of bytes for the logarithmic ZEND_MM alignment. */
+#define ZEND_MM_ALIGNMENT_LOG2 (size_t)3
+
+/* Define to 1 if ZEND_MM needs 8-byte realignment, and to 0 if not. */
+#define ZEND_MM_NEED_EIGHT_BYTE_REALIGNMENT 0
+
+/* */
+#cmakedefine ZIP_STATIC 1
 
 /* Define to 1 if thread safety (ZTS) is enabled. */
 #cmakedefine ZTS 1
