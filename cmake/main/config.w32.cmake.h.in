@@ -1,5 +1,3 @@
-/* Build Configuration Template for Win32. */
-
 /* Define the minimum supported version */
 #undef _WIN32_WINNT
 #undef NTDDI_VERSION
@@ -268,6 +266,15 @@
 /* Define to 1 if fopencookie seeker uses off64_t. */
 #cmakedefine COOKIE_SEEKER_USES_OFF64_T 1
 
+/* Define to 1 if crypt_r uses CRYPTD. */
+#cmakedefine CRYPT_R_CRYPTD 1
+
+/* Define to 1 if struct crypt_data requires _GNU_SOURCE. */
+#cmakedefine CRYPT_R_GNU_SOURCE 1
+
+/* Define to 1 if crypt_r uses struct crypt_data. */
+#cmakedefine CRYPT_R_STRUCT_CRYPT_DATA 1
+
 /* The DB1 handler header file. */
 #cmakedefine DB1_INCLUDE_FILE "@DB1_INCLUDE_FILE@"
 
@@ -339,8 +346,20 @@
    and to string "0" if they are not. */
 #define DEFAULT_SHORT_OPEN_TAG "@DEFAULT_SHORT_OPEN_TAG@"
 
+/* Define to 1 to enable the 'chroot' function. */
+#cmakedefine ENABLE_CHROOT_FUNC 1
+
 /* The GDBM handler header file. */
 #cmakedefine GDBM_INCLUDE_FILE "@GDBM_INCLUDE_FILE@"
+
+/* Define to 1 if 'TIOCGWINSZ' requires <sys/ioctl.h>. */
+#cmakedefine GWINSZ_IN_SYS_IOCTL 1
+
+/* Define to 1 if 'ldap_set_rebind_proc' has 3 arguments. */
+#cmakedefine HAVE_3ARG_SETREBINDPROC 1
+
+/* Define to 1 when aarch64 CRC32 API is available. */
+#cmakedefine HAVE_AARCH64_CRC32 1
 
 /* Define to 1 if the odbc extension uses the Adabas D. */
 #cmakedefine HAVE_ADABAS 1
@@ -883,24 +902,11 @@
 /* Define to 1 if Solid DB 3.5 is used. */
 #cmakedefine HAVE_SOLID_35 1
 
-#define HAVE_STRCASECMP 1
-
-/* Define to 1 if you have the 'strcasestr' function. */
-#cmakedefine HAVE_STRCASESTR 1
-
-/* Define to 1 if you have the 'strndup' function. */
-#cmakedefine HAVE_STRNDUP 1
-
-#define HAVE_STRNLEN 1
-
-#undef HAVE_STRUCT_STAT_ST_BLKSIZE
-#undef HAVE_STRUCT_STAT_ST_BLOCKS
-#define HAVE_STRUCT_STAT_ST_RDEV 1
-
-#undef HAVE_SYS_TIME_H
-
 /* Define to 1 if the PHP extension 'simplexml' is available. */
 #cmakedefine HAVE_SIMPLEXML 1
+
+/* Define to 1 if the PHP hash extension uses the slow SHA3 algorithm. */
+#cmakedefine HAVE_SLOW_HASH3 1
 
 /* Define to 1 if the PHP extension 'snmp' is available. */
 #cmakedefine HAVE_SNMP 1
@@ -927,13 +933,14 @@
 /* Define to 1 if the PHP extension 'soap' is available. */
 #cmakedefine HAVE_SOAP 1
 
-/* Win32 supports socketpair by the emulation in win32/sockets.c */
-#define HAVE_SOCKETPAIR 1
+/* Define to 1 if you have the 'socketpair' function. */
+#cmakedefine HAVE_SOCKETPAIR 1
 
 /* Define to 1 if the PHP extension 'sockets' is available. */
 #cmakedefine HAVE_SOCKETS 1
 
-#define HAVE_SOCKLEN_T 1
+/* Define to 1 if the system has the type 'socklen_t'. */
+#cmakedefine HAVE_SOCKLEN_T 1
 
 /* Define to 1 if SNMP library has the 'shutdown_snmp_logging' function. */
 #cmakedefine HAVE_SHUTDOWN_SNMP_LOGGING 1
@@ -1170,13 +1177,13 @@
 #cmakedefine HAVE_TTYNAME_R 1
 
 /* Define to 1 if you have the 'tzset' function. */
-#define HAVE_TZSET 1
+#cmakedefine HAVE_TZSET 1
 
 /* Define to 1 if you have the <udbcext.h> header file. */
 #cmakedefine HAVE_UDBCEXT_H 1
 
 /* Define to 1 if you have the <unistd.h> header file. */
-#undef HAVE_UNISTD_H
+#cmakedefine HAVE_UNISTD_H 1
 
 /* Define to 1 if the odbc extension uses the unixODBC. */
 #cmakedefine HAVE_UNIXODBC 1
@@ -1261,6 +1268,33 @@
 
 /* The LMDB handler header file. */
 #cmakedefine LMDB_INCLUDE_FILE "@LMDB_INCLUDE_FILE@"
+
+/* Define to 1 if 'major', 'minor', and 'makedev' are declared in <mkdev.h>.
+   */
+#cmakedefine MAJOR_IN_MKDEV 1
+
+/* Define to 1 if 'major', 'minor', and 'makedev' are declared in
+   <sysmacros.h>. */
+#cmakedefine MAJOR_IN_SYSMACROS 1
+
+/* Define to 1 if 'asctime_r' declaration is missing. */
+#cmakedefine MISSING_ASCTIME_R_DECL 1
+
+/* Define to 1 if 'ctime_r' declaration is missing. */
+#cmakedefine MISSING_CTIME_R_DECL 1
+
+/* Define to 1 if 'fclose' declaration is missing, and to 0 if declaration is
+   available. */
+#cmakedefine01 MISSING_FCLOSE_DECL
+
+/* Define to 1 if 'gmtime_r' declaration is missing. */
+#cmakedefine MISSING_GMTIME_R_DECL 1
+
+/* Define to 1 if 'localtime_r' declaration is missing. */
+#cmakedefine MISSING_LOCALTIME_R_DECL 1
+
+/* Whether strtok_r is declared */
+#cmakedefine MISSING_STRTOK_R_DECL 1
 
 /* Define to 1 if mysqlnd has compressed protocol support. */
 #cmakedefine MYSQLND_COMPRESSION_ENABLED 1
