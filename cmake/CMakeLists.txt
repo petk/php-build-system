@@ -9,6 +9,7 @@ Running system checks
 ")
 
 message(STATUS "CMake version: ${CMAKE_VERSION}")
+message(STATUS "CMake generator: ${CMAKE_GENERATOR}")
 
 # Set the PHP_VERSION_* variables from configure.ac.
 include(cmake/Version.cmake)

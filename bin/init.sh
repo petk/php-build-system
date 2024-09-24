@@ -228,6 +228,15 @@ if make -h 2>&1 | grep -q "\[-j max_jobs\]" \
   fi
 fi
 
+if test -n "$jobs"; then
+  jobs="-j $jobs"
+else
+  case $generator in
+    Ninja*);;
+    *) jobs=-j;;
+  esac
+fi
+
 cd php-src
 
 # Run CMake preset configuration.
@@ -235,4 +244,4 @@ eval "'$cmake' --preset $preset $cmake_debug_options $options $generator_option"
 
 # Run build step using preset and jobs arguments passed after the arguments for
 # exotic make implementations, such as dmake on illumos.
-eval "'$cmake' --build --preset $preset $cmake_verbose -- -j $jobs"
+eval "'$cmake' --build --preset $preset $cmake_verbose -- $jobs"

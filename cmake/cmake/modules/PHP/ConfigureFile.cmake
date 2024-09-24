@@ -116,9 +116,9 @@ function(_php_configure_file_parse_variables)
         replaced
         "${value}"
       )
-      list(APPEND resultValues ${replaced})
+      list(APPEND resultValues "${replaced}")
     else()
-      list(APPEND resultValues ${value})
+      list(APPEND resultValues "${value}")
     endif()
 
     # The resultValuesInCode are for the configure_file inside the install(CODE)
@@ -184,6 +184,12 @@ function(php_configure_file)
     )
   endif()
 
+  cmake_path(GET ___phpConfigureFileOutput FILENAME filename)
+  set(
+    ___phpConfigureFileOutputTemporary
+    ${CMAKE_CURRENT_BINARY_DIR}/CMakeFiles/${filename}.cmake.in
+  )
+
   if(parsed_VARIABLES)
     _php_configure_file_parse_variables(
       "${parsed_VARIABLES}"
@@ -200,8 +206,17 @@ function(php_configure_file)
 
     configure_file(
       ${___phpConfigureFileTemplate}
-      ${___phpConfigureFileOutput}
+      ${___phpConfigureFileOutputTemporary}
       @ONLY
+    )
+
+    # To be able to evaluate possible additional generator expressions.
+    file(
+      GENERATE
+      # TODO: Multi-config generators need to write separate files.
+      #OUTPUT $<CONFIG>/file.output
+      OUTPUT ${___phpConfigureFileOutput}
+      INPUT ${___phpConfigureFileOutputTemporary}
     )
   endblock()
 
