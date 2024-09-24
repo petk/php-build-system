@@ -1228,7 +1228,7 @@
    1.3.0). */
 #cmakedefine HAVE_PROGRESS_CALLBACK 1
 
-/* Define to 1 if PHP extension 'pspell' is available. */
+/* Define to 1 if the PHP extension 'pspell' is available. */
 #cmakedefine HAVE_PSPELL 1
 
 /* Define if the PS_STRINGS exists. */
@@ -1668,7 +1668,7 @@
 /* Define to 1 if you have the <tmmintrin.h> header file. */
 #cmakedefine HAVE_TMMINTRIN_H 1
 
-/* Define to 1 if PHP extension 'tokenizer' is available. */
+/* Define to 1 if the PHP extension 'tokenizer' is available. */
 #cmakedefine HAVE_TOKENIZER 1
 
 /* Define to 1 if you have a working 'ttyname_r' function. */
