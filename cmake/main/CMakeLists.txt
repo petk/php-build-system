@@ -271,15 +271,53 @@ function(_php_main_create_files)
 
   if(CMAKE_SYSTEM_NAME STREQUAL "Windows")
     message(STATUS "Creating main/config.w32.h")
-    configure_file(main/config.w32.cmake.h.in main/config.w32.h @ONLY)
+    configure_file(
+      main/config.w32.cmake.h.in
+      main/CMakeFiles/config.w32.cmake.h.in
+      @ONLY
+    )
+
+    file(
+      GENERATE
+      # TODO: Multi-config generators need to write separate files.
+      #OUTPUT $<CONFIG>/main/config.w32.h
+      OUTPUT ${PHP_BINARY_DIR}/main/config.w32.h
+      INPUT ${PHP_BINARY_DIR}/main/CMakeFiles/config.w32.cmake.h.in
+    )
   else()
     message(STATUS "Creating main/build-defs.h")
-    configure_file(main/build-defs.h.in main/build-defs.h @ONLY)
+    configure_file(
+      main/build-defs.h.in
+      main/CMakeFiles/build-defs.h.in
+      @ONLY
+    )
+
+    # To be able to evaluate the generator expressions.
+    file(
+      GENERATE
+      # TODO: Multi-config generators need to write separate files.
+      #OUTPUT $<CONFIG>/main/build-defs.h
+      OUTPUT ${PHP_BINARY_DIR}/main/build-defs.h
+      INPUT ${PHP_BINARY_DIR}/main/CMakeFiles/build-defs.h.in
+    )
 
     set(HAVE_BUILD_DEFS_H 1)
 
     message(STATUS "Creating main/php_config.h")
-    configure_file(main/php_config.cmake.h.in main/php_config.h @ONLY)
+    configure_file(
+      main/php_config.cmake.h.in
+      main/CMakeFiles/php_config.cmake.h.in
+      @ONLY
+    )
+
+    # To be able to evaluate the generator expressions.
+    file(
+      GENERATE
+      # TODO: Multi-config generators need to write separate files.
+      #OUTPUT $<CONFIG>/main/php_config.h
+      OUTPUT ${PHP_BINARY_DIR}/main/php_config.h
+      INPUT ${PHP_BINARY_DIR}/main/CMakeFiles/php_config.cmake.h.in
+    )
   endif()
 
   message(STATUS "Creating main/php_version.h")

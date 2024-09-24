@@ -6,15 +6,15 @@ include_guard(GLOBAL)
 
 block()
   if(CMAKE_SOURCE_DIR STREQUAL CMAKE_CURRENT_SOURCE_DIR)
-    get_property(is_multi_config GLOBAL PROPERTY GENERATOR_IS_MULTI_CONFIG)
+    get_property(isMultiConfig GLOBAL PROPERTY GENERATOR_IS_MULTI_CONFIG)
 
-    if(is_multi_config)
+    if(isMultiConfig)
       if(NOT "DebugAssertions" IN_LIST CMAKE_CONFIGURATION_TYPES)
         list(APPEND CMAKE_CONFIGURATION_TYPES DebugAssertions)
       endif()
     else()
       set(
-        allowed_build_types
+        allowedBuildTypes
         Debug
         MinSizeRel
         Release
@@ -25,12 +25,12 @@ block()
 
       set_property(
         CACHE CMAKE_BUILD_TYPE
-        PROPERTY STRINGS "${allowed_build_types}"
+        PROPERTY STRINGS "${allowedBuildTypes}"
       )
 
       if(NOT CMAKE_BUILD_TYPE)
         set(CMAKE_BUILD_TYPE Debug CACHE STRING "" FORCE)
-      elseif(NOT CMAKE_BUILD_TYPE IN_LIST allowed_build_types)
+      elseif(NOT CMAKE_BUILD_TYPE IN_LIST allowedBuildTypes)
         message(FATAL_ERROR "Unknown build type: ${CMAKE_BUILD_TYPE}")
       endif()
     endif()

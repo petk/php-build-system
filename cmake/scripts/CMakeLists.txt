@@ -49,7 +49,7 @@ block()
       exec_prefix "$<INSTALL_PREFIX>"
       PHP_VERSION "${PHP_VERSION}"
       PHP_VERSION_ID "${PHP_VERSION_ID}"
-      include_dir "$<PHP_EXPAND:${CMAKE_INSTALL_INCLUDEDIR}>"
+      includedir "$<PHP_EXPAND:${CMAKE_INSTALL_INCLUDEDIR}>"
       # TODO:
       PHP_LDFLAGS ""
       # TODO:
