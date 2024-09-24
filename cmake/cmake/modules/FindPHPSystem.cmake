@@ -31,6 +31,8 @@ find_program(
   PHPSystem_EXECUTABLE
   NAMES
     php
+    php8.5
+    php85
     php8.4
     php84
     php8.3
