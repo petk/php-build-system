@@ -1807,7 +1807,7 @@
 /* Define to 1 if 'localtime_r' declaration is missing. */
 #cmakedefine MISSING_LOCALTIME_R_DECL 1
 
-/* Whether strtok_r is declared */
+/* Define to 1 if 'strtok_r' declaration is missing. */
 #cmakedefine MISSING_STRTOK_R_DECL 1
 
 /* Define to 1 if mysqlnd has compressed protocol support. */
