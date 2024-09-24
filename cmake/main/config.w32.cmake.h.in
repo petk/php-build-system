@@ -260,9 +260,6 @@
 /* Define to 1 if the PHP extension 'zlib' is built as a dynamic module. */
 #cmakedefine COMPILE_DL_ZLIB 1
 
-/* Configure line */
-#cmakedefine CONFIGURE_COMMAND "@CONFIGURE_COMMAND@"
-
 /* Autotools-based build system in PHP-8.3 checked for older glibc versions (up
    to ~2.1.2), which used the _IO_cookie_io_functions_t symbol. However, there
    is a bug in PHP-8.3 check and it never got defined to anything but
@@ -1838,11 +1835,6 @@
 /* Define to 1 if the pdo_mysql extension uses mysqlnd. */
 #cmakedefine PDO_USE_MYSQLND 1
 
-/* The PEAR installation directory. */
-#define PEAR_INSTALLDIR "@PREFIX@\\pear"
-
-#define PHP_BINDIR "@PREFIX@"
-
 /* The build architecture. */
 #cmakedefine PHP_BUILD_ARCH "@PHP_BUILD_ARCH@"
 
@@ -1860,15 +1852,6 @@
 
 /* Compiler identification string. */
 #cmakedefine PHP_COMPILER_ID "@PHP_COMPILER_ID@"
-
-/* The path in which to look for php.ini. */
-#define PHP_CONFIG_FILE_PATH ""
-
-#define PHP_CONFIG_FILE_SCAN_DIR "@PHP_FULL_CONFIG_FILE_SCAN_DIR@"
-
-#define PHP_DATADIR "@PREFIX@"
-
-#define PHP_EXTENSION_DIR "@PREFIX@\\ext"
 
 /* Whether the compiler supports AVX-512. */
 #cmakedefine01 PHP_HAVE_AVX512_SUPPORTS
@@ -1941,20 +1924,14 @@
 /* The iconv implementation. */
 #cmakedefine PHP_ICONV_IMPL "@PHP_ICONV_IMPL@"
 
-#define PHP_INCLUDE_PATH ".;@PREFIX@\\pear"
-
 /* Define to 1 you have IRIX-style reentrant time functions. */
 #cmakedefine PHP_IRIX_TIME_R 1
-
-#define PHP_LIBDIR "@PREFIX@"
 
 /* Linker major version. */
 #cmakedefine PHP_LINKER_MAJOR @PHP_LINKER_MAJOR@
 
 /* Linker minor version. */
 #cmakedefine PHP_LINKER_MINOR @PHP_LINKER_MINOR@
-
-#define PHP_LOCALSTATEDIR "@PREFIX@"
 
 /* Define to 1 if mhash support is enabled. */
 #cmakedefine PHP_MHASH_BC 1
@@ -1977,21 +1954,14 @@
 /* */
 #cmakedefine PHP_PDO_OCI_CLIENT_VERSION "@PHP_PDO_OCI_CLIENT_VERSION@"
 
-#define PHP_PREFIX "@PREFIX@"
-
 /* Define to 1 if 'pread' declaration with 'off64_t' is missing. */
 #cmakedefine PHP_PREAD_64 1
 
 /* Define to 1 if 'pwrite' declaration with 'off64_t' is missing. */
 #cmakedefine PHP_PWRITE_64 1
 
-#define PHP_SHLIB_EXT_PREFIX "php_"
-#define PHP_SHLIB_SUFFIX "dll"
-
 /* Define to 1 if PHP uses its own SIGCHLD handler, and to 0 if not. */
 #cmakedefine01 PHP_SIGCHILD
-
-#define PHP_SYSCONFDIR "@PREFIX@"
 
 /* The 'uname -a' output. */
 #cmakedefine PHP_UNAME "@PHP_UNAME@"
@@ -2096,7 +2066,8 @@
 /* Define to 1 if Zend signal handling is supported and enabled. */
 #cmakedefine ZEND_SIGNALS 1
 
-/* */
+/* Define to 1 if libzip is built statically on Windows. Required for static
+   libzip since version 1.0 to 1.3.2. */
 #cmakedefine ZIP_STATIC 1
 
 /* Define to 1 if thread safety (ZTS) is enabled. */
@@ -2104,6 +2075,52 @@
 
 /* Define to 1 when using musl libc. */
 #cmakedefine __MUSL__ 1
+
+/* The following build system related configuration values are on *nix
+   systems defined in the main/build-defs.h and JScript Windows build system
+   defines them in the configuration header file. */
+
+/* Configure line */
+#cmakedefine CONFIGURE_COMMAND "@CONFIGURE_COMMAND@"
+
+/* The PEAR installation directory. */
+#define PEAR_INSTALLDIR "@PREFIX@\\pear"
+
+/* The path to the bin directory. */
+#define PHP_BINDIR "@PREFIX@"
+
+/* The path in which to look for php.ini. */
+#define PHP_CONFIG_FILE_PATH ""
+
+/* The path where to scan for additional INI configuration files. */
+#define PHP_CONFIG_FILE_SCAN_DIR "@PHP_FULL_CONFIG_FILE_SCAN_DIR@"
+
+/* The path to the share directory. */
+#define PHP_DATADIR "@PREFIX@"
+
+/* Default directory for dynamically loadable PHP extensions. */
+#define PHP_EXTENSION_DIR "@PREFIX@\\ext"
+
+/* The 'include_path' PHP INI directive. */
+#define PHP_INCLUDE_PATH ".;@PREFIX@\\pear"
+
+/* The path containing system libraries (lib or lib64). */
+#define PHP_LIBDIR "@PREFIX@"
+
+/* The path to the var directory. */
+#define PHP_LOCALSTATEDIR "@PREFIX@"
+
+/* The installation prefix. */
+#define PHP_PREFIX "@PREFIX@"
+
+/* The prefix for the shared library objects. */
+#define PHP_SHLIB_EXT_PREFIX "php_"
+
+/* The shared library objects extension. */
+#define PHP_SHLIB_SUFFIX "dll"
+
+/* The path to the etc directory. */
+#define PHP_SYSCONFDIR "@PREFIX@"
 
 #if __has_include("main/config.pickle.h")
 #include "main/config.pickle.h"

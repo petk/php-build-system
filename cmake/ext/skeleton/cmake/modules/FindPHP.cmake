@@ -286,7 +286,7 @@ endif()
 set(PHP_LIBRARIES ${PHP_EMBED_LIBRARY})
 
 if(NOT TARGET PHP::PHP)
-  add_library(PHP::PHP UNKNOWN IMPORTED)
+  add_library(PHP::PHP INTERFACE IMPORTED)
 
   set_target_properties(
     PHP::PHP
