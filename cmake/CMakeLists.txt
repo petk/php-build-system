@@ -4,8 +4,8 @@ cmake_minimum_required(VERSION 3.25 FATAL_ERROR)
 include(cmake/CMakeDefaults.cmake)
 
 message("
-Running system checks
----------------------
+Initializing PHP build system
+-----------------------------
 ")
 
 message(STATUS "CMake version: ${CMAKE_VERSION}")

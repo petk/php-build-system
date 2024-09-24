@@ -46,6 +46,11 @@ include(cmake/Configuration.cmake)
 # Check requirements.
 include(cmake/Requirements.cmake)
 
+message("
+Running system checks
+---------------------
+")
+
 # Run PHP configuration checks.
 include(cmake/ConfigureChecks.cmake)
 

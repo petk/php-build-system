@@ -16,11 +16,6 @@ include(FeatureSummary)
 include(PHP/CheckAttribute)
 include(PHP/SearchLibraries)
 
-message("
-Running global configure checks
--------------------------------
-")
-
 ################################################################################
 # Check headers.
 ################################################################################
