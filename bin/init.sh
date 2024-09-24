@@ -10,6 +10,9 @@ generator=""
 branch=""
 debug=0
 
+# The PHP MAJOR.MINOR version currently in development (the master branch).
+phpVersionDev="8.5"
+
 # Go to project root.
 cd $(CDPATH= cd -- "$(dirname -- "$0")/.." && pwd -P)
 
@@ -177,7 +180,7 @@ cp -r cmake/* php-src/
 
 # Apply patches to php-src from the patches directory.
 if test ${branch} = "master"; then
-  php_version=8.4
+  php_version=$phpVersionDev
 else
   php_version=$(echo $branch | sed 's/PHP-\([0-9.]*\).*$/\1/')
 fi

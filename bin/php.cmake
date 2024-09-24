@@ -39,8 +39,8 @@ cmake_minimum_required(VERSION 3.25 FATAL_ERROR)
 # Set default variables.
 ################################################################################
 
-# The MAJOR.MINOR version currently in development.
-set(PHP_VERSION_DEV "8.4")
+# The PHP MAJOR.MINOR version currently in development (the master branch).
+set(PHP_VERSION_DEV "8.5")
 # The latest stable PHP version as a fallback when version cannot be discovered
 # from remote JSON output.
 set(PHP_VERSION_FALLBACK "8.3.4")
