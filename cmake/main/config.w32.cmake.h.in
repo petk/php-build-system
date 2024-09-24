@@ -1609,9 +1609,6 @@
 /* Define to 1 if you have the <tmmintrin.h> header file. */
 #cmakedefine HAVE_TMMINTRIN_H 1
 
-/* Define to 1 if PHP extension 'tokenizer' is available. */
-#cmakedefine HAVE_TOKENIZER 1
-
 /* Define to 1 if you have a working 'ttyname_r' function. */
 #cmakedefine HAVE_TTYNAME_R 1
 
