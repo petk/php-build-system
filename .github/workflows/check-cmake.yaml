@@ -2,9 +2,9 @@ name: Run code style checks
 
 on:
   push:
-    branches: [master]
+    branches: [PHP-8.4]
   pull_request:
-    branches: [master]
+    branches: [PHP-8.4]
 
 jobs:
   check:
