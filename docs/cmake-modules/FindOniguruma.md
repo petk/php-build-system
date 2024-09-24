@@ -1,5 +1,7 @@
 # FindOniguruma
 
+See: [FindOniguruma.cmake](https://github.com/petk/php-build-system/tree/master/cmake/cmake/modules/FindOniguruma.cmake)
+
 Find the Oniguruma library.
 
 Module defines the following `IMPORTED` target(s):

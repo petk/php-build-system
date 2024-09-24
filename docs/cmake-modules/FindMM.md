@@ -1,5 +1,7 @@
 # FindMM
 
+See: [FindMM.cmake](https://github.com/petk/php-build-system/tree/master/cmake/cmake/modules/FindMM.cmake)
+
 Find the mm library.
 
 Module defines the following `IMPORTED` target(s):

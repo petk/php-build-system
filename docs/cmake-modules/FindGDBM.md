@@ -1,5 +1,7 @@
 # FindGDBM
 
+See: [FindGDBM.cmake](https://github.com/petk/php-build-system/tree/master/cmake/cmake/modules/FindGDBM.cmake)
+
 Find the GDBM library.
 
 Module defines the following `IMPORTED` target(s):

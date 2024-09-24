@@ -1,5 +1,7 @@
 # PHP/CheckTiocgwinsz
 
+See: [CheckTiocgwinsz.cmake](https://github.com/petk/php-build-system/tree/master/cmake/cmake/modules/PHP/CheckTiocgwinsz.cmake)
+
 Check if any of the expected headers define `TIOCGWINSZ`.
 
 Some systems define `TIOCGWINSZ` (Terminal Input Output Control Get WINdow SiZe)

@@ -1,5 +1,7 @@
 # PHP/ConfigureFile
 
+See: [ConfigureFile.cmake](https://github.com/petk/php-build-system/tree/master/cmake/cmake/modules/PHP/ConfigureFile.cmake)
+
 Wrapper built on top of CMake's `configure_file()`.
 
 There is a common issue with installation prefix not being applied when using

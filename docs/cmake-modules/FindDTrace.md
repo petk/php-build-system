@@ -1,5 +1,7 @@
 # FindDTrace
 
+See: [FindDTrace.cmake](https://github.com/petk/php-build-system/tree/master/cmake/cmake/modules/FindDTrace.cmake)
+
 Find DTrace.
 
 Result variables:

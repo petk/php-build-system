@@ -1,5 +1,7 @@
 # PHP/InterproceduralOptimization
 
+See: [InterproceduralOptimization.cmake](https://github.com/petk/php-build-system/tree/master/cmake/cmake/modules/PHP/InterproceduralOptimization.cmake)
+
 Enable interprocedural optimization (IPO), if supported.
 
 Interprocedural optimization adds linker flag `-flto` if it is supported by the

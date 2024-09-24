@@ -1,5 +1,7 @@
 # PHP/CheckReentrantFunctions
 
+See: [CheckReentrantFunctions.cmake](https://github.com/petk/php-build-system/tree/master/cmake/cmake/modules/PHP/CheckReentrantFunctions.cmake)
+
 Check for reentrant functions and their declarations.
 
 Some systems didn't declare some reentrant functions if `_REENTRANT` was not

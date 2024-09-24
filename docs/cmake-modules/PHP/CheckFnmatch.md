@@ -1,5 +1,7 @@
 # PHP/CheckFnmatch
 
+See: [CheckFnmatch.cmake](https://github.com/petk/php-build-system/tree/master/cmake/cmake/modules/PHP/CheckFnmatch.cmake)
+
 Check for a working POSIX `fnmatch()` function.
 
 Some versions of Solaris (2.4), SCO, and the GNU C Library have a broken or

@@ -1,5 +1,7 @@
 # FindTidy
 
+See: [FindTidy.cmake](https://github.com/petk/php-build-system/tree/master/cmake/cmake/modules/FindTidy.cmake)
+
 Find the Tidy library (tidy-html5, legacy htmltidy library, or the tidyp -
 obsolete fork).
 

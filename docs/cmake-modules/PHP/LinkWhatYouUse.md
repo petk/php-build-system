@@ -1,5 +1,7 @@
 # PHP/LinkWhatYouUse
 
+See: [LinkWhatYouUse.cmake](https://github.com/petk/php-build-system/tree/master/cmake/cmake/modules/PHP/LinkWhatYouUse.cmake)
+
 Check whether to enable `CMAKE_LINK_WHAT_YOU_USE`.
 
 When enabled, warnings are emitted during the build phase for diagnostic

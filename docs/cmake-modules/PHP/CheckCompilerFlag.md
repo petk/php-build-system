@@ -1,5 +1,7 @@
 # PHP/CheckCompilerFlag
 
+See: [CheckCompilerFlag.cmake](https://github.com/petk/php-build-system/tree/master/cmake/cmake/modules/PHP/CheckCompilerFlag.cmake)
+
 Check whether the compiler supports given compile option.
 
 CMake's `CheckCompilerFlag` module and its `check_compiler_flag()` macro, at the

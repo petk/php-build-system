@@ -1,5 +1,7 @@
 # PHP/CheckGethostbynameR
 
+See: [CheckGethostbynameR.cmake](https://github.com/petk/php-build-system/tree/master/cmake/cmake/modules/PHP/CheckGethostbynameR.cmake)
+
 Check `gethostbyname_r()`.
 
 The non-standard `gethostbyname_r()` function has different signatures across

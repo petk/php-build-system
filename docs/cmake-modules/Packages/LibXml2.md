@@ -1,5 +1,7 @@
 # Packages/LibXml2
 
+See: [LibXml2.cmake](https://github.com/petk/php-build-system/tree/master/cmake/cmake/modules/Packages/LibXml2.cmake)
+
 Wrapper for finding the `libxml2` library.
 
 Module first tries to find the `libxml2` library on the system. If not

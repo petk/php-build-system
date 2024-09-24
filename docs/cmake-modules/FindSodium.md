@@ -1,5 +1,7 @@
 # FindSodium
 
+See: [FindSodium.cmake](https://github.com/petk/php-build-system/tree/master/cmake/cmake/modules/FindSodium.cmake)
+
 Find the Sodium library (libsodium).
 
 Module defines the following `IMPORTED` target(s):

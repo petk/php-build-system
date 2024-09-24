@@ -1,5 +1,7 @@
 # PHP/CheckListeningQueue
 
+See: [CheckListeningQueue.cmake](https://github.com/petk/php-build-system/tree/master/cmake/cmake/modules/PHP/CheckListeningQueue.cmake)
+
 Check for items required by listening queue implemented in FPM.
 
 Cache variables:

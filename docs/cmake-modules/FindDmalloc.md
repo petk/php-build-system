@@ -1,5 +1,7 @@
 # FindDmalloc
 
+See: [FindDmalloc.cmake](https://github.com/petk/php-build-system/tree/master/cmake/cmake/modules/FindDmalloc.cmake)
+
 Find the Dmalloc library.
 
 Module defines the following `IMPORTED` target(s):

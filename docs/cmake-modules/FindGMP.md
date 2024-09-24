@@ -1,5 +1,7 @@
 # FindGMP
 
+See: [FindGMP.cmake](https://github.com/petk/php-build-system/tree/master/cmake/cmake/modules/FindGMP.cmake)
+
 Find the GMP library.
 
 Module defines the following `IMPORTED` target(s):

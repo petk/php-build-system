@@ -1,5 +1,7 @@
 # FindFreeTDS
 
+See: [FindFreeTDS.cmake](https://github.com/petk/php-build-system/tree/master/cmake/cmake/modules/FindFreeTDS.cmake)
+
 Find the FreeTDS set of libraries.
 
 Module defines the following `IMPORTED` target(s):

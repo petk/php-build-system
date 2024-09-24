@@ -1,5 +1,7 @@
 # FindNetSnmp
 
+See: [FindNetSnmp.cmake](https://github.com/petk/php-build-system/tree/master/cmake/cmake/modules/FindNetSnmp.cmake)
+
 Find the Net-SNMP library.
 
 Module defines the following `IMPORTED` target(s):

@@ -5,20 +5,23 @@ system.
 
 ## Index
 
-* [1. Directory structure](#1-directory-structure)
-* [2. Build system diagram](#2-build-system-diagram)
-* [3. Build requirements](#3-build-requirements)
-* [4. The configure command-line options](#4-the-configure-command-line-options)
-* [5. Determining platform](#5-determining-platform)
-* [6. Common checks](#6-common-checks)
-  * [6.1. Testing if program works](#61-testing-if-program-works)
-    * [6.1.1. AC\_COMPILE\_IFELSE](#611-ac_compile_ifelse)
-    * [6.1.2. AC\_LINK\_IFELSE](#612-ac_link_ifelse)
-    * [6.1.3. AC\_RUN\_IFELSE](#613-ac_run_ifelse)
-  * [6.2. Functions](#62-functions)
-* [7. GNU Autoconf Archive](#7-gnu-autoconf-archive)
-* [8. Parser and lexer files](#8-parser-and-lexer-files)
-* [9. See more](#9-see-more)
+* [1. Introduction](#1-introduction)
+* [2. Directory structure](#2-directory-structure)
+* [3. Build system diagram](#3-build-system-diagram)
+* [4. Build requirements](#4-build-requirements)
+* [5. The configure command-line options](#5-the-configure-command-line-options)
+* [6. Determining platform](#6-determining-platform)
+* [7. Common checks](#7-common-checks)
+  * [7.1. Testing if program works](#71-testing-if-program-works)
+    * [7.1.1. AC\_COMPILE\_IFELSE](#711-ac_compile_ifelse)
+    * [7.1.2. AC\_LINK\_IFELSE](#712-ac_link_ifelse)
+    * [7.1.3. AC\_RUN\_IFELSE](#713-ac_run_ifelse)
+  * [7.2. Functions](#72-functions)
+* [8. GNU Autoconf Archive](#8-gnu-autoconf-archive)
+* [9. Parser and lexer files](#9-parser-and-lexer-files)
+* [10. See more](#10-see-more)
+
+## 1. Introduction
 
 \*nix build system (Linux, macOS, FreeBSD, OpenBSD, Solaris, Haiku, etc.) in PHP
 uses [Autoconf](https://www.gnu.org/software/autoconf/) to build a `configure`
@@ -74,7 +77,7 @@ installation dependencies. Autotools is a veteran build system present since
 early C/C++ days. It is used for most Linux ecosystem out there and it might
 cause issues for C developers today.
 
-## 1. Directory structure
+## 2. Directory structure
 
 PHP build system is a collection of various files across the php-src repository:
 
@@ -126,11 +129,11 @@ PHP build system is a collection of various files across the php-src repository:
  └─ configure.ac           # Autoconf main input file for creating configure script
 ```
 
-## 2. Build system diagram
+## 3. Build system diagram
 
 ![PHP *nix build system using Autotools](/docs/images/autotools.svg)
 
-## 3. Build requirements
+## 4. Build requirements
 
 Before you can build PHP on Linux and other Unix-like systems, you must first
 install certain third-party requirements. It's important to note that the names
@@ -156,7 +159,7 @@ Additionally required when building from Git repository source code:
 * bison
 * re2c
 
-## 4. The configure command-line options
+## 5. The configure command-line options
 
 Configuration can be passed on the command line at the configuration phase:
 
@@ -194,7 +197,7 @@ Some common arguments can be passed to command-line options:
 * Some options accept multiple arguments separated by comma (`,`). For example,
   passing the library location and similar: `--with-EXT=shared,/usr`
 
-## 5. Determining platform
+## 6. Determining platform
 
 With Autotools there are several shell variables that help determine the
 platform characteristics such as CPU, operating system and vendor name. When
@@ -214,9 +217,9 @@ AS_CASE([$host_alias], [*freebsd*|*openbsd*],
   [AC_MSG_NOTICE([Action that is run only on FreeBSD and OpenBSD systems.])])
 ```
 
-## 6. Common checks
+## 7. Common checks
 
-### 6.1. Testing if program works
+### 7.1. Testing if program works
 
 There are 3 main Autoconf macros that check if certain test code is successful.
 
@@ -225,14 +228,15 @@ Let's check a simple C program:
 ```c
 #include <stdio.h>
 
-int main(void) {
+int main(void)
+{
     printf("Hello World");
 
     return 0;
 }
 ```
 
-#### 6.1.1. AC_COMPILE_IFELSE
+#### 7.1.1. AC_COMPILE_IFELSE
 
 ```m4
 AC_COMPILE_IFELSE([AC_LANG_PROGRAM([#include <stdio.h>],
@@ -241,12 +245,13 @@ AC_COMPILE_IFELSE([AC_LANG_PROGRAM([#include <stdio.h>],
   [php_cv_func_printf_works=no])
 ```
 
-The `AC_LANG_PROGRAM` macro will expand this into:
+The `AC_LANG_PROGRAM` macro will expand this into something like this:
 
 ```c
 #include <stdio.h>
 
-int main(void) {
+int main(void)
+{
   printf("Hello World")
   ;
   return 0;
@@ -259,7 +264,7 @@ The `AC_COMPILE_IFELSE` will run the compilation step, for example:
 gcc -o out -c hello_world.c
 ```
 
-#### 6.1.2. AC_LINK_IFELSE
+#### 7.1.2. AC_LINK_IFELSE
 
 ```m4
 AC_LINK_IFELSE([AC_LANG_PROGRAM([#include <stdio.h>],
@@ -274,7 +279,7 @@ This will run compilation and linking:
 gcc -o out hello_world.c
 ```
 
-#### 6.1.3. AC_RUN_IFELSE
+#### 7.1.3. AC_RUN_IFELSE
 
 This will compile, link and also run the program to check if the return code is
 0.
@@ -299,7 +304,7 @@ gcc -o out hello_world.c
 ./out
 ```
 
-### 6.2. Functions
+### 7.2. Functions
 
 Testing if function exists within the given header.
 
@@ -331,7 +336,7 @@ sees the function. They can be used like this:
 #endif
 ```
 
-## 7. GNU Autoconf Archive
+## 8. GNU Autoconf Archive
 
 To reuse the code there is a community collection of Autoconf macros available
 at [autoconf-archive](https://github.com/autoconf-archive/autoconf-archive).
@@ -358,13 +363,14 @@ AC_CONFIG_MACRO_DIR([path/to/m4/dir])
 
 However, the `aclocal` from Automake is needed for this to work.
 
-## 8. Parser and lexer files
+## 9. Parser and lexer files
 
 Parser and lexer files are generated upon the build step (`make`) with `bison`
 and `re2c` tools based on the targets in `Makefile.frag` files.
 
 There is also a helper shell script available that generates these files when
-developing or releasing PHP source code, otherwise they.
+developing or releasing PHP source code, otherwise they are generated during the
+build phase upon the `make` invocation.
 
 ```sh
 ./scripts/dev/genfiles
@@ -381,6 +387,12 @@ Autotools-based PHP build system files related to `bison` and `re2c`:
        └─ Makefile.frag             # Makefile fragment
     └─ pdo/
        └─ Makefile.frag             # Makefile fragment
+    └─ pdo_mysql/
+       └─ Makefile.frag             # Makefile fragment
+    └─ pdo_pgsql/
+       └─ Makefile.frag             # Makefile fragment
+    └─ pdo_sqlite/
+       └─ Makefile.frag             # Makefile fragment
     └─ phar/
        └─ Makefile.frag             # Makefile fragment
     └─ standard/
@@ -396,7 +408,7 @@ Autotools-based PHP build system files related to `bison` and `re2c`:
  └─ configure.ac                    # Minimum re2c and bison versions settings
 ```
 
-## 9. See more
+## 10. See more
 
 Useful resources to learn more about Autoconf and Autotools in general:
 

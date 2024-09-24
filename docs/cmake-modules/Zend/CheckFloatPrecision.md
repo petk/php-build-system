@@ -1,5 +1,7 @@
 # Zend/CheckFloatPrecision
 
+See: [CheckFloatPrecision.cmake](https://github.com/petk/php-build-system/tree/master/cmake/cmake/modules/Zend/CheckFloatPrecision.cmake)
+
 Check for x87 floating point internal precision control.
 
 See: https://wiki.php.net/rfc/rounding

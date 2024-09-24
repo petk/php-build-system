@@ -1,5 +1,7 @@
 # PHP/CheckPtrace
 
+See: [CheckPtrace.cmake](https://github.com/petk/php-build-system/tree/master/cmake/cmake/modules/PHP/CheckPtrace.cmake)
+
 Check for ptrace().
 
 Result variables:

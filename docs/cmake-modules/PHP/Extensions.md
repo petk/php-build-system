@@ -1,5 +1,7 @@
 # PHP/Extensions
 
+See: [Extensions.cmake](https://github.com/petk/php-build-system/tree/master/cmake/cmake/modules/PHP/Extensions.cmake)
+
 Add subdirectories of PHP extensions via `add_subdirectory()`.
 
 This module is responsible for traversing `CMakeLists.txt` files of PHP

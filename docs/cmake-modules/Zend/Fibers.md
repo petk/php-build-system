@@ -1,5 +1,7 @@
 # Zend/Fibers
 
+See: [Fibers.cmake](https://github.com/petk/php-build-system/tree/master/cmake/cmake/modules/Zend/Fibers.cmake)
+
 Check if Fibers can be used.
 
 This module adds Boost fiber assembly files support if available for the

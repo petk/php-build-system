@@ -1,5 +1,7 @@
 # FindICU
 
+See: [FindICU.cmake](https://github.com/petk/php-build-system/tree/master/cmake/cmake/modules/FindICU.cmake)
+
 Find the ICU library.
 
 See: https://cmake.org/cmake/help/latest/module/FindICU.html

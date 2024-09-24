@@ -357,7 +357,8 @@ during program runtime. For example:
 /* main.c */
 #include <dlfcn.h>
 
-int main(void) {
+int main(void)
+{
     void *handle = dlopen("extension.so", RTLD_LAZY);
     void (*extension_function_ptr)() = dlsym(handle, "extension_function");
     extension_function_ptr();
@@ -507,10 +508,11 @@ behaves correctly across various environments.
 #include "config.h"
 
 #ifdef HAVE_SYS_TYPES_H
-#include <sys/types.h>
+# include <sys/types.h>
 #endif
 
-int main(void) {
+int main(void)
+{
     return 0;
 }
 ```

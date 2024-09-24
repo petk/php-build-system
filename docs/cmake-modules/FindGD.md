@@ -1,5 +1,7 @@
 # FindGD
 
+See: [FindGD.cmake](https://github.com/petk/php-build-system/tree/master/cmake/cmake/modules/FindGD.cmake)
+
 Find the GD library.
 
 Module defines the following `IMPORTED` target(s):

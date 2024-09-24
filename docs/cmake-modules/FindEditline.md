@@ -1,5 +1,7 @@
 # FindEditline
 
+See: [FindEditline.cmake](https://github.com/petk/php-build-system/tree/master/cmake/cmake/modules/FindEditline.cmake)
+
 Find the Editline library.
 
 Module defines the following `IMPORTED` target(s):

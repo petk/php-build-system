@@ -1,5 +1,7 @@
 # PHP/CheckPreadPwrite
 
+See: [CheckPreadPwrite.cmake](https://github.com/petk/php-build-system/tree/master/cmake/cmake/modules/PHP/CheckPreadPwrite.cmake)
+
 Check whether `pread()` and `pwrite()` work.
 
 Module first checks whether functions are available on the system, and then

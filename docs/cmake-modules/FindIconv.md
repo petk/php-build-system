@@ -1,5 +1,7 @@
 # FindIconv
 
+See: [FindIconv.cmake](https://github.com/petk/php-build-system/tree/master/cmake/cmake/modules/FindIconv.cmake)
+
 Find the Iconv library.
 
 See: https://cmake.org/cmake/help/latest/module/FindIconv.html

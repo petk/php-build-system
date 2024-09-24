@@ -1,5 +1,7 @@
 # FindArgon2
 
+See: [FindArgon2.cmake](https://github.com/petk/php-build-system/tree/master/cmake/cmake/modules/FindArgon2.cmake)
+
 Find the Argon2 library.
 
 Module defines the following `IMPORTED` target(s):

@@ -1,5 +1,7 @@
 # PHP/CheckFopencookie
 
+See: [CheckFopencookie.cmake](https://github.com/petk/php-build-system/tree/master/cmake/cmake/modules/PHP/CheckFopencookie.cmake)
+
 Check if `fopencookie()` works as expected.
 
 Module first checks if `fopencookie()` and type `cookie_io_functions_t` are

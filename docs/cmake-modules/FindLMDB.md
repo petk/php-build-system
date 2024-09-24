@@ -1,5 +1,7 @@
 # FindLMDB
 
+See: [FindLMDB.cmake](https://github.com/petk/php-build-system/tree/master/cmake/cmake/modules/FindLMDB.cmake)
+
 Find the LMDB library.
 
 Module defines the following `IMPORTED` target(s):

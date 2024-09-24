@@ -1,5 +1,7 @@
 # FindRE2C
 
+See: [FindRE2C.cmake](https://github.com/petk/php-build-system/tree/master/cmake/cmake/modules/FindRE2C.cmake)
+
 Find re2c.
 
 The minimum required version of re2c can be specified using the standard CMake

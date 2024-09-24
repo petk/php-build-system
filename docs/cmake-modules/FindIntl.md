@@ -1,5 +1,7 @@
 # FindIntl
 
+See: [FindIntl.cmake](https://github.com/petk/php-build-system/tree/master/cmake/cmake/modules/FindIntl.cmake)
+
 Find the Intl library.
 
 Module overrides the upstream CMake `FindIntl` module with few customizations.

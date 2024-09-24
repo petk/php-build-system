@@ -1,5 +1,7 @@
 # FindGcov
 
+See: [FindGcov.cmake](https://github.com/petk/php-build-system/tree/master/cmake/cmake/modules/FindGcov.cmake)
+
 Find the Gcov coverage programs and features.
 
 Module defines the following `IMPORTED` target(s):

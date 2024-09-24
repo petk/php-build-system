@@ -1,5 +1,7 @@
 # FindLDAP
 
+See: [FindLDAP.cmake](https://github.com/petk/php-build-system/tree/master/cmake/cmake/modules/FindLDAP.cmake)
+
 Find the LDAP library.
 
 Module defines the following `IMPORTED` target(s):

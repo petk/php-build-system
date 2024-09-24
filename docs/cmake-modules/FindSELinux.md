@@ -1,5 +1,7 @@
 # FindSELinux
 
+See: [FindSELinux.cmake](https://github.com/petk/php-build-system/tree/master/cmake/cmake/modules/FindSELinux.cmake)
+
 Find the SELinux library.
 
 Module defines the following `IMPORTED` target(s):

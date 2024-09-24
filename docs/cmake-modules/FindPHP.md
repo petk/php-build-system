@@ -1,5 +1,7 @@
 # FindPHP
 
+See: [FindPHP.cmake](https://github.com/petk/php-build-system/blob/master/cmake/ext/skeleton/cmake/modules/FindPHP.cmake)
+
 Find PHP.
 
 Components:

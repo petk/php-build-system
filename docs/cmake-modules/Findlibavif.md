@@ -1,5 +1,7 @@
 # Findlibavif
 
+See: [Findlibavif.cmake](https://github.com/petk/php-build-system/tree/master/cmake/cmake/modules/Findlibavif.cmake)
+
 Find the libavif library.
 
 This is a helper in case system doesn't have the library's Config find module.

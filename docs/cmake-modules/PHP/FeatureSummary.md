@@ -1,5 +1,7 @@
 # PHP/FeatureSummary
 
+See: [FeatureSummary.cmake](https://github.com/petk/php-build-system/tree/master/cmake/cmake/modules/PHP/FeatureSummary.cmake)
+
 Print summary of enabled/disabled features.
 
 This is built on top of the CMake's `FeatureSummary` module. It sorts feature

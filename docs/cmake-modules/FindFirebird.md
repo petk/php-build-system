@@ -1,5 +1,7 @@
 # FindFirebird
 
+See: [FindFirebird.cmake](https://github.com/petk/php-build-system/tree/master/cmake/cmake/modules/FindFirebird.cmake)
+
 Find the Firebird library.
 
 Module defines the following `IMPORTED` target(s):

@@ -1,5 +1,7 @@
 # PHP/CheckClockGettime
 
+See: [CheckClockGettime.cmake](https://github.com/petk/php-build-system/tree/master/cmake/cmake/modules/PHP/CheckClockGettime.cmake)
+
 Check for `clock_get*time()`.
 
 Cache variables:

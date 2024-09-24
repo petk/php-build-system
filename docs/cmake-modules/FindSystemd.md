@@ -1,5 +1,7 @@
 # FindSystemd
 
+See: [FindSystemd.cmake](https://github.com/petk/php-build-system/tree/master/cmake/cmake/modules/FindSystemd.cmake)
+
 Find the systemd library (libsystemd).
 
 Module defines the following `IMPORTED` target(s):

@@ -730,7 +730,8 @@ A list of Autoconf `configure` command-line configuration options, Windows
       <td>SAPI_APACHE2HANDLER=OFF</td>
       <td>
         default, in PHP >= 8.4 <code>--disable-apache2handler</code> is for
-        Apache 2.4 and not Apache 2.0 anymore</td>
+        Apache 2.4 and not Apache 2.0 anymore
+      </td>
     </tr>
     <tr>
       <td>&emsp;--with-apxs2[=PATH_TO_APXS]</td>

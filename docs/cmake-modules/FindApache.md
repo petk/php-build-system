@@ -1,5 +1,7 @@
 # FindApache
 
+See: [FindApache.cmake](https://github.com/petk/php-build-system/tree/master/cmake/cmake/modules/FindApache.cmake)
+
 Find the Apache packages and tools.
 
 The Apache development package usually contains Apache header files, the `apr`

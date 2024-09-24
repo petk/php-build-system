@@ -1,5 +1,7 @@
 # FindAtomic
 
+See: [FindAtomic.cmake](https://github.com/petk/php-build-system/tree/master/cmake/cmake/modules/FindAtomic.cmake)
+
 Find the atomic instructions.
 
 Module defines the following `IMPORTED` target(s):

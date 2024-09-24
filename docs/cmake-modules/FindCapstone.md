@@ -1,5 +1,7 @@
 # FindCapstone
 
+See: [FindCapstone.cmake](https://github.com/petk/php-build-system/tree/master/cmake/cmake/modules/FindCapstone.cmake)
+
 Find the Capstone library.
 
 Module defines the following `IMPORTED` target(s):

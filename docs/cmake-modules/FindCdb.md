@@ -1,5 +1,7 @@
 # FindCdb
 
+See: [FindCdb.cmake](https://github.com/petk/php-build-system/tree/master/cmake/cmake/modules/FindCdb.cmake)
+
 Find the cdb library.
 
 Module defines the following `IMPORTED` target(s):

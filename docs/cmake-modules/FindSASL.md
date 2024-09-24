@@ -1,5 +1,7 @@
 # FindSASL
 
+See: [FindSASL.cmake](https://github.com/petk/php-build-system/tree/master/cmake/cmake/modules/FindSASL.cmake)
+
 Find the SASL library.
 
 Module defines the following `IMPORTED` target(s):

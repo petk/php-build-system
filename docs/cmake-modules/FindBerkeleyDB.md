@@ -1,5 +1,7 @@
 # FindBerkeleyDB
 
+See: [FindBerkeleyDB.cmake](https://github.com/petk/php-build-system/tree/master/cmake/cmake/modules/FindBerkeleyDB.cmake)
+
 Find the Berkeley DB library.
 
 Module defines the following `IMPORTED` target(s):

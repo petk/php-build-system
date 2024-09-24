@@ -1,5 +1,7 @@
 # FindMC
 
+See: [FindMC.cmake](https://github.com/petk/php-build-system/tree/master/cmake/cmake/modules/FindMC.cmake)
+
 Find Windows compatible message compiler (mc.exe or windmc) command-line tool.
 
 Message compiler is installed on Windows as part of the Visual Studio or Windows

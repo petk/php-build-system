@@ -1,5 +1,7 @@
 # PHP/CheckTtynameR
 
+See: [CheckTtynameR.cmake](https://github.com/petk/php-build-system/tree/master/cmake/cmake/modules/PHP/CheckTtynameR.cmake)
+
 Check `ttyname_r()`.
 
 On Solaris/illumos `ttyname_r()` works only with larger buffers (>= 128),

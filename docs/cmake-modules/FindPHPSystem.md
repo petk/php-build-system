@@ -1,5 +1,7 @@
 # FindPHPSystem
 
+See: [FindPHPSystem.cmake](https://github.com/petk/php-build-system/tree/master/cmake/cmake/modules/FindPHPSystem.cmake)
+
 Find external PHP on the system, if installed.
 
 Result variables:

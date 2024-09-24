@@ -23,7 +23,8 @@ program `main.c`:
  * The main function in C is a special entry point of a program where the
  * execution begins.
  */
-int main(void) {
+int main(void)
+{
   printf("%s\n", MY_NAME);
 
   return 0;

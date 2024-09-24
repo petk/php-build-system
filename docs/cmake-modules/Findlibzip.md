@@ -1,5 +1,7 @@
 # Findlibzip
 
+See: [Findlibzip.cmake](https://github.com/petk/php-build-system/tree/master/cmake/cmake/modules/Findlibzip.cmake)
+
 Find the libzip library.
 
 This is a helper in case system doesn't have the libzip's Config find module

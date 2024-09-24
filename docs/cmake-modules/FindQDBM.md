@@ -1,5 +1,7 @@
 # FindQDBM
 
+See: [FindQDBM.cmake](https://github.com/petk/php-build-system/tree/master/cmake/cmake/modules/FindQDBM.cmake)
+
 Find the QDBM library.
 
 Module defines the following `IMPORTED` target(s):

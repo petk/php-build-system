@@ -1,5 +1,7 @@
 # PHP/CheckGetaddrinfo
 
+See: [CheckGetaddrinfo.cmake](https://github.com/petk/php-build-system/tree/master/cmake/cmake/modules/PHP/CheckGetaddrinfo.cmake)
+
 Check for working `getaddrinfo()`.
 
 Cache variables:

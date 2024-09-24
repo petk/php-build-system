@@ -1,5 +1,7 @@
 # FindWebP
 
+See: [FindWebP.cmake](https://github.com/petk/php-build-system/tree/master/cmake/cmake/modules/FindWebP.cmake)
+
 Find the libwebp library.
 
 Module defines the following `IMPORTED` target(s):

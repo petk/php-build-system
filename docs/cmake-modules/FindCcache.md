@@ -1,5 +1,7 @@
 # FindCcache
 
+See: [FindCcache.cmake](https://github.com/petk/php-build-system/tree/master/cmake/cmake/modules/FindCcache.cmake)
+
 Find the Ccache compiler cache tool for faster compilation times.
 
 Result variables:

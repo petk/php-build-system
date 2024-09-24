@@ -1,5 +1,7 @@
 # FindODBC
 
+See: [FindODBC.cmake](https://github.com/petk/php-build-system/tree/master/cmake/cmake/modules/FindODBC.cmake)
+
 Find the ODBC library.
 
 Module defines the following `IMPORTED` target(s):

@@ -1,5 +1,7 @@
 # PHP/SearchLibraries
 
+See: [SearchLibraries.cmake](https://github.com/petk/php-build-system/tree/master/cmake/cmake/modules/PHP/SearchLibraries.cmake)
+
 Check if symbol exists in given header(s). If not found in default linked
 libraries (for example, C library), a given list of libraries is iterated and
 found library can be linked as needed.

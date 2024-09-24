@@ -1,5 +1,7 @@
 # FindXPM
 
+See: [FindXPM.cmake](https://github.com/petk/php-build-system/tree/master/cmake/cmake/modules/FindXPM.cmake)
+
 Find the libXpm library.
 
 Module defines the following `IMPORTED` target(s):

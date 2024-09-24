@@ -1,5 +1,7 @@
 # PHP/CheckStrerrorR
 
+See: [CheckStrerrorR.cmake](https://github.com/petk/php-build-system/tree/master/cmake/cmake/modules/PHP/CheckStrerrorR.cmake)
+
 Check for `strerror_r()`, and if its a POSIX-compatible or a GNU-specific
 version.
 

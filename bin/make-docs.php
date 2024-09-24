@@ -14,7 +14,8 @@
 function generateModuleDocs(
     string $file,
     string $namespace,
-    string $destination
+    string $destination,
+    string $url = '',
 ): void {
     $content = file_get_contents($file);
     preg_match('/^#\[===+\[\s*(.*?)\s*#\]===+\]/s', $content, $matches);
@@ -24,6 +25,10 @@ function generateModuleDocs(
 
         $content = '';
         $content .= "# $namespace" . "$moduleName\n\n";
+        if ($url === '') {
+            $url = 'https://github.com/petk/php-build-system/tree/master/cmake/cmake/modules/' . $namespace . $moduleName . '.cmake';
+        }
+        $content .= "See: [$moduleName.cmake]($url)\n\n";
         $content .= $matches[1];
         $content .= "\n";
 
@@ -64,8 +69,10 @@ foreach ($files as $file) {
 }
 
 // Add ext/skeleton/cmake/modules/FindPHP.cmake.
+echo "Processing ext/skeleton/cmake/modules/FindPHP.cmake\n";
 generateModuleDocs(
     __DIR__ . '/../cmake/ext/skeleton/cmake/modules/FindPHP.cmake',
     '',
-    $docs
+    $docs,
+    'https://github.com/petk/php-build-system/blob/master/cmake/ext/skeleton/cmake/modules/FindPHP.cmake',
 );

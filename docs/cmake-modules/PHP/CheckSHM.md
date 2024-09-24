@@ -1,5 +1,7 @@
 # PHP/CheckSHM
 
+See: [CheckSHM.cmake](https://github.com/petk/php-build-system/tree/master/cmake/cmake/modules/PHP/CheckSHM.cmake)
+
 Check for shared memory (SHM) operations functions and required libraries.
 
 If no SHM support is found, a FATAL error is thrown.

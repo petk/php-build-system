@@ -1,5 +1,7 @@
 # PHP/CheckCrypt
 
+See: [CheckCrypt.cmake](https://github.com/petk/php-build-system/tree/master/cmake/cmake/modules/PHP/CheckCrypt.cmake)
+
 Check whether the `crypt` library works as expected for PHP by running a set of
 PHP-specific checks.
 
