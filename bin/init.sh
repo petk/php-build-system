@@ -82,8 +82,8 @@ done
 # Check requirements.
 which=$(which which 2>/dev/null)
 cmake=$(which cmake 2>/dev/null)
-patch=$(which patch 2>/dev/null)
 git=$(which git 2>/dev/null)
+patch=$(which patch 2>/dev/null)
 
 if test -z "$which"; then
   echo "init.sh: The 'which' command not found." >&2
@@ -98,13 +98,6 @@ if test -z "$cmake"; then
   echo "" >&2
 fi
 
-if test -z "$patch"; then
-  echo "init.sh: The 'patch' command not found." >&2
-  echo "         Please install patch utilities:" >&2
-  echo "         http://savannah.gnu.org/projects/patch" >&2
-  echo "" >&2
-fi
-
 if test -z "$git"; then
   echo "init.sh: The 'git' command not found." >&2
   echo "         Please install Git:" >&2
@@ -112,8 +105,15 @@ if test -z "$git"; then
   echo "" >&2
 fi
 
+if test -z "$patch"; then
+  echo "init.sh: The 'patch' command not found." >&2
+  echo "         Instead, the 'git' command will be used to apply patches." >&2
+  echo "         Optionally install patch utilities:" >&2
+  echo "         http://savannah.gnu.org/projects/patch" >&2
+  echo "" >&2
+fi
+
 if test -z "${cmake}" \
-  || test -z "${patch}" \
   || test -z "${git}"
 then
   exit 1
@@ -196,8 +196,12 @@ fi
 for file in $patches; do
   case $file in
     *.patch)
-      "$patch" -p1 -d php-src < $file
-      ;;
+      if test -n "$patch"; then
+        "$patch" -p1 -d php-src < $file
+      else
+        "$git" apply $file --directory php-src
+      fi
+    ;;
   esac
 done
 
