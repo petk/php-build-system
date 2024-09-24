@@ -17,18 +17,25 @@ patch-cmake-8.3-zend-vm-gen
 patch-cmake-8.4
 patch-cmake-8.4-asm
 patch-cmake-8.4-dmalloc
-patch-cmake-8.4-docs
 patch-cmake-8.4-php-config
 patch-cmake-8.4-phpdbg-prompt
 patch-cmake-8.4-timelib
 patch-cmake-8.4-zend-vm-gen
+patch-cmake-8.5
+patch-cmake-8.5-asm
+patch-cmake-8.5-dmalloc
+patch-cmake-8.5-docs
+patch-cmake-8.5-php-config
+patch-cmake-8.5-phpdbg-prompt
+patch-cmake-8.5-timelib
+patch-cmake-8.5-zend-vm-gen
 "
 
 # A list of supported PHP versions.
-phpVersions="8.3 8.4"
+phpVersions="8.3 8.4 8.5"
 
-# The PHP MAJOR.MINOR version currently in development
-phpVersionDev="8.4"
+# The PHP MAJOR.MINOR version currently in development (the master branch).
+phpVersionDev="8.5"
 
 # Whether to rebase the patch branches against their tracked origins.
 refresh=0

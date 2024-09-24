@@ -16,6 +16,9 @@ Usage:
 
 cmake_minimum_required(VERSION 3.25 FATAL_ERROR)
 
+# The PHP MAJOR.MINOR version currently in development (the master branch).
+set(PHP_DEVELOPMENT_VERSION "8.5")
+
 # Check if git command is available.
 find_program(GIT_EXECUTABLE git DOC "Path to the Git executable")
 
@@ -109,7 +112,7 @@ message(STATUS "Applying patches to ${PHP_SOURCE_DIR_NAME}")
 
 # Apply patches for php-src.
 if(GIT_BRANCH STREQUAL "master")
-  set(PHP_VERSION "8.4")
+  set(PHP_VERSION "${PHP_DEVELOPMENT_VERSION}")
 else()
   string(REGEX MATCH [[([0-9]+\.[0-9]+).*$]] PHP_VERSION "${GIT_BRANCH}")
 endif()
