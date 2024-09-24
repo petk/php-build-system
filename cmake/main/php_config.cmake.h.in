@@ -1800,11 +1800,11 @@
 /* Define to 1 if your system has fork/vfork/CreateProcess. */
 #cmakedefine PHP_CAN_SUPPORT_PROC_OPEN 1
 
-/* Define to 1 if the compiler supports AVX-512. */
-#cmakedefine PHP_HAVE_AVX512_SUPPORTS 1
-
 /* Compiler identification string. */
 #cmakedefine PHP_COMPILER_ID "@PHP_COMPILER_ID@"
+
+/* Define to 1 if the compiler supports AVX-512. */
+#cmakedefine PHP_HAVE_AVX512_SUPPORTS 1
 
 /* Define to 1 if the compiler supports AVX-512 VBMI. */
 #cmakedefine PHP_HAVE_AVX512_VBMI_SUPPORTS 1
