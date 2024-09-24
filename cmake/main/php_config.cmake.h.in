@@ -1143,6 +1143,10 @@
    function. */
 #cmakedefine HAVE_POSIX_SPAWN_FILE_ACTIONS_ADDCHDIR_NP 1
 
+/* Define to 1 if libpq has the 'PQclosePrepared' function (PostgreSQL 17 or
+   later). */
+#cmakedefine HAVE_PQCLOSEPREPARED 1
+
 /* Define to 1 if PGVerbosity enum has PQERRORS_SQLSTATE. */
 #cmakedefine HAVE_PQERRORS_SQLSTATE 1
 

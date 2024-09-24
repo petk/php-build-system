@@ -80,6 +80,16 @@ if(TARGET PostgreSQL::PostgreSQL)
       HAVE_PG_RESULT_MEMORY_SIZE
     )
   endif()
+
+  # Available since PostgreSQL 17.
+  if(PostgreSQL_VERSION_STRING VERSION_GREATER_EQUAL 17)
+    check_library_exists(
+      PostgreSQL::PostgreSQL
+      PQclosePrepared
+      ""
+      HAVE_PQCLOSEPREPARED
+    )
+  endif()
 endif()
 
 if(RE2C_FOUND)
