@@ -34,11 +34,54 @@ https://bugs.php.net/53141
 TODO: Improve this or simplify the sorting complexities in its entierity. PHP
 dependencies are handled very basically ATM.
 
-Exposed macro:
+## Exposed macro
 
 ```cmake
 php_extensions_add(subdirectory)
 ```
+
+## Custom CMake properties
+
+* `PHP_ALL_EXTENSIONS`
+
+  Global property with a list of all PHP extensions in the ext directory.
+
+* `PHP_ALWAYS_ENABLED_EXTENSIONS`
+
+  This global property contains a list of always enabled PHP extensions which
+  don't need the `HAVE_<extension-name>` preprocessor macros defined in the PHP
+  configuration header and can be considered as part of the core PHP engine.
+
+* `PHP_EXTENSIONS`
+
+  This global property contains a list of all enabled PHP extensions for the
+  current configuration. Extensions are sorted by the directory priority (see
+  `PHP_PRIORITY` property) and extension dependencies (added with CMake command
+  `add_dependencies()`).
+
+* `PHP_PRIORITY`
+
+  This optional directory property controls the order of the PHP extensions
+  added with the `add_subdirectory()`. Directory added with `add_subdirectory()`
+  won't be visible in the configuration phase for the directories added before.
+  Priority number can be used to add the extension subdirectory prior (0..100)
+  or later (\>100) to other extensions. By default extensions are sorted
+  alphabetically and added in between. This enables having extension variables
+  visible in depending extensions.
+
+* `PHP_ZEND_EXTENSION`
+
+  Extensions can utilize this custom target property, which designates the
+  extension as a Zend extension rather than a standard PHP extension. Zend
+  extensions function similarly to regular PHP extensions, but they are loaded
+  using the `zend_extension` INI directive and possess an internally distinct
+  structure with additional hooks. Typically employed for advanced
+  functionalities like debuggers and profilers, Zend extensions offer enhanced
+  capabilities.
+
+  ```cmake
+  set_target_properties(php_<extension_name> PROPERTIES PHP_ZEND_EXTENSION TRUE)
+  ```
 #]=============================================================================]
 
 include_guard(GLOBAL)
@@ -48,41 +91,15 @@ include_guard(GLOBAL)
 ################################################################################
 
 define_property(
-  DIRECTORY
-  PROPERTY PHP_PRIORITY
-  BRIEF_DOCS "Controls when to add subdirectory in the configuration phase"
-  FULL_DOCS "This optional property controls the order of the extensions added "
-            "with add_subdirectory(). Directory added with add_subdirectory() "
-            "won't be visible in the configuration phase for the directories "
-            "added before. Priority number can be used to add the extension "
-            "subdirectory prior (0..100) or later (>100) to other extensions. "
-            "By default extensions are sorted alphabetically and added in "
-            "between. This enables having extension variables visible in "
-            "depending extensions."
-)
-
-define_property(
-  TARGET
-  PROPERTY PHP_ZEND_EXTENSION
-  BRIEF_DOCS "Whether the extension target is Zend extension"
-)
-
-define_property(
   GLOBAL
-  PROPERTY PHP_EXTENSIONS
-  BRIEF_DOCS "A list of all enabled extensions"
-  FULL_DOCS "This property contains a list of all enabled extensions for the "
-            "current configuration. Extensions are sorted by the directory "
-            "priority and their dependencies."
+  PROPERTY PHP_ALL_EXTENSIONS
+  BRIEF_DOCS "A list of all extensions in the ext directory"
 )
 
 define_property(
   GLOBAL
   PROPERTY PHP_ALWAYS_ENABLED_EXTENSIONS
   BRIEF_DOCS "A list of always enabled PHP extensions"
-  FULL_DOCS "This property contains a list of always enabled PHP extensions "
-            "which don't need HAVE_<extension-name> symbols and can be "
-            "considered as part of the core PHP engine."
 )
 
 set_property(GLOBAL PROPERTY PHP_ALWAYS_ENABLED_EXTENSIONS
@@ -98,8 +115,20 @@ set_property(GLOBAL PROPERTY PHP_ALWAYS_ENABLED_EXTENSIONS
 
 define_property(
   GLOBAL
-  PROPERTY PHP_ALL_EXTENSIONS
-  BRIEF_DOCS "A list of all extensions in the ext directory"
+  PROPERTY PHP_EXTENSIONS
+  BRIEF_DOCS "A list of all enabled extensions"
+)
+
+define_property(
+  DIRECTORY
+  PROPERTY PHP_PRIORITY
+  BRIEF_DOCS "Controls when to add subdirectory in the configuration phase"
+)
+
+define_property(
+  TARGET
+  PROPERTY PHP_ZEND_EXTENSION
+  BRIEF_DOCS "Whether the extension target is Zend extension"
 )
 
 ################################################################################

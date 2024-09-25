@@ -1982,7 +1982,7 @@
    TODO: This is still not good enough because multi-config generators would
    then need separate php_config.h files for each build type. */
 #ifndef ZEND_DEBUG
-# define ZEND_DEBUG $<IF:$<CONFIG:Debug>,1,0>
+# define ZEND_DEBUG $<IF:$<CONFIG:Debug,DebugAssertions>,1,0>
 #endif
 
 /* Define to 1 if Zend fiber uses ucontext instead of boost context. */
@@ -2054,11 +2054,11 @@
 #define PHP_SHLIB_EXT_PREFIX "php_"
 
 /* The shared library objects extension. */
-#define PHP_SHLIB_SUFFIX "dll"
+#define PHP_SHLIB_SUFFIX "@SHLIB_DL_SUFFIX_NAME@"
 
 /* The path to the etc directory. */
 #define PHP_SYSCONFDIR "@PREFIX@"
 
 #if __has_include("main/config.pickle.h")
-#include "main/config.pickle.h"
+# include "main/config.pickle.h"
 #endif

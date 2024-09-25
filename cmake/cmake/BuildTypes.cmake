@@ -5,9 +5,14 @@ Configure CMake build types.
 include_guard(GLOBAL)
 
 block()
-  if(CMAKE_SOURCE_DIR STREQUAL CMAKE_CURRENT_SOURCE_DIR)
-    get_property(isMultiConfig GLOBAL PROPERTY GENERATOR_IS_MULTI_CONFIG)
+  get_property(isMultiConfig GLOBAL PROPERTY GENERATOR_IS_MULTI_CONFIG)
 
+  # Set default build type for single-config generators.
+  if(NOT isMultiConfig AND NOT CMAKE_BUILD_TYPE)
+    set_property(CACHE CMAKE_BUILD_TYPE PROPERTY VALUE "Debug")
+  endif()
+
+  if(PROJECT_IS_TOP_LEVEL)
     if(isMultiConfig)
       if(NOT "DebugAssertions" IN_LIST CMAKE_CONFIGURATION_TYPES)
         list(APPEND CMAKE_CONFIGURATION_TYPES DebugAssertions)
@@ -15,12 +20,12 @@ block()
     else()
       set(
         allowedBuildTypes
-        Debug
-        MinSizeRel
-        Release
-        RelWithDebInfo
-        DebugAssertions # Custom build type with debug assertions enabled in
-                        # release mode.
+          Debug           # Debug info, assertions, not optimized.
+          DebugAssertions # Custom PHP debug build type with assertions enabled
+                          # in the release mode. TODO: Adjust the flags.
+          MinSizeRel      # Optimized for size rather than speed.
+          Release         # No debug info, no assertions, optimized.
+          RelWithDebInfo  # Debug info, optimized, no assertions.
       )
 
       set_property(
@@ -28,21 +33,18 @@ block()
         PROPERTY STRINGS "${allowedBuildTypes}"
       )
 
-      if(NOT CMAKE_BUILD_TYPE)
-        set(CMAKE_BUILD_TYPE Debug CACHE STRING "" FORCE)
-      elseif(NOT CMAKE_BUILD_TYPE IN_LIST allowedBuildTypes)
+      set_property(
+        CACHE CMAKE_BUILD_TYPE
+        PROPERTY HELPSTRING
+        "Choose the type of build, options are: ${allowedBuildTypes}"
+      )
+
+      if(NOT CMAKE_BUILD_TYPE IN_LIST allowedBuildTypes)
         message(FATAL_ERROR "Unknown build type: ${CMAKE_BUILD_TYPE}")
       endif()
     endif()
   endif()
 endblock()
-
-# TODO: Remove this in favor of generator expressions. Multi configuration
-# generators are otherwise not checked here like this.
-if(CMAKE_BUILD_TYPE MATCHES "^(Debug|DebugAssertions)$")
-  set(PHP_DEBUG TRUE)
-  set(ZEND_DEBUG 1 CACHE INTERNAL "Whether to enable debugging")
-endif()
 
 target_compile_definitions(
   php_configuration

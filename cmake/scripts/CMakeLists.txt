@@ -116,7 +116,6 @@ pkgconfig_generate_pc(
   php.pc.in
   php.pc
   TARGET php_cli
-  INSTALL_DESTINATION ${CMAKE_INSTALL_LIBDIR}/pkgconfig
   VARIABLES
     prefix "$<INSTALL_PREFIX>"
     exec_prefix "$<INSTALL_PREFIX>"
@@ -127,8 +126,13 @@ pkgconfig_generate_pc(
     PHP_EXTENSION_DIR "$<PHP_EXPAND:${PHP_EXTENSION_DIR}>"
     PHP_CONFIG_FILE_SCAN_DIR "$<PHP_EXPAND:${PHP_CONFIG_FILE_SCAN_DIR}>"
     PHP_CONFIG_FILE_PATH "$<PHP_EXPAND:${PHP_CONFIG_FILE_PATH}>"
-    PHP_DEBUG:BOOL "${PHP_DEBUG}"
-    PHP_THREAD_SAFETY:BOOL "${PHP_THREAD_SAFETY}"
+    PHP_DEBUG "$<IF:$<CONFIG:Debug,DebugAssertions>,yes,no>"
+    PHP_THREAD_SAFETY "$<IF:$<BOOL:$<TARGET_PROPERTY:php_configuration,PHP_THREAD_SAFETY>>,yes,no>"
+)
+
+install(
+  FILES ${CMAKE_CURRENT_BINARY_DIR}/php.pc
+  DESTINATION ${CMAKE_INSTALL_LIBDIR}/pkgconfig
 )
 
 # Install Autotools build files.
