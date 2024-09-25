@@ -1,15 +1,34 @@
 #[=============================================================================[
 Check for thread safety, a.k.a. ZTS (Zend thread safety) build.
 
-Cache variables:
+## Cache variables
 
 * `ZTS`
+
   Whether PHP thread safety is enabled.
+
+## Custom CMake properties
+
+* `PHP_THREAD_SAFETY`
+
+  When thread safety is enabled (either by the configuration variable
+  `PHP_THREAD_SAFETY` or automatically by the `apache2handler` PHP SAPI module),
+  also a custom target property `PHP_THREAD_SAFETY` is added to the
+  `PHP::configuration` target, which can be then used in generator expressions
+  during the generation phase to determine thread safety enabled from the
+  configuration phase. For example, the `PHP_EXTENSION_DIR` configuration
+  variable needs to be set depending on the thread safety.
 #]=============================================================================]
 
 include_guard(GLOBAL)
 
 include(FeatureSummary)
+
+define_property(
+  TARGET
+  PROPERTY PHP_THREAD_SAFETY
+  BRIEF_DOCS "Whether the PHP has thread safety enabled"
+)
 
 function(_php_thread_safety)
   message(CHECK_START "Checking whether to enable thread safety (ZTS)")
@@ -48,6 +67,9 @@ function(_php_thread_safety)
   # Add ZTS compile definition. Some PHP headers might not have php_config.h
   # directly available. For example, some Zend headers.
   target_compile_definitions(php_configuration INTERFACE ZTS)
+
+  # Set custom target property on the PHP configuration target.
+  set_target_properties(php_configuration PROPERTIES PHP_THREAD_SAFETY ON)
 
   # Add compile definitions for POSIX threads conformance.
   # TODO: Recheck these definitions since many of them are deprecated or

@@ -19,9 +19,7 @@ pkgconfig_generate_pc(
   <pc-template-file>
   <pc-file-output>
   TARGET <target>
-  [INSTALL_DESTINATION <path>]
-  [VARIABLES [<variable> <value>] [<variable_2>:BOOL <value_2>...] ...]
-  [SKIP_BOOL_NORMALIZATION]
+  [VARIABLES <variable> <value> ...]
 )
 ```
 
@@ -30,19 +28,16 @@ template.
 
 * `TARGET`
   Name of the target for getting libraries.
-* `INSTALL_DESTINATION`
-  Path to the pkgconfig directory where generated .pc file will be installed to.
-  Usually it is `${CMAKE_INSTALL_LIBDIR}/pkgconfig`. If not provided, .pc file
-  will not be installed.
 * `VARIABLES`
-  Pairs of variable names and values. To pass booleans, append ':BOOL' to the
-  variable name. For example:
+  Pairs of variable names and values. Variable values support generator
+  expressions. For example:
 
   ```cmake
   pkgconfig_generate_pc(
     ...
     VARIABLES
-      variable_name:BOOL "${variable_name}"
+      debug "$<IF:$<CONFIG:Debug>,yes,no>"
+      variable "$<IF:$<BOOL:${VARIABLE}>,yes,no>"
   )
   ```
 
@@ -54,13 +49,6 @@ template.
   The custom PHP specific `$<PHP_EXPAND:path>` generator expression can be used
   in variable values. It is automatically replaced to `<install-prefix>/path`
   if `path` is relative, or to just `path` if `path` is absolute.
-
-* `SKIP_BOOL_NORMALIZATION`
-  CMake booleans have values `yes`, `no`, `true`, `false`, `on`, `off`, `1`,
-  `0`, they can even be case insensitive and so on. By default, all booleans
-  (`var:BOOL`, see above) are normalized to values `yes` or `no`. If this option
-  is given, boolean values are replaced in .pc template with the CMake format
-  instead (they will be replaced to `ON` or `OFF` and similar).
 #]=============================================================================]
 
 include_guard(GLOBAL)
@@ -96,20 +84,6 @@ function(_pkgconfig_parse_variables variables)
       continue()
     endif()
     list(POP_FRONT variables var value)
-
-    # Normalize boolean values to either "yes" or "no".
-    if(var MATCHES ".*:BOOL$" AND NOT parsed_SKIP_BOOL_NORMALIZATION)
-      if(value)
-        set(value "yes")
-      else()
-        set(value "no")
-      endif()
-    endif()
-
-    # Remove possible :<TYPE> part from the variable name.
-    if(var MATCHES "(.*):BOOL$")
-      set(var ${CMAKE_MATCH_1})
-    endif()
 
     list(APPEND result_variables ${var})
 
@@ -169,10 +143,10 @@ function(pkgconfig_generate_pc)
   cmake_parse_arguments(
     PARSE_ARGV
     2
-    parsed                       # prefix
-    "SKIP_BOOL_NORMALIZATION"    # options
-    "TARGET;INSTALL_DESTINATION" # one-value keywords
-    "VARIABLES"                  # multi-value keywords
+    parsed      # prefix
+    ""          # options
+    "TARGET"    # one-value keywords
+    "VARIABLES" # multi-value keywords
   )
 
   if(parsed_UNPARSED_ARGUMENTS)
@@ -271,8 +245,6 @@ function(pkgconfig_generate_pc)
     COMMENT "[PkgConfig] Generating pkg-config ${filename} file"
   )
 
-  cmake_path(GET output FILENAME output_file)
-
   install(CODE "
     block()
       set(result_variables ${result_variables})
@@ -284,17 +256,9 @@ function(pkgconfig_generate_pc)
 
       configure_file(
         ${template}
-        ${CMAKE_CURRENT_BINARY_DIR}/CMakeFiles/${output_file}
+        ${output}
         @ONLY
       )
     endblock()
   ")
-
-  if(parsed_INSTALL_DESTINATION)
-    install(
-      FILES
-        ${CMAKE_CURRENT_BINARY_DIR}/CMakeFiles/${output_file}
-      DESTINATION ${parsed_INSTALL_DESTINATION}
-    )
-  endif()
 endfunction()
