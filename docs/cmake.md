@@ -15,15 +15,15 @@ works and how it can be used.
 * [6. CMake minimum version for PHP](#6-cmake-minimum-version-for-php)
 * [7. Interface library](#7-interface-library)
 * [8. PHP CMake modules](#8-php-cmake-modules)
-* [9. PHP extensions](#9-php-extensions)
-  * [9.1. Properties](#91-properties)
-* [10. PHP SAPI (Server API) modules](#10-php-sapi-server-api-modules)
-* [11. Generated files](#11-generated-files)
-  * [11.1. Parser and lexer files](#111-parser-and-lexer-files)
-* [12. Performance](#12-performance)
-* [13. Testing](#13-testing)
-* [14. Windows notes](#14-windows-notes)
-  * [14.1. Module-definition (.def) files](#141-module-definition-def-files)
+* [9. Custom CMake properties](#9-custom-cmake-properties)
+* [10. PHP extensions](#10-php-extensions)
+* [11. PHP SAPI (Server API) modules](#11-php-sapi-server-api-modules)
+* [12. Generated files](#12-generated-files)
+  * [12.1. Parser and lexer files](#121-parser-and-lexer-files)
+* [13. Performance](#13-performance)
+* [14. Testing](#14-testing)
+* [15. Windows notes](#15-windows-notes)
+  * [15.1. Module-definition (.def) files](#151-module-definition-def-files)
 
 ## 1. Directory structure
 
@@ -321,7 +321,39 @@ include(PHP/NewModule)
 * [PHP/CheckCompilerFlag](/docs/cmake-modules/PHP/CheckCompilerFlag.md)
 * [PHP/SearchLibraries](/docs/cmake-modules/PHP/SearchLibraries.md)
 
-## 9. PHP extensions
+## 9. Custom CMake properties
+
+* `PHP_ALL_EXTENSIONS`
+
+  Global property set by the [`PHP/Extensions`](cmake-modules/PHP/Extensions.md)
+  module.
+
+* `PHP_ALWAYS_ENABLED_EXTENSIONS`
+
+  Global property set by the [`PHP/Extensions`](cmake-modules/PHP/Extensions.md)
+  module.
+
+* `PHP_EXTENSIONS`
+
+  Global property set by the [`PHP/Extensions`](cmake-modules/PHP/Extensions.md)
+  module.
+
+* `PHP_PRIORITY`
+
+  Directory property set by the
+  [`PHP/Extensions`](cmake-modules/PHP/Extensions.md) module.
+
+* `PHP_THREAD_SAFETY`
+
+  Target property set by the
+  [`PHP/ThreadSafety`](cmake-modules/PHP/ThreadSafety.md) module on the
+  `PHP::configuration` target, when thread safety is enabled.
+
+* `PHP_ZEND_EXTENSION`
+
+  See the [`PHP/Extensions`](cmake-modules/PHP/Extensions.md) module.
+
+## 10. PHP extensions
 
 PHP has several ways to install PHP extensions:
 
@@ -374,24 +406,7 @@ the extension's source directory.
 Example of `CMakeLists.txt` for PHP extensions can be found in the
 `ext/skeleton` directory.
 
-### 9.1. Properties
-
-Extensions can utilize the following custom CMake properties:
-
-* `PHP_ZEND_EXTENSION`
-
-  This property designates the extension as a Zend extension rather than a
-  standard PHP extension. Zend extensions function similarly to regular PHP
-  extensions, but they are loaded using the `zend_extension` INI directive and
-  possess an internally distinct structure with additional hooks. Typically
-  employed for advanced functionalities like debuggers and profilers, Zend
-  extensions offer enhanced capabilities.
-
-  ```cmake
-  set_target_properties(php_<extension_name> PROPERTIES PHP_ZEND_EXTENSION TRUE)
-  ```
-
-## 10. PHP SAPI (Server API) modules
+## 11. PHP SAPI (Server API) modules
 
 PHP works through the concept of SAPI modules located in the `sapi` directory.
 
@@ -409,7 +424,7 @@ There are other SAPI modules located in the ecosystem:
 * [ngx-php](https://github.com/rryqszq4/ngx-php)
 * ...
 
-## 11. Generated files
+## 12. Generated files
 
 During the build process, there are several files generated, some of which are
 also tracked in the Git repository for a smoother workflow:
@@ -440,7 +455,7 @@ also tracked in the Git repository for a smoother workflow:
     └─ zend_config.w32.h      # Zend engine configuration header for Windows
 ```
 
-### 11.1. Parser and lexer files
+### 12.1. Parser and lexer files
 
 So-called parser files are generated with
 [bison](https://www.gnu.org/software/bison/) tool from `*.y` source files to C
@@ -537,7 +552,7 @@ cmake -S <source-dir> -B <build-dir>
 cmake --build <build-dir> -t php_generate_files
 ```
 
-## 12. Performance
+## 13. Performance
 
 When CMake is doing configuration phase, the profiling options can be used to do
 build system performance analysis of CMake files.
@@ -548,7 +563,7 @@ cmake --profiling-output ./profile.json --profiling-format google-trace ../php-s
 
 ![CMake profiling](/docs/images/cmake-profiling.png)
 
-## 13. Testing
+## 14. Testing
 
 PHP source code tests (`*.phpt` files) are written in PHP and are executed with
 `run-tests.php` script from the very beginning of the PHP development. When
@@ -580,9 +595,9 @@ using the `CMakePresets.json` file and its `testPresets` field.
 ctest --preset all-enabled
 ```
 
-## 14. Windows notes
+## 15. Windows notes
 
-### 14.1. Module-definition (.def) files
+### 15.1. Module-definition (.def) files
 
 [Module-definition (.def) files](https://learn.microsoft.com/en-us/cpp/build/reference/module-definition-dot-def-files)
 are added to certain php-src folders where linker needs them when building DLL.

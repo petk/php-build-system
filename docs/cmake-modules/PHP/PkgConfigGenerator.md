@@ -22,9 +22,7 @@ pkgconfig_generate_pc(
   <pc-template-file>
   <pc-file-output>
   TARGET <target>
-  [INSTALL_DESTINATION <path>]
-  [VARIABLES [<variable> <value>] [<variable_2>:BOOL <value_2>...] ...]
-  [SKIP_BOOL_NORMALIZATION]
+  [VARIABLES <variable> <value> ...]
 )
 ```
 
@@ -33,19 +31,16 @@ template.
 
 * `TARGET`
   Name of the target for getting libraries.
-* `INSTALL_DESTINATION`
-  Path to the pkgconfig directory where generated .pc file will be installed to.
-  Usually it is `${CMAKE_INSTALL_LIBDIR}/pkgconfig`. If not provided, .pc file
-  will not be installed.
 * `VARIABLES`
-  Pairs of variable names and values. To pass booleans, append ':BOOL' to the
-  variable name. For example:
+  Pairs of variable names and values. Variable values support generator
+  expressions. For example:
 
   ```cmake
   pkgconfig_generate_pc(
     ...
     VARIABLES
-      variable_name:BOOL "${variable_name}"
+      debug "$<IF:$<CONFIG:Debug>,yes,no>"
+      variable "$<IF:$<BOOL:${VARIABLE}>,yes,no>"
   )
   ```
 
@@ -57,10 +52,3 @@ template.
   The custom PHP specific `$<PHP_EXPAND:path>` generator expression can be used
   in variable values. It is automatically replaced to `<install-prefix>/path`
   if `path` is relative, or to just `path` if `path` is absolute.
-
-* `SKIP_BOOL_NORMALIZATION`
-  CMake booleans have values `yes`, `no`, `true`, `false`, `on`, `off`, `1`,
-  `0`, they can even be case insensitive and so on. By default, all booleans
-  (`var:BOOL`, see above) are normalized to values `yes` or `no`. If this option
-  is given, boolean values are replaced in .pc template with the CMake format
-  instead (they will be replaced to `ON` or `OFF` and similar).
