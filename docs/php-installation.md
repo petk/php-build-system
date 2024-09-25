@@ -122,13 +122,13 @@ Notice the difference of the shared extensions and the share directory.
 
 Directory locations can be adjusted with several Autoconf default options:
 
-* `--bindir=DIR` - to set the user executables location
-* `--sbindir=DIR` - to set the root executables location
-* `--includedir=DIR` - to set the project C header files location
+* `--bindir=DIR` - set the user executables location
+* `--sbindir=DIR` - set the root executables location
+* `--includedir=DIR` - set the project C header files location
 * `--libdir=DIR` - set the library location
 * `--mandir=DIR` - set the man documentation location
 * `--localstatedir=DIR` - set the var location
-* `--runstatedir=DIR` - set the run location
+* `--runstatedir=DIR` - set the run location (Autoconf 2.70+)
 * `--sysconfdir=DIR` - set the etc location
 * ...
 
