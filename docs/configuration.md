@@ -165,12 +165,6 @@ documentation.
 
 ## 3. PHP configuration
 
-* `PHP_RE2C_CGOTO=OFF|ON`
-
-  Default: `OFF`
-
-  Enable the goto C statements when using re2c.
-
 * `PHP_BUILD_ARCH`
 
   Default: `${CMAKE_SYSTEM_PROCESSOR}`
@@ -189,14 +183,6 @@ documentation.
 
   Build provider displayed in phpinfo.
 
-* `SED_EXECUTABLE`
-
-  Default path to the sed on the host system.
-
-  Path to the sed, which can be manually overridden to the sed on the target
-  system. This is only used in generated phpize (and php-config) scripts on *nix
-  systems.
-
 * `PHP_CCACHE=ON|OFF`
 
   Default: `ON`
@@ -205,6 +191,27 @@ documentation.
   time. If not found, it is not used. It can be explicitly turned off with this
   option or by setting environment variable `CCACHE_DISABLE=1`. A custom path to
   the `ccache` installation directory can be also set with the `Ccache_ROOT`.
+
+* `PHP_INCLUDE_PREFIX`
+
+  Default: `php`
+
+  Relative directory inside the `CMAKE_INSTALL_INCLUDEDIR` to adjust installed
+  headers location. For example, to specify PHP version: `php/8.4` or similar.
+
+* `PHP_RE2C_CGOTO=OFF|ON`
+
+  Default: `OFF`
+
+  Enable the goto C statements when using re2c.
+
+* `SED_EXECUTABLE`
+
+  Default path to the sed on the host system.
+
+  Path to the sed, which can be manually overridden to the sed on the target
+  system. This is only used in generated phpize (and php-config) scripts on *nix
+  systems.
 
 ## 4. Zend engine configuration
 

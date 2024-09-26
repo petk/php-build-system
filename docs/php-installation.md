@@ -222,6 +222,21 @@ These variables are by default relative paths. When customized, they can be
 either relative or absolute. When changed to absolute values the installation
 prefix will not be taken into account.
 
+> [!TIP]
+> To set the PHP include directory, there is also `PHP_INCLUDE_PREFIX` cache
+> variable available, that can adjust the path inside the
+> `CMAKE_INSTALL_INCLUDEDIR`.
+>
+> ```sh
+> <CMAKE_INSTALL_PREFIX>          # /usr/local
+> └─ <CMAKE_INSTALL_INCLUDEDIR>   # └─ include
+>    └─ <PHP_INSTALL_PREFIX>      #    └─ php
+>       ├─ ext                    #       ├─ ext
+>       ├─ main                   #       ├─ main
+>       ├─ sapi                   #       ├─ sapi
+>       ├─ TSRM                   #       ├─ TSRM
+>       └─ Zend                   #       └─ Zend
+
 Instead of setting the installation prefix at the configuration phase using
 `CMAKE_INSTALL_PREFIX` variable or `--install-prefix` option, there is
 also `installDir` field which can be set in the `CMakePresets.json` or
