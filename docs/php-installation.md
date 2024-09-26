@@ -211,7 +211,7 @@ module is used to set additional `CMAKE_INSTALL_*` variables.
 * `CMAKE_INSTALL_SBINDIR` - name of the sbin directory.
 * `CMAKE_INSTALL_INCLUDEDIR` - name of the directory where project headers are
   put.
-  `CMAKE_INSTALL_LIBDIR` - name of the directory containing libraries
+* `CMAKE_INSTALL_LIBDIR` - name of the directory containing libraries
 * `CMAKE_INSTALL_LOCALSTATEDIR` - name of the var directory.
 * `CMAKE_INSTALL_MANDIR` - name of the man documentation directory.
 * `CMAKE_INSTALL_RUNSTATEDIR` - name of the run-time data directory (var/run).
