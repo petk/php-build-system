@@ -20,16 +20,13 @@ php_configure_file(
 
 * `VARIABLES`
 
-  Pairs of variable names and values.
+  Pairs of variable names and values. Variable values support generator
+  expressions.
 
   The `$<INSTALL_PREFIX>` generator expression can be used in variable values,
   which is replaced with installation prefix either set via the
   `CMAKE_INSTALL_PREFIX` variable at the configuration phase, or the `--prefix`
   option at the `cmake --install` phase.
-
-  The custom PHP specific `$<PHP_EXPAND:path>` generator expression can be used
-  in variable values. It is automatically replaced to `<install-prefix>/path`
-  if `path` is relative, or to just `path` if `path` is absolute.
 #]=============================================================================]
 
 include_guard(GLOBAL)
@@ -96,16 +93,6 @@ function(_php_configure_file_parse_variables)
     list(POP_FRONT variables var value)
 
     list(APPEND resultVariables ${var})
-
-    if(value MATCHES [[^\$<PHP_EXPAND:(.*)>.*]])
-      if(IS_ABSOLUTE "${CMAKE_MATCH_1}")
-        set(value "${CMAKE_MATCH_1}")
-      elseif(CMAKE_MATCH_1)
-        set(value "$<INSTALL_PREFIX>/${CMAKE_MATCH_1}")
-      else()
-        set(value "")
-      endif()
-    endif()
 
     # The resultValues are for the first configure_file().
     if(value MATCHES [[.*\$<INSTALL_PREFIX>.*]])
