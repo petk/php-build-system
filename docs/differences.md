@@ -37,6 +37,10 @@ build system:
 * Better cross-compiling support with CMake toolchain files and ability to set
   the cross-compiling emulator.
 
+* The installation include directory (`/usr/local/include/php`) can be adjusted
+  with `PHP_INSTALL_PREFIX` variable to support multiple PHP versions. For
+  example, `/usr/local/include/php/8.4`.
+
 ## Behavior
 
 * sapi/phpdbg readline support works more intuitively regardless of the readline
