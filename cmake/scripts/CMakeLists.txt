@@ -48,23 +48,40 @@ block()
 
   # The php-config script.
   message(STATUS "Creating scripts/php-config")
+
+  # Replace the upstream php-config script hardcoded php include directory to a
+  # template placeholder.
+  file(READ "${CMAKE_CURRENT_SOURCE_DIR}/php-config.in" content)
+  string(
+    REPLACE
+    [[include_dir="@includedir@/php"]]
+    [[include_dir="@includedir@"]]
+    content
+    "${content}"
+  )
+  file(
+    WRITE
+    "${CMAKE_CURRENT_BINARY_DIR}/CMakeFiles/php-config.cmake.in"
+    "${content}"
+  )
+
   php_configure_file(
-    php-config.in
+    ${CMAKE_CURRENT_BINARY_DIR}/CMakeFiles/php-config.cmake.in
     php-config
     VARIABLES
       SED "${SED}"
       prefix "$<INSTALL_PREFIX>"
-      datarootdir "$<PHP_EXPAND:${CMAKE_INSTALL_DATAROOTDIR}>"
+      datarootdir "$<PATH:ABSOLUTE_PATH,NORMALIZE,${CMAKE_INSTALL_DATAROOTDIR},$<INSTALL_PREFIX>>"
       exec_prefix "$<INSTALL_PREFIX>"
       PHP_VERSION "${PHP_VERSION}"
       PHP_VERSION_ID "${PHP_VERSION_ID}"
-      includedir "$<PHP_EXPAND:${CMAKE_INSTALL_INCLUDEDIR}>"
+      includedir "$<PATH:ABSOLUTE_PATH,NORMALIZE,${CMAKE_INSTALL_INCLUDEDIR}/${PHP_INCLUDE_PREFIX},$<INSTALL_PREFIX>>"
       # TODO:
       PHP_LDFLAGS ""
       # TODO:
       EXTRA_LIBS ""
-      EXTENSION_DIR "$<PHP_EXPAND:${PHP_EXTENSION_DIR}>"
-      mandir "$<PHP_EXPAND:${CMAKE_INSTALL_MANDIR}>"
+      EXTENSION_DIR "$<PATH:ABSOLUTE_PATH,NORMALIZE,${PHP_EXTENSION_DIR},$<INSTALL_PREFIX>>"
+      mandir "$<PATH:ABSOLUTE_PATH,NORMALIZE,${CMAKE_INSTALL_MANDIR},$<INSTALL_PREFIX>>"
       program_prefix "${PHP_PROGRAM_PREFIX}"
       program_suffix "${PHP_PROGRAM_SUFFIX}"
       EXEEXT "${CMAKE_EXECUTABLE_SUFFIX}"
@@ -72,10 +89,10 @@ block()
       CONFIGURE_OPTIONS ""
       # TODO:
       PHP_INSTALLED_SAPIS ""
-      EXPANDED_PHP_CONFIG_FILE_SCAN_DIR "$<PHP_EXPAND:${PHP_CONFIG_FILE_SCAN_DIR}>"
-      EXPANDED_PHP_CONFIG_FILE_PATH "$<PHP_EXPAND:${PHP_CONFIG_FILE_PATH}>"
-      bindir "$<PHP_EXPAND:${CMAKE_INSTALL_BINDIR}>"
-      orig_libdir "$<PHP_EXPAND:${CMAKE_INSTALL_LIBDIR}>"
+      EXPANDED_PHP_CONFIG_FILE_SCAN_DIR "$<PATH:ABSOLUTE_PATH,NORMALIZE,${PHP_CONFIG_FILE_SCAN_DIR},$<INSTALL_PREFIX>>"
+      EXPANDED_PHP_CONFIG_FILE_PATH "$<PATH:ABSOLUTE_PATH,NORMALIZE,${PHP_CONFIG_FILE_PATH},$<INSTALL_PREFIX>>"
+      bindir "$<PATH:ABSOLUTE_PATH,NORMALIZE,${CMAKE_INSTALL_BINDIR},$<INSTALL_PREFIX>>"
+      orig_libdir "$<PATH:ABSOLUTE_PATH,NORMALIZE,${CMAKE_INSTALL_LIBDIR},$<INSTALL_PREFIX>>"
       SAPI_LIBNAME_SHARED "libphp.so"
       SAPI_LIBNAME_STATIC "libphp.a"
       PHP_EMBED_TYPE "${PHP_EMBED_TYPE}"
@@ -90,15 +107,32 @@ block()
 
   # The phpize script.
   message(STATUS "Creating scripts/phpize")
+
+  # Replace the upstream phpize script hardcoded php include directory to a
+  # template placeholder.
+  file(READ "${CMAKE_CURRENT_SOURCE_DIR}/phpize.in" content)
+  string(
+    REPLACE
+    [[includedir="`eval echo @includedir@`/php"]]
+    [[includedir="@includedir@"]]
+    content
+    "${content}"
+  )
+  file(
+    WRITE
+    "${CMAKE_CURRENT_BINARY_DIR}/CMakeFiles/phpize.cmake.in"
+    "${content}"
+  )
+
   php_configure_file(
-    phpize.in
+    ${CMAKE_CURRENT_BINARY_DIR}/CMakeFiles/phpize.cmake.in
     phpize
     VARIABLES
       prefix "$<INSTALL_PREFIX>"
-      datarootdir "$<PHP_EXPAND:${CMAKE_INSTALL_DATAROOTDIR}>"
+      datarootdir "$<PATH:ABSOLUTE_PATH,NORMALIZE,${CMAKE_INSTALL_DATAROOTDIR},$<INSTALL_PREFIX>>"
       exec_prefix "$<INSTALL_PREFIX>"
-      libdir "$<PHP_EXPAND:${CMAKE_INSTALL_LIBDIR}>"
-      includedir "$<PHP_EXPAND:${CMAKE_INSTALL_INCLUDEDIR}>"
+      libdir "$<PATH:ABSOLUTE_PATH,NORMALIZE,${CMAKE_INSTALL_LIBDIR},$<INSTALL_PREFIX>>"
+      includedir "$<PATH:ABSOLUTE_PATH,NORMALIZE,${CMAKE_INSTALL_INCLUDEDIR}/${PHP_INCLUDE_PREFIX},$<INSTALL_PREFIX>>"
       SED "${SED}"
   )
 
@@ -119,13 +153,14 @@ pkgconfig_generate_pc(
   VARIABLES
     prefix "$<INSTALL_PREFIX>"
     exec_prefix "$<INSTALL_PREFIX>"
-    includedir "$<PHP_EXPAND:${CMAKE_INSTALL_INCLUDEDIR}>"
-    libdir "$<PHP_EXPAND:${CMAKE_INSTALL_LIBDIR}>"
+    includedir "$<PATH:ABSOLUTE_PATH,NORMALIZE,${CMAKE_INSTALL_INCLUDEDIR},$<INSTALL_PREFIX>>"
+    php_include_prefix "${PHP_INCLUDE_PREFIX}"
+    libdir "$<PATH:ABSOLUTE_PATH,NORMALIZE,${CMAKE_INSTALL_LIBDIR},$<INSTALL_PREFIX>>"
     PHP_VERSION "${PHP_VERSION}"
     PHP_VERSION_ID "${PHP_VERSION_ID}"
-    PHP_EXTENSION_DIR "$<PHP_EXPAND:${PHP_EXTENSION_DIR}>"
-    PHP_CONFIG_FILE_SCAN_DIR "$<PHP_EXPAND:${PHP_CONFIG_FILE_SCAN_DIR}>"
-    PHP_CONFIG_FILE_PATH "$<PHP_EXPAND:${PHP_CONFIG_FILE_PATH}>"
+    PHP_EXTENSION_DIR "$<PATH:ABSOLUTE_PATH,NORMALIZE,${PHP_EXTENSION_DIR},$<INSTALL_PREFIX>>"
+    PHP_CONFIG_FILE_SCAN_DIR "$<PATH:ABSOLUTE_PATH,NORMALIZE,${PHP_CONFIG_FILE_SCAN_DIR},$<INSTALL_PREFIX>>"
+    PHP_CONFIG_FILE_PATH "$<PATH:ABSOLUTE_PATH,NORMALIZE,${PHP_CONFIG_FILE_PATH},$<INSTALL_PREFIX>>"
     PHP_DEBUG "$<IF:$<CONFIG:Debug,DebugAssertions>,yes,no>"
     PHP_THREAD_SAFETY "$<IF:$<BOOL:$<TARGET_PROPERTY:php_configuration,PHP_THREAD_SAFETY>>,yes,no>"
 )

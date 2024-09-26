@@ -61,6 +61,17 @@ if(NOT PHP_LAYOUT STREQUAL "GNU")
 endif()
 
 set(
+  PHP_INCLUDE_PREFIX "php"
+  CACHE STRING
+  "The relative directory inside the CMAKE_INSTALL_INCLUDEDIR, where to install\
+  PHP headers. For example, 'php/${PHP_VERSION}' to specify version or other\
+  build-related characteristics and have multiple PHP versions installed.\
+  Absolute paths are threated as relative; set CMAKE_INSTALL_INCLUDEDIR if\
+  absolute path needs to be set."
+)
+mark_as_advanced(PHP_INCLUDE_PREFIX)
+
+set(
   PHP_CONFIG_FILE_SCAN_DIR ""
   CACHE PATH "The path where to scan for additional INI configuration files; By\
   default it is empty value; Pass it as a relative string inside the install\

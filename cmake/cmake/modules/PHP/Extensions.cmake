@@ -661,7 +661,7 @@ function(_php_extensions_post_configure directory)
     LIBRARY
       DESTINATION ${PHP_EXTENSION_DIR}
     FILE_SET HEADERS
-      DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/ext/${extension}
+      DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/${PHP_INCLUDE_PREFIX}/ext/${extension}
   )
 
   # Check if extension is always enabled.
