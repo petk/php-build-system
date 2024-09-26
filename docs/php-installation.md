@@ -230,7 +230,7 @@ prefix will not be taken into account.
 > ```sh
 > <CMAKE_INSTALL_PREFIX>          # /usr/local
 > └─ <CMAKE_INSTALL_INCLUDEDIR>   # └─ include
->    └─ <PHP_INSTALL_PREFIX>      #    └─ php
+>    └─ <PHP_INCLUDE_PREFIX>      #    └─ php
 >       ├─ ext                    #       ├─ ext
 >       ├─ main                   #       ├─ main
 >       ├─ sapi                   #       ├─ sapi

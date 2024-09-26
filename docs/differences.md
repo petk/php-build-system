@@ -38,7 +38,7 @@ build system:
   the cross-compiling emulator.
 
 * The installation include directory (`/usr/local/include/php`) can be adjusted
-  with `PHP_INSTALL_PREFIX` variable to support multiple PHP versions. For
+  with `PHP_INCLUDE_PREFIX` variable to support multiple PHP versions. For
   example, `/usr/local/include/php/8.4`.
 
 ## Behavior
