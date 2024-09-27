@@ -54,71 +54,71 @@ It defines the installation directory structure. By default, it is set to a PHP
 style directory structure:
 
 ```sh
-🗁 <INSTALL_ROOT>
- └─🗁 /usr
+📂 <INSTALL_ROOT>
+ └─📂 /usr
     └─ local
-       ├─🗁 bin                      # Executable binary directory
-       └─🗁 etc                      # System configuration directory
-          ├─🗁 php-fpm.d             # PHP FPM configuration directory
+       ├─📂 bin                      # Executable binary directory
+       └─📂 etc                      # System configuration directory
+          ├─📂 php-fpm.d             # PHP FPM configuration directory
           ├─📄 php-fpm.conf.default  # PHP FPM configuration
           └─📄 pear.conf             # PEAR configuration file
-       └─🗁 include
-          └─🗁 php                   # PHP headers
-             ├─🗁 ext                # PHP extensions header files
-             ├─🗁 main               # PHP main binding header files
-             ├─🗁 sapi               # PHP SAPI header files
-             ├─🗁 TSRM               # PHP TSRM header files
-             └─🗁 Zend               # Zend engine header files
-       └─🗁 lib
-          └─🗁 php                   # PHP shared libraries and other build files, PEAR files
-             ├─🗁 build              # Various PHP development and build files
-             └─🗁 extensions
-                └─🗁 no-debug-non-zts-20230901 # PHP shared extensions (*.so files)
-       └─🗁 php
-          └─🗁 man
-             ├─🗁 man1               # PHP man section 1 pages for *nix systems
-             └─🗁 man8               # PHP man section 8 pages for *nix systems
-          └─🗁 php
-             └─🗁 fpm                # Additional FPM static HTML files
-       ├─🗁 sbin                     # Executable binaries for root privileges
-       └─🗁 var                      # The Linux var directory
-          ├─🗁 log                   # Directory for PHP logs
-          └─🗁 run                   # Runtime data directory
+       └─📂 include
+          └─📂 php                   # PHP headers
+             ├─📂 ext                # PHP extensions header files
+             ├─📂 main               # PHP main binding header files
+             ├─📂 sapi               # PHP SAPI header files
+             ├─📂 TSRM               # PHP TSRM header files
+             └─📂 Zend               # Zend engine header files
+       └─📂 lib
+          └─📂 php                   # PHP shared libraries and other build files, PEAR files
+             ├─📂 build              # Various PHP development and build files
+             └─📂 extensions
+                └─📂 no-debug-non-zts-20230901 # PHP shared extensions (*.so files)
+       └─📂 php
+          └─📂 man
+             ├─📂 man1               # PHP man section 1 pages for *nix systems
+             └─📂 man8               # PHP man section 8 pages for *nix systems
+          └─📂 php
+             └─📂 fpm                # Additional FPM static HTML files
+       ├─📂 sbin                     # Executable binaries for root privileges
+       └─📂 var                      # The Linux var directory
+          ├─📂 log                   # Directory for PHP logs
+          └─📂 run                   # Runtime data directory
 ```
 
 This is how the GNU layout directory structure looks like (`--with-layout=GNU`):
 
 ```sh
-🗁 <INSTALL_ROOT>
- └─🗁 usr
-    └─🗁 local
-       ├─🗁 bin
-       └─🗁 etc
-          ├─🗁 php-fpm.d
+📂 <INSTALL_ROOT>
+ └─📂 usr
+    └─📂 local
+       ├─📂 bin
+       └─📂 etc
+          ├─📂 php-fpm.d
           ├─📄 php-fpm.conf.default
           └─📄 pear.conf
-       └─🗁 include
-          └─🗁 php
-             ├─🗁 ext
-             ├─🗁 main
-             ├─🗁 sapi
-             ├─🗁 TSRM
-             └─🗁 Zend
-       └─🗁 lib
-          └─🗁 php
-             ├─🗁 20230901         # PHP shared extensions (*.so files)
-             └─🗁 build
-       ├─🗁 sbin
-       └─🗁 share                  # Directory with shareable files
-          └─🗁 man
-             ├─🗁 man1
-             └─🗁 man8
-          └─🗁 pear                # PEAR files
-          └─🗁 php
-             └─🗁 fpm
-       └─🗁 var
-          ├─🗁 log
-          └─🗁 run
+       └─📂 include
+          └─📂 php
+             ├─📂 ext
+             ├─📂 main
+             ├─📂 sapi
+             ├─📂 TSRM
+             └─📂 Zend
+       └─📂 lib
+          └─📂 php
+             ├─📂 20230901         # PHP shared extensions (*.so files)
+             └─📂 build
+       ├─📂 sbin
+       └─📂 share                  # Directory with shareable files
+          └─📂 man
+             ├─📂 man1
+             └─📂 man8
+          └─📂 pear                # PEAR files
+          └─📂 php
+             └─📂 fpm
+       └─📂 var
+          ├─📂 log
+          └─📂 run
 ```
 
 Notice the difference of the shared extensions and the share directory.
@@ -176,35 +176,35 @@ See `./configure --help` for more information on how to adjust these locations.
 PHP Autotools directory structure with GNU layout:
 
 ```sh
-🗁 <INSTALL_ROOT>                     # 🗁
- └─🗁 ${prefix}                       # └─🗁 /usr/local/include
-    ├─🗁 ${bindir}                    #    ├─🗁 bin
-    └─🗁 ${sysconfdir}                #    └─🗁 etc
-       ├─🗁 php-fpm.d                 #       ├─🗁 php-fpm.d
+📂 <INSTALL_ROOT>                     # 📂
+ └─📂 ${prefix}                       # └─📂 /usr/local/include
+    ├─📂 ${bindir}                    #    ├─📂 bin
+    └─📂 ${sysconfdir}                #    └─📂 etc
+       ├─📂 php-fpm.d                 #       ├─📂 php-fpm.d
        ├─📄 php-fpm.conf.default      #       ├─📄 php-fpm.conf.default
        └─📄 pear.conf                 #       └─📄 pear.conf
-    └─🗁 ${includedir}                #    └─🗁 include
-       └─🗁 php                       #       └─🗁 php
-          ├─🗁 ext                    #          ├─🗁 ext
-          ├─🗁 main                   #          ├─🗁 main
-          ├─🗁 sapi                   #          ├─🗁 sapi
-          ├─🗁 TSRM                   #          ├─🗁 TSRM
-          └─🗁 Zend                   #          └─🗁 Zend
-    └─🗁 ${libdir}                    #    └─🗁 lib
-       └─🗁 php                       #       └─🗁 php
-          ├─🗁 20230901-zts-debug     #          ├─🗁 20230901-zts-debug
-          └─🗁 build                  #          └─🗁 build
-    ├─🗁 ${sbindir}                   #    ├─🗁 sbin
-    └─🗁 ${datarootdir}               #    └─🗁 share
-       └─🗁 ${mandir}                 #       └─🗁 man
-          ├─🗁 man1                   #          └─🗁 man1
-          └─🗁 man8                   #          └─🗁 man8
-       ├─🗁 pear                      #       └─🗁 pear
-       └─🗁 php                       #       └─🗁 php
-          └─🗁 fpm                    #            └─🗁 fpm
-    └─🗁 ${localstatedir}             #    └─🗁 var
-       └─🗁 log                       #       └─🗁 log
-    └─🗁 ${runstatedir}               #    └─🗁 var/run
+    └─📂 ${includedir}                #    └─📂 include
+       └─📂 php                       #       └─📂 php
+          ├─📂 ext                    #          ├─📂 ext
+          ├─📂 main                   #          ├─📂 main
+          ├─📂 sapi                   #          ├─📂 sapi
+          ├─📂 TSRM                   #          ├─📂 TSRM
+          └─📂 Zend                   #          └─📂 Zend
+    └─📂 ${libdir}                    #    └─📂 lib
+       └─📂 php                       #       └─📂 php
+          ├─📂 20230901-zts-debug     #          ├─📂 20230901-zts-debug
+          └─📂 build                  #          └─📂 build
+    ├─📂 ${sbindir}                   #    ├─📂 sbin
+    └─📂 ${datarootdir}               #    └─📂 share
+       └─📂 ${mandir}                 #       └─📂 man
+          ├─📂 man1                   #          └─📂 man1
+          └─📂 man8                   #          └─📂 man8
+       ├─📂 pear                      #       └─📂 pear
+       └─📂 php                       #       └─📂 php
+          └─📂 fpm                    #            └─📂 fpm
+    └─📂 ${localstatedir}             #    └─📂 var
+       └─📂 log                       #       └─📂 log
+    └─📂 ${runstatedir}               #    └─📂 var/run
 ```
 
 ## Installing PHP with CMake
@@ -272,39 +272,39 @@ prefix will not be taken into account.
 PHP installation directory structure when using CMake:
 
 ```sh
-🗁 <DESTDIR>                          #
-└─🗁 <CMAKE_INSTALL_PREFIX>           # 🗁 /usr/local (Windows: C:/Program Files/${PROJECT_NAME})
-   ├─🗁 <CMAKE_INSTALL_BINDIR>        # ├─🗁 bin
-   └─🗁 <CMAKE_INSTALL_SYSCONFDIR>    # └─🗁 etc
-      ├─🗁 php-fpm.d                  #    ├─🗁 php-fpm.d
+📂 <DESTDIR>                          #
+└─📂 <CMAKE_INSTALL_PREFIX>           # 📂 /usr/local (Windows: C:/Program Files/${PROJECT_NAME})
+   ├─📂 <CMAKE_INSTALL_BINDIR>        # ├─📂 bin
+   └─📂 <CMAKE_INSTALL_SYSCONFDIR>    # └─📂 etc
+      ├─📂 php-fpm.d                  #    ├─📂 php-fpm.d
       ├─📄 php-fpm.conf.default       #    ├─📄 php-fpm.conf.default
       └─📄 pear.conf                  #    └─📄 pear.conf
-   └─🗁 <CMAKE_INSTALL_INCLUDEDIR>    # └─🗁 include
-      └─🗁 <PHP_INCLUDE_PREFIX>       #    └─🗁 php
-         ├─🗁 ext                     #       ├─🗁 ext
-         ├─🗁 main                    #       ├─🗁 main
-         ├─🗁 sapi                    #       ├─🗁 sapi
-         ├─🗁 TSRM                    #       ├─🗁 TSRM
-         └─🗁 Zend                    #       └─🗁 Zend
-   └─🗁 <CMAKE_INSTALL_LIBDIR>        # └─🗁 lib
-      └─🗁 php                        #    └─🗁 php
-         ├─🗁 20230901-zts-debug...   #       ├─🗁 20230901-zts-debug...
-         └─🗁 build                   #       └─🗁 build
-      └─🗁 pkgconfig                  #    └─🗁 pkgconfig
+   └─📂 <CMAKE_INSTALL_INCLUDEDIR>    # └─📂 include
+      └─📂 <PHP_INCLUDE_PREFIX>       #    └─📂 php
+         ├─📂 ext                     #       ├─📂 ext
+         ├─📂 main                    #       ├─📂 main
+         ├─📂 sapi                    #       ├─📂 sapi
+         ├─📂 TSRM                    #       ├─📂 TSRM
+         └─📂 Zend                    #       └─📂 Zend
+   └─📂 <CMAKE_INSTALL_LIBDIR>        # └─📂 lib
+      └─📂 php                        #    └─📂 php
+         ├─📂 20230901-zts-debug...   #       ├─📂 20230901-zts-debug...
+         └─📂 build                   #       └─📂 build
+      └─📂 pkgconfig                  #    └─📂 pkgconfig
          ├─📄 php-embed.pc            #       ├─📄 php-embed.pc
          └─📄 php.pc                  #       └─📄 php.pc
-   ├─🗁 <CMAKE_INSTALL_SBINDIR>       # ├─🗁 sbin
-   └─🗁 <CMAKE_INSTALL_DATAROOTDIR>   # └─🗁 share
-      └─🗁 <CMAKE_INSTALL_MANDIR>     #    └─🗁 man
-         ├─🗁 man1                    #       ├─🗁 man1
-         └─🗁 man8                    #       └─🗁 man8
-   └─🗁 <CMAKE_INSTALL_DATADIR>       # └─🗁 (share)
-      ├─🗁 pear                       #    ├─🗁 pear
-      └─🗁 php                        #    └─🗁 php
-         └─🗁 fpm                     #       └─🗁 fpm
-   └─🗁 <CMAKE_INSTALL_LOCALSTATEDIR> # └─🗁 var
-      └─🗁 log                        #    └─🗁 log
-   └─🗁 <CMAKE_INSTALL_RUNSTATEDIR>   # └─🗁 var/run
+   ├─📂 <CMAKE_INSTALL_SBINDIR>       # ├─📂 sbin
+   └─📂 <CMAKE_INSTALL_DATAROOTDIR>   # └─📂 share
+      └─📂 <CMAKE_INSTALL_MANDIR>     #    └─📂 man
+         ├─📂 man1                    #       ├─📂 man1
+         └─📂 man8                    #       └─📂 man8
+   └─📂 <CMAKE_INSTALL_DATADIR>       # └─📂 (share)
+      ├─📂 pear                       #    ├─📂 pear
+      └─📂 php                        #    └─📂 php
+         └─📂 fpm                     #       └─📂 fpm
+   └─📂 <CMAKE_INSTALL_LOCALSTATEDIR> # └─📂 var
+      └─📂 log                        #    └─📂 log
+   └─📂 <CMAKE_INSTALL_RUNSTATEDIR>   # └─📂 var/run
 ```
 
 > [!NOTE]

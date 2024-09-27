@@ -108,11 +108,11 @@ project(YourProjectName VERSION 1.0.0 LANGUAGES C)
 Project source directory example:
 
 ```sh
-🗁 YourProjectName
- └─🗁 src               # Project source code
+📂 YourProjectName
+ └─📂 src               # Project source code
     ├─📄 main.c
     └─📄 ...
- └─🗁 subdirectory      # Subdirectory with its own CMakeLists
+ └─📂 subdirectory      # Subdirectory with its own CMakeLists
     ├─📄 CMakeLists.txt
     ├─📄 src.c
     └─📄 ...
