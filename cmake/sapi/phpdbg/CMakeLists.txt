@@ -105,7 +105,7 @@ target_link_options(
 set_target_properties(
   php_phpdbg
   PROPERTIES
-    OUTPUT_NAME phpdbg
+    OUTPUT_NAME ${PHP_PROGRAM_PREFIX}phpdbg${PHP_PROGRAM_SUFFIX}
     # TODO: Check if there's a better solution here:
     ENABLE_EXPORTS TRUE
 )
@@ -262,10 +262,9 @@ install(
     DESTINATION ${CMAKE_INSTALL_BINDIR}
 )
 
-# TODO: Add prefix and suffix to installed man documentation file.
 install(
-  FILES
-    ${CMAKE_CURRENT_BINARY_DIR}/phpdbg.1
+  FILES ${CMAKE_CURRENT_BINARY_DIR}/phpdbg.1
+  RENAME ${PHP_PROGRAM_PREFIX}phpdbg${PHP_PROGRAM_SUFFIX}.1
   DESTINATION ${CMAKE_INSTALL_MANDIR}/man1
 )
 
