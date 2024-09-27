@@ -128,7 +128,7 @@ including the removal of `aclocal.m4` in favor of the php related M4 macros in
 
 ## PHP 8.0 (2020)
 
-PHP coding standard now use the C99 standard.
+PHP coding standards now use the C99 standard.
 
 ## 2021
 
@@ -146,3 +146,7 @@ current Autoconf syntax for the current systems at the time. Cross-compiling was
 improved one step forward with cache variables synced enabling the manual
 overrides on many places. C preprocessor macros inconsistencies between Windows
 and Autotools configuration headers were synced to a nearly identical behavior.
+
+## PHP 8.5 (2025)
+
+PHP coding standards now use the C11 standard.

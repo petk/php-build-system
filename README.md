@@ -2,7 +2,7 @@
 
 [![PHP version](https://img.shields.io/badge/PHP-8.5-777BB4?logo=php&labelColor=17181B)](https://www.php.net/)
 [![CMake version](https://img.shields.io/badge/CMake-3.25-064F8C?logo=cmake&labelColor=17181B)](https://cmake.org)
-[![C99](https://img.shields.io/badge/standard-C99-A8B9CC?logo=C&labelColor=17181B)](https://port70.net/~nsz/c/c99/n1256.html)
+[![C11](https://img.shields.io/badge/standard-C11-A8B9CC?logo=C&labelColor=17181B)](https://port70.net/~nsz/c/c11/n1570.html)
 [![GNU](https://img.shields.io/badge/-GNU-A42E2B?logo=gnu&labelColor=17181B)](https://www.gnu.org/)
 [![Ninja](https://img.shields.io/badge/%F0%9F%A5%B7-Ninja%20build-DD6620?labelColor=17181B)](https://ninja-build.org/)
 
