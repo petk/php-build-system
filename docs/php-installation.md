@@ -173,6 +173,40 @@ Common practice is to also add program prefix and suffix (for example, to have
 
 See `./configure --help` for more information on how to adjust these locations.
 
+PHP Autotools directory structure with GNU layout:
+
+```sh
+🗁 <INSTALL_ROOT>                     # 🗁
+ └─🗁 ${prefix}                       # └─🗁 /usr/local/include
+    ├─🗁 ${bindir}                    #    ├─🗁 bin
+    └─🗁 ${sysconfdir}                #    └─🗁 etc
+       ├─🗁 php-fpm.d                 #       ├─🗁 php-fpm.d
+       ├─📄 php-fpm.conf.default      #       ├─📄 php-fpm.conf.default
+       └─📄 pear.conf                 #       └─📄 pear.conf
+    └─🗁 ${includedir}                #    └─🗁 include
+       └─🗁 php                       #       └─🗁 php
+          ├─🗁 ext                    #          ├─🗁 ext
+          ├─🗁 main                   #          ├─🗁 main
+          ├─🗁 sapi                   #          ├─🗁 sapi
+          ├─🗁 TSRM                   #          ├─🗁 TSRM
+          └─🗁 Zend                   #          └─🗁 Zend
+    └─🗁 ${libdir}                    #    └─🗁 lib
+       └─🗁 php                       #       └─🗁 php
+          ├─🗁 20230901-zts-debug     #          ├─🗁 20230901-zts-debug
+          └─🗁 build                  #          └─🗁 build
+    ├─🗁 ${sbindir}                   #    ├─🗁 sbin
+    └─🗁 ${datarootdir}               #    └─🗁 share
+       └─🗁 ${mandir}                 #       └─🗁 man
+          ├─🗁 man1                   #          └─🗁 man1
+          └─🗁 man8                   #          └─🗁 man8
+       ├─🗁 pear                      #       └─🗁 pear
+       └─🗁 php                       #       └─🗁 php
+          └─🗁 fpm                    #            └─🗁 fpm
+    └─🗁 ${localstatedir}             #    └─🗁 var
+       └─🗁 log                       #       └─🗁 log
+    └─🗁 ${runstatedir}               #    └─🗁 var/run
+```
+
 ## Installing PHP with CMake
 
 In this repository, installing PHP with CMake can be done in a similar way:

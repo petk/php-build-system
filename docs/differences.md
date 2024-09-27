@@ -37,10 +37,6 @@ build system:
 * Better cross-compiling support with CMake toolchain files and ability to set
   the cross-compiling emulator.
 
-* The installation include directory (`/usr/local/include/php`) can be adjusted
-  with `PHP_INCLUDE_PREFIX` variable to support multiple PHP versions. For
-  example, `/usr/local/include/php/8.4`.
-
 ## Behavior
 
 * sapi/phpdbg readline support works more intuitively regardless of the readline
@@ -82,6 +78,16 @@ build system:
 
     * ext/bcmath (Windows: enabled, Autotools: disabled, CMake: disabled)
     * ext/calendar (Windows: enabled, Autotools: disabled, CMake: disabled)
+
+* Installation
+
+  * The installation include directory (`/usr/local/include/php`) can be
+    adjusted with the `PHP_INCLUDE_PREFIX` variable to support multiple PHP
+    versions. For example, `/usr/local/include/php/8.4`.
+
+  * The PHP Autotools layout configuration option `--with-layout=[PHP|GNU]` is
+    in CMake removed and not implemented in favor of the GNU standard directory
+    layout.
 
 ## Bugs fixed
 
