@@ -235,7 +235,7 @@ documentation.
   * `EXT_ODBC_VERSION`
 
     Force support for the passed ODBC version. A hex number is expected. Set it
-    to empty value to prevent an explicit ODBCVER to be defined. By default it
+    to empty value to prevent an explicit ODBCVER to be defined. By default, it
     is set to the highest supported ODBC version by PHP.
 
 * `EXT_PDO_MYSQL=OFF|ON`
@@ -527,9 +527,9 @@ A list of Autoconf `configure` command-line configuration options, Windows
     </tr>
     <tr>
       <td>--with-layout=PHP|GNU</td>
-      <td></td>
-      <td>PHP_LAYOUT=PHP|GNU</td>
-      <td>default: PHP</td>
+      <td>N/A</td>
+      <td>N/A</td>
+      <td>Autotools default: PHP</td>
     </tr>
     <tr>
       <td>--disable-werror</td>

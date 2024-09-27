@@ -31,49 +31,49 @@ CMake-based PHP build system is a collection of various files across the php-src
 repository:
 
 ```sh
-<php-src>/
- └─ cmake/                     # CMake-based PHP build system files
-    └─ modules/                # Project-specific CMake modules
-       ├─ PHP/                 # PHP utility modules
-       ├─ Zend/                # Zend utility modules
-       ├─ Find*.cmake          # Find modules that support the find_package()
-       └─ *.cmake              # Any possible additional utility modules
-    ├─ platforms/              # Platform-specific configuration
-    ├─ presets/                # Presets included in CMakePresets.json
-    ├─ toolchains/             # CMake toolchain files
-    └─ *.cmake                 # Various CMake configurations and tools
- └─ ext/
-    └─ date/
-       └─ CMakeLists.txt       # Extension's CMake file
-    └─ iconv/
-       ├─ CMakeLists.txt
-       └─ php_iconv.def        # Module-definition for building DLL on Windows
-    └─ mbstring/
-       └─ libmbfl/
-          └─ config.h.in       # Configuration header template for libmbfl
- └─ main/
-    ├─ internal_functions.c.in # Template for internal functions files
-    ├─ CMakeLists.txt          # CMake file for main binding
-    ├─ config.w32.cmake.h.in   # Windows configuration header template
-    └─ php_config.cmake.h.in   # Configuration header template
- └─ pear/
-    └─ CMakeLists.txt          # CMake file for PEAR
- └─ sapi/
-    └─ cli/
-       └─ CMakeLists.txt       # CMake file for PHP SAPI module
- └─ scripts/
-    └─ CMakeLists.txt          # CMake file for creating scripts files
- └─ TSRM/
-    └─ CMakeLists.txt          # CMake file for thread safe resource manager
- └─ win32/                     # Windows build files
-    └─ build/                  # Windows build files
-       └─ wsyslog.mc           # Message template file for win32/wsyslog.h
-    └─ CMakeLists.txt          # CMake file for Windows build
- └─ Zend/
-    └─ CMakeLists.txt          # CMake file for Zend engine
- ├─ CMakeLists.txt             # Root CMake file
- ├─ CMakePresets.json          # Main CMake presets file
- └─ CMakeUserPresets.json      # Git ignored local CMake presets overrides
+🗁 <php-src>
+ └─🗁 cmake                      # CMake-based PHP build system files
+    └─🗁 modules                 # Project-specific CMake modules
+       ├─🗁 PHP                  # PHP utility modules
+       ├─🗁 Zend                 # Zend utility modules
+       ├─📄 Find*.cmake          # Find modules that support the find_package()
+       └─📄 *.cmake              # Any possible additional utility modules
+    ├─🗁 platforms               # Platform-specific configuration
+    ├─🗁 presets                 # Presets included in CMakePresets.json
+    ├─🗁 toolchains              # CMake toolchain files
+    └─📄 *.cmake                 # Various CMake configurations and tools
+ └─🗁 ext
+    └─🗁 date
+       └─📄 CMakeLists.txt       # Extension's CMake file
+    └─🗁 iconv
+       ├─📄 CMakeLists.txt
+       └─📄 php_iconv.def        # Module-definition for building DLL on Windows
+    └─🗁 mbstring
+       └─🗁 libmbfl
+          └─📄 config.h.in       # Configuration header template for libmbfl
+ └─🗁 main
+    ├─📄 internal_functions.c.in # Template for internal functions files
+    ├─📄 CMakeLists.txt          # CMake file for main binding
+    ├─📄 config.w32.cmake.h.in   # Windows configuration header template
+    └─📄 php_config.cmake.h.in   # Configuration header template
+ └─🗁 pear
+    └─📄 CMakeLists.txt          # CMake file for PEAR
+ └─🗁 sapi
+    └─🗁 cli
+       └─📄 CMakeLists.txt       # CMake file for PHP SAPI module
+ └─🗁 scripts
+    └─📄 CMakeLists.txt          # CMake file for creating scripts files
+ └─🗁 TSRM
+    └─📄 CMakeLists.txt          # CMake file for thread safe resource manager
+ └─🗁 win32                      # Windows build files
+    └─ build                     # Windows build files
+       └─📄 wsyslog.mc           # Message template file for win32/wsyslog.h
+    └─📄 CMakeLists.txt          # CMake file for Windows build
+ └─🗁 Zend
+    └─📄 CMakeLists.txt          # CMake file for Zend engine
+ ├─📄 CMakeLists.txt             # Root CMake file
+ ├─📄 CMakePresets.json          # Main CMake presets file
+ └─📄 CMakeUserPresets.json      # Git ignored local CMake presets overrides
 ```
 
 The following diagram briefly displays, how PHP libraries (in terms of a build
@@ -430,29 +430,29 @@ During the build process, there are several files generated, some of which are
 also tracked in the Git repository for a smoother workflow:
 
 ```sh
-<php-src>/
- └─ ext/
-    └─ date/
-       └─ lib/
-          └─ timelib_config.h # Datetime library configuration header
-    └─ mbstring/
-       └─ libmbfl/
-          └─ config.h         # The libmbfl configuration header
-    └─ tokenizer/
-       └─ tokenizer_data.c    # Generated token types data file
- └─ main/
-    ├─ internal_functions*.c  # Generated files with all internal functions
-    ├─ config.w32.h           # Main configuration header for Windows
-    ├─ php_config.h           # Main configuration header for *nix systems
-    └─ php_version.h          # Generated by release managers using `configure`
- └─ scripts/
-    ├─ php-config             # PHP configuration helper script
-    └─ phpize                 # Build configurator for PHP extensions
- └─ win32/                    # Windows build files
-    ├─ cp_enc_map.c           # Generated from win32/cp_enc_map_gen.c
-    └─ wsyslog.h              # Generated by message compiler (mc.exe or windmc)
- └─ Zend/
-    └─ zend_config.w32.h      # Zend engine configuration header for Windows
+🗁 <php-src>
+ └─🗁 ext
+    └─🗁 date
+       └─🗁 lib
+          └─📄 timelib_config.h # Datetime library configuration header
+    └─🗁 mbstring
+       └─🗁 libmbfl
+          └─📄 config.h         # The libmbfl configuration header
+    └─🗁 tokenizer
+       └─📄 tokenizer_data.c    # Generated token types data file
+ └─🗁 main
+    ├─📄 internal_functions*.c  # Generated files with all internal functions
+    ├─📄 config.w32.h           # Main configuration header for Windows
+    ├─📄 php_config.h           # Main configuration header for *nix systems
+    └─📄 php_version.h          # Generated by release managers using `configure`
+ └─🗁 scripts
+    ├─📄 php-config             # PHP configuration helper script
+    └─📄 phpize                 # Build configurator for PHP extensions
+ └─🗁 win32                     # Windows build files
+    ├─📄 cp_enc_map.c           # Generated from win32/cp_enc_map_gen.c
+    └─📄 wsyslog.h              # Generated by message compiler (mc.exe or windmc)
+ └─🗁 Zend
+    └─📄 zend_config.w32.h      # Zend engine configuration header for Windows
 ```
 
 ### 12.1. Parser and lexer files
@@ -473,69 +473,69 @@ CMake built-in module, while `FindRE2C` is manually created at
 Files related to `bison` and `re2c`:
 
 ```sh
-<php-src>/
- └─ cmake/
-    └─ modules/
-       └─ FindRE2C.cmake            # re2c CMake find module, bison is found via
-                                    # CMake built-in find module
-    └─ Requirements.cmake           # Minimum bison and re2c settings
- └─ ext/
-    └─ date/
-       └─ lib/
-          ├─ parse_date.c           # Generated with re2c 0.15.3
-          └─ parse_iso_intervals.c  # Generated with re2c 0.15.3
-    └─ ffi/
-       └─ ffi_parser.c              # Generated by https://github.com/dstogov/llk
-    └─ json/
-       ├─ json_parser.tab.c         # Generated with bison
-       ├─ json_parser.tab.h         # Generated with bison
-       ├─ json_parser.y             # Parser source
-       ├─ json_scanner.c            # Generated with re2c
-       ├─ json_scanner.re           # Lexer source
-       └─ php_json_scanner_defs.h   # Generated with re2c
-    └─ pdo/
-       ├─ pdo_sql_parser.c          # Generated with re2c
-       └─ pdo_sql_parser.re         # Source for re2c
-    └─ pdo_mysql/
-       ├─ mysql_sql_parser.c        # Generated with re2c
-       └─ mysql_sql_parser.re       # Source for re2c
-    └─ pdo_pgsql/
-       ├─ pgsql_sql_parser.c        # Generated with re2c
-       └─ pgsql_sql_parser.re       # Source for re2c
-    └─ pdo_sqlite/
-       ├─ sqlite_sql_parser.c       # Generated with re2c
-       └─ sqlite_sql_parser.re      # Source for re2c
-    └─ phar/
-       ├─ phar_path_check.c         # Generated with re2c
-       └─ phar_path_check.re        # Source for re2c
-    └─ standard/
-       ├─ url_scanner_ex.c          # Generated with re2c
-       ├─ url_scanner_ex.re         # Source for re2c
-       ├─ var_unserializer.c        # Generated with re2c
-       └─ var_unserializer.re       # Source for re2c
- └─ sapi/
-    └─ phpdbg/
-       ├─ phpdbg_lexer.c            # Generated with re2c
-       ├─ phpdbg_lexer.l            # Source for re2c
-       ├─ phpdbg_parser.c           # Generated with bison
-       ├─ phpdbg_parser.h           # Generated with bison
-       ├─ phpdbg_parser.y           # Source for bison
-       └─ phpdbg_parser.output      # Generated with bison
- └─ Zend/
-    ├─ zend_ini_parser.c            # Generated with bison
-    ├─ zend_ini_parser.h            # Generated with bison
-    ├─ zend_ini_parser.output       # Generated with bison
-    ├─ zend_ini_parser.y            # Parser source
-    ├─ zend_ini_scanner.c           # Generated with re2c
-    ├─ zend_ini_scanner.l           # Lexer source
-    ├─ zend_ini_scanner_defs.h      # Generated with re2c
-    ├─ zend_language_parser.c       # Generated with bison
-    ├─ zend_language_parser.h       # Generated with bison
-    ├─ zend_language_parser.output  # Generated with bison
-    ├─ zend_language_parser.y       # Parser source
-    ├─ zend_language_scanner_defs.h # Generated with re2c
-    ├─ zend_language_scanner.c      # Generated with re2c
-    └─ zend_language_scanner.l      # Lexer source
+🗁 <php-src>
+ └─🗁 cmake
+    └─🗁 modules
+       └─📄 FindRE2C.cmake            # re2c CMake find module, bison is found via
+                                      # CMake built-in find module
+    └─📄 Requirements.cmake           # Minimum bison and re2c settings
+ └─🗁 ext
+    └─🗁 date
+       └─🗁 lib
+          ├─📄 parse_date.c           # Generated with re2c 0.15.3
+          └─📄 parse_iso_intervals.c  # Generated with re2c 0.15.3
+    └─🗁 ffi
+       └─📄 ffi_parser.c              # Generated by https://github.com/dstogov/llk
+    └─🗁 json
+       ├─📄 json_parser.tab.c         # Generated with bison
+       ├─📄 json_parser.tab.h         # Generated with bison
+       ├─📄 json_parser.y             # Parser source
+       ├─📄 json_scanner.c            # Generated with re2c
+       ├─📄 json_scanner.re           # Lexer source
+       └─📄 php_json_scanner_defs.h   # Generated with re2c
+    └─🗁 pdo
+       ├─📄 pdo_sql_parser.c          # Generated with re2c
+       └─📄 pdo_sql_parser.re         # Source for re2c
+    └─🗁 pdo_mysql
+       ├─📄 mysql_sql_parser.c        # Generated with re2c
+       └─📄 mysql_sql_parser.re       # Source for re2c
+    └─🗁 pdo_pgsql
+       ├─📄 pgsql_sql_parser.c        # Generated with re2c
+       └─📄 pgsql_sql_parser.re       # Source for re2c
+    └─🗁 pdo_sqlite
+       ├─📄 sqlite_sql_parser.c       # Generated with re2c
+       └─📄 sqlite_sql_parser.re      # Source for re2c
+    └─🗁 phar
+       ├─📄 phar_path_check.c         # Generated with re2c
+       └─📄 phar_path_check.re        # Source for re2c
+    └─🗁 standard
+       ├─📄 url_scanner_ex.c          # Generated with re2c
+       ├─📄 url_scanner_ex.re         # Source for re2c
+       ├─📄 var_unserializer.c        # Generated with re2c
+       └─📄 var_unserializer.re       # Source for re2c
+ └─🗁 sapi
+    └─🗁 phpdbg
+       ├─📄 phpdbg_lexer.c            # Generated with re2c
+       ├─📄 phpdbg_lexer.l            # Source for re2c
+       ├─📄 phpdbg_parser.c           # Generated with bison
+       ├─📄 phpdbg_parser.h           # Generated with bison
+       ├─📄 phpdbg_parser.y           # Source for bison
+       └─📄 phpdbg_parser.output      # Generated with bison
+ └─🗁 Zend
+    ├─📄 zend_ini_parser.c            # Generated with bison
+    ├─📄 zend_ini_parser.h            # Generated with bison
+    ├─📄 zend_ini_parser.output       # Generated with bison
+    ├─📄 zend_ini_parser.y            # Parser source
+    ├─📄 zend_ini_scanner.c           # Generated with re2c
+    ├─📄 zend_ini_scanner.l           # Lexer source
+    ├─📄 zend_ini_scanner_defs.h      # Generated with re2c
+    ├─📄 zend_language_parser.c       # Generated with bison
+    ├─📄 zend_language_parser.h       # Generated with bison
+    ├─📄 zend_language_parser.output  # Generated with bison
+    ├─📄 zend_language_parser.y       # Parser source
+    ├─📄 zend_language_scanner_defs.h # Generated with re2c
+    ├─📄 zend_language_scanner.c      # Generated with re2c
+    └─📄 zend_language_scanner.l      # Lexer source
 ```
 
 When building PHP from the released archives (`php-*.tar.gz`) from
