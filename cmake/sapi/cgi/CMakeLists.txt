@@ -39,7 +39,7 @@ target_link_options(
 set_target_properties(
   php_cgi
   PROPERTIES
-    OUTPUT_NAME php-cgi
+    OUTPUT_NAME ${PHP_PROGRAM_PREFIX}php-cgi${PHP_PROGRAM_SUFFIX}
     # TODO: Check if there's a better solution here:
     ENABLE_EXPORTS TRUE
 )
@@ -67,7 +67,7 @@ install(
 )
 
 install(
-  FILES
-    ${CMAKE_CURRENT_BINARY_DIR}/php-cgi.1
+  FILES ${CMAKE_CURRENT_BINARY_DIR}/php-cgi.1
+  RENAME ${PHP_PROGRAM_PREFIX}php-cgi${PHP_PROGRAM_SUFFIX}.1
   DESTINATION ${CMAKE_INSTALL_MANDIR}/man1
 )

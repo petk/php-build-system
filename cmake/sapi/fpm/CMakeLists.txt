@@ -156,7 +156,7 @@ target_link_libraries(php_fpm PRIVATE PHP::main)
 set_target_properties(
   php_fpm
   PROPERTIES
-    OUTPUT_NAME php-fpm
+    OUTPUT_NAME ${PHP_PROGRAM_PREFIX}php-fpm${PHP_PROGRAM_SUFFIX}
     # TODO: Check if there's a better solution here:
     ENABLE_EXPORTS TRUE
 )
@@ -443,7 +443,6 @@ php_configure_file(
     EXPANDED_SYSCONFDIR "$<PATH:ABSOLUTE_PATH,NORMALIZE,${CMAKE_INSTALL_SYSCONFDIR},$<INSTALL_PREFIX>>"
 )
 
-# TODO: Add program file prefix and suffix.
 install(TARGETS php_fpm DESTINATION ${CMAKE_INSTALL_SBINDIR})
 
 # Create log and run directories on installation.

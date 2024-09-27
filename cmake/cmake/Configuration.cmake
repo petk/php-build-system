@@ -49,18 +49,6 @@ set(PHP_BUILD_PROVIDER "" CACHE STRING "Build provider displayed in phpinfo")
 mark_as_advanced(PHP_BUILD_PROVIDER)
 
 set(
-  PHP_LAYOUT "PHP"
-  CACHE STRING
-  "Set how installed files will be laid out. Type can be PHP (default) or GNU"
-)
-set_property(CACHE PHP_LAYOUT PROPERTY STRINGS "GNU" "PHP")
-mark_as_advanced(PHP_LAYOUT)
-
-if(NOT PHP_LAYOUT STREQUAL "GNU")
-  # TODO: DATAROOTDIR should be "php" instead of default "share".
-endif()
-
-set(
   PHP_INCLUDE_PREFIX "php"
   CACHE STRING
   "The relative directory inside the CMAKE_INSTALL_INCLUDEDIR, where to install\
@@ -98,24 +86,17 @@ endif()
 if(NOT CMAKE_SYSTEM_NAME STREQUAL "Windows")
   set(
     PHP_CONFIG_FILE_PATH ""
-    CACHE FILEPATH "The path in which to look for php.ini; By default it is set\
-    to sysconfdir (for GNU layout) or libdir (for PHP layout); Pass it as a\
-    relative string inside the install prefix, which will be automatically\
-    prepended; If given as an absolute path, prefix is not appended."
+    CACHE FILEPATH "The path in which to look for php.ini; By default, it is\
+    set to SYSCONFDIR (etc); Relative path gets the CMAKE_INSTALL_PREFIX\
+    automatically prepended; If given as an absolute path, install prefix is\
+    not appended."
   )
   mark_as_advanced(PHP_CONFIG_FILE_PATH)
   if(NOT PHP_CONFIG_FILE_PATH)
-    if(PHP_LAYOUT STREQUAL "GNU")
-      set_property(
-        CACHE PHP_CONFIG_FILE_PATH
-        PROPERTY VALUE "${CMAKE_INSTALL_SYSCONFDIR}"
-      )
-    else()
-      set_property(
-        CACHE PHP_CONFIG_FILE_PATH
-        PROPERTY VALUE "${CMAKE_INSTALL_LIBDIR}"
-      )
-    endif()
+    set_property(
+      CACHE PHP_CONFIG_FILE_PATH
+      PROPERTY VALUE "${CMAKE_INSTALL_SYSCONFDIR}"
+    )
   endif()
   set(
     PHP_FULL_CONFIG_FILE_PATH "" CACHE INTERNAL
@@ -226,16 +207,15 @@ block()
 
     set(extension_dir "${CMAKE_INSTALL_LIBDIR}/php")
 
-    if(PHP_LAYOUT STREQUAL "GNU")
-      set(extension_dir "${extension_dir}/${zend_module_api_no}")
-      set(extension_dir "${extension_dir}$<$<BOOL:$<TARGET_PROPERTY:php_configuration,PHP_THREAD_SAFETY>>:-zts>")
-      set(extension_dir "${extension_dir}$<IF:$<CONFIG:Debug,DebugAssertions>,-debug,>")
-    else()
-      set(extension_dir "${extension_dir}/extensions")
-      set(extension_dir "${extension_dir}/$<IF:$<CONFIG:Debug,DebugAssertions>,debug,no-debug>")
-      set(extension_dir "${extension_dir}$<IF:$<BOOL:$<TARGET_PROPERTY:php_configuration,PHP_THREAD_SAFETY>>,-zts,-non-zts>")
-      set(extension_dir "${extension_dir}-${zend_module_api_no}")
-    endif()
+    # This resembles the PHP Autotools --with-layout=GNU:
+    set(extension_dir "${extension_dir}/${zend_module_api_no}")
+    set(extension_dir "${extension_dir}$<$<BOOL:$<TARGET_PROPERTY:php_configuration,PHP_THREAD_SAFETY>>:-zts>")
+    set(extension_dir "${extension_dir}$<$<CONFIG:Debug,DebugAssertions>:-debug>")
+    # This would be the PHP Autotools --with-layout=PHP (default):
+    # set(extension_dir "${extension_dir}/extensions")
+    # set(extension_dir "${extension_dir}/$<IF:$<CONFIG:Debug,DebugAssertions>,debug,no-debug>")
+    # set(extension_dir "${extension_dir}$<IF:$<BOOL:$<TARGET_PROPERTY:php_configuration,PHP_THREAD_SAFETY>>,-zts,-non-zts>")
+    # set(extension_dir "${extension_dir}-${zend_module_api_no}")
 
     set_property(CACHE PHP_EXTENSION_DIR PROPERTY VALUE "${extension_dir}")
   endif()

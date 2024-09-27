@@ -9,7 +9,7 @@ See: https://cmake.org/cmake/help/latest/module/FindLibXml2.html
 
 The `FetchContent` CMake module does things differently compared to the
 `find_package()` flow:
-* By default it uses `QUIET` in its `find_package()` call when calling the
+* By default, it uses `QUIET` in its `find_package()` call when calling the
   `FetchContent_MakeAvailable()`;
 * When using `FeatureSummary`, dependencies must be moved manually to
   `PACKAGES_FOUND` from the `PACKAGES_NOT_FOUND` global property;
