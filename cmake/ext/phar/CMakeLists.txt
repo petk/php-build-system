@@ -196,7 +196,7 @@ if(PHP_EXECUTABLE)
           -d phar.readonly=0
           ${CMAKE_CURRENT_BINARY_DIR}/phar.php
             pack
-            -f \${CMAKE_INSTALL_PREFIX}/${CMAKE_INSTALL_BINDIR}/phar.phar
+            -f ${CMAKE_CURRENT_BINARY_DIR}/CMakeFiles/${PHP_PROGRAM_PREFIX}phar${PHP_PROGRAM_SUFFIX}.phar
             -a pharcommand
             -c auto
             -p 0
@@ -207,8 +207,9 @@ if(PHP_EXECUTABLE)
     )
 
     file(
-      CHMOD
-      \${CMAKE_INSTALL_PREFIX}/${CMAKE_INSTALL_BINDIR}/phar.phar
+      INSTALL
+      ${CMAKE_CURRENT_BINARY_DIR}/CMakeFiles/${PHP_PROGRAM_PREFIX}phar${PHP_PROGRAM_SUFFIX}.phar
+      DESTINATION \${DESTDIR}\${CMAKE_INSTALL_PREFIX}/${CMAKE_INSTALL_BINDIR}
       FILE_PERMISSIONS
         OWNER_READ
         OWNER_WRITE
@@ -221,8 +222,8 @@ if(PHP_EXECUTABLE)
 
     file(
       CREATE_LINK
-      phar.phar
-      \${CMAKE_INSTALL_PREFIX}/${CMAKE_INSTALL_BINDIR}/phar
+      ${PHP_PROGRAM_PREFIX}phar${PHP_PROGRAM_SUFFIX}.phar
+      \${DESTDIR}\${CMAKE_INSTALL_PREFIX}/${CMAKE_INSTALL_BINDIR}/phar
       SYMBOLIC
     )
   ")
@@ -233,8 +234,13 @@ configure_file(phar.1.in phar.1 @ONLY)
 configure_file(phar.phar.1.in phar.phar.1 @ONLY)
 
 install(
-  FILES
-    ${CMAKE_CURRENT_BINARY_DIR}/phar.1
-    ${CMAKE_CURRENT_BINARY_DIR}/phar.phar.1
+  FILES ${CMAKE_CURRENT_BINARY_DIR}/phar.1
+  RENAME ${PHP_PROGRAM_PREFIX}phar${PHP_PROGRAM_SUFFIX}.1
+  DESTINATION ${CMAKE_INSTALL_MANDIR}/man1
+)
+
+install(
+  FILES ${CMAKE_CURRENT_BINARY_DIR}/phar.phar.1
+  RENAME ${PHP_PROGRAM_PREFIX}phar${PHP_PROGRAM_SUFFIX}.phar.1
   DESTINATION ${CMAKE_INSTALL_MANDIR}/man1
 )

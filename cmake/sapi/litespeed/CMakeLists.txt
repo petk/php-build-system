@@ -31,12 +31,11 @@ target_link_libraries(php_litespeed PRIVATE PHP::main)
 set_target_properties(
   php_litespeed
   PROPERTIES
-    OUTPUT_NAME lsphp
+    OUTPUT_NAME ${PHP_PROGRAM_PREFIX}lsphp${PHP_PROGRAM_SUFFIX}
     # TODO: Check if there's a better solution here.
     ENABLE_EXPORTS TRUE
 )
 
-# TODO: Add prefix and suffix to installed executable file.
 install(
   TARGETS php_litespeed
   RUNTIME

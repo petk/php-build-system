@@ -50,6 +50,8 @@ if(PHP_THREAD_SAFETY)
   )
 endif()
 
+add_executable(php_fuzzer)
+
 if(LIB_FUZZING_ENGINE OR "$ENV{LIB_FUZZING_ENGINE}")
   if(LIB_FUZZING_ENGINE)
     set(libFuzzingEngine "${LIB_FUZZING_ENGINE}")
@@ -108,7 +110,14 @@ else()
   )
 endif()
 
-#add_executable(php_fuzzer)
-#set_target_properties(php_fuzzer PROPERTIES OUTPUT_NAME fuzzer)
-#target_link_libraries(php_fuzzer PRIVATE PHP::main)
-#install(TARGETS php_fuzzer DESTINATION ${CMAKE_INSTALL_BINDIR})
+target_sources(php_fuzzer PRIVATE fuzzer-sapi.c)
+
+set_target_properties(
+  php_fuzzer
+  PROPERTIES
+    OUTPUT_NAME ${PHP_PROGRAM_PREFIX}fuzzer${PHP_PROGRAM_SUFFIX}
+)
+
+target_link_libraries(php_fuzzer PRIVATE PHP::main)
+
+install(TARGETS php_fuzzer RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR})

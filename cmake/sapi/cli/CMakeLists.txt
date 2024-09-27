@@ -92,7 +92,7 @@ target_link_options(
 set_target_properties(
   php_cli
   PROPERTIES
-    OUTPUT_NAME php
+    OUTPUT_NAME ${PHP_PROGRAM_PREFIX}php${PHP_PROGRAM_SUFFIX}
     # TODO: Check if there's a better solution here:
     ENABLE_EXPORTS TRUE
 )
@@ -113,7 +113,11 @@ if(SAPI_CLI_WIN_NO_CONSOLE)
     ps_title.c
   )
 
-  set_target_properties(php_cli_win_no_console PROPERTIES OUTPUT_NAME php-win)
+  set_target_properties(
+    php_cli_win_no_console
+    PROPERTIES
+      OUTPUT_NAME ${PHP_PROGRAM_PREFIX}php-win${PHP_PROGRAM_SUFFIX}
+  )
 
   target_compile_definitions(
     php_cli_win_no_console
@@ -150,7 +154,7 @@ install(
 )
 
 install(
-  FILES
-    ${CMAKE_CURRENT_BINARY_DIR}/php.1
+  FILES ${CMAKE_CURRENT_BINARY_DIR}/php.1
+  RENAME ${PHP_PROGRAM_PREFIX}php${PHP_PROGRAM_SUFFIX}.1
   DESTINATION ${CMAKE_INSTALL_MANDIR}/man1
 )

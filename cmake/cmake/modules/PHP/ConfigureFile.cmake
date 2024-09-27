@@ -174,7 +174,7 @@ function(php_configure_file)
   cmake_path(GET ___phpConfigureFileOutput FILENAME filename)
   set(
     ___phpConfigureFileOutputTemporary
-    ${CMAKE_CURRENT_BINARY_DIR}/CMakeFiles/${filename}.cmake.in
+    ${CMAKE_CURRENT_BINARY_DIR}/CMakeFiles/__phpConfigureFile_${filename}.cmake.in
   )
 
   if(parsed_VARIABLES)
