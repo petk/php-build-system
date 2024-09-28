@@ -91,6 +91,7 @@ modules="
   PHP/CheckAttribute
   PHP/CheckCompilerFlag
   PHP/ConfigureFile
+  PHP/Install
   PHP/PkgConfigGenerator
   PHP/SearchLibraries
   PHP/SystemExtensions
@@ -158,6 +159,7 @@ PHP_CheckAttribute="
 "
 PHP_CheckCompilerFlag="php_check_compiler_flag"
 PHP_ConfigureFile="php_configure_file"
+PHP_Install="php_install"
 PHP_PkgConfigGenerator="pkgconfig_generate_pc"
 PHP_SearchLibraries="php_search_libraries"
 PHP_SystemExtensions='PHP::SystemExtensions'

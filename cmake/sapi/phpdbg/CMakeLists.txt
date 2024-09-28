@@ -1,6 +1,7 @@
 include(CheckSymbolExists)
 include(CMakeDependentOption)
 include(FeatureSummary)
+include(PHP/Install)
 
 ################################################################################
 # Configuration options.
@@ -283,5 +284,11 @@ install(
 )
 
 # Create log and run directories on installation.
-install(DIRECTORY DESTINATION ${CMAKE_INSTALL_LOCALSTATEDIR}/log)
-install(DIRECTORY DESTINATION ${CMAKE_INSTALL_RUNSTATEDIR})
+php_install(CODE "
+  # Create log and run directories on installation.
+  file(
+    MAKE_DIRECTORY
+    \"\$ENV{DESTDIR}\${CMAKE_INSTALL_FULL_LOCALSTATEDIR}/log\"
+    \"\$ENV{DESTDIR}\${CMAKE_INSTALL_FULL_RUNSTATEDIR}\"
+  )
+")
