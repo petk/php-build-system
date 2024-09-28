@@ -1,4 +1,5 @@
 include(FeatureSummary)
+include(PHP/Install)
 
 option(PHP_PEAR "Whether to install PEAR" OFF)
 
@@ -53,19 +54,16 @@ endif()
 # TODO: INSTALL_PREFIX here cannot be evaluated during the install phase.
 set(EXPANDED_PEAR_INSTALLDIR "${_php_pear_dir}" CACHE INTERNAL "PEAR dir")
 
-# TODO: Recheck if _php_pear_dir needs to be manually created here.
-install(CODE "
-  set(_php_pear_installer_url \"https://pear.php.net/install-pear-nozlib.phar\")
+if(NOT CMAKE_CROSSCOMPILING)
+  set(PHP_EXECUTABLE "$<TARGET_FILE:php_cli>")
+elseif(CMAKE_CROSSCOMPILING AND CMAKE_CROSSCOMPILING_EMULATOR)
+  set(PHP_EXECUTABLE "${CMAKE_CROSSCOMPILING_EMULATOR};$<TARGET_FILE:php_cli>")
+endif()
 
-  # The generator expression $<INSTALL_PREFIX> inside CODE argument is evaluated
-  # in CMake 3.27+.
-  if(CMAKE_VERSION VERSION_GREATER_EQUAL 3.27)
-    set(prefix $<INSTALL_PREFIX>)
-  else()
-    set(prefix \${CMAKE_INSTALL_PREFIX})
-  endif()
+set(_phpPearInstallerUrl "https://pear.php.net/install-pear-nozlib.phar")
 
-  message(STATUS \"Installing PEAR environment: ${_php_pear_dir}\")
+php_install(CODE "
+  message(STATUS \"Installing PEAR: \$ENV{DESTDIR}${_php_pear_dir}\")
 
   if(EXISTS \"${CMAKE_CURRENT_SOURCE_DIR}/install-pear-nozlib.phar\"
     AND NOT \"${CMAKE_CURRENT_SOURCE_DIR}\" STREQUAL \"${CMAKE_CURRENT_BINARY_DIR}\"
@@ -80,31 +78,51 @@ install(CODE "
   if(NOT EXISTS \"${CMAKE_CURRENT_BINARY_DIR}/install-pear-nozlib.phar\")
     file(
       DOWNLOAD
-      \${_php_pear_installer_url}
+      ${_phpPearInstallerUrl}
       \"${CMAKE_CURRENT_BINARY_DIR}/install-pear-nozlib.phar\"
       SHOW_PROGRESS
-      STATUS _php_pear_download
+      STATUS downloadStatus
     )
 
-    if(NOT _php_pear_download)
+    if(NOT downloadStatus)
       # Download using fetch.php.
       execute_process(
-        COMMAND ${PHP_BINARY_DIR}/sapi/cli/php
-            -n
-            ${CMAKE_CURRENT_BINARY_DIR}/fetch.php
-              \"\${_php_pear_installer_url}\"
-              ${CMAKE_CURRENT_BINARY_DIR}/install-pear-nozlib.phar
+        COMMAND ${PHP_EXECUTABLE}
+          -n
+          ${CMAKE_CURRENT_BINARY_DIR}/fetch.php
+            ${_phpPearInstallerUrl}
+            ${CMAKE_CURRENT_BINARY_DIR}/install-pear-nozlib.phar
+        OUTPUT_VARIABLE output
+        ERROR_VARIABLE output
       )
+      if(output)
+        message(STATUS \"\${output}\")
+      endif()
     endif()
   endif()
 
   if(EXISTS ${CMAKE_CURRENT_BINARY_DIR}/install-pear-nozlib.phar)
-    # PEAR reads the INSTALL_ROOT environment variable to install pear.conf.
-    # TODO: Adjust this further.
-    #set(ENV{INSTALL_ROOT} \"\${prefix}\")
+    # PEAR reads the staging INSTALL_ROOT environment variable if set. However,
+    # there is a bug where .channels, .registry and temporary dot files are
+    # duplicated outside of the INSTALL_ROOT into the install prefix. No known
+    # workaround. See: https://pear.php.net/bugs/bug.php?id=20383
+    if(DEFINED ENV{DESTDIR})
+      set(ENV{INSTALL_ROOT} \"\$ENV{DESTDIR}\")
+    endif()
+
+    # The PEAR's --config option doesn't seem to install the pear.conf into the
+    # specified directory, but the sysconf can be also bypassed with the
+    # environment variable.
+    set(ENV{PHP_PEAR_SYSCONF_DIR} \${CMAKE_INSTALL_FULL_SYSCONFDIR})
+
+    file(
+      MAKE_DIRECTORY
+      \$ENV{DESTDIR}${_php_pear_dir}
+      ${CMAKE_CURRENT_BINARY_DIR}/CMakeFiles/pear
+    )
 
     execute_process(
-      COMMAND ${PHP_BINARY_DIR}/sapi/cli/php
+      COMMAND ${PHP_EXECUTABLE}
         -n
         -dshort_open_tag=0
         -dopen_basedir=
@@ -113,19 +131,26 @@ install(CODE "
         -ddetect_unicode=0
         ${CMAKE_CURRENT_BINARY_DIR}/install-pear-nozlib.phar
           --dir \"${_php_pear_dir}\"
-          --bin \"\${prefix}/${CMAKE_INSTALL_BINDIR}\"
-          --config \"\${prefix}/${CMAKE_INSTALL_SYSCONFDIR}\"
-          --metadata \"\${prefix}/${CMAKE_INSTALL_DATADIR}\"
+          --bin \"\${CMAKE_INSTALL_FULL_BINDIR}\"
+          --metadata \"${_php_pear_dir}\"
+          --data \"${_php_pear_dir}\"
+          --temp \"${CMAKE_CURRENT_BINARY_DIR}/CMakeFiles/pear\"
+          #--php \${CMAKE_INSTALL_FULL_BINDIR}/$<TARGET_FILE_NAME:php_cli>
           -dp a${PHP_PROGRAM_PREFIX}
-          -ds a$(PHP_PROGRAM_SUFFIX)
+          -ds a${PHP_PROGRAM_SUFFIX}
+      OUTPUT_VARIABLE output
+      ERROR_VARIABLE output
     )
+    if(output)
+      message(STATUS \"\${output}\")
+    endif()
   else()
     message(
       WARNING
       \"The installation process is not complete. The following resources \"
       \"were not installed:\\n\"
       \"  PEAR: PHP Extension and Application Repository\\n\"
-      \"To install these components, download \${_php_pear_installer_url} to \"
+      \"To install these components, download ${_phpPearInstallerUrl} to \"
       \"to php-src/pear/ and repeat the 'cmake --install' command.\"
     )
   endif()

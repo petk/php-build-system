@@ -10,6 +10,7 @@ include(CMakeDependentOption)
 include(CMakePushCheckState)
 include(FeatureSummary)
 include(PHP/ConfigureFile)
+include(PHP/Install)
 
 ################################################################################
 # FPM configuration.
@@ -445,12 +446,15 @@ php_configure_file(
 
 install(TARGETS php_fpm DESTINATION ${CMAKE_INSTALL_SBINDIR})
 
-# Create log and run directories on installation.
-install(DIRECTORY DESTINATION ${CMAKE_INSTALL_LOCALSTATEDIR}/log)
-install(DIRECTORY DESTINATION ${CMAKE_INSTALL_RUNSTATEDIR})
+php_install(CODE "
+  # Create log and run directories on installation.
+  file(
+    MAKE_DIRECTORY
+    \"\$ENV{DESTDIR}\${CMAKE_INSTALL_FULL_LOCALSTATEDIR}/log\"
+    \"\$ENV{DESTDIR}\${CMAKE_INSTALL_FULL_RUNSTATEDIR}\"
+  )
 
-install(CODE "
-  if(EXISTS \"\${CMAKE_INSTALL_PREFIX}/${CMAKE_INSTALL_SYSCONFDIR}/php-fpm.conf\")
+  if(EXISTS \"\$ENV{DESTDIR}\${CMAKE_INSTALL_FULL_SYSCONFDIR}/php-fpm.conf\")
     message(
       STATUS
       \"Skipping PHP FPM defconfig installation. Files already exist.\"
@@ -459,24 +463,24 @@ install(CODE "
     message(
       STATUS
       \"Installing PHP FPM defconfig to \"
-      \"\${CMAKE_INSTALL_PREFIX}/${CMAKE_INSTALL_SYSCONFDIR}\"
+      \"\$ENV{DESTDIR}\${CMAKE_INSTALL_FULL_SYSCONFDIR}\"
     )
 
     file(
       MAKE_DIRECTORY
-      \"\${CMAKE_INSTALL_PREFIX}/${CMAKE_INSTALL_SYSCONFDIR}/php-fpm.d\"
+      \"\$ENV{DESTDIR}\${CMAKE_INSTALL_FULL_SYSCONFDIR}/php-fpm.d\"
     )
 
     file(
       COPY_FILE
       \"${CMAKE_CURRENT_BINARY_DIR}/php-fpm.conf\"
-      \"\${CMAKE_INSTALL_PREFIX}/${CMAKE_INSTALL_SYSCONFDIR}/php-fpm.conf.default\"
+      \"\$ENV{DESTDIR}\${CMAKE_INSTALL_FULL_SYSCONFDIR}/php-fpm.conf.default\"
     )
 
     file(
       COPY_FILE
       \"${CMAKE_CURRENT_BINARY_DIR}/www.conf\"
-      \"\${CMAKE_INSTALL_PREFIX}/${CMAKE_INSTALL_SYSCONFDIR}/php-fpm.d/www.conf.default\"
+      \"\$ENV{DESTDIR}\${CMAKE_INSTALL_FULL_SYSCONFDIR}/php-fpm.d/www.conf.default\"
     )
   endif()
 ")

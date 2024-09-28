@@ -1,5 +1,6 @@
 include(CMakeDependentOption)
 include(FeatureSummary)
+include(PHP/Install)
 
 option(EXT_PHAR "Enable the phar extension" ON)
 
@@ -81,13 +82,6 @@ endif()
 
 # Generate phar.php.
 if(PHP_EXECUTABLE)
-  file(
-    GLOB_RECURSE
-    dependent_files
-    ${CMAKE_CURRENT_SOURCE_DIR}/phar/*.inc
-    ${CMAKE_CURRENT_SOURCE_DIR}/phar/*.php
-  )
-
   if(EXT_PHAR_SHARED OR BUILD_SHARED_LIBS)
     set(
       phar_shared_options
@@ -170,13 +164,20 @@ if(PHP_EXECUTABLE)
     COMMENT "[ext/phar] Generating phar"
   )
 
+  file(
+    GLOB_RECURSE
+    dependentFiles
+    ${CMAKE_CURRENT_SOURCE_DIR}/phar/*.inc
+    ${CMAKE_CURRENT_SOURCE_DIR}/phar/*.php
+  )
+
   add_custom_target(
     php_phar_generate_file
     ALL
     DEPENDS
       php_cli
       php_phar
-      ${dependent_files}
+      ${dependentFiles}
       php_phar_generated_phar
   )
   set_property(SOURCE php_phar_generated_phar PROPERTY SYMBOLIC TRUE)
@@ -184,7 +185,7 @@ if(PHP_EXECUTABLE)
   # Install phar.phar file to destination. Here a duplicate phar.phar generation
   # step is used to generate it to a destination directory because of the
   # install prefix used in shebang (when using 'cmake --install --prefix ...').
-  install(CODE "
+  php_install(CODE "
     execute_process(
       COMMAND
         ${PHP_EXECUTABLE}
@@ -196,20 +197,19 @@ if(PHP_EXECUTABLE)
           -d phar.readonly=0
           ${CMAKE_CURRENT_BINARY_DIR}/phar.php
             pack
-            -f ${CMAKE_CURRENT_BINARY_DIR}/CMakeFiles/${PHP_PROGRAM_PREFIX}phar${PHP_PROGRAM_SUFFIX}.phar
+            -f ${CMAKE_CURRENT_BINARY_DIR}/CMakeFiles/phar.phar
             -a pharcommand
             -c auto
             -p 0
             -s ${CMAKE_CURRENT_SOURCE_DIR}/phar/phar.php
             -h sha1
-            -b \${CMAKE_INSTALL_PREFIX}/${CMAKE_INSTALL_BINDIR}/$<TARGET_FILE_NAME:php_cli>
+            -b \${CMAKE_INSTALL_FULL_BINDIR}/$<TARGET_FILE_NAME:php_cli>
             ${CMAKE_CURRENT_SOURCE_DIR}/phar
     )
 
     file(
-      INSTALL
-      ${CMAKE_CURRENT_BINARY_DIR}/CMakeFiles/${PHP_PROGRAM_PREFIX}phar${PHP_PROGRAM_SUFFIX}.phar
-      DESTINATION \${DESTDIR}\${CMAKE_INSTALL_PREFIX}/${CMAKE_INSTALL_BINDIR}
+      CHMOD
+      ${CMAKE_CURRENT_BINARY_DIR}/CMakeFiles/phar.phar
       FILE_PERMISSIONS
         OWNER_READ
         OWNER_WRITE
@@ -221,9 +221,15 @@ if(PHP_EXECUTABLE)
     )
 
     file(
+      COPY_FILE
+      ${CMAKE_CURRENT_BINARY_DIR}/CMakeFiles/phar.phar
+      \$ENV{DESTDIR}\${CMAKE_INSTALL_FULL_BINDIR}/${PHP_PROGRAM_PREFIX}phar${PHP_PROGRAM_SUFFIX}.phar
+    )
+
+    file(
       CREATE_LINK
       ${PHP_PROGRAM_PREFIX}phar${PHP_PROGRAM_SUFFIX}.phar
-      \${DESTDIR}\${CMAKE_INSTALL_PREFIX}/${CMAKE_INSTALL_BINDIR}/phar
+      \$ENV{DESTDIR}\${CMAKE_INSTALL_FULL_BINDIR}/${PHP_PROGRAM_PREFIX}phar${PHP_PROGRAM_SUFFIX}
       SYMBOLIC
     )
   ")
