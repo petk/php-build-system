@@ -319,6 +319,7 @@ include(PHP/NewModule)
 
 * [PHP/CheckBuiltin](/docs/cmake-modules/PHP/CheckBuiltin.md)
 * [PHP/CheckCompilerFlag](/docs/cmake-modules/PHP/CheckCompilerFlag.md)
+* [PHP/Install](/docs/cmake-modules/PHP/Install.md)
 * [PHP/SearchLibraries](/docs/cmake-modules/PHP/SearchLibraries.md)
 
 ## 9. Custom CMake properties

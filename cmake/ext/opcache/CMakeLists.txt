@@ -1,7 +1,6 @@
 include(CheckSymbolExists)
 include(CMakeDependentOption)
 include(FeatureSummary)
-include(PHP/CheckCompilerFlag)
 include(PHP/SearchLibraries)
 
 option(EXT_OPCACHE "Enable the opcache extension" ON)

@@ -131,8 +131,8 @@ dependencies.
 Quick usage:
 
 ```sh
-# List of all known package names on the system:
-pkgconf --list-package-names
+# List of all known packages on the system:
+pkgconf --list-all
 
 # Print required linker flags to stdout for given package name:
 pkgconf --libs libcrypt
@@ -150,8 +150,8 @@ pkgconf --help
 PKG_CONFIG_PATH=/path/to/pkgconfig pkgconf --modversion libcrypt
 ```
 
-The `pkgconf` ships with M4 macro file `pkg.m4` for Autotools-based build
-systems and provides several macros, such as `PKG_CHECK_MODULES`.
+The `pkgconf` ships with Autoconf M4 macro file `pkg.m4` for Autotools-based
+build systems and provides several macros, such as `PKG_CHECK_MODULES`.
 
 `PKG_CHECK_MODULES` creates so-called precious variables `*_LIBS` and `*_CFLAGS`
 for using dependency in the build system. See `./configure --help` for all the

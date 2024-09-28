@@ -167,6 +167,7 @@ Common practice is to also add program prefix and suffix (for example, to have
   EXTENSION_DIR=/path/to/php/extensions \
   --with-layout=GNU \
   --localstatedir=/var \
+  --sysconfdir=/etc \
   --program-suffix=84 \
   # ...
 ```
@@ -177,7 +178,7 @@ PHP Autotools directory structure with GNU layout:
 
 ```sh
 📂 <INSTALL_ROOT>                     # 📂
- └─📂 ${prefix}                       # └─📂 /usr/local/include
+ └─📂 ${prefix}                       # └─📂 /usr/local
     ├─📂 ${bindir}                    #    ├─📂 bin
     └─📂 ${sysconfdir}                #    └─📂 etc
        ├─📂 php-fpm.d                 #       ├─📂 php-fpm.d
@@ -201,7 +202,7 @@ PHP Autotools directory structure with GNU layout:
           └─📂 man8                   #          └─📂 man8
        ├─📂 pear                      #       └─📂 pear
        └─📂 php                       #       └─📂 php
-          └─📂 fpm                    #            └─📂 fpm
+          └─📂 fpm                    #          └─📂 fpm
     └─📂 ${localstatedir}             #    └─📂 var
        └─📂 log                       #       └─📂 log
     └─📂 ${runstatedir}               #    └─📂 var/run
@@ -244,7 +245,7 @@ DESTDIR=/stage cmake --install . --prefix /usr
 
 To adjust the installation locations, the
 [GNUInstallDirs](https://cmake.org/cmake/help/latest/module/GNUInstallDirs.html)
-module is used to set additional `CMAKE_INSTALL_*` variables.
+module is used to set the `CMAKE_INSTALL_*` variables.
 
 * `CMAKE_INSTALL_BINDIR` - name of the bin directory
 * `CMAKE_INSTALL_DATADIR` - name of the etc directory
@@ -310,9 +311,21 @@ PHP installation directory structure when using CMake:
 > [!NOTE]
 > The `DATAROOTDIR` and `DATADIR` are treated separately to be able to adjust
 > only the `DATADIR` with project specific files, while leaving the
-> `DATAROOTDIR` intact for man or other files. See also
+> `DATAROOTDIR` intact for man or other files. See
 > [GNU](https://www.gnu.org/prep/standards/html_node/Directory-Variables.html)
-> explanation for more info.
+> for more info.
+
+> [!NOTE]
+> The CMake `GNUInstallDirs` module also adjusts GNU-related variables according
+> to various standards, so there are some special cases.
+>
+> When the `CMAKE_INSTALL_PREFIX` is set to `/usr`, the `SYSCONFDIR`,
+> `LOCALSTATEDIR`, and `RUNSTATEDIR` become `/etc`, `/var`, and
+> `/var/run` instead of `/usr/etc`, and `/usr/var`, and `/usr/var/run`. Similar
+> adjustments are done when install prefix is `/` or `/opt/...`. See
+> [GNUInstallDirs](https://cmake.org/cmake/help/latest/module/GNUInstallDirs.html#special-cases)
+> for more info. The [PHP/Install](/docs/cmake-modules/PHP/Install.md) bypasses
+> some of these adjustmens inside the `install()` command for convenience.
 
 Instead of setting the installation prefix at the configuration phase using
 `CMAKE_INSTALL_PREFIX` variable or `--install-prefix` option, there is
@@ -331,13 +344,13 @@ root directory:
       "inherits": "all-enabled",
       "displayName": "Acme PHP configuration",
       "description": "Customized PHP build",
-      "installDir": "/install/prefix",
+      "installDir": "/usr",
       "cacheVariables": {
         "CMAKE_INSTALL_BINDIR": "home/user/.local/bin",
         "PHP_BUILD_SYSTEM": "Acme Linux",
         "PHP_BUILD_PROVIDER": "Acme",
         "PHP_BUILD_COMPILER": "GCC",
-        "PHP_BUILD_ARCH": "x86",
+        "PHP_BUILD_ARCH": "x86_64",
         "PHP_VERSION_LABEL": "-acme",
         "PHP_EXTENSION_DIR": "lib/php83/extensions"
       }

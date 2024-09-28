@@ -48,7 +48,3 @@ template.
   which is replaced with installation prefix either set via the
   `CMAKE_INSTALL_PREFIX` variable at the configuration phase, or the `--prefix`
   option at the `cmake --install` phase.
-
-  The custom PHP specific `$<PHP_EXPAND:path>` generator expression can be used
-  in variable values. It is automatically replaced to `<install-prefix>/path`
-  if `path` is relative, or to just `path` if `path` is absolute.
