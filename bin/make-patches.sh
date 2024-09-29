@@ -13,14 +13,12 @@ patch-cmake-8.3-aspell
 patch-cmake-8.3-dmalloc
 patch-cmake-8.3-php-config
 patch-cmake-8.3-phpdbg-prompt
-patch-cmake-8.3-zend-vm-gen
 patch-cmake-8.4
 patch-cmake-8.4-asm
 patch-cmake-8.4-dmalloc
 patch-cmake-8.4-php-config
 patch-cmake-8.4-phpdbg-prompt
 patch-cmake-8.4-timelib
-patch-cmake-8.4-zend-vm-gen
 patch-cmake-8.5
 patch-cmake-8.5-asm
 patch-cmake-8.5-dmalloc
@@ -28,7 +26,6 @@ patch-cmake-8.5-docs
 patch-cmake-8.5-php-config
 patch-cmake-8.5-phpdbg-prompt
 patch-cmake-8.5-timelib
-patch-cmake-8.5-zend-vm-gen
 "
 
 # A list of supported PHP versions.

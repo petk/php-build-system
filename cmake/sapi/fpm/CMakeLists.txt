@@ -472,7 +472,7 @@ php_configure_file(
     EXPANDED_SYSCONFDIR "$<PATH:ABSOLUTE_PATH,NORMALIZE,${CMAKE_INSTALL_SYSCONFDIR},$<INSTALL_PREFIX>>"
 )
 
-install(TARGETS php_fpm DESTINATION ${CMAKE_INSTALL_SBINDIR})
+install(TARGETS php_fpm RUNTIME DESTINATION ${CMAKE_INSTALL_SBINDIR})
 
 php_install(CODE "
   # Create log and run directories on installation.
