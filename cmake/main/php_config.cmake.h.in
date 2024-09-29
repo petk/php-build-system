@@ -1144,6 +1144,9 @@
 /* */
 @HAVE_OPENSSL_EXT@
 
+/* Define to 1 if the PHP extension 'openssl' is available. */
+#cmakedefine HAVE_OPENSSL 1
+
 /* Define to 1 if you have the <os/signpost.h> header file. */
 #cmakedefine HAVE_OS_SIGNPOST_H 1
 
