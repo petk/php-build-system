@@ -37,10 +37,10 @@ understanding of its fundamentals.
 
 ## 1. Command-line usage
 
-[CMake](https://cmake.org/) is an open-source cross-platform build system
-generator created by Kitware and contributors. It is invoked on command line
-using `cmake` command. When working with CMake, there are two primary phases:
-the configuration and generation phase, followed by the build phase.
+[CMake](https://cmake.org/) is an open-source, cross-platform build system
+generator created by Kitware and contributors. It is invoked from the command
+line using the `cmake` command. When working with CMake, there are two primary
+phases: the configuration and generation phase, followed by the build phase.
 
 ### 1.1. Configuration and generation phase
 
@@ -71,7 +71,7 @@ cmake --build build-directory --parallel
 > source directory (when source and build directories are the same):
 >
 > ```sh
-> cmake .
+> cmake .  # Same as: cmake -S . -B .
 > cmake --build . --parallel
 > ```
 >
@@ -81,10 +81,8 @@ cmake --build build-directory --parallel
 > within the source directory:
 >
 > ```sh
-> mkdir build-directory
-> cd build-directory
-> cmake ..
-> cmake --build . --parallel
+> cmake -B build-directory
+> cmake --build build-directory --parallel
 > ```
 
 ## 2. CMakeLists.txt
@@ -282,18 +280,32 @@ project. There are primarily two types: libraries and executables.
 add_executable(php php.c php_2.c ...)
 
 # Create a library target
-add_library(extension OBJECT|MODULE|SHARED|STATIC extension.c src.c ...)
+add_library(extension extension.c src.c ...)
 ```
 
-The keywords `OBJECT`, `MODULE`, `SHARED`, and `STATIC` specify how the library
-is built. `OBJECT` libraries will compile source files to binary object files
-without the linking step. These objects can be then referenced in other CMake
-targets. `SHARED` libraries can be linked dynamically or dynamically loaded at
-program runtime with `dlopen()` on *nix systems, or `LoadLibrary()` on Windows.
-`MODULE` library is a special CMake concept that prevents such targets to be
-linked dynamically with `target_link_libraries()` and are intended to be only
-dynamically loaded during runtime. `STATIC` library is an archive of built
-object files that can be linked to other targets.
+Library can also have a type specified. For example, a shared library:
+
+```cmake
+add_library(extension SHARED extension.c src.c)
+```
+
+> [!IMPORTANT]
+> There are several library types:
+>
+> ```cmake
+> add_library(<name> [OBJECT|MODULE|SHARED|STATIC] <sources>...)
+> ```
+>
+> The keywords `OBJECT`, `MODULE`, `SHARED`, and `STATIC` specify how the
+> library is built. `OBJECT` libraries will compile source files to binary
+> object files without the linking step. These objects can be then referenced in
+> other CMake targets. `SHARED` libraries can be linked dynamically or
+> dynamically loaded at program runtime with `dlopen()` on *nix systems, or
+> `LoadLibrary()` on Windows. `MODULE` library is a special CMake concept that
+> prevents such targets to be linked dynamically with `target_link_libraries()`
+> and are intended to be only dynamically loaded during runtime. `STATIC`
+> library is an archive of built object files that can be linked to other
+> targets.
 
 The concepts of executable and library targets can be illustrated through
 examples of using a compiler like `gcc`.
@@ -323,9 +335,9 @@ gcc -c -o src.o src.c
 
 ### 4.3. SHARED library
 
-CMake automatically adds sensible linker flags when building SHARED library. For
-example, `-shared`, `-Wl,-soname,extension.so`, position-independent code flag
-`-fPIC`, and similar.
+CMake automatically adds sensible linker flags when building `SHARED` library.
+For example, `-shared`, `-Wl,-soname,extension.so`, position-independent code
+flag `-fPIC`, and similar.
 
 ```sh
 # Compile each source file to a binary object file with the -fPIC
@@ -337,10 +349,10 @@ gcc -fPIC -shared -Wl,-soname,extension.so -o extension.so extension.o src.o
 
 ### 4.4. MODULE library
 
-The MODULE library, on the other hand, is similar to the SHARED. However, CMake
-uses slightly different flags and treats it differently in CMake code. A MODULE
-library cannot be linked with `target_link_libraries()` in CMake, and certain
-handling inside CMake differs.
+The `MODULE` library, on the other hand, is similar to the `SHARED`. However,
+CMake uses slightly different flags and treats it differently in CMake code. A
+`MODULE` library cannot be linked with `target_link_libraries()` in CMake, and
+certain handling inside CMake differs.
 
 ```sh
 # Compile each source file to a binary object file with the -fPIC
@@ -350,8 +362,8 @@ gcc -fPIC -c -o src.o src.c
 gcc -fPIC -shared -o extension.so extension.o src.o
 ```
 
-Both MODULE and SHARED libraries can be loaded with `dlopen`-alike functionality
-during program runtime. For example:
+Both `MODULE` and `SHARED` libraries can be loaded with `dlopen`-alike
+functionality during program runtime. For example:
 
 ```c
 /* main.c */
@@ -370,7 +382,7 @@ int main(void)
 
 ### 4.5. STATIC library
 
-STATIC libraries are intended to be linked statically to other libraries or
+`STATIC` libraries are intended to be linked statically to other libraries or
 executables where they become part of the final binary.
 
 ```sh

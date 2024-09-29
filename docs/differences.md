@@ -110,3 +110,6 @@ build system:
 
 * Build with Clang on 32-bit systems.
   See: https://github.com/php/php-src/issues/14467
+
+* Zend/zend_vm_gen.php deprecation warnings on 32-bit systems.
+  See: https://github.com/php/php-src/issues/15899
