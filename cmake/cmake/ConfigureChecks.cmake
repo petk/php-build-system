@@ -162,7 +162,7 @@ set(HAVE_PTRDIFF_T 1 CACHE INTERNAL "Whether ptrdiff_t is available")
 if(NOT SIZEOF_PTRDIFF_T)
   if(CMAKE_SIZEOF_VOID_P EQUAL 4)
     set(SIZEOF_PTRDIFF_T 4 CACHE INTERNAL "Size of ptrdiff_t")
-  else
+  else()
     set(SIZEOF_PTRDIFF_T 8 CACHE INTERNAL "Size of ptrdiff_t")
   endif()
 
