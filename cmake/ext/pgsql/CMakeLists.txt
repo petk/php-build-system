@@ -112,14 +112,11 @@ if(TARGET PostgreSQL::PostgreSQL)
       HAVE_PG_SET_CHUNKED_ROWS_SIZE
     )
 
-    # Available since PostgreSQL 17.
-    if(PostgreSQL_VERSION_STRING VERSION_GREATER_EQUAL 17)
-      check_library_exists(
-        PostgreSQL::PostgreSQL
-        PQclosePrepared
-        ""
-        HAVE_PG_CLOSE_STMT
-      )
-    endif()
+    check_library_exists(
+      PostgreSQL::PostgreSQL
+      PQclosePrepared
+      ""
+      HAVE_PG_CLOSE_STMT
+    )
   endif()
 endif()
