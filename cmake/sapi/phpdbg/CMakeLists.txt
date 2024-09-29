@@ -271,7 +271,6 @@ install(
 
 # Create log and run directories on installation.
 php_install(CODE "
-  # Create log and run directories on installation.
   file(
     MAKE_DIRECTORY
     \"\$ENV{DESTDIR}\${CMAKE_INSTALL_FULL_LOCALSTATEDIR}/log\"

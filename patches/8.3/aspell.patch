@@ -43,7 +43,7 @@ index 879300f992..de820684fb 100644
            libsasl2-dev:i386 \
            libsodium-dev:i386 \
 diff --git a/.github/actions/apt-x64/action.yml b/.github/actions/apt-x64/action.yml
-index 8f2f608278..c3ae0ada63 100644
+index bc2aa00df2..739abf8fe5 100644
 --- a/.github/actions/apt-x64/action.yml
 +++ b/.github/actions/apt-x64/action.yml
 @@ -34,7 +34,6 @@ runs:
