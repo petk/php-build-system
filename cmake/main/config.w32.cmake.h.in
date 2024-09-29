@@ -2008,13 +2008,13 @@
 #cmakedefine ZEND_MAX_EXECUTION_TIMERS 1
 
 /* Number of bytes for the ZEND_MM alignment. */
-#define ZEND_MM_ALIGNMENT (size_t)8
+#cmakedefine ZEND_MM_ALIGNMENT @ZEND_MM_ALIGNMENT@
 
 /* Number of bytes for the logarithmic ZEND_MM alignment. */
-#define ZEND_MM_ALIGNMENT_LOG2 (size_t)3
+#cmakedefine ZEND_MM_ALIGNMENT_LOG2 @ZEND_MM_ALIGNMENT_LOG2@
 
 /* Define to 1 if ZEND_MM needs 8-byte realignment, and to 0 if not. */
-#define ZEND_MM_NEED_EIGHT_BYTE_REALIGNMENT 0
+#cmakedefine01 ZEND_MM_NEED_EIGHT_BYTE_REALIGNMENT
 
 /* Define to 1 if Zend signal handling is supported and enabled. */
 #cmakedefine ZEND_SIGNALS 1
