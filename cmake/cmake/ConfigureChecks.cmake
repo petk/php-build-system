@@ -133,31 +133,6 @@ cmake_pop_check_state()
 # Check types.
 ################################################################################
 
-check_type_size("int" SIZEOF_INT)
-if(NOT SIZEOF_INT)
-  message(FATAL_ERROR "Cannot determine size of int.")
-endif()
-
-check_type_size("long" SIZEOF_LONG)
-if(NOT SIZEOF_LONG)
-  message(FATAL_ERROR "Cannot determine size of long.")
-endif()
-
-check_type_size("long long" SIZEOF_LONG_LONG)
-if(NOT SIZEOF_LONG_LONG)
-  message(FATAL_ERROR "Cannot determine size of long long.")
-endif()
-
-check_type_size("size_t" SIZEOF_SIZE_T)
-if(NOT HAVE_SIZEOF_SIZE_T)
-  message(FATAL_ERROR "Cannot determine size of size_t.")
-endif()
-
-check_type_size("off_t" SIZEOF_OFF_T)
-if(NOT SIZEOF_OFF_T)
-  message(FATAL_ERROR "Cannot determine size of off_t.")
-endif()
-
 check_type_size("gid_t" SIZEOF_GID_T)
 if(NOT HAVE_SIZEOF_GID_T)
   set(
@@ -166,31 +141,46 @@ if(NOT HAVE_SIZEOF_GID_T)
   )
 endif()
 
+check_type_size("int" SIZEOF_INT)
+
+check_type_size("intmax_t" SIZEOF_INTMAX_T)
+if(NOT SIZEOF_INTMAX_T)
+  set(SIZEOF_INTMAX_T 0 CACHE INTERNAL "Size of intmax_t")
+  message(WARNING "Couldn't determine size of intmax_t, setting to 0.")
+elseif(CMAKE_SYSTEM_NAME STREQUAL "Windows")
+  # PHP on Windows sets the SIZEOF_INTMAX_T to 0 to skip certain checks,
+  # otherwise intmax_t and its size is available.
+  set(SIZEOF_INTMAX_T 0 CACHE INTERNAL "Size of intmax_t")
+endif()
+
+check_type_size("long" SIZEOF_LONG)
+check_type_size("long long" SIZEOF_LONG_LONG)
+check_type_size("off_t" SIZEOF_OFF_T)
+
+check_type_size("ptrdiff_t" SIZEOF_PTRDIFF_T)
+set(HAVE_PTRDIFF_T 1 CACHE INTERNAL "Whether ptrdiff_t is available")
+if(NOT SIZEOF_PTRDIFF_T)
+  if(CMAKE_SIZEOF_VOID_P EQUAL 4)
+    set(SIZEOF_PTRDIFF_T 4 CACHE INTERNAL "Size of ptrdiff_t")
+  else
+    set(SIZEOF_PTRDIFF_T 8 CACHE INTERNAL "Size of ptrdiff_t")
+  endif()
+
+  message(
+    WARNING
+    "Couldn't determine the ptrdiff_t size, setting it to ${SIZEOF_PTRDIFF_T}."
+  )
+endif()
+
+check_type_size("size_t" SIZEOF_SIZE_T)
+check_type_size("ssize_t" SIZEOF_SSIZE_T)
+
 check_type_size("uid_t" SIZEOF_UID_T)
 if(NOT HAVE_SIZEOF_UID_T)
   set(
     uid_t int
     CACHE INTERNAL "Define as 'int' if <sys/types.h> doesn't define."
   )
-endif()
-
-check_type_size("intmax_t" SIZEOF_INTMAX_T)
-if(NOT SIZEOF_INTMAX_T)
-  set(SIZEOF_INTMAX_T 0 CACHE INTERNAL "Size of intmax_t")
-  message(WARNING "Couldn't determine size of intmax_t, setting to 0.")
-endif()
-
-check_type_size("ssize_t" SIZEOF_SSIZE_T)
-if(NOT SIZEOF_SSIZE_T)
-  set(SIZEOF_SSIZE_T 8 CACHE INTERNAL "Size of ssize_t")
-  message(WARNING "Couldn't determine size of ssize_t, setting to 8.")
-endif()
-
-check_type_size("ptrdiff_t" SIZEOF_PTRDIFF_T)
-set(HAVE_PTRDIFF_T 1 CACHE INTERNAL "Whether ptrdiff_t is available")
-if(NOT SIZEOF_PTRDIFF_T)
-  set(SIZEOF_PTRDIFF_T 8 CACHE INTERNAL "Size of ptrdiff_t")
-  message(WARNING "Couldn't determine size of ptrdiff_t, setting to 8.")
 endif()
 
 # Check for socklen_t type.
