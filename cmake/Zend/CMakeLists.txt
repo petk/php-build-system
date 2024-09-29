@@ -468,29 +468,35 @@ endif()
 # Create files and set installation.
 ################################################################################
 
-if(PHPSystem_EXECUTABLE)
-  set(PHP_EXECUTABLE ${PHPSystem_EXECUTABLE})
-elseif(NOT CMAKE_CROSSCOMPILING)
-  set(PHP_EXECUTABLE "$<TARGET_FILE:php_cli>")
-elseif(CMAKE_CROSSCOMPILING AND CMAKE_CROSSCOMPILING_EMULATOR)
-  set(PHP_EXECUTABLE "${CMAKE_CROSSCOMPILING_EMULATOR};$<TARGET_FILE:php_cli>")
-endif()
+# On 32-bit targets the zend_vm_gen.php script outputs deprecation warnings. As
+# 32-bit targets are not considered development oriented environments, where the
+# files need to be regenerated, executing this script is skipped.
+# See: https://github.com/php/php-src/issues/15899
+if(NOT CMAKE_SIZEOF_VOID_P EQUAL 4)
+  if(PHPSystem_EXECUTABLE)
+    set(PHP_EXECUTABLE ${PHPSystem_EXECUTABLE})
+  elseif(NOT CMAKE_CROSSCOMPILING)
+    set(PHP_EXECUTABLE "$<TARGET_FILE:php_cli>")
+  elseif(CMAKE_CROSSCOMPILING AND CMAKE_CROSSCOMPILING_EMULATOR)
+    set(PHP_EXECUTABLE "${CMAKE_CROSSCOMPILING_EMULATOR};$<TARGET_FILE:php_cli>")
+  endif()
 
-if(PHP_EXECUTABLE)
-  # Run the Zend/zend_vm_gen.php script.
-  add_custom_command(
-    OUTPUT zend_vm
-    COMMAND ${PHP_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/zend_vm_gen.php
-    DEPENDS
-      php_cli
-      ${CMAKE_CURRENT_SOURCE_DIR}/zend_vm_execute.skl
-    COMMENT "[Zend] Regenerating zend_vm_execute.h and zend_vm_opcodes.{h,c}"
-    VERBATIM
-  )
+  if(PHP_EXECUTABLE)
+    # Run the Zend/zend_vm_gen.php script.
+    add_custom_command(
+      OUTPUT zend_vm
+      COMMAND ${PHP_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/zend_vm_gen.php
+      DEPENDS
+        php_cli
+        ${CMAKE_CURRENT_SOURCE_DIR}/zend_vm_execute.skl
+      COMMENT "[Zend] Regenerating zend_vm_execute.h and zend_vm_opcodes.{h,c}"
+      VERBATIM
+    )
 
-  add_custom_target(zend_generate_vm ALL DEPENDS zend_vm)
+    add_custom_target(zend_generate_vm ALL DEPENDS zend_vm)
 
-  set_property(SOURCE zend_vm PROPERTY SYMBOLIC TRUE)
+    set_property(SOURCE zend_vm PROPERTY SYMBOLIC TRUE)
+  endif()
 endif()
 
 if(NOT CMAKE_SYSTEM_NAME STREQUAL "Windows")
