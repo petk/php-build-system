@@ -1136,6 +1136,10 @@
    later). */
 #cmakedefine HAVE_PG_CHANGE_PASSWORD 1
 
+/* Define to 1 if libpq has the 'PQclosePrepared' function (PostgreSQL 17 or
+   later). */
+#cmakedefine HAVE_PG_CLOSE_STMT 1
+
 /* Define to 1 if libpq has the 'PQresultMemorySize' function (PostgreSQL 12
    or later). */
 #cmakedefine HAVE_PG_RESULT_MEMORY_SIZE 1
