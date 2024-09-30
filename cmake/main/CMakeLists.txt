@@ -299,7 +299,7 @@ function(_php_main_create_files)
 
   message(STATUS "Creating main/${file}")
   configure_file(
-    main/php_config_common.cmake.h.in
+    main/php_config.cmake.h.in
     main/CMakeFiles/${file}.cmake.in
     @ONLY
   )
