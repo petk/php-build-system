@@ -1,15 +1,45 @@
-#ifndef PHP_CONFIG_H
-#define PHP_CONFIG_H
+#if !defined(PHP_CONFIG_H) || @PHP_CONFIG_H_WINDOWS@
 
-#if defined(__GNUC__) && __GNUC__ >= 4
-# define ZEND_API __attribute__ ((visibility("default")))
-# define ZEND_DLEXPORT __attribute__ ((visibility("default")))
+#if @PHP_CONFIG_H_WINDOWS@
+/* Define the minimum supported version */
+# undef _WIN32_WINNT
+# undef NTDDI_VERSION
+# define _WIN32_WINNT 0x0602
+# define NTDDI_VERSION 0x06020000
+
+# define __SSE__ 1
+
+# define __SSE2__ 1
+
+# define _REENTRANT 1
+
+/* vs.net 2005 has a 64-bit time_t.  This will likely break
+ * 3rdParty libs that were built with older compilers; switch
+ * back to 32-bit */
+# ifndef _WIN64
+#  define _USE_32BIT_TIME_T 1
+# endif
+
+/* On Windows the ssize_t is not available, but there is SSIZE_T defined in
+   <BaseTsd.h>. */
+# define ssize_t SSIZE_T
+
+# define STDIN_FILENO 0
+# define STDOUT_FILENO 1
+# define STDERR_FILENO 2
 #else
-# define ZEND_API
-# define ZEND_DLEXPORT
-#endif
+# define PHP_CONFIG_H
 
-#define ZEND_DLIMPORT
+# if defined(__GNUC__) && __GNUC__ >= 4
+#  define ZEND_API __attribute__ ((visibility("default")))
+#  define ZEND_DLEXPORT __attribute__ ((visibility("default")))
+# else
+#  define ZEND_API
+#  define ZEND_DLEXPORT
+# endif
+
+# define ZEND_DLIMPORT
+#endif
 
 /* The cdb handler header file. */
 #cmakedefine CDB_INCLUDE_FILE "@CDB_INCLUDE_FILE@"
@@ -2011,22 +2041,74 @@
 /* Define to 1 when using musl libc. */
 #cmakedefine __MUSL__ 1
 
+#if @PHP_CONFIG_H_WINDOWS@
+/* The following build system related configuration values are on *nix
+   systems defined in the main/build-defs.h and JScript Windows build system
+   defines them in the configuration header file. */
+
+/* Configure line */
+# cmakedefine CONFIGURE_COMMAND "@CONFIGURE_COMMAND@"
+
+/* The PEAR installation directory. */
+# define PEAR_INSTALLDIR "@PREFIX@\\pear"
+
+/* The path to the bin directory. */
+# define PHP_BINDIR "@PREFIX@"
+
+/* The path in which to look for php.ini. */
+# define PHP_CONFIG_FILE_PATH ""
+
+/* The path where to scan for additional INI configuration files. */
+# define PHP_CONFIG_FILE_SCAN_DIR "@PHP_FULL_CONFIG_FILE_SCAN_DIR@"
+
+/* The path to the share directory. */
+# define PHP_DATADIR "@PREFIX@"
+
+/* Default directory for dynamically loadable PHP extensions. */
+# define PHP_EXTENSION_DIR "@PREFIX@\\ext"
+
+/* The 'include_path' PHP INI directive. */
+# define PHP_INCLUDE_PATH ".;@PREFIX@\\pear"
+
+/* The path containing system libraries (lib or lib64). */
+# define PHP_LIBDIR "@PREFIX@"
+
+/* The path to the var directory. */
+# define PHP_LOCALSTATEDIR "@PREFIX@"
+
+/* The installation prefix. */
+# define PHP_PREFIX "@PREFIX@"
+
+/* The prefix for the shared library objects. */
+# define PHP_SHLIB_EXT_PREFIX "php_"
+
+/* The shared library objects extension. */
+# define PHP_SHLIB_SUFFIX "@SHLIB_DL_SUFFIX_NAME@"
+
+/* The path to the etc directory. */
+# define PHP_SYSCONFDIR "@PREFIX@"
+
+# if __has_include("main/config.pickle.h")
+#  include "main/config.pickle.h"
+# endif
+#else
 /* Define to 'int' if <sys/types.h> doesn't define. */
-#cmakedefine gid_t @gid_t@
+# cmakedefine gid_t @gid_t@
 
 /* Define to 'int' if <sys/types.h> doesn't define. */
-#cmakedefine uid_t @uid_t@
+# cmakedefine uid_t @uid_t@
 
-#include <stdlib.h>
+# include <stdlib.h>
 
-#ifdef HAVE_SYS_TYPES_H
-# include <sys/types.h>
+# ifdef HAVE_SYS_TYPES_H
+#  include <sys/types.h>
+# endif
+
+# ifdef HAVE_SYS_SELECT_H
+#  include <sys/select.h>
+# endif
+
+# include <string.h>
 #endif
-
-#ifdef HAVE_SYS_SELECT_H
-#include <sys/select.h>
-#endif
-
-#include <string.h>
 
 #endif /* PHP_CONFIG_H */
