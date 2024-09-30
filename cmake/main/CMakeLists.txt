@@ -269,21 +269,12 @@ function(_php_main_create_files)
     set(DEFAULT_SHORT_OPEN_TAG "0")
   endif()
 
-  if(CMAKE_SYSTEM_NAME STREQUAL "Windows")
-    message(STATUS "Creating main/config.w32.h")
-    configure_file(
-      main/config.w32.cmake.h.in
-      main/CMakeFiles/config.w32.cmake.h.in
-      @ONLY
-    )
+  message(STATUS "Creating main/php_version.h")
+  configure_file(main/php_version.h.in main/php_version.h @ONLY)
 
-    file(
-      GENERATE
-      # TODO: Multi-config generators need to write separate files.
-      #OUTPUT $<CONFIG>/main/config.w32.h
-      OUTPUT ${PHP_BINARY_DIR}/main/config.w32.h
-      INPUT ${PHP_BINARY_DIR}/main/CMakeFiles/config.w32.cmake.h.in
-    )
+  if(CMAKE_SYSTEM_NAME STREQUAL "Windows")
+    set(PHP_CONFIG_H_WINDOWS 1)
+    set(file config.w32.h)
   else()
     message(STATUS "Creating main/build-defs.h")
     configure_file(
@@ -302,26 +293,24 @@ function(_php_main_create_files)
     )
 
     set(HAVE_BUILD_DEFS_H 1)
-
-    message(STATUS "Creating main/php_config.h")
-    configure_file(
-      main/php_config.cmake.h.in
-      main/CMakeFiles/php_config.cmake.h.in
-      @ONLY
-    )
-
-    # To be able to evaluate the generator expressions.
-    file(
-      GENERATE
-      # TODO: Multi-config generators need to write separate files.
-      #OUTPUT $<CONFIG>/main/php_config.h
-      OUTPUT ${PHP_BINARY_DIR}/main/php_config.h
-      INPUT ${PHP_BINARY_DIR}/main/CMakeFiles/php_config.cmake.h.in
-    )
+    set(PHP_CONFIG_H_WINDOWS 0)
+    set(file php_config.h)
   endif()
 
-  message(STATUS "Creating main/php_version.h")
-  configure_file(main/php_version.h.in main/php_version.h @ONLY)
+  message(STATUS "Creating main/${file}")
+  configure_file(
+    main/php_config_common.cmake.h.in
+    main/CMakeFiles/${file}.cmake.in
+    @ONLY
+  )
+
+  file(
+    GENERATE
+    # TODO: Multi-config generators need to write separate files.
+    #OUTPUT $<CONFIG>/main/${file}
+    OUTPUT ${PHP_BINARY_DIR}/main/${file}
+    INPUT ${PHP_BINARY_DIR}/main/CMakeFiles/${file}.cmake.in
+  )
 endfunction()
 
 # Run at the end of the configuration.
