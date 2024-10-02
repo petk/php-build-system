@@ -398,13 +398,13 @@
 /* Define to 1 if the odbc extension uses the Adabas D. */
 #cmakedefine HAVE_ADABAS 1
 
-/* Whether you have AI_ALL */
+/* Define to 1 if system has the AI_ALL. */
 #cmakedefine HAVE_AI_ALL 1
 
-/* Whether you have AI_IDN */
+/* Define to 1 if system has the AI_IDN. */
 #cmakedefine HAVE_AI_IDN 1
 
-/* Whether you have AI_V4MAPPED */
+/* Define to 1 if system has the AI_V4MAPPED. */
 #cmakedefine HAVE_AI_V4MAPPED 1
 
 /* Define to 1 if the compiler supports '__alignof__'. */
@@ -880,28 +880,29 @@
 /* Define to 1 if you have the 'if_nametoindex' function. */
 #cmakedefine HAVE_IF_NAMETOINDEX 1
 
-/* */
+/* Define to 1 if the PHP extension 'imap' is available. */
 #cmakedefine HAVE_IMAP 1
 
-/* */
+/* Define to 1 if c-client version is 2000 or newer. If true, c-client.h
+   should be included instead of only rfc822.h on prior versions.*/
 #cmakedefine HAVE_IMAP2000 1
 
-/* */
+/* Define to 1 if c-client version is 2001 to 2004.*/
 #cmakedefine HAVE_IMAP2001 1
 
-/* */
+/* Define to 1 if c-client version is 2004 or newer.*/
 #cmakedefine HAVE_IMAP2004 1
 
-/* */
+/* Define to 1 if c-client has the `auth_gss`.*/
 #cmakedefine HAVE_IMAP_AUTH_GSS 1
 
-/* Whether IMAP extension has Kerberos support */
+/* Define to 1 if PHP IMAP extension has Kerberos support. */
 #cmakedefine HAVE_IMAP_KRB 1
 
-/* */
+/* Define to 1 if c-client has the 'utf8_to_mutf7()' function. */
 #cmakedefine HAVE_IMAP_MUTF7 1
 
-/* */
+/* Define to 1 if the PHP extension 'imap' has SSL support enabled. */
 #cmakedefine HAVE_IMAP_SSL 1
 
 /* Define to 1 if you have the <immintrin.h> header file. */
@@ -943,7 +944,7 @@
 /* Define to 1 to enable JIT. */
 #cmakedefine HAVE_JIT 1
 
-/* whether to enable JavaScript Object Serialization support */
+/* Define to 1 if the PHP extension 'json' is available. */
 #cmakedefine HAVE_JSON 1
 
 /* Define to 1 if you have the 'kill' function. */
@@ -1114,7 +1115,7 @@
 #cmakedefine HAVE_MREMAP 1
 
 /* Define to 1 if you have the <mscoree.h> header file. */
-#cmakedefine HAVE_MSCOREE_H
+#cmakedefine HAVE_MSCOREE_H 1
 
 /* Define to 1 if you have the 'nanosleep' function. */
 #cmakedefine HAVE_NANOSLEEP 1
@@ -1125,7 +1126,7 @@
 /* Define to 1 if you have the <net/if.h> header file. */
 #cmakedefine HAVE_NET_IF_H 1
 
-/* Whether utf8_mime2text() has new signature */
+/* Define to 1 if utf8_mime2text() function has a new signature. */
 #cmakedefine HAVE_NEW_MIME2TEXT 1
 
 /* Define to 1 if you have the 'ngettext' function. */
@@ -1146,16 +1147,16 @@
 /* Defined to 1 if PHP OCI8 DTrace support was enabled during configuration */
 #cmakedefine HAVE_OCI8_DTRACE 1
 
-/* */
+/* Define to 1 if Oracle client has the 'OCIEnvCreate' function. */
 #cmakedefine HAVE_OCIENVCREATE 1
 
-/* */
+/* Define to 1 if Oracle client has the 'OCIEnvNlsCreate' function. */
 #cmakedefine HAVE_OCIENVNLSCREATE 1
 
-/* */
+/* Define to 1 if Oracle client has the 'OCILobRead2' function. */
 #cmakedefine HAVE_OCILOBREAD2 1
 
-/* */
+/* Define to 1 if Oracle client has the 'OCIStmtFetch2' function. */
 #cmakedefine HAVE_OCISTMTFETCH2 1
 
 /* Defined to 1 if OCI8 configuration located Oracle's Instant Client
@@ -1195,13 +1196,13 @@
 /* Define to 1 if the PHP extension 'pdo_pgsql' is available. */
 #cmakedefine HAVE_PDO_PGSQL 1
 
-/* Define to 1 if you have the pdo_sqlite extension enabled. */
+/* Define to 1 if the PHP extension 'pdo_sqlite' is available. */
 #cmakedefine HAVE_PDO_SQLITELIB 1
 
 /* Define to 1 if the PHP extension 'pgsql' is available. */
 #cmakedefine HAVE_PGSQL 1
 
-/* Whether libpq is compiled with --enable-multibyte */
+/* Define to 1 if libpq was compiled with the --enable-multibyte option. */
 #cmakedefine HAVE_PGSQL_WITH_MULTIBYTE_SUPPORT 1
 
 /* PostgreSQL 9.6 or later */
@@ -1213,7 +1214,7 @@
 /* Define to 1 if the PHP extension 'session' is available. */
 #cmakedefine HAVE_PHP_SESSION 1
 
-/* SOAP support */
+/* Define to 1 if PHP extension 'soap' is available. */
 #cmakedefine HAVE_PHP_SOAP 1
 
 /* Define to 1 if the phpdbg SAPI has libedit/readline integration. */
@@ -1306,7 +1307,7 @@
 /* Define to 1 if you have the 'res_search' function. */
 #cmakedefine HAVE_RES_SEARCH 1
 
-/* */
+/* Define to 1 if c-client has the 'rfc822_output_address_list()' function.*/
 #cmakedefine HAVE_RFC822_OUTPUT_ADDRESS_LIST 1
 
 /* Define to 1 if you have the 'rfork' function. */
@@ -1431,7 +1432,7 @@
 /* Define to 1 if 'sa_len' is a member of 'struct sockaddr'. */
 #cmakedefine HAVE_SOCKADDR_SA_LEN 1
 
-/* Whether you have struct sockaddr_storage */
+/* Define to 1 if the system has the type 'struct sockaddr_storage'. */
 #cmakedefine HAVE_SOCKADDR_STORAGE 1
 
 /* Define to 1 if 'sun_len' is a member of 'struct sockaddr_un'. */
@@ -1877,10 +1878,10 @@
 /* Compiler identification string. */
 #cmakedefine PHP_COMPILER_ID "@PHP_COMPILER_ID@"
 
-/* Whether the compiler supports AVX-512. */
+/* Define to 1 if the compiler supports AVX-512, and to 0 if not. */
 #cmakedefine01 PHP_HAVE_AVX512_SUPPORTS
 
-/* Whether the compiler supports AVX-512 VBMI. */
+/* Define to 1 if the compiler supports AVX-512 VBMI, and to 0 if not. */
 #cmakedefine01 PHP_HAVE_AVX512_VBMI_SUPPORTS
 
 /* Define to 1 if the compiler supports '__builtin_clz', and to 0 if not. */
@@ -1963,10 +1964,11 @@
 /* The MySQL Unix socket location. */
 #cmakedefine PHP_MYSQL_UNIX_SOCK_ADDR "@PHP_MYSQL_UNIX_SOCK_ADDR@"
 
-/* */
+/* The path to the OCI client directory. */
 #cmakedefine PHP_OCI8_DEF_DIR "@PHP_OCI8_DEF_DIR@"
 
-/* */
+/* The linker flag with OCI library when oci8 extension is built as
+   shared. */
 #cmakedefine PHP_OCI8_DEF_SHARED_LIBADD "@PHP_OCI8_DEF_SHARED_LIBADD@"
 
 /* Define to 1 if oniguruma has an invalid entry for KOI8 encoding. */
@@ -1975,7 +1977,7 @@
 /* The 'uname' output. */
 #define PHP_OS "@CMAKE_SYSTEM_NAME@"
 
-/* */
+/* The Oracle client version. */
 #cmakedefine PHP_PDO_OCI_CLIENT_VERSION "@PHP_PDO_OCI_CLIENT_VERSION@"
 
 /* Define to 1 if 'pread' declaration with 'off64_t' is missing. */
