@@ -239,7 +239,7 @@ including the removal of `aclocal.m4` in favor of the php related M4 macros in
   detected by pkg-config.
 * The `--enable-opcache-file` configure option has been removed.
 
-##### Autoconf macros
+##### Autoconf local macros
 
 * Obsolescent macros `AC_FUNC_VPRINTF` and `AC_FUNC_UTIME_NULL` have been
   removed. Symbols `HAVE_VPRINTF` and `HAVE_UTIME_NULL` are no longer defined
@@ -459,7 +459,7 @@ and Autotools configuration headers were synced to a nearly identical behavior.
   either defined to 1 or undefined.
 * Symbol `HAVE_LIBCRYPT` has been removed.
 
-##### Autoconf macros
+##### Autoconf local macros
 
 * Autoconf macro `PHP_DEFINE` (atomic includes) removed in favor of `AC_DEFINE`
   and extensions's config.h.
