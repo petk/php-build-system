@@ -277,11 +277,8 @@ function(_php_main_create_files)
     set(file config.w32.h)
   else()
     message(STATUS "Creating main/build-defs.h")
-    configure_file(
-      main/build-defs.h.in
-      main/CMakeFiles/build-defs.h.in
-      @ONLY
-    )
+    file(READ main/build-defs.h.in content)
+    string(CONFIGURE "${content}" content @ONLY)
 
     # To be able to evaluate the generator expressions.
     file(
@@ -289,7 +286,7 @@ function(_php_main_create_files)
       # TODO: Multi-config generators need to write separate files.
       #OUTPUT $<CONFIG>/main/build-defs.h
       OUTPUT ${PHP_BINARY_DIR}/main/build-defs.h
-      INPUT ${PHP_BINARY_DIR}/main/CMakeFiles/build-defs.h.in
+      CONTENT "${content}"
     )
 
     set(HAVE_BUILD_DEFS_H 1)
@@ -298,18 +295,15 @@ function(_php_main_create_files)
   endif()
 
   message(STATUS "Creating main/${file}")
-  configure_file(
-    main/php_config.cmake.h.in
-    main/CMakeFiles/${file}.cmake.in
-    @ONLY
-  )
+  file(READ main/php_config.cmake.h.in content)
+  string(CONFIGURE "${content}" content @ONLY)
 
   file(
     GENERATE
     # TODO: Multi-config generators need to write separate files.
     #OUTPUT $<CONFIG>/main/${file}
     OUTPUT ${PHP_BINARY_DIR}/main/${file}
-    INPUT ${PHP_BINARY_DIR}/main/CMakeFiles/${file}.cmake.in
+    CONTENT "${content}"
   )
 endfunction()
 
