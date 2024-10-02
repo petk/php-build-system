@@ -237,6 +237,7 @@ including the removal of `aclocal.m4` in favor of the php related M4 macros in
   from `RTLD_LAZY` to `RTLD_NOW`.
 * The `--with-pcre-valgrind` and `--with-valgrind` were merged, and Valgrind
   detected by pkg-config.
+* The `--enable-opcache-file` configure option has been removed.
 
 ##### Autoconf macros
 
