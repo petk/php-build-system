@@ -1,5 +1,7 @@
 # PHP build system evolution
 
+This document describes how the PHP build system evolved through time.
+
 ## PHP 1 (1995)
 
 First public release of PHP 1 - Personal Home Page Tools started with a single
@@ -147,6 +149,180 @@ improved one step forward with cache variables synced enabling the manual
 overrides on many places. C preprocessor macros inconsistencies between Windows
 and Autotools configuration headers were synced to a nearly identical behavior.
 
+<details>
+<summary>PHP 8.4 build system changes</summary>
+
+### PHP 8.4 build system changes
+
+#### Abstract
+
+* The configure options `--with-imap`, `--with-pdo-oci`, and `--with-pspell`
+  have been removed.
+* The configure option `--with-mhash` emits deprecation warning.
+* New configure option `--with-openssl-legacy-provider` to enable OpenSSL legacy
+  provider.
+* New configure option `--with-openssl-argon2` to enable `PASSWORD_ARGON2` from
+  OpenSSL 3.2.
+* Symbol `SIZEOF_SHORT` removed (size of 2 on 32-bit and 64-bit platforms).
+* Symbol `DBA_CDB_MAKE` removed in ext/dba.
+* Symbols `HAVE_LIBM`, `HAVE_INET_ATON`, `HAVE_SIGSETJMP` have been removed.
+
+#### Autotools
+
+* The configure options `--with-imap-ssl`, `--with-oci8`, `--with-zlib-dir`, and
+  `--with-kerberos` have been removed.
+* The configure option `--with-openssl-dir` has been removed. SSL support in
+  ext/ftp and ext/mysqlnd is enabled implicitly, when building with ext/openssl
+  (`--with-openssl`), or explicitly by using new configure options
+  `--with-ftp-ssl` and `--with-mysqlnd-ssl`.
+* Added php-config `--lib-dir` and `--lib-embed` options for PHP embed SAPI.
+* `COOKIE_IO_FUNCTIONS_T` symbol has been removed in favor of
+  `cookie_io_functions_t`.
+* `HAVE_SOCKADDR_UN_SUN_LEN` symbol renamed to `HAVE_STRUCT_SOCKADDR_UN_SUN_LEN`.
+* `HAVE_UTSNAME_DOMAINNAME` symbol renamed to `HAVE_STRUCT_UTSNAME_DOMAINNAME`.
+* `PHP_CHECK_IN_ADDR_T` Autoconf macro and `in_addr_t` fallback definition to
+  `u_int` removed in favor of `AC_CHECK_TYPES` Autoconf macro.
+* `HAVE_ODBC2` symbol has been removed in ext/odbc.
+* Symbol `HAVE_JSON` has been removed (ext/json is always available since PHP
+  8.0).
+* Symbol `DARWIN` has been removed in favor of `__APPLE__` to target Darwin
+  systems.
+* Symbol `MISSING_FCLOSE_DECL` and Autoconf macro `PHP_MISSING_FCLOSE_DECL` were
+  removed.
+* Symbol `HAVE_BSD_ICONV` has been removed.
+* Symbol `ZEND_FIBER_ASM` has been removed.
+* Symbols `HAVE_DLOPEN` and `HAVE_DLSYM` have been removed.
+* Symbol `HAVE_MYSQL` has been removed.
+* Symbol `HAVE_PDO_SQLITELIB` has been removed.
+* Symbol `HAVE_WAITPID` has been removed.
+* Symbol `HAVE_LIBPQ` has been removed.
+* Symbols `HAVE_LIBRT` and `HAVE_TIMER_CREATE` removed.
+* Symbols `PHP_FPM_SYSTEMD`, `PHP_FPM_USER`, and `PHP_FPM_GROUP` removed.
+* Symbol `PTHREADS` has been removed.
+* Symbol `HAVE_STRPTIME_DECL_FAILS` has been removed in favor of
+  `HAVE_DECL_STRPTIME`.
+* Symbol `HAVE_PHPDBG` has been removed.
+* Symbols `PHP_HAVE_AVX512_SUPPORTS` and `PHP_HAVE_AVX512_VBMI_SUPPORTS` are now
+  either defined to 1 or undefined.
+* Symbol `HAVE_LIBCRYPT` has been removed.
+* Autoconf macro `PHP_DEFINE` (atomic includes) removed in favor of `AC_DEFINE`
+  and extensions's config.h.
+* Autoconf macro `PHP_WITH_SHARED` has been removed in favor of `PHP_ARG_WITH`.
+* Autoconf macro `PHP_STRUCT_FLOCK` has been removed in favor of
+  `AC_CHECK_TYPES`.
+* Autoconf macro `PHP_SOCKADDR_CHECKS` has been removed in favor of
+  `AC_CHECK_TYPES` and `AC_CHECK_MEMBERS`.
+* Autoconf macro `PHP_CHECK_GCC_ARG` has been removed since PHP 8.0 in favor
+  of `AX_CHECK_COMPILE_FLAG`.
+* Autoconf macro `PHP_PROG_RE2C` got a new 2nd argument to define common
+  default re2c command-line options substituted to the Makefile `RE2C_FLAGS`
+  variable.
+* Autoconf macros `PHP_CHECK_BUILTIN_*` have been removed in favor of
+  `PHP_CHECK_BUILTIN` and all `PHP_HAVE_BUILTIN_*` symbols changed to be either
+  undefined or defined to 1 whether compiler supports the builtin.
+* Autoconf macro `PHP_SETUP_OPENSSL` doesn't accept the 3rd argument anymore.
+* Autoconf macro `PHP_EVAL_LIBLINE` got a new 3rd argument to override the
+  ext_shared checks.
+* Autoconf macro `PHP_SETUP_LIBXML` doesn't define the redundant `HAVE_LIBXML`
+  symbol anymore and requires at least libxml2 2.9.4.
+* Autoconf macro `PHP_SETUP_ICONV` doesn't define the `HAVE_ICONV` symbol
+  anymore.
+* Autoconf macro `PHP_AP_EXTRACT_VERSION` is obsolete in favor of the
+  `apxs -q HTTPD_VERSION`.
+* Autoconf macro `PHP_OUTPUT` is obsolete in favor of `AC_CONFIG_FILES`.
+* Autoconf macro `PHP_TEST_BUILD` is obsolete in favor of `AC_*` macros.
+* Autoconf macro `PHP_BUILD_THREAD_SAFE` is obsolete in favor of setting the
+  enable_zts variable manually.
+* Autoconf macro `PHP_DEF_HAVE` is obsolete in favor of `AC_DEFINE`.
+* Autoconf macro `PHP_PROG_SETUP` now accepts an argument to set the minimum
+  required PHP version during the build.
+* Autoconf macro `PHP_INSTALL_HEADERS` arguments can now be also
+  blank-or-newline-separated lists instead of only separated with whitespace or
+  backslash-then-newline.
+* Autoconf macro `PHP_ADD_BUILD_DIR` now also accepts 1st argument as a
+  blank-or-newline-separated separated list.
+* Autoconf macros `PHP_NEW_EXTENSION`, `PHP_ADD_SOURCES`, `PHP_ADD_SOURCES_X`,
+  `PHP_SELECT_SAPI` now have the source files and flags arguments normalized
+  so the list of items can be passed as a blank-or-newline-separated list.
+* Autoconf macro `PHP_ADD_INCLUDE` now takes also a blank-or-newline-separated
+  list of include directories instead of a single directory. The "prepend"
+  argument is validated at Autoconf compile time.
+* TSRM/tsrm.m4 file and its `TSRM_CHECK_PTHREADS` macro have been removed.
+* Added pkg-config support to find libpq for the pdo_pgsql and pgsql
+  extensions. The libpq paths can be customized with the `PGSQL_CFLAGS` and
+  PGSQL_LIBS environment variables. When a directory argument is provided to
+  configure options (`--with-pgsql=DIR` or `--with-pdo-pgsql=DIR`), it will
+  be used instead of the pkg-config search.
+* Added pkg-config support to find unixODBC and iODBC for the pdo_odbc
+  extension.
+* Added pkg-config support to find GNU MP library. As a fallback default
+  system paths are searched. When a directory argument is provided
+  (`--with-gmp=DIR`), it will be used instead of the pkg-config.
+* Added optional pkg-config support to find NET-SNMP library. As a fallback
+  net-snmp-config utility is used like before.
+* Cache variables synced to php_cv_\* naming scheme. When used for
+  advanced cross-compilation, these were renamed:
+  * ac_cv_copy_file_range             -> php_cv_func_copy_file_range
+  * ac_cv_flush_io                    -> php_cv_have_flush_io
+  * ac_cv_func_getaddrinfo            -> php_cv_func_getaddrinfo
+  * ac_cv_have_broken_gcc_strlen_opt  -> php_cv_have_broken_gcc_strlen_opt
+  * ac_cv_have_pcre2_jit              -> php_cv_have_pcre2_jit
+  * ac_cv_pread                       -> php_cv_func_pread
+  * ac_cv_pwrite                      -> php_cv_func_pwrite
+  * ac_cv_syscall_shadow_stack_exists -> php_cv_have_shadow_stack_syscall
+  * ac_cv_time_r_type                 -> php_cv_time_r_type
+  * ac_cv_write_stdout                -> php_cv_have_write_stdout
+  and all other checks wrapped with their belonging cache variables.
+* Backticks command substitutions in Autoconf code have been replaced with
+  `$(...)`. Passing double escaped Makefile variables `\\$(VAR)` to some
+  Autoconf macros should be now done with `\$(VAR)` or by using regular shell
+  variables.
+* Removed linking with obsolete dnet_stub library in ext/pdo_dblib.
+* Removed checking and linking with obsolete libbind for some functions.
+
+#### Windows
+
+* The configure options `--with-oci8-11g`, `--with-oci8-12c`,
+  `--with-oci8-19`, and `--enable-apache2-2handler` have been removed.
+* The configure option `--enable-apache2-4handler` became an alias for the
+  preferred `--enable-apache2handler`.
+* Added new configure option `--enable-phpdbg-debug` to build phpdbg in
+  debug mode.
+* Added support for native AVX-512 builds with
+  `--enable-native-intrinsics=avx512` configure option.
+* Building with Visual Studio requires at least Visual Studio 2019.
+* Added Bison flag `-Wall` when generating lexer files as done in \*nix
+  build system.
+* `HAVE_WIN32_NATIVE_THREAD`, `USE_WIN32_NATIVE_THREAD`, `ENABLE_THREADS`
+  symbols in ext/mbstring/libmbfl removed.
+* `FIBER_ASSEMBLER` and `FIBER_ASM_ARCH` Makefile variables removed in favor of
+  `PHP_ASSEMBLER` and `FIBER_ASM_ABI`.
+* `HAVE_PHP_SOAP` symbol renamed to `HAVE_SOAP`.
+* Unused symbols `CONFIGURATION_FILE_PATH`, `DISCARD_PATH`, `HAVE_ERRMSG_H`,
+  `HAVE_REGCOMP`, `HAVE_RINT`, `NEED_ISBLANK`, `PHP_URL_FOPEN`, `REGEX`,
+  `HSREGEX`, and `USE_CONFIG_FILE` have been removed.
+* The `HAVE_OPENSSL` symbol has been removed.
+* The `HAVE_OPENSSL_EXT` symbol consistently defined to value 1 whether the
+  openssl extension is available either as shared or built statically.
+* The `win32/build/libs_version.txt` file has been removed.
+* MSVC builds use the new preprocessor (`/Zc:preprocessor`).
+* The `CHECK_HEADER_ADD_INCLUDE` function consistently defines preprocessor
+  macros `HAVE_<header>_H` either to value 1 or leaves them undefined to
+  match the Autotools headers checks.
+
+</details>
+
 ## PHP 8.5 (2025)
 
 PHP coding standards now use the C11 standard.
+
+<details>
+<summary>PHP 8.5 changelog</summary>
+
+### PHP 8.5 changelog
+
+#### Abstract
+
+* ext/phar/php_phar.h is not installed anymore
+
+</details>
