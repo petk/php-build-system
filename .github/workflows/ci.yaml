@@ -15,6 +15,7 @@ on:
       - 'docs/**'
       - '.editorconfig'
       - '.gitignore'
+      - 'CHANGELOG.md'
       - 'README.md'
 
 jobs:
