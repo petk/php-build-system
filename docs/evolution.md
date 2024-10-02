@@ -374,11 +374,15 @@ PHP Windows build system.
 
 ### PHP 8.3 build system changes
 
+#### Autotools
+
 * `PHP_EXTRA_VERSION` can be passed to configure script to control custom PHP
   build versions: `./configure PHP_EXTRA_VERSION="-acme"`
 * `LDFLAGS` are not unset anymore allowing them to be adjusted e.g.
   `LDFLAGS="..." ./configure`
 * Removed the `HAVE_DEV_URANDOM` compile time check.
+* Added new configure option `--with-capstone`.
+
 </details>
 
 ## PHP 8.4 (2024)
