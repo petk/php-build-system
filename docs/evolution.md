@@ -137,9 +137,38 @@ PHP coding standards now use the C99 standard.
 Idea to move CMake forward and additionally use Conan was started on the
 [PHP internals mailing list](https://externals.io/message/116655).
 
+## PHP 8.2 (2022)
+
+<details>
+<summary>Changelog</summary>
+
+### PHP 8.2 build system changes
+
+* The build system now requires PHP 7.4.0 at least. Previously PHP 7.1 was
+  required.
+* Unsupported libxml2 2.10.0 symbols are no longer exported on Windows.
+* Identifier names for namespaced functions generated from stub files through
+  `gen_stub.php` have been changed. This requires that namespaced functions
+  should be declared via the `PHP_FUNCTION` macro by using the fully qualified
+  function name (whereas each part is separated by `_`) instead of just the
+  function name itself.
+</details>
+
 ## PHP 8.3 (2023)
 
 Windows 8 became the minimum supported version by the PHP Windows build system.
+
+<details>
+<summary>Changelog</summary>
+
+### PHP 8.3 build system changes
+
+* `PHP_EXTRA_VERSION` can be passed to configure script to control custom PHP
+  build versions: `./configure PHP_EXTRA_VERSION="-acme"`
+* `LDFLAGS` are not unset anymore allowing them to be adjusted e.g.
+  `LDFLAGS="..." ./configure`
+* Removed the `HAVE_DEV_URANDOM` compile time check.
+</details>
 
 ## PHP 8.4 (2024)
 
@@ -150,7 +179,7 @@ overrides on many places. C preprocessor macros inconsistencies between Windows
 and Autotools configuration headers were synced to a nearly identical behavior.
 
 <details>
-<summary>PHP 8.4 build system changes</summary>
+<summary>Changelog</summary>
 
 ### PHP 8.4 build system changes
 
@@ -169,13 +198,21 @@ and Autotools configuration headers were synced to a nearly identical behavior.
 
 #### Autotools
 
-* The configure options `--with-imap-ssl`, `--with-oci8`, `--with-zlib-dir`, and
-  `--with-kerberos` have been removed.
-* The configure option `--with-openssl-dir` has been removed. SSL support in
-  ext/ftp and ext/mysqlnd is enabled implicitly, when building with ext/openssl
+* Added php-config `--lib-dir` and `--lib-embed` options for PHP embed SAPI.
+* Removed linking with obsolete dnet_stub library in ext/pdo_dblib.
+* Removed checking and linking with obsolete libbind for some functions.
+
+##### Autotools configure options
+
+* The `--with-imap-ssl`, `--with-oci8`, `--with-zlib-dir`, and `--with-kerberos`
+  have been removed.
+* The `--with-openssl-dir` has been removed. SSL support in ext/ftp and
+  ext/mysqlnd is enabled implicitly, when building with ext/openssl
   (`--with-openssl`), or explicitly by using new configure options
   `--with-ftp-ssl` and `--with-mysqlnd-ssl`.
-* Added php-config `--lib-dir` and `--lib-embed` options for PHP embed SAPI.
+
+##### Changes to main/php_config.h
+
 * `COOKIE_IO_FUNCTIONS_T` symbol has been removed in favor of
   `cookie_io_functions_t`.
 * `HAVE_SOCKADDR_UN_SUN_LEN` symbol renamed to `HAVE_STRUCT_SOCKADDR_UN_SUN_LEN`.
@@ -205,6 +242,9 @@ and Autotools configuration headers were synced to a nearly identical behavior.
 * Symbols `PHP_HAVE_AVX512_SUPPORTS` and `PHP_HAVE_AVX512_VBMI_SUPPORTS` are now
   either defined to 1 or undefined.
 * Symbol `HAVE_LIBCRYPT` has been removed.
+
+##### Autoconf macros
+
 * Autoconf macro `PHP_DEFINE` (atomic includes) removed in favor of `AC_DEFINE`
   and extensions's config.h.
 * Autoconf macro `PHP_WITH_SHARED` has been removed in favor of `PHP_ARG_WITH`.
@@ -277,10 +317,21 @@ and Autotools configuration headers were synced to a nearly identical behavior.
   `$(...)`. Passing double escaped Makefile variables `\\$(VAR)` to some
   Autoconf macros should be now done with `\$(VAR)` or by using regular shell
   variables.
-* Removed linking with obsolete dnet_stub library in ext/pdo_dblib.
-* Removed checking and linking with obsolete libbind for some functions.
 
 #### Windows
+
+* Building with Visual Studio requires at least Visual Studio 2019.
+* Added Bison flag `-Wall` when generating lexer files as done in \*nix
+  build system.
+* `FIBER_ASSEMBLER` and `FIBER_ASM_ARCH` Makefile variables removed in favor of
+  `PHP_ASSEMBLER` and `FIBER_ASM_ABI`.
+* The `win32/build/libs_version.txt` file has been removed.
+* MSVC builds use the new preprocessor (`/Zc:preprocessor`).
+* The `CHECK_HEADER_ADD_INCLUDE` function consistently defines preprocessor
+  macros `HAVE_<header>_H` either to value 1 or leaves them undefined to
+  match the Autotools headers checks.
+
+##### Windows configure options
 
 * The configure options `--with-oci8-11g`, `--with-oci8-12c`,
   `--with-oci8-19`, and `--enable-apache2-2handler` have been removed.
@@ -290,13 +341,11 @@ and Autotools configuration headers were synced to a nearly identical behavior.
   debug mode.
 * Added support for native AVX-512 builds with
   `--enable-native-intrinsics=avx512` configure option.
-* Building with Visual Studio requires at least Visual Studio 2019.
-* Added Bison flag `-Wall` when generating lexer files as done in \*nix
-  build system.
+
+##### Changes to main/config.w32.h
+
 * `HAVE_WIN32_NATIVE_THREAD`, `USE_WIN32_NATIVE_THREAD`, `ENABLE_THREADS`
   symbols in ext/mbstring/libmbfl removed.
-* `FIBER_ASSEMBLER` and `FIBER_ASM_ARCH` Makefile variables removed in favor of
-  `PHP_ASSEMBLER` and `FIBER_ASM_ABI`.
 * `HAVE_PHP_SOAP` symbol renamed to `HAVE_SOAP`.
 * Unused symbols `CONFIGURATION_FILE_PATH`, `DISCARD_PATH`, `HAVE_ERRMSG_H`,
   `HAVE_REGCOMP`, `HAVE_RINT`, `NEED_ISBLANK`, `PHP_URL_FOPEN`, `REGEX`,
@@ -304,12 +353,6 @@ and Autotools configuration headers were synced to a nearly identical behavior.
 * The `HAVE_OPENSSL` symbol has been removed.
 * The `HAVE_OPENSSL_EXT` symbol consistently defined to value 1 whether the
   openssl extension is available either as shared or built statically.
-* The `win32/build/libs_version.txt` file has been removed.
-* MSVC builds use the new preprocessor (`/Zc:preprocessor`).
-* The `CHECK_HEADER_ADD_INCLUDE` function consistently defines preprocessor
-  macros `HAVE_<header>_H` either to value 1 or leaves them undefined to
-  match the Autotools headers checks.
-
 </details>
 
 ## PHP 8.5 (2025)
@@ -317,9 +360,9 @@ and Autotools configuration headers were synced to a nearly identical behavior.
 PHP coding standards now use the C11 standard.
 
 <details>
-<summary>PHP 8.5 changelog</summary>
+<summary>Changelog</summary>
 
-### PHP 8.5 changelog
+### PHP 8.5 build system changes
 
 #### Abstract
 
