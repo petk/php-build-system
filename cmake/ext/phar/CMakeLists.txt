@@ -44,10 +44,6 @@ target_sources(
     tar.c
     util.c
     zip.c
-  PUBLIC
-    FILE_SET HEADERS
-      FILES
-        php_phar.h
 )
 
 target_compile_definitions(php_phar PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE=1)
