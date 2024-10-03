@@ -1,6 +1,5 @@
 include(CMakeDependentOption)
 include(FeatureSummary)
-include(PHP/Install)
 
 option(EXT_PHAR "Enable the phar extension" ON)
 
@@ -181,7 +180,7 @@ if(PHP_EXECUTABLE)
   # Install phar.phar file to destination. Here a duplicate phar.phar generation
   # step is used to generate it to a destination directory because of the
   # install prefix used in shebang (when using 'cmake --install --prefix ...').
-  php_install(CODE "
+  install(CODE "
     execute_process(
       COMMAND
         ${PHP_EXECUTABLE}
@@ -199,7 +198,7 @@ if(PHP_EXECUTABLE)
             -p 0
             -s ${CMAKE_CURRENT_SOURCE_DIR}/phar/phar.php
             -h sha1
-            -b \${CMAKE_INSTALL_FULL_BINDIR}/$<TARGET_FILE_NAME:php_cli>
+            -b $<PATH:ABSOLUTE_PATH,NORMALIZE,${CMAKE_INSTALL_BINDIR},\${CMAKE_INSTALL_PREFIX}>/$<TARGET_FILE_NAME:php_cli>
             ${CMAKE_CURRENT_SOURCE_DIR}/phar
     )
 
@@ -219,13 +218,13 @@ if(PHP_EXECUTABLE)
     file(
       COPY_FILE
       ${CMAKE_CURRENT_BINARY_DIR}/CMakeFiles/phar.phar
-      \$ENV{DESTDIR}\${CMAKE_INSTALL_FULL_BINDIR}/${PHP_PROGRAM_PREFIX}phar${PHP_PROGRAM_SUFFIX}.phar
+      \$ENV{DESTDIR}$<PATH:ABSOLUTE_PATH,NORMALIZE,${CMAKE_INSTALL_BINDIR},\${CMAKE_INSTALL_PREFIX}>/${PHP_PROGRAM_PREFIX}phar${PHP_PROGRAM_SUFFIX}.phar
     )
 
     file(
       CREATE_LINK
       ${PHP_PROGRAM_PREFIX}phar${PHP_PROGRAM_SUFFIX}.phar
-      \$ENV{DESTDIR}\${CMAKE_INSTALL_FULL_BINDIR}/${PHP_PROGRAM_PREFIX}phar${PHP_PROGRAM_SUFFIX}
+      \$ENV{DESTDIR}$<PATH:ABSOLUTE_PATH,NORMALIZE,${CMAKE_INSTALL_BINDIR},\${CMAKE_INSTALL_PREFIX}>/${PHP_PROGRAM_PREFIX}phar${PHP_PROGRAM_SUFFIX}
       SYMBOLIC
     )
   ")
