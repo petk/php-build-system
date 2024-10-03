@@ -11,9 +11,9 @@ add_feature_info(
 
 if(PHP_PEAR)
   set(
-    PHP_PEAR_DIR ""
+    PHP_PEAR_DIR "${CMAKE_INSTALL_DATADIR}/pear"
     CACHE FILEPATH
-    "Install PEAR in DIR (PREFIX/lib/php)"
+    "The PEAR installation directory (default: DATADIR/pear)"
   )
   # Change from INTERNAL type to show variable on consecutive configuration run.
   set_property(CACHE PHP_PEAR_DIR PROPERTY TYPE FILEPATH)
@@ -21,6 +21,7 @@ elseif(DEFINED PHP_PEAR_DIR)
   # Hide variable.
   set_property(CACHE PHP_PEAR_DIR PROPERTY TYPE INTERNAL)
 endif()
+mark_as_advanced(PHP_PEAR_DIR)
 
 message(CHECK_START "Checking for PEAR")
 
@@ -44,16 +45,6 @@ if(NOT EXT_XML)
     "PEAR requires the xml extension to be enabled. Set EXT_XML to 'ON'.")
 endif()
 
-if(NOT PHP_PEAR_DIR)
-  set(_php_pear_dir "\${CMAKE_INSTALL_PREFIX}/${CMAKE_INSTALL_DATADIR}/pear")
-else()
-  set(_php_pear_dir "${PHP_PEAR_DIR}")
-endif()
-
-# Defined for build-defs.h.
-# TODO: INSTALL_PREFIX here cannot be evaluated during the install phase.
-set(EXPANDED_PEAR_INSTALLDIR "${_php_pear_dir}" CACHE INTERNAL "PEAR dir")
-
 if(NOT CMAKE_CROSSCOMPILING)
   set(PHP_EXECUTABLE "$<TARGET_FILE:php_cli>")
 elseif(CMAKE_CROSSCOMPILING AND CMAKE_CROSSCOMPILING_EMULATOR)
@@ -63,7 +54,16 @@ endif()
 set(_phpPearInstallerUrl "https://pear.php.net/install-pear-nozlib.phar")
 
 php_install(CODE "
-  message(STATUS \"Installing PEAR: \$ENV{DESTDIR}${_php_pear_dir}\")
+  set(
+    pearInstallDir
+    \"$<PATH:ABSOLUTE_PATH,NORMALIZE,${PHP_PEAR_DIR},\${CMAKE_INSTALL_PREFIX}>\"
+  )
+  set(
+    binDir
+    \"$<PATH:ABSOLUTE_PATH,NORMALIZE,${CMAKE_INSTALL_BINDIR},\${CMAKE_INSTALL_PREFIX}>\"
+  )
+
+  message(STATUS \"Installing PEAR to \$ENV{DESTDIR}\${pearInstallDir}\")
 
   if(EXISTS \"${CMAKE_CURRENT_SOURCE_DIR}/install-pear-nozlib.phar\"
     AND NOT \"${CMAKE_CURRENT_SOURCE_DIR}\" STREQUAL \"${CMAKE_CURRENT_BINARY_DIR}\"
@@ -89,7 +89,7 @@ php_install(CODE "
       execute_process(
         COMMAND ${PHP_EXECUTABLE}
           -n
-          ${CMAKE_CURRENT_BINARY_DIR}/fetch.php
+          ${CMAKE_CURRENT_SOURCE_DIR}/fetch.php
             ${_phpPearInstallerUrl}
             ${CMAKE_CURRENT_BINARY_DIR}/install-pear-nozlib.phar
         OUTPUT_VARIABLE output
@@ -110,14 +110,15 @@ php_install(CODE "
       set(ENV{INSTALL_ROOT} \"\$ENV{DESTDIR}\")
     endif()
 
-    # The PEAR's --config option doesn't seem to install the pear.conf into the
-    # specified directory, but the sysconf can be also bypassed with the
-    # environment variable.
+    # The PEAR sysconf directory by default matches the PHP SYSCONFDIR and it
+    # doesn't seem that any configuration option installs the pear.conf into the
+    # manually specified directory. But the sysconf can be also bypassed with
+    # the environment variable for the installation time.
     set(ENV{PHP_PEAR_SYSCONF_DIR} \${CMAKE_INSTALL_FULL_SYSCONFDIR})
 
     file(
       MAKE_DIRECTORY
-      \$ENV{DESTDIR}${_php_pear_dir}
+      \$ENV{DESTDIR}\${pearInstallDir}
       ${CMAKE_CURRENT_BINARY_DIR}/CMakeFiles/pear
     )
 
@@ -130,12 +131,12 @@ php_install(CODE "
         -dmemory_limit=-1
         -ddetect_unicode=0
         ${CMAKE_CURRENT_BINARY_DIR}/install-pear-nozlib.phar
-          --dir \"${_php_pear_dir}\"
-          --bin \"\${CMAKE_INSTALL_FULL_BINDIR}\"
-          --metadata \"${_php_pear_dir}\"
-          --data \"${_php_pear_dir}\"
+          --dir \"\${pearInstallDir}\"
+          --bin \"\${binDir}\"
+          --metadata \"\${pearInstallDir}\"
+          --data \"\${pearInstallDir}\"
           --temp \"${CMAKE_CURRENT_BINARY_DIR}/CMakeFiles/pear\"
-          #--php \${CMAKE_INSTALL_FULL_BINDIR}/$<TARGET_FILE_NAME:php_cli>
+          --php \${binDir}/$<TARGET_FILE_NAME:php_cli>
           -dp a${PHP_PROGRAM_PREFIX}
           -ds a${PHP_PROGRAM_SUFFIX}
       OUTPUT_VARIABLE output
