@@ -2115,7 +2115,7 @@
 # cmakedefine CONFIGURE_COMMAND "@CONFIGURE_COMMAND@"
 
 /* The PEAR installation directory. */
-# define PEAR_INSTALLDIR "@PREFIX@\\pear"
+# define PEAR_INSTALLDIR "@EXPANDED_PEAR_INSTALLDIR@"
 
 /* The path to the bin directory. */
 # define PHP_BINDIR "@PREFIX@"
@@ -2133,7 +2133,7 @@
 # define PHP_EXTENSION_DIR "@PREFIX@\\ext"
 
 /* The 'include_path' PHP INI directive. */
-# define PHP_INCLUDE_PATH ".;@PREFIX@\\pear"
+# define PHP_INCLUDE_PATH "@INCLUDE_PATH@"
 
 /* The path containing system libraries (lib or lib64). */
 # define PHP_LIBDIR "@PREFIX@"

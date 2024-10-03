@@ -246,10 +246,27 @@ function(_php_main_create_files)
 
   # TODO: Set configure command string.
   set(CONFIGURE_COMMAND "cmake")
-  # Set the 'include_path' INI directive.
-  set(INCLUDE_PATH ".:${EXPANDED_PEAR_INSTALLDIR}")
+
   # TODO: Fix the installation prefix when passed via --prefix option.
-  set(EXPANDED_EXTENSION_DIR "${PHP_FULL_EXTENSION_DIR}")
+  if(PHP_PEAR_DIR)
+    set(
+      EXPANDED_PEAR_INSTALLDIR
+      "$<PATH:ABSOLUTE_PATH,NORMALIZE,${PHP_PEAR_DIR},${CMAKE_INSTALL_PREFIX}>"
+    )
+  endif()
+
+  # Set the 'include_path' INI directive.
+  set(
+    INCLUDE_PATH
+    ".$<IF:$<PLATFORM_ID:Windows>,;,:>${EXPANDED_PEAR_INSTALLDIR}"
+  )
+
+  # Set the PHP extensions directory.
+  set(
+    EXPANDED_EXTENSION_DIR
+    "$<PATH:ABSOLUTE_PATH,NORMALIZE,${PHP_EXTENSION_DIR},${CMAKE_INSTALL_PREFIX}>"
+  )
+
   set(EXPANDED_PHP_CONFIG_FILE_PATH "${PHP_FULL_CONFIG_FILE_PATH}")
   set(EXPANDED_PHP_CONFIG_FILE_SCAN_DIR "${PHP_FULL_CONFIG_FILE_SCAN_DIR}")
   set(EXPANDED_BINDIR "${CMAKE_INSTALL_FULL_BINDIR}")

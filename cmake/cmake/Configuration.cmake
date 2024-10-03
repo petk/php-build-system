@@ -221,23 +221,6 @@ block()
   endif()
 endblock()
 
-set(
-  PHP_FULL_EXTENSION_DIR "" CACHE INTERNAL
-  "Absolute path for the dynamically loadable extensions."
-)
-
-if(IS_ABSOLUTE "${PHP_EXTENSION_DIR}")
-  set_property(
-    CACHE PHP_FULL_EXTENSION_DIR
-    PROPERTY VALUE "${PHP_EXTENSION_DIR}"
-  )
-elseif(PHP_EXTENSION_DIR)
-  set_property(
-    CACHE PHP_FULL_EXTENSION_DIR
-    PROPERTY VALUE "${CMAKE_INSTALL_PREFIX}/${PHP_EXTENSION_DIR}"
-  )
-endif()
-
 ################################################################################
 # Various global internal configuration.
 ################################################################################
