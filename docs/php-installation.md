@@ -4,15 +4,30 @@
 > **Before running the `make install` or `cmake --install` command, be aware
 > that files will be copied outside of your current build directory.**
 
-Installation of built files is usually a simple copy to a predefined directory
-structure on a given system. In this phase the executable binary files, dynamic
-library objects, header files, \*nix man documentation pages, and similar files
-are copied to system directories.
+## Introduction
 
-Please note that PHP installation on \*nix systems is typically handled by
-system package managers through automated scripts. Additionally, it is common
-practice to apply additional patches to tailor the PHP package to suit the
-specific requirements of the \*nix distribution in use.
+When we think about installing software, we often imagine downloading a package
+and setting it up on the system, ready for immediate use.
+
+PHP can be installed through various methods. On \*nix systems, this typically
+involves using package managers (`apt install`, `dnf install`, `apk install`,
+`pkg install`, `brew install`), or running all-in-one installers that provide a
+preconfigured stack.
+
+However, in the context of a build system, "installation" refers to the process
+of preparing a directory structure with compiled files, making them ready for
+direct use or for packaging.
+
+During the installation phase, compiled binaries, dynamic libraries, header
+files, \*nix man documentation pages, and other related files are copied into a
+predefined directory structure. Some files may also be generated or modified
+according to the final installation location, known as the
+*installation prefix*.
+
+It's important to note that this type of PHP installations are usually managed
+by package managers, which handle this process through automated scripts.
+Additionally, applying patches to tailor the PHP package to suit the specific
+requirements of the target system is common practice.
 
 ## Installing PHP with Autotools-based build system
 
@@ -51,91 +66,35 @@ packaged or distributed.
 The files are then copied to a predefined directory structure. PHP Autotools has
 another optional configure option `--with-layout=[GNU|PHP]` (GNU or PHP layout).
 It defines the installation directory structure. By default, it is set to a PHP
-style directory structure:
+style directory structure.
 
-```sh
-📂 <INSTALL_ROOT>
- └─📂 /usr
-    └─ local
-       ├─📂 bin                      # Executable binary directory
-       └─📂 etc                      # System configuration directory
-          ├─📂 php-fpm.d             # PHP FPM configuration directory
-          ├─📄 php-fpm.conf.default  # PHP FPM configuration
-          └─📄 pear.conf             # PEAR configuration file
-       └─📂 include
-          └─📂 php                   # PHP headers
-             ├─📂 ext                # PHP extensions header files
-             ├─📂 main               # PHP main binding header files
-             ├─📂 sapi               # PHP SAPI header files
-             ├─📂 TSRM               # PHP TSRM header files
-             └─📂 Zend               # Zend engine header files
-       └─📂 lib
-          └─📂 php                   # PHP shared libraries and other build files, PEAR files
-             ├─📂 build              # Various PHP development and build files
-             └─📂 extensions
-                └─📂 no-debug-non-zts-20230901 # PHP shared extensions (*.so files)
-       └─📂 php
-          └─📂 man
-             ├─📂 man1               # PHP man section 1 pages for *nix systems
-             └─📂 man8               # PHP man section 8 pages for *nix systems
-          └─📂 php
-             └─📂 fpm                # Additional FPM static HTML files
-       ├─📂 sbin                     # Executable binaries for root privileges
-       └─📂 var                      # The Linux var directory
-          ├─📂 log                   # Directory for PHP logs
-          └─📂 run                   # Runtime data directory
-```
+Directory locations can be adjusted with several Autoconf default options. Here
+only those relevant to PHP are listed:
 
-This is how the GNU layout directory structure looks like (`--with-layout=GNU`):
-
-```sh
-📂 <INSTALL_ROOT>
- └─📂 usr
-    └─📂 local
-       ├─📂 bin
-       └─📂 etc
-          ├─📂 php-fpm.d
-          ├─📄 php-fpm.conf.default
-          └─📄 pear.conf
-       └─📂 include
-          └─📂 php
-             ├─📂 ext
-             ├─📂 main
-             ├─📂 sapi
-             ├─📂 TSRM
-             └─📂 Zend
-       └─📂 lib
-          └─📂 php
-             ├─📂 20230901         # PHP shared extensions (*.so files)
-             └─📂 build
-       ├─📂 sbin
-       └─📂 share                  # Directory with shareable files
-          └─📂 man
-             ├─📂 man1
-             └─📂 man8
-          └─📂 pear                # PEAR files
-          └─📂 php
-             └─📂 fpm
-       └─📂 var
-          ├─📂 log
-          └─📂 run
-```
-
-Notice the difference of the shared extensions and the share directory.
-
-Directory locations can be adjusted with several Autoconf default options:
-
-* `--bindir=DIR` - set the user executables location
-* `--datadir=DIR` - set read-only architecture-independent data
-* `--datarootdir=DIR` - set read-only arch.-independent data root
-* `--includedir=DIR` - set the project C header files location
-* `--libdir=DIR` - set the library location
-* `--localstatedir=DIR` - set the var location
-* `--mandir=DIR` - set the man documentation location
-* `--runstatedir=DIR` - set the run location (Autoconf 2.70+)
-* `--sbindir=DIR` - set the root executables location
-* `--sysconfdir=DIR` - set the etc location
-* ...
+* `--prefix=PREFIX` - install architecture-independent files in PREFIX;
+  Default: `/usr/local`
+* `--exec-prefix=EPREFIX` - install architecture-dependent files in EPREFIX;
+  Default: `<PREFIX>`
+* `--bindir=DIR` - set the user executables location;
+  Default: `EXPREFIX/bin`
+* `--sbindir=DIR` - set the system root executables location;
+  Default: `EPREFIX/sbin`
+* `--sysconfdir=DIR` - set the read-only single-machine data location;
+  Default: `PREFIX/etc`
+* `--localstatedir=DIR` - set the modifiable single-machine data location;
+  Default: `PREFIX/var`
+* `--runstatedir=DIR` - set the modifiable per-process data location;
+  Default: `LOCALSTATEDIR/run`; (Autoconf 2.70+)
+* `--libdir=DIR` - set the object code libraries location;
+  Default: `EPREFIX/lib`
+* `--includedir=DIR` - set the project C header files location;
+  Default: `PREFIX/include`
+* `--datarootdir=DIR` - set read-only arch.-independent data root;
+  Default: `PREFIX/share`
+* `--datadir=DIR` - set read-only architecture-independent data location;
+  Default: `DATAROOTDIR`
+* `--mandir=DIR` - set the man documentation location;
+  Default: `DATAROOTDIR/man`
 
 When packaging the PHP built files for certain system, additional environment
 variables can help customize the installation locations and PHP package
@@ -174,38 +133,82 @@ Common practice is to also add program prefix and suffix (for example, to have
 
 See `./configure --help` for more information on how to adjust these locations.
 
-PHP Autotools directory structure with GNU layout:
+Default PHP Autotools directory structure with GNU layout (`--with-layout=GNU`):
 
 ```sh
-📂 <INSTALL_ROOT>                     # 📂
- └─📂 ${prefix}                       # └─📂 /usr/local
-    ├─📂 ${bindir}                    #    ├─📂 bin
-    └─📂 ${sysconfdir}                #    └─📂 etc
-       ├─📂 php-fpm.d                 #       ├─📂 php-fpm.d
-       ├─📄 php-fpm.conf.default      #       ├─📄 php-fpm.conf.default
-       └─📄 pear.conf                 #       └─📄 pear.conf
-    └─📂 ${includedir}                #    └─📂 include
-       └─📂 php                       #       └─📂 php
-          ├─📂 ext                    #          ├─📂 ext
-          ├─📂 main                   #          ├─📂 main
-          ├─📂 sapi                   #          ├─📂 sapi
-          ├─📂 TSRM                   #          ├─📂 TSRM
-          └─📂 Zend                   #          └─📂 Zend
-    └─📂 ${libdir}                    #    └─📂 lib
-       └─📂 php                       #       └─📂 php
-          ├─📂 20230901-zts-debug     #          ├─📂 20230901-zts-debug
-          └─📂 build                  #          └─📂 build
-    ├─📂 ${sbindir}                   #    ├─📂 sbin
-    └─📂 ${datarootdir}               #    └─📂 share
-       └─📂 ${mandir}                 #       └─📂 man
-          ├─📂 man1                   #          └─📂 man1
-          └─📂 man8                   #          └─📂 man8
-       ├─📂 pear                      #       └─📂 pear
-       └─📂 php                       #       └─📂 php
-          └─📂 fpm                    #          └─📂 fpm
-    └─📂 ${localstatedir}             #    └─📂 var
-       └─📂 log                       #       └─📂 log
-    └─📂 ${runstatedir}               #    └─📂 var/run
+📂 <INSTALL_ROOT>                # 📂                             # Stage directory
+└─📂 ${prefix}                   # └─📂 /usr/local                # Installation prefix
+  ├─📂 ${bindir}                 #   ├─📂 bin                     # Executable binary directory
+  └─📂 ${sysconfdir}             #   └─📂 etc                     # System configuration directory
+    ├─📂 php-fpm.d               #     ├─📂 php-fpm.d             # PHP FPM configuration directory
+    ├─📄 php-fpm.conf.default    #     ├─📄 php-fpm.conf.default  # PHP FPM configuration
+    └─📄 pear.conf               #     └─📄 pear.conf             # PEAR configuration file
+  └─📂 ${includedir}             #   └─📂 include                 # System include directory
+    └─📂 php                     #     └─📂 php                   # PHP headers
+      ├─📂 ext                   #       ├─📂 ext                 # PHP extensions header files
+      ├─📂 main                  #       ├─📂 main                # PHP main binding header files
+      ├─📂 sapi                  #       ├─📂 sapi                # PHP SAPI header files
+      ├─📂 TSRM                  #       ├─📂 TSRM                # PHP TSRM header files
+      └─📂 Zend                  #       └─📂 Zend                # Zend engine header files
+  └─📂 ${libdir}                 #   └─📂 lib
+    └─📂 php                     #     └─📂 php                   # PHP shared libraries and other build files, PEAR files
+      ├─📂 20230901-zts-debug    #       ├─📂 20230901-zts-debug  # PHP shared extensions (*.so files)
+      └─📂 build                 #       └─📂 build               # Various PHP development and build files
+  ├─📂 ${sbindir}                #   ├─📂 sbin                    # Executable binaries for root privileges
+  └─📂 ${datarootdir}            #   └─📂 share                   # Directory with shareable files
+    └─📂 ${mandir}               #     └─📂 man
+      ├─📂 man1                  #       └─📂 man1                # PHP man section 1 pages for *nix systems
+      └─📂 man8                  #       └─📂 man8                # PHP man section 8 pages for *nix systems
+    ├─📂 pear                    #     └─📂 pear                  # PEAR installation directory
+    └─📂 php                     #     └─📂 php
+      └─📂 fpm                   #       └─📂 fpm                 # Additional FPM static HTML files
+  └─📂 ${localstatedir}          #   └─📂 var                     # The Linux var directory
+    └─📂 log                     #     └─📂 log                   # Directory for PHP logs
+  └─📂 ${runstatedir}            #   └─📂 var/run                 # Runtime data directory
+📂 /tmp                          # 📂 /tmp                        # System temporary directory
+ └─📂 pear                       # └─📂 pear                      # PEAR writes temporary files here
+   ├─📂 cache                    #   ├─📂 cache
+   ├─📂 download                 #   ├─📂 download
+   └─📂 temp                     #   └─📂 temp
+```
+
+This is how the default PHP layout directory structure looks like
+(`--with-layout=PHP`). Notice the difference of the shared extensions directory
+and the `share` directory being named `php`:
+
+```sh
+📂 <INSTALL_ROOT>
+└─📂 /usr/local
+  ├─📂 bin
+  └─📂 etc
+    ├─📂 php-fpm.d
+    ├─📄 php-fpm.conf.default
+    └─📄 pear.conf
+  └─📂 include
+    └─📂 php
+      ├─📂 ext
+      ├─📂 main
+      ├─📂 sapi
+      ├─📂 TSRM
+      └─📂 Zend
+  └─📂 lib
+    └─📂 php
+      ├─📂 build
+      └─📂 extensions
+        └─📂 no-debug-non-zts-20230901  # PHP shared extensions (*.so files)
+  └─📂 php                              # Directory with shareable files
+    └─📂 man
+      ├─📂 man1
+      └─📂 man8
+    └─📂 php
+      └─📂 fpm
+  ├─📂 sbin
+  └─📂 var
+    ├─📂 log
+    └─📂 run
+📂 /tmp
+ └─📂 pear
+   └─📂 temp
 ```
 
 ## Installing PHP with CMake
@@ -243,69 +246,99 @@ DESTDIR=/stage cmake --install . --prefix /usr
 > environment variable behaves like the `INSTALL_ROOT` in PHP native
 > Autotools-based build system.
 
+* `CMAKE_INSTALL_PREFIX` - absolute path where to install the application;
+  Windows default: `C:/Program Files`, elsewhere default: `/usr/local`
+
 To adjust the installation locations, the
 [GNUInstallDirs](https://cmake.org/cmake/help/latest/module/GNUInstallDirs.html)
-module is used to set the `CMAKE_INSTALL_*` variables.
+module is used to set additional `CMAKE_INSTALL_*` variables. Here only those
+relevant to PHP are listed:
 
-* `CMAKE_INSTALL_BINDIR` - name of the bin directory
-* `CMAKE_INSTALL_DATADIR` - name of the etc directory
-* `CMAKE_INSTALL_DATAROOTDIR` - name of the etc directory
-* `CMAKE_INSTALL_INCLUDEDIR` - name of the include directory for headers
-* `CMAKE_INSTALL_LIBDIR` - name of the directory containing libraries
-* `CMAKE_INSTALL_LOCALSTATEDIR` - name of the var directory
-* `CMAKE_INSTALL_MANDIR` - name of the man documentation directory
-* `CMAKE_INSTALL_RUNSTATEDIR` - name of the run-time data directory (var/run)
-* `CMAKE_INSTALL_SBINDIR` - name of the sbin directory
-* `CMAKE_INSTALL_SYSCONFDIR` - name of the etc directory
-* ...
+* `CMAKE_INSTALL_BINDIR` - name of the user executables directory;
+  Default: `bin`
+* `CMAKE_INSTALL_SBINDIR` - name of the system admin executables directory;
+  Default: `sbin`
+* `CMAKE_INSTALL_SYSCONFDIR` - name of the read-only single-machine data
+  directory;
+  Default: `etc`
+* `CMAKE_INSTALL_LOCALSTATEDIR` - name of the modifiable single-machine data
+  directory;
+  Default: `var`
+* `CMAKE_INSTALL_RUNSTATEDIR` - name of the run-time variable data directory;
+  Default: `${CMAKE_INSTALL_LOCALSTATEDIR/run`
+* `CMAKE_INSTALL_LIBDIR` - name of the directory containing object code
+  libraries;
+  Default: `lib`, or `lib64`, or `lib/x86_64-linux-gnu` depending on the target
+  system
+* `CMAKE_INSTALL_INCLUDEDIR` - name of the C header files includes directory;
+  Default: `include`
+* `CMAKE_INSTALL_DATAROOTDIR` - name of the read-only architecture-independent
+  data root directory;
+  Default: `share`
+* `CMAKE_INSTALL_DATADIR` - name of the read-only architecture-independent data
+  directory;
+  Default: `${CMAKE_INSTALL_DATAROOTDIR}`
+* `CMAKE_INSTALL_MANDIR` - name of the man documentation directory;
+  Default: `man`
 
 These variables are by default relative paths. When customized, they can be
 either relative or absolute. When changed to absolute values the installation
 prefix will not be taken into account.
 
-> [!TIP]
-> To set the PHP include directory, there is also `PHP_INCLUDE_PREFIX` cache
-> variable available, that can adjust the path inside the
-> `CMAKE_INSTALL_INCLUDEDIR`.
+PHP CMake-based build system specific installation cache variables:
+
+* `PHP_INCLUDE_PREFIX` - To set the PHP include directory inside the
+  `CMAKE_INSTALL_INCLUDEDIR`;
+  Default: `php`
+* `PHP_PEAR_TEMP_DIR` - path where PEAR writes temporary files;
+  Default: `/tmp/pear` (on *nix), `C:/temp/pear` on Windows.
+* `PHP_EXTENSION_DIR` - path containing shared PHP extensions;
+  Default: `<ZEND_MODULE_API_NO>-<ZTS>-<DEBUG>`, for example,
+  `20230901-zts-debug` for thread-safe debug build, or `20230901` for
+  non-thread-safe build
 
 ### Installation directory structure
 
 PHP installation directory structure when using CMake:
 
 ```sh
-📂 <DESTDIR>                          #
-└─📂 <CMAKE_INSTALL_PREFIX>           # 📂 /usr/local (Windows: C:/Program Files/${PROJECT_NAME})
-   ├─📂 <CMAKE_INSTALL_BINDIR>        # ├─📂 bin
-   └─📂 <CMAKE_INSTALL_SYSCONFDIR>    # └─📂 etc
-      ├─📂 php-fpm.d                  #    ├─📂 php-fpm.d
-      ├─📄 php-fpm.conf.default       #    ├─📄 php-fpm.conf.default
-      └─📄 pear.conf                  #    └─📄 pear.conf
-   └─📂 <CMAKE_INSTALL_INCLUDEDIR>    # └─📂 include
-      └─📂 <PHP_INCLUDE_PREFIX>       #    └─📂 php
-         ├─📂 ext                     #       ├─📂 ext
-         ├─📂 main                    #       ├─📂 main
-         ├─📂 sapi                    #       ├─📂 sapi
-         ├─📂 TSRM                    #       ├─📂 TSRM
-         └─📂 Zend                    #       └─📂 Zend
-   └─📂 <CMAKE_INSTALL_LIBDIR>        # └─📂 lib
-      └─📂 php                        #    └─📂 php
-         ├─📂 20230901-zts-debug...   #       ├─📂 20230901-zts-debug...
-         └─📂 build                   #       └─📂 build
-      └─📂 pkgconfig                  #    └─📂 pkgconfig
-         ├─📄 php-embed.pc            #       ├─📄 php-embed.pc
-         └─📄 php.pc                  #       └─📄 php.pc
-   ├─📂 <CMAKE_INSTALL_SBINDIR>       # ├─📂 sbin
-   └─📂 <CMAKE_INSTALL_DATAROOTDIR>   # └─📂 share
-      └─📂 <CMAKE_INSTALL_MANDIR>     #    └─📂 man
-         ├─📂 man1                    #       ├─📂 man1
-         └─📂 man8                    #       └─📂 man8
-   └─📂 <CMAKE_INSTALL_DATADIR>       # └─📂 (share)
-      ├─📂 pear                       #    ├─📂 pear
-      └─📂 php                        #    └─📂 php
-         └─📂 fpm                     #       └─📂 fpm
-   └─📂 <CMAKE_INSTALL_LOCALSTATEDIR> # └─📂 var
-      └─📂 log                        #    └─📂 log
-   └─📂 <CMAKE_INSTALL_RUNSTATEDIR>   # └─📂 var/run
+📂 $ENV{DESTDIR}                      # 📂
+└─📂 ${CMAKE_INSTALL_PREFIX}          # └─📂 /usr/local (Windows: C:/Program Files/${PROJECT_NAME})
+  ├─📂 ${CMAKE_INSTALL_BINDIR}        #   ├─📂 bin
+  └─📂 ${CMAKE_INSTALL_SYSCONFDIR}    #   └─📂 etc
+    ├─📂 php-fpm.d                    #     ├─📂 php-fpm.d
+    ├─📄 php-fpm.conf.default         #     ├─📄 php-fpm.conf.default
+    └─📄 pear.conf                    #     └─📄 pear.conf
+  └─📂 ${CMAKE_INSTALL_INCLUDEDIR}    #   └─📂 include
+    └─📂 ${PHP_INCLUDE_PREFIX}        #     └─📂 php
+      ├─📂 ext                        #       ├─📂 ext
+      ├─📂 main                       #       ├─📂 main
+      ├─📂 sapi                       #       ├─📂 sapi
+      ├─📂 TSRM                       #       ├─📂 TSRM
+      └─📂 Zend                       #       └─📂 Zend
+  └─📂 ${CMAKE_INSTALL_LIBDIR}        #   └─📂 lib
+    └─📂 php                          #     └─📂 php
+      ├─📂 20230901-zts-debug...      #       ├─📂 20230901-zts-debug...
+      └─📂 build                      #       └─📂 build
+    └─📂 pkgconfig                    #     └─📂 pkgconfig
+      ├─📄 php-embed.pc               #       ├─📄 php-embed.pc
+      └─📄 php.pc                     #       └─📄 php.pc
+  ├─📂 ${CMAKE_INSTALL_SBINDIR}       #   ├─📂 sbin
+  └─📂 ${CMAKE_INSTALL_DATAROOTDIR}   #   └─📂 share
+    └─📂 ${CMAKE_INSTALL_MANDIR}      #     └─📂 man
+      ├─📂 man1                       #       ├─📂 man1
+      └─📂 man8                       #       └─📂 man8
+  └─📂 ${CMAKE_INSTALL_DATADIR}       #   └─📂 (share)
+    └─📂 php                          #     └─📂 php
+      └─📂 fpm                        #       └─📂 fpm
+  ├─📂 ${PHP_PEAR_DIR}                #     └─📂 pear (default: share/pear)
+  └─📂 ${CMAKE_INSTALL_LOCALSTATEDIR} #   └─📂 var
+    └─📂 log                          #     └─📂 log
+  └─📂 ${CMAKE_INSTALL_RUNSTATEDIR}   #   └─📂 var/run
+└─📂 ${PHP_PEAR_TEMP_DIR}             # └─📂 /tmp/pear (Windows: C:/temp/pear)
+  ├─📂 cache                          #   ├─📂 cache
+  ├─📂 download                       #   ├─📂 download
+  └─📂 temp                           #   └─📂 temp
 ```
 
 > [!NOTE]
