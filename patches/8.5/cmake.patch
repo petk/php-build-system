@@ -118,7 +118,7 @@ index e691bd3964..fff9fc09d0 100644
 +CMakeScripts/
 +/TryRunResults.cmake
 diff --git a/run-tests.php b/run-tests.php
-index 5587c6c0ae..ff5932bfde 100755
+index 0dee752d32..b6eb316fa0 100755
 --- a/run-tests.php
 +++ b/run-tests.php
 @@ -865,10 +865,12 @@ function write_information(array $user_tests, $phpdbg): void
@@ -127,12 +127,12 @@ index 5587c6c0ae..ff5932bfde 100755
          $ext_dir = ini_get('extension_dir');
 -        foreach (scandir($ext_dir) as $file) {
 -            if (preg_match('/^(?:php_)?([_a-zA-Z0-9]+)\.(?:so|dll)$/', $file, $matches)) {
--                if (!extension_loaded($matches[1]) && @dl($matches[1])) {
+-                if (!extension_loaded($matches[1])) {
 -                    $exts[] = $matches[1];
 +        if (is_dir($ext_dir)) {
 +            foreach (scandir($ext_dir) as $file) {
 +                if (preg_match('/^(?:php_)?([_a-zA-Z0-9]+)\.(?:so|dll)$/', $file, $matches)) {
-+                    if (!extension_loaded($matches[1]) && @dl($matches[1])) {
++                    if (!extension_loaded($matches[1])) {
 +                        $exts[] = $matches[1];
 +                    }
                  }
