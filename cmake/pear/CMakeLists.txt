@@ -34,7 +34,7 @@ if(PHP_PEAR)
     PHP_PEAR_TEMP_DIR "${tmpDir}"
     CACHE FILEPATH
     "The PEAR temporary directory where PEAR writes temporary files, such as\
-    cache, downloaded packages artefacts and similar. Must be absolute path.\
+    cache, downloaded packages artifacts and similar. Must be absolute path.\
     Default: ${tmpDir}."
   )
   # Change from INTERNAL type to show variable on consecutive configuration run.
