@@ -3301,16 +3301,17 @@ A list of Autoconf `configure` command-line configuration options, Windows
     </tr>
     <tr>
       <td>--without-pear</td>
-      <td></td>
+      <td>N/A</td>
       <td>PHP_PEAR=OFF</td>
       <td>default</td>
     </tr>
     <tr>
       <td>&emsp;--with-pear[=DIR]</td>
-      <td></td>
+      <td>N/A</td>
       <td>
         PHP_PEAR=ON<br>
-        [PHP_PEAR_DIR=DIR]
+        [PHP_PEAR_DIR=DIR]<br>
+        [PHP_PEAR_TEMP_DIR=DIR]<br>
       </td>
       <td></td>
     </tr>

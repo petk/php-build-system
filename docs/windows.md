@@ -98,6 +98,12 @@ nmake
 
 # Built files reside in the <architecture>\Release_TS directory. For example
 x64\Release_TS\php.exe -v
+
+# Or run the PHP executable with nmake
+nmake /nologo run ARGS=-v
+
+# To run tests:
+nmake test
 ```
 
 ## 4. The configure.bat command-line options
