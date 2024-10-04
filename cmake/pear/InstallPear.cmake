@@ -2,7 +2,7 @@
 The PEAR installation script.
 
 It downloads the PEAR installer and installs it using the built PHP CLI
-executable to sistem directory structure. Some variables need to be set before
+executable to system directory structure. Some variables need to be set before
 running it via the install(CODE) as done in the PEAR's CMakeLists.txt.
 #]=============================================================================]
 
