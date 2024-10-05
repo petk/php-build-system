@@ -82,12 +82,16 @@ build system:
 * Installation
 
   * The installation include directory (`/usr/local/include/php`) can be
-    adjusted with the `PHP_INCLUDE_PREFIX` variable to support multiple PHP
-    versions. For example, `/usr/local/include/php/8.4`.
+    adjusted with the `PHP_INCLUDE_PREFIX` CMake cache variable to support
+    multiple PHP versions. For example, `/usr/local/include/php/8.4`.
 
   * The PHP Autotools layout configuration option `--with-layout=[PHP|GNU]` is
     in CMake removed and not implemented in favor of the GNU standard directory
     layout.
+
+  * PEAR installation writes less dot and temporary files outside of the staging
+    installation directory (INSTALL_ROOT/DESTDIR). PEAR temporary directory can
+    be adjusted with the `PHP_PEAR_TEMP_DIR` CMake cache variable.
 
 ## Bugs fixed
 

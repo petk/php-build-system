@@ -89,7 +89,7 @@ only those relevant to PHP are listed:
   Default: `EPREFIX/lib`
 * `--includedir=DIR` - set the project C header files location;
   Default: `PREFIX/include`
-* `--datarootdir=DIR` - set read-only arch.-independent data root;
+* `--datarootdir=DIR` - set read-only architecture-independent data root;
   Default: `PREFIX/share`
 * `--datadir=DIR` - set read-only architecture-independent data location;
   Default: `DATAROOTDIR`
@@ -125,6 +125,7 @@ Common practice is to also add program prefix and suffix (for example, to have
   PHP_EXTRA_VERSION="-acme" \
   EXTENSION_DIR=/path/to/php/extensions \
   --with-layout=GNU \
+  --with-pear=\${datadir}/pear \
   --localstatedir=/var \
   --sysconfdir=/etc \
   --program-suffix=84 \
@@ -136,13 +137,13 @@ See `./configure --help` for more information on how to adjust these locations.
 Default PHP Autotools directory structure with GNU layout (`--with-layout=GNU`):
 
 ```sh
-📂 <INSTALL_ROOT>                # 📂                             # Stage directory
+📦 <INSTALL_ROOT>                # 📦                             # Stage directory
 └─📂 ${prefix}                   # └─📂 /usr/local                # Installation prefix
   ├─📂 ${bindir}                 #   ├─📂 bin                     # Executable binary directory
   └─📂 ${sysconfdir}             #   └─📂 etc                     # System configuration directory
     ├─📂 php-fpm.d               #     ├─📂 php-fpm.d             # PHP FPM configuration directory
-    ├─📄 php-fpm.conf.default    #     ├─📄 php-fpm.conf.default  # PHP FPM configuration
-    └─📄 pear.conf               #     └─📄 pear.conf             # PEAR configuration file
+    ├─📄 pear.conf               #     ├─📄 pear.conf             # PEAR configuration file
+    └─📄 php-fpm.conf.default    #     └─📄 php-fpm.conf.default  # PHP FPM configuration
   └─📂 ${includedir}             #   └─📂 include                 # System include directory
     └─📂 php                     #     └─📂 php                   # PHP headers
       ├─📂 ext                   #       ├─📂 ext                 # PHP extensions header files
@@ -151,25 +152,26 @@ Default PHP Autotools directory structure with GNU layout (`--with-layout=GNU`):
       ├─📂 TSRM                  #       ├─📂 TSRM                # PHP TSRM header files
       └─📂 Zend                  #       └─📂 Zend                # Zend engine header files
   └─📂 ${libdir}                 #   └─📂 lib
-    └─📂 php                     #     └─📂 php                   # PHP shared libraries and other build files, PEAR files
+    └─📂 php                     #     └─📂 php                   # PHP shared libraries, build files, PEAR
       ├─📂 20230901-zts-debug    #       ├─📂 20230901-zts-debug  # PHP shared extensions (*.so files)
       └─📂 build                 #       └─📂 build               # Various PHP development and build files
   ├─📂 ${sbindir}                #   ├─📂 sbin                    # Executable binaries for root privileges
   └─📂 ${datarootdir}            #   └─📂 share                   # Directory with shareable files
     └─📂 ${mandir}               #     └─📂 man
-      ├─📂 man1                  #       └─📂 man1                # PHP man section 1 pages for *nix systems
+      ├─📂 man1                  #       ├─📂 man1                # PHP man section 1 pages for *nix systems
       └─📂 man8                  #       └─📂 man8                # PHP man section 8 pages for *nix systems
-    ├─📂 pear                    #     └─📂 pear                  # PEAR installation directory
+    ├─📂 ${PHP_PEAR}             #     ├─📂 pear                  # PEAR installation directory
     └─📂 php                     #     └─📂 php
       └─📂 fpm                   #       └─📂 fpm                 # Additional FPM static HTML files
   └─📂 ${localstatedir}          #   └─📂 var                     # The Linux var directory
     └─📂 log                     #     └─📂 log                   # Directory for PHP logs
   └─📂 ${runstatedir}            #   └─📂 var/run                 # Runtime data directory
-📂 /tmp                          # 📂 /tmp                        # System temporary directory
- └─📂 pear                       # └─📂 pear                      # PEAR writes temporary files here
-   ├─📂 cache                    #   ├─📂 cache
-   ├─📂 download                 #   ├─📂 download
-   └─📂 temp                     #   └─📂 temp
+📦 /                             # 📦 /                           # System top level root directory
+└─📂 tmp                         # └─📂 tmp                       # System temporary directory
+  └─📂 pear                      #   └─📂 pear                    # PEAR temporary directory
+    ├─📂 cache                   #     ├─📂 cache
+    ├─📂 download                #     ├─📂 download
+    └─📂 temp                    #     └─📂 temp
 ```
 
 This is how the default PHP layout directory structure looks like
@@ -177,13 +179,13 @@ This is how the default PHP layout directory structure looks like
 and the `share` directory being named `php`:
 
 ```sh
-📂 <INSTALL_ROOT>
+📦 <INSTALL_ROOT>
 └─📂 /usr/local
   ├─📂 bin
   └─📂 etc
     ├─📂 php-fpm.d
-    ├─📄 php-fpm.conf.default
-    └─📄 pear.conf
+    ├─📄 pear.conf
+    └─📄 php-fpm.conf.default
   └─📂 include
     └─📂 php
       ├─📂 ext
@@ -206,9 +208,10 @@ and the `share` directory being named `php`:
   └─📂 var
     ├─📂 log
     └─📂 run
-📂 /tmp
- └─📂 pear
-   └─📂 temp
+📦 /
+└─📂 tmp
+  └─📂 pear
+    └─📂 temp
 ```
 
 ## Installing PHP with CMake
@@ -247,7 +250,8 @@ DESTDIR=/stage cmake --install . --prefix /usr
 > Autotools-based build system.
 
 * `CMAKE_INSTALL_PREFIX` - absolute path where to install the application;
-  Windows default: `C:/Program Files`, elsewhere default: `/usr/local`
+  \*nix default: `/usr/local`, Windows default:
+  `C:/Program Files/${PROJECT_NAME}`
 
 To adjust the installation locations, the
 [GNUInstallDirs](https://cmake.org/cmake/help/latest/module/GNUInstallDirs.html)
@@ -287,7 +291,7 @@ prefix will not be taken into account.
 
 PHP CMake-based build system specific installation cache variables:
 
-* `PHP_INCLUDE_PREFIX` - To set the PHP include directory inside the
+* `PHP_INCLUDE_PREFIX` - the PHP include directory inside the
   `CMAKE_INSTALL_INCLUDEDIR`;
   Default: `php`
 * `PHP_PEAR_TEMP_DIR` - path where PEAR writes temporary files;
@@ -302,13 +306,13 @@ PHP CMake-based build system specific installation cache variables:
 PHP installation directory structure when using CMake:
 
 ```sh
-📂 $ENV{DESTDIR}                      # 📂
+📦 $ENV{DESTDIR}                      # 📦
 └─📂 ${CMAKE_INSTALL_PREFIX}          # └─📂 /usr/local (Windows: C:/Program Files/${PROJECT_NAME})
   ├─📂 ${CMAKE_INSTALL_BINDIR}        #   ├─📂 bin
   └─📂 ${CMAKE_INSTALL_SYSCONFDIR}    #   └─📂 etc
     ├─📂 php-fpm.d                    #     ├─📂 php-fpm.d
-    ├─📄 php-fpm.conf.default         #     ├─📄 php-fpm.conf.default
-    └─📄 pear.conf                    #     └─📄 pear.conf
+    ├─📄 pear.conf                    #     ├─📄 pear.conf
+    └─📄 php-fpm.conf.default         #     └─📄 php-fpm.conf.default
   └─📂 ${CMAKE_INSTALL_INCLUDEDIR}    #   └─📂 include
     └─📂 ${PHP_INCLUDE_PREFIX}        #     └─📂 php
       ├─📂 ext                        #       ├─📂 ext
