@@ -1,3 +1,11 @@
+include(FeatureSummary)
+
+add_feature_info(
+  "ext/json"
+  ON
+  "JavaScript Object Notation"
+)
+
 add_library(php_json STATIC)
 
 target_sources(

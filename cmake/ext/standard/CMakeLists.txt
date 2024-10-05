@@ -6,6 +6,12 @@ include(CMakePushCheckState)
 include(FeatureSummary)
 include(PHP/SearchLibraries)
 
+add_feature_info(
+  "ext/standard"
+  ON
+  "PHP core extension"
+)
+
 option(EXT_STANDARD_ARGON2 "Include the Argon2 support in password_*" OFF)
 
 add_feature_info(

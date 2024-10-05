@@ -62,11 +62,11 @@ block()
   endforeach()
 
   if(sapis)
-    message(STATUS "Enabled SAPIs:\n\n${sapis}")
+    message(STATUS "Enabled PHP SAPIs:\n\n${sapis}")
   endif()
 
   if(extensions)
-    message(STATUS "Enabled extensions:\n\n${extensions}")
+    message(STATUS "Enabled PHP extensions:\n\n${extensions}")
   endif()
 
   if(php)

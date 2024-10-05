@@ -1,7 +1,7 @@
 include(FeatureSummary)
 include(PHP/Install)
 
-option(PHP_PEAR "Whether to install PEAR" OFF)
+option(PHP_PEAR "Install PEAR" OFF)
 
 add_feature_info(
   "PEAR"
@@ -25,17 +25,20 @@ endif()
 mark_as_advanced(PHP_PEAR_DIR)
 
 if(CMAKE_SYSTEM_NAME STREQUAL "Windows")
-  set(tmpDir "C:/temp/pear")
+  set(tmpDir "temp/pear")
 else()
-  set(tmpDir "/tmp/pear")
+  set(tmpDir "tmp/pear")
 endif()
 if(PHP_PEAR)
   set(
     PHP_PEAR_TEMP_DIR "${tmpDir}"
     CACHE FILEPATH
     "The PEAR temporary directory where PEAR writes temporary files, such as\
-    cache, downloaded packages artifacts and similar. Must be absolute path.\
-    Default: ${tmpDir}."
+    cache, downloaded packages artifacts and similar. Pass it as a relative\
+    path inside the top level system directory, which will be automatically\
+    prepended. If given as an absolute path, top level directory is not\
+    prepended. Relative path is added to the top root system directory (/ on\
+    *nix, or c:/ on Windows). Default: ${tmpDir}."
   )
   # Change from INTERNAL type to show variable on consecutive configuration run.
   set_property(CACHE PHP_PEAR_TEMP_DIR PROPERTY TYPE FILEPATH)
@@ -64,11 +67,22 @@ if(NOT SAPI_CLI)
 endif()
 
 # Check PEAR dependencies.
-if(NOT EXT_XML)
-  message(
-    FATAL_ERROR
-    "PEAR requires the xml extension to be enabled. Set EXT_XML to 'ON'.")
-endif()
+block()
+  foreach(
+    extension
+      openssl # For pecl command to download packages over https
+      xml     # For installer, pear and pecl commands to work
+  )
+    string(TOUPPER ${extension} extensionUpper)
+    if(NOT EXT_${extensionUpper})
+      message(
+        FATAL_ERROR
+        "PEAR requires PHP extension ${extension}. Set EXT_${extensionUpper} "
+        "to 'ON'."
+      )
+    endif()
+  endforeach()
+endblock()
 
 set(PHP_EXECUTABLE)
 if(NOT CMAKE_CROSSCOMPILING)
@@ -84,12 +98,11 @@ php_install(CODE "
   set(phpPearCurrentBinaryDir \"${CMAKE_CURRENT_BINARY_DIR}\")
   set(phpPearPhpExecutable \"${PHP_EXECUTABLE}\")
   set(phpExtensionDir \"$<PATH:ABSOLUTE_PATH,NORMALIZE,${PHP_EXTENSION_DIR},\${CMAKE_INSTALL_PREFIX}>\")
-  # When the xml extension is shared, it must be loaded for the PHP_EXECUTABLE.
+  set(EXT_OPENSSL_SHARED ${EXT_OPENSSL_SHARED})
   set(EXT_XML_SHARED ${EXT_XML_SHARED})
-  if(EXT_XML_SHARED)
-    set(phpPearOptions -d extension_dir=${PHP_BINARY_DIR}/modules -d extension=xml)
-  endif()
-  set(phpPearTempDir \"${PHP_PEAR_TEMP_DIR}\")
+  set(PHP_BINARY_DIR ${PHP_BINARY_DIR})
+  set(CMAKE_SYSTEM_NAME ${CMAKE_SYSTEM_NAME})
+  set(PHP_PEAR_TEMP_DIR \"${PHP_PEAR_TEMP_DIR}\")
   set(phpPearInstalledPhpBin \"\${phpPearInstallBinDir}/$<TARGET_FILE_NAME:php_cli>\")
   set(phpPearPhpProgramPrefix \"${PHP_PROGRAM_PREFIX}\")
   set(phpPearPhpProgramSuffix \"${PHP_PROGRAM_SUFFIX}\")
