@@ -1,3 +1,11 @@
+include(FeatureSummary)
+
+add_feature_info(
+  "ext/spl"
+  ON
+  "Standard PHP library"
+)
+
 add_library(php_spl STATIC)
 
 target_sources(

@@ -1,6 +1,12 @@
 include(FeatureSummary)
 include(PHP/CheckCompilerFlag)
 
+add_feature_info(
+  "ext/hash"
+  ON
+  "HASH message digest framework"
+)
+
 option(EXT_HASH_MHASH "Enable the mhash support (deprecated as of PHP 8.1)" OFF)
 
 add_feature_info(

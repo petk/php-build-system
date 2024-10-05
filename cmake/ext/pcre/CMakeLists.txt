@@ -4,6 +4,12 @@ include(CMakePushCheckState)
 include(FeatureSummary)
 include(PHP/CheckCompilerFlag)
 
+add_feature_info(
+  "ext/pcre"
+  ON
+  "(Perl-compatible) regular expressions"
+)
+
 option(
   EXT_PCRE_EXTERNAL
   "Use external (system) PCRE library in pcre extension instead of the bundled\

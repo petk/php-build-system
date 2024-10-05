@@ -1,4 +1,11 @@
 include(CheckIncludeFile)
+include(FeatureSummary)
+
+add_feature_info(
+  "ext/date"
+  ON
+  "Date and time"
+)
 
 # Check for headers needed by timelib.
 check_include_file(io.h HAVE_IO_H)

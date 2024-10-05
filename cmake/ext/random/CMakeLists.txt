@@ -1,5 +1,12 @@
 include(CheckIncludeFiles)
 include(CheckSymbolExists)
+include(FeatureSummary)
+
+add_feature_info(
+  "ext/random"
+  ON
+  "Random number generators and functions related to randomness"
+)
 
 add_library(php_random STATIC)
 
