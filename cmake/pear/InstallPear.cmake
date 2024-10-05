@@ -8,7 +8,41 @@ running it via the install(CODE) as done in the PEAR's CMakeLists.txt.
 
 set(phpPearInstallerUrl "https://pear.php.net/install-pear-nozlib.phar")
 
-message(STATUS "Installing PEAR to $ENV{DESTDIR}${phpPearInstallDir}")
+# Helper to normalize path with DESTDIR on Windows and *nix systems.
+#
+# php_pear_path_with_destdir(
+#   <path-to-normalize-for-install>
+#   <result-variable-name>
+# )
+function(php_pear_path_with_destdir)
+  cmake_parse_arguments(
+    PARSE_ARGV
+    2
+    parsed # prefix
+    ""     # options
+    ""     # one-value keywords
+    ""     # multi-value keywords
+  )
+
+  if(
+    CMAKE_SYSTEM_NAME STREQUAL "Windows"
+    AND DEFINED ENV{DESTDIR}
+    AND IS_ABSOLUTE "${ARGV0}"
+  )
+    string(REGEX REPLACE "^.:" "" path "${ARGV0}")
+    set(path "$ENV{DESTDIR}/${path}")
+  elseif(DEFINED ENV{DESTDIR} AND IS_ABSOLUTE "${ARGV0}")
+    set(path "$ENV{DESTDIR}/${ARGV0}")
+  else()
+    set(path "${ARGV0}")
+  endif()
+
+  cmake_path(SET path NORMALIZE "${path}")
+  set(${ARGV1} "${path}" PARENT_SCOPE)
+endfunction()
+
+php_pear_path_with_destdir(${phpPearInstallDir} phpPearInstallStageDir)
+message(STATUS "Installing PEAR to ${phpPearInstallStageDir}")
 
 # If PEAR installer is packaged in the PHP release archive.
 if(
@@ -83,19 +117,43 @@ endif()
 # the environment variable for the installation time.
 set(ENV{PHP_PEAR_SYSCONF_DIR} ${phpPearInstallSysconfDir})
 
-# Set temporary directory for the PEAR installation.
-set(localPearTempDir ${phpPearCurrentBinaryDir}/CMakeFiles/pear)
-
 # Set the PHP extensions directory.
 set(ENV{PHP_PEAR_EXTENSION_DIR} "${phpExtensionDir}")
 
+# Set PEAR temporary directory for the DESTDIR and system top level directory.
+php_pear_path_with_destdir(${PHP_PEAR_TEMP_DIR} phpPearStageTempDir)
+
+if(IS_ABSOLUTE ${PHP_PEAR_TEMP_DIR})
+  cmake_path(SET phpPearTempDir NORMALIZE "${PHP_PEAR_TEMP_DIR}")
+else()
+  if(CMAKE_SYSTEM_NAME STREQUAL "Windows")
+    cmake_path(SET phpPearTempDir NORMALIZE "c:/${PHP_PEAR_TEMP_DIR}")
+  else()
+    cmake_path(SET phpPearTempDir NORMALIZE "/${PHP_PEAR_TEMP_DIR}")
+  endif()
+endif()
+
 file(
   MAKE_DIRECTORY
-    "$ENV{DESTDIR}${phpPearInstallDir}"
-    ${localPearTempDir}
+    ${phpPearInstallStageDir}
+    ${phpPearStageTempDir}/cache
+    ${phpPearStageTempDir}/download
+    ${phpPearStageTempDir}/temp
 )
 
-# Run the PEAR phar installer.
+# Add options for PHP executable, when dependent extensions are shared, they
+# need to be loaded for the PHP_EXECUTABLE.
+set(phpPearOptions -d extension_dir=${PHP_BINARY_DIR}/modules)
+
+if(EXT_OPENSSL_SHARED)
+  list(APPEND phpPearOptions -d extension=openssl)
+endif()
+
+if(EXT_XML_SHARED)
+  list(APPEND phpPearOptions -d extension=xml)
+endif()
+
+# Run the PEAR installer.
 execute_process(
   COMMAND ${phpPearPhpExecutable}
   -n
@@ -103,14 +161,13 @@ execute_process(
   -dopen_basedir=
   -derror_reporting=1803
   -dmemory_limit=-1
-  -ddetect_unicode=0
   ${phpPearOptions}
   ${phpPearCurrentBinaryDir}/install-pear-nozlib.phar
     --dir "${phpPearInstallDir}"
     --bin "${phpPearInstallBinDir}"
     --metadata "${phpPearInstallDir}"
     --data "${phpPearInstallDir}"
-    --temp "${localPearTempDir}"
+    --temp "${phpPearStageTempDir}"
     --cache "${phpPearTempDir}/cache"
     --download "${phpPearTempDir}/download"
     --php ${phpPearInstalledPhpBin}
@@ -130,21 +187,26 @@ if(NOT result EQUAL 0)
   return()
 endif()
 
-# Patch the pear.conf file because it contains the temporary CMakeFiles path.
-set(pearConf $ENV{DESTDIR}$ENV{PHP_PEAR_SYSCONF_DIR}/pear.conf)
+# When installing with DESTDIR, patch the pear.conf file as it contains the
+# temporary path with DESTDIR path.
+if(NOT DEFINED ENV{DESTDIR})
+  return()
+endif()
+
+php_pear_path_with_destdir($ENV{PHP_PEAR_SYSCONF_DIR}/pear.conf pearConf)
+
 if(NOT EXISTS "${pearConf}")
   return()
 endif()
 
-message(STATUS "Patching pear.conf")
+message(STATUS "Patching ${pearConf}")
 
 file(READ "${pearConf}" content)
-file(WRITE ${localPearTempDir}/pear.conf "${content}")
 string(LENGTH "${phpPearTempDir}/temp" length)
 string(
   REGEX REPLACE
-  "s:[0-9]+:\"${localPearTempDir}"
-  "s:${length}:\"${phpPearTempDir}/temp"
+  "s:8:\"temp_dir\";s:[0-9]+:\"${phpPearStageTempDir}\""
+  "s:8:\"temp_dir\";s:${length}:\"${phpPearTempDir}/temp\""
   content
   "${content}"
 )

@@ -62,7 +62,7 @@ mark_as_advanced(PHP_INCLUDE_PREFIX)
 set(
   PHP_CONFIG_FILE_SCAN_DIR ""
   CACHE PATH "The path where to scan for additional INI configuration files; By\
-  default it is empty value; Pass it as a relative string inside the install\
+  default it is empty value; Pass it as a relative path inside the install\
   prefix, which will be automatically prepended; If given as an absolute path,\
   prefix is not prepended."
 )
