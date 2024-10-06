@@ -2053,31 +2053,32 @@
 # define PEAR_INSTALLDIR "@EXPANDED_PEAR_INSTALLDIR@"
 
 /* The path to the bin directory. */
-# define PHP_BINDIR "@PREFIX@"
+# define PHP_BINDIR "@EXPANDED_BINDIR@"
 
-/* The path in which to look for php.ini. */
+/* The path in which to look for php.ini. On Windows this macro isn't
+   utilized in the C code. */
 # define PHP_CONFIG_FILE_PATH ""
 
 /* The path where to scan for additional INI configuration files. */
-# define PHP_CONFIG_FILE_SCAN_DIR "@PHP_FULL_CONFIG_FILE_SCAN_DIR@"
+# define PHP_CONFIG_FILE_SCAN_DIR "@EXPANDED_PHP_CONFIG_FILE_SCAN_DIR@"
 
 /* The path to the share directory. */
-# define PHP_DATADIR "@PREFIX@"
+# define PHP_DATADIR "@EXPANDED_DATADIR@"
 
 /* Default directory for dynamically loadable PHP extensions. */
-# define PHP_EXTENSION_DIR "@PREFIX@\\ext"
+# define PHP_EXTENSION_DIR "@EXPANDED_EXTENSION_DIR@"
 
 /* The 'include_path' PHP INI directive. */
 # define PHP_INCLUDE_PATH "@INCLUDE_PATH@"
 
 /* The path containing system libraries (lib or lib64). */
-# define PHP_LIBDIR "@PREFIX@"
+# define PHP_LIBDIR "@EXPANDED_LIBDIR@"
 
 /* The path to the var directory. */
-# define PHP_LOCALSTATEDIR "@PREFIX@"
+# define PHP_LOCALSTATEDIR "@EXPANDED_LOCALSTATEDIR@"
 
 /* The installation prefix. */
-# define PHP_PREFIX "@PREFIX@"
+# define PHP_PREFIX "@prefix@"
 
 /* The prefix for the shared library objects. */
 # define PHP_SHLIB_EXT_PREFIX "php_"
@@ -2086,7 +2087,7 @@
 # define PHP_SHLIB_SUFFIX "@SHLIB_DL_SUFFIX_NAME@"
 
 /* The path to the etc directory. */
-# define PHP_SYSCONFDIR "@PREFIX@"
+# define PHP_SYSCONFDIR "@EXPANDED_SYSCONFDIR@"
 
 # if __has_include("main/config.pickle.h")
 #  include "main/config.pickle.h"
