@@ -34,7 +34,7 @@ include_guard(GLOBAL)
 # Parse given variables and create variables and values lists for passing to the
 # configure_file().
 #   _php_configure_file_parse_variables(
-#     variables
+#     variableValuePairs
 #     VARIABLES <variable-name>
 #     VALUES <values-variable-name>
 #     VALUES_IN_CODE <code-values-variable-name>
@@ -66,32 +66,34 @@ function(_php_configure_file_parse_variables)
     endif()
   endforeach()
 
-  # Check for even number of keyword values.
-  set(variables "${ARGV0}")
-  list(LENGTH variables length)
-  math(EXPR modulus "${length} % 2")
-  if(NOT modulus EQUAL 0)
-    message(
-      FATAL_ERROR
-      "${CMAKE_CURRENT_FUNCTION}: The keyword VARIABLES must be a list of "
-      "pairs - variable-name and value (it must contain an even number of "
-      "items)."
-    )
-  endif()
+  # Replace possible semicolons with a generator expression.
+  set(processedItems)
+  foreach(item IN LISTS ARGV0)
+    if(item MATCHES [[.*\;.*]])
+      string(
+        REPLACE
+        ";"
+        "$<SEMICOLON>"
+        item
+        "${item}"
+      )
+    endif()
+    list(APPEND processedItems "${item}")
+  endforeach()
 
   set(isValue FALSE)
   set(resultVariables "")
   set(resultValues "")
   set(resultValuesInCode "")
-  foreach(variable IN LISTS variables)
+
+  foreach(item IN LISTS processedItems)
     if(isValue)
       set(isValue FALSE)
       continue()
     endif()
     set(isValue TRUE)
 
-    list(POP_FRONT variables var value)
-
+    list(POP_FRONT processedItems var value)
     list(APPEND resultVariables ${var})
 
     # The resultValues are for the first configure_file().
@@ -153,6 +155,17 @@ function(php_configure_file)
 
   if(NOT ARGV1)
     message(FATAL_ERROR "${CMAKE_CURRENT_FUNCTION} expects an output filename")
+  endif()
+
+  # Check for even number of keyword values.
+  list(LENGTH parsed_VARIABLES length)
+  math(EXPR modulus "${length} % 2")
+  if(NOT modulus EQUAL 0)
+    message(
+      FATAL_ERROR
+      "${CMAKE_CURRENT_FUNCTION}: The keyword VARIABLES must be a list of "
+      "variable-name and value pairs (it must contain an even number of items)."
+    )
   endif()
 
   set(___phpConfigureFileTemplate "${ARGV0}")
