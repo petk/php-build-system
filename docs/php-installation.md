@@ -4,7 +4,15 @@
 > **Before running the `make install` or `cmake --install` command, be aware
 > that files will be copied outside of your current build directory.**
 
-## Introduction
+## Index
+
+* [1. Introduction](#1-introduction)
+* [2. Autotools-based build system](#2-autotools-based-build-system)
+* [3. JScript-based Windows build system](#3-jscript-based-windows-build-system)
+* [4. CMake-based build system](#4-cmake-based-build-system)
+  * [4.1. Installation directory structure](#41-installation-directory-structure)
+
+## 1. Introduction
 
 When we think about installing software, we often imagine downloading a package
 and setting it up on the system, ready for immediate use.
@@ -24,12 +32,12 @@ predefined directory structure. Some files may also be generated or modified
 according to the final installation location, known as the
 *installation prefix*.
 
-It's important to note that this type of PHP installations are usually managed
-by package managers, which handle this process through automated scripts.
+It's important to note that this type of PHP installation is usually managed by
+package managers, that handle this process through automated scripts.
 Additionally, applying patches to tailor the PHP package to suit the specific
-requirements of the target system is common practice.
+requirements of the target system is a common practice.
 
-## Installing PHP with Autotools-based build system
+## 2. Autotools-based build system
 
 The default way to install PHP using Autotools across the system directories can
 be done like this:
@@ -214,9 +222,38 @@ and the `share` directory being named `php`:
     └─📂 temp
 ```
 
-## Installing PHP with CMake
+## 3. JScript-based Windows build system
 
-In this repository, installing PHP with CMake can be done in a similar way:
+Inside a Windows PowerShell:
+
+```sh
+# Clone SDK binary tools Git repository
+git clone https://github.com/php/php-sdk-binary-tools C:\php-sdk
+cd C:\php-sdk
+
+.\phpsdk-vs17-x64.bat
+phpsdk_buildtree phpmaster
+
+git clone https://github.com/php/php-src
+cd php-src
+phpsdk_deps --update --branch master
+
+# Create Windows configure.bat script
+.\buildconf.bat
+
+# Configure PHP build and create Makefile
+.\configure.bat --with-prefix=<installation-prefix>
+
+# Build PHP
+nmake
+
+# Install built files
+nmake install
+```
+
+## 4. CMake-based build system
+
+Installing PHP with CMake can be done in a similar way:
 
 ```sh
 # Configuration and generation of build system files:
@@ -301,7 +338,7 @@ PHP CMake-based build system specific installation cache variables:
   `20230901-zts-debug` for thread-safe debug build, or `20230901` for
   non-thread-safe build
 
-### Installation directory structure
+### 4.1. Installation directory structure
 
 PHP installation directory structure when using CMake:
 

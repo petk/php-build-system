@@ -20,8 +20,8 @@ programs with build system run checks isn't always feasible or guaranteed.
 ## 2. Cross-compilation with CMake
 
 CMake has `try_run()`, `check_source_runs()`, and
-`check_<LANG>_source_runs()` to check whether a test program compiles and runs
-as expected.
+`check_<LANG>_source_runs()` commands to check whether a test program compiles
+and runs as expected.
 
 A minimum simplistic example:
 
@@ -47,7 +47,7 @@ check_source_runs(C [[
 Setting target system name puts CMake in the cross-compilation mode:
 
 ```sh
-cmake . -DCMAKE_SYSTEM_NAME=Linux
+cmake -DCMAKE_SYSTEM_NAME=Linux -S . -B build
 ```
 
 CMake will emit error indicating that cache variable `HAVE_HELLO_WORLD_EXITCODE`
@@ -71,7 +71,7 @@ When certain check result is known for the target system, the cache variables
 can be set manually. For example:
 
 ```sh
-cmake . -DCMAKE_SYSTEM_NAME=Linux -DHAVE_HELLO_WORLD_EXITCODE=0
+cmake -DCMAKE_SYSTEM_NAME=Linux -DHAVE_HELLO_WORLD_EXITCODE=0 -S . -B build
 ```
 
 ### 2.2. CMAKE_CROSSCOMPILING variable
@@ -101,7 +101,7 @@ then run with provided emulator as they were running on the targeted system if
 such emulator exists on the host system.
 
 ```sh
-cmake . -DCMAKE_SYSTEM_NAME=Linux -DCMAKE_CROSSCOMPILING_EMULATOR=/usr/bin/env
+cmake -DCMAKE_SYSTEM_NAME=Linux -DCMAKE_CROSSCOMPILING_EMULATOR=/usr/bin/env -S . -B build
 ```
 
 Example, how to use the cross-compiling emulator with the run check:
