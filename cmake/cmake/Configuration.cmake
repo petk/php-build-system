@@ -64,24 +64,9 @@ set(
   CACHE PATH "The path where to scan for additional INI configuration files; By\
   default it is empty value; Pass it as a relative path inside the install\
   prefix, which will be automatically prepended; If given as an absolute path,\
-  prefix is not prepended."
+  install prefix is not prepended."
 )
 mark_as_advanced(PHP_CONFIG_FILE_SCAN_DIR)
-set(
-  PHP_FULL_CONFIG_FILE_SCAN_DIR "" CACHE INTERNAL
-  "Absolute path to the additional INI configuration files directory"
-)
-if(IS_ABSOLUTE "${PHP_CONFIG_FILE_SCAN_DIR}")
-  set_property(
-    CACHE PHP_FULL_CONFIG_FILE_SCAN_DIR
-    PROPERTY VALUE "${PHP_CONFIG_FILE_SCAN_DIR}"
-  )
-elseif(PHP_CONFIG_FILE_SCAN_DIR)
-  set_property(
-    CACHE PHP_FULL_CONFIG_FILE_SCAN_DIR
-    PROPERTY VALUE "${CMAKE_INSTALL_PREFIX}/${PHP_CONFIG_FILE_SCAN_DIR}"
-  )
-endif()
 
 if(NOT CMAKE_SYSTEM_NAME STREQUAL "Windows")
   set(
@@ -93,24 +78,10 @@ if(NOT CMAKE_SYSTEM_NAME STREQUAL "Windows")
   )
   mark_as_advanced(PHP_CONFIG_FILE_PATH)
   if(NOT PHP_CONFIG_FILE_PATH)
+    # TODO: Fix this for the 'cmake --install ... --prefix' case.
     set_property(
       CACHE PHP_CONFIG_FILE_PATH
-      PROPERTY VALUE "${CMAKE_INSTALL_SYSCONFDIR}"
-    )
-  endif()
-  set(
-    PHP_FULL_CONFIG_FILE_PATH "" CACHE INTERNAL
-    "Absolute path in which to look for php.ini"
-  )
-  if(IS_ABSOLUTE "${PHP_CONFIG_FILE_PATH}")
-    set_property(
-      CACHE PHP_FULL_CONFIG_FILE_PATH
-      PROPERTY VALUE "${PHP_CONFIG_FILE_PATH}"
-    )
-  elseif(PHP_CONFIG_FILE_PATH)
-    set_property(
-      CACHE PHP_FULL_CONFIG_FILE_PATH
-      PROPERTY VALUE "${CMAKE_INSTALL_PREFIX}/${PHP_CONFIG_FILE_PATH}"
+      PROPERTY VALUE "${CMAKE_INSTALL_FULL_SYSCONFDIR}"
     )
   endif()
 endif()

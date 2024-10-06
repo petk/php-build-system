@@ -133,6 +133,8 @@ endif()
 
 include(PHP/FeatureSummary)
 
+include(cmake/CPack.cmake)
+
 message("
 License
 -------

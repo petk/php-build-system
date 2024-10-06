@@ -44,6 +44,7 @@ target_sources(
     streams/xp_socket.c
     strlcat.c
     strlcpy.c
+    ${PHP_BINARY_DIR}/main/build-defs.h
   PUBLIC
     FILE_SET HEADERS
       FILES
@@ -247,7 +248,10 @@ function(_php_main_create_files)
   # TODO: Set configure command string.
   set(CONFIGURE_COMMAND "cmake")
 
-  # TODO: Fix the installation prefix when passed via --prefix option.
+  # TODO: Fix the installation prefixes below when passed via the '--prefix'
+  # option of the 'cmake --install ...' command. PHP is at the time of writing
+  # not a relocatable program.
+
   if(PHP_PEAR_DIR)
     set(
       EXPANDED_PEAR_INSTALLDIR
@@ -267,16 +271,47 @@ function(_php_main_create_files)
     "$<PATH:ABSOLUTE_PATH,NORMALIZE,${PHP_EXTENSION_DIR},${CMAKE_INSTALL_PREFIX}>"
   )
 
-  set(EXPANDED_PHP_CONFIG_FILE_PATH "${PHP_FULL_CONFIG_FILE_PATH}")
-  set(EXPANDED_PHP_CONFIG_FILE_SCAN_DIR "${PHP_FULL_CONFIG_FILE_SCAN_DIR}")
-  set(EXPANDED_BINDIR "${CMAKE_INSTALL_FULL_BINDIR}")
-  set(EXPANDED_SBINDIR "${CMAKE_INSTALL_FULL_SBINDIR}")
-  set(EXPANDED_MANDIR "${CMAKE_INSTALL_FULL_MANDIR}")
-  set(EXPANDED_LIBDIR "${CMAKE_INSTALL_FULL_LIBDIR}")
-  set(EXPANDED_DATADIR "${CMAKE_INSTALL_FULL_DATADIR}")
+  # Set the directory where php.ini is looked for.
+  set(
+    EXPANDED_PHP_CONFIG_FILE_PATH
+    "$<PATH:ABSOLUTE_PATH,NORMALIZE,${PHP_CONFIG_FILE_PATH},${CMAKE_INSTALL_PREFIX}>"
+  )
+
+  # Set the directory where additional ini files are searched for.
+  set(
+    EXPANDED_PHP_CONFIG_FILE_SCAN_DIR
+    "$<PATH:ABSOLUTE_PATH,NORMALIZE,${PHP_CONFIG_FILE_SCAN_DIR},${CMAKE_INSTALL_PREFIX}>"
+  )
+
+  set(
+    EXPANDED_BINDIR
+    "$<PATH:ABSOLUTE_PATH,NORMALIZE,${CMAKE_INSTALL_BINDIR},${CMAKE_INSTALL_PREFIX}>"
+  )
+
+  set(
+    EXPANDED_SBINDIR
+    "$<PATH:ABSOLUTE_PATH,NORMALIZE,${CMAKE_INSTALL_SBINDIR},${CMAKE_INSTALL_PREFIX}>"
+  )
+
+  set(
+    EXPANDED_MANDIR
+    "$<PATH:ABSOLUTE_PATH,NORMALIZE,${CMAKE_INSTALL_MANDIR},${CMAKE_INSTALL_PREFIX}>"
+  )
+
+  set(
+    EXPANDED_LIBDIR
+    "$<PATH:ABSOLUTE_PATH,NORMALIZE,${CMAKE_INSTALL_LIBDIR},${CMAKE_INSTALL_PREFIX}>"
+  )
+
+  set(
+    EXPANDED_DATADIR
+    "$<PATH:ABSOLUTE_PATH,NORMALIZE,${CMAKE_INSTALL_DATADIR},${CMAKE_INSTALL_PREFIX}>"
+  )
+
   set(EXPANDED_SYSCONFDIR "${CMAKE_INSTALL_FULL_SYSCONFDIR}")
   set(EXPANDED_LOCALSTATEDIR "${CMAKE_INSTALL_FULL_LOCALSTATEDIR}")
   set(prefix "${CMAKE_INSTALL_PREFIX}")
+
   # Set shared library object extension.
   string(REPLACE "." "" SHLIB_DL_SUFFIX_NAME ${CMAKE_SHARED_MODULE_SUFFIX})
 
@@ -305,6 +340,40 @@ function(_php_main_create_files)
       OUTPUT ${PHP_BINARY_DIR}/main/build-defs.h
       CONTENT "${content}"
     )
+
+    #[[
+    TODO: This enables regenerating the build-defs.h file on the install step
+    when using different install prefix at the 'cmake --install ... --prefix'
+    phase. Needs to be adjusted further to rebuild PHP at such case.
+    include(PHP/ConfigureFile)
+    php_configure_file(
+      ${PHP_SOURCE_DIR}/main/build-defs.h.in
+      ${PHP_BINARY_DIR}/main/build-defs.h
+      VARIABLES
+        CONFIGURE_COMMAND "cmake"
+        ODBC_CFLAGS "${ODBC_CFLAGS}"
+        ODBC_LFLAGS "${ODBC_LFLAGS}"
+        ODBC_LIBS "${ODBC_LIBS}"
+        ODBC_TYPE "${ODBC_TYPE}"
+        PROG_SENDMAIL "${PROG_SENDMAIL}"
+        EXPANDED_PEAR_INSTALLDIR "${EXPANDED_PEAR_INSTALLDIR}"
+        INCLUDE_PATH "${INCLUDE_PATH}"
+        EXPANDED_EXTENSION_DIR "${EXPANDED_EXTENSION_DIR}"
+        prefix "$<INSTALL_PREFIX>"
+        EXPANDED_BINDIR "$<PATH:ABSOLUTE_PATH,NORMALIZE,${CMAKE_INSTALL_BINDIR},$<INSTALL_PREFIX>>"
+        EXPANDED_SBINDIR "$<PATH:ABSOLUTE_PATH,NORMALIZE,${CMAKE_INSTALL_SBINDIR},$<INSTALL_PREFIX>>"
+        EXPANDED_MANDIR "$<PATH:ABSOLUTE_PATH,NORMALIZE,${CMAKE_INSTALL_MANDIR},$<INSTALL_PREFIX>>"
+        EXPANDED_LIBDIR "$<PATH:ABSOLUTE_PATH,NORMALIZE,${CMAKE_INSTALL_LIBDIR},$<INSTALL_PREFIX>>"
+        EXPANDED_DATADIR "$<PATH:ABSOLUTE_PATH,NORMALIZE,${CMAKE_INSTALL_DATADIR},$<INSTALL_PREFIX>>"
+        EXPANDED_SYSCONFDIR "$<PATH:ABSOLUTE_PATH,NORMALIZE,${CMAKE_INSTALL_SYSCONFDIR},$<INSTALL_PREFIX>>"
+        EXPANDED_LOCALSTATEDIR "$<PATH:ABSOLUTE_PATH,NORMALIZE,${CMAKE_INSTALL_LOCALSTATEDIR},$<INSTALL_PREFIX>>"
+        EXPANDED_PHP_CONFIG_FILE_PATH "$<PATH:ABSOLUTE_PATH,NORMALIZE,${PHP_CONFIG_FILE_PATH},$<INSTALL_PREFIX>>"
+        EXPANDED_PHP_CONFIG_FILE_SCAN_DIR "$<PATH:ABSOLUTE_PATH,NORMALIZE,${PHP_CONFIG_FILE_SCAN_DIR},$<INSTALL_PREFIX>>"
+        SHLIB_DL_SUFFIX_NAME "${SHLIB_DL_SUFFIX_NAME}"
+    )
+    add_custom_target(php_main_build_defs_h DEPENDS ${PHP_BINARY_DIR}/main/build-defs.h)
+    add_dependencies(php_main php_main_build_defs_h)
+    #]]
 
     set(HAVE_BUILD_DEFS_H 1)
     set(PHP_CONFIG_H_WINDOWS 0)
