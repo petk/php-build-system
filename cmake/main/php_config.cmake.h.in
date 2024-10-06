@@ -2055,6 +2055,9 @@
 /* The path to the bin directory. */
 # define PHP_BINDIR "@EXPANDED_BINDIR@"
 
+/* The path to the sbin directory. */
+# define PHP_BINDIR "@EXPANDED_SBINDIR@"
+
 /* The path in which to look for php.ini. On Windows this macro isn't
    utilized in the C code. */
 # define PHP_CONFIG_FILE_PATH ""
