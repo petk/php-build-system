@@ -57,17 +57,22 @@ else()
   message(CHECK_PASS "yes")
 endif()
 
-message(DEPRECATION "The PHP_PEAR option is deprecated.")
-
-if(NOT SAPI_CLI)
-  message(
-    FATAL_ERROR
-    "The PHP_PEAR option requires CLI SAPI. Please set SAPI_CLI to 'ON'."
-  )
-endif()
+message(
+  DEPRECATION
+  "The 'PHP_PEAR' option is deprecated and will be removed in future PHP "
+  "versions. PEAR can also be installed manually from the pear.php.net website."
+)
 
 # Check PEAR dependencies.
 block()
+  if(NOT SAPI_CLI)
+    message(
+      FATAL_ERROR
+      "The 'PHP_PEAR' option requires PHP CLI SAPI. Please, set 'SAPI_CLI' to "
+      "'ON'."
+    )
+  endif()
+
   foreach(
     extension
       openssl # For pecl command to download packages over https
@@ -77,8 +82,8 @@ block()
     if(NOT EXT_${extensionUpper})
       message(
         FATAL_ERROR
-        "PEAR requires PHP extension ${extension}. Set EXT_${extensionUpper} "
-        "to 'ON'."
+        "The 'PHP_PEAR' option requires PHP extension ${extension}. Please, "
+        "set 'EXT_${extensionUpper}' to 'ON'."
       )
     endif()
   endforeach()
