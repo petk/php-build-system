@@ -59,8 +59,9 @@ endif()
 
 message(
   DEPRECATION
-  "The 'PHP_PEAR' option is deprecated and will be removed in future PHP "
-  "versions. PEAR can also be installed manually from the pear.php.net website."
+  "The 'PHP_PEAR' option is deprecated as of PHP 7.4 and will be removed in "
+  "future PHP versions. PEAR can also be installed manually from the "
+  "pear.php.net website."
 )
 
 # Check PEAR dependencies.

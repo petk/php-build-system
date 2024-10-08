@@ -19,10 +19,10 @@ cmake_minimum_required(VERSION 3.25 FATAL_ERROR)
 # The PHP MAJOR.MINOR version currently in development (the master branch).
 set(PHP_DEVELOPMENT_VERSION "8.5")
 
-# Check if git command is available.
-find_program(GIT_EXECUTABLE git DOC "Path to the Git executable")
+# Find Git.
+find_package(Git)
 
-if(NOT GIT_EXECUTABLE)
+if(NOT GIT_FOUND)
   message(FATAL_ERROR "Git not found. Please install Git: https://git-scm.com")
 endif()
 

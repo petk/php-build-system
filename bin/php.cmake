@@ -160,10 +160,10 @@ if(NOT DOWNLOAD_TOOL)
   message(FATAL_ERROR "Please install curl or wget.")
 endif()
 
-# Check if git command is available.
-find_program(GIT_EXECUTABLE git DOC "Path to the Git executable")
+# Find Git.
+find_package(Git)
 
-if(NOT GIT_EXECUTABLE)
+if(NOT GIT_FOUND)
   message(FATAL_ERROR "Git not found. Please install Git: https://git-scm.com")
 endif()
 
