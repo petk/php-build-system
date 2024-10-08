@@ -118,7 +118,7 @@ index e691bd3964..fff9fc09d0 100644
 +CMakeScripts/
 +/TryRunResults.cmake
 diff --git a/run-tests.php b/run-tests.php
-index 0dee752d32..b6eb316fa0 100755
+index bd03a7f882..9b950396f8 100755
 --- a/run-tests.php
 +++ b/run-tests.php
 @@ -865,10 +865,12 @@ function write_information(array $user_tests, $phpdbg): void
