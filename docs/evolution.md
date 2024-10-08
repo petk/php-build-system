@@ -238,6 +238,7 @@ including the removal of `aclocal.m4` in favor of the php related M4 macros in
 * The `--with-pcre-valgrind` and `--with-valgrind` were merged, and Valgrind
   detected by pkg-config.
 * The `--enable-opcache-file` configure option has been removed.
+* The `--with-pear` option has been deprecated.
 
 ##### Autoconf local macros
 
