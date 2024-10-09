@@ -228,6 +228,8 @@ foreach(extension IN LISTS extensions)
   else()
     target_link_libraries(php_main PRIVATE PHP::${extension})
   endif()
+
+  add_dependencies(php_${extension} zend)
 endforeach()
 
 ################################################################################

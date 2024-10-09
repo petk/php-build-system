@@ -139,8 +139,12 @@ if test -z "$branch"; then
   case $branch in
     PHP-[0-9]\.[0-9]*)
       ;;
+    master)
+      branch=master
+      ;;
     *)
-      branch="master"
+      echo "Unknown branch. Please, add the '--branch' option" >&2
+      exit 1
       ;;
   esac
 fi
