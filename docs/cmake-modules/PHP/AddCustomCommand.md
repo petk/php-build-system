@@ -40,7 +40,7 @@ their timestamps manually and executes the PHP_COMMAND only when needed.
 ```cmake
 php_add_custom_command(
   php_generate_something
-  OUTPUTS
+  OUTPUT
     list of generated files
   DEPENDS
     list of files or targets that this generation depends on
