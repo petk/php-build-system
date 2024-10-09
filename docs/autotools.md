@@ -190,6 +190,8 @@ Other custom options that don't follow this pattern are used for adjusting
 specific features during the build process.
 
 See `./configure --help` for all available configuration options and variables.
+Configure options for all PHP versions are listed also in the
+[Autotools directory](/docs/autotools/).
 
 Some common arguments can be passed to command-line options:
 

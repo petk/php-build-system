@@ -1,0 +1,503 @@
+`configure' configures PHP 8.5.0-dev to adapt to many kinds of systems.
+
+Usage: ./configure [OPTION]... [VAR=VALUE]...
+
+To assign environment variables (e.g., CC, CFLAGS...), specify them as
+VAR=VALUE.  See below for descriptions of some of the useful variables.
+
+Defaults for the options are specified in brackets.
+
+Configuration:
+  -h, --help              display this help and exit
+      --help=short        display options specific to this package
+      --help=recursive    display the short help of all the included packages
+  -V, --version           display version information and exit
+  -q, --quiet, --silent   do not print `checking ...' messages
+      --cache-file=FILE   cache test results in FILE [disabled]
+  -C, --config-cache      alias for `--cache-file=config.cache'
+  -n, --no-create         do not create output files
+      --srcdir=DIR        find the sources in DIR [configure dir or `..']
+
+Installation directories:
+  --prefix=PREFIX         install architecture-independent files in PREFIX
+                          [/usr/local]
+  --exec-prefix=EPREFIX   install architecture-dependent files in EPREFIX
+                          [PREFIX]
+
+By default, `make install' will install all the files in
+`/usr/local/bin', `/usr/local/lib' etc.  You can specify
+an installation prefix other than `/usr/local' using `--prefix',
+for instance `--prefix=$HOME'.
+
+For better control, use the options below.
+
+Fine tuning of the installation directories:
+  --bindir=DIR            user executables [EPREFIX/bin]
+  --sbindir=DIR           system admin executables [EPREFIX/sbin]
+  --libexecdir=DIR        program executables [EPREFIX/libexec]
+  --sysconfdir=DIR        read-only single-machine data [PREFIX/etc]
+  --sharedstatedir=DIR    modifiable architecture-independent data [PREFIX/com]
+  --localstatedir=DIR     modifiable single-machine data [PREFIX/var]
+  --runstatedir=DIR       modifiable per-process data [LOCALSTATEDIR/run]
+  --libdir=DIR            object code libraries [EPREFIX/lib]
+  --includedir=DIR        C header files [PREFIX/include]
+  --oldincludedir=DIR     C header files for non-gcc [/usr/include]
+  --datarootdir=DIR       read-only arch.-independent data root [PREFIX/share]
+  --datadir=DIR           read-only architecture-independent data [DATAROOTDIR]
+  --infodir=DIR           info documentation [DATAROOTDIR/info]
+  --localedir=DIR         locale-dependent data [DATAROOTDIR/locale]
+  --mandir=DIR            man documentation [DATAROOTDIR/man]
+  --docdir=DIR            documentation root [DATAROOTDIR/doc/php]
+  --htmldir=DIR           html documentation [DOCDIR]
+  --dvidir=DIR            dvi documentation [DOCDIR]
+  --pdfdir=DIR            pdf documentation [DOCDIR]
+  --psdir=DIR             ps documentation [DOCDIR]
+
+Program names:
+  --program-prefix=PREFIX            prepend PREFIX to installed program names
+  --program-suffix=SUFFIX            append SUFFIX to installed program names
+  --program-transform-name=PROGRAM   run sed PROGRAM on installed program names
+
+System types:
+  --build=BUILD     configure for building on BUILD [guessed]
+  --host=HOST       cross-compile to build programs to run on HOST [BUILD]
+  --target=TARGET   configure for building compilers for TARGET [HOST]
+
+Optional Features and Packages:
+  --disable-option-checking  ignore unrecognized --enable/--with options
+  --disable-FEATURE       do not include FEATURE (same as --enable-FEATURE=no)
+  --enable-FEATURE[=ARG]  include FEATURE [ARG=yes]
+  --with-PACKAGE[=ARG]    use PACKAGE [ARG=yes]
+  --without-PACKAGE       do not use PACKAGE (same as --with-PACKAGE=no)
+  --with-libdir=NAME      Look for libraries in .../NAME rather than .../lib
+  --disable-rpath         Disable passing additional runtime library search
+                          paths
+  --enable-re2c-cgoto     Enable re2c -g flag to optimize conditional jumps
+                          using computed goto extension, if supported by the
+                          compiler
+
+SAPI modules:
+  --with-apxs2[=FILE]     Build shared Apache 2 handler module. FILE is the
+                          optional pathname to the Apache apxs tool [apxs]
+  --disable-cli           Disable building CLI version of PHP (this forces
+                          --without-pear)
+  --enable-embed[=TYPE]   Enable building of embedded SAPI library TYPE is
+                          either 'shared' or 'static'. [TYPE=shared]
+  --enable-fpm            Enable building of the fpm SAPI executable
+  --with-fpm-user[=USER]  Set the user for php-fpm to run as. (default:
+                          nobody)
+  --with-fpm-group[=GRP]  Set the group for php-fpm to run as. For a system
+                          user, this should usually be set to match the fpm
+                          username (default: nobody)
+  --with-fpm-systemd      Activate systemd integration
+  --with-fpm-acl          Use POSIX Access Control Lists
+  --with-fpm-apparmor     Support AppArmor confinement through libapparmor
+  --with-fpm-selinux      Support SELinux policy library
+  --enable-fuzzer         Build PHP as Clang fuzzing test module (for
+                          developers)
+  --enable-litespeed      Build PHP as litespeed module
+  --disable-phpdbg        Disable building of phpdbg
+  --enable-phpdbg-debug   Build phpdbg in debug mode to enable additional
+                          diagnostic output for developing and troubleshooting
+                          phpdbg itself
+  --enable-phpdbg-readline
+                          Enable readline support in phpdbg (depends on static
+                          ext/readline)
+  --disable-cgi           Disable building CGI version of PHP
+  --with-valgrind         Enable Valgrind support
+
+General settings:
+  --enable-gcov           Enable GCOV code coverage - FOR DEVELOPERS ONLY!!
+  --enable-debug          Compile with debugging symbols
+  --enable-debug-assertions
+                          Compile with debug assertions even in release mode
+  --enable-zts            Enable thread safety
+  --enable-rtld-now       Use dlopen with RTLD_NOW instead of RTLD_LAZY
+  --with-layout=TYPE      Set how installed files will be laid out. Type can
+                          be either PHP or GNU [PHP]
+  --with-config-file-path=PATH
+                          Set the path in which to look for php.ini
+                          [PREFIX/lib]
+  --with-config-file-scan-dir=PATH
+                          Set the path where to scan for configuration files
+  --enable-sigchild       Enable PHP's own SIGCHLD handler
+  --enable-libgcc         Enable explicitly linking against libgcc
+  --disable-short-tags    Disable the short-form <? start tag by default
+  --enable-dmalloc        Enable dmalloc
+  --disable-ipv6          Disable IPv6 support
+  --enable-dtrace         Enable DTrace support
+  --enable-fd-setsize     Set size of descriptor sets
+  --enable-werror         Enable -Werror
+  --enable-memory-sanitizer
+                          Enable memory sanitizer (clang only)
+  --enable-address-sanitizer
+                          Enable address sanitizer
+  --enable-undefined-sanitizer
+                          Enable undefined sanitizer
+
+Extensions:
+  --with-EXTENSION=[shared[,PATH]]
+
+    NOTE: Not all extensions can be built as 'shared'.
+
+    Example: --with-foobar=shared,/usr/local/foobar/
+
+      o Builds the foobar extension as shared extension.
+      o foobar package install prefix is /usr/local/foobar/
+
+  --disable-all           Disable all extensions which are enabled by default
+  --without-libxml        Build without LIBXML support
+  --with-openssl          Include OpenSSL support (requires OpenSSL >= 1.1.1)
+  --with-system-ciphers   OPENSSL: Use system default cipher list instead of
+                          hardcoded value
+  --with-openssl-legacy-provider
+                          OPENSSL: Load legacy algorithm provider in addition
+                          to default provider
+  --with-openssl-argon2   OPENSSL: Enable argon2 password hashing
+  --with-external-pcre    Use external library for PCRE support
+  --without-pcre-jit      Disable PCRE JIT functionality
+  --without-sqlite3       Do not include SQLite3 support.
+  --with-zlib             Include ZLIB support (requires zlib library)
+  --enable-bcmath         Enable bc style precision math functions
+  --with-bz2[=DIR]        Include BZip2 support
+  --enable-calendar       Enable support for calendar conversion
+  --disable-ctype         Disable ctype functions
+  --with-curl             Include cURL support
+  --enable-dba            Build DBA with bundled modules. To build shared DBA
+                          extension use --enable-dba=shared
+  --with-qdbm[=DIR]       DBA: QDBM support
+  --with-gdbm[=DIR]       DBA: GDBM support
+  --with-ndbm[=DIR]       DBA: NDBM support
+  --with-db4[=DIR]        DBA: Oracle Berkeley DB 4.x or 5.x support
+  --with-db3[=DIR]        DBA: Oracle Berkeley DB 3.x support
+  --with-db2[=DIR]        DBA: Oracle Berkeley DB 2.x support
+  --with-db1[=DIR]        DBA: Oracle Berkeley DB 1.x support/emulation
+  --with-dbm[=DIR]        DBA: DBM support
+  --with-tcadb[=DIR]      DBA: Tokyo Cabinet abstract DB support
+  --with-lmdb[=DIR]       DBA: Lightning memory-mapped database support
+  --without-cdb[=DIR]     DBA: CDB support (bundled)
+  --disable-inifile       DBA: INI support (bundled)
+  --disable-flatfile      DBA: FlatFile support (bundled)
+  --enable-dl-test        Enable dl_test extension
+  --disable-dom           Disable DOM support
+  --with-enchant          Include Enchant support
+  --enable-exif           Enable EXIF (metadata from images) support
+  --with-ffi              Include FFI support
+  --disable-fileinfo      Disable fileinfo support
+  --disable-filter        Disable input filter support
+  --enable-ftp            Enable FTP support
+  --with-ftp-ssl          Explicitly enable FTP over SSL support when building
+                          without openssl extension or when using phpize. If
+                          the openssl extension is enabled at the configure
+                          step (--with-openssl), FTP-SSL is enabled implicitly
+                          regardless of this option.
+  --enable-gd             Include GD support
+  --with-external-gd      Use external libgd
+  --with-avif             GD: Enable AVIF support (only for bundled libgd)
+  --with-webp             GD: Enable WEBP support (only for bundled libgd)
+  --with-jpeg             GD: Enable JPEG support (only for bundled libgd)
+  --with-xpm              GD: Enable XPM support (only for bundled libgd)
+  --with-freetype         GD: Enable FreeType 2 support (only for bundled
+                          libgd)
+  --enable-gd-jis-conv    GD: Enable JIS-mapped Japanese font support (only
+                          for bundled libgd)
+  --with-gettext[=DIR]    Include GNU gettext support
+  --with-gmp[=DIR]        Include GNU MP support. Use PKG_CONFIG_PATH (or
+                          GMP_CFLAGS and GMP_LIBS) environment variables, or
+                          alternatively the optional DIR argument to customize
+                          where to look for the GNU MP library.
+  --with-mhash            Include mhash support
+  --without-iconv[=DIR]   Exclude iconv support
+  --enable-intl           Enable internationalization support
+  --with-ldap[=DIR]       Include LDAP support
+  --with-ldap-sasl        LDAP: Build with Cyrus SASL support
+  --enable-mbstring       Enable multibyte string support
+  --disable-mbregex       MBSTRING: Disable multibyte regex support
+  --with-mysqli           Include MySQLi support. The MySQL native driver will
+                          be used
+  --with-mysql-sock[=SOCKPATH]
+                          MySQLi/PDO_MYSQL: Location of the MySQL Unix socket
+                          pointer. If unspecified, the default locations are
+                          searched
+  --with-odbcver[=HEX]    Force support for the passed ODBC version. A hex
+                          number is expected, default 0x0350. Use the special
+                          value of 0 to prevent an explicit ODBCVER to be
+                          defined.
+  --with-adabas[=DIR]     Include Adabas D support [/usr/local]
+  --with-sapdb[=DIR]      Include SAP DB support [/usr/local]
+  --with-solid[=DIR]      Include Solid support [/usr/local/solid]
+  --with-ibm-db2[=DIR]    Include IBM DB2 support [/home/db2inst1/sqllib]
+  --with-empress[=DIR]    Include Empress support $EMPRESSPATH (Empress
+                          Version >= 8.60 required)
+  --with-empress-bcs[=DIR]
+                          Include Empress Local Access support $EMPRESSPATH
+                          (Empress Version >= 8.60 required)
+  --with-custom-odbc[=DIR]
+                          Include user defined ODBC support. DIR is ODBC
+                          install base directory [/usr/local]. Make sure to
+                          define CUSTOM_ODBC_LIBS and have some odbc.h in your
+                          include dirs. For example, you should define
+                          following for Sybase SQL Anywhere 5.5.00 on QNX,
+                          prior to running this configure script:
+                          CPPFLAGS="-DODBC_QNX -DSQLANY_BUG" LDFLAGS=-lunix
+                          CUSTOM_ODBC_LIBS="-ldblib -lodbc"
+  --with-iodbc            Include iODBC support
+  --with-esoob[=DIR]      Include Easysoft OOB support
+                          [/usr/local/easysoft/oob/client]
+  --with-unixODBC[=DIR]   Include unixODBC support. Use PKG_CONFIG_PATH (or
+                          ODBC_CFLAGS and ODBC_LIBS) environment variables, or
+                          alternatively the optional DIR argument to customize
+                          where to look for the unixODBC library.
+  --with-dbmaker[=DIR]    Include DBMaker support
+  --disable-opcache       Disable Zend OPcache support
+  --disable-huge-code-pages
+                          Disable copying PHP CODE pages into HUGE PAGES
+  --disable-opcache-jit   Disable JIT
+  --with-capstone         Support opcache JIT disassembly through Capstone
+  --enable-pcntl          Enable pcntl support (CLI/CGI only)
+  --disable-pdo           Disable PHP Data Objects support
+  --with-pdo-dblib[=DIR]  PDO: DBLIB-DB support. DIR is the FreeTDS home
+                          directory
+  --with-pdo-firebird[=DIR]
+                          PDO: Firebird support. DIR is the Firebird base
+                          install directory [/opt/firebird]
+  --with-pdo-mysql[=DIR]  PDO: MySQL support. DIR is the MySQL base directory.
+                          If no value or mysqlnd is passed as DIR, the MySQL
+                          native driver will be used
+  --with-pdo-odbc=flavour,dir
+                          PDO: Support for 'flavour' ODBC driver. The
+                          'flavour' part determines what driver or driver
+                          manager to use; it can be either ibm-db2, iODBC,
+                          unixODBC, or generic. The include and lib dirs are
+                          looked for under 'dir'. You may attempt to use an
+                          otherwise unsupported driver using the 'generic'
+                          flavour. The syntax for generic ODBC support is:
+                          --with-pdo-odbc=generic,dir,libname,ldflags,cflags.
+                          When built as 'shared' the extension filename is
+                          always 'pdo_odbc.so'. For unixODBC and iODBC, the
+                          'dir' part is ignored and can be omitted, as
+                          pkg-config will be searched instead. For ibm-db2, it
+                          will search for the DB2 driver at that path.
+  --with-pdo-pgsql[=DIR]  PDO: PostgreSQL support. Optional DIR is the
+                          PostgreSQL base install directory or the path to
+                          pg_config. Also, the PGSQL_CFLAGS and PGSQL_LIBS
+                          environment variables can be used instead of the DIR
+                          argument to customize the libpq paths.
+  --without-pdo-sqlite    PDO: sqlite 3 support.
+  --with-pgsql[=DIR]      Include PostgreSQL support. Optional DIR is the
+                          PostgreSQL base install directory or the path to
+                          pg_config. Also, the PGSQL_CFLAGS and PGSQL_LIBS
+                          environment variables can be used instead of the DIR
+                          argument to customize the libpq paths.
+  --disable-phar          Disable phar support
+  --disable-posix         Disable POSIX-like functions
+  --with-libedit          Include libedit readline replacement (CLI/CGI only)
+  --with-readline[=DIR]   Include readline support (CLI/CGI only)
+  --disable-session       Disable session support
+  --with-mm[=DIR]         SESSION: Include mm support for session storage
+  --enable-shmop          Enable shmop support
+  --disable-simplexml     Disable SimpleXML support
+  --with-snmp[=DIR]       Include SNMP support. Use PKG_CONFIG_PATH (or
+                          SNMP_CFLAGS and SNMP_LIBS) environment variables, or
+                          alternatively the optional DIR argument to customize
+                          where to look for the net-snmp-config utility of the
+                          NET-SNMP library.
+  --enable-soap           Enable SOAP support
+  --enable-sockets        Enable sockets support
+  --with-sodium           Include sodium support
+  --with-external-libcrypt
+                          Use external libcrypt or libxcrypt
+  --with-password-argon2  Include Argon2 support in password_*
+  --enable-sysvmsg        Enable sysvmsg support
+  --enable-sysvsem        Enable System V semaphore support
+  --enable-sysvshm        Enable the System V shared memory support
+  --with-tidy[=DIR]       Include TIDY support
+  --disable-tokenizer     Disable tokenizer support
+  --disable-xml           Disable XML support
+  --with-expat            XML: use Expat library instead of libxml2 in the xml
+                          extension
+  --disable-xmlreader     Disable XMLReader support
+  --disable-xmlwriter     Disable XMLWriter support
+  --with-xsl              Build with XSL support
+  --enable-zend-test      Enable zend_test extension
+  --with-zip              Include Zip read/write support
+  --enable-mysqlnd        Enable mysqlnd explicitly, will be done implicitly
+                          when required by other extensions
+  --with-mysqlnd-ssl      Explicitly enable extended SSL support in the
+                          mysqlnd extension when building without openssl
+                          extension or when using phpize. If the openssl
+                          extension is enabled at the configure step
+                          (--with-openssl), extended SSL is enabled implicitly
+                          regardless of this option.
+  --disable-mysqlnd-compression-support
+                          Disable support for the MySQL compressed protocol in
+                          mysqlnd
+
+PEAR:
+  --with-pear[=DIR]       Install PEAR in DIR [PREFIX/lib/php]
+
+Zend:
+  --disable-fiber-asm     Disable the use of boost fiber assembly files
+  --disable-gcc-global-regs
+                          Disable GCC global register variables
+  --disable-zend-signals  Disable Zend signal handling
+  --enable-zend-max-execution-timers
+                          Enable Zend max execution timers; when building with
+                          thread safety (--enable-zts), they are automatically
+                          enabled by default based on the system support
+
+Libtool:
+  --enable-shared=PKGS    Build shared libraries default=yes
+  --enable-static=PKGS    Build static libraries default=yes
+  --enable-fast-install=PKGS
+                          Optimize for fast installation default=yes
+  --with-gnu-ld           Assume the C compiler uses GNU ld default=no
+  --disable-libtool-lock  Avoid locking (might break parallel builds)
+  --with-pic              Try to use only PIC/non-PIC objects default=use both
+  --with-tags=TAGS        Include additional configurations automatic
+
+
+Some influential environment variables:
+  PHP_EXTRA_VERSION
+              Extra PHP version label suffix, e.g. '-dev', 'rc1', '-acme'
+  PKG_CONFIG  path to pkg-config utility
+  PKG_CONFIG_PATH
+              directories to add to pkg-config's search path
+  PKG_CONFIG_LIBDIR
+              path overriding pkg-config's built-in search path
+  CC          C compiler command
+  CFLAGS      C compiler flags
+  LDFLAGS     linker flags, e.g. -L<lib dir> if you have libraries in a
+              nonstandard directory <lib dir>
+  LIBS        libraries to pass to the linker, e.g. -l<library>
+  CPPFLAGS    (Objective) C/C++ preprocessor flags, e.g. -I<include dir> if
+              you have headers in a nonstandard directory <include dir>
+  CPP         C preprocessor
+  SYSTEMD_CFLAGS
+              C compiler flags for SYSTEMD, overriding pkg-config
+  SYSTEMD_LIBS
+              linker flags for SYSTEMD, overriding pkg-config
+  APPARMOR_CFLAGS
+              C compiler flags for APPARMOR, overriding pkg-config
+  APPARMOR_LIBS
+              linker flags for APPARMOR, overriding pkg-config
+  SELINUX_CFLAGS
+              C compiler flags for SELINUX, overriding pkg-config
+  SELINUX_LIBS
+              linker flags for SELINUX, overriding pkg-config
+  CXX         C++ compiler command
+  CXXFLAGS    C++ compiler flags
+  CXXCPP      C++ preprocessor
+  VALGRIND_CFLAGS
+              C compiler flags for VALGRIND, overriding pkg-config
+  VALGRIND_LIBS
+              linker flags for VALGRIND, overriding pkg-config
+  LIBXML_CFLAGS
+              C compiler flags for LIBXML, overriding pkg-config
+  LIBXML_LIBS linker flags for LIBXML, overriding pkg-config
+  OPENSSL_CFLAGS
+              C compiler flags for OPENSSL, overriding pkg-config
+  OPENSSL_LIBS
+              linker flags for OPENSSL, overriding pkg-config
+  PCRE2_CFLAGS
+              C compiler flags for PCRE2, overriding pkg-config
+  PCRE2_LIBS  linker flags for PCRE2, overriding pkg-config
+  SQLITE_CFLAGS
+              C compiler flags for SQLITE, overriding pkg-config
+  SQLITE_LIBS linker flags for SQLITE, overriding pkg-config
+  ZLIB_CFLAGS C compiler flags for ZLIB, overriding pkg-config
+  ZLIB_LIBS   linker flags for ZLIB, overriding pkg-config
+  CURL_CFLAGS C compiler flags for CURL, overriding pkg-config
+  CURL_LIBS   linker flags for CURL, overriding pkg-config
+  CURL_FEATURES
+              value of supported_features for libcurl, overriding pkg-config
+  ENCHANT2_CFLAGS
+              C compiler flags for ENCHANT2, overriding pkg-config
+  ENCHANT2_LIBS
+              linker flags for ENCHANT2, overriding pkg-config
+  ENCHANT_CFLAGS
+              C compiler flags for ENCHANT, overriding pkg-config
+  ENCHANT_LIBS
+              linker flags for ENCHANT, overriding pkg-config
+  FFI_CFLAGS  C compiler flags for FFI, overriding pkg-config
+  FFI_LIBS    linker flags for FFI, overriding pkg-config
+  PNG_CFLAGS  C compiler flags for PNG, overriding pkg-config
+  PNG_LIBS    linker flags for PNG, overriding pkg-config
+  AVIF_CFLAGS C compiler flags for AVIF, overriding pkg-config
+  AVIF_LIBS   linker flags for AVIF, overriding pkg-config
+  WEBP_CFLAGS C compiler flags for WEBP, overriding pkg-config
+  WEBP_LIBS   linker flags for WEBP, overriding pkg-config
+  JPEG_CFLAGS C compiler flags for JPEG, overriding pkg-config
+  JPEG_LIBS   linker flags for JPEG, overriding pkg-config
+  XPM_CFLAGS  C compiler flags for XPM, overriding pkg-config
+  XPM_LIBS    linker flags for XPM, overriding pkg-config
+  FREETYPE2_CFLAGS
+              C compiler flags for FREETYPE2, overriding pkg-config
+  FREETYPE2_LIBS
+              linker flags for FREETYPE2, overriding pkg-config
+  GDLIB_CFLAGS
+              C compiler flags for GDLIB, overriding pkg-config
+  GDLIB_LIBS  linker flags for GDLIB, overriding pkg-config
+  GMP_CFLAGS  C compiler flags for GMP, overriding pkg-config
+  GMP_LIBS    linker flags for GMP, overriding pkg-config
+  ICU_CFLAGS  C compiler flags for ICU, overriding pkg-config
+  ICU_LIBS    linker flags for ICU, overriding pkg-config
+  SASL_CFLAGS C compiler flags for SASL, overriding pkg-config
+  SASL_LIBS   linker flags for SASL, overriding pkg-config
+  ONIG_CFLAGS C compiler flags for ONIG, overriding pkg-config
+  ONIG_LIBS   linker flags for ONIG, overriding pkg-config
+  ODBC_CFLAGS C compiler flags for ODBC, overriding pkg-config
+  ODBC_LIBS   linker flags for ODBC, overriding pkg-config
+  CAPSTONE_CFLAGS
+              C compiler flags for CAPSTONE, overriding pkg-config
+  CAPSTONE_LIBS
+              linker flags for CAPSTONE, overriding pkg-config
+  PDO_ODBC_CFLAGS
+              C compiler flags for PDO_ODBC, overriding pkg-config
+  PDO_ODBC_LIBS
+              linker flags for PDO_ODBC, overriding pkg-config
+  PGSQL_CFLAGS
+              C compiler flags for PGSQL, overriding pkg-config
+  PGSQL_LIBS  linker flags for PGSQL, overriding pkg-config
+  EDIT_CFLAGS C compiler flags for EDIT, overriding pkg-config
+  EDIT_LIBS   linker flags for EDIT, overriding pkg-config
+  SNMP_CFLAGS C compiler flags for SNMP, overriding pkg-config
+  SNMP_LIBS   linker flags for SNMP, overriding pkg-config
+  LIBSODIUM_CFLAGS
+              C compiler flags for LIBSODIUM, overriding pkg-config
+  LIBSODIUM_LIBS
+              linker flags for LIBSODIUM, overriding pkg-config
+  ARGON2_CFLAGS
+              C compiler flags for ARGON2, overriding pkg-config
+  ARGON2_LIBS linker flags for ARGON2, overriding pkg-config
+  EXPAT_CFLAGS
+              C compiler flags for EXPAT, overriding pkg-config
+  EXPAT_LIBS  linker flags for EXPAT, overriding pkg-config
+  XSL_CFLAGS  C compiler flags for XSL, overriding pkg-config
+  XSL_LIBS    linker flags for XSL, overriding pkg-config
+  EXSLT_CFLAGS
+              C compiler flags for EXSLT, overriding pkg-config
+  EXSLT_LIBS  linker flags for EXSLT, overriding pkg-config
+  LIBZIP_CFLAGS
+              C compiler flags for LIBZIP, overriding pkg-config
+  LIBZIP_LIBS linker flags for LIBZIP, overriding pkg-config
+  EXTENSION_DIR
+              Default directory for dynamically loadable PHP extensions. If
+              left empty, it is determined automatically. Can be overridden
+              using the PHP 'extension_dir' INI directive.
+  PHP_UNAME   System information (defaults to the 'uname -a' output)
+  PHP_BUILD_SYSTEM
+              The system that PHP was built on (defaults to the 'uname -a'
+              output)
+  PHP_BUILD_PROVIDER
+              The PHP build provider information
+  PHP_BUILD_COMPILER
+              Information about the compiler used for the PHP build
+  PHP_BUILD_ARCH
+              The build architecture
+
+Use these variables to override the choices made by `configure' or to help
+it to find libraries and programs with nonstandard names/locations.
+
+Report bugs to <https://github.com/php/php-src/issues>.
+PHP home page: <https://www.php.net>.
