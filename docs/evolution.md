@@ -201,9 +201,6 @@ including the removal of `aclocal.m4` in favor of the php related M4 macros in
 
 * The hash extension is now always available, meaning the `--enable-hash`
   configure argument has been removed.
-* The filter extension no longer exposes the `--with-pcre-dir` configure
-  argument and therefore allows shared builds with `./configure` for Unix
-  builds.
 * Symbols `HAVE_DATE`, `HAVE_REFLECTION`, and `HAVE_SPL` have been removed. It
   should be considered to have these extensions always available.
 * Removed unused build time symbols: `PHP_ADA_INCLUDE`, `PHP_ADA_LFLAGS`,
@@ -233,6 +230,8 @@ including the removal of `aclocal.m4` in favor of the php related M4 macros in
 
 ##### Configure options
 
+* The filter extension no longer exposes the `--with-pcre-dir` configure
+  argument and therefore allows shared builds with `./configure`.
 * Added new `--enable-rtld-now` configure option to switch the dlopen behavior
   from `RTLD_LAZY` to `RTLD_NOW`.
 * The `--with-pcre-valgrind` and `--with-valgrind` were merged, and Valgrind
