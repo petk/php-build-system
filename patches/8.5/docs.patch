@@ -3,14 +3,14 @@ Subject: Add docs related to CMake
 These are only quick README adjustments and fixes on how to use CMake
 with PHP.
 ---
- README.md | 27 +++++++++++++++++++++++++++
- 1 file changed, 27 insertions(+)
+ README.md | 22 ++++++++++++++++++++++
+ 1 file changed, 22 insertions(+)
 
 diff --git a/README.md b/README.md
-index c5376f6772..c39945251d 100644
+index c5376f6772..2675e91239 100644
 --- a/README.md
 +++ b/README.md
-@@ -35,8 +35,35 @@ For other systems, see the [installation chapter](https://www.php.net/install).
+@@ -35,8 +35,30 @@ For other systems, see the [installation chapter](https://www.php.net/install).
  
  ### Building PHP source code
  
@@ -18,24 +18,19 @@ index c5376f6772..c39945251d 100644
 +
 +On Debian-based systems:
 +
-+    sudo apt install -y cmake gcc g++ bison re2c libxml2-dev libsqlite3-dev
++    sudo apt install -y cmake gcc g++ bison libsqlite3-dev
 +
 +On Fedora-based systems:
 +
-+    sudo dnf install cmake gcc gcc-c++ bison re2c libxml2-devel sqlite-devel
-+
-+Create a build directory:
-+
-+    mkdir php-build
++    sudo dnf install cmake gcc gcc-c++ bison sqlite-devel
 +
 +Generate build system:
 +
-+    cd php-build
-+    cmake ..
++    cmake -S . -B php-build
 +
 +Build PHP:
 +
-+    cmake --build .. -j
++    cmake --build php-build -j
 +
 +#### Windows using JScript
 +

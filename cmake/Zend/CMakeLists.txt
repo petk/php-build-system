@@ -49,6 +49,7 @@ include(CheckIncludeFile)
 include(CheckSourceCompiles)
 include(CheckSymbolExists)
 include(CMakePushCheckState)
+include(PHP/AddCustomCommand)
 include(PHP/SearchLibraries)
 
 ################################################################################
@@ -496,18 +497,21 @@ endif()
 # 32-bit targets are not considered development oriented environments, where the
 # files need to be regenerated, executing this script is skipped.
 # See: https://github.com/php/php-src/issues/15899
-if(PHPSystem_EXECUTABLE AND NOT CMAKE_SIZEOF_VOID_P EQUAL 4)
-  add_custom_command(
+if(NOT CMAKE_SIZEOF_VOID_P EQUAL 4)
+  php_add_custom_command(
+    zend_generate_vm
     OUTPUT
       ${CMAKE_CURRENT_SOURCE_DIR}/zend_vm_execute.h
-      ${CMAKE_CURRENT_SOURCE_DIR}/zend_vm_opcodes.h
+      ${CMAKE_CURRENT_SOURCE_DIR}/zend_vm_handlers.h
       ${CMAKE_CURRENT_SOURCE_DIR}/zend_vm_opcodes.c
-    COMMAND ${PHPSystem_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/zend_vm_gen.php
+      ${CMAKE_CURRENT_SOURCE_DIR}/zend_vm_opcodes.h
     DEPENDS
+      ${CMAKE_CURRENT_SOURCE_DIR}/zend_vm_def.h
       ${CMAKE_CURRENT_SOURCE_DIR}/zend_vm_execute.skl
       ${CMAKE_CURRENT_SOURCE_DIR}/zend_vm_gen.php
-      ${CMAKE_CURRENT_SOURCE_DIR}/zend_vm_def.h
-    COMMENT "[Zend] Regenerating zend_vm_execute.h and zend_vm_opcodes.{h,c}"
+    PHP_COMMAND
+      ${CMAKE_CURRENT_SOURCE_DIR}/zend_vm_gen.php
+    COMMENT "[Zend] Regenerating zend_vm_execute.h, zend_vm_handlers.h and zend_vm_opcodes.{h,c}"
     VERBATIM
   )
 endif()
