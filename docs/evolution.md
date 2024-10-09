@@ -743,7 +743,7 @@ and Autotools configuration headers were synced to a nearly identical behavior.
   openssl extension is available either as shared or built statically.
 </details>
 
-## PHP 8.5 (unreleased yet)
+## PHP 8.5 (in development)
 
 PHP coding standards now use the C11 standard.
 
