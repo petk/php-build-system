@@ -1,6 +1,6 @@
 #[=============================================================================[
 Script for PHP/AddCustomCommand module that loops over output files and their
-dependant input source files and runs the command inside the execute_process().
+dependent input source files and runs the command inside the execute_process().
 
 Expected variables:
 
