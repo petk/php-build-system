@@ -101,22 +101,162 @@ Windows systems was developed and added to PHP 5.0 released in 2004.
 Freedesktop's `pkg-config` tool was optionally used in PHP Autotools-based \*nix
 build system to find the OpenSSL dependency on the system.
 
+<details>
+<summary>Changelog</summary>
+
+### PHP 5.0 build system changes
+
+#### Autotools
+
+* Many new configure options.
+* The `--with-servlet[=DIR]`, `--with-hyperwave` configure options were removed.
+
+</details>
+
+## PHP 4.4 (2005)
+
+Additional release of PHP 4.4 was done in addition to PHP 5 branch that added
+man pages for `phpize` and `php-config` scripts.
+
+## PHP 5.1 (2005)
+
+Bundled libtool was updated to 1.5.20.
+
+<details>
+<summary>Changelog</summary>
+
+### PHP 5.1 build system changes
+
+#### Autotools
+
+* Added new `-with-zend-vm=TYPE`, `--disable-reflection`, `--with-libdir=NAME`,
+  `--enable-gcov`, `--with-ODBCRouter[=DIR]`, `--with-db1`, `--disable-hash`,
+  `--disable-pdo`, `--with-pdo-dblib[=DIR]`, `--with-pdo-firebird[=DIR]`,
+  `--with-pdo-mysql[=DIR]`, `--with-pdo-oci[=DIR]`, `--with-pdo-odbc`,
+  `--with-pdo-pgsql[=DIR]`, `--with-pdo-sqlite`, `--disable-xmlreader`,
+  `--with-libxml-dir=DIR`, `--disable-xmlwriter`, `--with-libexpat-dir=DIR` configure options.
+* The `--enable-yp`, `--with-oci8-instant-client`, `--with-oracle[=DIR]`,
+  `--with-ovrimos[=DIR]`, `--with-pfpro[=DIR]`, `--with-ingres[=DIR]`,
+  `--with-mcve[=DIR]`, `--with-mnogosearch[=DIR]`, `--with-msession[=DIR]`,
+  `--with-expat-dir=DIR`, `--with-tiff-dir[=DIR]`, `--with-cpdflib[=DIR]`,
+  `--enable-dbx`, `--enable-dio`, `--with-fam` configure options were removed.
+* The bundled libtool gained the `--with-tags[=TAGS]` configure option.
+
+</details>
+
+## PHP 5.2 (2006)
+
+<details>
+<summary>Changelog</summary>
+
+### PHP 5.2 build system changes
+
+#### Autotools
+
+* Added new `--with-zlib-dir[=DIR]`, `--disable-phar`, `--disable-fileinfo`,
+  `--disable-filter`, `--with-pcre-dir`, `--enable-intl`, `--with-icu-dir=DIR`,
+  `--disable-json`, `--disable-mbregex-backtrack`, `--with-onig[=DIR]`,
+  `--without-sqlite3[=DIR]`, `--with-enchant[=DIR]`, `--enable-re2c-cgoto`,
+  `--with-litespeed`, `--enable-fpm`, `--with-fpm-user[=USER]`,
+  `--with-fpm-group[=GRP]`, `--with-libexpat-dir=DIR`, `--enable-zip`,
+  `--enable-mysqlnd`, `--disable-mysqlnd-compression-support`
+  configure options.
+* The `--with-ncurses[=DIR]`, `--enable-memory-limit`,
+  `--disable-zend-memory-manager`, `--disable-reflection`, `--disable-spl`,
+  `--with-hwapi[=DIR]`, `--with-ttf[=DIR]`, `--with-informix[=DIR]`,
+  `--enable-filepro`, `--with-fdftk[=DIR]`, `--with-fbsql[=DIR]`,
+  `--enable-versioning`, `--with-sybase[=DIR]`, `--with-mime-magic[=FILE]`,
+  `--with-ming`, `--with-msql[=DIR]`, `--enable-fastcgi`,
+  `--enable-force-cgi-redirect`, `--enable-discard-path`,
+  `--disable-path-info-check`
+  configure options were removed.
+* The `--with-mod_charset` configure option was renamed to
+  `--enable-mod-charset`.
+* The `--with-inifile` configure option was renamed to `--enable-inifile`.
+* The `--with-flatfile` configure option was renamed to `--enable-flatfile`.
+
+</details>
+
 ## 2008
 
 Idea to rewrite PHP build system in CMake first appeared during the Google
 Summer of Code in 2008 ([wiki](https://wiki.php.net/internals/cmake),
 [php-cmake](https://github.com/gloob/php-cmake)).
 
+## PHP 5.3 (2009)
+
+Bundled libtool was updated to 1.5.26.
+
 ## PHP 5.4 (2012)
 
 Autoconf minimum required version was increased to `2.59`.
 
-## PHP 7.0 (2013)
+<details>
+<summary>Changelog</summary>
+
+### PHP 5.4 build system changes
+
+#### Autotools
+
+* Added new `--enable-zend-signals`, `--with-vpx-dir=DIR`, `--with-tcadb=DIR`,
+  `--enable-dtrace`, `--with-fpm-systemd` configure options.
+* The `--enable-zend-multibyte`, `--enable-sqlite-utf8`, `--without-sqlite`,
+  `--enable-ucd-snmp-hack`, `--enable-magic-quotes`, `--with-exec-dir[=DIR]`,
+  `--enable-safe-mode` configure options were removed.
+
+</details>
+
+## PHP 5.5 (2013)
+
+<details>
+<summary>Changelog</summary>
+
+### PHP 5.5 build system changes
+
+#### Autotools
+
+* Added new `--enable-opcache` configure option.
+* The `--with-curlwrappers` configure option was removed.
+
+</details>
+
+## PHP 5.6 (2014)
+
+<details>
+<summary>Changelog</summary>
+
+### PHP 5.6 build system changes
+
+#### Autotools
+
+* Added new `--enable-phpdbg`, `--enable-phpdbg-debug`, `--with-libzip=DIR`
+  configure options.
+
+</details>
+
+## PHP 7.0 (2015)
 
 <details>
 <summary>Changelog</summary>
 
 ### PHP 7.0 build system changes
+
+#### Autotools
+
+* Added new `--disable-gcc-global-regs`, `--with-fpm-acl`,
+  `--with-system-ciphers`, `--with-pcre-jit`, `--with-webp-dir=DIR`,
+  `--with-odbcver=HEX`, `--disable-opcache-file`,
+  `--disable-huge-code-pages` configure option.
+* The `--with-aolserver=DIR`, `--with-apxs=FILE`, `--with-apache=DIR`,
+  `--enable-mod-charset`, `--with-apxs2filter`, `--with-apache-hooks=FILE`,
+  `--with-apache-hooks-static=DIR`, `--with-caudium=DIR`,
+  `--with-continuity=DIR`, `--with-isapi=DIR`, `--with-milter=DIR`,
+  `--with-nsapi=DIR`, `--with-phttpd=DIR`, `--with-pi3web=DIR`,
+  `--with-roxen=DIR`, `--enable-roxen-zts`, `--with-thttpd=SRCDIR`,
+  `--with-tux=MODULEDIR`, `--with-webjames=SRCDIR`, `--with-regex=TYPE`,
+  `--with-vpx-dir=DIR`, `--with-t1lib=DIR`, `--with-mssql=DIR`,
+  `--with-mysql=DIR`, `--with-sybase-ct=DIR`, `--with-zend-vm=TYPE` configure
+  options were removed.
 
 #### Windows
 
@@ -134,7 +274,7 @@ Autoconf minimum required version was increased to `2.59`.
 
 </details>
 
-## PHP 7.1 (2014)
+## PHP 7.1 (2016)
 
 <details>
 <summary>Changelog</summary>
@@ -148,7 +288,7 @@ Autoconf minimum required version was increased to `2.59`.
 
 </details>
 
-## PHP 7.2 (2015)
+## PHP 7.2 (2017)
 
 The `configure.in` was renamed to `configure.ac` according to Autoconf
 evolution. Autoconf minimum required version was increased to `2.64`.
@@ -230,14 +370,44 @@ including the removal of `aclocal.m4` in favor of the php related M4 macros in
 
 ##### Configure options
 
+* Many system dependencies are now discovered with pkg-config and some configure
+  options don't accept directory argument anymore.
 * The filter extension no longer exposes the `--with-pcre-dir` configure
   argument and therefore allows shared builds with `./configure`.
 * Added new `--enable-rtld-now` configure option to switch the dlopen behavior
   from `RTLD_LAZY` to `RTLD_NOW`.
+* Added new configure option `--enable-werror` to turn compiler warnings into
+  errors.
+* Added new `--with-external-gd` configure option.
+* Added new `--with-expat` configure option.
 * The `--with-pcre-valgrind` and `--with-valgrind` were merged, and Valgrind
   detected by pkg-config.
-* The `--enable-opcache-file` configure option has been removed.
+* The `--enable/disable-opcache-file` configure option has been removed.
 * The `--with-pear` option has been deprecated.
+* The `--with-litespeed` configure option was renamed to `--enable-litespeed`.
+* The `--enable/disable-libxml` configure option was renamed to
+  `--with/without-libxml`.
+* The `--with-libxml-dir` configure option was removed.
+* The `--with-pcre-regex` configure option was removed.
+* Added `--with-ffi` configure option.
+* The `--with/without-gd` configure option was renamed to `--enable/disable-gd`.
+* The `--with-webp-dir` configure option was renamed to `--with-webp`.
+* The ` --with-jpeg-dir` configure option was renamed to `--with-jpeg`.
+* The `--with-png-dir` configure option was removed.
+* The `--with-xpm-dir` configure option was renamed to `--with-xpm`.
+* The `--with-freetype-dir` configure option was renamed to `--with-freetype`.
+* The `--with-interbase` configure option was removed.
+* The `--with-icu-dir` configure option was removed.
+* The `--disable-mbregex-backtrack` configure option was removed.
+* The `--with-onig` configure option was removed (bundled Oniguruma library has
+  been removed in favor of the system Oniguruma library).
+* The `--enable-embedded-mysqli` configure option was removed.
+* The `--enable-wddx` configure option was removed.
+* The `--with-libexpat-dir` configure option was removed.
+* The `--enable/disable-zip` configure option was renamed to
+  `--with/without-zip`.
+* The `--with-libzip` configure option was removed.
+* The `--with-recode` configure option was removed.
 
 ##### Autoconf local macros
 
@@ -318,6 +488,8 @@ PHP coding standards now use the C99 standard.
 <summary>Changelog</summary>
 
 ### PHP 8.1 build system changes
+
+* Minimum OpenSSL version 1.0.2
 
 #### Autotools configure options
 
@@ -571,7 +743,7 @@ and Autotools configuration headers were synced to a nearly identical behavior.
   openssl extension is available either as shared or built statically.
 </details>
 
-## PHP 8.5 (2025)
+## PHP 8.5 (unreleased yet)
 
 PHP coding standards now use the C11 standard.
 

@@ -3337,6 +3337,51 @@ A list of Autoconf `configure` command-line configuration options, Windows
       <td></td>
     </tr>
     <tr>
+      <th colspan="4">Libtool options</th>
+    </tr>
+    <tr>
+      <td>--enable-shared=PKGS</td>
+      <td>N/A</td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>--enable-static=PKGS</td>
+      <td>N/A</td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>--enable-fast-install=PKGS</td>
+      <td>N/A</td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>--with-gnu-ld</td>
+      <td>N/A</td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>--disable-libtool-lock</td>
+      <td>N/A</td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>--with-pic</td>
+      <td>N/A</td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>--with-tags=TAGS</td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
       <th colspan="4">Influential variables</th>
     </tr>
     <tr>
