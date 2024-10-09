@@ -88,6 +88,7 @@ modules="
   FindPackageMessage
   ProcessorCount
 
+  PHP/AddCustomCommand
   PHP/CheckAttribute
   PHP/CheckCompilerFlag
   PHP/ConfigureFile
@@ -153,6 +154,7 @@ FindPackageHandleStandardArgs="
 FindPackageMessage="find_package_message"
 ProcessorCount="processorcount"
 
+PHP_AddCustomCommand="php_add_custom_command"
 PHP_CheckAttribute="
   php_check_function_attribute
   php_check_variable_attribute
