@@ -143,7 +143,8 @@ if test -z "$branch"; then
       branch=master
       ;;
     *)
-      echo "Unknown branch. Please, add the '--branch' option" >&2
+      echo "Unknown php-src branch $branch. Branch can be adjusted with:" >&2
+      echo "'--branch PHP-X.Y' option" >&2
       exit 1
       ;;
   esac
