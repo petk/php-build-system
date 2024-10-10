@@ -75,7 +75,7 @@ Features and packages:
   --with-cpdflib[=DIR]    Include cpdflib support (requires cpdflib >= 2).
   --with-jpeg-dir[=DIR]   jpeg dir for cpdflib 2.x
   --with-tiff-dir[=DIR]   tiff dir for cpdflib 2.x
-  --with-cybercash[=DIR]  Include CyberCash support.  DIR is the CyberCash MCK 
+  --with-cybercash[=DIR]  Include CyberCash support.  DIR is the CyberCash MCK
                           install directory.
   --with-gdbm[=DIR]       Include GDBM support
   --with-ndbm[=DIR]       Include NDBM support
@@ -84,11 +84,10 @@ Features and packages:
   --with-dbm[=DIR]        Include DBM support
   --with-cdb[=DIR]        Include CDB support
 
-
   --with-hyperwave        Include Hyperwave support
   --with-kerberos[=DIR]     IMAP: Include Kerberos support. DIR is the Kerberos install dir.
   --with-imap-ssl[=DIR]     IMAP: Include SSL support. DIR is the OpenSSL install dir.
-  --with-java[=DIR]       Include Java support. DIR is the JDK base install directory. 
+  --with-java[=DIR]       Include Java support. DIR is the JDK base install directory.
                           This extension is always built as shared.
   --enable-mbstr-enc-trans
                           Enable japanese encoding translation
@@ -107,19 +106,19 @@ Features and packages:
                           From PHP4, this option only supports Empress Version
                           8.60 and above
   --with-empress-bcs[=DIR]
-                          Include Empress Local Access support.  DIR is the 
-                          Empress base install directory, defaults to 
+                          Include Empress Local Access support.  DIR is the
+                          Empress base install directory, defaults to
                           $EMPRESSPATH.  From PHP4, this option only supports
                           Empress Version 8.60 and above.
   --with-birdstep[=DIR]    Include Birdstep support.  DIR is the Birdstep base
                           install directory, defaults to /usr/local/birdstep.
-  --with-custom-odbc[=DIR]      
+  --with-custom-odbc[=DIR]
                           Include a user defined ODBC support.
-                          The DIR is ODBC install base directory, 
+                          The DIR is ODBC install base directory,
                           which defaults to /usr/local.
                           Make sure to define CUSTOM_ODBC_LIBS and
                           have some odbc.h in your include dirs.
-                          E.g., you should define following for 
+                          E.g., you should define following for
                           Sybase SQL Anywhere 5.5.00 on QNX, prior to
                           run configure script:
                               CPPFLAGS="-DODBC_QNX -DSQLANY_BUG"
@@ -136,7 +135,7 @@ Features and packages:
                           OpenLink base install directory, defaults to
                           /usr/local.  This is the same as iODBC.
   --with-dbmaker[=DIR]    Include DBMaker support.  DIR is the DBMaker base
-                          install directory, defaults to where the latest 
+                          install directory, defaults to where the latest
                           version of DBMaker is installed (such as
                           /home/dbmaker/3.6).
   --with-qtdom            Include QtDOM support (requires Qt >= 2.2.0).

@@ -356,7 +356,6 @@ Libtool:
   --with-pic              Try to use only PIC/non-PIC objects default=use both
   --with-tags=TAGS        Include additional configurations automatic
 
-
 Some influential environment variables:
   PHP_EXTRA_VERSION
               Extra PHP version label suffix, e.g. '-dev', 'rc1', '-acme'

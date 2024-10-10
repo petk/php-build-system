@@ -55,12 +55,12 @@ SAPI modules:
   --with-apache[=DIR]     Build Apache 1.x module. DIR is the top-level Apache
                           build directory [/usr/local/apache]
   --enable-mod-charset      APACHE: Enable transfer tables for mod_charset (Rus Apache)
-  --with-apxs2filter[=FILE]   
+  --with-apxs2filter[=FILE]
                           EXPERIMENTAL: Build shared Apache 2.0 Filter module. FILE is the optional
                           pathname to the Apache apxs tool [apxs]
   --with-apxs2[=FILE]     Build shared Apache 2.0 Handler module. FILE is the optional
                           pathname to the Apache apxs tool [apxs]
-  --with-apache-hooks[=FILE]      
+  --with-apache-hooks[=FILE]
                           EXPERIMENTAL: Build shared Apache 1.x module. FILE is the optional
                           pathname to the Apache apxs tool [apxs]
   --with-apache-hooks-static[=DIR]
@@ -71,13 +71,13 @@ SAPI modules:
                           DIR is the Caudium server dir [/usr/local/caudium/server]
   --disable-cli           Disable building CLI version of PHP
                           (this forces --without-pear)
-  --with-continuity=DIR   Build PHP as Continuity Server module. 
+  --with-continuity=DIR   Build PHP as Continuity Server module.
                           DIR is path to the installed Continuity Server root
   --enable-embed[=TYPE]   EXPERIMENTAL: Enable building of embedded SAPI library
                           TYPE is either 'shared' or 'static'. [TYPE=shared]
   --enable-fpm              EXPERIMENTAL: Enable building of the fpm SAPI executable
   --with-fpm-user[=USER]  Set the user for php-fpm to run as. (default: nobody)
-  --with-fpm-group[=GRP]  Set the group for php-fpm to run as. For a system user, this 
+  --with-fpm-group[=GRP]  Set the group for php-fpm to run as. For a system user, this
                   should usually be set to match the fpm username (default: nobody)
   --with-isapi[=DIR]      Build PHP as an ISAPI module for use with Zeus
   --with-litespeed        Build PHP as litespeed module
@@ -117,14 +117,13 @@ General settings:
 Extensions:
 
   --with-EXTENSION=[shared[,PATH]]
-  
+
     NOTE: Not all extensions can be build as 'shared'.
 
     Example: --with-foobar=shared,/usr/local/foobar/
 
       o Builds the foobar extension as shared extension.
       o foobar package install prefix is /usr/local/foobar/
-
 
  --disable-all   Disable all extensions which are enabled by default
 
@@ -206,7 +205,7 @@ Extensions:
   --with-mssql[=DIR]      Include MSSQL-DB support.  DIR is the FreeTDS home
                           directory [/usr/local/freetds]
   --with-mysql[=DIR]      Include MySQL support.  DIR is the MySQL base
-                          directory.  If mysqlnd is passed as DIR, 
+                          directory.  If mysqlnd is passed as DIR,
                           the MySQL native driver will be used [/usr/local]
   --with-mysql-sock[=DIR]   MySQL/MySQLi/PDO_MYSQL: Location of the MySQL unix socket pointer.
                             If unspecified, the default locations are searched
@@ -217,7 +216,7 @@ Extensions:
   --enable-embedded-mysqli  MYSQLi: Enable embedded support
                             Note: Does not work with MySQL native driver!
   --with-oci8[=DIR]       Include Oracle Database OCI8 support. DIR defaults to $ORACLE_HOME.
-                          Use --with-oci8=instantclient,/path/to/instant/client/lib 
+                          Use --with-oci8=instantclient,/path/to/instant/client/lib
                           to use an Oracle Instant Client installation
   --with-adabas[=DIR]     Include Adabas D support [/usr/local]
   --with-sapdb[=DIR]      Include SAP DB support [/usr/local]
@@ -233,7 +232,7 @@ Extensions:
   --with-custom-odbc[=DIR]
                           Include user defined ODBC support. DIR is ODBC install base
                           directory [/usr/local]. Make sure to define CUSTOM_ODBC_LIBS and
-                          have some odbc.h in your include dirs. f.e. you should define 
+                          have some odbc.h in your include dirs. f.e. you should define
                           following for Sybase SQL Anywhere 5.5.00 on QNX, prior to
                           running this configure script:
                               CPPFLAGS="-DODBC_QNX -DSQLANY_BUG"
@@ -253,8 +252,8 @@ Extensions:
                                  native driver will be used [/usr/local]
   --with-zlib-dir[=DIR]       PDO_MySQL: Set the path to libz install prefix
   --with-pdo-oci[=DIR]      PDO: Oracle OCI support. DIR defaults to $ORACLE_HOME.
-                            Use --with-pdo-oci=instantclient,prefix,version 
-                            for an Oracle Instant Client SDK. 
+                            Use --with-pdo-oci=instantclient,prefix,version
+                            for an Oracle Instant Client SDK.
                             For example on Linux with 11.2 RPMs use:
                             --with-pdo-oci=instantclient,/usr,11.2
                             With 10.2 RPMs use:
@@ -262,17 +261,17 @@ Extensions:
   --with-pdo-odbc=flavour,dir
                             PDO: Support for 'flavour' ODBC driver.
                             include and lib dirs are looked for under 'dir'.
-                            
+
                             'flavour' can be one of:  ibm-db2, iODBC, unixODBC, generic
-                            If ',dir' part is omitted, default for the flavour 
+                            If ',dir' part is omitted, default for the flavour
                             you have selected will used. e.g.:
-                            
+
                               --with-pdo-odbc=unixODBC
-                              
-                            will check for unixODBC under /usr/local. You may attempt 
-                            to use an otherwise unsupported driver using the "generic" 
+
+                            will check for unixODBC under /usr/local. You may attempt
+                            to use an otherwise unsupported driver using the "generic"
                             flavour.  The syntax for generic ODBC support is:
-                            
+
                               --with-pdo-odbc=generic,dir,libname,ldflags,cflags
 
                             When build as shared the extension filename is always pdo_odbc.so
@@ -346,7 +345,7 @@ Zend:
   --with-zend-vm=TYPE     Set virtual machine dispatch method. Type is
                           one of CALL, SWITCH or GOTO [TYPE=CALL]
   --enable-maintainer-zts Enable thread safety - for code maintainers only!!
-  --disable-inline-optimization 
+  --disable-inline-optimization
                           If building zend_execute.lo fails, try this switch
   --enable-zend-multibyte Compile with zend multibyte support
 

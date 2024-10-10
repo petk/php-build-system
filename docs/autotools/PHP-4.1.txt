@@ -62,9 +62,9 @@ Features and packages:
   --with-roxen=DIR        Build PHP as a Pike module. DIR is the base Roxen
                           directory, normally /usr/local/roxen/server.
   --enable-roxen-zts      Build the Roxen module using Zend Thread Safety.
-  --with-servlet[=DIR]	  Include servlet support. DIR is the base install
-			  directory for the JSDK.  This SAPI prereqs the
-			  java extension must be built as a shared dl.
+  --with-servlet[=DIR]    Include servlet support. DIR is the base install
+                          directory for the JSDK.  This SAPI prereqs the
+                          java extension must be built as a shared dl.
   --with-thttpd=SRCDIR    Build PHP as thttpd module
   --with-tux=MODULEDIR    Build PHP as a TUX module (Linux only)
   --with-exec-dir[=DIR]   Only allow executables in DIR when in safe mode
@@ -75,7 +75,7 @@ Features and packages:
                           defaults to /usr.
   --with-jpeg-dir[=DIR]   jpeg dir for cpdflib 2.x
   --with-tiff-dir[=DIR]   tiff dir for cpdflib 2.x
-  --with-cybercash[=DIR]  Include CyberCash support.  DIR is the CyberCash MCK 
+  --with-cybercash[=DIR]  Include CyberCash support.  DIR is the CyberCash MCK
                           install directory.
   --with-gdbm[=DIR]       Include GDBM support
   --with-ndbm[=DIR]       Include NDBM support
@@ -83,7 +83,6 @@ Features and packages:
   --with-db3[=DIR]        Include Berkeley DB3 support
   --with-dbm[=DIR]        Include DBM support
   --with-cdb[=DIR]        Include CDB support
-
 
   --with-hyperwave        Include Hyperwave support
   --with-kerberos[=DIR]     IMAP: Include Kerberos support. DIR is the Kerberos install dir.
@@ -105,19 +104,19 @@ Features and packages:
                           From PHP4, this option only supports Empress Version
                           8.60 and above
   --with-empress-bcs[=DIR]
-                          Include Empress Local Access support.  DIR is the 
-                          Empress base install directory, defaults to 
+                          Include Empress Local Access support.  DIR is the
+                          Empress base install directory, defaults to
                           $EMPRESSPATH.  From PHP4, this option only supports
                           Empress Version 8.60 and above.
   --with-velocis[=DIR]    Include Velocis support.  DIR is the Velocis base
                           install directory, defaults to /usr/local/velocis.
-  --with-custom-odbc[=DIR]      
+  --with-custom-odbc[=DIR]
                           Include a user defined ODBC support.
-                          The DIR is ODBC install base directory, 
+                          The DIR is ODBC install base directory,
                           which defaults to /usr/local.
                           Make sure to define CUSTOM_ODBC_LIBS and
                           have some odbc.h in your include dirs.
-                          E.g., you should define following for 
+                          E.g., you should define following for
                           Sybase SQL Anywhere 5.5.00 on QNX, prior to
                           run configure script:
                               CPPFLAGS="-DODBC_QNX -DSQLANY_BUG"
@@ -134,7 +133,7 @@ Features and packages:
                           OpenLink base install directory, defaults to
                           /usr/local.  This is the same as iODBC.
   --with-dbmaker[=DIR]    Include DBMaker support.  DIR is the DBMaker base
-                          install directory, defaults to where the latest 
+                          install directory, defaults to where the latest
                           version of DBMaker is installed (such as
                           /home/dbmaker/3.6).
   --with-qtdom            Include QtDOM support (requires Qt >= 2.2.0).

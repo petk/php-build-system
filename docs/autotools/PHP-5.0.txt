@@ -51,15 +51,15 @@ SAPI modules:
   --with-apache[=DIR]     Build Apache 1.x module. DIR is the top-level Apache
                           build directory, defaults to /usr/local/apache.
   --with-mod_charset      Enable transfer tables for mod_charset (Rus Apache).
-  --with-apxs2filter[=FILE]   
+  --with-apxs2filter[=FILE]
                           EXPERIMENTAL: Build shared Apache 2.0 module. FILE is the optional
                           pathname to the Apache apxs tool; defaults to apxs.
   --with-apxs2[=FILE]     EXPERIMENTAL: Build shared Apache 2.0 module. FILE is the optional
                           pathname to the Apache apxs tool; defaults to apxs.
-  --with-apache-hooks[=FILE]      
+  --with-apache-hooks[=FILE]
                           EXPERIMENTAL: Build shared Apache 1.x module. FILE is the optional
                           pathname to the Apache apxs tool; defaults to apxs.
-  --with-apache-hooks-static[=DIR]     
+  --with-apache-hooks-static[=DIR]
                           EXPERIMENTAL: Build Apache 1.x module. DIR is the top-level Apache
                           build directory, defaults to /usr/local/apache.
   --with-mod_charset      Enable transfer tables for mod_charset (Rus Apache).
@@ -93,7 +93,7 @@ SAPI modules:
                           to circumvent .htaccess security.
   --enable-fastcgi        If this is enabled, the cgi module will
                           be built with support for fastcgi also.
-  --disable-path-info-check  
+  --disable-path-info-check
                           If this is disabled, paths such as
                           /info.php/test?a=b will fail to work.
 
@@ -102,10 +102,10 @@ General settings:
   --enable-debug          Compile with debugging symbols.
   --with-layout=TYPE      Sets how installed files will be laid out.  Type is
                           one of PHP (default) or GNU
-  --with-config-file-path=PATH  
+  --with-config-file-path=PATH
                           Sets the path in which to look for php.ini,
                           defaults to PREFIX/lib
-  --with-config-file-scan-dir=PATH 
+  --with-config-file-scan-dir=PATH
   --enable-safe-mode      Enable safe mode by default.
   --with-exec-dir[=DIR]   Only allow executables in DIR when in safe mode
                           defaults to /usr/local/php/bin
@@ -124,14 +124,13 @@ General settings:
 Extensions:
 
   --with-EXTENSION=[shared[,PATH]]
-  
+
     NOTE: Not all extensions can be build as 'shared'.
 
     Example: --with-foobar=shared,/usr/local/foobar/
 
       o Builds the foobar extension as shared extension.
       o foobar package install prefix is /usr/local/foobar/
-
 
  --disable-all   Disable all extensions enabled by default.
 
@@ -207,11 +206,11 @@ Extensions:
   --with-mcve[=DIR]       Include MCVE support. libmcve >= 3.2.2 or libmonetra >= 4.0 required
   --with-openssl-dir[=DIR]  MCVE: openssl install prefix.
   --with-mhash[=DIR]      Include mhash support.
-  --with-mime-magic[=FILE]  
+  --with-mime-magic[=FILE]
                           Include mime_magic support (deprecated)
   --with-ming[=DIR]       Include MING support
   --with-mnogosearch[=DIR]
-                          Include mnoGoSearch support.  DIR is the mnoGoSearch 
+                          Include mnoGoSearch support.  DIR is the mnoGoSearch
                           base install directory, defaults to /usr/local/mnogosearch.
   --with-msession[=DIR]   Include msession support
   --with-msql[=DIR]       Include mSQL support.  DIR is the mSQL base
@@ -222,13 +221,13 @@ Extensions:
   --with-mysql-sock[=DIR]   MySQL: Location of the MySQL unix socket pointer.
                             If unspecified, the default locations are searched.
   --with-zlib-dir[=DIR]     MySQL: Set the path to libz install prefix.
-  --with-mysqli[=FILE]    Include MySQLi support. FILE is the optional pathname 
+  --with-mysqli[=FILE]    Include MySQLi support. FILE is the optional pathname
                         to mysql_config.
   --enable-embedded-mysqli  MYSQLi: Enable embedded support.
   --with-ncurses[=DIR]    Include ncurses support (CLI/CGI only).
   --with-oci8[=DIR]       Include Oracle (OCI8) support using an ORACLE_HOME
                           install. The default DIR is ORACLE_HOME
-  --with-oci8-instant-client[=DIR]    
+  --with-oci8-instant-client[=DIR]
                           Include Oracle (OCI8) support using
                           Oracle Instant Client. DIR is the directory with the
                           Instant Client libraries. On Linux it will default to
@@ -247,19 +246,19 @@ Extensions:
                           From PHP 4, this option only supports Empress Version
                           8.60 and above
   --with-empress-bcs[=DIR]
-                          Include Empress Local Access support.  DIR is the 
-                          Empress base install directory, defaults to 
+                          Include Empress Local Access support.  DIR is the
+                          Empress base install directory, defaults to
                           $EMPRESSPATH.  From PHP 4, this option only supports
                           Empress Version 8.60 and above.
   --with-birdstep[=DIR]   Include Birdstep support.  DIR is the Birdstep base
                           install directory, defaults to /usr/local/birdstep.
-  --with-custom-odbc[=DIR]      
+  --with-custom-odbc[=DIR]
                           Include a user defined ODBC support.
-                          The DIR is ODBC install base directory, 
+                          The DIR is ODBC install base directory,
                           which defaults to /usr/local.
                           Make sure to define CUSTOM_ODBC_LIBS and
                           have some odbc.h in your include dirs.
-                          E.g., you should define following for 
+                          E.g., you should define following for
                           Sybase SQL Anywhere 5.5.00 on QNX, prior to
                           run configure script:
                               CPPFLAGS="-DODBC_QNX -DSQLANY_BUG"
@@ -273,14 +272,14 @@ Extensions:
   --with-unixODBC[=DIR]   Include unixODBC support.  DIR is the unixODBC base
                           install directory, defaults to /usr/local.
   --with-dbmaker[=DIR]    Include DBMaker support.  DIR is the DBMaker base
-                          install directory, defaults to where the latest 
+                          install directory, defaults to where the latest
                           version of DBMaker is installed (such as
                           /home/dbmaker/3.6).
   --with-oracle[=DIR]     Include Oracle-oci7 support. Default DIR is ORACLE_HOME.
   --with-ovrimos[=DIR]    Include Ovrimos SQL Server support. DIR is the
                           Ovrimos libsqlcli install directory.
   --enable-pcntl          Enable experimental pcntl support (CLI/CGI only)
-  --without-pcre-regex    Do not include Perl Compatible Regular Expressions 
+  --without-pcre-regex    Do not include Perl Compatible Regular Expressions
                           support. Use --with-pcre-regex=DIR to specify DIR
                           where PCRE's include and library files are located,
                           if not using bundled library.
@@ -342,10 +341,10 @@ Zend:
   --disable-zend-memory-manager
                           Disable the Zend memory manager - FOR DEVELOPERS ONLY!!
   --enable-maintainer-zts Enable thread safety - for code maintainers only
-  --disable-inline-optimization 
+  --disable-inline-optimization
                           If building zend_execute.lo fails, try this switch.
-  --enable-memory-limit   Compile with memory limit support. 
-  --enable-zend-multibyte Compile with zend multibyte support. 
+  --enable-memory-limit   Compile with memory limit support.
+  --enable-zend-multibyte Compile with zend multibyte support.
 
 TSRM:
 
