@@ -4,7 +4,7 @@ Configuration:
   --cache-file=FILE       cache test results in FILE
   --help                  print this message
   --no-create             do not create output files
-  --quiet, --silent       do not print `checking...' messages
+  --quiet, --silent       do not print 'checking...' messages
   --version               print the version of autoconf that created configure
 Directory and file names:
   --prefix=PREFIX         install architecture-independent files in PREFIX
