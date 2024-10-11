@@ -92,6 +92,7 @@ target_link_libraries(
     Dnsapi
     kernel32
     ole32
+    Pathcch
     psapi
     shell32
     user32
