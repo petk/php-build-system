@@ -34,6 +34,7 @@ target_sources(
     apache_config.c
     mod_php.c
     php_functions.c
+    php_functions.stub.php
     sapi_apache2.c
 )
 

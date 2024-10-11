@@ -47,4 +47,5 @@ target_sources(
   php_sysvmsg
   PRIVATE
     sysvmsg.c
+    sysvmsg.stub.php
 )

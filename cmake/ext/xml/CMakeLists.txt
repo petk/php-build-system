@@ -45,6 +45,7 @@ target_sources(
   php_xml
   PRIVATE
     xml.c
+    xml.stub.php
   PUBLIC
     FILE_SET HEADERS
       FILES

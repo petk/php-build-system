@@ -65,6 +65,7 @@ target_sources(
     mysqli_result_iterator.c
     mysqli_warning.c
     mysqli.c
+    mysqli.stub.php
   PUBLIC
     FILE_SET HEADERS
       FILES

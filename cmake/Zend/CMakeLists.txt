@@ -114,25 +114,33 @@ target_sources(
     zend_ast.c
     zend_atomic.c
     zend_attributes.c
+    zend_attributes.stub.php
     zend_builtin_functions.c
+    zend_builtin_functions.stub.php
     zend_call_stack.c
     zend_closures.c
+    zend_closures.stub.php
     zend_compile.c
     zend_constants.c
+    zend_constants.stub.php
     zend_cpuinfo.c
     zend_default_classes.c
     zend_dtrace.c
     zend_enum.c
+    zend_enum.stub.php
     zend_exceptions.c
+    zend_exceptions.stub.php
     zend_execute_API.c
     zend_execute.c
     zend_extensions.c
     zend_fibers.c
+    zend_fibers.stub.php
     zend_float.c
     zend_frameless_function.c
     zend_gc.c
     $<$<NOT:$<PLATFORM_ID:Windows>>:zend_gdb.c>
     zend_generators.c
+    zend_generators.stub.php
     zend_hash.c
     zend_highlight.c
     zend_hrtime.c
@@ -141,6 +149,7 @@ target_sources(
     zend_ini_scanner.c
     zend_ini.c
     zend_interfaces.c
+    zend_interfaces.stub.php
     zend_iterators.c
     zend_language_parser.c
     zend_language_scanner.c
@@ -169,6 +178,7 @@ target_sources(
     zend_virtual_cwd.c
     zend_vm_opcodes.c
     zend_weakrefs.c
+    zend_weakrefs.stub.php
     zend.c
   PUBLIC
     FILE_SET HEADERS

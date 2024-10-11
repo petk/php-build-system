@@ -47,6 +47,7 @@ target_sources(
     hash_whirlpool.c
     hash_xxhash.c
     hash.c
+    hash.stub.php
     murmur/PMurHash.c
     murmur/PMurHash128.c
   PUBLIC

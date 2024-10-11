@@ -32,6 +32,7 @@ target_sources(
   PRIVATE
     cal_unix.c
     calendar.c
+    calendar.stub.php
     dow.c
     easter.c
     french.c

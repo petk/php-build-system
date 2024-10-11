@@ -34,6 +34,7 @@ target_sources(
     zlib_filter.c
     zlib_fopen_wrapper.c
     zlib.c
+    zlib.stub.php
 )
 
 target_compile_definitions(php_zlib PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE=1)

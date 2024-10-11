@@ -31,6 +31,7 @@ target_sources(
   php_xsl
   PRIVATE
     php_xsl.c
+    php_xsl.stub.php
     xsltprocessor.c
 )
 

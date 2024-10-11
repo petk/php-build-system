@@ -31,4 +31,5 @@ target_sources(
   php_sysvshm
   PRIVATE
     sysvshm.c
+    sysvshm.stub.php
 )

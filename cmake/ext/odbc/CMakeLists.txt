@@ -88,6 +88,7 @@ target_sources(
   php_odbc
   PRIVATE
     odbc_utils.c
+    odbc.stub.php
     php_odbc.c
 )
 

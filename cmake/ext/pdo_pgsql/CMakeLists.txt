@@ -38,7 +38,9 @@ target_sources(
   php_pdo_pgsql
   PRIVATE
     pdo_pgsql.c
+    pdo_pgsql.stub.php
     pgsql_driver.c
+    pgsql_driver.stub.php
     pgsql_sql_parser.c
     pgsql_statement.c
 )

@@ -60,6 +60,7 @@ target_sources(
   php_%EXTNAME%
   PRIVATE
     %EXTNAME%.c
+    %EXTNAME%.stub.php
   # Add headers to a file set, if extension provides headers that should be
   # installed and will be consumed by other sources.
   PUBLIC

@@ -31,6 +31,7 @@ target_sources(
   php_exif
   PRIVATE
     exif.c
+    exif.stub.php
 )
 
 target_compile_definitions(php_exif PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE=1)

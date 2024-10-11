@@ -23,6 +23,7 @@ endif()
 
 add_executable(php_litespeed
   lsapi_main.c
+  lsapi_main.stub.php
   lsapilib.c
 )
 

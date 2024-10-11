@@ -31,4 +31,5 @@ target_sources(
   php_shmop
   PRIVATE
     shmop.c
+    shmop.stub.php
 )

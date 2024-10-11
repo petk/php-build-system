@@ -39,6 +39,7 @@ target_sources(
     dblib_driver.c
     dblib_stmt.c
     pdo_dblib.c
+    pdo_dblib.stub.php
 )
 
 add_dependencies(php_pdo_dblib php_pdo)

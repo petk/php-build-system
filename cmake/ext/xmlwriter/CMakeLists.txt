@@ -31,6 +31,7 @@ target_sources(
   php_xmlwriter
   PRIVATE
     php_xmlwriter.c
+    php_xmlwriter.stub.php
 )
 
 target_compile_definitions(

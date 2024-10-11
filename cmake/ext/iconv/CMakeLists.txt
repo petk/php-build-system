@@ -35,6 +35,7 @@ target_sources(
   php_iconv
   PRIVATE
     iconv.c
+    iconv.stub.php
     php_iconv.def
   PUBLIC
     FILE_SET HEADERS

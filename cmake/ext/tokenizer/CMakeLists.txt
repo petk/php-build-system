@@ -32,7 +32,9 @@ target_sources(
   php_tokenizer
   PRIVATE
     tokenizer_data.c
+    tokenizer_data.stub.php
     tokenizer.c
+    tokenizer.stub.php
 )
 
 # The tokenizer extension depends on the generated Zend scanner and parser.

@@ -12,15 +12,24 @@ target_sources(
   php_spl
   PRIVATE
     php_spl.c
+    php_spl.stub.php
     spl_array.c
+    spl_array.stub.php
     spl_directory.c
+    spl_directory.stub.php
     spl_dllist.c
+    spl_dllist.stub.php
     spl_exceptions.c
+    spl_exceptions.stub.php
     spl_fixedarray.c
+    spl_fixedarray.stub.php
     spl_functions.c
     spl_heap.c
+    spl_heap.stub.php
     spl_iterators.c
+    spl_iterators.stub.php
     spl_observer.c
+    spl_observer.stub.php
   PUBLIC
     FILE_SET HEADERS
       FILES

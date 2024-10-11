@@ -158,20 +158,21 @@ endif()
 target_sources(
   php_dba
   PRIVATE
-    dba.c
     dba_cdb.c
-    dba_dbm.c
-    dba_gdbm.c
-    dba_ndbm.c
     dba_db1.c
     dba_db2.c
     dba_db3.c
     dba_db4.c
+    dba_dbm.c
     dba_flatfile.c
+    dba_gdbm.c
     dba_inifile.c
+    dba_lmdb.c
+    dba_ndbm.c
     dba_qdbm.c
     dba_tcadb.c
-    dba_lmdb.c
+    dba.c
+    dba.stub.php
 )
 
 target_compile_definitions(php_dba PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE=1)

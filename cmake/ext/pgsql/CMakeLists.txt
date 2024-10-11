@@ -34,6 +34,7 @@ target_sources(
   php_pgsql
   PRIVATE
     pgsql.c
+    pgsql.stub.php
 )
 
 target_compile_definitions(

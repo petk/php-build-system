@@ -33,12 +33,15 @@ target_sources(
   PRIVATE
     breakiterator/breakiterator_class.cpp
     breakiterator/breakiterator_iterators.cpp
+    breakiterator/breakiterator_iterators.stub.php
     breakiterator/breakiterator_methods.cpp
+    breakiterator/breakiterator.stub.php
     breakiterator/codepointiterator_internal.cpp
     breakiterator/codepointiterator_methods.cpp
     breakiterator/rulebasedbreakiterator_methods.cpp
     calendar/calendar_class.cpp
     calendar/calendar_methods.cpp
+    calendar/calendar.stub.php
     calendar/gregoriancalendar_methods.cpp
     collator/collator_attr.c
     collator/collator_class.c
@@ -49,10 +52,13 @@ target_sources(
     collator/collator_is_numeric.c
     collator/collator_locale.c
     collator/collator_sort.c
+    collator/collator.stub.php
     common/common_date.cpp
     common/common_enum.cpp
     common/common_error.c
+    common/common.stub.php
     converter/converter.c
+    converter/converter.stub.php
     dateformat/dateformat_attr.c
     dateformat/dateformat_attrcpp.cpp
     dateformat/dateformat_class.c
@@ -63,14 +69,17 @@ target_sources(
     dateformat/dateformat_helpers.cpp
     dateformat/dateformat_parse.c
     dateformat/dateformat.c
+    dateformat/dateformat.stub.php
     dateformat/datepatterngenerator_class.cpp
     dateformat/datepatterngenerator_methods.cpp
+    dateformat/datepatterngenerator.stub.php
     formatter/formatter_attr.c
     formatter/formatter_class.c
     formatter/formatter_data.c
     formatter/formatter_format.c
     formatter/formatter_main.c
     formatter/formatter_parse.c
+    formatter/formatter.stub.php
     grapheme/grapheme_string.c
     grapheme/grapheme_util.c
     idn/idn.c
@@ -80,6 +89,7 @@ target_sources(
     locale/locale_class.c
     locale/locale_methods.c
     locale/locale.c
+    locale/locale.stub.php
     msgformat/msgformat_attr.c
     msgformat/msgformat_class.c
     msgformat/msgformat_data.c
@@ -87,20 +97,28 @@ target_sources(
     msgformat/msgformat_helpers.cpp
     msgformat/msgformat_parse.c
     msgformat/msgformat.c
+    msgformat/msgformat.stub.php
     normalizer/normalizer_class.c
     normalizer/normalizer_normalize.c
+    normalizer/normalizer.stub.php
     php_intl.c
+    php_intl.stub.php
     resourcebundle/resourcebundle_class.c
     resourcebundle/resourcebundle_iterator.c
     resourcebundle/resourcebundle.c
+    resourcebundle/resourcebundle.stub.php
     spoofchecker/spoofchecker_class.c
     spoofchecker/spoofchecker_create.c
     spoofchecker/spoofchecker_main.c
+    spoofchecker/spoofchecker.stub.php
     timezone/timezone_class.cpp
     timezone/timezone_methods.cpp
+    timezone/timezone.stub.php
     transliterator/transliterator_class.c
     transliterator/transliterator_methods.c
+    transliterator/transliterator.stub.php
     uchar/uchar.c
+    uchar/uchar.stub.php
 )
 
 php_check_compiler_flag(C -Wno-write-strings HAVE_WNO_WRITE_STRINGS_C)

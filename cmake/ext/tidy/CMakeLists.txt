@@ -34,6 +34,7 @@ target_sources(
   PRIVATE
     php_tidy.def
     tidy.c
+    tidy.stub.php
 )
 
 # Add -Wno-ignored-qualifiers as this is an issue upstream. Fixed in tidy-html5

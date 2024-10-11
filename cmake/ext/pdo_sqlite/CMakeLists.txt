@@ -38,7 +38,9 @@ target_sources(
   php_pdo_sqlite
   PRIVATE
     pdo_sqlite.c
+    pdo_sqlite.stub.php
     sqlite_driver.c
+    sqlite_driver.stub.php
     sqlite_sql_parser.c
     sqlite_statement.c
 )
