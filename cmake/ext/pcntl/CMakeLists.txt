@@ -40,6 +40,7 @@ target_sources(
   php_pcntl
   PRIVATE
     pcntl.c
+    pcntl.stub.php
     php_signal.c
 )
 

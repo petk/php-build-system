@@ -37,6 +37,7 @@ target_sources(
     dirstream.c
     func_interceptors.c
     phar_object.c
+    phar_object.stub.php
     phar_path_check.c
     phar.c
     stream.c

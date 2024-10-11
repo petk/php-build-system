@@ -32,6 +32,7 @@ target_sources(
   php_sqlite3
   PRIVATE
     sqlite3.c
+    sqlite3.stub.php
 )
 
 target_compile_definitions(php_sqlite3 PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE=1)

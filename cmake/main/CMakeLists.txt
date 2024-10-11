@@ -15,6 +15,7 @@ target_sources(
     internal_functions_cli.c
     internal_functions.c
     main.c
+    main.stub.php
     network.c
     output.c
     php_content_types.c
@@ -41,6 +42,7 @@ target_sources(
     streams/streams.c
     streams/transports.c
     streams/userspace.c
+    streams/userspace.stub.php
     streams/xp_socket.c
     strlcat.c
     strlcpy.c

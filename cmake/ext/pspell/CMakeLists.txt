@@ -32,6 +32,7 @@ target_sources(
   php_pspell
   PRIVATE
     pspell.c
+    pspell.stub.php
 )
 
 # Add -Wno-strict-prototypes as depends on user libs.

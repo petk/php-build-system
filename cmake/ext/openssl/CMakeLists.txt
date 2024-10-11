@@ -73,6 +73,7 @@ target_sources(
   php_openssl
   PRIVATE
     openssl.c
+    openssl.stub.php
     xp_ssl.c
 )
 

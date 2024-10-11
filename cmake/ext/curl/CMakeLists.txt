@@ -35,9 +35,11 @@ target_sources(
   php_curl
   PRIVATE
     curl_file.c
+    curl_file.stub.php
     interface.c
     multi.c
     share.c
+    curl.stub.php
   PUBLIC
     FILE_SET HEADERS
       FILES

@@ -45,6 +45,7 @@ target_sources(
     assert.c
     base64.c
     basic_functions.c
+    basic_functions.stub.php
     browscap.c
     crc32.c
     credits.c
@@ -52,11 +53,14 @@ target_sources(
     css.c
     datetime.c
     dir.c
+    dir.stub.php
     dl.c
+    dl.stub.php
     $<$<PLATFORM_ID:Windows>:dns_win32.c>
     dns.c
     exec.c
     file.c
+    file.stub.php
     filestat.c
     filters.c
     flock_compat.c
@@ -100,6 +104,7 @@ target_sources(
     url_scanner_ex.c
     url.c
     user_filters.c
+    user_filters.stub.php
     uuencode.c
     var_unserializer.c
     var.c

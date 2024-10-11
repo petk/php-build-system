@@ -38,6 +38,7 @@ target_sources(
   php_sysvsem
   PRIVATE
     sysvsem.c
+    sysvsem.stub.php
 )
 
 cmake_push_check_state(RESET)

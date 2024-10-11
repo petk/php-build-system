@@ -32,6 +32,7 @@ target_sources(
   php_enchant
   PRIVATE
     enchant.c
+    enchant.stub.php
 )
 
 find_package(Enchant 2.0)

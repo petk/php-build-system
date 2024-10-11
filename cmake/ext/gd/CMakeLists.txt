@@ -135,6 +135,7 @@ target_sources(
   php_gd
   PRIVATE
     gd.c
+    gd.stub.php
   PUBLIC
     FILE_SET HEADERS
       FILES

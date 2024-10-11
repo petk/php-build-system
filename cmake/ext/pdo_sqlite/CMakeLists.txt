@@ -39,6 +39,7 @@ target_sources(
   PRIVATE
     pdo_sqlite.c
     sqlite_driver.c
+    sqlite_driver.stub.php
     sqlite_statement.c
 )
 

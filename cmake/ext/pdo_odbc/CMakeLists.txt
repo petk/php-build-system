@@ -123,6 +123,7 @@ target_sources(
     odbc_driver.c
     odbc_stmt.c
     pdo_odbc.c
+    pdo_odbc.stub.php
 )
 
 add_dependencies(php_pdo_odbc php_pdo)

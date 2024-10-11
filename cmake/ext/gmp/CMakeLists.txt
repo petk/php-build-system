@@ -31,6 +31,7 @@ target_sources(
   php_gmp
   PRIVATE
     gmp.c
+    gmp.stub.php
   PUBLIC
     FILE_SET HEADERS
       FILES

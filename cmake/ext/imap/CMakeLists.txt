@@ -47,6 +47,7 @@ target_sources(
   php_imap
   PRIVATE
     php_imap.c
+    php_imap.stub.php
 )
 
 target_compile_definitions(php_imap PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE=1)

@@ -31,4 +31,5 @@ target_sources(
   php_ctype
   PRIVATE
     ctype.c
+    ctype.stub.php
 )

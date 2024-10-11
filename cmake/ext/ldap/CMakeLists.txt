@@ -42,6 +42,7 @@ target_sources(
   php_ldap
   PRIVATE
     ldap.c
+    ldap.stub.php
 )
 
 target_compile_definitions(php_ldap PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE=1)

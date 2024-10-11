@@ -49,6 +49,7 @@ target_sources(
     notation.c
     parentnode.c
     php_dom.c
+    php_dom.stub.php
     processinginstruction.c
     text.c
     xpath.c

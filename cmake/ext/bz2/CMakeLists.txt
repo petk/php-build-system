@@ -33,6 +33,7 @@ target_sources(
   PRIVATE
     bz2_filter.c
     bz2.c
+    bz2.stub.php
 )
 
 target_compile_definitions(

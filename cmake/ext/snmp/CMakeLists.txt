@@ -33,6 +33,7 @@ target_sources(
   php_snmp
   PRIVATE
     snmp.c
+    snmp.stub.php
 )
 
 add_dependencies(php_snmp php_spl)

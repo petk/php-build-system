@@ -40,6 +40,7 @@ target_sources(
     sendrecvmsg.c
     sockaddr_conv.c
     sockets.c
+    sockets.stub.php
   PUBLIC
     FILE_SET HEADERS
       FILES

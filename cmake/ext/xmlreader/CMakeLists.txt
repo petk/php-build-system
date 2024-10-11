@@ -31,6 +31,7 @@ target_sources(
   php_xmlreader
   PRIVATE
     php_xmlreader.c
+    php_xmlreader.stub.php
 )
 
 target_compile_definitions(

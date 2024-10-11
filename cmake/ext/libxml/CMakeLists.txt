@@ -23,6 +23,7 @@ target_sources(
   php_libxml
   PRIVATE
     libxml.c
+    libxml.stub.php
     php_libxml2.def
   PUBLIC
     FILE_SET HEADERS

@@ -60,6 +60,7 @@ target_sources(
     oci8_lob.c
     oci8_statement.c
     oci8.c
+    oci8.stub.php
 )
 
 set(PHP_OCI8_INSTANT_CLIENT "")

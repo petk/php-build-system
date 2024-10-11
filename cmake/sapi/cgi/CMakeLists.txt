@@ -19,6 +19,7 @@ endif()
 
 add_executable(php_cgi
   cgi_main.c
+  cgi_main.stub.php
 )
 
 target_compile_definitions(php_cgi PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE=1)

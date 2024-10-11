@@ -39,6 +39,7 @@ target_sources(
   php_posix
   PRIVATE
     posix.c
+    posix.stub.php
 )
 
 target_compile_definitions(php_posix PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE=1)

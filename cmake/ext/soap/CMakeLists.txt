@@ -37,6 +37,7 @@ target_sources(
     php_sdl.c
     php_xml.c
     soap.c
+    soap.stub.php
 )
 
 target_compile_definitions(

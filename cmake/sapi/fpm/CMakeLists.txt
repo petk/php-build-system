@@ -129,6 +129,7 @@ add_executable(
   fpm/fpm_events.c
   fpm/fpm_log.c
   fpm/fpm_main.c
+  fpm/fpm_main.stub.php
   fpm/fpm_php_trace.c
   fpm/fpm_php.c
   fpm/fpm_process_ctl.c

@@ -32,6 +32,7 @@ target_sources(
   php_sodium
   PRIVATE
     libsodium.c
+    libsodium.stub.php
     sodium_pwhash.c
   PUBLIC
     FILE_SET HEADERS

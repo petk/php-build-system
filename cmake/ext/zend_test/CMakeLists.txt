@@ -31,10 +31,14 @@ target_sources(
   php_zend_test
   PRIVATE
     fiber.c
+    fiber.stub.php
     iterators.c
+    iterators.stub.php
     object_handlers.c
+    object_handlers.stub.php
     observer.c
     test.c
+    test.stub.php
 )
 
 target_compile_definitions(

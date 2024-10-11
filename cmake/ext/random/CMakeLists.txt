@@ -22,6 +22,7 @@ target_sources(
     engine_xoshiro256starstar.c
     gammasection.c
     random.c
+    random.stub.php
     randomizer.c
   PUBLIC
     FILE_SET HEADERS

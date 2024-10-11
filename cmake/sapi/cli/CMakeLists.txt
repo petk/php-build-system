@@ -60,7 +60,9 @@ target_sources(
   php_cli
   PRIVATE
     php_cli_process_title.c
+    php_cli_process_title.stub.php
     php_cli_server.c
+    php_cli_server.stub.php
     php_cli.c
     php_http_parser.c
     ps_title.c
@@ -110,6 +112,7 @@ if(SAPI_CLI_WIN_NO_CONSOLE)
   add_executable(php_cli_win_no_console
     cli_win32.c
     php_cli_process_title.c
+    php_cli_process_title.stub.php
     ps_title.c
   )
 

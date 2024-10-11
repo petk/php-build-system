@@ -32,6 +32,7 @@ target_sources(
   php_zip
   PRIVATE
     php_zip.c
+    php_zip.stub.php
     zip_stream.c
 )
 
