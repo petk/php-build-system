@@ -61,6 +61,7 @@ target_sources(
     mysql_sql_parser.c
     mysql_statement.c
     pdo_mysql.c
+    pdo_mysql.stub.php
 )
 
 add_dependencies(php_pdo_mysql php_pdo)

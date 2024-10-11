@@ -42,6 +42,7 @@ target_sources(
   php_ftp
   PRIVATE
     ftp.c
+    ftp.stub.php
     php_ftp.c
 )
 

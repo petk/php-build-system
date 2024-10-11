@@ -6,7 +6,13 @@ add_feature_info(
   "Reflection API to introspect PHP code"
 )
 
-add_library(php_reflection STATIC php_reflection.c)
+add_library(php_reflection STATIC)
+target_sources(
+  php_reflection
+  PRIVATE
+    php_reflection.c
+    php_reflection.stub.php
+)
 
 target_compile_definitions(
   php_reflection

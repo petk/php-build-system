@@ -32,6 +32,7 @@ target_sources(
   php_gettext
   PRIVATE
     gettext.c
+    gettext.stub.php
 )
 
 find_package(Intl)

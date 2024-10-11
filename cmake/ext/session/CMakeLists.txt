@@ -48,6 +48,7 @@ target_sources(
     mod_user_class.c
     mod_user.c
     session.c
+    session.stub.php
   PUBLIC
     FILE_SET HEADERS
       FILES

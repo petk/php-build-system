@@ -15,6 +15,7 @@ target_sources(
     json_parser.tab.c
     json_scanner.c
     json.c
+    json.stub.php
   PUBLIC
     FILE_SET HEADERS
       FILES

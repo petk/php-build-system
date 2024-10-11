@@ -26,6 +26,7 @@ target_sources(
     lib/tm2unixtime.c
     lib/unixtime2tm.c
     php_date.c
+    php_date.stub.php
   PUBLIC
     FILE_SET HEADERS
       FILES

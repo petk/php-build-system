@@ -23,10 +23,6 @@ foreach(input ${DEPENDS})
   endif()
 
   foreach(output ${OUTPUT})
-    if(NOT EXISTS ${output})
-      continue()
-    endif()
-
     if("${input}" IS_NEWER_THAN "${output}")
       set(needsUpdate TRUE)
       break()

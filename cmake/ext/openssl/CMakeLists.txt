@@ -78,7 +78,9 @@ target_sources(
   php_openssl
   PRIVATE
     openssl_pwhash.c
+    openssl_pwhash.stub.php
     openssl.c
+    openssl.stub.php
     xp_ssl.c
 )
 

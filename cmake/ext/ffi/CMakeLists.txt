@@ -35,6 +35,7 @@ target_sources(
   PRIVATE
     ffi_parser.c
     ffi.c
+    ffi.stub.php
 )
 
 target_compile_definitions(php_ffi PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE=1)

@@ -23,6 +23,7 @@ target_sources(
   php_libxml
   PRIVATE
     libxml.c
+    libxml.stub.php
     mime_sniff.c
     php_libxml2.def
   PUBLIC

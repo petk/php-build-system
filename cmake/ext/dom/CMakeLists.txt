@@ -232,6 +232,7 @@ target_sources(
     parentnode/css_selectors.c
     parentnode/tree.c
     php_dom.c
+    php_dom.stub.php
     private_data.c
     processinginstruction.c
     text.c

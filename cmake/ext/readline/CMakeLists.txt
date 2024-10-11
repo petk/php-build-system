@@ -37,6 +37,7 @@ target_sources(
   PRIVATE
     readline_cli.c
     readline.c
+    readline.stub.php
 )
 
 # Add -Wno-strict-prototypes as depends on user libs.

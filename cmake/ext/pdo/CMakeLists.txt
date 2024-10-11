@@ -31,10 +31,13 @@ target_sources(
   php_pdo
   PRIVATE
     pdo_dbh.c
+    pdo_dbh.stub.php
     pdo_sql_parser.c
     pdo_sqlstate.c
     pdo_stmt.c
+    pdo_stmt.stub.php
     pdo.c
+    pdo.stub.php
   PUBLIC
     FILE_SET HEADERS
       FILES

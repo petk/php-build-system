@@ -41,6 +41,7 @@ target_sources(
     firebird_statement.c
     pdo_firebird_utils.cpp
     pdo_firebird.c
+    pdo_firebird.stub.php
 )
 
 set_target_properties(

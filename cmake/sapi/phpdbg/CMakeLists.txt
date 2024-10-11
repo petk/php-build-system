@@ -71,6 +71,7 @@ set(php_phpdbg_sources
   phpdbg_out.c
   phpdbg_parser.c
   phpdbg_print.c
+  phpdbg.stub.php
   phpdbg_prompt.c
   phpdbg_set.c
   phpdbg_sigsafe.c

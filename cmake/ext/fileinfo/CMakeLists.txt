@@ -34,6 +34,7 @@ target_sources(
   php_fileinfo
   PRIVATE
     fileinfo.c
+    fileinfo.stub.php
     libmagic/apprentice.c
     libmagic/apptype.c
     libmagic/ascmagic.c

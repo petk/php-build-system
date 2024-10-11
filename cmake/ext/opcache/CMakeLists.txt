@@ -55,6 +55,7 @@ add_library(php_opcache SHARED)
 target_sources(
   php_opcache
   PRIVATE
+    opcache.stub.php
     $<$<NOT:$<PLATFORM_ID:Windows>>:shared_alloc_mmap.c>
     $<$<NOT:$<PLATFORM_ID:Windows>>:shared_alloc_posix.c>
     $<$<NOT:$<PLATFORM_ID:Windows>>:shared_alloc_shm.c>

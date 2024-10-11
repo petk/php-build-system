@@ -40,6 +40,7 @@ target_sources(
   PRIVATE
     php_pcre.c
     php_pcre.def
+    php_pcre.stub.php
   PUBLIC
     FILE_SET HEADERS
       FILES

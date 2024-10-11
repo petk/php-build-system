@@ -13,7 +13,13 @@ if(NOT EXT_DL_TEST)
 endif()
 
 # The dl_test extension can be built only as a shared library.
-add_library(php_dl_test SHARED dl_test.c)
+add_library(php_dl_test SHARED)
+target_sources(
+  php_dl_test
+  PRIVATE
+    dl_test.c
+    dl_test.stub.php
+)
 
 target_compile_definitions(
   php_dl_test

@@ -31,6 +31,7 @@ target_sources(
   php_simplexml
   PRIVATE
     simplexml.c
+    simplexml.stub.php
   PUBLIC
     FILE_SET HEADERS
       FILES

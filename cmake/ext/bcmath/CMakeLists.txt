@@ -31,6 +31,7 @@ target_sources(
   php_bcmath
   PRIVATE
     bcmath.c
+    bcmath.stub.php
     libbcmath/src/add.c
     libbcmath/src/compare.c
     libbcmath/src/convert.c

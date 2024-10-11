@@ -32,6 +32,7 @@ target_sources(
   PRIVATE
     callback_filter.c
     filter.c
+    filter.stub.php
     logical_filters.c
     sanitizing_filters.c
   PUBLIC

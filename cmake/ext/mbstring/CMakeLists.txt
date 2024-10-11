@@ -84,6 +84,7 @@ target_sources(
     libmbfl/nls/nls_zh.c
     mb_gpc.c
     mbstring.c
+    mbstring.stub.php
     php_unicode.c
   PUBLIC
     FILE_SET HEADERS
