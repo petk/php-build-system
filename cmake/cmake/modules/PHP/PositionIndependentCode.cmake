@@ -4,6 +4,8 @@ Check whether to enable the `POSITION_INDEPENDENT_CODE` or not.
 https://cmake.org/cmake/help/latest/variable/CMAKE_POSITION_INDEPENDENT_CODE.html
 #]=============================================================================]
 
+include_guard(GLOBAL)
+
 if(CMAKE_C_COMPILER_ID STREQUAL "Clang" AND CMAKE_SIZEOF_VOID_P EQUAL 4)
   # On 32-bit *nix (Linux and FreeBSD at least) when using Clang, the PIC is
   # required.
