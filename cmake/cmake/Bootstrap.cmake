@@ -46,6 +46,11 @@ include(cmake/Configuration.cmake)
 # Check requirements.
 include(cmake/Requirements.cmake)
 
+# Rebuild all targets when needed.
+if(NOT PHPSystem_EXECUTABLE)
+  include(PHP/Rebuild)
+endif()
+
 message("
 Running system checks
 ---------------------
