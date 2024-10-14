@@ -1,6 +1,8 @@
 #!/usr/bin/env php
 <?php
 
+declare(strict_types=1);
+
 /**
  * Generate documentation from the CMake project specific modules where needed.
  *
@@ -25,7 +27,7 @@ function generateModuleDocs(
 
         $content = '';
         $content .= "# $namespace" . "$moduleName\n\n";
-        if ($url === '') {
+        if ('' === $url) {
             $url = 'https://github.com/petk/php-build-system/tree/master/cmake/cmake/modules/' . $namespace . $moduleName . '.cmake';
         }
         $content .= "See: [$moduleName.cmake]($url)\n\n";
@@ -38,7 +40,7 @@ function generateModuleDocs(
 
         file_put_contents(
             $destination . '/' . $namespace . $moduleName . '.md',
-            $content
+            $content,
         );
     }
 }
@@ -60,10 +62,10 @@ $files = glob($modulesDirectory . '/*{/*,*}.cmake', GLOB_BRACE);
 
 foreach ($files as $file) {
     $relativeFilename = trim(str_replace($modulesDirectory, '', $file), '/');
-    echo "Processing " . $relativeFilename . "\n";
+    echo 'Processing ' . $relativeFilename . "\n";
 
     $namespace = trim(str_replace($modulesDirectory, '', dirname($file)), '/');
-    $namespace = ($namespace == '') ? '' : $namespace . '/';
+    $namespace = ('' == $namespace) ? '' : $namespace . '/';
 
     generateModuleDocs($file, $namespace, $docs);
 }

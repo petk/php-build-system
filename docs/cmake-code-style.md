@@ -33,11 +33,12 @@ ecosystem.
   * [9.1. Determining processor](#91-determining-processor)
 * [10. See also](#10-see-also)
   * [10.1. Tools](#101-tools)
-    * [10.1.1. cmake-format (by cmakelang project)](#1011-cmake-format-by-cmakelang-project)
-    * [10.1.2. cmake-lint (by cmakelang project)](#1012-cmake-lint-by-cmakelang-project)
-    * [10.1.3. cmakelint](#1013-cmakelint)
-    * [10.1.4. bin/check-cmake.sh](#1014-bincheck-cmakesh)
-    * [10.1.5. cmake-format.json](#1015-cmake-formatjson)
+    * [10.1.1. Gersemi](#1011-gersemi)
+    * [10.1.2. cmake-format (by cmakelang project)](#1012-cmake-format-by-cmakelang-project)
+    * [10.1.3. cmake-lint (by cmakelang project)](#1013-cmake-lint-by-cmakelang-project)
+    * [10.1.4. cmakelint](#1014-cmakelint)
+    * [10.1.5. bin/check-cmake.php](#1015-bincheck-cmakephp)
+    * [10.1.6. cmake-format.json](#1016-cmake-formatjson)
   * [10.2. Further resources](#102-further-resources)
 
 ## 1. Introduction
@@ -607,7 +608,16 @@ levels of maturity and a lack of updates to keep pace with new CMake versions.
 It's worth mentioning that this recommendation may evolve in the future as these
 tools continue to develop and adapt.
 
-#### 10.1.1. cmake-format (by cmakelang project)
+#### 10.1.1. Gersemi
+
+The [`gersemi`](https://github.com/BlankSpruce/gersemi) tool can check and fix
+CMake code style:
+
+```sh
+gersemi --check --indent 2 --diff --definitions cmake -- cmake
+```
+
+#### 10.1.2. cmake-format (by cmakelang project)
 
 The [`cmake-format`](https://cmake-format.readthedocs.io/en/latest/) tool can
 find formatting issues and sync the CMake code style:
@@ -636,7 +646,7 @@ dumping the formatted content to stdout:
 cmake-format -i path/to/cmake/file
 ```
 
-#### 10.1.2. cmake-lint (by cmakelang project)
+#### 10.1.3. cmake-lint (by cmakelang project)
 
 The [`cmake-lint`](https://cmake-format.readthedocs.io/en/latest/cmake-lint.html)
 tool is part of the cmakelang project and can help with linting CMake files:
@@ -648,7 +658,7 @@ cmake-lint <cmake/CMakeLists.txt cmake/...>
 This tool can also utilize the `cmake-format.[json|py|yaml]` file using the `-c`
 option.
 
-#### 10.1.3. cmakelint
+#### 10.1.4. cmakelint
 
 For linting there is also a separate and useful
 [cmakelint](https://github.com/cmake-lint/cmake-lint) tool which similarly lints
@@ -658,22 +668,22 @@ and helps to better structure CMake files:
 cmakelint <cmake/CMakeLists.txt cmake/...>
 ```
 
-#### 10.1.4. bin/check-cmake.sh
+#### 10.1.5. bin/check-cmake.php
 
 For convenience there is a custom helper script added to this repository that
 checks CMake files:
 
 ```sh
-./bin/check-cmake.sh
+./bin/check-cmake.php cmake
 ```
 
-#### 10.1.5. cmake-format.json
+#### 10.1.6. cmake-format.json
 
 The `cmake-format.json` file is used to configure how `cmake-lint` and
 `cmake-format` tools work.
 
 There is `bin/cmake-format.json` added to this repository and is used by the
-custom `bin/check-cmake.sh` script. It includes only changed configuration
+custom `bin/check-cmake.php` script. It includes only changed configuration
 values from the upstream defaults.
 
 * `disabled_codes`

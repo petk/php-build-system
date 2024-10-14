@@ -34,8 +34,9 @@ php_add_custom_command(
 ```
 
 It acts similar to `add_custom_command()` and `add_custom_target()`, except that
-the DEPENDS argument doesn't add dependencies among targets but instead checks
-their timestamps manually and executes the PHP_COMMAND only when needed.
+when PHP is not found on the system, the DEPENDS argument doesn't add
+dependencies among targets but instead checks their timestamps manually and
+executes the PHP_COMMAND only when needed.
 
 ```cmake
 php_add_custom_command(
