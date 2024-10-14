@@ -1,0 +1,17 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/BlankSpruce/gersemi/master/gersemi/configuration.schema.json
+#
+# CMake code formatting configuration.
+# See: https://github.com/BlankSpruce/gersemi
+#
+# This is only a template for now, as configuration options are passed manually.
+
+cache: true
+color: true
+definitions: [.]
+indent: 2
+line_length: 80
+list_expansion: favour-inlining
+quiet: false
+unsafe: false
+warn_about_unknown_commands: true
+workers: max
