@@ -23,13 +23,18 @@ jobs:
         uses: shivammathur/setup-php@v2
         with:
           php-version: 8.3
+          tools: php-cs-fixer
 
       - name: Install checking tools
         run: |
           pipx install codespell
+          pipx install gersemi
           curl -OL https://github.com/petk/normalizator/releases/latest/download/normalizator.phar
           chmod +x normalizator.phar
           mv normalizator.phar /usr/local/bin/normalizator
 
       - name: Run checks
-        run: ./bin/check-cmake.sh
+        run: ./bin/check-cmake.php cmake
+
+      - name: Run PHP CS Fixer
+        run: php-cs-fixer check --diff --rules=@Symfony,@PER-CS --using-cache=no -- bin
