@@ -22,7 +22,8 @@ projects.
     * [4.1.2. How to override CMake find module](#412-how-to-override-cmake-find-module)
   * [4.2. FetchContent](#42-fetchcontent)
   * [4.3. CPM.cmake](#43-cpmcmake)
-* [5. PHP dependencies](#5-php-dependencies)
+* [5. Common Package Specification (CPS)](#5-common-package-specification-cps)
+* [6. PHP dependencies](#6-php-dependencies)
 
 ## 1. Introduction to dependencies
 
@@ -440,7 +441,12 @@ include(cmake/CPM.cmake)
 CPMAddPackage("gh:fmtlib/fmt#7.1.3")
 ```
 
-## 5. PHP dependencies
+## 5. Common Package Specification (CPS)
+
+The [Common Package Specification](https://cps-org.github.io/cps/) is a new
+approach to specify package metadata using a JSON Schema file.
+
+## 6. PHP dependencies
 
 A list of various dependencies needed to build PHP from source:
 
