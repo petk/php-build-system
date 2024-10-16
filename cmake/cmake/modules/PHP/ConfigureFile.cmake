@@ -12,8 +12,8 @@ The following function is exposed:
 
 ```cmake
 php_configure_file(
-  <template-file>
-  <output-file>
+  <INPUT <template-file>|CONTENT <template-content>>
+  OUTPUT <output-file>
   [VARIABLES [<variable> <value>] ...]
 )
 ```
@@ -138,23 +138,31 @@ endfunction()
 function(php_configure_file)
   cmake_parse_arguments(
     PARSE_ARGV
-    2
-    parsed      # prefix
-    ""          # options
-    ""          # one-value keywords
-    "VARIABLES" # multi-value keywords
+    0
+    parsed                 # prefix
+    ""                     # options
+    "INPUT;CONTENT;OUTPUT" # one-value keywords
+    "VARIABLES"            # multi-value keywords
   )
 
   if(parsed_UNPARSED_ARGUMENTS)
     message(FATAL_ERROR "Bad arguments: ${parsed_UNPARSED_ARGUMENTS}")
   endif()
 
-  if(NOT ARGV0)
-    message(FATAL_ERROR "${CMAKE_CURRENT_FUNCTION} expects a template filename")
+  if(NOT parsed_INPUT AND NOT parsed_CONTENT)
+    message(
+      FATAL_ERROR
+      "${CMAKE_CURRENT_FUNCTION} expects either INPUT or CONTENT keyword to "
+      "specify template."
+    )
   endif()
 
-  if(NOT ARGV1)
-    message(FATAL_ERROR "${CMAKE_CURRENT_FUNCTION} expects an output filename")
+  if(NOT parsed_OUTPUT)
+    message(
+      FATAL_ERROR
+      "${CMAKE_CURRENT_FUNCTION} expects OUTPUT keyword to specify output "
+      "filename."
+    )
   endif()
 
   # Check for even number of keyword values.
@@ -168,15 +176,24 @@ function(php_configure_file)
     )
   endif()
 
-  set(___phpConfigureFileTemplate "${ARGV0}")
-  if(NOT IS_ABSOLUTE "${___phpConfigureFileTemplate}")
+  if(parsed_INPUT)
+    set(___phpConfigureFileTemplate "${parsed_INPUT}")
+    if(NOT IS_ABSOLUTE "${___phpConfigureFileTemplate}")
+      set(
+        ___phpConfigureFileTemplate
+        "${CMAKE_CURRENT_SOURCE_DIR}/${___phpConfigureFileTemplate}"
+      )
+    endif()
+  else()
+    cmake_path(GET parsed_OUTPUT FILENAME ___phpConfigureFileTemplate)
     set(
       ___phpConfigureFileTemplate
-      "${CMAKE_CURRENT_SOURCE_DIR}/${___phpConfigureFileTemplate}"
+      "${CMAKE_CURRENT_BINARY_DIR}/CMakeFiles/${___phpConfigureFileTemplate}.in"
     )
+    file(WRITE ${___phpConfigureFileTemplate} "${parsed_CONTENT}")
   endif()
 
-  set(___phpConfigureFileOutput "${ARGV1}")
+  set(___phpConfigureFileOutput "${parsed_OUTPUT}")
   if(NOT IS_ABSOLUTE "${___phpConfigureFileOutput}")
     set(
       ___phpConfigureFileOutput

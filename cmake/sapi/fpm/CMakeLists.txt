@@ -417,11 +417,23 @@ endif()
 ################################################################################
 
 # Man documentation.
+
+# Replace the hardcoded runstatedir with a template placeholder.
+file(READ "${CMAKE_CURRENT_SOURCE_DIR}/php-fpm.8.in" content)
+string(
+  REPLACE
+  [[@php_fpm_localstatedir@/run/php-fpm.pid]]
+  [[@php_fpm_runstatedir@/php-fpm.pid]]
+  content
+  "${content}"
+)
 php_configure_file(
-  php-fpm.8.in
-  php-fpm.8
+  CONTENT "${content}"
+  OUTPUT php-fpm.8
   VARIABLES
     php_fpm_localstatedir "$<PATH:ABSOLUTE_PATH,NORMALIZE,${CMAKE_INSTALL_LOCALSTATEDIR},$<INSTALL_PREFIX>>"
+    # TODO: Fix the GNU standard adjustment issue with /etc, /var, and /var/run.
+    php_fpm_runstatedir "$<PATH:ABSOLUTE_PATH,NORMALIZE,${CMAKE_INSTALL_RUNSTATEDIR},$<INSTALL_PREFIX>>"
     php_fpm_sysconfdir "$<PATH:ABSOLUTE_PATH,NORMALIZE,${CMAKE_INSTALL_SYSCONFDIR},$<INSTALL_PREFIX>>"
     php_fpm_prefix "$<INSTALL_PREFIX>"
     PHP_VERSION "${PHP_VERSION}"
@@ -433,8 +445,8 @@ install(
 )
 
 php_configure_file(
-  php-fpm.conf.in
-  php-fpm.conf
+  INPUT php-fpm.conf.in
+  OUTPUT php-fpm.conf
   VARIABLES
     prefix "$<INSTALL_PREFIX>"
     EXPANDED_LOCALSTATEDIR "$<PATH:ABSOLUTE_PATH,NORMALIZE,${CMAKE_INSTALL_LOCALSTATEDIR},$<INSTALL_PREFIX>>"
@@ -442,8 +454,8 @@ php_configure_file(
 )
 
 php_configure_file(
-  www.conf.in
-  www.conf
+  INPUT www.conf.in
+  OUTPUT www.conf
   VARIABLES
     prefix "$<INSTALL_PREFIX>"
     php_fpm_prefix "$<INSTALL_PREFIX>"
@@ -452,23 +464,44 @@ php_configure_file(
     EXPANDED_DATADIR "$<PATH:ABSOLUTE_PATH,NORMALIZE,${CMAKE_INSTALL_DATADIR},$<INSTALL_PREFIX>>"
 )
 
+# Replace the hardcoded runstatedir with a template placeholder.
+file(READ "${CMAKE_CURRENT_SOURCE_DIR}/init.d.php-fpm.in" content)
+string(
+  REPLACE
+  [[php_fpm_PID=@localstatedir@/run/php-fpm.pid]]
+  [[php_fpm_PID=@runstatedir@/php-fpm.pid]]
+  content
+  "${content}"
+)
+
 php_configure_file(
-  init.d.php-fpm.in
-  init.d.php-fpm
+  CONTENT "${content}"
+  OUTPUT init.d.php-fpm
   VARIABLES
     prefix "$<INSTALL_PREFIX>"
     exec_prefix "$<INSTALL_PREFIX>"
     sbindir "$<PATH:ABSOLUTE_PATH,NORMALIZE,${CMAKE_INSTALL_SBINDIR},$<INSTALL_PREFIX>>"
+    # TODO: Fix the GNU standard adjustment issue with /etc, /var, and /var/run.
     sysconfdir "$<PATH:ABSOLUTE_PATH,NORMALIZE,${CMAKE_INSTALL_SYSCONFDIR},$<INSTALL_PREFIX>>"
-    localstatedir "$<PATH:ABSOLUTE_PATH,NORMALIZE,${CMAKE_INSTALL_LOCALSTATEDIR},$<INSTALL_PREFIX>>"
+    runstatedir "$<PATH:ABSOLUTE_PATH,NORMALIZE,${CMAKE_INSTALL_RUNSTATEDIR},$<INSTALL_PREFIX>>"
+)
+
+# Replace the hardcoded runstatedir with a template placeholder.
+file(READ "${CMAKE_CURRENT_SOURCE_DIR}/php-fpm.service.in" content)
+string(
+  REPLACE
+  [[PIDFile=@EXPANDED_LOCALSTATEDIR@/run/php-fpm.pid]]
+  [[PIDFile=@EXPANDED_RUNSTATEDIR@/php-fpm.pid]]
+  content
+  "${content}"
 )
 
 php_configure_file(
-  php-fpm.service.in
-  php-fpm.service
+  CONTENT "${content}"
+  OUTPUT php-fpm.service
   VARIABLES
     php_fpm_systemd "${PHP_FPM_SYSTEMD}"
-    EXPANDED_LOCALSTATEDIR "$<PATH:ABSOLUTE_PATH,NORMALIZE,${CMAKE_INSTALL_LOCALSTATEDIR},$<INSTALL_PREFIX>>"
+    EXPANDED_RUNSTATEDIR "$<PATH:ABSOLUTE_PATH,NORMALIZE,${CMAKE_INSTALL_RUNSTATEDIR},$<INSTALL_PREFIX>>"
     EXPANDED_SBINDIR "$<PATH:ABSOLUTE_PATH,NORMALIZE,${CMAKE_INSTALL_SBINDIR},$<INSTALL_PREFIX>>"
     EXPANDED_SYSCONFDIR "$<PATH:ABSOLUTE_PATH,NORMALIZE,${CMAKE_INSTALL_SYSCONFDIR},$<INSTALL_PREFIX>>"
 )

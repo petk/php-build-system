@@ -708,7 +708,7 @@ function checkAll(array $options): int
 {
     $status = 0;
 
-    output($options['script'] . ': Working tree ' . $options['path']);
+    output($options['script'] . ': Working tree ' . realpath($options['path']));
 
     output($options['script'] . ': Checking CMake modules');
     $allCMakeFiles = getAllCMakeFiles($options['path']);

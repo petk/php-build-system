@@ -50,15 +50,10 @@ block()
     content
     "${content}"
   )
-  file(
-    WRITE
-    "${CMAKE_CURRENT_BINARY_DIR}/CMakeFiles/php-config.cmake.in"
-    "${content}"
-  )
 
   php_configure_file(
-    ${CMAKE_CURRENT_BINARY_DIR}/CMakeFiles/php-config.cmake.in
-    php-config
+    CONTENT "${content}"
+    OUTPUT php-config
     VARIABLES
       SED "${SED}"
       prefix "$<INSTALL_PREFIX>"
@@ -105,15 +100,10 @@ block()
     content
     "${content}"
   )
-  file(
-    WRITE
-    "${CMAKE_CURRENT_BINARY_DIR}/CMakeFiles/phpize.cmake.in"
-    "${content}"
-  )
 
   php_configure_file(
-    ${CMAKE_CURRENT_BINARY_DIR}/CMakeFiles/phpize.cmake.in
-    phpize
+    CONTENT "${content}"
+    OUTPUT phpize
     VARIABLES
       prefix "$<INSTALL_PREFIX>"
       datarootdir "$<PATH:ABSOLUTE_PATH,NORMALIZE,${CMAKE_INSTALL_DATAROOTDIR},$<INSTALL_PREFIX>>"
