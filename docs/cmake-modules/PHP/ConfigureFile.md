@@ -15,8 +15,8 @@ The following function is exposed:
 
 ```cmake
 php_configure_file(
-  <template-file>
-  <output-file>
+  <INPUT <template-file>|CONTENT <template-content>>
+  OUTPUT <output-file>
   [VARIABLES [<variable> <value>] ...]
 )
 ```
