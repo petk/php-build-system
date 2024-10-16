@@ -389,8 +389,8 @@ function(_php_main_create_files)
     phase. Needs to be adjusted further to rebuild PHP at such case.
     include(PHP/ConfigureFile)
     php_configure_file(
-      ${PHP_SOURCE_DIR}/main/build-defs.h.in
-      ${PHP_BINARY_DIR}/main/build-defs.h
+      INPUT ${PHP_SOURCE_DIR}/main/build-defs.h.in
+      OUTPUT ${PHP_BINARY_DIR}/main/build-defs.h
       VARIABLES
         CONFIGURE_COMMAND "cmake"
         ODBC_CFLAGS "${ODBC_CFLAGS}"
