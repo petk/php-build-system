@@ -33,12 +33,10 @@ add_feature_info(
 
 cmake_dependent_option(
   EXT_MYSQLND_SSL
-  "Explicitly enable extended SSL support in the mysqlnd extension when\
-  building without openssl extension (EXT_OPENSSL=OFF) or when using phpize. If\
-  the openssl extension is enabled at the configure step (EXT_OPENSSL=ON),\
-  extended SSL is enabled implicitly regardless of this option."
+  "Explicitly enable extended SSL support in the mysqlnd extension through a\
+  system library OpenSSL (*nix) or Crypt32 (Windows)."
   OFF
-  "EXT_MYSQLND;NOT EXT_OPENSSL"
+  [[EXT_MYSQLND AND NOT EXT_OPENSSL AND NOT CMAKE_SYSTEM_NAME STREQUAL "Windows"]]
   OFF
 )
 
@@ -118,20 +116,29 @@ set(MYSQLND_SSL_SUPPORTED 1 CACHE INTERNAL "Enable core mysqlnd SSL code")
 # A deferred configuration, so it is executed after the openssl extension to
 # have the EXT_OPENSSL variable available.
 function(php_mysqlnd_post_configuration)
-  if(EXT_MYSQLND_SSL OR EXT_OPENSSL)
-    find_package(OpenSSL ${PHP_OPENSSL_MIN_VERSION})
-    set_package_properties(
-      OpenSSL
-      PROPERTIES
-        TYPE REQUIRED
-        PURPOSE "Necessary to enable SSL in the mysqlnd extension."
+  if(
+    (
+      NOT CMAKE_SYSTEM_NAME STREQUAL "Windows"
+      AND (EXT_MYSQLND_SSL OR EXT_OPENSSL)
     )
-
-    target_link_libraries(php_mysqlnd PRIVATE OpenSSL::Crypto)
+    OR CMAKE_SYSTEM_NAME STREQUAL "Windows"
+  )
+    if(CMAKE_SYSTEM_NAME STREQUAL "Windows")
+      target_link_libraries(php_mysqlnd PRIVATE crypt32)
+    else()
+      find_package(OpenSSL ${PHP_OPENSSL_MIN_VERSION})
+      set_package_properties(
+        OpenSSL
+        PROPERTIES
+          TYPE REQUIRED
+          PURPOSE "Necessary to enable SSL in the mysqlnd extension."
+      )
+      target_link_libraries(php_mysqlnd PRIVATE OpenSSL::Crypto)
+    endif()
 
     set(
       MYSQLND_HAVE_SSL 1
-      CACHE INTERNAL "Enable mysqlnd extended SSL that uses OpenSSL directly"
+      CACHE INTERNAL "Enable mysqlnd extended SSL"
     )
 
     add_dependencies(php_mysqlnd php_hash)
@@ -140,7 +147,7 @@ function(php_mysqlnd_post_configuration)
   add_feature_info(
     "ext/mysqlnd SSL"
     MYSQLND_HAVE_SSL
-    "Extended SSL support through OpenSSL"
+    "Extended SSL support through a system library"
   )
 endfunction()
 

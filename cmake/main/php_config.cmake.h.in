@@ -1832,7 +1832,8 @@
 /* Define to 1 if mysqlnd has compressed protocol support. */
 #cmakedefine MYSQLND_COMPRESSION_ENABLED 1
 
-/* Define to 1 if mysqlnd extended SSL is enabled through OpenSSL. */
+/* Define to 1 if mysqlnd has extended SSL enabled through a system library
+   OpenSSL (*nix systems), or Crypt32 (Windows systems). */
 #cmakedefine MYSQLND_HAVE_SSL 1
 
 /* Define to 1 if mysqlnd core SSL is enabled. */
