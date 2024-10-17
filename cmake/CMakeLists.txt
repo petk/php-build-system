@@ -82,6 +82,11 @@ block()
   endforeach()
 endblock()
 
+# Rebuild all targets as needed.
+if(NOT PHPSystem_EXECUTABLE)
+  include(PHP/Rebuild)
+endif()
+
 # Enable testing and configure test settings.
 include(cmake/Testing.cmake)
 
