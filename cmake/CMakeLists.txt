@@ -67,6 +67,9 @@ add_subdirectory(scripts)
 # Check thread safety.
 include(PHP/ThreadSafety)
 
+# Generate *_arginfo.h headers from *.stub.php sources.
+include(PHP/Stubs)
+
 # Execute all deferred calls. Calls are additionally sorted with natural
 # comparison method by their IDs. If call hasn't set any ID number, CMake
 # assigns it a default value of __<number>.
