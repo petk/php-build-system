@@ -15,7 +15,8 @@ file(READ ${PHP_STUBS} sources)
 
 foreach(stub ${sources})
   string(REGEX REPLACE [[\.stub\.php$]] "_arginfo.h" header "${stub}")
-  if(${stub} IS_NEWER_THAN ${header})
+  if("${stub}" IS_NEWER_THAN "${header}")
+    file(TOUCH "${header}")
     list(APPEND stubs ${stub})
   endif()
 endforeach()
@@ -32,14 +33,3 @@ execute_process(
 )
 
 execute_process(COMMAND ${PHP_COMMAND} ${stubs})
-
-foreach(stub ${stubs})
-  string(REGEX REPLACE [[\.stub\.php$]] "_arginfo.h" header "${stub}")
-  if(
-    EXISTS "${stub}"
-    AND EXISTS "${header}"
-    AND "${stub}" IS_NEWER_THAN "${header}"
-  )
-    file(TOUCH "${header}")
-  endif()
-endforeach()

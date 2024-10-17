@@ -6,6 +6,59 @@ The build/gen_stub.php script requires the PHP tokenizer extension.
 
 include_guard(GLOBAL)
 
+# Get a PHP command for parsing stub sources.
+function(_php_stubs_get_php_command result)
+  unset(${result})
+
+  # If PHP is not found on the system, the PHP cli SAPI will be used with the
+  # tokenizer extension.
+  if(
+    NOT PHPSystem_EXECUTABLE
+    AND (NOT SAPI_CLI OR (SAPI_CLI AND NOT EXT_TOKENIZER))
+  )
+    return(PROPAGATE ${result})
+  endif()
+
+  # If external PHP is available, check for the required tokenizer extension.
+  if(PHPSystem_EXECUTABLE)
+    execute_process(
+      COMMAND ${PHPSystem_EXECUTABLE} --ri tokenizer
+      RESULT_VARIABLE code
+      OUTPUT_QUIET
+      ERROR_QUIET
+    )
+
+    if(code EQUAL 0)
+      set(${result} ${PHPSystem_EXECUTABLE})
+      return(PROPAGATE ${result})
+    endif()
+  endif()
+
+  set(command)
+
+  if(NOT CMAKE_CROSSCOMPILING)
+    set(command $<TARGET_FILE:php_cli>)
+  elseif(CMAKE_CROSSCOMPILING AND CMAKE_CROSSCOMPILING_EMULATOR)
+    set(command ${CMAKE_CROSSCOMPILING_EMULATOR} $<TARGET_FILE:php_cli>)
+  endif()
+
+  if(NOT command)
+    return(PROPAGATE ${result})
+  endif()
+
+  if(EXT_TOKENIZER_SHARED)
+    list(
+      APPEND
+      command
+      -d extension_dir=${PROJECT_BINARY_DIR}/modules
+      -d extension=tokenizer
+    )
+  endif()
+
+  set(${result} ${command})
+  return(PROPAGATE ${result})
+endfunction()
+
 # Store a list of all binary targets inside the given <dir> to the <result>
 # variable.
 function(_php_stubs_get_binary_targets result dir)
@@ -27,26 +80,27 @@ function(_php_stubs_get_binary_targets result dir)
     list(APPEND targets ${subdirTargets})
   endforeach()
 
-  set(${result} ${targets} PARENT_SCOPE)
+  set(${result} ${targets})
+  return(PROPAGATE ${result})
 endfunction()
 
-# If PHP is not found on the system, the PHP cli SAPI will be used with the
-# tokenizer extension.
-if(NOT PHPSystem_EXECUTABLE AND NOT EXT_TOKENIZER AND NOT SAPI_CLI)
+if(NOT EXISTS ${PROJECT_SOURCE_DIR}/build/gen_stub.php)
   return()
 endif()
 
-if(EXISTS ${PROJECT_SOURCE_DIR}/build/gen_stub.php)
-  file(
-    COPY
-    ${PROJECT_SOURCE_DIR}/build/gen_stub.php
-    DESTINATION ${PROJECT_BINARY_DIR}/build
-  )
-else()
-  return()
-endif()
+file(
+  COPY
+  ${PROJECT_SOURCE_DIR}/build/gen_stub.php
+  DESTINATION ${PROJECT_BINARY_DIR}/build
+)
 
 block()
+  _php_stubs_get_php_command(command)
+
+  if(NOT command)
+    return()
+  endif()
+
   _php_stubs_get_binary_targets(targets ${PROJECT_SOURCE_DIR})
 
   set(stubs)
@@ -68,27 +122,6 @@ block()
     CONTENT "$<JOIN:$<REMOVE_DUPLICATES:${stubs}>,$<SEMICOLON>>"
   )
 
-  set(PHP_COMMAND)
-
-  if(PHPSystem_EXECUTABLE)
-    set(PHP_COMMAND ${PHPSystem_EXECUTABLE})
-  else()
-    if(NOT CMAKE_CROSSCOMPILING)
-      set(PHP_COMMAND $<TARGET_FILE:php_cli>)
-    elseif(CMAKE_CROSSCOMPILING AND CMAKE_CROSSCOMPILING_EMULATOR)
-      set(PHP_COMMAND ${CMAKE_CROSSCOMPILING_EMULATOR} $<TARGET_FILE:php_cli>)
-    endif()
-  endif()
-
-  if(EXT_TOKENIZER_SHARED AND NOT PHPSystem_EXECUTABLE)
-    list(
-      APPEND
-      PHP_COMMAND
-      -d extension_dir=${PROJECT_BINARY_DIR}/modules
-      -d extension=tokenizer
-    )
-  endif()
-
   if(NOT PHPSystem_EXECUTABLE)
     set(targetOptions ALL DEPENDS ${targets})
   endif()
@@ -98,7 +131,7 @@ block()
     COMMAND
       ${CMAKE_COMMAND}
       "-DPHP_STUBS=${PROJECT_BINARY_DIR}/CMakeFiles/php_stubs.txt"
-      "-DPHP_COMMAND=${PHP_COMMAND};${PROJECT_BINARY_DIR}/build/gen_stub.php"
+      "-DPHP_COMMAND=${command};${PROJECT_BINARY_DIR}/build/gen_stub.php"
       -P ${CMAKE_CURRENT_LIST_DIR}/Stubs/RunCommand.cmake
     VERBATIM
   )
