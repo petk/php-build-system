@@ -1,16 +1,19 @@
 #[=============================================================================[
-Rebuild all project targets.
+Ensure all project targets are rebuilt as needed.
 
-When PHP is not found on the system, PHP generates some files during development
-using the php_cli target itself, which can bring cyclic dependencies among
-targets if custom commands would depend on the php_cli target. Although not a
-good practice, this helps bringing all targets to updated state.
+When PHP is not found on the system, the `php_cli` target is used to generate
+certain files during development. This can lead to cyclic dependencies among
+targets if custom commands depend on the `php_cli` target. While such automatic
+rebuilding is not considered good practice, it ensures that all targets are kept
+up to date.
+
+TODO: This works only for a limited set of cases for now and will be refactored.
 #]=============================================================================]
 
 include_guard(GLOBAL)
 
 # Store a list of all targets inside the given <dir> into the <result> variable.
-function(_php_get_all_targets result dir)
+function(_php_rebuild_get_all_targets result dir)
   get_property(targets DIRECTORY ${dir} PROPERTY BUILDSYSTEM_TARGETS)
   get_property(subdirs DIRECTORY ${dir} PROPERTY SUBDIRECTORIES)
 
@@ -22,43 +25,32 @@ function(_php_get_all_targets result dir)
   set(${result} ${targets} PARENT_SCOPE)
 endfunction()
 
-# Ensure all project targets are rebuilt as needed.
-function(_php_rebuild)
-  _php_get_all_targets(targets ${CMAKE_CURRENT_SOURCE_DIR})
-  list(REMOVE_ITEM targets "php_rebuild")
+_php_rebuild_get_all_targets(targets ${CMAKE_CURRENT_SOURCE_DIR})
 
-  add_custom_command(
-    OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/CMakeFiles/php_rebuild.timestamp
-    COMMAND
-      ${CMAKE_COMMAND}
-        -E cmake_echo_color --magenta --bold "       Updating targets"
-    COMMAND
-      ${CMAKE_COMMAND}
-        -E touch ${CMAKE_CURRENT_BINARY_DIR}/CMakeFiles/php_rebuild.timestamp
-    COMMAND
-      ${CMAKE_COMMAND}
-        --build . --target php_rebuild -j
-    WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
-    DEPENDS ${targets}
-  )
+add_custom_command(
+  OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/CMakeFiles/php_rebuild.timestamp
+  COMMAND
+    ${CMAKE_COMMAND}
+      -E cmake_echo_color --magenta --bold "Updating targets"
+  COMMAND
+    ${CMAKE_COMMAND}
+      -E touch ${CMAKE_CURRENT_BINARY_DIR}/CMakeFiles/php_rebuild.timestamp
+  COMMAND
+    ${CMAKE_COMMAND}
+      --build . --target php_rebuild -j
+  WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
+  DEPENDS ${targets}
+)
 
-  add_custom_target(
-    php_update_targets ALL
-    DEPENDS ${CMAKE_CURRENT_BINARY_DIR}/CMakeFiles/php_rebuild.timestamp
-  )
+add_custom_target(
+  php_rebuild_update_targets ALL
+  DEPENDS ${CMAKE_CURRENT_BINARY_DIR}/CMakeFiles/php_rebuild.timestamp
+)
 
-  add_custom_target(
-    php_rebuild
-    COMMAND
-      ${CMAKE_COMMAND}
-        -E rm -f ${CMAKE_CURRENT_BINARY_DIR}/CMakeFiles/php_rebuild.timestamp
-    DEPENDS ${targets}
-  )
-endfunction()
-
-# Run at the end of the configuration.
-cmake_language(
-  DEFER
-    DIRECTORY ${PROJECT_SOURCE_DIR}
-  CALL _php_rebuild
+add_custom_target(
+  php_rebuild
+  COMMAND
+    ${CMAKE_COMMAND}
+      -E rm -f ${CMAKE_CURRENT_BINARY_DIR}/CMakeFiles/php_rebuild.timestamp
+  DEPENDS ${targets}
 )
