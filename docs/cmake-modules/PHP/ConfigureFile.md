@@ -21,10 +21,15 @@ php_configure_file(
 )
 ```
 
-* `VARIABLES`
+* `INPUT` or `CONTENT` specify the input template (either a file or a content
+  string). Relative <template-file> is interpreted as being relative to the
+  current source directory.
 
-  Pairs of variable names and values. Variable values support generator
-  expressions.
+* `OUTPUT` specifies the output file. Relative file path is interpreted as being
+  relative to the current binary directory.
+
+* `VARIABLES` represent the pairs of variable names and values. Variable values
+  support generator expressions.
 
   The `$<INSTALL_PREFIX>` generator expression can be used in variable values,
   which is replaced with installation prefix either set via the

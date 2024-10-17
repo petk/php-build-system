@@ -65,7 +65,7 @@ re2c_target(
 * `<input>` - The re2c template file input. Relative source file path is
   interpreted as being relative to the current source directory.
 * `<output>` - The output file. Relative output file path is interpreted as
-  being relative to the current source directory.
+  being relative to the current binary directory.
 * `HEADER` - Generate a <header> file. Relative header file path is interpreted
   as being relative to the current binary directory.
 * `OPTIONS` - List of additional options to pass to re2c command-line tool.
