@@ -95,6 +95,7 @@ target_link_libraries(
   php_phpdbg
   PRIVATE
     PHP::main
+    Zend::Zend
     $<$<PLATFORM_ID:Windows>:ws2_32;user32>
 )
 
@@ -190,7 +191,8 @@ if(SAPI_PHPDBG_SHARED)
     php_phpdbg_shared
     PRIVATE
       # TODO: fix this better in the future (building with -fPIC etc).
-      #PHP::main
+      PHP::main
+      Zend::Zend
       $<$<PLATFORM_ID:Windows>:ws2_32;user32>
   )
 endif()

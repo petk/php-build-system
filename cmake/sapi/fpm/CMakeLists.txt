@@ -154,7 +154,12 @@ target_include_directories(
 
 target_compile_definitions(php_fpm PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE=1)
 
-target_link_libraries(php_fpm PRIVATE PHP::main)
+target_link_libraries(
+  php_fpm
+  PRIVATE
+    PHP::main
+    Zend::Zend
+)
 
 set_target_properties(
   php_fpm

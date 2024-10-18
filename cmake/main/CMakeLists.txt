@@ -87,7 +87,6 @@ target_link_libraries(
   # Link publicly for PHP SAPIs.
   PUBLIC
     PHP::configuration
-    Zend::Zend
 )
 
 if(TARGET PHP::win32)

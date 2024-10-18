@@ -78,7 +78,7 @@ mark_as_advanced(ZEND_MAX_EXECUTION_TIMERS)
 # Add library.
 ################################################################################
 
-add_library(zend STATIC)
+add_library(zend OBJECT)
 add_library(Zend::Zend ALIAS zend)
 
 file(GLOB _zend_headers ${CMAKE_CURRENT_SOURCE_DIR}/*.h)

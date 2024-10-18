@@ -82,6 +82,7 @@ target_link_libraries(
   php_cli
   PRIVATE
     PHP::main
+    Zend::Zend
     $<$<PLATFORM_ID:Windows>:ws2_32;shell32>
 )
 
@@ -132,6 +133,7 @@ if(SAPI_CLI_WIN_NO_CONSOLE)
     php_cli_win_no_console
     PRIVATE
       PHP::main
+      Zend::Zend
       shell32
   )
 

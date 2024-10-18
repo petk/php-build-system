@@ -88,6 +88,7 @@ target_link_libraries(
   php_apache2handler
   PRIVATE
     PHP::main
+    Zend::Zend
     Apache::Apache
 )
 

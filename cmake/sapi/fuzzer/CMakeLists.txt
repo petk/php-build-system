@@ -118,6 +118,11 @@ set_target_properties(
     OUTPUT_NAME ${PHP_PROGRAM_PREFIX}fuzzer${PHP_PROGRAM_SUFFIX}
 )
 
-target_link_libraries(php_fuzzer PRIVATE PHP::main)
+target_link_libraries(
+  php_fuzzer
+  PRIVATE
+    PHP::main
+    Zend::Zend
+)
 
 install(TARGETS php_fuzzer RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR})
