@@ -50,10 +50,6 @@ else()
   add_library(php_mysqlnd)
 endif()
 
-file(GLOB _php_mysqlnd_headers ${CMAKE_CURRENT_SOURCE_DIR}/*.h)
-# Exclude Windows header and specify it below separately.
-list(FILTER _php_mysqlnd_headers EXCLUDE REGEX ".*config-win\\.h$")
-
 target_sources(
   php_mysqlnd
   PRIVATE
@@ -82,8 +78,33 @@ target_sources(
   PUBLIC
     FILE_SET HEADERS
       FILES
-        ${_php_mysqlnd_headers}
         $<$<PLATFORM_ID:Windows>:config-win.h>
+        mysql_float_to_double.h
+        mysqlnd_alloc.h
+        mysqlnd_auth.h
+        mysqlnd_block_alloc.h
+        mysqlnd_charset.h
+        mysqlnd_commands.h
+        mysqlnd_connection.h
+        mysqlnd_debug.h
+        mysqlnd_enum_n_def.h
+        mysqlnd_ext_plugin.h
+        mysqlnd_libmysql_compat.h
+        mysqlnd_plugin.h
+        mysqlnd_portability.h
+        mysqlnd_priv.h
+        mysqlnd_protocol_frame_codec.h
+        mysqlnd_ps.h
+        mysqlnd_read_buffer.h
+        mysqlnd_result_meta.h
+        mysqlnd_result.h
+        mysqlnd_reverse_api.h
+        mysqlnd_statistics.h
+        mysqlnd_structs.h
+        mysqlnd_vio.h
+        mysqlnd_wireprotocol.h
+        mysqlnd.h
+        php_mysqlnd.h
 )
 
 target_compile_definitions(php_mysqlnd PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE=1)

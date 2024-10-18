@@ -34,10 +34,6 @@ add_feature_info(
 
 add_library(php_standard STATIC)
 
-file(GLOB _php_standard_headers ${CMAKE_CURRENT_SOURCE_DIR}/*.h)
-# Exclude Windows header and specify it below separately.
-list(FILTER _php_standard_headers EXCLUDE REGEX ".*winver\\.h$")
-
 target_sources(
   php_standard
   PRIVATE
@@ -113,7 +109,69 @@ target_sources(
   PUBLIC
     FILE_SET HEADERS
       FILES
-        ${_php_standard_headers}
+        base64.h
+        basic_functions_arginfo.h
+        basic_functions.h
+        crc32_x86.h
+        crc32.h
+        credits_ext.h
+        credits_sapi.h
+        credits.h
+        crypt_blowfish.h
+        crypt_freesec.h
+        css.h
+        datetime.h
+        dir_arginfo.h
+        dl_arginfo.h
+        dl.h
+        exec.h
+        file_arginfo.h
+        file.h
+        flock_compat.h
+        fsock.h
+        head.h
+        html_tables.h
+        html.h
+        info.h
+        md5.h
+        pack.h
+        pageinfo.h
+        php_array.h
+        php_assert.h
+        php_browscap.h
+        php_crypt_r.h
+        php_crypt.h
+        php_dir.h
+        php_dns.h
+        php_ext_syslog.h
+        php_filestat.h
+        php_fopen_wrappers.h
+        php_http.h
+        php_image.h
+        php_incomplete_class.h
+        php_lcg.h
+        php_mail.h
+        php_math.h
+        php_mt_rand.h
+        php_net.h
+        php_password.h
+        php_rand.h
+        php_random.h
+        php_smart_string_public.h
+        php_smart_string.h
+        php_standard.h
+        php_string.h
+        php_uuencode.h
+        php_var.h
+        php_versioning.h
+        proc_open.h
+        quot_print.h
+        scanf.h
+        sha1.h
+        streamsfuncs.h
+        url_scanner_ex.h
+        url.h
+        user_filters_arginfo.h
         $<$<PLATFORM_ID:Windows>:winver.h>
 )
 

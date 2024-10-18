@@ -139,12 +139,12 @@ target_sources(
   PUBLIC
     FILE_SET HEADERS
       FILES
+        gd_arginfo.h
+        gd_compat.h
         php_gd.h
 )
 
 if(NOT EXT_GD_EXTERNAL)
-  file(GLOB _php_gd_libgd_headers ${CMAKE_CURRENT_SOURCE_DIR}/libgd/*.h)
-
   target_sources(
     php_gd
     PRIVATE
@@ -191,7 +191,21 @@ if(NOT EXT_GD_EXTERNAL)
     PUBLIC
       FILE_SET HEADERS
         FILES
-          ${_php_gd_libgd_headers}
+          libgd/bmp.h
+          libgd/gd_errors.h
+          libgd/gd_intern.h
+          libgd/gd_io.h
+          libgd/gd_tga.h
+          libgd/gd.h
+          libgd/gdcache.h
+          libgd/gdfontg.h
+          libgd/gdfontl.h
+          libgd/gdfontmb.h
+          libgd/gdfonts.h
+          libgd/gdfontt.h
+          libgd/gdhelpers.h
+          libgd/jisx0208.h
+          libgd/wbmp.h
   )
 
   set(HAVE_GD_BUNDLED 1 CACHE INTERNAL "Whether the bundled libgd is used")

@@ -4,8 +4,6 @@ include(FeatureSummary)
 add_library(php_main STATIC)
 add_library(PHP::main ALIAS php_main)
 
-file(GLOB_RECURSE _php_main_headers ${CMAKE_CURRENT_SOURCE_DIR}/*.h)
-
 target_sources(
   php_main
   PRIVATE
@@ -47,11 +45,46 @@ target_sources(
     streams/xp_socket.c
     strlcat.c
     strlcpy.c
-    ${PHP_BINARY_DIR}/main/build-defs.h
   PUBLIC
     FILE_SET HEADERS
       FILES
-        ${_php_main_headers}
+        fastcgi.h
+        fopen_wrappers.h
+        http_status_codes.h
+        main_arginfo.h
+        php_compat.h
+        php_content_types.h
+        php_getopt.h
+        php_globals.h
+        php_ini_builder.h
+        php_ini.h
+        php_main.h
+        php_memory_streams.h
+        php_network.h
+        php_odbc_utils.h
+        php_open_temporary_file.h
+        php_output.h
+        php_reentrancy.h
+        php_scandir.h
+        php_streams.h
+        php_syslog.h
+        php_ticks.h
+        php_variables.h
+        php_version.h
+        php.h
+        rfc1867.h
+        SAPI.h
+        snprintf.h
+        spprintf.h
+        streams/php_stream_context.h
+        streams/php_stream_filter_api.h
+        streams/php_stream_glob_wrapper.h
+        streams/php_stream_mmap.h
+        streams/php_stream_plain_wrapper.h
+        streams/php_stream_transport.h
+        streams/php_stream_userspace.h
+        streams/php_streams_int.h
+        streams/userspace_arginfo.h
   # A separate file set so binary dir can also be created within a source dir.
   PUBLIC
     FILE_SET HEADERS
@@ -125,11 +158,8 @@ target_link_libraries(
   # Link publicly for PHP SAPIs.
   PUBLIC
     PHP::configuration
+    $<$<TARGET_EXISTS:PHP::win32>:PHP::win32>
 )
-
-if(TARGET PHP::win32)
-  target_link_libraries(php_main PUBLIC PHP::win32)
-endif()
 
 # Add DTrace.
 if(PHP_DTRACE)
