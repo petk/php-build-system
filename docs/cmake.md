@@ -271,6 +271,7 @@ version available on the operating system.
   * `block()` command
   * New `try_run` signature
   * `cmake_language()` keyword `GET_MESSAGE_LOG_LEVEL`
+  * `return()` keyword `PROPAGATE`
 * 3.27
   * `COMPILE_ONLY` generator expression
   * `INSTALL_PREFIX` generator expression in `install(CODE)`
