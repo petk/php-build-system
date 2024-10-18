@@ -26,5 +26,5 @@ trim_trailing_whitespace = false
 [COMMIT_EDITMSG]
 max_line_length          = 80
 
-[{*.cmake,CMakeLists.txt}]
+[{CMakeLists.txt,*.{cmake,cmake.in}}]
 indent_size              = 2

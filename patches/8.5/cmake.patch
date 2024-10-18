@@ -13,7 +13,7 @@ Subject: Add CMake changes for PHP-8.5 branch
  5 files changed, 84 insertions(+), 7 deletions(-)
 
 diff --git a/.editorconfig b/.editorconfig
-index 7911bf8490..0ca142015f 100644
+index 7911bf8490..ed6ec7a642 100644
 --- a/.editorconfig
 +++ b/.editorconfig
 @@ -17,7 +17,7 @@ indent_style             = tab
@@ -21,7 +21,7 @@ index 7911bf8490..0ca142015f 100644
  indent_style             = space
  
 -[*.{ac,m4,sh,yml}]
-+[{CMakeLists.txt,*.{ac,cmake,json,m4,sh,yml}}]
++[{CMakeLists.txt,*.{ac,cmake,cmake.in,json,m4,sh,yml}}]
  indent_size              = 2
  indent_style             = space
  
