@@ -139,13 +139,21 @@ mark_as_advanced(PHP_FD_SETSIZE)
 option(PHP_VALGRIND "Enable the Valgrind support" OFF)
 mark_as_advanced(PHP_VALGRIND)
 
-option(PHP_MEMORY_SANITIZER "Enable the memory sanitizer compiler options (clang only)" OFF)
+option(
+  PHP_MEMORY_SANITIZER
+  "Enable the memory sanitizer compiler options (clang only)"
+  OFF
+)
 mark_as_advanced(PHP_MEMORY_SANITIZER)
 
 option(PHP_ADDRESS_SANITIZER "Enable the address sanitizer compiler option" OFF)
 mark_as_advanced(PHP_ADDRESS_SANITIZER)
 
-option(PHP_UNDEFINED_SANITIZER "Enable the undefined sanitizer compiler option" OFF)
+option(
+  PHP_UNDEFINED_SANITIZER
+  "Enable the undefined sanitizer compiler option"
+  OFF
+)
 mark_as_advanced(PHP_UNDEFINED_SANITIZER)
 
 option(PHP_GCOV "Enable GCOV code coverage and include GCOV symbols" OFF)
