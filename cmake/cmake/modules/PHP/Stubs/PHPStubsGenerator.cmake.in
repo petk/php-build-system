@@ -30,16 +30,16 @@ if(NOT stubs)
 endif()
 
 execute_process(
-COMMAND
-  ${CMAKE_COMMAND}
-  -E cmake_echo_color --blue --bold
-  "Regenerating *_arginfo.h headers from *.stub.php sources"
+  COMMAND
+    ${CMAKE_COMMAND}
+    -E cmake_echo_color --blue --bold
+    "Regenerating *_arginfo.h headers from *.stub.php sources"
 )
 
 execute_process(
-COMMAND
-  @PHP_COMMAND@ @PROJECT_BINARY_DIR@/CMakeFiles/php_stubs/gen_stub.php
-  ${stubs}
+  COMMAND
+    @PHP_COMMAND@ @PROJECT_BINARY_DIR@/CMakeFiles/php_stubs/gen_stub.php
+    ${stubs}
 )
 
 # Ensure that *_arginfo.h headers are newer than their *.stub.php sources.
