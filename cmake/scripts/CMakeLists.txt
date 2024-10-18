@@ -21,6 +21,7 @@ block()
   )
 endblock()
 
+# The php-config and phpize scripts.
 block()
   find_program(
     SED_EXECUTABLE
@@ -37,7 +38,6 @@ block()
     set(SED /usr/bin/sed)
   endif()
 
-  # The php-config script.
   message(STATUS "Creating scripts/php-config")
 
   # Replace the upstream php-config script hardcoded php include directory to a
@@ -87,7 +87,6 @@ block()
     RENAME ${PHP_PROGRAM_PREFIX}php-config${PHP_PROGRAM_SUFFIX}
   )
 
-  # The phpize script.
   message(STATUS "Creating scripts/phpize")
 
   # Replace the upstream phpize script hardcoded php include directory to a
