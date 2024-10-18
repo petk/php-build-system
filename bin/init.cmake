@@ -14,7 +14,7 @@ Usage:
   cmake -P bin/init.cmake
 #]=============================================================================]
 
-cmake_minimum_required(VERSION 3.25 FATAL_ERROR)
+cmake_minimum_required(VERSION 3.25)
 
 # The PHP MAJOR.MINOR version currently in development (the master branch).
 set(PHP_DEVELOPMENT_VERSION "8.5")
