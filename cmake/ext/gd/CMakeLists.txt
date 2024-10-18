@@ -139,8 +139,6 @@ target_sources(
   PUBLIC
     FILE_SET HEADERS
       FILES
-        gd_arginfo.h
-        gd_compat.h
         php_gd.h
 )
 

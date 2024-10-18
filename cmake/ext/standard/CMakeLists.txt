@@ -136,11 +136,13 @@ target_sources(
         md5.h
         pack.h
         pageinfo.h
+        password_arginfo.h
         php_array.h
         php_assert.h
         php_browscap.h
         php_crypt_r.h
         php_crypt.h
+        php_dir_int.h
         php_dir.h
         php_dns.h
         php_ext_syslog.h
@@ -149,14 +151,11 @@ target_sources(
         php_http.h
         php_image.h
         php_incomplete_class.h
-        php_lcg.h
         php_mail.h
+        php_math_round_mode.h
         php_math.h
-        php_mt_rand.h
         php_net.h
         php_password.h
-        php_rand.h
-        php_random.h
         php_smart_string_public.h
         php_smart_string.h
         php_standard.h

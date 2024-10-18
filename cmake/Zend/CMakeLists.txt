@@ -210,6 +210,7 @@ target_sources(
         zend_fibers_arginfo.h
         zend_fibers.h
         zend_float.h
+        zend_frameless_function.h
         zend_gc.h
         zend_gdb.h
         zend_generators_arginfo.h
@@ -226,11 +227,11 @@ target_sources(
         zend_ini.h
         zend_interfaces_arginfo.h
         zend_interfaces.h
-        zend_istdiostream.h
         zend_iterators.h
         zend_language_parser.h
         zend_language_scanner_defs.h
         zend_language_scanner.h
+        zend_lazy_objects.h
         zend_list.h
         zend_llist.h
         zend_long.h
@@ -246,6 +247,7 @@ target_sources(
         zend_observer.h
         zend_operators.h
         zend_portability.h
+        zend_property_hooks.h
         zend_ptr_stack.h
         zend_range_check.h
         zend_signal.h
@@ -263,6 +265,7 @@ target_sources(
         zend_type_info.h
         zend_types.h
         zend_variables.h
+        zend_verify_type_inference.h
         zend_virtual_cwd.h
         zend_vm_def.h
         zend_vm_execute.h
