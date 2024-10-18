@@ -34,15 +34,11 @@ function(_php_stubs_get_php_command result)
     endif()
   endif()
 
-  set(command)
-
   if(NOT CMAKE_CROSSCOMPILING)
     set(command $<TARGET_FILE:php_cli>)
   elseif(CMAKE_CROSSCOMPILING AND CMAKE_CROSSCOMPILING_EMULATOR)
     set(command ${CMAKE_CROSSCOMPILING_EMULATOR} $<TARGET_FILE:php_cli>)
-  endif()
-
-  if(NOT command)
+  else()
     return(PROPAGATE ${result})
   endif()
 
@@ -91,13 +87,13 @@ endif()
 file(
   COPY
   ${PROJECT_SOURCE_DIR}/build/gen_stub.php
-  DESTINATION ${PROJECT_BINARY_DIR}/build
+  DESTINATION ${PROJECT_BINARY_DIR}/CMakeFiles/php_stubs
 )
 
 block()
-  _php_stubs_get_php_command(command)
+  _php_stubs_get_php_command(PHP_COMMAND)
 
-  if(NOT command)
+  if(NOT PHP_COMMAND)
     return()
   endif()
 
@@ -116,10 +112,13 @@ block()
     endif()
   endforeach()
 
+  set(PHP_SOURCES "$<JOIN:$<REMOVE_DUPLICATES:${stubs}>,$<SEMICOLON>>")
+  file(READ ${CMAKE_CURRENT_LIST_DIR}/Stubs/PHPStubsGenerator.cmake.in content)
+  string(CONFIGURE "${content}" content @ONLY)
   file(
     GENERATE
-    OUTPUT ${PROJECT_BINARY_DIR}/CMakeFiles/php_stubs.txt
-    CONTENT "$<JOIN:$<REMOVE_DUPLICATES:${stubs}>,$<SEMICOLON>>"
+    OUTPUT ${PROJECT_BINARY_DIR}/CMakeFiles/php_stubs/PHPStubsGenerator.cmake
+    CONTENT "${content}"
   )
 
   if(NOT PHPSystem_EXECUTABLE)
@@ -130,9 +129,7 @@ block()
     php_stubs ${targetOptions}
     COMMAND
       ${CMAKE_COMMAND}
-      "-DPHP_STUBS=${PROJECT_BINARY_DIR}/CMakeFiles/php_stubs.txt"
-      "-DPHP_COMMAND=${command};${PROJECT_BINARY_DIR}/build/gen_stub.php"
-      -P ${CMAKE_CURRENT_LIST_DIR}/Stubs/RunCommand.cmake
+      -P ${PROJECT_BINARY_DIR}/CMakeFiles/php_stubs/PHPStubsGenerator.cmake
     VERBATIM
   )
 endblock()
