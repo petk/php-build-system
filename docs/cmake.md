@@ -277,6 +277,8 @@ version available on the operating system.
   * `INSTALL_PREFIX` generator expression in `install(CODE)`
 * 3.29
   * `CMAKE_LINKER_TYPE`
+* 3.31
+  * `add_custom_command()` keyword `CODEGEN`
 
 Currently, the CMake minimum version is set to **3.25** without looking at CMake
 available version on the current systems out there. This will be updated more

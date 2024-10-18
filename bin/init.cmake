@@ -16,6 +16,10 @@ Usage:
 
 cmake_minimum_required(VERSION 3.25)
 
+if(NOT CMAKE_SCRIPT_MODE_FILE)
+  message(FATAL_ERROR "This is a command-line script.")
+endif()
+
 # The PHP MAJOR.MINOR version currently in development (the master branch).
 set(PHP_DEVELOPMENT_VERSION "8.5")
 
