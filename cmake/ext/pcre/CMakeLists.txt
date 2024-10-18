@@ -111,15 +111,6 @@ else()
   message(STATUS "Using bundled PCRE library")
 
   block()
-    file(GLOB headers ${CMAKE_CURRENT_SOURCE_DIR}/pcre2lib/*.h)
-
-    # Exclude PCRE2 library config.h header as it uses the
-    # HAVE_PCRE_VALGRIND_SUPPORT provided via compile definition by generator
-    # expressions (not available in the PHP configuration headers). It isn't
-    # required to use public headers. Perhaps more could be filtered and synced
-    # with upstream PCRE installed headers.
-    list(FILTER headers EXCLUDE REGEX ".*config\\.h$")
-
     target_sources(
       php_pcre
       PRIVATE
@@ -153,7 +144,18 @@ else()
       PUBLIC
         FILE_SET HEADERS
           FILES
-            ${headers}
+            # Exclude PCRE2 library config.h header as it uses the
+            # HAVE_PCRE_VALGRIND_SUPPORT provided via compile definition by
+            # generator expressions (not available in the PHP configuration
+            # headers). It isn't required to use public headers. Perhaps more
+            # could be filtered and synced with upstream PCRE installed headers.
+            #pcre2lib/config.h
+            pcre2lib/pcre2_internal.h
+            pcre2lib/pcre2_intmodedep.h
+            pcre2lib/pcre2_jit_neon_inc.h
+            pcre2lib/pcre2_jit_simd_inc.h
+            pcre2lib/pcre2_ucp.h
+            pcre2lib/pcre2.h
     )
   endblock()
 
