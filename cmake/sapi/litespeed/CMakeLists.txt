@@ -27,7 +27,12 @@ add_executable(php_litespeed
   lsapilib.c
 )
 
-target_link_libraries(php_litespeed PRIVATE PHP::main)
+target_link_libraries(
+  php_litespeed
+  PRIVATE
+    PHP::main
+    Zend::Zend
+)
 
 set_target_properties(
   php_litespeed

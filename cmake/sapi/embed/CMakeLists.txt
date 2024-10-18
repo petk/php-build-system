@@ -29,7 +29,12 @@ target_sources(
         php_embed.h
 )
 
-target_link_libraries(php_embed PRIVATE PHP::main)
+target_link_libraries(
+  php_embed
+  PRIVATE
+    PHP::main
+    Zend::Zend
+)
 
 target_compile_definitions(php_embed PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE=1)
 

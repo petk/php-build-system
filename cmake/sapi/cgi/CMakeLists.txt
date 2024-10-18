@@ -28,6 +28,7 @@ target_link_libraries(
   php_cgi
   PRIVATE
     PHP::main
+    Zend::Zend
     $<$<PLATFORM_ID:Windows>:ws2_32;kernel32;advapi32>
 )
 
