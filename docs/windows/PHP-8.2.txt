@@ -1,0 +1,175 @@
+PHP Version: 8.2.26-dev
+
+Options that enable extensions and SAPI will accept 'yes' or 'no' as a
+parameter. They also accept 'shared' as a synonym for 'yes' and request a
+shared build of that module. Not all modules can be built as shared modules;
+configure will display [shared] after the module name if can be built that
+way.
+
+  --enable-snapshot-build           Build a snapshot; turns on everything it
+                                    can and ignores build errors
+  --disable-vs-link-compat          Allow linking of libraries built with
+                                    compatible versions of VS toolset
+  --with-verbosity                  Output verbosity, 0-2.
+  --with-toolset                    Toolset to use for the compilation, give:
+                                    vs, clang, icc. The only recommended and
+                                    supported toolset for production use is
+                                    Visual Studio. Use others at your own
+                                    risk.
+  --with-cygwin                     Path to cygwin utilities on your system
+  --enable-object-out-dir           Alternate location for binary objects
+                                    during build
+  --enable-debug                    Compile with debugging symbols
+  --enable-debug-pack               Release binaries with external debug
+                                    symbols (--enable-debug must not be
+                                    specified)
+  --enable-pgi                      Generate PGO instrumented binaries
+  --with-pgo                        Compile optimized binaries using training
+                                    data from folder
+  --disable-zts                     Thread safety
+  --with-prefix                     where PHP will be installed
+  --with-mp                         Tell Visual Studio use up to
+                                    [n,auto,disable] processes for compilation
+  --with-php-build                  Path to where you extracted the
+                                    development libraries
+                                    (http://wiki.php.net/internals/windows/libs).
+                                    Assumes that it is a sibling of this
+                                    source dir (..\deps) if not specified
+  --with-extra-includes             Extra include path to use when building
+                                    everything
+  --with-extra-libs                 Extra library path to use when linking
+                                    everything
+  --with-analyzer                   Enable static analyzer. Pass vs for Visual
+                                    Studio, clang for clang, cppcheck for
+                                    Cppcheck, pvs for PVS-Studio
+  --disable-ipv6                    Disable IPv6 support (default is turn it
+                                    on if available)
+  --enable-fd-setsize               Set maximum number of sockets for
+                                    select(2)
+  --with-snapshot-template          Path to snapshot builder template dir
+  --disable-security-flags          Disable the compiler security flags
+  --without-uncritical-warn-choke   Disable some uncritical warnings
+  --enable-sanitizer                Enable ASan and UBSan extensions
+  --with-codegen-arch               Architecture for code generation: ia32.
+                                    Use --enable-native-intrinsics to enable
+                                    SIMD optimizations.
+  --with-all-shared                 Force all the non obligatory extensions to
+                                    be shared
+  --with-config-profile             Name of the configuration profile to save
+                                    this to in php-src/config.name.bat
+  --disable-test-ini                Enable automatic php.ini generation. The
+                                    test.ini will be put into the build dir
+                                    and used to automatically load the shared
+                                    extensions.
+  --with-test-ini-ext-exclude       Comma separated list of shared extensions
+                                    to be excluded from the test.ini
+  --enable-native-intrinsics        Comma separated list of intrinsic
+                                    optimizations to enable. Available
+                                    instruction set names are sse, sse2, sse3,
+                                    ssse3, sse4.1, sse4.2, avx, avx2. SSE and
+                                    SSE2 are enabled by default. The best
+                                    instruction set specified will
+                                    automatically enable all the older
+                                    instruction sets. Note, that the produced
+                                    binary might not work properly, if the
+                                    chosen instruction sets are not available
+                                    on the target processor.
+  --enable-apache2handler           Build Apache 2.x handler
+  --enable-apache2-2handler         Build Apache 2.2.x handler
+  --enable-apache2-4handler         Build Apache 2.4.x handler
+  --disable-cgi                     Build CGI version of PHP
+  --disable-cli                     Build CLI version of PHP
+  --enable-cli-win32                Build console-less CLI version of PHP
+  --enable-embed                    Embedded SAPI library
+  --enable-phpdbg                   Build phpdbg
+  --enable-phpdbgs                  Build phpdbg shared
+  --disable-bcmath                  bc style precision math functions
+  --with-bz2                        BZip2
+  --disable-calendar                calendar conversion support
+  --disable-com-dotnet              COM and .Net support
+  --disable-ctype                   ctype
+  --with-curl                       cURL support
+  --with-dba                        DBA support
+  --with-qdbm                       DBA: QDBM support
+  --with-db                         DBA: Berkeley DB support
+  --with-lmdb                       DBA: Lightning memory-mapped database
+                                    support
+  --enable-dl-test                  enable dl_test extension
+  --with-enchant                    Enchant Support
+  --with-ffi                        ffi support
+  --enable-fileinfo                 fileinfo support
+  --disable-filter                  Filter Support
+  --enable-ftp                      ftp support
+  --without-gd                      Bundled GD support
+  --without-libwebp                 webp support
+  --without-libavif                 avif support
+  --with-gettext                    gettext support
+  --with-gmp                        Include GNU MP support.
+  --with-mhash                      mhash support (BC via hash)
+  --without-iconv                   iconv support
+  --with-imap                       IMAP Support
+  --enable-intl                     Enable internationalization support
+  --with-ldap                       LDAP support
+  --enable-mbstring                 multibyte string functions
+  --enable-mbregex                  multibyte regex support
+  --without-mysqlnd                 Mysql Native Client Driver
+  --with-oci8-11g                   OCI8 support using Oracle 11g Instant
+                                    Client
+  --with-oci8-12c                   OCI8 support using Oracle Database 12c
+                                    Instant Client
+  --with-oci8-19                    OCI8 support using Oracle Database 19
+                                    Instant Client
+  --enable-odbc                     ODBC support
+  --with-odbcver                    Force support for the passed ODBC version.
+                                    A hex number is expected, default 0x0350.
+                                    Use the special value of 0 to prevent an
+                                    explicit ODBCVER to be defined.
+  --disable-opcache                 whether to enable Zend OPcache support
+  --disable-opcache-jit             whether to enable JIT
+  --with-openssl                    OpenSSL support
+  --without-pcre-jit                Enable PCRE JIT support
+  --with-pgsql                      PostgreSQL support
+  --with-pspell                     pspell/aspell (whatever it's called this
+                                    month) support
+  --without-readline                Readline support
+  --disable-session                 session support
+  --enable-shmop                    shmop support
+  --with-snmp                       SNMP support
+  --enable-sockets                  SOCKETS support
+  --with-sodium                     for libsodium support
+  --with-sqlite3                    SQLite 3 support
+  --with-password-argon2            Argon2 support
+  --with-config-file-scan-dir       Dir to check for additional php ini files
+  --enable-sysvshm                  SysV Shared Memory support
+  --with-tidy                       TIDY support
+  --disable-tokenizer               tokenizer support
+  --enable-zend-test                enable zend_test extension
+  --disable-zip                     ZIP support
+  --disable-zlib                    ZLIB support
+  --without-libxml                  LibXML support
+  --without-dom                     DOM support
+  --enable-exif                     Exchangeable image information (EXIF)
+                                    Support
+  --with-mysqli                     MySQLi support
+  --enable-pdo                      Enable PHP Data Objects support
+  --with-pdo-dblib                  freetds dblib (Sybase, MS-SQL) support for
+                                    PDO
+  --with-pdo-mssql                  Native MS-SQL support for PDO
+  --with-pdo-firebird               Firebird support for PDO
+  --with-pdo-mysql                  MySQL support for PDO
+  --with-pdo-oci                    Oracle OCI support for PDO
+  --with-pdo-odbc                   ODBC support for PDO
+  --with-pdo-pgsql                  PostgreSQL support for PDO
+  --with-pdo-sqlite                 for pdo_sqlite support
+  --disable-phar                    disable phar support
+  --enable-phar-native-ssl          enable phar with native OpenSSL support
+  --without-simplexml               Simple XML support
+  --enable-soap                     SOAP support
+  --without-xml                     XML support
+  --disable-xmlreader               XMLReader support
+  --disable-xmlwriter               XMLWriter support
+  --with-xsl                        xsl support
+
+Some influential environment variables:
+  CFLAGS      C compiler flags
+  LDFLAGS     linker flags

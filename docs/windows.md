@@ -137,7 +137,8 @@ Other custom options that don't follow this pattern are used for adjusting
 specific features during the build process.
 
 See `.\configure.bat --help` for all available configuration options and
-variables.
+variables. Configure options for all PHP versions are listed also in the
+[Windows directory](/docs/windows/).
 
 Some common arguments can be passed to command-line options:
 

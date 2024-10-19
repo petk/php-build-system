@@ -407,29 +407,17 @@ A list of Autoconf `configure` command-line configuration options, Windows
     </tr>
     <tr>
       <td>--disable-debug-assertions</td>
-      <td>N/A</td>
-      <td></td>
-      <td>default</td>
-    </tr>
-    <tr>
-      <td>&emsp;--enable-debug-assertions</td>
-      <td>N/A</td>
-      <td>
-        Single configuration generators: <code>CMAKE_BUILD_TYPE=DebugAssertions</code><br>
-        Multi configuration generators: <code>cmake --build dir --config DebugAssertions</code>
-      </td>
-      <td></td>
-    </tr>
-    <tr>
-      <td>N/A</td>
       <td>--disable-debug-pack</td>
       <td></td>
       <td>default</td>
     </tr>
     <tr>
-      <td>N/A</td>
+      <td>&emsp;--enable-debug-assertions</td>
       <td>--enable-debug-pack</td>
-      <td></td>
+      <td>
+        Single configuration generators: <code>CMAKE_BUILD_TYPE=DebugAssertions</code><br>
+        Multi configuration generators: <code>cmake --build dir --config DebugAssertions</code>
+      </td>
       <td></td>
     </tr>
     <tr>
@@ -506,15 +494,15 @@ A list of Autoconf `configure` command-line configuration options, Windows
     </tr>
     <tr>
       <td>--disable-fd-setsize</td>
-      <td></td>
+      <td>--disable-fd-setsize</td>
       <td>PHP_FD_SETSIZE=""</td>
       <td>default</td>
     </tr>
     <tr>
       <td>&emsp;--enable-fd-setsize=NUM</td>
-      <td></td>
+      <td>--enable-fd-setsize=256</td>
       <td>PHP_FD_SETSIZE=NUM</td>
-      <td></td>
+      <td>default on Windows JScript</td>
     </tr>
     <tr>
       <td>--without-valgrind</td>
@@ -689,7 +677,7 @@ A list of Autoconf `configure` command-line configuration options, Windows
     </tr>
     <tr>
       <td>--disable-all</td>
-      <td>--disable-all</td>
+      <td>--disable-snapshot-build</td>
       <td>Use <code>cmake --preset all-disabled</code></td>
       <td>Disables all extensions and some additional configuration</td>
     </tr>
@@ -815,13 +803,13 @@ A list of Autoconf `configure` command-line configuration options, Windows
       <td></td>
     </tr>
     <tr>
-      <td></td>
+      <td>N/A</td>
       <td>--disable-cli-win32</td>
       <td>SAPI_CLI_WIN_NO_CONSOLE=OFF</td>
       <td>default; Windows only</td>
     </tr>
     <tr>
-      <td></td>
+      <td>N/A</td>
       <td>--enable-cli-win32</td>
       <td>SAPI_CLI_WIN_NO_CONSOLE=ON</td>
       <td>Windows only</td>
@@ -1143,13 +1131,13 @@ A list of Autoconf `configure` command-line configuration options, Windows
     </tr>
     <tr>
       <td>--disable-dba</td>
-      <td></td>
+      <td>--without-dba</td>
       <td>EXT_DBA=OFF</td>
       <td>default</td>
     </tr>
     <tr>
       <td>&emsp;--enable-dba</td>
-      <td></td>
+      <td>--with-dba</td>
       <td>EXT_DBA=ON</td>
       <td></td>
     </tr>
@@ -1185,13 +1173,13 @@ A list of Autoconf `configure` command-line configuration options, Windows
     </tr>
     <tr>
       <td>&emsp;--without-qdbm</td>
-      <td></td>
+      <td>--without-qdbm</td>
       <td>EXT_DBA_QDBM=OFF</td>
       <td>default</td>
     </tr>
     <tr>
       <td>&emsp;--with-qdbm[=DIR]</td>
-      <td></td>
+      <td>--with-qdbm</td>
       <td>
         EXT_DBA_QDBM=ON<br>
         [QDBM_ROOT=DIR]
@@ -1280,6 +1268,18 @@ A list of Autoconf `configure` command-line configuration options, Windows
       <td></td>
     </tr>
     <tr>
+      <td>N/A</td>
+      <td>--without-db</td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>N/A</td>
+      <td>--with-db</td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
       <td>&emsp;--without-dbm</td>
       <td></td>
       <td>EXT_DBA_DBM=OFF</td>
@@ -1311,13 +1311,13 @@ A list of Autoconf `configure` command-line configuration options, Windows
     </tr>
     <tr>
       <td>&emsp;--without-lmdb</td>
-      <td></td>
+      <td>--without-lmdb</td>
       <td>EXT_DBA_LMDB=OFF</td>
       <td>default</td>
     </tr>
     <tr>
       <td>&emsp;--with-lmdb[=DIR]</td>
-      <td></td>
+      <td>--with-lmdb</td>
       <td>
         EXT_DBA_LMDB=ON<br>
         [LMDB_ROOT=DIR]
@@ -1365,19 +1365,19 @@ A list of Autoconf `configure` command-line configuration options, Windows
     </tr>
     <tr>
       <td>--enable-dom</td>
-      <td>--enable-dom</td>
+      <td>--with-dom</td>
       <td>EXT_DOM=ON</td>
       <td>default</td>
     </tr>
     <tr>
       <td>&emsp;--enable-dom=shared</td>
-      <td>--enable-dom=shared</td>
+      <td>--with-dom=shared</td>
       <td>EXT_DOM_SHARED=ON</td>
       <td></td>
     </tr>
     <tr>
       <td>&emsp;--disable-dom</td>
-      <td>--disable-dom</td>
+      <td>--without-dom</td>
       <td>EXT_DOM=OFF</td>
       <td></td>
     </tr>
@@ -1531,21 +1531,21 @@ A list of Autoconf `configure` command-line configuration options, Windows
     </tr>
     <tr>
       <td>--disable-gd</td>
-      <td></td>
+      <td>--without-gd</td>
       <td>EXT_GD=OFF</td>
-      <td>default</td>
+      <td>default in Autotools and CMake</td>
     </tr>
     <tr>
       <td>&emsp;--enable-gd</td>
-      <td></td>
+      <td>--with-gd</td>
       <td>EXT_GD=ON</td>
       <td></td>
     </tr>
     <tr>
       <td>&emsp;--enable-gd=shared</td>
-      <td></td>
+      <td>--with-gd=shared</td>
       <td>EXT_GD_SHARED=ON</td>
-      <td></td>
+      <td>default in Windows JScript</td>
     </tr>
     <tr>
       <td>&emsp;--without-external-gd</td>
@@ -1568,9 +1568,9 @@ A list of Autoconf `configure` command-line configuration options, Windows
     </tr>
     <tr>
       <td>&emsp;--without-avif</td>
-      <td></td>
+      <td>&emsp;--without-libavif</td>
       <td>EXT_GD_AVIF=OFF</td>
-      <td>default</td>
+      <td>default in Autotools and CMake</td>
     </tr>
     <tr>
       <td>
@@ -1578,18 +1578,18 @@ A list of Autoconf `configure` command-line configuration options, Windows
         &emsp;[AVIF_CFLAGS=...]<br>
         &emsp;[AVIF_LIBS=...]
       </td>
-      <td></td>
+      <td>&emsp;--with-libavif</td>
       <td>
         EXT_GD_AVIF=ON<br>
         [libavif_ROOT=DIR]
       </td>
-      <td></td>
+      <td>default in JScript Windows</td>
     </tr>
     <tr>
       <td>&emsp;--without-webp</td>
-      <td></td>
+      <td>&emsp;--without-libwebp</td>
       <td>EXT_GD_WEBP=OFF</td>
-      <td>default</td>
+      <td>default in Autotools and CMake</td>
     </tr>
     <tr>
       <td>
@@ -1597,12 +1597,12 @@ A list of Autoconf `configure` command-line configuration options, Windows
         &emsp;[WEBP_CFLAGS=...]<br>
         &emsp;[WEBP_LIBS=...]
       </td>
-      <td></td>
+      <td>&emsp;--with-libwebp</td>
       <td>
         EXT_GD_WEBP=ON<br>
         [WebP_ROOT=DIR]
       </td>
-      <td></td>
+      <td>default in JScript Windows</td>
     </tr>
     <tr>
       <td>&emsp;--without-jpeg</td>
@@ -1686,13 +1686,13 @@ A list of Autoconf `configure` command-line configuration options, Windows
     </tr>
     <tr>
       <td>--without-gettext</td>
-      <td></td>
+      <td>--without-gettext</td>
       <td>EXT_GETTEXT=OFF</td>
       <td>default</td>
     </tr>
     <tr>
       <td>&emsp;--with-gettext[=DIR]</td>
-      <td></td>
+      <td>--with-gettext</td>
       <td>
         EXT_GETTEXT=ON<br>
         [Intl_ROOT=DIR]
@@ -1701,19 +1701,19 @@ A list of Autoconf `configure` command-line configuration options, Windows
     </tr>
     <tr>
       <td>&emsp;--with-gettext=shared</td>
-      <td></td>
+      <td>--with-gettext=shared</td>
       <td>EXT_GETTEXT_SHARED=ON</td>
       <td></td>
     </tr>
     <tr>
       <td>--without-gmp</td>
-      <td></td>
+      <td>--without-gmp</td>
       <td>EXT_GMP=OFF</td>
       <td>default</td>
     </tr>
     <tr>
       <td>&emsp;--with-gmp[=DIR]</td>
-      <td></td>
+      <td>--with-gmp</td>
       <td>
         EXT_GMP=ON<br>
         [GMP_ROOT=DIR]
@@ -1722,7 +1722,7 @@ A list of Autoconf `configure` command-line configuration options, Windows
     </tr>
     <tr>
       <td>&emsp;--with-gmp=shared</td>
-      <td></td>
+      <td>--with-gmp=shared</td>
       <td>EXT_GMP_SHARED=ON</td>
       <td></td>
     </tr>
@@ -1740,7 +1740,7 @@ A list of Autoconf `configure` command-line configuration options, Windows
     </tr>
     <tr>
       <td>--with-iconv[=DIR]</td>
-      <td></td>
+      <td>--with-iconv</td>
       <td>
         EXT_ICONV=ON<br>
         [Iconv_ROOT=DIR]
@@ -1749,13 +1749,13 @@ A list of Autoconf `configure` command-line configuration options, Windows
     </tr>
     <tr>
       <td>&emsp;--with-iconv=shared</td>
-      <td></td>
+      <td>--with-iconv=shared</td>
       <td>EXT_ICONV_SHARED=ON</td>
       <td></td>
     </tr>
     <tr>
       <td>&emsp;--without-iconv</td>
-      <td></td>
+      <td>--without-iconv</td>
       <td>EXT_ICONV=OFF</td>
       <td></td>
     </tr>
@@ -1814,7 +1814,7 @@ A list of Autoconf `configure` command-line configuration options, Windows
     </tr>
     <tr>
       <td>--disable-intl</td>
-      <td></td>
+      <td>--disable-intl</td>
       <td>EXT_INTL=OFF</td>
       <td>default</td>
     </tr>
@@ -1824,7 +1824,7 @@ A list of Autoconf `configure` command-line configuration options, Windows
         &emsp;[ICU_CFLAGS=...]<br>
         &emsp;[ICU_LIBS=...]
       </td>
-      <td></td>
+      <td>--enable-intl</td>
       <td>
         EXT_INTL=ON<br>
         [ICU_ROOT=DIR]
@@ -1833,13 +1833,13 @@ A list of Autoconf `configure` command-line configuration options, Windows
     </tr>
     <tr>
       <td>&emsp;--enable-intl=shared</td>
-      <td></td>
+      <td>--enable-intl=shared</td>
       <td>EXT_INTL_SHARED=ON</td>
       <td></td>
     </tr>
     <tr>
       <td>--without-ldap</td>
-      <td></td>
+      <td>--without-ldap</td>
       <td>EXT_LDAP=OFF</td>
       <td>default</td>
     </tr>
@@ -1847,7 +1847,7 @@ A list of Autoconf `configure` command-line configuration options, Windows
       <td>
         &emsp;--with-ldap[=DIR]
       </td>
-      <td></td>
+      <td>--with-ldap</td>
       <td>
         EXT_LDAP=ON<br>
         [LDAP_ROOT=DIR]
@@ -1856,7 +1856,7 @@ A list of Autoconf `configure` command-line configuration options, Windows
     </tr>
     <tr>
       <td>&emsp;--with-ldap=shared</td>
-      <td></td>
+      <td>--with-ldap=shared</td>
       <td>EXT_LDAP_SHARED=ON</td>
       <td></td>
     </tr>
@@ -2074,26 +2074,32 @@ A list of Autoconf `configure` command-line configuration options, Windows
       <td></td>
     </tr>
     <tr>
-      <td></td>
-      <td></td>
+      <td>N/A</td>
+      <td>--disable-odbc</td>
       <td>EXT_ODBC=OFF</td>
       <td>default</td>
     </tr>
     <tr>
-      <td></td>
-      <td></td>
+      <td>N/A</td>
+      <td>--enable-odbc</td>
       <td>EXT_ODBC=ON</td>
       <td></td>
     </tr>
     <tr>
-      <td>&emsp;--without-odbcver</td>
+      <td>N/A</td>
+      <td>--enable-odbc=shared</td>
+      <td>EXT_ODBC_SHARED=ON</td>
       <td></td>
+    </tr>
+    <tr>
+      <td>&emsp;--without-odbcver</td>
+      <td>--without-odbcver</td>
       <td>EXT_ODBC_VERSION="0x0350"</td>
       <td>default: 0x0350</td>
     </tr>
     <tr>
       <td>&emsp;--with-odbcver[=HEX]</td>
-      <td></td>
+      <td>--with-odbcver[=HEX]</td>
       <td>EXT_ODBC_VERSION=HEX</td>
       <td>default: 0x0350</td>
     </tr>
@@ -2492,7 +2498,7 @@ A list of Autoconf `configure` command-line configuration options, Windows
     </tr>
     <tr>
       <td>&emsp;--without-pdo-dblib</td>
-      <td></td>
+      <td>--without-pdo-dblib</td>
       <td>EXT_PDO_DBLIB=OFF</td>
       <td>default</td>
     </tr>
@@ -2500,7 +2506,7 @@ A list of Autoconf `configure` command-line configuration options, Windows
       <td>
         &emsp;--with-pdo-dblib[=DIR]
       </td>
-      <td></td>
+      <td>--with-pdo-dblib</td>
       <td>
         EXT_PDO_DBLIB=ON<br>
         [FreeTDS_ROOT=DIR]
@@ -2509,19 +2515,37 @@ A list of Autoconf `configure` command-line configuration options, Windows
     </tr>
     <tr>
       <td>&emsp;--with-pdo-dblib=shared</td>
-      <td></td>
+      <td>--with-pdo-dblib=shared</td>
       <td>EXT_PDO_DBLIB_SHARED=ON</td>
       <td></td>
     </tr>
     <tr>
-      <td>&emsp;--without-pdo-firebird</td>
+      <td>&emsp;N/A</td>
+      <td>--without-pdo-mssql</td>
       <td></td>
+      <td>default</td>
+    </tr>
+    <tr>
+      <td>&emsp;N/A</td>
+      <td>--with-pdo-mssql</td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>&emsp;N/A</td>
+      <td>--with-pdo-mssql=shared</td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>&emsp;--without-pdo-firebird</td>
+      <td>--without-pdo-firebird</td>
       <td>EXT_PDO_FIREBIRD=OFF</td>
       <td>default</td>
     </tr>
     <tr>
       <td>&emsp;--with-pdo-firebird[=DIR]</td>
-      <td></td>
+      <td>--with-pdo-firebird</td>
       <td>
         EXT_PDO_FIREBIRD=ON<br>
         [Firebird_ROOT=DIR]
@@ -2530,37 +2554,37 @@ A list of Autoconf `configure` command-line configuration options, Windows
     </tr>
     <tr>
       <td>&emsp;--with-pdo-firebird=shared</td>
-      <td></td>
+      <td>--with-pdo-firebird=shared</td>
       <td>EXT_PDO_FIREBIRD_SHARED=ON</td>
       <td></td>
     </tr>
     <tr>
       <td>&emsp;--without-pdo-mysql</td>
-      <td></td>
+      <td>--without-pdo-mysql</td>
       <td>EXT_PDO_MYSQL=OFF</td>
       <td>default</td>
     </tr>
     <tr>
       <td>&emsp;--with-pdo-mysql</td>
-      <td></td>
+      <td>--with-pdo-mysql</td>
       <td>EXT_PDO_MYSQL=ON</td>
       <td></td>
     </tr>
     <tr>
       <td>&emsp;--with-pdo-mysql=mysqlnd</td>
-      <td></td>
+      <td>--with-pdo-mysql=mysqlnd</td>
       <td>EXT_PDO_MYSQL=ON</td>
       <td></td>
     </tr>
     <tr>
       <td>&emsp;--with-pdo-mysql=shared</td>
-      <td></td>
+      <td>--with-pdo-mysql=shared</td>
       <td>EXT_PDO_MYSQL_SHARED=ON</td>
       <td></td>
     </tr>
     <tr>
       <td>&emsp;--with-pdo-mysql=/usr</td>
-      <td></td>
+      <td>--with-pdo-mysql=[DIR]</td>
       <td>
         EXT_PDO_MYSQL=ON<br>
         EXT_PDO_MYSQL_DRIVER=mysql
@@ -2569,7 +2593,7 @@ A list of Autoconf `configure` command-line configuration options, Windows
     </tr>
     <tr>
       <td>&emsp;--with-pdo-mysql=DIR</td>
-      <td></td>
+      <td>--with-pdo-mysql=[DIR]</td>
       <td>
         EXT_PDO_MYSQL=ON<br>
         EXT_PDO_MYSQL_DRIVER=mysql<br>
@@ -2579,7 +2603,7 @@ A list of Autoconf `configure` command-line configuration options, Windows
     </tr>
     <tr>
       <td>&emsp;--with-pdo-mysql=path/to/mysql_config</td>
-      <td></td>
+      <td>N/A</td>
       <td>
         EXT_PDO_MYSQL=ON<br>
         EXT_PDO_MYSQL_DRIVER=mysql<br>
@@ -2610,13 +2634,13 @@ A list of Autoconf `configure` command-line configuration options, Windows
     </tr>
     <tr>
       <td>&emsp;--without-pdo-odbc</td>
-      <td></td>
+      <td>--without-pdo-odbc</td>
       <td>EXT_PDO_ODBC=OFF</td>
       <td>default</td>
     </tr>
     <tr>
       <td>&emsp;--with-pdo-odbc=flavor</td>
-      <td></td>
+      <td>--with-pdo-odbc</td>
       <td>
         EXT_PDO_ODBC=ON<br>
         EXT_PDO_ODBC_TYPE=flavor
@@ -2625,7 +2649,7 @@ A list of Autoconf `configure` command-line configuration options, Windows
     </tr>
     <tr>
       <td>&emsp;--with-pdo-odbc=flavor,dir,libname,ldflags,cflags</td>
-      <td></td>
+      <td>--with-pdo-odbc</td>
       <td>
         EXT_PDO_ODBC=ON<br>
         EXT_PDO_ODBC_TYPE=flavor<br>
@@ -2638,7 +2662,7 @@ A list of Autoconf `configure` command-line configuration options, Windows
     </tr>
     <tr>
       <td>&emsp;--with-pdo-odbc=shared</td>
-      <td></td>
+      <td>--with-pdo-odbc=shared</td>
       <td>EXT_PDO_ODBC_SHARED=ON</td>
       <td></td>
     </tr>
@@ -2773,13 +2797,13 @@ A list of Autoconf `configure` command-line configuration options, Windows
     </tr>
     <tr>
       <td>--without-pspell</td>
-      <td></td>
+      <td>--without-pspell</td>
       <td>EXT_PSPELL=OFF</td>
       <td>default, PHP <= 8.3</td>
     </tr>
     <tr>
       <td>&emsp;--with-pspell[=DIR]</td>
-      <td></td>
+      <td>--with-pspell</td>
       <td>
         EXT_PSPELL=ON<br>
         [Aspell_ROOT=DIR]
@@ -2788,7 +2812,7 @@ A list of Autoconf `configure` command-line configuration options, Windows
     </tr>
     <tr>
       <td>&emsp;--with-pspell=shared</td>
-      <td></td>
+      <td>--with-pspell=shared</td>
       <td>EXT_PSPELL_SHARED=ON</td>
       <td></td>
     </tr>
@@ -2914,13 +2938,13 @@ A list of Autoconf `configure` command-line configuration options, Windows
     </tr>
     <tr>
       <td>--without-snmp</td>
-      <td></td>
+      <td>--without-snmp</td>
       <td>EXT_SNMP=OFF</td>
       <td>default</td>
     </tr>
     <tr>
       <td>&emsp;--with-snmp[=DIR]</td>
-      <td></td>
+      <td>--with-snmp[=DIR]</td>
       <td>
         EXT_SNMP=ON<br>
         [NetSnmp_ROOT=DIR]
@@ -2929,7 +2953,7 @@ A list of Autoconf `configure` command-line configuration options, Windows
     </tr>
     <tr>
       <td>&emsp;--with-snmp=shared</td>
-      <td></td>
+      <td>--with-snmp=shared</td>
       <td>EXT_SNMP_SHARED=ON</td>
       <td></td>
     </tr>
@@ -3106,13 +3130,13 @@ A list of Autoconf `configure` command-line configuration options, Windows
     </tr>
     <tr>
       <td>--without-tidy</td>
-      <td></td>
+      <td>--without-tidy</td>
       <td>EXT_TIDY=OFF</td>
       <td>default</td>
     </tr>
     <tr>
       <td>&emsp;--with-tidy[=DIR]</td>
-      <td></td>
+      <td>--with-tidy</td>
       <td>
         EXT_TIDY=ON<br>
         [Tidy_ROOT=DIR]
@@ -3121,7 +3145,7 @@ A list of Autoconf `configure` command-line configuration options, Windows
     </tr>
     <tr>
       <td>&emsp;--with-tidy=shared</td>
-      <td></td>
+      <td>--with-tidy=shared</td>
       <td>EXT_TIDY_SHARED=ON</td>
       <td></td>
     </tr>
@@ -3393,7 +3417,160 @@ A list of Autoconf `configure` command-line configuration options, Windows
     </tr>
     <tr>
       <td>--with-tags=TAGS</td>
+      <td>N/A</td>
       <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <th colspan="4">Windows JScript options</th>
+    </tr>
+    <tr>
+      <td>N/A</td>
+      <td>--with-verbosity</td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>N/A</td>
+      <td>--without-verbosity</td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>N/A</td>
+      <td>--with-toolset</td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>N/A</td>
+      <td>--without-toolset</td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>N/A</td>
+      <td>--with-cygwin</td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>N/A</td>
+      <td>--enable-object-out-dir</td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>N/A</td>
+      <td>--enable-pgi</td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>N/A</td>
+      <td>--with-pgo</td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>N/A</td>
+      <td>--with-prefix</td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>N/A</td>
+      <td>--with-mp</td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>N/A</td>
+      <td>--with-php-build</td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>N/A</td>
+      <td>--with-extra-includes</td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>N/A</td>
+      <td>--with-extra-libs</td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>N/A</td>
+      <td>--with-analyzer</td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>N/A</td>
+      <td>--with-snapshot-template</td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>N/A</td>
+      <td>--disable-security-flags</td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>N/A</td>
+      <td>--without-uncritical-warn-choke</td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>N/A</td>
+      <td>--enable-sanitizer</td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>N/A</td>
+      <td>--with-codegen-arch</td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>N/A</td>
+      <td>--with-all-shared</td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>N/A</td>
+      <td>--with-config-profile</td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>N/A</td>
+      <td>--disable-test-ini</td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>N/A</td>
+      <td>--with-test-ini-ext-exclude</td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>N/A</td>
+      <td>--enable-native-intrinsics</td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>N/A</td>
+      <td>--disable-vs-link-compat</td>
       <td></td>
       <td></td>
     </tr>
