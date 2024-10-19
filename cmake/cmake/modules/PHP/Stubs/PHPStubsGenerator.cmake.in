@@ -2,6 +2,10 @@
 Script for processing PHP stub sources.
 #]=============================================================================]
 
+if(NOT CMAKE_SCRIPT_MODE_FILE)
+  message(FATAL_ERROR "This is a command-line script.")
+endif()
+
 set(sources "@PHP_SOURCES@")
 
 # Ensure sources include only *.stub.php files.
