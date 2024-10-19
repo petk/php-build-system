@@ -133,7 +133,11 @@ mark_as_advanced(PHP_DMALLOC)
 option(PHP_DTRACE "Enable DTrace support" OFF)
 mark_as_advanced(PHP_DTRACE)
 
-set(PHP_FD_SETSIZE "" CACHE STRING "Size of descriptor sets")
+if(CMAKE_SYSTEM_NAME STREQUAL "Windows")
+  set(PHP_FD_SETSIZE "256" CACHE STRING "Size of descriptor sets")
+else()
+  set(PHP_FD_SETSIZE "" CACHE STRING "Size of descriptor sets")
+endif()
 mark_as_advanced(PHP_FD_SETSIZE)
 
 option(PHP_VALGRIND "Enable the Valgrind support" OFF)
