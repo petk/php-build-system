@@ -1,7 +1,7 @@
 #!/usr/bin/env -S cmake -P
 #
-# Command-line script to regenerate the ext/standard/credits_*.h headers from
-# CREDITS files.
+# Command-line script to regenerate the `ext/standard/credits_*.h` headers from
+# the `CREDITS` files.
 #
 # Run with: `cmake -P cmake/scripts/GenerateCredits.cmake`
 
@@ -33,9 +33,9 @@ set(template [[
 file(GLOB credits ${PHP_SOURCE_DIR}/*/*/CREDITS)
 
 foreach(credit ${credits})
-  cmake_path(GET credit PARENT_PATH parent)
-  cmake_path(GET parent PARENT_PATH parent)
-  cmake_path(GET parent FILENAME dir)
+  cmake_path(GET credit PARENT_PATH dir)
+  cmake_path(GET dir PARENT_PATH dir)
+  cmake_path(GET dir FILENAME dir)
 
   list(APPEND dirs ${dir})
   file(STRINGS ${credit} lines ENCODING UTF-8)
@@ -48,8 +48,8 @@ list(REMOVE_DUPLICATES dirs)
 
 foreach(dir ${dirs})
   list(SORT ${dir}_credits CASE INSENSITIVE)
-  list(JOIN ${dir}_credits ";\n" credits)
-  set(content "${template}${credits};\n")
+  list(JOIN ${dir}_credits ";\n" content)
+  set(content "${template}${content};\n")
 
   if(EXISTS ${PHP_SOURCE_DIR}/ext/standard/credits_${dir}.h)
     file(READ ${PHP_SOURCE_DIR}/ext/standard/credits_${dir}.h current)
