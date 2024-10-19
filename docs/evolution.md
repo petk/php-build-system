@@ -192,7 +192,7 @@ Bundled libtool has been updated to 1.5.20.
 
 #### Autotools
 
-* Added new `--without-sqlite3[=DIR]`, `--with-libexpat-dir=DIR`, configure
+* Added new `--without-sqlite3[=DIR]`, `--with-libexpat-dir=DIR` configure
   options.
 * The `--disable-zend-memory-manager`, `--with-hwapi[=DIR]`,
   `--with-fdftk[=DIR]`, `--enable-versioning` configure options have been
@@ -666,11 +666,12 @@ PHP coding standards now use the C99 standard.
 * Added the `--enable-address-sanitizer`, `--enable-undefined-sanitizer`,
   `--with-avif`, `--with-external-libcrypt`, `--disable-fiber-asm`,
   `--enable-zend-max-execution-timers` configure options.
-</details>
 
 #### Windows
 
 * Added new `--disable-vs-link-compat` and `--with-libavif` configure options.
+
+</details>
 
 ## 2021
 

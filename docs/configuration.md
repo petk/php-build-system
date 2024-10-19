@@ -482,13 +482,13 @@ A list of Autoconf `configure` command-line configuration options, Windows
     </tr>
     <tr>
       <td>--disable-dtrace</td>
-      <td></td>
+      <td>N/A</td>
       <td>PHP_DTRACE=OFF</td>
       <td>default</td>
     </tr>
     <tr>
       <td>&emsp;--enable-dtrace</td>
-      <td></td>
+      <td>N/A</td>
       <td>PHP_DTRACE=ON</td>
       <td></td>
     </tr>
@@ -506,7 +506,7 @@ A list of Autoconf `configure` command-line configuration options, Windows
     </tr>
     <tr>
       <td>--without-valgrind</td>
-      <td></td>
+      <td>N/A</td>
       <td>PHP_VALGRIND=OFF</td>
       <td>default</td>
     </tr>
@@ -516,7 +516,7 @@ A list of Autoconf `configure` command-line configuration options, Windows
         &emsp;[VALGRIND_CFLAGS=...]<br>
         &emsp;[VALGRIND_LIBS=...]
       </td>
-      <td></td>
+      <td>N/A</td>
       <td>
         PHP_VALGRIND=ON<br>
         [Valgrind_ROOT=DIR]
@@ -525,7 +525,7 @@ A list of Autoconf `configure` command-line configuration options, Windows
     </tr>
     <tr>
       <td>--with-libdir=NAME</td>
-      <td></td>
+      <td>N/A</td>
       <td>CMAKE_INSTALL_LIBDIR=NAME</td>
       <td>See GNUInstallDirs</td>
     </tr>
@@ -585,13 +585,13 @@ A list of Autoconf `configure` command-line configuration options, Windows
     </tr>
     <tr>
       <td>--disable-dmalloc</td>
-      <td></td>
+      <td>N/A</td>
       <td>PHP_DMALLOC=OFF</td>
       <td>default</td>
     </tr>
     <tr>
       <td>&emsp;--enable-dmalloc</td>
-      <td></td>
+      <td>N/A</td>
       <td>
         PHP_DMALLOC=ON<br>
         [Dmalloc_ROOT=DIR]
@@ -624,13 +624,13 @@ A list of Autoconf `configure` command-line configuration options, Windows
     </tr>
     <tr>
       <td>--disable-gcov</td>
-      <td></td>
+      <td>N/A</td>
       <td>PHP_GCOV=OFF</td>
       <td>default</td>
     </tr>
     <tr>
       <td>&emsp;--enable-gcov</td>
-      <td></td>
+      <td>N/A</td>
       <td>
         PHP_GCOV=ON<br>
         [Gcov_ROOT=DIR]
@@ -639,7 +639,7 @@ A list of Autoconf `configure` command-line configuration options, Windows
     </tr>
     <tr>
       <td>--enable-rpath</td>
-      <td></td>
+      <td>N/A</td>
       <td>
         CMAKE_SKIP_RPATH=OFF<br>
         CMAKE_SKIP_INSTALL_RPATH=OFF<br>
@@ -649,7 +649,7 @@ A list of Autoconf `configure` command-line configuration options, Windows
     </tr>
     <tr>
       <td>&emsp;--disable-rpath</td>
-      <td></td>
+      <td>N/A</td>
       <td>
         CMAKE_SKIP_RPATH=ON<br>
         or CMAKE_SKIP_INSTALL_RPATH=ON<br>
@@ -659,13 +659,13 @@ A list of Autoconf `configure` command-line configuration options, Windows
     </tr>
     <tr>
       <td>--disable-libgcc</td>
-      <td></td>
+      <td>N/A</td>
       <td>PHP_LIBGCC=OFF</td>
       <td>default</td>
     </tr>
     <tr>
       <td>&emsp;--enable-libgcc</td>
-      <td></td>
+      <td>N/A</td>
       <td>PHP_LIBGCC=ON</td>
       <td></td>
     </tr>
@@ -737,7 +737,10 @@ A list of Autoconf `configure` command-line configuration options, Windows
     </tr>
     <tr>
       <td>--without-apxs2</td>
-      <td>--disable-apache2handler or --disable-apache2-4handler</td>
+      <td>
+        --disable-apache2handler or<br>
+        --disable-apache2-4handler
+      </td>
       <td>SAPI_APACHE2HANDLER=OFF</td>
       <td>
         default, in PHP >= 8.4 <code>--disable-apache2handler</code> is for
@@ -746,7 +749,10 @@ A list of Autoconf `configure` command-line configuration options, Windows
     </tr>
     <tr>
       <td>&emsp;--with-apxs2[=PATH_TO_APXS]</td>
-      <td>--enable-apache2handler or --enable-apache2-4handler</td>
+      <td>
+        --enable-apache2handler or<br>
+        --enable-apache2-4handler
+      </td>
       <td>
         SAPI_APACHE2HANDLER=ON<br>
         [Apache_ROOT=PATH_TO_APACHE]<br>
@@ -996,13 +1002,13 @@ A list of Autoconf `configure` command-line configuration options, Windows
       <td></td>
     </tr>
     <tr>
-      <td>N/A</td>
+      <td>&emsp;N/A</td>
       <td>--disable-phpdbgs</td>
       <td>SAPI_PHPDBG_SHARED=OFF</td>
       <td>default</td>
     </tr>
     <tr>
-      <td>N/A</td>
+      <td>&emsp;N/A</td>
       <td>--enable-phpdbgs</td>
       <td>SAPI_PHPDBG_SHARED=ON</td>
       <td></td>
@@ -1143,31 +1149,31 @@ A list of Autoconf `configure` command-line configuration options, Windows
     </tr>
     <tr>
       <td>&emsp;--enable-dba=shared</td>
-      <td></td>
+      <td>--enable-dba=shared</td>
       <td>EXT_DBA_SHARED=ON</td>
       <td></td>
     </tr>
     <tr>
       <td>&emsp;--with-flatfile</td>
-      <td></td>
+      <td>N/A</td>
       <td>EXT_DBA_FLATFILE=ON</td>
       <td>default</td>
     </tr>
     <tr>
       <td>&emsp;--without-flatfile</td>
-      <td></td>
+      <td>N/A</td>
       <td>EXT_DBA_FLATFILE=OFF</td>
       <td></td>
     </tr>
     <tr>
       <td>&emsp;--with-inifile</td>
-      <td></td>
+      <td>N/A</td>
       <td>EXT_DBA_INIFILE=ON</td>
       <td>default</td>
     </tr>
     <tr>
       <td>&emsp;--without-inifile</td>
-      <td></td>
+      <td>N/A</td>
       <td>EXT_DBA_INIFILE=OFF</td>
       <td></td>
     </tr>
@@ -1188,13 +1194,13 @@ A list of Autoconf `configure` command-line configuration options, Windows
     </tr>
     <tr>
       <td>&emsp;--without-gdbm</td>
-      <td></td>
+      <td>N/A</td>
       <td>EXT_DBA_GDBM=OFF</td>
       <td>default</td>
     </tr>
     <tr>
       <td>&emsp;--with-gdbm[=DIR]</td>
-      <td></td>
+      <td>N/A</td>
       <td>
         EXT_DBA_GDBM=ON<br>
         [GDBM_ROOT=DIR]
@@ -1203,13 +1209,13 @@ A list of Autoconf `configure` command-line configuration options, Windows
     </tr>
     <tr>
       <td>&emsp;--without-ndbm</td>
-      <td></td>
+      <td>N/A</td>
       <td>EXT_DBA_NDBM=OFF</td>
       <td>default</td>
     </tr>
     <tr>
       <td>&emsp;--with-ndbm[=DIR]</td>
-      <td></td>
+      <td>N/A</td>
       <td>
         EXT_DBA_NDBM=ON<br>
         [Ndbm_ROOT=DIR]
@@ -1218,13 +1224,13 @@ A list of Autoconf `configure` command-line configuration options, Windows
     </tr>
     <tr>
       <td>&emsp;--without-db4</td>
-      <td></td>
+      <td>N/A</td>
       <td>EXT_DBA_DB=OFF</td>
       <td>default</td>
     </tr>
     <tr>
       <td>&emsp;--with-db4[=DIR]</td>
-      <td></td>
+      <td>N/A</td>
       <td>
         EXT_DBA_DB=ON<br>
         [BerkeleyDB_ROOT=DIR]
@@ -1233,61 +1239,61 @@ A list of Autoconf `configure` command-line configuration options, Windows
     </tr>
     <tr>
       <td>&emsp;--without-db3</td>
-      <td></td>
+      <td>N/A</td>
       <td>EXT_DBA_DB3=OFF</td>
       <td>default</td>
     </tr>
     <tr>
       <td>&emsp;--with-db3</td>
-      <td></td>
+      <td>N/A</td>
       <td>EXT_DBA_DB3=ON</td>
       <td></td>
     </tr>
     <tr>
       <td>&emsp;--without-db2</td>
-      <td></td>
+      <td>N/A</td>
       <td>EXT_DBA_DB2=OFF</td>
       <td>default</td>
     </tr>
     <tr>
       <td>&emsp;--with-db2</td>
-      <td></td>
+      <td>N/A</td>
       <td>EXT_DBA_DB2=ON</td>
       <td></td>
     </tr>
     <tr>
       <td>&emsp;--without-db1</td>
-      <td></td>
+      <td>N/A</td>
       <td>EXT_DBA_DB1=OFF</td>
       <td>default</td>
     </tr>
     <tr>
       <td>&emsp;--with-db1</td>
-      <td></td>
+      <td>N/A</td>
       <td>EXT_DBA_DB1=ON</td>
       <td></td>
     </tr>
     <tr>
-      <td>N/A</td>
+      <td>&emsp;N/A</td>
       <td>--without-db</td>
       <td></td>
       <td></td>
     </tr>
     <tr>
-      <td>N/A</td>
+      <td>&emsp;N/A</td>
       <td>--with-db</td>
       <td></td>
       <td></td>
     </tr>
     <tr>
       <td>&emsp;--without-dbm</td>
-      <td></td>
+      <td>N/A</td>
       <td>EXT_DBA_DBM=OFF</td>
       <td>default</td>
     </tr>
     <tr>
       <td>&emsp;--with-dbm[=DIR]</td>
-      <td></td>
+      <td>N/A</td>
       <td>
         EXT_DBA_DBM=ON<br>
         [Dbm_ROOT=DIR]
@@ -1296,13 +1302,13 @@ A list of Autoconf `configure` command-line configuration options, Windows
     </tr>
     <tr>
       <td>&emsp;--without-tcadb</td>
-      <td></td>
+      <td>N/A</td>
       <td>EXT_DBA_TCADB=OFF</td>
       <td>default</td>
     </tr>
     <tr>
       <td>&emsp;--with-tcadb[=DIR]</td>
-      <td></td>
+      <td>N/A</td>
       <td>
         EXT_DBA_TCADB=ON<br>
         [TokyoCabinet_ROOT=DIR]
@@ -1326,13 +1332,13 @@ A list of Autoconf `configure` command-line configuration options, Windows
     </tr>
     <tr>
       <td>&emsp;--with-cdb</td>
-      <td></td>
+      <td>N/A</td>
       <td>EXT_DBA_CDB=ON</td>
       <td>default</td>
     </tr>
     <tr>
       <td>&emsp;--with-cdb=DIR</td>
-      <td></td>
+      <td>N/A</td>
       <td>
         EXT_DBA_CDB_EXTERNAL=ON<br>
         Cdb_ROOT=DIR
@@ -1341,7 +1347,7 @@ A list of Autoconf `configure` command-line configuration options, Windows
     </tr>
     <tr>
       <td>&emsp;--without-cdb</td>
-      <td></td>
+      <td>N/A</td>
       <td>EXT_DBA_CDB=OFF</td>
       <td></td>
     </tr>
@@ -1549,7 +1555,7 @@ A list of Autoconf `configure` command-line configuration options, Windows
     </tr>
     <tr>
       <td>&emsp;--without-external-gd</td>
-      <td></td>
+      <td>N/A</td>
       <td>EXT_GD_EXTERNAL=OFF</td>
       <td>default</td>
     </tr>
@@ -1559,7 +1565,7 @@ A list of Autoconf `configure` command-line configuration options, Windows
         &emsp;[GDLIB_CFLAGS=...]<br>
         &emsp;[GDLIB_LIBS=...]
       </td>
-      <td></td>
+      <td>--with-gd=DIR</td>
       <td>
         EXT_GD_EXTERNAL=ON<br>
         [GD_ROOT=DIR]
@@ -1568,7 +1574,7 @@ A list of Autoconf `configure` command-line configuration options, Windows
     </tr>
     <tr>
       <td>&emsp;--without-avif</td>
-      <td>&emsp;--without-libavif</td>
+      <td>--without-libavif</td>
       <td>EXT_GD_AVIF=OFF</td>
       <td>default in Autotools and CMake</td>
     </tr>
@@ -1578,7 +1584,7 @@ A list of Autoconf `configure` command-line configuration options, Windows
         &emsp;[AVIF_CFLAGS=...]<br>
         &emsp;[AVIF_LIBS=...]
       </td>
-      <td>&emsp;--with-libavif</td>
+      <td>--with-libavif</td>
       <td>
         EXT_GD_AVIF=ON<br>
         [libavif_ROOT=DIR]
@@ -1587,7 +1593,7 @@ A list of Autoconf `configure` command-line configuration options, Windows
     </tr>
     <tr>
       <td>&emsp;--without-webp</td>
-      <td>&emsp;--without-libwebp</td>
+      <td>--without-libwebp</td>
       <td>EXT_GD_WEBP=OFF</td>
       <td>default in Autotools and CMake</td>
     </tr>
@@ -1597,7 +1603,7 @@ A list of Autoconf `configure` command-line configuration options, Windows
         &emsp;[WEBP_CFLAGS=...]<br>
         &emsp;[WEBP_LIBS=...]
       </td>
-      <td>&emsp;--with-libwebp</td>
+      <td>--with-libwebp</td>
       <td>
         EXT_GD_WEBP=ON<br>
         [WebP_ROOT=DIR]
@@ -1606,7 +1612,7 @@ A list of Autoconf `configure` command-line configuration options, Windows
     </tr>
     <tr>
       <td>&emsp;--without-jpeg</td>
-      <td></td>
+      <td>N/A</td>
       <td>EXT_GD_JPEG=OFF</td>
       <td>default</td>
     </tr>
@@ -1616,7 +1622,7 @@ A list of Autoconf `configure` command-line configuration options, Windows
         &emsp;[JPEG_CFLAGS=...]<br>
         &emsp;[JPEG_LIBS=...]
       </td>
-      <td></td>
+      <td>N/A</td>
       <td>
         EXT_GD_JPEG=ON<br>
         [JPEG_ROOT=DIR]
@@ -1628,7 +1634,7 @@ A list of Autoconf `configure` command-line configuration options, Windows
         &emsp;[PNG_CFLAGS=...]<br>
         &emsp;[PNG_LIBS=...]
       </td>
-      <td></td>
+      <td>N/A</td>
       <td>
         [PNG_ROOT=DIR]
       </td>
@@ -1636,7 +1642,7 @@ A list of Autoconf `configure` command-line configuration options, Windows
     </tr>
     <tr>
       <td>&emsp;--without-xpm</td>
-      <td></td>
+      <td>N/A</td>
       <td>EXT_GD_XPM=OFF</td>
       <td>default</td>
     </tr>
@@ -1646,7 +1652,7 @@ A list of Autoconf `configure` command-line configuration options, Windows
         &emsp;[XPM_CFLAGS=...]<br>
         &emsp;[XPM_LIBS=...]
       </td>
-      <td></td>
+      <td>N/A</td>
       <td>
         EXT_GD_XPM=ON<br>
         [XPM_ROOT=DIR]
@@ -1655,7 +1661,7 @@ A list of Autoconf `configure` command-line configuration options, Windows
     </tr>
     <tr>
       <td>&emsp;--without-freetype</td>
-      <td></td>
+      <td>N/A</td>
       <td>EXT_GD_FREETYPE=OFF</td>
       <td>default</td>
     </tr>
@@ -1665,7 +1671,7 @@ A list of Autoconf `configure` command-line configuration options, Windows
         &emsp;[FREETYPE2_CFLAGS=...]<br>
         &emsp;[FREETYPE2_LIBS=...]
       </td>
-      <td></td>
+      <td>N/A</td>
       <td>
         EXT_GD_FREETYPE=ON<br>
         [Freetype_ROOT=DIR]
@@ -1674,13 +1680,13 @@ A list of Autoconf `configure` command-line configuration options, Windows
     </tr>
     <tr>
       <td>&emsp;--disable-gd-jis-conv</td>
-      <td></td>
+      <td>N/A</td>
       <td>EXT_GD_JIS=OFF</td>
       <td>default</td>
     </tr>
     <tr>
       <td>&emsp;--enable-gd-jis-conv</td>
-      <td></td>
+      <td>N/A</td>
       <td>EXT_GD_JIS=ON</td>
       <td></td>
     </tr>
@@ -1862,7 +1868,7 @@ A list of Autoconf `configure` command-line configuration options, Windows
     </tr>
     <tr>
       <td>&emsp;--without-ldap-sasl</td>
-      <td></td>
+      <td>N/A</td>
       <td>EXT_LDAP_SASL=OFF</td>
       <td>default</td>
     </tr>
@@ -1872,7 +1878,7 @@ A list of Autoconf `configure` command-line configuration options, Windows
         &emsp;[SASL_CFLAGS=...]<br>
         &emsp;[SASL_LIBS=...]
       </td>
-      <td></td>
+      <td>N/A</td>
       <td>
         EXT_LDAP_SASL=ON<br>
         [SASL_ROOT=DIR]
@@ -2105,13 +2111,13 @@ A list of Autoconf `configure` command-line configuration options, Windows
     </tr>
     <tr>
       <td>&emsp;--without-adabas</td>
-      <td></td>
+      <td>N/A</td>
       <td></td>
       <td>default</td>
     </tr>
     <tr>
       <td>&emsp;--with-adabas</td>
-      <td></td>
+      <td>N/A</td>
       <td>
         EXT_ODBC=ON<br>
         EXT_ODBC_TYPE=adabas
@@ -2120,13 +2126,13 @@ A list of Autoconf `configure` command-line configuration options, Windows
     </tr>
     <tr>
       <td>&emsp;--without-sapdb</td>
-      <td></td>
+      <td>N/A</td>
       <td></td>
       <td>default</td>
     </tr>
     <tr>
       <td>&emsp;--with-sapdb</td>
-      <td></td>
+      <td>N/A</td>
       <td>
         EXT_ODBC=ON<br>
         EXT_ODBC_TYPE=sapdb
@@ -2135,13 +2141,13 @@ A list of Autoconf `configure` command-line configuration options, Windows
     </tr>
     <tr>
       <td>&emsp;--without-solid</td>
-      <td></td>
+      <td>N/A</td>
       <td></td>
       <td>default</td>
     </tr>
     <tr>
       <td>&emsp;--with-solid</td>
-      <td></td>
+      <td>N/A</td>
       <td>
         EXT_ODBC=ON<br>
         EXT_ODBC_TYPE=solid
@@ -2150,13 +2156,13 @@ A list of Autoconf `configure` command-line configuration options, Windows
     </tr>
     <tr>
       <td>&emsp;--without-ibm-db2</td>
-      <td></td>
+      <td>N/A</td>
       <td></td>
       <td>default</td>
     </tr>
     <tr>
       <td>&emsp;--with-ibm-db2</td>
-      <td></td>
+      <td>N/A</td>
       <td>
         EXT_ODBC=ON<br>
         EXT_ODBC_TYPE=ibm-db2
@@ -2165,13 +2171,13 @@ A list of Autoconf `configure` command-line configuration options, Windows
     </tr>
     <tr>
       <td>&emsp;--without-empress</td>
-      <td></td>
+      <td>N/A</td>
       <td></td>
       <td>default</td>
     </tr>
     <tr>
       <td>&emsp;--with-empress</td>
-      <td></td>
+      <td>N/A</td>
       <td>
         EXT_ODBC=ON<br>
         EXT_ODBC_TYPE=empress
@@ -2180,13 +2186,13 @@ A list of Autoconf `configure` command-line configuration options, Windows
     </tr>
     <tr>
       <td>&emsp;--without-empress-bcs</td>
-      <td></td>
+      <td>N/A</td>
       <td></td>
       <td>default</td>
     </tr>
     <tr>
       <td>&emsp;--with-empress-bcs</td>
-      <td></td>
+      <td>N/A</td>
       <td>
         EXT_ODBC=ON<br>
         EXT_ODBC_TYPE=empress-bcs
@@ -2195,13 +2201,13 @@ A list of Autoconf `configure` command-line configuration options, Windows
     </tr>
     <tr>
       <td>&emsp;--without-custom-odbc</td>
-      <td></td>
+      <td>N/A</td>
       <td></td>
       <td>default</td>
     </tr>
     <tr>
       <td>&emsp;--with-custom-odbc</td>
-      <td></td>
+      <td>N/A</td>
       <td>
         EXT_ODBC=ON<br>
         EXT_ODBC_TYPE=generic
@@ -2210,7 +2216,7 @@ A list of Autoconf `configure` command-line configuration options, Windows
     </tr>
     <tr>
       <td>&emsp;--without-iodbc</td>
-      <td></td>
+      <td>N/A</td>
       <td></td>
       <td>default</td>
     </tr>
@@ -2220,7 +2226,7 @@ A list of Autoconf `configure` command-line configuration options, Windows
         &emsp;[ODBC_CFLAGS=...]<br>
         &emsp;[ODBC_LIBS=...]
       </td>
-      <td></td>
+      <td>N/A</td>
       <td>
         EXT_ODBC=ON<br>
         EXT_ODBC_TYPE=iODBC<br>
@@ -2230,13 +2236,13 @@ A list of Autoconf `configure` command-line configuration options, Windows
     </tr>
     <tr>
       <td>&emsp;--without-esoob</td>
-      <td></td>
+      <td>N/A</td>
       <td></td>
       <td>default</td>
     </tr>
     <tr>
       <td>&emsp;--with-esoob</td>
-      <td></td>
+      <td>N/A</td>
       <td>
         EXT_ODBC=ON<br>
         EXT_ODBC_TYPE=esoob
@@ -2245,7 +2251,7 @@ A list of Autoconf `configure` command-line configuration options, Windows
     </tr>
     <tr>
       <td>&emsp;--without-unixODBC</td>
-      <td></td>
+      <td>N/A</td>
       <td></td>
       <td>default</td>
     </tr>
@@ -2255,7 +2261,7 @@ A list of Autoconf `configure` command-line configuration options, Windows
         &emsp;[ODBC_CFLAGS=...]<br>
         &emsp;[ODBC_LIBS=...]
       </td>
-      <td></td>
+      <td>N/A</td>
       <td>
         EXT_ODBC=ON<br>
         EXT_ODBC_TYPE=unixODBC<br>
@@ -2265,13 +2271,13 @@ A list of Autoconf `configure` command-line configuration options, Windows
     </tr>
     <tr>
       <td>&emsp;--without-dbmaker</td>
-      <td></td>
+      <td>N/A</td>
       <td></td>
       <td>default</td>
     </tr>
     <tr>
       <td>&emsp;--with-dbmaker</td>
-      <td></td>
+      <td>N/A</td>
       <td>
         EXT_ODBC=ON<br>
         EXT_ODBC_TYPE=dbmaker
@@ -2280,7 +2286,7 @@ A list of Autoconf `configure` command-line configuration options, Windows
     </tr>
     <tr>
       <td>&emsp;--with-dbmaker=DIR</td>
-      <td></td>
+      <td>N/A</td>
       <td>
         EXT_ODBC=ON<br>
         EXT_ODBC_TYPE=dbmaker<br>
@@ -2613,13 +2619,13 @@ A list of Autoconf `configure` command-line configuration options, Windows
     </tr>
     <tr>
       <td>&emsp;--without-pdo-oci</td>
-      <td>&emsp;--without-pdo-oci</td>
+      <td>--without-pdo-oci</td>
       <td>EXT_PDO_OCI=OFF</td>
       <td>default, PHP <= 8.3</td>
     </tr>
     <tr>
       <td>&emsp;--with-pdo-oci[=DIR]</td>
-      <td>&emsp;--with-pdo-oci[=DIR]</td>
+      <td>--with-pdo-oci[=DIR]</td>
       <td>
         EXT_PDO_OCI=ON<br>
         [...]
@@ -2628,7 +2634,7 @@ A list of Autoconf `configure` command-line configuration options, Windows
     </tr>
     <tr>
       <td>&emsp;--with-pdo-oci=shared</td>
-      <td>&emsp;--with-pdo-oci=shared</td>
+      <td>--with-pdo-oci=shared</td>
       <td>EXT_PDO_OCI_SHARED=ON</td>
       <td></td>
     </tr>
