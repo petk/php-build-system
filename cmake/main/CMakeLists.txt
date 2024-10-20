@@ -104,30 +104,19 @@ if(_HAVE_ELF)
   )
 
   # Regenerate main/debug_gdb_scripts.c after PHP cli SAPI has been built.
-  file(
-    GENERATE
-    OUTPUT CMakeFiles/GenerateDebugGDBScripts.cmake
-    CONTENT [[
-      if(EXISTS ${PHP_EXECUTABLE})
-        execute_process(
-          COMMAND ${PHP_EXECUTABLE}
-            ${PHP_SOURCE_DIR}/scripts/gdb/debug_gdb_scripts_gen.php
-        )
-      endif()
-    ]]
-  )
-
-  add_custom_command(
-    OUTPUT ${CMAKE_CURRENT_SOURCE_DIR}/debug_gdb_scripts.c
-    COMMAND ${CMAKE_COMMAND}
-            -D PHP_EXECUTABLE=${PHP_BINARY_DIR}/sapi/cli/php
-            -D PHP_SOURCE_DIR=${PHP_SOURCE_DIR}
-            -P CMakeFiles/GenerateDebugGDBScripts.cmake
+  include(PHP/AddCustomCommand)
+  php_add_custom_command(
+    php_main_generate_debug_gdb_scripts
+    OUTPUT
+      ${CMAKE_CURRENT_SOURCE_DIR}/debug_gdb_scripts.c
     DEPENDS
       ${PHP_SOURCE_DIR}/scripts/gdb/debug_gdb_scripts_gen.php
       ${PHP_SOURCE_DIR}/scripts/gdb/php_gdb.py
       ${PHP_SOURCE_DIR}/.gdbinit
-    COMMENT "[main] Regenerating main/debug_gdb_scripts.c"
+    PHP_COMMAND
+      ${PHP_SOURCE_DIR}/scripts/gdb/debug_gdb_scripts_gen.php
+    COMMENT
+      "[main] Regenerating main/debug_gdb_scripts.c"
     VERBATIM
   )
 endif()
