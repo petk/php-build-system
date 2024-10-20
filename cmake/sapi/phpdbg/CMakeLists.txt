@@ -192,8 +192,8 @@ if(BISON_FOUND)
     php_phpdbg_parser
     phpdbg_parser.y
     ${CMAKE_CURRENT_SOURCE_DIR}/phpdbg_parser.c
-    COMPILE_FLAGS "-Wall -d"
-    VERBOSE REPORT_FILE ${CMAKE_CURRENT_BINARY_DIR}/phpdbg_parser.output
+    COMPILE_FLAGS "${PHP_DEFAULT_BISON_FLAGS}"
+    VERBOSE REPORT_FILE phpdbg_parser.output
     DEFINES_FILE ${CMAKE_CURRENT_SOURCE_DIR}/phpdbg_parser.h
   )
 

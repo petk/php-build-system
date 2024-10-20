@@ -22,8 +22,10 @@ block()
         allowedBuildTypes
           Debug           # Debug info, assertions, not optimized.
           DebugAssertions # Custom PHP debug build type with assertions enabled
-                          # in the release mode. TODO: Adjust the flags.
-          MinSizeRel      # Optimized for size rather than speed.
+                          # in the RelWithDebInfo mode: optimized, debug info,
+                          # assertions.
+          MinSizeRel      # Same as Release but optimized for size rather than
+                          # speed.
           Release         # No debug info, no assertions, optimized.
           RelWithDebInfo  # Debug info, optimized, no assertions.
       )
@@ -51,3 +53,14 @@ target_compile_definitions(
   INTERFACE
     $<IF:$<CONFIG:Debug,DebugAssertions>,ZEND_DEBUG=1,ZEND_DEBUG=0>
 )
+
+# Set CMAKE_<LANG>_FLAGS_<CONFIG> variables for the DebugAssertions build type.
+foreach(prefix CMAKE_C_FLAGS CMAKE_CXX_FLAGS CMAKE_ASM_FLAGS)
+  string(
+    REGEX REPLACE
+    "(-DNDEBUG|/DNDEBUG)"
+    ""
+    ${prefix}_DEBUGASSERTIONS
+    "${${prefix}_RELWITHDEBINFO}"
+  )
+endforeach()

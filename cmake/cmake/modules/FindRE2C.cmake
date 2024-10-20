@@ -260,10 +260,11 @@ function(re2c_target)
 
     list(APPEND outputs ${header})
 
-    # Before version 1.2 also --bit-vectors (-c) option is required when header
-    # option is used.
+    # When header option is used before version 1.2, also the '-c' option is
+    # required. Before 1.1 -c long variant is '--start-conditions' and after 1.1
+    # '--conditions'.
     if(RE2C_VERSION VERSION_LESS_EQUAL 1.2)
-      list(APPEND options "--bit-vectors")
+      list(APPEND options -c)
     endif()
 
     # Since version 3.0, --header is the new alias option for --type-header.
