@@ -89,9 +89,12 @@ if(
       TYPE REQUIRED
       PURPOSE "Necessary to generate PHP parser files."
   )
-  # TODO: Add Bison options based on the build type.
+  # Add Bison options based on the build type.
+  set(PHP_DEFAULT_BISON_FLAGS "$<IF:$<CONFIG:Release,MinSizeRel>,-l$<SEMICOLON>-Wall,-Wall>")
+  # Nicer way would be this, but GNU Bison errors out because it cannot process
+  # empty double quoted arguments in the command-line.
+  # See: https://gitlab.kitware.com/cmake/cmake/-/merge_requests/9921
   #set(PHP_DEFAULT_BISON_FLAGS "-Wall $<$<CONFIG:Release,MinSizeRel>:-l>")
-  set(PHP_DEFAULT_BISON_FLAGS "-Wall")
 endif()
 
 # Check if re2c is required.
