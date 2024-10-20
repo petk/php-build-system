@@ -486,8 +486,8 @@ if(BISON_FOUND)
     zend_ini_parser
     zend_ini_parser.y
     ${CMAKE_CURRENT_SOURCE_DIR}/zend_ini_parser.c
-    COMPILE_FLAGS "-Wall -d"
-    VERBOSE REPORT_FILE ${CMAKE_CURRENT_BINARY_DIR}/zend_ini_parser.output
+    COMPILE_FLAGS "${PHP_DEFAULT_BISON_FLAGS}"
+    VERBOSE REPORT_FILE zend_ini_parser.output
     DEFINES_FILE ${CMAKE_CURRENT_SOURCE_DIR}/zend_ini_parser.h
   )
 
@@ -498,8 +498,8 @@ if(BISON_FOUND)
     zend_language_parser
     zend_language_parser.y
     ${CMAKE_CURRENT_SOURCE_DIR}/zend_language_parser.c
-    COMPILE_FLAGS "-Wall -d"
-    VERBOSE REPORT_FILE ${CMAKE_CURRENT_BINARY_DIR}/zend_language_parser.output
+    COMPILE_FLAGS "${PHP_DEFAULT_BISON_FLAGS}"
+    VERBOSE REPORT_FILE zend_language_parser.output
     DEFINES_FILE ${CMAKE_CURRENT_SOURCE_DIR}/zend_language_parser.h
   )
 

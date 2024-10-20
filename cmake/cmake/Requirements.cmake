@@ -89,6 +89,9 @@ if(
       TYPE REQUIRED
       PURPOSE "Necessary to generate PHP parser files."
   )
+  # TODO: Add Bison options based on the build type.
+  #set(PHP_DEFAULT_BISON_FLAGS "-Wall $<$<CONFIG:Release,MinSizeRel>:-l>")
+  set(PHP_DEFAULT_BISON_FLAGS "-Wall")
 endif()
 
 # Check if re2c is required.
@@ -113,7 +116,11 @@ if(
   endif()
 
   set(RE2C_ENABLE_DOWNLOAD TRUE)
-  set(RE2C_DEFAULT_OPTIONS --no-generation-date)
+  set(
+    RE2C_DEFAULT_OPTIONS
+      --no-generation-date # Suppress date output in the generated file.
+      $<$<CONFIG:Release,MinSizeRel>:-i> # Do not output line directives.
+  )
 
   find_package(RE2C 1.0.3)
   set_package_properties(
