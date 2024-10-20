@@ -31,7 +31,8 @@ if(BISON_FOUND)
     php_json_parser
     json_parser.y
     ${CMAKE_CURRENT_SOURCE_DIR}/json_parser.tab.c
-    COMPILE_FLAGS "-Wall --defines -l"
+    COMPILE_FLAGS "${PHP_DEFAULT_BISON_FLAGS}"
+    VERBOSE REPORT_FILE json_parser.tab.output
     DEFINES_FILE ${CMAKE_CURRENT_SOURCE_DIR}/json_parser.tab.h
   )
 
@@ -45,7 +46,7 @@ if(RE2C_FOUND)
     json_scanner.re
     ${CMAKE_CURRENT_SOURCE_DIR}/json_scanner.c
     HEADER ${CMAKE_CURRENT_SOURCE_DIR}/php_json_scanner_defs.h
-    OPTIONS -bci
+    OPTIONS -bc
   )
 endif()
 
