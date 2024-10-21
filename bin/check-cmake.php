@@ -213,8 +213,10 @@ function getProjectModules(): array
         ],
         'PHP/CheckCompilerFlag' => ['php_check_compiler_flag'],
         'PHP/ConfigureFile' => ['php_configure_file'],
+        'PHP/Extensions' => ['php_extensions_add'],
         'PHP/Install' => ['php_install'],
         'PHP/PkgConfigGenerator' => ['pkgconfig_generate_pc'],
+        'PHP/SAPIs' => ['php_sapis_add'],
         'PHP/SearchLibraries' => ['php_search_libraries'],
         'PHP/SystemExtensions' => ['PHP::SystemExtensions'],
     ];

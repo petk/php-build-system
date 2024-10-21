@@ -142,61 +142,6 @@ endif()
 find_package(Sendmail)
 
 ################################################################################
-# Check if at least one SAPI is enabled.
-################################################################################
-function(_php_check_enabled_sapis)
-  set(at_least_one_sapi_is_enabled FALSE)
-
-  file(
-    GLOB_RECURSE
-    subdirectories
-    LIST_DIRECTORIES TRUE
-    ${PHP_SOURCE_DIR}/sapi/*/
-    sapi/*/CMakeLists.txt
-  )
-
-  foreach(dir ${subdirectories})
-    if(NOT EXISTS ${dir}/CMakeLists.txt)
-      continue()
-    endif()
-
-    cmake_path(GET dir FILENAME sapi_name)
-    string(TOUPPER ${sapi_name} sapi_name)
-
-    if(NOT DEFINED SAPI_${sapi_name})
-      file(READ ${dir}/CMakeLists.txt content)
-
-      string(
-        REGEX MATCH
-        "option\\(SAPI_${sapi_name}[ \t\r\n]+.*\"[ \t\r\n]+([A-Z]+)\\)"
-        _
-        ${content}
-      )
-
-      if(CMAKE_MATCH_1 STREQUAL "ON")
-        set(at_least_one_sapi_is_enabled TRUE)
-        break()
-      endif()
-    endif()
-
-    if(SAPI_${sapi_name})
-      set(at_least_one_sapi_is_enabled TRUE)
-      break()
-    endif()
-  endforeach()
-
-  if(NOT at_least_one_sapi_is_enabled)
-    message(
-      WARNING
-      "None of the PHP SAPIs have been enabled. If this is intentional, you "
-      "can disregard this warning."
-    )
-  endif()
-endfunction()
-
-_php_check_enabled_sapis()
-
-################################################################################
 # Find Valgrind.
 ################################################################################
 if(PHP_VALGRIND)

@@ -93,7 +93,7 @@ include_guard(GLOBAL)
 define_property(
   GLOBAL
   PROPERTY PHP_ALL_EXTENSIONS
-  BRIEF_DOCS "A list of all extensions in the ext directory"
+  BRIEF_DOCS "A list of all PHP extensions in the ext directory"
 )
 
 define_property(
@@ -116,7 +116,7 @@ set_property(GLOBAL PROPERTY PHP_ALWAYS_ENABLED_EXTENSIONS
 define_property(
   GLOBAL
   PROPERTY PHP_EXTENSIONS
-  BRIEF_DOCS "A list of all enabled extensions"
+  BRIEF_DOCS "A list of all enabled PHP extensions"
 )
 
 define_property(
@@ -128,7 +128,7 @@ define_property(
 define_property(
   TARGET
   PROPERTY PHP_ZEND_EXTENSION
-  BRIEF_DOCS "Whether the extension target is Zend extension"
+  BRIEF_DOCS "Whether the PHP extension target is Zend extension"
 )
 
 ################################################################################
