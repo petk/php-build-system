@@ -182,25 +182,24 @@ set(
 )
 mark_as_advanced(PHP_EXTENSION_DIR)
 
+# Assemble the PHP_EXTENSION_DIR default value.
 block()
   if(NOT PHP_EXTENSION_DIR)
     file(READ ${PHP_SOURCE_DIR}/Zend/zend_modules.h content)
     string(REGEX MATCH "#define ZEND_MODULE_API_NO ([0-9]*)" _ "${content}")
-    set(zend_module_api_no ${CMAKE_MATCH_1})
+    set(zendModuleApiNo ${CMAKE_MATCH_1})
 
-    set(extension_dir "${CMAKE_INSTALL_LIBDIR}/php")
+    set(
+      extensionDir
+      "${CMAKE_INSTALL_LIBDIR}/php/${zendModuleApiNo}$<$<BOOL:$<TARGET_PROPERTY:php_configuration,PHP_THREAD_SAFETY>>:-zts>$<$<BOOL:$<CONFIG>>:-$<CONFIG>>"
+    )
 
-    # This resembles the PHP Autotools --with-layout=GNU:
-    set(extension_dir "${extension_dir}/${zend_module_api_no}")
-    set(extension_dir "${extension_dir}$<$<BOOL:$<TARGET_PROPERTY:php_configuration,PHP_THREAD_SAFETY>>:-zts>")
-    set(extension_dir "${extension_dir}$<$<CONFIG:Debug,DebugAssertions>:-debug>")
-    # This would be the PHP Autotools --with-layout=PHP (default):
-    # set(extension_dir "${extension_dir}/extensions")
-    # set(extension_dir "${extension_dir}/$<IF:$<CONFIG:Debug,DebugAssertions>,debug,no-debug>")
-    # set(extension_dir "${extension_dir}$<IF:$<BOOL:$<TARGET_PROPERTY:php_configuration,PHP_THREAD_SAFETY>>,-zts,-non-zts>")
-    # set(extension_dir "${extension_dir}-${zend_module_api_no}")
+    # This would resemble the PHP Autotools --with-layout=GNU:
+    #set(extensionDir "${CMAKE_INSTALL_LIBDIR}/php/${zendModuleApiNo}$<$<BOOL:$<TARGET_PROPERTY:php_configuration,PHP_THREAD_SAFETY>>:-zts>$<$<CONFIG:Debug,DebugAssertions>:-debug>")
+    # This would ressemble the PHP Autotools --with-layout=PHP (default):
+    #set(extensionDir "${CMAKE_INSTALL_LIBDIR}/php/extensions/$<IF:$<CONFIG:Debug,DebugAssertions>,debug,no-debug>$<IF:$<BOOL:$<TARGET_PROPERTY:php_configuration,PHP_THREAD_SAFETY>>,-zts,-non-zts>-${zendModuleApiNo}")
 
-    set_property(CACHE PHP_EXTENSION_DIR PROPERTY VALUE "${extension_dir}")
+    set_property(CACHE PHP_EXTENSION_DIR PROPERTY VALUE "${extensionDir}")
   endif()
 endblock()
 

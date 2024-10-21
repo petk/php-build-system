@@ -165,6 +165,8 @@ documentation.
 
 ## 3. PHP configuration
 
+* [`PHP_EXTENSION_DIR`](/docs/cmake/PHP_EXTENSION_DIR.md)
+
 * `PHP_BUILD_ARCH`
 
   Default: `${CMAKE_SYSTEM_PROCESSOR}`

@@ -333,10 +333,8 @@ PHP CMake-based build system specific installation cache variables:
   Default: `php`
 * `PHP_PEAR_TEMP_DIR` - path where PEAR writes temporary files;
   Default: `/tmp/pear` (on *nix), `C:/temp/pear` on Windows.
-* `PHP_EXTENSION_DIR` - path containing shared PHP extensions;
-  Default: `<ZEND_MODULE_API_NO>-<ZTS>-<DEBUG>`, for example,
-  `20230901-zts-debug` for thread-safe debug build, or `20230901` for
-  non-thread-safe build
+* [`PHP_EXTENSION_DIR`](/docs/cmake/PHP_EXTENSION_DIR.md) - path containing
+  shared PHP extensions;
 
 ### 4.1. Installation directory structure
 
@@ -359,8 +357,8 @@ PHP installation directory structure when using CMake:
       └─📂 Zend                       #       └─📂 Zend
   └─📂 ${CMAKE_INSTALL_LIBDIR}        #   └─📂 lib
     └─📂 php                          #     └─📂 php
-      ├─📂 20230901-zts-debug...      #       ├─📂 20230901-zts-debug...
-      └─📂 build                      #       └─📂 build
+      └─📂 build                      #       ├─📂 build
+  └─📂 ${PHP_EXTENSION_DIR}           #       └─📂 20230901-zts-Debug...
     └─📂 pkgconfig                    #     └─📂 pkgconfig
       ├─📄 php-embed.pc               #       ├─📄 php-embed.pc
       └─📄 php.pc                     #       └─📄 php.pc
@@ -425,8 +423,7 @@ root directory:
         "PHP_BUILD_PROVIDER": "Acme",
         "PHP_BUILD_COMPILER": "GCC",
         "PHP_BUILD_ARCH": "x86_64",
-        "PHP_VERSION_LABEL": "-acme",
-        "PHP_EXTENSION_DIR": "lib/php83/extensions"
+        "PHP_VERSION_LABEL": "-acme"
       }
     }
   ],

@@ -20,14 +20,13 @@ block()
     else()
       set(
         allowedBuildTypes
-          Debug           # Debug info, assertions, not optimized.
-          DebugAssertions # Custom PHP debug build type with assertions enabled
-                          # in the RelWithDebInfo mode: optimized, debug info,
-                          # assertions.
+          Debug           # Not optimized, debug info, assertions.
+          DebugAssertions # Custom PHP debug build type based on RelWithDebInfo:
+                          # optimized, debug info, assertions.
           MinSizeRel      # Same as Release but optimized for size rather than
                           # speed.
-          Release         # No debug info, no assertions, optimized.
-          RelWithDebInfo  # Debug info, optimized, no assertions.
+          Release         # Optimized, no debug info, no assertions.
+          RelWithDebInfo  # Optimized, debug info, no assertions.
       )
 
       set_property(
@@ -48,19 +47,22 @@ block()
   endif()
 endblock()
 
+# Set CMAKE_<LANG>_FLAGS_<CONFIG> variables for the DebugAssertions build type.
+# These should ideally be set for all languages needed for the project scope
+# before adding binary targets that need these flags (for example, PHP
+# extensions or SAPIs).
+foreach(lang C CXX ASM)
+  string(
+    REGEX REPLACE
+    "(-DNDEBUG|/DNDEBUG)"
+    ""
+    CMAKE_${lang}_FLAGS_DEBUGASSERTIONS
+    "${CMAKE_${lang}_FLAGS_RELWITHDEBINFO}"
+  )
+endforeach()
+
 target_compile_definitions(
   php_configuration
   INTERFACE
     $<IF:$<CONFIG:Debug,DebugAssertions>,ZEND_DEBUG=1,ZEND_DEBUG=0>
 )
-
-# Set CMAKE_<LANG>_FLAGS_<CONFIG> variables for the DebugAssertions build type.
-foreach(prefix CMAKE_C_FLAGS CMAKE_CXX_FLAGS CMAKE_ASM_FLAGS)
-  string(
-    REGEX REPLACE
-    "(-DNDEBUG|/DNDEBUG)"
-    ""
-    ${prefix}_DEBUGASSERTIONS
-    "${${prefix}_RELWITHDEBINFO}"
-  )
-endforeach()
