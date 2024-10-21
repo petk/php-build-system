@@ -88,6 +88,10 @@ function(php_add_custom_command)
     return()
   endif()
 
+  if(NOT TARGET php_cli)
+    return()
+  endif()
+
   if(NOT CMAKE_CROSSCOMPILING)
     set(PHP_EXECUTABLE "$<TARGET_FILE:php_cli>")
   elseif(CMAKE_CROSSCOMPILING AND CMAKE_CROSSCOMPILING_EMULATOR)
