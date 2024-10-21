@@ -196,7 +196,7 @@ block()
 
     # This would resemble the PHP Autotools --with-layout=GNU:
     #set(extensionDir "${CMAKE_INSTALL_LIBDIR}/php/${zendModuleApiNo}$<$<BOOL:$<TARGET_PROPERTY:php_configuration,PHP_THREAD_SAFETY>>:-zts>$<$<CONFIG:Debug,DebugAssertions>:-debug>")
-    # This would ressemble the PHP Autotools --with-layout=PHP (default):
+    # This would resemble the PHP Autotools --with-layout=PHP (default):
     #set(extensionDir "${CMAKE_INSTALL_LIBDIR}/php/extensions/$<IF:$<CONFIG:Debug,DebugAssertions>,debug,no-debug>$<IF:$<BOOL:$<TARGET_PROPERTY:php_configuration,PHP_THREAD_SAFETY>>,-zts,-non-zts>-${zendModuleApiNo}")
 
     set_property(CACHE PHP_EXTENSION_DIR PROPERTY VALUE "${extensionDir}")
