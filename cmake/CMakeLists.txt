@@ -32,14 +32,8 @@ message("
 Configuring SAPI modules
 ------------------------
 ")
-add_subdirectory(sapi/apache2handler)
-add_subdirectory(sapi/cgi)
-add_subdirectory(sapi/cli)
-add_subdirectory(sapi/embed)
-add_subdirectory(sapi/fpm)
-add_subdirectory(sapi/fuzzer)
-add_subdirectory(sapi/litespeed)
-add_subdirectory(sapi/phpdbg)
+include(PHP/SAPIs)
+php_sapis_add(sapi)
 
 message("
 Configuring PHP extensions
