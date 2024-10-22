@@ -260,7 +260,6 @@ block()
   configure_file(phpdbg.1.in phpdbg.1 @ONLY)
 endblock()
 
-# TODO: Add prefix and suffix to installed executable file.
 install(
   TARGETS php_phpdbg
   RUNTIME

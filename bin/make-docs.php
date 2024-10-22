@@ -45,7 +45,7 @@ function generateModuleDocs(
     }
 }
 
-$docs = __DIR__ . '/../docs/cmake-modules';
+$docs = __DIR__ . '/../docs/cmake/modules';
 if (!file_exists($docs)) {
     mkdir($docs, 0777, true);
 }

@@ -275,6 +275,7 @@ version available on the operating system.
 * 3.27
   * `COMPILE_ONLY` generator expression
   * `INSTALL_PREFIX` generator expression in `install(CODE)`
+  * `$<LIST:SORT,list[,...]>` generator expression
 * 3.29
   * `CMAKE_LINKER_TYPE`
 * 3.31
@@ -320,50 +321,50 @@ Otherwise, a new module can be added by creating a new CMake file
 include(PHP/NewModule)
 ```
 
-* [PHP/CheckBuiltin](/docs/cmake-modules/PHP/CheckBuiltin.md)
-* [PHP/CheckCompilerFlag](/docs/cmake-modules/PHP/CheckCompilerFlag.md)
-* [PHP/Install](/docs/cmake-modules/PHP/Install.md)
-* [PHP/SearchLibraries](/docs/cmake-modules/PHP/SearchLibraries.md)
+* [PHP/CheckBuiltin](/docs/cmake/modules/PHP/CheckBuiltin.md)
+* [PHP/CheckCompilerFlag](/docs/cmake/modules/PHP/CheckCompilerFlag.md)
+* [PHP/Install](/docs/cmake/modules/PHP/Install.md)
+* [PHP/SearchLibraries](/docs/cmake/modules/PHP/SearchLibraries.md)
 
 ## 9. Custom CMake properties
 
 * `PHP_ALL_SAPIS`
 
-  Global property set by the [`PHP/SAPIs`](cmake-modules/PHP/SAPIs.md) module.
+  Global property set by the [`PHP/SAPIs`](cmake/modules/PHP/SAPIs.md) module.
 
 * `PHP_SAPIS`
 
-  Global property set by the [`PHP/SAPIs`](cmake-modules/PHP/SAPIs.md) module.
+  Global property set by the [`PHP/SAPIs`](cmake/modules/PHP/SAPIs.md) module.
 
 * `PHP_ALL_EXTENSIONS`
 
-  Global property set by the [`PHP/Extensions`](cmake-modules/PHP/Extensions.md)
+  Global property set by the [`PHP/Extensions`](cmake/modules/PHP/Extensions.md)
   module.
 
 * `PHP_ALWAYS_ENABLED_EXTENSIONS`
 
-  Global property set by the [`PHP/Extensions`](cmake-modules/PHP/Extensions.md)
+  Global property set by the [`PHP/Extensions`](cmake/modules/PHP/Extensions.md)
   module.
 
 * `PHP_EXTENSIONS`
 
-  Global property set by the [`PHP/Extensions`](cmake-modules/PHP/Extensions.md)
+  Global property set by the [`PHP/Extensions`](cmake/modules/PHP/Extensions.md)
   module.
 
 * `PHP_PRIORITY`
 
   Directory property set by the
-  [`PHP/Extensions`](cmake-modules/PHP/Extensions.md) module.
+  [`PHP/Extensions`](cmake/modules/PHP/Extensions.md) module.
 
 * `PHP_THREAD_SAFETY`
 
   Target property set by the
-  [`PHP/ThreadSafety`](cmake-modules/PHP/ThreadSafety.md) module on the
+  [`PHP/ThreadSafety`](cmake/modules/PHP/ThreadSafety.md) module on the
   `PHP::configuration` target, when thread safety is enabled.
 
 * `PHP_ZEND_EXTENSION`
 
-  See the [`PHP/Extensions`](cmake-modules/PHP/Extensions.md) module.
+  See the [`PHP/Extensions`](cmake/modules/PHP/Extensions.md) module.
 
 ## 10. PHP extensions
 

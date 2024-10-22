@@ -165,9 +165,9 @@ documentation.
 
 ## 3. PHP configuration
 
-* [`PHP_EXTENSION_DIR`](/docs/cmake/PHP_EXTENSION_DIR.md)
+* [`PHP_EXTENSION_DIR`](/docs/cmake/variables/PHP_EXTENSION_DIR.md)
 
-* [`PHP_THREAD_SAFETY`](/docs/cmake/PHP_THREAD_SAFETY.md)
+* [`PHP_THREAD_SAFETY`](/docs/cmake/variables/PHP_THREAD_SAFETY.md)
 
 * `PHP_BUILD_ARCH`
 
@@ -219,7 +219,10 @@ documentation.
 
 ## 4. Zend engine configuration
 
-* [`ZEND_MAX_EXECUTION_TIMERS`](/docs/cmake/ZEND_MAX_EXECUTION_TIMERS.md)
+* [`ZEND_FIBER_ASM`](/docs/cmake/variables/ZEND_FIBER_ASM.md)
+* [`ZEND_GLOBAL_REGISTER_VARIABLES](/docs/cmake/variables/ZEND_GLOBAL_REGISTER_VARIABLES.md)
+* [`ZEND_MAX_EXECUTION_TIMERS`](/docs/cmake/variables/ZEND_MAX_EXECUTION_TIMERS.md)
+* [`ZEND_SIGNALS`](/docs/cmake/variables/ZEND_SIGNALS.md)
 
 ## 5. PHP SAPI modules configuration
 
@@ -693,38 +696,38 @@ A list of Autoconf `configure` command-line configuration options, Windows
     <tr>
       <td>--enable-gcc-global-regs</td>
       <td>N/A</td>
-      <td>ZEND_GCC_GLOBAL_REGS=ON</td>
+      <td>ZEND_GLOBAL_REGISTER_VARIABLES=ON</td>
       <td>default</td>
     </tr>
     <tr>
       <td>&emsp;--disable-gcc-global-regs</td>
       <td>N/A</td>
-      <td>ZEND_GCC_GLOBAL_REGS=OFF</td>
+      <td>ZEND_GLOBAL_REGISTER_VARIABLES=OFF</td>
       <td></td>
     </tr>
     <tr>
       <td>--enable-fiber-asm</td>
       <td>N/A</td>
       <td>ZEND_FIBER_ASM=ON</td>
-      <td>default</td>
+      <td>default, *nix only</td>
     </tr>
     <tr>
       <td>&emsp;--disable-fiber-asm</td>
       <td>N/A</td>
       <td>ZEND_FIBER_ASM=OFF</td>
-      <td></td>
+      <td>*nix only</td>
     </tr>
     <tr>
       <td>--enable-zend-signals</td>
       <td>N/A</td>
       <td>ZEND_SIGNALS=ON</td>
-      <td>default</td>
+      <td>default, *nix only</td>
     </tr>
     <tr>
       <td>&emsp;--disable-zend-signals</td>
       <td>N/A</td>
       <td>ZEND_SIGNALS=OFF</td>
-      <td></td>
+      <td>*nix only</td>
     </tr>
     <tr>
       <td>--disable-zend-max-execution-timers</td>

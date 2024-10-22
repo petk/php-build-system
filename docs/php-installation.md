@@ -333,8 +333,8 @@ PHP CMake-based build system specific installation cache variables:
   Default: `php`
 * `PHP_PEAR_TEMP_DIR` - path where PEAR writes temporary files;
   Default: `/tmp/pear` (on *nix), `C:/temp/pear` on Windows.
-* [`PHP_EXTENSION_DIR`](/docs/cmake/PHP_EXTENSION_DIR.md) - path containing
-  shared PHP extensions;
+* [`PHP_EXTENSION_DIR`](/docs/cmake/variables/PHP_EXTENSION_DIR.md) - path
+  containing shared PHP extensions;
 
 ### 4.1. Installation directory structure
 
@@ -396,7 +396,7 @@ PHP installation directory structure when using CMake:
 > `/var/run` instead of `/usr/etc`, and `/usr/var`, and `/usr/var/run`. Similar
 > adjustments are done when install prefix is `/` or `/opt/...`. See
 > [GNUInstallDirs](https://cmake.org/cmake/help/latest/module/GNUInstallDirs.html#special-cases)
-> for more info. The [PHP/Install](/docs/cmake-modules/PHP/Install.md) bypasses
+> for more info. The [PHP/Install](/docs/cmake/modules/PHP/Install.md) bypasses
 > some of these adjustmens inside the `install()` command for convenience.
 
 Instead of setting the installation prefix at the configuration phase using

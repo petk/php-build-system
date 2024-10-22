@@ -6,7 +6,7 @@ Check whether to enable Zend max execution timers.
 
 ## Cache variables
 
-* [`ZEND_MAX_EXECUTION_TIMERS`](/docs/cmake/ZEND_MAX_EXECUTION_TIMERS.md)
+* [`ZEND_MAX_EXECUTION_TIMERS`](/docs/cmake/variables/ZEND_MAX_EXECUTION_TIMERS.md)
 
 * `HAVE_TIMER_CREATE`
 
