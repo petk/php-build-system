@@ -3,7 +3,7 @@ Check whether to enable Zend max execution timers.
 
 ## Cache variables
 
-* [`ZEND_MAX_EXECUTION_TIMERS`](/docs/cmake/ZEND_MAX_EXECUTION_TIMERS.md)
+* [`ZEND_MAX_EXECUTION_TIMERS`](/docs/cmake/variables/ZEND_MAX_EXECUTION_TIMERS.md)
 
 * `HAVE_TIMER_CREATE`
 
@@ -101,7 +101,7 @@ if(libraryForTimerCreate)
 endif()
 
 # The configuration header with ZEND_MAX_EXECUTION_TIMERS might not be included
-# in some source files, therefore also compilation definitions is added.
+# in some source files, therefore also compilation definitions are added.
 if(ZEND_MAX_EXECUTION_TIMERS)
   target_compile_definitions(
     Zend::MaxExecutionTimers

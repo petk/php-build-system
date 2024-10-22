@@ -48,20 +48,34 @@ endblock()
 include(CheckIncludeFile)
 include(CheckSourceCompiles)
 include(CheckSymbolExists)
+include(CMakeDependentOption)
 include(CMakePushCheckState)
+include(FeatureSummary)
 include(PHP/AddCustomCommand)
 
 ################################################################################
 # Configuration.
 ################################################################################
 
-option(ZEND_GCC_GLOBAL_REGS "Enable GCC global register variables" ON)
-mark_as_advanced(ZEND_GCC_GLOBAL_REGS)
-
-option(ZEND_FIBER_ASM "Enable the use of Boost fiber assembly files" ON)
+cmake_dependent_option(
+  ZEND_FIBER_ASM
+  "Enable the use of Boost fiber assembly files"
+  ON
+  [[NOT CMAKE_SYSTEM_NAME STREQUAL "Windows"]]
+  ON
+)
 mark_as_advanced(ZEND_FIBER_ASM)
 
-option(ZEND_SIGNALS "Enable Zend signal handling" ON)
+option(ZEND_GLOBAL_REGISTER_VARIABLES "Enable global register variables" ON)
+mark_as_advanced(ZEND_GLOBAL_REGISTER_VARIABLES)
+
+cmake_dependent_option(
+  ZEND_SIGNALS
+  "Enable Zend signal handling"
+  ON
+  [[NOT CMAKE_SYSTEM_NAME STREQUAL "Windows"]]
+  OFF
+)
 mark_as_advanced(ZEND_SIGNALS)
 
 ################################################################################
@@ -393,13 +407,23 @@ endif()
 # Check Zend signals.
 message(CHECK_START "Checking whether to enable Zend signal handling")
 check_symbol_exists(sigaction "signal.h" HAVE_SIGACTION)
-if(NOT HAVE_SIGACTION OR NOT ZEND_SIGNALS)
-  message(CHECK_FAIL "no")
-  set_property(CACHE ZEND_SIGNALS PROPERTY VALUE 0)
-else()
+if(HAVE_SIGACTION AND ZEND_SIGNALS)
   message(CHECK_PASS "yes")
-  set_property(CACHE ZEND_SIGNALS PROPERTY VALUE 1)
+
+  set_property(CACHE ZEND_SIGNALS PROPERTY VALUE ON)
+
+  # zend_config.h (or its parent php_config.h) isn't included in some zend_*
+  # files, therefore also compilation definitions are added.
+  target_compile_definitions(zend PRIVATE ZEND_SIGNALS)
+else()
+  set_property(CACHE ZEND_SIGNALS PROPERTY VALUE OFF)
+  message(CHECK_FAIL "no")
 endif()
+add_feature_info(
+  "Zend signals"
+  ZEND_SIGNALS
+  "signals handling within the Zend Engine for performance"
+)
 
 # Check Zend max execution timers.
 include(Zend/MaxExecutionTimers)
@@ -414,8 +438,8 @@ include(Zend/CheckDlsym)
 include(Zend/CheckMMAlignment)
 
 # Check for global register variables.
-if(ZEND_GCC_GLOBAL_REGS)
-  include(Zend/CheckGlobalRegisterVars)
+if(ZEND_GLOBAL_REGISTER_VARIABLES)
+  include(Zend/CheckGlobalRegisterVariables)
 endif()
 
 # Check if stack grows downward.
@@ -423,12 +447,6 @@ include(Zend/CheckStackLimit)
 
 # Check float precision.
 include(Zend/CheckFloatPrecision)
-
-# zend_config.h (or its parent php_config.h) isn't included in some zend_*
-# files, therefore also compilation definitions need to be added.
-if(ZEND_SIGNALS)
-  target_compile_definitions(zend PRIVATE ZEND_SIGNALS)
-endif()
 
 ################################################################################
 # Generate lexers and parsers.
