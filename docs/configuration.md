@@ -220,7 +220,7 @@ documentation.
 ## 4. Zend engine configuration
 
 * [`ZEND_FIBER_ASM`](/docs/cmake/variables/ZEND_FIBER_ASM.md)
-* [`ZEND_GLOBAL_REGISTER_VARIABLES](/docs/cmake/variables/ZEND_GLOBAL_REGISTER_VARIABLES.md)
+* [`ZEND_GLOBAL_REGISTER_VARIABLES`](/docs/cmake/variables/ZEND_GLOBAL_REGISTER_VARIABLES.md)
 * [`ZEND_MAX_EXECUTION_TIMERS`](/docs/cmake/variables/ZEND_MAX_EXECUTION_TIMERS.md)
 * [`ZEND_SIGNALS`](/docs/cmake/variables/ZEND_SIGNALS.md)
 
