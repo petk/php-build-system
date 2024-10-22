@@ -50,7 +50,6 @@ include(CheckSourceCompiles)
 include(CheckSymbolExists)
 include(CMakePushCheckState)
 include(PHP/AddCustomCommand)
-include(PHP/SearchLibraries)
 
 ################################################################################
 # Configuration.
@@ -64,15 +63,6 @@ mark_as_advanced(ZEND_FIBER_ASM)
 
 option(ZEND_SIGNALS "Enable Zend signal handling" ON)
 mark_as_advanced(ZEND_SIGNALS)
-
-# TODO: Check if default value can be improved. Once cached variable is set, it
-# can't be changed to PHP_THREAD_SAFETY value on the 2nd configuration run.
-option(
-  ZEND_MAX_EXECUTION_TIMERS
-  "Enable Zend max execution timers"
-  ${PHP_THREAD_SAFETY}
-)
-mark_as_advanced(ZEND_MAX_EXECUTION_TIMERS)
 
 ################################################################################
 # Add library.
@@ -295,7 +285,14 @@ target_sources(
         $<$<NOT:$<PLATFORM_ID:Windows>>:${CMAKE_CURRENT_BINARY_DIR}/zend_config.h>
 )
 
-target_link_libraries(zend PRIVATE PHP::configuration)
+target_link_libraries(
+  zend
+  PRIVATE
+    PHP::configuration
+  PUBLIC
+    PHP::TSRM
+    $<TARGET_OBJECTS:PHP::TSRM>
+)
 
 target_include_directories(
   zend
@@ -303,8 +300,6 @@ target_include_directories(
     ${CMAKE_CURRENT_SOURCE_DIR}
     ${CMAKE_CURRENT_BINARY_DIR}
 )
-
-target_link_libraries(zend PUBLIC PHP::TSRM)
 
 target_compile_definitions(
   zend
@@ -426,31 +421,9 @@ else()
 endif()
 
 # Check Zend max execution timers.
-message(CHECK_START "Checking whether to enable Zend max execution timers")
-if(ZEND_MAX_EXECUTION_TIMERS AND CMAKE_SYSTEM_NAME MATCHES "^(Linux|FreeBSD)$")
-  php_search_libraries(
-    timer_create
-    HAVE_TIMER_CREATE
-    HEADERS time.h
-    LIBRARIES
-      rt # Solaris <= 10, older Linux
-    TARGET zend PRIVATE
-  )
-
-  if(NOT HAVE_TIMER_CREATE)
-    set_property(CACHE ZEND_MAX_EXECUTION_TIMERS PROPERTY VALUE 0)
-  endif()
-
-  if(ZEND_MAX_EXECUTION_TIMERS)
-    set_property(CACHE ZEND_MAX_EXECUTION_TIMERS PROPERTY VALUE 1)
-  endif()
-else()
-  set_property(CACHE ZEND_MAX_EXECUTION_TIMERS PROPERTY VALUE 0)
-endif()
-if(ZEND_MAX_EXECUTION_TIMERS)
-  message(CHECK_PASS "yes")
-else()
-  message(CHECK_FAIL "no")
+include(Zend/MaxExecutionTimers)
+if(TARGET Zend::MaxExecutionTimers)
+  target_link_libraries(zend PRIVATE Zend::MaxExecutionTimers)
 endif()
 
 # Check MM alignment.
@@ -471,10 +444,6 @@ include(Zend/CheckFloatPrecision)
 # files, therefore also compilation definitions need to be added.
 if(ZEND_SIGNALS)
   target_compile_definitions(zend PRIVATE ZEND_SIGNALS)
-endif()
-
-if(ZEND_MAX_EXECUTION_TIMERS)
-  target_compile_definitions(zend PRIVATE ZEND_MAX_EXECUTION_TIMERS)
 endif()
 
 ################################################################################

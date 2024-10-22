@@ -1,7 +1,7 @@
 #[=============================================================================[
 Check for thread safety, a.k.a. ZTS (Zend thread safety) build.
 
-## Cache variables
+## Result variables
 
 * `ZTS`
 
@@ -34,9 +34,9 @@ function(_php_thread_safety)
   message(CHECK_START "Checking whether to enable thread safety (ZTS)")
 
   add_feature_info(
-    "Thread safety"
+    "PHP thread safety (ZTS)"
     PHP_THREAD_SAFETY
-    "PHP thread safety (ZTS) enabled"
+    "ensures safe execution in multi-threaded environments"
   )
 
   if(NOT PHP_THREAD_SAFETY)
@@ -62,7 +62,7 @@ function(_php_thread_safety)
 
   target_link_libraries(php_configuration INTERFACE Threads::Threads)
 
-  set(ZTS 1 CACHE INTERNAL "Whether PHP thread safety is enabled.")
+  set(ZTS 1 PARENT_SCOPE)
 
   # Add ZTS compile definition. Some PHP headers might not have php_config.h
   # directly available. For example, some Zend headers.
