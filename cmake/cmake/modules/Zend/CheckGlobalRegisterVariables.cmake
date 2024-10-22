@@ -1,10 +1,15 @@
 #[=============================================================================[
-Check for global register variables support.
+Check whether the compiler and target system support global register variables.
 
-Cache variables:
+Global register variables are relevant for the GNU C compatible compilers.
+
+See also: [GCC global register variables](https://gcc.gnu.org/onlinedocs/gcc/Global-Register-Variables.html)
+
+## Cache variables
 
 * `HAVE_GCC_GLOBAL_REGS`
-  Whether the target system has support for global register variables.
+
+  Whether global register variables are supported.
 #]=============================================================================]
 
 include_guard(GLOBAL)

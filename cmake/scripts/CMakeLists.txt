@@ -49,6 +49,13 @@ block()
 
   message(STATUS "Creating scripts/php-config")
 
+  get_cmake_property(sapis PHP_SAPIS)
+  if(CMAKE_VERSION VERSION_GREATER_EQUAL 3.27)
+    set(sapis "$<JOIN:$<LIST:SORT,${sapis}>, >")
+  else()
+    set(sapis "$<JOIN:${sapis}, >")
+  endif()
+
   # Replace the upstream php-config script hardcoded php include directory to a
   # template placeholder.
   file(READ "${CMAKE_CURRENT_SOURCE_DIR}/php-config.in" content)
@@ -82,8 +89,7 @@ block()
       EXEEXT "${CMAKE_EXECUTABLE_SUFFIX}"
       # TODO:
       CONFIGURE_OPTIONS ""
-      # TODO:
-      PHP_INSTALLED_SAPIS ""
+      PHP_INSTALLED_SAPIS "${sapis}"
       EXPANDED_PHP_CONFIG_FILE_SCAN_DIR "$<PATH:ABSOLUTE_PATH,NORMALIZE,${PHP_CONFIG_FILE_SCAN_DIR},$<INSTALL_PREFIX>>"
       EXPANDED_PHP_CONFIG_FILE_PATH "$<PATH:ABSOLUTE_PATH,NORMALIZE,${PHP_CONFIG_FILE_PATH},$<INSTALL_PREFIX>>"
       bindir "$<PATH:ABSOLUTE_PATH,NORMALIZE,${CMAKE_INSTALL_BINDIR},$<INSTALL_PREFIX>>"
