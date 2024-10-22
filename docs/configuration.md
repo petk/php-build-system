@@ -167,6 +167,8 @@ documentation.
 
 * [`PHP_EXTENSION_DIR`](/docs/cmake/PHP_EXTENSION_DIR.md)
 
+* [`PHP_THREAD_SAFETY`](/docs/cmake/PHP_THREAD_SAFETY.md)
+
 * `PHP_BUILD_ARCH`
 
   Default: `${CMAKE_SYSTEM_PROCESSOR}`
@@ -216,6 +218,8 @@ documentation.
   systems.
 
 ## 4. Zend engine configuration
+
+* [`ZEND_MAX_EXECUTION_TIMERS`](/docs/cmake/ZEND_MAX_EXECUTION_TIMERS.md)
 
 ## 5. PHP SAPI modules configuration
 
@@ -726,13 +730,13 @@ A list of Autoconf `configure` command-line configuration options, Windows
       <td>--disable-zend-max-execution-timers</td>
       <td>N/A</td>
       <td>ZEND_MAX_EXECUTION_TIMERS=OFF</td>
-      <td>default</td>
+      <td>default, *nix only</td>
     </tr>
     <tr>
       <td>&emsp;--enable-zend-max-execution-timers</td>
       <td>N/A</td>
       <td>ZEND_MAX_EXECUTION_TIMERS=ON</td>
-      <td></td>
+      <td>*nix only</td>
     </tr>
     <tr>
       <th colspan="4">PHP SAPI modules configuration</th>
