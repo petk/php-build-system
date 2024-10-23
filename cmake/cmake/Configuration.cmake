@@ -133,10 +133,9 @@ mark_as_advanced(PHP_DMALLOC)
 option(PHP_DTRACE "Enable DTrace support" OFF)
 mark_as_advanced(PHP_DTRACE)
 
-if(CMAKE_SYSTEM_NAME STREQUAL "Windows")
-  set(PHP_FD_SETSIZE "256" CACHE STRING "Size of descriptor sets")
-else()
-  set(PHP_FD_SETSIZE "" CACHE STRING "Size of descriptor sets")
+set(PHP_FD_SETSIZE "" CACHE STRING "Size of file descriptor sets")
+if(CMAKE_SYSTEM_NAME STREQUAL "Windows" AND PHP_FD_SETSIZE STREQUAL "")
+  set_property(CACHE PHP_FD_SETSIZE PROPERTY VALUE "256")
 endif()
 mark_as_advanced(PHP_FD_SETSIZE)
 
@@ -145,7 +144,7 @@ mark_as_advanced(PHP_VALGRIND)
 
 option(
   PHP_MEMORY_SANITIZER
-  "Enable the memory sanitizer compiler options (clang only)"
+  "Enable the memory sanitizer compiler options (Clang only)"
   OFF
 )
 mark_as_advanced(PHP_MEMORY_SANITIZER)

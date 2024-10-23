@@ -106,7 +106,7 @@ function(_php_check_attribute what attribute result)
   cmake_push_check_state(RESET)
     # Compilers by default may not treat attribute warnings as errors, so some
     # error flag needs to be set to make the check certain (-Werror=attributes,
-    # clang's -Werror=unknown-attributes, -Werror...). Use the internal CMake
+    # Clang's -Werror=unknown-attributes, -Werror...). Use the internal CMake
     # compiler-agnostic variable CMAKE_C_COMPILE_OPTIONS_WARNING_AS_ERROR
     # (-Werror or other compiler-based option), if available.
     list(JOIN CMAKE_C_COMPILE_OPTIONS_WARNING_AS_ERROR " " CMAKE_REQUIRED_FLAGS)

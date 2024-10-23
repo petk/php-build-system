@@ -183,6 +183,11 @@ if(PHP_DTRACE)
     message(CHECK_FAIL "no")
   endif()
 endif()
+add_feature_info(
+  "DTrace"
+  PHP_DTRACE
+  "performance analysis and troubleshooting"
+)
 
 # Add Dmalloc.
 if(PHP_DMALLOC)
