@@ -292,49 +292,74 @@ DESTDIR=/stage cmake --install . --prefix /usr
 
 To adjust the installation locations, the
 [GNUInstallDirs](https://cmake.org/cmake/help/latest/module/GNUInstallDirs.html)
-module is used to set additional `CMAKE_INSTALL_*` variables. Here only those
-relevant to PHP are listed:
+module is used to set additional `CMAKE_INSTALL_*` variables. These variables
+are by default relative paths. When customized, they can be either relative or
+absolute. When changed to absolute values the installation prefix will not be
+taken into account. Here only those relevant to PHP are listed:
 
-* `CMAKE_INSTALL_BINDIR` - name of the user executables directory;
-  Default: `bin`
-* `CMAKE_INSTALL_SBINDIR` - name of the system admin executables directory;
-  Default: `sbin`
-* `CMAKE_INSTALL_SYSCONFDIR` - name of the read-only single-machine data
-  directory;
-  Default: `etc`
-* `CMAKE_INSTALL_LOCALSTATEDIR` - name of the modifiable single-machine data
-  directory;
-  Default: `var`
-* `CMAKE_INSTALL_RUNSTATEDIR` - name of the run-time variable data directory;
+* `CMAKE_INSTALL_BINDIR`
+
+  Name of the user executables directory. Default: `bin`
+
+* `CMAKE_INSTALL_SBINDIR`
+
+  Name of the system admin executables directory. Default: `sbin`
+
+* `CMAKE_INSTALL_SYSCONFDIR`
+
+  Name of the read-only single-machine data directory. Default: `etc`
+
+* `CMAKE_INSTALL_LOCALSTATEDIR`
+
+  Name of the modifiable single-machine data directory. Default: `var`
+
+* `CMAKE_INSTALL_RUNSTATEDIR`
+
+  Name of the run-time variable data directory.
   Default: `${CMAKE_INSTALL_LOCALSTATEDIR/run`
-* `CMAKE_INSTALL_LIBDIR` - name of the directory containing object code
-  libraries;
-  Default: `lib`, or `lib64`, or `lib/x86_64-linux-gnu` depending on the target
-  system
-* `CMAKE_INSTALL_INCLUDEDIR` - name of the C header files includes directory;
-  Default: `include`
-* `CMAKE_INSTALL_DATAROOTDIR` - name of the read-only architecture-independent
-  data root directory;
-  Default: `share`
-* `CMAKE_INSTALL_DATADIR` - name of the read-only architecture-independent data
-  directory;
-  Default: `${CMAKE_INSTALL_DATAROOTDIR}`
-* `CMAKE_INSTALL_MANDIR` - name of the man documentation directory;
-  Default: `man`
 
-These variables are by default relative paths. When customized, they can be
-either relative or absolute. When changed to absolute values the installation
-prefix will not be taken into account.
+* `CMAKE_INSTALL_LIBDIR`
+
+  Name of the directory containing object code libraries. Default: `lib`, or
+  `lib64`, or `lib/x86_64-linux-gnu` depending on the target system
+
+* `CMAKE_INSTALL_INCLUDEDIR`
+
+  Name of the C header files includes directory. Default: `include`
+
+* `CMAKE_INSTALL_DATAROOTDIR`
+
+  Name of the read-only architecture-independent data root directory.
+  Default: `share`
+
+* `CMAKE_INSTALL_DATADIR`
+
+  Name of the read-only architecture-independent data directory.
+  Default: `${CMAKE_INSTALL_DATAROOTDIR}`
+
+* `CMAKE_INSTALL_MANDIR`
+
+  Name of the man documentation directory. Default: `man`
 
 PHP CMake-based build system specific installation cache variables:
 
-* `PHP_INCLUDE_PREFIX` - the PHP include directory inside the
-  `CMAKE_INSTALL_INCLUDEDIR`;
+* [`PHP_EXTENSION_DIR`](/docs/cmake/variables/PHP_EXTENSION_DIR.md)
+
+  Path containing shared PHP extensions.
+
+* [`PHP_INCLUDE_PREFIX`](/docs/cmake/variables/PHP_INCLUDE_PREFIX.md)
+
+  The PHP include directory inside the `CMAKE_INSTALL_INCLUDEDIR`.
   Default: `php`
-* `PHP_PEAR_TEMP_DIR` - path where PEAR writes temporary files;
-  Default: `/tmp/pear` (on *nix), `C:/temp/pear` on Windows.
-* [`PHP_EXTENSION_DIR`](/docs/cmake/variables/PHP_EXTENSION_DIR.md) - path
-  containing shared PHP extensions;
+
+* [`PHP_PEAR_DIR`](/docs/cmake/variables/PHP_PEAR.md)
+
+  The path where PEAR will be installed to.
+
+* [`PHP_PEAR_TEMP_DIR`](/docs/cmake/variables/PHP_PEAR.md)
+
+  Path where PEAR writes temporary files. Default: `/tmp/pear` on \*nix,
+  `C:/temp/pear` on Windows.
 
 ### 4.1. Installation directory structure
 

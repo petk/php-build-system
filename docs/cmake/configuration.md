@@ -93,7 +93,7 @@ Some useful overridable configuration options built into CMake itself. All these
 `CMAKE_*` and `BUILD_SHARED_LIBS` variables are also documented in the CMake
 documentation.
 
-* `CMAKE_EXPORT_COMPILE_COMMANDS=OFF|ON`
+* `CMAKE_EXPORT_COMPILE_COMMANDS=ON|OFF`
 
   Default: `OFF`
 
@@ -113,9 +113,17 @@ documentation.
     example, to disable IPO for the `Debug` build type set
     `CMAKE_INTERPROCEDURAL_OPTIMIZATION_DEBUG` to `OFF`.
 
+* `CMAKE_LIBRARY_PATH`
+
+  Default: empty
+
+  Specify additional semicolon-separated paths where to look for system
+  libraries if default locations searched by CMake is not sufficient in some
+  build case scenario.
+
 * `CMAKE_LINKER_TYPE` (CMake 3.29+)
 
-  Default empty
+  Default: empty
 
   Specify which linker will be used for the link step.
 
@@ -124,19 +132,19 @@ documentation.
   cmake -S php-src -B php-build -DCMAKE_LINKER_TYPE=MOLD
   ```
 
-* `CMAKE_MESSAGE_CONTEXT_SHOW=OFF|ON`
+* `CMAKE_MESSAGE_CONTEXT_SHOW=ON|OFF`
 
   Default: `OFF`
 
   Show/hide context in configuration log ([ext/foo] Checking for...).
 
-* `BUILD_SHARED_LIBS=OFF|ON`
+* `BUILD_SHARED_LIBS=ON|OFF`
 
   Default: `OFF`
 
   Build all enabled PHP extensions as shared libraries.
 
-* `CMAKE_SKIP_RPATH=OFF|ON`
+* `CMAKE_SKIP_RPATH=ON|OFF`
 
   Default: `OFF`
 
@@ -150,13 +158,13 @@ documentation.
   objdump -x ./php-src/sapi/cli/php | grep 'R.*PATH'
   ```
 
-  * `CMAKE_SKIP_BUILD_RPATH=OFF|ON`
+  * `CMAKE_SKIP_BUILD_RPATH=ON|OFF`
 
     Default: `OFF`
 
     Disable runtime library search paths (rpath) in build directory executables.
 
-  * `CMAKE_SKIP_INSTALL_RPATH=OFF|ON`
+  * `CMAKE_SKIP_INSTALL_RPATH=ON|OFF`
 
     Default: `OFF`
 
@@ -165,143 +173,126 @@ documentation.
 
 ## 3. PHP configuration
 
+* [`PHP_ADDRESS_SANITIZER`](/docs/cmake/variables/_PHP_ADDRESS_SANITIZER.md)
+
+* [`PHP_BUILD_ARCH`](/docs/cmake/variables/PHP_BUILD_ARCH.md)
+
+* [`PHP_BUILD_COMPILER`](/docs/cmake/variables/PHP_BUILD_COMPILER.md)
+
+* [`PHP_BUILD_PROVIDER`](/docs/cmake/variables/PHP_BUILD_PROVIDER.md)
+
+* [`PHP_CCACHE`](/docs/cmake/variables/PHP_CCACHE.md)
+
+* [`PHP_CONFIG_FILE_PATH`](/docs/cmake/variables/PHP_CONFIG_FILE_PATH.md)
+
+* [`PHP_CONFIG_FILE_SCAN_DIR`](/docs/cmake/variables/PHP_CONFIG_FILE_SCAN_DIR.md)
+
+* [`PHP_DEFAULT_SHORT_OPEN_TAG`](/docs/cmake/variables/PHP_DEFAULT_SHORT_OPEN_TAG.md)
+
+* [`PHP_DMALLOC`](/docs/cmake/variables/PHP_DMALLOC.md)
+
+* [`PHP_DTRACE`](/docs/cmake/variables/PHP_DTRACE.md)
+
+* [`PHP_GCOV`](/docs/cmake/variables/PHP_GCOV.md)
+
+* [`PHP_MEMORY_SANITIZER`](/docs/cmake/variables/_PHP_MEMORY_SANITIZER.md)
+
 * [`PHP_EXTENSION_DIR`](/docs/cmake/variables/PHP_EXTENSION_DIR.md)
+
+* [`PHP_FD_SETSIZE`](/docs/cmake/variables/PHP_FD_SETSIZE.md)
+
+* [`PHP_INCLUDE_PREFIX`](/docs/cmake/variables/PHP_INCLUDE_PREFIX.md)
+
+* [`PHP_IPV6`](/docs/cmake/variables/PHP_IPV6.md)
+
+* [`PHP_LIBGCC`](/docs/cmake/variables/PHP_LIBGCC.md)
+
+* [`PHP_PEAR`](/docs/cmake/variables/PHP_PEAR.md)
+  * [`PHP_PEAR_DIR`](/docs/cmake/variables/PHP_PEAR.md)
+  * [`PHP_PEAR_TEMP_DIR`](/docs/cmake/variables/PHP_PEAR.md)
+
+* [`PHP_RE2C_CGOTO`](/docs/cmake/variables/PHP_RE2C_CGOTO.md)
+
+* [`PHP_SIGCHILD`](/docs/cmake/variables/PHP_SIGCHILD.md)
 
 * [`PHP_THREAD_SAFETY`](/docs/cmake/variables/PHP_THREAD_SAFETY.md)
 
-* `PHP_BUILD_ARCH`
+* [`PHP_UNDEFINED_SANITIZER`](/docs/variables/_PHP_UNDEFINED_SANITIZER.md)
 
-  Default: `${CMAKE_SYSTEM_PROCESSOR}`
+* [`PHP_USE_RTLD_NOW`](/docs/cmake/variables/PHP_USE_RTLD_NOW.md)
 
-  Build target architecture displayed in phpinfo.
+* [`PHP_VALGRIND`](/docs/cmake/variables/PHP_VALGRIND.md)
 
-* `PHP_BUILD_COMPILER`
-
-  Default: `${CMAKE_C_COMPILER_ID} ${CMAKE_C_COMPILER_VERSION}`
-
-  Compiler used for build displayed in phpinfo.
-
-* `PHP_BUILD_PROVIDER`
-
-  Default empty
-
-  Build provider displayed in phpinfo.
-
-* `PHP_CCACHE=ON|OFF`
-
-  Default: `ON`
-
-  If ccache is installed on the system it will be used for faster compilation
-  time. If not found, it is not used. It can be explicitly turned off with this
-  option or by setting environment variable `CCACHE_DISABLE=1`. A custom path to
-  the `ccache` installation directory can be also set with the `Ccache_ROOT`.
-
-* `PHP_INCLUDE_PREFIX`
-
-  Default: `php`
-
-  Relative directory inside the `CMAKE_INSTALL_INCLUDEDIR` to adjust installed
-  headers location. For example, to specify PHP version: `php/8.4` or similar.
-
-* `PHP_RE2C_CGOTO=OFF|ON`
-
-  Default: `OFF`
-
-  Enable the goto C statements when using re2c.
-
-* `SED_EXECUTABLE`
-
-  Default path to the sed on the host system.
-
-  Path to the sed, which can be manually overridden to the sed on the target
-  system. This is only used in generated phpize (and php-config) scripts on *nix
-  systems.
+* [`SED_EXECUTABLE`](/docs/cmake/variables/SED_EXECUTABLE.md)
 
 ## 4. Zend engine configuration
 
 * [`ZEND_FIBER_ASM`](/docs/cmake/variables/ZEND_FIBER_ASM.md)
+
 * [`ZEND_GLOBAL_REGISTER_VARIABLES`](/docs/cmake/variables/ZEND_GLOBAL_REGISTER_VARIABLES.md)
+
 * [`ZEND_MAX_EXECUTION_TIMERS`](/docs/cmake/variables/ZEND_MAX_EXECUTION_TIMERS.md)
+
 * [`ZEND_SIGNALS`](/docs/cmake/variables/ZEND_SIGNALS.md)
 
 ## 5. PHP SAPI modules configuration
 
+* [`SAPI_APACHE2HANDLER`](/docs/cmake/variables/SAPI_APACHE2HANDLER.md)
+
+* [`SAPI_CGI`](/docs/cmake/variables/SAPI_CGI.md)
+
+* [`SAPI_CLI`](/docs/cmake/variables/SAPI_CLI.md)
+  * [`SAPI_CLI_WIN_NO_CONSOLE`](/docs/cmake/variables/SAPI_CLI.md)
+
+* [`SAPI_EMBED`](/docs/cmake/variables/SAPI_EMBED.md)
+
+* [`SAPI_FPM`](/docs/cmake/variables/SAPI_FPM.md)
+  * [`SAPI_FPM_USER`](/docs/cmake/variables/SAPI_FPM.md)
+  * [`SAPI_FPM_GROUP`](/docs/cmake/variables/SAPI_FPM.md)
+  * [`SAPI_FPM_SYSTEMD`](/docs/cmake/variables/SAPI_FPM.md)
+  * [`SAPI_FPM_ACL`](/docs/cmake/variables/SAPI_FPM.md)
+  * [`SAPI_FPM_APPARMOR`](/docs/cmake/variables/SAPI_FPM.md)
+  * [`SAPI_FPM_SELINUX`](/docs/cmake/variables/SAPI_FPM.md)
+
+* [`SAPI_FUZZER`](/docs/cmake/variables/SAPI_FUZZER.md)
+
+* [`SAPI_LITESPEED`](/docs/cmake/variables/SAPI_LITESPEED.md)
+
+* [`SAPI_PHPDBG`](/docs/cmake/variables/SAPI_PHPDBG.md)
+  * [`SAPI_PHPDBG_SHARED`](/docs/cmake/variables/SAPI_PHPDBG.md)
+  * [`SAPI_PHPDBG_DEBUG`](/docs/cmake/variables/SAPI_PHPDBG.md)
+  * [`SAPI_PHPDBG_READLINE`](/docs/cmake/variables/SAPI_PHPDBG.md)
+
 ## 6. PHP extensions configuration
 
-* `EXT_MYSQLND_SSL=OFF|ON`
+* [`EXT_MYSQLND`](/docs/cmake/variables/EXT_MYSQLND.md)
+  * [`EXT_MYSQLND_SHARED`](/docs/cmake/variables/EXT_MYSQLND.md)
+  * [`EXT_MYSQLND_COMPRESSION`](/docs/cmake/variables/EXT_MYSQLND.md)
+  * [`EXT_MYSQLND_SSL`](/docs/cmake/variables/EXT_MYSQLND.md)
 
-  Default: `OFF`
+* [`EXT_ODBC`](/docs/cmake/variables/EXT_ODBC.md)
+  * [`EXT_ODBC_SHARED`](/docs/cmake/variables/EXT_ODBC.md)
+  * [`EXT_ODBC_TYPE`](/docs/cmake/variables/EXT_ODBC.md)
+  * [`EXT_ODBC_VERSION`](/docs/cmake/variables/EXT_ODBC.md)
 
-  Explicitly enable extended SSL support in the `mysqlnd` extension. On \*nix
-  systems, extended SSL works through the OpenSSL library and on Windows through
-  the Windows Crypt32 library. Beneficial when building without the `openssl`
-  extension or when building with phpize.
+* [`EXT_OPENSSL`](/docs/cmake/variables/EXT_OPENSSL.md)
+  * [`EXT_OPENSSL_SHARED`](/docs/cmake/variables/EXT_OPENSSL.md)
+  * [`EXT_OPENSSL_SYSTEM_CIPHERS`](/docs/cmake/variables/EXT_OPENSSL.md)
+  * [`EXT_OPENSSL_ARGON2`](/docs/cmake/variables/EXT_OPENSSL.md)
+  * [`EXT_OPENSSL_LEGACY_PROVIDER`](/docs/cmake/variables/EXT_OPENSSL.md)
+  * [`EXT_OPENSSL_KERBEROS`](/docs/cmake/variables/EXT_OPENSSL.md)
 
-  \*nix systems: when building with the `openssl` extension (`EXT_OPENSSL=ON`)
-  in the php-src tree, the extended SSL is enabled implicitly regardless of this
-  option.
+* [`EXT_PDO_MYSQL`](/docs/cmake/variables/EXT_PDO_MYSQL.md)
+  * [`EXT_PDO_MYSQL_SHARED`](/docs/cmake/variables/EXT_PDO_MYSQL.md)
+  * [`EXT_PDO_MYSQL_DRIVER`](/docs/cmake/variables/EXT_PDO_MYSQL.md)
 
-  Windows systems: extended SSL is enabled implicitly based on the Crypt32
-  library regardless of this option.
-
-* `EXT_ODBC=OFF|ON`
-
-  Default: `OFF`
-
-  Whether to enable the odbc extension.
-
-  * `EXT_ODBC_TYPE`
-
-    Default: `unixODBC`
-
-    Select the ODBC type. Can be `adabas`, `dbmaker`, `empress-bcs`, `empress`,
-    `esoob`, `ibm-db2`, `iODBC`, `sapdb`, `solid`, `unixODBC`, or `generic`.
-
-  * `EXT_ODBC_VERSION`
-
-    Force support for the passed ODBC version. A hex number is expected. Set it
-    to empty value to prevent an explicit ODBCVER to be defined. By default, it
-    is set to the highest supported ODBC version by PHP.
-
-* `EXT_PDO_MYSQL=OFF|ON`
-
-  Default: `OFF`
-
-  Whether to enable the pdo_mysql extension.
-
-  * `EXT_PDO_MYSQL_DRIVER=mysqlnd|mysql`
-
-    Default: `mysqlnd`
-
-    Select the MySQL driver for pdo_mysql extension.
-
-* `EXT_PDO_ODBC=OFF|ON`
-
-  Default: `OFF`
-
-  Whether to enable the pdo_odbc extension.
-
-  * `EXT_PDO_ODBC_TYPE=ibm-db2|iODBC|unixODBC|generic`
-
-    Default: `unixODBC`
-
-    Select the ODBC type.
-
-  * `EXT_PDO_ODBC_ROOT`
-
-    Path to the ODBC library root directory.
-
-  * `EXT_PDO_ODBC_LIBRARY`
-
-    Set the ODBC library name.
-
-  * `EXT_PDO_ODBC_CFLAGS`
-
-    A list of additional ODBC library compile flags.
-
-  * `EXT_PDO_ODBC_LDFLAGS`
-
-    A list of additional ODBC library linker flags.
+* [`EXT_PDO_ODBC`](/docs/cmake/variables/EXT_PDO_ODBC.md)
+  * [`EXT_PDO_ODBC_SHARED`](/docs/cmake/variables/EXT_PDO_ODBC.md)
+  * [`EXT_PDO_ODBC_TYPE`](/docs/cmake/variables/EXT_PDO_ODBC.md)
+  * [`EXT_PDO_ODBC_ROOT_`](/docs/cmake/variables/EXT_PDO_ODBC.md)
+  * [`EXT_PDO_ODBC_LIBRARY`](/docs/cmake/variables/EXT_PDO_ODBC.md)
+  * [`EXT_PDO_ODBC_CFLAGS`](/docs/cmake/variables/EXT_PDO_ODBC.md)
+  * [`EXT_PDO_ODBC_LDFLAGS`](/docs/cmake/variables/EXT_PDO_ODBC.md)
 
 ## 7. CMake GUI
 
@@ -403,6 +394,7 @@ A list of Autoconf `configure` command-line configuration options, Windows
     <tr>
       <td>--disable-debug</td>
       <td>--disable-debug</td>
+      <td></td>
       <td>default</td>
     </tr>
     <tr>
@@ -498,7 +490,10 @@ A list of Autoconf `configure` command-line configuration options, Windows
     <tr>
       <td>&emsp;--enable-dtrace</td>
       <td>N/A</td>
-      <td>PHP_DTRACE=ON</td>
+      <td>
+        PHP_DTRACE=ON<br>
+        [DTrace_ROOT=DIR]
+      </td>
       <td></td>
     </tr>
     <tr>
@@ -511,7 +506,7 @@ A list of Autoconf `configure` command-line configuration options, Windows
       <td>&emsp;--enable-fd-setsize=NUM</td>
       <td>--enable-fd-setsize=256</td>
       <td>PHP_FD_SETSIZE=NUM</td>
-      <td>default on Windows JScript</td>
+      <td>default on Windows</td>
     </tr>
     <tr>
       <td>--without-valgrind</td>
@@ -535,8 +530,8 @@ A list of Autoconf `configure` command-line configuration options, Windows
     <tr>
       <td>--with-libdir=NAME</td>
       <td>N/A</td>
-      <td>CMAKE_INSTALL_LIBDIR=NAME</td>
-      <td>See GNUInstallDirs</td>
+      <td>CMAKE_LIBRARY_PATH=NAME</td>
+      <td></td>
     </tr>
     <tr>
       <td>--with-layout=PHP|GNU</td>
@@ -623,13 +618,13 @@ A list of Autoconf `configure` command-line configuration options, Windows
       <td>--without-config-file-path</td>
       <td>N/A</td>
       <td>PHP_CONFIG_FILE_PATH=""</td>
-      <td>default (only for *nix)</td>
+      <td>default, *nix only</td>
     </tr>
     <tr>
       <td>&emsp;--with-config-file-path=PATH</td>
       <td>N/A</td>
       <td>PHP_CONFIG_FILE_PATH=PATH</td>
-      <td>(only for *nix)</td>
+      <td>*nix only</td>
     </tr>
     <tr>
       <td>--disable-gcov</td>

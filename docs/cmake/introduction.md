@@ -77,8 +77,8 @@ cmake --build build-directory --parallel
 >
 > The build system generates multiple files not intended to be tracked by Git.
 > Therefore, it is recommended to establish a distinct build directory right
-> from the start. For instance, you can also consider creating a build directory
-> within the source directory:
+> from the start. For instance, a build directory can be also created within the
+> source directory:
 >
 > ```sh
 > cmake -B build-directory
@@ -98,7 +98,7 @@ code should be built into libraries and executables.
 cmake_minimum_required(VERSION 3.25)
 
 # Set the project name and metadata
-project(YourProjectName VERSION 1.0.0 LANGUAGES C)
+project(SomeProjectName VERSION 1.0.0 LANGUAGES C)
 
 # ...
 ```
@@ -106,22 +106,22 @@ project(YourProjectName VERSION 1.0.0 LANGUAGES C)
 Project source directory example:
 
 ```sh
-📂 YourProjectName
- └─📂 src               # Project source code
-    ├─📄 main.c
-    └─📄 ...
- └─📂 subdirectory      # Subdirectory with its own CMakeLists
-    ├─📄 CMakeLists.txt
-    ├─📄 src.c
-    └─📄 ...
- ├─📄 CMakeLists.txt    # Project main CMakeLists file
- └─📄 ...
+📂 SomeProjectName
+└─📂 src               # Project source code
+  ├─📄 main.c
+  └─📄 ...
+└─📂 subdirectory      # Subdirectory with its own CMakeLists
+  ├─📄 CMakeLists.txt
+  ├─📄 src.c
+  └─📄 ...
+├─📄 CMakeLists.txt    # Project main CMakeLists file
+└─📄 ...
 ```
 
 ### 2.1. Including other CMake files
 
-To maintain modularity and organization, you can include other CMake files
-within your project:
+To maintain modularity and organization, other CMake files can be included
+within the project:
 
 ```cmake
 # Include CMake file using relative path
@@ -134,20 +134,20 @@ include(SomeCMakeModule)
 add_subdirectory(subdirectory)
 ```
 
-This allows you to break down complex configurations into manageable components.
+This allows breaking down complex configurations into manageable components.
 
 ## 3. CMake syntax
 
 ### 3.1. Variables
 
 In CMake, variables are essential for storing and manipulating data throughout
-your project's configuration and build processes. They play a pivotal role in
+the project's configuration and build processes. They play a pivotal role in
 customizing builds and managing project-specific settings. Variable names are
 case-sensitive.
 
 #### 3.1.1. Setting variables
 
-Variables are set using the `set()` command, where you assign a value to a
+Variables are set using the `set()` command, where a value is assigned to a
 variable:
 
 ```cmake
@@ -160,7 +160,7 @@ set(FOOBAR "value" CACHE STRING "Documentation for this variable")
 
 Cache variables, in particular, are noteworthy because they offer a means to
 store values that remain consistent across different CMake runs and are
-accessible to various parts of your project. These variables also require a
+accessible to various parts of the project. These variables also require a
 short documentation help text to describe their purpose.
 
 #### 3.1.2. Working with cache variables
@@ -272,7 +272,7 @@ not evaluated. Argument can also contain ; and other special ]] characters.
 
 ## 4. Targets
 
-CMake revolves around targets, which represent various components of your
+CMake revolves around targets, which represent various components of the
 project. There are primarily two types: libraries and executables.
 
 ```cmake
@@ -396,8 +396,7 @@ gcc -o program program.c -L. -lmain
 
 ### 4.6. Working with targets
 
-Once you've defined your targets, you can fine-tune them with additional
-configurations:
+Once targets are defined, they can be fine-tuned with additional configurations:
 
 ```cmake
 # Add more source files to a target
@@ -414,7 +413,7 @@ target_link_libraries(php INTERFACE|PUBLIC|PRIVATE main)
 ```
 
 The keywords `INTERFACE`, `PUBLIC`, and `PRIVATE` exhibit similarities to the
-visibility concept in object-oriented programming. When you use `PRIVATE`, it
+visibility concept in object-oriented programming. When using `PRIVATE`, it
 signifies that an item is exclusively accessible to the defined target and is
 not exposed to any depending targets. On the other hand, `PUBLIC` indicates that
 the item is accessible both to the defined target and any depending targets.
@@ -423,10 +422,10 @@ targets and is not accessible to the defining target itself.
 
 ## 5. Verification and checks in CMake
 
-In CMake, you can perform various verification and validation tasks to ensure
+In CMake, various verification and validation tasks can be performed to ensure
 the availability of headers, symbols, struct members, as well as assess the
 compilation and execution of C code. These checks are crucial for configuring
-your project correctly.
+the project correctly.
 
 CMake provides a range of commands, many of which are found in separate CMake
 modules bundled with CMake. These modules need to be included before utilizing
@@ -477,9 +476,9 @@ gcc -o out check_program.c
 ## 6. Generating a configuration header
 
 Once the necessary checks have been completed during the configuration phase,
-you can proceed to create a configuration header file. This header file serves
-as a configuration component in customizing your project's build based on the
-check results, and it is generated using the `configure_file()` command.
+a configuration header file can be created. This header file serves as a
+configuration component in customizing the project's build based on the check
+results, and it is generated using the `configure_file()` command.
 
 ```cmake
 # Generating a header file from the config.h.in template
@@ -495,7 +494,7 @@ contains placeholders for variables and their associated values:
 ```c
 /* src/config.h.in */
 
-/* Define to 1 if you have the <sys/types.h> header file. */
+/* Define to 1 if system has the <sys/types.h> header file. */
 #cmakedefine HAVE_SYS_TYPES_H @HAVE_SYS_TYPES_H@
 ```
 
@@ -505,13 +504,13 @@ corresponding variables. For example:
 ```c
 /* src/config.h */
 
-/* Define to 1 if you have the <sys/types.h> header file. */
+/* Define to 1 if system has the <sys/types.h> header file. */
 #define HAVE_SYS_TYPES_H 1
 ```
 
 This resulting `src/config.h` header file is used for directing the build system
 and source code, as it defines preprocessor macros based on the configuration
-results. It enables conditional compilation and helps ensure that your project
+results. It enables conditional compilation and helps ensure that the project
 behaves correctly across various environments.
 
 ```c
