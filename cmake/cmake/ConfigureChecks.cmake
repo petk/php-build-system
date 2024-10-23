@@ -433,15 +433,19 @@ include(PHP/CheckWrite)
 
 # Checking file descriptor sets.
 message(CHECK_START "Checking file descriptor sets size")
-if(PHP_FD_SETSIZE GREATER 0)
+if(PHP_FD_SETSIZE MATCHES "^[0-9]+$" AND PHP_FD_SETSIZE GREATER 0)
   message(CHECK_PASS "using FD_SETSIZE=${PHP_FD_SETSIZE}")
   target_compile_definitions(
     php_configuration
     INTERFACE
       $<$<COMPILE_LANGUAGE:ASM,C,CXX>:FD_SETSIZE=${PHP_FD_SETSIZE}>
   )
-elseif(NOT PHP_FD_SETSIZE STREQUAL "" AND NOT PHP_FD_SETSIZE GREATER 0)
-  message(FATAL_ERROR "Invalid value PHP_FD_SETSIZE=${PHP_FD_SETSIZE}")
+elseif(NOT PHP_FD_SETSIZE STREQUAL "")
+  message(
+    FATAL_ERROR
+    "Invalid value of PHP_FD_SETSIZE=${PHP_FD_SETSIZE}. Pass integer greater "
+    "than 0."
+  )
 else()
   message(CHECK_PASS "using system default")
 endif()

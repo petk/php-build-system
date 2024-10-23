@@ -21,7 +21,7 @@ option(SAPI_FPM "Enable the FPM SAPI module" OFF)
 add_feature_info(
   "sapi/fpm"
   SAPI_FPM
-  "FPM SAPI module"
+  "FastCGI Process Manager (FPM) SAPI module"
 )
 
 if(SAPI_FPM)

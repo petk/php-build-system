@@ -175,7 +175,7 @@ function(cclient_check_symbol_exists symbol header result)
 
     # The c-client/c-client.h includes headers that define deprecated
     # _BSD_SOURCE, which emits a warning when including system's features.h.
-    # When building with clang, such warning results in an error. This can be
+    # When building with Clang, such warning results in an error. This can be
     # bypassed with defining the _DEFAULT_SOURCE to indicate that the source is
     # being transitioned to use the new macro, or in this case imap extension
     # being unbunbled in the PHP-8.4.

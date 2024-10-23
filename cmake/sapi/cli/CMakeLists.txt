@@ -11,14 +11,6 @@ add_feature_info(
   "Command-line interface SAPI executable"
 )
 
-message(CHECK_START "Checking cli SAPI")
-if(SAPI_CLI)
-  message(CHECK_PASS "enabled")
-else()
-  message(CHECK_FAIL "disabled")
-  return()
-endif()
-
 cmake_dependent_option(
   SAPI_CLI_WIN_NO_CONSOLE
   "Build console-less CLI SAPI"
@@ -31,6 +23,14 @@ add_feature_info(
   SAPI_CLI_WIN_NO_CONSOLE
   "[Windows only] Same as CLI SAPI but without console (no output is given)"
 )
+
+message(CHECK_START "Checking cli SAPI")
+if(SAPI_CLI)
+  message(CHECK_PASS "enabled")
+else()
+  message(CHECK_FAIL "disabled")
+  return()
+endif()
 
 check_symbol_exists(setproctitle "unistd.h;stdlib.h" HAVE_SETPROCTITLE)
 check_include_file(sys/pstat.h HAVE_SYS_PSTAT_H)
