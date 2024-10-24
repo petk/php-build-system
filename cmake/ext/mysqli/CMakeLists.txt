@@ -1,5 +1,6 @@
 include(CMakeDependentOption)
 include(FeatureSummary)
+include(PHP/Set)
 
 option(EXT_MYSQLI "Enable the mysqli extension" OFF)
 
@@ -25,23 +26,22 @@ cmake_dependent_option(
   [[(EXT_MYSQLI OR EXT_PDO_MYSQL) AND NOT CMAKE_SYSTEM_NAME STREQUAL "Windows"]]
   OFF
 )
+mark_as_advanced(EXT_MYSQL_SOCKET)
 
-if((EXT_MYSQLI OR EXT_PDO_MYSQL) AND EXT_MYSQL_SOCKET)
-  set(
-    EXT_MYSQL_SOCKET_PATH ""
-    CACHE FILEPATH
-    "mysqli/pdo_mysql: Specify path to the MySQL Unix socket pointer location. \
-If unspecified, default locations are searched."
-  )
-  # Change from INTERNAL type to show variable on consecutive configuration run.
-  set_property(CACHE EXT_MYSQL_SOCKET_PATH PROPERTY TYPE FILEPATH)
-elseif(DEFINED EXT_MYSQL_SOCKET_PATH)
-  # Hide variable.
-  set_property(CACHE EXT_MYSQL_SOCKET_PATH PROPERTY TYPE INTERNAL)
+php_set(
+  EXT_MYSQL_SOCKET_PATH
+  ""
+  CACHE FILEPATH
+  DOC
+    "mysqli/pdo_mysql: Specify path to the MySQL Unix socket pointer location. "
+    "If unspecified, default locations are searched."
+  IF [[(EXT_MYSQLI OR EXT_PDO_MYSQL) AND EXT_MYSQL_SOCKET]]
+  FORCED ""
+)
+mark_as_advanced(EXT_MYSQL_SOCKET_PATH)
+if(NOT EXT_MYSQL_SOCKET_PATH)
   unset(PHP_MYSQL_UNIX_SOCK_ADDR CACHE)
 endif()
-
-mark_as_advanced(EXT_MYSQL_SOCKET EXT_MYSQL_SOCKET_PATH)
 
 if(NOT EXT_MYSQLI)
   return()

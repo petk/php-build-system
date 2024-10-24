@@ -120,9 +120,6 @@ set(ENV{PHP_PEAR_SYSCONF_DIR} ${phpPearInstallSysconfDir})
 # Set the PHP extensions directory.
 set(ENV{PHP_PEAR_EXTENSION_DIR} "${phpExtensionDir}")
 
-# Set PEAR temporary directory for the DESTDIR and system top level directory.
-php_pear_path_with_destdir(${PHP_PEAR_TEMP_DIR} phpPearStageTempDir)
-
 if(IS_ABSOLUTE ${PHP_PEAR_TEMP_DIR})
   cmake_path(SET phpPearTempDir NORMALIZE "${PHP_PEAR_TEMP_DIR}")
 else()
@@ -132,6 +129,9 @@ else()
     cmake_path(SET phpPearTempDir NORMALIZE "/${PHP_PEAR_TEMP_DIR}")
   endif()
 endif()
+
+# Set PEAR temporary directory for the DESTDIR and system top level directory.
+php_pear_path_with_destdir(${phpPearTempDir} phpPearStageTempDir)
 
 file(
   MAKE_DIRECTORY

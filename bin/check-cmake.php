@@ -218,6 +218,7 @@ function getProjectModules(): array
         'PHP/PkgConfigGenerator' => ['pkgconfig_generate_pc'],
         'PHP/SAPIs' => ['php_sapis_add'],
         'PHP/SearchLibraries' => ['php_search_libraries'],
+        'PHP/Set' => ['php_set'],
         'PHP/SystemExtensions' => ['PHP::SystemExtensions'],
     ];
 }
