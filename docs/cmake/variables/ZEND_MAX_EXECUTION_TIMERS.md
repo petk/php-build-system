@@ -1,8 +1,8 @@
 # `ZEND_MAX_EXECUTION_TIMERS`
 
-Values: `auto|ON|OFF`
-
 Default: `auto`
+
+Values: `auto|ON|OFF`
 
 Zend max execution timers help with timeout and signal handling issues,
 especially when thread safety is enabled.
@@ -13,4 +13,5 @@ them. When set to `ON` they get enabled whether the target system supports them
 regardless of the `PHP_THREAD_SAFETY` option. When set to `OFF`, they are always
 disabled.
 
-This configuration is not available on Windows.
+> [!NOTE]
+> This option is not available when the target system is Windows.

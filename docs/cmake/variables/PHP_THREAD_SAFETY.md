@@ -1,8 +1,8 @@
 # `PHP_THREAD_SAFETY`
 
-Values: `ON|OFF`
-
 Default: `OFF`
+
+Values: `ON|OFF`
 
 Better known as Zend Thread Safety (ZTS), this feature allows PHP to handle
 multiple threads safely in web server environments that require thread-safe

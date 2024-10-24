@@ -14,5 +14,7 @@ Default: `OFF`
 
 Values: `ON|OFF`
 
-Build console-less CLI SAPI. This option is only available when the target
-system is Windows.
+Build console-less CLI SAPI.
+
+> [!NOTE]
+> This option is only available when the target system is Windows.

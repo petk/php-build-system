@@ -4,8 +4,10 @@ Default: `OFF`
 
 Values: `ON|OFF`
 
-Enable the FastCGI Process Manager (FPM) SAPI module. This option is not
-available when the target system is Windows.
+Enable the FastCGI Process Manager (FPM) SAPI module.
+
+> [!NOTE]
+> PHP FPM is not available when the target system is Windows.
 
 **Additional variables:**
 
@@ -33,6 +35,9 @@ Enable the systemd integration.
 Where to find systemd installation on the system, can be customized with the
 `Systemd_ROOT` variable.
 
+> [!NOTE]
+> This option is not available when the target system is Darwin (macOS).
+
 ## `SAPI_FPM_ACL`
 
 Default: `OFF`
@@ -43,6 +48,9 @@ Use POSIX Access Control Lists.
 
 Where to find ACL installation on the system, can be customized with the
 `ACL_ROOT` variable.
+
+> [!NOTE]
+> This option is not available when the target system is Darwin (macOS).
 
 ## `SAPI_FPM_APPARMOR`
 
@@ -55,6 +63,9 @@ Enable the AppArmor confinement through libapparmor.
 Where to find AppArmor installation on the system, can be customized with the
 `AppArmor_ROOT` variable.
 
+> [!NOTE]
+> This option is not available when the target system is Darwin (macOS).
+
 ## `SAPI_FPM_SELINUX`
 
 Default: `OFF`
@@ -65,3 +76,6 @@ Enable the SELinux policy library support.
 
 Where to find SELinux installation on the system, can be customized with the
 `SELinux_ROOT` variable.
+
+> [!NOTE]
+> This option is not available when the target system is Darwin (macOS).

@@ -1,8 +1,8 @@
 # `ZEND_GLOBAL_REGISTER_VARIABLES`
 
-Values: `ON|OFF`
-
 Default: `ON`
+
+Values: `ON|OFF`
 
 When enabled, the
 [Zend/CheckGlobalRegisterVariables](/docs/cmake/modules/Zend/CheckGlobalRegisterVariables.md)

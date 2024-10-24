@@ -1,11 +1,13 @@
 # `ZEND_SIGNALS`
 
-Values: `ON|OFF`
-
 Default: `ON`
 
+Values: `ON|OFF`
+
 Whether to enable Zend signals handling. When enabled and if the target system
-supports them, they will be enabled, otherwise they will be disabled. This
-option is not available when target system is Windows.
+supports them, they will be enabled, otherwise they will be disabled.
 
 See also: https://wiki.php.net/rfc/zendsignals
+
+> [!NOTE]
+> This option is not available when the target system is Windows.
