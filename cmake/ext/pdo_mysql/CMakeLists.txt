@@ -2,6 +2,7 @@
 
 include(CMakeDependentOption)
 include(FeatureSummary)
+include(PHP/Set)
 
 cmake_dependent_option(
   EXT_PDO_MYSQL
@@ -26,23 +27,18 @@ cmake_dependent_option(
 )
 
 # Driver selection option.
-if(EXT_PDO_MYSQL)
-  set(
-    EXT_PDO_MYSQL_DRIVER "mysqlnd"
-    CACHE STRING "Select MySQL driver: mysqlnd (MySQL Native Driver, \
-recommended) or mysql (system MySQL)"
-  )
-  set_property(
-    CACHE EXT_PDO_MYSQL_DRIVER
-    PROPERTY STRINGS "mysqlnd" "mysql"
-  )
-  mark_as_advanced(EXT_PDO_MYSQL_DRIVER)
-  # Change from INTERNAL type to show variable on consecutive configuration run.
-  set_property(CACHE EXT_PDO_MYSQL_DRIVER PROPERTY TYPE STRING)
-elseif(DEFINED EXT_PDO_MYSQL_DRIVER)
-  # Hide variable.
-  set_property(CACHE EXT_PDO_MYSQL_DRIVER PROPERTY TYPE INTERNAL)
-endif()
+php_set(
+  EXT_PDO_MYSQL_DRIVER
+  "mysqlnd"
+  CACHE STRING
+  STRINGS "mysqlnd" "mysql"
+  DOC
+    "Select MySQL driver: mysqlnd (MySQL Native Driver, recommended) or mysql "
+    "(system MySQL)"
+  IF EXT_PDO_MYSQL
+  FORCED ""
+)
+mark_as_advanced(EXT_PDO_MYSQL_DRIVER)
 
 if(NOT EXT_PDO_MYSQL)
   return()
@@ -96,7 +92,12 @@ endif()
 if(NOT EXT_PDO_MYSQL_DRIVER STREQUAL "mysql")
   add_dependencies(php_pdo_mysql php_mysqlnd)
 
-  set(PDO_USE_MYSQLND 1 CACHE INTERNAL "Whether pdo_mysql uses mysqlnd")
+  # TODO: Is there a better way here?
+  set(PDO_USE_MYSQLND TRUE)
+  get_directory_property(hasParent PARENT_DIRECTORY)
+  if(hasParent)
+    set(PDO_USE_MYSQLND ${PDO_USE_MYSQLND} PARENT_SCOPE)
+  endif()
 else()
   find_package(MySQL COMPONENTS Lib OPTIONAL_COMPONENTS Socket)
   set_package_properties(MySQL PROPERTIES

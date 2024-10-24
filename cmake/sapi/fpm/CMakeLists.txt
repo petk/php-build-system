@@ -49,7 +49,8 @@ cmake_dependent_option(
   SAPI_FPM_SYSTEMD
   "Enable the systemd integration"
   OFF
-  "SAPI_FPM"
+  # Darwin systems don't have systemd.
+  [[SAPI_FPM AND NOT CMAKE_SYSTEM_NAME STREQUAL "Darwin"]]
   OFF
 )
 
@@ -63,7 +64,8 @@ cmake_dependent_option(
   SAPI_FPM_ACL
   "Use POSIX Access Control Lists"
   OFF
-  "SAPI_FPM"
+  # Darwin systems don't have ACL.
+  [[SAPI_FPM AND NOT CMAKE_SYSTEM_NAME STREQUAL "Darwin"]]
   OFF
 )
 
@@ -77,7 +79,8 @@ cmake_dependent_option(
   SAPI_FPM_APPARMOR
   "Enable the AppArmor confinement through libapparmor"
   OFF
-  "SAPI_FPM"
+  # Darwin systems don't have AppArmor.
+  [[SAPI_FPM AND NOT CMAKE_SYSTEM_NAME STREQUAL "Darwin"]]
   OFF
 )
 
@@ -91,7 +94,8 @@ cmake_dependent_option(
   SAPI_FPM_SELINUX
   "Enable the SELinux policy library support"
   OFF
-  "SAPI_FPM"
+  # Darwin systems don't have SELinux.
+  [[SAPI_FPM AND NOT CMAKE_SYSTEM_NAME STREQUAL "Darwin"]]
   OFF
 )
 

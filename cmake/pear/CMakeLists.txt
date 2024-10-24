@@ -1,5 +1,6 @@
 include(FeatureSummary)
 include(PHP/Install)
+include(PHP/Set)
 
 option(PHP_PEAR "Install PEAR" OFF)
 
@@ -9,19 +10,16 @@ add_feature_info(
   "PHP Extension and Application Repository package manager"
 )
 
-if(PHP_PEAR)
-  set(
-    PHP_PEAR_DIR "${CMAKE_INSTALL_DATADIR}/pear"
-    CACHE FILEPATH
-    "The PEAR installation directory. CMAKE_INSTALL_PREFIX is automatically\
-    prepended when given as relative path. Default: DATADIR/pear"
-  )
-  # Change from INTERNAL type to show variable on consecutive configuration run.
-  set_property(CACHE PHP_PEAR_DIR PROPERTY TYPE FILEPATH)
-elseif(DEFINED PHP_PEAR_DIR)
-  # Hide variable.
-  set_property(CACHE PHP_PEAR_DIR PROPERTY TYPE INTERNAL)
-endif()
+php_set(
+  PHP_PEAR_DIR
+  "${CMAKE_INSTALL_DATADIR}/pear"
+  CACHE PATH
+  DOC
+    "The PEAR installation directory. CMAKE_INSTALL_PREFIX is automatically "
+    "prepended when given as relative path. Default: DATADIR/pear"
+  IF PHP_PEAR
+  FORCED ""
+)
 mark_as_advanced(PHP_PEAR_DIR)
 
 if(CMAKE_SYSTEM_NAME STREQUAL "Windows")
@@ -29,33 +27,28 @@ if(CMAKE_SYSTEM_NAME STREQUAL "Windows")
 else()
   set(tmpDir "tmp/pear")
 endif()
-if(PHP_PEAR)
-  set(
-    PHP_PEAR_TEMP_DIR "${tmpDir}"
-    CACHE FILEPATH
-    "The PEAR temporary directory where PEAR writes temporary files, such as\
-    cache, downloaded packages artifacts and similar. Pass it as a relative\
-    path inside the top level system directory, which will be automatically\
-    prepended. If given as an absolute path, top level directory is not\
-    prepended. Relative path is added to the top root system directory (/ on\
-    *nix, or c:/ on Windows). Default: ${tmpDir}."
-  )
-  # Change from INTERNAL type to show variable on consecutive configuration run.
-  set_property(CACHE PHP_PEAR_TEMP_DIR PROPERTY TYPE FILEPATH)
-elseif(DEFINED PHP_PEAR_TEMP_DIR)
-  # Hide variable.
-  set_property(CACHE PHP_PEAR_TEMP_DIR PROPERTY TYPE INTERNAL)
-endif()
+php_set(
+  PHP_PEAR_TEMP_DIR
+  "${tmpDir}"
+  CACHE PATH
+  DOC
+    "The PEAR temporary directory where PEAR writes temporary files, such as "
+    "cache, downloaded packages artifacts and similar. Pass it as a relative "
+    "path inside the top level system directory, which will be automatically "
+    "prepended. If given as an absolute path, top level directory is not "
+    "prepended. Relative path is added to the top root system directory (/ on "
+    "*nix, or c:/ on Windows). Default: ${tmpDir}."
+  IF PHP_PEAR
+  FORCED ""
+)
 mark_as_advanced(PHP_PEAR_TEMP_DIR)
 
 message(CHECK_START "Checking for PEAR")
-
 if(NOT PHP_PEAR)
   message(CHECK_FAIL "no")
   return()
-else()
-  message(CHECK_PASS "yes")
 endif()
+message(CHECK_PASS "yes")
 
 message(
   DEPRECATION
