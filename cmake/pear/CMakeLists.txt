@@ -12,13 +12,12 @@ add_feature_info(
 
 php_set(
   PHP_PEAR_DIR
-  "${CMAKE_INSTALL_DATADIR}/pear"
-  CACHE PATH
+  TYPE PATH
+  IF PHP_PEAR
+  VALUE "${CMAKE_INSTALL_DATADIR}/pear"
   DOC
     "The PEAR installation directory. CMAKE_INSTALL_PREFIX is automatically "
     "prepended when given as relative path. Default: DATADIR/pear"
-  IF PHP_PEAR
-  FORCED ""
 )
 mark_as_advanced(PHP_PEAR_DIR)
 
@@ -29,8 +28,9 @@ else()
 endif()
 php_set(
   PHP_PEAR_TEMP_DIR
-  "${tmpDir}"
-  CACHE PATH
+  TYPE PATH
+  IF PHP_PEAR
+  VALUE "${tmpDir}"
   DOC
     "The PEAR temporary directory where PEAR writes temporary files, such as "
     "cache, downloaded packages artifacts and similar. Pass it as a relative "
@@ -38,8 +38,6 @@ php_set(
     "prepended. If given as an absolute path, top level directory is not "
     "prepended. Relative path is added to the top root system directory (/ on "
     "*nix, or c:/ on Windows). Default: ${tmpDir}."
-  IF PHP_PEAR
-  FORCED ""
 )
 mark_as_advanced(PHP_PEAR_TEMP_DIR)
 

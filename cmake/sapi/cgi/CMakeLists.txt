@@ -10,12 +10,11 @@ add_feature_info(
 )
 
 message(CHECK_START "Checking cgi SAPI")
-if(SAPI_CGI)
-  message(CHECK_PASS "enabled")
-else()
+if(NOT SAPI_CGI)
   message(CHECK_FAIL "disabled")
   return()
 endif()
+message(CHECK_PASS "enabled")
 
 add_executable(php_cgi
   cgi_main.c

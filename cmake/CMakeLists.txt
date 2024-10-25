@@ -29,8 +29,8 @@ set(CMAKE_C_STANDARD_REQUIRED TRUE)
 include(cmake/Bootstrap.cmake)
 
 message("
-Configuring SAPI modules
-------------------------
+Configuring PHP SAPI modules
+----------------------------
 ")
 include(PHP/SAPIs)
 php_sapis_add(sapi)
