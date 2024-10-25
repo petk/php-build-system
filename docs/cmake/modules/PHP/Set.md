@@ -4,9 +4,9 @@ See: [Set.cmake](https://github.com/petk/php-build-system/tree/master/cmake/cmak
 
 Set a CACHE variable that depends on a set of conditions.
 
-In CMake there are 3 main ways to create non-internal cache variables that can
-be also customized using the `-D` command-line option, through CMake presets, or
-similar:
+At the time of writing, there are 3 main ways in CMake to create non-internal
+cache variables that can be also customized from the outside using the `-D`
+command-line option, through CMake presets, or similar:
 * `option()`
 * `set(<variable> <value> CACHE <type> <docstring>)`
 * `cmake_dependent_option()`
@@ -25,31 +25,41 @@ This module exposes the following function:
 ```cmake
 php_set(
   <variable>
-  <default>
-  CACHE <type>
-  [STRINGS <string>...]
-  [DOC <docstring>...]
-  IF <condition>
-  FORCED <forced>
+  TYPE <type>
+  [CHOICES <string>...]
+  [IF <condition> VALUE <value> [ELSE_VALUE <default>]] | [VALUE <value>]
+  DOC <docstring>...
 )
 ```
 
-It sets the given CACHE `<variable>` of `<type>` to a `<value>` if `<condition>`
-is met. Otherwise it sets the `<variable>` to `<default>` value and hides it in
-the GUI.
+It sets a CACHE `<variable>` of `<type>` to a `<value>`.
 
-* The `CACHE` `<type>` can be `BOOL`, `FILEPATH`, `PATH`, or `STRING`.
+* `TYPE` can be `BOOL`, `FILEPATH`, `PATH`, or `STRING`.
 
-* `STRINGS` is an optional list of items when `CACHE` `STRING` is used to create
-  a list of supported options to pick in the GUI.
+* `CHOICES` is an optional list of items when `STRING` type is used to create
+  a list of supported options to pick in the GUI. Under the hood, it sets the
+  `STRINGS` CACHE variable property.
+
+* `VALUE` is the default variable value. There are two ways to set default
+  value.
+
+  * When using the `IF <condition>` argument, it sets the variable to `<value>`
+    if `<condition>` is met. Otherwise it sets the `<variable>` to `ELSE_VALUE`
+    `<default>` and hides it in the GUI, if `ELSE_VALUE` is given. Under the
+    hood `ELSE_VALUE` will set `INTERNAL` cache variable if `<condition>` is not
+    met. If `ELSE_VALUE` is not provided, the `INTERNAL` cache variable is not
+    set (it is undefined).
+
+    `IF` behaves the same as the `<depends>` argument in the
+    `cmake_dependent_option()`. This supports both full condition sytanx and
+    semicolon-separated list of conditions.
+
+  * When using only `VALUE` signature, it sets the cache variable to `<value>`.
+    It is the same as writing:
+
+    ```cmake
+    set(<variable> <value> CACHE <type> <docstring>)
+    ```
 
 * `DOC` is a short variable help text visible in the GUIs. Multiple strings are
   joined together.
-
-* `IF` behaves the same as the `<depends>` argument in
-  `cmake_dependent_option()`. If conditions `<condition>` are met, the variable
-  is set to `<default>` value. Otherwise, it is set to `<forced>` value and
-  hidden in the GUIs. This supports both full condition sytanx and
-  semicolon-separated list of conditions.
-
-* `FORCED` is a value that is set when `IF <conditions>` are not met.
