@@ -19,12 +19,11 @@ add_feature_info(
 )
 
 message(CHECK_START "Checking apache2handler SAPI")
-if(SAPI_APACHE2HANDLER)
-  message(CHECK_PASS "enabled")
-else()
+if(NOT SAPI_APACHE2HANDLER)
   message(CHECK_FAIL "disabled")
   return()
 endif()
+message(CHECK_PASS "enabled")
 
 add_library(php_apache2handler SHARED)
 

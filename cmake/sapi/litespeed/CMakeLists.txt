@@ -14,12 +14,11 @@ add_feature_info(
 )
 
 message(CHECK_START "Checking litespeed SAPI")
-if(SAPI_LITESPEED)
-  message(CHECK_PASS "enabled")
-else()
+if(NOT SAPI_LITESPEED)
   message(CHECK_FAIL "disabled")
   return()
 endif()
+message(CHECK_PASS "enabled")
 
 add_executable(php_litespeed
   lsapi_main.c

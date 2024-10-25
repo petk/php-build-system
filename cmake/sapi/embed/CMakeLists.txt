@@ -9,12 +9,11 @@ add_feature_info(
 )
 
 message(CHECK_START "Checking embed SAPI")
-if(SAPI_EMBED)
-  message(CHECK_PASS "enabled")
-else()
+if(NOT SAPI_EMBED)
   message(CHECK_FAIL "disabled")
   return()
 endif()
+message(CHECK_PASS "enabled")
 
 add_library(php_embed STATIC)
 add_library(PHP::embed ALIAS php_embed)

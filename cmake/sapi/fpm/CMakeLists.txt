@@ -6,112 +6,111 @@ endif()
 include(CheckIncludeFile)
 include(CheckSourceCompiles)
 include(CheckSymbolExists)
-include(CMakeDependentOption)
 include(CMakePushCheckState)
 include(FeatureSummary)
 include(PHP/ConfigureFile)
 include(PHP/Install)
+include(PHP/Set)
 
 ################################################################################
 # FPM configuration.
 ################################################################################
 
 option(SAPI_FPM "Enable the FPM SAPI module" OFF)
-
 add_feature_info(
   "sapi/fpm"
   SAPI_FPM
   "FastCGI Process Manager (FPM) SAPI module"
 )
 
-if(SAPI_FPM)
-  set(
-    SAPI_FPM_USER "nobody"
-    CACHE STRING "Set the user for running PHP FPM (default: nobody)"
-  )
-
-  set(
-    SAPI_FPM_GROUP "nobody"
-    CACHE STRING "Set the group for running PHP FPM. For a system user, this \
-should usually be set to match the FPM username (default: nobody)"
-  )
-
+php_set(
+  SAPI_FPM_USER
+  TYPE STRING
+  IF SAPI_FPM
+  VALUE "nobody"
+  DOC "Set the user for running PHP FPM (default: nobody)"
+)
+unset(PHP_FPM_USER CACHE)
+if(SAPI_FPM_USER)
   set(PHP_FPM_USER "${SAPI_FPM_USER}" CACHE INTERNAL "FPM user")
-  set(PHP_FPM_GROUP "${SAPI_FPM_GROUP}" CACHE INTERNAL "FPM group")
-else()
-  unset(SAPI_FPM_USER CACHE)
-  unset(PHP_FPM_USER CACHE)
-  unset(SAPI_FPM_GROUP CACHE)
-  unset(PHP_FPM_GROUP CACHE)
 endif()
 
-cmake_dependent_option(
-  SAPI_FPM_SYSTEMD
-  "Enable the systemd integration"
-  OFF
-  # Darwin systems don't have systemd.
-  [[SAPI_FPM AND NOT CMAKE_SYSTEM_NAME STREQUAL "Darwin"]]
-  OFF
+php_set(
+  SAPI_FPM_GROUP
+  TYPE STRING
+  IF SAPI_FPM
+  VALUE "nobody"
+  DOC
+    "Set the group for running PHP FPM. For a system user, this should usually "
+    "be set to match the FPM username (default: nobody)"
 )
+unset(PHP_FPM_GROUP CACHE)
+if(SAPI_FPM_GROUP)
+  set(PHP_FPM_GROUP "${SAPI_FPM_GROUP}" CACHE INTERNAL "FPM group")
+endif()
 
+php_set(
+  SAPI_FPM_SYSTEMD
+  TYPE BOOL
+  # Darwin systems don't have systemd.
+  IF [[SAPI_FPM AND NOT CMAKE_SYSTEM_NAME STREQUAL "Darwin"]]
+  VALUE OFF
+  DOC "Enable the systemd integration"
+)
 add_feature_info(
   "sapi/fpm systemd"
-  SAPI_FPM
+  SAPI_FPM_SYSTEMD
   "FPM SAPI module with systemd integration"
 )
 
-cmake_dependent_option(
+php_set(
   SAPI_FPM_ACL
-  "Use POSIX Access Control Lists"
-  OFF
+  TYPE BOOL
   # Darwin systems don't have ACL.
-  [[SAPI_FPM AND NOT CMAKE_SYSTEM_NAME STREQUAL "Darwin"]]
-  OFF
+  IF [[SAPI_FPM AND NOT CMAKE_SYSTEM_NAME STREQUAL "Darwin"]]
+  VALUE OFF
+  DOC "Use POSIX Access Control Lists"
 )
-
 add_feature_info(
   "sapi/fpm ACL"
-  SAPI_FPM
+  SAPI_FPM_ACL
   "FPM SAPI module with integrated POSIX Access Control Lists"
 )
 
-cmake_dependent_option(
+php_set(
   SAPI_FPM_APPARMOR
-  "Enable the AppArmor confinement through libapparmor"
-  OFF
+  TYPE BOOL
   # Darwin systems don't have AppArmor.
-  [[SAPI_FPM AND NOT CMAKE_SYSTEM_NAME STREQUAL "Darwin"]]
-  OFF
+  IF [[SAPI_FPM AND NOT CMAKE_SYSTEM_NAME STREQUAL "Darwin"]]
+  VALUE OFF
+  DOC "Enable the AppArmor confinement through libapparmor"
 )
-
 add_feature_info(
   "sapi/fpm AppArmor"
-  SAPI_FPM
+  SAPI_FPM_APPARMOR
   "FPM SAPI module with AppArmor confinement enabled"
 )
 
-cmake_dependent_option(
+php_set(
   SAPI_FPM_SELINUX
-  "Enable the SELinux policy library support"
-  OFF
+  TYPE BOOL
   # Darwin systems don't have SELinux.
-  [[SAPI_FPM AND NOT CMAKE_SYSTEM_NAME STREQUAL "Darwin"]]
-  OFF
+  IF [[SAPI_FPM AND NOT CMAKE_SYSTEM_NAME STREQUAL "Darwin"]]
+  VALUE OFF
+  DOC "Enable the SELinux policy library support"
 )
-
 add_feature_info(
   "sapi/fpm SELinux"
-  SAPI_FPM
+  SAPI_FPM_SELINUX
   "FPM SAPI module with SELinux policy library support"
 )
 
 message(CHECK_START "Checking fpm SAPI")
-if(SAPI_FPM)
-  message(CHECK_PASS "enabled")
-else()
+if(NOT SAPI_FPM)
   message(CHECK_FAIL "disabled")
   return()
 endif()
+message(CHECK_PASS "enabled")
 
 ################################################################################
 # Add executable.
