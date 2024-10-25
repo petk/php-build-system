@@ -51,7 +51,7 @@ It sets a CACHE `<variable>` of `<type>` to a `<value>`.
     set (it is undefined).
 
     `IF` behaves the same as the `<depends>` argument in the
-    `cmake_dependent_option()`. This supports both full condition sytanx and
+    `cmake_dependent_option()`. This supports both full condition syntax and
     semicolon-separated list of conditions.
 
   * When using only `VALUE` signature, it sets the cache variable to `<value>`.
