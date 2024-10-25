@@ -28,7 +28,6 @@ macro(php_sapis_add directory)
   # Add subdirectories of PHP SAPIs.
   foreach(dir ${directories})
     cmake_path(GET dir FILENAME sapi)
-    message(STATUS "Checking ${sapi} SAPI")
     list(APPEND CMAKE_MESSAGE_CONTEXT "sapi/${sapi}")
     unset(sapi)
 

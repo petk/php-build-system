@@ -30,13 +30,12 @@ mark_as_advanced(EXT_MYSQL_SOCKET)
 
 php_set(
   EXT_MYSQL_SOCKET_PATH
-  ""
-  CACHE FILEPATH
+  TYPE FILEPATH
+  IF [[(EXT_MYSQLI OR EXT_PDO_MYSQL) AND EXT_MYSQL_SOCKET]]
+  VALUE ""
   DOC
     "mysqli/pdo_mysql: Specify path to the MySQL Unix socket pointer location. "
     "If unspecified, default locations are searched."
-  IF [[(EXT_MYSQLI OR EXT_PDO_MYSQL) AND EXT_MYSQL_SOCKET]]
-  FORCED ""
 )
 mark_as_advanced(EXT_MYSQL_SOCKET_PATH)
 if(NOT EXT_MYSQL_SOCKET_PATH)

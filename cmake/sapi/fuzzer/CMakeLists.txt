@@ -34,12 +34,11 @@ if(SAPI_FUZZER)
 endif()
 
 message(CHECK_START "Checking fuzzer SAPI")
-if(SAPI_FUZZER)
-  message(CHECK_PASS "enabled")
-else()
+if(NOT SAPI_FUZZER)
   message(CHECK_FAIL "disabled")
   return()
 endif()
+message(CHECK_PASS "enabled")
 
 if(PHP_THREAD_SAFETY)
   message(

@@ -25,12 +25,11 @@ add_feature_info(
 )
 
 message(CHECK_START "Checking cli SAPI")
-if(SAPI_CLI)
-  message(CHECK_PASS "enabled")
-else()
+if(NOT SAPI_CLI)
   message(CHECK_FAIL "disabled")
   return()
 endif()
+message(CHECK_PASS "enabled")
 
 check_symbol_exists(setproctitle "unistd.h;stdlib.h" HAVE_SETPROCTITLE)
 check_include_file(sys/pstat.h HAVE_SYS_PSTAT_H)

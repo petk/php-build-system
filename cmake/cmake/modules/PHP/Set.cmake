@@ -1,9 +1,9 @@
 #[=============================================================================[
 Set a CACHE variable that depends on a set of conditions.
 
-In CMake there are 3 main ways to create non-internal cache variables that can
-be also customized using the `-D` command-line option, through CMake presets, or
-similar:
+At the time of writing, there are 3 main ways in CMake to create non-internal
+cache variables that can be also customized from the outside using the `-D`
+command-line option, through CMake presets, or similar:
 * `option()`
 * `set(<variable> <value> CACHE <type> <docstring>)`
 * `cmake_dependent_option()`
@@ -22,64 +22,87 @@ This module exposes the following function:
 ```cmake
 php_set(
   <variable>
-  <default>
-  CACHE <type>
-  [STRINGS <string>...]
-  [DOC <docstring>...]
-  IF <condition>
-  FORCED <forced>
+  TYPE <type>
+  [CHOICES <string>...]
+  [IF <condition> VALUE <value> [ELSE_VALUE <default>]] | [VALUE <value>]
+  DOC <docstring>...
 )
 ```
 
-It sets the given CACHE `<variable>` of `<type>` to a `<value>` if `<condition>`
-is met. Otherwise it sets the `<variable>` to `<default>` value and hides it in
-the GUI.
+It sets a CACHE `<variable>` of `<type>` to a `<value>`.
 
-* The `CACHE` `<type>` can be `BOOL`, `FILEPATH`, `PATH`, or `STRING`.
+* `TYPE` can be `BOOL`, `FILEPATH`, `PATH`, or `STRING`.
 
-* `STRINGS` is an optional list of items when `CACHE` `STRING` is used to create
-  a list of supported options to pick in the GUI.
+* `CHOICES` is an optional list of items when `STRING` type is used to create
+  a list of supported options to pick in the GUI. Under the hood, it sets the
+  `STRINGS` CACHE variable property.
+
+* `VALUE` is the default variable value. There are two ways to set default
+  value.
+
+  * When using the `IF <condition>` argument, it sets the variable to `<value>`
+    if `<condition>` is met. Otherwise it sets the `<variable>` to `ELSE_VALUE`
+    `<default>` and hides it in the GUI, if `ELSE_VALUE` is given. Under the
+    hood `ELSE_VALUE` will set `INTERNAL` cache variable if `<condition>` is not
+    met. If `ELSE_VALUE` is not provided, the `INTERNAL` cache variable is not
+    set (it is undefined).
+
+    `IF` behaves the same as the `<depends>` argument in the
+    `cmake_dependent_option()`. This supports both full condition sytanx and
+    semicolon-separated list of conditions.
+
+  * When using only `VALUE` signature, it sets the cache variable to `<value>`.
+    It is the same as writing:
+
+    ```cmake
+    set(<variable> <value> CACHE <type> <docstring>)
+    ```
 
 * `DOC` is a short variable help text visible in the GUIs. Multiple strings are
   joined together.
-
-* `IF` behaves the same as the `<depends>` argument in
-  `cmake_dependent_option()`. If conditions `<condition>` are met, the variable
-  is set to `<default>` value. Otherwise, it is set to `<forced>` value and
-  hidden in the GUIs. This supports both full condition sytanx and
-  semicolon-separated list of conditions.
-
-* `FORCED` is a value that is set when `IF <conditions>` are not met.
 #]=============================================================================]
 
 include_guard(GLOBAL)
 
 function(php_set)
+  # https://cmake.org/cmake/help/latest/policy/CMP0174.html
+  if(CMAKE_VERSION VERSION_GREATER_EQUAL 3.31)
+    set(valueNew "VALUE")
+    set(elseValueNew "ELSE_VALUE")
+  else()
+    set(valueOld "VALUE")
+    set(elseValueOld "ELSE_VALUE")
+  endif()
+
   cmake_parse_arguments(
     PARSE_ARGV
-    2
-    parsed               # prefix
-    ""                   # options
-    "CACHE;IF"           # one-value keywords
-    "STRINGS;DOC;FORCED" # multi-value keywords
+    1
+    parsed                                    # prefix
+    ""                                        # options
+    "${valueNew};TYPE;IF;${elseValueNew}"     # one-value keywords
+    "${valueOld};CHOICES;DOC;${elseValueOld}" # multi-value keywords
   )
 
   if(parsed_UNPARSED_ARGUMENTS)
     message(FATAL_ERROR "Bad arguments: ${parsed_UNPARSED_ARGUMENTS}")
   endif()
 
-  if(NOT parsed_CACHE)
-    message(FATAL_ERROR "Missing CACHE type argument")
-  elseif(NOT parsed_CACHE MATCHES "^(BOOL|FILEPATH|PATH|STRING)$")
-    message(FATAL_ERROR "Unknown CACHE type argument: ${parsed_CACHE}")
+  if(NOT DEFINED parsed_VALUE)
+    message(FATAL_ERROR "Missing VALUE argument")
   endif()
 
-  if(NOT parsed_IF)
-    message(FATAL_ERROR "Missing IF argument with condition")
+  if(NOT parsed_TYPE)
+    message(FATAL_ERROR "Missing TYPE argument")
+  elseif(NOT parsed_TYPE MATCHES "^(BOOL|FILEPATH|PATH|STRING)$")
+    message(FATAL_ERROR "Unknown TYPE argument: ${parsed_TYPE}")
   endif()
 
-  if(NOT DEFINED parsed_FORCED)
-    message(FATAL_ERROR "Missing FORCED argument")
+  if(NOT DEFINED parsed_IF AND DEFINED parsed_ELSE_VALUE)
+    message(FATAL_ERROR "Redundant ELSE_VALUE argument without IF condition")
+  endif()
+
+  if(NOT DEFINED parsed_DOC)
+    message(FATAL_ERROR "Missing DOC argument")
   endif()
 
   set(doc "")
@@ -88,35 +111,52 @@ function(php_set)
   endforeach()
 
   set(condition TRUE)
-  foreach(d ${parsed_IF})
-    cmake_language(EVAL CODE "
-      if(${d})
-      else()
-        set(condition FALSE)
-      endif()"
-    )
-  endforeach()
+  if(parsed_IF)
+    foreach(d ${parsed_IF})
+      cmake_language(EVAL CODE "
+        if(${d})
+        else()
+          set(condition FALSE)
+        endif()"
+      )
+    endforeach()
+  endif()
 
   set(var "${ARGV0}")
   set(internal ___PHP_SET_${var})
 
   if(NOT DEFINED ${internal} AND DEFINED ${var})
+    # Initial configuration phase with variable set by the user.
     set(${internal} "${${var}}" CACHE INTERNAL "Internal storage for ${var}")
   elseif(NOT DEFINED ${internal})
-    set(${internal} "${ARGV1}" CACHE INTERNAL "Internal storage for ${var}")
+    # Initial configuration phase without variable set by the user.
+    set(${internal} "${parsed_VALUE}" CACHE INTERNAL "Internal storage for ${var}")
+  elseif(
+    DEFINED ${internal}
+    AND ${internal}_FORCED
+    AND NOT ${var} STREQUAL "${parsed_ELSE_VALUE}"
+  )
+    # Consecutive configuration phase that changes the variable after being
+    # re-enabled.
+    set(${internal} "${${var}}" CACHE INTERNAL "Internal storage for ${var}")
   elseif(DEFINED ${internal} AND NOT ${internal}_FORCED)
+    # Consecutive configuration phase.
     set(${internal} "${${var}}" CACHE INTERNAL "Internal storage for ${var}")
   endif()
 
   if(condition)
-    set(${var} "${${internal}}" CACHE ${parsed_CACHE} "${doc}" FORCE)
-    if(parsed_CACHE STREQUAL "STRING" AND parsed_STRINGS)
-      set_property(CACHE ${var} PROPERTY STRINGS ${parsed_STRINGS})
+    set(${var} "${${internal}}" CACHE ${parsed_TYPE} "${doc}" FORCE)
+    if(parsed_TYPE STREQUAL "STRING" AND parsed_CHOICES)
+      set_property(CACHE ${var} PROPERTY STRINGS ${parsed_CHOICES})
     endif()
     unset(${internal} CACHE)
     unset(${internal}_FORCED CACHE)
   else()
-    set(${var} "${parsed_FORCED}" CACHE INTERNAL "${doc}")
+    if(DEFINED parsed_ELSE_VALUE)
+      set(${var} "${parsed_ELSE_VALUE}" CACHE INTERNAL "${doc}")
+    else()
+      unset(${var} CACHE)
+    endif()
     set(
       ${internal}_FORCED
       TRUE
