@@ -55,7 +55,7 @@ of `<headers>`) and store the result in an internal cache variable
 * `LIBRARY_VARIABLE`
 
   When symbol is not found in the default libraries, the resulting library that
-  contains the symbol is stored in this regular variable name.
+  contains the symbol is stored in this local variable name.
 
 * `TARGET`
 
@@ -142,7 +142,7 @@ macro(_php_search_libraries_populate)
       )
     endif()
 
-    # Store found library in a regular variable provided by the user.
+    # Store found library in a local variable with name provided by the user.
     if(libraryResultVariable)
       set(
         ${libraryResultVariable}

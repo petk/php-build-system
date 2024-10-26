@@ -1,6 +1,13 @@
 #[=============================================================================[
 Set a CACHE variable that depends on a set of conditions.
 
+> [!WARNING]
+> TODO: This module is still under review to determine its usefulness.
+> Dependent variables may seem convenient for the application but may create
+> difficulties for anyone troubleshooting why a configuration isn't applied,
+> even though a configuration value has been set. In the end, build system
+> configuration isn't aiming to provide a HTML-form-alike functionality.
+
 At the time of writing, there are 3 main ways in CMake to create non-internal
 cache variables that can be also customized from the outside using the `-D`
 command-line option, through CMake presets, or similar:
@@ -26,6 +33,7 @@ php_set(
   [CHOICES <string>...]
   [IF <condition> VALUE <value> [ELSE_VALUE <default>]] | [VALUE <value>]
   DOC <docstring>...
+  [WARNING <warning>]
 )
 ```
 
@@ -60,29 +68,115 @@ It sets a CACHE `<variable>` of `<type>` to a `<value>`.
 
 * `DOC` is a short variable help text visible in the GUIs. Multiple strings are
   joined together.
+
+* `WARNING` is optional text that is emitted when setting a variable from the
+  command line or CMake presets but its condition is not met. Otherwise, a
+  default warning is emitted.
 #]=============================================================================]
 
 include_guard(GLOBAL)
 
 function(php_set)
-  # https://cmake.org/cmake/help/latest/policy/CMP0174.html
-  if(CMAKE_VERSION VERSION_GREATER_EQUAL 3.31)
-    set(valueNew "VALUE")
-    set(elseValueNew "ELSE_VALUE")
-  else()
-    set(valueOld "VALUE")
-    set(elseValueOld "ELSE_VALUE")
-  endif()
-
   cmake_parse_arguments(
     PARSE_ARGV
     1
-    parsed                                    # prefix
-    ""                                        # options
-    "${valueNew};TYPE;IF;${elseValueNew}"     # one-value keywords
-    "${valueOld};CHOICES;DOC;${elseValueOld}" # multi-value keywords
+    parsed                     # prefix
+    ""                         # options
+    "TYPE;IF;VALUE;ELSE_VALUE" # one-value keywords
+    "CHOICES;DOC;WARNING"      # multi-value keywords
   )
 
+  # The cmake_parse_arguments() before 3.31 didn't define one-value keywords
+  # with empty value of "". This fills the gap and behaves the same until it can
+  # be removed. See: https://cmake.org/cmake/help/latest/policy/CMP0174.html
+  if(CMAKE_VERSION VERSION_LESS 3.31)
+    set(i 0)
+    foreach(arg IN LISTS ARGN)
+      math(EXPR i "${i}+1")
+      foreach(keyword VALUE ELSE_VALUE)
+        if(
+          arg STREQUAL "${keyword}"
+          AND NOT DEFINED parsed_${keyword}
+          AND DEFINED ARGV${i}
+          AND "${ARGV${i}}" STREQUAL ""
+        )
+          set(parsed_${keyword} "")
+        endif()
+      endforeach()
+    endforeach()
+  endif()
+
+  _php_set_validate_arguments("${ARGN}")
+
+  set(doc "")
+  foreach(string ${parsed_DOC})
+    string(APPEND doc "${string}")
+  endforeach()
+
+  set(condition TRUE)
+  if(parsed_IF)
+    # Make condition look nice in the possible output strings.
+    string(STRIP "${parsed_IF}" parsed_IF)
+    string(REGEX REPLACE "[ \t]*[\r\n]+[ \t\r\n]*" "\n" parsed_IF "${parsed_IF}")
+    foreach(d ${parsed_IF})
+      cmake_language(EVAL CODE "
+        if(${d})
+        else()
+          set(condition FALSE)
+        endif()"
+      )
+    endforeach()
+  endif()
+
+  set(varName "${ARGV0}")
+  set(bufferVarName ___PHP_SET_${varName})
+  set(bufferDoc "Internal storage for ${varName} variable")
+
+  if(NOT DEFINED ${bufferVarName} AND DEFINED ${varName})
+    # Initial configuration phase with variable set by the user.
+    set(${bufferVarName} "${${varName}}" CACHE INTERNAL "${bufferDoc}")
+  elseif(NOT DEFINED ${bufferVarName})
+    # Initial configuration phase without variable set by the user.
+    set(${bufferVarName} "${parsed_VALUE}" CACHE INTERNAL "${bufferDoc}")
+  elseif(
+    DEFINED ${bufferVarName}
+    AND ${bufferVarName}_OVERRIDDEN
+    AND NOT ${varName} STREQUAL "${parsed_ELSE_VALUE}"
+  )
+    # Consecutive configuration phase that changes the variable after being
+    # re-enabled.
+    set(${bufferVarName} "${${varName}}" CACHE INTERNAL "${bufferDoc}")
+  elseif(DEFINED ${bufferVarName} AND NOT ${bufferVarName}_OVERRIDDEN)
+    # Consecutive configuration phase.
+    set(${bufferVarName} "${${varName}}" CACHE INTERNAL "${bufferDoc}")
+  endif()
+
+  if(condition)
+    set(${varName} "${${bufferVarName}}" CACHE ${parsed_TYPE} "${doc}" FORCE)
+    if(parsed_TYPE STREQUAL "STRING" AND parsed_CHOICES)
+      set_property(CACHE ${varName} PROPERTY STRINGS ${parsed_CHOICES})
+    endif()
+    unset(${bufferVarName} CACHE)
+    unset(${bufferVarName}_OVERRIDDEN CACHE)
+  else()
+    _php_set_validate_input()
+
+    if(DEFINED parsed_ELSE_VALUE)
+      set(${varName} "${parsed_ELSE_VALUE}" CACHE INTERNAL "${doc}" FORCE)
+    else()
+      unset(${varName} CACHE)
+    endif()
+    set(
+      ${bufferVarName}_OVERRIDDEN
+      TRUE
+      CACHE INTERNAL
+      "Internal marker that ${varName} is overridden."
+    )
+  endif()
+endfunction()
+
+# Validate parsed arguments.
+function(_php_set_validate_arguments arguments)
   if(parsed_UNPARSED_ARGUMENTS)
     message(FATAL_ERROR "Bad arguments: ${parsed_UNPARSED_ARGUMENTS}")
   endif()
@@ -97,71 +191,57 @@ function(php_set)
     message(FATAL_ERROR "Unknown TYPE argument: ${parsed_TYPE}")
   endif()
 
-  if(NOT DEFINED parsed_IF AND DEFINED parsed_ELSE_VALUE)
+  list(FIND arguments ELSE_VALUE elseValueIndex)
+  if(NOT DEFINED parsed_IF AND NOT elseValueIndex EQUAL -1)
     message(FATAL_ERROR "Redundant ELSE_VALUE argument without IF condition")
+  elseif(
+    DEFINED parsed_IF
+    AND NOT DEFINED parsed_ELSE_VALUE
+    AND NOT elseValueIndex EQUAL -1
+  )
+    message(FATAL_ERROR "Missing ELSE_VALUE argument")
   endif()
 
   if(NOT DEFINED parsed_DOC)
     message(FATAL_ERROR "Missing DOC argument")
   endif()
+endfunction()
 
-  set(doc "")
-  foreach(string ${parsed_DOC})
-    string(APPEND doc "${string}")
+# Output warning when setting conditional variable and condition is not met.
+function(_php_set_validate_input)
+  get_property(helpString CACHE ${varName} PROPERTY HELPSTRING)
+  if(NOT helpString STREQUAL "No help, variable specified on the command line.")
+    return()
+  endif()
+
+  if(NOT parsed_WARNING)
+    set(parsed_WARNING "Variable ${varName}")
+    if(DEFINED parsed_ELSE_VALUE)
+      string(
+        APPEND
+        parsed_WARNING
+        " has been overridden (${varName}=${parsed_ELSE_VALUE})"
+      )
+    else()
+      string(
+        APPEND
+        parsed_WARNING
+        " has been overridden to an undefined state"
+      )
+    endif()
+    string(
+      APPEND
+      parsed_WARNING
+      " as it depends on the condition:\n"
+      "${parsed_IF}\n"
+    )
+  endif()
+  set(warning "")
+  foreach(string ${parsed_WARNING})
+    string(APPEND warning "${string}")
   endforeach()
 
-  set(condition TRUE)
-  if(parsed_IF)
-    foreach(d ${parsed_IF})
-      cmake_language(EVAL CODE "
-        if(${d})
-        else()
-          set(condition FALSE)
-        endif()"
-      )
-    endforeach()
-  endif()
-
-  set(var "${ARGV0}")
-  set(internal ___PHP_SET_${var})
-
-  if(NOT DEFINED ${internal} AND DEFINED ${var})
-    # Initial configuration phase with variable set by the user.
-    set(${internal} "${${var}}" CACHE INTERNAL "Internal storage for ${var}")
-  elseif(NOT DEFINED ${internal})
-    # Initial configuration phase without variable set by the user.
-    set(${internal} "${parsed_VALUE}" CACHE INTERNAL "Internal storage for ${var}")
-  elseif(
-    DEFINED ${internal}
-    AND ${internal}_FORCED
-    AND NOT ${var} STREQUAL "${parsed_ELSE_VALUE}"
-  )
-    # Consecutive configuration phase that changes the variable after being
-    # re-enabled.
-    set(${internal} "${${var}}" CACHE INTERNAL "Internal storage for ${var}")
-  elseif(DEFINED ${internal} AND NOT ${internal}_FORCED)
-    # Consecutive configuration phase.
-    set(${internal} "${${var}}" CACHE INTERNAL "Internal storage for ${var}")
-  endif()
-
-  if(condition)
-    set(${var} "${${internal}}" CACHE ${parsed_TYPE} "${doc}" FORCE)
-    if(parsed_TYPE STREQUAL "STRING" AND parsed_CHOICES)
-      set_property(CACHE ${var} PROPERTY STRINGS ${parsed_CHOICES})
-    endif()
-    unset(${internal} CACHE)
-    unset(${internal}_FORCED CACHE)
-  else()
-    if(DEFINED parsed_ELSE_VALUE)
-      set(${var} "${parsed_ELSE_VALUE}" CACHE INTERNAL "${doc}")
-    else()
-      unset(${var} CACHE)
-    endif()
-    set(
-      ${internal}_FORCED
-      TRUE
-      CACHE INTERNAL
-      "Internal marker that ${var} has a forced value."
-    )
+  if(NOT ${varName} STREQUAL "${parsed_ELSE_VALUE}")
+    message(WARNING "${warning}")
   endif()
 endfunction()
