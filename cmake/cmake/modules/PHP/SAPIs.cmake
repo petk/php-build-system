@@ -22,10 +22,11 @@ php_sapis_add(subdirectory)
   configuration.
 #]=============================================================================]
 
+# Add subdirectories of PHP SAPIs. Macro enables variable scope of the current
+# CMakeLists.txt and adds ability to pass around directory variables.
 macro(php_sapis_add directory)
   _php_sapis_get(${directory} directories)
 
-  # Add subdirectories of PHP SAPIs.
   foreach(dir ${directories})
     cmake_path(GET dir FILENAME sapi)
     list(APPEND CMAKE_MESSAGE_CONTEXT "sapi/${sapi}")
@@ -38,10 +39,9 @@ macro(php_sapis_add directory)
     _php_sapis_post_configure("${dir}")
   endforeach()
 
-  _php_sapis_validate()
-
   unset(directories)
-  unset(sapis)
+
+  _php_sapis_validate()
 endmacro()
 
 # Get a list of subdirectories related to PHP SAPIs.

@@ -16,9 +16,9 @@ Check whether to enable Zend max execution timers.
 
 * `ZEND_MAX_EXECUTION_TIMERS`
 
-  A regular variable based on the cache variable and thread safety to be able to
+  A local variable based on the cache variable and thread safety to be able to
   run consecutive configuration runs. When `ZEND_MAX_EXECUTION_TIMERS` cache
-  variable is set to 'auto', regular variable default value is set to the
+  variable is set to 'auto', local variable default value is set to the
   `PHP_THREAD_SAFETY` value.
 
 ## INTERFACE IMPORTED library

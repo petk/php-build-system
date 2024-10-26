@@ -4,6 +4,13 @@ See: [Set.cmake](https://github.com/petk/php-build-system/tree/master/cmake/cmak
 
 Set a CACHE variable that depends on a set of conditions.
 
+> [!WARNING]
+> TODO: This module is still under review to determine its usefulness.
+> Dependent variables may seem convenient for the application but may create
+> difficulties for anyone troubleshooting why a configuration isn't applied,
+> even though a configuration value has been set. In the end, build system
+> configuration isn't aiming to provide a HTML-form-alike functionality.
+
 At the time of writing, there are 3 main ways in CMake to create non-internal
 cache variables that can be also customized from the outside using the `-D`
 command-line option, through CMake presets, or similar:
@@ -29,6 +36,7 @@ php_set(
   [CHOICES <string>...]
   [IF <condition> VALUE <value> [ELSE_VALUE <default>]] | [VALUE <value>]
   DOC <docstring>...
+  [WARNING <warning>]
 )
 ```
 
@@ -63,3 +71,7 @@ It sets a CACHE `<variable>` of `<type>` to a `<value>`.
 
 * `DOC` is a short variable help text visible in the GUIs. Multiple strings are
   joined together.
+
+* `WARNING` is optional text that is emitted when setting a variable from the
+  command line or CMake presets but its condition is not met. Otherwise, a
+  default warning is emitted.

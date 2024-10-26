@@ -58,7 +58,7 @@ of `<headers>`) and store the result in an internal cache variable
 * `LIBRARY_VARIABLE`
 
   When symbol is not found in the default libraries, the resulting library that
-  contains the symbol is stored in this regular variable name.
+  contains the symbol is stored in this local variable name.
 
 * `TARGET`
 

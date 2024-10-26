@@ -151,7 +151,7 @@ Variables are set using the `set()` command, where a value is assigned to a
 variable:
 
 ```cmake
-# A regular variable
+# A local variable
 set(foobar "value")
 
 # Cache variables are stored and persist across the entire build system
