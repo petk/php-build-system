@@ -46,3 +46,11 @@
 
 /* The highest supported ODBC version. */
 #cmakedefine ODBCVER @ODBCVER@
+
+/* Define to 1 to be able to use the wchar defs in the obsolete <sqlunix.h>
+   header file on some FreeBSD systems. */
+#cmakedefine SS_FBX 1
+
+/* Define to 1 to be able to use the obsolete <sqlunix.h> header file on some
+   Linux systems. */
+#cmakedefine SS_LINUX 1
