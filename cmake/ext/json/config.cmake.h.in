@@ -1,5 +1,7 @@
 /* Define to 1 if the PHP extension 'json' is built as a dynamic module. */
 #cmakedefine COMPILE_DL_JSON 1
 
-/* Define to 1 if the PHP extension 'json' is available. */
+/* Define to 1 if the PHP extension 'json' is available. Note that HAVE_JSON
+   has been always defined to 1 as of PHP 8.0 and removed as of PHP 8.4.
+   HAVE_JSON was never defined on Windows. */
 #cmakedefine HAVE_JSON 1

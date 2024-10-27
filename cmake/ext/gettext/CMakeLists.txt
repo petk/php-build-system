@@ -61,7 +61,7 @@ if(TARGET Intl::Intl)
     )
   endif()
 
-  set(HAVE_LIBINTL 1 CACHE INTERNAL "Whether gettext library is available")
+  set(HAVE_LIBINTL 1)
 
   check_library_exists(Intl::Intl ngettext "" HAVE_NGETTEXT)
   check_library_exists(Intl::Intl dngettext "" HAVE_DNGETTEXT)

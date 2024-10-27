@@ -111,7 +111,7 @@ if(EXT_SESSION_MM)
   target_link_libraries(php_session PUBLIC MM::MM)
 
   if(TARGET MM::MM)
-    set(HAVE_LIBMM 1 CACHE INTERNAL "Whether system has the libmm library.")
+    set(HAVE_LIBMM 1)
   endif()
 endif()
 

@@ -55,10 +55,8 @@ if(RE2C_FOUND)
   )
 endif()
 
-# HAVE_JSON is always 1 as of php 8.0 and the constant will be removed in the
-# future. Note that HAVE_JSON was never defined for Windows builds.
 if(NOT CMAKE_SYSTEM_NAME STREQUAL "Windows")
-  set(HAVE_JSON 1 CACHE INTERNAL "Whether to enable the json extension.")
+  set(HAVE_JSON 1)
 endif()
 
 configure_file(config.cmake.h.in config.h @ONLY)

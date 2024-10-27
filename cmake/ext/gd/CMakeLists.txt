@@ -213,23 +213,12 @@ if(NOT EXT_GD_EXTERNAL)
           libgd/wbmp.h
   )
 
-  set(HAVE_GD_BUNDLED 1 CACHE INTERNAL "Whether the bundled libgd is used")
+  set(HAVE_GD_BUNDLED 1)
 
   # With bundled GD library these are always available.
-  set(
-    HAVE_GD_PNG 1
-    CACHE INTERNAL "Whether the PNG functionality can be used with libgd"
-  )
-
-  set(
-    HAVE_GD_BMP 1
-    CACHE INTERNAL "Whether the BMP functionality can be used with libgd"
-  )
-
-  set(
-    HAVE_GD_TGA 1
-    CACHE INTERNAL "Whether the TGA functionality can be used with libgd"
-  )
+  set(HAVE_GD_PNG 1)
+  set(HAVE_GD_BMP 1)
+  set(HAVE_GD_TGA 1)
 
   target_compile_definitions(
     php_gd
@@ -279,7 +268,7 @@ if(NOT EXT_GD_EXTERNAL)
 
   target_link_libraries(php_gd PRIVATE PNG::PNG)
 
-  set(HAVE_LIBPNG 1 CACHE INTERNAL "Whether the libpng is available")
+  set(HAVE_LIBPNG 1)
 
   if(EXT_GD_AVIF)
     find_package(libavif 0.8.2)
@@ -292,8 +281,8 @@ if(NOT EXT_GD_EXTERNAL)
 
     target_link_libraries(php_gd PRIVATE libavif::libavif)
 
-    set(HAVE_LIBAVIF 1 CACHE INTERNAL "Whether the libavif is available")
-    set(HAVE_GD_AVIF 1 CACHE INTERNAL "Whether the AVIF support is enabled")
+    set(HAVE_LIBAVIF 1)
+    set(HAVE_GD_AVIF 1)
   endif()
 
   if(EXT_GD_WEBP)
@@ -307,8 +296,8 @@ if(NOT EXT_GD_EXTERNAL)
 
     target_link_libraries(php_gd PRIVATE WebP::WebP)
 
-    set(HAVE_LIBWEBP 1 CACHE INTERNAL "Whether the libwebp is available")
-    set(HAVE_GD_WEBP 1 CACHE INTERNAL "Whether the WebP support is enabled")
+    set(HAVE_LIBWEBP 1)
+    set(HAVE_GD_WEBP 1)
   endif()
 
   if(EXT_GD_JPEG)
@@ -322,8 +311,8 @@ if(NOT EXT_GD_EXTERNAL)
 
     target_link_libraries(php_gd PRIVATE JPEG::JPEG)
 
-    set(HAVE_LIBJPEG 1 CACHE INTERNAL "Whether the libjpeg is available")
-    set(HAVE_GD_JPG 1 CACHE INTERNAL "Whether the JPEG support is enabled")
+    set(HAVE_LIBJPEG 1)
+    set(HAVE_GD_JPG 1)
   endif()
 
   if(EXT_GD_XPM)
@@ -337,8 +326,8 @@ if(NOT EXT_GD_EXTERNAL)
 
     target_link_libraries(php_gd PRIVATE XPM::XPM)
 
-    set(HAVE_XPM 1 CACHE INTERNAL "Whether the libXpm library is available")
-    set(HAVE_GD_XPM 1 CACHE INTERNAL "Whether the XPM support is enabled")
+    set(HAVE_XPM 1)
+    set(HAVE_GD_XPM 1)
   endif()
 
   if(EXT_GD_FREETYPE)
@@ -352,27 +341,13 @@ if(NOT EXT_GD_EXTERNAL)
 
     target_link_libraries(php_gd PRIVATE Freetype::Freetype)
 
-    set(
-      HAVE_LIBFREETYPE 1
-      CACHE INTERNAL "Whether the FreeType library is available"
-    )
-
-    set(
-      HAVE_GD_FREETYPE 1
-      CACHE INTERNAL "Whether the FreeType support is enabled"
-    )
+    set(HAVE_LIBFREETYPE 1)
+    set(HAVE_GD_FREETYPE 1)
   endif()
 
   if(EXT_GD_JIS)
-    set(
-      JISX0208 1
-      CACHE INTERNAL "Whether the JIS-mapped Japanese font support is available"
-    )
-
-    set(
-      USE_GD_JISX0208 1
-      CACHE INTERNAL "Whether the JIS-mapped Japanese font support is enabled"
-    )
+    set(JISX0208 1)
+    set(USE_GD_JISX0208 1)
   endif()
 
   # Do sanity check when all required packages are found.

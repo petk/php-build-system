@@ -93,10 +93,7 @@ if(EXT_MYSQL_SOCKET)
 endif()
 
 if(MySQL_Socket_PATH)
-  set(
-    PHP_MYSQL_UNIX_SOCK_ADDR "${MySQL_Socket_PATH}"
-    CACHE INTERNAL "The MySQL Unix socket location."
-  )
+  set(PHP_MYSQL_UNIX_SOCK_ADDR "${MySQL_Socket_PATH}")
 endif()
 
 if(NOT EXT_PDO_MYSQL_DRIVER STREQUAL "mysql")

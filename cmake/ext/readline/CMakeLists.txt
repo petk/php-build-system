@@ -109,10 +109,7 @@ if(NOT EXT_READLINE_LIBREADLINE)
     )
   endif()
 
-  set(
-    HAVE_LIBEDIT 1
-    CACHE INTERNAL "Whether Editline is used for readline extension"
-  )
+  set(HAVE_LIBEDIT 1)
 else()
   message(
     WARNING
@@ -179,14 +176,8 @@ else()
     )
   endif()
 
-  set(
-    HAVE_HISTORY_LIST 1
-    CACHE INTERNAL "Whether Readline library has history_list"
-  )
-  set(
-    HAVE_LIBREADLINE 1
-    CACHE INTERNAL "Whether Readline is used for readline extension"
-  )
+  set(HAVE_HISTORY_LIST 1)
+  set(HAVE_LIBREADLINE 1)
 endif()
 
 configure_file(config.cmake.h.in config.h @ONLY)

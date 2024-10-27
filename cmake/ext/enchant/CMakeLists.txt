@@ -49,10 +49,7 @@ set_package_properties(
 )
 
 if(Enchant_FOUND)
-  set(
-    HAVE_ENCHANT_GET_VERSION 1
-    CACHE INTERNAL "enchant_get_version since 1.6.0"
-  )
+  set(HAVE_ENCHANT_GET_VERSION 1)
 else()
   message(WARNING "Library Enchant 2 not found, trying with Enchant 1")
 

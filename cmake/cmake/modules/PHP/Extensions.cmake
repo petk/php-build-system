@@ -49,8 +49,7 @@ php_extensions_add(subdirectory)
 * `PHP_ALWAYS_ENABLED_EXTENSIONS`
 
   This global property contains a list of always enabled PHP extensions which
-  don't need the `HAVE_<extension-name>` preprocessor macros defined in the PHP
-  configuration header and can be considered as part of the core PHP engine.
+  can be considered part of the core PHP engine.
 
 * `PHP_EXTENSIONS`
 
@@ -669,13 +668,6 @@ function(_php_extensions_post_configure directory)
   if(extension IN_LIST extensions)
     return()
   endif()
-
-  # Define HAVE_<extension-name> symbol for php_config.h.
-  string(TOUPPER "HAVE_${extension}" symbol)
-  set(
-    ${symbol} 1
-    CACHE INTERNAL "Whether to enable the PHP extension '${extension}'."
-  )
 
   get_target_property(extension_type php_${extension} TYPE)
 

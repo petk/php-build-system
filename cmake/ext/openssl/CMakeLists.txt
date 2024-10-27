@@ -55,14 +55,7 @@ add_feature_info(
   "Using system default cipher list instead of hardcoded value for OpenSSL"
 )
 
-# There is a platform symbol definition inconsistency that is being addressed:
-# https://github.com/php/php-src/pull/14333. The HAVE_OPENSS_EXT on Windows is
-# defined to 0/1 value based on the openssl extension built as shared or
-# statically, elsewhere it is defined to value 1.
-set(
-  HAVE_OPENSSL_EXT "/* #undef HAVE_OPENSSL_EXT */"
-  CACHE INTERNAL "Whether the openssl extension is available"
-)
+set(HAVE_OPENSSL_EXT "/* #undef HAVE_OPENSSL_EXT */")
 
 if(NOT EXT_OPENSSL)
   return()
@@ -85,8 +78,8 @@ target_sources(
 if(EXT_OPENSSL_KERBEROS)
   message(
     DEPRECATION
-    "Support for Kerberos in the openssl extension is deprecated. Kerberos has "
-    "been removed as of OpenSSL 1.1.0 upstream library."
+    "Support for Kerberos in the PHP openssl extension is deprecated. Kerberos "
+    "has been removed as of OpenSSL 1.1.0 upstream library."
   )
 
   find_package(Kerberos COMPONENTS Krb5 GSSAPI)
@@ -111,21 +104,15 @@ set_package_properties(
 # Link publicly for internal_functions files.
 target_link_libraries(php_openssl PUBLIC OpenSSL::SSL OpenSSL::Crypto)
 
-block()
-  set_property(
-    CACHE HAVE_OPENSSL_EXT
-    PROPERTY VALUE "#define HAVE_OPENSSL_EXT 1"
-  )
-
+block(PROPAGATE HAVE_OPENSSL_EXT)
   get_target_property(type php_openssl TYPE)
   if(
     CMAKE_SYSTEM_NAME STREQUAL "Windows" AND
     type MATCHES "^(MODULE|SHARED)_LIBRARY$"
   )
-    set_property(
-      CACHE HAVE_OPENSSL_EXT
-      PROPERTY VALUE "#define HAVE_OPENSSL_EXT 0"
-    )
+    set(HAVE_OPENSSL_EXT "#define HAVE_OPENSSL_EXT 0")
+  else()
+    set(HAVE_OPENSSL_EXT "#define HAVE_OPENSSL_EXT 1")
   endif()
 endblock()
 
@@ -136,10 +123,7 @@ if(TARGET OpenSSL::SSL)
   cmake_pop_check_state()
 
   if(EXT_OPENSSL_SYSTEM_CIPHERS)
-    set(
-      USE_OPENSSL_SYSTEM_CIPHERS 1
-      CACHE INTERNAL "Whether to use system default cipher list instead of hardcoded value"
-    )
+    set(USE_OPENSSL_SYSTEM_CIPHERS 1)
   endif()
 endif()
 

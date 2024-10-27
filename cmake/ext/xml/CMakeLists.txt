@@ -101,7 +101,7 @@ else()
 
   target_link_libraries(php_xml PRIVATE EXPAT::EXPAT)
 
-  set(HAVE_LIBEXPAT 1 CACHE INTERNAL "Whether libexpat is used")
+  set(HAVE_LIBEXPAT 1)
 endif()
 
 set(HAVE_XML 1)
