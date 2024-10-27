@@ -88,4 +88,3 @@
 
 /* The Tokyo Cabinet handler header file. */
 #cmakedefine TCADB_INCLUDE_FILE "@TCADB_INCLUDE_FILE@"
-
