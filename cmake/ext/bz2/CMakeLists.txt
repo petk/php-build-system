@@ -1,3 +1,8 @@
+project(
+  PhpExtensionBz2
+  LANGUAGES C
+)
+
 include(CheckLibraryExists)
 include(CMakeDependentOption)
 include(FeatureSummary)
@@ -66,3 +71,7 @@ if(TARGET BZip2::BZip2)
     )
   endif()
 endif()
+
+set(HAVE_BZ2 1)
+
+configure_file(config.cmake.h.in config.h @ONLY)

@@ -1,3 +1,8 @@
+project(
+  PhpExtensionGettext
+  LANGUAGES C
+)
+
 include(CheckLibraryExists)
 include(CMakeDependentOption)
 include(FeatureSummary)
@@ -63,3 +68,5 @@ if(TARGET Intl::Intl)
   check_library_exists(Intl::Intl dcngettext "" HAVE_DCNGETTEXT)
   check_library_exists(Intl::Intl bind_textdomain_codeset "" HAVE_BIND_TEXTDOMAIN_CODESET)
 endif()
+
+configure_file(config.cmake.h.in config.h @ONLY)

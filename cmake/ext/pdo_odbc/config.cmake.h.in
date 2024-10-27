@@ -1,0 +1,57 @@
+/* Define to 1 if the PHP extension 'pdo_odbc' is built as a dynamic module.
+   */
+#cmakedefine COMPILE_DL_PDO_ODBC 1
+
+/* Define to 1 if you have the <cli0cli.h> header file. */
+#cmakedefine HAVE_CLI0CLI_H 1
+
+/* Define to 1 if you have the <cli0core.h> header file. */
+#cmakedefine HAVE_CLI0CORE_H 1
+
+/* Define to 1 if you have the <cli0defs.h> header file. */
+#cmakedefine HAVE_CLI0DEFS_H 1
+
+/* Define to 1 if you have the <cli0env.h> header file. */
+#cmakedefine HAVE_CLI0ENV_H 1
+
+/* Define to 1 if you have the <cli0ext.h> header file. */
+#cmakedefine HAVE_CLI0EXT_H 1
+
+/* Define to 1 if you have the <iodbc.h> header file. */
+#cmakedefine HAVE_IODBC_H 1
+
+/* Define to 1 if you have the <isql.h> header file. */
+#cmakedefine HAVE_ISQL_H 1
+
+/* Define to 1 if you have the <isqlext.h> header file. */
+#cmakedefine HAVE_ISQLEXT_H 1
+
+/* Define to 1 if you have the <LibraryManager.h> header file. */
+#cmakedefine HAVE_LIBRARYMANAGER_H 1
+
+/* Define to 1 if you have the <odbc.h> header file. */
+#cmakedefine HAVE_ODBC_H 1
+
+/* Define to 1 if you have the <sql.h> header file. */
+#cmakedefine HAVE_SQL_H 1
+
+/* Define to 1 if you have the <sqlcli1.h> header file. */
+#cmakedefine HAVE_SQLCLI1_H 1
+
+/* Define to 1 if you have the <sqlext.h> header file. */
+#cmakedefine HAVE_SQLEXT_H 1
+
+/* Define to 1 if you have the <sqltypes.h> header file. */
+#cmakedefine HAVE_SQLTYPES_H 1
+
+/* Define to 1 if you have the <sqlucode.h> header file. */
+#cmakedefine HAVE_SQLUCODE_H 1
+
+/* Define to 1 if you have the <sqlunix.h> header file. */
+#cmakedefine HAVE_SQLUNIX_H 1
+
+/* Define to 1 if you have the <udbcext.h> header file. */
+#cmakedefine HAVE_UDBCEXT_H 1
+
+/* Define to the ODBC driver or driver manager value. */
+#cmakedefine PDO_ODBC_TYPE "@PDO_ODBC_TYPE@"

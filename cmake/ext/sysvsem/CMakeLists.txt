@@ -1,3 +1,8 @@
+project(
+  PhpExtensionSysVsem
+  LANGUAGES C
+)
+
 # Extension is only for *nix systems.
 if(CMAKE_SYSTEM_NAME STREQUAL "Windows")
   return()
@@ -45,3 +50,7 @@ cmake_push_check_state(RESET)
   set(CMAKE_EXTRA_INCLUDE_FILES "sys/types.h;sys/ipc.h;sys/sem.h")
   check_type_size("union semun" UNION_SEMUN)
 cmake_pop_check_state()
+
+set(HAVE_SYSVSEM 1)
+
+configure_file(config.cmake.h.in config.h @ONLY)

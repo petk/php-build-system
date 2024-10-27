@@ -1,3 +1,8 @@
+project(
+  PhpExtensionPdoDblib
+  LANGUAGES C
+)
+
 include(CMakeDependentOption)
 include(FeatureSummary)
 
@@ -60,3 +65,5 @@ set_package_properties(
 )
 
 target_link_libraries(php_pdo_dblib PRIVATE FreeTDS::FreeTDS)
+
+configure_file(config.cmake.h.in config.h @ONLY)

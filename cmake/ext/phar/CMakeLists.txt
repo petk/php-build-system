@@ -1,3 +1,8 @@
+project(
+  PhpExtensionPhar
+  LANGUAGES C
+)
+
 include(CMakeDependentOption)
 include(FeatureSummary)
 
@@ -250,3 +255,5 @@ install(CODE "
     SYMBOLIC
   )
 ")
+
+configure_file(config.cmake.h.in config.h @ONLY)

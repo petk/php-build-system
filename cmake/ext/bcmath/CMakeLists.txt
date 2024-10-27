@@ -1,3 +1,8 @@
+project(
+  PhpExtensionBcMath
+  LANGUAGES C
+)
+
 include(CMakeDependentOption)
 include(FeatureSummary)
 
@@ -58,3 +63,7 @@ target_sources(
 )
 
 target_compile_definitions(php_bcmath PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE=1)
+
+set(HAVE_BCMATH 1)
+
+configure_file(config.cmake.h.in config.h @ONLY)

@@ -1,3 +1,8 @@
+project(
+  PhpExtensionSodium
+  LANGUAGES C
+)
+
 include(CMakeDependentOption)
 include(FeatureSummary)
 include(PHP/CheckCompilerFlag)
@@ -64,4 +69,6 @@ if(CMAKE_SIZEOF_VOID_P EQUAL 4)
   endif()
 endif()
 
-set(HAVE_LIBSODIUMLIB 1 CACHE INTERNAL "Whether the sodium is available.")
+set(HAVE_LIBSODIUMLIB 1)
+
+configure_file(config.cmake.h.in config.h @ONLY)

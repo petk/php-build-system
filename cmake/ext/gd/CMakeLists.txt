@@ -1,3 +1,8 @@
+project(
+  PhpExtensionGd
+  LANGUAGES C
+)
+
 include(CheckLibraryExists)
 include(CheckSourceCompiles)
 include(CheckSourceRuns)
@@ -484,3 +489,5 @@ else()
     )
   endif()
 endif()
+
+configure_file(config.cmake.h.in config.h @ONLY)

@@ -1,0 +1,24 @@
+/* Define to 1 if the PHP extension 'readline' is built as a dynamic module.
+   */
+#cmakedefine COMPILE_DL_READLINE 1
+
+/* Define to 1 if edit/readline library has the 'rl_erase_empty_line' global
+   variable. */
+#cmakedefine HAVE_ERASE_EMPTY_LINE 1
+
+/* Define to 1 if edit/readline library has the 'history_list' function. */
+#cmakedefine HAVE_HISTORY_LIST 1
+
+/* Define to 1 if readline extension uses the 'libedit' library. */
+#cmakedefine HAVE_LIBEDIT 1
+
+/* Define to 1 if edit/readline library has the 'rl_callback_read_char'
+   function. */
+#cmakedefine HAVE_RL_CALLBACK_READ_CHAR 1
+
+/* Define to 1 if edit/readline library has the 'rl_completion_matches'
+   function. */
+#cmakedefine HAVE_RL_COMPLETION_MATCHES 1
+
+/* Define to 1 if edit/readline library has the 'rl_on_new_line' function. */
+#cmakedefine HAVE_RL_ON_NEW_LINE 1

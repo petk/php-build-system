@@ -1,0 +1,5 @@
+/* Define to 1 if the PHP extension 'soap' is built as a dynamic module. */
+#cmakedefine COMPILE_DL_SOAP 1
+
+/* Define to 1 if the PHP extension 'soap' is available. */
+#cmakedefine HAVE_SOAP 1

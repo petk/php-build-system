@@ -1,0 +1,5 @@
+/* Define to 1 if the PHP extension 'sysvshm' is built as a dynamic module. */
+#cmakedefine COMPILE_DL_SYSVSHM 1
+
+/* Define to 1 if the PHP extension 'sysvshm' is available. */
+#cmakedefine HAVE_SYSVSHM 1

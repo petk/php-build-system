@@ -1,3 +1,8 @@
+project(
+  PhpExtensionSysVshm
+  LANGUAGES C
+)
+
 include(CMakeDependentOption)
 include(FeatureSummary)
 
@@ -33,3 +38,7 @@ target_sources(
     sysvshm.c
     sysvshm.stub.php
 )
+
+set(HAVE_SYSVSHM 1)
+
+configure_file(config.cmake.h.in config.h @ONLY)

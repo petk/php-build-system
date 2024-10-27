@@ -1,0 +1,2 @@
+/* Define to 1 if the PHP extension 'dl_test' is built as a dynamic module. */
+#cmakedefine COMPILE_DL_DL_TEST 1

@@ -1,3 +1,8 @@
+project(
+  PhpExtensionJson
+  LANGUAGES C
+)
+
 include(FeatureSummary)
 
 add_feature_info(
@@ -49,3 +54,5 @@ if(RE2C_FOUND)
     OPTIONS -bc
   )
 endif()
+
+configure_file(config.cmake.h.in config.h @ONLY)

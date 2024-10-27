@@ -1,0 +1,32 @@
+/* Define to 1 if the PHP extension 'ffi' is built as a dynamic module. */
+#cmakedefine COMPILE_DL_FFI 1
+
+/* Define to 1 if the PHP extension 'ffi' is available. */
+#cmakedefine HAVE_FFI 1
+
+/* Define to 1 if libffi supports the 'FFI_FASTCALL' calling convention. */
+#cmakedefine HAVE_FFI_FASTCALL 1
+
+/* Define to 1 if libffi supports the 'FFI_MS_CDECL' calling convention. */
+#cmakedefine HAVE_FFI_MS_CDECL 1
+
+/* Define to 1 if libffi supports the 'FFI_PASCAL' calling convention. */
+#cmakedefine HAVE_FFI_PASCAL 1
+
+/* Define to 1 if libffi supports the 'FFI_REGISTER' calling convention. */
+#cmakedefine HAVE_FFI_REGISTER 1
+
+/* Define to 1 if libffi supports the 'FFI_STDCALL' calling convention. */
+#cmakedefine HAVE_FFI_STDCALL 1
+
+/* Define to 1 if libffi supports the 'FFI_SYSV' calling convention. */
+#cmakedefine HAVE_FFI_SYSV 1
+
+/* Define to 1 if libffi supports the 'FFI_THISCALL' calling convention. */
+#cmakedefine HAVE_FFI_THISCALL 1
+
+/* Define to 1 if libffi supports the 'FFI_VECTORCALL' calling convention. */
+#cmakedefine HAVE_FFI_VECTORCALL_PARTIAL 1
+
+/* Define to 1 if the system has the type 'long double'. */
+#cmakedefine HAVE_LONG_DOUBLE 1

@@ -1,3 +1,8 @@
+project(
+  PhpExtensionStandard
+  LANGUAGES C
+)
+
 include(CheckIncludeFile)
 include(CheckIncludeFiles)
 include(CheckSourceCompiles)
@@ -233,7 +238,7 @@ if(EXT_STANDARD_ARGON2)
 
   target_link_libraries(php_standard PRIVATE Argon2::Argon2)
 
-  set(HAVE_ARGON2LIB 1 CACHE INTERNAL "Whether to use the libargon2")
+  set(HAVE_ARGON2LIB 1)
 endif()
 
 ################################################################################
@@ -347,40 +352,6 @@ include(PHP/CheckFnmatch)
 # ext/standard/php_dns.h will collect these in a single define
 # HAVE_FULL_DNS_FUNCS.
 php_search_libraries(
-  res_nsearch
-  HAVE_RES_NSEARCH
-  HEADERS
-    netinet/in.h # BSD-based systems (FreeBSD<=13) need it for resolv.h to work.
-    resolv.h
-  LIBRARIES
-    resolv # Solaris/illumos
-  TARGET php_standard PRIVATE
-)
-
-php_search_libraries(
-  res_ndestroy
-  HAVE_RES_NDESTROY
-  HEADERS
-    netinet/in.h # BSD-based systems (FreeBSD<=13) need it for resolv.h to work.
-    resolv.h
-  LIBRARIES
-    resolv # Solaris/illumos
-  TARGET php_standard PRIVATE
-)
-
-php_search_libraries(
-  dns_search
-  HAVE_DNS_SEARCH
-  HEADERS
-    netinet/in.h # BSD-based systems (FreeBSD<=13) need it for resolv.h to work.
-    resolv.h
-    dns.h        # macOS
-  LIBRARIES
-    resolv # Solaris/illumos, macOS
-  TARGET php_standard PRIVATE
-)
-
-php_search_libraries(
   dn_expand
   HAVE_DN_EXPAND
   HEADERS
@@ -412,6 +383,40 @@ php_search_libraries(
     resolv.h
   LIBRARIES
     resolv # macOS
+  TARGET php_standard PRIVATE
+)
+
+php_search_libraries(
+  dns_search
+  HAVE_DNS_SEARCH
+  HEADERS
+    netinet/in.h # BSD-based systems (FreeBSD<=13) need it for resolv.h to work.
+    resolv.h
+    dns.h        # macOS
+  LIBRARIES
+    resolv # Solaris/illumos, macOS
+  TARGET php_standard PRIVATE
+)
+
+php_search_libraries(
+  res_ndestroy
+  HAVE_RES_NDESTROY
+  HEADERS
+    netinet/in.h # BSD-based systems (FreeBSD<=13) need it for resolv.h to work.
+    resolv.h
+  LIBRARIES
+    resolv # Solaris/illumos
+  TARGET php_standard PRIVATE
+)
+
+php_search_libraries(
+  res_nsearch
+  HAVE_RES_NSEARCH
+  HEADERS
+    netinet/in.h # BSD-based systems (FreeBSD<=13) need it for resolv.h to work.
+    resolv.h
+  LIBRARIES
+    resolv # Solaris/illumos
   TARGET php_standard PRIVATE
 )
 
@@ -477,3 +482,5 @@ endblock()
 # TODO: Check whether to enable the chroot() function by checking which SAPI is
 # being built.
 set(ENABLE_CHROOT_FUNC 1 CACHE INTERNAL "Whether to enable chroot() function")
+
+configure_file(config.cmake.h.in config.h @ONLY)

@@ -1,0 +1,6 @@
+/* Define to 1 if the PHP extension 'simplexml' is built as a dynamic module.
+   */
+#cmakedefine COMPILE_DL_SIMPLEXML 1
+
+/* Define to 1 if the PHP extension 'simplexml' is available. */
+#cmakedefine HAVE_SIMPLEXML 1

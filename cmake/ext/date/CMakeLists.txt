@@ -1,3 +1,8 @@
+project(
+  PhpExtensionDate
+  LANGUAGES C
+)
+
 include(CheckIncludeFile)
 include(FeatureSummary)
 
@@ -78,3 +83,5 @@ file(WRITE ${CMAKE_CURRENT_BINARY_DIR}/lib/timelib_config.h [[
 #define timelib_strndup estrndup
 #define timelib_free    efree
 ]])
+
+configure_file(config.cmake.h.in config.h @ONLY)

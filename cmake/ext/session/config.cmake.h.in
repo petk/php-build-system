@@ -1,0 +1,8 @@
+/* Define to 1 if the PHP extension 'session' is built as a dynamic module. */
+#cmakedefine COMPILE_DL_SESSION 1
+
+/* Define to 1 if the system has the 'mm' library. */
+#cmakedefine HAVE_LIBMM 1
+
+/* Define to 1 if the PHP extension 'session' is available. */
+#cmakedefine HAVE_PHP_SESSION 1

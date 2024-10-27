@@ -1,3 +1,8 @@
+project(
+  PhpExtensionLdap
+  LANGUAGES C
+)
+
 include(CheckSourceCompiles)
 include(CheckSymbolExists)
 include(CMakeDependentOption)
@@ -105,3 +110,7 @@ if(EXT_LDAP_SASL)
 
   set(HAVE_LDAP_SASL 1 CACHE INTERNAL "Whether LDAP has SASL support")
 endif()
+
+set(HAVE_LDAP 1)
+
+configure_file(config.cmake.h.in config.h @ONLY)

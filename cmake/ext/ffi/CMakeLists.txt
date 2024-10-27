@@ -1,3 +1,8 @@
+project(
+  PhpExtensionFfi
+  LANGUAGES C
+)
+
 include(CheckSymbolExists)
 include(CheckTypeSize)
 include(CMakeDependentOption)
@@ -72,3 +77,7 @@ if(TARGET FFI::FFI)
     )
   cmake_pop_check_state()
 endif()
+
+set(HAVE_FFI 1)
+
+configure_file(config.cmake.h.in config.h @ONLY)

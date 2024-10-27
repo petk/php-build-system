@@ -1,0 +1,19 @@
+/* Define to 1 if the PHP extension 'openssl' is built as a dynamic module. */
+#cmakedefine COMPILE_DL_OPENSSL 1
+
+/* Define to 1 if the PHP extension 'openssl' is available. */
+#cmakedefine HAVE_OPENSSL_EXT 1
+
+/* Define to 1 if OpenSSL crypto library has the 'RAND_egd' function. */
+#cmakedefine HAVE_RAND_EGD 1
+
+/* Define to 1 to enable OpenSSL argon2 password hashing. */
+#cmakedefine HAVE_OPENSSL_ARGON2 1
+
+/* Define to 1 to load the OpenSSL legacy algorithm provider in addition to
+   the default provider. */
+#cmakedefine LOAD_OPENSSL_LEGACY_PROVIDER 1
+
+/* Define to 1 to use system default cipher list instead of the hardcoded
+   value in OpenSSL. */
+#cmakedefine USE_OPENSSL_SYSTEM_CIPHERS 1

@@ -1,3 +1,8 @@
+project(
+  PhpExtensionCurl
+  LANGUAGES C
+)
+
 include(CheckIncludeFile)
 include(CheckLibraryExists)
 include(CheckSourceRuns)
@@ -152,3 +157,7 @@ if(TARGET CURL::libcurl)
     )
   endif()
 endif()
+
+set(HAVE_CURL 1)
+
+configure_file(config.cmake.h.in config.h @ONLY)

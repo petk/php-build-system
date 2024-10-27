@@ -1,3 +1,8 @@
+project(
+  PhpExtensionTokenizer
+  LANGUAGES C
+)
+
 include(CMakeDependentOption)
 include(FeatureSummary)
 include(PHP/AddCustomCommand)
@@ -55,3 +60,7 @@ php_add_custom_command(
     "[ext/tokenizer] Regenerating tokenizer_data.c and tokenizer_data.stub.php"
   VERBATIM
 )
+
+set(HAVE_TOKENIZER 1)
+
+configure_file(config.cmake.h.in config.h @ONLY)

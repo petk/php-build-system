@@ -1,0 +1,85 @@
+/* Define to 1 if the PHP extension 'pcntl' is built as a dynamic module. */
+#cmakedefine COMPILE_DL_PCNTL 1
+
+/* Define to 1 if you have the declaration of 'P_ALL', and to 0 if you don't.
+   */
+#cmakedefine01 HAVE_DECL_P_ALL
+
+/* Define to 1 if you have the declaration of 'P_JAILID', and to 0 if you
+   don't. */
+#cmakedefine01 HAVE_DECL_P_JAILID
+
+/* Define to 1 if you have the declaration of 'P_PIDFD', and to 0 if you
+   don't. */
+#cmakedefine01 HAVE_DECL_P_PIDFD
+
+/* Define to 1 if you have the declaration of 'P_UID', and to 0 if you don't.
+   */
+#cmakedefine01 HAVE_DECL_P_UID
+
+/* Define to 1 if you have the declaration of 'WCONTINUED', and to 0 if you
+   don't. */
+#cmakedefine01 HAVE_DECL_WCONTINUED
+
+/* Define to 1 if you have the declaration of 'WEXITED', and to 0 if you
+   don't. */
+#cmakedefine01 HAVE_DECL_WEXITED
+
+/* Define to 1 if you have the declaration of 'WNOWAIT', and to 0 if you
+   don't. */
+#cmakedefine01 HAVE_DECL_WNOWAIT
+
+/* Define to 1 if you have the declaration of 'WSTOPPED', and to 0 if you
+   don't. */
+#cmakedefine01 HAVE_DECL_WSTOPPED
+
+/* Define to 1 if you have the 'forkx' function. */
+#cmakedefine HAVE_FORKX 1
+
+/* Define to 1 if you have the 'getcpuid' function. */
+#cmakedefine HAVE_GETCPUID 1
+
+/* Define to 1 if you have the 'getpriority' function. */
+#cmakedefine HAVE_GETPRIORITY 1
+
+/* Define to 1 if you have the 'pidfd_open' function. */
+#cmakedefine HAVE_PIDFD_OPEN 1
+
+/* Define to 1 if you have the 'pset_bind' function. */
+#cmakedefine HAVE_PSET_BIND 1
+
+/* Define to 1 if you have the 'pthread_set_qos_class_self_np' function. */
+#cmakedefine HAVE_PTHREAD_SET_QOS_CLASS_SELF_NP 1
+
+/* Define to 1 if you have the 'rfork' function. */
+#cmakedefine HAVE_RFORK 1
+
+/* Define to 1 if the 'sched_getcpu' function is properly supported. */
+#cmakedefine HAVE_SCHED_GETCPU 1
+
+/* Define to 1 if you have the 'sched_setaffinity' function. */
+#cmakedefine HAVE_SCHED_SETAFFINITY 1
+
+/* Define to 1 if you have the 'setpriority' function. */
+#cmakedefine HAVE_SETPRIORITY 1
+
+/* Define to 1 if you have the 'sigtimedwait' function. */
+#cmakedefine HAVE_SIGTIMEDWAIT 1
+
+/* Define to 1 if you have the 'sigwaitinfo' function. */
+#cmakedefine HAVE_SIGWAITINFO 1
+
+/* Define to 1 if you have the 'unshare' function. */
+#cmakedefine HAVE_UNSHARE 1
+
+/* Define to 1 if you have the 'wait3' function. */
+#cmakedefine HAVE_WAIT3 1
+
+/* Define to 1 if you have the 'wait4' function. */
+#cmakedefine HAVE_WAIT4 1
+
+/* Define to 1 if you have the 'waitid' function. */
+#cmakedefine HAVE_WAITID 1
+
+/* Define to 1 if you have the 'WIFCONTINUED' function. */
+#cmakedefine HAVE_WIFCONTINUED 1

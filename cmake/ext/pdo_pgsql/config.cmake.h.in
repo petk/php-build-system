@@ -1,0 +1,14 @@
+/* Define to 1 if the PHP extension 'pdo_pgsql' is built as a dynamic module.
+   */
+#cmakedefine COMPILE_DL_PDO_PGSQL 1
+
+/* Define to 1 if the PHP extension 'pdo_pgsql' is available. */
+#cmakedefine HAVE_PDO_PGSQL 1
+
+/* Define to 1 if libpq has the 'PQresultMemorySize' function (PostgreSQL 12
+   or later). */
+#cmakedefine HAVE_PG_RESULT_MEMORY_SIZE 1
+
+/* Define to 1 if libpq has the 'PQclosePrepared' function (PostgreSQL 17 or
+   later). */
+#cmakedefine HAVE_PQCLOSEPREPARED 1
