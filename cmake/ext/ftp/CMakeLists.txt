@@ -65,13 +65,21 @@ function(php_ftp_post_configuration)
 
     target_link_libraries(php_ftp PRIVATE OpenSSL::SSL)
 
-    set(HAVE_FTP_SSL 1 CACHE INTERNAL "Whether FTP over SSL is enabled")
+    set(HAVE_FTP_SSL 1)
   endif()
 
   add_feature_info(
     "ext/ftp SSL"
     HAVE_FTP_SSL
     "FTP over SSL support"
+  )
+
+  set(HAVE_FTP 1)
+
+  configure_file(
+    ${PhpExtensionFtp_SOURCE_DIR}/config.cmake.h.in
+    ${PhpExtensionFtp_BINARY_DIR}/config.h
+    @ONLY
   )
 endfunction()
 
@@ -81,7 +89,3 @@ cmake_language(
     DIRECTORY ${PHP_SOURCE_DIR}
   CALL php_ftp_post_configuration
 )
-
-set(HAVE_FTP 1)
-
-configure_file(config.cmake.h.in config.h @ONLY)

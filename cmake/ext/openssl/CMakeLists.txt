@@ -116,18 +116,11 @@ if(TARGET OpenSSL::SSL)
     OPENSSL_VERSION VERSION_GREATER_EQUAL 3
     AND EXT_OPENSSL_LEGACY_PROVIDER
   )
-    set(
-      LOAD_OPENSSL_LEGACY_PROVIDER 1
-      CACHE INTERNAL
-      "Load legacy algorithm provider in addition to default provider"
-    )
+    set(LOAD_OPENSSL_LEGACY_PROVIDER 1)
   endif()
 
   if(EXT_OPENSSL_SYSTEM_CIPHERS)
-    set(
-      USE_OPENSSL_SYSTEM_CIPHERS 1
-      CACHE INTERNAL "Whether to use system default cipher list instead of hardcoded value"
-    )
+    set(USE_OPENSSL_SYSTEM_CIPHERS 1)
   endif()
 
   if(EXT_OPENSSL_ARGON2)

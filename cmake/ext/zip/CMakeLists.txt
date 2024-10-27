@@ -77,7 +77,7 @@ if(
 )
   # TODO: Adjust this if the libzip is a static library.
   if(TODO)
-    set(ZIP_STATIC 1 CACHE INTERNAL "Whether the libzip is a static library.")
+    set(ZIP_STATIC 1)
     #set(LZMA_API_STATIC 1)
   endif()
 endif()

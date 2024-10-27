@@ -157,10 +157,7 @@ if(EXT_MBSTRING_MBREGEX)
     else()
       message(CHECK_FAIL "yes")
 
-      set(
-        PHP_ONIG_BAD_KOI8_ENTRY 1
-        CACHE INTERNAL "Define to 1 if oniguruma has an invalid entry for KOI8 encoding."
-      )
+      set(PHP_ONIG_BAD_KOI8_ENTRY 1)
     endif()
   endif()
 
@@ -174,7 +171,7 @@ if(EXT_MBSTRING_MBREGEX)
       $<$<PLATFORM_ID:Windows>:ONIG_EXTERN=extern>
   )
 
-  set(HAVE_MBREGEX 1 CACHE INTERNAL "Whether multibyte regex support is enabled")
+  set(HAVE_MBREGEX 1)
 
   target_sources(
     php_mbstring

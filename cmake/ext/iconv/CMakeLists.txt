@@ -79,10 +79,7 @@ if(TARGET Iconv::Iconv)
     check_library_exists(Iconv::Iconv libiconv "" HAVE_LIBICONV)
 
     if(HAVE_LIBICONV)
-      set(
-        ICONV_ALIASED_LIBICONV 1
-        CACHE INTERNAL "iconv() is aliased to libiconv()"
-      )
+      set(ICONV_ALIASED_LIBICONV 1)
     else()
       check_library_exists(Iconv::Iconv iconv "" _HAVE_ICONV)
     endif()
@@ -106,11 +103,8 @@ if(TARGET Iconv::Iconv)
   cmake_pop_check_state()
   if(_have_gnu_libiconv)
     message(CHECK_PASS "GNU libiconv")
-    set(HAVE_LIBICONV 1 CACHE INTERNAL "")
-    set(
-      PHP_ICONV_IMPL "libiconv"
-      CACHE INTERNAL "The iconv implementation"
-    )
+    set(HAVE_LIBICONV 1)
+    set(PHP_ICONV_IMPL "libiconv")
   endif()
 
   # Check for glibc implementation.
@@ -123,10 +117,7 @@ if(TARGET Iconv::Iconv)
   endif()
   if(HAVE_GLIBC_ICONV)
     message(CHECK_PASS "GNU C library")
-    set(
-      PHP_ICONV_IMPL "glibc"
-      CACHE INTERNAL "The iconv implementation"
-    )
+    set(PHP_ICONV_IMPL "glibc")
   endif()
 
   # Check for Konstantin Chuguev's iconv implementation.
@@ -139,10 +130,7 @@ if(TARGET Iconv::Iconv)
   endif()
   if(_have_bsd_iconv)
     message(CHECK_PASS "BSD iconv")
-    set(
-      PHP_ICONV_IMPL "BSD iconv"
-      CACHE INTERNAL "The iconv implementation"
-    )
+    set(PHP_ICONV_IMPL "BSD iconv")
   endif()
 
   # Check for IBM iconv implementation.
@@ -155,10 +143,7 @@ if(TARGET Iconv::Iconv)
   endif()
   if(HAVE_IBM_ICONV)
     message(CHECK_PASS "IBM iconv")
-    set(
-      PHP_ICONV_IMPL "IBM iconv"
-      CACHE INTERNAL "The iconv implementation"
-    )
+    set(PHP_ICONV_IMPL "IBM iconv")
   endif()
 
   if(NOT PHP_ICONV_IMPL AND Iconv_IS_BUILT_IN)

@@ -256,7 +256,7 @@ if(NOT EXT_STANDARD_EXTERNAL_LIBCRYPT)
       php_crypt_r.c
   )
 
-  set(PHP_USE_PHP_CRYPT_R 1 CACHE INTERNAL "Whether PHP uses its own crypt_r")
+  set(PHP_USE_PHP_CRYPT_R 1)
 else()
   find_package(Crypt)
   set_package_properties(
@@ -283,10 +283,7 @@ if(NOT HAVE_FORK)
   check_symbol_exists(CreateProcess "windows.h" HAVE_CREATEPROCESS)
 endif()
 if(HAVE_FORK OR HAVE_CREATEPROCESS)
-  set(
-    PHP_CAN_SUPPORT_PROC_OPEN 1
-    CACHE INTERNAL "Define to 1 if your system has fork/vfork/CreateProcess."
-  )
+  set(PHP_CAN_SUPPORT_PROC_OPEN 1)
 
   message(CHECK_PASS "yes")
 else()
@@ -481,6 +478,6 @@ endblock()
 
 # TODO: Check whether to enable the chroot() function by checking which SAPI is
 # being built.
-set(ENABLE_CHROOT_FUNC 1 CACHE INTERNAL "Whether to enable chroot() function")
+set(ENABLE_CHROOT_FUNC 1)
 
 configure_file(config.cmake.h.in config.h @ONLY)

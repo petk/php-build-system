@@ -93,10 +93,7 @@ if(TARGET Editline::Editline)
   )
 endif()
 
-set(
-  HAVE_LIBEDIT 1
-  CACHE INTERNAL "Whether Editline is used for readline extension"
-)
+set(HAVE_LIBEDIT 1)
 
 cmake_push_check_state(RESET)
   set(CMAKE_REQUIRED_LIBRARIES Editline::Editline)

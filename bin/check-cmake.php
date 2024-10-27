@@ -591,7 +591,7 @@ function runGersemi(): int
     }
 
     exec(
-        'gersemi --check --indent 2 --definitions cmake bin -- cmake bin',
+        'gersemi --check --config ' . __DIR__ . '/check-cmake/.gersemirc -- cmake bin',
         $output,
         $status,
     );
