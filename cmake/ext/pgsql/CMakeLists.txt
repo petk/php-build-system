@@ -1,3 +1,8 @@
+project(
+  PhpExtensionPgSql
+  LANGUAGES C
+)
+
 include(CheckLibraryExists)
 include(CMakeDependentOption)
 include(FeatureSummary)
@@ -86,3 +91,7 @@ if(TARGET PostgreSQL::PostgreSQL)
     HAVE_PG_CONTEXT_VISIBILITY
   )
 endif()
+
+set(HAVE_PGSQL 1)
+
+configure_file(config.cmake.h.in config.h @ONLY)

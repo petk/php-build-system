@@ -1,3 +1,8 @@
+project(
+  PhpExtensionSession
+  LANGUAGES C
+)
+
 include(CMakeDependentOption)
 include(FeatureSummary)
 
@@ -73,11 +78,6 @@ add_dependencies(php_session php_date php_random)
 # Check whether pread() and pwrite() work.
 include(PHP/CheckPreadPwrite)
 
-set(
-  HAVE_PHP_SESSION 1
-  CACHE INTERNAL "Whether the session extension is available."
-)
-
 if(EXT_SESSION_MM)
   if(PHP_THREAD_SAFETY)
     message(
@@ -114,3 +114,7 @@ if(EXT_SESSION_MM)
     set(HAVE_LIBMM 1 CACHE INTERNAL "Whether system has the libmm library.")
   endif()
 endif()
+
+set(HAVE_PHP_SESSION 1)
+
+configure_file(config.cmake.h.in config.h @ONLY)

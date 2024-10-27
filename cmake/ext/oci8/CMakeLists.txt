@@ -1,3 +1,8 @@
+project(
+  PhpExtensionOci8
+  LANGUAGES C
+)
+
 include(CMakeDependentOption)
 include(FeatureSummary)
 
@@ -94,3 +99,7 @@ cmake_language(
     DIRECTORY ${PHP_SOURCE_DIR}
   CALL _php_oci8_notice
 )
+
+set(HAVE_OCI8 1)
+
+configure_file(config.cmake.h.in config.h @ONLY)

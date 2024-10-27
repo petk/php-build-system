@@ -1,3 +1,8 @@
+project(
+  PhpExtensionPdoOci
+  LANGUAGES C
+)
+
 include(CMakeDependentOption)
 include(FeatureSummary)
 
@@ -48,3 +53,5 @@ target_include_directories(
   PRIVATE
     ${CMAKE_CURRENT_SOURCE_DIR}/..
 )
+
+configure_file(config.cmake.h.in config.h @ONLY)

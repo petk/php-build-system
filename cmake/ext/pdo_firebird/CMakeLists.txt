@@ -1,3 +1,8 @@
+project(
+  PhpExtensionPdoFirebird
+  LANGUAGES C
+)
+
 include(CheckLibraryExists)
 include(CMakeDependentOption)
 include(FeatureSummary)
@@ -75,3 +80,7 @@ if(TARGET Firebird::Firebird)
     )
   endif()
 endif()
+
+set(HAVE_PDO_FIREBIRD 1)
+
+configure_file(config.cmake.h.in config.h @ONLY)

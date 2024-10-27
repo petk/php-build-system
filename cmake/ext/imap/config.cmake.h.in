@@ -1,0 +1,30 @@
+/* Define to 1 if the PHP extension 'imap' is built as a dynamic module. */
+#cmakedefine COMPILE_DL_IMAP 1
+
+/* Define to 1 if the PHP extension 'imap' is available. */
+#cmakedefine HAVE_IMAP 1
+
+/* Define to 1 if c-client has the `auth_gss`.*/
+#cmakedefine HAVE_IMAP_AUTH_GSS 1
+
+/* Define to 1 if PHP IMAP extension has Kerberos support. */
+#cmakedefine HAVE_IMAP_KRB 1
+
+/* Define to 1 if c-client has the 'utf8_to_mutf7()' function. */
+#cmakedefine HAVE_IMAP_MUTF7 1
+
+/* Define to 1 if the PHP extension 'imap' has SSL support enabled. */
+#cmakedefine HAVE_IMAP_SSL 1
+
+/* Define to 1 if c-client version is 2000 or newer. If true, c-client.h
+   should be included instead of only rfc822.h on prior versions.*/
+#cmakedefine HAVE_IMAP2000 1
+
+/* Define to 1 if c-client version is 2001 to 2004.*/
+#cmakedefine HAVE_IMAP2001 1
+
+/* Define to 1 if c-client version is 2004 or newer.*/
+#cmakedefine HAVE_IMAP2004 1
+
+/* Define to 1 if c-client has the 'rfc822_output_address_list()' function.*/
+#cmakedefine HAVE_RFC822_OUTPUT_ADDRESS_LIST 1

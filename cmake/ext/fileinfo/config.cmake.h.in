@@ -1,0 +1,12 @@
+/* Define to 1 if the PHP extension 'fileinfo' is built as a dynamic module.
+   */
+#cmakedefine COMPILE_DL_FILEINFO 1
+
+/* Define to 1 if you have the 'strcasestr' function. */
+#cmakedefine HAVE_STRCASESTR 1
+
+/* Define to 1 if you have the 'strndup' function. */
+#cmakedefine HAVE_STRNDUP 1
+
+/* Define to 1 if you have the 'utimes' function. */
+#cmakedefine HAVE_UTIMES 1

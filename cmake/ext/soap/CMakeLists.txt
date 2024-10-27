@@ -1,3 +1,8 @@
+project(
+  PhpExtensionSoap
+  LANGUAGES C
+)
+
 include(CMakeDependentOption)
 include(FeatureSummary)
 
@@ -47,8 +52,6 @@ target_compile_definitions(
     $<$<AND:$<PLATFORM_ID:Windows>,$<NOT:$<IN_LIST:$<TARGET_PROPERTY:TYPE>,MODULE_LIBRARY;SHARED_LIBRARY>>>:LIBXML_STATIC>
 )
 
-set(HAVE_PHP_SOAP 1 CACHE INTERNAL "Whether the soap extension is enabled")
-
 include(Packages/LibXml2)
 
 set_package_properties(
@@ -65,3 +68,8 @@ add_dependencies(php_soap php_hash php_libxml php_random)
 if(EXT_SESSION)
   add_dependencies(php_soap php_session)
 endif()
+
+set(HAVE_PHP_SOAP 1)
+set(HAVE_SOAP 1)
+
+configure_file(config.cmake.h.in config.h @ONLY)

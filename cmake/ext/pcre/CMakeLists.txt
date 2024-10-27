@@ -1,3 +1,8 @@
+project(
+  PhpExtensionPcre
+  LANGUAGES C
+)
+
 include(CheckSourceRuns)
 include(CheckSymbolExists)
 include(CMakePushCheckState)
@@ -234,3 +239,5 @@ add_feature_info(
   HAVE_PCRE_JIT_SUPPORT
   "PCRE Just-In-Time compiling support"
 )
+
+configure_file(config.cmake.h.in config.h @ONLY)

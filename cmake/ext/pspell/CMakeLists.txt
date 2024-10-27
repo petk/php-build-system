@@ -1,3 +1,8 @@
+project(
+  PhpExtensionPspell
+  LANGUAGES C
+)
+
 include(CMakeDependentOption)
 include(FeatureSummary)
 include(PHP/CheckCompilerFlag)
@@ -54,3 +59,7 @@ set_package_properties(
 )
 
 target_link_libraries(php_pspell PRIVATE Aspell::Aspell)
+
+set(HAVE_PSPELL 1)
+
+configure_file(config.cmake.h.in config.h @ONLY)

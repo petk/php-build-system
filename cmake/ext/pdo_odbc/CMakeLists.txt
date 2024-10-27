@@ -1,3 +1,8 @@
+project(
+  PhpExtensionPdoOdbc
+  LANGUAGES C
+)
+
 include(CheckIncludeFile)
 include(CheckLibraryExists)
 include(CMakeDependentOption)
@@ -254,3 +259,5 @@ if(TARGET ODBC::ODBC)
 endif()
 
 target_link_libraries(php_pdo_odbc PRIVATE ODBC::ODBC)
+
+configure_file(config.cmake.h.in config.h @ONLY)

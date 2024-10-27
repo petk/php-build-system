@@ -1,3 +1,8 @@
+project(
+  PhpExtensionJson
+  LANGUAGES C
+)
+
 include(FeatureSummary)
 
 add_feature_info(
@@ -55,3 +60,5 @@ endif()
 if(NOT CMAKE_SYSTEM_NAME STREQUAL "Windows")
   set(HAVE_JSON 1 CACHE INTERNAL "Whether to enable the json extension.")
 endif()
+
+configure_file(config.cmake.h.in config.h @ONLY)

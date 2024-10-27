@@ -362,6 +362,17 @@ function(_php_main_create_files)
   message(STATUS "Creating main/php_version.h")
   configure_file(main/php_version.h.in main/php_version.h @ONLY)
 
+  # Append extensions config.h contents.
+  set(extensionsConfigH "")
+  get_cmake_property(extensions PHP_EXTENSIONS)
+  foreach(extension IN LISTS extensions)
+    if(EXISTS ${CMAKE_CURRENT_BINARY_DIR}/ext/${extension}/config.h)
+      file(READ ${CMAKE_CURRENT_BINARY_DIR}/ext/${extension}/config.h content)
+      string(APPEND extensionsConfigH "${content}")
+    endif()
+  endforeach()
+  set(PHP_EXTENSIONS_CONFIGURATION "${extensionsConfigH}")
+
   if(CMAKE_SYSTEM_NAME STREQUAL "Windows")
     set(PHP_CONFIG_H_WINDOWS 1)
     set(file config.w32.h)

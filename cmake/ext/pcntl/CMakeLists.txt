@@ -1,3 +1,8 @@
+project(
+  PhpExtensionPcntl
+  LANGUAGES C
+)
+
 # Extension is only for *nix systems.
 if(CMAKE_SYSTEM_NAME STREQUAL "Windows")
   return()
@@ -84,3 +89,5 @@ cmake_pop_check_state()
 if(HAVE_STRUCT_SIGINFO_T)
   target_compile_definitions(php_pcntl PRIVATE HAVE_STRUCT_SIGINFO_T=1)
 endif()
+
+configure_file(config.cmake.h.in config.h @ONLY)

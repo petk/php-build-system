@@ -1,3 +1,8 @@
+project(
+  PhpExtensionXml
+  LANGUAGES C
+)
+
 include(CMakeDependentOption)
 include(FeatureSummary)
 
@@ -98,3 +103,7 @@ else()
 
   set(HAVE_LIBEXPAT 1 CACHE INTERNAL "Whether libexpat is used")
 endif()
+
+set(HAVE_XML 1)
+
+configure_file(config.cmake.h.in config.h @ONLY)

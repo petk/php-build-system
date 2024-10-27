@@ -1,3 +1,8 @@
+project(
+  PhpExtensionOpenSsl
+  LANGUAGES C
+)
+
 include(CheckSymbolExists)
 include(CMakeDependentOption)
 include(CMakePushCheckState)
@@ -137,3 +142,7 @@ if(TARGET OpenSSL::SSL)
     )
   endif()
 endif()
+
+set(HAVE_OPENSSL 1)
+
+configure_file(config.cmake.h.in config.h @ONLY)

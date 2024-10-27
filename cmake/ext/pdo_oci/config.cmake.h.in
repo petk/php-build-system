@@ -1,0 +1,17 @@
+/* Define to 1 if the PHP extension 'pdo_oci' is built as a dynamic module. */
+#cmakedefine COMPILE_DL_PDO_OCI 1
+
+/* Define to 1 if Oracle client has the 'OCIEnvCreate' function. */
+#cmakedefine HAVE_OCIENVCREATE 1
+
+/* Define to 1 if Oracle client has the 'OCIEnvNlsCreate' function. */
+#cmakedefine HAVE_OCIENVNLSCREATE 1
+
+/* Define to 1 if Oracle client has the 'OCILobRead2' function. */
+#cmakedefine HAVE_OCILOBREAD2 1
+
+/* Define to 1 if Oracle client has the 'OCIStmtFetch2' function. */
+#cmakedefine HAVE_OCISTMTFETCH2 1
+
+/* The Oracle client version. */
+#cmakedefine PHP_PDO_OCI_CLIENT_VERSION "@PHP_PDO_OCI_CLIENT_VERSION@"

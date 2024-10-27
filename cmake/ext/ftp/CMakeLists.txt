@@ -1,3 +1,8 @@
+project(
+  PhpExtensionFtp
+  LANGUAGES C
+)
+
 include(CMakeDependentOption)
 include(FeatureSummary)
 
@@ -76,3 +81,7 @@ cmake_language(
     DIRECTORY ${PHP_SOURCE_DIR}
   CALL php_ftp_post_configuration
 )
+
+set(HAVE_FTP 1)
+
+configure_file(config.cmake.h.in config.h @ONLY)

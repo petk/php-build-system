@@ -1,3 +1,8 @@
+project(
+  PhpExtensionImap
+  LANGUAGES C
+)
+
 include(CMakeDependentOption)
 include(FeatureSummary)
 
@@ -152,3 +157,7 @@ if(TARGET Cclient::Cclient)
     endif()
   endblock()
 endif()
+
+set(HAVE_IMAP 1)
+
+configure_file(config.cmake.h.in config.h @ONLY)

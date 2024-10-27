@@ -1,3 +1,8 @@
+project(
+  PhpExtensionSimpleXml
+  LANGUAGES C
+)
+
 include(CMakeDependentOption)
 include(FeatureSummary)
 
@@ -59,3 +64,7 @@ set_package_properties(
 )
 
 target_link_libraries(php_simplexml PRIVATE LibXml2::LibXml2)
+
+set(HAVE_SIMPLEXML 1)
+
+configure_file(config.cmake.h.in config.h @ONLY)

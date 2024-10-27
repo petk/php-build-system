@@ -1,0 +1,6 @@
+/* Define to 1 if the PHP extension 'xmlwriter' is built as a dynamic module.
+   */
+#cmakedefine COMPILE_DL_XMLWRITER 1
+
+/* Define to 1 if the PHP extension 'xmlwriter' is available. */
+#cmakedefine HAVE_XMLWRITER 1

@@ -1,3 +1,8 @@
+project(
+  PhpExtensionZendTest
+  LANGUAGES C
+)
+
 include(CMakeDependentOption)
 include(FeatureSummary)
 
@@ -63,3 +68,5 @@ if(EXT_LIBXML)
 
   target_link_libraries(php_zend_test PRIVATE LibXml2::LibXml2)
 endif()
+
+configure_file(config.cmake.h.in config.h @ONLY)

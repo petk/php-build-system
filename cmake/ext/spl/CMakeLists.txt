@@ -1,3 +1,8 @@
+project(
+  PhpExtensionSpl
+  LANGUAGES C
+)
+
 include(FeatureSummary)
 
 add_feature_info(
@@ -49,3 +54,5 @@ target_sources(
 target_compile_definitions(php_spl PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE=1)
 
 add_dependencies(php_spl php_json php_pcre php_standard)
+
+configure_file(config.cmake.h.in config.h @ONLY)

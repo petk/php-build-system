@@ -1,3 +1,8 @@
+project(
+  PhpExtensionXmlWriter
+  LANGUAGES C
+)
+
 include(CMakeDependentOption)
 include(FeatureSummary)
 
@@ -55,3 +60,7 @@ target_link_libraries(php_xmlwriter PRIVATE LibXml2::LibXml2)
 # The libxml extension is not technically required for xmlwriter to work but it
 # ensures proper error reporting and support for streams.
 add_dependencies(php_xmlwriter php_libxml)
+
+set(HAVE_XMLWRITER 1)
+
+configure_file(config.cmake.h.in config.h @ONLY)

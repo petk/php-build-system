@@ -1,3 +1,8 @@
+project(
+  PhpExtensionDom
+  LANGUAGES C
+)
+
 include(CMakeDependentOption)
 include(FeatureSummary)
 
@@ -77,3 +82,7 @@ set_package_properties(
 target_link_libraries(php_dom PRIVATE LibXml2::LibXml2)
 
 add_dependencies(php_dom php_libxml php_random)
+
+set(HAVE_DOM 1)
+
+configure_file(config.cmake.h.in config.h @ONLY)

@@ -1,0 +1,16 @@
+/* Define to 1 if the PHP extension 'snmp' is built as a dynamic module. */
+#cmakedefine COMPILE_DL_SNMP 1
+
+/* Define to 1 if SNMP library has the 'shutdown_snmp_logging' function. */
+#cmakedefine HAVE_SHUTDOWN_SNMP_LOGGING 1
+
+/* Define to 1 if the PHP extension 'snmp' is available. */
+#cmakedefine HAVE_SNMP 1
+
+/* Define to 1 if SNMP library has the 'usmHMAC192SHA256AuthProtocol' array.
+   */
+#cmakedefine HAVE_SNMP_SHA256 1
+
+/* Define to 1 if SNMP library has the 'usmHMAC384SHA512AuthProtocol' array.
+   */
+#cmakedefine HAVE_SNMP_SHA512 1

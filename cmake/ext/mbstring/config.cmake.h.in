@@ -1,0 +1,12 @@
+/* Define to 1 if the PHP extension 'mbstring' is built as a dynamic module.
+   */
+#cmakedefine COMPILE_DL_MBSTRING 1
+
+/* Define to 1 if mbstring has multibyte regex support enabled. */
+#cmakedefine HAVE_MBREGEX 1
+
+/* Define to 1 if the PHP extension 'mbstring' is available. */
+#cmakedefine HAVE_MBSTRING 1
+
+/* Define to 1 if oniguruma has an invalid entry for KOI8 encoding. */
+#cmakedefine PHP_ONIG_BAD_KOI8_ENTRY 1

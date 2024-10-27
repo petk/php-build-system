@@ -1,0 +1,6 @@
+/* Define to 1 if the PHP extension 'calendar' is built as a dynamic module.
+   */
+#cmakedefine COMPILE_DL_CALENDAR 1
+
+/* Define to 1 if the PHP extension 'calendar' is available. */
+#cmakedefine HAVE_CALENDAR 1

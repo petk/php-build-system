@@ -1,3 +1,8 @@
+project(
+  PhpExtensionPdoSqlite
+  LANGUAGES C
+)
+
 include(CheckLibraryExists)
 include(CMakeDependentOption)
 include(FeatureSummary)
@@ -81,3 +86,5 @@ if(TARGET SQLite::SQLite3)
     HAVE_SQLITE3_COLUMN_TABLE_NAME
   )
 endif()
+
+configure_file(config.cmake.h.in config.h @ONLY)

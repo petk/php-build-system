@@ -1,0 +1,41 @@
+/* Define to 1 if the system has the type 'struct cmsgcred'. */
+#cmakedefine ANC_CREDS_CMSGCRED 1
+
+/* Define to 1 if the system has the type 'struct ucred'. */
+#cmakedefine ANC_CREDS_UCRED 1
+
+/* Define to 1 if the PHP extension 'sockets' is built as a dynamic module. */
+#cmakedefine COMPILE_DL_SOCKETS 1
+
+/* Define to 1 if system has the AI_ALL. */
+#cmakedefine HAVE_AI_ALL 1
+
+/* Define to 1 if system has the AI_IDN. */
+#cmakedefine HAVE_AI_IDN 1
+
+/* Define to 1 if system has the AI_V4MAPPED. */
+#cmakedefine HAVE_AI_V4MAPPED 1
+
+/* Define to 1 if you have the 'hstrerror' function. */
+#cmakedefine HAVE_HSTRERROR 1
+
+/* Define to 1 if you have the 'if_indextoname' function. */
+#cmakedefine HAVE_IF_INDEXTONAME 1
+
+/* Define to 1 if you have the 'if_nametoindex' function. */
+#cmakedefine HAVE_IF_NAMETOINDEX 1
+
+/* Define to 1 if you have the <linux/filter.h> header file. */
+#cmakedefine HAVE_LINUX_FILTER_H 1
+
+/* Define to 1 if 'ss_family' is a member of 'struct sockaddr_storage'. */
+#cmakedefine HAVE_SA_SS_FAMILY 1
+
+/* Define to 1 if you have the 'sockatmark' function. */
+#cmakedefine HAVE_SOCKATMARK 1
+
+/* Define to 1 if the PHP extension 'sockets' is available. */
+#cmakedefine HAVE_SOCKETS 1
+
+/* Define to 1 if you have the <sys/sockio.h> header file. */
+#cmakedefine HAVE_SYS_SOCKIO_H 1

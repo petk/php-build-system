@@ -1,3 +1,8 @@
+project(
+  PhpExtensionGmp
+  LANGUAGES C
+)
+
 include(CMakeDependentOption)
 include(FeatureSummary)
 
@@ -51,3 +56,7 @@ set_package_properties(
 target_link_libraries(php_gmp PUBLIC GMP::GMP)
 
 add_dependencies(php_gmp php_random)
+
+set(HAVE_GMP 1)
+
+configure_file(config.cmake.h.in config.h @ONLY)

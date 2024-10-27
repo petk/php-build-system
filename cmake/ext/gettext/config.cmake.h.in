@@ -1,0 +1,17 @@
+/* Define to 1 if the PHP extension 'gettext' is built as a dynamic module. */
+#cmakedefine COMPILE_DL_GETTEXT 1
+
+/* Define to 1 if you have the 'bind_textdomain_codeset' function. */
+#cmakedefine HAVE_BIND_TEXTDOMAIN_CODESET 1
+
+/* Define to 1 if you have the 'dcngettext' function. */
+#cmakedefine HAVE_DCNGETTEXT 1
+
+/* Define to 1 if you have the 'dngettext' function. */
+#cmakedefine HAVE_DNGETTEXT 1
+
+/* Define to 1 if you have the 'intl' library. */
+#cmakedefine HAVE_LIBINTL 1
+
+/* Define to 1 if you have the 'ngettext' function. */
+#cmakedefine HAVE_NGETTEXT 1

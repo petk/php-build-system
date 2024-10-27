@@ -1,0 +1,19 @@
+/* Define to 1 if the PHP extension 'oci8' is built as a dynamic module. */
+#cmakedefine COMPILE_DL_OCI8 1
+
+/* Defined to 1 if OCI8 configuration located Oracle's Instant Client
+   libraries */
+#cmakedefine HAVE_OCI_INSTANT_CLIENT 1
+
+/* Defined to 1 if the PHP OCI8 extension for Oracle Database is configured */
+#cmakedefine HAVE_OCI8 1
+
+/* Defined to 1 if PHP OCI8 DTrace support was enabled during configuration */
+#cmakedefine HAVE_OCI8_DTRACE 1
+
+/* The path to the OCI client directory. */
+#cmakedefine PHP_OCI8_DEF_DIR "@PHP_OCI8_DEF_DIR@"
+
+/* The linker flag with OCI library when oci8 extension is built as
+   shared. */
+#cmakedefine PHP_OCI8_DEF_SHARED_LIBADD "@PHP_OCI8_DEF_SHARED_LIBADD@"

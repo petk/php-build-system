@@ -1,0 +1,14 @@
+/* Define to 1 if the PHP extension 'pcre' is built as a dynamic module. */
+#cmakedefine COMPILE_DL_PCRE 1
+
+/* Define to 1 if PHP uses the bundled PCRE library. */
+#cmakedefine HAVE_BUNDLED_PCRE 1
+
+/* Define to 1 if PCRE JIT is enabled and supported. */
+#cmakedefine HAVE_PCRE_JIT_SUPPORT 1
+
+/* Number of bits in non-UTF mode for PCRE library. */
+#cmakedefine PCRE2_CODE_UNIT_WIDTH @PCRE2_CODE_UNIT_WIDTH@
+
+/* Define to 1 if PCRE library is built statically. */
+#cmakedefine PCRE2_STATIC 1

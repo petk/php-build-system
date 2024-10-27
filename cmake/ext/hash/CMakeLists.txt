@@ -1,3 +1,8 @@
+project(
+  PhpExtensionHash
+  LANGUAGES C
+)
+
 include(FeatureSummary)
 include(PHP/CheckCompilerFlag)
 
@@ -123,3 +128,5 @@ else()
       ZEND_ENABLE_STATIC_TSRMLS_CACHE=1
   )
 endif()
+
+configure_file(config.cmake.h.in config.h @ONLY)

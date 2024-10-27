@@ -1,5 +1,12 @@
 # TODO: Integrate zlib functionality.
 
+project(
+  PhpExtensionPdoMysql
+  DESCRIPTION
+    "MySQL-compatible database support in PDO (PHP Data Objects) interface"
+  LANGUAGES C
+)
+
 include(CMakeDependentOption)
 include(FeatureSummary)
 include(PHP/Set)
@@ -95,12 +102,7 @@ endif()
 if(NOT EXT_PDO_MYSQL_DRIVER STREQUAL "mysql")
   add_dependencies(php_pdo_mysql php_mysqlnd)
 
-  # TODO: Is there a better way here?
   set(PDO_USE_MYSQLND TRUE)
-  get_directory_property(hasParent PARENT_DIRECTORY)
-  if(hasParent)
-    set(PDO_USE_MYSQLND ${PDO_USE_MYSQLND} PARENT_SCOPE)
-  endif()
 else()
   find_package(MySQL COMPONENTS Lib OPTIONAL_COMPONENTS Socket)
   set_package_properties(MySQL PROPERTIES
@@ -111,9 +113,8 @@ else()
   target_link_libraries(php_pdo_mysql PRIVATE MySQL::MySQL)
 
   if(MySQL_Socket_PATH)
-    set(
-      PDO_MYSQL_UNIX_ADDR "${MySQL_Socket_PATH}"
-      CACHE INTERNAL "The MySQL Unix socket location defined by mysql_config."
-    )
+    set(PDO_MYSQL_UNIX_ADDR "${MySQL_Socket_PATH}")
   endif()
 endif()
+
+configure_file(config.cmake.h.in config.h @ONLY)

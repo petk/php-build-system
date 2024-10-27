@@ -1,3 +1,8 @@
+project(
+  PhpExtensionCalendar
+  LANGUAGES C
+)
+
 include(CMakeDependentOption)
 include(FeatureSummary)
 
@@ -40,3 +45,7 @@ target_sources(
     jewish.c
     julian.c
 )
+
+set(HAVE_CALENDAR 1)
+
+configure_file(config.cmake.h.in config.h @ONLY)

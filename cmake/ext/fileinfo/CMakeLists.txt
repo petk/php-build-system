@@ -1,3 +1,10 @@
+cmake_minimum_required(VERSION 3.25)
+
+project(
+  PHPExtensionFileinfo
+  LANGUAGES C
+)
+
 include(CheckSymbolExists)
 include(CMakeDependentOption)
 include(CMakePushCheckState)
@@ -89,3 +96,5 @@ set_property(
 )
 
 add_dependencies(php_fileinfo php_pcre)
+
+configure_file(config.cmake.h.in config.h @ONLY)

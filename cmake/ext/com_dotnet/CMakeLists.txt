@@ -1,3 +1,8 @@
+project(
+  PhpExtensionBz2
+  LANGUAGES C
+)
+
 # Available only for Windows system.
 if(NOT CMAKE_SYSTEM_NAME STREQUAL "Windows")
   return()
@@ -61,3 +66,7 @@ target_compile_definitions(
 target_link_libraries(php_com_dotnet PRIVATE oleaut32)
 
 check_include_file(mscoree.h HAVE_MSCOREE_H)
+
+set(HAVE_COM_DOTNET 1)
+
+configure_file(config.cmake.h.in config.h @ONLY)

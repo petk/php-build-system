@@ -1,0 +1,12 @@
+/* Define to 1 if the PHP extension 'random' is built as a dynamic module. */
+#cmakedefine COMPILE_DL_RANDOM 1
+
+/* Define to 1 if you have the declaration of 'arc4random_buf', and to 0 if
+   you don't. */
+#cmakedefine01 HAVE_DECL_ARC4RANDOM_BUF
+
+/* Define to 1 if you have the 'getrandom' function. */
+#cmakedefine HAVE_GETRANDOM 1
+
+/* Define to 1 if you have the <CommonCrypto/CommonRandom.h> header file. */
+#cmakedefine HAVE_COMMONCRYPTO_COMMONRANDOM_H 1

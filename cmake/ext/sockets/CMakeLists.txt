@@ -1,3 +1,8 @@
+project(
+  PhpExtensionSockets
+  LANGUAGES C
+)
+
 include(CheckIncludeFile)
 include(CheckStructHasMember)
 include(CheckSymbolExists)
@@ -123,3 +128,7 @@ if(HAVE_STRUCT_CMSGCRED)
     CACHE INTERNAL "Define to 1 if the system has the type 'struct cmsgcred'."
   )
 endif()
+
+set(HAVE_SOCKETS 1)
+
+configure_file(config.cmake.h.in config.h @ONLY)

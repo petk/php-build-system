@@ -1,3 +1,8 @@
+project(
+  PhpExtensionFilter
+  LANGUAGES C
+)
+
 include(CMakeDependentOption)
 include(FeatureSummary)
 
@@ -44,3 +49,5 @@ target_sources(
 target_compile_definitions(php_filter PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE=1)
 
 add_dependencies(php_filter php_pcre)
+
+configure_file(config.cmake.h.in config.h @ONLY)

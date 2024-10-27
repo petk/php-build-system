@@ -1,0 +1,14 @@
+/* Define to 1 if the PHP extension 'pgsql' is built as a dynamic module. */
+#cmakedefine COMPILE_DL_PGSQL 1
+
+/* Define to 1 if the PHP extension 'pgsql' is available. */
+#cmakedefine HAVE_PGSQL 1
+
+/* Define to 1 if libpq was compiled with the --enable-multibyte option. */
+#cmakedefine HAVE_PGSQL_WITH_MULTIBYTE_SUPPORT 1
+
+/* PostgreSQL 9.6 or later */
+#cmakedefine HAVE_PG_CONTEXT_VISIBILITY 1
+
+/* PostgreSQL 9.3 or later */
+#cmakedefine HAVE_PG_LO64 1

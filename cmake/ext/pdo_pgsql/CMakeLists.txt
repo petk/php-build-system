@@ -1,3 +1,8 @@
+project(
+  PhpExtensionPdoPgsql
+  LANGUAGES C
+)
+
 include(CheckLibraryExists)
 include(CMakeDependentOption)
 include(FeatureSummary)
@@ -73,3 +78,7 @@ if(TARGET PostgreSQL::PostgreSQL)
     )
   endif()
 endif()
+
+set(HAVE_PDO_PGSQL 1)
+
+configure_file(config.cmake.h.in config.h @ONLY)

@@ -1,3 +1,8 @@
+project(
+  PhpExtensionSnmp
+  LANGUAGES C
+)
+
 include(CheckSymbolExists)
 include(CMakeDependentOption)
 include(CMakePushCheckState)
@@ -71,3 +76,7 @@ if(TARGET NetSnmp::NetSnmp)
     )
   cmake_pop_check_state()
 endif()
+
+set(HAVE_SNMP 1)
+
+configure_file(config.cmake.h.in config.h @ONLY)

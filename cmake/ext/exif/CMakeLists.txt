@@ -1,3 +1,8 @@
+project(
+  PhpExtensionExif
+  LANGUAGES C
+)
+
 include(CMakeDependentOption)
 include(FeatureSummary)
 
@@ -41,3 +46,7 @@ target_compile_definitions(php_exif PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE=1)
 if(EXT_MBSTRING)
   add_dependencies(php_exif php_mbstring)
 endif()
+
+set(HAVE_EXIF 1)
+
+configure_file(config.cmake.h.in config.h @ONLY)

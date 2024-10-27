@@ -1,0 +1,71 @@
+/* Define to 1 if the PHP extension 'standard' is built as a dynamic module.
+   */
+#cmakedefine COMPILE_DL_STANDARD 1
+
+/* Define to 1 if crypt_r uses CRYPTD. */
+#cmakedefine CRYPT_R_CRYPTD 1
+
+/* Define to 1 if struct crypt_data requires _GNU_SOURCE. */
+#cmakedefine CRYPT_R_GNU_SOURCE 1
+
+/* Define to 1 if crypt_r uses struct crypt_data. */
+#cmakedefine CRYPT_R_STRUCT_CRYPT_DATA 1
+
+/* Define to 1 to enable the 'chroot' function. */
+#cmakedefine ENABLE_CHROOT_FUNC 1
+
+/* Define to 1 if the system has the 'libargon2' library. */
+#cmakedefine HAVE_ARGON2LIB 1
+
+/* Define to 1 if you have the 'crypt' function. */
+#cmakedefine HAVE_CRYPT 1
+
+/* Define to 1 if you have the <crypt.h> header file. */
+#cmakedefine HAVE_CRYPT_H 1
+
+/* Define to 1 if you have the 'crypt_r' function. */
+#cmakedefine HAVE_CRYPT_R 1
+
+/* Define to 1 if you have the 'dn_expand' function. */
+#cmakedefine HAVE_DN_EXPAND 1
+
+/* Define to 1 if you have the 'dn_skipname' function. */
+#cmakedefine HAVE_DN_SKIPNAME 1
+
+/* Define to 1 if you have the 'dns_search' function. */
+#cmakedefine HAVE_DNS_SEARCH 1
+
+/* Define to 1 if flush should be called explicitly after a buffered io. */
+#cmakedefine HAVE_FLUSHIO 1
+
+/* Define to 1 if your system has a working POSIX 'fnmatch' function. */
+#cmakedefine HAVE_FNMATCH 1
+
+/* Define to 1 if you have the 'fork' function. */
+#cmakedefine HAVE_FORK 1
+
+/* Define to 1 if you have the 'getifaddrs' function. */
+#cmakedefine HAVE_GETIFADDRS 1
+
+/* Define to 1 if you have the <net/if.h> header file. */
+#cmakedefine HAVE_NET_IF_H 1
+
+/* Define to 1 if you have the 'posix_spawn_file_actions_addchdir_np'
+   function. */
+#cmakedefine HAVE_POSIX_SPAWN_FILE_ACTIONS_ADDCHDIR_NP 1
+
+/* Define to 1 if you have the 'res_ndestroy' function. */
+#cmakedefine HAVE_RES_NDESTROY 1
+
+/* Define to 1 if you have the 'res_nsearch' function. */
+#cmakedefine HAVE_RES_NSEARCH 1
+
+/* Define to 1 if you have the 'res_search' function. */
+#cmakedefine HAVE_RES_SEARCH 1
+
+/* Define to 1 if PHP uses its own crypt_r, and to 0 if using the external
+   crypt library. */
+#cmakedefine01 PHP_USE_PHP_CRYPT_R
+
+/* Define to 1 if your system has fork/vfork/CreateProcess. */
+#cmakedefine PHP_CAN_SUPPORT_PROC_OPEN 1

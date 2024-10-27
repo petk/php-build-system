@@ -1,0 +1,48 @@
+/* Define to 1 if the PHP extension 'odbc' is built as a dynamic module. */
+#cmakedefine COMPILE_DL_ODBC 1
+
+/* Define to 1 if the odbc extension uses the Adabas D. */
+#cmakedefine HAVE_ADABAS 1
+
+/* Define to 1 if the odbc extension uses custom ODBC installation. */
+#cmakedefine HAVE_CODBC 1
+
+/* Define to 1 if the odbc extension uses the DBMaker. */
+#cmakedefine HAVE_DBMAKER 1
+
+/* Define to 1 if the odbc extension uses the Empress. */
+#cmakedefine HAVE_EMPRESS 1
+
+/* Define to 1 if the odbc extension uses the Easysoft OOB. */
+#cmakedefine HAVE_ESOOB 1
+
+/* Define to 1 if the odbc extension uses the IBM DB2. */
+#cmakedefine HAVE_IBMDB2 1
+
+/* Define to 1 if the odbc extension uses the iODBC. */
+#cmakedefine HAVE_IODBC 1
+
+/* Define to 1 if the odbc extension uses the SAP DB. */
+#cmakedefine HAVE_SAPDB 1
+
+/* Define to 1 if the odbc extension uses the Solid DB. */
+#cmakedefine HAVE_SOLID 1
+
+/* Define to 1 if Solid DB 3.0 is used. */
+#cmakedefine HAVE_SOLID_30 1
+
+/* Define to 1 if Solid DB 3.5 is used. */
+#cmakedefine HAVE_SOLID_35 1
+
+/* Define to 1 if ODBC library has 'SQLDataSources', as a function or macro.
+   */
+#cmakedefine HAVE_SQLDATASOURCES 1
+
+/* Define to 1 if the odbc extension uses the unixODBC. */
+#cmakedefine HAVE_UNIXODBC 1
+
+/* Define to 1 if the PHP extension 'odbc' is available. */
+#cmakedefine HAVE_UODBC 1
+
+/* The highest supported ODBC version. */
+#cmakedefine ODBCVER @ODBCVER@

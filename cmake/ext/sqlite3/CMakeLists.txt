@@ -1,3 +1,8 @@
+project(
+  PhpExtensionSqlite3
+  LANGUAGES C
+)
+
 include(CheckLibraryExists)
 include(CMakeDependentOption)
 include(FeatureSummary)
@@ -76,3 +81,7 @@ if(TARGET SQLite::SQLite3)
     )
   endif()
 endif()
+
+set(HAVE_SQLITE3 1)
+
+configure_file(config.cmake.h.in config.h @ONLY)

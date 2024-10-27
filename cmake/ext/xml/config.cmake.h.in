@@ -1,0 +1,8 @@
+/* Define to 1 if the PHP extension 'xml' is built as a dynamic module. */
+#cmakedefine COMPILE_DL_XML 1
+
+/* Define to 1 if the system has the Expat XML parser library. */
+#cmakedefine HAVE_LIBEXPAT 1
+
+/* Define to 1 if the PHP extension 'xml' is available. */
+#cmakedefine HAVE_XML 1

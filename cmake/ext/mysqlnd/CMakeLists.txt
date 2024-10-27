@@ -1,3 +1,8 @@
+project(
+  PhpExtensionMysqlnd
+  LANGUAGES C
+)
+
 include(CMakeDependentOption)
 include(FeatureSummary)
 
@@ -178,3 +183,5 @@ cmake_language(
     DIRECTORY ${PHP_SOURCE_DIR}
   CALL php_mysqlnd_post_configuration
 )
+
+configure_file(config.cmake.h.in config.h @ONLY)
