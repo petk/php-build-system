@@ -827,14 +827,6 @@
 /* The size of 'ssize_t', as computed by sizeof. */
 #cmakedefine SIZEOF_SSIZE_T @SIZEOF_SSIZE_T@
 
-/* Define to 1 to be able to use the wchar defs in the obsolete <sqlunix.h>
-   header file on some FreeBSD systems. */
-#cmakedefine SS_FBX 1
-
-/* Define to 1 to be able to use the obsolete <sqlunix.h> header file on some
-   Linux systems. */
-#cmakedefine SS_LINUX 1
-
 /* Define to 1 if strerror_r returns char *. */
 #cmakedefine STRERROR_R_CHAR_P 1
 

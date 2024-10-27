@@ -185,31 +185,19 @@ target_compile_definitions(php_dba PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE=1)
 if(EXT_DBA_FLATFILE)
   target_sources(php_dba PRIVATE libflatfile/flatfile.c)
 
-  set(
-    DBA_FLATFILE 1
-    CACHE INTERNAL "Whether the flatfile DBA handler support is enabled"
-  )
+  set(DBA_FLATFILE 1)
 endif()
 
 if(EXT_DBA_INIFILE)
   target_sources(php_dba PRIVATE libinifile/inifile.c)
 
-  set(
-    DBA_INIFILE 1
-    CACHE INTERNAL "Whether the inifile DBA handler support is enabled"
-  )
+  set(DBA_INIFILE 1)
 endif()
 
 # Check for constant databases (cdb) support.
 if(EXT_DBA_CDB AND NOT EXT_DBA_CDB_EXTERNAL)
-  set(
-    DBA_CDB_BUILTIN
-    1
-    CACHE INTERNAL
-    "Whether to use the bundled constant databases (cdb) library"
-  )
-
-  set(DBA_CDB 1 CACHE INTERNAL "Whether the cdb support is enabled")
+  set(DBA_CDB_BUILTIN 1)
+  set(DBA_CDB 1)
 
   target_sources(
     php_dba
@@ -229,12 +217,8 @@ elseif(EXT_DBA_CDB AND EXT_DBA_CDB_EXTERNAL)
 
   target_link_libraries(php_dba PRIVATE Cdb::Cdb)
 
-  set(
-    CDB_INCLUDE_FILE "${Cdb_INCLUDE_DIR}/cdb.h"
-    CACHE INTERNAL "The cdb header file"
-  )
-
-  set(DBA_CDB 1 CACHE INTERNAL "Whether the cdb support is enabled")
+  set(CDB_INCLUDE_FILE "${Cdb_INCLUDE_DIR}/cdb.h")
+  set(DBA_CDB 1)
 endif()
 
 if(EXT_DBA_LMDB)
@@ -248,12 +232,8 @@ if(EXT_DBA_LMDB)
 
   target_link_libraries(php_dba PRIVATE LMDB::LMDB)
 
-  set(
-    LMDB_INCLUDE_FILE "${LMDB_INCLUDE_DIR}/lmdb.h"
-    CACHE INTERNAL "The LMDB header file"
-  )
-
-  set(DBA_LMDB 1 CACHE INTERNAL "Whether the LMDB support is enabled")
+  set(LMDB_INCLUDE_FILE "${LMDB_INCLUDE_DIR}/lmdb.h")
+  set(DBA_LMDB 1)
 endif()
 
 if(EXT_DBA_TCDB)
@@ -267,12 +247,8 @@ if(EXT_DBA_TCDB)
 
   target_link_libraries(php_dba PRIVATE TokyoCabinet::TokyoCabinet)
 
-  set(
-    TCADB_INCLUDE_FILE "${TokyoCabinet_INCLUDE_DIR}/tcadb.h"
-    CACHE INTERNAL "The Tokyo Cabinet header file"
-  )
-
-  set(DBA_TCADB 1 CACHE INTERNAL "Whether the Tokyo Cabinet support is enabled")
+  set(TCADB_INCLUDE_FILE "${TokyoCabinet_INCLUDE_DIR}/tcadb.h")
+  set(DBA_TCADB 1)
 endif()
 
 if(EXT_DBA_GDBM)
@@ -286,12 +262,8 @@ if(EXT_DBA_GDBM)
 
   target_link_libraries(php_dba PRIVATE GDBM::GDBM)
 
-  set(
-    GDBM_INCLUDE_FILE "${GDBM_INCLUDE_DIR}/gdbm.h"
-    CACHE INTERNAL "The GDBM header file"
-  )
-
-  set(DBA_GDBM 1 CACHE INTERNAL "Whether the GDBM support is enabled")
+  set(GDBM_INCLUDE_FILE "${GDBM_INCLUDE_DIR}/gdbm.h")
+  set(DBA_GDBM 1)
 elseif(EXT_DBA_QDBM)
   find_package(QDBM)
   set_package_properties(
@@ -303,12 +275,8 @@ elseif(EXT_DBA_QDBM)
 
   target_link_libraries(php_dba PRIVATE QDBM::QDBM)
 
-  set(
-    QDBM_INCLUDE_FILE "${QDBM_INCLUDE_DIR}/depot.h"
-    CACHE INTERNAL "The QDBM header file"
-  )
-
-  set(DBA_QDBM 1 CACHE INTERNAL "Whether the QDBM support is enabled")
+  set(QDBM_INCLUDE_FILE "${QDBM_INCLUDE_DIR}/depot.h")
+  set(DBA_QDBM 1)
 endif()
 
 if(EXT_DBA_NDBM)
@@ -322,12 +290,8 @@ if(EXT_DBA_NDBM)
 
   target_link_libraries(php_dba PRIVATE Ndbm::Ndbm)
 
-  set(
-    NDBM_INCLUDE_FILE "${Ndbm_INCLUDE_DIR}/ndbm.h"
-    CACHE INTERNAL "The ndbm header file"
-  )
-
-  set(DBA_NDBM 1 CACHE INTERNAL "Whether the ndbm support is enabled")
+  set(NDBM_INCLUDE_FILE "${Ndbm_INCLUDE_DIR}/ndbm.h")
+  set(DBA_NDBM 1)
 endif()
 
 if(EXT_DBA_DBM)
@@ -341,17 +305,9 @@ if(EXT_DBA_DBM)
 
   target_link_libraries(php_dba PRIVATE Dbm::Dbm)
 
-  set(
-    DBM_INCLUDE_FILE "${Dbm_INCLUDE_DIR}/dbm.h"
-    CACHE INTERNAL "The dbm header file"
-  )
-
-  set(DBA_DBM 1 CACHE INTERNAL "Whether the dbm support is enabled")
-
-  set(
-    DBM_VERSION "${Dbm_IMPLEMENTATION}"
-    CACHE INTERNAL "The dbm implementation name"
-  )
+  set(DBM_INCLUDE_FILE "${Dbm_INCLUDE_DIR}/dbm.h")
+  set(DBA_DBM 1)
+  set(DBM_VERSION "${Dbm_IMPLEMENTATION}")
 endif()
 
 if(EXT_DBA_DB)
@@ -370,28 +326,14 @@ if(EXT_DBA_DB)
   target_link_libraries(php_dba PRIVATE BerkeleyDB::BerkeleyDB)
 
   if(BerkeleyDB_DB1_INCLUDE_DIR)
-    set(
-      DB1_INCLUDE_FILE "${BerkeleyDB_DB1_INCLUDE_DIR}/db_185.h"
-      CACHE INTERNAL "The Berkeley DB 1.x support/emulation header"
-    )
+    set(DB1_INCLUDE_FILE "${BerkeleyDB_DB1_INCLUDE_DIR}/db_185.h")
 
-    set(
-      DBA_DB1 1
-      CACHE INTERNAL "Whether the Berkeley DB 1.x support/emulation is enabled"
-    )
-
-    set(
-      DB1_VERSION "Berkeley DB 1.85 emulation in DB"
-      CACHE INTERNAL "Berkeley DB1 version string"
-    )
+    set(DBA_DB1 1)
+    set(DB1_VERSION "Berkeley DB 1.85 emulation in DB")
   endif()
 
-  set(
-    DB4_INCLUDE_FILE "${BerkeleyDB_INCLUDE_DIR}/db.h"
-    CACHE INTERNAL "The Berkeley DB header file"
-  )
-
-  set(DBA_DB4 1 CACHE INTERNAL "Whether the Berkeley DB support is enabled")
+  set(DB4_INCLUDE_FILE "${BerkeleyDB_INCLUDE_DIR}/db.h")
+  set(DBA_DB4 1)
 endif()
 
 set(HAVE_DBA 1)
