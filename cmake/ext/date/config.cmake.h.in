@@ -1,0 +1,8 @@
+/* Define to 1 if the PHP extension 'date' is built as a dynamic module. */
+#cmakedefine COMPILE_DL_DATE 1
+
+/* Define to 1 if you have the <io.h> header file. */
+#cmakedefine HAVE_IO_H 1
+
+/* Define to 1 if you have the <timelib_config.h> header file. */
+#cmakedefine HAVE_TIMELIB_CONFIG_H 1

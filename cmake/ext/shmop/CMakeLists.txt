@@ -1,3 +1,8 @@
+project(
+  PhpExtensionShmopo
+  LANGUAGES C
+)
+
 include(CMakeDependentOption)
 include(FeatureSummary)
 
@@ -33,3 +38,7 @@ target_sources(
     shmop.c
     shmop.stub.php
 )
+
+set(HAVE_SHMOP 1)
+
+configure_file(config.cmake.h.in config.h @ONLY)

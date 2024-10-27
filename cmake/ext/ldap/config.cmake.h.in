@@ -1,0 +1,41 @@
+/* Define to 1 if the PHP extension 'ldap' is built as a dynamic module. */
+#cmakedefine COMPILE_DL_LDAP 1
+
+/* Define to 1 if 'ldap_set_rebind_proc' has 3 arguments. */
+#cmakedefine HAVE_3ARG_SETREBINDPROC 1
+
+/* Define to 1 if the PHP extension 'ldap' is available. */
+#cmakedefine HAVE_LDAP 1
+
+/* Define to 1 if you have the 'ldap_control_find' function. */
+#cmakedefine HAVE_LDAP_CONTROL_FIND 1
+
+/* Define to 1 if you have the 'ldap_extended_operation' function. */
+#cmakedefine HAVE_LDAP_EXTENDED_OPERATION 1
+
+/* Define to 1 if you have the 'ldap_extended_operation_s' function. */
+#cmakedefine HAVE_LDAP_EXTENDED_OPERATION_S 1
+
+/* Define to 1 if you have the 'ldap_parse_extended_result' function. */
+#cmakedefine HAVE_LDAP_PARSE_EXTENDED_RESULT 1
+
+/* Define to 1 if you have the 'ldap_parse_reference' function. */
+#cmakedefine HAVE_LDAP_PARSE_REFERENCE 1
+
+/* Define to 1 if you have the 'ldap_parse_result' function. */
+#cmakedefine HAVE_LDAP_PARSE_RESULT 1
+
+/* Define to 1 if you have the 'ldap_passwd' function. */
+#cmakedefine HAVE_LDAP_PASSWD 1
+
+/* Define to 1 if you have the 'ldap_refresh_s' function. */
+#cmakedefine HAVE_LDAP_REFRESH_S 1
+
+/* Define to 1 if the ldap extension has SASL support enabled. */
+#cmakedefine HAVE_LDAP_SASL 1
+
+/* Define to 1 if you have the 'ldap_start_tls_s' function. */
+#cmakedefine HAVE_LDAP_START_TLS_S 1
+
+/* Define to 1 if you have the 'ldap_whoami_s' function. */
+#cmakedefine HAVE_LDAP_WHOAMI_S 1

@@ -1,3 +1,8 @@
+project(
+  PhpExtensionPgSql
+  LANGUAGES C
+)
+
 include(CheckLibraryExists)
 include(CheckSourceCompiles)
 include(CMakeDependentOption)
@@ -114,3 +119,7 @@ if(TARGET PostgreSQL::PostgreSQL)
     )
   endif()
 endif()
+
+set(HAVE_PGSQL 1)
+
+configure_file(config.cmake.h.in config.h @ONLY)

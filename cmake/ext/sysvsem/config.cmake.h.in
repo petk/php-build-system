@@ -1,0 +1,5 @@
+/* Define to 1 if the PHP extension 'sysvsem' is built as a dynamic module. */
+#cmakedefine COMPILE_DL_SYSVSEM 1
+
+/* Define to 1 if the PHP extension 'sysvsem' is available. */
+#cmakedefine HAVE_SYSVSEM 1

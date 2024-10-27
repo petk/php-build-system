@@ -1,0 +1,13 @@
+/* Define to 1 if the PHP extension 'pdo_mysql' is built as a dynamic module.
+   */
+#cmakedefine COMPILE_DL_PDO_MYSQL 1
+
+/* The MySQL Unix socket location. */
+#cmakedefine PHP_MYSQL_UNIX_SOCK_ADDR "@PHP_MYSQL_UNIX_SOCK_ADDR@"
+
+/* The MySQL Unix socket location as defined by 'mysql_config' for use with
+   the pdo_mysql extension. */
+#cmakedefine PDO_MYSQL_UNIX_ADDR "@PDO_MYSQL_UNIX_ADDR@"
+
+/* Define to 1 if the pdo_mysql extension uses mysqlnd. */
+#cmakedefine PDO_USE_MYSQLND 1

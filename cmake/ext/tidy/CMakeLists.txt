@@ -1,3 +1,8 @@
+project(
+  PhpExtensionTidy
+  LANGUAGES C
+)
+
 include(CheckLibraryExists)
 include(CMakeDependentOption)
 include(FeatureSummary)
@@ -66,3 +71,7 @@ if(TARGET Tidy::Tidy)
   check_library_exists(Tidy::Tidy tidyOptGetDoc "" HAVE_TIDYOPTGETDOC)
   check_library_exists(Tidy::Tidy tidyReleaseDate "" HAVE_TIDYRELEASEDATE)
 endif()
+
+set(HAVE_TIDY 1)
+
+configure_file(config.cmake.h.in config.h @ONLY)

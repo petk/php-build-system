@@ -10,7 +10,7 @@ endif()
 
 # Set the extension project metadata.
 project(
-  %EXTNAME%
+  PhpExtension%EXTNAME%
   VERSION 0.1.0
   DESCRIPTION "Describe the extension"
   HOMEPAGE_URL "https://example.org"
@@ -96,3 +96,5 @@ install(
   FILE_SET HEADERS
     DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/${PHP_INCLUDE_PREFIX}/ext/%EXTNAME%
 )
+
+configure_file(config.cmake.h.in config.h @ONLY)

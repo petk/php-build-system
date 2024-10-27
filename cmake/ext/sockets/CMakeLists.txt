@@ -1,3 +1,8 @@
+project(
+  PhpExtensionSockets
+  LANGUAGES C
+)
+
 include(CheckIncludeFile)
 include(CheckStructHasMember)
 include(CheckSymbolExists)
@@ -104,3 +109,7 @@ cmake_push_check_state(RESET)
   set(CMAKE_EXTRA_INCLUDE_FILES "sys/socket.h")
   check_type_size("struct cmsgcred" STRUCT_CMSGCRED)
 cmake_pop_check_state()
+
+set(HAVE_SOCKETS 1)
+
+configure_file(config.cmake.h.in config.h @ONLY)

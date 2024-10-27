@@ -1,3 +1,8 @@
+project(
+  PhpExtensionLibXml
+  LANGUAGES C
+)
+
 include(FeatureSummary)
 
 option(
@@ -58,3 +63,7 @@ if(LIBXML2_VERSION_STRING VERSION_LESS 2.10)
 endif()
 
 target_link_libraries(php_libxml PUBLIC LibXml2::LibXml2)
+
+set(HAVE_LIBXML 1)
+
+configure_file(config.cmake.h.in config.h @ONLY)

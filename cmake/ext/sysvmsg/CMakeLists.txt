@@ -1,3 +1,8 @@
+project(
+  PhpExtensionSysVmsg
+  LANGUAGES C
+)
+
 # Extension is only for *nix systems.
 if(CMAKE_SYSTEM_NAME STREQUAL "Windows")
   return()
@@ -49,3 +54,7 @@ target_sources(
     sysvmsg.c
     sysvmsg.stub.php
 )
+
+set(HAVE_SYSVMSG 1)
+
+configure_file(config.cmake.h.in config.h @ONLY)

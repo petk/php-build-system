@@ -1,3 +1,8 @@
+project(
+  PhpExtensionPcntl
+  LANGUAGES C
+)
+
 # Extension is only for *nix systems.
 if(CMAKE_SYSTEM_NAME STREQUAL "Windows")
   return()
@@ -167,3 +172,5 @@ cmake_push_check_state(RESET)
     endif()
   endblock()
 cmake_pop_check_state()
+
+configure_file(config.cmake.h.in config.h @ONLY)

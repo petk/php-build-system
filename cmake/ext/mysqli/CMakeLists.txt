@@ -1,3 +1,8 @@
+project(
+  PhpExtensionMysqli
+  LANGUAGES C
+)
+
 include(CMakeDependentOption)
 include(FeatureSummary)
 include(PHP/Set)
@@ -96,3 +101,5 @@ if(MySQL_Socket_PATH)
     CACHE INTERNAL "The MySQL Unix socket location."
   )
 endif()
+
+configure_file(config.cmake.h.in config.h @ONLY)

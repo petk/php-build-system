@@ -1,3 +1,8 @@
+project(
+  PhpExtensionPosix
+  LANGUAGES C
+)
+
 # Extension is only for *nix systems.
 if(CMAKE_SYSTEM_NAME STREQUAL "Windows")
   return()
@@ -96,3 +101,7 @@ cmake_push_check_state(RESET)
     HAVE_STRUCT_UTSNAME_DOMAINNAME
   )
 cmake_pop_check_state()
+
+set(HAVE_POSIX 1)
+
+configure_file(config.cmake.h.in config.h @ONLY)

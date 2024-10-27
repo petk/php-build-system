@@ -1,0 +1,2 @@
+/* Define to 1 if the PHP extension 'json' is built as a dynamic module. */
+#cmakedefine COMPILE_DL_JSON 1

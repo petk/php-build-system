@@ -1,3 +1,8 @@
+project(
+  PhpExtensionSoap
+  LANGUAGES C
+)
+
 include(CMakeDependentOption)
 include(FeatureSummary)
 
@@ -63,3 +68,7 @@ add_dependencies(php_soap php_date php_hash php_libxml php_random)
 if(EXT_SESSION)
   add_dependencies(php_soap php_session)
 endif()
+
+set(HAVE_SOAP 1)
+
+configure_file(config.cmake.h.in config.h @ONLY)

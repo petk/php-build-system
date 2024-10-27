@@ -1,4 +1,10 @@
 # TODO: ext/readline is cli extension only.
+
+project(
+  PhpExtensionReadline
+  LANGUAGES C
+)
+
 include(CheckLibraryExists)
 include(CheckSymbolExists)
 include(CMakeDependentOption)
@@ -101,7 +107,9 @@ cmake_push_check_state(RESET)
   )
 cmake_pop_check_state()
 
-# TODO: Editline dependent libraries shouldn't be linked on this level.
+configure_file(config.cmake.h.in config.h @ONLY)
+
+# TODO: Editline/Readline dependent libraries shouldn't be linked on this level.
 # Recheck if this is really needed. Either move to find modules or remove it.
 # Also, for example, Editline with Autoconf integration has even more thorough
 # dependencies checked in current version.

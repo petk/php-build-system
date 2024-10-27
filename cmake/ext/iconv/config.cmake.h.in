@@ -1,0 +1,23 @@
+/* Define to 1 if the PHP extension 'iconv' is built as a dynamic module. */
+#cmakedefine COMPILE_DL_ICONV 1
+
+/* Define to 1 if iconv implementation is glibc. */
+#cmakedefine HAVE_GLIBC_ICONV 1
+
+/* Define to 1 if iconv implementation is IBM. */
+#cmakedefine HAVE_IBM_ICONV 1
+
+/* Define to 1 if the PHP extension 'iconv' is available. */
+#cmakedefine HAVE_ICONV 1
+
+/* Define to 1 if you have the 'libiconv' function. */
+#cmakedefine HAVE_LIBICONV 1
+
+/* Define to 1 if 'iconv()' is aliased to 'libiconv()'. */
+#cmakedefine ICONV_ALIASED_LIBICONV 1
+
+/* Define to 1 if iconv has broken IGNORE. */
+#cmakedefine ICONV_BROKEN_IGNORE 1
+
+/* The iconv implementation. */
+#cmakedefine PHP_ICONV_IMPL "@PHP_ICONV_IMPL@"

@@ -1,0 +1,13 @@
+/* Define to 1 if the PHP extension 'enchant' is built as a dynamic module. */
+#cmakedefine COMPILE_DL_ENCHANT 1
+
+/* Define to 1 if the PHP extension 'enchant' is available. */
+#cmakedefine HAVE_ENCHANT 1
+
+/* Define to 1 if Enchant library has the 'enchant_broker_set_param' function
+   (available since 1.5.0 and removed in 2.x). */
+#cmakedefine HAVE_ENCHANT_BROKER_SET_PARAM 1
+
+/* Define to 1 if Enchant library has the 'enchant_get_version' function
+   (available since 1.6.0). */
+#cmakedefine HAVE_ENCHANT_GET_VERSION 1

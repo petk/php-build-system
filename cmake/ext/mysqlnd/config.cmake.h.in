@@ -1,0 +1,12 @@
+/* Define to 1 if the PHP extension 'mysqlnd' is built as a dynamic module. */
+#cmakedefine COMPILE_DL_MYSQLND 1
+
+/* Define to 1 if mysqlnd has compressed protocol support. */
+#cmakedefine MYSQLND_COMPRESSION_ENABLED 1
+
+/* Define to 1 if mysqlnd has extended SSL enabled through a system library
+   OpenSSL (*nix systems), or Crypt32 (Windows systems). */
+#cmakedefine MYSQLND_HAVE_SSL 1
+
+/* Define to 1 if mysqlnd core SSL is enabled. */
+#cmakedefine MYSQLND_SSL_SUPPORTED 1

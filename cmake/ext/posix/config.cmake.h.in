@@ -1,0 +1,56 @@
+/* Define to 1 if the PHP extension 'posix' is built as a dynamic module. */
+#cmakedefine COMPILE_DL_POSIX 1
+
+/* Define to 1 if you have the 'ctermid' function. */
+#cmakedefine HAVE_CTERMID 1
+
+/* Define to 1 if you have the 'eaccess' function. */
+#cmakedefine HAVE_EACCESS 1
+
+/* Define to 1 if you have the 'fpathconf' function. */
+#cmakedefine HAVE_FPATHCONF 1
+
+/* Define to 1 if you have the 'getgrgid_r' function. */
+#cmakedefine HAVE_GETGRGID_R 1
+
+/* Define to 1 if you have the 'getgroups' function. */
+#cmakedefine HAVE_GETGROUPS 1
+
+/* Define to 1 if you have the 'getpgid' function. */
+#cmakedefine HAVE_GETPGID 1
+
+/* Define to 1 if you have the 'getrlimit' function. */
+#cmakedefine HAVE_GETRLIMIT 1
+
+/* Define to 1 if you have the 'getsid' function. */
+#cmakedefine HAVE_GETSID 1
+
+/* Define to 1 if you have the 'initgroups' function. */
+#cmakedefine HAVE_INITGROUPS 1
+
+/* Define to 1 if you have the 'mkfifo' function. */
+#cmakedefine HAVE_MKFIFO 1
+
+/* Define to 1 if you have the 'mknod' function. */
+#cmakedefine HAVE_MKNOD 1
+
+/* Define to 1 if you have the 'pathconf' function. */
+#cmakedefine HAVE_PATHCONF 1
+
+/* Define to 1 if the PHP extension 'posix' is available. */
+#cmakedefine HAVE_POSIX 1
+
+/* Define to 1 if you have the 'setegid' function. */
+#cmakedefine HAVE_SETEGID 1
+
+/* Define to 1 if you have the 'seteuid' function. */
+#cmakedefine HAVE_SETEUID 1
+
+/* Define to 1 if you have the 'setrlimit' function. */
+#cmakedefine HAVE_SETRLIMIT 1
+
+/* Define to 1 if you have the 'setsid' function. */
+#cmakedefine HAVE_SETSID 1
+
+/* Define to 1 if 'domainname' is a member of 'struct utsname'. */
+#cmakedefine HAVE_STRUCT_UTSNAME_DOMAINNAME 1

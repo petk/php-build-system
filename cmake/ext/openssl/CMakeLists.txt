@@ -1,3 +1,8 @@
+project(
+  PhpExtensionOpenSsl
+  LANGUAGES C
+)
+
 include(CheckSymbolExists)
 include(CMakeDependentOption)
 include(CMakePushCheckState)
@@ -95,11 +100,6 @@ set_package_properties(
 # Link publicly for internal_functions files.
 target_link_libraries(php_openssl PUBLIC OpenSSL::SSL OpenSSL::Crypto)
 
-set(
-  HAVE_OPENSSL_EXT 1
-  CACHE INTERNAL "Whether the openssl extension is available."
-)
-
 if(TARGET OpenSSL::SSL)
   cmake_push_check_state(RESET)
     set(CMAKE_REQUIRED_LIBRARIES OpenSSL::SSL)
@@ -158,3 +158,7 @@ if(TARGET OpenSSL::SSL)
     endif()
   endif()
 endif()
+
+set(HAVE_OPENSSL_EXT 1)
+
+configure_file(config.cmake.h.in config.h @ONLY)

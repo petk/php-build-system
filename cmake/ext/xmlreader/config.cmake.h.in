@@ -1,0 +1,6 @@
+/* Define to 1 if the PHP extension 'xmlreader' is built as a dynamic module.
+   */
+#cmakedefine COMPILE_DL_XMLREADER 1
+
+/* Define to 1 if the PHP extension 'xmlreader' is available. */
+#cmakedefine HAVE_XMLREADER 1

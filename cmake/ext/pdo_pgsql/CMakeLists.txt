@@ -1,3 +1,8 @@
+project(
+  PhpExtensionPdoPgsql
+  LANGUAGES C
+)
+
 include(CheckLibraryExists)
 include(CMakeDependentOption)
 include(FeatureSummary)
@@ -101,3 +106,7 @@ if(RE2C_FOUND)
     ${CMAKE_CURRENT_SOURCE_DIR}/pgsql_sql_parser.c
   )
 endif()
+
+set(HAVE_PDO_PGSQL 1)
+
+configure_file(config.cmake.h.in config.h @ONLY)

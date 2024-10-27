@@ -1,3 +1,8 @@
+project(
+  PhpExtensionCtype
+  LANGUAGES C
+)
+
 include(CMakeDependentOption)
 include(FeatureSummary)
 
@@ -33,3 +38,7 @@ target_sources(
     ctype.c
     ctype.stub.php
 )
+
+set(HAVE_CTYPE 1)
+
+configure_file(config.cmake.h.in config.h @ONLY)

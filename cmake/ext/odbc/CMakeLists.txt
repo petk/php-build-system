@@ -1,5 +1,10 @@
 # TODO: Add support for the rest of the ODBC types.
 
+project(
+  PhpExtensionOdbc
+  LANGUAGES C
+)
+
 include(CMakeDependentOption)
 include(FeatureSummary)
 
@@ -169,3 +174,5 @@ if(NOT EXT_ODBC_TYPE MATCHES "^(dbmaker|solid)$")
 endif()
 
 set(HAVE_UODBC 1 CACHE INTERNAL "Whether the odbc extension is enabled")
+
+configure_file(config.cmake.h.in config.h @ONLY)

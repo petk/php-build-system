@@ -1,3 +1,8 @@
+project(
+  PhpExtensionZip
+  LANGUAGES C
+)
+
 include(CheckLibraryExists)
 include(CMakeDependentOption)
 include(FeatureSummary)
@@ -131,3 +136,7 @@ if(TARGET libzip::libzip)
     HAVE_METHOD_SUPPORTED
   )
 endif()
+
+set(HAVE_ZIP 1)
+
+configure_file(config.cmake.h.in config.h @ONLY)

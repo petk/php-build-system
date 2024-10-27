@@ -1,3 +1,8 @@
+project(
+  PhpExtensionDba
+  LANGUAGES C
+)
+
 include(CMakeDependentOption)
 include(FeatureSummary)
 
@@ -388,3 +393,7 @@ if(EXT_DBA_DB)
 
   set(DBA_DB4 1 CACHE INTERNAL "Whether the Berkeley DB support is enabled")
 endif()
+
+set(HAVE_DBA 1)
+
+configure_file(config.cmake.h.in config.h @ONLY)

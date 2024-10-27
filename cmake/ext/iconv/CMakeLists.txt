@@ -1,3 +1,8 @@
+project(
+  PhpExtensionIconv
+  LANGUAGES C
+)
+
 include(CheckLibraryExists)
 include(CheckSourceRuns)
 include(CheckSymbolExists)
@@ -237,3 +242,7 @@ if(TARGET Iconv::Iconv)
     message(CHECK_PASS "yes")
   endif()
 endif()
+
+set(HAVE_ICONV 1)
+
+configure_file(config.cmake.h.in config.h @ONLY)
