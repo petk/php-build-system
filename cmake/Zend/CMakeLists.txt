@@ -349,6 +349,7 @@ cmake_push_check_state(RESET)
 cmake_pop_check_state()
 
 check_symbol_exists(kill "signal.h" HAVE_KILL)
+check_symbol_exists(mempcpy "string.h" HAVE_MEMPCPY)
 
 cmake_push_check_state(RESET)
   set(CMAKE_REQUIRED_DEFINITIONS -D_GNU_SOURCE)
