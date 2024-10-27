@@ -1,6 +1,6 @@
 project(
   PhpExtensionPdoFirebird
-  LANGUAGES C
+  LANGUAGES C CXX
 )
 
 include(CheckLibraryExists)
