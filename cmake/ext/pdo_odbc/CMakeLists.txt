@@ -158,7 +158,7 @@ block()
     set(type "${EXT_PDO_ODBC_TYPE}")
   endif()
 
-  set(PDO_ODBC_TYPE "${type}" CACHE INTERNAL "ODBC driver")
+  set(PDO_ODBC_TYPE "${type}")
 endblock()
 
 if(EXT_PDO_ODBC_ROOT AND NOT ODBC_ROOT)

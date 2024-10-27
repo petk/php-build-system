@@ -7,6 +7,7 @@ project(
 
 include(CMakeDependentOption)
 include(FeatureSummary)
+include(PHP/Set)
 
 option(EXT_ODBC "Enable the odbc extension" OFF)
 
@@ -24,51 +25,48 @@ cmake_dependent_option(
   OFF
 )
 
-if(EXT_ODBC)
-  set(EXT_ODBC_TYPE "unixODBC" CACHE STRING "The ODBC implementation type")
+set(
+  odbcTypes
+    # TODO: "Adabas D" vs "Adabas".
+    "adabas"
+    "dbmaker"
+    "empress-bcs"
+    "empress"
+    "esoob"
+    "ibm-db2"
+    "iODBC"
+    "sapdb"
+    "solid"
+    "unixODBC"
+    "generic"
+)
 
-  # Change from INTERNAL type to show variable on consecutive configuration run.
-  set_property(CACHE EXT_ODBC_TYPE PROPERTY TYPE STRING)
+php_set(
+  EXT_ODBC_TYPE
+  TYPE STRING
+  CHOICES ${odbcTypes}
+  IF EXT_ODBC
+  VALUE unixODBC
+  DOC "The ODBC implementation type"
+)
 
-  block()
-    set(odbc_types
-      # TODO: "Adabas D" vs "Adabas".
-      "adabas"
-      "dbmaker"
-      "empress-bcs"
-      "empress"
-      "esoob"
-      "ibm-db2"
-      "iODBC"
-      "sapdb"
-      "solid"
-      "unixODBC"
-      "generic"
+block()
+  if(EXT_ODBC_TYPE AND NOT EXT_ODBC_TYPE IN_LIST odbcTypes)
+    list(JOIN odbcTypes ", " odbcTypesString)
+
+    message(
+      FATAL_ERROR
+      "Unknown ODBC type EXT_ODBC_TYPE=${EXT_ODBC_TYPE}. Please select one of "
+      "these: ${odbcTypesString}."
     )
-
-    set_property(
-      CACHE EXT_ODBC_TYPE
-      PROPERTY STRINGS ${odbc_types}
-    )
-
-    if(NOT EXT_ODBC_TYPE IN_LIST odbc_types)
-      list(JOIN odbc_types ", " odbc_types_string)
-
-      message(
-        FATAL_ERROR
-        "Unknown ODBC type EXT_ODBC_TYPE=${EXT_ODBC_TYPE}. Please select one "
-        "of these: ${odbc_types_string}."
-      )
-    endif()
-  endblock()
-elseif(DEFINED EXT_ODBC_TYPE)
-  # Hide variable.
-  set_property(CACHE EXT_ODBC_TYPE PROPERTY TYPE INTERNAL)
-endif()
+  endif()
+endblock()
 
 set(
-  EXT_ODBC_VERSION "0x0350"
-  CACHE STRING "Force support for the passed ODBC version. A hex number is \
+  EXT_ODBC_VERSION
+  "0x0350"
+  CACHE STRING
+  "Force support for the passed ODBC version. A hex number is \
 expected, default 0x0350. Set it to empty value to prevent an explicit ODBCVER \
 to be defined."
 )
@@ -133,7 +131,6 @@ elseif(EXT_ODBC_TYPE STREQUAL "solid")
   elseif(CMAKE_SYSTEM_NAME STREQUAL "FreeBSD")
     set(SS_FBX 1)
   endif()
-
 elseif(EXT_ODBC_TYPE STREQUAL "unixODBC")
   set(HAVE_UNIXODBC 1)
 elseif(EXT_ODBC_TYPE STREQUAL "generic")

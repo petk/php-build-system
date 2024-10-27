@@ -120,28 +120,25 @@ target_link_libraries(
     $<$<PLATFORM_ID:Windows>:ws2_32>
 )
 
-if(EXT_MYSQLND_COMPRESSION)
-  find_package(ZLIB ${PHP_ZLIB_MIN_VERSION})
-  set_package_properties(
-    ZLIB
-    PROPERTIES
-      TYPE REQUIRED
-      PURPOSE "Necessary to enable compression in the mysqlnd extension."
-  )
-
-  target_link_libraries(php_mysqlnd PRIVATE ZLIB::ZLIB)
-
-  set(
-    MYSQLND_COMPRESSION_ENABLED 1
-    CACHE INTERNAL "Enable compressed protocol support"
-  )
-endif()
-
-set(MYSQLND_SSL_SUPPORTED 1 CACHE INTERNAL "Enable core mysqlnd SSL code")
-
 # A deferred configuration, so it is executed after the openssl extension to
 # have the EXT_OPENSSL variable available.
 function(php_mysqlnd_post_configuration)
+  if(EXT_MYSQLND_COMPRESSION)
+    find_package(ZLIB ${PHP_ZLIB_MIN_VERSION})
+    set_package_properties(
+      ZLIB
+      PROPERTIES
+        TYPE REQUIRED
+        PURPOSE "Necessary to enable compression in the mysqlnd extension."
+    )
+
+    target_link_libraries(php_mysqlnd PRIVATE ZLIB::ZLIB)
+
+    set(MYSQLND_COMPRESSION_ENABLED 1)
+  endif()
+
+  set(MYSQLND_SSL_SUPPORTED 1)
+
   if(
     (
       NOT CMAKE_SYSTEM_NAME STREQUAL "Windows"
@@ -162,10 +159,7 @@ function(php_mysqlnd_post_configuration)
       target_link_libraries(php_mysqlnd PRIVATE OpenSSL::Crypto)
     endif()
 
-    set(
-      MYSQLND_HAVE_SSL 1
-      CACHE INTERNAL "Enable mysqlnd extended SSL"
-    )
+    set(MYSQLND_HAVE_SSL 1)
 
     add_dependencies(php_mysqlnd php_hash)
   endif()
@@ -175,6 +169,12 @@ function(php_mysqlnd_post_configuration)
     MYSQLND_HAVE_SSL
     "Extended SSL support through a system library"
   )
+
+  configure_file(
+    ${PhpExtensionMysqlnd_SOURCE_DIR}/config.cmake.h.in
+    ${PhpExtensionMysqlnd_BINARY_DIR}/config.h
+    @ONLY
+  )
 endfunction()
 
 # Run at the end of the configuration.
@@ -183,5 +183,3 @@ cmake_language(
     DIRECTORY ${PHP_SOURCE_DIR}
   CALL php_mysqlnd_post_configuration
 )
-
-configure_file(config.cmake.h.in config.h @ONLY)

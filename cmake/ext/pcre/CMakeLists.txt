@@ -54,10 +54,7 @@ target_sources(
 
 target_compile_definitions(php_pcre PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE=1)
 
-set(
-  PCRE2_CODE_UNIT_WIDTH 8
-  CACHE INTERNAL "Number of bits in non-UTF mode for PCRE library."
-)
+set(PCRE2_CODE_UNIT_WIDTH 8)
 
 if(EXT_PCRE_EXTERNAL)
   find_package(PCRE 10.30)
@@ -181,7 +178,7 @@ else()
   endif()
 
   if(CMAKE_SYSTEM_NAME STREQUAL "Windows")
-    set(PCRE2_STATIC 1 CACHE INTERNAL "Whether a static PCRE library is linked")
+    set(PCRE2_STATIC 1)
   endif()
 
   target_compile_definitions(
@@ -192,18 +189,12 @@ else()
       HAVE_CONFIG_H
   )
 
-  set(
-    HAVE_BUNDLED_PCRE 1
-    CACHE INTERNAL "Whether the bundled PCRE library is used."
-  )
+  set(HAVE_BUNDLED_PCRE 1)
 
   message(CHECK_START "Checking whether to enable PCRE JIT support")
 
   if(EXT_PCRE_JIT)
-    set(
-      HAVE_PCRE_JIT_SUPPORT 1
-      CACHE INTERNAL "Whether to enable the PCRE JIT support"
-    )
+    set(HAVE_PCRE_JIT_SUPPORT 1)
 
     message(CHECK_PASS "yes")
 

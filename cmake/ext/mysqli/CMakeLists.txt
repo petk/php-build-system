@@ -43,9 +43,6 @@ php_set(
     "If unspecified, default locations are searched."
 )
 mark_as_advanced(EXT_MYSQL_SOCKET_PATH)
-if(NOT EXT_MYSQL_SOCKET_PATH)
-  unset(PHP_MYSQL_UNIX_SOCK_ADDR CACHE)
-endif()
 
 if(NOT EXT_MYSQLI)
   return()
@@ -96,10 +93,7 @@ if(EXT_MYSQL_SOCKET)
 endif()
 
 if(MySQL_Socket_PATH)
-  set(
-    PHP_MYSQL_UNIX_SOCK_ADDR "${MySQL_Socket_PATH}"
-    CACHE INTERNAL "The MySQL Unix socket location."
-  )
+  set(PHP_MYSQL_UNIX_SOCK_ADDR "${MySQL_Socket_PATH}")
 endif()
 
 configure_file(config.cmake.h.in config.h @ONLY)

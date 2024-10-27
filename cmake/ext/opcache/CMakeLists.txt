@@ -99,10 +99,7 @@ set_target_properties(
 target_compile_definitions(php_opcache PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE=1)
 
 if(EXT_OPCACHE_HUGE_CODE_PAGES)
-  set(
-    HAVE_HUGE_CODE_PAGES 1
-    CACHE INTERNAL "Whether to copy PHP CODE pages into HUGE PAGES (experimental)"
-  )
+  set(HAVE_HUGE_CODE_PAGES 1)
 endif()
 
 ################################################################################
@@ -136,7 +133,7 @@ if(EXT_OPCACHE_JIT)
 endif()
 
 if(EXT_OPCACHE_JIT)
-  set(HAVE_JIT 1 CACHE INTERNAL "Whether JIT is enabled")
+  set(HAVE_JIT 1)
 
   target_sources(
     php_opcache
@@ -177,7 +174,7 @@ if(EXT_OPCACHE_JIT)
 
     target_link_libraries(php_opcache PRIVATE Capstone::Capstone)
 
-    set(HAVE_CAPSTONE 1 CACHE INTERNAL "Capstone is available")
+    set(HAVE_CAPSTONE 1)
   endif()
 
   # Find out which ABI to use.

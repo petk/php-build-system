@@ -75,10 +75,7 @@ if(TARGET SQLite::SQLite3)
   )
 
   if(NOT HAVE_SQLITE3_LOAD_EXTENSION)
-    set(
-      SQLITE_OMIT_LOAD_EXTENSION 1
-      CACHE INTERNAL "Sqlite3 without extension support"
-    )
+    set(SQLITE_OMIT_LOAD_EXTENSION 1)
   endif()
 endif()
 
