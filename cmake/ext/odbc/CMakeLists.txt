@@ -74,10 +74,7 @@ to be defined."
 )
 mark_as_advanced(EXT_ODBC_VERSION)
 
-set(
-  ODBCVER "${EXT_ODBC_VERSION}"
-  CACHE INTERNAL "The highest supported ODBC version"
-)
+set(ODBCVER "${EXT_ODBC_VERSION}")
 
 if(NOT EXT_ODBC)
   return()
@@ -110,28 +107,37 @@ set_package_properties(
 target_link_libraries(php_odbc PRIVATE ODBC::ODBC)
 
 if(EXT_ODBC_TYPE STREQUAL "adabas")
-  set(HAVE_ADABAS 1 CACHE INTERNAL "Whether the ODBC type is Adabas.")
+  set(HAVE_ADABAS 1)
 elseif(EXT_ODBC_TYPE STREQUAL "dbmaker")
-  set(HAVE_DBMAKER 1 CACHE INTERNAL "Whether the ODBC type is DBMaker.")
+  set(HAVE_DBMAKER 1)
 elseif(EXT_ODBC_TYPE MATCHES "^(empress|empress-bcs)$")
-  set(HAVE_EMPRESS 1 CACHE INTERNAL "Whether the ODBC type is Empress.")
+  set(HAVE_EMPRESS 1)
 elseif(EXT_ODBC_TYPE STREQUAL "esoob")
-  set(HAVE_ESOOB 1 CACHE INTERNAL "Whether the ODBC type is Easysoft OOB.")
+  set(HAVE_ESOOB 1)
 elseif(EXT_ODBC_TYPE STREQUAL "ibm-db2")
-  set(HAVE_IBMDB2 1 CACHE INTERNAL "Whether the ODBC type is IBM DB2.")
+  set(HAVE_IBMDB2 1)
 elseif(EXT_ODBC_TYPE STREQUAL "iODBC")
-  set(HAVE_IODBC 1 CACHE INTERNAL "Whether the ODBC type is iODBC.")
+  set(HAVE_IODBC 1)
 elseif(EXT_ODBC_TYPE STREQUAL "sapdb")
-  set(HAVE_SAPDB 1 CACHE INTERNAL "Whether the ODBC type is SAP DB.")
+  set(HAVE_SAPDB 1)
 elseif(EXT_ODBC_TYPE STREQUAL "solid")
-  # TODO: Set based on the solid version:
-  #set(HAVE_SOLID_35 1 CACHE INTERNAL "Whether the ODBC type is Solid.")
-  #set(HAVE_SOLID_30 1 CACHE INTERNAL "Whether the ODBC type is Solid.")
-  set(HAVE_SOLID 1 CACHE INTERNAL "Whether the ODBC type is Solid.")
+  # TODO: Set based on the Solid version:
+  #set(HAVE_SOLID_35 1)
+  #set(HAVE_SOLID_30 1)
+  set(HAVE_SOLID 1)
+
+  # Additional configuration for using obsolete <sqlunix.h> header on obsolete
+  # systems.
+  if(CMAKE_SYSTEM_NAME STREQUAL "Linux")
+    set(SS_LINUX 1)
+  elseif(CMAKE_SYSTEM_NAME STREQUAL "FreeBSD")
+    set(SS_FBX 1)
+  endif()
+
 elseif(EXT_ODBC_TYPE STREQUAL "unixODBC")
-  set(HAVE_UNIXODBC 1 CACHE INTERNAL "Whether the ODBC type is unixODBC.")
+  set(HAVE_UNIXODBC 1)
 elseif(EXT_ODBC_TYPE STREQUAL "generic")
-  set(HAVE_CODBC 1 CACHE INTERNAL "Whether the ODBC type is generic custom.")
+  set(HAVE_CODBC 1)
 endif()
 
 ################################################################################
@@ -167,12 +173,9 @@ if(TARGET ODBC::ODBC)
 endif()
 
 if(NOT EXT_ODBC_TYPE MATCHES "^(dbmaker|solid)$")
-  set(
-    HAVE_SQLDATASOURCES 1
-    CACHE INTERNAL "Whether SQLDataSources function or macro is available."
-  )
+  set(HAVE_SQLDATASOURCES 1)
 endif()
 
-set(HAVE_UODBC 1 CACHE INTERNAL "Whether the odbc extension is enabled")
+set(HAVE_UODBC 1)
 
 configure_file(config.cmake.h.in config.h @ONLY)
