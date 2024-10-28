@@ -111,12 +111,6 @@
 /* Define to 1 if you have the 'copy_file_range' function. */
 #cmakedefine HAVE_COPY_FILE_RANGE 1
 
-/* Define to 1 if '__cpuid_count' is available. */
-#cmakedefine HAVE_CPUID_COUNT 1
-
-/* Define to 1 if you have the <cpuid.h> header file. */
-#cmakedefine HAVE_CPUID_H 1
-
 /* Define to 1 if you have the 'ctime_r' function. */
 #cmakedefine HAVE_CTIME_R 1
 
@@ -162,12 +156,6 @@
 /* Define to 1 if PHP-FPM has ACL support. */
 #cmakedefine HAVE_FPM_ACL 1
 
-/* Define to 1 if fpsetprec is present and usable. */
-#cmakedefine HAVE_FPSETPREC 1
-
-/* Define to 1 if FPU control word can be manipulated by inline assembler. */
-#cmakedefine HAVE_FPU_INLINE_ASM_X86 1
-
 /* Define to 1 if you have the 'ftok' function. */
 #cmakedefine HAVE_FTOK 1
 
@@ -192,10 +180,6 @@
 /* Define to 1 if you have the 'gai_strerror' function. */
 #cmakedefine HAVE_GAI_STRERROR 1
 
-/* Define to 1 if the target system has support for global register variables.
-   */
-#cmakedefine HAVE_GCC_GLOBAL_REGS 1
-
 /* Define to 1 if GCOV code coverage is enabled. */
 #cmakedefine HAVE_GCOV 1
 
@@ -219,9 +203,6 @@
 
 /* Define to 1 if you have the 'getlogin' function. */
 #cmakedefine HAVE_GETLOGIN 1
-
-/* Define to 1 if you have the 'getpid' function. */
-#cmakedefine HAVE_GETPID 1
 
 /* Define to 1 if you have the 'getprotobyname' function. */
 #cmakedefine HAVE_GETPROTOBYNAME 1
@@ -250,9 +231,6 @@
 /* Define to 1 if you have the 'getsid' function. */
 #cmakedefine HAVE_GETSID 1
 
-/* Define to 1 if you have the 'gettid' function. */
-#cmakedefine HAVE_GETTID 1
-
 /* Define to 1 if you have the 'gettimeofday' function. */
 #cmakedefine HAVE_GETTIMEOFDAY 1
 
@@ -277,9 +255,6 @@
 /* Define to 1 if IPv6 is enabled and supported. */
 #cmakedefine HAVE_IPV6 1
 
-/* Define to 1 if you have the 'kill' function. */
-#cmakedefine HAVE_KILL 1
-
 /* Define to 1 if system has a working 'kqueue' function. */
 #cmakedefine HAVE_KQUEUE 1
 
@@ -294,9 +269,6 @@
 
 /* Define to 1 if system has the 'libedit' library. */
 #cmakedefine HAVE_LIBEDIT 1
-
-/* Define to 1 if you have the <libproc.h> header file. */
-#cmakedefine HAVE_LIBPROC_H 1
 
 /* Define to 1 if you have the <linux/sock_diag.h> header file. */
 #cmakedefine HAVE_LINUX_SOCK_DIAG_H 1
@@ -328,9 +300,6 @@
 /* Define to 1 if you have the 'memmem' function. */
 #cmakedefine HAVE_MEMMEM 1
 
-/* Define to 1 if you have the 'mempcpy' function. */
-#cmakedefine HAVE_MEMPCPY 1
-
 /* Define to 1 if you have the 'memrchr' function. */
 #cmakedefine HAVE_MEMRCHR 1
 
@@ -339,9 +308,6 @@
 
 /* Define to 1 if you have the 'mmap' function. */
 #cmakedefine HAVE_MMAP 1
-
-/* Define to 1 if you have the 'mremap' function. */
-#cmakedefine HAVE_MREMAP 1
 
 /* Define to 1 if you have the 'nanosleep' function. */
 #cmakedefine HAVE_NANOSLEEP 1
@@ -385,23 +351,11 @@
 /* Define if the PS_STRINGS exists. */
 #cmakedefine HAVE_PS_STRINGS
 
-/* Define to 1 if you have the 'pthread_attr_getstack' function. */
-#cmakedefine HAVE_PTHREAD_ATTR_GETSTACK 1
-
-/* Define to 1 if you have the 'pthread_attr_get_np' function. */
-#cmakedefine HAVE_PTHREAD_ATTR_GET_NP 1
-
-/* Define to 1 if you have the 'pthread_getattr_np' function. */
-#cmakedefine HAVE_PTHREAD_GETATTR_NP 1
-
 /* Define to 1 if you have the 'pthread_get_stackaddr_np' function. */
 #cmakedefine HAVE_PTHREAD_GET_STACKADDR_NP 1
 
 /* Define to 1 if you have the 'pthread_jit_write_protect_np' function. */
 #cmakedefine HAVE_PTHREAD_JIT_WRITE_PROTECT_NP 1
-
-/* Define to 1 if you have the 'pthread_stackseg_np' function. */
-#cmakedefine HAVE_PTHREAD_STACKSEG_NP 1
 
 /* Define to 1 if you have the 'ptrace' function. */
 #cmakedefine HAVE_PTRACE 1
@@ -450,9 +404,6 @@
 
 /* Define to 1 if you have the 'shutdown' function. */
 #cmakedefine HAVE_SHUTDOWN 1
-
-/* Define to 1 if you have the 'sigaction' function. */
-#cmakedefine HAVE_SIGACTION 1
 
 /* Define to 1 if you have the 'sigprocmask' function. */
 #cmakedefine HAVE_SIGPROCMASK 1
@@ -662,15 +613,6 @@
 /* Define to 1 if you have the <wmmintrin.h> header file. */
 #cmakedefine HAVE_WMMINTRIN_H 1
 
-/* Define to 1 if _controlfp is present and usable. */
-#cmakedefine HAVE__CONTROLFP 1
-
-/* Define to 1 if _controlfp_s is present and usable. */
-#cmakedefine HAVE__CONTROLFP_S 1
-
-/* Define to 1 if _FPU_SETCW is present and usable. */
-#cmakedefine HAVE__FPU_SETCW 1
-
 /* Define to 1 if 'major', 'minor', and 'makedev' are declared in <mkdev.h>.
    */
 #cmakedefine MAJOR_IN_MKDEV 1
@@ -838,9 +780,6 @@
 /* Define if processor uses big-endian word. */
 #cmakedefine WORDS_BIGENDIAN
 
-/* Define to 1 if checking the stack limit is supported. */
-#cmakedefine ZEND_CHECK_STACK_LIMIT 1
-
 /* Define to 1 if debugging is enabled, and to 0 if not.
    TODO: This is still not good enough because multi-config generators would
    then need separate php_config.h files for each build type. */
@@ -848,33 +787,21 @@
 # define ZEND_DEBUG $<IF:$<CONFIG:Debug,DebugAssertions>,1,0>
 #endif
 
-/* Define to 1 if Zend fiber uses ucontext instead of boost context. */
-#cmakedefine ZEND_FIBER_UCONTEXT 1
-
-/* Define to 1 if Zend max execution timers are supported and enabled. */
-#cmakedefine ZEND_MAX_EXECUTION_TIMERS 1
-
-/* Number of bytes for the ZEND_MM alignment. */
-#cmakedefine ZEND_MM_ALIGNMENT @ZEND_MM_ALIGNMENT@
-
-/* Number of bytes for the logarithmic ZEND_MM alignment. */
-#cmakedefine ZEND_MM_ALIGNMENT_LOG2 @ZEND_MM_ALIGNMENT_LOG2@
-
-/* Define to 1 if ZEND_MM needs 8-byte realignment, and to 0 if not. */
-#cmakedefine01 ZEND_MM_NEED_EIGHT_BYTE_REALIGNMENT
-
-/* Define to 1 if Zend signal handling is supported and enabled. */
-#cmakedefine ZEND_SIGNALS 1
-
 /* Define to 1 if thread safety (ZTS) is enabled. */
 #cmakedefine ZTS 1
 
 /* Define to 1 when using musl libc. */
 #cmakedefine __MUSL__ 1
 
-/*************************************************************************
+/*****************************************************************************
+  Zend engine configuration
+ ****************************************************************************/
+
+@ZEND_CONFIGURATION@
+
+/*****************************************************************************
   PHP extensions configuration
- ************************************************************************/
+ ****************************************************************************/
 
 @PHP_EXTENSIONS_CONFIGURATION@
 

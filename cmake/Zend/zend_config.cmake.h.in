@@ -1,0 +1,81 @@
+/* Define to 1 if _controlfp is present and usable. */
+#cmakedefine HAVE__CONTROLFP 1
+
+/* Define to 1 if _controlfp_s is present and usable. */
+#cmakedefine HAVE__CONTROLFP_S 1
+
+/* Define to 1 if _FPU_SETCW is present and usable. */
+#cmakedefine HAVE__FPU_SETCW 1
+
+/* Define to 1 if '__cpuid_count' is available. */
+#cmakedefine HAVE_CPUID_COUNT 1
+
+/* Define to 1 if you have the <cpuid.h> header file. */
+#cmakedefine HAVE_CPUID_H 1
+
+/* Define to 1 if fpsetprec is present and usable. */
+#cmakedefine HAVE_FPSETPREC 1
+
+/* Define to 1 if FPU control word can be manipulated by inline assembler. */
+#cmakedefine HAVE_FPU_INLINE_ASM_X86 1
+
+/* Define to 1 if the target system has support for global register variables.
+   */
+#cmakedefine HAVE_GCC_GLOBAL_REGS 1
+
+/* Define to 1 if you have the 'getpid' function. */
+#cmakedefine HAVE_GETPID 1
+
+/* Define to 1 if you have the 'gettid' function. */
+#cmakedefine HAVE_GETTID 1
+
+/* Define to 1 if you have the 'kill' function. */
+#cmakedefine HAVE_KILL 1
+
+/* Define to 1 if you have the <libproc.h> header file. */
+#cmakedefine HAVE_LIBPROC_H 1
+
+/* Define to 1 if you have the 'mempcpy' function. */
+#cmakedefine HAVE_MEMPCPY 1
+
+/* Define to 1 if you have the 'mremap' function. */
+#cmakedefine HAVE_MREMAP 1
+
+/* Define to 1 if you have the 'pthread_attr_get_np' function. */
+#cmakedefine HAVE_PTHREAD_ATTR_GET_NP 1
+
+/* Define to 1 if you have the 'pthread_attr_getstack' function. */
+#cmakedefine HAVE_PTHREAD_ATTR_GETSTACK 1
+
+/* Define to 1 if you have the 'pthread_get_stackaddr_np' function. */
+#cmakedefine HAVE_PTHREAD_GET_STACKADDR_NP 1
+
+/* Define to 1 if you have the 'pthread_getattr_np' function. */
+#cmakedefine HAVE_PTHREAD_GETATTR_NP 1
+
+/* Define to 1 if you have the 'pthread_stackseg_np' function. */
+#cmakedefine HAVE_PTHREAD_STACKSEG_NP 1
+
+/* Define to 1 if you have the 'sigaction' function. */
+#cmakedefine HAVE_SIGACTION 1
+
+/* Define to 1 if checking the stack limit is supported. */
+#cmakedefine ZEND_CHECK_STACK_LIMIT 1
+
+/* Define to 1 if Zend fiber uses ucontext instead of boost context. */
+#cmakedefine ZEND_FIBER_UCONTEXT 1
+
+/* Define to 1 if Zend max execution timers are supported and enabled. */
+#cmakedefine ZEND_MAX_EXECUTION_TIMERS 1
+
+/* Number of bytes for the ZEND_MM alignment. */
+#cmakedefine ZEND_MM_ALIGNMENT @ZEND_MM_ALIGNMENT@
+
+/* Number of bytes for the logarithmic ZEND_MM alignment. */
+#cmakedefine ZEND_MM_ALIGNMENT_LOG2 @ZEND_MM_ALIGNMENT_LOG2@
+
+/* Define to 1 if ZEND_MM needs 8-byte realignment, and to 0 if not. */
+#cmakedefine01 ZEND_MM_NEED_EIGHT_BYTE_REALIGNMENT
+
+/* Define to 1 if Zend signal handling is supported and enabled. */
+#cmakedefine ZEND_SIGNALS 1
