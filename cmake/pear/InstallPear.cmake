@@ -66,7 +66,7 @@ if(NOT EXISTS ${phpPearCurrentBinaryDir}/install-pear-nozlib.phar)
     STATUS downloadStatus
   )
 
-  if(IS_EXECUTABLE "${phpPearPhpExecutable}" AND NOT downloadStatus)
+  if(phpPearPhpExecutable AND NOT downloadStatus)
     # Download using fetch.php.
     execute_process(
       COMMAND ${phpPearPhpExecutable}
@@ -83,7 +83,7 @@ if(NOT EXISTS ${phpPearCurrentBinaryDir}/install-pear-nozlib.phar)
   endif()
 endif()
 
-if(NOT IS_EXECUTABLE "${phpPearPhpExecutable}")
+if(NOT phpPearPhpExecutable)
   message(
     WARNING
     "The PEAR installation is not complete.\n"
