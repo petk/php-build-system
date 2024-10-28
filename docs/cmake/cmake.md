@@ -279,6 +279,7 @@ version available on the operating system.
   * `$<LIST:SORT,list[,...]>` generator expression
 * 3.29
   * `CMAKE_LINKER_TYPE`
+  * `if(IS_EXECUTABLE)`
 * 3.31
   * `add_custom_command()` keyword `CODEGEN`
 
