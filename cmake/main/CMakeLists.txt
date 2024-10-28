@@ -362,19 +362,23 @@ function(_php_main_create_files)
   message(STATUS "Creating main/php_version.h")
   configure_file(main/php_version.h.in main/php_version.h @ONLY)
 
-  # Append extensions config.h contents.
-  set(extensionsConfigH "")
+  # Add Zend engine configuration.
+  file(READ ${CMAKE_CURRENT_BINARY_DIR}/Zend/CMakeFiles/zend_config.h config)
+  string(STRIP "${config}" ZEND_CONFIGURATION)
+
+  # Add extensions configuration.
+  set(config "")
   get_cmake_property(extensions PHP_EXTENSIONS)
+  list(SORT extensions COMPARE NATURAL)
   foreach(extension IN LISTS extensions)
     if(EXISTS ${CMAKE_CURRENT_BINARY_DIR}/ext/${extension}/config.h)
       file(READ ${CMAKE_CURRENT_BINARY_DIR}/ext/${extension}/config.h content)
       if(content)
-        string(APPEND extensionsConfigH "\n${content}")
+        string(APPEND config "\n${content}")
       endif()
     endif()
   endforeach()
-  string(STRIP "${extensionsConfigH}" extensionsConfigH)
-  set(PHP_EXTENSIONS_CONFIGURATION "${extensionsConfigH}")
+  string(STRIP "${config}" PHP_EXTENSIONS_CONFIGURATION)
 
   if(CMAKE_SYSTEM_NAME STREQUAL "Windows")
     set(PHP_CONFIG_H_WINDOWS 1)

@@ -590,6 +590,8 @@ if(NOT CMAKE_SIZEOF_VOID_P EQUAL 4)
   )
 endif()
 
+configure_file(zend_config.cmake.h.in CMakeFiles/zend_config.h @ONLY)
+
 if(NOT CMAKE_SYSTEM_NAME STREQUAL "Windows")
   message(STATUS "Creating Zend/zend_config.h")
 
