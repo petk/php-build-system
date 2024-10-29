@@ -1,5 +1,2 @@
-/* Define to 1 if the PHP extension 'gmp' is built as a dynamic module. */
-#cmakedefine COMPILE_DL_GMP 1
-
 /* Define to 1 if the PHP extension 'gmp' is available. */
 #cmakedefine HAVE_GMP 1

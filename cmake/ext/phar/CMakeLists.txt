@@ -259,5 +259,3 @@ install(CODE "
     SYMBOLIC
   )
 ")
-
-configure_file(config.cmake.h.in config.h @ONLY)

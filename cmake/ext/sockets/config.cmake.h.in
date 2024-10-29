@@ -4,9 +4,6 @@
 /* Define to 1 if the system has the type 'struct ucred'. */
 #cmakedefine ANC_CREDS_UCRED 1
 
-/* Define to 1 if the PHP extension 'sockets' is built as a dynamic module. */
-#cmakedefine COMPILE_DL_SOCKETS 1
-
 /* Define to 1 if system has the AI_ALL. */
 #cmakedefine HAVE_AI_ALL 1
 

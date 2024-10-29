@@ -26,5 +26,3 @@ target_compile_definitions(
 )
 
 add_dependencies(php_reflection php_random)
-
-configure_file(config.cmake.h.in config.h @ONLY)

@@ -1,6 +1,2 @@
-/* Define to 1 if the PHP extension 'pdo_pgsql' is built as a dynamic module.
-   */
-#cmakedefine COMPILE_DL_PDO_PGSQL 1
-
 /* Define to 1 if the PHP extension 'pdo_pgsql' is available. */
 #cmakedefine HAVE_PDO_PGSQL 1

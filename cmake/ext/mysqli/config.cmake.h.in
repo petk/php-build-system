@@ -1,5 +1,2 @@
-/* Define to 1 if the PHP extension 'mysqli' is built as a dynamic module. */
-#cmakedefine COMPILE_DL_MYSQLI 1
-
 /* The MySQL Unix socket location. */
 #cmakedefine PHP_MYSQL_UNIX_SOCK_ADDR "@PHP_MYSQL_UNIX_SOCK_ADDR@"

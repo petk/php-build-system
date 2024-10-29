@@ -1,2 +1,0 @@
-/* Define to 1 if the PHP extension 'filter' is built as a dynamic module. */
-#cmakedefine COMPILE_DL_FILTER 1

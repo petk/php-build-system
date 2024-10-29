@@ -1,6 +1,2 @@
-/* Define to 1 if the PHP extension 'pdo_dblib' is built as a dynamic module.
-   */
-#cmakedefine COMPILE_DL_PDO_DBLIB 1
-
 /* Define to 1 if the PHP extension 'pdo_dblib' is available. */
 #cmakedefine HAVE_PDO_DBLIB 1

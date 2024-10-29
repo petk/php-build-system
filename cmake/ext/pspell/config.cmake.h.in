@@ -1,5 +1,2 @@
-/* Define to 1 if the PHP extension 'pspell' is built as a dynamic module. */
-#cmakedefine COMPILE_DL_PSPELL 1
-
 /* Define to 1 if the PHP extension 'pspell' is available. */
 #cmakedefine HAVE_PSPELL 1

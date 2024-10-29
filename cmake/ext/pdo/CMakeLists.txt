@@ -60,5 +60,3 @@ if(RE2C_FOUND)
     ${CMAKE_CURRENT_SOURCE_DIR}/pdo_sql_parser.c
   )
 endif()
-
-configure_file(config.cmake.h.in config.h @ONLY)

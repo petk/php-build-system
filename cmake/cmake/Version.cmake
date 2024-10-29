@@ -13,8 +13,8 @@ Variables:
 
 include_guard(GLOBAL)
 
+# Set the PHP_VERSION_* variables from configure.ac.
 block(PROPAGATE PHP_VERSION)
-  # Set the PHP_VERSION_* variables from configure.ac.
   set(regex "^AC_INIT\\(\\[PHP\\],\\[([0-9]+\.[0-9]+\.[0-9]+)([^\]]*)")
   file(STRINGS ${CMAKE_CURRENT_LIST_DIR}/../configure.ac _ REGEX "${regex}")
 
@@ -54,7 +54,7 @@ function(_php_post_project)
 
   # Read PHP API version.
   set(regex "^[ \t]*#[ \t]*define[ \t]+PHP_API_VERSION[ \t]+([0-9]+)")
-  file(STRINGS main/php.h _ REGEX "^${regex}")
+  file(STRINGS main/php.h _ REGEX "${regex}")
 
   cmake_policy(GET CMP0159 policy)
   if(CMAKE_VERSION VERSION_LESS 3.29 OR NOT policy STREQUAL NEW)
