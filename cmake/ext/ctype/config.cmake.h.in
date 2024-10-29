@@ -1,5 +1,2 @@
-/* Define to 1 if the PHP extension 'ctype' is built as a dynamic module. */
-#cmakedefine COMPILE_DL_CTYPE 1
-
 /* Define to 1 if the PHP extension 'ctype' is available. */
 #cmakedefine HAVE_CTYPE 1

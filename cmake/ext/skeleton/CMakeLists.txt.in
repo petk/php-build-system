@@ -97,4 +97,6 @@ install(
     DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/${PHP_INCLUDE_PREFIX}/ext/%EXTNAME%
 )
 
+set(PHP_EXTENSION_%EXTNAMECAPS% 1)
+
 configure_file(config.cmake.h.in config.h @ONLY)

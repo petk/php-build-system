@@ -1,5 +1,2 @@
-/* Define to 1 if the PHP extension 'sysvmsg' is built as a dynamic module. */
-#cmakedefine COMPILE_DL_SYSVMSG 1
-
 /* Define to 1 if the PHP extension 'sysvmsg' is available. */
 #cmakedefine HAVE_SYSVMSG 1

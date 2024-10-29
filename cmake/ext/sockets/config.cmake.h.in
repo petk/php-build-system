@@ -1,6 +1,3 @@
-/* Define to 1 if the PHP extension 'sockets' is built as a dynamic module. */
-#cmakedefine COMPILE_DL_SOCKETS 1
-
 /* Define to 1 if you have the 'hstrerror' function. */
 #cmakedefine HAVE_HSTRERROR 1
 

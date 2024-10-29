@@ -1,5 +1,2 @@
-/* Define to 1 if the PHP extension 'bcmath' is built as a dynamic module. */
-#cmakedefine COMPILE_DL_BCMATH 1
-
 /* Define to 1 if the PHP extension 'bcmath' is available. */
 #cmakedefine HAVE_BCMATH 1

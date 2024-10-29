@@ -1,5 +1,2 @@
-/* Define to 1 if the PHP extension 'dom' is built as a dynamic module. */
-#cmakedefine COMPILE_DL_DOM 1
-
 /* Define to 1 if the PHP extension 'dom' is available. */
 #cmakedefine HAVE_DOM 1

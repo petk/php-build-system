@@ -1,6 +1,3 @@
-/* Define to 1 if the PHP extension 'snmp' is built as a dynamic module. */
-#cmakedefine COMPILE_DL_SNMP 1
-
 /* Define to 1 if SNMP library has the 'shutdown_snmp_logging' function. */
 #cmakedefine HAVE_SHUTDOWN_SNMP_LOGGING 1
 

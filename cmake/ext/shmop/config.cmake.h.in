@@ -1,5 +1,2 @@
-/* Define to 1 if the PHP extension 'shmop' is built as a dynamic module. */
-#cmakedefine COMPILE_DL_SHMOP 1
-
 /* Define to 1 if the PHP extension 'shmop' is available. */
 #cmakedefine HAVE_SHMOP 1

@@ -1,5 +1,2 @@
-/* Define to 1 if the PHP extension 'bz2' is built as a dynamic module. */
-#cmakedefine COMPILE_DL_BZ2 1
-
 /* Define to 1 if the PHP extension 'bz2' is available. */
 #cmakedefine HAVE_BZ2 1

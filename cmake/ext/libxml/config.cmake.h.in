@@ -1,5 +1,2 @@
-/* Define to 1 if the PHP extension 'libxml' is built as a dynamic module. */
-#cmakedefine COMPILE_DL_LIBXML 1
-
 /* Define to 1 if the PHP extension 'libxml' is available. */
 #cmakedefine HAVE_LIBXML 1

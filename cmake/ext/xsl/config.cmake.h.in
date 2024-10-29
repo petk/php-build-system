@@ -1,6 +1,3 @@
-/* Define to 1 if the PHP extension 'xsl' is built as a dynamic module. */
-#cmakedefine COMPILE_DL_XSL 1
-
 /* Define to 1 if the PHP extension 'xsl' is available. */
 #cmakedefine HAVE_XSL 1
 

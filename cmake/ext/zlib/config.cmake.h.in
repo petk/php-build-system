@@ -1,5 +1,2 @@
-/* Define to 1 if the PHP extension 'zlib' is built as a dynamic module. */
-#cmakedefine COMPILE_DL_ZLIB 1
-
 /* Define to 1 if the PHP extension 'zlib' is available. */
 #cmakedefine HAVE_ZLIB 1

@@ -1,5 +1,2 @@
-/* Define to 1 if the PHP extension 'sodium' is built as a dynamic module. */
-#cmakedefine COMPILE_DL_SODIUM 1
-
 /* Define to 1 if the PHP extension 'sodium' is available. */
 #cmakedefine HAVE_LIBSODIUMLIB 1

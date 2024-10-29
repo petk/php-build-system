@@ -1,6 +1,3 @@
-/* Define to 1 if the PHP extension 'mysqlnd' is built as a dynamic module. */
-#cmakedefine COMPILE_DL_MYSQLND 1
-
 /* Define to 1 if mysqlnd has compressed protocol support. */
 #cmakedefine MYSQLND_COMPRESSION_ENABLED 1
 

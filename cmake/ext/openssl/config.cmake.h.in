@@ -1,6 +1,3 @@
-/* Define to 1 if the PHP extension 'openssl' is built as a dynamic module. */
-#cmakedefine COMPILE_DL_OPENSSL 1
-
 /* Define to 1 if the PHP extension 'openssl' is available. */
 #cmakedefine HAVE_OPENSSL_EXT 1
 
