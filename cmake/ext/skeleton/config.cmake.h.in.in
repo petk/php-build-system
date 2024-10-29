@@ -1,3 +1,2 @@
-/* Define to 1 if the PHP extension '%EXTNAME%' is built as a dynamic module.
-   */
-#cmakedefine COMPILE_DL_%EXTNAMECAPS% 1
+/* Define to 1 if the PHP extension '%EXTNAME%' is available. */
+#cmakedefine PHP_EXTENSION_%EXTNAMECAPS% 1

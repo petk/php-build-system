@@ -1,9 +1,6 @@
 /* The cdb handler header file. */
 #cmakedefine CDB_INCLUDE_FILE "@CDB_INCLUDE_FILE@"
 
-/* Define to 1 if the PHP extension 'dba' is built as a dynamic module. */
-#cmakedefine COMPILE_DL_DBA 1
-
 /* The DB1 handler header file. */
 #cmakedefine DB1_INCLUDE_FILE "@DB1_INCLUDE_FILE@"
 

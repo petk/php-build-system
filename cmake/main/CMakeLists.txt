@@ -244,13 +244,7 @@ foreach(extension IN LISTS extensions)
 
   get_target_property(extension_type php_${extension} TYPE)
 
-  if(extension_type MATCHES "^(MODULE|SHARED)_LIBRARY$")
-    set_target_properties(
-      php_${extension}
-      PROPERTIES
-        POSITION_INDEPENDENT_CODE TRUE
-    )
-  else()
+  if(NOT extension_type MATCHES "^(MODULE|SHARED)_LIBRARY$")
     target_link_libraries(php_main PRIVATE PHP::${extension})
   endif()
 

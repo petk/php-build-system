@@ -143,29 +143,31 @@ macro(php_extensions_add directory)
   # Evaluate options of extensions.
   _php_extensions_eval_options("${directories}")
 
-  # Configure extensions and their dependencies.
-  _php_extensions_configure("${directories}")
-
   # Add subdirectories of extensions.
   foreach(dir ${directories})
     cmake_path(GET dir FILENAME extension)
+
+    # Preconfigure extension and its dependencies.
+    _php_extensions_preconfigure("${extension}" "${dir}")
+
     message(STATUS "Checking ${extension} extension")
     list(APPEND CMAKE_MESSAGE_CONTEXT "ext/${extension}")
-    unset(extension)
 
     add_subdirectory("${dir}")
 
     list(POP_BACK CMAKE_MESSAGE_CONTEXT)
 
-    _php_extensions_post_configure("${dir}")
+    _php_extensions_postconfigure("${extension}")
   endforeach()
 
-  # Validate options of extensions and their dependencies.
-  get_cmake_property(extensions PHP_EXTENSIONS)
-  _php_extensions_validate("${extensions}")
-
   unset(directories)
-  unset(extensions)
+  unset(extension)
+
+  # Validate options of extensions and their dependencies.
+  _php_extensions_validate()
+
+  # Reconfigure all enabled extensions at the end of the configuration phase.
+  cmake_language(DEFER CALL _php_extensions_configure_headers)
 endmacro()
 
 ################################################################################
@@ -557,84 +559,79 @@ function(_php_extensions_eval_options directories)
   endforeach()
 endfunction()
 
-# Configure extensions according to their dependencies.
-function(_php_extensions_configure directories)
-  foreach(dir ${directories})
-    cmake_path(GET dir FILENAME extension)
-    string(TOUPPER "${extension}" extension_upper)
+# Configure extension according to its dependencies.
+function(_php_extensions_preconfigure extension dir)
+  string(TOUPPER "${extension}" extension_upper)
 
-    if(NOT EXT_${extension_upper})
-      continue()
-    endif()
+  if(NOT EXT_${extension_upper})
+    return()
+  endif()
 
-    # Mark shared option variable as advanced.
-    if(DEFINED EXT_${extension_upper}_SHARED)
-      mark_as_advanced(EXT_${extension_upper}_SHARED)
-    endif()
+  # Mark shared option variable as advanced.
+  if(DEFINED EXT_${extension_upper}_SHARED)
+    mark_as_advanced(EXT_${extension_upper}_SHARED)
+  endif()
 
-    _php_extensions_get_dependencies("${dir}" dependencies)
+  _php_extensions_get_dependencies("${dir}" dependencies)
 
-    # If extension is enabled and one of its dependencies is built as a shared
-    # library, configure extension also as a shared library.
-    foreach(dependency ${dependencies})
-      string(TOUPPER "${dependency}" dependency_upper)
+  # If extension is enabled and one of its dependencies is built as a shared
+  # library, configure extension also as a shared library.
+  foreach(dependency ${dependencies})
+    string(TOUPPER "${dependency}" dependency_upper)
 
-      if(EXT_${dependency_upper}_SHARED AND NOT EXT_${extension_upper}_SHARED)
-        message(
-          WARNING
-          "The '${extension}' extension must be built as a shared library due "
-          "to its dependency on the '${dependency}' extension, which is "
-          "configured as shared. The 'EXT_${extension_upper}_SHARED' option "
-          "has been automatically set to 'ON'."
-        )
-
-        set(
-          EXT_${extension_upper}_SHARED
-          ON
-          CACHE BOOL
-          "Build the ${extension} extension as a shared library"
-          FORCE
-        )
-
-        break()
-      endif()
-    endforeach()
-
-    get_cmake_property(always_enabled_extensions PHP_ALWAYS_ENABLED_EXTENSIONS)
-
-    # If extension is enabled, enable also all its dependencies.
-    foreach(dependency ${dependencies})
-      string(TOUPPER "${dependency}" dependency_upper)
-
-      if(
-        EXT_${dependency_upper}
-        OR dependency IN_LIST always_enabled_extensions
-      )
-        continue()
-      endif()
-
+    if(EXT_${dependency_upper}_SHARED AND NOT EXT_${extension_upper}_SHARED)
       message(
         WARNING
-        "The '${extension}' extension requires the '${dependency}' extension. "
-        "The 'EXT_${dependency_upper}' option has been automatically set to "
-        "'ON'."
+        "The '${extension}' extension must be built as a shared library due "
+        "to its dependency on the '${dependency}' extension, which is "
+        "configured as shared. The 'EXT_${extension_upper}_SHARED' option "
+        "has been automatically set to 'ON'."
       )
 
       set(
-        EXT_${dependency_upper}
+        EXT_${extension_upper}_SHARED
         ON
         CACHE BOOL
-        "Enable the ${dependency} extension"
+        "Build the ${extension} extension as a shared library"
         FORCE
       )
-    endforeach()
+
+      break()
+    endif()
+  endforeach()
+
+  get_cmake_property(always_enabled_extensions PHP_ALWAYS_ENABLED_EXTENSIONS)
+
+  # If extension is enabled, enable also all its dependencies.
+  foreach(dependency ${dependencies})
+    string(TOUPPER "${dependency}" dependency_upper)
+
+    if(
+      EXT_${dependency_upper}
+      OR dependency IN_LIST always_enabled_extensions
+    )
+      continue()
+    endif()
+
+    message(
+      WARNING
+      "The '${extension}' extension requires the '${dependency}' extension. "
+      "The 'EXT_${dependency_upper}' option has been automatically set to "
+      "'ON'."
+    )
+
+    set(
+      EXT_${dependency_upper}
+      ON
+      CACHE BOOL
+      "Enable the ${dependency} extension"
+      FORCE
+    )
   endforeach()
 endfunction()
 
-# Configure extension after extension CMakeLists.txt is added.
-function(_php_extensions_post_configure directory)
-  cmake_path(GET directory FILENAME extension)
-
+# Postconfigure extension right after it has been configured.
+function(_php_extensions_postconfigure extension)
   if(NOT TARGET php_${extension})
     return()
   endif()
@@ -663,39 +660,73 @@ function(_php_extensions_post_configure directory)
       DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/${PHP_INCLUDE_PREFIX}/ext/${extension}
   )
 
-  # Check if extension is always enabled.
-  get_cmake_property(extensions PHP_ALWAYS_ENABLED_EXTENSIONS)
-  if(extension IN_LIST extensions)
+  # Configure shared extension.
+  get_target_property(type php_${extension} TYPE)
+  if(NOT type MATCHES "^(MODULE|SHARED)_LIBRARY$")
     return()
   endif()
 
-  get_target_property(extension_type php_${extension} TYPE)
+  target_compile_definitions(php_${extension} PRIVATE ZEND_COMPILE_DL_EXT=1)
 
-  if(NOT extension_type MATCHES "^(MODULE|SHARED)_LIBRARY$")
-    return()
-  endif()
+  set_target_properties(
+    php_${extension}
+    PROPERTIES
+      POSITION_INDEPENDENT_CODE TRUE
+  )
 
-  # Set location where to put shared extensions.
+  # Set build-phase location for shared extensions.
   get_target_property(location php_${extension} LIBRARY_OUTPUT_DIRECTORY)
   if(NOT location)
-    set_property(TARGET php_${extension}
+    set_property(
+      TARGET php_${extension}
       PROPERTY LIBRARY_OUTPUT_DIRECTORY "${PROJECT_BINARY_DIR}/modules"
     )
   endif()
+endfunction()
 
-  # Define COMPILE_DL_<extension-name> symbol for php_config.h to indicate
-  # extension is built as a shared library and add compile definitions.
-  string(TOUPPER "COMPILE_DL_${extension}" symbol)
-  set(
-    ${symbol} 1
-    CACHE INTERNAL
-    "Whether the PHP extension '${extension}' is built as a dynamic module."
-  )
-  target_compile_definitions(php_${extension} PRIVATE ZEND_COMPILE_DL_EXT=1)
+# Prepend COMPILE_DL_<EXTENSION> macros to extensions configuration headers and
+# define them for shared extensions.
+function(_php_extensions_configure_headers)
+  get_cmake_property(extensions PHP_EXTENSIONS)
+  foreach(extension ${extensions})
+    if(NOT TARGET php_${extension})
+      continue()
+    endif()
+
+    string(TOUPPER "COMPILE_DL_${extension}" macro)
+
+    get_target_property(type php_${extension} TYPE)
+    if(type MATCHES "^(MODULE|SHARED)_LIBRARY$")
+      set(${macro} 1)
+    endif()
+
+    # Prepare config.h template.
+    string(
+      JOIN
+      ""
+      template
+      "/* Define to 1 if the PHP extension '@extension@' is built as a dynamic "
+      "module. */\n"
+      "#cmakedefine ${macro} 1\n"
+    )
+
+    get_target_property(binaryDir php_${extension} BINARY_DIR)
+    set(current "")
+    if(EXISTS ${binaryDir}/config.h)
+      file(READ ${binaryDir}/config.h current)
+    endif()
+
+    string(STRIP "${template}\n${current}" config)
+
+    # Finalize extension's config.h header file.
+    file(CONFIGURE OUTPUT ${binaryDir}/config.h CONTENT "${config}\n")
+  endforeach()
 endfunction()
 
 # Validate extensions and their dependencies defined via add_dependencies().
-function(_php_extensions_validate extensions)
+function(_php_extensions_validate)
+  get_cmake_property(extensions PHP_EXTENSIONS)
+
   foreach(extension ${extensions})
     if(NOT TARGET php_${extension})
       continue()

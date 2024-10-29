@@ -1,5 +1,2 @@
-/* Define to 1 if the PHP extension 'exif' is built as a dynamic module. */
-#cmakedefine COMPILE_DL_EXIF 1
-
 /* Define to 1 if the PHP extension 'exif' is available. */
 #cmakedefine HAVE_EXIF 1

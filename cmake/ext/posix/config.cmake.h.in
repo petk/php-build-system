@@ -1,6 +1,3 @@
-/* Define to 1 if the PHP extension 'posix' is built as a dynamic module. */
-#cmakedefine COMPILE_DL_POSIX 1
-
 /* Define to 1 if you have the 'ctermid' function. */
 #cmakedefine HAVE_CTERMID 1
 
