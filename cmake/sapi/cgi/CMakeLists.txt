@@ -16,9 +16,14 @@ if(NOT SAPI_CGI)
 endif()
 message(CHECK_PASS "enabled")
 
-add_executable(php_cgi
-  cgi_main.c
-  cgi_main.stub.php
+add_executable(php_cgi)
+add_executable(PHP::cgi ALIAS php_cgi)
+
+target_sources(
+  php_cgi
+  PRIVATE
+    cgi_main.c
+    cgi_main.stub.php
 )
 
 target_compile_definitions(php_cgi PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE=1)

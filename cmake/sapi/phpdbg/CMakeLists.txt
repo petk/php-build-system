@@ -81,6 +81,7 @@ set(php_phpdbg_sources
 )
 
 add_executable(php_phpdbg ${php_phpdbg_sources})
+add_executable(PHP:phpdbg ALIAS php_phpdbg)
 
 target_compile_definitions(
   php_phpdbg
@@ -162,6 +163,7 @@ endif()
 # TODO: Should readline extension be linked here like in the phpdbg executable?
 if(SAPI_PHPDBG_SHARED)
   add_library(php_phpdbg_shared SHARED)
+  add_library(PHP::phpdbg_shared ALIAS php_phpdbg_shared)
 
   set_target_properties(php_phpdbg_shared PROPERTIES OUTPUT_NAME phpdbg)
 
