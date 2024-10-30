@@ -20,10 +20,15 @@ if(NOT SAPI_LITESPEED)
 endif()
 message(CHECK_PASS "enabled")
 
-add_executable(php_litespeed
-  lsapi_main.c
-  lsapi_main.stub.php
-  lsapilib.c
+add_executable(php_litespeed)
+add_executable(PHP::litespeed ALIAS php_litespeed)
+
+target_sourceS(
+  php_litespeed
+  PRIVATE
+    lsapi_main.c
+    lsapi_main.stub.php
+    lsapilib.c
 )
 
 target_link_libraries(

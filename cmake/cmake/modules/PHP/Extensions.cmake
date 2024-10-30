@@ -182,6 +182,7 @@ function(_php_extensions_get directory result)
 
   foreach(path ${paths})
     cmake_path(GET path PARENT_PATH dir)
+    cmake_path(SET dir NORMALIZE ${dir})
     list(APPEND directories "${dir}")
 
     # Add extension name to a list of all extensions.

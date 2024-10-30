@@ -50,6 +50,7 @@ if(PHP_THREAD_SAFETY)
 endif()
 
 add_executable(php_fuzzer)
+add_executable(PHP::fuzzer ALIAS php_fuzzer)
 
 if(LIB_FUZZING_ENGINE OR "$ENV{LIB_FUZZING_ENGINE}")
   if(LIB_FUZZING_ENGINE)
