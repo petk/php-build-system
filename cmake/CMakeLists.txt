@@ -3,10 +3,12 @@ cmake_minimum_required(VERSION 3.25...3.31)
 # Configure CMake behavior.
 include(cmake/CMakeDefaults.cmake)
 
-message("
-Initializing PHP build system
------------------------------
-")
+message(
+  STATUS
+  "-----------------------------
+   Initializing PHP build system
+   -----------------------------"
+)
 
 message(STATUS "CMake version: ${CMAKE_VERSION}")
 message(STATUS "CMake generator: ${CMAKE_GENERATOR}")
@@ -28,30 +30,16 @@ set(CMAKE_C_STANDARD_REQUIRED TRUE)
 # Configure project.
 include(cmake/Bootstrap.cmake)
 
-message("
-Configuring PHP SAPI modules
-----------------------------
-")
-include(PHP/SAPIs)
-php_sapis_add(sapi)
-
-message("
-Configuring PHP extensions
---------------------------
-")
-include(PHP/Extensions)
-php_extensions_add(ext)
-
-message("
-Configuring Zend engine
------------------------
-")
+add_subdirectory(sapi)
+add_subdirectory(ext)
 add_subdirectory(Zend)
 
-message("
-Configuring PHP
----------------
-")
+message(
+  STATUS
+  "---------------
+   Configuring PHP
+   ---------------"
+)
 add_subdirectory(pear)
 add_subdirectory(TSRM)
 add_subdirectory(win32)
@@ -92,9 +80,9 @@ include(cmake/CPack.cmake)
 
 include(PHP/FeatureSummary)
 
-message("
-License
--------
+message(
+  STATUS
+  [[License
 
 This software is subject to the PHP License, available in this
 distribution in the file LICENSE. By continuing this installation
@@ -103,4 +91,5 @@ If you do not agree with the terms of this license, you must abort
 the installation process at this point.
 
 Thank you for using PHP.
-")
+]]
+)

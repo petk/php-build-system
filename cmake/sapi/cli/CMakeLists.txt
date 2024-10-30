@@ -54,6 +54,7 @@ else()
 endif()
 
 add_executable(php_cli)
+add_executable(PHP::cli ALIAS php_cli)
 
 target_sources(
   php_cli
@@ -109,11 +110,16 @@ if(CMAKE_SYSTEM_NAME STREQUAL "Windows")
 endif()
 
 if(SAPI_CLI_WIN_NO_CONSOLE)
-  add_executable(php_cli_win_no_console
-    cli_win32.c
-    php_cli_process_title.c
-    php_cli_process_title.stub.php
-    ps_title.c
+  add_executable(php_cli_win_no_console)
+  add_executable(PHP::cli_win_no_console ALIAS php_cli_win_no_console)
+
+  target_sources(
+    php_cli_win_no_console
+    PRIVATE
+      cli_win32.c
+      php_cli_process_title.c
+      php_cli_process_title.stub.php
+      ps_title.c
   )
 
   set_target_properties(

@@ -116,36 +116,40 @@ message(CHECK_PASS "enabled")
 # Add executable.
 ################################################################################
 
-add_executable(
+add_executable(php_fpm)
+add_executable(PHP:fpm ALIAS php_fpm)
+
+target_sources(
   php_fpm
-  fpm/events/epoll.c
-  fpm/events/kqueue.c
-  fpm/events/poll.c
-  fpm/events/port.c
-  fpm/events/select.c
-  fpm/fpm_children.c
-  fpm/fpm_cleanup.c
-  fpm/fpm_clock.c
-  fpm/fpm_conf.c
-  fpm/fpm_env.c
-  fpm/fpm_events.c
-  fpm/fpm_log.c
-  fpm/fpm_main.c
-  fpm/fpm_main.stub.php
-  fpm/fpm_php_trace.c
-  fpm/fpm_php.c
-  fpm/fpm_process_ctl.c
-  fpm/fpm_request.c
-  fpm/fpm_scoreboard.c
-  fpm/fpm_shm.c
-  fpm/fpm_signals.c
-  fpm/fpm_sockets.c
-  fpm/fpm_status.c
-  fpm/fpm_stdio.c
-  fpm/fpm_unix.c
-  fpm/fpm_worker_pool.c
-  fpm/fpm.c
-  fpm/zlog.c
+  PRIVATE
+    fpm/events/epoll.c
+    fpm/events/kqueue.c
+    fpm/events/poll.c
+    fpm/events/port.c
+    fpm/events/select.c
+    fpm/fpm_children.c
+    fpm/fpm_cleanup.c
+    fpm/fpm_clock.c
+    fpm/fpm_conf.c
+    fpm/fpm_env.c
+    fpm/fpm_events.c
+    fpm/fpm_log.c
+    fpm/fpm_main.c
+    fpm/fpm_main.stub.php
+    fpm/fpm_php_trace.c
+    fpm/fpm_php.c
+    fpm/fpm_process_ctl.c
+    fpm/fpm_request.c
+    fpm/fpm_scoreboard.c
+    fpm/fpm_shm.c
+    fpm/fpm_signals.c
+    fpm/fpm_sockets.c
+    fpm/fpm_status.c
+    fpm/fpm_stdio.c
+    fpm/fpm_unix.c
+    fpm/fpm_worker_pool.c
+    fpm/fpm.c
+    fpm/zlog.c
 )
 
 target_include_directories(

@@ -26,6 +26,7 @@ endif()
 message(CHECK_PASS "enabled")
 
 add_library(php_apache2handler SHARED)
+add_library(PHP::apache2handler ALIAS php_apache2handler)
 
 target_sources(
   php_apache2handler
