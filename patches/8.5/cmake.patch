@@ -7,11 +7,11 @@ Subject: Add CMake changes for PHP-8.5 branch
   and ext/ext_skel.php script
 ---
  .editorconfig              |  2 +-
- .gitignore                 | 43 ++++++++++++++++++++++++++++++++++++++
+ .gitignore                 | 44 ++++++++++++++++++++++++++++++++++++++
  ext/ext_skel.php           |  2 ++
- ext/skeleton/.gitignore.in | 21 +++++++++++++++++++
+ ext/skeleton/.gitignore.in | 22 +++++++++++++++++++
  run-tests.php              | 24 +++++++++++++++------
- 5 files changed, 85 insertions(+), 7 deletions(-)
+ 5 files changed, 87 insertions(+), 7 deletions(-)
 
 diff --git a/.editorconfig b/.editorconfig
 index 7911bf8490..1d9b530947 100644
@@ -27,10 +27,10 @@ index 7911bf8490..1d9b530947 100644
  indent_style             = space
  
 diff --git a/.gitignore b/.gitignore
-index d54334f599..db362020fe 100644
+index d54334f599..b879e2a5c3 100644
 --- a/.gitignore
 +++ b/.gitignore
-@@ -297,3 +297,46 @@ tmp-php.ini
+@@ -297,3 +297,47 @@ tmp-php.ini
  !/ext/dom/lexbor/patches/*.patch
  !/ext/pcre/pcre2lib/config.h
  !/win32/build/Makefile
@@ -38,6 +38,7 @@ index d54334f599..db362020fe 100644
 +# ------------------------------------------------------------------------------
 +# CMake-based build system files
 +# ------------------------------------------------------------------------------
++!cmake/modules/
 +cmake_install.cmake
 +CMakeCache.txt
 +CMakeFiles/
@@ -91,10 +92,10 @@ index ae7a3a987c..62241fff9c 100755
  
      foreach($files as $config_script) {
 diff --git a/ext/skeleton/.gitignore.in b/ext/skeleton/.gitignore.in
-index e691bd3964..fff9fc09d0 100644
+index e691bd3964..c4077b0a8d 100644
 --- a/ext/skeleton/.gitignore.in
 +++ b/ext/skeleton/.gitignore.in
-@@ -45,3 +45,24 @@ tests/**/*.db
+@@ -45,3 +45,25 @@ tests/**/*.db
  tests/**/*.mem
  tmp-php.ini
  *~
@@ -102,6 +103,7 @@ index e691bd3964..fff9fc09d0 100644
 +# ------------------------------------------------------------------------------
 +# CMake-based build system files
 +# ------------------------------------------------------------------------------
++!cmake/modules/
 +/_deps/
 +/.ninja*
 +/*.dependers

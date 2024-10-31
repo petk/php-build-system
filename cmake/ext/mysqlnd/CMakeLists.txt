@@ -120,66 +120,51 @@ target_link_libraries(
     $<$<PLATFORM_ID:Windows>:ws2_32>
 )
 
-# A deferred configuration, so it is executed after the openssl extension to
-# have the EXT_OPENSSL variable available.
-function(php_mysqlnd_post_configuration)
-  if(EXT_MYSQLND_COMPRESSION)
-    find_package(ZLIB ${PHP_ZLIB_MIN_VERSION})
+if(EXT_MYSQLND_COMPRESSION)
+  find_package(ZLIB ${PHP_ZLIB_MIN_VERSION})
+  set_package_properties(
+    ZLIB
+    PROPERTIES
+      TYPE REQUIRED
+      PURPOSE "Necessary to enable compression in the mysqlnd extension."
+  )
+
+  target_link_libraries(php_mysqlnd PRIVATE ZLIB::ZLIB)
+
+  set(MYSQLND_COMPRESSION_ENABLED 1)
+endif()
+
+set(MYSQLND_SSL_SUPPORTED 1)
+
+if(
+  (
+    NOT CMAKE_SYSTEM_NAME STREQUAL "Windows"
+    AND (EXT_MYSQLND_SSL OR EXT_OPENSSL)
+  )
+  OR CMAKE_SYSTEM_NAME STREQUAL "Windows"
+)
+  if(CMAKE_SYSTEM_NAME STREQUAL "Windows")
+    target_link_libraries(php_mysqlnd PRIVATE crypt32)
+  else()
+    find_package(OpenSSL ${PHP_OPENSSL_MIN_VERSION})
     set_package_properties(
-      ZLIB
+      OpenSSL
       PROPERTIES
         TYPE REQUIRED
-        PURPOSE "Necessary to enable compression in the mysqlnd extension."
+        PURPOSE "Necessary to enable SSL in the mysqlnd extension."
     )
-
-    target_link_libraries(php_mysqlnd PRIVATE ZLIB::ZLIB)
-
-    set(MYSQLND_COMPRESSION_ENABLED 1)
+    target_link_libraries(php_mysqlnd PRIVATE OpenSSL::Crypto)
   endif()
 
-  set(MYSQLND_SSL_SUPPORTED 1)
+  set(MYSQLND_HAVE_SSL 1)
 
-  if(
-    (
-      NOT CMAKE_SYSTEM_NAME STREQUAL "Windows"
-      AND (EXT_MYSQLND_SSL OR EXT_OPENSSL)
-    )
-    OR CMAKE_SYSTEM_NAME STREQUAL "Windows"
-  )
-    if(CMAKE_SYSTEM_NAME STREQUAL "Windows")
-      target_link_libraries(php_mysqlnd PRIVATE crypt32)
-    else()
-      find_package(OpenSSL ${PHP_OPENSSL_MIN_VERSION})
-      set_package_properties(
-        OpenSSL
-        PROPERTIES
-          TYPE REQUIRED
-          PURPOSE "Necessary to enable SSL in the mysqlnd extension."
-      )
-      target_link_libraries(php_mysqlnd PRIVATE OpenSSL::Crypto)
-    endif()
+  add_dependencies(php_mysqlnd php_hash)
+endif()
 
-    set(MYSQLND_HAVE_SSL 1)
-
-    add_dependencies(php_mysqlnd php_hash)
-  endif()
-
-  add_feature_info(
-    "ext/mysqlnd SSL"
-    MYSQLND_HAVE_SSL
-    "Extended SSL support through a system library"
-  )
-
-  configure_file(
-    ${PhpExtensionMysqlnd_SOURCE_DIR}/config.cmake.h.in
-    ${PhpExtensionMysqlnd_BINARY_DIR}/config.h
-    @ONLY
-  )
-endfunction()
-
-# Run at the end of the configuration.
-cmake_language(
-  DEFER
-    DIRECTORY ${PHP_SOURCE_DIR}
-  CALL php_mysqlnd_post_configuration
+add_feature_info(
+  "ext/mysqlnd SSL"
+  MYSQLND_HAVE_SSL
+  "Extended SSL support through a system library"
 )
+
+configure_file(config.cmake.h.in config.h @ONLY)

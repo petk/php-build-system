@@ -35,7 +35,7 @@ php_search_libraries(
   LIBRARY_VARIABLE libraryForGetaddrinfo
 )
 if(libraryForGetaddrinfo)
-  add_library(PHP::CheckGetaddrinfoLibrary INTERFACE IMPORTED)
+  add_library(PHP::CheckGetaddrinfoLibrary INTERFACE IMPORTED GLOBAL)
 
   target_link_libraries(
     PHP::CheckGetaddrinfoLibrary

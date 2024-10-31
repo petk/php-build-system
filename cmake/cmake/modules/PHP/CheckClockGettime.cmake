@@ -29,7 +29,7 @@ php_search_libraries(
   LIBRARY_VARIABLE libraryForClockGettime
 )
 if(libraryForClockGettime)
-  add_library(PHP::CheckClockGettimeLibrary INTERFACE IMPORTED)
+  add_library(PHP::CheckClockGettimeLibrary INTERFACE IMPORTED GLOBAL)
   target_link_libraries(
     PHP::CheckClockGettimeLibrary
     INTERFACE

@@ -8,6 +8,7 @@
       "binaryDir": "${sourceDir}/php-build/all-disabled",
       "installDir": "/tmp",
       "cacheVariables": {
+        "EXT_COM_DOTNET": false,
         "EXT_CTYPE": false,
         "EXT_DOM": false,
         "EXT_FILEINFO": false,

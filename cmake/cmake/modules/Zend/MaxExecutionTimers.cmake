@@ -91,7 +91,7 @@ if(NOT PROJECT_IS_TOP_LEVEL)
   set(ZEND_MAX_EXECUTION_TIMERS ${ZEND_MAX_EXECUTION_TIMERS} PARENT_SCOPE)
 endif()
 
-add_library(Zend::MaxExecutionTimers INTERFACE IMPORTED)
+add_library(Zend::MaxExecutionTimers INTERFACE IMPORTED GLOBAL)
 if(libraryForTimerCreate)
   target_link_libraries(
     Zend::MaxExecutionTimers
