@@ -281,7 +281,7 @@ endif()
 
 if(HAVE_SHM_MMAP_POSIX)
   if(libraryForShmOpen)
-    add_library(PHP::CheckSHMLibrary INTERFACE IMPORTED)
+    add_library(PHP::CheckSHMLibrary INTERFACE IMPORTED GLOBAL)
     target_link_libraries(PHP::CheckSHMLibrary INTERFACE ${libraryForShmOpen})
   endif()
   message(CHECK_PASS "yes")

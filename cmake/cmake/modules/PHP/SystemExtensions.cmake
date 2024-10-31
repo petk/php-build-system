@@ -75,7 +75,7 @@ include(CMakePushCheckState)
 
 message(CHECK_START "Enabling C and POSIX extensions")
 
-add_library(PHP::SystemExtensions INTERFACE IMPORTED)
+add_library(PHP::SystemExtensions INTERFACE IMPORTED GLOBAL)
 
 ################################################################################
 # The following extensions are always enabled unconditionally.
