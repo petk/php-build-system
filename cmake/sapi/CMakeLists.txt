@@ -19,6 +19,18 @@ message(
    ----------------------------"
 )
 
+define_property(
+  GLOBAL
+  PROPERTY PHP_ALL_SAPIS
+  BRIEF_DOCS "A list of all PHP SAPIs in the sapi directory"
+)
+
+define_property(
+  GLOBAL
+  PROPERTY PHP_SAPIS
+  BRIEF_DOCS "A list of all enabled PHP SAPIs"
+)
+
 list(APPEND CMAKE_MESSAGE_CONTEXT "sapi")
 
 # Traverse CMakeLists.txt files of PHP SAPIs.
@@ -26,15 +38,10 @@ file(GLOB sapis ${CMAKE_CURRENT_SOURCE_DIR}/*/CMakeLists.txt)
 list(TRANSFORM sapis REPLACE "${CMAKE_CURRENT_SOURCE_DIR}/|/CMakeLists.txt" "")
 set_property(GLOBAL PROPERTY PHP_ALL_SAPIS ${sapis})
 
-get_directory_property(processed SUBDIRECTORIES)
-list(TRANSFORM processed REPLACE "${CMAKE_CURRENT_SOURCE_DIR}/" "")
-
 foreach(sapi IN LISTS sapis)
-  if(NOT sapi IN_LIST processed)
-    list(APPEND CMAKE_MESSAGE_CONTEXT "${sapi}")
-    add_subdirectory("${sapi}")
-    list(POP_BACK CMAKE_MESSAGE_CONTEXT)
-  endif()
+  list(APPEND CMAKE_MESSAGE_CONTEXT "${sapi}")
+  add_subdirectory("${sapi}")
+  list(POP_BACK CMAKE_MESSAGE_CONTEXT)
 
   if(TARGET php_${sapi})
     set_property(GLOBAL APPEND PROPERTY PHP_SAPIS ${sapi})
