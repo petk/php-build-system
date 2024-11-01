@@ -7,13 +7,7 @@ include(CheckLibraryExists)
 include(CMakeDependentOption)
 include(FeatureSummary)
 
-cmake_dependent_option(
-  EXT_PDO_FIREBIRD
-  "Enable the pdo_firebird extension"
-  OFF
-  "EXT_PDO"
-  OFF
-)
+option(EXT_PDO_FIREBIRD "Enable the pdo_firebird extension" OFF)
 
 add_feature_info(
   "ext/pdo_firebird"

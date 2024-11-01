@@ -2,12 +2,9 @@
 # Zend engine.
 ################################################################################
 
-message(
-  STATUS
-  "-----------------------
-   Configuring Zend engine
-   -----------------------"
-)
+message(STATUS "-----------------------")
+message(STATUS "Configuring Zend engine")
+message(STATUS "-----------------------\n")
 
 # Read the Zend engine version.
 block(PROPAGATE Zend_VERSION Zend_VERSION_LABEL)
