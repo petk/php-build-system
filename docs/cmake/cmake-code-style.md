@@ -279,7 +279,7 @@ set(PHP_FOO_BAR <value>... CACHE <BOOL|FILEPATH|PATH|STRING> "<help_text>")
 option(PHP_ENABLE_FOO "<help_text>" [value])
 cmake_dependent_option(PHP_ENABLE_BAR "<help_text>" <value> <depends> <force>)
 
-# Zend engine configuration variables
+# Zend Engine configuration variables
 option(ZEND_ENABLE_FOO "<help_text>" [value])
 
 # Configuration variables related to PHP extensions
@@ -464,7 +464,7 @@ Naming pattern when creating libraries and executables across the build system:
 
 * `zend`:
 
-  Target name for the Zend engine.
+  Target name for the Zend Engine.
 
 Additionally, customizing the target output file name on the disk can be done by
 setting target property `OUTPUT_NAME`.

@@ -50,7 +50,6 @@ function(_php_post_project)
     + ${PHP_VERSION_MINOR} * 100 \
     + ${PHP_VERSION_PATCH}"
   )
-  message(STATUS "PHP version ID: ${PHP_VERSION_ID}")
 
   # Read PHP API version.
   set(regex "^[ \t]*#[ \t]*define[ \t]+PHP_API_VERSION[ \t]+([0-9]+)")
@@ -62,7 +61,6 @@ function(_php_post_project)
   endif()
 
   set(PHP_API_VERSION "${CMAKE_MATCH_1}")
-  message(STATUS "PHP API version: ${PHP_API_VERSION}")
 
   return(PROPAGATE PHP_VERSION PHP_VERSION_ID PHP_API_VERSION)
 endfunction()

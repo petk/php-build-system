@@ -158,7 +158,7 @@ Default PHP Autotools directory structure with GNU layout (`--with-layout=GNU`):
       ├─📂 main                  #       ├─📂 main                # PHP main binding header files
       ├─📂 sapi                  #       ├─📂 sapi                # PHP SAPI header files
       ├─📂 TSRM                  #       ├─📂 TSRM                # PHP TSRM header files
-      └─📂 Zend                  #       └─📂 Zend                # Zend engine header files
+      └─📂 Zend                  #       └─📂 Zend                # Zend Engine header files
   └─📂 ${libdir}                 #   └─📂 lib
     └─📂 php                     #     └─📂 php                   # PHP shared libraries, build files, PEAR
       ├─📂 20230901-zts-debug    #       ├─📂 20230901-zts-debug  # PHP shared extensions (*.so files)

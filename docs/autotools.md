@@ -123,8 +123,8 @@ PHP build system is a collection of various files across the php-src repository:
   ├─📄 threads.m4        # Autoconf macros for pthreads
   └─📄 tsrm.m4           # Autoconf macros for TSRM
 └─📂 Zend
-  ├─📄 Makefile.frag     # Makefile fragment for Zend engine
-  └─📄 Zend.m4           # Autoconf macros for Zend engine
+  ├─📄 Makefile.frag     # Makefile fragment for Zend Engine
+  └─📄 Zend.m4           # Autoconf macros for Zend Engine
 ├─📄 buildconf           # Wrapper for autoconf and autoheader tools
 └─📄 configure.ac        # Autoconf main input file for creating configure script
 ```

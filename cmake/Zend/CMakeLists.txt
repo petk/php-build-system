@@ -1,12 +1,33 @@
-################################################################################
-# Zend engine.
-################################################################################
+#[=============================================================================[
+Zend Engine.
+
+CMake target properties for the `Zend::Zend` (`zend`) target:
+
+* `VERSION`
+
+  Zend Engine version as defined in the `Zend/zend.h` file.
+
+* `ZEND_EXTENSION_API_NO`
+
+  Custom target property with internal API version number for PHP extensions
+  (dynamically loaded with the `extension` INI directive). This is the
+  `ZEND_MODULE_API_NO` number from the `Zend/zend_modules.h` and ensures that
+  built extension is compatible with particular PHP build.
+
+* `ZEND_MODULE_API_NO`
+
+  Custom target property with internal API version number for Zend extensions in
+  PHP (dynamically loaded with the `zend_extension` INI directive), such as
+  opcache, debuggers, profilers, etc. This is the `ZEND_EXTENSION_API_NO` number
+  from the `Zend/zend_extensions.h` and ensures that built extension is
+  compatible with particular PHP build.
+#]=============================================================================]
 
 message(STATUS "-----------------------")
-message(STATUS "Configuring Zend engine")
+message(STATUS "Configuring Zend Engine")
 message(STATUS "-----------------------\n")
 
-# Read the Zend engine version.
+# Read the Zend Engine version.
 block(PROPAGATE Zend_VERSION Zend_VERSION_LABEL)
   file(READ zend.h content)
   string(
@@ -22,32 +43,12 @@ endblock()
 project(
   Zend
   VERSION ${Zend_VERSION}
-  DESCRIPTION "Zend engine library"
+  DESCRIPTION "Zend Engine library"
   LANGUAGES C CXX ASM
 )
 
 string(APPEND Zend_VERSION "${Zend_VERSION_LABEL}")
-message(STATUS "Zend engine version: ${Zend_VERSION}")
-
-block()
-  file(READ zend_extensions.h content)
-  string(
-    REGEX MATCH
-    "#[ \t]*define[ \t]+ZEND_EXTENSION_API_NO[ \t]+([0-9]+)"
-    _
-    "${content}"
-  )
-  message(STATUS "Zend extension API number: ${CMAKE_MATCH_1}")
-
-  file(READ zend_modules.h content)
-  string(
-    REGEX MATCH
-    "#[ \t]*define[ \t]+ZEND_MODULE_API_NO[ \t]+([0-9]+)"
-    _
-    "${content}"
-  )
-  message(STATUS "Zend module API number: ${CMAKE_MATCH_1}")
-endblock()
+message(STATUS "Zend Engine version: ${Zend_VERSION}")
 
 include(CheckIncludeFile)
 include(CheckSourceCompiles)
@@ -325,6 +326,34 @@ target_compile_definitions(
     ZEND_ENABLE_STATIC_TSRMLS_CACHE=1
     $<$<PLATFORM_ID:Windows>:LIBZEND_EXPORTS>
 )
+
+block()
+  file(READ zend_extensions.h content)
+  string(
+    REGEX MATCH
+    "#[ \t]*define[ \t]+ZEND_EXTENSION_API_NO[ \t]+([0-9]+)"
+    _
+    "${content}"
+  )
+  set(zendExtensionApiNumber "${CMAKE_MATCH_1}")
+
+  file(READ zend_modules.h content)
+  string(
+    REGEX MATCH
+    "#[ \t]*define[ \t]+ZEND_MODULE_API_NO[ \t]+([0-9]+)"
+    _
+    "${content}"
+  )
+  set(zendModuleApiNumber "${CMAKE_MATCH_1}")
+
+  set_target_properties(
+    zend
+    PROPERTIES
+      VERSION ${Zend_VERSION}
+      ZEND_EXTENSION_API_NO ${zendExtensionApiNumber}
+      ZEND_MODULE_API_NO ${zendModuleApiNumber}
+  )
+endblock()
 
 # Add Zend PUBLIC/INTERFACE compile options to configuration.
 # Cleaner COMPILE_ONLY generator expression is available in CMake >= 3.27.

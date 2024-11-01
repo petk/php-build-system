@@ -16,7 +16,7 @@ if(CMAKE_SYSTEM_NAME STREQUAL "Windows")
                  # when targeting Windows. Left here for BC for possible PECL
                  # extensions not being updated yet. In new code it is being
                  # replaced with _WIN32.
-      ZEND_WIN32 # For Zend engine
+      ZEND_WIN32 # For Zend Engine
   )
 
   # To speed up the Windows build experience with Visual Studio generators,

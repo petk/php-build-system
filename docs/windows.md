@@ -50,7 +50,7 @@ Directory structure from the Windows build system perspective looks like this:
 └─📂 TSRM
   └─📄 config.w32            # Windows build system script item
 └─📂 Zend
-  └─📄 zend_config.w32.h     # Windows configuration header for Zend engine
+  └─📄 zend_config.w32.h     # Windows configuration header for Zend Engine
 └─📄 buildconf.bat           # Windows build system configuration builder
 ```
 

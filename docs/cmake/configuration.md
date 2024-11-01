@@ -5,7 +5,7 @@
 * [1. CMake presets](#1-cmake-presets)
 * [2. CMake configuration](#2-cmake-configuration)
 * [3. PHP configuration](#3-php-configuration)
-* [4. Zend engine configuration](#4-zend-engine-configuration)
+* [4. Zend Engine configuration](#4-zend-engine-configuration)
 * [5. PHP SAPI modules configuration](#5-php-sapi-modules-configuration)
 * [6. PHP extensions configuration](#6-php-extensions-configuration)
 * [7. CMake GUI](#7-cmake-gui)
@@ -225,7 +225,7 @@ documentation.
 
 * [`SED_EXECUTABLE`](/docs/cmake/variables/SED_EXECUTABLE.md)
 
-## 4. Zend engine configuration
+## 4. Zend Engine configuration
 
 * [`ZEND_FIBER_ASM`](/docs/cmake/variables/ZEND_FIBER_ASM.md)
 
@@ -686,7 +686,7 @@ A list of Autoconf `configure` command-line configuration options, Windows
       <td>Disables all extensions and some additional configuration</td>
     </tr>
     <tr>
-      <th colspan="4">Zend engine configuration</td>
+      <th colspan="4">Zend Engine configuration</td>
     </tr>
     <tr>
       <td>--enable-gcc-global-regs</td>
