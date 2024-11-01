@@ -7,13 +7,7 @@ include(CheckLibraryExists)
 include(CMakeDependentOption)
 include(FeatureSummary)
 
-cmake_dependent_option(
-  EXT_PDO_SQLITE
-  "Enable the pdo_sqlite extension"
-  ON
-  "EXT_PDO"
-  OFF
-)
+option(EXT_PDO_SQLITE "Enable the pdo_sqlite extension" ON)
 
 add_feature_info(
   "ext/pdo_sqlite"

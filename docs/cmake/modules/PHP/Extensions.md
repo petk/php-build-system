@@ -2,25 +2,24 @@
 
 See: [Extensions.cmake](https://github.com/petk/php-build-system/tree/master/cmake/cmake/modules/PHP/Extensions.cmake)
 
-Add subdirectories of PHP extensions via `add_subdirectory()`.
+Configure PHP extensions.
 
-This module is responsible for traversing `CMakeLists.txt` files of PHP
-extensions and adding them via `add_subdirectory()`. It sorts extension
-directories based on the optional directory property `PHP_PRIORITY` value and
-the dependencies listed in the `add_dependencies()`. If an extension has
-specified dependencies, this module ensures that all dependencies are enabled.
-If any of the dependencies are built as `SHARED` libraries, the extension must
-also be built as a `SHARED` library.
+This module is responsible for parsing `CMakeLists.txt` files of PHP extensions
+and sorting extensions based on the dependencies listed in the
+`add_dependencies()`. If an extension has specified dependencies, it ensures
+that all dependencies are automatically enabled. If any of the dependencies are
+built as `SHARED` libraries, the extension must also be built as a `SHARED`
+library.
 
 Dependencies can be specified on top of the CMake's built-in command
 `add_dependencies()`, which builds target dependencies before the target itself.
-This module reads the `add_dependencies()` invocations in extensions and
-automatically enables and configures them as `SHARED` depending on the
-configuration if they haven't been explicitly configured. If it fails to
-configure extension dependencies automatically it will result in a fatal error
-during the configuration phase.
+This module reads the `add_dependencies()` invocations in extensions
+CMakeLists.txt files and automatically enables and configures them as `SHARED`
+depending on the configuration if they haven't been explicitly configured. If it
+fails to configure extension dependencies automatically it will result in a
+fatal error at the end of the configuration phase.
 
-Order of the extensions is then used in the generated
+Order of the extensions is then also important in the generated
 `main/internal_functions*.c` files (for the list of `phpext_<extension>_ptr` in
 the `zend_module_entry php_builtin_extensions`). This is the order of how the
 modules are registered into the Zend hash table.
@@ -34,42 +33,7 @@ shouldn't be taken for granted and is mostly used for php-src builds.
 Example why setting dependencies with `ZEND_MOD_REQUIRED` might matter:
 https://bugs.php.net/53141
 
-TODO: Improve this or simplify the sorting complexities in its entierity. PHP
-dependencies are handled very basically ATM.
-
-## Exposed macro
-
-```cmake
-php_extensions_add(subdirectory)
-```
-
 ## Custom CMake properties
-
-* `PHP_ALL_EXTENSIONS`
-
-  Global property with a list of all PHP extensions in the ext directory.
-
-* `PHP_ALWAYS_ENABLED_EXTENSIONS`
-
-  This global property contains a list of always enabled PHP extensions which
-  can be considered part of the core PHP engine.
-
-* `PHP_EXTENSIONS`
-
-  This global property contains a list of all enabled PHP extensions for the
-  current configuration. Extensions are sorted by the directory priority (see
-  `PHP_PRIORITY` property) and extension dependencies (added with CMake command
-  `add_dependencies()`).
-
-* `PHP_PRIORITY`
-
-  This optional directory property controls the order of the PHP extensions
-  added with the `add_subdirectory()`. Directory added with `add_subdirectory()`
-  won't be visible in the configuration phase for the directories added before.
-  Priority number can be used to add the extension subdirectory prior (0..100)
-  or later (\>100) to other extensions. By default extensions are sorted
-  alphabetically and added in between. This enables having extension variables
-  visible in depending extensions.
 
 * `PHP_ZEND_EXTENSION`
 
@@ -84,3 +48,8 @@ php_extensions_add(subdirectory)
   ```cmake
   set_target_properties(php_<extension_name> PROPERTIES PHP_ZEND_EXTENSION TRUE)
   ```
+
+* `PHP_EXTENSION_<extension>_DEPS`
+
+  Global property with a list of all dependencies of <extension> (name of the
+  extension as named in ext directory).

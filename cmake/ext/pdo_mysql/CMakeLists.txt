@@ -11,13 +11,7 @@ include(CMakeDependentOption)
 include(FeatureSummary)
 include(PHP/Set)
 
-cmake_dependent_option(
-  EXT_PDO_MYSQL
-  "Enable the pdo_mysql extension"
-  OFF
-  "EXT_PDO"
-  OFF
-)
+option(EXT_PDO_MYSQL "Enable the pdo_mysql extension" OFF)
 
 add_feature_info(
   "ext/pdo_mysql"

@@ -330,33 +330,32 @@ include(PHP/NewModule)
 
 ## 9. Custom CMake properties
 
-* `PHP_ALL_SAPIS`
-
-  Global property set by the [`PHP/SAPIs`](/docs/cmake/modules/PHP/SAPIs.md) module.
-
-* `PHP_SAPIS`
-
-  Global property set by the [`PHP/SAPIs`](/docs/cmake/modules/PHP/SAPIs.md) module.
-
 * `PHP_ALL_EXTENSIONS`
 
-  Global property set by the [`PHP/Extensions`](/docs/cmake/modules/PHP/Extensions.md)
-  module.
+  Global property with a list of all PHP extensions in the `ext` directory.
+
+* `PHP_ALL_SAPIS`
+
+  Global property with a list of all PHP SAPIs in the `sapi` directory.
 
 * `PHP_ALWAYS_ENABLED_EXTENSIONS`
+
+  Global property with a list of always enabled PHP extensions.
+
+* `PHP_EXTENSION_<extension>_DEPS`
 
   Global property set by the [`PHP/Extensions`](/docs/cmake/modules/PHP/Extensions.md)
   module.
 
 * `PHP_EXTENSIONS`
 
-  Global property set by the [`PHP/Extensions`](/docs/cmake/modules/PHP/Extensions.md)
-  module.
+  Global property with a list of all enabled PHP extension for the current
+  configuration.
 
-* `PHP_PRIORITY`
+* `PHP_SAPIS`
 
-  Directory property set by the
-  [`PHP/Extensions`](/docs/cmake/modules/PHP/Extensions.md) module.
+  Global property with a list of all enabled PHP SAPIs for the current
+  configuration.
 
 * `PHP_THREAD_SAFETY`
 
