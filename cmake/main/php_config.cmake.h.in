@@ -456,6 +456,9 @@
 /* Define to 1 if 'sa_len' is a member of 'struct sockaddr'. */
 #cmakedefine HAVE_STRUCT_SOCKADDR_SA_LEN 1
 
+/* Define to 1 if the system has the type 'struct sockaddr_storage'. */
+#cmakedefine HAVE_STRUCT_SOCKADDR_STORAGE 1
+
 /* Define to 1 if 'sun_len' is a member of 'struct sockaddr_un'. */
 #cmakedefine HAVE_STRUCT_SOCKADDR_UN_SUN_LEN 1
 
