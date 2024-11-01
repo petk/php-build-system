@@ -86,7 +86,7 @@ add_feature_info(
 
 # Set the result variable also in the PARENT_SCOPE, to make it available for the
 # parent project PHP in its configuration headers. This module is included in
-# the Zend engine which is added with add_subdirectory() in the PHP project.
+# the Zend Engine which is added with add_subdirectory() in the PHP project.
 if(NOT PROJECT_IS_TOP_LEVEL)
   set(ZEND_MAX_EXECUTION_TIMERS ${ZEND_MAX_EXECUTION_TIMERS} PARENT_SCOPE)
 endif()

@@ -184,19 +184,15 @@ mark_as_advanced(PHP_EXTENSION_DIR)
 # Assemble the PHP_EXTENSION_DIR default value.
 block()
   if(NOT PHP_EXTENSION_DIR)
-    file(READ ${PHP_SOURCE_DIR}/Zend/zend_modules.h content)
-    string(REGEX MATCH "#define ZEND_MODULE_API_NO ([0-9]*)" _ "${content}")
-    set(zendModuleApiNo ${CMAKE_MATCH_1})
-
     set(
       extensionDir
-      "${CMAKE_INSTALL_LIBDIR}/php/${zendModuleApiNo}$<$<BOOL:$<TARGET_PROPERTY:php_configuration,PHP_THREAD_SAFETY>>:-zts>$<$<BOOL:$<CONFIG>>:-$<CONFIG>>"
+      "${CMAKE_INSTALL_LIBDIR}/php/$<TARGET_PROPERTY:Zend::Zend,ZEND_MODULE_API_NO>$<$<BOOL:$<TARGET_PROPERTY:php_configuration,PHP_THREAD_SAFETY>>:-zts>$<$<BOOL:$<CONFIG>>:-$<CONFIG>>"
     )
 
     # This would resemble the PHP Autotools --with-layout=GNU:
-    #set(extensionDir "${CMAKE_INSTALL_LIBDIR}/php/${zendModuleApiNo}$<$<BOOL:$<TARGET_PROPERTY:php_configuration,PHP_THREAD_SAFETY>>:-zts>$<$<CONFIG:Debug,DebugAssertions>:-debug>")
+    #set(extensionDir "${CMAKE_INSTALL_LIBDIR}/php/$<TARGET_PROPERTY:Zend::Zend,ZEND_MODULE_API_NO>$<$<BOOL:$<TARGET_PROPERTY:php_configuration,PHP_THREAD_SAFETY>>:-zts>$<$<CONFIG:Debug,DebugAssertions>:-debug>")
     # This would resemble the PHP Autotools --with-layout=PHP (default):
-    #set(extensionDir "${CMAKE_INSTALL_LIBDIR}/php/extensions/$<IF:$<CONFIG:Debug,DebugAssertions>,debug,no-debug>$<IF:$<BOOL:$<TARGET_PROPERTY:php_configuration,PHP_THREAD_SAFETY>>,-zts,-non-zts>-${zendModuleApiNo}")
+    #set(extensionDir "${CMAKE_INSTALL_LIBDIR}/php/extensions/$<IF:$<CONFIG:Debug,DebugAssertions>,debug,no-debug>$<IF:$<BOOL:$<TARGET_PROPERTY:php_configuration,PHP_THREAD_SAFETY>>,-zts,-non-zts>-$<TARGET_PROPERTY:Zend::Zend,ZEND_MODULE_API_NO>")
 
     set_property(CACHE PHP_EXTENSION_DIR PROPERTY VALUE "${extensionDir}")
   endif()
