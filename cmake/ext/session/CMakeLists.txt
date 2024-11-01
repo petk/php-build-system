@@ -72,7 +72,7 @@ add_dependencies(
   php_session
   php_date
   php_random
-  php_spl # For spl autoloading https://bugs.php.net/53141 (optonal dependency).
+  php_spl # Optional dependency for spl autoloading https://bugs.php.net/53141
 )
 
 # Check whether pread() and pwrite() work.
