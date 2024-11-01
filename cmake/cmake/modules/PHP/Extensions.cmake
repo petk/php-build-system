@@ -187,8 +187,7 @@ function(_php_extensions_parse_dependencies extension result)
 
   file(READ ${CMAKE_CURRENT_SOURCE_DIR}/${extension}/CMakeLists.txt content)
 
-  # Remove line comments from CMake code content.
-  string(REGEX REPLACE "#[^\r\n]*[\r\n]" "" content "${content}")
+  _php_extensions_remove_comments(content)
 
   string(CONCAT regex
     # Command invocation:
@@ -244,18 +243,12 @@ function(_php_extensions_option_regex option result)
   string(CONCAT _
     # Start of the option command invocation:
     "[ \t\r\n]?option[ \t]*\\([ \t\r\n]*"
-    # Optional line comments:
-    "([ \t\r\n]*#[^\r\n]*[\r\n])*"
     # Variable name:
     "[ \t\r\n]*${option}[ \t\r\n]+"
-    # Optional line comments:
-    "([ \t\r\n]*#[^\r\n]*[\r\n])*"
     # Documentation string without escaped double quotes (\"):
     # TODO: should escaped quotes be also matched?
     #"[ \t\r\n]*\"([^\"]|\\\")*\"[ \t\r\n]*"
     "[ \t\r\n]*\"[^\"]*\"[ \t\r\n]*"
-    # Optional line comments:
-    "([ \t\r\n]*#[^\r\n]*[\r\n])*"
     # Optional boolean or variable value:
     "([ \t\r\n]+("
     "ON|on|TRUE|true|YES|yes|Y|y|"
@@ -263,8 +256,6 @@ function(_php_extensions_option_regex option result)
     "[0-9.]+|"
     "\\\$\\{[^\\}]+\\}"
     "))?"
-    # Optional line comments:
-    "([ \t\r\n]*#[^\r\n]*[\r\n])*"
     # End of option invocation:
     "[ \t\r\n]*\\)"
   )
@@ -277,18 +268,12 @@ function(_php_extensions_cmake_dependent_option_regex option result)
   string(CONCAT _
     # Start of the option command invocation:
     "[ \t\r\n]?cmake_dependent_option[ \t]*\\([ \t\r\n]*"
-    # Possible inline comments:
-    "([ \t\r\n]*#[^\r\n]*[\r\n])*"
     # Variable name:
     "[ \t\r\n]*${option}[ \t\r\n]+"
-    # Optional line comments:
-    "([ \t\r\n]*#[^\r\n]*[\r\n])*"
     # Documentation string without escaped double quotes (\"):
     # TODO: should escaped quotes be also matched?
     #"[ \t\r\n]*\"([^\"]|\\\")*\"[ \t\r\n]*"
     "[ \t\r\n]*\"[^\"]*\"[ \t\r\n]*"
-    # Optional line comments:
-    "([ \t\r\n]*#[^\r\n]*[\r\n])*"
     # Boolean or variable value:
     "[ \t\r\n]+("
     "ON|on|TRUE|true|YES|yes|Y|y|"
@@ -296,12 +281,8 @@ function(_php_extensions_cmake_dependent_option_regex option result)
     "[0-9.]+|"
     "\\\$\\{[^\\}]+\\}"
     ")"
-    # Optional line comments:
-    "([ \t\r\n]*#[^\r\n]*[\r\n])*"
     # Semicolon separated list of conditions:
     "[ \t\r\n]*\"[^\"]*\"[ \t\r\n]*"
-    # Optional line comments:
-    "([ \t\r\n]*#[^\r\n]*[\r\n])*"
     # Boolean or variable force value:
     "[ \t\r\n]+("
     "ON|on|TRUE|true|YES|yes|Y|y|"
@@ -309,8 +290,6 @@ function(_php_extensions_cmake_dependent_option_regex option result)
     "[0-9.]+|"
     "\\\$\\{[^\\}]+\\}"
     ")"
-    # Optional line comments:
-    "([ \t\r\n]*#[^\r\n]*[\r\n])*"
     # End of option invocation:
     "[ \t\r\n]*\\)"
   )
@@ -337,6 +316,7 @@ function(_php_extensions_eval_options directories)
     string(TOUPPER "${extension}" extensionUpper)
 
     # Check if extension has option(EXT_<extension> ...).
+    _php_extensions_remove_comments(content)
     _php_extensions_option_regex("EXT_${extensionUpper}" regex)
     string(REGEX MATCH "${regex}" code "${content}")
 
@@ -372,6 +352,12 @@ function(_php_extensions_eval_options directories)
       unset(code)
     endif()
   endforeach()
+endfunction()
+
+# Remove line comments from CMake code content.
+function(_php_extensions_remove_comments)
+  string(REGEX REPLACE "[ \t]*#[^\r\n]*" "" ${ARGV0} "${${ARGV0}}")
+  set(${ARGV0} "${${ARGV0}}" PARENT_SCOPE)
 endfunction()
 
 # Postconfigure extension right after it has been configured.

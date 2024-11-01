@@ -68,12 +68,12 @@ target_compile_definitions(
     ZEND_ENABLE_STATIC_TSRMLS_CACHE=1
 )
 
-# For spl autoloading https://bugs.php.net/53141
-if(TARGET php_spl)
-  add_dependencies(php_session php_spl)
-endif()
-
-add_dependencies(php_session php_date php_random)
+add_dependencies(
+  php_session
+  php_date
+  php_random
+  php_spl # For spl autoloading https://bugs.php.net/53141 (optonal dependency).
+)
 
 # Check whether pread() and pwrite() work.
 include(PHP/CheckPreadPwrite)

@@ -13,17 +13,30 @@ include_guard(GLOBAL)
 
 include(FeatureSummary)
 
-message(STATUS "-----------")
-message(STATUS "PHP summary")
-message(STATUS "-----------\n")
+# Output summary prelude.
+block()
+  get_target_property(zendVersion Zend::Zend VERSION)
+  get_target_property(zendExtensionApiNumber Zend::Zend ZEND_EXTENSION_API_NO)
+  get_target_property(zendModuleApiNumber Zend::Zend ZEND_MODULE_API_NO)
+
+  set(info)
+  string(
+    APPEND
+    info
+    " * PHP version: ${PHP_VERSION}\n"
+    " * PHP API version: ${PHP_API_VERSION}\n"
+    " * Zend Engine version: ${zendVersion}\n"
+    " * Zend extension API number: ${zendExtensionApiNumber}\n"
+    " * Zend module API number: ${zendModuleApiNumber}\n"
+  )
+
+  message(STATUS "-----------")
+  message(STATUS "PHP summary")
+  message(STATUS "-----------\n\n${info}")
+endblock()
 
 # Output enabled features.
 block()
-  feature_summary(
-    WHAT ENABLED_FEATURES
-    VAR enabledFeatures
-  )
-
   get_property(enabledFeatures GLOBAL PROPERTY ENABLED_FEATURES)
 
   if(enabledFeatures)
@@ -68,16 +81,16 @@ block()
     endif()
   endforeach()
 
+  if(php)
+    message(STATUS "Enabled PHP features:\n\n${php}")
+  endif()
+
   if(sapis)
     message(STATUS "Enabled PHP SAPIs:\n\n${sapis}")
   endif()
 
   if(extensions)
     message(STATUS "Enabled PHP extensions:\n\n${extensions}")
-  endif()
-
-  if(php)
-    message(STATUS "Enabled PHP features:\n\n${php}")
   endif()
 endblock()
 
@@ -164,6 +177,14 @@ block()
     message(STATUS "${message}")
   endif()
 
+  if(missingExtensions OR sharedExtensionsSummary)
+    message(
+      SEND_ERROR
+      "PHP/FeatureSummary error: Please reconfigure PHP extensions, aborting "
+      "CMake run."
+    )
+  endif()
+
   # Output missing required packages.
   feature_summary(
     FATAL_ON_MISSING_REQUIRED_PACKAGES
@@ -171,12 +192,4 @@ block()
     QUIET_ON_EMPTY
     DESCRIPTION "The following REQUIRED packages have not been found:\n"
   )
-
-  if(missingExtensions OR sharedExtensionsSummary)
-    message(
-      FATAL_ERROR
-      "PHP/FeatureSummary error: Please reconfigure PHP extensions, aborting "
-      "CMake run."
-    )
-  endif()
 endblock()
