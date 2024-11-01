@@ -46,20 +46,22 @@ target_sources(
 add_dependencies(php_tokenizer Zend::Zend)
 
 # Generate tokenizer data source files.
-php_add_custom_command(
-  php_generate_tokenizer_data
-  OUTPUT
-    ${CMAKE_CURRENT_SOURCE_DIR}/tokenizer_data.stub.php
-    ${CMAKE_CURRENT_SOURCE_DIR}/tokenizer_data.c
-  DEPENDS
-    ${CMAKE_CURRENT_SOURCE_DIR}/tokenizer_data_gen.php
-    ${PHP_SOURCE_DIR}/Zend/zend_language_parser.y
-  PHP_COMMAND
-    ${CMAKE_CURRENT_SOURCE_DIR}/tokenizer_data_gen.php
-  COMMENT
-    "[ext/tokenizer] Regenerating tokenizer_data.c and tokenizer_data.stub.php"
-  VERBATIM
-)
+if(PHP_SOURCE_DIR)
+  php_add_custom_command(
+    php_generate_tokenizer_data
+    OUTPUT
+      ${CMAKE_CURRENT_SOURCE_DIR}/tokenizer_data.stub.php
+      ${CMAKE_CURRENT_SOURCE_DIR}/tokenizer_data.c
+    DEPENDS
+      ${CMAKE_CURRENT_SOURCE_DIR}/tokenizer_data_gen.php
+      ${PHP_SOURCE_DIR}/Zend/zend_language_parser.y
+    PHP_COMMAND
+      ${CMAKE_CURRENT_SOURCE_DIR}/tokenizer_data_gen.php
+    COMMENT
+      "[ext/tokenizer] Regenerating tokenizer_data.c and tokenizer_data.stub.php"
+    VERBATIM
+  )
+endif()
 
 set(HAVE_TOKENIZER 1)
 

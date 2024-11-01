@@ -13,12 +13,9 @@ include_guard(GLOBAL)
 
 include(FeatureSummary)
 
-message(
-  STATUS
-  "-----------
-   PHP summary
-   -----------"
-)
+message(STATUS "-----------")
+message(STATUS "PHP summary")
+message(STATUS "-----------\n")
 
 # Output enabled features.
 block()

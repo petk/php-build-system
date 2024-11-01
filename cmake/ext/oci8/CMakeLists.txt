@@ -94,9 +94,14 @@ function(_php_oci8_notice)
 endfunction()
 
 # Run at the end of the configuration.
+if(PHP_SOURCE_DIR)
+  set(dir ${PHP_SOURCE_DIR})
+else()
+  set(dir ${CMAKE_CURRENT_SOURCE_DIR})
+endif()
 cmake_language(
   DEFER
-    DIRECTORY ${PHP_SOURCE_DIR}
+    DIRECTORY ${dir}
   CALL _php_oci8_notice
 )
 

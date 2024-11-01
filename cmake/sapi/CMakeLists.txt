@@ -12,12 +12,9 @@ Add subdirectories of PHP SAPIs.
   Global property with a list of all enabled PHP SAPIs.
 #]=============================================================================]
 
-message(
-  STATUS
-  "----------------------------
-   Configuring PHP SAPI modules
-   ----------------------------"
-)
+message(STATUS "----------------------------")
+message(STATUS "Configuring PHP SAPI modules")
+message(STATUS "----------------------------\n")
 
 define_property(
   GLOBAL

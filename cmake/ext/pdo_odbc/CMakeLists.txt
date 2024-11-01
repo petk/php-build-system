@@ -9,13 +9,7 @@ include(CMakeDependentOption)
 include(CMakePushCheckState)
 include(FeatureSummary)
 
-cmake_dependent_option(
-  EXT_PDO_ODBC
-  "Enable the pdo_odbc extension"
-  OFF
-  "EXT_PDO"
-  OFF
-)
+option(EXT_PDO_ODBC "Enable the pdo_odbc extension" OFF)
 
 add_feature_info(
   "ext/pdo_odbc"

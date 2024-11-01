@@ -7,13 +7,7 @@ include(CheckLibraryExists)
 include(CMakeDependentOption)
 include(FeatureSummary)
 
-cmake_dependent_option(
-  EXT_PDO_PGSQL
-  "Enable the pdo_pgsql extension"
-  OFF
-  "EXT_PDO"
-  OFF
-)
+option(EXT_PDO_PGSQL "Enable the pdo_pgsql extension" OFF)
 
 add_feature_info(
   "ext/pdo_pgsql"

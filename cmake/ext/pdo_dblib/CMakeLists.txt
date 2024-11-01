@@ -6,13 +6,7 @@ project(
 include(CMakeDependentOption)
 include(FeatureSummary)
 
-cmake_dependent_option(
-  EXT_PDO_DBLIB
-  "Enable the pdo_dblib extension"
-  OFF
-  "EXT_PDO"
-  OFF
-)
+option(EXT_PDO_DBLIB "Enable the pdo_dblib extension" OFF)
 
 add_feature_info(
   "ext/pdo_dblib"
