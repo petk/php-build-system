@@ -1,2 +1,0 @@
-/* Define to 1 if the PHP extension 'tokenizer' is available. */
-#cmakedefine HAVE_TOKENIZER 1
