@@ -244,4 +244,4 @@ endif()
 
 target_link_libraries(php_pdo_odbc PRIVATE ODBC::ODBC)
 
-configure_file(config.cmake.h.in config.h @ONLY)
+configure_file(config.cmake.h.in config.h)

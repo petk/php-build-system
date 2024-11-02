@@ -107,4 +107,4 @@ cmake_pop_check_state()
 
 set(HAVE_POSIX 1)
 
-configure_file(config.cmake.h.in config.h @ONLY)
+configure_file(config.cmake.h.in config.h)

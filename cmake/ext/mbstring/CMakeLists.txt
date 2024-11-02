@@ -202,4 +202,4 @@ target_include_directories(
 
 set(HAVE_MBSTRING 1)
 
-configure_file(config.cmake.h.in config.h @ONLY)
+configure_file(config.cmake.h.in config.h)

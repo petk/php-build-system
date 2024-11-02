@@ -59,4 +59,4 @@ add_dependencies(php_gmp php_random)
 
 set(HAVE_GMP 1)
 
-configure_file(config.cmake.h.in config.h @ONLY)
+configure_file(config.cmake.h.in config.h)

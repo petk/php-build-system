@@ -78,4 +78,4 @@ target_link_libraries(php_enchant PRIVATE Enchant::Enchant)
 
 set(HAVE_ENCHANT 1)
 
-configure_file(config.cmake.h.in config.h @ONLY)
+configure_file(config.cmake.h.in config.h)
