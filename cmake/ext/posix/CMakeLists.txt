@@ -90,6 +90,9 @@ check_symbol_exists(seteuid "unistd.h" HAVE_SETEUID)
 check_symbol_exists(setrlimit "sys/resource.h" HAVE_SETRLIMIT)
 check_symbol_exists(setsid "unistd.h" HAVE_SETSID)
 
+# Check for major, minor, and makedev.
+include(PHP/CheckSysMacros)
+
 include(PHP/CheckTtynameR)
 
 cmake_push_check_state(RESET)

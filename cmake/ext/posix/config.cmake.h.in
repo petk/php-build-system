@@ -25,6 +25,9 @@
 /* Define to 1 if you have the 'initgroups' function. */
 #cmakedefine HAVE_INITGROUPS 1
 
+/* Define to 1 if you have the 'makedev' function. */
+#cmakedefine HAVE_MAKEDEV 1
+
 /* Define to 1 if you have the 'mkfifo' function. */
 #cmakedefine HAVE_MKFIFO 1
 
@@ -54,3 +57,11 @@
 
 /* Define to 1 if you have a working 'ttyname_r' function. */
 #cmakedefine HAVE_TTYNAME_R 1
+
+/* Define to 1 if 'major', 'minor', and 'makedev' are declared in <mkdev.h>.
+   */
+#cmakedefine MAJOR_IN_MKDEV 1
+
+/* Define to 1 if 'major', 'minor', and 'makedev' are declared in
+   <sysmacros.h>. */
+#cmakedefine MAJOR_IN_SYSMACROS 1
