@@ -559,9 +559,6 @@ if(TARGET PHP::CheckGethostbynameR)
   target_link_libraries(php_configuration INTERFACE PHP::CheckGethostbynameR)
 endif()
 
-# Check for major, minor, and makedev.
-include(PHP/CheckSysMacros)
-
 if(PHP_CCACHE)
   find_package(Ccache)
 endif()
