@@ -415,9 +415,6 @@
 /* Define to 1 if SELinux is available in PHP-FPM. */
 #cmakedefine HAVE_SELINUX 1
 
-/* Define to 1 if the system has the type 'union semun'. */
-#cmakedefine01 HAVE_SEMUN
-
 /* Define to 1 if you have the 'setenv' function. */
 #cmakedefine HAVE_SETENV 1
 
@@ -798,28 +795,28 @@
 #cmakedefine PROC_MEM_FILE "@PROC_MEM_FILE@"
 
 /* The size of 'int', as computed by sizeof. */
-#cmakedefine SIZEOF_INT @SIZEOF_INT@
+@SIZEOF_INT_CODE@
 
 /* The size of 'intmax_t', as computed by sizeof. */
-#cmakedefine SIZEOF_INTMAX_T @SIZEOF_INTMAX_T@
+@SIZEOF_INTMAX_T_CODE@
 
 /* The size of 'long', as computed by sizeof. */
-#cmakedefine SIZEOF_LONG @SIZEOF_LONG@
+@SIZEOF_LONG_CODE@
 
 /* The size of 'long long', as computed by sizeof. */
-#cmakedefine SIZEOF_LONG_LONG @SIZEOF_LONG_LONG@
+@SIZEOF_LONG_LONG_CODE@
 
 /* The size of 'off_t', as computed by sizeof. */
-#cmakedefine SIZEOF_OFF_T @SIZEOF_OFF_T@
+@SIZEOF_OFF_T_CODE@
 
 /* The size of 'ptrdiff_t', as computed by sizeof. */
-#cmakedefine SIZEOF_PTRDIFF_T @SIZEOF_PTRDIFF_T@
+@SIZEOF_PTRDIFF_T_CODE@
 
 /* The size of 'size_t', as computed by sizeof. */
-#cmakedefine SIZEOF_SIZE_T @SIZEOF_SIZE_T@
+@SIZEOF_SIZE_T_CODE@
 
 /* The size of 'ssize_t', as computed by sizeof. */
-#cmakedefine SIZEOF_SSIZE_T @SIZEOF_SSIZE_T@
+@SIZEOF_SSIZE_T_CODE@
 
 /* Define to 1 if strerror_r returns char *. */
 #cmakedefine STRERROR_R_CHAR_P 1
