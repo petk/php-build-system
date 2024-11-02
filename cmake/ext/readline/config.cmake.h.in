@@ -1,19 +1,17 @@
-/* Define to 1 if edit/readline library has the 'history_list' function. */
+/* Define to 1 if edit library has the 'history_list' function. */
 #cmakedefine HAVE_HISTORY_LIST 1
 
-/* Define to 1 if readline extension uses the 'libedit' library. */
+/* Define to 1 if PHP uses the 'libedit' library. */
 #cmakedefine HAVE_LIBEDIT 1
 
-/* Define to 1 if readline extension uses the 'readline' library. */
+/* Define to 1 if PHP uses the 'readline' library. */
 #cmakedefine HAVE_LIBREADLINE 1
 
-/* Define to 1 if edit/readline library has the 'rl_callback_read_char'
-   function. */
+/* Define to 1 if edit library has the 'rl_callback_read_char' function. */
 #cmakedefine HAVE_RL_CALLBACK_READ_CHAR 1
 
-/* Define to 1 if edit/readline library has the 'rl_completion_matches'
-   function. */
+/* Define to 1 if edit library has the 'rl_completion_matches' function. */
 #cmakedefine HAVE_RL_COMPLETION_MATCHES 1
 
-/* Define to 1 if edit/readline library has the 'rl_on_new_line' function. */
+/* Define to 1 if readline library has the 'rl_on_new_line' function. */
 #cmakedefine HAVE_RL_ON_NEW_LINE 1

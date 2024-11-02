@@ -133,7 +133,7 @@ if(SAPI_PHPDBG_READLINE OR EXT_READLINE)
 
     target_link_libraries(php_phpdbg PRIVATE Readline::Readline)
 
-    set(HAVE_LIBREADLINE 1 CACHE INTERNAL "Whether the readline is available")
+    set(HAVE_LIBREADLINE)
   else()
     find_package(Editline)
     set_package_properties(
@@ -145,7 +145,7 @@ if(SAPI_PHPDBG_READLINE OR EXT_READLINE)
 
     target_link_libraries(php_phpdbg PRIVATE Editline::Editline)
 
-    set(HAVE_LIBEDIT 1 CACHE INTERNAL "Whether the libedit is available")
+    set(HAVE_LIBEDIT 1)
   endif()
 
   set(HAVE_PHPDBG_READLINE 1)
