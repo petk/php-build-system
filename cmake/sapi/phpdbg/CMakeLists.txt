@@ -132,8 +132,7 @@ if(SAPI_PHPDBG_READLINE OR EXT_READLINE)
 
   target_link_libraries(php_phpdbg PRIVATE Editline::Editline)
 
-  set(HAVE_LIBEDIT 1 CACHE INTERNAL "Whether the libedit is available")
-
+  set(HAVE_LIBEDIT)
   set(HAVE_PHPDBG_READLINE 1)
 else()
   message(CHECK_FAIL "disabled")

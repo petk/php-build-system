@@ -237,9 +237,6 @@
 /* Define to 1 if you have the 'dl' library (-ldl). */
 #cmakedefine HAVE_LIBDL 1
 
-/* Define to 1 if system has the 'libedit' library. */
-#cmakedefine HAVE_LIBEDIT 1
-
 /* Define to 1 if you have the <linux/sock_diag.h> header file. */
 #cmakedefine HAVE_LINUX_SOCK_DIAG_H 1
 
