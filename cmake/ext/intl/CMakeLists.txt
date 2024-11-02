@@ -194,5 +194,3 @@ if(ICU_VERSION VERSION_GREATER_EQUAL 60)
 endif()
 
 add_dependencies(php_intl php_date)
-
-configure_file(config.cmake.h.in config.h @ONLY)
