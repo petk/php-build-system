@@ -13,5 +13,5 @@
 /* Define to 1 if edit library has the 'rl_completion_matches' function. */
 #cmakedefine HAVE_RL_COMPLETION_MATCHES 1
 
-/* Define to 1 if readline library has the 'rl_on_new_line' function. */
+/* Define to 1 if edit library has the 'rl_on_new_line' function. */
 #cmakedefine HAVE_RL_ON_NEW_LINE 1
