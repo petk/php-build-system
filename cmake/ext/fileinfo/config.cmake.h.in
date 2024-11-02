@@ -1,3 +1,6 @@
+/* Define to 1 if the system has the 'visibility' function attribute */
+#cmakedefine HAVE_FUNC_ATTRIBUTE_VISIBILITY 1
+
 /* Define to 1 if you have the 'strcasestr' function. */
 #cmakedefine HAVE_STRCASESTR 1
 
@@ -6,6 +9,3 @@
 
 /* Define to 1 if you have the 'utimes' function. */
 #cmakedefine HAVE_UTIMES 1
-
-/* Define to 1 if the system has the 'visibility' function attribute */
-#cmakedefine HAVE_FUNC_ATTRIBUTE_VISIBILITY 1
