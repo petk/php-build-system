@@ -130,7 +130,7 @@ cmake_pop_check_state()
 
 cmake_push_check_state(RESET)
   set(CMAKE_EXTRA_INCLUDE_FILES "signal.h")
-  check_type_size(siginfo_t HAVE_STRUCT_SIGINFO_T)
+  check_type_size(siginfo_t STRUCT_SIGINFO_T)
 cmake_pop_check_state()
 
 if(HAVE_STRUCT_SIGINFO_T)
