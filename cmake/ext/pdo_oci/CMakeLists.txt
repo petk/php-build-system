@@ -48,4 +48,4 @@ target_include_directories(
     ${CMAKE_CURRENT_SOURCE_DIR}/..
 )
 
-configure_file(config.cmake.h.in config.h @ONLY)
+configure_file(config.cmake.h.in config.h)

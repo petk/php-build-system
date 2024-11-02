@@ -48,4 +48,4 @@ target_sources(
 
 set(HAVE_CALENDAR 1)
 
-configure_file(config.cmake.h.in config.h @ONLY)
+configure_file(config.cmake.h.in config.h)

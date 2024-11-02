@@ -90,4 +90,4 @@ if(HAVE_STRUCT_SIGINFO_T)
   target_compile_definitions(php_pcntl PRIVATE HAVE_STRUCT_SIGINFO_T=1)
 endif()
 
-configure_file(config.cmake.h.in config.h @ONLY)
+configure_file(config.cmake.h.in config.h)

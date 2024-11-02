@@ -231,4 +231,4 @@ add_feature_info(
   "PCRE Just-In-Time compiling support"
 )
 
-configure_file(config.cmake.h.in config.h @ONLY)
+configure_file(config.cmake.h.in config.h)

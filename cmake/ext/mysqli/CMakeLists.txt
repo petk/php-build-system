@@ -96,4 +96,4 @@ if(MySQL_Socket_PATH)
   set(PHP_MYSQL_UNIX_SOCK_ADDR "${MySQL_Socket_PATH}")
 endif()
 
-configure_file(config.cmake.h.in config.h @ONLY)
+configure_file(config.cmake.h.in config.h)

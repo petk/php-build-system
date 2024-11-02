@@ -62,4 +62,4 @@ target_link_libraries(php_pspell PRIVATE Aspell::Aspell)
 
 set(HAVE_PSPELL 1)
 
-configure_file(config.cmake.h.in config.h @ONLY)
+configure_file(config.cmake.h.in config.h)

@@ -59,4 +59,4 @@ if(NOT CMAKE_SYSTEM_NAME STREQUAL "Windows")
   set(HAVE_JSON 1)
 endif()
 
-configure_file(config.cmake.h.in config.h @ONLY)
+configure_file(config.cmake.h.in config.h)

@@ -180,7 +180,7 @@ else()
   set(HAVE_LIBREADLINE 1)
 endif()
 
-configure_file(config.cmake.h.in config.h @ONLY)
+configure_file(config.cmake.h.in config.h)
 
 # TODO: Editline/Readline dependent libraries shouldn't be linked on this level.
 # Recheck if this is really needed. Either move to find modules or remove it.

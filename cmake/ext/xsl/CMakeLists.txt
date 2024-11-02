@@ -99,4 +99,4 @@ add_feature_info(
 
 set(HAVE_XSL 1)
 
-configure_file(config.cmake.h.in config.h @ONLY)
+configure_file(config.cmake.h.in config.h)

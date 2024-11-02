@@ -65,4 +65,4 @@ target_link_libraries(php_libxml PUBLIC LibXml2::LibXml2)
 
 set(HAVE_LIBXML 1)
 
-configure_file(config.cmake.h.in config.h @ONLY)
+configure_file(config.cmake.h.in config.h)
