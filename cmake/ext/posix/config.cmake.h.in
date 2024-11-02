@@ -49,5 +49,8 @@
 /* Define to 1 if you have the 'setsid' function. */
 #cmakedefine HAVE_SETSID 1
 
+/* Define to 1 if you have a working 'ttyname_r' function. */
+#cmakedefine HAVE_TTYNAME_R 1
+
 /* Define to 1 if 'domainname' is a member of 'struct utsname'. */
 #cmakedefine HAVE_UTSNAME_DOMAINNAME 1
