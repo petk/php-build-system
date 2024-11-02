@@ -21,6 +21,14 @@ include(CheckFunctionExists)
 include(CheckSymbolExists)
 include(CMakePushCheckState)
 
+if(PHP_VERSION VERSION_GREATER_EQUAL 9.0)
+  message(
+    DEPRECATION
+    "PHP/CheckStrptime module is obsolete and should be removed. PHP "
+    "'strptime()' function is deprecated as of PHP 8.1.0."
+  )
+endif()
+
 # Check whether linker sees the strptime and it is declared in time.h.
 cmake_push_check_state(RESET)
   set(CMAKE_REQUIRED_DEFINITIONS -D_GNU_SOURCE)
