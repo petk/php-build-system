@@ -373,9 +373,6 @@
 /* Define to 1 if you have the 'prctl' function. */
 #cmakedefine HAVE_PRCTL 1
 
-/* Define to 1 if you have the 'pread' function. */
-#cmakedefine HAVE_PREAD 1
-
 /* Define to 1 if you have the 'procctl' function. */
 #cmakedefine HAVE_PROCCTL 1
 
@@ -399,9 +396,6 @@
 
 /* Define to 1 if you have the <pwd.h> header file. */
 #cmakedefine HAVE_PWD_H 1
-
-/* Define to 1 if you have the 'pwrite' function. */
-#cmakedefine HAVE_PWRITE 1
 
 /* Define to 1 if you have the <resolv.h> header file. */
 #cmakedefine HAVE_RESOLV_H 1
@@ -771,12 +765,6 @@
 
 /* The 'uname' output. */
 #define PHP_OS "@CMAKE_SYSTEM_NAME@"
-
-/* Define to 1 if 'pread' declaration with 'off64_t' is missing. */
-#cmakedefine PHP_PREAD_64 1
-
-/* Define to 1 if 'pwrite' declaration with 'off64_t' is missing. */
-#cmakedefine PHP_PWRITE_64 1
 
 /* Define to 1 if PHP uses its own SIGCHLD handler, and to 0 if not. */
 #cmakedefine01 PHP_SIGCHILD

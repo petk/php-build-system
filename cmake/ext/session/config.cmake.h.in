@@ -3,3 +3,15 @@
 
 /* Define to 1 if the PHP extension 'session' is available. */
 #cmakedefine HAVE_PHP_SESSION 1
+
+/* Define to 1 if you have the 'pread' function. */
+#cmakedefine HAVE_PREAD 1
+
+/* Define to 1 if you have the 'pwrite' function. */
+#cmakedefine HAVE_PWRITE 1
+
+/* Define to 1 if 'pread' declaration with 'off64_t' is missing. */
+#cmakedefine PHP_PREAD_64 1
+
+/* Define to 1 if 'pwrite' declaration with 'off64_t' is missing. */
+#cmakedefine PHP_PWRITE_64 1

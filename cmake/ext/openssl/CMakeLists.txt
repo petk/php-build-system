@@ -104,15 +104,15 @@ set_package_properties(
 # Link publicly for internal_functions files.
 target_link_libraries(php_openssl PUBLIC OpenSSL::SSL OpenSSL::Crypto)
 
-block(PROPAGATE HAVE_OPENSSL_EXT)
+block(PROPAGATE HAVE_OPENSSL_EXT_CODE)
   get_target_property(type php_openssl TYPE)
   if(
     CMAKE_SYSTEM_NAME STREQUAL "Windows" AND
     type MATCHES "^(MODULE|SHARED)_LIBRARY$"
   )
-    set(HAVE_OPENSSL_EXT "#define HAVE_OPENSSL_EXT 0")
+    set(HAVE_OPENSSL_EXT_CODE "#define HAVE_OPENSSL_EXT 0")
   else()
-    set(HAVE_OPENSSL_EXT "#define HAVE_OPENSSL_EXT 1")
+    set(HAVE_OPENSSL_EXT_CODE "#define HAVE_OPENSSL_EXT 1")
   endif()
 endblock()
 

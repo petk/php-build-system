@@ -3,7 +3,7 @@
    and built as shared. Elsewhere it is defined to value 1 when enabled.
    This platform-dependent definition inconsistency has been addressed as of
    PHP 8.4: https://github.com/php/php-src/pull/14333. */
-@HAVE_OPENSSL_EXT@
+@HAVE_OPENSSL_EXT_CODE@
 
 /* Define to 1 if the PHP extension 'openssl' is available. */
 #cmakedefine HAVE_OPENSSL 1
