@@ -1,5 +1,5 @@
-/* Define to 1 if mhash support is enabled. */
-#cmakedefine PHP_MHASH_BC 1
-
 /* Define to 1 if the PHP hash extension uses the slow SHA3 algorithm. */
 #cmakedefine HAVE_SLOW_HASH3 1
+
+/* Define to 1 if mhash support is enabled. */
+#cmakedefine PHP_MHASH_BC 1

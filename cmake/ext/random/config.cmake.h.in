@@ -1,8 +1,8 @@
 /* Define to 1 if you have the 'arc4random_buf' function. */
 #cmakedefine HAVE_ARC4RANDOM_BUF 1
 
-/* Define to 1 if you have the 'getrandom' function. */
-#cmakedefine HAVE_GETRANDOM 1
-
 /* Define to 1 if you have the <CommonCrypto/CommonRandom.h> header file. */
 #cmakedefine HAVE_COMMONCRYPTO_COMMONRANDOM_H 1
+
+/* Define to 1 if you have the 'getrandom' function. */
+#cmakedefine HAVE_GETRANDOM 1
