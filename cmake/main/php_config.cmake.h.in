@@ -696,9 +696,6 @@
 /* The path to the bin directory. */
 # define PHP_BINDIR "@EXPANDED_BINDIR@"
 
-/* The path to the sbin directory. */
-# define PHP_BINDIR "@EXPANDED_SBINDIR@"
-
 /* The path in which to look for php.ini. On Windows this macro isn't
    utilized in the C code. */
 # define PHP_CONFIG_FILE_PATH ""
@@ -723,6 +720,9 @@
 
 /* The installation prefix. */
 # define PHP_PREFIX "@prefix@"
+
+/* The path to the sbin directory. */
+# define PHP_SBINDIR "@EXPANDED_SBINDIR@"
 
 /* The prefix for the shared library objects. */
 # define PHP_SHLIB_EXT_PREFIX "php_"
