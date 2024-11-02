@@ -84,4 +84,4 @@ file(WRITE ${CMAKE_CURRENT_BINARY_DIR}/lib/timelib_config.h [[
 #define timelib_free    efree
 ]])
 
-configure_file(config.cmake.h.in config.h @ONLY)
+configure_file(config.cmake.h.in config.h)

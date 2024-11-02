@@ -57,4 +57,4 @@ endblock()
 # TODO: Fix this better with object libraries in the future.
 target_link_libraries(php_random PRIVATE Zend::Zend)
 
-configure_file(config.cmake.h.in config.h @ONLY)
+configure_file(config.cmake.h.in config.h)

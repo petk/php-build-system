@@ -69,4 +69,4 @@ check_include_file(mscoree.h HAVE_MSCOREE_H)
 
 set(HAVE_COM_DOTNET 1)
 
-configure_file(config.cmake.h.in config.h @ONLY)
+configure_file(config.cmake.h.in config.h)

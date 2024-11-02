@@ -139,4 +139,4 @@ endif()
 
 set(HAVE_ZIP 1)
 
-configure_file(config.cmake.h.in config.h @ONLY)
+configure_file(config.cmake.h.in config.h)

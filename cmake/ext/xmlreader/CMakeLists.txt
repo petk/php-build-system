@@ -66,4 +66,4 @@ add_dependencies(php_xmlreader php_libxml)
 
 set(HAVE_XMLREADER 1)
 
-configure_file(config.cmake.h.in config.h @ONLY)
+configure_file(config.cmake.h.in config.h)
