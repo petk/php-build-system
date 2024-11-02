@@ -51,3 +51,6 @@
 
 /* Define to 1 if 'domainname' is a member of 'struct utsname'. */
 #cmakedefine HAVE_STRUCT_UTSNAME_DOMAINNAME 1
+
+/* Define to 1 if you have a working 'ttyname_r' function. */
+#cmakedefine HAVE_TTYNAME_R 1
