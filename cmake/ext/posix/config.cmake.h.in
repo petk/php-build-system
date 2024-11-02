@@ -25,6 +25,9 @@
 /* Define to 1 if you have the 'initgroups' function. */
 #cmakedefine HAVE_INITGROUPS 1
 
+/* Define to 1 if you have the 'makedev' function. */
+#cmakedefine HAVE_MAKEDEV 1
+
 /* Define to 1 if you have the 'mkfifo' function. */
 #cmakedefine HAVE_MKFIFO 1
 
@@ -48,6 +51,12 @@
 
 /* Define to 1 if you have the 'setsid' function. */
 #cmakedefine HAVE_SETSID 1
+
+/* Define to 1 if you have the <sys/mkdev.h> header file. */
+#cmakedefine HAVE_SYS_MKDEV_H 1
+
+/* Define to 1 if you have the <sys/sysmacros.h> header file. */
+#cmakedefine HAVE_SYS_SYSMACROS_H 1
 
 /* Define to 1 if you have a working 'ttyname_r' function. */
 #cmakedefine HAVE_TTYNAME_R 1

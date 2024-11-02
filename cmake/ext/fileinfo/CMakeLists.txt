@@ -61,6 +61,9 @@ target_sources(
     php_libmagic.c
 )
 
+# Check for major, minor, and makedev.
+include(PHP/CheckSysMacros)
+
 # The strcasestr is missing on Windows and Solaris <= 10 (Solaris 11 has it).
 cmake_push_check_state(RESET)
   set(CMAKE_REQUIRED_DEFINITIONS -D_GNU_SOURCE)
