@@ -1,11 +1,11 @@
+/* Define to 1 to enable OpenSSL argon2 password hashing. */
+#cmakedefine HAVE_OPENSSL_ARGON2 1
+
 /* Define to 1 if the PHP extension 'openssl' is available. */
 #cmakedefine HAVE_OPENSSL_EXT 1
 
 /* Define to 1 if OpenSSL crypto library has the 'RAND_egd' function. */
 #cmakedefine HAVE_RAND_EGD 1
-
-/* Define to 1 to enable OpenSSL argon2 password hashing. */
-#cmakedefine HAVE_OPENSSL_ARGON2 1
 
 /* Define to 1 to load the OpenSSL legacy algorithm provider in addition to
    the default provider. */
