@@ -285,9 +285,6 @@
 /* Define to 1 if you have the 'mach_vm_read' function. */
 #cmakedefine HAVE_MACH_VM_READ 1
 
-/* Define to 1 if you have the 'makedev' function. */
-#cmakedefine HAVE_MAKEDEV 1
-
 /* Define to 1 if you have the 'memcntl' function. */
 #cmakedefine HAVE_MEMCNTL 1
 
@@ -528,9 +525,6 @@
 /* Define to 1 if you have the <sys/sysexits.h> header file. */
 #cmakedefine HAVE_SYS_SYSEXITS_H 1
 
-/* Define to 1 if you have the <sys/sysmacros.h> header file. */
-#cmakedefine HAVE_SYS_SYSMACROS_H 1
-
 /* Define to 1 if you have the <sys/time.h> header file. */
 #cmakedefine HAVE_SYS_TIME_H 1
 
@@ -594,14 +588,6 @@
 
 /* Define to 1 if you have the <wmmintrin.h> header file. */
 #cmakedefine HAVE_WMMINTRIN_H 1
-
-/* Define to 1 if 'major', 'minor', and 'makedev' are declared in <mkdev.h>.
-   */
-#cmakedefine MAJOR_IN_MKDEV 1
-
-/* Define to 1 if 'major', 'minor', and 'makedev' are declared in
-   <sysmacros.h>. */
-#cmakedefine MAJOR_IN_SYSMACROS 1
 
 /* Define to 1 if 'asctime_r' declaration is missing. */
 #cmakedefine MISSING_ASCTIME_R_DECL 1
