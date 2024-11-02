@@ -134,10 +134,7 @@ if(SAPI_PHPDBG_READLINE OR EXT_READLINE)
 
   set(HAVE_LIBEDIT 1 CACHE INTERNAL "Whether the libedit is available")
 
-  set(
-    HAVE_PHPDBG_READLINE 1
-    CACHE INTERNAL "Whether phpdbg has readline support"
-  )
+  set(HAVE_PHPDBG_READLINE 1)
 else()
   message(CHECK_FAIL "disabled")
 endif()
@@ -238,11 +235,7 @@ if(HAVE_UFFDIO_WRITEPROTECT_MODE_WP)
   endif()
 
   if(PHP_THREAD_SAFETY OR Threads_FOUND)
-    set(
-      HAVE_USERFAULTFD_WRITEFAULT 1
-      CACHE INTERNAL "Define to 1 if faulting on write-protected memory support\
- can be compiled for userfaultfd."
-    )
+    set(HAVE_USERFAULTFD_WRITEFAULT 1)
   endif()
 endif()
 if(HAVE_USERFAULTFD_WRITEFAULT)
@@ -281,3 +274,5 @@ php_install(CODE "
     \"\$ENV{DESTDIR}\${CMAKE_INSTALL_FULL_RUNSTATEDIR}\"
   )
 ")
+
+configure_file(config.cmake.h.in config.h)

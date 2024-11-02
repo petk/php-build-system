@@ -30,10 +30,6 @@ php_set(
   VALUE "nobody"
   DOC "Set the user for running PHP FPM (default: nobody)"
 )
-unset(PHP_FPM_USER CACHE)
-if(SAPI_FPM_USER)
-  set(PHP_FPM_USER "${SAPI_FPM_USER}" CACHE INTERNAL "FPM user")
-endif()
 
 php_set(
   SAPI_FPM_GROUP
@@ -44,10 +40,6 @@ php_set(
     "Set the group for running PHP FPM. For a system user, this should usually "
     "be set to match the FPM username (default: nobody)"
 )
-unset(PHP_FPM_GROUP CACHE)
-if(SAPI_FPM_GROUP)
-  set(PHP_FPM_GROUP "${SAPI_FPM_GROUP}" CACHE INTERNAL "FPM group")
-endif()
 
 php_set(
   SAPI_FPM_SYSTEMD
@@ -332,14 +324,14 @@ if(SAPI_FPM_SYSTEMD)
   target_link_libraries(php_fpm PRIVATE Systemd::Systemd)
 
   if(TARGET Systemd::Systemd)
-    set(HAVE_SYSTEMD 1 CACHE INTERNAL "Whether FPM is using systemd integration")
+    set(HAVE_SYSTEMD 1)
 
     target_sources(php_fpm PRIVATE fpm/fpm_systemd.c)
   endif()
 
-  set(PHP_FPM_SYSTEMD "notify" CACHE INTERNAL "FPM systemd service type")
+  set(PHP_FPM_SYSTEMD "notify")
 else()
-  set(PHP_FPM_SYSTEMD "simple" CACHE INTERNAL "FPM systemd service type")
+  set(PHP_FPM_SYSTEMD "simple")
 endif()
 
 if(SAPI_FPM_ACL)
@@ -360,7 +352,7 @@ if(SAPI_FPM_ACL)
       check_include_file(sys/acl.h HAVE_SYS_ACL_H)
     cmake_pop_check_state()
 
-    set(HAVE_FPM_ACL 1 CACHE INTERNAL "Whether FPM has ACL support")
+    set(HAVE_FPM_ACL 1)
   endif()
 endif()
 
@@ -376,7 +368,7 @@ if(SAPI_FPM_APPARMOR)
   target_link_libraries(php_fpm PRIVATE AppArmor::AppArmor)
 
   if(TARGET AppArmor::AppArmor)
-    set(HAVE_APPARMOR 1 CACHE INTERNAL "Whether AppArmor is present")
+    set(HAVE_APPARMOR 1)
   endif()
 endif()
 
@@ -392,7 +384,7 @@ if(SAPI_FPM_SELINUX)
   target_link_libraries(php_fpm PRIVATE SELinux::SELinux)
 
   if(TARGET SELinux::SELinux)
-    set(HAVE_SELINUX 1 CACHE INTERNAL "Whether SELinux is present")
+    set(HAVE_SELINUX 1)
   endif()
 endif()
 
@@ -539,3 +531,5 @@ install(
     ${CMAKE_CURRENT_BINARY_DIR}/status.html
   DESTINATION ${CMAKE_INSTALL_DATADIR}/fpm
 )
+
+configure_file(config.cmake.h.in config.h)
