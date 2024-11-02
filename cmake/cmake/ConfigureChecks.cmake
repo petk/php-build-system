@@ -142,38 +142,62 @@ if(NOT HAVE_SIZEOF_GID_T)
 endif()
 
 check_type_size("int" SIZEOF_INT)
+if(SIZEOF_INT STREQUAL "")
+  set(SIZEOF_INT_CODE "#define SIZEOF_INT 0")
+endif()
 
+# TODO: PHP on Windows sets the SIZEOF_INTMAX_T to 0 to skip certain checks,
+# otherwise the intmax_t type and its size are available. Windows-related C code
+# should probably be rechecked and fixed at some point.
 check_type_size("intmax_t" SIZEOF_INTMAX_T)
-if(NOT SIZEOF_INTMAX_T)
-  set(SIZEOF_INTMAX_T 0 CACHE INTERNAL "Size of intmax_t")
-  message(WARNING "Couldn't determine size of intmax_t, setting to 0.")
-elseif(CMAKE_SYSTEM_NAME STREQUAL "Windows")
-  # PHP on Windows sets the SIZEOF_INTMAX_T to 0 to skip certain checks,
-  # otherwise intmax_t and its size is available.
-  set(SIZEOF_INTMAX_T 0 CACHE INTERNAL "Size of intmax_t")
+if(SIZEOF_INTMAX_T STREQUAL "" OR CMAKE_SYSTEM_NAME STREQUAL "Windows")
+  set(SIZEOF_INTMAX_T_CODE "#define SIZEOF_INTMAX_T 0")
 endif()
 
 check_type_size("long" SIZEOF_LONG)
-check_type_size("long long" SIZEOF_LONG_LONG)
-check_type_size("off_t" SIZEOF_OFF_T)
+if(SIZEOF_LONG STREQUAL "")
+  set(SIZEOF_LONG_CODE "#define SIZEOF_LONG 0")
+endif()
 
+check_type_size("long long" SIZEOF_LONG_LONG)
+if(SIZEOF_LONG_LONG STREQUAL "")
+  set(SIZEOF_LONG_LONG_CODE "#define SIZEOF_LONG_LONG 0")
+endif()
+
+check_type_size("off_t" SIZEOF_OFF_T)
+if(SIZEOF_OFF_T STREQUAL "")
+  set(SIZEOF_OFF_T_CODE "#define SIZEOF_OFF_T 0")
+endif()
+
+# TODO: The ptrdiff_t is always available by C89 standard and its size varies
+# between 32-bit and 64-bit target platforms. Checking whether the ptrdiff_t
+# exists is redundant and is left here as PHP still checks it conditionally in
+# the intl extension.
 check_type_size("ptrdiff_t" SIZEOF_PTRDIFF_T)
-set(HAVE_PTRDIFF_T 1 CACHE INTERNAL "Whether ptrdiff_t is available")
-if(NOT SIZEOF_PTRDIFF_T)
+if(SIZEOF_PTRDIFF_T STREQUAL "")
   if(CMAKE_SIZEOF_VOID_P EQUAL 4)
-    set(SIZEOF_PTRDIFF_T 4 CACHE INTERNAL "Size of ptrdiff_t")
+    set(SIZEOF_PTRDIFF_T 4)
   else()
-    set(SIZEOF_PTRDIFF_T 8 CACHE INTERNAL "Size of ptrdiff_t")
+    set(SIZEOF_PTRDIFF_T 8)
   endif()
+  set(SIZEOF_PTRDIFF_T_CODE "#define SIZEOF_PTRDIFF_T ${SIZEOF_PTRDIFF_T}")
 
   message(
     WARNING
     "Couldn't determine the ptrdiff_t size, setting it to ${SIZEOF_PTRDIFF_T}."
   )
 endif()
+set(HAVE_PTRDIFF_T 1)
 
 check_type_size("size_t" SIZEOF_SIZE_T)
+if(SIZEOF_SIZE_T STREQUAL "")
+  set(SIZEOF_SIZE_T_CODE "#define SIZEOF_SIZE_T 0")
+endif()
+
 check_type_size("ssize_t" SIZEOF_SSIZE_T)
+if(SIZEOF_SSIZE_T STREQUAL "")
+  set(SIZEOF_SSIZE_T_CODE "#define SIZEOF_SSIZE_T 0")
+endif()
 
 check_type_size("uid_t" SIZEOF_UID_T)
 if(NOT HAVE_SIZEOF_UID_T)
@@ -188,10 +212,7 @@ cmake_push_check_state(RESET)
   if(HAVE_SYS_SOCKET_H)
     set(CMAKE_EXTRA_INCLUDE_FILES sys/socket.h)
   endif()
-  check_type_size("socklen_t" SIZEOF_SOCKLEN_T)
-  if(HAVE_SIZEOF_SOCKLEN_T)
-    set(HAVE_SOCKLEN_T 1 CACHE INTERNAL "Whether the system has the type 'socklen_t'.")
-  endif()
+  check_type_size("socklen_t" SOCKLEN_T)
 cmake_pop_check_state()
 
 ################################################################################
