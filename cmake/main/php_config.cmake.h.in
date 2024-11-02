@@ -573,9 +573,6 @@
 /* Define to 1 if you have the 'tzset' function. */
 #cmakedefine HAVE_TZSET 1
 
-/* Define to 1 if the system has the type 'union semun'. */
-#cmakedefine HAVE_UNION_SEMUN 1
-
 /* Define to 1 if you have the <unistd.h> header file. */
 #cmakedefine HAVE_UNISTD_H 1
 

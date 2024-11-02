@@ -1,5 +1,5 @@
 /* Define to 1 if the system has the type 'union semun'. */
-#cmakedefine01 HAVE_SEMUN
+#cmakedefine HAVE_UNION_SEMUN 1
 
 /* Define to 1 if the PHP extension 'sysvsem' is available. */
 #cmakedefine HAVE_SYSVSEM 1
