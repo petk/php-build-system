@@ -1,0 +1,74 @@
+/* Define to 1 if AppArmor confinement is available for PHP-FPM. */
+#cmakedefine HAVE_APPARMOR 1
+
+/* Define to 1 if compiler supports __sync_bool_compare_and_swap() a.o. */
+#cmakedefine HAVE_BUILTIN_ATOMIC 1
+
+/* Define to 1 if you have the 'clearenv' function. */
+#cmakedefine HAVE_CLEARENV 1
+
+/* Define to 1 if you have the 'clock_get_time' function. */
+#cmakedefine HAVE_CLOCK_GET_TIME 1
+
+/* Define to 1 if you have the 'clock_gettime' function. */
+#cmakedefine HAVE_CLOCK_GETTIME 1
+
+/* Define to 1 if system has a working '/dev/poll'. */
+#cmakedefine HAVE_DEVPOLL 1
+
+/* Define to 1 if system has a working epoll. */
+#cmakedefine HAVE_EPOLL 1
+
+/* Define to 1 if PHP-FPM has ACL support. */
+#cmakedefine HAVE_FPM_ACL 1
+
+/* Define to 1 if system has a working 'kqueue' function. */
+#cmakedefine HAVE_KQUEUE 1
+
+/* Define to 1 if you have 'SO_LISTENQ*'. */
+#cmakedefine HAVE_LQ_SO_LISTENQ 1
+
+/* Define to 1 if you have 'TCP_CONNECTION_INFO'. */
+#cmakedefine HAVE_LQ_TCP_CONNECTION_INFO 1
+
+/* Define to 1 if you have 'TCP_INFO'. */
+#cmakedefine HAVE_LQ_TCP_INFO 1
+
+/* Define to 1 if you have the 'mach_vm_read' function. */
+#cmakedefine HAVE_MACH_VM_READ 1
+
+/* Define to 1 if you have the 'port_create' function. */
+#cmakedefine HAVE_PORT 1
+
+/* Define to 1 if you have the 'ptrace' function. */
+#cmakedefine HAVE_PTRACE 1
+
+/* Define to 1 if system has a working 'select' function. */
+#cmakedefine HAVE_SELECT 1
+
+/* Define to 1 if SELinux is available in PHP-FPM. */
+#cmakedefine HAVE_SELINUX 1
+
+/* Define to 1 if you have the 'setpflags' function. */
+#cmakedefine HAVE_SETPFLAGS 1
+
+/* Define to 1 if you have the 'setproctitle' function. */
+#cmakedefine HAVE_SETPROCTITLE 1
+
+/* Define to 1 if you have the 'setproctitle_fast' function. */
+#cmakedefine HAVE_SETPROCTITLE_FAST 1
+
+/* Define to 1 if you have the 'sysconf' function. */
+#cmakedefine HAVE_SYSCONF 1
+
+/* Define to 1 if FPM has systemd integration. */
+#cmakedefine HAVE_SYSTEMD 1
+
+/* Define to 1 if you have the <sys/acl.h> header file. */
+#cmakedefine HAVE_SYS_ACL_H 1
+
+/* Define to 1 if you have the 'times' function. */
+#cmakedefine HAVE_TIMES 1
+
+/* Define to the /proc/pid/mem interface filename value. */
+#cmakedefine PROC_MEM_FILE "@PROC_MEM_FILE@"

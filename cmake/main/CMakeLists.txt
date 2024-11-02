@@ -360,6 +360,20 @@ function(_php_main_create_files)
   file(READ ${CMAKE_CURRENT_BINARY_DIR}/Zend/CMakeFiles/zend_config.h config)
   string(STRIP "${config}" ZEND_CONFIGURATION)
 
+  # Add sapis configuration.
+  set(config "")
+  get_cmake_property(sapis PHP_SAPIS)
+  list(SORT sapis COMPARE NATURAL)
+  foreach(sapi IN LISTS sapis)
+    if(EXISTS ${CMAKE_CURRENT_BINARY_DIR}/sapi/${sapi}/config.h)
+      file(READ ${CMAKE_CURRENT_BINARY_DIR}/sapi/${sapi}/config.h content)
+      if(content)
+        string(APPEND config "\n${content}")
+      endif()
+    endif()
+  endforeach()
+  string(STRIP "${config}" PHP_SAPIS_CONFIGURATION)
+
   # Add extensions configuration.
   set(config "")
   get_cmake_property(extensions PHP_EXTENSIONS)

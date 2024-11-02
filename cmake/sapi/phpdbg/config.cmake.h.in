@@ -1,0 +1,9 @@
+/* Define to 1 if 'TIOCGWINSZ' requires <sys/ioctl.h>. */
+#cmakedefine GWINSZ_IN_SYS_IOCTL 1
+
+/* Define to 1 if the phpdbg SAPI has libedit/readline integration. */
+#cmakedefine HAVE_PHPDBG_READLINE 1
+
+/* Define to 1 if faulting on write-protected memory support can be compiled
+   for userfaultfd. */
+#cmakedefine HAVE_USERFAULTFD_WRITEFAULT 1

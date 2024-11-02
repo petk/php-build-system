@@ -1,0 +1,5 @@
+/* Define to 1 if 'sun_len' is a member of 'struct sockaddr_un'. */
+#cmakedefine HAVE_SOCKADDR_UN_SUN_LEN 1
+
+/* Define to 1 if cross-process locking is required by 'accept()'. */
+#cmakedefine USE_LOCKING 1
