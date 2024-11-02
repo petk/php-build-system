@@ -775,37 +775,42 @@ identical behavior.
 
 ##### Changes to main/php_config.h
 
-* `COOKIE_IO_FUNCTIONS_T` symbol has been removed in favor of
-  `cookie_io_functions_t`.
-* `HAVE_SOCKADDR_UN_SUN_LEN` symbol has been renamed to
-  `HAVE_STRUCT_SOCKADDR_UN_SUN_LEN`.
-* `HAVE_UTSNAME_DOMAINNAME` symbol has been renamed to
-  `HAVE_STRUCT_UTSNAME_DOMAINNAME`.
+* `MISSING_FCLOSE_DECL` preprocessor macro and Autoconf macro
+  `PHP_MISSING_FCLOSE_DECL` have been removed.
 * `PHP_CHECK_IN_ADDR_T` Autoconf macro and `in_addr_t` fallback definition to
   `u_int` has been removed in favor of `AC_CHECK_TYPES` Autoconf macro.
-* `HAVE_ODBC2` symbol has been removed in ext/odbc.
-* Symbol `HAVE_JSON` has been removed (ext/json is always available since PHP
-  8.0).
-* Symbol `DARWIN` has been removed in favor of `__APPLE__` to target Darwin
-  systems.
-* Symbol `MISSING_FCLOSE_DECL` and Autoconf macro `PHP_MISSING_FCLOSE_DECL` have
-  been removed.
-* Symbol `HAVE_BSD_ICONV` has been removed.
-* Symbol `ZEND_FIBER_ASM` has been removed.
-* Symbols `HAVE_DLOPEN` and `HAVE_DLSYM` have been removed.
-* Symbol `HAVE_MYSQL` has been removed.
-* Symbol `HAVE_PDO_SQLITELIB` has been removed.
-* Symbol `HAVE_WAITPID` has been removed.
-* Symbol `HAVE_LIBPQ` has been removed.
-* Symbols `HAVE_LIBRT` and `HAVE_TIMER_CREATE` removed.
-* Symbols `PHP_FPM_SYSTEMD`, `PHP_FPM_USER`, and `PHP_FPM_GROUP` removed.
-* Symbol `PTHREADS` has been removed.
-* Symbol `HAVE_STRPTIME_DECL_FAILS` has been removed in favor of
-  `HAVE_DECL_STRPTIME`.
-* Symbol `HAVE_PHPDBG` has been removed.
-* Symbols `PHP_HAVE_AVX512_SUPPORTS` and `PHP_HAVE_AVX512_VBMI_SUPPORTS` are now
-  either defined to 1 or undefined.
-* Symbol `HAVE_LIBCRYPT` has been removed.
+* `PHP_HAVE_AVX512_SUPPORTS` and `PHP_HAVE_AVX512_VBMI_SUPPORTS` are now either
+  defined to 1 or undefined.
+
+* Removed preprocessor macros:
+  * `COOKIE_IO_FUNCTIONS_T` removed in favor of `cookie_io_functions_t`.
+  * `DARWIN` has been removed in favor of `__APPLE__` to target Darwin systems.
+  * `HAVE_BSD_ICONV`
+  * `HAVE_DLOPEN`
+  * `HAVE_DLSYM`
+  * `HAVE_JSON` has been removed (ext/json is always available since PHP 8.0).
+  * `HAVE_LIBCRYPT`
+  * `HAVE_LIBPQ`
+  * `HAVE_LIBRT`
+  * `HAVE_MYSQL`
+  * `HAVE_ODBC2` has been removed in ext/odbc.
+  * `HAVE_PDO_SQLITELIB`
+  * `HAVE_PHPDBG`
+  * `HAVE_STRPTIME_DECL_FAILS` has been removed in favor of `HAVE_DECL_STRPTIME`.
+  * `HAVE_TIMER_CREATE`
+  * `HAVE_TOKENIZER` has been removed in ext/tokenizer.
+  * `HAVE_WAITPID`
+  * `PHP_FPM_GROUP`
+  * `PHP_FPM_SYSTEMD`
+  * `PHP_FPM_USER`
+  * `PTHREADS`
+  * `ZEND_FIBER_ASM`
+
+* Renamed preprocessor macros:
+  * `HAVE_SOCKADDR_UN_SUN_LEN` has been renamed to
+    `HAVE_STRUCT_SOCKADDR_UN_SUN_LEN`.
+  * `HAVE_UTSNAME_DOMAINNAME` has been renamed to
+    `HAVE_STRUCT_UTSNAME_DOMAINNAME`.
 
 ##### Autoconf local macros
 
