@@ -478,12 +478,6 @@
 /* Define to 1 if you have the 'strnlen' function. */
 #cmakedefine HAVE_STRNLEN 1
 
-/* Define to 1 if you have the 'strptime' function. */
-#cmakedefine HAVE_STRPTIME 1
-
-/* Define to 1 if you have the declaration of 'strptime'. */
-#cmakedefine HAVE_STRPTIME_DECL_FAILS 1
-
 /* Define to 1 if you have the 'strtok_r' function. */
 #cmakedefine HAVE_STRTOK_R 1
 

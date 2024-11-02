@@ -404,9 +404,6 @@ check_symbol_exists(strlcat "string.h" HAVE_STRLCAT)
 check_symbol_exists(strlcpy "string.h" HAVE_STRLCPY)
 check_symbol_exists(explicit_bzero "string.h" HAVE_EXPLICIT_BZERO)
 
-# Check strptime().
-include(PHP/CheckStrptime)
-
 # Check reentrant functions.
 include(PHP/CheckReentrantFunctions)
 

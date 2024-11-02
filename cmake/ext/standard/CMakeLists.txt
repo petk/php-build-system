@@ -275,6 +275,9 @@ endif()
 # Configuration checks.
 ################################################################################
 
+# Check strptime().
+include(PHP/CheckStrptime)
+
 # Check if there is a support means of creating a new process and defining which
 # handles it receives.
 message(CHECK_START "Checking if OS can spawn processes with inherited handles")
