@@ -55,11 +55,10 @@ check_struct_has_member("struct sockaddr_un" sun_len sys/un.h HAVE_STRUCT_SOCKAD
 
 message(CHECK_START "Checking whether accept() requires cross-process locking")
 if(CMAKE_SYSTEM_NAME STREQUAL "SunOS")
-  set(USE_LOCKING 1 CACHE INTERNAL "Whether accept() requires cross-process locking")
-endif()
-if(USE_LOCKING)
+  set(USE_LOCKING 1)
   message(CHECK_PASS "yes")
 else()
+  set(USE_LOCKING 0)
   message(CHECK_FAIL "no")
 endif()
 
@@ -77,3 +76,5 @@ install(
   RENAME ${PHP_PROGRAM_PREFIX}php-cgi${PHP_PROGRAM_SUFFIX}.1
   DESTINATION ${CMAKE_INSTALL_MANDIR}/man1
 )
+
+configure_file(config.cmake.h.in config.h)

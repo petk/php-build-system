@@ -1,0 +1,8 @@
+/* Define if the PS_STRINGS exists. */
+#cmakedefine HAVE_PS_STRINGS
+
+/* Define to 1 if you have the 'setproctitle' function. */
+#cmakedefine HAVE_SETPROCTITLE 1
+
+/* Define to 1 if you have the <sys/pstat.h> header file. */
+#cmakedefine HAVE_SYS_PSTAT_H 1

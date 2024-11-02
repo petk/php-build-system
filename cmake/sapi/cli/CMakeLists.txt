@@ -168,3 +168,5 @@ install(
   RENAME ${PHP_PROGRAM_PREFIX}php${PHP_PROGRAM_SUFFIX}.1
   DESTINATION ${CMAKE_INSTALL_MANDIR}/man1
 )
+
+configure_file(config.cmake.h.in config.h)
