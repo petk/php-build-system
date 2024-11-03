@@ -44,8 +44,14 @@ project(
   Zend
   VERSION ${Zend_VERSION}
   DESCRIPTION "Zend Engine library"
-  LANGUAGES C CXX ASM
+  LANGUAGES C
 )
+
+include(CheckLanguage)
+check_language(ASM)
+if(CMAKE_ASM_COMPILER)
+  enable_language(ASM)
+endif()
 
 string(APPEND Zend_VERSION "${Zend_VERSION_LABEL}")
 message(STATUS "Zend Engine version: ${Zend_VERSION}")

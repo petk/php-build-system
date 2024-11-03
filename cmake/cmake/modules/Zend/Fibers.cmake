@@ -171,6 +171,8 @@ if(ZEND_FIBER_ASM AND zend_fibers_asm_file)
     INTERFACE
       $<IF:$<BOOL:${SHADOW_STACK_SYSCALL}>,SHADOW_STACK_SYSCALL=1,SHADOW_STACK_SYSCALL=0>
   )
+
+  enable_language(ASM)
 else()
   cmake_push_check_state(RESET)
     # To use ucontext.h on macOS, the _XOPEN_SOURCE needs to be defined to any

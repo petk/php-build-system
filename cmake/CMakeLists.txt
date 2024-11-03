@@ -18,7 +18,7 @@ project(
   VERSION ${PHP_VERSION}
   DESCRIPTION "Widely-used general-purpose scripting language"
   HOMEPAGE_URL "https://www.php.net"
-  LANGUAGES C CXX ASM
+  LANGUAGES C
 )
 
 set(CMAKE_C_STANDARD 99)
