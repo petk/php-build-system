@@ -67,6 +67,12 @@ target_compile_definitions(
     _MBCS
     _USE_MATH_DEFINES
     PHP_EXPORTS
+    # The time_t defaults to 64-bit. Force 32-bit time_t on 32-bit architecture.
+    # This was historically added to PHP as Visual Studio 2005 set 64-bit time_t
+    # by default and it would break 3rdParty libs that were built with older
+    # compilers. This and duplicate definition in the configuration header
+    # should be removed at some point.
+    $<$<EQUAL:${CMAKE_SIZEOF_VOID_P},4>:_USE_32BIT_TIME_T=1>
 )
 
 # MS deprecated ANSI stdio and similar functions. Disable warnings.
@@ -76,11 +82,6 @@ target_compile_options(
     $<$<COMPILE_LANG_AND_ID:C,MSVC>:/wd4996>
     $<$<COMPILE_LANG_AND_ID:CXX,MSVC>:/wd4996>
 )
-
-# The time_t defaults to 64-bit. Force 32-bit time_t on 32-bit architecture.
-if(CMAKE_SIZEOF_VOID_P EQUAL 4)
-  target_compile_definitions(php_configuration INTERFACE _USE_32BIT_TIME_T=1)
-endif()
 
 target_link_libraries(php_win32 PRIVATE PHP::configuration)
 

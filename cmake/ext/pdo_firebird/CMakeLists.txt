@@ -1,6 +1,6 @@
 project(
   PhpExtensionPdoFirebird
-  LANGUAGES C CXX
+  LANGUAGES C
 )
 
 include(CheckLibraryExists)
@@ -26,6 +26,8 @@ cmake_dependent_option(
 if(NOT EXT_PDO_FIREBIRD)
   return()
 endif()
+
+enable_language(CXX)
 
 if(EXT_PDO_FIREBIRD_SHARED)
   add_library(php_pdo_firebird SHARED)
