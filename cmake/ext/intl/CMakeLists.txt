@@ -1,6 +1,6 @@
 project(
   PhpExtensionIntl
-  LANGUAGES C CXX
+  LANGUAGES C
 )
 
 include(CMakeDependentOption)
@@ -26,6 +26,8 @@ cmake_dependent_option(
 if(NOT EXT_INTL)
   return()
 endif()
+
+enable_language(CXX)
 
 if(EXT_INTL_SHARED)
   add_library(php_intl SHARED)

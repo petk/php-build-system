@@ -383,10 +383,6 @@ function(_php_main_create_files)
   message(STATUS "Creating main/php_version.h")
   configure_file(main/php_version.h.in main/php_version.h @ONLY)
 
-  # Add Zend Engine configuration.
-  file(READ ${CMAKE_CURRENT_BINARY_DIR}/Zend/CMakeFiles/zend_config.h config)
-  string(STRIP "${config}" ZEND_CONFIGURATION)
-
   # Add sapis configuration.
   set(config "")
   get_cmake_property(sapis PHP_SAPIS)
@@ -414,6 +410,10 @@ function(_php_main_create_files)
     endif()
   endforeach()
   string(STRIP "${config}" PHP_EXTENSIONS_CONFIGURATION)
+
+  # Add Zend Engine configuration.
+  file(READ ${CMAKE_CURRENT_BINARY_DIR}/Zend/CMakeFiles/zend_config.h config)
+  string(STRIP "${config}" ZEND_CONFIGURATION)
 
   if(CMAKE_SYSTEM_NAME STREQUAL "Windows")
     set(PHP_CONFIG_H_WINDOWS 1)

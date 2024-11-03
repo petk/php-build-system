@@ -78,59 +78,63 @@ else()
   endif()
 endif()
 
-check_linker_flag(
-  CXX
-  "LINKER:-z,common-page-size=2097152;LINKER:-z,max-page-size=2097152"
-  _HAVE_ALIGNMENT_FLAGS_CXX
-)
+get_cmake_property(enabledLanguages ENABLED_LANGUAGES)
 
-if(_HAVE_ALIGNMENT_FLAGS_CXX)
-  cmake_push_check_state(RESET)
-    set(
-      CMAKE_REQUIRED_LINK_OPTIONS
-      LINKER:-z,common-page-size=2097152
-      LINKER:-z,max-page-size=2097152
-    )
-    check_source_runs(
-      CXX
-      [[int main(void) { return 0; }]]
-      PHP_HAVE_ALIGNMENT_FLAGS_CXX
-    )
-  cmake_pop_check_state()
-
-  if(PHP_HAVE_ALIGNMENT_FLAGS_CXX)
-    target_link_options(
-      php_configuration
-      INTERFACE
-        $<$<AND:$<STREQUAL:$<TARGET_PROPERTY:TYPE>,EXECUTABLE>,$<LINK_LANGUAGE:CXX>>:LINKER:-z,common-page-size=2097152;LINKER:-z,max-page-size=2097152;>
-    )
-  endif()
-else()
+if(CXX IN_LIST enabledLanguages)
   check_linker_flag(
     CXX
-    "LINKER:-z,max-page-size=2097152"
-    _HAVE_ZMAX_PAGE_SIZE_CXX
+    "LINKER:-z,common-page-size=2097152;LINKER:-z,max-page-size=2097152"
+    _HAVE_ALIGNMENT_FLAGS_CXX
   )
 
-  if(_HAVE_ZMAX_PAGE_SIZE_CXX)
+  if(_HAVE_ALIGNMENT_FLAGS_CXX)
     cmake_push_check_state(RESET)
       set(
         CMAKE_REQUIRED_LINK_OPTIONS
+        LINKER:-z,common-page-size=2097152
         LINKER:-z,max-page-size=2097152
       )
       check_source_runs(
         CXX
         [[int main(void) { return 0; }]]
-        PHP_HAVE_ZMAX_PAGE_SIZE_CXX
+        PHP_HAVE_ALIGNMENT_FLAGS_CXX
       )
     cmake_pop_check_state()
 
-    if(PHP_HAVE_ZMAX_PAGE_SIZE_CXX)
+    if(PHP_HAVE_ALIGNMENT_FLAGS_CXX)
       target_link_options(
         php_configuration
         INTERFACE
-          $<$<AND:$<STREQUAL:$<TARGET_PROPERTY:TYPE>,EXECUTABLE>,$<LINK_LANGUAGE:CXX>>:LINKER:-z,max-page-size=2097152>
+          $<$<AND:$<STREQUAL:$<TARGET_PROPERTY:TYPE>,EXECUTABLE>,$<LINK_LANGUAGE:CXX>>:LINKER:-z,common-page-size=2097152;LINKER:-z,max-page-size=2097152;>
       )
+    endif()
+  else()
+    check_linker_flag(
+      CXX
+      "LINKER:-z,max-page-size=2097152"
+      _HAVE_ZMAX_PAGE_SIZE_CXX
+    )
+
+    if(_HAVE_ZMAX_PAGE_SIZE_CXX)
+      cmake_push_check_state(RESET)
+        set(
+          CMAKE_REQUIRED_LINK_OPTIONS
+          LINKER:-z,max-page-size=2097152
+        )
+        check_source_runs(
+          CXX
+          [[int main(void) { return 0; }]]
+          PHP_HAVE_ZMAX_PAGE_SIZE_CXX
+        )
+      cmake_pop_check_state()
+
+      if(PHP_HAVE_ZMAX_PAGE_SIZE_CXX)
+        target_link_options(
+          php_configuration
+          INTERFACE
+            $<$<AND:$<STREQUAL:$<TARGET_PROPERTY:TYPE>,EXECUTABLE>,$<LINK_LANGUAGE:CXX>>:LINKER:-z,max-page-size=2097152>
+        )
+      endif()
     endif()
   endif()
 endif()

@@ -4,6 +4,16 @@ Configure project after the project() call.
 
 include_guard(GLOBAL)
 
+# Optionally enable CXX for extensions and ASM for Zend Engine. ASM is enabled
+# last so CMake checks whether enabled compilers can also work for assembly.
+include(CheckLanguage)
+foreach(language CXX ASM)
+  check_language(${language})
+  if(CMAKE_${language}_COMPILER)
+    enable_language(${language})
+  endif()
+endforeach()
+
 # Output linker information.
 if(CMAKE_VERSION VERSION_GREATER_EQUAL 3.29)
   if(CMAKE_C_COMPILER_LINKER)
