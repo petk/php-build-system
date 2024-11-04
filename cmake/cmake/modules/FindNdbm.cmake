@@ -1,27 +1,28 @@
 #[=============================================================================[
 Find the ndbm library.
 
-Depending on the system, the nbdm library can be part of other libraries as an
-interface.
+Depending on the system, the nbdm ("new" dbm) library can be part of other
+libraries as an interface. For example, GNU dbm library (GDBM) has a
+compatibility interface that provides ndbm.h header and gdbm_compat library.
 
 Module defines the following `IMPORTED` target(s):
 
 * `Ndbm::Ndbm` - The package library, if found.
 
-Result variables:
+## Result variables
 
 * `Ndbm_FOUND` - Whether the package has been found.
 * `Ndbm_INCLUDE_DIRS` - Include directories needed to use this package.
 * `Ndbm_LIBRARIES` - Libraries needed to link to the package library.
 
-Cache variables:
+## Cache variables
 
 * `Ndbm_INCLUDE_DIR` - Directory containing package library headers.
 * `Ndbm_LIBRARY` - The path to the package library.
 
-Hints:
+## Hints
 
-The `Ndbm_ROOT` variable adds custom search path.
+* The `Ndbm_ROOT` variable adds custom search path.
 #]=============================================================================]
 
 include(CheckLibraryExists)
@@ -50,7 +51,15 @@ endif()
 
 find_library(
   Ndbm_LIBRARY
-  NAMES ndbm db1 gdbm_compat c
+  NAMES
+    ndbm
+    gdbm_compat
+    db1
+    # TODO: Which system still has ndbm built in the default C library? In such
+    # case this find module should be refactored to search the built-in library
+    # similar to how FindIconv does it. Otherwise, more likely, this should be
+    # removed from here.
+    c
   DOC "The path to the ndbm library"
 )
 

@@ -5,28 +5,24 @@ Module defines the following `IMPORTED` target(s):
 
 * `BerkeleyDB::BerkeleyDB` - The package library, if found.
 
-Result variables:
+## Result variables
 
-  `BerkeleyDB_FOUND`
-    Whether the package has been found.
-  `BerkeleyDB_INCLUDE_DIRS`
-    Include directories needed to use this package.
-  `BerkeleyDB_LIBRARIES`
-    Libraries needed to link to the package library.
+* `BerkeleyDB_FOUND` - Whether the package has been found.
+* `BerkeleyDB_INCLUDE_DIRS`- Include directories needed to use this package.
+* `BerkeleyDB_LIBRARIES`- Libraries needed to link to the package library.
 
-Cache variables:
+## Cache variables
 
 * `BerkeleyDB_INCLUDE_DIR` - Directory containing package library headers.
 * `BerkeleyDB_LIBRARY` - The path to the package library.
 * `BerkeleyDB_DB1_INCLUDE_DIR` - Directory containing headers for DB1 emulation
   support in Berkeley DB.
 
-Hints:
+## Hints
 
-The `BerkeleyDB_ROOT` variable adds custom search path.
-
-Set `BerkeleyDB_USE_DB1` to `TRUE` before calling `find_package(BerkeleyDB)` to
-enable the Berkeley DB 1.x support/emulation.
+* The `BerkeleyDB_ROOT` variable adds custom search path.
+* Set `BerkeleyDB_USE_DB1` to `TRUE` before calling `find_package(BerkeleyDB)`
+  to enable the Berkeley DB 1.x support/emulation.
 #]=============================================================================]
 
 include(CheckSourceCompiles)

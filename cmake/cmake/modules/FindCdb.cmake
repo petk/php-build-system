@@ -5,21 +5,21 @@ Module defines the following `IMPORTED` target(s):
 
 * `Cdb::Cdb` - The package library, if found.
 
-Result variables:
+## Result variables
 
 * `Cdb_FOUND` - Whether the package has been found.
 * `Cdb_INCLUDE_DIRS` - Include directories needed to use this package.
 * `Cdb_LIBRARIES` - Libraries needed to link to the package library.
 * `Cdb_VERSION` - Package version, if found.
 
-Cache variables:
+## Cache variables
 
 * `Cdb_INCLUDE_DIR` - Directory containing package library headers.
 * `Cdb_LIBRARY` - The path to the package library.
 
-Hints:
+## Hints
 
-The `Cdb_ROOT` variable adds custom search path.
+* The `Cdb_ROOT` variable adds custom search path.
 #]=============================================================================]
 
 include(CheckLibraryExists)
@@ -52,7 +52,13 @@ endif()
 
 find_library(
   Cdb_LIBRARY
-  NAMES cdb
+  NAMES
+    cdb
+    # TODO: Which system still has cdb built in the default C library? In such
+    # case this find module should be refactored to search the built-in library
+    # similar to how FindIconv does it. Otherwise, more likely, this should be
+    # removed from here.
+    c
   PATHS ${PC_Cdb_LIBRARY_DIRS}
   DOC "The path to the cdb library"
 )
