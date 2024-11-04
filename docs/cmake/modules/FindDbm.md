@@ -11,7 +11,7 @@ Module defines the following `IMPORTED` target(s):
 
 * `Dbm::Dbm` - The package library, if found.
 
-Result variables:
+## Result variables
 
 * `Dbm_FOUND` - Whether the package has been found.
 * `Dbm_INCLUDE_DIRS` - Include directories needed to use this package.
@@ -19,11 +19,11 @@ Result variables:
 * `Dbm_IMPLEMENTATION` - String of the library name that implements the dbm
   library.
 
-Cache variables:
+## Cache variables
 
 * `Dbm_INCLUDE_DIR` - Directory containing package library headers.
 * `Dbm_LIBRARY` - The path to the package library.
 
-Hints:
+## Hints
 
-The `Dbm_ROOT` variable adds custom search path.
+* The `Dbm_ROOT` variable adds custom search path.

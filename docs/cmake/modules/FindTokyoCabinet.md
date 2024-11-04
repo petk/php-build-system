@@ -8,18 +8,18 @@ Module defines the following `IMPORTED` target(s):
 
 * `TokyoCabinet::TokyoCabinet` - The package library, if found.
 
-Result variables:
+## Result variables
 
 * `TokyoCabinet_FOUND` - Whether the package has been found.
 * `TokyoCabinet_INCLUDE_DIRS` - Include directories needed to use this package.
 * `TokyoCabinet_LIBRARIES` - Libraries needed to link to the package library.
 * `TokyoCabinet_VERSION` - Package version, if found.
 
-Cache variables:
+## Cache variables
 
 * `TokyoCabinet_INCLUDE_DIR` - Directory containing package library headers.
 * `TokyoCabinet_LIBRARY` - The path to the package library.
 
-Hints:
+## Hints
 
-The `TokyoCabinet_ROOT` variable adds custom search path.
+* The `TokyoCabinet_ROOT` variable adds custom search path.

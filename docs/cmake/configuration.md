@@ -1153,30 +1153,30 @@ A list of Autoconf `configure` command-line configuration options, Windows
     </tr>
     <tr>
       <td>&emsp;--enable-dba=shared</td>
-      <td>--enable-dba=shared</td>
+      <td>--with-dba=shared</td>
       <td>EXT_DBA_SHARED=ON</td>
       <td></td>
     </tr>
     <tr>
-      <td>&emsp;--with-flatfile</td>
+      <td>&emsp;--enable-flatfile</td>
       <td>N/A</td>
       <td>EXT_DBA_FLATFILE=ON</td>
       <td>default</td>
     </tr>
     <tr>
-      <td>&emsp;--without-flatfile</td>
+      <td>&emsp;--disable-flatfile</td>
       <td>N/A</td>
       <td>EXT_DBA_FLATFILE=OFF</td>
       <td></td>
     </tr>
     <tr>
-      <td>&emsp;--with-inifile</td>
+      <td>&emsp;--enable-inifile</td>
       <td>N/A</td>
       <td>EXT_DBA_INIFILE=ON</td>
       <td>default</td>
     </tr>
     <tr>
-      <td>&emsp;--without-inifile</td>
+      <td>&emsp;--disable-inifile</td>
       <td>N/A</td>
       <td>EXT_DBA_INIFILE=OFF</td>
       <td></td>
@@ -1305,21 +1305,6 @@ A list of Autoconf `configure` command-line configuration options, Windows
       <td></td>
     </tr>
     <tr>
-      <td>&emsp;--without-tcadb</td>
-      <td>N/A</td>
-      <td>EXT_DBA_TCADB=OFF</td>
-      <td>default</td>
-    </tr>
-    <tr>
-      <td>&emsp;--with-tcadb[=DIR]</td>
-      <td>N/A</td>
-      <td>
-        EXT_DBA_TCADB=ON<br>
-        [TokyoCabinet_ROOT=DIR]
-      </td>
-      <td></td>
-    </tr>
-    <tr>
       <td>&emsp;--without-lmdb</td>
       <td>--without-lmdb</td>
       <td>EXT_DBA_LMDB=OFF</td>
@@ -1335,6 +1320,21 @@ A list of Autoconf `configure` command-line configuration options, Windows
       <td></td>
     </tr>
     <tr>
+      <td>&emsp;--without-tcadb</td>
+      <td>N/A</td>
+      <td>EXT_DBA_TCADB=OFF</td>
+      <td>default</td>
+    </tr>
+    <tr>
+      <td>&emsp;--with-tcadb[=DIR]</td>
+      <td>N/A</td>
+      <td>
+        EXT_DBA_TCADB=ON<br>
+        [TokyoCabinet_ROOT=DIR]
+      </td>
+      <td></td>
+    </tr>
+    <tr>
       <td>&emsp;--with-cdb</td>
       <td>N/A</td>
       <td>EXT_DBA_CDB=ON</td>
@@ -1345,7 +1345,7 @@ A list of Autoconf `configure` command-line configuration options, Windows
       <td>N/A</td>
       <td>
         EXT_DBA_CDB_EXTERNAL=ON<br>
-        Cdb_ROOT=DIR
+        [Cdb_ROOT=DIR]
       </td>
       <td></td>
     </tr>
