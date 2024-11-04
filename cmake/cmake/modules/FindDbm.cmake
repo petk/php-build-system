@@ -8,7 +8,7 @@ Module defines the following `IMPORTED` target(s):
 
 * `Dbm::Dbm` - The package library, if found.
 
-Result variables:
+## Result variables
 
 * `Dbm_FOUND` - Whether the package has been found.
 * `Dbm_INCLUDE_DIRS` - Include directories needed to use this package.
@@ -16,14 +16,14 @@ Result variables:
 * `Dbm_IMPLEMENTATION` - String of the library name that implements the dbm
   library.
 
-Cache variables:
+## Cache variables
 
 * `Dbm_INCLUDE_DIR` - Directory containing package library headers.
 * `Dbm_LIBRARY` - The path to the package library.
 
-Hints:
+## Hints
 
-The `Dbm_ROOT` variable adds custom search path.
+* The `Dbm_ROOT` variable adds custom search path.
 #]=============================================================================]
 
 include(CheckLibraryExists)
@@ -50,21 +50,22 @@ if(NOT Dbm_INCLUDE_DIR)
   string(APPEND _reason "dbm.h not found. ")
 endif()
 
-# TODO: Fix the search names and the sanity check.
 find_library(
   Dbm_LIBRARY
-  NAMES gdbm_compat
-  DOC "The path to the dbm compat library"
+  NAMES
+    gdbm_compat
+    dbm
+    # TODO: Which system still has dbm built in the default C library? In such
+    # case this find module should be refactored to search the built-in library
+    # similar to how FindIconv does it. Otherwise, more likely, this should be
+    # removed from here.
+    c
+  DOC "The path to the dbm library"
 )
 
-if(Dbm_LIBRARY)
+if(Dbm_LIBRARY MATCHES "gdbm_compat")
   set(Dbm_IMPLEMENTATION "GDBM")
-else()
-  find_library(
-    Dbm_LIBRARY
-    NAMES dbm c
-    DOC "The path to the dbm library"
-  )
+elseif(Dbm_LIBRARY)
   set(Dbm_IMPLEMENTATION "DBM")
 endif()
 

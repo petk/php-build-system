@@ -43,7 +43,7 @@ block()
     list(REMOVE_DUPLICATES enabledFeatures)
   endif()
 
-  list(SORT enabledFeatures COMPARE NATURAL)
+  list(SORT enabledFeatures COMPARE NATURAL CASE INSENSITIVE)
 
   set(sapis "")
   set(extensions "")

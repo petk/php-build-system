@@ -102,6 +102,11 @@ jobs:
             libxslt1-dev \
             libcapstone-dev \
             libedit-dev \
+            libcdb-dev \
+            libgdbm-dev \
+            libgdbm-compat-dev \
+            liblmdb-dev \
+            libtokyocabinet-dev \
             libsnmp-dev \
             snmpd \
             snmp-mibs-downloader \
