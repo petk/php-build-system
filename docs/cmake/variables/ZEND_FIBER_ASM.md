@@ -6,7 +6,7 @@ Values: `ON|OFF`
 
 Enable the use of Boost fiber assembly files using the
 [Zend/Fibers](/docs/cmake/modules/Zend/Fibers.md) module. If disabled or system
-isn't supported, fiber support will be run through ucontext.
+isn't supported, fiber support will be run through the legacy ucontext.
 
 > [!NOTE]
 > When target system is Windows, this option is always set to `ON` and option is
