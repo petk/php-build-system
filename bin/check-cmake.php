@@ -113,7 +113,7 @@ function options(array $overrides = [], array $argv = []): array
         }
     }
 
-    if (array_key_exists('path', $options) && $options['path'] === null) {
+    if (array_key_exists('path', $options) && null === $options['path']) {
         $options['path'] = realpath(__DIR__ . '/..');
     }
 
