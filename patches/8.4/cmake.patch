@@ -1,3 +1,4 @@
+From: Peter Kokot <peterkokot@gmail.com>
 Subject: Add CMake changes for PHP-8.4 branch
 
 * CMake added to run-tests.php for info about failing tests and checks

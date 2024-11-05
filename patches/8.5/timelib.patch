@@ -1,3 +1,4 @@
+From: Peter Kokot <peterkokot@gmail.com>
 Subject: Fix -Wundef/C4668 warnings in ext/date
 
 ---

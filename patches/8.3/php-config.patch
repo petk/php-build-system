@@ -1,3 +1,4 @@
+From: Peter Kokot <peterkokot@gmail.com>
 Subject: Enhance php-config script
 
 Changes:
@@ -58,7 +59,7 @@ index 61ee5c1675..1a8d67a783 100644
  
  dnl
 diff --git a/configure.ac b/configure.ac
-index 9c90d92240..88a86e35a5 100644
+index d15c390e09..e7bc478f00 100644
 --- a/configure.ac
 +++ b/configure.ac
 @@ -1480,6 +1480,9 @@ exec_prefix=$old_exec_prefix
