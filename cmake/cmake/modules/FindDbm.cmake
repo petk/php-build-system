@@ -9,7 +9,7 @@ interface.
   definitions mapping to internal dbm functions available in the db.h header.
   When defining `DB_DBM_HSEARCH` dbm handler is available as built into C
   library. However, this is museum code and probably relying on a standalone dbm
-  package instead should be done without using this artefact. PHP in the past
+  package instead should be done without using this artifact. PHP in the past
   already used this and moved the db extension out of the php-src to PECL.
 
 Module defines the following `IMPORTED` target(s):
