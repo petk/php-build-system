@@ -25,7 +25,7 @@ function usage(string $script): string
     includes or similar.
 
     SYNOPSIS:
-        $script [<options>] <path>
+        $script [<options>] [<path>]
 
     OPTIONS:
         -h, --help                Display this help and exit.
@@ -105,16 +105,16 @@ function options(array $overrides = [], array $argv = []): array
         }
     }
 
-    if (count($argv) < 2) {
-        $options['help'] = true;
-    }
-
     foreach (array_slice($argv, $optionsIndex) as $file) {
         if (file_exists($file) && $file !== $argv[0]) {
             $options['path'] = realpath($file);
 
             break;
         }
+    }
+
+    if (array_key_exists('path', $options) && $options['path'] === null) {
+        $options['path'] = realpath(__DIR__ . '/..');
     }
 
     validateOptions($options);
@@ -139,7 +139,9 @@ function validateOptions(array $options): void
         || null === $options['path']
         || !file_exists($options['path'])
     ) {
-        output('Path argument missing');
+        output('Error: Path not found');
+        output();
+        output('Usage:');
         output();
         output(usage($options['script']));
         exit(1);
@@ -712,16 +714,16 @@ function checkAll(array $options): int
     output($options['script'] . ': Working tree ' . $options['path']);
 
     output($options['script'] . ': Checking CMake modules');
-    $allCMakeFiles = getAllCMakeFiles($options['path']);
+    $allCMakeFiles = getAllCMakeFiles($options['path'] . '/cmake');
 
     $projectModules = getProjectModules();
     $status = checkCMakeFiles($allCMakeFiles, $projectModules);
 
-    $findModules = getFindModules($options['path'] . '/cmake/modules');
+    $findModules = getFindModules($options['path'] . '/cmake/cmake/modules');
     $newStatus = checkFindModules($findModules, $allCMakeFiles);
     $status = (0 === $status) ? $newStatus : $status;
 
-    $modules = getModules($options['path'] . '/cmake/modules');
+    $modules = getModules($options['path'] . '/cmake/cmake/modules');
     $newStatus = checkModules($modules, $allCMakeFiles);
     $status = (0 === $status) ? $newStatus : $status;
 

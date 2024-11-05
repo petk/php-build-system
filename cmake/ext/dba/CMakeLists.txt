@@ -116,6 +116,7 @@ cmake_dependent_option(
   [[EXT_DBA AND NOT EXT_DBA_QDBM]]
   OFF
 )
+mark_as_advanced(EXT_DBA_GDBM)
 add_feature_info(
   "ext/dba GDBM"
   EXT_DBA_GDBM
@@ -224,29 +225,7 @@ target_sources(
 
 target_compile_definitions(php_dba PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE=1)
 
-if(EXT_DBA_FLATFILE)
-  target_sources(
-    php_dba
-    PRIVATE
-      dba_flatfile.c
-      libflatfile/flatfile.c
-  )
-
-  set(DBA_FLATFILE 1)
-endif()
-
-if(EXT_DBA_INIFILE)
-  target_sources(
-    php_dba
-    PRIVATE
-      dba_inifile.c
-      libinifile/inifile.c
-  )
-
-  set(DBA_INIFILE 1)
-endif()
-
-# Check for constant databases (cdb) support.
+# Constant databases (cdb).
 if(EXT_DBA_CDB)
   target_sources(php_dba PRIVATE dba_cdb.c)
   set(DBA_CDB 1)
@@ -272,6 +251,29 @@ if(EXT_DBA_CDB)
     )
     set(DBA_CDB_BUILTIN 1)
   endif()
+endif()
+
+# Flat-file support.
+if(EXT_DBA_FLATFILE)
+  target_sources(
+    php_dba
+    PRIVATE
+      dba_flatfile.c
+      libflatfile/flatfile.c
+  )
+
+  set(DBA_FLATFILE 1)
+endif()
+
+if(EXT_DBA_INIFILE)
+  target_sources(
+    php_dba
+    PRIVATE
+      dba_inifile.c
+      libinifile/inifile.c
+  )
+
+  set(DBA_INIFILE 1)
 endif()
 
 if(EXT_DBA_LMDB)

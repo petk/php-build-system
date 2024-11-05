@@ -1,9 +1,12 @@
 #[=============================================================================[
 Find the ndbm library.
 
-Depending on the system, the nbdm ("new" dbm) library can be part of other
-libraries as an interface. For example, GNU dbm library (GDBM) has a
-compatibility interface that provides ndbm.h header and gdbm_compat library.
+Depending on the system, the nbdm ("new" dbm) can be part of other libraries as
+an interface.
+
+* GNU dbm library (GDBM) has a compatibility interface that provides ndbm.h
+  header and gdbm_compat library.
+* Built into default libraries (C): BSD-based systems, macOS, Solaris.
 
 Module defines the following `IMPORTED` target(s):
 
@@ -12,6 +15,7 @@ Module defines the following `IMPORTED` target(s):
 ## Result variables
 
 * `Ndbm_FOUND` - Whether the package has been found.
+* `Ndbm_IS_BUILT_IN` - Whether ndbm is a part of the C library.
 * `Ndbm_INCLUDE_DIRS` - Include directories needed to use this package.
 * `Ndbm_LIBRARIES` - Libraries needed to link to the package library.
 
@@ -26,6 +30,8 @@ Module defines the following `IMPORTED` target(s):
 #]=============================================================================]
 
 include(CheckLibraryExists)
+include(CheckSymbolExists)
+include(CMakePushCheckState)
 include(FeatureSummary)
 include(FindPackageHandleStandardArgs)
 
@@ -38,52 +44,65 @@ set_package_properties(
 
 set(_reason "")
 
-find_path(
-  Ndbm_INCLUDE_DIR
-  NAMES ndbm.h
-  PATH_SUFFIXES db1
-  DOC "Directory containing ndbm library headers"
-)
-
-if(NOT Ndbm_INCLUDE_DIR)
-  string(APPEND _reason "ndbm.h not found. ")
+# If no compiler is loaded C library can't be checked anyway.
+if(NOT CMAKE_C_COMPILER_LOADED AND NOT CMAKE_CXX_COMPILER_LOADED)
+  set(Ndbm_IS_BUILT_IN FALSE)
 endif()
 
-find_library(
-  Ndbm_LIBRARY
-  NAMES
-    ndbm
-    gdbm_compat
-    db1
-    # TODO: Which system still has ndbm built in the default C library? In such
-    # case this find module should be refactored to search the built-in library
-    # similar to how FindIconv does it. Otherwise, more likely, this should be
-    # removed from here.
-    c
-  DOC "The path to the ndbm library"
-)
-
-if(NOT Ndbm_LIBRARY)
-  string(APPEND _reason "ndbm library not found. ")
+if(NOT DEFINED Ndbm_IS_BUILT_IN)
+  cmake_push_check_state(RESET)
+    set(CMAKE_REQUIRED_QUIET TRUE)
+    check_symbol_exists(dbm_open "ndbm.h" Ndbm_IS_BUILT_IN)
+  cmake_pop_check_state()
 endif()
 
-# Sanity check.
-if(Ndbm_LIBRARY)
-  check_library_exists("${Ndbm_LIBRARY}" dbm_open "" _ndbm_sanity_check)
+set(_Ndbm_REQUIRED_VARS)
+if(Ndbm_IS_BUILT_IN)
+  set(_Ndbm_REQUIRED_VARS _Ndbm_IS_BUILT_IN_MSG)
+  set(_Ndbm_IS_BUILT_IN_MSG "built in to C library")
+else()
+  set(_Ndbm_REQUIRED_VARS Ndbm_INCLUDE_DIR Ndbm_LIBRARY _Ndbm_SANITY_CHECK)
 
-  if(NOT _ndbm_sanity_check)
-    string(APPEND _reason "Sanity check failed: dbm_open not found. ")
+  find_path(
+    Ndbm_INCLUDE_DIR
+    NAMES ndbm.h
+    PATH_SUFFIXES db1
+    DOC "Directory containing ndbm library headers"
+  )
+
+  if(NOT Ndbm_INCLUDE_DIR)
+    string(APPEND _reason "ndbm.h not found. ")
   endif()
-endif()
 
-mark_as_advanced(Ndbm_INCLUDE_DIR Ndbm_LIBRARY)
+  find_library(
+    Ndbm_LIBRARY
+    NAMES
+      ndbm
+      gdbm_compat
+      db1
+    DOC "The path to the ndbm library"
+  )
+
+  if(NOT Ndbm_LIBRARY)
+    string(APPEND _reason "ndbm library not found. ")
+  endif()
+
+  # Sanity check.
+  if(Ndbm_LIBRARY)
+    check_library_exists("${Ndbm_LIBRARY}" dbm_open "" _Ndbm_SANITY_CHECK)
+
+    if(NOT _Ndbm_SANITY_CHECK)
+      string(APPEND _reason "Sanity check failed: dbm_open not found. ")
+    endif()
+  endif()
+
+  mark_as_advanced(Ndbm_INCLUDE_DIR Ndbm_LIBRARY)
+endif()
 
 find_package_handle_standard_args(
   Ndbm
   REQUIRED_VARS
-    Ndbm_LIBRARY
-    Ndbm_INCLUDE_DIR
-    _ndbm_sanity_check
+    ${_Ndbm_REQUIRED_VARS}
   REASON_FAILURE_MESSAGE "${_reason}"
 )
 
@@ -93,16 +112,30 @@ if(NOT Ndbm_FOUND)
   return()
 endif()
 
-set(Ndbm_INCLUDE_DIRS ${Ndbm_INCLUDE_DIR})
-set(Ndbm_LIBRARIES ${Ndbm_LIBRARY})
+if(Ndbm_IS_BUILT_IN)
+  set(Ndbm_INCLUDE_DIRS "")
+  set(Ndbm_LIBRARIES "")
+else()
+  set(Ndbm_INCLUDE_DIRS ${Ndbm_INCLUDE_DIR})
+  set(Ndbm_LIBRARIES ${Ndbm_LIBRARY})
+endif()
 
 if(NOT TARGET Ndbm::Ndbm)
   add_library(Ndbm::Ndbm UNKNOWN IMPORTED)
 
-  set_target_properties(
-    Ndbm::Ndbm
-    PROPERTIES
-      IMPORTED_LOCATION "${Ndbm_LIBRARY}"
-      INTERFACE_INCLUDE_DIRECTORIES "${Ndbm_INCLUDE_DIR}"
-  )
+  if(Ndbm_INCLUDE_DIR)
+    set_target_properties(
+      Ndbm::Ndbm
+      PROPERTIES
+        INTERFACE_INCLUDE_DIRECTORIES "${Ndbm_INCLUDE_DIR}"
+    )
+  endif()
+
+  if(Ndbm_LIBRARY)
+    set_target_properties(
+      Ndbm::Ndbm
+      PROPERTIES
+        IMPORTED_LOCATION "${Ndbm_LIBRARY}"
+    )
+  endif()
 endif()

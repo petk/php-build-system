@@ -1,3 +1,4 @@
+From: Peter Kokot <peterkokot@gmail.com>
 Subject: Replace old/deprecated pspell interface with aspell
 
 The Pspell library [1] was superseded by GNU Aspell library [2] and
