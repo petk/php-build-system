@@ -1,0 +1,180 @@
+From: Peter Kokot <peterkokot@gmail.com>
+Subject: Fix ext/dba tests when ndbm and dbm handlers are enabled
+
+* The dbm handler segfaults when running test with no lock. Probably
+  should be fixed in the code instead.
+* The ndbm handler output seems to be now different and doesn't emit
+  those warnings and notices anymore.
+* There are also .pag and .dir files created by these two handlers so
+  cleanup step is adjusted a bit.
+---
+ ext/dba/tests/dba_dbm.phpt              | 27 +++++++++--
+ ext/dba/tests/dba_ndbm.phpt             | 59 ++-----------------------
+ ext/dba/tests/setup/setup_dba_tests.inc |  3 ++
+ 3 files changed, 29 insertions(+), 60 deletions(-)
+
+diff --git a/ext/dba/tests/dba_dbm.phpt b/ext/dba/tests/dba_dbm.phpt
+index 3840359343..2fb577d1bd 100644
+--- a/ext/dba/tests/dba_dbm.phpt
++++ b/ext/dba/tests/dba_dbm.phpt
+@@ -13,8 +13,8 @@
+ $db_name = 'dba_dbm.db';
+ 
+ $handler = 'dbm';
+-set_up_db($handler, $db_name, false /* Locking done by the library */);
+-run_standard_tests($handler, $db_name, false /* Locking done by the library */);
++set_up_db($handler, $db_name, LockFlag::FileLock);
++run_standard_tests_ex($handler, $db_name, LockFlag::FileLock);
+ 
+ ?>
+ --CLEAN--
+@@ -24,27 +24,46 @@
+ cleanup_standard_db($db_name);
+ ?>
+ --EXPECT--
++Remove key 1 and 3
++bool(true)
++bool(true)
++Try to remove key 1 again
++bool(false)
+ key4: Another Content String
+ key2: Content String 2
+ key5: The last content string
+-Total keys: 3
++[key10]name10: Content String 10
++name9: Content String 9
++[key30]name30: Content String 30
++Total keys: 6
+ Key 1 exists? N
+ Key 2 exists? Y
+ Key 3 exists? N
+ Key 4 exists? Y
+ Key 5 exists? Y
++Replace second key data
++bool(true)
+ Content 2 replaced
+ Read during write: not allowed
+ Expected: Added a new data entry
+ Expected: Failed to insert data for already used key
++Replace second key data
++bool(true)
+ Delete "key4"
++bool(true)
+ Fetch "key2": Content 2 replaced 2nd time
+ Fetch "key number 6": The 6th value
+-array(3) {
++array(6) {
++  ["[key10]name10"]=>
++  string(17) "Content String 10"
++  ["[key30]name30"]=>
++  string(17) "Content String 30"
+   ["key number 6"]=>
+   string(13) "The 6th value"
+   ["key2"]=>
+   string(27) "Content 2 replaced 2nd time"
+   ["key5"]=>
+   string(23) "The last content string"
++  ["name9"]=>
++  string(16) "Content String 9"
+ }
+diff --git a/ext/dba/tests/dba_ndbm.phpt b/ext/dba/tests/dba_ndbm.phpt
+index dcf368ff1a..3c7bff17c4 100644
+--- a/ext/dba/tests/dba_ndbm.phpt
++++ b/ext/dba/tests/dba_ndbm.phpt
+@@ -13,8 +13,7 @@
+ $db_name = 'dba_ndbm.db';
+ 
+ $handler = 'ndbm';
+-set_up_db($handler, $db_name, false /* Locking done by the library */);
+-run_standard_tests($handler, $db_name, false /* Locking done by the library */);
++run_standard_tests($handler, $db_name);
+ 
+ ?>
+ --CLEAN--
+@@ -25,12 +24,6 @@
+ ?>
+ --EXPECT--
+ === RUNNING WITH FILE LOCK ===
+-
+-Notice: dba_open(): Handler ndbm does locking internally in %s on line %d
+-
+-Notice: dba_open(): Handler ndbm does locking internally in %s on line %d
+-
+-Notice: dba_open(): Handler ndbm does locking internally in %s on line %d
+ Remove key 1 and 3
+ bool(true)
+ bool(true)
+@@ -60,8 +53,6 @@
+ bool(true)
+ Fetch "key2": Content 2 replaced 2nd time
+ Fetch "key number 6": The 6th value
+-
+-Notice: dba_open(): Handler ndbm does locking internally in %s on line %d
+ array(6) {
+   ["[key10]name10"]=>
+   string(17) "Content String 10"
+@@ -77,50 +68,6 @@
+   string(16) "Content String 9"
+ }
+ === RUNNING WITH DB LOCK (default) ===
+-Remove key 1 and 3
+-bool(true)
+-bool(true)
+-Try to remove key 1 again
+-bool(false)
+-key4: Another Content String
+-key2: Content String 2
+-key5: The last content string
+-[key10]name10: Content String 10
+-name9: Content String 9
+-[key30]name30: Content String 30
+-Total keys: 6
+-Key 1 exists? N
+-Key 2 exists? Y
+-Key 3 exists? N
+-Key 4 exists? Y
+-Key 5 exists? Y
+-Replace second key data
+-bool(true)
+-Content 2 replaced
+-Read during write: not allowed
+-Expected: Added a new data entry
+-Expected: Failed to insert data for already used key
+-Replace second key data
+-bool(true)
+-Delete "key4"
+-bool(true)
+-Fetch "key2": Content 2 replaced 2nd time
+-Fetch "key number 6": The 6th value
+-array(6) {
+-  ["[key10]name10"]=>
+-  string(17) "Content String 10"
+-  ["[key30]name30"]=>
+-  string(17) "Content String 30"
+-  ["key number 6"]=>
+-  string(13) "The 6th value"
+-  ["key2"]=>
+-  string(27) "Content 2 replaced 2nd time"
+-  ["key5"]=>
+-  string(23) "The last content string"
+-  ["name9"]=>
+-  string(16) "Content String 9"
+-}
++SAME OUTPUT AS PREVIOUS RUN
+ === RUNNING WITH NO LOCK ===
+-
+-Warning: dba_open(): Locking cannot be disabled for handler ndbm in %s on line %d
+-Failed to create DB
++SAME OUTPUT AS PREVIOUS RUN (modulo read during write due to no lock)
+diff --git a/ext/dba/tests/setup/setup_dba_tests.inc b/ext/dba/tests/setup/setup_dba_tests.inc
+index 3e79ed3d54..8258e01cba 100644
+--- a/ext/dba/tests/setup/setup_dba_tests.inc
++++ b/ext/dba/tests/setup/setup_dba_tests.inc
+@@ -294,4 +294,7 @@ function cleanup_standard_db(string $name): void {
+     @unlink($name);
+     @unlink($name.'.lck');
+     @unlink($name.'-lock');
++    // When using ndbm or dbm handler, also these are created:
++    @unlink($name.'.dir');
++    @unlink($name.'.pag');
+ }

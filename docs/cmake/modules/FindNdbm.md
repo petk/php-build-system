@@ -4,9 +4,12 @@ See: [FindNdbm.cmake](https://github.com/petk/php-build-system/tree/master/cmake
 
 Find the ndbm library.
 
-Depending on the system, the nbdm ("new" dbm) library can be part of other
-libraries as an interface. For example, GNU dbm library (GDBM) has a
-compatibility interface that provides ndbm.h header and gdbm_compat library.
+Depending on the system, the nbdm ("new" dbm) can be part of other libraries as
+an interface.
+
+* GNU dbm library (GDBM) has a compatibility interface that provides ndbm.h
+  header and gdbm_compat library.
+* Built into default libraries (C): BSD-based systems, macOS, Solaris.
 
 Module defines the following `IMPORTED` target(s):
 
@@ -15,6 +18,7 @@ Module defines the following `IMPORTED` target(s):
 ## Result variables
 
 * `Ndbm_FOUND` - Whether the package has been found.
+* `Ndbm_IS_BUILT_IN` - Whether ndbm is a part of the C library.
 * `Ndbm_INCLUDE_DIRS` - Include directories needed to use this package.
 * `Ndbm_LIBRARIES` - Libraries needed to link to the package library.
 

@@ -1,3 +1,4 @@
+From: Peter Kokot <peterkokot@gmail.com>
 Subject: Fix phpdbg prompt with editline/readline integration
 
 When building phpdbg SAPI with libedit/readline integration, also start

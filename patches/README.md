@@ -5,13 +5,29 @@ or due to upstream unresolved bugs. Each patch has a description attached in its
 header. They are automatically applied only when using the `bin/init.cmake`,
 `bin/init.sh`, or `bin/php.cmake` scripts.
 
-To recreate these patches on a local machine, a separate `php-src` Git
-repository should be cloned next to this repository. At the time of writing,
-they aren't available on GitHub yet.
-
-Patches are then created from the list of the specified Git branches in the
-`bin/make-patches.sh` script:
+To create a new patch:
 
 ```sh
-./bin/make-patches.sh
+git --no-pager format-patch -1 HEAD --stdout > some.patch
+```
+
+To modify existing patches:
+
+```sh
+cd php-src
+git checkout -b some-patch
+
+# Apply existing patch
+git am -3 some.patch
+
+# ... Make and commit changes
+
+# Update some.patch file
+git --no-pager format-patch -1 HEAD --stdout > some.patch
+```
+
+To update patches against the latest upstream tracking Git branches:
+
+```sh
+./bin/update-patches.sh
 ```

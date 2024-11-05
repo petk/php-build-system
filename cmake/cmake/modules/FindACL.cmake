@@ -114,7 +114,7 @@ endif()
 
 set(_reason "")
 
-# If no compiler is loaded, ACL in C library can't be checked anyway.
+# If no compiler is loaded C library can't be checked anyway.
 if(NOT CMAKE_C_COMPILER_LOADED AND NOT CMAKE_CXX_COMPILER_LOADED)
   set(ACL_IS_BUILT_IN FALSE)
 endif()
