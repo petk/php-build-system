@@ -8,13 +8,13 @@ Subject: Fix ext/dba tests when ndbm and dbm handlers are enabled
 * There are also .pag and .dir files created by these two handlers so
   cleanup step is adjusted a bit.
 ---
- ext/dba/tests/dba_dbm.phpt              | 27 +++++++++--
+ ext/dba/tests/dba_dbm.phpt              | 29 +++++++++---
  ext/dba/tests/dba_ndbm.phpt             | 59 ++-----------------------
  ext/dba/tests/setup/setup_dba_tests.inc |  3 ++
- 3 files changed, 29 insertions(+), 60 deletions(-)
+ 3 files changed, 30 insertions(+), 61 deletions(-)
 
 diff --git a/ext/dba/tests/dba_dbm.phpt b/ext/dba/tests/dba_dbm.phpt
-index 3840359343..2fb577d1bd 100644
+index 3840359343..79bb82a94b 100644
 --- a/ext/dba/tests/dba_dbm.phpt
 +++ b/ext/dba/tests/dba_dbm.phpt
 @@ -13,8 +13,8 @@
@@ -32,18 +32,19 @@ index 3840359343..2fb577d1bd 100644
  cleanup_standard_db($db_name);
  ?>
  --EXPECT--
+-key4: Another Content String
 +Remove key 1 and 3
 +bool(true)
 +bool(true)
 +Try to remove key 1 again
 +bool(false)
- key4: Another Content String
++[key10]name10: Content String 10
++[key30]name30: Content String 30
  key2: Content String 2
++key4: Another Content String
  key5: The last content string
 -Total keys: 3
-+[key10]name10: Content String 10
 +name9: Content String 9
-+[key30]name30: Content String 30
 +Total keys: 6
  Key 1 exists? N
  Key 2 exists? Y
