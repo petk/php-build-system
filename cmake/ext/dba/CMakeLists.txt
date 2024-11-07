@@ -265,6 +265,29 @@ if(EXT_DBA_DB)
   )
   target_link_libraries(php_dba PRIVATE BerkeleyDB::BerkeleyDB)
 
+  # Check whether the Berkeley DB version is supported by PHP.
+  get_target_property(type php_dba TYPE)
+  if(
+    BerkeleyDB_VERSION VERSION_GREATER_EQUAL 4.1
+    AND BerkeleyDB_VERSION VERSION_LESS 4.1.25
+  )
+    message(
+      FATAL_ERROR
+      "Berkeley DB version ${BerkeleyDB_VERSION} is not supported. Supported "
+      "versions are earlier than 4.1 or 4.1.25 and newer."
+    )
+  elseif(
+    type MATCHES "^(MODULE|SHARED)_LIBRARY$"
+    AND BerkeleyDB_VERSION VERSION_LESS 3.3
+  )
+    message(
+      FATAL_ERROR
+      "When building dba extension as shared, at least Berkeley DB version 3.3 "
+      "is required. Found Berkeley DB version ${BerkeleyDB_VERSION}. Either "
+      "the Berkeley DB should be upgraded or set the 'EXT_DBA_SHARED' to 'OFF'."
+    )
+  endif()
+
   if(BerkeleyDB_DB1_INCLUDE_DIR)
     set(DB1_INCLUDE_FILE "<db_185.h>")
     set(DBA_DB1 1)
