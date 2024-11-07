@@ -5,44 +5,53 @@ understanding of its fundamentals.
 
 ## Index
 
-* [1. Command-line usage](#1-command-line-usage)
-  * [1.1. Configuration and generation phase](#11-configuration-and-generation-phase)
-  * [1.2. Build phase](#12-build-phase)
-* [2. CMakeLists.txt](#2-cmakeliststxt)
-  * [2.1. Including other CMake files](#21-including-other-cmake-files)
-* [3. CMake syntax](#3-cmake-syntax)
-  * [3.1. Variables](#31-variables)
-    * [3.1.1. Setting variables](#311-setting-variables)
-    * [3.1.2. Working with cache variables](#312-working-with-cache-variables)
-    * [3.1.3. Using variables](#313-using-variables)
-    * [3.1.4. Lists](#314-lists)
-  * [3.2. Functions](#32-functions)
-  * [3.3. Arguments](#33-arguments)
-    * [3.3.1. Quoted arguments](#331-quoted-arguments)
-    * [3.3.2. Unquoted arguments](#332-unquoted-arguments)
-    * [3.3.3. Bracket arguments](#333-bracket-arguments)
-* [4. Targets](#4-targets)
-  * [4.1. Executables](#41-executables)
-  * [4.2. OBJECT library](#42-object-library)
-  * [4.3. SHARED library](#43-shared-library)
-  * [4.4. MODULE library](#44-module-library)
-  * [4.5. STATIC library](#45-static-library)
-  * [4.6. Working with targets](#46-working-with-targets)
-* [5. Verification and checks in CMake](#5-verification-and-checks-in-cmake)
-  * [5.1. Header availability check](#51-header-availability-check)
-  * [5.2. C source compilation check](#52-c-source-compilation-check)
-  * [5.3. C source compilation and execution check](#53-c-source-compilation-and-execution-check)
-* [6. Generating a configuration header](#6-generating-a-configuration-header)
-* [7. Where to go from here?](#7-where-to-go-from-here)
+* [1. Introduction](#1-introduction)
+* [2. Command-line usage](#2-command-line-usage)
+  * [2.1. Configuration and generation phase](#21-configuration-and-generation-phase)
+  * [2.2. Build phase](#22-build-phase)
+* [3. CMakeLists.txt](#3-cmakeliststxt)
+  * [3.1. Including other CMake files](#31-including-other-cmake-files)
+* [4. CMake syntax](#4-cmake-syntax)
+  * [4.1. Variables](#41-variables)
+    * [4.1.1. Setting variables](#411-setting-variables)
+    * [4.1.2. Working with cache variables](#412-working-with-cache-variables)
+    * [4.1.3. Using variables](#413-using-variables)
+    * [4.1.4. Lists](#414-lists)
+  * [4.2. Functions](#42-functions)
+  * [4.3. Arguments](#43-arguments)
+    * [4.3.1. Quoted arguments](#431-quoted-arguments)
+    * [4.3.2. Unquoted arguments](#432-unquoted-arguments)
+    * [4.3.3. Bracket arguments](#433-bracket-arguments)
+* [5. Targets](#5-targets)
+  * [5.1. Executables](#51-executables)
+  * [5.2. OBJECT library](#52-object-library)
+  * [5.3. SHARED library](#53-shared-library)
+  * [5.4. MODULE library](#54-module-library)
+  * [5.5. STATIC library](#55-static-library)
+  * [5.6. Working with targets](#56-working-with-targets)
+* [6. Verification and checks in CMake](#6-verification-and-checks-in-cmake)
+  * [6.1. Header availability check](#61-header-availability-check)
+  * [6.2. C source compilation check](#62-c-source-compilation-check)
+  * [6.3. C source compilation and execution check](#63-c-source-compilation-and-execution-check)
+* [7. Generating a configuration header](#7-generating-a-configuration-header)
+* [8. Where to go from here?](#8-where-to-go-from-here)
 
-## 1. Command-line usage
+## 1. Introduction
 
-[CMake](https://cmake.org/) is an open-source, cross-platform build system
-generator created by Kitware and contributors. It is invoked from the command
-line using the `cmake` command. When working with CMake, there are two primary
-phases: the configuration and generation phase, followed by the build phase.
+[CMake](https://cmake.org/) is an open-source, cross-platform meta build system
+created by Kitware and contributors. It's not a build system *per se*, but
+rather a build system generator that produces configuration files for specific
+build systems, such as Unix Makefiles, Visual Studio projects, or Ninja build
+files.
 
-### 1.1. Configuration and generation phase
+## 2. Command-line usage
+
+CMake is typically invoked from the command line using the `cmake` command. When
+working with CMake, there are two primary phases: the configuration and
+generation phase, where CMake sets up the project's build files, and the build
+phase, where the target build system compiles the project.
+
+### 2.1. Configuration and generation phase
 
 In this phase, CMake performs essential tasks to set up a build environment. It
 reads source files (`CMakeLists.txt`) from the source directory, configures the
@@ -54,7 +63,7 @@ into a build directory.
 cmake -S source-directory -B build-directory
 ```
 
-### 1.2. Build phase
+### 2.2. Build phase
 
 The build phase involves transforming project C/C++ source files into libraries
 and executables. During this phase, the project undergoes compilation and
@@ -85,7 +94,7 @@ cmake --build build-directory --parallel
 > cmake --build build-directory --parallel
 > ```
 
-## 2. CMakeLists.txt
+## 3. CMakeLists.txt
 
 In the world of CMake, the `CMakeLists.txt` files serve as blueprints for
 configuring and building projects. These files define how the project source
@@ -118,7 +127,7 @@ Project source directory example:
 └─📄 ...
 ```
 
-### 2.1. Including other CMake files
+### 3.1. Including other CMake files
 
 To maintain modularity and organization, other CMake files can be included
 within the project:
@@ -136,16 +145,16 @@ add_subdirectory(subdirectory)
 
 This allows breaking down complex configurations into manageable components.
 
-## 3. CMake syntax
+## 4. CMake syntax
 
-### 3.1. Variables
+### 4.1. Variables
 
 In CMake, variables are essential for storing and manipulating data throughout
 the project's configuration and build processes. They play a pivotal role in
 customizing builds and managing project-specific settings. Variable names are
 case-sensitive.
 
-#### 3.1.1. Setting variables
+#### 4.1.1. Setting variables
 
 Variables are set using the `set()` command, where a value is assigned to a
 variable:
@@ -163,7 +172,7 @@ store values that remain consistent across different CMake runs and are
 accessible to various parts of the project. These variables also require a
 short documentation help text to describe their purpose.
 
-#### 3.1.2. Working with cache variables
+#### 4.1.2. Working with cache variables
 
 Cache variables are highly versatile and can be influenced from various sources,
 such as the command line. This allows for dynamic configuration adjustments:
@@ -176,7 +185,7 @@ cmake -DFOOBAR="value" -S source-directory -B build-directory
 Cache variables become particularly useful for customizing builds, specifying
 project-wide settings, and adapting configurations to different environments.
 
-#### 3.1.3. Using variables
+#### 4.1.3. Using variables
 
 Variable references in CMake use `$` sigil symbol and are enclosed within curly
 brackets `{}`.
@@ -198,7 +207,7 @@ endif()
 # Output: Variable foobar=value
 ```
 
-#### 3.1.4. Lists
+#### 4.1.4. Lists
 
 Lists in CMake are strings separated with `;` that can be iterated over in
 loops, such as `foreach`.
@@ -219,7 +228,7 @@ The `list()` command performs operations on lists.
 Lists are frequently used for tasks like specifying source files, compiler
 flags, and dependencies.
 
-### 3.2. Functions
+### 4.2. Functions
 
 CMake function is created with the `function()` command:
 
@@ -235,11 +244,11 @@ print_message("Hello, World")
 # Output: Hello, World
 ```
 
-### 3.3. Arguments
+### 4.3. Arguments
 
 Arguments in CMake can be passed to commands in three ways.
 
-#### 3.3.1. Quoted arguments
+#### 4.3.1. Quoted arguments
 
 Here variable is set to a literal string `quoted argument`:
 
@@ -247,7 +256,7 @@ Here variable is set to a literal string `quoted argument`:
 set(foobar "quoted argument")
 ```
 
-#### 3.3.2. Unquoted arguments
+#### 4.3.2. Unquoted arguments
 
 Here variable is set to a literal string `unquoted`:
 
@@ -255,7 +264,7 @@ Here variable is set to a literal string `unquoted`:
 set(foobar unquoted)
 ```
 
-#### 3.3.3. Bracket arguments
+#### 4.3.3. Bracket arguments
 
 Bracket arguments are wrapped in pairs of double brackets `[[..]]` and any
 number of `=` characters in between (`[[`, `]]`, `[=[`, `]=]`, `[==[`, `]==]`,
@@ -270,7 +279,7 @@ not evaluated. Argument can also contain ; and other special ]] characters.
 ]=])
 ```
 
-## 4. Targets
+## 5. Targets
 
 CMake revolves around targets, which represent various components of the
 project. There are primarily two types: libraries and executables.
@@ -310,7 +319,7 @@ add_library(extension SHARED extension.c src.c)
 The concepts of executable and library targets can be illustrated through
 examples of using a compiler like `gcc`.
 
-### 4.1. Executables
+### 5.1. Executables
 
 Executables are programs that are intended to be run.
 
@@ -321,7 +330,7 @@ gcc -o php php.c
 ./php
 ```
 
-### 4.2. OBJECT library
+### 5.2. OBJECT library
 
 When using OBJECT library, each source file will be compiled to a binary object
 file. Behind the scene, CMake takes care of compile flags and adjusts the build
@@ -333,7 +342,7 @@ gcc -c -o extension.o extension.c
 gcc -c -o src.o src.c
 ```
 
-### 4.3. SHARED library
+### 5.3. SHARED library
 
 CMake automatically adds sensible linker flags when building `SHARED` library.
 For example, `-shared`, `-Wl,-soname,extension.so`, position-independent code
@@ -347,7 +356,7 @@ gcc -fPIC -c -o src.o src.c
 gcc -fPIC -shared -Wl,-soname,extension.so -o extension.so extension.o src.o
 ```
 
-### 4.4. MODULE library
+### 5.4. MODULE library
 
 The `MODULE` library, on the other hand, is similar to the `SHARED`. However,
 CMake uses slightly different flags and treats it differently in CMake code. A
@@ -380,7 +389,7 @@ int main(void)
 }
 ```
 
-### 4.5. STATIC library
+### 5.5. STATIC library
 
 `STATIC` libraries are intended to be linked statically to other libraries or
 executables where they become part of the final binary.
@@ -394,7 +403,7 @@ ar rcs libmain.a main.o
 gcc -o program program.c -L. -lmain
 ```
 
-### 4.6. Working with targets
+### 5.6. Working with targets
 
 Once targets are defined, they can be fine-tuned with additional configurations:
 
@@ -420,7 +429,7 @@ the item is accessible both to the defined target and any depending targets.
 Lastly, `INTERFACE` denotes that the item is solely accessible to depending
 targets and is not accessible to the defining target itself.
 
-## 5. Verification and checks in CMake
+## 6. Verification and checks in CMake
 
 In CMake, various verification and validation tasks can be performed to ensure
 the availability of headers, symbols, struct members, as well as assess the
@@ -431,7 +440,7 @@ CMake provides a range of commands, many of which are found in separate CMake
 modules bundled with CMake. These modules need to be included before utilizing
 the respective verification commands:
 
-### 5.1. Header availability check
+### 6.1. Header availability check
 
 To verify if a header file is available:
 
@@ -440,7 +449,7 @@ include(CheckIncludeFile)
 check_include_file(sys/types.h HAVE_SYS_TYPES_H)
 ```
 
-### 5.2. C source compilation check
+### 6.2. C source compilation check
 
 To determine if a C source file compiles and links into an executable:
 
@@ -455,7 +464,7 @@ This command initiates a compilation and linking step, as illustrated here:
 gcc -o out check_program.c
 ```
 
-### 5.3. C source compilation and execution check
+### 6.3. C source compilation and execution check
 
 For a more comprehensive assessment that includes compiling, linking, and
 executing the C code:
@@ -473,7 +482,7 @@ gcc -o out check_program.c
 ./out
 ```
 
-## 6. Generating a configuration header
+## 7. Generating a configuration header
 
 Once the necessary checks have been completed during the configuration phase,
 a configuration header file can be created. This header file serves as a
@@ -528,7 +537,7 @@ int main(void)
 }
 ```
 
-## 7. Where to go from here?
+## 8. Where to go from here?
 
 This section has provided a general overview of the most crucial features of
 CMake. To explore deeper into mastering CMake, it is highly recommended to start
