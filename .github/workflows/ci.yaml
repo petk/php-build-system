@@ -72,7 +72,6 @@ jobs:
             libbz2-dev \
             libcurl4-openssl-dev \
             libdb5.3++-dev \
-            libdb-dev \
             libenchant-2-dev \
             libpng-dev \
             libgmp-dev \
@@ -101,9 +100,8 @@ jobs:
             libcapstone-dev \
             libedit-dev \
             libcdb-dev \
-            libgdbm-dev \
-            libgdbm-compat-dev \
             liblmdb-dev \
+            libqdbm-dev \
             libtokyocabinet-dev \
             libsnmp-dev \
             snmpd \

@@ -56,6 +56,12 @@ cmake_dependent_option(
   EXT_DBA
   OFF
 )
+mark_as_advanced(EXT_DBA_DB)
+add_feature_info(
+  "ext/dba DB"
+  EXT_DBA_DB
+  "Berkeley DB support"
+)
 
 cmake_dependent_option(
   EXT_DBA_DB1
@@ -64,21 +70,11 @@ cmake_dependent_option(
   [[EXT_DBA AND EXT_DBA_DB]]
   OFF
 )
-
-cmake_dependent_option(
-  EXT_DBA_DB2
-  "DBA: Enable the Oracle Berkeley DB 2.x support"
-  OFF
-  EXT_DBA
-  OFF
-)
-
-cmake_dependent_option(
-  EXT_DBA_DB3
-  "DBA: Enable the Oracle Berkeley DB 3.x support"
-  OFF
-  EXT_DBA
-  OFF
+mark_as_advanced(EXT_DBA_DB1)
+add_feature_info(
+  "ext/dba DB 1"
+  EXT_DBA_DB1
+  "Berkeley DB 1.x support/emulation"
 )
 
 cmake_dependent_option(
@@ -157,6 +153,7 @@ cmake_dependent_option(
   EXT_DBA
   OFF
 )
+mark_as_advanced(EXT_DBA_NDBM)
 add_feature_info(
   "ext/dba ndbm"
   EXT_DBA_NDBM
@@ -215,17 +212,15 @@ endif()
 target_sources(
   php_dba
   PRIVATE
-    dba_db1.c
-    dba_db2.c
-    dba_db3.c
-    $<$<NOT:$<PLATFORM_ID:Windows>>:dba_db4.c>
     dba.c
     dba.stub.php
 )
 
 target_compile_definitions(php_dba PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE=1)
 
+################################################################################
 # Constant databases (cdb).
+################################################################################
 if(EXT_DBA_CDB)
   target_sources(php_dba PRIVATE dba_cdb.c)
   set(DBA_CDB 1)
@@ -253,7 +248,85 @@ if(EXT_DBA_CDB)
   endif()
 endif()
 
+################################################################################
+# Berkeley DB support.
+################################################################################
+if(EXT_DBA_DB)
+  if(EXT_DBA_DB1)
+    set(BerkeleyDB_USE_DB1 TRUE)
+  endif()
+
+  find_package(BerkeleyDB)
+  set_package_properties(
+    BerkeleyDB
+    PROPERTIES
+      TYPE REQUIRED
+      PURPOSE "Necessary to enable the Berkeley DB support in the dba extension."
+  )
+  target_link_libraries(php_dba PRIVATE BerkeleyDB::BerkeleyDB)
+
+  if(BerkeleyDB_DB1_INCLUDE_DIR)
+    set(DB1_INCLUDE_FILE "<db_185.h>")
+    set(DBA_DB1 1)
+    set(DB1_VERSION "Berkeley DB 1.85 emulation in DB")
+    target_sources(php_dba PRIVATE dba_db1.c)
+  endif()
+
+  if(BerkeleyDB_VERSION VERSION_LESS_EQUAL 1 AND NOT EXT_DBA_DB1)
+    set(DB1_INCLUDE_FILE "<db.h>")
+    set(DBA_DB1 1)
+    set(DB1_VERSION "Unknown DB1")
+    target_sources(php_dba PRIVATE dba_db1.c)
+  elseif(BerkeleyDB_VERSION VERSION_LESS_EQUAL 2)
+    set(DB2_INCLUDE_FILE "<db.h>")
+    set(DBA_DB2 1)
+    target_sources(php_dba PRIVATE dba_db2.c)
+  elseif(BerkeleyDB_VERSION VERSION_LESS_EQUAL 3)
+    set(DB3_INCLUDE_FILE "<db.h>")
+    set(DBA_DB3 1)
+    target_sources(php_dba PRIVATE dba_db3.c)
+  else()
+    set(DB4_INCLUDE_FILE "<db.h>")
+    set(DBA_DB4 1)
+    target_sources(php_dba PRIVATE dba_db4.c)
+  endif()
+endif()
+
+################################################################################
+# The DBM handler support.
+################################################################################
+if(EXT_DBA_DBM)
+  find_package(Dbm)
+  set_package_properties(
+    Dbm
+    PROPERTIES
+      TYPE REQUIRED
+      PURPOSE "Necessary to enable the DBM support in the dba extension."
+  )
+
+  if(Dbm_LIBRARY MATCHES "gdbm")
+    message(
+      WARNING
+      "The GNU dbm (GDBM) library is licensed under the GNU GPL 3, which is "
+      "not compatible with the PHP license. PHP then shouldn't be distributed. "
+      "The EXT_DBA_DBM is a legacy artifact for testing purposes. The "
+      "recommendation for using and distributing the PHP 'dba' extension is to "
+      "disable the EXT_DBA_DBM."
+    )
+  endif()
+
+  target_link_libraries(php_dba PRIVATE Dbm::Dbm)
+
+  target_sources(php_dba PRIVATE dba_dbm.c)
+
+  set(DBM_INCLUDE_FILE "<dbm.h>")
+  set(DBA_DBM 1)
+  set(DBM_VERSION "${Dbm_IMPLEMENTATION}")
+endif()
+
+################################################################################
 # Flat-file support.
+################################################################################
 if(EXT_DBA_FLATFILE)
   target_sources(
     php_dba
@@ -265,6 +338,37 @@ if(EXT_DBA_FLATFILE)
   set(DBA_FLATFILE 1)
 endif()
 
+################################################################################
+# The GNU dbm (GDBM) support.
+################################################################################
+if(EXT_DBA_GDBM)
+  message(
+    WARNING
+    "The GNU dbm (GDBM) library is licensed under the GNU GPL 3, which is not "
+    "compatible with the PHP license. PHP then shouldn't be distributed. The "
+    "recommendation for using and distributing the PHP 'dba' extension is to "
+    "disable EXT_DBA_GDBM."
+  )
+
+  find_package(GDBM)
+  set_package_properties(
+    GDBM
+    PROPERTIES
+      TYPE REQUIRED
+      PURPOSE "Necessary to enable the GDBM support in the dba extension."
+  )
+
+  target_link_libraries(php_dba PRIVATE GDBM::GDBM)
+
+  target_sources(php_dba PRIVATE dba_gdbm.c)
+
+  set(GDBM_INCLUDE_FILE "<gdbm.h>")
+  set(DBA_GDBM 1)
+endif()
+
+################################################################################
+# INI-file support.
+################################################################################
 if(EXT_DBA_INIFILE)
   target_sources(
     php_dba
@@ -276,6 +380,9 @@ if(EXT_DBA_INIFILE)
   set(DBA_INIFILE 1)
 endif()
 
+################################################################################
+# The lmdb handler support.
+################################################################################
 if(EXT_DBA_LMDB)
   find_package(LMDB)
   set_package_properties(
@@ -293,40 +400,40 @@ if(EXT_DBA_LMDB)
   set(DBA_LMDB 1)
 endif()
 
-if(EXT_DBA_TCADB)
-  find_package(TokyoCabinet)
+################################################################################
+# The ndbm handler support.
+################################################################################
+if(EXT_DBA_NDBM)
+  find_package(Ndbm)
   set_package_properties(
-    TokyoCabinet
+    Ndbm
     PROPERTIES
       TYPE REQUIRED
-      PURPOSE "Necessary to enable the Tokyo Cabinet support in the dba extension."
+      PURPOSE "Necessary to enable the ndbm support in the dba extension."
   )
 
-  target_link_libraries(php_dba PRIVATE TokyoCabinet::TokyoCabinet)
+  if(Ndbm_LIBRARY MATCHES "gdbm")
+    message(
+      WARNING
+      "The GNU dbm (GDBM) library is licensed under the GNU GPL 3, which is "
+      "not compatible with the PHP license. PHP then shouldn't be distributed. "
+      "The EXT_DBA_NDBM is a legacy artifact for testing purposes. The "
+      "recommendation for using and distributing the PHP 'dba' extension is to "
+      "disable the EXT_DBA_NDBM."
+    )
+  endif()
 
-  target_sources(php_dba PRIVATE dba_tcadb.c)
+  target_link_libraries(php_dba PRIVATE Ndbm::Ndbm)
 
-  set(TCADB_INCLUDE_FILE "<tcadb.h>")
-  set(DBA_TCADB 1)
+  target_sources(php_dba PRIVATE dba_ndbm.c)
+
+  set(NDBM_INCLUDE_FILE "<ndbm.h>")
+  set(DBA_NDBM 1)
 endif()
 
-if(EXT_DBA_GDBM)
-  find_package(GDBM)
-  set_package_properties(
-    GDBM
-    PROPERTIES
-      TYPE REQUIRED
-      PURPOSE "Necessary to enable the GDBM support in the dba extension."
-  )
-
-  target_link_libraries(php_dba PRIVATE GDBM::GDBM)
-
-  target_sources(php_dba PRIVATE dba_gdbm.c)
-
-  set(GDBM_INCLUDE_FILE "<gdbm.h>")
-  set(DBA_GDBM 1)
-endif()
-
+################################################################################
+# The qdbm handler support.
+################################################################################
 if(EXT_DBA_QDBM AND NOT EXT_DBA_DBM AND NOT EXT_DBA_GDBM)
   find_package(QDBM)
   set_package_properties(
@@ -344,65 +451,24 @@ if(EXT_DBA_QDBM AND NOT EXT_DBA_DBM AND NOT EXT_DBA_GDBM)
   set(DBA_QDBM 1)
 endif()
 
-if(EXT_DBA_NDBM)
-  find_package(Ndbm)
+################################################################################
+# The Tokyo Cabinet (tcadb) support.
+################################################################################
+if(EXT_DBA_TCADB)
+  find_package(TokyoCabinet)
   set_package_properties(
-    Ndbm
+    TokyoCabinet
     PROPERTIES
       TYPE REQUIRED
-      PURPOSE "Necessary to enable the ndbm support in the dba extension."
+      PURPOSE "Necessary to enable the Tokyo Cabinet support in the dba extension."
   )
 
-  target_link_libraries(php_dba PRIVATE Ndbm::Ndbm)
+  target_link_libraries(php_dba PRIVATE TokyoCabinet::TokyoCabinet)
 
-  target_sources(php_dba PRIVATE dba_ndbm.c)
+  target_sources(php_dba PRIVATE dba_tcadb.c)
 
-  set(NDBM_INCLUDE_FILE "<ndbm.h>")
-  set(DBA_NDBM 1)
-endif()
-
-if(EXT_DBA_DBM)
-  find_package(Dbm)
-  set_package_properties(
-    Dbm
-    PROPERTIES
-      TYPE REQUIRED
-      PURPOSE "Necessary to enable the DBM support in the dba extension."
-  )
-
-  target_link_libraries(php_dba PRIVATE Dbm::Dbm)
-
-  target_sources(php_dba PRIVATE dba_dbm.c)
-
-  set(DBM_INCLUDE_FILE "<dbm.h>")
-  set(DBA_DBM 1)
-  set(DBM_VERSION "${Dbm_IMPLEMENTATION}")
-endif()
-
-if(EXT_DBA_DB)
-  if(EXT_DBA_DB1)
-    set(BerkeleyDB_USE_DB1 TRUE)
-  endif()
-
-  find_package(BerkeleyDB)
-  set_package_properties(
-    BerkeleyDB
-    PROPERTIES
-      TYPE REQUIRED
-      PURPOSE "Necessary to enable the Berkeley DB support in the dba extension."
-  )
-
-  target_link_libraries(php_dba PRIVATE BerkeleyDB::BerkeleyDB)
-
-  if(BerkeleyDB_DB1_INCLUDE_DIR)
-    set(DB1_INCLUDE_FILE "<db_185.h>")
-
-    set(DBA_DB1 1)
-    set(DB1_VERSION "Berkeley DB 1.85 emulation in DB")
-  endif()
-
-  set(DB4_INCLUDE_FILE "<db.h>")
-  set(DBA_DB4 1)
+  set(TCADB_INCLUDE_FILE "<tcadb.h>")
+  set(DBA_TCADB 1)
 endif()
 
 set(HAVE_DBA 1)
