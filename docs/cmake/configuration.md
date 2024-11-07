@@ -765,25 +765,25 @@ A list of Autoconf `configure` command-line configuration options, Windows
       <td></td>
     </tr>
     <tr>
-      <td>N/A</td>
+      <td>&emsp;N/A</td>
       <td>--disable-apache2handler</td>
       <td>N/A</td>
       <td>default, in PHP <= 8.3 this was for Apache 2.0</td>
     </tr>
     <tr>
-      <td>N/A</td>
+      <td>&emsp;N/A</td>
       <td>--enable-apache2handler</td>
       <td>N/A</td>
       <td>in PHP <= 8.3 this was for Apache 2.0</td>
     </tr>
     <tr>
-      <td>N/A</td>
+      <td>&emsp;N/A</td>
       <td>--disable-apache2-2handler</td>
       <td>N/A</td>
       <td>default, removed since PHP >= 8.4</td>
     </tr>
     <tr>
-      <td>N/A</td>
+      <td>&emsp;N/A</td>
       <td>--enable-apache2-2handler</td>
       <td>N/A</td>
       <td>removed since PHP >= 8.4</td>
@@ -813,13 +813,13 @@ A list of Autoconf `configure` command-line configuration options, Windows
       <td></td>
     </tr>
     <tr>
-      <td>N/A</td>
+      <td>&emsp;N/A</td>
       <td>--disable-cli-win32</td>
       <td>SAPI_CLI_WIN_NO_CONSOLE=OFF</td>
       <td>default; Windows only</td>
     </tr>
     <tr>
-      <td>N/A</td>
+      <td>&emsp;N/A</td>
       <td>--enable-cli-win32</td>
       <td>SAPI_CLI_WIN_NO_CONSOLE=ON</td>
       <td>Windows only</td>
@@ -1084,13 +1084,13 @@ A list of Autoconf `configure` command-line configuration options, Windows
       <td>default; Windows only</td>
     </tr>
     <tr>
-      <td>N/A</td>
+      <td>&emsp;N/A</td>
       <td>--enable-com-dotnet=shared</td>
       <td>EXT_COM_DOTNET_SHARED=ON</td>
       <td>Windows only</td>
     </tr>
     <tr>
-      <td>N/A</td>
+      <td>&emsp;N/A</td>
       <td>--disable-com-dotnet</td>
       <td>EXT_COM_DOTNET=OFF</td>
       <td>Windows only</td>
@@ -1147,7 +1147,7 @@ A list of Autoconf `configure` command-line configuration options, Windows
     </tr>
     <tr>
       <td>&emsp;--enable-dba</td>
-      <td>--with-dba</td>
+      <td>--with-dba[=DIR]</td>
       <td>EXT_DBA=ON</td>
       <td></td>
     </tr>
@@ -1243,26 +1243,32 @@ A list of Autoconf `configure` command-line configuration options, Windows
     </tr>
     <tr>
       <td>&emsp;--without-db3</td>
-      <td>N/A</td>
-      <td>EXT_DBA_DB3=OFF</td>
+      <td>--without-db</td>
+      <td>EXT_DBA_DB=OFF</td>
       <td>default</td>
     </tr>
     <tr>
-      <td>&emsp;--with-db3</td>
-      <td>N/A</td>
-      <td>EXT_DBA_DB3=ON</td>
+      <td>&emsp;--with-db3[=DIR]</td>
+      <td>--with-db</td>
+      <td>
+        EXT_DBA_DB=ON<br>
+        [BerkeleyDB_ROOT=DIR]
+      </td>
       <td></td>
     </tr>
     <tr>
       <td>&emsp;--without-db2</td>
       <td>N/A</td>
-      <td>EXT_DBA_DB2=OFF</td>
+      <td>EXT_DBA_DB=OFF</td>
       <td>default</td>
     </tr>
     <tr>
-      <td>&emsp;--with-db2</td>
+      <td>&emsp;--with-db2[=DIR]</td>
       <td>N/A</td>
-      <td>EXT_DBA_DB2=ON</td>
+      <td>
+        EXT_DBA_DB=ON<br>
+        [BerkeleyDB_ROOT=DIR]
+      </td>
       <td></td>
     </tr>
     <tr>
@@ -1272,21 +1278,13 @@ A list of Autoconf `configure` command-line configuration options, Windows
       <td>default</td>
     </tr>
     <tr>
-      <td>&emsp;--with-db1</td>
+      <td>&emsp;--with-db1[=DIR]</td>
       <td>N/A</td>
-      <td>EXT_DBA_DB1=ON</td>
-      <td></td>
-    </tr>
-    <tr>
-      <td>&emsp;N/A</td>
-      <td>--without-db</td>
-      <td></td>
-      <td></td>
-    </tr>
-    <tr>
-      <td>&emsp;N/A</td>
-      <td>--with-db</td>
-      <td></td>
+      <td>
+        EXT_DBA_DB1=ON<br>
+        EXT_DBA_DB=ON<br>
+        [BerkeleyDB_ROOT=DIR]
+      </td>
       <td></td>
     </tr>
     <tr>
@@ -2048,37 +2046,37 @@ A list of Autoconf `configure` command-line configuration options, Windows
       <td></td>
     </tr>
     <tr>
-      <td>N/A</td>
+      <td>&emsp;N/A</td>
       <td>--without-oci8-11g</td>
       <td>EXT_OCI8_11G=OFF</td>
       <td></td>
     </tr>
     <tr>
-      <td>N/A</td>
+      <td>&emsp;N/A</td>
       <td>--with-oci8-11g</td>
       <td>EXT_OCI8_11G=ON</td>
       <td></td>
     </tr>
     <tr>
-      <td>N/A</td>
+      <td>&emsp;N/A</td>
       <td>--without-oci8-12c</td>
       <td>EXT_OCI8_12C=OFF</td>
       <td></td>
     </tr>
     <tr>
-      <td>N/A</td>
+      <td>&emsp;N/A</td>
       <td>--with-oci8-12c</td>
       <td>EXT_OCI8_12C=ON</td>
       <td></td>
     </tr>
     <tr>
-      <td>N/A</td>
+      <td>&emsp;N/A</td>
       <td>--without-oci8-19</td>
       <td>EXT_OCI8_19=OFF</td>
       <td></td>
     </tr>
     <tr>
-      <td>N/A</td>
+      <td>&emsp;N/A</td>
       <td>--with-oci8-19</td>
       <td>EXT_OCI8_19=ON</td>
       <td></td>
@@ -2090,13 +2088,13 @@ A list of Autoconf `configure` command-line configuration options, Windows
       <td>default</td>
     </tr>
     <tr>
-      <td>N/A</td>
+      <td>&emsp;N/A</td>
       <td>--enable-odbc</td>
       <td>EXT_ODBC=ON</td>
       <td></td>
     </tr>
     <tr>
-      <td>N/A</td>
+      <td>&emsp;N/A</td>
       <td>--enable-odbc=shared</td>
       <td>EXT_ODBC_SHARED=ON</td>
       <td></td>
@@ -3484,12 +3482,6 @@ A list of Autoconf `configure` command-line configuration options, Windows
     </tr>
     <tr>
       <td>N/A</td>
-      <td>--with-prefix</td>
-      <td></td>
-      <td></td>
-    </tr>
-    <tr>
-      <td>N/A</td>
       <td>--with-mp</td>
       <td></td>
       <td></td>
@@ -3582,6 +3574,15 @@ A list of Autoconf `configure` command-line configuration options, Windows
       <td>N/A</td>
       <td>--disable-vs-link-compat</td>
       <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <th colspan="4">Other options</th>
+    </tr>
+    <tr>
+      <td>--prefix=PREFIX</td>
+      <td>--with-prefix=PREFIX</td>
+      <td>CMAKE_INSTALL_PREFIX</td>
       <td></td>
     </tr>
     <tr>

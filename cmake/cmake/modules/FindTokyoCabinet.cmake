@@ -29,7 +29,7 @@ include(FindPackageHandleStandardArgs)
 set_package_properties(
   TokyoCabinet
   PROPERTIES
-    URL "https://en.wikipedia.org/wiki/Tkrzw"
+    URL "https://dbmx.net/tokyocabinet/"
     DESCRIPTION "Key-value database library"
 )
 
