@@ -63,9 +63,7 @@ jobs:
         run: |
           sudo apt-get -y install \
             build-essential \
-            re2c \
             bison \
-            libxml2-dev \
             libssl-dev \
             libpcre++-dev \
             libsqlite3-dev \
