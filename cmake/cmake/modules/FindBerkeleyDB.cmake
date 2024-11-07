@@ -10,6 +10,7 @@ Module defines the following `IMPORTED` target(s):
 * `BerkeleyDB_FOUND` - Whether the package has been found.
 * `BerkeleyDB_INCLUDE_DIRS`- Include directories needed to use this package.
 * `BerkeleyDB_LIBRARIES`- Libraries needed to link to the package library.
+* `BerkeleyDB_VERSION` - Package version, if found.
 
 ## Cache variables
 
@@ -42,6 +43,7 @@ set(_reason "")
 find_path(
   BerkeleyDB_INCLUDE_DIR
   NAMES db.h
+  PATH_SUFFIXES db
   DOC "Directory containing Berkeley DB library headers"
 )
 
@@ -63,12 +65,15 @@ if(BerkeleyDB_USE_DB1)
   find_path(
     BerkeleyDB_DB1_INCLUDE_DIR
     NAMES db_185.h
+    PATH_SUFFIXES db
     DOC "Directory containing Berkeley DB db_185.h header for v1 emulation"
   )
 
+  message(CHECK_START "Checking for Berkeley DB 1.x support/emulation")
   cmake_push_check_state(RESET)
     set(CMAKE_REQUIRED_LIBRARIES ${BerkeleyDB_LIBRARY})
     set(CMAKE_REQUIRED_INCLUDES ${BerkeleyDB_DB1_INCLUDE_DIR})
+    set(CMAKE_REQUIRED_QUIET TRUE)
 
     check_source_compiles(C [[
       #include <db_185.h>
@@ -82,8 +87,9 @@ if(BerkeleyDB_USE_DB1)
 
   if(NOT _berkeleydb_db1_sanity_check)
     unset(BerkeleyDB_DB1_INCLUDE_DIR CACHE)
+    message(CHECK_FAIL "disabled, not found")
   else()
-    message(WARNING "Berkeley DB 1.x support/emulation not enabled")
+    message(CHECK_PASS "enabled")
   endif()
 endif()
 
@@ -92,6 +98,7 @@ if(BerkeleyDB_LIBRARY)
   cmake_push_check_state(RESET)
     set(CMAKE_REQUIRED_LIBRARIES ${BerkeleyDB_LIBRARY})
     set(CMAKE_REQUIRED_INCLUDES ${BerkeleyDB_INCLUDE_DIR})
+    set(CMAKE_REQUIRED_QUIET TRUE)
 
     check_source_compiles(C [[
       #include <db.h>
@@ -109,6 +116,32 @@ if(BerkeleyDB_LIBRARY)
   endif()
 endif()
 
+# Get package version.
+block(PROPAGATE BerkeleyDB_VERSION)
+  if(BerkeleyDB_INCLUDE_DIR)
+    file(
+      STRINGS
+      ${BerkeleyDB_INCLUDE_DIR}/db.h
+      results
+      REGEX "^[ \t]*#[ \t]*define[ \t]+DB_VERSION_(MAJOR|MINOR|PATCH)[ \t]+[0-9]+[^\r\n]*$"
+    )
+
+    unset(BerkeleyDB_VERSION)
+
+    foreach(item MAJOR MINOR PATCH)
+      foreach(line ${results})
+        if(line MATCHES "^[ \t]*#[ \t]*define[ \t]+DB_VERSION_${item}[ \t]+([0-9]+)[^\r\n]*$")
+          if(DEFINED BerkeleyDB_VERSION)
+            string(APPEND BerkeleyDB_VERSION ".${CMAKE_MATCH_1}")
+          else()
+            set(BerkeleyDB_VERSION "${CMAKE_MATCH_1}")
+          endif()
+        endif()
+      endforeach()
+    endforeach()
+  endif()
+endblock()
+
 mark_as_advanced(
   BerkeleyDB_DB1_INCLUDE_DIR
   BerkeleyDB_INCLUDE_DIR
@@ -121,6 +154,7 @@ find_package_handle_standard_args(
     BerkeleyDB_LIBRARY
     BerkeleyDB_INCLUDE_DIR
     _berkeleydb_sanity_check
+  VERSION_VAR BerkeleyDB_VERSION
   REASON_FAILURE_MESSAGE "${_reason}"
 )
 

@@ -52,13 +52,7 @@ endif()
 
 find_library(
   Cdb_LIBRARY
-  NAMES
-    cdb
-    # TODO: Which system still has cdb built in the default C library? In such
-    # case this find module should be refactored to search the built-in library
-    # similar to how FindIconv does it. Otherwise, more likely, this should be
-    # removed from here.
-    c
+  NAMES cdb
   PATHS ${PC_Cdb_LIBRARY_DIRS}
   DOC "The path to the cdb library"
 )
