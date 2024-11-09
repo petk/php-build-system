@@ -242,10 +242,10 @@ function(php_set)
   set(bufferDoc "Internal storage for ${varName} variable")
 
   if(NOT DEFINED ${bufferVarName} AND DEFINED ${varName})
-    # Initial configuration phase with variable set by the user.
+    # Initial configuration phase with variable set externally.
     set(${bufferVarName} "${${varName}}" CACHE INTERNAL "${bufferDoc}")
   elseif(NOT DEFINED ${bufferVarName})
-    # Initial configuration phase without variable set by the user.
+    # Initial configuration phase without variable set externally.
 
     # When using CHOICES and VALUE is not set, set the variable value to the
     # first item of the CHOICES list.
@@ -343,10 +343,9 @@ function(_php_set_validate_arguments arguments)
   endif()
 endfunction()
 
-# Validate variable and output warning when a conditional variable is set by the
-# user (on command line or CMake presets) and the condition is not met. This is
-# for diagnostic purpose for user to be aware that some configuration value was
-# not taken into account.
+# Validate variable and output warning when a conditional variable is set
+# externally and the condition is not met. This is for diagnostic purpose for
+# user to be aware that some configuration value was not taken into account.
 function(_php_set_validate_input var)
   get_property(helpString CACHE ${var} PROPERTY HELPSTRING)
   if(NOT helpString STREQUAL "No help, variable specified on the command line.")
@@ -375,8 +374,8 @@ function(_php_set_validate_input var)
   message(WARNING "${warning}")
 endfunction()
 
-# Adjust the variable value passed by the user according to the case sensitivity
-# as defined in the CHOICES list item.
+# Adjust the variable value according to the case sensitivity as defined in the
+# CHOICES list item.
 function(_php_set_adjust_case_sensitivity_value var)
   get_property(value CACHE ${var} PROPERTY VALUE)
   get_property(choices CACHE ${var} PROPERTY STRINGS)
