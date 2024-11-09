@@ -37,7 +37,9 @@ set(_reason "")
 
 # Use pkgconf, if available on the system.
 find_package(PkgConfig QUIET)
-pkg_check_modules(PC_Readline QUIET readline)
+if(PKG_CONFIG_FOUND)
+  pkg_check_modules(PC_Readline QUIET readline)
+endif()
 
 find_path(
   Readline_INCLUDE_DIR

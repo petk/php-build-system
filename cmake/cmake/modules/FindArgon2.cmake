@@ -36,7 +36,9 @@ set(_reason "")
 
 # Use pkgconf, if available on the system.
 find_package(PkgConfig QUIET)
-pkg_check_modules(PC_Argon2 QUIET libargon2)
+if(PKG_CONFIG_FOUND)
+  pkg_check_modules(PC_Argon2 QUIET libargon2)
+endif()
 
 find_path(
   Argon2_INCLUDE_DIR

@@ -44,7 +44,9 @@ set(_reason "")
 
 # Use pkgconf, if available on the system.
 find_package(PkgConfig QUIET)
-pkg_check_modules(PC_LDAP QUIET ldap)
+if(PKG_CONFIG_FOUND)
+  pkg_check_modules(PC_LDAP QUIET ldap)
+endif()
 
 find_path(
   LDAP_INCLUDE_DIR
@@ -65,7 +67,9 @@ find_library(
 )
 
 if(LDAP_LIBRARY)
-  pkg_check_modules(PC_LDAP_LBER QUIET lber)
+  if(PKG_CONFIG_FOUND)
+    pkg_check_modules(PC_LDAP_LBER QUIET lber)
+  endif()
 
   find_library(
     LDAP_LBER_LIBRARY

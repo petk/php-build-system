@@ -85,7 +85,9 @@ else()
 
   # Use pkgconf, if available on the system.
   find_package(PkgConfig QUIET)
-  pkg_search_module(PC_Crypt QUIET libcrypt libxcrypt)
+  if(PKG_CONFIG_FOUND)
+    pkg_search_module(PC_Crypt QUIET libcrypt libxcrypt)
+  endif()
 
   find_path(
     Crypt_INCLUDE_DIR

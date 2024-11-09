@@ -20,17 +20,19 @@ set_package_properties(
 )
 
 # If available, use pkgconf and append paths to the internal icu_roots variable.
-foreach(component ${ICU_FIND_COMPONENTS})
-  find_package(PkgConfig QUIET)
-  string(TOUPPER ${component} component_upper)
-  pkg_check_modules(PC_ICU_${component_upper} QUIET icu-${component})
+find_package(PkgConfig QUIET)
+if(PKG_CONFIG_FOUND)
+  foreach(component ${ICU_FIND_COMPONENTS})
+    string(TOUPPER ${component} component_upper)
+    pkg_check_modules(PC_ICU_${component_upper} QUIET icu-${component})
 
-  list(APPEND icu_roots ${PC_ICU_${component_upper}_INCLUDE_DIRS})
-  list(APPEND icu_roots ${PC_ICU_${component_upper}_LIBRARY_DIRS})
-endforeach()
+    list(APPEND icu_roots ${PC_ICU_${component_upper}_INCLUDE_DIRS})
+    list(APPEND icu_roots ${PC_ICU_${component_upper}_LIBRARY_DIRS})
+  endforeach()
 
-if(icu_roots)
-  list(REMOVE_DUPLICATES icu_roots)
+  if(icu_roots)
+    list(REMOVE_DUPLICATES icu_roots)
+  endif()
 endif()
 
 # Find package with upstream CMake module; override CMAKE_MODULE_PATH to prevent

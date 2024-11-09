@@ -115,7 +115,9 @@ if("Lib" IN_LIST MySQL_FIND_COMPONENTS)
   else()
     # Use pkgconf, if available on the system.
     find_package(PkgConfig QUIET)
-    pkg_check_modules(PC_MySQL QUIET mysqlclient)
+    if(PKG_CONFIG_FOUND)
+      pkg_check_modules(PC_MySQL QUIET mysqlclient)
+    endif()
   endif()
 
   find_path(

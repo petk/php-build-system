@@ -24,7 +24,6 @@ cmake_dependent_option(
 
 php_set(
   EXT_ODBC_TYPE
-  TYPE STRING
   CHOICES
     "auto"
     "adabas"
@@ -39,9 +38,9 @@ php_set(
     "unixODBC"
     "custom"
   IF EXT_ODBC
-  VALUE auto
-  DOC "The ODBC type (library driving the ODBC)"
+  DOC "The ODBC implementation type (library driving the ODBC)"
 )
+mark_as_advanced(EXT_ODBC_TYPE)
 
 # Validate ODBC type for odbc and pdo_odbc extensions. Ideally, the same ODBC
 # driver library should be used for both extensions.

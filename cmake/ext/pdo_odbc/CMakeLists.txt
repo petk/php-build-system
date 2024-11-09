@@ -27,7 +27,6 @@ cmake_dependent_option(
 
 php_set(
   EXT_PDO_ODBC_TYPE
-  TYPE STRING
   CHOICES
     "auto"
     "ibm-db2"
@@ -35,9 +34,9 @@ php_set(
     "unixODBC"
     "custom"
   IF EXT_PDO_ODBC
-  VALUE auto
-  DOC "The ODBC implementation type"
+  DOC "The ODBC implementation type (library driving the ODBC)"
 )
+mark_as_advanced(EXT_PDO_ODBC_TYPE)
 
 # Some ODBC drivers require setting ODBC_LIBRARY manually to find package.
 if(

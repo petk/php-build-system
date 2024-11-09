@@ -36,7 +36,9 @@ set(_reason "")
 
 # Use pkgconf, if available on the system.
 find_package(PkgConfig QUIET)
-pkg_check_modules(PC_Oniguruma QUIET oniguruma)
+if(PKG_CONFIG_FOUND)
+  pkg_check_modules(PC_Oniguruma QUIET oniguruma)
+endif()
 
 find_path(
   Oniguruma_INCLUDE_DIR

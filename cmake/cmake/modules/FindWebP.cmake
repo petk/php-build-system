@@ -36,7 +36,9 @@ set(_reason "")
 
 # Use pkgconf, if available on the system.
 find_package(PkgConfig QUIET)
-pkg_check_modules(PC_WebP QUIET libwebp)
+if(PKG_CONFIG_FOUND)
+  pkg_check_modules(PC_WebP QUIET libwebp)
+endif()
 
 find_path(
   WebP_INCLUDE_DIR

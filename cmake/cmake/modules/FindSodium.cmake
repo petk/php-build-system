@@ -36,7 +36,9 @@ set(_reason "")
 
 # Use pkgconf, if available on the system.
 find_package(PkgConfig QUIET)
-pkg_check_modules(PC_Sodium QUIET libsodium)
+if(PKG_CONFIG_FOUND)
+  pkg_check_modules(PC_Sodium QUIET libsodium)
+endif()
 
 find_path(
   Sodium_INCLUDE_DIR

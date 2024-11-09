@@ -90,7 +90,9 @@ find_program(
 
 # Use pkgconf, if available on the system.
 find_package(PkgConfig QUIET)
-pkg_check_modules(PC_PHP QUIET php)
+if(PKG_CONFIG_FOUND)
+  pkg_check_modules(PC_PHP QUIET php)
+endif()
 
 # Get PHP include directories.
 if(PHP_CONFIG_EXECUTABLE)
@@ -158,7 +160,7 @@ if(PHP_CONFIG_EXECUTABLE)
     ERROR_QUIET
   )
 endif()
-if(NOT PHP_EXTENSION_DIR)
+if(NOT PHP_EXTENSION_DIR AND PKG_CONFIG_FOUND)
   pkg_get_variable(PHP_EXTENSION_DIR php extensiondir)
 endif()
 
@@ -166,7 +168,9 @@ endif()
 # PHP Embed component.
 ################################################################################
 
-pkg_check_modules(PC_PHP_EMBED QUIET php-embed)
+if(PKG_CONFIG_FOUND)
+  pkg_check_modules(PC_PHP_EMBED QUIET php-embed)
+endif()
 
 find_library(
   PHP_EMBED_LIBRARY

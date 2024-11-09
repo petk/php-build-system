@@ -36,7 +36,9 @@ set(_reason "")
 
 # Use pkgconf, if available on the system.
 find_package(PkgConfig QUIET)
-pkg_check_modules(PC_GD QUIET gdlib)
+if(PKG_CONFIG_FOUND)
+  pkg_check_modules(PC_GD QUIET gdlib)
+endif()
 
 find_path(
   GD_INCLUDE_DIR

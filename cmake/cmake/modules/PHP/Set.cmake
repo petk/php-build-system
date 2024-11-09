@@ -46,9 +46,33 @@ It sets a CACHE `<variable>` of `<type>` to a `<value>`.
   a list of supported options to pick in the GUI. Under the hood, it sets the
   `STRINGS` CACHE variable property.
 
+  When using `CHOICES`, the `VALUE` and `TYPE` keywords can be also omitted. The
+  default variable value is set to the first item in the `CHOICES` list and
+  default `TYPE` will be set to `STRING`.
+
+  For example:
+
+  ```cmake
+  include(PHP/Set)
+
+  php_set(
+    VAR
+    CHOICES auto on off
+    DOC "Variable with default value set to the first list item"
+  )
+
+  message(STATUS "VAR=${VAR}")
+  ```
+
+  Output:
+
+  ```
+  VAR=auto
+  ```
+
   * When `CHOICES_OPTIONAL` is used, variable value will not be validated to
-    match one of the list items. By default when using `CHOICES` variable value
-    must match one of the list items otherwise a fatal error is thrown.
+    match one of the list items. By default, when using `CHOICES`, the variable
+    value must match one of the list items otherwise a fatal error is thrown.
 
   * When `CHOICES_CASE_SENSITIVE` is used, variable value passed by the user
     will need to be of the same case as defined in the `CHOICES` list. By
@@ -59,17 +83,14 @@ It sets a CACHE `<variable>` of `<type>` to a `<value>`.
     ```cmake
     php_set(
       VAR
-      TYPE STRING
       CHOICES auto unixODBC iODBC
-      IF TRUE
-      VALUE auto
-      DOC "Variable with a case insensitive list of choices"
+      DOC "Variable with a case-insensitive list of choices"
     )
     message(STATUS "VAR=${VAR}")
     ```
 
     ```sh
-    cmake -S <source-dir> -B <build-dir> -DVAR=unixodbc
+    cmake -S <source-dir> -B <build-dir> -D VAR=unixodbc
     ```
 
     Will output `VAR=unixODBC` and not `VAR=unixodbc`.
@@ -79,17 +100,14 @@ It sets a CACHE `<variable>` of `<type>` to a `<value>`.
     ```cmake
     php_set(
       VAR
-      TYPE STRING
       CHOICES auto unixODBC iODBC
       CHOICES_CASE_SENSITIVE
-      IF TRUE
-      VALUE auto
-      DOC "Variable with a case sensitive list of choices"
+      DOC "Variable with a case-sensitive list of choices"
     )
     message(STATUS "VAR=${VAR}")
     ```
 
-    A fatal error will be thrown, if VAR is set to a case-sensitive value
+    A fatal error will be thrown, if `VAR` is set to a case-sensitive value
     `unixodbc`, which is not defined in the `CHOICES` list.
 
 * `VALUE` is the default variable value. There are two ways to set default
@@ -149,6 +167,10 @@ function(php_set)
     endforeach()
   endif()
 
+  if(DEFINED parsed_CHOICES AND NOT DEFINED parsed_TYPE)
+    set(parsed_TYPE "STRING")
+  endif()
+
   _php_set_validate_arguments("${ARGN}")
 
   set(doc "")
@@ -157,7 +179,7 @@ function(php_set)
   endforeach()
 
   set(condition TRUE)
-  if(parsed_IF)
+  if(DEFINED parsed_IF)
     # Make condition look nice in the possible output strings.
     string(STRIP "${parsed_IF}" parsed_IF)
     string(REGEX REPLACE "[ \t]*[\r\n]+[ \t\r\n]*" "\n" parsed_IF "${parsed_IF}")
@@ -180,6 +202,18 @@ function(php_set)
     set(${bufferVarName} "${${varName}}" CACHE INTERNAL "${bufferDoc}")
   elseif(NOT DEFINED ${bufferVarName})
     # Initial configuration phase without variable set by the user.
+
+    # When using CHOICES and VALUE has not been set, set the variable value to
+    # the first CHOICES item.
+    if(
+      parsed_TYPE STREQUAL "STRING"
+      AND DEFINED parsed_CHOICES
+      AND NOT DEFINED parsed_VALUE
+    )
+      list(GET parsed_CHOICES 0 value)
+      set(parsed_VALUE "${value}")
+      unset(value)
+    endif()
     set(${bufferVarName} "${parsed_VALUE}" CACHE INTERNAL "${bufferDoc}")
   elseif(
     DEFINED ${bufferVarName}
@@ -196,8 +230,9 @@ function(php_set)
 
   if(condition)
     set(${varName} "${${bufferVarName}}" CACHE ${parsed_TYPE} "${doc}" FORCE)
+
     if(parsed_TYPE STREQUAL "STRING" AND parsed_CHOICES)
-      set_property(CACHE ${varName} PROPERTY STRINGS ${parsed_CHOICES})
+      set_property(CACHE ${varName} PROPERTY STRINGS "${parsed_CHOICES}")
       if(NOT parsed_CHOICES_CASE_SENSITIVE)
         _php_set_fix_value(${varName})
       endif()
@@ -205,6 +240,7 @@ function(php_set)
         _php_set_validate_choices(${varName} ${parsed_CHOICES_CASE_SENSITIVE})
       endif()
     endif()
+
     unset(${bufferVarName} CACHE)
     unset(${bufferVarName}_OVERRIDDEN CACHE)
   else()
@@ -230,7 +266,10 @@ function(_php_set_validate_arguments arguments)
     message(FATAL_ERROR "Bad arguments: ${parsed_UNPARSED_ARGUMENTS}")
   endif()
 
-  if(NOT DEFINED parsed_VALUE)
+  if(
+    NOT DEFINED parsed_VALUE
+    AND (NOT DEFINED parsed_CHOICES OR NOT parsed_TYPE STREQUAL "STRING")
+  )
     message(FATAL_ERROR "Missing VALUE argument")
   endif()
 
@@ -238,6 +277,10 @@ function(_php_set_validate_arguments arguments)
     message(FATAL_ERROR "Missing TYPE argument")
   elseif(NOT parsed_TYPE MATCHES "^(BOOL|FILEPATH|PATH|STRING)$")
     message(FATAL_ERROR "Unknown TYPE argument: ${parsed_TYPE}")
+  endif()
+
+  if(DEFINED parsed_CHOICES AND NOT parsed_TYPE STREQUAL "STRING")
+    message(FATAL_ERROR "CHOICES argument can be only used with TYPE STRING")
   endif()
 
   list(FIND arguments ELSE_VALUE elseValueIndex)
