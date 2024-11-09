@@ -51,3 +51,5 @@
 /* Define to 1 to be able to use the obsolete <sqlunix.h> header file on some
    Linux systems. */
 #cmakedefine SS_LINUX 1
+
+@PHP_ODBC_BUILD_DEFINITIONS_CODE@

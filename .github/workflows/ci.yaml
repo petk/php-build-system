@@ -80,7 +80,6 @@ jobs:
             libfreetype-dev \
             libldap2-dev \
             unixodbc-dev \
-            libodbc2 \
             freetds-dev \
             libsnmp-dev \
             snmp \
