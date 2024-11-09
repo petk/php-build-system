@@ -36,7 +36,9 @@ set(_reason "")
 
 # Use pkgconf, if available on the system.
 find_package(PkgConfig QUIET)
-pkg_check_modules(PC_SASL QUIET libsasl2)
+if(PKG_CONFIG_FOUND)
+  pkg_check_modules(PC_SASL QUIET libsasl2)
+endif()
 
 find_path(
   SASL_INCLUDE_DIR

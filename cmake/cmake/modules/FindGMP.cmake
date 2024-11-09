@@ -36,7 +36,9 @@ set(_reason "")
 
 # Use pkgconf, if available on the system.
 find_package(PkgConfig QUIET)
-pkg_check_modules(PC_GMP QUIET gmp)
+if(PKG_CONFIG_FOUND)
+  pkg_check_modules(PC_GMP QUIET gmp)
+endif()
 
 find_path(
   GMP_INCLUDE_DIR

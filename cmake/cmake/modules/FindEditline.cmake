@@ -37,7 +37,9 @@ set(_reason "")
 
 # Use pkgconf, if available on the system.
 find_package(PkgConfig QUIET)
-pkg_check_modules(PC_Editline QUIET libedit)
+if(PKG_CONFIG_FOUND)
+  pkg_check_modules(PC_Editline QUIET libedit)
+endif()
 
 find_path(
   Editline_INCLUDE_DIR
