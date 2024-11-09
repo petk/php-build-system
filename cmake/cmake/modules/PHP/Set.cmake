@@ -159,6 +159,7 @@ function(php_set)
     endforeach()
   endif()
 
+  # Set default TYPE if not set when using CHOICES argument.
   if(DEFINED parsed_CHOICES AND NOT DEFINED parsed_TYPE)
     set(parsed_TYPE "STRING")
   endif()
@@ -226,7 +227,7 @@ function(php_set)
     if(parsed_TYPE STREQUAL "STRING" AND parsed_CHOICES)
       set_property(CACHE ${varName} PROPERTY STRINGS "${parsed_CHOICES}")
       if(NOT parsed_CHOICES_CASE_SENSITIVE)
-        _php_set_fix_value(${varName})
+        _php_set_adjust_case_sensitivity_value(${varName})
       endif()
       if(NOT parsed_CHOICES_OPTIONAL)
         _php_set_validate_choices(${varName} ${parsed_CHOICES_CASE_SENSITIVE})
@@ -292,9 +293,9 @@ function(_php_set_validate_arguments arguments)
 endfunction()
 
 # Validate variable and output warning when a conditional variable is set by the
-# user (on command line or CMake presets) and the condition is not met.
-# This is for diagnostics purpose for user to be aware that some configuration
-# value was not taken into account.
+# user (on command line or CMake presets) and the condition is not met. This is
+# for diagnostic purpose for user to be aware that some configuration value was
+# not taken into account.
 function(_php_set_validate_input var)
   get_property(helpString CACHE ${var} PROPERTY HELPSTRING)
   if(NOT helpString STREQUAL "No help, variable specified on the command line.")
@@ -316,16 +317,16 @@ function(_php_set_validate_input var)
     warning
     " as it depends on the condition:\n"
     "${parsed_IF}\n"
-    "You can probably remove the ${var} configuration value from the build "
-    "command as it won't be utilized."
+    "The ${var} configuration value can be then probably removed from the "
+    "current build command as it won't be utilized."
   )
 
   message(WARNING "${warning}")
 endfunction()
 
-# Reset the value passed by the user according to the case sensitivity given in
-# the choices list.
-function(_php_set_fix_value var)
+# Adjust the variable value passed by the user according to the case sensitivity
+# as defined in the CHOICES list item.
+function(_php_set_adjust_case_sensitivity_value var)
   get_property(value CACHE ${var} PROPERTY VALUE)
   get_property(choices CACHE ${var} PROPERTY STRINGS)
 
@@ -345,8 +346,7 @@ function(_php_set_fix_value var)
   endforeach()
 endfunction()
 
-# When CHOICES argument is set, validate variable value to match one of the
-# choices.
+# Validate variable value to match with one of the items from the CHOICES list.
 function(_php_set_validate_choices var caseSensitive)
   get_property(value CACHE ${var} PROPERTY VALUE)
   get_property(choices CACHE ${var} PROPERTY STRINGS)
