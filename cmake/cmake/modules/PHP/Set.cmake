@@ -1,13 +1,6 @@
 #[=============================================================================[
 Set a CACHE variable that depends on a set of conditions.
 
-> [!WARNING]
-> TODO: This module is still under review to determine its usefulness.
-> Dependent variables may seem convenient for the application but may create
-> difficulties for anyone troubleshooting why a configuration isn't applied,
-> even though a configuration value has been set. In the end, build system
-> configuration isn't aiming to provide a HTML-form-alike functionality.
-
 At the time of writing, there are 3 main ways in CMake to create non-internal
 cache variables that can be also customized from the outside using the `-D`
 command-line option, through CMake presets, or similar:
@@ -29,8 +22,7 @@ This module exposes the following function:
 ```cmake
 php_set(
   <variable>
-  TYPE <type>
-  [CHOICES <string>...]
+  [TYPE <type>] | [[TYPE STRING] CHOICES <string>...]
   [CHOICES_OPTIONAL]
   [CHOICES_CASE_SENSITIVE]
   [IF <condition> VALUE <value> [ELSE_VALUE <default>]] | [VALUE <value>]

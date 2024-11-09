@@ -52,28 +52,6 @@ if(
   )
 endif()
 
-# ODBC library linker flags.
-if(EXT_PDO_ODBC)
-  set(EXT_PDO_ODBC_LDFLAGS "" CACHE STRING "Set the ODBC library linker flags")
-  mark_as_advanced(EXT_PDO_ODBC_LDFLAGS)
-  # Change from INTERNAL type to show variable on consecutive configuration run.
-  set_property(CACHE EXT_PDO_ODBC_LDFLAGS PROPERTY TYPE STRING)
-elseif(DEFINED EXT_PDO_ODBC_LDFLAGS)
-  # Hide variable.
-  set_property(CACHE EXT_PDO_ODBC_LDFLAGS PROPERTY TYPE INTERNAL)
-endif()
-
-# ODBC library C flags.
-if(EXT_PDO_ODBC)
-  set(EXT_PDO_ODBC_CFLAGS "" CACHE STRING "Set the ODBC library C flags")
-  mark_as_advanced(EXT_PDO_ODBC_CFLAGS)
-  # Change from INTERNAL type to show variable on consecutive configuration run.
-  set_property(CACHE EXT_PDO_ODBC_CFLAGS PROPERTY TYPE STRING)
-elseif(DEFINED EXT_PDO_ODBC_CFLAGS)
-  # Hide variable.
-  set_property(CACHE EXT_PDO_ODBC_CFLAGS PROPERTY TYPE INTERNAL)
-endif()
-
 if(NOT EXT_PDO_ODBC)
   return()
 endif()
@@ -128,15 +106,6 @@ else()
 endif()
 
 if(TARGET ODBC::ODBC)
-  if(EXT_PDO_ODBC_CFLAGS)
-    target_compile_options(ODBC::ODBC INTERFACE ${EXT_PDO_ODBC_CFLAGS})
-  endif()
-
-  if(EXT_PDO_ODBC_LDFLAGS)
-    target_link_options(ODBC::ODBC INTERFACE ${EXT_PDO_ODBC_LDFLAGS})
-  endif()
-
-  # Sanity checks.
   block()
     foreach(
       header

@@ -7,7 +7,7 @@ enhancements and adjustments for the PHP build workflow.
 
 Modifications from upstream:
 
-* New result variables:
+* Additional result variables:
 
   * `ODBC_DRIVER`
 
@@ -17,7 +17,13 @@ Modifications from upstream:
 
     Version of the found ODBC library if it was retrieved from config utilities.
 
-* New hints:
+* Additional cache variables:
+
+  * `ODBC_COMPILE_DEFINITIONS` - a `;`-list of compile definitions.
+  * `ODBC_COMPILE_OPTIONS` - a `;`-list of compile options.
+  * `ODBC_LINK_OPTIONS` - a `;`-list of linker options.
+
+* Additional hints:
 
   * `ODBC_USE_DRIVER`
 
@@ -26,11 +32,11 @@ Modifications from upstream:
 
 * Added pkg-config integration.
 
-* It fixes the limitation where the upstream module can't (yet) select which
-  specific ODBC driver to use. Except on Windows, where the driver searching is
-  the same as upstream.
+* Fixed limitation where the upstream module can't (yet) select which specific
+  ODBC driver to use. Except on Windows, where the driver searching is the same
+  as upstream.
 
-* Added package meta-data for FeatureSummary (not relevant for upstream module).
+* Added package meta-data for FeatureSummary.
 #]=============================================================================]
 
 include(FeatureSummary)
@@ -42,6 +48,16 @@ set(_odbc_lib_names)
 set(_odbc_required_libs_names)
 set(_odbc_config_names)
 set(_reason)
+
+### To manually override build options of the ODBC library ####################
+set(ODBC_COMPILE_DEFINITIONS "" CACHE STRING "ODBC library compile definitions")
+set(ODBC_COMPILE_OPTIONS "" CACHE STRING "ODBC library compile options")
+set(ODBC_LINK_OPTIONS "" CACHE STRING "ODBC library linker flags")
+mark_as_advanced(
+  ODBC_COMPILE_DEFINITIONS
+  ODBC_COMPILE_OPTIONS
+  ODBC_LINK_OPTIONS
+)
 
 ### Try Windows Kits ##########################################################
 if(WIN32)
@@ -253,6 +269,18 @@ if(ODBC_FOUND)
     if(_odbc_required_libs_paths)
       set_property(TARGET ODBC::ODBC APPEND PROPERTY
         INTERFACE_LINK_LIBRARIES "${_odbc_required_libs_paths}")
+    endif()
+
+    if(ODBC_COMPILE_DEFINITIONS)
+      target_compile_definitions(ODBC::ODBC INTERFACE ${ODBC_COMPILE_DEFINITIONS})
+    endif()
+
+    if(ODBC_COMPILE_OPTIONS)
+      target_compile_options(ODBC::ODBC INTERFACE ${ODBC_COMPILE_OPTIONS})
+    endif()
+
+    if(ODBC_LINK_OPTIONS)
+      target_link_options(ODBC::ODBC INTERFACE ${ODBC_LINK_OPTIONS})
     endif()
   endif()
 
