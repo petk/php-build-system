@@ -3,10 +3,8 @@ project(
   LANGUAGES C
 )
 
-include(CheckIncludeFile)
 include(CheckLibraryExists)
 include(CMakeDependentOption)
-include(CMakePushCheckState)
 include(FeatureSummary)
 include(PHP/Set)
 
@@ -131,17 +129,21 @@ if(TARGET ODBC::ODBC)
       string(MAKE_C_IDENTIFIER "HAVE_${header}" const)
       string(TOUPPER "${const}" const)
 
-      cmake_push_check_state(RESET)
-        set(CMAKE_REQUIRED_LIBRARIES ODBC::ODBC)
-        check_include_file(${header} ${const})
-      cmake_pop_check_state()
+      message(CHECK_START "Looking for ${header}")
+      if(EXISTS ${ODBC_INCLUDE_DIR}/${header})
+        message(CHECK_PASS "found")
+        set(${const} 1)
+        set(${const} 1 PARENT_SCOPE)
+      else()
+        message(CHECK_FAIL "not found")
+      endif()
 
       if(${const})
-        set(have_headers TRUE)
+        set(haveSomeHeaders TRUE)
       endif()
     endforeach()
 
-    if(NOT have_headers)
+    if(NOT haveSomeHeaders)
       message(FATAL_ERROR "Cannot find header file(s) for pdo_odbc")
     endif()
   endblock()
