@@ -37,7 +37,9 @@ set(_reason "")
 
 # Use pkgconf, if available on the system.
 find_package(PkgConfig QUIET)
-pkg_check_modules(PC_QDBM QUIET qdbm)
+if(PKG_CONFIG_FOUND)
+  pkg_check_modules(PC_QDBM QUIET qdbm)
+endif()
 
 find_path(
   QDBM_INCLUDE_DIR

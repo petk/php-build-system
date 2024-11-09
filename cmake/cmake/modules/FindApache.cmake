@@ -193,7 +193,9 @@ endif()
 # Find the apr library (Apache portable runtime).
 # Use pkgconf, if available on the system.
 find_package(PkgConfig QUIET)
-pkg_check_modules(PC_Apache_APR QUIET apr-1)
+if(PKG_CONFIG_FOUND)
+  pkg_check_modules(PC_Apache_APR QUIET apr-1)
+endif()
 
 find_path(
   Apache_APR_INCLUDE_DIR

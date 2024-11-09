@@ -37,7 +37,9 @@ set(_reason "")
 
 # Use pkgconf, if available on the system.
 find_package(PkgConfig QUIET)
-pkg_check_modules(PC_Cdb QUIET libcdb)
+if(PKG_CONFIG_FOUND)
+  pkg_check_modules(PC_Cdb QUIET libcdb)
+endif()
 
 find_path(
   Cdb_INCLUDE_DIR

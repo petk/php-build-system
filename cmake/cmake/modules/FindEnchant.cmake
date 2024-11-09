@@ -43,7 +43,9 @@ endif()
 
 # Use pkgconf, if available on the system.
 find_package(PkgConfig QUIET)
-pkg_check_modules(PC_Enchant QUIET ${_enchant_name})
+if(PKG_CONFIG_FOUND)
+  pkg_check_modules(PC_Enchant QUIET ${_enchant_name})
+endif()
 
 find_path(
   Enchant_INCLUDE_DIR

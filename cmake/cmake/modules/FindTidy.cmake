@@ -43,7 +43,9 @@ set(_reason "")
 
 # Use pkgconf, if available on the system.
 find_package(PkgConfig QUIET)
-pkg_check_modules(PC_Tidy QUIET tidy)
+if(PKG_CONFIG_FOUND)
+  pkg_check_modules(PC_Tidy QUIET tidy)
+endif()
 
 find_path(
   Tidy_INCLUDE_DIR

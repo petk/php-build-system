@@ -30,10 +30,8 @@ cmake_dependent_option(
 # Driver selection option.
 php_set(
   EXT_PDO_MYSQL_DRIVER
-  TYPE STRING
   CHOICES "mysqlnd" "mysql"
   IF EXT_PDO_MYSQL
-  VALUE "mysqlnd"
   DOC
     "Select MySQL driver: mysqlnd (MySQL Native Driver, recommended) or mysql "
     "(system MySQL)"

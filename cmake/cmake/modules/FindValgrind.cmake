@@ -35,7 +35,9 @@ set(_reason "")
 
 # Use pkgconf, if available on the system.
 find_package(PkgConfig QUIET)
-pkg_check_modules(PC_Valgrind QUIET valgrind)
+if(PKG_CONFIG_FOUND)
+  pkg_check_modules(PC_Valgrind QUIET valgrind)
+endif()
 
 find_path(
   Valgrind_INCLUDE_DIR

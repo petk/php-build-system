@@ -46,7 +46,9 @@ set(_reason "")
 
 # Use pkgconf, if available on the system.
 find_package(PkgConfig QUIET)
-pkg_check_modules(PC_Kerberos QUIET krb5)
+if(PKG_CONFIG_FOUND)
+  pkg_check_modules(PC_Kerberos QUIET krb5)
+endif()
 
 find_path(
   Kerberos_INCLUDE_DIR
@@ -115,7 +117,9 @@ block(PROPAGATE Kerberos_VERSION)
 endblock()
 
 # Find Kerberos GSSAPI component.
-pkg_check_modules(PC_Kerberos_GSSAPI QUIET krb5-gssapi)
+if(PKG_CONFIG_FOUND)
+  pkg_check_modules(PC_Kerberos_GSSAPI QUIET krb5-gssapi)
+endif()
 
 find_path(
   Kerberos_GSSAPI_INCLUDE_DIR

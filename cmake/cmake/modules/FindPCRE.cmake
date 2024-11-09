@@ -36,7 +36,9 @@ set(_reason "")
 
 # Use pkgconf, if available on the system.
 find_package(PkgConfig QUIET)
-pkg_check_modules(PC_PCRE QUIET libpcre2-8)
+if(PKG_CONFIG_FOUND)
+  pkg_check_modules(PC_PCRE QUIET libpcre2-8)
+endif()
 
 find_path(
   PCRE_INCLUDE_DIR
