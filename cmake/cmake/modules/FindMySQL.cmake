@@ -55,6 +55,7 @@ find_program(
   NAMES mysql_config
   DOC "The mysql_config command-line tool for getting MySQL installation info"
 )
+mark_as_advanced(MySQL_CONFIG_EXECUTABLE)
 
 # Find the Socket component.
 if("Socket" IN_LIST MySQL_FIND_COMPONENTS)

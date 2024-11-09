@@ -22,66 +22,55 @@ cmake_dependent_option(
   OFF
 )
 
-block()
-  set(
-    types
-      "auto"
-      "adabas"
-      "dbmaker"
-      "empress-bcs"
-      "empress"
-      "esoob"
-      "ibm-db2"
-      "iODBC"
-      "sapdb"
-      "solid"
-      "unixODBC"
-      "custom"
+php_set(
+  EXT_ODBC_TYPE
+  TYPE STRING
+  CHOICES
+    "auto"
+    "adabas"
+    "dbmaker"
+    "empress-bcs"
+    "empress"
+    "esoob"
+    "ibm-db2"
+    "iODBC"
+    "sapdb"
+    "solid"
+    "unixODBC"
+    "custom"
+  IF EXT_ODBC
+  VALUE auto
+  DOC "The ODBC type (library driving the ODBC)"
+)
+
+# Validate ODBC type for odbc and pdo_odbc extensions. Ideally, the same ODBC
+# driver library should be used for both extensions.
+if(EXT_ODBC AND EXT_PDO_ODBC AND NOT EXT_ODBC_TYPE STREQUAL EXT_PDO_ODBC_TYPE)
+  message(
+    FATAL_ERROR
+    "Different ODBC types detected for 'odbc' and 'pdo_odbc' PHP "
+    "extensions:\n"
+    "EXT_ODBC_TYPE=${EXT_ODBC_TYPE}\n"
+    "EXT_PDO_ODBC_TYPE=${EXT_PDO_ODBC_TYPE}\n"
+    "To prevent library symbol collisions when building both 'odbc' and "
+    "'pdo_odbc' please link with the same ODBC library. Or disable one of "
+    "the extensions by setting EXT_ODBC or EXT_PDO_ODBC to 'OFF'."
   )
+endif()
 
-  php_set(
-    EXT_ODBC_TYPE
-    TYPE STRING
-    CHOICES ${types}
-    IF EXT_ODBC
-    VALUE auto
-    DOC "The ODBC type (library driving the ODBC)"
+# Some ODBC drivers require setting ODBC_LIBRARY manually to find package.
+if(
+  EXT_ODBC
+  AND NOT EXT_ODBC_TYPE MATCHES "auto|unixODBC|iODBC"
+  AND NOT ODBC_LIBRARY
+)
+  message(
+    FATAL_ERROR
+    "When using EXT_ODBC_TYPE=${EXT_ODBC_TYPE}, please set also "
+    "ODBC_LIBRARY and optionally ODBC_INCLUDE_DIR to locate the ODBC "
+    "installation."
   )
-
-  if(EXT_ODBC_TYPE AND NOT EXT_ODBC_TYPE IN_LIST types)
-    list(JOIN types ", " typesString)
-
-    message(
-      FATAL_ERROR
-      "Unknown ODBC type value EXT_ODBC_TYPE=${EXT_ODBC_TYPE}. Please "
-      "select one of: ${typeString}."
-    )
-  endif()
-
-  # Validate ODBC type.
-  if(EXT_ODBC AND EXT_PDO_ODBC AND NOT EXT_ODBC_TYPE STREQUAL EXT_PDO_ODBC_TYPE)
-    message(
-      FATAL_ERROR
-      "Different ODBC types detected for 'odbc' and 'pdo_odbc' PHP "
-      "extensions:\n"
-      "EXT_ODBC_TYPE=${EXT_ODBC_TYPE}\n"
-      "EXT_PDO_ODBC_TYPE=${EXT_PDO_ODBC_TYPE}\n"
-      "To prevent library symbol collisions when building both 'odbc' and "
-      "'pdo_odbc' please link with the same ODBC library. Or disable one of "
-      "the extensions by setting EXT_ODBC or EXT_PDO_ODBC to 'OFF'."
-    )
-  endif()
-
-  # Some ODBC drivers require setting ODBC_LIBRARY manually to find package.
-  if(NOT EXT_ODBC_TYPE MATCHES "auto|unixODBC|iODBC" AND NOT ODBC_LIBRARY)
-    message(
-      FATAL_ERROR
-      "When using EXT_ODBC_TYPE=${EXT_ODBC_TYPE}, please set also "
-      "ODBC_LIBRARY and optionally ODBC_INCLUDE_DIR to locate the ODBC "
-      "installation."
-    )
-  endif()
-endblock()
+endif()
 
 php_set(
   EXT_ODBC_VERSION
@@ -127,6 +116,12 @@ target_sources(
 )
 
 target_compile_definitions(php_odbc PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE=1)
+
+# TODO: Can this be fixed better?
+get_target_property(extension_type php_odbc TYPE)
+if(NOT extension_type MATCHES "^(MODULE|SHARED)_LIBRARY$")
+  target_link_libraries(php_odbc PRIVATE PHP::main)
+endif()
 
 if(NOT EXT_ODBC_TYPE STREQUAL "auto")
   set(ODBC_USE_DRIVER "${EXT_ODBC_TYPE}")

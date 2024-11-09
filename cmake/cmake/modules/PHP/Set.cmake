@@ -31,9 +31,10 @@ php_set(
   <variable>
   TYPE <type>
   [CHOICES <string>...]
+  [CHOICES_OPTIONAL]
+  [CHOICES_CASE_SENSITIVE]
   [IF <condition> VALUE <value> [ELSE_VALUE <default>]] | [VALUE <value>]
   DOC <docstring>...
-  [WARNING <warning>]
 )
 ```
 
@@ -44,6 +45,52 @@ It sets a CACHE `<variable>` of `<type>` to a `<value>`.
 * `CHOICES` is an optional list of items when `STRING` type is used to create
   a list of supported options to pick in the GUI. Under the hood, it sets the
   `STRINGS` CACHE variable property.
+
+  * When `CHOICES_OPTIONAL` is used, variable value will not be validated to
+    match one of the list items. By default when using `CHOICES` variable value
+    must match one of the list items otherwise a fatal error is thrown.
+
+  * When `CHOICES_CASE_SENSITIVE` is used, variable value passed by the user
+    will need to be of the same case as defined in the `CHOICES` list. By
+    default, choices are case insensitive.
+
+    For example:
+
+    ```cmake
+    php_set(
+      VAR
+      TYPE STRING
+      CHOICES auto unixODBC iODBC
+      IF TRUE
+      VALUE auto
+      DOC "Variable with a case insensitive list of choices"
+    )
+    message(STATUS "VAR=${VAR}")
+    ```
+
+    ```sh
+    cmake -S <source-dir> -B <build-dir> -DVAR=unixodbc
+    ```
+
+    Will output `VAR=unixODBC` and not `VAR=unixodbc`.
+
+    With `CHOICES_CASE_SENSITIVE`:
+
+    ```cmake
+    php_set(
+      VAR
+      TYPE STRING
+      CHOICES auto unixODBC iODBC
+      CHOICES_CASE_SENSITIVE
+      IF TRUE
+      VALUE auto
+      DOC "Variable with a case sensitive list of choices"
+    )
+    message(STATUS "VAR=${VAR}")
+    ```
+
+    A fatal error will be thrown, if VAR is set to a case-sensitive value
+    `unixodbc`, which is not defined in the `CHOICES` list.
 
 * `VALUE` is the default variable value. There are two ways to set default
   value.
@@ -68,10 +115,6 @@ It sets a CACHE `<variable>` of `<type>` to a `<value>`.
 
 * `DOC` is a short variable help text visible in the GUIs. Multiple strings are
   joined together.
-
-* `WARNING` is optional text that is emitted when setting a variable from the
-  command line or CMake presets but its condition is not met. Otherwise, a
-  default warning is emitted.
 #]=============================================================================]
 
 include_guard(GLOBAL)
@@ -80,10 +123,10 @@ function(php_set)
   cmake_parse_arguments(
     PARSE_ARGV
     1
-    parsed                     # prefix
-    ""                         # options
+    parsed # prefix
+    "CHOICES_OPTIONAL;CHOICES_CASE_SENSITIVE" # options
     "TYPE;IF;VALUE;ELSE_VALUE" # one-value keywords
-    "CHOICES;DOC;WARNING"      # multi-value keywords
+    "CHOICES;DOC" # multi-value keywords
   )
 
   # The cmake_parse_arguments() before 3.31 didn't define one-value keywords
@@ -155,11 +198,17 @@ function(php_set)
     set(${varName} "${${bufferVarName}}" CACHE ${parsed_TYPE} "${doc}" FORCE)
     if(parsed_TYPE STREQUAL "STRING" AND parsed_CHOICES)
       set_property(CACHE ${varName} PROPERTY STRINGS ${parsed_CHOICES})
+      if(NOT parsed_CHOICES_CASE_SENSITIVE)
+        _php_set_fix_value(${varName})
+      endif()
+      if(NOT parsed_CHOICES_OPTIONAL)
+        _php_set_validate_choices(${varName} ${parsed_CHOICES_CASE_SENSITIVE})
+      endif()
     endif()
     unset(${bufferVarName} CACHE)
     unset(${bufferVarName}_OVERRIDDEN CACHE)
   else()
-    _php_set_validate_input()
+    _php_set_validate_input(${varName})
 
     if(DEFINED parsed_ELSE_VALUE)
       set(${varName} "${parsed_ELSE_VALUE}" CACHE INTERNAL "${doc}" FORCE)
@@ -207,41 +256,78 @@ function(_php_set_validate_arguments arguments)
   endif()
 endfunction()
 
-# Output warning when setting conditional variable and condition is not met.
-function(_php_set_validate_input)
-  get_property(helpString CACHE ${varName} PROPERTY HELPSTRING)
+# Validate variable and output warning when a conditional variable is set by the
+# user (on command line or CMake presets) and the condition is not met.
+# This is for diagnostics purpose for user to be aware that some configuration
+# value was not taken into account.
+function(_php_set_validate_input var)
+  get_property(helpString CACHE ${var} PROPERTY HELPSTRING)
   if(NOT helpString STREQUAL "No help, variable specified on the command line.")
     return()
   endif()
 
-  if(NOT parsed_WARNING)
-    set(parsed_WARNING "Variable ${varName}")
-    if(DEFINED parsed_ELSE_VALUE)
-      string(
-        APPEND
-        parsed_WARNING
-        " has been overridden (${varName}=${parsed_ELSE_VALUE})"
-      )
-    else()
-      string(
-        APPEND
-        parsed_WARNING
-        " has been overridden to an undefined state"
-      )
-    endif()
-    string(
-      APPEND
-      parsed_WARNING
-      " as it depends on the condition:\n"
-      "${parsed_IF}\n"
-    )
+  if(${var} STREQUAL "${parsed_ELSE_VALUE}")
+    return()
   endif()
-  set(warning "")
-  foreach(string ${parsed_WARNING})
-    string(APPEND warning "${string}")
-  endforeach()
 
-  if(NOT ${varName} STREQUAL "${parsed_ELSE_VALUE}")
-    message(WARNING "${warning}")
+  set(warning "Variable ${var}")
+  if(DEFINED parsed_ELSE_VALUE)
+    string(APPEND warning " has been overridden (${var}=${parsed_ELSE_VALUE})")
+  else()
+    string(APPEND warning " has been undefined")
+  endif()
+  string(
+    APPEND
+    warning
+    " as it depends on the condition:\n"
+    "${parsed_IF}\n"
+    "You can probably remove the ${var} configuration value from the build "
+    "command as it won't be utilized."
+  )
+
+  message(WARNING "${warning}")
+endfunction()
+
+# Reset the value passed by the user according to the case sensitivity given in
+# the choices list.
+function(_php_set_fix_value var)
+  get_property(value CACHE ${var} PROPERTY VALUE)
+  get_property(choices CACHE ${var} PROPERTY STRINGS)
+
+  string(TOLOWER "${value}" valueLower)
+  list(TRANSFORM choices TOLOWER OUTPUT_VARIABLE choicesLower)
+
+  set(index 0)
+  foreach(item IN LISTS choicesLower)
+    if(valueLower STREQUAL "${item}")
+      list(GET choices ${index} itemOriginal)
+      if(NOT value STREQUAL "${itemOriginal}")
+        set_property(CACHE ${var} PROPERTY VALUE ${itemOriginal})
+        break()
+      endif()
+    endif()
+    math(EXPR index "${index}+1")
+  endforeach()
+endfunction()
+
+# When CHOICES argument is set, validate variable value to match one of the
+# choices.
+function(_php_set_validate_choices var caseSensitive)
+  get_property(value CACHE ${var} PROPERTY VALUE)
+  get_property(choices CACHE ${var} PROPERTY STRINGS)
+
+  if(NOT caseSensitive)
+    string(TOLOWER "${value}" value)
+    list(TRANSFORM choices TOLOWER)
+  endif()
+
+  if(NOT value IN_LIST choices)
+    list(JOIN choices ", " choices)
+
+    message(
+      FATAL_ERROR
+      "Unknown value: ${var}=${value}\n"
+      "Please select one of: ${choices}."
+    )
   endif()
 endfunction()

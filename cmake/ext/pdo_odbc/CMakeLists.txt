@@ -21,48 +21,37 @@ cmake_dependent_option(
   EXT_PDO_ODBC_SHARED
   "Build the pdo_odbc extension as a shared library"
   OFF
-  "EXT_PDO_ODBC;NOT BUILD_SHARED_LIBS"
+  [[EXT_PDO_ODBC AND NOT BUILD_SHARED_LIBS]]
   OFF
 )
 
-block()
-  set(types
+php_set(
+  EXT_PDO_ODBC_TYPE
+  TYPE STRING
+  CHOICES
     "auto"
     "ibm-db2"
     "iODBC"
     "unixODBC"
     "custom"
+  IF EXT_PDO_ODBC
+  VALUE auto
+  DOC "The ODBC implementation type"
+)
+
+# Some ODBC drivers require setting ODBC_LIBRARY manually to find package.
+if(
+  EXT_PDO_ODBC
+  AND NOT EXT_PDO_ODBC_TYPE MATCHES "auto|unixODBC|iODBC"
+  AND NOT ODBC_LIBRARY
+)
+  message(
+    FATAL_ERROR
+    "When using EXT_PDO_ODBC_TYPE=${EXT_PDO_ODBC_TYPE}, please set also "
+    "ODBC_LIBRARY and optionally ODBC_INCLUDE_DIR to find the ODBC "
+    "installation."
   )
-
-  php_set(
-    EXT_PDO_ODBC_TYPE
-    TYPE STRING
-    CHOICES ${types}
-    IF EXT_PDO_ODBC
-    VALUE auto
-    DOC "The ODBC implementation type"
-  )
-
-  if(NOT EXT_PDO_ODBC_TYPE IN_LIST types)
-    list(JOIN types ", " typesString)
-
-    message(
-      FATAL_ERROR
-      "Unknown PDO ODBC type EXT_PDO_ODBC_TYPE=${EXT_PDO_ODBC_TYPE}. Please "
-      "select one of: ${typesString}."
-    )
-  endif()
-
-  # Some ODBC drivers require setting ODBC_LIBRARY manually to find package.
-  if(NOT EXT_PDO_ODBC_TYPE MATCHES "auto|unixODBC|iODBC" AND NOT ODBC_LIBRARY)
-    message(
-      FATAL_ERROR
-      "When using EXT_PDO_ODBC_TYPE=${EXT_PDO_ODBC_TYPE}, please set also "
-      "ODBC_LIBRARY and optionally ODBC_INCLUDE_DIR to find the ODBC "
-      "installation."
-    )
-  endif()
-endblock()
+endif()
 
 # ODBC library linker flags.
 if(EXT_PDO_ODBC)
