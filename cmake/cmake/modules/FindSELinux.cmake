@@ -37,7 +37,9 @@ set(_reason "")
 
 # Use pkgconf, if available on the system.
 find_package(PkgConfig QUIET)
-pkg_check_modules(PC_Selinux QUIET libselinux)
+if(PKG_CONFIG_FOUND)
+  pkg_check_modules(PC_Selinux QUIET libselinux)
+endif()
 
 find_path(
   SELinux_INCLUDE_DIR

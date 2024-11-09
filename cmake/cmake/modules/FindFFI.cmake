@@ -36,7 +36,9 @@ set(_reason "")
 
 # Use pkgconf, if available on the system.
 find_package(PkgConfig QUIET)
-pkg_check_modules(PC_FFI QUIET libffi)
+if(PKG_CONFIG_FOUND)
+  pkg_check_modules(PC_FFI QUIET libffi)
+endif()
 
 find_path(
   FFI_INCLUDE_DIR

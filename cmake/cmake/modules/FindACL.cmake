@@ -143,7 +143,9 @@ else()
 
   # Use pkgconf, if available on the system.
   find_package(PkgConfig QUIET)
-  pkg_check_modules(PC_ACL QUIET libacl)
+  if(PKG_CONFIG_FOUND)
+    pkg_check_modules(PC_ACL QUIET libacl)
+  endif()
 
   find_path(
     ACL_INCLUDE_DIR

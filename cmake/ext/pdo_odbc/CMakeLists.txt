@@ -3,107 +3,51 @@ project(
   LANGUAGES C
 )
 
-include(CheckIncludeFile)
 include(CheckLibraryExists)
 include(CMakeDependentOption)
-include(CMakePushCheckState)
 include(FeatureSummary)
+include(PHP/Set)
 
 option(EXT_PDO_ODBC "Enable the pdo_odbc extension" OFF)
-
 add_feature_info(
   "ext/pdo_odbc"
   EXT_PDO_ODBC
-  "Unified ODBC support in PDO (Open Database Connectivity)"
+  "Unified Open Database Connectivity (ODBC) databases support in PDO"
 )
 
 cmake_dependent_option(
   EXT_PDO_ODBC_SHARED
   "Build the pdo_odbc extension as a shared library"
   OFF
-  "EXT_PDO_ODBC;NOT BUILD_SHARED_LIBS"
+  [[EXT_PDO_ODBC AND NOT BUILD_SHARED_LIBS]]
   OFF
 )
 
-block()
-  if(EXT_PDO_ODBC)
-    set(odbc_types
-      "ibm-db2"
-      "iODBC"
-      "unixODBC"
-      "generic"
-    )
+php_set(
+  EXT_PDO_ODBC_TYPE
+  CHOICES
+    "auto"
+    "ibm-db2"
+    "iODBC"
+    "unixODBC"
+    "custom"
+  IF EXT_PDO_ODBC
+  DOC "The ODBC implementation type (library driving the ODBC)"
+)
+mark_as_advanced(EXT_PDO_ODBC_TYPE)
 
-    set(EXT_PDO_ODBC_TYPE "unixODBC" CACHE STRING "The ODBC implementation type")
-
-    set_property(
-      CACHE EXT_PDO_ODBC_TYPE
-      PROPERTY STRINGS ${odbc_types}
-    )
-
-    # Change from INTERNAL type to show variable on consecutive configuration run.
-    set_property(CACHE EXT_PDO_ODBC_TYPE PROPERTY TYPE STRING)
-
-    if(NOT EXT_PDO_ODBC_TYPE IN_LIST odbc_types)
-      list(JOIN odbc_types ", " odbc_types_string)
-
-      message(
-        FATAL_ERROR
-        "Unknown PDO ODBC type EXT_PDO_ODBC_TYPE=${EXT_PDO_ODBC_TYPE}. Please "
-        "select one of these: ${odbc_types_string}."
-      )
-    endif()
-  elseif(DEFINED EXT_PDO_ODBC_TYPE)
-    # Hide variable.
-    set_property(CACHE EXT_PDO_ODBC_TYPE PROPERTY TYPE INTERNAL)
-  endif()
-endblock()
-
-# ODBC library directory.
-if(EXT_PDO_ODBC)
-  set(
-    EXT_PDO_ODBC_ROOT ""
-    CACHE PATH "Set the path to ODBC library root directory"
+# Some ODBC drivers require setting ODBC_LIBRARY manually to find package.
+if(
+  EXT_PDO_ODBC
+  AND NOT EXT_PDO_ODBC_TYPE MATCHES "auto|unixODBC|iODBC"
+  AND NOT ODBC_LIBRARY
+)
+  message(
+    FATAL_ERROR
+    "When using EXT_PDO_ODBC_TYPE=${EXT_PDO_ODBC_TYPE}, please set also "
+    "ODBC_LIBRARY and optionally ODBC_INCLUDE_DIR to find the ODBC "
+    "installation."
   )
-  mark_as_advanced(EXT_PDO_ODBC_ROOT)
-  # Change from INTERNAL type to show variable on consecutive configuration run.
-  set_property(CACHE EXT_PDO_ODBC_ROOT PROPERTY TYPE PATH)
-elseif(DEFINED EXT_PDO_ODBC_ROOT)
-  # Hide variable.
-  set_property(CACHE EXT_PDO_ODBC_ROOT PROPERTY TYPE INTERNAL)
-endif()
-
-# ODBC library name.
-if(EXT_PDO_ODBC)
-  set(EXT_PDO_ODBC_LIBRARY "" CACHE STRING "Set the ODBC library name")
-  mark_as_advanced(EXT_PDO_ODBC_LIBRARY)
-  # Change from INTERNAL type to show variable on consecutive configuration run.
-  set_property(CACHE EXT_PDO_ODBC_LIBRARY PROPERTY TYPE STRING)
-elseif(DEFINED EXT_PDO_ODBC_LIBRARY)
-  # Hide variable.
-  set_property(CACHE EXT_PDO_ODBC_LIBRARY PROPERTY TYPE INTERNAL)
-endif()
-
-# ODBC library linker flags.
-if(EXT_PDO_ODBC)
-  set(EXT_PDO_ODBC_LDFLAGS "" CACHE STRING "Set the ODBC library linker flags")
-  mark_as_advanced(EXT_PDO_ODBC_LDFLAGS)
-  # Change from INTERNAL type to show variable on consecutive configuration run.
-  set_property(CACHE EXT_PDO_ODBC_LDFLAGS PROPERTY TYPE STRING)
-elseif(DEFINED EXT_PDO_ODBC_LDFLAGS)
-  # Hide variable.
-  set_property(CACHE EXT_PDO_ODBC_LDFLAGS PROPERTY TYPE INTERNAL)
-endif()
-
-# ODBC library C flags.
-if(EXT_PDO_ODBC)
-  set(EXT_PDO_ODBC_CFLAGS "" CACHE STRING "Set the ODBC library C flags")
-  mark_as_advanced(EXT_PDO_ODBC_CFLAGS)
-  # Change from INTERNAL type to show variable on consecutive configuration run.
-  set_property(CACHE EXT_PDO_ODBC_CFLAGS PROPERTY TYPE STRING)
-elseif(DEFINED EXT_PDO_ODBC_CFLAGS)
-  # Hide variable.
-  set_property(CACHE EXT_PDO_ODBC_CFLAGS PROPERTY TYPE INTERNAL)
 endif()
 
 if(NOT EXT_PDO_ODBC)
@@ -133,32 +77,9 @@ if(NOT extension_type MATCHES "^(MODULE|SHARED)_LIBRARY$")
   target_link_libraries(php_pdo_odbc PRIVATE PHP::main)
 endif()
 
-if(EXT_PDO_ODBC_TYPE STREQUAL "ibm-db2")
-  # Set some sensible default root directory.
-  if(NOT EXT_PDO_ODBC_ROOT)
-    set(ODBC_ROOT "/home/db2inst1/sqllib")
-  endif()
-  set(ODBC_TYPE "db2")
-elseif(EXT_PDO_ODBC_TYPE STREQUAL "iODBC")
-  set(ODBC_TYPE "iodbc")
-elseif(EXT_PDO_ODBC_TYPE STREQUAL "unixODBC")
-  set(ODBC_TYPE "odbc")
+if(NOT EXT_PDO_ODBC_TYPE STREQUAL "auto")
+  set(ODBC_USE_DRIVER "${EXT_PDO_ODBC_TYPE}")
 endif()
-
-if(EXT_PDO_ODBC_TYPE STREQUAL "generic" AND EXT_PDO_ODBC_LIBRARY)
-  set(PDO_ODBC_TYPE "${EXT_PDO_ODBC_TYPE}-${EXT_PDO_ODBC_LIBRARY}")
-else()
-  set(PDO_ODBC_TYPE "${EXT_PDO_ODBC_TYPE}")
-endif()
-
-if(EXT_PDO_ODBC_ROOT AND NOT ODBC_ROOT)
-  set(ODBC_ROOT ${EXT_PDO_ODBC_ROOT})
-endif()
-
-if(EXT_PDO_ODBC_LIBRARY AND NOT ODBC_TYPE)
-  set(ODBC_TYPE ${EXT_PDO_ODBC_LIBRARY})
-endif()
-
 find_package(ODBC)
 set_package_properties(
   ODBC
@@ -166,17 +87,17 @@ set_package_properties(
     TYPE REQUIRED
     PURPOSE "Necessary to enable the pdo_odbc extension."
 )
+if(ODBC_DRIVER AND EXT_PDO_ODBC_TYPE STREQUAL "auto")
+  set(EXT_PDO_ODBC_TYPE "${ODBC_DRIVER}")
+endif()
+
+if(EXT_PDO_ODBC_TYPE STREQUAL "custom")
+  set(PDO_ODBC_TYPE "generic-${ODBC_LIBRARY}")
+else()
+  set(PDO_ODBC_TYPE "${EXT_PDO_ODBC_TYPE}")
+endif()
 
 if(TARGET ODBC::ODBC)
-  if(EXT_PDO_ODBC_CFLAGS)
-    target_compile_options(ODBC::ODBC INTERFACE ${EXT_PDO_ODBC_CFLAGS})
-  endif()
-
-  if(EXT_PDO_ODBC_LDFLAGS)
-    target_link_options(ODBC::ODBC INTERFACE ${EXT_PDO_ODBC_LDFLAGS})
-  endif()
-
-  # Sanity checks.
   block()
     foreach(
       header
@@ -202,23 +123,27 @@ if(TARGET ODBC::ODBC)
       string(MAKE_C_IDENTIFIER "HAVE_${header}" const)
       string(TOUPPER "${const}" const)
 
-      cmake_push_check_state(RESET)
-        set(CMAKE_REQUIRED_LIBRARIES ODBC::ODBC)
-        check_include_file(${header} ${const})
-      cmake_pop_check_state()
+      message(CHECK_START "Looking for ${header}")
+      if(EXISTS ${ODBC_INCLUDE_DIR}/${header})
+        message(CHECK_PASS "found")
+        set(${const} 1)
+        set(${const} 1 PARENT_SCOPE)
+      else()
+        message(CHECK_FAIL "not found")
+      endif()
 
       if(${const})
-        set(have_headers TRUE)
+        set(haveSomeHeaders TRUE)
       endif()
     endforeach()
 
-    if(NOT have_headers)
+    if(NOT haveSomeHeaders)
       message(FATAL_ERROR "Cannot find header file(s) for pdo_odbc")
     endif()
   endblock()
 
   # Check for an ODBC 1.0 function to assert that the libraries work.
-  check_library_exists("${ODBC_LIBRARY}" SQLBindCol "" _HAVE_SQLBINDCOL)
+  check_library_exists(ODBC::ODBC SQLBindCol "" _HAVE_SQLBINDCOL)
 
   if(NOT _HAVE_SQLBINDCOL)
     message(
@@ -227,17 +152,16 @@ if(TARGET ODBC::ODBC)
     )
   endif()
 
-  # Check for an ODBC 3.0 function to assert that they're *good* libraries.
-  check_library_exists("${ODBC_LIBRARIES}" SQLAllocHandle "" _HAVE_SQLALLOCHANDLE)
+  # Check for an ODBC 3.0 function to assert that the libraries work.
+  check_library_exists(ODBC::ODBC SQLAllocHandle "" _HAVE_SQLALLOCHANDLE)
 
   if(NOT _HAVE_SQLALLOCHANDLE)
     message(
       FATAL_ERROR
-      "Could not find the ODBC 3.0 function SQLAllocHandle in the ODBC "
-      "library. Your ODBC library does not appear to be ODBC 3 compatible. You "
-      "should consider using iODBC or unixODBC instead, and loading your "
-      "libraries as a driver in that environment. It will emulate the "
-      "functions required for PDO support."
+      "The ODBC library does not appear to be ODBC 3 compatible (the ODBC 3.0 "
+      "function SQLAllocHandle not found. Consider using iODBC or unixODBC "
+      "instead, and load libraries as a driver in that environment. It will "
+      "emulate the functions required for PDO support."
     )
   endif()
 endif()

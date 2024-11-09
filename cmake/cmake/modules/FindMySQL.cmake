@@ -55,6 +55,7 @@ find_program(
   NAMES mysql_config
   DOC "The mysql_config command-line tool for getting MySQL installation info"
 )
+mark_as_advanced(MySQL_CONFIG_EXECUTABLE)
 
 # Find the Socket component.
 if("Socket" IN_LIST MySQL_FIND_COMPONENTS)
@@ -114,7 +115,9 @@ if("Lib" IN_LIST MySQL_FIND_COMPONENTS)
   else()
     # Use pkgconf, if available on the system.
     find_package(PkgConfig QUIET)
-    pkg_check_modules(PC_MySQL QUIET mysqlclient)
+    if(PKG_CONFIG_FOUND)
+      pkg_check_modules(PC_MySQL QUIET mysqlclient)
+    endif()
   endif()
 
   find_path(

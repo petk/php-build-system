@@ -123,8 +123,8 @@ explore the complexities of the underlying system.
 
 There are numerous well-known build systems available, ranging from the veteran
 GNU Autotools and the widely adopted CMake, to the efficient Ninja, versatile
-SCons, adaptable Meson, nimble xmake, and even the simplest manual usage of
-Make.
+SCons, adaptable Meson, nimble xmake, cutting-edge Zig build system, and even
+the simplest manual usage of Make.
 
 ## PHP directory structure
 

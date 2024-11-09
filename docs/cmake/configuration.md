@@ -289,10 +289,6 @@ documentation.
 * [`EXT_PDO_ODBC`](/docs/cmake/variables/EXT_PDO_ODBC.md)
   * [`EXT_PDO_ODBC_SHARED`](/docs/cmake/variables/EXT_PDO_ODBC.md)
   * [`EXT_PDO_ODBC_TYPE`](/docs/cmake/variables/EXT_PDO_ODBC.md)
-  * [`EXT_PDO_ODBC_ROOT_`](/docs/cmake/variables/EXT_PDO_ODBC.md)
-  * [`EXT_PDO_ODBC_LIBRARY`](/docs/cmake/variables/EXT_PDO_ODBC.md)
-  * [`EXT_PDO_ODBC_CFLAGS`](/docs/cmake/variables/EXT_PDO_ODBC.md)
-  * [`EXT_PDO_ODBC_LDFLAGS`](/docs/cmake/variables/EXT_PDO_ODBC.md)
 
 ## 7. CMake GUI
 
@@ -2122,7 +2118,8 @@ A list of Autoconf `configure` command-line configuration options, Windows
       <td>N/A</td>
       <td>
         EXT_ODBC=ON<br>
-        EXT_ODBC_TYPE=adabas
+        EXT_ODBC_TYPE=adabas<br>
+        ODBC_LIBRARY=...
       </td>
       <td></td>
     </tr>
@@ -2137,7 +2134,8 @@ A list of Autoconf `configure` command-line configuration options, Windows
       <td>N/A</td>
       <td>
         EXT_ODBC=ON<br>
-        EXT_ODBC_TYPE=sapdb
+        EXT_ODBC_TYPE=sapdb<br>
+        ODBC_LIBRARY=...
       </td>
       <td></td>
     </tr>
@@ -2152,7 +2150,8 @@ A list of Autoconf `configure` command-line configuration options, Windows
       <td>N/A</td>
       <td>
         EXT_ODBC=ON<br>
-        EXT_ODBC_TYPE=solid
+        EXT_ODBC_TYPE=solid<br>
+        ODBC_LIBRARY=...
       </td>
       <td></td>
     </tr>
@@ -2167,7 +2166,8 @@ A list of Autoconf `configure` command-line configuration options, Windows
       <td>N/A</td>
       <td>
         EXT_ODBC=ON<br>
-        EXT_ODBC_TYPE=ibm-db2
+        EXT_ODBC_TYPE=ibm-db2<br>
+        ODBC_LIBRARY=...
       </td>
       <td></td>
     </tr>
@@ -2182,7 +2182,8 @@ A list of Autoconf `configure` command-line configuration options, Windows
       <td>N/A</td>
       <td>
         EXT_ODBC=ON<br>
-        EXT_ODBC_TYPE=empress
+        EXT_ODBC_TYPE=empress<br>
+        ODBC_LIBRARY=...
       </td>
       <td></td>
     </tr>
@@ -2197,7 +2198,8 @@ A list of Autoconf `configure` command-line configuration options, Windows
       <td>N/A</td>
       <td>
         EXT_ODBC=ON<br>
-        EXT_ODBC_TYPE=empress-bcs
+        EXT_ODBC_TYPE=empress-bcs<br>
+        ODBC_LIBRARY=...
       </td>
       <td></td>
     </tr>
@@ -2212,7 +2214,8 @@ A list of Autoconf `configure` command-line configuration options, Windows
       <td>N/A</td>
       <td>
         EXT_ODBC=ON<br>
-        EXT_ODBC_TYPE=generic
+        EXT_ODBC_TYPE=custom<br>
+        ODBC_LIBRARY=...
       </td>
       <td></td>
     </tr>
@@ -2247,7 +2250,8 @@ A list of Autoconf `configure` command-line configuration options, Windows
       <td>N/A</td>
       <td>
         EXT_ODBC=ON<br>
-        EXT_ODBC_TYPE=esoob
+        EXT_ODBC_TYPE=esoob<br>
+        ODBC_LIBRARY=...
       </td>
       <td></td>
     </tr>
@@ -2278,21 +2282,12 @@ A list of Autoconf `configure` command-line configuration options, Windows
       <td>default</td>
     </tr>
     <tr>
-      <td>&emsp;--with-dbmaker</td>
-      <td>N/A</td>
-      <td>
-        EXT_ODBC=ON<br>
-        EXT_ODBC_TYPE=dbmaker
-      </td>
-      <td></td>
-    </tr>
-    <tr>
-      <td>&emsp;--with-dbmaker=DIR</td>
+      <td>&emsp;--with-dbmaker[=DIR]</td>
       <td>N/A</td>
       <td>
         EXT_ODBC=ON<br>
         EXT_ODBC_TYPE=dbmaker<br>
-        ODBC_ROOT=DIR
+        ODBC_LIBRARY=...
       </td>
       <td></td>
     </tr>
@@ -2647,24 +2642,26 @@ A list of Autoconf `configure` command-line configuration options, Windows
       <td>default</td>
     </tr>
     <tr>
-      <td>&emsp;--with-pdo-odbc=flavor</td>
+      <td>&emsp;--with-pdo-odbc=type</td>
       <td>--with-pdo-odbc</td>
       <td>
         EXT_PDO_ODBC=ON<br>
-        EXT_PDO_ODBC_TYPE=flavor
+        EXT_PDO_ODBC_TYPE=type
       </td>
-      <td>Default flavor: unixODBC</td>
+      <td>Default type: unixODBC (Autotools), auto (CMake)</td>
     </tr>
     <tr>
-      <td>&emsp;--with-pdo-odbc=flavor,dir,libname,ldflags,cflags</td>
+      <td>&emsp;--with-pdo-odbc=type,dir,libname,ldflags,cflags</td>
       <td>--with-pdo-odbc</td>
       <td>
         EXT_PDO_ODBC=ON<br>
-        EXT_PDO_ODBC_TYPE=flavor<br>
-        EXT_PDO_ODBC_ROOT=dir<br>
-        EXT_PDO_ODBC_LIBRARY=libname<br>
-        EXT_PDO_ODBC_LDFLAGS=ldflags<br>
-        EXT_PDO_ODBC_CFLAGS=cflags
+        EXT_PDO_ODBC_TYPE=type<br>
+        ODBC_ROOT=dir<br>
+        [ODBC_LIBRARY=libname]<br>
+        [ODBC_INCLUDE_DIR=includedir]<br>
+        [ODBC_LINK_OPTIONS=ldflags]<br>
+        [ODBC_COMPILE_OPTIONS=cflags]<br>
+        [ODBC_COMPILE_DEFINITIONS=...]
       </td>
       <td></td>
     </tr>

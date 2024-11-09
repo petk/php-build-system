@@ -37,7 +37,9 @@ set(_reason "")
 
 # Use pkgconf, if available on the system.
 find_package(PkgConfig QUIET)
-pkg_check_modules(PC_Systemd QUIET libsystemd)
+if(PKG_CONFIG_FOUND)
+  pkg_check_modules(PC_Systemd QUIET libsystemd)
+endif()
 
 find_path(
   Systemd_INCLUDE_DIR

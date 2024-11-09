@@ -45,7 +45,9 @@ set(_reason "")
 
 # Use pkgconf, if available on the system.
 find_package(PkgConfig QUIET)
-pkg_check_modules(PC_libzip QUIET libzip)
+if(PKG_CONFIG_FOUND)
+  pkg_check_modules(PC_libzip QUIET libzip)
+endif()
 
 find_path(
   libzip_INCLUDE_DIR

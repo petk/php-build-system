@@ -4,23 +4,39 @@ See: [FindODBC.cmake](https://github.com/petk/php-build-system/tree/master/cmake
 
 Find the ODBC library.
 
-Module defines the following `IMPORTED` target(s):
+This module is based on the upstream
+[FindODBC](https://cmake.org/cmake/help/latest/module/FindODBC.html) with some
+enhancements and adjustments for the PHP build workflow.
 
-* `ODBC::ODBC` - The package library, if found.
+Modifications from upstream:
 
-Result variables:
+* Additional result variables:
 
-* `ODBC_FOUND` - Whether the package has been found.
-* `ODBC_INCLUDE_DIRS` - Include directories needed to use this package.
-* `ODBC_LIBRARIES` - Libraries needed to link to the package library.
-* `ODBC_VERSION` - Package version, if found.
+  * `ODBC_DRIVER`
 
-Cache variables:
+    Name of the found driver, if any. For example, `unixODBC`, `iODBC`.
 
-* `ODBC_INCLUDE_DIR` - Directory containing package library headers.
-* `ODBC_LIBRARY` - The path to the package library.
+  * `ODBC_VERSION`
 
-Hints:
+    Version of the found ODBC library if it was retrieved from config utilities.
 
-* The `ODBC_ROOT` variable adds custom search path.
-* The `ODBC_TYPE` variable adds ODBC library name to look for.
+* Additional cache variables:
+
+  * `ODBC_COMPILE_DEFINITIONS` - a `;`-list of compile definitions.
+  * `ODBC_COMPILE_OPTIONS` - a `;`-list of compile options.
+  * `ODBC_LINK_OPTIONS` - a `;`-list of linker options.
+
+* Additional hints:
+
+  * `ODBC_USE_DRIVER`
+
+    Set to `unixODBC` or `iODBC` to limit searching for specific ODBC driver
+    instead of any driver.
+
+* Added pkg-config integration.
+
+* Fixed limitation where the upstream module can't (yet) select which specific
+  ODBC driver to use. Except on Windows, where the driver searching is the same
+  as upstream.
+
+* Added package meta-data for FeatureSummary.

@@ -38,7 +38,9 @@ set(_reason "")
 
 # Use pkgconf, if available on the system.
 find_package(PkgConfig QUIET)
-pkg_check_modules(PC_NetSnmp QUIET netsnmp)
+if(PKG_CONFIG_FOUND)
+  pkg_check_modules(PC_NetSnmp QUIET netsnmp)
+endif()
 
 find_program(
   NetSnmp_EXECUTABLE

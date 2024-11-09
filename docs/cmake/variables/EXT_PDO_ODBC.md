@@ -19,24 +19,39 @@ Values: `ON|OFF`
 
 Build extension as shared library.
 
-## `EXT_PDO_ODBC_TYPE=ibm-db2|iODBC|unixODBC|generic`
+## `EXT_PDO_ODBC_TYPE`
 
-Default: `unixODBC`
+Default: `auto`
+
+Values: `auto`, `ibm-db2`, `iODBC`, `unixODBC`, or `custom`
 
 Select the ODBC type.
 
-## `EXT_PDO_ODBC_ROOT`
+When using `auto`, ODBC will be searched automatically and first found library
+will be used.
 
-Path to the ODBC library root directory.
+When using `custom` or `ibm-db2`, the `ODBC_LIBRARY` needs to be set manually to
+find the ODBC library.
 
-## `EXT_PDO_ODBC_LIBRARY`
+For example:
 
-Set the ODBC library name.
+```sh
+cmake -S . -B php-build \
+  -D EXT_PDO_ODBC=ON \
+  -D EXT_PDO_ODBC_TYPE=custom \
+  -D ODBC_LIBRARY=/usr/lib/x86_64-linux-gnu/libodbc.so
+```
 
-## `EXT_PDO_ODBC_CFLAGS`
+Additionally, the ODBC library compile definitions, options, or linker flags can
+be adjusted if needed:
 
-A list of additional ODBC library compile flags.
-
-## `EXT_PDO_ODBC_LDFLAGS`
-
-A list of additional ODBC library linker flags.
+```sh
+cmake -S . -B php-build \
+  -D EXT_PDO_ODBC=ON \
+  -D EXT_PDO_ODBC_TYPE=custom \
+  -D ODBC_LIBRARY=/usr/lib/x86_64-linux-gnu/libodbc.so \
+  -D ODBC_INCLUDE_DIR=... \
+  -D ODBC_COMPILE_DEFINITIONS=... \
+  -D ODBC_COMPILE_OPTIONS=... \
+  -D ODBC_LINK_OPTIONS=...
+```
