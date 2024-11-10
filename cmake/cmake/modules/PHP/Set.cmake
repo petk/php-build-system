@@ -132,7 +132,7 @@ php_set(
   ```
 
   ```sh
-  cmake -S <source-dir> -B <build-dir> -D VAR=overridden
+  cmake -B <build-dir> -D VAR=overridden
   ```
 
   Output:
@@ -157,7 +157,7 @@ php_set(
   ```
 
   ```sh
-  cmake -S <source-dir> -B <build-dir> -D VAR=unixodbc
+  cmake -B <build-dir> -D VAR=unixodbc
   ```
 
   Will output `VAR=unixODBC` and not `VAR=unixodbc`.

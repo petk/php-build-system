@@ -11,7 +11,9 @@ Modifications from upstream:
 
   * `ODBC_DRIVER`
 
-    Name of the found driver, if any. For example, `unixODBC`, `iODBC`.
+    Name of the found driver, if any. For example, `unixODBC`, `iODBC`. On
+    Windows in MinGW environment it is set to `unixODBC`, and to `Windows` for
+    the rest of the Windows system.
 
   * `ODBC_VERSION`
 
@@ -19,24 +21,41 @@ Modifications from upstream:
 
 * Additional cache variables:
 
-  * `ODBC_COMPILE_DEFINITIONS` - a `;`-list of compile definitions.
-  * `ODBC_COMPILE_OPTIONS` - a `;`-list of compile options.
-  * `ODBC_LINK_OPTIONS` - a `;`-list of linker options.
+  * `ODBC_COMPILE_DEFINITIONS`
+
+    A `;`-list of compile definitions.
+
+  * `ODBC_COMPILE_OPTIONS`
+
+    A `;`-list of compile options.
+
+  * `ODBC_LINK_OPTIONS`
+
+    A `;`-list of linker options.
+
+  * `ODBC_LIBRARY_DIR`
+
+    The path to the ODBC library directory that contains the ODBC library.
 
 * Additional hints:
 
   * `ODBC_USE_DRIVER`
 
     Set to `unixODBC` or `iODBC` to limit searching for specific ODBC driver
-    instead of any driver.
+    instead of any driver. On Windows, the searched driver will be the core ODBC
+    Windows implementation only. On Windows in MinGW environment, there is at
+    the time of writing `unixODBC` implementation available in the default
+    MinGW installation and as a standalone package. The driver name is
+    case-insensitive and if supported it will be adjusted to the expected case.
 
 * Added pkg-config integration.
 
 * Fixed limitation where the upstream module can't (yet) select which specific
-  ODBC driver to use. Except on Windows, where the driver searching is the same
-  as upstream.
+  ODBC driver to use.
 
 * Added package meta-data for FeatureSummary.
+
+* Fixed finding ODBC on Windows and MinGW.
 #]=============================================================================]
 
 include(FeatureSummary)
@@ -59,15 +78,54 @@ mark_as_advanced(
   ODBC_LINK_OPTIONS
 )
 
-### Try Windows Kits ##########################################################
-if(WIN32)
+# Adjust ODBC driver string case sensitivity.
+if(ODBC_USE_DRIVER)
+  string(TOLOWER "${ODBC_USE_DRIVER}" _odbc_use_driver)
+  if(_odbc_use_driver STREQUAL "unixodbc")
+    set(ODBC_USE_DRIVER "unixODBC")
+  elseif(_odbc_use_driver STREQUAL "iodbc")
+    set(ODBC_USE_DRIVER "iODBC")
+  endif()
+  unset(_odbc_use_driver)
+endif()
+
+### Try unixODBC or iODBC config program ######################################
+if(ODBC_USE_DRIVER STREQUAL "unixODBC")
+  set(_odbc_config_names odbc_config)
+elseif(ODBC_USE_DRIVER STREQUAL "iODBC")
+  set(_odbc_config_names iodbc-config)
+else()
+  set(_odbc_config_names odbc_config iodbc-config)
+endif()
+
+find_program(ODBC_CONFIG
+  NAMES ${_odbc_config_names}
+  DOC "Path to unixODBC or iODBC config program")
+mark_as_advanced(ODBC_CONFIG)
+
+### Try pkg-config ############################################################
+if(NOT ODBC_CONFIG)
+  find_package(PkgConfig QUIET)
+  if(PKG_CONFIG_FOUND)
+    if(ODBC_USE_DRIVER STREQUAL "unixODBC")
+      pkg_check_modules(PC_ODBC QUIET odbc)
+    elseif(ODBC_USE_DRIVER STREQUAL "iODBC")
+      pkg_check_modules(PC_ODBC QUIET libiodbc)
+    else()
+      pkg_search_module(PC_ODBC QUIET odbc libiodbc)
+    endif()
+  endif()
+endif()
+
+### Try Windows ###############################################################
+if(NOT ODBC_CONFIG AND NOT PC_ODBC_FOUND AND CMAKE_SYSTEM_NAME STREQUAL "Windows")
   # List names of ODBC libraries on Windows
   if(NOT MINGW)
-    set(ODBC_LIBRARY odbc32.lib)
+    set(_odbc_lib_names odbc32.lib)
   else()
-    set(ODBC_LIBRARY libodbc32.a)
+    set(_odbc_lib_names libodbc32.a)
   endif()
-  set(_odbc_lib_names odbc32;)
+  list(APPEND _odbc_lib_names odbc32)
 
   # List additional libraries required to use ODBC library
   if(MSVC OR CMAKE_CXX_COMPILER_ID MATCHES "Intel")
@@ -77,23 +135,7 @@ if(WIN32)
   endif()
 endif()
 
-### Try unixODBC or iODBC config program ######################################
-if(UNIX)
-  if(ODBC_USE_DRIVER MATCHES "^(unixODBC|unixodbc|UNIXODBC)$")
-    set(_odbc_config_names odbc_config)
-  elseif(ODBC_USE_DRIVER MATCHES "^(iODBC|iodbc|IODBC)$")
-    set(_odbc_config_names iodbc-config)
-  else()
-    set(_odbc_config_names odbc_config iodbc-config)
-  endif()
-
-  find_program(ODBC_CONFIG
-    NAMES ${_odbc_config_names}
-    DOC "Path to unixODBC or iODBC config program")
-  mark_as_advanced(ODBC_CONFIG)
-endif()
-
-if(UNIX AND ODBC_CONFIG)
+if(ODBC_CONFIG)
   # unixODBC and iODBC accept unified command line options
   execute_process(COMMAND ${ODBC_CONFIG} --cflags
     OUTPUT_VARIABLE _cflags OUTPUT_STRIP_TRAILING_WHITESPACE)
@@ -128,25 +170,11 @@ if(UNIX AND ODBC_CONFIG)
   unset(_libs)
 endif()
 
-### Try pkg-config ############################################################
-if(NOT ODBC_CONFIG)
-  find_package(PkgConfig QUIET)
-  if(PKG_CONFIG_FOUND)
-    if(ODBC_USE_DRIVER MATCHES "^(unixODBC|unixodbc|UNIXODBC)$")
-      pkg_check_modules(PC_ODBC QUIET odbc)
-    elseif(ODBC_USE_DRIVER MATCHES "^(iODBC|iodbc|IODBC)$")
-      pkg_check_modules(PC_ODBC QUIET libiodbc)
-    else()
-      pkg_search_module(PC_ODBC QUIET odbc libiodbc)
-    endif()
-  endif()
-endif()
-
 ### Try unixODBC or iODBC in include/lib filesystems ##########################
 if(UNIX AND NOT ODBC_CONFIG)
-  if(ODBC_USE_DRIVER MATCHES "^(unixODBC|unixodbc|UNIXODBC)$")
+  if(ODBC_USE_DRIVER STREQUAL "unixODBC")
     set(_odbc_lib_names odbc;unixodbc;)
-  elseif(ODBC_USE_DRIVER MATCHES "^(iODBC|iodbc|IODBC)$")
+  elseif(ODBC_USE_DRIVER STREQUAL "iODBC")
     set(_odbc_lib_names iodbc;)
   else()
     # List names of both ODBC libraries, unixODBC and iODBC
@@ -160,7 +188,7 @@ find_path(ODBC_INCLUDE_DIR
   PATHS ${_odbc_include_paths}
   HINTS ${PC_ODBC_INCLUDE_DIRS})
 
-if(NOT ODBC_INCLUDE_DIR AND WIN32)
+if(NOT ODBC_INCLUDE_DIR AND CMAKE_SYSTEM_NAME STREQUAL "Windows")
   set(ODBC_INCLUDE_DIR "")
 endif()
 
@@ -182,6 +210,17 @@ if(NOT ODBC_LIBRARY)
     endif()
     unset(_lib_path CACHE)
   endforeach()
+endif()
+
+# Find library directory when ODBC_LIBRARY is set as a library name. For
+# example, when looking for ODBC with ODBC_ROOT or CMAKE_PREFIX_PATH set.
+if(NOT ODBC_LIBRARY_DIR AND ODBC_LIBRARY AND NOT IS_ABSOLUTE "${ODBC_LIBRARY}")
+  find_library(ODBC_LIBRARY_DIR ${ODBC_LIBRARY} PATH_SUFFIXES odbc)
+  if(ODBC_LIBRARY_DIR)
+    cmake_path(GET ODBC_LIBRARY_DIR PARENT_PATH _parent)
+    set_property(CACHE ODBC_LIBRARY_DIR PROPERTY VALUE ${_parent})
+    unset(_parent)
+  endif()
 endif()
 
 # Unset internal lists as no longer used
@@ -213,7 +252,7 @@ block(PROPAGATE ODBC_VERSION)
         OUTPUT_STRIP_TRAILING_WHITESPACE
         ERROR_QUIET
     )
-    if(_odbc_version MATCHES "[0-9]+\.[0-9.]*")
+    if(_odbc_version MATCHES "[0-9]+\.[0-9.]+")
       set(ODBC_VERSION ${_odbc_version})
     endif()
   endif()
@@ -221,7 +260,7 @@ endblock()
 
 ### Set result variables ######################################################
 set(_odbc_required_vars ODBC_LIBRARY)
-if(NOT WIN32)
+if(NOT CMAKE_SYSTEM_NAME STREQUAL "Windows")
   list(APPEND _odbc_required_vars ODBC_INCLUDE_DIR)
 endif()
 
@@ -262,6 +301,10 @@ if(ODBC_FOUND)
       add_library(ODBC::ODBC INTERFACE IMPORTED)
       set_target_properties(ODBC::ODBC PROPERTIES
         IMPORTED_LIBNAME "${ODBC_LIBRARY}")
+
+      if(EXISTS "${ODBC_LIBRARY_DIR}")
+        target_link_directories(ODBC::ODBC INTERFACE "${ODBC_LIBRARY_DIR}")
+      endif()
     endif()
     set_target_properties(ODBC::ODBC PROPERTIES
       INTERFACE_INCLUDE_DIRECTORIES "${ODBC_INCLUDE_DIR}")
@@ -305,7 +348,9 @@ if(ODBC_FOUND)
       elseif(PC_ODBC_MODULE_NAME STREQUAL "odbc")
         set(ODBC_DRIVER "unixODBC")
       endif()
-    elseif(WIN32)
+    elseif(MINGW)
+      set(ODBC_DRIVER "unixODBC")
+    elseif(CMAKE_SYSTEM_NAME STREQUAL "Windows")
       set(ODBC_DRIVER "Windows")
     endif()
 
