@@ -58,6 +58,7 @@ Directory structure from the Windows build system perspective looks like this:
 
 * Windows operating system.
 * Visual Studio installed (e.g., Visual Studio 2019 or later).
+* [Windows SDK](https://developer.microsoft.com/en-us/windows/downloads/windows-sdk/)
 * [NMAKE](https://learn.microsoft.com/en-us/cpp/build/reference/nmake-reference)
   command-line tool for creating Makefiles on Windows; comes installed with
   Visual Studio.

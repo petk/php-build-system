@@ -1,10 +1,10 @@
 ## `EXT_PDO_ODBC`
 
+Enable the PHP `pdo-odbc` extension.
+
 Default: `OFF`
 
 Values: `ON|OFF`
-
-Enable the PHP `pdo-odbc` extension.
 
 Where to find ODBC installation on the system, can be customized with the
 `ODBC_ROOT` variable.
@@ -13,25 +13,25 @@ Where to find ODBC installation on the system, can be customized with the
 
 ## `EXT_PDO_ODBC_SHARED`
 
+Build extension as shared library.
+
 Default: `OFF`
 
 Values: `ON|OFF`
 
-Build extension as shared library.
-
 ## `EXT_PDO_ODBC_TYPE`
+
+Select the ODBC type.
 
 Default: `auto`
 
 Values: `auto`, `ibm-db2`, `iODBC`, `unixODBC`, or `custom`
 
-Select the ODBC type.
-
 When using `auto`, ODBC will be searched automatically and first found library
 will be used.
 
-When using `custom` or `ibm-db2`, the `ODBC_LIBRARY` needs to be set manually to
-find the ODBC library.
+When using `custom` or `ibm-db2`, also the `ODBC_LIBRARY` needs to be set
+manually to find the ODBC library.
 
 For example:
 
