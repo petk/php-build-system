@@ -3,7 +3,10 @@ project(
   LANGUAGES C
 )
 
+include(CheckIncludeFile)
+include(CheckLibraryExists)
 include(CMakeDependentOption)
+include(CMakePushCheckState)
 include(FeatureSummary)
 include(PHP/Set)
 
@@ -74,8 +77,9 @@ endif()
 php_set(
   EXT_ODBC_VERSION
   TYPE STRING
-  IF EXT_ODBC
+  IF [[EXT_ODBC AND NOT EXT_ODBC_TYPE MATCHES "^(unixODBC|dbmaker)$"]]
   VALUE "0x0350"
+  ELSE_VALUE "0x0350"
   DOC
     "Hex number to force support for the ODBC specification version. Default: "
     "0x0350. Set to special value 0 (zero) or empty to not define explicit "
@@ -148,9 +152,30 @@ elseif(EXT_ODBC_TYPE MATCHES "^(empress|empress-bcs)$")
 elseif(EXT_ODBC_TYPE STREQUAL "esoob")
   set(HAVE_ESOOB 1)
 elseif(EXT_ODBC_TYPE STREQUAL "ibm-db2")
+  # Sanity check.
+  if(TARGET ODBC::ODBC)
+    cmake_push_check_state(RESET)
+      set(CMAKE_REQUIRED_LIBRARIES ODBC::ODBC)
+      check_include_file(sqlcli1.h HAVE_SQLCLI1_H)
+      check_library_exists(ODBC::ODBC "" SQLExecute HAVE_SQLEXECUTE)
+    cmake_pop_check_state()
+    if(NOT HAVE_SQLCLI1_H)
+      message(FATAL_ERROR "Required <sqlcli1.h> header file not found")
+    endif()
+    if(NOT HAVE_SQLEXECUTE)
+      message(
+        FATAL_ERROR
+        "ODBC build test failed. SQLExecute not found. The DB2 environment "
+        "needs to be sourced. Run the command line:\n"
+        "  . $IBM_DB2/db2profile"
+      )
+    endif()
+  endif()
   set(HAVE_IBMDB2 1)
 elseif(EXT_ODBC_TYPE STREQUAL "iODBC")
   set(HAVE_IODBC 1)
+  # To match the native build system string:
+  set(EXT_ODBC_TYPE iodbc)
 elseif(EXT_ODBC_TYPE STREQUAL "sapdb")
   set(HAVE_SAPDB 1)
 elseif(EXT_ODBC_TYPE STREQUAL "solid")
@@ -173,8 +198,9 @@ elseif(EXT_ODBC_TYPE STREQUAL "solid")
 elseif(EXT_ODBC_TYPE STREQUAL "unixODBC")
   set(HAVE_UNIXODBC 1)
 elseif(EXT_ODBC_TYPE STREQUAL "custom")
-  set(EXT_ODBC_TYPE custom-odbc)
   set(HAVE_CODBC 1)
+  # To match the native build system string:
+  set(EXT_ODBC_TYPE custom-odbc)
 endif()
 
 if(NOT EXT_ODBC_TYPE MATCHES "^(dbmaker|solid)$")

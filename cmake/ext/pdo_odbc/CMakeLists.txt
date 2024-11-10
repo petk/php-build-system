@@ -165,7 +165,7 @@ if(TARGET ODBC::ODBC)
     message(
       FATAL_ERROR
       "The ODBC library does not appear to be ODBC 3 compatible (the ODBC 3.0 "
-      "function SQLAllocHandle not found. Consider using iODBC or unixODBC "
+      "function SQLAllocHandle not found). Consider using iODBC or unixODBC "
       "instead, and load libraries as a driver in that environment. It will "
       "emulate the functions required for PDO support."
     )
