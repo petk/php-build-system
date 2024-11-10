@@ -150,8 +150,8 @@ cmake -S php-src -B php-build \
 ```
 
 > [!WARNING]
-> These examples most likely need to be adjustments and updated for the current
-> ODBC versions and implementations and are here only for illustration purposes.
+> These examples might need to be adjusted and updated for the current ODBC
+> versions and implementations.
 
 ## `EXT_ODBC_VERSION`
 
