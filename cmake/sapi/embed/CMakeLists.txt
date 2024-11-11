@@ -8,12 +8,9 @@ add_feature_info(
   "Embed SAPI module"
 )
 
-message(CHECK_START "Checking embed SAPI")
 if(NOT SAPI_EMBED)
-  message(CHECK_FAIL "disabled")
   return()
 endif()
-message(CHECK_PASS "enabled")
 
 add_library(php_embed STATIC)
 add_library(PHP::embed ALIAS php_embed)
@@ -31,8 +28,7 @@ target_sources(
 target_link_libraries(
   php_embed
   PRIVATE
-    PHP::main
-    Zend::Zend
+    PHP::PHP
 )
 
 target_compile_definitions(php_embed PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE=1)

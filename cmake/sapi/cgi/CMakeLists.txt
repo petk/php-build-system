@@ -9,12 +9,9 @@ add_feature_info(
   "CGI SAPI executable"
 )
 
-message(CHECK_START "Checking cgi SAPI")
 if(NOT SAPI_CGI)
-  message(CHECK_FAIL "disabled")
   return()
 endif()
-message(CHECK_PASS "enabled")
 
 add_executable(php_cgi)
 add_executable(PHP::cgi ALIAS php_cgi)
@@ -31,8 +28,7 @@ target_compile_definitions(php_cgi PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE=1)
 target_link_libraries(
   php_cgi
   PRIVATE
-    PHP::main
-    Zend::Zend
+    PHP::PHP
     $<$<PLATFORM_ID:Windows>:ws2_32;kernel32;advapi32>
 )
 

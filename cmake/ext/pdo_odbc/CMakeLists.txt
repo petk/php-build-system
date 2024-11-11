@@ -36,7 +36,7 @@ php_set(
 )
 mark_as_advanced(EXT_PDO_ODBC_TYPE)
 
-# Some ODBC drivers require setting ODBC_LIBRARY manually to find package.
+# Some ODBC drivers require setting ODBC_LIBRARY manually to be found.
 if(
   EXT_PDO_ODBC
   AND NOT EXT_PDO_ODBC_TYPE MATCHES "auto|unixODBC|iODBC"
@@ -71,12 +71,6 @@ target_sources(
 
 add_dependencies(php_pdo_odbc php_pdo)
 
-# TODO: Can this be fixed better?
-get_target_property(extension_type php_pdo_odbc TYPE)
-if(NOT extension_type MATCHES "^(MODULE|SHARED)_LIBRARY$")
-  target_link_libraries(php_pdo_odbc PRIVATE PHP::main)
-endif()
-
 if(NOT EXT_PDO_ODBC_TYPE STREQUAL "auto")
   set(ODBC_USE_DRIVER "${EXT_PDO_ODBC_TYPE}")
 endif()
@@ -87,11 +81,12 @@ set_package_properties(
     TYPE REQUIRED
     PURPOSE "Necessary to enable the pdo_odbc extension."
 )
-if(ODBC_DRIVER AND EXT_PDO_ODBC_TYPE STREQUAL "auto")
-  set(EXT_PDO_ODBC_TYPE "${ODBC_DRIVER}")
-endif()
 
-if(EXT_PDO_ODBC_TYPE STREQUAL "custom")
+if(ODBC_DRIVER STREQUAL "Windows")
+  set(PDO_ODBC_TYPE "Win32")
+elseif(ODBC_DRIVER AND EXT_PDO_ODBC_TYPE STREQUAL "auto")
+  set(PDO_ODBC_TYPE "${ODBC_DRIVER}")
+elseif(EXT_PDO_ODBC_TYPE STREQUAL "custom")
   set(PDO_ODBC_TYPE "generic-${ODBC_LIBRARY}")
 else()
   set(PDO_ODBC_TYPE "${EXT_PDO_ODBC_TYPE}")
@@ -99,6 +94,8 @@ endif()
 
 if(TARGET ODBC::ODBC)
   block()
+    set(haveSomeHeaders)
+
     foreach(
       header
       IN ITEMS
@@ -126,19 +123,18 @@ if(TARGET ODBC::ODBC)
       message(CHECK_START "Looking for ${header}")
       if(EXISTS ${ODBC_INCLUDE_DIR}/${header})
         message(CHECK_PASS "found")
-        set(${const} 1)
+        set(haveSomeHeaders TRUE)
         set(${const} 1 PARENT_SCOPE)
       else()
         message(CHECK_FAIL "not found")
       endif()
-
-      if(${const})
-        set(haveSomeHeaders TRUE)
-      endif()
     endforeach()
 
     if(NOT haveSomeHeaders)
-      message(FATAL_ERROR "Cannot find header file(s) for pdo_odbc")
+      message(
+        FATAL_ERROR
+        "Could not found any of the ODBC header files to build pdo_odbc extension"
+      )
     endif()
   endblock()
 

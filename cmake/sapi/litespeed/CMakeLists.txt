@@ -13,12 +13,9 @@ add_feature_info(
   "LiteSpeed SAPI module"
 )
 
-message(CHECK_START "Checking litespeed SAPI")
 if(NOT SAPI_LITESPEED)
-  message(CHECK_FAIL "disabled")
   return()
 endif()
-message(CHECK_PASS "enabled")
 
 add_executable(php_litespeed)
 add_executable(PHP::litespeed ALIAS php_litespeed)
@@ -34,8 +31,7 @@ target_sourceS(
 target_link_libraries(
   php_litespeed
   PRIVATE
-    PHP::main
-    Zend::Zend
+    PHP::PHP
 )
 
 set_target_properties(

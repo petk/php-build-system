@@ -45,12 +45,9 @@ cmake_dependent_option(
 )
 mark_as_advanced(SAPI_PHPDBG_READLINE)
 
-message(CHECK_START "Checking phpdbg SAPI")
 if(NOT SAPI_PHPDBG)
-  message(CHECK_FAIL "disabled")
   return()
 endif()
-message(CHECK_PASS "enabled")
 
 ################################################################################
 # Executable and library.
@@ -94,8 +91,7 @@ target_compile_definitions(
 target_link_libraries(
   php_phpdbg
   PRIVATE
-    PHP::main
-    Zend::Zend
+    PHP::PHP
     $<$<PLATFORM_ID:Windows>:ws2_32;user32>
 )
 
@@ -142,7 +138,7 @@ endif()
 # The phpdbg shared library.
 ################################################################################
 
-# TODO: Should readline extension be linked here like in the phpdbg executable?
+# TODO: Should readline support be also enabled like in the executable?
 if(SAPI_PHPDBG_SHARED)
   add_library(php_phpdbg_shared SHARED)
   add_library(PHP::phpdbg_shared ALIAS php_phpdbg_shared)
@@ -174,8 +170,7 @@ if(SAPI_PHPDBG_SHARED)
     php_phpdbg_shared
     PRIVATE
       # TODO: fix this better in the future (building with -fPIC etc).
-      PHP::main
-      Zend::Zend
+      PHP::PHP
       $<$<PLATFORM_ID:Windows>:ws2_32;user32>
   )
 endif()

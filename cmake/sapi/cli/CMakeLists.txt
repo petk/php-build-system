@@ -24,12 +24,9 @@ add_feature_info(
   "[Windows only] Same as CLI SAPI but without console (no output is given)"
 )
 
-message(CHECK_START "Checking cli SAPI")
 if(NOT SAPI_CLI)
-  message(CHECK_FAIL "disabled")
   return()
 endif()
-message(CHECK_PASS "enabled")
 
 check_symbol_exists(setproctitle "unistd.h;stdlib.h" HAVE_SETPROCTITLE)
 check_include_file(sys/pstat.h HAVE_SYS_PSTAT_H)
@@ -81,8 +78,7 @@ target_compile_definitions(
 target_link_libraries(
   php_cli
   PRIVATE
-    PHP::main
-    Zend::Zend
+    PHP::PHP
     $<$<PLATFORM_ID:Windows>:ws2_32;shell32>
 )
 
@@ -137,8 +133,7 @@ if(SAPI_CLI_WIN_NO_CONSOLE)
   target_link_libraries(
     php_cli_win_no_console
     PRIVATE
-      PHP::main
-      Zend::Zend
+      PHP::PHP
       shell32
   )
 

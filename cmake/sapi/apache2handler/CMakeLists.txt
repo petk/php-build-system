@@ -18,12 +18,9 @@ add_feature_info(
   "Apache 2 handler SAPI module"
 )
 
-message(CHECK_START "Checking apache2handler SAPI")
 if(NOT SAPI_APACHE2HANDLER)
-  message(CHECK_FAIL "disabled")
   return()
 endif()
-message(CHECK_PASS "enabled")
 
 add_library(php_apache2handler SHARED)
 add_library(PHP::apache2handler ALIAS php_apache2handler)
@@ -87,8 +84,7 @@ endif()
 target_link_libraries(
   php_apache2handler
   PRIVATE
-    PHP::main
-    Zend::Zend
+    PHP::PHP
     Apache::Apache
 )
 

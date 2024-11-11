@@ -60,7 +60,7 @@ if(EXT_ODBC AND EXT_PDO_ODBC AND NOT EXT_ODBC_TYPE STREQUAL EXT_PDO_ODBC_TYPE)
   )
 endif()
 
-# Some ODBC drivers require setting ODBC_LIBRARY manually to find package.
+# Some ODBC drivers require setting ODBC_LIBRARY manually to be found.
 if(
   EXT_ODBC
   AND NOT EXT_ODBC_TYPE MATCHES "auto|unixODBC|iODBC"
@@ -120,12 +120,6 @@ target_sources(
 
 target_compile_definitions(php_odbc PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE=1)
 
-# TODO: Can this be fixed better?
-get_target_property(extension_type php_odbc TYPE)
-if(NOT extension_type MATCHES "^(MODULE|SHARED)_LIBRARY$")
-  target_link_libraries(php_odbc PRIVATE PHP::main)
-endif()
-
 if(NOT EXT_ODBC_TYPE STREQUAL "auto")
   set(ODBC_USE_DRIVER "${EXT_ODBC_TYPE}")
 endif()
@@ -137,48 +131,65 @@ set_package_properties(
     PURPOSE "Necessary to enable the odbc extension."
 )
 
-if(ODBC_DRIVER AND EXT_ODBC_TYPE STREQUAL "auto")
-  set(EXT_ODBC_TYPE "${ODBC_DRIVER}")
-endif()
-
 target_link_libraries(php_odbc PRIVATE ODBC::ODBC)
 
-if(EXT_ODBC_TYPE STREQUAL "adabas")
-  set(HAVE_ADABAS 1)
-elseif(EXT_ODBC_TYPE STREQUAL "dbmaker")
-  set(HAVE_DBMAKER 1)
-elseif(EXT_ODBC_TYPE MATCHES "^(empress|empress-bcs)$")
-  set(HAVE_EMPRESS 1)
-elseif(EXT_ODBC_TYPE STREQUAL "esoob")
-  set(HAVE_ESOOB 1)
-elseif(EXT_ODBC_TYPE STREQUAL "ibm-db2")
-  # Sanity check.
-  if(TARGET ODBC::ODBC)
-    cmake_push_check_state(RESET)
-      set(CMAKE_REQUIRED_LIBRARIES ODBC::ODBC)
-      check_include_file(sqlcli1.h HAVE_SQLCLI1_H)
-      check_library_exists(ODBC::ODBC "" SQLExecute HAVE_SQLEXECUTE)
-    cmake_pop_check_state()
-    if(NOT HAVE_SQLCLI1_H)
-      message(FATAL_ERROR "Required <sqlcli1.h> header file not found")
-    endif()
-    if(NOT HAVE_SQLEXECUTE)
-      message(
-        FATAL_ERROR
-        "ODBC build test failed. SQLExecute not found. The DB2 environment "
-        "needs to be sourced. Run the command line:\n"
-        "  . $IBM_DB2/db2profile"
-      )
-    endif()
+# Sanity checks.
+if(EXT_ODBC_TYPE STREQUAL "ibm-db2" AND TARGET ODBC::ODBC)
+  cmake_push_check_state(RESET)
+    set(CMAKE_REQUIRED_LIBRARIES ODBC::ODBC)
+    check_include_file(sqlcli1.h HAVE_SQLCLI1_H)
+    check_library_exists(ODBC::ODBC "" SQLExecute HAVE_SQLEXECUTE)
+  cmake_pop_check_state()
+  if(NOT HAVE_SQLCLI1_H)
+    message(FATAL_ERROR "Required <sqlcli1.h> header file not found")
   endif()
-  set(HAVE_IBMDB2 1)
-elseif(EXT_ODBC_TYPE STREQUAL "iODBC")
-  set(HAVE_IODBC 1)
+  if(NOT HAVE_SQLEXECUTE)
+    message(
+      FATAL_ERROR
+      "ODBC build test failed. SQLExecute not found. The DB2 environment "
+      "needs to be sourced. Run the command line:\n"
+      "  . $IBM_DB2/db2profile"
+    )
+  endif()
+endif()
+
+################################################################################
+# Set variables for main/build-defs.h and config.h file.
+################################################################################
+
+# Set PHP_ODBC_TYPE for configuration header value.
+if(ODBC_DRIVER STREQUAL "Windows")
+  set(PHP_ODBC_TYPE "Win32")
+elseif(
+  (ODBC_DRIVER STREQUAL "iODBC" AND EXT_ODBC_TYPE STREQUAL "auto")
+  OR EXT_ODBC_TYPE STREQUAL "iODBC"
+)
   # To match the native build system string:
-  set(EXT_ODBC_TYPE iodbc)
-elseif(EXT_ODBC_TYPE STREQUAL "sapdb")
+  set(PHP_ODBC_TYPE "iodbc")
+elseif(ODBC_DRIVER AND EXT_ODBC_TYPE STREQUAL "auto")
+  set(PHP_ODBC_TYPE "${ODBC_DRIVER}")
+elseif(EXT_ODBC_TYPE STREQUAL "custom")
+  # To match the native build system string:
+  set(PHP_ODBC_TYPE custom-odbc)
+else()
+  set(PHP_ODBC_TYPE "${EXT_ODBC_TYPE}")
+endif()
+
+if(PHP_ODBC_TYPE STREQUAL "adabas")
+  set(HAVE_ADABAS 1)
+elseif(PHP_ODBC_TYPE STREQUAL "dbmaker")
+  set(HAVE_DBMAKER 1)
+elseif(PHP_ODBC_TYPE MATCHES "^(empress|empress-bcs)$")
+  set(HAVE_EMPRESS 1)
+elseif(PHP_ODBC_TYPE STREQUAL "esoob")
+  set(HAVE_ESOOB 1)
+elseif(PHP_ODBC_TYPE STREQUAL "ibm-db2")
+  set(HAVE_IBMDB2 1)
+elseif(PHP_ODBC_TYPE STREQUAL "iodbc")
+  set(HAVE_IODBC 1)
+elseif(PHP_ODBC_TYPE STREQUAL "sapdb")
   set(HAVE_SAPDB 1)
-elseif(EXT_ODBC_TYPE STREQUAL "solid")
+elseif(PHP_ODBC_TYPE STREQUAL "solid")
   # Set based on the Solid version:
   if(ODBC_LIBRARY MATCHES "23\.(a|so)$")
     set(HAVE_SOLID 1)
@@ -195,21 +206,16 @@ elseif(EXT_ODBC_TYPE STREQUAL "solid")
   elseif(CMAKE_SYSTEM_NAME STREQUAL "FreeBSD")
     set(SS_FBX 1)
   endif()
-elseif(EXT_ODBC_TYPE STREQUAL "unixODBC")
+elseif(PHP_ODBC_TYPE STREQUAL "unixODBC")
   set(HAVE_UNIXODBC 1)
-elseif(EXT_ODBC_TYPE STREQUAL "custom")
+elseif(PHP_ODBC_TYPE STREQUAL "custom-odbc")
   set(HAVE_CODBC 1)
-  # To match the native build system string:
-  set(EXT_ODBC_TYPE custom-odbc)
 endif()
 
 if(NOT EXT_ODBC_TYPE MATCHES "^(dbmaker|solid)$")
   set(HAVE_SQLDATASOURCES 1)
 endif()
 
-################################################################################
-# Set ODBC_* variables for main/build-defs.h file.
-################################################################################
 if(TARGET ODBC::ODBC)
   block(PROPAGATE PHP_ODBC_BUILD_DEFINITIONS_CODE)
     get_target_property(definitions ODBC::ODBC INTERFACE_COMPILE_DEFINITIONS)
@@ -249,11 +255,10 @@ if(TARGET ODBC::ODBC)
     set(PHP_ODBC_CFLAGS "${cflags}" CACHE INTERNAL "ODBC CFLAGS")
     set(PHP_ODBC_LFLAGS "${ldflags}" CACHE INTERNAL "ODBC linker flags")
     set(PHP_ODBC_LIBS "${libs}" CACHE INTERNAL "ODBC libraries")
-    set(PHP_ODBC_TYPE "${EXT_ODBC_TYPE}" CACHE INTERNAL "ODBC type")
+    set(PHP_ODBC_TYPE "${PHP_ODBC_TYPE}" CACHE INTERNAL "ODBC type")
 
     if(
-      NOT CMAKE_SYSTEM_NAME STREQUAL "Windows"
-      AND NOT PHP_SOURCE_DIR
+      NOT ODBC_DRIVER STREQUAL "Windows"
       AND NOT EXISTS ${PHP_SOURCE_DIR}/main/build-defs.h.in
     )
       set(

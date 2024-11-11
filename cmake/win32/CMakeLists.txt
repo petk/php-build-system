@@ -5,7 +5,7 @@ endif()
 
 include(FeatureSummary)
 
-add_library(php_win32 STATIC)
+add_library(php_win32 OBJECT)
 add_library(PHP::win32 ALIAS php_win32)
 
 target_sources(

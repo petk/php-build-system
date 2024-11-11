@@ -97,12 +97,9 @@ add_feature_info(
   "FPM SAPI module with SELinux policy library support"
 )
 
-message(CHECK_START "Checking fpm SAPI")
 if(NOT SAPI_FPM)
-  message(CHECK_FAIL "disabled")
   return()
 endif()
-message(CHECK_PASS "enabled")
 
 ################################################################################
 # Add executable.
@@ -155,8 +152,7 @@ target_compile_definitions(php_fpm PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE=1)
 target_link_libraries(
   php_fpm
   PRIVATE
-    PHP::main
-    Zend::Zend
+    PHP::PHP
 )
 
 set_target_properties(

@@ -54,7 +54,4 @@ block()
   check_include_files("${headers}" HAVE_COMMONCRYPTO_COMMONRANDOM_H)
 endblock()
 
-# TODO: Fix this better with object libraries in the future.
-target_link_libraries(php_random PRIVATE Zend::Zend)
-
 configure_file(config.cmake.h.in config.h)
