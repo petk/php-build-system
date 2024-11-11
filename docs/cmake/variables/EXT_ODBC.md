@@ -1,20 +1,16 @@
 # `EXT_ODBC`
 
+* Default: `OFF`
+* Values: `ON|OFF`
+
 Enable the PHP `odbc` extension.
-
-Default: `OFF`
-
-Values: `ON|OFF`
-
-**Additional variables:**
 
 ## `EXT_ODBC_SHARED`
 
+* Default: `OFF`
+* Values: `ON|OFF`
+
 Build extension as shared library.
-
-Default: `OFF`
-
-Values: `ON|OFF`
 
 ## `EXT_ODBC_TYPE`
 
@@ -53,8 +49,9 @@ cmake -S . -B php-build \
   -D ODBC_LIBRARY=/usr/lib/x86_64-linux-gnu/libodbc.so
 ```
 
-Where to find the ODBC installation on the system, or to customize ODBC compile
-definitions, options, or linker flags can be done with the following variables:
+Where to find the installed ODBC library on the system, or to customize ODBC
+compile definitions, options, or linker flags can be done with the following
+variables:
 
 * `ODBC_COMPILE_DEFINITIONS` - additional compile definitions
 * `ODBC_COMPILE_OPTIONS` - additional compile options

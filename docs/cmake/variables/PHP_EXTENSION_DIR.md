@@ -1,6 +1,6 @@
 # `PHP_EXTENSION_DIR`
 
-Default: `${CMAKE_INSTALL_LIBDIR}/php/<ZEND_MODULE_API_NO>(-zts)-<CONFIG>`
+* Default: `${CMAKE_INSTALL_LIBDIR}/php/<ZEND_MODULE_API_NO>(-zts)-<CONFIG>`
 
 Default directory for dynamically loadable PHP extensions. If left empty, it is
 determined automatically. Can be overridden at runtime using the PHP

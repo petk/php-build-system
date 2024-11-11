@@ -1,8 +1,7 @@
 # `SAPI_APACHE2HANDLER`
 
-Default: `OFF`
-
-Values: `ON|OFF`
+* Default: `OFF`
+* Values: `ON|OFF`
 
 Enable the shared Apache 2 handler SAPI module.
 

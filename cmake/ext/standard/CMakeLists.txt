@@ -199,8 +199,6 @@ target_link_libraries(
   php_standard
   PRIVATE
     $<$<PLATFORM_ID:Windows>:iphlpapi>
-    # TODO: Can this be fixed better?
-    PHP::main
 )
 
 ################################################################################

@@ -1,8 +1,7 @@
 # `ZEND_FIBER_ASM`
 
-Default: `ON`
-
-Values: `ON|OFF`
+* Default: `ON`
+* Values: `ON|OFF`
 
 Enable the use of Boost fiber assembly files using the
 [Zend/Fibers](/docs/cmake/modules/Zend/Fibers.md) module. If disabled or system

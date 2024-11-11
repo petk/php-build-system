@@ -1,10 +1,9 @@
 # `PHP_PEAR`
 
-Default: `OFF`
-
-Values: `ON|OFF`
-
 :orange_circle: *Deprecated as of PHP 7.4.*
+
+* Default: `OFF`
+* Values: `ON|OFF`
 
 > [!WARNING]
 > PEAR installation as part of the PHP installation is deprecated as of PHP 7.4
@@ -13,18 +12,16 @@ Values: `ON|OFF`
 
 Install PEAR, PHP Extension and Application Repository package manager.
 
-**Additional variables:**
-
 ## `PHP_PEAR_DIR`
 
-Default: `DATADIR/pear`
+* Default: `DATADIR/pear`
 
 The path where PEAR will be installed to. CMAKE_INSTALL_PREFIX is automatically
 prepended when given as a relative path.
 
 ## `PHP_PEAR_TEMP_DIR`
 
-Default: `tmp/pear` on \*nix and `temp/pear` on Windows
+* Default: `tmp/pear` on \*nix and `temp/pear` on Windows
 
 The PEAR temporary directory where PEAR writes temporary files, such as cache,
 downloaded packages artifacts and similar. Pass it as a relative path inside the

@@ -1,8 +1,7 @@
 # `PHP_VALGRIND`
 
-Default: `OFF`
-
-Values: `ON|OFF`
+* Default: `OFF`
+* Values: `ON|OFF`
 
 Enable Valgrind for dynamic analysis.
 

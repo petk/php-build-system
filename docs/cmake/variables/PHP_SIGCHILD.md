@@ -1,8 +1,7 @@
 # `PHP_SIGCHILD`
 
-Default: `OFF`
-
-Values: `ON|OFF`
+* Default: `OFF`
+* Values: `ON|OFF`
 
 Enable PHP's own `SIGCHLD` handler.
 

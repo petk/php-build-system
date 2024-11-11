@@ -1,8 +1,7 @@
 # `PHP_GCOV`
 
-Default: `OFF`
-
-Values: `ON|OFF`
+* Default: `OFF`
+* Values: `ON|OFF`
 
 Enable GCOV code coverage and include GCOV symbols.
 

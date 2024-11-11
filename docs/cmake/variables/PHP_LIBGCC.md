@@ -1,7 +1,6 @@
 # `PHP_LIBGCC`
 
-Default: `OFF`
-
-Values: `ON|OFF`
+* Default: `OFF`
+* Values: `ON|OFF`
 
 Explicitly link against libgcc.

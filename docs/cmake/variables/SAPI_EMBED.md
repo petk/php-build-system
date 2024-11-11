@@ -1,8 +1,7 @@
 # `SAPI_EMBED`
 
-Default: `OFF`
-
-Values: `ON|OFF`
+* Default: `OFF`
+* Values: `ON|OFF`
 
 Enable the Embed SAPI module.
 

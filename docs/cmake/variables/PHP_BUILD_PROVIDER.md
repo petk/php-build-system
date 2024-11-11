@@ -1,5 +1,5 @@
 # `PHP_BUILD_PROVIDER`
 
-Default: empty
+* Default: empty
 
 Build provider displayed in the phpinfo output.

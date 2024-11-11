@@ -1,8 +1,7 @@
 # `ZEND_SIGNALS`
 
-Default: `ON`
-
-Values: `ON|OFF`
+* Default: `ON`
+* Values: `ON|OFF`
 
 Whether to enable Zend signals handling. When enabled and if the target system
 supports them, they will be enabled, otherwise they will be disabled.

@@ -2646,7 +2646,7 @@ A list of Autoconf `configure` command-line configuration options, Windows
       <td>--with-pdo-odbc</td>
       <td>
         EXT_PDO_ODBC=ON<br>
-        EXT_PDO_ODBC_TYPE=type
+        [EXT_PDO_ODBC_TYPE=type]
       </td>
       <td>Default type: unixODBC (Autotools), auto (CMake)</td>
     </tr>
@@ -2656,8 +2656,8 @@ A list of Autoconf `configure` command-line configuration options, Windows
       <td>
         EXT_PDO_ODBC=ON<br>
         EXT_PDO_ODBC_TYPE=type<br>
-        ODBC_ROOT=dir<br>
-        [ODBC_LIBRARY=libname]<br>
+        [ODBC_ROOT=dir]<br>
+        ODBC_LIBRARY=libname<br>
         [ODBC_INCLUDE_DIR=includedir]<br>
         [ODBC_LINK_OPTIONS=ldflags]<br>
         [ODBC_COMPILE_OPTIONS=cflags]<br>

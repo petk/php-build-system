@@ -1,8 +1,7 @@
 # `PHP_UNDEFINED_SANITIZER`
 
-Default: `OFF`
-
-Values: `ON|OFF`
+* Default: `OFF`
+* Values: `ON|OFF`
 
 Enable the undefined sanitizer compiler option.
 

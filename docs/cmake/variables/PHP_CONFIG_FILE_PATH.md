@@ -1,6 +1,6 @@
 # `PHP_CONFIG_FILE_PATH`
 
-Default: `${CMAKE_INSTALL_SYSCONFDIR}`
+* Default: `${CMAKE_INSTALL_SYSCONFDIR}`
 
 The path in which to look for `php.ini`. By default, it is set to the
 `CMAKE_INSTALL_SYSCONFDIR` (`etc` directory). Relative path gets the

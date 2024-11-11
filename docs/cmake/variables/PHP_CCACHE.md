@@ -1,8 +1,7 @@
 # `PHP_CCACHE`
 
-Default: `ON`
-
-Values: `ON|OFF`
+* Default: `ON`
+* Values: `ON|OFF`
 
 Enable `ccache` for faster compilation time if it is installed and found on the
 system. If not found, it is not used. It can be explicitly turned off with this

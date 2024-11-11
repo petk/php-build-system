@@ -1,8 +1,7 @@
 # `PHP_DMALLOC`
 
-Default: `OFF`
-
-Values: `ON|OFF`
+* Default: `OFF`
+* Values: `ON|OFF`
 
 Enable the Dmalloc memory debugger library.
 

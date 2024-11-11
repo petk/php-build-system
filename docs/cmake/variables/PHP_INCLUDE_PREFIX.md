@@ -1,6 +1,6 @@
 # `PHP_INCLUDE_PREFIX`
 
-Default: `php`
+* Default: `php`
 
 The relative directory inside the `CMAKE_INSTALL_INCLUDEDIR`, where to install
 PHP headers. For example, `php/8.5` to specify version or other build-related

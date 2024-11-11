@@ -1,8 +1,7 @@
 # `ZEND_MAX_EXECUTION_TIMERS`
 
-Default: `auto`
-
-Values: `auto|ON|OFF`
+* Default: `auto`
+* Values: `auto|ON|OFF`
 
 Zend max execution timers help with timeout and signal handling issues,
 especially when thread safety is enabled.

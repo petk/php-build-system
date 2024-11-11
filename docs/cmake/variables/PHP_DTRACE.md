@@ -1,8 +1,7 @@
 # `PHP_DTRACE`
 
-Default: `OFF`
-
-Values: `ON|OFF`
+* Default: `OFF`
+* Values: `ON|OFF`
 
 Enable DTrace support for performance analysis and troubleshooting.
 

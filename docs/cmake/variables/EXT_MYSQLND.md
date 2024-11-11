@@ -1,34 +1,28 @@
 # `EXT_MYSQLND`
 
-Default: `OFF`
-
-Values: `ON|OFF`
+* Default: `OFF`
+* Values: `ON|OFF`
 
 Enable the PHP `mysqlnd` extension.
 
-**Additional variables:**
-
 ## `EXT_MYSQLND_SHARED`
 
-Default: `OFF`
-
-Values: `ON|OFF`
+* Default: `OFF`
+* Values: `ON|OFF`
 
 Build extension as shared library.
 
 ## `EXT_MYSQLND_COMPRESSION`
 
-Default: `ON`
-
-Values: `ON|OFF`
+* Default: `ON`
+* Values: `ON|OFF`
 
 Enable compressed protocol support in mysqlnd.
 
 ## `EXT_MYSQLND_SSL`
 
-Default: `OFF`
-
-Values: `ON|OFF`
+* Default: `OFF`
+* Values: `ON|OFF`
 
 Explicitly enable extended SSL support in the `mysqlnd` extension. On \*nix
 systems, extended SSL works through the OpenSSL library and on Windows through

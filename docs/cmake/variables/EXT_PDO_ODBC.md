@@ -1,31 +1,23 @@
 ## `EXT_PDO_ODBC`
 
+* Default: `OFF`
+* Values: `ON|OFF`
+
 Enable the PHP `pdo-odbc` extension.
-
-Default: `OFF`
-
-Values: `ON|OFF`
-
-Where to find ODBC installation on the system, can be customized with the
-`ODBC_ROOT` variable.
-
-**Additional variables:**
 
 ## `EXT_PDO_ODBC_SHARED`
 
+* Default: `OFF`
+* Values: `ON|OFF`
+
 Build extension as shared library.
-
-Default: `OFF`
-
-Values: `ON|OFF`
 
 ## `EXT_PDO_ODBC_TYPE`
 
+* Default: `auto`
+* Values: `auto`, `ibm-db2`, `iODBC`, `unixODBC`, or `custom`
+
 Select the ODBC type.
-
-Default: `auto`
-
-Values: `auto`, `ibm-db2`, `iODBC`, `unixODBC`, or `custom`
 
 When using `auto`, ODBC will be searched automatically and first found library
 will be used.
@@ -42,16 +34,36 @@ cmake -S . -B php-build \
   -D ODBC_LIBRARY=/usr/lib/x86_64-linux-gnu/libodbc.so
 ```
 
-Additionally, the ODBC library compile definitions, options, or linker flags can
-be adjusted if needed:
+For example, IBM DB2:
+
+```sh
+cmake -S php-src -B php-build \
+  -D EXT_PDO_ODBC=ON \
+  -D EXT_PDO_ODBC_TYPE=ibm-db2 \
+  -D ODBC_ROOT=/home/db2inst1/sqllib \
+  -D ODBC_LIBRARY=db2
+```
+
+Where to find the installed ODBC library on the system, or to customize ODBC
+compile definitions, options, or linker flags can be done with the following
+variables:
+
+* `ODBC_COMPILE_DEFINITIONS` - additional compile definitions
+* `ODBC_COMPILE_OPTIONS` - additional compile options
+* `ODBC_INCLUDE_DIR` - path with the ODBC include header files
+* `ODBC_LIBRARY` - ODBC library name or absolute path to the ODBC library
+* `ODBC_LINK_OPTIONS` - additional linker options
+* `ODBC_ROOT` - the base root directory of the ODBC installation
+
+For example:
 
 ```sh
 cmake -S . -B php-build \
   -D EXT_PDO_ODBC=ON \
   -D EXT_PDO_ODBC_TYPE=custom \
   -D ODBC_LIBRARY=/usr/lib/x86_64-linux-gnu/libodbc.so \
-  -D ODBC_INCLUDE_DIR=... \
-  -D ODBC_COMPILE_DEFINITIONS=... \
+  -D ODBC_INCLUDE_DIR=/usr/include \
+  -D ODBC_COMPILE_DEFINITIONS="-DSOME_DEF=1 -DSOME_OTHER_DEF_2=1" \
   -D ODBC_COMPILE_OPTIONS=... \
   -D ODBC_LINK_OPTIONS=...
 ```

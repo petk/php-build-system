@@ -1,8 +1,7 @@
 # `PHP_ADDRESS_SANITIZER`
 
-Default: `OFF`
-
-Values: `ON|OFF`
+* Default: `OFF`
+* Values: `ON|OFF`
 
 Enable the address sanitizer compiler option for development or debugging
 purposes.
