@@ -3,7 +3,7 @@ PHP main binding.
 
 ## INTERFACE target
 
-* `php` with alias `PHP::PHP` is an INTERFACE library that ties PHP core, Zend
+* `php` (alias `PHP::PHP`) is an INTERFACE library that ties PHP core, Zend
   Engine and PHP extensions together and can be easily linked to SAPIs.
 #]=============================================================================]
 
@@ -151,7 +151,7 @@ target_link_libraries(
     PHP::main
     $<TARGET_OBJECTS:PHP::main>
     # Pass transitively depending on the SAPI type.
-    $<IF:$<IN_LIST:$<TARGET_PROPERTY:NAME>,php_cli;php_cgi;php_phpdbg;php_embed>,php_main_internal_functions_cli $<TARGET_OBJECTS:php_main_internal_functions_cli>,php_main_internal_functions $<TARGET_OBJECTS:php_main_internal_functions>>
+    $<IF:$<IN_LIST:$<TARGET_PROPERTY:NAME>,php_cgi;php_cli;php_embed;php_phpdbg>,php_main_internal_functions_cli $<TARGET_OBJECTS:php_main_internal_functions_cli>,php_main_internal_functions $<TARGET_OBJECTS:php_main_internal_functions>>
     Zend::Zend
     $<TARGET_OBJECTS:Zend::Zend>
     PHP::extensions

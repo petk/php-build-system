@@ -3,8 +3,8 @@ Add subdirectories of PHP extensions.
 
 ## INTERFACE target
 
-* `PHP::extensions` (`php_extensions`) is an INTERFACE library with all enabled
-  extensions linked.
+* `php_extensions` (alias `PHP::extensions`) is an INTERFACE library with all
+  enabled extensions linked into for convenience.
 
 ## Custom CMake properties
 
