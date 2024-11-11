@@ -33,12 +33,9 @@ if(SAPI_FUZZER)
   mark_as_advanced(LIB_FUZZING_ENGINE)
 endif()
 
-message(CHECK_START "Checking fuzzer SAPI")
 if(NOT SAPI_FUZZER)
-  message(CHECK_FAIL "disabled")
   return()
 endif()
-message(CHECK_PASS "enabled")
 
 if(PHP_THREAD_SAFETY)
   message(
@@ -121,8 +118,7 @@ set_target_properties(
 target_link_libraries(
   php_fuzzer
   PRIVATE
-    PHP::main
-    Zend::Zend
+    PHP::PHP
 )
 
 install(TARGETS php_fuzzer RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR})
