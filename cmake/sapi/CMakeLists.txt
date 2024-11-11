@@ -35,14 +35,22 @@ file(GLOB sapis ${CMAKE_CURRENT_SOURCE_DIR}/*/CMakeLists.txt)
 list(TRANSFORM sapis REPLACE "${CMAKE_CURRENT_SOURCE_DIR}/|/CMakeLists.txt" "")
 set_property(GLOBAL PROPERTY PHP_ALL_SAPIS ${sapis})
 
+# Add subdirectories of SAPIs.
 foreach(sapi IN LISTS sapis)
   list(APPEND CMAKE_MESSAGE_CONTEXT "${sapi}")
-  add_subdirectory("${sapi}")
-  list(POP_BACK CMAKE_MESSAGE_CONTEXT)
+  message(CHECK_START "Configuring SAPI ${sapi}")
+  list(APPEND CMAKE_MESSAGE_INDENT "  ")
 
+  add_subdirectory("${sapi}")
+
+  list(POP_BACK CMAKE_MESSAGE_INDENT)
   if(TARGET php_${sapi})
     set_property(GLOBAL APPEND PROPERTY PHP_SAPIS ${sapi})
+    message(CHECK_PASS "enabled")
+  else()
+    message(CHECK_FAIL "disabled")
   endif()
+  list(POP_BACK CMAKE_MESSAGE_CONTEXT)
 endforeach()
 
 # Check if at least one SAPI is enabled.

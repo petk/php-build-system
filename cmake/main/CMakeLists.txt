@@ -1,7 +1,27 @@
+#[=============================================================================[
+PHP main binding.
+
+## INTERFACE target
+
+* `php` with alias `PHP::PHP` is an INTERFACE library that ties PHP core, Zend
+  Engine and PHP extensions together and can be easily linked to SAPIs.
+#]=============================================================================]
+
 include(FeatureSummary)
 
-add_library(php_main STATIC)
+add_library(php INTERFACE)
+add_library(PHP::PHP ALIAS php)
+
+add_library(php_main OBJECT)
 add_library(PHP::main ALIAS php_main)
+
+# These contain a list of built-in extensions based on the SAPI types.
+add_library(php_main_internal_functions OBJECT internal_functions.c)
+add_library(php_main_internal_functions_cli OBJECT internal_functions_cli.c)
+
+# Configuration library to transitively pass build options to php_main* targets.
+add_library(php_main_configuration INTERFACE)
+add_library(PHP::mainConfiguration ALIAS php_main_configuration)
 
 target_sources(
   php_main
@@ -10,8 +30,6 @@ target_sources(
     fastcgi.c
     fopen_wrappers.c
     getopt.c
-    internal_functions_cli.c
-    internal_functions.c
     main.c
     main.stub.php
     network.c
@@ -95,11 +113,22 @@ target_sources(
 )
 
 target_compile_definitions(
-  php_main
-  PRIVATE
+  php_main_configuration
+  INTERFACE
     ZEND_ENABLE_STATIC_TSRMLS_CACHE=1
     $<$<PLATFORM_ID:Windows>:SAPI_EXPORTS>
 )
+
+target_link_libraries(
+  php_main_configuration
+  INTERFACE
+    PHP::configuration
+    $<$<TARGET_EXISTS:PHP::win32>:PHP::win32 $<TARGET_OBJECTS:PHP::win32>>
+)
+
+target_link_libraries(php_main PRIVATE PHP::mainConfiguration)
+target_link_libraries(php_main_internal_functions PRIVATE PHP::mainConfiguration)
+target_link_libraries(php_main_internal_functions_cli PRIVATE PHP::mainConfiguration)
 
 target_include_directories(
   php_main
@@ -116,11 +145,16 @@ target_include_directories(
 )
 
 target_link_libraries(
-  php_main
-  # Link publicly for PHP SAPIs.
-  PUBLIC
+  php
+  INTERFACE
     PHP::configuration
-    $<$<TARGET_EXISTS:PHP::win32>:PHP::win32>
+    PHP::main
+    $<TARGET_OBJECTS:PHP::main>
+    # Pass transitively depending on the SAPI type.
+    $<IF:$<IN_LIST:$<TARGET_PROPERTY:NAME>,php_cli;php_cgi;php_phpdbg;php_embed>,php_main_internal_functions_cli $<TARGET_OBJECTS:php_main_internal_functions_cli>,php_main_internal_functions $<TARGET_OBJECTS:php_main_internal_functions>>
+    Zend::Zend
+    $<TARGET_OBJECTS:Zend::Zend>
+    PHP::extensions
 )
 
 # Add DTrace.
@@ -189,40 +223,6 @@ if(PHP_DMALLOC)
     message(CHECK_FAIL "no")
   endif()
 endif()
-
-get_cmake_property(extensions PHP_EXTENSIONS)
-foreach(extension IN LISTS extensions)
-  # Add extension's PUBLIC/INTERFACE compile options to configuration.
-  # Cleaner COMPILE_ONLY generator expression is available in CMake >= 3.27.
-  if(CMAKE_VERSION VERSION_GREATER_EQUAL 3.27)
-    target_link_libraries(php_configuration
-      INTERFACE $<COMPILE_ONLY:PHP::${extension}>
-    )
-  else()
-    target_include_directories(
-      php_configuration
-      INTERFACE
-        $<TARGET_PROPERTY:PHP::${extension},INTERFACE_INCLUDE_DIRECTORIES>
-    )
-  endif()
-
-  target_link_libraries(php_${extension} PRIVATE PHP::configuration)
-
-  # Add configuration compile options before the extension compile options.
-  target_compile_options(
-    php_${extension}
-    BEFORE PRIVATE
-      $<TARGET_PROPERTY:php_configuration,INTERFACE_COMPILE_OPTIONS>
-  )
-
-  get_target_property(extension_type php_${extension} TYPE)
-
-  if(NOT extension_type MATCHES "^(MODULE|SHARED)_LIBRARY$")
-    target_link_libraries(php_main PRIVATE PHP::${extension})
-  endif()
-
-  add_dependencies(php_${extension} zend)
-endforeach()
 
 ################################################################################
 # Generate files and install headers.
