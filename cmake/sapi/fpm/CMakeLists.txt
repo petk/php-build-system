@@ -184,16 +184,15 @@ endif()
 
 # Check for ptrace.
 include(PHP/CheckPtrace)
-if(
-  PHP_TRACE_TYPE
-  AND EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/fpm/fpm_trace_${PHP_TRACE_TYPE}.c
-)
-  target_sources(
-    php_fpm
-    PRIVATE
-      fpm/fpm_trace.c
-      fpm/fpm_trace_${PHP_TRACE_TYPE}.c
-  )
+if(HAVE_PTRACE OR HAVE_MACH_VM_READ OR PROC_MEM_FILE)
+  target_sources(php_fpm PRIVATE fpm/fpm_trace.c)
+  if(HAVE_PTRACE)
+    target_sources(php_fpm PRIVATE fpm/fpm_trace_ptrace.c)
+  elseif(HAVE_MACH_VM_READ)
+    target_sources(php_fpm PRIVATE fpm/fpm_trace_mach.c)
+  elseif(PROC_MEM_FILE)
+    target_sources(php_fpm PRIVATE fpm/fpm_trace_pread.c)
+  endif()
 endif()
 
 message(CHECK_START "Checking if compiler supports __sync_bool_compare_and_swap")

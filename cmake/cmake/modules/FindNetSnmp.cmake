@@ -5,20 +5,20 @@ Module defines the following `IMPORTED` target(s):
 
 * `NetSnmp::NetSnmp` - The package library, if found.
 
-Result variables:
+## Result variables
 
 * `NetSnmp_FOUND` - Whether the package has been found.
 *` NetSnmp_INCLUDE_DIRS` - Include directories needed to use this package.
 *` NetSnmp_LIBRARIES` - Libraries needed to link to the package library.
 * `NetSnmp_VERSION` - Package version, if found.
 
-Cache variables:
+## Cache variables
 
 * `NetSnmp_INCLUDE_DIR` - Directory containing package library headers.
 * `NetSnmp_LIBRARY` - The path to the package library.
 * `NetSnmp_EXECUTABLE` - Path to net-snmp-config utility.
 
-Hints:
+## Hints
 
 The `NetSnmp_ROOT` variable adds custom search path.
 #]=============================================================================]
@@ -60,13 +60,19 @@ if(NetSnmp_EXECUTABLE)
     string(APPEND _netsnmp_config_include_dir "/include")
   endif()
 
-  # TODO: To be added.
+  # TODO: To be added when linking static NetSnmp library.
   execute_process(
     COMMAND "${NetSnmp_EXECUTABLE}" --external-libs
     OUTPUT_VARIABLE _netsnmp_config_external_libraries
     OUTPUT_STRIP_TRAILING_WHITESPACE
     ERROR_QUIET
   )
+  separate_arguments(
+    _netsnmp_config_external_libraries
+    NATIVE_COMMAND
+    "${_netsnmp_config_external_libraries}"
+  )
+  list(FILTER _netsnmp_config_external_libraries INCLUDE REGEX "^(-L|-l)")
 
   execute_process(
     COMMAND "${NetSnmp_EXECUTABLE}" --libdir
