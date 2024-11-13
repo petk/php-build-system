@@ -5,11 +5,13 @@ endif()
 
 include(CheckIncludeFile)
 include(CheckSourceCompiles)
+include(CheckSourceRuns)
 include(CheckSymbolExists)
 include(CMakePushCheckState)
 include(FeatureSummary)
 include(PHP/ConfigureFile)
 include(PHP/Install)
+include(PHP/SearchLibraries)
 include(PHP/Set)
 
 ################################################################################
@@ -176,27 +178,60 @@ check_symbol_exists(setproctitle_fast "unistd.h" HAVE_SETPROCTITLE_FAST)
 check_symbol_exists(sysconf "unistd.h" HAVE_SYSCONF)
 check_symbol_exists(times "sys/times.h" HAVE_TIMES)
 
-# Check for clock_get*time.
-include(PHP/CheckClockGettime)
-if(TARGET PHP::CheckClockGettimeLibrary)
-  target_link_libraries(php_fpm PRIVATE PHP::CheckClockGettimeLibrary)
-endif()
+# Check FPM listening queue implementation.
+include(PHP/CheckListeningQueue)
 
-# Check for ptrace.
+# Check FPM trace implementation.
 include(PHP/CheckPtrace)
-if(
-  PHP_TRACE_TYPE
-  AND EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/fpm/fpm_trace_${PHP_TRACE_TYPE}.c
-)
-  target_sources(
-    php_fpm
-    PRIVATE
-      fpm/fpm_trace.c
-      fpm/fpm_trace_${PHP_TRACE_TYPE}.c
-  )
+if(HAVE_PTRACE OR HAVE_MACH_VM_READ OR PROC_MEM_FILE)
+  target_sources(php_fpm PRIVATE fpm/fpm_trace.c)
+  if(HAVE_PTRACE)
+    target_sources(php_fpm PRIVATE fpm/fpm_trace_ptrace.c)
+  elseif(HAVE_MACH_VM_READ)
+    target_sources(php_fpm PRIVATE fpm/fpm_trace_mach.c)
+  elseif(PROC_MEM_FILE)
+    target_sources(php_fpm PRIVATE fpm/fpm_trace_pread.c)
+  endif()
 endif()
 
-message(CHECK_START "Checking if compiler supports __sync_bool_compare_and_swap")
+# Check for clock_get*time.
+php_search_libraries(
+  clock_gettime
+  HAVE_CLOCK_GETTIME
+  HEADERS time.h
+  LIBRARIES
+    rt # Solaris 10
+  TARGET php_fpm PRIVATE
+)
+if(NOT HAVE_CLOCK_GETTIME)
+  check_source_runs(C [[
+    #include <mach/mach.h>
+    #include <mach/clock.h>
+    #include <mach/mach_error.h>
+
+    int main(void)
+    {
+      kern_return_t ret;
+      clock_serv_t aClock;
+      mach_timespec_t aTime;
+
+      ret = host_get_clock_service(mach_host_self(), REALTIME_CLOCK, &aClock);
+      if (ret != KERN_SUCCESS) {
+        return 1;
+      }
+
+      ret = clock_get_time(aClock, &aTime);
+      if (ret != KERN_SUCCESS) {
+        return 2;
+      }
+
+      return 0;
+    }
+  ]] HAVE_CLOCK_GET_TIME)
+endif()
+
+# Check for compiler atomic builtins.
+message(CHECK_START "Checking if compiler has __sync_bool_compare_and_swap")
 check_source_compiles(C [[
   int main(void)
   {
@@ -211,26 +246,27 @@ else()
   message(CHECK_FAIL "no")
 endif()
 
-include(PHP/CheckListeningQueue)
-
 message(CHECK_START "Checking for kqueue")
-check_source_compiles(C [[
-  #include <sys/types.h>
-  #include <sys/event.h>
-  #include <sys/time.h>
+cmake_push_check_state(RESET)
+  set(CMAKE_REQUIRED_QUIET TRUE)
+  check_source_compiles(C [[
+    #include <sys/types.h>
+    #include <sys/event.h>
+    #include <sys/time.h>
 
-  int main(void)
-  {
-    int kfd;
-    struct kevent k;
-    kfd = kqueue();
-    /* 0 -> STDIN_FILENO */
-    EV_SET(&k, 0, EVFILT_READ , EV_ADD | EV_CLEAR, 0, 0, NULL);
-    (void)kfd;
+    int main(void)
+    {
+      int kfd;
+      struct kevent k;
+      kfd = kqueue();
+      /* 0 -> STDIN_FILENO */
+      EV_SET(&k, 0, EVFILT_READ , EV_ADD | EV_CLEAR, 0, 0, NULL);
+      (void)kfd;
 
-    return 0;
-  }
-]] HAVE_KQUEUE)
+      return 0;
+    }
+  ]] HAVE_KQUEUE)
+cmake_pop_check_state()
 if(HAVE_KQUEUE)
   message(CHECK_PASS "yes")
 else()
@@ -239,24 +275,27 @@ endif()
 
 # For Solaris < 10.
 message(CHECK_START "Checking for /dev/poll")
-check_source_compiles(C [[
-  #include <stdio.h>
-  #include <sys/devpoll.h>
+cmake_push_check_state(RESET)
+  set(CMAKE_REQUIRED_QUIET TRUE)
+  check_source_compiles(C [[
+    #include <stdio.h>
+    #include <sys/devpoll.h>
 
-  int main(void)
-  {
-    int n, dp;
-    struct dvpoll dvp;
-    dp = 0;
-    dvp.dp_fds = NULL;
-    dvp.dp_nfds = 0;
-    dvp.dp_timeout = 0;
-    n = ioctl(dp, DP_POLL, &dvp);
-    (void)n;
+    int main(void)
+    {
+      int n, dp;
+      struct dvpoll dvp;
+      dp = 0;
+      dvp.dp_fds = NULL;
+      dvp.dp_nfds = 0;
+      dvp.dp_timeout = 0;
+      n = ioctl(dp, DP_POLL, &dvp);
+      (void)n;
 
-    return 0;
-  }
-]] HAVE_DEVPOLL)
+      return 0;
+    }
+  ]] HAVE_DEVPOLL)
+cmake_pop_check_state()
 if(HAVE_DEVPOLL)
   message(CHECK_PASS "yes")
 else()
@@ -264,34 +303,37 @@ else()
 endif()
 
 message(CHECK_START "Checking for epoll")
-check_source_compiles(C [[
-  #include <sys/epoll.h>
+cmake_push_check_state(RESET)
+  set(CMAKE_REQUIRED_QUIET TRUE)
+  check_source_compiles(C [[
+    #include <sys/epoll.h>
 
-  int main(void)
-  {
-    int epollfd;
-    struct epoll_event e;
+    int main(void)
+    {
+      int epollfd;
+      struct epoll_event e;
 
-    epollfd = epoll_create(1);
-    if (epollfd < 0) {
-      return 1;
+      epollfd = epoll_create(1);
+      if (epollfd < 0) {
+        return 1;
+      }
+
+      e.events = EPOLLIN | EPOLLET;
+      e.data.fd = 0;
+
+      if (epoll_ctl(epollfd, EPOLL_CTL_ADD, 0, &e) == -1) {
+        return 1;
+      }
+
+      e.events = 0;
+      if (epoll_wait(epollfd, &e, 1, 1) < 0) {
+        return 1;
+      }
+
+      return 0;
     }
-
-    e.events = EPOLLIN | EPOLLET;
-    e.data.fd = 0;
-
-    if (epoll_ctl(epollfd, EPOLL_CTL_ADD, 0, &e) == -1) {
-      return 1;
-    }
-
-    e.events = 0;
-    if (epoll_wait(epollfd, &e, 1, 1) < 0) {
-      return 1;
-    }
-
-    return 0;
-  }
-]] HAVE_EPOLL)
+  ]] HAVE_EPOLL)
+cmake_pop_check_state()
 if(HAVE_EPOLL)
   message(CHECK_PASS "yes")
 else()
