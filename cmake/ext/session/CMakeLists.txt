@@ -76,7 +76,7 @@ add_dependencies(
 )
 
 # Check whether pread() and pwrite() work.
-include(PHP/CheckPreadPwrite)
+include(cmake/CheckPreadPwrite.cmake)
 
 if(EXT_SESSION_MM)
   if(PHP_THREAD_SAFETY)

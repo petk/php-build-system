@@ -177,10 +177,10 @@ check_symbol_exists(setproctitle_fast "unistd.h" HAVE_SETPROCTITLE_FAST)
 check_symbol_exists(times "sys/times.h" HAVE_TIMES)
 
 # Check FPM listening queue implementation.
-include(PHP/CheckListeningQueue)
+include(cmake/CheckListeningQueue.cmake)
 
 # Check FPM trace implementation.
-include(PHP/CheckPtrace)
+include(cmake/CheckTrace.cmake)
 if(HAVE_PTRACE OR HAVE_MACH_VM_READ OR PROC_MEM_FILE)
   target_sources(php_fpm PRIVATE fpm/fpm_trace.c)
   if(HAVE_PTRACE)
