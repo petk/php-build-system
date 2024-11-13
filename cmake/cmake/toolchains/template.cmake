@@ -68,7 +68,7 @@ set(ZEND_MM_EXITCODE 0)
 set(ZEND_MM_EXITCODE__TRYRUN_OUTPUT "(size_t)8 (size_t)3 0")
 
 ################################################################################
-# FPM SAPI
+# sapi/fpm
 ################################################################################
 
 # Set the exit code for the clock_get_time() check.

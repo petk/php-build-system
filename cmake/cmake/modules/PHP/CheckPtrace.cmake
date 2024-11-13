@@ -1,5 +1,5 @@
 #[=============================================================================[
-Check for ptrace().
+Check FPM trace implementation.
 
 ## Cache variables:
 
@@ -25,6 +25,8 @@ include(CheckSourceCompiles)
 include(CheckSourceRuns)
 include(CheckSymbolExists)
 include(CMakePushCheckState)
+
+message(CHECK_START "Checking FPM trace implementation")
 
 message(CHECK_START "Checking whether ptrace works")
 
@@ -118,70 +120,77 @@ endif()
 
 if(HAVE_PTRACE)
   message(CHECK_PASS "yes")
-  return()
-endif()
-message(CHECK_FAIL "no")
-
-check_symbol_exists(mach_vm_read "mach/mach.h;mach/mach_vm.h" HAVE_MACH_VM_READ)
-
-if(HAVE_MACH_VM_READ)
-  return()
+else()
+  message(CHECK_FAIL "no")
 endif()
 
-message(CHECK_START "Checking for process memory access file")
+if(NOT HAVE_PTRACE)
+  check_symbol_exists(mach_vm_read "mach/mach.h;mach/mach_vm.h" HAVE_MACH_VM_READ)
+endif()
 
-if(NOT CMAKE_CROSSCOMPILING)
-  set(PROC_MEM_FILE)
-  if(EXISTS /proc/self/mem)
-    set(PROC_MEM_FILE "mem")
-  elseif(EXISTS /proc/self/as)
-    set(PROC_MEM_FILE "as")
+if(NOT HAVE_PTRACE AND NOT HAVE_MACH_VM_READ)
+  message(CHECK_START "Checking for process memory access file")
+
+  if(NOT CMAKE_CROSSCOMPILING)
+    set(PROC_MEM_FILE)
+    if(EXISTS /proc/self/mem)
+      set(PROC_MEM_FILE "mem")
+    elseif(EXISTS /proc/self/as)
+      set(PROC_MEM_FILE "as")
+    endif()
+
+    if(PROC_MEM_FILE)
+      cmake_push_check_state(RESET)
+        set(CMAKE_REQUIRED_DEFINITIONS -D_GNU_SOURCE)
+        set(CMAKE_REQUIRED_QUIET TRUE)
+        check_source_runs(C "
+          #define _FILE_OFFSET_BITS 64
+          #include <stdint.h>
+          #include <unistd.h>
+          #include <sys/types.h>
+          #include <sys/stat.h>
+          #include <fcntl.h>
+          #include <stdio.h>
+
+          int main(void)
+          {
+            long v1 = (unsigned int) -1, v2 = 0;
+            char buf[128];
+            int fd;
+            sprintf(buf, \"/proc/%d/${PROC_MEM_FILE}\", getpid());
+            fd = open(buf, O_RDONLY);
+            if (0 > fd) {
+              return 1;
+            }
+            if (sizeof(long) != pread(fd, &v2, sizeof(long), (uintptr_t) &v1)) {
+              close(fd);
+              return 1;
+            }
+            close(fd);
+            return v1 != v2;
+          }
+        " _HAVE_PROC_MEM_FILE)
+      cmake_pop_check_state()
+
+      if(NOT _HAVE_PROC_MEM_FILE)
+        unset(PROC_MEM_FILE)
+      endif()
+    endif()
   endif()
 
   if(PROC_MEM_FILE)
-    cmake_push_check_state(RESET)
-      set(CMAKE_REQUIRED_DEFINITIONS -D_GNU_SOURCE)
-      set(CMAKE_REQUIRED_QUIET TRUE)
-      check_source_runs(C "
-        #define _FILE_OFFSET_BITS 64
-        #include <stdint.h>
-        #include <unistd.h>
-        #include <sys/types.h>
-        #include <sys/stat.h>
-        #include <fcntl.h>
-        #include <stdio.h>
-
-        int main(void)
-        {
-          long v1 = (unsigned int) -1, v2 = 0;
-          char buf[128];
-          int fd;
-          sprintf(buf, \"/proc/%d/${PROC_MEM_FILE}\", getpid());
-          fd = open(buf, O_RDONLY);
-          if (0 > fd) {
-            return 1;
-          }
-          if (sizeof(long) != pread(fd, &v2, sizeof(long), (uintptr_t) &v1)) {
-            close(fd);
-            return 1;
-          }
-          close(fd);
-          return v1 != v2;
-        }
-      " _HAVE_PROC_MEM_FILE)
-    cmake_pop_check_state()
-
-    if(NOT _HAVE_PROC_MEM_FILE)
-      unset(PROC_MEM_FILE)
-    endif()
+    message(CHECK_PASS "yes (${PROC_MEM_FILE})")
+  else()
+    message(CHECK_FAIL "no")
   endif()
 endif()
 
-if(PROC_MEM_FILE)
-  message(CHECK_PASS "yes (${PROC_MEM_FILE})")
-  return()
+if(HAVE_PTRACE)
+  message(CHECK_PASS "found (ptrace)")
+elseif(HAVE_MACH_VM_READ)
+  message(CHECK_PASS "found (mach)")
+elseif(PROC_MEM_FILE)
+  message(CHECK_PASS "found (pread)")
+else()
+  message(CHECK_FAIL "not found, FPM trace implementation is disabled")
 endif()
-
-message(CHECK_FAIL "no")
-
-message(WARNING "FPM trace - ptrace, pread, or mach: could not be found")
