@@ -206,7 +206,7 @@ endif()
 # Configuration checks.
 ################################################################################
 
-include(PHP/CheckTiocgwinsz)
+include(cmake/CheckTiocgwinsz.cmake)
 
 message(
   CHECK_START
