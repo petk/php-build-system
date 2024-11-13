@@ -459,27 +459,30 @@ add_feature_info(
 )
 
 # Check Zend max execution timers.
-include(Zend/MaxExecutionTimers)
+include(cmake/MaxExecutionTimers.cmake)
 if(TARGET Zend::MaxExecutionTimers)
   target_link_libraries(zend PRIVATE Zend::MaxExecutionTimers)
 endif()
 
 # Check if dlsym() needs underscore.
-include(Zend/CheckDlsym)
+include(cmake/CheckDlsym.cmake)
 
 # Check MM alignment.
-include(Zend/CheckMMAlignment)
+include(cmake/CheckMMAlignment.cmake)
 
 # Check for global register variables.
 if(ZEND_GLOBAL_REGISTER_VARIABLES)
-  include(Zend/CheckGlobalRegisterVariables)
+  include(cmake/CheckGlobalRegisterVariables.cmake)
 endif()
 
 # Check if stack grows downward.
-include(Zend/CheckStackLimit)
+include(cmake/CheckStackLimit.cmake)
 
 # Check float precision.
-include(Zend/CheckFloatPrecision)
+include(cmake/CheckFloatPrecision.cmake)
+
+# Check for strerror_r, and if its a POSIX-compatible or a GNU-specific version.
+include(cmake/CheckStrerrorR.cmake)
 
 ################################################################################
 # Generate lexers and parsers.
@@ -589,7 +592,7 @@ endif()
 # Configure fibers.
 ################################################################################
 
-include(Zend/Fibers)
+include(cmake/Fibers.cmake)
 if(TARGET Zend::Fibers)
   target_link_libraries(zend PRIVATE Zend::Fibers)
 endif()

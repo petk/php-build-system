@@ -261,7 +261,7 @@ endif()
 check_symbol_exists(mprotect "sys/mman.h" HAVE_MPROTECT)
 
 # Check for shared memory support.
-include(PHP/CheckSHM)
+include(cmake/CheckSHM.cmake)
 if(TARGET PHP::CheckSHMLibrary)
   target_link_libraries(php_opcache PRIVATE PHP::CheckSHMLibrary)
 endif()

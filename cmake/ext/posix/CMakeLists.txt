@@ -93,7 +93,7 @@ check_symbol_exists(setsid "unistd.h" HAVE_SETSID)
 # Check for major, minor, and makedev.
 include(PHP/CheckSysMacros)
 
-include(PHP/CheckTtynameR)
+include(cmake/CheckTtynameR.cmake)
 
 cmake_push_check_state(RESET)
   set(CMAKE_REQUIRED_DEFINITIONS -D_GNU_SOURCE)

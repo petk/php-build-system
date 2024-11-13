@@ -31,9 +31,6 @@
 /* Define to 1 if you have the 'dns_search' function. */
 #cmakedefine HAVE_DNS_SEARCH 1
 
-/* Define to 1 if flush should be called explicitly after a buffered io. */
-#cmakedefine HAVE_FLUSHIO 1
-
 /* Define to 1 if your system has a working POSIX 'fnmatch' function. */
 #cmakedefine HAVE_FNMATCH 1
 
@@ -64,6 +61,10 @@
 
 /* Define to 1 if you have the declaration of 'strptime'. */
 #cmakedefine HAVE_STRPTIME_DECL_FAILS 1
+
+/* Define to 1 if 'fclose' declaration is missing, and to 0 if declaration is
+   available. */
+#cmakedefine01 MISSING_FCLOSE_DECL
 
 /* Define to 1 if your system has fork/vfork/CreateProcess. */
 #cmakedefine PHP_CAN_SUPPORT_PROC_OPEN 1

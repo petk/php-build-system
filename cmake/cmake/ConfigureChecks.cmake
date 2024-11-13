@@ -420,12 +420,6 @@ else()
   message(CHECK_FAIL "no")
 endif()
 
-# Check for missing fclose declaration.
-include(PHP/CheckFclose)
-
-# Check for strerror_r, and if its a POSIX-compatible or a GNU-specific version.
-include(PHP/CheckStrerrorR)
-
 # Check getaddrinfo().
 include(PHP/CheckGetaddrinfo)
 if(TARGET PHP::CheckGetaddrinfoLibrary)
@@ -475,6 +469,9 @@ include(PHP/CheckByteOrder)
 if(PHP_IPV6)
   include(PHP/CheckIPv6)
 endif()
+
+# Check how flush should be called.
+include(PHP/CheckFlushIo)
 
 # Check for aarch64 CRC32 API.
 message(CHECK_START "Checking for aarch64 CRC32 API availability")

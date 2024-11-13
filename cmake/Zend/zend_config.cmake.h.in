@@ -59,6 +59,12 @@
 /* Define to 1 if you have the 'sigsetjmp' function. */
 #cmakedefine HAVE_SIGSETJMP 1
 
+/* Define if you have 'strerror_r'. */
+#cmakedefine HAVE_STRERROR_R 1
+
+/* Define to 1 if strerror_r returns char *. */
+#cmakedefine STRERROR_R_CHAR_P 1
+
 /* Define to 1 if checking the stack limit is supported. */
 #cmakedefine ZEND_CHECK_STACK_LIMIT 1
 

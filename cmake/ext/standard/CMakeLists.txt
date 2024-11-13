@@ -264,7 +264,7 @@ else()
       PURPOSE "Necessary to use external crypt library."
   )
 
-  include(PHP/CheckCrypt)
+  include(cmake/CheckCrypt.cmake)
 
   target_link_libraries(php_standard PRIVATE Crypt::Crypt)
 endif()
@@ -273,8 +273,14 @@ endif()
 # Configuration checks.
 ################################################################################
 
+# Check for missing fclose declaration.
+include(cmake/CheckFclose.cmake)
+
+# Check for fnmatch() implementation.
+include(cmake/CheckFnmatch.cmake)
+
 # Check strptime().
-include(PHP/CheckStrptime)
+include(cmake/CheckStrptime.cmake)
 
 # Check if there is a support means of creating a new process and defining which
 # handles it receives.
@@ -339,12 +345,6 @@ if(HAVE_SYS_SOCKET_H)
 else()
   check_include_file(net/if.h HAVE_NET_IF_H)
 endif()
-
-# Check how flush should be called.
-include(PHP/CheckFlushIo)
-
-# Check for fnmatch() implementation.
-include(PHP/CheckFnmatch)
 
 # Detect library functions needed by PHP dns_xxx functions.
 # ext/standard/php_dns.h will collect these in a single define

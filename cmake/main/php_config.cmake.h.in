@@ -136,6 +136,9 @@
 /* Define to 1 if you have the 'flock' function. */
 #cmakedefine HAVE_FLOCK 1
 
+/* Define to 1 if flush should be called explicitly after a buffered io. */
+#cmakedefine HAVE_FLUSHIO 1
+
 /* Define to 1 if you have the 'fopencookie' function. */
 #cmakedefine HAVE_FOPENCOOKIE 1
 
@@ -379,9 +382,6 @@
 /* Define to 1 if you have the 'strcasestr' function. */
 #cmakedefine HAVE_STRCASESTR 1
 
-/* Define if you have 'strerror_r'. */
-#cmakedefine HAVE_STRERROR_R 1
-
 /* Define to 1 if you have the <strings.h> header file. */
 #cmakedefine HAVE_STRINGS_H 1
 
@@ -535,10 +535,6 @@
 /* Define to 1 if 'ctime_r' declaration is missing. */
 #cmakedefine MISSING_CTIME_R_DECL 1
 
-/* Define to 1 if 'fclose' declaration is missing, and to 0 if declaration is
-   available. */
-#cmakedefine01 MISSING_FCLOSE_DECL
-
 /* Define to 1 if 'gmtime_r' declaration is missing. */
 #cmakedefine MISSING_GMTIME_R_DECL 1
 
@@ -679,9 +675,6 @@
 
 /* The size of 'ssize_t', as computed by sizeof. */
 @SIZEOF_SSIZE_T_CODE@
-
-/* Define to 1 if strerror_r returns char *. */
-#cmakedefine STRERROR_R_CHAR_P 1
 
 @PHP_SYSTEM_EXTENSIONS@
 
