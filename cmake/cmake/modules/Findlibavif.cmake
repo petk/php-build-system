@@ -45,7 +45,7 @@ endif()
 find_path(
   libavif_INCLUDE_DIR
   NAMES avif/avif.h
-  PATHS ${PC_libavif_INCLUDE_DIRS}
+  HINTS ${PC_libavif_INCLUDE_DIRS}
   DOC "Directory containing libavif library headers"
 )
 
@@ -56,7 +56,7 @@ endif()
 find_library(
   libavif_LIBRARY
   NAMES avif
-  PATHS ${PC_libavif_LIBRARY_DIRS}
+  HINTS ${PC_libavif_LIBRARY_DIRS}
   DOC "The path to the libavif library"
 )
 

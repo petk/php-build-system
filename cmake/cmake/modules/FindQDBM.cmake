@@ -45,7 +45,7 @@ find_path(
   QDBM_INCLUDE_DIR
   NAMES depot.h
   PATH_SUFFIXES qdbm
-  PATHS ${PC_QDBM_INCLUDE_DIRS}
+  HINTS ${PC_QDBM_INCLUDE_DIRS}
   DOC "Directory containing QDBM library headers"
 )
 
@@ -56,7 +56,7 @@ endif()
 find_library(
   QDBM_LIBRARY
   NAMES qdbm
-  PATHS ${PC_QDBM_LIBRARY_DIRS}
+  HINTS ${PC_QDBM_LIBRARY_DIRS}
   DOC "The path to the QDBM library"
 )
 

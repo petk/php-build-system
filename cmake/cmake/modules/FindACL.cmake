@@ -150,7 +150,7 @@ else()
   find_path(
     ACL_INCLUDE_DIR
     NAMES sys/acl.h
-    PATHS ${PC_ACL_INCLUDE_DIRS}
+    HINTS ${PC_ACL_INCLUDE_DIRS}
     DOC "Directory containing ACL library headers"
   )
 
@@ -161,7 +161,7 @@ else()
   find_library(
     ACL_LIBRARY
     NAMES acl
-    PATHS ${PC_ACL_LIBRARY_DIRS}
+    HINTS ${PC_ACL_LIBRARY_DIRS}
     DOC "The path to the ACL library"
   )
 

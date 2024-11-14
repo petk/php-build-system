@@ -43,7 +43,7 @@ endif()
 find_path(
   PCRE_INCLUDE_DIR
   NAMES pcre2.h
-  PATHS ${PC_PCRE_INCLUDE_DIRS}
+  HINTS ${PC_PCRE_INCLUDE_DIRS}
   DOC "Directory containing PCRE library headers"
 )
 
@@ -54,7 +54,7 @@ endif()
 find_library(
   PCRE_LIBRARY
   NAMES pcre2-8
-  PATHS ${PC_PCRE_LIBRARY_DIRS}
+  HINTS ${PC_PCRE_LIBRARY_DIRS}
   DOC "The path to the PCRE library"
 )
 

@@ -43,7 +43,7 @@ endif()
 find_path(
   GMP_INCLUDE_DIR
   NAMES gmp.h
-  PATHS ${PC_GMP_INCLUDE_DIRS}
+  HINTS ${PC_GMP_INCLUDE_DIRS}
   DOC "Directory containing GMP library headers"
 )
 
@@ -54,7 +54,7 @@ endif()
 find_library(
   GMP_LIBRARY
   NAMES gmp
-  PATHS ${PC_GMP_LIBRARY_DIRS}
+  HINTS ${PC_GMP_LIBRARY_DIRS}
   DOC "The path to the GMP library"
 )
 

@@ -44,7 +44,7 @@ endif()
 find_path(
   LMDB_INCLUDE_DIR
   NAMES lmdb.h
-  PATHS ${PC_LMDB_INCLUDE_DIRS}
+  HINTS ${PC_LMDB_INCLUDE_DIRS}
   DOC "Directory containing LMDB library headers"
 )
 
@@ -55,7 +55,7 @@ endif()
 find_library(
   LMDB_LIBRARY
   NAMES lmdb
-  PATHS ${PC_LMDB_LIBRARY_DIRS}
+  HINTS ${PC_LMDB_LIBRARY_DIRS}
   DOC "The path to the LMDB library"
 )
 

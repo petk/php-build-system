@@ -43,7 +43,7 @@ endif()
 find_path(
   XPM_INCLUDE_DIR
   NAMES X11/xpm.h
-  PATHS ${PC_XPM_INCLUDE_DIRS}
+  HINTS ${PC_XPM_INCLUDE_DIRS}
   DOC "Directory containing XPM library headers"
 )
 
@@ -54,7 +54,7 @@ endif()
 find_library(
   XPM_LIBRARY
   NAMES Xpm
-  PATHS ${PC_XPM_LIBRARY_DIRS}
+  HINTS ${PC_XPM_LIBRARY_DIRS}
   DOC "The path to the XPM library"
 )
 

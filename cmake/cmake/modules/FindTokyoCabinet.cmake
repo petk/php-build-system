@@ -44,7 +44,7 @@ endif()
 find_path(
   TokyoCabinet_INCLUDE_DIR
   NAMES tcadb.h
-  PATHS ${PC_TokyoCabinet_INCLUDE_DIRS}
+  HINTS ${PC_TokyoCabinet_INCLUDE_DIRS}
   DOC "Directory containing Tokyo Cabinet library headers"
 )
 
@@ -55,7 +55,7 @@ endif()
 find_library(
   TokyoCabinet_LIBRARY
   NAMES tokyocabinet
-  PATHS ${PC_TokyoCabinet_LIBRARY_DIRS}
+  HINTS ${PC_TokyoCabinet_LIBRARY_DIRS}
   DOC "The path to the Tokyo Cabinet library"
 )
 

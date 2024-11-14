@@ -44,7 +44,7 @@ endif()
 find_path(
   Editline_INCLUDE_DIR
   NAMES editline/readline.h
-  PATHS ${PC_Editline_INCLUDE_DIRS}
+  HINTS ${PC_Editline_INCLUDE_DIRS}
   DOC "Directory containing Editline library headers"
 )
 
@@ -55,7 +55,7 @@ endif()
 find_library(
   Editline_LIBRARY
   NAMES edit
-  PATHS ${PC_Editline_LIBRARY_DIRS}
+  HINTS ${PC_Editline_LIBRARY_DIRS}
   DOC "The path to the Editline library"
 )
 

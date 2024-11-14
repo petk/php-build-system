@@ -44,7 +44,7 @@ endif()
 find_path(
   Cdb_INCLUDE_DIR
   NAMES cdb.h
-  PATHS ${PC_Cdb_INCLUDE_DIRS}
+  HINTS ${PC_Cdb_INCLUDE_DIRS}
   DOC "Directory containing cdb library headers"
 )
 
@@ -55,7 +55,7 @@ endif()
 find_library(
   Cdb_LIBRARY
   NAMES cdb
-  PATHS ${PC_Cdb_LIBRARY_DIRS}
+  HINTS ${PC_Cdb_LIBRARY_DIRS}
   DOC "The path to the cdb library"
 )
 

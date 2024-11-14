@@ -52,7 +52,7 @@ endif()
 find_path(
   libzip_INCLUDE_DIR
   NAMES zip.h
-  PATHS ${PC_libzip_INCLUDE_DIRS}
+  HINTS ${PC_libzip_INCLUDE_DIRS}
   DOC "Directory containing libzip library headers"
 )
 
@@ -63,7 +63,7 @@ endif()
 find_library(
   libzip_LIBRARY
   NAMES zip
-  PATHS ${PC_libzip_LIBRARY_DIRS}
+  HINTS ${PC_libzip_LIBRARY_DIRS}
   DOC "The path to the libzip library"
 )
 

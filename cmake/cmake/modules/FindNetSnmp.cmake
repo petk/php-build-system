@@ -96,7 +96,7 @@ endif()
 find_path(
   NetSnmp_INCLUDE_DIR
   NAMES net-snmp/net-snmp-config.h
-  PATHS
+  HINTS
     ${PC_NetSnmp_INCLUDE_DIRS}
     ${_netsnmp_config_include_dir}
   DOC "Directory containing Net-SNMP library headers"
@@ -109,7 +109,7 @@ endif()
 find_library(
   NetSnmp_LIBRARY
   NAMES netsnmp
-  PATHS
+  HINTS
     ${PC_NetSnmp_LIBRARY_DIRS}
     ${_netsnmp_config_libdir}
   DOC "The path to the Net-SNMP library"

@@ -112,7 +112,7 @@ endif()
 find_path(
   PHP_INCLUDE_DIR
   NAMES main/php_config.h
-  PATHS
+  HINTS
     ${PC_PHP_INCLUDE_DIRS}
     ${PHP_INCLUDE_DIRS}
   DOC "Directory containing PHP main binding headers"
@@ -175,14 +175,14 @@ endif()
 find_library(
   PHP_EMBED_LIBRARY
   NAMES php
-  PATHS ${PC_PHP_EMBED_LIBRARY_DIRS}
+  HINTS ${PC_PHP_EMBED_LIBRARY_DIRS}
   DOC "The path to the libphp embed library"
 )
 
 find_path(
   PHP_EMBED_INCLUDE_DIR
   NAMES sapi/embed/php_embed.h
-  PATHS
+  HINTS
     ${PC_PHP_EMBED_INCLUDE_DIRS}
     ${PHP_INCLUDE_DIRS}
   DOC "Directory containing PHP Embed SAPI header(s)"

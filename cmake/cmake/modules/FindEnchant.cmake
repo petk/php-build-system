@@ -50,7 +50,7 @@ endif()
 find_path(
   Enchant_INCLUDE_DIR
   NAMES enchant.h
-  PATHS ${PC_Enchant_INCLUDE_DIRS}
+  HINTS ${PC_Enchant_INCLUDE_DIRS}
   DOC "Directory containing Enchant library headers"
 )
 
@@ -61,7 +61,7 @@ endif()
 find_library(
   Enchant_LIBRARY
   NAMES ${_enchant_name}
-  PATHS ${PC_Enchant_LIBRARY_DIRS}
+  HINTS ${PC_Enchant_LIBRARY_DIRS}
   DOC "The path to the Enchant library"
 )
 

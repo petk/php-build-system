@@ -44,7 +44,7 @@ endif()
 find_path(
   SELinux_INCLUDE_DIR
   NAMES selinux/selinux.h
-  PATHS ${PC_Selinux_INCLUDE_DIRS}
+  HINTS ${PC_Selinux_INCLUDE_DIRS}
   DOC "Directory containing SELinux library headers"
 )
 
@@ -55,7 +55,7 @@ endif()
 find_library(
   SELinux_LIBRARY
   NAMES selinux
-  PATHS ${PC_Selinux_LIBRARY_DIRS}
+  HINTS ${PC_Selinux_LIBRARY_DIRS}
   DOC "The path to the SELinux library"
 )
 

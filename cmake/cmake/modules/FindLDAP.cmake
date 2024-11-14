@@ -51,7 +51,7 @@ endif()
 find_path(
   LDAP_INCLUDE_DIR
   NAMES ldap.h
-  PATHS ${PC_LDAP_INCLUDE_DIRS}
+  HINTS ${PC_LDAP_INCLUDE_DIRS}
   DOC "Directory containing LDAP library headers"
 )
 
@@ -62,7 +62,7 @@ endif()
 find_library(
   LDAP_LIBRARY
   NAMES ldap
-  PATHS ${PC_LDAP_LIBRARY_DIRS}
+  HINTS ${PC_LDAP_LIBRARY_DIRS}
   DOC "The path to the LDAP library"
 )
 
@@ -74,7 +74,7 @@ if(LDAP_LIBRARY)
   find_library(
     LDAP_LBER_LIBRARY
     NAMES lber
-    PATHS ${PC_LDAP_LBER_LIBRARY_DIRS}
+    HINTS ${PC_LDAP_LBER_LIBRARY_DIRS}
     DOC "The path to the OpenLDAP LBER Lightweight Basic Encoding Rules library"
   )
 endif()

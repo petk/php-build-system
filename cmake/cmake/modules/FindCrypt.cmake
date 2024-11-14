@@ -92,7 +92,7 @@ else()
   find_path(
     Crypt_INCLUDE_DIR
     NAMES crypt.h unistd.h
-    PATHS ${PC_Crypt_INCLUDE_DIRS}
+    HINTS ${PC_Crypt_INCLUDE_DIRS}
     DOC "Directory containing Crypt library headers"
   )
 
@@ -103,7 +103,7 @@ else()
   find_library(
     Crypt_LIBRARY
     NAMES crypt
-    PATHS ${PC_Crypt_LIBRARY_DIRS}
+    HINTS ${PC_Crypt_LIBRARY_DIRS}
     DOC "The path to the crypt library"
   )
 

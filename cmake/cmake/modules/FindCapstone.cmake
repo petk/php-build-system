@@ -43,7 +43,7 @@ endif()
 find_path(
   Capstone_INCLUDE_DIR
   NAMES capstone/capstone.h
-  PATHS ${PC_Capstone_INCLUDE_DIRS}
+  HINTS ${PC_Capstone_INCLUDE_DIRS}
   DOC "Directory containing Capstone library headers"
 )
 
@@ -54,7 +54,7 @@ endif()
 find_library(
   Capstone_LIBRARY
   NAMES capstone
-  PATHS ${PC_Capstone_LIBRARY_DIRS}
+  HINTS ${PC_Capstone_LIBRARY_DIRS}
   DOC "The path to the Capstone library"
 )
 

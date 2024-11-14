@@ -43,7 +43,7 @@ endif()
 find_path(
   GD_INCLUDE_DIR
   NAMES gd.h
-  PATHS ${PC_GD_INCLUDE_DIRS}
+  HINTS ${PC_GD_INCLUDE_DIRS}
   DOC "Directory containing GD library headers"
 )
 
@@ -54,7 +54,7 @@ endif()
 find_library(
   GD_LIBRARY
   NAMES gd
-  PATHS ${PC_GD_LIBRARY_DIRS}
+  HINTS ${PC_GD_LIBRARY_DIRS}
   DOC "The path to the GD library"
 )
 

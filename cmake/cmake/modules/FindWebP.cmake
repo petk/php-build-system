@@ -43,7 +43,7 @@ endif()
 find_path(
   WebP_INCLUDE_DIR
   NAMES webp/decode.h
-  PATHS ${PC_WebP_INCLUDE_DIRS}
+  HINTS ${PC_WebP_INCLUDE_DIRS}
   DOC "Directory containing libwebp library headers"
 )
 
@@ -54,7 +54,7 @@ endif()
 find_library(
   WebP_LIBRARY
   NAMES webp
-  PATHS ${PC_WebP_LIBRARY_DIRS}
+  HINTS ${PC_WebP_LIBRARY_DIRS}
   DOC "The path to the libwebp library"
 )
 

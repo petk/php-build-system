@@ -123,7 +123,7 @@ if("Lib" IN_LIST MySQL_FIND_COMPONENTS)
   find_path(
     MySQL_INCLUDE_DIR
     NAMES mysql.h
-    PATHS
+    HINTS
       ${_mysql_include_dir}
       ${PC_MySQL_INCLUDE_DIRS}
     PATH_SUFFIXES mysql
@@ -133,7 +133,7 @@ if("Lib" IN_LIST MySQL_FIND_COMPONENTS)
   find_library(
     MySQL_LIBRARY
     NAMES mysqlclient mysql
-    PATHS
+    HINTS
       ${_mysql_library_dir}
       ${PC_MySQL_LIBRARY_DIRS}
     DOC "The path to the MySQL library"

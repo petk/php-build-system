@@ -43,7 +43,7 @@ endif()
 find_path(
   FFI_INCLUDE_DIR
   NAMES ffi.h
-  PATHS ${PC_FFI_INCLUDE_DIRS}
+  HINTS ${PC_FFI_INCLUDE_DIRS}
   DOC "Directory containing FFI library headers"
 )
 
@@ -54,7 +54,7 @@ endif()
 find_library(
   FFI_LIBRARY
   NAMES ffi
-  PATHS ${PC_FFI_LIBRARY_DIRS}
+  HINTS ${PC_FFI_LIBRARY_DIRS}
   DOC "The path to the FFI library"
 )
 

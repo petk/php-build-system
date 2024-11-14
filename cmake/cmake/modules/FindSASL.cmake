@@ -43,7 +43,7 @@ endif()
 find_path(
   SASL_INCLUDE_DIR
   NAMES sasl/sasl.h
-  PATHS ${PC_SASL_INCLUDE_DIRS}
+  HINTS ${PC_SASL_INCLUDE_DIRS}
   DOC "Directory containing SASL library headers"
 )
 
@@ -54,7 +54,7 @@ endif()
 find_library(
   SASL_LIBRARY
   NAMES sasl2
-  PATHS ${PC_SASL_LIBRARY_DIRS}
+  HINTS ${PC_SASL_LIBRARY_DIRS}
   DOC "The path to the SASL library"
 )
 

@@ -44,7 +44,7 @@ endif()
 find_path(
   AppArmor_INCLUDE_DIR
   NAMES sys/apparmor.h
-  PATHS ${PC_AppArmor_INCLUDE_DIRS}
+  HINTS ${PC_AppArmor_INCLUDE_DIRS}
   DOC "Directory containing AppArmor library headers"
 )
 
@@ -55,7 +55,7 @@ endif()
 find_library(
   AppArmor_LIBRARY
   NAMES apparmor
-  PATHS ${PC_AppArmor_LIBRARY_DIRS}
+  HINTS ${PC_AppArmor_LIBRARY_DIRS}
   DOC "The path to the AppArmor library"
 )
 

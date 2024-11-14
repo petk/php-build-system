@@ -183,10 +183,13 @@ if(UNIX AND NOT ODBC_CONFIG)
 endif()
 
 ### Find include directories ##################################################
-find_path(ODBC_INCLUDE_DIR
+find_path(
+  ODBC_INCLUDE_DIR
   NAMES sql.h
-  PATHS ${_odbc_include_paths}
-  HINTS ${PC_ODBC_INCLUDE_DIRS})
+  HINTS
+    ${_odbc_include_paths}
+    ${PC_ODBC_INCLUDE_DIRS}
+)
 
 if(NOT ODBC_INCLUDE_DIR AND CMAKE_SYSTEM_NAME STREQUAL "Windows")
   set(ODBC_INCLUDE_DIR "")
@@ -196,14 +199,14 @@ endif()
 if(NOT ODBC_LIBRARY)
   find_library(ODBC_LIBRARY
     NAMES ${_odbc_lib_names}
-    PATHS ${_odbc_lib_paths}
+    HINTS ${_odbc_lib_paths}
     PATH_SUFFIXES odbc
     HINTS ${PC_ODBC_LIBRARY_DIRS})
 
   foreach(_lib IN LISTS _odbc_required_libs_names)
     find_library(_lib_path
       NAMES ${_lib}
-      PATHS ${_odbc_lib_paths} # system parths or collected from ODBC_CONFIG
+      HINTS ${_odbc_lib_paths} # system paths or collected from ODBC_CONFIG
       PATH_SUFFIXES odbc)
     if(_lib_path)
       list(APPEND _odbc_required_libs_paths ${_lib_path})

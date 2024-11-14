@@ -44,7 +44,7 @@ endif()
 find_path(
   Systemd_INCLUDE_DIR
   NAMES systemd/sd-daemon.h
-  PATHS ${PC_Systemd_INCLUDE_DIRS}
+  HINTS ${PC_Systemd_INCLUDE_DIRS}
   DOC "Directory containing systemd library headers"
 )
 
@@ -55,7 +55,7 @@ endif()
 find_library(
   Systemd_LIBRARY
   NAMES systemd
-  PATHS ${PC_Systemd_LIBRARY_DIRS}
+  HINTS ${PC_Systemd_LIBRARY_DIRS}
   DOC "The path to the systemd library"
 )
 

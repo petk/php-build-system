@@ -29,23 +29,7 @@ set(_reason "")
 
 find_program(
   PHPSystem_EXECUTABLE
-  NAMES
-    php
-    php8.5
-    php85
-    php8.4
-    php84
-    php8.3
-    php83
-    php8.2
-    php82
-    php8.1
-    php81
-    php8
-    php7.4
-    php74
-    php7
-
+  NAMES php
   DOC "Path to the PHP executable"
 )
 

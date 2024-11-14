@@ -43,7 +43,7 @@ endif()
 find_path(
   Oniguruma_INCLUDE_DIR
   NAMES oniguruma.h
-  PATHS ${PC_Oniguruma_INCLUDE_DIRS}
+  HINTS ${PC_Oniguruma_INCLUDE_DIRS}
   DOC "Directory containing Oniguruma library headers"
 )
 
@@ -54,7 +54,7 @@ endif()
 find_library(
   Oniguruma_LIBRARY
   NAMES onig
-  PATHS ${PC_Oniguruma_LIBRARY_DIRS}
+  HINTS ${PC_Oniguruma_LIBRARY_DIRS}
   DOC "The path to the Oniguruma library"
 )
 

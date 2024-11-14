@@ -53,7 +53,7 @@ endif()
 find_path(
   Kerberos_INCLUDE_DIR
   NAMES krb5.h
-  PATHS ${PC_Kerberos_INCLUDE_DIRS}
+  HINTS ${PC_Kerberos_INCLUDE_DIRS}
   PATH_SUFFIXES krb5 mit-krb5
   DOC "Directory containing Kerberos library headers"
 )
@@ -65,7 +65,7 @@ endif()
 find_library(
   Kerberos_LIBRARY
   NAMES krb5
-  PATHS ${PC_Kerberos_LIBRARY_DIRS}
+  HINTS ${PC_Kerberos_LIBRARY_DIRS}
   DOC "The path to the Kerberos library"
 )
 
@@ -124,7 +124,7 @@ endif()
 find_path(
   Kerberos_GSSAPI_INCLUDE_DIR
   NAMES gssapi/gssapi_krb5.h
-  PATHS ${PC_Kerberos_GSSAPI_INCLUDE_DIRS}
+  HINTS ${PC_Kerberos_GSSAPI_INCLUDE_DIRS}
   PATH_SUFFIXES mit-krb5
   DOC "Directory containing Kerberos GSSAPI library headers"
 )
@@ -132,7 +132,7 @@ find_path(
 find_library(
   Kerberos_GSSAPI_LIBRARY
   NAMES gssapi_krb5
-  PATHS ${PC_Kerberos_GSSAPI_LIBRARY_DIRS}
+  HINTS ${PC_Kerberos_GSSAPI_LIBRARY_DIRS}
   PATH_SUFFIXES mit-krb5
   DOC "The path to the Kerberos GSSAPI library"
 )

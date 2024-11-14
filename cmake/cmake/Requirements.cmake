@@ -123,21 +123,6 @@ endif()
 find_package(Sendmail)
 
 ################################################################################
-# Find Valgrind.
-################################################################################
-if(PHP_VALGRIND)
-  find_package(Valgrind)
-  set_package_properties(
-    Valgrind
-    PROPERTIES
-      TYPE REQUIRED
-      PURPOSE "Necessary to enable Valgrind support."
-  )
-
-  target_link_libraries(php_configuration INTERFACE Valgrind::Valgrind)
-endif()
-
-################################################################################
 # Find PHP installed on the system for generating stub files (*_arginfo.h),
 # Zend/zend_vm_gen.php, ext/tokenizer/tokenizer_data_gen.php and similar where
 # it can be used. Otherwise the built cli sapi is used at the build phase.

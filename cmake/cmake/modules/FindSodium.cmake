@@ -43,7 +43,7 @@ endif()
 find_path(
   Sodium_INCLUDE_DIR
   NAMES sodium.h
-  PATHS ${PC_Sodium_INCLUDE_DIRS}
+  HINTS ${PC_Sodium_INCLUDE_DIRS}
   DOC "Directory containing Sodium library headers"
 )
 
@@ -54,7 +54,7 @@ endif()
 find_library(
   Sodium_LIBRARY
   NAMES sodium
-  PATHS ${PC_Sodium_LIBRARY_DIRS}
+  HINTS ${PC_Sodium_LIBRARY_DIRS}
   DOC "The path to the Sodium library"
 )
 

@@ -44,7 +44,7 @@ endif()
 find_path(
   Readline_INCLUDE_DIR
   NAMES readline/readline.h
-  PATHS ${PC_Readline_INCLUDE_DIRS}
+  HINTS ${PC_Readline_INCLUDE_DIRS}
   DOC "Directory containing Readline library headers"
 )
 
@@ -55,7 +55,7 @@ endif()
 find_library(
   Readline_LIBRARY
   NAMES readline
-  PATHS ${PC_Readline_LIBRARY_DIRS}
+  HINTS ${PC_Readline_LIBRARY_DIRS}
   DOC "The path to the Readline library"
 )
 

@@ -52,7 +52,7 @@ find_path(
   NAMES
     tidy.h
     tidyp.h # Tidy library fork (obsolete)
-  PATHS ${PC_Tidy_INCLUDE_DIRS}
+  HINTS ${PC_Tidy_INCLUDE_DIRS}
   PATH_SUFFIXES
     tidy
     tidyp # Tidy library fork (obsolete).
@@ -69,7 +69,7 @@ find_library(
     tidy
     tidy5 # tidy-html5 on FreeBSD
     tidyp
-  PATHS ${PC_Tidy_LIBRARY_DIRS}
+  HINTS ${PC_Tidy_LIBRARY_DIRS}
   DOC "The path to the Tidy library"
 )
 

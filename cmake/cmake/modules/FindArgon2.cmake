@@ -43,7 +43,7 @@ endif()
 find_path(
   Argon2_INCLUDE_DIR
   NAMES argon2.h
-  PATHS ${PC_Argon2_INCLUDE_DIRS}
+  HINTS ${PC_Argon2_INCLUDE_DIRS}
   DOC "Directory containing Argon2 library headers"
 )
 
@@ -54,7 +54,7 @@ endif()
 find_library(
   Argon2_LIBRARY
   NAMES argon2
-  PATHS ${PC_Argon2_LIBRARY_DIRS}
+  HINTS ${PC_Argon2_LIBRARY_DIRS}
   DOC "The path to the Argon2 library"
 )
 
