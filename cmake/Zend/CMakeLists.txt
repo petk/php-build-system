@@ -418,6 +418,28 @@ cmake_pop_check_state()
 check_symbol_exists(pthread_stackseg_np "pthread.h" HAVE_PTHREAD_STACKSEG_NP)
 check_symbol_exists(sigsetjmp "setjmp.h" HAVE_SIGSETJMP)
 
+message(CHECK_START "Checking for asm goto support")
+cmake_push_check_state(RESET)
+  set(CMAKE_REQUIRED_QUIET TRUE)
+  check_source_compiles(C [[
+    int main(void)
+    {
+      #if defined(__x86_64__) || defined(__i386__)
+        __asm__ goto("jmp %l0\n" :::: end);
+      #elif defined(__aarch64__)
+        __asm__ goto("b %l0\n" :::: end);
+      #endif
+      end:
+        return 0;
+    }
+  ]] HAVE_ASM_GOTO)
+cmake_pop_check_state()
+if(HAVE_ASM_GOTO)
+  message(CHECK_PASS "yes")
+else()
+  message(CHECK_FAIL "no")
+endif()
+
 message(CHECK_START "Checking whether __cpuid_count is available")
 cmake_push_check_state(RESET)
   set(CMAKE_REQUIRED_QUIET TRUE)

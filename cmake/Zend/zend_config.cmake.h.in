@@ -10,6 +10,9 @@
 /* Define to 1 if _FPU_SETCW is present and usable. */
 #cmakedefine HAVE__FPU_SETCW 1
 
+/* Define to 1 if asm goto support is available. */
+#cmakedefine HAVE_ASM_GOTO 1
+
 /* Define to 1 if '__cpuid_count' is available. */
 #cmakedefine HAVE_CPUID_COUNT 1
 

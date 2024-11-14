@@ -58,9 +58,6 @@
    and to string "0" if they are not. */
 #define DEFAULT_SHORT_OPEN_TAG "@DEFAULT_SHORT_OPEN_TAG@"
 
-/* Define to 1 when aarch64 CRC32 API is available. */
-#cmakedefine HAVE_AARCH64_CRC32 1
-
 /* Define to 1 if the compiler supports '__alignof__'. */
 #cmakedefine HAVE_ALIGNOF 1
 
@@ -81,9 +78,6 @@
 
 /* Define to 1 if you have the 'asctime_r' function. */
 #cmakedefine HAVE_ASCTIME_R 1
-
-/* Define to 1 if asm goto support is available. */
-#cmakedefine HAVE_ASM_GOTO 1
 
 /* Define to 1 if you have the 'asprintf' function. */
 #cmakedefine HAVE_ASPRINTF 1
