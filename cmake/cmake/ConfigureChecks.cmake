@@ -247,29 +247,6 @@ php_check_builtin(__builtin_usub_overflow PHP_HAVE_BUILTIN_USUB_OVERFLOW)
 # Check AVX-512 extensions.
 include(PHP/CheckAVX512)
 
-# Check for asm goto.
-message(CHECK_START "Checking for asm goto support")
-cmake_push_check_state(RESET)
-  set(CMAKE_REQUIRED_QUIET TRUE)
-  check_source_compiles(C [[
-    int main(void)
-    {
-      #if defined(__x86_64__) || defined(__i386__)
-        __asm__ goto("jmp %l0\n" :::: end);
-      #elif defined(__aarch64__)
-        __asm__ goto("b %l0\n" :::: end);
-      #endif
-      end:
-        return 0;
-    }
-  ]] HAVE_ASM_GOTO)
-cmake_pop_check_state()
-if(HAVE_ASM_GOTO)
-  message(CHECK_PASS "yes")
-else()
-  message(CHECK_FAIL "no")
-endif()
-
 ################################################################################
 # Check functions.
 ################################################################################
@@ -468,35 +445,6 @@ endif()
 
 # Check how flush should be called.
 include(PHP/CheckFlushIo)
-
-# Check for aarch64 CRC32 API.
-message(CHECK_START "Checking for aarch64 CRC32 API availability")
-cmake_push_check_state(RESET)
-  set(CMAKE_REQUIRED_QUIET TRUE)
-  check_source_compiles(C [[
-    #include <arm_acle.h>
-    # if defined(__GNUC__)
-    #  if!defined(__clang__)
-    #   pragma GCC push_options
-    #   pragma GCC target ("+nothing+crc")
-    #  elif defined(__APPLE__)
-    #   pragma clang attribute push(__attribute__((target("crc"))), apply_to=function)
-    #  else
-    #   pragma clang attribute push(__attribute__((target("+nothing+crc"))), apply_to=function)
-    #  endif
-    # endif
-    int main(void)
-    {
-      __crc32d(0, 0);
-      return 0;
-    }
-  ]] HAVE_AARCH64_CRC32)
-cmake_pop_check_state()
-if(HAVE_AARCH64_CRC32)
-  message(CHECK_PASS "yes")
-else()
-  message(CHECK_FAIL "no")
-endif()
 
 if(HAVE_ALLOCA_H)
   # Most *.nix systems.
