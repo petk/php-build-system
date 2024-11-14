@@ -379,6 +379,11 @@ include(PHP/PascalCase)
 This approach is adopted for convenience to prevent any potential conflicts with
 upstream CMake modules.
 
+> [!TIP]
+> When `CMakeLists.txt` becomes too complex for all-in-one configuration file,
+> some PHP extensions, SAPIs and Zend Engine include configure checks from local
+> modules located in their `cmake` subdirectories for simplicity.
+
 ## 5. Booleans
 
 CMake interprets `1`, `ON`, `YES`, `TRUE`, and `Y` as representing boolean true

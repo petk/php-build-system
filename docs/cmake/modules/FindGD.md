@@ -1,6 +1,12 @@
 # FindGD
 
-See: [FindGD.cmake](https://github.com/petk/php-build-system/tree/master/cmake/cmake/modules/FindGD.cmake)
+See: [FindGD.cmake](https://github.com/petk/php-build-system/blob/master/cmake/cmake/modules/FindGD.cmake)
+
+## Basic usage
+
+```cmake
+include(cmake/FindGD.cmake)
+```
 
 Find the GD library.
 

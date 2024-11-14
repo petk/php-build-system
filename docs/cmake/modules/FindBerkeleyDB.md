@@ -1,6 +1,12 @@
 # FindBerkeleyDB
 
-See: [FindBerkeleyDB.cmake](https://github.com/petk/php-build-system/tree/master/cmake/cmake/modules/FindBerkeleyDB.cmake)
+See: [FindBerkeleyDB.cmake](https://github.com/petk/php-build-system/blob/master/cmake/cmake/modules/FindBerkeleyDB.cmake)
+
+## Basic usage
+
+```cmake
+include(cmake/FindBerkeleyDB.cmake)
+```
 
 Find the Berkeley DB library.
 

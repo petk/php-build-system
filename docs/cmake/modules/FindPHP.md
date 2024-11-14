@@ -2,6 +2,12 @@
 
 See: [FindPHP.cmake](https://github.com/petk/php-build-system/blob/master/cmake/ext/skeleton/cmake/modules/FindPHP.cmake)
 
+## Basic usage
+
+```cmake
+include(cmake/FindPHP.cmake)
+```
+
 Find PHP.
 
 Components:

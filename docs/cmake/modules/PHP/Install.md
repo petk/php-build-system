@@ -1,6 +1,12 @@
 # PHP/Install
 
-See: [Install.cmake](https://github.com/petk/php-build-system/tree/master/cmake/cmake/modules/PHP/Install.cmake)
+See: [Install.cmake](https://github.com/petk/php-build-system/blob/master/cmake/cmake/modules/PHP/Install.cmake)
+
+## Basic usage
+
+```cmake
+include(PHP/Install)
+```
 
 Set the `CMAKE_INSTALL_*` variables inside the `install(CODE|SCRIPT)`.
 

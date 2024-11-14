@@ -1,6 +1,12 @@
 # PHP/PositionIndependentCode
 
-See: [PositionIndependentCode.cmake](https://github.com/petk/php-build-system/tree/master/cmake/cmake/modules/PHP/PositionIndependentCode.cmake)
+See: [PositionIndependentCode.cmake](https://github.com/petk/php-build-system/blob/master/cmake/cmake/modules/PHP/PositionIndependentCode.cmake)
+
+## Basic usage
+
+```cmake
+include(PHP/PositionIndependentCode)
+```
 
 Check whether to enable the `POSITION_INDEPENDENT_CODE` or not.
 

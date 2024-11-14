@@ -1,6 +1,12 @@
 # Findlibavif
 
-See: [Findlibavif.cmake](https://github.com/petk/php-build-system/tree/master/cmake/cmake/modules/Findlibavif.cmake)
+See: [Findlibavif.cmake](https://github.com/petk/php-build-system/blob/master/cmake/cmake/modules/Findlibavif.cmake)
+
+## Basic usage
+
+```cmake
+include(cmake/Findlibavif.cmake)
+```
 
 Find the libavif library.
 

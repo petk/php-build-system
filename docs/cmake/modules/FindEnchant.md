@@ -1,6 +1,12 @@
 # FindEnchant
 
-See: [FindEnchant.cmake](https://github.com/petk/php-build-system/tree/master/cmake/cmake/modules/FindEnchant.cmake)
+See: [FindEnchant.cmake](https://github.com/petk/php-build-system/blob/master/cmake/cmake/modules/FindEnchant.cmake)
+
+## Basic usage
+
+```cmake
+include(cmake/FindEnchant.cmake)
+```
 
 Find the Enchant library.
 

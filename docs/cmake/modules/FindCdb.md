@@ -1,6 +1,12 @@
 # FindCdb
 
-See: [FindCdb.cmake](https://github.com/petk/php-build-system/tree/master/cmake/cmake/modules/FindCdb.cmake)
+See: [FindCdb.cmake](https://github.com/petk/php-build-system/blob/master/cmake/cmake/modules/FindCdb.cmake)
+
+## Basic usage
+
+```cmake
+include(cmake/FindCdb.cmake)
+```
 
 Find the cdb library.
 

@@ -1,6 +1,12 @@
 # PHP/PkgConfigGenerator
 
-See: [PkgConfigGenerator.cmake](https://github.com/petk/php-build-system/tree/master/cmake/cmake/modules/PHP/PkgConfigGenerator.cmake)
+See: [PkgConfigGenerator.cmake](https://github.com/petk/php-build-system/blob/master/cmake/cmake/modules/PHP/PkgConfigGenerator.cmake)
+
+## Basic usage
+
+```cmake
+include(PHP/PkgConfigGenerator)
+```
 
 Generate pkg-config .pc file.
 

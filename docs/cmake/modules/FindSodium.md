@@ -1,6 +1,12 @@
 # FindSodium
 
-See: [FindSodium.cmake](https://github.com/petk/php-build-system/tree/master/cmake/cmake/modules/FindSodium.cmake)
+See: [FindSodium.cmake](https://github.com/petk/php-build-system/blob/master/cmake/cmake/modules/FindSodium.cmake)
+
+## Basic usage
+
+```cmake
+include(cmake/FindSodium.cmake)
+```
 
 Find the Sodium library (libsodium).
 

@@ -1,6 +1,12 @@
 # PHP/FeatureSummary
 
-See: [FeatureSummary.cmake](https://github.com/petk/php-build-system/tree/master/cmake/cmake/modules/PHP/FeatureSummary.cmake)
+See: [FeatureSummary.cmake](https://github.com/petk/php-build-system/blob/master/cmake/cmake/modules/PHP/FeatureSummary.cmake)
+
+## Basic usage
+
+```cmake
+include(PHP/FeatureSummary)
+```
 
 Print summary of enabled/disabled features.
 

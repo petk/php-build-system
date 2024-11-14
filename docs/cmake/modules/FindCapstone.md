@@ -1,6 +1,12 @@
 # FindCapstone
 
-See: [FindCapstone.cmake](https://github.com/petk/php-build-system/tree/master/cmake/cmake/modules/FindCapstone.cmake)
+See: [FindCapstone.cmake](https://github.com/petk/php-build-system/blob/master/cmake/cmake/modules/FindCapstone.cmake)
+
+## Basic usage
+
+```cmake
+include(cmake/FindCapstone.cmake)
+```
 
 Find the Capstone library.
 

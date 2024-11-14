@@ -11,70 +11,143 @@ declare(strict_types=1);
  */
 
 /**
- * Get CMake module header content.
+ * Generate CMake module Markdown docs file from the file's header comment.
  */
 function generateModuleDocs(
     string $file,
     string $namespace,
     string $destination,
-    string $url = '',
+    string $url,
 ): void {
     $content = file_get_contents($file);
     preg_match('/^#\[===+\[\s*(.*?)\s*#\]===+\]/s', $content, $matches);
 
-    if (isset($matches[1])) {
-        $moduleName = basename($file, '.cmake');
+    if (!isset($matches[1])) {
+        return;
+    }
 
-        $content = '';
-        $content .= "# $namespace" . "$moduleName\n\n";
-        if ('' === $url) {
-            $url = 'https://github.com/petk/php-build-system/tree/master/cmake/cmake/modules/' . $namespace . $moduleName . '.cmake';
+    $moduleName = basename($file, '.cmake');
+
+    $content = '';
+    $content .= "# $namespace" . "$moduleName\n\n";
+    $content .= "See: [$moduleName.cmake]($url)\n\n";
+    if ($namespace) {
+        $content .= <<<EOT
+            ## Basic usage
+
+            ```cmake
+            include({$namespace}{$moduleName})
+            ```
+            EOT;
+    } elseif (1 === preg_match('/^Find.+.cmake$/', $moduleName)) {
+        $content .= <<<EOT
+            ## Basic usage
+
+            ```cmake
+            find_package($moduleName)
+            ```
+            EOT;
+    } else {
+        $content .= <<<EOT
+            ## Basic usage
+
+            ```cmake
+            include(cmake/$moduleName.cmake)
+            ```
+            EOT;
+    }
+    $content .= "\n\n";
+    $content .= $matches[1];
+    $content .= "\n";
+
+    if (!file_exists($destination)) {
+        mkdir($destination, 0777, true);
+    }
+
+    $markdownFile = $destination . '/' . $moduleName . '.md';
+    if (file_exists($markdownFile)) {
+        echo "\nWarning: $markdownFile already exists.\n";
+        $markdownFile = $destination . '/' . $moduleName . '_2.md';
+        echo "Module has been renamed to $markdownFile\n\n";
+    }
+
+    file_put_contents($markdownFile, $content);
+}
+
+/**
+ * Remove directory contents recursively.
+ */
+function emptyDirectory(string $path): void
+{
+    $iterator = new RecursiveIteratorIterator(
+        new RecursiveDirectoryIterator($path, RecursiveDirectoryIterator::SKIP_DOTS),
+        RecursiveIteratorIterator::CHILD_FIRST,
+    );
+
+    foreach ($iterator as $file) {
+        if ($file->isDir()) {
+            rmdir($file->getPathname());
+        } else {
+            unlink($file->getPathname());
         }
-        $content .= "See: [$moduleName.cmake]($url)\n\n";
-        $content .= $matches[1];
-        $content .= "\n";
-
-        if (!file_exists($destination . '/' . $namespace)) {
-            mkdir($destination . '/' . $namespace, 0777, true);
-        }
-
-        file_put_contents(
-            $destination . '/' . $namespace . $moduleName . '.md',
-            $content,
-        );
     }
 }
 
-$docs = __DIR__ . '/../docs/cmake/modules';
-if (!file_exists($docs)) {
-    mkdir($docs, 0777, true);
+$modulesDocsDir = __DIR__ . '/../docs/cmake/modules';
+
+if (!file_exists($modulesDocsDir)) {
+    mkdir($modulesDocsDir, 0777, true);
+} else {
+    emptyDirectory($modulesDocsDir);
 }
 
-$docFiles = glob($docs . '/*{/*,*}', GLOB_BRACE);
-foreach ($docFiles as $file) {
-    if (is_file($file)) {
-        unlink($file);
+$modules = [
+    'cmake/modules',
+    'cmake/modules/Packages',
+    'cmake/modules/PHP',
+    'ext/opcache/cmake',
+    'ext/posix/cmake',
+    'ext/session/cmake',
+    'ext/skeleton/cmake/modules/FindPHP.cmake',
+    'ext/standard/cmake',
+    'sapi/fpm/cmake',
+    'sapi/phpdbg/cmake',
+    'Zend/cmake',
+];
+
+$baseDir = __DIR__ . '/../cmake';
+
+$files = [];
+foreach ($modules as $module) {
+    if (is_dir($baseDir . '/' . $module)) {
+        $foundFiles = glob($baseDir . '/' . $module . '/*.cmake', GLOB_BRACE);
+        $files = array_merge($files, $foundFiles);
+    } else {
+        $files[] = $baseDir . '/' . $module;
     }
 }
 
-$modulesDirectory = realpath(__DIR__ . '/../cmake/cmake/modules');
-$files = glob($modulesDirectory . '/*{/*,*}.cmake', GLOB_BRACE);
+foreach ($files as $module) {
+    $relativeFilename = trim(str_replace($baseDir, '', $module), '/');
 
-foreach ($files as $file) {
-    $relativeFilename = trim(str_replace($modulesDirectory, '', $file), '/');
-    echo 'Processing ' . $relativeFilename . "\n";
+    if (str_starts_with($module, $baseDir . '/cmake/modules/')) {
+        $namespace = trim(str_replace($baseDir . '/cmake/modules', '', dirname($module)), '/');
+        $namespace = ('' == $namespace) ? '' : $namespace . '/';
+        $subdir = $namespace;
+    } else {
+        $namespace = '';
+        if ('FindPHP.cmake' === basename($module)) {
+            $subdir = '';
+        } else {
+            $subdir = basename(dirname($module, 2));
+        }
+    }
 
-    $namespace = trim(str_replace($modulesDirectory, '', dirname($file)), '/');
-    $namespace = ('' == $namespace) ? '' : $namespace . '/';
-
-    generateModuleDocs($file, $namespace, $docs);
+    echo "Processing cmake/$relativeFilename\n";
+    generateModuleDocs(
+        $module,
+        $namespace,
+        $modulesDocsDir . '/' . $subdir,
+        'https://github.com/petk/php-build-system/blob/master/cmake/' . $relativeFilename,
+    );
 }
-
-// Add ext/skeleton/cmake/modules/FindPHP.cmake.
-echo "Processing ext/skeleton/cmake/modules/FindPHP.cmake\n";
-generateModuleDocs(
-    __DIR__ . '/../cmake/ext/skeleton/cmake/modules/FindPHP.cmake',
-    '',
-    $docs,
-    'https://github.com/petk/php-build-system/blob/master/cmake/ext/skeleton/cmake/modules/FindPHP.cmake',
-);

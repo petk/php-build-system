@@ -1,6 +1,12 @@
 # FindApache
 
-See: [FindApache.cmake](https://github.com/petk/php-build-system/tree/master/cmake/cmake/modules/FindApache.cmake)
+See: [FindApache.cmake](https://github.com/petk/php-build-system/blob/master/cmake/cmake/modules/FindApache.cmake)
+
+## Basic usage
+
+```cmake
+include(cmake/FindApache.cmake)
+```
 
 Find the Apache packages and tools.
 

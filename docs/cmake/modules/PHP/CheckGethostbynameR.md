@@ -1,6 +1,12 @@
 # PHP/CheckGethostbynameR
 
-See: [CheckGethostbynameR.cmake](https://github.com/petk/php-build-system/tree/master/cmake/cmake/modules/PHP/CheckGethostbynameR.cmake)
+See: [CheckGethostbynameR.cmake](https://github.com/petk/php-build-system/blob/master/cmake/cmake/modules/PHP/CheckGethostbynameR.cmake)
+
+## Basic usage
+
+```cmake
+include(PHP/CheckGethostbynameR)
+```
 
 Check `gethostbyname_r()`.
 

@@ -1,6 +1,12 @@
 # FindNdbm
 
-See: [FindNdbm.cmake](https://github.com/petk/php-build-system/tree/master/cmake/cmake/modules/FindNdbm.cmake)
+See: [FindNdbm.cmake](https://github.com/petk/php-build-system/blob/master/cmake/cmake/modules/FindNdbm.cmake)
+
+## Basic usage
+
+```cmake
+include(cmake/FindNdbm.cmake)
+```
 
 Find the ndbm library.
 

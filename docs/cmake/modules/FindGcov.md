@@ -1,6 +1,12 @@
 # FindGcov
 
-See: [FindGcov.cmake](https://github.com/petk/php-build-system/tree/master/cmake/cmake/modules/FindGcov.cmake)
+See: [FindGcov.cmake](https://github.com/petk/php-build-system/blob/master/cmake/cmake/modules/FindGcov.cmake)
+
+## Basic usage
+
+```cmake
+include(cmake/FindGcov.cmake)
+```
 
 Find the Gcov coverage programs and features.
 

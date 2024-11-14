@@ -1,6 +1,12 @@
 # FindRE2C
 
-See: [FindRE2C.cmake](https://github.com/petk/php-build-system/tree/master/cmake/cmake/modules/FindRE2C.cmake)
+See: [FindRE2C.cmake](https://github.com/petk/php-build-system/blob/master/cmake/cmake/modules/FindRE2C.cmake)
+
+## Basic usage
+
+```cmake
+include(cmake/FindRE2C.cmake)
+```
 
 Find re2c.
 

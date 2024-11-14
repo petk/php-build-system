@@ -1,6 +1,12 @@
 # PHP/Extensions
 
-See: [Extensions.cmake](https://github.com/petk/php-build-system/tree/master/cmake/cmake/modules/PHP/Extensions.cmake)
+See: [Extensions.cmake](https://github.com/petk/php-build-system/blob/master/cmake/cmake/modules/PHP/Extensions.cmake)
+
+## Basic usage
+
+```cmake
+include(PHP/Extensions)
+```
 
 Configure PHP extensions.
 

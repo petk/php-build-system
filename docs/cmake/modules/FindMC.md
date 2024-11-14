@@ -1,6 +1,12 @@
 # FindMC
 
-See: [FindMC.cmake](https://github.com/petk/php-build-system/tree/master/cmake/cmake/modules/FindMC.cmake)
+See: [FindMC.cmake](https://github.com/petk/php-build-system/blob/master/cmake/cmake/modules/FindMC.cmake)
+
+## Basic usage
+
+```cmake
+include(cmake/FindMC.cmake)
+```
 
 Find Windows compatible message compiler (mc.exe or windmc) command-line tool.
 

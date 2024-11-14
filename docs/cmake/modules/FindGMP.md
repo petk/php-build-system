@@ -1,6 +1,12 @@
 # FindGMP
 
-See: [FindGMP.cmake](https://github.com/petk/php-build-system/tree/master/cmake/cmake/modules/FindGMP.cmake)
+See: [FindGMP.cmake](https://github.com/petk/php-build-system/blob/master/cmake/cmake/modules/FindGMP.cmake)
+
+## Basic usage
+
+```cmake
+include(cmake/FindGMP.cmake)
+```
 
 Find the GMP library.
 

@@ -1,6 +1,12 @@
 # PHP/CheckCopyFileRange
 
-See: [CheckCopyFileRange.cmake](https://github.com/petk/php-build-system/tree/master/cmake/cmake/modules/PHP/CheckCopyFileRange.cmake)
+See: [CheckCopyFileRange.cmake](https://github.com/petk/php-build-system/blob/master/cmake/cmake/modules/PHP/CheckCopyFileRange.cmake)
+
+## Basic usage
+
+```cmake
+include(PHP/CheckCopyFileRange)
+```
 
 On FreeBSD, `copy_file_range()` works only with the undocumented flag
 `0x01000000`. Until the problem is fixed properly, `copy_file_range()` is used

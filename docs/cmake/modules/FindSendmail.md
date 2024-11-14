@@ -1,6 +1,12 @@
 # FindSendmail
 
-See: [FindSendmail.cmake](https://github.com/petk/php-build-system/tree/master/cmake/cmake/modules/FindSendmail.cmake)
+See: [FindSendmail.cmake](https://github.com/petk/php-build-system/blob/master/cmake/cmake/modules/FindSendmail.cmake)
+
+## Basic usage
+
+```cmake
+include(cmake/FindSendmail.cmake)
+```
 
 Find the `sendmail` program.
 

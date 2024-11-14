@@ -34,34 +34,38 @@ repository:
 📂 <php-src>
 └─📂 cmake                     # CMake-based PHP build system files
   └─📂 modules                 # Project-specific CMake modules
-    ├─📂 PHP                   # PHP utility modules
-    ├─📂 Zend                  # Zend utility modules
-    ├─📄 Find*.cmake           # Find modules that support the find_package()
-    └─📄 *.cmake               # Any possible additional utility modules
+    ├─📂 PHP                   # PHP utility CMake modules
+    └─📄 Find*.cmake           # Find modules that support the find_package()
   ├─📂 platforms               # Platform-specific configuration
   ├─📂 presets                 # Presets included in CMakePresets.json
   ├─📂 scripts                 # Various CMake command-line scripts
   ├─📂 toolchains              # CMake toolchain files
-  └─📄 *.cmake                 # Various CMake configurations and tools
+  └─📄 *.cmake                 # Various CMake configurations and files
 └─📂 ext
   └─📂 date
-    └─📄 CMakeLists.txt        # Extension's CMake file
+    ├─📄 CMakeLists.txt        # Extension's CMake file
+    └─📄 config.cmake.h.in     # Extension's configuration header template
   └─📂 iconv
     ├─📄 CMakeLists.txt
+    ├─📄 config.cmake.h.in
     └─📄 php_iconv.def         # Module-definition for building DLL on Windows
   └─📂 mbstring
     └─📂 libmbfl
       └─📄 config.h.in         # Configuration header template for libmbfl
+  └─📂 standard
+    ├─📂 cmake                 # Extension's local utility CMake modules
+    └─📄 CMakeLists.txt
 └─📂 main
-  ├─📄 internal_functions.c.in # Template for internal functions files
   ├─📄 CMakeLists.txt          # CMake file for main binding
-  ├─📄 config.w32.cmake.h.in   # Windows configuration header template
+  ├─📄 internal_functions.c.in # Template for internal functions files
   └─📄 php_config.cmake.h.in   # Configuration header template
 └─📂 pear
   └─📄 CMakeLists.txt          # CMake file for PEAR
 └─📂 sapi
-  └─📂 cli
-    └─📄 CMakeLists.txt        # CMake file for PHP SAPI module
+  └─📂 fpm
+    ├─📂 cmake                 # SAPI's CMake modules and files
+    ├─📄 CMakeLists.txt        # CMake file for PHP SAPI module
+    └─📄 config.cmake.h.in     # SAPI's configuration header template
 └─📂 scripts
   └─📄 CMakeLists.txt          # CMake file for creating scripts files
 └─📂 TSRM
@@ -71,7 +75,9 @@ repository:
     └─📄 wsyslog.mc            # Message template file for win32/wsyslog.h
   └─📄 CMakeLists.txt          # CMake file for Windows build
 └─📂 Zend
-  └─📄 CMakeLists.txt          # CMake file for Zend Engine
+  ├─📂 cmake                   # Zend Engine related CMake modules and files
+  ├─📄 CMakeLists.txt          # CMake file for Zend Engine
+  └─📄 zend_config.cmake.h.in  # Zend Engine configuration header template
 ├─📄 CMakeLists.txt            # Root CMake file
 ├─📄 CMakePresets.json         # Main CMake presets file
 └─📄 CMakeUserPresets.json     # Git ignored local CMake presets overrides
@@ -102,8 +108,11 @@ Required:
 * cmake
 * gcc
 * g++
-* libxml2
 * libsqlite3
+
+Optional (if not found on the system, build system tries to download it):
+
+* libxml2
 
 Additionally required when building from Git repository source code:
 
@@ -313,20 +322,36 @@ target_link_libraries(target_name PRIVATE PHP::configuration)
 
 ## 8. PHP CMake modules
 
-All PHP CMake utility modules are located in the `cmake/modules/PHP` directory.
+All PHP global CMake utility modules are located in the `cmake/modules/PHP`
+directory.
 
-Here are listed only those that are important when adapting PHP build system.
-Otherwise, a new module can be added by creating a new CMake file
-`cmake/modules/PHP/NewModule.cmake` and then include it in the CMake code:
+A new module can be added by creating a new CMake file
+`cmake/modules/PHP/NewModule.cmake` which can be then included in the CMake
+files:
 
 ```cmake
 include(PHP/NewModule)
 ```
 
+Additional CMake modules or other files that are used only inside a certain
+subdirectory (extension, SAPI, Zend Engine...) are located in the `cmake`
+directories where needed:
+
+* `ext/<extension>/cmake/*.cmake` - CMake modules related to extension
+* `sapi/<sapi>/cmake/*.cmake` - CMake modules related to SAPI
+* `Zend/cmake/*.cmake` - CMake modules related to Zend Engine
+
+A list of PHP CMake modules:
+
+* [PHP/AddCustomCommand](/docs/cmake/modules/PHP/AddCustomCommand.md)
+* [PHP/CheckAttribute](/docs/cmake/modules/PHP/CheckAttribute.md)
 * [PHP/CheckBuiltin](/docs/cmake/modules/PHP/CheckBuiltin.md)
 * [PHP/CheckCompilerFlag](/docs/cmake/modules/PHP/CheckCompilerFlag.md)
+* [PHP/ConfigureFile](/docs/cmake/modules/PHP/ConfigureFile.md)
 * [PHP/Install](/docs/cmake/modules/PHP/Install.md)
 * [PHP/SearchLibraries](/docs/cmake/modules/PHP/SearchLibraries.md)
+* [PHP/Set](/docs/cmake/modules/PHP/Set.md)
+* [PHP/SystemExtensions](/docs/cmake/modules/PHP/SystemExtensions.md)
 
 ## 9. Custom CMake properties
 
@@ -414,6 +439,10 @@ PECL tool is a simple shell script wrapper around the PHP code as part of the
 [pear-core](https://github.com/pear/pear-core/blob/master/scripts/pecl.sh)
 repository.
 
+> [!NOTE]
+> `pecl` command-line script is also being replaced with a new tool
+> [PIE](https://github.com/php/pie).
+
 To build PHP extensions with CMake, a `CMakeLists.txt` file needs to be added to
 the extension's source directory.
 
@@ -466,7 +495,8 @@ also tracked in the Git repository for a smoother workflow:
   ├─📄 cp_enc_map.c              # Generated from win32/cp_enc_map_gen.c
   └─📄 wsyslog.h                 # Generated by message compiler (mc.exe or windmc)
 └─📂 Zend
-  ├─📄 zend_config.w32.h         # Zend Engine configuration header for Windows
+  ├─📄 zend_config.h             # Zend Engine configuration header on *nix systems
+  ├─📄 zend_config.w32.h         # Zend Engine configuration header on Windows
   ├─📄 zend_vm_execute.h         # Generated by `Zend/zend_vm_gen.php`
   ├─📄 zend_vm_opcodes.c         # Generated by `Zend/zend_vm_gen.php`
   └─📄 zend_vm_opcodes.h         # Generated by `Zend/zend_vm_gen.php`

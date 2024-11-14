@@ -1,6 +1,12 @@
 # PHP/AddCustomCommand
 
-See: [AddCustomCommand.cmake](https://github.com/petk/php-build-system/tree/master/cmake/cmake/modules/PHP/AddCustomCommand.cmake)
+See: [AddCustomCommand.cmake](https://github.com/petk/php-build-system/blob/master/cmake/cmake/modules/PHP/AddCustomCommand.cmake)
+
+## Basic usage
+
+```cmake
+include(PHP/AddCustomCommand)
+```
 
 Add custom command.
 

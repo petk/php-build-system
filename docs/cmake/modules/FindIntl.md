@@ -1,6 +1,12 @@
 # FindIntl
 
-See: [FindIntl.cmake](https://github.com/petk/php-build-system/tree/master/cmake/cmake/modules/FindIntl.cmake)
+See: [FindIntl.cmake](https://github.com/petk/php-build-system/blob/master/cmake/cmake/modules/FindIntl.cmake)
+
+## Basic usage
+
+```cmake
+include(cmake/FindIntl.cmake)
+```
 
 Find the Intl library.
 

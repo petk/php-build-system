@@ -1,6 +1,12 @@
 # FindValgrind
 
-See: [FindValgrind.cmake](https://github.com/petk/php-build-system/tree/master/cmake/cmake/modules/FindValgrind.cmake)
+See: [FindValgrind.cmake](https://github.com/petk/php-build-system/blob/master/cmake/cmake/modules/FindValgrind.cmake)
+
+## Basic usage
+
+```cmake
+include(cmake/FindValgrind.cmake)
+```
 
 Find Valgrind.
 

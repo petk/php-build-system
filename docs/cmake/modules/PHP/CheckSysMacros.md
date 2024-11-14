@@ -1,6 +1,12 @@
 # PHP/CheckSysMacros
 
-See: [CheckSysMacros.cmake](https://github.com/petk/php-build-system/tree/master/cmake/cmake/modules/PHP/CheckSysMacros.cmake)
+See: [CheckSysMacros.cmake](https://github.com/petk/php-build-system/blob/master/cmake/cmake/modules/PHP/CheckSysMacros.cmake)
+
+## Basic usage
+
+```cmake
+include(PHP/CheckSysMacros)
+```
 
 Check for non-standard `major`, `minor` and `makedev`. They can be defined as
 macros. On Solaris/illumos they are in `sys/mkdev.h` (macro definition to a libc

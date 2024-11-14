@@ -1,6 +1,12 @@
 # PHP/Set
 
-See: [Set.cmake](https://github.com/petk/php-build-system/tree/master/cmake/cmake/modules/PHP/Set.cmake)
+See: [Set.cmake](https://github.com/petk/php-build-system/blob/master/cmake/cmake/modules/PHP/Set.cmake)
+
+## Basic usage
+
+```cmake
+include(PHP/Set)
+```
 
 Set a CACHE variable that depends on a set of conditions.
 

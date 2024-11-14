@@ -1,6 +1,12 @@
 # FindGDBM
 
-See: [FindGDBM.cmake](https://github.com/petk/php-build-system/tree/master/cmake/cmake/modules/FindGDBM.cmake)
+See: [FindGDBM.cmake](https://github.com/petk/php-build-system/blob/master/cmake/cmake/modules/FindGDBM.cmake)
+
+## Basic usage
+
+```cmake
+include(cmake/FindGDBM.cmake)
+```
 
 Find the GDBM library.
 

@@ -1,6 +1,12 @@
 # FindAppArmor
 
-See: [FindAppArmor.cmake](https://github.com/petk/php-build-system/tree/master/cmake/cmake/modules/FindAppArmor.cmake)
+See: [FindAppArmor.cmake](https://github.com/petk/php-build-system/blob/master/cmake/cmake/modules/FindAppArmor.cmake)
+
+## Basic usage
+
+```cmake
+include(cmake/FindAppArmor.cmake)
+```
 
 Find the AppArmor library.
 

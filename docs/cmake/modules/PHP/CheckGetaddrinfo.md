@@ -1,6 +1,12 @@
 # PHP/CheckGetaddrinfo
 
-See: [CheckGetaddrinfo.cmake](https://github.com/petk/php-build-system/tree/master/cmake/cmake/modules/PHP/CheckGetaddrinfo.cmake)
+See: [CheckGetaddrinfo.cmake](https://github.com/petk/php-build-system/blob/master/cmake/cmake/modules/PHP/CheckGetaddrinfo.cmake)
+
+## Basic usage
+
+```cmake
+include(PHP/CheckGetaddrinfo)
+```
 
 Check for working `getaddrinfo()`.
 

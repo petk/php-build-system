@@ -1,6 +1,12 @@
 # FindQDBM
 
-See: [FindQDBM.cmake](https://github.com/petk/php-build-system/tree/master/cmake/cmake/modules/FindQDBM.cmake)
+See: [FindQDBM.cmake](https://github.com/petk/php-build-system/blob/master/cmake/cmake/modules/FindQDBM.cmake)
+
+## Basic usage
+
+```cmake
+include(cmake/FindQDBM.cmake)
+```
 
 Find the QDBM library.
 

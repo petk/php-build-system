@@ -1,6 +1,12 @@
 # FindLDAP
 
-See: [FindLDAP.cmake](https://github.com/petk/php-build-system/tree/master/cmake/cmake/modules/FindLDAP.cmake)
+See: [FindLDAP.cmake](https://github.com/petk/php-build-system/blob/master/cmake/cmake/modules/FindLDAP.cmake)
+
+## Basic usage
+
+```cmake
+include(cmake/FindLDAP.cmake)
+```
 
 Find the LDAP library.
 

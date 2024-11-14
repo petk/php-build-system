@@ -1,6 +1,12 @@
 # FindAtomic
 
-See: [FindAtomic.cmake](https://github.com/petk/php-build-system/tree/master/cmake/cmake/modules/FindAtomic.cmake)
+See: [FindAtomic.cmake](https://github.com/petk/php-build-system/blob/master/cmake/cmake/modules/FindAtomic.cmake)
+
+## Basic usage
+
+```cmake
+include(cmake/FindAtomic.cmake)
+```
 
 Find the atomic instructions.
 

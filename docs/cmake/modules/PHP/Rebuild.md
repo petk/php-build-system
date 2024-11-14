@@ -1,6 +1,12 @@
 # PHP/Rebuild
 
-See: [Rebuild.cmake](https://github.com/petk/php-build-system/tree/master/cmake/cmake/modules/PHP/Rebuild.cmake)
+See: [Rebuild.cmake](https://github.com/petk/php-build-system/blob/master/cmake/cmake/modules/PHP/Rebuild.cmake)
+
+## Basic usage
+
+```cmake
+include(PHP/Rebuild)
+```
 
 Ensure all project targets are rebuilt as needed.
 

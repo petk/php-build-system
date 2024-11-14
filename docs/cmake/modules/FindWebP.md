@@ -1,6 +1,12 @@
 # FindWebP
 
-See: [FindWebP.cmake](https://github.com/petk/php-build-system/tree/master/cmake/cmake/modules/FindWebP.cmake)
+See: [FindWebP.cmake](https://github.com/petk/php-build-system/blob/master/cmake/cmake/modules/FindWebP.cmake)
+
+## Basic usage
+
+```cmake
+include(cmake/FindWebP.cmake)
+```
 
 Find the libwebp library.
 

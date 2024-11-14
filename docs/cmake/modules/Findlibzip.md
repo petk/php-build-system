@@ -1,6 +1,12 @@
 # Findlibzip
 
-See: [Findlibzip.cmake](https://github.com/petk/php-build-system/tree/master/cmake/cmake/modules/Findlibzip.cmake)
+See: [Findlibzip.cmake](https://github.com/petk/php-build-system/blob/master/cmake/cmake/modules/Findlibzip.cmake)
+
+## Basic usage
+
+```cmake
+include(cmake/Findlibzip.cmake)
+```
 
 Find the libzip library.
 

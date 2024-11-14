@@ -1,6 +1,12 @@
 # PHP/StandardLibrary
 
-See: [StandardLibrary.cmake](https://github.com/petk/php-build-system/tree/master/cmake/cmake/modules/PHP/StandardLibrary.cmake)
+See: [StandardLibrary.cmake](https://github.com/petk/php-build-system/blob/master/cmake/cmake/modules/PHP/StandardLibrary.cmake)
+
+## Basic usage
+
+```cmake
+include(PHP/StandardLibrary)
+```
 
 Determine the C standard library used for the build.
 

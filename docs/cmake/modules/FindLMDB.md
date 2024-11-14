@@ -1,6 +1,12 @@
 # FindLMDB
 
-See: [FindLMDB.cmake](https://github.com/petk/php-build-system/tree/master/cmake/cmake/modules/FindLMDB.cmake)
+See: [FindLMDB.cmake](https://github.com/petk/php-build-system/blob/master/cmake/cmake/modules/FindLMDB.cmake)
+
+## Basic usage
+
+```cmake
+include(cmake/FindLMDB.cmake)
+```
 
 Find the LMDB library.
 

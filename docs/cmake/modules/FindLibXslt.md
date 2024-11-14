@@ -1,6 +1,12 @@
 # FindLibXslt
 
-See: [FindLibXslt.cmake](https://github.com/petk/php-build-system/tree/master/cmake/cmake/modules/FindLibXslt.cmake)
+See: [FindLibXslt.cmake](https://github.com/petk/php-build-system/blob/master/cmake/cmake/modules/FindLibXslt.cmake)
+
+## Basic usage
+
+```cmake
+include(cmake/FindLibXslt.cmake)
+```
 
 Find the XSLT library (LibXslt).
 

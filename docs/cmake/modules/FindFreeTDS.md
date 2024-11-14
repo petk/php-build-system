@@ -1,6 +1,12 @@
 # FindFreeTDS
 
-See: [FindFreeTDS.cmake](https://github.com/petk/php-build-system/tree/master/cmake/cmake/modules/FindFreeTDS.cmake)
+See: [FindFreeTDS.cmake](https://github.com/petk/php-build-system/blob/master/cmake/cmake/modules/FindFreeTDS.cmake)
+
+## Basic usage
+
+```cmake
+include(cmake/FindFreeTDS.cmake)
+```
 
 Find the FreeTDS set of libraries.
 

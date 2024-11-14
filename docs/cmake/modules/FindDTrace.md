@@ -1,6 +1,12 @@
 # FindDTrace
 
-See: [FindDTrace.cmake](https://github.com/petk/php-build-system/tree/master/cmake/cmake/modules/FindDTrace.cmake)
+See: [FindDTrace.cmake](https://github.com/petk/php-build-system/blob/master/cmake/cmake/modules/FindDTrace.cmake)
+
+## Basic usage
+
+```cmake
+include(cmake/FindDTrace.cmake)
+```
 
 Find DTrace.
 

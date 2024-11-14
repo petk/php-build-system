@@ -1,6 +1,12 @@
 # PHP/CheckFopencookie
 
-See: [CheckFopencookie.cmake](https://github.com/petk/php-build-system/tree/master/cmake/cmake/modules/PHP/CheckFopencookie.cmake)
+See: [CheckFopencookie.cmake](https://github.com/petk/php-build-system/blob/master/cmake/cmake/modules/PHP/CheckFopencookie.cmake)
+
+## Basic usage
+
+```cmake
+include(PHP/CheckFopencookie)
+```
 
 Check if `fopencookie()` works as expected.
 

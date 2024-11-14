@@ -1,6 +1,12 @@
 # PHP/SystemExtensions
 
-See: [SystemExtensions.cmake](https://github.com/petk/php-build-system/tree/master/cmake/cmake/modules/PHP/SystemExtensions.cmake)
+See: [SystemExtensions.cmake](https://github.com/petk/php-build-system/blob/master/cmake/cmake/modules/PHP/SystemExtensions.cmake)
+
+## Basic usage
+
+```cmake
+include(PHP/SystemExtensions)
+```
 
 Enable extensions to C or POSIX on systems that by default disable them to
 conform to standards or namespace issues.

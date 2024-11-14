@@ -1,6 +1,12 @@
 # PHP/CheckReentrantFunctions
 
-See: [CheckReentrantFunctions.cmake](https://github.com/petk/php-build-system/tree/master/cmake/cmake/modules/PHP/CheckReentrantFunctions.cmake)
+See: [CheckReentrantFunctions.cmake](https://github.com/petk/php-build-system/blob/master/cmake/cmake/modules/PHP/CheckReentrantFunctions.cmake)
+
+## Basic usage
+
+```cmake
+include(PHP/CheckReentrantFunctions)
+```
 
 Check for reentrant functions and their declarations.
 

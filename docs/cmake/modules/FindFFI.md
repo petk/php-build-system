@@ -1,6 +1,12 @@
 # FindFFI
 
-See: [FindFFI.cmake](https://github.com/petk/php-build-system/tree/master/cmake/cmake/modules/FindFFI.cmake)
+See: [FindFFI.cmake](https://github.com/petk/php-build-system/blob/master/cmake/cmake/modules/FindFFI.cmake)
+
+## Basic usage
+
+```cmake
+include(cmake/FindFFI.cmake)
+```
 
 Find the FFI library.
 

@@ -1,6 +1,12 @@
 # FindPCRE
 
-See: [FindPCRE.cmake](https://github.com/petk/php-build-system/tree/master/cmake/cmake/modules/FindPCRE.cmake)
+See: [FindPCRE.cmake](https://github.com/petk/php-build-system/blob/master/cmake/cmake/modules/FindPCRE.cmake)
+
+## Basic usage
+
+```cmake
+include(cmake/FindPCRE.cmake)
+```
 
 Find the PCRE library.
 

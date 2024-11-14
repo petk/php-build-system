@@ -1,6 +1,12 @@
 # FindArgon2
 
-See: [FindArgon2.cmake](https://github.com/petk/php-build-system/tree/master/cmake/cmake/modules/FindArgon2.cmake)
+See: [FindArgon2.cmake](https://github.com/petk/php-build-system/blob/master/cmake/cmake/modules/FindArgon2.cmake)
+
+## Basic usage
+
+```cmake
+include(cmake/FindArgon2.cmake)
+```
 
 Find the Argon2 library.
 

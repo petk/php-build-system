@@ -1,6 +1,12 @@
 # PHP/SearchLibraries
 
-See: [SearchLibraries.cmake](https://github.com/petk/php-build-system/tree/master/cmake/cmake/modules/PHP/SearchLibraries.cmake)
+See: [SearchLibraries.cmake](https://github.com/petk/php-build-system/blob/master/cmake/cmake/modules/PHP/SearchLibraries.cmake)
+
+## Basic usage
+
+```cmake
+include(PHP/SearchLibraries)
+```
 
 Check if symbol exists in given header(s). If not found in default linked
 libraries (for example, C library), a given list of libraries is iterated and

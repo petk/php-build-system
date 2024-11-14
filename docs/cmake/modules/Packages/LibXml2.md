@@ -1,6 +1,12 @@
 # Packages/LibXml2
 
-See: [LibXml2.cmake](https://github.com/petk/php-build-system/tree/master/cmake/cmake/modules/Packages/LibXml2.cmake)
+See: [LibXml2.cmake](https://github.com/petk/php-build-system/blob/master/cmake/cmake/modules/Packages/LibXml2.cmake)
+
+## Basic usage
+
+```cmake
+include(Packages/LibXml2)
+```
 
 Wrapper for finding the `libxml2` library.
 

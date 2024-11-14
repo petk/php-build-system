@@ -1,6 +1,12 @@
 # PHP/CheckBuiltin
 
-See: [CheckBuiltin.cmake](https://github.com/petk/php-build-system/tree/master/cmake/cmake/modules/PHP/CheckBuiltin.cmake)
+See: [CheckBuiltin.cmake](https://github.com/petk/php-build-system/blob/master/cmake/cmake/modules/PHP/CheckBuiltin.cmake)
+
+## Basic usage
+
+```cmake
+include(PHP/CheckBuiltin)
+```
 
 Check whether compiler supports one of the built-in functions `__builtin_*()`.
 

@@ -1,6 +1,12 @@
 # FindSELinux
 
-See: [FindSELinux.cmake](https://github.com/petk/php-build-system/tree/master/cmake/cmake/modules/FindSELinux.cmake)
+See: [FindSELinux.cmake](https://github.com/petk/php-build-system/blob/master/cmake/cmake/modules/FindSELinux.cmake)
+
+## Basic usage
+
+```cmake
+include(cmake/FindSELinux.cmake)
+```
 
 Find the SELinux library.
 

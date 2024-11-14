@@ -1,6 +1,12 @@
 # FindSystemd
 
-See: [FindSystemd.cmake](https://github.com/petk/php-build-system/tree/master/cmake/cmake/modules/FindSystemd.cmake)
+See: [FindSystemd.cmake](https://github.com/petk/php-build-system/blob/master/cmake/cmake/modules/FindSystemd.cmake)
+
+## Basic usage
+
+```cmake
+include(cmake/FindSystemd.cmake)
+```
 
 Find the systemd library (libsystemd).
 

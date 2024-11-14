@@ -1,6 +1,12 @@
 # FindACL
 
-See: [FindACL.cmake](https://github.com/petk/php-build-system/tree/master/cmake/cmake/modules/FindACL.cmake)
+See: [FindACL.cmake](https://github.com/petk/php-build-system/blob/master/cmake/cmake/modules/FindACL.cmake)
+
+## Basic usage
+
+```cmake
+include(cmake/FindACL.cmake)
+```
 
 Find the ACL library.
 

@@ -1,6 +1,12 @@
 # PHP/CheckTimeR
 
-See: [CheckTimeR.cmake](https://github.com/petk/php-build-system/tree/master/cmake/cmake/modules/PHP/CheckTimeR.cmake)
+See: [CheckTimeR.cmake](https://github.com/petk/php-build-system/blob/master/cmake/cmake/modules/PHP/CheckTimeR.cmake)
+
+## Basic usage
+
+```cmake
+include(PHP/CheckTimeR)
+```
 
 Check type of reentrant time-related functions. Type can be: irix, hpux or
 POSIX.

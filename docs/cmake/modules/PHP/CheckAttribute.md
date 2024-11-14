@@ -1,6 +1,12 @@
 # PHP/CheckAttribute
 
-See: [CheckAttribute.cmake](https://github.com/petk/php-build-system/tree/master/cmake/cmake/modules/PHP/CheckAttribute.cmake)
+See: [CheckAttribute.cmake](https://github.com/petk/php-build-system/blob/master/cmake/cmake/modules/PHP/CheckAttribute.cmake)
+
+## Basic usage
+
+```cmake
+include(PHP/CheckAttribute)
+```
 
 Check if GNU C function or variable attribute is supported by the compiler.
 

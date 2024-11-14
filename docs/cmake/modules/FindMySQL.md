@@ -1,6 +1,12 @@
 # FindMySQL
 
-See: [FindMySQL.cmake](https://github.com/petk/php-build-system/tree/master/cmake/cmake/modules/FindMySQL.cmake)
+See: [FindMySQL.cmake](https://github.com/petk/php-build-system/blob/master/cmake/cmake/modules/FindMySQL.cmake)
+
+## Basic usage
+
+```cmake
+include(cmake/FindMySQL.cmake)
+```
 
 Find MySQL-compatible (MySQL, MariaDB, Percona, etc.) database.
 

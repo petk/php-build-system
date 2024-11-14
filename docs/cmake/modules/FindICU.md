@@ -1,6 +1,12 @@
 # FindICU
 
-See: [FindICU.cmake](https://github.com/petk/php-build-system/tree/master/cmake/cmake/modules/FindICU.cmake)
+See: [FindICU.cmake](https://github.com/petk/php-build-system/blob/master/cmake/cmake/modules/FindICU.cmake)
+
+## Basic usage
+
+```cmake
+include(cmake/FindICU.cmake)
+```
 
 Find the ICU library.
 
