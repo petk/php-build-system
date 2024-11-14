@@ -165,7 +165,7 @@ if(CMAKE_SYSTEM_NAME STREQUAL "CYGWIN")
   )
 endif()
 
-find_package(ICU 50.1 COMPONENTS io uc i18n)
+find_package(ICU 57.1 COMPONENTS io uc i18n)
 set_package_properties(
   ICU
   PROPERTIES
