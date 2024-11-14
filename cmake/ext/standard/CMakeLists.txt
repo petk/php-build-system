@@ -286,7 +286,7 @@ cmake_push_check_state(RESET)
   check_source_compiles(C [[
     #include <arm_acle.h>
     # if defined(__GNUC__)
-    #  if!defined(__clang__)
+    #  if !defined(__clang__)
     #   pragma GCC push_options
     #   pragma GCC target ("+nothing+crc")
     #  elif defined(__APPLE__)
