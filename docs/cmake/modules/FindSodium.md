@@ -5,7 +5,7 @@ See: [FindSodium.cmake](https://github.com/petk/php-build-system/blob/master/cma
 ## Basic usage
 
 ```cmake
-include(cmake/FindSodium.cmake)
+find_package(Sodium)
 ```
 
 Find the Sodium library (libsodium).

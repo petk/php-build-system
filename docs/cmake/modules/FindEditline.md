@@ -5,7 +5,7 @@ See: [FindEditline.cmake](https://github.com/petk/php-build-system/blob/master/c
 ## Basic usage
 
 ```cmake
-include(cmake/FindEditline.cmake)
+find_package(Editline)
 ```
 
 Find the Editline library.

@@ -5,7 +5,7 @@ See: [FindTokyoCabinet.cmake](https://github.com/petk/php-build-system/blob/mast
 ## Basic usage
 
 ```cmake
-include(cmake/FindTokyoCabinet.cmake)
+find_package(TokyoCabinet)
 ```
 
 Find the Tokyo Cabinet library.

@@ -5,7 +5,7 @@ See: [FindSELinux.cmake](https://github.com/petk/php-build-system/blob/master/cm
 ## Basic usage
 
 ```cmake
-include(cmake/FindSELinux.cmake)
+find_package(SELinux)
 ```
 
 Find the SELinux library.

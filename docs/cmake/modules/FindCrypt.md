@@ -5,7 +5,7 @@ See: [FindCrypt.cmake](https://github.com/petk/php-build-system/blob/master/cmak
 ## Basic usage
 
 ```cmake
-include(cmake/FindCrypt.cmake)
+find_package(Crypt)
 ```
 
 Find the crypt library and run a set of PHP-specific checks if library works.

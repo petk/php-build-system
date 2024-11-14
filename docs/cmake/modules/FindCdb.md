@@ -5,7 +5,7 @@ See: [FindCdb.cmake](https://github.com/petk/php-build-system/blob/master/cmake/
 ## Basic usage
 
 ```cmake
-include(cmake/FindCdb.cmake)
+find_package(Cdb)
 ```
 
 Find the cdb library.

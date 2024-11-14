@@ -5,7 +5,7 @@ See: [FindSASL.cmake](https://github.com/petk/php-build-system/blob/master/cmake
 ## Basic usage
 
 ```cmake
-include(cmake/FindSASL.cmake)
+find_package(SASL)
 ```
 
 Find the SASL library.

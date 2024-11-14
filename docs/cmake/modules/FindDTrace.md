@@ -5,7 +5,7 @@ See: [FindDTrace.cmake](https://github.com/petk/php-build-system/blob/master/cma
 ## Basic usage
 
 ```cmake
-include(cmake/FindDTrace.cmake)
+find_package(DTrace)
 ```
 
 Find DTrace.

@@ -5,7 +5,7 @@ See: [FindBerkeleyDB.cmake](https://github.com/petk/php-build-system/blob/master
 ## Basic usage
 
 ```cmake
-include(cmake/FindBerkeleyDB.cmake)
+find_package(BerkeleyDB)
 ```
 
 Find the Berkeley DB library.

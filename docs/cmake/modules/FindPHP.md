@@ -5,7 +5,7 @@ See: [FindPHP.cmake](https://github.com/petk/php-build-system/blob/master/cmake/
 ## Basic usage
 
 ```cmake
-include(cmake/FindPHP.cmake)
+find_package(PHP)
 ```
 
 Find PHP.

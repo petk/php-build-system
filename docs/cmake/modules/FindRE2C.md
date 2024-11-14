@@ -5,7 +5,7 @@ See: [FindRE2C.cmake](https://github.com/petk/php-build-system/blob/master/cmake
 ## Basic usage
 
 ```cmake
-include(cmake/FindRE2C.cmake)
+find_package(RE2C)
 ```
 
 Find re2c.

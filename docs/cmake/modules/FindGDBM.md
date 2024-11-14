@@ -5,7 +5,7 @@ See: [FindGDBM.cmake](https://github.com/petk/php-build-system/blob/master/cmake
 ## Basic usage
 
 ```cmake
-include(cmake/FindGDBM.cmake)
+find_package(GDBM)
 ```
 
 Find the GDBM library.

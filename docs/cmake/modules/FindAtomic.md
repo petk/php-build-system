@@ -5,7 +5,7 @@ See: [FindAtomic.cmake](https://github.com/petk/php-build-system/blob/master/cma
 ## Basic usage
 
 ```cmake
-include(cmake/FindAtomic.cmake)
+find_package(Atomic)
 ```
 
 Find the atomic instructions.

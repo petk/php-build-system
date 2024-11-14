@@ -26,6 +26,8 @@ function generateModuleDocs(
         return;
     }
 
+    $header = $matches[1];
+
     $moduleName = basename($file, '.cmake');
 
     $content = '';
@@ -39,12 +41,15 @@ function generateModuleDocs(
             include({$namespace}{$moduleName})
             ```
             EOT;
-    } elseif (1 === preg_match('/^Find.+.cmake$/', $moduleName)) {
+    } elseif (1 === preg_match('/^Find(.+)$/', $moduleName, $matches)) {
+        if (isset($matches[1])) {
+            $package = $matches[1];
+        }
         $content .= <<<EOT
             ## Basic usage
 
             ```cmake
-            find_package($moduleName)
+            find_package($package)
             ```
             EOT;
     } else {
@@ -57,7 +62,7 @@ function generateModuleDocs(
             EOT;
     }
     $content .= "\n\n";
-    $content .= $matches[1];
+    $content .= $header;
     $content .= "\n";
 
     if (!file_exists($destination)) {

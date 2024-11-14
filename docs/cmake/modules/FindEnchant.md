@@ -5,7 +5,7 @@ See: [FindEnchant.cmake](https://github.com/petk/php-build-system/blob/master/cm
 ## Basic usage
 
 ```cmake
-include(cmake/FindEnchant.cmake)
+find_package(Enchant)
 ```
 
 Find the Enchant library.

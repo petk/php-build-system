@@ -5,7 +5,7 @@ See: [FindGcov.cmake](https://github.com/petk/php-build-system/blob/master/cmake
 ## Basic usage
 
 ```cmake
-include(cmake/FindGcov.cmake)
+find_package(Gcov)
 ```
 
 Find the Gcov coverage programs and features.

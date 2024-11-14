@@ -5,7 +5,7 @@ See: [FindCcache.cmake](https://github.com/petk/php-build-system/blob/master/cma
 ## Basic usage
 
 ```cmake
-include(cmake/FindCcache.cmake)
+find_package(Ccache)
 ```
 
 Find the Ccache compiler cache tool for faster compilation times.

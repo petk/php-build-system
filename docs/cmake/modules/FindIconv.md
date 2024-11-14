@@ -5,7 +5,7 @@ See: [FindIconv.cmake](https://github.com/petk/php-build-system/blob/master/cmak
 ## Basic usage
 
 ```cmake
-include(cmake/FindIconv.cmake)
+find_package(Iconv)
 ```
 
 Find the Iconv library.

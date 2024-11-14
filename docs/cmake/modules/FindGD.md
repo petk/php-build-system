@@ -5,7 +5,7 @@ See: [FindGD.cmake](https://github.com/petk/php-build-system/blob/master/cmake/c
 ## Basic usage
 
 ```cmake
-include(cmake/FindGD.cmake)
+find_package(GD)
 ```
 
 Find the GD library.

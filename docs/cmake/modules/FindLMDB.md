@@ -5,7 +5,7 @@ See: [FindLMDB.cmake](https://github.com/petk/php-build-system/blob/master/cmake
 ## Basic usage
 
 ```cmake
-include(cmake/FindLMDB.cmake)
+find_package(LMDB)
 ```
 
 Find the LMDB library.

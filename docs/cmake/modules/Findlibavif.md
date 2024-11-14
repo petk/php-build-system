@@ -5,7 +5,7 @@ See: [Findlibavif.cmake](https://github.com/petk/php-build-system/blob/master/cm
 ## Basic usage
 
 ```cmake
-include(cmake/Findlibavif.cmake)
+find_package(libavif)
 ```
 
 Find the libavif library.

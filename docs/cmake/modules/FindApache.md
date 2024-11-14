@@ -5,7 +5,7 @@ See: [FindApache.cmake](https://github.com/petk/php-build-system/blob/master/cma
 ## Basic usage
 
 ```cmake
-include(cmake/FindApache.cmake)
+find_package(Apache)
 ```
 
 Find the Apache packages and tools.

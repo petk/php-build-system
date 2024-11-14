@@ -5,7 +5,7 @@ See: [FindMySQL.cmake](https://github.com/petk/php-build-system/blob/master/cmak
 ## Basic usage
 
 ```cmake
-include(cmake/FindMySQL.cmake)
+find_package(MySQL)
 ```
 
 Find MySQL-compatible (MySQL, MariaDB, Percona, etc.) database.

@@ -5,7 +5,7 @@ See: [FindNetSnmp.cmake](https://github.com/petk/php-build-system/blob/master/cm
 ## Basic usage
 
 ```cmake
-include(cmake/FindNetSnmp.cmake)
+find_package(NetSnmp)
 ```
 
 Find the Net-SNMP library.

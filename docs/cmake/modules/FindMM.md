@@ -5,7 +5,7 @@ See: [FindMM.cmake](https://github.com/petk/php-build-system/blob/master/cmake/c
 ## Basic usage
 
 ```cmake
-include(cmake/FindMM.cmake)
+find_package(MM)
 ```
 
 Find the mm library.

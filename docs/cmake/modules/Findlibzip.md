@@ -5,7 +5,7 @@ See: [Findlibzip.cmake](https://github.com/petk/php-build-system/blob/master/cma
 ## Basic usage
 
 ```cmake
-include(cmake/Findlibzip.cmake)
+find_package(libzip)
 ```
 
 Find the libzip library.

@@ -5,7 +5,7 @@ See: [FindFirebird.cmake](https://github.com/petk/php-build-system/blob/master/c
 ## Basic usage
 
 ```cmake
-include(cmake/FindFirebird.cmake)
+find_package(Firebird)
 ```
 
 Find the Firebird library.

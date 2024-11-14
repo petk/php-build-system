@@ -5,7 +5,7 @@ See: [FindSendmail.cmake](https://github.com/petk/php-build-system/blob/master/c
 ## Basic usage
 
 ```cmake
-include(cmake/FindSendmail.cmake)
+find_package(Sendmail)
 ```
 
 Find the `sendmail` program.

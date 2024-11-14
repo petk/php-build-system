@@ -5,7 +5,7 @@ See: [FindSystemd.cmake](https://github.com/petk/php-build-system/blob/master/cm
 ## Basic usage
 
 ```cmake
-include(cmake/FindSystemd.cmake)
+find_package(Systemd)
 ```
 
 Find the systemd library (libsystemd).

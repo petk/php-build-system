@@ -5,7 +5,7 @@ See: [FindCapstone.cmake](https://github.com/petk/php-build-system/blob/master/c
 ## Basic usage
 
 ```cmake
-include(cmake/FindCapstone.cmake)
+find_package(Capstone)
 ```
 
 Find the Capstone library.

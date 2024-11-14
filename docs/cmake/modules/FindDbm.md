@@ -5,7 +5,7 @@ See: [FindDbm.cmake](https://github.com/petk/php-build-system/blob/master/cmake/
 ## Basic usage
 
 ```cmake
-include(cmake/FindDbm.cmake)
+find_package(Dbm)
 ```
 
 Find the dbm library.

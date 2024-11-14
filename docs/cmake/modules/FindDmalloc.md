@@ -5,7 +5,7 @@ See: [FindDmalloc.cmake](https://github.com/petk/php-build-system/blob/master/cm
 ## Basic usage
 
 ```cmake
-include(cmake/FindDmalloc.cmake)
+find_package(Dmalloc)
 ```
 
 Find the Dmalloc library.

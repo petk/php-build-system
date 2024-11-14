@@ -5,7 +5,7 @@ See: [FindOniguruma.cmake](https://github.com/petk/php-build-system/blob/master/
 ## Basic usage
 
 ```cmake
-include(cmake/FindOniguruma.cmake)
+find_package(Oniguruma)
 ```
 
 Find the Oniguruma library.

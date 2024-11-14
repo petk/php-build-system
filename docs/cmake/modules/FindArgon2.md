@@ -5,7 +5,7 @@ See: [FindArgon2.cmake](https://github.com/petk/php-build-system/blob/master/cma
 ## Basic usage
 
 ```cmake
-include(cmake/FindArgon2.cmake)
+find_package(Argon2)
 ```
 
 Find the Argon2 library.

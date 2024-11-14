@@ -5,7 +5,7 @@ See: [FindPHPSystem.cmake](https://github.com/petk/php-build-system/blob/master/
 ## Basic usage
 
 ```cmake
-include(cmake/FindPHPSystem.cmake)
+find_package(PHPSystem)
 ```
 
 Find external PHP on the system, if installed.

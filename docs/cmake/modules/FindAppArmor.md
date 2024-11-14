@@ -5,7 +5,7 @@ See: [FindAppArmor.cmake](https://github.com/petk/php-build-system/blob/master/c
 ## Basic usage
 
 ```cmake
-include(cmake/FindAppArmor.cmake)
+find_package(AppArmor)
 ```
 
 Find the AppArmor library.

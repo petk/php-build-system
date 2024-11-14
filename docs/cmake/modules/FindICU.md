@@ -5,7 +5,7 @@ See: [FindICU.cmake](https://github.com/petk/php-build-system/blob/master/cmake/
 ## Basic usage
 
 ```cmake
-include(cmake/FindICU.cmake)
+find_package(ICU)
 ```
 
 Find the ICU library.

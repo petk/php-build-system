@@ -5,7 +5,7 @@ See: [FindODBC.cmake](https://github.com/petk/php-build-system/blob/master/cmake
 ## Basic usage
 
 ```cmake
-include(cmake/FindODBC.cmake)
+find_package(ODBC)
 ```
 
 Find the ODBC library.

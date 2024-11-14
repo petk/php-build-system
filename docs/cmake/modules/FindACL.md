@@ -5,7 +5,7 @@ See: [FindACL.cmake](https://github.com/petk/php-build-system/blob/master/cmake/
 ## Basic usage
 
 ```cmake
-include(cmake/FindACL.cmake)
+find_package(ACL)
 ```
 
 Find the ACL library.

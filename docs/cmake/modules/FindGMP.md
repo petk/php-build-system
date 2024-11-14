@@ -5,7 +5,7 @@ See: [FindGMP.cmake](https://github.com/petk/php-build-system/blob/master/cmake/
 ## Basic usage
 
 ```cmake
-include(cmake/FindGMP.cmake)
+find_package(GMP)
 ```
 
 Find the GMP library.

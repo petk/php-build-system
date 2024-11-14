@@ -5,7 +5,7 @@ See: [FindPCRE.cmake](https://github.com/petk/php-build-system/blob/master/cmake
 ## Basic usage
 
 ```cmake
-include(cmake/FindPCRE.cmake)
+find_package(PCRE)
 ```
 
 Find the PCRE library.

@@ -5,7 +5,7 @@ See: [FindValgrind.cmake](https://github.com/petk/php-build-system/blob/master/c
 ## Basic usage
 
 ```cmake
-include(cmake/FindValgrind.cmake)
+find_package(Valgrind)
 ```
 
 Find Valgrind.

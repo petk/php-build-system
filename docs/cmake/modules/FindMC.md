@@ -5,7 +5,7 @@ See: [FindMC.cmake](https://github.com/petk/php-build-system/blob/master/cmake/c
 ## Basic usage
 
 ```cmake
-include(cmake/FindMC.cmake)
+find_package(MC)
 ```
 
 Find Windows compatible message compiler (mc.exe or windmc) command-line tool.

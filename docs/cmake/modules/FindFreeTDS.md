@@ -5,7 +5,7 @@ See: [FindFreeTDS.cmake](https://github.com/petk/php-build-system/blob/master/cm
 ## Basic usage
 
 ```cmake
-include(cmake/FindFreeTDS.cmake)
+find_package(FreeTDS)
 ```
 
 Find the FreeTDS set of libraries.

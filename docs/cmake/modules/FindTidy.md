@@ -5,7 +5,7 @@ See: [FindTidy.cmake](https://github.com/petk/php-build-system/blob/master/cmake
 ## Basic usage
 
 ```cmake
-include(cmake/FindTidy.cmake)
+find_package(Tidy)
 ```
 
 Find the Tidy library (tidy-html5, legacy htmltidy library, or the tidyp -
