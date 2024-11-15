@@ -103,7 +103,7 @@ find_program(ODBC_CONFIG
   DOC "Path to unixODBC or iODBC config program")
 mark_as_advanced(ODBC_CONFIG)
 
-### Try pkg-config ############################################################
+### Try pkg-config. ###########################################################
 if(NOT ODBC_CONFIG)
   find_package(PkgConfig QUIET)
   if(PKG_CONFIG_FOUND)
@@ -234,32 +234,25 @@ unset(_odbc_required_libs_names)
 unset(_odbc_config_names)
 
 ### Get version ###############################################################
-block(PROPAGATE ODBC_VERSION)
-  # ODBC headers don't provide version. Try pkg-confing version, if found.
-  if(PC_ODBC_VERSION)
-    cmake_path(
-      COMPARE
-      "${PC_ODBC_INCLUDEDIR}" EQUAL "${ODBC_INCLUDE_DIR}"
-      isEqual
-    )
 
-    if(isEqual)
-      set(ODBC_VERSION ${PC_ODBC_VERSION})
-    endif()
+# ODBC headers don't provide version. Try pkg-config or ODBC config.
+if(PC_ODBC_VERSION AND ODBC_INCLUDE_DIR IN_LIST PC_ODBC_INCLUDE_DIRS)
+  set(ODBC_VERSION ${PC_ODBC_VERSION})
+elseif(ODBC_CONFIG)
+  execute_process(
+    COMMAND ${ODBC_CONFIG} --version
+      OUTPUT_VARIABLE ODBC_VERSION
+      OUTPUT_STRIP_TRAILING_WHITESPACE
+      RESULT_VARIABLE result
+      ERROR_QUIET
+  )
+
+  if(NOT result EQUAL 0 OR NOT ODBC_VERSION MATCHES "[0-9]+\.[0-9.]+")
+    unset(ODBC_VERSION)
   endif()
 
-  if(NOT ODBC_VERSION AND ODBC_CONFIG)
-    execute_process(
-      COMMAND ${ODBC_CONFIG} --version
-        OUTPUT_VARIABLE _odbc_version
-        OUTPUT_STRIP_TRAILING_WHITESPACE
-        ERROR_QUIET
-    )
-    if(_odbc_version MATCHES "[0-9]+\.[0-9.]+")
-      set(ODBC_VERSION ${_odbc_version})
-    endif()
-  endif()
-endblock()
+  unset(result)
+endif()
 
 ### Set result variables ######################################################
 set(_odbc_required_vars ODBC_LIBRARY)
@@ -280,6 +273,7 @@ find_package_handle_standard_args(
   ODBC
   REQUIRED_VARS ${_odbc_required_vars}
   VERSION_VAR ODBC_VERSION
+  HANDLE_VERSION_RANGE
   REASON_FAILURE_MESSAGE "${_reason}"
 )
 

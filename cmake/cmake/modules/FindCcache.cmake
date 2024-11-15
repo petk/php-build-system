@@ -60,6 +60,7 @@ find_package_handle_standard_args(
   REQUIRED_VARS
     Ccache_EXECUTABLE
   VERSION_VAR Ccache_VERSION
+  HANDLE_VERSION_RANGE
   REASON_FAILURE_MESSAGE "${_reason}"
 )
 

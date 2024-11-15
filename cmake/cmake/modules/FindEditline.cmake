@@ -35,7 +35,7 @@ set_package_properties(
 
 set(_reason "")
 
-# Use pkgconf, if available on the system.
+# Try pkg-config.
 find_package(PkgConfig QUIET)
 if(PKG_CONFIG_FOUND)
   pkg_check_modules(PC_Editline QUIET libedit)
@@ -77,21 +77,13 @@ if(Editline_LIBRARY)
   endif()
 endif()
 
-# Get version.
-block(PROPAGATE Editline_VERSION)
-  # Editline headers don't provide version. Try pkgconf version, if found.
-  if(PC_Editline_VERSION)
-    cmake_path(
-      COMPARE
-      "${PC_Editline_INCLUDEDIR}" EQUAL "${Editline_INCLUDE_DIR}"
-      isEqual
-    )
-
-    if(isEqual)
-      set(Editline_VERSION ${PC_Editline_VERSION})
-    endif()
-  endif()
-endblock()
+# Editline headers don't provide version. Try pkg-config.
+if(
+  PC_Editline_VERSION
+  AND Editline_INCLUDE_DIR IN_LIST PC_Editline_INCLUDE_DIRS
+)
+  set(Editline_VERSION ${PC_Editline_VERSION})
+endif()
 
 mark_as_advanced(Editline_INCLUDE_DIR Editline_LIBRARY)
 
@@ -102,6 +94,7 @@ find_package_handle_standard_args(
     Editline_INCLUDE_DIR
     _editline_sanity_check
   VERSION_VAR Editline_VERSION
+  HANDLE_VERSION_RANGE
   REASON_FAILURE_MESSAGE "${_reason}"
 )
 

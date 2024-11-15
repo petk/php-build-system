@@ -34,7 +34,7 @@ set_package_properties(
 
 set(_reason "")
 
-# Use pkgconf, if available on the system.
+# Try pkg-config.
 find_package(PkgConfig QUIET)
 if(PKG_CONFIG_FOUND)
   pkg_check_modules(PC_XPM QUIET xpm)
@@ -62,17 +62,10 @@ if(NOT XPM_LIBRARY)
   string(APPEND _reason "libXpm library not found. ")
 endif()
 
-# Get version.
-block(PROPAGATE XPM_VERSION)
-  # libXpm headers don't provide version. Try pkgconf version, if found.
-  if(PC_XPM_VERSION)
-    cmake_path(COMPARE "${PC_XPM_INCLUDEDIR}" EQUAL "${XPM_INCLUDE_DIR}" isEqual)
-
-    if(isEqual)
-      set(XPM_VERSION ${PC_XPM_VERSION})
-    endif()
-  endif()
-endblock()
+# libXpm headers don't provide version. Try pkg-config.
+if(PC_XPM_VERSION AND XPM_INCLUDE_DIR IN_LIST PC_XPM_INCLUDE_DIRS)
+  set(XPM_VERSION ${PC_XPM_VERSION})
+endif()
 
 mark_as_advanced(XPM_INCLUDE_DIR XPM_LIBRARY)
 
@@ -82,6 +75,7 @@ find_package_handle_standard_args(
     XPM_LIBRARY
     XPM_INCLUDE_DIR
   VERSION_VAR XPM_VERSION
+  HANDLE_VERSION_RANGE
   REASON_FAILURE_MESSAGE "${_reason}"
 )
 

@@ -19,7 +19,7 @@ set_package_properties(
     DESCRIPTION "International Components for Unicode"
 )
 
-# If available, use pkgconf and append paths to the internal icu_roots variable.
+# Try pkg-config and append paths to the internal icu_roots variable.
 find_package(PkgConfig QUIET)
 if(PKG_CONFIG_FOUND)
   foreach(component ${ICU_FIND_COMPONENTS})

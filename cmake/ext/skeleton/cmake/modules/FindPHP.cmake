@@ -88,7 +88,7 @@ find_program(
 # The PHP component.
 ################################################################################
 
-# Use pkgconf, if available on the system.
+# Try pkg-config.
 find_package(PkgConfig QUIET)
 if(PKG_CONFIG_FOUND)
   pkg_check_modules(PC_PHP QUIET php)
@@ -206,36 +206,26 @@ endif()
 
 # Get PHP version.
 block(PROPAGATE PHP_VERSION)
-  if(PHP_INCLUDE_DIR AND EXISTS ${PHP_INCLUDE_DIR}/main/php_version.h)
+  if(${PHP_INCLUDE_DIR}/main/php_version.h)
+    set(regex [[^[ \t]*#[ \t]*define[ \t]+PHP_VERSION[ \t]+"([^"]+)"[ \t]*$]])
     file(
       STRINGS
       ${PHP_INCLUDE_DIR}/main/php_version.h
       php_version
-      REGEX [[^#[ \t]*define[ \t]+PHP_VERSION[ \t]+"[0-9]+\.[0-9]+\.[0-9]+.*"[ \t]*$]]
+      REGEX "${regex}"
       LIMIT_COUNT 1
     )
-    string(
-      REGEX MATCH
-      [[([0-9]+\.[0-9]+\.[0-9]+.*)"[ \t]*$]]
-      _
-      "${php_version}"
-    )
-    if(CMAKE_MATCH_1)
+    if(result MATCHES "${regex}")
       set(PHP_VERSION "${CMAKE_MATCH_1}")
     endif()
   endif()
 
-  # Try pkgconf version, if found.
-  if(NOT PHP_VERSION AND PC_PHP_VERSION)
-    cmake_path(
-      COMPARE
-      "${PC_PHP_INCLUDEDIR}" EQUAL "${PHP_INCLUDE_DIR}"
-      isEqual
-    )
-
-    if(isEqual)
-      set(PHP_VERSION ${PC_PHP_VERSION})
-    endif()
+  if(
+    NOT PHP_VERSION
+    AND PC_PHP_VERSION
+    AND PHP_INCLUDE_DIR IN_LISTS PC_PHP_INCLUDE_DIRS
+  )
+    set(PHP_VERSION ${PC_PHP_VERSION})
   endif()
 endblock()
 
@@ -273,6 +263,7 @@ find_package_handle_standard_args(
     PHP_ZEND_MODULE_API
     PHP_ZEND_EXTENSION_API
   VERSION_VAR PHP_VERSION
+  HANDLE_VERSION_RANGE
   HANDLE_COMPONENTS
   REASON_FAILURE_MESSAGE "${_reason}"
 )

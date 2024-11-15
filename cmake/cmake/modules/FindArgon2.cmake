@@ -34,7 +34,7 @@ set_package_properties(
 
 set(_reason "")
 
-# Use pkgconf, if available on the system.
+# Try pkg-config.
 find_package(PkgConfig QUIET)
 if(PKG_CONFIG_FOUND)
   pkg_check_modules(PC_Argon2 QUIET libargon2)
@@ -62,21 +62,10 @@ if(NOT Argon2_LIBRARY)
   string(APPEND _reason "Argon2 library (libargon2) not found. ")
 endif()
 
-# Get version.
-block(PROPAGATE Argon2_VERSION)
-  # Argon2 headers don't provide version. Try pkgconf version, if found.
-  if(PC_Argon2_VERSION)
-    cmake_path(
-      COMPARE
-      "${PC_Argon2_INCLUDEDIR}" EQUAL "${Argon2_INCLUDE_DIR}"
-      isEqual
-    )
-
-    if(isEqual)
-      set(Argon2_VERSION ${PC_Argon2_VERSION})
-    endif()
-  endif()
-endblock()
+# Argon2 headers don't provide version. Try pkg-config.
+if(PC_Argon2_VERSION AND Argon2_INCLUDE_DIR IN_LIST PC_Argon2_INCLUDE_DIRS)
+  set(Argon2_VERSION ${PC_Argon2_VERSION})
+endif()
 
 mark_as_advanced(Argon2_INCLUDE_DIR Argon2_LIBRARY)
 
@@ -86,6 +75,7 @@ find_package_handle_standard_args(
     Argon2_LIBRARY
     Argon2_INCLUDE_DIR
   VERSION_VAR Argon2_VERSION
+  HANDLE_VERSION_RANGE
   REASON_FAILURE_MESSAGE "${_reason}"
 )
 

@@ -56,6 +56,7 @@ find_package_handle_standard_args(
   REQUIRED_VARS
     PHPSystem_EXECUTABLE
   VERSION_VAR PHPSystem_VERSION
+  HANDLE_VERSION_RANGE
   REASON_FAILURE_MESSAGE "${_reason}"
 )
 

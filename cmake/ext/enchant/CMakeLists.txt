@@ -62,7 +62,7 @@ target_sources(
     enchant.stub.php
 )
 
-find_package(Enchant 2.0)
+find_package(Enchant 1.4.2)
 set_package_properties(
   Enchant
   PROPERTIES
@@ -70,30 +70,22 @@ set_package_properties(
     PURPOSE "Necessary to enable the enchant extension."
 )
 
-if(Enchant_FOUND)
-  set(HAVE_ENCHANT_GET_VERSION 1)
-else()
-  message(WARNING "Library Enchant 2 not found, trying with Enchant 1")
+if(TARGET Enchant::Enchant)
+  # The enchant_get_version() is available since 1.6.0.
+  check_library_exists(
+    Enchant::Enchant
+    enchant_get_version
+    ""
+    HAVE_ENCHANT_GET_VERSION
+  )
 
-  find_package(Enchant 1.4.2)
-
-  if(TARGET Enchant::Enchant)
-    # enchant_get_version since 1.6.0.
-    check_library_exists(
-      Enchant::Enchant
-      enchant_get_version
-      ""
-      HAVE_ENCHANT_GET_VERSION
-    )
-
-    # enchant_broker_set_param since 1.5.0 and removed in 2.x.
-    check_library_exists(
-      Enchant::Enchant
-      enchant_broker_set_param
-      ""
-      HAVE_ENCHANT_BROKER_SET_PARAM
-    )
-  endif()
+  # The enchant_broker_set_param() is available since 1.5.0 and removed in 2.x.
+  check_library_exists(
+    Enchant::Enchant
+    enchant_broker_set_param
+    ""
+    HAVE_ENCHANT_BROKER_SET_PARAM
+  )
 endif()
 
 target_link_libraries(php_enchant PRIVATE Enchant::Enchant)

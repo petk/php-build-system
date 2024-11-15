@@ -155,6 +155,7 @@ find_package_handle_standard_args(
     BerkeleyDB_INCLUDE_DIR
     _berkeleydb_sanity_check
   VERSION_VAR BerkeleyDB_VERSION
+  HANDLE_VERSION_RANGE
   REASON_FAILURE_MESSAGE "${_reason}"
 )
 

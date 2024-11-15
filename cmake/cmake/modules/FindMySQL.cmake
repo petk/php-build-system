@@ -113,7 +113,7 @@ if("Lib" IN_LIST MySQL_FIND_COMPONENTS)
       ERROR_QUIET
     )
   else()
-    # Use pkgconf, if available on the system.
+    # Try pkg-config.
     find_package(PkgConfig QUIET)
     if(PKG_CONFIG_FOUND)
       pkg_check_modules(PC_MySQL QUIET mysqlclient)
@@ -154,6 +154,9 @@ endif()
 
 find_package_handle_standard_args(
   MySQL
+  # TODO: Add version
+  VERSION_VAR MySQL_VERSION
+  HANDLE_VERSION_RANGE
   HANDLE_COMPONENTS
   REASON_FAILURE_MESSAGE "${_reason}"
 )

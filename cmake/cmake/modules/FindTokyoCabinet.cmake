@@ -35,7 +35,7 @@ set_package_properties(
 
 set(_reason "")
 
-# Use pkgconf, if available on the system.
+# Try pkg-config.
 find_package(PkgConfig QUIET)
 if(PKG_CONFIG_FOUND)
   pkg_check_modules(PC_TokyoCabinet QUIET tokyocabinet)
@@ -79,17 +79,14 @@ endif()
 
 # Get version.
 block(PROPAGATE TokyoCabinet_VERSION)
-  if(TokyoCabinet_INCLUDE_DIR AND EXISTS ${TokyoCabinet_INCLUDE_DIR}/tcutil.h)
+  if(EXISTS ${TokyoCabinet_INCLUDE_DIR}/tcutil.h)
     set(regex [[^[ \t]*#[ \t]*define[ \t]+_TC_VERSION[ \t]+"?([0-9.]+)"?[ \t]*$]])
 
-    file(STRINGS ${TokyoCabinet_INCLUDE_DIR}/tcutil.h results REGEX "${regex}")
+    file(STRINGS ${TokyoCabinet_INCLUDE_DIR}/tcutil.h result REGEX "${regex}")
 
-    foreach(line ${results})
-      if(line MATCHES "${regex}")
-        set(TokyoCabinet_VERSION "${CMAKE_MATCH_1}")
-        break()
-      endif()
-    endforeach()
+    if(result MATCHES "${regex}")
+      set(TokyoCabinet_VERSION "${CMAKE_MATCH_1}")
+    endif()
   endif()
 endblock()
 
@@ -102,6 +99,7 @@ find_package_handle_standard_args(
     TokyoCabinet_INCLUDE_DIR
     _tokyocabinet_sanity_check
   VERSION_VAR TokyoCabinet_VERSION
+  HANDLE_VERSION_RANGE
   REASON_FAILURE_MESSAGE "${_reason}"
 )
 

@@ -35,7 +35,7 @@ set_package_properties(
 
 set(_reason "")
 
-# Use pkgconf, if available on the system.
+# Try pkg-config.
 find_package(PkgConfig QUIET)
 if(PKG_CONFIG_FOUND)
   pkg_check_modules(PC_Readline QUIET readline)
@@ -113,6 +113,7 @@ find_package_handle_standard_args(
     Readline_INCLUDE_DIR
     _readline_have_readline
   VERSION_VAR Readline_VERSION
+  HANDLE_VERSION_RANGE
   REASON_FAILURE_MESSAGE "${_reason}"
 )
 

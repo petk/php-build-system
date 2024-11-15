@@ -88,6 +88,7 @@ find_package_handle_standard_args(
     Dmalloc_LIBRARY
     Dmalloc_INCLUDE_DIR
   VERSION_VAR Dmalloc_VERSION
+  HANDLE_VERSION_RANGE
   REASON_FAILURE_MESSAGE "${_reason}"
 )
 

@@ -42,7 +42,7 @@ set_package_properties(
 
 set(_reason "")
 
-# Use pkgconf, if available on the system.
+# Try pkg-config.
 find_package(PkgConfig QUIET)
 if(PKG_CONFIG_FOUND)
   pkg_check_modules(PC_LDAP QUIET ldap)
@@ -85,7 +85,7 @@ endif()
 
 # Get version.
 block(PROPAGATE LDAP_VERSION)
-  if(LDAP_INCLUDE_DIR AND EXISTS ${LDAP_INCLUDE_DIR}/ldap_features.h)
+  if(EXISTS ${LDAP_INCLUDE_DIR}/ldap_features.h)
     file(
       STRINGS
       ${LDAP_INCLUDE_DIR}/ldap_features.h
@@ -149,6 +149,7 @@ find_package_handle_standard_args(
     LDAP_INCLUDE_DIR
     _ldap_sanity_check
   VERSION_VAR LDAP_VERSION
+  HANDLE_VERSION_RANGE
   REASON_FAILURE_MESSAGE "${_reason}"
 )
 

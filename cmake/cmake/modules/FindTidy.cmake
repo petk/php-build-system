@@ -41,7 +41,7 @@ set_package_properties(
 
 set(_reason "")
 
-# Use pkgconf, if available on the system.
+# Try pkg-config.
 find_package(PkgConfig QUIET)
 if(PKG_CONFIG_FOUND)
   pkg_check_modules(PC_Tidy QUIET tidy)
@@ -93,21 +93,10 @@ if(Tidy_INCLUDE_DIR)
   cmake_pop_check_state()
 endif()
 
-# Get version.
-block(PROPAGATE Tidy_VERSION)
-  # Tidy headers don't provide version. Try pkgconf version, if found.
-  if(PC_Tidy_VERSION)
-    cmake_path(
-      COMPARE
-      "${PC_Tidy_INCLUDEDIR}" EQUAL "${Tidy_INCLUDE_DIR}"
-      isEqual
-    )
-
-    if(isEqual)
-      set(Tidy_VERSION ${PC_Tidy_VERSION})
-    endif()
-  endif()
-endblock()
+# Tidy headers don't provide version. Try pkg-config.
+if(PC_Tidy_VERSION AND Tidy_INCLUDE_DIR IN_LIST PC_Tidy_INCLUDE_DIRS)
+  set(Tidy_VERSION ${PC_Tidy_VERSION})
+endif()
 
 mark_as_advanced(Tidy_INCLUDE_DIR Tidy_LIBRARY)
 
@@ -117,6 +106,7 @@ find_package_handle_standard_args(
     Tidy_INCLUDE_DIR
     Tidy_LIBRARY
   VERSION_VAR Tidy_VERSION
+  HANDLE_VERSION_RANGE
   REASON_FAILURE_MESSAGE "${_reason}"
 )
 

@@ -35,7 +35,7 @@ set_package_properties(
 
 set(_reason "")
 
-# Use pkgconf, if available on the system.
+# Try pkg-config.
 find_package(PkgConfig QUIET)
 if(PKG_CONFIG_FOUND)
   pkg_check_modules(PC_Systemd QUIET libsystemd)
@@ -64,37 +64,32 @@ if(NOT Systemd_LIBRARY)
 endif()
 
 if(Systemd_INCLUDE_DIR AND Systemd_LIBRARY)
-  find_program(
-    Systemd_EXECUTABLE
-    NAMES systemd systemctl
-    DOC "Path to the systemd executable"
-  )
-
   block(PROPAGATE Systemd_VERSION)
-    if(Systemd_EXECUTABLE)
-      execute_process(
-        COMMAND "${Systemd_EXECUTABLE}" --version
-        OUTPUT_VARIABLE result
-        OUTPUT_STRIP_TRAILING_WHITESPACE
-      )
-
-      string(REGEX MATCH " ([0-9]+) " _ "${result}")
-
-      if(CMAKE_MATCH_1)
-        set(Systemd_VERSION "${CMAKE_MATCH_1}")
-      endif()
+    if(
+      NOT Systemd_VERSION
+      AND PC_Systemd_VERSION
+      AND Systemd_INCLUDE_DIR IN_LIST PC_Systemd_INCLUDE_DIRS
+    )
+      set(Systemd_VERSION ${PC_Systemd_VERSION})
     endif()
 
-    # Try finding version with pkgconf.
-    if(NOT Systemd_VERSION AND PC_Systemd_VERSION)
-      cmake_path(
-        COMPARE
-        "${PC_Systemd_INCLUDEDIR}" EQUAL "${Systemd_INCLUDE_DIR}"
-        isEqual
+    if(NOT Systemd_VERSION)
+      find_program(
+        Systemd_EXECUTABLE
+        NAMES systemd systemctl
+        DOC "Path to the systemd executable"
       )
 
-      if(isEqual)
-        set(Systemd_VERSION ${PC_Systemd_VERSION})
+      if(Systemd_EXECUTABLE)
+        execute_process(
+          COMMAND "${Systemd_EXECUTABLE}" --version
+          OUTPUT_VARIABLE result
+          OUTPUT_STRIP_TRAILING_WHITESPACE
+        )
+
+        if(result MATCHES " ([0-9]+) ")
+          set(Systemd_VERSION "${CMAKE_MATCH_1}")
+        endif()
       endif()
     endif()
   endblock()
@@ -108,6 +103,7 @@ find_package_handle_standard_args(
     Systemd_LIBRARY
     Systemd_INCLUDE_DIR
   VERSION_VAR Systemd_VERSION
+  HANDLE_VERSION_RANGE
   REASON_FAILURE_MESSAGE "${_reason}"
 )
 

@@ -83,7 +83,7 @@ if(Crypt_IS_BUILT_IN)
 else()
   set(_Crypt_REQUIRED_VARS Crypt_LIBRARY Crypt_INCLUDE_DIR _Crypt_SANITY_CHECK)
 
-  # Use pkgconf, if available on the system.
+  # Try pkg-config.
   find_package(PkgConfig QUIET)
   if(PKG_CONFIG_FOUND)
     pkg_search_module(PC_Crypt QUIET libcrypt libxcrypt)
@@ -124,29 +124,22 @@ endif()
 
 # Get version.
 block(PROPAGATE Crypt_VERSION)
-  if(Crypt_INCLUDE_DIR AND EXISTS ${Crypt_INCLUDE_DIR}/crypt.h)
-    set(regex [[^[ \t]*#[ \t]*define[ \t]+XCRYPT_VERSION_STR[ \t]+"?([0-9.]+)"?[ \t]*$]])
+  if(EXISTS ${Crypt_INCLUDE_DIR}/crypt.h)
+    set(regex [[^[ \t]*#[ \t]*define[ \t]+XCRYPT_VERSION_STR[ \t]+"?([^"]+)"?[ \t]*$]])
 
-    file(STRINGS ${Crypt_INCLUDE_DIR}/crypt.h results REGEX "${regex}")
+    file(STRINGS ${Crypt_INCLUDE_DIR}/crypt.h result REGEX "${regex}")
 
-    foreach(line ${results})
-      if(line MATCHES "${regex}")
-        set(Crypt_VERSION "${CMAKE_MATCH_1}")
-        break()
-      endif()
-    endforeach()
+    if(result MATCHES "${regex}")
+      set(Crypt_VERSION "${CMAKE_MATCH_1}")
+    endif()
   endif()
 
-  if(NOT Crypt_VERSION AND PC_Crypt_VERSION)
-    cmake_path(
-      COMPARE
-      "${PC_Crypt_INCLUDEDIR}" EQUAL "${Crypt_INCLUDE_DIR}"
-      isEqual
-    )
-
-    if(isEqual)
-      set(Crypt_VERSION ${PC_Crypt_VERSION})
-    endif()
+  if(
+    NOT Crypt_VERSION
+    AND PC_Crypt_VERSION
+    AND Crypt_INCLUDE_DIR IN_LIST PC_Crypt_INCLUDE_DIRS
+  )
+    set(Crypt_VERSION ${PC_Crypt_VERSION})
   endif()
 endblock()
 
@@ -159,6 +152,7 @@ find_package_handle_standard_args(
   REQUIRED_VARS
     ${_Crypt_REQUIRED_VARS}
   VERSION_VAR Crypt_VERSION
+  HANDLE_VERSION_RANGE
   REASON_FAILURE_MESSAGE "${_reason}"
 )
 

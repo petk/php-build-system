@@ -44,7 +44,7 @@ set_package_properties(
 
 set(_reason "")
 
-# Use pkgconf, if available on the system.
+# Try pkg-config.
 find_package(PkgConfig QUIET)
 if(PKG_CONFIG_FOUND)
   pkg_check_modules(PC_Kerberos QUIET krb5)
@@ -85,17 +85,12 @@ find_program(
 
 # Get version.
 block(PROPAGATE Kerberos_VERSION)
-  # Kerberos headers don't provide version. Try pkgconf version, if found.
-  if(PC_Kerberos_VERSION)
-    cmake_path(
-      COMPARE
-      "${PC_Kerberos_INCLUDEDIR}" EQUAL "${Kerberos_INCLUDE_DIR}"
-      isEqual
-    )
-
-    if(isEqual)
-      set(Kerberos_VERSION ${PC_Kerberos_VERSION})
-    endif()
+  # Kerberos headers don't provide version. Try pkg-config.
+  if(
+    PC_Kerberos_VERSION
+    AND Kerberos_INCLUDE_DIR IN_LIST PC_Kerberos_INCLUDE_DIRS
+  )
+    set(Kerberos_VERSION ${PC_Kerberos_VERSION})
   endif()
 
   # Try with krb5-config script.
@@ -157,6 +152,7 @@ find_package_handle_standard_args(
     Kerberos_LIBRARY
     Kerberos_INCLUDE_DIR
   VERSION_VAR Kerberos_VERSION
+  HANDLE_VERSION_RANGE
   HANDLE_COMPONENTS
   REASON_FAILURE_MESSAGE "${_reason}"
 )

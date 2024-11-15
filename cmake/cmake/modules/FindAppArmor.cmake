@@ -35,7 +35,7 @@ set_package_properties(
 
 set(_reason "")
 
-# Use pkgconf, if available on the system.
+# Try pkg-config.
 find_package(PkgConfig QUIET)
 if(PKG_CONFIG_FOUND)
   pkg_check_modules(PC_AppArmor QUIET libapparmor)
@@ -77,21 +77,13 @@ if(NOT _apparmor_sanity_check)
   string(APPEND _reason "Sanity check failed: aa_change_profile not found. ")
 endif()
 
-# Get version.
-block(PROPAGATE AppArmor_VERSION)
-  # AppArmor headers don't provide version. Try pkgconf version, if found.
-  if(PC_AppArmor_VERSION)
-    cmake_path(
-      COMPARE
-      "${PC_AppArmor_INCLUDEDIR}" EQUAL "${AppArmor_INCLUDE_DIR}"
-      isEqual
-    )
-
-    if(isEqual)
-      set(AppArmor_VERSION ${PC_AppArmor_VERSION})
-    endif()
-  endif()
-endblock()
+# AppArmor headers don't provide version. Try pkg-config.
+if(
+  PC_AppArmor_VERSION
+  AND AppArmor_INCLUDE_DIR IN_LIST PC_AppArmor_INCLUDE_DIRS
+)
+  set(AppArmor_VERSION ${PC_AppArmor_VERSION})
+endif()
 
 mark_as_advanced(AppArmor_INCLUDE_DIR AppArmor_LIBRARY)
 
@@ -102,6 +94,7 @@ find_package_handle_standard_args(
     AppArmor_INCLUDE_DIR
     _apparmor_sanity_check
   VERSION_VAR AppArmor_VERSION
+  HANDLE_VERSION_RANGE
   REASON_FAILURE_MESSAGE "${_reason}"
 )
 

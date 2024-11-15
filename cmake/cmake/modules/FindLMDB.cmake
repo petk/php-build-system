@@ -35,7 +35,7 @@ set_package_properties(
 
 set(_reason "")
 
-# Use pkgconf, if available on the system.
+# Try pkg-config.
 find_package(PkgConfig QUIET)
 if(PKG_CONFIG_FOUND)
   pkg_check_modules(PC_LMDB QUIET lmdb)
@@ -108,6 +108,7 @@ find_package_handle_standard_args(
     LMDB_INCLUDE_DIR
     _lmdb_sanity_check
   VERSION_VAR LMDB_VERSION
+  HANDLE_VERSION_RANGE
   REASON_FAILURE_MESSAGE "${_reason}"
 )
 

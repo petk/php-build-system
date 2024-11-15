@@ -120,6 +120,7 @@ find_package_handle_standard_args(
     Firebird_LIBRARY
     Firebird_INCLUDE_DIR
   VERSION_VAR Firebird_VERSION
+  HANDLE_VERSION_RANGE
   REASON_FAILURE_MESSAGE "${_reason}"
 )
 

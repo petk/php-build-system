@@ -42,7 +42,7 @@ if(PKG_CONFIG_FOUND)
   # need to be fixed upstream or valgrind.h usage in the code
   # (#include <valgrind.h> vs. #include <valgrind/valgrind.h>). Here, parent
   # directory is appended to the include directories and header is searched as
-  # valgrind/valgrind.h since PHP uses this at the time of writing.
+  # valgrind/valgrind.h as included in PHP.
   if(PC_Valgrind_FOUND AND PC_Valgrind_INCLUDEDIR MATCHES "valgrind$")
     cmake_path(GET PC_Valgrind_INCLUDEDIR PARENT_PATH _valgrind_parent_include)
     if(NOT _valgrind_parent_include IN_LIST PC_Valgrind_INCLUDE_DIRS)
@@ -64,17 +64,14 @@ if(NOT Valgrind_INCLUDE_DIR)
 endif()
 
 block(PROPAGATE Valgrind_VERSION)
-  if(Valgrind_INCLUDE_DIR AND EXISTS ${Valgrind_INCLUDE_DIR}/valgrind/config.h)
+  if(EXISTS ${Valgrind_INCLUDE_DIR}/valgrind/config.h)
     set(regex [[^[ \t]*#[ \t]*define[ \t]+VERSION[ \t]+"?([^"]+)"?[ \t]*$]])
 
-    file(STRINGS ${Valgrind_INCLUDE_DIR}/valgrind/config.h results REGEX "${regex}")
+    file(STRINGS ${Valgrind_INCLUDE_DIR}/valgrind/config.h result REGEX "${regex}")
 
-    foreach(line ${results})
-      if(line MATCHES "${regex}")
-        set(Valgrind_VERSION "${CMAKE_MATCH_1}")
-        break()
-      endif()
-    endforeach()
+    if(result MATCHES "${regex}")
+      set(Valgrind_VERSION "${CMAKE_MATCH_1}")
+    endif()
   endif()
 
   if(
@@ -93,6 +90,7 @@ find_package_handle_standard_args(
   REQUIRED_VARS
     Valgrind_INCLUDE_DIR
   VERSION_VAR Valgrind_VERSION
+  HANDLE_VERSION_RANGE
   REASON_FAILURE_MESSAGE "${_reason}"
 )
 

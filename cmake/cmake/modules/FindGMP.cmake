@@ -34,7 +34,7 @@ set_package_properties(
 
 set(_reason "")
 
-# Use pkgconf, if available on the system.
+# Try pkg-config.
 find_package(PkgConfig QUIET)
 if(PKG_CONFIG_FOUND)
   pkg_check_modules(PC_GMP QUIET gmp)
@@ -73,12 +73,12 @@ block(PROPAGATE GMP_VERSION)
       "^#[ \t]*define[ \t]+__GNU_MP_VERSION(_MINOR|_PATCHLEVEL)?[ \t]+[0-9]+[ \t]*$"
     )
 
-    unset(GMP_VERSION)
+    set(GMP_VERSION)
 
     foreach(item VERSION VERSION_MINOR VERSION_PATCHLEVEL)
       foreach(line ${results})
         if(line MATCHES "^#[ \t]*define[ \t]+__GNU_MP_${item}[ \t]+([0-9]+)[ \t]*$")
-          if(DEFINED GMP_VERSION)
+          if(GMP_VERSION)
             string(APPEND GMP_VERSION ".${CMAKE_MATCH_1}")
           else()
             set(GMP_VERSION "${CMAKE_MATCH_1}")
@@ -97,6 +97,7 @@ find_package_handle_standard_args(
     GMP_LIBRARY
     GMP_INCLUDE_DIR
   VERSION_VAR GMP_VERSION
+  HANDLE_VERSION_RANGE
   REASON_FAILURE_MESSAGE "${_reason}"
 )
 

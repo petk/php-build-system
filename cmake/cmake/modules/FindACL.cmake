@@ -141,7 +141,7 @@ if(ACL_IS_BUILT_IN)
 else()
   set(_ACL_REQUIRED_VARS ACL_LIBRARY ACL_INCLUDE_DIR)
 
-  # Use pkgconf, if available on the system.
+  # Try pkg-config.
   find_package(PkgConfig QUIET)
   if(PKG_CONFIG_FOUND)
     pkg_check_modules(PC_ACL QUIET libacl)
@@ -169,17 +169,10 @@ else()
     string(APPEND _reason "ACL library not found. ")
   endif()
 
-  # Get version.
-  block(PROPAGATE ACL_VERSION)
-    # ACL headers don't provide version. Try pkgconf version, if found.
-    if(PC_ACL_VERSION AND ACL_INCLUDE_DIR)
-      cmake_path(COMPARE "${ACL_INCLUDE_DIR}" EQUAL "${PC_ACL_INCLUDEDIR}" isEqual)
-
-      if(isEqual)
-        set(ACL_VERSION ${PC_ACL_VERSION})
-      endif()
-    endif()
-  endblock()
+  # ACL headers don't provide version. Try pkg-config.
+  if(PC_ACL_VERSION AND ACL_INCLUDE_DIR IN_LIST PC_ACL_INCLUDE_DIRS)
+    set(ACL_VERSION ${PC_ACL_VERSION})
+  endif()
 
   _acl_check(_acl_works)
 
@@ -204,6 +197,7 @@ find_package_handle_standard_args(
     ${_ACL_REQUIRED_VARS}
     _acl_works
   VERSION_VAR ACL_VERSION
+  HANDLE_VERSION_RANGE
   REASON_FAILURE_MESSAGE "${_reason}"
 )
 

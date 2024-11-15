@@ -34,7 +34,7 @@ set_package_properties(
 
 set(_reason "")
 
-# Use pkgconf, if available on the system.
+# Try pkg-config.
 find_package(PkgConfig QUIET)
 if(PKG_CONFIG_FOUND)
   pkg_check_modules(PC_PCRE QUIET libpcre2-8)
@@ -95,6 +95,7 @@ find_package_handle_standard_args(
     PCRE_LIBRARY
     PCRE_INCLUDE_DIR
   VERSION_VAR PCRE_VERSION
+  HANDLE_VERSION_RANGE
   REASON_FAILURE_MESSAGE "${_reason}"
 )
 

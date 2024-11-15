@@ -190,8 +190,7 @@ if(Apache_APR_CONFIG_EXECUTABLE)
   )
 endif()
 
-# Find the apr library (Apache portable runtime).
-# Use pkgconf, if available on the system.
+# Try pkg-config.
 find_package(PkgConfig QUIET)
 if(PKG_CONFIG_FOUND)
   pkg_check_modules(PC_Apache_APR QUIET apr-1)
@@ -294,7 +293,7 @@ endif()
 
 # Get Apache version.
 block(PROPAGATE Apache_VERSION)
-  if(Apache_INCLUDE_DIR AND EXISTS ${Apache_INCLUDE_DIR}/ap_release.h)
+  if(EXISTS ${Apache_INCLUDE_DIR}/ap_release.h)
     file(
       STRINGS
       ${Apache_INCLUDE_DIR}/ap_release.h
@@ -397,6 +396,7 @@ find_package_handle_standard_args(
     Apache_APR_INCLUDE_DIR
     Apache_EXECUTABLE
   VERSION_VAR Apache_VERSION
+  HANDLE_VERSION_RANGE
   REASON_FAILURE_MESSAGE "${_reason}"
 )
 

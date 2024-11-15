@@ -35,7 +35,7 @@ set_package_properties(
 
 set(_reason "")
 
-# Use pkgconf, if available on the system.
+# Try pkg-config.
 find_package(PkgConfig QUIET)
 if(PKG_CONFIG_FOUND)
   pkg_check_modules(PC_Selinux QUIET libselinux)
@@ -77,21 +77,10 @@ if(SELinux_LIBRARY)
   endif()
 endif()
 
-# Get version.
-block(PROPAGATE SELinux_VERSION)
-  # SELinux headers don't provide version. Try pkgconf version, if found.
-  if(PC_SELinux_VERSION)
-    cmake_path(
-      COMPARE
-      "${PC_SELinux_INCLUDEDIR}" EQUAL "${SELinux_INCLUDE_DIR}"
-      isEqual
-    )
-
-    if(isEqual)
-      set(SELinux_VERSION ${PC_SELinux_VERSION})
-    endif()
-  endif()
-endblock()
+# SELinux headers don't provide version. Try pkg-config.
+if(PC_SELinux_VERSION AND SELinux_INCLUDE_DIR IN_LIST PC_SELinux_INCLUDE_DIRS)
+  set(SELinux_VERSION ${PC_SELinux_VERSION})
+endif()
 
 mark_as_advanced(SELinux_INCLUDE_DIR SELinux_LIBRARY)
 
@@ -102,6 +91,7 @@ find_package_handle_standard_args(
     SELinux_INCLUDE_DIR
     _selinux_sanity_check
   VERSION_VAR SELinux_VERSION
+  HANDLE_VERSION_RANGE
   REASON_FAILURE_MESSAGE "${_reason}"
 )
 

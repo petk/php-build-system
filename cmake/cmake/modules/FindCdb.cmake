@@ -35,7 +35,7 @@ set_package_properties(
 
 set(_reason "")
 
-# Use pkgconf, if available on the system.
+# Try pkg-config.
 find_package(PkgConfig QUIET)
 if(PKG_CONFIG_FOUND)
   pkg_check_modules(PC_Cdb QUIET libcdb)
@@ -77,14 +77,11 @@ block(PROPAGATE Cdb_VERSION)
   if(Cdb_INCLUDE_DIR)
     set(regex [[^[ \t]*#[ \t]*define[ \t]+TINYCDB_VERSION[ \t]+([0-9.]+)[ \t]*$]])
 
-    file(STRINGS ${Cdb_INCLUDE_DIR}/cdb.h results REGEX "${regex}")
+    file(STRINGS ${Cdb_INCLUDE_DIR}/cdb.h result REGEX "${regex}")
 
-    foreach(line ${results})
-      if(line MATCHES "${regex}")
-        set(Cdb_VERSION "${CMAKE_MATCH_1}")
-        break()
-      endif()
-    endforeach()
+    if(result MATCHES "${regex}")
+      set(Cdb_VERSION "${CMAKE_MATCH_1}")
+    endif()
   endif()
 endblock()
 
@@ -97,6 +94,7 @@ find_package_handle_standard_args(
     Cdb_INCLUDE_DIR
     _cdb_sanity_check
   VERSION_VAR Cdb_VERSION
+  HANDLE_VERSION_RANGE
   REASON_FAILURE_MESSAGE "${_reason}"
 )
 

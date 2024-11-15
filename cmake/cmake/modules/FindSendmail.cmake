@@ -33,6 +33,7 @@ else()
   set(_sendmail "/usr/sbin/sendmail")
 endif()
 
+# TODO: Should this be result variable?
 set(PROG_SENDMAIL "${_sendmail}" CACHE INTERNAL "Path to sendmail executable")
 
 mark_as_advanced(Sendmail_EXECUTABLE)

@@ -34,7 +34,7 @@ set_package_properties(
 
 set(_reason "")
 
-# Use pkgconf, if available on the system.
+# Try pkg-config.
 find_package(PkgConfig QUIET)
 if(PKG_CONFIG_FOUND)
   pkg_check_modules(PC_Oniguruma QUIET oniguruma)
@@ -96,6 +96,7 @@ find_package_handle_standard_args(
     Oniguruma_LIBRARY
     Oniguruma_INCLUDE_DIR
   VERSION_VAR Oniguruma_VERSION
+  HANDLE_VERSION_RANGE
   REASON_FAILURE_MESSAGE "${_reason}"
 )
 
