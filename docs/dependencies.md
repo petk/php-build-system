@@ -486,8 +486,6 @@ A list of various dependencies needed to build PHP from source:
   * when using `--with-password-argon2`
 * libedit
   * when using `--with-libedit`
-* libreadline
-  * when using `--with-readline`
 * libsnmp
   * when using `--with-snmp`
 * libexpat1
@@ -518,11 +516,9 @@ A list of various dependencies needed to build PHP from source:
   * when using the `--with-lmdb`
 * libtokyocabinet
   * when using the `--with-tcadb`
-* libgdbm
-  * when using the `--with-gdbm`
 * libqdbm
   * when using the `--with-qdbm`
-* libgdbm or library implementing the ndbm or dbm compatibility interface
+* library implementing the ndbm or dbm compatibility interface
   * when using the `--with-dbm` or `--with-ndbm`
 * libdb
   * when using the `--with-db4`, `--with-db3`, `--with-db2`, or `--with-db1`

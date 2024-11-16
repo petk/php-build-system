@@ -32,7 +32,7 @@ sudo dnf install cmake gcc gcc-c++ bison sqlite-devel
   brew install cmake bison # See https://brew.sh how to install Homebrew
 
   # Prerequisites for Alpine Linux:
-  sudo apk add --no-cache cmake make gcc g++ bison sqlite-dev musl-dev
+  sudo apk add --no-cache cmake make gcc g++ musl-dev bison sqlite-dev
 
   # Prerequisites for BSD-based systems:
   sudo pkg install cmake bison sqlite3
