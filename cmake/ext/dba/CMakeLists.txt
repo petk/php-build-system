@@ -216,6 +216,17 @@ if(EXT_DBA_CDB)
     target_link_libraries(php_dba PRIVATE Cdb::Cdb)
 
     set(CDB_INCLUDE_FILE "<cdb.h>")
+
+    # At the time of writing external cdb library installed on *nix systems is
+    # most likely tinycdb, which isn't supported by PHP.
+    message(
+      WARNING
+      "When using external tinycdb library, it has different cdb_findnext() "
+      "signature, cdb_make* functions and doesn't use legacy uint32 type. PHP "
+      "source code isn't adjusted for using it yet. Recommendation is to "
+      "disable the 'EXT_DBA_CDB_EXTERNAL' (set it to 'OFF'), which will use "
+      "the cdb library bundled with PHP."
+    )
   else()
     target_sources(
       php_dba

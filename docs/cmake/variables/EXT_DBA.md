@@ -26,6 +26,11 @@ Enable the bundled constant databases (cdb) support.
 
 Use external (system) cdb library instead of the bundled sources.
 
+> [!WARNING]
+> At the time of writing external cdb library installed on \*nix systems is most
+> likely tinycdb, which isn't supported by PHP. Recommendation is to not enable
+> this option and use the bundled cdb library that comes with PHP sources.
+
 ## `EXT_DBA_DB`
 
 * Default: `OFF`
