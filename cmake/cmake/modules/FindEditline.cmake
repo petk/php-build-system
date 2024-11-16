@@ -114,6 +114,6 @@ if(NOT TARGET Editline::Editline)
     Editline::Editline
     PROPERTIES
       IMPORTED_LOCATION "${Editline_LIBRARY}"
-      INTERFACE_INCLUDE_DIRECTORIES "${Editline_INCLUDE_DIR}"
+      INTERFACE_INCLUDE_DIRECTORIES "${Editline_INCLUDE_DIRS}"
   )
 endif()

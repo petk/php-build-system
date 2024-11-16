@@ -99,6 +99,6 @@ if(NOT TARGET Enchant::Enchant)
     Enchant::Enchant
     PROPERTIES
       IMPORTED_LOCATION "${Enchant_LIBRARY}"
-      INTERFACE_INCLUDE_DIRECTORIES "${Enchant_INCLUDE_DIR}"
+      INTERFACE_INCLUDE_DIRECTORIES "${Enchant_INCLUDE_DIRS}"
   )
 endif()

@@ -108,12 +108,26 @@ set(AppArmor_INCLUDE_DIRS ${AppArmor_INCLUDE_DIR})
 set(AppArmor_LIBRARIES ${AppArmor_LIBRARY})
 
 if(NOT TARGET AppArmor::AppArmor)
-  add_library(AppArmor::AppArmor UNKNOWN IMPORTED)
+  if(IS_ABSOLUTE "${AppArmor_LIBRARY}")
+    add_library(AppArmor::AppArmor UNKNOWN IMPORTED)
+    set_target_properties(
+      AppArmor::AppArmor
+      PROPERTIES
+        IMPORTED_LINK_INTERFACE_LANGUAGES C
+        IMPORTED_LOCATION "${AppArmor_LIBRARY}"
+    )
+  else()
+    add_library(AppArmor::AppArmor INTERFACE IMPORTED)
+    set_target_properties(
+      AppArmor::AppArmor
+      PROPERTIES
+        IMPORTED_LIBNAME "${AppArmor_LIBRARY}"
+    )
+  endif()
 
   set_target_properties(
     AppArmor::AppArmor
     PROPERTIES
-      IMPORTED_LOCATION "${AppArmor_LIBRARY}"
-      INTERFACE_INCLUDE_DIRECTORIES "${AppArmor_INCLUDE_DIR}"
+      INTERFACE_INCLUDE_DIRECTORIES "${AppArmor_INCLUDE_DIRS}"
   )
 endif()

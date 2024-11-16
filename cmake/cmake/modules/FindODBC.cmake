@@ -303,8 +303,11 @@ if(ODBC_FOUND)
         target_link_directories(ODBC::ODBC INTERFACE "${ODBC_LIBRARY_DIR}")
       endif()
     endif()
-    set_target_properties(ODBC::ODBC PROPERTIES
-      INTERFACE_INCLUDE_DIRECTORIES "${ODBC_INCLUDE_DIR}")
+    set_target_properties(
+      ODBC::ODBC
+      PROPERTIES
+        INTERFACE_INCLUDE_DIRECTORIES "${ODBC_INCLUDE_DIRS}"
+    )
 
     if(_odbc_required_libs_paths)
       set_property(TARGET ODBC::ODBC APPEND PROPERTY

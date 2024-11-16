@@ -221,11 +221,11 @@ endif()
 if(NOT TARGET ACL::ACL)
   add_library(ACL::ACL UNKNOWN IMPORTED)
 
-  if(ACL_INCLUDE_DIR)
+  if(ACL_INCLUDE_DIRS)
     set_target_properties(
       ACL::ACL
       PROPERTIES
-        INTERFACE_INCLUDE_DIRECTORIES "${ACL_INCLUDE_DIR}"
+        INTERFACE_INCLUDE_DIRECTORIES "${ACL_INCLUDE_DIRS}"
     )
   endif()
 

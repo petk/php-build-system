@@ -13,10 +13,8 @@ Module defines the following `IMPORTED` target(s):
 Result variables:
 
 * `Aspell_FOUND` - Whether the package has been found.
-  `Aspell_INCLUDE_DIRS`
-    Include directories needed to use this package.
-  `Aspell_LIBRARIES`
-    Libraries needed to link to the package library.
+* `Aspell_INCLUDE_DIRS` - Include directories needed to use this package.
+* `Aspell_LIBRARIES` - Libraries needed to link to the package library.
 
 Cache variables:
 
@@ -109,20 +107,26 @@ endif()
 set(Aspell_LIBRARIES ${Aspell_LIBRARY})
 
 if(NOT TARGET Aspell::Aspell)
-  add_library(Aspell::Aspell UNKNOWN IMPORTED)
+  if(IS_ABSOLUTE "${Aspell_LIBRARY}")
+    add_library(Aspell::Aspell UNKNOWN IMPORTED)
+    set_target_properties(
+      Aspell::Aspell
+      PROPERTIES
+        IMPORTED_LINK_INTERFACE_LANGUAGES C
+        IMPORTED_LOCATION "${Aspell_LIBRARY}"
+    )
+  else()
+    add_library(Aspell::Aspell INTERFACE IMPORTED)
+    set_target_properties(
+      Aspell::Aspell
+      PROPERTIES
+        IMPORTED_LIBNAME "${Aspell_LIBRARY}"
+    )
+  endif()
 
   set_target_properties(
     Aspell::Aspell
     PROPERTIES
-      IMPORTED_LOCATION "${Aspell_LIBRARY}"
-      INTERFACE_INCLUDE_DIRECTORIES "${Aspell_INCLUDE_DIR}"
+      INTERFACE_INCLUDE_DIRECTORIES "${Aspell_INCLUDE_DIRS}"
   )
-
-  if(Aspell_PSPELL_INCLUDE_DIR)
-    set_property(
-      TARGET Aspell::Aspell
-      APPEND PROPERTY
-        INTERFACE_INCLUDE_DIRECTORIES "${Aspell_PSPELL_INCLUDE_DIR}"
-    )
-  endif()
 endif()

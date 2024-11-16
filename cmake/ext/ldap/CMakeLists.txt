@@ -96,6 +96,20 @@ if(TARGET LDAP::LDAP)
   cmake_push_check_state(RESET)
     set(CMAKE_REQUIRED_LIBRARIES LDAP::LDAP)
 
+    # Sanity check.
+    check_symbol_exists(ldap_sasl_bind_s "ldap.h" _HAVE_LDAP_SASL_BIND_S)
+    # Fallback to deprecated ldap_simple_bind_s().
+    if(NOT _HAVE_LDAP_SASL_BIND_S)
+      check_symbol_exists(ldap_simple_bind_s "ldap.h" _HAVE_LDAP_SIMPLE_BIND_S)
+    endif()
+    if(NOT _HAVE_LDAP_SASL_BIND_S AND NOT _HAVE_LDAP_SIMPLE_BIND_S)
+      message(
+        FATAL_ERROR
+        "LDAP sanity check failed: ldap_sasl_bind_s() or ldap_simple_bind_s() "
+        "not found. "
+      )
+    endif()
+
     message(CHECK_START "Checking for 3 arg ldap_set_rebind_proc")
     check_source_compiles(C [[
       #include <ldap.h>

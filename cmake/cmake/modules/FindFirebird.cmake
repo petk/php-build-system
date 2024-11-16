@@ -140,6 +140,6 @@ if(NOT TARGET Firebird::Firebird)
     Firebird::Firebird
     PROPERTIES
       IMPORTED_LOCATION "${Firebird_LIBRARY}"
-      INTERFACE_INCLUDE_DIRECTORIES "${Firebird_INCLUDE_DIR}"
+      INTERFACE_INCLUDE_DIRECTORIES "${Firebird_INCLUDE_DIRS}"
   )
 endif()

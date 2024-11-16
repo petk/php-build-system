@@ -175,11 +175,11 @@ endif()
 if(NOT TARGET Crypt::Crypt)
   add_library(Crypt::Crypt UNKNOWN IMPORTED)
 
-  if(Crypt_INCLUDE_DIR)
+  if(Crypt_INCLUDE_DIRS)
     set_target_properties(
       Crypt::Crypt
       PROPERTIES
-        INTERFACE_INCLUDE_DIRECTORIES "${Crypt_INCLUDE_DIR}"
+        INTERFACE_INCLUDE_DIRECTORIES "${Crypt_INCLUDE_DIRS}"
     )
   endif()
 

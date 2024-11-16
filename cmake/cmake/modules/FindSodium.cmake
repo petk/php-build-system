@@ -103,6 +103,6 @@ if(NOT TARGET Sodium::Sodium)
     Sodium::Sodium
     PROPERTIES
       IMPORTED_LOCATION "${Sodium_LIBRARY}"
-      INTERFACE_INCLUDE_DIRECTORIES "${Sodium_INCLUDE_DIR}"
+      INTERFACE_INCLUDE_DIRECTORIES "${Sodium_INCLUDE_DIRS}"
   )
 endif()

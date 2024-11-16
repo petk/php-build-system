@@ -134,11 +134,11 @@ endif()
 if(NOT TARGET Dbm::Dbm)
   add_library(Dbm::Dbm UNKNOWN IMPORTED)
 
-  if(Dbm_INCLUDE_DIR)
+  if(Dbm_INCLUDE_DIRS)
     set_target_properties(
       Dbm::Dbm
       PROPERTIES
-        INTERFACE_INCLUDE_DIRECTORIES "${Dbm_INCLUDE_DIR}"
+        INTERFACE_INCLUDE_DIRECTORIES "${Dbm_INCLUDE_DIRS}"
     )
   endif()
 

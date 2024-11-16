@@ -167,6 +167,6 @@ if(NOT TARGET libzip::libzip)
     libzip::libzip
     PROPERTIES
       IMPORTED_LOCATION "${libzip_LIBRARY}"
-      INTERFACE_INCLUDE_DIRECTORIES "${libzip_INCLUDE_DIR}"
+      INTERFACE_INCLUDE_DIRECTORIES "${libzip_INCLUDE_DIRS}"
   )
 endif()

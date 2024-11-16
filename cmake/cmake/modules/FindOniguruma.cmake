@@ -116,6 +116,6 @@ if(NOT TARGET Oniguruma::Oniguruma)
     Oniguruma::Oniguruma
     PROPERTIES
       IMPORTED_LOCATION "${Oniguruma_LIBRARY}"
-      INTERFACE_INCLUDE_DIRECTORIES "${Oniguruma_INCLUDE_DIR}"
+      INTERFACE_INCLUDE_DIRECTORIES "${Oniguruma_INCLUDE_DIRS}"
   )
 endif()

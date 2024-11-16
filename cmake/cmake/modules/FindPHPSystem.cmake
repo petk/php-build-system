@@ -41,9 +41,7 @@ block(PROPAGATE PHPSystem_VERSION)
       OUTPUT_STRIP_TRAILING_WHITESPACE
     )
 
-    string(REGEX MATCH "PHP ([^ ]+) " _ "${version}")
-
-    if(CMAKE_MATCH_1)
+    if(version MATCHES "PHP ([^ ]+) ")
       set(PHPSystem_VERSION "${CMAKE_MATCH_1}")
     endif()
   endif()

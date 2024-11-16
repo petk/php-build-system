@@ -133,6 +133,6 @@ if(NOT TARGET Readline::Readline)
     Readline::Readline
     PROPERTIES
       IMPORTED_LOCATION "${Readline_LIBRARY}"
-      INTERFACE_INCLUDE_DIRECTORIES "${Readline_INCLUDE_DIR}"
+      INTERFACE_INCLUDE_DIRECTORIES "${Readline_INCLUDE_DIRS}"
   )
 endif()

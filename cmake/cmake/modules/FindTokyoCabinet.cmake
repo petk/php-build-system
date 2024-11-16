@@ -119,6 +119,6 @@ if(NOT TARGET TokyoCabinet::TokyoCabinet)
     TokyoCabinet::TokyoCabinet
     PROPERTIES
       IMPORTED_LOCATION "${TokyoCabinet_LIBRARY}"
-      INTERFACE_INCLUDE_DIRECTORIES "${TokyoCabinet_INCLUDE_DIR}"
+      INTERFACE_INCLUDE_DIRECTORIES "${TokyoCabinet_INCLUDE_DIRS}"
   )
 endif()

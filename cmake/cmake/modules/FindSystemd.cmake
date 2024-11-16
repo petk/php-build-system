@@ -123,6 +123,6 @@ if(NOT TARGET Systemd::Systemd)
     Systemd::Systemd
     PROPERTIES
       IMPORTED_LOCATION "${Systemd_LIBRARY}"
-      INTERFACE_INCLUDE_DIRECTORIES "${Systemd_INCLUDE_DIR}"
+      INTERFACE_INCLUDE_DIRECTORIES "${Systemd_INCLUDE_DIRS}"
   )
 endif()

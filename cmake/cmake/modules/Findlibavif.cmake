@@ -118,6 +118,6 @@ if(NOT TARGET libavif::libavif)
     libavif::libavif
     PROPERTIES
       IMPORTED_LOCATION "${libavif_LIBRARY}"
-      INTERFACE_INCLUDE_DIRECTORIES "${libavif_INCLUDE_DIR}"
+      INTERFACE_INCLUDE_DIRECTORIES "${libavif_INCLUDE_DIRS}"
   )
 endif()

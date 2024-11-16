@@ -351,7 +351,7 @@ if(NOT TARGET Cclient::Cclient)
     Cclient::Cclient
     PROPERTIES
       IMPORTED_LOCATION "${Cclient_LIBRARY}"
-      INTERFACE_INCLUDE_DIRECTORIES "${Cclient_INCLUDE_DIR}"
+      INTERFACE_INCLUDE_DIRECTORIES "${Cclient_INCLUDE_DIRS}"
   )
 endif()
 

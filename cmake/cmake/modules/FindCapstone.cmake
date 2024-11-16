@@ -126,12 +126,26 @@ set(
 set(Capstone_LIBRARIES ${Capstone_LIBRARY})
 
 if(NOT TARGET Capstone::Capstone)
-  add_library(Capstone::Capstone UNKNOWN IMPORTED)
+  if(IS_ABSOLUTE "${Capstone_LIBRARY}")
+    add_library(Capstone::Capstone UNKNOWN IMPORTED)
+    set_target_properties(
+      Capstone::Capstone
+      PROPERTIES
+        IMPORTED_LINK_INTERFACE_LANGUAGES C
+        IMPORTED_LOCATION "${Capstone_LIBRARY}"
+    )
+  else()
+    add_library(Capstone::Capstone INTERFACE IMPORTED)
+    set_target_properties(
+      Capstone::Capstone
+      PROPERTIES
+        IMPORTED_LIBNAME "${Capstone_LIBRARY}"
+    )
+  endif()
 
   set_target_properties(
     Capstone::Capstone
     PROPERTIES
-      IMPORTED_LOCATION "${Capstone_LIBRARY}"
       INTERFACE_INCLUDE_DIRECTORIES "${Capstone_INCLUDE_DIRS}"
   )
 endif()

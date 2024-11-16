@@ -127,7 +127,7 @@ if(NOT TARGET Ndbm::Ndbm)
     set_target_properties(
       Ndbm::Ndbm
       PROPERTIES
-        INTERFACE_INCLUDE_DIRECTORIES "${Ndbm_INCLUDE_DIR}"
+        INTERFACE_INCLUDE_DIRECTORIES "${Ndbm_INCLUDE_DIRS}"
     )
   endif()
 

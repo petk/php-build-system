@@ -89,12 +89,26 @@ set(Argon2_INCLUDE_DIRS ${Argon2_INCLUDE_DIR})
 set(Argon2_LIBRARIES ${Argon2_LIBRARY})
 
 if(NOT TARGET Argon2::Argon2)
-  add_library(Argon2::Argon2 UNKNOWN IMPORTED)
+  if(IS_ABSOLUTE "${Argon2_LIBRARY}")
+    add_library(Argon2::Argon2 UNKNOWN IMPORTED)
+    set_target_properties(
+      Argon2::Argon2
+      PROPERTIES
+        IMPORTED_LINK_INTERFACE_LANGUAGES C
+        IMPORTED_LOCATION "${Argon2_LIBRARY}"
+    )
+  else()
+    add_library(Argon2::Argon2 INTERFACE IMPORTED)
+    set_target_properties(
+      Argon2::Argon2
+      PROPERTIES
+        IMPORTED_LIBNAME "${Argon2_LIBRARY}"
+    )
+  endif()
 
   set_target_properties(
     Argon2::Argon2
     PROPERTIES
-      IMPORTED_LOCATION "${Argon2_LIBRARY}"
-      INTERFACE_INCLUDE_DIRECTORIES "${Argon2_INCLUDE_DIR}"
+      INTERFACE_INCLUDE_DIRECTORIES "${Argon2_INCLUDE_DIRS}"
   )
 endif()

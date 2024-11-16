@@ -174,12 +174,26 @@ list(REMOVE_DUPLICATES BerkeleyDB_INCLUDE_DIRS)
 set(BerkeleyDB_LIBRARIES ${BerkeleyDB_LIBRARY})
 
 if(NOT TARGET BerkeleyDB::BerkeleyDB)
-  add_library(BerkeleyDB::BerkeleyDB UNKNOWN IMPORTED)
+  if(IS_ABSOLUTE "${BerkeleyDB_LIBRARY}")
+    add_library(BerkeleyDB::BerkeleyDB UNKNOWN IMPORTED)
+    set_target_properties(
+      BerkeleyDB::BerkeleyDB
+      PROPERTIES
+        IMPORTED_LINK_INTERFACE_LANGUAGES C
+        IMPORTED_LOCATION "${BerkeleyDB_LIBRARY}"
+    )
+  else()
+    add_library(BerkeleyDB::BerkeleyDB INTERFACE IMPORTED)
+    set_target_properties(
+      BerkeleyDB::BerkeleyDB
+      PROPERTIES
+        IMPORTED_LIBNAME "${BerkeleyDB_LIBRARY}"
+    )
+  endif()
 
   set_target_properties(
     BerkeleyDB::BerkeleyDB
     PROPERTIES
-      IMPORTED_LOCATION "${BerkeleyDB_LIBRARY}"
-      INTERFACE_INCLUDE_DIRECTORIES "${BerkeleyDB_INCLUDE_DIR};${BerkeleyDB_DB1_INCLUDE_DIR}"
+      INTERFACE_INCLUDE_DIRECTORIES "${BerkeleyDB_INCLUDE_DIRS}"
   )
 endif()
