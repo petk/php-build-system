@@ -108,9 +108,18 @@ build system:
 * The phpdbg prompt with libedit integration is colored.
   See: https://github.com/php/php-src/pull/15722
 
-* ext/readline is linked with libedit by default instead of the GPL licensed GNU
-  Readline.
-  See: https://github.com/php/php-src/issues/15882
+* GPL 3 licensed dependencies are removed as they are not compatible with PHP
+  license. When such dependencies are linked statically or dynamically, PHP
+  should be relicensed as GPL 3 (which is unrealistic), or it shouldn't be
+  distributed (which makes it unusable in server environments or package
+  repositories). As this is a gray area, removal of these dependencies improves
+  user experience and prevents misconfiguration.
+
+  * GDBM (GNU dbm) handler removed in ext/dba.
+    See: https://github.com/php/php-src/issues/16826
+
+  * ext/readline is linked with libedit and GNU Readline removed.
+    See: https://github.com/php/php-src/issues/15882
 
 * Build with Clang on 32-bit systems.
   See: https://github.com/php/php-src/issues/14467

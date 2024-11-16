@@ -1195,15 +1195,15 @@ A list of Autoconf `configure` command-line configuration options, Windows
     <tr>
       <td>&emsp;--without-gdbm</td>
       <td>N/A</td>
-      <td>EXT_DBA_GDBM=OFF</td>
+      <td>EXT_DBA_GDBM=OFF (PHP &lt;= 8.3)</td>
       <td>default</td>
     </tr>
     <tr>
       <td>&emsp;--with-gdbm[=DIR]</td>
       <td>N/A</td>
       <td>
-        EXT_DBA_GDBM=ON<br>
-        [GDBM_ROOT=DIR]
+        EXT_DBA_GDBM=ON (PHP &lt;= 8.3)<br>
+        [GDBM_ROOT=DIR] (PHP &lt;= 8.3)
       </td>
       <td></td>
     </tr>
@@ -2849,7 +2849,7 @@ A list of Autoconf `configure` command-line configuration options, Windows
     <tr>
       <td>&emsp;--without-readline</td>
       <td>--without-readline</td>
-      <td>EXT_READLINE=OFF</td>
+      <td>EXT_READLINE=OFF (PHP &lt;= 8.3)</td>
       <td>default</td>
     </tr>
     <tr>
@@ -2860,7 +2860,7 @@ A list of Autoconf `configure` command-line configuration options, Windows
         EXT_READLINE_LIBREADLINE=ON <i>(PHP &lt;= 8.3)</i><br>
         [Readline_ROOT=DIR] <i>(PHP &lt;= 8.3)</i>
       </td>
-      <td>CMake PHP 8.4 Readline library was removed</td>
+      <td></td>
     </tr>
     <tr>
       <td>&emsp;--with-readline=shared</td>

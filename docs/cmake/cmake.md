@@ -277,6 +277,7 @@ version available on the operating system.
 * 3.24
   * `CMAKE_COLOR_DIAGNOSTICS`
   * `CMAKE_COMPILE_WARNING_AS_ERROR`, otherwise INTERFACE library should be used
+  * `if(PATH_EQUAL)`
 * 3.25
   * `block()` command
   * New `try_run` signature
