@@ -119,6 +119,14 @@ if(SAPI_PHPDBG_READLINE OR EXT_READLINE)
   message(CHECK_PASS "enabled")
 
   if(EXT_READLINE_LIBREADLINE)
+    message(
+      WARNING
+      "The GNU Readline library is licensed under the GNU GPL 3, which is not "
+      "compatible with the PHP license. The recommended library for using and "
+      "distributing the phpdbg with readline support is libedit. To build with "
+      "libedit, remove the 'EXT_READLINE_LIBREADLINE', or set it to 'OFF'."
+    )
+
     find_package(Readline)
     set_package_properties(
       Readline
