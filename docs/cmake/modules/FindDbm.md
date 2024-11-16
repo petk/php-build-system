@@ -13,7 +13,8 @@ Find the dbm library.
 Depending on the system, the dbm library can be part of other libraries as an
 interface.
 
-* GNU dbm has compatibility interface via gdbm_compatibility
+* GNU dbm library (GDBM) has compatibility interface via gdbm_compatibility but
+  it is licensed as GPL 3, which is incompatible with PHP.
 * TODO: Built into default libraries (C): Solaris still has some macros
   definitions mapping to internal dbm functions available in the db.h header.
   When defining `DB_DBM_HSEARCH` dbm handler is available as built into C
@@ -31,8 +32,6 @@ Module defines the following `IMPORTED` target(s):
 * `Dbm_IS_BUILT_IN` - Whether dbm is a part of the C library.
 * `Dbm_INCLUDE_DIRS` - Include directories needed to use this package.
 * `Dbm_LIBRARIES` - Libraries needed to link to the package library.
-* `Dbm_IMPLEMENTATION` - String of the library name that implements the dbm
-  library.
 
 ## Cache variables
 

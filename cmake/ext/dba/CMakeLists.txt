@@ -307,24 +307,13 @@ if(EXT_DBA_DBM)
       PURPOSE "Necessary to enable the DBM support in the dba extension."
   )
 
-  if(Dbm_LIBRARY MATCHES "gdbm")
-    message(
-      WARNING
-      "The GNU dbm (GDBM) library is licensed under the GNU GPL 3, which is "
-      "not compatible with the PHP license. PHP then shouldn't be distributed. "
-      "The EXT_DBA_DBM is a legacy artifact for testing purposes. The "
-      "recommendation for using and distributing the PHP 'dba' extension is to "
-      "disable the EXT_DBA_DBM."
-    )
-  endif()
-
   target_link_libraries(php_dba PRIVATE Dbm::Dbm)
 
   target_sources(php_dba PRIVATE dba_dbm.c)
 
   set(DBM_INCLUDE_FILE "<dbm.h>")
   set(DBA_DBM 1)
-  set(DBM_VERSION "${Dbm_IMPLEMENTATION}")
+  set(DBM_VERSION "DBM")
 endif()
 
 ################################################################################
@@ -386,17 +375,6 @@ if(EXT_DBA_NDBM)
       TYPE REQUIRED
       PURPOSE "Necessary to enable the ndbm support in the dba extension."
   )
-
-  if(Ndbm_LIBRARY MATCHES "gdbm")
-    message(
-      WARNING
-      "The GNU dbm (GDBM) library is licensed under the GNU GPL 3, which is "
-      "not compatible with the PHP license. PHP then shouldn't be distributed. "
-      "The EXT_DBA_NDBM is a legacy artifact for testing purposes. The "
-      "recommendation for using and distributing the PHP 'dba' extension is to "
-      "disable the EXT_DBA_NDBM."
-    )
-  endif()
 
   target_link_libraries(php_dba PRIVATE Ndbm::Ndbm)
 
