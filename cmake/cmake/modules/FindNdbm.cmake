@@ -4,8 +4,9 @@ Find the ndbm library.
 Depending on the system, the nbdm ("new" dbm) can be part of other libraries as
 an interface.
 
-* GNU dbm library (GDBM) has a compatibility interface that provides ndbm.h
-  header and gdbm_compat library.
+* GNU dbm library (GDBM) has compatibility interface via gdbm_compatibility that
+  provides ndbm.h header but it is licensed as GPL 3, which is incompatible with
+  PHP.
 * Built into default libraries (C): BSD-based systems, macOS, Solaris.
 
 Module defines the following `IMPORTED` target(s):
@@ -78,7 +79,6 @@ else()
     Ndbm_LIBRARY
     NAMES
       ndbm
-      gdbm_compat
       db1
     DOC "The path to the ndbm library"
   )

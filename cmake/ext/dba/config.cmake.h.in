@@ -44,9 +44,6 @@
 /* Define to 1 if the dba extension uses the bundled flatfile handler. */
 #cmakedefine DBA_FLATFILE 1
 
-/* Define to 1 if the dba extension uses the GDBM handler. */
-#cmakedefine DBA_GDBM 1
-
 /* Define to 1 if the dba extension uses the bundled inifile handler. */
 #cmakedefine DBA_INIFILE 1
 
@@ -67,9 +64,6 @@
 
 /* The DBM handler version information. */
 #cmakedefine DBM_VERSION "@DBM_VERSION@"
-
-/* The GDBM handler header file. */
-#cmakedefine GDBM_INCLUDE_FILE @GDBM_INCLUDE_FILE@
 
 /* Define to 1 if the PHP extension 'dba' is available. */
 #cmakedefine HAVE_DBA 1
