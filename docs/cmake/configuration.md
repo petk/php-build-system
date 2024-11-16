@@ -1196,7 +1196,7 @@ A list of Autoconf `configure` command-line configuration options, Windows
       <td>&emsp;--without-gdbm</td>
       <td>N/A</td>
       <td>EXT_DBA_GDBM=OFF</td>
-      <td>default</td>
+      <td>default, removed in CMake PHP 8.4</td>
     </tr>
     <tr>
       <td>&emsp;--with-gdbm[=DIR]</td>
@@ -1205,7 +1205,7 @@ A list of Autoconf `configure` command-line configuration options, Windows
         EXT_DBA_GDBM=ON<br>
         [GDBM_ROOT=DIR]
       </td>
-      <td></td>
+      <td>removed in CMake PHP 8.4</td>
     </tr>
     <tr>
       <td>&emsp;--without-ndbm</td>
@@ -2860,7 +2860,7 @@ A list of Autoconf `configure` command-line configuration options, Windows
         EXT_READLINE_LIBREADLINE=ON <i>(PHP &lt;= 8.3)</i><br>
         [Readline_ROOT=DIR] <i>(PHP &lt;= 8.3)</i>
       </td>
-      <td>CMake PHP 8.4 Readline library was removed</td>
+      <td>In CMake PHP 8.4 GNU Readline support was replaced in libedit only</td>
     </tr>
     <tr>
       <td>&emsp;--with-readline=shared</td>

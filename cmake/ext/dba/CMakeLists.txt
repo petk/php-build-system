@@ -106,20 +106,6 @@ add_feature_info(
 )
 
 cmake_dependent_option(
-  EXT_DBA_GDBM
-  "DBA: Enable the GNU dbm (GDBM) support"
-  OFF
-  [[EXT_DBA AND NOT EXT_DBA_QDBM]]
-  OFF
-)
-mark_as_advanced(EXT_DBA_GDBM)
-add_feature_info(
-  "ext/dba GDBM"
-  EXT_DBA_GDBM
-  "GNU dbm support"
-)
-
-cmake_dependent_option(
   EXT_DBA_INIFILE
   "DBA: Enable the bundled INI-file DBA handler support"
   ON
@@ -164,7 +150,7 @@ cmake_dependent_option(
   EXT_DBA_QDBM
   "DBA: Enable the QDBM support"
   OFF
-  [[EXT_DBA AND NOT EXT_DBA_DBM AND NOT EXT_DBA_GDBM]]
+  [[EXT_DBA AND NOT EXT_DBA_DBM]]
   OFF
 )
 add_feature_info(
@@ -172,13 +158,7 @@ add_feature_info(
   EXT_DBA_QDBM
   "Quick Database Manager support"
 )
-if(EXT_DBA_QDBM AND EXT_DBA_GDBM)
-  message(
-    FATAL_ERROR
-    "You cannot combine EXT_DBA_GDBM with EXT_DBA_QDBM. Please select either "
-    "GDBM or QDBM."
-  )
-elseif(EXT_DBA_QDBM AND EXT_DBA_DBM)
+if(EXT_DBA_QDBM AND EXT_DBA_DBM)
   message(
     FATAL_ERROR
     "You cannot combine EXT_DBA_DBM with EXT_DBA_QDBM. Please select either "
@@ -362,34 +342,6 @@ if(EXT_DBA_FLATFILE)
 endif()
 
 ################################################################################
-# The GNU dbm (GDBM) support.
-################################################################################
-if(EXT_DBA_GDBM)
-  message(
-    WARNING
-    "The GNU dbm (GDBM) library is licensed under the GNU GPL 3, which is not "
-    "compatible with the PHP license. PHP then shouldn't be distributed. The "
-    "recommendation for using and distributing the PHP 'dba' extension is to "
-    "disable EXT_DBA_GDBM."
-  )
-
-  find_package(GDBM)
-  set_package_properties(
-    GDBM
-    PROPERTIES
-      TYPE REQUIRED
-      PURPOSE "Necessary to enable the GDBM support in the dba extension."
-  )
-
-  target_link_libraries(php_dba PRIVATE GDBM::GDBM)
-
-  target_sources(php_dba PRIVATE dba_gdbm.c)
-
-  set(GDBM_INCLUDE_FILE "<gdbm.h>")
-  set(DBA_GDBM 1)
-endif()
-
-################################################################################
 # INI-file support.
 ################################################################################
 if(EXT_DBA_INIFILE)
@@ -457,7 +409,7 @@ endif()
 ################################################################################
 # The qdbm handler support.
 ################################################################################
-if(EXT_DBA_QDBM AND NOT EXT_DBA_DBM AND NOT EXT_DBA_GDBM)
+if(EXT_DBA_QDBM AND NOT EXT_DBA_DBM)
   find_package(QDBM)
   set_package_properties(
     QDBM

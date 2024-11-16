@@ -19,6 +19,7 @@ Removed configuration variables:
 
 * Aspell_ROOT
 * Cclient_ROOT
+* EXT_GDBM
 * EXT_IMAP
 * EXT_IMAP_KERBEROS
 * EXT_IMAP_SHARED
