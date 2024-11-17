@@ -1,3 +1,23 @@
+#[=============================================================================[
+# The intl extension
+
+Configure the `intl` extension.
+
+## EXT_INTL
+
+* Default: `OFF`
+* Values: `ON|OFF`
+
+Enable the extension.
+
+## EXT_INTL_SHARED
+
+* Default: `OFF`
+* Values: `ON|OFF`
+
+Build extension as shared.
+#]=============================================================================]
+
 project(
   PhpExtensionIntl
   LANGUAGES C

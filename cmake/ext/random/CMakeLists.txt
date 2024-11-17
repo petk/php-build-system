@@ -1,3 +1,11 @@
+#[=============================================================================[
+# The random extension
+
+Configure the `random` extension.
+
+This extension is always enabled.
+#]=============================================================================]
+
 project(
   PhpExtensionRandom
   LANGUAGES C

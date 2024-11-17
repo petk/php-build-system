@@ -1,3 +1,23 @@
+#[=============================================================================[
+# The sodium extension
+
+Configure the `sodium` extension.
+
+## EXT_SODIUM
+
+* Default: `OFF`
+* Values: `ON|OFF`
+
+Enable the extension.
+
+## EXT_SODIUM_SHARED
+
+* Default: `OFF`
+* Values: `ON|OFF`
+
+Build extension as shared.
+#]=============================================================================]
+
 project(
   PhpExtensionSodium
   LANGUAGES C

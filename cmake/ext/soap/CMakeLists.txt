@@ -1,3 +1,23 @@
+#[=============================================================================[
+# The soap extension
+
+Configure the `soap` extension.
+
+## EXT_SOAP
+
+* Default: `OFF`
+* Values: `ON|OFF`
+
+Enable the extension.
+
+## EXT_SOAP_SHARED
+
+* Default: `OFF`
+* Values: `ON|OFF`
+
+Build extension as shared.
+#]=============================================================================]
+
 project(
   PhpExtensionSoap
   LANGUAGES C

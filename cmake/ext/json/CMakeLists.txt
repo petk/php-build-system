@@ -1,3 +1,11 @@
+#[=============================================================================[
+# The json extension
+
+Configure the `json` extension.
+
+This extension is always enabled.
+#]=============================================================================]
+
 project(
   PhpExtensionJson
   LANGUAGES C

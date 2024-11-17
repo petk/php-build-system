@@ -1,3 +1,11 @@
+#[=============================================================================[
+# The spl extension
+
+Configure the `spl` extension.
+
+This extension is always enabled.
+#]=============================================================================]
+
 project(
   PhpExtensionSpl
   LANGUAGES C

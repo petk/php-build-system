@@ -1,3 +1,23 @@
+#[=============================================================================[
+# The pgsql extension
+
+Configure the `pgsql` extension.
+
+## EXT_PGSQL
+
+* Default: `OFF`
+* Values: `ON|OFF`
+
+Enable the extension.
+
+## EXT_PGSQL_SHARED
+
+* Default: `OFF`
+* Values: `ON|OFF`
+
+Build extension as shared.
+#]=============================================================================]
+
 project(
   PhpExtensionPgSql
   LANGUAGES C

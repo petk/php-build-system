@@ -1,3 +1,26 @@
+#[=============================================================================[
+# The pcntl extension
+
+Configure the `pcntl` extension for process control support (CLI/CGI only).
+
+> [!NOTE]
+> This extension is available only for \*nix systems.
+
+## EXT_PCNTL
+
+* Default: `OFF`
+* Values: `ON|OFF`
+
+Enable the extension.
+
+## EXT_PCNTL_SHARED
+
+* Default: `OFF`
+* Values: `ON|OFF`
+
+Build extension as shared.
+#]=============================================================================]
+
 project(
   PhpExtensionPcntl
   LANGUAGES C

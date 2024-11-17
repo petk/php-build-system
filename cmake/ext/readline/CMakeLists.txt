@@ -1,3 +1,30 @@
+#[=============================================================================[
+# The readline extension
+
+Configure the `readline` extension.
+
+## EXT_READLINE
+
+* Default: `OFF`
+* Values: `ON|OFF`
+
+Enable the extension.
+
+## EXT_READLINE_SHARED
+
+* Default: `OFF`
+* Values: `ON|OFF`
+
+Build extension as shared.
+
+## EXT_READLINE_LIBREADLINE
+
+* Default: `OFF`
+* Values: `ON|OFF`
+
+Use the GNU Readline library instead of Editline.
+#]=============================================================================]
+
 # TODO: ext/readline is cli extension only.
 
 project(

@@ -1,3 +1,23 @@
+#[=============================================================================[
+# The pdo_sqlite extension
+
+Configure the `pdo_sqlite` extension.
+
+## EXT_PDO_SQLITE
+
+* Default: `ON`
+* Values: `ON|OFF`
+
+Enable the extension.
+
+## EXT_PDO_SQLITE_SHARED
+
+* Default: `OFF`
+* Values: `ON|OFF`
+
+Build extension as shared.
+#]=============================================================================]
+
 project(
   PhpExtensionPdoSqlite
   LANGUAGES C

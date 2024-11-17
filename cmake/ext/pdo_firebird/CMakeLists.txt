@@ -1,3 +1,23 @@
+#[=============================================================================[
+# The pdo_firebird extension
+
+Configure the `pdo_firebird` extension.
+
+## EXT_PDO_FIREBIRD
+
+* Default: `OFF`
+* Values: `ON|OFF`
+
+Enable the extension.
+
+## EXT_PDO_FIREBIRD_SHARED
+
+* Default: `OFF`
+* Values: `ON|OFF`
+
+Build extension as shared.
+#]=============================================================================]
+
 project(
   PhpExtensionPdoFirebird
   LANGUAGES C

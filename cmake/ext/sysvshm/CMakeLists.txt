@@ -1,3 +1,23 @@
+#[=============================================================================[
+# The sysvshm extension
+
+Configure the `sysvshm` extension.
+
+## EXT_SYSVSHM
+
+* Default: `OFF`
+* Values: `ON|OFF`
+
+Enable the extension.
+
+## EXT_SYSVSHM_SHARED
+
+* Default: `OFF`
+* Values: `ON|OFF`
+
+Build extension as shared.
+#]=============================================================================]
+
 project(
   PhpExtensionSysVshm
   LANGUAGES C

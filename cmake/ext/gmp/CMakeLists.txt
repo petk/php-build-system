@@ -1,3 +1,23 @@
+#[=============================================================================[
+# The gmp extension
+
+Configure the `gmp` extension.
+
+## EXT_GMP
+
+* Default: `OFF`
+* Values: `ON|OFF`
+
+Enable the extension.
+
+## EXT_GMP_SHARED
+
+* Default: `OFF`
+* Values: `ON|OFF`
+
+Build extension as shared.
+#]=============================================================================]
+
 project(
   PhpExtensionGmp
   LANGUAGES C

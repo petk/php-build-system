@@ -1,3 +1,23 @@
+#[=============================================================================[
+# The pdo extension
+
+Configure the `pdo` extension.
+
+## EXT_PDO
+
+* Default: `ON`
+* Values: `ON|OFF`
+
+Enable the extension.
+
+## EXT_PDO_SHARED
+
+* Default: `OFF`
+* Values: `ON|OFF`
+
+Build extension as shared.
+#]=============================================================================]
+
 project(
   PhpExtensionPdo
   LANGUAGES C

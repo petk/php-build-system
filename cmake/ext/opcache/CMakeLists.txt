@@ -1,3 +1,37 @@
+#[=============================================================================[
+# The opcache extension
+
+Configure the `opcache` extension.
+
+## EXT_OPCACHE
+
+* Default: `ON`
+* Values: `ON|OFF`
+
+Enable the extension. This extension is always built as shared when enabled.
+
+## EXT_OPCACHE_HUGE_CODE_PAGES
+
+* Default: `ON`
+* Values: `ON|OFF`
+
+Enable copying PHP CODE pages into HUGE PAGES
+
+## EXT_OPCACHE_JIT
+
+* Default: `ON`
+* Values: `ON|OFF`
+
+Enable JIT (Just-In-Time compiler).
+
+## EXT_OPCACHE_CAPSTONE
+
+* Default: `OFF`
+* Values: `ON|OFF`
+
+Enable opcache JIT disassembly through Capstone.
+#]=============================================================================]
+
 project(
   PhpExtensionOpCache
   LANGUAGES C
@@ -55,7 +89,6 @@ endif()
 # Add library.
 ################################################################################
 
-# OPcache extension can be built only as a shared library.
 add_library(php_opcache SHARED)
 
 target_sources(

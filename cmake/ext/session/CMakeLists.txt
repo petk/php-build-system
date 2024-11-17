@@ -1,3 +1,30 @@
+#[=============================================================================[
+# The session extension
+
+Configure the `session` extension.
+
+## EXT_SESSION
+
+* Default: `ON`
+* Values: `ON|OFF`
+
+Enable the extension.
+
+## EXT_SESSION_SHARED
+
+* Default: `OFF`
+* Values: `ON|OFF`
+
+Build extension as shared.
+
+## EXT_SESSION_MM
+
+* Default: `OFF`
+* Values: `ON|OFF`
+
+Include libmm support for session storage (only for non-ZTS build).
+#]=============================================================================]
+
 project(
   PhpExtensionSession
   LANGUAGES C

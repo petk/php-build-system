@@ -1,3 +1,23 @@
+#[=============================================================================[
+# The shmop extension
+
+Configure the `shmop` extension.
+
+## EXT_SHMOP
+
+* Default: `OFF`
+* Values: `ON|OFF`
+
+Enable the extension.
+
+## EXT_SHMOP_SHARED
+
+* Default: `OFF`
+* Values: `ON|OFF`
+
+Build extension as shared.
+#]=============================================================================]
+
 project(
   PhpExtensionShmopo
   LANGUAGES C

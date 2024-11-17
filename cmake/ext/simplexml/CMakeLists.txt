@@ -1,3 +1,23 @@
+#[=============================================================================[
+# The simplexml extension
+
+Configure the `simplexml` extension.
+
+## EXT_SIMPLEXML
+
+* Default: `ON`
+* Values: `ON|OFF`
+
+Enable the extension.
+
+## EXT_SIMPLEXML_SHARED
+
+* Default: `OFF`
+* Values: `ON|OFF`
+
+Build extension as shared.
+#]=============================================================================]
+
 project(
   PhpExtensionSimpleXml
   LANGUAGES C

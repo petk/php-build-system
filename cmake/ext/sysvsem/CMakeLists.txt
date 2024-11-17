@@ -1,3 +1,26 @@
+#[=============================================================================[
+# The sysvsem extension
+
+Configure the `sysvsem` extension.
+
+> [!NOTE]
+> This extension is available only for \*nix systems.
+
+## EXT_SYSVSEM
+
+* Default: `OFF`
+* Values: `ON|OFF`
+
+Enable the extension.
+
+## EXT_SYSVSEM_SHARED
+
+* Default: `OFF`
+* Values: `ON|OFF`
+
+Build extension as shared.
+#]=============================================================================]
+
 project(
   PhpExtensionSysVsem
   LANGUAGES C

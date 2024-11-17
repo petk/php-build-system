@@ -1,3 +1,23 @@
+#[=============================================================================[
+# The pdo_dblib extension
+
+Configure the `pdo_dblib` extension.
+
+## EXT_PDO_DBLIB
+
+* Default: `OFF`
+* Values: `ON|OFF`
+
+Enable the extension.
+
+## EXT_PDO_DBLIB_SHARED
+
+* Default: `OFF`
+* Values: `ON|OFF`
+
+Build extension as shared.
+#]=============================================================================]
+
 project(
   PhpExtensionPdoDblib
   LANGUAGES C

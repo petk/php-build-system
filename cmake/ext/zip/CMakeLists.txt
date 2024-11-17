@@ -1,3 +1,23 @@
+#[=============================================================================[
+# The zip extension
+
+Configure the `zip` extension.
+
+## EXT_ZIP
+
+* Default: `OFF`
+* Values: `ON|OFF`
+
+Enable the extension.
+
+## EXT_ZIP_SHARED
+
+* Default: `OFF`
+* Values: `ON|OFF`
+
+Build extension as shared.
+#]=============================================================================]
+
 project(
   PhpExtensionZip
   LANGUAGES C

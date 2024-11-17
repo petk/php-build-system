@@ -1,3 +1,23 @@
+#[=============================================================================[
+# The sqlite3 extension
+
+Configure the `sqlite3` extension.
+
+## EXT_SQLITE3
+
+* Default: `ON`
+* Values: `ON|OFF`
+
+Enable the extension.
+
+## EXT_SQLITE3_SHARED
+
+* Default: `OFF`
+* Values: `ON|OFF`
+
+Build extension as shared.
+#]=============================================================================]
+
 project(
   PhpExtensionSqlite3
   LANGUAGES C

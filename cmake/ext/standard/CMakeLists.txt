@@ -1,3 +1,25 @@
+#[=============================================================================[
+# The standard extension
+
+Configure the `standard` extension.
+
+This extension is always enabled.
+
+## EXT_STANDARD_ARGON2
+
+* Default: `OFF`
+* Values: `ON|OFF`
+
+Include the Argon2 support in `password_*()` functions.
+
+## EXT_STANDARD_EXTERNAL_LIBCRYPT
+
+* Default: `OFF`
+* Values: `ON|OFF`
+
+Use external libcrypt or libxcrypt.
+#]=============================================================================]
+
 project(
   PhpExtensionStandard
   LANGUAGES C

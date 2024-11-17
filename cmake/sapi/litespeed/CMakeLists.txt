@@ -3,15 +3,15 @@
 
 Configure the mysqlnd extension.
 
+> [!NOTE]
+> The PHP Litespeed SAPI is not available when the target system is Windows.
+
 ## SAPI_LITESPEED
 
 * Default: `OFF`
 * Values: `ON|OFF`
 
 Enable the LiteSpeed SAPI module.
-
-> [!NOTE]
-> The PHP Litespeed SAPI is not available when the target system is Windows.
 #]=============================================================================]
 
 # SAPI is only for *nix systems.

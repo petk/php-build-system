@@ -1,3 +1,23 @@
+#[=============================================================================[
+# The iconv extension
+
+Configure the `iconv` extension.
+
+## EXT_ICONV
+
+* Default: `ON`
+* Values: `ON|OFF`
+
+Enable the extension.
+
+## EXT_ICONV_SHARED
+
+* Default: `OFF`
+* Values: `ON|OFF`
+
+Build extension as shared.
+#]=============================================================================]
+
 project(
   PhpExtensionIconv
   LANGUAGES C

@@ -1,3 +1,18 @@
+#[=============================================================================[
+# The libxml extension
+
+Configure the `libxml` extension.
+
+## EXT_LIBXML
+
+* Default: `ON`
+* Values: `ON|OFF`
+
+Enable the extension.
+
+This extension cannot be built as shared.
+#]=============================================================================]
+
 project(
   PhpExtensionLibXml
   LANGUAGES C
@@ -21,7 +36,6 @@ if(NOT EXT_LIBXML)
   return()
 endif()
 
-# Extension cannot be built as a SHARED library.
 add_library(php_libxml STATIC)
 
 target_sources(

@@ -1,3 +1,23 @@
+#[=============================================================================[
+# The gettext extension
+
+Configure the `gettext` extension.
+
+## EXT_GETTEXT
+
+* Default: `OFF`
+* Values: `ON|OFF`
+
+Enable the extension.
+
+## EXT_GETTEXT_SHARED
+
+* Default: `OFF`
+* Values: `ON|OFF`
+
+Build extension as shared.
+#]=============================================================================]
+
 project(
   PhpExtensionGettext
   LANGUAGES C

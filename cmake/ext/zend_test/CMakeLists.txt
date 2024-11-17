@@ -1,3 +1,23 @@
+#[=============================================================================[
+# The zend_test extension
+
+Configure the `zend_test` extension.
+
+## EXT_ZEND_TEST
+
+* Default: `OFF`
+* Values: `ON|OFF`
+
+Enable the extension.
+
+## EXT_ZEND_TEST_SHARED
+
+* Default: `OFF`
+* Values: `ON|OFF`
+
+Build extension as shared.
+#]=============================================================================]
+
 project(
   PhpExtensionZendTest
   LANGUAGES C

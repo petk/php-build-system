@@ -66,8 +66,7 @@ cmake_dependent_option(
 
 cmake_dependent_option(
   SAPI_PHPDBG_DEBUG
-  "Build phpdbg in debug mode to enable additional diagnostic output for\
-  developing and troubleshooting phpdbg itself"
+  "Enable additional diagnostic output when developing phpdbg itself"
   OFF
   "SAPI_PHPDBG"
   OFF
@@ -76,10 +75,7 @@ mark_as_advanced(SAPI_PHPDBG_DEBUG)
 
 cmake_dependent_option(
   SAPI_PHPDBG_READLINE
-  "Explicitly enable readline support in phpdbg for command history accessible\
-  through arrow keys. Requires the Editline library. If the PHP extension\
-  'readline' is enabled during the build process, the phpdbg readline support\
-  is automatically enabled regardless of this option."
+  "Explicitly enable readline support in phpdbg"
   OFF
   "SAPI_PHPDBG"
   OFF

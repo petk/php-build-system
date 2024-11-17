@@ -1,3 +1,23 @@
+#[=============================================================================[
+# The xsl extension
+
+Configure the `xsl` extension.
+
+## EXT_XSL
+
+* Default: `OFF`
+* Values: `ON|OFF`
+
+Enable the extension.
+
+## EXT_XSL_SHARED
+
+* Default: `OFF`
+* Values: `ON|OFF`
+
+Build extension as shared.
+#]=============================================================================]
+
 project(
   PhpExtensionXsl
   LANGUAGES C

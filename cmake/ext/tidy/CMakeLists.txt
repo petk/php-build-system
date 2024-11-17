@@ -1,3 +1,23 @@
+#[=============================================================================[
+# The tidy extension
+
+Configure the `tidy` extension.
+
+## EXT_TIDY
+
+* Default: `OFF`
+* Values: `ON|OFF`
+
+Enable the extension.
+
+## EXT_TIDY_SHARED
+
+* Default: `OFF`
+* Values: `ON|OFF`
+
+Build extension as shared.
+#]=============================================================================]
+
 project(
   PhpExtensionTidy
   LANGUAGES C

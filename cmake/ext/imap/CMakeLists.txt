@@ -1,3 +1,38 @@
+#[=============================================================================[
+# The imap extension
+
+Configure the `imap` extension.
+
+## EXT_IMAP
+
+* Default: `OFF`
+* Values: `ON|OFF`
+
+Enable the extension.
+
+## EXT_IMAP_SHARED
+
+* Default: `OFF`
+* Values: `ON|OFF`
+
+Build extension as shared.
+
+## EXT_IMAP_KERBEROS
+
+* Default: `OFF`
+* Values: `ON|OFF`
+
+Explicitly include Kerberos support in the imap extension.
+
+## EXT_IMAP_SSL
+
+* Default: `OFF`
+* Values: `ON|OFF`
+
+Explicitly enable SSL support in the imap extension. If c-client dependency is
+built with SSL support, this option will be automatically enabled.
+#]=============================================================================]
+
 project(
   PhpExtensionImap
   LANGUAGES C
@@ -24,7 +59,7 @@ cmake_dependent_option(
 
 cmake_dependent_option(
   EXT_IMAP_KERBEROS
-  "Include Kerberos support in imap extension"
+  "Explicitly include Kerberos support in the imap extension."
   OFF
   "EXT_IMAP"
   OFF
@@ -32,7 +67,7 @@ cmake_dependent_option(
 
 cmake_dependent_option(
   EXT_IMAP_SSL
-  "Include SSL support in imap extension"
+  "Explicitly enable SSL support in the imap extension"
   OFF
   "EXT_IMAP"
   OFF

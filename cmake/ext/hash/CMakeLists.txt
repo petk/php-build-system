@@ -1,3 +1,20 @@
+#[=============================================================================[
+# The hash extension
+
+Configure the `hash` extension.
+
+This extension is always enabled.
+
+## EXT_HASH_MHASH
+
+:orange_circle: *Deprecated as of PHP 8.1.*
+
+* Default: `OFF`
+* Values: `ON|OFF`
+
+Enable the mhash support.
+#]=============================================================================]
+
 project(
   PhpExtensionHash
   LANGUAGES C

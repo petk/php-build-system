@@ -1,3 +1,11 @@
+#[=============================================================================[
+# The reflection extension
+
+Configure the `reflection` extension.
+
+This extension is always enabled.
+#]=============================================================================]
+
 project(
   PhpExtensionReflection
   LANGUAGES C

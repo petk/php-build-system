@@ -1,3 +1,23 @@
+#[=============================================================================[
+# The zlib extension
+
+Configure the `zlib` extension.
+
+## EXT_ZLIB
+
+* Default: `OFF`
+* Values: `ON|OFF`
+
+Enable the extension.
+
+## EXT_ZLIB_SHARED
+
+* Default: `OFF`
+* Values: `ON|OFF`
+
+Build extension as shared.
+#]=============================================================================]
+
 project(
   PhpExtensionZlib
   LANGUAGES C

@@ -1,3 +1,23 @@
+#[=============================================================================[
+# The pspell extension
+
+Configure the `pspell` extension.
+
+## EXT_PSPELL
+
+* Default: `OFF`
+* Values: `ON|OFF`
+
+Enable the extension.
+
+## EXT_PSPELL_SHARED
+
+* Default: `OFF`
+* Values: `ON|OFF`
+
+Build extension as shared.
+#]=============================================================================]
+
 project(
   PhpExtensionPspell
   LANGUAGES C

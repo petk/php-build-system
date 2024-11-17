@@ -1,3 +1,43 @@
+#[=============================================================================[
+# The mysqli extension
+
+Configure the `mysqli` extension.
+
+## EXT_MYSQLI
+
+* Default: `OFF`
+* Values: `ON|OFF`
+
+Enable the extension.
+
+## EXT_MYSQLI_SHARED
+
+* Default: `OFF`
+* Values: `ON|OFF`
+
+Build extension as shared.
+
+## EXT_MYSQL_SOCKET
+
+* Default: `OFF`
+* Values: `ON|OFF`
+
+mysqli/pdo_mysql: Use MySQL Unix socket pointer from default locations.
+
+> [!NOTE]
+> This option is not available when the target system is Windows.
+
+## EXT_MYSQL_SOCKET_PATH
+
+* Default: empty
+
+mysqli/pdo_mysql: Path to the MySQL Unix socket pointer location. If
+unspecified, default locations are searched.
+
+> [!NOTE]
+> This option is not available when the target system is Windows.
+#]=============================================================================]
+
 project(
   PhpExtensionMysqli
   LANGUAGES C

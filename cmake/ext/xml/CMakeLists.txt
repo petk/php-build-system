@@ -1,3 +1,30 @@
+#[=============================================================================[
+# The xml extension
+
+Configure the `xml` extension.
+
+## EXT_XML
+
+* Default: `ON`
+* Values: `ON|OFF`
+
+Enable the extension.
+
+## EXT_XML_SHARED
+
+* Default: `OFF`
+* Values: `ON|OFF`
+
+Build extension as shared.
+
+## EXT_XML_EXPAT
+
+* Default: `OFF`
+* Values: `ON|OFF`
+
+Build xml extension with the Expat library support instead of the libxml2.
+#]=============================================================================]
+
 project(
   PhpExtensionXml
   LANGUAGES C

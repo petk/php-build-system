@@ -3,7 +3,7 @@
 
 Configure the `date` extension.
 
-This extension is always enabled and cannot be built as shared.
+This extension is always enabled.
 #]=============================================================================]
 
 project(

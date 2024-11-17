@@ -1,3 +1,23 @@
+#[=============================================================================[
+# The snmp extension
+
+Configure the `snmp` extension.
+
+## EXT_SNMP
+
+* Default: `OFF`
+* Values: `ON|OFF`
+
+Enable the extension.
+
+## EXT_SNMP_SHARED
+
+* Default: `OFF`
+* Values: `ON|OFF`
+
+Build extension as shared.
+#]=============================================================================]
+
 project(
   PhpExtensionSnmp
   LANGUAGES C
