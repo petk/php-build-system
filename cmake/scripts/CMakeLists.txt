@@ -126,7 +126,7 @@ block()
   )
 endblock()
 
-# Configure pkgconf php.pc metadata file.
+# Configure pkg-config php.pc metadata file.
 include(PHP/PkgConfigGenerator)
 pkgconfig_generate_pc(
   php.pc.in
