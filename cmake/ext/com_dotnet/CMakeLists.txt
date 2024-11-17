@@ -28,7 +28,6 @@ project(
   LANGUAGES C
 )
 
-# Available only for Windows system.
 if(NOT CMAKE_SYSTEM_NAME STREQUAL "Windows")
   return()
 endif()

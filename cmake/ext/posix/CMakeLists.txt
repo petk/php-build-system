@@ -26,7 +26,6 @@ project(
   LANGUAGES C
 )
 
-# Extension is only for *nix systems.
 if(CMAKE_SYSTEM_NAME STREQUAL "Windows")
   return()
 endif()

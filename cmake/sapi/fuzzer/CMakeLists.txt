@@ -3,6 +3,9 @@
 
 Configure the `fuzzer` PHP SAPI.
 
+> [!NOTE]
+> This SAPI is not available when the target system is Windows.
+
 ## SAPI_FUZZER
 
 * Default: `OFF`
@@ -21,7 +24,6 @@ library (e.g. libFuzzer). Can be also environment variable. See
 https://google.github.io/oss-fuzz
 #]=============================================================================]
 
-# SAPI is only for *nix systems.
 if(CMAKE_SYSTEM_NAME STREQUAL "Windows")
   return()
 endif()

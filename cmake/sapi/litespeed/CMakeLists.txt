@@ -14,7 +14,6 @@ Configure the mysqlnd extension.
 Enable the LiteSpeed SAPI module.
 #]=============================================================================]
 
-# SAPI is only for *nix systems.
 if(CMAKE_SYSTEM_NAME STREQUAL "Windows")
   return()
 endif()

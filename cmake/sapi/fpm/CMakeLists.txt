@@ -83,7 +83,6 @@ Where to find systemd installation on the system, can be customized with the
 > system doesn't have systemd.
 #]=============================================================================]
 
-# SAPI is only for *nix systems.
 if(CMAKE_SYSTEM_NAME STREQUAL "Windows")
   return()
 endif()

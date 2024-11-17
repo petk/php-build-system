@@ -4,7 +4,7 @@
 Configure the `sysvmsg` extension.
 
 > [!NOTE]
-> This extension is available only for \*nix systems.
+> This extension is available only on \*nix systems.
 
 ## EXT_SYSVMSG
 
@@ -26,7 +26,6 @@ project(
   LANGUAGES C
 )
 
-# Extension is only for *nix systems.
 if(CMAKE_SYSTEM_NAME STREQUAL "Windows")
   return()
 endif()

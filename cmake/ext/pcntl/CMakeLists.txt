@@ -4,7 +4,10 @@
 Configure the `pcntl` extension for process control support (CLI/CGI only).
 
 > [!NOTE]
-> This extension is available only for \*nix systems.
+> This extension is available only on \*nix systems.
+
+> [!IMPORTANT]
+> This extension should be used only with cgi, cli, embed, or phpdbg SAPI.
 
 ## EXT_PCNTL
 
@@ -26,7 +29,6 @@ project(
   LANGUAGES C
 )
 
-# Extension is only for *nix systems.
 if(CMAKE_SYSTEM_NAME STREQUAL "Windows")
   return()
 endif()
