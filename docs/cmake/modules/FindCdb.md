@@ -21,10 +21,6 @@ Module defines the following `IMPORTED` target(s):
 * `Cdb_INCLUDE_DIR` - Directory containing package library headers.
 * `Cdb_LIBRARY` - The path to the package library.
 
-## Hints
-
-* The `Cdb_ROOT` variable adds custom search path.
-
 ## Basic usage
 
 ```cmake

@@ -7,7 +7,7 @@ Check for x87 floating point internal precision control.
 
 See: https://wiki.php.net/rfc/rounding
 
-Cache variables:
+## Cache variables
 
 * `HAVE__FPU_SETCW`
   Whether `_FPU_SETCW` is usable.

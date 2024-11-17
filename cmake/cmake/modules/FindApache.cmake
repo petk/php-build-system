@@ -9,7 +9,7 @@ Module defines the following `IMPORTED` target(s):
 
 * `Apache::Apache` - The package library, if found.
 
-Result variables:
+## Result variables
 
 * `Apache_FOUND` - Whether the package has been found.
 * `Apache_INCLUDE_DIRS` - Include directories needed to use this package.
@@ -19,7 +19,7 @@ Result variables:
 * `Apache_LIBEXECDIR` - Path to the directory containing all Apache modules and
   `httpd.exp` file (list of exported symbols).
 
-Cache variables:
+## Cache variables
 
 * `Apache_APXS_EXECUTABLE` - Path to the APache eXtenSion tool command-line tool
   (`apxs`).
@@ -34,10 +34,6 @@ Cache variables:
 * `Apache_INCLUDE_DIR` - Directory containing package library headers.
 * `Apache_APR_INCLUDE_DIR` - Directory containing `apr` library headers.
 * `Apache_APR_LIBRARY` - The path to the `apr` library.
-
-Hints:
-
-The `Apache_ROOT` variable adds custom search path.
 #]=============================================================================]
 
 include(FeatureSummary)
@@ -145,7 +141,7 @@ endif()
 find_program(
   Apache_APR_CONFIG_EXECUTABLE
   NAMES apr-config apr-1-config
-  PATHS ${_Apache_APR_BINDIR}
+  HINTS ${_Apache_APR_BINDIR}
   DOC "Path to the apr library command-line tool for retrieving metainformation"
 )
 mark_as_advanced(Apache_APR_CONFIG_EXECUTABLE)
@@ -190,8 +186,7 @@ if(Apache_APR_CONFIG_EXECUTABLE)
   )
 endif()
 
-# Find the apr library (Apache portable runtime).
-# Use pkgconf, if available on the system.
+# Try pkg-config.
 find_package(PkgConfig QUIET)
 if(PKG_CONFIG_FOUND)
   pkg_check_modules(PC_Apache_APR QUIET apr-1)
@@ -200,7 +195,7 @@ endif()
 find_path(
   Apache_APR_INCLUDE_DIR
   NAMES apr.h
-  PATHS
+  HINTS
     ${PC_Apache_APR_INCLUDE_DIRS}
     ${_Apache_APR_INCLUDE_DIR}
     ${_Apache_APU_INCLUDE_DIR}
@@ -215,7 +210,7 @@ endif()
 find_library(
   Apache_APR_LIBRARY
   NAMES apr-1
-  PATHS ${PC_Apache_APR_LIBRARY_DIRS}
+  HINTS ${PC_Apache_APR_LIBRARY_DIRS}
   DOC "The path to the apr library"
 )
 mark_as_advanced(Apache_APR_LIBRARY)
@@ -231,7 +226,7 @@ endif()
 find_program(
   Apache_APU_CONFIG_EXECUTABLE
   NAMES apu-config apu-1-config
-  PATHS ${_Apache_APU_BINDIR}
+  HINTS ${_Apache_APU_BINDIR}
   DOC "Path to the Apache Portable Runtime Utilities config command-line tool"
 )
 mark_as_advanced(Apache_APU_CONFIG_EXECUTABLE)
@@ -270,7 +265,7 @@ endif()
 find_program(
   Apache_EXECUTABLE
   NAMES ${_Apache_NAME} apache2
-  PATHS ${_Apache_SBINDIR}
+  HINTS ${_Apache_SBINDIR}
   DOC "Path to the Apache HTTP server command-line utility"
 )
 mark_as_advanced(Apache_EXECUTABLE)
@@ -283,7 +278,7 @@ find_path(
   Apache_INCLUDE_DIR
   NAMES httpd.h
   PATH_SUFFIXES apache2
-  PATHS ${_Apache_APXS_INCLUDE_DIR}
+  HINTS ${_Apache_APXS_INCLUDE_DIR}
   DOC "Directory containing Apache headers"
 )
 mark_as_advanced(Apache_INCLUDE_DIR)
@@ -294,7 +289,7 @@ endif()
 
 # Get Apache version.
 block(PROPAGATE Apache_VERSION)
-  if(Apache_INCLUDE_DIR AND EXISTS ${Apache_INCLUDE_DIR}/ap_release.h)
+  if(EXISTS ${Apache_INCLUDE_DIR}/ap_release.h)
     file(
       STRINGS
       ${Apache_INCLUDE_DIR}/ap_release.h
@@ -385,6 +380,7 @@ find_package_handle_standard_args(
     Apache_APR_INCLUDE_DIR
     Apache_EXECUTABLE
   VERSION_VAR Apache_VERSION
+  HANDLE_VERSION_RANGE
   REASON_FAILURE_MESSAGE "${_reason}"
 )
 

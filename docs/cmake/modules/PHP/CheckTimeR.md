@@ -6,7 +6,7 @@
 Check type of reentrant time-related functions. Type can be: irix, hpux or
 POSIX.
 
-Cache variables:
+## Cache variables
 
   PHP_HPUX_TIME_R
     Whether HP-UX 10.x is used.

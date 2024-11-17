@@ -13,7 +13,7 @@ On modern systems a simpler check is sufficient in the future:
 check_symbol_exists(ttyname_r unistd.h HAVE_TTYNAME_R)
 ```
 
-Cache variables:
+## Cache variables
 
 * `HAVE_TTYNAME_R`
   Whether `ttyname_r()` works as expected.

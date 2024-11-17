@@ -5,21 +5,17 @@ Module defines the following `IMPORTED` target(s):
 
 * `XPM::XPM` - The libXpm library, if found.
 
-Result variables:
+## Result variables
 
 * `XPM_FOUND` - Whether the package has been found.
 * `XPM_INCLUDE_DIRS` - Include directories needed to use this package.
 * `XPM_LIBRARIES` - Libraries needed to link to the package library.
 * `XPM_VERSION` - Package version, if found.
 
-Cache variables:
+## Cache variables
 
 * `XPM_INCLUDE_DIR` - Directory containing package library headers.
 * `XPM_LIBRARY` - The path to the package library.
-
-Hints:
-
-The `XPM_ROOT` variable adds custom search path.
 #]=============================================================================]
 
 include(FeatureSummary)
@@ -34,7 +30,7 @@ set_package_properties(
 
 set(_reason "")
 
-# Use pkgconf, if available on the system.
+# Try pkg-config.
 find_package(PkgConfig QUIET)
 if(PKG_CONFIG_FOUND)
   pkg_check_modules(PC_XPM QUIET xpm)
@@ -43,7 +39,7 @@ endif()
 find_path(
   XPM_INCLUDE_DIR
   NAMES X11/xpm.h
-  PATHS ${PC_XPM_INCLUDE_DIRS}
+  HINTS ${PC_XPM_INCLUDE_DIRS}
   DOC "Directory containing XPM library headers"
 )
 
@@ -54,7 +50,7 @@ endif()
 find_library(
   XPM_LIBRARY
   NAMES Xpm
-  PATHS ${PC_XPM_LIBRARY_DIRS}
+  HINTS ${PC_XPM_LIBRARY_DIRS}
   DOC "The path to the XPM library"
 )
 
@@ -62,17 +58,10 @@ if(NOT XPM_LIBRARY)
   string(APPEND _reason "libXpm library not found. ")
 endif()
 
-# Get version.
-block(PROPAGATE XPM_VERSION)
-  # libXpm headers don't provide version. Try pkgconf version, if found.
-  if(PC_XPM_VERSION)
-    cmake_path(COMPARE "${PC_XPM_INCLUDEDIR}" EQUAL "${XPM_INCLUDE_DIR}" isEqual)
-
-    if(isEqual)
-      set(XPM_VERSION ${PC_XPM_VERSION})
-    endif()
-  endif()
-endblock()
+# libXpm headers don't provide version. Try pkg-config.
+if(PC_XPM_VERSION AND XPM_INCLUDE_DIR IN_LIST PC_XPM_INCLUDE_DIRS)
+  set(XPM_VERSION ${PC_XPM_VERSION})
+endif()
 
 mark_as_advanced(XPM_INCLUDE_DIR XPM_LIBRARY)
 
@@ -82,6 +71,7 @@ find_package_handle_standard_args(
     XPM_LIBRARY
     XPM_INCLUDE_DIR
   VERSION_VAR XPM_VERSION
+  HANDLE_VERSION_RANGE
   REASON_FAILURE_MESSAGE "${_reason}"
 )
 
@@ -101,6 +91,6 @@ if(NOT TARGET XPM::XPM)
     XPM::XPM
     PROPERTIES
       IMPORTED_LOCATION "${XPM_LIBRARY}"
-      INTERFACE_INCLUDE_DIRECTORIES "${XPM_INCLUDE_DIR}"
+      INTERFACE_INCLUDE_DIRECTORIES "${XPM_INCLUDE_DIRS}"
   )
 endif()

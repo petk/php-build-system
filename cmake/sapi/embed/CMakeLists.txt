@@ -59,7 +59,7 @@ set_target_properties(
     ENABLE_EXPORTS TRUE
 )
 
-# Configure pkgconf php-embed.pc metadata file.
+# Configure pkg-config php-embed.pc metadata file.
 include(PHP/PkgConfigGenerator)
 pkgconfig_generate_pc(
   php-embed.pc.in

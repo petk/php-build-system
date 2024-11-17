@@ -9,7 +9,7 @@ code to use these extensions.
 
 TODO: Adjust checks for MSVC.
 
-Cache variables:
+## Cache variables
 
 * `PHP_HAVE_AVX512_SUPPORTS`
   Whether compiler supports AVX-512.

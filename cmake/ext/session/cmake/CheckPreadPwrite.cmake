@@ -11,7 +11,7 @@ a simpler:
 check_symbol_exists(<symbol> unistd.h HAVE_<SYMBOL>)
 ```
 
-Cache variables:
+## Cache variables
 
 * `HAVE_PREAD`
     Whether `pread()` is available.

@@ -17,7 +17,7 @@ systems:
 See also:
 https://www.gnu.org/software/autoconf-archive/ax_func_which_gethostbyname_r.html
 
-Cache variables:
+## Cache variables
 
 * `HAVE_GETHOSTBYNAME_R`
   Whether `gethostbyname_r()` is available.

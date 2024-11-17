@@ -10,7 +10,7 @@ defined. This is mostly obsolete and is intended specifically for the PHP code.
 The CMake's `check_symbol_exists()` is sufficient to check for reentrant
 functions on current systems and this module might be obsolete in the future.
 
-Cache variables:
+## Cache variables
 
 * `HAVE_LOCALTIME_R`
     Whether `localtime_r()` is available.

@@ -5,7 +5,7 @@
 
 Determine the C standard library used for the build.
 
-Result variables:
+## Result variables
 
 * `PHP_C_STANDARD_LIBRARY`
 
@@ -18,7 +18,7 @@ Result variables:
     * `musl`
     * `uclibc`
 
-Cache variables:
+## Cache variables
 * `__MUSL__`
 
 ## Basic usage

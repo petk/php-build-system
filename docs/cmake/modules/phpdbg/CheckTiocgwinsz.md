@@ -9,7 +9,7 @@ Some systems define `TIOCGWINSZ` (Terminal Input Output Control Get WINdow SiZe)
 to obtain the number of rows and columns in the terminal window. This is based
 on Autoconf's `AC_HEADER_TIOCGWINSZ` macro approach.
 
-Cache variables:
+## Cache variables
 
 * `GWINSZ_IN_SYS_IOCTL`
   Whether `sys/ioctl.h` defines `TIOCGWINSZ`.

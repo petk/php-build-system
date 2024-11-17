@@ -9,24 +9,20 @@ Module defines the following `IMPORTED` target(s):
 
 * `libzip::libzip` - The package library, if found.
 
-Result variables:
+## Result variables
 
 * `libzip_FOUND` - Whether the package has been found.
 * `libzip_INCLUDE_DIRS` - Include directories needed to use this package.
 * `libzip_LIBRARIES` - Libraries needed to link to the package library.
 * `libzip_VERSION` - Package version, if found.
 
-Cache variables:
+## Cache variables
 
 * `libzip_INCLUDE_DIR` - Directory containing package library headers.
 * `libzip_LIBRARY` - The path to the package library.
 * `HAVE_SET_MTIME`
 * `HAVE_ENCRYPTION`
 * `HAVE_LIBZIP_VERSION`
-
-Hints:
-
-The `libzip_ROOT` variable adds custom search path.
 #]=============================================================================]
 
 include(CheckLibraryExists)
@@ -43,7 +39,7 @@ set_package_properties(
 
 set(_reason "")
 
-# Use pkgconf, if available on the system.
+# Try pkg-config.
 find_package(PkgConfig QUIET)
 if(PKG_CONFIG_FOUND)
   pkg_check_modules(PC_libzip QUIET libzip)
@@ -52,7 +48,7 @@ endif()
 find_path(
   libzip_INCLUDE_DIR
   NAMES zip.h
-  PATHS ${PC_libzip_INCLUDE_DIRS}
+  HINTS ${PC_libzip_INCLUDE_DIRS}
   DOC "Directory containing libzip library headers"
 )
 
@@ -63,7 +59,7 @@ endif()
 find_library(
   libzip_LIBRARY
   NAMES zip
-  PATHS ${PC_libzip_LIBRARY_DIRS}
+  HINTS ${PC_libzip_LIBRARY_DIRS}
   DOC "The path to the libzip library"
 )
 
@@ -73,31 +69,22 @@ endif()
 
 block(PROPAGATE libzip_VERSION)
   # Version in zipconf.h is available since libzip 1.4.0.
-  if(libzip_INCLUDE_DIR AND EXISTS ${libzip_INCLUDE_DIR}/zipconf.h)
-    set(regex [[^[ \t]*#[ \t]*define[ \t]+LIBZIP_VERSION[ \t]+"?([0-9.]+)"?[ \t]*$]])
+  if(EXISTS ${libzip_INCLUDE_DIR}/zipconf.h)
+    set(regex [[^[ \t]*#[ \t]*define[ \t]+LIBZIP_VERSION[ \t]+"?([^"]+)"?[ \t]*$]])
 
-    file(STRINGS ${libzip_INCLUDE_DIR}/zipconf.h results REGEX "${regex}")
+    file(STRINGS ${libzip_INCLUDE_DIR}/zipconf.h result REGEX "${regex}")
 
-    foreach(line ${results})
-      if(line MATCHES "${regex}")
-        set(libzip_VERSION "${CMAKE_MATCH_1}")
-        break()
-      endif()
-    endforeach()
+    if(result MATCHES "${regex}")
+      set(libzip_VERSION "${CMAKE_MATCH_1}")
+    endif()
   endif()
 
-  # If version was not found in the header, get version whether library was
-  # found by pkgconf, otherwise the library was found elsewhere without pkgconf.
-  if(NOT libzip_VERSION AND PC_libzip_VERSION)
-    cmake_path(
-      COMPARE
-      "${libzip_INCLUDE_DIR}" EQUAL "${PC_libzip_INCLUDEDIR}"
-      isEqual
-    )
-
-    if(isEqual)
-      set(libzip_VERSION ${PC_libzip_VERSION})
-    endif()
+  if(
+    NOT libzip_VERSION
+    AND PC_libzip_VERSION
+    AND libzip_INCLUDE_DIR IN_LIST PC_libzip_INCLUDE_DIRS
+  )
+    set(libzip_VERSION ${PC_libzip_VERSION})
   endif()
 
   # Guess older version.
@@ -176,6 +163,6 @@ if(NOT TARGET libzip::libzip)
     libzip::libzip
     PROPERTIES
       IMPORTED_LOCATION "${libzip_LIBRARY}"
-      INTERFACE_INCLUDE_DIRECTORIES "${libzip_INCLUDE_DIR}"
+      INTERFACE_INCLUDE_DIRECTORIES "${libzip_INCLUDE_DIRS}"
   )
 endif()

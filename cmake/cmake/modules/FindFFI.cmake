@@ -5,21 +5,17 @@ Module defines the following `IMPORTED` target(s):
 
 * `FFI::FFI` - The package library, if found.
 
-Result variables:
+## Result variables
 
 * `FFI_FOUND` - Whether the package has been found.
 * `FFI_INCLUDE_DIRS` - Include directories needed to use this package.
 * `FFI_LIBRARIES` - Libraries needed to link to the package library.
 * `FFI_VERSION` - Package version, if found.
 
-Cache variables:
+## Cache variables
 
 * `FFI_INCLUDE_DIR` - Directory containing package library headers.
 * `FFI_LIBRARY` - The path to the package library.
-
-Hints:
-
-The `FFI_ROOT` variable adds custom search path.
 #]=============================================================================]
 
 include(FeatureSummary)
@@ -34,7 +30,7 @@ set_package_properties(
 
 set(_reason "")
 
-# Use pkgconf, if available on the system.
+# Try pkg-config.
 find_package(PkgConfig QUIET)
 if(PKG_CONFIG_FOUND)
   pkg_check_modules(PC_FFI QUIET libffi)
@@ -43,7 +39,7 @@ endif()
 find_path(
   FFI_INCLUDE_DIR
   NAMES ffi.h
-  PATHS ${PC_FFI_INCLUDE_DIRS}
+  HINTS ${PC_FFI_INCLUDE_DIRS}
   DOC "Directory containing FFI library headers"
 )
 
@@ -54,7 +50,7 @@ endif()
 find_library(
   FFI_LIBRARY
   NAMES ffi
-  PATHS ${PC_FFI_LIBRARY_DIRS}
+  HINTS ${PC_FFI_LIBRARY_DIRS}
   DOC "The path to the FFI library"
 )
 
@@ -65,23 +61,19 @@ endif()
 block(PROPAGATE FFI_VERSION)
   if(FFI_INCLUDE_DIR)
     set(regex [[^[ \t]*libffi[ \t]+([0-9.]+)[ \t]*$]])
-    file(STRINGS ${FFI_INCLUDE_DIR}/ffi.h results REGEX "${regex}")
+    file(STRINGS ${FFI_INCLUDE_DIR}/ffi.h result REGEX "${regex}" LIMIT_COUNT 1)
 
-    foreach(line ${results})
-      if(line MATCHES "${regex}")
-        set(FFI_VERSION "${CMAKE_MATCH_1}")
-        break()
-      endif()
-    endforeach()
+    if(result MATCHES "${regex}")
+      set(FFI_VERSION "${CMAKE_MATCH_1}")
+    endif()
   endif()
 
-  # Version was not found in the header. Try pkgconf, if found.
-  if(NOT FFI_VERSION AND PC_FFI_VERSION)
-    cmake_path(COMPARE "${PC_FFI_INCLUDEDIR}" EQUAL "${FFI_INCLUDE_DIR}" isEqual)
-
-    if(isEqual)
-      set(FFI_VERSION ${PC_FFI_VERSION})
-    endif()
+  if(
+    NOT FFI_VERSION
+    AND PC_FFI_VERSION
+    AND FFI_INCLUDE_DIR IN_LIST PC_FFI_INCLUDE_DIRS
+  )
+    set(FFI_VERSION ${PC_FFI_VERSION})
   endif()
 endblock()
 
@@ -93,6 +85,7 @@ find_package_handle_standard_args(
     FFI_LIBRARY
     FFI_INCLUDE_DIR
   VERSION_VAR FFI_VERSION
+  HANDLE_VERSION_RANGE
   REASON_FAILURE_MESSAGE "${_reason}"
 )
 
@@ -112,6 +105,6 @@ if(NOT TARGET FFI::FFI)
     FFI::FFI
     PROPERTIES
       IMPORTED_LOCATION "${FFI_LIBRARY}"
-      INTERFACE_INCLUDE_DIRECTORIES "${FFI_INCLUDE_DIR}"
+      INTERFACE_INCLUDE_DIRECTORIES "${FFI_INCLUDE_DIRS}"
   )
 endif()

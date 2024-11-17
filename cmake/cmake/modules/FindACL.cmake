@@ -5,27 +5,25 @@ Module defines the following `IMPORTED` target(s):
 
 * `ACL::ACL` - The package library, if found.
 
-Result variables:
+## Result variables
 
 * `ACL_FOUND` - Whether the package has been found.
 * `ACL_INCLUDE_DIRS` - Include directories needed to use this package.
 * `ACL_LIBRARIES` - Libraries needed to link to the package library.
 * `ACL_VERSION` - Package version, if found.
 
-Cache variables:
+## Cache variables
 
 * `ACL_IS_BUILT_IN` - Whether ACL is a part of the C library (BSD-based
   systems).
 * `ACL_INCLUDE_DIR` - Directory containing package library headers.
 * `ACL_LIBRARY` - The path to the package library.
 
-Hints:
+## Hints
 
-The `ACL_ROOT` variable adds custom search path.
-
-Set `ACL_USE_USER_GROUP` to `TRUE` before calling `find_package(ACL)` to also
-check if the ACL library supports `ACL_USER` and `ACL_GROUP`. For example, macOS
-doesn't have support for user/group.
+* Set `ACL_USE_USER_GROUP` to `TRUE` before calling `find_package(ACL)` to also
+  check if the ACL library supports `ACL_USER` and `ACL_GROUP`. For example,
+  macOS doesn't have support for user/group.
 #]=============================================================================]
 
 include(CheckSourceCompiles)
@@ -141,7 +139,7 @@ if(ACL_IS_BUILT_IN)
 else()
   set(_ACL_REQUIRED_VARS ACL_LIBRARY ACL_INCLUDE_DIR)
 
-  # Use pkgconf, if available on the system.
+  # Try pkg-config.
   find_package(PkgConfig QUIET)
   if(PKG_CONFIG_FOUND)
     pkg_check_modules(PC_ACL QUIET libacl)
@@ -150,7 +148,7 @@ else()
   find_path(
     ACL_INCLUDE_DIR
     NAMES sys/acl.h
-    PATHS ${PC_ACL_INCLUDE_DIRS}
+    HINTS ${PC_ACL_INCLUDE_DIRS}
     DOC "Directory containing ACL library headers"
   )
 
@@ -161,7 +159,7 @@ else()
   find_library(
     ACL_LIBRARY
     NAMES acl
-    PATHS ${PC_ACL_LIBRARY_DIRS}
+    HINTS ${PC_ACL_LIBRARY_DIRS}
     DOC "The path to the ACL library"
   )
 
@@ -169,17 +167,10 @@ else()
     string(APPEND _reason "ACL library not found. ")
   endif()
 
-  # Get version.
-  block(PROPAGATE ACL_VERSION)
-    # ACL headers don't provide version. Try pkgconf version, if found.
-    if(PC_ACL_VERSION AND ACL_INCLUDE_DIR)
-      cmake_path(COMPARE "${ACL_INCLUDE_DIR}" EQUAL "${PC_ACL_INCLUDEDIR}" isEqual)
-
-      if(isEqual)
-        set(ACL_VERSION ${PC_ACL_VERSION})
-      endif()
-    endif()
-  endblock()
+  # ACL headers don't provide version. Try pkg-config.
+  if(PC_ACL_VERSION AND ACL_INCLUDE_DIR IN_LIST PC_ACL_INCLUDE_DIRS)
+    set(ACL_VERSION ${PC_ACL_VERSION})
+  endif()
 
   _acl_check(_acl_works)
 
@@ -204,6 +195,7 @@ find_package_handle_standard_args(
     ${_ACL_REQUIRED_VARS}
     _acl_works
   VERSION_VAR ACL_VERSION
+  HANDLE_VERSION_RANGE
   REASON_FAILURE_MESSAGE "${_reason}"
 )
 
@@ -227,11 +219,11 @@ endif()
 if(NOT TARGET ACL::ACL)
   add_library(ACL::ACL UNKNOWN IMPORTED)
 
-  if(ACL_INCLUDE_DIR)
+  if(ACL_INCLUDE_DIRS)
     set_target_properties(
       ACL::ACL
       PROPERTIES
-        INTERFACE_INCLUDE_DIRECTORIES "${ACL_INCLUDE_DIR}"
+        INTERFACE_INCLUDE_DIRECTORIES "${ACL_INCLUDE_DIRS}"
     )
   endif()
 

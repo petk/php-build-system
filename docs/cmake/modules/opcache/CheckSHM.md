@@ -7,7 +7,7 @@ Check for shared memory (SHM) operations functions and required libraries.
 
 If no SHM support is found, a FATAL error is thrown.
 
-Cache variables:
+## Cache variables
 
 * `HAVE_SHM_IPC`
   Whether SysV IPC SHM support is available.

@@ -8,7 +8,7 @@ be used on both 64-bit and 32-bit systems, where the `_FILE_OFFSET_BITS=64` can
 make it behave like `off64_t` on 32-bit. Since code is in the transition process
 to use `off_t` only, check is left here when using glibc.
 
-Cache variables:
+## Cache variables
 
 * `HAVE_FOPENCOOKIE`
   Whether `fopencookie()` and `cookie_io_functions_t` are available.

@@ -265,10 +265,8 @@ Cache variables:
     Directory containing package library headers.
   Foo_LIBRARY
     The path to the package library.
-
-Hints:
-
-  The Foo_ROOT variable adds custom search path.
+  Foo_LIBRARY_DIR
+    The directory with Foo library.
 #]=============================================================================]
 
 include(FeatureSummary)
@@ -281,52 +279,76 @@ set_package_properties(
     DESCRIPTION "Foo package example"
 )
 
-set(_reason "")
+set(reason)
 
-# Use pkgconf, if available on the system.
+# Try pkg-config, if available on the system and it was not disabled by the
+# CMAKE_DISABLE_FIND_PACKAGE_PkgConfig variable. The HINTS will be searched
+# before the default and system paths.
 find_package(PkgConfig QUIET)
-pkg_check_modules(PC_Foo QUIET libfoo)
+if(PKGCONFIG_FOUND)
+  pkg_check_modules(PC_Foo QUIET foo)
+endif()
 
 find_path(
   Foo_INCLUDE_DIR
   NAMES foo.h
-  PATHS ${PC_Foo_INCLUDE_DIRS}
+  HINTS ${PC_Foo_INCLUDE_DIRS}
   DOC "Directory containing Foo library headers"
 )
 
 if(NOT Foo_INCLUDE_DIR)
-  string(APPEND _reason "foo.h not found. ")
+  string(APPEND reason "foo.h not found. ")
 endif()
 
 find_library(
   Foo_LIBRARY
   NAMES foo
-  PATHS ${PC_Foo_LIBRARY_DIRS}
+  HINTS ${PC_Foo_LIBRARY_DIRS}
   DOC "The path to the Foo library"
 )
 
 if(NOT Foo_LIBRARY)
-  string(APPEND _reason "Foo library not found. ")
+  string(APPEND reason "Foo library not found. ")
+endif()
+
+# Find library directory when Foo_LIBRARY is set as a library name. For
+# example, when looking for Foo with FOO_ROOT or CMAKE_PREFIX_PATH set.
+if(NOT Foo_LIBRARY_DIR AND Foo_LIBRARY AND NOT IS_ABSOLUTE "${Foo_LIBRARY}")
+  find_library(Foo_LIBRARY_DIR ${Foo_LIBRARY})
+  if(Foo_LIBRARY_DIR)
+    cmake_path(GET Foo_LIBRARY_DIR PARENT_PATH _parent)
+    set_property(CACHE Foo_LIBRARY_DIR PROPERTY VALUE ${_parent})
+    unset(_parent)
+  endif()
 endif()
 
 # Get version.
 block(PROPAGATE Foo_VERSION)
-  # Try finding version from the library header file.
-  # ...
+  if(EXISTS ${Foo_INCLUDE_DIR}/foo.h)
+    # Try finding version from the library header file. For example:
+    set(regex [[^[ \t]*#[ \t]*define[ \t]+FOO_VERSION[ \t]+"([^"]+)"[ \t]*$]])
+    file(STRINGS ${Foo_INCLUDE_DIR}/foo.h result REGEX "${regex}" LIMIT_COUNT 1)
 
-  # If library doesn't have version in headers, try pkgconf version, if found.
-  if(NOT Foo_VERSION AND PC_Foo_VERSION)
-    # Check if result found by find_library() and pkgconf are the same library.
-    cmake_path(COMPARE "${PC_Foo_INCLUDEDIR}" EQUAL "${Foo_INCLUDE_DIR}" isEqual)
+    if(result MATCHES "${regex}")
+      set(Foo_VERSION "${CMAKE_MATCH_1}")
+    endif()
 
-    if(isEqual)
+    # If version wasn't found in the library header, try pkg-config. The include
+    # dir check ensures that found package is the one found by pkg-config. For
+    # example, when using CMAKE_PREFIX_PATH or FOO_ROOT variable, there could be
+    # also a system package found by the pkg-config, but with different version.
+    if(
+      NOT Foo_VERSION
+      AND PC_Foo_VERSION
+      AND Foo_INCLUDE_DIR IN_LIST PC_Foo_INCLUDE_DIRS
+    )
       set(Foo_VERSION ${PC_Foo_VERSION})
     endif()
-  endif()
 
-  if(NOT Foo_VERSION)
-    # Use different ways to find package version, when pkgconf is not available.
-    # ...
+    # If version still was not found, try other available ways to get version.
+    if(NOT Foo_VERSION)
+      # ...
+    endif()
   endif()
 endblock()
 
@@ -338,10 +360,11 @@ find_package_handle_standard_args(
     Foo_LIBRARY
     Foo_INCLUDE_DIR
   VERSION_VAR Foo_VERSION
-  REASON_FAILURE_MESSAGE "${_reason}"
+  HANDLE_VERSION_RANGE
+  REASON_FAILURE_MESSAGE "${reason}"
 )
 
-unset(_reason)
+unset(reason)
 
 if(NOT Foo_FOUND)
   return()
@@ -351,13 +374,30 @@ set(Foo_INCLUDE_DIRS ${Foo_INCLUDE_DIR})
 set(Foo_LIBRARIES ${Foo_LIBRARY})
 
 if(NOT TARGET Foo::Foo)
-  add_library(Foo::Foo UNKNOWN IMPORTED)
+  if(IS_ABSOLUTE "${Foo_LIBRARY}")
+    add_library(Foo::Foo UNKNOWN IMPORTED)
+    set_target_properties(
+      Foo::Foo
+      PROPERTIES
+        IMPORTED_LINK_INTERFACE_LANGUAGES C
+        IMPORTED_LOCATION "${Foo_LIBRARY}"
+    )
+  else()
+    add_library(Foo::Foo INTERFACE IMPORTED)
+    set_target_properties(
+      Foo::Foo
+      PROPERTIES
+        IMPORTED_LIBNAME "${Foo_LIBRARY}"
+    )
+    if(EXISTS "${Foo_LIBRARY_DIR}")
+      target_link_directories(Foo::Foo INTERFACE "${Foo_LIBRARY_DIR}")
+    endif()
+  endif()
 
   set_target_properties(
     Foo::Foo
     PROPERTIES
-      IMPORTED_LOCATION "${Foo_LIBRARY}"
-      INTERFACE_INCLUDE_DIRECTORIES "${Foo_INCLUDE_DIR}"
+      INTERFACE_INCLUDE_DIRECTORIES "${Foo_INCLUDE_DIRS}"
   )
 endif()
 ```

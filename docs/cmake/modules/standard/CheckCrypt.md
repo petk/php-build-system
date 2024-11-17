@@ -6,7 +6,7 @@
 Check whether the `crypt` library works as expected for PHP by running a set of
 PHP-specific checks.
 
-Cache variables:
+## Cache variables
 
 * HAVE_CRYPT_H
 * HAVE_CRYPT

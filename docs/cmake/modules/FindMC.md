@@ -10,17 +10,15 @@ SDK. When cross-compiling for Windows, there is also a compatible alternative by
 GNU (most commonly available via MinGW binutils packages) - windmc:
 https://sourceware.org/binutils/docs/binutils.html#windmc.
 
-Result variables:
+## Result variables
 
 * `MC_FOUND` - Whether message compiler is found.
 
-Cache variables:
+## Cache variables
 
 * `MC_EXECUTABLE` - Path to the message compiler if found.
 
-Hints:
-
-The `MC_ROOT` variable adds custom search path.
+## Functions provided by this module
 
 Module exposes the following function:
 

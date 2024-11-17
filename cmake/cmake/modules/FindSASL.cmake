@@ -5,21 +5,17 @@ Module defines the following `IMPORTED` target(s):
 
 * `SASL::SASL` - The package library, if found.
 
-Result variables:
+## Result variables
 
 * `SASL_FOUND` - Whether the package has been found.
 * `SASL_INCLUDE_DIRS` - Include directories needed to use this package.
 * `SASL_LIBRARIES` - Libraries needed to link to the package library.
 * `SASL_VERSION` - Package version, if found.
 
-Cache variables:
+## Cache variables
 
 * `SASL_INCLUDE_DIR` - Directory containing package library headers.
 * `SASL_LIBRARY` - The path to the package library.
-
-Hints:
-
-The `SASL_ROOT` variable adds custom search path.
 #]=============================================================================]
 
 include(FeatureSummary)
@@ -34,7 +30,7 @@ set_package_properties(
 
 set(_reason "")
 
-# Use pkgconf, if available on the system.
+# Try pkg-config.
 find_package(PkgConfig QUIET)
 if(PKG_CONFIG_FOUND)
   pkg_check_modules(PC_SASL QUIET libsasl2)
@@ -43,7 +39,7 @@ endif()
 find_path(
   SASL_INCLUDE_DIR
   NAMES sasl/sasl.h
-  PATHS ${PC_SASL_INCLUDE_DIRS}
+  HINTS ${PC_SASL_INCLUDE_DIRS}
   DOC "Directory containing SASL library headers"
 )
 
@@ -54,7 +50,7 @@ endif()
 find_library(
   SASL_LIBRARY
   NAMES sasl2
-  PATHS ${PC_SASL_LIBRARY_DIRS}
+  HINTS ${PC_SASL_LIBRARY_DIRS}
   DOC "The path to the SASL library"
 )
 
@@ -97,6 +93,7 @@ find_package_handle_standard_args(
     SASL_LIBRARY
     SASL_INCLUDE_DIR
   VERSION_VAR SASL_VERSION
+  HANDLE_VERSION_RANGE
   REASON_FAILURE_MESSAGE "${_reason}"
 )
 
@@ -116,6 +113,6 @@ if(NOT TARGET SASL::SASL)
     SASL::SASL
     PROPERTIES
       IMPORTED_LOCATION "${SASL_LIBRARY}"
-      INTERFACE_INCLUDE_DIRECTORIES "${SASL_INCLUDE_DIR}"
+      INTERFACE_INCLUDE_DIRECTORIES "${SASL_INCLUDE_DIRS}"
   )
 endif()

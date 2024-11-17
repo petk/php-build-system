@@ -1,7 +1,7 @@
 #[=============================================================================[
 Check FPM trace implementation.
 
-## Cache variables:
+## Cache variables
 
 * `HAVE_PTRACE`
 
