@@ -1,3 +1,26 @@
+#[=============================================================================[
+# The com_dotnet extension
+
+Configure the `com_dotnet` extension.
+
+> [!NOTE]
+> This extension is available only when the target system is Windows.
+
+## EXT_COM_DOTNET
+
+* Default: `ON`
+* Values: `ON|OFF`
+
+Enable the extension.
+
+## EXT_COM_DOTNET_SHARED
+
+* Default: `OFF`
+* Values: `ON|OFF`
+
+Build extension as shared.
+#]=============================================================================]
+
 project(
   PhpExtensionBz2
   LANGUAGES C

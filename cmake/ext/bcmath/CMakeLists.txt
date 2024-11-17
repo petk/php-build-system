@@ -1,3 +1,23 @@
+#[=============================================================================[
+# The bcmath extension
+
+Configure the `bcmath` extension.
+
+## EXT_BCMATH
+
+* Default: `OFF`
+* Values: `ON|OFF`
+
+Enable the extension.
+
+## EXT_BCMATH_SHARED
+
+* Default: `OFF`
+* Values: `ON|OFF`
+
+Build extension as shared.
+#]=============================================================================]
+
 project(
   PhpExtensionBcMath
   LANGUAGES C

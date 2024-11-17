@@ -1,3 +1,23 @@
+#[=============================================================================[
+# The fileinfo extension
+
+Configure the `fileinfo` extension.
+
+## EXT_FILEINFO
+
+* Default: `ON`
+* Values: `ON|OFF`
+
+Enable the extension.
+
+## EXT_FILEINFO_SHARED
+
+* Default: `OFF`
+* Values: `ON|OFF`
+
+Build extension as shared.
+#]=============================================================================]
+
 project(
   PHPExtensionFileinfo
   LANGUAGES C

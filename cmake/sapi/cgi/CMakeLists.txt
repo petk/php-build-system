@@ -1,3 +1,16 @@
+#[=============================================================================[
+# The cgi SAPI
+
+Configure the `cgi` PHP SAPI.
+
+## SAPI_CGI
+
+* Default: `ON`
+* Values: `ON|OFF`
+
+Enable the SAPI.
+#]=============================================================================]
+
 include(CheckStructHasMember)
 include(FeatureSummary)
 

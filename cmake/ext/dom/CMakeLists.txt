@@ -1,3 +1,23 @@
+#[=============================================================================[
+# The dom extension
+
+Configure the `dom` extension.
+
+## EXT_DOM
+
+* Default: `ON`
+* Values: `ON|OFF`
+
+Enable the extension.
+
+## EXT_DOM_SHARED
+
+* Default: `OFF`
+* Values: `ON|OFF`
+
+Build extension as shared.
+#]=============================================================================]
+
 project(
   PhpExtensionDom
   LANGUAGES C

@@ -1,3 +1,11 @@
+#[=============================================================================[
+# The date extension
+
+Configure the `date` extension.
+
+This extension is always enabled and cannot be built as shared.
+#]=============================================================================]
+
 project(
   PhpExtensionDate
   LANGUAGES C

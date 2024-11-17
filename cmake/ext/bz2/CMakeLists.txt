@@ -1,3 +1,23 @@
+#[=============================================================================[
+# The bz2 extension
+
+Configure the `bz2` extension.
+
+## EXT_BZ2
+
+* Default: `OFF`
+* Values: `ON|OFF`
+
+Enable the extension.
+
+## EXT_BZ2_SHARED
+
+* Default: `OFF`
+* Values: `ON|OFF`
+
+Build extension as shared.
+#]=============================================================================]
+
 project(
   PhpExtensionBz2
   LANGUAGES C

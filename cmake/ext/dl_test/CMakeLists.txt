@@ -1,3 +1,18 @@
+#[=============================================================================[
+# The dl_test extension
+
+Configure the `dl_test` extension.
+
+## EXT_DL_TEST
+
+* Default: `OFF`
+* Values: `ON|OFF`
+
+Enable the extension.
+
+This extension is always built as shared when enabled.
+#]=============================================================================]
+
 project(
   PhpExtensionDlTest
   LANGUAGES C

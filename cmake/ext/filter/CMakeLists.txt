@@ -1,3 +1,23 @@
+#[=============================================================================[
+# The filter extension
+
+Configure the `filter` extension.
+
+## EXT_FILTER
+
+* Default: `ON`
+* Values: `ON|OFF`
+
+Enable the extension.
+
+## EXT_FILTER_SHARED
+
+* Default: `OFF`
+* Values: `ON|OFF`
+
+Build extension as shared.
+#]=============================================================================]
+
 project(
   PhpExtensionFilter
   LANGUAGES C

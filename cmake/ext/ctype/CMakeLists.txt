@@ -1,3 +1,23 @@
+#[=============================================================================[
+# The ctype extension
+
+Configure the `ctype` extension.
+
+## EXT_CTYPE
+
+* Default: `ON`
+* Values: `ON|OFF`
+
+Enable the extension.
+
+## EXT_CTYPE_SHARED
+
+* Default: `OFF`
+* Values: `ON|OFF`
+
+Build extension as shared.
+#]=============================================================================]
+
 project(
   PhpExtensionCtype
   LANGUAGES C

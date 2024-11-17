@@ -1,3 +1,23 @@
+#[=============================================================================[
+# The ffi extension
+
+Configure the `ffi` extension.
+
+## EXT_FFI
+
+* Default: `OFF`
+* Values: `ON|OFF`
+
+Enable the extension.
+
+## EXT_FFI_SHARED
+
+* Default: `OFF`
+* Values: `ON|OFF`
+
+Build extension as shared.
+#]=============================================================================]
+
 project(
   PhpExtensionFfi
   LANGUAGES C
