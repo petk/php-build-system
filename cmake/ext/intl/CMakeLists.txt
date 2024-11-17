@@ -3,6 +3,9 @@
 
 Configure the `intl` extension.
 
+This extension provides support for internationalization, a wrapper for ICU
+library.
+
 ## EXT_INTL
 
 * Default: `OFF`

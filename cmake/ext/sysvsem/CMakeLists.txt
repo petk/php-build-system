@@ -3,6 +3,8 @@
 
 Configure the `sysvsem` extension.
 
+This extension provides the System V semaphore support.
+
 > [!NOTE]
 > This extension is available only on \*nix systems.
 

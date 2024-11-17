@@ -3,6 +3,8 @@
 
 Configure the `sqlite3` extension.
 
+This extension provides support for using SQLite database.
+
 ## EXT_SQLITE3
 
 * Default: `ON`
@@ -32,7 +34,7 @@ option(EXT_SQLITE3 "Enable the sqlite3 extension" ON)
 add_feature_info(
   "ext/sqlite3"
   EXT_SQLITE3
-  "SQLite 3 database support"
+  "SQLite database support"
 )
 
 cmake_dependent_option(

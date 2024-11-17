@@ -3,6 +3,8 @@
 
 Configure the `pdo_mysql` extension.
 
+This extension provides PDO interface for using MySQL-compatible databases.
+
 ## EXT_PDO_MYSQL
 
 * Default: `OFF`

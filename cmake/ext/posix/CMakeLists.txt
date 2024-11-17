@@ -3,6 +3,8 @@
 
 Configure the `posix` extension.
 
+This extension provides support for POSIX-like functions.
+
 > [!NOTE]
 > This extension is available only on \*nix systems.
 

@@ -3,6 +3,9 @@
 
 Configure the `bz2` extension.
 
+This extension provides support for reading and writing BZip2 (.bz2) compressed
+files.
+
 ## EXT_BZ2
 
 * Default: `OFF`

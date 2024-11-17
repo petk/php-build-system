@@ -3,6 +3,9 @@
 
 Configure the `ldap` extension.
 
+This extension provides support for LDAP (Lightweight Directory Access
+Protocol).
+
 ## EXT_LDAP
 
 * Default: `OFF`

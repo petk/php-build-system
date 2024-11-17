@@ -3,6 +3,8 @@
 
 Configure the `soap` extension.
 
+This extension provides support for writing SOAP servers and clients.
+
 ## EXT_SOAP
 
 * Default: `OFF`

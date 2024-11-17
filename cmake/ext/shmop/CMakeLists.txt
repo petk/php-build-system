@@ -3,6 +3,8 @@
 
 Configure the `shmop` extension.
 
+This extension provides support for shared memory segments operations.
+
 ## EXT_SHMOP
 
 * Default: `OFF`

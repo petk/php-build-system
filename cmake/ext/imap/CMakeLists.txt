@@ -3,6 +3,8 @@
 
 Configure the `imap` extension.
 
+This extension provides support for operating with the IMAP protocol.
+
 ## EXT_IMAP
 
 * Default: `OFF`

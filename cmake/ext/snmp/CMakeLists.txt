@@ -3,6 +3,8 @@
 
 Configure the `snmp` extension.
 
+This extension provides support for Simple Network Management Protocol (SNMP).
+
 ## EXT_SNMP
 
 * Default: `OFF`

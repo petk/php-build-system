@@ -3,6 +3,8 @@
 
 Configure the `xmlreader` extension.
 
+This extension provides support for for XML pull parser.
+
 ## EXT_XMLREADER
 
 * Default: `ON`

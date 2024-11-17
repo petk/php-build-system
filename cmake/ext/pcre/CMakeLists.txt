@@ -3,7 +3,8 @@
 
 Configure the `pcre` extension.
 
-This extension is always enabled.
+This extension provides support for (Perl-compatible) regular expressions and is
+always enabled.
 
 ## EXT_PCRE_EXTERNAL
 

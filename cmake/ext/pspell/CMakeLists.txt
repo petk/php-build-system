@@ -3,6 +3,8 @@
 
 Configure the `pspell` extension.
 
+This extension provides spellchecking support.
+
 ## EXT_PSPELL
 
 * Default: `OFF`

@@ -3,6 +3,9 @@
 
 Configure the `tokenizer` extension.
 
+This extension provides interface to the PHP tokenizer embedded in the Zend
+Engine.
+
 ## EXT_TOKENIZER
 
 * Default: `ON`

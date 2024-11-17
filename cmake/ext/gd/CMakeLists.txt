@@ -3,6 +3,8 @@
 
 Configure the `gd` extension.
 
+This extension provides image processing and graphics draw (GD) support.
+
 ## EXT_GD
 
 * Default: `OFF`

@@ -3,7 +3,8 @@
 
 Configure the `standard` extension.
 
-This extension is always enabled.
+This is an always enabled core PHP extension that provides common functionality
+to PHP extensions and SAPIs.
 
 ## EXT_STANDARD_ARGON2
 

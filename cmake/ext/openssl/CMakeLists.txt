@@ -3,6 +3,8 @@
 
 Configure the `openssl` extension.
 
+This extension enables using OpenSSL library for encryption and decryption.
+
 ## EXT_OPENSSL
 
 * Default: `OFF`

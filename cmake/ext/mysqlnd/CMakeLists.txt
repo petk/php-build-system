@@ -3,6 +3,9 @@
 
 Configure the `mysqlnd` extension.
 
+This extension contains MySQL Native Driver for supporting MySQL-compatible
+database in PHP extensions.
+
 ## EXT_MYSQLND
 
 * Default: `OFF`

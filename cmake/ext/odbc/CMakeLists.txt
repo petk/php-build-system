@@ -3,6 +3,9 @@
 
 Configure the `odbc` extension.
 
+This extension provides support for Unified Open Database Connectivity (ODBC)
+databases.
+
 ## EXT_ODBC
 
 * Default: `OFF`

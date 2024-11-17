@@ -3,6 +3,8 @@
 
 Configure the `pdo_oci` extension.
 
+This extension provides PDO interface for using Oracle database.
+
 ## EXT_PDO_OCI
 
 * Default: `OFF`

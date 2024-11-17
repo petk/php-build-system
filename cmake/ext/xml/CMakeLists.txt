@@ -3,6 +3,8 @@
 
 Configure the `xml` extension.
 
+This extension provides support for parsing XML.
+
 ## EXT_XML
 
 * Default: `ON`

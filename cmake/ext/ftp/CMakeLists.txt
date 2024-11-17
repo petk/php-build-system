@@ -3,6 +3,8 @@
 
 Configure the `ftp` extension.
 
+This extension provides support for File Transfer Protocol (FTP).
+
 ## EXT_FTP
 
 * Default: `OFF`

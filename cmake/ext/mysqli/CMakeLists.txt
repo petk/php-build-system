@@ -3,6 +3,8 @@
 
 Configure the `mysqli` extension.
 
+This extension provides MySQL-compatible database support.
+
 ## EXT_MYSQLI
 
 * Default: `OFF`

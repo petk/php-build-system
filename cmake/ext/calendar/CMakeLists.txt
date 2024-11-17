@@ -3,6 +3,8 @@
 
 Configure the `calendar` extension.
 
+This extension provides support for calendar conversion.
+
 ## EXT_CALENDAR
 
 * Default: `OFF`

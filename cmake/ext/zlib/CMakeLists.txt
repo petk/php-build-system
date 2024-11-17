@@ -3,6 +3,9 @@
 
 Configure the `zlib` extension.
 
+This extension provides support for reading and writing gzip (.gz) compressed
+files.
+
 ## EXT_ZLIB
 
 * Default: `OFF`

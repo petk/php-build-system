@@ -3,6 +3,8 @@
 
 Configure the `curl` extension.
 
+This extension provides support for using CURL - Client URL Library.
+
 ## EXT_CURL
 
 * Default: `OFF`

@@ -1,7 +1,7 @@
 #[=============================================================================[
-# The mysqlnd extension
+# The litespeed SAPI
 
-Configure the mysqlnd extension.
+Configure the `litespeed` PHP SAPI.
 
 > [!NOTE]
 > The PHP Litespeed SAPI is not available when the target system is Windows.

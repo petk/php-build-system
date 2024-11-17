@@ -3,6 +3,9 @@
 
 Configure the `pdo_dblib` extension.
 
+This extension provides PDO interface for using Microsoft SQL Server and Sybase
+databases.
+
 ## EXT_PDO_DBLIB
 
 * Default: `OFF`

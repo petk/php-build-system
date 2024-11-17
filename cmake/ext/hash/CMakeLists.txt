@@ -3,7 +3,8 @@
 
 Configure the `hash` extension.
 
-This extension is always enabled.
+This extension provides HASH message digest framework and is always enabled in
+PHP.
 
 ## EXT_HASH_MHASH
 

@@ -3,6 +3,9 @@
 
 Configure the `sodium` extension.
 
+This extension provides support for encryption, decryption, signatures and
+password hashing.
+
 ## EXT_SODIUM
 
 * Default: `OFF`

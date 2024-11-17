@@ -3,6 +3,8 @@
 
 Configure the `opcache` extension.
 
+This extension enables the PHP OPcode caching engine.
+
 ## EXT_OPCACHE
 
 * Default: `ON`

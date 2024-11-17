@@ -3,6 +3,8 @@
 
 Configure the `pdo_pgsql` extension.
 
+This extension provides PDO interface for using PostgreSQL database.
+
 ## EXT_PDO_PGSQL
 
 * Default: `OFF`

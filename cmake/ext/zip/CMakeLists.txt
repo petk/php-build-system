@@ -3,6 +3,8 @@
 
 Configure the `zip` extension.
 
+This extension provides support for reading and writing ZIP compressed archives.
+
 ## EXT_ZIP
 
 * Default: `OFF`

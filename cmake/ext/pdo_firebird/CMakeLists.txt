@@ -3,6 +3,8 @@
 
 Configure the `pdo_firebird` extension.
 
+This extension provides PDO interface for using Firebird database.
+
 ## EXT_PDO_FIREBIRD
 
 * Default: `OFF`

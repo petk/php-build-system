@@ -3,7 +3,7 @@
 
 Configure the `gmp` extension.
 
-Extension enables GNU Multiple Precision Arithmetic support.
+This extension provides GNU Multiple Precision Arithmetic support.
 
 ## EXT_GMP
 

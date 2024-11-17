@@ -3,6 +3,9 @@
 
 Configure the `tidy` extension.
 
+This extension provides support for Tidy HTML utility support to handle HTML,
+XHTML and XML documents.
+
 ## EXT_TIDY
 
 * Default: `OFF`

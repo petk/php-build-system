@@ -3,8 +3,8 @@
 
 Configure the `dom` extension.
 
-Extension enables support for operations on XML and HTML through Document Object
-Model (DOM).
+This extension provides support for operations on XML and HTML through Document
+Object Model (DOM).
 
 ## EXT_DOM
 

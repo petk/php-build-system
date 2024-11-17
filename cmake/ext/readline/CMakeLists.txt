@@ -3,6 +3,8 @@
 
 Configure the `readline` extension.
 
+This extension provides interface for using Editline library.
+
 ## EXT_READLINE
 
 * Default: `OFF`

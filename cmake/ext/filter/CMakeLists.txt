@@ -3,6 +3,8 @@
 
 Configure the `filter` extension.
 
+This extension provides suppor for data filtering.
+
 ## EXT_FILTER
 
 * Default: `ON`

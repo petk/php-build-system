@@ -3,7 +3,8 @@
 
 Configure the `json` extension.
 
-This extension is always enabled.
+This extension provides support for working with JavaScript Object Notation
+(JSON) and is always enabled.
 #]=============================================================================]
 
 project(

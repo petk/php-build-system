@@ -3,6 +3,9 @@
 
 Configure the `iconv` extension.
 
+This extension provides support for interface to iconv character set conversion
+facility.
+
 ## EXT_ICONV
 
 * Default: `ON`

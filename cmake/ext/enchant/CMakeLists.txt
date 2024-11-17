@@ -3,7 +3,7 @@
 
 Configure the `enchant` extension.
 
-Extension enables binding for the Enchant spelling library.
+This extension provides binding for the Enchant spelling library.
 
 ## EXT_ENCHANT
 

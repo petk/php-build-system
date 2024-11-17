@@ -3,6 +3,9 @@
 
 Configure the `sysvmsg` extension.
 
+This extension provides support for using System V message based IPC
+(Interprocess Communication Mechanisms).
+
 > [!NOTE]
 > This extension is available only on \*nix systems.
 

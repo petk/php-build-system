@@ -3,6 +3,8 @@
 
 Configure the `libxml` extension.
 
+This extension provides support for XML parser and toolkit libxml.
+
 ## EXT_LIBXML
 
 * Default: `ON`

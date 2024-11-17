@@ -1,7 +1,9 @@
 #[=============================================================================[
 # The pcntl extension
 
-Configure the `pcntl` extension for process control support (CLI/CGI only).
+Configure the `pcntl` extension.
+
+This extension provides support for process control support.
 
 > [!NOTE]
 > This extension is available only on \*nix systems.

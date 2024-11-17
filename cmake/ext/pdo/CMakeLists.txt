@@ -3,6 +3,8 @@
 
 Configure the `pdo` extension.
 
+This extension provides support for PHP Data Objects (PDO).
+
 ## EXT_PDO
 
 * Default: `ON`

@@ -3,6 +3,8 @@
 
 Configure the `bcmath` extension.
 
+This extension provides Basic Calculator (BC) style precision math support.
+
 ## EXT_BCMATH
 
 * Default: `OFF`
@@ -31,7 +33,7 @@ option(EXT_BCMATH "Enable the bcmath extension" OFF)
 add_feature_info(
   "ext/bcmath"
   EXT_BCMATH
-  "Basic Calculator (BC) style precision math functions support"
+  "Basic Calculator (BC) style precision math support"
 )
 
 cmake_dependent_option(

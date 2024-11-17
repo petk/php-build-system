@@ -3,6 +3,8 @@
 
 Configure the `sysvshm` extension.
 
+This extension provides the System V shared memory support.
+
 ## EXT_SYSVSHM
 
 * Default: `OFF`

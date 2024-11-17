@@ -3,6 +3,8 @@
 
 Configure the `zend_test` extension.
 
+This extension provides additional support for testing PHP itself.
+
 ## EXT_ZEND_TEST
 
 * Default: `OFF`

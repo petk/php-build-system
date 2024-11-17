@@ -3,6 +3,9 @@
 
 Configure the `pdo_odbc` extension.
 
+This extension provides PDO interface for using Unified Open Database
+Connectivity (ODBC) databases.
+
 ## EXT_PDO_ODBC
 
 * Default: `OFF`

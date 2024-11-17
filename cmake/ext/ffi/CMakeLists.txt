@@ -3,8 +3,8 @@
 
 Configure the `ffi` extension.
 
-Extension enables Foreign Function Interface (FFI) support to run C code through
-PHP.
+This extension provides Foreign Function Interface (FFI) support to run C code
+through PHP.
 
 ## EXT_FFI
 

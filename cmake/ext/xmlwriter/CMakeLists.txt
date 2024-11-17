@@ -3,6 +3,8 @@
 
 Configure the `xmlwriter` extension.
 
+This extension provides support for libxml xmlWriter API.
+
 ## EXT_XMLWRITER
 
 * Default: `ON`

@@ -3,6 +3,8 @@
 
 Configure the `sockets` extension.
 
+This extension provides support for a low-level socket communication interface.
+
 ## EXT_SOCKETS
 
 * Default: `OFF`

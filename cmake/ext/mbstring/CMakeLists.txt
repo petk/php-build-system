@@ -3,6 +3,8 @@
 
 Configure the `mbstring` extension.
 
+This extension provides the multibyte string support.
+
 ## EXT_MBSTRING
 
 * Default: `OFF`

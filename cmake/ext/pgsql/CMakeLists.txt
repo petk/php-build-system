@@ -3,6 +3,8 @@
 
 Configure the `pgsql` extension.
 
+This extension provides support for using PostgreSQL database.
+
 ## EXT_PGSQL
 
 * Default: `OFF`

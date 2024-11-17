@@ -3,7 +3,8 @@
 
 Configure the `random` extension.
 
-This extension is always enabled.
+This extension provides support for random number generators and functions
+related to randomness. It is always enabled.
 #]=============================================================================]
 
 project(

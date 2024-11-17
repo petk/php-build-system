@@ -3,6 +3,9 @@
 
 Configure the `xsl` extension.
 
+This extension provides XSL standard support for performing XSLT
+transformations.
+
 ## EXT_XSL
 
 * Default: `OFF`

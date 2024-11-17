@@ -3,6 +3,8 @@
 
 Configure the `phar` extension.
 
+This extension provides support for PHP archives (phar).
+
 ## EXT_PHAR
 
 * Default: `ON`

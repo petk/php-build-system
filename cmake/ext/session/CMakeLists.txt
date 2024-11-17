@@ -3,6 +3,9 @@
 
 Configure the `session` extension.
 
+This extension provides support for sessions to preserve data across subsequent
+accesses.
+
 ## EXT_SESSION
 
 * Default: `ON`
