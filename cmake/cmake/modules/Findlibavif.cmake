@@ -7,21 +7,17 @@ Module defines the following `IMPORTED` target(s):
 
 * `libavif::libavif` - The package library, if found.
 
-Result variables:
+## Result variables
 
 * `libavif_FOUND` - Whether the package has been found.
 * `libavif_INCLUDE_DIRS` - Include directories needed to use this package.
 * `libavif_LIBRARIES` - Libraries needed to link to the package library.
 * `libavif_VERSION` - Package version, if found.
 
-Cache variables:
+## Cache variables
 
 * `libavif_INCLUDE_DIR` - Directory containing package library headers.
 * `libavif_LIBRARY` - The path to the package library.
-
-Hints:
-
-The `libavif_ROOT` variable adds custom search path.
 #]=============================================================================]
 
 include(FeatureSummary)
@@ -36,7 +32,7 @@ set_package_properties(
 
 set(_reason "")
 
-# Use pkgconf, if available on the system.
+# Try pkg-config.
 find_package(PkgConfig QUIET)
 if(PKG_CONFIG_FOUND)
   pkg_check_modules(PC_libavif QUIET libavif)
@@ -45,7 +41,7 @@ endif()
 find_path(
   libavif_INCLUDE_DIR
   NAMES avif/avif.h
-  PATHS ${PC_libavif_INCLUDE_DIRS}
+  HINTS ${PC_libavif_INCLUDE_DIRS}
   DOC "Directory containing libavif library headers"
 )
 
@@ -56,7 +52,7 @@ endif()
 find_library(
   libavif_LIBRARY
   NAMES avif
-  PATHS ${PC_libavif_LIBRARY_DIRS}
+  HINTS ${PC_libavif_LIBRARY_DIRS}
   DOC "The path to the libavif library"
 )
 
@@ -98,6 +94,7 @@ find_package_handle_standard_args(
     libavif_LIBRARY
     libavif_INCLUDE_DIR
   VERSION_VAR libavif_VERSION
+  HANDLE_VERSION_RANGE
   REASON_FAILURE_MESSAGE "${_reason}"
 )
 
@@ -117,6 +114,6 @@ if(NOT TARGET libavif::libavif)
     libavif::libavif
     PROPERTIES
       IMPORTED_LOCATION "${libavif_LIBRARY}"
-      INTERFACE_INCLUDE_DIRECTORIES "${libavif_INCLUDE_DIR}"
+      INTERFACE_INCLUDE_DIRECTORIES "${libavif_INCLUDE_DIRS}"
   )
 endif()

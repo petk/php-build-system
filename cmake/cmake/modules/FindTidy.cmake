@@ -6,14 +6,14 @@ Module defines the following `IMPORTED` target(s):
 
 * `Tidy::Tidy` - The package library, if found.
 
-Result variables:
+## Result variables
 
 * `Tidy_FOUND` - Whether the package has been found.
 * `Tidy_INCLUDE_DIRS` - Include directories needed to use this package.
 * `Tidy_LIBRARIES` - Libraries needed to link to the package library.
 * `Tidy_VERSION` - Package version, if found.
 
-Cache variables:
+## Cache variables
 
 * `Tidy_INCLUDE_DIR` - Directory containing package library headers.
 * `Tidy_LIBRARY` - The path to the package library.
@@ -21,10 +21,6 @@ Cache variables:
 * `HAVE_TIDY_H` - Whether `tidy.h` is available.
 * `HAVE_TIDYP_H` - If `tidy.h` is not available and whether the `tidyp.h` is
   available (tidy fork).
-
-Hints:
-
-The `Tidy_ROOT` variable adds custom search path.
 #]=============================================================================]
 
 include(CheckIncludeFile)
@@ -41,7 +37,7 @@ set_package_properties(
 
 set(_reason "")
 
-# Use pkgconf, if available on the system.
+# Try pkg-config.
 find_package(PkgConfig QUIET)
 if(PKG_CONFIG_FOUND)
   pkg_check_modules(PC_Tidy QUIET tidy)
@@ -52,7 +48,7 @@ find_path(
   NAMES
     tidy.h
     tidyp.h # Tidy library fork (obsolete)
-  PATHS ${PC_Tidy_INCLUDE_DIRS}
+  HINTS ${PC_Tidy_INCLUDE_DIRS}
   PATH_SUFFIXES
     tidy
     tidyp # Tidy library fork (obsolete).
@@ -69,7 +65,7 @@ find_library(
     tidy
     tidy5 # tidy-html5 on FreeBSD
     tidyp
-  PATHS ${PC_Tidy_LIBRARY_DIRS}
+  HINTS ${PC_Tidy_LIBRARY_DIRS}
   DOC "The path to the Tidy library"
 )
 
@@ -93,21 +89,10 @@ if(Tidy_INCLUDE_DIR)
   cmake_pop_check_state()
 endif()
 
-# Get version.
-block(PROPAGATE Tidy_VERSION)
-  # Tidy headers don't provide version. Try pkgconf version, if found.
-  if(PC_Tidy_VERSION)
-    cmake_path(
-      COMPARE
-      "${PC_Tidy_INCLUDEDIR}" EQUAL "${Tidy_INCLUDE_DIR}"
-      isEqual
-    )
-
-    if(isEqual)
-      set(Tidy_VERSION ${PC_Tidy_VERSION})
-    endif()
-  endif()
-endblock()
+# Tidy headers don't provide version. Try pkg-config.
+if(PC_Tidy_VERSION AND Tidy_INCLUDE_DIR IN_LIST PC_Tidy_INCLUDE_DIRS)
+  set(Tidy_VERSION ${PC_Tidy_VERSION})
+endif()
 
 mark_as_advanced(Tidy_INCLUDE_DIR Tidy_LIBRARY)
 
@@ -117,6 +102,7 @@ find_package_handle_standard_args(
     Tidy_INCLUDE_DIR
     Tidy_LIBRARY
   VERSION_VAR Tidy_VERSION
+  HANDLE_VERSION_RANGE
   REASON_FAILURE_MESSAGE "${_reason}"
 )
 
@@ -136,6 +122,6 @@ if(NOT TARGET Tidy::Tidy)
     Tidy::Tidy
     PROPERTIES
       IMPORTED_LOCATION "${Tidy_LIBRARY}"
-      INTERFACE_INCLUDE_DIRECTORIES "${Tidy_INCLUDE_DIR}"
+      INTERFACE_INCLUDE_DIRECTORIES "${Tidy_INCLUDE_DIRS}"
   )
 endif()

@@ -5,21 +5,17 @@ Module defines the following `IMPORTED` target(s):
 
 * `Oniguruma::Oniguruma` - The package library, if found.
 
-Result variables:
+## Result variables
 
 * `Oniguruma_FOUND` - Whether the package has been found.
 * `Oniguruma_INCLUDE_DIRS` - Include directories needed to use this package.
 * `Oniguruma_LIBRARIES` - Libraries needed to link to the package library.
 * `Oniguruma_VERSION` - Package version, if found.
 
-Cache variables:
+## Cache variables
 
 * `Oniguruma_INCLUDE_DIR` - Directory containing package library headers.
 * `Oniguruma_LIBRARY` - The path to the package library.
-
-Hints:
-
-The `Oniguruma_ROOT` variable adds custom search path.
 #]=============================================================================]
 
 include(FeatureSummary)
@@ -34,7 +30,7 @@ set_package_properties(
 
 set(_reason "")
 
-# Use pkgconf, if available on the system.
+# Try pkg-config.
 find_package(PkgConfig QUIET)
 if(PKG_CONFIG_FOUND)
   pkg_check_modules(PC_Oniguruma QUIET oniguruma)
@@ -43,7 +39,7 @@ endif()
 find_path(
   Oniguruma_INCLUDE_DIR
   NAMES oniguruma.h
-  PATHS ${PC_Oniguruma_INCLUDE_DIRS}
+  HINTS ${PC_Oniguruma_INCLUDE_DIRS}
   DOC "Directory containing Oniguruma library headers"
 )
 
@@ -54,7 +50,7 @@ endif()
 find_library(
   Oniguruma_LIBRARY
   NAMES onig
-  PATHS ${PC_Oniguruma_LIBRARY_DIRS}
+  HINTS ${PC_Oniguruma_LIBRARY_DIRS}
   DOC "The path to the Oniguruma library"
 )
 
@@ -96,6 +92,7 @@ find_package_handle_standard_args(
     Oniguruma_LIBRARY
     Oniguruma_INCLUDE_DIR
   VERSION_VAR Oniguruma_VERSION
+  HANDLE_VERSION_RANGE
   REASON_FAILURE_MESSAGE "${_reason}"
 )
 
@@ -115,6 +112,6 @@ if(NOT TARGET Oniguruma::Oniguruma)
     Oniguruma::Oniguruma
     PROPERTIES
       IMPORTED_LOCATION "${Oniguruma_LIBRARY}"
-      INTERFACE_INCLUDE_DIRECTORIES "${Oniguruma_INCLUDE_DIR}"
+      INTERFACE_INCLUDE_DIRECTORIES "${Oniguruma_INCLUDE_DIRS}"
   )
 endif()

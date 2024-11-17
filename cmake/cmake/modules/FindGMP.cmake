@@ -5,21 +5,17 @@ Module defines the following `IMPORTED` target(s):
 
 * `GMP::GMP` - The package library, if found.
 
-Result variables:
+## Result variables
 
 * `GMP_FOUND` - Whether the package has been found.
 * `GMP_INCLUDE_DIRS` - Include directories needed to use this package.
 * `GMP_LIBRARIES` - Libraries needed to link to the package library.
 * `GMP_VERSION` - Package version, if found.
 
-Cache variables:
+## Cache variables
 
 * `GMP_INCLUDE_DIR` - Directory containing package library headers.
 * `GMP_LIBRARY` - The path to the package library.
-
-Hints:
-
-The `GMP_ROOT` variable adds custom search path.
 #]=============================================================================]
 
 include(FeatureSummary)
@@ -34,7 +30,7 @@ set_package_properties(
 
 set(_reason "")
 
-# Use pkgconf, if available on the system.
+# Try pkg-config.
 find_package(PkgConfig QUIET)
 if(PKG_CONFIG_FOUND)
   pkg_check_modules(PC_GMP QUIET gmp)
@@ -43,7 +39,7 @@ endif()
 find_path(
   GMP_INCLUDE_DIR
   NAMES gmp.h
-  PATHS ${PC_GMP_INCLUDE_DIRS}
+  HINTS ${PC_GMP_INCLUDE_DIRS}
   DOC "Directory containing GMP library headers"
 )
 
@@ -54,7 +50,7 @@ endif()
 find_library(
   GMP_LIBRARY
   NAMES gmp
-  PATHS ${PC_GMP_LIBRARY_DIRS}
+  HINTS ${PC_GMP_LIBRARY_DIRS}
   DOC "The path to the GMP library"
 )
 
@@ -73,12 +69,12 @@ block(PROPAGATE GMP_VERSION)
       "^#[ \t]*define[ \t]+__GNU_MP_VERSION(_MINOR|_PATCHLEVEL)?[ \t]+[0-9]+[ \t]*$"
     )
 
-    unset(GMP_VERSION)
+    set(GMP_VERSION)
 
     foreach(item VERSION VERSION_MINOR VERSION_PATCHLEVEL)
       foreach(line ${results})
         if(line MATCHES "^#[ \t]*define[ \t]+__GNU_MP_${item}[ \t]+([0-9]+)[ \t]*$")
-          if(DEFINED GMP_VERSION)
+          if(GMP_VERSION)
             string(APPEND GMP_VERSION ".${CMAKE_MATCH_1}")
           else()
             set(GMP_VERSION "${CMAKE_MATCH_1}")
@@ -97,6 +93,7 @@ find_package_handle_standard_args(
     GMP_LIBRARY
     GMP_INCLUDE_DIR
   VERSION_VAR GMP_VERSION
+  HANDLE_VERSION_RANGE
   REASON_FAILURE_MESSAGE "${_reason}"
 )
 
@@ -116,6 +113,6 @@ if(NOT TARGET GMP::GMP)
     GMP::GMP
     PROPERTIES
       IMPORTED_LOCATION "${GMP_LIBRARY}"
-      INTERFACE_INCLUDE_DIRECTORIES "${GMP_INCLUDE_DIR}"
+      INTERFACE_INCLUDE_DIRECTORIES "${GMP_INCLUDE_DIRS}"
   )
 endif()

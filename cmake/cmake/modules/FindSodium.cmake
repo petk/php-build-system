@@ -5,21 +5,17 @@ Module defines the following `IMPORTED` target(s):
 
 * `Sodium::Sodium` - The package library, if found.
 
-Result variables:
+## Result variables
 
 * `Sodium_FOUND` - Whether the package has been found.
 * `Sodium_INCLUDE_DIRS` - Include directories needed to use this package.
 * `Sodium_LIBRARIES` - Libraries needed to link to the package library.
 * `Sodium_VERSION` - Package version, if found.
 
-Cache variables:
+## Cache variables
 
 * `Sodium_INCLUDE_DIR` - Directory containing package library headers.
 * `Sodium_LIBRARY` - The path to the package library.
-
-Hints:
-
-The `Sodium_ROOT` variable adds custom search path.
 #]=============================================================================]
 
 include(FeatureSummary)
@@ -34,7 +30,7 @@ set_package_properties(
 
 set(_reason "")
 
-# Use pkgconf, if available on the system.
+# Try pkg-config.
 find_package(PkgConfig QUIET)
 if(PKG_CONFIG_FOUND)
   pkg_check_modules(PC_Sodium QUIET libsodium)
@@ -43,7 +39,7 @@ endif()
 find_path(
   Sodium_INCLUDE_DIR
   NAMES sodium.h
-  PATHS ${PC_Sodium_INCLUDE_DIRS}
+  HINTS ${PC_Sodium_INCLUDE_DIRS}
   DOC "Directory containing Sodium library headers"
 )
 
@@ -54,7 +50,7 @@ endif()
 find_library(
   Sodium_LIBRARY
   NAMES sodium
-  PATHS ${PC_Sodium_LIBRARY_DIRS}
+  HINTS ${PC_Sodium_LIBRARY_DIRS}
   DOC "The path to the Sodium library"
 )
 
@@ -64,17 +60,14 @@ endif()
 
 # Get version.
 block(PROPAGATE Sodium_VERSION)
-  if(Sodium_INCLUDE_DIR AND EXISTS ${Sodium_INCLUDE_DIR}/sodium/version.h)
+  if(EXISTS ${Sodium_INCLUDE_DIR}/sodium/version.h)
     set(regex [[^#[ \t]*define[ \t]+SODIUM_VERSION_STRING[ \t]+"([0-9.]+)"[ \t]*$]])
 
-    file(STRINGS ${Sodium_INCLUDE_DIR}/sodium/version.h results REGEX "${regex}")
+    file(STRINGS ${Sodium_INCLUDE_DIR}/sodium/version.h result REGEX "${regex}")
 
-    foreach(line ${results})
-      if(line MATCHES "${regex}")
-        set(Sodium_VERSION "${CMAKE_MATCH_1}")
-        break()
-      endif()
-    endforeach()
+    if(result MATCHES "${regex}")
+      set(Sodium_VERSION "${CMAKE_MATCH_1}")
+    endif()
   endif()
 endblock()
 
@@ -86,6 +79,7 @@ find_package_handle_standard_args(
     Sodium_LIBRARY
     Sodium_INCLUDE_DIR
   VERSION_VAR Sodium_VERSION
+  HANDLE_VERSION_RANGE
   REASON_FAILURE_MESSAGE "${_reason}"
 )
 
@@ -105,6 +99,6 @@ if(NOT TARGET Sodium::Sodium)
     Sodium::Sodium
     PROPERTIES
       IMPORTED_LOCATION "${Sodium_LIBRARY}"
-      INTERFACE_INCLUDE_DIRECTORIES "${Sodium_INCLUDE_DIR}"
+      INTERFACE_INCLUDE_DIRECTORIES "${Sodium_INCLUDE_DIRS}"
   )
 endif()

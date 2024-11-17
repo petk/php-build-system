@@ -28,10 +28,6 @@ Module defines the following `IMPORTED` target(s):
 
 * `Dbm_INCLUDE_DIR` - Directory containing package library headers.
 * `Dbm_LIBRARY` - The path to the package library.
-
-## Hints
-
-* The `Dbm_ROOT` variable adds custom search path.
 #]=============================================================================]
 
 include(CheckLibraryExists)
@@ -124,11 +120,11 @@ endif()
 if(NOT TARGET Dbm::Dbm)
   add_library(Dbm::Dbm UNKNOWN IMPORTED)
 
-  if(Dbm_INCLUDE_DIR)
+  if(Dbm_INCLUDE_DIRS)
     set_target_properties(
       Dbm::Dbm
       PROPERTIES
-        INTERFACE_INCLUDE_DIRECTORIES "${Dbm_INCLUDE_DIR}"
+        INTERFACE_INCLUDE_DIRECTORIES "${Dbm_INCLUDE_DIRS}"
     )
   endif()
 

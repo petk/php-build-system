@@ -5,21 +5,17 @@ Module defines the following `IMPORTED` target(s):
 
 * `SELinux::SELinux` - The package library, if found.
 
-Result variables:
+## Result variables
 
 * `SELinux_FOUND` - Whether the package has been found.
 * `SELinux_INCLUDE_DIRS` - Include directories needed to use this package.
 * `SELinux_LIBRARIES` - Libraries needed to link to the package library.
 * `SELinux_VERSION` - Package version, if found.
 
-Cache variables:
+## Cache variables
 
 * `SELinux_INCLUDE_DIR` - Directory containing package library headers.
 * `SELinux_LIBRARY` - The path to the package library.
-
-Hints:
-
-The `SELinux_ROOT` variable adds custom search path.
 #]=============================================================================]
 
 include(CheckLibraryExists)
@@ -35,7 +31,7 @@ set_package_properties(
 
 set(_reason "")
 
-# Use pkgconf, if available on the system.
+# Try pkg-config.
 find_package(PkgConfig QUIET)
 if(PKG_CONFIG_FOUND)
   pkg_check_modules(PC_Selinux QUIET libselinux)
@@ -44,7 +40,7 @@ endif()
 find_path(
   SELinux_INCLUDE_DIR
   NAMES selinux/selinux.h
-  PATHS ${PC_Selinux_INCLUDE_DIRS}
+  HINTS ${PC_Selinux_INCLUDE_DIRS}
   DOC "Directory containing SELinux library headers"
 )
 
@@ -55,7 +51,7 @@ endif()
 find_library(
   SELinux_LIBRARY
   NAMES selinux
-  PATHS ${PC_Selinux_LIBRARY_DIRS}
+  HINTS ${PC_Selinux_LIBRARY_DIRS}
   DOC "The path to the SELinux library"
 )
 
@@ -77,21 +73,10 @@ if(SELinux_LIBRARY)
   endif()
 endif()
 
-# Get version.
-block(PROPAGATE SELinux_VERSION)
-  # SELinux headers don't provide version. Try pkgconf version, if found.
-  if(PC_SELinux_VERSION)
-    cmake_path(
-      COMPARE
-      "${PC_SELinux_INCLUDEDIR}" EQUAL "${SELinux_INCLUDE_DIR}"
-      isEqual
-    )
-
-    if(isEqual)
-      set(SELinux_VERSION ${PC_SELinux_VERSION})
-    endif()
-  endif()
-endblock()
+# SELinux headers don't provide version. Try pkg-config.
+if(PC_SELinux_VERSION AND SELinux_INCLUDE_DIR IN_LIST PC_SELinux_INCLUDE_DIRS)
+  set(SELinux_VERSION ${PC_SELinux_VERSION})
+endif()
 
 mark_as_advanced(SELinux_INCLUDE_DIR SELinux_LIBRARY)
 
@@ -102,6 +87,7 @@ find_package_handle_standard_args(
     SELinux_INCLUDE_DIR
     _selinux_sanity_check
   VERSION_VAR SELinux_VERSION
+  HANDLE_VERSION_RANGE
   REASON_FAILURE_MESSAGE "${_reason}"
 )
 
@@ -121,6 +107,6 @@ if(NOT TARGET SELinux::SELinux)
     SELinux::SELinux
     PROPERTIES
       IMPORTED_LOCATION "${SELinux_LIBRARY}"
-      INTERFACE_INCLUDE_DIRECTORIES "${SELinux_INCLUDE_DIR}"
+      INTERFACE_INCLUDE_DIRECTORIES "${SELinux_INCLUDE_DIRS}"
   )
 endif()

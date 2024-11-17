@@ -5,7 +5,7 @@ This module is based on the upstream
 [FindODBC](https://cmake.org/cmake/help/latest/module/FindODBC.html) with some
 enhancements and adjustments for the PHP build workflow.
 
-Modifications from upstream:
+## Modifications from upstream
 
 * Additional result variables:
 
@@ -103,7 +103,7 @@ find_program(ODBC_CONFIG
   DOC "Path to unixODBC or iODBC config program")
 mark_as_advanced(ODBC_CONFIG)
 
-### Try pkg-config ############################################################
+### Try pkg-config. ###########################################################
 if(NOT ODBC_CONFIG)
   find_package(PkgConfig QUIET)
   if(PKG_CONFIG_FOUND)
@@ -183,10 +183,13 @@ if(UNIX AND NOT ODBC_CONFIG)
 endif()
 
 ### Find include directories ##################################################
-find_path(ODBC_INCLUDE_DIR
+find_path(
+  ODBC_INCLUDE_DIR
   NAMES sql.h
-  PATHS ${_odbc_include_paths}
-  HINTS ${PC_ODBC_INCLUDE_DIRS})
+  HINTS
+    ${_odbc_include_paths}
+    ${PC_ODBC_INCLUDE_DIRS}
+)
 
 if(NOT ODBC_INCLUDE_DIR AND CMAKE_SYSTEM_NAME STREQUAL "Windows")
   set(ODBC_INCLUDE_DIR "")
@@ -196,14 +199,14 @@ endif()
 if(NOT ODBC_LIBRARY)
   find_library(ODBC_LIBRARY
     NAMES ${_odbc_lib_names}
-    PATHS ${_odbc_lib_paths}
+    HINTS ${_odbc_lib_paths}
     PATH_SUFFIXES odbc
     HINTS ${PC_ODBC_LIBRARY_DIRS})
 
   foreach(_lib IN LISTS _odbc_required_libs_names)
     find_library(_lib_path
       NAMES ${_lib}
-      PATHS ${_odbc_lib_paths} # system parths or collected from ODBC_CONFIG
+      HINTS ${_odbc_lib_paths} # system paths or collected from ODBC_CONFIG
       PATH_SUFFIXES odbc)
     if(_lib_path)
       list(APPEND _odbc_required_libs_paths ${_lib_path})
@@ -231,32 +234,25 @@ unset(_odbc_required_libs_names)
 unset(_odbc_config_names)
 
 ### Get version ###############################################################
-block(PROPAGATE ODBC_VERSION)
-  # ODBC headers don't provide version. Try pkg-confing version, if found.
-  if(PC_ODBC_VERSION)
-    cmake_path(
-      COMPARE
-      "${PC_ODBC_INCLUDEDIR}" EQUAL "${ODBC_INCLUDE_DIR}"
-      isEqual
-    )
 
-    if(isEqual)
-      set(ODBC_VERSION ${PC_ODBC_VERSION})
-    endif()
+# ODBC headers don't provide version. Try pkg-config or ODBC config.
+if(PC_ODBC_VERSION AND ODBC_INCLUDE_DIR IN_LIST PC_ODBC_INCLUDE_DIRS)
+  set(ODBC_VERSION ${PC_ODBC_VERSION})
+elseif(ODBC_CONFIG)
+  execute_process(
+    COMMAND ${ODBC_CONFIG} --version
+      OUTPUT_VARIABLE ODBC_VERSION
+      OUTPUT_STRIP_TRAILING_WHITESPACE
+      RESULT_VARIABLE result
+      ERROR_QUIET
+  )
+
+  if(NOT result EQUAL 0 OR NOT ODBC_VERSION MATCHES "[0-9]+\.[0-9.]+")
+    unset(ODBC_VERSION)
   endif()
 
-  if(NOT ODBC_VERSION AND ODBC_CONFIG)
-    execute_process(
-      COMMAND ${ODBC_CONFIG} --version
-        OUTPUT_VARIABLE _odbc_version
-        OUTPUT_STRIP_TRAILING_WHITESPACE
-        ERROR_QUIET
-    )
-    if(_odbc_version MATCHES "[0-9]+\.[0-9.]+")
-      set(ODBC_VERSION ${_odbc_version})
-    endif()
-  endif()
-endblock()
+  unset(result)
+endif()
 
 ### Set result variables ######################################################
 set(_odbc_required_vars ODBC_LIBRARY)
@@ -277,6 +273,7 @@ find_package_handle_standard_args(
   ODBC
   REQUIRED_VARS ${_odbc_required_vars}
   VERSION_VAR ODBC_VERSION
+  HANDLE_VERSION_RANGE
   REASON_FAILURE_MESSAGE "${_reason}"
 )
 
@@ -306,8 +303,11 @@ if(ODBC_FOUND)
         target_link_directories(ODBC::ODBC INTERFACE "${ODBC_LIBRARY_DIR}")
       endif()
     endif()
-    set_target_properties(ODBC::ODBC PROPERTIES
-      INTERFACE_INCLUDE_DIRECTORIES "${ODBC_INCLUDE_DIR}")
+    set_target_properties(
+      ODBC::ODBC
+      PROPERTIES
+        INTERFACE_INCLUDE_DIRECTORIES "${ODBC_INCLUDE_DIRS}"
+    )
 
     if(_odbc_required_libs_paths)
       set_property(TARGET ODBC::ODBC APPEND PROPERTY

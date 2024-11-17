@@ -8,10 +8,6 @@ customizations:
 
 * Marked `LIBXSLT_EXSLT_INCLUDE_DIR` and `LIBXSLT_LIBRARY` as advanced variables
   (fixed upstream in CMake 3.28).
-
-Hints:
-
-The `LibXslt_ROOT` variable adds custom search path.
 #]=============================================================================]
 
 include(FeatureSummary)

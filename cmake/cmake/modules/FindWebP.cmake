@@ -5,21 +5,17 @@ Module defines the following `IMPORTED` target(s):
 
 * `WebP::WebP` - The package library, if found.
 
-Result variables:
+## Result variables
 
 * `WebP_FOUND` - Whether the package has been found.
 * `WebP_INCLUDE_DIRS` - Include directories needed to use this package.
 * `WebP_LIBRARIES` - Libraries needed to link to the package library.
 * `WebP_VERSION` - Package version, if found.
 
-Cache variables:
+## Cache variables
 
 * `WebP_INCLUDE_DIR` - Directory containing package library headers.
 * `WebP_LIBRARY` - The path to the package library.
-
-Hints:
-
-The `WebP_ROOT` variable adds custom search path.
 #]=============================================================================]
 
 include(FeatureSummary)
@@ -34,7 +30,7 @@ set_package_properties(
 
 set(_reason "")
 
-# Use pkgconf, if available on the system.
+# Try pkg-config.
 find_package(PkgConfig QUIET)
 if(PKG_CONFIG_FOUND)
   pkg_check_modules(PC_WebP QUIET libwebp)
@@ -43,7 +39,7 @@ endif()
 find_path(
   WebP_INCLUDE_DIR
   NAMES webp/decode.h
-  PATHS ${PC_WebP_INCLUDE_DIRS}
+  HINTS ${PC_WebP_INCLUDE_DIRS}
   DOC "Directory containing libwebp library headers"
 )
 
@@ -54,7 +50,7 @@ endif()
 find_library(
   WebP_LIBRARY
   NAMES webp
-  PATHS ${PC_WebP_LIBRARY_DIRS}
+  HINTS ${PC_WebP_LIBRARY_DIRS}
   DOC "The path to the libwebp library"
 )
 
@@ -62,21 +58,10 @@ if(NOT WebP_LIBRARY)
   string(APPEND _reason "WebP library not found. ")
 endif()
 
-# Get version.
-block(PROPAGATE WebP_VERSION)
-  # WebP headers don't provide version. Try pkgconf version, if found.
-  if(PC_WebP_VERSION)
-    cmake_path(
-      COMPARE
-      "${PC_WebP_INCLUDEDIR}" EQUAL "${WebP_INCLUDE_DIR}"
-      isEqual
-    )
-
-    if(isEqual)
-      set(WebP_VERSION ${PC_WebP_VERSION})
-    endif()
-  endif()
-endblock()
+# WebP headers don't provide version. Try pkg-config.
+if(PC_WebP_VERSION AND WebP_INCLUDE_DIR IN_LIST PC_WebP_INCLUDE_DIRS)
+  set(WebP_VERSION ${PC_WebP_VERSION})
+endif()
 
 mark_as_advanced(WebP_INCLUDE_DIR WebP_LIBRARY)
 
@@ -86,6 +71,7 @@ find_package_handle_standard_args(
     WebP_LIBRARY
     WebP_INCLUDE_DIR
   VERSION_VAR WebP_VERSION
+  HANDLE_VERSION_RANGE
   REASON_FAILURE_MESSAGE "${_reason}"
 )
 
@@ -105,6 +91,6 @@ if(NOT TARGET WebP::WebP)
     WebP::WebP
     PROPERTIES
       IMPORTED_LOCATION "${WebP_LIBRARY}"
-      INTERFACE_INCLUDE_DIRECTORIES "${WebP_INCLUDE_DIR}"
+      INTERFACE_INCLUDE_DIRECTORIES "${WebP_INCLUDE_DIRS}"
   )
 endif()

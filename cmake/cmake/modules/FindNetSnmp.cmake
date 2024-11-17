@@ -17,10 +17,6 @@ Module defines the following `IMPORTED` target(s):
 * `NetSnmp_INCLUDE_DIR` - Directory containing package library headers.
 * `NetSnmp_LIBRARY` - The path to the package library.
 * `NetSnmp_EXECUTABLE` - Path to net-snmp-config utility.
-
-## Hints
-
-The `NetSnmp_ROOT` variable adds custom search path.
 #]=============================================================================]
 
 include(CheckLibraryExists)
@@ -36,7 +32,7 @@ set_package_properties(
 
 set(_reason "")
 
-# Use pkgconf, if available on the system.
+# Try pkg-config.
 find_package(PkgConfig QUIET)
 if(PKG_CONFIG_FOUND)
   pkg_check_modules(PC_NetSnmp QUIET netsnmp)
@@ -96,7 +92,7 @@ endif()
 find_path(
   NetSnmp_INCLUDE_DIR
   NAMES net-snmp/net-snmp-config.h
-  PATHS
+  HINTS
     ${PC_NetSnmp_INCLUDE_DIRS}
     ${_netsnmp_config_include_dir}
   DOC "Directory containing Net-SNMP library headers"
@@ -109,7 +105,7 @@ endif()
 find_library(
   NetSnmp_LIBRARY
   NAMES netsnmp
-  PATHS
+  HINTS
     ${PC_NetSnmp_LIBRARY_DIRS}
     ${_netsnmp_config_libdir}
   DOC "The path to the Net-SNMP library"
@@ -122,43 +118,34 @@ endif()
 # Get version.
 block(PROPAGATE NetSnmp_VERSION)
   if(NetSnmp_INCLUDE_DIR)
-    set(regex "^[ \t]*#[ \t]*define[ \t]+PACKAGE_VERSION[ \t]+\"([0-9.]+)\"[^\r\n]*$")
+    set(regex [[^[ \t]*#[ \t]*define[ \t]+PACKAGE_VERSION[ \t]+"([^"]+)"[^\r\n]*$]])
 
     file(
       STRINGS
       ${NetSnmp_INCLUDE_DIR}/net-snmp/net-snmp-config.h
-      results
+      result
       REGEX
       "${regex}"
     )
 
-    foreach(line ${results})
-      if(line MATCHES "${regex}")
-        set(NetSnmp_VERSION "${CMAKE_MATCH_1}")
-        break()
-      endif()
-    endforeach()
-  endif()
-
-  # Try finding version with pkgconf.
-  if(NOT NetSnmp_VERSION AND PC_NetSNMP_VERSION)
-    cmake_path(
-      COMPARE
-      "${PC_NetSnmp_INCLUDEDIR}" EQUAL "${NetSnmp_INCLUDE_DIR}"
-      isEqual
-    )
-
-    if(isEqual)
-      set(NetSnmp_VERSION ${PC_NetSnmp_VERSION})
+    if(result MATCHES "${regex}")
+      set(NetSnmp_VERSION "${CMAKE_MATCH_1}")
     endif()
   endif()
 
-  # Try finding version with net-snmp-config.
+  # Try pkg-config.
+  if(
+    NOT NetSnmp_VERSION
+    AND PC_NetSNMP_VERSION
+    AND NetSnmp_INCLUDE_DIR IN_LIST PC_NetSnmp_INCLUDE_DIRS
+  )
+    set(NetSnmp_VERSION ${PC_NetSnmp_VERSION})
+  endif()
+
+  # Try net-snmp-config.
   if(NOT NetSnmp_VERSION AND _netsnmp_config_version AND _netsnmp_config_libdir)
     cmake_path(GET NetSnmp_LIBRARY PARENT_PATH parent)
-    cmake_path(COMPARE "${_netsnmp_config_libdir}" EQUAL "${parent}" isEqual)
-
-    if(isEqual)
+    if(_netsnmp_config_libdir PATH_EQUAL parent)
       set(NetSnmp_VERSION ${_netsnmp_config_version})
     endif()
   endif()
@@ -182,6 +169,7 @@ find_package_handle_standard_args(
     NetSnmp_INCLUDE_DIR
     _netsnmp_sanity_check
   VERSION_VAR NetSnmp_VERSION
+  HANDLE_VERSION_RANGE
   REASON_FAILURE_MESSAGE "${_reason}"
 )
 
@@ -201,6 +189,6 @@ if(NOT TARGET NetSnmp::NetSnmp)
     NetSnmp::NetSnmp
     PROPERTIES
       IMPORTED_LOCATION "${NetSnmp_LIBRARY}"
-      INTERFACE_INCLUDE_DIRECTORIES "${NetSnmp_INCLUDE_DIR}"
+      INTERFACE_INCLUDE_DIRECTORIES "${NetSnmp_INCLUDE_DIRS}"
   )
 endif()

@@ -16,10 +16,6 @@ Module defines the following `IMPORTED` target(s):
 
 * `QDBM_INCLUDE_DIR` - Directory containing package library headers.
 * `QDBM_LIBRARY` - The path to the package library.
-
-## Hints
-
-* The `QDBM_ROOT` variable adds custom search path.
 #]=============================================================================]
 
 include(CheckLibraryExists)
@@ -35,7 +31,7 @@ set_package_properties(
 
 set(_reason "")
 
-# Use pkgconf, if available on the system.
+# Try pkg-config.
 find_package(PkgConfig QUIET)
 if(PKG_CONFIG_FOUND)
   pkg_check_modules(PC_QDBM QUIET qdbm)
@@ -45,7 +41,7 @@ find_path(
   QDBM_INCLUDE_DIR
   NAMES depot.h
   PATH_SUFFIXES qdbm
-  PATHS ${PC_QDBM_INCLUDE_DIRS}
+  HINTS ${PC_QDBM_INCLUDE_DIRS}
   DOC "Directory containing QDBM library headers"
 )
 
@@ -56,7 +52,7 @@ endif()
 find_library(
   QDBM_LIBRARY
   NAMES qdbm
-  PATHS ${PC_QDBM_LIBRARY_DIRS}
+  HINTS ${PC_QDBM_LIBRARY_DIRS}
   DOC "The path to the QDBM library"
 )
 
@@ -77,14 +73,11 @@ block(PROPAGATE QDBM_VERSION)
   if(QDBM_INCLUDE_DIR)
     set(regex [[^[ \t]*#[ \t]*define[ \t]+_QDBM_VERSION[ \t]+"?([0-9.]+)"?[ \t]*$]])
 
-    file(STRINGS ${QDBM_INCLUDE_DIR}/depot.h results REGEX "${regex}")
+    file(STRINGS ${QDBM_INCLUDE_DIR}/depot.h result REGEX "${regex}")
 
-    foreach(line ${results})
-      if(line MATCHES "${regex}")
-        set(QDBM_VERSION "${CMAKE_MATCH_1}")
-        break()
-      endif()
-    endforeach()
+    if(result MATCHES "${regex}")
+      set(QDBM_VERSION "${CMAKE_MATCH_1}")
+    endif()
   endif()
 endblock()
 
@@ -97,6 +90,7 @@ find_package_handle_standard_args(
     QDBM_INCLUDE_DIR
     _qdbm_sanity_check
   VERSION_VAR QDBM_VERSION
+  HANDLE_VERSION_RANGE
   REASON_FAILURE_MESSAGE "${_reason}"
 )
 
@@ -116,6 +110,6 @@ if(NOT TARGET QDBM::QDBM)
     QDBM::QDBM
     PROPERTIES
       IMPORTED_LOCATION "${QDBM_LIBRARY}"
-      INTERFACE_INCLUDE_DIRECTORIES "${QDBM_INCLUDE_DIR}"
+      INTERFACE_INCLUDE_DIRECTORIES "${QDBM_INCLUDE_DIRS}"
   )
 endif()

@@ -20,7 +20,7 @@ Conditionally defined preprocessor macros:
 * `_XOPEN_SOURCE=500`
   Defined on HP-UX.
 
-Result variables:
+## Result variables
 
 * `PHP_SYSTEM_EXTENSIONS`
   String for containing all system extensions definitions for usage in the
