@@ -2,7 +2,7 @@
 Check for `strerror_r()`, and if its a POSIX-compatible or a GNU-specific
 version.
 
-Cache variables:
+## Cache variables
 
 * `HAVE_STRERROR_R`
   Whether `strerror_r()` is available.

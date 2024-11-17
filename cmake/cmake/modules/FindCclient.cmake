@@ -9,13 +9,13 @@ Module defines the following `IMPORTED` target(s):
 
 * `Cclient::Cclient` - The package library, if found.
 
-Result variables:
+## Result variables
 
 * `Cclient_FOUND` - Whether the package has been found.
 * `Cclient_INCLUDE_DIRS` - Include directories needed to use this package.
 * `Cclient_LIBRARIES` - Libraries needed to link to the package library.
 
-Cache variables:
+## Cache variables
 
 * `Cclient_INCLUDE_DIR` - Directory containing package library headers.
 * `Cclient_LIBRARY` - The path to the package library.
@@ -29,9 +29,7 @@ Cache variables:
 * `HAVE_IMAP_AUTH_GSS` - Whether `auth_gss` exists.
 * HAVE_IMAP_MUTF7 - Whether `utf8_to_mutf7()` function exists.
 
-Hints:
-
-The `Cclient_ROOT` variable adds custom search path.
+## Functions provided by this module
 
 The UW-IMAP c-client library was not originally designed to be a shared library.
 The `mm_<name>` functions are callbacks, and are required to be implemented by

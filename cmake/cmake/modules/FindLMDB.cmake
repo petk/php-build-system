@@ -16,10 +16,6 @@ Module defines the following `IMPORTED` target(s):
 
 * `LMDB_INCLUDE_DIR` - Directory containing package library headers.
 * `LMDB_LIBRARY` - The path to the package library.
-
-## Hints
-
-* The `LMDB_ROOT` variable adds custom search path.
 #]=============================================================================]
 
 include(CheckLibraryExists)

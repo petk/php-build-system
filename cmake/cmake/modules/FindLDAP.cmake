@@ -27,11 +27,7 @@ Module defines the following `IMPORTED` target(s):
   found.
 * `LDAP_LBER_LIBRARY` - The path to the OpenLDAP LBER library, if found.
 
-## Hints
-
-* The `LDAP_ROOT` variable adds custom search path.
-
-## Examples
+## Basic usage
 
 When OpenLDAP is found, both LDAP and LBER libraries are linked in for
 convenience.

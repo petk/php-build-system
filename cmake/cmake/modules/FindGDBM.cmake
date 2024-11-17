@@ -15,10 +15,6 @@ Module defines the following `IMPORTED` target(s):
 
 * `GDBM_INCLUDE_DIR` - Directory containing package library headers.
 * `GDBM_LIBRARY` - The path to the package library.
-
-## Hints
-
-* The `GDBM_ROOT` variable adds custom search path.
 #]=============================================================================]
 
 include(CheckLibraryExists)

@@ -10,22 +10,18 @@ Module defines the following `IMPORTED` target(s):
 
 * `Aspell::Aspell` - The package library, if found.
 
-Result variables:
+## Result variables
 
 * `Aspell_FOUND` - Whether the package has been found.
 * `Aspell_INCLUDE_DIRS` - Include directories needed to use this package.
 * `Aspell_LIBRARIES` - Libraries needed to link to the package library.
 
-Cache variables:
+## Cache variables
 
 * `Aspell_INCLUDE_DIR` - Directory containing package library headers.
 * `Aspell_LIBRARY` - The path to the package library.
 * `Aspell_PSPELL_INCLUDE_DIR` - Directory containing the pspell.h BC interface
   header if available.
-
-Hints:
-
-The `Aspell_ROOT` variable adds custom search path.
 #]=============================================================================]
 
 include(CheckLibraryExists)

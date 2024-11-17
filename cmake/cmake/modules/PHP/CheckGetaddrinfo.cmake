@@ -1,7 +1,7 @@
 #[=============================================================================[
 Check for working `getaddrinfo()`.
 
-Cache variables:
+## Cache variables
 
 * `HAVE_GETADDRINFO`
   Whether `getaddrinfo()` function is working as expected.

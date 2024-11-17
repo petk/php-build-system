@@ -13,7 +13,7 @@ Module defines the following `IMPORTED` target(s):
 * `PHP::php` - The PHP package `IMPORTED` target, if found.
 * `PHP:embed` - The PHP embed SAPI, if found.
 
-Result variables:
+## Result variables
 
 * `PHP_FOUND` - Whether the package has been found.
 * `PHP_INCLUDE_DIRS` - Include directories needed to use this package.
@@ -35,18 +35,14 @@ Result variables:
   They are either built-in or dynamically loaded with the `zend_extension` INI
   directive.
 
-Cache variables:
+## Cache variables
 
 * `PHP_CONFIG_EXECUTABLE` - Path to the php-config development helper tool.
 * `PHP_INCLUDE_DIR` - Directory containing PHP headers.
 * `PHP_EMBED_LIBRARY` - The path to the PHP Embed library.
 * `PHP_EMBED_INCLUDE_DIR` - Directory containing PHP Embed header(s).
 
-Hints:
-
-The `PHP_ROOT` variable adds custom search path.
-
-Examples:
+Basic usage:
 
 ```cmake
 # Find PHP

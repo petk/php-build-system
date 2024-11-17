@@ -21,7 +21,6 @@ Module defines the following `IMPORTED` target(s):
 
 ## Hints
 
-* The `BerkeleyDB_ROOT` variable adds custom search path.
 * Set `BerkeleyDB_USE_DB1` to `TRUE` before calling `find_package(BerkeleyDB)`
   to enable the Berkeley DB 1.x support/emulation.
 #]=============================================================================]

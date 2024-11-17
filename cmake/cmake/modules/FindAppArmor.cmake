@@ -5,21 +5,17 @@ Module defines the following `IMPORTED` target(s):
 
 * `AppArmor::AppArmor` - The package library, if found.
 
-Result variables:
+## Result variables
 
 * `AppArmor_FOUND` - Whether the package has been found.
 * `AppArmor_INCLUDE_DIRS` - Include directories needed to use this package.
 * `AppArmor_LIBRARIES` - Libraries needed to link to the package library.
 * `AppArmor_VERSION` - Package version, if found.
 
-Cache variables:
+## Cache variables
 
 * `AppArmor_INCLUDE_DIR` - Directory containing package library headers.
 * `AppArmor_LIBRARY` - The path to the package library.
-
-Hints:
-
-The `AppArmor_ROOT` variable adds custom search path.
 #]=============================================================================]
 
 include(CheckLibraryExists)

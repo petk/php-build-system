@@ -29,10 +29,6 @@ Module defines the following `IMPORTED` target(s):
 
 * `Dbm_INCLUDE_DIR` - Directory containing package library headers.
 * `Dbm_LIBRARY` - The path to the package library.
-
-## Hints
-
-* The `Dbm_ROOT` variable adds custom search path.
 #]=============================================================================]
 
 include(CheckLibraryExists)

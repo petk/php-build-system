@@ -4,7 +4,7 @@ Find MySQL-compatible (MySQL, MariaDB, Percona, etc.) database.
 This is customized find module for PHP mysqli and pdo_mysql extensions. It
 searches for MySQL Unix socket pointer and can be extended more in the future.
 
-Components:
+## Components
 
 * `Socket` - The MySQL Unix socket pointer.
 * `Lib` - The MySQL library or client.
@@ -14,7 +14,7 @@ Module defines the following `IMPORTED` target(s):
 * `MySQL::MySQL` - The MySQL-compatible library, if found, when using the Lib
   component.
 
-Result variables:
+## Result variables
 
 * `MySQL_Socket_FOUND` - Whether the MySQL Unix socket pointer has been
   determined.
@@ -25,7 +25,7 @@ Result variables:
 * `MySQL_INCLUDE_DIRS` - MySQL include directories.
 * `MySQL_LIBRARIES` - MySQL libraries.
 
-Cache variables:
+## Cache variables
 
 * `MySQL_CONFIG_EXECUTABLE` - The mysql_config command-line tool for getting
   MySQL installation info.
@@ -35,7 +35,6 @@ Cache variables:
 Hints:
 
 * The `MySQL_Socket_PATH` variable can be overridden.
-* The `MySQL_ROOT` variable adds custom search path.
 #]=============================================================================]
 
 include(FeatureSummary)

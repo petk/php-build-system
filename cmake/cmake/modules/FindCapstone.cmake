@@ -16,10 +16,6 @@ Module defines the following `IMPORTED` target(s):
 
 * `Capstone_INCLUDE_DIR` - Directory containing package library headers.
 * `Capstone_LIBRARY` - The path to the package library.
-
-## Hints
-
-The `Capstone_ROOT` variable adds custom search path.
 #]=============================================================================]
 
 include(FeatureSummary)

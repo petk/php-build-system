@@ -5,18 +5,14 @@ Module defines the following `IMPORTED` target(s):
 
 * `Valgrind::Valgrind` - The package library, if found.
 
-Result variables:
+## Result variables
 
 * `Valgrind_FOUND` - Whether the package has been found.
 * `Valgrind_INCLUDE_DIRS` - Include directories needed to use this package.
 
-Cache variables:
+## Cache variables
 
 * `Valgrind_INCLUDE_DIR` - Directory containing package library headers.
-
-Hints:
-
-The `Valgrind_ROOT` variable adds custom search path.
 #]=============================================================================]
 
 include(FeatureSummary)

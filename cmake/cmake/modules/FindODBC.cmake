@@ -5,7 +5,7 @@ This module is based on the upstream
 [FindODBC](https://cmake.org/cmake/help/latest/module/FindODBC.html) with some
 enhancements and adjustments for the PHP build workflow.
 
-Modifications from upstream:
+## Modifications from upstream
 
 * Additional result variables:
 

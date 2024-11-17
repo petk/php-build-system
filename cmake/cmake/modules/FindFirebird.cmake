@@ -5,7 +5,7 @@ Module defines the following `IMPORTED` target(s):
 
 * `Firebird::Firebird` - The package library, if found.
 
-Result variables:
+## Result variables
 
 * `Firebird_CFLAGS` - A list of CFLAGS as given by the fb_config Firebird
   command-line utility.
@@ -14,16 +14,12 @@ Result variables:
 * `Firebird_LIBRARIES` - Libraries needed to link to the package library.
 * `Firebird_VERSION` - Version of Firebird if fb-config utility is available.
 
-Cache variables:
+## Cache variables
 
 * `Firebird_INCLUDE_DIR` - Directory containing package library headers.
 * `Firebird_LIBRARY` - The path to the package library.
 * `Firebird_CONFIG_EXECUTABLE` - Path to the fb_config Firebird command-line
   utility.
-
-Hints:
-
-The `Firebird_ROOT` variable adds custom search path.
 #]=============================================================================]
 
 include(FeatureSummary)

@@ -23,10 +23,6 @@ Module defines the following `IMPORTED` target(s):
 
 * `Ndbm_INCLUDE_DIR` - Directory containing package library headers.
 * `Ndbm_LIBRARY` - The path to the package library.
-
-## Hints
-
-* The `Ndbm_ROOT` variable adds custom search path.
 #]=============================================================================]
 
 include(CheckLibraryExists)

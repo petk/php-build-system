@@ -16,10 +16,6 @@ Module defines the following `IMPORTED` target(s):
 
 * `QDBM_INCLUDE_DIR` - Directory containing package library headers.
 * `QDBM_LIBRARY` - The path to the package library.
-
-## Hints
-
-* The `QDBM_ROOT` variable adds custom search path.
 #]=============================================================================]
 
 include(CheckLibraryExists)

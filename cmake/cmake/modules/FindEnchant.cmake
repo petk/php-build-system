@@ -19,10 +19,6 @@ Module defines the following `IMPORTED` target(s):
 
 * `Enchant_INCLUDE_DIR` - Directory containing package library headers.
 * `Enchant_LIBRARY` - The path to the package library.
-
-## Hints
-
-The `Enchant_ROOT` variable adds custom search path.
 #]=============================================================================]
 
 include(FeatureSummary)
