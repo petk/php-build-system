@@ -16,10 +16,6 @@ Module defines the following `IMPORTED` target(s):
 
 * `Cdb_INCLUDE_DIR` - Directory containing package library headers.
 * `Cdb_LIBRARY` - The path to the package library.
-
-## Hints
-
-* The `Cdb_ROOT` variable adds custom search path.
 #]=============================================================================]
 
 include(CheckLibraryExists)
@@ -35,7 +31,7 @@ set_package_properties(
 
 set(_reason "")
 
-# Use pkgconf, if available on the system.
+# Try pkg-config.
 find_package(PkgConfig QUIET)
 if(PKG_CONFIG_FOUND)
   pkg_check_modules(PC_Cdb QUIET libcdb)
@@ -44,7 +40,7 @@ endif()
 find_path(
   Cdb_INCLUDE_DIR
   NAMES cdb.h
-  PATHS ${PC_Cdb_INCLUDE_DIRS}
+  HINTS ${PC_Cdb_INCLUDE_DIRS}
   DOC "Directory containing cdb library headers"
 )
 
@@ -55,7 +51,7 @@ endif()
 find_library(
   Cdb_LIBRARY
   NAMES cdb
-  PATHS ${PC_Cdb_LIBRARY_DIRS}
+  HINTS ${PC_Cdb_LIBRARY_DIRS}
   DOC "The path to the cdb library"
 )
 
@@ -77,14 +73,11 @@ block(PROPAGATE Cdb_VERSION)
   if(Cdb_INCLUDE_DIR)
     set(regex [[^[ \t]*#[ \t]*define[ \t]+TINYCDB_VERSION[ \t]+([0-9.]+)[ \t]*$]])
 
-    file(STRINGS ${Cdb_INCLUDE_DIR}/cdb.h results REGEX "${regex}")
+    file(STRINGS ${Cdb_INCLUDE_DIR}/cdb.h result REGEX "${regex}")
 
-    foreach(line ${results})
-      if(line MATCHES "${regex}")
-        set(Cdb_VERSION "${CMAKE_MATCH_1}")
-        break()
-      endif()
-    endforeach()
+    if(result MATCHES "${regex}")
+      set(Cdb_VERSION "${CMAKE_MATCH_1}")
+    endif()
   endif()
 endblock()
 
@@ -97,6 +90,7 @@ find_package_handle_standard_args(
     Cdb_INCLUDE_DIR
     _cdb_sanity_check
   VERSION_VAR Cdb_VERSION
+  HANDLE_VERSION_RANGE
   REASON_FAILURE_MESSAGE "${_reason}"
 )
 
@@ -116,6 +110,6 @@ if(NOT TARGET Cdb::Cdb)
     Cdb::Cdb
     PROPERTIES
       IMPORTED_LOCATION "${Cdb_LIBRARY}"
-      INTERFACE_INCLUDE_DIRECTORIES "${Cdb_INCLUDE_DIR}"
+      INTERFACE_INCLUDE_DIRECTORIES "${Cdb_INCLUDE_DIRS}"
   )
 endif()

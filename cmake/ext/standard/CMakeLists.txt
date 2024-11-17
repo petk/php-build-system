@@ -311,16 +311,16 @@ cmake_push_check_state(RESET)
   set(CMAKE_REQUIRED_QUIET TRUE)
   check_source_compiles(C [[
     #include <arm_acle.h>
-    # if defined(__GNUC__)
-    #  if !defined(__clang__)
-    #   pragma GCC push_options
-    #   pragma GCC target ("+nothing+crc")
-    #  elif defined(__APPLE__)
-    #   pragma clang attribute push(__attribute__((target("crc"))), apply_to=function)
-    #  else
-    #   pragma clang attribute push(__attribute__((target("+nothing+crc"))), apply_to=function)
-    #  endif
+    #if defined(__GNUC__)
+    # if !defined(__clang__)
+    #  pragma GCC push_options
+    #  pragma GCC target ("+nothing+crc")
+    # elif defined(__APPLE__)
+    #  pragma clang attribute push(__attribute__((target("crc"))), apply_to=function)
+    # else
+    #  pragma clang attribute push(__attribute__((target("+nothing+crc"))), apply_to=function)
     # endif
+    #endif
     int main(void)
     {
       __crc32d(0, 0);

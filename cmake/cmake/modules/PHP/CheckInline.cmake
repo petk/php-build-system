@@ -8,7 +8,7 @@ have it. At some point this check can be removed. See also Autoconf's
 If compiler doesn't support any of the `inline` keywords, then an empty
 definition needs to be used so the code compiles as a workaround.
 
-Cache variables:
+## Cache variables
 
 * `INLINE_KEYWORD_DEFINITION`
   Header definition line that sets the compiler's `inline` keyword.

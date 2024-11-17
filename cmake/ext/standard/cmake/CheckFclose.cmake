@@ -2,7 +2,7 @@
 Check if `fclose` declaration is missing. Some systems have broken header files
 like SunOS has. This check is obsolete on current Solaris/illumos versions.
 
-Result variables:
+## Result variables
 
 * MISSING_FCLOSE_DECL
   Whether `fclose` declaration is missing.

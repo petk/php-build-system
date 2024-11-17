@@ -1,18 +1,14 @@
 #[=============================================================================[
 Find external PHP on the system, if installed.
 
-Result variables:
+## Result variables
 
 * `PHPSystem_FOUND` - Whether the package has been found.
 * `PHPSystem_VERSION` - Package version, if found.
 
-Cache variables:
+## Cache variables
 
 * `PHPSystem_EXECUTABLE` - PHP command-line tool, if available.
-
-Hints:
-
-The `PHPSystem_ROOT` variable adds custom search path.
 #]=============================================================================]
 
 include(FeatureSummary)
@@ -29,23 +25,7 @@ set(_reason "")
 
 find_program(
   PHPSystem_EXECUTABLE
-  NAMES
-    php
-    php8.5
-    php85
-    php8.4
-    php84
-    php8.3
-    php83
-    php8.2
-    php82
-    php8.1
-    php81
-    php8
-    php7.4
-    php74
-    php7
-
+  NAMES php
   DOC "Path to the PHP executable"
 )
 
@@ -57,9 +37,7 @@ block(PROPAGATE PHPSystem_VERSION)
       OUTPUT_STRIP_TRAILING_WHITESPACE
     )
 
-    string(REGEX MATCH "PHP ([^ ]+) " _ "${version}")
-
-    if(CMAKE_MATCH_1)
+    if(version MATCHES "PHP ([^ ]+) ")
       set(PHPSystem_VERSION "${CMAKE_MATCH_1}")
     endif()
   endif()
@@ -72,6 +50,7 @@ find_package_handle_standard_args(
   REQUIRED_VARS
     PHPSystem_EXECUTABLE
   VERSION_VAR PHPSystem_VERSION
+  HANDLE_VERSION_RANGE
   REASON_FAILURE_MESSAGE "${_reason}"
 )
 

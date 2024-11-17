@@ -31,7 +31,7 @@ int main(void)
 }
 ```
 
-Cache variables:
+## Cache variables
 
 * `HAVE_SYS_TYPES_H`
   Define to 1 if you have the `<sys/types.h>` header file.

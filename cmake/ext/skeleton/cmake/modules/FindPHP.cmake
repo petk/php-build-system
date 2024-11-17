@@ -13,7 +13,7 @@ Module defines the following `IMPORTED` target(s):
 * `PHP::php` - The PHP package `IMPORTED` target, if found.
 * `PHP:embed` - The PHP embed SAPI, if found.
 
-Result variables:
+## Result variables
 
 * `PHP_FOUND` - Whether the package has been found.
 * `PHP_INCLUDE_DIRS` - Include directories needed to use this package.
@@ -35,18 +35,14 @@ Result variables:
   They are either built-in or dynamically loaded with the `zend_extension` INI
   directive.
 
-Cache variables:
+## Cache variables
 
 * `PHP_CONFIG_EXECUTABLE` - Path to the php-config development helper tool.
 * `PHP_INCLUDE_DIR` - Directory containing PHP headers.
 * `PHP_EMBED_LIBRARY` - The path to the PHP Embed library.
 * `PHP_EMBED_INCLUDE_DIR` - Directory containing PHP Embed header(s).
 
-Hints:
-
-The `PHP_ROOT` variable adds custom search path.
-
-Examples:
+Basic usage:
 
 ```cmake
 # Find PHP
@@ -88,7 +84,7 @@ find_program(
 # The PHP component.
 ################################################################################
 
-# Use pkgconf, if available on the system.
+# Try pkg-config.
 find_package(PkgConfig QUIET)
 if(PKG_CONFIG_FOUND)
   pkg_check_modules(PC_PHP QUIET php)
@@ -112,7 +108,7 @@ endif()
 find_path(
   PHP_INCLUDE_DIR
   NAMES main/php_config.h
-  PATHS
+  HINTS
     ${PC_PHP_INCLUDE_DIRS}
     ${PHP_INCLUDE_DIRS}
   DOC "Directory containing PHP main binding headers"
@@ -175,14 +171,14 @@ endif()
 find_library(
   PHP_EMBED_LIBRARY
   NAMES php
-  PATHS ${PC_PHP_EMBED_LIBRARY_DIRS}
+  HINTS ${PC_PHP_EMBED_LIBRARY_DIRS}
   DOC "The path to the libphp embed library"
 )
 
 find_path(
   PHP_EMBED_INCLUDE_DIR
   NAMES sapi/embed/php_embed.h
-  PATHS
+  HINTS
     ${PC_PHP_EMBED_INCLUDE_DIRS}
     ${PHP_INCLUDE_DIRS}
   DOC "Directory containing PHP Embed SAPI header(s)"
@@ -206,36 +202,26 @@ endif()
 
 # Get PHP version.
 block(PROPAGATE PHP_VERSION)
-  if(PHP_INCLUDE_DIR AND EXISTS ${PHP_INCLUDE_DIR}/main/php_version.h)
+  if(${PHP_INCLUDE_DIR}/main/php_version.h)
+    set(regex [[^[ \t]*#[ \t]*define[ \t]+PHP_VERSION[ \t]+"([^"]+)"[ \t]*$]])
     file(
       STRINGS
       ${PHP_INCLUDE_DIR}/main/php_version.h
       php_version
-      REGEX [[^#[ \t]*define[ \t]+PHP_VERSION[ \t]+"[0-9]+\.[0-9]+\.[0-9]+.*"[ \t]*$]]
+      REGEX "${regex}"
       LIMIT_COUNT 1
     )
-    string(
-      REGEX MATCH
-      [[([0-9]+\.[0-9]+\.[0-9]+.*)"[ \t]*$]]
-      _
-      "${php_version}"
-    )
-    if(CMAKE_MATCH_1)
+    if(result MATCHES "${regex}")
       set(PHP_VERSION "${CMAKE_MATCH_1}")
     endif()
   endif()
 
-  # Try pkgconf version, if found.
-  if(NOT PHP_VERSION AND PC_PHP_VERSION)
-    cmake_path(
-      COMPARE
-      "${PC_PHP_INCLUDEDIR}" EQUAL "${PHP_INCLUDE_DIR}"
-      isEqual
-    )
-
-    if(isEqual)
-      set(PHP_VERSION ${PC_PHP_VERSION})
-    endif()
+  if(
+    NOT PHP_VERSION
+    AND PC_PHP_VERSION
+    AND PHP_INCLUDE_DIR IN_LISTS PC_PHP_INCLUDE_DIRS
+  )
+    set(PHP_VERSION ${PC_PHP_VERSION})
   endif()
 endblock()
 
@@ -273,6 +259,7 @@ find_package_handle_standard_args(
     PHP_ZEND_MODULE_API
     PHP_ZEND_EXTENSION_API
   VERSION_VAR PHP_VERSION
+  HANDLE_VERSION_RANGE
   HANDLE_COMPONENTS
   REASON_FAILURE_MESSAGE "${_reason}"
 )

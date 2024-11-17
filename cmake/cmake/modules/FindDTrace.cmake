@@ -1,19 +1,17 @@
 #[=============================================================================[
 Find DTrace.
 
-Result variables:
+## Result variables
 
 * `DTrace_FOUND` - Whether DTrace library is found.
 
-Cache variables:
+## Cache variables
 
 * `DTrace_INCLUDE_DIR` - Directory containing DTrace library headers.
 * `DTrace_EXECUTABLE` - Path to the DTrace command-line utility.
 * `HAVE_DTRACE` - Whether DTrace support is enabled.
 
-Hints:
-
-The `DTrace_ROOT` variable adds custom search path.
+## Functions provided by this module
 
 Module defines the following function to initialize the DTrace support.
 

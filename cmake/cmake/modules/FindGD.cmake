@@ -5,21 +5,17 @@ Module defines the following `IMPORTED` target(s):
 
 * `GD::GD` - The package library, if found.
 
-Result variables:
+## Result variables
 
 * `GD_FOUND` - Whether the package has been found.
 * `GD_INCLUDE_DIRS` - Include directories needed to use this package.
 * `GD_LIBRARIES` - Libraries needed to link to the package library.
 * `GD_VERSION` - Package version, if found.
 
-Cache variables:
+## Cache variables
 
 * `GD_INCLUDE_DIR` - Directory containing package library headers.
 * `GD_LIBRARY` - The path to the package library.
-
-Hints:
-
-The `GD_ROOT` variable adds custom search path.
 #]=============================================================================]
 
 include(FeatureSummary)
@@ -34,7 +30,7 @@ set_package_properties(
 
 set(_reason "")
 
-# Use pkgconf, if available on the system.
+# Try pkg-config.
 find_package(PkgConfig QUIET)
 if(PKG_CONFIG_FOUND)
   pkg_check_modules(PC_GD QUIET gdlib)
@@ -43,7 +39,7 @@ endif()
 find_path(
   GD_INCLUDE_DIR
   NAMES gd.h
-  PATHS ${PC_GD_INCLUDE_DIRS}
+  HINTS ${PC_GD_INCLUDE_DIRS}
   DOC "Directory containing GD library headers"
 )
 
@@ -54,7 +50,7 @@ endif()
 find_library(
   GD_LIBRARY
   NAMES gd
-  PATHS ${PC_GD_LIBRARY_DIRS}
+  HINTS ${PC_GD_LIBRARY_DIRS}
   DOC "The path to the GD library"
 )
 
@@ -97,6 +93,7 @@ find_package_handle_standard_args(
     GD_LIBRARY
     GD_INCLUDE_DIR
   VERSION_VAR GD_VERSION
+  HANDLE_VERSION_RANGE
   REASON_FAILURE_MESSAGE "${_reason}"
 )
 
@@ -116,6 +113,6 @@ if(NOT TARGET GD::GD)
     GD::GD
     PROPERTIES
       IMPORTED_LOCATION "${GD_LIBRARY}"
-      INTERFACE_INCLUDE_DIRECTORIES "${GD_INCLUDE_DIR}"
+      INTERFACE_INCLUDE_DIRECTORIES "${GD_INCLUDE_DIRS}"
   )
 endif()

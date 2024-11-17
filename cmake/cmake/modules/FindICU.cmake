@@ -6,7 +6,7 @@ See: https://cmake.org/cmake/help/latest/module/FindICU.html
 This module overrides the upstream CMake `FindICU` module with few
 customizations:
 
-* Added pkgconf.
+* Added pkg-config.
 * Marked `ICU_INCLUDE_DIR` as advanced variable (fixed upstream in CMake 3.29).
 #]=============================================================================]
 
@@ -19,7 +19,7 @@ set_package_properties(
     DESCRIPTION "International Components for Unicode"
 )
 
-# If available, use pkgconf and append paths to the internal icu_roots variable.
+# Try pkg-config and append paths to the internal icu_roots variable.
 find_package(PkgConfig QUIET)
 if(PKG_CONFIG_FOUND)
   foreach(component ${ICU_FIND_COMPONENTS})

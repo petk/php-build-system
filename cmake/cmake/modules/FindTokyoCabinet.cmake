@@ -16,10 +16,6 @@ Module defines the following `IMPORTED` target(s):
 
 * `TokyoCabinet_INCLUDE_DIR` - Directory containing package library headers.
 * `TokyoCabinet_LIBRARY` - The path to the package library.
-
-## Hints
-
-* The `TokyoCabinet_ROOT` variable adds custom search path.
 #]=============================================================================]
 
 include(CheckLibraryExists)
@@ -35,7 +31,7 @@ set_package_properties(
 
 set(_reason "")
 
-# Use pkgconf, if available on the system.
+# Try pkg-config.
 find_package(PkgConfig QUIET)
 if(PKG_CONFIG_FOUND)
   pkg_check_modules(PC_TokyoCabinet QUIET tokyocabinet)
@@ -44,7 +40,7 @@ endif()
 find_path(
   TokyoCabinet_INCLUDE_DIR
   NAMES tcadb.h
-  PATHS ${PC_TokyoCabinet_INCLUDE_DIRS}
+  HINTS ${PC_TokyoCabinet_INCLUDE_DIRS}
   DOC "Directory containing Tokyo Cabinet library headers"
 )
 
@@ -55,7 +51,7 @@ endif()
 find_library(
   TokyoCabinet_LIBRARY
   NAMES tokyocabinet
-  PATHS ${PC_TokyoCabinet_LIBRARY_DIRS}
+  HINTS ${PC_TokyoCabinet_LIBRARY_DIRS}
   DOC "The path to the Tokyo Cabinet library"
 )
 
@@ -79,17 +75,14 @@ endif()
 
 # Get version.
 block(PROPAGATE TokyoCabinet_VERSION)
-  if(TokyoCabinet_INCLUDE_DIR AND EXISTS ${TokyoCabinet_INCLUDE_DIR}/tcutil.h)
+  if(EXISTS ${TokyoCabinet_INCLUDE_DIR}/tcutil.h)
     set(regex [[^[ \t]*#[ \t]*define[ \t]+_TC_VERSION[ \t]+"?([0-9.]+)"?[ \t]*$]])
 
-    file(STRINGS ${TokyoCabinet_INCLUDE_DIR}/tcutil.h results REGEX "${regex}")
+    file(STRINGS ${TokyoCabinet_INCLUDE_DIR}/tcutil.h result REGEX "${regex}")
 
-    foreach(line ${results})
-      if(line MATCHES "${regex}")
-        set(TokyoCabinet_VERSION "${CMAKE_MATCH_1}")
-        break()
-      endif()
-    endforeach()
+    if(result MATCHES "${regex}")
+      set(TokyoCabinet_VERSION "${CMAKE_MATCH_1}")
+    endif()
   endif()
 endblock()
 
@@ -102,6 +95,7 @@ find_package_handle_standard_args(
     TokyoCabinet_INCLUDE_DIR
     _tokyocabinet_sanity_check
   VERSION_VAR TokyoCabinet_VERSION
+  HANDLE_VERSION_RANGE
   REASON_FAILURE_MESSAGE "${_reason}"
 )
 
@@ -121,6 +115,6 @@ if(NOT TARGET TokyoCabinet::TokyoCabinet)
     TokyoCabinet::TokyoCabinet
     PROPERTIES
       IMPORTED_LOCATION "${TokyoCabinet_LIBRARY}"
-      INTERFACE_INCLUDE_DIRECTORIES "${TokyoCabinet_INCLUDE_DIR}"
+      INTERFACE_INCLUDE_DIRECTORIES "${TokyoCabinet_INCLUDE_DIRS}"
   )
 endif()

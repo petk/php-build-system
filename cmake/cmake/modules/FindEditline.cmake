@@ -5,21 +5,17 @@ Module defines the following `IMPORTED` target(s):
 
 * `Editline::Editline` - The Editline library, if found.
 
-Result variables:
+## Result variables
 
 * `Editline_FOUND` - Whether the package has been found.
 * `Editline_INCLUDE_DIRS` - Include directories needed to use this package.
 * `Editline_LIBRARIES` - Libraries needed to link to the package library.
 * `Editline_VERSION` - Package version, if found.
 
-Cache variables:
+## Cache variables
 
 * `Editline_INCLUDE_DIR` - Directory containing package library headers.
 * `Editline_LIBRARY` - The path to the package library.
-
-Hints:
-
-The `Editline_ROOT` variable adds custom search path.
 #]=============================================================================]
 
 include(CheckLibraryExists)
@@ -35,7 +31,7 @@ set_package_properties(
 
 set(_reason "")
 
-# Use pkgconf, if available on the system.
+# Try pkg-config.
 find_package(PkgConfig QUIET)
 if(PKG_CONFIG_FOUND)
   pkg_check_modules(PC_Editline QUIET libedit)
@@ -44,7 +40,7 @@ endif()
 find_path(
   Editline_INCLUDE_DIR
   NAMES editline/readline.h
-  PATHS ${PC_Editline_INCLUDE_DIRS}
+  HINTS ${PC_Editline_INCLUDE_DIRS}
   DOC "Directory containing Editline library headers"
 )
 
@@ -55,7 +51,7 @@ endif()
 find_library(
   Editline_LIBRARY
   NAMES edit
-  PATHS ${PC_Editline_LIBRARY_DIRS}
+  HINTS ${PC_Editline_LIBRARY_DIRS}
   DOC "The path to the Editline library"
 )
 
@@ -77,21 +73,13 @@ if(Editline_LIBRARY)
   endif()
 endif()
 
-# Get version.
-block(PROPAGATE Editline_VERSION)
-  # Editline headers don't provide version. Try pkgconf version, if found.
-  if(PC_Editline_VERSION)
-    cmake_path(
-      COMPARE
-      "${PC_Editline_INCLUDEDIR}" EQUAL "${Editline_INCLUDE_DIR}"
-      isEqual
-    )
-
-    if(isEqual)
-      set(Editline_VERSION ${PC_Editline_VERSION})
-    endif()
-  endif()
-endblock()
+# Editline headers don't provide version. Try pkg-config.
+if(
+  PC_Editline_VERSION
+  AND Editline_INCLUDE_DIR IN_LIST PC_Editline_INCLUDE_DIRS
+)
+  set(Editline_VERSION ${PC_Editline_VERSION})
+endif()
 
 mark_as_advanced(Editline_INCLUDE_DIR Editline_LIBRARY)
 
@@ -102,6 +90,7 @@ find_package_handle_standard_args(
     Editline_INCLUDE_DIR
     _editline_sanity_check
   VERSION_VAR Editline_VERSION
+  HANDLE_VERSION_RANGE
   REASON_FAILURE_MESSAGE "${_reason}"
 )
 
@@ -121,6 +110,6 @@ if(NOT TARGET Editline::Editline)
     Editline::Editline
     PROPERTIES
       IMPORTED_LOCATION "${Editline_LIBRARY}"
-      INTERFACE_INCLUDE_DIRECTORIES "${Editline_INCLUDE_DIR}"
+      INTERFACE_INCLUDE_DIRECTORIES "${Editline_INCLUDE_DIRS}"
   )
 endif()

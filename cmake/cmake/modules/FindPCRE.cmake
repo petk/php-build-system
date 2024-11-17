@@ -5,21 +5,17 @@ Module defines the following `IMPORTED` target(s):
 
 * `PCRE::PCRE` - The package library, if found.
 
-Result variables:
+## Result variables
 
 * `PCRE_FOUND` - Whether the package has been found.
 * `PCRE_INCLUDE_DIRS` - Include directories needed to use this package.
 * `PCRE_LIBRARIES` - Libraries needed to link to the package library.
 * `PCRE_VERSION` - Package version, if found.
 
-Cache variables:
+## Cache variables
 
 * `PCRE_INCLUDE_DIR` - Directory containing package library headers.
 * `PCRE_LIBRARY` - The path to the package library.
-
-Hints:
-
-The `PCRE_ROOT` variable adds custom search path.
 #]=============================================================================]
 
 include(FeatureSummary)
@@ -34,7 +30,7 @@ set_package_properties(
 
 set(_reason "")
 
-# Use pkgconf, if available on the system.
+# Try pkg-config.
 find_package(PkgConfig QUIET)
 if(PKG_CONFIG_FOUND)
   pkg_check_modules(PC_PCRE QUIET libpcre2-8)
@@ -43,7 +39,7 @@ endif()
 find_path(
   PCRE_INCLUDE_DIR
   NAMES pcre2.h
-  PATHS ${PC_PCRE_INCLUDE_DIRS}
+  HINTS ${PC_PCRE_INCLUDE_DIRS}
   DOC "Directory containing PCRE library headers"
 )
 
@@ -54,7 +50,7 @@ endif()
 find_library(
   PCRE_LIBRARY
   NAMES pcre2-8
-  PATHS ${PC_PCRE_LIBRARY_DIRS}
+  HINTS ${PC_PCRE_LIBRARY_DIRS}
   DOC "The path to the PCRE library"
 )
 
@@ -95,6 +91,7 @@ find_package_handle_standard_args(
     PCRE_LIBRARY
     PCRE_INCLUDE_DIR
   VERSION_VAR PCRE_VERSION
+  HANDLE_VERSION_RANGE
   REASON_FAILURE_MESSAGE "${_reason}"
 )
 
@@ -114,6 +111,6 @@ if(NOT TARGET PCRE::PCRE)
     PCRE::PCRE
     PROPERTIES
       IMPORTED_LOCATION "${PCRE_LIBRARY}"
-      INTERFACE_INCLUDE_DIRECTORIES "${PCRE_INCLUDE_DIR}"
+      INTERFACE_INCLUDE_DIRECTORIES "${PCRE_INCLUDE_DIRS}"
   )
 endif()

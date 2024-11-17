@@ -5,21 +5,17 @@ Module defines the following `IMPORTED` target(s):
 
 * `Readline::Readline` - The package library, if found.
 
-Result variables:
+## Result variables
 
 * `Readline_FOUND` - Whether the package has been found.
 * `Readline_INCLUDE_DIRS` - Include directories needed to use this package.
 * `Readline_LIBRARIES` - Libraries needed to link to the package library.
 * `Readline_VERSION` - Package version, if found.
 
-Cache variables:
+## Cache variables
 
 * `Readline_INCLUDE_DIR` - Directory containing package library headers.
 * `Readline_LIBRARY` - The path to the package library.
-
-Hints:
-
-The `Readline_ROOT` variable adds custom search path.
 #]=============================================================================]
 
 include(CheckLibraryExists)
@@ -35,7 +31,7 @@ set_package_properties(
 
 set(_reason "")
 
-# Use pkgconf, if available on the system.
+# Try pkg-config.
 find_package(PkgConfig QUIET)
 if(PKG_CONFIG_FOUND)
   pkg_check_modules(PC_Readline QUIET readline)
@@ -44,7 +40,7 @@ endif()
 find_path(
   Readline_INCLUDE_DIR
   NAMES readline/readline.h
-  PATHS ${PC_Readline_INCLUDE_DIRS}
+  HINTS ${PC_Readline_INCLUDE_DIRS}
   DOC "Directory containing Readline library headers"
 )
 
@@ -55,7 +51,7 @@ endif()
 find_library(
   Readline_LIBRARY
   NAMES readline
-  PATHS ${PC_Readline_LIBRARY_DIRS}
+  HINTS ${PC_Readline_LIBRARY_DIRS}
   DOC "The path to the Readline library"
 )
 
@@ -113,6 +109,7 @@ find_package_handle_standard_args(
     Readline_INCLUDE_DIR
     _readline_have_readline
   VERSION_VAR Readline_VERSION
+  HANDLE_VERSION_RANGE
   REASON_FAILURE_MESSAGE "${_reason}"
 )
 
@@ -132,6 +129,6 @@ if(NOT TARGET Readline::Readline)
     Readline::Readline
     PROPERTIES
       IMPORTED_LOCATION "${Readline_LIBRARY}"
-      INTERFACE_INCLUDE_DIRECTORIES "${Readline_INCLUDE_DIR}"
+      INTERFACE_INCLUDE_DIRECTORIES "${Readline_INCLUDE_DIRS}"
   )
 endif()

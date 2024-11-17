@@ -504,41 +504,6 @@ if(TARGET PHP::CheckGethostbynameR)
   target_link_libraries(php_configuration INTERFACE PHP::CheckGethostbynameR)
 endif()
 
-if(PHP_CCACHE)
-  find_package(Ccache)
-endif()
-
-# Check GCOV.
-if(PHP_GCOV)
-  if(NOT CMAKE_C_COMPILER_ID STREQUAL "GNU")
-    message(FATAL_ERROR "GCC is required for using PHP_GCOV='ON'")
-  endif()
-
-  # Check if ccache is being used.
-  if(CMAKE_C_COMPILER_LAUNCHER MATCHES "ccache")
-    message(
-      WARNING
-      "ccache should be disabled when PHP_GCOV='ON' option is used. You can "
-      "disable ccache by setting option PHP_CCACHE='OFF' or environment "
-      "variable CCACHE_DISABLE=1."
-    )
-  endif()
-
-  find_package(Gcov)
-  set_package_properties(
-    Gcov
-    PROPERTIES
-      TYPE REQUIRED
-      PURPOSE "Necessary to enable GCOV coverage report and symbols."
-  )
-
-  if(TARGET Gcov::Gcov)
-    target_link_libraries(php_configuration INTERFACE Gcov::Gcov)
-
-    gcov_generate_report()
-  endif()
-endif()
-
 ################################################################################
 # Check for required libraries.
 ################################################################################
@@ -820,3 +785,63 @@ block()
     target_link_libraries(php_configuration INTERFACE ${libgcc_path})
   endif()
 endblock()
+
+################################################################################
+# Check for additional tools.
+################################################################################
+
+if(PHP_CCACHE)
+  find_package(Ccache)
+endif()
+
+# Check GCOV.
+if(PHP_GCOV)
+  if(NOT CMAKE_C_COMPILER_ID STREQUAL "GNU")
+    message(FATAL_ERROR "GCC is required for using PHP_GCOV='ON'")
+  endif()
+
+  if(CMAKE_C_COMPILER_LAUNCHER MATCHES "ccache")
+    message(
+      WARNING
+      "ccache should be disabled when PHP_GCOV='ON' option is used. You can "
+      "disable ccache by setting option PHP_CCACHE='OFF' or environment "
+      "variable CCACHE_DISABLE=1."
+    )
+  endif()
+
+  find_package(Gcov)
+  set_package_properties(
+    Gcov
+    PROPERTIES
+      TYPE REQUIRED
+      PURPOSE "Necessary to enable GCOV coverage report and symbols."
+  )
+
+  if(TARGET Gcov::Gcov)
+    target_link_libraries(php_configuration INTERFACE Gcov::Gcov)
+
+    gcov_generate_report()
+  endif()
+endif()
+
+# Check Valgrind.
+if(PHP_VALGRIND)
+  find_package(Valgrind)
+  set_package_properties(
+    Valgrind
+    PROPERTIES
+      TYPE REQUIRED
+      PURPOSE "Necessary to enable Valgrind support."
+  )
+
+  if(Valgrind_FOUND)
+    set(HAVE_VALGRIND 1)
+  endif()
+
+  target_link_libraries(php_configuration INTERFACE Valgrind::Valgrind)
+endif()
+add_feature_info(
+  "Valgrind"
+  PHP_VALGRIND
+  "support for dynamic analysis"
+)

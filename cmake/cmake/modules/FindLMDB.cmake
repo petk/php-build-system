@@ -16,10 +16,6 @@ Module defines the following `IMPORTED` target(s):
 
 * `LMDB_INCLUDE_DIR` - Directory containing package library headers.
 * `LMDB_LIBRARY` - The path to the package library.
-
-## Hints
-
-* The `LMDB_ROOT` variable adds custom search path.
 #]=============================================================================]
 
 include(CheckLibraryExists)
@@ -35,7 +31,7 @@ set_package_properties(
 
 set(_reason "")
 
-# Use pkgconf, if available on the system.
+# Try pkg-config.
 find_package(PkgConfig QUIET)
 if(PKG_CONFIG_FOUND)
   pkg_check_modules(PC_LMDB QUIET lmdb)
@@ -44,7 +40,7 @@ endif()
 find_path(
   LMDB_INCLUDE_DIR
   NAMES lmdb.h
-  PATHS ${PC_LMDB_INCLUDE_DIRS}
+  HINTS ${PC_LMDB_INCLUDE_DIRS}
   DOC "Directory containing LMDB library headers"
 )
 
@@ -55,7 +51,7 @@ endif()
 find_library(
   LMDB_LIBRARY
   NAMES lmdb
-  PATHS ${PC_LMDB_LIBRARY_DIRS}
+  HINTS ${PC_LMDB_LIBRARY_DIRS}
   DOC "The path to the LMDB library"
 )
 
@@ -108,6 +104,7 @@ find_package_handle_standard_args(
     LMDB_INCLUDE_DIR
     _lmdb_sanity_check
   VERSION_VAR LMDB_VERSION
+  HANDLE_VERSION_RANGE
   REASON_FAILURE_MESSAGE "${_reason}"
 )
 
@@ -127,6 +124,6 @@ if(NOT TARGET LMDB::LMDB)
     LMDB::LMDB
     PROPERTIES
       IMPORTED_LOCATION "${LMDB_LIBRARY}"
-      INTERFACE_INCLUDE_DIRECTORIES "${LMDB_INCLUDE_DIR}"
+      INTERFACE_INCLUDE_DIRECTORIES "${LMDB_INCLUDE_DIRS}"
   )
 endif()

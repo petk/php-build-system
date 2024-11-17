@@ -4,12 +4,12 @@ Find re2c.
 The minimum required version of re2c can be specified using the standard CMake
 syntax, e.g. 'find_package(RE2C 0.15.3)'.
 
-Result variables:
+## Result variables
 
 * `RE2C_FOUND` - Whether re2c program was found.
 * `RE2C_VERSION` - Version of re2c program.
 
-Cache variables:
+## Cache variables
 
 * `RE2C_EXECUTABLE` - Path to the re2c program.
 
@@ -27,7 +27,7 @@ Custom target:
   add_dependencies(some_target re2c_generate_files)
   ```
 
-Hints:
+## Hints
 
 * `RE2C_DEFAULT_OPTIONS` - A `;-`list of default global options to pass to re2c
   for all `re2c_target()` invocations. Set before calling the
@@ -42,6 +42,8 @@ Hints:
 * `RE2C_USE_COMPUTED_GOTOS` - Set to `TRUE` before calling `find_package(RE2C)`
   to enable the re2c `--computed-gotos` option if the non-standard C
   `computed goto` extension is supported by the C compiler.
+
+## Functions provided by this module
 
 If re2c is found, the following function is exposed:
 
@@ -104,7 +106,7 @@ if(RE2C_EXECUTABLE)
     OUTPUT_STRIP_TRAILING_WHITESPACE
   )
 
-  if(NOT ${_re2c_version_result} EQUAL 0)
+  if(NOT _re2c_version_result EQUAL 0)
     message(
       SEND_ERROR
       "Command \"${RE2C_EXECUTABLE} --vernum\" failed with output:\n"
@@ -172,6 +174,7 @@ find_package_handle_standard_args(
     RE2C_EXECUTABLE
     RE2C_VERSION
   VERSION_VAR RE2C_VERSION
+  HANDLE_VERSION_RANGE
   REASON_FAILURE_MESSAGE "re2c not found. Please install re2c."
 )
 
