@@ -1,3 +1,26 @@
+#[=============================================================================[
+# The xsl extension
+
+Configure the `xsl` extension.
+
+This extension provides XSL standard support for performing XSLT
+transformations.
+
+## EXT_XSL
+
+* Default: `OFF`
+* Values: `ON|OFF`
+
+Enable the extension.
+
+## EXT_XSL_SHARED
+
+* Default: `OFF`
+* Values: `ON|OFF`
+
+Build extension as shared.
+#]=============================================================================]
+
 project(
   PhpExtensionXsl
   LANGUAGES C

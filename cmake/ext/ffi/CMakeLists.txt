@@ -1,3 +1,26 @@
+#[=============================================================================[
+# The ffi extension
+
+Configure the `ffi` extension.
+
+This extension provides Foreign Function Interface (FFI) support to run C code
+through PHP.
+
+## EXT_FFI
+
+* Default: `OFF`
+* Values: `ON|OFF`
+
+Enable the extension.
+
+## EXT_FFI_SHARED
+
+* Default: `OFF`
+* Values: `ON|OFF`
+
+Build extension as shared.
+#]=============================================================================]
+
 project(
   PhpExtensionFfi
   LANGUAGES C

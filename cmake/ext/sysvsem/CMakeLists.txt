@@ -1,9 +1,33 @@
+#[=============================================================================[
+# The sysvsem extension
+
+Configure the `sysvsem` extension.
+
+This extension provides the System V semaphore support.
+
+> [!NOTE]
+> This extension is available only on \*nix systems.
+
+## EXT_SYSVSEM
+
+* Default: `OFF`
+* Values: `ON|OFF`
+
+Enable the extension.
+
+## EXT_SYSVSEM_SHARED
+
+* Default: `OFF`
+* Values: `ON|OFF`
+
+Build extension as shared.
+#]=============================================================================]
+
 project(
   PhpExtensionSysVsem
   LANGUAGES C
 )
 
-# Extension is only for *nix systems.
 if(CMAKE_SYSTEM_NAME STREQUAL "Windows")
   return()
 endif()

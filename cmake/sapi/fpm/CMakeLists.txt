@@ -1,4 +1,88 @@
-# SAPI is only for *nix systems.
+#[=============================================================================[
+# The fpm SAPI
+
+Configure the `fpm` PHP SAPI.
+
+> [!NOTE]
+> PHP FPM is not available when the target system is Windows.
+
+## SAPI_FPM
+
+* Default: `OFF`
+* Values: `ON|OFF`
+
+Enable the FastCGI Process Manager (FPM) SAPI module.
+
+## SAPI_FPM_USER
+
+* Default: `nobody`
+
+Set the user for running PHP FPM.
+
+## SAPI_FPM_GROUP
+
+* Default: `nobody`
+
+Set the group for running PHP FPM. For a system user, this should usually be set
+in a way to match the FPM username.
+
+## SAPI_FPM_ACL
+
+* Default: `OFF`
+* Values: `ON|OFF`
+
+Use POSIX Access Control Lists.
+
+Where to find ACL installation on the system, can be customized with the
+`ACL_ROOT` variable.
+
+> [!NOTE]
+> This option is not available when the target system is Darwin (macOS) as this
+> system doesn't have ACL.
+
+## SAPI_FPM_APPARMOR
+
+* Default: `OFF`
+* Values: `ON|OFF`
+
+Enable the AppArmor confinement through libapparmor.
+
+Where to find AppArmor installation on the system, can be customized with the
+`AppArmor_ROOT` variable.
+
+> [!NOTE]
+> This option is not available when the target system is Darwin (macOS) as this
+> system doesn't have AppArmor.
+
+## SAPI_FPM_SELINUX
+
+* Default: `OFF`
+* Values: `ON|OFF`
+
+Enable the SELinux policy library support.
+
+Where to find SELinux installation on the system, can be customized with the
+`SELinux_ROOT` variable.
+
+> [!NOTE]
+> This option is not available when the target system is Darwin (macOS) as this
+> system doesn't have SELinux.
+
+## SAPI_FPM_SYSTEMD
+
+* Default: `OFF`
+* Values: `ON|OFF`
+
+Enable the systemd integration.
+
+Where to find systemd installation on the system, can be customized with the
+`Systemd_ROOT` variable.
+
+> [!NOTE]
+> This option is not available when the target system is Darwin (macOS) as this
+> system doesn't have systemd.
+#]=============================================================================]
+
 if(CMAKE_SYSTEM_NAME STREQUAL "Windows")
   return()
 endif()
@@ -44,23 +128,8 @@ php_set(
 )
 
 php_set(
-  SAPI_FPM_SYSTEMD
-  TYPE BOOL
-  # Darwin systems don't have systemd.
-  IF [[SAPI_FPM AND NOT CMAKE_SYSTEM_NAME STREQUAL "Darwin"]]
-  VALUE OFF
-  DOC "Enable the systemd integration"
-)
-add_feature_info(
-  "sapi/fpm systemd"
-  SAPI_FPM_SYSTEMD
-  "FPM SAPI module with systemd integration"
-)
-
-php_set(
   SAPI_FPM_ACL
   TYPE BOOL
-  # Darwin systems don't have ACL.
   IF [[SAPI_FPM AND NOT CMAKE_SYSTEM_NAME STREQUAL "Darwin"]]
   VALUE OFF
   DOC "Use POSIX Access Control Lists"
@@ -74,7 +143,6 @@ add_feature_info(
 php_set(
   SAPI_FPM_APPARMOR
   TYPE BOOL
-  # Darwin systems don't have AppArmor.
   IF [[SAPI_FPM AND NOT CMAKE_SYSTEM_NAME STREQUAL "Darwin"]]
   VALUE OFF
   DOC "Enable the AppArmor confinement through libapparmor"
@@ -88,7 +156,6 @@ add_feature_info(
 php_set(
   SAPI_FPM_SELINUX
   TYPE BOOL
-  # Darwin systems don't have SELinux.
   IF [[SAPI_FPM AND NOT CMAKE_SYSTEM_NAME STREQUAL "Darwin"]]
   VALUE OFF
   DOC "Enable the SELinux policy library support"
@@ -97,6 +164,19 @@ add_feature_info(
   "sapi/fpm SELinux"
   SAPI_FPM_SELINUX
   "FPM SAPI module with SELinux policy library support"
+)
+
+php_set(
+  SAPI_FPM_SYSTEMD
+  TYPE BOOL
+  IF [[SAPI_FPM AND NOT CMAKE_SYSTEM_NAME STREQUAL "Darwin"]]
+  VALUE OFF
+  DOC "Enable the systemd integration"
+)
+add_feature_info(
+  "sapi/fpm systemd"
+  SAPI_FPM_SYSTEMD
+  "FPM SAPI module with systemd integration"
 )
 
 if(NOT SAPI_FPM)

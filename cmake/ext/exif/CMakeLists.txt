@@ -1,3 +1,25 @@
+#[=============================================================================[
+# The exif extension
+
+Configure the `exif` extension.
+
+This extension provides support for working with exchangeable image metadata.
+
+## EXT_EXIF
+
+* Default: `OFF`
+* Values: `ON|OFF`
+
+Enable the extension.
+
+## EXT_EXIF_SHARED
+
+* Default: `OFF`
+* Values: `ON|OFF`
+
+Build extension as shared.
+#]=============================================================================]
+
 project(
   PhpExtensionExif
   LANGUAGES C
