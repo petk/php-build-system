@@ -5,7 +5,7 @@
 
 Configure the `filter` extension.
 
-This extension provides suppor for data filtering.
+This extension provides support for data filtering.
 
 ## EXT_FILTER
 
