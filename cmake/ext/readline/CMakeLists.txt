@@ -5,6 +5,9 @@ Configure the `readline` extension.
 
 This extension provides interface for using Editline library.
 
+> [!IMPORTANT]
+> This extension should be used only with cgi, cli, embed, or phpdbg SAPI.
+
 ## EXT_READLINE
 
 * Default: `OFF`
