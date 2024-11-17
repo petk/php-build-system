@@ -1,12 +1,7 @@
+<!-- This is auto-generated file. -->
 # FindGcov
 
-See: [FindGcov.cmake](https://github.com/petk/php-build-system/blob/master/cmake/cmake/modules/FindGcov.cmake)
-
-## Basic usage
-
-```cmake
-find_package(Gcov)
-```
+* Module source code: [FindGcov.cmake](https://github.com/petk/php-build-system/blob/master/cmake/cmake/modules/FindGcov.cmake)
 
 Find the Gcov coverage programs and features.
 
@@ -33,4 +28,27 @@ Module exposes the following macro that generates HTML coverage report:
 
 ```cmake
 gcov_generate_report()
+```
+
+## Basic usage
+
+```cmake
+# CMakeLists.txt
+find_package(Gcov)
+```
+
+## Customizing search locations
+
+To customize where to look for the Gcov package base
+installation directory, a common `CMAKE_PREFIX_PATH` or
+package-specific `GCOV_ROOT` variable can be set at
+the configuration phase. For example:
+
+```sh
+cmake -S <source-dir> -B <build-dir> -DCMAKE_PREFIX_PATH="/opt/Gcov;/opt/some-other-package"
+# or
+cmake -S <source-dir> \
+    -B <build-dir> \
+    -DGCOV_ROOT=/opt/Gcov \
+    -DSOMEOTHERPACKAGE_ROOT=/opt/some-other-package
 ```

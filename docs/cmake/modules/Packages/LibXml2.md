@@ -1,12 +1,7 @@
+<!-- This is auto-generated file. -->
 # Packages/LibXml2
 
-See: [LibXml2.cmake](https://github.com/petk/php-build-system/blob/master/cmake/cmake/modules/Packages/LibXml2.cmake)
-
-## Basic usage
-
-```cmake
-include(Packages/LibXml2)
-```
+* Module source code: [LibXml2.cmake](https://github.com/petk/php-build-system/blob/master/cmake/cmake/modules/Packages/LibXml2.cmake)
 
 Wrapper for finding the `libxml2` library.
 
@@ -25,3 +20,10 @@ The `FetchContent` CMake module does things differently compared to the
 
 TODO: Improve this. This is for now only initial `FetchContent` integration for
 testing purposes and will be changed in the future.
+
+## Basic usage
+
+```cmake
+# CMakeLists.txt
+include(Packages/LibXml2)
+```

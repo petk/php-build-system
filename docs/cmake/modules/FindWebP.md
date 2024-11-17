@@ -1,12 +1,7 @@
+<!-- This is auto-generated file. -->
 # FindWebP
 
-See: [FindWebP.cmake](https://github.com/petk/php-build-system/blob/master/cmake/cmake/modules/FindWebP.cmake)
-
-## Basic usage
-
-```cmake
-find_package(WebP)
-```
+* Module source code: [FindWebP.cmake](https://github.com/petk/php-build-system/blob/master/cmake/cmake/modules/FindWebP.cmake)
 
 Find the libwebp library.
 
@@ -29,3 +24,26 @@ Cache variables:
 Hints:
 
 The `WebP_ROOT` variable adds custom search path.
+
+## Basic usage
+
+```cmake
+# CMakeLists.txt
+find_package(WebP)
+```
+
+## Customizing search locations
+
+To customize where to look for the WebP package base
+installation directory, a common `CMAKE_PREFIX_PATH` or
+package-specific `WEBP_ROOT` variable can be set at
+the configuration phase. For example:
+
+```sh
+cmake -S <source-dir> -B <build-dir> -DCMAKE_PREFIX_PATH="/opt/WebP;/opt/some-other-package"
+# or
+cmake -S <source-dir> \
+    -B <build-dir> \
+    -DWEBP_ROOT=/opt/WebP \
+    -DSOMEOTHERPACKAGE_ROOT=/opt/some-other-package
+```

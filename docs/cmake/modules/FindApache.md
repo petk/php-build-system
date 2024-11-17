@@ -1,12 +1,7 @@
+<!-- This is auto-generated file. -->
 # FindApache
 
-See: [FindApache.cmake](https://github.com/petk/php-build-system/blob/master/cmake/cmake/modules/FindApache.cmake)
-
-## Basic usage
-
-```cmake
-find_package(Apache)
-```
+* Module source code: [FindApache.cmake](https://github.com/petk/php-build-system/blob/master/cmake/cmake/modules/FindApache.cmake)
 
 Find the Apache packages and tools.
 
@@ -47,3 +42,26 @@ Cache variables:
 Hints:
 
 The `Apache_ROOT` variable adds custom search path.
+
+## Basic usage
+
+```cmake
+# CMakeLists.txt
+find_package(Apache)
+```
+
+## Customizing search locations
+
+To customize where to look for the Apache package base
+installation directory, a common `CMAKE_PREFIX_PATH` or
+package-specific `APACHE_ROOT` variable can be set at
+the configuration phase. For example:
+
+```sh
+cmake -S <source-dir> -B <build-dir> -DCMAKE_PREFIX_PATH="/opt/Apache;/opt/some-other-package"
+# or
+cmake -S <source-dir> \
+    -B <build-dir> \
+    -DAPACHE_ROOT=/opt/Apache \
+    -DSOMEOTHERPACKAGE_ROOT=/opt/some-other-package
+```

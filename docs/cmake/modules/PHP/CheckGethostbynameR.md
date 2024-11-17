@@ -1,12 +1,7 @@
+<!-- This is auto-generated file. -->
 # PHP/CheckGethostbynameR
 
-See: [CheckGethostbynameR.cmake](https://github.com/petk/php-build-system/blob/master/cmake/cmake/modules/PHP/CheckGethostbynameR.cmake)
-
-## Basic usage
-
-```cmake
-include(PHP/CheckGethostbynameR)
-```
+* Module source code: [CheckGethostbynameR.cmake](https://github.com/petk/php-build-system/blob/master/cmake/cmake/modules/PHP/CheckGethostbynameR.cmake)
 
 Check `gethostbyname_r()`.
 
@@ -37,3 +32,10 @@ INTERFACE library:
 
 * `PHP::CheckGethostbynameR`
   Created when additional system library needs to be linked.
+
+## Basic usage
+
+```cmake
+# CMakeLists.txt
+include(PHP/CheckGethostbynameR)
+```

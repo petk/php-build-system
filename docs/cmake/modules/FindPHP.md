@@ -1,12 +1,7 @@
+<!-- This is auto-generated file. -->
 # FindPHP
 
-See: [FindPHP.cmake](https://github.com/petk/php-build-system/blob/master/cmake/ext/skeleton/cmake/modules/FindPHP.cmake)
-
-## Basic usage
-
-```cmake
-find_package(PHP)
-```
+* Module source code: [FindPHP.cmake](https://github.com/petk/php-build-system/blob/master/cmake/ext/skeleton/cmake/modules/FindPHP.cmake)
 
 Find PHP.
 
@@ -67,4 +62,27 @@ find_package(PHP COMPONENTS embed)
 # Override where to find PHP
 set(PHP_ROOT /path/to/php/installation)
 find_package(PHP)
+```
+
+## Basic usage
+
+```cmake
+# CMakeLists.txt
+find_package(PHP)
+```
+
+## Customizing search locations
+
+To customize where to look for the PHP package base
+installation directory, a common `CMAKE_PREFIX_PATH` or
+package-specific `PHP_ROOT` variable can be set at
+the configuration phase. For example:
+
+```sh
+cmake -S <source-dir> -B <build-dir> -DCMAKE_PREFIX_PATH="/opt/PHP;/opt/some-other-package"
+# or
+cmake -S <source-dir> \
+    -B <build-dir> \
+    -DPHP_ROOT=/opt/PHP \
+    -DSOMEOTHERPACKAGE_ROOT=/opt/some-other-package
 ```

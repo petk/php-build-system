@@ -1,12 +1,7 @@
+<!-- This is auto-generated file. -->
 # PHP/ThreadSafety
 
-See: [ThreadSafety.cmake](https://github.com/petk/php-build-system/blob/master/cmake/cmake/modules/PHP/ThreadSafety.cmake)
-
-## Basic usage
-
-```cmake
-include(PHP/ThreadSafety)
-```
+* Module source code: [ThreadSafety.cmake](https://github.com/petk/php-build-system/blob/master/cmake/cmake/modules/PHP/ThreadSafety.cmake)
 
 Check for thread safety, a.k.a. ZTS (Zend thread safety) build.
 
@@ -27,3 +22,10 @@ Check for thread safety, a.k.a. ZTS (Zend thread safety) build.
   during the generation phase to determine thread safety enabled from the
   configuration phase. For example, the `PHP_EXTENSION_DIR` configuration
   variable needs to be set depending on the thread safety.
+
+## Basic usage
+
+```cmake
+# CMakeLists.txt
+include(PHP/ThreadSafety)
+```

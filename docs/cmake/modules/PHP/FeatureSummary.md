@@ -1,12 +1,7 @@
+<!-- This is auto-generated file. -->
 # PHP/FeatureSummary
 
-See: [FeatureSummary.cmake](https://github.com/petk/php-build-system/blob/master/cmake/cmake/modules/PHP/FeatureSummary.cmake)
-
-## Basic usage
-
-```cmake
-include(PHP/FeatureSummary)
-```
+* Module source code: [FeatureSummary.cmake](https://github.com/petk/php-build-system/blob/master/cmake/cmake/modules/PHP/FeatureSummary.cmake)
 
 Print summary of enabled/disabled features.
 
@@ -16,3 +11,10 @@ and other global PHP features. Common misconfiguration issues are summarized
 together with missing required system packages.
 
 https://cmake.org/cmake/help/latest/module/FeatureSummary.html
+
+## Basic usage
+
+```cmake
+# CMakeLists.txt
+include(PHP/FeatureSummary)
+```

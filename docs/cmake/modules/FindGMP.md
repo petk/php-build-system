@@ -1,12 +1,7 @@
+<!-- This is auto-generated file. -->
 # FindGMP
 
-See: [FindGMP.cmake](https://github.com/petk/php-build-system/blob/master/cmake/cmake/modules/FindGMP.cmake)
-
-## Basic usage
-
-```cmake
-find_package(GMP)
-```
+* Module source code: [FindGMP.cmake](https://github.com/petk/php-build-system/blob/master/cmake/cmake/modules/FindGMP.cmake)
 
 Find the GMP library.
 
@@ -29,3 +24,26 @@ Cache variables:
 Hints:
 
 The `GMP_ROOT` variable adds custom search path.
+
+## Basic usage
+
+```cmake
+# CMakeLists.txt
+find_package(GMP)
+```
+
+## Customizing search locations
+
+To customize where to look for the GMP package base
+installation directory, a common `CMAKE_PREFIX_PATH` or
+package-specific `GMP_ROOT` variable can be set at
+the configuration phase. For example:
+
+```sh
+cmake -S <source-dir> -B <build-dir> -DCMAKE_PREFIX_PATH="/opt/GMP;/opt/some-other-package"
+# or
+cmake -S <source-dir> \
+    -B <build-dir> \
+    -DGMP_ROOT=/opt/GMP \
+    -DSOMEOTHERPACKAGE_ROOT=/opt/some-other-package
+```

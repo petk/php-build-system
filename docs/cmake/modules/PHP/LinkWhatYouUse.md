@@ -1,12 +1,7 @@
+<!-- This is auto-generated file. -->
 # PHP/LinkWhatYouUse
 
-See: [LinkWhatYouUse.cmake](https://github.com/petk/php-build-system/blob/master/cmake/cmake/modules/PHP/LinkWhatYouUse.cmake)
-
-## Basic usage
-
-```cmake
-include(PHP/LinkWhatYouUse)
-```
+* Module source code: [LinkWhatYouUse.cmake](https://github.com/petk/php-build-system/blob/master/cmake/cmake/modules/PHP/LinkWhatYouUse.cmake)
 
 Check whether to enable `CMAKE_LINK_WHAT_YOU_USE`.
 
@@ -30,3 +25,10 @@ only if they are actually needed at the configuration time in the first place.
 
 TODO: Fix unused direct dependencies warnings and add `option()` for
 `CMAKE_LINK_WHAT_YOU_USE`.
+
+## Basic usage
+
+```cmake
+# CMakeLists.txt
+include(PHP/LinkWhatYouUse)
+```

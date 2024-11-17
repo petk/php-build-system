@@ -1,12 +1,7 @@
+<!-- This is auto-generated file. -->
 # CheckSHM
 
-See: [CheckSHM.cmake](https://github.com/petk/php-build-system/blob/master/cmake/ext/opcache/cmake/CheckSHM.cmake)
-
-## Basic usage
-
-```cmake
-include(cmake/CheckSHM.cmake)
-```
+* Module source code: [CheckSHM.cmake](https://github.com/petk/php-build-system/blob/master/cmake/ext/opcache/cmake/CheckSHM.cmake)
 
 Check for shared memory (SHM) operations functions and required libraries.
 
@@ -25,3 +20,10 @@ IMPORTED target:
 
 * `PHP::CheckSHMLibrary`
   If there is additional library to be linked for using SHM POSIX functions.
+
+## Basic usage
+
+```cmake
+# CMakeLists.txt
+include(cmake/CheckSHM.cmake)
+```

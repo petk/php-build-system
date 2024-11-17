@@ -1,12 +1,7 @@
+<!-- This is auto-generated file. -->
 # FindAppArmor
 
-See: [FindAppArmor.cmake](https://github.com/petk/php-build-system/blob/master/cmake/cmake/modules/FindAppArmor.cmake)
-
-## Basic usage
-
-```cmake
-find_package(AppArmor)
-```
+* Module source code: [FindAppArmor.cmake](https://github.com/petk/php-build-system/blob/master/cmake/cmake/modules/FindAppArmor.cmake)
 
 Find the AppArmor library.
 
@@ -29,3 +24,26 @@ Cache variables:
 Hints:
 
 The `AppArmor_ROOT` variable adds custom search path.
+
+## Basic usage
+
+```cmake
+# CMakeLists.txt
+find_package(AppArmor)
+```
+
+## Customizing search locations
+
+To customize where to look for the AppArmor package base
+installation directory, a common `CMAKE_PREFIX_PATH` or
+package-specific `APPARMOR_ROOT` variable can be set at
+the configuration phase. For example:
+
+```sh
+cmake -S <source-dir> -B <build-dir> -DCMAKE_PREFIX_PATH="/opt/AppArmor;/opt/some-other-package"
+# or
+cmake -S <source-dir> \
+    -B <build-dir> \
+    -DAPPARMOR_ROOT=/opt/AppArmor \
+    -DSOMEOTHERPACKAGE_ROOT=/opt/some-other-package
+```

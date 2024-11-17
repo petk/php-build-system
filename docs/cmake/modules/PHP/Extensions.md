@@ -1,12 +1,7 @@
+<!-- This is auto-generated file. -->
 # PHP/Extensions
 
-See: [Extensions.cmake](https://github.com/petk/php-build-system/blob/master/cmake/cmake/modules/PHP/Extensions.cmake)
-
-## Basic usage
-
-```cmake
-include(PHP/Extensions)
-```
+* Module source code: [Extensions.cmake](https://github.com/petk/php-build-system/blob/master/cmake/cmake/modules/PHP/Extensions.cmake)
 
 Configure PHP extensions.
 
@@ -59,3 +54,10 @@ https://bugs.php.net/53141
 
   Global property with a list of all dependencies of <extension> (name of the
   extension as named in ext directory).
+
+## Basic usage
+
+```cmake
+# CMakeLists.txt
+include(PHP/Extensions)
+```

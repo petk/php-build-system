@@ -1,12 +1,7 @@
+<!-- This is auto-generated file. -->
 # FindEnchant
 
-See: [FindEnchant.cmake](https://github.com/petk/php-build-system/blob/master/cmake/cmake/modules/FindEnchant.cmake)
-
-## Basic usage
-
-```cmake
-find_package(Enchant)
-```
+* Module source code: [FindEnchant.cmake](https://github.com/petk/php-build-system/blob/master/cmake/cmake/modules/FindEnchant.cmake)
 
 Find the Enchant library.
 
@@ -29,3 +24,26 @@ Cache variables:
 Hints:
 
 The `Enchant_ROOT` variable adds custom search path.
+
+## Basic usage
+
+```cmake
+# CMakeLists.txt
+find_package(Enchant)
+```
+
+## Customizing search locations
+
+To customize where to look for the Enchant package base
+installation directory, a common `CMAKE_PREFIX_PATH` or
+package-specific `ENCHANT_ROOT` variable can be set at
+the configuration phase. For example:
+
+```sh
+cmake -S <source-dir> -B <build-dir> -DCMAKE_PREFIX_PATH="/opt/Enchant;/opt/some-other-package"
+# or
+cmake -S <source-dir> \
+    -B <build-dir> \
+    -DENCHANT_ROOT=/opt/Enchant \
+    -DSOMEOTHERPACKAGE_ROOT=/opt/some-other-package
+```

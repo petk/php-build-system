@@ -1,12 +1,7 @@
+<!-- This is auto-generated file. -->
 # FindCdb
 
-See: [FindCdb.cmake](https://github.com/petk/php-build-system/blob/master/cmake/cmake/modules/FindCdb.cmake)
-
-## Basic usage
-
-```cmake
-find_package(Cdb)
-```
+* Module source code: [FindCdb.cmake](https://github.com/petk/php-build-system/blob/master/cmake/cmake/modules/FindCdb.cmake)
 
 Find the cdb library.
 
@@ -29,3 +24,26 @@ Module defines the following `IMPORTED` target(s):
 ## Hints
 
 * The `Cdb_ROOT` variable adds custom search path.
+
+## Basic usage
+
+```cmake
+# CMakeLists.txt
+find_package(Cdb)
+```
+
+## Customizing search locations
+
+To customize where to look for the Cdb package base
+installation directory, a common `CMAKE_PREFIX_PATH` or
+package-specific `CDB_ROOT` variable can be set at
+the configuration phase. For example:
+
+```sh
+cmake -S <source-dir> -B <build-dir> -DCMAKE_PREFIX_PATH="/opt/Cdb;/opt/some-other-package"
+# or
+cmake -S <source-dir> \
+    -B <build-dir> \
+    -DCDB_ROOT=/opt/Cdb \
+    -DSOMEOTHERPACKAGE_ROOT=/opt/some-other-package
+```

@@ -1,12 +1,7 @@
+<!-- This is auto-generated file. -->
 # CheckTtynameR
 
-See: [CheckTtynameR.cmake](https://github.com/petk/php-build-system/blob/master/cmake/ext/posix/cmake/CheckTtynameR.cmake)
-
-## Basic usage
-
-```cmake
-include(cmake/CheckTtynameR.cmake)
-```
+* Module source code: [CheckTtynameR.cmake](https://github.com/petk/php-build-system/blob/master/cmake/ext/posix/cmake/CheckTtynameR.cmake)
 
 Check `ttyname_r()`.
 
@@ -26,3 +21,10 @@ Cache variables:
 
 * `HAVE_TTYNAME_R`
   Whether `ttyname_r()` works as expected.
+
+## Basic usage
+
+```cmake
+# CMakeLists.txt
+include(cmake/CheckTtynameR.cmake)
+```

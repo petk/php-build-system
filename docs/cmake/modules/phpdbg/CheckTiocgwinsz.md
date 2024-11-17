@@ -1,12 +1,7 @@
+<!-- This is auto-generated file. -->
 # CheckTiocgwinsz
 
-See: [CheckTiocgwinsz.cmake](https://github.com/petk/php-build-system/blob/master/cmake/sapi/phpdbg/cmake/CheckTiocgwinsz.cmake)
-
-## Basic usage
-
-```cmake
-include(cmake/CheckTiocgwinsz.cmake)
-```
+* Module source code: [CheckTiocgwinsz.cmake](https://github.com/petk/php-build-system/blob/master/cmake/sapi/phpdbg/cmake/CheckTiocgwinsz.cmake)
 
 Check if any of the expected headers define `TIOCGWINSZ`.
 
@@ -18,3 +13,10 @@ Cache variables:
 
 * `GWINSZ_IN_SYS_IOCTL`
   Whether `sys/ioctl.h` defines `TIOCGWINSZ`.
+
+## Basic usage
+
+```cmake
+# CMakeLists.txt
+include(cmake/CheckTiocgwinsz.cmake)
+```

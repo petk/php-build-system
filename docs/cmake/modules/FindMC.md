@@ -1,12 +1,7 @@
+<!-- This is auto-generated file. -->
 # FindMC
 
-See: [FindMC.cmake](https://github.com/petk/php-build-system/blob/master/cmake/cmake/modules/FindMC.cmake)
-
-## Basic usage
-
-```cmake
-find_package(MC)
-```
+* Module source code: [FindMC.cmake](https://github.com/petk/php-build-system/blob/master/cmake/cmake/modules/FindMC.cmake)
 
 Find Windows compatible message compiler (mc.exe or windmc) command-line tool.
 
@@ -50,3 +45,26 @@ mc_target(
   their symbolic name.
 * `OPTIONS` - A list of additional options to pass to message compiler tool.
 * `DEPENDS` - Optional list of dependent files to recompile message file.
+
+## Basic usage
+
+```cmake
+# CMakeLists.txt
+find_package(MC)
+```
+
+## Customizing search locations
+
+To customize where to look for the MC package base
+installation directory, a common `CMAKE_PREFIX_PATH` or
+package-specific `MC_ROOT` variable can be set at
+the configuration phase. For example:
+
+```sh
+cmake -S <source-dir> -B <build-dir> -DCMAKE_PREFIX_PATH="/opt/MC;/opt/some-other-package"
+# or
+cmake -S <source-dir> \
+    -B <build-dir> \
+    -DMC_ROOT=/opt/MC \
+    -DSOMEOTHERPACKAGE_ROOT=/opt/some-other-package
+```

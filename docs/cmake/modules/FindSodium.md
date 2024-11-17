@@ -1,12 +1,7 @@
+<!-- This is auto-generated file. -->
 # FindSodium
 
-See: [FindSodium.cmake](https://github.com/petk/php-build-system/blob/master/cmake/cmake/modules/FindSodium.cmake)
-
-## Basic usage
-
-```cmake
-find_package(Sodium)
-```
+* Module source code: [FindSodium.cmake](https://github.com/petk/php-build-system/blob/master/cmake/cmake/modules/FindSodium.cmake)
 
 Find the Sodium library (libsodium).
 
@@ -29,3 +24,26 @@ Cache variables:
 Hints:
 
 The `Sodium_ROOT` variable adds custom search path.
+
+## Basic usage
+
+```cmake
+# CMakeLists.txt
+find_package(Sodium)
+```
+
+## Customizing search locations
+
+To customize where to look for the Sodium package base
+installation directory, a common `CMAKE_PREFIX_PATH` or
+package-specific `SODIUM_ROOT` variable can be set at
+the configuration phase. For example:
+
+```sh
+cmake -S <source-dir> -B <build-dir> -DCMAKE_PREFIX_PATH="/opt/Sodium;/opt/some-other-package"
+# or
+cmake -S <source-dir> \
+    -B <build-dir> \
+    -DSODIUM_ROOT=/opt/Sodium \
+    -DSOMEOTHERPACKAGE_ROOT=/opt/some-other-package
+```

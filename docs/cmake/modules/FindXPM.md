@@ -1,12 +1,7 @@
+<!-- This is auto-generated file. -->
 # FindXPM
 
-See: [FindXPM.cmake](https://github.com/petk/php-build-system/blob/master/cmake/cmake/modules/FindXPM.cmake)
-
-## Basic usage
-
-```cmake
-find_package(XPM)
-```
+* Module source code: [FindXPM.cmake](https://github.com/petk/php-build-system/blob/master/cmake/cmake/modules/FindXPM.cmake)
 
 Find the libXpm library.
 
@@ -29,3 +24,26 @@ Cache variables:
 Hints:
 
 The `XPM_ROOT` variable adds custom search path.
+
+## Basic usage
+
+```cmake
+# CMakeLists.txt
+find_package(XPM)
+```
+
+## Customizing search locations
+
+To customize where to look for the XPM package base
+installation directory, a common `CMAKE_PREFIX_PATH` or
+package-specific `XPM_ROOT` variable can be set at
+the configuration phase. For example:
+
+```sh
+cmake -S <source-dir> -B <build-dir> -DCMAKE_PREFIX_PATH="/opt/XPM;/opt/some-other-package"
+# or
+cmake -S <source-dir> \
+    -B <build-dir> \
+    -DXPM_ROOT=/opt/XPM \
+    -DSOMEOTHERPACKAGE_ROOT=/opt/some-other-package
+```

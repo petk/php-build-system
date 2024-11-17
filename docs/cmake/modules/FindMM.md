@@ -1,12 +1,7 @@
+<!-- This is auto-generated file. -->
 # FindMM
 
-See: [FindMM.cmake](https://github.com/petk/php-build-system/blob/master/cmake/cmake/modules/FindMM.cmake)
-
-## Basic usage
-
-```cmake
-find_package(MM)
-```
+* Module source code: [FindMM.cmake](https://github.com/petk/php-build-system/blob/master/cmake/cmake/modules/FindMM.cmake)
 
 Find the mm library.
 
@@ -28,3 +23,26 @@ Cache variables:
 Hints:
 
 The `MM_ROOT` variable adds custom search path.
+
+## Basic usage
+
+```cmake
+# CMakeLists.txt
+find_package(MM)
+```
+
+## Customizing search locations
+
+To customize where to look for the MM package base
+installation directory, a common `CMAKE_PREFIX_PATH` or
+package-specific `MM_ROOT` variable can be set at
+the configuration phase. For example:
+
+```sh
+cmake -S <source-dir> -B <build-dir> -DCMAKE_PREFIX_PATH="/opt/MM;/opt/some-other-package"
+# or
+cmake -S <source-dir> \
+    -B <build-dir> \
+    -DMM_ROOT=/opt/MM \
+    -DSOMEOTHERPACKAGE_ROOT=/opt/some-other-package
+```

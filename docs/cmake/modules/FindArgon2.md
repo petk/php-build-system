@@ -1,12 +1,7 @@
+<!-- This is auto-generated file. -->
 # FindArgon2
 
-See: [FindArgon2.cmake](https://github.com/petk/php-build-system/blob/master/cmake/cmake/modules/FindArgon2.cmake)
-
-## Basic usage
-
-```cmake
-find_package(Argon2)
-```
+* Module source code: [FindArgon2.cmake](https://github.com/petk/php-build-system/blob/master/cmake/cmake/modules/FindArgon2.cmake)
 
 Find the Argon2 library.
 
@@ -29,3 +24,26 @@ Cache variables:
 Hints:
 
 The `Argon2_ROOT` variable adds custom search path.
+
+## Basic usage
+
+```cmake
+# CMakeLists.txt
+find_package(Argon2)
+```
+
+## Customizing search locations
+
+To customize where to look for the Argon2 package base
+installation directory, a common `CMAKE_PREFIX_PATH` or
+package-specific `ARGON2_ROOT` variable can be set at
+the configuration phase. For example:
+
+```sh
+cmake -S <source-dir> -B <build-dir> -DCMAKE_PREFIX_PATH="/opt/Argon2;/opt/some-other-package"
+# or
+cmake -S <source-dir> \
+    -B <build-dir> \
+    -DARGON2_ROOT=/opt/Argon2 \
+    -DSOMEOTHERPACKAGE_ROOT=/opt/some-other-package
+```

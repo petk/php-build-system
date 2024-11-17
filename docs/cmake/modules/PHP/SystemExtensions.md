@@ -1,12 +1,7 @@
+<!-- This is auto-generated file. -->
 # PHP/SystemExtensions
 
-See: [SystemExtensions.cmake](https://github.com/petk/php-build-system/blob/master/cmake/cmake/modules/PHP/SystemExtensions.cmake)
-
-## Basic usage
-
-```cmake
-include(PHP/SystemExtensions)
-```
+* Module source code: [SystemExtensions.cmake](https://github.com/petk/php-build-system/blob/master/cmake/cmake/modules/PHP/SystemExtensions.cmake)
 
 Enable extensions to C or POSIX on systems that by default disable them to
 conform to standards or namespace issues.
@@ -73,3 +68,10 @@ cmake_pop_check_state()
 
 Compile definitions are not appended to `CMAKE_C_FLAGS` for cleaner build
 system: `string(APPEND CMAKE_C_FLAGS " -D<extension>=1 ")`.
+
+## Basic usage
+
+```cmake
+# CMakeLists.txt
+include(PHP/SystemExtensions)
+```

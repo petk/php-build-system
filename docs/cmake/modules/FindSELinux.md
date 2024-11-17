@@ -1,12 +1,7 @@
+<!-- This is auto-generated file. -->
 # FindSELinux
 
-See: [FindSELinux.cmake](https://github.com/petk/php-build-system/blob/master/cmake/cmake/modules/FindSELinux.cmake)
-
-## Basic usage
-
-```cmake
-find_package(SELinux)
-```
+* Module source code: [FindSELinux.cmake](https://github.com/petk/php-build-system/blob/master/cmake/cmake/modules/FindSELinux.cmake)
 
 Find the SELinux library.
 
@@ -29,3 +24,26 @@ Cache variables:
 Hints:
 
 The `SELinux_ROOT` variable adds custom search path.
+
+## Basic usage
+
+```cmake
+# CMakeLists.txt
+find_package(SELinux)
+```
+
+## Customizing search locations
+
+To customize where to look for the SELinux package base
+installation directory, a common `CMAKE_PREFIX_PATH` or
+package-specific `SELINUX_ROOT` variable can be set at
+the configuration phase. For example:
+
+```sh
+cmake -S <source-dir> -B <build-dir> -DCMAKE_PREFIX_PATH="/opt/SELinux;/opt/some-other-package"
+# or
+cmake -S <source-dir> \
+    -B <build-dir> \
+    -DSELINUX_ROOT=/opt/SELinux \
+    -DSOMEOTHERPACKAGE_ROOT=/opt/some-other-package
+```

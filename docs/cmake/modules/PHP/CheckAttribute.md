@@ -1,12 +1,7 @@
+<!-- This is auto-generated file. -->
 # PHP/CheckAttribute
 
-See: [CheckAttribute.cmake](https://github.com/petk/php-build-system/blob/master/cmake/cmake/modules/PHP/CheckAttribute.cmake)
-
-## Basic usage
-
-```cmake
-include(PHP/CheckAttribute)
-```
+* Module source code: [CheckAttribute.cmake](https://github.com/petk/php-build-system/blob/master/cmake/cmake/modules/PHP/CheckAttribute.cmake)
 
 Check if GNU C function or variable attribute is supported by the compiler.
 
@@ -33,3 +28,10 @@ Supported function attributes:
 Supported variable attributes:
 
 * aligned
+
+## Basic usage
+
+```cmake
+# CMakeLists.txt
+include(PHP/CheckAttribute)
+```

@@ -1,12 +1,7 @@
+<!-- This is auto-generated file. -->
 # PHP/StandardLibrary
 
-See: [StandardLibrary.cmake](https://github.com/petk/php-build-system/blob/master/cmake/cmake/modules/PHP/StandardLibrary.cmake)
-
-## Basic usage
-
-```cmake
-include(PHP/StandardLibrary)
-```
+* Module source code: [StandardLibrary.cmake](https://github.com/petk/php-build-system/blob/master/cmake/cmake/modules/PHP/StandardLibrary.cmake)
 
 Determine the C standard library used for the build.
 
@@ -25,3 +20,10 @@ Result variables:
 
 Cache variables:
 * `__MUSL__`
+
+## Basic usage
+
+```cmake
+# CMakeLists.txt
+include(PHP/StandardLibrary)
+```

@@ -174,121 +174,121 @@ documentation.
 ## 3. PHP configuration
 
 * [`PHP_ADDRESS_SANITIZER`](/docs/cmake/variables/_PHP_ADDRESS_SANITIZER.md)
-
 * [`PHP_BUILD_ARCH`](/docs/cmake/variables/PHP_BUILD_ARCH.md)
-
 * [`PHP_BUILD_COMPILER`](/docs/cmake/variables/PHP_BUILD_COMPILER.md)
-
 * [`PHP_BUILD_PROVIDER`](/docs/cmake/variables/PHP_BUILD_PROVIDER.md)
-
 * [`PHP_CCACHE`](/docs/cmake/variables/PHP_CCACHE.md)
-
 * [`PHP_CONFIG_FILE_PATH`](/docs/cmake/variables/PHP_CONFIG_FILE_PATH.md)
-
 * [`PHP_CONFIG_FILE_SCAN_DIR`](/docs/cmake/variables/PHP_CONFIG_FILE_SCAN_DIR.md)
-
 * [`PHP_DEFAULT_SHORT_OPEN_TAG`](/docs/cmake/variables/PHP_DEFAULT_SHORT_OPEN_TAG.md)
-
 * [`PHP_DMALLOC`](/docs/cmake/variables/PHP_DMALLOC.md)
-
 * [`PHP_DTRACE`](/docs/cmake/variables/PHP_DTRACE.md)
-
 * [`PHP_GCOV`](/docs/cmake/variables/PHP_GCOV.md)
-
 * [`PHP_MEMORY_SANITIZER`](/docs/cmake/variables/_PHP_MEMORY_SANITIZER.md)
-
 * [`PHP_EXTENSION_DIR`](/docs/cmake/variables/PHP_EXTENSION_DIR.md)
-
 * [`PHP_FD_SETSIZE`](/docs/cmake/variables/PHP_FD_SETSIZE.md)
-
 * [`PHP_INCLUDE_PREFIX`](/docs/cmake/variables/PHP_INCLUDE_PREFIX.md)
-
 * [`PHP_IPV6`](/docs/cmake/variables/PHP_IPV6.md)
-
 * [`PHP_LIBGCC`](/docs/cmake/variables/PHP_LIBGCC.md)
-
-* [`PHP_PEAR`](/docs/cmake/variables/PHP_PEAR.md)
-  * [`PHP_PEAR_DIR`](/docs/cmake/variables/PHP_PEAR.md)
-  * [`PHP_PEAR_TEMP_DIR`](/docs/cmake/variables/PHP_PEAR.md)
-
 * [`PHP_RE2C_CGOTO`](/docs/cmake/variables/PHP_RE2C_CGOTO.md)
-
 * [`PHP_SIGCHILD`](/docs/cmake/variables/PHP_SIGCHILD.md)
-
 * [`PHP_THREAD_SAFETY`](/docs/cmake/variables/PHP_THREAD_SAFETY.md)
-
 * [`PHP_UNDEFINED_SANITIZER`](/docs/variables/_PHP_UNDEFINED_SANITIZER.md)
-
 * [`PHP_USE_RTLD_NOW`](/docs/cmake/variables/PHP_USE_RTLD_NOW.md)
-
 * [`PHP_VALGRIND`](/docs/cmake/variables/PHP_VALGRIND.md)
-
 * [`SED_EXECUTABLE`](/docs/cmake/variables/SED_EXECUTABLE.md)
+
+* [`PEAR`](/docs/cmake/pear.md)
 
 ## 4. Zend Engine configuration
 
 * [`ZEND_FIBER_ASM`](/docs/cmake/variables/ZEND_FIBER_ASM.md)
-
 * [`ZEND_GLOBAL_REGISTER_VARIABLES`](/docs/cmake/variables/ZEND_GLOBAL_REGISTER_VARIABLES.md)
-
 * [`ZEND_MAX_EXECUTION_TIMERS`](/docs/cmake/variables/ZEND_MAX_EXECUTION_TIMERS.md)
-
 * [`ZEND_SIGNALS`](/docs/cmake/variables/ZEND_SIGNALS.md)
 
 ## 5. PHP SAPI modules configuration
 
-* [`SAPI_APACHE2HANDLER`](/docs/cmake/variables/SAPI_APACHE2HANDLER.md)
-
-* [`SAPI_CGI`](/docs/cmake/variables/SAPI_CGI.md)
-
-* [`SAPI_CLI`](/docs/cmake/variables/SAPI_CLI.md)
-  * [`SAPI_CLI_WIN_NO_CONSOLE`](/docs/cmake/variables/SAPI_CLI.md)
-
-* [`SAPI_EMBED`](/docs/cmake/variables/SAPI_EMBED.md)
-
-* [`SAPI_FPM`](/docs/cmake/variables/SAPI_FPM.md)
-  * [`SAPI_FPM_USER`](/docs/cmake/variables/SAPI_FPM.md)
-  * [`SAPI_FPM_GROUP`](/docs/cmake/variables/SAPI_FPM.md)
-  * [`SAPI_FPM_SYSTEMD`](/docs/cmake/variables/SAPI_FPM.md)
-  * [`SAPI_FPM_ACL`](/docs/cmake/variables/SAPI_FPM.md)
-  * [`SAPI_FPM_APPARMOR`](/docs/cmake/variables/SAPI_FPM.md)
-  * [`SAPI_FPM_SELINUX`](/docs/cmake/variables/SAPI_FPM.md)
-
-* [`SAPI_FUZZER`](/docs/cmake/variables/SAPI_FUZZER.md)
-
-* [`SAPI_LITESPEED`](/docs/cmake/variables/SAPI_LITESPEED.md)
-
-* [`SAPI_PHPDBG`](/docs/cmake/variables/SAPI_PHPDBG.md)
-  * [`SAPI_PHPDBG_SHARED`](/docs/cmake/variables/SAPI_PHPDBG.md)
-  * [`SAPI_PHPDBG_DEBUG`](/docs/cmake/variables/SAPI_PHPDBG.md)
-  * [`SAPI_PHPDBG_READLINE`](/docs/cmake/variables/SAPI_PHPDBG.md)
+* [`apache2handler`](/docs/cmake/sapi/apache2handler.md)
+* [`cgi`](/docs/cmake/sapi/cgi.md)
+* [`cli`](/docs/cmake/sapi/cli.md)
+* [`embed`](/docs/cmake/sapi/embed.md)
+* [`fpm`](/docs/cmake/sapi/fpm.md)
+* [`fuzzer`](/docs/cmake/sapi/fuzzer.md)
+* [`litespeed`](/docs/cmake/sapi/litespeed.md)
+* [`phpdbg`](/docs/cmake/sapi/phpdbg.md)
 
 ## 6. PHP extensions configuration
 
-* [`EXT_MYSQLND`](/docs/cmake/variables/EXT_MYSQLND.md)
-  * [`EXT_MYSQLND_SHARED`](/docs/cmake/variables/EXT_MYSQLND.md)
-  * [`EXT_MYSQLND_COMPRESSION`](/docs/cmake/variables/EXT_MYSQLND.md)
-  * [`EXT_MYSQLND_SSL`](/docs/cmake/variables/EXT_MYSQLND.md)
-
-* [`EXT_ODBC`](/docs/cmake/variables/EXT_ODBC.md)
-  * [`EXT_ODBC_SHARED`](/docs/cmake/variables/EXT_ODBC.md)
-  * [`EXT_ODBC_TYPE`](/docs/cmake/variables/EXT_ODBC.md)
-  * [`EXT_ODBC_VERSION`](/docs/cmake/variables/EXT_ODBC.md)
-
-* [`EXT_OPENSSL`](/docs/cmake/variables/EXT_OPENSSL.md)
-  * [`EXT_OPENSSL_SHARED`](/docs/cmake/variables/EXT_OPENSSL.md)
-  * [`EXT_OPENSSL_SYSTEM_CIPHERS`](/docs/cmake/variables/EXT_OPENSSL.md)
-  * [`EXT_OPENSSL_ARGON2`](/docs/cmake/variables/EXT_OPENSSL.md)
-  * [`EXT_OPENSSL_LEGACY_PROVIDER`](/docs/cmake/variables/EXT_OPENSSL.md)
-  * [`EXT_OPENSSL_KERBEROS`](/docs/cmake/variables/EXT_OPENSSL.md)
-
-* [`EXT_PDO_MYSQL`](/docs/cmake/variables/EXT_PDO_MYSQL.md)
-  * [`EXT_PDO_MYSQL_SHARED`](/docs/cmake/variables/EXT_PDO_MYSQL.md)
-  * [`EXT_PDO_MYSQL_DRIVER`](/docs/cmake/variables/EXT_PDO_MYSQL.md)
-
-* [`EXT_PDO_ODBC`](/docs/cmake/variables/EXT_PDO_ODBC.md)
-  * [`EXT_PDO_ODBC_SHARED`](/docs/cmake/variables/EXT_PDO_ODBC.md)
-  * [`EXT_PDO_ODBC_TYPE`](/docs/cmake/variables/EXT_PDO_ODBC.md)
+* [`bcmath`](/docs/cmake/ext/bcmath.md)
+* [`bz2`](/docs/cmake/ext/bz2.md)
+* [`calendar`](/docs/cmake/ext/calendar.md)
+* [`com_dotnet`](/docs/cmake/ext/com_dotnet.md)
+* [`ctype`](/docs/cmake/ext/ctype.md)
+* [`curl`](/docs/cmake/ext/curl.md)
+* [`date`](/docs/cmake/ext/date.md)
+* [`dba`](/docs/cmake/ext/dba.md)
+* [`dl_test`](/docs/cmake/ext/dl_test.md)
+* [`dom`](/docs/cmake/ext/dom.md)
+* [`enchant`](/docs/cmake/ext/enchant.md)
+* [`exif`](/docs/cmake/ext/exif.md)
+* [`ffi`](/docs/cmake/ext/ffi.md)
+* [`fileinfo`](/docs/cmake/ext/fileinfo.md)
+* [`filter`](/docs/cmake/ext/filter.md)
+* [`ftp`](/docs/cmake/ext/ftp.md)
+* [`gd`](/docs/cmake/ext/gd.md)
+* [`gettext`](/docs/cmake/ext/gettext.md)
+* [`gmp`](/docs/cmake/ext/gmp.md)
+* [`hash`](/docs/cmake/ext/hash.md)
+* [`iconv`](/docs/cmake/ext/iconv.md)
+* [`intl`](/docs/cmake/ext/intl.md)
+* [`json`](/docs/cmake/ext/json.md)
+* [`ldap`](/docs/cmake/ext/ldap.md)
+* [`libxml`](/docs/cmake/ext/libxml.md)
+* [`mbstring`](/docs/cmake/ext/mbstring.md)
+* [`mysqli`](/docs/cmake/ext/mysqli.md)
+* [`mysqlnd`](/docs/cmake/ext/mysqlnd.md)
+* [`odbc`](/docs/cmake/ext/odbc.md)
+* [`opcache`](/docs/cmake/ext/opcache.md)
+* [`openssl`](/docs/cmake/ext/openssl.md)
+* [`pcntl`](/docs/cmake/ext/pcntl.md)
+* [`pcre`](/docs/cmake/ext/pcre.md)
+* [`pdo`](/docs/cmake/ext/pdo.md)
+* [`pdo_dblib`](/docs/cmake/ext/pdo_dblib.md)
+* [`pdo_firebird`](/docs/cmake/ext/pdo_firebird.md)
+* [`pdo_mysql`](/docs/cmake/ext/pdo_mysql.md)
+* [`pdo_odbc`](/docs/cmake/ext/pdo_odbc.md)
+* [`pdo_pgsql`](/docs/cmake/ext/pdo_pgsql.md)
+* [`pdo_sqlite`](/docs/cmake/ext/pdo_sqlite.md)
+* [`pgsql`](/docs/cmake/ext/pgsql.md)
+* [`phar`](/docs/cmake/ext/phar.md)
+* [`posix`](/docs/cmake/ext/posix.md)
+* [`random`](/docs/cmake/ext/random.md)
+* [`readline`](/docs/cmake/ext/readline.md)
+* [`reflection`](/docs/cmake/ext/reflection.md)
+* [`session`](/docs/cmake/ext/session.md)
+* [`shmop`](/docs/cmake/ext/shmop.md)
+* [`simplexml`](/docs/cmake/ext/simplexml.md)
+* [`skeleton`](/docs/cmake/ext/skeleton.md)
+* [`snmp`](/docs/cmake/ext/snmp.md)
+* [`soap`](/docs/cmake/ext/soap.md)
+* [`sockets`](/docs/cmake/ext/sockets.md)
+* [`sodium`](/docs/cmake/ext/sodium.md)
+* [`spl`](/docs/cmake/ext/spl.md)
+* [`sqlite3`](/docs/cmake/ext/sqlite3.md)
+* [`standard`](/docs/cmake/ext/standard.md)
+* [`sysvmsg`](/docs/cmake/ext/sysvmsg.md)
+* [`sysvsem`](/docs/cmake/ext/sysvsem.md)
+* [`sysvshm`](/docs/cmake/ext/sysvshm.md)
+* [`tidy`](/docs/cmake/ext/tidy.md)
+* [`tokenizer`](/docs/cmake/ext/tokenizer.md)
+* [`xml`](/docs/cmake/ext/xml.md)
+* [`xmlreader`](/docs/cmake/ext/xmlreader.md)
+* [`xmlwriter`](/docs/cmake/ext/xmlwriter.md)
+* [`xsl`](/docs/cmake/ext/xsl.md)
+* [`zend_test`](/docs/cmake/ext/zend_test.md)
+* [`zip`](/docs/cmake/ext/zip.md)
+* [`zlib`](/docs/cmake/ext/zlib.md)
 
 ## 7. CMake GUI
 

@@ -1,12 +1,7 @@
+<!-- This is auto-generated file. -->
 # PHP/Rebuild
 
-See: [Rebuild.cmake](https://github.com/petk/php-build-system/blob/master/cmake/cmake/modules/PHP/Rebuild.cmake)
-
-## Basic usage
-
-```cmake
-include(PHP/Rebuild)
-```
+* Module source code: [Rebuild.cmake](https://github.com/petk/php-build-system/blob/master/cmake/cmake/modules/PHP/Rebuild.cmake)
 
 Ensure all project targets are rebuilt as needed.
 
@@ -17,3 +12,10 @@ rebuilding is not considered good practice, it ensures that all targets are kept
 up to date.
 
 TODO: This works only for a limited set of cases for now and will be refactored.
+
+## Basic usage
+
+```cmake
+# CMakeLists.txt
+include(PHP/Rebuild)
+```

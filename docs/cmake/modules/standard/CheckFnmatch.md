@@ -1,12 +1,7 @@
+<!-- This is auto-generated file. -->
 # CheckFnmatch
 
-See: [CheckFnmatch.cmake](https://github.com/petk/php-build-system/blob/master/cmake/ext/standard/cmake/CheckFnmatch.cmake)
-
-## Basic usage
-
-```cmake
-include(cmake/CheckFnmatch.cmake)
-```
+* Module source code: [CheckFnmatch.cmake](https://github.com/petk/php-build-system/blob/master/cmake/ext/standard/cmake/CheckFnmatch.cmake)
 
 Check for a working POSIX `fnmatch()` function.
 
@@ -21,3 +16,10 @@ Cache variables:
 
 * `HAVE_FNMATCH`
   Whether `fnmatch` is a working POSIX variant.
+
+## Basic usage
+
+```cmake
+# CMakeLists.txt
+include(cmake/CheckFnmatch.cmake)
+```

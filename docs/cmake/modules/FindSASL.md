@@ -1,12 +1,7 @@
+<!-- This is auto-generated file. -->
 # FindSASL
 
-See: [FindSASL.cmake](https://github.com/petk/php-build-system/blob/master/cmake/cmake/modules/FindSASL.cmake)
-
-## Basic usage
-
-```cmake
-find_package(SASL)
-```
+* Module source code: [FindSASL.cmake](https://github.com/petk/php-build-system/blob/master/cmake/cmake/modules/FindSASL.cmake)
 
 Find the SASL library.
 
@@ -29,3 +24,26 @@ Cache variables:
 Hints:
 
 The `SASL_ROOT` variable adds custom search path.
+
+## Basic usage
+
+```cmake
+# CMakeLists.txt
+find_package(SASL)
+```
+
+## Customizing search locations
+
+To customize where to look for the SASL package base
+installation directory, a common `CMAKE_PREFIX_PATH` or
+package-specific `SASL_ROOT` variable can be set at
+the configuration phase. For example:
+
+```sh
+cmake -S <source-dir> -B <build-dir> -DCMAKE_PREFIX_PATH="/opt/SASL;/opt/some-other-package"
+# or
+cmake -S <source-dir> \
+    -B <build-dir> \
+    -DSASL_ROOT=/opt/SASL \
+    -DSOMEOTHERPACKAGE_ROOT=/opt/some-other-package
+```

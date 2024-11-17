@@ -1,12 +1,7 @@
+<!-- This is auto-generated file. -->
 # PHP/CheckCompilerFlag
 
-See: [CheckCompilerFlag.cmake](https://github.com/petk/php-build-system/blob/master/cmake/cmake/modules/PHP/CheckCompilerFlag.cmake)
-
-## Basic usage
-
-```cmake
-include(PHP/CheckCompilerFlag)
-```
+* Module source code: [CheckCompilerFlag.cmake](https://github.com/petk/php-build-system/blob/master/cmake/cmake/modules/PHP/CheckCompilerFlag.cmake)
 
 Check whether the compiler supports given compile option.
 
@@ -46,4 +41,11 @@ For example:
 include(PHP/CheckCompilerFlag)
 
 php_check_compiler_flag(C -Wno-clobbered PHP_HAVE_WNO_CLOBBERED)
+```
+
+## Basic usage
+
+```cmake
+# CMakeLists.txt
+include(PHP/CheckCompilerFlag)
 ```

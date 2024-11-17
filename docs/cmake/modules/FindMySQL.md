@@ -1,12 +1,7 @@
+<!-- This is auto-generated file. -->
 # FindMySQL
 
-See: [FindMySQL.cmake](https://github.com/petk/php-build-system/blob/master/cmake/cmake/modules/FindMySQL.cmake)
-
-## Basic usage
-
-```cmake
-find_package(MySQL)
-```
+* Module source code: [FindMySQL.cmake](https://github.com/petk/php-build-system/blob/master/cmake/cmake/modules/FindMySQL.cmake)
 
 Find MySQL-compatible (MySQL, MariaDB, Percona, etc.) database.
 
@@ -45,3 +40,26 @@ Hints:
 
 * The `MySQL_Socket_PATH` variable can be overridden.
 * The `MySQL_ROOT` variable adds custom search path.
+
+## Basic usage
+
+```cmake
+# CMakeLists.txt
+find_package(MySQL)
+```
+
+## Customizing search locations
+
+To customize where to look for the MySQL package base
+installation directory, a common `CMAKE_PREFIX_PATH` or
+package-specific `MYSQL_ROOT` variable can be set at
+the configuration phase. For example:
+
+```sh
+cmake -S <source-dir> -B <build-dir> -DCMAKE_PREFIX_PATH="/opt/MySQL;/opt/some-other-package"
+# or
+cmake -S <source-dir> \
+    -B <build-dir> \
+    -DMYSQL_ROOT=/opt/MySQL \
+    -DSOMEOTHERPACKAGE_ROOT=/opt/some-other-package
+```

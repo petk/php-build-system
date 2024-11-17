@@ -1,11 +1,13 @@
+<!-- This is auto-generated file. -->
 # PHP/CheckSegmentsAlignment
 
-See: [CheckSegmentsAlignment.cmake](https://github.com/petk/php-build-system/blob/master/cmake/cmake/modules/PHP/CheckSegmentsAlignment.cmake)
+* Module source code: [CheckSegmentsAlignment.cmake](https://github.com/petk/php-build-system/blob/master/cmake/cmake/modules/PHP/CheckSegmentsAlignment.cmake)
+
+Check linker support for aligning segments on huge page boundary.
 
 ## Basic usage
 
 ```cmake
+# CMakeLists.txt
 include(PHP/CheckSegmentsAlignment)
 ```
-
-Check linker support for aligning segments on huge page boundary.

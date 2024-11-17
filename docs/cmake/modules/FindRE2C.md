@@ -1,12 +1,7 @@
+<!-- This is auto-generated file. -->
 # FindRE2C
 
-See: [FindRE2C.cmake](https://github.com/petk/php-build-system/blob/master/cmake/cmake/modules/FindRE2C.cmake)
-
-## Basic usage
-
-```cmake
-find_package(RE2C)
-```
+* Module source code: [FindRE2C.cmake](https://github.com/petk/php-build-system/blob/master/cmake/cmake/modules/FindRE2C.cmake)
 
 Find re2c.
 
@@ -80,3 +75,26 @@ re2c_target(
   `RE2C_DEFAULT_OPTIONS` are not passed to the re2c invocation.
 * `NO_COMPUTED_GOTOS` - If specified when using the `RE2C_USE_COMPUTED_GOTOS`,
   then the computed gotos option is not passed to the re2c invocation.
+
+## Basic usage
+
+```cmake
+# CMakeLists.txt
+find_package(RE2C)
+```
+
+## Customizing search locations
+
+To customize where to look for the RE2C package base
+installation directory, a common `CMAKE_PREFIX_PATH` or
+package-specific `RE2C_ROOT` variable can be set at
+the configuration phase. For example:
+
+```sh
+cmake -S <source-dir> -B <build-dir> -DCMAKE_PREFIX_PATH="/opt/RE2C;/opt/some-other-package"
+# or
+cmake -S <source-dir> \
+    -B <build-dir> \
+    -DRE2C_ROOT=/opt/RE2C \
+    -DSOMEOTHERPACKAGE_ROOT=/opt/some-other-package
+```

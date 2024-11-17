@@ -1,12 +1,7 @@
+<!-- This is auto-generated file. -->
 # PHP/CheckBuiltin
 
-See: [CheckBuiltin.cmake](https://github.com/petk/php-build-system/blob/master/cmake/cmake/modules/PHP/CheckBuiltin.cmake)
-
-## Basic usage
-
-```cmake
-include(PHP/CheckBuiltin)
-```
+* Module source code: [CheckBuiltin.cmake](https://github.com/petk/php-build-system/blob/master/cmake/cmake/modules/PHP/CheckBuiltin.cmake)
 
 Check whether compiler supports one of the built-in functions `__builtin_*()`.
 
@@ -25,4 +20,11 @@ For example:
 include(PHP/CheckBuiltin)
 
 php_check_builtin(__builtin_clz PHP_HAVE_BUILTIN_CLZ)
+```
+
+## Basic usage
+
+```cmake
+# CMakeLists.txt
+include(PHP/CheckBuiltin)
 ```

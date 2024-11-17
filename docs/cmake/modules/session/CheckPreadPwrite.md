@@ -1,12 +1,7 @@
+<!-- This is auto-generated file. -->
 # CheckPreadPwrite
 
-See: [CheckPreadPwrite.cmake](https://github.com/petk/php-build-system/blob/master/cmake/ext/session/cmake/CheckPreadPwrite.cmake)
-
-## Basic usage
-
-```cmake
-include(cmake/CheckPreadPwrite.cmake)
-```
+* Module source code: [CheckPreadPwrite.cmake](https://github.com/petk/php-build-system/blob/master/cmake/ext/session/cmake/CheckPreadPwrite.cmake)
 
 Check whether `pread()` and `pwrite()` work.
 
@@ -30,3 +25,10 @@ Cache variables:
     Whether `pwrite()` is available.
 * `PHP_PWRITE_64`
     Whether pwrite64 is default.
+
+## Basic usage
+
+```cmake
+# CMakeLists.txt
+include(cmake/CheckPreadPwrite.cmake)
+```

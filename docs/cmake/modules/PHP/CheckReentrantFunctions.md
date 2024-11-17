@@ -1,12 +1,7 @@
+<!-- This is auto-generated file. -->
 # PHP/CheckReentrantFunctions
 
-See: [CheckReentrantFunctions.cmake](https://github.com/petk/php-build-system/blob/master/cmake/cmake/modules/PHP/CheckReentrantFunctions.cmake)
-
-## Basic usage
-
-```cmake
-include(PHP/CheckReentrantFunctions)
-```
+* Module source code: [CheckReentrantFunctions.cmake](https://github.com/petk/php-build-system/blob/master/cmake/cmake/modules/PHP/CheckReentrantFunctions.cmake)
 
 Check for reentrant functions and their declarations.
 
@@ -37,3 +32,10 @@ Cache variables:
     Whether `strtok_r()` is available.
 * `MISSING_STRTOK_R_DECL`
     Whether `strtok_r()` is not declared.
+
+## Basic usage
+
+```cmake
+# CMakeLists.txt
+include(PHP/CheckReentrantFunctions)
+```

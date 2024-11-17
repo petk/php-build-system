@@ -1,12 +1,7 @@
+<!-- This is auto-generated file. -->
 # PHP/Set
 
-See: [Set.cmake](https://github.com/petk/php-build-system/blob/master/cmake/cmake/modules/PHP/Set.cmake)
-
-## Basic usage
-
-```cmake
-include(PHP/Set)
-```
+* Module source code: [Set.cmake](https://github.com/petk/php-build-system/blob/master/cmake/cmake/modules/PHP/Set.cmake)
 
 Set a CACHE variable that depends on a set of conditions.
 
@@ -185,3 +180,10 @@ php_set(
 
   A fatal error will be thrown, if `VAR` is set to a case-sensitive value
   (`unixodbc`) that does not match any item in the `CHOICES` list.
+
+## Basic usage
+
+```cmake
+# CMakeLists.txt
+include(PHP/Set)
+```

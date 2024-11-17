@@ -1,12 +1,7 @@
+<!-- This is auto-generated file. -->
 # FindOniguruma
 
-See: [FindOniguruma.cmake](https://github.com/petk/php-build-system/blob/master/cmake/cmake/modules/FindOniguruma.cmake)
-
-## Basic usage
-
-```cmake
-find_package(Oniguruma)
-```
+* Module source code: [FindOniguruma.cmake](https://github.com/petk/php-build-system/blob/master/cmake/cmake/modules/FindOniguruma.cmake)
 
 Find the Oniguruma library.
 
@@ -29,3 +24,26 @@ Cache variables:
 Hints:
 
 The `Oniguruma_ROOT` variable adds custom search path.
+
+## Basic usage
+
+```cmake
+# CMakeLists.txt
+find_package(Oniguruma)
+```
+
+## Customizing search locations
+
+To customize where to look for the Oniguruma package base
+installation directory, a common `CMAKE_PREFIX_PATH` or
+package-specific `ONIGURUMA_ROOT` variable can be set at
+the configuration phase. For example:
+
+```sh
+cmake -S <source-dir> -B <build-dir> -DCMAKE_PREFIX_PATH="/opt/Oniguruma;/opt/some-other-package"
+# or
+cmake -S <source-dir> \
+    -B <build-dir> \
+    -DONIGURUMA_ROOT=/opt/Oniguruma \
+    -DSOMEOTHERPACKAGE_ROOT=/opt/some-other-package
+```

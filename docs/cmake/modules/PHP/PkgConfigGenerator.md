@@ -1,12 +1,7 @@
+<!-- This is auto-generated file. -->
 # PHP/PkgConfigGenerator
 
-See: [PkgConfigGenerator.cmake](https://github.com/petk/php-build-system/blob/master/cmake/cmake/modules/PHP/PkgConfigGenerator.cmake)
-
-## Basic usage
-
-```cmake
-include(PHP/PkgConfigGenerator)
-```
+* Module source code: [PkgConfigGenerator.cmake](https://github.com/petk/php-build-system/blob/master/cmake/cmake/modules/PHP/PkgConfigGenerator.cmake)
 
 Generate pkg-config .pc file.
 
@@ -54,3 +49,10 @@ template.
   which is replaced with installation prefix either set via the
   `CMAKE_INSTALL_PREFIX` variable at the configuration phase, or the `--prefix`
   option at the `cmake --install` phase.
+
+## Basic usage
+
+```cmake
+# CMakeLists.txt
+include(PHP/PkgConfigGenerator)
+```

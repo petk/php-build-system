@@ -1,12 +1,7 @@
+<!-- This is auto-generated file. -->
 # MaxExecutionTimers
 
-See: [MaxExecutionTimers.cmake](https://github.com/petk/php-build-system/blob/master/cmake/Zend/cmake/MaxExecutionTimers.cmake)
-
-## Basic usage
-
-```cmake
-include(cmake/MaxExecutionTimers.cmake)
-```
+* Module source code: [MaxExecutionTimers.cmake](https://github.com/petk/php-build-system/blob/master/cmake/Zend/cmake/MaxExecutionTimers.cmake)
 
 Check whether to enable Zend max execution timers.
 
@@ -33,3 +28,10 @@ Check whether to enable Zend max execution timers.
 
   Includes possible additional library to be linked for using `timer_create()`
   and a compile definition.
+
+## Basic usage
+
+```cmake
+# CMakeLists.txt
+include(cmake/MaxExecutionTimers.cmake)
+```

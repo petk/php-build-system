@@ -1,12 +1,7 @@
+<!-- This is auto-generated file. -->
 # FindBerkeleyDB
 
-See: [FindBerkeleyDB.cmake](https://github.com/petk/php-build-system/blob/master/cmake/cmake/modules/FindBerkeleyDB.cmake)
-
-## Basic usage
-
-```cmake
-find_package(BerkeleyDB)
-```
+* Module source code: [FindBerkeleyDB.cmake](https://github.com/petk/php-build-system/blob/master/cmake/cmake/modules/FindBerkeleyDB.cmake)
 
 Find the Berkeley DB library.
 
@@ -33,3 +28,26 @@ Module defines the following `IMPORTED` target(s):
 * The `BerkeleyDB_ROOT` variable adds custom search path.
 * Set `BerkeleyDB_USE_DB1` to `TRUE` before calling `find_package(BerkeleyDB)`
   to enable the Berkeley DB 1.x support/emulation.
+
+## Basic usage
+
+```cmake
+# CMakeLists.txt
+find_package(BerkeleyDB)
+```
+
+## Customizing search locations
+
+To customize where to look for the BerkeleyDB package base
+installation directory, a common `CMAKE_PREFIX_PATH` or
+package-specific `BERKELEYDB_ROOT` variable can be set at
+the configuration phase. For example:
+
+```sh
+cmake -S <source-dir> -B <build-dir> -DCMAKE_PREFIX_PATH="/opt/BerkeleyDB;/opt/some-other-package"
+# or
+cmake -S <source-dir> \
+    -B <build-dir> \
+    -DBERKELEYDB_ROOT=/opt/BerkeleyDB \
+    -DSOMEOTHERPACKAGE_ROOT=/opt/some-other-package
+```

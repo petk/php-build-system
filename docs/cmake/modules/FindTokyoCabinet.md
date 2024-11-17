@@ -1,12 +1,7 @@
+<!-- This is auto-generated file. -->
 # FindTokyoCabinet
 
-See: [FindTokyoCabinet.cmake](https://github.com/petk/php-build-system/blob/master/cmake/cmake/modules/FindTokyoCabinet.cmake)
-
-## Basic usage
-
-```cmake
-find_package(TokyoCabinet)
-```
+* Module source code: [FindTokyoCabinet.cmake](https://github.com/petk/php-build-system/blob/master/cmake/cmake/modules/FindTokyoCabinet.cmake)
 
 Find the Tokyo Cabinet library.
 
@@ -29,3 +24,26 @@ Module defines the following `IMPORTED` target(s):
 ## Hints
 
 * The `TokyoCabinet_ROOT` variable adds custom search path.
+
+## Basic usage
+
+```cmake
+# CMakeLists.txt
+find_package(TokyoCabinet)
+```
+
+## Customizing search locations
+
+To customize where to look for the TokyoCabinet package base
+installation directory, a common `CMAKE_PREFIX_PATH` or
+package-specific `TOKYOCABINET_ROOT` variable can be set at
+the configuration phase. For example:
+
+```sh
+cmake -S <source-dir> -B <build-dir> -DCMAKE_PREFIX_PATH="/opt/TokyoCabinet;/opt/some-other-package"
+# or
+cmake -S <source-dir> \
+    -B <build-dir> \
+    -DTOKYOCABINET_ROOT=/opt/TokyoCabinet \
+    -DSOMEOTHERPACKAGE_ROOT=/opt/some-other-package
+```

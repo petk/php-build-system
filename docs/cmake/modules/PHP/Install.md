@@ -1,12 +1,7 @@
+<!-- This is auto-generated file. -->
 # PHP/Install
 
-See: [Install.cmake](https://github.com/petk/php-build-system/blob/master/cmake/cmake/modules/PHP/Install.cmake)
-
-## Basic usage
-
-```cmake
-include(PHP/Install)
-```
+* Module source code: [Install.cmake](https://github.com/petk/php-build-system/blob/master/cmake/cmake/modules/PHP/Install.cmake)
 
 Set the `CMAKE_INSTALL_*` variables inside the `install(CODE|SCRIPT)`.
 
@@ -35,4 +30,11 @@ the rest of the CMake code.
 php_install(CODE "
   message(STATUS \"CMAKE_INSTALL_SYSCONFDIR=\${CMAKE_INSTALL_SYSCONFDIR}\")
 ")
+```
+
+## Basic usage
+
+```cmake
+# CMakeLists.txt
+include(PHP/Install)
 ```

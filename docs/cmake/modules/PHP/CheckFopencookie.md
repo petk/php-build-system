@@ -1,12 +1,7 @@
+<!-- This is auto-generated file. -->
 # PHP/CheckFopencookie
 
-See: [CheckFopencookie.cmake](https://github.com/petk/php-build-system/blob/master/cmake/cmake/modules/PHP/CheckFopencookie.cmake)
-
-## Basic usage
-
-```cmake
-include(PHP/CheckFopencookie)
-```
+* Module source code: [CheckFopencookie.cmake](https://github.com/petk/php-build-system/blob/master/cmake/cmake/modules/PHP/CheckFopencookie.cmake)
 
 Check if `fopencookie()` works as expected.
 
@@ -23,3 +18,10 @@ Cache variables:
   Whether `fopencookie()` and `cookie_io_functions_t` are available.
 * `COOKIE_SEEKER_USES_OFF64_T`
   Whether `fopencookie` seeker uses the `off64_t` type.
+
+## Basic usage
+
+```cmake
+# CMakeLists.txt
+include(PHP/CheckFopencookie)
+```

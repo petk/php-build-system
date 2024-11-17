@@ -1,12 +1,7 @@
+<!-- This is auto-generated file. -->
 # FindODBC
 
-See: [FindODBC.cmake](https://github.com/petk/php-build-system/blob/master/cmake/cmake/modules/FindODBC.cmake)
-
-## Basic usage
-
-```cmake
-find_package(ODBC)
-```
+* Module source code: [FindODBC.cmake](https://github.com/petk/php-build-system/blob/master/cmake/cmake/modules/FindODBC.cmake)
 
 Find the ODBC library.
 
@@ -65,3 +60,26 @@ Modifications from upstream:
 * Added package meta-data for FeatureSummary.
 
 * Fixed finding ODBC on Windows and MinGW.
+
+## Basic usage
+
+```cmake
+# CMakeLists.txt
+find_package(ODBC)
+```
+
+## Customizing search locations
+
+To customize where to look for the ODBC package base
+installation directory, a common `CMAKE_PREFIX_PATH` or
+package-specific `ODBC_ROOT` variable can be set at
+the configuration phase. For example:
+
+```sh
+cmake -S <source-dir> -B <build-dir> -DCMAKE_PREFIX_PATH="/opt/ODBC;/opt/some-other-package"
+# or
+cmake -S <source-dir> \
+    -B <build-dir> \
+    -DODBC_ROOT=/opt/ODBC \
+    -DSOMEOTHERPACKAGE_ROOT=/opt/some-other-package
+```

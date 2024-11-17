@@ -1,12 +1,7 @@
+<!-- This is auto-generated file. -->
 # FindFreeTDS
 
-See: [FindFreeTDS.cmake](https://github.com/petk/php-build-system/blob/master/cmake/cmake/modules/FindFreeTDS.cmake)
-
-## Basic usage
-
-```cmake
-find_package(FreeTDS)
-```
+* Module source code: [FindFreeTDS.cmake](https://github.com/petk/php-build-system/blob/master/cmake/cmake/modules/FindFreeTDS.cmake)
 
 Find the FreeTDS set of libraries.
 
@@ -28,3 +23,26 @@ Cache variables:
 Hints:
 
 The `FreeTDS_ROOT` variable adds custom search path.
+
+## Basic usage
+
+```cmake
+# CMakeLists.txt
+find_package(FreeTDS)
+```
+
+## Customizing search locations
+
+To customize where to look for the FreeTDS package base
+installation directory, a common `CMAKE_PREFIX_PATH` or
+package-specific `FREETDS_ROOT` variable can be set at
+the configuration phase. For example:
+
+```sh
+cmake -S <source-dir> -B <build-dir> -DCMAKE_PREFIX_PATH="/opt/FreeTDS;/opt/some-other-package"
+# or
+cmake -S <source-dir> \
+    -B <build-dir> \
+    -DFREETDS_ROOT=/opt/FreeTDS \
+    -DSOMEOTHERPACKAGE_ROOT=/opt/some-other-package
+```

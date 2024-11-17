@@ -1,12 +1,7 @@
+<!-- This is auto-generated file. -->
 # CheckListeningQueue
 
-See: [CheckListeningQueue.cmake](https://github.com/petk/php-build-system/blob/master/cmake/sapi/fpm/cmake/CheckListeningQueue.cmake)
-
-## Basic usage
-
-```cmake
-include(cmake/CheckListeningQueue.cmake)
-```
+* Module source code: [CheckListeningQueue.cmake](https://github.com/petk/php-build-system/blob/master/cmake/sapi/fpm/cmake/CheckListeningQueue.cmake)
 
 Check FPM listening queue implementation.
 
@@ -24,3 +19,10 @@ Check FPM listening queue implementation.
 
   Whether `SO_LISTENQLEN` and `SO_LISTENQLIMIT` are available as alternative to
   `TCP_INFO` and `TCP_CONNECTION_INFO`.
+
+## Basic usage
+
+```cmake
+# CMakeLists.txt
+include(cmake/CheckListeningQueue.cmake)
+```

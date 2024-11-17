@@ -1,12 +1,7 @@
+<!-- This is auto-generated file. -->
 # FindACL
 
-See: [FindACL.cmake](https://github.com/petk/php-build-system/blob/master/cmake/cmake/modules/FindACL.cmake)
-
-## Basic usage
-
-```cmake
-find_package(ACL)
-```
+* Module source code: [FindACL.cmake](https://github.com/petk/php-build-system/blob/master/cmake/cmake/modules/FindACL.cmake)
 
 Find the ACL library.
 
@@ -35,3 +30,26 @@ The `ACL_ROOT` variable adds custom search path.
 Set `ACL_USE_USER_GROUP` to `TRUE` before calling `find_package(ACL)` to also
 check if the ACL library supports `ACL_USER` and `ACL_GROUP`. For example, macOS
 doesn't have support for user/group.
+
+## Basic usage
+
+```cmake
+# CMakeLists.txt
+find_package(ACL)
+```
+
+## Customizing search locations
+
+To customize where to look for the ACL package base
+installation directory, a common `CMAKE_PREFIX_PATH` or
+package-specific `ACL_ROOT` variable can be set at
+the configuration phase. For example:
+
+```sh
+cmake -S <source-dir> -B <build-dir> -DCMAKE_PREFIX_PATH="/opt/ACL;/opt/some-other-package"
+# or
+cmake -S <source-dir> \
+    -B <build-dir> \
+    -DACL_ROOT=/opt/ACL \
+    -DSOMEOTHERPACKAGE_ROOT=/opt/some-other-package
+```

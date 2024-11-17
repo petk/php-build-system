@@ -1,12 +1,7 @@
+<!-- This is auto-generated file. -->
 # FindICU
 
-See: [FindICU.cmake](https://github.com/petk/php-build-system/blob/master/cmake/cmake/modules/FindICU.cmake)
-
-## Basic usage
-
-```cmake
-find_package(ICU)
-```
+* Module source code: [FindICU.cmake](https://github.com/petk/php-build-system/blob/master/cmake/cmake/modules/FindICU.cmake)
 
 Find the ICU library.
 
@@ -17,3 +12,26 @@ customizations:
 
 * Added pkgconf.
 * Marked `ICU_INCLUDE_DIR` as advanced variable (fixed upstream in CMake 3.29).
+
+## Basic usage
+
+```cmake
+# CMakeLists.txt
+find_package(ICU)
+```
+
+## Customizing search locations
+
+To customize where to look for the ICU package base
+installation directory, a common `CMAKE_PREFIX_PATH` or
+package-specific `ICU_ROOT` variable can be set at
+the configuration phase. For example:
+
+```sh
+cmake -S <source-dir> -B <build-dir> -DCMAKE_PREFIX_PATH="/opt/ICU;/opt/some-other-package"
+# or
+cmake -S <source-dir> \
+    -B <build-dir> \
+    -DICU_ROOT=/opt/ICU \
+    -DSOMEOTHERPACKAGE_ROOT=/opt/some-other-package
+```

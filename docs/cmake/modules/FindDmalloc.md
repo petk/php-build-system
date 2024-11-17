@@ -1,12 +1,7 @@
+<!-- This is auto-generated file. -->
 # FindDmalloc
 
-See: [FindDmalloc.cmake](https://github.com/petk/php-build-system/blob/master/cmake/cmake/modules/FindDmalloc.cmake)
-
-## Basic usage
-
-```cmake
-find_package(Dmalloc)
-```
+* Module source code: [FindDmalloc.cmake](https://github.com/petk/php-build-system/blob/master/cmake/cmake/modules/FindDmalloc.cmake)
 
 Find the Dmalloc library.
 
@@ -29,3 +24,26 @@ Cache variables:
 Hints:
 
 The `Dmalloc_ROOT` variable adds custom search path.
+
+## Basic usage
+
+```cmake
+# CMakeLists.txt
+find_package(Dmalloc)
+```
+
+## Customizing search locations
+
+To customize where to look for the Dmalloc package base
+installation directory, a common `CMAKE_PREFIX_PATH` or
+package-specific `DMALLOC_ROOT` variable can be set at
+the configuration phase. For example:
+
+```sh
+cmake -S <source-dir> -B <build-dir> -DCMAKE_PREFIX_PATH="/opt/Dmalloc;/opt/some-other-package"
+# or
+cmake -S <source-dir> \
+    -B <build-dir> \
+    -DDMALLOC_ROOT=/opt/Dmalloc \
+    -DSOMEOTHERPACKAGE_ROOT=/opt/some-other-package
+```

@@ -1,12 +1,7 @@
+<!-- This is auto-generated file. -->
 # Fibers
 
-See: [Fibers.cmake](https://github.com/petk/php-build-system/blob/master/cmake/Zend/cmake/Fibers.cmake)
-
-## Basic usage
-
-```cmake
-include(cmake/Fibers.cmake)
-```
+* Module source code: [Fibers.cmake](https://github.com/petk/php-build-system/blob/master/cmake/Zend/cmake/Fibers.cmake)
 
 Check if Fibers can be used.
 
@@ -31,3 +26,10 @@ platform, otherwise it checks if ucontext can be used.
 
   Interface library using Boost fiber assembly files and compile options if
   available.
+
+## Basic usage
+
+```cmake
+# CMakeLists.txt
+include(cmake/Fibers.cmake)
+```

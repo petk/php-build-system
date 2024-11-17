@@ -1,12 +1,7 @@
+<!-- This is auto-generated file. -->
 # PHP/ConfigureFile
 
-See: [ConfigureFile.cmake](https://github.com/petk/php-build-system/blob/master/cmake/cmake/modules/PHP/ConfigureFile.cmake)
-
-## Basic usage
-
-```cmake
-include(PHP/ConfigureFile)
-```
+* Module source code: [ConfigureFile.cmake](https://github.com/petk/php-build-system/blob/master/cmake/cmake/modules/PHP/ConfigureFile.cmake)
 
 Wrapper built on top of CMake's `configure_file()`.
 
@@ -41,3 +36,10 @@ php_configure_file(
   which is replaced with installation prefix either set via the
   `CMAKE_INSTALL_PREFIX` variable at the configuration phase, or the `--prefix`
   option at the `cmake --install` phase.
+
+## Basic usage
+
+```cmake
+# CMakeLists.txt
+include(PHP/ConfigureFile)
+```

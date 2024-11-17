@@ -1,12 +1,7 @@
+<!-- This is auto-generated file. -->
 # FindFirebird
 
-See: [FindFirebird.cmake](https://github.com/petk/php-build-system/blob/master/cmake/cmake/modules/FindFirebird.cmake)
-
-## Basic usage
-
-```cmake
-find_package(Firebird)
-```
+* Module source code: [FindFirebird.cmake](https://github.com/petk/php-build-system/blob/master/cmake/cmake/modules/FindFirebird.cmake)
 
 Find the Firebird library.
 
@@ -33,3 +28,26 @@ Cache variables:
 Hints:
 
 The `Firebird_ROOT` variable adds custom search path.
+
+## Basic usage
+
+```cmake
+# CMakeLists.txt
+find_package(Firebird)
+```
+
+## Customizing search locations
+
+To customize where to look for the Firebird package base
+installation directory, a common `CMAKE_PREFIX_PATH` or
+package-specific `FIREBIRD_ROOT` variable can be set at
+the configuration phase. For example:
+
+```sh
+cmake -S <source-dir> -B <build-dir> -DCMAKE_PREFIX_PATH="/opt/Firebird;/opt/some-other-package"
+# or
+cmake -S <source-dir> \
+    -B <build-dir> \
+    -DFIREBIRD_ROOT=/opt/Firebird \
+    -DSOMEOTHERPACKAGE_ROOT=/opt/some-other-package
+```

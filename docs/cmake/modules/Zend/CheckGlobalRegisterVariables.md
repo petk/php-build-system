@@ -1,12 +1,7 @@
+<!-- This is auto-generated file. -->
 # CheckGlobalRegisterVariables
 
-See: [CheckGlobalRegisterVariables.cmake](https://github.com/petk/php-build-system/blob/master/cmake/Zend/cmake/CheckGlobalRegisterVariables.cmake)
-
-## Basic usage
-
-```cmake
-include(cmake/CheckGlobalRegisterVariables.cmake)
-```
+* Module source code: [CheckGlobalRegisterVariables.cmake](https://github.com/petk/php-build-system/blob/master/cmake/Zend/cmake/CheckGlobalRegisterVariables.cmake)
 
 Check whether the compiler and target system support global register variables.
 
@@ -19,3 +14,10 @@ See also: [GCC global register variables](https://gcc.gnu.org/onlinedocs/gcc/Glo
 * `HAVE_GCC_GLOBAL_REGS`
 
   Whether global register variables are supported.
+
+## Basic usage
+
+```cmake
+# CMakeLists.txt
+include(cmake/CheckGlobalRegisterVariables.cmake)
+```

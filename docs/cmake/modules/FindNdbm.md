@@ -1,12 +1,7 @@
+<!-- This is auto-generated file. -->
 # FindNdbm
 
-See: [FindNdbm.cmake](https://github.com/petk/php-build-system/blob/master/cmake/cmake/modules/FindNdbm.cmake)
-
-## Basic usage
-
-```cmake
-find_package(Ndbm)
-```
+* Module source code: [FindNdbm.cmake](https://github.com/petk/php-build-system/blob/master/cmake/cmake/modules/FindNdbm.cmake)
 
 Find the ndbm library.
 
@@ -37,3 +32,26 @@ Module defines the following `IMPORTED` target(s):
 ## Hints
 
 * The `Ndbm_ROOT` variable adds custom search path.
+
+## Basic usage
+
+```cmake
+# CMakeLists.txt
+find_package(Ndbm)
+```
+
+## Customizing search locations
+
+To customize where to look for the Ndbm package base
+installation directory, a common `CMAKE_PREFIX_PATH` or
+package-specific `NDBM_ROOT` variable can be set at
+the configuration phase. For example:
+
+```sh
+cmake -S <source-dir> -B <build-dir> -DCMAKE_PREFIX_PATH="/opt/Ndbm;/opt/some-other-package"
+# or
+cmake -S <source-dir> \
+    -B <build-dir> \
+    -DNDBM_ROOT=/opt/Ndbm \
+    -DSOMEOTHERPACKAGE_ROOT=/opt/some-other-package
+```

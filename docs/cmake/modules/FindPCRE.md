@@ -1,12 +1,7 @@
+<!-- This is auto-generated file. -->
 # FindPCRE
 
-See: [FindPCRE.cmake](https://github.com/petk/php-build-system/blob/master/cmake/cmake/modules/FindPCRE.cmake)
-
-## Basic usage
-
-```cmake
-find_package(PCRE)
-```
+* Module source code: [FindPCRE.cmake](https://github.com/petk/php-build-system/blob/master/cmake/cmake/modules/FindPCRE.cmake)
 
 Find the PCRE library.
 
@@ -29,3 +24,26 @@ Cache variables:
 Hints:
 
 The `PCRE_ROOT` variable adds custom search path.
+
+## Basic usage
+
+```cmake
+# CMakeLists.txt
+find_package(PCRE)
+```
+
+## Customizing search locations
+
+To customize where to look for the PCRE package base
+installation directory, a common `CMAKE_PREFIX_PATH` or
+package-specific `PCRE_ROOT` variable can be set at
+the configuration phase. For example:
+
+```sh
+cmake -S <source-dir> -B <build-dir> -DCMAKE_PREFIX_PATH="/opt/PCRE;/opt/some-other-package"
+# or
+cmake -S <source-dir> \
+    -B <build-dir> \
+    -DPCRE_ROOT=/opt/PCRE \
+    -DSOMEOTHERPACKAGE_ROOT=/opt/some-other-package
+```
