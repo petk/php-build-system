@@ -119,7 +119,6 @@ function generateModuleDocs(
         $markdown .= "\n" . $footer_2 . "\n";
     }
 
-
     if (!file_exists($destination)) {
         mkdir($destination, 0777, true);
     }
