@@ -1,3 +1,25 @@
+#[=============================================================================[
+# The pdo_sqlite extension
+
+Configure the `pdo_sqlite` extension.
+
+This extension provides PDO interface for using SQLite database.
+
+## EXT_PDO_SQLITE
+
+* Default: `ON`
+* Values: `ON|OFF`
+
+Enable the extension.
+
+## EXT_PDO_SQLITE_SHARED
+
+* Default: `OFF`
+* Values: `ON|OFF`
+
+Build extension as shared.
+#]=============================================================================]
+
 project(
   PhpExtensionPdoSqlite
   LANGUAGES C
@@ -12,7 +34,7 @@ option(EXT_PDO_SQLITE "Enable the pdo_sqlite extension" ON)
 add_feature_info(
   "ext/pdo_sqlite"
   EXT_PDO_SQLITE
-  "SQLite 3 database support in PDO (PHP Data Objects) interface"
+  "SQLite database support in PDO (PHP Data Objects) interface"
 )
 
 cmake_dependent_option(

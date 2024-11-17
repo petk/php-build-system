@@ -1,3 +1,26 @@
+#[=============================================================================[
+# The gettext extension
+
+Configure the `gettext` extension.
+
+This extension provides support for GNU gettext using NLS (Native Language
+Support) API.
+
+## EXT_GETTEXT
+
+* Default: `OFF`
+* Values: `ON|OFF`
+
+Enable the extension.
+
+## EXT_GETTEXT_SHARED
+
+* Default: `OFF`
+* Values: `ON|OFF`
+
+Build extension as shared.
+#]=============================================================================]
+
 project(
   PhpExtensionGettext
   LANGUAGES C

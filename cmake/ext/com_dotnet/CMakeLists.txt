@@ -1,9 +1,33 @@
+#[=============================================================================[
+# The com_dotnet extension
+
+Configure the `com_dotnet` extension.
+
+This extension provides the Component Object Model (COM) and .NET support.
+
+> [!NOTE]
+> This extension is available only when the target system is Windows.
+
+## EXT_COM_DOTNET
+
+* Default: `ON`
+* Values: `ON|OFF`
+
+Enable the extension.
+
+## EXT_COM_DOTNET_SHARED
+
+* Default: `OFF`
+* Values: `ON|OFF`
+
+Build extension as shared.
+#]=============================================================================]
+
 project(
   PhpExtensionBz2
   LANGUAGES C
 )
 
-# Available only for Windows system.
 if(NOT CMAKE_SYSTEM_NAME STREQUAL "Windows")
   return()
 endif()

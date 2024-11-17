@@ -1,3 +1,32 @@
+#[=============================================================================[
+# The mbstring extension
+
+Configure the `mbstring` extension.
+
+This extension provides the multibyte string support.
+
+## EXT_MBSTRING
+
+* Default: `OFF`
+* Values: `ON|OFF`
+
+Enable the extension.
+
+## EXT_MBSTRING_SHARED
+
+* Default: `OFF`
+* Values: `ON|OFF`
+
+Build extension as shared.
+
+## EXT_MBSTRING_MBREGEX
+
+* Default: `ON`
+* Values: `ON|OFF`
+
+Enable multibyte regex support (requires Oniguruma).
+#]=============================================================================]
+
 project(
   PhpExtensionMbString
   LANGUAGES C

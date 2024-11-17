@@ -1,3 +1,21 @@
+#[=============================================================================[
+# The dl_test extension
+
+Configure the `dl_test` extension.
+
+This extension provides support for testing PHP `dl()` function relevant when
+running PHP tests during development.
+
+## EXT_DL_TEST
+
+* Default: `OFF`
+* Values: `ON|OFF`
+
+Enable the extension.
+
+This extension is always built as shared when enabled.
+#]=============================================================================]
+
 project(
   PhpExtensionDlTest
   LANGUAGES C

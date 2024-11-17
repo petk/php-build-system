@@ -1,3 +1,25 @@
+#[=============================================================================[
+# The enchant extension
+
+Configure the `enchant` extension.
+
+This extension provides binding for the Enchant spelling library.
+
+## EXT_ENCHANT
+
+* Default: `OFF`
+* Values: `ON|OFF`
+
+Enable the extension.
+
+## EXT_ENCHANT_SHARED
+
+* Default: `OFF`
+* Values: `ON|OFF`
+
+Build extension as shared.
+#]=============================================================================]
+
 project(
   PhpExtensionEnchant
   LANGUAGES C
