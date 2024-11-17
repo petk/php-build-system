@@ -1,3 +1,25 @@
+#[=============================================================================[
+# The xmlwriter extension
+
+Configure the `xmlwriter` extension.
+
+This extension provides support for libxml xmlWriter API.
+
+## EXT_XMLWRITER
+
+* Default: `ON`
+* Values: `ON|OFF`
+
+Enable the extension.
+
+## EXT_XMLWRITER_SHARED
+
+* Default: `OFF`
+* Values: `ON|OFF`
+
+Build extension as shared.
+#]=============================================================================]
+
 project(
   PhpExtensionXmlWriter
   LANGUAGES C

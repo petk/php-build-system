@@ -1,3 +1,25 @@
+#[=============================================================================[
+# The pdo_pgsql extension
+
+Configure the `pdo_pgsql` extension.
+
+This extension provides PDO interface for using PostgreSQL database.
+
+## EXT_PDO_PGSQL
+
+* Default: `OFF`
+* Values: `ON|OFF`
+
+Enable the extension.
+
+## EXT_PDO_PGSQL_SHARED
+
+* Default: `OFF`
+* Values: `ON|OFF`
+
+Build extension as shared.
+#]=============================================================================]
+
 project(
   PhpExtensionPdoPgsql
   LANGUAGES C

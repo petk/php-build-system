@@ -1,3 +1,25 @@
+#[=============================================================================[
+# The xmlreader extension
+
+Configure the `xmlreader` extension.
+
+This extension provides support for for XML pull parser.
+
+## EXT_XMLREADER
+
+* Default: `ON`
+* Values: `ON|OFF`
+
+Enable the extension.
+
+## EXT_XMLREADER_SHARED
+
+* Default: `OFF`
+* Values: `ON|OFF`
+
+Build extension as shared.
+#]=============================================================================]
+
 project(
   PhpExtensionXmlReader
   LANGUAGES C

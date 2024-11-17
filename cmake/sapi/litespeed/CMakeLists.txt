@@ -1,4 +1,19 @@
-# SAPI is only for *nix systems.
+#[=============================================================================[
+# The litespeed SAPI
+
+Configure the `litespeed` PHP SAPI.
+
+> [!NOTE]
+> The PHP Litespeed SAPI is not available when the target system is Windows.
+
+## SAPI_LITESPEED
+
+* Default: `OFF`
+* Values: `ON|OFF`
+
+Enable the LiteSpeed SAPI module.
+#]=============================================================================]
+
 if(CMAKE_SYSTEM_NAME STREQUAL "Windows")
   return()
 endif()

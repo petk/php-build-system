@@ -1,3 +1,35 @@
+#[=============================================================================[
+# The ftp extension
+
+Configure the `ftp` extension.
+
+This extension provides support for File Transfer Protocol (FTP).
+
+## EXT_FTP
+
+* Default: `OFF`
+* Values: `ON|OFF`
+
+Enable the extension.
+
+## EXT_FTP_SHARED
+
+* Default: `OFF`
+* Values: `ON|OFF`
+
+Build extension as shared.
+
+## EXT_FTP_SSL
+
+* Default: `OFF`
+* Values: `ON|OFF`
+
+Explicitly enable FTP over SSL support when building without openssl extension
+(`EXT_OPENSSL=OFF`) or when using `phpize`. If the `openssl` extension is
+enabled at the configure step (`EXT_OPENSSL=ON`), FTP-SSL is enabled implicitly
+regardless of this option.
+#]=============================================================================]
+
 project(
   PhpExtensionFtp
   LANGUAGES C
@@ -25,9 +57,7 @@ cmake_dependent_option(
 cmake_dependent_option(
   EXT_FTP_SSL
   "Explicitly enable FTP over SSL support when building without openssl\
-  extension (EXT_OPENSSL=OFF) or when using phpize. If the openssl extension is\
-  enabled at the configure step (EXT_OPENSSL=ON), FTP-SSL is enabled implicitly\
-  regardless of this option."
+  extension (EXT_OPENSSL=OFF) or when using phpize."
   OFF
   "EXT_FTP;NOT EXT_OPENSSL"
   OFF

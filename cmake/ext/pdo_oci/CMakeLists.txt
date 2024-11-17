@@ -1,3 +1,25 @@
+#[=============================================================================[
+# The pdo_oci extension
+
+Configure the `pdo_oci` extension.
+
+This extension provides PDO interface for using Oracle database.
+
+## EXT_PDO_OCI
+
+* Default: `OFF`
+* Values: `ON|OFF`
+
+Enable the extension.
+
+## EXT_PDO_OCI_SHARED
+
+* Default: `OFF`
+* Values: `ON|OFF`
+
+Build extension as shared.
+#]=============================================================================]
+
 project(
   PhpExtensionPdoOci
   LANGUAGES C

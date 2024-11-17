@@ -1,3 +1,25 @@
+#[=============================================================================[
+# The calendar extension
+
+Configure the `calendar` extension.
+
+This extension provides support for calendar conversion.
+
+## EXT_CALENDAR
+
+* Default: `OFF`
+* Values: `ON|OFF`
+
+Enable the extension.
+
+## EXT_CALENDAR_SHARED
+
+* Default: `OFF`
+* Values: `ON|OFF`
+
+Build extension as shared.
+#]=============================================================================]
+
 project(
   PhpExtensionCalendar
   LANGUAGES C

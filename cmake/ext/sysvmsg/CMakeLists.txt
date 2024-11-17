@@ -1,9 +1,34 @@
+#[=============================================================================[
+# The sysvmsg extension
+
+Configure the `sysvmsg` extension.
+
+This extension provides support for using System V message based IPC
+(Interprocess Communication Mechanisms).
+
+> [!NOTE]
+> This extension is available only on \*nix systems.
+
+## EXT_SYSVMSG
+
+* Default: `OFF`
+* Values: `ON|OFF`
+
+Enable the extension.
+
+## EXT_SYSVMSG_SHARED
+
+* Default: `OFF`
+* Values: `ON|OFF`
+
+Build extension as shared.
+#]=============================================================================]
+
 project(
   PhpExtensionSysVmsg
   LANGUAGES C
 )
 
-# Extension is only for *nix systems.
 if(CMAKE_SYSTEM_NAME STREQUAL "Windows")
   return()
 endif()

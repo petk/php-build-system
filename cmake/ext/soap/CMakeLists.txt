@@ -1,3 +1,25 @@
+#[=============================================================================[
+# The soap extension
+
+Configure the `soap` extension.
+
+This extension provides support for writing SOAP servers and clients.
+
+## EXT_SOAP
+
+* Default: `OFF`
+* Values: `ON|OFF`
+
+Enable the extension.
+
+## EXT_SOAP_SHARED
+
+* Default: `OFF`
+* Values: `ON|OFF`
+
+Build extension as shared.
+#]=============================================================================]
+
 project(
   PhpExtensionSoap
   LANGUAGES C

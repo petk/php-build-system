@@ -1,3 +1,26 @@
+#[=============================================================================[
+# The tokenizer extension
+
+Configure the `tokenizer` extension.
+
+This extension provides interface to the PHP tokenizer embedded in the Zend
+Engine.
+
+## EXT_TOKENIZER
+
+* Default: `ON`
+* Values: `ON|OFF`
+
+Enable the extension.
+
+## EXT_TOKENIZER_SHARED
+
+* Default: `OFF`
+* Values: `ON|OFF`
+
+Build extension as shared.
+#]=============================================================================]
+
 project(
   PhpExtensionTokenizer
   LANGUAGES C

@@ -1,3 +1,44 @@
+#[=============================================================================[
+# The oci8 extension
+
+Configure the `oci8` extension.
+
+## EXT_OCI8
+
+* Default: `OFF`
+* Values: `ON|OFF`
+
+Enable the extension.
+
+## EXT_GMP_SHARED
+
+* Default: `OFF`
+* Values: `ON|OFF`
+
+Build extension as shared.
+
+## EXT_OCI8_11G
+
+* Default: `OFF`
+* Values: `ON|OFF`
+
+Enable OCI8 support using Oracle 11g Instant Client.
+
+## EXT_OCI8_12C
+
+* Default: `OFF`
+* Values: `ON|OFF`
+
+Enable OCI8 support using Oracle Database 12c Instant Client.
+
+## EXT_OCI8_19
+
+* Default: `OFF`
+* Values: `ON|OFF`
+
+Enable OCI8 support using Oracle Database 19 Instant Client.
+#]=============================================================================]
+
 project(
   PhpExtensionOci8
   LANGUAGES C

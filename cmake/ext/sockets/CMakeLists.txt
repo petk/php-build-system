@@ -1,3 +1,25 @@
+#[=============================================================================[
+# The sockets extension
+
+Configure the `sockets` extension.
+
+This extension provides support for a low-level socket communication interface.
+
+## EXT_SOCKETS
+
+* Default: `OFF`
+* Values: `ON|OFF`
+
+Enable the extension.
+
+## EXT_SOCKETS_SHARED
+
+* Default: `OFF`
+* Values: `ON|OFF`
+
+Build extension as shared.
+#]=============================================================================]
+
 project(
   PhpExtensionSockets
   LANGUAGES C

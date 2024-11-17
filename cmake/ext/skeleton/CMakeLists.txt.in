@@ -1,3 +1,23 @@
+#[=============================================================================[
+# The %EXTNAME% extension
+
+Configure the `%EXTNAME%` extension.
+
+## EXT_%EXTNAMECAPS%
+
+* Default: `OFF`
+* Values: `ON|OFF`
+
+Enable the extension.
+
+## EXT_%EXTNAMECAPS%_SHARED
+
+* Default: `OFF`
+* Values: `ON|OFF`
+
+Build extension as shared.
+#]=============================================================================]
+
 # CMakeLists.txt file for the %EXTNAME% extension.
 
 # Set minimum required CMake version.
