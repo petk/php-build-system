@@ -3,6 +3,8 @@
 
 Configure the `fileinfo` extension.
 
+Extension enables support for file content type and encoding.
+
 ## EXT_FILEINFO
 
 * Default: `ON`

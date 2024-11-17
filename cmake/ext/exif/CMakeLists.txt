@@ -3,6 +3,8 @@
 
 Configure the `exif` extension.
 
+Extension enables support for working with exchangeable image metadata.
+
 ## EXT_EXIF
 
 * Default: `OFF`

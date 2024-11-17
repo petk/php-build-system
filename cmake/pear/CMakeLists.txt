@@ -105,4 +105,4 @@ php_install(CODE "
   set(phpPearPhpProgramSuffix \"${PHP_PROGRAM_SUFFIX}\")
   set(phpPearInstallSysconfDir \"\${CMAKE_INSTALL_FULL_SYSCONFDIR}\")
 ")
-install(SCRIPT InstallPear.cmake)
+install(SCRIPT cmake/InstallPear.cmake)

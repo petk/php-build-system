@@ -3,6 +3,8 @@
 
 Configure the `dba` extension.
 
+Extension enables the database (dbm-style) abstraction layer support.
+
 ## EXT_DBA
 
 * Default: `OFF`

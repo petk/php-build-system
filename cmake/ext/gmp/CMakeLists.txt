@@ -3,6 +3,8 @@
 
 Configure the `gmp` extension.
 
+Extension enables GNU Multiple Precision Arithmetic support.
+
 ## EXT_GMP
 
 * Default: `OFF`

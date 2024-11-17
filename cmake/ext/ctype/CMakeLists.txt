@@ -3,6 +3,8 @@
 
 Configure the `ctype` extension.
 
+Extension enables support for character type checking according to the locale.
+
 ## EXT_CTYPE
 
 * Default: `ON`

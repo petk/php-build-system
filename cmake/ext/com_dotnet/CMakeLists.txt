@@ -3,6 +3,8 @@
 
 Configure the `com_dotnet` extension.
 
+Extension enables the Component Object Model (COM) and .NET support.
+
 > [!NOTE]
 > This extension is available only when the target system is Windows.
 

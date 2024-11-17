@@ -3,6 +3,9 @@
 
 Configure the `gettext` extension.
 
+Extension enables support for GNU gettext using NLS (Native Language Support)
+API.
+
 ## EXT_GETTEXT
 
 * Default: `OFF`
