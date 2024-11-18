@@ -205,9 +205,6 @@ set(PHP_SQLITE_MIN_VERSION 3.7.7)
 # Minimum required version for the PostgreSQL dependency.
 set(PHP_POSTGRESQL_MIN_VERSION 9.1)
 
-# Minimum required version for the zlib dependency.
-set(PHP_ZLIB_MIN_VERSION 1.2.0.4)
-
 # Additional metadata for external packages to avoid duplication.
 set_package_properties(
   BZip2
@@ -249,13 +246,6 @@ set_package_properties(
   PROPERTIES
     URL "https://www.sqlite.org/"
     DESCRIPTION "SQL database engine library"
-)
-
-set_package_properties(
-  ZLIB
-  PROPERTIES
-    URL "https://zlib.net/"
-    DESCRIPTION "Compression library"
 )
 
 # Set base directory for ExternalProject CMake module.

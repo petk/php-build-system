@@ -170,7 +170,7 @@ target_link_libraries(
 )
 
 if(PHP_EXT_MYSQLND_COMPRESSION)
-  find_package(ZLIB ${PHP_ZLIB_MIN_VERSION})
+  include(Packages/ZLIB)
   set_package_properties(
     ZLIB
     PROPERTIES
