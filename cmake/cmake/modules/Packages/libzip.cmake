@@ -1,11 +1,9 @@
 #[=============================================================================[
-Wrapper for finding the `libxml2` library.
+Wrapper for finding the `libzip` library.
 
-Module first tries to find the `libxml2` library on the system. If not
+Module first tries to find the `libzip` library on the system. If not
 successful it tries to download it from the upstream source with `FetchContent`
 module and build it together with the PHP build.
-
-See: https://cmake.org/cmake/help/latest/module/FindLibXml2.html
 
 The `FetchContent` CMake module does things differently compared to the
 `find_package()` flow:
@@ -22,46 +20,44 @@ include(FeatureSummary)
 include(FetchContent)
 
 set_package_properties(
-  LibXml2
+  libzip
   PROPERTIES
-    URL "https://gitlab.gnome.org/GNOME/libxml2"
-    DESCRIPTION "XML parser and toolkit"
+    URL "https://libzip.org/"
+    DESCRIPTION "Library for reading and writing ZIP compressed archives"
 )
 
-# Minimum required version for the libxml2 dependency.
-set(PHP_LIBXML2_MIN_VERSION 2.9.0)
+# Minimum required version for the libzip dependency.
+set(PHP_libzip_MIN_VERSION 1.7.1)
 
 # Download version when system dependency is not found.
-set(PHP_LIBXML2_DOWNLOAD_VERSION 2.12.7)
+set(PHP_libzip_DOWNLOAD_VERSION 1.11.2)
 
 FetchContent_Declare(
-  LibXml2
-  URL https://gitlab.gnome.org/GNOME/libxml2/-/archive/v${PHP_LIBXML2_DOWNLOAD_VERSION}/libxml2-v${PHP_LIBXML2_DOWNLOAD_VERSION}.tar.gz
+  libzip
+  URL https://github.com/nih-at/libzip/releases/download/v${PHP_libzip_DOWNLOAD_VERSION}/libzip-${PHP_libzip_DOWNLOAD_VERSION}.tar.gz
   EXCLUDE_FROM_ALL
   SYSTEM
   FIND_PACKAGE_ARGS
 )
 
-find_package(LibXml2 ${PHP_LIBXML2_MIN_VERSION})
+find_package(libzip ${PHP_libzip_MIN_VERSION})
 
-if(NOT LibXml2_FOUND)
+if(NOT libzip_FOUND)
   include(Packages/ZLIB)
 
   set(FETCHCONTENT_QUIET NO)
-  set(LIBXML2_WITH_PYTHON OFF)
-  set(LIBXML2_WITH_LZMA OFF)
 
   # The above EXCLUDE_FROM_ALL was introduced in CMake 3.28.
   if(CMAKE_VERSION VERSION_GREATER_EQUAL 3.28)
-    FetchContent_MakeAvailable(LibXml2)
+    FetchContent_MakeAvailable(libzip)
   else()
-    FetchContent_GetProperties(LibXml2)
-    if(NOT LibXml2_POPULATED)
-      FetchContent_Populate(LibXml2)
+    FetchContent_GetProperties(libzip)
+    if(NOT libzip_POPULATED)
+      FetchContent_Populate(libzip)
 
       add_subdirectory(
-        ${libxml2_SOURCE_DIR}
-        ${libxml2_BINARY_DIR}
+        ${libzip_SOURCE_DIR}
+        ${libzip_BINARY_DIR}
         EXCLUDE_FROM_ALL
       )
     endif()
@@ -70,17 +66,18 @@ if(NOT LibXml2_FOUND)
   # Move dependency to PACKAGES_FOUND.
   block()
     get_cmake_property(packagesNotFound PACKAGES_NOT_FOUND)
-    list(REMOVE_ITEM packagesNotFound LibXml2)
+    list(REMOVE_ITEM packagesNotFound libzip)
     set_property(GLOBAL PROPERTY PACKAGES_NOT_FOUND packagesNotFound)
     get_cmake_property(packagesFound PACKAGES_FOUND)
-    set_property(GLOBAL APPEND PROPERTY PACKAGES_FOUND LibXml2)
+    set_property(GLOBAL APPEND PROPERTY PACKAGES_FOUND libzip)
   endblock()
 
+  add_library(libzip::libzip INTERFACE IMPORTED GLOBAL)
+  target_link_libraries(libzip::libzip INTERFACE zip)
+
   # Mark package as found.
-  set(LibXml2_FOUND TRUE)
+  set(libzip_FOUND TRUE)
 
   # Clean used variables.
   unset(FETCHCONTENT_QUIET)
-  unset(LIBXML2_WITH_PYTHON)
-  unset(LIBXML2_WITH_LZMA)
 endif()
