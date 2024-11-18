@@ -1,0 +1,53 @@
+[requires]
+#acl/2.3.1 # Builds ok, but CMake imported target name needs to be adjusted.
+argon2/20190702
+bison/3.8.2
+bzip2/1.0.8
+#c-client/2007f # Builds ok, but CMake imported target name needs to be adjusted.
+capstone/5.0.1
+cyrus-sasl/2.1.28
+#editline/3.1 # Builds ok, but CMake imported target name needs to be adjusted.
+enchant/2.3.2
+expat/2.7.1
+freetype/2.13.3
+gmp/6.3.0
+icu/77.1
+krb5/1.21.2
+libavif/1.1.1
+libcurl/8.12.1
+libdb/5.3.28
+libjpeg/9e # Conflict when using libjpeg/9f.
+#libjpeg-turbo/3.1.1
+libpng/1.6.50
+#libpq/17.5 # Builds ok, but CMake imported target name needs to be adjusted.
+libselinux/3.5 # Conflict when using libselinux/3.6 due to glib/2.78.1 somewhere.
+libsodium/1.0.20
+#libsystemd/255.10 # Causes conflicts due to libmount/2.39.2 somewhere.
+#libwebp/1.3.2 # Conflict when using libwebp/1.5.0.
+               # Builds ok, but CMake imported target name needs to be adjusted.
+libxml2/2.13.8
+#libxpm/3.5.17 # Build error due to missing system packages.
+libxslt/1.1.43
+libzip/1.11.3
+#lmdb/0.9.32 # Builds ok, but CMake imported target name needs to be adjusted.
+#net-snmp/5.9.4 # Builds ok, but CMake imported target name needs to be adjusted.
+odbc/2.3.11
+#oniguruma/6.9.9 # Build error.
+#openldap/2.6.7 # Builds ok, but checks in ext/ldap need to be adjusted.
+openssl/3.5.1
+pcre/8.45
+qdbm/1.8.78
+re2c/4.0.2
+sqlite3/3.49.1
+#tidy-html5/5.8.0 # Build error due to CMake minimum policy version.
+zlib/1.3.1
+
+[generators]
+CMakeDeps
+CMakeToolchain
+
+[options]
+# Optionally set library options here.
+
+[layout]
+cmake_layout

@@ -137,6 +137,137 @@ jobs:
       - name: Install PHP
         run: cmake --install php-build/all-enabled
 
+  linux-externalproject-module:
+    runs-on: ubuntu-latest
+    name: Downloading dependencies with ExternalProject module on Linux
+    steps:
+      - name: Install base dependencies
+        run: |
+          sudo apt-get update -y
+          sudo apt-get -y install \
+            build-essential \
+            libssl-dev \
+            libpcre2-dev \
+            libbz2-dev \
+            libcurl4-openssl-dev \
+            libdb5.3++-dev \
+            libenchant-2-dev \
+            libgmp-dev \
+            libc-client-dev \
+            libkrb5-dev \
+            unixodbc-dev \
+            freetds-dev \
+            apache2-dev \
+            firebird-dev \
+            libsodium-dev \
+            libicu-dev \
+            aspell \
+            libaspell-dev \
+            libavif-dev \
+            libfreetype-dev \
+            libjpeg-dev \
+            libwebp-dev \
+            libxpm-dev \
+            libtidy-dev \
+            libargon2-dev \
+            libxslt1-dev \
+            libcapstone-dev \
+            libedit-dev \
+            libcdb-dev \
+            liblmdb-dev \
+            libqdbm-dev \
+            libtokyocabinet-dev \
+            libsnmp-dev \
+            snmp \
+            snmpd \
+            snmp-mibs-downloader \
+            libexpat1-dev \
+            libacl1-dev \
+            libapparmor-dev \
+            libselinux1-dev \
+            libsystemd-dev \
+            libldap2-dev \
+            libsasl2-dev \
+            libpq-dev \
+            libmm-dev \
+            libdmalloc-dev \
+            dovecot-core \
+            dovecot-pop3d \
+            dovecot-imapd \
+            sendmail;
+
+      - name: Install CMake
+        uses: lukka/get-cmake@latest
+
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
+
+      - name: Build and install
+        run: |
+          cmake --preset all-enabled
+          cmake --build --preset all-enabled -j
+
+  linux-conan:
+    runs-on: ubuntu-latest
+    name: Downloading dependencies with Conan on Linux
+    steps:
+      - name: Install packages
+        run: |
+          sudo apt-get update -y
+          sudo apt-get -y install \
+            build-essential \
+            freetds-dev \
+            apache2-dev \
+            firebird-dev \
+            libc-client-dev \
+            aspell \
+            libaspell-dev \
+            libcdb-dev \
+            libtokyocabinet-dev \
+            libsnmp-dev \
+            libacl1-dev \
+            libedit-dev \
+            snmp \
+            snmpd \
+            snmp-mibs-downloader \
+            libapparmor-dev \
+            libpq-dev \
+            libmm-dev \
+            libsystemd-dev \
+            libwebp-dev \
+            libxpm-dev \
+            liblmdb-dev \
+            libonig-dev \
+            libldap2-dev \
+            libtidy-dev \
+            libdmalloc-dev \
+            dovecot-core \
+            dovecot-pop3d \
+            dovecot-imapd \
+            sendmail;
+
+      - name: Install CMake
+        uses: lukka/get-cmake@latest
+
+      - name: Install Conan
+        uses: conan-io/setup-conan@v1
+
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
+
+      - name: Install dependencies with Conan
+        run: |
+          conan install cmake --output-folder=php-build/php --build=missing --profile:build=default --profile:host=default
+
+      - name: Build and install
+        run: |
+          cmake --preset conan
+          cmake --build --preset conan -j
+
   windows:
     runs-on: windows-latest
     name: Windows

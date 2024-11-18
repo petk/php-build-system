@@ -130,7 +130,7 @@ file(APPEND ${CMAKE_CURRENT_BINARY_DIR}/libmbfl/config.h "\n" [[
 ################################################################################
 
 if(PHP_EXT_MBSTRING_MBREGEX)
-  find_package(Oniguruma)
+  include(PHP/Package/Oniguruma)
   set_package_properties(
     Oniguruma
     PROPERTIES

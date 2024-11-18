@@ -64,7 +64,7 @@ target_compile_definitions(
     $<$<PLATFORM_ID:Windows>:LIBXML_STATIC;LIBXML_STATIC_FOR_DLL>
 )
 
-include(Packages/LibXml2)
+include(PHP/Package/LibXml2)
 
 set_package_properties(
   LibXml2
