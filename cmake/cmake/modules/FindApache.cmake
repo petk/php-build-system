@@ -338,9 +338,7 @@ block(PROPAGATE Apache_VERSION)
       ERROR_QUIET
     )
 
-    string(REGEX MATCH " Apache/([0-9]\.[0-9.]+\.[0-9]+) " _ "${version}")
-
-    if(CMAKE_MATCH_1)
+    if(version MATCHES [[ Apache/([0-9]+\.[0-9.]+)]])
       set(Apache_VERSION "${CMAKE_MATCH_1}")
     endif()
   endif()

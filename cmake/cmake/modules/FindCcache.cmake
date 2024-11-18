@@ -12,8 +12,8 @@ Find the Ccache compiler cache tool for faster compilation times.
 
 ## Hints
 
-* The `CCACHE_DISABLE` environment variable disables the ccache and doesn't add
-  it to the C and CXX launcher, see Ccache documentation for more info.
+* The `CCACHE_DISABLE` regular or environment variable which disables ccache and
+  doesn't adjust the C and CXX launcher. For more info see Ccache documentation.
 #]=============================================================================]
 
 include(FeatureSummary)
@@ -45,9 +45,7 @@ block(PROPAGATE Ccache_VERSION)
       OUTPUT_STRIP_TRAILING_WHITESPACE
     )
 
-    string(REGEX MATCH "^ccache version ([^\r\n]+)" _ "${version}")
-
-    if(CMAKE_MATCH_1)
+    if(version MATCHES "^ccache version ([^\r\n]+)")
       set(Ccache_VERSION "${CMAKE_MATCH_1}")
     endif()
   endif()
@@ -64,8 +62,13 @@ find_package_handle_standard_args(
 
 unset(_reason)
 
-if(NOT Ccache_FOUND OR CCACHE_DISABLE OR "$ENV{CCACHE_DISABLE}")
+if(NOT Ccache_FOUND)
   message(STATUS "Ccache disabled")
+  return()
+endif()
+
+if(CCACHE_DISABLE OR DEFINED ENV{CCACHE_DISABLE})
+  message(STATUS "Ccache disabled ('CCACHE_DISABLE' is set)")
   return()
 endif()
 

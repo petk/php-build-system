@@ -15,8 +15,8 @@ include_guard(GLOBAL)
 
 # Set the PHP_VERSION_* variables from configure.ac.
 block(PROPAGATE PHP_VERSION)
-  set(regex "^AC_INIT\\(\\[PHP\\],\\[([0-9]+\.[0-9]+\.[0-9]+)([^\]]*)")
-  file(STRINGS ${CMAKE_CURRENT_LIST_DIR}/../configure.ac _ REGEX "${regex}")
+  set(regex "^AC_INIT.+PHP\\],\\[([0-9.]+)([^]]*)")
+  file(STRINGS configure.ac _ REGEX "${regex}")
 
   cmake_policy(GET CMP0159 policy)
   if(CMAKE_VERSION VERSION_LESS 3.29 OR NOT policy STREQUAL NEW)
