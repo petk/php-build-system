@@ -32,7 +32,7 @@ block(PROPAGATE Zend_VERSION Zend_VERSION_LABEL)
   file(READ zend.h content)
   string(
     REGEX MATCH
-    "#[ \t]*define[ \t]+ZEND_VERSION[ \t]+\"([0-9.]+)([^\"]*)"
+    [[#[ \t]*define[ \t]+ZEND_VERSION[ \t]+"([0-9.]+)([^"]*)]]
     _
     "${content}"
   )

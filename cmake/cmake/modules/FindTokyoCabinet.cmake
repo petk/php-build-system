@@ -76,7 +76,7 @@ endif()
 # Get version.
 block(PROPAGATE TokyoCabinet_VERSION)
   if(EXISTS ${TokyoCabinet_INCLUDE_DIR}/tcutil.h)
-    set(regex [[^[ \t]*#[ \t]*define[ \t]+_TC_VERSION[ \t]+"?([0-9.]+)"?[ \t]*$]])
+    set(regex [[^[ \t]*#[ \t]*define[ \t]+_TC_VERSION[ \t]+"?([^"]+)"?[ \t]*$]])
 
     file(STRINGS ${TokyoCabinet_INCLUDE_DIR}/tcutil.h result REGEX "${regex}")
 
