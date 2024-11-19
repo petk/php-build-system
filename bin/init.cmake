@@ -51,7 +51,7 @@ execute_process(
   OUTPUT_STRIP_TRAILING_WHITESPACE
 )
 
-if(NOT GIT_BRANCH MATCHES "^PHP-[0-9]+\.[0-9]+$")
+if(NOT GIT_BRANCH MATCHES [[^PHP-[0-9]+\.[0-9]+$]])
   set(GIT_BRANCH "master")
 endif()
 

@@ -85,7 +85,7 @@ if(
       )
       set(PHP_VERSION "${PHP_VERSION_FALLBACK}")
     else()
-      string(REGEX MATCH [[php-([0-9]+.[0-9]+.[0-9]+).tar.gz]] _ "${filename}")
+      string(REGEX MATCH [[php-([0-9.]+)\.tar\.gz]] _ "${filename}")
       set(PHP_VERSION "${CMAKE_MATCH_1}")
     endif()
   endblock()
@@ -207,7 +207,7 @@ function(php_download)
       "https://github.com/php/php-src/archive/refs/heads/${branch}.tar.gz"
     )
   elseif(PHP_VERSION MATCHES "^.*-dev$")
-    string(REGEX MATCH [[(^[0-9]+)\.([0-9]+).*$]] _ "${PHP_VERSION}")
+    string(REGEX MATCH [[(^[0-9]+)\.([0-9]+)]] _ "${PHP_VERSION}")
     set(branch "PHP-${CMAKE_MATCH_1}.${CMAKE_MATCH_2}")
 
     list(
@@ -296,7 +296,7 @@ function(php_prepare_sources)
   message(STATUS "Applying patches to ${PHP_SOURCE_DIR_RELATIVE}")
 
   # Apply patches for php-src.
-  string(REGEX MATCH [[([0-9]+\.[0-9]+).*$]] _ "${PHP_VERSION}")
+  string(REGEX MATCH [[^([0-9]+\.[0-9]+)]] _ "${PHP_VERSION}")
   file(GLOB_RECURSE patches ${PHP_ROOT_DIR}/patches/${CMAKE_MATCH_1}/*.patch)
 
   foreach(patch ${patches})
@@ -318,7 +318,7 @@ function(php_prepare_sources)
 
   # Clean temporary .git directory. Checks are done as safeguards.
   if(
-    PHP_SOURCE_DIR MATCHES "\\/php-8\\.[0-9][.-].*$"
+    PHP_SOURCE_DIR MATCHES [[/php-8\.[0-9][.-].*$]]
     AND IS_DIRECTORY ${PHP_SOURCE_DIR}/.git/
     AND EXISTS ${PHP_SOURCE_DIR}/php.ini-development
     AND EXISTS ${PHP_SOURCE_DIR}/main/php_version.h

@@ -247,7 +247,7 @@ elseif(ODBC_CONFIG)
       ERROR_QUIET
   )
 
-  if(NOT result EQUAL 0 OR NOT ODBC_VERSION MATCHES "[0-9]+\.[0-9.]+")
+  if(NOT result EQUAL 0 OR NOT ODBC_VERSION MATCHES [[[0-9]+\.[0-9.]+]])
     unset(ODBC_VERSION)
   endif()
 
