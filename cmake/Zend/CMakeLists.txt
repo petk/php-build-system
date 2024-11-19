@@ -1,6 +1,11 @@
 #[=============================================================================[
 Zend Engine.
 
+TSRM (Thread-Safe Resource Manager) is a separate directory in php-src as it was
+once a standalone project. Here it is part of the Zend Engine as it is not meant
+to be a separate library anymore. In the future, TSRM should ideally be
+integrated into Zend Engine.
+
 CMake target properties for the `Zend::Zend` (`zend`) target:
 
 * `VERSION`
@@ -302,9 +307,6 @@ target_link_libraries(
   zend
   PRIVATE
     PHP::configuration
-  PUBLIC
-    PHP::TSRM
-    $<TARGET_OBJECTS:PHP::TSRM>
 )
 
 target_include_directories(
@@ -318,6 +320,7 @@ target_compile_definitions(
   zend
   PRIVATE
     ZEND_ENABLE_STATIC_TSRMLS_CACHE=1
+  PUBLIC
     $<$<PLATFORM_ID:Windows>:LIBZEND_EXPORTS>
 )
 
@@ -665,4 +668,33 @@ install(
   ARCHIVE EXCLUDE_FROM_ALL
   FILE_SET HEADERS
     DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/${PHP_INCLUDE_PREFIX}/Zend
+)
+
+################################################################################
+# Configure TSRM.
+################################################################################
+
+set(tsrmSourceDir ${CMAKE_CURRENT_SOURCE_DIR}/../TSRM)
+
+target_sources(
+  zend
+  PRIVATE
+    $<$<PLATFORM_ID:Windows>:${tsrmSourceDir}/tsrm_win32.c>
+    ${tsrmSourceDir}/TSRM.c
+  PUBLIC
+    FILE_SET tsrm
+      TYPE HEADERS
+      BASE_DIRS ${tsrmSourceDir}
+      FILES
+        $<$<PLATFORM_ID:Windows>:${tsrmSourceDir}/tsrm_win32.h>
+        ${tsrmSourceDir}/TSRM.h
+)
+
+target_include_directories(zend PUBLIC ${tsrmSourceDir})
+target_compile_definitions(zend PUBLIC $<$<PLATFORM_ID:Windows>:TSRM_EXPORTS>)
+
+install(
+  TARGETS zend
+  FILE_SET tsrm
+    DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/${PHP_INCLUDE_PREFIX}/TSRM
 )
