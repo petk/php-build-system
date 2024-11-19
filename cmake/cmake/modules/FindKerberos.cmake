@@ -99,9 +99,7 @@ block(PROPAGATE Kerberos_VERSION)
       OUTPUT_QUIET
     )
 
-    string(REGEX MATCH " ([0-9]\.[0-9.]+) " _ "${version}")
-
-    if(CMAKE_MATCH_1)
+    if(version MATCHES [[ ([0-9]\.[0-9.]+)]])
       set(Kerberos_VERSION "${CMAKE_MATCH_1}")
     endif()
   endif()

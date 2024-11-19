@@ -71,7 +71,7 @@ endif()
 add_executable(php_fuzzer)
 add_executable(PHP::fuzzer ALIAS php_fuzzer)
 
-if(LIB_FUZZING_ENGINE OR "$ENV{LIB_FUZZING_ENGINE}")
+if(LIB_FUZZING_ENGINE OR DEFINED ENV{LIB_FUZZING_ENGINE})
   if(LIB_FUZZING_ENGINE)
     set(libFuzzingEngine "${LIB_FUZZING_ENGINE}")
   else()

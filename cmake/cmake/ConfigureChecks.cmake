@@ -803,9 +803,9 @@ if(PHP_GCOV)
   if(CMAKE_C_COMPILER_LAUNCHER MATCHES "ccache")
     message(
       WARNING
-      "ccache should be disabled when PHP_GCOV='ON' option is used. You can "
-      "disable ccache by setting option PHP_CCACHE='OFF' or environment "
-      "variable CCACHE_DISABLE=1."
+      "When 'PHP_GCOV' is enabled, ccache should be disabled by setting the "
+      "'PHP_CCACHE' to 'OFF' or by setting the 'CCACHE_DISABLE' environment "
+      "variable."
     )
   endif()
 
