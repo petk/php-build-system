@@ -68,8 +68,6 @@ repository:
     └─📄 config.cmake.h.in     # SAPI's configuration header template
 └─📂 scripts
   └─📄 CMakeLists.txt          # CMake file for creating scripts files
-└─📂 TSRM
-  └─📄 CMakeLists.txt          # CMake file for thread safe resource manager
 └─📂 win32                     # Windows build files
   └─📂 build                   # Windows build files
     └─📄 wsyslog.mc            # Message template file for win32/wsyslog.h
@@ -287,6 +285,7 @@ version available on the operating system.
   * `COMPILE_ONLY` generator expression
   * `INSTALL_PREFIX` generator expression in `install(CODE)`
   * `$<LIST:SORT,list[,...]>` generator expression
+  * `<PACKAGENAME>_ROOT` variables in addition to `<PackageName>_ROOT`
 * 3.29
   * `CMAKE_LINKER_TYPE`
   * `if(IS_EXECUTABLE)`

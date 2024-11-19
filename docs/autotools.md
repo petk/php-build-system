@@ -120,8 +120,7 @@ PHP build system is a collection of various files across the php-src repository:
     └─📄 config.m4       # Autoconf M4 file for SAPI
 ├─📂 scripts
 └─📂 TSRM
-  ├─📄 threads.m4        # Autoconf macros for pthreads
-  └─📄 tsrm.m4           # Autoconf macros for TSRM
+  └─📄 threads.m4        # Autoconf macros for pthreads
 └─📂 Zend
   ├─📄 Makefile.frag     # Makefile fragment for Zend Engine
   └─📄 Zend.m4           # Autoconf macros for Zend Engine

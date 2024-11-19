@@ -463,10 +463,6 @@ Naming pattern when creating libraries and executables across the build system:
 
   Target name of the PHP main binding.
 
-* `php_tsrm`:
-
-  Target name of the PHP thread-safe resource manager (TSRM).
-
 * `zend`:
 
   Target name for the Zend Engine.

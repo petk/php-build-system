@@ -157,7 +157,7 @@ Default PHP Autotools directory structure with GNU layout (`--with-layout=GNU`):
       ├─📂 ext                   #       ├─📂 ext                 # PHP extensions header files
       ├─📂 main                  #       ├─📂 main                # PHP main binding header files
       ├─📂 sapi                  #       ├─📂 sapi                # PHP SAPI header files
-      ├─📂 TSRM                  #       ├─📂 TSRM                # PHP TSRM header files
+      ├─📂 TSRM                  #       ├─📂 TSRM                # TSRM header files
       └─📂 Zend                  #       └─📂 Zend                # Zend Engine header files
   └─📂 ${libdir}                 #   └─📂 lib
     └─📂 php                     #     └─📂 php                   # PHP shared libraries, build files, PEAR
