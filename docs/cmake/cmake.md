@@ -68,6 +68,8 @@ repository:
     └─📄 config.cmake.h.in     # SAPI's configuration header template
 └─📂 scripts
   └─📄 CMakeLists.txt          # CMake file for creating scripts files
+└─📂 TSRM
+  └─📄 CMakeLists.txt          # CMake file for Thread Safe Resource Manager
 └─📂 win32                     # Windows build files
   └─📂 build                   # Windows build files
     └─📄 wsyslog.mc            # Message template file for win32/wsyslog.h
