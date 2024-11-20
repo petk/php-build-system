@@ -36,7 +36,6 @@ message(STATUS "Configuring PHP")
 message(STATUS "---------------\n")
 
 add_subdirectory(pear)
-add_subdirectory(TSRM)
 add_subdirectory(win32)
 add_subdirectory(main)
 add_subdirectory(scripts)
