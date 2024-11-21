@@ -361,6 +361,41 @@ else()
 endif()
 
 ################################################################################
+# TSRM (Thread Safe Resource Manager) is a separate directory in php-src as it
+# was once a standalone project. Ideally, it should be moved into Zend Engine at
+# some point.
+################################################################################
+
+target_sources(
+  zend
+  PRIVATE
+    $<$<PLATFORM_ID:Windows>:${CMAKE_CURRENT_SOURCE_DIR}/../TSRM/tsrm_win32.c>
+    ${CMAKE_CURRENT_SOURCE_DIR}/../TSRM/TSRM.c
+  PUBLIC
+    FILE_SET tsrm
+      TYPE HEADERS
+      BASE_DIRS ${CMAKE_CURRENT_SOURCE_DIR}/../TSRM
+      FILES
+        $<$<PLATFORM_ID:Windows>:${CMAKE_CURRENT_SOURCE_DIR}/../TSRM/tsrm_win32.h>
+        ${CMAKE_CURRENT_SOURCE_DIR}/../TSRM/TSRM.h
+)
+
+target_include_directories(
+  zend
+  INTERFACE
+    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/../TSRM>
+    $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}/${PHP_INCLUDE_PREFIX}/TSRM>
+)
+
+target_compile_definitions(zend PUBLIC $<$<PLATFORM_ID:Windows>:TSRM_EXPORTS>)
+
+install(
+  TARGETS zend
+  FILE_SET tsrm
+    DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/${PHP_INCLUDE_PREFIX}/TSRM
+)
+
+################################################################################
 # Configuration checks.
 ################################################################################
 

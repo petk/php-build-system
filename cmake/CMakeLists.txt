@@ -29,7 +29,6 @@ include(cmake/Bootstrap.cmake)
 
 add_subdirectory(sapi)
 add_subdirectory(ext)
-add_subdirectory(TSRM)
 add_subdirectory(Zend)
 
 message(STATUS "---------------")
