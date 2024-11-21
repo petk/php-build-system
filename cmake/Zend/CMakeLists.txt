@@ -361,7 +361,7 @@ block()
   )
 endblock()
 
-# Add Zend PUBLIC/INTERFACE compile options to configuration.
+# Add Zend PUBLIC/INTERFACE compile properties to configuration.
 # Cleaner COMPILE_ONLY generator expression is available in CMake >= 3.27.
 if(CMAKE_VERSION VERSION_GREATER_EQUAL 3.27)
   target_link_libraries(php_configuration INTERFACE $<COMPILE_ONLY:Zend::Zend>)
@@ -370,6 +370,11 @@ else()
     php_configuration
     INTERFACE
       $<TARGET_PROPERTY:Zend::Zend,INTERFACE_INCLUDE_DIRECTORIES>
+  )
+  target_compile_definitions(
+    php_configuration
+    INTERFACE
+      $<TARGET_PROPERTY:Zend::Zend,INTERFACE_COMPILE_DEFINITIONS>
   )
 endif()
 

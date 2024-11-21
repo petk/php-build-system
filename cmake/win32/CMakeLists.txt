@@ -15,7 +15,7 @@ add_library(PHP::windows ALIAS php_windows_interface)
 target_link_libraries(
   php_windows_interface
   INTERFACE
-  php_windows
+    php_windows
     $<TARGET_OBJECTS:php_windows>
 )
 

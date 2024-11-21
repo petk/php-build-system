@@ -89,7 +89,7 @@ foreach(extension IN LISTS extensions)
   if(TARGET php_${extension})
     set_property(GLOBAL APPEND PROPERTY PHP_EXTENSIONS ${extension})
 
-    # Add extension's PUBLIC/INTERFACE compile options to configuration.
+    # Add extension's PUBLIC/INTERFACE compile properties to configuration.
     # Cleaner COMPILE_ONLY generator expression is available in CMake >= 3.27.
     if(CMAKE_VERSION VERSION_GREATER_EQUAL 3.27)
       target_link_libraries(
@@ -98,6 +98,10 @@ foreach(extension IN LISTS extensions)
           $<COMPILE_ONLY:PHP::${extension}>
       )
     else()
+      # TODO: Fix this better. Either require 3.27, or limit/adjust compile
+      # properties propagated globally. Also, shared extensions shouldn't
+      # propagate globally.
+      # https://cmake.org/cmake/help/latest/manual/cmake-buildsystem.7.html#id36
       target_include_directories(
         php_configuration
         INTERFACE

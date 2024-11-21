@@ -43,13 +43,9 @@ add_library(PHP::mainInternalFunctionsCli ALIAS php_main_internal_functions_cli_
 target_link_libraries(
   php_main_internal_functions_cli_interface
   INTERFACE
-  php_main_internal_functions_cli
+    php_main_internal_functions_cli
     $<TARGET_OBJECTS:php_main_internal_functions_cli>
 )
-
-# Configuration library to transitively pass build options to php_main* targets.
-add_library(php_main_configuration INTERFACE)
-add_library(PHP::mainConfiguration ALIAS php_main_configuration)
 
 target_sources(
   php_main
@@ -140,22 +136,24 @@ target_sources(
         $<$<NOT:$<PLATFORM_ID:Windows>>:${CMAKE_CURRENT_BINARY_DIR}/php_config.h>
 )
 
+set_property(
+  TARGET
+    php_main
+    php_main_internal_functions
+    php_main_internal_functions_cli
+  APPEND
+  PROPERTY COMPILE_DEFINITIONS ZEND_ENABLE_STATIC_TSRMLS_CACHE=1
+)
+
 target_compile_definitions(
-  php_main_configuration
-  INTERFACE
-    ZEND_ENABLE_STATIC_TSRMLS_CACHE=1
+  php_main
+  PUBLIC
     $<$<PLATFORM_ID:Windows>:SAPI_EXPORTS>
 )
 
-target_link_libraries(
-  php_main_configuration
-  INTERFACE
-    PHP::configuration
-)
-
-target_link_libraries(php_main PRIVATE PHP::mainConfiguration)
-target_link_libraries(php_main_internal_functions PRIVATE PHP::mainConfiguration)
-target_link_libraries(php_main_internal_functions_cli PRIVATE PHP::mainConfiguration)
+target_link_libraries(php_main PRIVATE PHP::configuration)
+target_link_libraries(php_main_internal_functions PRIVATE PHP::configuration)
+target_link_libraries(php_main_internal_functions_cli PRIVATE PHP::configuration)
 
 target_include_directories(
   php_main
@@ -164,12 +162,22 @@ target_include_directories(
     ${CMAKE_CURRENT_SOURCE_DIR}
 )
 
-# Add main PUBLIC/INTERFACE include directories to configuration.
-target_include_directories(
-  php_configuration
-  INTERFACE
-    $<TARGET_PROPERTY:PHP::main,INTERFACE_INCLUDE_DIRECTORIES>
-)
+# Add main PUBLIC/INTERFACE compile properties to configuration.
+# Cleaner COMPILE_ONLY generator expression is available in CMake >= 3.27.
+if(CMAKE_VERSION VERSION_GREATER_EQUAL 3.27)
+  target_link_libraries(php_configuration INTERFACE $<COMPILE_ONLY:PHP::main>)
+else()
+  target_include_directories(
+    php_configuration
+    INTERFACE
+      $<TARGET_PROPERTY:PHP::main,INTERFACE_INCLUDE_DIRECTORIES>
+  )
+  target_compile_definitions(
+    php_configuration
+    INTERFACE
+      $<TARGET_PROPERTY:PHP::main,INTERFACE_COMPILE_DEFINITIONS>
+  )
+endif()
 
 target_link_libraries(
   php
@@ -243,7 +251,7 @@ if(PHP_DMALLOC)
   target_compile_definitions(
     php_configuration
     INTERFACE
-      $<$<COMPILE_LANGUAGE:ASM,C,CXX>:MALLOC_FUNC_CHECK>
+      $<$<COMPILE_LANGUAGE:ASM,C,CXX>:DMALLOC_FUNC_CHECK>
   )
 
   target_link_libraries(php_main PRIVATE Dmalloc::Dmalloc)
