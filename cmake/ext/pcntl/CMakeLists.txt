@@ -9,7 +9,7 @@ This extension provides support for process control support.
 > This extension is available only on \*nix systems.
 
 > [!IMPORTANT]
-> This extension should be used only with cgi, cli, embed, or phpdbg SAPI.
+> This extension should be used only with CLI-based PHP SAPIs.
 
 ## EXT_PCNTL
 

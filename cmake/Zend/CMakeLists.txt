@@ -88,16 +88,7 @@ mark_as_advanced(ZEND_SIGNALS)
 ################################################################################
 
 add_library(zend OBJECT)
-add_library(zend_interface INTERFACE)
-add_library(Zend::Zend ALIAS zend_interface)
-target_link_libraries(
-  zend_interface
-  INTERFACE
-    zend
-    $<TARGET_OBJECTS:zend>
-)
-# https://gitlab.kitware.com/cmake/cmake/-/issues/23402 workaround:
-add_dependencies(zend_interface zend)
+add_library(Zend::Zend ALIAS zend)
 
 target_sources(
   zend
@@ -364,17 +355,17 @@ endblock()
 # Add Zend PUBLIC/INTERFACE compile properties to configuration.
 # Cleaner COMPILE_ONLY generator expression is available in CMake >= 3.27.
 if(CMAKE_VERSION VERSION_GREATER_EQUAL 3.27)
-  target_link_libraries(php_configuration INTERFACE $<COMPILE_ONLY:Zend::Zend>)
+  target_link_libraries(php_configuration INTERFACE $<COMPILE_ONLY:zend>)
 else()
   target_include_directories(
     php_configuration
     INTERFACE
-      $<TARGET_PROPERTY:Zend::Zend,INTERFACE_INCLUDE_DIRECTORIES>
+      $<TARGET_PROPERTY:zend,INTERFACE_INCLUDE_DIRECTORIES>
   )
   target_compile_definitions(
     php_configuration
     INTERFACE
-      $<TARGET_PROPERTY:Zend::Zend,INTERFACE_COMPILE_DEFINITIONS>
+      $<TARGET_PROPERTY:zend,INTERFACE_COMPILE_DEFINITIONS>
   )
 endif()
 

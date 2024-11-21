@@ -13,39 +13,11 @@ include(FeatureSummary)
 # Add library.
 ################################################################################
 
-add_library(php INTERFACE)
-add_library(PHP::PHP ALIAS php)
-
 add_library(php_main OBJECT)
-add_library(php_main_interface INTERFACE)
-add_library(PHP::main ALIAS php_main_interface)
-target_link_libraries(
-  php_main_interface
-  INTERFACE
-    php_main
-    $<TARGET_OBJECTS:php_main>
-)
 
 # These contain a list of built-in extensions based on the SAPI types.
 add_library(php_main_internal_functions OBJECT internal_functions.c)
-add_library(php_main_internal_functions_interface INTERFACE)
-add_library(PHP::mainInternalFunctions ALIAS php_main_internal_functions_interface)
-target_link_libraries(
-  php_main_internal_functions_interface
-  INTERFACE
-    php_main_internal_functions
-    $<TARGET_OBJECTS:php_main_internal_functions>
-)
-
 add_library(php_main_internal_functions_cli OBJECT internal_functions_cli.c)
-add_library(php_main_internal_functions_cli_interface INTERFACE)
-add_library(PHP::mainInternalFunctionsCli ALIAS php_main_internal_functions_cli_interface)
-target_link_libraries(
-  php_main_internal_functions_cli_interface
-  INTERFACE
-    php_main_internal_functions_cli
-    $<TARGET_OBJECTS:php_main_internal_functions_cli>
-)
 
 target_sources(
   php_main
@@ -136,6 +108,19 @@ target_sources(
         $<$<NOT:$<PLATFORM_ID:Windows>>:${CMAKE_CURRENT_BINARY_DIR}/php_config.h>
 )
 
+target_compile_definitions(
+  php_main
+  PUBLIC
+    $<$<PLATFORM_ID:Windows>:SAPI_EXPORTS>
+)
+
+target_include_directories(
+  php_main
+  INTERFACE
+    ${CMAKE_CURRENT_BINARY_DIR}
+    ${CMAKE_CURRENT_SOURCE_DIR}
+)
+
 set_property(
   TARGET
     php_main
@@ -145,50 +130,57 @@ set_property(
   PROPERTY COMPILE_DEFINITIONS ZEND_ENABLE_STATIC_TSRMLS_CACHE=1
 )
 
-target_compile_definitions(
-  php_main
-  PUBLIC
-    $<$<PLATFORM_ID:Windows>:SAPI_EXPORTS>
-)
+# Add main PUBLIC/INTERFACE compile properties to configuration.
+# Cleaner COMPILE_ONLY generator expression is available in CMake >= 3.27.
+if(CMAKE_VERSION VERSION_GREATER_EQUAL 3.27)
+  target_link_libraries(php_configuration INTERFACE $<COMPILE_ONLY:php_main>)
+else()
+  target_include_directories(
+    php_configuration
+    INTERFACE
+      $<TARGET_PROPERTY:php_main,INTERFACE_INCLUDE_DIRECTORIES>
+  )
+  target_compile_definitions(
+    php_configuration
+    INTERFACE
+      $<TARGET_PROPERTY:php_main,INTERFACE_COMPILE_DEFINITIONS>
+  )
+endif()
 
 target_link_libraries(php_main PRIVATE PHP::configuration)
 target_link_libraries(php_main_internal_functions PRIVATE PHP::configuration)
 target_link_libraries(php_main_internal_functions_cli PRIVATE PHP::configuration)
 
-target_include_directories(
-  php_main
-  INTERFACE
-    ${CMAKE_CURRENT_BINARY_DIR}
-    ${CMAKE_CURRENT_SOURCE_DIR}
-)
+################################################################################
+# Add PHP::PHP.
+################################################################################
 
-# Add main PUBLIC/INTERFACE compile properties to configuration.
-# Cleaner COMPILE_ONLY generator expression is available in CMake >= 3.27.
-if(CMAKE_VERSION VERSION_GREATER_EQUAL 3.27)
-  target_link_libraries(php_configuration INTERFACE $<COMPILE_ONLY:PHP::main>)
-else()
-  target_include_directories(
-    php_configuration
-    INTERFACE
-      $<TARGET_PROPERTY:PHP::main,INTERFACE_INCLUDE_DIRECTORIES>
-  )
-  target_compile_definitions(
-    php_configuration
-    INTERFACE
-      $<TARGET_PROPERTY:PHP::main,INTERFACE_COMPILE_DEFINITIONS>
-  )
-endif()
+add_library(php INTERFACE)
+add_library(PHP::PHP ALIAS php)
 
 target_link_libraries(
   php
   INTERFACE
     PHP::configuration
-    PHP::main
-    # Pass internal functions objects transitively depending on the SAPI type.
-    $<IF:$<IN_LIST:$<TARGET_PROPERTY:NAME>,php_cgi;php_cli;php_embed;php_phpdbg>,PHP::mainInternalFunctionsCli,PHP::mainInternalFunctions>
+    php_main
     Zend::Zend
+    $<$<TARGET_EXISTS:PHP::windows>::PHP::windows>
     PHP::extensions
-    $<$<TARGET_EXISTS:PHP::windows>:PHP::windows>
+)
+
+# OBJECT libraries propagate only compile properties to static libraries without
+# objects as there is no "linking" involved on the compiler level. This is a
+# workaround using interface target sources to make PHP::PHP more intuitive to
+# work with SAPIs.
+target_sources(
+  php
+  INTERFACE
+    $<TARGET_OBJECTS:tsrm>
+    $<TARGET_OBJECTS:Zend::Zend>
+    $<TARGET_OBJECTS:php_main>
+    # Internal functions objects based on the SAPI type.
+    $<IF:$<BOOL:$<TARGET_PROPERTY:PHP_SAPI_CLI>>,$<TARGET_OBJECTS:php_main_internal_functions_cli>,$<TARGET_OBJECTS:php_main_internal_functions>>
+    $<$<TARGET_EXISTS:PHP::windows>:$<TARGET_OBJECTS:PHP::windows>>
 )
 
 ################################################################################

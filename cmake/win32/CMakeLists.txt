@@ -10,14 +10,7 @@ include(FeatureSummary)
 ################################################################################
 
 add_library(php_windows OBJECT)
-add_library(php_windows_interface INTERFACE)
-add_library(PHP::windows ALIAS php_windows_interface)
-target_link_libraries(
-  php_windows_interface
-  INTERFACE
-    php_windows
-    $<TARGET_OBJECTS:php_windows>
-)
+add_library(PHP::windows ALIAS php_windows)
 
 target_sources(
   php_windows
