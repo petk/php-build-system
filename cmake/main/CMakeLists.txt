@@ -164,6 +164,7 @@ target_link_libraries(
     PHP::configuration
     php_main
     Zend::Zend
+    TSRM::TSRM
     $<$<TARGET_EXISTS:PHP::windows>::PHP::windows>
     PHP::extensions
 )
@@ -175,11 +176,11 @@ target_link_libraries(
 target_sources(
   php
   INTERFACE
-    $<TARGET_OBJECTS:tsrm>
-    $<TARGET_OBJECTS:Zend::Zend>
     $<TARGET_OBJECTS:php_main>
     # Internal functions objects based on the SAPI type.
     $<IF:$<BOOL:$<TARGET_PROPERTY:PHP_SAPI_CLI>>,$<TARGET_OBJECTS:php_main_internal_functions_cli>,$<TARGET_OBJECTS:php_main_internal_functions>>
+    $<TARGET_OBJECTS:TSRM::TSRM>
+    $<TARGET_OBJECTS:Zend::Zend>
     $<$<TARGET_EXISTS:PHP::windows>:$<TARGET_OBJECTS:PHP::windows>>
 )
 

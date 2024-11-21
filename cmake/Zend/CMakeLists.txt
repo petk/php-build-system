@@ -298,16 +298,7 @@ target_sources(
         $<$<NOT:$<PLATFORM_ID:Windows>>:${CMAKE_CURRENT_BINARY_DIR}/zend_config.h>
 )
 
-# Add TSRM.
-add_subdirectory(../TSRM ../TSRM)
-
-target_link_libraries(
-  zend
-  PRIVATE
-    PHP::configuration
-  PUBLIC
-    TSRM::TSRM
-)
+target_link_libraries(zend PRIVATE PHP::configuration)
 
 target_include_directories(
   zend

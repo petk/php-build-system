@@ -1,20 +1,11 @@
 #[=============================================================================[
 TSRM (Thread Safe Resource Manager) is a separate directory in php-src as it was
-once a standalone project. Ideally, it should be integrated into Zend Engine.
-
-The `TSRM::TSRM` target is used to transitively pass the TSRM object(s) and
-compile options to Zend Engine, which propagates it further as needed.
+once a standalone project. Ideally, it should be moved into Zend Engine at some
+point.
 #]=============================================================================]
 
 add_library(tsrm OBJECT)
-add_library(tsrm_interface INTERFACE)
-add_library(TSRM::TSRM ALIAS tsrm_interface)
-target_link_libraries(
-  tsrm_interface
-  INTERFACE
-    tsrm
-    $<TARGET_OBJECTS:tsrm>
-)
+add_library(TSRM::TSRM ALIAS tsrm)
 
 target_sources(
   tsrm
@@ -44,6 +35,23 @@ target_compile_definitions(
   PUBLIC
     $<$<PLATFORM_ID:Windows>:TSRM_EXPORTS>
 )
+
+# Add TSRM PUBLIC/INTERFACE compile properties to configuration.
+# Cleaner COMPILE_ONLY generator expression is available in CMake >= 3.27.
+if(CMAKE_VERSION VERSION_GREATER_EQUAL 3.27)
+  target_link_libraries(php_configuration INTERFACE $<COMPILE_ONLY:tsrm>)
+else()
+  target_include_directories(
+    php_configuration
+    INTERFACE
+      $<TARGET_PROPERTY:tsrm,INTERFACE_INCLUDE_DIRECTORIES>
+  )
+  target_compile_definitions(
+    php_configuration
+    INTERFACE
+      $<TARGET_PROPERTY:tsrm,INTERFACE_COMPILE_DEFINITIONS>
+  )
+endif()
 
 install(
   TARGETS tsrm

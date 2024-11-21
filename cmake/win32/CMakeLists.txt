@@ -108,6 +108,7 @@ target_link_libraries(
 ################################################################################
 # Generate wsyslog.h file with message compiler (mc).
 ################################################################################
+
 find_package(MC)
 set_package_properties(
   MC
