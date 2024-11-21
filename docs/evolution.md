@@ -939,4 +939,8 @@ PHP coding standards now use the C11 standard.
 * Minimum required ICU package version (for ext/intl) has been increased from
   `50.1` to `57.1`.
 
+#### Windows
+
+* ext/com_dotnet is built as shared by default
+
 </details>
