@@ -114,7 +114,7 @@ foreach(extension IN LISTS extensions)
         $<TARGET_PROPERTY:php_configuration,INTERFACE_COMPILE_OPTIONS>
     )
 
-    add_dependencies(php_${extension} zend)
+    add_dependencies(php_${extension} Zend::Zend)
 
     get_target_property(type php_${extension} TYPE)
     if(NOT type MATCHES "^(MODULE|SHARED)_LIBRARY$")

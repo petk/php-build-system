@@ -1,7 +1,7 @@
 #[=============================================================================[
 Zend Engine.
 
-CMake target properties for the `Zend::Zend` (`zend`) target:
+CMake target properties for the `Zend::Zend` target:
 
 * `VERSION`
 
@@ -88,7 +88,16 @@ mark_as_advanced(ZEND_SIGNALS)
 ################################################################################
 
 add_library(zend OBJECT)
-add_library(Zend::Zend ALIAS zend)
+add_library(zend_interface INTERFACE)
+add_library(Zend::Zend ALIAS zend_interface)
+target_link_libraries(
+  zend_interface
+  INTERFACE
+    zend
+    $<TARGET_OBJECTS:zend>
+)
+# https://gitlab.kitware.com/cmake/cmake/-/issues/23402 workaround:
+add_dependencies(zend_interface zend)
 
 target_sources(
   zend

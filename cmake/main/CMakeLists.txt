@@ -9,15 +9,43 @@ PHP main binding.
 
 include(FeatureSummary)
 
+################################################################################
+# Add library.
+################################################################################
+
 add_library(php INTERFACE)
 add_library(PHP::PHP ALIAS php)
 
 add_library(php_main OBJECT)
-add_library(PHP::main ALIAS php_main)
+add_library(php_main_interface INTERFACE)
+add_library(PHP::main ALIAS php_main_interface)
+target_link_libraries(
+  php_main_interface
+  INTERFACE
+    php_main
+    $<TARGET_OBJECTS:php_main>
+)
 
 # These contain a list of built-in extensions based on the SAPI types.
 add_library(php_main_internal_functions OBJECT internal_functions.c)
+add_library(php_main_internal_functions_interface INTERFACE)
+add_library(PHP::mainInternalFunctions ALIAS php_main_internal_functions_interface)
+target_link_libraries(
+  php_main_internal_functions_interface
+  INTERFACE
+    php_main_internal_functions
+    $<TARGET_OBJECTS:php_main_internal_functions>
+)
+
 add_library(php_main_internal_functions_cli OBJECT internal_functions_cli.c)
+add_library(php_main_internal_functions_cli_interface INTERFACE)
+add_library(PHP::mainInternalFunctionsCli ALIAS php_main_internal_functions_cli_interface)
+target_link_libraries(
+  php_main_internal_functions_cli_interface
+  INTERFACE
+  php_main_internal_functions_cli
+    $<TARGET_OBJECTS:php_main_internal_functions_cli>
+)
 
 # Configuration library to transitively pass build options to php_main* targets.
 add_library(php_main_configuration INTERFACE)
@@ -123,7 +151,6 @@ target_link_libraries(
   php_main_configuration
   INTERFACE
     PHP::configuration
-    $<$<TARGET_EXISTS:PHP::win32>:PHP::win32 $<TARGET_OBJECTS:PHP::win32>>
 )
 
 target_link_libraries(php_main PRIVATE PHP::mainConfiguration)
@@ -149,15 +176,17 @@ target_link_libraries(
   INTERFACE
     PHP::configuration
     PHP::main
-    $<TARGET_OBJECTS:PHP::main>
-    # Pass transitively depending on the SAPI type.
-    $<IF:$<IN_LIST:$<TARGET_PROPERTY:NAME>,php_cgi;php_cli;php_embed;php_phpdbg>,php_main_internal_functions_cli $<TARGET_OBJECTS:php_main_internal_functions_cli>,php_main_internal_functions $<TARGET_OBJECTS:php_main_internal_functions>>
+    # Pass internal functions objects transitively depending on the SAPI type.
+    $<IF:$<IN_LIST:$<TARGET_PROPERTY:NAME>,php_cgi;php_cli;php_embed;php_phpdbg>,PHP::mainInternalFunctionsCli,PHP::mainInternalFunctions>
     Zend::Zend
-    $<TARGET_OBJECTS:Zend::Zend>
     PHP::extensions
+    $<$<TARGET_EXISTS:PHP::windows>:PHP::windows>
 )
 
+################################################################################
 # Add DTrace.
+################################################################################
+
 if(PHP_DTRACE)
   message(CHECK_START "Checking for DTrace support")
 
@@ -196,7 +225,10 @@ add_feature_info(
   "performance analysis and troubleshooting"
 )
 
+################################################################################
 # Add Dmalloc.
+################################################################################
+
 if(PHP_DMALLOC)
   message(CHECK_START "Checking for Dmalloc support")
 
