@@ -1,9 +1,7 @@
 <!-- This is auto-generated file. -->
 * Source code: [ext/opcache/CMakeLists.txt](https://github.com/petk/php-build-system/blob/master/cmake/ext/opcache/CMakeLists.txt)
 
-# The opcache extension
-
-Configure the `opcache` extension.
+# The Zend OPcache extension
 
 This extension enables the PHP OPcode caching engine.
 
@@ -19,7 +17,7 @@ Enable the extension. This extension is always built as shared when enabled.
 * Default: `ON`
 * Values: `ON|OFF`
 
-Enable copying PHP CODE pages into HUGE PAGES
+Enable copying PHP CODE pages into HUGE PAGES.
 
 ## EXT_OPCACHE_JIT
 
@@ -33,4 +31,4 @@ Enable JIT (Just-In-Time compiler).
 * Default: `OFF`
 * Values: `ON|OFF`
 
-Enable opcache JIT disassembly through Capstone.
+Enable OPcache JIT disassembly through Capstone engine.

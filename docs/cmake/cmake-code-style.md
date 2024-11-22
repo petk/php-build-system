@@ -675,7 +675,7 @@ For convenience there is a custom helper script added to this repository that
 checks CMake files:
 
 ```sh
-./bin/check-cmake.php cmake
+./bin/check-cmake.php
 ```
 
 #### 10.1.6. cmake-format.json
