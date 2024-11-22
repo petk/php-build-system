@@ -215,6 +215,9 @@ if(EXT_OPCACHE_JIT)
         -o ${CMAKE_CURRENT_BINARY_DIR}/jit/zend_jit_${DASM_ARCH}.c
         ${CMAKE_CURRENT_SOURCE_DIR}/jit/zend_jit_${DASM_ARCH}.dasc
     COMMENT "[ext/opcache] Generating ext/opcache/jit/zend_jit_${DASM_ARCH}.c"
+    DEPENDS
+      jit/dynasm/dynasm.lua
+      jit/zend_jit_${DASM_ARCH}.dasc
     VERBATIM
     COMMAND_EXPAND_LISTS
   )
