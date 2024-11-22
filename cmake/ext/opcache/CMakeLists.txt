@@ -1,7 +1,5 @@
 #[=============================================================================[
-# The opcache extension
-
-Configure the `opcache` extension.
+# The Zend OPcache extension
 
 This extension enables the PHP OPcode caching engine.
 
@@ -17,7 +15,7 @@ Enable the extension. This extension is always built as shared when enabled.
 * Default: `ON`
 * Values: `ON|OFF`
 
-Enable copying PHP CODE pages into HUGE PAGES
+Enable copying PHP CODE pages into HUGE PAGES.
 
 ## EXT_OPCACHE_JIT
 
@@ -31,7 +29,7 @@ Enable JIT (Just-In-Time compiler).
 * Default: `OFF`
 * Values: `ON|OFF`
 
-Enable opcache JIT disassembly through Capstone.
+Enable OPcache JIT disassembly through Capstone engine.
 #]=============================================================================]
 
 project(
@@ -45,7 +43,7 @@ include(FeatureSummary)
 include(PHP/CheckCompilerFlag)
 include(PHP/SearchLibraries)
 
-option(EXT_OPCACHE "Enable the opcache extension" ON)
+option(EXT_OPCACHE "Enable the Zend OPcache extension" ON)
 add_feature_info(
   "ext/opcache"
   EXT_OPCACHE
@@ -70,9 +68,9 @@ cmake_dependent_option(
 
 cmake_dependent_option(
   EXT_OPCACHE_CAPSTONE
-  "Support opcache JIT disassembly through Capstone"
+  "Support OPcache JIT disassembly through Capstone engine"
   OFF
-  "EXT_OPCACHE"
+  EXT_OPCACHE
   OFF
 )
 
@@ -270,13 +268,13 @@ endif()
 add_feature_info(
   "ext/opcache JIT"
   HAVE_JIT
-  "Opcache's JIT (Just-In-Time compiler)"
+  "OPcache JIT (Just-In-Time compiler)"
 )
 
 add_feature_info(
   "ext/opcache JIT Capstone"
   HAVE_CAPSTONE
-  "opcache JIT disassembly supported through Capstone"
+  "OPcache JIT disassembly supported through Capstone engine"
 )
 
 ################################################################################
