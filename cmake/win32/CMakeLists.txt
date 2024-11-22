@@ -5,11 +5,15 @@ endif()
 
 include(FeatureSummary)
 
-add_library(php_win32 OBJECT)
-add_library(PHP::win32 ALIAS php_win32)
+################################################################################
+# Add library.
+################################################################################
+
+add_library(php_windows OBJECT)
+add_library(PHP::windows ALIAS php_windows)
 
 target_sources(
-  php_win32
+  php_windows
   PRIVATE
     codepage.c
     console.c
@@ -85,7 +89,7 @@ target_compile_options(
     $<$<COMPILE_LANG_AND_ID:CXX,MSVC>:/wd4996>
 )
 
-target_link_libraries(php_win32 PRIVATE PHP::configuration)
+target_link_libraries(php_windows PRIVATE PHP::configuration)
 
 target_link_libraries(
   php_configuration
@@ -101,7 +105,10 @@ target_link_libraries(
     ws2_32
 )
 
+################################################################################
 # Generate wsyslog.h file with message compiler (mc).
+################################################################################
+
 find_package(MC)
 set_package_properties(
   MC
@@ -111,27 +118,41 @@ set_package_properties(
 )
 
 mc_target(
-  NAME php_win32_wsyslog
+  NAME php_windows_wsyslog
   INPUT build/wsyslog.mc
   XDBG_DIR ${CMAKE_CURRENT_BINARY_DIR}
 )
 
-add_dependencies(php_win32 php_win32_wsyslog)
+add_dependencies(php_windows php_windows_wsyslog)
 
+################################################################################
 # Generate cp_enc_map.c.
-add_executable(php_win32_encoding_map_generator cp_enc_map_gen.c)
+################################################################################
 
-add_custom_target(
-  php_win32_encoding_map
-  DEPENDS php_win32_encoding_map_generator
-  COMMAND php_win32_encoding_map_generator > cp_enc_map.c
-  COMMENT "Generating win32/cp_enc_map.c"
+add_executable(php_windows_encoding_map_generator cp_enc_map_gen.c)
+
+add_custom_command(
+  OUTPUT ${CMAKE_CURRENT_SOURCE_DIR}/cp_enc_map.c
+  COMMAND php_windows_encoding_map_generator > cp_enc_map.c
+  VERBATIM
+  WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
+  COMMENT "[win32] Generating win32/cp_enc_map.c"
 )
 
-add_dependencies(php_win32 php_win32_encoding_map)
+target_sources(php_windows PRIVATE cp_enc_map.c)
+
+set_source_files_properties(
+  ${CMAKE_CURRENT_SOURCE_DIR}/cp_enc_map.c
+  PROPERTIES
+    HEADER_FILE_ONLY ON
+)
+
+################################################################################
+# Configure installation.
+################################################################################
 
 install(
-  TARGETS php_win32
+  TARGETS php_windows
   ARCHIVE EXCLUDE_FROM_ALL
   FILE_SET HEADERS
     DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/${PHP_INCLUDE_PREFIX}/win32
