@@ -1,7 +1,5 @@
 #[=============================================================================[
-# The opcache extension
-
-Configure the `opcache` extension.
+# The Zend OPcache extension
 
 This extension enables the PHP OPcode caching engine.
 
@@ -17,7 +15,7 @@ Enable the extension. This extension is always built as shared when enabled.
 * Default: `ON`
 * Values: `ON|OFF`
 
-Enable copying PHP CODE pages into HUGE PAGES
+Enable copying PHP CODE pages into HUGE PAGES.
 
 ## EXT_OPCACHE_JIT
 
@@ -31,7 +29,7 @@ Enable JIT (Just-In-Time compiler).
 * Default: `OFF`
 * Values: `ON|OFF`
 
-Enable opcache JIT disassembly through Capstone.
+Enable OPcache JIT disassembly through Capstone engine.
 #]=============================================================================]
 
 project(
@@ -45,8 +43,7 @@ include(FeatureSummary)
 include(PHP/CheckCompilerFlag)
 include(PHP/SearchLibraries)
 
-option(EXT_OPCACHE "Enable the opcache extension" ON)
-
+option(EXT_OPCACHE "Enable the Zend OPcache extension" ON)
 add_feature_info(
   "ext/opcache"
   EXT_OPCACHE
@@ -65,21 +62,15 @@ cmake_dependent_option(
   EXT_OPCACHE_JIT
   "Enable JIT"
   ON
-  "EXT_OPCACHE"
+  EXT_OPCACHE
   OFF
-)
-
-add_feature_info(
-  "ext/opcache JIT"
-  EXT_OPCACHE_JIT
-  "Opcache's JIT (Just-In-Time compiler)"
 )
 
 cmake_dependent_option(
   EXT_OPCACHE_CAPSTONE
-  "Support opcache JIT disassembly through Capstone"
+  "Support OPcache JIT disassembly through Capstone engine"
   OFF
-  "EXT_OPCACHE"
+  EXT_OPCACHE
   OFF
 )
 
@@ -113,13 +104,6 @@ target_sources(
     ZendAccelerator.c
 )
 
-target_include_directories(
-  php_opcache
-  PRIVATE
-    ${CMAKE_CURRENT_SOURCE_DIR}/jit
-    ${CMAKE_CURRENT_BINARY_DIR}/jit
-)
-
 add_dependencies(php_opcache php_date php_pcre)
 
 if(CMAKE_SYSTEM_NAME STREQUAL "Windows")
@@ -132,15 +116,6 @@ set_target_properties(
     PHP_ZEND_EXTENSION TRUE
 )
 
-php_check_compiler_flag(
-  C
-  -Wno-implicit-fallthrough
-  _HAVE_WNO_IMPLICIT_FALLTHROUGH_C
-)
-if(_HAVE_WNO_IMPLICIT_FALLTHROUGH_C)
-  target_compile_options(php_opcache PRIVATE -Wno-implicit-fallthrough)
-endif()
-
 target_compile_definitions(php_opcache PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE=1)
 
 if(EXT_OPCACHE_HUGE_CODE_PAGES)
@@ -151,7 +126,7 @@ endif()
 # JIT.
 ################################################################################
 
-# Check JIT requirements.
+# Check if JIT is supported by the target architecture.
 if(EXT_OPCACHE_JIT)
   if(
     # *nix:
@@ -178,35 +153,6 @@ if(EXT_OPCACHE_JIT)
 endif()
 
 if(EXT_OPCACHE_JIT)
-  set(HAVE_JIT 1)
-
-  target_sources(
-    php_opcache
-    PRIVATE
-      $<$<NOT:$<PLATFORM_ID:Windows>>:jit/zend_jit_gdb.c>
-      jit/zend_jit_vm_helpers.c
-      jit/zend_jit.c
-  )
-
-  # The string.h header is always available with C89 standard. The bundled
-  # ext/opcache/jit/libudis86 still includes it conditionally.
-  target_compile_definitions(php_opcache PRIVATE HAVE_STRING_H=1)
-
-  # Check for Capstone.
-  if(EXT_OPCACHE_CAPSTONE)
-    find_package(Capstone 3.0.0)
-    set_package_properties(
-      Capstone
-      PROPERTIES
-        TYPE REQUIRED
-        PURPOSE "Necessary to enable OPcache JIT disassembly through Capstone."
-    )
-
-    target_link_libraries(php_opcache PRIVATE Capstone::Capstone)
-
-    set(HAVE_CAPSTONE 1)
-  endif()
-
   # Find out which ABI to use.
   if(CMAKE_SYSTEM_PROCESSOR MATCHES "^(x86_64|amd64|AMD64|ARM64)$")
     set(DASM_FLAGS -D X64=1)
@@ -240,14 +186,12 @@ if(EXT_OPCACHE_JIT)
     list(APPEND DASM_FLAGS -D ZTS=1)
   endif()
 
-  add_executable(
-    php_opcache_jit_minilua
-    jit/dynasm/minilua.c
-  )
+  # Generate zend_jit_<arch>.c file.
+  add_executable(php_opcache_jit_minilua jit/dynasm/minilua.c)
   set_target_properties(
     php_opcache_jit_minilua
     PROPERTIES
-      OUTPUT_NAME minilua
+      RUNTIME_OUTPUT_DIRECTORY CMakeFiles
   )
 
   # Link math library as needed.
@@ -259,35 +203,79 @@ if(EXT_OPCACHE_JIT)
     TARGET php_opcache_jit_minilua PRIVATE
   )
 
-  # Create jit directory in the current build directory if it doesn't exist yet.
-  add_custom_command(
-    OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/jit
-    COMMAND ${CMAKE_COMMAND} -E make_directory ${CMAKE_CURRENT_BINARY_DIR}/jit
-    COMMENT "[ext/opcache] Creating ext/opcache/jit directory"
-  )
+  # Help minilua create a jit build directory.
+  file(MAKE_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/jit)
 
   # Generate Jit for architecture.
   add_custom_command(
-    OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/jit/zend_jit_${DASM_ARCH}.c
+    OUTPUT jit/zend_jit_${DASM_ARCH}.c
     COMMAND
-      php_opcache_jit_minilua ${CMAKE_CURRENT_LIST_DIR}/jit/dynasm/dynasm.lua
+      php_opcache_jit_minilua ${CMAKE_CURRENT_SOURCE_DIR}/jit/dynasm/dynasm.lua
         ${DASM_FLAGS}
         -o ${CMAKE_CURRENT_BINARY_DIR}/jit/zend_jit_${DASM_ARCH}.c
-        ${CMAKE_CURRENT_LIST_DIR}/jit/zend_jit_${DASM_ARCH}.dasc
-    DEPENDS
-      php_opcache_jit_minilua
-      ${CMAKE_CURRENT_BINARY_DIR}/jit
+        ${CMAKE_CURRENT_SOURCE_DIR}/jit/zend_jit_${DASM_ARCH}.dasc
     COMMENT "[ext/opcache] Generating ext/opcache/jit/zend_jit_${DASM_ARCH}.c"
+    VERBATIM
+    COMMAND_EXPAND_LISTS
   )
 
-  add_custom_target(
-    php_opcache_jit
-    DEPENDS ${CMAKE_CURRENT_BINARY_DIR}/jit/zend_jit_${DASM_ARCH}.c
-    COMMENT "[ext/opcache] Building JIT for architecture ${DASM_ARCH}"
+  target_sources(
+    php_opcache
+    PRIVATE
+      $<$<NOT:$<PLATFORM_ID:Windows>>:jit/zend_jit_gdb.c>
+      jit/zend_jit_vm_helpers.c
+      jit/zend_jit.c
+      ${CMAKE_CURRENT_BINARY_DIR}/jit/zend_jit_${DASM_ARCH}.c
   )
 
-  add_dependencies(php_opcache php_opcache_jit)
+  # Mark generated file as "header" to not get compiled into its own object.
+  set_source_files_properties(
+    ${CMAKE_CURRENT_BINARY_DIR}/jit/zend_jit_${DASM_ARCH}.c
+    PROPERTIES HEADER_FILE_ONLY ON
+  )
+
+  # The string.h header is always available with C89 standard. The bundled
+  # ext/opcache/jit/libudis86 still includes it conditionally.
+  target_compile_definitions(php_opcache PRIVATE HAVE_STRING_H=1)
+
+  php_check_compiler_flag(
+    C
+    -Wno-implicit-fallthrough
+    _HAVE_WNO_IMPLICIT_FALLTHROUGH_C
+  )
+  if(_HAVE_WNO_IMPLICIT_FALLTHROUGH_C)
+    target_compile_options(php_opcache PRIVATE -Wno-implicit-fallthrough)
+  endif()
+
+  # Check for Capstone.
+  if(EXT_OPCACHE_CAPSTONE)
+    find_package(Capstone 3.0.0)
+    set_package_properties(
+      Capstone
+      PROPERTIES
+        TYPE REQUIRED
+        PURPOSE "Necessary to enable OPcache JIT disassembly through Capstone."
+    )
+
+    target_link_libraries(php_opcache PRIVATE Capstone::Capstone)
+
+    set(HAVE_CAPSTONE 1)
+  endif()
+
+  set(HAVE_JIT 1)
 endif()
+
+add_feature_info(
+  "ext/opcache JIT"
+  HAVE_JIT
+  "OPcache JIT (Just-In-Time compiler)"
+)
+
+add_feature_info(
+  "ext/opcache JIT Capstone"
+  HAVE_CAPSTONE
+  "OPcache JIT disassembly supported through Capstone engine"
+)
 
 ################################################################################
 # Configuration checks.
