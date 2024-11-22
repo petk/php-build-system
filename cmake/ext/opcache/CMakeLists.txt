@@ -230,7 +230,7 @@ if(EXT_OPCACHE_JIT)
       ${CMAKE_CURRENT_BINARY_DIR}/jit/zend_jit_${DASM_ARCH}.c
   )
 
-  # Mark generated file as "header" to not get compiled into object at this level.
+  # Mark generated file as "header" to not get compiled into its own object.
   set_source_files_properties(
     ${CMAKE_CURRENT_BINARY_DIR}/jit/zend_jit_${DASM_ARCH}.c
     PROPERTIES HEADER_FILE_ONLY ON
