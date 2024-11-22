@@ -286,6 +286,8 @@ function(re2c_target)
       ${input}
     DEPENDS ${input} ${parsed_DEPENDS}
     COMMENT "[RE2C][${ARGV0}] Building lexer with re2c ${RE2C_VERSION}"
+    VERBATIM
+    COMMAND_EXPAND_LISTS
   )
 
   add_custom_target(
