@@ -1,7 +1,5 @@
 #[=============================================================================[
-# The opcache extension
-
-Configure the `opcache` extension.
+# The Zend OPcache extension
 
 This extension enables the PHP OPcode caching engine.
 
@@ -17,7 +15,7 @@ Enable the extension. This extension is always built as shared when enabled.
 * Default: `ON`
 * Values: `ON|OFF`
 
-Enable copying PHP CODE pages into HUGE PAGES
+Enable copying PHP CODE pages into HUGE PAGES.
 
 ## EXT_OPCACHE_JIT
 
@@ -31,7 +29,7 @@ Enable JIT (Just-In-Time compiler).
 * Default: `OFF`
 * Values: `ON|OFF`
 
-Enable opcache JIT disassembly through Capstone.
+Enable OPcache JIT disassembly through Capstone engine.
 #]=============================================================================]
 
 project(
@@ -45,8 +43,7 @@ include(FeatureSummary)
 include(PHP/CheckCompilerFlag)
 include(PHP/SearchLibraries)
 
-option(EXT_OPCACHE "Enable the opcache extension" ON)
-
+option(EXT_OPCACHE "Enable the Zend OPcache extension" ON)
 add_feature_info(
   "ext/opcache"
   EXT_OPCACHE
@@ -65,21 +62,15 @@ cmake_dependent_option(
   EXT_OPCACHE_JIT
   "Enable JIT"
   ON
-  "EXT_OPCACHE"
+  EXT_OPCACHE
   OFF
-)
-
-add_feature_info(
-  "ext/opcache JIT"
-  EXT_OPCACHE_JIT
-  "Opcache's JIT (Just-In-Time compiler)"
 )
 
 cmake_dependent_option(
   EXT_OPCACHE_CAPSTONE
-  "Support opcache JIT disassembly through Capstone"
+  "Support OPcache JIT disassembly through Capstone engine"
   OFF
-  "EXT_OPCACHE"
+  EXT_OPCACHE
   OFF
 )
 
@@ -113,13 +104,6 @@ target_sources(
     ZendAccelerator.c
 )
 
-target_include_directories(
-  php_opcache
-  PRIVATE
-    ${CMAKE_CURRENT_SOURCE_DIR}/jit
-    ${CMAKE_CURRENT_BINARY_DIR}/jit
-)
-
 add_dependencies(php_opcache php_date php_pcre)
 
 if(CMAKE_SYSTEM_NAME STREQUAL "Windows")
@@ -142,7 +126,7 @@ endif()
 # JIT.
 ################################################################################
 
-# Check JIT requirements.
+# Check if JIT is supported by the target architecture.
 if(EXT_OPCACHE_JIT)
   if(
     # *nix:
@@ -169,50 +153,6 @@ if(EXT_OPCACHE_JIT)
 endif()
 
 if(EXT_OPCACHE_JIT)
-  set(HAVE_JIT 1)
-
-  target_sources(
-    php_opcache
-    PRIVATE
-      jit/ir/ir_cfg.c
-      jit/ir/ir_check.c
-      jit/ir/ir_dump.c
-      jit/ir/ir_emit.c
-      jit/ir/ir_gcm.c
-      $<$<NOT:$<PLATFORM_ID:Windows>>:jit/ir/ir_gdb.c>
-      jit/ir/ir_patch.c
-      $<$<NOT:$<PLATFORM_ID:Windows>>:jit/ir/ir_perf.c>
-      jit/ir/ir_ra.c
-      jit/ir/ir_save.c
-      jit/ir/ir_sccp.c
-      jit/ir/ir_strtab.c
-      jit/ir/ir.c
-      jit/zend_jit_vm_helpers.c
-      jit/zend_jit.c
-  )
-
-  target_include_directories(
-    php_opcache
-    PRIVATE ${CMAKE_CURRENT_BINARY_DIR}/jit/ir
-  )
-
-  # Check for Capstone.
-  if(EXT_OPCACHE_CAPSTONE)
-    find_package(Capstone 3.0.0)
-    set_package_properties(
-      Capstone
-      PROPERTIES
-        TYPE REQUIRED
-        PURPOSE "Necessary to enable OPcache JIT disassembly through Capstone."
-    )
-
-    target_sources(php_opcache PRIVATE jit/ir/ir_disasm.c)
-
-    target_link_libraries(php_opcache PRIVATE Capstone::Capstone)
-
-    set(HAVE_CAPSTONE 1)
-  endif()
-
   # Find out which ABI to use.
   if(CMAKE_SYSTEM_PROCESSOR MATCHES "^(x86_64|amd64|AMD64|ARM64)$")
     set(IR_TARGET "IR_TARGET_X64")
@@ -244,23 +184,12 @@ if(EXT_OPCACHE_JIT)
     list(APPEND DASM_FLAGS -D X64WIN=1)
   endif()
 
-  target_compile_definitions(
-    php_opcache
-    PRIVATE
-      IR_PHP
-      ${IR_TARGET}
-      $<$<CONFIG:Debug,DebugAssertions>:IR_DEBUG>
-  )
-
-  add_executable(
-    php_opcache_jit_minilua
-    jit/ir/dynasm/minilua.c
-  )
+  # Generate ir_emit_<arch>.h file.
+  add_executable(php_opcache_jit_minilua jit/ir/dynasm/minilua.c)
   set_target_properties(
     php_opcache_jit_minilua
     PROPERTIES
-      OUTPUT_NAME minilua
-      RUNTIME_OUTPUT_DIRECTORY jit/ir
+      RUNTIME_OUTPUT_DIRECTORY CMakeFiles
   )
 
   # Link math library as needed.
@@ -272,18 +201,27 @@ if(EXT_OPCACHE_JIT)
     TARGET php_opcache_jit_minilua PRIVATE
   )
 
-  # Create jit directory in the current build directory if it doesn't exist yet.
+  # Help generators create a jit/ir build directory.
+  file(MAKE_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/jit/ir)
+
+  # Generate native code generator for selected architecture.
   add_custom_command(
-    OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/jit
-    COMMAND ${CMAKE_COMMAND} -E make_directory ${CMAKE_CURRENT_BINARY_DIR}/jit
-    COMMENT "[ext/opcache] Creating ext/opcache/jit directory"
+    OUTPUT jit/ir/ir_emit_${DASM_ARCH}.h
+    COMMAND
+      php_opcache_jit_minilua ${CMAKE_CURRENT_SOURCE_DIR}/jit/ir/dynasm/dynasm.lua
+        ${DASM_FLAGS}
+        -o ${CMAKE_CURRENT_BINARY_DIR}/jit/ir/ir_emit_${DASM_ARCH}.h
+        ${CMAKE_CURRENT_SOURCE_DIR}/jit/ir/ir_${DASM_ARCH}.dasc
+    COMMENT "[ext/opcache] Generating native code generator ext/opcache/jit/ir/ir_emit_${DASM_ARCH}.h"
+    DEPENDS
+      jit/ir/dynasm/dynasm.lua
+      jit/ir/ir_${DASM_ARCH}.dasc
+    VERBATIM
+    COMMAND_EXPAND_LISTS
   )
 
   # Create IR folding engine generator.
-  add_executable(
-    php_opcache_jit_generator
-    jit/ir/gen_ir_fold_hash.c
-  )
+  add_executable(php_opcache_jit_generator jit/ir/gen_ir_fold_hash.c)
   target_compile_definitions(
     php_opcache_jit_generator
     PRIVATE
@@ -294,8 +232,7 @@ if(EXT_OPCACHE_JIT)
   set_target_properties(
     php_opcache_jit_generator
     PROPERTIES
-      OUTPUT_NAME gen_ir_fold_hash
-      RUNTIME_OUTPUT_DIRECTORY jit/ir
+      RUNTIME_OUTPUT_DIRECTORY CMakeFiles
   )
 
   # Suppress typedef redefinition warnings on Clang. At time of writing, PHP is
@@ -317,38 +254,84 @@ if(EXT_OPCACHE_JIT)
 
   # Generate IR folding engine rules header.
   add_custom_command(
-    OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/jit/ir/ir_fold_hash.h
+    OUTPUT jit/ir/ir_fold_hash.h
     COMMAND php_opcache_jit_generator
       < ${CMAKE_CURRENT_SOURCE_DIR}/jit/ir/ir_fold.h
       > ${CMAKE_CURRENT_BINARY_DIR}/jit/ir/ir_fold_hash.h
-    DEPENDS php_opcache_jit_generator ${CMAKE_CURRENT_BINARY_DIR}/jit
     COMMENT "[ext/opcache] Generating folding engine rules ext/opcache/jit/ir/ir_fold_hash.h"
+    DEPENDS
+      jit/ir/ir_fold.h
+    VERBATIM
+    COMMAND_EXPAND_LISTS
   )
 
-  # Generate native code generator for selected architecture.
-  add_custom_command(
-    OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/jit/ir/ir_emit_${DASM_ARCH}.h
-    COMMAND
-      php_opcache_jit_minilua ${CMAKE_CURRENT_SOURCE_DIR}/jit/ir/dynasm/dynasm.lua
-        ${DASM_FLAGS}
-        -o ${CMAKE_CURRENT_BINARY_DIR}/jit/ir/ir_emit_${DASM_ARCH}.h
-        ${CMAKE_CURRENT_SOURCE_DIR}/jit/ir/ir_${DASM_ARCH}.dasc
-    DEPENDS
-      php_opcache_jit_minilua
-      ${CMAKE_CURRENT_BINARY_DIR}/jit
-    COMMENT "[ext/opcache] Generating native code generator ext/opcache/jit/ir/ir_emit_${DASM_ARCH}.h"
-  )
-
-  add_custom_target(
-    php_opcache_jit
-    DEPENDS
+  target_sources(
+    php_opcache
+    PRIVATE
+      jit/ir/ir_cfg.c
+      jit/ir/ir_check.c
+      jit/ir/ir_dump.c
+      jit/ir/ir_emit.c
+      jit/ir/ir_gcm.c
+      $<$<NOT:$<PLATFORM_ID:Windows>>:jit/ir/ir_gdb.c>
+      jit/ir/ir_patch.c
+      $<$<NOT:$<PLATFORM_ID:Windows>>:jit/ir/ir_perf.c>
+      jit/ir/ir_ra.c
+      jit/ir/ir_save.c
+      jit/ir/ir_sccp.c
+      jit/ir/ir_strtab.c
+      jit/ir/ir.c
+      jit/zend_jit_vm_helpers.c
+      jit/zend_jit.c
       ${CMAKE_CURRENT_BINARY_DIR}/jit/ir/ir_emit_${DASM_ARCH}.h
       ${CMAKE_CURRENT_BINARY_DIR}/jit/ir/ir_fold_hash.h
-    COMMENT "[ext/opcache] Building JIT for architecture ${DASM_ARCH}"
   )
 
-  add_dependencies(php_opcache php_opcache_jit)
+  target_include_directories(
+    php_opcache
+    PRIVATE
+      ${CMAKE_CURRENT_BINARY_DIR}/jit/ir
+  )
+
+  target_compile_definitions(
+    php_opcache
+    PRIVATE
+      IR_PHP
+      ${IR_TARGET}
+      $<$<CONFIG:Debug,DebugAssertions>:IR_DEBUG>
+  )
+
+  # Check for Capstone.
+  if(EXT_OPCACHE_CAPSTONE)
+    find_package(Capstone 3.0.0)
+    set_package_properties(
+      Capstone
+      PROPERTIES
+        TYPE REQUIRED
+        PURPOSE "Necessary to enable OPcache JIT disassembly through Capstone."
+    )
+
+    target_sources(php_opcache PRIVATE jit/ir/ir_disasm.c)
+
+    target_link_libraries(php_opcache PRIVATE Capstone::Capstone)
+
+    set(HAVE_CAPSTONE 1)
+  endif()
+
+  set(HAVE_JIT 1)
 endif()
+
+add_feature_info(
+  "ext/opcache JIT"
+  HAVE_JIT
+  "OPcache JIT (Just-In-Time compiler)"
+)
+
+add_feature_info(
+  "ext/opcache JIT Capstone"
+  HAVE_CAPSTONE
+  "OPcache JIT disassembly supported through Capstone engine"
+)
 
 ################################################################################
 # Configuration checks.
