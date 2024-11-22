@@ -379,6 +379,20 @@ A list of PHP CMake modules:
   Global property with a list of all enabled PHP extension for the current
   configuration.
 
+* `PHP_SAPI_CLI`
+
+  Target property that designates PHP SAPI as CLI-based. These SAPIs can utilize
+  CLI-based PHP extensions (for example, `pcntl`) and include
+  `main/internal_functions_cli.c` object instead of the
+  `main/internal_functions.c`.
+
+  For example, to mark `cli` PHP SAPI, set `PHP_SAPI_CLI` custom target property
+  to *truthy* value:
+
+  ```cmake
+  set_target_properties(php_cli PROPERTIES PHP_SAPI_CLI TRUE)
+  ```
+
 * `PHP_SAPIS`
 
   Global property with a list of all enabled PHP SAPIs for the current

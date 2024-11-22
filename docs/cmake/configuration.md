@@ -1081,7 +1081,7 @@ A list of Autoconf `configure` command-line configuration options, Windows
     </tr>
     <tr>
       <td>&emsp;N/A</td>
-      <td>--enable-com-dotnet=shared</td>
+      <td>--enable-com-dotnet=shared (default PHP &gt;= 8.5)</td>
       <td>EXT_COM_DOTNET_SHARED=ON</td>
       <td>Windows only</td>
     </tr>
