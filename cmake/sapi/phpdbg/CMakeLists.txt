@@ -91,11 +91,6 @@ cmake_dependent_option(
   OFF
 )
 mark_as_advanced(SAPI_PHPDBG_READLINE)
-add_feature_info(
-  "sapi/phpdbg readline"
-  SAPI_PHPDBG_READLINE
-  "support for better command-line accessibility"
-)
 
 if(NOT SAPI_PHPDBG)
   return()
@@ -209,6 +204,12 @@ if(SAPI_PHPDBG_READLINE OR EXT_READLINE)
 else()
   message(CHECK_FAIL "disabled")
 endif()
+
+add_feature_info(
+  "sapi/phpdbg readline"
+  HAVE_PHPDBG_READLINE
+  "support for better command-line accessibility"
+)
 
 ################################################################################
 # The phpdbg shared library.
