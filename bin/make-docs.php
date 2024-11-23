@@ -40,7 +40,6 @@ function generateModuleDocs(
     string $file,
     string $namespace,
     string $destination,
-    string $url,
 ): void {
     if (!file_exists($file)) {
         return;
@@ -56,9 +55,11 @@ function generateModuleDocs(
     $moduleName = basename($file, '.cmake');
     $content = $matches[1];
 
+    $relativeFilename = trim(str_replace(realpath(__DIR__ . '/../cmake'), '', realpath($file)), '/');
+    $url = 'https://github.com/petk/php-build-system/blob/master/cmake/' . $relativeFilename;
+
     $markdown = "<!-- This is auto-generated file. -->\n";
-    $markdown .= "# $namespace" . "$moduleName\n\n";
-    $markdown .= "* Module source code: [$moduleName.cmake]($url)\n\n";
+    $markdown .= "* Source code: [$relativeFilename]($url)\n\n";
     $markdown .= $content . "\n";
 
     if ($namespace) {
@@ -92,12 +93,14 @@ function generateModuleDocs(
             the configuration phase. For example:
 
             ```sh
-            cmake -S <source-dir> -B <build-dir> -DCMAKE_PREFIX_PATH="/opt/$findPackageName;/opt/some-other-package"
+            cmake -S <source-dir> \
+                  -B <build-dir> \
+                  -DCMAKE_PREFIX_PATH="/opt/$findPackageName;/opt/some-other-package"
             # or
             cmake -S <source-dir> \
-                -B <build-dir> \
-                -D{$findPackageUpper}_ROOT=/opt/$findPackageName \
-                -DSOMEOTHERPACKAGE_ROOT=/opt/some-other-package
+                  -B <build-dir> \
+                  -D{$findPackageUpper}_ROOT=/opt/$findPackageName \
+                  -DSOMEOTHERPACKAGE_ROOT=/opt/some-other-package
             ```
             EOT;
     } else {
@@ -202,27 +205,24 @@ foreach ($modules as $module) {
     }
 }
 
-foreach ($files as $module) {
-    $relativeFilename = trim(str_replace($baseDir, '', $module), '/');
-
-    if (str_starts_with($module, $baseDir . '/cmake/modules/')) {
-        $namespace = trim(str_replace($baseDir . '/cmake/modules', '', dirname($module)), '/');
+foreach ($files as $file) {
+    if (str_starts_with($file, $baseDir . '/cmake/modules/')) {
+        $namespace = trim(str_replace($baseDir . '/cmake/modules', '', dirname($file)), '/');
         $namespace = ('' == $namespace) ? '' : $namespace . '/';
         $subdir = $namespace;
     } else {
         $namespace = '';
-        if ('FindPHP.cmake' === basename($module)) {
+        if ('FindPHP.cmake' === basename($file)) {
             $subdir = '';
         } else {
-            $subdir = basename(dirname($module, 2));
+            $subdir = basename(dirname($file, 2));
         }
     }
 
     generateModuleDocs(
-        $module,
+        $file,
         $namespace,
         __DIR__ . '/../docs/cmake/modules/' . $subdir,
-        'https://github.com/petk/php-build-system/blob/master/cmake/' . $relativeFilename,
     );
 }
 
