@@ -1,7 +1,7 @@
 <!-- This is auto-generated file. -->
-# PHP/CheckIPv6
+* Source code: [cmake/modules/PHP/CheckIPv6.cmake](https://github.com/petk/php-build-system/blob/master/cmake/cmake/modules/PHP/CheckIPv6.cmake)
 
-* Module source code: [CheckIPv6.cmake](https://github.com/petk/php-build-system/blob/master/cmake/cmake/modules/PHP/CheckIPv6.cmake)
+# PHP/CheckIPv6
 
 Check for IPv6 support.
 

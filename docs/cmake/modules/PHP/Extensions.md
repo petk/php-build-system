@@ -1,7 +1,7 @@
 <!-- This is auto-generated file. -->
-# PHP/Extensions
+* Source code: [cmake/modules/PHP/Extensions.cmake](https://github.com/petk/php-build-system/blob/master/cmake/cmake/modules/PHP/Extensions.cmake)
 
-* Module source code: [Extensions.cmake](https://github.com/petk/php-build-system/blob/master/cmake/cmake/modules/PHP/Extensions.cmake)
+# PHP/Extensions
 
 Configure PHP extensions.
 

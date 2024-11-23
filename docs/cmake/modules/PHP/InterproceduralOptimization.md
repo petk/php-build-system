@@ -1,7 +1,7 @@
 <!-- This is auto-generated file. -->
-# PHP/InterproceduralOptimization
+* Source code: [cmake/modules/PHP/InterproceduralOptimization.cmake](https://github.com/petk/php-build-system/blob/master/cmake/cmake/modules/PHP/InterproceduralOptimization.cmake)
 
-* Module source code: [InterproceduralOptimization.cmake](https://github.com/petk/php-build-system/blob/master/cmake/cmake/modules/PHP/InterproceduralOptimization.cmake)
+# PHP/InterproceduralOptimization
 
 Enable interprocedural optimization (IPO), if supported.
 

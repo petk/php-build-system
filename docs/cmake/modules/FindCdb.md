@@ -1,7 +1,7 @@
 <!-- This is auto-generated file. -->
-# FindCdb
+* Source code: [cmake/modules/FindCdb.cmake](https://github.com/petk/php-build-system/blob/master/cmake/cmake/modules/FindCdb.cmake)
 
-* Module source code: [FindCdb.cmake](https://github.com/petk/php-build-system/blob/master/cmake/cmake/modules/FindCdb.cmake)
+# FindCdb
 
 Find the cdb library.
 
@@ -36,10 +36,12 @@ package-specific `CDB_ROOT` variable can be set at
 the configuration phase. For example:
 
 ```sh
-cmake -S <source-dir> -B <build-dir> -DCMAKE_PREFIX_PATH="/opt/Cdb;/opt/some-other-package"
+cmake -S <source-dir> \
+      -B <build-dir> \
+      -DCMAKE_PREFIX_PATH="/opt/Cdb;/opt/some-other-package"
 # or
 cmake -S <source-dir> \
-    -B <build-dir> \
-    -DCDB_ROOT=/opt/Cdb \
-    -DSOMEOTHERPACKAGE_ROOT=/opt/some-other-package
+      -B <build-dir> \
+      -DCDB_ROOT=/opt/Cdb \
+      -DSOMEOTHERPACKAGE_ROOT=/opt/some-other-package
 ```

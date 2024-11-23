@@ -1,7 +1,7 @@
 <!-- This is auto-generated file. -->
-# PHP/CheckBrokenGccStrlenOpt
+* Source code: [cmake/modules/PHP/CheckBrokenGccStrlenOpt.cmake](https://github.com/petk/php-build-system/blob/master/cmake/cmake/modules/PHP/CheckBrokenGccStrlenOpt.cmake)
 
-* Module source code: [CheckBrokenGccStrlenOpt.cmake](https://github.com/petk/php-build-system/blob/master/cmake/cmake/modules/PHP/CheckBrokenGccStrlenOpt.cmake)
+# PHP/CheckBrokenGccStrlenOpt
 
 Early GCC 8 versions shipped with a strlen() optimization bug, so it didn't
 properly handle the `char val[1]` struct hack. Fixed in GCC 8.3. If below check

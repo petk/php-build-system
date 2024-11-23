@@ -1,7 +1,7 @@
 <!-- This is auto-generated file. -->
-# FindMC
+* Source code: [cmake/modules/FindMC.cmake](https://github.com/petk/php-build-system/blob/master/cmake/cmake/modules/FindMC.cmake)
 
-* Module source code: [FindMC.cmake](https://github.com/petk/php-build-system/blob/master/cmake/cmake/modules/FindMC.cmake)
+# FindMC
 
 Find Windows compatible message compiler (mc.exe or windmc) command-line tool.
 
@@ -59,10 +59,12 @@ package-specific `MC_ROOT` variable can be set at
 the configuration phase. For example:
 
 ```sh
-cmake -S <source-dir> -B <build-dir> -DCMAKE_PREFIX_PATH="/opt/MC;/opt/some-other-package"
+cmake -S <source-dir> \
+      -B <build-dir> \
+      -DCMAKE_PREFIX_PATH="/opt/MC;/opt/some-other-package"
 # or
 cmake -S <source-dir> \
-    -B <build-dir> \
-    -DMC_ROOT=/opt/MC \
-    -DSOMEOTHERPACKAGE_ROOT=/opt/some-other-package
+      -B <build-dir> \
+      -DMC_ROOT=/opt/MC \
+      -DSOMEOTHERPACKAGE_ROOT=/opt/some-other-package
 ```

@@ -1,7 +1,7 @@
 <!-- This is auto-generated file. -->
-# PHP/CheckTimeR
+* Source code: [cmake/modules/PHP/CheckTimeR.cmake](https://github.com/petk/php-build-system/blob/master/cmake/cmake/modules/PHP/CheckTimeR.cmake)
 
-* Module source code: [CheckTimeR.cmake](https://github.com/petk/php-build-system/blob/master/cmake/cmake/modules/PHP/CheckTimeR.cmake)
+# PHP/CheckTimeR
 
 Check type of reentrant time-related functions. Type can be: irix, hpux or
 POSIX.

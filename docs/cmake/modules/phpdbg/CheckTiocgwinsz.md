@@ -1,7 +1,5 @@
 <!-- This is auto-generated file. -->
-# CheckTiocgwinsz
-
-* Module source code: [CheckTiocgwinsz.cmake](https://github.com/petk/php-build-system/blob/master/cmake/sapi/phpdbg/cmake/CheckTiocgwinsz.cmake)
+* Source code: [sapi/phpdbg/cmake/CheckTiocgwinsz.cmake](https://github.com/petk/php-build-system/blob/master/cmake/sapi/phpdbg/cmake/CheckTiocgwinsz.cmake)
 
 Check if any of the expected headers define `TIOCGWINSZ`.
 

@@ -1,7 +1,5 @@
 <!-- This is auto-generated file. -->
-# FindPHP
-
-* Module source code: [FindPHP.cmake](https://github.com/petk/php-build-system/blob/master/cmake/ext/skeleton/cmake/modules/FindPHP.cmake)
+* Source code: [ext/skeleton/cmake/modules/FindPHP.cmake](https://github.com/petk/php-build-system/blob/master/cmake/ext/skeleton/cmake/modules/FindPHP.cmake)
 
 Find PHP.
 
@@ -75,10 +73,12 @@ package-specific `PHP_ROOT` variable can be set at
 the configuration phase. For example:
 
 ```sh
-cmake -S <source-dir> -B <build-dir> -DCMAKE_PREFIX_PATH="/opt/PHP;/opt/some-other-package"
+cmake -S <source-dir> \
+      -B <build-dir> \
+      -DCMAKE_PREFIX_PATH="/opt/PHP;/opt/some-other-package"
 # or
 cmake -S <source-dir> \
-    -B <build-dir> \
-    -DPHP_ROOT=/opt/PHP \
-    -DSOMEOTHERPACKAGE_ROOT=/opt/some-other-package
+      -B <build-dir> \
+      -DPHP_ROOT=/opt/PHP \
+      -DSOMEOTHERPACKAGE_ROOT=/opt/some-other-package
 ```

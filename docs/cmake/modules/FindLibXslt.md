@@ -1,7 +1,7 @@
 <!-- This is auto-generated file. -->
-# FindLibXslt
+* Source code: [cmake/modules/FindLibXslt.cmake](https://github.com/petk/php-build-system/blob/master/cmake/cmake/modules/FindLibXslt.cmake)
 
-* Module source code: [FindLibXslt.cmake](https://github.com/petk/php-build-system/blob/master/cmake/cmake/modules/FindLibXslt.cmake)
+# FindLibXslt
 
 Find the XSLT library (LibXslt).
 
@@ -28,10 +28,12 @@ package-specific `LIBXSLT_ROOT` variable can be set at
 the configuration phase. For example:
 
 ```sh
-cmake -S <source-dir> -B <build-dir> -DCMAKE_PREFIX_PATH="/opt/LibXslt;/opt/some-other-package"
+cmake -S <source-dir> \
+      -B <build-dir> \
+      -DCMAKE_PREFIX_PATH="/opt/LibXslt;/opt/some-other-package"
 # or
 cmake -S <source-dir> \
-    -B <build-dir> \
-    -DLIBXSLT_ROOT=/opt/LibXslt \
-    -DSOMEOTHERPACKAGE_ROOT=/opt/some-other-package
+      -B <build-dir> \
+      -DLIBXSLT_ROOT=/opt/LibXslt \
+      -DSOMEOTHERPACKAGE_ROOT=/opt/some-other-package
 ```

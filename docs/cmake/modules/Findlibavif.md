@@ -1,7 +1,7 @@
 <!-- This is auto-generated file. -->
-# Findlibavif
+* Source code: [cmake/modules/Findlibavif.cmake](https://github.com/petk/php-build-system/blob/master/cmake/cmake/modules/Findlibavif.cmake)
 
-* Module source code: [Findlibavif.cmake](https://github.com/petk/php-build-system/blob/master/cmake/cmake/modules/Findlibavif.cmake)
+# Findlibavif
 
 Find the libavif library.
 
@@ -38,10 +38,12 @@ package-specific `LIBAVIF_ROOT` variable can be set at
 the configuration phase. For example:
 
 ```sh
-cmake -S <source-dir> -B <build-dir> -DCMAKE_PREFIX_PATH="/opt/libavif;/opt/some-other-package"
+cmake -S <source-dir> \
+      -B <build-dir> \
+      -DCMAKE_PREFIX_PATH="/opt/libavif;/opt/some-other-package"
 # or
 cmake -S <source-dir> \
-    -B <build-dir> \
-    -DLIBAVIF_ROOT=/opt/libavif \
-    -DSOMEOTHERPACKAGE_ROOT=/opt/some-other-package
+      -B <build-dir> \
+      -DLIBAVIF_ROOT=/opt/libavif \
+      -DSOMEOTHERPACKAGE_ROOT=/opt/some-other-package
 ```

@@ -1,7 +1,7 @@
 <!-- This is auto-generated file. -->
-# FindNdbm
+* Source code: [cmake/modules/FindNdbm.cmake](https://github.com/petk/php-build-system/blob/master/cmake/cmake/modules/FindNdbm.cmake)
 
-* Module source code: [FindNdbm.cmake](https://github.com/petk/php-build-system/blob/master/cmake/cmake/modules/FindNdbm.cmake)
+# FindNdbm
 
 Find the ndbm library.
 
@@ -44,10 +44,12 @@ package-specific `NDBM_ROOT` variable can be set at
 the configuration phase. For example:
 
 ```sh
-cmake -S <source-dir> -B <build-dir> -DCMAKE_PREFIX_PATH="/opt/Ndbm;/opt/some-other-package"
+cmake -S <source-dir> \
+      -B <build-dir> \
+      -DCMAKE_PREFIX_PATH="/opt/Ndbm;/opt/some-other-package"
 # or
 cmake -S <source-dir> \
-    -B <build-dir> \
-    -DNDBM_ROOT=/opt/Ndbm \
-    -DSOMEOTHERPACKAGE_ROOT=/opt/some-other-package
+      -B <build-dir> \
+      -DNDBM_ROOT=/opt/Ndbm \
+      -DSOMEOTHERPACKAGE_ROOT=/opt/some-other-package
 ```

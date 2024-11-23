@@ -1,7 +1,7 @@
 <!-- This is auto-generated file. -->
-# FindGD
+* Source code: [cmake/modules/FindGD.cmake](https://github.com/petk/php-build-system/blob/master/cmake/cmake/modules/FindGD.cmake)
 
-* Module source code: [FindGD.cmake](https://github.com/petk/php-build-system/blob/master/cmake/cmake/modules/FindGD.cmake)
+# FindGD
 
 Find the GD library.
 
@@ -36,10 +36,12 @@ package-specific `GD_ROOT` variable can be set at
 the configuration phase. For example:
 
 ```sh
-cmake -S <source-dir> -B <build-dir> -DCMAKE_PREFIX_PATH="/opt/GD;/opt/some-other-package"
+cmake -S <source-dir> \
+      -B <build-dir> \
+      -DCMAKE_PREFIX_PATH="/opt/GD;/opt/some-other-package"
 # or
 cmake -S <source-dir> \
-    -B <build-dir> \
-    -DGD_ROOT=/opt/GD \
-    -DSOMEOTHERPACKAGE_ROOT=/opt/some-other-package
+      -B <build-dir> \
+      -DGD_ROOT=/opt/GD \
+      -DSOMEOTHERPACKAGE_ROOT=/opt/some-other-package
 ```

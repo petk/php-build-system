@@ -1,7 +1,7 @@
 <!-- This is auto-generated file. -->
-# FindICU
+* Source code: [cmake/modules/FindICU.cmake](https://github.com/petk/php-build-system/blob/master/cmake/cmake/modules/FindICU.cmake)
 
-* Module source code: [FindICU.cmake](https://github.com/petk/php-build-system/blob/master/cmake/cmake/modules/FindICU.cmake)
+# FindICU
 
 Find the ICU library.
 
@@ -28,10 +28,12 @@ package-specific `ICU_ROOT` variable can be set at
 the configuration phase. For example:
 
 ```sh
-cmake -S <source-dir> -B <build-dir> -DCMAKE_PREFIX_PATH="/opt/ICU;/opt/some-other-package"
+cmake -S <source-dir> \
+      -B <build-dir> \
+      -DCMAKE_PREFIX_PATH="/opt/ICU;/opt/some-other-package"
 # or
 cmake -S <source-dir> \
-    -B <build-dir> \
-    -DICU_ROOT=/opt/ICU \
-    -DSOMEOTHERPACKAGE_ROOT=/opt/some-other-package
+      -B <build-dir> \
+      -DICU_ROOT=/opt/ICU \
+      -DSOMEOTHERPACKAGE_ROOT=/opt/some-other-package
 ```

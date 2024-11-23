@@ -1,7 +1,7 @@
 <!-- This is auto-generated file. -->
-# FindMySQL
+* Source code: [cmake/modules/FindMySQL.cmake](https://github.com/petk/php-build-system/blob/master/cmake/cmake/modules/FindMySQL.cmake)
 
-* Module source code: [FindMySQL.cmake](https://github.com/petk/php-build-system/blob/master/cmake/cmake/modules/FindMySQL.cmake)
+# FindMySQL
 
 Find MySQL-compatible (MySQL, MariaDB, Percona, etc.) database.
 
@@ -55,10 +55,12 @@ package-specific `MYSQL_ROOT` variable can be set at
 the configuration phase. For example:
 
 ```sh
-cmake -S <source-dir> -B <build-dir> -DCMAKE_PREFIX_PATH="/opt/MySQL;/opt/some-other-package"
+cmake -S <source-dir> \
+      -B <build-dir> \
+      -DCMAKE_PREFIX_PATH="/opt/MySQL;/opt/some-other-package"
 # or
 cmake -S <source-dir> \
-    -B <build-dir> \
-    -DMYSQL_ROOT=/opt/MySQL \
-    -DSOMEOTHERPACKAGE_ROOT=/opt/some-other-package
+      -B <build-dir> \
+      -DMYSQL_ROOT=/opt/MySQL \
+      -DSOMEOTHERPACKAGE_ROOT=/opt/some-other-package
 ```

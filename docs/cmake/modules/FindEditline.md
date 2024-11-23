@@ -1,7 +1,7 @@
 <!-- This is auto-generated file. -->
-# FindEditline
+* Source code: [cmake/modules/FindEditline.cmake](https://github.com/petk/php-build-system/blob/master/cmake/cmake/modules/FindEditline.cmake)
 
-* Module source code: [FindEditline.cmake](https://github.com/petk/php-build-system/blob/master/cmake/cmake/modules/FindEditline.cmake)
+# FindEditline
 
 Find the Editline library.
 
@@ -36,10 +36,12 @@ package-specific `EDITLINE_ROOT` variable can be set at
 the configuration phase. For example:
 
 ```sh
-cmake -S <source-dir> -B <build-dir> -DCMAKE_PREFIX_PATH="/opt/Editline;/opt/some-other-package"
+cmake -S <source-dir> \
+      -B <build-dir> \
+      -DCMAKE_PREFIX_PATH="/opt/Editline;/opt/some-other-package"
 # or
 cmake -S <source-dir> \
-    -B <build-dir> \
-    -DEDITLINE_ROOT=/opt/Editline \
-    -DSOMEOTHERPACKAGE_ROOT=/opt/some-other-package
+      -B <build-dir> \
+      -DEDITLINE_ROOT=/opt/Editline \
+      -DSOMEOTHERPACKAGE_ROOT=/opt/some-other-package
 ```

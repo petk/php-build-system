@@ -1,7 +1,5 @@
 <!-- This is auto-generated file. -->
-# CheckSHM
-
-* Module source code: [CheckSHM.cmake](https://github.com/petk/php-build-system/blob/master/cmake/ext/opcache/cmake/CheckSHM.cmake)
+* Source code: [ext/opcache/cmake/CheckSHM.cmake](https://github.com/petk/php-build-system/blob/master/cmake/ext/opcache/cmake/CheckSHM.cmake)
 
 Check for shared memory (SHM) operations functions and required libraries.
 

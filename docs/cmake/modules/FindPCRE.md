@@ -1,7 +1,7 @@
 <!-- This is auto-generated file. -->
-# FindPCRE
+* Source code: [cmake/modules/FindPCRE.cmake](https://github.com/petk/php-build-system/blob/master/cmake/cmake/modules/FindPCRE.cmake)
 
-* Module source code: [FindPCRE.cmake](https://github.com/petk/php-build-system/blob/master/cmake/cmake/modules/FindPCRE.cmake)
+# FindPCRE
 
 Find the PCRE library.
 
@@ -36,10 +36,12 @@ package-specific `PCRE_ROOT` variable can be set at
 the configuration phase. For example:
 
 ```sh
-cmake -S <source-dir> -B <build-dir> -DCMAKE_PREFIX_PATH="/opt/PCRE;/opt/some-other-package"
+cmake -S <source-dir> \
+      -B <build-dir> \
+      -DCMAKE_PREFIX_PATH="/opt/PCRE;/opt/some-other-package"
 # or
 cmake -S <source-dir> \
-    -B <build-dir> \
-    -DPCRE_ROOT=/opt/PCRE \
-    -DSOMEOTHERPACKAGE_ROOT=/opt/some-other-package
+      -B <build-dir> \
+      -DPCRE_ROOT=/opt/PCRE \
+      -DSOMEOTHERPACKAGE_ROOT=/opt/some-other-package
 ```

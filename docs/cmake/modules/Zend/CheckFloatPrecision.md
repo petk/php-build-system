@@ -1,7 +1,5 @@
 <!-- This is auto-generated file. -->
-# CheckFloatPrecision
-
-* Module source code: [CheckFloatPrecision.cmake](https://github.com/petk/php-build-system/blob/master/cmake/Zend/cmake/CheckFloatPrecision.cmake)
+* Source code: [Zend/cmake/CheckFloatPrecision.cmake](https://github.com/petk/php-build-system/blob/master/cmake/Zend/cmake/CheckFloatPrecision.cmake)
 
 Check for x87 floating point internal precision control.
 

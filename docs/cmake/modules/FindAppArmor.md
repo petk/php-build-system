@@ -1,7 +1,7 @@
 <!-- This is auto-generated file. -->
-# FindAppArmor
+* Source code: [cmake/modules/FindAppArmor.cmake](https://github.com/petk/php-build-system/blob/master/cmake/cmake/modules/FindAppArmor.cmake)
 
-* Module source code: [FindAppArmor.cmake](https://github.com/petk/php-build-system/blob/master/cmake/cmake/modules/FindAppArmor.cmake)
+# FindAppArmor
 
 Find the AppArmor library.
 
@@ -36,10 +36,12 @@ package-specific `APPARMOR_ROOT` variable can be set at
 the configuration phase. For example:
 
 ```sh
-cmake -S <source-dir> -B <build-dir> -DCMAKE_PREFIX_PATH="/opt/AppArmor;/opt/some-other-package"
+cmake -S <source-dir> \
+      -B <build-dir> \
+      -DCMAKE_PREFIX_PATH="/opt/AppArmor;/opt/some-other-package"
 # or
 cmake -S <source-dir> \
-    -B <build-dir> \
-    -DAPPARMOR_ROOT=/opt/AppArmor \
-    -DSOMEOTHERPACKAGE_ROOT=/opt/some-other-package
+      -B <build-dir> \
+      -DAPPARMOR_ROOT=/opt/AppArmor \
+      -DSOMEOTHERPACKAGE_ROOT=/opt/some-other-package
 ```

@@ -1,7 +1,7 @@
 <!-- This is auto-generated file. -->
-# Packages/LibXml2
+* Source code: [cmake/modules/Packages/LibXml2.cmake](https://github.com/petk/php-build-system/blob/master/cmake/cmake/modules/Packages/LibXml2.cmake)
 
-* Module source code: [LibXml2.cmake](https://github.com/petk/php-build-system/blob/master/cmake/cmake/modules/Packages/LibXml2.cmake)
+# Packages/LibXml2
 
 Wrapper for finding the `libxml2` library.
 

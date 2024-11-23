@@ -1,7 +1,7 @@
 <!-- This is auto-generated file. -->
-# PHP/LinkWhatYouUse
+* Source code: [cmake/modules/PHP/LinkWhatYouUse.cmake](https://github.com/petk/php-build-system/blob/master/cmake/cmake/modules/PHP/LinkWhatYouUse.cmake)
 
-* Module source code: [LinkWhatYouUse.cmake](https://github.com/petk/php-build-system/blob/master/cmake/cmake/modules/PHP/LinkWhatYouUse.cmake)
+# PHP/LinkWhatYouUse
 
 Check whether to enable `CMAKE_LINK_WHAT_YOU_USE`.
 

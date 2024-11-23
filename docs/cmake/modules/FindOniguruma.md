@@ -1,7 +1,7 @@
 <!-- This is auto-generated file. -->
-# FindOniguruma
+* Source code: [cmake/modules/FindOniguruma.cmake](https://github.com/petk/php-build-system/blob/master/cmake/cmake/modules/FindOniguruma.cmake)
 
-* Module source code: [FindOniguruma.cmake](https://github.com/petk/php-build-system/blob/master/cmake/cmake/modules/FindOniguruma.cmake)
+# FindOniguruma
 
 Find the Oniguruma library.
 
@@ -36,10 +36,12 @@ package-specific `ONIGURUMA_ROOT` variable can be set at
 the configuration phase. For example:
 
 ```sh
-cmake -S <source-dir> -B <build-dir> -DCMAKE_PREFIX_PATH="/opt/Oniguruma;/opt/some-other-package"
+cmake -S <source-dir> \
+      -B <build-dir> \
+      -DCMAKE_PREFIX_PATH="/opt/Oniguruma;/opt/some-other-package"
 # or
 cmake -S <source-dir> \
-    -B <build-dir> \
-    -DONIGURUMA_ROOT=/opt/Oniguruma \
-    -DSOMEOTHERPACKAGE_ROOT=/opt/some-other-package
+      -B <build-dir> \
+      -DONIGURUMA_ROOT=/opt/Oniguruma \
+      -DSOMEOTHERPACKAGE_ROOT=/opt/some-other-package
 ```

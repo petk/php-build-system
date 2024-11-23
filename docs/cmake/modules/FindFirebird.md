@@ -1,7 +1,7 @@
 <!-- This is auto-generated file. -->
-# FindFirebird
+* Source code: [cmake/modules/FindFirebird.cmake](https://github.com/petk/php-build-system/blob/master/cmake/cmake/modules/FindFirebird.cmake)
 
-* Module source code: [FindFirebird.cmake](https://github.com/petk/php-build-system/blob/master/cmake/cmake/modules/FindFirebird.cmake)
+# FindFirebird
 
 Find the Firebird library.
 
@@ -40,10 +40,12 @@ package-specific `FIREBIRD_ROOT` variable can be set at
 the configuration phase. For example:
 
 ```sh
-cmake -S <source-dir> -B <build-dir> -DCMAKE_PREFIX_PATH="/opt/Firebird;/opt/some-other-package"
+cmake -S <source-dir> \
+      -B <build-dir> \
+      -DCMAKE_PREFIX_PATH="/opt/Firebird;/opt/some-other-package"
 # or
 cmake -S <source-dir> \
-    -B <build-dir> \
-    -DFIREBIRD_ROOT=/opt/Firebird \
-    -DSOMEOTHERPACKAGE_ROOT=/opt/some-other-package
+      -B <build-dir> \
+      -DFIREBIRD_ROOT=/opt/Firebird \
+      -DSOMEOTHERPACKAGE_ROOT=/opt/some-other-package
 ```

@@ -1,7 +1,5 @@
 <!-- This is auto-generated file. -->
-# CheckStrptime
-
-* Module source code: [CheckStrptime.cmake](https://github.com/petk/php-build-system/blob/master/cmake/ext/standard/cmake/CheckStrptime.cmake)
+* Source code: [ext/standard/cmake/CheckStrptime.cmake](https://github.com/petk/php-build-system/blob/master/cmake/ext/standard/cmake/CheckStrptime.cmake)
 
 Check `strptime()` and its declaration.
 

@@ -1,7 +1,7 @@
 <!-- This is auto-generated file. -->
-# FindFreeTDS
+* Source code: [cmake/modules/FindFreeTDS.cmake](https://github.com/petk/php-build-system/blob/master/cmake/cmake/modules/FindFreeTDS.cmake)
 
-* Module source code: [FindFreeTDS.cmake](https://github.com/petk/php-build-system/blob/master/cmake/cmake/modules/FindFreeTDS.cmake)
+# FindFreeTDS
 
 Find the FreeTDS set of libraries.
 
@@ -35,10 +35,12 @@ package-specific `FREETDS_ROOT` variable can be set at
 the configuration phase. For example:
 
 ```sh
-cmake -S <source-dir> -B <build-dir> -DCMAKE_PREFIX_PATH="/opt/FreeTDS;/opt/some-other-package"
+cmake -S <source-dir> \
+      -B <build-dir> \
+      -DCMAKE_PREFIX_PATH="/opt/FreeTDS;/opt/some-other-package"
 # or
 cmake -S <source-dir> \
-    -B <build-dir> \
-    -DFREETDS_ROOT=/opt/FreeTDS \
-    -DSOMEOTHERPACKAGE_ROOT=/opt/some-other-package
+      -B <build-dir> \
+      -DFREETDS_ROOT=/opt/FreeTDS \
+      -DSOMEOTHERPACKAGE_ROOT=/opt/some-other-package
 ```

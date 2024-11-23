@@ -5,7 +5,8 @@
 
 Configure the `openssl` extension.
 
-This extension enables using OpenSSL library for encryption and decryption.
+This extension enables encryption and decryption support using the OpenSSL
+library.
 
 ## EXT_OPENSSL
 

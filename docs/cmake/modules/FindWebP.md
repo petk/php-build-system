@@ -1,7 +1,7 @@
 <!-- This is auto-generated file. -->
-# FindWebP
+* Source code: [cmake/modules/FindWebP.cmake](https://github.com/petk/php-build-system/blob/master/cmake/cmake/modules/FindWebP.cmake)
 
-* Module source code: [FindWebP.cmake](https://github.com/petk/php-build-system/blob/master/cmake/cmake/modules/FindWebP.cmake)
+# FindWebP
 
 Find the libwebp library.
 
@@ -36,10 +36,12 @@ package-specific `WEBP_ROOT` variable can be set at
 the configuration phase. For example:
 
 ```sh
-cmake -S <source-dir> -B <build-dir> -DCMAKE_PREFIX_PATH="/opt/WebP;/opt/some-other-package"
+cmake -S <source-dir> \
+      -B <build-dir> \
+      -DCMAKE_PREFIX_PATH="/opt/WebP;/opt/some-other-package"
 # or
 cmake -S <source-dir> \
-    -B <build-dir> \
-    -DWEBP_ROOT=/opt/WebP \
-    -DSOMEOTHERPACKAGE_ROOT=/opt/some-other-package
+      -B <build-dir> \
+      -DWEBP_ROOT=/opt/WebP \
+      -DSOMEOTHERPACKAGE_ROOT=/opt/some-other-package
 ```

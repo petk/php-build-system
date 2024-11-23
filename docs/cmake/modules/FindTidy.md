@@ -1,7 +1,7 @@
 <!-- This is auto-generated file. -->
-# FindTidy
+* Source code: [cmake/modules/FindTidy.cmake](https://github.com/petk/php-build-system/blob/master/cmake/cmake/modules/FindTidy.cmake)
 
-* Module source code: [FindTidy.cmake](https://github.com/petk/php-build-system/blob/master/cmake/cmake/modules/FindTidy.cmake)
+# FindTidy
 
 Find the Tidy library (tidy-html5, legacy htmltidy library, or the tidyp -
 obsolete fork).
@@ -41,10 +41,12 @@ package-specific `TIDY_ROOT` variable can be set at
 the configuration phase. For example:
 
 ```sh
-cmake -S <source-dir> -B <build-dir> -DCMAKE_PREFIX_PATH="/opt/Tidy;/opt/some-other-package"
+cmake -S <source-dir> \
+      -B <build-dir> \
+      -DCMAKE_PREFIX_PATH="/opt/Tidy;/opt/some-other-package"
 # or
 cmake -S <source-dir> \
-    -B <build-dir> \
-    -DTIDY_ROOT=/opt/Tidy \
-    -DSOMEOTHERPACKAGE_ROOT=/opt/some-other-package
+      -B <build-dir> \
+      -DTIDY_ROOT=/opt/Tidy \
+      -DSOMEOTHERPACKAGE_ROOT=/opt/some-other-package
 ```

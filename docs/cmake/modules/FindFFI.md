@@ -1,7 +1,7 @@
 <!-- This is auto-generated file. -->
-# FindFFI
+* Source code: [cmake/modules/FindFFI.cmake](https://github.com/petk/php-build-system/blob/master/cmake/cmake/modules/FindFFI.cmake)
 
-* Module source code: [FindFFI.cmake](https://github.com/petk/php-build-system/blob/master/cmake/cmake/modules/FindFFI.cmake)
+# FindFFI
 
 Find the FFI library.
 
@@ -36,10 +36,12 @@ package-specific `FFI_ROOT` variable can be set at
 the configuration phase. For example:
 
 ```sh
-cmake -S <source-dir> -B <build-dir> -DCMAKE_PREFIX_PATH="/opt/FFI;/opt/some-other-package"
+cmake -S <source-dir> \
+      -B <build-dir> \
+      -DCMAKE_PREFIX_PATH="/opt/FFI;/opt/some-other-package"
 # or
 cmake -S <source-dir> \
-    -B <build-dir> \
-    -DFFI_ROOT=/opt/FFI \
-    -DSOMEOTHERPACKAGE_ROOT=/opt/some-other-package
+      -B <build-dir> \
+      -DFFI_ROOT=/opt/FFI \
+      -DSOMEOTHERPACKAGE_ROOT=/opt/some-other-package
 ```

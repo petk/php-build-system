@@ -1,7 +1,7 @@
 <!-- This is auto-generated file. -->
-# FindSendmail
+* Source code: [cmake/modules/FindSendmail.cmake](https://github.com/petk/php-build-system/blob/master/cmake/cmake/modules/FindSendmail.cmake)
 
-* Module source code: [FindSendmail.cmake](https://github.com/petk/php-build-system/blob/master/cmake/cmake/modules/FindSendmail.cmake)
+# FindSendmail
 
 Find the `sendmail` program.
 
@@ -29,10 +29,12 @@ package-specific `SENDMAIL_ROOT` variable can be set at
 the configuration phase. For example:
 
 ```sh
-cmake -S <source-dir> -B <build-dir> -DCMAKE_PREFIX_PATH="/opt/Sendmail;/opt/some-other-package"
+cmake -S <source-dir> \
+      -B <build-dir> \
+      -DCMAKE_PREFIX_PATH="/opt/Sendmail;/opt/some-other-package"
 # or
 cmake -S <source-dir> \
-    -B <build-dir> \
-    -DSENDMAIL_ROOT=/opt/Sendmail \
-    -DSOMEOTHERPACKAGE_ROOT=/opt/some-other-package
+      -B <build-dir> \
+      -DSENDMAIL_ROOT=/opt/Sendmail \
+      -DSOMEOTHERPACKAGE_ROOT=/opt/some-other-package
 ```

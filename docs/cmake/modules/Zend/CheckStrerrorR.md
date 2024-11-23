@@ -1,7 +1,5 @@
 <!-- This is auto-generated file. -->
-# CheckStrerrorR
-
-* Module source code: [CheckStrerrorR.cmake](https://github.com/petk/php-build-system/blob/master/cmake/Zend/cmake/CheckStrerrorR.cmake)
+* Source code: [Zend/cmake/CheckStrerrorR.cmake](https://github.com/petk/php-build-system/blob/master/cmake/Zend/cmake/CheckStrerrorR.cmake)
 
 Check for `strerror_r()`, and if its a POSIX-compatible or a GNU-specific
 version.

@@ -1,7 +1,7 @@
 <!-- This is auto-generated file. -->
-# FindMM
+* Source code: [cmake/modules/FindMM.cmake](https://github.com/petk/php-build-system/blob/master/cmake/cmake/modules/FindMM.cmake)
 
-* Module source code: [FindMM.cmake](https://github.com/petk/php-build-system/blob/master/cmake/cmake/modules/FindMM.cmake)
+# FindMM
 
 Find the mm library.
 
@@ -35,10 +35,12 @@ package-specific `MM_ROOT` variable can be set at
 the configuration phase. For example:
 
 ```sh
-cmake -S <source-dir> -B <build-dir> -DCMAKE_PREFIX_PATH="/opt/MM;/opt/some-other-package"
+cmake -S <source-dir> \
+      -B <build-dir> \
+      -DCMAKE_PREFIX_PATH="/opt/MM;/opt/some-other-package"
 # or
 cmake -S <source-dir> \
-    -B <build-dir> \
-    -DMM_ROOT=/opt/MM \
-    -DSOMEOTHERPACKAGE_ROOT=/opt/some-other-package
+      -B <build-dir> \
+      -DMM_ROOT=/opt/MM \
+      -DSOMEOTHERPACKAGE_ROOT=/opt/some-other-package
 ```

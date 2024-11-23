@@ -1,7 +1,7 @@
 <!-- This is auto-generated file. -->
-# FindLDAP
+* Source code: [cmake/modules/FindLDAP.cmake](https://github.com/petk/php-build-system/blob/master/cmake/cmake/modules/FindLDAP.cmake)
 
-* Module source code: [FindLDAP.cmake](https://github.com/petk/php-build-system/blob/master/cmake/cmake/modules/FindLDAP.cmake)
+# FindLDAP
 
 Find the LDAP library.
 
@@ -63,10 +63,12 @@ package-specific `LDAP_ROOT` variable can be set at
 the configuration phase. For example:
 
 ```sh
-cmake -S <source-dir> -B <build-dir> -DCMAKE_PREFIX_PATH="/opt/LDAP;/opt/some-other-package"
+cmake -S <source-dir> \
+      -B <build-dir> \
+      -DCMAKE_PREFIX_PATH="/opt/LDAP;/opt/some-other-package"
 # or
 cmake -S <source-dir> \
-    -B <build-dir> \
-    -DLDAP_ROOT=/opt/LDAP \
-    -DSOMEOTHERPACKAGE_ROOT=/opt/some-other-package
+      -B <build-dir> \
+      -DLDAP_ROOT=/opt/LDAP \
+      -DSOMEOTHERPACKAGE_ROOT=/opt/some-other-package
 ```

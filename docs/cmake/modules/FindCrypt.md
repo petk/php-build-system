@@ -1,7 +1,7 @@
 <!-- This is auto-generated file. -->
-# FindCrypt
+* Source code: [cmake/modules/FindCrypt.cmake](https://github.com/petk/php-build-system/blob/master/cmake/cmake/modules/FindCrypt.cmake)
 
-* Module source code: [FindCrypt.cmake](https://github.com/petk/php-build-system/blob/master/cmake/cmake/modules/FindCrypt.cmake)
+# FindCrypt
 
 Find the crypt library and run a set of PHP-specific checks if library works.
 
@@ -43,10 +43,12 @@ package-specific `CRYPT_ROOT` variable can be set at
 the configuration phase. For example:
 
 ```sh
-cmake -S <source-dir> -B <build-dir> -DCMAKE_PREFIX_PATH="/opt/Crypt;/opt/some-other-package"
+cmake -S <source-dir> \
+      -B <build-dir> \
+      -DCMAKE_PREFIX_PATH="/opt/Crypt;/opt/some-other-package"
 # or
 cmake -S <source-dir> \
-    -B <build-dir> \
-    -DCRYPT_ROOT=/opt/Crypt \
-    -DSOMEOTHERPACKAGE_ROOT=/opt/some-other-package
+      -B <build-dir> \
+      -DCRYPT_ROOT=/opt/Crypt \
+      -DSOMEOTHERPACKAGE_ROOT=/opt/some-other-package
 ```

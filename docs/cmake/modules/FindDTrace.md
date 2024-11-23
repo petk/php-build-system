@@ -1,7 +1,7 @@
 <!-- This is auto-generated file. -->
-# FindDTrace
+* Source code: [cmake/modules/FindDTrace.cmake](https://github.com/petk/php-build-system/blob/master/cmake/cmake/modules/FindDTrace.cmake)
 
-* Module source code: [FindDTrace.cmake](https://github.com/petk/php-build-system/blob/master/cmake/cmake/modules/FindDTrace.cmake)
+# FindDtrace
 
 Find DTrace.
 
@@ -51,10 +51,12 @@ package-specific `DTRACE_ROOT` variable can be set at
 the configuration phase. For example:
 
 ```sh
-cmake -S <source-dir> -B <build-dir> -DCMAKE_PREFIX_PATH="/opt/DTrace;/opt/some-other-package"
+cmake -S <source-dir> \
+      -B <build-dir> \
+      -DCMAKE_PREFIX_PATH="/opt/DTrace;/opt/some-other-package"
 # or
 cmake -S <source-dir> \
-    -B <build-dir> \
-    -DDTRACE_ROOT=/opt/DTrace \
-    -DSOMEOTHERPACKAGE_ROOT=/opt/some-other-package
+      -B <build-dir> \
+      -DDTRACE_ROOT=/opt/DTrace \
+      -DSOMEOTHERPACKAGE_ROOT=/opt/some-other-package
 ```

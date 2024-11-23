@@ -1,7 +1,7 @@
 <!-- This is auto-generated file. -->
-# PHP/CheckFlushIo
+* Source code: [cmake/modules/PHP/CheckFlushIo.cmake](https://github.com/petk/php-build-system/blob/master/cmake/cmake/modules/PHP/CheckFlushIo.cmake)
 
-* Module source code: [CheckFlushIo.cmake](https://github.com/petk/php-build-system/blob/master/cmake/cmake/modules/PHP/CheckFlushIo.cmake)
+# PHP/CheckFlushIo
 
 Check if flush should be called explicitly after buffered io.
 

@@ -1,7 +1,7 @@
 <!-- This is auto-generated file. -->
-# PHP/Set
+* Source code: [cmake/modules/PHP/Set.cmake](https://github.com/petk/php-build-system/blob/master/cmake/cmake/modules/PHP/Set.cmake)
 
-* Module source code: [Set.cmake](https://github.com/petk/php-build-system/blob/master/cmake/cmake/modules/PHP/Set.cmake)
+# PHP/Set
 
 Set a CACHE variable that depends on a set of conditions.
 

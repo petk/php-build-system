@@ -1,7 +1,5 @@
 <!-- This is auto-generated file. -->
-# CheckTrace
-
-* Module source code: [CheckTrace.cmake](https://github.com/petk/php-build-system/blob/master/cmake/sapi/fpm/cmake/CheckTrace.cmake)
+* Source code: [sapi/fpm/cmake/CheckTrace.cmake](https://github.com/petk/php-build-system/blob/master/cmake/sapi/fpm/cmake/CheckTrace.cmake)
 
 Check FPM trace implementation.
 

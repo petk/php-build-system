@@ -1,7 +1,7 @@
 <!-- This is auto-generated file. -->
-# FindAtomic
+* Source code: [cmake/modules/FindAtomic.cmake](https://github.com/petk/php-build-system/blob/master/cmake/cmake/modules/FindAtomic.cmake)
 
-* Module source code: [FindAtomic.cmake](https://github.com/petk/php-build-system/blob/master/cmake/cmake/modules/FindAtomic.cmake)
+# FindAtomic
 
 Find the atomic instructions.
 
@@ -30,10 +30,12 @@ package-specific `ATOMIC_ROOT` variable can be set at
 the configuration phase. For example:
 
 ```sh
-cmake -S <source-dir> -B <build-dir> -DCMAKE_PREFIX_PATH="/opt/Atomic;/opt/some-other-package"
+cmake -S <source-dir> \
+      -B <build-dir> \
+      -DCMAKE_PREFIX_PATH="/opt/Atomic;/opt/some-other-package"
 # or
 cmake -S <source-dir> \
-    -B <build-dir> \
-    -DATOMIC_ROOT=/opt/Atomic \
-    -DSOMEOTHERPACKAGE_ROOT=/opt/some-other-package
+      -B <build-dir> \
+      -DATOMIC_ROOT=/opt/Atomic \
+      -DSOMEOTHERPACKAGE_ROOT=/opt/some-other-package
 ```

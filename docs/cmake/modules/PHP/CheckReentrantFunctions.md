@@ -1,7 +1,7 @@
 <!-- This is auto-generated file. -->
-# PHP/CheckReentrantFunctions
+* Source code: [cmake/modules/PHP/CheckReentrantFunctions.cmake](https://github.com/petk/php-build-system/blob/master/cmake/cmake/modules/PHP/CheckReentrantFunctions.cmake)
 
-* Module source code: [CheckReentrantFunctions.cmake](https://github.com/petk/php-build-system/blob/master/cmake/cmake/modules/PHP/CheckReentrantFunctions.cmake)
+# PHP/CheckReentrantFunctions
 
 Check for reentrant functions and their declarations.
 

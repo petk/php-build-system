@@ -1,7 +1,7 @@
 <!-- This is auto-generated file. -->
-# PHP/CheckCompilerFlag
+* Source code: [cmake/modules/PHP/CheckCompilerFlag.cmake](https://github.com/petk/php-build-system/blob/master/cmake/cmake/modules/PHP/CheckCompilerFlag.cmake)
 
-* Module source code: [CheckCompilerFlag.cmake](https://github.com/petk/php-build-system/blob/master/cmake/cmake/modules/PHP/CheckCompilerFlag.cmake)
+# PHP/CheckCompilerFlag
 
 Check whether the compiler supports given compile option.
 

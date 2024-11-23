@@ -1,7 +1,5 @@
 <!-- This is auto-generated file. -->
-# CheckStackLimit
-
-* Module source code: [CheckStackLimit.cmake](https://github.com/petk/php-build-system/blob/master/cmake/Zend/cmake/CheckStackLimit.cmake)
+* Source code: [Zend/cmake/CheckStackLimit.cmake](https://github.com/petk/php-build-system/blob/master/cmake/Zend/cmake/CheckStackLimit.cmake)
 
 Check whether the stack grows downwards. Assumes contiguous stack.
 

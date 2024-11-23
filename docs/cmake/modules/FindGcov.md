@@ -1,7 +1,7 @@
 <!-- This is auto-generated file. -->
-# FindGcov
+* Source code: [cmake/modules/FindGcov.cmake](https://github.com/petk/php-build-system/blob/master/cmake/cmake/modules/FindGcov.cmake)
 
-* Module source code: [FindGcov.cmake](https://github.com/petk/php-build-system/blob/master/cmake/cmake/modules/FindGcov.cmake)
+# FindGcov
 
 Find the Gcov coverage programs and features.
 
@@ -43,10 +43,12 @@ package-specific `GCOV_ROOT` variable can be set at
 the configuration phase. For example:
 
 ```sh
-cmake -S <source-dir> -B <build-dir> -DCMAKE_PREFIX_PATH="/opt/Gcov;/opt/some-other-package"
+cmake -S <source-dir> \
+      -B <build-dir> \
+      -DCMAKE_PREFIX_PATH="/opt/Gcov;/opt/some-other-package"
 # or
 cmake -S <source-dir> \
-    -B <build-dir> \
-    -DGCOV_ROOT=/opt/Gcov \
-    -DSOMEOTHERPACKAGE_ROOT=/opt/some-other-package
+      -B <build-dir> \
+      -DGCOV_ROOT=/opt/Gcov \
+      -DSOMEOTHERPACKAGE_ROOT=/opt/some-other-package
 ```

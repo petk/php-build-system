@@ -1,7 +1,7 @@
 <!-- This is auto-generated file. -->
-# FindPHPSystem
+* Source code: [cmake/modules/FindPHPSystem.cmake](https://github.com/petk/php-build-system/blob/master/cmake/cmake/modules/FindPHPSystem.cmake)
 
-* Module source code: [FindPHPSystem.cmake](https://github.com/petk/php-build-system/blob/master/cmake/cmake/modules/FindPHPSystem.cmake)
+# FindPHPSystem
 
 Find external PHP on the system, if installed.
 
@@ -29,10 +29,12 @@ package-specific `PHPSYSTEM_ROOT` variable can be set at
 the configuration phase. For example:
 
 ```sh
-cmake -S <source-dir> -B <build-dir> -DCMAKE_PREFIX_PATH="/opt/PHPSystem;/opt/some-other-package"
+cmake -S <source-dir> \
+      -B <build-dir> \
+      -DCMAKE_PREFIX_PATH="/opt/PHPSystem;/opt/some-other-package"
 # or
 cmake -S <source-dir> \
-    -B <build-dir> \
-    -DPHPSYSTEM_ROOT=/opt/PHPSystem \
-    -DSOMEOTHERPACKAGE_ROOT=/opt/some-other-package
+      -B <build-dir> \
+      -DPHPSYSTEM_ROOT=/opt/PHPSystem \
+      -DSOMEOTHERPACKAGE_ROOT=/opt/some-other-package
 ```

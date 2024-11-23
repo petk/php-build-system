@@ -1,7 +1,7 @@
 <!-- This is auto-generated file. -->
-# FindValgrind
+* Source code: [cmake/modules/FindValgrind.cmake](https://github.com/petk/php-build-system/blob/master/cmake/cmake/modules/FindValgrind.cmake)
 
-* Module source code: [FindValgrind.cmake](https://github.com/petk/php-build-system/blob/master/cmake/cmake/modules/FindValgrind.cmake)
+# FindValgrind
 
 Find Valgrind.
 
@@ -33,10 +33,12 @@ package-specific `VALGRIND_ROOT` variable can be set at
 the configuration phase. For example:
 
 ```sh
-cmake -S <source-dir> -B <build-dir> -DCMAKE_PREFIX_PATH="/opt/Valgrind;/opt/some-other-package"
+cmake -S <source-dir> \
+      -B <build-dir> \
+      -DCMAKE_PREFIX_PATH="/opt/Valgrind;/opt/some-other-package"
 # or
 cmake -S <source-dir> \
-    -B <build-dir> \
-    -DVALGRIND_ROOT=/opt/Valgrind \
-    -DSOMEOTHERPACKAGE_ROOT=/opt/some-other-package
+      -B <build-dir> \
+      -DVALGRIND_ROOT=/opt/Valgrind \
+      -DSOMEOTHERPACKAGE_ROOT=/opt/some-other-package
 ```

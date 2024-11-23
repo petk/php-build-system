@@ -1,7 +1,5 @@
 <!-- This is auto-generated file. -->
-# CheckListeningQueue
-
-* Module source code: [CheckListeningQueue.cmake](https://github.com/petk/php-build-system/blob/master/cmake/sapi/fpm/cmake/CheckListeningQueue.cmake)
+* Source code: [sapi/fpm/cmake/CheckListeningQueue.cmake](https://github.com/petk/php-build-system/blob/master/cmake/sapi/fpm/cmake/CheckListeningQueue.cmake)
 
 Check FPM listening queue implementation.
 

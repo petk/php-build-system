@@ -1,7 +1,7 @@
 <!-- This is auto-generated file. -->
-# PHP/ThreadSafety
+* Source code: [cmake/modules/PHP/ThreadSafety.cmake](https://github.com/petk/php-build-system/blob/master/cmake/cmake/modules/PHP/ThreadSafety.cmake)
 
-* Module source code: [ThreadSafety.cmake](https://github.com/petk/php-build-system/blob/master/cmake/cmake/modules/PHP/ThreadSafety.cmake)
+# PHP/ThreadSafety
 
 Check for thread safety, a.k.a. ZTS (Zend thread safety) build.
 

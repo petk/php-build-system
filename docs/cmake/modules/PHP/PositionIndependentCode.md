@@ -1,7 +1,7 @@
 <!-- This is auto-generated file. -->
-# PHP/PositionIndependentCode
+* Source code: [cmake/modules/PHP/PositionIndependentCode.cmake](https://github.com/petk/php-build-system/blob/master/cmake/cmake/modules/PHP/PositionIndependentCode.cmake)
 
-* Module source code: [PositionIndependentCode.cmake](https://github.com/petk/php-build-system/blob/master/cmake/cmake/modules/PHP/PositionIndependentCode.cmake)
+# PHP/PositionIndependentCode
 
 Check whether to enable the `POSITION_INDEPENDENT_CODE` or not.
 

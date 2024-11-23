@@ -1,7 +1,7 @@
 <!-- This is auto-generated file. -->
-# PHP/ConfigureFile
+* Source code: [cmake/modules/PHP/ConfigureFile.cmake](https://github.com/petk/php-build-system/blob/master/cmake/cmake/modules/PHP/ConfigureFile.cmake)
 
-* Module source code: [ConfigureFile.cmake](https://github.com/petk/php-build-system/blob/master/cmake/cmake/modules/PHP/ConfigureFile.cmake)
+# PHP/ConfigureFile
 
 Wrapper built on top of CMake's `configure_file()`.
 

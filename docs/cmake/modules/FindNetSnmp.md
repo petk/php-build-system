@@ -1,7 +1,7 @@
 <!-- This is auto-generated file. -->
-# FindNetSnmp
+* Source code: [cmake/modules/FindNetSnmp.cmake](https://github.com/petk/php-build-system/blob/master/cmake/cmake/modules/FindNetSnmp.cmake)
 
-* Module source code: [FindNetSnmp.cmake](https://github.com/petk/php-build-system/blob/master/cmake/cmake/modules/FindNetSnmp.cmake)
+# FindNetSnmp
 
 Find the Net-SNMP library.
 
@@ -37,10 +37,12 @@ package-specific `NETSNMP_ROOT` variable can be set at
 the configuration phase. For example:
 
 ```sh
-cmake -S <source-dir> -B <build-dir> -DCMAKE_PREFIX_PATH="/opt/NetSnmp;/opt/some-other-package"
+cmake -S <source-dir> \
+      -B <build-dir> \
+      -DCMAKE_PREFIX_PATH="/opt/NetSnmp;/opt/some-other-package"
 # or
 cmake -S <source-dir> \
-    -B <build-dir> \
-    -DNETSNMP_ROOT=/opt/NetSnmp \
-    -DSOMEOTHERPACKAGE_ROOT=/opt/some-other-package
+      -B <build-dir> \
+      -DNETSNMP_ROOT=/opt/NetSnmp \
+      -DSOMEOTHERPACKAGE_ROOT=/opt/some-other-package
 ```

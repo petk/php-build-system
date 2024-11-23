@@ -1,7 +1,7 @@
 <!-- This is auto-generated file. -->
-# FindDmalloc
+* Source code: [cmake/modules/FindDmalloc.cmake](https://github.com/petk/php-build-system/blob/master/cmake/cmake/modules/FindDmalloc.cmake)
 
-* Module source code: [FindDmalloc.cmake](https://github.com/petk/php-build-system/blob/master/cmake/cmake/modules/FindDmalloc.cmake)
+# FindDmalloc
 
 Find the Dmalloc library.
 
@@ -36,10 +36,12 @@ package-specific `DMALLOC_ROOT` variable can be set at
 the configuration phase. For example:
 
 ```sh
-cmake -S <source-dir> -B <build-dir> -DCMAKE_PREFIX_PATH="/opt/Dmalloc;/opt/some-other-package"
+cmake -S <source-dir> \
+      -B <build-dir> \
+      -DCMAKE_PREFIX_PATH="/opt/Dmalloc;/opt/some-other-package"
 # or
 cmake -S <source-dir> \
-    -B <build-dir> \
-    -DDMALLOC_ROOT=/opt/Dmalloc \
-    -DSOMEOTHERPACKAGE_ROOT=/opt/some-other-package
+      -B <build-dir> \
+      -DDMALLOC_ROOT=/opt/Dmalloc \
+      -DSOMEOTHERPACKAGE_ROOT=/opt/some-other-package
 ```

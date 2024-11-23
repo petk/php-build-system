@@ -5,7 +5,7 @@
 
 Configure the `tokenizer` extension.
 
-This extension provides interface to the PHP tokenizer embedded in the Zend
+This extension provides an interface to the PHP tokenizer embedded in the Zend
 Engine.
 
 ## EXT_TOKENIZER

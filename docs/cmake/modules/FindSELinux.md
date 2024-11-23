@@ -1,7 +1,7 @@
 <!-- This is auto-generated file. -->
-# FindSELinux
+* Source code: [cmake/modules/FindSELinux.cmake](https://github.com/petk/php-build-system/blob/master/cmake/cmake/modules/FindSELinux.cmake)
 
-* Module source code: [FindSELinux.cmake](https://github.com/petk/php-build-system/blob/master/cmake/cmake/modules/FindSELinux.cmake)
+# FindSELinux
 
 Find the SELinux library.
 
@@ -36,10 +36,12 @@ package-specific `SELINUX_ROOT` variable can be set at
 the configuration phase. For example:
 
 ```sh
-cmake -S <source-dir> -B <build-dir> -DCMAKE_PREFIX_PATH="/opt/SELinux;/opt/some-other-package"
+cmake -S <source-dir> \
+      -B <build-dir> \
+      -DCMAKE_PREFIX_PATH="/opt/SELinux;/opt/some-other-package"
 # or
 cmake -S <source-dir> \
-    -B <build-dir> \
-    -DSELINUX_ROOT=/opt/SELinux \
-    -DSOMEOTHERPACKAGE_ROOT=/opt/some-other-package
+      -B <build-dir> \
+      -DSELINUX_ROOT=/opt/SELinux \
+      -DSOMEOTHERPACKAGE_ROOT=/opt/some-other-package
 ```

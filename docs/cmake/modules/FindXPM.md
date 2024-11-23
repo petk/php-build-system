@@ -1,7 +1,7 @@
 <!-- This is auto-generated file. -->
-# FindXPM
+* Source code: [cmake/modules/FindXPM.cmake](https://github.com/petk/php-build-system/blob/master/cmake/cmake/modules/FindXPM.cmake)
 
-* Module source code: [FindXPM.cmake](https://github.com/petk/php-build-system/blob/master/cmake/cmake/modules/FindXPM.cmake)
+# FindXPM
 
 Find the libXpm library.
 
@@ -36,10 +36,12 @@ package-specific `XPM_ROOT` variable can be set at
 the configuration phase. For example:
 
 ```sh
-cmake -S <source-dir> -B <build-dir> -DCMAKE_PREFIX_PATH="/opt/XPM;/opt/some-other-package"
+cmake -S <source-dir> \
+      -B <build-dir> \
+      -DCMAKE_PREFIX_PATH="/opt/XPM;/opt/some-other-package"
 # or
 cmake -S <source-dir> \
-    -B <build-dir> \
-    -DXPM_ROOT=/opt/XPM \
-    -DSOMEOTHERPACKAGE_ROOT=/opt/some-other-package
+      -B <build-dir> \
+      -DXPM_ROOT=/opt/XPM \
+      -DSOMEOTHERPACKAGE_ROOT=/opt/some-other-package
 ```

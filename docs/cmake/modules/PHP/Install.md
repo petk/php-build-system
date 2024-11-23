@@ -1,7 +1,7 @@
 <!-- This is auto-generated file. -->
-# PHP/Install
+* Source code: [cmake/modules/PHP/Install.cmake](https://github.com/petk/php-build-system/blob/master/cmake/cmake/modules/PHP/Install.cmake)
 
-* Module source code: [Install.cmake](https://github.com/petk/php-build-system/blob/master/cmake/cmake/modules/PHP/Install.cmake)
+# PHP/Install
 
 Set the `CMAKE_INSTALL_*` variables inside the `install(CODE|SCRIPT)`.
 

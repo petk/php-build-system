@@ -1,7 +1,5 @@
 <!-- This is auto-generated file. -->
-# Fibers
-
-* Module source code: [Fibers.cmake](https://github.com/petk/php-build-system/blob/master/cmake/Zend/cmake/Fibers.cmake)
+* Source code: [Zend/cmake/Fibers.cmake](https://github.com/petk/php-build-system/blob/master/cmake/Zend/cmake/Fibers.cmake)
 
 Check if Fibers can be used.
 

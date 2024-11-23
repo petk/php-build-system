@@ -1,7 +1,7 @@
 <!-- This is auto-generated file. -->
-# FindSASL
+* Source code: [cmake/modules/FindSASL.cmake](https://github.com/petk/php-build-system/blob/master/cmake/cmake/modules/FindSASL.cmake)
 
-* Module source code: [FindSASL.cmake](https://github.com/petk/php-build-system/blob/master/cmake/cmake/modules/FindSASL.cmake)
+# FindSASL
 
 Find the SASL library.
 
@@ -36,10 +36,12 @@ package-specific `SASL_ROOT` variable can be set at
 the configuration phase. For example:
 
 ```sh
-cmake -S <source-dir> -B <build-dir> -DCMAKE_PREFIX_PATH="/opt/SASL;/opt/some-other-package"
+cmake -S <source-dir> \
+      -B <build-dir> \
+      -DCMAKE_PREFIX_PATH="/opt/SASL;/opt/some-other-package"
 # or
 cmake -S <source-dir> \
-    -B <build-dir> \
-    -DSASL_ROOT=/opt/SASL \
-    -DSOMEOTHERPACKAGE_ROOT=/opt/some-other-package
+      -B <build-dir> \
+      -DSASL_ROOT=/opt/SASL \
+      -DSOMEOTHERPACKAGE_ROOT=/opt/some-other-package
 ```

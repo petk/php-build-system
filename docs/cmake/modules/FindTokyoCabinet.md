@@ -1,7 +1,7 @@
 <!-- This is auto-generated file. -->
-# FindTokyoCabinet
+* Source code: [cmake/modules/FindTokyoCabinet.cmake](https://github.com/petk/php-build-system/blob/master/cmake/cmake/modules/FindTokyoCabinet.cmake)
 
-* Module source code: [FindTokyoCabinet.cmake](https://github.com/petk/php-build-system/blob/master/cmake/cmake/modules/FindTokyoCabinet.cmake)
+# FindTokyoCabinet
 
 Find the Tokyo Cabinet library.
 
@@ -36,10 +36,12 @@ package-specific `TOKYOCABINET_ROOT` variable can be set at
 the configuration phase. For example:
 
 ```sh
-cmake -S <source-dir> -B <build-dir> -DCMAKE_PREFIX_PATH="/opt/TokyoCabinet;/opt/some-other-package"
+cmake -S <source-dir> \
+      -B <build-dir> \
+      -DCMAKE_PREFIX_PATH="/opt/TokyoCabinet;/opt/some-other-package"
 # or
 cmake -S <source-dir> \
-    -B <build-dir> \
-    -DTOKYOCABINET_ROOT=/opt/TokyoCabinet \
-    -DSOMEOTHERPACKAGE_ROOT=/opt/some-other-package
+      -B <build-dir> \
+      -DTOKYOCABINET_ROOT=/opt/TokyoCabinet \
+      -DSOMEOTHERPACKAGE_ROOT=/opt/some-other-package
 ```

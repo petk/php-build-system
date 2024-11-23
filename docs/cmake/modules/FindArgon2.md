@@ -1,7 +1,7 @@
 <!-- This is auto-generated file. -->
-# FindArgon2
+* Source code: [cmake/modules/FindArgon2.cmake](https://github.com/petk/php-build-system/blob/master/cmake/cmake/modules/FindArgon2.cmake)
 
-* Module source code: [FindArgon2.cmake](https://github.com/petk/php-build-system/blob/master/cmake/cmake/modules/FindArgon2.cmake)
+# FindArgon2
 
 Find the Argon2 library.
 
@@ -36,10 +36,12 @@ package-specific `ARGON2_ROOT` variable can be set at
 the configuration phase. For example:
 
 ```sh
-cmake -S <source-dir> -B <build-dir> -DCMAKE_PREFIX_PATH="/opt/Argon2;/opt/some-other-package"
+cmake -S <source-dir> \
+      -B <build-dir> \
+      -DCMAKE_PREFIX_PATH="/opt/Argon2;/opt/some-other-package"
 # or
 cmake -S <source-dir> \
-    -B <build-dir> \
-    -DARGON2_ROOT=/opt/Argon2 \
-    -DSOMEOTHERPACKAGE_ROOT=/opt/some-other-package
+      -B <build-dir> \
+      -DARGON2_ROOT=/opt/Argon2 \
+      -DSOMEOTHERPACKAGE_ROOT=/opt/some-other-package
 ```

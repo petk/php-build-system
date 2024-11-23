@@ -1,7 +1,7 @@
 <!-- This is auto-generated file. -->
-# FindGMP
+* Source code: [cmake/modules/FindGMP.cmake](https://github.com/petk/php-build-system/blob/master/cmake/cmake/modules/FindGMP.cmake)
 
-* Module source code: [FindGMP.cmake](https://github.com/petk/php-build-system/blob/master/cmake/cmake/modules/FindGMP.cmake)
+# FindGMP
 
 Find the GMP library.
 
@@ -36,10 +36,12 @@ package-specific `GMP_ROOT` variable can be set at
 the configuration phase. For example:
 
 ```sh
-cmake -S <source-dir> -B <build-dir> -DCMAKE_PREFIX_PATH="/opt/GMP;/opt/some-other-package"
+cmake -S <source-dir> \
+      -B <build-dir> \
+      -DCMAKE_PREFIX_PATH="/opt/GMP;/opt/some-other-package"
 # or
 cmake -S <source-dir> \
-    -B <build-dir> \
-    -DGMP_ROOT=/opt/GMP \
-    -DSOMEOTHERPACKAGE_ROOT=/opt/some-other-package
+      -B <build-dir> \
+      -DGMP_ROOT=/opt/GMP \
+      -DSOMEOTHERPACKAGE_ROOT=/opt/some-other-package
 ```

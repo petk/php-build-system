@@ -1,7 +1,7 @@
 <!-- This is auto-generated file. -->
-# FindDbm
+* Source code: [cmake/modules/FindDbm.cmake](https://github.com/petk/php-build-system/blob/master/cmake/cmake/modules/FindDbm.cmake)
 
-* Module source code: [FindDbm.cmake](https://github.com/petk/php-build-system/blob/master/cmake/cmake/modules/FindDbm.cmake)
+# FindDbm
 
 Find the dbm library.
 
@@ -48,10 +48,12 @@ package-specific `DBM_ROOT` variable can be set at
 the configuration phase. For example:
 
 ```sh
-cmake -S <source-dir> -B <build-dir> -DCMAKE_PREFIX_PATH="/opt/Dbm;/opt/some-other-package"
+cmake -S <source-dir> \
+      -B <build-dir> \
+      -DCMAKE_PREFIX_PATH="/opt/Dbm;/opt/some-other-package"
 # or
 cmake -S <source-dir> \
-    -B <build-dir> \
-    -DDBM_ROOT=/opt/Dbm \
-    -DSOMEOTHERPACKAGE_ROOT=/opt/some-other-package
+      -B <build-dir> \
+      -DDBM_ROOT=/opt/Dbm \
+      -DSOMEOTHERPACKAGE_ROOT=/opt/some-other-package
 ```

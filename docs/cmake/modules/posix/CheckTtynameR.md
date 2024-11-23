@@ -1,7 +1,5 @@
 <!-- This is auto-generated file. -->
-# CheckTtynameR
-
-* Module source code: [CheckTtynameR.cmake](https://github.com/petk/php-build-system/blob/master/cmake/ext/posix/cmake/CheckTtynameR.cmake)
+* Source code: [ext/posix/cmake/CheckTtynameR.cmake](https://github.com/petk/php-build-system/blob/master/cmake/ext/posix/cmake/CheckTtynameR.cmake)
 
 Check `ttyname_r()`.
 

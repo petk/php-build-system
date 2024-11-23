@@ -1,7 +1,7 @@
 <!-- This is auto-generated file. -->
-# PHP/StandardLibrary
+* Source code: [cmake/modules/PHP/StandardLibrary.cmake](https://github.com/petk/php-build-system/blob/master/cmake/cmake/modules/PHP/StandardLibrary.cmake)
 
-* Module source code: [StandardLibrary.cmake](https://github.com/petk/php-build-system/blob/master/cmake/cmake/modules/PHP/StandardLibrary.cmake)
+# PHP/StandardLibrary
 
 Determine the C standard library used for the build.
 

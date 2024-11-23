@@ -1,7 +1,7 @@
 <!-- This is auto-generated file. -->
-# FindIconv
+* Source code: [cmake/modules/FindIconv.cmake](https://github.com/petk/php-build-system/blob/master/cmake/cmake/modules/FindIconv.cmake)
 
-* Module source code: [FindIconv.cmake](https://github.com/petk/php-build-system/blob/master/cmake/cmake/modules/FindIconv.cmake)
+# FindIconv
 
 Find the Iconv library.
 
@@ -28,10 +28,12 @@ package-specific `ICONV_ROOT` variable can be set at
 the configuration phase. For example:
 
 ```sh
-cmake -S <source-dir> -B <build-dir> -DCMAKE_PREFIX_PATH="/opt/Iconv;/opt/some-other-package"
+cmake -S <source-dir> \
+      -B <build-dir> \
+      -DCMAKE_PREFIX_PATH="/opt/Iconv;/opt/some-other-package"
 # or
 cmake -S <source-dir> \
-    -B <build-dir> \
-    -DICONV_ROOT=/opt/Iconv \
-    -DSOMEOTHERPACKAGE_ROOT=/opt/some-other-package
+      -B <build-dir> \
+      -DICONV_ROOT=/opt/Iconv \
+      -DSOMEOTHERPACKAGE_ROOT=/opt/some-other-package
 ```

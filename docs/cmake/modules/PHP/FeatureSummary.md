@@ -1,7 +1,7 @@
 <!-- This is auto-generated file. -->
-# PHP/FeatureSummary
+* Source code: [cmake/modules/PHP/FeatureSummary.cmake](https://github.com/petk/php-build-system/blob/master/cmake/cmake/modules/PHP/FeatureSummary.cmake)
 
-* Module source code: [FeatureSummary.cmake](https://github.com/petk/php-build-system/blob/master/cmake/cmake/modules/PHP/FeatureSummary.cmake)
+# PHP/FeatureSummary
 
 Print summary of enabled/disabled features.
 

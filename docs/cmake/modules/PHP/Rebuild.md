@@ -1,7 +1,7 @@
 <!-- This is auto-generated file. -->
-# PHP/Rebuild
+* Source code: [cmake/modules/PHP/Rebuild.cmake](https://github.com/petk/php-build-system/blob/master/cmake/cmake/modules/PHP/Rebuild.cmake)
 
-* Module source code: [Rebuild.cmake](https://github.com/petk/php-build-system/blob/master/cmake/cmake/modules/PHP/Rebuild.cmake)
+# PHP/Rebuild
 
 Ensure all project targets are rebuilt as needed.
 

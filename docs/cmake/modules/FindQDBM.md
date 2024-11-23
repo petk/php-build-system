@@ -1,7 +1,7 @@
 <!-- This is auto-generated file. -->
-# FindQDBM
+* Source code: [cmake/modules/FindQDBM.cmake](https://github.com/petk/php-build-system/blob/master/cmake/cmake/modules/FindQDBM.cmake)
 
-* Module source code: [FindQDBM.cmake](https://github.com/petk/php-build-system/blob/master/cmake/cmake/modules/FindQDBM.cmake)
+# FindQDBM
 
 Find the QDBM library.
 
@@ -36,10 +36,12 @@ package-specific `QDBM_ROOT` variable can be set at
 the configuration phase. For example:
 
 ```sh
-cmake -S <source-dir> -B <build-dir> -DCMAKE_PREFIX_PATH="/opt/QDBM;/opt/some-other-package"
+cmake -S <source-dir> \
+      -B <build-dir> \
+      -DCMAKE_PREFIX_PATH="/opt/QDBM;/opt/some-other-package"
 # or
 cmake -S <source-dir> \
-    -B <build-dir> \
-    -DQDBM_ROOT=/opt/QDBM \
-    -DSOMEOTHERPACKAGE_ROOT=/opt/some-other-package
+      -B <build-dir> \
+      -DQDBM_ROOT=/opt/QDBM \
+      -DSOMEOTHERPACKAGE_ROOT=/opt/some-other-package
 ```

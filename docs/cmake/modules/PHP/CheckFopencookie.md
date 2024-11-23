@@ -1,7 +1,7 @@
 <!-- This is auto-generated file. -->
-# PHP/CheckFopencookie
+* Source code: [cmake/modules/PHP/CheckFopencookie.cmake](https://github.com/petk/php-build-system/blob/master/cmake/cmake/modules/PHP/CheckFopencookie.cmake)
 
-* Module source code: [CheckFopencookie.cmake](https://github.com/petk/php-build-system/blob/master/cmake/cmake/modules/PHP/CheckFopencookie.cmake)
+# PHP/CheckFopencookie
 
 Check if `fopencookie()` works as expected.
 

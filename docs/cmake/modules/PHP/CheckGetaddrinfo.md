@@ -1,7 +1,7 @@
 <!-- This is auto-generated file. -->
-# PHP/CheckGetaddrinfo
+* Source code: [cmake/modules/PHP/CheckGetaddrinfo.cmake](https://github.com/petk/php-build-system/blob/master/cmake/cmake/modules/PHP/CheckGetaddrinfo.cmake)
 
-* Module source code: [CheckGetaddrinfo.cmake](https://github.com/petk/php-build-system/blob/master/cmake/cmake/modules/PHP/CheckGetaddrinfo.cmake)
+# PHP/CheckGetaddrinfo
 
 Check for working `getaddrinfo()`.
 

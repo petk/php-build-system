@@ -1,7 +1,5 @@
 <!-- This is auto-generated file. -->
-# CheckFnmatch
-
-* Module source code: [CheckFnmatch.cmake](https://github.com/petk/php-build-system/blob/master/cmake/ext/standard/cmake/CheckFnmatch.cmake)
+* Source code: [ext/standard/cmake/CheckFnmatch.cmake](https://github.com/petk/php-build-system/blob/master/cmake/ext/standard/cmake/CheckFnmatch.cmake)
 
 Check for a working POSIX `fnmatch()` function.
 

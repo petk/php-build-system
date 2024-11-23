@@ -1,7 +1,7 @@
 <!-- This is auto-generated file. -->
-# FindLMDB
+* Source code: [cmake/modules/FindLMDB.cmake](https://github.com/petk/php-build-system/blob/master/cmake/cmake/modules/FindLMDB.cmake)
 
-* Module source code: [FindLMDB.cmake](https://github.com/petk/php-build-system/blob/master/cmake/cmake/modules/FindLMDB.cmake)
+# FindLMDB
 
 Find the LMDB library.
 
@@ -36,10 +36,12 @@ package-specific `LMDB_ROOT` variable can be set at
 the configuration phase. For example:
 
 ```sh
-cmake -S <source-dir> -B <build-dir> -DCMAKE_PREFIX_PATH="/opt/LMDB;/opt/some-other-package"
+cmake -S <source-dir> \
+      -B <build-dir> \
+      -DCMAKE_PREFIX_PATH="/opt/LMDB;/opt/some-other-package"
 # or
 cmake -S <source-dir> \
-    -B <build-dir> \
-    -DLMDB_ROOT=/opt/LMDB \
-    -DSOMEOTHERPACKAGE_ROOT=/opt/some-other-package
+      -B <build-dir> \
+      -DLMDB_ROOT=/opt/LMDB \
+      -DSOMEOTHERPACKAGE_ROOT=/opt/some-other-package
 ```

@@ -1,7 +1,7 @@
 <!-- This is auto-generated file. -->
-# FindApache
+* Source code: [cmake/modules/FindApache.cmake](https://github.com/petk/php-build-system/blob/master/cmake/cmake/modules/FindApache.cmake)
 
-* Module source code: [FindApache.cmake](https://github.com/petk/php-build-system/blob/master/cmake/cmake/modules/FindApache.cmake)
+# FindApache
 
 Find the Apache packages and tools.
 
@@ -54,10 +54,12 @@ package-specific `APACHE_ROOT` variable can be set at
 the configuration phase. For example:
 
 ```sh
-cmake -S <source-dir> -B <build-dir> -DCMAKE_PREFIX_PATH="/opt/Apache;/opt/some-other-package"
+cmake -S <source-dir> \
+      -B <build-dir> \
+      -DCMAKE_PREFIX_PATH="/opt/Apache;/opt/some-other-package"
 # or
 cmake -S <source-dir> \
-    -B <build-dir> \
-    -DAPACHE_ROOT=/opt/Apache \
-    -DSOMEOTHERPACKAGE_ROOT=/opt/some-other-package
+      -B <build-dir> \
+      -DAPACHE_ROOT=/opt/Apache \
+      -DSOMEOTHERPACKAGE_ROOT=/opt/some-other-package
 ```

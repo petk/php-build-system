@@ -1,7 +1,7 @@
 <!-- This is auto-generated file. -->
-# PHP/CheckAttribute
+* Source code: [cmake/modules/PHP/CheckAttribute.cmake](https://github.com/petk/php-build-system/blob/master/cmake/cmake/modules/PHP/CheckAttribute.cmake)
 
-* Module source code: [CheckAttribute.cmake](https://github.com/petk/php-build-system/blob/master/cmake/cmake/modules/PHP/CheckAttribute.cmake)
+# PHP/CheckAttribute
 
 Check if GNU C function or variable attribute is supported by the compiler.
 

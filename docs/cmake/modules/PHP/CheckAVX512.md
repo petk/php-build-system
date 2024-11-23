@@ -1,7 +1,7 @@
 <!-- This is auto-generated file. -->
-# PHP/CheckAVX512
+* Source code: [cmake/modules/PHP/CheckAVX512.cmake](https://github.com/petk/php-build-system/blob/master/cmake/cmake/modules/PHP/CheckAVX512.cmake)
 
-* Module source code: [CheckAVX512.cmake](https://github.com/petk/php-build-system/blob/master/cmake/cmake/modules/PHP/CheckAVX512.cmake)
+# PHP/CheckAVX512
 
 Check whether compiler supports AVX-512 extensions. Note that this is a compiler
 check, not a runtime check where further adjustments are done in the php-src C

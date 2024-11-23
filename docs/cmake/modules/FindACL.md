@@ -1,7 +1,7 @@
 <!-- This is auto-generated file. -->
-# FindACL
+* Source code: [cmake/modules/FindACL.cmake](https://github.com/petk/php-build-system/blob/master/cmake/cmake/modules/FindACL.cmake)
 
-* Module source code: [FindACL.cmake](https://github.com/petk/php-build-system/blob/master/cmake/cmake/modules/FindACL.cmake)
+# FindACL
 
 Find the ACL library.
 
@@ -44,10 +44,12 @@ package-specific `ACL_ROOT` variable can be set at
 the configuration phase. For example:
 
 ```sh
-cmake -S <source-dir> -B <build-dir> -DCMAKE_PREFIX_PATH="/opt/ACL;/opt/some-other-package"
+cmake -S <source-dir> \
+      -B <build-dir> \
+      -DCMAKE_PREFIX_PATH="/opt/ACL;/opt/some-other-package"
 # or
 cmake -S <source-dir> \
-    -B <build-dir> \
-    -DACL_ROOT=/opt/ACL \
-    -DSOMEOTHERPACKAGE_ROOT=/opt/some-other-package
+      -B <build-dir> \
+      -DACL_ROOT=/opt/ACL \
+      -DSOMEOTHERPACKAGE_ROOT=/opt/some-other-package
 ```

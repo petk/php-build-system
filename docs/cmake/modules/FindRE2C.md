@@ -1,7 +1,7 @@
 <!-- This is auto-generated file. -->
-# FindRE2C
+* Source code: [cmake/modules/FindRE2C.cmake](https://github.com/petk/php-build-system/blob/master/cmake/cmake/modules/FindRE2C.cmake)
 
-* Module source code: [FindRE2C.cmake](https://github.com/petk/php-build-system/blob/master/cmake/cmake/modules/FindRE2C.cmake)
+# FindRE2C
 
 Find re2c.
 
@@ -93,10 +93,12 @@ package-specific `RE2C_ROOT` variable can be set at
 the configuration phase. For example:
 
 ```sh
-cmake -S <source-dir> -B <build-dir> -DCMAKE_PREFIX_PATH="/opt/RE2C;/opt/some-other-package"
+cmake -S <source-dir> \
+      -B <build-dir> \
+      -DCMAKE_PREFIX_PATH="/opt/RE2C;/opt/some-other-package"
 # or
 cmake -S <source-dir> \
-    -B <build-dir> \
-    -DRE2C_ROOT=/opt/RE2C \
-    -DSOMEOTHERPACKAGE_ROOT=/opt/some-other-package
+      -B <build-dir> \
+      -DRE2C_ROOT=/opt/RE2C \
+      -DSOMEOTHERPACKAGE_ROOT=/opt/some-other-package
 ```

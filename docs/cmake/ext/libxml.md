@@ -5,7 +5,7 @@
 
 Configure the `libxml` extension.
 
-This extension provides support for XML parser and toolkit libxml.
+This extension provides XML parser and toolkit support using libxml2 library.
 
 ## EXT_LIBXML
 

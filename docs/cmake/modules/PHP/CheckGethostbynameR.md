@@ -1,7 +1,7 @@
 <!-- This is auto-generated file. -->
-# PHP/CheckGethostbynameR
+* Source code: [cmake/modules/PHP/CheckGethostbynameR.cmake](https://github.com/petk/php-build-system/blob/master/cmake/cmake/modules/PHP/CheckGethostbynameR.cmake)
 
-* Module source code: [CheckGethostbynameR.cmake](https://github.com/petk/php-build-system/blob/master/cmake/cmake/modules/PHP/CheckGethostbynameR.cmake)
+# PHP/CheckGethostbynameR
 
 Check `gethostbyname_r()`.
 

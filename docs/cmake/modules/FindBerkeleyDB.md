@@ -1,7 +1,7 @@
 <!-- This is auto-generated file. -->
-# FindBerkeleyDB
+* Source code: [cmake/modules/FindBerkeleyDB.cmake](https://github.com/petk/php-build-system/blob/master/cmake/cmake/modules/FindBerkeleyDB.cmake)
 
-* Module source code: [FindBerkeleyDB.cmake](https://github.com/petk/php-build-system/blob/master/cmake/cmake/modules/FindBerkeleyDB.cmake)
+# FindBerkeleyDB
 
 Find the Berkeley DB library.
 
@@ -43,10 +43,12 @@ package-specific `BERKELEYDB_ROOT` variable can be set at
 the configuration phase. For example:
 
 ```sh
-cmake -S <source-dir> -B <build-dir> -DCMAKE_PREFIX_PATH="/opt/BerkeleyDB;/opt/some-other-package"
+cmake -S <source-dir> \
+      -B <build-dir> \
+      -DCMAKE_PREFIX_PATH="/opt/BerkeleyDB;/opt/some-other-package"
 # or
 cmake -S <source-dir> \
-    -B <build-dir> \
-    -DBERKELEYDB_ROOT=/opt/BerkeleyDB \
-    -DSOMEOTHERPACKAGE_ROOT=/opt/some-other-package
+      -B <build-dir> \
+      -DBERKELEYDB_ROOT=/opt/BerkeleyDB \
+      -DSOMEOTHERPACKAGE_ROOT=/opt/some-other-package
 ```

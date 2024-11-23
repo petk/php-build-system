@@ -1,7 +1,7 @@
 <!-- This is auto-generated file. -->
-# FindCapstone
+* Source code: [cmake/modules/FindCapstone.cmake](https://github.com/petk/php-build-system/blob/master/cmake/cmake/modules/FindCapstone.cmake)
 
-* Module source code: [FindCapstone.cmake](https://github.com/petk/php-build-system/blob/master/cmake/cmake/modules/FindCapstone.cmake)
+# FindCapstone
 
 Find the Capstone library.
 
@@ -36,10 +36,12 @@ package-specific `CAPSTONE_ROOT` variable can be set at
 the configuration phase. For example:
 
 ```sh
-cmake -S <source-dir> -B <build-dir> -DCMAKE_PREFIX_PATH="/opt/Capstone;/opt/some-other-package"
+cmake -S <source-dir> \
+      -B <build-dir> \
+      -DCMAKE_PREFIX_PATH="/opt/Capstone;/opt/some-other-package"
 # or
 cmake -S <source-dir> \
-    -B <build-dir> \
-    -DCAPSTONE_ROOT=/opt/Capstone \
-    -DSOMEOTHERPACKAGE_ROOT=/opt/some-other-package
+      -B <build-dir> \
+      -DCAPSTONE_ROOT=/opt/Capstone \
+      -DSOMEOTHERPACKAGE_ROOT=/opt/some-other-package
 ```

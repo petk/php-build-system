@@ -1,7 +1,7 @@
 <!-- This is auto-generated file. -->
-# PHP/CheckByteOrder
+* Source code: [cmake/modules/PHP/CheckByteOrder.cmake](https://github.com/petk/php-build-system/blob/master/cmake/cmake/modules/PHP/CheckByteOrder.cmake)
 
-* Module source code: [CheckByteOrder.cmake](https://github.com/petk/php-build-system/blob/master/cmake/cmake/modules/PHP/CheckByteOrder.cmake)
+# PHP/CheckByteOrder
 
 Check whether system byte ordering is big-endian.
 

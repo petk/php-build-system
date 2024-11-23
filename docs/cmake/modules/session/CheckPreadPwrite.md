@@ -1,7 +1,5 @@
 <!-- This is auto-generated file. -->
-# CheckPreadPwrite
-
-* Module source code: [CheckPreadPwrite.cmake](https://github.com/petk/php-build-system/blob/master/cmake/ext/session/cmake/CheckPreadPwrite.cmake)
+* Source code: [ext/session/cmake/CheckPreadPwrite.cmake](https://github.com/petk/php-build-system/blob/master/cmake/ext/session/cmake/CheckPreadPwrite.cmake)
 
 Check whether `pread()` and `pwrite()` work.
 

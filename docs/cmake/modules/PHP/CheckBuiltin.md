@@ -1,7 +1,7 @@
 <!-- This is auto-generated file. -->
-# PHP/CheckBuiltin
+* Source code: [cmake/modules/PHP/CheckBuiltin.cmake](https://github.com/petk/php-build-system/blob/master/cmake/cmake/modules/PHP/CheckBuiltin.cmake)
 
-* Module source code: [CheckBuiltin.cmake](https://github.com/petk/php-build-system/blob/master/cmake/cmake/modules/PHP/CheckBuiltin.cmake)
+# PHP/CheckBuiltin
 
 Check whether compiler supports one of the built-in functions `__builtin_*()`.
 

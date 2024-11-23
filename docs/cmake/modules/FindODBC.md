@@ -1,7 +1,7 @@
 <!-- This is auto-generated file. -->
-# FindODBC
+* Source code: [cmake/modules/FindODBC.cmake](https://github.com/petk/php-build-system/blob/master/cmake/cmake/modules/FindODBC.cmake)
 
-* Module source code: [FindODBC.cmake](https://github.com/petk/php-build-system/blob/master/cmake/cmake/modules/FindODBC.cmake)
+# FindODBC
 
 Find the ODBC library.
 
@@ -76,10 +76,12 @@ package-specific `ODBC_ROOT` variable can be set at
 the configuration phase. For example:
 
 ```sh
-cmake -S <source-dir> -B <build-dir> -DCMAKE_PREFIX_PATH="/opt/ODBC;/opt/some-other-package"
+cmake -S <source-dir> \
+      -B <build-dir> \
+      -DCMAKE_PREFIX_PATH="/opt/ODBC;/opt/some-other-package"
 # or
 cmake -S <source-dir> \
-    -B <build-dir> \
-    -DODBC_ROOT=/opt/ODBC \
-    -DSOMEOTHERPACKAGE_ROOT=/opt/some-other-package
+      -B <build-dir> \
+      -DODBC_ROOT=/opt/ODBC \
+      -DSOMEOTHERPACKAGE_ROOT=/opt/some-other-package
 ```

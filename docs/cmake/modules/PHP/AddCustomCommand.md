@@ -1,7 +1,7 @@
 <!-- This is auto-generated file. -->
-# PHP/AddCustomCommand
+* Source code: [cmake/modules/PHP/AddCustomCommand.cmake](https://github.com/petk/php-build-system/blob/master/cmake/cmake/modules/PHP/AddCustomCommand.cmake)
 
-* Module source code: [AddCustomCommand.cmake](https://github.com/petk/php-build-system/blob/master/cmake/cmake/modules/PHP/AddCustomCommand.cmake)
+# PHP/AddCustomCommand
 
 Add custom command.
 

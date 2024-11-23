@@ -1,7 +1,7 @@
 <!-- This is auto-generated file. -->
-# PHP/SearchLibraries
+* Source code: [cmake/modules/PHP/SearchLibraries.cmake](https://github.com/petk/php-build-system/blob/master/cmake/cmake/modules/PHP/SearchLibraries.cmake)
 
-* Module source code: [SearchLibraries.cmake](https://github.com/petk/php-build-system/blob/master/cmake/cmake/modules/PHP/SearchLibraries.cmake)
+# PHP/SearchLibraries
 
 Check if symbol exists in given header(s). If not found in default linked
 libraries (for example, C library), a given list of libraries is iterated and
@@ -26,9 +26,9 @@ Module exposes the following function:
 ```cmake
 php_search_libraries(
   <symbol>
-  <symbol_variable>
   HEADERS <header>...
   [LIBRARIES <library>...]
+  [VARIABLE <variable>]
   [LIBRARY_VARIABLE <library_variable>]
   [TARGET <target> <PRIVATE|PUBLIC|INTERFACE>]
   [RECHECK_HEADERS]
@@ -36,8 +36,8 @@ php_search_libraries(
 ```
 
 Check that the `<symbol>` is available after including the `<header>` (or a list
-of `<headers>`) and store the result in an internal cache variable
-`<symbol_variable>`.
+of `<headers>`), or if any library from the `LIBRARY` list needs to be linked.
+If `<variable>` is given, check result is stored in an internal cache variable.
 
 * `HEADERS`
 
@@ -55,6 +55,12 @@ of `<headers>`) and store the result in an internal cache variable
   `check_function_exists()`, the `check_symbol_exists()` is used, since it also
   works when symbol might be a macro definition. It would not be found using the
   other two commands because they don't include required headers.
+
+* `VARIABLE`
+
+  Name of a cache variable where the check result will be stored. Optional. If
+  not given, the result will be stored in an internal automatically defined
+  cache variable name.
 
 * `LIBRARY_VARIABLE`
 
@@ -88,10 +94,9 @@ include(PHP/SearchLibraries)
 
 php_search_libraries(
   dlopen
-  HAVE_LIBDL
   HEADERS dlfcn.h
-  LIBRARIES
-    ${CMAKE_DL_LIBS}
+  LIBRARIES ${CMAKE_DL_LIBS}
+  VARIABLE HAVE_LIBDL
   TARGET php_configuration INTERFACE
 )
 ```
