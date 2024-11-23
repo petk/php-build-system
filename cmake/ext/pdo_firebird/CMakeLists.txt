@@ -34,7 +34,7 @@ option(EXT_PDO_FIREBIRD "Enable the pdo_firebird extension" OFF)
 add_feature_info(
   "ext/pdo_firebird"
   EXT_PDO_FIREBIRD
-  "Firebird database support in PDO (PHP Data Objects) interface"
+  "Firebird database support in PDO (PHP Data Objects)"
 )
 
 cmake_dependent_option(

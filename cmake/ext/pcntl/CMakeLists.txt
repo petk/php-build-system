@@ -42,12 +42,12 @@ include(CMakeDependentOption)
 include(CMakePushCheckState)
 include(FeatureSummary)
 
-option(EXT_PCNTL "Enable the pcntl extension (CLI/CGI only)" OFF)
+option(EXT_PCNTL "Enable the pcntl extension (only for CLI-based SAPIs)" OFF)
 
 add_feature_info(
   "ext/pcntl"
   EXT_PCNTL
-  "Process control support (CLI/CGI only)"
+  "process control support"
 )
 
 cmake_dependent_option(

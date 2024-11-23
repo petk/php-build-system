@@ -150,7 +150,7 @@ php_set(
 add_feature_info(
   "sapi/fpm AppArmor"
   SAPI_FPM_APPARMOR
-  "FPM SAPI module with AppArmor confinement enabled"
+  "AppArmor confinement support"
 )
 
 php_set(
@@ -163,7 +163,7 @@ php_set(
 add_feature_info(
   "sapi/fpm SELinux"
   SAPI_FPM_SELINUX
-  "FPM SAPI module with SELinux policy library support"
+  "SELinux policy library support"
 )
 
 php_set(
@@ -176,7 +176,7 @@ php_set(
 add_feature_info(
   "sapi/fpm systemd"
   SAPI_FPM_SYSTEMD
-  "FPM SAPI module with systemd integration"
+  "systemd integration"
 )
 
 if(NOT SAPI_FPM)

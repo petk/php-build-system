@@ -3,8 +3,8 @@
 
 Configure the `mysqlnd` extension.
 
-This extension contains MySQL Native Driver for supporting MySQL-compatible
-database in PHP extensions.
+This extension contains MySQL Native Driver for using MySQL-compatible databases
+in PHP extensions.
 
 ## EXT_MYSQLND
 
@@ -58,7 +58,7 @@ option(EXT_MYSQLND "Enable the mysqlnd extension" OFF)
 add_feature_info(
   "ext/mysqlnd"
   EXT_MYSQLND
-  "MySQL Native Driver for supporting MySQL-compatible database in extensions"
+  "MySQL Native Driver for using MySQL-compatible databases"
 )
 
 cmake_dependent_option(
@@ -85,8 +85,8 @@ add_feature_info(
 
 cmake_dependent_option(
   EXT_MYSQLND_SSL
-  "Explicitly enable extended SSL support in the mysqlnd extension through a\
-  system library OpenSSL (*nix) or Crypt32 (Windows)."
+  "Explicitly enable extended SSL support in the mysqlnd extension through\
+  OpenSSL system library (*nix) or Crypt32 (Windows)."
   OFF
   [[EXT_MYSQLND AND NOT EXT_OPENSSL AND NOT CMAKE_SYSTEM_NAME STREQUAL "Windows"]]
   OFF

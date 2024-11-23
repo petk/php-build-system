@@ -44,12 +44,12 @@ include(CMakePushCheckState)
 include(FeatureSummary)
 include(PHP/CheckCompilerFlag)
 
-option(EXT_READLINE "Enable the readline extension" OFF)
+option(EXT_READLINE "Enable the readline extension (only for CLI-based SAPIs)" OFF)
 
 add_feature_info(
   "ext/readline"
   EXT_READLINE
-  "Interface for using Editline library. CLI/CGI only"
+  "interface for using Editline library"
 )
 
 cmake_dependent_option(
