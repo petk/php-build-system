@@ -48,7 +48,7 @@ Where to find ACL installation on the system, can be customized with the
 Enable the AppArmor confinement through libapparmor.
 
 Where to find AppArmor installation on the system, can be customized with the
-`AppArmor_ROOT` variable.
+`APPARMOR_ROOT` variable.
 
 > [!NOTE]
 > This option is not available when the target system is Darwin (macOS) as this
@@ -62,7 +62,7 @@ Where to find AppArmor installation on the system, can be customized with the
 Enable the SELinux policy library support.
 
 Where to find SELinux installation on the system, can be customized with the
-`SELinux_ROOT` variable.
+`SELINUX_ROOT` variable.
 
 > [!NOTE]
 > This option is not available when the target system is Darwin (macOS) as this
@@ -76,7 +76,7 @@ Where to find SELinux installation on the system, can be customized with the
 Enable the systemd integration.
 
 Where to find systemd installation on the system, can be customized with the
-`Systemd_ROOT` variable.
+`SYSTEMD_ROOT` variable.
 
 > [!NOTE]
 > This option is not available when the target system is Darwin (macOS) as this

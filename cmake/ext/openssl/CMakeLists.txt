@@ -60,7 +60,7 @@ that are either insecure, or have fallen out of use.
 Include Kerberos support for OpenSSL.
 
 Where to find Kerberos installation on the system, can be customized with the
-`Kerberos_ROOT` variable.
+`KERBEROS_ROOT` variable.
 
 Note, that Kerberos support has been removed from the OpenSSL library as of
 OpenSSL 1.1.0.
