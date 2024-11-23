@@ -198,14 +198,14 @@ message(CHECK_START "Checking for mmap() using shm_open() shared memory support"
 # Haiku.
 php_search_libraries(
   shm_open
-  HAVE_SHM_OPEN
   HEADERS sys/mman.h
   LIBRARIES
     rt # Solaris <= 10, older Linux
+  VARIABLE _HAVE_SHM_OPEN
   LIBRARY_VARIABLE libraryForShmOpen
 )
 
-if(HAVE_SHM_OPEN)
+if(_HAVE_SHM_OPEN)
   cmake_push_check_state(RESET)
     if(libraryForShmOpen)
       set(CMAKE_REQUIRED_LIBRARIES ${libraryForShmOpen})

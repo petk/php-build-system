@@ -1,4 +1,6 @@
 #[=============================================================================[
+# FindGcov
+
 Find the Gcov coverage programs and features.
 
 Module defines the following `IMPORTED` target(s):

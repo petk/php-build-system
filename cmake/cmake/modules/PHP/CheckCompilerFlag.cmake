@@ -1,4 +1,6 @@
 #[=============================================================================[
+# PHP/CheckCompilerFlag
+
 Check whether the compiler supports given compile option.
 
 CMake's `CheckCompilerFlag` module and its `check_compiler_flag()` macro, at the

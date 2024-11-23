@@ -46,12 +46,12 @@ include(FeatureSummary)
 include(PHP/SearchLibraries)
 include(PHP/SystemExtensions)
 
-option(EXT_PCNTL "Enable the pcntl extension (CLI/CGI only)" OFF)
+option(EXT_PCNTL "Enable the pcntl extension (only for CLI-based SAPIs)" OFF)
 
 add_feature_info(
   "ext/pcntl"
   EXT_PCNTL
-  "Process control support (CLI/CGI only)"
+  "process control support"
 )
 
 cmake_dependent_option(
@@ -171,10 +171,10 @@ cmake_push_check_state(RESET)
   block()
     php_search_libraries(
       sched_getcpu
-      _HAVE_SCHED_GETCPU
       HEADERS sched.h
       LIBRARIES
         gnu # Haiku
+      VARIABLE _HAVE_SCHED_GETCPU
       LIBRARY_VARIABLE library
     )
 

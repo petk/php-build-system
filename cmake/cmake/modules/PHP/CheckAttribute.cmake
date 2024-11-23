@@ -1,4 +1,6 @@
 #[=============================================================================[
+# PHP/CheckAttribute
+
 Check if GNU C function or variable attribute is supported by the compiler.
 
 Module exposes the following functions:

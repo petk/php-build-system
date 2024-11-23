@@ -1,4 +1,6 @@
 #[=============================================================================[
+# FindFreeTDS
+
 Find the FreeTDS set of libraries.
 
 Module defines the following `IMPORTED` target(s):

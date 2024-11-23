@@ -1,4 +1,6 @@
 #[=============================================================================[
+# FindSendmail
+
 Find the `sendmail` program.
 
 ## Result variables

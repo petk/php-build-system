@@ -36,7 +36,7 @@ option(EXT_FILEINFO "Enable the fileinfo extension" ON)
 add_feature_info(
   "ext/fileinfo"
   EXT_FILEINFO
-  "Support for file content type and encoding"
+  "file content type and encoding support"
 )
 
 cmake_dependent_option(

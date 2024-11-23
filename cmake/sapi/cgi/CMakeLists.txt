@@ -8,18 +8,18 @@ Configure the `cgi` PHP SAPI.
 * Default: `ON`
 * Values: `ON|OFF`
 
-Enable the SAPI.
+Enable the CGI (Common Gateway Interface) SAPI.
 #]=============================================================================]
 
 include(CheckStructHasMember)
 include(FeatureSummary)
 
-option(SAPI_CGI "Enable the CGI SAPI executable" ON)
+option(SAPI_CGI "Enable the CGI (Common Gateway Interface) SAPI" ON)
 
 add_feature_info(
   "sapi/cgi"
   SAPI_CGI
-  "CGI SAPI executable"
+  "Common Gateway Interface (CGI) SAPI executable"
 )
 
 if(NOT SAPI_CGI)

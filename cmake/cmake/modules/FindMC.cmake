@@ -1,4 +1,6 @@
 #[=============================================================================[
+# FindMC
+
 Find Windows compatible message compiler (mc.exe or windmc) command-line tool.
 
 Message compiler is installed on Windows as part of the Visual Studio or Windows

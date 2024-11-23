@@ -1,4 +1,6 @@
 #[=============================================================================[
+# PHP/SearchLibraries
+
 Check if symbol exists in given header(s). If not found in default linked
 libraries (for example, C library), a given list of libraries is iterated and
 found library can be linked as needed.
@@ -22,9 +24,9 @@ Module exposes the following function:
 ```cmake
 php_search_libraries(
   <symbol>
-  <symbol_variable>
   HEADERS <header>...
   [LIBRARIES <library>...]
+  [VARIABLE <variable>]
   [LIBRARY_VARIABLE <library_variable>]
   [TARGET <target> <PRIVATE|PUBLIC|INTERFACE>]
   [RECHECK_HEADERS]
@@ -32,8 +34,8 @@ php_search_libraries(
 ```
 
 Check that the `<symbol>` is available after including the `<header>` (or a list
-of `<headers>`) and store the result in an internal cache variable
-`<symbol_variable>`.
+of `<headers>`), or if any library from the `LIBRARY` list needs to be linked.
+If `<variable>` is given, check result is stored in an internal cache variable.
 
 * `HEADERS`
 
@@ -51,6 +53,12 @@ of `<headers>`) and store the result in an internal cache variable
   `check_function_exists()`, the `check_symbol_exists()` is used, since it also
   works when symbol might be a macro definition. It would not be found using the
   other two commands because they don't include required headers.
+
+* `VARIABLE`
+
+  Name of a cache variable where the check result will be stored. Optional. If
+  not given, the result will be stored in an internal automatically defined
+  cache variable name.
 
 * `LIBRARY_VARIABLE`
 
@@ -84,10 +92,9 @@ include(PHP/SearchLibraries)
 
 php_search_libraries(
   dlopen
-  HAVE_LIBDL
   HEADERS dlfcn.h
-  LIBRARIES
-    ${CMAKE_DL_LIBS}
+  LIBRARIES ${CMAKE_DL_LIBS}
+  VARIABLE HAVE_LIBDL
   TARGET php_configuration INTERFACE
 )
 ```
@@ -156,28 +163,41 @@ endmacro()
 function(php_search_libraries)
   cmake_parse_arguments(
     PARSE_ARGV
-    2
-    parsed                     # prefix
-    "RECHECK_HEADERS"          # options
-    "LIBRARY_VARIABLE"         # one-value keywords
-    "HEADERS;LIBRARIES;TARGET" # multi-value keywords
+    1
+    parsed                      # prefix
+    "RECHECK_HEADERS"           # options
+    "VARIABLE;LIBRARY_VARIABLE" # one-value keywords
+    "HEADERS;LIBRARIES;TARGET"  # multi-value keywords
   )
 
   if(parsed_UNPARSED_ARGUMENTS)
     message(FATAL_ERROR "Bad arguments: ${parsed_UNPARSED_ARGUMENTS}")
   endif()
 
-  set(symbol ${ARGV0})
-  set(symbolResultVariable ${ARGV1})
-  set(headers ${parsed_HEADERS})
-  set(recheckHeaders ${parsed_RECHECK_HEADERS})
-  set(libraries ${parsed_LIBRARIES})
-  set(libraryResultVariable ${parsed_LIBRARY_VARIABLE})
-  set(libraryInternalVariable _PHP_SEARCH_LIBRARIES_LIBRARY_${ARGV1})
-
   if(NOT parsed_HEADERS)
     message(FATAL_ERROR "php_search_libraries: missing HEADERS")
   endif()
+
+  set(symbol ${ARGV0})
+  set(headers ${parsed_HEADERS})
+  set(recheckHeaders ${parsed_RECHECK_HEADERS})
+  set(libraries ${parsed_LIBRARIES})
+
+  if(NOT parsed_VARIABLE)
+    string(
+      MAKE_C_IDENTIFIER
+      "HAVE_${symbol}_${parsed_HEADERS}_${parsed_LIBRARIES}"
+      variableSuffix
+    )
+    string(TOUPPER "${variableSuffix}" variableSuffix)
+    set(parsed_VARIABLE _PHP_SEARCH_LIBRARIES_${variableSuffix})
+  else()
+    set(variableSuffix ${parsed_VARIABLE})
+  endif()
+
+  set(symbolResultVariable ${parsed_VARIABLE})
+  set(libraryResultVariable ${parsed_LIBRARY_VARIABLE})
+  set(libraryInternalVariable _PHP_SEARCH_LIBRARIES_LIBRARY_${variableSuffix})
 
   # Clear LIBRARY_VARIABLE of any existing value if set in the parent scope.
   if(${libraryResultVariable})

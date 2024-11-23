@@ -33,7 +33,7 @@ option(EXT_EXIF "Enable the exif extension" OFF)
 add_feature_info(
   "ext/exif"
   EXT_EXIF
-  "Support for working with exchangeable image metadata"
+  "support for exchangeable image metadata"
 )
 
 cmake_dependent_option(

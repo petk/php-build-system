@@ -33,7 +33,7 @@ option(EXT_XMLREADER "Enable the xmlreader extension" ON)
 add_feature_info(
   "ext/xmlreader"
   EXT_XMLREADER
-  "Support for XML pull parser"
+  "support for XML pull parser"
 )
 
 cmake_dependent_option(

@@ -1,4 +1,6 @@
 #[=============================================================================[
+# PHP/CheckGethostbynameR
+
 Check `gethostbyname_r()`.
 
 The non-standard `gethostbyname_r()` function has different signatures across
@@ -43,10 +45,10 @@ function(_php_check_gethostbyname_r)
   # mostly in the default libraries (C library) - Linux, Solaris 11.4...
   php_search_libraries(
     gethostbyname_r
-    _HAVE_GETHOSTBYNAME_R
     HEADERS netdb.h
     LIBRARIES
       nsl # Solaris <= 11.3, illumos
+    VARIABLE _HAVE_GETHOSTBYNAME_R
     LIBRARY_VARIABLE library
   )
   if(NOT _HAVE_GETHOSTBYNAME_R)

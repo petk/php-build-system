@@ -1,4 +1,6 @@
 #[=============================================================================[
+# FindTidy
+
 Find the Tidy library (tidy-html5, legacy htmltidy library, or the tidyp -
 obsolete fork).
 

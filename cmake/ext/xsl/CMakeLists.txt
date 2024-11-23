@@ -117,7 +117,7 @@ endif()
 add_feature_info(
   "ext/xsl with EXSLT"
   HAVE_XSL_EXSLT
-  "Adds support for XSLT extensions (EXSLT)"
+  "support for XSLT extensions (EXSLT)"
 )
 
 set(HAVE_XSL 1)

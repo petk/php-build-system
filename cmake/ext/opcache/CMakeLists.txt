@@ -194,7 +194,6 @@ if(EXT_OPCACHE_JIT)
   # Link math library as needed.
   php_search_libraries(
     floor
-    _HAVE_FLOOR
     HEADERS math.h
     LIBRARIES m
     TARGET php_opcache_jit_minilua PRIVATE

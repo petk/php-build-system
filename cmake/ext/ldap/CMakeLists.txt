@@ -44,7 +44,7 @@ option(EXT_LDAP "Enable the ldap extension" OFF)
 add_feature_info(
   "ext/ldap"
   EXT_LDAP
-  "Support for LDAP (Lightweight Directory Access Protocol)"
+  "LDAP (Lightweight Directory Access Protocol) support"
 )
 
 cmake_dependent_option(

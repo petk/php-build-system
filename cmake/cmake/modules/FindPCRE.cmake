@@ -1,4 +1,6 @@
 #[=============================================================================[
+# FindPCRE
+
 Find the PCRE library.
 
 Module defines the following `IMPORTED` target(s):

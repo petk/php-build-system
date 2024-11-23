@@ -1,4 +1,6 @@
 #[=============================================================================[
+# FindValgrind
+
 Find Valgrind.
 
 Module defines the following `IMPORTED` target(s):

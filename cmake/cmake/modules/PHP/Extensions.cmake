@@ -1,4 +1,6 @@
 #[=============================================================================[
+# PHP/Extensions
+
 Configure PHP extensions.
 
 This module is responsible for parsing `CMakeLists.txt` files of PHP extensions
