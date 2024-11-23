@@ -1,4 +1,6 @@
 #[=============================================================================[
+# PHP/Set
+
 Set a CACHE variable that depends on a set of conditions.
 
 At the time of writing, there are three main ways in CMake to create

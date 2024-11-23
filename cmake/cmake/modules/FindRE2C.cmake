@@ -1,4 +1,6 @@
 #[=============================================================================[
+# FindRE2C
+
 Find re2c.
 
 The minimum required version of re2c can be specified using the standard CMake

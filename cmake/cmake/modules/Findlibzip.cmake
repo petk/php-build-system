@@ -1,4 +1,6 @@
 #[=============================================================================[
+# Findlibzip
+
 Find the libzip library.
 
 This is a helper in case system doesn't have the libzip's Config find module

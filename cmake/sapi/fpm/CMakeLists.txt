@@ -277,10 +277,10 @@ endif()
 # Check for clock_get*time.
 php_search_libraries(
   clock_gettime
-  HAVE_CLOCK_GETTIME
   HEADERS time.h
   LIBRARIES
     rt # Solaris 10
+  VARIABLE HAVE_CLOCK_GETTIME
   TARGET php_fpm PRIVATE
 )
 if(NOT HAVE_CLOCK_GETTIME)

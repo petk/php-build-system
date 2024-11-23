@@ -1,4 +1,6 @@
 #[=============================================================================[
+# PHP/CheckInline
+
 Check if compiler supports `inline`, `__inline__`, or `__inline` keyword.
 
 The `inline` keyword is part of the C99 standard and all decent compilers should

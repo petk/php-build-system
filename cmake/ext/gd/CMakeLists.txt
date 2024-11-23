@@ -301,7 +301,6 @@ if(NOT EXT_GD_EXTERNAL)
 
   php_search_libraries(
     fabsf
-    HAVE_FABSF
     HEADERS math.h
     LIBRARIES m
     TARGET php_gd PRIVATE

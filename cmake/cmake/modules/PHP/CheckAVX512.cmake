@@ -1,4 +1,6 @@
 #[=============================================================================[
+# PHP/CheckAVX512
+
 Check whether compiler supports AVX-512 extensions. Note that this is a compiler
 check, not a runtime check where further adjustments are done in the php-src C
 code to use these extensions.

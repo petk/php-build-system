@@ -1,4 +1,6 @@
 #[=============================================================================[
+# PHP/ConfigureFile
+
 Wrapper built on top of CMake's `configure_file()`.
 
 There is a common issue with installation prefix not being applied when using

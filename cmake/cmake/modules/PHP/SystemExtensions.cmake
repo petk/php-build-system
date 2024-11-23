@@ -1,4 +1,6 @@
 #[=============================================================================[
+# PHP/SystemExtensions
+
 Enable extensions to C or POSIX on systems that by default disable them to
 conform to standards or namespace issues.
 

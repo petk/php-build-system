@@ -1,4 +1,6 @@
 #[=============================================================================[
+# PHP/CheckSysMacros
+
 Check for non-standard `major`, `minor` and `makedev`. They can be defined as
 macros. On Solaris/illumos they are in `sys/mkdev.h` (macro definition to a libc
 implementation) and in `sys/sysmacros.h` (macro definition using binary

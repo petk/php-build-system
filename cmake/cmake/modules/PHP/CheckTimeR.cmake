@@ -1,4 +1,6 @@
 #[=============================================================================[
+# PHP/CheckTimeR
+
 Check type of reentrant time-related functions. Type can be: irix, hpux or
 POSIX.
 

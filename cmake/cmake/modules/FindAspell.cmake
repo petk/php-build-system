@@ -1,4 +1,6 @@
 #[=============================================================================[
+# FindAspell
+
 Find the GNU Aspell library.
 
 In the past, there was a pspell library, which has been superseded by GNU's

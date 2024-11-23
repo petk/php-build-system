@@ -1,4 +1,6 @@
 #[=============================================================================[
+# FindCdb
+
 Find the cdb library.
 
 Module defines the following `IMPORTED` target(s):

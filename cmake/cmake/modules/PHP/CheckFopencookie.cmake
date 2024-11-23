@@ -1,4 +1,6 @@
 #[=============================================================================[
+# PHP/CheckFopencookie
+
 Check if `fopencookie()` works as expected.
 
 Module first checks if `fopencookie()` and type `cookie_io_functions_t` are

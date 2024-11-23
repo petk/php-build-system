@@ -1,4 +1,6 @@
 #[=============================================================================[
+# PHP/AddCustomCommand
+
 Add custom command.
 
 This module is built on top of the CMake

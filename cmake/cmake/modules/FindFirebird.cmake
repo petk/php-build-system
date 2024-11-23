@@ -1,4 +1,6 @@
 #[=============================================================================[
+# FindFirebird
+
 Find the Firebird library.
 
 Module defines the following `IMPORTED` target(s):

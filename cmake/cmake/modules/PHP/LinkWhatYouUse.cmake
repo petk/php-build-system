@@ -1,4 +1,6 @@
 #[=============================================================================[
+# PHP/LinkWhatYouUse
+
 Check whether to enable `CMAKE_LINK_WHAT_YOU_USE`.
 
 When enabled, warnings are emitted during the build phase for diagnostic

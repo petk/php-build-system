@@ -1,4 +1,6 @@
 #[=============================================================================[
+# PHP/Install
+
 Set the `CMAKE_INSTALL_*` variables inside the `install(CODE|SCRIPT)`.
 
 This is built on top of the CMake's

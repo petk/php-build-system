@@ -1,4 +1,6 @@
 #[=============================================================================[
+# FindCcache
+
 Find the Ccache compiler cache tool for faster compilation times.
 
 ## Result variables

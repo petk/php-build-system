@@ -1,4 +1,6 @@
 #[=============================================================================[
+# FindCclient
+
 Find the IMAP c-client library.
 
 Also called UW-IMAP library was once maintained by the Washington University.

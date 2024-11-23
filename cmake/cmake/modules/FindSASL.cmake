@@ -1,4 +1,6 @@
 #[=============================================================================[
+# FindSASL
+
 Find the SASL library.
 
 Module defines the following `IMPORTED` target(s):
