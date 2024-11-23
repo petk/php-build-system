@@ -40,7 +40,7 @@ Use system default cipher list instead of the hardcoded value for OpenSSL.
 Include Kerberos support for OpenSSL.
 
 Where to find Kerberos installation on the system, can be customized with the
-`Kerberos_ROOT` variable.
+`KERBEROS_ROOT` variable.
 
 Note, that Kerberos support has been removed as of OpenSSL 1.1.0, which makes
 this option deprecated.
