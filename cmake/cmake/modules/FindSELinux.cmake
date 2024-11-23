@@ -1,4 +1,6 @@
 #[=============================================================================[
+# FindSELinux
+
 Find the SELinux library.
 
 Module defines the following `IMPORTED` target(s):

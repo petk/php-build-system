@@ -58,10 +58,10 @@ endif()
 if(ZEND_MAX_EXECUTION_TIMERS AND CMAKE_SYSTEM_NAME MATCHES "^(Linux|FreeBSD)$")
   php_search_libraries(
     timer_create
-    HAVE_TIMER_CREATE
     HEADERS time.h
     LIBRARIES
       rt # Solaris <= 10, older Linux
+    VARIABLE HAVE_TIMER_CREATE
     LIBRARY_VARIABLE libraryForTimerCreate
   )
 

@@ -17,7 +17,7 @@ include(FeatureSummary)
 add_feature_info(
   "ext/reflection"
   ON
-  "Reflection API to introspect PHP code"
+  "reflection API to introspect PHP code"
 )
 
 add_library(php_reflection STATIC)

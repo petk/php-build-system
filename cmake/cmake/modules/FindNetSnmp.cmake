@@ -1,4 +1,6 @@
 #[=============================================================================[
+# FindNetSnmp
+
 Find the Net-SNMP library.
 
 Module defines the following `IMPORTED` target(s):

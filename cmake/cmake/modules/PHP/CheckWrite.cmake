@@ -1,4 +1,6 @@
 #[=============================================================================[
+# PHP/CheckWrite
+
 Check whether writing to stdout works.
 
 ## Cache variables

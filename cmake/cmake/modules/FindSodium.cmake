@@ -1,4 +1,6 @@
 #[=============================================================================[
+# FindSodium
+
 Find the Sodium library (libsodium).
 
 Module defines the following `IMPORTED` target(s):

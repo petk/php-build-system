@@ -19,7 +19,7 @@ include(FeatureSummary)
 add_feature_info(
   "ext/date"
   ON
-  "Date and time"
+  "date and time"
 )
 
 # Check for headers needed by timelib.

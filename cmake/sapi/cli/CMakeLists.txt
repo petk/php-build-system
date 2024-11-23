@@ -32,7 +32,7 @@ option(SAPI_CLI "Enable the CLI SAPI module" ON)
 add_feature_info(
   "sapi/cli"
   SAPI_CLI
-  "Command-line interface SAPI executable"
+  "Command-Line Interpreter/Interface SAPI executable"
 )
 
 cmake_dependent_option(

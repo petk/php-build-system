@@ -1,4 +1,6 @@
 #[=============================================================================[
+# FindArgon2
+
 Find the Argon2 library.
 
 Module defines the following `IMPORTED` target(s):

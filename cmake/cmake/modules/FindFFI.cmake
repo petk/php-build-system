@@ -1,4 +1,6 @@
 #[=============================================================================[
+# FindFFI
+
 Find the FFI library.
 
 Module defines the following `IMPORTED` target(s):

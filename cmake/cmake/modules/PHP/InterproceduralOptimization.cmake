@@ -1,4 +1,6 @@
 #[=============================================================================[
+# PHP/InterproceduralOptimization
+
 Enable interprocedural optimization (IPO), if supported.
 
 Interprocedural optimization adds linker flag `-flto` if it is supported by the

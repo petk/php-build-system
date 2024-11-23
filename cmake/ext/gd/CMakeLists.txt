@@ -88,7 +88,7 @@ option(EXT_GD "Enable the gd extension" OFF)
 add_feature_info(
   "ext/gd"
   EXT_GD
-  "Image processing and graphics draw (GD) support"
+  "image processing and graphics draw (GD) support"
 )
 
 cmake_dependent_option(
@@ -110,7 +110,7 @@ cmake_dependent_option(
 add_feature_info(
   "ext/gd with external GD library"
   EXT_GD_EXTERNAL
-  "Support for external GD library instead of bundled one"
+  "external GD library instead of the bundled one"
 )
 
 cmake_dependent_option(
@@ -124,7 +124,7 @@ cmake_dependent_option(
 add_feature_info(
   "ext/gd AVIF"
   EXT_GD_AVIF
-  "AVIF support for gd extension"
+  "AVIF support"
 )
 
 cmake_dependent_option(
@@ -138,7 +138,7 @@ cmake_dependent_option(
 add_feature_info(
   "ext/gd WebP"
   EXT_GD_WEBP
-  "WebP support for gd extension"
+  "WebP support"
 )
 
 cmake_dependent_option(
@@ -152,7 +152,7 @@ cmake_dependent_option(
 add_feature_info(
   "ext/gd JPEG"
   EXT_GD_JPEG
-  "JPEG support for gd extension"
+  "JPEG support"
 )
 
 cmake_dependent_option(
@@ -166,7 +166,7 @@ cmake_dependent_option(
 add_feature_info(
   "ext/gd XPM"
   EXT_GD_XPM
-  "XPM support for gd extension"
+  "XPM support"
 )
 
 cmake_dependent_option(
@@ -180,7 +180,7 @@ cmake_dependent_option(
 add_feature_info(
   "ext/gd FreeType"
   EXT_GD_FREETYPE
-  "FreeType 2 support for gd extension"
+  "FreeType 2 support"
 )
 
 cmake_dependent_option(
@@ -194,7 +194,7 @@ cmake_dependent_option(
 add_feature_info(
   "ext/gd JIS"
   EXT_GD_JIS
-  "JIS-mapped Japanese font support for gd extension (only for bundled libgd)"
+  "JIS-mapped Japanese font support"
 )
 
 if(NOT EXT_GD)
@@ -291,7 +291,6 @@ if(NOT EXT_GD_EXTERNAL)
 
   php_search_libraries(
     floorf
-    _HAVE_FLOORF
     HEADERS math.h
     LIBRARIES m
     TARGET php_gd PRIVATE

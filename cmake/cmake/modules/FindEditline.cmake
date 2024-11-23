@@ -1,4 +1,6 @@
 #[=============================================================================[
+# FindEditline
+
 Find the Editline library.
 
 Module defines the following `IMPORTED` target(s):

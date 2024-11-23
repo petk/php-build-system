@@ -1,4 +1,6 @@
 #[=============================================================================[
+# FindIntl
+
 Find the Intl library.
 
 Module overrides the upstream CMake `FindIntl` module with few customizations.

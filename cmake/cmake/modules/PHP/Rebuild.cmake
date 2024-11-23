@@ -1,4 +1,6 @@
 #[=============================================================================[
+# PHP/Rebuild
+
 Ensure all project targets are rebuilt as needed.
 
 When PHP is not found on the system, the `php_cli` target is used to generate

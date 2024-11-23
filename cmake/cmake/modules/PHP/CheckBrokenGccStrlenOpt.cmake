@@ -1,4 +1,6 @@
 #[=============================================================================[
+# PHP/CheckBrokenGccStrlenOpt
+
 Early GCC 8 versions shipped with a strlen() optimization bug, so it didn't
 properly handle the `char val[1]` struct hack. Fixed in GCC 8.3. If below check
 is successful the -fno-optimize-strlen compiler flag should be added.

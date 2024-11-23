@@ -33,7 +33,7 @@ option(EXT_XMLWRITER "Enable the xmlwriter extension" ON)
 add_feature_info(
   "ext/xmlwriter"
   EXT_XMLWRITER
-  "Support for libxml xmlWriter API"
+  "support for libxml xmlWriter API"
 )
 
 cmake_dependent_option(

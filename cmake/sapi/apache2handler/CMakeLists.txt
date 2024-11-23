@@ -10,14 +10,22 @@ Configure the `apache2handler` PHP SAPI.
 
 Enable the shared Apache 2 handler SAPI module.
 
-Loadable via Apache's Dynamic Shared Object (DSO) support; If Apache will use
-PHP with one of the threaded Multi-Processing Modules (MPMs), PHP must be
-configured and built with `PHP_THREAD_SAFETY` set to `ON`. Thread safety will
+Loadable via Apache's Dynamic Shared Object (DSO) support. If Apache will use
+PHP together with one of the threaded Multi-Processing Modules (MPMs), PHP must
+be configured and built with `PHP_THREAD_SAFETY` set to `ON`. Thread safety will
 be set automatically during the configuration step, if threaded Apache can be
 discovered on the system.
 
-With `Apache_ROOT` and `Apache_APXS_EXECUTABLE` variables, path where to look
-for the Apache installation on the system can be customized.
+Path where to look for the Apache installation on the system can be customized
+with the `Apache_ROOT` and `Apache_APXS_EXECUTABLE` variables.
+
+For example:
+
+```cmake
+cmake -B php-build -DAPACHE2HANDLER=ON -DAPACHE_ROOT=/opt/apache2
+# or
+cmake -B php-build -DAPACHE2HANDLER=ON -DApache_EXECUTABLE=/opt/apache2/bin/apxs
+```
 #]=============================================================================]
 
 include(FeatureSummary)
@@ -31,7 +39,7 @@ option(
 add_feature_info(
   "sapi/apache2handler"
   SAPI_APACHE2HANDLER
-  "Apache 2 handler SAPI module"
+  "module for Apache HTTP server"
 )
 
 if(NOT SAPI_APACHE2HANDLER)

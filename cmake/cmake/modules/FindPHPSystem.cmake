@@ -1,4 +1,6 @@
 #[=============================================================================[
+# FindPHPSystem
+
 Find external PHP on the system, if installed.
 
 ## Result variables

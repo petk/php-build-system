@@ -1,4 +1,6 @@
 #[=============================================================================[
+# PHP/StandardLibrary
+
 Determine the C standard library used for the build.
 
 ## Result variables

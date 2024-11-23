@@ -3,7 +3,8 @@
 
 Configure the `openssl` extension.
 
-This extension enables using OpenSSL library for encryption and decryption.
+This extension enables encryption and decryption support using the OpenSSL
+library.
 
 ## EXT_OPENSSL
 
@@ -80,7 +81,7 @@ option(EXT_OPENSSL "Enable the openssl extension" OFF)
 add_feature_info(
   "ext/openssl"
   EXT_OPENSSL
-  "OpenSSL library support for encryption and decryption"
+  "encryption and decryption support with OpenSSL library"
 )
 
 cmake_dependent_option(
@@ -103,7 +104,7 @@ mark_as_advanced(EXT_OPENSSL_SYSTEM_CIPHERS)
 add_feature_info(
   "ext/openssl system ciphers"
   EXT_OPENSSL_SYSTEM_CIPHERS
-  "Using system default cipher list instead of hardcoded value for OpenSSL"
+  "using system default cipher list instead of hardcoded value for OpenSSL"
 )
 
 cmake_dependent_option(
@@ -118,7 +119,7 @@ mark_as_advanced(EXT_OPENSSL_ARGON2)
 add_feature_info(
   "ext/openssl Argon2"
   EXT_OPENSSL_ARGON2
-  "Password hashing"
+  "password hashing"
 )
 
 cmake_dependent_option(
@@ -133,7 +134,7 @@ mark_as_advanced(EXT_OPENSSL_LEGACY_PROVIDER)
 add_feature_info(
   "ext/openssl legacy algorithm provider"
   EXT_OPENSSL_LEGACY_PROVIDER
-  "Legacy algorithm provider in addition to default provider will be loaded"
+  "legacy algorithm provider in addition to default provider will be loaded"
 )
 
 if(NOT EXT_OPENSSL)

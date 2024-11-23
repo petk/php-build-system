@@ -3,7 +3,7 @@
 
 Configure the `tokenizer` extension.
 
-This extension provides interface to the PHP tokenizer embedded in the Zend
+This extension provides an interface to the PHP tokenizer embedded in the Zend
 Engine.
 
 ## EXT_TOKENIZER
@@ -35,7 +35,7 @@ option(EXT_TOKENIZER "Enable the tokenizer extension" ON)
 add_feature_info(
   "ext/tokenizer"
   EXT_TOKENIZER
-  "Interface to the PHP tokenizer embedded in the Zend Engine"
+  "interface to the PHP tokenizer embedded in the Zend Engine"
 )
 
 cmake_dependent_option(

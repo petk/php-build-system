@@ -1,4 +1,6 @@
 #[=============================================================================[
+# FindEnchant
+
 Find the Enchant library.
 
 Enchant uses different library names based on the version - `enchant-2` for

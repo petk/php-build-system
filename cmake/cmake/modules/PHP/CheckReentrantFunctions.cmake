@@ -1,4 +1,6 @@
 #[=============================================================================[
+# PHP/CheckReentrantFunctions
+
 Check for reentrant functions and their declarations.
 
 Some systems didn't declare some reentrant functions if `_REENTRANT` was not

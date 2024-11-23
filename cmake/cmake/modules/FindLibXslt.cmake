@@ -1,4 +1,6 @@
 #[=============================================================================[
+# FindLibXslt
+
 Find the XSLT library (LibXslt).
 
 See: https://cmake.org/cmake/help/latest/module/FindLibXslt.html

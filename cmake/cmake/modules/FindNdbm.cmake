@@ -1,4 +1,6 @@
 #[=============================================================================[
+# FindNdbm
+
 Find the ndbm library.
 
 Depending on the system, the nbdm ("new" dbm) can be part of other libraries as

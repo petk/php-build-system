@@ -1,4 +1,6 @@
 #[=============================================================================[
+# FindOniguruma
+
 Find the Oniguruma library.
 
 Module defines the following `IMPORTED` target(s):

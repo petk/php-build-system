@@ -1,4 +1,6 @@
 #[=============================================================================[
+# FindWebP
+
 Find the libwebp library.
 
 Module defines the following `IMPORTED` target(s):

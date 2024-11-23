@@ -38,7 +38,7 @@ include(PHP/CheckCompilerFlag)
 add_feature_info(
   "ext/pcre"
   ON
-  "(Perl-compatible) regular expressions"
+  "Perl-compatible regular expressions"
 )
 
 option(
@@ -51,7 +51,7 @@ option(
 add_feature_info(
   "ext/pcre external library"
   EXT_PCRE_EXTERNAL
-  "Using system PCRE library instead of the bundled library"
+  "using system PCRE library instead of the bundled library"
 )
 
 option(
