@@ -49,7 +49,6 @@ include(PHP/Install)
 ################################################################################
 
 option(SAPI_PHPDBG "Enable the phpdbg SAPI module" ON)
-
 add_feature_info(
   "sapi/phpdbg"
   SAPI_PHPDBG
@@ -63,6 +62,12 @@ cmake_dependent_option(
   "SAPI_PHPDBG"
   OFF
 )
+mark_as_advanced(SAPI_PHPDBG_SHARED)
+add_feature_info(
+  "sapi/phpdbg shared"
+  SAPI_PHPDBG_SHARED
+  "dynamically loadable shared object"
+)
 
 cmake_dependent_option(
   SAPI_PHPDBG_DEBUG
@@ -72,6 +77,11 @@ cmake_dependent_option(
   OFF
 )
 mark_as_advanced(SAPI_PHPDBG_DEBUG)
+add_feature_info(
+  "sapi/phpdbg debug"
+  SAPI_PHPDBG_DEBUG
+  "additional diagnostic output"
+)
 
 cmake_dependent_option(
   SAPI_PHPDBG_READLINE
@@ -194,6 +204,12 @@ if(SAPI_PHPDBG_READLINE OR EXT_READLINE)
 else()
   message(CHECK_FAIL "disabled")
 endif()
+
+add_feature_info(
+  "sapi/phpdbg readline"
+  HAVE_PHPDBG_READLINE
+  "support for better command-line accessibility"
+)
 
 ################################################################################
 # The phpdbg shared library.

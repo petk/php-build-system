@@ -1,4 +1,6 @@
 #[=============================================================================[
+# Packages/LibXml2
+
 Wrapper for finding the `libxml2` library.
 
 Module first tries to find the `libxml2` library on the system. If not

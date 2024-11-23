@@ -1,4 +1,6 @@
 #[=============================================================================[
+# PHP/CheckGetaddrinfo
+
 Check for working `getaddrinfo()`.
 
 ## Cache variables
@@ -24,7 +26,6 @@ message(CHECK_START "Checking for getaddrinfo()")
 # The getaddrinfo() is mostly in C library (Solaris 11.4, illumos...)
 php_search_libraries(
   getaddrinfo
-  _have_getaddrinfo_symbol
   HEADERS
     netdb.h
     ws2tcpip.h

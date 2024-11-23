@@ -33,7 +33,7 @@ option(EXT_SOAP "Enable the soap extension" OFF)
 add_feature_info(
   "ext/soap"
   EXT_SOAP
-  "Support for writing SOAP servers and clients"
+  "support for writing SOAP servers and clients"
 )
 
 cmake_dependent_option(

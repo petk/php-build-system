@@ -1,4 +1,6 @@
 #[=============================================================================[
+# FindMySQL
+
 Find MySQL-compatible (MySQL, MariaDB, Percona, etc.) database.
 
 This is customized find module for PHP mysqli and pdo_mysql extensions. It

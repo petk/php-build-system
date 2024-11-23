@@ -34,7 +34,7 @@ option(EXT_ZIP "Enable the zip extension" OFF)
 add_feature_info(
   "ext/zip"
   EXT_ZIP
-  "Support for reading and writing ZIP compressed archives"
+  "support for reading and writing ZIP compressed archives"
 )
 
 cmake_dependent_option(

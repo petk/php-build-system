@@ -3,7 +3,8 @@
 
 Configure the `openssl` extension.
 
-This extension enables using OpenSSL library for encryption and decryption.
+This extension enables encryption and decryption support using the OpenSSL
+library.
 
 ## EXT_OPENSSL
 
@@ -60,7 +61,7 @@ option(EXT_OPENSSL "Enable the openssl extension" OFF)
 add_feature_info(
   "ext/openssl"
   EXT_OPENSSL
-  "OpenSSL library support for encryption and decryption"
+  "encryption and decryption support with OpenSSL library"
 )
 
 cmake_dependent_option(
@@ -73,7 +74,8 @@ cmake_dependent_option(
 
 cmake_dependent_option(
   EXT_OPENSSL_KERBEROS
-  "Include Kerberos support for OpenSSL"
+  "Include Kerberos support for OpenSSL. Deprecated. Kerberos support has been\
+  removed as of OpenSSL 1.1.0."
   OFF
   "EXT_OPENSSL"
   OFF
@@ -83,8 +85,7 @@ mark_as_advanced(EXT_OPENSSL_KERBEROS)
 add_feature_info(
   "ext/openssl Kerberos"
   EXT_OPENSSL_KERBEROS
-  "Using OpenSSL library built with Kerberos enabled. Deprecated. Kerberos\
-  support has been removed as of OpenSSL 1.1.0."
+  "OpenSSL library built with Kerberos enabled"
 )
 
 cmake_dependent_option(
@@ -99,7 +100,7 @@ mark_as_advanced(EXT_OPENSSL_SYSTEM_CIPHERS)
 add_feature_info(
   "ext/openssl system ciphers"
   EXT_OPENSSL_SYSTEM_CIPHERS
-  "Using system default cipher list instead of hardcoded value for OpenSSL"
+  "using system default cipher list instead of hardcoded value for OpenSSL"
 )
 
 set(HAVE_OPENSSL_EXT "/* #undef HAVE_OPENSSL_EXT */")

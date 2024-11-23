@@ -1,4 +1,6 @@
 #[=============================================================================[
+# FindKerberos
+
 Find the Kerberos library.
 
 ## Components

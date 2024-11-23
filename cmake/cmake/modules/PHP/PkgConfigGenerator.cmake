@@ -1,4 +1,6 @@
 #[=============================================================================[
+# PHP/PkgConfigGenerator
+
 Generate pkg-config .pc file.
 
 CMake at the time of writing doesn't provide a solution to generate pkg-config

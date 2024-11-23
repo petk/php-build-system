@@ -33,7 +33,7 @@ option(EXT_PDO_OCI "Enable the pdo_oci extension" OFF)
 add_feature_info(
   "ext/pdo_oci"
   EXT_PDO_OCI
-  "Oracle database support in PDO (PHP Data Objects) interface"
+  "Oracle database support in PDO (PHP Data Objects)"
 )
 
 cmake_dependent_option(

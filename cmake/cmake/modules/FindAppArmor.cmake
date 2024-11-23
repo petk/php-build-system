@@ -1,4 +1,6 @@
 #[=============================================================================[
+# FindAppArmor
+
 Find the AppArmor library.
 
 Module defines the following `IMPORTED` target(s):

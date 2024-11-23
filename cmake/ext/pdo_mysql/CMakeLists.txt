@@ -49,7 +49,7 @@ option(EXT_PDO_MYSQL "Enable the pdo_mysql extension" OFF)
 add_feature_info(
   "ext/pdo_mysql"
   EXT_PDO_MYSQL
-  "MySQL-compatible database support in PDO (PHP Data Objects) interface"
+  "MySQL-compatible database support in PDO (PHP Data Objects)"
 )
 
 cmake_dependent_option(

@@ -34,7 +34,7 @@ option(EXT_ZLIB "Enable the zlib extension" OFF)
 add_feature_info(
   "ext/zlib"
   EXT_ZLIB
-  "Support for reading and writing gzip (.gz) compressed files"
+  "support for reading and writing gzip (.gz) compressed files"
 )
 
 cmake_dependent_option(

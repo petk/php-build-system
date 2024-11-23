@@ -45,7 +45,7 @@ option(EXT_STANDARD_ARGON2 "Include the Argon2 support in password_*" OFF)
 add_feature_info(
   "ext/standard Argon2"
   EXT_STANDARD_ARGON2
-  "Support for Argon2 hashing in password_*() PHP functions"
+  "Argon2 hashing support in password_*() PHP functions"
 )
 
 option(EXT_STANDARD_EXTERNAL_LIBCRYPT "Use external libcrypt or libxcrypt" OFF)
@@ -53,7 +53,7 @@ option(EXT_STANDARD_EXTERNAL_LIBCRYPT "Use external libcrypt or libxcrypt" OFF)
 add_feature_info(
   "External librcypt"
   EXT_STANDARD_EXTERNAL_LIBCRYPT
-  "External libcrypt or libxcrypt library"
+  "external libcrypt or libxcrypt library instead of the crypt bundled in PHP"
 )
 
 ################################################################################
@@ -352,11 +352,11 @@ endif()
 # The getifaddrs() is available in C library some systems (Solaris 11.4...)
 php_search_libraries(
   getifaddrs
-  _HAVE_GETIFADDRS
   HEADERS ifaddrs.h
   LIBRARIES
     socket  # Solaris 11..11.3, illumos
     network # Haiku
+  VARIABLE _HAVE_GETIFADDRS
   LIBRARY_VARIABLE libraryForGetifaddrs
   TARGET php_standard PRIVATE
 )
@@ -403,23 +403,23 @@ endif()
 # HAVE_FULL_DNS_FUNCS.
 php_search_libraries(
   dn_expand
-  HAVE_DN_EXPAND
   HEADERS
     netinet/in.h # BSD-based systems (FreeBSD<=13) need it for resolv.h to work.
     resolv.h
   LIBRARIES
     resolv # Solaris/illumos
+  VARIABLE HAVE_DN_EXPAND
   TARGET php_standard PRIVATE
 )
 
 php_search_libraries(
   dn_skipname
-  HAVE_DN_SKIPNAME
   HEADERS
     netinet/in.h # BSD-based systems (FreeBSD<=13) need it for resolv.h to work.
     resolv.h
   LIBRARIES
     resolv # Solaris/illumos
+  VARIABLE HAVE_DN_SKIPNAME
   TARGET php_standard PRIVATE
 )
 
@@ -428,7 +428,6 @@ php_search_libraries(
 # library needs to be linked on macOS.
 php_search_libraries(
   res_9_dn_skipname
-  _HAVE_RES_9_DN_SKIPNAME
   HEADERS
     resolv.h
   LIBRARIES
@@ -438,47 +437,47 @@ php_search_libraries(
 
 php_search_libraries(
   dns_search
-  HAVE_DNS_SEARCH
   HEADERS
     netinet/in.h # BSD-based systems (FreeBSD<=13) need it for resolv.h to work.
     resolv.h
     dns.h        # macOS
   LIBRARIES
     resolv # Solaris/illumos, macOS
+  VARIABLE HAVE_DNS_SEARCH
   TARGET php_standard PRIVATE
 )
 
 php_search_libraries(
   res_ndestroy
-  HAVE_RES_NDESTROY
   HEADERS
     netinet/in.h # BSD-based systems (FreeBSD<=13) need it for resolv.h to work.
     resolv.h
   LIBRARIES
     resolv # Solaris/illumos
+  VARIABLE HAVE_RES_NDESTROY
   TARGET php_standard PRIVATE
 )
 
 php_search_libraries(
   res_nsearch
-  HAVE_RES_NSEARCH
   HEADERS
     netinet/in.h # BSD-based systems (FreeBSD<=13) need it for resolv.h to work.
     resolv.h
   LIBRARIES
     resolv # Solaris/illumos
+  VARIABLE HAVE_RES_NSEARCH
   TARGET php_standard PRIVATE
 )
 
 # res_search() is deprecated and should be replaced with res_nsearch().
 php_search_libraries(
   res_search
-  HAVE_RES_SEARCH
   HEADERS
     netinet/in.h # BSD-based systems (FreeBSD<=13) need it for resolv.h to work.
     resolv.h
   LIBRARIES
     resolv # Solaris/illumos
+  VARIABLE HAVE_RES_SEARCH
   TARGET php_standard PRIVATE
 )
 
