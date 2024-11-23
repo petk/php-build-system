@@ -17,8 +17,8 @@ New configuration variables:
 
 Removed configuration variables:
 
-* Aspell_ROOT
-* Cclient_ROOT
+* ASPELL_ROOT
+* CCLIENT_ROOT
 * EXT_DBA_GDBM
 * EXT_IMAP
 * EXT_IMAP_KERBEROS
@@ -32,8 +32,8 @@ Removed configuration variables:
 * EXT_PSPELL_SHARED
 * EXT_READLINE_LIBREADLINE
 * GDBM_ROOT
-* Kerberos_ROOT
-* Readline_ROOT
+* KERBEROS_ROOT
+* READLINE_ROOT
 
 ## PHP 8.3
 

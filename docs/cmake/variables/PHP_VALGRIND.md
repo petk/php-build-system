@@ -6,4 +6,4 @@
 Enable Valgrind for dynamic analysis.
 
 Where to find Valgrind installation on the system, can be customized with the
-`Valgrind_ROOT` variable.
+`VALGRIND_ROOT` variable.

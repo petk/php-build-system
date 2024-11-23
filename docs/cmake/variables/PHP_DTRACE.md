@@ -5,5 +5,5 @@
 
 Enable DTrace support for performance analysis and troubleshooting.
 
-Where to find DTrace installation, can be customized with the `DTrace_ROOT`
+Where to find DTrace installation, can be customized with the `DTRACE_ROOT`
 variable.

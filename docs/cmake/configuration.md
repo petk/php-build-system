@@ -47,13 +47,13 @@ installation of a library, there are two main options to consider:
   cmake -DCMAKE_PREFIX_PATH="/path/to/libiconv;/path/to/sqlite3" -S php-src -B php-build
   ```
 
-* `<PackageName>_ROOT` variables
+* `<PACKAGENAME>_ROOT` variables
 
   Path where to look for `PackageName`, when calling the
   `find_package(<PackageName> ...)` command.
 
   ```sh
-  cmake -DIconv_ROOT=/path/to/libiconv -DSQLite3_ROOT=/path/to/sqlite3 -S php-src -B php-build
+  cmake -DICONV_ROOT=/path/to/libiconv -DSQLITE3_ROOT=/path/to/sqlite3 -S php-src -B php-build
   ```
 
 ## 1. CMake presets
@@ -488,7 +488,7 @@ A list of Autoconf `configure` command-line configuration options, Windows
       <td>N/A</td>
       <td>
         PHP_DTRACE=ON<br>
-        [DTrace_ROOT=DIR]
+        [DTRACE_ROOT=DIR]
       </td>
       <td></td>
     </tr>
@@ -519,7 +519,7 @@ A list of Autoconf `configure` command-line configuration options, Windows
       <td>N/A</td>
       <td>
         PHP_VALGRIND=ON<br>
-        [Valgrind_ROOT=DIR]
+        [VALGRIND_ROOT=DIR]
       </td>
       <td></td>
     </tr>
@@ -594,7 +594,7 @@ A list of Autoconf `configure` command-line configuration options, Windows
       <td>N/A</td>
       <td>
         PHP_DMALLOC=ON<br>
-        [Dmalloc_ROOT=DIR]
+        [DMALLOC_ROOT=DIR]
       </td>
       <td></td>
     </tr>
@@ -633,7 +633,7 @@ A list of Autoconf `configure` command-line configuration options, Windows
       <td>N/A</td>
       <td>
         PHP_GCOV=ON<br>
-        [Gcov_ROOT=DIR]
+        [GCOV_ROOT=DIR]
       </td>
       <td></td>
     </tr>
@@ -755,7 +755,7 @@ A list of Autoconf `configure` command-line configuration options, Windows
       </td>
       <td>
         SAPI_APACHE2HANDLER=ON<br>
-        [Apache_ROOT=PATH_TO_APACHE]<br>
+        [APACHE_ROOT=PATH_TO_APACHE]<br>
         [Apache_APXS_EXECUTABLE=PATH_TO_APXS]
       </td>
       <td></td>
@@ -889,7 +889,7 @@ A list of Autoconf `configure` command-line configuration options, Windows
       <td>N/A</td>
       <td>
         SAPI_FPM_SYSTEMD=ON<br>
-        [Systemd_ROOT=DIR]
+        [SYSTEMD_ROOT=DIR]
       </td>
       <td></td>
     </tr>
@@ -919,7 +919,7 @@ A list of Autoconf `configure` command-line configuration options, Windows
       <td>N/A</td>
       <td>
         SAPI_FPM_APPARMOR=ON<br>
-        [AppArmor_ROOT=DIR]
+        [APPARMOR_ROOT=DIR]
       </td>
       <td></td>
     </tr>
@@ -934,7 +934,7 @@ A list of Autoconf `configure` command-line configuration options, Windows
       <td>N/A</td>
       <td>
         SAPI_FPM_SELINUX=ON<br>
-        [SELinux_ROOT=DIR]
+        [SELINUX_ROOT=DIR]
       </td>
       <td></td>
     </tr>
@@ -1045,7 +1045,7 @@ A list of Autoconf `configure` command-line configuration options, Windows
       <td>--with-bz2</td>
       <td>
         EXT_BZ2=ON<br>
-        [BZip2_ROOT=DIR]
+        [BZIP2_ROOT=DIR]
       </td>
       <td></td>
     </tr>
@@ -1218,7 +1218,7 @@ A list of Autoconf `configure` command-line configuration options, Windows
       <td>N/A</td>
       <td>
         EXT_DBA_NDBM=ON<br>
-        [Ndbm_ROOT=DIR]
+        [NDBM_ROOT=DIR]
       </td>
       <td></td>
     </tr>
@@ -1233,7 +1233,7 @@ A list of Autoconf `configure` command-line configuration options, Windows
       <td>N/A</td>
       <td>
         EXT_DBA_DB=ON<br>
-        [BerkeleyDB_ROOT=DIR]
+        [BERKELEYDB_ROOT=DIR]
       </td>
       <td></td>
     </tr>
@@ -1248,7 +1248,7 @@ A list of Autoconf `configure` command-line configuration options, Windows
       <td>--with-db</td>
       <td>
         EXT_DBA_DB=ON<br>
-        [BerkeleyDB_ROOT=DIR]
+        [BERKELEYDB_ROOT=DIR]
       </td>
       <td></td>
     </tr>
@@ -1263,7 +1263,7 @@ A list of Autoconf `configure` command-line configuration options, Windows
       <td>N/A</td>
       <td>
         EXT_DBA_DB=ON<br>
-        [BerkeleyDB_ROOT=DIR]
+        [BERKELEYDB_ROOT=DIR]
       </td>
       <td></td>
     </tr>
@@ -1279,7 +1279,7 @@ A list of Autoconf `configure` command-line configuration options, Windows
       <td>
         EXT_DBA_DB1=ON<br>
         EXT_DBA_DB=ON<br>
-        [BerkeleyDB_ROOT=DIR]
+        [BERKELEYDB_ROOT=DIR]
       </td>
       <td></td>
     </tr>
@@ -1294,7 +1294,7 @@ A list of Autoconf `configure` command-line configuration options, Windows
       <td>N/A</td>
       <td>
         EXT_DBA_DBM=ON<br>
-        [Dbm_ROOT=DIR]
+        [DBM_ROOT=DIR]
       </td>
       <td></td>
     </tr>
@@ -1324,7 +1324,7 @@ A list of Autoconf `configure` command-line configuration options, Windows
       <td>N/A</td>
       <td>
         EXT_DBA_TCADB=ON<br>
-        [TokyoCabinet_ROOT=DIR]
+        [TOKYOCABINET_ROOT=DIR]
       </td>
       <td></td>
     </tr>
@@ -1339,7 +1339,7 @@ A list of Autoconf `configure` command-line configuration options, Windows
       <td>N/A</td>
       <td>
         EXT_DBA_CDB_EXTERNAL=ON<br>
-        [Cdb_ROOT=DIR]
+        [CDB_ROOT=DIR]
       </td>
       <td></td>
     </tr>
@@ -1402,7 +1402,7 @@ A list of Autoconf `configure` command-line configuration options, Windows
       <td>--with-enchant</td>
       <td>
         EXT_ENCHANT=ON<br>
-        [Enchant_ROOT=DIR]
+        [ENCHANT_ROOT=DIR]
       </td>
       <td></td>
     </tr>
@@ -1585,7 +1585,7 @@ A list of Autoconf `configure` command-line configuration options, Windows
       <td>--with-libavif</td>
       <td>
         EXT_GD_AVIF=ON<br>
-        [libavif_ROOT=DIR]
+        [LIBAVIF_ROOT=DIR]
       </td>
       <td>default in JScript Windows</td>
     </tr>
@@ -1604,7 +1604,7 @@ A list of Autoconf `configure` command-line configuration options, Windows
       <td>--with-libwebp</td>
       <td>
         EXT_GD_WEBP=ON<br>
-        [WebP_ROOT=DIR]
+        [WEBP_ROOT=DIR]
       </td>
       <td>default in JScript Windows</td>
     </tr>
@@ -1672,7 +1672,7 @@ A list of Autoconf `configure` command-line configuration options, Windows
       <td>N/A</td>
       <td>
         EXT_GD_FREETYPE=ON<br>
-        [Freetype_ROOT=DIR]
+        [FREETYPE_ROOT=DIR]
       </td>
       <td></td>
     </tr>
@@ -1699,7 +1699,7 @@ A list of Autoconf `configure` command-line configuration options, Windows
       <td>--with-gettext</td>
       <td>
         EXT_GETTEXT=ON<br>
-        [Intl_ROOT=DIR]
+        [INTL_ROOT=DIR]
       </td>
       <td></td>
     </tr>
@@ -1747,7 +1747,7 @@ A list of Autoconf `configure` command-line configuration options, Windows
       <td>--with-iconv</td>
       <td>
         EXT_ICONV=ON<br>
-        [Iconv_ROOT=DIR]
+        [ICONV_ROOT=DIR]
       </td>
       <td>default</td>
     </tr>
@@ -1774,7 +1774,7 @@ A list of Autoconf `configure` command-line configuration options, Windows
       <td>--with-imap</td>
       <td>
         EXT_IMAP=ON<br>
-        [Cclient_ROOT=DIR]
+        [CCLIENT_ROOT=DIR]
       </td>
       <td></td>
     </tr>
@@ -1793,7 +1793,7 @@ A list of Autoconf `configure` command-line configuration options, Windows
       <td>N/A</td>
       <td>
         EXT_IMAP_KERBEROS=ON<br>
-        [Kerberos_ROOT=...]
+        [KERBEROS_ROOT=...]
       </td>
       <td></td>
     </tr>
@@ -1892,7 +1892,7 @@ A list of Autoconf `configure` command-line configuration options, Windows
       <td>--with-libxml</td>
       <td>
         EXT_LIBXML=ON<br>
-        [LibXml2_ROOT=DIR]
+        [LIBXML2_ROOT=DIR]
       </td>
       <td>default</td>
     </tr>
@@ -1929,7 +1929,7 @@ A list of Autoconf `configure` command-line configuration options, Windows
       <td>--enable-mbregex</td>
       <td>
         EXT_MBSTRING_MBREGEX=ON<br>
-        [Oniguruma_ROOT=DIR]
+        [ONIGURUMA_ROOT=DIR]
       </td>
       <td>default in *nix and CMake (on Windows disabled)</td>
     </tr>
@@ -2348,7 +2348,7 @@ A list of Autoconf `configure` command-line configuration options, Windows
       <td>N/A</td>
       <td>
         EXT_OPCACHE_CAPSTONE=ON<br>
-        [Capstone_ROOT=DIR]
+        [CAPSTONE_ROOT=DIR]
       </td>
       <td>For non-Windows platforms</td>
     </tr>
@@ -2416,7 +2416,7 @@ A list of Autoconf `configure` command-line configuration options, Windows
       <td>N/A</td>
       <td>
         EXT_OPENSSL_KERBEROS=ON<br>
-        [Kerberos_ROOT=DIR]
+        [KERBEROS_ROOT=DIR]
       </td>
       <td>PHP <= 8.3</td>
     </tr>
@@ -2512,7 +2512,7 @@ A list of Autoconf `configure` command-line configuration options, Windows
       <td>--with-pdo-dblib</td>
       <td>
         EXT_PDO_DBLIB=ON<br>
-        [FreeTDS_ROOT=DIR]
+        [FREETDS_ROOT=DIR]
       </td>
       <td></td>
     </tr>
@@ -2551,7 +2551,7 @@ A list of Autoconf `configure` command-line configuration options, Windows
       <td>--with-pdo-firebird</td>
       <td>
         EXT_PDO_FIREBIRD=ON<br>
-        [Firebird_ROOT=DIR]
+        [FIREBIRD_ROOT=DIR]
       </td>
       <td></td>
     </tr>
@@ -2600,7 +2600,7 @@ A list of Autoconf `configure` command-line configuration options, Windows
       <td>
         EXT_PDO_MYSQL=ON<br>
         EXT_PDO_MYSQL_DRIVER=mysql<br>
-        MySQL_ROOT=DIR
+        MYSQL_ROOT=DIR
       </td>
       <td></td>
     </tr>
@@ -2686,7 +2686,7 @@ A list of Autoconf `configure` command-line configuration options, Windows
       <td>--with-pdo-pgsql</td>
       <td>
         EXT_PDO_PGSQL=ON<br>
-        [PostgreSQL_ROOT=DIR]
+        [POSTGRESQL_ROOT=DIR]
       </td>
       <td>Autotools PGSQL_CFLAGS and PGSQL_LIBS available since PHP >= 8.4</td>
     </tr>
@@ -2705,7 +2705,7 @@ A list of Autoconf `configure` command-line configuration options, Windows
       <td>--with-pdo-sqlite</td>
       <td>
         EXT_PDO_SQLITE=ON<br>
-        [SQLite3_ROOT=DIR]
+        [SQLITE3_ROOT=DIR]
       </td>
       <td>default in *nix and CMake (on Windows disabled by default)</td>
     </tr>
@@ -2736,7 +2736,7 @@ A list of Autoconf `configure` command-line configuration options, Windows
       <td>--with-pgsql</td>
       <td>
         EXT_PGSQL=ON<br>
-        [PostgreSQL_ROOT=DIR]
+        [POSTGRESQL_ROOT=DIR]
       </td>
       <td>Autotools PGSQL_CFLAGS and PGSQL_LIBS available since PHP >= 8.4</td>
     </tr>
@@ -2811,7 +2811,7 @@ A list of Autoconf `configure` command-line configuration options, Windows
       <td>--with-pspell</td>
       <td>
         EXT_PSPELL=ON<br>
-        [Aspell_ROOT=DIR]
+        [ASPELL_ROOT=DIR]
       </td>
       <td></td>
     </tr>
@@ -2836,7 +2836,7 @@ A list of Autoconf `configure` command-line configuration options, Windows
       <td>--with-readline</td>
       <td>
         EXT_READLINE=ON<br>
-        [Editline_ROOT=DIR]
+        [EDITLINE_ROOT=DIR]
       </td>
       <td></td>
     </tr>
@@ -2858,7 +2858,7 @@ A list of Autoconf `configure` command-line configuration options, Windows
       <td>
         EXT_READLINE=ON<br>
         EXT_READLINE_LIBREADLINE=ON <i>(PHP &lt;= 8.3)</i><br>
-        [Readline_ROOT=DIR] <i>(PHP &lt;= 8.3)</i>
+        [READLINE_ROOT=DIR] <i>(PHP &lt;= 8.3)</i>
       </td>
       <td></td>
     </tr>
@@ -2952,7 +2952,7 @@ A list of Autoconf `configure` command-line configuration options, Windows
       <td>--with-snmp[=DIR]</td>
       <td>
         EXT_SNMP=ON<br>
-        [NetSnmp_ROOT=DIR]
+        [NETSNMP_ROOT=DIR]
       </td>
       <td></td>
     </tr>
@@ -3013,7 +3013,7 @@ A list of Autoconf `configure` command-line configuration options, Windows
       <td>--with-sodium</td>
       <td>
         EXT_SODIUM=ON<br>
-        [Sodium_ROOT=DIR]
+        [SODIUM_ROOT=DIR]
       </td>
       <td></td>
     </tr>
@@ -3032,7 +3032,7 @@ A list of Autoconf `configure` command-line configuration options, Windows
       <td>--with-sqlite3</td>
       <td>
         EXT_SQLITE3=ON<br>
-        [SQLite3_ROOT=DIR]
+        [SQLITE3_ROOT=DIR]
       </td>
       <td>default in *nix and CMake (on Windows disabled by default)</td>
     </tr>
@@ -3075,7 +3075,7 @@ A list of Autoconf `configure` command-line configuration options, Windows
       <td>--with-password-argon2</td>
       <td>
         EXT_STANDARD_ARGON2=ON<br>
-        [Argon2_ROOT=DIR]
+        [ARGON2_ROOT=DIR]
       </td>
       <td></td>
     </tr>
@@ -3144,7 +3144,7 @@ A list of Autoconf `configure` command-line configuration options, Windows
       <td>--with-tidy</td>
       <td>
         EXT_TIDY=ON<br>
-        [Tidy_ROOT=DIR]
+        [TIDY_ROOT=DIR]
       </td>
       <td></td>
     </tr>
@@ -3262,7 +3262,7 @@ A list of Autoconf `configure` command-line configuration options, Windows
       <td>--with-xsl</td>
       <td>
         EXT_XSL=ON<br>
-        [LibXslt_ROOT=DIR]<br>
+        [LIBXSLT_ROOT=DIR]<br>
         [CMAKE_PREFIX_PATH=DIR]
       </td>
       <td></td>
@@ -3306,7 +3306,7 @@ A list of Autoconf `configure` command-line configuration options, Windows
       <td>--enable-zip</td>
       <td>
         EXT_ZIP=ON<br>
-        libzip_ROOT=DIR
+        LIBZIP_ROOT=DIR
       </td>
       <td></td>
     </tr>
