@@ -17,7 +17,7 @@ be set automatically during the configuration step, if threaded Apache can be
 discovered on the system.
 
 Path where to look for the Apache installation on the system can be customized
-with the `Apache_ROOT` and `Apache_APXS_EXECUTABLE` variables.
+with the `APACHE_ROOT` and `Apache_APXS_EXECUTABLE` variables.
 
 For example:
 

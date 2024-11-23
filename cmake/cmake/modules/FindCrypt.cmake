@@ -41,7 +41,7 @@ set_package_properties(
 ################################################################################
 # Disable built-in Crypt when overriding search paths in FindCrypt.
 ################################################################################
-if(CMAKE_PREFIX_PATH OR Crypt_ROOT)
+if(CMAKE_PREFIX_PATH OR Crypt_ROOT OR CRYPT_ROOT)
   find_path(
     _Crypt_INCLUDE_DIR
     NAMES
@@ -49,6 +49,7 @@ if(CMAKE_PREFIX_PATH OR Crypt_ROOT)
     PATHS
       ${CMAKE_PREFIX_PATH}
       ${Crypt_ROOT}
+      ${CRYPT_ROOT}
     PATH_SUFFIXES
       include
     NO_DEFAULT_PATH

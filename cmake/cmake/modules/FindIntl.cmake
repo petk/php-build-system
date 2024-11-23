@@ -5,7 +5,7 @@ Find the Intl library.
 
 Module overrides the upstream CMake `FindIntl` module with few customizations.
 
-Enables finding Intl library with `Intl_ROOT` hint variable.
+Enables finding Intl library with `INTL_ROOT` hint variable.
 
 See: https://cmake.org/cmake/help/latest/module/FindIntl.html
 #]=============================================================================]
@@ -19,13 +19,14 @@ set_package_properties(
 )
 
 # Disable built-in intl when overriding search paths in CMake's FindIntl.
-if(CMAKE_PREFIX_PATH OR Intl_ROOT)
+if(CMAKE_PREFIX_PATH OR Intl_ROOT OR INTL_ROOT)
   find_path(
     php_intl_INCLUDE_DIR
     NAMES libintl.h
     PATHS
       ${CMAKE_PREFIX_PATH}
       ${Intl_ROOT}
+      ${INTL_ROOT}
     PATH_SUFFIXES
       include
     NO_DEFAULT_PATH

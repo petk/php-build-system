@@ -38,4 +38,4 @@ through arrow keys. Requires the Editline library. If the PHP extension
 automatically enabled regardless of this option.
 
 Where to find the Editline installation on the system, can be customized with
-the `Editline_ROOT` variable.
+the `EDITLINE_ROOT` variable.

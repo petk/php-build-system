@@ -29,5 +29,5 @@ Build extension as shared library.
 Select the MySQL driver for the `pdo_mysql` extension.
 
 The `mysql` driver uses system MySQL library. Where to find the MySQL library
-installation on the system, can be customized with the `MySQL_ROOT` and
+installation on the system, can be customized with the `MYSQL_ROOT` and
 `MySQL_CONFIG_EXECUTABLE` variables.

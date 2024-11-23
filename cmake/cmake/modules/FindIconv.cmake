@@ -22,7 +22,7 @@ set_package_properties(
 
 # Adjustment when overriding the iconv library path, otherwise Iconv is first
 # searched in C library.
-if(CMAKE_PREFIX_PATH OR Iconv_ROOT)
+if(CMAKE_PREFIX_PATH OR Iconv_ROOT OR ICONV_ROOT)
   if(CMAKE_VERSION VERSION_GREATER_EQUAL 3.31)
     set(Iconv_IS_BUILT_IN FALSE)
   else()
@@ -32,6 +32,7 @@ if(CMAKE_PREFIX_PATH OR Iconv_ROOT)
       PATHS
         ${CMAKE_PREFIX_PATH}
         ${Iconv_ROOT}
+        ${ICONV_ROOT}
       PATH_SUFFIXES
         # GNU libiconv on Alpine Linux has header located on a special location:
         include/gnu-libiconv
