@@ -62,6 +62,12 @@ cmake_dependent_option(
   "SAPI_PHPDBG"
   OFF
 )
+mark_as_advanced(SAPI_PHPDBG_SHARED)
+add_feature_info(
+  "sapi/phpdbg shared"
+  SAPI_PHPDBG_SHARED
+  "dynamically loadable shared object"
+)
 
 cmake_dependent_option(
   SAPI_PHPDBG_DEBUG
@@ -72,9 +78,9 @@ cmake_dependent_option(
 )
 mark_as_advanced(SAPI_PHPDBG_DEBUG)
 add_feature_info(
-  "sapi/phpdbg shared"
-  SAPI_PHPDBG
-  "dynamically loadable shared object"
+  "sapi/phpdbg debug"
+  SAPI_PHPDBG_DEBUG
+  "additional diagnostic output"
 )
 
 cmake_dependent_option(
@@ -87,7 +93,7 @@ cmake_dependent_option(
 mark_as_advanced(SAPI_PHPDBG_READLINE)
 add_feature_info(
   "sapi/phpdbg readline"
-  SAPI_PHPDBG
+  SAPI_PHPDBG_READLINE
   "support for better command-line accessibility"
 )
 
