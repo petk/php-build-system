@@ -3,7 +3,14 @@
 
 # FindDTrace
 
-Find DTrace.
+DTrace (Dynamic Tracing), a comprehensive tracing framework originally developed
+by Sun Microsystems for troubleshooting and performance analysis on Unix-like
+systems. While the name "DTrace" is associated with the original implementation
+(now maintained by the DTrace.org community), there are other compatible
+implementations such as SystemTap, which is widely used on Linux systems.
+
+This CMake module specifically detects and uses the SystemTap implementation of
+DTrace.
 
 Module defines the following `IMPORTED` target(s):
 
