@@ -1,7 +1,11 @@
 #[=============================================================================[
-# FindDtrace
+# FindDTrace
 
 Find DTrace.
+
+Module defines the following `IMPORTED` target(s):
+
+* `DTrace::DTrace` - The package library, if found.
 
 ## Result variables
 
@@ -11,7 +15,6 @@ Find DTrace.
 
 * `DTrace_INCLUDE_DIR` - Directory containing DTrace library headers.
 * `DTrace_EXECUTABLE` - Path to the DTrace command-line utility.
-* `HAVE_DTRACE` - Whether DTrace support is enabled.
 
 ## Functions provided by this module
 
@@ -19,7 +22,7 @@ Module defines the following function to initialize the DTrace support.
 
 ```cmake
 dtrace_target(
-  TARGET <target-name>
+  <target-name>
   INPUT <input>
   HEADER <header>
   SOURCES <source>...
@@ -27,12 +30,37 @@ dtrace_target(
 )
 ```
 
-* `TARGET` - Target name to append the generated DTrace probe definition object
-  file.
-* `INPUT` - Name of the file with DTrace probe descriptions.
-* `HEADER` - Name of the DTrace probe header file.
-* `SOURCES` - A list of project source files to build DTrace object.
+Generates DTrace header `<header>` and creates `INTERFACE` library
+`<target-name>` with probe definition object file added as INTERFACE source.
+
+* `<target-name>` - DTrace INTERFACE library with the generated DTrace probe
+  definition object file.
+* `INPUT` - Name of the file with DTrace probe descriptions. Relative path is
+  interpreted as being relative to the current source directory.
+* `HEADER` - Name of the DTrace probe header file to be generated. Relative path
+  is interpreted as being relative to the current binary directory.
+* `SOURCES` - A list of source files to build DTrace object. Relative paths are
+  interpreted as being relative to the current source directory.
 * `INCLUDES` - A list of include directories for appending to DTrace object.
+
+## Basic usage
+
+```cmake
+# CMakeLists.txt
+
+find_package(DTrace)
+
+dtrace_target(
+  foo_dtrace
+  INPUT foo_dtrace.d
+  HEADER foo_dtrace_generated.h
+  SOURCES foo.c ...
+)
+target_link_libraries(foo PRIVATE DTrace::DTrace)
+
+add_executable(bar)
+target_link_libraries(bar PRIVATE foo_dtrace)
+```
 #]=============================================================================]
 
 include(FeatureSummary)
@@ -84,15 +112,23 @@ if(NOT DTrace_FOUND)
   return()
 endif()
 
-set(HAVE_DTRACE 1 CACHE INTERNAL "Whether to enable DTrace support")
+if(NOT TARGET DTrace::DTrace)
+  add_library(DTrace::DTrace INTERFACE IMPORTED)
+  set_target_properties(
+    DTrace::DTrace
+    PROPERTIES
+      INTERFACE_INCLUDE_DIRECTORIES ${DTrace_INCLUDE_DIR}
+  )
+endif()
 
 function(dtrace_target)
   cmake_parse_arguments(
-    parsed                # prefix
-    ""                    # options
-    "TARGET;INPUT;HEADER" # one-value keywords
-    "SOURCES;INCLUDES"    # multi-value keywords
-    ${ARGN}               # strings to parse
+    PARSE_ARGV
+    1
+    parsed             # prefix
+    ""                 # options
+    "INPUT;HEADER"     # one-value keywords
+    "SOURCES;INCLUDES" # multi-value keywords
   )
 
   if(parsed_UNPARSED_ARGUMENTS)
@@ -103,12 +139,8 @@ function(dtrace_target)
     message(FATAL_ERROR "Missing values for: ${parsed_KEYWORDS_MISSING_VALUES}")
   endif()
 
-  if(NOT parsed_TARGET)
+  if(NOT ARGV0)
     message(FATAL_ERROR "dtrace_target expects a target name")
-  endif()
-
-  if(NOT TARGET ${parsed_TARGET})
-    message(FATAL_ERROR "dtrace_target: ${parsed_TARGET} is not a target")
   endif()
 
   if(NOT parsed_INPUT)
@@ -123,64 +155,92 @@ function(dtrace_target)
     message(FATAL_ERROR "dtrace_target expects a list of source files")
   endif()
 
-  # Generate DTrace header.
-  add_custom_command(
-    OUTPUT "${parsed_HEADER}"
-    COMMAND ${DTrace_EXECUTABLE}
-      -s "${parsed_INPUT}"
-      -h                    # Generate a systemtap header file.
-      -C                    # Run the cpp preprocessor on the input file.
-      -o "${parsed_HEADER}" # Name of the output file.
-    DEPENDS "${parsed_INPUT}"
-    COMMENT "[DTrace] Generating DTrace ${parsed_HEADER}"
-    VERBATIM
-  )
+  if(NOT IS_ABSOLUTE "${parsed_INPUT}")
+    set(parsed_INPUT ${CMAKE_CURRENT_SOURCE_DIR}/${parsed_INPUT})
+  endif()
 
-  # Patch DTrace header.
+  if(NOT IS_ABSOLUTE "${parsed_HEADER}")
+    set(parsed_HEADER ${CMAKE_CURRENT_BINARY_DIR}/${parsed_HEADER})
+  endif()
+
+  set(sources)
+  foreach(source IN LISTS parsed_SOURCES)
+    if(NOT IS_ABSOLUTE ${source})
+      set(source ${CMAKE_CURRENT_SOURCE_DIR}/${source})
+    endif()
+    list(APPEND sources ${source})
+  endforeach()
+  set(parsed_SOURCES ${sources})
+
+  # Generate DTrace header.
   file(
     GENERATE
-    OUTPUT CMakeFiles/PatchDTraceHeader.cmake
+    OUTPUT CMakeFiles/GenerateDTraceHeader.cmake
     CONTENT [[
-      file(READ "${DTRACE_HEADER_FILE}" content)
+      execute_process(
+        COMMAND ${DTrace_EXECUTABLE}
+          -s "${parsed_INPUT}"
+          -h                    # Generate a systemtap header file.
+          -C                    # Run the cpp preprocessor on the input file.
+          -o "${parsed_HEADER}" # Name of the output file.
+      )
+      # Patch DTrace header.
+      file(READ "${parsed_HEADER}" content)
       string(REPLACE "PHP_" "DTRACE_" content "${content}")
-      file(WRITE "${DTRACE_HEADER_FILE}" "${content}")
+      file(WRITE "${parsed_HEADER}" "${content}")
     ]]
   )
-  add_custom_target(
-    ${parsed_TARGET}_patch_header
+  cmake_path(
+    RELATIVE_PATH parsed_HEADER
+    BASE_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
+    OUTPUT_VARIABLE header
+  )
+  add_custom_command(
+    OUTPUT ${parsed_HEADER}
     COMMAND ${CMAKE_COMMAND}
-      -DDTRACE_HEADER_FILE=${parsed_HEADER}
-      -P CMakeFiles/PatchDTraceHeader.cmake
-    DEPENDS ${parsed_HEADER}
-    COMMENT "[DTrace] Patching ${parsed_HEADER}"
+      -DDTrace_EXECUTABLE=${DTrace_EXECUTABLE}
+      -Dparsed_HEADER=${parsed_HEADER}
+      -Dparsed_INPUT=${parsed_INPUT}
+      -P CMakeFiles/GenerateDTraceHeader.cmake
+    DEPENDS "${parsed_INPUT}"
+    COMMENT "[DTrace] Generating ${header}"
+    VERBATIM
+    COMMAND_EXPAND_LISTS
   )
 
-  add_library(${parsed_TARGET}_object OBJECT ${parsed_SOURCES})
-
-  add_dependencies(${parsed_TARGET}_object ${parsed_TARGET}_patch_header)
-
-  target_include_directories(
-    ${parsed_TARGET}_object
-    PRIVATE
-      ${DTrace_INCLUDE_DIR}
-      ${parsed_INCLUDES}
-  )
+  # Generate DTrace object.
+  set(target ${ARGV0})
+  add_library(${target}_object OBJECT ${parsed_SOURCES} ${parsed_HEADER})
+  target_link_libraries(${target}_object PRIVATE DTrace::DTrace)
+  target_include_directories(${target}_object PRIVATE ${parsed_INCLUDES})
 
   cmake_path(GET parsed_INPUT FILENAME input)
-  set(output_filename CMakeFiles/${input}.o)
+  set(output CMakeFiles/${input}.o)
+  cmake_path(GET CMAKE_CURRENT_BINARY_DIR FILENAME parent)
 
   add_custom_command(
-    OUTPUT ${output_filename}
-    COMMAND CC="${CMAKE_C_COMPILER}" ${DTrace_EXECUTABLE}
-      -s ${parsed_INPUT} $<TARGET_OBJECTS:${parsed_TARGET}_object>
+    OUTPUT ${output}
+    COMMAND
+      CC="${CMAKE_C_COMPILER}"
+      ${DTrace_EXECUTABLE}
+      -s ${parsed_INPUT} $<TARGET_OBJECTS:${target}_object>
       -G # Generate a systemtap probe definition object file.
-      -o ${output_filename}
+      -o ${output}
       -I${DTrace_INCLUDE_DIR}
-    DEPENDS ${parsed_TARGET}_object
-    COMMENT "[DTrace] Generating DTrace probe object ${output_filename}"
+    DEPENDS ${target}_object
+    COMMENT "[DTrace] Generating DTrace probe object ${parent}/${output}"
     VERBATIM
+    COMMAND_EXPAND_LISTS
   )
+  add_custom_target(${target}_generator DEPENDS ${output})
 
-  target_sources(${parsed_TARGET} PRIVATE ${output_filename})
-  target_include_directories(${parsed_TARGET} PUBLIC ${DTrace_INCLUDE_DIR})
+  add_library(${target} INTERFACE)
+  target_sources(${target} INTERFACE ${CMAKE_CURRENT_BINARY_DIR}/${output})
+  set_source_files_properties(
+    ${CMAKE_CURRENT_BINARY_DIR}/${output}
+    PROPERTIES
+      EXTERNAL_OBJECT TRUE
+      GENERATED TRUE
+  )
+  add_dependencies(${target} ${target}_generator)
 endfunction()
