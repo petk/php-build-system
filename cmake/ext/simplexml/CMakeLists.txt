@@ -87,6 +87,6 @@ set_package_properties(
 
 target_link_libraries(php_simplexml PRIVATE LibXml2::LibXml2)
 
-set(HAVE_SIMPLEXML 1)
+set(HAVE_SIMPLEXML TRUE)
 
 configure_file(config.cmake.h.in config.h)

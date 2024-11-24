@@ -30,7 +30,7 @@ include(CMakeDependentOption)
 include(CMakePushCheckState)
 include(FeatureSummary)
 
-option(EXT_SNMP "Enable the snmp extension" OFF)
+option(EXT_SNMP "Enable the snmp extension")
 
 add_feature_info(
   "ext/snmp"
@@ -99,6 +99,6 @@ if(TARGET NetSnmp::NetSnmp)
   cmake_pop_check_state()
 endif()
 
-set(HAVE_SNMP 1)
+set(HAVE_SNMP TRUE)
 
 configure_file(config.cmake.h.in config.h)

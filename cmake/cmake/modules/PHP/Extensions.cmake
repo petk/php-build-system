@@ -433,12 +433,12 @@ function(php_extensions_postconfigure extension)
     return()
   endif()
 
-  target_compile_definitions(php_${extension} PRIVATE ZEND_COMPILE_DL_EXT=1)
+  target_compile_definitions(php_${extension} PRIVATE ZEND_COMPILE_DL_EXT)
 
   set_target_properties(
     php_${extension}
     PROPERTIES
-      POSITION_INDEPENDENT_CODE TRUE
+      POSITION_INDEPENDENT_CODE ON
   )
 
   # Set build-phase location for shared extensions.
@@ -464,7 +464,7 @@ function(php_extensions_configure_headers)
 
     get_target_property(type php_${extension} TYPE)
     if(type MATCHES "^(MODULE|SHARED)_LIBRARY$")
-      set(${macro} 1)
+      set(${macro} TRUE)
     endif()
 
     # Prepare config.h template.

@@ -44,7 +44,7 @@ include(CMakePushCheckState)
 include(FeatureSummary)
 include(PHP/CheckCompilerFlag)
 
-option(EXT_READLINE "Enable the readline extension (only for CLI-based SAPIs)" OFF)
+option(EXT_READLINE "Enable the readline extension (only for CLI-based SAPIs)")
 
 add_feature_info(
   "ext/readline"
@@ -141,7 +141,7 @@ if(NOT EXT_READLINE_LIBREADLINE)
     )
   endif()
 
-  set(HAVE_LIBEDIT 1)
+  set(HAVE_LIBEDIT TRUE)
 else()
   message(
     WARNING
@@ -208,8 +208,8 @@ else()
     )
   endif()
 
-  set(HAVE_HISTORY_LIST 1)
-  set(HAVE_LIBREADLINE 1)
+  set(HAVE_HISTORY_LIST TRUE)
+  set(HAVE_LIBREADLINE TRUE)
 endif()
 
 configure_file(config.cmake.h.in config.h)

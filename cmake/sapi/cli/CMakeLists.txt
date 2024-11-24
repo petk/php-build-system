@@ -96,7 +96,7 @@ target_sources(
 target_compile_definitions(
   php_cli
   PRIVATE
-    ZEND_ENABLE_STATIC_TSRMLS_CACHE=1
+    ZEND_ENABLE_STATIC_TSRMLS_CACHE
 )
 
 target_link_libraries(
@@ -152,7 +152,7 @@ if(SAPI_CLI_WIN_NO_CONSOLE)
   target_compile_definitions(
     php_cli_win_no_console
     PRIVATE
-      ZEND_ENABLE_STATIC_TSRMLS_CACHE=1
+      ZEND_ENABLE_STATIC_TSRMLS_CACHE
   )
 
   target_link_libraries(

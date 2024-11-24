@@ -30,7 +30,7 @@ check_include_file(dlfcn.h HAVE_DLFCN_H)
 
 block()
   if(HAVE_DLFCN_H)
-    set(definitions "-DHAVE_DLFCN_H=1")
+    set(definitions "-DHAVE_DLFCN_H")
   endif()
 
   try_run(

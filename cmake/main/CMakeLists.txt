@@ -127,7 +127,7 @@ set_property(
     php_main_internal_functions
     php_main_internal_functions_cli
   APPEND
-  PROPERTY COMPILE_DEFINITIONS ZEND_ENABLE_STATIC_TSRMLS_CACHE=1
+  PROPERTY COMPILE_DEFINITIONS ZEND_ENABLE_STATIC_TSRMLS_CACHE
 )
 
 # Add main PUBLIC/INTERFACE compile properties to configuration.
@@ -478,7 +478,7 @@ function(_php_main_create_files)
     add_dependencies(php_main php_main_build_defs_h)
     #]]
 
-    set(HAVE_BUILD_DEFS_H 1)
+    set(HAVE_BUILD_DEFS_H TRUE)
     set(PHP_CONFIG_H_WINDOWS 0)
     set(file php_config.h)
   endif()

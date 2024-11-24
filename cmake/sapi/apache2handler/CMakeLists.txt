@@ -30,11 +30,7 @@ cmake -B php-build -DAPACHE2HANDLER=ON -DApache_EXECUTABLE=/opt/apache2/bin/apxs
 
 include(FeatureSummary)
 
-option(
-  SAPI_APACHE2HANDLER
-  "Enable the shared Apache 2 handler SAPI module"
-  OFF
-)
+option(SAPI_APACHE2HANDLER "Enable the shared Apache 2 handler SAPI module")
 
 add_feature_info(
   "sapi/apache2handler"
@@ -68,7 +64,7 @@ set_target_properties(
 target_compile_definitions(
   php_apache2handler
   PRIVATE
-    ZEND_ENABLE_STATIC_TSRMLS_CACHE=1
+    ZEND_ENABLE_STATIC_TSRMLS_CACHE
 )
 
 find_package(Apache 2.0.44)

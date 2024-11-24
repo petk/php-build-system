@@ -29,7 +29,7 @@ include(CheckLibraryExists)
 include(CMakeDependentOption)
 include(FeatureSummary)
 
-option(EXT_PGSQL "Enable the pgsql extension" OFF)
+option(EXT_PGSQL "Enable the pgsql extension")
 
 add_feature_info(
   "ext/pgsql"
@@ -65,7 +65,7 @@ target_sources(
 target_compile_definitions(
   php_pgsql
   PRIVATE
-    ZEND_ENABLE_STATIC_TSRMLS_CACHE=1
+    ZEND_ENABLE_STATIC_TSRMLS_CACHE
     $<$<PLATFORM_ID:Windows>:PGSQL_EXPORTS>
 )
 
@@ -114,6 +114,6 @@ if(TARGET PostgreSQL::PostgreSQL)
   )
 endif()
 
-set(HAVE_PGSQL 1)
+set(HAVE_PGSQL TRUE)
 
 configure_file(config.cmake.h.in config.h)

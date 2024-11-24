@@ -29,7 +29,7 @@ include(CheckLibraryExists)
 include(CMakeDependentOption)
 include(FeatureSummary)
 
-option(EXT_PDO_FIREBIRD "Enable the pdo_firebird extension" OFF)
+option(EXT_PDO_FIREBIRD "Enable the pdo_firebird extension")
 
 add_feature_info(
   "ext/pdo_firebird"
@@ -97,6 +97,6 @@ if(TARGET Firebird::Firebird)
   endif()
 endif()
 
-set(HAVE_PDO_FIREBIRD 1)
+set(HAVE_PDO_FIREBIRD TRUE)
 
 configure_file(config.cmake.h.in config.h)

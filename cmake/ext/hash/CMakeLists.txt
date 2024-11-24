@@ -30,7 +30,7 @@ add_feature_info(
   "HASH message digest framework"
 )
 
-option(EXT_HASH_MHASH "Enable the mhash support (deprecated as of PHP 8.1)" OFF)
+option(EXT_HASH_MHASH "Enable the mhash support (deprecated as of PHP 8.1)")
 
 add_feature_info(
   "ext/hash with mhash"
@@ -44,7 +44,7 @@ if(EXT_HASH_MHASH)
     "Support for mhash in the hash extension is deprecated as of PHP 8.1.0"
   )
 
-  set(PHP_MHASH_BC 1)
+  set(PHP_MHASH_BC TRUE)
 endif()
 
 add_library(php_hash STATIC)
@@ -96,7 +96,7 @@ target_sources(
 target_include_directories(php_hash PRIVATE xxhash)
 
 if(WORDS_BIGENDIAN)
-  set(HAVE_SLOW_HASH3 1)
+  set(HAVE_SLOW_HASH3 TRUE)
   message(WARNING "Using slow SHA3 implementation on bigendian")
 else()
   block()
@@ -143,7 +143,7 @@ else()
       KeccakP200_excluded
       KeccakP400_excluded
       KeccakP800_excluded
-      ZEND_ENABLE_STATIC_TSRMLS_CACHE=1
+      ZEND_ENABLE_STATIC_TSRMLS_CACHE
   )
 endif()
 

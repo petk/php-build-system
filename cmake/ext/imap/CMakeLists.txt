@@ -43,7 +43,7 @@ project(
 include(CMakeDependentOption)
 include(FeatureSummary)
 
-option(EXT_IMAP "Enable the imap extension" OFF)
+option(EXT_IMAP "Enable the imap extension")
 
 add_feature_info(
   "ext/imap"
@@ -92,7 +92,7 @@ target_sources(
     php_imap.stub.php
 )
 
-target_compile_definitions(php_imap PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE=1)
+target_compile_definitions(php_imap PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE)
 
 find_package(Cclient)
 set_package_properties(
@@ -135,7 +135,7 @@ if(TARGET Cclient::Cclient)
       target_link_libraries(php_imap PRIVATE Kerberos::Krb5 Kerberos::GSSAPI)
 
       if(Kerberos_FOUND)
-        set(HAVE_IMAP_KRB 1)
+        set(HAVE_IMAP_KRB TRUE)
         message(CHECK_PASS "yes")
       else()
         message(CHECK_FAIL "failed")
@@ -176,7 +176,7 @@ if(TARGET Cclient::Cclient)
       target_link_libraries(php_imap PRIVATE OpenSSL::SSL)
 
       if(OpenSSL_FOUND)
-        set(HAVE_IMAP_SSL 1)
+        set(HAVE_IMAP_SSL TRUE)
         message(CHECK_PASS "yes")
       else()
         message(CHECK_FAIL "failed")
@@ -195,6 +195,6 @@ if(TARGET Cclient::Cclient)
   endblock()
 endif()
 
-set(HAVE_IMAP 1)
+set(HAVE_IMAP TRUE)
 
 configure_file(config.cmake.h.in config.h)

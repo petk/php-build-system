@@ -102,7 +102,7 @@ include(PHP/Set)
 # FPM configuration.
 ################################################################################
 
-option(SAPI_FPM "Enable the FPM SAPI module" OFF)
+option(SAPI_FPM "Enable the FPM SAPI module")
 add_feature_info(
   "sapi/fpm"
   SAPI_FPM
@@ -230,7 +230,7 @@ target_include_directories(
     ${CMAKE_CURRENT_SOURCE_DIR}/fpm
 )
 
-target_compile_definitions(php_fpm PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE=1)
+target_compile_definitions(php_fpm PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE)
 
 target_link_libraries(
   php_fpm
@@ -470,7 +470,7 @@ if(SAPI_FPM_SYSTEMD)
   target_link_libraries(php_fpm PRIVATE Systemd::Systemd)
 
   if(TARGET Systemd::Systemd)
-    set(HAVE_SYSTEMD 1)
+    set(HAVE_SYSTEMD TRUE)
 
     target_sources(php_fpm PRIVATE fpm/fpm_systemd.c)
   endif()
@@ -498,7 +498,7 @@ if(SAPI_FPM_ACL)
       check_include_file(sys/acl.h HAVE_SYS_ACL_H)
     cmake_pop_check_state()
 
-    set(HAVE_FPM_ACL 1)
+    set(HAVE_FPM_ACL TRUE)
   endif()
 endif()
 
@@ -514,7 +514,7 @@ if(SAPI_FPM_APPARMOR)
   target_link_libraries(php_fpm PRIVATE AppArmor::AppArmor)
 
   if(TARGET AppArmor::AppArmor)
-    set(HAVE_APPARMOR 1)
+    set(HAVE_APPARMOR TRUE)
   endif()
 endif()
 
@@ -530,7 +530,7 @@ if(SAPI_FPM_SELINUX)
   target_link_libraries(php_fpm PRIVATE SELinux::SELinux)
 
   if(TARGET SELinux::SELinux)
-    set(HAVE_SELINUX 1)
+    set(HAVE_SELINUX TRUE)
   endif()
 endif()
 

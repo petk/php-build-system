@@ -130,7 +130,7 @@ add_executable(PHP:phpdbg ALIAS php_phpdbg)
 target_compile_definitions(
   php_phpdbg
   PRIVATE
-    ZEND_ENABLE_STATIC_TSRMLS_CACHE=1
+    ZEND_ENABLE_STATIC_TSRMLS_CACHE
     $<$<PLATFORM_ID:Windows>:YY_NO_UNISTD_H>
     $<IF:$<BOOL:${SAPI_PHPDBG_DEBUG}>,PHPDBG_DEBUG=1,PHPDBG_DEBUG=0>
 )
@@ -197,10 +197,10 @@ if(SAPI_PHPDBG_READLINE OR EXT_READLINE)
 
     target_link_libraries(php_phpdbg PRIVATE Editline::Editline)
 
-    set(HAVE_LIBEDIT 1)
+    set(HAVE_LIBEDIT TRUE)
   endif()
 
-  set(HAVE_PHPDBG_READLINE 1)
+  set(HAVE_PHPDBG_READLINE TRUE)
 else()
   message(CHECK_FAIL "disabled")
 endif()
@@ -227,6 +227,7 @@ if(SAPI_PHPDBG_SHARED)
   target_compile_definitions(
     php_phpdbg_shared
     PRIVATE
+      ZEND_ENABLE_STATIC_TSRMLS_CACHE
       $<TARGET_PROPERTY:PHP::main,INTERFACE_COMPILE_DEFINITIONS>
       $<$<PLATFORM_ID:Windows>:YY_NO_UNISTD_H>
       $<IF:$<BOOL:${SAPI_PHPDBG_DEBUG}>,PHPDBG_DEBUG=1,PHPDBG_DEBUG=0>
@@ -306,7 +307,7 @@ if(HAVE_UFFDIO_WRITEPROTECT_MODE_WP)
   endif()
 
   if(PHP_THREAD_SAFETY OR Threads_FOUND)
-    set(HAVE_USERFAULTFD_WRITEFAULT 1)
+    set(HAVE_USERFAULTFD_WRITEFAULT TRUE)
   endif()
 endif()
 if(HAVE_USERFAULTFD_WRITEFAULT)

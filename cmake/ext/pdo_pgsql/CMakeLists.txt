@@ -29,7 +29,7 @@ include(CheckLibraryExists)
 include(CMakeDependentOption)
 include(FeatureSummary)
 
-option(EXT_PDO_PGSQL "Enable the pdo_pgsql extension" OFF)
+option(EXT_PDO_PGSQL "Enable the pdo_pgsql extension")
 
 add_feature_info(
   "ext/pdo_pgsql"
@@ -95,6 +95,6 @@ if(TARGET PostgreSQL::PostgreSQL)
   endif()
 endif()
 
-set(HAVE_PDO_PGSQL 1)
+set(HAVE_PDO_PGSQL TRUE)
 
 configure_file(config.cmake.h.in config.h)

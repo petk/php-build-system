@@ -23,7 +23,7 @@ cmake_pop_check_state()
 
 if(NOT _HAVE_FCLOSE)
   message(CHECK_FAIL "missing")
-  set(MISSING_FCLOSE_DECL 1)
+  set(MISSING_FCLOSE_DECL TRUE)
 else()
   message(CHECK_PASS "found")
 endif()

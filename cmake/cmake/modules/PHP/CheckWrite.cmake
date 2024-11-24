@@ -32,7 +32,7 @@ cmake_push_check_state(RESET)
   check_include_file(unistd.h HAVE_UNISTD_H)
 
   if(HAVE_UNISTD_H)
-    list(APPEND CMAKE_REQUIRED_DEFINITIONS -DHAVE_UNISTD_H=1)
+    list(APPEND CMAKE_REQUIRED_DEFINITIONS -DHAVE_UNISTD_H)
   endif()
 
   check_source_runs(C [[

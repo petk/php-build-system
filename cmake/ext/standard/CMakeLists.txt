@@ -40,7 +40,7 @@ add_feature_info(
   "PHP core extension"
 )
 
-option(EXT_STANDARD_ARGON2 "Include the Argon2 support in password_*" OFF)
+option(EXT_STANDARD_ARGON2 "Include the Argon2 support in password_*")
 
 add_feature_info(
   "ext/standard Argon2"
@@ -48,7 +48,7 @@ add_feature_info(
   "Argon2 hashing support in password_*() PHP functions"
 )
 
-option(EXT_STANDARD_EXTERNAL_LIBCRYPT "Use external libcrypt or libxcrypt" OFF)
+option(EXT_STANDARD_EXTERNAL_LIBCRYPT "Use external libcrypt or libxcrypt")
 
 add_feature_info(
   "External librcypt"
@@ -213,7 +213,7 @@ target_include_directories(
     ${CMAKE_CURRENT_SOURCE_DIR}/libavifinfo
 )
 
-target_compile_definitions(php_standard PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE=1)
+target_compile_definitions(php_standard PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE)
 
 # The standard extension depends on the generated Zend language parser.
 add_dependencies(php_standard Zend::Zend)
@@ -259,7 +259,7 @@ if(EXT_STANDARD_ARGON2)
 
   target_link_libraries(php_standard PRIVATE Argon2::Argon2)
 
-  set(HAVE_ARGON2LIB 1)
+  set(HAVE_ARGON2LIB TRUE)
 endif()
 
 ################################################################################
@@ -277,7 +277,7 @@ if(NOT EXT_STANDARD_EXTERNAL_LIBCRYPT)
       php_crypt_r.c
   )
 
-  set(PHP_USE_PHP_CRYPT_R 1)
+  set(PHP_USE_PHP_CRYPT_R TRUE)
 else()
   find_package(Crypt)
   set_package_properties(
@@ -342,7 +342,7 @@ if(NOT HAVE_FORK)
   check_symbol_exists(CreateProcess "windows.h" HAVE_CREATEPROCESS)
 endif()
 if(HAVE_FORK OR HAVE_CREATEPROCESS)
-  set(PHP_CAN_SUPPORT_PROC_OPEN 1)
+  set(PHP_CAN_SUPPORT_PROC_OPEN TRUE)
 
   message(CHECK_PASS "yes")
 else()
@@ -524,6 +524,6 @@ endblock()
 
 # TODO: Check whether to enable the chroot() function by checking which SAPI is
 # being built.
-set(ENABLE_CHROOT_FUNC 1)
+set(ENABLE_CHROOT_FUNC TRUE)
 
 configure_file(config.cmake.h.in config.h)

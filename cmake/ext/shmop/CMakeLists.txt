@@ -28,7 +28,7 @@ project(
 include(CMakeDependentOption)
 include(FeatureSummary)
 
-option(EXT_SHMOP "Enable the shmop extension" OFF)
+option(EXT_SHMOP "Enable the shmop extension")
 
 add_feature_info(
   "ext/shmop"
@@ -61,6 +61,6 @@ target_sources(
     shmop.stub.php
 )
 
-set(HAVE_SHMOP 1)
+set(HAVE_SHMOP TRUE)
 
 configure_file(config.cmake.h.in config.h)

@@ -66,13 +66,13 @@ target_compile_options(
 target_compile_definitions(
   php_date
   PRIVATE
-    ZEND_ENABLE_STATIC_TSRMLS_CACHE=1
-    HAVE_TIMELIB_CONFIG_H=1
+    ZEND_ENABLE_STATIC_TSRMLS_CACHE
+    HAVE_TIMELIB_CONFIG_H
     # The timelib uses C99 strtoll() function conditionally.
     HAVE_STRTOLL
 )
 
-set(HAVE_TIMELIB_CONFIG_H 1)
+set(HAVE_TIMELIB_CONFIG_H TRUE)
 
 message(STATUS "Creating ext/date/lib/timelib_config.h")
 file(WRITE ${CMAKE_CURRENT_BINARY_DIR}/lib/timelib_config.h [[

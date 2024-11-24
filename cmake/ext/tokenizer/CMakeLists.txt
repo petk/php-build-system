@@ -86,6 +86,6 @@ if(PHP_SOURCE_DIR)
   )
 endif()
 
-set(HAVE_TOKENIZER 1)
+set(HAVE_TOKENIZER TRUE)
 
 configure_file(config.cmake.h.in config.h)

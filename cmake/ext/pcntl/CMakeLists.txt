@@ -76,7 +76,7 @@ target_sources(
     php_signal.c
 )
 
-target_compile_definitions(php_pcntl PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE=1)
+target_compile_definitions(php_pcntl PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE)
 
 # Check for required functions.
 block()
@@ -114,7 +114,7 @@ cmake_push_check_state(RESET)
 cmake_pop_check_state()
 
 if(HAVE_STRUCT_SIGINFO_T)
-  target_compile_definitions(php_pcntl PRIVATE HAVE_STRUCT_SIGINFO_T=1)
+  target_compile_definitions(php_pcntl PRIVATE HAVE_STRUCT_SIGINFO_T)
 endif()
 
 configure_file(config.cmake.h.in config.h)
