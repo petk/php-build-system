@@ -1,7 +1,14 @@
 #[=============================================================================[
 # FindDTrace
 
-Find DTrace.
+DTrace (Dynamic Tracing), a comprehensive tracing framework originally developed
+by Sun Microsystems for troubleshooting and performance analysis on Unix-like
+systems. While the name "DTrace" is associated with the original implementation
+(now maintained by the DTrace.org community), there are other compatible
+implementations such as SystemTap, which is widely used on Linux systems.
+
+This CMake module specifically detects and uses the SystemTap implementation of
+DTrace.
 
 Module defines the following `IMPORTED` target(s):
 
@@ -69,9 +76,8 @@ include(FindPackageHandleStandardArgs)
 set_package_properties(
   DTrace
   PROPERTIES
-    URL "https://dtrace.org/"
+    URL "https://sourceware.org/systemtap"
     DESCRIPTION "Performance analysis and troubleshooting tool"
-    PURPOSE "https://sourceware.org/systemtap"
 )
 
 set(_reason "")
@@ -180,7 +186,7 @@ function(dtrace_target)
       execute_process(
         COMMAND ${DTrace_EXECUTABLE}
           -s "${parsed_INPUT}"
-          -h                    # Generate a systemtap header file.
+          -h                    # Generate a SystemTap header file.
           -C                    # Run the cpp preprocessor on the input file.
           -o "${parsed_HEADER}" # Name of the output file.
       )
@@ -224,7 +230,7 @@ function(dtrace_target)
       CC="${CMAKE_C_COMPILER}"
       ${DTrace_EXECUTABLE}
       -s ${parsed_INPUT} $<TARGET_OBJECTS:${target}_object>
-      -G # Generate a systemtap probe definition object file.
+      -G # Generate a SystemTap probe definition object file.
       -o ${output}
       -I${DTrace_INCLUDE_DIR}
     DEPENDS ${target}_object
@@ -236,11 +242,5 @@ function(dtrace_target)
 
   add_library(${target} INTERFACE)
   target_sources(${target} INTERFACE ${CMAKE_CURRENT_BINARY_DIR}/${output})
-  set_source_files_properties(
-    ${CMAKE_CURRENT_BINARY_DIR}/${output}
-    PROPERTIES
-      EXTERNAL_OBJECT TRUE
-      GENERATED TRUE
-  )
   add_dependencies(${target} ${target}_generator)
 endfunction()
