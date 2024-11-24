@@ -226,11 +226,11 @@ if(PHP_DTRACE)
 
   if(DTrace_FOUND)
     dtrace_target(
-      TARGET php_main
+      php_dtrace
       INPUT ${PHP_SOURCE_DIR}/Zend/zend_dtrace.d
       HEADER ${PHP_BINARY_DIR}/Zend/zend_dtrace_gen.h
       SOURCES
-        ${PHP_SOURCE_DIR}/main/main.c
+        main.c
         ${PHP_SOURCE_DIR}/Zend/zend_API.c
         ${PHP_SOURCE_DIR}/Zend/zend_dtrace.c
         ${PHP_SOURCE_DIR}/Zend/zend_exceptions.c
@@ -239,6 +239,10 @@ if(PHP_DTRACE)
       INCLUDES
         $<TARGET_PROPERTY:PHP::configuration,INTERFACE_INCLUDE_DIRECTORIES>
     )
+    target_link_libraries(php_main PRIVATE DTrace::DTrace)
+    target_link_libraries(php INTERFACE php_dtrace)
+
+    set(HAVE_DTRACE 1 PARENT_SCOPE)
 
     message(CHECK_PASS "yes")
   else()
@@ -276,7 +280,7 @@ if(PHP_DMALLOC)
 
   if(Dmalloc_FOUND)
     message(CHECK_PASS "yes")
-    set(HAVE_DMALLOC 1 CACHE INTERNAL "Whether the Dmalloc library is available")
+    set(HAVE_DMALLOC 1 PARENT_SCOPE)
   else()
     message(CHECK_FAIL "no")
   endif()
