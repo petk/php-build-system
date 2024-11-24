@@ -1,9 +1,13 @@
 <!-- This is auto-generated file. -->
 * Source code: [cmake/modules/FindDTrace.cmake](https://github.com/petk/php-build-system/blob/master/cmake/cmake/modules/FindDTrace.cmake)
 
-# FindDtrace
+# FindDTrace
 
 Find DTrace.
+
+Module defines the following `IMPORTED` target(s):
+
+* `DTrace::DTrace` - The package library, if found.
 
 ## Result variables
 
@@ -13,7 +17,6 @@ Find DTrace.
 
 * `DTrace_INCLUDE_DIR` - Directory containing DTrace library headers.
 * `DTrace_EXECUTABLE` - Path to the DTrace command-line utility.
-* `HAVE_DTRACE` - Whether DTrace support is enabled.
 
 ## Functions provided by this module
 
@@ -21,7 +24,7 @@ Module defines the following function to initialize the DTrace support.
 
 ```cmake
 dtrace_target(
-  TARGET <target-name>
+  <target-name>
   INPUT <input>
   HEADER <header>
   SOURCES <source>...
@@ -29,18 +32,36 @@ dtrace_target(
 )
 ```
 
-* `TARGET` - Target name to append the generated DTrace probe definition object
-  file.
-* `INPUT` - Name of the file with DTrace probe descriptions.
-* `HEADER` - Name of the DTrace probe header file.
-* `SOURCES` - A list of project source files to build DTrace object.
+Generates DTrace header `<header>` and creates `INTERFACE` library
+`<target-name>` with probe definition object file added as INTERFACE source.
+
+* `<target-name>` - DTrace INTERFACE library with the generated DTrace probe
+  definition object file.
+* `INPUT` - Name of the file with DTrace probe descriptions. Relative path is
+  interpreted as being relative to the current source directory.
+* `HEADER` - Name of the DTrace probe header file to be generated. Relative path
+  is interpreted as being relative to the current binary directory.
+* `SOURCES` - A list of source files to build DTrace object. Relative paths are
+  interpreted as being relative to the current source directory.
 * `INCLUDES` - A list of include directories for appending to DTrace object.
 
 ## Basic usage
 
 ```cmake
 # CMakeLists.txt
+
 find_package(DTrace)
+
+dtrace_target(
+  foo_dtrace
+  INPUT foo_dtrace.d
+  HEADER foo_dtrace_generated.h
+  SOURCES foo.c ...
+)
+target_link_libraries(foo PRIVATE DTrace::DTrace)
+
+add_executable(bar)
+target_link_libraries(bar PRIVATE foo_dtrace)
 ```
 
 ## Customizing search locations
