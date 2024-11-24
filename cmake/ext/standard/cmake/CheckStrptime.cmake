@@ -1,4 +1,6 @@
 #[=============================================================================[
+# CheckStrptime
+
 Check `strptime()` and its declaration.
 
 Note: This module is obsolete. PHP `strptime()` is deprecated as of PHP 8.1.0.
@@ -6,11 +8,13 @@ Note: This module is obsolete. PHP `strptime()` is deprecated as of PHP 8.1.0.
 ## Cache variables
 
 * `HAVE_STRPTIME`
+
   Whether `strptime()` is available.
 
 ## Result variables
 
 * `HAVE_STRPTIME_DECL_FAILS`
+
   Whether `strptime()` declaration fails.
 #]=============================================================================]
 

@@ -1,13 +1,16 @@
 #[=============================================================================[
+# CheckDlsym
+
 Check if `dlsym()` requires a leading underscore in symbol name.
 
 Some non-ELF platforms, such as OpenBSD, FreeBSD, NetBSD, Mac OSX (~10.3),
 needed underscore character (`_`) prefix for symbols, when using `dlsym()`. This
 module is obsolete on current platforms.
 
-## Cache variables
+## Result variables
 
 * `DLSYM_NEEDS_UNDERSCORE`
+
   Whether `dlsym()` requires a leading underscore in symbol names.
 #]=============================================================================]
 
@@ -110,14 +113,7 @@ block()
 endblock()
 
 if(DLSYM_NEEDS_UNDERSCORE_COMPILED AND DLSYM_NEEDS_UNDERSCORE_EXITCODE EQUAL 2)
-  set(
-    DLSYM_NEEDS_UNDERSCORE 1
-    CACHE INTERNAL
-    "Whether dlsym() requires a leading underscore in symbol names."
-  )
-endif()
-
-if(DLSYM_NEEDS_UNDERSCORE)
+  set(DLSYM_NEEDS_UNDERSCORE TRUE)
   message(CHECK_PASS "yes")
 else()
   message(CHECK_FAIL "no")

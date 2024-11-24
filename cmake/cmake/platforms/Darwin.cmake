@@ -25,7 +25,7 @@ if(CMAKE_HOST_SYSTEM_NAME STREQUAL "Darwin")
 endif()
 
 if(CMAKE_SYSTEM_NAME STREQUAL "Darwin")
-  set(DARWIN 1 CACHE INTERNAL "Define if the target system is Darwin")
+  set(DARWIN TRUE)
 
   # TODO: This is still needed for shared extensions on macOS, otherwise
   # undefined symbol errors happen in the linking step when using Clang.

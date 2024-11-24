@@ -1,4 +1,6 @@
 #[=============================================================================[
+# CheckPreadPwrite
+
 Check whether `pread()` and `pwrite()` work.
 
 Module first checks whether functions are available on the system, and then
@@ -14,13 +16,20 @@ check_symbol_exists(<symbol> unistd.h HAVE_<SYMBOL>)
 ## Cache variables
 
 * `HAVE_PREAD`
-    Whether `pread()` is available.
+
+  Whether `pread()` is available.
+
 * `PHP_PREAD_64`
-    Whether pread64 is default.
+
+  Whether pread64 is default.
+
 * `HAVE_PWRITE`
-    Whether `pwrite()` is available.
+
+  Whether `pwrite()` is available.
+
 * `PHP_PWRITE_64`
-    Whether pwrite64 is default.
+
+  Whether pwrite64 is default.
 #]=============================================================================]
 
 include_guard(GLOBAL)
@@ -127,7 +136,7 @@ function(_php_check_pread)
     cmake_pop_check_state()
 
     if(PHP_PREAD_64)
-      set(HAVE_PREAD 1 CACHE INTERNAL "Whether pread() works")
+      set(HAVE_PREAD TRUE CACHE INTERNAL "Whether pread() works")
     endif()
   endif()
 
@@ -234,7 +243,7 @@ function(_php_check_pwrite)
     cmake_pop_check_state()
 
     if(PHP_PWRITE_64)
-      set(HAVE_PWRITE 1 CACHE INTERNAL "Whether pwrite() works")
+      set(HAVE_PWRITE TRUE CACHE INTERNAL "Whether pwrite() works")
     endif()
   endif()
 

@@ -1,4 +1,6 @@
 #[=============================================================================[
+# CheckGlobalRegisterVariables
+
 Check whether the compiler and target system support global register variables.
 
 Global register variables are relevant for the GNU C compatible compilers.

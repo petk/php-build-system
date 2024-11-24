@@ -1,4 +1,6 @@
 #[=============================================================================[
+# MaxExecutionTimers
+
 Check whether to enable Zend max execution timers.
 
 ## Cache variables

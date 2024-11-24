@@ -57,7 +57,7 @@ function(_php_check_reentrant_function symbol header)
     message(CHECK_FAIL "missing")
 
     set(
-      MISSING_${const}_DECL 1
+      MISSING_${const}_DECL TRUE
       CACHE INTERNAL "Define if ${symbol} is not declared."
     )
   else()
