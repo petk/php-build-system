@@ -58,7 +58,7 @@ index e45b22b766..74f0e25b01 100644
  ])
  
 diff --git a/configure.ac b/configure.ac
-index 6b61df11ab..0ba3ed3c3d 100644
+index cab7e839a7..0accb28496 100644
 --- a/configure.ac
 +++ b/configure.ac
 @@ -1363,6 +1363,9 @@ exec_prefix=$old_exec_prefix
