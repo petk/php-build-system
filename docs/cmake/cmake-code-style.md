@@ -296,7 +296,7 @@ the primary prefix `EXT_` can be optional and context-dependent, when the
 extension involves multiple options:
 
 ```cmake
-# These will be grouped in the 'EXT_' group
+# These will be grouped in the 'EXT' group
 option(EXT_GD "<help_text>" [value])
 cmake_dependent_option(EXT_GD_AVIF "<help_text>" OFF "EXT_GD" OFF)
 cmake_dependent_option(EXT_GD_WEBP "<help_text>" OFF "EXT_GD" OFF)
@@ -310,7 +310,7 @@ cmake_dependent_option(
   EXT_MYSQL_SOCKET
   "<help_text>"
   OFF
-  "EXT_MYSQLI OR EXT_MYSQL_PDO"
+  [[EXT_MYSQLI OR EXT_MYSQL_PDO]]
   OFF
 )
 ```

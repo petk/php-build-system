@@ -30,7 +30,7 @@ php_search_libraries(
   [LIBRARIES <library>...]
   [VARIABLE <variable>]
   [LIBRARY_VARIABLE <library_variable>]
-  [TARGET <target> <PRIVATE|PUBLIC|INTERFACE>]
+  [TARGET <target> [<PRIVATE|PUBLIC|INTERFACE>]]
   [RECHECK_HEADERS]
 )
 ```
@@ -70,11 +70,11 @@ If `<variable>` is given, check result is stored in an internal cache variable.
 * `TARGET`
 
   If the `TARGET` is given, the resulting library is linked to a given
-  `<target>` with the scope of `PRIVATE`, `PUBLIC`, or `INTERFACE`. It is
+  `<target>` with the scope of `PRIVATE`, `PUBLIC`, or `INTERFACE`. Behavior is
   homogeneous to:
 
   ```cmake
-  target_link_libraries(<target> PRIVATE|PUBLIC|INTERFACE <library>)
+  target_link_libraries(<target> [PRIVATE|PUBLIC|INTERFACE] <library>)
   ```
 
 * `RECHECK_HEADERS`
@@ -87,11 +87,21 @@ If `<variable>` is given, check result is stored in an internal cache variable.
   checked elsewhere in the application using the `check_header_include()`. In
   most cases this won't be needed.
 
-For example:
+## Basic usage
+
+In the following example, the library containing `dlopen` is linked to
+`php_configuration` target with the `INTERFACE` scope when needed to use the
+`dlopen` symbol. Cache variable `HAVE_LIBDL` is set if `dlopen` is found either
+in the default system libraries or in one of the libraries set in the
+`CMAKE_DL_LIBS` variable.
 
 ```cmake
+# CMakeLists.txt
+
+# Include the module
 include(PHP/SearchLibraries)
 
+# Search and link library containing dlopen and dlclose .
 php_search_libraries(
   dlopen
   HEADERS dlfcn.h
@@ -110,9 +120,10 @@ https://cmake.org/cmake/help/latest/module/CheckSymbolExists.html
 * `CMAKE_REQUIRED_INCLUDES`
 * `CMAKE_REQUIRED_LINK_OPTIONS`
 * `CMAKE_REQUIRED_LIBRARIES`
+* `CMAKE_REQUIRED_LINK_DIRECTORIES`
 * `CMAKE_REQUIRED_QUIET`
 
-Caveats:
+## Caveats
 
 * If symbol declaration is missing in its belonging headers, it won't be found
   with this module. There are still rare cases of such functions on some systems
@@ -131,10 +142,3 @@ Caveats:
 
   As this is considered an architectural bug from this module point of view, in
   such cases it is better to use additional library check.
-
-## Basic usage
-
-```cmake
-# CMakeLists.txt
-include(PHP/SearchLibraries)
-```

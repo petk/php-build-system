@@ -16,7 +16,7 @@ include(FeatureSummary)
 
 add_feature_info(
   "ext/json"
-  ON
+  TRUE
   "JavaScript Object Notation"
 )
 

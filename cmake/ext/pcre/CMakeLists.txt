@@ -37,7 +37,7 @@ include(PHP/CheckCompilerFlag)
 
 add_feature_info(
   "ext/pcre"
-  ON
+  TRUE
   "Perl-compatible regular expressions"
 )
 

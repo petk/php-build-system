@@ -123,6 +123,7 @@ block()
     CONTENT "${content}"
   )
 
+  set(targetOptions)
   if(NOT PHPSystem_EXECUTABLE)
     set(targetOptions ALL DEPENDS ${targets})
   endif()

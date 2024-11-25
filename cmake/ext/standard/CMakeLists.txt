@@ -36,7 +36,7 @@ include(PHP/SearchLibraries)
 
 add_feature_info(
   "ext/standard"
-  ON
+  TRUE
   "PHP core extension"
 )
 

@@ -105,7 +105,7 @@ php_set(
   include(PHP/Set)
   php_set(
     VAR
-    CHOICES auto on off
+    CHOICES auto ON OFF
     DOC "Variable with default value set to the first list item"
   )
   message(STATUS "VAR=${VAR}")
@@ -126,7 +126,7 @@ php_set(
   ```cmake
   php_set(
     VAR
-    CHOICES auto on off
+    CHOICES auto ON OFF
     CHOICES_OPTIONAL
     DOC
       "Variable with optional predefined choices where its value can be also "
