@@ -28,7 +28,7 @@ project(
 include(CMakeDependentOption)
 include(FeatureSummary)
 
-option(EXT_PDO_OCI "Enable the pdo_oci extension" OFF)
+option(EXT_PDO_OCI "Enable the pdo_oci extension")
 
 add_feature_info(
   "ext/pdo_oci"
