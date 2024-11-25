@@ -64,7 +64,7 @@ function(_php_thread_safety)
 
   target_link_libraries(php_configuration INTERFACE Threads::Threads)
 
-  set(ZTS 1 PARENT_SCOPE)
+  set(ZTS TRUE PARENT_SCOPE)
 
   # Add ZTS compile definition. Some PHP headers might not have php_config.h
   # directly available. For example, some Zend headers.
