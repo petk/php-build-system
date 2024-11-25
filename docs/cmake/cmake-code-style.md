@@ -221,8 +221,7 @@ block of code:
 ```cmake
 block()
   set(bar <value>)
-
-  # <commands>...
+  # ...
 endblock()
 ```
 
@@ -254,7 +253,7 @@ set(VAR <value> CACHE <type> "<help_text>")
 option(FOO "<help_text>" [value])
 
 # Cache variables created by CMake command invocations. For example
-find_program(RE2C_EXECUTABLE re2c)
+find_program(SED_EXECUTABLE sed)
 ```
 
 ### 3.2. Naming variables
@@ -270,11 +269,10 @@ reserved for CMake's internal use.
 Configuration variables are cache variables designed to be adjusted by the user
 during the configuration phase, either through the presets, command line, or by
 using GUI, such as cmake-gui or ccmake. It is recommended to prefix them with
-`PHP_`, `ZEND_`, `EXT_`, and similar to facilitate their grouping within the
-GUI or IDE.
+`PHP_`, `ZEND_`, `EXT_`, `SAPI_`, and similar to facilitate their grouping
+within the GUI or IDE.
 
 ```cmake
-# PHP configuration variables
 set(PHP_FOO_BAR <value>... CACHE <BOOL|FILEPATH|PATH|STRING> "<help_text>")
 option(PHP_ENABLE_FOO "<help_text>" [value])
 cmake_dependent_option(PHP_ENABLE_BAR "<help_text>" <value> <depends> <force>)
@@ -284,6 +282,9 @@ option(ZEND_ENABLE_FOO "<help_text>" [value])
 
 # Configuration variables related to PHP extensions
 option(EXT_FOO "<help_text>" [value])
+
+# Configuration variables related to PHP SAPI modules
+option(SAPI_FOO "<help_text>" [value])
 ```
 
 While it's a good practice to consider grouping variables inside an extension by
@@ -295,12 +296,16 @@ the primary prefix `EXT_` can be optional and context-dependent, when the
 extension involves multiple options:
 
 ```cmake
+# These will be grouped in the 'EXT_' group
 option(EXT_GD "<help_text>" [value])
 cmake_dependent_option(EXT_GD_AVIF "<help_text>" OFF "EXT_GD" OFF)
 cmake_dependent_option(EXT_GD_WEBP "<help_text>" OFF "EXT_GD" OFF)
 
+# Here, the 'EXT_MYSQL_SOCKET' is used by both extensions - mysqli and pdo_mysql
 option(EXT_MYSQLI "<help_text>" [value])
+# ...
 option(EXT_PDO_MYSQL "<help_text>" [value])
+# ...
 cmake_dependent_option(
   EXT_MYSQL_SOCKET
   "<help_text>"
@@ -388,22 +393,26 @@ upstream CMake modules.
 
 CMake interprets `1`, `ON`, `YES`, `TRUE`, and `Y` as representing boolean true
 values, while `0`, `OFF`, `NO`, `FALSE`, `N`, `IGNORE`, `NOTFOUND`, an empty
-string, or a value ending with the suffix `-NOTFOUND` are considered as boolean
-false values. Named boolean constants are case-insensitive.
+string, or any value ending with the suffix `-NOTFOUND` are considered boolean
+false values. Named boolean constants are case-insensitive (e.g., `on`, `Off`,
+`True`).
 
-To ensure compatibility with existing C code and the configuration header
-`php_config.h`, some potential simplifications may be considered for this
-repository:
+A general convention is to use `ON` and `OFF` for boolean values that can be
+modified by the user, and `TRUE` and `FALSE` for intrinsic values that cannot or
+should not be modified externally. For example:
 
 ```cmake
-# Options have ON/OFF values.
+# Boolean variables that can be modified by the user use ON/OFF values
 option(FOO "<help_text>" ON)
 
-# Conditional variables have 1/0 values.
-set(HAVE_FOO_H 1 CACHE INTERNAL "<help_text>")
+# The IMPORTED property is set to TRUE and cannot be modified after being set
+add_library(foo UNKNOWN IMPORTED)
+get_target_property(value foo IMPORTED)
+message(STATUS "value=${value}")
+# Outputs: value=TRUE
 
-# Elsewhere in commands, functions, etc. use TRUE/FALSE
-set(CMAKE_C_STANDARD_REQUIRED TRUE)
+# Similarly, intrinsic values in the code use TRUE/FALSE
+set(HAVE_FOO TRUE)
 ```
 
 ## 6. Functions and macros
@@ -601,13 +610,12 @@ Values for `CMAKE_HOST_SYSTEM_PROCESSOR` and `CMAKE_SYSTEM_PROCESSOR`:
 
 ### 10.1. Tools
 
-There are some tools available for formatting and linting CMake files, each with
-varying levels of maintenance and utility. While these tools can offer valuable
-assistance, it's worth emphasizing that the current recommendation is generally
-not to rely on any specific linting tool. This is primarily due to their varying
-levels of maturity and a lack of updates to keep pace with new CMake versions.
-It's worth mentioning that this recommendation may evolve in the future as these
-tools continue to develop and adapt.
+There are some tools available for formatting and linting CMake files. While
+these tools can offer valuable assistance, it's worth emphasizing that the
+current recommendation is generally not to rely on any specific linting tool.
+This is primarily due to their varying levels of utility and a lack of updates
+to keep pace with new CMake versions. It's worth mentioning that this
+recommendation may evolve in the future as these tools continue to develop.
 
 #### 10.1.1. Gersemi
 
@@ -702,3 +710,4 @@ values from the upstream defaults.
 ### 10.2. Further resources
 
 * [CMake developers docs](https://cmake.org/cmake/help/latest/manual/cmake-developer.7.html)
+* [CMake documentation guide](https://gitlab.kitware.com/cmake/cmake/-/blob/master/Help/dev/documentation.rst)
