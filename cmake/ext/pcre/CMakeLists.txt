@@ -63,7 +63,7 @@ option(
 
 mark_as_advanced(EXT_PCRE_EXTERNAL EXT_PCRE_JIT)
 
-add_library(php_pcre STATIC)
+add_library(php_pcre OBJECT)
 
 target_sources(
   php_pcre
