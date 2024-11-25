@@ -30,10 +30,10 @@ include(CMakePushCheckState)
 
 cmake_push_check_state(RESET)
   set(CMAKE_REQUIRED_DEFINITIONS -D_GNU_SOURCE)
-  check_symbol_exists(fopencookie "stdio.h" _have_fopencookie)
+  check_symbol_exists(fopencookie "stdio.h" _HAVE_FOPENCOOKIE)
 cmake_pop_check_state()
 
-if(NOT _have_fopencookie)
+if(NOT _HAVE_FOPENCOOKIE)
   return()
 endif()
 

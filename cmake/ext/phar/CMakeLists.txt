@@ -132,9 +132,10 @@ else()
   return()
 endif()
 
+set(pharSharedOptions)
 if(EXT_PHAR_SHARED OR BUILD_SHARED_LIBS)
   set(
-    phar_shared_options
+    pharSharedOptions
       -d extension_dir=${PHP_BINARY_DIR}/modules
       -d extension=phar
   )
@@ -145,7 +146,7 @@ add_custom_command(
   COMMAND
     ${PHP_EXECUTABLE}
       -n
-      ${phar_shared_options}
+      ${pharSharedOptions}
       -d open_basedir=
       -d output_buffering=0
       -d memory_limit=-1
@@ -161,7 +162,7 @@ add_custom_command(
   COMMAND
     ${PHP_EXECUTABLE}
       -n
-      ${phar_shared_options}
+      ${pharSharedOptions}
       -d open_basedir=
       -d output_buffering=0
       -d memory_limit=-1
@@ -238,7 +239,7 @@ install(CODE "
     COMMAND
       ${PHP_EXECUTABLE}
         -n
-        ${phar_shared_options}
+        ${pharSharedOptions}
         -d open_basedir=
         -d output_buffering=0
         -d memory_limit=-1

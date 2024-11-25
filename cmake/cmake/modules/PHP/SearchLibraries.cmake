@@ -28,7 +28,7 @@ php_search_libraries(
   [LIBRARIES <library>...]
   [VARIABLE <variable>]
   [LIBRARY_VARIABLE <library_variable>]
-  [TARGET <target> <PRIVATE|PUBLIC|INTERFACE>]
+  [TARGET <target> [<PRIVATE|PUBLIC|INTERFACE>]]
   [RECHECK_HEADERS]
 )
 ```
@@ -68,11 +68,11 @@ If `<variable>` is given, check result is stored in an internal cache variable.
 * `TARGET`
 
   If the `TARGET` is given, the resulting library is linked to a given
-  `<target>` with the scope of `PRIVATE`, `PUBLIC`, or `INTERFACE`. It is
+  `<target>` with the scope of `PRIVATE`, `PUBLIC`, or `INTERFACE`. Behavior is
   homogeneous to:
 
   ```cmake
-  target_link_libraries(<target> PRIVATE|PUBLIC|INTERFACE <library>)
+  target_link_libraries(<target> [PRIVATE|PUBLIC|INTERFACE] <library>)
   ```
 
 * `RECHECK_HEADERS`
@@ -85,11 +85,21 @@ If `<variable>` is given, check result is stored in an internal cache variable.
   checked elsewhere in the application using the `check_header_include()`. In
   most cases this won't be needed.
 
-For example:
+## Basic usage
+
+In the following example, the library containing `dlopen` is linked to
+`php_configuration` target with the `INTERFACE` scope when needed to use the
+`dlopen` symbol. Cache variable `HAVE_LIBDL` is set if `dlopen` is found either
+in the default system libraries or in one of the libraries set in the
+`CMAKE_DL_LIBS` variable.
 
 ```cmake
+# CMakeLists.txt
+
+# Include the module
 include(PHP/SearchLibraries)
 
+# Search and link library containing dlopen and dlclose .
 php_search_libraries(
   dlopen
   HEADERS dlfcn.h
@@ -108,9 +118,10 @@ https://cmake.org/cmake/help/latest/module/CheckSymbolExists.html
 * `CMAKE_REQUIRED_INCLUDES`
 * `CMAKE_REQUIRED_LINK_OPTIONS`
 * `CMAKE_REQUIRED_LIBRARIES`
+* `CMAKE_REQUIRED_LINK_DIRECTORIES`
 * `CMAKE_REQUIRED_QUIET`
 
-Caveats:
+## Caveats
 
 * If symbol declaration is missing in its belonging headers, it won't be found
   with this module. There are still rare cases of such functions on some systems
@@ -207,20 +218,18 @@ function(php_search_libraries)
   # Validate optional TARGET.
   if(parsed_TARGET)
     list(GET parsed_TARGET 0 target)
-    list(GET parsed_TARGET 1 targetScope)
 
     if(NOT TARGET ${target})
       message(FATAL_ERROR "Bad TARGET arguments: ${target} is not a target")
     endif()
 
-    if(NOT targetScope)
-      message(
-        FATAL_ERROR
-        "Bad TARGET arguments: Target scope PRIVATE|PUBLIC|INTERFACE is missing"
-      )
+    list(LENGTH parsed_TARGET length)
+    set(targetScope)
+    if(length GREATER 1)
+      list(GET parsed_TARGET 1 targetScope)
     endif()
 
-    if(NOT targetScope MATCHES "^(PRIVATE|PUBLIC|INTERFACE)$")
+    if(targetScope AND NOT targetScope MATCHES "^(PRIVATE|PUBLIC|INTERFACE)$")
       message(
         FATAL_ERROR
         "Bad TARGET arguments: ${targetScope} is not a target scope. Use one "
