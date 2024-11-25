@@ -10,8 +10,11 @@ TODO: Adjust checks for MSVC.
 ## Cache variables
 
 * `PHP_HAVE_AVX512_SUPPORTS`
+
   Whether compiler supports AVX-512.
+
 * `PHP_HAVE_AVX512_VBMI_SUPPORTS`
+
   Whether compiler supports AVX-512 VBMI.
 #]=============================================================================]
 

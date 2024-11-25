@@ -270,26 +270,26 @@ function(_php_main_create_internal_functions)
   set(EXT_MODULE_PTRS "")
 
   # Add artifacts of static enabled PHP extensions to symbol definitions.
-  get_cmake_property(php_extensions PHP_EXTENSIONS)
-  foreach(extension IN LISTS php_extensions)
+  get_property(extensions GLOBAL PROPERTY PHP_EXTENSIONS)
+  foreach(extension IN LISTS extensions)
     # Skip if extension is shared.
-    get_target_property(extension_type php_${extension} TYPE)
-    if(extension_type MATCHES "^(MODULE|SHARED)_LIBRARY$")
+    get_target_property(type php_${extension} TYPE)
+    if(type MATCHES "^(MODULE|SHARED)_LIBRARY$")
       continue()
     endif()
 
-    file(GLOB_RECURSE extension_headers ${PHP_SOURCE_DIR}/ext/${extension}/*.h)
+    file(GLOB_RECURSE headers ${PHP_SOURCE_DIR}/ext/${extension}/*.h)
 
-    foreach(extension_header IN LISTS extension_headers)
-      file(READ "${extension_header}" file_content)
-      string(FIND "${file_content}" "phpext_" pattern_index)
+    foreach(header IN LISTS headers)
+      file(READ "${header}" content)
+      string(FIND "${content}" "phpext_" index)
 
-      if(NOT pattern_index EQUAL -1)
-        cmake_path(GET extension_header FILENAME file_name)
+      if(NOT index EQUAL -1)
+        cmake_path(GET header FILENAME filename)
         string(
           APPEND
           EXT_INCLUDE_CODE
-          "#include \"ext/${extension}/${file_name}\"\n"
+          "#include \"ext/${extension}/${filename}\"\n"
         )
       endif()
     endforeach()
@@ -393,7 +393,7 @@ function(_php_main_create_files)
 
   # Add sapis configuration.
   set(config "")
-  get_cmake_property(sapis PHP_SAPIS)
+  get_property(sapis GLOBAL PROPERTY PHP_SAPIS)
   list(SORT sapis COMPARE NATURAL)
   foreach(sapi IN LISTS sapis)
     if(EXISTS ${CMAKE_CURRENT_BINARY_DIR}/sapi/${sapi}/config.h)
@@ -407,7 +407,7 @@ function(_php_main_create_files)
 
   # Add extensions configuration.
   set(config "")
-  get_cmake_property(extensions PHP_EXTENSIONS)
+  get_property(extensions GLOBAL PROPERTY PHP_EXTENSIONS)
   list(SORT extensions COMPARE NATURAL)
   foreach(extension IN LISTS extensions)
     if(EXISTS ${CMAKE_CURRENT_BINARY_DIR}/ext/${extension}/config.h)

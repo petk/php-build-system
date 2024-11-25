@@ -17,41 +17,33 @@ Obsolete preprocessor macros that are not defined by this module:
 Conditionally defined preprocessor macros:
 
 * `__EXTENSIONS__`
+
   Defined on Solaris and illumos-based systems.
 
 * `_XOPEN_SOURCE=500`
+
   Defined on HP-UX.
 
 ## Result variables
 
-* `PHP_SYSTEM_EXTENSIONS`
-  String for containing all system extensions definitions for usage in the
-  configuration header template.
+* `PHP_SYSTEM_EXTENSIONS_CODE`
 
-IMPORTED target:
+  The configuration header code containing all system extensions definitions.
+
+## IMPORTED target
 
 * `PHP::SystemExtensions`
+
   Interface library target with all required compile definitions (`-D`).
 
-## Usage:
+## Basic usage
 
-Include the module:
+Targets that require some system extensions can link to `PHP::SystemExtensions`:
 
 ```cmake
+# CMakeLists.txt
 include(PHP/SystemExtensions)
-```
-
-Add `@PHP_SYSTEM_EXTENSIONS@` placeholder to configuration header template:
-
-```c
-# php_config.h
-@PHP_SYSTEM_EXTENSIONS@
-```
-
-Link targets that require system extensions:
-
-```cmake
-target_link_libraries(<target> ... PHP::SystemExtensions)
+target_link_libraries(<target> PHP::SystemExtensions)
 ```
 
 When some check requires, for example, `_GNU_SOURCE` or some other extensions,
@@ -64,9 +56,37 @@ cmake_push_check_state(RESET)
 cmake_pop_check_state()
 ```
 
+## Configuration header code
+
+To configure header file, add a placeholer to template, for example:
+
+```c
+# config.h.in
+@PHP_SYSTEM_EXTENSIONS_CODE@
+```
+
+And include module:
+
+```cmake
+# CMakeLists.txt
+include(PHP/SystemExtensions)
+configure_file(config.h.in config.h)
+```
+
+## Notes
+
 Compile definitions are not appended to `CMAKE_C_FLAGS` for cleaner build
-system: `string(APPEND CMAKE_C_FLAGS " -D<extension>=1 ")`.
+system. For example, this is not done by this module:
+
+```cmake
+string(APPEND CMAKE_C_FLAGS " -D<extension>=1 ")`
+```
 #]=============================================================================]
+
+# Set configuration header code for consecutive module inclusions, if needed.
+if(NOT PHP_SYSTEM_EXTENSIONS_CODE)
+  get_property(PHP_SYSTEM_EXTENSIONS_CODE GLOBAL PROPERTY _PHP_SYSTEM_EXTENSIONS_CODE)
+endif()
 
 include_guard(GLOBAL)
 
@@ -217,7 +237,7 @@ endif()
 # Configuration header template.
 ################################################################################
 
-set(PHP_SYSTEM_EXTENSIONS [[
+set(PHP_SYSTEM_EXTENSIONS_CODE [[
 /* Enable extensions on AIX, Interix, z/OS.  */
 #ifndef _ALL_SOURCE
 # define _ALL_SOURCE 1
@@ -295,7 +315,18 @@ set(PHP_SYSTEM_EXTENSIONS [[
 # cmakedefine _XOPEN_SOURCE @_XOPEN_SOURCE@
 #endif]])
 
-string(CONFIGURE "${PHP_SYSTEM_EXTENSIONS}" PHP_SYSTEM_EXTENSIONS)
+string(CONFIGURE "${PHP_SYSTEM_EXTENSIONS_CODE}" PHP_SYSTEM_EXTENSIONS_CODE)
+
+define_property(
+  GLOBAL
+  PROPERTY _PHP_SYSTEM_EXTENSIONS_CODE
+  BRIEF_DOCS "Configuration header code with system extensions definitions"
+)
+
+set_property(
+  GLOBAL
+  PROPERTY _PHP_SYSTEM_EXTENSIONS_CODE "${PHP_SYSTEM_EXTENSIONS_CODE}"
+)
 
 unset(_XOPEN_SOURCE)
 
