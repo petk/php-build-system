@@ -182,7 +182,7 @@ include(CMakePushCheckState)
 include(FeatureSummary)
 include(PHP/Set)
 
-option(EXT_ODBC "Enable the odbc extension" OFF)
+option(EXT_ODBC "Enable the odbc extension")
 add_feature_info(
   "ext/odbc"
   EXT_ODBC

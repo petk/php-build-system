@@ -46,7 +46,7 @@ include(FeatureSummary)
 include(PHP/SearchLibraries)
 include(PHP/SystemExtensions)
 
-option(EXT_PCNTL "Enable the pcntl extension (only for CLI-based SAPIs)" OFF)
+option(EXT_PCNTL "Enable the pcntl extension (only for CLI-based SAPIs)")
 
 add_feature_info(
   "ext/pcntl"
