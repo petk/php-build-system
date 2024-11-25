@@ -215,7 +215,7 @@ if(PHP_DTRACE)
     target_link_libraries(php_main PRIVATE DTrace::DTrace)
     target_link_libraries(php INTERFACE php_dtrace)
 
-    set(HAVE_DTRACE 1 PARENT_SCOPE)
+    set(HAVE_DTRACE TRUE PARENT_SCOPE)
 
     message(CHECK_PASS "yes")
   else()
@@ -253,7 +253,7 @@ if(PHP_DMALLOC)
 
   if(Dmalloc_FOUND)
     message(CHECK_PASS "yes")
-    set(HAVE_DMALLOC 1 PARENT_SCOPE)
+    set(HAVE_DMALLOC TRUE PARENT_SCOPE)
   else()
     message(CHECK_FAIL "no")
   endif()
