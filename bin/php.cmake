@@ -184,9 +184,9 @@ function(php_check_url url result)
   )
 
   if(status EQUAL 0)
-    set(${result} 1)
+    set(${result} TRUE)
   else()
-    set(${result} 0)
+    set(${result} FALSE)
   endif()
 
   return(PROPAGATE ${result})

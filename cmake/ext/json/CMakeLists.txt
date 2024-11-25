@@ -38,7 +38,7 @@ target_sources(
         php_json.h
 )
 
-target_compile_definitions(php_json PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE=1)
+target_compile_definitions(php_json PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE)
 
 if(BISON_FOUND)
   bison_target(
@@ -65,7 +65,7 @@ if(RE2C_FOUND)
 endif()
 
 if(NOT CMAKE_SYSTEM_NAME STREQUAL "Windows")
-  set(HAVE_JSON 1)
+  set(HAVE_JSON TRUE)
 endif()
 
 configure_file(config.cmake.h.in config.h)

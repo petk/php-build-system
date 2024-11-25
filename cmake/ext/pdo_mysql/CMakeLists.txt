@@ -44,7 +44,7 @@ include(CMakeDependentOption)
 include(FeatureSummary)
 include(PHP/Set)
 
-option(EXT_PDO_MYSQL "Enable the pdo_mysql extension" OFF)
+option(EXT_PDO_MYSQL "Enable the pdo_mysql extension")
 
 add_feature_info(
   "ext/pdo_mysql"
@@ -94,7 +94,7 @@ add_dependencies(php_pdo_mysql php_pdo)
 target_compile_definitions(
   php_pdo_mysql
   PRIVATE
-    ZEND_ENABLE_STATIC_TSRMLS_CACHE=1
+    ZEND_ENABLE_STATIC_TSRMLS_CACHE
 )
 
 target_include_directories(

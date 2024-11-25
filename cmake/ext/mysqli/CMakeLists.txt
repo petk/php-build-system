@@ -49,7 +49,7 @@ include(CMakeDependentOption)
 include(FeatureSummary)
 include(PHP/Set)
 
-option(EXT_MYSQLI "Enable the mysqli extension" OFF)
+option(EXT_MYSQLI "Enable the mysqli extension")
 
 add_feature_info(
   "ext/mysqli"
@@ -118,7 +118,7 @@ target_sources(
 
 add_dependencies(php_mysqli php_mysqlnd php_spl)
 
-target_compile_definitions(php_mysqli PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE=1)
+target_compile_definitions(php_mysqli PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE)
 
 if(EXT_MYSQL_SOCKET)
   if(EXT_MYSQL_SOCKET_PATH)

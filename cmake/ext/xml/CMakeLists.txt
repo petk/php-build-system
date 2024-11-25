@@ -87,7 +87,7 @@ target_sources(
         php_xml.h
 )
 
-target_compile_definitions(php_xml PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE=1)
+target_compile_definitions(php_xml PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE)
 
 if(NOT EXT_LIBXML AND NOT EXT_XML_EXPAT)
   message(
@@ -130,9 +130,9 @@ else()
 
   target_link_libraries(php_xml PRIVATE EXPAT::EXPAT)
 
-  set(HAVE_LIBEXPAT 1)
+  set(HAVE_LIBEXPAT TRUE)
 endif()
 
-set(HAVE_XML 1)
+set(HAVE_XML TRUE)
 
 configure_file(config.cmake.h.in config.h)

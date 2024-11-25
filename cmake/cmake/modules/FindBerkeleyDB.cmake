@@ -10,8 +10,8 @@ Module defines the following `IMPORTED` target(s):
 ## Result variables
 
 * `BerkeleyDB_FOUND` - Whether the package has been found.
-* `BerkeleyDB_INCLUDE_DIRS`- Include directories needed to use this package.
-* `BerkeleyDB_LIBRARIES`- Libraries needed to link to the package library.
+* `BerkeleyDB_INCLUDE_DIRS` - Include directories needed to use this package.
+* `BerkeleyDB_LIBRARIES` - Libraries needed to link to the package library.
 * `BerkeleyDB_VERSION` - Package version, if found.
 
 ## Cache variables

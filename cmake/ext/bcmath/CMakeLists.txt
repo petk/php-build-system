@@ -28,7 +28,7 @@ project(
 include(CMakeDependentOption)
 include(FeatureSummary)
 
-option(EXT_BCMATH "Enable the bcmath extension" OFF)
+option(EXT_BCMATH "Enable the bcmath extension")
 
 add_feature_info(
   "ext/bcmath"
@@ -82,8 +82,8 @@ target_sources(
     libbcmath/src/zero.c
 )
 
-target_compile_definitions(php_bcmath PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE=1)
+target_compile_definitions(php_bcmath PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE)
 
-set(HAVE_BCMATH 1)
+set(HAVE_BCMATH TRUE)
 
 configure_file(config.cmake.h.in config.h)

@@ -1,4 +1,6 @@
 #[=============================================================================[
+# CheckStrptime
+
 Check `strptime()` and its declaration.
 
 Note: This module is obsolete. PHP `strptime()` is deprecated as of PHP 8.1.0.
@@ -6,11 +8,13 @@ Note: This module is obsolete. PHP `strptime()` is deprecated as of PHP 8.1.0.
 ## Cache variables
 
 * `HAVE_STRPTIME`
+
   Whether `strptime()` is available.
 
 ## Result variables
 
 * `HAVE_STRPTIME_DECL_FAILS`
+
   Whether `strptime()` declaration fails.
 #]=============================================================================]
 
@@ -35,7 +39,7 @@ cmake_push_check_state(RESET)
 cmake_pop_check_state()
 
 if(HAVE_STRPTIME)
-  set(HAVE_STRPTIME_DECL_FAILS 1)
+  set(HAVE_STRPTIME_DECL_FAILS TRUE)
   return()
 endif()
 
@@ -73,7 +77,7 @@ cmake_pop_check_state()
 
 if(NOT HAVE_STRPTIME_DECL)
   message(CHECK_PASS "yes")
-  set(HAVE_STRPTIME_DECL_FAILS 1)
+  set(HAVE_STRPTIME_DECL_FAILS TRUE)
 else()
   message(CHECK_FAIL "no")
 endif()

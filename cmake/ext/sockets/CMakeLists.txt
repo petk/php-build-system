@@ -33,7 +33,7 @@ include(CMakeDependentOption)
 include(CMakePushCheckState)
 include(FeatureSummary)
 
-option(EXT_SOCKETS "Enable the sockets extension" OFF)
+option(EXT_SOCKETS "Enable the sockets extension")
 
 add_feature_info(
   "ext/sockets"
@@ -78,7 +78,7 @@ target_sources(
 target_compile_definitions(
   php_sockets
   PRIVATE
-    ZEND_ENABLE_STATIC_TSRMLS_CACHE=1
+    ZEND_ENABLE_STATIC_TSRMLS_CACHE
     $<$<PLATFORM_ID:Darwin>:__APPLE_USE_RFC_3542>
     $<$<PLATFORM_ID:Windows>:PHP_SOCKETS_EXPORTS>
 )
@@ -133,7 +133,7 @@ cmake_push_check_state(RESET)
   check_type_size("struct ucred" STRUCT_UCRED)
 cmake_pop_check_state()
 if(HAVE_STRUCT_UCRED)
-  set(ANC_CREDS_UCRED 1)
+  set(ANC_CREDS_UCRED TRUE)
 endif()
 
 # Check for struct cmsgcred.
@@ -142,9 +142,9 @@ cmake_push_check_state(RESET)
   check_type_size("struct cmsgcred" STRUCT_CMSGCRED)
 cmake_pop_check_state()
 if(HAVE_STRUCT_CMSGCRED)
-  set(ANC_CREDS_CMSGCRED 1)
+  set(ANC_CREDS_CMSGCRED TRUE)
 endif()
 
-set(HAVE_SOCKETS 1)
+set(HAVE_SOCKETS TRUE)
 
 configure_file(config.cmake.h.in config.h)

@@ -28,7 +28,7 @@ project(
 include(CMakeDependentOption)
 include(FeatureSummary)
 
-option(EXT_CALENDAR "Enable the calendar extension" OFF)
+option(EXT_CALENDAR "Enable the calendar extension")
 
 add_feature_info(
   "ext/calendar"
@@ -68,6 +68,6 @@ target_sources(
     julian.c
 )
 
-set(HAVE_CALENDAR 1)
+set(HAVE_CALENDAR TRUE)
 
 configure_file(config.cmake.h.in config.h)

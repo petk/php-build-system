@@ -13,6 +13,7 @@ definition needs to be used so the code compiles as a workaround.
 ## Cache variables
 
 * `INLINE_KEYWORD_DEFINITION`
+
   Header definition line that sets the compiler's `inline` keyword.
 #]=============================================================================]
 

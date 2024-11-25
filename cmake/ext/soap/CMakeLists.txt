@@ -28,7 +28,7 @@ project(
 include(CMakeDependentOption)
 include(FeatureSummary)
 
-option(EXT_SOAP "Enable the soap extension" OFF)
+option(EXT_SOAP "Enable the soap extension")
 
 add_feature_info(
   "ext/soap"
@@ -70,7 +70,7 @@ target_sources(
 target_compile_definitions(
   php_soap
   PRIVATE
-    ZEND_ENABLE_STATIC_TSRMLS_CACHE=1
+    ZEND_ENABLE_STATIC_TSRMLS_CACHE
     $<$<AND:$<PLATFORM_ID:Windows>,$<NOT:$<IN_LIST:$<TARGET_PROPERTY:TYPE>,MODULE_LIBRARY;SHARED_LIBRARY>>>:LIBXML_STATIC>
 )
 
@@ -91,7 +91,7 @@ if(EXT_SESSION)
   add_dependencies(php_soap php_session)
 endif()
 
-set(HAVE_PHP_SOAP 1)
-set(HAVE_SOAP 1)
+set(HAVE_PHP_SOAP TRUE)
+set(HAVE_SOAP TRUE)
 
 configure_file(config.cmake.h.in config.h)

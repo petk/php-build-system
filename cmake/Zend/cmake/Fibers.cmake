@@ -1,4 +1,6 @@
 #[=============================================================================[
+# Fibers
+
 Check if Fibers can be used.
 
 This module adds Boost fiber assembly files support if available for the

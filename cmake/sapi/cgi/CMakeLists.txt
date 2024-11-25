@@ -36,7 +36,7 @@ target_sources(
     cgi_main.stub.php
 )
 
-target_compile_definitions(php_cgi PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE=1)
+target_compile_definitions(php_cgi PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE)
 
 target_link_libraries(
   php_cgi
@@ -65,10 +65,9 @@ check_struct_has_member("struct sockaddr_un" sun_len sys/un.h HAVE_SOCKADDR_UN_S
 
 message(CHECK_START "Checking whether accept() requires cross-process locking")
 if(CMAKE_SYSTEM_NAME STREQUAL "SunOS")
-  set(USE_LOCKING 1)
+  set(USE_LOCKING TRUE)
   message(CHECK_PASS "yes")
 else()
-  set(USE_LOCKING 0)
   message(CHECK_FAIL "no")
 endif()
 

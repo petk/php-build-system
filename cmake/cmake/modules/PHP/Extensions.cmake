@@ -74,7 +74,7 @@ function(php_extensions_preprocess)
   _php_extensions_sort(extensions)
   _php_extensions_eval_options("${extensions}")
 
-  get_cmake_property(alwaysEnabledExtensions PHP_ALWAYS_ENABLED_EXTENSIONS)
+  get_property(alwaysEnabledExtensions GLOBAL PROPERTY PHP_ALWAYS_ENABLED_EXTENSIONS)
 
   foreach(extension IN LISTS extensions)
     string(TOUPPER "${extension}" extensionUpper)
@@ -218,7 +218,7 @@ function(_php_extensions_parse_dependencies extension result)
   if(allDependencies)
     list(REMOVE_DUPLICATES allDependencies)
 
-    get_cmake_property(allExtensions PHP_ALL_EXTENSIONS)
+    get_property(allExtensions GLOBAL PROPERTY PHP_ALL_EXTENSIONS)
 
     foreach(dependency ${allDependencies})
       if(NOT "${dependency}" IN_LIST allExtensions)
@@ -234,7 +234,7 @@ endfunction()
 function(_php_extensions_get_dependencies extension result)
   set(${result} PARENT_SCOPE)
 
-  get_cmake_property(deps PHP_EXTENSION_${extension}_DEPS)
+  get_property(deps GLOBAL PROPERTY PHP_EXTENSION_${extension}_DEPS)
   if(deps)
     set(${result} "${deps}" PARENT_SCOPE)
   endif()
@@ -302,8 +302,8 @@ endfunction()
 # Parse and evaluate options of extensions.
 function(_php_extensions_eval_options directories)
   set(code "")
-  get_cmake_property(alwaysEnabledExtensions PHP_ALWAYS_ENABLED_EXTENSIONS)
-  get_cmake_property(allExtensions PHP_ALL_EXTENSIONS)
+  get_property(alwaysEnabledExtensions GLOBAL PROPERTY PHP_ALWAYS_ENABLED_EXTENSIONS)
+  get_property(allExtensions GLOBAL PROPERTY PHP_ALL_EXTENSIONS)
 
   foreach(extension IN LISTS extensions)
     # Skip if extension is always enabled or if dependency is not extension.
@@ -375,8 +375,8 @@ function(php_extensions_postconfigure extension)
     MANUALLY_ADDED_DEPENDENCIES
   )
   list(TRANSFORM dependencies REPLACE "^php_" "")
-  get_cmake_property(alwaysEnabledExtensions PHP_ALWAYS_ENABLED_EXTENSIONS)
-  get_cmake_property(allExtensions PHP_ALL_EXTENSIONS)
+  get_property(alwaysEnabledExtensions GLOBAL PROPERTY PHP_ALWAYS_ENABLED_EXTENSIONS)
+  get_property(allExtensions GLOBAL PROPERTY PHP_ALL_EXTENSIONS)
 
   foreach(dependency IN LISTS dependencies)
     string(TOUPPER "${dependency}" dependencyUpper)
@@ -433,12 +433,12 @@ function(php_extensions_postconfigure extension)
     return()
   endif()
 
-  target_compile_definitions(php_${extension} PRIVATE ZEND_COMPILE_DL_EXT=1)
+  target_compile_definitions(php_${extension} PRIVATE ZEND_COMPILE_DL_EXT)
 
   set_target_properties(
     php_${extension}
     PROPERTIES
-      POSITION_INDEPENDENT_CODE TRUE
+      POSITION_INDEPENDENT_CODE ON
   )
 
   # Set build-phase location for shared extensions.
@@ -454,7 +454,7 @@ endfunction()
 # Prepend COMPILE_DL_<EXTENSION> macros to extensions configuration headers and
 # define them for shared extensions.
 function(php_extensions_configure_headers)
-  get_cmake_property(extensions PHP_EXTENSIONS)
+  get_property(extensions GLOBAL PROPERTY PHP_EXTENSIONS)
   foreach(extension ${extensions})
     if(NOT TARGET php_${extension})
       continue()
@@ -464,7 +464,7 @@ function(php_extensions_configure_headers)
 
     get_target_property(type php_${extension} TYPE)
     if(type MATCHES "^(MODULE|SHARED)_LIBRARY$")
-      set(${macro} 1)
+      set(${macro} TRUE)
     endif()
 
     # Prepare config.h template.
@@ -512,7 +512,7 @@ function(_php_extensions_validate)
 
     list(TRANSFORM dependencies REPLACE "^php_" "")
 
-    get_cmake_property(allExtensions PHP_ALL_EXTENSIONS)
+    get_property(allExtensions GLOBAL PROPERTY PHP_ALL_EXTENSIONS)
 
     foreach(dependency ${dependencies})
       # Skip dependencies that are not PHP extensions.

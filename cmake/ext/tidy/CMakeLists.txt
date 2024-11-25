@@ -31,7 +31,7 @@ include(CMakeDependentOption)
 include(FeatureSummary)
 include(PHP/CheckCompilerFlag)
 
-option(EXT_TIDY "Enable the tidy extension" OFF)
+option(EXT_TIDY "Enable the tidy extension")
 
 add_feature_info(
   "ext/tidy"
@@ -78,7 +78,7 @@ if(Tidy_VERSION VERSION_LESS 5.7.20)
   endif()
 endif()
 
-target_compile_definitions(php_tidy PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE=1)
+target_compile_definitions(php_tidy PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE)
 
 find_package(Tidy)
 set_package_properties(
@@ -95,6 +95,6 @@ if(TARGET Tidy::Tidy)
   check_library_exists(Tidy::Tidy tidyReleaseDate "" HAVE_TIDYRELEASEDATE)
 endif()
 
-set(HAVE_TIDY 1)
+set(HAVE_TIDY TRUE)
 
 configure_file(config.cmake.h.in config.h)

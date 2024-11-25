@@ -310,7 +310,7 @@ target_include_directories(
 target_compile_definitions(
   zend
   PRIVATE
-    ZEND_ENABLE_STATIC_TSRMLS_CACHE=1
+    ZEND_ENABLE_STATIC_TSRMLS_CACHE
   PUBLIC
     $<$<PLATFORM_ID:Windows>:LIBZEND_EXPORTS>
 )

@@ -8,6 +8,7 @@ only on Linux.
 ## Cache variables
 
 * `HAVE_COPY_FILE_RANGE`
+
   Whether `copy_file_range()` is supported.
 #]=============================================================================]
 

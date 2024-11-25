@@ -83,6 +83,6 @@ target_link_libraries(php_xmlwriter PRIVATE LibXml2::LibXml2)
 # ensures proper error reporting and support for streams.
 add_dependencies(php_xmlwriter php_libxml)
 
-set(HAVE_XMLWRITER 1)
+set(HAVE_XMLWRITER TRUE)
 
 configure_file(config.cmake.h.in config.h)

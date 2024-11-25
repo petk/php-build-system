@@ -24,20 +24,20 @@ if(CMAKE_SYSTEM_NAME STREQUAL "Windows")
   # TODO: Update and fix this better.
 
   # PHP has custom syslog.h for Windows platform.
-  set(HAVE_SYSLOG_H 1)
+  set(HAVE_SYSLOG_H TRUE)
 
   # PHP has custom usleep for Windows platform.
-  set(HAVE_USLEEP 1)
+  set(HAVE_USLEEP TRUE)
 
   # PHP has custom nanosleep for Windows platform.
-  set(HAVE_NANOSLEEP 1)
+  set(HAVE_NANOSLEEP TRUE)
 
   # PHP supports socketpair by the emulation in win32/sockets.c
-  set(HAVE_SOCKETPAIR 1)
+  set(HAVE_SOCKETPAIR TRUE)
 
   # PHP has unconditional getaddrinfo() support on Windows for now.
-  set(HAVE_GETADDRINFO 1)
+  set(HAVE_GETADDRINFO TRUE)
 
-  set(HAVE_NICE 1)
-  set(HAVE_FNMATCH 1)
+  set(HAVE_NICE TRUE)
+  set(HAVE_FNMATCH TRUE)
 endif()

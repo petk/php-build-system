@@ -59,6 +59,6 @@ target_sources(
         spl_observer.h
 )
 
-target_compile_definitions(php_spl PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE=1)
+target_compile_definitions(php_spl PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE)
 
 add_dependencies(php_spl php_json php_pcre php_standard)

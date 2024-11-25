@@ -47,7 +47,7 @@ project(
 include(CMakeDependentOption)
 include(FeatureSummary)
 
-option(EXT_OCI8 "Enable the oci8 extension" OFF)
+option(EXT_OCI8 "Enable the oci8 extension")
 
 add_feature_info(
   "ext/oci8"
@@ -146,6 +146,6 @@ cmake_language(
   CALL _php_oci8_notice
 )
 
-set(HAVE_OCI8 1)
+set(HAVE_OCI8 TRUE)
 
 configure_file(config.cmake.h.in config.h)

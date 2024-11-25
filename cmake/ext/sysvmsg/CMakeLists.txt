@@ -37,7 +37,7 @@ include(CheckIncludeFile)
 include(CMakeDependentOption)
 include(FeatureSummary)
 
-option(EXT_SYSVMSG "Enable the sysvmsg extension" OFF)
+option(EXT_SYSVMSG "Enable the sysvmsg extension")
 
 add_feature_info(
   "ext/sysvmsg"
@@ -80,6 +80,6 @@ target_sources(
     sysvmsg.stub.php
 )
 
-set(HAVE_SYSVMSG 1)
+set(HAVE_SYSVMSG TRUE)
 
 configure_file(config.cmake.h.in config.h)

@@ -44,7 +44,7 @@ include(CMakeDependentOption)
 include(FeatureSummary)
 
 # Boolean option that enables (ON) or disables (OFF) the extension.
-option(EXT_%EXTNAMECAPS% "Enable the %EXTNAME% extension" OFF)
+option(EXT_%EXTNAMECAPS% "Enable the %EXTNAME% extension")
 
 # Extension features are visible in the configuration summary output.
 add_feature_info(
@@ -94,7 +94,7 @@ target_compile_definitions(
   php_%EXTNAME%
   PRIVATE
     # Enable "Thread Safety Resource Manager Local Storage" static cache.
-    ZEND_ENABLE_STATIC_TSRMLS_CACHE=1
+    ZEND_ENABLE_STATIC_TSRMLS_CACHE
 )
 
 # Configure extension as Zend extension. Zend extensions are loaded with the
@@ -117,6 +117,6 @@ install(
     DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/${PHP_INCLUDE_PREFIX}/ext/%EXTNAME%
 )
 
-set(PHP_EXTENSION_%EXTNAMECAPS% 1)
+set(PHP_EXTENSION_%EXTNAMECAPS% TRUE)
 
 configure_file(config.cmake.h.in config.h)

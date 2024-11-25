@@ -29,7 +29,7 @@ include(CMakeDependentOption)
 include(FeatureSummary)
 include(PHP/CheckCompilerFlag)
 
-option(EXT_PSPELL "Enable the pspell extension" OFF)
+option(EXT_PSPELL "Enable the pspell extension")
 
 add_feature_info(
   "ext/pspell"
@@ -82,6 +82,6 @@ set_package_properties(
 
 target_link_libraries(php_pspell PRIVATE Aspell::Aspell)
 
-set(HAVE_PSPELL 1)
+set(HAVE_PSPELL TRUE)
 
 configure_file(config.cmake.h.in config.h)

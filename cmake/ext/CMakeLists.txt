@@ -132,7 +132,7 @@ foreach(extension IN LISTS extensions)
   list(POP_BACK CMAKE_MESSAGE_CONTEXT)
 endforeach()
 
-get_cmake_property(extensions PHP_EXTENSIONS)
+get_property(extensions GLOBAL PROPERTY PHP_EXTENSIONS)
 list(REVERSE extensions)
 set_property(GLOBAL PROPERTY PHP_EXTENSIONS ${extensions})
 

@@ -62,6 +62,6 @@ target_sources(
     ctype.stub.php
 )
 
-set(HAVE_CTYPE 1)
+set(HAVE_CTYPE TRUE)
 
 configure_file(config.cmake.h.in config.h)

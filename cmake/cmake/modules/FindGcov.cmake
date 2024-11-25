@@ -16,7 +16,6 @@ Module defines the following `IMPORTED` target(s):
 * `Gcov_GCOVR_EXECUTABLE` - The gcovr program executable.
 * `Gcov_GENHTML_EXECUTABLE` - The genhtml program executable.
 * `Gcov_LCOV_EXECUTABLE` - The lcov program executable.
-* `HAVE_GCOV` - Whether the Gcov is available.
 
 ## Macros provided by this module
 
@@ -88,8 +87,6 @@ find_package_handle_standard_args(
 unset(_reason)
 
 if(Gcov_FOUND AND NOT TARGET Gcov::Gcov)
-  set(HAVE_GCOV 1 CACHE INTERNAL "Whether GCOV is available.")
-
   add_library(Gcov::Gcov INTERFACE IMPORTED)
 
   set_target_properties(

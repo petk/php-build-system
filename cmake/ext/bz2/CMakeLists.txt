@@ -30,7 +30,7 @@ include(CheckLibraryExists)
 include(CMakeDependentOption)
 include(FeatureSummary)
 
-option(EXT_BZ2 "Enable the bz2 extension" OFF)
+option(EXT_BZ2 "Enable the bz2 extension")
 
 add_feature_info(
   "ext/bz2"
@@ -95,6 +95,6 @@ if(TARGET BZip2::BZip2)
   endif()
 endif()
 
-set(HAVE_BZ2 1)
+set(HAVE_BZ2 TRUE)
 
 configure_file(config.cmake.h.in config.h)

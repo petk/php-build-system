@@ -1,8 +1,10 @@
 #[=============================================================================[
+# CheckMMAlignment
+
 Test and set the alignment defines for the Zend memory manager (`ZEND_MM`). This
 also does the logarithmic test.
 
-## Cache variables
+## Result variables
 
 * `ZEND_MM_ALIGNMENT`
 * `ZEND_MM_ALIGNMENT_LOG2`
@@ -23,7 +25,12 @@ if(
   set(ZEND_MM_EXITCODE__TRYRUN_OUTPUT "(size_t)8 (size_t)3 0")
 endif()
 
-block()
+block(
+  PROPAGATE
+    ZEND_MM_ALIGNMENT
+    ZEND_MM_ALIGNMENT_LOG2
+    ZEND_MM_NEED_EIGHT_BYTE_REALIGNMENT
+)
   try_run(
     ZEND_MM_EXITCODE
     ZEND_MM_COMPILED
@@ -82,21 +89,13 @@ block()
       "ZEND_MM alignment defines failed. Please, check CMake logs.")
   endif()
 
-  set(
-    ZEND_MM_ALIGNMENT ${zend_mm_alignment}
-    CACHE INTERNAL "Alignment for Zend memory allocator"
-  )
-  set(
-    ZEND_MM_ALIGNMENT_LOG2 ${zend_mm_alignment_log2}
-    CACHE INTERNAL "Alignment for Zend memory allocator log2"
-  )
-  set(
-    ZEND_MM_NEED_EIGHT_BYTE_REALIGNMENT ${zend_mm_need_eight_byte_realignment}
-    CACHE INTERNAL "Whether 8-byte realignment is needed"
-  )
+  set(ZEND_MM_ALIGNMENT ${zend_mm_alignment})
+  set(ZEND_MM_ALIGNMENT_LOG2 ${zend_mm_alignment_log2})
+  set(ZEND_MM_NEED_EIGHT_BYTE_REALIGNMENT ${zend_mm_need_eight_byte_realignment})
 endblock()
 
-message(VERBOSE
+message(
+  VERBOSE
   "MM alignment values:\n"
   "    ZEND_MM_ALIGNMENT=${ZEND_MM_ALIGNMENT}\n"
   "    ZEND_MM_ALIGNMENT_LOG2=${ZEND_MM_ALIGNMENT_LOG2}\n"

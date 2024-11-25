@@ -16,14 +16,14 @@ Module defines the following `IMPORTED` target(s):
 * `Cclient_FOUND` - Whether the package has been found.
 * `Cclient_INCLUDE_DIRS` - Include directories needed to use this package.
 * `Cclient_LIBRARIES` - Libraries needed to link to the package library.
+* `HAVE_IMAP2000` - Whether c-client version is 2000 or newer. If true,
+  c-client.h should be included instead of only rfc822.h on prior versions.
+* `HAVE_IMAP2001` - Whether c-client version is 2001 to 2004.
 
 ## Cache variables
 
 * `Cclient_INCLUDE_DIR` - Directory containing package library headers.
 * `Cclient_LIBRARY` - The path to the package library.
-* `HAVE_IMAP2000` - Whether c-client version is 2000 or newer. If true,
-  c-client.h should be included instead of only rfc822.h on prior versions.
-* `HAVE_IMAP2001` - Whether c-client version is 2001 to 2004.
 * `HAVE_IMAP2004` - Whether c-client version is 2004 or newer.
 * `HAVE_NEW_MIME2TEXT` - Whether utf8_mime2text() has new signature.
 * `HAVE_RFC822_OUTPUT_ADDRESS_LIST` - Whether function
@@ -357,10 +357,7 @@ endif()
 
 # Check whether c-client version is 2000 or newer.
 if(EXISTS ${Cclient_INCLUDE_DIR}/c-client.h)
-  set(
-    HAVE_IMAP2000 1
-    CACHE INTERNAL "Whether c-client version is 2000 or newer"
-  )
+  set(HAVE_IMAP2000 TRUE)
 endif()
 
 block()
@@ -378,10 +375,7 @@ block()
 
   if(imapsslport_results)
     message(CHECK_PASS "yes")
-    set(
-      HAVE_IMAP2001 1
-      CACHE INTERNAL "Whether c-client version is 2001 to 2004"
-    )
+    set(HAVE_IMAP2001 TRUE)
   else()
     message(CHECK_FAIL "no")
   endif()
