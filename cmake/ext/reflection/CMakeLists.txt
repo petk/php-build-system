@@ -16,7 +16,7 @@ include(FeatureSummary)
 
 add_feature_info(
   "ext/reflection"
-  ON
+  TRUE
   "reflection API to introspect PHP code"
 )
 

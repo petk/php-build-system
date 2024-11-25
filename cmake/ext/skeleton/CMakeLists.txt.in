@@ -43,7 +43,8 @@ include(CMakeDependentOption)
 # Include CMake module to use add_feature_info() and set_package_properties().
 include(FeatureSummary)
 
-# Boolean option that enables (ON) or disables (OFF) the extension.
+# Boolean option that enables (ON) or disables (OFF) the extension. For example,
+# cmake -B <build-dir> -D EXT_%EXTNAMECAPS%=ON
 option(EXT_%EXTNAMECAPS% "Enable the %EXTNAME% extension")
 
 # Extension features are visible in the configuration summary output.

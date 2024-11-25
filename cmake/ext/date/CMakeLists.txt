@@ -18,7 +18,7 @@ include(FeatureSummary)
 
 add_feature_info(
   "ext/date"
-  ON
+  TRUE
   "date and time"
 )
 

@@ -26,7 +26,7 @@ include(PHP/CheckCompilerFlag)
 
 add_feature_info(
   "ext/hash"
-  ON
+  TRUE
   "HASH message digest framework"
 )
 

@@ -18,7 +18,7 @@ include(FeatureSummary)
 
 add_feature_info(
   "ext/random"
-  ON
+  TRUE
   "random number generators and functions related to randomness"
 )
 

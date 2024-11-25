@@ -15,7 +15,7 @@ include(FeatureSummary)
 
 add_feature_info(
   "ext/spl"
-  ON
+  TRUE
   "Standard PHP library (SPL)"
 )
 
