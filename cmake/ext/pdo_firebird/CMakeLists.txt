@@ -29,7 +29,7 @@ include(CheckLibraryExists)
 include(CMakeDependentOption)
 include(FeatureSummary)
 
-option(EXT_PDO_FIREBIRD "Enable the pdo_firebird extension" OFF)
+option(EXT_PDO_FIREBIRD "Enable the pdo_firebird extension")
 
 add_feature_info(
   "ext/pdo_firebird"

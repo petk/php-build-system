@@ -73,7 +73,7 @@ target_sources(
     zip.c
 )
 
-target_compile_definitions(php_phar PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE=1)
+target_compile_definitions(php_phar PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE)
 
 target_link_options(
   php_phar

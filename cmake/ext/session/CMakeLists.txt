@@ -95,7 +95,7 @@ target_sources(
 target_compile_definitions(
   php_session
   PRIVATE
-    ZEND_ENABLE_STATIC_TSRMLS_CACHE=1
+    ZEND_ENABLE_STATIC_TSRMLS_CACHE
 )
 
 add_dependencies(
@@ -141,10 +141,10 @@ if(EXT_SESSION_MM)
   target_link_libraries(php_session PUBLIC MM::MM)
 
   if(TARGET MM::MM)
-    set(HAVE_LIBMM 1)
+    set(HAVE_LIBMM TRUE)
   endif()
 endif()
 
-set(HAVE_PHP_SESSION 1)
+set(HAVE_PHP_SESSION TRUE)
 
 configure_file(config.cmake.h.in config.h)

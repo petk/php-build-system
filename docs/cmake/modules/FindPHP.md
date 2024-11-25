@@ -1,6 +1,8 @@
 <!-- This is auto-generated file. -->
 * Source code: [ext/skeleton/cmake/modules/FindPHP.cmake](https://github.com/petk/php-build-system/blob/master/cmake/ext/skeleton/cmake/modules/FindPHP.cmake)
 
+# FindPHP
+
 Find PHP.
 
 Components:

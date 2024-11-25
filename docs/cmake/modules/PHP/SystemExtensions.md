@@ -19,41 +19,33 @@ Obsolete preprocessor macros that are not defined by this module:
 Conditionally defined preprocessor macros:
 
 * `__EXTENSIONS__`
+
   Defined on Solaris and illumos-based systems.
 
 * `_XOPEN_SOURCE=500`
+
   Defined on HP-UX.
 
 ## Result variables
 
-* `PHP_SYSTEM_EXTENSIONS`
-  String for containing all system extensions definitions for usage in the
-  configuration header template.
+* `PHP_SYSTEM_EXTENSIONS_CODE`
 
-IMPORTED target:
+  The configuration header code containing all system extensions definitions.
+
+## IMPORTED target
 
 * `PHP::SystemExtensions`
+
   Interface library target with all required compile definitions (`-D`).
 
-## Usage:
+## Basic usage
 
-Include the module:
+Targets that require some system extensions can link to `PHP::SystemExtensions`:
 
 ```cmake
+# CMakeLists.txt
 include(PHP/SystemExtensions)
-```
-
-Add `@PHP_SYSTEM_EXTENSIONS@` placeholder to configuration header template:
-
-```c
-# php_config.h
-@PHP_SYSTEM_EXTENSIONS@
-```
-
-Link targets that require system extensions:
-
-```cmake
-target_link_libraries(<target> ... PHP::SystemExtensions)
+target_link_libraries(<target> PHP::SystemExtensions)
 ```
 
 When some check requires, for example, `_GNU_SOURCE` or some other extensions,
@@ -66,12 +58,28 @@ cmake_push_check_state(RESET)
 cmake_pop_check_state()
 ```
 
-Compile definitions are not appended to `CMAKE_C_FLAGS` for cleaner build
-system: `string(APPEND CMAKE_C_FLAGS " -D<extension>=1 ")`.
+## Configuration header code
 
-## Basic usage
+To configure header file, add a placeholder to template, for example:
+
+```c
+# config.h.in
+@PHP_SYSTEM_EXTENSIONS_CODE@
+```
+
+And include module:
 
 ```cmake
 # CMakeLists.txt
 include(PHP/SystemExtensions)
+configure_file(config.h.in config.h)
+```
+
+## Notes
+
+Compile definitions are not appended to `CMAKE_C_FLAGS` for cleaner build
+system. For example, this is not done by this module:
+
+```cmake
+string(APPEND CMAKE_C_FLAGS " -D<extension>=1 ")`
 ```

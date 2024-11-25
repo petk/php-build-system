@@ -29,7 +29,7 @@ include(CheckLibraryExists)
 include(CMakeDependentOption)
 include(FeatureSummary)
 
-option(EXT_ZIP "Enable the zip extension" OFF)
+option(EXT_ZIP "Enable the zip extension")
 
 add_feature_info(
   "ext/zip"
@@ -99,8 +99,8 @@ if(
 )
   # TODO: Adjust this if the libzip is a static library.
   if(TODO)
-    set(ZIP_STATIC 1)
-    #set(LZMA_API_STATIC 1)
+    set(ZIP_STATIC TRUE)
+    #set(LZMA_API_STATIC TRUE)
   endif()
 endif()
 
@@ -159,6 +159,6 @@ if(TARGET libzip::libzip)
   )
 endif()
 
-set(HAVE_ZIP 1)
+set(HAVE_ZIP TRUE)
 
 configure_file(config.cmake.h.in config.h)

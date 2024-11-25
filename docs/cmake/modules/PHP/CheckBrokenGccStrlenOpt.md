@@ -11,6 +11,7 @@ See: https://gcc.gnu.org/bugzilla/show_bug.cgi?id=86914
 ## Cache variables
 
 * `PHP_HAVE_BROKEN_OPTIMIZE_STRLEN`
+
   Whether GCC has broken strlen() optimization.
 
 ## Basic usage

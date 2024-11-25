@@ -29,7 +29,7 @@ project(
 include(CMakeDependentOption)
 include(FeatureSummary)
 
-option(EXT_ZLIB "Enable the zlib extension" OFF)
+option(EXT_ZLIB "Enable the zlib extension")
 
 add_feature_info(
   "ext/zlib"
@@ -65,7 +65,7 @@ target_sources(
     zlib.stub.php
 )
 
-target_compile_definitions(php_zlib PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE=1)
+target_compile_definitions(php_zlib PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE)
 
 find_package(ZLIB ${PHP_ZLIB_MIN_VERSION})
 set_package_properties(
@@ -77,6 +77,6 @@ set_package_properties(
 
 target_link_libraries(php_zlib PRIVATE ZLIB::ZLIB)
 
-set(HAVE_ZLIB 1)
+set(HAVE_ZLIB TRUE)
 
 configure_file(config.cmake.h.in config.h)

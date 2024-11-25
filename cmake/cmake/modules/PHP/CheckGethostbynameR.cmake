@@ -17,18 +17,26 @@ https://www.gnu.org/software/autoconf-archive/ax_func_which_gethostbyname_r.html
 
 ## Cache variables
 
-* `HAVE_GETHOSTBYNAME_R`
-  Whether `gethostbyname_r()` is available.
 * `HAVE_FUNC_GETHOSTBYNAME_R_6`
+
   Whether `gethostbyname_r()` has 6 arguments.
+
 * `HAVE_FUNC_GETHOSTBYNAME_R_5`
+
   Whether `gethostbyname_r()` has 5 arguments.
+
 * `HAVE_FUNC_GETHOSTBYNAME_R_3`
+
   Whether `gethostbyname_r()` has 3 arguments.
 
-INTERFACE library:
+* `HAVE_GETHOSTBYNAME_R`
+
+  Whether `gethostbyname_r()` is available.
+
+## INTERFACE library
 
 * `PHP::CheckGethostbynameR`
+
   Created when additional system library needs to be linked.
 #]=============================================================================]
 
@@ -118,7 +126,7 @@ if(
   OR HAVE_FUNC_GETHOSTBYNAME_R_3
 )
   set(
-    HAVE_GETHOSTBYNAME_R 1
-    CACHE INTERNAL "Define to 1 if you have some form of gethostbyname_r()."
+    HAVE_GETHOSTBYNAME_R TRUE
+    CACHE INTERNAL "Whether gethostbyname_r() is available."
   )
 endif()

@@ -18,7 +18,6 @@ Module defines the following `IMPORTED` target(s):
 * `Gcov_GCOVR_EXECUTABLE` - The gcovr program executable.
 * `Gcov_GENHTML_EXECUTABLE` - The genhtml program executable.
 * `Gcov_LCOV_EXECUTABLE` - The lcov program executable.
-* `HAVE_GCOV` - Whether the Gcov is available.
 
 ## Macros provided by this module
 

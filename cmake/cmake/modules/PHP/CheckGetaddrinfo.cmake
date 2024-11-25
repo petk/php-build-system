@@ -6,11 +6,13 @@ Check for working `getaddrinfo()`.
 ## Cache variables
 
 * `HAVE_GETADDRINFO`
+
   Whether `getaddrinfo()` function is working as expected.
 
 IMPORTED target:
 
 * `PHP::CheckGetaddrinfoLibrary`
+
   If there is additional library to be linked for using `getaddrinfo()`.
 #]=============================================================================]
 
@@ -45,8 +47,8 @@ if(libraryForGetaddrinfo)
   )
 endif()
 
-# If the variable HAVE_GETADDRINFO has been overridden (for example, on Windows)
-# or cached in consecutive runs, the module stops here.
+# If the variable HAVE_GETADDRINFO has been overridden the module stops here.
+# For example, on Windows.
 if(HAVE_GETADDRINFO)
   message(CHECK_PASS "yes (cached)")
   return()

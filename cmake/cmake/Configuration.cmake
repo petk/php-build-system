@@ -92,10 +92,10 @@ mark_as_advanced(PHP_PROGRAM_PREFIX)
 set(PHP_PROGRAM_SUFFIX "" CACHE STRING "Append suffix to the program names")
 mark_as_advanced(PHP_PROGRAM_SUFFIX)
 
-option(PHP_RE2C_CGOTO "Enable computed goto GCC extension with re2c" OFF)
+option(PHP_RE2C_CGOTO "Enable computed goto GCC extension with re2c")
 mark_as_advanced(PHP_RE2C_CGOTO)
 
-option(PHP_THREAD_SAFETY "Enable thread safety (ZTS)" OFF)
+option(PHP_THREAD_SAFETY "Enable thread safety (ZTS)")
 
 cmake_dependent_option(
   PHP_USE_RTLD_NOW
@@ -127,10 +127,10 @@ mark_as_advanced(PHP_DEFAULT_SHORT_OPEN_TAG)
 option(PHP_IPV6 "Enable IPv6 support" ON)
 mark_as_advanced(PHP_IPV6)
 
-option(PHP_DMALLOC "Enable the Dmalloc memory debugger library" OFF)
+option(PHP_DMALLOC "Enable the Dmalloc memory debugger library")
 mark_as_advanced(PHP_DMALLOC)
 
-option(PHP_DTRACE "Enable DTrace support" OFF)
+option(PHP_DTRACE "Enable DTrace support")
 mark_as_advanced(PHP_DTRACE)
 
 set(PHP_FD_SETSIZE "" CACHE STRING "Size of file descriptor sets")
@@ -139,30 +139,25 @@ if(CMAKE_SYSTEM_NAME STREQUAL "Windows" AND PHP_FD_SETSIZE STREQUAL "")
 endif()
 mark_as_advanced(PHP_FD_SETSIZE)
 
-option(PHP_VALGRIND "Enable the Valgrind support" OFF)
+option(PHP_VALGRIND "Enable the Valgrind support")
 mark_as_advanced(PHP_VALGRIND)
 
 option(
   PHP_MEMORY_SANITIZER
   "Enable the memory sanitizer compiler options (Clang only)"
-  OFF
 )
 mark_as_advanced(PHP_MEMORY_SANITIZER)
 
-option(PHP_ADDRESS_SANITIZER "Enable the address sanitizer compiler option" OFF)
+option(PHP_ADDRESS_SANITIZER "Enable the address sanitizer compiler option")
 mark_as_advanced(PHP_ADDRESS_SANITIZER)
 
-option(
-  PHP_UNDEFINED_SANITIZER
-  "Enable the undefined sanitizer compiler option"
-  OFF
-)
+option(PHP_UNDEFINED_SANITIZER "Enable the undefined sanitizer compiler option")
 mark_as_advanced(PHP_UNDEFINED_SANITIZER)
 
-option(PHP_GCOV "Enable GCOV code coverage and include GCOV symbols" OFF)
+option(PHP_GCOV "Enable GCOV code coverage and include GCOV symbols")
 mark_as_advanced(PHP_GCOV)
 
-option(PHP_LIBGCC "Explicitly link against libgcc" OFF)
+option(PHP_LIBGCC "Explicitly link against libgcc")
 mark_as_advanced(PHP_LIBGCC)
 
 option(PHP_CCACHE "Use ccache if available on the system" ON)

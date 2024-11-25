@@ -20,7 +20,7 @@ endif()
 
 include(FeatureSummary)
 
-option(SAPI_LITESPEED "Enable the LiteSpeed SAPI module" OFF)
+option(SAPI_LITESPEED "Enable the LiteSpeed SAPI module")
 
 add_feature_info(
   "sapi/litespeed"

@@ -187,7 +187,7 @@ if(SIZEOF_PTRDIFF_T STREQUAL "")
     "Couldn't determine the ptrdiff_t size, setting it to ${SIZEOF_PTRDIFF_T}."
   )
 endif()
-set(HAVE_PTRDIFF_T 1)
+set(HAVE_PTRDIFF_T TRUE)
 
 check_type_size("size_t" SIZEOF_SIZE_T)
 if(SIZEOF_SIZE_T STREQUAL "")
@@ -387,7 +387,7 @@ include(PHP/CheckFopencookie)
 # component of the path has execute but not read permissions.
 message(CHECK_START "Checking for broken getcwd()")
 if(CMAKE_SYSTEM_NAME STREQUAL "SunOS")
-  set(HAVE_BROKEN_GETCWD 1 CACHE INTERNAL "Define if system has broken getcwd")
+  set(HAVE_BROKEN_GETCWD TRUE)
   message(CHECK_PASS "yes")
 else()
   message(CHECK_FAIL "no")
@@ -795,8 +795,8 @@ if(PHP_GCOV)
 
   if(TARGET Gcov::Gcov)
     target_link_libraries(php_configuration INTERFACE Gcov::Gcov)
-
     gcov_generate_report()
+    set(HAVE_GCOV TRUE)
   endif()
 endif()
 
@@ -815,8 +815,7 @@ if(PHP_VALGRIND)
       set(CMAKE_REQUIRED_LIBRARIES Valgrind::Valgrind)
       check_include_file(valgrind/cachegrind.h HAVE_VALGRIND_CACHEGRIND_H)
     cmake_pop_check_state()
-
-    set(HAVE_VALGRIND 1)
+    set(HAVE_VALGRIND TRUE)
   endif()
 
   target_link_libraries(php_configuration INTERFACE Valgrind::Valgrind)

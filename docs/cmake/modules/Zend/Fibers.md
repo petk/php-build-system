@@ -1,6 +1,8 @@
 <!-- This is auto-generated file. -->
 * Source code: [Zend/cmake/Fibers.cmake](https://github.com/petk/php-build-system/blob/master/cmake/Zend/cmake/Fibers.cmake)
 
+# Fibers
+
 Check if Fibers can be used.
 
 This module adds Boost fiber assembly files support if available for the

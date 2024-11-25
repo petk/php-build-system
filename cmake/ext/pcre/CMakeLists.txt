@@ -45,7 +45,6 @@ option(
   EXT_PCRE_EXTERNAL
   "Use external (system) PCRE library in pcre extension instead of the bundled\
   PCRE library that comes with PHP sources"
-  OFF
 )
 
 add_feature_info(
@@ -78,7 +77,7 @@ target_sources(
         php_pcre.h
 )
 
-target_compile_definitions(php_pcre PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE=1)
+target_compile_definitions(php_pcre PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE)
 
 set(PCRE2_CODE_UNIT_WIDTH 8)
 
@@ -204,7 +203,7 @@ else()
   endif()
 
   if(CMAKE_SYSTEM_NAME STREQUAL "Windows")
-    set(PCRE2_STATIC 1)
+    set(PCRE2_STATIC TRUE)
   endif()
 
   target_compile_definitions(
@@ -215,12 +214,12 @@ else()
       HAVE_CONFIG_H
   )
 
-  set(HAVE_BUNDLED_PCRE 1)
+  set(HAVE_BUNDLED_PCRE TRUE)
 
   message(CHECK_START "Checking whether to enable PCRE JIT support")
 
   if(EXT_PCRE_JIT)
-    set(HAVE_PCRE_JIT_SUPPORT 1)
+    set(HAVE_PCRE_JIT_SUPPORT TRUE)
 
     message(CHECK_PASS "yes")
 
@@ -247,7 +246,7 @@ else()
     target_compile_definitions(
       php_pcre
       PRIVATE
-        $<$<CONFIG:Debug,DebugAssertions>:HAVE_PCRE_VALGRIND_SUPPORT=1>
+        $<$<CONFIG:Debug,DebugAssertions>:HAVE_PCRE_VALGRIND_SUPPORT>
     )
   endif()
 endif()

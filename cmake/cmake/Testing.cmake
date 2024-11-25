@@ -16,7 +16,7 @@ block()
     set(parallel -j${processors})
   endif()
 
-  get_cmake_property(extensions PHP_EXTENSIONS)
+  get_property(extensions GLOBAL PROPERTY PHP_EXTENSIONS)
   foreach(extension ${extensions})
     get_target_property(type php_${extension} TYPE)
     if(type MATCHES "^(MODULE|SHARED)_LIBRARY$")

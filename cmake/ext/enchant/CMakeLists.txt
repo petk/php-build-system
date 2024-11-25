@@ -29,7 +29,7 @@ include(CheckLibraryExists)
 include(CMakeDependentOption)
 include(FeatureSummary)
 
-option(EXT_ENCHANT "Enable the enchant extension" OFF)
+option(EXT_ENCHANT "Enable the enchant extension")
 
 add_feature_info(
   "ext/enchant"
@@ -90,6 +90,6 @@ endif()
 
 target_link_libraries(php_enchant PRIVATE Enchant::Enchant)
 
-set(HAVE_ENCHANT 1)
+set(HAVE_ENCHANT TRUE)
 
 configure_file(config.cmake.h.in config.h)

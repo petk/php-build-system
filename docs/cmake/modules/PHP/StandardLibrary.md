@@ -18,8 +18,7 @@ Determine the C standard library used for the build.
     * `musl`
     * `uclibc`
 
-## Cache variables
-* `__MUSL__`
+* `__MUSL__` - Whether C standard library is musl.
 
 ## Basic usage
 

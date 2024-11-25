@@ -1,4 +1,6 @@
 #[=============================================================================[
+# CheckTrace
+
 Check FPM trace implementation.
 
 ## Cache variables

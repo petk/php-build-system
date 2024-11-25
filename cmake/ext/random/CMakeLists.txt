@@ -46,7 +46,7 @@ target_sources(
         php_random.h
 )
 
-target_compile_definitions(php_random PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE=1)
+target_compile_definitions(php_random PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE)
 
 check_symbol_exists(arc4random_buf "stdlib.h" HAVE_ARC4RANDOM_BUF)
 check_symbol_exists(getrandom "sys/random.h" HAVE_GETRANDOM)

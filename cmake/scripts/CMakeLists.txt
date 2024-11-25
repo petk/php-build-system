@@ -49,7 +49,7 @@ block()
 
   message(STATUS "Creating scripts/php-config")
 
-  get_cmake_property(sapis PHP_SAPIS)
+  get_property(sapis GLOBAL PROPERTY PHP_SAPIS)
   if(CMAKE_VERSION VERSION_GREATER_EQUAL 3.27)
     set(sapis "$<JOIN:$<LIST:SORT,${sapis}>, >")
   else()

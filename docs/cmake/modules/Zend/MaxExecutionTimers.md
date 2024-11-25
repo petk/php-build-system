@@ -1,6 +1,8 @@
 <!-- This is auto-generated file. -->
 * Source code: [Zend/cmake/MaxExecutionTimers.cmake](https://github.com/petk/php-build-system/blob/master/cmake/Zend/cmake/MaxExecutionTimers.cmake)
 
+# MaxExecutionTimers
+
 Check whether to enable Zend max execution timers.
 
 ## Cache variables

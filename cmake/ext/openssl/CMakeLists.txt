@@ -76,7 +76,7 @@ include(CMakeDependentOption)
 include(CMakePushCheckState)
 include(FeatureSummary)
 
-option(EXT_OPENSSL "Enable the openssl extension" OFF)
+option(EXT_OPENSSL "Enable the openssl extension")
 
 add_feature_info(
   "ext/openssl"
@@ -184,11 +184,11 @@ if(TARGET OpenSSL::SSL)
     OPENSSL_VERSION VERSION_GREATER_EQUAL 3
     AND EXT_OPENSSL_LEGACY_PROVIDER
   )
-    set(LOAD_OPENSSL_LEGACY_PROVIDER 1)
+    set(LOAD_OPENSSL_LEGACY_PROVIDER TRUE)
   endif()
 
   if(EXT_OPENSSL_SYSTEM_CIPHERS)
-    set(USE_OPENSSL_SYSTEM_CIPHERS 1)
+    set(USE_OPENSSL_SYSTEM_CIPHERS TRUE)
   endif()
 
   if(EXT_OPENSSL_ARGON2)
@@ -220,6 +220,6 @@ if(TARGET OpenSSL::SSL)
   endif()
 endif()
 
-set(HAVE_OPENSSL_EXT 1)
+set(HAVE_OPENSSL_EXT TRUE)
 
 configure_file(config.cmake.h.in config.h)

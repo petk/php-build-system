@@ -66,7 +66,7 @@ foreach(sapi IN LISTS sapis)
 endforeach()
 
 # Check if at least one SAPI is enabled.
-get_cmake_property(sapis PHP_SAPIS)
+get_property(sapis GLOBAL PROPERTY PHP_SAPIS)
 if(NOT sapis)
   message(
     WARNING

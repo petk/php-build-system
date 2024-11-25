@@ -38,7 +38,7 @@ target_sources(
         php_json.h
 )
 
-target_compile_definitions(php_json PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE=1)
+target_compile_definitions(php_json PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE)
 
 if(BISON_FOUND)
   bison_target(

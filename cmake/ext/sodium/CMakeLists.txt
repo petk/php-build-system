@@ -30,7 +30,7 @@ include(CMakeDependentOption)
 include(FeatureSummary)
 include(PHP/CheckCompilerFlag)
 
-option(EXT_SODIUM "Enable the sodium extension" OFF)
+option(EXT_SODIUM "Enable the sodium extension")
 
 add_feature_info(
   "ext/sodium"
@@ -92,6 +92,6 @@ if(CMAKE_SIZEOF_VOID_P EQUAL 4)
   endif()
 endif()
 
-set(HAVE_LIBSODIUMLIB 1)
+set(HAVE_LIBSODIUMLIB TRUE)
 
 configure_file(config.cmake.h.in config.h)

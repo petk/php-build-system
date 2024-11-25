@@ -56,7 +56,7 @@ target_sources(
 target_compile_definitions(
   php_libxml
   PRIVATE
-    ZEND_ENABLE_STATIC_TSRMLS_CACHE=1
+    ZEND_ENABLE_STATIC_TSRMLS_CACHE
     $<$<PLATFORM_ID:Windows>:LIBXML_STATIC;LIBXML_STATIC_FOR_DLL>
 )
 
@@ -80,6 +80,6 @@ endif()
 
 target_link_libraries(php_libxml PUBLIC LibXml2::LibXml2)
 
-set(HAVE_LIBXML 1)
+set(HAVE_LIBXML TRUE)
 
 configure_file(config.cmake.h.in config.h)

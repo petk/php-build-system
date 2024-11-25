@@ -115,10 +115,10 @@ set_target_properties(
     PHP_ZEND_EXTENSION TRUE
 )
 
-target_compile_definitions(php_opcache PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE=1)
+target_compile_definitions(php_opcache PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE)
 
 if(EXT_OPCACHE_HUGE_CODE_PAGES)
-  set(HAVE_HUGE_CODE_PAGES 1)
+  set(HAVE_HUGE_CODE_PAGES TRUE)
 endif()
 
 ################################################################################
@@ -137,7 +137,7 @@ if(EXT_OPCACHE_JIT)
       WARNING
       "JIT is not supported by target architecture ${CMAKE_SYSTEM_PROCESSOR}"
     )
-    set_property(CACHE EXT_OPCACHE_JIT PROPERTY VALUE 0)
+    set_property(CACHE EXT_OPCACHE_JIT PROPERTY VALUE OFF)
   elseif(
     CMAKE_SYSTEM_NAME STREQUAL "Darwin"
     AND CMAKE_SYSTEM_PROCESSOR MATCHES "^aarch64.*$"
@@ -147,7 +147,7 @@ if(EXT_OPCACHE_JIT)
       WARNING
       "JIT is not supported on Apple Silicon with thread safety enabled"
     )
-    set_property(CACHE EXT_OPCACHE_JIT PROPERTY VALUE 0)
+    set_property(CACHE EXT_OPCACHE_JIT PROPERTY VALUE OFF)
   endif()
 endif()
 
@@ -296,10 +296,10 @@ if(EXT_OPCACHE_JIT)
 
     target_link_libraries(php_opcache PRIVATE Capstone::Capstone)
 
-    set(HAVE_CAPSTONE 1)
+    set(HAVE_CAPSTONE TRUE)
   endif()
 
-  set(HAVE_JIT 1)
+  set(HAVE_JIT TRUE)
 endif()
 
 add_feature_info(

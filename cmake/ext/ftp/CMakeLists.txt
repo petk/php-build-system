@@ -38,7 +38,7 @@ project(
 include(CMakeDependentOption)
 include(FeatureSummary)
 
-option(EXT_FTP "Enable the ftp extension" OFF)
+option(EXT_FTP "Enable the ftp extension")
 
 add_feature_info(
   "ext/ftp"
@@ -92,7 +92,7 @@ if(EXT_FTP_SSL OR EXT_OPENSSL)
 
   target_link_libraries(php_ftp PRIVATE OpenSSL::SSL)
 
-  set(HAVE_FTP_SSL 1)
+  set(HAVE_FTP_SSL TRUE)
 endif()
 
 add_feature_info(
@@ -101,6 +101,6 @@ add_feature_info(
   "FTP over SSL support"
 )
 
-set(HAVE_FTP 1)
+set(HAVE_FTP TRUE)
 
 configure_file(config.cmake.h.in config.h)

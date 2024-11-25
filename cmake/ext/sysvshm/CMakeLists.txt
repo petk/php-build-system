@@ -28,7 +28,7 @@ project(
 include(CMakeDependentOption)
 include(FeatureSummary)
 
-option(EXT_SYSVSHM "Enable the sysvshm extension" OFF)
+option(EXT_SYSVSHM "Enable the sysvshm extension")
 
 add_feature_info(
   "ext/sysvshm"
@@ -61,6 +61,6 @@ target_sources(
     sysvshm.stub.php
 )
 
-set(HAVE_SYSVSHM 1)
+set(HAVE_SYSVSHM TRUE)
 
 configure_file(config.cmake.h.in config.h)

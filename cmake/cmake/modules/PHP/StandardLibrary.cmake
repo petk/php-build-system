@@ -16,8 +16,7 @@ Determine the C standard library used for the build.
     * `musl`
     * `uclibc`
 
-## Cache variables
-* `__MUSL__`
+* `__MUSL__` - Whether C standard library is musl.
 #]=============================================================================]
 
 include_guard(GLOBAL)
@@ -109,7 +108,7 @@ else()
   endblock()
 endif()
 if(PHP_C_STANDARD_LIBRARY STREQUAL "musl")
-  set(__MUSL__ 1 CACHE INTERNAL "Whether musl libc is used.")
+  set(__MUSL__ TRUE)
   message(CHECK_PASS "musl")
   return()
 endif()

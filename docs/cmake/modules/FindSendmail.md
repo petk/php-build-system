@@ -3,16 +3,20 @@
 
 # FindSendmail
 
-Find the `sendmail` program.
+This module finds mailer program for PHP and sets sensible defaults based on the
+target system. On Windows, PHP has built-in mailer (sendmail.c), on *nix systems
+either `sendmail` is used if found, or a general default value is set to
+`/usr/sbin/sendmail`.
 
 ## Result variables
 
 * `Sendmail_FOUND` - Whether sendmail has been found.
+* `PROG_SENDMAIL` - Path to the sendmail executable program, either found by
+  the module or set to a sensible default value.
 
 ## Cache variables
 
-* `Sendmail_EXECUTABLE` - Path to the sendmail executable, if found.
-* `PROG_SENDMAIL` - Path to the sendmail program.
+* `Sendmail_EXECUTABLE` - Path to the sendmail executable program, if found.
 
 ## Basic usage
 

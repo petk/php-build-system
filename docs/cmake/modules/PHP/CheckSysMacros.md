@@ -38,18 +38,29 @@ int main(void)
 ## Cache variables
 
 * `HAVE_SYS_TYPES_H`
+
   Define to 1 if you have the `<sys/types.h>` header file.
+
 * `HAVE_SYS_MKDEV_H`
+
   Define to 1 if you have the `<sys/mkdev.h>` header file.
+
 * `HAVE_SYS_SYSMACROS_H`
+
   Define to 1 if you have the `<sys/sysmacros.h>` header file.
+
 * `MAJOR_IN_MKDEV`
+
   Define to 1 if `major`, `minor`, and `makedev` are declared in
   `<sys/mkdev.h>`.
+
 * `MAJOR_IN_SYSMACROS`
+
   Define to 1 if `major`, `minor`, and `makedev` are declared in
   `<sysmacros.h>`.
+
 * `HAVE_MAKEDEV`
+
   Define to 1 if you have the `makedev` function.
 
 ## Basic usage

@@ -8,7 +8,7 @@ include(CheckSourceRuns)
 include(CMakePushCheckState)
 include(PHP/CheckCompilerFlag)
 
-get_cmake_property(enabledLanguages ENABLED_LANGUAGES)
+get_property(enabledLanguages GLOBAL PROPERTY ENABLED_LANGUAGES)
 
 # Check for broken GCC optimize-strlen.
 include(PHP/CheckBrokenGccStrlenOpt)

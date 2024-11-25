@@ -18,7 +18,7 @@ to use PHP.
 
 include(FeatureSummary)
 
-option(SAPI_EMBED "Enable the Embed SAPI module" OFF)
+option(SAPI_EMBED "Enable the Embed SAPI module")
 
 add_feature_info(
   "sapi/embed"
@@ -49,7 +49,7 @@ target_link_libraries(
     PHP::PHP
 )
 
-target_compile_definitions(php_embed PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE=1)
+target_compile_definitions(php_embed PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE)
 
 set_target_properties(
   php_embed

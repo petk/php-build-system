@@ -62,7 +62,7 @@ target_sources(
     sqlite3.stub.php
 )
 
-target_compile_definitions(php_sqlite3 PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE=1)
+target_compile_definitions(php_sqlite3 PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE)
 
 find_package(SQLite3 ${PHP_SQLITE_MIN_VERSION})
 set_package_properties(
@@ -97,10 +97,10 @@ if(TARGET SQLite::SQLite3)
   )
 
   if(NOT HAVE_SQLITE3_LOAD_EXTENSION)
-    set(SQLITE_OMIT_LOAD_EXTENSION 1)
+    set(SQLITE_OMIT_LOAD_EXTENSION TRUE)
   endif()
 endif()
 
-set(HAVE_SQLITE3 1)
+set(HAVE_SQLITE3 TRUE)
 
 configure_file(config.cmake.h.in config.h)
