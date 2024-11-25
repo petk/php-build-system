@@ -58,7 +58,7 @@ cmake_pop_check_state()
 
 ## Configuration header code
 
-To configure header file, add a placeholer to template, for example:
+To configure header file, add a placeholder to template, for example:
 
 ```c
 # config.h.in
