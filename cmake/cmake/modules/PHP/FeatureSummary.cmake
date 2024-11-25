@@ -101,7 +101,7 @@ block()
   set(missingExtensions "")
   set(sharedExtensionsSummary "")
 
-  get_cmake_property(extensions PHP_EXTENSIONS)
+  get_property(extensions GLOBAL PROPERTY PHP_EXTENSIONS)
 
   foreach(extension ${extensions})
     if(NOT TARGET php_${extension})
@@ -120,7 +120,7 @@ block()
 
     list(TRANSFORM dependencies REPLACE "^php_" "")
 
-    get_cmake_property(allExtensions PHP_ALL_EXTENSIONS)
+    get_property(allExtensions GLOBAL PROPERTY PHP_ALL_EXTENSIONS)
 
     foreach(dependency ${dependencies})
       # Skip dependencies that are not inside the current project.

@@ -80,7 +80,7 @@ else()
   endif()
 endif()
 
-get_cmake_property(enabledLanguages ENABLED_LANGUAGES)
+get_property(enabledLanguages GLOBAL PROPERTY ENABLED_LANGUAGES)
 
 if(CXX IN_LIST enabledLanguages)
   check_linker_flag(

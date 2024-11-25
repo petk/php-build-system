@@ -37,7 +37,7 @@ include(CMakeDependentOption)
 include(CMakePushCheckState)
 include(FeatureSummary)
 
-option(EXT_SYSVSEM "Enable the sysvsem extension" OFF)
+option(EXT_SYSVSEM "Enable the sysvsem extension")
 
 add_feature_info(
   "ext/sysvsem"
@@ -75,6 +75,6 @@ cmake_push_check_state(RESET)
   check_type_size("union semun" UNION_SEMUN)
 cmake_pop_check_state()
 
-set(HAVE_SYSVSEM 1)
+set(HAVE_SYSVSEM TRUE)
 
 configure_file(config.cmake.h.in config.h)

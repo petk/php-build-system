@@ -119,7 +119,7 @@ project(
 include(CMakeDependentOption)
 include(FeatureSummary)
 
-option(EXT_DBA "Enable the dba extension" OFF)
+option(EXT_DBA "Enable the dba extension")
 add_feature_info(
   "ext/dba"
   EXT_DBA
@@ -309,14 +309,14 @@ target_sources(
     dba.stub.php
 )
 
-target_compile_definitions(php_dba PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE=1)
+target_compile_definitions(php_dba PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE)
 
 ################################################################################
 # Constant databases (cdb).
 ################################################################################
 if(EXT_DBA_CDB)
   target_sources(php_dba PRIVATE dba_cdb.c)
-  set(DBA_CDB 1)
+  set(DBA_CDB TRUE)
 
   if(EXT_DBA_CDB_EXTERNAL)
     find_package(Cdb)
@@ -348,7 +348,7 @@ if(EXT_DBA_CDB)
         libcdb/cdb_make.c
         libcdb/uint32.c
     )
-    set(DBA_CDB_BUILTIN 1)
+    set(DBA_CDB_BUILTIN TRUE)
   endif()
 endif()
 
@@ -394,27 +394,27 @@ if(EXT_DBA_DB)
 
   if(BerkeleyDB_DB1_INCLUDE_DIR)
     set(DB1_INCLUDE_FILE "<db_185.h>")
-    set(DBA_DB1 1)
+    set(DBA_DB1 TRUE)
     set(DB1_VERSION "Berkeley DB 1.85 emulation in DB")
     target_sources(php_dba PRIVATE dba_db1.c)
   endif()
 
   if(BerkeleyDB_VERSION VERSION_LESS_EQUAL 1 AND NOT EXT_DBA_DB1)
     set(DB1_INCLUDE_FILE "<db.h>")
-    set(DBA_DB1 1)
+    set(DBA_DB1 TRUE)
     set(DB1_VERSION "Unknown DB1")
     target_sources(php_dba PRIVATE dba_db1.c)
   elseif(BerkeleyDB_VERSION VERSION_LESS_EQUAL 2)
     set(DB2_INCLUDE_FILE "<db.h>")
-    set(DBA_DB2 1)
+    set(DBA_DB2 TRUE)
     target_sources(php_dba PRIVATE dba_db2.c)
   elseif(BerkeleyDB_VERSION VERSION_LESS_EQUAL 3)
     set(DB3_INCLUDE_FILE "<db.h>")
-    set(DBA_DB3 1)
+    set(DBA_DB3 TRUE)
     target_sources(php_dba PRIVATE dba_db3.c)
   else()
     set(DB4_INCLUDE_FILE "<db.h>")
-    set(DBA_DB4 1)
+    set(DBA_DB4 TRUE)
     target_sources(php_dba PRIVATE dba_db4.c)
   endif()
 endif()
@@ -436,7 +436,7 @@ if(EXT_DBA_DBM)
   target_sources(php_dba PRIVATE dba_dbm.c)
 
   set(DBM_INCLUDE_FILE "<dbm.h>")
-  set(DBA_DBM 1)
+  set(DBA_DBM TRUE)
   set(DBM_VERSION "DBM")
 endif()
 
@@ -451,7 +451,7 @@ if(EXT_DBA_FLATFILE)
       libflatfile/flatfile.c
   )
 
-  set(DBA_FLATFILE 1)
+  set(DBA_FLATFILE TRUE)
 endif()
 
 ################################################################################
@@ -465,7 +465,7 @@ if(EXT_DBA_INIFILE)
       libinifile/inifile.c
   )
 
-  set(DBA_INIFILE 1)
+  set(DBA_INIFILE TRUE)
 endif()
 
 ################################################################################
@@ -485,7 +485,7 @@ if(EXT_DBA_LMDB)
   target_sources(php_dba PRIVATE dba_lmdb.c)
 
   set(LMDB_INCLUDE_FILE "<lmdb.h>")
-  set(DBA_LMDB 1)
+  set(DBA_LMDB TRUE)
 endif()
 
 ################################################################################
@@ -505,7 +505,7 @@ if(EXT_DBA_NDBM)
   target_sources(php_dba PRIVATE dba_ndbm.c)
 
   set(NDBM_INCLUDE_FILE "<ndbm.h>")
-  set(DBA_NDBM 1)
+  set(DBA_NDBM TRUE)
 endif()
 
 ################################################################################
@@ -525,7 +525,7 @@ if(EXT_DBA_QDBM AND NOT EXT_DBA_DBM)
   target_sources(php_dba PRIVATE dba_qdbm.c)
 
   set(QDBM_INCLUDE_FILE "<depot.h>")
-  set(DBA_QDBM 1)
+  set(DBA_QDBM TRUE)
 endif()
 
 ################################################################################
@@ -545,9 +545,9 @@ if(EXT_DBA_TCADB)
   target_sources(php_dba PRIVATE dba_tcadb.c)
 
   set(TCADB_INCLUDE_FILE "<tcadb.h>")
-  set(DBA_TCADB 1)
+  set(DBA_TCADB TRUE)
 endif()
 
-set(HAVE_DBA 1)
+set(HAVE_DBA TRUE)
 
 configure_file(config.cmake.h.in config.h)

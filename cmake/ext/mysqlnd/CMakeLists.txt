@@ -53,7 +53,7 @@ project(
 include(CMakeDependentOption)
 include(FeatureSummary)
 
-option(EXT_MYSQLND "Enable the mysqlnd extension" OFF)
+option(EXT_MYSQLND "Enable the mysqlnd extension")
 
 add_feature_info(
   "ext/mysqlnd"
@@ -159,7 +159,7 @@ target_sources(
         php_mysqlnd.h
 )
 
-target_compile_definitions(php_mysqlnd PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE=1)
+target_compile_definitions(php_mysqlnd PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE)
 
 target_link_libraries(
   php_mysqlnd
@@ -178,10 +178,10 @@ if(EXT_MYSQLND_COMPRESSION)
 
   target_link_libraries(php_mysqlnd PRIVATE ZLIB::ZLIB)
 
-  set(MYSQLND_COMPRESSION_ENABLED 1)
+  set(MYSQLND_COMPRESSION_ENABLED TRUE)
 endif()
 
-set(MYSQLND_SSL_SUPPORTED 1)
+set(MYSQLND_SSL_SUPPORTED TRUE)
 
 if(
   (
@@ -203,7 +203,7 @@ if(
     target_link_libraries(php_mysqlnd PRIVATE OpenSSL::Crypto)
   endif()
 
-  set(MYSQLND_HAVE_SSL 1)
+  set(MYSQLND_HAVE_SSL TRUE)
 
   add_dependencies(php_mysqlnd php_hash)
 endif()

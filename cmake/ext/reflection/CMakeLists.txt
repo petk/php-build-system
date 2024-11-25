@@ -31,7 +31,7 @@ target_sources(
 target_compile_definitions(
   php_reflection
   PRIVATE
-    ZEND_ENABLE_STATIC_TSRMLS_CACHE=1
+    ZEND_ENABLE_STATIC_TSRMLS_CACHE
 )
 
 add_dependencies(php_reflection php_random)

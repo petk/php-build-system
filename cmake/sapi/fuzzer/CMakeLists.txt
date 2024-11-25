@@ -35,7 +35,6 @@ include(PHP/CheckCompilerFlag)
 option(
   SAPI_FUZZER
   "Enable the fuzzer SAPI module - Clang fuzzing test module (for developers)"
-  OFF
 )
 
 add_feature_info(

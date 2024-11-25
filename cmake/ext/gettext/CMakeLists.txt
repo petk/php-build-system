@@ -30,7 +30,7 @@ include(CheckLibraryExists)
 include(CMakeDependentOption)
 include(FeatureSummary)
 
-option(EXT_GETTEXT "Enable the gettext extension" OFF)
+option(EXT_GETTEXT "Enable the gettext extension")
 
 add_feature_info(
   "ext/gettext"
@@ -84,7 +84,7 @@ if(TARGET Intl::Intl)
     )
   endif()
 
-  set(HAVE_LIBINTL 1)
+  set(HAVE_LIBINTL TRUE)
 
   check_library_exists(Intl::Intl ngettext "" HAVE_NGETTEXT)
   check_library_exists(Intl::Intl dngettext "" HAVE_DNGETTEXT)

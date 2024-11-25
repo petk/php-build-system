@@ -37,7 +37,7 @@ include(CMakeDependentOption)
 include(CMakePushCheckState)
 include(FeatureSummary)
 
-option(EXT_MBSTRING "Enable the mbstring extension" OFF)
+option(EXT_MBSTRING "Enable the mbstring extension")
 
 add_feature_info(
   "ext/mbstring"
@@ -186,21 +186,21 @@ if(EXT_MBSTRING_MBREGEX)
     else()
       message(CHECK_FAIL "yes")
 
-      set(PHP_ONIG_BAD_KOI8_ENTRY 1)
+      set(PHP_ONIG_BAD_KOI8_ENTRY TRUE)
     endif()
   endif()
 
   target_compile_definitions(
     php_mbstring
     PRIVATE
-      $<$<NOT:$<PLATFORM_ID:Windows>>:ONIG_ESCAPE_UCHAR_COLLISION=1>
+      $<$<NOT:$<PLATFORM_ID:Windows>>:ONIG_ESCAPE_UCHAR_COLLISION>
       $<$<NOT:$<PLATFORM_ID:Windows>>:UChar=OnigUChar>
       # TODO: On Windows, the Oniguruma library is only usable as a static
       # library ATM, code change required to link with a DLL.
       $<$<PLATFORM_ID:Windows>:ONIG_EXTERN=extern>
   )
 
-  set(HAVE_MBREGEX 1)
+  set(HAVE_MBREGEX TRUE)
 
   target_sources(
     php_mbstring
@@ -214,7 +214,7 @@ if(EXT_MBSTRING_MBREGEX)
   )
 endif()
 
-target_compile_definitions(php_mbstring PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE=1)
+target_compile_definitions(php_mbstring PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE)
 
 # The mbstring_arginfo.h has some special characters.
 if(CMAKE_C_COMPILER_ID STREQUAL "MSVC")
@@ -229,6 +229,6 @@ target_include_directories(
     ${CMAKE_CURRENT_SOURCE_DIR}/libmbfl/mbfl
 )
 
-set(HAVE_MBSTRING 1)
+set(HAVE_MBSTRING TRUE)
 
 configure_file(config.cmake.h.in config.h)

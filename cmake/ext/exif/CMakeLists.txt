@@ -28,7 +28,7 @@ project(
 include(CMakeDependentOption)
 include(FeatureSummary)
 
-option(EXT_EXIF "Enable the exif extension" OFF)
+option(EXT_EXIF "Enable the exif extension")
 
 add_feature_info(
   "ext/exif"
@@ -61,7 +61,7 @@ target_sources(
     exif.stub.php
 )
 
-target_compile_definitions(php_exif PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE=1)
+target_compile_definitions(php_exif PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE)
 
 # Exif extension optionally depends on the mbstring extension when decoding
 # multibyte data in EXIF tags.
@@ -69,6 +69,6 @@ if(EXT_MBSTRING)
   add_dependencies(php_exif php_mbstring)
 endif()
 
-set(HAVE_EXIF 1)
+set(HAVE_EXIF TRUE)
 
 configure_file(config.cmake.h.in config.h)

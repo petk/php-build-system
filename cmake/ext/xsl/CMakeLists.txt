@@ -29,7 +29,7 @@ project(
 include(CMakeDependentOption)
 include(FeatureSummary)
 
-option(EXT_XSL "Enable the xsl extension" OFF)
+option(EXT_XSL "Enable the xsl extension")
 
 add_feature_info(
   "ext/xsl"
@@ -102,7 +102,7 @@ set_package_properties(
 target_link_libraries(php_xsl PRIVATE LibXslt::LibXslt)
 
 if(TARGET LibXslt::LibExslt)
-  set(HAVE_XSL_EXSLT 1)
+  set(HAVE_XSL_EXSLT TRUE)
 
   target_link_libraries(php_xsl PRIVATE LibXslt::LibExslt)
 
@@ -120,6 +120,6 @@ add_feature_info(
   "support for XSLT extensions (EXSLT)"
 )
 
-set(HAVE_XSL 1)
+set(HAVE_XSL TRUE)
 
 configure_file(config.cmake.h.in config.h)

@@ -1,4 +1,6 @@
 #[=============================================================================[
+# CheckListeningQueue
+
 Check FPM listening queue implementation.
 
 ## Cache variables

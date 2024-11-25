@@ -74,7 +74,7 @@ target_sources(
 target_compile_definitions(
   php_iconv
   PRIVATE
-    ZEND_ENABLE_STATIC_TSRMLS_CACHE=1
+    ZEND_ENABLE_STATIC_TSRMLS_CACHE
     $<$<PLATFORM_ID:Windows>:PHP_ICONV_EXPORTS>
 )
 
@@ -102,7 +102,7 @@ if(TARGET Iconv::Iconv)
     check_library_exists(Iconv::Iconv libiconv "" HAVE_LIBICONV)
 
     if(HAVE_LIBICONV)
-      set(ICONV_ALIASED_LIBICONV 1)
+      set(ICONV_ALIASED_LIBICONV TRUE)
     else()
       check_library_exists(Iconv::Iconv iconv "" _HAVE_ICONV)
     endif()
@@ -126,7 +126,7 @@ if(TARGET Iconv::Iconv)
   cmake_pop_check_state()
   if(_have_gnu_libiconv)
     message(CHECK_PASS "GNU libiconv")
-    set(HAVE_LIBICONV 1)
+    set(HAVE_LIBICONV TRUE)
     set(PHP_ICONV_IMPL "libiconv")
   endif()
 
@@ -251,6 +251,6 @@ if(TARGET Iconv::Iconv)
   endif()
 endif()
 
-set(HAVE_ICONV 1)
+set(HAVE_ICONV TRUE)
 
 configure_file(config.cmake.h.in config.h)

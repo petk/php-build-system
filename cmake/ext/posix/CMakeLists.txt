@@ -71,7 +71,7 @@ target_sources(
     posix.stub.php
 )
 
-target_compile_definitions(php_posix PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE=1)
+target_compile_definitions(php_posix PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE)
 
 check_symbol_exists(ctermid "stdio.h" HAVE_CTERMID)
 cmake_push_check_state(RESET)
@@ -129,6 +129,6 @@ cmake_push_check_state(RESET)
   )
 cmake_pop_check_state()
 
-set(HAVE_POSIX 1)
+set(HAVE_POSIX TRUE)
 
 configure_file(config.cmake.h.in config.h)

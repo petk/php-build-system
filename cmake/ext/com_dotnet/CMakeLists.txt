@@ -84,13 +84,13 @@ target_sources(
 target_compile_definitions(
   php_com_dotnet
   PRIVATE
-    ZEND_ENABLE_STATIC_TSRMLS_CACHE=1
+    ZEND_ENABLE_STATIC_TSRMLS_CACHE
 )
 
 target_link_libraries(php_com_dotnet PRIVATE oleaut32)
 
 check_include_file(mscoree.h HAVE_MSCOREE_H)
 
-set(HAVE_COM_DOTNET 1)
+set(HAVE_COM_DOTNET TRUE)
 
 configure_file(config.cmake.h.in config.h)

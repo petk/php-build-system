@@ -28,7 +28,7 @@ project(
 include(CMakeDependentOption)
 include(FeatureSummary)
 
-option(EXT_ZEND_TEST "Enable the zend_test extension" OFF)
+option(EXT_ZEND_TEST "Enable the zend_test extension")
 
 add_feature_info(
   "ext/zend_test"
@@ -72,7 +72,7 @@ target_sources(
 target_compile_definitions(
   php_zend_test
   PRIVATE
-    ZEND_ENABLE_STATIC_TSRMLS_CACHE=1
+    ZEND_ENABLE_STATIC_TSRMLS_CACHE
     # TODO: PHP_ZEND_TEST_EXPORTS is currently unused.
     $<$<PLATFORM_ID:Windows>:PHP_ZEND_TEST_EXPORTS>
 )

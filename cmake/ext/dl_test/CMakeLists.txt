@@ -23,7 +23,7 @@ project(
 
 include(FeatureSummary)
 
-option(EXT_DL_TEST "Enable the dl_test extension" OFF)
+option(EXT_DL_TEST "Enable the dl_test extension")
 
 add_feature_info(
   "ext/dl_test"
@@ -47,7 +47,7 @@ target_sources(
 target_compile_definitions(
   php_dl_test
   PRIVATE
-    ZEND_ENABLE_STATIC_TSRMLS_CACHE=1
+    ZEND_ENABLE_STATIC_TSRMLS_CACHE
     # TODO: PHP_DL_TEST_EXPORTS is currently unused.
     $<$<AND:$<PLATFORM_ID:Windows>,$<IN_LIST:$<TARGET_PROPERTY:TYPE>,MODULE_LIBRARY;SHARED_LIBRARY>>:PHP_DL_TEST_EXPORTS>
 )

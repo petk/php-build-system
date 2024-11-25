@@ -46,7 +46,7 @@ include(CMakePushCheckState)
 include(FeatureSummary)
 include(PHP/CheckCompilerFlag)
 
-option(EXT_READLINE "Enable the readline extension (only for CLI-based SAPIs)" OFF)
+option(EXT_READLINE "Enable the readline extension (only for CLI-based SAPIs)")
 
 add_feature_info(
   "ext/readline"
@@ -127,7 +127,7 @@ if(TARGET Editline::Editline)
   )
 endif()
 
-set(HAVE_LIBEDIT 1)
+set(HAVE_LIBEDIT TRUE)
 
 cmake_push_check_state(RESET)
   set(CMAKE_REQUIRED_LIBRARIES Editline::Editline)

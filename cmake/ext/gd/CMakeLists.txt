@@ -83,7 +83,7 @@ include(FeatureSummary)
 include(PHP/CheckCompilerFlag)
 include(PHP/SearchLibraries)
 
-option(EXT_GD "Enable the gd extension" OFF)
+option(EXT_GD "Enable the gd extension")
 
 add_feature_info(
   "ext/gd"
@@ -282,12 +282,12 @@ if(NOT EXT_GD_EXTERNAL)
           libgd/wbmp.h
   )
 
-  set(HAVE_GD_BUNDLED 1)
+  set(HAVE_GD_BUNDLED TRUE)
 
   # With bundled GD library these are always available.
-  set(HAVE_GD_PNG 1)
-  set(HAVE_GD_BMP 1)
-  set(HAVE_GD_TGA 1)
+  set(HAVE_GD_PNG TRUE)
+  set(HAVE_GD_BMP TRUE)
+  set(HAVE_GD_TGA TRUE)
 
   php_search_libraries(
     floorf
@@ -328,7 +328,7 @@ if(NOT EXT_GD_EXTERNAL)
 
   target_link_libraries(php_gd PRIVATE PNG::PNG)
 
-  set(HAVE_LIBPNG 1)
+  set(HAVE_LIBPNG TRUE)
 
   if(EXT_GD_AVIF)
     find_package(libavif 0.8.2)
@@ -341,8 +341,8 @@ if(NOT EXT_GD_EXTERNAL)
 
     target_link_libraries(php_gd PRIVATE libavif::libavif)
 
-    set(HAVE_LIBAVIF 1)
-    set(HAVE_GD_AVIF 1)
+    set(HAVE_LIBAVIF TRUE)
+    set(HAVE_GD_AVIF TRUE)
   endif()
 
   if(EXT_GD_WEBP)
@@ -356,8 +356,8 @@ if(NOT EXT_GD_EXTERNAL)
 
     target_link_libraries(php_gd PRIVATE WebP::WebP)
 
-    set(HAVE_LIBWEBP 1)
-    set(HAVE_GD_WEBP 1)
+    set(HAVE_LIBWEBP TRUE)
+    set(HAVE_GD_WEBP TRUE)
   endif()
 
   if(EXT_GD_JPEG)
@@ -371,8 +371,8 @@ if(NOT EXT_GD_EXTERNAL)
 
     target_link_libraries(php_gd PRIVATE JPEG::JPEG)
 
-    set(HAVE_LIBJPEG 1)
-    set(HAVE_GD_JPG 1)
+    set(HAVE_LIBJPEG TRUE)
+    set(HAVE_GD_JPG TRUE)
   endif()
 
   if(EXT_GD_XPM)
@@ -386,8 +386,8 @@ if(NOT EXT_GD_EXTERNAL)
 
     target_link_libraries(php_gd PRIVATE XPM::XPM)
 
-    set(HAVE_XPM 1)
-    set(HAVE_GD_XPM 1)
+    set(HAVE_XPM TRUE)
+    set(HAVE_GD_XPM TRUE)
   endif()
 
   if(EXT_GD_FREETYPE)
@@ -401,13 +401,13 @@ if(NOT EXT_GD_EXTERNAL)
 
     target_link_libraries(php_gd PRIVATE Freetype::Freetype)
 
-    set(HAVE_LIBFREETYPE 1)
-    set(HAVE_GD_FREETYPE 1)
+    set(HAVE_LIBFREETYPE TRUE)
+    set(HAVE_GD_FREETYPE TRUE)
   endif()
 
   if(EXT_GD_JIS)
-    set(JISX0208 1)
-    set(USE_GD_JISX0208 1)
+    set(JISX0208 TRUE)
+    set(USE_GD_JISX0208 TRUE)
   endif()
 
   # Do sanity check when all required packages are found.

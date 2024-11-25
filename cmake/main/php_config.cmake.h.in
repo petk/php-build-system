@@ -634,7 +634,7 @@
 /* The size of 'ssize_t', as computed by sizeof. */
 @SIZEOF_SSIZE_T_CODE@
 
-@PHP_SYSTEM_EXTENSIONS@
+@PHP_SYSTEM_EXTENSIONS_CODE@
 
 /* Define if processor uses big-endian word. */
 #cmakedefine WORDS_BIGENDIAN

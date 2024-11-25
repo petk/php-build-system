@@ -86,6 +86,6 @@ endif()
 
 add_dependencies(php_xmlreader php_libxml)
 
-set(HAVE_XMLREADER 1)
+set(HAVE_XMLREADER TRUE)
 
 configure_file(config.cmake.h.in config.h)

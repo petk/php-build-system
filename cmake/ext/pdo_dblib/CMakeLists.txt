@@ -29,7 +29,7 @@ project(
 include(CMakeDependentOption)
 include(FeatureSummary)
 
-option(EXT_PDO_DBLIB "Enable the pdo_dblib extension" OFF)
+option(EXT_PDO_DBLIB "Enable the pdo_dblib extension")
 
 add_feature_info(
   "ext/pdo_dblib"
@@ -69,7 +69,7 @@ add_dependencies(php_pdo_dblib php_pdo)
 target_compile_definitions(
   php_pdo_dblib
   PRIVATE
-    ZEND_ENABLE_STATIC_TSRMLS_CACHE=1
+    ZEND_ENABLE_STATIC_TSRMLS_CACHE
     PDO_DBLIB_FLAVOUR="freetds"
 )
 

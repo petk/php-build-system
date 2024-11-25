@@ -32,7 +32,7 @@ include(CMakeDependentOption)
 include(CMakePushCheckState)
 include(FeatureSummary)
 
-option(EXT_CURL "Enable the curl extension" OFF)
+option(EXT_CURL "Enable the curl extension")
 
 add_feature_info(
   "ext/curl"
@@ -180,6 +180,6 @@ if(TARGET CURL::libcurl)
   endif()
 endif()
 
-set(HAVE_CURL 1)
+set(HAVE_CURL TRUE)
 
 configure_file(config.cmake.h.in config.h)

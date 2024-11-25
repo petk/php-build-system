@@ -32,7 +32,7 @@ include(CMakeDependentOption)
 include(CMakePushCheckState)
 include(FeatureSummary)
 
-option(EXT_FFI "Enable the ffi extension" OFF)
+option(EXT_FFI "Enable the ffi extension")
 
 add_feature_info(
   "ext/ffi"
@@ -66,7 +66,7 @@ target_sources(
     ffi.stub.php
 )
 
-target_compile_definitions(php_ffi PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE=1)
+target_compile_definitions(php_ffi PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE)
 
 find_package(FFI 3.0.11)
 set_package_properties(
@@ -101,6 +101,6 @@ if(TARGET FFI::FFI)
   cmake_pop_check_state()
 endif()
 
-set(HAVE_FFI 1)
+set(HAVE_FFI TRUE)
 
 configure_file(config.cmake.h.in config.h)

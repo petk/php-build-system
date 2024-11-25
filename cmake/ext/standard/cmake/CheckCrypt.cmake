@@ -1,15 +1,17 @@
 #[=============================================================================[
+# CheckCrypt
+
 Check whether the `crypt` library works as expected for PHP by running a set of
 PHP-specific checks.
 
 ## Cache variables
 
-* HAVE_CRYPT_H
-* HAVE_CRYPT
-* HAVE_CRYPT_R
-* CRYPT_R_CRYPTD
-* CRYPT_R_STRUCT_CRYPT_DATA
-* CRYPT_R_GNU_SOURCE
+* `HAVE_CRYPT_H`
+* `HAVE_CRYPT`
+* `HAVE_CRYPT_R`
+* `CRYPT_R_CRYPTD`
+* `CRYPT_R_STRUCT_CRYPT_DATA`
+* `CRYPT_R_GNU_SOURCE`
 #]=============================================================================]
 
 include_guard(GLOBAL)
@@ -131,7 +133,7 @@ function(_php_check_crypt_r result)
 
     if(CRYPT_R_GNU_SOURCE)
       set(
-        CRYPT_R_STRUCT_CRYPT_DATA 1
+        CRYPT_R_STRUCT_CRYPT_DATA TRUE
         CACHE INTERNAL "Define if crypt_r uses struct crypt_data"
       )
 
@@ -155,7 +157,7 @@ function(_php_check_crypt_r result)
 
     if(_CRYPT_R_STRUCT_CRYPT_DATA)
       set(
-        CRYPT_R_STRUCT_CRYPT_DATA 1
+        CRYPT_R_STRUCT_CRYPT_DATA TRUE
         CACHE INTERNAL "Define if crypt_r uses struct crypt_data"
       )
 
@@ -184,11 +186,11 @@ function(_php_check_crypt_is_usable)
     set(CMAKE_REQUIRED_QUIET TRUE)
 
     if(HAVE_UNISTD_H)
-      list(APPEND CMAKE_REQUIRED_DEFINITIONS -DHAVE_UNISTD_H=1)
+      list(APPEND CMAKE_REQUIRED_DEFINITIONS -DHAVE_UNISTD_H)
     endif()
 
     if(HAVE_CRYPT_H)
-      list(APPEND CMAKE_REQUIRED_DEFINITIONS -DHAVE_CRYPT_H=1)
+      list(APPEND CMAKE_REQUIRED_DEFINITIONS -DHAVE_CRYPT_H)
     endif()
 
     set(CMAKE_REQUIRED_LIBRARIES Crypt::Crypt)

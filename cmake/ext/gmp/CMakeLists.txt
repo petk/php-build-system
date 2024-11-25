@@ -28,7 +28,7 @@ project(
 include(CMakeDependentOption)
 include(FeatureSummary)
 
-option(EXT_GMP "Enable the gmp extension" OFF)
+option(EXT_GMP "Enable the gmp extension")
 
 add_feature_info(
   "ext/gmp"
@@ -65,7 +65,7 @@ target_sources(
         php_gmp_int.h
 )
 
-target_compile_definitions(php_gmp PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE=1)
+target_compile_definitions(php_gmp PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE)
 
 find_package(GMP 4.2)
 set_package_properties(
@@ -79,6 +79,6 @@ target_link_libraries(php_gmp PUBLIC GMP::GMP)
 
 add_dependencies(php_gmp php_random)
 
-set(HAVE_GMP 1)
+set(HAVE_GMP TRUE)
 
 configure_file(config.cmake.h.in config.h)

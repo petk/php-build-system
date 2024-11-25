@@ -69,10 +69,10 @@ if(NOT LibXml2_FOUND)
 
   # Move dependency to PACKAGES_FOUND.
   block()
-    get_cmake_property(packagesNotFound PACKAGES_NOT_FOUND)
+    get_property(packagesNotFound GLOBAL PROPERTY PACKAGES_NOT_FOUND)
     list(REMOVE_ITEM packagesNotFound LibXml2)
     set_property(GLOBAL PROPERTY PACKAGES_NOT_FOUND packagesNotFound)
-    get_cmake_property(packagesFound PACKAGES_FOUND)
+    get_property(packagesFound GLOBAL PROPERTY PACKAGES_FOUND)
     set_property(GLOBAL APPEND PROPERTY PACKAGES_FOUND LibXml2)
   endblock()
 

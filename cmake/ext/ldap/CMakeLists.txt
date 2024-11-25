@@ -39,7 +39,7 @@ include(CMakeDependentOption)
 include(CMakePushCheckState)
 include(FeatureSummary)
 
-option(EXT_LDAP "Enable the ldap extension" OFF)
+option(EXT_LDAP "Enable the ldap extension")
 
 add_feature_info(
   "ext/ldap"
@@ -80,7 +80,7 @@ target_sources(
     ldap.stub.php
 )
 
-target_compile_definitions(php_ldap PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE=1)
+target_compile_definitions(php_ldap PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE)
 
 find_package(LDAP)
 set_package_properties(
@@ -152,9 +152,9 @@ if(EXT_LDAP_SASL)
 
   target_link_libraries(php_ldap PRIVATE SASL::SASL)
 
-  set(HAVE_LDAP_SASL 1)
+  set(HAVE_LDAP_SASL TRUE)
 endif()
 
-set(HAVE_LDAP 1)
+set(HAVE_LDAP TRUE)
 
 configure_file(config.cmake.h.in config.h)

@@ -47,7 +47,7 @@ include(FeatureSummary)
 include(PHP/Install)
 include(PHP/Set)
 
-option(PHP_PEAR "Install PEAR" OFF)
+option(PHP_PEAR "Install PEAR")
 
 add_feature_info(
   "PEAR"

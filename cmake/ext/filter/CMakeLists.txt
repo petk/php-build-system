@@ -68,6 +68,6 @@ target_sources(
         php_filter.h
 )
 
-target_compile_definitions(php_filter PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE=1)
+target_compile_definitions(php_filter PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE)
 
 add_dependencies(php_filter php_pcre)

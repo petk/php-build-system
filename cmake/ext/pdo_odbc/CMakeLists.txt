@@ -87,7 +87,7 @@ include(CMakeDependentOption)
 include(FeatureSummary)
 include(PHP/Set)
 
-option(EXT_PDO_ODBC "Enable the pdo_odbc extension" OFF)
+option(EXT_PDO_ODBC "Enable the pdo_odbc extension")
 add_feature_info(
   "ext/pdo_odbc"
   EXT_PDO_ODBC
