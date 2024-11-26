@@ -22,7 +22,7 @@ add_feature_info(
   "random number generators and functions related to randomness"
 )
 
-add_library(php_random STATIC)
+add_library(php_random OBJECT)
 
 target_sources(
   php_random
