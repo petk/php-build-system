@@ -536,8 +536,6 @@ add_library(php_standard_functions OBJECT)
 target_sources(php_standard_functions_cli PRIVATE basic_functions.c dir.c)
 target_sources(php_standard_functions PRIVATE basic_functions.c dir.c)
 
-target_compile_definitions(php_standard_functions_cli PRIVATE )
-
 target_include_directories(
   php_standard_functions_cli
   PRIVATE
@@ -548,6 +546,7 @@ target_include_directories(
   PRIVATE
     $<TARGET_PROPERTY:php_standard,INCLUDE_DIRECTORIES>
 )
+
 target_compile_definitions(
   php_standard_functions_cli
   PRIVATE
@@ -558,6 +557,7 @@ target_compile_definitions(
   php_standard_functions
   PRIVATE $<TARGET_PROPERTY:php_standard,COMPILE_DEFINITIONS>
 )
+
 target_link_libraries(
   php_standard_functions_cli
   PRIVATE $<TARGET_PROPERTY:php_standard,LINK_LIBRARIES>
@@ -566,6 +566,9 @@ target_link_libraries(
   php_standard_functions
   PRIVATE $<TARGET_PROPERTY:php_standard,LINK_LIBRARIES>
 )
+
+add_dependencies(php_standard_functions_cli php_standard)
+add_dependencies(php_standard_functions php_standard)
 
 ################################################################################
 # Configuration header
