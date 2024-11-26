@@ -77,6 +77,9 @@ target_sources(
         php_pcre.h
 )
 
+# TODO: Fix this better for OBJECT libraries, which can't handle .def files.
+set_source_files_properties(php_pcre.def PROPERTIES HEADER_FILE_ONLY TRUE)
+
 target_compile_definitions(php_pcre PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE)
 
 set(PCRE2_CODE_UNIT_WIDTH 8)
