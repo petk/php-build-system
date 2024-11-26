@@ -78,57 +78,73 @@ add_library(PHP::extensions ALIAS php_extensions)
 # Add subdirectories of extensions.
 foreach(extension IN LISTS extensions)
   list(APPEND CMAKE_MESSAGE_CONTEXT "${extension}")
+
   message(CHECK_START "Configuring extension ${extension}")
   list(APPEND CMAKE_MESSAGE_INDENT "  ")
-
   add_subdirectory("${extension}")
-
   php_extensions_postconfigure("${extension}")
-
   list(POP_BACK CMAKE_MESSAGE_INDENT)
-  if(TARGET php_${extension})
-    set_property(GLOBAL APPEND PROPERTY PHP_EXTENSIONS ${extension})
 
-    # Add extension's PUBLIC/INTERFACE compile properties to configuration.
-    # Cleaner COMPILE_ONLY generator expression is available in CMake >= 3.27.
-    if(CMAKE_VERSION VERSION_GREATER_EQUAL 3.27)
-      target_link_libraries(
-        php_configuration
-        INTERFACE
-          $<COMPILE_ONLY:PHP::${extension}>
-      )
-    else()
-      # TODO: Fix this better. Either require 3.27, or limit/adjust compile
-      # properties propagated globally. Also, shared extensions shouldn't
-      # propagate globally.
-      # https://cmake.org/cmake/help/latest/manual/cmake-buildsystem.7.html#id36
-      target_include_directories(
-        php_configuration
-        INTERFACE
-          $<TARGET_PROPERTY:PHP::${extension},INTERFACE_INCLUDE_DIRECTORIES>
-      )
-    endif()
+  if(NOT TARGET php_${extension})
+    message(CHECK_FAIL "disabled")
+    list(POP_BACK CMAKE_MESSAGE_CONTEXT)
+    continue()
+  endif()
 
-    target_link_libraries(php_${extension} PRIVATE PHP::configuration)
+  set_property(GLOBAL APPEND PROPERTY PHP_EXTENSIONS ${extension})
 
-    # Add configuration compile options before the extension compile options.
-    target_compile_options(
-      php_${extension}
-      BEFORE PRIVATE
-        $<TARGET_PROPERTY:php_configuration,INTERFACE_COMPILE_OPTIONS>
+  add_dependencies(php_${extension} Zend::Zend)
+
+  # Add extension's PUBLIC/INTERFACE compile properties to configuration.
+  # Cleaner COMPILE_ONLY generator expression is available in CMake >= 3.27.
+  if(CMAKE_VERSION VERSION_GREATER_EQUAL 3.27)
+    target_link_libraries(
+      php_configuration
+      INTERFACE
+        $<COMPILE_ONLY:PHP::${extension}>
+    )
+  else()
+    # TODO: Fix this better. Either require 3.27, or limit/adjust compile
+    # properties propagated globally. Also, shared extensions shouldn't
+    # propagate globally.
+    # https://cmake.org/cmake/help/latest/manual/cmake-buildsystem.7.html#id36
+    target_include_directories(
+      php_configuration
+      INTERFACE
+        $<TARGET_PROPERTY:PHP::${extension},INTERFACE_INCLUDE_DIRECTORIES>
+    )
+  endif()
+
+  target_link_libraries(php_${extension} PRIVATE PHP::configuration)
+
+  # Add configuration compile options before the extension compile options.
+  target_compile_options(
+    php_${extension}
+    BEFORE PRIVATE
+      $<TARGET_PROPERTY:php_configuration,INTERFACE_COMPILE_OPTIONS>
+  )
+
+  get_target_property(type php_${extension} TYPE)
+  if(NOT type MATCHES "^(MODULE|SHARED)_LIBRARY$")
+    target_link_libraries(
+      php_extensions
+      INTERFACE
+        # If extension is STATIC library link as whole archive, otherwise link
+        # normally:
+        $<IF:$<STREQUAL:$<TARGET_PROPERTY:PHP::${extension},TYPE>,STATIC_LIBRARY>,$<LINK_LIBRARY:WHOLE_ARCHIVE,PHP::${extension}>,PHP::${extension}>
     )
 
-    add_dependencies(php_${extension} Zend::Zend)
-
-    get_target_property(type php_${extension} TYPE)
-    if(NOT type MATCHES "^(MODULE|SHARED)_LIBRARY$")
-      target_link_libraries(php_extensions INTERFACE PHP::${extension})
-    endif()
-
-    message(CHECK_PASS "enabled")
-  else()
-    message(CHECK_FAIL "disabled")
+    target_sources(
+      php_extensions
+      INTERFACE
+        # If extension is OBJECT library:
+        $<$<STREQUAL:$<TARGET_PROPERTY:PHP::${extension},TYPE>,OBJECT_LIBRARY>:$<TARGET_OBJECTS:PHP::${extension}>>
+        # If extension and linked target (SAPI) are both STATIC libraries:
+        $<$<AND:$<STREQUAL:$<TARGET_PROPERTY:TYPE>,STATIC_LIBRARY>,$<STREQUAL:$<TARGET_PROPERTY:PHP::${extension},TYPE>,STATIC_LIBRARY>>:$<TARGET_OBJECTS:PHP::${extension}>>
+    )
   endif()
+
+  message(CHECK_PASS "enabled")
   list(POP_BACK CMAKE_MESSAGE_CONTEXT)
 endforeach()
 

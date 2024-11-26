@@ -20,7 +20,7 @@ add_feature_info(
   "reflection API to introspect PHP code"
 )
 
-add_library(php_reflection STATIC)
+add_library(php_reflection OBJECT)
 target_sources(
   php_reflection
   PRIVATE

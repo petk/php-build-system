@@ -20,7 +20,7 @@ add_feature_info(
   "JavaScript Object Notation"
 )
 
-add_library(php_json STATIC)
+add_library(php_json OBJECT)
 
 target_sources(
   php_json

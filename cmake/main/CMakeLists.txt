@@ -163,7 +163,8 @@ target_link_libraries(
   INTERFACE
     PHP::configuration
     php_main
-    Zend::Zend
+    # If Zend is STATIC library link as whole archive, otherwise link normally.
+    $<IF:$<STREQUAL:$<TARGET_PROPERTY:Zend::Zend,TYPE>,STATIC_LIBRARY>,$<LINK_LIBRARY:WHOLE_ARCHIVE,Zend::Zend>,Zend::Zend>
     $<$<TARGET_EXISTS:PHP::windows>::PHP::windows>
     PHP::extensions
 )
@@ -176,9 +177,17 @@ target_sources(
   php
   INTERFACE
     $<TARGET_OBJECTS:php_main>
+
     # Internal functions objects based on the SAPI type.
     $<IF:$<BOOL:$<TARGET_PROPERTY:PHP_SAPI_CLI>>,$<TARGET_OBJECTS:php_main_internal_functions_cli>,$<TARGET_OBJECTS:php_main_internal_functions>>
-    $<TARGET_OBJECTS:Zend::Zend>
+
+    # If Zend is OBJECT library, add library objects as sources.
+    $<$<STREQUAL:$<TARGET_PROPERTY:Zend::Zend,TYPE>,OBJECT_LIBRARY>:$<TARGET_OBJECTS:Zend::Zend>>
+
+    # If Zend is STATIC library, and linking to a STATIC library (SAPI), add
+    # library objects as sources.
+    $<$<AND:$<STREQUAL:$<TARGET_PROPERTY:TYPE>,STATIC_LIBRARY>,$<STREQUAL:$<TARGET_PROPERTY:Zend::Zend,TYPE>,STATIC_LIBRARY>>:$<TARGET_OBJECTS:Zend::Zend>>
+
     $<$<TARGET_EXISTS:PHP::windows>:$<TARGET_OBJECTS:PHP::windows>>
 )
 

@@ -60,7 +60,7 @@ add_feature_info(
 # Add library.
 ################################################################################
 
-add_library(php_standard STATIC)
+add_library(php_standard OBJECT)
 
 target_sources(
   php_standard

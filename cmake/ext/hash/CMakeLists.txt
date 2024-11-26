@@ -47,7 +47,7 @@ if(EXT_HASH_MHASH)
   set(PHP_MHASH_BC TRUE)
 endif()
 
-add_library(php_hash STATIC)
+add_library(php_hash OBJECT)
 
 target_sources(
   php_hash
