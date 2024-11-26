@@ -57,6 +57,7 @@ include(CMakeDependentOption)
 include(CMakePushCheckState)
 include(FeatureSummary)
 include(PHP/AddCustomCommand)
+include(PHP/SearchLibraries)
 
 ################################################################################
 # Configuration.
@@ -556,6 +557,14 @@ include(cmake/CheckFloatPrecision.cmake)
 
 # Check for strerror_r, and if its a POSIX-compatible or a GNU-specific version.
 include(cmake/CheckStrerrorR.cmake)
+
+# Check for Solaris/illumos process mapping.
+php_search_libraries(
+  Pgrab
+  HEADERS libproc.h
+  LIBRARIES proc
+  TARGET zend PRIVATE
+)
 
 ################################################################################
 # Generate lexers and parsers.

@@ -655,14 +655,6 @@ php_search_libraries(
   TARGET php_configuration INTERFACE
 )
 
-# Check for Solaris/illumos process mapping.
-php_search_libraries(
-  Pgrab
-  HEADERS libproc.h
-  LIBRARIES proc
-  TARGET php_configuration INTERFACE
-)
-
 # The gai_strerror() is mostly in C library (Solaris 11.4...)
 php_search_libraries(
   gai_strerror
