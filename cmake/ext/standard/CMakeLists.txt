@@ -68,7 +68,6 @@ target_sources(
     array.c
     assert.c
     base64.c
-    basic_functions.c
     basic_functions.stub.php
     browscap.c
     crc32.c
@@ -76,7 +75,6 @@ target_sources(
     crypt.c
     css.c
     datetime.c
-    dir.c
     dir.stub.php
     dl.c
     dl.stub.php
@@ -522,8 +520,55 @@ block()
   add_dependencies(php_standard php_standard_credits)
 endblock()
 
-# TODO: Check whether to enable the chroot() function by checking which SAPI is
-# being built.
-set(ENABLE_CHROOT_FUNC TRUE)
+################################################################################
+# Add chroot() based on the SAPI type. It should be enabled only for the
+# CLI-based SAPIs. This enables building all SAPIs in a single build invocation.
+# Here, a build-time solution is integrated, although this would be better
+# resolved as mentioned in the issue report.
+# See: https://github.com/php/php-src/issues/11984
+################################################################################
+
+check_symbol_exists(chroot "unistd.h" HAVE_CHROOT)
+
+add_library(php_standard_functions_cli OBJECT)
+add_library(php_standard_functions OBJECT)
+
+target_sources(php_standard_functions_cli PRIVATE basic_functions.c dir.c)
+target_sources(php_standard_functions PRIVATE basic_functions.c dir.c)
+
+target_compile_definitions(php_standard_functions_cli PRIVATE )
+
+target_include_directories(
+  php_standard_functions_cli
+  PRIVATE
+    $<TARGET_PROPERTY:php_standard,INCLUDE_DIRECTORIES>
+)
+target_include_directories(
+  php_standard_functions
+  PRIVATE
+    $<TARGET_PROPERTY:php_standard,INCLUDE_DIRECTORIES>
+)
+target_compile_definitions(
+  php_standard_functions_cli
+  PRIVATE
+    $<TARGET_PROPERTY:php_standard,COMPILE_DEFINITIONS>
+    ENABLE_CHROOT_FUNC
+)
+target_compile_definitions(
+  php_standard_functions
+  PRIVATE $<TARGET_PROPERTY:php_standard,COMPILE_DEFINITIONS>
+)
+target_link_libraries(
+  php_standard_functions_cli
+  PRIVATE $<TARGET_PROPERTY:php_standard,LINK_LIBRARIES>
+)
+target_link_libraries(
+  php_standard_functions
+  PRIVATE $<TARGET_PROPERTY:php_standard,LINK_LIBRARIES>
+)
+
+################################################################################
+# Configuration header
+################################################################################
 
 configure_file(config.cmake.h.in config.h)

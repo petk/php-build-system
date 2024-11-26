@@ -189,6 +189,9 @@ target_sources(
     $<$<AND:$<STREQUAL:$<TARGET_PROPERTY:TYPE>,STATIC_LIBRARY>,$<STREQUAL:$<TARGET_PROPERTY:Zend::Zend,TYPE>,STATIC_LIBRARY>>:$<TARGET_OBJECTS:Zend::Zend>>
 
     $<$<TARGET_EXISTS:PHP::windows>:$<TARGET_OBJECTS:PHP::windows>>
+
+    # ext/standard functions objects based on the SAPI type.
+    $<IF:$<BOOL:$<TARGET_PROPERTY:PHP_SAPI_CLI>>,$<TARGET_OBJECTS:php_standard_functions_cli>,$<TARGET_OBJECTS:php_standard_functions>>
 )
 
 ################################################################################

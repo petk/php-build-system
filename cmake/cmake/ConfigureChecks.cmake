@@ -256,7 +256,6 @@ include(PHP/CheckAVX512)
 ################################################################################
 
 check_symbol_exists(alphasort "dirent.h" HAVE_ALPHASORT)
-check_symbol_exists(chroot "unistd.h" HAVE_CHROOT)
 check_symbol_exists(explicit_memset "string.h" HAVE_EXPLICIT_MEMSET)
 check_symbol_exists(fdatasync "unistd.h" HAVE_FDATASYNC)
 # The fdatasync declaration on macOS is missing in headers, yet is in C library.
