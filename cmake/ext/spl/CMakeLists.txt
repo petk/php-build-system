@@ -19,7 +19,7 @@ add_feature_info(
   "Standard PHP library (SPL)"
 )
 
-add_library(php_spl STATIC)
+add_library(php_spl OBJECT)
 
 target_sources(
   php_spl

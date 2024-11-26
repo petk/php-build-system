@@ -25,7 +25,7 @@ add_feature_info(
 # Check for headers needed by timelib.
 check_include_file(io.h HAVE_IO_H)
 
-add_library(php_date STATIC)
+add_library(php_date OBJECT)
 
 target_sources(
   php_date
