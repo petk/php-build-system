@@ -63,7 +63,7 @@ endif()
 # Get version.
 block(PROPAGATE Sodium_VERSION)
   if(EXISTS ${Sodium_INCLUDE_DIR}/sodium/version.h)
-    set(regex [[^#[ \t]*define[ \t]+SODIUM_VERSION_STRING[ \t]+"([0-9.]+)"[ \t]*$]])
+    set(regex "^#[ \t]*define[ \t]+SODIUM_VERSION_STRING[ \t]+\"([0-9.]+)\"[ \t]*$")
 
     file(STRINGS ${Sodium_INCLUDE_DIR}/sodium/version.h result REGEX "${regex}")
 

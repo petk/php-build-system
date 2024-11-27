@@ -161,7 +161,7 @@ if(TARGET Cclient::Cclient)
       ${Cclient_INCLUDE_DIR}/linkage.c
       ssl_onceonlyinit_results
       REGEX
-      [[ssl_onceonlyinit[ \t]*\(\);$]]
+      "ssl_onceonlyinit[ \t]*\\(\\);$"
     )
 
     if((NOT EXT_IMAP_SSL AND ssl_onceonlyinit_results) OR EXT_IMAP_SSL)

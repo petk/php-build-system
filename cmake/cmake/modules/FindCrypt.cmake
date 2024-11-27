@@ -124,7 +124,7 @@ endif()
 # Get version.
 block(PROPAGATE Crypt_VERSION)
   if(EXISTS ${Crypt_INCLUDE_DIR}/crypt.h)
-    set(regex [[^[ \t]*#[ \t]*define[ \t]+XCRYPT_VERSION_STR[ \t]+"?([^"]+)"?[ \t]*$]])
+    set(regex "^[ \t]*#[ \t]*define[ \t]+XCRYPT_VERSION_STR[ \t]+\"?([^\"]+)\"?[ \t]*$")
 
     file(STRINGS ${Crypt_INCLUDE_DIR}/crypt.h result REGEX "${regex}")
 

@@ -72,7 +72,7 @@ endif()
 block(PROPAGATE libzip_VERSION)
   # Version in zipconf.h is available since libzip 1.4.0.
   if(EXISTS ${libzip_INCLUDE_DIR}/zipconf.h)
-    set(regex [[^[ \t]*#[ \t]*define[ \t]+LIBZIP_VERSION[ \t]+"?([^"]+)"?[ \t]*$]])
+    set(regex "^[ \t]*#[ \t]*define[ \t]+LIBZIP_VERSION[ \t]+\"?([^\"]+)\"?[ \t]*$")
 
     file(STRINGS ${libzip_INCLUDE_DIR}/zipconf.h result REGEX "${regex}")
 

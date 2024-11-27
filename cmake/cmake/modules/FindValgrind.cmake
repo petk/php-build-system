@@ -63,7 +63,7 @@ endif()
 
 block(PROPAGATE Valgrind_VERSION)
   if(EXISTS ${Valgrind_INCLUDE_DIR}/valgrind/config.h)
-    set(regex [[^[ \t]*#[ \t]*define[ \t]+VERSION[ \t]+"?([^"]+)"?[ \t]*$]])
+    set(regex "^[ \t]*#[ \t]*define[ \t]+VERSION[ \t]+\"?([^\"]+)\"?[ \t]*$")
 
     file(STRINGS ${Valgrind_INCLUDE_DIR}/valgrind/config.h result REGEX "${regex}")
 

@@ -41,41 +41,41 @@ block()
     DLSYM_NEEDS_UNDERSCORE_COMPILED
     SOURCE_FROM_CONTENT src.c [[
       #ifdef HAVE_DLFCN_H
-      #  include <dlfcn.h>
+      # include <dlfcn.h>
       #endif
 
       #include <stdio.h>
 
       #ifdef RTLD_GLOBAL
-      #  define LT_DLGLOBAL RTLD_GLOBAL
+      # define LT_DLGLOBAL  RTLD_GLOBAL
       #else
-      #  ifdef DL_GLOBAL
-      #    define LT_DLGLOBAL DL_GLOBAL
-      #  else
-      #    define LT_DLGLOBAL 0
-      #  endif
+      # ifdef DL_GLOBAL
+      #  define LT_DLGLOBAL DL_GLOBAL
+      # else
+      #  define LT_DLGLOBAL 0
+      # endif
       #endif
 
       /* We may need to define LT_DLLAZY_OR_NOW on the command line if we
-        discover that it does not work on some platform. */
+         discover that it does not work on some platform. */
       #ifndef LT_DLLAZY_OR_NOW
-      #  ifdef RTLD_LAZY
-      #    define LT_DLLAZY_OR_NOW       RTLD_LAZY
+      # ifdef RTLD_LAZY
+      #  define LT_DLLAZY_OR_NOW    RTLD_LAZY
+      # else
+      #  ifdef DL_LAZY
+      #   define LT_DLLAZY_OR_NOW   DL_LAZY
       #  else
-      #    ifdef DL_LAZY
-      #      define LT_DLLAZY_OR_NOW     DL_LAZY
+      #   ifdef RTLD_NOW
+      #    define LT_DLLAZY_OR_NOW  RTLD_NOW
+      #   else
+      #    ifdef DL_NOW
+      #     define LT_DLLAZY_OR_NOW DL_NOW
       #    else
-      #      ifdef RTLD_NOW
-      #        define LT_DLLAZY_OR_NOW   RTLD_NOW
-      #      else
-      #        ifdef DL_NOW
-      #          define LT_DLLAZY_OR_NOW DL_NOW
-      #        else
-      #          define LT_DLLAZY_OR_NOW 0
-      #        endif
-      #      endif
+      #     define LT_DLLAZY_OR_NOW 0
       #    endif
+      #   endif
       #  endif
+      # endif
       #endif
 
       /* When -fvisibility=hidden is used, assume the code has been annotated
