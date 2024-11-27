@@ -505,7 +505,7 @@ add_feature_info(
 
 include(cmake/MaxExecutionTimers.cmake)
 if(TARGET Zend::MaxExecutionTimers)
-  target_link_libraries(zend PRIVATE Zend::MaxExecutionTimers)
+  target_link_libraries(zend PUBLIC Zend::MaxExecutionTimers)
 endif()
 
 ################################################################################
