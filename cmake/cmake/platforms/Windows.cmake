@@ -40,4 +40,7 @@ if(CMAKE_SYSTEM_NAME STREQUAL "Windows")
 
   set(HAVE_NICE TRUE)
   set(HAVE_FNMATCH TRUE)
+
+  # PHP defines getpid as _getpid on Windows.
+  set(HAVE_GETPID TRUE)
 endif()

@@ -73,7 +73,7 @@ endif()
 
 block(PROPAGATE QDBM_VERSION)
   if(QDBM_INCLUDE_DIR)
-    set(regex [[^[ \t]*#[ \t]*define[ \t]+_QDBM_VERSION[ \t]+"?([0-9.]+)"?[ \t]*$]])
+    set(regex "^[ \t]*#[ \t]*define[ \t]+_QDBM_VERSION[ \t]+\"?([0-9.]+)\"?[ \t]*$")
 
     file(STRINGS ${QDBM_INCLUDE_DIR}/depot.h result REGEX "${regex}")
 

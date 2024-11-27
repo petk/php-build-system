@@ -5,7 +5,7 @@ Check whether to enable Zend max execution timers.
 
 ## Cache variables
 
-* [`ZEND_MAX_EXECUTION_TIMERS`](/docs/cmake/variables/ZEND_MAX_EXECUTION_TIMERS.md)
+* `ZEND_MAX_EXECUTION_TIMERS`
 
 * `HAVE_TIMER_CREATE`
 
@@ -37,8 +37,8 @@ if(CMAKE_SYSTEM_NAME STREQUAL "Windows")
   return()
 endif()
 
-include(PHP/SearchLibraries)
 include(FeatureSummary)
+include(PHP/SearchLibraries)
 
 set(
   ZEND_MAX_EXECUTION_TIMERS "auto"
@@ -102,8 +102,8 @@ if(libraryForTimerCreate)
   )
 endif()
 
-# The configuration header with ZEND_MAX_EXECUTION_TIMERS might not be included
-# in some source files, therefore also compilation definitions are added.
+# zend_config.h (or its parent php_config.h) isn't included in some zend_*
+# files, therefore also compilation definition is added.
 if(ZEND_MAX_EXECUTION_TIMERS)
   target_compile_definitions(
     Zend::MaxExecutionTimers

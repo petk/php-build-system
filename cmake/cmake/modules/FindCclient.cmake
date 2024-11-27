@@ -369,7 +369,7 @@ block()
       ${Cclient_INCLUDE_DIR}/imap4r1.h
       imapsslport_results
       REGEX
-      [[^[ \t]*#[ \t]*define[ \t]*IMAPSSLPORT[ \t]*\(.+\)]]
+      "^[ \t]*#[ \t]*define[ \t]*IMAPSSLPORT[ \t]*\\(.+\\)"
     )
   endif()
 

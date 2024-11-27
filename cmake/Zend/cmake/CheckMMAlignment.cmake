@@ -79,19 +79,15 @@ block(
     string(STRIP "${ZEND_MM_OUTPUT}" ZEND_MM_OUTPUT)
     string(REPLACE " " ";" ZEND_MM_OUTPUT "${ZEND_MM_OUTPUT}")
 
-    list(GET ZEND_MM_OUTPUT 0 zend_mm_alignment)
-    list(GET ZEND_MM_OUTPUT 1 zend_mm_alignment_log2)
-    list(GET ZEND_MM_OUTPUT 2 zend_mm_need_eight_byte_realignment)
+    list(GET ZEND_MM_OUTPUT 0 ZEND_MM_ALIGNMENT)
+    list(GET ZEND_MM_OUTPUT 1 ZEND_MM_ALIGNMENT_LOG2)
+    list(GET ZEND_MM_OUTPUT 2 ZEND_MM_NEED_EIGHT_BYTE_REALIGNMENT)
   else()
     message(CHECK_FAIL "Failed")
     message(
       FATAL_ERROR
-      "ZEND_MM alignment defines failed. Please, check CMake logs.")
+      "ZEND_MM alignment values couldn't be determined.")
   endif()
-
-  set(ZEND_MM_ALIGNMENT ${zend_mm_alignment})
-  set(ZEND_MM_ALIGNMENT_LOG2 ${zend_mm_alignment_log2})
-  set(ZEND_MM_NEED_EIGHT_BYTE_REALIGNMENT ${zend_mm_need_eight_byte_realignment})
 endblock()
 
 message(
