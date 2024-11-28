@@ -3,7 +3,7 @@
 
 # CheckStrerrorR
 
-Check for `strerror_r()`, and if its a POSIX-compatible or a GNU-specific
+Check whether `strerror_r()` is the POSIX-compatible version or the GNU-specific
 version.
 
 ## Cache variables

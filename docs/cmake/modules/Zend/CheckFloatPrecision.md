@@ -11,7 +11,7 @@ See: https://wiki.php.net/rfc/rounding
 
 * `HAVE__FPU_SETCW`
 
-  Whether `_FPU_SETCW` is usable.
+  Whether `_FPU_SETCW` is present and usable.
 
 * `HAVE_FPSETPREC`
 
