@@ -62,7 +62,7 @@ endif()
 
 block(PROPAGATE FFI_VERSION)
   if(FFI_INCLUDE_DIR)
-    set(regex [[^[ \t]*libffi[ \t]+([0-9.]+)[ \t]*$]])
+    set(regex "^[ \t]*libffi[ \t]+([0-9.]+)[ \t]*$")
     file(STRINGS ${FFI_INCLUDE_DIR}/ffi.h result REGEX "${regex}" LIMIT_COUNT 1)
 
     if(result MATCHES "${regex}")

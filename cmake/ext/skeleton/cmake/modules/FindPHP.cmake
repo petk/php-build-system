@@ -205,7 +205,7 @@ endif()
 # Get PHP version.
 block(PROPAGATE PHP_VERSION)
   if(${PHP_INCLUDE_DIR}/main/php_version.h)
-    set(regex [[^[ \t]*#[ \t]*define[ \t]+PHP_VERSION[ \t]+"([^"]+)"[ \t]*$]])
+    set(regex "^[ \t]*#[ \t]*define[ \t]+PHP_VERSION[ \t]+\"([^\"]+)\"[ \t]*$")
     file(
       STRINGS
       ${PHP_INCLUDE_DIR}/main/php_version.h
@@ -221,7 +221,7 @@ block(PROPAGATE PHP_VERSION)
   if(
     NOT PHP_VERSION
     AND PC_PHP_VERSION
-    AND PHP_INCLUDE_DIR IN_LISTS PC_PHP_INCLUDE_DIRS
+    AND PHP_INCLUDE_DIR IN_LIST PC_PHP_INCLUDE_DIRS
   )
     set(PHP_VERSION ${PC_PHP_VERSION})
   endif()

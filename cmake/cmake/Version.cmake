@@ -2,7 +2,7 @@
 Set PHP version variables.
 
 PHP version is read from the php-src configure.ac file, and PHP_VERSION_API
-number is retrieved from the php-src main/php.h header file.
+number from the php-src main/php.h header file.
 
 Variables:
 
@@ -18,8 +18,7 @@ block(PROPAGATE PHP_VERSION)
   set(regex "^AC_INIT.+PHP\\],\\[([0-9.]+)([^]]*)")
   file(STRINGS configure.ac _ REGEX "${regex}")
 
-  cmake_policy(GET CMP0159 policy)
-  if(CMAKE_VERSION VERSION_LESS 3.29 OR NOT policy STREQUAL NEW)
+  if(CMAKE_VERSION VERSION_LESS 3.29)
     string(REGEX MATCH "${regex}" _ "${_}")
   endif()
 
@@ -33,12 +32,12 @@ block(PROPAGATE PHP_VERSION)
 endblock()
 
 # This is automatically executed with the project(PHP...) invocation.
-function(_php_post_project)
+function(_php_version_post_project)
   if(DEFINED PHP_VERSION_ID)
     return()
   endif()
 
-  # Append extra version label suffix to PHP_VERSION.
+  # Append extra version label suffix to version.
   string(APPEND PHP_VERSION "${PHP_VERSION_LABEL}")
   message(STATUS "PHP version: ${PHP_VERSION}")
 
@@ -51,12 +50,11 @@ function(_php_post_project)
     + ${PHP_VERSION_PATCH}"
   )
 
-  # Read PHP API version.
+  # Get PHP API version.
   set(regex "^[ \t]*#[ \t]*define[ \t]+PHP_API_VERSION[ \t]+([0-9]+)")
   file(STRINGS main/php.h _ REGEX "${regex}")
 
-  cmake_policy(GET CMP0159 policy)
-  if(CMAKE_VERSION VERSION_LESS 3.29 OR NOT policy STREQUAL NEW)
+  if(CMAKE_VERSION VERSION_LESS 3.29)
     string(REGEX MATCH "${regex}" _ "${_}")
   endif()
 
@@ -64,4 +62,4 @@ function(_php_post_project)
 
   return(PROPAGATE PHP_VERSION PHP_VERSION_ID PHP_API_VERSION)
 endfunction()
-variable_watch(PHP_HOMEPAGE_URL _php_post_project)
+variable_watch(PHP_HOMEPAGE_URL _php_version_post_project)

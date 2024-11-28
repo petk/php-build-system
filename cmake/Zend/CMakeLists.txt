@@ -1,6 +1,13 @@
 #[=============================================================================[
 Zend Engine.
 
+## Targets
+
+* OBJECT library `zend` (ALIAS `Zend::Zend`) holds all Zend Engine objects
+  and compile properties.
+
+## Target properties
+
 CMake target properties for the `Zend::Zend` target:
 
 * `VERSION`
@@ -27,18 +34,7 @@ message(STATUS "-----------------------")
 message(STATUS "Configuring Zend Engine")
 message(STATUS "-----------------------\n")
 
-# Read the Zend Engine version.
-block(PROPAGATE Zend_VERSION Zend_VERSION_LABEL)
-  file(READ zend.h content)
-  string(
-    REGEX MATCH
-    [[#[ \t]*define[ \t]+ZEND_VERSION[ \t]+"([0-9.]+)([^"]*)]]
-    _
-    "${content}"
-  )
-  set(Zend_VERSION "${CMAKE_MATCH_1}")
-  set(Zend_VERSION_LABEL "${CMAKE_MATCH_2}")
-endblock()
+include(cmake/Version.cmake)
 
 project(
   Zend
@@ -46,9 +42,6 @@ project(
   DESCRIPTION "Zend Engine library"
   LANGUAGES C ASM
 )
-
-string(APPEND Zend_VERSION "${Zend_VERSION_LABEL}")
-message(STATUS "Zend Engine version: ${Zend_VERSION}")
 
 include(CheckIncludeFile)
 include(CheckSourceCompiles)
@@ -322,33 +315,13 @@ target_compile_definitions(
     $<$<PLATFORM_ID:Windows>:LIBZEND_EXPORTS>
 )
 
-block()
-  file(READ zend_extensions.h content)
-  string(
-    REGEX MATCH
-    "#[ \t]*define[ \t]+ZEND_EXTENSION_API_NO[ \t]+([0-9]+)"
-    _
-    "${content}"
-  )
-  set(zendExtensionApiNumber "${CMAKE_MATCH_1}")
-
-  file(READ zend_modules.h content)
-  string(
-    REGEX MATCH
-    "#[ \t]*define[ \t]+ZEND_MODULE_API_NO[ \t]+([0-9]+)"
-    _
-    "${content}"
-  )
-  set(zendModuleApiNumber "${CMAKE_MATCH_1}")
-
-  set_target_properties(
-    zend
-    PROPERTIES
-      VERSION ${Zend_VERSION}
-      ZEND_EXTENSION_API_NO ${zendExtensionApiNumber}
-      ZEND_MODULE_API_NO ${zendModuleApiNumber}
-  )
-endblock()
+set_target_properties(
+  zend
+  PROPERTIES
+    VERSION ${Zend_VERSION}
+    ZEND_EXTENSION_API_NO ${Zend_VERSION_EXTENSION_API_NO}
+    ZEND_MODULE_API_NO ${Zend_VERSION_MODULE_API_NO}
+)
 
 # Add Zend PUBLIC/INTERFACE compile properties to configuration.
 # Cleaner COMPILE_ONLY generator expression is available in CMake >= 3.27.
@@ -460,15 +433,17 @@ cmake_pop_check_state()
 
 check_symbol_exists(pthread_stackseg_np "pthread.h" HAVE_PTHREAD_STACKSEG_NP)
 
-# Check for POSIX sigsetjmp. It can be a function or defined as a macro. Note,
-# that POSIX-compliant *nix systems mostly all should have it. On Windows the
-# setjmp can be used instead.
+# Check for sigsetjmp(). It can be a function or defined as a macro. Note, that
+# POSIX.1-2001-compliant systems should have it. On Windows the setjmp() is
+# used instead.
 if(NOT CMAKE_SYSTEM_NAME STREQUAL "Windows")
   check_symbol_exists(sigsetjmp "setjmp.h" _HAVE_SIGSETJMP)
   if(NOT _HAVE_SIGSETJMP)
     message(
       FATAL_ERROR
-      "Required sigsetjmp not found. Please, check CMake logs."
+      "Required function sigsetjmp() not found in setjmp.h. Please ensure the "
+      "target system is compliant with POSIX.1-2001 standard or later and the "
+      "setjmp.h header is available on the system."
     )
   endif()
 endif()
@@ -514,17 +489,36 @@ else()
   message(CHECK_FAIL "no")
 endif()
 
-# Check Zend signals.
+# Check for Solaris/illumos process mapping.
+php_search_libraries(
+  Pgrab
+  HEADERS libproc.h
+  LIBRARIES proc
+  TARGET zend PRIVATE
+)
+
+include(cmake/CheckFloatPrecision.cmake)
+
+if(ZEND_GLOBAL_REGISTER_VARIABLES)
+  include(cmake/CheckGlobalRegisterVariables.cmake)
+endif()
+
+include(cmake/CheckMMAlignment.cmake)
+include(cmake/CheckStackDirection.cmake)
+include(cmake/CheckStrerrorR.cmake)
+
+################################################################################
+# Zend signals.
+################################################################################
+
 message(CHECK_START "Checking whether to enable Zend signal handling")
 check_symbol_exists(sigaction "signal.h" HAVE_SIGACTION)
 if(HAVE_SIGACTION AND ZEND_SIGNALS)
   message(CHECK_PASS "yes")
 
-  set_property(CACHE ZEND_SIGNALS PROPERTY VALUE ON)
-
   # zend_config.h (or its parent php_config.h) isn't included in some zend_*
-  # files, therefore also compilation definitions are added.
-  target_compile_definitions(zend PRIVATE ZEND_SIGNALS)
+  # files, therefore also compilation definition is added.
+  target_compile_definitions(zend PUBLIC ZEND_SIGNALS)
 else()
   set_property(CACHE ZEND_SIGNALS PROPERTY VALUE OFF)
   message(CHECK_FAIL "no")
@@ -535,36 +529,14 @@ add_feature_info(
   "signals handling within the Zend Engine for performance"
 )
 
-# Check Zend max execution timers.
+################################################################################
+# Zend max execution timers.
+################################################################################
+
 include(cmake/MaxExecutionTimers.cmake)
 if(TARGET Zend::MaxExecutionTimers)
-  target_link_libraries(zend PRIVATE Zend::MaxExecutionTimers)
+  target_link_libraries(zend PUBLIC Zend::MaxExecutionTimers)
 endif()
-
-# Check MM alignment.
-include(cmake/CheckMMAlignment.cmake)
-
-# Check for global register variables.
-if(ZEND_GLOBAL_REGISTER_VARIABLES)
-  include(cmake/CheckGlobalRegisterVariables.cmake)
-endif()
-
-# Check if stack grows downward.
-include(cmake/CheckStackLimit.cmake)
-
-# Check float precision.
-include(cmake/CheckFloatPrecision.cmake)
-
-# Check for strerror_r, and if its a POSIX-compatible or a GNU-specific version.
-include(cmake/CheckStrerrorR.cmake)
-
-# Check for Solaris/illumos process mapping.
-php_search_libraries(
-  Pgrab
-  HEADERS libproc.h
-  LIBRARIES proc
-  TARGET zend PRIVATE
-)
 
 ################################################################################
 # Generate lexers and parsers.
@@ -708,7 +680,7 @@ if(NOT CMAKE_SIZEOF_VOID_P EQUAL 4)
   )
 endif()
 
-configure_file(zend_config.cmake.h.in CMakeFiles/zend_config.h)
+configure_file(cmake/zend_config.h.in CMakeFiles/zend_config.h)
 
 if(NOT CMAKE_SYSTEM_NAME STREQUAL "Windows")
   message(STATUS "Creating Zend/zend_config.h")
