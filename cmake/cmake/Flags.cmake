@@ -34,25 +34,29 @@ if(HAVE_FVISIBILITY_HIDDEN_C)
   )
 endif()
 
-php_check_compiler_flag(C -Wno-sign-compare _HAVE_WNO_SIGN_COMPARE)
-if(_HAVE_WNO_SIGN_COMPARE)
-  target_compile_options(
-    php_configuration
-    BEFORE
-    INTERFACE
-      $<$<COMPILE_LANGUAGE:ASM,C,CXX>:-Wno-sign-compare>
-  )
+php_check_compiler_flag(C -Wno-sign-compare HAVE_WNO_SIGN_COMPARE_C)
+if(CXX IN_LIST enabledLanguages)
+  php_check_compiler_flag(CXX -Wno-sign-compare HAVE_WNO_SIGN_COMPARE_CXX)
 endif()
+target_compile_options(
+  php_configuration
+  BEFORE
+  INTERFACE
+    $<$<AND:$<BOOL:${HAVE_WNO_SIGN_COMPARE_C}>,$<COMPILE_LANGUAGE:ASM,C>>:-Wno-sign-compare>
+    $<$<AND:$<BOOL:${HAVE_WNO_SIGN_COMPARE_CXX}>,$<COMPILE_LANGUAGE:CXX>>:-Wno-sign-compare>
+)
 
-php_check_compiler_flag(C -Wno-unused-parameter _HAVE_WNO_UNUSED_PARAMETER)
-if(_HAVE_WNO_UNUSED_PARAMETER)
-  target_compile_options(
-    php_configuration
-    BEFORE
-    INTERFACE
-      $<$<COMPILE_LANGUAGE:ASM,C,CXX>:-Wno-unused-parameter>
-  )
+php_check_compiler_flag(C -Wno-unused-parameter HAVE_WNO_UNUSED_PARAMETER_C)
+if(CXX IN_LIST enabledLanguages)
+  php_check_compiler_flag(CXX -Wno-unused-parameter HAVE_WNO_UNUSED_PARAMETER_CXX)
 endif()
+target_compile_options(
+  php_configuration
+  BEFORE
+  INTERFACE
+    $<$<AND:$<BOOL:${HAVE_WNO_UNUSED_PARAMETER_C}>,$<COMPILE_LANGUAGE:ASM,C>>:-Wno-unused-parameter>
+    $<$<AND:$<BOOL:${HAVE_WNO_UNUSED_PARAMETER_CXX}>,$<COMPILE_LANGUAGE:CXX>>:-Wno-unused-parameter>
+)
 
 if(MSVC)
   target_compile_options(
@@ -72,25 +76,16 @@ endif()
 
 # Check if compiler supports -Wno-clobbered (only GCC).
 php_check_compiler_flag(C -Wno-clobbered HAVE_WNO_CLOBBERED_C)
-if(HAVE_WNO_CLOBBERED_C)
-  target_compile_options(
-    php_configuration
-    BEFORE
-    INTERFACE
-      $<$<COMPILE_LANGUAGE:ASM,C>:-Wno-clobbered>
-  )
-endif()
 if(CXX IN_LIST enabledLanguages)
   php_check_compiler_flag(CXX -Wno-clobbered HAVE_WNO_CLOBBERED_CXX)
-  if(HAVE_WNO_CLOBBERED_CXX)
-    target_compile_options(
-      php_configuration
-      BEFORE
-      INTERFACE
-        $<$<COMPILE_LANGUAGE:CXX>:-Wno-clobbered>
-    )
-  endif()
 endif()
+target_compile_options(
+  php_configuration
+  BEFORE
+  INTERFACE
+    $<$<AND:$<BOOL:${HAVE_WNO_CLOBBERED_C}>,$<COMPILE_LANGUAGE:ASM,C>>:-Wno-clobbered>
+    $<$<AND:$<BOOL:${HAVE_WNO_CLOBBERED_CXX}>,$<COMPILE_LANGUAGE:CXX>>:-Wno-clobbered>
+)
 
 # Check for support for implicit fallthrough level 1, also add after previous
 # CFLAGS as level 3 is enabled in -Wextra.
@@ -99,121 +94,75 @@ php_check_compiler_flag(
   -Wimplicit-fallthrough=1
   HAVE_WIMPLICIT_FALLTHROUGH_1_C
 )
-if(HAVE_WIMPLICIT_FALLTHROUGH_1_C)
-  target_compile_options(
-    php_configuration
-    INTERFACE
-      $<$<COMPILE_LANGUAGE:ASM,C>:-Wimplicit-fallthrough=1>
-  )
-endif()
 if(CXX IN_LIST enabledLanguages)
   php_check_compiler_flag(
     CXX
     -Wimplicit-fallthrough=1
     HAVE_WIMPLICIT_FALLTHROUGH_1_CXX
   )
-  if(HAVE_WIMPLICIT_FALLTHROUGH_1_CXX)
-    target_compile_options(
-      php_configuration
-      INTERFACE
-        $<$<COMPILE_LANGUAGE:CXX>:-Wimplicit-fallthrough=1>
-    )
-  endif()
 endif()
+target_compile_options(
+  php_configuration
+  INTERFACE
+    $<$<AND:$<BOOL:${HAVE_WIMPLICIT_FALLTHROUGH_1_C}>,$<COMPILE_LANGUAGE:ASM,C>>:-Wimplicit-fallthrough=1>
+    $<$<AND:$<BOOL:${HAVE_WIMPLICIT_FALLTHROUGH_1_CXX}>,$<COMPILE_LANGUAGE:CXX>>:-Wimplicit-fallthrough=1>
+)
 
 php_check_compiler_flag(C -Wduplicated-cond HAVE_WDUPLICATED_COND_C)
-if(HAVE_WDUPLICATED_COND_C)
-  target_compile_options(
-    php_configuration
-    BEFORE
-    INTERFACE
-      $<$<COMPILE_LANGUAGE:ASM,C>:-Wduplicated-cond>
-  )
-endif()
 if(CXX IN_LIST enabledLanguages)
   php_check_compiler_flag(CXX -Wduplicated-cond HAVE_WDUPLICATED_COND_CXX)
-  if(HAVE_WDUPLICATED_COND_CXX)
-    target_compile_options(
-      php_configuration
-      BEFORE
-      INTERFACE
-        $<$<COMPILE_LANGUAGE:CXX>:-Wduplicated-cond>
-    )
-  endif()
 endif()
+target_compile_options(
+  php_configuration
+  BEFORE
+  INTERFACE
+    $<$<AND:$<BOOL:${HAVE_WDUPLICATED_COND_C}>,$<COMPILE_LANGUAGE:ASM,C>>:-Wduplicated-cond>
+    $<$<AND:$<BOOL:${HAVE_WDUPLICATED_COND_CXX}>,$<COMPILE_LANGUAGE:CXX>>:-Wduplicated-cond>
+)
 
 php_check_compiler_flag(C -Wlogical-op HAVE_WLOGICAL_OP_C)
-if(HAVE_WLOGICAL_OP_C)
-  target_compile_options(
-    php_configuration
-    BEFORE
-    INTERFACE
-      $<$<COMPILE_LANGUAGE:ASM,C>:-Wlogical-op>
-  )
-endif()
 if(CXX IN_LIST enabledLanguages)
   php_check_compiler_flag(CXX -Wlogical-op HAVE_WLOGICAL_OP_CXX)
-  if(HAVE_WLOGICAL_OP_CXX)
-    target_compile_options(
-      php_configuration
-      BEFORE
-      INTERFACE
-        $<$<COMPILE_LANGUAGE:CXX>:-Wlogical-op>
-    )
-  endif()
 endif()
+target_compile_options(
+  php_configuration
+  BEFORE
+  INTERFACE
+    $<$<AND:$<BOOL:${HAVE_WLOGICAL_OP_C}>,$<COMPILE_LANGUAGE:ASM,C>>:-Wlogical-op>
+    $<$<AND:$<BOOL:${HAVE_WLOGICAL_OP_CXX}>,$<COMPILE_LANGUAGE:CXX>>:-Wlogical-op>
+)
 
 php_check_compiler_flag(C -Wformat-truncation HAVE_WFORMAT_TRUNCATION_C)
-if(HAVE_WFORMAT_TRUNCATION_C)
-  target_compile_options(
-    php_configuration
-    BEFORE
-    INTERFACE
-      $<$<COMPILE_LANGUAGE:ASM,C>:-Wformat-truncation>
-  )
-endif()
 if(CXX IN_LIST enabledLanguages)
   php_check_compiler_flag(CXX -Wformat-truncation HAVE_WFORMAT_TRUNCATION_CXX)
-  if(HAVE_WFORMAT_TRUNCATION_CXX)
-    target_compile_options(
-      php_configuration
-      BEFORE
-      INTERFACE
-        $<$<COMPILE_LANGUAGE:CXX>:-Wformat-truncation>
-    )
-  endif()
 endif()
+target_compile_options(
+  php_configuration
+  BEFORE
+  INTERFACE
+    $<$<AND:$<BOOL:${HAVE_WFORMAT_TRUNCATION_C}>,$<COMPILE_LANGUAGE:ASM,C>>:-Wformat-truncation>
+    $<$<AND:$<BOOL:${HAVE_WFORMAT_TRUNCATION_CXX}>,$<COMPILE_LANGUAGE:CXX>>:-Wformat-truncation>
+)
 
 php_check_compiler_flag(C -Wstrict-prototypes HAVE_WSTRICT_PROTOTYPES_C)
-if(HAVE_WSTRICT_PROTOTYPES_C)
-  target_compile_options(
-    php_configuration
-    BEFORE
-    INTERFACE
-      $<$<COMPILE_LANGUAGE:ASM,C>:-Wstrict-prototypes>
-  )
-endif()
+target_compile_options(
+  php_configuration
+  BEFORE
+  INTERFACE
+    $<$<AND:$<BOOL:${HAVE_WSTRICT_PROTOTYPES_C}>,$<COMPILE_LANGUAGE:ASM,C>>:-Wstrict-prototypes>
+)
 
 php_check_compiler_flag(C -fno-common HAVE_FNO_COMMON_C)
-if(HAVE_FNO_COMMON_C)
-  target_compile_options(
-    php_configuration
-    BEFORE
-    INTERFACE
-      $<$<COMPILE_LANGUAGE:ASM,C>:-fno-common>
-  )
-endif()
 if(CXX IN_LIST enabledLanguages)
   php_check_compiler_flag(CXX -fno-common HAVE_FNO_COMMON_CXX)
-  if(HAVE_FNO_COMMON_C_XX)
-    target_compile_options(
-      php_configuration
-      BEFORE
-      INTERFACE
-        $<$<COMPILE_LANGUAGE:CXX>:-fno-common>
-    )
-  endif()
 endif()
+target_compile_options(
+  php_configuration
+  BEFORE
+  INTERFACE
+    $<$<AND:$<BOOL:${HAVE_FNO_COMMON_C}>,$<COMPILE_LANGUAGE:ASM,C>>:-fno-common>
+    $<$<AND:$<BOOL:${HAVE_FNO_COMMON_CXX}>,$<COMPILE_LANGUAGE:CXX>>:-fno-common>
+)
 
 # Explicitly disable floating-point expression contraction, even if already done
 # by CMAKE_C_STANDARD. See https://github.com/php/php-src/issues/14140
