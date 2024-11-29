@@ -148,7 +148,15 @@ target_sources(
 add_dependencies(php_mbstring php_pcre)
 
 message(STATUS "Creating ext/mbstring/libmbfl/config.h")
-configure_file(libmbfl/config.h.in libmbfl/config.h)
+file(CONFIGURE OUTPUT libmbfl/config.h CONTENT [[
+#ifdef _WIN32
+# define HAVE_STRICMP 1
+#elif defined HAVE_CONFIG_H
+# include "<config.h>"
+#else
+# include <main/php_config.h>
+#endif
+]])
 
 # The mbstring extension doesn't seem to support interprocedural optimization
 # (IPO).
