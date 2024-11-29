@@ -148,6 +148,7 @@ target_sources(
 
 add_dependencies(php_mbstring php_pcre)
 
+# TODO: Fix this better. See also https://github.com/php/php-src/pull/13713
 message(STATUS "Creating ext/mbstring/libmbfl/config.h")
 file(CONFIGURE OUTPUT libmbfl/config.h CONTENT [[
 #ifdef _WIN32
