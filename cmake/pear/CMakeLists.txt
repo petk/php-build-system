@@ -47,12 +47,15 @@ include(FeatureSummary)
 include(PHP/Install)
 include(PHP/Set)
 
-option(PHP_PEAR "Install PEAR")
+option(
+  PHP_PEAR
+  "Install PEAR, PHP Extension and Application Repository package manager"
+)
 
 add_feature_info(
   "PEAR"
   PHP_PEAR
-  "PHP Extension and Application Repository package manager"
+  "PHP Extension and Application Repository"
 )
 
 php_set(
@@ -78,7 +81,7 @@ php_set(
 )
 mark_as_advanced(PHP_PEAR_TEMP_DIR)
 
-message(CHECK_START "Checking for PEAR")
+message(CHECK_START "Checking whether to install PEAR")
 if(NOT PHP_PEAR)
   message(CHECK_FAIL "no")
   return()

@@ -41,7 +41,7 @@ option(EXT_SESSION "Enable the session extension" ON)
 add_feature_info(
   "ext/session"
   EXT_SESSION
-  "sessions support to preserve data across subsequent accesses"
+  "preservable data across subsequent accesses"
 )
 
 cmake_dependent_option(

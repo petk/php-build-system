@@ -114,7 +114,7 @@
         "EXT_OPENSSL_SYSTEM_CIPHERS": true,
         "EXT_PCRE_EXTERNAL": true,
         "EXT_SESSION_MM": true,
-        "EXT_STANDARD_EXTERNAL_LIBCRYPT": true,
+        "EXT_STANDARD_EXTERNAL_CRYPT": true,
         "EXT_XML_EXPAT": true
       }
     },

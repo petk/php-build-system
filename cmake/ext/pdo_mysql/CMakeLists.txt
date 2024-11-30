@@ -36,7 +36,7 @@ installation on the system, can be customized with the `MYSQL_ROOT` and
 project(
   PhpExtensionPdoMysql
   DESCRIPTION
-    "MySQL-compatible database support in PDO (PHP Data Objects) interface"
+    "MySQL-compatible databases support in PDO (PHP Data Objects) interface"
   LANGUAGES C
 )
 
@@ -49,7 +49,7 @@ option(EXT_PDO_MYSQL "Enable the pdo_mysql extension")
 add_feature_info(
   "ext/pdo_mysql"
   EXT_PDO_MYSQL
-  "MySQL-compatible database support in PDO (PHP Data Objects)"
+  "MySQL-compatible databases support in PDO"
 )
 
 cmake_dependent_option(

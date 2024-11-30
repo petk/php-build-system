@@ -157,7 +157,7 @@ mark_as_advanced(EXT_DBA_CDB_EXTERNAL)
 add_feature_info(
   "ext/dba cdb external"
   EXT_DBA_CDB_EXTERNAL
-  "external (system) cdb library used instead of the bundled sources"
+  "system cdb library instead of the bundled"
 )
 
 cmake_dependent_option(
@@ -169,7 +169,7 @@ cmake_dependent_option(
 )
 mark_as_advanced(EXT_DBA_DB)
 add_feature_info(
-  "ext/dba DB"
+  "ext/dba with DB"
   EXT_DBA_DB
   "Berkeley DB support"
 )
@@ -183,7 +183,7 @@ cmake_dependent_option(
 )
 mark_as_advanced(EXT_DBA_DB1)
 add_feature_info(
-  "ext/dba DB 1"
+  "ext/dba with DB 1"
   EXT_DBA_DB1
   "Berkeley DB 1.x support/emulation"
 )
@@ -197,7 +197,7 @@ cmake_dependent_option(
 )
 mark_as_advanced(EXT_DBA_DBM)
 add_feature_info(
-  "ext/dba DBM"
+  "ext/dba with DBM"
   EXT_DBA_DBM
   "legacy (original) Berkeley DB style support"
 )
@@ -211,7 +211,7 @@ cmake_dependent_option(
 )
 mark_as_advanced(EXT_DBA_FLATFILE)
 add_feature_info(
-  "ext/dba flat file"
+  "ext/dba with flat file"
   EXT_DBA_FLATFILE
   "bundled flat-file DBA handler support"
 )
@@ -225,7 +225,7 @@ cmake_dependent_option(
 )
 mark_as_advanced(EXT_DBA_GDBM)
 add_feature_info(
-  "ext/dba GDBM"
+  "ext/dba with GDBM"
   EXT_DBA_GDBM
   "GNU dbm support"
 )
@@ -239,7 +239,7 @@ cmake_dependent_option(
 )
 mark_as_advanced(EXT_DBA_INIFILE)
 add_feature_info(
-  "ext/dba INI file"
+  "ext/dba with INI file"
   EXT_DBA_INIFILE
   "bundled INI-file DBA handler support"
 )
@@ -252,7 +252,7 @@ cmake_dependent_option(
   OFF
 )
 add_feature_info(
-  "ext/dba LMDB"
+  "ext/dba with LMDB"
   EXT_DBA_LMDB
   "Lightning Memory-Mapped Database support"
 )
@@ -266,7 +266,7 @@ cmake_dependent_option(
 )
 mark_as_advanced(EXT_DBA_NDBM)
 add_feature_info(
-  "ext/dba ndbm"
+  "ext/dba with ndbm"
   EXT_DBA_NDBM
   "new dbm support"
 )

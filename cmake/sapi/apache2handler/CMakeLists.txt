@@ -35,7 +35,7 @@ option(SAPI_APACHE2HANDLER "Enable the shared Apache 2 handler SAPI module")
 add_feature_info(
   "sapi/apache2handler"
   SAPI_APACHE2HANDLER
-  "module for Apache HTTP server"
+  "Apache HTTP server module"
 )
 
 if(NOT SAPI_APACHE2HANDLER)

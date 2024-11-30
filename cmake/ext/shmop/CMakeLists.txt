@@ -33,7 +33,7 @@ option(EXT_SHMOP "Enable the shmop extension")
 add_feature_info(
   "ext/shmop"
   EXT_SHMOP
-  "support for shared memory segments operations"
+  "shared memory segments operations support"
 )
 
 cmake_dependent_option(

@@ -26,9 +26,11 @@ Add subdirectories of PHP extensions.
 
 include(PHP/Extensions)
 
-message(STATUS "--------------------------")
+message(STATUS "")
+message(STATUS "")
 message(STATUS "Configuring PHP extensions")
-message(STATUS "--------------------------\n")
+message(STATUS "==========================")
+message(STATUS "")
 
 define_property(
   GLOBAL

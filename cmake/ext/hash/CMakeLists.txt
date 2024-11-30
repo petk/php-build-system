@@ -13,7 +13,7 @@ PHP.
 * Default: `OFF`
 * Values: `ON|OFF`
 
-Enable the mhash support.
+Enable the mhash emulation support.
 #]=============================================================================]
 
 project(
@@ -30,7 +30,10 @@ add_feature_info(
   "HASH message digest framework"
 )
 
-option(EXT_HASH_MHASH "Enable the mhash support (deprecated as of PHP 8.1)")
+option(
+  EXT_HASH_MHASH
+  "Enable the mhash emulation support (deprecated as of PHP 8.1)"
+)
 
 add_feature_info(
   "ext/hash with mhash"
@@ -38,13 +41,18 @@ add_feature_info(
   "mhash emulation"
 )
 
+message(CHECK_START "Checking whether to enable mhash")
 if(EXT_HASH_MHASH)
+  message(CHECK_PASS "yes")
   message(
     DEPRECATION
-    "Support for mhash in the hash extension is deprecated as of PHP 8.1.0"
+    "The 'EXT_HASH_MHASH' option to enable the mhash emulation support in the "
+    "hash extension is deprecated as of PHP 8.1.0 and will be removed in "
+    "future PHP versions."
   )
-
   set(PHP_MHASH_BC TRUE)
+else()
+  message(CHECK_FAIL "no")
 endif()
 
 add_library(php_hash OBJECT)

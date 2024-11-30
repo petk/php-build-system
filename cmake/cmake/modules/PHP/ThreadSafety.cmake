@@ -36,9 +36,9 @@ function(_php_thread_safety)
   message(CHECK_START "Checking whether to enable thread safety (ZTS)")
 
   add_feature_info(
-    "PHP thread safety (ZTS)"
+    "Thread safety (ZTS)"
     PHP_THREAD_SAFETY
-    "ensures safe execution in multi-threaded environments"
+    "safe execution in multi-threaded environments"
   )
 
   if(NOT PHP_THREAD_SAFETY)

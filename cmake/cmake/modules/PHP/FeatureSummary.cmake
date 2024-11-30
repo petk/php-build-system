@@ -25,16 +25,32 @@ block()
   string(
     APPEND
     info
-    " * PHP version: ${PHP_VERSION}\n"
-    " * PHP API version: ${PHP_API_VERSION}\n"
-    " * Zend Engine version: ${zendVersion}\n"
-    " * Zend extension API number: ${zendExtensionApiNumber}\n"
-    " * Zend module API number: ${zendModuleApiNumber}\n"
+    " * PHP version ................ : ${PHP_VERSION}\n"
+    " * PHP API version ............ : ${PHP_API_VERSION}\n"
+    " * Zend Engine version ........ : ${zendVersion}\n"
+    " * Zend extension API number .. : ${zendExtensionApiNumber}\n"
+    " * Zend module API number ..... : ${zendModuleApiNumber}\n"
+    " * C compiler ................. : ${CMAKE_C_COMPILER_ID} ${CMAKE_C_COMPILER_VERSION} (${CMAKE_C_COMPILER})\n"
   )
 
-  message(STATUS "-----------")
+  if(CMAKE_CXX_COMPILER_LOADED)
+    string(
+      APPEND
+      info
+      " * CXX compiler ............... : ${CMAKE_CXX_COMPILER_ID} ${CMAKE_CXX_COMPILER_VERSION} (${CMAKE_CXX_COMPILER})\n"
+    )
+  endif()
+
+  string(
+    APPEND
+    info
+    " * Install prefix ............. : ${CMAKE_INSTALL_PREFIX}\n"
+  )
+
+  message(STATUS "")
+  message(STATUS "")
   message(STATUS "PHP summary")
-  message(STATUS "-----------\n\n${info}")
+  message(STATUS "===========\n\n${info}")
 endblock()
 
 # Output enabled features.
@@ -47,16 +63,22 @@ block()
 
   list(SORT enabledFeatures COMPARE NATURAL CASE INSENSITIVE)
 
+  set(php "")
   set(sapis "")
   set(extensions "")
-  set(php "")
 
-  foreach(feature ${enabledFeatures})
+  foreach(feature IN LISTS enabledFeatures)
     if(parent AND feature MATCHES "^${parent} ")
-      set(item "   * ${feature}")
+      string(REGEX REPLACE "^${parent}[ ]+" "" item "${feature}")
+
+      if(NOT item MATCHES "^(with|without) ")
+        string(PREPEND item "with ")
+      endif()
+      string(PREPEND item "   - ")
     else()
       set(parent "${feature}")
-      set(item " * ${feature}")
+      string(REGEX REPLACE "^(ext|sapi)/" "" item "${feature}")
+      string(PREPEND item " * ")
       if(feature MATCHES "^ext/([^ ]+)$")
         if(CMAKE_MATCH_1)
           get_target_property(type php_${CMAKE_MATCH_1} TYPE)

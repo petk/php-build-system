@@ -3,9 +3,9 @@ cmake_minimum_required(VERSION 3.25...3.31)
 # Configure CMake behavior.
 include(cmake/CMakeDefaults.cmake)
 
-message(STATUS "-----------------------------")
 message(STATUS "Initializing PHP build system")
-message(STATUS "-----------------------------\n")
+message(STATUS "=============================")
+message(STATUS "")
 
 message(STATUS "CMake version: ${CMAKE_VERSION}")
 message(STATUS "CMake generator: ${CMAKE_GENERATOR}")
@@ -31,9 +31,11 @@ add_subdirectory(sapi)
 add_subdirectory(ext)
 add_subdirectory(Zend)
 
-message(STATUS "---------------")
+message(STATUS "")
+message(STATUS "")
 message(STATUS "Configuring PHP")
-message(STATUS "---------------\n")
+message(STATUS "===============")
+message(STATUS "")
 
 add_subdirectory(pear)
 add_subdirectory(win32)

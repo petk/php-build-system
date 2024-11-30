@@ -106,7 +106,7 @@ option(SAPI_FPM "Enable the FPM SAPI module")
 add_feature_info(
   "sapi/fpm"
   SAPI_FPM
-  "FastCGI Process Manager (FPM) SAPI module"
+  "FastCGI Process Manager"
 )
 
 php_set(
@@ -137,7 +137,7 @@ php_set(
 add_feature_info(
   "sapi/fpm ACL"
   SAPI_FPM_ACL
-  "FPM SAPI module with integrated POSIX Access Control Lists"
+  "POSIX Access Control Lists integration"
 )
 
 php_set(

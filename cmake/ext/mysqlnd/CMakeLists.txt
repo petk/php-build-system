@@ -58,7 +58,7 @@ option(EXT_MYSQLND "Enable the mysqlnd extension")
 add_feature_info(
   "ext/mysqlnd"
   EXT_MYSQLND
-  "MySQL Native Driver for using MySQL-compatible databases"
+  "MySQL-compatible databases native driver"
 )
 
 cmake_dependent_option(
@@ -78,9 +78,9 @@ cmake_dependent_option(
 )
 
 add_feature_info(
-  "ext/mysqlnd compression"
+  "ext/mysqlnd with compression"
   EXT_MYSQLND_COMPRESSION
-  "MySQL compressed protocol support in the mysqlnd extension"
+  "MySQL compressed protocol support"
 )
 
 cmake_dependent_option(
@@ -211,7 +211,7 @@ endif()
 add_feature_info(
   "ext/mysqlnd SSL"
   MYSQLND_HAVE_SSL
-  "Extended SSL support through a system library"
+  "extended SSL support through a system library"
 )
 
 configure_file(config.cmake.h.in config.h)

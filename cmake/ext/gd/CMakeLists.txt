@@ -24,7 +24,7 @@ Build extension as shared.
 * Default: `OFF`
 * Values: `ON|OFF`
 
-Use external gd library (libgd) instead of the bundled one from PHP sources.
+Use external (system) GD library instead of the bundled libgd from PHP sources.
 
 ## EXT_GD_AVIF
 
@@ -101,16 +101,16 @@ cmake_dependent_option(
 
 cmake_dependent_option(
   EXT_GD_EXTERNAL
-  "Use external libgd"
+  "Use external (system) GD library instead of the bundled libgd from PHP sources"
   OFF
   "EXT_GD"
   OFF
 )
 
 add_feature_info(
-  "ext/gd with external GD library"
+  "ext/gd external GD"
   EXT_GD_EXTERNAL
-  "external GD library instead of the bundled one"
+  "system libgd instead of the bundled"
 )
 
 cmake_dependent_option(
@@ -124,7 +124,7 @@ cmake_dependent_option(
 add_feature_info(
   "ext/gd AVIF"
   EXT_GD_AVIF
-  "AVIF support"
+  "AV1 Image File Format support"
 )
 
 cmake_dependent_option(
@@ -166,7 +166,7 @@ cmake_dependent_option(
 add_feature_info(
   "ext/gd XPM"
   EXT_GD_XPM
-  "XPM support"
+  "X PixMap support"
 )
 
 cmake_dependent_option(
@@ -180,7 +180,7 @@ cmake_dependent_option(
 add_feature_info(
   "ext/gd FreeType"
   EXT_GD_FREETYPE
-  "FreeType 2 support"
+  "support for rendering text to bitmaps"
 )
 
 cmake_dependent_option(
@@ -194,7 +194,7 @@ cmake_dependent_option(
 add_feature_info(
   "ext/gd JIS"
   EXT_GD_JIS
-  "JIS-mapped Japanese font support"
+  "JIS-mapped Japanese font support (Japanese Industrial Standards)"
 )
 
 if(NOT EXT_GD)

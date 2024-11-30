@@ -3,7 +3,7 @@
 
 Configure the `mysqli` extension.
 
-This extension provides MySQL-compatible database support.
+This extension provides MySQL-compatible databases support.
 
 ## EXT_MYSQLI
 
@@ -54,7 +54,7 @@ option(EXT_MYSQLI "Enable the mysqli extension")
 add_feature_info(
   "ext/mysqli"
   EXT_MYSQLI
-  "MySQL-compatible database support"
+  "MySQL-compatible databases support"
 )
 
 cmake_dependent_option(
