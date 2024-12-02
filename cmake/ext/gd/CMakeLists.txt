@@ -66,7 +66,8 @@ Enable FreeType 2 support (only for bundled libgd).
 * Default: `OFF`
 * Values: `ON|OFF`
 
-Enable JIS-mapped Japanese font support (only for bundled libgd).
+Enable JIS-mapped (Japanese Industrial Standards) Japanese font support (only
+for bundled libgd).
 #]=============================================================================]
 
 project(
@@ -88,7 +89,7 @@ option(EXT_GD "Enable the gd extension")
 add_feature_info(
   "ext/gd"
   EXT_GD
-  "image processing and graphics draw (GD) support"
+  "image processing and graphics draw (GD)"
 )
 
 cmake_dependent_option(
@@ -110,7 +111,7 @@ cmake_dependent_option(
 add_feature_info(
   "ext/gd external GD"
   EXT_GD_EXTERNAL
-  "system libgd instead of the bundled"
+  "system libgd instead of bundled"
 )
 
 cmake_dependent_option(
@@ -194,7 +195,7 @@ cmake_dependent_option(
 add_feature_info(
   "ext/gd JIS"
   EXT_GD_JIS
-  "JIS-mapped Japanese font support (Japanese Industrial Standards)"
+  "JIS-mapped Japanese font support"
 )
 
 if(NOT EXT_GD)

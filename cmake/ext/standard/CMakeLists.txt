@@ -13,12 +13,13 @@ to PHP extensions and SAPIs.
 
 Include the Argon2 support in `password_*()` functions.
 
-## EXT_STANDARD_EXTERNAL_CRYPT
+## EXT_STANDARD_CRYPT_EXTERNAL
 
 * Default: `OFF`
 * Values: `ON|OFF`
 
-Use external libcrypt/libxcrypt library instead of the bundled PHP crypt.
+Use external crypt library, such as libcrypt or libxcrypt, instead of the
+bundled PHP crypt.
 #]=============================================================================]
 
 project(
@@ -41,22 +42,20 @@ add_feature_info(
 )
 
 option(EXT_STANDARD_ARGON2 "Include the Argon2 support in password_*")
-
 add_feature_info(
   "ext/standard Argon2"
   EXT_STANDARD_ARGON2
-  "Argon2 hashing support in password_*() PHP functions"
+  "Argon2 support in password-hashing PHP functions"
 )
 
 option(
-  EXT_STANDARD_EXTERNAL_CRYPT
+  EXT_STANDARD_CRYPT_EXTERNAL
   "Use external libcrypt/libxcrypt library instead of the bundled PHP crypt"
 )
-
 add_feature_info(
-  "ext/standard external crypt"
-  EXT_STANDARD_EXTERNAL_CRYPT
-  "system crypt library instead of the bundled"
+  "ext/standard crypt external"
+  EXT_STANDARD_CRYPT_EXTERNAL
+  "system crypt library instead of bundled"
 )
 
 ################################################################################
@@ -267,7 +266,7 @@ endif()
 # External libcrypt.
 ################################################################################
 
-if(NOT EXT_STANDARD_EXTERNAL_CRYPT)
+if(NOT EXT_STANDARD_CRYPT_EXTERNAL)
   target_sources(
     php_standard
     PRIVATE

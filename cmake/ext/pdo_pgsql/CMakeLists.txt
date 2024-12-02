@@ -34,7 +34,7 @@ option(EXT_PDO_PGSQL "Enable the pdo_pgsql extension")
 add_feature_info(
   "ext/pdo_pgsql"
   EXT_PDO_PGSQL
-  "PostgreSQL database support in PDO"
+  "PostgreSQL database PDO driver"
 )
 
 cmake_dependent_option(

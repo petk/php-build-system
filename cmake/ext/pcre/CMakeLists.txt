@@ -50,7 +50,7 @@ option(
 add_feature_info(
   "ext/pcre external PCRE"
   EXT_PCRE_EXTERNAL
-  "system PCRE library instead of the bundled"
+  "system PCRE library instead of bundled"
 )
 
 option(
@@ -254,7 +254,7 @@ else()
 endif()
 
 add_feature_info(
-  "ext/pcre with JIT"
+  "ext/pcre JIT"
   HAVE_PCRE_JIT_SUPPORT
   "PCRE Just-In-Time compiling support"
 )

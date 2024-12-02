@@ -34,7 +34,7 @@ option(EXT_PDO_SQLITE "Enable the pdo_sqlite extension" ON)
 add_feature_info(
   "ext/pdo_sqlite"
   EXT_PDO_SQLITE
-  "SQLite database support in PDO"
+  "SQLite database PDO driver"
 )
 
 cmake_dependent_option(

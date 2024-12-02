@@ -36,7 +36,7 @@ option(EXT_TIDY "Enable the tidy extension")
 add_feature_info(
   "ext/tidy"
   EXT_TIDY
-  "Tidy HTML utility support to handle HTML, XHTML and XML documents"
+  "HTML, XHTML and XML correction support"
 )
 
 cmake_dependent_option(

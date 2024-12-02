@@ -93,7 +93,7 @@ endfunction()
 # automatic enabling in the configuration phase shouldn't be encouraged.
 cmake_language(
   DEFER
-    DIRECTORY ${PHP_SOURCE_DIR}
-    ID 1 # Run before other calls so ZTS variable is added in main/php_config.h.
+  DIRECTORY ${PHP_SOURCE_DIR}
+  ID 1 # Run before other calls so ZTS variable is added in main/php_config.h.
   CALL _php_thread_safety
 )

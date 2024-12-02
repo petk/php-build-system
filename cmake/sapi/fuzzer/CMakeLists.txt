@@ -40,7 +40,7 @@ option(
 add_feature_info(
   "sapi/fuzzer"
   SAPI_FUZZER
-  "Clang fuzzing SAPI module"
+  "Clang fuzzing module"
 )
 
 if(SAPI_FUZZER)

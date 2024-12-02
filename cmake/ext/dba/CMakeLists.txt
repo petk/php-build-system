@@ -3,7 +3,7 @@
 
 Configure the `dba` extension.
 
-This extension provides the database (dbm-style) abstraction layer support.
+This extension provides the database (dbm-style) abstraction layer.
 
 ## EXT_DBA
 
@@ -24,7 +24,7 @@ Build extension as shared library.
 * Default: `ON`
 * Values: `ON|OFF`
 
-Enable the bundled constant databases (cdb) support.
+Enable the constant databases (cdb) handler.
 
 ## EXT_DBA_CDB_EXTERNAL
 
@@ -43,7 +43,7 @@ Use external (system) cdb library instead of the bundled sources.
 * Default: `OFF`
 * Values: `ON|OFF`
 
-Enable the Oracle Berkeley DB support.
+Enable the Oracle Berkeley DB handler.
 
 ## EXT_DBA_DB1
 
@@ -57,56 +57,56 @@ Enable the Oracle Berkeley DB 1.x support/emulation.
 * Default: `OFF`
 * Values: `ON|OFF`
 
-Enable the legacy (original) Berkeley DB style support.
+Enable the legacy (original) Berkeley DB style (Database Manager) handler.
 
 ## EXT_DBA_FLATFILE
 
 * Default: `ON`
 * Values: `ON|OFF`
 
-Enable the bundled flat-file DBA handler support.
+Enable the bundled flat-file DBA handler.
 
 ## EXT_DBA_GDBM
 
 * Default: `OFF`
 * Values: `ON|OFF`
 
-Enable the GNU dbm (GDBM) support.
+Enable the GNU dbm (GDBM) handler.
 
 ## EXT_DBA_INIFILE
 
 * Default: `ON`
 * Values: `ON|OFF`
 
-Enable the bundled INI-file DBA handler support.
+Enable the bundled INI-file DBA handler.
 
 ## EXT_DBA_LMDB
 
 * Default: `OFF`
 * Values: `ON|OFF`
 
-Enable the Lightning Memory-Mapped Database (LMDB) support.
+Enable the Lightning Memory-Mapped Database (LMDB) handler.
 
 ## EXT_DBA_NDBM
 
 * Default: `OFF`
 * Values: `ON|OFF`
 
-Enable the ndbm support.
+Enable the ndbm (new dbm) handler.
 
 ## EXT_DBA_QDBM
 
 * Default: `OFF`
 * Values: `ON|OFF`
 
-Enable the QDBM support.
+Enable the QDBM (Quick Database Manager) handler
 
 ## EXT_DBA_TCADB
 
 * Default: `OFF`
 * Values: `ON|OFF`
 
-Enable the Tokyo Cabinet abstract DB support.
+Enable the Tokyo Cabinet abstract DB handler.
 #]=============================================================================]
 
 project(
@@ -121,7 +121,7 @@ option(EXT_DBA "Enable the dba extension")
 add_feature_info(
   "ext/dba"
   EXT_DBA
-  "database (dbm-style) abstraction layer support"
+  "dbm-style database abstraction"
 )
 
 cmake_dependent_option(
@@ -134,7 +134,7 @@ cmake_dependent_option(
 
 cmake_dependent_option(
   EXT_DBA_CDB
-  "DBA: Enable the bundled constant databases (cdb) support"
+  "DBA: Enable the constant databases (cdb) handler"
   ON
   EXT_DBA
   OFF
@@ -143,7 +143,7 @@ mark_as_advanced(EXT_DBA_CDB)
 add_feature_info(
   "ext/dba cdb"
   EXT_DBA_CDB
-  "constant databases support"
+  "constant databases handler"
 )
 
 cmake_dependent_option(
@@ -157,21 +157,21 @@ mark_as_advanced(EXT_DBA_CDB_EXTERNAL)
 add_feature_info(
   "ext/dba cdb external"
   EXT_DBA_CDB_EXTERNAL
-  "system cdb library instead of the bundled"
+  "system cdb library instead of bundled"
 )
 
 cmake_dependent_option(
   EXT_DBA_DB
-  "DBA: Enable the Oracle Berkeley DB support"
+  "DBA: Enable the Oracle Berkeley DB handler"
   OFF
   EXT_DBA
   OFF
 )
 mark_as_advanced(EXT_DBA_DB)
 add_feature_info(
-  "ext/dba with DB"
+  "ext/dba DB"
   EXT_DBA_DB
-  "Berkeley DB support"
+  "Berkeley DB handler"
 )
 
 cmake_dependent_option(
@@ -183,97 +183,97 @@ cmake_dependent_option(
 )
 mark_as_advanced(EXT_DBA_DB1)
 add_feature_info(
-  "ext/dba with DB 1"
+  "ext/dba DB 1"
   EXT_DBA_DB1
   "Berkeley DB 1.x support/emulation"
 )
 
 cmake_dependent_option(
   EXT_DBA_DBM
-  "DBA: Enable the legacy (original) Berkeley DB style support"
+  "DBA: Enable the legacy (original) Berkeley DB style handler"
   OFF
   [[EXT_DBA AND NOT EXT_DBA_QDBM]]
   OFF
 )
 mark_as_advanced(EXT_DBA_DBM)
 add_feature_info(
-  "ext/dba with DBM"
+  "ext/dba DBM"
   EXT_DBA_DBM
-  "legacy (original) Berkeley DB style support"
+  "legacy (original) Berkeley DB handler"
 )
 
 cmake_dependent_option(
   EXT_DBA_FLATFILE
-  "DBA: Enable the bundled flat-file DBA handler support"
+  "DBA: Enable the bundled flat-file handler"
   ON
   EXT_DBA
   OFF
 )
 mark_as_advanced(EXT_DBA_FLATFILE)
 add_feature_info(
-  "ext/dba with flat file"
+  "ext/dba flat-file"
   EXT_DBA_FLATFILE
-  "bundled flat-file DBA handler support"
+  "bundled flat-file handler"
 )
 
 cmake_dependent_option(
   EXT_DBA_GDBM
-  "DBA: Enable the GNU dbm (GDBM) support"
+  "DBA: Enable the GNU dbm (GDBM) handler"
   OFF
   [[EXT_DBA AND NOT EXT_DBA_QDBM]]
   OFF
 )
 mark_as_advanced(EXT_DBA_GDBM)
 add_feature_info(
-  "ext/dba with GDBM"
+  "ext/dba GDBM"
   EXT_DBA_GDBM
-  "GNU dbm support"
+  "GNU dbm handler"
 )
 
 cmake_dependent_option(
   EXT_DBA_INIFILE
-  "DBA: Enable the bundled INI-file DBA handler support"
+  "DBA: Enable the bundled INI-file handler"
   ON
   EXT_DBA
   OFF
 )
 mark_as_advanced(EXT_DBA_INIFILE)
 add_feature_info(
-  "ext/dba with INI file"
+  "ext/dba INI-file"
   EXT_DBA_INIFILE
-  "bundled INI-file DBA handler support"
+  "bundled INI-file handler"
 )
 
 cmake_dependent_option(
   EXT_DBA_LMDB
-  "DBA: Enable the Lightning Memory-Mapped Database (LMDB) support"
+  "DBA: Enable the Lightning Memory-Mapped Database (LMDB) handler"
   OFF
   EXT_DBA
   OFF
 )
 add_feature_info(
-  "ext/dba with LMDB"
+  "ext/dba LMDB"
   EXT_DBA_LMDB
-  "Lightning Memory-Mapped Database support"
+  "Lightning Memory-Mapped Database handler"
 )
 
 cmake_dependent_option(
   EXT_DBA_NDBM
-  "DBA: Enable the ndbm support"
+  "DBA: Enable the new dbm (ndbm) handler"
   OFF
   EXT_DBA
   OFF
 )
 mark_as_advanced(EXT_DBA_NDBM)
 add_feature_info(
-  "ext/dba with ndbm"
+  "ext/dba ndbm"
   EXT_DBA_NDBM
-  "new dbm support"
+  "new dbm handler"
 )
 
 cmake_dependent_option(
   EXT_DBA_QDBM
-  "DBA: Enable the QDBM support"
+  "DBA: Enable the Quick Database Manager (QDBM) handler"
   OFF
   [[EXT_DBA AND NOT EXT_DBA_DBM AND NOT EXT_DBA_GDBM]]
   OFF
@@ -281,7 +281,7 @@ cmake_dependent_option(
 add_feature_info(
   "ext/dba QDBM"
   EXT_DBA_QDBM
-  "Quick Database Manager support"
+  "Quick Database Manager handler"
 )
 if(EXT_DBA_QDBM AND EXT_DBA_GDBM)
   message(
@@ -299,7 +299,7 @@ endif()
 
 cmake_dependent_option(
   EXT_DBA_TCADB
-  "DBA: Enable the Tokyo Cabinet abstract DB support"
+  "DBA: Enable the Tokyo Cabinet abstract DB handler"
   OFF
   EXT_DBA
   OFF
@@ -307,7 +307,7 @@ cmake_dependent_option(
 add_feature_info(
   "ext/dba TCADB"
   EXT_DBA_TCADB
-  "Tokyo Cabinet abstract DB support"
+  "Tokyo Cabinet handler"
 )
 
 if(NOT EXT_DBA)
@@ -342,7 +342,7 @@ if(EXT_DBA_CDB)
       Cdb
       PROPERTIES
         TYPE REQUIRED
-        PURPOSE "Necessary to enable the cdb support in the dba extension."
+        PURPOSE "Necessary to enable the cdb handler in the dba extension."
     )
     target_link_libraries(php_dba PRIVATE Cdb::Cdb)
 
@@ -371,7 +371,7 @@ if(EXT_DBA_CDB)
 endif()
 
 ################################################################################
-# Berkeley DB support.
+# Berkeley DB.
 ################################################################################
 if(EXT_DBA_DB)
   if(EXT_DBA_DB1)
@@ -383,7 +383,7 @@ if(EXT_DBA_DB)
     BerkeleyDB
     PROPERTIES
       TYPE REQUIRED
-      PURPOSE "Necessary to enable the Berkeley DB support in the dba extension."
+      PURPOSE "Necessary to enable the Berkeley DB handler in the dba extension."
   )
   target_link_libraries(php_dba PRIVATE BerkeleyDB::BerkeleyDB)
 
@@ -438,7 +438,7 @@ if(EXT_DBA_DB)
 endif()
 
 ################################################################################
-# The DBM handler support.
+# DBM.
 ################################################################################
 if(EXT_DBA_DBM)
   find_package(Dbm)
@@ -446,7 +446,7 @@ if(EXT_DBA_DBM)
     Dbm
     PROPERTIES
       TYPE REQUIRED
-      PURPOSE "Necessary to enable the DBM support in the dba extension."
+      PURPOSE "Necessary to enable the DBM handler in the dba extension."
   )
 
   if(Dbm_LIBRARY MATCHES "gdbm")
@@ -470,7 +470,7 @@ if(EXT_DBA_DBM)
 endif()
 
 ################################################################################
-# Flat-file support.
+# Flat-file.
 ################################################################################
 if(EXT_DBA_FLATFILE)
   target_sources(
@@ -484,7 +484,7 @@ if(EXT_DBA_FLATFILE)
 endif()
 
 ################################################################################
-# The GNU dbm (GDBM) support.
+# GDBM.
 ################################################################################
 if(EXT_DBA_GDBM)
   message(
@@ -500,7 +500,7 @@ if(EXT_DBA_GDBM)
     GDBM
     PROPERTIES
       TYPE REQUIRED
-      PURPOSE "Necessary to enable the GDBM support in the dba extension."
+      PURPOSE "Necessary to enable the GDBM handler in the dba extension."
   )
 
   target_link_libraries(php_dba PRIVATE GDBM::GDBM)
@@ -512,7 +512,7 @@ if(EXT_DBA_GDBM)
 endif()
 
 ################################################################################
-# INI-file support.
+# INI-file.
 ################################################################################
 if(EXT_DBA_INIFILE)
   target_sources(
@@ -526,7 +526,7 @@ if(EXT_DBA_INIFILE)
 endif()
 
 ################################################################################
-# The lmdb handler support.
+# LMDB.
 ################################################################################
 if(EXT_DBA_LMDB)
   find_package(LMDB)
@@ -534,7 +534,7 @@ if(EXT_DBA_LMDB)
     LMDB
     PROPERTIES
       TYPE REQUIRED
-      PURPOSE "Necessary to enable the LMDB support in the dba extension."
+      PURPOSE "Necessary to enable the LMDB handler in the dba extension."
   )
 
   target_link_libraries(php_dba PRIVATE LMDB::LMDB)
@@ -546,7 +546,7 @@ if(EXT_DBA_LMDB)
 endif()
 
 ################################################################################
-# The ndbm handler support.
+# ndbm.
 ################################################################################
 if(EXT_DBA_NDBM)
   find_package(Ndbm)
@@ -554,7 +554,7 @@ if(EXT_DBA_NDBM)
     Ndbm
     PROPERTIES
       TYPE REQUIRED
-      PURPOSE "Necessary to enable the ndbm support in the dba extension."
+      PURPOSE "Necessary to enable the ndbm handler in the dba extension."
   )
 
   if(Ndbm_LIBRARY MATCHES "gdbm")
@@ -577,7 +577,7 @@ if(EXT_DBA_NDBM)
 endif()
 
 ################################################################################
-# The qdbm handler support.
+# QDBM.
 ################################################################################
 if(EXT_DBA_QDBM AND NOT EXT_DBA_DBM AND NOT EXT_DBA_GDBM)
   find_package(QDBM)
@@ -585,7 +585,7 @@ if(EXT_DBA_QDBM AND NOT EXT_DBA_DBM AND NOT EXT_DBA_GDBM)
     QDBM
     PROPERTIES
       TYPE REQUIRED
-      PURPOSE "Necessary to enable the QDBM support in the dba extension."
+      PURPOSE "Necessary to enable the QDBM handler in the dba extension."
   )
 
   target_link_libraries(php_dba PRIVATE QDBM::QDBM)
@@ -597,7 +597,7 @@ if(EXT_DBA_QDBM AND NOT EXT_DBA_DBM AND NOT EXT_DBA_GDBM)
 endif()
 
 ################################################################################
-# The Tokyo Cabinet (tcadb) support.
+# Tokyo Cabinet.
 ################################################################################
 if(EXT_DBA_TCADB)
   find_package(TokyoCabinet)
@@ -605,7 +605,7 @@ if(EXT_DBA_TCADB)
     TokyoCabinet
     PROPERTIES
       TYPE REQUIRED
-      PURPOSE "Necessary to enable the Tokyo Cabinet support in the dba extension."
+      PURPOSE "Necessary to enable the Tokyo Cabinet handler in the dba extension."
   )
 
   target_link_libraries(php_dba PRIVATE TokyoCabinet::TokyoCabinet)

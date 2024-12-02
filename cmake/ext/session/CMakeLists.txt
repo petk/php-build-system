@@ -61,9 +61,9 @@ cmake_dependent_option(
 )
 
 add_feature_info(
-  "ext/session with mm"
+  "ext/session mm"
   EXT_SESSION_MM
-  "mm library support for session storage"
+  "session storage using mm library"
 )
 
 if(NOT EXT_SESSION)

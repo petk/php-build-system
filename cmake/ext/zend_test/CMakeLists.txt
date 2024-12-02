@@ -33,7 +33,7 @@ option(EXT_ZEND_TEST "Enable the zend_test extension")
 add_feature_info(
   "ext/zend_test"
   EXT_ZEND_TEST
-  "additional support when testing PHP build"
+  "additional PHP build testing support"
 )
 
 cmake_dependent_option(

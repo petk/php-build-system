@@ -75,6 +75,7 @@ include(cmake/Testing.cmake)
 include(cmake/CPack.cmake)
 
 include(PHP/FeatureSummary)
+php_feature_summary()
 
 message(
   STATUS

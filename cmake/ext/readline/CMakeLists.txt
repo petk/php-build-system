@@ -49,7 +49,7 @@ option(EXT_READLINE "Enable the readline extension (only for CLI-based SAPIs)")
 add_feature_info(
   "ext/readline"
   EXT_READLINE
-  "interface for using Editline library"
+  "editable command lines support"
 )
 
 cmake_dependent_option(
@@ -68,12 +68,6 @@ cmake_dependent_option(
   OFF
 )
 mark_as_advanced(EXT_READLINE_LIBREADLINE)
-
-add_feature_info(
-  "ext/readline with GNU Readline"
-  EXT_READLINE_LIBREADLINE
-  "GNU Readline library support instead of Editline"
-)
 
 if(NOT EXT_READLINE)
   return()

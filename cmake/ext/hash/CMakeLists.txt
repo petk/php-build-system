@@ -36,7 +36,7 @@ option(
 )
 
 add_feature_info(
-  "ext/hash with mhash"
+  "ext/hash mhash"
   EXT_HASH_MHASH
   "mhash emulation"
 )

@@ -19,7 +19,7 @@ include(FeatureSummary)
 add_feature_info(
   "ext/random"
   TRUE
-  "random number generators and functions related to randomness"
+  "randomness-related generators and functions"
 )
 
 add_library(php_random OBJECT)

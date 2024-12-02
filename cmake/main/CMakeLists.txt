@@ -509,11 +509,7 @@ function(_php_main_create_files)
 endfunction()
 
 # Run at the end of the configuration.
-cmake_language(
-  DEFER
-    DIRECTORY ${PHP_SOURCE_DIR}
-  CALL _php_main_create_files
-)
+cmake_language(DEFER DIRECTORY ${PHP_SOURCE_DIR} CALL _php_main_create_files)
 
 install(
   TARGETS php_main

@@ -268,13 +268,13 @@ if(EXT_OPCACHE_JIT)
 endif()
 
 add_feature_info(
-  "ext/opcache with JIT"
+  "ext/opcache JIT"
   HAVE_JIT
   "OPcache Just-In-Time compiling support"
 )
 
 add_feature_info(
-  "ext/opcache with Capstone"
+  "ext/opcache Capstone"
   HAVE_CAPSTONE
   "OPcache JIT disassembly through Capstone engine"
 )

@@ -8,59 +8,136 @@ summary alphabetically and categorizes enabled features into SAPIs, extensions,
 and other global PHP features. Common misconfiguration issues are summarized
 together with missing required system packages.
 
-https://cmake.org/cmake/help/latest/module/FeatureSummary.html
+See also: https://cmake.org/cmake/help/latest/module/FeatureSummary.html
+
+## Basic usage
+
+```cmake
+# CMakeLists.txt
+
+# Include module and output configuration summary
+include(PHP/FeatureSummary)
+php_feature_summary()
+```
+
+## Functions
+
+Output PHP configuration summary:
+
+```cmake
+php_feature_summary()
+```
 #]=============================================================================]
 
 include_guard(GLOBAL)
 
 include(FeatureSummary)
 
-# Output summary prelude.
-block()
+# Add new item to the summary preamble with dotted leader:
+# " * <what> ..................... : <value>"
+function(php_feature_summary_preamble_add_item what value output)
+  if(${output})
+    # If preamble is already set, get first line to calculate column width:
+    string(REGEX MATCH "^ \\\* ([^\r\n]+ [.]+) : " _ "${${output}}")
+  else()
+    # Helper template to calculate column width:
+    set(template " * <what> ..................... : <value>")
+    string(REGEX MATCH [[^ \* (<what> [.]+)]] _ "${template}")
+  endif()
+
+  string(LENGTH "${CMAKE_MATCH_1}" width)
+  string(LENGTH "${what}" length)
+  math(EXPR numberOfDots "${width} - ${length} - 1")
+
+  if(numberOfDots GREATER 0)
+    string(REPEAT "." ${numberOfDots} leader)
+    set(leader " ${leader} ")
+  else()
+    set(leader)
+  endif()
+
+  string(APPEND ${output} " * ${what}${leader}: ${value}\n")
+  set("${output}" "${${output}}" PARENT_SCOPE)
+endfunction()
+
+# Get summary preamble.
+function(php_feature_summary_preamble result)
   get_target_property(zendVersion Zend::Zend VERSION)
   get_target_property(zendExtensionApiNumber Zend::Zend ZEND_EXTENSION_API_NO)
   get_target_property(zendModuleApiNumber Zend::Zend ZEND_MODULE_API_NO)
 
-  set(info)
+  set(preamble)
   string(
     APPEND
-    info
+    preamble
     " * PHP version ................ : ${PHP_VERSION}\n"
     " * PHP API version ............ : ${PHP_API_VERSION}\n"
     " * Zend Engine version ........ : ${zendVersion}\n"
     " * Zend extension API number .. : ${zendExtensionApiNumber}\n"
     " * Zend module API number ..... : ${zendModuleApiNumber}\n"
-    " * C compiler ................. : ${CMAKE_C_COMPILER_ID} ${CMAKE_C_COMPILER_VERSION} (${CMAKE_C_COMPILER})\n"
   )
+
+  if(CMAKE_C_COMPILER_LOADED)
+    set(compiler)
+    if(CMAKE_C_COMPILER_ID)
+      string(APPEND compiler "${CMAKE_C_COMPILER_ID}")
+    endif()
+    if(CMAKE_C_COMPILER_VERSION)
+      string(APPEND compiler " ${CMAKE_C_COMPILER_VERSION}")
+    endif()
+    string(STRIP "${compiler}" compiler)
+    if(compiler)
+      string(APPEND compiler " (${CMAKE_C_COMPILER})")
+    else()
+      string(APPEND compiler "${CMAKE_C_COMPILER}")
+    endif()
+    php_feature_summary_preamble_add_item("C compiler" "${compiler}" preamble)
+  endif()
 
   if(CMAKE_CXX_COMPILER_LOADED)
-    string(
-      APPEND
-      info
-      " * CXX compiler ............... : ${CMAKE_CXX_COMPILER_ID} ${CMAKE_CXX_COMPILER_VERSION} (${CMAKE_CXX_COMPILER})\n"
-    )
+    set(compiler)
+    if(CMAKE_CXX_COMPILER_ID)
+      string(APPEND compiler "${CMAKE_CXX_COMPILER_ID}")
+    endif()
+    if(CMAKE_CXX_COMPILER_VERSION)
+      string(APPEND compiler " ${CMAKE_CXX_COMPILER_VERSION}")
+    endif()
+    string(STRIP "${compiler}" compiler)
+    if(compiler)
+      string(APPEND compiler " (${CMAKE_CXX_COMPILER})")
+    else()
+      string(APPEND compiler "${CMAKE_CXX_COMPILER}")
+    endif()
+    php_feature_summary_preamble_add_item("CXX compiler" "${compiler}" preamble)
   endif()
 
-  string(
-    APPEND
-    info
-    " * Install prefix ............. : ${CMAKE_INSTALL_PREFIX}\n"
-  )
+  get_property(isMultiConfig GLOBAL PROPERTY GENERATOR_IS_MULTI_CONFIG)
+  if(isMultiConfig)
+    set(buildType "Multi-config generator")
+  elseif(CMAKE_BUILD_TYPE)
+    set(buildType "${CMAKE_BUILD_TYPE}")
+  else()
+    set(buildType "N/A")
+  endif()
+
+  php_feature_summary_preamble_add_item("Build type" "${buildType}" preamble)
+  php_feature_summary_preamble_add_item("Install prefix" "${CMAKE_INSTALL_PREFIX}" preamble)
+
+  set(${result} "${preamble}" PARENT_SCOPE)
+endfunction()
+
+# Output configuration summary.
+function(php_feature_summary)
+  php_feature_summary_preamble(preamble)
 
   message(STATUS "")
   message(STATUS "")
-  message(STATUS "PHP summary")
-  message(STATUS "===========\n\n${info}")
-endblock()
+  message(STATUS "PHP configuration summary")
+  message(STATUS "=========================\n\n${preamble}")
 
-# Output enabled features.
-block()
+  # Output enabled features.
   get_property(enabledFeatures GLOBAL PROPERTY ENABLED_FEATURES)
-
-  if(enabledFeatures)
-    list(REMOVE_DUPLICATES enabledFeatures)
-  endif()
-
+  list(REMOVE_DUPLICATES enabledFeatures)
   list(SORT enabledFeatures COMPARE NATURAL CASE INSENSITIVE)
 
   set(php "")
@@ -116,10 +193,8 @@ block()
   if(extensions)
     message(STATUS "Enabled PHP extensions:\n\n${extensions}")
   endif()
-endblock()
 
-# Get missing extensions.
-block()
+  # Get missing extensions.
   set(missingExtensions "")
   set(sharedExtensionsSummary "")
 
@@ -216,4 +291,4 @@ block()
     QUIET_ON_EMPTY
     DESCRIPTION "The following REQUIRED packages have not been found:\n"
   )
-endblock()
+endfunction()

@@ -78,7 +78,7 @@ cmake_dependent_option(
 )
 
 add_feature_info(
-  "ext/mysqlnd with compression"
+  "ext/mysqlnd compression"
   EXT_MYSQLND_COMPRESSION
   "MySQL compressed protocol support"
 )

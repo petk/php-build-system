@@ -142,7 +142,7 @@ else()
 endif()
 cmake_language(
   DEFER
-    DIRECTORY ${dir}
+  DIRECTORY ${dir}
   CALL _php_oci8_notice
 )
 
