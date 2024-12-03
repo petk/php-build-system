@@ -37,7 +37,7 @@ option(EXT_FFI "Enable the ffi extension")
 add_feature_info(
   "ext/ffi"
   EXT_FFI
-  "Foreign Function Interface (FFI) support"
+  "Foreign Function Interface (FFI)"
 )
 
 cmake_dependent_option(

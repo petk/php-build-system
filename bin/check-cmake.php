@@ -283,7 +283,7 @@ function getAllCMakeFiles(string $path): Iterator
 /**
  * Check given CMake files for include() issues.
  */
-function checkCMakeFiles(Iterator $files, array $modules): int
+function checkCMakeInclude(Iterator $files, array $modules): int
 {
     $status = 0;
 
@@ -331,6 +331,35 @@ function checkCMakeFiles(Iterator $files, array $modules): int
                 $status = 1;
                 output("E: missing include($module) in $file");
             }
+        }
+    }
+
+    return $status;
+};
+
+/**
+ * Check for set(<variable>) usages with only one argument. These should be
+ * replaced with set(<variable> "").
+ */
+function checkCMakeSet(Iterator $files): int
+{
+    $status = 0;
+
+    foreach ($files as $file) {
+        $content = getCMakeCode($file);
+
+        preg_match_all(
+            '/^[ \t]*set[ \t]*\([ \t\n]*([^ \t\)]+)[ \t]*\)/m',
+            $content,
+            $matches,
+            PREG_SET_ORDER,
+        );
+
+        foreach ($matches as $match) {
+            $argument = (array_key_exists(1, $match)) ? trim($match[1]) : '';
+
+            $status = 1;
+            output("E: Replace set($argument) with set($argument \"\") in \n   $file \n");
         }
     }
 
@@ -717,7 +746,10 @@ function checkAll(array $options): int
     $allCMakeFiles = getAllCMakeFiles($options['path'] . '/cmake');
 
     $projectModules = getProjectModules();
-    $status = checkCMakeFiles($allCMakeFiles, $projectModules);
+    $status = checkCMakeInclude($allCMakeFiles, $projectModules);
+
+    $newStatus = checkCMakeSet($allCMakeFiles);
+    $status = (0 === $status) ? $newStatus : $status;
 
     $findModules = getFindModules($options['path'] . '/cmake/cmake/modules');
     $newStatus = checkFindModules($findModules, $allCMakeFiles);

@@ -33,7 +33,7 @@ option(EXT_PHAR "Enable the phar extension" ON)
 add_feature_info(
   "ext/phar"
   EXT_PHAR
-  "PHP archives (phar) support"
+  "PHP archives support"
 )
 
 cmake_dependent_option(
@@ -132,7 +132,7 @@ else()
   return()
 endif()
 
-set(pharSharedOptions)
+set(pharSharedOptions "")
 if(EXT_PHAR_SHARED OR BUILD_SHARED_LIBS)
   set(
     pharSharedOptions

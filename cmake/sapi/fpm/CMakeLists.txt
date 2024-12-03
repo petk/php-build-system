@@ -106,7 +106,7 @@ option(SAPI_FPM "Enable the FPM SAPI module")
 add_feature_info(
   "sapi/fpm"
   SAPI_FPM
-  "FastCGI Process Manager (FPM) SAPI module"
+  "FastCGI Process Manager"
 )
 
 php_set(
@@ -137,7 +137,7 @@ php_set(
 add_feature_info(
   "sapi/fpm ACL"
   SAPI_FPM_ACL
-  "FPM SAPI module with integrated POSIX Access Control Lists"
+  "POSIX Access Control Lists integration"
 )
 
 php_set(
@@ -150,7 +150,7 @@ php_set(
 add_feature_info(
   "sapi/fpm AppArmor"
   SAPI_FPM_APPARMOR
-  "AppArmor confinement support"
+  "application confinement integration"
 )
 
 php_set(
@@ -163,7 +163,7 @@ php_set(
 add_feature_info(
   "sapi/fpm SELinux"
   SAPI_FPM_SELINUX
-  "SELinux policy library support"
+  "security policy integration"
 )
 
 php_set(
@@ -176,7 +176,7 @@ php_set(
 add_feature_info(
   "sapi/fpm systemd"
   SAPI_FPM_SYSTEMD
-  "systemd integration"
+  "system and service manager integration"
 )
 
 if(NOT SAPI_FPM)

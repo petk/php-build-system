@@ -42,7 +42,7 @@ option(EXT_SYSVMSG "Enable the sysvmsg extension")
 add_feature_info(
   "ext/sysvmsg"
   EXT_SYSVMSG
-  "System V message based IPC (Interprocess Communication Mechanisms) support"
+  "System V message based IPC support"
 )
 
 cmake_dependent_option(

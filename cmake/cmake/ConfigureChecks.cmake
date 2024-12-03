@@ -814,5 +814,5 @@ endif()
 add_feature_info(
   "Valgrind"
   PHP_VALGRIND
-  "support for dynamic analysis"
+  "dynamic analysis"
 )

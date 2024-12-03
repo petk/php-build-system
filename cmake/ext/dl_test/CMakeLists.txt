@@ -28,7 +28,7 @@ option(EXT_DL_TEST "Enable the dl_test extension")
 add_feature_info(
   "ext/dl_test"
   EXT_DL_TEST
-  "support for testing dl() function"
+  "dl() function testing"
 )
 
 if(NOT EXT_DL_TEST)

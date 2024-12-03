@@ -134,7 +134,7 @@ if(NOT DEFINED ACL_IS_BUILT_IN)
   endblock()
 endif()
 
-set(_ACL_REQUIRED_VARS)
+set(_ACL_REQUIRED_VARS "")
 if(ACL_IS_BUILT_IN)
   set(_ACL_REQUIRED_VARS _ACL_IS_BUILT_IN_MSG)
   set(_ACL_IS_BUILT_IN_MSG "built in to C library")

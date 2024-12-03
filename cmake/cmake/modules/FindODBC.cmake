@@ -63,12 +63,12 @@ enhancements and adjustments for the PHP build workflow.
 include(FeatureSummary)
 
 # Define internal variables
-set(_odbc_include_paths)
-set(_odbc_lib_paths)
-set(_odbc_lib_names)
-set(_odbc_required_libs_names)
-set(_odbc_config_names)
-set(_reason)
+set(_odbc_include_paths "")
+set(_odbc_lib_paths "")
+set(_odbc_lib_names "")
+set(_odbc_required_libs_names "")
+set(_odbc_config_names "")
+set(_reason "")
 
 ### To manually override build options of the ODBC library ####################
 set(ODBC_COMPILE_DEFINITIONS "" CACHE STRING "ODBC library compile definitions")

@@ -34,7 +34,7 @@ option(EXT_PDO_DBLIB "Enable the pdo_dblib extension")
 add_feature_info(
   "ext/pdo_dblib"
   EXT_PDO_DBLIB
-  "Microsoft SQL Server and Sybase database support in PDO (PHP Data Objects)"
+  "Microsoft SQL Server and Sybase database PDO driver"
 )
 
 cmake_dependent_option(

@@ -98,7 +98,7 @@ endif()
 add_feature_info(
   "ext/ftp SSL"
   HAVE_FTP_SSL
-  "FTP over SSL support"
+  "FTP over SSL"
 )
 
 set(HAVE_FTP TRUE)

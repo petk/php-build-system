@@ -3,9 +3,8 @@ cmake_minimum_required(VERSION 3.25...3.31)
 # Configure CMake behavior.
 include(cmake/CMakeDefaults.cmake)
 
-message(STATUS "-----------------------------")
 message(STATUS "Initializing PHP build system")
-message(STATUS "-----------------------------\n")
+message(STATUS "=============================")
 
 message(STATUS "CMake version: ${CMAKE_VERSION}")
 message(STATUS "CMake generator: ${CMAKE_GENERATOR}")
@@ -31,20 +30,22 @@ add_subdirectory(sapi)
 add_subdirectory(ext)
 add_subdirectory(Zend)
 
-message(STATUS "---------------")
+message(STATUS "")
+message(STATUS "")
 message(STATUS "Configuring PHP")
-message(STATUS "---------------\n")
+message(STATUS "===============")
+message(STATUS "")
 
 add_subdirectory(pear)
 add_subdirectory(win32)
 add_subdirectory(main)
 add_subdirectory(scripts)
 
-# Check thread safety.
-include(PHP/ThreadSafety)
-
 # Generate *_arginfo.h headers from *.stub.php sources.
 include(PHP/Stubs)
+
+# Check thread safety.
+include(PHP/ThreadSafety)
 
 # Execute all deferred calls. Calls are additionally sorted with natural
 # comparison method by their IDs. If call hasn't set any ID number, CMake
@@ -52,10 +53,10 @@ include(PHP/Stubs)
 block()
   cmake_language(DEFER GET_CALL_IDS ids)
   list(SORT ids COMPARE NATURAL)
-  foreach(id ${ids})
+  foreach(id IN LISTS ids)
     cmake_language(DEFER GET_CALL ${id} call)
     list(POP_FRONT call command)
-    message(STATUS "Executing deferred call: ${command}")
+    message(VERBOSE "Executing deferred call: ${command}")
     cmake_language(CALL ${command} ${call})
     cmake_language(DEFER CANCEL_CALL ${id})
   endforeach()
@@ -73,6 +74,7 @@ include(cmake/Testing.cmake)
 include(cmake/CPack.cmake)
 
 include(PHP/FeatureSummary)
+php_feature_summary()
 
 message(
   STATUS
