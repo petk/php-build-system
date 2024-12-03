@@ -81,7 +81,7 @@ option(EXT_OPENSSL "Enable the openssl extension")
 add_feature_info(
   "ext/openssl"
   EXT_OPENSSL
-  "encryption and decryption support with OpenSSL library"
+  "encryption and decryption using OpenSSL library"
 )
 
 cmake_dependent_option(
@@ -104,7 +104,7 @@ mark_as_advanced(EXT_OPENSSL_SYSTEM_CIPHERS)
 add_feature_info(
   "ext/openssl system ciphers"
   EXT_OPENSSL_SYSTEM_CIPHERS
-  "using system default cipher list instead of hardcoded value for OpenSSL"
+  "system default cipher list instead of hardcoded value"
 )
 
 cmake_dependent_option(
@@ -134,7 +134,7 @@ mark_as_advanced(EXT_OPENSSL_LEGACY_PROVIDER)
 add_feature_info(
   "ext/openssl legacy algorithm provider"
   EXT_OPENSSL_LEGACY_PROVIDER
-  "legacy algorithm provider in addition to default provider will be loaded"
+  "loaded in addition to default provider"
 )
 
 if(NOT EXT_OPENSSL)

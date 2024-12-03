@@ -27,7 +27,7 @@ set_package_properties(
     DESCRIPTION "Mail Transport Agent"
 )
 
-set(_reason)
+set(_reason "")
 
 if(CMAKE_SYSTEM_NAME STREQUAL "Windows")
   set(_sendmailIsBuiltInMsg "PHP built-in mailer (Windows)")

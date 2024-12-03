@@ -24,7 +24,7 @@ Enable copying PHP CODE pages into HUGE PAGES.
 * Default: `ON`
 * Values: `ON|OFF`
 
-Enable JIT (Just-In-Time compiler).
+Enable JIT (just-in-time) compilation.
 
 ## EXT_OPCACHE_CAPSTONE
 

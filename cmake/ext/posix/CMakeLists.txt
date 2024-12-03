@@ -43,7 +43,7 @@ option(EXT_POSIX "Enable the posix extension (POSIX-like functions)" ON)
 add_feature_info(
   "ext/posix"
   EXT_POSIX
-  "interface for using IEEE 1003.1 (POSIX.1) functions"
+  "IEEE 1003.1 (POSIX.1) interface"
 )
 
 cmake_dependent_option(

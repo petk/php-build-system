@@ -55,7 +55,7 @@ if(NOT DEFINED Ndbm_IS_BUILT_IN)
   cmake_pop_check_state()
 endif()
 
-set(_Ndbm_REQUIRED_VARS)
+set(_Ndbm_REQUIRED_VARS "")
 if(Ndbm_IS_BUILT_IN)
   set(_Ndbm_REQUIRED_VARS _Ndbm_IS_BUILT_IN_MSG)
   set(_Ndbm_IS_BUILT_IN_MSG "built in to C library")

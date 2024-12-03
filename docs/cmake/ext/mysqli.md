@@ -5,7 +5,7 @@
 
 Configure the `mysqli` extension.
 
-This extension provides MySQL-compatible database support.
+This extension provides MySQL-compatible databases support.
 
 ## EXT_MYSQLI
 

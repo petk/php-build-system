@@ -3051,13 +3051,13 @@ A list of Autoconf `configure` command-line configuration options, Windows
     <tr>
       <td>--without-external-libcrypt</td>
       <td>N/A</td>
-      <td>EXT_STANDARD_EXTERNAL_LIBCRYPT=OFF</td>
+      <td>EXT_STANDARD_CRYPT_EXTERNAL=OFF</td>
       <td>default</td>
     </tr>
     <tr>
       <td>&emsp;--with-external-libcrypt</td>
       <td>N/A</td>
-      <td>EXT_STANDARD_EXTERNAL_LIBCRYPT=ON</td>
+      <td>EXT_STANDARD_CRYPT_EXTERNAL=ON</td>
       <td></td>
     </tr>
     <tr>

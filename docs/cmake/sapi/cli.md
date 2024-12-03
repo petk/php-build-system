@@ -10,7 +10,7 @@ Configure the `cli` PHP SAPI.
 * Default: `ON`
 * Values: `ON|OFF`
 
-Enable the PHP command-line interface (CLI) SAPI module.
+Enable the PHP CLI (Command-Line Interpreter/Interface) SAPI executable module.
 
 ## SAPI_CLI_WIN_NO_CONSOLE
 

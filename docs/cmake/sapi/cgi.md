@@ -10,4 +10,4 @@ Configure the `cgi` PHP SAPI.
 * Default: `ON`
 * Values: `ON|OFF`
 
-Enable the CGI (Common Gateway Interface) SAPI.
+Enable the PHP CGI (Common Gateway Interface) SAPI executable module.

@@ -19,6 +19,7 @@ ecosystem.
     * [3.2.1. Configuration variables](#321-configuration-variables)
     * [3.2.2. Find module variables](#322-find-module-variables)
     * [3.2.3. Temporary variables](#323-temporary-variables)
+  * [3.3. Setting and unsetting variables](#33-setting-and-unsetting-variables)
 * [4. Modules](#4-modules)
   * [4.1. Find modules](#41-find-modules)
   * [4.2. Utility modules](#42-utility-modules)
@@ -342,6 +343,36 @@ set(_temporaryVariable <value>)
 > string(REGEX MATCH "foo\\(([0-9]+)\\)" _ "${content}")
 > message(STATUS "${CMAKE_MATCH_1}")
 > ```
+
+### 3.3. Setting and unsetting variables
+
+In CMake, it's common practice to *reset* local variables within a specific
+scope to avoid unintended use of previous values. When ensuring a variable is
+empty before use, explicitly set it to an empty string:
+
+```cmake
+set(someVariable "")
+```
+
+Avoid this approach:
+
+```cmake
+set(someVariable)
+```
+
+The latter is equivalent to `unset(someVariable)`, which can unintentionally
+expose a cache variable with the same name if it exists. For example:
+
+```cmake
+set(someVariable "Foo" CACHE INTERNAL "Some cache variable")
+# ...
+set(someVariable)
+message(STATUS "${someVariable}")
+# Outputs: Foo
+```
+
+Setting the variable to an empty string ensures it is safely initialized without
+interference from cache variables.
 
 ## 4. Modules
 

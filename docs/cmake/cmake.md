@@ -73,9 +73,9 @@ repository:
     └─📄 wsyslog.mc            # Message template file for win32/wsyslog.h
   └─📄 CMakeLists.txt          # CMake file for Windows build
 └─📂 Zend
-  ├─📂 cmake                   # Zend Engine related CMake modules and files
-  ├─📄 CMakeLists.txt          # CMake file for Zend Engine
-  └─📄 zend_config.cmake.h.in  # Zend Engine configuration header template
+  └─📂 cmake                   # Zend Engine related CMake modules and files
+    └─📄 zend_config.h.in      # Zend Engine configuration header template
+  └─📄 CMakeLists.txt          # CMake file for Zend Engine
 ├─📄 CMakeLists.txt            # Root CMake file
 ├─📄 CMakePresets.json         # Main CMake presets file
 └─📄 CMakeUserPresets.json     # Git ignored local CMake presets overrides

@@ -30,9 +30,11 @@ CMake target properties for the `Zend::Zend` target:
   compatible with particular PHP build.
 #]=============================================================================]
 
-message(STATUS "-----------------------")
+message(STATUS "")
+message(STATUS "")
 message(STATUS "Configuring Zend Engine")
-message(STATUS "-----------------------\n")
+message(STATUS "=======================")
+message(STATUS "")
 
 include(cmake/Version.cmake)
 
@@ -526,7 +528,7 @@ endif()
 add_feature_info(
   "Zend signals"
   ZEND_SIGNALS
-  "signals handling within the Zend Engine for performance"
+  "signal handling for performance"
 )
 
 ################################################################################

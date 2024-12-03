@@ -91,7 +91,7 @@ option(EXT_PDO_ODBC "Enable the pdo_odbc extension")
 add_feature_info(
   "ext/pdo_odbc"
   EXT_PDO_ODBC
-  "Unified Open Database Connectivity (ODBC) databases support in PDO"
+  "Unified Open Database Connectivity (ODBC) databases PDO driver"
 )
 
 cmake_dependent_option(
@@ -173,7 +173,7 @@ endif()
 
 if(TARGET ODBC::ODBC)
   block()
-    set(haveSomeHeaders)
+    set(haveSomeHeaders FALSE)
 
     foreach(
       header

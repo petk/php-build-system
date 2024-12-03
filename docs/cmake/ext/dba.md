@@ -5,7 +5,7 @@
 
 Configure the `dba` extension.
 
-This extension provides the database (dbm-style) abstraction layer support.
+This extension provides the database (dbm-style) abstraction layer.
 
 ## EXT_DBA
 
@@ -26,7 +26,7 @@ Build extension as shared library.
 * Default: `ON`
 * Values: `ON|OFF`
 
-Enable the bundled constant databases (cdb) support.
+Enable the constant databases (cdb) handler.
 
 ## EXT_DBA_CDB_EXTERNAL
 
@@ -45,7 +45,7 @@ Use external (system) cdb library instead of the bundled sources.
 * Default: `OFF`
 * Values: `ON|OFF`
 
-Enable the Oracle Berkeley DB support.
+Enable the Oracle Berkeley DB handler.
 
 ## EXT_DBA_DB1
 
@@ -59,14 +59,14 @@ Enable the Oracle Berkeley DB 1.x support/emulation.
 * Default: `OFF`
 * Values: `ON|OFF`
 
-Enable the legacy (original) Berkeley DB style support.
+Enable the legacy (original) Berkeley DB style (Database Manager) handler.
 
 ## EXT_DBA_FLATFILE
 
 * Default: `ON`
 * Values: `ON|OFF`
 
-Enable the bundled flat-file DBA handler support.
+Enable the bundled flat-file DBA handler.
 
 ## EXT_DBA_GDBM
 
@@ -75,39 +75,39 @@ Enable the bundled flat-file DBA handler support.
 * Default: `OFF`
 * Values: `ON|OFF`
 
-Enable the GNU dbm (GDBM) support.
+Enable the GNU dbm (GDBM) handler.
 
 ## EXT_DBA_INIFILE
 
 * Default: `ON`
 * Values: `ON|OFF`
 
-Enable the bundled INI-file DBA handler support.
+Enable the bundled INI-file DBA handler.
 
 ## EXT_DBA_LMDB
 
 * Default: `OFF`
 * Values: `ON|OFF`
 
-Enable the Lightning Memory-Mapped Database (LMDB) support.
+Enable the Lightning Memory-Mapped Database (LMDB) handler.
 
 ## EXT_DBA_NDBM
 
 * Default: `OFF`
 * Values: `ON|OFF`
 
-Enable the ndbm support.
+Enable the ndbm (new dbm) handler.
 
 ## EXT_DBA_QDBM
 
 * Default: `OFF`
 * Values: `ON|OFF`
 
-Enable the QDBM support.
+Enable the QDBM (Quick Database Manager) handler
 
 ## EXT_DBA_TCADB
 
 * Default: `OFF`
 * Values: `ON|OFF`
 
-Enable the Tokyo Cabinet abstract DB support.
+Enable the Tokyo Cabinet abstract DB handler.

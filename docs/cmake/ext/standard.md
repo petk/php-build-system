@@ -15,9 +15,10 @@ to PHP extensions and SAPIs.
 
 Include the Argon2 support in `password_*()` functions.
 
-## EXT_STANDARD_EXTERNAL_LIBCRYPT
+## EXT_STANDARD_CRYPT_EXTERNAL
 
 * Default: `OFF`
 * Values: `ON|OFF`
 
-Use external libcrypt or libxcrypt.
+Use external crypt library, such as libcrypt or libxcrypt, instead of the
+bundled PHP crypt.

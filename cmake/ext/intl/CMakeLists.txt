@@ -35,7 +35,7 @@ option(EXT_INTL "Enable the intl extension")
 add_feature_info(
   "ext/intl"
   EXT_INTL
-  "support for internationalization, a wrapper for ICU library"
+  "ICU library wrapper for internationalization support"
 )
 
 cmake_dependent_option(

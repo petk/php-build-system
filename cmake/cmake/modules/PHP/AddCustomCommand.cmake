@@ -79,7 +79,7 @@ function(php_add_custom_command)
   if(parsed_VERBATIM)
     set(verbatim VERBATIM)
   else()
-    set(verbatim)
+    set(verbatim "")
   endif()
 
   if(PHPSystem_EXECUTABLE)

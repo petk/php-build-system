@@ -3,7 +3,7 @@
 
 # The phpdbg SAPI
 
-Configure the `phpdbg` PHP SAPI.
+Configure the `phpdbg` (interactive PHP debugger) PHP SAPI.
 
 ## SAPI_PHPDBG
 

@@ -26,7 +26,7 @@ Build extension as shared.
 * Default: `OFF`
 * Values: `ON|OFF`
 
-Use external gd library (libgd) instead of the bundled one from PHP sources.
+Use external (system) GD library instead of the bundled libgd from PHP sources.
 
 ## EXT_GD_AVIF
 
@@ -68,4 +68,5 @@ Enable FreeType 2 support (only for bundled libgd).
 * Default: `OFF`
 * Values: `ON|OFF`
 
-Enable JIS-mapped Japanese font support (only for bundled libgd).
+Enable JIS-mapped (Japanese Industrial Standards) Japanese font support (only
+for bundled libgd).

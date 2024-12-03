@@ -15,4 +15,4 @@ PHP.
 * Default: `OFF`
 * Values: `ON|OFF`
 
-Enable the mhash support.
+Enable the mhash emulation support.

@@ -220,7 +220,7 @@ function(php_set)
   _php_set_validate_arguments("${ARGN}")
 
   set(doc "")
-  foreach(string ${parsed_DOC})
+  foreach(string IN LISTS parsed_DOC)
     string(APPEND doc "${string}")
   endforeach()
 

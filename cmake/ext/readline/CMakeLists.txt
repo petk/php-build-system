@@ -51,7 +51,7 @@ option(EXT_READLINE "Enable the readline extension (only for CLI-based SAPIs)")
 add_feature_info(
   "ext/readline"
   EXT_READLINE
-  "interface for using Editline library"
+  "editable command lines support"
 )
 
 cmake_dependent_option(

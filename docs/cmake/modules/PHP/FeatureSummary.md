@@ -10,11 +10,22 @@ summary alphabetically and categorizes enabled features into SAPIs, extensions,
 and other global PHP features. Common misconfiguration issues are summarized
 together with missing required system packages.
 
-https://cmake.org/cmake/help/latest/module/FeatureSummary.html
+See also: https://cmake.org/cmake/help/latest/module/FeatureSummary.html
 
 ## Basic usage
 
 ```cmake
 # CMakeLists.txt
+
+# Include module and output configuration summary
 include(PHP/FeatureSummary)
+php_feature_summary()
+```
+
+## Functions
+
+Output PHP configuration summary:
+
+```cmake
+php_feature_summary()
 ```

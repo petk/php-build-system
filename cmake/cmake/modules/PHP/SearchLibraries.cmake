@@ -224,7 +224,7 @@ function(php_search_libraries)
     endif()
 
     list(LENGTH parsed_TARGET length)
-    set(targetScope)
+    set(targetScope "")
     if(length GREATER 1)
       list(GET parsed_TARGET 1 targetScope)
     endif()
@@ -247,7 +247,7 @@ function(php_search_libraries)
 
   # Check if given header(s) can be included.
   set(headersFound "")
-  foreach(header ${headers})
+  foreach(header IN LISTS headers)
     if(recheckHeaders)
       set(id _PHP_SEARCH_LIBRARIES_HEADER_${headersFound}_${header})
     else()
@@ -292,7 +292,7 @@ function(php_search_libraries)
   unset(${libraryInternalVariable} CACHE)
 
   # Now, check if linking any given library helps finding the symbol.
-  foreach(library ${libraries})
+  foreach(library IN LISTS libraries)
     unset(${symbolResultVariable} CACHE)
 
     if(NOT CMAKE_REQUIRED_QUIET)
