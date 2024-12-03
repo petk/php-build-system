@@ -19,7 +19,7 @@ library that comes with PHP sources.
 * Default: `ON`
 * Values: `ON|OFF`
 
-Enable PCRE JIT (Just-In-Time) compiling support. When using the external PCRE
+Enable PCRE JIT (just-in-time) compilation. When using the external PCRE
 library, JIT support also depends on the target processor architecture and
 whether the PCRE library has it enabled.
 #]=============================================================================]
@@ -55,9 +55,9 @@ add_feature_info(
 
 option(
   EXT_PCRE_JIT
-  "Enable PCRE JIT (Just-In-Time) compiling support. When using the external\
-  PCRE library, JIT support also depends on the target processor architecture\
-  and whether the PCRE library has it enabled."
+  "Enable PCRE JIT (just-in-time) compilation. When using the external PCRE\
+  library, JIT support also depends on the target processor architecture and\
+  whether the PCRE library has it enabled."
   ON
 )
 
@@ -256,7 +256,7 @@ endif()
 add_feature_info(
   "ext/pcre JIT"
   HAVE_PCRE_JIT_SUPPORT
-  "PCRE Just-In-Time compiling support"
+  "PCRE just-in-time compilation"
 )
 
 configure_file(config.cmake.h.in config.h)

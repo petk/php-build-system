@@ -17,7 +17,7 @@ block()
   endif()
 
   get_property(extensions GLOBAL PROPERTY PHP_EXTENSIONS)
-  foreach(extension ${extensions})
+  foreach(extension IN LISTS extensions)
     get_target_property(type php_${extension} TYPE)
     if(type MATCHES "^(MODULE|SHARED)_LIBRARY$")
       get_target_property(isZendExtension php_${extension} PHP_ZEND_EXTENSION)

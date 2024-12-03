@@ -33,20 +33,19 @@ include_guard(GLOBAL)
 
 include(FeatureSummary)
 
-# Add new item to the summary preamble with dotted leader:
-# " * <what> ..................... : <value>"
-function(php_feature_summary_preamble_add_item what value output)
+# Add new item to the summary preamble with dotted leader.
+function(php_feature_summary_preamble_add_item label value output)
+  # If preamble is already set, use it to calculate column width, otherwise use
+  # predefined helper template.
   if(${output})
-    # If preamble is already set, get first line to calculate column width:
-    string(REGEX MATCH "^ \\\* ([^\r\n]+ [.]+) : " _ "${${output}}")
+    set(template "${${output}}")
   else()
-    # Helper template to calculate column width:
-    set(template " * <what> ..................... : <value>")
-    string(REGEX MATCH [[^ \* (<what> [.]+)]] _ "${template}")
+    set(template " * <label> .................... : <value>")
   endif()
 
+  string(REGEX MATCH "^ \\\* ([^\r\n]+ [.]+) : " _ "${template}")
   string(LENGTH "${CMAKE_MATCH_1}" width)
-  string(LENGTH "${what}" length)
+  string(LENGTH "${label}" length)
   math(EXPR numberOfDots "${width} - ${length} - 1")
 
   if(numberOfDots GREATER 0)
@@ -56,26 +55,23 @@ function(php_feature_summary_preamble_add_item what value output)
     set(leader)
   endif()
 
-  string(APPEND ${output} " * ${what}${leader}: ${value}\n")
+  string(APPEND ${output} " * ${label}${leader}: ${value}\n")
   set("${output}" "${${output}}" PARENT_SCOPE)
 endfunction()
 
 # Get summary preamble.
 function(php_feature_summary_preamble result)
-  get_target_property(zendVersion Zend::Zend VERSION)
-  get_target_property(zendExtensionApiNumber Zend::Zend ZEND_EXTENSION_API_NO)
-  get_target_property(zendModuleApiNumber Zend::Zend ZEND_MODULE_API_NO)
+  php_feature_summary_preamble_add_item("${PROJECT_NAME} version" "${PROJECT_VERSION}" preamble)
+  php_feature_summary_preamble_add_item("PHP API version" "${PHP_API_VERSION}" preamble)
 
-  set(preamble)
-  string(
-    APPEND
-    preamble
-    " * PHP version ................ : ${PHP_VERSION}\n"
-    " * PHP API version ............ : ${PHP_API_VERSION}\n"
-    " * Zend Engine version ........ : ${zendVersion}\n"
-    " * Zend extension API number .. : ${zendExtensionApiNumber}\n"
-    " * Zend module API number ..... : ${zendModuleApiNumber}\n"
-  )
+  if(TARGET Zend::Zend)
+    get_target_property(zendVersion Zend::Zend VERSION)
+    get_target_property(zendExtensionApi Zend::Zend ZEND_EXTENSION_API_NO)
+    get_target_property(zendModuleApi Zend::Zend ZEND_MODULE_API_NO)
+    php_feature_summary_preamble_add_item("Zend Engine version" "${zendVersion}" preamble)
+    php_feature_summary_preamble_add_item("Zend extension API number" "${zendExtensionApi}" preamble)
+    php_feature_summary_preamble_add_item("Zend module API number" "${zendModuleApi}" preamble)
+  endif()
 
   if(CMAKE_C_COMPILER_LOADED)
     set(compiler)
@@ -152,8 +148,15 @@ function(php_feature_summary)
         string(PREPEND item "with ")
       endif()
       string(PREPEND item "   - ")
+
+      set(indentation "     ")
     else()
-      set(parent "${feature}")
+      if(feature MATCHES "^(ext|sapi)/")
+        set(parent "${feature}")
+      else()
+        unset(parent)
+      endif()
+
       string(REGEX REPLACE "^(ext|sapi)/" "" item "${feature}")
       string(PREPEND item " * ")
       if(feature MATCHES "^ext/([^ ]+)$")
@@ -164,10 +167,13 @@ function(php_feature_summary)
           endif()
         endif()
       endif()
+
+      set(indentation "   ")
     endif()
 
     get_property(description GLOBAL PROPERTY _CMAKE_${feature}_DESCRIPTION)
     if(description)
+      string(REPLACE "\n" "\n${indentation}" description "${description}")
       string(APPEND item ", ${description}")
     endif()
 

@@ -77,6 +77,8 @@ set_package_properties(
 
 if(Apache_THREADED)
   if(NOT PHP_THREAD_SAFETY)
+    # Automatically enable thread safety. Ideally, thread safety should be
+    # opt-in and such automatic enabling shouldn't be encouraged.
     set_property(CACHE PHP_THREAD_SAFETY PROPERTY VALUE TRUE)
     message(
       WARNING
@@ -84,21 +86,28 @@ if(Apache_THREADED)
       "PHP_THREAD_SAFETY has been automatically set to 'ON'."
     )
   endif()
-
-  add_feature_info(
-    "sapi/apache2handler"
-    SAPI_APACHE2HANDLER
-    "Apache 2 handler SAPI with Apache's current threaded MPM"
-  )
 else()
-  add_feature_info(
-    "sapi/apache2handler"
-    SAPI_APACHE2HANDLER
-    "Apache 2 handler SAPI with Apache's current non-threaded MPM
+  if(NOT PHP_THREAD_SAFETY)
+    # Run at the end of the configuration phase: Notify that PHP needs thread
+    # safety, when using Apache threaded MPM.
+    cmake_language(
+      DEFER
+      DIRECTORY ${PHP_SOURCE_DIR}
+      CALL php_apache2handler_notice
+    )
+    function(php_apache2handler_notice)
+      cmake_language(DEFER CALL message NOTICE [[
 
-    Notice: If you change Apache to use a threaded MPM, make sure
-    PHP is configured and built with PHP_THREAD_SAFETY set to 'ON'.
-  ")
+        Notice:
+
+        Apache 2 handler SAPI will be built with Apache's current
+        non-threaded MPM. If you change Apache to use a threaded
+        MPM, make sure PHP is configured and built with
+        'PHP_THREAD_SAFETY' set to 'ON'.
+
+      ]])
+    endfunction()
+  endif()
 endif()
 
 target_link_libraries(

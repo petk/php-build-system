@@ -316,7 +316,8 @@ function(_php_main_create_internal_functions)
   configure_file(main/internal_functions.c.in main/internal_functions_cli.c)
 endfunction()
 
-# Create PHP configuration headers.
+# Run at the end of the configuration.
+cmake_language(DEFER DIRECTORY ${PHP_SOURCE_DIR} CALL _php_main_create_files)
 function(_php_main_create_files)
   _php_main_create_internal_functions()
 
@@ -507,9 +508,6 @@ function(_php_main_create_files)
     CONTENT "${content}"
   )
 endfunction()
-
-# Run at the end of the configuration.
-cmake_language(DEFER DIRECTORY ${PHP_SOURCE_DIR} CALL _php_main_create_files)
 
 install(
   TARGETS php_main
