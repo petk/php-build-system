@@ -71,7 +71,7 @@ block(PROPAGATE GMP_VERSION)
       "^#[ \t]*define[ \t]+__GNU_MP_VERSION(_MINOR|_PATCHLEVEL)?[ \t]+[0-9]+[ \t]*$"
     )
 
-    set(GMP_VERSION)
+    set(GMP_VERSION "")
 
     foreach(item VERSION VERSION_MINOR VERSION_PATCHLEVEL)
       foreach(line ${results})

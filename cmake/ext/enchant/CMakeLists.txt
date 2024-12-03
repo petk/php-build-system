@@ -34,7 +34,7 @@ option(EXT_ENCHANT "Enable the enchant extension")
 add_feature_info(
   "ext/enchant"
   EXT_ENCHANT
-  "binding for the Enchant spelling library"
+  "Enchant spelling library binding"
 )
 
 cmake_dependent_option(

@@ -27,7 +27,7 @@ set_package_properties(
   FFI
   PROPERTIES
     URL "https://sourceware.org/libffi/"
-    DESCRIPTION "Foreign Function Interfaces library"
+    DESCRIPTION "Foreign Function Interface library"
 )
 
 set(_reason "")

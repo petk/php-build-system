@@ -123,7 +123,7 @@ endif()
 
 file(GLOB_RECURSE patches ${PHP_ROOT_DIR}/patches/${PHP_VERSION}/*.patch)
 
-foreach(patch ${patches})
+foreach(patch IN LISTS patches)
   # Apply the patch with Git.
   execute_process(
     COMMAND ${GIT_EXECUTABLE} apply --ignore-whitespace "${patch}"

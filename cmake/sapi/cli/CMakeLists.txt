@@ -8,7 +8,7 @@ Configure the `cli` PHP SAPI.
 * Default: `ON`
 * Values: `ON|OFF`
 
-Enable the PHP command-line interface (CLI) SAPI module.
+Enable the PHP CLI (Command-Line Interpreter/Interface) SAPI executable module.
 
 ## SAPI_CLI_WIN_NO_CONSOLE
 
@@ -32,20 +32,20 @@ option(SAPI_CLI "Enable the CLI SAPI module" ON)
 add_feature_info(
   "sapi/cli"
   SAPI_CLI
-  "Command-Line Interpreter/Interface SAPI executable"
+  "Command-Line Interpreter/Interface executable"
 )
 
 cmake_dependent_option(
   SAPI_CLI_WIN_NO_CONSOLE
-  "Build console-less CLI SAPI"
+  "Build additional CLI SAPI without console (no output is given)"
   OFF
   [[SAPI_CLI AND CMAKE_SYSTEM_NAME STREQUAL "Windows"]]
   OFF
 )
 add_feature_info(
-  "sapi/cli without console"
+  "sapi/cli console-less"
   SAPI_CLI_WIN_NO_CONSOLE
-  "CLI SAPI without console (no output is given)"
+  "additional executable without console output"
 )
 
 if(NOT SAPI_CLI)

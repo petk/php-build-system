@@ -1,7 +1,7 @@
 #[=============================================================================[
 # The phpdbg SAPI
 
-Configure the `phpdbg` PHP SAPI.
+Configure the `phpdbg` (interactive PHP debugger) PHP SAPI.
 
 ## SAPI_PHPDBG
 
@@ -52,7 +52,7 @@ option(SAPI_PHPDBG "Enable the phpdbg SAPI module" ON)
 add_feature_info(
   "sapi/phpdbg"
   SAPI_PHPDBG
-  "PHPDBG SAPI module"
+  "interactive PHP debugger"
 )
 
 cmake_dependent_option(
@@ -185,7 +185,7 @@ if(SAPI_PHPDBG_READLINE OR EXT_READLINE)
 
     target_link_libraries(php_phpdbg PRIVATE Readline::Readline)
 
-    set(HAVE_LIBREADLINE)
+    set(HAVE_LIBREADLINE TRUE)
   else()
     find_package(Editline)
     set_package_properties(
@@ -208,7 +208,7 @@ endif()
 add_feature_info(
   "sapi/phpdbg readline"
   HAVE_PHPDBG_READLINE
-  "support for better command-line accessibility"
+  "enhanced command-line accessibility"
 )
 
 ################################################################################

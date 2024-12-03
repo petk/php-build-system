@@ -134,7 +134,7 @@ if(NOT HAVE_PTRACE AND NOT HAVE_MACH_VM_READ)
   message(CHECK_START "Checking for process memory access file")
 
   if(NOT CMAKE_CROSSCOMPILING)
-    set(PROC_MEM_FILE)
+    set(PROC_MEM_FILE "")
     if(EXISTS /proc/self/mem)
       set(PROC_MEM_FILE "mem")
     elseif(EXISTS /proc/self/as)

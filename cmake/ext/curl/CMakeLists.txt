@@ -37,7 +37,7 @@ option(EXT_CURL "Enable the curl extension")
 add_feature_info(
   "ext/curl"
   EXT_CURL
-  "support for using CURL - Client URL Library"
+  "CURL (Client URL Library) support"
 )
 
 cmake_dependent_option(

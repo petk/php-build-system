@@ -60,7 +60,7 @@ if(NOT DEFINED Dbm_IS_BUILT_IN)
   cmake_pop_check_state()
 endif()
 
-set(_Dbm_REQUIRED_VARS)
+set(_Dbm_REQUIRED_VARS "")
 if(Dbm_IS_BUILT_IN)
   set(_Dbm_REQUIRED_VARS _Dbm_IS_BUILT_IN_MSG)
   set(_Dbm_IS_BUILT_IN_MSG "built in to C library")

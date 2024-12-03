@@ -38,7 +38,7 @@ option(EXT_ICONV "Enable the iconv extension" ON)
 add_feature_info(
   "ext/iconv"
   EXT_ICONV
-  "interface to iconv character set conversion facility"
+  "internationalization conversion interface"
 )
 
 cmake_dependent_option(

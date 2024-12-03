@@ -64,7 +64,7 @@ function(_php_stubs_get_binary_targets result dir)
   get_property(subdirs DIRECTORY ${dir} PROPERTY SUBDIRECTORIES)
 
   # Filter only binary targets.
-  set(binaryTargets)
+  set(binaryTargets "")
   foreach(target ${targets})
     get_target_property(type ${target} TYPE)
     if(type MATCHES "^((STATIC|MODULE|SHARED|OBJECT)_LIBRARY|EXECUTABLE)$")
@@ -101,7 +101,7 @@ block()
 
   _php_stubs_get_binary_targets(targets ${PROJECT_SOURCE_DIR})
 
-  set(stubs)
+  set(stubs "")
   foreach(target ${targets})
     list(
       APPEND
@@ -123,7 +123,7 @@ block()
     CONTENT "${content}"
   )
 
-  set(targetOptions)
+  set(targetOptions "")
   if(NOT PHPSystem_EXECUTABLE)
     set(targetOptions ALL DEPENDS ${targets})
   endif()

@@ -8,7 +8,8 @@ Configure the `embed` PHP SAPI.
 * Default: `OFF`
 * Values: `ON|OFF`
 
-Enable the embedded PHP SAPI module.
+Enable the embedded PHP SAPI module for embedding PHP into application using C
+bindings.
 
 The embed library is then located in the `sapi/embed` directory as a shared
 library `libphp.so`, or a static library `libphp.a`, which can be further used
@@ -23,7 +24,7 @@ option(SAPI_EMBED "Enable the Embed SAPI module")
 add_feature_info(
   "sapi/embed"
   SAPI_EMBED
-  "SAPI module for embedding PHP into application using C bindings"
+  "module for embedding PHP into application"
 )
 
 if(NOT SAPI_EMBED)

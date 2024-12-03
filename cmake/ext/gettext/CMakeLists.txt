@@ -35,7 +35,7 @@ option(EXT_GETTEXT "Enable the gettext extension")
 add_feature_info(
   "ext/gettext"
   EXT_GETTEXT
-  "support for GNU gettext using NLS (Native Language Support) API"
+  "GNU gettext support using NLS (Native Language Support) API"
 )
 
 cmake_dependent_option(

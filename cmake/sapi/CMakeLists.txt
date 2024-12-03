@@ -18,9 +18,11 @@ Add subdirectories of PHP SAPIs.
   main/internal_functions_cli.c object instead of the main/internal_functions.c.
 #]=============================================================================]
 
-message(STATUS "----------------------------")
+message(STATUS "")
+message(STATUS "")
 message(STATUS "Configuring PHP SAPI modules")
-message(STATUS "----------------------------\n")
+message(STATUS "============================")
+message(STATUS "")
 
 define_property(
   GLOBAL

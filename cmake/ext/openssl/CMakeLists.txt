@@ -61,7 +61,7 @@ option(EXT_OPENSSL "Enable the openssl extension")
 add_feature_info(
   "ext/openssl"
   EXT_OPENSSL
-  "encryption and decryption support with OpenSSL library"
+  "encryption and decryption using OpenSSL library"
 )
 
 cmake_dependent_option(
@@ -85,7 +85,7 @@ mark_as_advanced(EXT_OPENSSL_KERBEROS)
 add_feature_info(
   "ext/openssl Kerberos"
   EXT_OPENSSL_KERBEROS
-  "OpenSSL library built with Kerberos enabled"
+  "OpenSSL library built with Kerberos"
 )
 
 cmake_dependent_option(
@@ -100,7 +100,7 @@ mark_as_advanced(EXT_OPENSSL_SYSTEM_CIPHERS)
 add_feature_info(
   "ext/openssl system ciphers"
   EXT_OPENSSL_SYSTEM_CIPHERS
-  "using system default cipher list instead of hardcoded value for OpenSSL"
+  "system default cipher list instead of hardcoded value"
 )
 
 set(HAVE_OPENSSL_EXT "/* #undef HAVE_OPENSSL_EXT */")

@@ -36,7 +36,7 @@ installation on the system, can be customized with the `MYSQL_ROOT` and
 project(
   PhpExtensionPdoMysql
   DESCRIPTION
-    "MySQL-compatible database support in PDO (PHP Data Objects) interface"
+    "MySQL-compatible databases support in PDO (PHP Data Objects) interface"
   LANGUAGES C
 )
 
@@ -49,7 +49,7 @@ option(EXT_PDO_MYSQL "Enable the pdo_mysql extension")
 add_feature_info(
   "ext/pdo_mysql"
   EXT_PDO_MYSQL
-  "MySQL-compatible database support in PDO (PHP Data Objects)"
+  "MySQL-compatible databases PDO driver"
 )
 
 cmake_dependent_option(
@@ -125,6 +125,8 @@ if(NOT EXT_PDO_MYSQL_DRIVER STREQUAL "mysql")
   add_dependencies(php_pdo_mysql php_mysqlnd)
 
   set(PDO_USE_MYSQLND TRUE)
+
+  add_feature_info("ext/pdo_mysql mysqlnd" TRUE "MySQL native driver")
 else()
   find_package(MySQL COMPONENTS Lib OPTIONAL_COMPONENTS Socket)
   set_package_properties(MySQL PROPERTIES
@@ -137,6 +139,8 @@ else()
   if(MySQL_Socket_PATH)
     set(PDO_MYSQL_UNIX_ADDR "${MySQL_Socket_PATH}")
   endif()
+
+  add_feature_info("ext/pdo_mysql mysql" TRUE "system MySQL library driver")
 endif()
 
 configure_file(config.cmake.h.in config.h)

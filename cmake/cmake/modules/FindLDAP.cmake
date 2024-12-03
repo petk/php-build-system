@@ -136,7 +136,7 @@ block(PROPAGATE LDAP_VERSION)
       "^#[ \t]*define[ \t]+LDAP_VENDOR_VERSION_(MAJOR|MINOR|PATCH)[ \t]+[0-9]+[ \t]*$"
     )
 
-    set(LDAP_VERSION)
+    set(LDAP_VERSION "")
 
     foreach(item MAJOR MINOR PATCH)
       foreach(line ${results})

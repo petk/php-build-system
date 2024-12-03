@@ -235,7 +235,7 @@ function(php_download)
 
   # Download PHP tarball.
   if(NOT EXISTS ${PHP_TARBALL})
-    foreach(url ${urls})
+    foreach(url IN LISTS urls)
       php_check_url(${url} found)
 
       if(found)
@@ -299,7 +299,7 @@ function(php_prepare_sources)
   string(REGEX MATCH [[^([0-9]+\.[0-9]+)]] _ "${PHP_VERSION}")
   file(GLOB_RECURSE patches ${PHP_ROOT_DIR}/patches/${CMAKE_MATCH_1}/*.patch)
 
-  foreach(patch ${patches})
+  foreach(patch IN LISTS patches)
     # Execute the patch command.
     execute_process(
       COMMAND ${GIT_EXECUTABLE} apply --ignore-whitespace "${patch}"

@@ -111,40 +111,29 @@ target_sources(
 
 set(PHP_OCI8_INSTANT_CLIENT "")
 
-# Warn about Apache if oci8 extension is enabled on Linux without PHP_SIGCHILD.
-function(_php_oci8_notice)
-  if(
-    PHP_SIGCHILD
-    OR PHP_OCI8_INSTANT_CLIENT
-    OR CMAKE_SYSTEM_NAME STREQUAL "Windows"
-  )
-    return()
+# Run at the end of the configuration: Warn about Apache if oci8 extension is
+# enabled on Linux without PHP_SIGCHILD.
+if(NOT PHP_OCI8_INSTANT_CLIENT AND NOT CMAKE_SYSTEM_NAME STREQUAL "Windows")
+  if(PHP_SOURCE_DIR)
+    set(dir ${PHP_SOURCE_DIR})
+  else()
+    set(dir ${CMAKE_CURRENT_SOURCE_DIR})
   endif()
-
-  message(NOTICE "
-+--------------------------------------------------------------------+
-| The oci8 extension notice:                                         |
-| If you encounter <defunc> processes when using a local Oracle      |
-| database, set the value BEQUEATH_DETACH=YES in Oracle Net's        |
-| sqlnet.ora file on the PHP host, or set the environment variable   |
-| BEQUEATH_DETACH to YES before starting Apache.  If the problem     |
-| still occurs, then recompile PHP and specify --enable-sigchild     |
-| when configuring.                                                  |
-+--------------------------------------------------------------------+
-")
-endfunction()
-
-# Run at the end of the configuration.
-if(PHP_SOURCE_DIR)
-  set(dir ${PHP_SOURCE_DIR})
-else()
-  set(dir ${CMAKE_CURRENT_SOURCE_DIR})
+  cmake_language(DEFER DIRECTORY ${dir} CALL php_oci8_notice)
 endif()
-cmake_language(
-  DEFER
-    DIRECTORY ${dir}
-  CALL _php_oci8_notice
-)
+function(php_oci8_notice)
+  cmake_language(DEFER CALL message NOTICE [[
+
+    The oci8 extension notice:
+
+    If you encounter <defunc> processes when using a local Oracle
+    database, set the value 'BEQUEATH_DETACH=YES' in Oracle Net's
+    'sqlnet.ora' file on the PHP host, or set the environment variable
+    'BEQUEATH_DETACH' to 'YES' before starting Apache. If the problem
+    still occurs, then recompile PHP and specify 'PHP_SIGCHILD'
+    configuration variable.
+  ]])
+endfunction()
 
 set(HAVE_OCI8 TRUE)
 

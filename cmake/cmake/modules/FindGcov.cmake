@@ -189,7 +189,7 @@ macro(gcov_generate_report)
 
   # Create a list of PHP SAPIs with genex for usage in the add_custom_command.
   block(PROPAGATE php_sapis)
-    set(php_sapis)
+    set(php_sapis "")
     file(GLOB directories ${PROJECT_SOURCE_DIR}/sapi/*)
     foreach(dir ${directories})
       cmake_path(GET dir FILENAME sapi)

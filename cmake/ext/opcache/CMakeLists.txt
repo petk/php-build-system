@@ -22,7 +22,7 @@ Enable copying PHP CODE pages into HUGE PAGES.
 * Default: `ON`
 * Values: `ON|OFF`
 
-Enable JIT (Just-In-Time compiler).
+Enable JIT (just-in-time) compilation.
 
 ## EXT_OPCACHE_CAPSTONE
 
@@ -60,7 +60,7 @@ cmake_dependent_option(
 
 cmake_dependent_option(
   EXT_OPCACHE_JIT
-  "Enable JIT"
+  "Enable JIT (just-in-time) compilation"
   ON
   EXT_OPCACHE
   OFF
@@ -270,13 +270,13 @@ endif()
 add_feature_info(
   "ext/opcache JIT"
   HAVE_JIT
-  "OPcache JIT (Just-In-Time compiler)"
+  "OPcache just-in-time compilation"
 )
 
 add_feature_info(
-  "ext/opcache JIT Capstone"
+  "ext/opcache Capstone"
   HAVE_CAPSTONE
-  "OPcache JIT disassembly supported through Capstone engine"
+  "OPcache JIT disassembly through Capstone engine"
 )
 
 ################################################################################
