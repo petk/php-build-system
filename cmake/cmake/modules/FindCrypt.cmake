@@ -75,7 +75,7 @@ if(NOT DEFINED Crypt_IS_BUILT_IN)
   cmake_pop_check_state()
 endif()
 
-set(_Crypt_REQUIRED_VARS)
+set(_Crypt_REQUIRED_VARS "")
 if(Crypt_IS_BUILT_IN)
   set(_Crypt_REQUIRED_VARS _Crypt_IS_BUILT_IN_MSG)
   set(_Crypt_IS_BUILT_IN_MSG "built in to C library")

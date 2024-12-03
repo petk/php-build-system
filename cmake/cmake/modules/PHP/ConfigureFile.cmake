@@ -74,7 +74,7 @@ function(_php_configure_file_parse_variables)
   endforeach()
 
   # Replace possible semicolons with a generator expression.
-  set(processedItems)
+  set(processedItems "")
   foreach(item IN LISTS ARGV0)
     if(item MATCHES [[.*\;.*]])
       string(

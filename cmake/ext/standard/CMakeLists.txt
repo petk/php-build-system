@@ -495,7 +495,7 @@ block()
   file(GLOB credits ${PHP_SOURCE_DIR}/*/*/CREDITS)
 
   # The CODEGEN keyword adds the custom command to a global 'codegen' target.
-  set(codegen)
+  set(codegen "")
   if(CMAKE_VERSION VERSION_GREATER_EQUAL 3.31)
     set(codegen CODEGEN)
   endif()

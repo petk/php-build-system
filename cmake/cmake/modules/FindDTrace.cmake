@@ -169,7 +169,7 @@ function(dtrace_target)
     set(parsed_HEADER ${CMAKE_CURRENT_BINARY_DIR}/${parsed_HEADER})
   endif()
 
-  set(sources)
+  set(sources "")
   foreach(source IN LISTS parsed_SOURCES)
     if(NOT IS_ABSOLUTE ${source})
       set(source ${CMAKE_CURRENT_SOURCE_DIR}/${source})

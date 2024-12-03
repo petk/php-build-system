@@ -52,7 +52,7 @@ function(php_feature_summary_preamble_add_item label value output)
     string(REPEAT "." ${numberOfDots} leader)
     set(leader " ${leader} ")
   else()
-    set(leader)
+    set(leader "")
   endif()
 
   string(APPEND ${output} " * ${label}${leader}: ${value}\n")
@@ -74,7 +74,7 @@ function(php_feature_summary_preamble result)
   endif()
 
   if(CMAKE_C_COMPILER_LOADED)
-    set(compiler)
+    set(compiler "")
     if(CMAKE_C_COMPILER_ID)
       string(APPEND compiler "${CMAKE_C_COMPILER_ID}")
     endif()
@@ -91,7 +91,7 @@ function(php_feature_summary_preamble result)
   endif()
 
   if(CMAKE_CXX_COMPILER_LOADED)
-    set(compiler)
+    set(compiler "")
     if(CMAKE_CXX_COMPILER_ID)
       string(APPEND compiler "${CMAKE_CXX_COMPILER_ID}")
     endif()
@@ -206,7 +206,7 @@ function(php_feature_summary)
 
   get_property(extensions GLOBAL PROPERTY PHP_EXTENSIONS)
 
-  foreach(extension ${extensions})
+  foreach(extension IN LISTS extensions)
     if(NOT TARGET php_${extension})
       continue()
     endif()
@@ -225,7 +225,7 @@ function(php_feature_summary)
 
     get_property(allExtensions GLOBAL PROPERTY PHP_ALL_EXTENSIONS)
 
-    foreach(dependency ${dependencies})
+    foreach(dependency IN LISTS dependencies)
       # Skip dependencies that are not inside the current project.
       if(NOT dependency IN_LIST allExtensions)
         continue()
@@ -260,7 +260,7 @@ function(php_feature_summary)
     list(REMOVE_DUPLICATES missingExtensions)
     set(message "The following missing PHP extensions must be enabled:\n\n")
 
-    foreach(extension ${missingExtensions})
+    foreach(extension IN LISTS missingExtensions)
       string(TOUPPER "${extension}" extensionUpper)
       string(
         APPEND

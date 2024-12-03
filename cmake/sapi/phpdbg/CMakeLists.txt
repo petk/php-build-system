@@ -185,7 +185,7 @@ if(SAPI_PHPDBG_READLINE OR EXT_READLINE)
 
     target_link_libraries(php_phpdbg PRIVATE Readline::Readline)
 
-    set(HAVE_LIBREADLINE)
+    set(HAVE_LIBREADLINE TRUE)
   else()
     find_package(Editline)
     set_package_properties(

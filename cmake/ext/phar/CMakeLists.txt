@@ -132,7 +132,7 @@ else()
   return()
 endif()
 
-set(pharSharedOptions)
+set(pharSharedOptions "")
 if(EXT_PHAR_SHARED OR BUILD_SHARED_LIBS)
   set(
     pharSharedOptions

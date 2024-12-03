@@ -157,7 +157,7 @@ function(_php_extensions_sort)
     )
 
     if(dependencies)
-      foreach(dependency ${dependencies})
+      foreach(dependency IN LISTS dependencies)
         list(REMOVE_ITEM extensionsMiddle ${dependency})
 
         if(NOT dependency IN_LIST extensionsBefore)
@@ -204,7 +204,7 @@ function(_php_extensions_parse_dependencies extension result)
 
   set(allDependencies "")
 
-  foreach(match ${matches})
+  foreach(match IN LISTS matches)
     if(match MATCHES "${regex}")
       if(CMAKE_MATCH_1)
         string(STRIP "${CMAKE_MATCH_1}" dependencies)
@@ -220,7 +220,7 @@ function(_php_extensions_parse_dependencies extension result)
 
     get_property(allExtensions GLOBAL PROPERTY PHP_ALL_EXTENSIONS)
 
-    foreach(dependency ${allDependencies})
+    foreach(dependency IN LISTS allDependencies)
       if(NOT "${dependency}" IN_LIST allExtensions)
         list(REMOVE_ITEM allDependencies ${dependency})
       endif()
@@ -455,7 +455,7 @@ endfunction()
 # define them for shared extensions.
 function(php_extensions_configure_headers)
   get_property(extensions GLOBAL PROPERTY PHP_EXTENSIONS)
-  foreach(extension ${extensions})
+  foreach(extension IN LISTS extensions)
     if(NOT TARGET php_${extension})
       continue()
     endif()
@@ -514,7 +514,7 @@ function(_php_extensions_validate)
 
     get_property(allExtensions GLOBAL PROPERTY PHP_ALL_EXTENSIONS)
 
-    foreach(dependency ${dependencies})
+    foreach(dependency IN LISTS dependencies)
       # Skip dependencies that are not PHP extensions.
       if(NOT dependency IN_LIST allExtensions)
         continue()

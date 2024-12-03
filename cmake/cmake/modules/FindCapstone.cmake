@@ -70,7 +70,7 @@ block(PROPAGATE Capstone_VERSION)
       "^#[ \t]*define[ \t]+CS_(API_MAJOR|API_MINOR|VERSION_EXTRA)[ \t]+[0-9]+[ \t]*$"
     )
 
-    set(Capstone_VERSION)
+    set(Capstone_VERSION "")
 
     foreach(item CS_API_MAJOR CS_API_MINOR CS_VERSION_EXTRA)
       foreach(line ${results})

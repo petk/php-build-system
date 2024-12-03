@@ -179,7 +179,7 @@ endif()
 
 if(TARGET ODBC::ODBC)
   block()
-    set(haveSomeHeaders)
+    set(haveSomeHeaders FALSE)
 
     foreach(
       header
