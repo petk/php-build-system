@@ -359,7 +359,7 @@ function checkCMakeSet(Iterator $files): int
             $argument = (array_key_exists(1, $match)) ? trim($match[1]) : '';
 
             $status = 1;
-            output("E: Replace set($argument) with set($argument \"\") in \n   $file \n");
+            output("E: Replace set($argument) with set($argument \"\")\n   in $file\n");
         }
     }
 
