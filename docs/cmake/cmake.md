@@ -51,7 +51,7 @@ repository:
     ├─📄 CMakeLists.txt
     └─📄 php_iconv.def         # Module-definition for building DLL on Windows
 └─📂 main
-  └─📂 cmake                   # CMake-related files for main biding
+  └─📂 cmake                   # CMake-related files for main binding
     ├─📄 php_config.h.in       # PHP main configuration header template
     └─📄 php_version.h.in      # PHP version header template
   ├─📄 CMakeLists.txt          # CMake file for main binding
