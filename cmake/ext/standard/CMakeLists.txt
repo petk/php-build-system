@@ -579,4 +579,4 @@ add_dependencies(php_standard_functions php_standard)
 # Configuration header
 ################################################################################
 
-configure_file(config.cmake.h.in config.h)
+configure_file(cmake/config.h.in config.h)

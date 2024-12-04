@@ -429,7 +429,10 @@ function(_php_main_create_files)
   endif()
 
   message(STATUS "Creating main/php_version.h")
-  configure_file(main/php_version.h.in main/php_version.h @ONLY)
+  configure_file(
+    main/cmake/php_version.h.in
+    ${PHP_SOURCE_DIR}/main/php_version.h
+  )
 
   # Add sapis configuration.
   set(config "")
@@ -524,7 +527,7 @@ function(_php_main_create_files)
   endif()
 
   message(STATUS "Creating main/${file}")
-  file(READ main/php_config.cmake.h.in content)
+  file(READ main/cmake/php_config.h.in content)
   string(CONFIGURE "${content}" content @ONLY)
 
   file(

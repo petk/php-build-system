@@ -253,4 +253,4 @@ endif()
 
 set(HAVE_ICONV TRUE)
 
-configure_file(config.cmake.h.in config.h)
+configure_file(cmake/config.h.in config.h)

@@ -200,4 +200,4 @@ cmake_push_check_state(RESET)
   endblock()
 cmake_pop_check_state()
 
-configure_file(config.cmake.h.in config.h)
+configure_file(cmake/config.h.in config.h)
