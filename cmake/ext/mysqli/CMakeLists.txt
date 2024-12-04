@@ -138,4 +138,4 @@ if(MySQL_Socket_PATH)
   set(PHP_MYSQL_UNIX_SOCK_ADDR "${MySQL_Socket_PATH}")
 endif()
 
-configure_file(config.cmake.h.in config.h)
+configure_file(cmake/config.h.in config.h)

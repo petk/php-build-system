@@ -42,38 +42,36 @@ repository:
   ├─📂 toolchains              # CMake toolchain files
   └─📄 *.cmake                 # Various CMake configurations and files
 └─📂 ext
-  └─📂 date
-    ├─📄 CMakeLists.txt        # Extension's CMake file
-    └─📄 config.cmake.h.in     # Extension's configuration header template
-  └─📂 iconv
-    ├─📄 CMakeLists.txt
-    ├─📄 config.cmake.h.in
-    └─📄 php_iconv.def         # Module-definition for building DLL on Windows
-  └─📂 mbstring
-    └─📂 libmbfl
-      └─📄 config.h.in         # Configuration header template for libmbfl
   └─📂 standard
-    ├─📂 cmake                 # Extension's local utility CMake modules
-    └─📄 CMakeLists.txt
+    └─📂 cmake                 # Extension's CMake-related files
+      └─📄 config.h.in         # Extension's configuration header template
+    └─📄 CMakeLists.txt        # Extension's CMake file
+  └─📂 zlib
+    ├─📂 cmake
+    ├─📄 CMakeLists.txt
+    └─📄 php_iconv.def         # Module-definition for building DLL on Windows
 └─📂 main
+  └─📂 cmake                   # CMake-related files for main biding
+    ├─📄 php_config.h.in       # PHP main configuration header template
+    └─📄 php_version.h.in      # PHP version header template
   ├─📄 CMakeLists.txt          # CMake file for main binding
-  ├─📄 internal_functions.c.in # Template for internal functions files
-  └─📄 php_config.cmake.h.in   # Configuration header template
+  └─📄 internal_functions.c.in # Common template for internal functions files
 └─📂 pear
+  ├─📂 cmake                   # CMake-related files for PEAR
   └─📄 CMakeLists.txt          # CMake file for PEAR
 └─📂 sapi
   └─📂 fpm
-    ├─📂 cmake                 # SAPI's CMake modules and files
-    ├─📄 CMakeLists.txt        # CMake file for PHP SAPI module
-    └─📄 config.cmake.h.in     # SAPI's configuration header template
+    └─📂 cmake                 # SAPI's CMake-related files
+      └─📄 config.h.in         # SAPI's configuration header template
+    └─📄 CMakeLists.txt        # CMake file for PHP SAPI module
 └─📂 scripts
-  └─📄 CMakeLists.txt          # CMake file for creating scripts files
+  └─📄 CMakeLists.txt          # CMake file for creating scripts
 └─📂 win32                     # Windows build files
   └─📂 build                   # Windows build files
     └─📄 wsyslog.mc            # Message template file for win32/wsyslog.h
   └─📄 CMakeLists.txt          # CMake file for Windows build
 └─📂 Zend
-  └─📂 cmake                   # Zend Engine related CMake modules and files
+  └─📂 cmake                   # CMake-related files for Zend Engine
     └─📄 zend_config.h.in      # Zend Engine configuration header template
   └─📄 CMakeLists.txt          # CMake file for Zend Engine
 ├─📄 CMakeLists.txt            # Root CMake file

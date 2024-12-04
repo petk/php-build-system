@@ -80,9 +80,9 @@ target_compile_definitions(php_configuration INTERFACE ZTS)
 set_target_properties(php_configuration PROPERTIES PHP_THREAD_SAFETY ON)
 
 # Add compile definitions for POSIX threads conformance.
-# TODO: Recheck these definitions since many of them are deprecated or
-# obsolete in favor of the compiler automatic definitions when using threading
-# flag on such system.
+# TODO: Recheck these definitions since many of them are deprecated or obsolete
+# in favor of the compiler automatic definitions when using threading flag on
+# such system.
 target_compile_definitions(
   php_configuration
   INTERFACE

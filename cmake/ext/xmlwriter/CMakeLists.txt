@@ -85,4 +85,4 @@ add_dependencies(php_xmlwriter php_libxml)
 
 set(HAVE_XMLWRITER TRUE)
 
-configure_file(config.cmake.h.in config.h)
+configure_file(cmake/config.h.in config.h)

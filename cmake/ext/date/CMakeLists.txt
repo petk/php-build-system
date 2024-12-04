@@ -75,7 +75,7 @@ target_compile_definitions(
 set(HAVE_TIMELIB_CONFIG_H TRUE)
 
 message(STATUS "Creating ext/date/lib/timelib_config.h")
-file(WRITE ${CMAKE_CURRENT_BINARY_DIR}/lib/timelib_config.h [[
+file(CONFIGURE OUTPUT lib/timelib_config.h CONTENT [[
 #ifdef PHP_WIN32
 # include "config.w32.h"
 #else
@@ -94,4 +94,4 @@ file(WRITE ${CMAKE_CURRENT_BINARY_DIR}/lib/timelib_config.h [[
 #define timelib_free    efree
 ]])
 
-configure_file(config.cmake.h.in config.h)
+configure_file(cmake/config.h.in config.h)

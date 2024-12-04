@@ -120,4 +120,5 @@ install(
 
 set(PHP_EXTENSION_%EXTNAMECAPS% TRUE)
 
-configure_file(config.cmake.h.in config.h)
+# Create configuration header.
+configure_file(cmake/config.h.in config.h)

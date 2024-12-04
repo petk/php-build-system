@@ -63,4 +63,4 @@ block()
   check_include_files("${headers}" HAVE_COMMONCRYPTO_COMMONRANDOM_H)
 endblock()
 
-configure_file(config.cmake.h.in config.h)
+configure_file(cmake/config.h.in config.h)

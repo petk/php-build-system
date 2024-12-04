@@ -329,4 +329,4 @@ if(TARGET PHP::CheckSHMLibrary)
   target_link_libraries(php_opcache PRIVATE PHP::CheckSHMLibrary)
 endif()
 
-configure_file(config.cmake.h.in config.h)
+configure_file(cmake/config.h.in config.h)

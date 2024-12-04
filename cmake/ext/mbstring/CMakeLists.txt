@@ -148,6 +148,7 @@ target_sources(
 add_dependencies(php_mbstring php_pcre)
 
 # TODO: Fix this better. See also https://github.com/php/php-src/pull/13713
+# TODO: Should status message be here?
 message(STATUS "Creating ext/mbstring/libmbfl/config.h")
 file(CONFIGURE OUTPUT libmbfl/config.h CONTENT [[
 #ifdef _WIN32
@@ -240,4 +241,4 @@ target_include_directories(
 
 set(HAVE_MBSTRING TRUE)
 
-configure_file(config.cmake.h.in config.h)
+configure_file(cmake/config.h.in config.h)
