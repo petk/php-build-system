@@ -214,4 +214,4 @@ add_feature_info(
   "extended SSL support through a system library"
 )
 
-configure_file(config.cmake.h.in config.h)
+configure_file(cmake/config.h.in config.h)

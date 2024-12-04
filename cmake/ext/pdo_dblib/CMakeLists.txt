@@ -90,4 +90,4 @@ target_link_libraries(php_pdo_dblib PRIVATE FreeTDS::FreeTDS)
 
 set(HAVE_PDO_DBLIB TRUE)
 
-configure_file(config.cmake.h.in config.h)
+configure_file(cmake/config.h.in config.h)

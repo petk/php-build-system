@@ -120,4 +120,4 @@ set_property(
 
 add_dependencies(php_fileinfo php_pcre)
 
-configure_file(config.cmake.h.in config.h)
+configure_file(cmake/config.h.in config.h)

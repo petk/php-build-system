@@ -86,4 +86,4 @@ target_compile_definitions(php_bcmath PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE)
 
 set(HAVE_BCMATH TRUE)
 
-configure_file(config.cmake.h.in config.h)
+configure_file(cmake/config.h.in config.h)

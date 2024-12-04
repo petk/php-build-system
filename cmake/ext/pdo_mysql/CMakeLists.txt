@@ -143,4 +143,4 @@ else()
   add_feature_info("ext/pdo_mysql mysql" TRUE "system MySQL library driver")
 endif()
 
-configure_file(config.cmake.h.in config.h)
+configure_file(cmake/config.h.in config.h)

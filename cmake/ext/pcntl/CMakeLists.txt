@@ -117,4 +117,4 @@ if(HAVE_STRUCT_SIGINFO_T)
   target_compile_definitions(php_pcntl PRIVATE HAVE_STRUCT_SIGINFO_T)
 endif()
 
-configure_file(config.cmake.h.in config.h)
+configure_file(cmake/config.h.in config.h)
