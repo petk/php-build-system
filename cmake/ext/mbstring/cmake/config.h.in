@@ -4,5 +4,11 @@
 /* Define to 1 if the PHP extension 'mbstring' is available. */
 #cmakedefine HAVE_MBSTRING 1
 
+/* Define to 1 if you have the 'strcasecmp' function. */
+#cmakedefine HAVE_STRCASECMP 1
+
+/* Define to 1 if you have the <strings.h> header file. */
+#cmakedefine HAVE_STRINGS_H 1
+
 /* Define to 1 if Oniguruma has an invalid entry for KOI8 encoding. */
 #cmakedefine PHP_ONIG_BAD_KOI8_ENTRY 1

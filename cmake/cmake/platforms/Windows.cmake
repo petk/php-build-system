@@ -23,24 +23,28 @@ if(CMAKE_SYSTEM_NAME STREQUAL "Windows")
   # these are always known on Windows systems.
   # TODO: Update and fix this better.
 
+  set(HAVE_FNMATCH TRUE)
+
+  # PHP has unconditional getaddrinfo() support on Windows for now.
+  set(HAVE_GETADDRINFO TRUE)
+
+  # PHP defines getpid as _getpid on Windows.
+  set(HAVE_GETPID TRUE)
+
+  # PHP has custom nanosleep for Windows platform.
+  set(HAVE_NANOSLEEP TRUE)
+
+  set(HAVE_NICE TRUE)
+
+  # PHP supports socketpair by the emulation in win32/sockets.c.
+  set(HAVE_SOCKETPAIR TRUE)
+
+  # PHP defines strcasecmp in zend_config.w32.h.
+  set(HAVE_STRCASECMP TRUE)
+
   # PHP has custom syslog.h for Windows platform.
   set(HAVE_SYSLOG_H TRUE)
 
   # PHP has custom usleep for Windows platform.
   set(HAVE_USLEEP TRUE)
-
-  # PHP has custom nanosleep for Windows platform.
-  set(HAVE_NANOSLEEP TRUE)
-
-  # PHP supports socketpair by the emulation in win32/sockets.c
-  set(HAVE_SOCKETPAIR TRUE)
-
-  # PHP has unconditional getaddrinfo() support on Windows for now.
-  set(HAVE_GETADDRINFO TRUE)
-
-  set(HAVE_NICE TRUE)
-  set(HAVE_FNMATCH TRUE)
-
-  # PHP defines getpid as _getpid on Windows.
-  set(HAVE_GETPID TRUE)
 endif()

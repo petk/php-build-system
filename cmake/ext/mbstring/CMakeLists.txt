@@ -32,7 +32,9 @@ project(
   LANGUAGES C
 )
 
+include(CheckIncludeFile)
 include(CheckSourceCompiles)
+include(CheckSymbolExists)
 include(CMakeDependentOption)
 include(CMakePushCheckState)
 include(FeatureSummary)
@@ -71,11 +73,40 @@ if(NOT EXT_MBSTRING)
   return()
 endif()
 
+################################################################################
+# Configure mbstring extension.
+################################################################################
+
 if(EXT_MBSTRING_SHARED)
   add_library(php_mbstring SHARED)
 else()
   add_library(php_mbstring)
 endif()
+
+target_sources(
+  php_mbstring
+  PRIVATE
+    mb_gpc.c
+    mbstring.c
+    mbstring.stub.php
+    php_unicode.c
+  PUBLIC
+    FILE_SET HEADERS
+      FILES
+        mbstring.h
+)
+
+target_compile_definitions(php_mbstring PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE)
+
+# The mbstring extension doesn't seem to support interprocedural optimization
+# (IPO).
+set_target_properties(php_mbstring PROPERTIES INTERPROCEDURAL_OPTIMIZATION OFF)
+
+add_dependencies(php_mbstring php_pcre)
+
+################################################################################
+# Configure libmbfl.
+################################################################################
 
 target_sources(
   php_mbstring
@@ -117,10 +148,6 @@ target_sources(
     libmbfl/nls/nls_ua.c
     libmbfl/nls/nls_uni.c
     libmbfl/nls/nls_zh.c
-    mb_gpc.c
-    mbstring.c
-    mbstring.stub.php
-    php_unicode.c
   PUBLIC
     FILE_SET HEADERS
       FILES
@@ -137,7 +164,6 @@ target_sources(
         libmbfl/mbfl/mbfl_language.h
         libmbfl/mbfl/mbfl_memory_device.h
         libmbfl/mbfl/mbfl_string.h
-        mbstring.h
   # A separate file set so binary dir can also be created within a source dir.
   PUBLIC
     FILE_SET HEADERS
@@ -146,7 +172,27 @@ target_sources(
         ${CMAKE_CURRENT_BINARY_DIR}/libmbfl/config.h
 )
 
-add_dependencies(php_mbstring php_pcre)
+target_include_directories(
+  php_mbstring
+  PRIVATE
+    ${CMAKE_CURRENT_BINARY_DIR}/libmbfl
+    ${CMAKE_CURRENT_SOURCE_DIR}/libmbfl
+    ${CMAKE_CURRENT_SOURCE_DIR}/libmbfl/mbfl
+)
+
+target_compile_definitions(
+  php_mbstring
+  PRIVATE
+    $<$<AND:$<PLATFORM_ID:Windows>,$<IN_LIST:$<TARGET_PROPERTY:TYPE>,MODULE_LIBRARY;SHARED_LIBRARY>>:MBFL_DLL_EXPORT>
+)
+
+# There are duplicate strings.h and strcasecmp checks for the time being.
+# See: https://github.com/php/php-src/pull/13713
+# Once upstream is refactored, global strings.h and strcasecmp checks with
+# Windows unconditional definition can be removed in favor of these checks only
+# or done differently.
+check_include_file(strings.h HAVE_STRINGS_H)
+check_symbol_exists(strcasecmp "strings.h" HAVE_STRCASECMP)
 
 cmake_path(
   RELATIVE_PATH CMAKE_CURRENT_BINARY_DIR
@@ -166,9 +212,9 @@ file(CONFIGURE OUTPUT libmbfl/config.h CONTENT [[
 #endif
 ]])
 
-# The mbstring extension doesn't seem to support interprocedural optimization
-# (IPO).
-set_target_properties(php_mbstring PROPERTIES INTERPROCEDURAL_OPTIMIZATION OFF)
+################################################################################
+# MB regex.
+################################################################################
 
 if(EXT_MBSTRING_MBREGEX)
   find_package(Oniguruma)
@@ -229,21 +275,6 @@ if(EXT_MBSTRING_MBREGEX)
           php_onig_compat.h
   )
 endif()
-
-target_compile_definitions(
-  php_mbstring
-  PRIVATE
-    $<$<AND:$<PLATFORM_ID:Windows>,$<IN_LIST:$<TARGET_PROPERTY:TYPE>,MODULE_LIBRARY;SHARED_LIBRARY>>:MBFL_DLL_EXPORT>
-    ZEND_ENABLE_STATIC_TSRMLS_CACHE
-)
-
-target_include_directories(
-  php_mbstring
-  PRIVATE
-    ${CMAKE_CURRENT_BINARY_DIR}/libmbfl
-    ${CMAKE_CURRENT_SOURCE_DIR}/libmbfl
-    ${CMAKE_CURRENT_SOURCE_DIR}/libmbfl/mbfl
-)
 
 set(HAVE_MBSTRING TRUE)
 
