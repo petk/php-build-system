@@ -148,16 +148,21 @@ target_sources(
 
 add_dependencies(php_mbstring php_pcre)
 
-# TODO: Fix this better. See also https://github.com/php/php-src/pull/13713
-# TODO: Should status message be here?
-message(STATUS "Creating ext/mbstring/libmbfl/config.h")
+cmake_path(
+  RELATIVE_PATH CMAKE_CURRENT_BINARY_DIR
+  BASE_DIRECTORY ${CMAKE_BINARY_DIR}
+  OUTPUT_VARIABLE dir
+)
+message(STATUS "Creating ${dir}/libmbfl/config.h")
 file(CONFIGURE OUTPUT libmbfl/config.h CONTENT [[
+#ifdef HAVE_CONFIG_H
+# include <config.h>
+#endif
 #ifdef _WIN32
 # define HAVE_STRICMP 1
-#elif defined HAVE_CONFIG_H
-# include "<config.h>"
+# include <config.w32.h>
 #else
-# include <main/php_config.h>
+# include <php_config.h>
 #endif
 ]])
 
@@ -225,13 +230,18 @@ if(EXT_MBSTRING_MBREGEX)
   )
 endif()
 
-target_compile_definitions(php_mbstring PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE)
+target_compile_definitions(
+  php_mbstring
+  PRIVATE
+    $<$<AND:$<PLATFORM_ID:Windows>,$<IN_LIST:$<TARGET_PROPERTY:TYPE>,MODULE_LIBRARY;SHARED_LIBRARY>>:MBFL_DLL_EXPORT>
+    ZEND_ENABLE_STATIC_TSRMLS_CACHE
+)
 
 target_include_directories(
   php_mbstring
   PRIVATE
-    ${CMAKE_CURRENT_SOURCE_DIR}/libmbfl
     ${CMAKE_CURRENT_BINARY_DIR}/libmbfl
+    ${CMAKE_CURRENT_SOURCE_DIR}/libmbfl
     ${CMAKE_CURRENT_SOURCE_DIR}/libmbfl/mbfl
 )
 
