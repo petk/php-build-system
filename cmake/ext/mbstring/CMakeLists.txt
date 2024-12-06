@@ -110,6 +110,9 @@ add_subdirectory(libmbfl EXCLUDE_FROM_ALL)
 target_link_libraries(php_mbstring PRIVATE ${LIBMBFL_NAMESPACE})
 
 file(APPEND ${CMAKE_CURRENT_BINARY_DIR}/libmbfl/config.h "\n" [[
+#ifdef HAVE_CONFIG_H
+# include <config.h>
+#endif
 #ifdef _WIN32
 # define HAVE_STRICMP 1
 # include <config.w32.h>
