@@ -656,11 +656,12 @@ configure_file(cmake/zend_config.h.in CMakeFiles/zend_config.h)
 
 if(NOT CMAKE_SYSTEM_NAME STREQUAL "Windows")
   cmake_path(
-    RELATIVE_PATH CMAKE_CURRENT_BINARY_DIR
+    RELATIVE_PATH
+    CMAKE_CURRENT_BINARY_DIR
     BASE_DIRECTORY ${CMAKE_BINARY_DIR}
-    OUTPUT_VARIABLE dir
+    OUTPUT_VARIABLE relativeDir
   )
-  message(STATUS "Creating ${dir}/zend_config.h")
+  message(STATUS "Creating ${relativeDir}/zend_config.h")
   file(
     CONFIGURE
     OUTPUT zend_config.h
