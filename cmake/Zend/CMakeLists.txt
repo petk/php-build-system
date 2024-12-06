@@ -655,12 +655,17 @@ endif()
 configure_file(cmake/zend_config.h.in CMakeFiles/zend_config.h)
 
 if(NOT CMAKE_SYSTEM_NAME STREQUAL "Windows")
-  message(STATUS "Creating Zend/zend_config.h")
-
+  cmake_path(
+    RELATIVE_PATH
+    CMAKE_CURRENT_BINARY_DIR
+    BASE_DIRECTORY ${CMAKE_BINARY_DIR}
+    OUTPUT_VARIABLE relativeDir
+  )
+  message(STATUS "Creating ${relativeDir}/zend_config.h")
   file(
-    WRITE
-    ${CMAKE_CURRENT_BINARY_DIR}/zend_config.h
-    "#include <../main/php_config.h>\n"
+    CONFIGURE
+    OUTPUT zend_config.h
+    CONTENT "#include <../main/php_config.h>\n"
   )
 endif()
 

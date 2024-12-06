@@ -214,10 +214,17 @@ function(mc_target)
     VERBATIM
   )
 
+  cmake_path(
+    RELATIVE_PATH
+    output
+    BASE_DIRECTORY ${CMAKE_BINARY_DIR}
+    OUTPUT_VARIABLE relativePath
+  )
+
   add_custom_target(
     ${parsed_NAME}
     SOURCES "${parsed_INPUT}"
     DEPENDS "${output}"
-    COMMENT "[MC][${parsed_NAME}] Generating ${output}"
+    COMMENT "[MC][${parsed_NAME}] Generating ${relativePath}"
   )
 endfunction()
