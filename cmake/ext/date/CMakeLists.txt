@@ -13,7 +13,6 @@ project(
   LANGUAGES C
 )
 
-include(CheckIncludeFile)
 include(FeatureSummary)
 
 add_feature_info(
@@ -22,40 +21,20 @@ add_feature_info(
   "date and time"
 )
 
-# Check for headers needed by timelib.
-check_include_file(io.h HAVE_IO_H)
-
 add_library(php_date OBJECT)
 
 target_sources(
   php_date
   PRIVATE
-    lib/astro.c
-    lib/dow.c
-    lib/interval.c
-    lib/parse_date.c
-    lib/parse_iso_intervals.c
-    lib/parse_posix.c
-    lib/parse_tz.c
-    lib/timelib.c
-    lib/tm2unixtime.c
-    lib/unixtime2tm.c
     php_date.c
     php_date.stub.php
   PUBLIC
     FILE_SET HEADERS
       FILES
-        lib/timelib.h
         php_date.h
-  # A separate file set so binary dir can also be created within a source dir.
-  PUBLIC
-    FILE_SET HEADERS
-      BASE_DIRS ${CMAKE_CURRENT_BINARY_DIR}
-      FILES
-        ${CMAKE_CURRENT_BINARY_DIR}/lib/timelib_config.h
 )
 
-target_include_directories(php_date PUBLIC ${CMAKE_CURRENT_BINARY_DIR}/lib)
+target_compile_definitions(php_date PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE)
 
 target_compile_options(
   php_date
@@ -63,25 +42,13 @@ target_compile_options(
     $<$<COMPILE_LANG_AND_ID:C,MSVC>:/wd4244>
 )
 
-target_compile_definitions(
-  php_date
-  PRIVATE
-    ZEND_ENABLE_STATIC_TSRMLS_CACHE
-    HAVE_TIMELIB_CONFIG_H
-    # The timelib uses C99 strtoll() function conditionally.
-    HAVE_STRTOLL
-)
+# Configure timelib.
+set(TIMELIB_TARGET php_date)
+add_subdirectory(lib)
 
 set(HAVE_TIMELIB_CONFIG_H TRUE)
 
-cmake_path(
-  RELATIVE_PATH
-  CMAKE_CURRENT_BINARY_DIR
-  BASE_DIRECTORY ${CMAKE_BINARY_DIR}
-  OUTPUT_VARIABLE relativeDir
-)
-message(STATUS "Creating ${relativeDir}/lib/timelib_config.h")
-file(CONFIGURE OUTPUT lib/timelib_config.h CONTENT [[
+file(APPEND ${CMAKE_CURRENT_BINARY_DIR}/lib/timelib_config.h "\n" [[
 #ifdef PHP_WIN32
 # include "config.w32.h"
 #else

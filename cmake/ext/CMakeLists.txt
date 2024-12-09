@@ -97,8 +97,11 @@ foreach(extension IN LISTS extensions)
 
   add_dependencies(php_${extension} Zend::Zend)
 
+  get_target_property(type php_${extension} TYPE)
+
   # Add extension's PUBLIC/INTERFACE compile properties to configuration.
   # Cleaner COMPILE_ONLY generator expression is available in CMake >= 3.27.
+  if(NOT type MATCHES "^(MODULE|SHARED)_LIBRARY$")
   if(CMAKE_VERSION VERSION_GREATER_EQUAL 3.27)
     target_link_libraries(
       php_configuration
@@ -116,6 +119,7 @@ foreach(extension IN LISTS extensions)
         $<TARGET_PROPERTY:PHP::${extension},INTERFACE_INCLUDE_DIRECTORIES>
     )
   endif()
+  endif()
 
   target_link_libraries(php_${extension} PRIVATE PHP::configuration)
 
@@ -126,7 +130,6 @@ foreach(extension IN LISTS extensions)
       $<TARGET_PROPERTY:php_configuration,INTERFACE_COMPILE_OPTIONS>
   )
 
-  get_target_property(type php_${extension} TYPE)
   if(NOT type MATCHES "^(MODULE|SHARED)_LIBRARY$")
     target_link_libraries(
       php_extensions
