@@ -25,7 +25,7 @@ pkgconfig_generate_pc(
 )
 ```
 
-Generate pkgconfig `<pc-file-output>` from the given pc `<pc-template-file>`
+Generate pkg-config `<pc-file-output>` from the given pc `<pc-template-file>`
 template.
 
 * `TARGET`
@@ -72,20 +72,20 @@ function(_pkgconfig_parse_variables variables)
     )
   endif()
 
-  set(is_value FALSE)
-  set(variables_options "")
-  set(result_variables "")
-  set(result_values "")
+  set(isValue FALSE)
+  set(variablesOptions "")
+  set(resultVariables "")
+  set(resultValues "")
   foreach(variable IN LISTS variables)
-    if(is_value)
-      set(is_value FALSE)
+    if(isValue)
+      set(isValue FALSE)
       continue()
     endif()
     list(POP_FRONT variables var value)
 
-    list(APPEND result_variables ${var})
+    list(APPEND resultVariables ${var})
 
-    # The result_values are for the install(CODE) and generator expression
+    # The resultValues are for the install(CODE) and generator expression
     # $<INSTALL_PREFIX> works since CMake 3.27, for earlier versions the escaped
     # variable CMAKE_INSTALL_PREFIX can be used.
     if(
@@ -96,16 +96,16 @@ function(_pkgconfig_parse_variables variables)
         REPLACE
         "$<INSTALL_PREFIX>"
         "\${CMAKE_INSTALL_PREFIX}"
-        replaced_value
+        replacedValue
         "${value}"
       )
-      list(APPEND result_values "${replaced_value}")
+      list(APPEND resultValues "${replacedValue}")
     else()
-      list(APPEND result_values "${value}")
+      list(APPEND resultValues "${value}")
     endif()
 
     # Replace possible INSTALL_PREFIX in value for usage in add_custom_command,
-    # in the result_values above the intact genex is left for enabling the
+    # in the resultValues above the intact genex is left for enabling the
     # possible 'cmake --install --prefix ...' override.
     if(value MATCHES [[.*\$<INSTALL_PREFIX>.*]])
       string(
@@ -117,14 +117,14 @@ function(_pkgconfig_parse_variables variables)
       )
     endif()
 
-    list(APPEND variables_options -D ${var}="${value}")
+    list(APPEND variablesOptions -D ${var}="${value}")
 
-    set(is_value TRUE)
+    set(isValue TRUE)
   endforeach()
 
-  set(variables_options "${variables_options}" PARENT_SCOPE)
-  set(result_variables "${result_variables}" PARENT_SCOPE)
-  set(result_values "${result_values}" PARENT_SCOPE)
+  set(variablesOptions "${variablesOptions}" PARENT_SCOPE)
+  set(resultVariables "${resultVariables}" PARENT_SCOPE)
+  set(resultValues "${resultValues}" PARENT_SCOPE)
 endfunction()
 
 function(pkgconfig_generate_pc)
@@ -209,36 +209,41 @@ function(pkgconfig_generate_pc)
   )
 
   if(parsed_TARGET)
-    set(target_option -D TARGET_FILE="$<TARGET_FILE:${parsed_TARGET}>")
+    set(targetOption -D TARGET_FILE="$<TARGET_FILE:${parsed_TARGET}>")
   endif()
 
   if(parsed_VARIABLES)
     _pkgconfig_parse_variables("${parsed_VARIABLES}")
   endif()
 
-  cmake_path(GET template FILENAME filename)
+  cmake_path(
+    RELATIVE_PATH
+    output
+    BASE_DIRECTORY ${CMAKE_BINARY_DIR}
+    OUTPUT_VARIABLE outputRelativePath
+  )
 
-  string(MAKE_C_IDENTIFIER "${filename}" target_name)
+  string(MAKE_C_IDENTIFIER "${outputRelativePath}" targetName)
 
   add_custom_target(
-    pkgconfig_generate_${target_name}
+    pkgconfig_${targetName}
     ALL
     COMMAND ${CMAKE_COMMAND}
       -D PKGCONFIG_OBJDUMP_EXECUTABLE=${PKGCONFIG_OBJDUMP_EXECUTABLE}
       -D TEMPLATE=${template}
       -D OUTPUT=${output}
-      ${target_option}
-      ${variables_options}
+      ${targetOption}
+      ${variablesOptions}
       -P CMakeFiles/PkgConfigGeneratePc.cmake
-    COMMENT "[PkgConfig] Generating pkg-config ${filename} file"
+    COMMENT "[PkgConfig] Generating ${outputRelativePath}"
   )
 
   install(CODE "
     block()
-      set(result_variables ${result_variables})
-      set(result_values \"${result_values}\")
+      set(resultVariables ${resultVariables})
+      set(resultValues \"${resultValues}\")
 
-      foreach(var value IN ZIP_LISTS result_variables result_values)
+      foreach(var value IN ZIP_LISTS resultVariables resultValues)
         set(\${var} \"\${value}\")
       endforeach()
 
