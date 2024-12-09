@@ -141,6 +141,13 @@ if(EXT_PHAR_SHARED OR BUILD_SHARED_LIBS)
   )
 endif()
 
+cmake_path(
+  RELATIVE_PATH
+  CMAKE_CURRENT_BINARY_DIR
+  BASE_DIRECTORY ${CMAKE_BINARY_DIR}
+  OUTPUT_VARIABLE relativeDir
+)
+
 add_custom_command(
   OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/phar.php
   COMMAND
@@ -153,7 +160,7 @@ add_custom_command(
       -d phar.readonly=0
       ${CMAKE_CURRENT_SOURCE_DIR}/build_precommand.php
       > ${CMAKE_CURRENT_BINARY_DIR}/phar.php
-  COMMENT "[ext/phar] Generating phar.php"
+  COMMENT "[ext/phar] Generating ${relativeDir}/phar.php"
   VERBATIM
 )
 
@@ -179,7 +186,7 @@ add_custom_command(
         ${CMAKE_CURRENT_SOURCE_DIR}/phar
   DEPENDS
     ${CMAKE_CURRENT_BINARY_DIR}/phar.php
-  COMMENT "[ext/phar] Generating phar.phar"
+  COMMENT "[ext/phar] Generating ${relativeDir}/phar.phar"
   VERBATIM
 )
 
@@ -210,7 +217,7 @@ add_custom_command(
     ${CMAKE_COMMAND} -P CMakeFiles/PharPermissions.cmake
   DEPENDS
     ${CMAKE_CURRENT_BINARY_DIR}/phar.phar
-  COMMENT "[ext/phar] Generating phar"
+  COMMENT "[ext/phar] Generating ${relativeDir}/phar"
 )
 
 file(

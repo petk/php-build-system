@@ -40,7 +40,6 @@ project(
 include(CheckSymbolExists)
 include(CMakeDependentOption)
 include(FeatureSummary)
-include(PHP/CheckCompilerFlag)
 include(PHP/SearchLibraries)
 
 option(EXT_OPCACHE "Enable the Zend OPcache extension" ON)
@@ -203,6 +202,13 @@ if(EXT_OPCACHE_JIT)
   # Help generators create a jit/ir build directory.
   file(MAKE_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/jit/ir)
 
+  cmake_path(
+    RELATIVE_PATH
+    CMAKE_CURRENT_BINARY_DIR
+    BASE_DIRECTORY ${CMAKE_BINARY_DIR}
+    OUTPUT_VARIABLE relativeDir
+  )
+
   # Generate native code generator for selected architecture.
   add_custom_command(
     OUTPUT jit/ir/ir_emit_${DASM_ARCH}.h
@@ -211,7 +217,7 @@ if(EXT_OPCACHE_JIT)
         ${DASM_FLAGS}
         -o ${CMAKE_CURRENT_BINARY_DIR}/jit/ir/ir_emit_${DASM_ARCH}.h
         ${CMAKE_CURRENT_SOURCE_DIR}/jit/ir/ir_${DASM_ARCH}.dasc
-    COMMENT "[ext/opcache] Generating native code generator ext/opcache/jit/ir/ir_emit_${DASM_ARCH}.h"
+    COMMENT "[ext/opcache] Generating native code generator ${relativeDir}/jit/ir/ir_emit_${DASM_ARCH}.h"
     DEPENDS
       jit/ir/dynasm/dynasm.lua
       jit/ir/ir_${DASM_ARCH}.dasc
@@ -234,30 +240,13 @@ if(EXT_OPCACHE_JIT)
       RUNTIME_OUTPUT_DIRECTORY CMakeFiles
   )
 
-  # Suppress typedef redefinition warnings on Clang. At time of writing, PHP is
-  # using C99.
-  if(CMAKE_C_STANDARD EQUAL 99)
-    php_check_compiler_flag(
-      C
-      -Wno-typedef-redefinition
-      _HAVE_WNO_TYPEDEF_REDEFINITION
-    )
-    if(_HAVE_WNO_TYPEDEF_REDEFINITION)
-      target_compile_options(
-        php_opcache_jit_generator
-        PRIVATE
-          $<$<COMPILE_LANGUAGE:C>:-Wno-typedef-redefinition>
-      )
-    endif()
-  endif()
-
   # Generate IR folding engine rules header.
   add_custom_command(
     OUTPUT jit/ir/ir_fold_hash.h
     COMMAND php_opcache_jit_generator
       < ${CMAKE_CURRENT_SOURCE_DIR}/jit/ir/ir_fold.h
       > ${CMAKE_CURRENT_BINARY_DIR}/jit/ir/ir_fold_hash.h
-    COMMENT "[ext/opcache] Generating folding engine rules ext/opcache/jit/ir/ir_fold_hash.h"
+    COMMENT "[ext/opcache] Generating folding engine rules ${relativeDir}/jit/ir/ir_fold_hash.h"
     DEPENDS
       jit/ir/ir_fold.h
     VERBATIM
