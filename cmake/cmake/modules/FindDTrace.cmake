@@ -197,7 +197,8 @@ function(dtrace_target)
     ]]
   )
   cmake_path(
-    RELATIVE_PATH parsed_HEADER
+    RELATIVE_PATH
+    parsed_HEADER
     BASE_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
     OUTPUT_VARIABLE header
   )

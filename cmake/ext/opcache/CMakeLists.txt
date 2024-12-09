@@ -205,6 +205,13 @@ if(EXT_OPCACHE_JIT)
   # Help minilua create a jit build directory.
   file(MAKE_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/jit)
 
+  cmake_path(
+    RELATIVE_PATH
+    CMAKE_CURRENT_BINARY_DIR
+    BASE_DIRECTORY ${CMAKE_BINARY_DIR}
+    OUTPUT_VARIABLE relativeDir
+  )
+
   # Generate Jit for architecture.
   add_custom_command(
     OUTPUT jit/zend_jit_${DASM_ARCH}.c
@@ -213,7 +220,7 @@ if(EXT_OPCACHE_JIT)
         ${DASM_FLAGS}
         -o ${CMAKE_CURRENT_BINARY_DIR}/jit/zend_jit_${DASM_ARCH}.c
         ${CMAKE_CURRENT_SOURCE_DIR}/jit/zend_jit_${DASM_ARCH}.dasc
-    COMMENT "[ext/opcache] Generating ext/opcache/jit/zend_jit_${DASM_ARCH}.c"
+    COMMENT "[ext/opcache] Generating ${relativeDir}/jit/zend_jit_${DASM_ARCH}.c"
     DEPENDS
       jit/dynasm/dynasm.lua
       jit/zend_jit_${DASM_ARCH}.dasc

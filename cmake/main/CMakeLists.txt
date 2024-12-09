@@ -165,7 +165,7 @@ target_link_libraries(
     php_main
     # If Zend is STATIC library link as whole archive, otherwise link normally.
     $<IF:$<STREQUAL:$<TARGET_PROPERTY:Zend::Zend,TYPE>,STATIC_LIBRARY>,$<LINK_LIBRARY:WHOLE_ARCHIVE,Zend::Zend>,Zend::Zend>
-    $<$<TARGET_EXISTS:PHP::windows>::PHP::windows>
+    $<$<TARGET_EXISTS:PHP::windows>:PHP::windows>
     PHP::extensions
 )
 
