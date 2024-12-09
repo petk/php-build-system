@@ -16,6 +16,11 @@ Add subdirectories of PHP SAPIs.
   Target property that designates PHP SAPI as CLI-based. These SAPIs can utilize
   CLI-based PHP extensions (for example, pcntl) and include
   main/internal_functions_cli.c object instead of the main/internal_functions.c.
+
+* `PHP_SAPI`
+
+  Target property that marks the target as PHP SAPI. For easier retrieving in
+  generator expressions.
 #]=============================================================================]
 
 message(STATUS "")
@@ -42,6 +47,12 @@ define_property(
   BRIEF_DOCS "Whether the PHP SAPI is CLI-based to run in a CLI environment"
 )
 
+define_property(
+  TARGET
+  PROPERTY PHP_SAPI
+  BRIEF_DOCS "Whether the target is PHP SAPI"
+)
+
 list(APPEND CMAKE_MESSAGE_CONTEXT "sapi")
 
 # Traverse CMakeLists.txt files of PHP SAPIs.
@@ -60,6 +71,7 @@ foreach(sapi IN LISTS sapis)
   list(POP_BACK CMAKE_MESSAGE_INDENT)
   if(TARGET php_${sapi})
     set_property(GLOBAL APPEND PROPERTY PHP_SAPIS ${sapi})
+    set_property(TARGET php_${sapi} PROPERTY PHP_SAPI TRUE)
     message(CHECK_PASS "enabled")
   else()
     message(CHECK_FAIL "disabled")
