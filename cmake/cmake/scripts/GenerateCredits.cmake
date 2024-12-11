@@ -31,8 +31,10 @@ set(template [[
 ]])
 
 file(GLOB credits ${PHP_SOURCE_DIR}/*/*/CREDITS)
+# Case-sensitive filtering, GLOB on macOS/Windows is case-insensitive.
+list(FILTER credits INCLUDE REGEX ".*CREDITS$")
 
-foreach(credit ${credits})
+foreach(credit IN LISTS credits)
   cmake_path(GET credit PARENT_PATH dir)
   cmake_path(GET dir PARENT_PATH dir)
   cmake_path(GET dir FILENAME dir)
@@ -46,7 +48,7 @@ endforeach()
 
 list(REMOVE_DUPLICATES dirs)
 
-foreach(dir ${dirs})
+foreach(dir IN LISTS dirs)
   list(SORT ${dir}_credits CASE INSENSITIVE)
   list(JOIN ${dir}_credits ";\n" content)
   set(content "${template}${content};\n")

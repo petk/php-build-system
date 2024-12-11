@@ -5,7 +5,6 @@ include(cmake/CMakeDefaults.cmake)
 
 message(STATUS "Initializing PHP build system")
 message(STATUS "=============================")
-
 message(STATUS "CMake version: ${CMAKE_VERSION}")
 message(STATUS "CMake generator: ${CMAKE_GENERATOR}")
 

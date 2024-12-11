@@ -493,6 +493,8 @@ check_symbol_exists(
 
 block()
   file(GLOB credits ${PHP_SOURCE_DIR}/*/*/CREDITS)
+  # Case-sensitive filtering, GLOB on macOS/Windows is case-insensitive.
+  list(FILTER credits INCLUDE REGEX ".*CREDITS$")
 
   # The CODEGEN keyword adds the custom command to a global 'codegen' target.
   set(codegen "")
