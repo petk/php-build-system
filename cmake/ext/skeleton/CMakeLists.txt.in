@@ -76,6 +76,15 @@ else()
   add_library(php_%EXTNAME%)
 endif()
 
+# Configure extension as CLI-based. Such extensions are only meant to be used
+# and enabled on CLI-based PHP SAPIs, such as cgi, cli, phpdbg, embed, etc.
+#set_target_properties(php_%EXTNAME% PROPERTIES PHP_CLI TRUE)
+
+# Configure extension as Zend extension. Zend extensions are loaded with the
+# 'zend_extension' INI directive and include additional advanced hooks. Use only
+# when building advanced extensions, such as debuggers, profilers, caching, etc.
+#set_target_properties(php_%EXTNAME% PROPERTIES PHP_ZEND_EXTENSION TRUE)
+
 # Add library target sources.
 target_sources(
   php_%EXTNAME%
@@ -97,11 +106,6 @@ target_compile_definitions(
     # Enable "Thread Safety Resource Manager Local Storage" static cache.
     ZEND_ENABLE_STATIC_TSRMLS_CACHE
 )
-
-# Configure extension as Zend extension. Zend extensions are loaded with the
-# 'zend_extension' INI directive and include additional advanced hooks. Use only
-# when building advanced extensions, such as debuggers, profilers, caching, etc.
-#set_target_properties(php_%EXTNAME% PROPERTIES PHP_ZEND_EXTENSION TRUE)
 
 # Find PHP package on the system.
 find_package(PHP REQUIRED)

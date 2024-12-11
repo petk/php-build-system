@@ -35,7 +35,6 @@ if(CMAKE_SYSTEM_NAME STREQUAL "Windows")
   return()
 endif()
 
-# TODO: pcntl is a cli/cgi extension.
 include(CheckSourceCompiles)
 include(CheckSourceRuns)
 include(CheckSymbolExists)
@@ -71,6 +70,8 @@ if(EXT_PCNTL_SHARED)
 else()
   add_library(php_pcntl)
 endif()
+
+set_target_properties(php_pcntl PROPERTIES PHP_CLI TRUE)
 
 target_sources(
   php_pcntl

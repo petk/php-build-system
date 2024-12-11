@@ -1,21 +1,5 @@
 #[=============================================================================[
 Add subdirectories of PHP SAPIs.
-
-## Custom CMake properties
-
-* `PHP_ALL_SAPIS`
-
-  Global property with a list of all PHP SAPIs in the sapi directory.
-
-* `PHP_SAPIS`
-
-  Global property with a list of all enabled PHP SAPIs.
-
-* `PHP_SAPI_CLI`
-
-  Target property that designates PHP SAPI as CLI-based. These SAPIs can utilize
-  CLI-based PHP extensions (for example, pcntl) and include
-  main/internal_functions_cli.c object instead of the main/internal_functions.c.
 #]=============================================================================]
 
 message(STATUS "")
@@ -34,12 +18,6 @@ define_property(
   GLOBAL
   PROPERTY PHP_SAPIS
   BRIEF_DOCS "A list of all enabled PHP SAPIs"
-)
-
-define_property(
-  TARGET
-  PROPERTY PHP_SAPI_CLI
-  BRIEF_DOCS "Whether the PHP SAPI is CLI-based to run in a CLI environment"
 )
 
 list(APPEND CMAKE_MESSAGE_CONTEXT "sapi")

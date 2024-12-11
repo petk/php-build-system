@@ -27,7 +27,7 @@ pkgconfig_generate_pc(
 )
 ```
 
-Generate pkgconfig `<pc-file-output>` from the given pc `<pc-template-file>`
+Generate pkg-config `<pc-file-output>` from the given pc `<pc-template-file>`
 template.
 
 * `TARGET`

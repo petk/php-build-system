@@ -363,7 +363,24 @@ A list of PHP CMake modules:
 
 * `PHP_ALWAYS_ENABLED_EXTENSIONS`
 
-  Global property with a list of always enabled PHP extensions.
+  Global property with a list of always enabled PHP extensions which can be
+  considered part of the core PHP.
+
+* `PHP_CLI`
+
+  Target property that designates CMake target or PHP SAPI or extension as
+  CLI-based (usable in a CLI environment). When enabled on a PHP SAPI target,
+  such SAPI will have the `main/internal_functions_cli.c` object instead of
+  `main/internal_functions.c` and objects of enabled CLI-based PHP extensions
+  that were built statically.
+
+  When this property is enabled on a PHP extension target, extension will be
+  only listed in the generated `main/internal_functions_cli.c` file. Other
+  extensions will be listed also in the `main/internal_functions.c` file.
+  CLI-based extensions will only be enabled on CLI-based SAPIs.
+
+  Examples of CLI-based SAPIs are `cgi`, `cli`, `phpdbg`, and `embed`. Examples
+  of CLI-based extensions are `pcntl` and `readline`.
 
 * `PHP_EXTENSION_<extension>_DEPS`
 
@@ -372,8 +389,9 @@ A list of PHP CMake modules:
 
 * `PHP_EXTENSIONS`
 
-  Global property with a list of all enabled PHP extension for the current
-  configuration.
+  Global property with a list of all enabled PHP extensions for the current
+  configuration. Extensions are sorted by their dependencies (extensions added
+  with CMake command `add_dependencies()`).
 
 * `PHP_SAPI_CLI`
 

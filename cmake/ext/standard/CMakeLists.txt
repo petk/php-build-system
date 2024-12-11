@@ -556,7 +556,7 @@ target_compile_definitions(
   php_standard_functions_cli
   PRIVATE
     $<TARGET_PROPERTY:php_standard,COMPILE_DEFINITIONS>
-    ENABLE_CHROOT_FUNC
+    $<$<NOT:$<PLATFORM_ID:Windows>>:ENABLE_CHROOT_FUNC>
 )
 target_compile_definitions(
   php_standard_functions
