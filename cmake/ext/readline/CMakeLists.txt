@@ -30,8 +30,6 @@ Build extension as shared.
 Use the GNU Readline library instead of Editline.
 #]=============================================================================]
 
-# TODO: ext/readline is cli extension only.
-
 project(
   PhpExtensionReadline
   LANGUAGES C
@@ -78,6 +76,8 @@ if(EXT_READLINE_SHARED)
 else()
   add_library(php_readline)
 endif()
+
+set_target_properties(php_readline PROPERTIES PHP_CLI TRUE)
 
 target_sources(
   php_readline

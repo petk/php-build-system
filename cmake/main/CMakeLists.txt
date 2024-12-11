@@ -179,7 +179,7 @@ target_sources(
     $<TARGET_OBJECTS:php_main>
 
     # Internal functions objects based on the SAPI type.
-    $<IF:$<BOOL:$<TARGET_PROPERTY:PHP_SAPI_CLI>>,$<TARGET_OBJECTS:php_main_internal_functions_cli>,$<TARGET_OBJECTS:php_main_internal_functions>>
+    $<IF:$<BOOL:$<TARGET_PROPERTY:PHP_CLI>>,$<TARGET_OBJECTS:php_main_internal_functions_cli>,$<TARGET_OBJECTS:php_main_internal_functions>>
 
     # If Zend is OBJECT library, add library objects as sources.
     $<$<STREQUAL:$<TARGET_PROPERTY:Zend::Zend,TYPE>,OBJECT_LIBRARY>:$<TARGET_OBJECTS:Zend::Zend>>
@@ -191,7 +191,7 @@ target_sources(
     $<$<TARGET_EXISTS:PHP::windows>:$<TARGET_OBJECTS:PHP::windows>>
 
     # ext/standard functions objects based on the SAPI type.
-    $<IF:$<BOOL:$<TARGET_PROPERTY:PHP_SAPI_CLI>>,$<TARGET_OBJECTS:php_standard_functions_cli>,$<TARGET_OBJECTS:php_standard_functions>>
+    $<IF:$<BOOL:$<TARGET_PROPERTY:PHP_CLI>>,$<TARGET_OBJECTS:php_standard_functions_cli>,$<TARGET_OBJECTS:php_standard_functions>>
 )
 
 ################################################################################
@@ -272,16 +272,16 @@ if(PHP_DMALLOC)
 endif()
 
 ################################################################################
-# Generate files and install headers.
+# Create main/internal_functions*.c files with a list of static enabled PHP
+# extensions based on the PHP SAPI type.
 ################################################################################
 
-# Create main/internal_functions*.c files based on the enabled extensions.
-function(_php_main_create_internal_functions)
-  # Create main/internal_functions* files.
-  set(EXT_INCLUDE_CODE "")
-  set(EXT_MODULE_PTRS "")
+block()
+  set(includes "")
+  set(includesCli "")
+  set(pointers "")
+  set(pointersCli "")
 
-  # Add artifacts of static enabled PHP extensions to symbol definitions.
   get_property(extensions GLOBAL PROPERTY PHP_EXTENSIONS)
   foreach(extension IN LISTS extensions)
     # Skip if extension is shared.
@@ -289,6 +289,8 @@ function(_php_main_create_internal_functions)
     if(type MATCHES "^(MODULE|SHARED)_LIBRARY$")
       continue()
     endif()
+
+    get_target_property(isCli php_${extension} PHP_CLI)
 
     file(GLOB_RECURSE headers ${PHP_SOURCE_DIR}/ext/${extension}/*.h)
 
@@ -298,29 +300,46 @@ function(_php_main_create_internal_functions)
 
       if(NOT index EQUAL -1)
         cmake_path(GET header FILENAME filename)
-        string(
-          APPEND
-          EXT_INCLUDE_CODE
-          "#include \"ext/${extension}/${filename}\"\n"
-        )
+        set(code "#include \"ext/${extension}/${filename}\"\n")
+        string(APPEND includesCli "${code}")
+        if(NOT isCli)
+          string(APPEND includes "${code}")
+        endif()
       endif()
     endforeach()
 
-    set(EXT_MODULE_PTRS "${EXT_MODULE_PTRS}\n\tphpext_${extension}_ptr,")
+    set(code "\n\tphpext_${extension}_ptr,")
+    set(pointersCli "${pointersCli}${code}")
+    if(NOT isCli)
+      set(pointers "${pointers}${code}")
+    endif()
   endforeach()
 
-  message(STATUS "Creating main/internal_functions.c")
-  configure_file(main/internal_functions.c.in main/internal_functions.c)
+  cmake_path(
+    RELATIVE_PATH
+    CMAKE_CURRENT_BINARY_DIR
+    BASE_DIRECTORY ${CMAKE_BINARY_DIR}
+    OUTPUT_VARIABLE relativeDir
+  )
 
-  message(STATUS "Creating main/internal_functions_cli.c")
-  configure_file(main/internal_functions.c.in main/internal_functions_cli.c)
-endfunction()
+  set(EXT_INCLUDE_CODE "${includes}")
+  set(EXT_MODULE_PTRS "${pointers}")
+  message(STATUS "Creating ${relativeDir}/internal_functions.c")
+  configure_file(internal_functions.c.in internal_functions.c)
+
+  set(EXT_INCLUDE_CODE "${includesCli}")
+  set(EXT_MODULE_PTRS "${pointersCli}")
+  message(STATUS "Creating ${relativeDir}/internal_functions_cli.c")
+  configure_file(internal_functions.c.in internal_functions_cli.c)
+endblock()
+
+################################################################################
+# Generate configuration headers.
+################################################################################
 
 # Run at the end of the configuration.
 cmake_language(DEFER DIRECTORY ${PHP_SOURCE_DIR} CALL _php_main_create_files)
 function(_php_main_create_files)
-  _php_main_create_internal_functions()
-
   ##############################################################################
   # Map CMake variable names to names in PHP configuration headers where needed.
   ##############################################################################
@@ -511,6 +530,10 @@ function(_php_main_create_files)
     CONTENT "${content}"
   )
 endfunction()
+
+################################################################################
+# Configure installation.
+################################################################################
 
 install(
   TARGETS php_main
