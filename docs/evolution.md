@@ -942,5 +942,10 @@ PHP coding standards now use the C11 standard.
 #### Windows
 
 * ext/com_dotnet is built as shared by default
+* phpize builds now reflect the source tree in the build dir (like that already
+  worked for in-tree builds); some extension builds (especially when using
+  `Makefile.frag.w32`) may need adjustments.
+* `--enable-sanitzer` is now supported for MSVC builds. This enables ASan and
+  debug assertions, and is supported as of MSVC 16.10 and Windows 10.
 
 </details>

@@ -384,6 +384,7 @@ install(
 check_include_file(cpuid.h HAVE_CPUID_H)
 check_include_file(libproc.h HAVE_LIBPROC_H)
 
+check_symbol_exists(clock_gettime_nsec_np "time.h" HAVE_CLOCK_GETTIME_NSEC_NP)
 check_symbol_exists(getpid "unistd.h" HAVE_GETPID)
 
 cmake_push_check_state(RESET)
