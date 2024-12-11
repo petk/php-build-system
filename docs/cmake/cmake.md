@@ -368,7 +368,7 @@ A list of PHP CMake modules:
 
 * `PHP_CLI`
 
-  Target property that designates CMake target or PHP SAPI or extension as
+  Target property that designates CMake target of PHP SAPI or extension as
   CLI-based (usable in a CLI environment). When enabled on a PHP SAPI target,
   such SAPI will have the `main/internal_functions_cli.c` object instead of
   `main/internal_functions.c` and objects of enabled CLI-based PHP extensions
