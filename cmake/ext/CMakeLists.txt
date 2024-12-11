@@ -5,23 +5,6 @@ Add subdirectories of PHP extensions.
 
 * `php_extensions` (alias `PHP::extensions`) is an INTERFACE library with all
   enabled extensions linked into for convenience.
-
-## Custom CMake properties
-
-* `PHP_ALL_EXTENSIONS`
-
-  Global property with a list of all PHP extensions in the ext directory.
-
-* `PHP_ALWAYS_ENABLED_EXTENSIONS`
-
-  Global property with a list of always enabled PHP extensions which can be
-  considered part of the core PHP engine.
-
-* `PHP_EXTENSIONS`
-
-  Global property with a list of all enabled PHP extensions for the current
-  configuration. Extensions are sorted by their dependencies (extensions added
-  with CMake command `add_dependencies()`).
 #]=============================================================================]
 
 include(PHP/Extensions)
@@ -127,23 +110,41 @@ foreach(extension IN LISTS extensions)
   )
 
   get_target_property(type php_${extension} TYPE)
+  get_target_property(isCli php_${extension} PHP_CLI)
   if(NOT type MATCHES "^(MODULE|SHARED)_LIBRARY$")
-    target_link_libraries(
-      php_extensions
-      INTERFACE
-        # If extension is STATIC library link as whole archive, otherwise link
-        # normally:
-        $<IF:$<STREQUAL:$<TARGET_PROPERTY:PHP::${extension},TYPE>,STATIC_LIBRARY>,$<LINK_LIBRARY:WHOLE_ARCHIVE,PHP::${extension}>,PHP::${extension}>
-    )
+    # If extension is STATIC library link as whole archive, otherwise link
+    # normally. CLI-based extensions are linked only to CLI-based SAPIs.
+    if(NOT isCli)
+      target_link_libraries(
+        php_extensions
+        INTERFACE
+          $<IF:$<STREQUAL:$<TARGET_PROPERTY:PHP::${extension},TYPE>,STATIC_LIBRARY>,$<LINK_LIBRARY:WHOLE_ARCHIVE,PHP::${extension}>,PHP::${extension}>
+      )
 
-    target_sources(
-      php_extensions
-      INTERFACE
-        # If extension is OBJECT library:
-        $<$<STREQUAL:$<TARGET_PROPERTY:PHP::${extension},TYPE>,OBJECT_LIBRARY>:$<TARGET_OBJECTS:PHP::${extension}>>
-        # If extension and linked target (SAPI) are both STATIC libraries:
-        $<$<AND:$<STREQUAL:$<TARGET_PROPERTY:TYPE>,STATIC_LIBRARY>,$<STREQUAL:$<TARGET_PROPERTY:PHP::${extension},TYPE>,STATIC_LIBRARY>>:$<TARGET_OBJECTS:PHP::${extension}>>
-    )
+      target_sources(
+        php_extensions
+        INTERFACE
+          # If extension is OBJECT library:
+          $<$<STREQUAL:$<TARGET_PROPERTY:PHP::${extension},TYPE>,OBJECT_LIBRARY>:$<TARGET_OBJECTS:PHP::${extension}>>
+          # If extension and linked target (SAPI) are both STATIC libraries:
+          $<$<AND:$<STREQUAL:$<TARGET_PROPERTY:TYPE>,STATIC_LIBRARY>,$<STREQUAL:$<TARGET_PROPERTY:PHP::${extension},TYPE>,STATIC_LIBRARY>>:$<TARGET_OBJECTS:PHP::${extension}>>
+      )
+    else()
+      target_link_libraries(
+        php_extensions
+        INTERFACE
+          $<$<BOOL:$<TARGET_PROPERTY:PHP_CLI>>:$<IF:$<STREQUAL:$<TARGET_PROPERTY:PHP::${extension},TYPE>,STATIC_LIBRARY>,$<LINK_LIBRARY:WHOLE_ARCHIVE,PHP::${extension}>,PHP::${extension}>>
+      )
+
+      target_sources(
+        php_extensions
+        INTERFACE
+          # If extension is OBJECT library:
+          $<$<BOOL:$<TARGET_PROPERTY:PHP_CLI>>:$<$<STREQUAL:$<TARGET_PROPERTY:PHP::${extension},TYPE>,OBJECT_LIBRARY>:$<TARGET_OBJECTS:PHP::${extension}>>>
+          # If extension and linked target (SAPI) are both STATIC libraries:
+          $<$<BOOL:$<TARGET_PROPERTY:PHP_CLI>>:$<$<AND:$<STREQUAL:$<TARGET_PROPERTY:TYPE>,STATIC_LIBRARY>,$<STREQUAL:$<TARGET_PROPERTY:PHP::${extension},TYPE>,STATIC_LIBRARY>>:$<TARGET_OBJECTS:PHP::${extension}>>>
+      )
+    endif()
   endif()
 
   message(CHECK_PASS "enabled")

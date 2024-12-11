@@ -4,6 +4,12 @@ Configure project after the project() call.
 
 include_guard(GLOBAL)
 
+define_property(
+  TARGET
+  PROPERTY PHP_CLI
+  BRIEF_DOCS "Whether the PHP SAPI or extension is CLI-based"
+)
+
 # Optionally enable CXX for extensions.
 include(CheckLanguage)
 check_language(CXX)

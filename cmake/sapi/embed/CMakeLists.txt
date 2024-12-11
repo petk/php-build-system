@@ -58,7 +58,7 @@ set_target_properties(
     OUTPUT_NAME libphp
     # TODO: Check if there's a better solution here:
     ENABLE_EXPORTS TRUE
-    PHP_SAPI_CLI TRUE
+    PHP_CLI TRUE
 )
 
 # Configure pkg-config php-embed.pc metadata file.
