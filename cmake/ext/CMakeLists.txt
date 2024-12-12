@@ -114,15 +114,15 @@ foreach(extension IN LISTS extensions)
     target_link_libraries(
       php_extensions
       INTERFACE
-        $<IF:$<BOOL:$<TARGET_PROPERTY:PHP::${extension},PHP_CLI>>,$<$<BOOL:$<TARGET_PROPERTY:PHP_CLI>>:$<LINK_ONLY:PHP::${extension}>>,$<LINK_ONLY:PHP::${extension}>>
+        $<IF:$<BOOL:$<TARGET_GENEX_EVAL:PHP::${extension},$<TARGET_PROPERTY:PHP::${extension},PHP_CLI>>>,$<$<BOOL:$<TARGET_PROPERTY:PHP_CLI>>:$<LINK_ONLY:PHP::${extension}>>,$<LINK_ONLY:PHP::${extension}>>
     )
 
     target_sources(
       php_extensions
       INTERFACE
-        $<IF:$<BOOL:$<TARGET_PROPERTY:PHP::${extension},PHP_CLI>>,$<$<BOOL:$<TARGET_PROPERTY:PHP_CLI>>:$<TARGET_OBJECTS:PHP::${extension}>>,$<TARGET_OBJECTS:PHP::${extension}>>
+        $<IF:$<BOOL:$<TARGET_GENEX_EVAL:PHP::${extension},$<TARGET_PROPERTY:PHP::${extension},PHP_CLI>>>,$<$<BOOL:$<TARGET_PROPERTY:PHP_CLI>>:$<TARGET_OBJECTS:PHP::${extension}>>,$<TARGET_OBJECTS:PHP::${extension}>>
 
-        $<IF:$<BOOL:$<TARGET_PROPERTY:PHP::${extension},PHP_CLI>>,$<$<BOOL:$<TARGET_PROPERTY:PHP_CLI>>:$<TARGET_PROPERTY:PHP::${extension},INTERFACE_SOURCES>>,$<TARGET_PROPERTY:PHP::${extension},INTERFACE_SOURCES>>
+        $<IF:$<BOOL:$<TARGET_GENEX_EVAL:PHP::${extension},$<TARGET_PROPERTY:PHP::${extension},PHP_CLI>>>,$<$<BOOL:$<TARGET_PROPERTY:PHP_CLI>>:$<TARGET_PROPERTY:PHP::${extension},INTERFACE_SOURCES>>,$<TARGET_PROPERTY:PHP::${extension},INTERFACE_SOURCES>>
     )
   endif()
 

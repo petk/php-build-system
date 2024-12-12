@@ -310,8 +310,6 @@ block()
       continue()
     endif()
 
-    get_target_property(isCli php_${extension} PHP_CLI)
-
     file(GLOB_RECURSE headers ${PHP_SOURCE_DIR}/ext/${extension}/*.h)
 
     foreach(header IN LISTS headers)
@@ -322,17 +320,13 @@ block()
         cmake_path(GET header FILENAME filename)
         set(code "#include \"ext/${extension}/${filename}\"\n")
         string(APPEND includesCli "${code}")
-        if(NOT isCli)
-          string(APPEND includes "${code}")
-        endif()
+        string(APPEND includes "$<$<NOT:$<BOOL:$<TARGET_GENEX_EVAL:PHP::${extension},$<TARGET_PROPERTY:PHP::${extension},PHP_CLI>>>>:${code}>")
       endif()
     endforeach()
 
     set(code "\n\tphpext_${extension}_ptr,")
     set(pointersCli "${pointersCli}${code}")
-    if(NOT isCli)
-      set(pointers "${pointers}${code}")
-    endif()
+    set(pointers "${pointers}$<$<NOT:$<BOOL:$<TARGET_GENEX_EVAL:PHP::${extension},$<TARGET_PROPERTY:PHP::${extension},PHP_CLI>>>>:${code}>")
   endforeach()
 
   cmake_path(
@@ -342,15 +336,19 @@ block()
     OUTPUT_VARIABLE relativeBinaryDir
   )
 
+  file(READ internal_functions.c.in template)
+
+  message(STATUS "Configuring ${relativeBinaryDir}/internal_functions.c")
   set(EXT_INCLUDE_CODE "${includes}")
   set(EXT_MODULE_PTRS "${pointers}")
-  message(STATUS "Creating ${relativeBinaryDir}/internal_functions.c")
-  configure_file(internal_functions.c.in internal_functions.c)
+  string(CONFIGURE "${template}" content)
+  file(GENERATE OUTPUT internal_functions.c CONTENT "${content}")
 
+  message(STATUS "Configuring ${relativeBinaryDir}/internal_functions_cli.c")
   set(EXT_INCLUDE_CODE "${includesCli}")
   set(EXT_MODULE_PTRS "${pointersCli}")
-  message(STATUS "Creating ${relativeBinaryDir}/internal_functions_cli.c")
-  configure_file(internal_functions.c.in internal_functions_cli.c)
+  string(CONFIGURE "${template}" content)
+  file(GENERATE OUTPUT internal_functions_cli.c CONTENT "${content}")
 endblock()
 
 ################################################################################
