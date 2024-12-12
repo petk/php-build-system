@@ -14,7 +14,7 @@ debug=0
 phpVersionDev="8.5"
 
 # Go to project root.
-cd $(CDPATH= cd -- "$(dirname -- "$0")/.." && pwd -P)
+cd "$(CDPATH='' cd -- "$(dirname -- "$0")/.." && pwd -P)" || exit
 
 while test $# -gt 0; do
   if test "$1" = "-h" || test "$1" = "--help"; then
