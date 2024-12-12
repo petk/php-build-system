@@ -574,8 +574,12 @@ target_link_libraries(
   PRIVATE $<TARGET_PROPERTY:php_standard,LINK_LIBRARIES>
 )
 
-add_dependencies(php_standard_functions_cli php_standard)
-add_dependencies(php_standard_functions php_standard)
+# ext/standard functions objects based on the SAPI type.
+target_sources(
+  php_standard
+  INTERFACE
+    $<IF:$<BOOL:$<TARGET_PROPERTY:PHP_CLI>>,$<TARGET_OBJECTS:php_standard_functions_cli>,$<TARGET_OBJECTS:php_standard_functions>>
+)
 
 ################################################################################
 # Configuration header
