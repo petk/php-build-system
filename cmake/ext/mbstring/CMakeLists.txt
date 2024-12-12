@@ -71,6 +71,10 @@ if(NOT EXT_MBSTRING)
   return()
 endif()
 
+################################################################################
+# Configure mbstring extension.
+################################################################################
+
 if(EXT_MBSTRING_SHARED)
   add_library(php_mbstring SHARED)
 else()
@@ -146,7 +150,19 @@ target_sources(
         ${CMAKE_CURRENT_BINARY_DIR}/libmbfl/config.h
 )
 
+target_compile_definitions(php_mbstring PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE)
+
+# The mbstring extension doesn't seem to support interprocedural optimization
+# (IPO).
+set_target_properties(php_mbstring PROPERTIES INTERPROCEDURAL_OPTIMIZATION OFF)
+
 add_dependencies(php_mbstring php_pcre)
+
+set(HAVE_MBSTRING TRUE)
+
+################################################################################
+# Configure libmbfl.
+################################################################################
 
 # TODO: Fix this better. See also https://github.com/php/php-src/pull/13713
 # TODO: Should status message be here?
@@ -161,9 +177,17 @@ file(CONFIGURE OUTPUT libmbfl/config.h CONTENT [[
 #endif
 ]])
 
-# The mbstring extension doesn't seem to support interprocedural optimization
-# (IPO).
-set_target_properties(php_mbstring PROPERTIES INTERPROCEDURAL_OPTIMIZATION OFF)
+target_include_directories(
+  php_mbstring
+  PRIVATE
+    ${CMAKE_CURRENT_SOURCE_DIR}/libmbfl
+    ${CMAKE_CURRENT_BINARY_DIR}/libmbfl
+    ${CMAKE_CURRENT_SOURCE_DIR}/libmbfl/mbfl
+)
+
+################################################################################
+# Multibyte regex.
+################################################################################
 
 if(EXT_MBSTRING_MBREGEX)
   find_package(Oniguruma)
@@ -177,7 +201,7 @@ if(EXT_MBSTRING_MBREGEX)
   target_link_libraries(php_mbstring PRIVATE Oniguruma::Oniguruma)
 
   if(TARGET Oniguruma::Oniguruma)
-    message(CHECK_START "Checking if Oniguruma has invalid entry for KOI8 encoding")
+    message(CHECK_START "Checking for invalid KOI8 encoding entry in Oniguruma")
     cmake_push_check_state(RESET)
       set(CMAKE_REQUIRED_DEFINITIONS -D_GNU_SOURCE)
       set(CMAKE_REQUIRED_LIBRARIES Oniguruma::Oniguruma)
@@ -196,7 +220,6 @@ if(EXT_MBSTRING_MBREGEX)
       message(CHECK_PASS "no")
     else()
       message(CHECK_FAIL "yes")
-
       set(PHP_ONIG_BAD_KOI8_ENTRY TRUE)
     endif()
   endif()
@@ -211,8 +234,6 @@ if(EXT_MBSTRING_MBREGEX)
       $<$<PLATFORM_ID:Windows>:ONIG_EXTERN=extern>
   )
 
-  set(HAVE_MBREGEX TRUE)
-
   target_sources(
     php_mbstring
     PRIVATE
@@ -223,18 +244,8 @@ if(EXT_MBSTRING_MBREGEX)
           php_mbregex.h
           php_onig_compat.h
   )
+
+  set(HAVE_MBREGEX TRUE)
 endif()
-
-target_compile_definitions(php_mbstring PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE)
-
-target_include_directories(
-  php_mbstring
-  PRIVATE
-    ${CMAKE_CURRENT_SOURCE_DIR}/libmbfl
-    ${CMAKE_CURRENT_BINARY_DIR}/libmbfl
-    ${CMAKE_CURRENT_SOURCE_DIR}/libmbfl/mbfl
-)
-
-set(HAVE_MBSTRING TRUE)
 
 configure_file(cmake/config.h.in config.h)
