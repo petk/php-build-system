@@ -382,6 +382,22 @@ A list of PHP CMake modules:
   Examples of CLI-based SAPIs are `cgi`, `cli`, `phpdbg`, and `embed`. Examples
   of CLI-based extensions are `pcntl` and `readline`.
 
+  For example, to mark some PHP SAPI as CLI-based, set `PHP_CLI` property to
+  *truthy* value:
+
+  ```cmake
+  set_target_properties(php_cli PROPERTIES PHP_CLI TRUE)
+  ```
+
+  Basic generator expressions are also supported:
+
+  ```cmake
+  set_target_properties(
+    php_extension
+    PROPERTIES PHP_CLI $<IF:$<PLATFORM_ID:Windows>,FALSE,TRUE>
+  )
+  ```
+
 * `PHP_EXTENSION_<extension>_DEPS`
 
   Global property set by the [`PHP/Extensions`](/docs/cmake/modules/PHP/Extensions.md)
@@ -392,20 +408,6 @@ A list of PHP CMake modules:
   Global property with a list of all enabled PHP extensions for the current
   configuration. Extensions are sorted by their dependencies (extensions added
   with CMake command `add_dependencies()`).
-
-* `PHP_SAPI_CLI`
-
-  Target property that designates PHP SAPI as CLI-based. These SAPIs can utilize
-  CLI-based PHP extensions (for example, `pcntl`) and include
-  `main/internal_functions_cli.c` object instead of the
-  `main/internal_functions.c`.
-
-  For example, to mark `cli` PHP SAPI, set `PHP_SAPI_CLI` custom target property
-  to *truthy* value:
-
-  ```cmake
-  set_target_properties(php_cli PROPERTIES PHP_SAPI_CLI TRUE)
-  ```
 
 * `PHP_SAPIS`
 
