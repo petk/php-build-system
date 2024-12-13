@@ -578,6 +578,9 @@ target_sources(
     $<IF:$<BOOL:$<TARGET_PROPERTY:PHP_CLI>>,$<TARGET_OBJECTS:php_standard_functions_cli>,$<TARGET_OBJECTS:php_standard_functions>>
 )
 
+add_dependencies(php_standard_functions php_standard)
+add_dependencies(php_standard_functions_cli php_standard)
+
 ################################################################################
 # Configuration header
 ################################################################################
