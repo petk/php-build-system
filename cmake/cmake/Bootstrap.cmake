@@ -47,6 +47,7 @@ target_include_directories(
 
 # INTERFACE library that ties all target objects and configuration together.
 # Only PHP SAPI targets should link to it.
+# See: https://cmake.org/cmake/help/latest/manual/cmake-buildsystem.7.html
 add_library(php_sapis_config INTERFACE)
 add_library(PHP::PHP ALIAS php_sapis_config)
 target_link_libraries(php_sapis_config INTERFACE PHP::configuration)

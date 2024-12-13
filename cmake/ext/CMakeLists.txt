@@ -73,7 +73,6 @@ foreach(extension IN LISTS extensions)
   add_dependencies(php_${extension} Zend::Zend)
 
   # Pass transitive compile and link properties to PHP configuration interface.
-  # See: https://cmake.org/cmake/help/latest/manual/cmake-buildsystem.7.html
   # TODO: Should PHP_CLI extensions pass properties only to PHP_CLI SAPIs?
   get_target_property(type php_${extension} TYPE)
   if(NOT type MATCHES "^(MODULE|SHARED)_LIBRARY$")
