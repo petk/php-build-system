@@ -396,13 +396,17 @@ function(php_extensions_postconfigure extension)
       "'ON'."
     )
 
-    set(
-      EXT_${dependencyUpper}
-      ON
-      CACHE BOOL
-      "Enable the ${dependency} extension"
-      FORCE
-    )
+    if(DEFINED CACHE{EXT_${dependencyUpper}})
+      set_property(CACHE EXT_${dependencyUpper} PROPERTY VALUE ON)
+    else()
+      set(
+        EXT_${dependencyUpper}
+        ON
+        CACHE BOOL
+        "Enable the ${dependency} extension"
+        FORCE
+      )
+    endif()
   endforeach()
 
   if(NOT TARGET PHP::${extension})

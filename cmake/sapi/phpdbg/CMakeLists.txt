@@ -228,20 +228,8 @@ if(SAPI_PHPDBG_SHARED)
     php_phpdbg_shared
     PRIVATE
       ZEND_ENABLE_STATIC_TSRMLS_CACHE
-      $<TARGET_PROPERTY:PHP::main,INTERFACE_COMPILE_DEFINITIONS>
       $<$<PLATFORM_ID:Windows>:YY_NO_UNISTD_H>
       $<IF:$<BOOL:${SAPI_PHPDBG_DEBUG}>,PHPDBG_DEBUG=1,PHPDBG_DEBUG=0>
-  )
-
-  target_include_directories(
-    php_phpdbg_shared
-    PRIVATE
-      $<TARGET_PROPERTY:PHP::main,INTERFACE_INCLUDE_DIRECTORIES>
-  )
-
-  target_compile_options(
-    php_phpdbg_shared
-    PRIVATE $<TARGET_PROPERTY:PHP::main,INTERFACE_COMPILE_OPTIONS>
   )
 
   target_link_libraries(

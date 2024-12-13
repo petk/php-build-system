@@ -1,10 +1,5 @@
 #[=============================================================================[
 PHP main binding.
-
-## INTERFACE target
-
-* `php` (alias `PHP::PHP`) is an INTERFACE library that ties PHP core, Zend
-  Engine and PHP extensions together and can be easily linked to SAPIs.
 #]=============================================================================]
 
 include(FeatureSummary)
@@ -14,10 +9,7 @@ include(FeatureSummary)
 ################################################################################
 
 add_library(php_main OBJECT)
-
-# These contain a list of built-in extensions based on the SAPI types.
-add_library(php_main_internal_functions OBJECT internal_functions.c)
-add_library(php_main_internal_functions_cli OBJECT internal_functions_cli.c)
+add_library(PHP::main ALIAS php_main)
 
 target_sources(
   php_main
@@ -121,75 +113,42 @@ target_include_directories(
     ${CMAKE_CURRENT_SOURCE_DIR}
 )
 
-set_property(
-  TARGET
-    php_main
-    php_main_internal_functions
-    php_main_internal_functions_cli
-  APPEND
-  PROPERTY COMPILE_DEFINITIONS ZEND_ENABLE_STATIC_TSRMLS_CACHE
-)
-
-# Add main PUBLIC/INTERFACE compile properties to configuration.
-# Cleaner COMPILE_ONLY generator expression is available in CMake >= 3.27.
-if(CMAKE_VERSION VERSION_GREATER_EQUAL 3.27)
-  target_link_libraries(php_configuration INTERFACE $<COMPILE_ONLY:php_main>)
-else()
-  target_include_directories(
-    php_configuration
-    INTERFACE
-      $<TARGET_PROPERTY:php_main,INTERFACE_INCLUDE_DIRECTORIES>
-  )
-  target_compile_definitions(
-    php_configuration
-    INTERFACE
-      $<TARGET_PROPERTY:php_main,INTERFACE_COMPILE_DEFINITIONS>
-  )
-endif()
-
 target_link_libraries(php_main PRIVATE PHP::configuration)
-target_link_libraries(php_main_internal_functions PRIVATE PHP::configuration)
-target_link_libraries(php_main_internal_functions_cli PRIVATE PHP::configuration)
+
+# Compile and link properties for all targets in this directory scope.
+add_compile_definitions(ZEND_ENABLE_STATIC_TSRMLS_CACHE)
 
 ################################################################################
-# Add PHP::PHP.
+# Add transitive compile and link properties to PHP interface targets.
 ################################################################################
 
-add_library(php INTERFACE)
-add_library(PHP::PHP ALIAS php)
-
-target_link_libraries(
-  php
+target_compile_definitions(
+  php_configuration
   INTERFACE
-    PHP::configuration
-    php_main
-    # If Zend is STATIC library link as whole archive, otherwise link normally.
-    $<IF:$<STREQUAL:$<TARGET_PROPERTY:Zend::Zend,TYPE>,STATIC_LIBRARY>,$<LINK_LIBRARY:WHOLE_ARCHIVE,Zend::Zend>,Zend::Zend>
-    $<$<TARGET_EXISTS:PHP::windows>:PHP::windows>
-    PHP::extensions
+    $<TARGET_PROPERTY:PHP::main,INTERFACE_COMPILE_DEFINITIONS>
 )
 
-# OBJECT libraries propagate only compile properties to static libraries without
-# objects as there is no "linking" involved on the compiler level. This is a
-# workaround using interface target sources to make PHP::PHP more intuitive to
-# work with SAPIs.
-target_sources(
-  php
+target_compile_options(
+  php_configuration
   INTERFACE
-    $<TARGET_OBJECTS:php_main>
-
-    # Internal functions objects based on the SAPI type.
-    $<IF:$<BOOL:$<TARGET_PROPERTY:PHP_CLI>>,$<TARGET_OBJECTS:php_main_internal_functions_cli>,$<TARGET_OBJECTS:php_main_internal_functions>>
-
-    # If Zend is OBJECT library, add library objects as sources.
-    $<$<STREQUAL:$<TARGET_PROPERTY:Zend::Zend,TYPE>,OBJECT_LIBRARY>:$<TARGET_OBJECTS:Zend::Zend>>
-
-    # If Zend is STATIC library, and linking to a STATIC library (SAPI), add
-    # library objects as sources.
-    $<$<AND:$<STREQUAL:$<TARGET_PROPERTY:TYPE>,STATIC_LIBRARY>,$<STREQUAL:$<TARGET_PROPERTY:Zend::Zend,TYPE>,STATIC_LIBRARY>>:$<TARGET_OBJECTS:Zend::Zend>>
-
-    $<$<TARGET_EXISTS:PHP::windows>:$<TARGET_OBJECTS:PHP::windows>>
+    $<TARGET_PROPERTY:PHP::main,INTERFACE_COMPILE_OPTIONS>
 )
+
+target_compile_features(
+  php_configuration
+  INTERFACE
+    $<TARGET_PROPERTY:PHP::main,INTERFACE_COMPILE_FEATURES>
+)
+
+target_include_directories(
+  php_configuration
+  INTERFACE
+    $<TARGET_PROPERTY:PHP::main,INTERFACE_INCLUDE_DIRECTORIES>
+    $<TARGET_PROPERTY:PHP::main,INTERFACE_SYSTEM_INCLUDE_DIRECTORIES>
+)
+
+target_link_libraries(php_sapis_config INTERFACE PHP::main)
+target_sources(php_sapis_config INTERFACE $<TARGET_OBJECTS:PHP::main>)
 
 ################################################################################
 # Add DTrace.
@@ -221,8 +180,8 @@ if(PHP_DTRACE)
       INCLUDES
         $<TARGET_PROPERTY:PHP::configuration,INTERFACE_INCLUDE_DIRECTORIES>
     )
-    target_link_libraries(php_main PRIVATE DTrace::DTrace)
-    target_link_libraries(php INTERFACE php_dtrace)
+    target_link_libraries(php_main PUBLIC DTrace::DTrace)
+    target_link_libraries(php_main INTERFACE php_dtrace)
 
     set(HAVE_DTRACE TRUE PARENT_SCOPE)
 
@@ -295,6 +254,18 @@ file(CONFIGURE OUTPUT ${CMAKE_CURRENT_SOURCE_DIR}/php_version.h CONTENT [[
 # Create main/internal_functions*.c files with a list of static enabled PHP
 # extensions based on the PHP SAPI type.
 ################################################################################
+
+add_library(php_main_internal_functions OBJECT internal_functions.c)
+add_library(php_main_internal_functions_cli OBJECT internal_functions_cli.c)
+
+target_sources(
+  php_sapis_config
+  INTERFACE
+    $<IF:$<BOOL:$<TARGET_PROPERTY:PHP_CLI>>,$<TARGET_OBJECTS:php_main_internal_functions_cli>,$<TARGET_OBJECTS:php_main_internal_functions>>
+)
+
+target_link_libraries(php_main_internal_functions PRIVATE PHP::configuration)
+target_link_libraries(php_main_internal_functions_cli PRIVATE PHP::configuration)
 
 block()
   set(includes "")

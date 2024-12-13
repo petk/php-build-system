@@ -105,6 +105,9 @@ target_link_libraries(
     ws2_32
 )
 
+target_link_libraries(php_sapis_config INTERFACE PHP::windows)
+target_sources(php_sapis_config INTERFACE $<TARGET_OBJECTS:PHP::windows>)
+
 ################################################################################
 # Generate wsyslog.h file with message compiler (mc).
 ################################################################################
