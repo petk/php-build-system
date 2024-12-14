@@ -72,7 +72,7 @@ foreach(extension IN LISTS extensions)
 
   add_dependencies(php_${extension} Zend::Zend)
 
-  # Pass transitive compile and link properties to PHP configuration interface.
+  # Add transitive compile and link properties to PHP configuration interface.
   # TODO: Should PHP_CLI extensions pass properties only to PHP_CLI SAPIs?
   get_target_property(type php_${extension} TYPE)
   if(NOT type MATCHES "^(MODULE|SHARED)_LIBRARY$")
@@ -102,13 +102,13 @@ foreach(extension IN LISTS extensions)
     )
 
     target_link_libraries(
-      php_sapis_config
+      php_sapi
       INTERFACE
         $<IF:$<BOOL:$<TARGET_GENEX_EVAL:PHP::${extension},$<TARGET_PROPERTY:PHP::${extension},PHP_CLI>>>,$<$<BOOL:$<TARGET_PROPERTY:PHP_CLI>>:PHP::${extension}>,PHP::${extension}>
     )
 
     target_sources(
-      php_sapis_config
+      php_sapi
       INTERFACE
         $<IF:$<BOOL:$<TARGET_GENEX_EVAL:PHP::${extension},$<TARGET_PROPERTY:PHP::${extension},PHP_CLI>>>,$<$<BOOL:$<TARGET_PROPERTY:PHP_CLI>>:$<TARGET_OBJECTS:PHP::${extension}>>,$<TARGET_OBJECTS:PHP::${extension}>>
     )

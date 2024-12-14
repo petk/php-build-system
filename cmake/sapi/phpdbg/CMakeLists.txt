@@ -125,7 +125,7 @@ set(php_phpdbg_sources
 )
 
 add_executable(php_phpdbg ${php_phpdbg_sources})
-add_executable(PHP:phpdbg ALIAS php_phpdbg)
+add_executable(PHP::phpdbg ALIAS php_phpdbg)
 
 target_compile_definitions(
   php_phpdbg
@@ -138,7 +138,7 @@ target_compile_definitions(
 target_link_libraries(
   php_phpdbg
   PRIVATE
-    PHP::PHP
+    PHP::SAPI
     $<$<PLATFORM_ID:Windows>:ws2_32;user32>
 )
 
@@ -236,7 +236,7 @@ if(SAPI_PHPDBG_SHARED)
     php_phpdbg_shared
     PRIVATE
       # TODO: fix this better in the future (building with -fPIC etc).
-      PHP::PHP
+      PHP::SAPI
       $<$<PLATFORM_ID:Windows>:ws2_32;user32>
   )
 endif()

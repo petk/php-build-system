@@ -319,27 +319,37 @@ set_target_properties(
 )
 
 ################################################################################
-# Pass transitive compile and link properties to PHP configuration interface.
+# Add transitive compile and link properties to PHP configuration interface.
 ################################################################################
 
 # Cleaner COMPILE_ONLY generator expression is available in CMake >= 3.27.
 if(CMAKE_VERSION VERSION_GREATER_EQUAL 3.27)
   target_link_libraries(php_configuration INTERFACE $<COMPILE_ONLY:Zend::Zend>)
 else()
-  target_include_directories(
-    php_configuration
-    INTERFACE
-      $<TARGET_PROPERTY:Zend::Zend,INTERFACE_INCLUDE_DIRECTORIES>
-  )
   target_compile_definitions(
     php_configuration
     INTERFACE
       $<TARGET_PROPERTY:Zend::Zend,INTERFACE_COMPILE_DEFINITIONS>
   )
+  target_compile_options(
+    php_configuration
+    INTERFACE
+      $<TARGET_PROPERTY:Zend::Zend,INTERFACE_COMPILE_OPTIONS>
+  )
+  target_include_directories(
+    php_configuration
+    INTERFACE
+      $<TARGET_PROPERTY:Zend::Zend,INTERFACE_INCLUDE_DIRECTORIES>
+  )
+  target_link_libraries(
+    php_configuration
+    INTERFACE
+      $<TARGET_PROPERTY:Zend::Zend,INTERFACE_LINK_LIBRARIES>
+  )
 endif()
 
-target_link_libraries(php_sapis_config INTERFACE Zend::Zend)
-target_sources(php_sapis_config INTERFACE $<TARGET_OBJECTS:Zend::Zend>)
+target_link_libraries(php_sapi INTERFACE Zend::Zend)
+target_sources(php_sapi INTERFACE $<TARGET_OBJECTS:Zend::Zend>)
 
 ################################################################################
 # TSRM (Thread Safe Resource Manager) is a separate directory in php-src as it

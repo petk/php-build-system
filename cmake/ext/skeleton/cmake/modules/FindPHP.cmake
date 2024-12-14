@@ -13,7 +13,7 @@ Components:
 Module defines the following `IMPORTED` target(s):
 
 * `PHP::php` - The PHP package `IMPORTED` target, if found.
-* `PHP:embed` - The PHP embed SAPI, if found.
+* `PHP::embed` - The PHP embed SAPI, if found.
 
 ## Result variables
 

@@ -46,7 +46,7 @@ target_sourceS(
 target_link_libraries(
   php_litespeed
   PRIVATE
-    PHP::PHP
+    PHP::SAPI
 )
 
 set_target_properties(

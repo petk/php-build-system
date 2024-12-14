@@ -119,7 +119,7 @@ target_link_libraries(php_main PRIVATE PHP::configuration)
 add_compile_definitions(ZEND_ENABLE_STATIC_TSRMLS_CACHE)
 
 ################################################################################
-# Add transitive compile and link properties to PHP interface targets.
+# Add transitive compile and link properties to PHP configuration interface.
 ################################################################################
 
 target_compile_definitions(
@@ -147,8 +147,8 @@ target_include_directories(
     $<TARGET_PROPERTY:PHP::main,INTERFACE_SYSTEM_INCLUDE_DIRECTORIES>
 )
 
-target_link_libraries(php_sapis_config INTERFACE PHP::main)
-target_sources(php_sapis_config INTERFACE $<TARGET_OBJECTS:PHP::main>)
+target_link_libraries(php_sapi INTERFACE PHP::main)
+target_sources(php_sapi INTERFACE $<TARGET_OBJECTS:PHP::main>)
 
 ################################################################################
 # Add DTrace.
@@ -259,7 +259,7 @@ add_library(php_main_internal_functions OBJECT internal_functions.c)
 add_library(php_main_internal_functions_cli OBJECT internal_functions_cli.c)
 
 target_sources(
-  php_sapis_config
+  php_sapi
   INTERFACE
     $<IF:$<BOOL:$<TARGET_PROPERTY:PHP_CLI>>,$<TARGET_OBJECTS:php_main_internal_functions_cli>,$<TARGET_OBJECTS:php_main_internal_functions>>
 )
