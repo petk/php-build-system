@@ -62,7 +62,7 @@ foreach(lang C CXX ASM)
 endforeach()
 
 target_compile_definitions(
-  php_configuration
+  php_config
   INTERFACE
     $<IF:$<CONFIG:Debug,DebugAssertions>,ZEND_DEBUG=1,ZEND_DEBUG=0>
 )

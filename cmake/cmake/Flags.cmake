@@ -16,7 +16,7 @@ if(PHP_HAVE_BROKEN_OPTIMIZE_STRLEN)
   php_check_compiler_flag(C -fno-optimize-strlen HAVE_FNO_OPTIMIZE_STRLEN_C)
   if(HAVE_FNO_OPTIMIZE_STRLEN_C)
     target_compile_options(
-      php_configuration
+      php_config
       INTERFACE
         $<$<COMPILE_LANGUAGE:ASM,C>:-fno-optimize-strlen>
     )
@@ -28,7 +28,7 @@ endif()
 php_check_compiler_flag(C -fvisibility=hidden HAVE_FVISIBILITY_HIDDEN_C)
 if(HAVE_FVISIBILITY_HIDDEN_C)
   target_compile_options(
-    php_configuration
+    php_config
     INTERFACE
       $<$<COMPILE_LANGUAGE:ASM,C>:-fvisibility=hidden>
   )
@@ -39,7 +39,7 @@ if(CXX IN_LIST enabledLanguages)
   php_check_compiler_flag(CXX -Wno-sign-compare HAVE_WNO_SIGN_COMPARE_CXX)
 endif()
 target_compile_options(
-  php_configuration
+  php_config
   BEFORE
   INTERFACE
     $<$<AND:$<BOOL:${HAVE_WNO_SIGN_COMPARE_C}>,$<COMPILE_LANGUAGE:ASM,C>>:-Wno-sign-compare>
@@ -51,7 +51,7 @@ if(CXX IN_LIST enabledLanguages)
   php_check_compiler_flag(CXX -Wno-unused-parameter HAVE_WNO_UNUSED_PARAMETER_CXX)
 endif()
 target_compile_options(
-  php_configuration
+  php_config
   BEFORE
   INTERFACE
     $<$<AND:$<BOOL:${HAVE_WNO_UNUSED_PARAMETER_C}>,$<COMPILE_LANGUAGE:ASM,C>>:-Wno-unused-parameter>
@@ -60,14 +60,14 @@ target_compile_options(
 
 if(MSVC)
   target_compile_options(
-    php_configuration
+    php_config
     BEFORE
     INTERFACE
       $<$<COMPILE_LANGUAGE:ASM,C,CXX>:/W4>
   )
 else()
   target_compile_options(
-    php_configuration
+    php_config
     BEFORE
     INTERFACE
       $<$<COMPILE_LANGUAGE:ASM,C,CXX>:-Wall;-Wextra>
@@ -80,7 +80,7 @@ if(CXX IN_LIST enabledLanguages)
   php_check_compiler_flag(CXX -Wno-clobbered HAVE_WNO_CLOBBERED_CXX)
 endif()
 target_compile_options(
-  php_configuration
+  php_config
   BEFORE
   INTERFACE
     $<$<AND:$<BOOL:${HAVE_WNO_CLOBBERED_C}>,$<COMPILE_LANGUAGE:ASM,C>>:-Wno-clobbered>
@@ -102,7 +102,7 @@ if(CXX IN_LIST enabledLanguages)
   )
 endif()
 target_compile_options(
-  php_configuration
+  php_config
   INTERFACE
     $<$<AND:$<BOOL:${HAVE_WIMPLICIT_FALLTHROUGH_1_C}>,$<COMPILE_LANGUAGE:ASM,C>>:-Wimplicit-fallthrough=1>
     $<$<AND:$<BOOL:${HAVE_WIMPLICIT_FALLTHROUGH_1_CXX}>,$<COMPILE_LANGUAGE:CXX>>:-Wimplicit-fallthrough=1>
@@ -113,7 +113,7 @@ if(CXX IN_LIST enabledLanguages)
   php_check_compiler_flag(CXX -Wduplicated-cond HAVE_WDUPLICATED_COND_CXX)
 endif()
 target_compile_options(
-  php_configuration
+  php_config
   BEFORE
   INTERFACE
     $<$<AND:$<BOOL:${HAVE_WDUPLICATED_COND_C}>,$<COMPILE_LANGUAGE:ASM,C>>:-Wduplicated-cond>
@@ -125,7 +125,7 @@ if(CXX IN_LIST enabledLanguages)
   php_check_compiler_flag(CXX -Wlogical-op HAVE_WLOGICAL_OP_CXX)
 endif()
 target_compile_options(
-  php_configuration
+  php_config
   BEFORE
   INTERFACE
     $<$<AND:$<BOOL:${HAVE_WLOGICAL_OP_C}>,$<COMPILE_LANGUAGE:ASM,C>>:-Wlogical-op>
@@ -137,7 +137,7 @@ if(CXX IN_LIST enabledLanguages)
   php_check_compiler_flag(CXX -Wformat-truncation HAVE_WFORMAT_TRUNCATION_CXX)
 endif()
 target_compile_options(
-  php_configuration
+  php_config
   BEFORE
   INTERFACE
     $<$<AND:$<BOOL:${HAVE_WFORMAT_TRUNCATION_C}>,$<COMPILE_LANGUAGE:ASM,C>>:-Wformat-truncation>
@@ -146,7 +146,7 @@ target_compile_options(
 
 php_check_compiler_flag(C -Wstrict-prototypes HAVE_WSTRICT_PROTOTYPES_C)
 target_compile_options(
-  php_configuration
+  php_config
   BEFORE
   INTERFACE
     $<$<AND:$<BOOL:${HAVE_WSTRICT_PROTOTYPES_C}>,$<COMPILE_LANGUAGE:ASM,C>>:-Wstrict-prototypes>
@@ -157,7 +157,7 @@ if(CXX IN_LIST enabledLanguages)
   php_check_compiler_flag(CXX -fno-common HAVE_FNO_COMMON_CXX)
 endif()
 target_compile_options(
-  php_configuration
+  php_config
   BEFORE
   INTERFACE
     $<$<AND:$<BOOL:${HAVE_FNO_COMMON_C}>,$<COMPILE_LANGUAGE:ASM,C>>:-fno-common>
@@ -169,7 +169,7 @@ target_compile_options(
 php_check_compiler_flag(C -ffp-contract=off HAVE_FFP_CONTRACT_OFF_C)
 if(HAVE_FFP_CONTRACT_OFF_C)
   target_compile_options(
-    php_configuration
+    php_config
     INTERFACE
       $<$<COMPILE_LANGUAGE:ASM,C>:-ffp-contract=off>
   )
@@ -214,13 +214,13 @@ if(PHP_MEMORY_SANITIZER)
 
   if(HAVE_MEMORY_SANITIZER_C OR HAVE_MEMORY_SANITIZER_CXX)
     target_compile_options(
-      php_configuration
+      php_config
       INTERFACE
         $<$<COMPILE_LANGUAGE:ASM,C,CXX>:-fsanitize=memory;-fsanitize-memory-track-origins>
     )
 
     target_link_options(
-      php_configuration
+      php_config
       INTERFACE
         $<$<COMPILE_LANGUAGE:ASM,C,CXX>:-fsanitize=memory;-fsanitize-memory-track-origins>
     )
@@ -256,19 +256,19 @@ if(PHP_ADDRESS_SANITIZER)
 
   if(HAVE_ADDRESS_SANITIZER_C OR HAVE_ADDRESS_SANITIZER_CXX)
     target_compile_options(
-      php_configuration
+      php_config
       INTERFACE
         $<$<COMPILE_LANGUAGE:ASM,C,CXX>:-fsanitize=address>
     )
 
     target_link_options(
-      php_configuration
+      php_config
       INTERFACE
         $<$<COMPILE_LANGUAGE:ASM,C,CXX>:-fsanitize=address>
     )
 
     target_compile_definitions(
-      php_configuration
+      php_config
       INTERFACE
         $<$<COMPILE_LANGUAGE:ASM,C,CXX>:ZEND_TRACK_ARENA_ALLOC>
     )
@@ -303,13 +303,13 @@ if(PHP_UNDEFINED_SANITIZER)
 
   if(HAVE_UNDEFINED_SANITIZER_C OR HAVE_UNDEFINED_SANITIZER_CXX)
     target_compile_options(
-      php_configuration
+      php_config
       INTERFACE
         $<$<COMPILE_LANGUAGE:ASM,C,CXX>:-fsanitize=undefined;-fno-sanitize-recover=undefined>
     )
 
     target_link_options(
-      php_configuration
+      php_config
       INTERFACE
         $<$<COMPILE_LANGUAGE:ASM,C,CXX>:-fsanitize=undefined;-fno-sanitize-recover=undefined>
     )
@@ -335,13 +335,13 @@ if(PHP_UNDEFINED_SANITIZER)
 
     if(HAVE_OBJECT_SIZE_SANITIZER_C OR HAVE_OBJECT_SIZE_SANITIZER_CXX)
       target_compile_options(
-        php_configuration
+        php_config
         INTERFACE
           $<$<COMPILE_LANGUAGE:ASM,C,CXX>:-fno-sanitize=object-size>
       )
 
       target_link_options(
-        php_configuration
+        php_config
         INTERFACE
           $<$<COMPILE_LANGUAGE:ASM,C,CXX>:-fno-sanitize=object-size>
       )
@@ -393,7 +393,7 @@ if(PHP_UNDEFINED_SANITIZER)
 
       if(HAVE_FNO_SANITIZE_FUNCTION_C)
         target_compile_options(
-          php_configuration
+          php_config
           INTERFACE
             $<$<COMPILE_LANGUAGE:ASM,C>:-fno-sanitize=function>
         )
@@ -401,7 +401,7 @@ if(PHP_UNDEFINED_SANITIZER)
 
       if(HAVE_FNO_SANITIZE_FUNCTION_CXX)
         target_compile_options(
-          php_configuration
+          php_config
           INTERFACE
             $<$<COMPILE_LANGUAGE:CXX>:-fno-sanitize=function>
         )
@@ -431,7 +431,7 @@ if(PHP_MEMORY_SANITIZER OR PHP_ADDRESS_SANITIZER OR PHP_UNDEFINED_SANITIZER)
 
   if(HAVE_FNO_OMIT_FRAME_POINTER_C)
     target_compile_options(
-      php_configuration
+      php_config
       INTERFACE
         $<$<COMPILE_LANGUAGE:ASM,C>:-fno-omit-frame-pointer>
     )
@@ -439,7 +439,7 @@ if(PHP_MEMORY_SANITIZER OR PHP_ADDRESS_SANITIZER OR PHP_UNDEFINED_SANITIZER)
 
   if(HAVE_FNO_OMIT_FRAME_POINTER_CXX)
     target_compile_options(
-      php_configuration
+      php_config
       INTERFACE
         $<$<COMPILE_LANGUAGE:CXX>:-fno-omit-frame-pointer>
     )

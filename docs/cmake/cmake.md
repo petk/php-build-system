@@ -305,7 +305,7 @@ CMake versions scheme across the systems is available at
 
 ## 7. Interface libraries
 
-* The `php_configuration` (aliased `PHP::configuration`) holds compilation and link
+* The `php_config` (aliased `PHP::config`) holds compilation and link
   properties, such as flags, definitions, libraries and include directories. All
   targets that need global PHP compile or link properties should link to this
   target.
@@ -317,7 +317,7 @@ CMake versions scheme across the systems is available at
   It can be linked to a given target:
 
   ```cmake
-  target_link_libraries(target_name PRIVATE PHP::configuration)
+  target_link_libraries(target_name PRIVATE PHP::config)
   ```
 
 * The `php_sapi` (aliased `PHP::SAPI`) ties all target objects and configuration
@@ -430,7 +430,7 @@ A list of PHP CMake modules:
 
   Target property set by the
   [`PHP/ThreadSafety`](/docs/cmake/modules/PHP/ThreadSafety.md) module on the
-  `PHP::configuration` target, when thread safety is enabled.
+  `PHP::config` target, when thread safety is enabled.
 
 * `PHP_ZEND_EXTENSION`
 

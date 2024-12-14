@@ -117,7 +117,7 @@ else()
   endif()
 
   target_compile_options(
-    php_configuration
+    php_config
     INTERFACE $<$<COMPILE_LANGUAGE:ASM,C,CXX>:-fsanitize=fuzzer-no-link>
   )
 

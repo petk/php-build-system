@@ -90,10 +90,10 @@ If `<variable>` is given, check result is stored in an internal cache variable.
 ## Basic usage
 
 In the following example, the library containing `dlopen` is linked to
-`php_configuration` target with the `INTERFACE` scope when needed to use the
-`dlopen` symbol. Cache variable `HAVE_LIBDL` is set if `dlopen` is found either
-in the default system libraries or in one of the libraries set in the
-`CMAKE_DL_LIBS` variable.
+`php_config` target with the `INTERFACE` scope when needed to use the `dlopen`
+symbol. Cache variable `HAVE_LIBDL` is set if `dlopen` is found either in the
+default system libraries or in one of the libraries set in the `CMAKE_DL_LIBS`
+variable.
 
 ```cmake
 # CMakeLists.txt
@@ -107,7 +107,7 @@ php_search_libraries(
   HEADERS dlfcn.h
   LIBRARIES ${CMAKE_DL_LIBS}
   VARIABLE HAVE_LIBDL
-  TARGET php_configuration INTERFACE
+  TARGET php_config INTERFACE
 )
 ```
 
