@@ -397,7 +397,7 @@ A list of PHP CMake modules:
   *truthy* value:
 
   ```cmake
-  set_target_properties(php_cli PROPERTIES PHP_CLI TRUE)
+  set_target_properties(php_sapi_cli PROPERTIES PHP_CLI TRUE)
   ```
 
   Basic generator expressions are also supported:
