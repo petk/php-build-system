@@ -396,7 +396,7 @@ endif()
 include(PHP/CheckGetaddrinfo)
 if(TARGET PHP::CheckGetaddrinfoLibrary)
   target_link_libraries(
-    php_configuration
+    php_config
     INTERFACE
       PHP::CheckGetaddrinfoLibrary
   )
@@ -420,7 +420,7 @@ message(CHECK_START "Checking file descriptor sets size")
 if(PHP_FD_SETSIZE MATCHES "^[0-9]+$" AND PHP_FD_SETSIZE GREATER 0)
   message(CHECK_PASS "using FD_SETSIZE=${PHP_FD_SETSIZE}")
   target_compile_definitions(
-    php_configuration
+    php_config
     INTERFACE
       $<$<COMPILE_LANGUAGE:ASM,C,CXX>:FD_SETSIZE=${PHP_FD_SETSIZE}>
   )
@@ -496,7 +496,7 @@ php_check_variable_attribute(aligned HAVE_ATTRIBUTE_ALIGNED)
 
 include(PHP/CheckGethostbynameR)
 if(TARGET PHP::CheckGethostbynameR)
-  target_link_libraries(php_configuration INTERFACE PHP::CheckGethostbynameR)
+  target_link_libraries(php_config INTERFACE PHP::CheckGethostbynameR)
 endif()
 
 ################################################################################
@@ -508,21 +508,21 @@ php_search_libraries(
   HEADERS dlfcn.h
   LIBRARIES ${CMAKE_DL_LIBS}
   VARIABLE HAVE_LIBDL
-  TARGET php_configuration INTERFACE
+  TARGET php_config INTERFACE
 )
 
 php_search_libraries(
   sin
   HEADERS math.h
   LIBRARIES m
-  TARGET php_configuration INTERFACE
+  TARGET php_config INTERFACE
 )
 
 if(CMAKE_SYSTEM_PROCESSOR MATCHES "^riscv64.*")
   find_package(Atomic)
 
   if(Atomic_FOUND)
-    target_link_libraries(php_configuration INTERFACE Atomic::Atomic)
+    target_link_libraries(php_config INTERFACE Atomic::Atomic)
   endif()
 endif()
 
@@ -536,7 +536,7 @@ php_search_libraries(
     socket  # Solaris <= 11.3, illumos
     network # Haiku
     ws2_32  # Windows
-  TARGET php_configuration INTERFACE
+  TARGET php_config INTERFACE
 )
 
 # The socketpair() is mostly in C library (Solaris 11.4...), except Windows.
@@ -547,7 +547,7 @@ php_search_libraries(
     socket  # Solaris <= 11.3, illumos
     network # Haiku
   VARIABLE HAVE_SOCKETPAIR
-  TARGET php_configuration INTERFACE
+  TARGET php_config INTERFACE
 )
 
 # The gethostname() is mostly in C library (Solaris/illumos...)
@@ -560,7 +560,7 @@ php_search_libraries(
     network # Haiku
     ws2_32  # Windows
   VARIABLE HAVE_GETHOSTNAME
-  TARGET php_configuration INTERFACE
+  TARGET php_config INTERFACE
 )
 
 # The gethostbyaddr() is mostly in C library (Solaris 11.4...)
@@ -574,7 +574,7 @@ php_search_libraries(
     nsl     # Solaris <= 11.3, illumos
     network # Haiku
     ws2_32  # Windows
-  TARGET php_configuration INTERFACE
+  TARGET php_config INTERFACE
 )
 
 # The openpty() can be in C library (Solaris 11.4+, Linux, etc). Solaris <= 11.3
@@ -590,7 +590,7 @@ php_search_libraries(
     util # Some BSD-based systems
     bsd  # Haiku
   VARIABLE HAVE_OPENPTY
-  TARGET php_configuration INTERFACE
+  TARGET php_config INTERFACE
 )
 
 # The inet_ntop() is mostly in C library (Solaris 11.4, illumos, BSD*, Linux...)
@@ -605,7 +605,7 @@ php_search_libraries(
     network # Haiku
     ws2_32  # Windows
   VARIABLE _HAVE_INET_NTOP
-  TARGET php_configuration INTERFACE
+  TARGET php_config INTERFACE
 )
 if(NOT _HAVE_INET_NTOP)
   message(FATAL_ERROR "Required inet_ntop not found.")
@@ -623,7 +623,7 @@ php_search_libraries(
     network # Haiku
     ws2_32  # Windows
   VARIABLE _HAVE_INET_PTON
-  TARGET php_configuration INTERFACE
+  TARGET php_config INTERFACE
 )
 if(NOT _HAVE_INET_PTON)
   message(FATAL_ERROR "Required inet_pton not found.")
@@ -637,7 +637,7 @@ php_search_libraries(
   LIBRARIES
     rt # Solaris <= 10
   VARIABLE HAVE_NANOSLEEP
-  TARGET php_configuration INTERFACE
+  TARGET php_config INTERFACE
 )
 
 # The setsockopt() is mostly in C library (Solaris 11.4...)
@@ -651,7 +651,7 @@ php_search_libraries(
     socket  # Solaris <= 11.3, illumos
     network # Haiku
     ws2_32  # Windows
-  TARGET php_configuration INTERFACE
+  TARGET php_config INTERFACE
 )
 
 # The gai_strerror() is mostly in C library (Solaris 11.4...)
@@ -662,7 +662,7 @@ php_search_libraries(
     socket  # Solaris <= 11.3, illumos
     network # Haiku
   VARIABLE HAVE_GAI_STRERROR
-  TARGET php_configuration INTERFACE
+  TARGET php_config INTERFACE
 )
 
 # The getprotobyname() is mostly in C library (Solaris 11.4...)
@@ -676,7 +676,7 @@ php_search_libraries(
     network # Haiku
     ws2_32  # Windows
   VARIABLE HAVE_GETPROTOBYNAME
-  TARGET php_configuration INTERFACE
+  TARGET php_config INTERFACE
 )
 
 # The getprotobynumber() is mostly in C library (Solaris 11.4...)
@@ -690,7 +690,7 @@ php_search_libraries(
     network # Haiku
     ws2_32  # Windows
   VARIABLE HAVE_GETPROTOBYNUMBER
-  TARGET php_configuration INTERFACE
+  TARGET php_config INTERFACE
 )
 
 # The getservbyname() is mostly in C library (Solaris 11.4...)
@@ -704,7 +704,7 @@ php_search_libraries(
     network # Haiku
     ws2_32  # Windows
   VARIABLE HAVE_GETSERVBYNAME
-  TARGET php_configuration INTERFACE
+  TARGET php_config INTERFACE
 )
 
 # The getservbyport() is mostly in C library (Solaris 11.4...)
@@ -718,7 +718,7 @@ php_search_libraries(
     network # Haiku
     ws2_32  # Windows
   VARIABLE HAVE_GETSERVBYPORT
-  TARGET php_configuration INTERFACE
+  TARGET php_config INTERFACE
 )
 
 # The shutdown() is mostly in C library (Solaris 11.4...)
@@ -732,7 +732,7 @@ php_search_libraries(
     network # Haiku
     ws2_32  # Windows
   VARIABLE HAVE_SHUTDOWN
-  TARGET php_configuration INTERFACE
+  TARGET php_config INTERFACE
 )
 
 block()
@@ -749,7 +749,7 @@ block()
 
     message(STATUS "Explicitly linking against libgcc (${libgcc_path})")
 
-    target_link_libraries(php_configuration INTERFACE ${libgcc_path})
+    target_link_libraries(php_config INTERFACE ${libgcc_path})
   endif()
 endblock()
 
@@ -785,7 +785,7 @@ if(PHP_GCOV)
   )
 
   if(TARGET Gcov::Gcov)
-    target_link_libraries(php_configuration INTERFACE Gcov::Gcov)
+    target_link_libraries(php_config INTERFACE Gcov::Gcov)
     gcov_generate_report()
     set(HAVE_GCOV TRUE)
   endif()
@@ -809,7 +809,7 @@ if(PHP_VALGRIND)
     set(HAVE_VALGRIND TRUE)
   endif()
 
-  target_link_libraries(php_configuration INTERFACE Valgrind::Valgrind)
+  target_link_libraries(php_config INTERFACE Valgrind::Valgrind)
 endif()
 add_feature_info(
   "Valgrind"
@@ -842,9 +842,9 @@ if(PHP_DTRACE)
         ${PHP_SOURCE_DIR}/Zend/zend_execute.c
         ${PHP_SOURCE_DIR}/Zend/zend.c
       INCLUDES
-        $<TARGET_PROPERTY:PHP::configuration,INTERFACE_INCLUDE_DIRECTORIES>
+        $<TARGET_PROPERTY:PHP::config,INTERFACE_INCLUDE_DIRECTORIES>
     )
-    target_link_libraries(php_configuration INTERFACE DTrace::DTrace)
+    target_link_libraries(php_config INTERFACE DTrace::DTrace)
     target_link_libraries(php_sapi INTERFACE php_dtrace)
 
     set(HAVE_DTRACE TRUE)
@@ -873,12 +873,12 @@ if(PHP_DMALLOC)
   )
 
   target_compile_definitions(
-    php_configuration
+    php_config
     INTERFACE
       $<$<COMPILE_LANGUAGE:ASM,C,CXX>:DMALLOC_FUNC_CHECK>
   )
 
-  target_link_libraries(php_configuration INTERFACE Dmalloc::Dmalloc)
+  target_link_libraries(php_config INTERFACE Dmalloc::Dmalloc)
 
   if(Dmalloc_FOUND)
     message(CHECK_PASS "yes")

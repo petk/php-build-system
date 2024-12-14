@@ -77,25 +77,25 @@ foreach(extension IN LISTS extensions)
   get_target_property(type php_${extension} TYPE)
   if(NOT type MATCHES "^(MODULE|SHARED)_LIBRARY$")
     target_compile_definitions(
-      php_configuration
+      php_config
       INTERFACE
         $<TARGET_PROPERTY:PHP::${extension},INTERFACE_COMPILE_DEFINITIONS>
     )
 
     target_compile_options(
-      php_configuration
+      php_config
       INTERFACE
         $<TARGET_PROPERTY:PHP::${extension},INTERFACE_COMPILE_OPTIONS>
     )
 
     target_compile_features(
-      php_configuration
+      php_config
       INTERFACE
         $<TARGET_PROPERTY:PHP::${extension},INTERFACE_COMPILE_FEATURES>
     )
 
     target_include_directories(
-      php_configuration
+      php_config
       INTERFACE
         $<TARGET_PROPERTY:PHP::${extension},INTERFACE_INCLUDE_DIRECTORIES>
         $<TARGET_PROPERTY:PHP::${extension},INTERFACE_SYSTEM_INCLUDE_DIRECTORIES>
@@ -114,13 +114,13 @@ foreach(extension IN LISTS extensions)
     )
   endif()
 
-  target_link_libraries(php_${extension} PRIVATE PHP::configuration)
+  target_link_libraries(php_${extension} PRIVATE PHP::config)
 
   # Add configuration compile options before the extension compile options.
   target_compile_options(
     php_${extension}
     BEFORE PRIVATE
-      $<TARGET_PROPERTY:php_configuration,INTERFACE_COMPILE_OPTIONS>
+      $<TARGET_PROPERTY:PHP::config,INTERFACE_COMPILE_OPTIONS>
   )
 
   message(CHECK_PASS "enabled")

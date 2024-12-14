@@ -16,10 +16,10 @@ Check for thread safety, a.k.a. ZTS (Zend thread safety) build.
   When thread safety is enabled (either by the configuration variable
   `PHP_THREAD_SAFETY` or automatically by the `apache2handler` PHP SAPI module),
   also a custom target property `PHP_THREAD_SAFETY` is added to the
-  `PHP::configuration` target, which can be then used in generator expressions
-  during the generation phase to determine thread safety enabled from the
-  configuration phase. For example, the `PHP_EXTENSION_DIR` configuration
-  variable needs to be set depending on the thread safety.
+  `PHP::config` target, which can be then used in generator expressions during
+  the generation phase to determine thread safety enabled from the configuration
+  phase. For example, the `PHP_EXTENSION_DIR` configuration variable needs to be
+  set depending on the thread safety.
 
 ## Basic usage
 
@@ -68,23 +68,23 @@ else()
   message(CHECK_FAIL "failed")
 endif()
 
-target_link_libraries(php_configuration INTERFACE Threads::Threads)
+target_link_libraries(php_config INTERFACE Threads::Threads)
 
 set(ZTS TRUE)
 
 # Add ZTS compile definition. Some PHP headers might not have php_config.h
 # directly available. For example, some Zend headers.
-target_compile_definitions(php_configuration INTERFACE ZTS)
+target_compile_definitions(php_config INTERFACE ZTS)
 
 # Set custom target property on the PHP configuration target.
-set_target_properties(php_configuration PROPERTIES PHP_THREAD_SAFETY ON)
+set_target_properties(php_config PROPERTIES PHP_THREAD_SAFETY ON)
 
 # Add compile definitions for POSIX threads conformance.
 # TODO: Recheck these definitions since many of them are deprecated or obsolete
 # in favor of the compiler automatic definitions when using threading flag on
 # such system.
 target_compile_definitions(
-  php_configuration
+  php_config
   INTERFACE
     $<$<AND:$<PLATFORM_ID:SunOS>,$<COMPILE_LANGUAGE:ASM,C,CXX>>:_POSIX_PTHREAD_SEMANTICS;_REENTRANT>
     $<$<AND:$<PLATFORM_ID:FreeBSD>,$<COMPILE_LANGUAGE:ASM,C,CXX>>:_REENTRANT;_THREAD_SAFE>

@@ -34,7 +34,7 @@ if(CMAKE_SYSTEM_NAME STREQUAL "Darwin")
   )
   if(HAVE_UNDEFINED_DYNAMIC_LOOKUP_FLAG_C)
     target_link_options(
-      php_configuration
+      php_config
       INTERFACE
         $<$<IN_LIST:$<TARGET_PROPERTY:TYPE>,MODULE_LIBRARY;SHARED_LIBRARY>:LINKER:-undefined,dynamic_lookup>
     )
