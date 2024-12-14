@@ -74,11 +74,11 @@ else()
   message(CHECK_FAIL "no")
 endif()
 
-add_executable(php_cli)
-add_executable(PHP::cli ALIAS php_cli)
+add_executable(php_sapi_cli)
+add_executable(PHP::SAPI::cli ALIAS php_sapi_cli)
 
 target_sources(
-  php_cli
+  php_sapi_cli
   PRIVATE
     php_cli_process_title.c
     php_cli_process_title.stub.php
@@ -94,26 +94,26 @@ target_sources(
 )
 
 target_compile_definitions(
-  php_cli
+  php_sapi_cli
   PRIVATE
     ZEND_ENABLE_STATIC_TSRMLS_CACHE
 )
 
 target_link_libraries(
-  php_cli
+  php_sapi_cli
   PRIVATE
     PHP::SAPI
     $<$<PLATFORM_ID:Windows>:ws2_32;shell32>
 )
 
 target_link_options(
-  php_cli
+  php_sapi_cli
   PRIVATE
     $<$<COMPILE_LANG_AND_ID:C,MSVC>:/stack:67108864>
 )
 
 set_target_properties(
-  php_cli
+  php_sapi_cli
   PROPERTIES
     OUTPUT_NAME ${PHP_PROGRAM_PREFIX}php${PHP_PROGRAM_SUFFIX}
     # TODO: Check if there's a better solution here:
@@ -124,18 +124,18 @@ set_target_properties(
 if(CMAKE_SYSTEM_NAME STREQUAL "Windows")
   # Link readline extension interface library if enabled and built statically.
   target_link_libraries(
-    php_cli
+    php_sapi_cli
     PRIVATE
       $<$<AND:$<TARGET_EXISTS:php_readline>,$<NOT:$<IN_LIST:$<TARGET_PROPERTY:php_readline,TYPE>,MODULE_LIBRARY;SHARED_LIBRARY>>>:$<TARGET_PROPERTY:php_readline,IMPORTED_LINK_INTERFACE_LIBRARIES>>
   )
 endif()
 
 if(SAPI_CLI_WIN_NO_CONSOLE)
-  add_executable(php_cli_win_no_console)
-  add_executable(PHP::cli_win_no_console ALIAS php_cli_win_no_console)
+  add_executable(php_sapi_cli_win_no_console)
+  add_executable(PHP::SAPI::cli_win_no_console ALIAS php_sapi_cli_win_no_console)
 
   target_sources(
-    php_cli_win_no_console
+    php_sapi_cli_win_no_console
     PRIVATE
       cli_win32.c
       php_cli_process_title.c
@@ -144,26 +144,26 @@ if(SAPI_CLI_WIN_NO_CONSOLE)
   )
 
   set_target_properties(
-    php_cli_win_no_console
+    php_sapi_cli_win_no_console
     PROPERTIES
       OUTPUT_NAME ${PHP_PROGRAM_PREFIX}php-win${PHP_PROGRAM_SUFFIX}
   )
 
   target_compile_definitions(
-    php_cli_win_no_console
+    php_sapi_cli_win_no_console
     PRIVATE
       ZEND_ENABLE_STATIC_TSRMLS_CACHE
   )
 
   target_link_libraries(
-    php_cli_win_no_console
+    php_sapi_cli_win_no_console
     PRIVATE
       PHP::SAPI
       shell32
   )
 
   target_link_options(
-    php_cli_win_no_console
+    php_sapi_cli_win_no_console
     PRIVATE
       /stack:67108864
   )
@@ -176,7 +176,7 @@ block()
 endblock()
 
 install(
-  TARGETS php_cli
+  TARGETS php_sapi_cli
   RUNTIME
     DESTINATION ${CMAKE_INSTALL_BINDIR}
   FILE_SET HEADERS

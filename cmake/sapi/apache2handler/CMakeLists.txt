@@ -42,11 +42,11 @@ if(NOT SAPI_APACHE2HANDLER)
   return()
 endif()
 
-add_library(php_apache2handler SHARED)
-add_library(PHP::apache2handler ALIAS php_apache2handler)
+add_library(php_sapi_apache2handler SHARED)
+add_library(PHP::SAPI::apache2handler ALIAS php_sapi_apache2handler)
 
 target_sources(
-  php_apache2handler
+  php_sapi_apache2handler
   PRIVATE
     apache_config.c
     mod_php.c
@@ -56,13 +56,13 @@ target_sources(
 )
 
 set_target_properties(
-  php_apache2handler
+  php_sapi_apache2handler
   PROPERTIES
     OUTPUT_NAME apache
 )
 
 target_compile_definitions(
-  php_apache2handler
+  php_sapi_apache2handler
   PRIVATE
     ZEND_ENABLE_STATIC_TSRMLS_CACHE
 )
@@ -74,6 +74,30 @@ set_package_properties(
     TYPE REQUIRED
     PURPOSE "Necessary to enable the Apache PHP SAPI."
 )
+
+target_link_libraries(
+  php_sapi_apache2handler
+  PRIVATE
+    PHP::SAPI
+    Apache::Apache
+)
+
+# Manually enable runtime linking on AIX.
+if(CMAKE_SYSTEM_NAME STREQUAL "AIX" AND EXISTS ${Apache_LIBEXECDIR}/httpd.exp)
+  include(CheckLinkerFlag)
+  check_linker_flag(
+    C
+    "LINKER:-brtl;LINKER:-bI${Apache_LIBEXECDIR}/httpd.exp"
+    _HAVE_BRTL_FLAG_C
+  )
+  if(_HAVE_BRTL_FLAG_C)
+    target_link_options(
+      php_sapi_apache2handler
+      PRIVATE
+        "$<$<PLATFORM_ID:AIX>LINKER:-brtl;LINKER:-bI${Apache_LIBEXECDIR}/httpd.exp>"
+    )
+  endif()
+endif()
 
 if(Apache_THREADED AND NOT PHP_THREAD_SAFETY)
   # Enable thread safety. Ideally, thread safety should be opt-in and such
@@ -90,9 +114,9 @@ elseif(NOT Apache_THREADED AND NOT PHP_THREAD_SAFETY)
   cmake_language(
     DEFER
     DIRECTORY ${PHP_SOURCE_DIR}
-    CALL php_apache2handler_notice
+    CALL php_sapi_apache2handler_notice
   )
-  function(php_apache2handler_notice)
+  function(php_sapi_apache2handler_notice)
     cmake_language(DEFER CALL message NOTICE [[
 
       Notice:
@@ -106,31 +130,7 @@ elseif(NOT Apache_THREADED AND NOT PHP_THREAD_SAFETY)
   endfunction()
 endif()
 
-target_link_libraries(
-  php_apache2handler
-  PRIVATE
-    PHP::SAPI
-    Apache::Apache
-)
-
 install(
-  TARGETS php_apache2handler
+  TARGETS php_sapi_apache2handler
   DESTINATION ${CMAKE_INSTALL_LIBDIR}
 )
-
-# Manually enable runtime linking on AIX.
-if(CMAKE_SYSTEM_NAME STREQUAL "AIX" AND EXISTS ${Apache_LIBEXECDIR}/httpd.exp)
-  include(CheckLinkerFlag)
-  check_linker_flag(
-    C
-    "LINKER:-brtl;LINKER:-bI${Apache_LIBEXECDIR}/httpd.exp"
-    _HAVE_BRTL_FLAG_C
-  )
-  if(_HAVE_BRTL_FLAG_C)
-    target_link_options(
-      php_apache2handler
-      PRIVATE
-        "$<$<PLATFORM_ID:AIX>LINKER:-brtl;LINKER:-bI${Apache_LIBEXECDIR}/httpd.exp>"
-    )
-  endif()
-endif()

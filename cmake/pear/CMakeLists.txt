@@ -123,9 +123,9 @@ endblock()
 
 set(PHP_EXECUTABLE "")
 if(NOT CMAKE_CROSSCOMPILING)
-  set(PHP_EXECUTABLE "$<TARGET_FILE:php_cli>")
+  set(PHP_EXECUTABLE "$<TARGET_FILE:PHP::SAPI::cli>")
 elseif(CMAKE_CROSSCOMPILING AND CMAKE_CROSSCOMPILING_EMULATOR)
-  set(PHP_EXECUTABLE "${CMAKE_CROSSCOMPILING_EMULATOR};$<TARGET_FILE:php_cli>")
+  set(PHP_EXECUTABLE "${CMAKE_CROSSCOMPILING_EMULATOR};$<TARGET_FILE:PHP::SAPI::cli>")
 endif()
 
 php_install(CODE "
@@ -140,7 +140,7 @@ php_install(CODE "
   set(PHP_BINARY_DIR ${PHP_BINARY_DIR})
   set(CMAKE_SYSTEM_NAME ${CMAKE_SYSTEM_NAME})
   set(PHP_PEAR_TEMP_DIR \"${PHP_PEAR_TEMP_DIR}\")
-  set(phpPearInstalledPhpBin \"\${phpPearInstallBinDir}/$<TARGET_FILE_NAME:php_cli>\")
+  set(phpPearInstalledPhpBin \"\${phpPearInstallBinDir}/$<TARGET_FILE_NAME:PHP::SAPI::cli>\")
   set(phpPearPhpProgramPrefix \"${PHP_PROGRAM_PREFIX}\")
   set(phpPearPhpProgramSuffix \"${PHP_PROGRAM_SUFFIX}\")
   set(phpPearInstallSysconfDir \"\${CMAKE_INSTALL_FULL_SYSCONFDIR}\")

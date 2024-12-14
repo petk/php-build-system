@@ -31,11 +31,11 @@ if(NOT SAPI_EMBED)
   return()
 endif()
 
-add_library(php_embed STATIC)
-add_library(PHP::embed ALIAS php_embed)
+add_library(php_sapi_embed STATIC)
+add_library(PHP::SAPI::embed ALIAS php_sapi_embed)
 
 target_sources(
-  php_embed
+  php_sapi_embed
   PRIVATE
     php_embed.c
   PUBLIC
@@ -45,15 +45,15 @@ target_sources(
 )
 
 target_link_libraries(
-  php_embed
+  php_sapi_embed
   PRIVATE
     PHP::SAPI
 )
 
-target_compile_definitions(php_embed PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE)
+target_compile_definitions(php_sapi_embed PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE)
 
 set_target_properties(
-  php_embed
+  php_sapi_embed
   PROPERTIES
     OUTPUT_NAME libphp
     # TODO: Check if there's a better solution here:
@@ -66,7 +66,7 @@ include(PHP/PkgConfigGenerator)
 pkgconfig_generate_pc(
   php-embed.pc.in
   php-embed.pc
-  TARGET php_embed
+  TARGET PHP::SAPI::embed
   VARIABLES
     prefix "$<INSTALL_PREFIX>"
     exec_prefix "$<INSTALL_PREFIX>"
@@ -84,7 +84,7 @@ pkgconfig_generate_pc(
 )
 
 install(
-  TARGETS php_embed
+  TARGETS php_sapi_embed
   RUNTIME
     DESTINATION ${CMAKE_INSTALL_LIBDIR}
   LIBRARY

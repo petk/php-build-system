@@ -193,7 +193,7 @@ macro(gcov_generate_report)
     file(GLOB directories ${PROJECT_SOURCE_DIR}/sapi/*)
     foreach(dir ${directories})
       cmake_path(GET dir FILENAME sapi)
-      list(APPEND sapis "$<TARGET_NAME_IF_EXISTS:php_${sapi}>")
+      list(APPEND sapis "$<TARGET_NAME_IF_EXISTS:php_sapi_${sapi}>")
     endforeach()
   endblock()
 

@@ -36,7 +36,7 @@ foreach(sapi IN LISTS sapis)
   add_subdirectory("${sapi}")
 
   list(POP_BACK CMAKE_MESSAGE_INDENT)
-  if(TARGET php_${sapi})
+  if(TARGET php_sapi_${sapi})
     set_property(GLOBAL APPEND PROPERTY PHP_SAPIS ${sapi})
     message(CHECK_PASS "enabled")
   else()
