@@ -67,9 +67,15 @@ target_sources(
         ${CMAKE_CURRENT_BINARY_DIR}/wsyslog.h
 )
 
+target_link_libraries(php_windows PRIVATE PHP::configuration)
+
+################################################################################
+# Add usage requirements to PHP interface targets.
+################################################################################
+
 target_compile_definitions(
-  php_windows
-  PUBLIC
+  php_configuration
+  INTERFACE
     _MBCS
     _USE_MATH_DEFINES
     PHP_EXPORTS
@@ -83,17 +89,15 @@ target_compile_definitions(
 
 # MS deprecated ANSI stdio and similar functions. Disable warnings.
 target_compile_options(
-  php_windows
-  PUBLIC
+  php_configuration
+  INTERFACE
     $<$<COMPILE_LANG_AND_ID:C,MSVC>:/wd4996>
     $<$<COMPILE_LANG_AND_ID:CXX,MSVC>:/wd4996>
 )
 
 target_link_libraries(
-  php_windows
-  PRIVATE
-    PHP::configuration
-  PUBLIC
+  php_configuration
+  INTERFACE
     advapi32
     bcrypt
     Dnsapi
@@ -104,36 +108,6 @@ target_link_libraries(
     user32
     ws2_32
 )
-
-################################################################################
-# Add transitive compile and link properties to PHP configuration interface.
-################################################################################
-
-# Cleaner COMPILE_ONLY generator expression is available in CMake >= 3.27.
-if(CMAKE_VERSION VERSION_GREATER_EQUAL 3.27)
-  target_link_libraries(php_configuration INTERFACE $<COMPILE_ONLY:PHP::windows>)
-else()
-  target_compile_definitions(
-    php_configuration
-    INTERFACE
-      $<TARGET_PROPERTY:PHP::windows,INTERFACE_COMPILE_DEFINITIONS>
-  )
-  target_compile_options(
-    php_configuration
-    INTERFACE
-      $<TARGET_PROPERTY:PHP::windows,INTERFACE_COMPILE_OPTIONS>
-  )
-  target_include_directories(
-    php_configuration
-    INTERFACE
-      $<TARGET_PROPERTY:PHP::windows,INTERFACE_INCLUDE_DIRECTORIES>
-  )
-  target_link_libraries(
-    php_configuration
-    INTERFACE
-      $<TARGET_PROPERTY:PHP::windows,INTERFACE_LINK_LIBRARIES>
-  )
-endif()
 
 target_link_libraries(php_sapi INTERFACE PHP::windows)
 target_sources(php_sapi INTERFACE $<TARGET_OBJECTS:PHP::windows>)

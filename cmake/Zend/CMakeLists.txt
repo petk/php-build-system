@@ -298,8 +298,8 @@ target_link_libraries(zend PRIVATE PHP::configuration)
 target_include_directories(
   zend
   INTERFACE
-    ${CMAKE_CURRENT_SOURCE_DIR}
     ${CMAKE_CURRENT_BINARY_DIR}
+    ${CMAKE_CURRENT_SOURCE_DIR}
 )
 
 target_compile_definitions(
@@ -319,7 +319,7 @@ set_target_properties(
 )
 
 ################################################################################
-# Add transitive compile and link properties to PHP configuration interface.
+# Add usage requirements to PHP interface targets.
 ################################################################################
 
 # Cleaner COMPILE_ONLY generator expression is available in CMake >= 3.27.
@@ -340,11 +340,7 @@ else()
     php_configuration
     INTERFACE
       $<TARGET_PROPERTY:Zend::Zend,INTERFACE_INCLUDE_DIRECTORIES>
-  )
-  target_link_libraries(
-    php_configuration
-    INTERFACE
-      $<TARGET_PROPERTY:Zend::Zend,INTERFACE_LINK_LIBRARIES>
+      $<TARGET_PROPERTY:Zend::Zend,INTERFACE_SYSTEM_INCLUDE_DIRECTORIES>
   )
 endif()
 

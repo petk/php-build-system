@@ -72,7 +72,7 @@ foreach(extension IN LISTS extensions)
 
   add_dependencies(php_${extension} Zend::Zend)
 
-  # Add transitive compile and link properties to PHP configuration interface.
+  # Add usage requirements to PHP interface targets.
   # TODO: Should PHP_CLI extensions pass properties only to PHP_CLI SAPIs?
   get_target_property(type php_${extension} TYPE)
   if(NOT type MATCHES "^(MODULE|SHARED)_LIBRARY$")
