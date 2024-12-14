@@ -17,7 +17,7 @@ if(CMAKE_SYSTEM_NAME STREQUAL "SunOS")
   endif()
 
   target_compile_definitions(
-    php_configuration
+    php_config
     INTERFACE
       $<$<COMPILE_LANGUAGE:ASM,C,CXX>:_POSIX_PTHREAD_SEMANTICS>
   )

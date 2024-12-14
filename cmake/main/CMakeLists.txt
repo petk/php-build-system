@@ -4,7 +4,7 @@ PHP main binding.
 
 # Compile and link properties for all targets in this directory scope.
 add_compile_definitions(ZEND_ENABLE_STATIC_TSRMLS_CACHE)
-link_libraries(PHP::configuration)
+link_libraries(PHP::config)
 
 ################################################################################
 # Add library.
@@ -107,13 +107,13 @@ target_sources(
 ################################################################################
 
 target_compile_definitions(
-  php_configuration
+  php_config
   INTERFACE
     $<$<PLATFORM_ID:Windows>:SAPI_EXPORTS>
 )
 
 target_include_directories(
-  php_configuration
+  php_config
   INTERFACE
     ${CMAKE_CURRENT_BINARY_DIR}
     ${CMAKE_CURRENT_SOURCE_DIR}

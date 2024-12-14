@@ -34,10 +34,10 @@ include(PHP/InterproceduralOptimization)
 include(PHP/PositionIndependentCode)
 
 # INTERFACE library with usage requirements.
-add_library(php_configuration INTERFACE)
-add_library(PHP::configuration ALIAS php_configuration)
+add_library(php_config INTERFACE)
+add_library(PHP::config ALIAS php_config)
 target_include_directories(
-  php_configuration
+  php_config
   INTERFACE
     ${PHP_BINARY_DIR}
     ${PHP_SOURCE_DIR}
@@ -46,7 +46,7 @@ target_include_directories(
 # INTERFACE library that ties objects and configuration together for PHP SAPIs.
 add_library(php_sapi INTERFACE)
 add_library(PHP::SAPI ALIAS php_sapi)
-target_link_libraries(php_sapi INTERFACE PHP::configuration)
+target_link_libraries(php_sapi INTERFACE PHP::config)
 
 # Create a custom target for generating files (parsers, lexers, etc.) manually:
 #   cmake --build <dir> -t php_generate_files

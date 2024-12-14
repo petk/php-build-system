@@ -21,7 +21,7 @@ include(PHP/SystemExtensions)
 # including any system header. Perhaps in php.h file. Until then, the compile
 # definitions also need to be added when compiling and using PHP API. Mainly the
 # _GNU_SOURCE.
-target_link_libraries(php_configuration INTERFACE PHP::SystemExtensions)
+target_link_libraries(php_config INTERFACE PHP::SystemExtensions)
 
 # Set installation directories.
 include(GNUInstallDirs)
@@ -33,13 +33,13 @@ include(PHP/StandardLibrary)
 if(CMAKE_SYSTEM_PROCESSOR MATCHES "^alpha")
   if(CMAKE_C_COMPILER_ID STREQUAL "GNU")
     target_compile_options(
-      php_configuration
+      php_config
       INTERFACE
         $<$<COMPILE_LANGUAGE:ASM,C>:-mieee>
     )
   else()
     target_compile_options(
-      php_configuration
+      php_config
       INTERFACE
         $<$<COMPILE_LANGUAGE:ASM,C>:-ieee>
     )
@@ -47,7 +47,7 @@ if(CMAKE_SYSTEM_PROCESSOR MATCHES "^alpha")
 elseif(CMAKE_SYSTEM_PROCESSOR MATCHES "^sparc")
   if(CMAKE_C_COMPILER_ID STREQUAL "SunPro")
     target_compile_options(
-      php_configuration
+      php_config
       INTERFACE
         $<$<COMPILE_LANGUAGE:ASM,C>:-xmemalign=8s>
     )

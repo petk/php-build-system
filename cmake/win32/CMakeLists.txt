@@ -67,14 +67,14 @@ target_sources(
         ${CMAKE_CURRENT_BINARY_DIR}/wsyslog.h
 )
 
-target_link_libraries(php_windows PRIVATE PHP::configuration)
+target_link_libraries(php_windows PRIVATE PHP::config)
 
 ################################################################################
 # Add usage requirements to PHP interface targets.
 ################################################################################
 
 target_compile_definitions(
-  php_configuration
+  php_config
   INTERFACE
     _MBCS
     _USE_MATH_DEFINES
@@ -89,14 +89,14 @@ target_compile_definitions(
 
 # MS deprecated ANSI stdio and similar functions. Disable warnings.
 target_compile_options(
-  php_configuration
+  php_config
   INTERFACE
     $<$<COMPILE_LANG_AND_ID:C,MSVC>:/wd4996>
     $<$<COMPILE_LANG_AND_ID:CXX,MSVC>:/wd4996>
 )
 
 target_link_libraries(
-  php_configuration
+  php_config
   INTERFACE
     advapi32
     bcrypt

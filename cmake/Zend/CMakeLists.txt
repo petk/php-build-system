@@ -293,7 +293,7 @@ target_sources(
         $<$<NOT:$<PLATFORM_ID:Windows>>:${CMAKE_CURRENT_BINARY_DIR}/zend_config.h>
 )
 
-target_link_libraries(zend PRIVATE PHP::configuration)
+target_link_libraries(zend PRIVATE PHP::config)
 
 target_include_directories(
   zend
@@ -324,20 +324,20 @@ set_target_properties(
 
 # Cleaner COMPILE_ONLY generator expression is available in CMake >= 3.27.
 if(CMAKE_VERSION VERSION_GREATER_EQUAL 3.27)
-  target_link_libraries(php_configuration INTERFACE $<COMPILE_ONLY:Zend::Zend>)
+  target_link_libraries(php_config INTERFACE $<COMPILE_ONLY:Zend::Zend>)
 else()
   target_compile_definitions(
-    php_configuration
+    php_config
     INTERFACE
       $<TARGET_PROPERTY:Zend::Zend,INTERFACE_COMPILE_DEFINITIONS>
   )
   target_compile_options(
-    php_configuration
+    php_config
     INTERFACE
       $<TARGET_PROPERTY:Zend::Zend,INTERFACE_COMPILE_OPTIONS>
   )
   target_include_directories(
-    php_configuration
+    php_config
     INTERFACE
       $<TARGET_PROPERTY:Zend::Zend,INTERFACE_INCLUDE_DIRECTORIES>
       $<TARGET_PROPERTY:Zend::Zend,INTERFACE_SYSTEM_INCLUDE_DIRECTORIES>

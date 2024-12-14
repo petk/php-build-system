@@ -7,7 +7,7 @@ include_guard(GLOBAL)
 if(CMAKE_SYSTEM_NAME STREQUAL "Windows")
   # Common compilation definitions.
   target_compile_definitions(
-    php_configuration
+    php_config
     INTERFACE
       PHP_WIN32  # For PHP code
       _WIN32     # Defined by all compilers when targeting Windows. Left here

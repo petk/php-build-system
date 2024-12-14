@@ -45,7 +45,7 @@ if(_HAVE_ALIGNMENT_FLAGS_C)
 
   if(PHP_HAVE_ALIGNMENT_FLAGS_C)
     target_link_options(
-      php_configuration
+      php_config
       INTERFACE
         $<$<AND:$<STREQUAL:$<TARGET_PROPERTY:TYPE>,EXECUTABLE>,$<LINK_LANGUAGE:ASM,C>>:LINKER:-z,common-page-size=2097152;LINKER:-z,max-page-size=2097152>
     )
@@ -72,7 +72,7 @@ else()
 
     if(PHP_HAVE_ZMAX_PAGE_SIZE_C)
       target_link_options(
-        php_configuration
+        php_config
         INTERFACE
           $<$<AND:$<STREQUAL:$<TARGET_PROPERTY:TYPE>,EXECUTABLE>,$<LINK_LANGUAGE:ASM,C>>:LINKER:-z,max-page-size=2097152>
       )
@@ -105,7 +105,7 @@ if(CXX IN_LIST enabledLanguages)
 
     if(PHP_HAVE_ALIGNMENT_FLAGS_CXX)
       target_link_options(
-        php_configuration
+        php_config
         INTERFACE
           $<$<AND:$<STREQUAL:$<TARGET_PROPERTY:TYPE>,EXECUTABLE>,$<LINK_LANGUAGE:CXX>>:LINKER:-z,common-page-size=2097152;LINKER:-z,max-page-size=2097152;>
       )
@@ -132,7 +132,7 @@ if(CXX IN_LIST enabledLanguages)
 
       if(PHP_HAVE_ZMAX_PAGE_SIZE_CXX)
         target_link_options(
-          php_configuration
+          php_config
           INTERFACE
             $<$<AND:$<STREQUAL:$<TARGET_PROPERTY:TYPE>,EXECUTABLE>,$<LINK_LANGUAGE:CXX>>:LINKER:-z,max-page-size=2097152>
         )
