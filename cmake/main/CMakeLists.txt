@@ -1,24 +1,19 @@
 #[=============================================================================[
 PHP main binding.
-
-## INTERFACE target
-
-* `php` (alias `PHP::PHP`) is an INTERFACE library that ties PHP core, Zend
-  Engine and PHP extensions together and can be easily linked to SAPIs.
 #]=============================================================================]
 
 include(CheckSymbolExists)
-include(FeatureSummary)
+
+# Compile and link properties for all targets in this directory scope.
+add_compile_definitions(ZEND_ENABLE_STATIC_TSRMLS_CACHE)
+link_libraries(PHP::configuration)
 
 ################################################################################
 # Add library.
 ################################################################################
 
 add_library(php_main OBJECT)
-
-# These contain a list of built-in extensions based on the SAPI types.
-add_library(php_main_internal_functions OBJECT internal_functions.c)
-add_library(php_main_internal_functions_cli OBJECT internal_functions_cli.c)
+add_library(PHP::main ALIAS php_main)
 
 target_sources(
   php_main
@@ -135,193 +130,39 @@ if(_HAVE_ELF)
   )
 endif()
 
+################################################################################
+# Add usage requirements to PHP interface targets.
+################################################################################
+
 target_compile_definitions(
-  php_main
-  PUBLIC
+  php_configuration
+  INTERFACE
     $<$<PLATFORM_ID:Windows>:SAPI_EXPORTS>
 )
 
 target_include_directories(
-  php_main
+  php_configuration
   INTERFACE
     ${CMAKE_CURRENT_BINARY_DIR}
     ${CMAKE_CURRENT_SOURCE_DIR}
 )
 
-set_property(
-  TARGET
-    php_main
-    php_main_internal_functions
-    php_main_internal_functions_cli
-  APPEND
-  PROPERTY COMPILE_DEFINITIONS ZEND_ENABLE_STATIC_TSRMLS_CACHE
-)
-
-# Add main PUBLIC/INTERFACE compile properties to configuration.
-# Cleaner COMPILE_ONLY generator expression is available in CMake >= 3.27.
-if(CMAKE_VERSION VERSION_GREATER_EQUAL 3.27)
-  target_link_libraries(php_configuration INTERFACE $<COMPILE_ONLY:php_main>)
-else()
-  target_include_directories(
-    php_configuration
-    INTERFACE
-      $<TARGET_PROPERTY:php_main,INTERFACE_INCLUDE_DIRECTORIES>
-  )
-  target_compile_definitions(
-    php_configuration
-    INTERFACE
-      $<TARGET_PROPERTY:php_main,INTERFACE_COMPILE_DEFINITIONS>
-  )
-endif()
-
-target_link_libraries(php_main PRIVATE PHP::configuration)
-target_link_libraries(php_main_internal_functions PRIVATE PHP::configuration)
-target_link_libraries(php_main_internal_functions_cli PRIVATE PHP::configuration)
-
-################################################################################
-# Add PHP::PHP.
-################################################################################
-
-add_library(php INTERFACE)
-add_library(PHP::PHP ALIAS php)
-
-target_link_libraries(
-  php
-  INTERFACE
-    PHP::configuration
-    php_main
-    # If Zend is STATIC library link as whole archive, otherwise link normally.
-    $<IF:$<STREQUAL:$<TARGET_PROPERTY:Zend::Zend,TYPE>,STATIC_LIBRARY>,$<LINK_LIBRARY:WHOLE_ARCHIVE,Zend::Zend>,Zend::Zend>
-    $<$<TARGET_EXISTS:PHP::windows>:PHP::windows>
-    PHP::extensions
-)
-
-# OBJECT libraries propagate only compile properties to static libraries without
-# objects as there is no "linking" involved on the compiler level. This is a
-# workaround using interface target sources to make PHP::PHP more intuitive to
-# work with SAPIs.
-target_sources(
-  php
-  INTERFACE
-    $<TARGET_OBJECTS:php_main>
-
-    # Internal functions objects based on the SAPI type.
-    $<IF:$<BOOL:$<TARGET_PROPERTY:PHP_CLI>>,$<TARGET_OBJECTS:php_main_internal_functions_cli>,$<TARGET_OBJECTS:php_main_internal_functions>>
-
-    # If Zend is OBJECT library, add library objects as sources.
-    $<$<STREQUAL:$<TARGET_PROPERTY:Zend::Zend,TYPE>,OBJECT_LIBRARY>:$<TARGET_OBJECTS:Zend::Zend>>
-
-    # If Zend is STATIC library, and linking to a STATIC library (SAPI), add
-    # library objects as sources.
-    $<$<AND:$<STREQUAL:$<TARGET_PROPERTY:TYPE>,STATIC_LIBRARY>,$<STREQUAL:$<TARGET_PROPERTY:Zend::Zend,TYPE>,STATIC_LIBRARY>>:$<TARGET_OBJECTS:Zend::Zend>>
-
-    $<$<TARGET_EXISTS:PHP::windows>:$<TARGET_OBJECTS:PHP::windows>>
-)
-
-################################################################################
-# Add DTrace.
-################################################################################
-
-if(PHP_DTRACE)
-  message(CHECK_START "Checking for DTrace support")
-
-  find_package(DTrace)
-  set_package_properties(
-    DTrace
-    PROPERTIES
-      TYPE REQUIRED
-      PURPOSE "Necessary to enable the DTrace support."
-  )
-
-  if(DTrace_FOUND)
-    dtrace_target(
-      php_dtrace
-      INPUT ${PHP_SOURCE_DIR}/Zend/zend_dtrace.d
-      HEADER ${PHP_BINARY_DIR}/Zend/zend_dtrace_gen.h
-      SOURCES
-        main.c
-        ${PHP_SOURCE_DIR}/Zend/zend_API.c
-        ${PHP_SOURCE_DIR}/Zend/zend_dtrace.c
-        ${PHP_SOURCE_DIR}/Zend/zend_exceptions.c
-        ${PHP_SOURCE_DIR}/Zend/zend_execute.c
-        ${PHP_SOURCE_DIR}/Zend/zend.c
-      INCLUDES
-        $<TARGET_PROPERTY:PHP::configuration,INTERFACE_INCLUDE_DIRECTORIES>
-    )
-    target_link_libraries(php_main PRIVATE DTrace::DTrace)
-    target_link_libraries(php INTERFACE php_dtrace)
-
-    set(HAVE_DTRACE TRUE PARENT_SCOPE)
-
-    message(CHECK_PASS "yes")
-  else()
-    message(CHECK_FAIL "no")
-  endif()
-endif()
-add_feature_info(
-  "DTrace"
-  PHP_DTRACE
-  "performance analysis and troubleshooting"
-)
-
-################################################################################
-# Add Dmalloc.
-################################################################################
-
-if(PHP_DMALLOC)
-  message(CHECK_START "Checking for Dmalloc support")
-
-  find_package(Dmalloc)
-  set_package_properties(
-    Dmalloc
-    PROPERTIES
-      TYPE REQUIRED
-      PURPOSE "Necessary to use Dmalloc memory debugger."
-  )
-
-  target_compile_definitions(
-    php_configuration
-    INTERFACE
-      $<$<COMPILE_LANGUAGE:ASM,C,CXX>:DMALLOC_FUNC_CHECK>
-  )
-
-  target_link_libraries(php_main PRIVATE Dmalloc::Dmalloc)
-
-  if(Dmalloc_FOUND)
-    message(CHECK_PASS "yes")
-    set(HAVE_DMALLOC TRUE PARENT_SCOPE)
-  else()
-    message(CHECK_FAIL "no")
-  endif()
-endif()
-
-################################################################################
-# Create main/php_version.h. Template is based on the configure.ac.
-################################################################################
-
-cmake_path(
-  RELATIVE_PATH
-  CMAKE_CURRENT_SOURCE_DIR
-  BASE_DIRECTORY ${CMAKE_SOURCE_DIR}
-  OUTPUT_VARIABLE relativeSourceDir
-)
-
-message(STATUS "Creating ${relativeSourceDir}/php_version.h")
-file(CONFIGURE OUTPUT ${CMAKE_CURRENT_SOURCE_DIR}/php_version.h CONTENT [[
-/* automatically generated by configure */
-/* edit configure.ac to change version number */
-#define PHP_MAJOR_VERSION @PHP_VERSION_MAJOR@
-#define PHP_MINOR_VERSION @PHP_VERSION_MINOR@
-#define PHP_RELEASE_VERSION @PHP_VERSION_PATCH@
-#define PHP_EXTRA_VERSION "@PHP_VERSION_LABEL@"
-#define PHP_VERSION "@PHP_VERSION@"
-#define PHP_VERSION_ID @PHP_VERSION_ID@
-]])
+target_link_libraries(php_sapi INTERFACE PHP::main)
+target_sources(php_sapi INTERFACE $<TARGET_OBJECTS:PHP::main>)
 
 ################################################################################
 # Create main/internal_functions*.c files with a list of static enabled PHP
 # extensions based on the PHP SAPI type.
 ################################################################################
+
+add_library(php_main_internal_functions OBJECT internal_functions.c)
+add_library(php_main_internal_functions_cli OBJECT internal_functions_cli.c)
+
+target_sources(
+  php_sapi
+  INTERFACE
+    $<IF:$<BOOL:$<TARGET_PROPERTY:PHP_CLI>>,$<TARGET_OBJECTS:php_main_internal_functions_cli>,$<TARGET_OBJECTS:php_main_internal_functions>>
+)
 
 block()
   set(includes "")
@@ -377,6 +218,29 @@ block()
   string(CONFIGURE "${template}" content)
   file(GENERATE OUTPUT internal_functions_cli.c CONTENT "${content}")
 endblock()
+
+################################################################################
+# Create main/php_version.h. Template is based on the configure.ac.
+################################################################################
+
+cmake_path(
+  RELATIVE_PATH
+  CMAKE_CURRENT_SOURCE_DIR
+  BASE_DIRECTORY ${CMAKE_SOURCE_DIR}
+  OUTPUT_VARIABLE relativeSourceDir
+)
+
+message(STATUS "Creating ${relativeSourceDir}/php_version.h")
+file(CONFIGURE OUTPUT ${CMAKE_CURRENT_SOURCE_DIR}/php_version.h CONTENT [[
+/* automatically generated by configure */
+/* edit configure.ac to change version number */
+#define PHP_MAJOR_VERSION @PHP_VERSION_MAJOR@
+#define PHP_MINOR_VERSION @PHP_VERSION_MINOR@
+#define PHP_RELEASE_VERSION @PHP_VERSION_PATCH@
+#define PHP_EXTRA_VERSION "@PHP_VERSION_LABEL@"
+#define PHP_VERSION "@PHP_VERSION@"
+#define PHP_VERSION_ID @PHP_VERSION_ID@
+]])
 
 ################################################################################
 # Generate configuration headers.
