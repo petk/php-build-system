@@ -26,33 +26,33 @@ if(NOT SAPI_CGI)
   return()
 endif()
 
-add_executable(php_cgi)
-add_executable(PHP::cgi ALIAS php_cgi)
+add_executable(php_sapi_cgi)
+add_executable(PHP::SAPI::cgi ALIAS php_sapi_cgi)
 
 target_sources(
-  php_cgi
+  php_sapi_cgi
   PRIVATE
     cgi_main.c
     cgi_main.stub.php
 )
 
-target_compile_definitions(php_cgi PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE)
+target_compile_definitions(php_sapi_cgi PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE)
 
 target_link_libraries(
-  php_cgi
+  php_sapi_cgi
   PRIVATE
     PHP::SAPI
     $<$<PLATFORM_ID:Windows>:ws2_32;kernel32;advapi32>
 )
 
 target_link_options(
-  php_cgi
+  php_sapi_cgi
   PRIVATE
     $<$<COMPILE_LANG_AND_ID:C,MSVC>:/stack:67108864>
 )
 
 set_target_properties(
-  php_cgi
+  php_sapi_cgi
   PROPERTIES
     OUTPUT_NAME ${PHP_PROGRAM_PREFIX}php-cgi${PHP_PROGRAM_SUFFIX}
     # TODO: Check if there's a better solution here:
@@ -75,7 +75,7 @@ endif()
 configure_file(php-cgi.1.in php-cgi.1 @ONLY)
 
 install(
-  TARGETS php_cgi
+  TARGETS php_sapi_cgi
   RUNTIME
     DESTINATION ${CMAKE_INSTALL_BINDIR}
 )

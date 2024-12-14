@@ -32,11 +32,11 @@ if(NOT SAPI_LITESPEED)
   return()
 endif()
 
-add_executable(php_litespeed)
-add_executable(PHP::litespeed ALIAS php_litespeed)
+add_executable(php_sapi_litespeed)
+add_executable(PHP::SAPI::litespeed ALIAS php_sapi_litespeed)
 
 target_sourceS(
-  php_litespeed
+  php_sapi_litespeed
   PRIVATE
     lsapi_main.c
     lsapi_main.stub.php
@@ -44,13 +44,13 @@ target_sourceS(
 )
 
 target_link_libraries(
-  php_litespeed
+  php_sapi_litespeed
   PRIVATE
     PHP::SAPI
 )
 
 set_target_properties(
-  php_litespeed
+  php_sapi_litespeed
   PROPERTIES
     OUTPUT_NAME ${PHP_PROGRAM_PREFIX}lsphp${PHP_PROGRAM_SUFFIX}
     # TODO: Check if there's a better solution here.
@@ -58,7 +58,7 @@ set_target_properties(
 )
 
 install(
-  TARGETS php_litespeed
+  TARGETS php_sapi_litespeed
   RUNTIME
     DESTINATION ${CMAKE_INSTALL_BINDIR}
 )
