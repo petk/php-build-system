@@ -67,6 +67,12 @@ target_sources(
         ${CMAKE_CURRENT_BINARY_DIR}/wsyslog.h
 )
 
+target_link_libraries(php_windows PRIVATE PHP::configuration)
+
+################################################################################
+# Add usage requirements to PHP interface targets.
+################################################################################
+
 target_compile_definitions(
   php_configuration
   INTERFACE
@@ -89,8 +95,6 @@ target_compile_options(
     $<$<COMPILE_LANG_AND_ID:CXX,MSVC>:/wd4996>
 )
 
-target_link_libraries(php_windows PRIVATE PHP::configuration)
-
 target_link_libraries(
   php_configuration
   INTERFACE
@@ -104,6 +108,9 @@ target_link_libraries(
     user32
     ws2_32
 )
+
+target_link_libraries(php_sapi INTERFACE PHP::windows)
+target_sources(php_sapi INTERFACE $<TARGET_OBJECTS:PHP::windows>)
 
 ################################################################################
 # Generate wsyslog.h file with message compiler (mc).

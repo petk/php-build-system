@@ -188,27 +188,29 @@ macro(gcov_generate_report)
   )
 
   # Create a list of PHP SAPIs with genex for usage in the add_custom_command.
-  block(PROPAGATE php_sapis)
-    set(php_sapis "")
+  block(PROPAGATE sapis)
+    set(sapis "")
     file(GLOB directories ${PROJECT_SOURCE_DIR}/sapi/*)
     foreach(dir ${directories})
       cmake_path(GET dir FILENAME sapi)
-      list(APPEND php_sapis "$<TARGET_NAME_IF_EXISTS:php_${sapi}>")
+      list(APPEND sapis "$<TARGET_NAME_IF_EXISTS:php_${sapi}>")
     endforeach()
   endblock()
 
   add_custom_command(
     OUTPUT ${PROJECT_BINARY_DIR}/php_lcov.info
     COMMAND ${CMAKE_COMMAND} -P "CMakeFiles/GenerateGcovReport.cmake"
-    DEPENDS
-      ${php_sapis}
+    DEPENDS ${sapis}
     COMMENT "[GCOV] Generating GCOV coverage report"
+    VERBATIM
+    COMMAND_EXPAND_LISTS
   )
 
-  unset(php_sapis)
+  unset(sapis)
 
   # Create target which consumes the command via DEPENDS.
-  add_custom_target(gcov ALL
+  add_custom_target(
+    gcov ALL
     DEPENDS ${PROJECT_BINARY_DIR}/php_lcov.info
     COMMENT "[GCOV] Generating GCOV files"
   )

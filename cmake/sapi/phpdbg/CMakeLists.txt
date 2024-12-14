@@ -125,7 +125,7 @@ set(php_phpdbg_sources
 )
 
 add_executable(php_phpdbg ${php_phpdbg_sources})
-add_executable(PHP:phpdbg ALIAS php_phpdbg)
+add_executable(PHP::phpdbg ALIAS php_phpdbg)
 
 target_compile_definitions(
   php_phpdbg
@@ -138,7 +138,7 @@ target_compile_definitions(
 target_link_libraries(
   php_phpdbg
   PRIVATE
-    PHP::PHP
+    PHP::SAPI
     $<$<PLATFORM_ID:Windows>:ws2_32;user32>
 )
 
@@ -228,27 +228,15 @@ if(SAPI_PHPDBG_SHARED)
     php_phpdbg_shared
     PRIVATE
       ZEND_ENABLE_STATIC_TSRMLS_CACHE
-      $<TARGET_PROPERTY:PHP::main,INTERFACE_COMPILE_DEFINITIONS>
       $<$<PLATFORM_ID:Windows>:YY_NO_UNISTD_H>
       $<IF:$<BOOL:${SAPI_PHPDBG_DEBUG}>,PHPDBG_DEBUG=1,PHPDBG_DEBUG=0>
-  )
-
-  target_include_directories(
-    php_phpdbg_shared
-    PRIVATE
-      $<TARGET_PROPERTY:PHP::main,INTERFACE_INCLUDE_DIRECTORIES>
-  )
-
-  target_compile_options(
-    php_phpdbg_shared
-    PRIVATE $<TARGET_PROPERTY:PHP::main,INTERFACE_COMPILE_OPTIONS>
   )
 
   target_link_libraries(
     php_phpdbg_shared
     PRIVATE
       # TODO: fix this better in the future (building with -fPIC etc).
-      PHP::PHP
+      PHP::SAPI
       $<$<PLATFORM_ID:Windows>:ws2_32;user32>
   )
 endif()

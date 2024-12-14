@@ -86,13 +86,6 @@ add_feature_info(
   "enhanced timeout and signal handling"
 )
 
-# Set the result variable also in the PARENT_SCOPE, to make it available for the
-# parent project PHP in its configuration headers. This module is included in
-# the Zend Engine which is added with add_subdirectory() in the PHP project.
-if(NOT PROJECT_IS_TOP_LEVEL)
-  set(ZEND_MAX_EXECUTION_TIMERS ${ZEND_MAX_EXECUTION_TIMERS} PARENT_SCOPE)
-endif()
-
 add_library(Zend::MaxExecutionTimers INTERFACE IMPORTED GLOBAL)
 if(libraryForTimerCreate)
   target_link_libraries(

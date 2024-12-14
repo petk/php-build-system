@@ -109,7 +109,7 @@ endif()
 target_link_libraries(
   php_apache2handler
   PRIVATE
-    PHP::PHP
+    PHP::SAPI
     Apache::Apache
 )
 
