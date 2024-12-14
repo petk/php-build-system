@@ -124,11 +124,11 @@ set(php_phpdbg_sources
   phpdbg.c
 )
 
-add_executable(php_phpdbg ${php_phpdbg_sources})
-add_executable(PHP::phpdbg ALIAS php_phpdbg)
+add_executable(php_sapi_phpdbg ${php_phpdbg_sources})
+add_executable(PHP::SAPI::phpdbg ALIAS php_sapi_phpdbg)
 
 target_compile_definitions(
-  php_phpdbg
+  php_sapi_phpdbg
   PRIVATE
     ZEND_ENABLE_STATIC_TSRMLS_CACHE
     $<$<PLATFORM_ID:Windows>:YY_NO_UNISTD_H>
@@ -136,20 +136,20 @@ target_compile_definitions(
 )
 
 target_link_libraries(
-  php_phpdbg
+  php_sapi_phpdbg
   PRIVATE
     PHP::SAPI
     $<$<PLATFORM_ID:Windows>:ws2_32;user32>
 )
 
 target_link_options(
-  php_phpdbg
+  php_sapi_phpdbg
   PRIVATE
     $<$<COMPILE_LANG_AND_ID:C,MSVC>:/stack:8388608>
 )
 
 set_target_properties(
-  php_phpdbg
+  php_sapi_phpdbg
   PROPERTIES
     OUTPUT_NAME ${PHP_PROGRAM_PREFIX}phpdbg${PHP_PROGRAM_SUFFIX}
     # TODO: Check if there's a better solution here:
@@ -174,7 +174,7 @@ if(SAPI_PHPDBG_READLINE OR EXT_READLINE)
       PURPOSE "Necessary for the phpdbg readline support."
   )
 
-  target_link_libraries(php_phpdbg PRIVATE Editline::Editline)
+  target_link_libraries(php_sapi_phpdbg PRIVATE Editline::Editline)
 
   set(HAVE_LIBEDIT TRUE)
   set(HAVE_PHPDBG_READLINE TRUE)
@@ -194,15 +194,15 @@ add_feature_info(
 
 # TODO: Should readline support be also enabled like in the executable?
 if(SAPI_PHPDBG_SHARED)
-  add_library(php_phpdbg_shared SHARED)
-  add_library(PHP::phpdbg_shared ALIAS php_phpdbg_shared)
+  add_library(php_sapi_phpdbg_shared SHARED)
+  add_library(PHP::SAPI::phpdbg_shared ALIAS php_sapi_phpdbg_shared)
 
-  set_target_properties(php_phpdbg_shared PROPERTIES OUTPUT_NAME phpdbg)
+  set_target_properties(php_sapi_phpdbg_shared PROPERTIES OUTPUT_NAME phpdbg)
 
-  target_sources(php_phpdbg_shared PRIVATE ${php_phpdbg_sources})
+  target_sources(php_sapi_phpdbg_shared PRIVATE ${php_phpdbg_sources})
 
   target_compile_definitions(
-    php_phpdbg_shared
+    php_sapi_phpdbg_shared
     PRIVATE
       ZEND_ENABLE_STATIC_TSRMLS_CACHE
       $<$<PLATFORM_ID:Windows>:YY_NO_UNISTD_H>
@@ -210,7 +210,7 @@ if(SAPI_PHPDBG_SHARED)
   )
 
   target_link_libraries(
-    php_phpdbg_shared
+    php_sapi_phpdbg_shared
     PRIVATE
       # TODO: fix this better in the future (building with -fPIC etc).
       PHP::SAPI
@@ -224,7 +224,7 @@ endif()
 
 if(BISON_FOUND)
   bison_target(
-    php_phpdbg_parser
+    php_sapi_phpdbg_parser
     phpdbg_parser.y
     ${CMAKE_CURRENT_SOURCE_DIR}/phpdbg_parser.c
     COMPILE_FLAGS "${PHP_DEFAULT_BISON_FLAGS}"
@@ -232,13 +232,13 @@ if(BISON_FOUND)
     DEFINES_FILE ${CMAKE_CURRENT_SOURCE_DIR}/phpdbg_parser.h
   )
 
-  add_custom_target(php_phpdbg_parser DEPENDS ${BISON_TARGET_outputs})
-  add_dependencies(php_generate_files php_phpdbg_parser)
+  add_custom_target(php_sapi_phpdbg_parser DEPENDS ${BISON_TARGET_outputs})
+  add_dependencies(php_generate_files php_sapi_phpdbg_parser)
 endif()
 
 if(RE2C_FOUND)
   re2c_target(
-    php_phpdbg_lexer
+    php_sapi_phpdbg_lexer
     phpdbg_lexer.l
     ${CMAKE_CURRENT_SOURCE_DIR}/phpdbg_lexer.c
     OPTIONS -cbdF
@@ -265,7 +265,7 @@ if(HAVE_UFFDIO_WRITEPROTECT_MODE_WP)
     set(THREADS_PREFER_PTHREAD_FLAG TRUE)
     find_package(Threads)
     if(Threads_FOUND)
-      target_link_libraries(php_phpdbg PRIVATE Threads::Threads)
+      target_link_libraries(php_sapi_phpdbg PRIVATE Threads::Threads)
     else()
       message(WARNING "Threads not available.")
     endif()
@@ -292,7 +292,7 @@ block()
 endblock()
 
 install(
-  TARGETS php_phpdbg
+  TARGETS php_sapi_phpdbg
   RUNTIME
     DESTINATION ${CMAKE_INSTALL_BINDIR}
 )

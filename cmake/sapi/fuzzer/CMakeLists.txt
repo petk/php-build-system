@@ -67,8 +67,8 @@ if(PHP_THREAD_SAFETY)
   )
 endif()
 
-add_executable(php_fuzzer)
-add_executable(PHP::fuzzer ALIAS php_fuzzer)
+add_executable(php_sapi_fuzzer)
+add_executable(PHP::SAPI::fuzzer ALIAS php_sapi_fuzzer)
 
 if(LIB_FUZZING_ENGINE OR DEFINED ENV{LIB_FUZZING_ENGINE})
   if(LIB_FUZZING_ENGINE)
@@ -78,7 +78,7 @@ if(LIB_FUZZING_ENGINE OR DEFINED ENV{LIB_FUZZING_ENGINE})
   endif()
   message(STATUS "LIB_FUZZING_ENGINE=${libFuzzingEngine}")
   target_link_options(
-    php_fuzzer
+    php_sapi_fuzzer
     INTERFACE
       "$<$<COMPILE_LANGUAGE:ASM,C,CXX>:${libFuzzingEngine}>"
   )
@@ -122,24 +122,24 @@ else()
   )
 
   target_link_options(
-    php_fuzzer
+    php_sapi_fuzzer
     INTERFACE
       $<$<COMPILE_LANGUAGE:ASM,C,CXX>:-fsanitize=fuzzer>
   )
 endif()
 
-target_sources(php_fuzzer PRIVATE fuzzer-sapi.c)
+target_sources(php_sapi_fuzzer PRIVATE fuzzer-sapi.c)
 
 set_target_properties(
-  php_fuzzer
+  php_sapi_fuzzer
   PROPERTIES
     OUTPUT_NAME ${PHP_PROGRAM_PREFIX}fuzzer${PHP_PROGRAM_SUFFIX}
 )
 
 target_link_libraries(
-  php_fuzzer
+  php_sapi_fuzzer
   PRIVATE
     PHP::SAPI
 )
 
-install(TARGETS php_fuzzer RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR})
+install(TARGETS php_sapi_fuzzer RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR})

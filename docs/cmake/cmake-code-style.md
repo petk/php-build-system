@@ -489,7 +489,7 @@ with libraries imported via `find_package()` or `FetchContent`.
 
 Naming pattern when creating libraries and executables across the build system:
 
-* `php_<sapi_name>`
+* `php_sapi_<sapi_name>`
 
   For targets associated with PHP SAPIs (Server APIs). Replace `<sapi_name>`
   with the specific PHP SAPI name.
@@ -511,8 +511,8 @@ Additionally, customizing the target output file name on the disk can be done by
 setting target property `OUTPUT_NAME`.
 
 ```cmake
-add_executable(php_<sapi_name> ...)
-set_target_properties(php_<sapi_name> PROPERTIES OUTPUT_NAME php)
+add_executable(php_sapi_<sapi_name> ...)
+set_target_properties(php_sapi_<sapi_name> PROPERTIES OUTPUT_NAME php)
 ```
 
 ### 7.2. Alias targets
@@ -535,6 +535,15 @@ Using alias targets can have a performance and distinct benefit because whenever
 CMake sees a double colon (`::`) in the target name, it will limit the search to
 CMake targets only, unlike other naming patterns where CMake will search for
 link flags, paths, or library names as well.
+
+> [!TIP]
+> Some targets use nested namespaces for their distinct convenience. However,
+> CMake does not differentiate these from single-level namespaces.
+>
+> ```cmake
+> add_executable(php_sapi_cli)
+> add_executable(PHP::SAPI::cli ALIAS php_sapi_cli)
+> ```
 
 ### 7.3. Custom targets
 

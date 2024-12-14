@@ -187,11 +187,11 @@ endif()
 # Add executable.
 ################################################################################
 
-add_executable(php_fpm)
-add_executable(PHP::fpm ALIAS php_fpm)
+add_executable(php_sapi_fpm)
+add_executable(PHP::SAPI::fpm ALIAS php_sapi_fpm)
 
 target_sources(
-  php_fpm
+  php_sapi_fpm
   PRIVATE
     fpm/events/epoll.c
     fpm/events/kqueue.c
@@ -224,21 +224,21 @@ target_sources(
 )
 
 target_include_directories(
-  php_fpm
+  php_sapi_fpm
   PRIVATE
     ${CMAKE_CURRENT_SOURCE_DIR}/fpm
 )
 
-target_compile_definitions(php_fpm PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE)
+target_compile_definitions(php_sapi_fpm PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE)
 
 target_link_libraries(
-  php_fpm
+  php_sapi_fpm
   PRIVATE
     PHP::SAPI
 )
 
 set_target_properties(
-  php_fpm
+  php_sapi_fpm
   PROPERTIES
     OUTPUT_NAME ${PHP_PROGRAM_PREFIX}php-fpm${PHP_PROGRAM_SUFFIX}
     # TODO: Check if there's a better solution here:
@@ -262,13 +262,13 @@ include(cmake/CheckListeningQueue.cmake)
 # Check FPM trace implementation.
 include(cmake/CheckTrace.cmake)
 if(HAVE_PTRACE OR HAVE_MACH_VM_READ OR PROC_MEM_FILE)
-  target_sources(php_fpm PRIVATE fpm/fpm_trace.c)
+  target_sources(php_sapi_fpm PRIVATE fpm/fpm_trace.c)
   if(HAVE_PTRACE)
-    target_sources(php_fpm PRIVATE fpm/fpm_trace_ptrace.c)
+    target_sources(php_sapi_fpm PRIVATE fpm/fpm_trace_ptrace.c)
   elseif(HAVE_MACH_VM_READ)
-    target_sources(php_fpm PRIVATE fpm/fpm_trace_mach.c)
+    target_sources(php_sapi_fpm PRIVATE fpm/fpm_trace_mach.c)
   elseif(PROC_MEM_FILE)
-    target_sources(php_fpm PRIVATE fpm/fpm_trace_pread.c)
+    target_sources(php_sapi_fpm PRIVATE fpm/fpm_trace_pread.c)
   endif()
 endif()
 
@@ -279,7 +279,7 @@ php_search_libraries(
   LIBRARIES
     rt # Solaris 10
   VARIABLE HAVE_CLOCK_GETTIME
-  TARGET php_fpm PRIVATE
+  TARGET php_sapi_fpm PRIVATE
 )
 if(NOT HAVE_CLOCK_GETTIME)
   check_source_runs(C [[
@@ -436,12 +436,12 @@ if(SAPI_FPM_SYSTEMD)
       PURPOSE "Necessary to enable systemd integration in FPM SAPI."
   )
 
-  target_link_libraries(php_fpm PRIVATE Systemd::Systemd)
+  target_link_libraries(php_sapi_fpm PRIVATE Systemd::Systemd)
 
   if(TARGET Systemd::Systemd)
     set(HAVE_SYSTEMD TRUE)
 
-    target_sources(php_fpm PRIVATE fpm/fpm_systemd.c)
+    target_sources(php_sapi_fpm PRIVATE fpm/fpm_systemd.c)
   endif()
 
   set(PHP_FPM_SYSTEMD "notify")
@@ -459,7 +459,7 @@ if(SAPI_FPM_ACL)
       PURPOSE "Necessary to enable FPM SAPI ACL user/group permissions support."
   )
 
-  target_link_libraries(php_fpm PRIVATE ACL::ACL)
+  target_link_libraries(php_sapi_fpm PRIVATE ACL::ACL)
 
   if(TARGET ACL::ACL)
     cmake_push_check_state(RESET)
@@ -480,7 +480,7 @@ if(SAPI_FPM_APPARMOR)
       PURPOSE "Necessary to enable AppArmor support in the FPM SAPI."
   )
 
-  target_link_libraries(php_fpm PRIVATE AppArmor::AppArmor)
+  target_link_libraries(php_sapi_fpm PRIVATE AppArmor::AppArmor)
 
   if(TARGET AppArmor::AppArmor)
     set(HAVE_APPARMOR TRUE)
@@ -496,7 +496,7 @@ if(SAPI_FPM_SELINUX)
       PURPOSE "Necessary to enable SELinux support in the FPM SAPI."
   )
 
-  target_link_libraries(php_fpm PRIVATE SELinux::SELinux)
+  target_link_libraries(php_sapi_fpm PRIVATE SELinux::SELinux)
 
   if(TARGET SELinux::SELinux)
     set(HAVE_SELINUX TRUE)
@@ -597,7 +597,7 @@ php_configure_file(
     EXPANDED_SYSCONFDIR "$<PATH:ABSOLUTE_PATH,NORMALIZE,${CMAKE_INSTALL_SYSCONFDIR},$<INSTALL_PREFIX>>"
 )
 
-install(TARGETS php_fpm RUNTIME DESTINATION ${CMAKE_INSTALL_SBINDIR})
+install(TARGETS php_sapi_fpm RUNTIME DESTINATION ${CMAKE_INSTALL_SBINDIR})
 
 php_install(CODE "
   # Create log and run directories on installation.
