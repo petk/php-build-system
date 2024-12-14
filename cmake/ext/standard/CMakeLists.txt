@@ -537,41 +537,25 @@ endblock()
 
 check_symbol_exists(chroot "unistd.h" HAVE_CHROOT)
 
-add_library(php_standard_functions_cli OBJECT)
 add_library(php_standard_functions OBJECT)
+add_library(php_standard_functions_cli OBJECT)
 
-target_sources(php_standard_functions_cli PRIVATE basic_functions.c dir.c)
 target_sources(php_standard_functions PRIVATE basic_functions.c dir.c)
+target_sources(php_standard_functions_cli PRIVATE basic_functions.c dir.c)
 
-target_include_directories(
-  php_standard_functions_cli
-  PRIVATE
-    $<TARGET_PROPERTY:php_standard,INCLUDE_DIRECTORIES>
-)
-target_include_directories(
+set_target_properties(
   php_standard_functions
-  PRIVATE
-    $<TARGET_PROPERTY:php_standard,INCLUDE_DIRECTORIES>
+  php_standard_functions_cli
+  PROPERTIES
+    INCLUDE_DIRECTORIES $<TARGET_PROPERTY:php_standard,INCLUDE_DIRECTORIES>
+    COMPILE_DEFINITIONS $<TARGET_PROPERTY:php_standard,COMPILE_DEFINITIONS>
+    LINK_LIBRARIES $<TARGET_PROPERTY:php_standard,LINK_LIBRARIES>
 )
 
 target_compile_definitions(
   php_standard_functions_cli
   PRIVATE
-    $<TARGET_PROPERTY:php_standard,COMPILE_DEFINITIONS>
     $<$<NOT:$<PLATFORM_ID:Windows>>:ENABLE_CHROOT_FUNC>
-)
-target_compile_definitions(
-  php_standard_functions
-  PRIVATE $<TARGET_PROPERTY:php_standard,COMPILE_DEFINITIONS>
-)
-
-target_link_libraries(
-  php_standard_functions_cli
-  PRIVATE $<TARGET_PROPERTY:php_standard,LINK_LIBRARIES>
-)
-target_link_libraries(
-  php_standard_functions
-  PRIVATE $<TARGET_PROPERTY:php_standard,LINK_LIBRARIES>
 )
 
 # ext/standard functions objects based on the SAPI type.
@@ -580,6 +564,9 @@ target_sources(
   INTERFACE
     $<IF:$<BOOL:$<TARGET_PROPERTY:PHP_CLI>>,$<TARGET_OBJECTS:php_standard_functions_cli>,$<TARGET_OBJECTS:php_standard_functions>>
 )
+
+add_dependencies(php_standard_functions php_standard)
+add_dependencies(php_standard_functions_cli php_standard)
 
 ################################################################################
 # Configuration header

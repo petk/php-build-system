@@ -33,7 +33,7 @@ include(PHP/InterproceduralOptimization)
 # Set CMAKE_POSITION_INDEPENDENT_CODE.
 include(PHP/PositionIndependentCode)
 
-# Create a project wide INTERFACE library with project configuration.
+# INTERFACE library with usage requirements.
 add_library(php_configuration INTERFACE)
 add_library(PHP::configuration ALIAS php_configuration)
 target_include_directories(
@@ -42,6 +42,11 @@ target_include_directories(
     ${PHP_BINARY_DIR}
     ${PHP_SOURCE_DIR}
 )
+
+# INTERFACE library that ties objects and configuration together for PHP SAPIs.
+add_library(php_sapi INTERFACE)
+add_library(PHP::SAPI ALIAS php_sapi)
+target_link_libraries(php_sapi INTERFACE PHP::configuration)
 
 # Create a custom target for generating files (parsers, lexers, etc.) manually:
 #   cmake --build <dir> -t php_generate_files

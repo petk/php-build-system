@@ -1,10 +1,5 @@
 #[=============================================================================[
 Add subdirectories of PHP extensions.
-
-## INTERFACE target
-
-* `php_extensions` (alias `PHP::extensions`) is an INTERFACE library with all
-  enabled extensions linked into for convenience.
 #]=============================================================================]
 
 include(PHP/Extensions)
@@ -57,9 +52,6 @@ set_property(GLOBAL PROPERTY PHP_ALL_EXTENSIONS ${extensions})
 # Sort and preconfigure extensions by their dependencies.
 php_extensions_preprocess(extensions)
 
-add_library(php_extensions INTERFACE)
-add_library(PHP::extensions ALIAS php_extensions)
-
 # Add subdirectories of extensions.
 foreach(extension IN LISTS extensions)
   list(APPEND CMAKE_MESSAGE_CONTEXT "${extension}")
@@ -80,9 +72,7 @@ foreach(extension IN LISTS extensions)
 
   add_dependencies(php_${extension} Zend::Zend)
 
-  # Add extension's transitive compile and link properties to configuration.
-  # The INTERFACE_SOURCES are propagated separately only to PHP::PHP.
-  # See: https://cmake.org/cmake/help/latest/manual/cmake-buildsystem.7.html
+  # Add usage requirements to PHP interface targets.
   # TODO: Should PHP_CLI extensions pass properties only to PHP_CLI SAPIs?
   get_target_property(type php_${extension} TYPE)
   if(NOT type MATCHES "^(MODULE|SHARED)_LIBRARY$")
@@ -112,17 +102,15 @@ foreach(extension IN LISTS extensions)
     )
 
     target_link_libraries(
-      php_extensions
+      php_sapi
       INTERFACE
-        $<IF:$<BOOL:$<TARGET_GENEX_EVAL:PHP::${extension},$<TARGET_PROPERTY:PHP::${extension},PHP_CLI>>>,$<$<BOOL:$<TARGET_PROPERTY:PHP_CLI>>:$<LINK_ONLY:PHP::${extension}>>,$<LINK_ONLY:PHP::${extension}>>
+        $<IF:$<BOOL:$<TARGET_GENEX_EVAL:PHP::${extension},$<TARGET_PROPERTY:PHP::${extension},PHP_CLI>>>,$<$<BOOL:$<TARGET_PROPERTY:PHP_CLI>>:PHP::${extension}>,PHP::${extension}>
     )
 
     target_sources(
-      php_extensions
+      php_sapi
       INTERFACE
         $<IF:$<BOOL:$<TARGET_GENEX_EVAL:PHP::${extension},$<TARGET_PROPERTY:PHP::${extension},PHP_CLI>>>,$<$<BOOL:$<TARGET_PROPERTY:PHP_CLI>>:$<TARGET_OBJECTS:PHP::${extension}>>,$<TARGET_OBJECTS:PHP::${extension}>>
-
-        $<IF:$<BOOL:$<TARGET_GENEX_EVAL:PHP::${extension},$<TARGET_PROPERTY:PHP::${extension},PHP_CLI>>>,$<$<BOOL:$<TARGET_PROPERTY:PHP_CLI>>:$<TARGET_PROPERTY:PHP::${extension},INTERFACE_SOURCES>>,$<TARGET_PROPERTY:PHP::${extension},INTERFACE_SOURCES>>
     )
   endif()
 

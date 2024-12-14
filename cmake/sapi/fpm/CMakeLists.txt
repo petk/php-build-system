@@ -188,7 +188,7 @@ endif()
 ################################################################################
 
 add_executable(php_fpm)
-add_executable(PHP:fpm ALIAS php_fpm)
+add_executable(PHP::fpm ALIAS php_fpm)
 
 target_sources(
   php_fpm
@@ -234,7 +234,7 @@ target_compile_definitions(php_fpm PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE)
 target_link_libraries(
   php_fpm
   PRIVATE
-    PHP::PHP
+    PHP::SAPI
 )
 
 set_target_properties(

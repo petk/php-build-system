@@ -13,7 +13,7 @@ works and how it can be used.
   * [4.2. Ninja](#42-ninja)
 * [5. Build types](#5-build-types)
 * [6. CMake minimum version for PHP](#6-cmake-minimum-version-for-php)
-* [7. Interface library](#7-interface-library)
+* [7. Interface libraries](#7-interface-libraries)
 * [8. PHP CMake modules](#8-php-cmake-modules)
 * [9. Custom CMake properties](#9-custom-cmake-properties)
 * [10. PHP extensions](#10-php-extensions)
@@ -303,20 +303,32 @@ CMake versions scheme across the systems is available at
 > most recent CMake version can be installed using `snap` or through the
 > [APT repository](https://apt.kitware.com/).
 
-## 7. Interface library
+## 7. Interface libraries
 
-The `php_configuration` library (aliased `PHP::configuration`) holds
-project-wide compilation flags, definitions, libraries and include directories.
+* The `php_configuration` (aliased `PHP::configuration`) holds compilation and link
+  properties, such as flags, definitions, libraries and include directories. All
+  targets that need global PHP compile or link properties should link to this
+  target.
 
-It is analogous to a global configuration class, where configuration is set
-during the configuration phase and then linked to targets that need the
-configuration.
+  It is analogous to a global configuration class, where configuration is set
+  during the configuration phase and then linked to targets that need the
+  configuration.
 
-It can be linked to a given target:
+  It can be linked to a given target:
 
-```cmake
-target_link_libraries(target_name PRIVATE PHP::configuration)
-```
+  ```cmake
+  target_link_libraries(target_name PRIVATE PHP::configuration)
+  ```
+
+* The `php_sapi` (aliased `PHP::SAPI`) ties all target objects and configuration
+  together. Only PHP SAPI targets should link to it.
+
+  ```cmake
+  target_link_libraries(<some-php-sapi-target> PRIVATE PHP::SAPI)
+  ```
+
+See also https://cmake.org/cmake/help/latest/manual/cmake-buildsystem.7.html
+for a high-level overview of the CMake build system concepts.
 
 ## 8. PHP CMake modules
 

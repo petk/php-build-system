@@ -791,7 +791,7 @@ if(PHP_GCOV)
   endif()
 endif()
 
-# Check Valgrind.
+# Valgrind.
 if(PHP_VALGRIND)
   find_package(Valgrind)
   set_package_properties(
@@ -813,6 +813,82 @@ if(PHP_VALGRIND)
 endif()
 add_feature_info(
   "Valgrind"
-  PHP_VALGRIND
+  HAVE_VALGRIND
   "dynamic analysis"
+)
+
+# DTrace.
+if(PHP_DTRACE)
+  message(CHECK_START "Checking for DTrace support")
+
+  find_package(DTrace)
+  set_package_properties(
+    DTrace
+    PROPERTIES
+      TYPE REQUIRED
+      PURPOSE "Necessary to enable the DTrace support."
+  )
+
+  if(DTrace_FOUND)
+    dtrace_target(
+      php_dtrace
+      INPUT ${PHP_SOURCE_DIR}/Zend/zend_dtrace.d
+      HEADER ${PHP_BINARY_DIR}/Zend/zend_dtrace_gen.h
+      SOURCES
+        ${PHP_SOURCE_DIR}/main/main.c
+        ${PHP_SOURCE_DIR}/Zend/zend_API.c
+        ${PHP_SOURCE_DIR}/Zend/zend_dtrace.c
+        ${PHP_SOURCE_DIR}/Zend/zend_exceptions.c
+        ${PHP_SOURCE_DIR}/Zend/zend_execute.c
+        ${PHP_SOURCE_DIR}/Zend/zend.c
+      INCLUDES
+        $<TARGET_PROPERTY:PHP::configuration,INTERFACE_INCLUDE_DIRECTORIES>
+    )
+    target_link_libraries(php_configuration INTERFACE DTrace::DTrace)
+    target_link_libraries(php_sapi INTERFACE php_dtrace)
+
+    set(HAVE_DTRACE TRUE)
+
+    message(CHECK_PASS "yes")
+  else()
+    message(CHECK_FAIL "no")
+  endif()
+endif()
+add_feature_info(
+  "DTrace"
+  HAVE_DTRACE
+  "performance analysis and troubleshooting"
+)
+
+# Dmalloc.
+if(PHP_DMALLOC)
+  message(CHECK_START "Checking for Dmalloc support")
+
+  find_package(Dmalloc)
+  set_package_properties(
+    Dmalloc
+    PROPERTIES
+      TYPE REQUIRED
+      PURPOSE "Necessary to use Dmalloc memory debugger."
+  )
+
+  target_compile_definitions(
+    php_configuration
+    INTERFACE
+      $<$<COMPILE_LANGUAGE:ASM,C,CXX>:DMALLOC_FUNC_CHECK>
+  )
+
+  target_link_libraries(php_configuration INTERFACE Dmalloc::Dmalloc)
+
+  if(Dmalloc_FOUND)
+    message(CHECK_PASS "yes")
+    set(HAVE_DMALLOC TRUE)
+  else()
+    message(CHECK_FAIL "no")
+  endif()
+endif()
+add_feature_info(
+  "Dmalloc"
+  HAVE_DMALLOC
+  "memory debugging"
 )
