@@ -84,43 +84,6 @@ endif()
 target_sources(
   php_mbstring
   PRIVATE
-    libmbfl/filters/html_entities.c
-    libmbfl/filters/mbfilter_7bit.c
-    libmbfl/filters/mbfilter_base64.c
-    libmbfl/filters/mbfilter_cjk.c
-    libmbfl/filters/mbfilter_htmlent.c
-    libmbfl/filters/mbfilter_qprint.c
-    libmbfl/filters/mbfilter_singlebyte.c
-    libmbfl/filters/mbfilter_ucs2.c
-    libmbfl/filters/mbfilter_ucs4.c
-    libmbfl/filters/mbfilter_utf16.c
-    libmbfl/filters/mbfilter_utf32.c
-    libmbfl/filters/mbfilter_utf7.c
-    libmbfl/filters/mbfilter_utf7imap.c
-    libmbfl/filters/mbfilter_utf8_mobile.c
-    libmbfl/filters/mbfilter_utf8.c
-    libmbfl/filters/mbfilter_uuencode.c
-    libmbfl/mbfl/mbfilter_8bit.c
-    libmbfl/mbfl/mbfilter_pass.c
-    libmbfl/mbfl/mbfilter_wchar.c
-    libmbfl/mbfl/mbfilter.c
-    libmbfl/mbfl/mbfl_convert.c
-    libmbfl/mbfl/mbfl_encoding.c
-    libmbfl/mbfl/mbfl_filter_output.c
-    libmbfl/mbfl/mbfl_language.c
-    libmbfl/mbfl/mbfl_memory_device.c
-    libmbfl/mbfl/mbfl_string.c
-    libmbfl/nls/nls_de.c
-    libmbfl/nls/nls_en.c
-    libmbfl/nls/nls_hy.c
-    libmbfl/nls/nls_ja.c
-    libmbfl/nls/nls_kr.c
-    libmbfl/nls/nls_neutral.c
-    libmbfl/nls/nls_ru.c
-    libmbfl/nls/nls_tr.c
-    libmbfl/nls/nls_ua.c
-    libmbfl/nls/nls_uni.c
-    libmbfl/nls/nls_zh.c
     mb_gpc.c
     mbstring.c
     mbstring.stub.php
@@ -128,26 +91,7 @@ target_sources(
   PUBLIC
     FILE_SET HEADERS
       FILES
-        libmbfl/mbfl/eaw_table.h
-        libmbfl/mbfl/mbfilter_8bit.h
-        libmbfl/mbfl/mbfilter_pass.h
-        libmbfl/mbfl/mbfilter_wchar.h
-        libmbfl/mbfl/mbfilter.h
-        libmbfl/mbfl/mbfl_consts.h
-        libmbfl/mbfl/mbfl_convert.h
-        libmbfl/mbfl/mbfl_defs.h
-        libmbfl/mbfl/mbfl_encoding.h
-        libmbfl/mbfl/mbfl_filter_output.h
-        libmbfl/mbfl/mbfl_language.h
-        libmbfl/mbfl/mbfl_memory_device.h
-        libmbfl/mbfl/mbfl_string.h
         mbstring.h
-  # A separate file set so binary dir can also be created within a source dir.
-  PUBLIC
-    FILE_SET HEADERS
-      BASE_DIRS ${CMAKE_CURRENT_BINARY_DIR}
-      FILES
-        ${CMAKE_CURRENT_BINARY_DIR}/libmbfl/config.h
 )
 
 target_compile_definitions(php_mbstring PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE)
@@ -164,26 +108,20 @@ set(HAVE_MBSTRING TRUE)
 # Configure libmbfl.
 ################################################################################
 
-# TODO: Fix this better. See also https://github.com/php/php-src/pull/13713
-# TODO: Should status message be here?
-message(STATUS "Creating ext/mbstring/libmbfl/config.h")
-file(CONFIGURE OUTPUT libmbfl/config.h CONTENT [[
+set(LIBMBFL_TARGET php_mbstring)
+add_subdirectory(libmbfl)
+
+file(APPEND ${CMAKE_CURRENT_BINARY_DIR}/libmbfl/config.h "\n" [[
+#ifdef HAVE_CONFIG_H
+# include <config.h>
+#endif
 #ifdef _WIN32
 # define HAVE_STRICMP 1
-#elif defined HAVE_CONFIG_H
-# include "<config.h>"
+# include <config.w32.h>
 #else
-# include <main/php_config.h>
+# include <php_config.h>
 #endif
 ]])
-
-target_include_directories(
-  php_mbstring
-  PRIVATE
-    ${CMAKE_CURRENT_SOURCE_DIR}/libmbfl
-    ${CMAKE_CURRENT_BINARY_DIR}/libmbfl
-    ${CMAKE_CURRENT_SOURCE_DIR}/libmbfl/mbfl
-)
 
 ################################################################################
 # Multibyte regex.
