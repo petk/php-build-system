@@ -419,7 +419,19 @@ function(php_extensions_postconfigure extension)
     set_property(TARGET php_${extension} PROPERTY OUTPUT_NAME ${extension})
   endif()
 
-  # Add extension's default installation instructions.
+  # Specify extension's default installation rules.
+  get_target_property(sets php_${extension} INTERFACE_HEADER_SETS)
+  set(fileSets "")
+  foreach(set IN LISTS sets)
+    list(
+      APPEND
+      fileSets
+      FILE_SET
+      ${set}
+      DESTINATION
+      ${CMAKE_INSTALL_INCLUDEDIR}/${PHP_INCLUDE_PREFIX}/ext/${extension}
+    )
+  endforeach()
   install(
     TARGETS php_${extension}
     ARCHIVE EXCLUDE_FROM_ALL
@@ -427,8 +439,7 @@ function(php_extensions_postconfigure extension)
       DESTINATION ${PHP_EXTENSION_DIR}
     LIBRARY
       DESTINATION ${PHP_EXTENSION_DIR}
-    FILE_SET HEADERS
-      DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/${PHP_INCLUDE_PREFIX}/ext/${extension}
+    ${fileSets}
   )
 
   # Configure shared extension.

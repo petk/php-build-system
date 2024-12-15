@@ -92,9 +92,9 @@ target_sources(
         streams/php_stream_userspace.h
         streams/php_streams_int.h
         streams/userspace_arginfo.h
-  # A separate file set so binary dir can also be created within a source dir.
   PUBLIC
-    FILE_SET HEADERS
+    FILE_SET generated
+      TYPE HEADERS
       BASE_DIRS ${CMAKE_CURRENT_BINARY_DIR}
       FILES
         $<$<PLATFORM_ID:Windows>:${CMAKE_CURRENT_BINARY_DIR}/config.w32.h>
@@ -414,5 +414,7 @@ install(
   TARGETS php_main
   ARCHIVE EXCLUDE_FROM_ALL
   FILE_SET HEADERS
+    DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/${PHP_INCLUDE_PREFIX}/main
+  FILE_SET generated
     DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/${PHP_INCLUDE_PREFIX}/main
 )

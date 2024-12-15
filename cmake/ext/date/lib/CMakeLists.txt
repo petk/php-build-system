@@ -13,6 +13,10 @@ add_subdirectory(lib)
 ```
 #]=============================================================================]
 
+cmake_minimum_required(VERSION 3.25...3.31)
+
+project(Timelib LANGUAGES C)
+
 include(CheckIncludeFile)
 
 if(NOT TIMELIB_TARGET)
@@ -36,14 +40,15 @@ set(
 
 target_sources(
   ${TIMELIB_TARGET}
-  PRIVATE ${timelibSources}
+  PRIVATE
+    ${timelibSources}
   PUBLIC
     FILE_SET HEADERS
       FILES
         timelib.h
-  # A separate file set so binary dir can also be created within a source dir.
   PUBLIC
-    FILE_SET HEADERS
+    FILE_SET generated
+      TYPE HEADERS
       BASE_DIRS $<TARGET_PROPERTY:${TIMELIB_TARGET},BINARY_DIR>
       FILES
         ${CMAKE_CURRENT_BINARY_DIR}/timelib_config.h
@@ -59,8 +64,6 @@ target_compile_definitions(
     HAVE_STRTOLL
 )
 
-# The libmbfl configuration.
-
 check_include_file(io.h HAVE_IO_H)
 
 cmake_path(
@@ -70,7 +73,6 @@ cmake_path(
   OUTPUT_VARIABLE relativeDir
 )
 message(STATUS "Creating ${relativeDir}/timelib_config.h")
-
 file(CONFIGURE OUTPUT timelib_config.h CONTENT [[
 /* Define to 1 if you have the <io.h> header file. */
 #cmakedefine HAVE_IO_H 1

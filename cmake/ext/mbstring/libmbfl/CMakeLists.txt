@@ -79,9 +79,9 @@ target_sources(
         mbfl/mbfl_language.h
         mbfl/mbfl_memory_device.h
         mbfl/mbfl_string.h
-  # A separate file set so binary dir can also be created within a source dir.
   PUBLIC
-    FILE_SET HEADERS
+    FILE_SET generated
+      TYPE HEADERS
       BASE_DIRS $<TARGET_PROPERTY:${LIBMBFL_TARGET},BINARY_DIR>
       FILES
         ${CMAKE_CURRENT_BINARY_DIR}/config.h
