@@ -57,9 +57,9 @@ target_sources(
         time.h
         unistd.h
         winutil.h
-  # A separate file set so binary dir can also be created within a source dir.
   PUBLIC
-    FILE_SET HEADERS
+    FILE_SET generated
+      TYPE HEADERS
       BASE_DIRS ${CMAKE_CURRENT_BINARY_DIR}
       FILES
         ${CMAKE_CURRENT_BINARY_DIR}/wsyslog.h
@@ -161,5 +161,7 @@ install(
   TARGETS php_windows
   ARCHIVE EXCLUDE_FROM_ALL
   FILE_SET HEADERS
+    DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/${PHP_INCLUDE_PREFIX}/win32
+  FILE_SET generated
     DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/${PHP_INCLUDE_PREFIX}/win32
 )

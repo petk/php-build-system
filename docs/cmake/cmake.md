@@ -42,6 +42,12 @@ repository:
   ├─📂 toolchains              # CMake toolchain files
   └─📄 *.cmake                 # Various CMake configurations and files
 └─📂 ext
+  └─📂 date
+    └─📂 lib
+      └─📄 CMakeLists.txt      # Timelib's CMake file
+  └─📂 mbstring
+    └─📂 libmbfl
+      └─📄 CMakeLists.txt      # libmbfl's CMake file
   └─📂 standard
     └─📂 cmake                 # Extension's CMake-related files
       └─📄 config.h.in         # Extension's configuration header template

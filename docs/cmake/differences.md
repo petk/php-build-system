@@ -127,5 +127,8 @@ build system:
 * Zend/zend_vm_gen.php deprecation warnings on 32-bit systems.
   See: https://github.com/php/php-src/issues/15899
 
-* The `chroot()` PHP function is enabled/disabled based on the SAPI type:
+* The `chroot()` PHP function is enabled/disabled based on the SAPI type.
   See: https://github.com/php/php-src/issues/11984
+
+* The libmbfl configuration header (`config.h`).
+  See: https://github.com/php/php-src/pull/13713

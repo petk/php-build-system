@@ -184,6 +184,15 @@ target_sources(
   PUBLIC
     FILE_SET HEADERS
       FILES
+        Optimizer/zend_call_graph.h
+        Optimizer/zend_cfg.h
+        Optimizer/zend_dfg.h
+        Optimizer/zend_dump.h
+        Optimizer/zend_func_info.h
+        Optimizer/zend_inference.h
+        Optimizer/zend_optimizer.h
+        Optimizer/zend_ssa.h
+        Optimizer/zend_worklist.h
         zend_alloc_sizes.h
         zend_alloc.h
         zend_API.h
@@ -283,18 +292,9 @@ target_sources(
         zend_weakrefs_arginfo.h
         zend_weakrefs.h
         zend.h
-        Optimizer/zend_call_graph.h
-        Optimizer/zend_cfg.h
-        Optimizer/zend_dfg.h
-        Optimizer/zend_dump.h
-        Optimizer/zend_func_info.h
-        Optimizer/zend_inference.h
-        Optimizer/zend_optimizer.h
-        Optimizer/zend_ssa.h
-        Optimizer/zend_worklist.h
-  # A separate file set so binary dir can also be created within a source dir.
   PUBLIC
-    FILE_SET HEADERS
+    FILE_SET generated
+      TYPE HEADERS
       BASE_DIRS ${CMAKE_CURRENT_BINARY_DIR}
       FILES
         $<$<NOT:$<PLATFORM_ID:Windows>>:${CMAKE_CURRENT_BINARY_DIR}/zend_config.h>
@@ -716,5 +716,7 @@ install(
   TARGETS zend
   ARCHIVE EXCLUDE_FROM_ALL
   FILE_SET HEADERS
+    DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/${PHP_INCLUDE_PREFIX}/Zend
+  FILE_SET generated
     DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/${PHP_INCLUDE_PREFIX}/Zend
 )
