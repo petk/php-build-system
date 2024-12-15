@@ -17,6 +17,7 @@ cmake_minimum_required(VERSION 3.25...3.31)
 
 project(Timelib LANGUAGES C)
 
+include(CheckCompilerFlag)
 include(CheckIncludeFile)
 
 if(NOT TIMELIB_TARGET)
@@ -63,6 +64,15 @@ target_compile_definitions(
     # The timelib uses C99 strtoll() function conditionally.
     HAVE_STRTOLL
 )
+
+check_compiler_flag(C -fwrapv _HAVE_FWRAPV)
+if(_HAVE_FWRAPV)
+  set_source_files_properties(
+    ${timelibSources}
+    TARGET_DIRECTORY ${TIMELIB_TARGET}
+    PROPERTIES COMPILE_OPTIONS -fwrapv
+  )
+endif()
 
 check_include_file(io.h HAVE_IO_H)
 

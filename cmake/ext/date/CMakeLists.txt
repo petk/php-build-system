@@ -23,10 +23,12 @@ add_feature_info(
 
 add_library(php_date OBJECT)
 
+set(phpDateSources php_date.c)
+
 target_sources(
   php_date
   PRIVATE
-    php_date.c
+    ${phpDateSources}
     php_date.stub.php
   PUBLIC
     FILE_SET HEADERS
@@ -34,7 +36,10 @@ target_sources(
         php_date.h
 )
 
-target_compile_definitions(php_date PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE)
+set_source_files_properties(
+  ${phpDateSources}
+  PROPERTIES COMPILE_DEFINITIONS ZEND_ENABLE_STATIC_TSRMLS_CACHE
+)
 
 target_compile_options(
   php_date
