@@ -135,7 +135,7 @@ index e691bd3964..191fcd70eb 100644
 +CMakeLists.txt.user
 +CMakeScripts/
 diff --git a/run-tests.php b/run-tests.php
-index 2c6db0d7e2..e264d9d08e 100755
+index 9dffecca8d..902409f53b 100755
 --- a/run-tests.php
 +++ b/run-tests.php
 @@ -847,10 +847,12 @@ function write_information(array $user_tests, $phpdbg): void
