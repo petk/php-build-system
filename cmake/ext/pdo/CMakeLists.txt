@@ -49,13 +49,13 @@ if(NOT EXT_PDO)
 endif()
 
 if(EXT_PDO_SHARED)
-  add_library(php_pdo SHARED)
+  add_library(php_ext_pdo SHARED)
 else()
-  add_library(php_pdo)
+  add_library(php_ext_pdo)
 endif()
 
 target_sources(
-  php_pdo
+  php_ext_pdo
   PRIVATE
     pdo_dbh.c
     pdo_dbh.stub.php
@@ -73,11 +73,11 @@ target_sources(
         php_pdo_error.h
 )
 
-add_dependencies(php_pdo php_spl)
+add_dependencies(php_ext_pdo php_ext_spl)
 
 if(RE2C_FOUND)
   re2c_target(
-    php_pdo_sql_parser
+    php_ext_pdo_sql_parser
     pdo_sql_parser.re
     ${CMAKE_CURRENT_SOURCE_DIR}/pdo_sql_parser.c
   )

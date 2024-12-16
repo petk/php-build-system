@@ -50,13 +50,13 @@ if(NOT EXT_PDO_PGSQL)
 endif()
 
 if(EXT_PDO_PGSQL_SHARED)
-  add_library(php_pdo_pgsql SHARED)
+  add_library(php_ext_pdo_pgsql SHARED)
 else()
-  add_library(php_pdo_pgsql)
+  add_library(php_ext_pdo_pgsql)
 endif()
 
 target_sources(
-  php_pdo_pgsql
+  php_ext_pdo_pgsql
   PRIVATE
     pdo_pgsql.c
     pgsql_driver.c
@@ -64,10 +64,10 @@ target_sources(
     pgsql_statement.c
 )
 
-add_dependencies(php_pdo_pgsql php_pdo)
+add_dependencies(php_ext_pdo_pgsql php_ext_pdo)
 
 target_include_directories(
-  php_pdo_pgsql
+  php_ext_pdo_pgsql
   PRIVATE
     ${CMAKE_CURRENT_SOURCE_DIR}/..
 )
@@ -80,7 +80,7 @@ set_package_properties(
     PURPOSE "Necessary to enable the pdo_pgsql extension."
 )
 
-target_link_libraries(php_pdo_pgsql PUBLIC PostgreSQL::PostgreSQL)
+target_link_libraries(php_ext_pdo_pgsql PUBLIC PostgreSQL::PostgreSQL)
 
 # Sanity check.
 if(TARGET PostgreSQL::PostgreSQL)

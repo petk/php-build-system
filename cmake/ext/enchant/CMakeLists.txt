@@ -50,13 +50,13 @@ if(NOT EXT_ENCHANT)
 endif()
 
 if(EXT_ENCHANT_SHARED)
-  add_library(php_enchant SHARED)
+  add_library(php_ext_enchant SHARED)
 else()
-  add_library(php_enchant)
+  add_library(php_ext_enchant)
 endif()
 
 target_sources(
-  php_enchant
+  php_ext_enchant
   PRIVATE
     enchant.c
     enchant.stub.php
@@ -88,7 +88,7 @@ if(TARGET Enchant::Enchant)
   )
 endif()
 
-target_link_libraries(php_enchant PRIVATE Enchant::Enchant)
+target_link_libraries(php_ext_enchant PRIVATE Enchant::Enchant)
 
 set(HAVE_ENCHANT TRUE)
 

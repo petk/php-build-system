@@ -62,10 +62,10 @@ add_feature_info(
 # Add library.
 ################################################################################
 
-add_library(php_standard OBJECT)
+add_library(php_ext_standard OBJECT)
 
 target_sources(
-  php_standard
+  php_ext_standard
   PRIVATE
     array.c
     assert.c
@@ -204,22 +204,22 @@ target_sources(
 
 # Check for ARM64 processor on Windows.
 if(NOT CMAKE_SYSTEM_PROCESSOR STREQUAL "ARM64")
-  target_sources(php_standard PRIVATE crc32_x86.c)
+  target_sources(php_ext_standard PRIVATE crc32_x86.c)
 endif()
 
 target_include_directories(
-  php_standard
+  php_ext_standard
   PRIVATE
     ${CMAKE_CURRENT_SOURCE_DIR}/libavifinfo
 )
 
-target_compile_definitions(php_standard PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE)
+target_compile_definitions(php_ext_standard PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE)
 
 # The standard extension depends on the generated Zend language parser.
-add_dependencies(php_standard Zend::Zend)
+add_dependencies(php_ext_standard Zend::Zend)
 
 target_link_libraries(
-  php_standard
+  php_ext_standard
   PRIVATE
     $<$<PLATFORM_ID:Windows>:iphlpapi>
 )
@@ -230,14 +230,14 @@ target_link_libraries(
 
 if(RE2C_FOUND)
   re2c_target(
-    php_standard_var_unserializer
+    php_ext_standard_var_unserializer
     var_unserializer.re
     ${CMAKE_CURRENT_SOURCE_DIR}/var_unserializer.c
     OPTIONS -b
   )
 
   re2c_target(
-    php_standard_url_scanner_ex
+    php_ext_standard_url_scanner_ex
     url_scanner_ex.re
     ${CMAKE_CURRENT_SOURCE_DIR}/url_scanner_ex.c
     OPTIONS -b
@@ -257,7 +257,7 @@ if(EXT_STANDARD_ARGON2)
       PURPOSE "Necessary to include Argon2 support in password_*."
   )
 
-  target_link_libraries(php_standard PRIVATE Argon2::Argon2)
+  target_link_libraries(php_ext_standard PRIVATE Argon2::Argon2)
 
   set(HAVE_ARGON2LIB TRUE)
 endif()
@@ -268,7 +268,7 @@ endif()
 
 if(NOT EXT_STANDARD_CRYPT_EXTERNAL)
   target_sources(
-    php_standard
+    php_ext_standard
     PRIVATE
       crypt_blowfish.c
       crypt_freesec.c
@@ -289,7 +289,7 @@ else()
 
   include(cmake/CheckCrypt.cmake)
 
-  target_link_libraries(php_standard PRIVATE Crypt::Crypt)
+  target_link_libraries(php_ext_standard PRIVATE Crypt::Crypt)
 endif()
 
 ################################################################################
@@ -358,7 +358,7 @@ php_search_libraries(
     network # Haiku
   VARIABLE _HAVE_GETIFADDRS
   LIBRARY_VARIABLE libraryForGetifaddrs
-  TARGET php_standard PRIVATE
+  TARGET php_ext_standard PRIVATE
 )
 
 if(_HAVE_GETIFADDRS)
@@ -409,7 +409,7 @@ php_search_libraries(
   LIBRARIES
     resolv # Solaris/illumos
   VARIABLE HAVE_DN_EXPAND
-  TARGET php_standard PRIVATE
+  TARGET php_ext_standard PRIVATE
 )
 
 php_search_libraries(
@@ -420,7 +420,7 @@ php_search_libraries(
   LIBRARIES
     resolv # Solaris/illumos
   VARIABLE HAVE_DN_SKIPNAME
-  TARGET php_standard PRIVATE
+  TARGET php_ext_standard PRIVATE
 )
 
 # On macos the dn_skipname is defined as a macro but also requires resolv
@@ -432,7 +432,7 @@ php_search_libraries(
     resolv.h
   LIBRARIES
     resolv # macOS
-  TARGET php_standard PRIVATE
+  TARGET php_ext_standard PRIVATE
 )
 
 php_search_libraries(
@@ -444,7 +444,7 @@ php_search_libraries(
   LIBRARIES
     resolv # Solaris/illumos, macOS
   VARIABLE HAVE_DNS_SEARCH
-  TARGET php_standard PRIVATE
+  TARGET php_ext_standard PRIVATE
 )
 
 php_search_libraries(
@@ -455,7 +455,7 @@ php_search_libraries(
   LIBRARIES
     resolv # Solaris/illumos
   VARIABLE HAVE_RES_NDESTROY
-  TARGET php_standard PRIVATE
+  TARGET php_ext_standard PRIVATE
 )
 
 php_search_libraries(
@@ -466,7 +466,7 @@ php_search_libraries(
   LIBRARIES
     resolv # Solaris/illumos
   VARIABLE HAVE_RES_NSEARCH
-  TARGET php_standard PRIVATE
+  TARGET php_ext_standard PRIVATE
 )
 
 # res_search() is deprecated and should be replaced with res_nsearch().
@@ -478,7 +478,7 @@ php_search_libraries(
   LIBRARIES
     resolv # Solaris/illumos
   VARIABLE HAVE_RES_SEARCH
-  TARGET php_standard PRIVATE
+  TARGET php_ext_standard PRIVATE
 )
 
 check_symbol_exists(
@@ -516,12 +516,12 @@ block()
   )
 
   add_custom_target(
-    php_standard_credits
+    php_ext_standard_credits
     DEPENDS
       ${CMAKE_CURRENT_BINARY_DIR}/CMakeFiles/php_credits.timestamp
   )
 
-  add_dependencies(php_standard php_standard_credits)
+  add_dependencies(php_ext_standard php_ext_standard_credits)
 endblock()
 
 ################################################################################
@@ -534,36 +534,36 @@ endblock()
 
 check_symbol_exists(chroot "unistd.h" HAVE_CHROOT)
 
-add_library(php_standard_functions OBJECT)
-add_library(php_standard_functions_cli OBJECT)
+add_library(php_ext_standard_functions OBJECT)
+add_library(php_ext_standard_functions_cli OBJECT)
 
-target_sources(php_standard_functions PRIVATE basic_functions.c dir.c)
-target_sources(php_standard_functions_cli PRIVATE basic_functions.c dir.c)
+target_sources(php_ext_standard_functions PRIVATE basic_functions.c dir.c)
+target_sources(php_ext_standard_functions_cli PRIVATE basic_functions.c dir.c)
 
 set_target_properties(
-  php_standard_functions
-  php_standard_functions_cli
+  php_ext_standard_functions
+  php_ext_standard_functions_cli
   PROPERTIES
-    INCLUDE_DIRECTORIES $<TARGET_PROPERTY:php_standard,INCLUDE_DIRECTORIES>
-    COMPILE_DEFINITIONS $<TARGET_PROPERTY:php_standard,COMPILE_DEFINITIONS>
-    LINK_LIBRARIES $<TARGET_PROPERTY:php_standard,LINK_LIBRARIES>
+    INCLUDE_DIRECTORIES $<TARGET_PROPERTY:php_ext_standard,INCLUDE_DIRECTORIES>
+    COMPILE_DEFINITIONS $<TARGET_PROPERTY:php_ext_standard,COMPILE_DEFINITIONS>
+    LINK_LIBRARIES $<TARGET_PROPERTY:php_ext_standard,LINK_LIBRARIES>
 )
 
 target_compile_definitions(
-  php_standard_functions_cli
+  php_ext_standard_functions_cli
   PRIVATE
     $<$<NOT:$<PLATFORM_ID:Windows>>:ENABLE_CHROOT_FUNC>
 )
 
 # ext/standard functions objects based on the SAPI type.
 target_sources(
-  php_standard
+  php_ext_standard
   INTERFACE
-    $<IF:$<BOOL:$<TARGET_PROPERTY:PHP_CLI>>,$<TARGET_OBJECTS:php_standard_functions_cli>,$<TARGET_OBJECTS:php_standard_functions>>
+    $<IF:$<BOOL:$<TARGET_PROPERTY:PHP_CLI>>,$<TARGET_OBJECTS:php_ext_standard_functions_cli>,$<TARGET_OBJECTS:php_ext_standard_functions>>
 )
 
-add_dependencies(php_standard_functions php_standard)
-add_dependencies(php_standard_functions_cli php_standard)
+add_dependencies(php_ext_standard_functions php_ext_standard)
+add_dependencies(php_ext_standard_functions_cli php_ext_standard)
 
 ################################################################################
 # Configuration header

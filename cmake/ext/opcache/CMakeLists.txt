@@ -82,10 +82,10 @@ endif()
 # Add library.
 ################################################################################
 
-add_library(php_opcache SHARED)
+add_library(php_ext_opcache SHARED)
 
 target_sources(
-  php_opcache
+  php_ext_opcache
   PRIVATE
     opcache.stub.php
     $<$<NOT:$<PLATFORM_ID:Windows>>:shared_alloc_mmap.c>
@@ -104,19 +104,19 @@ target_sources(
     ZendAccelerator.c
 )
 
-add_dependencies(php_opcache php_date php_pcre)
+add_dependencies(php_ext_opcache php_ext_date php_ext_pcre)
 
 if(CMAKE_SYSTEM_NAME STREQUAL "Windows")
-  add_dependencies(php_opcache php_hash)
+  add_dependencies(php_ext_opcache php_ext_hash)
 endif()
 
 set_target_properties(
-  php_opcache
+  php_ext_opcache
   PROPERTIES
     PHP_ZEND_EXTENSION TRUE
 )
 
-target_compile_definitions(php_opcache PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE)
+target_compile_definitions(php_ext_opcache PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE)
 
 if(EXT_OPCACHE_HUGE_CODE_PAGES)
   set(HAVE_HUGE_CODE_PAGES TRUE)
@@ -187,9 +187,9 @@ if(EXT_OPCACHE_JIT)
   endif()
 
   # Generate zend_jit_<arch>.c file.
-  add_executable(php_opcache_jit_minilua jit/dynasm/minilua.c)
+  add_executable(php_ext_opcache_jit_minilua jit/dynasm/minilua.c)
   set_target_properties(
-    php_opcache_jit_minilua
+    php_ext_opcache_jit_minilua
     PROPERTIES
       RUNTIME_OUTPUT_DIRECTORY CMakeFiles
   )
@@ -199,7 +199,7 @@ if(EXT_OPCACHE_JIT)
     floor
     HEADERS math.h
     LIBRARIES m
-    TARGET php_opcache_jit_minilua PRIVATE
+    TARGET php_ext_opcache_jit_minilua PRIVATE
   )
 
   # Help minilua create a jit build directory.
@@ -216,7 +216,7 @@ if(EXT_OPCACHE_JIT)
   add_custom_command(
     OUTPUT jit/zend_jit_${DASM_ARCH}.c
     COMMAND
-      php_opcache_jit_minilua ${CMAKE_CURRENT_SOURCE_DIR}/jit/dynasm/dynasm.lua
+      php_ext_opcache_jit_minilua ${CMAKE_CURRENT_SOURCE_DIR}/jit/dynasm/dynasm.lua
         ${DASM_FLAGS}
         -o ${CMAKE_CURRENT_BINARY_DIR}/jit/zend_jit_${DASM_ARCH}.c
         ${CMAKE_CURRENT_SOURCE_DIR}/jit/zend_jit_${DASM_ARCH}.dasc
@@ -229,7 +229,7 @@ if(EXT_OPCACHE_JIT)
   )
 
   target_sources(
-    php_opcache
+    php_ext_opcache
     PRIVATE
       $<$<NOT:$<PLATFORM_ID:Windows>>:jit/zend_jit_gdb.c>
       jit/zend_jit_vm_helpers.c
@@ -245,7 +245,7 @@ if(EXT_OPCACHE_JIT)
 
   # The string.h header is always available with C89 standard. The bundled
   # ext/opcache/jit/libudis86 still includes it conditionally.
-  target_compile_definitions(php_opcache PRIVATE HAVE_STRING_H=1)
+  target_compile_definitions(php_ext_opcache PRIVATE HAVE_STRING_H=1)
 
   php_check_compiler_flag(
     C
@@ -253,7 +253,7 @@ if(EXT_OPCACHE_JIT)
     _HAVE_WNO_IMPLICIT_FALLTHROUGH_C
   )
   if(_HAVE_WNO_IMPLICIT_FALLTHROUGH_C)
-    target_compile_options(php_opcache PRIVATE -Wno-implicit-fallthrough)
+    target_compile_options(php_ext_opcache PRIVATE -Wno-implicit-fallthrough)
   endif()
 
   # Check for Capstone.
@@ -266,7 +266,7 @@ if(EXT_OPCACHE_JIT)
         PURPOSE "Necessary to enable OPcache JIT disassembly through Capstone."
     )
 
-    target_link_libraries(php_opcache PRIVATE Capstone::Capstone)
+    target_link_libraries(php_ext_opcache PRIVATE Capstone::Capstone)
 
     set(HAVE_CAPSTONE TRUE)
   endif()
@@ -295,7 +295,7 @@ check_symbol_exists(mprotect "sys/mman.h" HAVE_MPROTECT)
 # Check for shared memory support.
 include(cmake/CheckSHM.cmake)
 if(TARGET PHP::CheckSHMLibrary)
-  target_link_libraries(php_opcache PRIVATE PHP::CheckSHMLibrary)
+  target_link_libraries(php_ext_opcache PRIVATE PHP::CheckSHMLibrary)
 endif()
 
 configure_file(cmake/config.h.in config.h)

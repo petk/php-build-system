@@ -50,13 +50,13 @@ if(NOT EXT_DOM)
 endif()
 
 if(EXT_DOM_SHARED)
-  add_library(php_dom SHARED)
+  add_library(php_ext_dom SHARED)
 else()
-  add_library(php_dom)
+  add_library(php_ext_dom)
 endif()
 
 target_sources(
-  php_dom
+  php_ext_dom
   PRIVATE
     attr.c
     cdatasection.c
@@ -88,7 +88,7 @@ target_sources(
 )
 
 target_compile_definitions(
-  php_dom
+  php_ext_dom
   PRIVATE
     $<$<AND:$<PLATFORM_ID:Windows>,$<NOT:$<IN_LIST:$<TARGET_PROPERTY:TYPE>,MODULE_LIBRARY;SHARED_LIBRARY>>>:LIBXML_STATIC>
 )
@@ -102,9 +102,9 @@ set_package_properties(
     PURPOSE "Necessary to enable the dom extension."
 )
 
-target_link_libraries(php_dom PRIVATE LibXml2::LibXml2)
+target_link_libraries(php_ext_dom PRIVATE LibXml2::LibXml2)
 
-add_dependencies(php_dom php_libxml php_random)
+add_dependencies(php_ext_dom php_ext_libxml php_ext_random)
 
 set(HAVE_DOM TRUE)
 

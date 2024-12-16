@@ -50,13 +50,13 @@ if(NOT EXT_PSPELL)
 endif()
 
 if(EXT_PSPELL_SHARED)
-  add_library(php_pspell SHARED)
+  add_library(php_ext_pspell SHARED)
 else()
-  add_library(php_pspell)
+  add_library(php_ext_pspell)
 endif()
 
 target_sources(
-  php_pspell
+  php_ext_pspell
   PRIVATE
     pspell.c
     pspell.stub.php
@@ -66,7 +66,7 @@ target_sources(
 php_check_compiler_flag(C -Wno-strict-prototypes HAVE_WNO_STRICT_PROTOTYPES_C)
 if(HAVE_WNO_STRICT_PROTOTYPES_C)
   target_compile_options(
-    php_pspell
+    php_ext_pspell
     PRIVATE
       $<$<COMPILE_LANGUAGE:C>:-Wno-strict-prototypes>
   )
@@ -80,7 +80,7 @@ set_package_properties(
     PURPOSE "Necessary to enable the pspell extension."
 )
 
-target_link_libraries(php_pspell PRIVATE Aspell::Aspell)
+target_link_libraries(php_ext_pspell PRIVATE Aspell::Aspell)
 
 set(HAVE_PSPELL TRUE)
 

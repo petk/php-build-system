@@ -49,23 +49,23 @@ if(NOT EXT_PDO_OCI)
 endif()
 
 if(EXT_PDO_OCI_SHARED)
-  add_library(php_pdo_oci SHARED)
+  add_library(php_ext_pdo_oci SHARED)
 else()
-  add_library(php_pdo_oci)
+  add_library(php_ext_pdo_oci)
 endif()
 
 target_sources(
-  php_pdo_oci
+  php_ext_pdo_oci
   PRIVATE
     oci_driver.c
     oci_statement.c
     pdo_oci.c
 )
 
-add_dependencies(php_pdo_oci php_pdo)
+add_dependencies(php_ext_pdo_oci php_ext_pdo)
 
 target_include_directories(
-  php_pdo_oci
+  php_ext_pdo_oci
   PRIVATE
     ${CMAKE_CURRENT_SOURCE_DIR}/..
 )

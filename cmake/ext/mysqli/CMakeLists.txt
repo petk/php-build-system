@@ -91,13 +91,13 @@ if(NOT EXT_MYSQLI)
 endif()
 
 if(EXT_MYSQLI_SHARED)
-  add_library(php_mysqli SHARED)
+  add_library(php_ext_mysqli SHARED)
 else()
-  add_library(php_mysqli)
+  add_library(php_ext_mysqli)
 endif()
 
 target_sources(
-  php_mysqli
+  php_ext_mysqli
   PRIVATE
     mysqli_api.c
     mysqli_driver.c
@@ -116,9 +116,9 @@ target_sources(
         php_mysqli_structs.h
 )
 
-add_dependencies(php_mysqli php_mysqlnd php_spl)
+add_dependencies(php_ext_mysqli php_ext_mysqlnd php_ext_spl)
 
-target_compile_definitions(php_mysqli PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE)
+target_compile_definitions(php_ext_mysqli PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE)
 
 if(EXT_MYSQL_SOCKET)
   if(EXT_MYSQL_SOCKET_PATH)

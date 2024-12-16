@@ -62,7 +62,7 @@ foreach(extension IN LISTS extensions)
   php_extensions_postconfigure("${extension}")
   list(POP_BACK CMAKE_MESSAGE_INDENT)
 
-  if(NOT TARGET php_${extension})
+  if(NOT TARGET php_ext_${extension})
     message(CHECK_FAIL "disabled")
     list(POP_BACK CMAKE_MESSAGE_CONTEXT)
     continue()
@@ -70,55 +70,55 @@ foreach(extension IN LISTS extensions)
 
   set_property(GLOBAL APPEND PROPERTY PHP_EXTENSIONS ${extension})
 
-  add_dependencies(php_${extension} Zend::Zend)
+  add_dependencies(php_ext_${extension} Zend::Zend)
 
   # Add usage requirements to PHP interface targets.
   # TODO: Should PHP_CLI extensions pass properties only to PHP_CLI SAPIs?
-  get_target_property(type php_${extension} TYPE)
+  get_target_property(type php_ext_${extension} TYPE)
   if(NOT type MATCHES "^(MODULE|SHARED)_LIBRARY$")
     target_compile_definitions(
       php_config
       INTERFACE
-        $<TARGET_PROPERTY:PHP::${extension},INTERFACE_COMPILE_DEFINITIONS>
+        $<TARGET_PROPERTY:PHP::ext::${extension},INTERFACE_COMPILE_DEFINITIONS>
     )
 
     target_compile_options(
       php_config
       INTERFACE
-        $<TARGET_PROPERTY:PHP::${extension},INTERFACE_COMPILE_OPTIONS>
+        $<TARGET_PROPERTY:PHP::ext::${extension},INTERFACE_COMPILE_OPTIONS>
     )
 
     target_compile_features(
       php_config
       INTERFACE
-        $<TARGET_PROPERTY:PHP::${extension},INTERFACE_COMPILE_FEATURES>
+        $<TARGET_PROPERTY:PHP::ext::${extension},INTERFACE_COMPILE_FEATURES>
     )
 
     target_include_directories(
       php_config
       INTERFACE
-        $<TARGET_PROPERTY:PHP::${extension},INTERFACE_INCLUDE_DIRECTORIES>
-        $<TARGET_PROPERTY:PHP::${extension},INTERFACE_SYSTEM_INCLUDE_DIRECTORIES>
+        $<TARGET_PROPERTY:PHP::ext::${extension},INTERFACE_INCLUDE_DIRECTORIES>
+        $<TARGET_PROPERTY:PHP::ext::${extension},INTERFACE_SYSTEM_INCLUDE_DIRECTORIES>
     )
 
     target_link_libraries(
       php_sapi
       INTERFACE
-        $<IF:$<BOOL:$<TARGET_GENEX_EVAL:PHP::${extension},$<TARGET_PROPERTY:PHP::${extension},PHP_CLI>>>,$<$<BOOL:$<TARGET_PROPERTY:PHP_CLI>>:PHP::${extension}>,PHP::${extension}>
+        $<IF:$<BOOL:$<TARGET_GENEX_EVAL:PHP::ext::${extension},$<TARGET_PROPERTY:PHP::ext::${extension},PHP_CLI>>>,$<$<BOOL:$<TARGET_PROPERTY:PHP_CLI>>:PHP::ext::${extension}>,PHP::ext::${extension}>
     )
 
     target_sources(
       php_sapi
       INTERFACE
-        $<IF:$<BOOL:$<TARGET_GENEX_EVAL:PHP::${extension},$<TARGET_PROPERTY:PHP::${extension},PHP_CLI>>>,$<$<BOOL:$<TARGET_PROPERTY:PHP_CLI>>:$<TARGET_OBJECTS:PHP::${extension}>>,$<TARGET_OBJECTS:PHP::${extension}>>
+        $<IF:$<BOOL:$<TARGET_GENEX_EVAL:PHP::ext::${extension},$<TARGET_PROPERTY:PHP::ext::${extension},PHP_CLI>>>,$<$<BOOL:$<TARGET_PROPERTY:PHP_CLI>>:$<TARGET_OBJECTS:PHP::ext::${extension}>>,$<TARGET_OBJECTS:PHP::ext::${extension}>>
     )
   endif()
 
-  target_link_libraries(php_${extension} PRIVATE PHP::config)
+  target_link_libraries(php_ext_${extension} PRIVATE PHP::config)
 
   # Add configuration compile options before the extension compile options.
   target_compile_options(
-    php_${extension}
+    php_ext_${extension}
     BEFORE PRIVATE
       $<TARGET_PROPERTY:PHP::config,INTERFACE_COMPILE_OPTIONS>
   )

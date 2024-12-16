@@ -51,13 +51,13 @@ if(NOT EXT_SODIUM)
 endif()
 
 if(EXT_SODIUM_SHARED)
-  add_library(php_sodium SHARED)
+  add_library(php_ext_sodium SHARED)
 else()
-  add_library(php_sodium)
+  add_library(php_ext_sodium)
 endif()
 
 target_sources(
-  php_sodium
+  php_ext_sodium
   PRIVATE
     libsodium.c
     libsodium.stub.php
@@ -76,18 +76,18 @@ set_package_properties(
     PURPOSE "Necessary to enable the sodium extension."
 )
 
-target_link_libraries(php_sodium PRIVATE Sodium::Sodium)
+target_link_libraries(php_ext_sodium PRIVATE Sodium::Sodium)
 
 # Suppress some warnings on 32-bit with -Wno-type-limits and -Wno-logical-op.
 if(CMAKE_SIZEOF_VOID_P EQUAL 4)
   php_check_compiler_flag(C -Wno-type-limits HAVE_WNO_TYPE_LIMITS_C)
   if(HAVE_WNO_TYPE_LIMITS_C)
-    target_compile_options(php_sodium PRIVATE -Wno-type-limits)
+    target_compile_options(php_ext_sodium PRIVATE -Wno-type-limits)
   endif()
 
   php_check_compiler_flag(C -Wno-logical-op HAVE_WNO_LOGICAL_OP_C)
   if(HAVE_WNO_LOGICAL_OP_C)
-    target_compile_options(php_sodium PRIVATE -Wno-logical-op)
+    target_compile_options(php_ext_sodium PRIVATE -Wno-logical-op)
   endif()
 endif()
 

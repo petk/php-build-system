@@ -76,13 +76,13 @@ endif()
 ################################################################################
 
 if(EXT_MBSTRING_SHARED)
-  add_library(php_mbstring SHARED)
+  add_library(php_ext_mbstring SHARED)
 else()
-  add_library(php_mbstring)
+  add_library(php_ext_mbstring)
 endif()
 
 target_sources(
-  php_mbstring
+  php_ext_mbstring
   PRIVATE
     mb_gpc.c
     mbstring.c
@@ -94,13 +94,13 @@ target_sources(
         mbstring.h
 )
 
-target_compile_definitions(php_mbstring PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE)
+target_compile_definitions(php_ext_mbstring PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE)
 
 # The mbstring extension doesn't seem to support interprocedural optimization
 # (IPO).
-set_target_properties(php_mbstring PROPERTIES INTERPROCEDURAL_OPTIMIZATION OFF)
+set_target_properties(php_ext_mbstring PROPERTIES INTERPROCEDURAL_OPTIMIZATION OFF)
 
-add_dependencies(php_mbstring php_pcre)
+add_dependencies(php_ext_mbstring php_ext_pcre)
 
 set(HAVE_MBSTRING TRUE)
 
@@ -108,7 +108,7 @@ set(HAVE_MBSTRING TRUE)
 # Configure libmbfl.
 ################################################################################
 
-set(LIBMBFL_TARGET php_mbstring)
+set(LIBMBFL_TARGET php_ext_mbstring)
 add_subdirectory(libmbfl)
 
 file(APPEND ${CMAKE_CURRENT_BINARY_DIR}/libmbfl/config.h "\n" [[
@@ -136,7 +136,7 @@ if(EXT_MBSTRING_MBREGEX)
       PURPOSE "Necessary for multibyte regex in the mbstring extension."
   )
 
-  target_link_libraries(php_mbstring PRIVATE Oniguruma::Oniguruma)
+  target_link_libraries(php_ext_mbstring PRIVATE Oniguruma::Oniguruma)
 
   if(TARGET Oniguruma::Oniguruma)
     message(CHECK_START "Checking for invalid KOI8 encoding entry in Oniguruma")
@@ -163,7 +163,7 @@ if(EXT_MBSTRING_MBREGEX)
   endif()
 
   target_compile_definitions(
-    php_mbstring
+    php_ext_mbstring
     PRIVATE
       $<$<NOT:$<PLATFORM_ID:Windows>>:ONIG_ESCAPE_UCHAR_COLLISION>
       $<$<NOT:$<PLATFORM_ID:Windows>>:UChar=OnigUChar>
@@ -173,7 +173,7 @@ if(EXT_MBSTRING_MBREGEX)
   )
 
   target_sources(
-    php_mbstring
+    php_ext_mbstring
     PRIVATE
       php_mbregex.c
     PUBLIC

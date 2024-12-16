@@ -49,24 +49,24 @@ if(NOT EXT_EXIF)
 endif()
 
 if(EXT_EXIF_SHARED)
-  add_library(php_exif SHARED)
+  add_library(php_ext_exif SHARED)
 else()
-  add_library(php_exif)
+  add_library(php_ext_exif)
 endif()
 
 target_sources(
-  php_exif
+  php_ext_exif
   PRIVATE
     exif.c
     exif.stub.php
 )
 
-target_compile_definitions(php_exif PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE)
+target_compile_definitions(php_ext_exif PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE)
 
 # Exif extension optionally depends on the mbstring extension when decoding
 # multibyte data in EXIF tags.
 if(EXT_MBSTRING)
-  add_dependencies(php_exif php_mbstring)
+  add_dependencies(php_ext_exif php_ext_mbstring)
 endif()
 
 set(HAVE_EXIF TRUE)

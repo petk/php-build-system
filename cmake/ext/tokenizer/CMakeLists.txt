@@ -22,7 +22,7 @@ Build extension as shared.
 #]=============================================================================]
 
 project(
-  PhpExtensionTokenizer
+  tokenizer
   LANGUAGES C
 )
 
@@ -51,13 +51,13 @@ if(NOT EXT_TOKENIZER)
 endif()
 
 if(EXT_TOKENIZER_SHARED)
-  add_library(php_tokenizer SHARED)
+  add_library(php_ext_tokenizer SHARED)
 else()
-  add_library(php_tokenizer)
+  add_library(php_ext_tokenizer)
 endif()
 
 target_sources(
-  php_tokenizer
+  php_ext_tokenizer
   PRIVATE
     tokenizer_data.c
     tokenizer_data.stub.php
@@ -66,12 +66,12 @@ target_sources(
 )
 
 # The tokenizer extension depends on the generated Zend scanner and parser.
-add_dependencies(php_tokenizer Zend::Zend)
+add_dependencies(php_ext_tokenizer Zend::Zend)
 
 # Generate tokenizer data source files.
 if(PHP_SOURCE_DIR)
   php_add_custom_command(
-    php_generate_tokenizer_data
+    php_ext_tokenizer_generate_data
     OUTPUT
       ${CMAKE_CURRENT_SOURCE_DIR}/tokenizer_data.stub.php
       ${CMAKE_CURRENT_SOURCE_DIR}/tokenizer_data.c

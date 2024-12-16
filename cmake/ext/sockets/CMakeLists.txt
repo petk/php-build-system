@@ -54,13 +54,13 @@ if(NOT EXT_SOCKETS)
 endif()
 
 if(EXT_SOCKETS_SHARED)
-  add_library(php_sockets SHARED)
+  add_library(php_ext_sockets SHARED)
 else()
-  add_library(php_sockets)
+  add_library(php_ext_sockets)
 endif()
 
 target_sources(
-  php_sockets
+  php_ext_sockets
   PRIVATE
     conversions.c
     multicast.c
@@ -76,7 +76,7 @@ target_sources(
 )
 
 target_compile_definitions(
-  php_sockets
+  php_ext_sockets
   PRIVATE
     ZEND_ENABLE_STATIC_TSRMLS_CACHE
     $<$<PLATFORM_ID:Darwin>:__APPLE_USE_RFC_3542>
@@ -84,7 +84,7 @@ target_compile_definitions(
 )
 
 target_link_libraries(
-  php_sockets
+  php_ext_sockets
   PRIVATE
     $<$<PLATFORM_ID:Windows>:ws2_32;iphlpapi>
 )

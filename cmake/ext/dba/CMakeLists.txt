@@ -315,25 +315,25 @@ if(NOT EXT_DBA)
 endif()
 
 if(EXT_DBA_SHARED)
-  add_library(php_dba SHARED)
+  add_library(php_ext_dba SHARED)
 else()
-  add_library(php_dba)
+  add_library(php_ext_dba)
 endif()
 
 target_sources(
-  php_dba
+  php_ext_dba
   PRIVATE
     dba.c
     dba.stub.php
 )
 
-target_compile_definitions(php_dba PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE)
+target_compile_definitions(php_ext_dba PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE)
 
 ################################################################################
 # Constant databases (cdb).
 ################################################################################
 if(EXT_DBA_CDB)
-  target_sources(php_dba PRIVATE dba_cdb.c)
+  target_sources(php_ext_dba PRIVATE dba_cdb.c)
   set(DBA_CDB TRUE)
 
   if(EXT_DBA_CDB_EXTERNAL)
@@ -344,7 +344,7 @@ if(EXT_DBA_CDB)
         TYPE REQUIRED
         PURPOSE "Necessary to enable the cdb handler in the dba extension."
     )
-    target_link_libraries(php_dba PRIVATE Cdb::Cdb)
+    target_link_libraries(php_ext_dba PRIVATE Cdb::Cdb)
 
     set(CDB_INCLUDE_FILE "<cdb.h>")
 
@@ -360,7 +360,7 @@ if(EXT_DBA_CDB)
     )
   else()
     target_sources(
-      php_dba
+      php_ext_dba
       PRIVATE
         libcdb/cdb.c
         libcdb/cdb_make.c
@@ -385,10 +385,10 @@ if(EXT_DBA_DB)
       TYPE REQUIRED
       PURPOSE "Necessary to enable the Berkeley DB handler in the dba extension."
   )
-  target_link_libraries(php_dba PRIVATE BerkeleyDB::BerkeleyDB)
+  target_link_libraries(php_ext_dba PRIVATE BerkeleyDB::BerkeleyDB)
 
   # Check whether the Berkeley DB version is supported by PHP.
-  get_target_property(type php_dba TYPE)
+  get_target_property(type php_ext_dba TYPE)
   if(
     BerkeleyDB_VERSION VERSION_GREATER_EQUAL 4.1
     AND BerkeleyDB_VERSION VERSION_LESS 4.1.25
@@ -414,26 +414,26 @@ if(EXT_DBA_DB)
     set(DB1_INCLUDE_FILE "<db_185.h>")
     set(DBA_DB1 TRUE)
     set(DB1_VERSION "Berkeley DB 1.85 emulation in DB")
-    target_sources(php_dba PRIVATE dba_db1.c)
+    target_sources(php_ext_dba PRIVATE dba_db1.c)
   endif()
 
   if(BerkeleyDB_VERSION VERSION_LESS_EQUAL 1 AND NOT EXT_DBA_DB1)
     set(DB1_INCLUDE_FILE "<db.h>")
     set(DBA_DB1 TRUE)
     set(DB1_VERSION "Unknown DB1")
-    target_sources(php_dba PRIVATE dba_db1.c)
+    target_sources(php_ext_dba PRIVATE dba_db1.c)
   elseif(BerkeleyDB_VERSION VERSION_LESS_EQUAL 2)
     set(DB2_INCLUDE_FILE "<db.h>")
     set(DBA_DB2 TRUE)
-    target_sources(php_dba PRIVATE dba_db2.c)
+    target_sources(php_ext_dba PRIVATE dba_db2.c)
   elseif(BerkeleyDB_VERSION VERSION_LESS_EQUAL 3)
     set(DB3_INCLUDE_FILE "<db.h>")
     set(DBA_DB3 TRUE)
-    target_sources(php_dba PRIVATE dba_db3.c)
+    target_sources(php_ext_dba PRIVATE dba_db3.c)
   else()
     set(DB4_INCLUDE_FILE "<db.h>")
     set(DBA_DB4 TRUE)
-    target_sources(php_dba PRIVATE dba_db4.c)
+    target_sources(php_ext_dba PRIVATE dba_db4.c)
   endif()
 endif()
 
@@ -460,9 +460,9 @@ if(EXT_DBA_DBM)
     )
   endif()
 
-  target_link_libraries(php_dba PRIVATE Dbm::Dbm)
+  target_link_libraries(php_ext_dba PRIVATE Dbm::Dbm)
 
-  target_sources(php_dba PRIVATE dba_dbm.c)
+  target_sources(php_ext_dba PRIVATE dba_dbm.c)
 
   set(DBM_INCLUDE_FILE "<dbm.h>")
   set(DBA_DBM TRUE)
@@ -474,7 +474,7 @@ endif()
 ################################################################################
 if(EXT_DBA_FLATFILE)
   target_sources(
-    php_dba
+    php_ext_dba
     PRIVATE
       dba_flatfile.c
       libflatfile/flatfile.c
@@ -503,9 +503,9 @@ if(EXT_DBA_GDBM)
       PURPOSE "Necessary to enable the GDBM handler in the dba extension."
   )
 
-  target_link_libraries(php_dba PRIVATE GDBM::GDBM)
+  target_link_libraries(php_ext_dba PRIVATE GDBM::GDBM)
 
-  target_sources(php_dba PRIVATE dba_gdbm.c)
+  target_sources(php_ext_dba PRIVATE dba_gdbm.c)
 
   set(GDBM_INCLUDE_FILE "<gdbm.h>")
   set(DBA_GDBM TRUE)
@@ -516,7 +516,7 @@ endif()
 ################################################################################
 if(EXT_DBA_INIFILE)
   target_sources(
-    php_dba
+    php_ext_dba
     PRIVATE
       dba_inifile.c
       libinifile/inifile.c
@@ -537,9 +537,9 @@ if(EXT_DBA_LMDB)
       PURPOSE "Necessary to enable the LMDB handler in the dba extension."
   )
 
-  target_link_libraries(php_dba PRIVATE LMDB::LMDB)
+  target_link_libraries(php_ext_dba PRIVATE LMDB::LMDB)
 
-  target_sources(php_dba PRIVATE dba_lmdb.c)
+  target_sources(php_ext_dba PRIVATE dba_lmdb.c)
 
   set(LMDB_INCLUDE_FILE "<lmdb.h>")
   set(DBA_LMDB TRUE)
@@ -568,9 +568,9 @@ if(EXT_DBA_NDBM)
     )
   endif()
 
-  target_link_libraries(php_dba PRIVATE Ndbm::Ndbm)
+  target_link_libraries(php_ext_dba PRIVATE Ndbm::Ndbm)
 
-  target_sources(php_dba PRIVATE dba_ndbm.c)
+  target_sources(php_ext_dba PRIVATE dba_ndbm.c)
 
   set(NDBM_INCLUDE_FILE "<ndbm.h>")
   set(DBA_NDBM TRUE)
@@ -588,9 +588,9 @@ if(EXT_DBA_QDBM AND NOT EXT_DBA_DBM AND NOT EXT_DBA_GDBM)
       PURPOSE "Necessary to enable the QDBM handler in the dba extension."
   )
 
-  target_link_libraries(php_dba PRIVATE QDBM::QDBM)
+  target_link_libraries(php_ext_dba PRIVATE QDBM::QDBM)
 
-  target_sources(php_dba PRIVATE dba_qdbm.c)
+  target_sources(php_ext_dba PRIVATE dba_qdbm.c)
 
   set(QDBM_INCLUDE_FILE "<depot.h>")
   set(DBA_QDBM TRUE)
@@ -608,9 +608,9 @@ if(EXT_DBA_TCADB)
       PURPOSE "Necessary to enable the Tokyo Cabinet handler in the dba extension."
   )
 
-  target_link_libraries(php_dba PRIVATE TokyoCabinet::TokyoCabinet)
+  target_link_libraries(php_ext_dba PRIVATE TokyoCabinet::TokyoCabinet)
 
-  target_sources(php_dba PRIVATE dba_tcadb.c)
+  target_sources(php_ext_dba PRIVATE dba_tcadb.c)
 
   set(TCADB_INCLUDE_FILE "<tcadb.h>")
   set(DBA_TCADB TRUE)

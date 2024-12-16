@@ -30,7 +30,7 @@ endif()
 
 # Set the extension project metadata.
 project(
-  PhpExtension%EXTNAME%
+  %EXTNAME%
   VERSION 0.1.0
   DESCRIPTION "Describe the extension"
   HOMEPAGE_URL "https://example.org"
@@ -71,23 +71,23 @@ endif()
 
 # Add a target to be built as a SHARED or STATIC library.
 if(EXT_%EXTNAMECAPS%_SHARED)
-  add_library(php_%EXTNAME% SHARED)
+  add_library(php_ext_%EXTNAME% SHARED)
 else()
-  add_library(php_%EXTNAME%)
+  add_library(php_ext_%EXTNAME%)
 endif()
 
 # Configure extension as CLI-based. Such extensions are only meant to be used
 # and enabled on CLI-based PHP SAPIs, such as cgi, cli, phpdbg, embed, etc.
-#set_target_properties(php_%EXTNAME% PROPERTIES PHP_CLI TRUE)
+#set_target_properties(php_ext_%EXTNAME% PROPERTIES PHP_CLI TRUE)
 
 # Configure extension as Zend extension. Zend extensions are loaded with the
 # 'zend_extension' INI directive and include additional advanced hooks. Use only
 # when building advanced extensions, such as debuggers, profilers, caching, etc.
-#set_target_properties(php_%EXTNAME% PROPERTIES PHP_ZEND_EXTENSION TRUE)
+#set_target_properties(php_ext_%EXTNAME% PROPERTIES PHP_ZEND_EXTENSION TRUE)
 
 # Add library target sources.
 target_sources(
-  php_%EXTNAME%
+  php_ext_%EXTNAME%
   PRIVATE
     %EXTNAME%.c
     %EXTNAME%.stub.php
@@ -101,7 +101,7 @@ target_sources(
 
 # Add compile definitions.
 target_compile_definitions(
-  php_%EXTNAME%
+  php_ext_%EXTNAME%
   PRIVATE
     # Enable "Thread Safety Resource Manager Local Storage" static cache.
     ZEND_ENABLE_STATIC_TSRMLS_CACHE
@@ -112,11 +112,11 @@ find_package(PHP REQUIRED)
 
 # The PHP::PHP library contains INTERFACE include directories for the extension.
 # Link PHP and extension targets.
-target_link_libraries(php_%EXTNAME% PRIVATE PHP::PHP)
+target_link_libraries(php_ext_%EXTNAME% PRIVATE PHP::PHP)
 
 # Install files to system destinations when running 'cmake --install'.
 install(
-  TARGETS php_%EXTNAME%
+  TARGETS php_ext_%EXTNAME%
   ARCHIVE EXCLUDE_FROM_ALL
   FILE_SET HEADERS
     DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/${PHP_INCLUDE_PREFIX}/ext/%EXTNAME%

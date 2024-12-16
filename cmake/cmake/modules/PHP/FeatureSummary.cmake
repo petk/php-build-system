@@ -161,7 +161,7 @@ function(php_feature_summary)
       string(PREPEND item " * ")
       if(feature MATCHES "^ext/([^ ]+)$")
         if(CMAKE_MATCH_1)
-          get_target_property(type php_${CMAKE_MATCH_1} TYPE)
+          get_target_property(type php_ext_${CMAKE_MATCH_1} TYPE)
           if(type MATCHES "^(MODULE|SHARED)_LIBRARY$")
             string(APPEND item " (shared)")
           endif()
@@ -207,13 +207,13 @@ function(php_feature_summary)
   get_property(extensions GLOBAL PROPERTY PHP_EXTENSIONS)
 
   foreach(extension IN LISTS extensions)
-    if(NOT TARGET php_${extension})
+    if(NOT TARGET php_ext_${extension})
       continue()
     endif()
 
     get_target_property(
       dependencies
-      php_${extension}
+      php_ext_${extension}
       MANUALLY_ADDED_DEPENDENCIES
     )
 
@@ -221,7 +221,7 @@ function(php_feature_summary)
       continue()
     endif()
 
-    list(TRANSFORM dependencies REPLACE "^php_" "")
+    list(TRANSFORM dependencies REPLACE "^php_ext_" "")
 
     get_property(allExtensions GLOBAL PROPERTY PHP_ALL_EXTENSIONS)
 
@@ -231,14 +231,14 @@ function(php_feature_summary)
         continue()
       endif()
 
-      if(NOT TARGET php_${dependency} OR NOT dependency IN_LIST extensions)
+      if(NOT TARGET php_ext_${dependency} OR NOT dependency IN_LIST extensions)
         list(APPEND missingExtensions ${dependency})
         list(APPEND _phpFeatureSummaryReason_${dependency} ${extension})
         continue()
       endif()
 
-      get_target_property(dependencyType php_${dependency} TYPE)
-      get_target_property(extensionType php_${extension} TYPE)
+      get_target_property(dependencyType php_ext_${dependency} TYPE)
+      get_target_property(extensionType php_ext_${extension} TYPE)
 
       if(
         dependencyType MATCHES "^(MODULE|SHARED)_LIBRARY$"

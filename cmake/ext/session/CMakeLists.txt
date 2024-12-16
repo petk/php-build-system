@@ -71,13 +71,13 @@ if(NOT EXT_SESSION)
 endif()
 
 if(EXT_SESSION_SHARED)
-  add_library(php_session SHARED)
+  add_library(php_ext_session SHARED)
 else()
-  add_library(php_session)
+  add_library(php_ext_session)
 endif()
 
 target_sources(
-  php_session
+  php_ext_session
   PRIVATE
     mod_files.c
     mod_user_class.c
@@ -93,16 +93,16 @@ target_sources(
 )
 
 target_compile_definitions(
-  php_session
+  php_ext_session
   PRIVATE
     ZEND_ENABLE_STATIC_TSRMLS_CACHE
 )
 
 add_dependencies(
-  php_session
-  php_date
-  php_random
-  php_spl # Optional dependency for spl autoloading https://bugs.php.net/53141
+  php_ext_session
+  php_ext_date
+  php_ext_random
+  php_ext_spl # Optional dependency for spl autoloading https://bugs.php.net/53141
 )
 
 # Check whether pread() and pwrite() work.
@@ -120,7 +120,7 @@ if(EXT_SESSION_MM)
   endif()
 
   target_sources(
-    php_session
+    php_ext_session
     PRIVATE
       mod_mm.c
     PUBLIC
@@ -138,7 +138,7 @@ if(EXT_SESSION_MM)
   )
 
   # Link with PUBLIC scope if include directories are on non-standard places.
-  target_link_libraries(php_session PUBLIC MM::MM)
+  target_link_libraries(php_ext_session PUBLIC MM::MM)
 
   if(TARGET MM::MM)
     set(HAVE_LIBMM TRUE)

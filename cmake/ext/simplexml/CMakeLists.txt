@@ -49,13 +49,13 @@ if(NOT EXT_SIMPLEXML)
 endif()
 
 if(EXT_SIMPLEXML_SHARED)
-  add_library(php_simplexml SHARED)
+  add_library(php_ext_simplexml SHARED)
 else()
-  add_library(php_simplexml)
+  add_library(php_ext_simplexml)
 endif()
 
 target_sources(
-  php_simplexml
+  php_ext_simplexml
   PRIVATE
     simplexml.c
     simplexml.stub.php
@@ -67,14 +67,14 @@ target_sources(
 )
 
 target_compile_definitions(
-  php_simplexml
+  php_ext_simplexml
   PRIVATE
     # TODO: Fix LIBXML_STATIC usage based on the static/shared libxml2 package.
     $<$<AND:$<PLATFORM_ID:Windows>,$<NOT:$<IN_LIST:$<TARGET_PROPERTY:TYPE>,MODULE_LIBRARY;SHARED_LIBRARY>>>:LIBXML_STATIC>
     $<$<PLATFORM_ID:Windows>:PHP_SIMPLEXML_EXPORTS>
 )
 
-add_dependencies(php_simplexml php_libxml php_spl)
+add_dependencies(php_ext_simplexml php_ext_libxml php_ext_spl)
 
 include(Packages/LibXml2)
 
@@ -85,7 +85,7 @@ set_package_properties(
     PURPOSE "Necessary to enable the simplexml extension."
 )
 
-target_link_libraries(php_simplexml PRIVATE LibXml2::LibXml2)
+target_link_libraries(php_ext_simplexml PRIVATE LibXml2::LibXml2)
 
 set(HAVE_SIMPLEXML TRUE)
 

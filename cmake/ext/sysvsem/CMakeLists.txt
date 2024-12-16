@@ -58,13 +58,13 @@ if(NOT EXT_SYSVSEM)
 endif()
 
 if(EXT_SYSVSEM_SHARED)
-  add_library(php_sysvsem SHARED)
+  add_library(php_ext_sysvsem SHARED)
 else()
-  add_library(php_sysvsem)
+  add_library(php_ext_sysvsem)
 endif()
 
 target_sources(
-  php_sysvsem
+  php_ext_sysvsem
   PRIVATE
     sysvsem.c
     sysvsem.stub.php
