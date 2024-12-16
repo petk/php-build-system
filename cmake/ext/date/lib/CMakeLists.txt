@@ -8,14 +8,14 @@ Simplified CMake-based build system for the timelib library.
 Adding timelib with `add_subdirectory()`:
 
 ```cmake
-set(TIMELIB_TARGET php_date)
+set(TIMELIB_TARGET php_ext_date)
 add_subdirectory(lib)
 ```
 #]=============================================================================]
 
 cmake_minimum_required(VERSION 3.25...3.31)
 
-project(Timelib LANGUAGES C)
+project(timelib LANGUAGES C)
 
 include(CheckCompilerFlag)
 include(CheckIncludeFile)

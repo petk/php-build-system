@@ -410,7 +410,7 @@ A list of PHP CMake modules:
 
   ```cmake
   set_target_properties(
-    php_extension
+    php_ext_some_extension
     PROPERTIES PHP_CLI $<IF:$<PLATFORM_ID:Windows>,FALSE,TRUE>
   )
   ```

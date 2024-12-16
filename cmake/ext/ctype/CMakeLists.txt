@@ -50,13 +50,13 @@ if(NOT EXT_CTYPE)
 endif()
 
 if(EXT_CTYPE_SHARED)
-  add_library(php_ctype SHARED)
+  add_library(php_ext_ctype SHARED)
 else()
-  add_library(php_ctype)
+  add_library(php_ext_ctype)
 endif()
 
 target_sources(
-  php_ctype
+  php_ext_ctype
   PRIVATE
     ctype.c
     ctype.stub.php

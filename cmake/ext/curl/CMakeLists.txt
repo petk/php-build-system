@@ -53,13 +53,13 @@ if(NOT EXT_CURL)
 endif()
 
 if(EXT_CURL_SHARED)
-  add_library(php_curl SHARED)
+  add_library(php_ext_curl SHARED)
 else()
-  add_library(php_curl)
+  add_library(php_ext_curl)
 endif()
 
 target_sources(
-  php_curl
+  php_ext_curl
   PRIVATE
     curl_file.c
     curl_file.stub.php
@@ -81,7 +81,7 @@ set_package_properties(
     PURPOSE "Necessary to enable the curl extension."
 )
 
-target_link_libraries(php_curl PRIVATE CURL::libcurl)
+target_link_libraries(php_ext_curl PRIVATE CURL::libcurl)
 
 # Check whether to link against OpenSSL to have crypto locking callbacks when
 # thread safety is enabled. If libcurl is linked against OpenSSL 1.1 or newer,
@@ -151,7 +151,7 @@ if(PHP_THREAD_SAFETY AND CURL_SSL_FOUND)
         PURPOSE "Necessary for crypto locking callbacks in the curl extension."
     )
 
-    target_link_libraries(php_curl PRIVATE OpenSSL::Crypto)
+    target_link_libraries(php_ext_curl PRIVATE OpenSSL::Crypto)
 
     if(TARGET OpenSSL::Crypto)
       cmake_push_check_state(RESET)

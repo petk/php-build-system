@@ -24,7 +24,7 @@ Build extension as shared.
 #]=============================================================================]
 
 project(
-  PhpExtensionBz2
+  PhpExtensionComDotnet
   LANGUAGES C
 )
 
@@ -57,13 +57,13 @@ if(NOT EXT_COM_DOTNET)
 endif()
 
 if(EXT_COM_DOTNET_SHARED)
-  add_library(php_com_dotnet SHARED)
+  add_library(php_ext_com_dotnet SHARED)
 else()
-  add_library(php_com_dotnet)
+  add_library(php_ext_com_dotnet)
 endif()
 
 target_sources(
-  php_com_dotnet
+  php_ext_com_dotnet
   PRIVATE
     com_com.c
     com_dotnet.c
@@ -82,12 +82,12 @@ target_sources(
 )
 
 target_compile_definitions(
-  php_com_dotnet
+  php_ext_com_dotnet
   PRIVATE
     ZEND_ENABLE_STATIC_TSRMLS_CACHE
 )
 
-target_link_libraries(php_com_dotnet PRIVATE oleaut32)
+target_link_libraries(php_ext_com_dotnet PRIVATE oleaut32)
 
 check_include_file(mscoree.h HAVE_MSCOREE_H)
 

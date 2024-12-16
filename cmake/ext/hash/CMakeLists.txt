@@ -55,10 +55,10 @@ else()
   message(CHECK_FAIL "no")
 endif()
 
-add_library(php_hash OBJECT)
+add_library(php_ext_hash OBJECT)
 
 target_sources(
-  php_hash
+  php_ext_hash
   PRIVATE
     hash_adler32.c
     hash_crc32.c
@@ -110,7 +110,7 @@ else()
   block()
     if(CMAKE_SIZEOF_VOID_P EQUAL 4)
       set(sha3Dir "sha3/generic32lc")
-      target_sources(php_hash PRIVATE ${sha3Dir}/KeccakP-1600-inplace32BI.c)
+      target_sources(php_ext_hash PRIVATE ${sha3Dir}/KeccakP-1600-inplace32BI.c)
 
       # Add -Wno-implicit-fallthrough flag due to warnings on 32-bit builds.
       php_check_compiler_flag(
@@ -128,25 +128,25 @@ else()
       endif()
     else()
       set(sha3Dir "sha3/generic64lc")
-      target_sources(php_hash PRIVATE ${sha3Dir}/KeccakP-1600-opt64.c)
+      target_sources(php_ext_hash PRIVATE ${sha3Dir}/KeccakP-1600-opt64.c)
     endif()
 
     target_sources(
-      php_hash
+      php_ext_hash
       PRIVATE
         ${sha3Dir}/KeccakHash.c
         ${sha3Dir}/KeccakSponge.c
     )
 
     target_include_directories(
-      php_hash
+      php_ext_hash
       PRIVATE
         ${CMAKE_CURRENT_SOURCE_DIR}/${sha3Dir}
     )
   endblock()
 
   target_compile_definitions(
-    php_hash
+    php_ext_hash
     PRIVATE
       KeccakP200_excluded
       KeccakP400_excluded

@@ -50,13 +50,13 @@ if(NOT EXT_PDO_SQLITE)
 endif()
 
 if(EXT_PDO_SQLITE_SHARED)
-  add_library(php_pdo_sqlite SHARED)
+  add_library(php_ext_pdo_sqlite SHARED)
 else()
-  add_library(php_pdo_sqlite)
+  add_library(php_ext_pdo_sqlite)
 endif()
 
 target_sources(
-  php_pdo_sqlite
+  php_ext_pdo_sqlite
   PRIVATE
     pdo_sqlite.c
     pdo_sqlite.stub.php
@@ -66,7 +66,7 @@ target_sources(
     sqlite_statement.c
 )
 
-add_dependencies(php_pdo_sqlite php_pdo)
+add_dependencies(php_ext_pdo_sqlite php_ext_pdo)
 
 find_package(SQLite3 ${PHP_SQLITE_MIN_VERSION})
 set_package_properties(
@@ -76,7 +76,7 @@ set_package_properties(
     PURPOSE "Necessary to enable the pdo_sqlite extension."
 )
 
-target_link_libraries(php_pdo_sqlite PRIVATE SQLite::SQLite3)
+target_link_libraries(php_ext_pdo_sqlite PRIVATE SQLite::SQLite3)
 
 if(TARGET SQLite::SQLite3)
   check_library_exists(
@@ -107,7 +107,7 @@ endif()
 
 if(RE2C_FOUND)
   re2c_target(
-    php_pdo_sqlite_sql_parser
+    php_ext_pdo_sqlite_sql_parser
     sqlite_sql_parser.re
     ${CMAKE_CURRENT_SOURCE_DIR}/sqlite_sql_parser.c
   )

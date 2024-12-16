@@ -277,20 +277,20 @@ if(NOT EXT_ODBC)
 endif()
 
 if(EXT_ODBC_SHARED)
-  add_library(php_odbc SHARED)
+  add_library(php_ext_odbc SHARED)
 else()
-  add_library(php_odbc)
+  add_library(php_ext_odbc)
 endif()
 
 target_sources(
-  php_odbc
+  php_ext_odbc
   PRIVATE
     odbc_utils.c
     odbc.stub.php
     php_odbc.c
 )
 
-target_compile_definitions(php_odbc PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE)
+target_compile_definitions(php_ext_odbc PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE)
 
 if(NOT EXT_ODBC_TYPE STREQUAL "auto")
   set(ODBC_USE_DRIVER "${EXT_ODBC_TYPE}")
@@ -303,7 +303,7 @@ set_package_properties(
     PURPOSE "Necessary to enable the odbc extension."
 )
 
-target_link_libraries(php_odbc PRIVATE ODBC::ODBC)
+target_link_libraries(php_ext_odbc PRIVATE ODBC::ODBC)
 
 # Sanity checks.
 if(EXT_ODBC_TYPE STREQUAL "ibm-db2" AND TARGET ODBC::ODBC)

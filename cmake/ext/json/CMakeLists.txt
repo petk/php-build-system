@@ -20,10 +20,10 @@ add_feature_info(
   "JavaScript Object Notation"
 )
 
-add_library(php_json OBJECT)
+add_library(php_ext_json OBJECT)
 
 target_sources(
-  php_json
+  php_ext_json
   PRIVATE
     json_encoder.c
     json_parser.tab.c
@@ -38,11 +38,11 @@ target_sources(
         php_json.h
 )
 
-target_compile_definitions(php_json PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE)
+target_compile_definitions(php_ext_json PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE)
 
 if(BISON_FOUND)
   bison_target(
-    php_json_parser
+    php_ext_json_parser
     json_parser.y
     ${CMAKE_CURRENT_SOURCE_DIR}/json_parser.tab.c
     COMPILE_FLAGS "${PHP_DEFAULT_BISON_FLAGS}"
@@ -50,13 +50,13 @@ if(BISON_FOUND)
     DEFINES_FILE ${CMAKE_CURRENT_SOURCE_DIR}/json_parser.tab.h
   )
 
-  add_custom_target(php_json_parser DEPENDS ${BISON_TARGET_outputs})
-  add_dependencies(php_generate_files php_json_parser)
+  add_custom_target(php_ext_json_parser DEPENDS ${BISON_TARGET_outputs})
+  add_dependencies(php_generate_files php_ext_json_parser)
 endif()
 
 if(RE2C_FOUND)
   re2c_target(
-    php_json_scanner
+    php_ext_json_scanner
     json_scanner.re
     ${CMAKE_CURRENT_SOURCE_DIR}/json_scanner.c
     HEADER ${CMAKE_CURRENT_SOURCE_DIR}/php_json_scanner_defs.h

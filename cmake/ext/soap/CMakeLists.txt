@@ -49,13 +49,13 @@ if(NOT EXT_SOAP)
 endif()
 
 if(EXT_SOAP_SHARED)
-  add_library(php_soap SHARED)
+  add_library(php_ext_soap SHARED)
 else()
-  add_library(php_soap)
+  add_library(php_ext_soap)
 endif()
 
 target_sources(
-  php_soap
+  php_ext_soap
   PRIVATE
     php_encoding.c
     php_http.c
@@ -68,7 +68,7 @@ target_sources(
 )
 
 target_compile_definitions(
-  php_soap
+  php_ext_soap
   PRIVATE
     ZEND_ENABLE_STATIC_TSRMLS_CACHE
     $<$<AND:$<PLATFORM_ID:Windows>,$<NOT:$<IN_LIST:$<TARGET_PROPERTY:TYPE>,MODULE_LIBRARY;SHARED_LIBRARY>>>:LIBXML_STATIC>
@@ -83,12 +83,12 @@ set_package_properties(
     PURPOSE "Necessary to enable the soap extension."
 )
 
-target_link_libraries(php_soap PRIVATE LibXml2::LibXml2)
+target_link_libraries(php_ext_soap PRIVATE LibXml2::LibXml2)
 
-add_dependencies(php_soap php_date php_hash php_libxml php_random)
+add_dependencies(php_ext_soap php_ext_date php_ext_hash php_ext_libxml php_ext_random)
 
 if(EXT_SESSION)
-  add_dependencies(php_soap php_session)
+  add_dependencies(php_ext_soap php_ext_session)
 endif()
 
 set(HAVE_SOAP TRUE)

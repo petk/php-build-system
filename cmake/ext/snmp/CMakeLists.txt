@@ -51,19 +51,19 @@ if(NOT EXT_SNMP)
 endif()
 
 if(EXT_SNMP_SHARED)
-  add_library(php_snmp SHARED)
+  add_library(php_ext_snmp SHARED)
 else()
-  add_library(php_snmp)
+  add_library(php_ext_snmp)
 endif()
 
 target_sources(
-  php_snmp
+  php_ext_snmp
   PRIVATE
     snmp.c
     snmp.stub.php
 )
 
-add_dependencies(php_snmp php_spl)
+add_dependencies(php_ext_snmp php_ext_spl)
 
 find_package(NetSnmp 5.3)
 set_package_properties(
@@ -73,7 +73,7 @@ set_package_properties(
     PURPOSE "Necessary to enable the snmp extension."
 )
 
-target_link_libraries(php_snmp PRIVATE NetSnmp::NetSnmp)
+target_link_libraries(php_ext_snmp PRIVATE NetSnmp::NetSnmp)
 
 if(TARGET NetSnmp::NetSnmp)
   cmake_push_check_state(RESET)

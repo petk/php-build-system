@@ -8,7 +8,7 @@ always enabled.
 #]=============================================================================]
 
 project(
-  PhpExtensionReflection
+  php_ext_reflection
   LANGUAGES C
 )
 
@@ -20,18 +20,18 @@ add_feature_info(
   "PHP code introspection API"
 )
 
-add_library(php_reflection OBJECT)
+add_library(php_ext_reflection OBJECT)
 target_sources(
-  php_reflection
+  php_ext_reflection
   PRIVATE
     php_reflection.c
     php_reflection.stub.php
 )
 
 target_compile_definitions(
-  php_reflection
+  php_ext_reflection
   PRIVATE
     ZEND_ENABLE_STATIC_TSRMLS_CACHE
 )
 
-add_dependencies(php_reflection php_random)
+add_dependencies(php_ext_reflection php_ext_random)

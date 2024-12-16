@@ -47,7 +47,7 @@ https://bugs.php.net/53141
   capabilities.
 
   ```cmake
-  set_target_properties(php_<extension_name> PROPERTIES PHP_ZEND_EXTENSION TRUE)
+  set_target_properties(php_ext_<extension_name> PROPERTIES PHP_ZEND_EXTENSION TRUE)
   ```
 
 * `PHP_EXTENSION_<extension>_DEPS`

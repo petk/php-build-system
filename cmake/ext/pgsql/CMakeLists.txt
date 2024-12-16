@@ -21,7 +21,7 @@ Build extension as shared.
 #]=============================================================================]
 
 project(
-  PhpExtensionPgSql
+  php_ext_pgsql
   LANGUAGES C
 )
 
@@ -52,26 +52,26 @@ if(NOT EXT_PGSQL)
 endif()
 
 if(EXT_PGSQL_SHARED)
-  add_library(php_pgsql SHARED)
+  add_library(php_ext_pgsql SHARED)
 else()
-  add_library(php_pgsql)
+  add_library(php_ext_pgsql)
 endif()
 
 target_sources(
-  php_pgsql
+  php_ext_pgsql
   PRIVATE
     pgsql.c
     pgsql.stub.php
 )
 
 target_compile_definitions(
-  php_pgsql
+  php_ext_pgsql
   PRIVATE
     ZEND_ENABLE_STATIC_TSRMLS_CACHE
     $<$<PLATFORM_ID:Windows>:PGSQL_EXPORTS>
 )
 
-add_dependencies(php_pgsql php_pcre)
+add_dependencies(php_ext_pgsql php_ext_pcre)
 
 find_package(PostgreSQL ${PHP_POSTGRESQL_MIN_VERSION})
 set_package_properties(
@@ -81,7 +81,7 @@ set_package_properties(
     PURPOSE "Necessary to enable the pgsql extension."
 )
 
-target_link_libraries(php_pgsql PUBLIC PostgreSQL::PostgreSQL)
+target_link_libraries(php_ext_pgsql PUBLIC PostgreSQL::PostgreSQL)
 
 if(TARGET PostgreSQL::PostgreSQL)
   # PostgreSQL library minimum version sanity check.

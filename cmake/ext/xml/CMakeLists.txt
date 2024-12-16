@@ -70,13 +70,13 @@ if(NOT EXT_XML)
 endif()
 
 if(EXT_XML_SHARED)
-  add_library(php_xml SHARED)
+  add_library(php_ext_xml SHARED)
 else()
-  add_library(php_xml)
+  add_library(php_ext_xml)
 endif()
 
 target_sources(
-  php_xml
+  php_ext_xml
   PRIVATE
     xml.c
     xml.stub.php
@@ -87,7 +87,7 @@ target_sources(
         php_xml.h
 )
 
-target_compile_definitions(php_xml PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE)
+target_compile_definitions(php_ext_xml PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE)
 
 if(NOT EXT_LIBXML AND NOT EXT_XML_EXPAT)
   message(
@@ -98,10 +98,10 @@ if(NOT EXT_LIBXML AND NOT EXT_XML_EXPAT)
 endif()
 
 if(NOT EXT_XML_EXPAT)
-  target_sources(php_xml PRIVATE compat.c)
+  target_sources(php_ext_xml PRIVATE compat.c)
 
   target_compile_definitions(
-    php_xml
+    php_ext_xml
     PRIVATE
       # TODO: Fix LIBXML_STATIC usage based on the static/shared libxml2 package
       $<$<AND:$<PLATFORM_ID:Windows>,$<NOT:$<IN_LIST:$<TARGET_PROPERTY:TYPE>,MODULE_LIBRARY;SHARED_LIBRARY>>>:LIBXML_STATIC>
@@ -116,9 +116,9 @@ if(NOT EXT_XML_EXPAT)
       PURPOSE "Necessary to enable the xml extension."
   )
 
-  target_link_libraries(php_xml PRIVATE LibXml2::LibXml2)
+  target_link_libraries(php_ext_xml PRIVATE LibXml2::LibXml2)
 
-  add_dependencies(php_xml php_libxml)
+  add_dependencies(php_ext_xml php_ext_libxml)
 else()
   find_package(EXPAT)
   set_package_properties(
@@ -128,7 +128,7 @@ else()
       PURPOSE "Necessary to enable the xml extension."
   )
 
-  target_link_libraries(php_xml PRIVATE EXPAT::EXPAT)
+  target_link_libraries(php_ext_xml PRIVATE EXPAT::EXPAT)
 
   set(HAVE_LIBEXPAT TRUE)
 endif()

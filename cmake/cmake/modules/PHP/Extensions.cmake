@@ -45,7 +45,7 @@ https://bugs.php.net/53141
   capabilities.
 
   ```cmake
-  set_target_properties(php_<extension_name> PROPERTIES PHP_ZEND_EXTENSION TRUE)
+  set_target_properties(php_ext_<extension_name> PROPERTIES PHP_ZEND_EXTENSION TRUE)
   ```
 
 * `PHP_EXTENSION_<extension>_DEPS`
@@ -195,9 +195,9 @@ function(_php_extensions_parse_dependencies extension result)
     # Command invocation:
     "add_dependencies[ \t]*\\("
     # Target name:
-    "[ \t\r\n]*php_${extension}[ \t\r\n]+"
+    "[ \t\r\n]*php_ext_${extension}[ \t\r\n]+"
     # Dependencies:
-    "[\"]?(php_[a-zA-Z0-9_; \t\r\n]+)"
+    "[\"]?(php_ext_[a-zA-Z0-9_; \t\r\n]+)"
   )
 
   string(REGEX MATCHALL "${regex}" matches "${content}")
@@ -209,7 +209,7 @@ function(_php_extensions_parse_dependencies extension result)
       if(CMAKE_MATCH_1)
         string(STRIP "${CMAKE_MATCH_1}" dependencies)
         string(REPLACE " " ";" dependencies "${dependencies}")
-        list(TRANSFORM dependencies REPLACE "^php_" "")
+        list(TRANSFORM dependencies REPLACE "^php_ext_" "")
         list(APPEND allDependencies ${dependencies})
       endif()
     endif()
@@ -364,17 +364,17 @@ endfunction()
 
 # Postconfigure extension right after it has been configured.
 function(php_extensions_postconfigure extension)
-  if(NOT TARGET php_${extension})
+  if(NOT TARGET php_ext_${extension})
     return()
   endif()
 
    # If extension is enabled, enable also all its dependencies.
    get_target_property(
     dependencies
-    php_${extension}
+    php_ext_${extension}
     MANUALLY_ADDED_DEPENDENCIES
   )
-  list(TRANSFORM dependencies REPLACE "^php_" "")
+  list(TRANSFORM dependencies REPLACE "^php_ext_" "")
   get_property(alwaysEnabledExtensions GLOBAL PROPERTY PHP_ALWAYS_ENABLED_EXTENSIONS)
   get_property(allExtensions GLOBAL PROPERTY PHP_ALL_EXTENSIONS)
 
@@ -409,18 +409,18 @@ function(php_extensions_postconfigure extension)
     endif()
   endforeach()
 
-  if(NOT TARGET PHP::${extension})
-    add_library(PHP::${extension} ALIAS php_${extension})
+  if(NOT TARGET PHP::ext::${extension})
+    add_library(PHP::ext::${extension} ALIAS php_ext_${extension})
   endif()
 
   # Set target output filename to "<extension>".
-  get_target_property(output php_${extension} OUTPUT_NAME)
+  get_target_property(output php_ext_${extension} OUTPUT_NAME)
   if(NOT output)
-    set_property(TARGET php_${extension} PROPERTY OUTPUT_NAME ${extension})
+    set_property(TARGET php_ext_${extension} PROPERTY OUTPUT_NAME ${extension})
   endif()
 
   # Specify extension's default installation rules.
-  get_target_property(sets php_${extension} INTERFACE_HEADER_SETS)
+  get_target_property(sets php_ext_${extension} INTERFACE_HEADER_SETS)
   set(fileSets "")
   foreach(set IN LISTS sets)
     list(
@@ -433,7 +433,7 @@ function(php_extensions_postconfigure extension)
     )
   endforeach()
   install(
-    TARGETS php_${extension}
+    TARGETS php_ext_${extension}
     ARCHIVE EXCLUDE_FROM_ALL
     RUNTIME
       DESTINATION ${PHP_EXTENSION_DIR}
@@ -443,24 +443,24 @@ function(php_extensions_postconfigure extension)
   )
 
   # Configure shared extension.
-  get_target_property(type php_${extension} TYPE)
+  get_target_property(type php_ext_${extension} TYPE)
   if(NOT type MATCHES "^(MODULE|SHARED)_LIBRARY$")
     return()
   endif()
 
-  target_compile_definitions(php_${extension} PRIVATE ZEND_COMPILE_DL_EXT)
+  target_compile_definitions(php_ext_${extension} PRIVATE ZEND_COMPILE_DL_EXT)
 
   set_target_properties(
-    php_${extension}
+    php_ext_${extension}
     PROPERTIES
       POSITION_INDEPENDENT_CODE ON
   )
 
   # Set build-phase location for shared extensions.
-  get_target_property(location php_${extension} LIBRARY_OUTPUT_DIRECTORY)
+  get_target_property(location php_ext_${extension} LIBRARY_OUTPUT_DIRECTORY)
   if(NOT location)
     set_property(
-      TARGET php_${extension}
+      TARGET php_ext_${extension}
       PROPERTY LIBRARY_OUTPUT_DIRECTORY "${PROJECT_BINARY_DIR}/modules"
     )
   endif()
@@ -471,13 +471,13 @@ endfunction()
 function(php_extensions_configure_headers)
   get_property(extensions GLOBAL PROPERTY PHP_EXTENSIONS)
   foreach(extension IN LISTS extensions)
-    if(NOT TARGET php_${extension})
+    if(NOT TARGET php_ext_${extension})
       continue()
     endif()
 
     string(TOUPPER "COMPILE_DL_${extension}" macro)
 
-    get_target_property(type php_${extension} TYPE)
+    get_target_property(type php_ext_${extension} TYPE)
     if(type MATCHES "^(MODULE|SHARED)_LIBRARY$")
       set(${macro} TRUE)
     endif()
@@ -492,7 +492,7 @@ function(php_extensions_configure_headers)
       "#cmakedefine ${macro} 1\n"
     )
 
-    get_target_property(binaryDir php_${extension} BINARY_DIR)
+    get_target_property(binaryDir php_ext_${extension} BINARY_DIR)
     set(current "")
     if(EXISTS ${binaryDir}/config.h)
       file(READ ${binaryDir}/config.h current)
@@ -511,13 +511,13 @@ function(_php_extensions_validate)
   list(TRANSFORM extensions REPLACE "${CMAKE_CURRENT_SOURCE_DIR}/" "")
 
   foreach(extension IN LISTS extensions)
-    if(NOT TARGET php_${extension})
+    if(NOT TARGET php_ext_${extension})
       continue()
     endif()
 
     get_target_property(
       dependencies
-      php_${extension}
+      php_ext_${extension}
       MANUALLY_ADDED_DEPENDENCIES
     )
 
@@ -525,7 +525,7 @@ function(_php_extensions_validate)
       continue()
     endif()
 
-    list(TRANSFORM dependencies REPLACE "^php_" "")
+    list(TRANSFORM dependencies REPLACE "^php_ext_" "")
 
     get_property(allExtensions GLOBAL PROPERTY PHP_ALL_EXTENSIONS)
 
@@ -535,7 +535,7 @@ function(_php_extensions_validate)
         continue()
       endif()
 
-      if(NOT TARGET php_${dependency} OR NOT dependency IN_LIST extensions)
+      if(NOT TARGET php_ext_${dependency} OR NOT dependency IN_LIST extensions)
         string(TOUPPER "${dependency}" dependencyUpper)
         message(
           SEND_ERROR
@@ -546,8 +546,8 @@ function(_php_extensions_validate)
         )
       endif()
 
-      get_target_property(dependencyType php_${dependency} TYPE)
-      get_target_property(extensionType php_${extension} TYPE)
+      get_target_property(dependencyType php_ext_${dependency} TYPE)
+      get_target_property(extensionType php_ext_${extension} TYPE)
 
       if(
         dependencyType MATCHES "^(MODULE|SHARED)_LIBRARY$"

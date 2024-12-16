@@ -50,13 +50,13 @@ if(NOT EXT_PDO_DBLIB)
 endif()
 
 if(EXT_PDO_DBLIB_SHARED)
-  add_library(php_pdo_dblib SHARED)
+  add_library(php_ext_pdo_dblib SHARED)
 else()
-  add_library(php_pdo_dblib)
+  add_library(php_ext_pdo_dblib)
 endif()
 
 target_sources(
-  php_pdo_dblib
+  php_ext_pdo_dblib
   PRIVATE
     dblib_driver.c
     dblib_stmt.c
@@ -64,10 +64,10 @@ target_sources(
     pdo_dblib.stub.php
 )
 
-add_dependencies(php_pdo_dblib php_pdo)
+add_dependencies(php_ext_pdo_dblib php_ext_pdo)
 
 target_compile_definitions(
-  php_pdo_dblib
+  php_ext_pdo_dblib
   PRIVATE
     ZEND_ENABLE_STATIC_TSRMLS_CACHE
     PDO_DBLIB_FLAVOUR="freetds"
@@ -81,4 +81,4 @@ set_package_properties(
     PURPOSE "Necessary to enable the pdo_dblib extension."
 )
 
-target_link_libraries(php_pdo_dblib PRIVATE FreeTDS::FreeTDS)
+target_link_libraries(php_ext_pdo_dblib PRIVATE FreeTDS::FreeTDS)

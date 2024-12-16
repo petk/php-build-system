@@ -65,15 +65,15 @@ if(NOT EXT_READLINE)
 endif()
 
 if(EXT_READLINE_SHARED)
-  add_library(php_readline SHARED)
+  add_library(php_ext_readline SHARED)
 else()
-  add_library(php_readline)
+  add_library(php_ext_readline)
 endif()
 
-set_target_properties(php_readline PROPERTIES PHP_CLI TRUE)
+set_target_properties(php_ext_readline PROPERTIES PHP_CLI TRUE)
 
 target_sources(
-  php_readline
+  php_ext_readline
   PRIVATE
     readline_cli.c
     readline.c
@@ -84,7 +84,7 @@ target_sources(
 php_check_compiler_flag(C -Wno-strict-prototypes HAVE_WNO_STRICT_PROTOTYPES_C)
 if(HAVE_WNO_STRICT_PROTOTYPES_C)
   target_compile_options(
-    php_readline
+    php_ext_readline
     PRIVATE
       $<$<COMPILE_LANGUAGE:C>:-Wno-strict-prototypes>
   )
@@ -98,7 +98,7 @@ set_package_properties(
     PURPOSE "Necessary to enable the readline extension."
 )
 
-target_link_libraries(php_readline PUBLIC Editline::Editline)
+target_link_libraries(php_ext_readline PUBLIC Editline::Editline)
 
 if(TARGET Editline::Editline)
   check_library_exists(
@@ -168,14 +168,14 @@ if(CURSES_FOUND AND NOT TARGET Curses::Curses)
   )
 endif()
 
-target_link_libraries(php_readline PRIVATE Curses::Curses)
+target_link_libraries(php_ext_readline PRIVATE Curses::Curses)
 
 # TODO: Check for the obsolescent termcap library more properly.
 if(NOT CURSES_FOUND)
   check_library_exists(termcap, tgetent "" _have_termcap_library)
 
   if(_have_termcap_library)
-    target_link_libraries(php_readline PRIVATE termcap)
+    target_link_libraries(php_ext_readline PRIVATE termcap)
   endif()
 endif()
 ]]#

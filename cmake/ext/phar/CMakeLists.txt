@@ -53,13 +53,13 @@ endif()
 ################################################################################
 
 if(EXT_PHAR_SHARED)
-  add_library(php_phar SHARED)
+  add_library(php_ext_phar SHARED)
 else()
-  add_library(php_phar)
+  add_library(php_ext_phar)
 endif()
 
 target_sources(
-  php_phar
+  php_ext_phar
   PRIVATE
     dirstream.c
     func_interceptors.c
@@ -73,20 +73,20 @@ target_sources(
     zip.c
 )
 
-target_compile_definitions(php_phar PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE)
+target_compile_definitions(php_ext_phar PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE)
 
 target_link_options(
-  php_phar
+  php_ext_phar
   PRIVATE
     # Silence irrelevant-to-us warning in release builds.
     $<$<AND:$<NOT:$<CONFIG:Debug,DebugAssertions>>,$<C_COMPILER_ID:MSVC>>:LINKER:/IGNORE:4089>
 )
 
-add_dependencies(php_phar php_hash php_spl)
+add_dependencies(php_ext_phar php_ext_hash php_ext_spl)
 
 if(RE2C_FOUND)
   re2c_target(
-    php_phar_path_check
+    php_ext_phar_path_check
     phar_path_check.re
     ${CMAKE_CURRENT_SOURCE_DIR}/phar_path_check.c
     OPTIONS -b
@@ -208,7 +208,7 @@ file(
 )
 
 add_custom_command(
-  OUTPUT php_phar_generated_phar
+  OUTPUT php_ext_phar_generated_phar
   COMMAND
     ${CMAKE_COMMAND} -P CMakeFiles/PharPermissions.cmake
   DEPENDS
@@ -224,15 +224,15 @@ file(
 )
 
 add_custom_target(
-  php_phar_generate_file
+  php_ext_phar_generate_file
   ALL
   DEPENDS
     PHP::SAPI::cli
-    php_phar
+    php_ext_phar
     ${dependentFiles}
-    php_phar_generated_phar
+    php_ext_phar_generated_phar
 )
-set_property(SOURCE php_phar_generated_phar PROPERTY SYMBOLIC TRUE)
+set_property(SOURCE php_ext_phar_generated_phar PROPERTY SYMBOLIC TRUE)
 
 # Install phar.phar file to destination. Here a duplicate phar.phar generation
 # step is used to generate it to a destination directory because of the install

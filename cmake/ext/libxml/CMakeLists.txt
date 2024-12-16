@@ -38,10 +38,10 @@ if(NOT EXT_LIBXML)
   return()
 endif()
 
-add_library(php_libxml STATIC)
+add_library(php_ext_libxml STATIC)
 
 target_sources(
-  php_libxml
+  php_ext_libxml
   PRIVATE
     libxml.c
     libxml.stub.php
@@ -54,7 +54,7 @@ target_sources(
 )
 
 target_compile_definitions(
-  php_libxml
+  php_ext_libxml
   PRIVATE
     ZEND_ENABLE_STATIC_TSRMLS_CACHE
     $<$<PLATFORM_ID:Windows>:LIBXML_STATIC;LIBXML_STATIC_FOR_DLL>
@@ -72,13 +72,13 @@ set_package_properties(
 # HAVE_WIN32_THREADS is not needed on newer libxml2 versions anymore.
 if(LIBXML2_VERSION_STRING VERSION_LESS 2.10)
   target_compile_definitions(
-    php_libxml
+    php_ext_libxml
     PRIVATE
       $<$<PLATFORM_ID:Windows>:HAVE_WIN32_THREADS>
   )
 endif()
 
-target_link_libraries(php_libxml PUBLIC LibXml2::LibXml2)
+target_link_libraries(php_ext_libxml PUBLIC LibXml2::LibXml2)
 
 set(HAVE_LIBXML TRUE)
 

@@ -49,13 +49,13 @@ if(NOT EXT_BCMATH)
 endif()
 
 if(EXT_BCMATH_SHARED)
-  add_library(php_bcmath SHARED)
+  add_library(php_ext_bcmath SHARED)
 else()
-  add_library(php_bcmath)
+  add_library(php_ext_bcmath)
 endif()
 
 target_sources(
-  php_bcmath
+  php_ext_bcmath
   PRIVATE
     bcmath.c
     bcmath.stub.php
@@ -84,7 +84,7 @@ target_sources(
     libbcmath/src/zero.c
 )
 
-target_compile_definitions(php_bcmath PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE)
+target_compile_definitions(php_ext_bcmath PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE)
 
 set(HAVE_BCMATH TRUE)
 

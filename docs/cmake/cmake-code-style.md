@@ -489,15 +489,15 @@ with libraries imported via `find_package()` or `FetchContent`.
 
 Naming pattern when creating libraries and executables across the build system:
 
+* `php_ext_<extension_name>`
+
+  For targets associated with PHP extensions. Replace `<extension_name>` with
+  the name of the PHP extension.
+
 * `php_sapi_<sapi_name>`
 
   For targets associated with PHP SAPIs (Server APIs). Replace `<sapi_name>`
   with the specific PHP SAPI name.
-
-* `php_<extension_name>`
-
-  For targets associated with PHP extensions. Replace `<extension_name>` with
-  the name of the PHP extension.
 
 * `php_main`
 
@@ -550,7 +550,8 @@ link flags, paths, or library names as well.
 Custom targets should be defined with clear names that indicate their purpose,
 such as `php_generate_something`. These targets can be customized to perform
 specific actions during the build process. They should be prefixed with the
-target context. For example, `php_`, `php_<extension_name>_`, or `zend_`.
+target context. For example, `php_`, `php_ext_<extension_name>_`,
+`php_sapi_<sapi_name>_`, or `zend_`.
 
 ```cmake
 add_custom_target(php_generate_something ...)

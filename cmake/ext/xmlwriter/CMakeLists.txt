@@ -49,20 +49,20 @@ if(NOT EXT_XMLWRITER)
 endif()
 
 if(EXT_XMLWRITER_SHARED)
-  add_library(php_xmlwriter SHARED)
+  add_library(php_ext_xmlwriter SHARED)
 else()
-  add_library(php_xmlwriter)
+  add_library(php_ext_xmlwriter)
 endif()
 
 target_sources(
-  php_xmlwriter
+  php_ext_xmlwriter
   PRIVATE
     php_xmlwriter.c
     php_xmlwriter.stub.php
 )
 
 target_compile_definitions(
-  php_xmlwriter
+  php_ext_xmlwriter
   PRIVATE
     # TODO: Fix LIBXML_STATIC usage based on the static/shared libxml2 package.
     $<$<AND:$<PLATFORM_ID:Windows>,$<NOT:$<IN_LIST:$<TARGET_PROPERTY:TYPE>,MODULE_LIBRARY;SHARED_LIBRARY>>>:LIBXML_STATIC>
@@ -77,11 +77,11 @@ set_package_properties(
     PURPOSE "Necessary to enable the xmlwriter extension."
 )
 
-target_link_libraries(php_xmlwriter PRIVATE LibXml2::LibXml2)
+target_link_libraries(php_ext_xmlwriter PRIVATE LibXml2::LibXml2)
 
 # The libxml extension is not technically required for xmlwriter to work but it
 # ensures proper error reporting and support for streams.
-add_dependencies(php_xmlwriter php_libxml)
+add_dependencies(php_ext_xmlwriter php_ext_libxml)
 
 set(HAVE_XMLWRITER TRUE)
 

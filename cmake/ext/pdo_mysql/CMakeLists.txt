@@ -76,13 +76,13 @@ if(NOT EXT_PDO_MYSQL)
 endif()
 
 if(EXT_PDO_MYSQL_SHARED)
-  add_library(php_pdo_mysql SHARED)
+  add_library(php_ext_pdo_mysql SHARED)
 else()
-  add_library(php_pdo_mysql)
+  add_library(php_ext_pdo_mysql)
 endif()
 
 target_sources(
-  php_pdo_mysql
+  php_ext_pdo_mysql
   PRIVATE
     mysql_driver.c
     mysql_sql_parser.c
@@ -91,10 +91,10 @@ target_sources(
     pdo_mysql.stub.php
 )
 
-add_dependencies(php_pdo_mysql php_pdo)
+add_dependencies(php_ext_pdo_mysql php_ext_pdo)
 
 target_compile_definitions(
-  php_pdo_mysql
+  php_ext_pdo_mysql
   PRIVATE
     ZEND_ENABLE_STATIC_TSRMLS_CACHE
 )
@@ -118,7 +118,7 @@ if(MySQL_Socket_PATH)
 endif()
 
 if(NOT EXT_PDO_MYSQL_DRIVER STREQUAL "mysql")
-  add_dependencies(php_pdo_mysql php_mysqlnd)
+  add_dependencies(php_ext_pdo_mysql php_ext_mysqlnd)
 
   set(PDO_USE_MYSQLND TRUE)
 
@@ -130,7 +130,7 @@ else()
     PURPOSE "Necessary to enable the pdo_mysql extension."
   )
 
-  target_link_libraries(php_pdo_mysql PRIVATE MySQL::MySQL)
+  target_link_libraries(php_ext_pdo_mysql PRIVATE MySQL::MySQL)
 
   if(MySQL_Socket_PATH)
     set(PDO_MYSQL_UNIX_ADDR "${MySQL_Socket_PATH}")
@@ -141,7 +141,7 @@ endif()
 
 if(RE2C_FOUND)
   re2c_target(
-    php_pdo_mysql_sql_parser
+    php_ext_pdo_mysql_sql_parser
     mysql_sql_parser.re
     ${CMAKE_CURRENT_SOURCE_DIR}/mysql_sql_parser.c
   )

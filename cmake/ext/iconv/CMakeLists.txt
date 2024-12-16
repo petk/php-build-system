@@ -54,13 +54,13 @@ if(NOT EXT_ICONV)
 endif()
 
 if(EXT_ICONV_SHARED)
-  add_library(php_iconv SHARED)
+  add_library(php_ext_iconv SHARED)
 else()
-  add_library(php_iconv)
+  add_library(php_ext_iconv)
 endif()
 
 target_sources(
-  php_iconv
+  php_ext_iconv
   PRIVATE
     iconv.c
     iconv.stub.php
@@ -72,7 +72,7 @@ target_sources(
 )
 
 target_compile_definitions(
-  php_iconv
+  php_ext_iconv
   PRIVATE
     ZEND_ENABLE_STATIC_TSRMLS_CACHE
     $<$<PLATFORM_ID:Windows>:PHP_ICONV_EXPORTS>
@@ -86,7 +86,7 @@ set_package_properties(
     PURPOSE "Necessary to enable the iconv extension."
 )
 
-target_link_libraries(php_iconv PRIVATE Iconv::Iconv)
+target_link_libraries(php_ext_iconv PRIVATE Iconv::Iconv)
 
 if(TARGET Iconv::Iconv)
   # Sanity and library type checks.

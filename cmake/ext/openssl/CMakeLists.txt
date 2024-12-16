@@ -142,13 +142,13 @@ if(NOT EXT_OPENSSL)
 endif()
 
 if(EXT_OPENSSL_SHARED)
-  add_library(php_openssl SHARED)
+  add_library(php_ext_openssl SHARED)
 else()
-  add_library(php_openssl)
+  add_library(php_ext_openssl)
 endif()
 
 target_sources(
-  php_openssl
+  php_ext_openssl
   PRIVATE
     openssl_pwhash.c
     openssl_pwhash.stub.php
@@ -166,7 +166,7 @@ set_package_properties(
 )
 
 # Link publicly for internal_functions files.
-target_link_libraries(php_openssl PUBLIC OpenSSL::SSL OpenSSL::Crypto)
+target_link_libraries(php_ext_openssl PUBLIC OpenSSL::SSL OpenSSL::Crypto)
 
 if(TARGET OpenSSL::SSL)
   cmake_push_check_state(RESET)

@@ -21,7 +21,7 @@ Build extension as shared.
 #]=============================================================================]
 
 project(
-  PHPExtensionFileinfo
+  PhpExtensionFileinfo
   LANGUAGES C
 )
 
@@ -52,13 +52,13 @@ if(NOT EXT_FILEINFO)
 endif()
 
 if(EXT_FILEINFO_SHARED)
-  add_library(php_fileinfo SHARED)
+  add_library(php_ext_fileinfo SHARED)
 else()
-  add_library(php_fileinfo)
+  add_library(php_ext_fileinfo)
 endif()
 
 target_sources(
-  php_fileinfo
+  php_ext_fileinfo
   PRIVATE
     fileinfo.c
     fileinfo.stub.php
@@ -94,7 +94,7 @@ cmake_push_check_state(RESET)
 cmake_pop_check_state()
 if(NOT HAVE_STRCASESTR)
   message(STATUS "Using libmagic strcasestr implementation")
-  target_sources(php_fileinfo PRIVATE libmagic/strcasestr.c)
+  target_sources(php_ext_fileinfo PRIVATE libmagic/strcasestr.c)
 endif()
 
 check_symbol_exists(strndup "string.h" HAVE_STRNDUP)
@@ -103,7 +103,7 @@ check_symbol_exists(utimes "sys/time.h" HAVE_UTIMES)
 php_check_function_attribute(visibility HAVE_FUNC_ATTRIBUTE_VISIBILITY)
 
 target_compile_definitions(
-  php_fileinfo
+  php_ext_fileinfo
   PRIVATE
     # The wchar.h and inttypes.h headers are always available by C99 standard.
     # The libmagic still includes them conditionally.
@@ -118,6 +118,6 @@ set_property(
     OBJECT_DEPENDS ${CMAKE_CURRENT_SOURCE_DIR}/data_file.c
 )
 
-add_dependencies(php_fileinfo php_pcre)
+add_dependencies(php_ext_fileinfo php_ext_pcre)
 
 configure_file(cmake/config.h.in config.h)

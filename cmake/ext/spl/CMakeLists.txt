@@ -7,7 +7,7 @@ This extension includes Standard PHP Library (SPL) and is always enabled.
 #]=============================================================================]
 
 project(
-  PhpExtensionSpl
+  php_ext_spl
   LANGUAGES C
 )
 
@@ -19,10 +19,10 @@ add_feature_info(
   "Standard PHP library (SPL)"
 )
 
-add_library(php_spl OBJECT)
+add_library(php_ext_spl OBJECT)
 
 target_sources(
-  php_spl
+  php_ext_spl
   PRIVATE
     php_spl.c
     php_spl.stub.php
@@ -58,6 +58,6 @@ target_sources(
         spl_observer.h
 )
 
-target_compile_definitions(php_spl PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE)
+target_compile_definitions(php_ext_spl PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE)
 
-add_dependencies(php_spl php_json php_pcre php_standard)
+add_dependencies(php_ext_spl php_ext_json php_ext_pcre php_ext_standard)

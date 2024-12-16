@@ -66,22 +66,22 @@ if(NOT EXT_PCNTL)
 endif()
 
 if(EXT_PCNTL_SHARED)
-  add_library(php_pcntl SHARED)
+  add_library(php_ext_pcntl SHARED)
 else()
-  add_library(php_pcntl)
+  add_library(php_ext_pcntl)
 endif()
 
-set_target_properties(php_pcntl PROPERTIES PHP_CLI TRUE)
+set_target_properties(php_ext_pcntl PROPERTIES PHP_CLI TRUE)
 
 target_sources(
-  php_pcntl
+  php_ext_pcntl
   PRIVATE
     pcntl.c
     pcntl.stub.php
     php_signal.c
 )
 
-target_compile_definitions(php_pcntl PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE)
+target_compile_definitions(php_ext_pcntl PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE)
 
 # Check for required functions.
 block()
@@ -162,7 +162,7 @@ cmake_push_check_state(RESET)
 cmake_pop_check_state()
 
 if(HAVE_STRUCT_SIGINFO_T)
-  target_compile_definitions(php_pcntl PRIVATE HAVE_STRUCT_SIGINFO_T)
+  target_compile_definitions(php_ext_pcntl PRIVATE HAVE_STRUCT_SIGINFO_T)
 endif()
 
 cmake_push_check_state(RESET)

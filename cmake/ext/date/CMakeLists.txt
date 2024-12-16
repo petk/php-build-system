@@ -21,12 +21,12 @@ add_feature_info(
   "date and time"
 )
 
-add_library(php_date OBJECT)
+add_library(php_ext_date OBJECT)
 
 set(phpDateSources php_date.c)
 
 target_sources(
-  php_date
+  php_ext_date
   PRIVATE
     ${phpDateSources}
     php_date.stub.php
@@ -42,13 +42,13 @@ set_source_files_properties(
 )
 
 target_compile_options(
-  php_date
+  php_ext_date
   PRIVATE
     $<$<COMPILE_LANG_AND_ID:C,MSVC>:/wd4244>
 )
 
 # Configure timelib.
-set(TIMELIB_TARGET php_date)
+set(TIMELIB_TARGET php_ext_date)
 add_subdirectory(lib)
 
 set(HAVE_TIMELIB_CONFIG_H TRUE)

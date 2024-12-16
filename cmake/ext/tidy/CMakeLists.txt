@@ -52,13 +52,13 @@ if(NOT EXT_TIDY)
 endif()
 
 if(EXT_TIDY_SHARED)
-  add_library(php_tidy SHARED)
+  add_library(php_ext_tidy SHARED)
 else()
-  add_library(php_tidy)
+  add_library(php_ext_tidy)
 endif()
 
 target_sources(
-  php_tidy
+  php_ext_tidy
   PRIVATE
     php_tidy.def
     tidy.c
@@ -74,11 +74,11 @@ if(Tidy_VERSION VERSION_LESS 5.7.20)
     HAVE_WNO_IGNORED_QUALIFIERS_C
   )
   if(HAVE_WNO_IGNORED_QUALIFIERS_C)
-    target_compile_options(php_tidy PRIVATE -Wno-ignored-qualifiers)
+    target_compile_options(php_ext_tidy PRIVATE -Wno-ignored-qualifiers)
   endif()
 endif()
 
-target_compile_definitions(php_tidy PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE)
+target_compile_definitions(php_ext_tidy PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE)
 
 find_package(Tidy)
 set_package_properties(
@@ -88,7 +88,7 @@ set_package_properties(
     PURPOSE "Necessary to enable the tidy extension."
 )
 
-target_link_libraries(php_tidy PRIVATE Tidy::Tidy)
+target_link_libraries(php_ext_tidy PRIVATE Tidy::Tidy)
 
 if(TARGET Tidy::Tidy)
   check_library_exists(Tidy::Tidy tidyOptGetDoc "" HAVE_TIDYOPTGETDOC)
