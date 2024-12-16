@@ -68,19 +68,19 @@ if(NOT EXT_LDAP)
 endif()
 
 if(EXT_LDAP_SHARED)
-  add_library(php_ldap SHARED)
+  add_library(php_ext_ldap SHARED)
 else()
-  add_library(php_ldap)
+  add_library(php_ext_ldap)
 endif()
 
 target_sources(
-  php_ldap
+  php_ext_ldap
   PRIVATE
     ldap.c
     ldap.stub.php
 )
 
-target_compile_definitions(php_ldap PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE)
+target_compile_definitions(php_ext_ldap PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE)
 
 find_package(LDAP)
 set_package_properties(
@@ -90,7 +90,7 @@ set_package_properties(
     PURPOSE "Necessary to enable the ldap extension."
 )
 
-target_link_libraries(php_ldap PRIVATE LDAP::LDAP)
+target_link_libraries(php_ext_ldap PRIVATE LDAP::LDAP)
 
 if(TARGET LDAP::LDAP)
   cmake_push_check_state(RESET)
@@ -150,7 +150,7 @@ if(EXT_LDAP_SASL)
       PURPOSE "Necessary to enable the Cyrus SASL support in the ldap extension."
   )
 
-  target_link_libraries(php_ldap PRIVATE SASL::SASL)
+  target_link_libraries(php_ext_ldap PRIVATE SASL::SASL)
 
   set(HAVE_LDAP_SASL TRUE)
 endif()

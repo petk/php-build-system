@@ -134,13 +134,13 @@ if(NOT EXT_PDO_ODBC)
 endif()
 
 if(EXT_PDO_ODBC_SHARED)
-  add_library(php_pdo_odbc SHARED)
+  add_library(php_ext_pdo_odbc SHARED)
 else()
-  add_library(php_pdo_odbc)
+  add_library(php_ext_pdo_odbc)
 endif()
 
 target_sources(
-  php_pdo_odbc
+  php_ext_pdo_odbc
   PRIVATE
     odbc_driver.c
     odbc_stmt.c
@@ -148,7 +148,7 @@ target_sources(
     pdo_odbc.stub.php
 )
 
-add_dependencies(php_pdo_odbc php_pdo)
+add_dependencies(php_ext_pdo_odbc php_ext_pdo)
 
 if(NOT EXT_PDO_ODBC_TYPE STREQUAL "auto")
   set(ODBC_USE_DRIVER "${EXT_PDO_ODBC_TYPE}")
@@ -241,6 +241,6 @@ if(TARGET ODBC::ODBC)
   endif()
 endif()
 
-target_link_libraries(php_pdo_odbc PRIVATE ODBC::ODBC)
+target_link_libraries(php_ext_pdo_odbc PRIVATE ODBC::ODBC)
 
 configure_file(cmake/config.h.in config.h)

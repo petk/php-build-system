@@ -203,13 +203,13 @@ if(NOT EXT_GD)
 endif()
 
 if(EXT_GD_SHARED)
-  add_library(php_gd SHARED)
+  add_library(php_ext_gd SHARED)
 else()
-  add_library(php_gd)
+  add_library(php_ext_gd)
 endif()
 
 target_sources(
-  php_gd
+  php_ext_gd
   PRIVATE
     gd.c
     gd.stub.php
@@ -221,7 +221,7 @@ target_sources(
 
 if(NOT EXT_GD_EXTERNAL)
   target_sources(
-    php_gd
+    php_ext_gd
     PRIVATE
       libgd/gd_avif.c
       libgd/gd_bmp.c
@@ -294,16 +294,16 @@ if(NOT EXT_GD_EXTERNAL)
     floorf
     HEADERS math.h
     LIBRARIES m
-    TARGET php_gd PRIVATE
+    TARGET php_ext_gd PRIVATE
   )
 
-  target_include_directories(php_gd PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/libgd)
+  target_include_directories(php_ext_gd PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/libgd)
 
   # Add -Wno-strict-prototypes C flag: https://github.com/php/php-src/pull/10803
   php_check_compiler_flag(C -Wno-strict-prototypes HAVE_WNO_STRICT_PROTOTYPES_C)
   if(HAVE_WNO_STRICT_PROTOTYPES_C)
     target_compile_options(
-      php_gd
+      php_ext_gd
       PRIVATE
         $<$<COMPILE_LANGUAGE:C>:-Wno-strict-prototypes>
     )
@@ -317,7 +317,7 @@ if(NOT EXT_GD_EXTERNAL)
       PURPOSE "Necessary to enable the gd extension."
   )
 
-  target_link_libraries(php_gd PRIVATE ZLIB::ZLIB)
+  target_link_libraries(php_ext_gd PRIVATE ZLIB::ZLIB)
 
   find_package(PNG)
   set_package_properties(
@@ -327,7 +327,7 @@ if(NOT EXT_GD_EXTERNAL)
       PURPOSE "Necessary to enable the gd extension."
   )
 
-  target_link_libraries(php_gd PRIVATE PNG::PNG)
+  target_link_libraries(php_ext_gd PRIVATE PNG::PNG)
 
   set(HAVE_LIBPNG TRUE)
 
@@ -340,7 +340,7 @@ if(NOT EXT_GD_EXTERNAL)
         PURPOSE "Necessary to enable the AVIF support in the gd extension."
     )
 
-    target_link_libraries(php_gd PRIVATE libavif::libavif)
+    target_link_libraries(php_ext_gd PRIVATE libavif::libavif)
 
     set(HAVE_LIBAVIF TRUE)
     set(HAVE_GD_AVIF TRUE)
@@ -355,7 +355,7 @@ if(NOT EXT_GD_EXTERNAL)
         PURPOSE "Necessary to enable the WebP support in the gd extension."
     )
 
-    target_link_libraries(php_gd PRIVATE WebP::WebP)
+    target_link_libraries(php_ext_gd PRIVATE WebP::WebP)
 
     set(HAVE_LIBWEBP TRUE)
     set(HAVE_GD_WEBP TRUE)
@@ -370,7 +370,7 @@ if(NOT EXT_GD_EXTERNAL)
         PURPOSE "Necessary to enable the JPEG support in the gd extension."
     )
 
-    target_link_libraries(php_gd PRIVATE JPEG::JPEG)
+    target_link_libraries(php_ext_gd PRIVATE JPEG::JPEG)
 
     set(HAVE_LIBJPEG TRUE)
     set(HAVE_GD_JPG TRUE)
@@ -385,7 +385,7 @@ if(NOT EXT_GD_EXTERNAL)
         PURPOSE "Necessary to enable the XPM support in the gd extension."
     )
 
-    target_link_libraries(php_gd PRIVATE XPM::XPM)
+    target_link_libraries(php_ext_gd PRIVATE XPM::XPM)
 
     set(HAVE_XPM TRUE)
     set(HAVE_GD_XPM TRUE)
@@ -400,7 +400,7 @@ if(NOT EXT_GD_EXTERNAL)
         PURPOSE "Necessary to enable the Freetype support in the gd extension."
     )
 
-    target_link_libraries(php_gd PRIVATE Freetype::Freetype)
+    target_link_libraries(php_ext_gd PRIVATE Freetype::Freetype)
 
     set(HAVE_LIBFREETYPE TRUE)
     set(HAVE_GD_FREETYPE TRUE)
@@ -413,7 +413,7 @@ if(NOT EXT_GD_EXTERNAL)
 
   # Do sanity check when all required packages are found.
   block()
-    get_target_property(libraries php_gd LINK_LIBRARIES)
+    get_target_property(libraries php_ext_gd LINK_LIBRARIES)
     set(doSanityCheck TRUE)
     foreach(library ${libraries})
       if(library MATCHES "^.+::.+$" AND NOT TARGET ${library})
@@ -450,9 +450,9 @@ else()
       PURPOSE "Necessary to enable the gd extension with external GD library."
   )
 
-  target_link_libraries(php_gd PRIVATE GD::GD)
+  target_link_libraries(php_ext_gd PRIVATE GD::GD)
 
-  target_sources(php_gd PRIVATE gd_compat.c)
+  target_sources(php_ext_gd PRIVATE gd_compat.c)
 
   if(TARGET GD::GD)
     # Sanity check.
@@ -475,7 +475,7 @@ else()
     # does not support the Foo format. Those junk functions display a warning
     # but eventually return normally, making a simple link or run test
     # insufficient.
-    function(php_gd_check_format format result)
+    function(php_ext_gd_check_format format result)
       cmake_push_check_state(RESET)
         set(CMAKE_REQUIRED_LIBRARIES GD::GD)
 
@@ -517,13 +517,13 @@ else()
       cmake_pop_check_state()
     endfunction()
 
-    php_gd_check_format(Png HAVE_GD_PNG)
-    php_gd_check_format(Avif HAVE_GD_AVIF)
-    php_gd_check_format(Webp HAVE_GD_WEBP)
-    php_gd_check_format(Jpeg HAVE_GD_JPG)
-    php_gd_check_format(Xpm HAVE_GD_XPM)
-    php_gd_check_format(Bmp HAVE_GD_BMP)
-    php_gd_check_format(Tga HAVE_GD_TGA)
+    php_ext_gd_check_format(Png HAVE_GD_PNG)
+    php_ext_gd_check_format(Avif HAVE_GD_AVIF)
+    php_ext_gd_check_format(Webp HAVE_GD_WEBP)
+    php_ext_gd_check_format(Jpeg HAVE_GD_JPG)
+    php_ext_gd_check_format(Xpm HAVE_GD_XPM)
+    php_ext_gd_check_format(Bmp HAVE_GD_BMP)
+    php_ext_gd_check_format(Tga HAVE_GD_TGA)
 
     check_library_exists(GD::GD gdFontCacheShutdown "" HAVE_GD_FREETYPE)
     check_library_exists(GD::GD gdVersionString "" HAVE_GD_LIBVERSION)

@@ -49,13 +49,13 @@ if(NOT EXT_CALENDAR)
 endif()
 
 if(EXT_CALENDAR_SHARED)
-  add_library(php_calendar SHARED)
+  add_library(php_ext_calendar SHARED)
 else()
-  add_library(php_calendar)
+  add_library(php_ext_calendar)
 endif()
 
 target_sources(
-  php_calendar
+  php_ext_calendar
   PRIVATE
     cal_unix.c
     calendar.c

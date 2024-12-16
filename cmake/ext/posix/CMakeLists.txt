@@ -59,19 +59,19 @@ if(NOT EXT_POSIX)
 endif()
 
 if(EXT_POSIX_SHARED)
-  add_library(php_posix SHARED)
+  add_library(php_ext_posix SHARED)
 else()
-  add_library(php_posix)
+  add_library(php_ext_posix)
 endif()
 
 target_sources(
-  php_posix
+  php_ext_posix
   PRIVATE
     posix.c
     posix.stub.php
 )
 
-target_compile_definitions(php_posix PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE)
+target_compile_definitions(php_ext_posix PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE)
 
 check_symbol_exists(ctermid "stdio.h" HAVE_CTERMID)
 cmake_push_check_state(RESET)

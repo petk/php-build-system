@@ -49,13 +49,13 @@ if(NOT EXT_SYSVSHM)
 endif()
 
 if(EXT_SYSVSHM_SHARED)
-  add_library(php_sysvshm SHARED)
+  add_library(php_ext_sysvshm SHARED)
 else()
-  add_library(php_sysvshm)
+  add_library(php_ext_sysvshm)
 endif()
 
 target_sources(
-  php_sysvshm
+  php_ext_sysvshm
   PRIVATE
     sysvshm.c
     sysvshm.stub.php

@@ -81,10 +81,10 @@ endif()
 # Add library.
 ################################################################################
 
-add_library(php_opcache SHARED)
+add_library(php_ext_opcache SHARED)
 
 target_sources(
-  php_opcache
+  php_ext_opcache
   PRIVATE
     opcache.stub.php
     $<$<NOT:$<PLATFORM_ID:Windows>>:shared_alloc_mmap.c>
@@ -103,19 +103,19 @@ target_sources(
     ZendAccelerator.c
 )
 
-add_dependencies(php_opcache php_date php_pcre)
+add_dependencies(php_ext_opcache php_ext_date php_ext_pcre)
 
 if(CMAKE_SYSTEM_NAME STREQUAL "Windows")
-  add_dependencies(php_opcache php_hash)
+  add_dependencies(php_ext_opcache php_ext_hash)
 endif()
 
 set_target_properties(
-  php_opcache
+  php_ext_opcache
   PROPERTIES
     PHP_ZEND_EXTENSION TRUE
 )
 
-target_compile_definitions(php_opcache PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE)
+target_compile_definitions(php_ext_opcache PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE)
 
 if(EXT_OPCACHE_HUGE_CODE_PAGES)
   set(HAVE_HUGE_CODE_PAGES TRUE)
@@ -184,9 +184,9 @@ if(EXT_OPCACHE_JIT)
   endif()
 
   # Generate ir_emit_<arch>.h file.
-  add_executable(php_opcache_jit_minilua jit/ir/dynasm/minilua.c)
+  add_executable(php_ext_opcache_jit_minilua jit/ir/dynasm/minilua.c)
   set_target_properties(
-    php_opcache_jit_minilua
+    php_ext_opcache_jit_minilua
     PROPERTIES
       RUNTIME_OUTPUT_DIRECTORY CMakeFiles
   )
@@ -196,7 +196,7 @@ if(EXT_OPCACHE_JIT)
     floor
     HEADERS math.h
     LIBRARIES m
-    TARGET php_opcache_jit_minilua PRIVATE
+    TARGET php_ext_opcache_jit_minilua PRIVATE
   )
 
   # Help generators create a jit/ir build directory.
@@ -213,7 +213,7 @@ if(EXT_OPCACHE_JIT)
   add_custom_command(
     OUTPUT jit/ir/ir_emit_${DASM_ARCH}.h
     COMMAND
-      php_opcache_jit_minilua ${CMAKE_CURRENT_SOURCE_DIR}/jit/ir/dynasm/dynasm.lua
+      php_ext_opcache_jit_minilua ${CMAKE_CURRENT_SOURCE_DIR}/jit/ir/dynasm/dynasm.lua
         ${DASM_FLAGS}
         -o ${CMAKE_CURRENT_BINARY_DIR}/jit/ir/ir_emit_${DASM_ARCH}.h
         ${CMAKE_CURRENT_SOURCE_DIR}/jit/ir/ir_${DASM_ARCH}.dasc
@@ -226,16 +226,16 @@ if(EXT_OPCACHE_JIT)
   )
 
   # Create IR folding engine generator.
-  add_executable(php_opcache_jit_generator jit/ir/gen_ir_fold_hash.c)
+  add_executable(php_ext_opcache_jit_generator jit/ir/gen_ir_fold_hash.c)
   target_compile_definitions(
-    php_opcache_jit_generator
+    php_ext_opcache_jit_generator
     PRIVATE
       ${IR_TARGET}
       IR_PHP
       IR_PHP_MM=0
   )
   set_target_properties(
-    php_opcache_jit_generator
+    php_ext_opcache_jit_generator
     PROPERTIES
       RUNTIME_OUTPUT_DIRECTORY CMakeFiles
   )
@@ -243,7 +243,7 @@ if(EXT_OPCACHE_JIT)
   # Generate IR folding engine rules header.
   add_custom_command(
     OUTPUT jit/ir/ir_fold_hash.h
-    COMMAND php_opcache_jit_generator
+    COMMAND php_ext_opcache_jit_generator
       < ${CMAKE_CURRENT_SOURCE_DIR}/jit/ir/ir_fold.h
       > ${CMAKE_CURRENT_BINARY_DIR}/jit/ir/ir_fold_hash.h
     COMMENT "[ext/opcache] Generating folding engine rules ${relativeDir}/jit/ir/ir_fold_hash.h"
@@ -254,7 +254,7 @@ if(EXT_OPCACHE_JIT)
   )
 
   target_sources(
-    php_opcache
+    php_ext_opcache
     PRIVATE
       jit/ir/ir_cfg.c
       jit/ir/ir_check.c
@@ -276,13 +276,13 @@ if(EXT_OPCACHE_JIT)
   )
 
   target_include_directories(
-    php_opcache
+    php_ext_opcache
     PRIVATE
       ${CMAKE_CURRENT_BINARY_DIR}/jit/ir
   )
 
   target_compile_definitions(
-    php_opcache
+    php_ext_opcache
     PRIVATE
       IR_PHP
       ${IR_TARGET}
@@ -299,9 +299,9 @@ if(EXT_OPCACHE_JIT)
         PURPOSE "Necessary to enable OPcache JIT disassembly through Capstone."
     )
 
-    target_sources(php_opcache PRIVATE jit/ir/ir_disasm.c)
+    target_sources(php_ext_opcache PRIVATE jit/ir/ir_disasm.c)
 
-    target_link_libraries(php_opcache PRIVATE Capstone::Capstone)
+    target_link_libraries(php_ext_opcache PRIVATE Capstone::Capstone)
 
     set(HAVE_CAPSTONE TRUE)
   endif()
@@ -333,7 +333,7 @@ check_symbol_exists(shm_create_largepage "sys/mman.h" HAVE_SHM_CREATE_LARGEPAGE)
 # Check for shared memory support.
 include(cmake/CheckSHM.cmake)
 if(TARGET PHP::CheckSHMLibrary)
-  target_link_libraries(php_opcache PRIVATE PHP::CheckSHMLibrary)
+  target_link_libraries(php_ext_opcache PRIVATE PHP::CheckSHMLibrary)
 endif()
 
 configure_file(cmake/config.h.in config.h)

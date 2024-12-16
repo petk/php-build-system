@@ -49,13 +49,13 @@ if(NOT EXT_SHMOP)
 endif()
 
 if(EXT_SHMOP_SHARED)
-  add_library(php_shmop SHARED)
+  add_library(php_ext_shmop SHARED)
 else()
-  add_library(php_shmop)
+  add_library(php_ext_shmop)
 endif()
 
 target_sources(
-  php_shmop
+  php_ext_shmop
   PRIVATE
     shmop.c
     shmop.stub.php

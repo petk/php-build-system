@@ -53,13 +53,13 @@ endif()
 enable_language(CXX)
 
 if(EXT_INTL_SHARED)
-  add_library(php_intl SHARED)
+  add_library(php_ext_intl SHARED)
 else()
-  add_library(php_intl)
+  add_library(php_ext_intl)
 endif()
 
 target_sources(
-  php_intl
+  php_ext_intl
   PRIVATE
     breakiterator/breakiterator_class.cpp
     breakiterator/breakiterator_iterators.cpp
@@ -154,7 +154,7 @@ target_sources(
 php_check_compiler_flag(C -Wno-write-strings HAVE_WNO_WRITE_STRINGS_C)
 if(HAVE_WNO_WRITE_STRINGS_C)
   target_compile_options(
-    php_intl
+    php_ext_intl
     PRIVATE
       $<$<COMPILE_LANGUAGE:C>:-Wno-write-strings>
   )
@@ -163,14 +163,14 @@ endif()
 php_check_compiler_flag(CXX -Wno-write-strings HAVE_WNO_WRITE_STRINGS_CXX)
 if(HAVE_WNO_WRITE_STRINGS_CXX)
   target_compile_options(
-    php_intl
+    php_ext_intl
     PRIVATE
       $<$<COMPILE_LANGUAGE:CXX>:-Wno-write-strings>
   )
 endif()
 
 target_compile_definitions(
-  php_intl
+  php_ext_intl
   PRIVATE
     U_NO_DEFAULT_INCLUDE_UTF_HEADERS=1
     __STDC_LIMIT_MACROS
@@ -182,7 +182,7 @@ target_compile_definitions(
 
 if(CMAKE_SYSTEM_NAME STREQUAL "CYGWIN")
   target_compile_definitions(
-    php_intl
+    php_ext_intl
     PRIVATE
       $<$<COMPILE_LANGUAGE:CXX>:_POSIX_C_SOURCE=200809L>
   )
@@ -198,24 +198,24 @@ set_package_properties(
 
 if(ICU_VERSION VERSION_GREATER_EQUAL 74)
   set_target_properties(
-    php_intl
+    php_ext_intl
     PROPERTIES
       CXX_STANDARD 17
       CXX_STANDARD_REQUIRED TRUE
   )
 else()
   set_target_properties(
-    php_intl
+    php_ext_intl
     PROPERTIES
       CXX_STANDARD 11
       CXX_STANDARD_REQUIRED TRUE
   )
 endif()
 
-target_link_libraries(php_intl PRIVATE ICU::io ICU::uc ICU::i18n)
+target_link_libraries(php_ext_intl PRIVATE ICU::io ICU::uc ICU::i18n)
 
 if(ICU_VERSION VERSION_GREATER_EQUAL 60)
-  target_compile_definitions(php_intl PRIVATE U_HIDE_OBSOLETE_UTF_OLD_H=1)
+  target_compile_definitions(php_ext_intl PRIVATE U_HIDE_OBSOLETE_UTF_OLD_H=1)
 endif()
 
-add_dependencies(php_intl php_date)
+add_dependencies(php_ext_intl php_ext_date)

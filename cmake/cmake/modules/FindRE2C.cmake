@@ -157,6 +157,7 @@ if(RE2C_ENABLE_DOWNLOAD AND (NOT RE2C_EXECUTABLE OR NOT _re2c_version_valid))
     URL https://github.com/skvadrik/re2c/archive/refs/tags/${RE2C_VERSION}.tar.gz
   )
 
+  message(STATUS "Downloading RE2C")
   FetchContent_MakeAvailable(RE2C)
 
   # Set executable to re2c target name.

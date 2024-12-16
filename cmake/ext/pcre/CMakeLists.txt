@@ -63,10 +63,10 @@ option(
 
 mark_as_advanced(EXT_PCRE_EXTERNAL EXT_PCRE_JIT)
 
-add_library(php_pcre OBJECT)
+add_library(php_ext_pcre OBJECT)
 
 target_sources(
-  php_pcre
+  php_ext_pcre
   PRIVATE
     php_pcre.c
     php_pcre.def
@@ -80,7 +80,7 @@ target_sources(
 # TODO: Fix this better for OBJECT libraries, which can't handle .def files.
 set_source_files_properties(php_pcre.def PROPERTIES HEADER_FILE_ONLY TRUE)
 
-target_compile_definitions(php_pcre PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE)
+target_compile_definitions(php_ext_pcre PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE)
 
 set(PCRE2_CODE_UNIT_WIDTH 8)
 
@@ -93,7 +93,7 @@ if(EXT_PCRE_EXTERNAL)
       PURPOSE "Necessary to use external PCRE library in the pcre extension."
   )
 
-  target_link_libraries(php_pcre PRIVATE PCRE::PCRE)
+  target_link_libraries(php_ext_pcre PRIVATE PCRE::PCRE)
 
   if(TARGET PCRE::PCRE AND EXT_PCRE_JIT)
     message(CHECK_START "Checking for PCRE JIT support")
@@ -142,7 +142,7 @@ else()
 
   block()
     target_sources(
-      php_pcre
+      php_ext_pcre
       PRIVATE
         pcre2lib/pcre2_auto_possess.c
         pcre2lib/pcre2_chartables.c
@@ -210,7 +210,7 @@ else()
   endif()
 
   target_compile_definitions(
-    php_pcre
+    php_ext_pcre
     PRIVATE
       # PCRE2 library uses C99 memmove() function conditionally in some files.
       HAVE_MEMMOVE
@@ -235,7 +235,7 @@ else()
       message(CHECK_PASS "yes")
       php_check_compiler_flag(C -mshstk _HAVE_MSHSTK_C)
       if(_HAVE_MSHSTK_C)
-        target_compile_options(php_pcre PRIVATE -mshstk)
+        target_compile_options(php_ext_pcre PRIVATE -mshstk)
       endif()
     else()
       message(CHECK_FAIL "no")
@@ -247,7 +247,7 @@ else()
   # Enable pcre Valgrind support only in Debug build (it affects performance).
   if(PHP_VALGRIND)
     target_compile_definitions(
-      php_pcre
+      php_ext_pcre
       PRIVATE
         $<$<CONFIG:Debug,DebugAssertions>:HAVE_PCRE_VALGRIND_SUPPORT>
     )

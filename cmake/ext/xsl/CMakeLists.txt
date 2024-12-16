@@ -50,13 +50,13 @@ if(NOT EXT_XSL)
 endif()
 
 if(EXT_XSL_SHARED)
-  add_library(php_xsl SHARED)
+  add_library(php_ext_xsl SHARED)
 else()
-  add_library(php_xsl)
+  add_library(php_ext_xsl)
 endif()
 
 target_sources(
-  php_xsl
+  php_ext_xsl
   PRIVATE
     php_xsl.c
     php_xsl.stub.php
@@ -64,7 +64,7 @@ target_sources(
 )
 
 target_compile_definitions(
-  php_xsl
+  php_ext_xsl
   PRIVATE
     # TODO: Fix LIBXML_STATIC usage based on the static/shared libxml2 package.
     $<$<AND:$<PLATFORM_ID:Windows>,$<NOT:$<IN_LIST:$<TARGET_PROPERTY:TYPE>,MODULE_LIBRARY;SHARED_LIBRARY>>>:DOM_EXPORTS;LIBXML_STATIC>
@@ -73,7 +73,7 @@ target_compile_definitions(
 )
 
 target_link_options(
-  php_xsl
+  php_ext_xsl
   PRIVATE
     $<$<AND:$<CONFIG:Debug,DebugAssertions>,$<C_COMPILER_ID:MSVC>>:LINKER:/nodefaultlib:msvcrt>
 )
@@ -87,9 +87,9 @@ set_package_properties(
     PURPOSE "Necessary to enable the xsl extension."
 )
 
-target_link_libraries(php_xsl PRIVATE LibXml2::LibXml2)
+target_link_libraries(php_ext_xsl PRIVATE LibXml2::LibXml2)
 
-add_dependencies(php_xsl php_libxml php_dom)
+add_dependencies(php_ext_xsl php_ext_libxml php_ext_dom)
 
 find_package(LibXslt 1.1.0)
 set_package_properties(
@@ -99,15 +99,15 @@ set_package_properties(
     PURPOSE "Necessary to enable the xsl extension."
 )
 
-target_link_libraries(php_xsl PRIVATE LibXslt::LibXslt)
+target_link_libraries(php_ext_xsl PRIVATE LibXslt::LibXslt)
 
 if(TARGET LibXslt::LibExslt)
   set(HAVE_XSL_EXSLT TRUE)
 
-  target_link_libraries(php_xsl PRIVATE LibXslt::LibExslt)
+  target_link_libraries(php_ext_xsl PRIVATE LibXslt::LibExslt)
 
   target_compile_definitions(
-    php_xsl
+    php_ext_xsl
     PRIVATE
     # TODO: Fix based on the static/shared xslt package.
     $<$<PLATFORM_ID:Windows>:LIBEXSLT_STATIC>

@@ -97,13 +97,13 @@ if(NOT EXT_MYSQLND)
 endif()
 
 if(EXT_MYSQLND_SHARED)
-  add_library(php_mysqlnd SHARED)
+  add_library(php_ext_mysqlnd SHARED)
 else()
-  add_library(php_mysqlnd)
+  add_library(php_ext_mysqlnd)
 endif()
 
 target_sources(
-  php_mysqlnd
+  php_ext_mysqlnd
   PRIVATE
     mysqlnd_alloc.c
     mysqlnd_auth.c
@@ -159,10 +159,10 @@ target_sources(
         php_mysqlnd.h
 )
 
-target_compile_definitions(php_mysqlnd PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE)
+target_compile_definitions(php_ext_mysqlnd PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE)
 
 target_link_libraries(
-  php_mysqlnd
+  php_ext_mysqlnd
   PRIVATE
     $<$<PLATFORM_ID:Windows>:ws2_32>
 )
@@ -176,7 +176,7 @@ if(EXT_MYSQLND_COMPRESSION)
       PURPOSE "Necessary to enable compression in the mysqlnd extension."
   )
 
-  target_link_libraries(php_mysqlnd PRIVATE ZLIB::ZLIB)
+  target_link_libraries(php_ext_mysqlnd PRIVATE ZLIB::ZLIB)
 
   set(MYSQLND_COMPRESSION_ENABLED TRUE)
 endif()
@@ -191,7 +191,7 @@ if(
   OR CMAKE_SYSTEM_NAME STREQUAL "Windows"
 )
   if(CMAKE_SYSTEM_NAME STREQUAL "Windows")
-    target_link_libraries(php_mysqlnd PRIVATE crypt32)
+    target_link_libraries(php_ext_mysqlnd PRIVATE crypt32)
   else()
     find_package(OpenSSL ${PHP_OPENSSL_MIN_VERSION})
     set_package_properties(
@@ -200,12 +200,12 @@ if(
         TYPE REQUIRED
         PURPOSE "Necessary to enable SSL in the mysqlnd extension."
     )
-    target_link_libraries(php_mysqlnd PRIVATE OpenSSL::Crypto)
+    target_link_libraries(php_ext_mysqlnd PRIVATE OpenSSL::Crypto)
   endif()
 
   set(MYSQLND_HAVE_SSL TRUE)
 
-  add_dependencies(php_mysqlnd php_hash)
+  add_dependencies(php_ext_mysqlnd php_ext_hash)
 endif()
 
 add_feature_info(

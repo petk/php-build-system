@@ -49,13 +49,13 @@ if(NOT EXT_FILTER)
 endif()
 
 if(EXT_FILTER_SHARED)
-  add_library(php_filter SHARED)
+  add_library(php_ext_filter SHARED)
 else()
-  add_library(php_filter)
+  add_library(php_ext_filter)
 endif()
 
 target_sources(
-  php_filter
+  php_ext_filter
   PRIVATE
     callback_filter.c
     filter.c
@@ -68,6 +68,6 @@ target_sources(
         php_filter.h
 )
 
-target_compile_definitions(php_filter PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE)
+target_compile_definitions(php_ext_filter PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE)
 
-add_dependencies(php_filter php_pcre)
+add_dependencies(php_ext_filter php_ext_pcre)
