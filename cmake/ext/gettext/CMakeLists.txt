@@ -51,13 +51,13 @@ if(NOT EXT_GETTEXT)
 endif()
 
 if(EXT_GETTEXT_SHARED)
-  add_library(php_gettext SHARED)
+  add_library(php_ext_gettext SHARED)
 else()
-  add_library(php_gettext)
+  add_library(php_ext_gettext)
 endif()
 
 target_sources(
-  php_gettext
+  php_ext_gettext
   PRIVATE
     gettext.c
     gettext.stub.php
@@ -71,7 +71,7 @@ set_package_properties(
     PURPOSE "Necessary to enable the gettext extension."
 )
 
-target_link_libraries(php_gettext PRIVATE Intl::Intl)
+target_link_libraries(php_ext_gettext PRIVATE Intl::Intl)
 
 if(TARGET Intl::Intl)
   # Sanity check.

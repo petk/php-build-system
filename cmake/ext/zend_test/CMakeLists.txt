@@ -49,13 +49,13 @@ if(NOT EXT_ZEND_TEST)
 endif()
 
 if(EXT_ZEND_TEST_SHARED)
-  add_library(php_zend_test SHARED)
+  add_library(php_ext_zend_test SHARED)
 else()
-  add_library(php_zend_test)
+  add_library(php_ext_zend_test)
 endif()
 
 target_sources(
-  php_zend_test
+  php_ext_zend_test
   PRIVATE
     fiber.c
     fiber.stub.php
@@ -69,7 +69,7 @@ target_sources(
 )
 
 target_compile_definitions(
-  php_zend_test
+  php_ext_zend_test
   PRIVATE
     ZEND_ENABLE_STATIC_TSRMLS_CACHE
     # TODO: PHP_ZEND_TEST_EXPORTS is currently unused.
@@ -88,5 +88,5 @@ if(EXT_LIBXML)
       PURPOSE "Necessary to add XML support to zend_test extension."
   )
 
-  target_link_libraries(php_zend_test PRIVATE LibXml2::LibXml2)
+  target_link_libraries(php_ext_zend_test PRIVATE LibXml2::LibXml2)
 endif()

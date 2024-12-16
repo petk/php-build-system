@@ -92,13 +92,13 @@ if(NOT EXT_OCI8)
 endif()
 
 if(EXT_OCI8_SHARED)
-  add_library(php_oci8 SHARED)
+  add_library(php_ext_oci8 SHARED)
 else()
-  add_library(php_oci8)
+  add_library(php_ext_oci8)
 endif()
 
 target_sources(
-  php_oci8
+  php_ext_oci8
   PRIVATE
     oci8_collection.c
     oci8_failover.c
@@ -119,9 +119,9 @@ if(NOT PHP_OCI8_INSTANT_CLIENT AND NOT CMAKE_SYSTEM_NAME STREQUAL "Windows")
   else()
     set(dir ${CMAKE_CURRENT_SOURCE_DIR})
   endif()
-  cmake_language(DEFER DIRECTORY ${dir} CALL php_oci8_notice)
+  cmake_language(DEFER DIRECTORY ${dir} CALL php_ext_oci8_notice)
 endif()
-function(php_oci8_notice)
+function(php_ext_oci8_notice)
   cmake_language(DEFER CALL message NOTICE [[
 
     The oci8 extension notice:

@@ -68,13 +68,13 @@ if(NOT _HAVE_SYS_MSG_H)
 endif()
 
 if(EXT_SYSVMSG_SHARED)
-  add_library(php_sysvmsg SHARED)
+  add_library(php_ext_sysvmsg SHARED)
 else()
-  add_library(php_sysvmsg)
+  add_library(php_ext_sysvmsg)
 endif()
 
 target_sources(
-  php_sysvmsg
+  php_ext_sysvmsg
   PRIVATE
     sysvmsg.c
     sysvmsg.stub.php

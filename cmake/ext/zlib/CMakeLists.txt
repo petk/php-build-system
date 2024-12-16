@@ -50,13 +50,13 @@ if(NOT EXT_ZLIB)
 endif()
 
 if(EXT_ZLIB_SHARED)
-  add_library(php_zlib SHARED)
+  add_library(php_ext_zlib SHARED)
 else()
-  add_library(php_zlib)
+  add_library(php_ext_zlib)
 endif()
 
 target_sources(
-  php_zlib
+  php_ext_zlib
   PRIVATE
     $<$<AND:$<PLATFORM_ID:Windows>,$<NOT:$<IN_LIST:$<TARGET_PROPERTY:TYPE>,MODULE_LIBRARY;SHARED_LIBRARY>>>:php_zlib.def>
     zlib_filter.c
@@ -65,7 +65,7 @@ target_sources(
     zlib.stub.php
 )
 
-target_compile_definitions(php_zlib PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE)
+target_compile_definitions(php_ext_zlib PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE)
 
 find_package(ZLIB ${PHP_ZLIB_MIN_VERSION})
 set_package_properties(
@@ -75,7 +75,7 @@ set_package_properties(
     PURPOSE "Necessary to enable the zlib extension."
 )
 
-target_link_libraries(php_zlib PRIVATE ZLIB::ZLIB)
+target_link_libraries(php_ext_zlib PRIVATE ZLIB::ZLIB)
 
 set(HAVE_ZLIB TRUE)
 

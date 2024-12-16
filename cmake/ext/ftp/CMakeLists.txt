@@ -68,13 +68,13 @@ if(NOT EXT_FTP)
 endif()
 
 if(EXT_FTP_SHARED)
-  add_library(php_ftp SHARED)
+  add_library(php_ext_ftp SHARED)
 else()
-  add_library(php_ftp)
+  add_library(php_ext_ftp)
 endif()
 
 target_sources(
-  php_ftp
+  php_ext_ftp
   PRIVATE
     ftp.c
     ftp.stub.php
@@ -90,7 +90,7 @@ if(EXT_FTP_SSL OR EXT_OPENSSL)
       PURPOSE "Necessary to enable the ftp extension."
   )
 
-  target_link_libraries(php_ftp PRIVATE OpenSSL::SSL)
+  target_link_libraries(php_ext_ftp PRIVATE OpenSSL::SSL)
 
   set(HAVE_FTP_SSL TRUE)
 endif()

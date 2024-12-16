@@ -50,23 +50,23 @@ if(NOT EXT_PDO_FIREBIRD)
 endif()
 
 if(EXT_PDO_FIREBIRD_SHARED)
-  add_library(php_pdo_firebird SHARED)
+  add_library(php_ext_pdo_firebird SHARED)
 else()
-  add_library(php_pdo_firebird)
+  add_library(php_ext_pdo_firebird)
 endif()
 
 target_sources(
-  php_pdo_firebird
+  php_ext_pdo_firebird
   PRIVATE
     firebird_driver.c
     firebird_statement.c
     pdo_firebird.c
 )
 
-add_dependencies(php_pdo_firebird php_pdo)
+add_dependencies(php_ext_pdo_firebird php_ext_pdo)
 
 target_include_directories(
-  php_pdo_firebird
+  php_ext_pdo_firebird
   PRIVATE
     ${CMAKE_CURRENT_SOURCE_DIR}/..
 )
@@ -79,7 +79,7 @@ set_package_properties(
     PURPOSE "Necessary to enable the pdo_firebird extension."
 )
 
-target_link_libraries(php_pdo_firebird PRIVATE Firebird::Firebird)
+target_link_libraries(php_ext_pdo_firebird PRIVATE Firebird::Firebird)
 
 # Sanity check.
 if(TARGET Firebird::Firebird)
@@ -87,9 +87,9 @@ if(TARGET Firebird::Firebird)
     Firebird::Firebird
     isc_detach_database
     ""
-    _php_pdo_firebird_sanity_check
+    _php_ext_pdo_firebird_sanity_check
   )
-  if(NOT _php_pdo_firebird_sanity_check)
+  if(NOT _php_ext_pdo_firebird_sanity_check)
     message(
       FATAL_ERROR
       "Firebird sanity check failed: isc_detach_database() not found."

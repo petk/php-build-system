@@ -49,20 +49,20 @@ if(NOT EXT_XMLREADER)
 endif()
 
 if(EXT_XMLREADER_SHARED)
-  add_library(php_xmlreader SHARED)
+  add_library(php_ext_xmlreader SHARED)
 else()
-  add_library(php_xmlreader)
+  add_library(php_ext_xmlreader)
 endif()
 
 target_sources(
-  php_xmlreader
+  php_ext_xmlreader
   PRIVATE
     php_xmlreader.c
     php_xmlreader.stub.php
 )
 
 target_compile_definitions(
-  php_xmlreader
+  php_ext_xmlreader
   PRIVATE
     # TODO: Fix LIBXML_STATIC usage based on the static/shared libxml2 package.
     $<$<AND:$<PLATFORM_ID:Windows>,$<NOT:$<IN_LIST:$<TARGET_PROPERTY:TYPE>,MODULE_LIBRARY;SHARED_LIBRARY>>>:LIBXML_STATIC>
@@ -77,14 +77,14 @@ set_package_properties(
     PURPOSE "Necessary to enable the xmlreader extension."
 )
 
-target_link_libraries(php_xmlreader PRIVATE LibXml2::LibXml2)
+target_link_libraries(php_ext_xmlreader PRIVATE LibXml2::LibXml2)
 
 # Optional dependency.
 if(EXT_DOM)
-  add_dependencies(php_xmlreader php_dom)
+  add_dependencies(php_ext_xmlreader php_ext_dom)
 endif()
 
-add_dependencies(php_xmlreader php_libxml)
+add_dependencies(php_ext_xmlreader php_ext_libxml)
 
 set(HAVE_XMLREADER TRUE)
 

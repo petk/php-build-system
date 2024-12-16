@@ -49,13 +49,13 @@ if(NOT EXT_GMP)
 endif()
 
 if(EXT_GMP_SHARED)
-  add_library(php_gmp SHARED)
+  add_library(php_ext_gmp SHARED)
 else()
-  add_library(php_gmp)
+  add_library(php_ext_gmp)
 endif()
 
 target_sources(
-  php_gmp
+  php_ext_gmp
   PRIVATE
     gmp.c
     gmp.stub.php
@@ -65,7 +65,7 @@ target_sources(
         php_gmp_int.h
 )
 
-target_compile_definitions(php_gmp PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE)
+target_compile_definitions(php_ext_gmp PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE)
 
 find_package(GMP 4.2)
 set_package_properties(
@@ -75,9 +75,9 @@ set_package_properties(
     PURPOSE "Necessary to enable the gmp extension."
 )
 
-target_link_libraries(php_gmp PUBLIC GMP::GMP)
+target_link_libraries(php_ext_gmp PUBLIC GMP::GMP)
 
-add_dependencies(php_gmp php_random)
+add_dependencies(php_ext_gmp php_ext_random)
 
 set(HAVE_GMP TRUE)
 

@@ -53,20 +53,20 @@ if(NOT EXT_FFI)
 endif()
 
 if(EXT_FFI_SHARED)
-  add_library(php_ffi SHARED)
+  add_library(php_ext_ffi SHARED)
 else()
-  add_library(php_ffi)
+  add_library(php_ext_ffi)
 endif()
 
 target_sources(
-  php_ffi
+  php_ext_ffi
   PRIVATE
     ffi_parser.c
     ffi.c
     ffi.stub.php
 )
 
-target_compile_definitions(php_ffi PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE)
+target_compile_definitions(php_ext_ffi PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE)
 
 find_package(FFI 3.0.11)
 set_package_properties(
@@ -76,7 +76,7 @@ set_package_properties(
     PURPOSE "Necessary to enable the ffi extension."
 )
 
-target_link_libraries(php_ffi PRIVATE FFI::FFI)
+target_link_libraries(php_ext_ffi PRIVATE FFI::FFI)
 
 check_type_size("long double" LONG_DOUBLE)
 

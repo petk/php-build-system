@@ -126,7 +126,7 @@ if(CMAKE_SYSTEM_NAME STREQUAL "Windows")
   target_link_libraries(
     php_sapi_cli
     PRIVATE
-      $<$<AND:$<TARGET_EXISTS:php_readline>,$<NOT:$<IN_LIST:$<TARGET_PROPERTY:php_readline,TYPE>,MODULE_LIBRARY;SHARED_LIBRARY>>>:$<TARGET_PROPERTY:php_readline,IMPORTED_LINK_INTERFACE_LIBRARIES>>
+      $<$<AND:$<TARGET_EXISTS:PHP::ext::readline>,$<NOT:$<IN_LIST:$<TARGET_PROPERTY:PHP::ext::readline,TYPE>,MODULE_LIBRARY;SHARED_LIBRARY>>>:$<TARGET_PROPERTY:PHP::ext::readline,IMPORTED_LINK_INTERFACE_LIBRARIES>>
   )
 endif()
 

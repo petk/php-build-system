@@ -50,20 +50,20 @@ if(NOT EXT_ZIP)
 endif()
 
 if(EXT_ZIP_SHARED)
-  add_library(php_zip SHARED)
+  add_library(php_ext_zip SHARED)
 else()
-  add_library(php_zip)
+  add_library(php_ext_zip)
 endif()
 
 target_sources(
-  php_zip
+  php_ext_zip
   PRIVATE
     php_zip.c
     php_zip.stub.php
     zip_stream.c
 )
 
-add_dependencies(php_zip php_pcre)
+add_dependencies(php_ext_zip php_ext_pcre)
 
 find_package(libzip 1.7.1)
 set_package_properties(
@@ -88,7 +88,7 @@ if(libzip_VERSION VERSION_EQUAL 1.3.1 OR libzip_VERSION VERSION_EQUAL 1.7.0)
   )
 endif()
 
-target_link_libraries(php_zip PRIVATE libzip::libzip)
+target_link_libraries(php_ext_zip PRIVATE libzip::libzip)
 
 # Note: ZIP_STATIC needs to be defined when using static libzip on Windows only
 # since version 1.0 to 1.3.2

@@ -110,13 +110,13 @@ if(NOT EXT_OPENSSL)
 endif()
 
 if(EXT_OPENSSL_SHARED)
-  add_library(php_openssl SHARED)
+  add_library(php_ext_openssl SHARED)
 else()
-  add_library(php_openssl)
+  add_library(php_ext_openssl)
 endif()
 
 target_sources(
-  php_openssl
+  php_ext_openssl
   PRIVATE
     openssl.c
     openssl.stub.php
@@ -138,7 +138,7 @@ if(EXT_OPENSSL_KERBEROS)
       PURPOSE "Necessary to use Kerberos support in the openssl extension."
   )
 
-  target_link_libraries(php_openssl PRIVATE Kerberos::Krb5 Kerberos::GSSAPI)
+  target_link_libraries(php_ext_openssl PRIVATE Kerberos::Krb5 Kerberos::GSSAPI)
 endif()
 
 find_package(OpenSSL ${PHP_OPENSSL_MIN_VERSION})
@@ -150,10 +150,10 @@ set_package_properties(
 )
 
 # Link publicly for internal_functions files.
-target_link_libraries(php_openssl PUBLIC OpenSSL::SSL OpenSSL::Crypto)
+target_link_libraries(php_ext_openssl PUBLIC OpenSSL::SSL OpenSSL::Crypto)
 
 block(PROPAGATE HAVE_OPENSSL_EXT_CODE)
-  get_target_property(type php_openssl TYPE)
+  get_target_property(type php_ext_openssl TYPE)
   if(
     CMAKE_SYSTEM_NAME STREQUAL "Windows" AND
     type MATCHES "^(MODULE|SHARED)_LIBRARY$"

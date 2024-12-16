@@ -36,16 +36,16 @@ if(NOT EXT_DL_TEST)
 endif()
 
 # The dl_test extension can be built only as a shared library.
-add_library(php_dl_test SHARED)
+add_library(php_ext_dl_test SHARED)
 target_sources(
-  php_dl_test
+  php_ext_dl_test
   PRIVATE
     dl_test.c
     dl_test.stub.php
 )
 
 target_compile_definitions(
-  php_dl_test
+  php_ext_dl_test
   PRIVATE
     ZEND_ENABLE_STATIC_TSRMLS_CACHE
     # TODO: PHP_DL_TEST_EXPORTS is currently unused.

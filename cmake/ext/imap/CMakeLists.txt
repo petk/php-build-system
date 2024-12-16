@@ -80,19 +80,19 @@ if(NOT EXT_IMAP)
 endif()
 
 if(EXT_IMAP_SHARED)
-  add_library(php_imap SHARED)
+  add_library(php_ext_imap SHARED)
 else()
-  add_library(php_imap)
+  add_library(php_ext_imap)
 endif()
 
 target_sources(
-  php_imap
+  php_ext_imap
   PRIVATE
     php_imap.c
     php_imap.stub.php
 )
 
-target_compile_definitions(php_imap PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE)
+target_compile_definitions(php_ext_imap PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE)
 
 find_package(Cclient)
 set_package_properties(
@@ -103,7 +103,7 @@ set_package_properties(
 )
 
 target_link_libraries(
-  php_imap
+  php_ext_imap
   PRIVATE
     $<$<PLATFORM_ID:Windows>:ws2_32;secur32;crypt32;winmm>
   # Link publicly for internal_functions files.
@@ -132,7 +132,7 @@ if(TARGET Cclient::Cclient)
           PURPOSE "Necessary for Kerberos support in the imap extension."
       )
 
-      target_link_libraries(php_imap PRIVATE Kerberos::Krb5 Kerberos::GSSAPI)
+      target_link_libraries(php_ext_imap PRIVATE Kerberos::Krb5 Kerberos::GSSAPI)
 
       if(Kerberos_FOUND)
         set(HAVE_IMAP_KRB TRUE)
@@ -173,7 +173,7 @@ if(TARGET Cclient::Cclient)
           PURPOSE "Necessary to enable SSL in the imap extension."
       )
 
-      target_link_libraries(php_imap PRIVATE OpenSSL::SSL)
+      target_link_libraries(php_ext_imap PRIVATE OpenSSL::SSL)
 
       if(OpenSSL_FOUND)
         set(HAVE_IMAP_SSL TRUE)

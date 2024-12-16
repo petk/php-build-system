@@ -209,7 +209,7 @@ block(PROPAGATE PHP_VERSION)
     file(
       STRINGS
       ${PHP_INCLUDE_DIR}/main/php_version.h
-      php_version
+      result
       REGEX "${regex}"
       LIMIT_COUNT 1
     )

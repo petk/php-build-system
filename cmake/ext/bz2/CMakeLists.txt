@@ -51,13 +51,13 @@ if(NOT EXT_BZ2)
 endif()
 
 if(EXT_BZ2_SHARED)
-  add_library(php_bz2 SHARED)
+  add_library(php_ext_bz2 SHARED)
 else()
-  add_library(php_bz2)
+  add_library(php_ext_bz2)
 endif()
 
 target_sources(
-  php_bz2
+  php_ext_bz2
   PRIVATE
     bz2_filter.c
     bz2.c
@@ -65,7 +65,7 @@ target_sources(
 )
 
 target_compile_definitions(
-  php_bz2
+  php_ext_bz2
   PRIVATE
     $<$<AND:$<PLATFORM_ID:Windows>,$<IN_LIST:$<TARGET_PROPERTY:TYPE>,MODULE_LIBRARY;SHARED_LIBRARY>>:PHP_BZ2_EXPORTS>
 )
@@ -79,7 +79,7 @@ set_package_properties(
 )
 
 # Link with PUBLIC scope if include directories are on non-standard places.
-target_link_libraries(php_bz2 PUBLIC BZip2::BZip2)
+target_link_libraries(php_ext_bz2 PUBLIC BZip2::BZip2)
 
 # Sanity check.
 if(TARGET BZip2::BZip2)

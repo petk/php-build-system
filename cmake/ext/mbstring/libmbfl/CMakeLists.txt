@@ -10,7 +10,7 @@ approach is used, with no alternative implementations provided at this stage.
 Adding libmbfl with `add_subdirectory()`:
 
 ```cmake
-set(LIBMBFL_TARGET php_mbstring)
+set(LIBMBFL_TARGET php_ext_mbstring)
 add_subdirectory(libmbfl)
 ```
 #]=============================================================================]

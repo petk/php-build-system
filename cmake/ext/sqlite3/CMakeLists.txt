@@ -50,19 +50,19 @@ if(NOT EXT_SQLITE3)
 endif()
 
 if(EXT_SQLITE3_SHARED)
-  add_library(php_sqlite3 SHARED)
+  add_library(php_ext_sqlite3 SHARED)
 else()
-  add_library(php_sqlite3)
+  add_library(php_ext_sqlite3)
 endif()
 
 target_sources(
-  php_sqlite3
+  php_ext_sqlite3
   PRIVATE
     sqlite3.c
     sqlite3.stub.php
 )
 
-target_compile_definitions(php_sqlite3 PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE)
+target_compile_definitions(php_ext_sqlite3 PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE)
 
 find_package(SQLite3 ${PHP_SQLITE_MIN_VERSION})
 set_package_properties(
@@ -72,7 +72,7 @@ set_package_properties(
     PURPOSE "Necessary to enable the sqlite3 extension."
 )
 
-target_link_libraries(php_sqlite3 PRIVATE SQLite::SQLite3)
+target_link_libraries(php_ext_sqlite3 PRIVATE SQLite::SQLite3)
 
 if(TARGET SQLite::SQLite3)
   check_library_exists(
