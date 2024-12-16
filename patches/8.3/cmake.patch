@@ -7,7 +7,7 @@ Subject: Add CMake changes for PHP-8.3 branch
  1 file changed, 18 insertions(+), 6 deletions(-)
 
 diff --git a/run-tests.php b/run-tests.php
-index 2716f2a520..39f66088e2 100755
+index d51ab99a20..9211cbb3e2 100755
 --- a/run-tests.php
 +++ b/run-tests.php
 @@ -885,10 +885,12 @@ function write_information(): void
