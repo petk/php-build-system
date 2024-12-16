@@ -431,7 +431,7 @@ if(EXT_DBA_DBM)
       PURPOSE "Necessary to enable the DBM handler in the dba extension."
   )
 
-  target_link_libraries(php_dba PRIVATE Dbm::Dbm)
+  target_link_libraries(php_ext_dba PRIVATE Dbm::Dbm)
 
   target_sources(php_ext_dba PRIVATE dba_dbm.c)
 
@@ -500,7 +500,7 @@ if(EXT_DBA_NDBM)
       PURPOSE "Necessary to enable the ndbm handler in the dba extension."
   )
 
-  target_link_libraries(php_dba PRIVATE Ndbm::Ndbm)
+  target_link_libraries(php_ext_dba PRIVATE Ndbm::Ndbm)
 
   target_sources(php_ext_dba PRIVATE dba_ndbm.c)
 

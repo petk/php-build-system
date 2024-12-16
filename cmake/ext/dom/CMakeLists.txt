@@ -278,7 +278,7 @@ target_sources(
         xpath_callbacks.h
 )
 
-target_include_directories(php_dom PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/lexbor)
+target_include_directories(php_ext_dom PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/lexbor)
 
 target_compile_definitions(
   php_ext_dom

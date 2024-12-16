@@ -196,7 +196,7 @@ cmake_push_check_state(RESET)
     endif()
 
     if(HAVE_SCHED_GETCPU AND library)
-      target_link_libraries(php_pcntl PRIVATE ${library})
+      target_link_libraries(php_ext_pcntl PRIVATE ${library})
     endif()
   endblock()
 cmake_pop_check_state()
