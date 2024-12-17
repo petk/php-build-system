@@ -145,17 +145,32 @@ if(RE2C_ENABLE_DOWNLOAD AND (NOT RE2C_EXECUTABLE OR NOT _re2c_version_valid))
   # Configure minimal re2c build. In older CMake versions, defined by the
   # upstream project, only cache variables were possible to use. In recent CMake
   # versions, also local variables would work. However, here the cache variables
-  # enable customization if needed by this module.
-  set(RE2C_BUILD_RE2D OFF CACHE BOOL "")
-  set(RE2C_BUILD_RE2GO OFF CACHE BOOL "")
-  set(RE2C_BUILD_RE2HS OFF CACHE BOOL "")
-  set(RE2C_BUILD_RE2JAVA OFF CACHE BOOL "")
-  set(RE2C_BUILD_RE2JS OFF CACHE BOOL "")
-  set(RE2C_BUILD_RE2OCAML OFF CACHE BOOL "")
-  set(RE2C_BUILD_RE2PY OFF CACHE BOOL "")
-  set(RE2C_BUILD_RE2RUST OFF CACHE BOOL "")
-  set(RE2C_BUILD_RE2V OFF CACHE BOOL "")
-  set(RE2C_BUILD_RE2ZIG OFF CACHE BOOL "")
+  # can provide customization if needed by this module in the future to enable
+  # other re2c executables.
+  foreach(
+    var IN ITEMS
+      RE2C_BUILD_BENCHMARKS
+      RE2C_BUILD_LIBS
+      RE2C_BUILD_RE2D
+      RE2C_BUILD_RE2GO
+      RE2C_BUILD_RE2HS
+      RE2C_BUILD_RE2JAVA
+      RE2C_BUILD_RE2JS
+      RE2C_BUILD_RE2OCAML
+      RE2C_BUILD_RE2PY
+      RE2C_BUILD_RE2RUST
+      RE2C_BUILD_RE2V
+      RE2C_BUILD_RE2ZIG
+      RE2C_BUILD_TESTS
+      RE2C_REBUILD_DOCS
+      RE2C_REBUILD_LEXERS
+      RE2C_REBUILD_PARSERS
+      RE2C_REBUILD_SYNTAX
+      RE2C_REGEN_BENCHMARKS
+  )
+    set(${var} OFF CACHE BOOL "")
+    mark_as_advanced(${var})
+  endforeach()
 
   FetchContent_Declare(
     RE2C
