@@ -140,15 +140,14 @@ if(RE2C_ENABLE_DOWNLOAD AND (NOT RE2C_EXECUTABLE OR NOT _re2c_version_valid))
   include(FetchContent)
 
   # Set the re2c version to download.
-  set(RE2C_VERSION 3.1)
+  set(RE2C_VERSION 4.0.2)
 
   # Configure re2c.
   set(RE2C_BUILD_RE2GO OFF CACHE INTERNAL "")
   set(RE2C_BUILD_RE2RUST OFF CACHE INTERNAL "")
 
-  # Disable searching for Python as it is not needed in FetchContent build.
+  # Disable searching for Python as it is not needed in this build.
   set(CMAKE_DISABLE_FIND_PACKAGE_Python3 TRUE)
-  set(Python3_VERSION 3.12)
 
   set(FETCHCONTENT_QUIET FALSE)
 
@@ -157,7 +156,7 @@ if(RE2C_ENABLE_DOWNLOAD AND (NOT RE2C_EXECUTABLE OR NOT _re2c_version_valid))
     URL https://github.com/skvadrik/re2c/archive/refs/tags/${RE2C_VERSION}.tar.gz
   )
 
-  message(STATUS "Downloading RE2C")
+  message(STATUS "Downloading RE2C ${RE2C_VERSION}")
   FetchContent_MakeAvailable(RE2C)
 
   # Set executable to re2c target name.
@@ -165,7 +164,6 @@ if(RE2C_ENABLE_DOWNLOAD AND (NOT RE2C_EXECUTABLE OR NOT _re2c_version_valid))
 
   # Unset temporary variables.
   unset(CMAKE_DISABLE_FIND_PACKAGE_Python3)
-  unset(Python3_VERSION)
   unset(FETCHCONTENT_QUIET)
 endif()
 
