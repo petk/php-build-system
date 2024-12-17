@@ -154,9 +154,6 @@ if(RE2C_ENABLE_DOWNLOAD AND (NOT RE2C_EXECUTABLE OR NOT _re2c_version_valid))
   set(RE2C_BUILD_RE2V OFF CACHE INTERNAL "")
   set(RE2C_BUILD_RE2ZIG OFF CACHE INTERNAL "")
 
-  # Disable searching for Python as it is not needed in this build.
-  set(CMAKE_DISABLE_FIND_PACKAGE_Python3 TRUE)
-
   set(FETCHCONTENT_QUIET FALSE)
 
   FetchContent_Declare(
@@ -171,7 +168,6 @@ if(RE2C_ENABLE_DOWNLOAD AND (NOT RE2C_EXECUTABLE OR NOT _re2c_version_valid))
   set(RE2C_EXECUTABLE re2c)
 
   # Unset temporary variables.
-  unset(CMAKE_DISABLE_FIND_PACKAGE_Python3)
   unset(FETCHCONTENT_QUIET)
 endif()
 
