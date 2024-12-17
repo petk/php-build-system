@@ -142,33 +142,33 @@ if(RE2C_ENABLE_DOWNLOAD AND (NOT RE2C_EXECUTABLE OR NOT _re2c_version_valid))
   # Set the re2c version to download.
   set(RE2C_VERSION 4.0.2)
 
-  # Configure re2c.
-  set(RE2C_BUILD_RE2D OFF CACHE INTERNAL "")
-  set(RE2C_BUILD_RE2GO OFF CACHE INTERNAL "")
-  set(RE2C_BUILD_RE2HS OFF CACHE INTERNAL "")
-  set(RE2C_BUILD_RE2JAVA OFF CACHE INTERNAL "")
-  set(RE2C_BUILD_RE2JS OFF CACHE INTERNAL "")
-  set(RE2C_BUILD_RE2OCAML OFF CACHE INTERNAL "")
-  set(RE2C_BUILD_RE2PY OFF CACHE INTERNAL "")
-  set(RE2C_BUILD_RE2RUST OFF CACHE INTERNAL "")
-  set(RE2C_BUILD_RE2V OFF CACHE INTERNAL "")
-  set(RE2C_BUILD_RE2ZIG OFF CACHE INTERNAL "")
-
-  set(FETCHCONTENT_QUIET FALSE)
+  # Configure minimal re2c build. In older CMake versions, defined by the
+  # upstream project, only cache variables were possible to use. In recent CMake
+  # versions, also local variables would work. However, here the cache variables
+  # enable customization if needed by this module.
+  set(RE2C_BUILD_RE2D OFF CACHE BOOL "")
+  set(RE2C_BUILD_RE2GO OFF CACHE BOOL "")
+  set(RE2C_BUILD_RE2HS OFF CACHE BOOL "")
+  set(RE2C_BUILD_RE2JAVA OFF CACHE BOOL "")
+  set(RE2C_BUILD_RE2JS OFF CACHE BOOL "")
+  set(RE2C_BUILD_RE2OCAML OFF CACHE BOOL "")
+  set(RE2C_BUILD_RE2PY OFF CACHE BOOL "")
+  set(RE2C_BUILD_RE2RUST OFF CACHE BOOL "")
+  set(RE2C_BUILD_RE2V OFF CACHE BOOL "")
+  set(RE2C_BUILD_RE2ZIG OFF CACHE BOOL "")
 
   FetchContent_Declare(
     RE2C
     URL https://github.com/skvadrik/re2c/archive/refs/tags/${RE2C_VERSION}.tar.gz
   )
 
-  message(STATUS "Downloading RE2C ${RE2C_VERSION}")
+  message(STATUS "Downloading and configuring RE2C ${RE2C_VERSION}")
+  list(APPEND CMAKE_MESSAGE_INDENT "  ")
   FetchContent_MakeAvailable(RE2C)
+  list(POP_BACK CMAKE_MESSAGE_INDENT)
 
   # Set executable to re2c target name.
-  set(RE2C_EXECUTABLE re2c)
-
-  # Unset temporary variables.
-  unset(FETCHCONTENT_QUIET)
+  set_property(CACHE RE2C_EXECUTABLE PROPERTY VALUE re2c)
 endif()
 
 mark_as_advanced(RE2C_EXECUTABLE)

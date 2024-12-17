@@ -59,7 +59,7 @@ cmake_dependent_option(
   "EXT_SESSION;NOT PHP_THREAD_SAFETY"
   OFF
 )
-
+mark_as_advanced(EXT_SESSION_MM)
 add_feature_info(
   "ext/session mm"
   EXT_SESSION_MM

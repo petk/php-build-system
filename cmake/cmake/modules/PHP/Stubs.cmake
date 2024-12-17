@@ -16,7 +16,7 @@ function(_php_stubs_get_php_command result)
   # tokenizer extension.
   if(
     NOT PHPSystem_EXECUTABLE
-    AND (NOT SAPI_CLI OR (SAPI_CLI AND NOT EXT_TOKENIZER))
+    AND (NOT TARGET PHP::SAPI::cli OR (TARGET PHP::SAPI::cli AND NOT EXT_TOKENIZER))
   )
     return(PROPAGATE ${result})
   endif()
