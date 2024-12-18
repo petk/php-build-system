@@ -3,20 +3,20 @@
 
 Configure the `cli` PHP SAPI.
 
-## SAPI_CLI
+## PHP_SAPI_CLI
 
 * Default: `ON`
 * Values: `ON|OFF`
 
 Enable the PHP CLI (Command-Line Interpreter/Interface) SAPI executable module.
 
-## SAPI_CLI_WIN_NO_CONSOLE
+## PHP_SAPI_CLI_WIN_NO_CONSOLE
 
 * Default: `OFF`
 * Values: `ON|OFF`
 
-Build console-less CLI SAPI. Same as the main CLI SAPI but without console (no
-output is given).
+Build additional console-less CLI SAPI executable (executable name `php-win`).
+Same as the main CLI SAPI (`php`) but without the console (no output is given).
 
 > [!NOTE]
 > This option is only available when the target system is Windows.
@@ -28,27 +28,27 @@ include(CheckSymbolExists)
 include(CMakeDependentOption)
 include(FeatureSummary)
 
-option(SAPI_CLI "Enable the CLI SAPI module" ON)
+option(PHP_SAPI_CLI "Enable the CLI SAPI module" ON)
 add_feature_info(
   "sapi/cli"
-  SAPI_CLI
+  PHP_SAPI_CLI
   "Command-Line Interpreter/Interface executable"
 )
 
 cmake_dependent_option(
-  SAPI_CLI_WIN_NO_CONSOLE
+  PHP_SAPI_CLI_WIN_NO_CONSOLE
   "Build additional CLI SAPI without console (no output is given)"
   OFF
-  [[SAPI_CLI AND CMAKE_SYSTEM_NAME STREQUAL "Windows"]]
+  [[PHP_SAPI_CLI AND CMAKE_SYSTEM_NAME STREQUAL "Windows"]]
   OFF
 )
 add_feature_info(
   "sapi/cli console-less"
-  SAPI_CLI_WIN_NO_CONSOLE
+  PHP_SAPI_CLI_WIN_NO_CONSOLE
   "additional executable without console output"
 )
 
-if(NOT SAPI_CLI)
+if(NOT PHP_SAPI_CLI)
   return()
 endif()
 
@@ -130,12 +130,12 @@ if(CMAKE_SYSTEM_NAME STREQUAL "Windows")
   )
 endif()
 
-if(SAPI_CLI_WIN_NO_CONSOLE)
-  add_executable(php_sapi_cli_win_no_console)
-  add_executable(PHP::SAPI::cli_win_no_console ALIAS php_sapi_cli_win_no_console)
+if(PHP_SAPI_CLI_WIN_NO_CONSOLE)
+  add_executable(php_sapi_cli_win)
+  add_executable(PHP::SAPI::cli_win ALIAS php_sapi_cli_win)
 
   target_sources(
-    php_sapi_cli_win_no_console
+    php_sapi_cli_win
     PRIVATE
       cli_win32.c
       php_cli_process_title.c
@@ -144,26 +144,26 @@ if(SAPI_CLI_WIN_NO_CONSOLE)
   )
 
   set_target_properties(
-    php_sapi_cli_win_no_console
+    php_sapi_cli_win
     PROPERTIES
       OUTPUT_NAME ${PHP_PROGRAM_PREFIX}php-win${PHP_PROGRAM_SUFFIX}
   )
 
   target_compile_definitions(
-    php_sapi_cli_win_no_console
+    php_sapi_cli_win
     PRIVATE
       ZEND_ENABLE_STATIC_TSRMLS_CACHE
   )
 
   target_link_libraries(
-    php_sapi_cli_win_no_console
+    php_sapi_cli_win
     PRIVATE
       PHP::SAPI
       shell32
   )
 
   target_link_options(
-    php_sapi_cli_win_no_console
+    php_sapi_cli_win
     PRIVATE
       /stack:67108864
   )

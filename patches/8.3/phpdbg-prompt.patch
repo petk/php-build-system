@@ -18,7 +18,7 @@ Autotools:
 
 CMake:
 
-    cmake -DSAPI_PHPDBG_READLINE=ON .
+    cmake -DPHP_SAPI_PHPDBG_READLINE=ON .
     cmake --build .
     ./sapi/phpdbg/phpdbg
 

@@ -6,7 +6,7 @@ Configure the `litespeed` PHP SAPI.
 > [!NOTE]
 > The PHP Litespeed SAPI is not available when the target system is Windows.
 
-## SAPI_LITESPEED
+## PHP_SAPI_LITESPEED
 
 * Default: `OFF`
 * Values: `ON|OFF`
@@ -20,15 +20,15 @@ endif()
 
 include(FeatureSummary)
 
-option(SAPI_LITESPEED "Enable the LiteSpeed SAPI module")
+option(PHP_SAPI_LITESPEED "Enable the LiteSpeed SAPI module")
 
 add_feature_info(
   "sapi/litespeed"
-  SAPI_LITESPEED
+  PHP_SAPI_LITESPEED
   "LiteSpeed web server module"
 )
 
-if(NOT SAPI_LITESPEED)
+if(NOT PHP_SAPI_LITESPEED)
   return()
 endif()
 
