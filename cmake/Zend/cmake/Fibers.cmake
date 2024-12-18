@@ -61,7 +61,13 @@ else()
   message(CHECK_FAIL "no")
 endif()
 
-block(PROPAGATE zend_fibers_asm_file zend_fibers_asm_sources)
+block()
+  set(cpu "")
+  set(asmFile "")
+  set(prefix "")
+  set(compileOptions "")
+  set(compileDefinitions "")
+
   # Determine files based on the architecture and platform.
   if(CMAKE_SYSTEM_PROCESSOR MATCHES "^(x86_64|amd64)$")
     set(prefix "x86_64_sysv")
@@ -87,121 +93,108 @@ block(PROPAGATE zend_fibers_asm_file zend_fibers_asm_sources)
   endif()
 
   if(CMAKE_SYSTEM_NAME STREQUAL "Darwin")
-    set(zend_fibers_asm_file "combined_sysv_macho_gas.S")
+    set(asmFile "combined_sysv_macho_gas.S")
   elseif(CMAKE_SYSTEM_NAME STREQUAL "AIX")
     # AIX uses a different calling convention (shared with non-_CALL_ELF Linux).
     # The AIX assembler isn't GNU, but the file is compatible.
-    set(zend_fibers_asm_file "${prefix}_xcoff_gas.S")
+    set(asmFile "${prefix}_xcoff_gas.S")
   elseif(CMAKE_SYSTEM_NAME STREQUAL "FreeBSD")
     if(NOT cpu STREQUAL "i386")
-      set(zend_fibers_asm_file "${prefix}_elf_gas.S")
+      set(asmFile "${prefix}_elf_gas.S")
     endif()
   elseif(CMAKE_SYSTEM_NAME STREQUAL "Windows")
     if(CMAKE_SYSTEM_PROCESSOR MATCHES "^(x86_64|amd64|AMD64)$")
-      set(zend_fibers_asm_file "x86_64_ms_pe_masm.asm")
+      set(asmFile "x86_64_ms_pe_masm.asm")
     elseif(CMAKE_SYSTEM_PROCESSOR MATCHES "^(x86|i.?86.*|pentium)$")
-      set(zend_fibers_asm_file "i386_ms_pe_masm.asm")
+      set(asmFile "i386_ms_pe_masm.asm")
     elseif(CMAKE_SYSTEM_PROCESSOR MATCHES "^(arm64|ARM64)$")
-      set(zend_fibers_asm_file "arm64_aapcs_pe_armasm.asm")
+      set(asmFile "arm64_aapcs_pe_armasm.asm")
 
       set(
-        compile_options
+        compileOptions
         /nologo
         # TODO: Recheck; "-machine" is a linker option.
         -machine ARM64
       )
     endif()
 
-    if(
-      zend_fibers_asm_file
-      AND NOT CMAKE_SYSTEM_PROCESSOR MATCHES "^(arm64|ARM64)$"
-    )
-      set(
-        compile_options
-        /nologo
-      )
+    if(asmFile AND NOT CMAKE_SYSTEM_PROCESSOR MATCHES "^(arm64|ARM64)$")
+      set(compileOptions /nologo)
 
-      set(
-        compile_definitions
-        "BOOST_CONTEXT_EXPORT=EXPORT"
-      )
+      set(compileDefinitions "BOOST_CONTEXT_EXPORT=EXPORT")
     endif()
   elseif(prefix)
-    set(zend_fibers_asm_file "${prefix}_elf_gas.S")
+    set(asmFile "${prefix}_elf_gas.S")
   endif()
 
-  if(zend_fibers_asm_file)
+  if(asmFile)
     set(
-      zend_fibers_asm_sources
-      ${CMAKE_CURRENT_SOURCE_DIR}/asm/jump_${zend_fibers_asm_file}
-      ${CMAKE_CURRENT_SOURCE_DIR}/asm/make_${zend_fibers_asm_file}
+      asmSources
+      ${CMAKE_CURRENT_SOURCE_DIR}/asm/jump_${asmFile}
+      ${CMAKE_CURRENT_SOURCE_DIR}/asm/make_${asmFile}
     )
 
-    if(compile_options)
+    if(compileOptions)
       set_source_files_properties(
-        ${zend_fibers_asm_sources}
+        ${asmSources}
         PROPERTIES
-          COMPILE_OPTIONS ${compile_options}
+          COMPILE_OPTIONS ${compileOptions}
       )
     endif()
 
-    if(compile_definitions)
+    if(compileDefinitions)
       set_source_files_properties(
-        ${zend_fibers_asm_sources}
+        ${asmSources}
         PROPERTIES
-          COMPILE_DEFINITIONS ${compile_definitions}
+          COMPILE_DEFINITIONS ${compileDefinitions}
       )
     endif()
+  endif()
+
+  message(CHECK_START "Checking for fibers switching context support")
+
+  if(ZEND_FIBER_ASM AND asmFile)
+    message(CHECK_PASS "yes, Zend/asm/*.${asmFile}")
+
+    target_sources(zend_fibers INTERFACE ${asmSources})
+
+    # Use compile definitions because ASM files can't see macro definitions from
+    # the PHP configuration header (php_config.h/config.w32.h).
+    target_compile_definitions(
+      zend_fibers
+      INTERFACE
+        $<IF:$<BOOL:${SHADOW_STACK_SYSCALL}>,SHADOW_STACK_SYSCALL=1,SHADOW_STACK_SYSCALL=0>
+    )
+  else()
+    cmake_push_check_state(RESET)
+      # To use ucontext.h on macOS, the _XOPEN_SOURCE needs to be defined to any
+      # value. POSIX marked ucontext functions as obsolete and on macOS the
+      # ucontext.h functions are deprecated. At the time of writing no solution is
+      # on the horizon yet. Here, the _XOPEN_SOURCE is defined to empty value to
+      # enable proper X/Open symbols yet still to not enable some of the Single
+      # Unix specification definitions (values 500 or greater where the PHP
+      # thread-safe build would fail).
+      if(CMAKE_SYSTEM_NAME STREQUAL "Darwin")
+        set(CMAKE_REQUIRED_DEFINITIONS -D_XOPEN_SOURCE)
+
+        set_property(
+          SOURCE ${CMAKE_CURRENT_SOURCE_DIR}/zend_fibers.c
+          APPEND
+          PROPERTY
+            COMPILE_DEFINITIONS _XOPEN_SOURCE
+        )
+      endif()
+
+      check_include_file(ucontext.h ZEND_FIBER_UCONTEXT)
+    cmake_pop_check_state()
+
+    if(NOT ZEND_FIBER_UCONTEXT)
+      message(CHECK_FAIL "no")
+      message(
+        FATAL_ERROR
+        "Fibers are not available on this platform, ucontext.h not found"
+      )
+    endif()
+    message(CHECK_PASS "yes, ucontext")
   endif()
 endblock()
-
-message(CHECK_START "Checking for fibers switching context support")
-
-if(ZEND_FIBER_ASM AND zend_fibers_asm_file)
-  message(CHECK_PASS "yes, Zend/asm/*.${zend_fibers_asm_file}")
-
-  target_sources(
-    zend_fibers
-    INTERFACE
-      ${zend_fibers_asm_sources}
-  )
-
-  # Use compile definitions because ASM files can't see macro definitions from
-  # the PHP configuration header (php_config.h/config.w32.h).
-  target_compile_definitions(
-    zend_fibers
-    INTERFACE
-      $<IF:$<BOOL:${SHADOW_STACK_SYSCALL}>,SHADOW_STACK_SYSCALL=1,SHADOW_STACK_SYSCALL=0>
-  )
-else()
-  cmake_push_check_state(RESET)
-    # To use ucontext.h on macOS, the _XOPEN_SOURCE needs to be defined to any
-    # value. POSIX marked ucontext functions as obsolete and on macOS the
-    # ucontext.h functions are deprecated. At the time of writing no solution is
-    # on the horizon yet. Here, the _XOPEN_SOURCE is defined to empty value to
-    # enable proper X/Open symbols yet still to not enable some of the Single
-    # Unix specification definitions (values 500 or greater where the PHP
-    # thread-safe build would fail).
-    if(CMAKE_SYSTEM_NAME STREQUAL "Darwin")
-      set(CMAKE_REQUIRED_DEFINITIONS -D_XOPEN_SOURCE)
-
-      set_property(
-        SOURCE ${CMAKE_CURRENT_SOURCE_DIR}/zend_fibers.c
-        APPEND
-        PROPERTY
-          COMPILE_DEFINITIONS _XOPEN_SOURCE
-      )
-    endif()
-
-    check_include_file(ucontext.h ZEND_FIBER_UCONTEXT)
-  cmake_pop_check_state()
-
-  if(NOT ZEND_FIBER_UCONTEXT)
-    message(CHECK_FAIL "no")
-    message(
-      FATAL_ERROR
-      "Fibers are not available on this platform, ucontext.h not found"
-    )
-  endif()
-  message(CHECK_PASS "yes, ucontext")
-endif()
