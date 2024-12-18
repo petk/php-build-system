@@ -5,10 +5,10 @@
 
 Ensure all project targets are rebuilt as needed.
 
-When PHP is not found on the system, the `php_sapi_cli` (alias `PHP::SAPI::cli`)
+When PHP is not found on the system, the `php_sapi_cli` (alias `PHP::sapi::cli`)
 target is used to generate certain files during development. This can lead to
 cyclic dependencies among targets if custom commands depend on the
-`PHP::SAPI::cli` target. While such automatic rebuilding is not considered good
+`PHP::sapi::cli` target. While such automatic rebuilding is not considered good
 practice, it ensures that all targets are kept up to date.
 
 TODO: This works only for a limited set of cases for now and will be refactored.

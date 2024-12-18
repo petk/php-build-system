@@ -32,7 +32,7 @@ if(NOT PHP_SAPI_EMBED)
 endif()
 
 add_library(php_sapi_embed STATIC)
-add_library(PHP::SAPI::embed ALIAS php_sapi_embed)
+add_library(PHP::sapi::embed ALIAS php_sapi_embed)
 
 target_sources(
   php_sapi_embed
@@ -47,7 +47,7 @@ target_sources(
 target_link_libraries(
   php_sapi_embed
   PRIVATE
-    PHP::SAPI
+    PHP::sapi
 )
 
 target_compile_definitions(php_sapi_embed PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE)
@@ -66,7 +66,7 @@ include(PHP/PkgConfigGenerator)
 pkgconfig_generate_pc(
   php-embed.pc.in
   php-embed.pc
-  TARGET PHP::SAPI::embed
+  TARGET PHP::sapi::embed
   VARIABLES
     prefix "$<INSTALL_PREFIX>"
     exec_prefix "$<INSTALL_PREFIX>"

@@ -2,7 +2,7 @@
 Enable and configure tests.
 #]=============================================================================]
 
-if(NOT TARGET PHP::SAPI::cli)
+if(NOT TARGET PHP::sapi::cli)
   return()
 endif()
 
@@ -32,7 +32,7 @@ block()
   add_test(
     NAME PHP
     COMMAND
-      PHP::SAPI::cli
+      PHP::sapi::cli
         -n
         -d open_basedir=
         -d output_buffering=0

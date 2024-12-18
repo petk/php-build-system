@@ -161,7 +161,7 @@ function(php_feature_summary)
       string(PREPEND item " * ")
       if(feature MATCHES "^ext/([^ ]+)$")
         if(CMAKE_MATCH_1)
-          get_target_property(type php_ext_${CMAKE_MATCH_1} TYPE)
+          get_target_property(type PHP::ext::${CMAKE_MATCH_1} TYPE)
           if(type MATCHES "^(MODULE|SHARED)_LIBRARY$")
             string(APPEND item " (shared)")
           endif()
@@ -213,7 +213,7 @@ function(php_feature_summary)
 
     get_target_property(
       dependencies
-      php_ext_${extension}
+      PHP::ext::${extension}
       MANUALLY_ADDED_DEPENDENCIES
     )
 
@@ -237,8 +237,8 @@ function(php_feature_summary)
         continue()
       endif()
 
-      get_target_property(dependencyType php_ext_${dependency} TYPE)
-      get_target_property(extensionType php_ext_${extension} TYPE)
+      get_target_property(dependencyType PHP::ext::${dependency} TYPE)
+      get_target_property(extensionType PHP::ext::${extension} TYPE)
 
       if(
         dependencyType MATCHES "^(MODULE|SHARED)_LIBRARY$"

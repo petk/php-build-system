@@ -173,7 +173,7 @@ block()
   get_property(extensions GLOBAL PROPERTY PHP_EXTENSIONS)
   foreach(extension IN LISTS extensions)
     # Skip if extension is shared.
-    get_target_property(type php_ext_${extension} TYPE)
+    get_target_property(type PHP::ext::${extension} TYPE)
     if(type MATCHES "^(MODULE|SHARED)_LIBRARY$")
       continue()
     endif()

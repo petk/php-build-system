@@ -116,14 +116,14 @@ install(
 # The phar command-line script.
 ################################################################################
 
-if(NOT TARGET PHP::SAPI::cli)
+if(NOT TARGET PHP::sapi::cli)
   return()
 endif()
 
 if(NOT CMAKE_CROSSCOMPILING)
-  set(PHP_EXECUTABLE "$<TARGET_FILE:PHP::SAPI::cli>")
+  set(PHP_EXECUTABLE "$<TARGET_FILE:PHP::sapi::cli>")
 elseif(CMAKE_CROSSCOMPILING AND CMAKE_CROSSCOMPILING_EMULATOR)
-  set(PHP_EXECUTABLE "${CMAKE_CROSSCOMPILING_EMULATOR};$<TARGET_FILE:PHP::SAPI::cli>")
+  set(PHP_EXECUTABLE "${CMAKE_CROSSCOMPILING_EMULATOR};$<TARGET_FILE:PHP::sapi::cli>")
 else()
   return()
 endif()
@@ -178,7 +178,7 @@ add_custom_command(
         -p 0
         -s ${CMAKE_CURRENT_SOURCE_DIR}/phar/phar.php
         -h sha1
-        -b "$<TARGET_FILE:PHP::SAPI::cli>"
+        -b "$<TARGET_FILE:PHP::sapi::cli>"
         ${CMAKE_CURRENT_SOURCE_DIR}/phar
   DEPENDS
     ${CMAKE_CURRENT_BINARY_DIR}/phar.php
@@ -227,7 +227,7 @@ add_custom_target(
   php_ext_phar_generate_file
   ALL
   DEPENDS
-    PHP::SAPI::cli
+    PHP::sapi::cli
     php_ext_phar
     ${dependentFiles}
     php_ext_phar_generated_phar
@@ -255,7 +255,7 @@ install(CODE "
           -p 0
           -s ${CMAKE_CURRENT_SOURCE_DIR}/phar/phar.php
           -h sha1
-          -b $<PATH:ABSOLUTE_PATH,NORMALIZE,${CMAKE_INSTALL_BINDIR},\${CMAKE_INSTALL_PREFIX}>/$<TARGET_FILE_NAME:PHP::SAPI::cli>
+          -b $<PATH:ABSOLUTE_PATH,NORMALIZE,${CMAKE_INSTALL_BINDIR},\${CMAKE_INSTALL_PREFIX}>/$<TARGET_FILE_NAME:PHP::sapi::cli>
           ${CMAKE_CURRENT_SOURCE_DIR}/phar
   )
 

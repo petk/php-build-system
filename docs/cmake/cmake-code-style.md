@@ -513,7 +513,7 @@ link flags, paths, or library names as well.
 >
 > ```cmake
 > add_executable(php_sapi_cli)
-> add_executable(PHP::SAPI::cli ALIAS php_sapi_cli)
+> add_executable(PHP::sapi::cli ALIAS php_sapi_cli)
 > ```
 
 ### 7.3. Custom targets

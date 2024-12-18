@@ -38,8 +38,8 @@ block()
     set(SED /usr/bin/sed)
   endif()
 
-  if(TARGET PHP::embed)
-    get_target_property(embed_type PHP::embed TYPE)
+  if(TARGET PHP::sapi::embed)
+    get_target_property(embed_type PHP::sapi::embed TYPE)
     if(embed_type MATCHES "^(MODULE|SHARED)_LIBRARY$")
       set(PHP_EMBED_TYPE "shared")
     else()
@@ -144,7 +144,7 @@ include(PHP/PkgConfigGenerator)
 pkgconfig_generate_pc(
   php.pc.in
   php.pc
-  TARGET PHP::SAPI::cli
+  TARGET PHP::sapi::cli
   VARIABLES
     prefix "$<INSTALL_PREFIX>"
     exec_prefix "$<INSTALL_PREFIX>"

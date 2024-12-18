@@ -17,8 +17,8 @@ function(_php_stubs_get_php_command result)
   if(
     NOT PHPSystem_EXECUTABLE
     AND (
-      NOT TARGET PHP::SAPI::cli
-      OR (TARGET PHP::SAPI::cli AND NOT TARGET PHP::ext::tokenizer)
+      NOT TARGET PHP::sapi::cli
+      OR (TARGET PHP::sapi::cli AND NOT TARGET PHP::ext::tokenizer)
     )
   )
     return(PROPAGATE ${result})
@@ -40,9 +40,9 @@ function(_php_stubs_get_php_command result)
   endif()
 
   if(NOT CMAKE_CROSSCOMPILING)
-    set(command $<TARGET_FILE:PHP::SAPI::cli>)
+    set(command $<TARGET_FILE:PHP::sapi::cli>)
   elseif(CMAKE_CROSSCOMPILING AND CMAKE_CROSSCOMPILING_EMULATOR)
-    set(command ${CMAKE_CROSSCOMPILING_EMULATOR} $<TARGET_FILE:PHP::SAPI::cli>)
+    set(command ${CMAKE_CROSSCOMPILING_EMULATOR} $<TARGET_FILE:PHP::sapi::cli>)
   else()
     return(PROPAGATE ${result})
   endif()

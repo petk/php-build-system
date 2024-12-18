@@ -325,11 +325,11 @@ CMake versions scheme across the systems is available at
   target_link_libraries(target_name PRIVATE PHP::config)
   ```
 
-* The `php_sapi` (aliased `PHP::SAPI`) ties all target objects and configuration
+* The `php_sapi` (aliased `PHP::sapi`) ties all target objects and configuration
   together. Only PHP SAPI targets should link to it.
 
   ```cmake
-  target_link_libraries(<some-php-sapi-target> PRIVATE PHP::SAPI)
+  target_link_libraries(<some-php-sapi-target> PRIVATE PHP::sapi)
   ```
 
 See also https://cmake.org/cmake/help/latest/manual/cmake-buildsystem.7.html
