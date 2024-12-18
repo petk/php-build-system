@@ -8,21 +8,21 @@ This extension provides interface for using Editline library.
 > [!IMPORTANT]
 > This extension should be used only with CLI-based PHP SAPIs.
 
-## EXT_READLINE
+## PHP_EXT_READLINE
 
 * Default: `OFF`
 * Values: `ON|OFF`
 
 Enable the extension.
 
-## EXT_READLINE_SHARED
+## PHP_EXT_READLINE_SHARED
 
 * Default: `OFF`
 * Values: `ON|OFF`
 
 Build extension as shared.
 
-## EXT_READLINE_LIBREADLINE
+## PHP_EXT_READLINE_LIBREADLINE
 
 :red_circle: *Removed as of PHP 8.4.*
 
@@ -44,27 +44,27 @@ include(CMakePushCheckState)
 include(FeatureSummary)
 include(PHP/CheckCompilerFlag)
 
-option(EXT_READLINE "Enable the readline extension (only for CLI-based SAPIs)")
+option(PHP_EXT_READLINE "Enable the readline extension (only for CLI-based SAPIs)")
 
 add_feature_info(
   "ext/readline"
-  EXT_READLINE
+  PHP_EXT_READLINE
   "editable command lines support"
 )
 
 cmake_dependent_option(
-  EXT_READLINE_SHARED
+  PHP_EXT_READLINE_SHARED
   "Build the readline extension as a shared library"
   OFF
-  "EXT_READLINE;NOT BUILD_SHARED_LIBS"
+  "PHP_EXT_READLINE;NOT BUILD_SHARED_LIBS"
   OFF
 )
 
-if(NOT EXT_READLINE)
+if(NOT PHP_EXT_READLINE)
   return()
 endif()
 
-if(EXT_READLINE_SHARED)
+if(PHP_EXT_READLINE_SHARED)
   add_library(php_ext_readline SHARED)
 else()
   add_library(php_ext_readline)

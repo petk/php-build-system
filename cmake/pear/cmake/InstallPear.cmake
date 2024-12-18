@@ -145,11 +145,11 @@ file(
 # need to be loaded for the PHP_EXECUTABLE.
 set(phpPearOptions -d extension_dir=${PHP_BINARY_DIR}/modules)
 
-if(EXT_OPENSSL_SHARED)
+if(PHP_EXT_OPENSSL_SHARED)
   list(APPEND phpPearOptions -d extension=openssl)
 endif()
 
-if(EXT_XML_SHARED)
+if(PHP_EXT_XML_SHARED)
   list(APPEND phpPearOptions -d extension=xml)
 endif()
 

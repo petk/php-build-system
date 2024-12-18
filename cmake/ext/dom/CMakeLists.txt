@@ -6,14 +6,14 @@ Configure the `dom` extension.
 This extension provides support for operations on XML and HTML through Document
 Object Model (DOM).
 
-## EXT_DOM
+## PHP_EXT_DOM
 
 * Default: `ON`
 * Values: `ON|OFF`
 
 Enable the extension.
 
-## EXT_DOM_SHARED
+## PHP_EXT_DOM_SHARED
 
 * Default: `OFF`
 * Values: `ON|OFF`
@@ -29,27 +29,27 @@ project(
 include(CMakeDependentOption)
 include(FeatureSummary)
 
-option(EXT_DOM "Enable the dom extension" ON)
+option(PHP_EXT_DOM "Enable the dom extension" ON)
 
 add_feature_info(
   "ext/dom"
-  EXT_DOM
+  PHP_EXT_DOM
   "XML and HTML operations through Document Object Model (DOM)"
 )
 
 cmake_dependent_option(
-  EXT_DOM_SHARED
+  PHP_EXT_DOM_SHARED
   "Build the dom extension as a shared library"
   OFF
-  "EXT_DOM;NOT BUILD_SHARED_LIBS"
+  "PHP_EXT_DOM;NOT BUILD_SHARED_LIBS"
   OFF
 )
 
-if(NOT EXT_DOM)
+if(NOT PHP_EXT_DOM)
   return()
 endif()
 
-if(EXT_DOM_SHARED)
+if(PHP_EXT_DOM_SHARED)
   add_library(php_ext_dom SHARED)
 else()
   add_library(php_ext_dom)

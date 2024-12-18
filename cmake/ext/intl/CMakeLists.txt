@@ -6,14 +6,14 @@ Configure the `intl` extension.
 This extension provides support for internationalization, a wrapper for ICU
 library.
 
-## EXT_INTL
+## PHP_EXT_INTL
 
 * Default: `OFF`
 * Values: `ON|OFF`
 
 Enable the extension.
 
-## EXT_INTL_SHARED
+## PHP_EXT_INTL_SHARED
 
 * Default: `OFF`
 * Values: `ON|OFF`
@@ -30,29 +30,29 @@ include(CMakeDependentOption)
 include(FeatureSummary)
 include(PHP/CheckCompilerFlag)
 
-option(EXT_INTL "Enable the intl extension")
+option(PHP_EXT_INTL "Enable the intl extension")
 
 add_feature_info(
   "ext/intl"
-  EXT_INTL
+  PHP_EXT_INTL
   "ICU library wrapper for internationalization support"
 )
 
 cmake_dependent_option(
-  EXT_INTL_SHARED
+  PHP_EXT_INTL_SHARED
   "Build the intl extension as a shared library"
   OFF
-  "EXT_INTL;NOT BUILD_SHARED_LIBS"
+  "PHP_EXT_INTL;NOT BUILD_SHARED_LIBS"
   OFF
 )
 
-if(NOT EXT_INTL)
+if(NOT PHP_EXT_INTL)
   return()
 endif()
 
 enable_language(CXX)
 
-if(EXT_INTL_SHARED)
+if(PHP_EXT_INTL_SHARED)
   add_library(php_ext_intl SHARED)
 else()
   add_library(php_ext_intl)

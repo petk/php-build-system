@@ -5,14 +5,14 @@ Configure the `sysvshm` extension.
 
 This extension provides the System V shared memory support.
 
-## EXT_SYSVSHM
+## PHP_EXT_SYSVSHM
 
 * Default: `OFF`
 * Values: `ON|OFF`
 
 Enable the extension.
 
-## EXT_SYSVSHM_SHARED
+## PHP_EXT_SYSVSHM_SHARED
 
 * Default: `OFF`
 * Values: `ON|OFF`
@@ -28,27 +28,27 @@ project(
 include(CMakeDependentOption)
 include(FeatureSummary)
 
-option(EXT_SYSVSHM "Enable the sysvshm extension")
+option(PHP_EXT_SYSVSHM "Enable the sysvshm extension")
 
 add_feature_info(
   "ext/sysvshm"
-  EXT_SYSVSHM
+  PHP_EXT_SYSVSHM
   "System V shared memory support"
 )
 
 cmake_dependent_option(
-  EXT_SYSVSHM_SHARED
+  PHP_EXT_SYSVSHM_SHARED
   "Build the sysvshm extension as a shared library"
   OFF
-  "EXT_SYSVSHM;NOT BUILD_SHARED_LIBS"
+  "PHP_EXT_SYSVSHM;NOT BUILD_SHARED_LIBS"
   OFF
 )
 
-if(NOT EXT_SYSVSHM)
+if(NOT PHP_EXT_SYSVSHM)
   return()
 endif()
 
-if(EXT_SYSVSHM_SHARED)
+if(PHP_EXT_SYSVSHM_SHARED)
   add_library(php_ext_sysvshm SHARED)
 else()
   add_library(php_ext_sysvshm)

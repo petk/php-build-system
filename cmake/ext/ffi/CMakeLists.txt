@@ -6,14 +6,14 @@ Configure the `ffi` extension.
 This extension provides Foreign Function Interface (FFI) support to run C code
 through PHP.
 
-## EXT_FFI
+## PHP_EXT_FFI
 
 * Default: `OFF`
 * Values: `ON|OFF`
 
 Enable the extension.
 
-## EXT_FFI_SHARED
+## PHP_EXT_FFI_SHARED
 
 * Default: `OFF`
 * Values: `ON|OFF`
@@ -32,27 +32,27 @@ include(CMakeDependentOption)
 include(CMakePushCheckState)
 include(FeatureSummary)
 
-option(EXT_FFI "Enable the ffi extension")
+option(PHP_EXT_FFI "Enable the ffi extension")
 
 add_feature_info(
   "ext/ffi"
-  EXT_FFI
+  PHP_EXT_FFI
   "Foreign Function Interface (FFI)"
 )
 
 cmake_dependent_option(
-  EXT_FFI_SHARED
+  PHP_EXT_FFI_SHARED
   "Build the ffi extension as a shared library"
   OFF
-  "EXT_FFI;NOT BUILD_SHARED_LIBS"
+  "PHP_EXT_FFI;NOT BUILD_SHARED_LIBS"
   OFF
 )
 
-if(NOT EXT_FFI)
+if(NOT PHP_EXT_FFI)
   return()
 endif()
 
-if(EXT_FFI_SHARED)
+if(PHP_EXT_FFI_SHARED)
   add_library(php_ext_ffi SHARED)
 else()
   add_library(php_ext_ffi)

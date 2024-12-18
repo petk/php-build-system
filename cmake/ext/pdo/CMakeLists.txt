@@ -5,14 +5,14 @@ Configure the `pdo` extension.
 
 This extension provides support for PHP Data Objects (PDO).
 
-## EXT_PDO
+## PHP_EXT_PDO
 
 * Default: `ON`
 * Values: `ON|OFF`
 
 Enable the extension.
 
-## EXT_PDO_SHARED
+## PHP_EXT_PDO_SHARED
 
 * Default: `OFF`
 * Values: `ON|OFF`
@@ -28,27 +28,27 @@ project(
 include(CMakeDependentOption)
 include(FeatureSummary)
 
-option(EXT_PDO "Enable the pdo extension" ON)
+option(PHP_EXT_PDO "Enable the pdo extension" ON)
 
 add_feature_info(
   "ext/pdo"
-  EXT_PDO
+  PHP_EXT_PDO
   "PHP Data Objects (PDO)"
 )
 
 cmake_dependent_option(
-  EXT_PDO_SHARED
+  PHP_EXT_PDO_SHARED
   "Build the pdo extension as a shared library"
   OFF
-  "EXT_PDO;NOT BUILD_SHARED_LIBS"
+  "PHP_EXT_PDO;NOT BUILD_SHARED_LIBS"
   OFF
 )
 
-if(NOT EXT_PDO)
+if(NOT PHP_EXT_PDO)
   return()
 endif()
 
-if(EXT_PDO_SHARED)
+if(PHP_EXT_PDO_SHARED)
   add_library(php_ext_pdo SHARED)
 else()
   add_library(php_ext_pdo)

@@ -6,28 +6,28 @@ Configure the `mysqlnd` extension.
 This extension contains MySQL Native Driver for using MySQL-compatible databases
 in PHP extensions.
 
-## EXT_MYSQLND
+## PHP_EXT_MYSQLND
 
 * Default: `OFF`
 * Values: `ON|OFF`
 
 Enable the PHP `mysqlnd` extension.
 
-## EXT_MYSQLND_SHARED
+## PHP_EXT_MYSQLND_SHARED
 
 * Default: `OFF`
 * Values: `ON|OFF`
 
 Build extension as shared library.
 
-## EXT_MYSQLND_COMPRESSION
+## PHP_EXT_MYSQLND_COMPRESSION
 
 * Default: `ON`
 * Values: `ON|OFF`
 
 Enable compressed protocol support in mysqlnd.
 
-## EXT_MYSQLND_SSL
+## PHP_EXT_MYSQLND_SSL
 
 * Default: `OFF`
 * Values: `ON|OFF`
@@ -37,7 +37,7 @@ systems, extended SSL works through the OpenSSL library and on Windows through
 the Windows Crypt32 library. Beneficial when building without the `openssl`
 extension or when building with phpize.
 
-\*nix systems: when building with the `openssl` extension (`EXT_OPENSSL=ON`)
+\*nix systems: when building with the `openssl` extension (`PHP_EXT_OPENSSL=ON`)
 in the php-src tree, the extended SSL is enabled implicitly regardless of this
 option.
 
@@ -53,50 +53,50 @@ project(
 include(CMakeDependentOption)
 include(FeatureSummary)
 
-option(EXT_MYSQLND "Enable the mysqlnd extension")
+option(PHP_EXT_MYSQLND "Enable the mysqlnd extension")
 
 add_feature_info(
   "ext/mysqlnd"
-  EXT_MYSQLND
+  PHP_EXT_MYSQLND
   "MySQL-compatible databases native driver"
 )
 
 cmake_dependent_option(
-  EXT_MYSQLND_SHARED
+  PHP_EXT_MYSQLND_SHARED
   "Build the mysqlnd extension as a shared library"
   OFF
-  "EXT_MYSQLND;NOT BUILD_SHARED_LIBS"
+  "PHP_EXT_MYSQLND;NOT BUILD_SHARED_LIBS"
   OFF
 )
 
 cmake_dependent_option(
-  EXT_MYSQLND_COMPRESSION
+  PHP_EXT_MYSQLND_COMPRESSION
   "Enable compressed protocol support in mysqlnd"
   ON
-  "EXT_MYSQLND"
+  "PHP_EXT_MYSQLND"
   OFF
 )
 
 add_feature_info(
   "ext/mysqlnd compression"
-  EXT_MYSQLND_COMPRESSION
+  PHP_EXT_MYSQLND_COMPRESSION
   "MySQL compressed protocol support"
 )
 
 cmake_dependent_option(
-  EXT_MYSQLND_SSL
+  PHP_EXT_MYSQLND_SSL
   "Explicitly enable extended SSL support in the mysqlnd extension through\
   OpenSSL system library (*nix) or Crypt32 (Windows)."
   OFF
-  [[EXT_MYSQLND AND NOT EXT_OPENSSL AND NOT CMAKE_SYSTEM_NAME STREQUAL "Windows"]]
+  [[PHP_EXT_MYSQLND AND NOT PHP_EXT_OPENSSL AND NOT CMAKE_SYSTEM_NAME STREQUAL "Windows"]]
   OFF
 )
 
-if(NOT EXT_MYSQLND)
+if(NOT PHP_EXT_MYSQLND)
   return()
 endif()
 
-if(EXT_MYSQLND_SHARED)
+if(PHP_EXT_MYSQLND_SHARED)
   add_library(php_ext_mysqlnd SHARED)
 else()
   add_library(php_ext_mysqlnd)
@@ -167,7 +167,7 @@ target_link_libraries(
     $<$<PLATFORM_ID:Windows>:ws2_32>
 )
 
-if(EXT_MYSQLND_COMPRESSION)
+if(PHP_EXT_MYSQLND_COMPRESSION)
   find_package(ZLIB ${PHP_ZLIB_MIN_VERSION})
   set_package_properties(
     ZLIB
@@ -186,7 +186,7 @@ set(MYSQLND_SSL_SUPPORTED TRUE)
 if(
   (
     NOT CMAKE_SYSTEM_NAME STREQUAL "Windows"
-    AND (EXT_MYSQLND_SSL OR EXT_OPENSSL)
+    AND (PHP_EXT_MYSQLND_SSL OR PHP_EXT_OPENSSL)
   )
   OR CMAKE_SYSTEM_NAME STREQUAL "Windows"
 )

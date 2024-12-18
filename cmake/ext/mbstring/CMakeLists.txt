@@ -5,21 +5,21 @@ Configure the `mbstring` extension.
 
 This extension provides the multibyte string support.
 
-## EXT_MBSTRING
+## PHP_EXT_MBSTRING
 
 * Default: `OFF`
 * Values: `ON|OFF`
 
 Enable the extension.
 
-## EXT_MBSTRING_SHARED
+## PHP_EXT_MBSTRING_SHARED
 
 * Default: `OFF`
 * Values: `ON|OFF`
 
 Build extension as shared.
 
-## EXT_MBSTRING_MBREGEX
+## PHP_EXT_MBSTRING_MBREGEX
 
 * Default: `ON`
 * Values: `ON|OFF`
@@ -37,37 +37,37 @@ include(CMakeDependentOption)
 include(CMakePushCheckState)
 include(FeatureSummary)
 
-option(EXT_MBSTRING "Enable the mbstring extension")
+option(PHP_EXT_MBSTRING "Enable the mbstring extension")
 
 add_feature_info(
   "ext/mbstring"
-  EXT_MBSTRING
+  PHP_EXT_MBSTRING
   "multibyte string support"
 )
 
 cmake_dependent_option(
-  EXT_MBSTRING_SHARED
+  PHP_EXT_MBSTRING_SHARED
   "Build the mbstring extension as a shared library"
   OFF
-  "EXT_MBSTRING;NOT BUILD_SHARED_LIBS"
+  "PHP_EXT_MBSTRING;NOT BUILD_SHARED_LIBS"
   OFF
 )
 
 cmake_dependent_option(
-  EXT_MBSTRING_MBREGEX
+  PHP_EXT_MBSTRING_MBREGEX
   "Enable multibyte regex support (requires Oniguruma)"
   ON
-  "EXT_MBSTRING"
+  "PHP_EXT_MBSTRING"
   OFF
 )
 
 add_feature_info(
   "ext/mbstring MB regex"
-  EXT_MBSTRING_MBREGEX
+  PHP_EXT_MBSTRING_MBREGEX
   "multibyte regex support"
 )
 
-if(NOT EXT_MBSTRING)
+if(NOT PHP_EXT_MBSTRING)
   return()
 endif()
 
@@ -75,7 +75,7 @@ endif()
 # Configure mbstring extension.
 ################################################################################
 
-if(EXT_MBSTRING_SHARED)
+if(PHP_EXT_MBSTRING_SHARED)
   add_library(php_ext_mbstring SHARED)
 else()
   add_library(php_ext_mbstring)
@@ -127,7 +127,7 @@ file(APPEND ${CMAKE_CURRENT_BINARY_DIR}/libmbfl/config.h "\n" [[
 # Multibyte regex.
 ################################################################################
 
-if(EXT_MBSTRING_MBREGEX)
+if(PHP_EXT_MBSTRING_MBREGEX)
   find_package(Oniguruma)
   set_package_properties(
     Oniguruma

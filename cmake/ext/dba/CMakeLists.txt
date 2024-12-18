@@ -5,28 +5,28 @@ Configure the `dba` extension.
 
 This extension provides the database (dbm-style) abstraction layer.
 
-## EXT_DBA
+## PHP_EXT_DBA
 
 * Default: `OFF`
 * Values: `ON|OFF`
 
 Enable the PHP `dba` extension.
 
-## EXT_DBA_SHARED
+## PHP_EXT_DBA_SHARED
 
 * Default: `OFF`
 * Values: `ON|OFF`
 
 Build extension as shared library.
 
-## EXT_DBA_CDB
+## PHP_EXT_DBA_CDB
 
 * Default: `ON`
 * Values: `ON|OFF`
 
 Enable the constant databases (cdb) handler.
 
-## EXT_DBA_CDB_EXTERNAL
+## PHP_EXT_DBA_CDB_EXTERNAL
 
 * Default: `OFF`
 * Values: `ON|OFF`
@@ -38,35 +38,35 @@ Use external (system) cdb library instead of the bundled sources.
 > likely tinycdb, which isn't supported by PHP. Recommendation is to not enable
 > this option and use the bundled cdb library that comes with PHP sources.
 
-## EXT_DBA_DB
+## PHP_EXT_DBA_DB
 
 * Default: `OFF`
 * Values: `ON|OFF`
 
 Enable the Oracle Berkeley DB handler.
 
-## EXT_DBA_DB1
+## PHP_EXT_DBA_DB1
 
 * Default: `OFF`
 * Values: `ON|OFF`
 
 Enable the Oracle Berkeley DB 1.x support/emulation.
 
-## EXT_DBA_DBM
+## PHP_EXT_DBA_DBM
 
 * Default: `OFF`
 * Values: `ON|OFF`
 
 Enable the legacy (original) Berkeley DB style (Database Manager) handler.
 
-## EXT_DBA_FLATFILE
+## PHP_EXT_DBA_FLATFILE
 
 * Default: `ON`
 * Values: `ON|OFF`
 
 Enable the bundled flat-file DBA handler.
 
-## EXT_DBA_GDBM
+## PHP_EXT_DBA_GDBM
 
 :red_circle: *Removed as of PHP 8.4.*
 
@@ -75,35 +75,35 @@ Enable the bundled flat-file DBA handler.
 
 Enable the GNU dbm (GDBM) handler.
 
-## EXT_DBA_INIFILE
+## PHP_EXT_DBA_INIFILE
 
 * Default: `ON`
 * Values: `ON|OFF`
 
 Enable the bundled INI-file DBA handler.
 
-## EXT_DBA_LMDB
+## PHP_EXT_DBA_LMDB
 
 * Default: `OFF`
 * Values: `ON|OFF`
 
 Enable the Lightning Memory-Mapped Database (LMDB) handler.
 
-## EXT_DBA_NDBM
+## PHP_EXT_DBA_NDBM
 
 * Default: `OFF`
 * Values: `ON|OFF`
 
 Enable the ndbm (new dbm) handler.
 
-## EXT_DBA_QDBM
+## PHP_EXT_DBA_QDBM
 
 * Default: `OFF`
 * Values: `ON|OFF`
 
 Enable the QDBM (Quick Database Manager) handler
 
-## EXT_DBA_TCADB
+## PHP_EXT_DBA_TCADB
 
 * Default: `OFF`
 * Values: `ON|OFF`
@@ -119,184 +119,184 @@ project(
 include(CMakeDependentOption)
 include(FeatureSummary)
 
-option(EXT_DBA "Enable the dba extension")
+option(PHP_EXT_DBA "Enable the dba extension")
 add_feature_info(
   "ext/dba"
-  EXT_DBA
+  PHP_EXT_DBA
   "dbm-style database abstraction"
 )
 
 cmake_dependent_option(
-  EXT_DBA_SHARED
+  PHP_EXT_DBA_SHARED
   "Build the dba extension as a shared library"
   OFF
-  [[EXT_DBA AND NOT BUILD_SHARED_LIBS]]
+  [[PHP_EXT_DBA AND NOT BUILD_SHARED_LIBS]]
   OFF
 )
 
 cmake_dependent_option(
-  EXT_DBA_CDB
+  PHP_EXT_DBA_CDB
   "DBA: Enable the constant databases (cdb) handler"
   ON
-  EXT_DBA
+  PHP_EXT_DBA
   OFF
 )
-mark_as_advanced(EXT_DBA_CDB)
+mark_as_advanced(PHP_EXT_DBA_CDB)
 add_feature_info(
   "ext/dba cdb"
-  EXT_DBA_CDB
+  PHP_EXT_DBA_CDB
   "constant databases handler"
 )
 
 cmake_dependent_option(
-  EXT_DBA_CDB_EXTERNAL
+  PHP_EXT_DBA_CDB_EXTERNAL
   "DBA: Use external (system) cdb library instead of the bundled sources"
   OFF
-  [[EXT_DBA AND EXT_DBA_CDB]]
+  [[PHP_EXT_DBA AND PHP_EXT_DBA_CDB]]
   OFF
 )
-mark_as_advanced(EXT_DBA_CDB_EXTERNAL)
+mark_as_advanced(PHP_EXT_DBA_CDB_EXTERNAL)
 add_feature_info(
   "ext/dba cdb external"
-  EXT_DBA_CDB_EXTERNAL
+  PHP_EXT_DBA_CDB_EXTERNAL
   "system cdb library instead of bundled"
 )
 
 cmake_dependent_option(
-  EXT_DBA_DB
+  PHP_EXT_DBA_DB
   "DBA: Enable the Oracle Berkeley DB handler"
   OFF
-  EXT_DBA
+  PHP_EXT_DBA
   OFF
 )
-mark_as_advanced(EXT_DBA_DB)
+mark_as_advanced(PHP_EXT_DBA_DB)
 add_feature_info(
   "ext/dba DB"
-  EXT_DBA_DB
+  PHP_EXT_DBA_DB
   "Berkeley DB handler"
 )
 
 cmake_dependent_option(
-  EXT_DBA_DB1
+  PHP_EXT_DBA_DB1
   "DBA: Enable the Oracle Berkeley DB 1.x support/emulation"
   OFF
-  [[EXT_DBA AND EXT_DBA_DB]]
+  [[PHP_EXT_DBA AND PHP_EXT_DBA_DB]]
   OFF
 )
-mark_as_advanced(EXT_DBA_DB1)
+mark_as_advanced(PHP_EXT_DBA_DB1)
 add_feature_info(
   "ext/dba DB 1"
-  EXT_DBA_DB1
+  PHP_EXT_DBA_DB1
   "Berkeley DB 1.x support/emulation"
 )
 
 cmake_dependent_option(
-  EXT_DBA_DBM
+  PHP_EXT_DBA_DBM
   "DBA: Enable the legacy (original) Berkeley DB style handler"
   OFF
-  [[EXT_DBA AND NOT EXT_DBA_QDBM]]
+  [[PHP_EXT_DBA AND NOT PHP_EXT_DBA_QDBM]]
   OFF
 )
-mark_as_advanced(EXT_DBA_DBM)
+mark_as_advanced(PHP_EXT_DBA_DBM)
 add_feature_info(
   "ext/dba DBM"
-  EXT_DBA_DBM
+  PHP_EXT_DBA_DBM
   "legacy (original) Berkeley DB handler"
 )
 
 cmake_dependent_option(
-  EXT_DBA_FLATFILE
+  PHP_EXT_DBA_FLATFILE
   "DBA: Enable the bundled flat-file handler"
   ON
-  EXT_DBA
+  PHP_EXT_DBA
   OFF
 )
-mark_as_advanced(EXT_DBA_FLATFILE)
+mark_as_advanced(PHP_EXT_DBA_FLATFILE)
 add_feature_info(
   "ext/dba flat-file"
-  EXT_DBA_FLATFILE
+  PHP_EXT_DBA_FLATFILE
   "bundled flat-file handler"
 )
 
 cmake_dependent_option(
-  EXT_DBA_INIFILE
+  PHP_EXT_DBA_INIFILE
   "DBA: Enable the bundled INI-file handler"
   ON
-  EXT_DBA
+  PHP_EXT_DBA
   OFF
 )
-mark_as_advanced(EXT_DBA_INIFILE)
+mark_as_advanced(PHP_EXT_DBA_INIFILE)
 add_feature_info(
   "ext/dba INI-file"
-  EXT_DBA_INIFILE
+  PHP_EXT_DBA_INIFILE
   "bundled INI-file handler"
 )
 
 cmake_dependent_option(
-  EXT_DBA_LMDB
+  PHP_EXT_DBA_LMDB
   "DBA: Enable the Lightning Memory-Mapped Database (LMDB) handler"
   OFF
-  EXT_DBA
+  PHP_EXT_DBA
   OFF
 )
 add_feature_info(
   "ext/dba LMDB"
-  EXT_DBA_LMDB
+  PHP_EXT_DBA_LMDB
   "Lightning Memory-Mapped Database handler"
 )
 
 cmake_dependent_option(
-  EXT_DBA_NDBM
+  PHP_EXT_DBA_NDBM
   "DBA: Enable the new dbm (ndbm) handler"
   OFF
-  EXT_DBA
+  PHP_EXT_DBA
   OFF
 )
-mark_as_advanced(EXT_DBA_NDBM)
+mark_as_advanced(PHP_EXT_DBA_NDBM)
 add_feature_info(
   "ext/dba ndbm"
-  EXT_DBA_NDBM
+  PHP_EXT_DBA_NDBM
   "new dbm handler"
 )
 
 cmake_dependent_option(
-  EXT_DBA_QDBM
+  PHP_EXT_DBA_QDBM
   "DBA: Enable the Quick Database Manager (QDBM) handler"
   OFF
-  [[EXT_DBA AND NOT EXT_DBA_DBM]]
+  [[PHP_EXT_DBA AND NOT PHP_EXT_DBA_DBM]]
   OFF
 )
 add_feature_info(
   "ext/dba QDBM"
-  EXT_DBA_QDBM
+  PHP_EXT_DBA_QDBM
   "Quick Database Manager handler"
 )
-if(EXT_DBA_QDBM AND EXT_DBA_DBM)
+if(PHP_EXT_DBA_QDBM AND PHP_EXT_DBA_DBM)
   message(
     FATAL_ERROR
-    "You cannot combine EXT_DBA_DBM with EXT_DBA_QDBM. Please select either "
-    "DBM or QDBM."
+    "You cannot combine PHP_EXT_DBA_DBM with PHP_EXT_DBA_QDBM. Please select "
+    "either DBM or QDBM."
   )
 endif()
 
 cmake_dependent_option(
-  EXT_DBA_TCADB
+  PHP_EXT_DBA_TCADB
   "DBA: Enable the Tokyo Cabinet abstract DB handler"
   OFF
-  EXT_DBA
+  PHP_EXT_DBA
   OFF
 )
 add_feature_info(
   "ext/dba TCADB"
-  EXT_DBA_TCADB
+  PHP_EXT_DBA_TCADB
   "Tokyo Cabinet handler"
 )
 
-if(NOT EXT_DBA)
+if(NOT PHP_EXT_DBA)
   return()
 endif()
 
-if(EXT_DBA_SHARED)
+if(PHP_EXT_DBA_SHARED)
   add_library(php_ext_dba SHARED)
 else()
   add_library(php_ext_dba)
@@ -314,11 +314,11 @@ target_compile_definitions(php_ext_dba PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE)
 ################################################################################
 # Constant databases (cdb).
 ################################################################################
-if(EXT_DBA_CDB)
+if(PHP_EXT_DBA_CDB)
   target_sources(php_ext_dba PRIVATE dba_cdb.c)
   set(DBA_CDB TRUE)
 
-  if(EXT_DBA_CDB_EXTERNAL)
+  if(PHP_EXT_DBA_CDB_EXTERNAL)
     find_package(Cdb)
     set_package_properties(
       Cdb
@@ -337,8 +337,8 @@ if(EXT_DBA_CDB)
       "When using external tinycdb library, it has different cdb_findnext() "
       "signature, cdb_make* functions and doesn't use legacy uint32 type. PHP "
       "source code isn't adjusted for using it yet. Recommendation is to "
-      "disable the 'EXT_DBA_CDB_EXTERNAL' (set it to 'OFF'), which will use "
-      "the cdb library bundled with PHP."
+      "disable the 'PHP_EXT_DBA_CDB_EXTERNAL' (set it to 'OFF'), which will "
+      "use the cdb library bundled with PHP."
     )
   else()
     target_sources(
@@ -355,8 +355,8 @@ endif()
 ################################################################################
 # Berkeley DB.
 ################################################################################
-if(EXT_DBA_DB)
-  if(EXT_DBA_DB1)
+if(PHP_EXT_DBA_DB)
+  if(PHP_EXT_DBA_DB1)
     set(BerkeleyDB_USE_DB1 TRUE)
   endif()
 
@@ -388,7 +388,8 @@ if(EXT_DBA_DB)
       FATAL_ERROR
       "When building dba extension as shared, at least Berkeley DB version 3.3 "
       "is required. Found Berkeley DB version ${BerkeleyDB_VERSION}. Either "
-      "the Berkeley DB should be upgraded or set the 'EXT_DBA_SHARED' to 'OFF'."
+      "the Berkeley DB should be upgraded or set the 'PHP_EXT_DBA_SHARED' to "
+      "'OFF'."
     )
   endif()
 
@@ -399,7 +400,7 @@ if(EXT_DBA_DB)
     target_sources(php_ext_dba PRIVATE dba_db1.c)
   endif()
 
-  if(BerkeleyDB_VERSION VERSION_LESS_EQUAL 1 AND NOT EXT_DBA_DB1)
+  if(BerkeleyDB_VERSION VERSION_LESS_EQUAL 1 AND NOT PHP_EXT_DBA_DB1)
     set(DB1_INCLUDE_FILE "<db.h>")
     set(DBA_DB1 TRUE)
     set(DB1_VERSION "Unknown DB1")
@@ -422,7 +423,7 @@ endif()
 ################################################################################
 # DBM.
 ################################################################################
-if(EXT_DBA_DBM)
+if(PHP_EXT_DBA_DBM)
   find_package(Dbm)
   set_package_properties(
     Dbm
@@ -443,7 +444,7 @@ endif()
 ################################################################################
 # Flat-file.
 ################################################################################
-if(EXT_DBA_FLATFILE)
+if(PHP_EXT_DBA_FLATFILE)
   target_sources(
     php_ext_dba
     PRIVATE
@@ -457,7 +458,7 @@ endif()
 ################################################################################
 # INI-file.
 ################################################################################
-if(EXT_DBA_INIFILE)
+if(PHP_EXT_DBA_INIFILE)
   target_sources(
     php_ext_dba
     PRIVATE
@@ -471,7 +472,7 @@ endif()
 ################################################################################
 # LMDB.
 ################################################################################
-if(EXT_DBA_LMDB)
+if(PHP_EXT_DBA_LMDB)
   find_package(LMDB)
   set_package_properties(
     LMDB
@@ -491,7 +492,7 @@ endif()
 ################################################################################
 # ndbm.
 ################################################################################
-if(EXT_DBA_NDBM)
+if(PHP_EXT_DBA_NDBM)
   find_package(Ndbm)
   set_package_properties(
     Ndbm
@@ -511,7 +512,7 @@ endif()
 ################################################################################
 # QDBM.
 ################################################################################
-if(EXT_DBA_QDBM AND NOT EXT_DBA_DBM)
+if(PHP_EXT_DBA_QDBM AND NOT PHP_EXT_DBA_DBM)
   find_package(QDBM)
   set_package_properties(
     QDBM
@@ -531,7 +532,7 @@ endif()
 ################################################################################
 # Tokyo Cabinet.
 ################################################################################
-if(EXT_DBA_TCADB)
+if(PHP_EXT_DBA_TCADB)
   find_package(TokyoCabinet)
   set_package_properties(
     TokyoCabinet

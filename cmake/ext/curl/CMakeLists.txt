@@ -5,14 +5,14 @@ Configure the `curl` extension.
 
 This extension provides support for using CURL - Client URL Library.
 
-## EXT_CURL
+## PHP_EXT_CURL
 
 * Default: `OFF`
 * Values: `ON|OFF`
 
 Enable the extension.
 
-## EXT_CURL_SHARED
+## PHP_EXT_CURL_SHARED
 
 * Default: `OFF`
 * Values: `ON|OFF`
@@ -32,27 +32,27 @@ include(CMakeDependentOption)
 include(CMakePushCheckState)
 include(FeatureSummary)
 
-option(EXT_CURL "Enable the curl extension")
+option(PHP_EXT_CURL "Enable the curl extension")
 
 add_feature_info(
   "ext/curl"
-  EXT_CURL
+  PHP_EXT_CURL
   "CURL (Client URL Library) support"
 )
 
 cmake_dependent_option(
-  EXT_CURL_SHARED
+  PHP_EXT_CURL_SHARED
   "Build the curl extension as a shared library"
   OFF
-  "EXT_CURL;NOT BUILD_SHARED_LIBS"
+  "PHP_EXT_CURL;NOT BUILD_SHARED_LIBS"
   OFF
 )
 
-if(NOT EXT_CURL)
+if(NOT PHP_EXT_CURL)
   return()
 endif()
 
-if(EXT_CURL_SHARED)
+if(PHP_EXT_CURL_SHARED)
   add_library(php_ext_curl SHARED)
 else()
   add_library(php_ext_curl)

@@ -6,7 +6,7 @@ Configure the `hash` extension.
 This extension provides HASH message digest framework and is always enabled in
 PHP.
 
-## EXT_HASH_MHASH
+## PHP_EXT_HASH_MHASH
 
 :orange_circle: *Deprecated as of PHP 8.1.*
 
@@ -31,23 +31,23 @@ add_feature_info(
 )
 
 option(
-  EXT_HASH_MHASH
+  PHP_EXT_HASH_MHASH
   "Enable the mhash emulation support (deprecated as of PHP 8.1)"
 )
-mark_as_advanced(EXT_HASH_MHASH)
+mark_as_advanced(PHP_EXT_HASH_MHASH)
 add_feature_info(
   "ext/hash mhash"
-  EXT_HASH_MHASH
+  PHP_EXT_HASH_MHASH
   "mhash emulation"
 )
 
 message(CHECK_START "Checking whether to enable mhash")
-if(EXT_HASH_MHASH)
+if(PHP_EXT_HASH_MHASH)
   message(CHECK_PASS "yes")
   message(
     DEPRECATION
-    "The 'EXT_HASH_MHASH' option to enable the mhash emulation support in the "
-    "hash extension is deprecated as of PHP 8.1.0 and will be removed in "
+    "The 'PHP_EXT_HASH_MHASH' option to enable the mhash emulation support in "
+    "the hash extension is deprecated as of PHP 8.1.0 and will be removed in "
     "future PHP versions."
   )
   set(PHP_MHASH_BC TRUE)

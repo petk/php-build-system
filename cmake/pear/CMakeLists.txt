@@ -111,11 +111,11 @@ block()
       xml     # For installer, pear and pecl commands to work
   )
     string(TOUPPER ${extension} extensionUpper)
-    if(NOT EXT_${extensionUpper})
+    if(NOT PHP_EXT_${extensionUpper})
       message(
         FATAL_ERROR
         "The 'PHP_PEAR' option requires PHP extension ${extension}. Please, "
-        "set 'EXT_${extensionUpper}' to 'ON'."
+        "set 'PHP_EXT_${extensionUpper}' to 'ON'."
       )
     endif()
   endforeach()
@@ -135,8 +135,8 @@ php_install(CODE "
   set(phpPearCurrentBinaryDir \"${CMAKE_CURRENT_BINARY_DIR}\")
   set(phpPearPhpExecutable \"${PHP_EXECUTABLE}\")
   set(phpExtensionDir \"$<PATH:ABSOLUTE_PATH,NORMALIZE,${PHP_EXTENSION_DIR},\${CMAKE_INSTALL_PREFIX}>\")
-  set(EXT_OPENSSL_SHARED ${EXT_OPENSSL_SHARED})
-  set(EXT_XML_SHARED ${EXT_XML_SHARED})
+  set(PHP_EXT_OPENSSL_SHARED ${PHP_EXT_OPENSSL_SHARED})
+  set(PHP_EXT_XML_SHARED ${PHP_EXT_XML_SHARED})
   set(PHP_BINARY_DIR ${PHP_BINARY_DIR})
   set(CMAKE_SYSTEM_NAME ${CMAKE_SYSTEM_NAME})
   set(PHP_PEAR_TEMP_DIR \"${PHP_PEAR_TEMP_DIR}\")

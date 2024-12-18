@@ -6,21 +6,21 @@ Configure the `odbc` extension.
 This extension provides support for Unified Open Database Connectivity (ODBC)
 databases.
 
-## EXT_ODBC
+## PHP_EXT_ODBC
 
 * Default: `OFF`
 * Values: `ON|OFF`
 
 Enable the PHP `odbc` extension.
 
-## EXT_ODBC_SHARED
+## PHP_EXT_ODBC_SHARED
 
 * Default: `OFF`
 * Values: `ON|OFF`
 
 Build extension as shared library.
 
-## EXT_ODBC_TYPE
+## PHP_EXT_ODBC_TYPE
 
 Select the ODBC type.
 
@@ -52,8 +52,8 @@ For example:
 
 ```sh
 cmake -S . -B php-build \
-  -D EXT_ODBC=ON \
-  -D EXT_ODBC_TYPE=custom \
+  -D PHP_EXT_ODBC=ON \
+  -D PHP_EXT_ODBC_TYPE=custom \
   -D ODBC_LIBRARY=/usr/lib/x86_64-linux-gnu/libodbc.so
 ```
 
@@ -72,8 +72,8 @@ For example, when using Sybase SQL Anywhere 5.5.00 on QNX:
 
 ```sh
 cmake -S php-src -B php-build \
-  -D EXT_ODBC=ON \
-  -D EXT_ODBC_TYPE=custom \
+  -D PHP_EXT_ODBC=ON \
+  -D PHP_EXT_ODBC_TYPE=custom \
   -D ODBC_LIBRARY=<path-to-libodbc.so> \
   -D ODBC_INCLUDE_DIR=... \
   -D ODBC_COMPILE_DEFINITIONS="-DODBC_QNX -DSQLANY_BUG" \
@@ -84,8 +84,8 @@ For Adabas:
 
 ```sh
 cmake -S php-src -B php-build \
-  -D EXT_ODBC=ON \
-  -D EXT_ODBC_TYPE=adabas \
+  -D PHP_EXT_ODBC=ON \
+  -D PHP_EXT_ODBC_TYPE=adabas \
   -D ODBC_ROOT=/path/to/adabas \
   -D ODBC_LIBRARY=odbc_adabas \
   -D ODBC_INCLUDE_DIR=/path/to/adabas/incl \
@@ -96,8 +96,8 @@ For DBMaker:
 
 ```sh
 cmake -S php-src -B php-build \
-  -D EXT_ODBC=ON \
-  -D EXT_ODBC_TYPE=dbmaker \
+  -D PHP_EXT_ODBC=ON \
+  -D PHP_EXT_ODBC_TYPE=dbmaker \
   -D ODBC_ROOT=/path/to/dbmaker \
   -D ODBC_LIBRARY=dmapic \
 ```
@@ -106,8 +106,8 @@ For Easysoft OOB support:
 
 ```sh
 cmake -S php-src -B php-build \
-  -D EXT_ODBC=ON \
-  -D EXT_ODBC_TYPE=esoob \
+  -D PHP_EXT_ODBC=ON \
+  -D PHP_EXT_ODBC_TYPE=esoob \
   -D ODBC_ROOT=/usr/local/easysoft/oob/client \
   -D ODBC_LIBRARY=esoobclient \
 ```
@@ -116,8 +116,8 @@ For Empress:
 
 ```sh
 cmake -S php-src -B php-build \
-  -D EXT_ODBC=ON \
-  -D EXT_ODBC_TYPE=empress \
+  -D PHP_EXT_ODBC=ON \
+  -D PHP_EXT_ODBC_TYPE=empress \
   -D ODBC_ROOT=/path/to/empress \
   -D ODBC_LIBRARY=empodbccl
 ```
@@ -126,8 +126,8 @@ For Empress Local Access:
 
 ```sh
 cmake -S php-src -B php-build \
-  -D EXT_ODBC=ON \
-  -D EXT_ODBC_TYPE=empress-bcs \
+  -D PHP_EXT_ODBC=ON \
+  -D PHP_EXT_ODBC_TYPE=empress-bcs \
   -D ODBC_ROOT=/path/to/empress \
   -D ODBC_LIBRARY=empodbcbcs \
   -D ODBC_LINK_OPTIONS="-lempphpbcs -lms -lmscfg -lbasic -lbasic_os -lnlscstab -lnlsmsgtab -lm -ldl -lcrypt"
@@ -137,8 +137,8 @@ For IBM DB2:
 
 ```sh
 cmake -S php-src -B php-build \
-  -D EXT_ODBC=ON \
-  -D EXT_ODBC_TYPE=ibm-db2 \
+  -D PHP_EXT_ODBC=ON \
+  -D PHP_EXT_ODBC_TYPE=ibm-db2 \
   -D ODBC_ROOT=/home/db2inst1/sqllib \
   -D ODBC_LIBRARY=db2
 ```
@@ -147,8 +147,8 @@ For Solid DB:
 
 ```sh
 cmake -S php-src -B php-build \
-  -D EXT_ODBC=ON \
-  -D EXT_ODBC_TYPE=solid \
+  -D PHP_EXT_ODBC=ON \
+  -D PHP_EXT_ODBC_TYPE=solid \
   -D ODBC_ROOT=/path/to/solid \
   -D ODBC_LIBRARY=sqlod \
   -D ODBC_INCLUDE_DIR=/path/to/solid/incl
@@ -158,7 +158,7 @@ cmake -S php-src -B php-build \
 > These examples might need to be adjusted and updated for the current ODBC
 > versions and implementations.
 
-## EXT_ODBC_VERSION
+## PHP_EXT_ODBC_VERSION
 
 Hex number to force support for the ODBC specification version. By default, it
 is set to the highest supported ODBC specification version by PHP. A special
@@ -182,23 +182,23 @@ include(CMakePushCheckState)
 include(FeatureSummary)
 include(PHP/Set)
 
-option(EXT_ODBC "Enable the odbc extension")
+option(PHP_EXT_ODBC "Enable the odbc extension")
 add_feature_info(
   "ext/odbc"
-  EXT_ODBC
+  PHP_EXT_ODBC
   "Unified Open Database Connectivity (ODBC) databases support"
 )
 
 cmake_dependent_option(
-  EXT_ODBC_SHARED
+  PHP_EXT_ODBC_SHARED
   "Build the odbc extension as a shared library"
   OFF
-  [[EXT_ODBC AND NOT BUILD_SHARED_LIBS]]
+  [[PHP_EXT_ODBC AND NOT BUILD_SHARED_LIBS]]
   OFF
 )
 
 php_set(
-  EXT_ODBC_TYPE
+  PHP_EXT_ODBC_TYPE
   CHOICES
     "auto"
     "adabas"
@@ -212,44 +212,48 @@ php_set(
     "solid"
     "unixODBC"
     "custom"
-  IF EXT_ODBC
+  IF PHP_EXT_ODBC
   DOC "The ODBC implementation type (library driving the ODBC)"
 )
-mark_as_advanced(EXT_ODBC_TYPE)
+mark_as_advanced(PHP_EXT_ODBC_TYPE)
 
 # Validate ODBC type for odbc and pdo_odbc extensions. Ideally, the same ODBC
 # driver library should be used for both extensions.
-if(EXT_ODBC AND EXT_PDO_ODBC AND NOT EXT_ODBC_TYPE STREQUAL EXT_PDO_ODBC_TYPE)
+if(
+  PHP_EXT_ODBC
+  AND PHP_EXT_PDO_ODBC
+  AND NOT PHP_EXT_ODBC_TYPE STREQUAL PHP_EXT_PDO_ODBC_TYPE
+)
   message(
     FATAL_ERROR
     "Different ODBC types detected for 'odbc' and 'pdo_odbc' PHP "
     "extensions:\n"
-    "EXT_ODBC_TYPE=${EXT_ODBC_TYPE}\n"
-    "EXT_PDO_ODBC_TYPE=${EXT_PDO_ODBC_TYPE}\n"
+    "PHP_EXT_ODBC_TYPE=${PHP_EXT_ODBC_TYPE}\n"
+    "PHP_EXT_PDO_ODBC_TYPE=${PHP_EXT_PDO_ODBC_TYPE}\n"
     "To prevent library symbol collisions when building both 'odbc' and "
     "'pdo_odbc' please link with the same ODBC library. Or disable one of "
-    "the extensions by setting EXT_ODBC or EXT_PDO_ODBC to 'OFF'."
+    "the extensions by setting 'PHP_EXT_ODBC' or 'PHP_EXT_PDO_ODBC' to 'OFF'."
   )
 endif()
 
 # Some ODBC drivers require setting ODBC_LIBRARY manually to be found.
 if(
-  EXT_ODBC
-  AND NOT EXT_ODBC_TYPE MATCHES "auto|unixODBC|iODBC"
+  PHP_EXT_ODBC
+  AND NOT PHP_EXT_ODBC_TYPE MATCHES "auto|unixODBC|iODBC"
   AND NOT ODBC_LIBRARY
 )
   message(
     FATAL_ERROR
-    "When using EXT_ODBC_TYPE=${EXT_ODBC_TYPE}, please set also "
+    "When using PHP_EXT_ODBC_TYPE=${PHP_EXT_ODBC_TYPE}, please set also "
     "ODBC_LIBRARY and optionally ODBC_INCLUDE_DIR to locate the ODBC "
     "installation."
   )
 endif()
 
 php_set(
-  EXT_ODBC_VERSION
+  PHP_EXT_ODBC_VERSION
   TYPE STRING
-  IF [[EXT_ODBC AND NOT EXT_ODBC_TYPE MATCHES "^(unixODBC|dbmaker)$"]]
+  IF [[PHP_EXT_ODBC AND NOT PHP_EXT_ODBC_TYPE MATCHES "^(unixODBC|dbmaker)$"]]
   VALUE "0x0350"
   ELSE_VALUE "0x0350"
   DOC
@@ -257,13 +261,13 @@ php_set(
     "0x0350. Set to special value 0 (zero) or empty to not define explicit "
     "ODBCVER in the configuration header."
 )
-mark_as_advanced(EXT_ODBC_VERSION)
+mark_as_advanced(PHP_EXT_ODBC_VERSION)
 # Validate hexadecimal version.
-if(EXT_ODBC_VERSION AND NOT EXT_ODBC_VERSION MATCHES "^0x[0-9A-Fa-f]+$")
+if(PHP_EXT_ODBC_VERSION AND NOT PHP_EXT_ODBC_VERSION MATCHES "^0x[0-9A-Fa-f]+$")
   message(
     FATAL_ERROR
-    "The value 'EXT_ODBC_VERSION=${EXT_ODBC_VERSION}' is NOT valid hexadecimal "
-    "number."
+    "The value 'PHP_EXT_ODBC_VERSION=${PHP_EXT_ODBC_VERSION}' is NOT valid "
+    "hexadecimal number."
   )
 endif()
 
@@ -272,11 +276,11 @@ unset(PHP_ODBC_LFLAGS CACHE)
 unset(PHP_ODBC_LIBS CACHE)
 unset(PHP_ODBC_TYPE CACHE)
 
-if(NOT EXT_ODBC)
+if(NOT PHP_EXT_ODBC)
   return()
 endif()
 
-if(EXT_ODBC_SHARED)
+if(PHP_EXT_ODBC_SHARED)
   add_library(php_ext_odbc SHARED)
 else()
   add_library(php_ext_odbc)
@@ -292,8 +296,8 @@ target_sources(
 
 target_compile_definitions(php_ext_odbc PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE)
 
-if(NOT EXT_ODBC_TYPE STREQUAL "auto")
-  set(ODBC_USE_DRIVER "${EXT_ODBC_TYPE}")
+if(NOT PHP_EXT_ODBC_TYPE STREQUAL "auto")
+  set(ODBC_USE_DRIVER "${PHP_EXT_ODBC_TYPE}")
 endif()
 find_package(ODBC)
 set_package_properties(
@@ -306,7 +310,7 @@ set_package_properties(
 target_link_libraries(php_ext_odbc PRIVATE ODBC::ODBC)
 
 # Sanity checks.
-if(EXT_ODBC_TYPE STREQUAL "ibm-db2" AND TARGET ODBC::ODBC)
+if(PHP_EXT_ODBC_TYPE STREQUAL "ibm-db2" AND TARGET ODBC::ODBC)
   cmake_push_check_state(RESET)
     set(CMAKE_REQUIRED_LIBRARIES ODBC::ODBC)
     check_include_file(sqlcli1.h HAVE_SQLCLI1_H)
@@ -333,18 +337,18 @@ endif()
 if(ODBC_DRIVER STREQUAL "Windows")
   set(PHP_ODBC_TYPE "Win32")
 elseif(
-  (ODBC_DRIVER STREQUAL "iODBC" AND EXT_ODBC_TYPE STREQUAL "auto")
-  OR EXT_ODBC_TYPE STREQUAL "iODBC"
+  (ODBC_DRIVER STREQUAL "iODBC" AND PHP_EXT_ODBC_TYPE STREQUAL "auto")
+  OR PHP_EXT_ODBC_TYPE STREQUAL "iODBC"
 )
   # To match the native build system string:
   set(PHP_ODBC_TYPE "iodbc")
-elseif(ODBC_DRIVER AND EXT_ODBC_TYPE STREQUAL "auto")
+elseif(ODBC_DRIVER AND PHP_EXT_ODBC_TYPE STREQUAL "auto")
   set(PHP_ODBC_TYPE "${ODBC_DRIVER}")
-elseif(EXT_ODBC_TYPE STREQUAL "custom")
+elseif(PHP_EXT_ODBC_TYPE STREQUAL "custom")
   # To match the native build system string:
   set(PHP_ODBC_TYPE custom-odbc)
 else()
-  set(PHP_ODBC_TYPE "${EXT_ODBC_TYPE}")
+  set(PHP_ODBC_TYPE "${PHP_EXT_ODBC_TYPE}")
 endif()
 
 if(PHP_ODBC_TYPE STREQUAL "adabas")
@@ -384,7 +388,7 @@ elseif(PHP_ODBC_TYPE STREQUAL "custom-odbc")
   set(HAVE_CODBC TRUE)
 endif()
 
-if(NOT EXT_ODBC_TYPE MATCHES "^(dbmaker|solid)$")
+if(NOT PHP_EXT_ODBC_TYPE MATCHES "^(dbmaker|solid)$")
   set(HAVE_SQLDATASOURCES TRUE)
 endif()
 
@@ -458,8 +462,8 @@ if(TARGET ODBC::ODBC)
   endblock()
 endif()
 
-if(EXT_ODBC_VERSION)
-  set(ODBCVER "${EXT_ODBC_VERSION}")
+if(PHP_EXT_ODBC_VERSION)
+  set(ODBCVER "${PHP_EXT_ODBC_VERSION}")
 endif()
 
 set(HAVE_UODBC TRUE)

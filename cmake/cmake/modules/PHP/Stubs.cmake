@@ -16,7 +16,10 @@ function(_php_stubs_get_php_command result)
   # tokenizer extension.
   if(
     NOT PHPSystem_EXECUTABLE
-    AND (NOT TARGET PHP::SAPI::cli OR (TARGET PHP::SAPI::cli AND NOT EXT_TOKENIZER))
+    AND (
+      NOT TARGET PHP::SAPI::cli
+      OR (TARGET PHP::SAPI::cli AND NOT TARGET PHP::ext::tokenizer)
+    )
   )
     return(PROPAGATE ${result})
   endif()
@@ -44,7 +47,8 @@ function(_php_stubs_get_php_command result)
     return(PROPAGATE ${result})
   endif()
 
-  if(EXT_TOKENIZER_SHARED)
+  get_target_property(type PHP::ext::tokenizer TYPE)
+  if(type MATCHES "^(MODULE|SHARED)_LIBRARY$")
     list(
       APPEND
       command

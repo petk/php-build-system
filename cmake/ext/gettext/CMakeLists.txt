@@ -6,14 +6,14 @@ Configure the `gettext` extension.
 This extension provides support for GNU gettext using NLS (Native Language
 Support) API.
 
-## EXT_GETTEXT
+## PHP_EXT_GETTEXT
 
 * Default: `OFF`
 * Values: `ON|OFF`
 
 Enable the extension.
 
-## EXT_GETTEXT_SHARED
+## PHP_EXT_GETTEXT_SHARED
 
 * Default: `OFF`
 * Values: `ON|OFF`
@@ -30,27 +30,27 @@ include(CheckLibraryExists)
 include(CMakeDependentOption)
 include(FeatureSummary)
 
-option(EXT_GETTEXT "Enable the gettext extension")
+option(PHP_EXT_GETTEXT "Enable the gettext extension")
 
 add_feature_info(
   "ext/gettext"
-  EXT_GETTEXT
+  PHP_EXT_GETTEXT
   "GNU gettext support using NLS (Native Language Support) API"
 )
 
 cmake_dependent_option(
-  EXT_GETTEXT_SHARED
+  PHP_EXT_GETTEXT_SHARED
   "Build the gettext extension as a shared library"
   OFF
-  "EXT_GETTEXT;NOT BUILD_SHARED_LIBS"
+  "PHP_EXT_GETTEXT;NOT BUILD_SHARED_LIBS"
   OFF
 )
 
-if(NOT EXT_GETTEXT)
+if(NOT PHP_EXT_GETTEXT)
   return()
 endif()
 
-if(EXT_GETTEXT_SHARED)
+if(PHP_EXT_GETTEXT_SHARED)
   add_library(php_ext_gettext SHARED)
 else()
   add_library(php_ext_gettext)

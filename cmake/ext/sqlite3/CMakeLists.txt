@@ -5,14 +5,14 @@ Configure the `sqlite3` extension.
 
 This extension provides support for using SQLite database.
 
-## EXT_SQLITE3
+## PHP_EXT_SQLITE3
 
 * Default: `ON`
 * Values: `ON|OFF`
 
 Enable the extension.
 
-## EXT_SQLITE3_SHARED
+## PHP_EXT_SQLITE3_SHARED
 
 * Default: `OFF`
 * Values: `ON|OFF`
@@ -29,27 +29,27 @@ include(CheckLibraryExists)
 include(CMakeDependentOption)
 include(FeatureSummary)
 
-option(EXT_SQLITE3 "Enable the sqlite3 extension" ON)
+option(PHP_EXT_SQLITE3 "Enable the sqlite3 extension" ON)
 
 add_feature_info(
   "ext/sqlite3"
-  EXT_SQLITE3
+  PHP_EXT_SQLITE3
   "SQLite database support"
 )
 
 cmake_dependent_option(
-  EXT_SQLITE3_SHARED
+  PHP_EXT_SQLITE3_SHARED
   "Build the sqlite3 extension as a shared library"
   OFF
-  "EXT_SQLITE3;NOT BUILD_SHARED_LIBS"
+  "PHP_EXT_SQLITE3;NOT BUILD_SHARED_LIBS"
   OFF
 )
 
-if(NOT EXT_SQLITE3)
+if(NOT PHP_EXT_SQLITE3)
   return()
 endif()
 
-if(EXT_SQLITE3_SHARED)
+if(PHP_EXT_SQLITE3_SHARED)
   add_library(php_ext_sqlite3 SHARED)
 else()
   add_library(php_ext_sqlite3)

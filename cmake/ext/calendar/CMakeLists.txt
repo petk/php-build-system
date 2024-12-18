@@ -5,14 +5,14 @@ Configure the `calendar` extension.
 
 This extension provides support for calendar conversion.
 
-## EXT_CALENDAR
+## PHP_EXT_CALENDAR
 
 * Default: `OFF`
 * Values: `ON|OFF`
 
 Enable the extension.
 
-## EXT_CALENDAR_SHARED
+## PHP_EXT_CALENDAR_SHARED
 
 * Default: `OFF`
 * Values: `ON|OFF`
@@ -28,27 +28,27 @@ project(
 include(CMakeDependentOption)
 include(FeatureSummary)
 
-option(EXT_CALENDAR "Enable the calendar extension")
+option(PHP_EXT_CALENDAR "Enable the calendar extension")
 
 add_feature_info(
   "ext/calendar"
-  EXT_CALENDAR
+  PHP_EXT_CALENDAR
   "calendar conversion support"
 )
 
 cmake_dependent_option(
-  EXT_CALENDAR_SHARED
+  PHP_EXT_CALENDAR_SHARED
   "Build the calendar extension as a shared library"
   OFF
-  "EXT_CALENDAR;NOT BUILD_SHARED_LIBS"
+  "PHP_EXT_CALENDAR;NOT BUILD_SHARED_LIBS"
   OFF
 )
 
-if(NOT EXT_CALENDAR)
+if(NOT PHP_EXT_CALENDAR)
   return()
 endif()
 
-if(EXT_CALENDAR_SHARED)
+if(PHP_EXT_CALENDAR_SHARED)
   add_library(php_ext_calendar SHARED)
 else()
   add_library(php_ext_calendar)

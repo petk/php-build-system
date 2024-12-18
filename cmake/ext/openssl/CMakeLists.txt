@@ -6,7 +6,7 @@ Configure the `openssl` extension.
 This extension enables encryption and decryption support using the OpenSSL
 library.
 
-## EXT_OPENSSL
+## PHP_EXT_OPENSSL
 
 * Default: `OFF`
 * Values: `ON|OFF`
@@ -16,21 +16,21 @@ Enable the PHP `openssl` extension.
 Where to find OpenSSL installation on the system, can be customized with the
 `OPENSSL_ROOT_DIR` variable.
 
-## EXT_OPENSSL_SHARED
+## PHP_EXT_OPENSSL_SHARED
 
 * Default: `OFF`
 * Values: `ON|OFF`
 
 Build extension as shared library.
 
-## EXT_OPENSSL_SYSTEM_CIPHERS
+## PHP_EXT_OPENSSL_SYSTEM_CIPHERS
 
 * Default: `OFF`
 * Values: `ON|OFF`
 
 Use system default cipher list instead of the hardcoded value for OpenSSL.
 
-## EXT_OPENSSL_ARGON2
+## PHP_EXT_OPENSSL_ARGON2
 
 :green_circle: *New in PHP 8.4.*
 
@@ -39,7 +39,7 @@ Use system default cipher list instead of the hardcoded value for OpenSSL.
 
 Enable OpenSSL Argon2 password hashing. Requires OpenSSL >= 3.2.
 
-## EXT_OPENSSL_LEGACY_PROVIDER
+## PHP_EXT_OPENSSL_LEGACY_PROVIDER
 
 :green_circle: *New in PHP 8.4.*
 
@@ -50,7 +50,7 @@ Load OpenSSL legacy algorithm provider in addition to the default provider.
 Requires OpenSSL >= 3. Legacy algorithms are by OpenSSL library considered those
 that are either insecure, or have fallen out of use.
 
-## EXT_OPENSSL_KERBEROS
+## PHP_EXT_OPENSSL_KERBEROS
 
 :red_circle: *Removed as of PHP 8.4.*
 
@@ -76,72 +76,72 @@ include(CMakeDependentOption)
 include(CMakePushCheckState)
 include(FeatureSummary)
 
-option(EXT_OPENSSL "Enable the openssl extension")
+option(PHP_EXT_OPENSSL "Enable the openssl extension")
 
 add_feature_info(
   "ext/openssl"
-  EXT_OPENSSL
+  PHP_EXT_OPENSSL
   "encryption and decryption using OpenSSL library"
 )
 
 cmake_dependent_option(
-  EXT_OPENSSL_SHARED
+  PHP_EXT_OPENSSL_SHARED
   "Build the openssl extension as a shared library"
   OFF
-  "EXT_OPENSSL;NOT BUILD_SHARED_LIBS"
+  "PHP_EXT_OPENSSL;NOT BUILD_SHARED_LIBS"
   OFF
 )
 
 cmake_dependent_option(
-  EXT_OPENSSL_SYSTEM_CIPHERS
+  PHP_EXT_OPENSSL_SYSTEM_CIPHERS
   "Use system default cipher list instead of hardcoded value for OpenSSL"
   OFF
-  "EXT_OPENSSL"
+  "PHP_EXT_OPENSSL"
   OFF
 )
-mark_as_advanced(EXT_OPENSSL_SYSTEM_CIPHERS)
+mark_as_advanced(PHP_EXT_OPENSSL_SYSTEM_CIPHERS)
 
 add_feature_info(
   "ext/openssl system ciphers"
-  EXT_OPENSSL_SYSTEM_CIPHERS
+  PHP_EXT_OPENSSL_SYSTEM_CIPHERS
   "system default cipher list instead of hardcoded value"
 )
 
 cmake_dependent_option(
-  EXT_OPENSSL_ARGON2
+  PHP_EXT_OPENSSL_ARGON2
   "Enable OpenSSL Argon2 password hashing (requires OpenSSL >= 3.2)"
   OFF
-  "EXT_OPENSSL"
+  "PHP_EXT_OPENSSL"
   OFF
 )
-mark_as_advanced(EXT_OPENSSL_ARGON2)
+mark_as_advanced(PHP_EXT_OPENSSL_ARGON2)
 
 add_feature_info(
   "ext/openssl Argon2"
-  EXT_OPENSSL_ARGON2
+  PHP_EXT_OPENSSL_ARGON2
   "password hashing"
 )
 
 cmake_dependent_option(
-  EXT_OPENSSL_LEGACY_PROVIDER
+  PHP_EXT_OPENSSL_LEGACY_PROVIDER
   "OpenSSL >= 3: Load legacy algorithm provider in addition to default provider"
   OFF
-  "EXT_OPENSSL"
+  "PHP_EXT_OPENSSL"
   OFF
 )
-mark_as_advanced(EXT_OPENSSL_LEGACY_PROVIDER)
+mark_as_advanced(PHP_EXT_OPENSSL_LEGACY_PROVIDER)
 
 add_feature_info(
   "ext/openssl legacy algorithm provider"
-  EXT_OPENSSL_LEGACY_PROVIDER
+  PHP_EXT_OPENSSL_LEGACY_PROVIDER
   "loaded in addition to default provider"
 )
 
-if(NOT EXT_OPENSSL)
+if(NOT PHP_EXT_OPENSSL)
   return()
 endif()
 
-if(EXT_OPENSSL_SHARED)
+if(PHP_EXT_OPENSSL_SHARED)
   add_library(php_ext_openssl SHARED)
 else()
   add_library(php_ext_openssl)
@@ -174,31 +174,31 @@ if(TARGET OpenSSL::SSL)
     check_symbol_exists(RAND_egd "openssl/rand.h" HAVE_RAND_EGD)
   cmake_pop_check_state()
 
-  if(OPENSSL_VERSION VERSION_LESS 3 AND EXT_OPENSSL_LEGACY_PROVIDER)
+  if(OPENSSL_VERSION VERSION_LESS 3 AND PHP_EXT_OPENSSL_LEGACY_PROVIDER)
     message(
       WARNING
-      "EXT_OPENSSL_LEGACY_PROVIDER is not available for OpenSSL version "
+      "PHP_EXT_OPENSSL_LEGACY_PROVIDER is not available for OpenSSL version "
       "${OPENSSL_VERSION} and won't be enabled."
     )
   elseif(
     OPENSSL_VERSION VERSION_GREATER_EQUAL 3
-    AND EXT_OPENSSL_LEGACY_PROVIDER
+    AND PHP_EXT_OPENSSL_LEGACY_PROVIDER
   )
     set(LOAD_OPENSSL_LEGACY_PROVIDER TRUE)
   endif()
 
-  if(EXT_OPENSSL_SYSTEM_CIPHERS)
+  if(PHP_EXT_OPENSSL_SYSTEM_CIPHERS)
     set(USE_OPENSSL_SYSTEM_CIPHERS TRUE)
   endif()
 
-  if(EXT_OPENSSL_ARGON2)
+  if(PHP_EXT_OPENSSL_ARGON2)
     if(PHP_THREAD_SAFETY)
       message(
         FATAL_ERROR
         "The OpenSSL Argon2 password hashing is not supported in thread-safe "
         "mode for now. Please, disable thread safety (set 'PHP_THREAD_SAFETY' "
-        "to 'OFF'), or build without OpenSSL Argon2 (set 'EXT_OPENSSL_ARGON2' "
-        "to 'OFF')."
+        "to 'OFF'), or build without OpenSSL Argon2 (set "
+        "'PHP_EXT_OPENSSL_ARGON2' to 'OFF')."
       )
     endif()
 

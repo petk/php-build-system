@@ -6,14 +6,14 @@ Configure the `sodium` extension.
 This extension provides support for encryption, decryption, signatures and
 password hashing.
 
-## EXT_SODIUM
+## PHP_EXT_SODIUM
 
 * Default: `OFF`
 * Values: `ON|OFF`
 
 Enable the extension.
 
-## EXT_SODIUM_SHARED
+## PHP_EXT_SODIUM_SHARED
 
 * Default: `OFF`
 * Values: `ON|OFF`
@@ -30,27 +30,27 @@ include(CMakeDependentOption)
 include(FeatureSummary)
 include(PHP/CheckCompilerFlag)
 
-option(EXT_SODIUM "Enable the sodium extension")
+option(PHP_EXT_SODIUM "Enable the sodium extension")
 
 add_feature_info(
   "ext/sodium"
-  EXT_SODIUM
+  PHP_EXT_SODIUM
   "encryption, decryption, signatures and password hashing"
 )
 
 cmake_dependent_option(
-  EXT_SODIUM_SHARED
+  PHP_EXT_SODIUM_SHARED
   "Build the sodium extension as a shared library"
   OFF
-  "EXT_SODIUM;NOT BUILD_SHARED_LIBS"
+  "PHP_EXT_SODIUM;NOT BUILD_SHARED_LIBS"
   OFF
 )
 
-if(NOT EXT_SODIUM)
+if(NOT PHP_EXT_SODIUM)
   return()
 endif()
 
-if(EXT_SODIUM_SHARED)
+if(PHP_EXT_SODIUM_SHARED)
   add_library(php_ext_sodium SHARED)
 else()
   add_library(php_ext_sodium)

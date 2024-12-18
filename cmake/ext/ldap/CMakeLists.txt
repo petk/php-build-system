@@ -6,21 +6,21 @@ Configure the `ldap` extension.
 This extension provides support for LDAP (Lightweight Directory Access
 Protocol).
 
-## EXT_LDAP
+## PHP_EXT_LDAP
 
 * Default: `OFF`
 * Values: `ON|OFF`
 
 Enable the extension.
 
-## EXT_LDAP_SHARED
+## PHP_EXT_LDAP_SHARED
 
 * Default: `OFF`
 * Values: `ON|OFF`
 
 Build extension as shared.
 
-## EXT_LDAP_SASL
+## PHP_EXT_LDAP_SASL
 
 * Default: `OFF`
 * Values: `ON|OFF`
@@ -39,35 +39,35 @@ include(CMakeDependentOption)
 include(CMakePushCheckState)
 include(FeatureSummary)
 
-option(EXT_LDAP "Enable the ldap extension")
+option(PHP_EXT_LDAP "Enable the ldap extension")
 
 add_feature_info(
   "ext/ldap"
-  EXT_LDAP
+  PHP_EXT_LDAP
   "LDAP (Lightweight Directory Access Protocol) support"
 )
 
 cmake_dependent_option(
-  EXT_LDAP_SHARED
+  PHP_EXT_LDAP_SHARED
   "Build the ldap extension as a shared library"
   OFF
-  "EXT_LDAP;NOT BUILD_SHARED_LIBS"
+  "PHP_EXT_LDAP;NOT BUILD_SHARED_LIBS"
   OFF
 )
 
 cmake_dependent_option(
-  EXT_LDAP_SASL
+  PHP_EXT_LDAP_SASL
   "Build ldap extension with Cyrus SASL support"
   OFF
-  "EXT_LDAP"
+  "PHP_EXT_LDAP"
   OFF
 )
 
-if(NOT EXT_LDAP)
+if(NOT PHP_EXT_LDAP)
   return()
 endif()
 
-if(EXT_LDAP_SHARED)
+if(PHP_EXT_LDAP_SHARED)
   add_library(php_ext_ldap SHARED)
 else()
   add_library(php_ext_ldap)
@@ -141,7 +141,7 @@ if(TARGET LDAP::LDAP)
   cmake_pop_check_state()
 endif()
 
-if(EXT_LDAP_SASL)
+if(PHP_EXT_LDAP_SASL)
   find_package(SASL)
   set_package_properties(
     SASL
