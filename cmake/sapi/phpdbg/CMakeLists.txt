@@ -125,7 +125,7 @@ set(php_phpdbg_sources
 )
 
 add_executable(php_sapi_phpdbg ${php_phpdbg_sources})
-add_executable(PHP::SAPI::phpdbg ALIAS php_sapi_phpdbg)
+add_executable(PHP::sapi::phpdbg ALIAS php_sapi_phpdbg)
 
 target_compile_definitions(
   php_sapi_phpdbg
@@ -138,7 +138,7 @@ target_compile_definitions(
 target_link_libraries(
   php_sapi_phpdbg
   PRIVATE
-    PHP::SAPI
+    PHP::sapi
     $<$<PLATFORM_ID:Windows>:ws2_32;user32>
 )
 
@@ -218,7 +218,7 @@ add_feature_info(
 # TODO: Should readline support be also enabled like in the executable?
 if(PHP_SAPI_PHPDBG_SHARED)
   add_library(php_sapi_phpdbg_shared SHARED)
-  add_library(PHP::SAPI::phpdbg_shared ALIAS php_sapi_phpdbg_shared)
+  add_library(PHP::sapi::phpdbg_shared ALIAS php_sapi_phpdbg_shared)
 
   set_target_properties(php_sapi_phpdbg_shared PROPERTIES OUTPUT_NAME phpdbg)
 
@@ -236,7 +236,7 @@ if(PHP_SAPI_PHPDBG_SHARED)
     php_sapi_phpdbg_shared
     PRIVATE
       # TODO: fix this better in the future (building with -fPIC etc).
-      PHP::SAPI
+      PHP::sapi
       $<$<PLATFORM_ID:Windows>:ws2_32;user32>
   )
 endif()

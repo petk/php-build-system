@@ -188,7 +188,7 @@ endif()
 ################################################################################
 
 add_executable(php_sapi_fpm)
-add_executable(PHP::SAPI::fpm ALIAS php_sapi_fpm)
+add_executable(PHP::sapi::fpm ALIAS php_sapi_fpm)
 
 target_sources(
   php_sapi_fpm
@@ -235,7 +235,7 @@ target_compile_definitions(php_sapi_fpm PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE)
 target_link_libraries(
   php_sapi_fpm
   PRIVATE
-    PHP::SAPI
+    PHP::sapi
 )
 
 set_target_properties(

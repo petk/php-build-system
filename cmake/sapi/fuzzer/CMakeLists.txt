@@ -68,7 +68,7 @@ if(PHP_THREAD_SAFETY)
 endif()
 
 add_executable(php_sapi_fuzzer)
-add_executable(PHP::SAPI::fuzzer ALIAS php_sapi_fuzzer)
+add_executable(PHP::sapi::fuzzer ALIAS php_sapi_fuzzer)
 
 if(LIB_FUZZING_ENGINE OR DEFINED ENV{LIB_FUZZING_ENGINE})
   if(LIB_FUZZING_ENGINE)
@@ -139,7 +139,7 @@ set_target_properties(
 target_link_libraries(
   php_sapi_fuzzer
   PRIVATE
-    PHP::SAPI
+    PHP::sapi
 )
 
 install(TARGETS php_sapi_fuzzer RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR})

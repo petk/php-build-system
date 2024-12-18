@@ -45,7 +45,7 @@ target_include_directories(
 
 # INTERFACE library that ties objects and configuration together for PHP SAPIs.
 add_library(php_sapi INTERFACE)
-add_library(PHP::SAPI ALIAS php_sapi)
+add_library(PHP::sapi ALIAS php_sapi)
 target_link_libraries(php_sapi INTERFACE PHP::config)
 
 # Create a custom target for generating files (parsers, lexers, etc.) manually:

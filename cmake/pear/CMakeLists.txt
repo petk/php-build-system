@@ -97,7 +97,7 @@ message(
 
 # Check PEAR dependencies.
 block()
-  if(NOT TARGET PHP::SAPI::cli)
+  if(NOT TARGET PHP::sapi::cli)
     message(
       FATAL_ERROR
       "The 'PHP_PEAR' option requires PHP CLI SAPI. Please, set 'PHP_SAPI_CLI' "
@@ -123,9 +123,9 @@ endblock()
 
 set(PHP_EXECUTABLE "")
 if(NOT CMAKE_CROSSCOMPILING)
-  set(PHP_EXECUTABLE "$<TARGET_FILE:PHP::SAPI::cli>")
+  set(PHP_EXECUTABLE "$<TARGET_FILE:PHP::sapi::cli>")
 elseif(CMAKE_CROSSCOMPILING AND CMAKE_CROSSCOMPILING_EMULATOR)
-  set(PHP_EXECUTABLE "${CMAKE_CROSSCOMPILING_EMULATOR};$<TARGET_FILE:PHP::SAPI::cli>")
+  set(PHP_EXECUTABLE "${CMAKE_CROSSCOMPILING_EMULATOR};$<TARGET_FILE:PHP::sapi::cli>")
 endif()
 
 php_install(CODE "
@@ -140,7 +140,7 @@ php_install(CODE "
   set(PHP_BINARY_DIR ${PHP_BINARY_DIR})
   set(CMAKE_SYSTEM_NAME ${CMAKE_SYSTEM_NAME})
   set(PHP_PEAR_TEMP_DIR \"${PHP_PEAR_TEMP_DIR}\")
-  set(phpPearInstalledPhpBin \"\${phpPearInstallBinDir}/$<TARGET_FILE_NAME:PHP::SAPI::cli>\")
+  set(phpPearInstalledPhpBin \"\${phpPearInstallBinDir}/$<TARGET_FILE_NAME:PHP::sapi::cli>\")
   set(phpPearPhpProgramPrefix \"${PHP_PROGRAM_PREFIX}\")
   set(phpPearPhpProgramSuffix \"${PHP_PROGRAM_SUFFIX}\")
   set(phpPearInstallSysconfDir \"\${CMAKE_INSTALL_FULL_SYSCONFDIR}\")
