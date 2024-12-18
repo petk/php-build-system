@@ -6,14 +6,14 @@ Configure the `xsl` extension.
 This extension provides XSL standard support for performing XSLT
 transformations.
 
-## EXT_XSL
+## PHP_EXT_XSL
 
 * Default: `OFF`
 * Values: `ON|OFF`
 
 Enable the extension.
 
-## EXT_XSL_SHARED
+## PHP_EXT_XSL_SHARED
 
 * Default: `OFF`
 * Values: `ON|OFF`
@@ -29,27 +29,27 @@ project(
 include(CMakeDependentOption)
 include(FeatureSummary)
 
-option(EXT_XSL "Enable the xsl extension")
+option(PHP_EXT_XSL "Enable the xsl extension")
 
 add_feature_info(
   "ext/xsl"
-  EXT_XSL
+  PHP_EXT_XSL
   "XSL transformations (XSLT) support"
 )
 
 cmake_dependent_option(
-  EXT_XSL_SHARED
+  PHP_EXT_XSL_SHARED
   "Build the xsl extension as a shared library"
   OFF
-  "EXT_XSL;NOT BUILD_SHARED_LIBS"
+  "PHP_EXT_XSL;NOT BUILD_SHARED_LIBS"
   OFF
 )
 
-if(NOT EXT_XSL)
+if(NOT PHP_EXT_XSL)
   return()
 endif()
 
-if(EXT_XSL_SHARED)
+if(PHP_EXT_XSL_SHARED)
   add_library(php_ext_xsl SHARED)
 else()
   add_library(php_ext_xsl)

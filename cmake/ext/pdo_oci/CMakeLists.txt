@@ -5,14 +5,14 @@ Configure the `pdo_oci` extension.
 
 This extension provides PDO interface for using Oracle database.
 
-## EXT_PDO_OCI
+## PHP_EXT_PDO_OCI
 
 * Default: `OFF`
 * Values: `ON|OFF`
 
 Enable the extension.
 
-## EXT_PDO_OCI_SHARED
+## PHP_EXT_PDO_OCI_SHARED
 
 * Default: `OFF`
 * Values: `ON|OFF`
@@ -28,27 +28,27 @@ project(
 include(CMakeDependentOption)
 include(FeatureSummary)
 
-option(EXT_PDO_OCI "Enable the pdo_oci extension")
+option(PHP_EXT_PDO_OCI "Enable the pdo_oci extension")
 
 add_feature_info(
   "ext/pdo_oci"
-  EXT_PDO_OCI
+  PHP_EXT_PDO_OCI
   "Oracle database PDO driver"
 )
 
 cmake_dependent_option(
-  EXT_PDO_OCI_SHARED
+  PHP_EXT_PDO_OCI_SHARED
   "Build the pdo_oci extension as a shared library"
   OFF
-  "EXT_PDO_OCI;NOT BUILD_SHARED_LIBS"
+  "PHP_EXT_PDO_OCI;NOT BUILD_SHARED_LIBS"
   OFF
 )
 
-if(NOT EXT_PDO_OCI)
+if(NOT PHP_EXT_PDO_OCI)
   return()
 endif()
 
-if(EXT_PDO_OCI_SHARED)
+if(PHP_EXT_PDO_OCI_SHARED)
   add_library(php_ext_pdo_oci SHARED)
 else()
   add_library(php_ext_pdo_oci)

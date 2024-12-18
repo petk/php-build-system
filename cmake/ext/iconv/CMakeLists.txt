@@ -6,14 +6,14 @@ Configure the `iconv` extension.
 This extension provides support for interface to iconv character set conversion
 facility.
 
-## EXT_ICONV
+## PHP_EXT_ICONV
 
 * Default: `ON`
 * Values: `ON|OFF`
 
 Enable the extension.
 
-## EXT_ICONV_SHARED
+## PHP_EXT_ICONV_SHARED
 
 * Default: `OFF`
 * Values: `ON|OFF`
@@ -33,27 +33,27 @@ include(CMakeDependentOption)
 include(CMakePushCheckState)
 include(FeatureSummary)
 
-option(EXT_ICONV "Enable the iconv extension" ON)
+option(PHP_EXT_ICONV "Enable the iconv extension" ON)
 
 add_feature_info(
   "ext/iconv"
-  EXT_ICONV
+  PHP_EXT_ICONV
   "internationalization conversion interface"
 )
 
 cmake_dependent_option(
-  EXT_ICONV_SHARED
+  PHP_EXT_ICONV_SHARED
   "Build the iconv extension as a shared library"
   OFF
-  "EXT_ICONV;NOT BUILD_SHARED_LIBS"
+  "PHP_EXT_ICONV;NOT BUILD_SHARED_LIBS"
   OFF
 )
 
-if(NOT EXT_ICONV)
+if(NOT PHP_EXT_ICONV)
   return()
 endif()
 
-if(EXT_ICONV_SHARED)
+if(PHP_EXT_ICONV_SHARED)
   add_library(php_ext_iconv SHARED)
 else()
   add_library(php_ext_iconv)

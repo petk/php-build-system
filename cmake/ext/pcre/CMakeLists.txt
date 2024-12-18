@@ -6,7 +6,7 @@ Configure the `pcre` extension.
 This extension provides support for (Perl-compatible) regular expressions and is
 always enabled.
 
-## EXT_PCRE_EXTERNAL
+## PHP_EXT_PCRE_EXTERNAL
 
 * Default: `OFF`
 * Values: `ON|OFF`
@@ -14,7 +14,7 @@ always enabled.
 Use external (system) PCRE library in pcre extension instead of the bundled PCRE
 library that comes with PHP sources.
 
-## EXT_PCRE_JIT
+## PHP_EXT_PCRE_JIT
 
 * Default: `ON`
 * Values: `ON|OFF`
@@ -42,26 +42,25 @@ add_feature_info(
 )
 
 option(
-  EXT_PCRE_EXTERNAL
+  PHP_EXT_PCRE_EXTERNAL
   "Use external (system) PCRE library in pcre extension instead of the bundled\
   PCRE library that comes with PHP sources"
 )
-
+mark_as_advanced(PHP_EXT_PCRE_EXTERNAL)
 add_feature_info(
   "ext/pcre external PCRE"
-  EXT_PCRE_EXTERNAL
+  PHP_EXT_PCRE_EXTERNAL
   "system PCRE library instead of bundled"
 )
 
 option(
-  EXT_PCRE_JIT
+  PHP_EXT_PCRE_JIT
   "Enable PCRE JIT (just-in-time) compilation. When using the external PCRE\
   library, JIT support also depends on the target processor architecture and\
   whether the PCRE library has it enabled."
   ON
 )
-
-mark_as_advanced(EXT_PCRE_EXTERNAL EXT_PCRE_JIT)
+mark_as_advanced(PHP_EXT_PCRE_JIT)
 
 add_library(php_ext_pcre OBJECT)
 
@@ -84,7 +83,7 @@ target_compile_definitions(php_ext_pcre PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE)
 
 set(PCRE2_CODE_UNIT_WIDTH 8)
 
-if(EXT_PCRE_EXTERNAL)
+if(PHP_EXT_PCRE_EXTERNAL)
   find_package(PCRE 10.30)
   set_package_properties(
     PCRE
@@ -95,7 +94,7 @@ if(EXT_PCRE_EXTERNAL)
 
   target_link_libraries(php_ext_pcre PRIVATE PCRE::PCRE)
 
-  if(TARGET PCRE::PCRE AND EXT_PCRE_JIT)
+  if(TARGET PCRE::PCRE AND PHP_EXT_PCRE_JIT)
     message(CHECK_START "Checking for PCRE JIT support")
 
     if(
@@ -220,7 +219,7 @@ else()
 
   message(CHECK_START "Checking whether to enable PCRE JIT support")
 
-  if(EXT_PCRE_JIT)
+  if(PHP_EXT_PCRE_JIT)
     set(HAVE_PCRE_JIT_SUPPORT TRUE)
 
     message(CHECK_PASS "yes")

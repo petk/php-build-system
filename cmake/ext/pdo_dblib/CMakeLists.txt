@@ -6,14 +6,14 @@ Configure the `pdo_dblib` extension.
 This extension provides PDO interface for using Microsoft SQL Server and Sybase
 databases.
 
-## EXT_PDO_DBLIB
+## PHP_EXT_PDO_DBLIB
 
 * Default: `OFF`
 * Values: `ON|OFF`
 
 Enable the extension.
 
-## EXT_PDO_DBLIB_SHARED
+## PHP_EXT_PDO_DBLIB_SHARED
 
 * Default: `OFF`
 * Values: `ON|OFF`
@@ -29,27 +29,27 @@ project(
 include(CMakeDependentOption)
 include(FeatureSummary)
 
-option(EXT_PDO_DBLIB "Enable the pdo_dblib extension")
+option(PHP_EXT_PDO_DBLIB "Enable the pdo_dblib extension")
 
 add_feature_info(
   "ext/pdo_dblib"
-  EXT_PDO_DBLIB
+  PHP_EXT_PDO_DBLIB
   "Microsoft SQL Server and Sybase database PDO driver"
 )
 
 cmake_dependent_option(
-  EXT_PDO_DBLIB_SHARED
+  PHP_EXT_PDO_DBLIB_SHARED
   "Build the pdo_dblib extension as a shared library"
   OFF
-  "EXT_PDO_DBLIB;NOT BUILD_SHARED_LIBS"
+  "PHP_EXT_PDO_DBLIB;NOT BUILD_SHARED_LIBS"
   OFF
 )
 
-if(NOT EXT_PDO_DBLIB)
+if(NOT PHP_EXT_PDO_DBLIB)
   return()
 endif()
 
-if(EXT_PDO_DBLIB_SHARED)
+if(PHP_EXT_PDO_DBLIB_SHARED)
   add_library(php_ext_pdo_dblib SHARED)
 else()
   add_library(php_ext_pdo_dblib)

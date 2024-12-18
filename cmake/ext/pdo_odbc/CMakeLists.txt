@@ -6,21 +6,21 @@ Configure the `pdo_odbc` extension.
 This extension provides PDO interface for using Unified Open Database
 Connectivity (ODBC) databases.
 
-## EXT_PDO_ODBC
+## PHP_EXT_PDO_ODBC
 
 * Default: `OFF`
 * Values: `ON|OFF`
 
 Enable the PHP `pdo-odbc` extension.
 
-## EXT_PDO_ODBC_SHARED
+## PHP_EXT_PDO_ODBC_SHARED
 
 * Default: `OFF`
 * Values: `ON|OFF`
 
 Build extension as shared library.
 
-## EXT_PDO_ODBC_TYPE
+## PHP_EXT_PDO_ODBC_TYPE
 
 * Default: `auto`
 * Values: `auto`, `ibm-db2`, `iODBC`, `unixODBC`, or `custom`
@@ -37,8 +37,8 @@ For example:
 
 ```sh
 cmake -S . -B php-build \
-  -D EXT_PDO_ODBC=ON \
-  -D EXT_PDO_ODBC_TYPE=custom \
+  -D PHP_EXT_PDO_ODBC=ON \
+  -D PHP_EXT_PDO_ODBC_TYPE=custom \
   -D ODBC_LIBRARY=/usr/lib/x86_64-linux-gnu/libodbc.so
 ```
 
@@ -46,8 +46,8 @@ For example, IBM DB2:
 
 ```sh
 cmake -S php-src -B php-build \
-  -D EXT_PDO_ODBC=ON \
-  -D EXT_PDO_ODBC_TYPE=ibm-db2 \
+  -D PHP_EXT_PDO_ODBC=ON \
+  -D PHP_EXT_PDO_ODBC_TYPE=ibm-db2 \
   -D ODBC_ROOT=/home/db2inst1/sqllib \
   -D ODBC_LIBRARY=db2
 ```
@@ -67,8 +67,8 @@ For example:
 
 ```sh
 cmake -S . -B php-build \
-  -D EXT_PDO_ODBC=ON \
-  -D EXT_PDO_ODBC_TYPE=custom \
+  -D PHP_EXT_PDO_ODBC=ON \
+  -D PHP_EXT_PDO_ODBC_TYPE=custom \
   -D ODBC_LIBRARY=/usr/lib/x86_64-linux-gnu/libodbc.so \
   -D ODBC_INCLUDE_DIR=/usr/include \
   -D ODBC_COMPILE_DEFINITIONS="-DSOME_DEF=1 -DSOME_OTHER_DEF_2=1" \
@@ -87,53 +87,53 @@ include(CMakeDependentOption)
 include(FeatureSummary)
 include(PHP/Set)
 
-option(EXT_PDO_ODBC "Enable the pdo_odbc extension")
+option(PHP_EXT_PDO_ODBC "Enable the pdo_odbc extension")
 add_feature_info(
   "ext/pdo_odbc"
-  EXT_PDO_ODBC
+  PHP_EXT_PDO_ODBC
   "Unified Open Database Connectivity (ODBC) databases PDO driver"
 )
 
 cmake_dependent_option(
-  EXT_PDO_ODBC_SHARED
+  PHP_EXT_PDO_ODBC_SHARED
   "Build the pdo_odbc extension as a shared library"
   OFF
-  [[EXT_PDO_ODBC AND NOT BUILD_SHARED_LIBS]]
+  [[PHP_EXT_PDO_ODBC AND NOT BUILD_SHARED_LIBS]]
   OFF
 )
 
 php_set(
-  EXT_PDO_ODBC_TYPE
+  PHP_EXT_PDO_ODBC_TYPE
   CHOICES
     "auto"
     "ibm-db2"
     "iODBC"
     "unixODBC"
     "custom"
-  IF EXT_PDO_ODBC
+  IF PHP_EXT_PDO_ODBC
   DOC "The ODBC implementation type (library driving the ODBC)"
 )
-mark_as_advanced(EXT_PDO_ODBC_TYPE)
+mark_as_advanced(PHP_EXT_PDO_ODBC_TYPE)
 
 # Some ODBC drivers require setting ODBC_LIBRARY manually to be found.
 if(
-  EXT_PDO_ODBC
-  AND NOT EXT_PDO_ODBC_TYPE MATCHES "auto|unixODBC|iODBC"
+  PHP_EXT_PDO_ODBC
+  AND NOT PHP_EXT_PDO_ODBC_TYPE MATCHES "auto|unixODBC|iODBC"
   AND NOT ODBC_LIBRARY
 )
   message(
     FATAL_ERROR
-    "When using EXT_PDO_ODBC_TYPE=${EXT_PDO_ODBC_TYPE}, please set also "
-    "ODBC_LIBRARY and optionally ODBC_INCLUDE_DIR to find the ODBC "
+    "When using PHP_EXT_PDO_ODBC_TYPE=${PHP_EXT_PDO_ODBC_TYPE}, please set "
+    "also ODBC_LIBRARY and optionally ODBC_INCLUDE_DIR to find the ODBC "
     "installation."
   )
 endif()
 
-if(NOT EXT_PDO_ODBC)
+if(NOT PHP_EXT_PDO_ODBC)
   return()
 endif()
 
-if(EXT_PDO_ODBC_SHARED)
+if(PHP_EXT_PDO_ODBC_SHARED)
   add_library(php_ext_pdo_odbc SHARED)
 else()
   add_library(php_ext_pdo_odbc)
@@ -156,8 +156,8 @@ target_include_directories(
     ${CMAKE_CURRENT_SOURCE_DIR}/..
 )
 
-if(NOT EXT_PDO_ODBC_TYPE STREQUAL "auto")
-  set(ODBC_USE_DRIVER "${EXT_PDO_ODBC_TYPE}")
+if(NOT PHP_EXT_PDO_ODBC_TYPE STREQUAL "auto")
+  set(ODBC_USE_DRIVER "${PHP_EXT_PDO_ODBC_TYPE}")
 endif()
 find_package(ODBC)
 set_package_properties(
@@ -169,12 +169,12 @@ set_package_properties(
 
 if(ODBC_DRIVER STREQUAL "Windows")
   set(PDO_ODBC_TYPE "Win32")
-elseif(ODBC_DRIVER AND EXT_PDO_ODBC_TYPE STREQUAL "auto")
+elseif(ODBC_DRIVER AND PHP_EXT_PDO_ODBC_TYPE STREQUAL "auto")
   set(PDO_ODBC_TYPE "${ODBC_DRIVER}")
-elseif(EXT_PDO_ODBC_TYPE STREQUAL "custom")
+elseif(PHP_EXT_PDO_ODBC_TYPE STREQUAL "custom")
   set(PDO_ODBC_TYPE "generic-${ODBC_LIBRARY}")
 else()
-  set(PDO_ODBC_TYPE "${EXT_PDO_ODBC_TYPE}")
+  set(PDO_ODBC_TYPE "${PHP_EXT_PDO_ODBC_TYPE}")
 endif()
 
 if(TARGET ODBC::ODBC)

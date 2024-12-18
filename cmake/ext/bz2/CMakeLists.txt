@@ -6,14 +6,14 @@ Configure the `bz2` extension.
 This extension provides support for reading and writing BZip2 (.bz2) compressed
 files.
 
-## EXT_BZ2
+## PHP_EXT_BZ2
 
 * Default: `OFF`
 * Values: `ON|OFF`
 
 Enable the extension.
 
-## EXT_BZ2_SHARED
+## PHP_EXT_BZ2_SHARED
 
 * Default: `OFF`
 * Values: `ON|OFF`
@@ -30,27 +30,27 @@ include(CheckLibraryExists)
 include(CMakeDependentOption)
 include(FeatureSummary)
 
-option(EXT_BZ2 "Enable the bz2 extension")
+option(PHP_EXT_BZ2 "Enable the bz2 extension")
 
 add_feature_info(
   "ext/bz2"
-  EXT_BZ2
+  PHP_EXT_BZ2
   "BZip2 (.bz2) compressed archives support"
 )
 
 cmake_dependent_option(
-  EXT_BZ2_SHARED
+  PHP_EXT_BZ2_SHARED
   "Build the bz2 extension as a shared library"
   OFF
-  "EXT_BZ2;NOT BUILD_SHARED_LIBS"
+  "PHP_EXT_BZ2;NOT BUILD_SHARED_LIBS"
   OFF
 )
 
-if(NOT EXT_BZ2)
+if(NOT PHP_EXT_BZ2)
   return()
 endif()
 
-if(EXT_BZ2_SHARED)
+if(PHP_EXT_BZ2_SHARED)
   add_library(php_ext_bz2 SHARED)
 else()
   add_library(php_ext_bz2)

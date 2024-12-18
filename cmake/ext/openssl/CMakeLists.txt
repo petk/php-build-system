@@ -6,7 +6,7 @@ Configure the `openssl` extension.
 This extension enables encryption and decryption support using the OpenSSL
 library.
 
-## EXT_OPENSSL
+## PHP_EXT_OPENSSL
 
 * Default: `OFF`
 * Values: `ON|OFF`
@@ -16,21 +16,21 @@ Enable the PHP `openssl` extension.
 Where to find OpenSSL installation on the system, can be customized with the
 `OPENSSL_ROOT_DIR` variable.
 
-## EXT_OPENSSL_SHARED
+## PHP_EXT_OPENSSL_SHARED
 
 * Default: `OFF`
 * Values: `ON|OFF`
 
 Build extension as shared library.
 
-## EXT_OPENSSL_SYSTEM_CIPHERS
+## PHP_EXT_OPENSSL_SYSTEM_CIPHERS
 
 * Default: `OFF`
 * Values: `ON|OFF`
 
 Use system default cipher list instead of the hardcoded value for OpenSSL.
 
-## EXT_OPENSSL_KERBEROS
+## PHP_EXT_OPENSSL_KERBEROS
 
 :orange_circle: *Deprecated as of PHP 8.3.*
 
@@ -56,60 +56,60 @@ include(CMakeDependentOption)
 include(CMakePushCheckState)
 include(FeatureSummary)
 
-option(EXT_OPENSSL "Enable the openssl extension")
+option(PHP_EXT_OPENSSL "Enable the openssl extension")
 
 add_feature_info(
   "ext/openssl"
-  EXT_OPENSSL
+  PHP_EXT_OPENSSL
   "encryption and decryption using OpenSSL library"
 )
 
 cmake_dependent_option(
-  EXT_OPENSSL_SHARED
+  PHP_EXT_OPENSSL_SHARED
   "Build the openssl extension as a shared library"
   OFF
-  "EXT_OPENSSL;NOT BUILD_SHARED_LIBS"
+  "PHP_EXT_OPENSSL;NOT BUILD_SHARED_LIBS"
   OFF
 )
 
 cmake_dependent_option(
-  EXT_OPENSSL_KERBEROS
+  PHP_EXT_OPENSSL_KERBEROS
   "Include Kerberos support for OpenSSL. Deprecated. Kerberos support has been\
   removed as of OpenSSL 1.1.0."
   OFF
-  "EXT_OPENSSL"
+  "PHP_EXT_OPENSSL"
   OFF
 )
-mark_as_advanced(EXT_OPENSSL_KERBEROS)
+mark_as_advanced(PHP_EXT_OPENSSL_KERBEROS)
 
 add_feature_info(
   "ext/openssl Kerberos"
-  EXT_OPENSSL_KERBEROS
+  PHP_EXT_OPENSSL_KERBEROS
   "OpenSSL library built with Kerberos"
 )
 
 cmake_dependent_option(
-  EXT_OPENSSL_SYSTEM_CIPHERS
+  PHP_EXT_OPENSSL_SYSTEM_CIPHERS
   "Use system default cipher list instead of hardcoded value for OpenSSL"
   OFF
-  "EXT_OPENSSL"
+  "PHP_EXT_OPENSSL"
   OFF
 )
-mark_as_advanced(EXT_OPENSSL_SYSTEM_CIPHERS)
+mark_as_advanced(PHP_EXT_OPENSSL_SYSTEM_CIPHERS)
 
 add_feature_info(
   "ext/openssl system ciphers"
-  EXT_OPENSSL_SYSTEM_CIPHERS
+  PHP_EXT_OPENSSL_SYSTEM_CIPHERS
   "system default cipher list instead of hardcoded value"
 )
 
 set(HAVE_OPENSSL_EXT "/* #undef HAVE_OPENSSL_EXT */")
 
-if(NOT EXT_OPENSSL)
+if(NOT PHP_EXT_OPENSSL)
   return()
 endif()
 
-if(EXT_OPENSSL_SHARED)
+if(PHP_EXT_OPENSSL_SHARED)
   add_library(php_ext_openssl SHARED)
 else()
   add_library(php_ext_openssl)
@@ -123,7 +123,7 @@ target_sources(
     xp_ssl.c
 )
 
-if(EXT_OPENSSL_KERBEROS)
+if(PHP_EXT_OPENSSL_KERBEROS)
   message(
     DEPRECATION
     "Support for Kerberos in the PHP openssl extension is deprecated. Kerberos "
@@ -170,7 +170,7 @@ if(TARGET OpenSSL::SSL)
     check_symbol_exists(RAND_egd "openssl/rand.h" HAVE_RAND_EGD)
   cmake_pop_check_state()
 
-  if(EXT_OPENSSL_SYSTEM_CIPHERS)
+  if(PHP_EXT_OPENSSL_SYSTEM_CIPHERS)
     set(USE_OPENSSL_SYSTEM_CIPHERS TRUE)
   endif()
 endif()

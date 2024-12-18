@@ -5,14 +5,14 @@ Configure the `pdo_firebird` extension.
 
 This extension provides PDO interface for using Firebird database.
 
-## EXT_PDO_FIREBIRD
+## PHP_EXT_PDO_FIREBIRD
 
 * Default: `OFF`
 * Values: `ON|OFF`
 
 Enable the extension.
 
-## EXT_PDO_FIREBIRD_SHARED
+## PHP_EXT_PDO_FIREBIRD_SHARED
 
 * Default: `OFF`
 * Values: `ON|OFF`
@@ -29,27 +29,27 @@ include(CheckLibraryExists)
 include(CMakeDependentOption)
 include(FeatureSummary)
 
-option(EXT_PDO_FIREBIRD "Enable the pdo_firebird extension")
+option(PHP_EXT_PDO_FIREBIRD "Enable the pdo_firebird extension")
 
 add_feature_info(
   "ext/pdo_firebird"
-  EXT_PDO_FIREBIRD
+  PHP_EXT_PDO_FIREBIRD
   "Firebird database PDO driver"
 )
 
 cmake_dependent_option(
-  EXT_PDO_FIREBIRD_SHARED
+  PHP_EXT_PDO_FIREBIRD_SHARED
   "Build the pdo_firebird extension as a shared library"
   OFF
-  "EXT_PDO_FIREBIRD;NOT BUILD_SHARED_LIBS"
+  "PHP_EXT_PDO_FIREBIRD;NOT BUILD_SHARED_LIBS"
   OFF
 )
 
-if(NOT EXT_PDO_FIREBIRD)
+if(NOT PHP_EXT_PDO_FIREBIRD)
   return()
 endif()
 
-if(EXT_PDO_FIREBIRD_SHARED)
+if(PHP_EXT_PDO_FIREBIRD_SHARED)
   add_library(php_ext_pdo_firebird SHARED)
 else()
   add_library(php_ext_pdo_firebird)

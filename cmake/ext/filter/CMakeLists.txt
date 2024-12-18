@@ -5,14 +5,14 @@ Configure the `filter` extension.
 
 This extension provides support for data filtering.
 
-## EXT_FILTER
+## PHP_EXT_FILTER
 
 * Default: `ON`
 * Values: `ON|OFF`
 
 Enable the extension.
 
-## EXT_FILTER_SHARED
+## PHP_EXT_FILTER_SHARED
 
 * Default: `OFF`
 * Values: `ON|OFF`
@@ -28,27 +28,27 @@ project(
 include(CMakeDependentOption)
 include(FeatureSummary)
 
-option(EXT_FILTER "Enable the filter extension" ON)
+option(PHP_EXT_FILTER "Enable the filter extension" ON)
 
 add_feature_info(
   "ext/filter"
-  EXT_FILTER
+  PHP_EXT_FILTER
   "data filtering support"
 )
 
 cmake_dependent_option(
-  EXT_FILTER_SHARED
+  PHP_EXT_FILTER_SHARED
   "Build the filter extension as a shared library"
   OFF
-  "EXT_FILTER;NOT BUILD_SHARED_LIBS"
+  "PHP_EXT_FILTER;NOT BUILD_SHARED_LIBS"
   OFF
 )
 
-if(NOT EXT_FILTER)
+if(NOT PHP_EXT_FILTER)
   return()
 endif()
 
-if(EXT_FILTER_SHARED)
+if(PHP_EXT_FILTER_SHARED)
   add_library(php_ext_filter SHARED)
 else()
   add_library(php_ext_filter)

@@ -3,35 +3,35 @@
 
 Configure the `oci8` extension.
 
-## EXT_OCI8
+## PHP_EXT_OCI8
 
 * Default: `OFF`
 * Values: `ON|OFF`
 
 Enable the extension.
 
-## EXT_GMP_SHARED
+## PHP_EXT_GMP_SHARED
 
 * Default: `OFF`
 * Values: `ON|OFF`
 
 Build extension as shared.
 
-## EXT_OCI8_11G
+## PHP_EXT_OCI8_11G
 
 * Default: `OFF`
 * Values: `ON|OFF`
 
 Enable OCI8 support using Oracle 11g Instant Client.
 
-## EXT_OCI8_12C
+## PHP_EXT_OCI8_12C
 
 * Default: `OFF`
 * Values: `ON|OFF`
 
 Enable OCI8 support using Oracle Database 12c Instant Client.
 
-## EXT_OCI8_19
+## PHP_EXT_OCI8_19
 
 * Default: `OFF`
 * Values: `ON|OFF`
@@ -47,51 +47,51 @@ project(
 include(CMakeDependentOption)
 include(FeatureSummary)
 
-option(EXT_OCI8 "Enable the oci8 extension")
+option(PHP_EXT_OCI8 "Enable the oci8 extension")
 
 add_feature_info(
   "ext/oci8"
-  EXT_OCI8
+  PHP_EXT_OCI8
   "Oracle database support"
 )
 
 cmake_dependent_option(
-  EXT_OCI8_SHARED
+  PHP_EXT_OCI8_SHARED
   "Build the oci8 extension as a shared library"
   OFF
-  "EXT_OCI8;NOT BUILD_SHARED_LIBS"
+  "PHP_EXT_OCI8;NOT BUILD_SHARED_LIBS"
   OFF
 )
 
 cmake_dependent_option(
-  EXT_OCI8_11G
+  PHP_EXT_OCI8_11G
   "Enable OCI8 support using Oracle 11g Instant Client"
   OFF
-  "EXT_OCI8"
+  "PHP_EXT_OCI8"
   OFF
 )
 
 cmake_dependent_option(
-  EXT_OCI8_12C
+  PHP_EXT_OCI8_12C
   "Enable OCI8 support using Oracle Database 12c Instant Client"
   OFF
-  "EXT_OCI8"
+  "PHP_EXT_OCI8"
   OFF
 )
 
 cmake_dependent_option(
-  EXT_OCI8_19
+  PHP_EXT_OCI8_19
   "Enable OCI8 support using Oracle Database 19 Instant Client"
   OFF
-  "EXT_OCI8"
+  "PHP_EXT_OCI8"
   OFF
 )
 
-if(NOT EXT_OCI8)
+if(NOT PHP_EXT_OCI8)
   return()
 endif()
 
-if(EXT_OCI8_SHARED)
+if(PHP_EXT_OCI8_SHARED)
   add_library(php_ext_oci8 SHARED)
 else()
   add_library(php_ext_oci8)

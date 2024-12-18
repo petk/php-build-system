@@ -8,14 +8,14 @@ This extension provides the Component Object Model (COM) and .NET support.
 > [!NOTE]
 > This extension is available only when the target system is Windows.
 
-## EXT_COM_DOTNET
+## PHP_EXT_COM_DOTNET
 
 * Default: `ON`
 * Values: `ON|OFF`
 
 Enable the extension.
 
-## EXT_COM_DOTNET_SHARED
+## PHP_EXT_COM_DOTNET_SHARED
 
 * Default: `OFF`
 * Values: `ON|OFF`
@@ -36,27 +36,27 @@ include(CheckIncludeFile)
 include(CMakeDependentOption)
 include(FeatureSummary)
 
-option(EXT_COM_DOTNET "Enable the com_dotnet extension" ON)
+option(PHP_EXT_COM_DOTNET "Enable the com_dotnet extension" ON)
 
 add_feature_info(
   "ext/com_dotnet"
-  EXT_COM_DOTNET
+  PHP_EXT_COM_DOTNET
   "Component Object Model (COM) and .NET support"
 )
 
 cmake_dependent_option(
-  EXT_COM_DOTNET_SHARED
+  PHP_EXT_COM_DOTNET_SHARED
   "Build the com_dotnet extension as a shared library"
   OFF
-  "EXT_COM_DOTNET;NOT BUILD_SHARED_LIBS"
+  "PHP_EXT_COM_DOTNET;NOT BUILD_SHARED_LIBS"
   OFF
 )
 
-if(NOT EXT_COM_DOTNET)
+if(NOT PHP_EXT_COM_DOTNET)
   return()
 endif()
 
-if(EXT_COM_DOTNET_SHARED)
+if(PHP_EXT_COM_DOTNET_SHARED)
   add_library(php_ext_com_dotnet SHARED)
 else()
   add_library(php_ext_com_dotnet)

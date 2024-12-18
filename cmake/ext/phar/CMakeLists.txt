@@ -5,14 +5,14 @@ Configure the `phar` extension.
 
 This extension provides support for PHP archives (phar).
 
-## EXT_PHAR
+## PHP_EXT_PHAR
 
 * Default: `ON`
 * Values: `ON|OFF`
 
 Enable the extension.
 
-## EXT_PHAR_SHARED
+## PHP_EXT_PHAR_SHARED
 
 * Default: `OFF`
 * Values: `ON|OFF`
@@ -28,23 +28,23 @@ project(
 include(CMakeDependentOption)
 include(FeatureSummary)
 
-option(EXT_PHAR "Enable the phar extension" ON)
+option(PHP_EXT_PHAR "Enable the phar extension" ON)
 
 add_feature_info(
   "ext/phar"
-  EXT_PHAR
+  PHP_EXT_PHAR
   "PHP archives support"
 )
 
 cmake_dependent_option(
-  EXT_PHAR_SHARED
+  PHP_EXT_PHAR_SHARED
   "Build the phar extension as a shared library"
   OFF
-  "EXT_PHAR;NOT BUILD_SHARED_LIBS"
+  "PHP_EXT_PHAR;NOT BUILD_SHARED_LIBS"
   OFF
 )
 
-if(NOT EXT_PHAR)
+if(NOT PHP_EXT_PHAR)
   return()
 endif()
 
@@ -52,7 +52,7 @@ endif()
 # Add library.
 ################################################################################
 
-if(EXT_PHAR_SHARED)
+if(PHP_EXT_PHAR_SHARED)
   add_library(php_ext_phar SHARED)
 else()
   add_library(php_ext_phar)
@@ -133,7 +133,7 @@ else()
 endif()
 
 set(pharSharedOptions "")
-if(EXT_PHAR_SHARED OR BUILD_SHARED_LIBS)
+if(PHP_EXT_PHAR_SHARED OR BUILD_SHARED_LIBS)
   set(
     pharSharedOptions
       -d extension_dir=${PHP_BINARY_DIR}/modules

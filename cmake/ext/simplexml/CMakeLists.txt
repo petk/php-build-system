@@ -5,14 +5,14 @@ Configure the `simplexml` extension.
 
 This extension provides toolset for converting XML to a processable object.
 
-## EXT_SIMPLEXML
+## PHP_EXT_SIMPLEXML
 
 * Default: `ON`
 * Values: `ON|OFF`
 
 Enable the extension.
 
-## EXT_SIMPLEXML_SHARED
+## PHP_EXT_SIMPLEXML_SHARED
 
 * Default: `OFF`
 * Values: `ON|OFF`
@@ -28,27 +28,27 @@ project(
 include(CMakeDependentOption)
 include(FeatureSummary)
 
-option(EXT_SIMPLEXML "Enable the simplexml extension" ON)
+option(PHP_EXT_SIMPLEXML "Enable the simplexml extension" ON)
 
 add_feature_info(
   "ext/simplexml"
-  EXT_SIMPLEXML
+  PHP_EXT_SIMPLEXML
   "toolset for converting XML to a processable object"
 )
 
 cmake_dependent_option(
-  EXT_SIMPLEXML_SHARED
+  PHP_EXT_SIMPLEXML_SHARED
   "Build the simplexml extension as a shared library"
   OFF
-  "EXT_SIMPLEXML;NOT BUILD_SHARED_LIBS"
+  "PHP_EXT_SIMPLEXML;NOT BUILD_SHARED_LIBS"
   OFF
 )
 
-if(NOT EXT_SIMPLEXML)
+if(NOT PHP_EXT_SIMPLEXML)
   return()
 endif()
 
-if(EXT_SIMPLEXML_SHARED)
+if(PHP_EXT_SIMPLEXML_SHARED)
   add_library(php_ext_simplexml SHARED)
 else()
   add_library(php_ext_simplexml)

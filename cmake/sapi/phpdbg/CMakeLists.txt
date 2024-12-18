@@ -163,16 +163,16 @@ set_target_properties(
 
 message(CHECK_START "Checking for readline support in phpdbg")
 
-if(PHP_SAPI_PHPDBG_READLINE OR EXT_READLINE)
+if(PHP_SAPI_PHPDBG_READLINE OR PHP_EXT_READLINE)
   message(CHECK_PASS "enabled")
 
-  if(EXT_READLINE_LIBREADLINE)
+  if(PHP_EXT_READLINE_LIBREADLINE)
     message(
       WARNING
       "The GNU Readline library is licensed under the GNU GPL 3, which is not "
       "compatible with the PHP license. The recommended library for using and "
       "distributing the phpdbg with readline support is libedit. To build with "
-      "libedit, remove the 'EXT_READLINE_LIBREADLINE', or set it to 'OFF'."
+      "libedit, remove the 'PHP_EXT_READLINE_LIBREADLINE', or set it to 'OFF'."
     )
 
     find_package(Readline)

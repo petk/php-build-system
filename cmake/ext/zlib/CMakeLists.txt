@@ -6,14 +6,14 @@ Configure the `zlib` extension.
 This extension provides support for reading and writing gzip (.gz) compressed
 files.
 
-## EXT_ZLIB
+## PHP_EXT_ZLIB
 
 * Default: `OFF`
 * Values: `ON|OFF`
 
 Enable the extension.
 
-## EXT_ZLIB_SHARED
+## PHP_EXT_ZLIB_SHARED
 
 * Default: `OFF`
 * Values: `ON|OFF`
@@ -29,27 +29,27 @@ project(
 include(CMakeDependentOption)
 include(FeatureSummary)
 
-option(EXT_ZLIB "Enable the zlib extension")
+option(PHP_EXT_ZLIB "Enable the zlib extension")
 
 add_feature_info(
   "ext/zlib"
-  EXT_ZLIB
+  PHP_EXT_ZLIB
   "gzip (.gz) compressed archives support"
 )
 
 cmake_dependent_option(
-  EXT_ZLIB_SHARED
+  PHP_EXT_ZLIB_SHARED
   "Build the zlib extension as a shared library"
   OFF
-  "EXT_ZLIB;NOT BUILD_SHARED_LIBS"
+  "PHP_EXT_ZLIB;NOT BUILD_SHARED_LIBS"
   OFF
 )
 
-if(NOT EXT_ZLIB)
+if(NOT PHP_EXT_ZLIB)
   return()
 endif()
 
-if(EXT_ZLIB_SHARED)
+if(PHP_EXT_ZLIB_SHARED)
   add_library(php_ext_zlib SHARED)
 else()
   add_library(php_ext_zlib)

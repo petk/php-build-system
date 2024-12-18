@@ -79,13 +79,13 @@ function(php_extensions_preprocess)
   foreach(extension IN LISTS extensions)
     string(TOUPPER "${extension}" extensionUpper)
 
-    if(NOT EXT_${extensionUpper})
+    if(NOT PHP_EXT_${extensionUpper})
       continue()
     endif()
 
     # Mark shared option variable as advanced.
-    if(DEFINED EXT_${extensionUpper}_SHARED)
-      mark_as_advanced(EXT_${extensionUpper}_SHARED)
+    if(DEFINED PHP_EXT_${extensionUpper}_SHARED)
+      mark_as_advanced(PHP_EXT_${extensionUpper}_SHARED)
     endif()
 
     _php_extensions_get_dependencies("${extension}" dependencies)
@@ -95,17 +95,20 @@ function(php_extensions_preprocess)
     foreach(dependency IN LISTS dependencies)
       string(TOUPPER "${dependency}" dependencyUpper)
 
-      if(EXT_${dependencyUpper}_SHARED AND NOT EXT_${extensionUpper}_SHARED)
+      if(
+        PHP_EXT_${dependencyUpper}_SHARED
+        AND NOT PHP_EXT_${extensionUpper}_SHARED
+      )
         message(
           WARNING
           "The '${extension}' extension must be built as a shared library as "
           "its dependency '${dependency}' extension is configured as shared. "
-          "The 'EXT_${extensionUpper}_SHARED' option has been automatically "
-          "set to 'ON'."
+          "The 'PHP_EXT_${extensionUpper}_SHARED' option has been "
+          "automatically set to 'ON'."
         )
 
         set(
-          EXT_${extensionUpper}_SHARED
+          PHP_EXT_${extensionUpper}_SHARED
           ON
           CACHE BOOL
           "Build the ${extension} extension as a shared library"
@@ -317,9 +320,9 @@ function(_php_extensions_eval_options directories)
     file(READ ${CMAKE_CURRENT_SOURCE_DIR}/${extension}/CMakeLists.txt content)
     string(TOUPPER "${extension}" extensionUpper)
 
-    # Check if extension has option(EXT_<extension> ...).
+    # Check if extension has option(PHP_EXT_<extension> ...).
     _php_extensions_remove_comments(content)
-    _php_extensions_option_regex("EXT_${extensionUpper}" regex)
+    _php_extensions_option_regex("PHP_EXT_${extensionUpper}" regex)
     string(REGEX MATCH "${regex}" code "${content}")
 
     if(code)
@@ -327,9 +330,9 @@ function(_php_extensions_eval_options directories)
       unset(code)
     endif()
 
-    # If extension has cmake_dependent_option(EXT_<extension> ...).
+    # If extension has cmake_dependent_option(PHP_EXT_<extension> ...).
     _php_extensions_cmake_dependent_option_regex(
-      "EXT_${extensionUpper}"
+      "PHP_EXT_${extensionUpper}"
       regex
     )
     string(REGEX MATCH "${regex}" code "${content}")
@@ -340,9 +343,9 @@ function(_php_extensions_eval_options directories)
       unset(code)
     endif()
 
-    # If extension has cmake_dependent_option(EXT_<extension>_SHARED ...).
+    # If extension has cmake_dependent_option(PHP_EXT_<extension>_SHARED ...).
     _php_extensions_cmake_dependent_option_regex(
-      "EXT_${extensionUpper}_SHARED"
+      "PHP_EXT_${extensionUpper}_SHARED"
       regex
     )
 
@@ -382,7 +385,7 @@ function(php_extensions_postconfigure extension)
     string(TOUPPER "${dependency}" dependencyUpper)
 
     if(
-      EXT_${dependencyUpper}
+      PHP_EXT_${dependencyUpper}
       OR dependency IN_LIST alwaysEnabledExtensions
       OR NOT dependency IN_LIST allExtensions
     )
@@ -392,15 +395,15 @@ function(php_extensions_postconfigure extension)
     message(
       WARNING
       "The '${extension}' extension requires the '${dependency}' extension. "
-      "The 'EXT_${dependencyUpper}' option has been automatically set to "
+      "The 'PHP_EXT_${dependencyUpper}' option has been automatically set to "
       "'ON'."
     )
 
-    if(DEFINED CACHE{EXT_${dependencyUpper}})
-      set_property(CACHE EXT_${dependencyUpper} PROPERTY VALUE ON)
+    if(DEFINED CACHE{PHP_EXT_${dependencyUpper}})
+      set_property(CACHE PHP_EXT_${dependencyUpper} PROPERTY VALUE ON)
     else()
       set(
-        EXT_${dependencyUpper}
+        PHP_EXT_${dependencyUpper}
         ON
         CACHE BOOL
         "Enable the ${dependency} extension"
@@ -542,7 +545,7 @@ function(_php_extensions_validate)
           "You've enabled the '${extension}' extension, which depends on the "
           "'${dependency}' extension, but you've either not enabled "
           "'${dependency}', or have disabled it. Please set "
-          "'EXT_${dependencyUpper}' to 'ON' if available."
+          "'PHP_EXT_${dependencyUpper}' to 'ON' if available."
         )
       endif()
 

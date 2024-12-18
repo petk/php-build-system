@@ -5,7 +5,7 @@ Configure the `libxml` extension.
 
 This extension provides XML parser and toolkit support using libxml2 library.
 
-## EXT_LIBXML
+## PHP_EXT_LIBXML
 
 * Default: `ON`
 * Values: `ON|OFF`
@@ -23,18 +23,18 @@ project(
 include(FeatureSummary)
 
 option(
-  EXT_LIBXML
+  PHP_EXT_LIBXML
   "Enable the libxml extension (can be built only statically)"
   ON
 )
 
 add_feature_info(
   "ext/libxml"
-  EXT_LIBXML
+  PHP_EXT_LIBXML
   "XML parser and toolkit support using libxml2 library"
 )
 
-if(NOT EXT_LIBXML)
+if(NOT PHP_EXT_LIBXML)
   return()
 endif()
 

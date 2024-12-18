@@ -5,21 +5,21 @@ Configure the `xml` extension.
 
 This extension provides support for parsing XML.
 
-## EXT_XML
+## PHP_EXT_XML
 
 * Default: `ON`
 * Values: `ON|OFF`
 
 Enable the extension.
 
-## EXT_XML_SHARED
+## PHP_EXT_XML_SHARED
 
 * Default: `OFF`
 * Values: `ON|OFF`
 
 Build extension as shared.
 
-## EXT_XML_EXPAT
+## PHP_EXT_XML_EXPAT
 
 * Default: `OFF`
 * Values: `ON|OFF`
@@ -35,41 +35,41 @@ project(
 include(CMakeDependentOption)
 include(FeatureSummary)
 
-option(EXT_XML "Enable the xml extension" ON)
+option(PHP_EXT_XML "Enable the xml extension" ON)
 
 add_feature_info(
   "ext/xml"
-  EXT_XML
+  PHP_EXT_XML
   "support for parsing XML"
 )
 
 cmake_dependent_option(
-  EXT_XML_SHARED
+  PHP_EXT_XML_SHARED
   "Build the xml extension as a shared library"
   OFF
-  "EXT_XML;NOT BUILD_SHARED_LIBS"
+  "PHP_EXT_XML;NOT BUILD_SHARED_LIBS"
   OFF
 )
 
 cmake_dependent_option(
-  EXT_XML_EXPAT
+  PHP_EXT_XML_EXPAT
   "Build xml extension with the Expat library support instead of the libxml2"
   OFF
-  "EXT_XML"
+  "PHP_EXT_XML"
   OFF
 )
 
 add_feature_info(
   "ext/xml Expat"
-  EXT_XML_EXPAT
+  PHP_EXT_XML_EXPAT
   "XML support with the Expat library instead of the libxml2"
 )
 
-if(NOT EXT_XML)
+if(NOT PHP_EXT_XML)
   return()
 endif()
 
-if(EXT_XML_SHARED)
+if(PHP_EXT_XML_SHARED)
   add_library(php_ext_xml SHARED)
 else()
   add_library(php_ext_xml)
@@ -89,15 +89,15 @@ target_sources(
 
 target_compile_definitions(php_ext_xml PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE)
 
-if(NOT EXT_LIBXML AND NOT EXT_XML_EXPAT)
+if(NOT PHP_EXT_LIBXML AND NOT PHP_EXT_XML_EXPAT)
   message(
     FATAL_ERROR
     "The xml extension requires either libxml extension or Expat library. Set "
-    "EXT_LIBXML=ON or EXT_XML_EXPAT=ON"
+    "PHP_EXT_LIBXML=ON or PHP_EXT_XML_EXPAT=ON"
   )
 endif()
 
-if(NOT EXT_XML_EXPAT)
+if(NOT PHP_EXT_XML_EXPAT)
   target_sources(php_ext_xml PRIVATE compat.c)
 
   target_compile_definitions(

@@ -6,14 +6,14 @@ Configure the `standard` extension.
 This is an always enabled core PHP extension that provides common functionality
 to PHP extensions and SAPIs.
 
-## EXT_STANDARD_ARGON2
+## PHP_EXT_STANDARD_ARGON2
 
 * Default: `OFF`
 * Values: `ON|OFF`
 
 Include the Argon2 support in `password_*()` functions.
 
-## EXT_STANDARD_CRYPT_EXTERNAL
+## PHP_EXT_STANDARD_CRYPT_EXTERNAL
 
 * Default: `OFF`
 * Values: `ON|OFF`
@@ -41,21 +41,21 @@ add_feature_info(
   "PHP core extension"
 )
 
-option(EXT_STANDARD_ARGON2 "Include the Argon2 support in password_*")
+option(PHP_EXT_STANDARD_ARGON2 "Include the Argon2 support in password_*")
 add_feature_info(
   "ext/standard Argon2"
-  EXT_STANDARD_ARGON2
+  PHP_EXT_STANDARD_ARGON2
   "Argon2 support in password-hashing PHP functions"
 )
 
 option(
-  EXT_STANDARD_CRYPT_EXTERNAL
+  PHP_EXT_STANDARD_CRYPT_EXTERNAL
   "Use external libcrypt/libxcrypt library instead of the bundled PHP crypt"
 )
-mark_as_advanced(EXT_STANDARD_CRYPT_EXTERNAL)
+mark_as_advanced(PHP_EXT_STANDARD_CRYPT_EXTERNAL)
 add_feature_info(
   "ext/standard crypt external"
-  EXT_STANDARD_CRYPT_EXTERNAL
+  PHP_EXT_STANDARD_CRYPT_EXTERNAL
   "system crypt library instead of bundled"
 )
 
@@ -249,7 +249,7 @@ endif()
 # Add Argon2.
 ################################################################################
 
-if(EXT_STANDARD_ARGON2)
+if(PHP_EXT_STANDARD_ARGON2)
   find_package(Argon2 20171227)
   set_package_properties(
     Argon2
@@ -267,7 +267,7 @@ endif()
 # External libcrypt.
 ################################################################################
 
-if(NOT EXT_STANDARD_CRYPT_EXTERNAL)
+if(NOT PHP_EXT_STANDARD_CRYPT_EXTERNAL)
   target_sources(
     php_ext_standard
     PRIVATE

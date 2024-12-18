@@ -3,28 +3,28 @@
 
 This extension enables the PHP OPcode caching engine.
 
-## EXT_OPCACHE
+## PHP_EXT_OPCACHE
 
 * Default: `ON`
 * Values: `ON|OFF`
 
 Enable the extension. This extension is always built as shared when enabled.
 
-## EXT_OPCACHE_HUGE_CODE_PAGES
+## PHP_EXT_OPCACHE_HUGE_CODE_PAGES
 
 * Default: `ON`
 * Values: `ON|OFF`
 
 Enable copying PHP CODE pages into HUGE PAGES.
 
-## EXT_OPCACHE_JIT
+## PHP_EXT_OPCACHE_JIT
 
 * Default: `ON`
 * Values: `ON|OFF`
 
 Enable JIT (just-in-time) compilation.
 
-## EXT_OPCACHE_CAPSTONE
+## PHP_EXT_OPCACHE_CAPSTONE
 
 * Default: `OFF`
 * Values: `ON|OFF`
@@ -43,38 +43,38 @@ include(FeatureSummary)
 include(PHP/CheckCompilerFlag)
 include(PHP/SearchLibraries)
 
-option(EXT_OPCACHE "Enable the Zend OPcache extension" ON)
+option(PHP_EXT_OPCACHE "Enable the Zend OPcache extension" ON)
 add_feature_info(
   "ext/opcache"
-  EXT_OPCACHE
+  PHP_EXT_OPCACHE
   "PHP OPcode caching engine"
 )
 
 cmake_dependent_option(
-  EXT_OPCACHE_HUGE_CODE_PAGES
+  PHP_EXT_OPCACHE_HUGE_CODE_PAGES
   "Enable copying PHP CODE pages into HUGE PAGES"
   ON
-  [[EXT_OPCACHE AND NOT CMAKE_SYSTEM_NAME STREQUAL "Windows"]]
+  [[PHP_EXT_OPCACHE AND NOT CMAKE_SYSTEM_NAME STREQUAL "Windows"]]
   OFF
 )
 
 cmake_dependent_option(
-  EXT_OPCACHE_JIT
+  PHP_EXT_OPCACHE_JIT
   "Enable JIT (just-in-time) compilation"
   ON
-  EXT_OPCACHE
+  PHP_EXT_OPCACHE
   OFF
 )
 
 cmake_dependent_option(
-  EXT_OPCACHE_CAPSTONE
+  PHP_EXT_OPCACHE_CAPSTONE
   "Support OPcache JIT disassembly through Capstone engine"
   OFF
-  EXT_OPCACHE
+  PHP_EXT_OPCACHE
   OFF
 )
 
-if(NOT EXT_OPCACHE)
+if(NOT PHP_EXT_OPCACHE)
   return()
 endif()
 
@@ -118,7 +118,7 @@ set_target_properties(
 
 target_compile_definitions(php_ext_opcache PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE)
 
-if(EXT_OPCACHE_HUGE_CODE_PAGES)
+if(PHP_EXT_OPCACHE_HUGE_CODE_PAGES)
   set(HAVE_HUGE_CODE_PAGES TRUE)
 endif()
 
@@ -127,7 +127,7 @@ endif()
 ################################################################################
 
 # Check if JIT is supported by the target architecture.
-if(EXT_OPCACHE_JIT)
+if(PHP_EXT_OPCACHE_JIT)
   if(
     # *nix:
     NOT CMAKE_SYSTEM_PROCESSOR MATCHES "^(i[34567]86.*|x86.*|amd64|aarch64.*)$"
@@ -138,7 +138,7 @@ if(EXT_OPCACHE_JIT)
       WARNING
       "JIT is not supported by target architecture ${CMAKE_SYSTEM_PROCESSOR}"
     )
-    set_property(CACHE EXT_OPCACHE_JIT PROPERTY VALUE OFF)
+    set_property(CACHE PHP_EXT_OPCACHE_JIT PROPERTY VALUE OFF)
   elseif(
     CMAKE_SYSTEM_NAME STREQUAL "Darwin"
     AND CMAKE_SYSTEM_PROCESSOR MATCHES "^aarch64.*$"
@@ -148,11 +148,11 @@ if(EXT_OPCACHE_JIT)
       WARNING
       "JIT is not supported on Apple Silicon with thread safety enabled"
     )
-    set_property(CACHE EXT_OPCACHE_JIT PROPERTY VALUE OFF)
+    set_property(CACHE PHP_EXT_OPCACHE_JIT PROPERTY VALUE OFF)
   endif()
 endif()
 
-if(EXT_OPCACHE_JIT)
+if(PHP_EXT_OPCACHE_JIT)
   # Find out which ABI to use.
   if(CMAKE_SYSTEM_PROCESSOR MATCHES "^(x86_64|amd64|AMD64|ARM64)$")
     set(DASM_FLAGS -D X64=1)
@@ -257,7 +257,7 @@ if(EXT_OPCACHE_JIT)
   endif()
 
   # Check for Capstone.
-  if(EXT_OPCACHE_CAPSTONE)
+  if(PHP_EXT_OPCACHE_CAPSTONE)
     find_package(Capstone 3.0.0)
     set_package_properties(
       Capstone

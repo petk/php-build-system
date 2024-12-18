@@ -5,14 +5,14 @@ Configure the `pspell` extension.
 
 This extension provides spellchecking support.
 
-## EXT_PSPELL
+## PHP_EXT_PSPELL
 
 * Default: `OFF`
 * Values: `ON|OFF`
 
 Enable the extension.
 
-## EXT_PSPELL_SHARED
+## PHP_EXT_PSPELL_SHARED
 
 * Default: `OFF`
 * Values: `ON|OFF`
@@ -29,27 +29,27 @@ include(CMakeDependentOption)
 include(FeatureSummary)
 include(PHP/CheckCompilerFlag)
 
-option(EXT_PSPELL "Enable the pspell extension")
+option(PHP_EXT_PSPELL "Enable the pspell extension")
 
 add_feature_info(
   "ext/pspell"
-  EXT_PSPELL
+  PHP_EXT_PSPELL
   "spellchecking support"
 )
 
 cmake_dependent_option(
-  EXT_PSPELL_SHARED
+  PHP_EXT_PSPELL_SHARED
   "Build the pspell extension as a shared library"
   OFF
-  "EXT_PSPELL;NOT BUILD_SHARED_LIBS"
+  "PHP_EXT_PSPELL;NOT BUILD_SHARED_LIBS"
   OFF
 )
 
-if(NOT EXT_PSPELL)
+if(NOT PHP_EXT_PSPELL)
   return()
 endif()
 
-if(EXT_PSPELL_SHARED)
+if(PHP_EXT_PSPELL_SHARED)
   add_library(php_ext_pspell SHARED)
 else()
   add_library(php_ext_pspell)

@@ -8,21 +8,21 @@ This extension provides interface for using Editline library.
 > [!IMPORTANT]
 > This extension should be used only with CLI-based PHP SAPIs.
 
-## EXT_READLINE
+## PHP_EXT_READLINE
 
 * Default: `OFF`
 * Values: `ON|OFF`
 
 Enable the extension.
 
-## EXT_READLINE_SHARED
+## PHP_EXT_READLINE_SHARED
 
 * Default: `OFF`
 * Values: `ON|OFF`
 
 Build extension as shared.
 
-## EXT_READLINE_LIBREADLINE
+## PHP_EXT_READLINE_LIBREADLINE
 
 * Default: `OFF`
 * Values: `ON|OFF`
@@ -42,36 +42,36 @@ include(CMakePushCheckState)
 include(FeatureSummary)
 include(PHP/CheckCompilerFlag)
 
-option(EXT_READLINE "Enable the readline extension (only for CLI-based SAPIs)")
+option(PHP_EXT_READLINE "Enable the readline extension (only for CLI-based SAPIs)")
 
 add_feature_info(
   "ext/readline"
-  EXT_READLINE
+  PHP_EXT_READLINE
   "editable command lines support"
 )
 
 cmake_dependent_option(
-  EXT_READLINE_SHARED
+  PHP_EXT_READLINE_SHARED
   "Build the readline extension as a shared library"
   OFF
-  "EXT_READLINE;NOT BUILD_SHARED_LIBS"
+  "PHP_EXT_READLINE;NOT BUILD_SHARED_LIBS"
   OFF
 )
 
 cmake_dependent_option(
-  EXT_READLINE_LIBREADLINE
+  PHP_EXT_READLINE_LIBREADLINE
   "Use the GNU Readline library instead of Editline"
   OFF
-  "EXT_READLINE"
+  "PHP_EXT_READLINE"
   OFF
 )
-mark_as_advanced(EXT_READLINE_LIBREADLINE)
+mark_as_advanced(PHP_EXT_READLINE_LIBREADLINE)
 
-if(NOT EXT_READLINE)
+if(NOT PHP_EXT_READLINE)
   return()
 endif()
 
-if(EXT_READLINE_SHARED)
+if(PHP_EXT_READLINE_SHARED)
   add_library(php_ext_readline SHARED)
 else()
   add_library(php_ext_readline)
@@ -97,7 +97,7 @@ if(HAVE_WNO_STRICT_PROTOTYPES_C)
   )
 endif()
 
-if(NOT EXT_READLINE_LIBREADLINE)
+if(NOT PHP_EXT_READLINE_LIBREADLINE)
   find_package(Editline)
   set_package_properties(
     Editline
@@ -142,8 +142,8 @@ else()
     "The GNU Readline library is licensed under the GNU GPL 3, which is not "
     "compatible with the PHP license. The recommended library for using and "
     "distributing the PHP 'readline' extension without limitations is libedit. "
-    "To build with libedit, remove the 'EXT_READLINE_LIBREADLINE', or set it "
-    "to 'OFF'."
+    "To build with libedit, remove the 'PHP_EXT_READLINE_LIBREADLINE', or set "
+    "it to 'OFF'."
   )
   find_package(Readline)
   set_package_properties(
@@ -178,7 +178,7 @@ else()
         FATAL_ERROR
         "Readline library check failed. Variable rl_pending_input missing. "
         "This version of Readline installation is not supported. Try using "
-        "libedit instead (set EXT_READLINE_LIBREADLINE to 'OFF')."
+        "libedit instead (set PHP_EXT_READLINE_LIBREADLINE to 'OFF')."
       )
     endif()
 

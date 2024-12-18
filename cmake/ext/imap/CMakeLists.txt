@@ -5,28 +5,28 @@ Configure the `imap` extension.
 
 This extension provides support for operating with the IMAP protocol.
 
-## EXT_IMAP
+## PHP_EXT_IMAP
 
 * Default: `OFF`
 * Values: `ON|OFF`
 
 Enable the extension.
 
-## EXT_IMAP_SHARED
+## PHP_EXT_IMAP_SHARED
 
 * Default: `OFF`
 * Values: `ON|OFF`
 
 Build extension as shared.
 
-## EXT_IMAP_KERBEROS
+## PHP_EXT_IMAP_KERBEROS
 
 * Default: `OFF`
 * Values: `ON|OFF`
 
 Explicitly include Kerberos support in the imap extension.
 
-## EXT_IMAP_SSL
+## PHP_EXT_IMAP_SSL
 
 * Default: `OFF`
 * Values: `ON|OFF`
@@ -43,43 +43,43 @@ project(
 include(CMakeDependentOption)
 include(FeatureSummary)
 
-option(EXT_IMAP "Enable the imap extension")
+option(PHP_EXT_IMAP "Enable the imap extension")
 
 add_feature_info(
   "ext/imap"
-  EXT_IMAP
+  PHP_EXT_IMAP
   "IMAP protocol support"
 )
 
 cmake_dependent_option(
-  EXT_IMAP_SHARED
+  PHP_EXT_IMAP_SHARED
   "Build the imap extension as a shared library"
   OFF
-  "EXT_IMAP;NOT BUILD_SHARED_LIBS"
+  "PHP_EXT_IMAP;NOT BUILD_SHARED_LIBS"
   OFF
 )
 
 cmake_dependent_option(
-  EXT_IMAP_KERBEROS
+  PHP_EXT_IMAP_KERBEROS
   "Explicitly include Kerberos support in the imap extension."
   OFF
-  "EXT_IMAP"
+  "PHP_EXT_IMAP"
   OFF
 )
 
 cmake_dependent_option(
-  EXT_IMAP_SSL
+  PHP_EXT_IMAP_SSL
   "Explicitly enable SSL support in the imap extension"
   OFF
-  "EXT_IMAP"
+  "PHP_EXT_IMAP"
   OFF
 )
 
-if(NOT EXT_IMAP)
+if(NOT PHP_EXT_IMAP)
   return()
 endif()
 
-if(EXT_IMAP_SHARED)
+if(PHP_EXT_IMAP_SHARED)
   add_library(php_ext_imap SHARED)
 else()
   add_library(php_ext_imap)
@@ -123,7 +123,10 @@ if(TARGET Cclient::Cclient)
       [[auth_gss;$]]
     )
 
-    if((NOT EXT_IMAP_KERBEROS AND auth_gss_results) OR EXT_IMAP_KERBEROS)
+    if(
+      (NOT PHP_EXT_IMAP_KERBEROS AND auth_gss_results)
+      OR PHP_EXT_IMAP_KERBEROS
+    )
       find_package(Kerberos COMPONENTS Krb5 GSSAPI)
       set_package_properties(
         Kerberos
@@ -164,7 +167,7 @@ if(TARGET Cclient::Cclient)
       "ssl_onceonlyinit[ \t]*\\(\\);$"
     )
 
-    if((NOT EXT_IMAP_SSL AND ssl_onceonlyinit_results) OR EXT_IMAP_SSL)
+    if((NOT PHP_EXT_IMAP_SSL AND ssl_onceonlyinit_results) OR PHP_EXT_IMAP_SSL)
       find_package(OpenSSL ${PHP_OPENSSL_MIN_VERSION})
       set_package_properties(
         OpenSSL

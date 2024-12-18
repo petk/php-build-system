@@ -5,63 +5,63 @@ Configure the `gd` extension.
 
 This extension provides image processing and graphics draw (GD) support.
 
-## EXT_GD
+## PHP_EXT_GD
 
 * Default: `OFF`
 * Values: `ON|OFF`
 
 Enable the extension.
 
-## EXT_GD_SHARED
+## PHP_EXT_GD_SHARED
 
 * Default: `OFF`
 * Values: `ON|OFF`
 
 Build extension as shared.
 
-## EXT_GD_EXTERNAL
+## PHP_EXT_GD_EXTERNAL
 
 * Default: `OFF`
 * Values: `ON|OFF`
 
 Use external (system) GD library instead of the bundled libgd from PHP sources.
 
-## EXT_GD_AVIF
+## PHP_EXT_GD_AVIF
 
 * Default: `OFF`
 * Values: `ON|OFF`
 
 Enable AVIF support (only for bundled libgd).
 
-## EXT_GD_WEBP
+## PHP_EXT_GD_WEBP
 
 * Default: `OFF`
 * Values: `ON|OFF`
 
 Enable WebP support (only for bundled libgd).
 
-## EXT_GD_JPEG
+## PHP_EXT_GD_JPEG
 
 * Default: `OFF`
 * Values: `ON|OFF`
 
 Enable JPEG support (only for bundled libgd).
 
-## EXT_GD_XPM
+## PHP_EXT_GD_XPM
 
 * Default: `OFF`
 * Values: `ON|OFF`
 
 Enable XPM support (only for bundled libgd).
 
-## EXT_GD_FREETYPE
+## PHP_EXT_GD_FREETYPE
 
 * Default: `OFF`
 * Values: `ON|OFF`
 
 Enable FreeType 2 support (only for bundled libgd).
 
-## EXT_GD_JIS
+## PHP_EXT_GD_JIS
 
 * Default: `OFF`
 * Values: `ON|OFF`
@@ -84,125 +84,125 @@ include(FeatureSummary)
 include(PHP/CheckCompilerFlag)
 include(PHP/SearchLibraries)
 
-option(EXT_GD "Enable the gd extension")
+option(PHP_EXT_GD "Enable the gd extension")
 
 add_feature_info(
   "ext/gd"
-  EXT_GD
+  PHP_EXT_GD
   "image processing and graphics draw (GD)"
 )
 
 cmake_dependent_option(
-  EXT_GD_SHARED
+  PHP_EXT_GD_SHARED
   "Build the gd extension as a shared library"
   OFF
-  "EXT_GD;NOT BUILD_SHARED_LIBS"
+  "PHP_EXT_GD;NOT BUILD_SHARED_LIBS"
   OFF
 )
 
 cmake_dependent_option(
-  EXT_GD_EXTERNAL
+  PHP_EXT_GD_EXTERNAL
   "Use external (system) GD library instead of the bundled libgd from PHP sources"
   OFF
-  "EXT_GD"
+  "PHP_EXT_GD"
   OFF
 )
 
 add_feature_info(
   "ext/gd external GD"
-  EXT_GD_EXTERNAL
+  PHP_EXT_GD_EXTERNAL
   "system libgd instead of bundled"
 )
 
 cmake_dependent_option(
-  EXT_GD_AVIF
+  PHP_EXT_GD_AVIF
   "GD: Enable AVIF support (only for bundled libgd)"
   OFF
-  "EXT_GD;NOT EXT_GD_EXTERNAL"
+  "PHP_EXT_GD;NOT PHP_EXT_GD_EXTERNAL"
   OFF
 )
 
 add_feature_info(
   "ext/gd AVIF"
-  EXT_GD_AVIF
+  PHP_EXT_GD_AVIF
   "AV1 Image File Format support"
 )
 
 cmake_dependent_option(
-  EXT_GD_WEBP
+  PHP_EXT_GD_WEBP
   "GD: Enable WebP support (only for bundled libgd)"
   OFF
-  "EXT_GD;NOT EXT_GD_EXTERNAL"
+  "PHP_EXT_GD;NOT PHP_EXT_GD_EXTERNAL"
   OFF
 )
 
 add_feature_info(
   "ext/gd WebP"
-  EXT_GD_WEBP
+  PHP_EXT_GD_WEBP
   "WebP support"
 )
 
 cmake_dependent_option(
-  EXT_GD_JPEG
+  PHP_EXT_GD_JPEG
   "GD: Enable JPEG support (only for bundled libgd)"
   OFF
-  "EXT_GD;NOT EXT_GD_EXTERNAL"
+  "PHP_EXT_GD;NOT PHP_EXT_GD_EXTERNAL"
   OFF
 )
 
 add_feature_info(
   "ext/gd JPEG"
-  EXT_GD_JPEG
+  PHP_EXT_GD_JPEG
   "JPEG support"
 )
 
 cmake_dependent_option(
-  EXT_GD_XPM
+  PHP_EXT_GD_XPM
   "GD: Enable XPM support (only for bundled libgd)"
   OFF
-  "EXT_GD;NOT EXT_GD_EXTERNAL"
+  "PHP_EXT_GD;NOT PHP_EXT_GD_EXTERNAL"
   OFF
 )
 
 add_feature_info(
   "ext/gd XPM"
-  EXT_GD_XPM
+  PHP_EXT_GD_XPM
   "X PixMap support"
 )
 
 cmake_dependent_option(
-  EXT_GD_FREETYPE
+  PHP_EXT_GD_FREETYPE
   "GD: Enable FreeType 2 support (only for bundled libgd)"
   OFF
-  "EXT_GD;NOT EXT_GD_EXTERNAL"
+  "PHP_EXT_GD;NOT PHP_EXT_GD_EXTERNAL"
   OFF
 )
 
 add_feature_info(
   "ext/gd FreeType"
-  EXT_GD_FREETYPE
+  PHP_EXT_GD_FREETYPE
   "support for rendering text to bitmaps"
 )
 
 cmake_dependent_option(
-  EXT_GD_JIS
+  PHP_EXT_GD_JIS
   "GD: Enable JIS-mapped Japanese font support (only for bundled libgd)"
   OFF
-  "EXT_GD;NOT EXT_GD_EXTERNAL"
+  "PHP_EXT_GD;NOT PHP_EXT_GD_EXTERNAL"
   OFF
 )
 
 add_feature_info(
   "ext/gd JIS"
-  EXT_GD_JIS
+  PHP_EXT_GD_JIS
   "JIS-mapped Japanese font support"
 )
 
-if(NOT EXT_GD)
+if(NOT PHP_EXT_GD)
   return()
 endif()
 
-if(EXT_GD_SHARED)
+if(PHP_EXT_GD_SHARED)
   add_library(php_ext_gd SHARED)
 else()
   add_library(php_ext_gd)
@@ -221,7 +221,7 @@ target_sources(
         php_gd.h
 )
 
-if(NOT EXT_GD_EXTERNAL)
+if(NOT PHP_EXT_GD_EXTERNAL)
   target_sources(
     php_ext_gd
     PRIVATE
@@ -341,7 +341,7 @@ if(NOT EXT_GD_EXTERNAL)
 
   set(HAVE_LIBPNG TRUE)
 
-  if(EXT_GD_AVIF)
+  if(PHP_EXT_GD_AVIF)
     find_package(libavif 0.8.2)
     set_package_properties(
       libavif
@@ -356,7 +356,7 @@ if(NOT EXT_GD_EXTERNAL)
     set(HAVE_GD_AVIF TRUE)
   endif()
 
-  if(EXT_GD_WEBP)
+  if(PHP_EXT_GD_WEBP)
     find_package(WebP 0.2.0)
     set_package_properties(
       WebP
@@ -371,7 +371,7 @@ if(NOT EXT_GD_EXTERNAL)
     set(HAVE_GD_WEBP TRUE)
   endif()
 
-  if(EXT_GD_JPEG)
+  if(PHP_EXT_GD_JPEG)
     find_package(JPEG)
     set_package_properties(
       JPEG
@@ -386,7 +386,7 @@ if(NOT EXT_GD_EXTERNAL)
     set(HAVE_GD_JPG TRUE)
   endif()
 
-  if(EXT_GD_XPM)
+  if(PHP_EXT_GD_XPM)
     find_package(XPM)
     set_package_properties(
       XPM
@@ -401,7 +401,7 @@ if(NOT EXT_GD_EXTERNAL)
     set(HAVE_GD_XPM TRUE)
   endif()
 
-  if(EXT_GD_FREETYPE)
+  if(PHP_EXT_GD_FREETYPE)
     find_package(Freetype)
     set_package_properties(
       Freetype
@@ -416,7 +416,7 @@ if(NOT EXT_GD_EXTERNAL)
     set(HAVE_GD_FREETYPE TRUE)
   endif()
 
-  if(EXT_GD_JIS)
+  if(PHP_EXT_GD_JIS)
     set(JISX0208 TRUE)
     set(USE_GD_JISX0208 TRUE)
   endif()

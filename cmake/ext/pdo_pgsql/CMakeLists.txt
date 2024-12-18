@@ -5,14 +5,14 @@ Configure the `pdo_pgsql` extension.
 
 This extension provides PDO interface for using PostgreSQL database.
 
-## EXT_PDO_PGSQL
+## PHP_EXT_PDO_PGSQL
 
 * Default: `OFF`
 * Values: `ON|OFF`
 
 Enable the extension.
 
-## EXT_PDO_PGSQL_SHARED
+## PHP_EXT_PDO_PGSQL_SHARED
 
 * Default: `OFF`
 * Values: `ON|OFF`
@@ -29,27 +29,27 @@ include(CheckLibraryExists)
 include(CMakeDependentOption)
 include(FeatureSummary)
 
-option(EXT_PDO_PGSQL "Enable the pdo_pgsql extension")
+option(PHP_EXT_PDO_PGSQL "Enable the pdo_pgsql extension")
 
 add_feature_info(
   "ext/pdo_pgsql"
-  EXT_PDO_PGSQL
+  PHP_EXT_PDO_PGSQL
   "PostgreSQL database PDO driver"
 )
 
 cmake_dependent_option(
-  EXT_PDO_PGSQL_SHARED
+  PHP_EXT_PDO_PGSQL_SHARED
   "Build the pdo_pgsql extension as a shared library"
   OFF
-  "EXT_PDO_PGSQL;NOT BUILD_SHARED_LIBS"
+  "PHP_EXT_PDO_PGSQL;NOT BUILD_SHARED_LIBS"
   OFF
 )
 
-if(NOT EXT_PDO_PGSQL)
+if(NOT PHP_EXT_PDO_PGSQL)
   return()
 endif()
 
-if(EXT_PDO_PGSQL_SHARED)
+if(PHP_EXT_PDO_PGSQL_SHARED)
   add_library(php_ext_pdo_pgsql SHARED)
 else()
   add_library(php_ext_pdo_pgsql)

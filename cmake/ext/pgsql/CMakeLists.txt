@@ -5,14 +5,14 @@ Configure the `pgsql` extension.
 
 This extension provides support for using PostgreSQL database.
 
-## EXT_PGSQL
+## PHP_EXT_PGSQL
 
 * Default: `OFF`
 * Values: `ON|OFF`
 
 Enable the extension.
 
-## EXT_PGSQL_SHARED
+## PHP_EXT_PGSQL_SHARED
 
 * Default: `OFF`
 * Values: `ON|OFF`
@@ -29,27 +29,27 @@ include(CheckLibraryExists)
 include(CMakeDependentOption)
 include(FeatureSummary)
 
-option(EXT_PGSQL "Enable the pgsql extension")
+option(PHP_EXT_PGSQL "Enable the pgsql extension")
 
 add_feature_info(
   "ext/pgsql"
-  EXT_PGSQL
+  PHP_EXT_PGSQL
   "PostgreSQL database support"
 )
 
 cmake_dependent_option(
-  EXT_PGSQL_SHARED
+  PHP_EXT_PGSQL_SHARED
   "Build the pgsql extension as a shared library"
   OFF
-  "EXT_PGSQL;NOT BUILD_SHARED_LIBS"
+  "PHP_EXT_PGSQL;NOT BUILD_SHARED_LIBS"
   OFF
 )
 
-if(NOT EXT_PGSQL)
+if(NOT PHP_EXT_PGSQL)
   return()
 endif()
 
-if(EXT_PGSQL_SHARED)
+if(PHP_EXT_PGSQL_SHARED)
   add_library(php_ext_pgsql SHARED)
 else()
   add_library(php_ext_pgsql)

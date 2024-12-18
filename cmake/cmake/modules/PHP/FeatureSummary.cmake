@@ -249,7 +249,7 @@ function(php_feature_summary)
           APPEND
           sharedExtensionsSummary
           " * ${extension}\n"
-          "   Set 'EXT_${extensionUpper}_SHARED' to 'ON' (its dependency "
+          "   Set 'PHP_EXT_${extensionUpper}_SHARED' to 'ON' (its dependency "
           "${dependency} extension will be built as shared)\n"
         )
       endif()
@@ -266,7 +266,7 @@ function(php_feature_summary)
         APPEND
         message
         " * ${extension}\n"
-        "   Set 'EXT_${extensionUpper}' to 'ON'\n"
+        "   Set 'PHP_EXT_${extensionUpper}' to 'ON'\n"
       )
       list(JOIN _phpFeatureSummaryReason_${extension} ", " reasons)
       string(APPEND message "   (Required by ${reasons})\n")
