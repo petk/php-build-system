@@ -33,7 +33,7 @@ if(NOT PHP_SAPI_LITESPEED)
 endif()
 
 add_executable(php_sapi_litespeed)
-add_executable(PHP::SAPI::litespeed ALIAS php_sapi_litespeed)
+add_executable(PHP::sapi::litespeed ALIAS php_sapi_litespeed)
 
 target_sourceS(
   php_sapi_litespeed
@@ -46,7 +46,7 @@ target_sourceS(
 target_link_libraries(
   php_sapi_litespeed
   PRIVATE
-    PHP::SAPI
+    PHP::sapi
 )
 
 set_target_properties(

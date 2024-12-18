@@ -74,7 +74,7 @@ foreach(extension IN LISTS extensions)
 
   # Add usage requirements to PHP interface targets.
   # TODO: Should PHP_CLI extensions pass properties only to PHP_CLI SAPIs?
-  get_target_property(type php_ext_${extension} TYPE)
+  get_target_property(type PHP::ext::${extension} TYPE)
   if(NOT type MATCHES "^(MODULE|SHARED)_LIBRARY$")
     target_compile_definitions(
       php_config

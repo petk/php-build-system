@@ -43,7 +43,7 @@ if(NOT PHP_SAPI_APACHE2HANDLER)
 endif()
 
 add_library(php_sapi_apache2handler SHARED)
-add_library(PHP::SAPI::apache2handler ALIAS php_sapi_apache2handler)
+add_library(PHP::sapi::apache2handler ALIAS php_sapi_apache2handler)
 
 target_sources(
   php_sapi_apache2handler
@@ -78,7 +78,7 @@ set_package_properties(
 target_link_libraries(
   php_sapi_apache2handler
   PRIVATE
-    PHP::SAPI
+    PHP::sapi
     Apache::Apache
 )
 

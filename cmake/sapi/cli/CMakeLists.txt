@@ -75,7 +75,7 @@ else()
 endif()
 
 add_executable(php_sapi_cli)
-add_executable(PHP::SAPI::cli ALIAS php_sapi_cli)
+add_executable(PHP::sapi::cli ALIAS php_sapi_cli)
 
 target_sources(
   php_sapi_cli
@@ -102,7 +102,7 @@ target_compile_definitions(
 target_link_libraries(
   php_sapi_cli
   PRIVATE
-    PHP::SAPI
+    PHP::sapi
     $<$<PLATFORM_ID:Windows>:ws2_32;shell32>
 )
 
@@ -132,7 +132,7 @@ endif()
 
 if(PHP_SAPI_CLI_WIN_NO_CONSOLE)
   add_executable(php_sapi_cli_win)
-  add_executable(PHP::SAPI::cli_win ALIAS php_sapi_cli_win)
+  add_executable(PHP::sapi::cli_win ALIAS php_sapi_cli_win)
 
   target_sources(
     php_sapi_cli_win
@@ -158,7 +158,7 @@ if(PHP_SAPI_CLI_WIN_NO_CONSOLE)
   target_link_libraries(
     php_sapi_cli_win
     PRIVATE
-      PHP::SAPI
+      PHP::sapi
       shell32
   )
 
