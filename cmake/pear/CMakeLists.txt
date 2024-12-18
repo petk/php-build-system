@@ -100,8 +100,8 @@ block()
   if(NOT TARGET PHP::SAPI::cli)
     message(
       FATAL_ERROR
-      "The 'PHP_PEAR' option requires PHP CLI SAPI. Please, set 'SAPI_CLI' to "
-      "'ON'."
+      "The 'PHP_PEAR' option requires PHP CLI SAPI. Please, set 'PHP_SAPI_CLI' "
+      "to 'ON'."
     )
   endif()
 

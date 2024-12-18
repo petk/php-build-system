@@ -3,21 +3,21 @@
 
 Configure the `phpdbg` (interactive PHP debugger) PHP SAPI.
 
-## SAPI_PHPDBG
+## PHP_SAPI_PHPDBG
 
 * Default: `ON`
 * Values: `ON|OFF`
 
 Enable the phpdbg SAPI module as an executable.
 
-## SAPI_PHPDBG_SHARED
+## PHP_SAPI_PHPDBG_SHARED
 
 * Default: `OFF`
 * Values: `ON|OFF`
 
 Build phpdbg SAPI also as a shared module together with an executable.
 
-## SAPI_PHPDBG_DEBUG
+## PHP_SAPI_PHPDBG_DEBUG
 
 * Default: `OFF`
 * Values: `ON|OFF`
@@ -25,7 +25,7 @@ Build phpdbg SAPI also as a shared module together with an executable.
 Build phpdbg in debug mode to enable additional diagnostic output for developing
 and troubleshooting phpdbg itself.
 
-## SAPI_PHPDBG_READLINE
+## PHP_SAPI_PHPDBG_READLINE
 
 * Default: `OFF`
 * Values: `ON|OFF`
@@ -48,51 +48,51 @@ include(PHP/Install)
 # Configuration options.
 ################################################################################
 
-option(SAPI_PHPDBG "Enable the phpdbg SAPI module" ON)
+option(PHP_SAPI_PHPDBG "Enable the phpdbg SAPI module" ON)
 add_feature_info(
   "sapi/phpdbg"
-  SAPI_PHPDBG
+  PHP_SAPI_PHPDBG
   "interactive PHP debugger"
 )
 
 cmake_dependent_option(
-  SAPI_PHPDBG_SHARED
+  PHP_SAPI_PHPDBG_SHARED
   "Build phpdbg SAPI as a shared module"
   OFF
-  "SAPI_PHPDBG"
+  "PHP_SAPI_PHPDBG"
   OFF
 )
-mark_as_advanced(SAPI_PHPDBG_SHARED)
+mark_as_advanced(PHP_SAPI_PHPDBG_SHARED)
 add_feature_info(
   "sapi/phpdbg shared"
-  SAPI_PHPDBG_SHARED
+  PHP_SAPI_PHPDBG_SHARED
   "dynamically loadable shared object"
 )
 
 cmake_dependent_option(
-  SAPI_PHPDBG_DEBUG
+  PHP_SAPI_PHPDBG_DEBUG
   "Enable additional diagnostic output when developing phpdbg itself"
   OFF
-  "SAPI_PHPDBG"
+  "PHP_SAPI_PHPDBG"
   OFF
 )
-mark_as_advanced(SAPI_PHPDBG_DEBUG)
+mark_as_advanced(PHP_SAPI_PHPDBG_DEBUG)
 add_feature_info(
   "sapi/phpdbg debug"
-  SAPI_PHPDBG_DEBUG
+  PHP_SAPI_PHPDBG_DEBUG
   "additional diagnostic output"
 )
 
 cmake_dependent_option(
-  SAPI_PHPDBG_READLINE
+  PHP_SAPI_PHPDBG_READLINE
   "Explicitly enable readline support in phpdbg"
   OFF
-  "SAPI_PHPDBG"
+  "PHP_SAPI_PHPDBG"
   OFF
 )
-mark_as_advanced(SAPI_PHPDBG_READLINE)
+mark_as_advanced(PHP_SAPI_PHPDBG_READLINE)
 
-if(NOT SAPI_PHPDBG)
+if(NOT PHP_SAPI_PHPDBG)
   return()
 endif()
 
@@ -132,7 +132,7 @@ target_compile_definitions(
   PRIVATE
     ZEND_ENABLE_STATIC_TSRMLS_CACHE
     $<$<PLATFORM_ID:Windows>:YY_NO_UNISTD_H>
-    $<IF:$<BOOL:${SAPI_PHPDBG_DEBUG}>,PHPDBG_DEBUG=1,PHPDBG_DEBUG=0>
+    $<IF:$<BOOL:${PHP_SAPI_PHPDBG_DEBUG}>,PHPDBG_DEBUG=1,PHPDBG_DEBUG=0>
 )
 
 target_link_libraries(
@@ -163,7 +163,7 @@ set_target_properties(
 
 message(CHECK_START "Checking for readline support in phpdbg")
 
-if(SAPI_PHPDBG_READLINE OR EXT_READLINE)
+if(PHP_SAPI_PHPDBG_READLINE OR EXT_READLINE)
   message(CHECK_PASS "enabled")
 
   if(EXT_READLINE_LIBREADLINE)
@@ -216,7 +216,7 @@ add_feature_info(
 ################################################################################
 
 # TODO: Should readline support be also enabled like in the executable?
-if(SAPI_PHPDBG_SHARED)
+if(PHP_SAPI_PHPDBG_SHARED)
   add_library(php_sapi_phpdbg_shared SHARED)
   add_library(PHP::SAPI::phpdbg_shared ALIAS php_sapi_phpdbg_shared)
 
@@ -229,7 +229,7 @@ if(SAPI_PHPDBG_SHARED)
     PRIVATE
       ZEND_ENABLE_STATIC_TSRMLS_CACHE
       $<$<PLATFORM_ID:Windows>:YY_NO_UNISTD_H>
-      $<IF:$<BOOL:${SAPI_PHPDBG_DEBUG}>,PHPDBG_DEBUG=1,PHPDBG_DEBUG=0>
+      $<IF:$<BOOL:${PHP_SAPI_PHPDBG_DEBUG}>,PHPDBG_DEBUG=1,PHPDBG_DEBUG=0>
   )
 
   target_link_libraries(

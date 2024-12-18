@@ -70,13 +70,13 @@
         "EXT_ZIP": true,
         "EXT_ZLIB": true,
 
-        "SAPI_EMBED": true,
-        "SAPI_FPM": true,
-        "SAPI_FPM_ACL": true,
-        "SAPI_FPM_APPARMOR": true,
-        "SAPI_FPM_SELINUX": true,
-        "SAPI_FPM_SYSTEMD": true,
-        "SAPI_LITESPEED": true
+        "PHP_SAPI_EMBED": true,
+        "PHP_SAPI_FPM": true,
+        "PHP_SAPI_FPM_ACL": true,
+        "PHP_SAPI_FPM_APPARMOR": true,
+        "PHP_SAPI_FPM_SELINUX": true,
+        "PHP_SAPI_FPM_SYSTEMD": true,
+        "PHP_SAPI_LITESPEED": true
       }
     },
     {

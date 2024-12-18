@@ -3,14 +3,14 @@
 
 Configure the `cli` PHP SAPI.
 
-## SAPI_CLI
+## PHP_SAPI_CLI
 
 * Default: `ON`
 * Values: `ON|OFF`
 
 Enable the PHP CLI (Command-Line Interpreter/Interface) SAPI executable module.
 
-## SAPI_CLI_WIN_NO_CONSOLE
+## PHP_SAPI_CLI_WIN_NO_CONSOLE
 
 * Default: `OFF`
 * Values: `ON|OFF`
@@ -28,27 +28,27 @@ include(CheckSymbolExists)
 include(CMakeDependentOption)
 include(FeatureSummary)
 
-option(SAPI_CLI "Enable the CLI SAPI module" ON)
+option(PHP_SAPI_CLI "Enable the CLI SAPI module" ON)
 add_feature_info(
   "sapi/cli"
-  SAPI_CLI
+  PHP_SAPI_CLI
   "Command-Line Interpreter/Interface executable"
 )
 
 cmake_dependent_option(
-  SAPI_CLI_WIN_NO_CONSOLE
+  PHP_SAPI_CLI_WIN_NO_CONSOLE
   "Build additional CLI SAPI without console (no output is given)"
   OFF
-  [[SAPI_CLI AND CMAKE_SYSTEM_NAME STREQUAL "Windows"]]
+  [[PHP_SAPI_CLI AND CMAKE_SYSTEM_NAME STREQUAL "Windows"]]
   OFF
 )
 add_feature_info(
   "sapi/cli console-less"
-  SAPI_CLI_WIN_NO_CONSOLE
+  PHP_SAPI_CLI_WIN_NO_CONSOLE
   "additional executable without console output"
 )
 
-if(NOT SAPI_CLI)
+if(NOT PHP_SAPI_CLI)
   return()
 endif()
 
@@ -130,7 +130,7 @@ if(CMAKE_SYSTEM_NAME STREQUAL "Windows")
   )
 endif()
 
-if(SAPI_CLI_WIN_NO_CONSOLE)
+if(PHP_SAPI_CLI_WIN_NO_CONSOLE)
   add_executable(php_sapi_cli_win_no_console)
   add_executable(PHP::SAPI::cli_win_no_console ALIAS php_sapi_cli_win_no_console)
 

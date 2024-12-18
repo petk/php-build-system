@@ -6,7 +6,7 @@ Configure the `fuzzer` PHP SAPI.
 > [!NOTE]
 > This SAPI is not available when the target system is Windows.
 
-## SAPI_FUZZER
+## PHP_SAPI_FUZZER
 
 * Default: `OFF`
 * Values: `ON|OFF`
@@ -33,17 +33,17 @@ include(FeatureSummary)
 include(PHP/CheckCompilerFlag)
 
 option(
-  SAPI_FUZZER
+  PHP_SAPI_FUZZER
   "Enable the fuzzer SAPI module - Clang fuzzing test module (for developers)"
 )
 
 add_feature_info(
   "sapi/fuzzer"
-  SAPI_FUZZER
+  PHP_SAPI_FUZZER
   "Clang fuzzing module"
 )
 
-if(SAPI_FUZZER)
+if(PHP_SAPI_FUZZER)
   set(
     LIB_FUZZING_ENGINE
     ""
@@ -54,7 +54,7 @@ if(SAPI_FUZZER)
   mark_as_advanced(LIB_FUZZING_ENGINE)
 endif()
 
-if(NOT SAPI_FUZZER)
+if(NOT PHP_SAPI_FUZZER)
   return()
 endif()
 
@@ -62,7 +62,7 @@ if(PHP_THREAD_SAFETY)
   message(
     FATAL_ERROR
     "Thread safety (PHP_THREAD_SAFETY) is not supported when building fuzzing "
-    "SAPI module (SAPI_FUZZER). Please build fuzzer without ZTS by setting "
+    "SAPI module (PHP_SAPI_FUZZER). Please build fuzzer without ZTS by setting "
     "PHP_THREAD_SAFETY to default 'OFF'."
   )
 endif()
