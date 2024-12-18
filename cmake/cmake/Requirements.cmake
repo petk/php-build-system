@@ -119,7 +119,6 @@ if(
     set(RE2C_USE_COMPUTED_GOTOS TRUE)
   endif()
 
-  set(RE2C_ENABLE_DOWNLOAD TRUE)
   set(
     RE2C_DEFAULT_OPTIONS
       --no-generation-date # Suppress date output in the generated file.

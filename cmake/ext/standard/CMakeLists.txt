@@ -52,6 +52,7 @@ option(
   EXT_STANDARD_CRYPT_EXTERNAL
   "Use external libcrypt/libxcrypt library instead of the bundled PHP crypt"
 )
+mark_as_advanced(EXT_STANDARD_CRYPT_EXTERNAL)
 add_feature_info(
   "ext/standard crypt external"
   EXT_STANDARD_CRYPT_EXTERNAL

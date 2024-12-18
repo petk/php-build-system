@@ -97,7 +97,7 @@ message(
 
 # Check PEAR dependencies.
 block()
-  if(NOT SAPI_CLI)
+  if(NOT TARGET PHP::SAPI::cli)
     message(
       FATAL_ERROR
       "The 'PHP_PEAR' option requires PHP CLI SAPI. Please, set 'SAPI_CLI' to "
