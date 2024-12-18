@@ -34,7 +34,7 @@ option(
   EXT_HASH_MHASH
   "Enable the mhash emulation support (deprecated as of PHP 8.1)"
 )
-
+mark_as_advanced(EXT_HASH_MHASH)
 add_feature_info(
   "ext/hash mhash"
   EXT_HASH_MHASH
