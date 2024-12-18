@@ -8,21 +8,21 @@ Configure the `ldap` extension.
 This extension provides support for LDAP (Lightweight Directory Access
 Protocol).
 
-## EXT_LDAP
+## PHP_EXT_LDAP
 
 * Default: `OFF`
 * Values: `ON|OFF`
 
 Enable the extension.
 
-## EXT_LDAP_SHARED
+## PHP_EXT_LDAP_SHARED
 
 * Default: `OFF`
 * Values: `ON|OFF`
 
 Build extension as shared.
 
-## EXT_LDAP_SASL
+## PHP_EXT_LDAP_SASL
 
 * Default: `OFF`
 * Values: `ON|OFF`

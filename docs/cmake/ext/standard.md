@@ -8,14 +8,14 @@ Configure the `standard` extension.
 This is an always enabled core PHP extension that provides common functionality
 to PHP extensions and SAPIs.
 
-## EXT_STANDARD_ARGON2
+## PHP_EXT_STANDARD_ARGON2
 
 * Default: `OFF`
 * Values: `ON|OFF`
 
 Include the Argon2 support in `password_*()` functions.
 
-## EXT_STANDARD_CRYPT_EXTERNAL
+## PHP_EXT_STANDARD_CRYPT_EXTERNAL
 
 * Default: `OFF`
 * Values: `ON|OFF`

@@ -11,14 +11,14 @@ This extension provides support for process control support.
 > [!IMPORTANT]
 > This extension should be used only with CLI-based PHP SAPIs.
 
-## EXT_PCNTL
+## PHP_EXT_PCNTL
 
 * Default: `OFF`
 * Values: `ON|OFF`
 
 Enable the extension.
 
-## EXT_PCNTL_SHARED
+## PHP_EXT_PCNTL_SHARED
 
 * Default: `OFF`
 * Values: `ON|OFF`
@@ -45,27 +45,27 @@ include(FeatureSummary)
 include(PHP/SearchLibraries)
 include(PHP/SystemExtensions)
 
-option(EXT_PCNTL "Enable the pcntl extension (only for CLI-based SAPIs)")
+option(PHP_EXT_PCNTL "Enable the pcntl extension (only for CLI-based SAPIs)")
 
 add_feature_info(
   "ext/pcntl"
-  EXT_PCNTL
+  PHP_EXT_PCNTL
   "process control support"
 )
 
 cmake_dependent_option(
-  EXT_PCNTL_SHARED
+  PHP_EXT_PCNTL_SHARED
   "Build the pcntl extension as a shared library"
   OFF
-  "EXT_PCNTL;NOT BUILD_SHARED_LIBS"
+  "PHP_EXT_PCNTL;NOT BUILD_SHARED_LIBS"
   OFF
 )
 
-if(NOT EXT_PCNTL)
+if(NOT PHP_EXT_PCNTL)
   return()
 endif()
 
-if(EXT_PCNTL_SHARED)
+if(PHP_EXT_PCNTL_SHARED)
   add_library(php_ext_pcntl SHARED)
 else()
   add_library(php_ext_pcntl)

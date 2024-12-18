@@ -7,14 +7,14 @@ Configure the `curl` extension.
 
 This extension provides support for using CURL - Client URL Library.
 
-## EXT_CURL
+## PHP_EXT_CURL
 
 * Default: `OFF`
 * Values: `ON|OFF`
 
 Enable the extension.
 
-## EXT_CURL_SHARED
+## PHP_EXT_CURL_SHARED
 
 * Default: `OFF`
 * Values: `ON|OFF`

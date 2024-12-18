@@ -8,14 +8,14 @@ Configure the `gettext` extension.
 This extension provides support for GNU gettext using NLS (Native Language
 Support) API.
 
-## EXT_GETTEXT
+## PHP_EXT_GETTEXT
 
 * Default: `OFF`
 * Values: `ON|OFF`
 
 Enable the extension.
 
-## EXT_GETTEXT_SHARED
+## PHP_EXT_GETTEXT_SHARED
 
 * Default: `OFF`
 * Values: `ON|OFF`

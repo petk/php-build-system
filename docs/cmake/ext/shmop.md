@@ -7,14 +7,14 @@ Configure the `shmop` extension.
 
 This extension provides support for shared memory segments operations.
 
-## EXT_SHMOP
+## PHP_EXT_SHMOP
 
 * Default: `OFF`
 * Values: `ON|OFF`
 
 Enable the extension.
 
-## EXT_SHMOP_SHARED
+## PHP_EXT_SHMOP_SHARED
 
 * Default: `OFF`
 * Values: `ON|OFF`

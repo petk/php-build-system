@@ -5,14 +5,14 @@ Configure the `soap` extension.
 
 This extension provides support for writing SOAP servers and clients.
 
-## EXT_SOAP
+## PHP_EXT_SOAP
 
 * Default: `OFF`
 * Values: `ON|OFF`
 
 Enable the extension.
 
-## EXT_SOAP_SHARED
+## PHP_EXT_SOAP_SHARED
 
 * Default: `OFF`
 * Values: `ON|OFF`
@@ -28,27 +28,27 @@ project(
 include(CMakeDependentOption)
 include(FeatureSummary)
 
-option(EXT_SOAP "Enable the soap extension")
+option(PHP_EXT_SOAP "Enable the soap extension")
 
 add_feature_info(
   "ext/soap"
-  EXT_SOAP
+  PHP_EXT_SOAP
   "SOAP servers and clients support"
 )
 
 cmake_dependent_option(
-  EXT_SOAP_SHARED
+  PHP_EXT_SOAP_SHARED
   "Build the soap extension as a shared library"
   OFF
-  "EXT_SOAP;NOT BUILD_SHARED_LIBS"
+  "PHP_EXT_SOAP;NOT BUILD_SHARED_LIBS"
   OFF
 )
 
-if(NOT EXT_SOAP)
+if(NOT PHP_EXT_SOAP)
   return()
 endif()
 
-if(EXT_SOAP_SHARED)
+if(PHP_EXT_SOAP_SHARED)
   add_library(php_ext_soap SHARED)
 else()
   add_library(php_ext_soap)
@@ -87,7 +87,7 @@ target_link_libraries(php_ext_soap PRIVATE LibXml2::LibXml2)
 
 add_dependencies(php_ext_soap php_ext_date php_ext_hash php_ext_libxml php_ext_random)
 
-if(EXT_SESSION)
+if(PHP_EXT_SESSION)
   add_dependencies(php_ext_soap php_ext_session)
 endif()
 

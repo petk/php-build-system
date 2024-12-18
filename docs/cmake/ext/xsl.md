@@ -8,14 +8,14 @@ Configure the `xsl` extension.
 This extension provides XSL standard support for performing XSLT
 transformations.
 
-## EXT_XSL
+## PHP_EXT_XSL
 
 * Default: `OFF`
 * Values: `ON|OFF`
 
 Enable the extension.
 
-## EXT_XSL_SHARED
+## PHP_EXT_XSL_SHARED
 
 * Default: `OFF`
 * Values: `ON|OFF`

@@ -3,14 +3,14 @@
 
 Configure the `%EXTNAME%` extension.
 
-## EXT_%EXTNAMECAPS%
+## PHP_EXT_%EXTNAMECAPS%
 
 * Default: `OFF`
 * Values: `ON|OFF`
 
 Enable the extension.
 
-## EXT_%EXTNAMECAPS%_SHARED
+## PHP_EXT_%EXTNAMECAPS%_SHARED
 
 * Default: `OFF`
 * Values: `ON|OFF`
@@ -44,33 +44,33 @@ include(CMakeDependentOption)
 include(FeatureSummary)
 
 # Boolean option that enables (ON) or disables (OFF) the extension. For example,
-# cmake -B <build-dir> -D EXT_%EXTNAMECAPS%=ON
-option(EXT_%EXTNAMECAPS% "Enable the %EXTNAME% extension")
+# cmake -B <build-dir> -D PHP_EXT_%EXTNAMECAPS%=ON
+option(PHP_EXT_%EXTNAMECAPS% "Enable the %EXTNAME% extension")
 
 # Extension features are visible in the configuration summary output.
 add_feature_info(
   "ext/%EXTNAME%"
-  EXT_%EXTNAMECAPS%
+  PHP_EXT_%EXTNAMECAPS%
   "short description of extension features"
 )
 
 # Dependent boolean option that builds extension as a shared library. CMake's
 # BUILD_SHARED_LIBS variable hides this option and builds extension as shared.
 cmake_dependent_option(
-  EXT_%EXTNAMECAPS%_SHARED
+  PHP_EXT_%EXTNAMECAPS%_SHARED
   "Build the %EXTNAME% extension as a shared library"
   OFF
-  "EXT_%EXTNAMECAPS%;NOT BUILD_SHARED_LIBS"
+  "PHP_EXT_%EXTNAMECAPS%;NOT BUILD_SHARED_LIBS"
   OFF
 )
 
 # If extension is disabled CMake configuration stops here.
-if(NOT EXT_%EXTNAMECAPS%)
+if(NOT PHP_EXT_%EXTNAMECAPS%)
   return()
 endif()
 
 # Add a target to be built as a SHARED or STATIC library.
-if(EXT_%EXTNAMECAPS%_SHARED)
+if(PHP_EXT_%EXTNAMECAPS%_SHARED)
   add_library(php_ext_%EXTNAME% SHARED)
 else()
   add_library(php_ext_%EXTNAME%)

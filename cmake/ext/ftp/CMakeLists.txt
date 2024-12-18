@@ -5,29 +5,29 @@ Configure the `ftp` extension.
 
 This extension provides support for File Transfer Protocol (FTP).
 
-## EXT_FTP
+## PHP_EXT_FTP
 
 * Default: `OFF`
 * Values: `ON|OFF`
 
 Enable the extension.
 
-## EXT_FTP_SHARED
+## PHP_EXT_FTP_SHARED
 
 * Default: `OFF`
 * Values: `ON|OFF`
 
 Build extension as shared.
 
-## EXT_FTP_SSL
+## PHP_EXT_FTP_SSL
 
 * Default: `OFF`
 * Values: `ON|OFF`
 
 Explicitly enable FTP over SSL support when building without openssl extension
-(`EXT_OPENSSL=OFF`) or when using `phpize`. If the `openssl` extension is
-enabled at the configure step (`EXT_OPENSSL=ON`), FTP-SSL is enabled implicitly
-regardless of this option.
+(`PHP_EXT_OPENSSL=OFF`) or when using `phpize`. If the `openssl` extension is
+enabled at the configure step (`PHP_EXT_OPENSSL=ON`), FTP-SSL is enabled
+implicitly regardless of this option.
 #]=============================================================================]
 
 project(
@@ -38,36 +38,36 @@ project(
 include(CMakeDependentOption)
 include(FeatureSummary)
 
-option(EXT_FTP "Enable the ftp extension")
+option(PHP_EXT_FTP "Enable the ftp extension")
 
 add_feature_info(
   "ext/ftp"
-  EXT_FTP
+  PHP_EXT_FTP
   "File Transfer Protocol (FTP) support"
 )
 
 cmake_dependent_option(
-  EXT_FTP_SHARED
+  PHP_EXT_FTP_SHARED
   "Build the ftp extension as a shared library"
   OFF
-  "EXT_FTP;NOT BUILD_SHARED_LIBS"
+  "PHP_EXT_FTP;NOT BUILD_SHARED_LIBS"
   OFF
 )
 
 cmake_dependent_option(
-  EXT_FTP_SSL
+  PHP_EXT_FTP_SSL
   "Explicitly enable FTP over SSL support when building without openssl\
-  extension (EXT_OPENSSL=OFF) or when using phpize."
+  extension (PHP_EXT_OPENSSL=OFF) or when using phpize."
   OFF
-  "EXT_FTP;NOT EXT_OPENSSL"
+  "PHP_EXT_FTP;NOT PHP_EXT_OPENSSL"
   OFF
 )
 
-if(NOT EXT_FTP)
+if(NOT PHP_EXT_FTP)
   return()
 endif()
 
-if(EXT_FTP_SHARED)
+if(PHP_EXT_FTP_SHARED)
   add_library(php_ext_ftp SHARED)
 else()
   add_library(php_ext_ftp)
@@ -81,7 +81,7 @@ target_sources(
     php_ftp.c
 )
 
-if(EXT_FTP_SSL OR EXT_OPENSSL)
+if(PHP_EXT_FTP_SSL OR PHP_EXT_OPENSSL)
   find_package(OpenSSL ${PHP_OPENSSL_MIN_VERSION})
   set_package_properties(
     OpenSSL

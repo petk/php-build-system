@@ -13,14 +13,14 @@ This extension provides support for process control support.
 > [!IMPORTANT]
 > This extension should be used only with CLI-based PHP SAPIs.
 
-## EXT_PCNTL
+## PHP_EXT_PCNTL
 
 * Default: `OFF`
 * Values: `ON|OFF`
 
 Enable the extension.
 
-## EXT_PCNTL_SHARED
+## PHP_EXT_PCNTL_SHARED
 
 * Default: `OFF`
 * Values: `ON|OFF`

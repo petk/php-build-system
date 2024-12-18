@@ -7,7 +7,7 @@ Configure the `libxml` extension.
 
 This extension provides XML parser and toolkit support using libxml2 library.
 
-## EXT_LIBXML
+## PHP_EXT_LIBXML
 
 * Default: `ON`
 * Values: `ON|OFF`

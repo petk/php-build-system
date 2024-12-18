@@ -7,14 +7,14 @@ Configure the `pdo_sqlite` extension.
 
 This extension provides PDO interface for using SQLite database.
 
-## EXT_PDO_SQLITE
+## PHP_EXT_PDO_SQLITE
 
 * Default: `ON`
 * Values: `ON|OFF`
 
 Enable the extension.
 
-## EXT_PDO_SQLITE_SHARED
+## PHP_EXT_PDO_SQLITE_SHARED
 
 * Default: `OFF`
 * Values: `ON|OFF`

@@ -5,21 +5,21 @@ Configure the `pdo_mysql` extension.
 
 This extension provides PDO interface for using MySQL-compatible databases.
 
-## EXT_PDO_MYSQL
+## PHP_EXT_PDO_MYSQL
 
 * Default: `OFF`
 * Values: `ON|OFF`
 
 Enable the PHP `pdo_mysql` extension.
 
-## EXT_PDO_MYSQL_SHARED
+## PHP_EXT_PDO_MYSQL_SHARED
 
 * Default: `OFF`
 * Values: `ON|OFF`
 
 Build extension as shared library.
 
-## EXT_PDO_MYSQL_DRIVER
+## PHP_EXT_PDO_MYSQL_DRIVER
 
 * Default: `mysqlnd`
 * Values: `mysqlnd|mysql`
@@ -44,38 +44,38 @@ include(CMakeDependentOption)
 include(FeatureSummary)
 include(PHP/Set)
 
-option(EXT_PDO_MYSQL "Enable the pdo_mysql extension")
+option(PHP_EXT_PDO_MYSQL "Enable the pdo_mysql extension")
 
 add_feature_info(
   "ext/pdo_mysql"
-  EXT_PDO_MYSQL
+  PHP_EXT_PDO_MYSQL
   "MySQL-compatible databases PDO driver"
 )
 
 cmake_dependent_option(
-  EXT_PDO_MYSQL_SHARED
+  PHP_EXT_PDO_MYSQL_SHARED
   "Build the pdo_mysql extension as a shared library"
   OFF
-  "EXT_PDO_MYSQL;NOT BUILD_SHARED_LIBS"
+  "PHP_EXT_PDO_MYSQL;NOT BUILD_SHARED_LIBS"
   OFF
 )
 
 # Driver selection option.
 php_set(
-  EXT_PDO_MYSQL_DRIVER
+  PHP_EXT_PDO_MYSQL_DRIVER
   CHOICES "mysqlnd" "mysql"
-  IF EXT_PDO_MYSQL
+  IF PHP_EXT_PDO_MYSQL
   DOC
     "Select MySQL driver: mysqlnd (MySQL Native Driver, recommended) or mysql "
     "(system MySQL)"
 )
-mark_as_advanced(EXT_PDO_MYSQL_DRIVER)
+mark_as_advanced(PHP_EXT_PDO_MYSQL_DRIVER)
 
-if(NOT EXT_PDO_MYSQL)
+if(NOT PHP_EXT_PDO_MYSQL)
   return()
 endif()
 
-if(EXT_PDO_MYSQL_SHARED)
+if(PHP_EXT_PDO_MYSQL_SHARED)
   add_library(php_ext_pdo_mysql SHARED)
 else()
   add_library(php_ext_pdo_mysql)
@@ -99,9 +99,9 @@ target_compile_definitions(
     ZEND_ENABLE_STATIC_TSRMLS_CACHE
 )
 
-if(EXT_MYSQL_SOCKET)
-  if(EXT_MYSQL_SOCKET_PATH)
-    set(MySQL_Socket_PATH "${EXT_MYSQL_SOCKET_PATH}")
+if(PHP_EXT_MYSQL_SOCKET)
+  if(PHP_EXT_MYSQL_SOCKET_PATH)
+    set(MySQL_Socket_PATH "${PHP_EXT_MYSQL_SOCKET_PATH}")
   endif()
 
   find_package(MySQL OPTIONAL_COMPONENTS Socket)
@@ -117,7 +117,7 @@ if(MySQL_Socket_PATH)
   set(PHP_MYSQL_UNIX_SOCK_ADDR "${MySQL_Socket_PATH}")
 endif()
 
-if(NOT EXT_PDO_MYSQL_DRIVER STREQUAL "mysql")
+if(NOT PHP_EXT_PDO_MYSQL_DRIVER STREQUAL "mysql")
   add_dependencies(php_ext_pdo_mysql php_ext_mysqlnd)
 
   set(PDO_USE_MYSQLND TRUE)

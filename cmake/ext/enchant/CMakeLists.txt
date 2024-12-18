@@ -5,14 +5,14 @@ Configure the `enchant` extension.
 
 This extension provides binding for the Enchant spelling library.
 
-## EXT_ENCHANT
+## PHP_EXT_ENCHANT
 
 * Default: `OFF`
 * Values: `ON|OFF`
 
 Enable the extension.
 
-## EXT_ENCHANT_SHARED
+## PHP_EXT_ENCHANT_SHARED
 
 * Default: `OFF`
 * Values: `ON|OFF`
@@ -29,27 +29,27 @@ include(CheckLibraryExists)
 include(CMakeDependentOption)
 include(FeatureSummary)
 
-option(EXT_ENCHANT "Enable the enchant extension")
+option(PHP_EXT_ENCHANT "Enable the enchant extension")
 
 add_feature_info(
   "ext/enchant"
-  EXT_ENCHANT
+  PHP_EXT_ENCHANT
   "Enchant spelling library binding"
 )
 
 cmake_dependent_option(
-  EXT_ENCHANT_SHARED
+  PHP_EXT_ENCHANT_SHARED
   "Build the enchant extension as a shared library"
   OFF
-  "EXT_ENCHANT;NOT BUILD_SHARED_LIBS"
+  "PHP_EXT_ENCHANT;NOT BUILD_SHARED_LIBS"
   OFF
 )
 
-if(NOT EXT_ENCHANT)
+if(NOT PHP_EXT_ENCHANT)
   return()
 endif()
 
-if(EXT_ENCHANT_SHARED)
+if(PHP_EXT_ENCHANT_SHARED)
   add_library(php_ext_enchant SHARED)
 else()
   add_library(php_ext_enchant)

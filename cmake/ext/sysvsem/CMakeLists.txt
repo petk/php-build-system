@@ -8,14 +8,14 @@ This extension provides the System V semaphore support.
 > [!NOTE]
 > This extension is available only on \*nix systems.
 
-## EXT_SYSVSEM
+## PHP_EXT_SYSVSEM
 
 * Default: `OFF`
 * Values: `ON|OFF`
 
 Enable the extension.
 
-## EXT_SYSVSEM_SHARED
+## PHP_EXT_SYSVSEM_SHARED
 
 * Default: `OFF`
 * Values: `ON|OFF`
@@ -37,27 +37,27 @@ include(CMakeDependentOption)
 include(CMakePushCheckState)
 include(FeatureSummary)
 
-option(EXT_SYSVSEM "Enable the sysvsem extension")
+option(PHP_EXT_SYSVSEM "Enable the sysvsem extension")
 
 add_feature_info(
   "ext/sysvsem"
-  EXT_SYSVSEM
+  PHP_EXT_SYSVSEM
   "System V semaphore support"
 )
 
 cmake_dependent_option(
-  EXT_SYSVSEM_SHARED
+  PHP_EXT_SYSVSEM_SHARED
   "Build the sysvsem extension as a shared library"
   OFF
-  "EXT_SYSVSEM;NOT BUILD_SHARED_LIBS"
+  "PHP_EXT_SYSVSEM;NOT BUILD_SHARED_LIBS"
   OFF
 )
 
-if(NOT EXT_SYSVSEM)
+if(NOT PHP_EXT_SYSVSEM)
   return()
 endif()
 
-if(EXT_SYSVSEM_SHARED)
+if(PHP_EXT_SYSVSEM_SHARED)
   add_library(php_ext_sysvsem SHARED)
 else()
   add_library(php_ext_sysvsem)

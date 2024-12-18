@@ -7,14 +7,14 @@ Configure the `pdo` extension.
 
 This extension provides support for PHP Data Objects (PDO).
 
-## EXT_PDO
+## PHP_EXT_PDO
 
 * Default: `ON`
 * Values: `ON|OFF`
 
 Enable the extension.
 
-## EXT_PDO_SHARED
+## PHP_EXT_PDO_SHARED
 
 * Default: `OFF`
 * Values: `ON|OFF`

@@ -163,7 +163,7 @@ set_target_properties(
 
 message(CHECK_START "Checking for readline support in phpdbg")
 
-if(PHP_SAPI_PHPDBG_READLINE OR EXT_READLINE)
+if(PHP_SAPI_PHPDBG_READLINE OR PHP_EXT_READLINE)
   message(CHECK_PASS "enabled")
 
   find_package(Editline)

@@ -7,14 +7,14 @@ Configure the `soap` extension.
 
 This extension provides support for writing SOAP servers and clients.
 
-## EXT_SOAP
+## PHP_EXT_SOAP
 
 * Default: `OFF`
 * Values: `ON|OFF`
 
 Enable the extension.
 
-## EXT_SOAP_SHARED
+## PHP_EXT_SOAP_SHARED
 
 * Default: `OFF`
 * Values: `ON|OFF`

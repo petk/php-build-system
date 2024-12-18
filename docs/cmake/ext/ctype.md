@@ -8,14 +8,14 @@ Configure the `ctype` extension.
 This extension provides support for character type checking according to the
 locale.
 
-## EXT_CTYPE
+## PHP_EXT_CTYPE
 
 * Default: `ON`
 * Values: `ON|OFF`
 
 Enable the extension.
 
-## EXT_CTYPE_SHARED
+## PHP_EXT_CTYPE_SHARED
 
 * Default: `OFF`
 * Values: `ON|OFF`

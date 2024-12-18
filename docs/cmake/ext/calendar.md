@@ -7,14 +7,14 @@ Configure the `calendar` extension.
 
 This extension provides support for calendar conversion.
 
-## EXT_CALENDAR
+## PHP_EXT_CALENDAR
 
 * Default: `OFF`
 * Values: `ON|OFF`
 
 Enable the extension.
 
-## EXT_CALENDAR_SHARED
+## PHP_EXT_CALENDAR_SHARED
 
 * Default: `OFF`
 * Values: `ON|OFF`

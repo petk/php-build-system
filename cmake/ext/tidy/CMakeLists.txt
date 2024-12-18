@@ -6,14 +6,14 @@ Configure the `tidy` extension.
 This extension provides support for Tidy HTML utility support to handle HTML,
 XHTML and XML documents.
 
-## EXT_TIDY
+## PHP_EXT_TIDY
 
 * Default: `OFF`
 * Values: `ON|OFF`
 
 Enable the extension.
 
-## EXT_TIDY_SHARED
+## PHP_EXT_TIDY_SHARED
 
 * Default: `OFF`
 * Values: `ON|OFF`
@@ -31,27 +31,27 @@ include(CMakeDependentOption)
 include(FeatureSummary)
 include(PHP/CheckCompilerFlag)
 
-option(EXT_TIDY "Enable the tidy extension")
+option(PHP_EXT_TIDY "Enable the tidy extension")
 
 add_feature_info(
   "ext/tidy"
-  EXT_TIDY
+  PHP_EXT_TIDY
   "HTML, XHTML and XML correction support"
 )
 
 cmake_dependent_option(
-  EXT_TIDY_SHARED
+  PHP_EXT_TIDY_SHARED
   "Build the tidy extension as a shared library"
   OFF
-  "EXT_TIDY;NOT BUILD_SHARED_LIBS"
+  "PHP_EXT_TIDY;NOT BUILD_SHARED_LIBS"
   OFF
 )
 
-if(NOT EXT_TIDY)
+if(NOT PHP_EXT_TIDY)
   return()
 endif()
 
-if(EXT_TIDY_SHARED)
+if(PHP_EXT_TIDY_SHARED)
   add_library(php_ext_tidy SHARED)
 else()
   add_library(php_ext_tidy)

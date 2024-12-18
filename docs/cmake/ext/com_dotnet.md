@@ -10,14 +10,14 @@ This extension provides the Component Object Model (COM) and .NET support.
 > [!NOTE]
 > This extension is available only when the target system is Windows.
 
-## EXT_COM_DOTNET
+## PHP_EXT_COM_DOTNET
 
 * Default: `ON`
 * Values: `ON|OFF`
 
 Enable the extension.
 
-## EXT_COM_DOTNET_SHARED
+## PHP_EXT_COM_DOTNET_SHARED
 
 * Default: `OFF`
 * Values: `ON|OFF`

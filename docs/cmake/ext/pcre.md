@@ -8,7 +8,7 @@ Configure the `pcre` extension.
 This extension provides support for (Perl-compatible) regular expressions and is
 always enabled.
 
-## EXT_PCRE_EXTERNAL
+## PHP_EXT_PCRE_EXTERNAL
 
 * Default: `OFF`
 * Values: `ON|OFF`
@@ -16,7 +16,7 @@ always enabled.
 Use external (system) PCRE library in pcre extension instead of the bundled PCRE
 library that comes with PHP sources.
 
-## EXT_PCRE_JIT
+## PHP_EXT_PCRE_JIT
 
 * Default: `ON`
 * Values: `ON|OFF`

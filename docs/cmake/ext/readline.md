@@ -10,21 +10,21 @@ This extension provides interface for using Editline library.
 > [!IMPORTANT]
 > This extension should be used only with CLI-based PHP SAPIs.
 
-## EXT_READLINE
+## PHP_EXT_READLINE
 
 * Default: `OFF`
 * Values: `ON|OFF`
 
 Enable the extension.
 
-## EXT_READLINE_SHARED
+## PHP_EXT_READLINE_SHARED
 
 * Default: `OFF`
 * Values: `ON|OFF`
 
 Build extension as shared.
 
-## EXT_READLINE_LIBREADLINE
+## PHP_EXT_READLINE_LIBREADLINE
 
 :red_circle: *Removed as of PHP 8.4.*
 

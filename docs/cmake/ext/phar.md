@@ -7,14 +7,14 @@ Configure the `phar` extension.
 
 This extension provides support for PHP archives (phar).
 
-## EXT_PHAR
+## PHP_EXT_PHAR
 
 * Default: `ON`
 * Values: `ON|OFF`
 
 Enable the extension.
 
-## EXT_PHAR_SHARED
+## PHP_EXT_PHAR_SHARED
 
 * Default: `OFF`
 * Values: `ON|OFF`

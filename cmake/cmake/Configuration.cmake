@@ -2,7 +2,7 @@
 Project-wide configuration options and variables that can be configured during
 the configuration phase via GUI or command line:
 
-  cmake -D PHP_OPTION=... -D ZEND_OPTION=... -D EXT_... -S <path-to-source> ...
+  cmake -DPHP_<SOME_OPTION>=[ON|OFF] ... -S <source-dir> -B <build-dir> ...
 
 To see the list of customizable configuration variables with help texts:
   cmake -LH <path-to-source>

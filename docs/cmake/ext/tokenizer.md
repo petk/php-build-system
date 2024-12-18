@@ -8,14 +8,14 @@ Configure the `tokenizer` extension.
 This extension provides an interface to the PHP tokenizer embedded in the Zend
 Engine.
 
-## EXT_TOKENIZER
+## PHP_EXT_TOKENIZER
 
 * Default: `ON`
 * Values: `ON|OFF`
 
 Enable the extension.
 
-## EXT_TOKENIZER_SHARED
+## PHP_EXT_TOKENIZER_SHARED
 
 * Default: `OFF`
 * Values: `ON|OFF`

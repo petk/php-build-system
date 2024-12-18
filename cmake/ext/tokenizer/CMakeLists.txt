@@ -6,14 +6,14 @@ Configure the `tokenizer` extension.
 This extension provides an interface to the PHP tokenizer embedded in the Zend
 Engine.
 
-## EXT_TOKENIZER
+## PHP_EXT_TOKENIZER
 
 * Default: `ON`
 * Values: `ON|OFF`
 
 Enable the extension.
 
-## EXT_TOKENIZER_SHARED
+## PHP_EXT_TOKENIZER_SHARED
 
 * Default: `OFF`
 * Values: `ON|OFF`
@@ -30,27 +30,27 @@ include(CMakeDependentOption)
 include(FeatureSummary)
 include(PHP/AddCustomCommand)
 
-option(EXT_TOKENIZER "Enable the tokenizer extension" ON)
+option(PHP_EXT_TOKENIZER "Enable the tokenizer extension" ON)
 
 add_feature_info(
   "ext/tokenizer"
-  EXT_TOKENIZER
+  PHP_EXT_TOKENIZER
   "PHP tokenizer interface"
 )
 
 cmake_dependent_option(
-  EXT_TOKENIZER_SHARED
+  PHP_EXT_TOKENIZER_SHARED
   "Build the tokenizer extension as a shared library"
   OFF
-  "EXT_TOKENIZER;NOT BUILD_SHARED_LIBS"
+  "PHP_EXT_TOKENIZER;NOT BUILD_SHARED_LIBS"
   OFF
 )
 
-if(NOT EXT_TOKENIZER)
+if(NOT PHP_EXT_TOKENIZER)
   return()
 endif()
 
-if(EXT_TOKENIZER_SHARED)
+if(PHP_EXT_TOKENIZER_SHARED)
   add_library(php_ext_tokenizer SHARED)
 else()
   add_library(php_ext_tokenizer)

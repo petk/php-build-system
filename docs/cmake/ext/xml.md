@@ -7,21 +7,21 @@ Configure the `xml` extension.
 
 This extension provides support for parsing XML.
 
-## EXT_XML
+## PHP_EXT_XML
 
 * Default: `ON`
 * Values: `ON|OFF`
 
 Enable the extension.
 
-## EXT_XML_SHARED
+## PHP_EXT_XML_SHARED
 
 * Default: `OFF`
 * Values: `ON|OFF`
 
 Build extension as shared.
 
-## EXT_XML_EXPAT
+## PHP_EXT_XML_EXPAT
 
 * Default: `OFF`
 * Values: `ON|OFF`

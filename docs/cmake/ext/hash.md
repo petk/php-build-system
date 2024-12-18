@@ -8,7 +8,7 @@ Configure the `hash` extension.
 This extension provides HASH message digest framework and is always enabled in
 PHP.
 
-## EXT_HASH_MHASH
+## PHP_EXT_HASH_MHASH
 
 :orange_circle: *Deprecated as of PHP 8.1.*
 

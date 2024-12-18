@@ -6,21 +6,21 @@ Configure the `session` extension.
 This extension provides support for sessions to preserve data across subsequent
 accesses.
 
-## EXT_SESSION
+## PHP_EXT_SESSION
 
 * Default: `ON`
 * Values: `ON|OFF`
 
 Enable the extension.
 
-## EXT_SESSION_SHARED
+## PHP_EXT_SESSION_SHARED
 
 * Default: `OFF`
 * Values: `ON|OFF`
 
 Build extension as shared.
 
-## EXT_SESSION_MM
+## PHP_EXT_SESSION_MM
 
 * Default: `OFF`
 * Values: `ON|OFF`
@@ -36,41 +36,41 @@ project(
 include(CMakeDependentOption)
 include(FeatureSummary)
 
-option(EXT_SESSION "Enable the session extension" ON)
+option(PHP_EXT_SESSION "Enable the session extension" ON)
 
 add_feature_info(
   "ext/session"
-  EXT_SESSION
+  PHP_EXT_SESSION
   "preservable data across subsequent accesses"
 )
 
 cmake_dependent_option(
-  EXT_SESSION_SHARED
+  PHP_EXT_SESSION_SHARED
   "Build the session extension as a shared library"
   OFF
-  "EXT_SESSION;NOT BUILD_SHARED_LIBS"
+  "PHP_EXT_SESSION;NOT BUILD_SHARED_LIBS"
   OFF
 )
 
 cmake_dependent_option(
-  EXT_SESSION_MM
+  PHP_EXT_SESSION_MM
   "Include libmm support for session storage (only for non-ZTS build)"
   OFF
-  "EXT_SESSION;NOT PHP_THREAD_SAFETY"
+  "PHP_EXT_SESSION;NOT PHP_THREAD_SAFETY"
   OFF
 )
-mark_as_advanced(EXT_SESSION_MM)
+mark_as_advanced(PHP_EXT_SESSION_MM)
 add_feature_info(
   "ext/session mm"
-  EXT_SESSION_MM
+  PHP_EXT_SESSION_MM
   "session storage using mm library"
 )
 
-if(NOT EXT_SESSION)
+if(NOT PHP_EXT_SESSION)
   return()
 endif()
 
-if(EXT_SESSION_SHARED)
+if(PHP_EXT_SESSION_SHARED)
   add_library(php_ext_session SHARED)
 else()
   add_library(php_ext_session)
@@ -108,14 +108,14 @@ add_dependencies(
 # Check whether pread() and pwrite() work.
 include(cmake/CheckPreadPwrite.cmake)
 
-if(EXT_SESSION_MM)
+if(PHP_EXT_SESSION_MM)
   if(PHP_THREAD_SAFETY)
     message(
       FATAL_ERROR
       "Thread safety and libmm cannot be used together. The mm library (libmm) "
       "is not thread-safe, and mod_mm_c refuses to compile. Either disable the "
       "thread safety by setting PHP_THREAD_SAFETY to 'OFF', or disable libmm "
-      "by setting EXT_SESSION_MM to 'OFF'."
+      "by setting 'PHP_EXT_SESSION_MM' to 'OFF'."
     )
   endif()
 

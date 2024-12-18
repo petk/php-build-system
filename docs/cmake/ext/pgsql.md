@@ -7,14 +7,14 @@ Configure the `pgsql` extension.
 
 This extension provides support for using PostgreSQL database.
 
-## EXT_PGSQL
+## PHP_EXT_PGSQL
 
 * Default: `OFF`
 * Values: `ON|OFF`
 
 Enable the extension.
 
-## EXT_PGSQL_SHARED
+## PHP_EXT_PGSQL_SHARED
 
 * Default: `OFF`
 * Values: `ON|OFF`

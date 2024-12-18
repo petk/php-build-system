@@ -5,14 +5,14 @@ Configure the `zip` extension.
 
 This extension provides support for reading and writing ZIP compressed archives.
 
-## EXT_ZIP
+## PHP_EXT_ZIP
 
 * Default: `OFF`
 * Values: `ON|OFF`
 
 Enable the extension.
 
-## EXT_ZIP_SHARED
+## PHP_EXT_ZIP_SHARED
 
 * Default: `OFF`
 * Values: `ON|OFF`
@@ -29,27 +29,27 @@ include(CheckLibraryExists)
 include(CMakeDependentOption)
 include(FeatureSummary)
 
-option(EXT_ZIP "Enable the zip extension")
+option(PHP_EXT_ZIP "Enable the zip extension")
 
 add_feature_info(
   "ext/zip"
-  EXT_ZIP
+  PHP_EXT_ZIP
   "ZIP (.zip) compressed archives support"
 )
 
 cmake_dependent_option(
-  EXT_ZIP_SHARED
+  PHP_EXT_ZIP_SHARED
   "Build the zip extension as a shared library"
   OFF
-  "EXT_ZIP;NOT BUILD_SHARED_LIBS"
+  "PHP_EXT_ZIP;NOT BUILD_SHARED_LIBS"
   OFF
 )
 
-if(NOT EXT_ZIP)
+if(NOT PHP_EXT_ZIP)
   return()
 endif()
 
-if(EXT_ZIP_SHARED)
+if(PHP_EXT_ZIP_SHARED)
   add_library(php_ext_zip SHARED)
 else()
   add_library(php_ext_zip)

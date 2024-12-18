@@ -7,21 +7,21 @@ Configure the `mysqli` extension.
 
 This extension provides MySQL-compatible databases support.
 
-## EXT_MYSQLI
+## PHP_EXT_MYSQLI
 
 * Default: `OFF`
 * Values: `ON|OFF`
 
 Enable the extension.
 
-## EXT_MYSQLI_SHARED
+## PHP_EXT_MYSQLI_SHARED
 
 * Default: `OFF`
 * Values: `ON|OFF`
 
 Build extension as shared.
 
-## EXT_MYSQL_SOCKET
+## PHP_EXT_MYSQL_SOCKET
 
 * Default: `OFF`
 * Values: `ON|OFF`
@@ -31,7 +31,7 @@ mysqli/pdo_mysql: Use MySQL Unix socket pointer from default locations.
 > [!NOTE]
 > This option is not available when the target system is Windows.
 
-## EXT_MYSQL_SOCKET_PATH
+## PHP_EXT_MYSQL_SOCKET_PATH
 
 * Default: empty
 

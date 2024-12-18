@@ -8,7 +8,7 @@ Configure the `dl_test` extension.
 This extension provides support for testing PHP `dl()` function relevant when
 running PHP tests during development.
 
-## EXT_DL_TEST
+## PHP_EXT_DL_TEST
 
 * Default: `OFF`
 * Values: `ON|OFF`

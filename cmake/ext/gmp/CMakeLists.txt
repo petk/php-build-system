@@ -5,14 +5,14 @@ Configure the `gmp` extension.
 
 This extension provides GNU Multiple Precision Arithmetic support.
 
-## EXT_GMP
+## PHP_EXT_GMP
 
 * Default: `OFF`
 * Values: `ON|OFF`
 
 Enable the extension.
 
-## EXT_GMP_SHARED
+## PHP_EXT_GMP_SHARED
 
 * Default: `OFF`
 * Values: `ON|OFF`
@@ -28,27 +28,27 @@ project(
 include(CMakeDependentOption)
 include(FeatureSummary)
 
-option(EXT_GMP "Enable the gmp extension")
+option(PHP_EXT_GMP "Enable the gmp extension")
 
 add_feature_info(
   "ext/gmp"
-  EXT_GMP
+  PHP_EXT_GMP
   "GNU Multiple Precision Arithmetic support"
 )
 
 cmake_dependent_option(
-  EXT_GMP_SHARED
+  PHP_EXT_GMP_SHARED
   "Build the gmp extension as a shared library"
   OFF
-  "EXT_GMP;NOT BUILD_SHARED_LIBS"
+  "PHP_EXT_GMP;NOT BUILD_SHARED_LIBS"
   OFF
 )
 
-if(NOT EXT_GMP)
+if(NOT PHP_EXT_GMP)
   return()
 endif()
 
-if(EXT_GMP_SHARED)
+if(PHP_EXT_GMP_SHARED)
   add_library(php_ext_gmp SHARED)
 else()
   add_library(php_ext_gmp)

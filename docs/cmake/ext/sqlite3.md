@@ -7,14 +7,14 @@ Configure the `sqlite3` extension.
 
 This extension provides support for using SQLite database.
 
-## EXT_SQLITE3
+## PHP_EXT_SQLITE3
 
 * Default: `ON`
 * Values: `ON|OFF`
 
 Enable the extension.
 
-## EXT_SQLITE3_SHARED
+## PHP_EXT_SQLITE3_SHARED
 
 * Default: `OFF`
 * Values: `ON|OFF`

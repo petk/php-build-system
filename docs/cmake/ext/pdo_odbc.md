@@ -8,21 +8,21 @@ Configure the `pdo_odbc` extension.
 This extension provides PDO interface for using Unified Open Database
 Connectivity (ODBC) databases.
 
-## EXT_PDO_ODBC
+## PHP_EXT_PDO_ODBC
 
 * Default: `OFF`
 * Values: `ON|OFF`
 
 Enable the PHP `pdo-odbc` extension.
 
-## EXT_PDO_ODBC_SHARED
+## PHP_EXT_PDO_ODBC_SHARED
 
 * Default: `OFF`
 * Values: `ON|OFF`
 
 Build extension as shared library.
 
-## EXT_PDO_ODBC_TYPE
+## PHP_EXT_PDO_ODBC_TYPE
 
 * Default: `auto`
 * Values: `auto`, `ibm-db2`, `iODBC`, `unixODBC`, or `custom`
@@ -39,8 +39,8 @@ For example:
 
 ```sh
 cmake -S . -B php-build \
-  -D EXT_PDO_ODBC=ON \
-  -D EXT_PDO_ODBC_TYPE=custom \
+  -D PHP_EXT_PDO_ODBC=ON \
+  -D PHP_EXT_PDO_ODBC_TYPE=custom \
   -D ODBC_LIBRARY=/usr/lib/x86_64-linux-gnu/libodbc.so
 ```
 
@@ -48,8 +48,8 @@ For example, IBM DB2:
 
 ```sh
 cmake -S php-src -B php-build \
-  -D EXT_PDO_ODBC=ON \
-  -D EXT_PDO_ODBC_TYPE=ibm-db2 \
+  -D PHP_EXT_PDO_ODBC=ON \
+  -D PHP_EXT_PDO_ODBC_TYPE=ibm-db2 \
   -D ODBC_ROOT=/home/db2inst1/sqllib \
   -D ODBC_LIBRARY=db2
 ```
@@ -69,8 +69,8 @@ For example:
 
 ```sh
 cmake -S . -B php-build \
-  -D EXT_PDO_ODBC=ON \
-  -D EXT_PDO_ODBC_TYPE=custom \
+  -D PHP_EXT_PDO_ODBC=ON \
+  -D PHP_EXT_PDO_ODBC_TYPE=custom \
   -D ODBC_LIBRARY=/usr/lib/x86_64-linux-gnu/libodbc.so \
   -D ODBC_INCLUDE_DIR=/usr/include \
   -D ODBC_COMPILE_DEFINITIONS="-DSOME_DEF=1 -DSOME_OTHER_DEF_2=1" \

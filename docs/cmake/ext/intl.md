@@ -8,14 +8,14 @@ Configure the `intl` extension.
 This extension provides support for internationalization, a wrapper for ICU
 library.
 
-## EXT_INTL
+## PHP_EXT_INTL
 
 * Default: `OFF`
 * Values: `ON|OFF`
 
 Enable the extension.
 
-## EXT_INTL_SHARED
+## PHP_EXT_INTL_SHARED
 
 * Default: `OFF`
 * Values: `ON|OFF`

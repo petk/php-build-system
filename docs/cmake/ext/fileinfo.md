@@ -7,14 +7,14 @@ Configure the `fileinfo` extension.
 
 This extension provides support for file content type and encoding.
 
-## EXT_FILEINFO
+## PHP_EXT_FILEINFO
 
 * Default: `ON`
 * Values: `ON|OFF`
 
 Enable the extension.
 
-## EXT_FILEINFO_SHARED
+## PHP_EXT_FILEINFO_SHARED
 
 * Default: `OFF`
 * Values: `ON|OFF`

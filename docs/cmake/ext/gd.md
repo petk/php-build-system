@@ -7,63 +7,63 @@ Configure the `gd` extension.
 
 This extension provides image processing and graphics draw (GD) support.
 
-## EXT_GD
+## PHP_EXT_GD
 
 * Default: `OFF`
 * Values: `ON|OFF`
 
 Enable the extension.
 
-## EXT_GD_SHARED
+## PHP_EXT_GD_SHARED
 
 * Default: `OFF`
 * Values: `ON|OFF`
 
 Build extension as shared.
 
-## EXT_GD_EXTERNAL
+## PHP_EXT_GD_EXTERNAL
 
 * Default: `OFF`
 * Values: `ON|OFF`
 
 Use external (system) GD library instead of the bundled libgd from PHP sources.
 
-## EXT_GD_AVIF
+## PHP_EXT_GD_AVIF
 
 * Default: `OFF`
 * Values: `ON|OFF`
 
 Enable AVIF support (only for bundled libgd).
 
-## EXT_GD_WEBP
+## PHP_EXT_GD_WEBP
 
 * Default: `OFF`
 * Values: `ON|OFF`
 
 Enable WebP support (only for bundled libgd).
 
-## EXT_GD_JPEG
+## PHP_EXT_GD_JPEG
 
 * Default: `OFF`
 * Values: `ON|OFF`
 
 Enable JPEG support (only for bundled libgd).
 
-## EXT_GD_XPM
+## PHP_EXT_GD_XPM
 
 * Default: `OFF`
 * Values: `ON|OFF`
 
 Enable XPM support (only for bundled libgd).
 
-## EXT_GD_FREETYPE
+## PHP_EXT_GD_FREETYPE
 
 * Default: `OFF`
 * Values: `ON|OFF`
 
 Enable FreeType 2 support (only for bundled libgd).
 
-## EXT_GD_JIS
+## PHP_EXT_GD_JIS
 
 * Default: `OFF`
 * Values: `ON|OFF`

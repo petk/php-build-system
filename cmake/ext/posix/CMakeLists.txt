@@ -8,14 +8,14 @@ This extension provides support for POSIX-like functions.
 > [!NOTE]
 > This extension is available only on \*nix systems.
 
-## EXT_POSIX
+## PHP_EXT_POSIX
 
 * Default: `ON`
 * Values: `ON|OFF`
 
 Enable the extension.
 
-## EXT_POSIX_SHARED
+## PHP_EXT_POSIX_SHARED
 
 * Default: `OFF`
 * Values: `ON|OFF`
@@ -38,27 +38,27 @@ include(CMakeDependentOption)
 include(CMakePushCheckState)
 include(FeatureSummary)
 
-option(EXT_POSIX "Enable the posix extension (POSIX-like functions)" ON)
+option(PHP_EXT_POSIX "Enable the posix extension (POSIX-like functions)" ON)
 
 add_feature_info(
   "ext/posix"
-  EXT_POSIX
+  PHP_EXT_POSIX
   "IEEE 1003.1 (POSIX.1) interface"
 )
 
 cmake_dependent_option(
-  EXT_POSIX_SHARED
+  PHP_EXT_POSIX_SHARED
   "Build the posix extension as a shared library"
   OFF
-  "EXT_POSIX;NOT BUILD_SHARED_LIBS"
+  "PHP_EXT_POSIX;NOT BUILD_SHARED_LIBS"
   OFF
 )
 
-if(NOT EXT_POSIX)
+if(NOT PHP_EXT_POSIX)
   return()
 endif()
 
-if(EXT_POSIX_SHARED)
+if(PHP_EXT_POSIX_SHARED)
   add_library(php_ext_posix SHARED)
 else()
   add_library(php_ext_posix)

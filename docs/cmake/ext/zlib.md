@@ -8,14 +8,14 @@ Configure the `zlib` extension.
 This extension provides support for reading and writing gzip (.gz) compressed
 files.
 
-## EXT_ZLIB
+## PHP_EXT_ZLIB
 
 * Default: `OFF`
 * Values: `ON|OFF`
 
 Enable the extension.
 
-## EXT_ZLIB_SHARED
+## PHP_EXT_ZLIB_SHARED
 
 * Default: `OFF`
 * Values: `ON|OFF`

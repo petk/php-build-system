@@ -8,14 +8,14 @@ Configure the `ffi` extension.
 This extension provides Foreign Function Interface (FFI) support to run C code
 through PHP.
 
-## EXT_FFI
+## PHP_EXT_FFI
 
 * Default: `OFF`
 * Values: `ON|OFF`
 
 Enable the extension.
 
-## EXT_FFI_SHARED
+## PHP_EXT_FFI_SHARED
 
 * Default: `OFF`
 * Values: `ON|OFF`

@@ -7,28 +7,28 @@ Configure the `dba` extension.
 
 This extension provides the database (dbm-style) abstraction layer.
 
-## EXT_DBA
+## PHP_EXT_DBA
 
 * Default: `OFF`
 * Values: `ON|OFF`
 
 Enable the PHP `dba` extension.
 
-## EXT_DBA_SHARED
+## PHP_EXT_DBA_SHARED
 
 * Default: `OFF`
 * Values: `ON|OFF`
 
 Build extension as shared library.
 
-## EXT_DBA_CDB
+## PHP_EXT_DBA_CDB
 
 * Default: `ON`
 * Values: `ON|OFF`
 
 Enable the constant databases (cdb) handler.
 
-## EXT_DBA_CDB_EXTERNAL
+## PHP_EXT_DBA_CDB_EXTERNAL
 
 * Default: `OFF`
 * Values: `ON|OFF`
@@ -40,35 +40,35 @@ Use external (system) cdb library instead of the bundled sources.
 > likely tinycdb, which isn't supported by PHP. Recommendation is to not enable
 > this option and use the bundled cdb library that comes with PHP sources.
 
-## EXT_DBA_DB
+## PHP_EXT_DBA_DB
 
 * Default: `OFF`
 * Values: `ON|OFF`
 
 Enable the Oracle Berkeley DB handler.
 
-## EXT_DBA_DB1
+## PHP_EXT_DBA_DB1
 
 * Default: `OFF`
 * Values: `ON|OFF`
 
 Enable the Oracle Berkeley DB 1.x support/emulation.
 
-## EXT_DBA_DBM
+## PHP_EXT_DBA_DBM
 
 * Default: `OFF`
 * Values: `ON|OFF`
 
 Enable the legacy (original) Berkeley DB style (Database Manager) handler.
 
-## EXT_DBA_FLATFILE
+## PHP_EXT_DBA_FLATFILE
 
 * Default: `ON`
 * Values: `ON|OFF`
 
 Enable the bundled flat-file DBA handler.
 
-## EXT_DBA_GDBM
+## PHP_EXT_DBA_GDBM
 
 :red_circle: *Removed as of PHP 8.4.*
 
@@ -77,35 +77,35 @@ Enable the bundled flat-file DBA handler.
 
 Enable the GNU dbm (GDBM) handler.
 
-## EXT_DBA_INIFILE
+## PHP_EXT_DBA_INIFILE
 
 * Default: `ON`
 * Values: `ON|OFF`
 
 Enable the bundled INI-file DBA handler.
 
-## EXT_DBA_LMDB
+## PHP_EXT_DBA_LMDB
 
 * Default: `OFF`
 * Values: `ON|OFF`
 
 Enable the Lightning Memory-Mapped Database (LMDB) handler.
 
-## EXT_DBA_NDBM
+## PHP_EXT_DBA_NDBM
 
 * Default: `OFF`
 * Values: `ON|OFF`
 
 Enable the ndbm (new dbm) handler.
 
-## EXT_DBA_QDBM
+## PHP_EXT_DBA_QDBM
 
 * Default: `OFF`
 * Values: `ON|OFF`
 
 Enable the QDBM (Quick Database Manager) handler
 
-## EXT_DBA_TCADB
+## PHP_EXT_DBA_TCADB
 
 * Default: `OFF`
 * Values: `ON|OFF`

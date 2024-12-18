@@ -5,14 +5,14 @@ Configure the `xmlreader` extension.
 
 This extension provides support for for XML pull parser.
 
-## EXT_XMLREADER
+## PHP_EXT_XMLREADER
 
 * Default: `ON`
 * Values: `ON|OFF`
 
 Enable the extension.
 
-## EXT_XMLREADER_SHARED
+## PHP_EXT_XMLREADER_SHARED
 
 * Default: `OFF`
 * Values: `ON|OFF`
@@ -28,27 +28,27 @@ project(
 include(CMakeDependentOption)
 include(FeatureSummary)
 
-option(EXT_XMLREADER "Enable the xmlreader extension" ON)
+option(PHP_EXT_XMLREADER "Enable the xmlreader extension" ON)
 
 add_feature_info(
   "ext/xmlreader"
-  EXT_XMLREADER
+  PHP_EXT_XMLREADER
   "XML pull parser support"
 )
 
 cmake_dependent_option(
-  EXT_XMLREADER_SHARED
+  PHP_EXT_XMLREADER_SHARED
   "Build the xmlreader extension as a shared library"
   OFF
-  "EXT_XMLREADER;NOT BUILD_SHARED_LIBS"
+  "PHP_EXT_XMLREADER;NOT BUILD_SHARED_LIBS"
   OFF
 )
 
-if(NOT EXT_XMLREADER)
+if(NOT PHP_EXT_XMLREADER)
   return()
 endif()
 
-if(EXT_XMLREADER_SHARED)
+if(PHP_EXT_XMLREADER_SHARED)
   add_library(php_ext_xmlreader SHARED)
 else()
   add_library(php_ext_xmlreader)
@@ -80,7 +80,7 @@ set_package_properties(
 target_link_libraries(php_ext_xmlreader PRIVATE LibXml2::LibXml2)
 
 # Optional dependency.
-if(EXT_DOM)
+if(PHP_EXT_DOM)
   add_dependencies(php_ext_xmlreader php_ext_dom)
 endif()
 

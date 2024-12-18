@@ -8,21 +8,21 @@ Configure the `odbc` extension.
 This extension provides support for Unified Open Database Connectivity (ODBC)
 databases.
 
-## EXT_ODBC
+## PHP_EXT_ODBC
 
 * Default: `OFF`
 * Values: `ON|OFF`
 
 Enable the PHP `odbc` extension.
 
-## EXT_ODBC_SHARED
+## PHP_EXT_ODBC_SHARED
 
 * Default: `OFF`
 * Values: `ON|OFF`
 
 Build extension as shared library.
 
-## EXT_ODBC_TYPE
+## PHP_EXT_ODBC_TYPE
 
 Select the ODBC type.
 
@@ -54,8 +54,8 @@ For example:
 
 ```sh
 cmake -S . -B php-build \
-  -D EXT_ODBC=ON \
-  -D EXT_ODBC_TYPE=custom \
+  -D PHP_EXT_ODBC=ON \
+  -D PHP_EXT_ODBC_TYPE=custom \
   -D ODBC_LIBRARY=/usr/lib/x86_64-linux-gnu/libodbc.so
 ```
 
@@ -74,8 +74,8 @@ For example, when using Sybase SQL Anywhere 5.5.00 on QNX:
 
 ```sh
 cmake -S php-src -B php-build \
-  -D EXT_ODBC=ON \
-  -D EXT_ODBC_TYPE=custom \
+  -D PHP_EXT_ODBC=ON \
+  -D PHP_EXT_ODBC_TYPE=custom \
   -D ODBC_LIBRARY=<path-to-libodbc.so> \
   -D ODBC_INCLUDE_DIR=... \
   -D ODBC_COMPILE_DEFINITIONS="-DODBC_QNX -DSQLANY_BUG" \
@@ -86,8 +86,8 @@ For Adabas:
 
 ```sh
 cmake -S php-src -B php-build \
-  -D EXT_ODBC=ON \
-  -D EXT_ODBC_TYPE=adabas \
+  -D PHP_EXT_ODBC=ON \
+  -D PHP_EXT_ODBC_TYPE=adabas \
   -D ODBC_ROOT=/path/to/adabas \
   -D ODBC_LIBRARY=odbc_adabas \
   -D ODBC_INCLUDE_DIR=/path/to/adabas/incl \
@@ -98,8 +98,8 @@ For DBMaker:
 
 ```sh
 cmake -S php-src -B php-build \
-  -D EXT_ODBC=ON \
-  -D EXT_ODBC_TYPE=dbmaker \
+  -D PHP_EXT_ODBC=ON \
+  -D PHP_EXT_ODBC_TYPE=dbmaker \
   -D ODBC_ROOT=/path/to/dbmaker \
   -D ODBC_LIBRARY=dmapic \
 ```
@@ -108,8 +108,8 @@ For Easysoft OOB support:
 
 ```sh
 cmake -S php-src -B php-build \
-  -D EXT_ODBC=ON \
-  -D EXT_ODBC_TYPE=esoob \
+  -D PHP_EXT_ODBC=ON \
+  -D PHP_EXT_ODBC_TYPE=esoob \
   -D ODBC_ROOT=/usr/local/easysoft/oob/client \
   -D ODBC_LIBRARY=esoobclient \
 ```
@@ -118,8 +118,8 @@ For Empress:
 
 ```sh
 cmake -S php-src -B php-build \
-  -D EXT_ODBC=ON \
-  -D EXT_ODBC_TYPE=empress \
+  -D PHP_EXT_ODBC=ON \
+  -D PHP_EXT_ODBC_TYPE=empress \
   -D ODBC_ROOT=/path/to/empress \
   -D ODBC_LIBRARY=empodbccl
 ```
@@ -128,8 +128,8 @@ For Empress Local Access:
 
 ```sh
 cmake -S php-src -B php-build \
-  -D EXT_ODBC=ON \
-  -D EXT_ODBC_TYPE=empress-bcs \
+  -D PHP_EXT_ODBC=ON \
+  -D PHP_EXT_ODBC_TYPE=empress-bcs \
   -D ODBC_ROOT=/path/to/empress \
   -D ODBC_LIBRARY=empodbcbcs \
   -D ODBC_LINK_OPTIONS="-lempphpbcs -lms -lmscfg -lbasic -lbasic_os -lnlscstab -lnlsmsgtab -lm -ldl -lcrypt"
@@ -139,8 +139,8 @@ For IBM DB2:
 
 ```sh
 cmake -S php-src -B php-build \
-  -D EXT_ODBC=ON \
-  -D EXT_ODBC_TYPE=ibm-db2 \
+  -D PHP_EXT_ODBC=ON \
+  -D PHP_EXT_ODBC_TYPE=ibm-db2 \
   -D ODBC_ROOT=/home/db2inst1/sqllib \
   -D ODBC_LIBRARY=db2
 ```
@@ -149,8 +149,8 @@ For Solid DB:
 
 ```sh
 cmake -S php-src -B php-build \
-  -D EXT_ODBC=ON \
-  -D EXT_ODBC_TYPE=solid \
+  -D PHP_EXT_ODBC=ON \
+  -D PHP_EXT_ODBC_TYPE=solid \
   -D ODBC_ROOT=/path/to/solid \
   -D ODBC_LIBRARY=sqlod \
   -D ODBC_INCLUDE_DIR=/path/to/solid/incl
@@ -160,7 +160,7 @@ cmake -S php-src -B php-build \
 > These examples might need to be adjusted and updated for the current ODBC
 > versions and implementations.
 
-## EXT_ODBC_VERSION
+## PHP_EXT_ODBC_VERSION
 
 Hex number to force support for the ODBC specification version. By default, it
 is set to the highest supported ODBC specification version by PHP. A special

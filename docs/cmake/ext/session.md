@@ -8,21 +8,21 @@ Configure the `session` extension.
 This extension provides support for sessions to preserve data across subsequent
 accesses.
 
-## EXT_SESSION
+## PHP_EXT_SESSION
 
 * Default: `ON`
 * Values: `ON|OFF`
 
 Enable the extension.
 
-## EXT_SESSION_SHARED
+## PHP_EXT_SESSION_SHARED
 
 * Default: `OFF`
 * Values: `ON|OFF`
 
 Build extension as shared.
 
-## EXT_SESSION_MM
+## PHP_EXT_SESSION_MM
 
 * Default: `OFF`
 * Values: `ON|OFF`

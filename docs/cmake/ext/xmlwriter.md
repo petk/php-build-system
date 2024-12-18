@@ -7,14 +7,14 @@ Configure the `xmlwriter` extension.
 
 This extension provides support for libxml xmlWriter API.
 
-## EXT_XMLWRITER
+## PHP_EXT_XMLWRITER
 
 * Default: `ON`
 * Values: `ON|OFF`
 
 Enable the extension.
 
-## EXT_XMLWRITER_SHARED
+## PHP_EXT_XMLWRITER_SHARED
 
 * Default: `OFF`
 * Values: `ON|OFF`

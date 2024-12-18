@@ -16,7 +16,7 @@ Build configuration can be passed on the command line at the configuration
 phase with the `-D` options:
 
 ```sh
-cmake -DCMAKE_FOO=ON -DPHP_BAR -DZEND_BAZ -DEXT_NAME=ON ... -S php-src -B php-build
+cmake -DCMAKE_FOO=ON -DPHP_BAR=ON -DPHP_EXT_NAME=ON ... -S php-src -B php-build
 ```
 
 The `-LH` and `-LAH` command-line options list all available configuration cache
@@ -1019,32 +1019,32 @@ A list of Autoconf `configure` command-line configuration options, Windows
     <tr>
       <td>--disable-bcmath</td>
       <td>--disable-bcmath</td>
-      <td>EXT_BCMATH=OFF</td>
+      <td>PHP_EXT_BCMATH=OFF</td>
       <td>default in *nix and CMake (on Windows enabled by default)</td>
     </tr>
     <tr>
       <td>&emsp;--enable-bcmath</td>
       <td>--enable-bcmath</td>
-      <td>EXT_BCMATH=ON</td>
+      <td>PHP_EXT_BCMATH=ON</td>
       <td></td>
     </tr>
     <tr>
       <td>&emsp;--enable-bcmath=shared</td>
       <td>--enable-bcmath=shared</td>
-      <td>EXT_BCMATH_SHARED=ON</td>
+      <td>PHP_EXT_BCMATH_SHARED=ON</td>
       <td></td>
     </tr>
     <tr>
       <td>--without-bz2</td>
       <td>--without-bz2</td>
-      <td>EXT_BZ2=OFF</td>
+      <td>PHP_EXT_BZ2=OFF</td>
       <td>default</td>
     </tr>
     <tr>
       <td>&emsp;--with-bz2[=DIR]</td>
       <td>--with-bz2</td>
       <td>
-        EXT_BZ2=ON<br>
+        PHP_EXT_BZ2=ON<br>
         [BZIP2_ROOT=DIR]
       </td>
       <td></td>
@@ -1052,67 +1052,67 @@ A list of Autoconf `configure` command-line configuration options, Windows
     <tr>
       <td>&emsp;--with-bz2=shared</td>
       <td>--with-bz2=shared</td>
-      <td>EXT_BZ2_SHARED=ON</td>
+      <td>PHP_EXT_BZ2_SHARED=ON</td>
       <td></td>
     </tr>
     <tr>
       <td>--disable-calendar</td>
       <td>--disable-calendar</td>
-      <td>EXT_CALENDAR=OFF</td>
+      <td>PHP_EXT_CALENDAR=OFF</td>
       <td>default in *nix and CMake (on Windows enabled by default)</td>
     </tr>
     <tr>
       <td>&emsp;--enable-calendar</td>
       <td>--enable-calendar</td>
-      <td>EXT_CALENDAR=ON</td>
+      <td>PHP_EXT_CALENDAR=ON</td>
       <td></td>
     </tr>
     <tr>
       <td>&emsp;--enable-calendar=shared</td>
       <td>--enable-calendar=shared</td>
-      <td>EXT_CALENDAR_SHARED=ON</td>
+      <td>PHP_EXT_CALENDAR_SHARED=ON</td>
       <td></td>
     </tr>
     <tr>
       <td>N/A</td>
       <td>--enable-com-dotnet</td>
-      <td>EXT_COM_DOTNET=ON</td>
+      <td>PHP_EXT_COM_DOTNET=ON</td>
       <td>default; Windows only</td>
     </tr>
     <tr>
       <td>&emsp;N/A</td>
       <td>--enable-com-dotnet=shared (default PHP &gt;= 8.5)</td>
-      <td>EXT_COM_DOTNET_SHARED=ON</td>
+      <td>PHP_EXT_COM_DOTNET_SHARED=ON</td>
       <td>Windows only</td>
     </tr>
     <tr>
       <td>&emsp;N/A</td>
       <td>--disable-com-dotnet</td>
-      <td>EXT_COM_DOTNET=OFF</td>
+      <td>PHP_EXT_COM_DOTNET=OFF</td>
       <td>Windows only</td>
     </tr>
     <tr>
       <td>--enable-ctype</td>
       <td>--enable-ctype</td>
-      <td>EXT_CTYPE=ON</td>
+      <td>PHP_EXT_CTYPE=ON</td>
       <td>default</td>
     </tr>
     <tr>
       <td>&emsp;--enable-ctype=shared</td>
       <td>--enable-ctype=shared</td>
-      <td>EXT_CTYPE_SHARED=ON</td>
+      <td>PHP_EXT_CTYPE_SHARED=ON</td>
       <td></td>
     </tr>
     <tr>
       <td>&emsp;--disable-ctype</td>
       <td>--disable-ctype</td>
-      <td>EXT_CTYPE=OFF</td>
+      <td>PHP_EXT_CTYPE=OFF</td>
       <td></td>
     </tr>
     <tr>
       <td>--without-curl</td>
       <td>--without-curl</td>
-      <td>EXT_CURL=OFF</td>
+      <td>PHP_EXT_CURL=OFF</td>
       <td>default</td>
     </tr>
     <tr>
@@ -1124,7 +1124,7 @@ A list of Autoconf `configure` command-line configuration options, Windows
       </td>
       <td>--with-curl</td>
       <td>
-        EXT_CURL=ON<br>
+        PHP_EXT_CURL=ON<br>
         [CURL_ROOT=DIR]
       </td>
       <td></td>
@@ -1132,62 +1132,62 @@ A list of Autoconf `configure` command-line configuration options, Windows
     <tr>
       <td>&emsp;--with-curl=shared</td>
       <td>--with-curl=shared</td>
-      <td>EXT_CURL_SHARED=ON</td>
+      <td>PHP_EXT_CURL_SHARED=ON</td>
       <td></td>
     </tr>
     <tr>
       <td>--disable-dba</td>
       <td>--without-dba</td>
-      <td>EXT_DBA=OFF</td>
+      <td>PHP_EXT_DBA=OFF</td>
       <td>default</td>
     </tr>
     <tr>
       <td>&emsp;--enable-dba</td>
       <td>--with-dba[=DIR]</td>
-      <td>EXT_DBA=ON</td>
+      <td>PHP_EXT_DBA=ON</td>
       <td></td>
     </tr>
     <tr>
       <td>&emsp;--enable-dba=shared</td>
       <td>--with-dba=shared</td>
-      <td>EXT_DBA_SHARED=ON</td>
+      <td>PHP_EXT_DBA_SHARED=ON</td>
       <td></td>
     </tr>
     <tr>
       <td>&emsp;--enable-flatfile</td>
       <td>N/A</td>
-      <td>EXT_DBA_FLATFILE=ON</td>
+      <td>PHP_EXT_DBA_FLATFILE=ON</td>
       <td>default</td>
     </tr>
     <tr>
       <td>&emsp;--disable-flatfile</td>
       <td>N/A</td>
-      <td>EXT_DBA_FLATFILE=OFF</td>
+      <td>PHP_EXT_DBA_FLATFILE=OFF</td>
       <td></td>
     </tr>
     <tr>
       <td>&emsp;--enable-inifile</td>
       <td>N/A</td>
-      <td>EXT_DBA_INIFILE=ON</td>
+      <td>PHP_EXT_DBA_INIFILE=ON</td>
       <td>default</td>
     </tr>
     <tr>
       <td>&emsp;--disable-inifile</td>
       <td>N/A</td>
-      <td>EXT_DBA_INIFILE=OFF</td>
+      <td>PHP_EXT_DBA_INIFILE=OFF</td>
       <td></td>
     </tr>
     <tr>
       <td>&emsp;--without-qdbm</td>
       <td>--without-qdbm</td>
-      <td>EXT_DBA_QDBM=OFF</td>
+      <td>PHP_EXT_DBA_QDBM=OFF</td>
       <td>default</td>
     </tr>
     <tr>
       <td>&emsp;--with-qdbm[=DIR]</td>
       <td>--with-qdbm</td>
       <td>
-        EXT_DBA_QDBM=ON<br>
+        PHP_EXT_DBA_QDBM=ON<br>
         [QDBM_ROOT=DIR]
       </td>
       <td></td>
@@ -1195,14 +1195,14 @@ A list of Autoconf `configure` command-line configuration options, Windows
     <tr>
       <td>&emsp;--without-gdbm</td>
       <td>N/A</td>
-      <td>EXT_DBA_GDBM=OFF (PHP &lt;= 8.3)</td>
+      <td>PHP_EXT_DBA_GDBM=OFF (PHP &lt;= 8.3)</td>
       <td>default</td>
     </tr>
     <tr>
       <td>&emsp;--with-gdbm[=DIR]</td>
       <td>N/A</td>
       <td>
-        EXT_DBA_GDBM=ON (PHP &lt;= 8.3)<br>
+        PHP_EXT_DBA_GDBM=ON (PHP &lt;= 8.3)<br>
         [GDBM_ROOT=DIR] (PHP &lt;= 8.3)
       </td>
       <td></td>
@@ -1210,14 +1210,14 @@ A list of Autoconf `configure` command-line configuration options, Windows
     <tr>
       <td>&emsp;--without-ndbm</td>
       <td>N/A</td>
-      <td>EXT_DBA_NDBM=OFF</td>
+      <td>PHP_EXT_DBA_NDBM=OFF</td>
       <td>default</td>
     </tr>
     <tr>
       <td>&emsp;--with-ndbm[=DIR]</td>
       <td>N/A</td>
       <td>
-        EXT_DBA_NDBM=ON<br>
+        PHP_EXT_DBA_NDBM=ON<br>
         [NDBM_ROOT=DIR]
       </td>
       <td></td>
@@ -1225,14 +1225,14 @@ A list of Autoconf `configure` command-line configuration options, Windows
     <tr>
       <td>&emsp;--without-db4</td>
       <td>N/A</td>
-      <td>EXT_DBA_DB=OFF</td>
+      <td>PHP_EXT_DBA_DB=OFF</td>
       <td>default</td>
     </tr>
     <tr>
       <td>&emsp;--with-db4[=DIR]</td>
       <td>N/A</td>
       <td>
-        EXT_DBA_DB=ON<br>
+        PHP_EXT_DBA_DB=ON<br>
         [BERKELEYDB_ROOT=DIR]
       </td>
       <td></td>
@@ -1240,14 +1240,14 @@ A list of Autoconf `configure` command-line configuration options, Windows
     <tr>
       <td>&emsp;--without-db3</td>
       <td>--without-db</td>
-      <td>EXT_DBA_DB=OFF</td>
+      <td>PHP_EXT_DBA_DB=OFF</td>
       <td>default</td>
     </tr>
     <tr>
       <td>&emsp;--with-db3[=DIR]</td>
       <td>--with-db</td>
       <td>
-        EXT_DBA_DB=ON<br>
+        PHP_EXT_DBA_DB=ON<br>
         [BERKELEYDB_ROOT=DIR]
       </td>
       <td></td>
@@ -1255,14 +1255,14 @@ A list of Autoconf `configure` command-line configuration options, Windows
     <tr>
       <td>&emsp;--without-db2</td>
       <td>N/A</td>
-      <td>EXT_DBA_DB=OFF</td>
+      <td>PHP_EXT_DBA_DB=OFF</td>
       <td>default</td>
     </tr>
     <tr>
       <td>&emsp;--with-db2[=DIR]</td>
       <td>N/A</td>
       <td>
-        EXT_DBA_DB=ON<br>
+        PHP_EXT_DBA_DB=ON<br>
         [BERKELEYDB_ROOT=DIR]
       </td>
       <td></td>
@@ -1270,15 +1270,15 @@ A list of Autoconf `configure` command-line configuration options, Windows
     <tr>
       <td>&emsp;--without-db1</td>
       <td>N/A</td>
-      <td>EXT_DBA_DB1=OFF</td>
+      <td>PHP_EXT_DBA_DB1=OFF</td>
       <td>default</td>
     </tr>
     <tr>
       <td>&emsp;--with-db1[=DIR]</td>
       <td>N/A</td>
       <td>
-        EXT_DBA_DB1=ON<br>
-        EXT_DBA_DB=ON<br>
+        PHP_EXT_DBA_DB1=ON<br>
+        PHP_EXT_DBA_DB=ON<br>
         [BERKELEYDB_ROOT=DIR]
       </td>
       <td></td>
@@ -1286,14 +1286,14 @@ A list of Autoconf `configure` command-line configuration options, Windows
     <tr>
       <td>&emsp;--without-dbm</td>
       <td>N/A</td>
-      <td>EXT_DBA_DBM=OFF</td>
+      <td>PHP_EXT_DBA_DBM=OFF</td>
       <td>default</td>
     </tr>
     <tr>
       <td>&emsp;--with-dbm[=DIR]</td>
       <td>N/A</td>
       <td>
-        EXT_DBA_DBM=ON<br>
+        PHP_EXT_DBA_DBM=ON<br>
         [DBM_ROOT=DIR]
       </td>
       <td></td>
@@ -1301,14 +1301,14 @@ A list of Autoconf `configure` command-line configuration options, Windows
     <tr>
       <td>&emsp;--without-lmdb</td>
       <td>--without-lmdb</td>
-      <td>EXT_DBA_LMDB=OFF</td>
+      <td>PHP_EXT_DBA_LMDB=OFF</td>
       <td>default</td>
     </tr>
     <tr>
       <td>&emsp;--with-lmdb[=DIR]</td>
       <td>--with-lmdb</td>
       <td>
-        EXT_DBA_LMDB=ON<br>
+        PHP_EXT_DBA_LMDB=ON<br>
         [LMDB_ROOT=DIR]
       </td>
       <td></td>
@@ -1316,14 +1316,14 @@ A list of Autoconf `configure` command-line configuration options, Windows
     <tr>
       <td>&emsp;--without-tcadb</td>
       <td>N/A</td>
-      <td>EXT_DBA_TCADB=OFF</td>
+      <td>PHP_EXT_DBA_TCADB=OFF</td>
       <td>default</td>
     </tr>
     <tr>
       <td>&emsp;--with-tcadb[=DIR]</td>
       <td>N/A</td>
       <td>
-        EXT_DBA_TCADB=ON<br>
+        PHP_EXT_DBA_TCADB=ON<br>
         [TOKYOCABINET_ROOT=DIR]
       </td>
       <td></td>
@@ -1331,14 +1331,14 @@ A list of Autoconf `configure` command-line configuration options, Windows
     <tr>
       <td>&emsp;--with-cdb</td>
       <td>N/A</td>
-      <td>EXT_DBA_CDB=ON</td>
+      <td>PHP_EXT_DBA_CDB=ON</td>
       <td>default</td>
     </tr>
     <tr>
       <td>&emsp;--with-cdb=DIR</td>
       <td>N/A</td>
       <td>
-        EXT_DBA_CDB_EXTERNAL=ON<br>
+        PHP_EXT_DBA_CDB_EXTERNAL=ON<br>
         [CDB_ROOT=DIR]
       </td>
       <td></td>
@@ -1346,49 +1346,49 @@ A list of Autoconf `configure` command-line configuration options, Windows
     <tr>
       <td>&emsp;--without-cdb</td>
       <td>N/A</td>
-      <td>EXT_DBA_CDB=OFF</td>
+      <td>PHP_EXT_DBA_CDB=OFF</td>
       <td></td>
     </tr>
     <tr>
       <td>--disable-dl-test</td>
       <td>--disable-dl-test</td>
-      <td>EXT_DL_TEST=OFF</td>
+      <td>PHP_EXT_DL_TEST=OFF</td>
       <td>default</td>
     </tr>
     <tr>
       <td>&emsp;--enable-dl-test</td>
       <td>--enable-dl-test</td>
-      <td>EXT_DL_TEST=ON</td>
+      <td>PHP_EXT_DL_TEST=ON</td>
       <td>will be shared</td>
     </tr>
     <tr>
       <td>&emsp;--enable-dl-test=shared</td>
       <td>--enable-dl-test=shared</td>
-      <td>EXT_DL_TEST=ON</td>
+      <td>PHP_EXT_DL_TEST=ON</td>
       <td>will be shared</td>
     </tr>
     <tr>
       <td>--enable-dom</td>
       <td>--with-dom</td>
-      <td>EXT_DOM=ON</td>
+      <td>PHP_EXT_DOM=ON</td>
       <td>default</td>
     </tr>
     <tr>
       <td>&emsp;--enable-dom=shared</td>
       <td>--with-dom=shared</td>
-      <td>EXT_DOM_SHARED=ON</td>
+      <td>PHP_EXT_DOM_SHARED=ON</td>
       <td></td>
     </tr>
     <tr>
       <td>&emsp;--disable-dom</td>
       <td>--without-dom</td>
-      <td>EXT_DOM=OFF</td>
+      <td>PHP_EXT_DOM=OFF</td>
       <td></td>
     </tr>
     <tr>
       <td>--without-enchant</td>
       <td>--without-enchant</td>
-      <td>EXT_ENCHANT=OFF</td>
+      <td>PHP_EXT_ENCHANT=OFF</td>
       <td>default</td>
     </tr>
     <tr>
@@ -1401,7 +1401,7 @@ A list of Autoconf `configure` command-line configuration options, Windows
       </td>
       <td>--with-enchant</td>
       <td>
-        EXT_ENCHANT=ON<br>
+        PHP_EXT_ENCHANT=ON<br>
         [ENCHANT_ROOT=DIR]
       </td>
       <td></td>
@@ -1409,31 +1409,31 @@ A list of Autoconf `configure` command-line configuration options, Windows
     <tr>
       <td>&emsp;--with-enchant=shared</td>
       <td>--with-enchant=shared</td>
-      <td>EXT_ENCHANT_SHARED=ON</td>
+      <td>PHP_EXT_ENCHANT_SHARED=ON</td>
       <td></td>
     </tr>
     <tr>
       <td>--disable-exif</td>
       <td>--disable-exif</td>
-      <td>EXT_EXIF=OFF</td>
+      <td>PHP_EXT_EXIF=OFF</td>
       <td>default</td>
     </tr>
     <tr>
       <td>&emsp;--enable-exif</td>
       <td>--enable-exif</td>
-      <td>EXT_EXIF=ON</td>
+      <td>PHP_EXT_EXIF=ON</td>
       <td></td>
     </tr>
     <tr>
       <td>&emsp;--enable-exif=shared</td>
       <td>--enable-exif=shared</td>
-      <td>EXT_EXIF_SHARED=ON</td>
+      <td>PHP_EXT_EXIF_SHARED=ON</td>
       <td></td>
     </tr>
     <tr>
       <td>--without-ffi</td>
       <td>--without-ffi</td>
-      <td>EXT_FFI=OFF</td>
+      <td>PHP_EXT_FFI=OFF</td>
       <td>default</td>
     </tr>
     <tr>
@@ -1444,7 +1444,7 @@ A list of Autoconf `configure` command-line configuration options, Windows
       </td>
       <td>--with-ffi</td>
       <td>
-        EXT_FFI=ON<br>
+        PHP_EXT_FFI=ON<br>
         [FFI_ROOT=DIR]
       </td>
       <td></td>
@@ -1452,109 +1452,109 @@ A list of Autoconf `configure` command-line configuration options, Windows
     <tr>
       <td>&emsp;--with-ffi=shared</td>
       <td>--with-ffi=shared</td>
-      <td>EXT_FFI_SHARED=ON</td>
+      <td>PHP_EXT_FFI_SHARED=ON</td>
       <td></td>
     </tr>
     <tr>
       <td>--enable-fileinfo</td>
       <td>--enable-fileinfo</td>
-      <td>EXT_FILEINFO=ON</td>
+      <td>PHP_EXT_FILEINFO=ON</td>
       <td>default in *nix and Cmake (on Windows by default disabled and can be only shared)</td>
     </tr>
     <tr>
       <td>&emsp;--enable-fileinfo=shared</td>
       <td>--enable-fileinfo=shared</td>
-      <td>EXT_FILEINFO_SHARED=ON</td>
+      <td>PHP_EXT_FILEINFO_SHARED=ON</td>
       <td></td>
     </tr>
     <tr>
       <td>&emsp;--disable-fileinfo</td>
       <td>--disable-fileinfo</td>
-      <td>EXT_FILEINFO=OFF</td>
+      <td>PHP_EXT_FILEINFO=OFF</td>
       <td></td>
     </tr>
     <tr>
       <td>--enable-filter</td>
       <td>--enable-filter</td>
-      <td>EXT_FILTER=ON</td>
+      <td>PHP_EXT_FILTER=ON</td>
       <td>default</td>
     </tr>
     <tr>
       <td>&emsp;--enable-filter=shared</td>
       <td>--enable-filter=shared</td>
-      <td>EXT_FILTER_SHARED=ON</td>
+      <td>PHP_EXT_FILTER_SHARED=ON</td>
       <td></td>
     </tr>
     <tr>
       <td>&emsp;--disable-filter</td>
       <td>--disable-filter</td>
-      <td>EXT_FILTER=OFF</td>
+      <td>PHP_EXT_FILTER=OFF</td>
       <td></td>
     </tr>
     <tr>
       <td>--disable-ftp</td>
       <td>--disable-ftp</td>
-      <td>EXT_FTP=OFF</td>
+      <td>PHP_EXT_FTP=OFF</td>
       <td>default</td>
     </tr>
     <tr>
       <td>&emsp;--enable-ftp</td>
       <td>--enable-ftp</td>
-      <td>EXT_FTP=ON</td>
+      <td>PHP_EXT_FTP=ON</td>
       <td></td>
     </tr>
     <tr>
       <td>&emsp;--enable-ftp=shared</td>
       <td>--enable-ftp=shared</td>
-      <td>EXT_FTP_SHARED=ON</td>
+      <td>PHP_EXT_FTP_SHARED=ON</td>
       <td></td>
     </tr>
     <tr>
       <td>&emsp;--without-ftp-ssl</td>
       <td>N/A</td>
-      <td>EXT_FTP_SSL=OFF</td>
+      <td>PHP_EXT_FTP_SSL=OFF</td>
       <td>default, PHP >= 8.4</td>
     </tr>
     <tr>
       <td>&emsp;--with-ftp-ssl</td>
       <td>N/A</td>
-      <td>EXT_FTP_SSL=ON</td>
+      <td>PHP_EXT_FTP_SSL=ON</td>
       <td>PHP >= 8.4</td>
     </tr>
     <tr>
       <td>&emsp;--without-openssl-dir</td>
       <td>N/A</td>
-      <td>EXT_FTP_SSL=OFF</td>
+      <td>PHP_EXT_FTP_SSL=OFF</td>
       <td>default, PHP <= 8.3</td>
     </tr>
     <tr>
       <td>&emsp;--with-openssl-dir</td>
       <td>N/A</td>
-      <td>EXT_FTP_SSL=ON</td>
+      <td>PHP_EXT_FTP_SSL=ON</td>
       <td>PHP <= 8.3</td>
     </tr>
     <tr>
       <td>--disable-gd</td>
       <td>--without-gd</td>
-      <td>EXT_GD=OFF</td>
+      <td>PHP_EXT_GD=OFF</td>
       <td>default in Autotools and CMake</td>
     </tr>
     <tr>
       <td>&emsp;--enable-gd</td>
       <td>--with-gd</td>
-      <td>EXT_GD=ON</td>
+      <td>PHP_EXT_GD=ON</td>
       <td></td>
     </tr>
     <tr>
       <td>&emsp;--enable-gd=shared</td>
       <td>--with-gd=shared</td>
-      <td>EXT_GD_SHARED=ON</td>
+      <td>PHP_EXT_GD_SHARED=ON</td>
       <td>default in Windows JScript</td>
     </tr>
     <tr>
       <td>&emsp;--without-external-gd</td>
       <td>N/A</td>
-      <td>EXT_GD_EXTERNAL=OFF</td>
+      <td>PHP_EXT_GD_EXTERNAL=OFF</td>
       <td>default</td>
     </tr>
     <tr>
@@ -1565,7 +1565,7 @@ A list of Autoconf `configure` command-line configuration options, Windows
       </td>
       <td>--with-gd=DIR</td>
       <td>
-        EXT_GD_EXTERNAL=ON<br>
+        PHP_EXT_GD_EXTERNAL=ON<br>
         [GD_ROOT=DIR]
       </td>
       <td></td>
@@ -1573,7 +1573,7 @@ A list of Autoconf `configure` command-line configuration options, Windows
     <tr>
       <td>&emsp;--without-avif</td>
       <td>--without-libavif</td>
-      <td>EXT_GD_AVIF=OFF</td>
+      <td>PHP_EXT_GD_AVIF=OFF</td>
       <td>default in Autotools and CMake</td>
     </tr>
     <tr>
@@ -1584,7 +1584,7 @@ A list of Autoconf `configure` command-line configuration options, Windows
       </td>
       <td>--with-libavif</td>
       <td>
-        EXT_GD_AVIF=ON<br>
+        PHP_EXT_GD_AVIF=ON<br>
         [LIBAVIF_ROOT=DIR]
       </td>
       <td>default in JScript Windows</td>
@@ -1592,7 +1592,7 @@ A list of Autoconf `configure` command-line configuration options, Windows
     <tr>
       <td>&emsp;--without-webp</td>
       <td>--without-libwebp</td>
-      <td>EXT_GD_WEBP=OFF</td>
+      <td>PHP_EXT_GD_WEBP=OFF</td>
       <td>default in Autotools and CMake</td>
     </tr>
     <tr>
@@ -1603,7 +1603,7 @@ A list of Autoconf `configure` command-line configuration options, Windows
       </td>
       <td>--with-libwebp</td>
       <td>
-        EXT_GD_WEBP=ON<br>
+        PHP_EXT_GD_WEBP=ON<br>
         [WEBP_ROOT=DIR]
       </td>
       <td>default in JScript Windows</td>
@@ -1611,7 +1611,7 @@ A list of Autoconf `configure` command-line configuration options, Windows
     <tr>
       <td>&emsp;--without-jpeg</td>
       <td>N/A</td>
-      <td>EXT_GD_JPEG=OFF</td>
+      <td>PHP_EXT_GD_JPEG=OFF</td>
       <td>default</td>
     </tr>
     <tr>
@@ -1622,7 +1622,7 @@ A list of Autoconf `configure` command-line configuration options, Windows
       </td>
       <td>N/A</td>
       <td>
-        EXT_GD_JPEG=ON<br>
+        PHP_EXT_GD_JPEG=ON<br>
         [JPEG_ROOT=DIR]
       </td>
       <td></td>
@@ -1641,7 +1641,7 @@ A list of Autoconf `configure` command-line configuration options, Windows
     <tr>
       <td>&emsp;--without-xpm</td>
       <td>N/A</td>
-      <td>EXT_GD_XPM=OFF</td>
+      <td>PHP_EXT_GD_XPM=OFF</td>
       <td>default</td>
     </tr>
     <tr>
@@ -1652,7 +1652,7 @@ A list of Autoconf `configure` command-line configuration options, Windows
       </td>
       <td>N/A</td>
       <td>
-        EXT_GD_XPM=ON<br>
+        PHP_EXT_GD_XPM=ON<br>
         [XPM_ROOT=DIR]
       </td>
       <td></td>
@@ -1660,7 +1660,7 @@ A list of Autoconf `configure` command-line configuration options, Windows
     <tr>
       <td>&emsp;--without-freetype</td>
       <td>N/A</td>
-      <td>EXT_GD_FREETYPE=OFF</td>
+      <td>PHP_EXT_GD_FREETYPE=OFF</td>
       <td>default</td>
     </tr>
     <tr>
@@ -1671,7 +1671,7 @@ A list of Autoconf `configure` command-line configuration options, Windows
       </td>
       <td>N/A</td>
       <td>
-        EXT_GD_FREETYPE=ON<br>
+        PHP_EXT_GD_FREETYPE=ON<br>
         [FREETYPE_ROOT=DIR]
       </td>
       <td></td>
@@ -1679,26 +1679,26 @@ A list of Autoconf `configure` command-line configuration options, Windows
     <tr>
       <td>&emsp;--disable-gd-jis-conv</td>
       <td>N/A</td>
-      <td>EXT_GD_JIS=OFF</td>
+      <td>PHP_EXT_GD_JIS=OFF</td>
       <td>default</td>
     </tr>
     <tr>
       <td>&emsp;--enable-gd-jis-conv</td>
       <td>N/A</td>
-      <td>EXT_GD_JIS=ON</td>
+      <td>PHP_EXT_GD_JIS=ON</td>
       <td></td>
     </tr>
     <tr>
       <td>--without-gettext</td>
       <td>--without-gettext</td>
-      <td>EXT_GETTEXT=OFF</td>
+      <td>PHP_EXT_GETTEXT=OFF</td>
       <td>default</td>
     </tr>
     <tr>
       <td>&emsp;--with-gettext[=DIR]</td>
       <td>--with-gettext</td>
       <td>
-        EXT_GETTEXT=ON<br>
+        PHP_EXT_GETTEXT=ON<br>
         [INTL_ROOT=DIR]
       </td>
       <td></td>
@@ -1706,20 +1706,20 @@ A list of Autoconf `configure` command-line configuration options, Windows
     <tr>
       <td>&emsp;--with-gettext=shared</td>
       <td>--with-gettext=shared</td>
-      <td>EXT_GETTEXT_SHARED=ON</td>
+      <td>PHP_EXT_GETTEXT_SHARED=ON</td>
       <td></td>
     </tr>
     <tr>
       <td>--without-gmp</td>
       <td>--without-gmp</td>
-      <td>EXT_GMP=OFF</td>
+      <td>PHP_EXT_GMP=OFF</td>
       <td>default</td>
     </tr>
     <tr>
       <td>&emsp;--with-gmp[=DIR]</td>
       <td>--with-gmp</td>
       <td>
-        EXT_GMP=ON<br>
+        PHP_EXT_GMP=ON<br>
         [GMP_ROOT=DIR]
       </td>
       <td></td>
@@ -1727,26 +1727,26 @@ A list of Autoconf `configure` command-line configuration options, Windows
     <tr>
       <td>&emsp;--with-gmp=shared</td>
       <td>--with-gmp=shared</td>
-      <td>EXT_GMP_SHARED=ON</td>
+      <td>PHP_EXT_GMP_SHARED=ON</td>
       <td></td>
     </tr>
     <tr>
       <td>--without-mhash</td>
       <td>--without-mhash</td>
-      <td>EXT_HASH_MHASH=OFF</td>
+      <td>PHP_EXT_HASH_MHASH=OFF</td>
       <td>default</td>
     </tr>
     <tr>
       <td>&emsp;--with-mhash</td>
       <td>--with-mhash</td>
-      <td>EXT_HASH_MHASH=ON</td>
+      <td>PHP_EXT_HASH_MHASH=ON</td>
       <td></td>
     </tr>
     <tr>
       <td>--with-iconv[=DIR]</td>
       <td>--with-iconv</td>
       <td>
-        EXT_ICONV=ON<br>
+        PHP_EXT_ICONV=ON<br>
         [ICONV_ROOT=DIR]
       </td>
       <td>default</td>
@@ -1754,26 +1754,26 @@ A list of Autoconf `configure` command-line configuration options, Windows
     <tr>
       <td>&emsp;--with-iconv=shared</td>
       <td>--with-iconv=shared</td>
-      <td>EXT_ICONV_SHARED=ON</td>
+      <td>PHP_EXT_ICONV_SHARED=ON</td>
       <td></td>
     </tr>
     <tr>
       <td>&emsp;--without-iconv</td>
       <td>--without-iconv</td>
-      <td>EXT_ICONV=OFF</td>
+      <td>PHP_EXT_ICONV=OFF</td>
       <td></td>
     </tr>
     <tr>
       <td>--without-imap</td>
       <td>--without-imap</td>
-      <td>EXT_IMAP=OFF</td>
+      <td>PHP_EXT_IMAP=OFF</td>
       <td>default, PHP <= 8.3</td>
     </tr>
     <tr>
       <td>&emsp;--with-imap[=DIR]</td>
       <td>--with-imap</td>
       <td>
-        EXT_IMAP=ON<br>
+        PHP_EXT_IMAP=ON<br>
         [CCLIENT_ROOT=DIR]
       </td>
       <td></td>
@@ -1781,7 +1781,7 @@ A list of Autoconf `configure` command-line configuration options, Windows
     <tr>
       <td>&emsp;--without-kerberos</td>
       <td>N/A</td>
-      <td>EXT_IMAP_KERBEROS=OFF</td>
+      <td>PHP_EXT_IMAP_KERBEROS=OFF</td>
       <td>default, PHP <= 8.3</td>
     </tr>
     <tr>
@@ -1792,7 +1792,7 @@ A list of Autoconf `configure` command-line configuration options, Windows
       </td>
       <td>N/A</td>
       <td>
-        EXT_IMAP_KERBEROS=ON<br>
+        PHP_EXT_IMAP_KERBEROS=ON<br>
         [KERBEROS_ROOT=...]
       </td>
       <td></td>
@@ -1800,7 +1800,7 @@ A list of Autoconf `configure` command-line configuration options, Windows
     <tr>
       <td>&emsp;--without-imap-ssl</td>
       <td>N/A</td>
-      <td>EXT_IMAP_SSL=OFF</td>
+      <td>PHP_EXT_IMAP_SSL=OFF</td>
       <td>default, PHP <= 8.3</td>
     </tr>
     <tr>
@@ -1811,7 +1811,7 @@ A list of Autoconf `configure` command-line configuration options, Windows
       </td>
       <td>N/A</td>
       <td>
-        EXT_IMAP_SSL=ON<br>
+        PHP_EXT_IMAP_SSL=ON<br>
         [OPENSSL_ROOT_DIR=DIR]
       </td>
       <td></td>
@@ -1819,7 +1819,7 @@ A list of Autoconf `configure` command-line configuration options, Windows
     <tr>
       <td>--disable-intl</td>
       <td>--disable-intl</td>
-      <td>EXT_INTL=OFF</td>
+      <td>PHP_EXT_INTL=OFF</td>
       <td>default</td>
     </tr>
     <tr>
@@ -1830,7 +1830,7 @@ A list of Autoconf `configure` command-line configuration options, Windows
       </td>
       <td>--enable-intl</td>
       <td>
-        EXT_INTL=ON<br>
+        PHP_EXT_INTL=ON<br>
         [ICU_ROOT=DIR]
       </td>
       <td></td>
@@ -1838,13 +1838,13 @@ A list of Autoconf `configure` command-line configuration options, Windows
     <tr>
       <td>&emsp;--enable-intl=shared</td>
       <td>--enable-intl=shared</td>
-      <td>EXT_INTL_SHARED=ON</td>
+      <td>PHP_EXT_INTL_SHARED=ON</td>
       <td></td>
     </tr>
     <tr>
       <td>--without-ldap</td>
       <td>--without-ldap</td>
-      <td>EXT_LDAP=OFF</td>
+      <td>PHP_EXT_LDAP=OFF</td>
       <td>default</td>
     </tr>
     <tr>
@@ -1853,7 +1853,7 @@ A list of Autoconf `configure` command-line configuration options, Windows
       </td>
       <td>--with-ldap</td>
       <td>
-        EXT_LDAP=ON<br>
+        PHP_EXT_LDAP=ON<br>
         [LDAP_ROOT=DIR]
       </td>
       <td></td>
@@ -1861,13 +1861,13 @@ A list of Autoconf `configure` command-line configuration options, Windows
     <tr>
       <td>&emsp;--with-ldap=shared</td>
       <td>--with-ldap=shared</td>
-      <td>EXT_LDAP_SHARED=ON</td>
+      <td>PHP_EXT_LDAP_SHARED=ON</td>
       <td></td>
     </tr>
     <tr>
       <td>&emsp;--without-ldap-sasl</td>
       <td>N/A</td>
-      <td>EXT_LDAP_SASL=OFF</td>
+      <td>PHP_EXT_LDAP_SASL=OFF</td>
       <td>default</td>
     </tr>
     <tr>
@@ -1878,7 +1878,7 @@ A list of Autoconf `configure` command-line configuration options, Windows
       </td>
       <td>N/A</td>
       <td>
-        EXT_LDAP_SASL=ON<br>
+        PHP_EXT_LDAP_SASL=ON<br>
         [SASL_ROOT=DIR]
       </td>
       <td></td>
@@ -1891,7 +1891,7 @@ A list of Autoconf `configure` command-line configuration options, Windows
       </td>
       <td>--with-libxml</td>
       <td>
-        EXT_LIBXML=ON<br>
+        PHP_EXT_LIBXML=ON<br>
         [LIBXML2_ROOT=DIR]
       </td>
       <td>default</td>
@@ -1899,25 +1899,25 @@ A list of Autoconf `configure` command-line configuration options, Windows
     <tr>
       <td>&emsp;--without-libxml</td>
       <td>--without-libxml</td>
-      <td>EXT_LIBXML=OFF</td>
+      <td>PHP_EXT_LIBXML=OFF</td>
       <td></td>
     </tr>
     <tr>
       <td>--disable-mbstring</td>
       <td>--disable-mbstring</td>
-      <td>EXT_MBSTRING=OFF</td>
+      <td>PHP_EXT_MBSTRING=OFF</td>
       <td>default</td>
     </tr>
     <tr>
       <td>&emsp;--enable-mbstring</td>
       <td>--enable-mbstring</td>
-      <td>EXT_MBSTRING=ON</td>
+      <td>PHP_EXT_MBSTRING=ON</td>
       <td></td>
     </tr>
     <tr>
       <td>&emsp;--enable-mbstring=shared</td>
       <td>--enable-mbstring=shared</td>
-      <td>EXT_MBSTRING_SHARED=ON</td>
+      <td>PHP_EXT_MBSTRING_SHARED=ON</td>
       <td></td>
     </tr>
     <tr>
@@ -1928,7 +1928,7 @@ A list of Autoconf `configure` command-line configuration options, Windows
       </td>
       <td>--enable-mbregex</td>
       <td>
-        EXT_MBSTRING_MBREGEX=ON<br>
+        PHP_EXT_MBSTRING_MBREGEX=ON<br>
         [ONIGURUMA_ROOT=DIR]
       </td>
       <td>default in *nix and CMake (on Windows disabled)</td>
@@ -1936,101 +1936,101 @@ A list of Autoconf `configure` command-line configuration options, Windows
     <tr>
       <td>&emsp;--disable-mbregex</td>
       <td>--disable-mbregex</td>
-      <td>EXT_MBSTRING_MBREGEX=OFF</td>
+      <td>PHP_EXT_MBSTRING_MBREGEX=OFF</td>
       <td></td>
     </tr>
     <tr>
       <td>--without-mysqli</td>
       <td>--without-mysqli</td>
-      <td>EXT_MYSQLI=OFF</td>
+      <td>PHP_EXT_MYSQLI=OFF</td>
       <td>default</td>
     </tr>
     <tr>
       <td>&emsp;--with-mysqli</td>
       <td>--with-mysqli</td>
-      <td>EXT_MYSQLI=ON</td>
+      <td>PHP_EXT_MYSQLI=ON</td>
       <td></td>
     </tr>
     <tr>
       <td>&emsp;--with-mysqli=shared</td>
       <td>--with-mysqli=shared</td>
-      <td>EXT_MYSQLI_SHARED=ON</td>
+      <td>PHP_EXT_MYSQLI_SHARED=ON</td>
       <td></td>
     </tr>
     <tr>
       <td>--without-mysql-sock</td>
       <td>N/A</td>
-      <td>EXT_MYSQL_SOCKET=OFF</td>
+      <td>PHP_EXT_MYSQL_SOCKET=OFF</td>
       <td>default, not available on Windows</td>
     </tr>
     <tr>
       <td>&emsp;--with-mysql-sock</td>
       <td>N/A</td>
-      <td>EXT_MYSQL_SOCKET=ON</td>
+      <td>PHP_EXT_MYSQL_SOCKET=ON</td>
       <td>Not available on Windows</td>
     </tr>
     <tr>
       <td>&emsp;--with-mysql-sock=SOCKET</td>
       <td>N/A</td>
       <td>
-        EXT_MYSQL_SOCKET=ON<br>
-        EXT_MYSQL_SOCKET_PATH=/path/to/mysql.sock
+        PHP_EXT_MYSQL_SOCKET=ON<br>
+        PHP_EXT_MYSQL_SOCKET_PATH=/path/to/mysql.sock
       </td>
       <td>Not available on Windows</td>
     </tr>
     <tr>
       <td>--disable-mysqlnd</td>
       <td>--without-mysqlnd</td>
-      <td>EXT_MYSQLND=OFF</td>
+      <td>PHP_EXT_MYSQLND=OFF</td>
       <td>default in *nix and CMake (on Windows enabled by default)</td>
     </tr>
     <tr>
       <td>&emsp;--enable-mysqlnd</td>
       <td>--with-mysqlnd</td>
-      <td>EXT_MYSQLND=ON</td>
+      <td>PHP_EXT_MYSQLND=ON</td>
       <td></td>
     </tr>
     <tr>
       <td>&emsp;--enable-mysqlnd=shared</td>
       <td>N/A</td>
-      <td>EXT_MYSQLND_SHARED=ON</td>
+      <td>PHP_EXT_MYSQLND_SHARED=ON</td>
       <td></td>
     </tr>
     <tr>
       <td>&emsp;--enable-mysqlnd-compression-support</td>
       <td>N/A (enabled by default)</td>
-      <td>EXT_MYSQLND_COMPRESSION=ON</td>
+      <td>PHP_EXT_MYSQLND_COMPRESSION=ON</td>
       <td>default</td>
     </tr>
     <tr>
       <td>&emsp;--disable-mysqlnd-compression-support</td>
       <td>N/A</td>
-      <td>EXT_MYSQLND_COMPRESSION=OFF</td>
+      <td>PHP_EXT_MYSQLND_COMPRESSION=OFF</td>
       <td></td>
     </tr>
     <tr>
       <td>--without-mysqlnd-ssl</td>
       <td>N/A</td>
-      <td>EXT_MYSQLND_SSL=OFF</td>
+      <td>PHP_EXT_MYSQLND_SSL=OFF</td>
       <td>default, PHP >= 8.4</td>
     </tr>
     <tr>
       <td>--with-mysqlnd-ssl</td>
       <td>N/A</td>
-      <td>EXT_MYSQLND_SSL=ON</td>
+      <td>PHP_EXT_MYSQLND_SSL=ON</td>
       <td>PHP >= 8.4</td>
     </tr>
     <tr>
       <td>--without-oci8</td>
       <td>N/A</td>
-      <td>EXT_OCI8=OFF</td>
+      <td>PHP_EXT_OCI8=OFF</td>
       <td>default, PHP <= 8.3</td>
     </tr>
     <tr>
       <td>&emsp;--with-oci8[=DIR]</td>
       <td>N/A</td>
       <td>
-        EXT_OCI8=ON<br>
+        PHP_EXT_OCI8=ON<br>
         [...]
       </td>
       <td>PHP <= 8.3</td>
@@ -2038,73 +2038,73 @@ A list of Autoconf `configure` command-line configuration options, Windows
     <tr>
       <td>&emsp;--with-oci8=shared</td>
       <td>N/A</td>
-      <td>EXT_OCI8_SHARED=ON</td>
+      <td>PHP_EXT_OCI8_SHARED=ON</td>
       <td></td>
     </tr>
     <tr>
       <td>&emsp;N/A</td>
       <td>--without-oci8-11g</td>
-      <td>EXT_OCI8_11G=OFF</td>
+      <td>PHP_EXT_OCI8_11G=OFF</td>
       <td></td>
     </tr>
     <tr>
       <td>&emsp;N/A</td>
       <td>--with-oci8-11g</td>
-      <td>EXT_OCI8_11G=ON</td>
+      <td>PHP_EXT_OCI8_11G=ON</td>
       <td></td>
     </tr>
     <tr>
       <td>&emsp;N/A</td>
       <td>--without-oci8-12c</td>
-      <td>EXT_OCI8_12C=OFF</td>
+      <td>PHP_EXT_OCI8_12C=OFF</td>
       <td></td>
     </tr>
     <tr>
       <td>&emsp;N/A</td>
       <td>--with-oci8-12c</td>
-      <td>EXT_OCI8_12C=ON</td>
+      <td>PHP_EXT_OCI8_12C=ON</td>
       <td></td>
     </tr>
     <tr>
       <td>&emsp;N/A</td>
       <td>--without-oci8-19</td>
-      <td>EXT_OCI8_19=OFF</td>
+      <td>PHP_EXT_OCI8_19=OFF</td>
       <td></td>
     </tr>
     <tr>
       <td>&emsp;N/A</td>
       <td>--with-oci8-19</td>
-      <td>EXT_OCI8_19=ON</td>
+      <td>PHP_EXT_OCI8_19=ON</td>
       <td></td>
     </tr>
     <tr>
       <td>N/A</td>
       <td>--disable-odbc</td>
-      <td>EXT_ODBC=OFF</td>
+      <td>PHP_EXT_ODBC=OFF</td>
       <td>default</td>
     </tr>
     <tr>
       <td>&emsp;N/A</td>
       <td>--enable-odbc</td>
-      <td>EXT_ODBC=ON</td>
+      <td>PHP_EXT_ODBC=ON</td>
       <td></td>
     </tr>
     <tr>
       <td>&emsp;N/A</td>
       <td>--enable-odbc=shared</td>
-      <td>EXT_ODBC_SHARED=ON</td>
+      <td>PHP_EXT_ODBC_SHARED=ON</td>
       <td></td>
     </tr>
     <tr>
       <td>&emsp;--without-odbcver</td>
       <td>--without-odbcver</td>
-      <td>EXT_ODBC_VERSION="0x0350"</td>
+      <td>PHP_EXT_ODBC_VERSION="0x0350"</td>
       <td>default: 0x0350</td>
     </tr>
     <tr>
       <td>&emsp;--with-odbcver[=HEX]</td>
       <td>--with-odbcver[=HEX]</td>
-      <td>EXT_ODBC_VERSION=HEX</td>
+      <td>PHP_EXT_ODBC_VERSION=HEX</td>
       <td>default: 0x0350</td>
     </tr>
     <tr>
@@ -2117,8 +2117,8 @@ A list of Autoconf `configure` command-line configuration options, Windows
       <td>&emsp;--with-adabas</td>
       <td>N/A</td>
       <td>
-        EXT_ODBC=ON<br>
-        EXT_ODBC_TYPE=adabas<br>
+        PHP_EXT_ODBC=ON<br>
+        PHP_EXT_ODBC_TYPE=adabas<br>
         ODBC_LIBRARY=...
       </td>
       <td></td>
@@ -2133,8 +2133,8 @@ A list of Autoconf `configure` command-line configuration options, Windows
       <td>&emsp;--with-sapdb</td>
       <td>N/A</td>
       <td>
-        EXT_ODBC=ON<br>
-        EXT_ODBC_TYPE=sapdb<br>
+        PHP_EXT_ODBC=ON<br>
+        PHP_EXT_ODBC_TYPE=sapdb<br>
         ODBC_LIBRARY=...
       </td>
       <td></td>
@@ -2149,8 +2149,8 @@ A list of Autoconf `configure` command-line configuration options, Windows
       <td>&emsp;--with-solid</td>
       <td>N/A</td>
       <td>
-        EXT_ODBC=ON<br>
-        EXT_ODBC_TYPE=solid<br>
+        PHP_EXT_ODBC=ON<br>
+        PHP_EXT_ODBC_TYPE=solid<br>
         ODBC_LIBRARY=...
       </td>
       <td></td>
@@ -2165,8 +2165,8 @@ A list of Autoconf `configure` command-line configuration options, Windows
       <td>&emsp;--with-ibm-db2</td>
       <td>N/A</td>
       <td>
-        EXT_ODBC=ON<br>
-        EXT_ODBC_TYPE=ibm-db2<br>
+        PHP_EXT_ODBC=ON<br>
+        PHP_EXT_ODBC_TYPE=ibm-db2<br>
         ODBC_LIBRARY=...
       </td>
       <td></td>
@@ -2181,8 +2181,8 @@ A list of Autoconf `configure` command-line configuration options, Windows
       <td>&emsp;--with-empress</td>
       <td>N/A</td>
       <td>
-        EXT_ODBC=ON<br>
-        EXT_ODBC_TYPE=empress<br>
+        PHP_EXT_ODBC=ON<br>
+        PHP_EXT_ODBC_TYPE=empress<br>
         ODBC_LIBRARY=...
       </td>
       <td></td>
@@ -2197,8 +2197,8 @@ A list of Autoconf `configure` command-line configuration options, Windows
       <td>&emsp;--with-empress-bcs</td>
       <td>N/A</td>
       <td>
-        EXT_ODBC=ON<br>
-        EXT_ODBC_TYPE=empress-bcs<br>
+        PHP_EXT_ODBC=ON<br>
+        PHP_EXT_ODBC_TYPE=empress-bcs<br>
         ODBC_LIBRARY=...
       </td>
       <td></td>
@@ -2213,8 +2213,8 @@ A list of Autoconf `configure` command-line configuration options, Windows
       <td>&emsp;--with-custom-odbc</td>
       <td>N/A</td>
       <td>
-        EXT_ODBC=ON<br>
-        EXT_ODBC_TYPE=custom<br>
+        PHP_EXT_ODBC=ON<br>
+        PHP_EXT_ODBC_TYPE=custom<br>
         ODBC_LIBRARY=...
       </td>
       <td></td>
@@ -2233,8 +2233,8 @@ A list of Autoconf `configure` command-line configuration options, Windows
       </td>
       <td>N/A</td>
       <td>
-        EXT_ODBC=ON<br>
-        EXT_ODBC_TYPE=iODBC<br>
+        PHP_EXT_ODBC=ON<br>
+        PHP_EXT_ODBC_TYPE=iODBC<br>
         [ODBC_ROOT=DIR]
       </td>
       <td></td>
@@ -2249,8 +2249,8 @@ A list of Autoconf `configure` command-line configuration options, Windows
       <td>&emsp;--with-esoob</td>
       <td>N/A</td>
       <td>
-        EXT_ODBC=ON<br>
-        EXT_ODBC_TYPE=esoob<br>
+        PHP_EXT_ODBC=ON<br>
+        PHP_EXT_ODBC_TYPE=esoob<br>
         ODBC_LIBRARY=...
       </td>
       <td></td>
@@ -2269,8 +2269,8 @@ A list of Autoconf `configure` command-line configuration options, Windows
       </td>
       <td>N/A</td>
       <td>
-        EXT_ODBC=ON<br>
-        EXT_ODBC_TYPE=unixODBC<br>
+        PHP_EXT_ODBC=ON<br>
+        PHP_EXT_ODBC_TYPE=unixODBC<br>
         [ODBC_ROOT=DIR]
       </td>
       <td></td>
@@ -2285,8 +2285,8 @@ A list of Autoconf `configure` command-line configuration options, Windows
       <td>&emsp;--with-dbmaker[=DIR]</td>
       <td>N/A</td>
       <td>
-        EXT_ODBC=ON<br>
-        EXT_ODBC_TYPE=dbmaker<br>
+        PHP_EXT_ODBC=ON<br>
+        PHP_EXT_ODBC_TYPE=dbmaker<br>
         ODBC_LIBRARY=...
       </td>
       <td></td>
@@ -2294,49 +2294,49 @@ A list of Autoconf `configure` command-line configuration options, Windows
     <tr>
       <td>--enable-opcache</td>
       <td>--enable-opcache</td>
-      <td>EXT_OPCACHE=ON</td>
+      <td>PHP_EXT_OPCACHE=ON</td>
       <td>default, will be shared</td>
     </tr>
     <tr>
       <td>&emsp;--enable-opcache=shared</td>
       <td>--enable-opcache=shared</td>
-      <td>EXT_OPCACHE=ON</td>
+      <td>PHP_EXT_OPCACHE=ON</td>
       <td>will be shared</td>
     </tr>
     <tr>
       <td>&emsp;--disable-opcache</td>
       <td>--disable-opcache</td>
-      <td>EXT_OPCACHE=OFF</td>
+      <td>PHP_EXT_OPCACHE=OFF</td>
       <td></td>
     </tr>
     <tr>
       <td>&emsp;--enable-huge-code-pages</td>
       <td>N/A</td>
-      <td>EXT_OPCACHE_HUGE_CODE_PAGES=ON</td>
+      <td>PHP_EXT_OPCACHE_HUGE_CODE_PAGES=ON</td>
       <td>default; For non-Windows platforms</td>
     </tr>
     <tr>
       <td>&emsp;--disable-huge-code-pages</td>
       <td>N/A</td>
-      <td>EXT_OPCACHE_HUGE_CODE_PAGES=OFF</td>
+      <td>PHP_EXT_OPCACHE_HUGE_CODE_PAGES=OFF</td>
       <td>For non-Windows platforms</td>
     </tr>
     <tr>
       <td>&emsp;--enable-opcache-jit</td>
       <td>--enable-opcache-jit</td>
-      <td>EXT_OPCACHE_JIT=ON</td>
+      <td>PHP_EXT_OPCACHE_JIT=ON</td>
       <td>default</td>
     </tr>
     <tr>
       <td>&emsp;--disable-opcache-jit</td>
       <td>--disable-opcache-jit</td>
-      <td>EXT_OPCACHE_JIT=OFF</td>
+      <td>PHP_EXT_OPCACHE_JIT=OFF</td>
       <td></td>
     </tr>
     <tr>
       <td>&emsp;--without-capstone</td>
       <td>N/A</td>
-      <td>EXT_OPCACHE_CAPSTONE=OFF</td>
+      <td>PHP_EXT_OPCACHE_CAPSTONE=OFF</td>
       <td>default; For non-Windows platforms</td>
     </tr>
     <tr>
@@ -2347,7 +2347,7 @@ A list of Autoconf `configure` command-line configuration options, Windows
       </td>
       <td>N/A</td>
       <td>
-        EXT_OPCACHE_CAPSTONE=ON<br>
+        PHP_EXT_OPCACHE_CAPSTONE=ON<br>
         [CAPSTONE_ROOT=DIR]
       </td>
       <td>For non-Windows platforms</td>
@@ -2355,7 +2355,7 @@ A list of Autoconf `configure` command-line configuration options, Windows
     <tr>
       <td>--without-openssl</td>
       <td>--without-openssl</td>
-      <td>EXT_OPENSSL=OFF</td>
+      <td>PHP_EXT_OPENSSL=OFF</td>
       <td>default</td>
     </tr>
     <tr>
@@ -2366,7 +2366,7 @@ A list of Autoconf `configure` command-line configuration options, Windows
       </td>
       <td>--with-openssl</td>
       <td>
-        EXT_OPENSSL=ON<br>
+        PHP_EXT_OPENSSL=ON<br>
         [OPENSSL_ROOT_DIR=DIR]
       </td>
       <td></td>
@@ -2374,37 +2374,37 @@ A list of Autoconf `configure` command-line configuration options, Windows
     <tr>
       <td>&emsp;--with-openssl=shared</td>
       <td>--with-openssl=shared</td>
-      <td>EXT_OPENSSL_SHARED=ON</td>
+      <td>PHP_EXT_OPENSSL_SHARED=ON</td>
       <td></td>
     </tr>
     <tr>
       <td>&emsp;--without-openssl-argon2</td>
       <td>--without-openssl-argon2</td>
-      <td>EXT_OPENSSL_ARGON2=OFF</td>
+      <td>PHP_EXT_OPENSSL_ARGON2=OFF</td>
       <td>default, PHP >= 8.4</td>
     </tr>
     <tr>
       <td>&emsp;--with-openssl-argon2</td>
       <td>--with-openssl-argon2</td>
-      <td>EXT_OPENSSL_ARGON2=ON</td>
+      <td>PHP_EXT_OPENSSL_ARGON2=ON</td>
       <td>PHP >= 8.4</td>
     </tr>
     <tr>
       <td>&emsp;--without-openssl-legacy-provider</td>
       <td>--without-openssl-legacy-provider</td>
-      <td>EXT_OPENSSL_LEGACY_PROVIDER=OFF</td>
+      <td>PHP_EXT_OPENSSL_LEGACY_PROVIDER=OFF</td>
       <td>default, PHP >= 8.4</td>
     </tr>
     <tr>
       <td>&emsp;--with-openssl-legacy-provider</td>
       <td>--with-openssl-legacy-provider</td>
-      <td>EXT_OPENSSL_LEGACY_PROVIDER=ON</td>
+      <td>PHP_EXT_OPENSSL_LEGACY_PROVIDER=ON</td>
       <td>PHP >= 8.4</td>
     </tr>
     <tr>
       <td>&emsp;--without-kerberos</td>
       <td>N/A</td>
-      <td>EXT_OPENSSL_KERBEROS=OFF</td>
+      <td>PHP_EXT_OPENSSL_KERBEROS=OFF</td>
       <td>default, PHP <= 8.3</td>
     </tr>
     <tr>
@@ -2415,7 +2415,7 @@ A list of Autoconf `configure` command-line configuration options, Windows
       </td>
       <td>N/A</td>
       <td>
-        EXT_OPENSSL_KERBEROS=ON<br>
+        PHP_EXT_OPENSSL_KERBEROS=ON<br>
         [KERBEROS_ROOT=DIR]
       </td>
       <td>PHP <= 8.3</td>
@@ -2423,49 +2423,49 @@ A list of Autoconf `configure` command-line configuration options, Windows
     <tr>
       <td>&emsp;--without-system-ciphers</td>
       <td>N/A</td>
-      <td>EXT_OPENSSL_SYSTEM_CIPHERS=OFF</td>
+      <td>PHP_EXT_OPENSSL_SYSTEM_CIPHERS=OFF</td>
       <td>default</td>
     </tr>
     <tr>
       <td>&emsp;--with-system-ciphers</td>
       <td>N/A</td>
-      <td>EXT_OPENSSL_SYSTEM_CIPHERS=ON</td>
+      <td>PHP_EXT_OPENSSL_SYSTEM_CIPHERS=ON</td>
       <td></td>
     </tr>
     <tr>
       <td>--disable-pcntl</td>
       <td>N/A</td>
-      <td>EXT_PCNTL=OFF</td>
+      <td>PHP_EXT_PCNTL=OFF</td>
       <td>default; for *nix platforms only</td>
     </tr>
     <tr>
       <td>&emsp;--enable-pcntl</td>
       <td>N/A</td>
-      <td>EXT_PCNTL=ON</td>
+      <td>PHP_EXT_PCNTL=ON</td>
       <td>for *nix platforms only</td>
     </tr>
     <tr>
       <td>&emsp;--enable-pcntl=shared</td>
       <td>N/A</td>
-      <td>EXT_PCNTL_SHARED=ON</td>
+      <td>PHP_EXT_PCNTL_SHARED=ON</td>
       <td>for *nix platforms only</td>
     </tr>
     <tr>
       <td>--with-pcre-jit</td>
       <td>--with-pcre-jit</td>
-      <td>EXT_PCRE_JIT=ON</td>
+      <td>PHP_EXT_PCRE_JIT=ON</td>
       <td>default</td>
     </tr>
     <tr>
       <td>&emsp;--without-pcre-jit</td>
       <td>--without-pcre-jit</td>
-      <td>EXT_PCRE_JIT=OFF</td>
+      <td>PHP_EXT_PCRE_JIT=OFF</td>
       <td></td>
     </tr>
     <tr>
       <td>&emsp;--without-external-pcre</td>
       <td>N/A</td>
-      <td>EXT_PCRE_EXTERNAL=OFF</td>
+      <td>PHP_EXT_PCRE_EXTERNAL=OFF</td>
       <td>default</td>
     </tr>
     <tr>
@@ -2476,7 +2476,7 @@ A list of Autoconf `configure` command-line configuration options, Windows
       </td>
       <td>N/A</td>
       <td>
-        EXT_PCRE_EXTERNAL=ON<br>
+        PHP_EXT_PCRE_EXTERNAL=ON<br>
         [PCRE_ROOT=DIR]
       </td>
       <td></td>
@@ -2484,25 +2484,25 @@ A list of Autoconf `configure` command-line configuration options, Windows
     <tr>
       <td>--enable-pdo</td>
       <td>--enable-pdo</td>
-      <td>EXT_PDO=ON</td>
+      <td>PHP_EXT_PDO=ON</td>
       <td>default in *nix and CMake (on Windows disabled by default)</td>
     </tr>
     <tr>
       <td>&emsp;--enable-pdo=shared</td>
       <td>&emsp;--enable-pdo=shared</td>
-      <td>EXT_PDO_SHARED=ON</td>
+      <td>PHP_EXT_PDO_SHARED=ON</td>
       <td>(on Windows can't be built as shared yet)</td>
     </tr>
     <tr>
       <td>&emsp;--disable-pdo</td>
       <td>&emsp;--disable-pdo</td>
-      <td>EXT_PDO=OFF</td>
+      <td>PHP_EXT_PDO=OFF</td>
       <td></td>
     </tr>
     <tr>
       <td>&emsp;--without-pdo-dblib</td>
       <td>--without-pdo-dblib</td>
-      <td>EXT_PDO_DBLIB=OFF</td>
+      <td>PHP_EXT_PDO_DBLIB=OFF</td>
       <td>default</td>
     </tr>
     <tr>
@@ -2511,7 +2511,7 @@ A list of Autoconf `configure` command-line configuration options, Windows
       </td>
       <td>--with-pdo-dblib</td>
       <td>
-        EXT_PDO_DBLIB=ON<br>
+        PHP_EXT_PDO_DBLIB=ON<br>
         [FREETDS_ROOT=DIR]
       </td>
       <td></td>
@@ -2519,7 +2519,7 @@ A list of Autoconf `configure` command-line configuration options, Windows
     <tr>
       <td>&emsp;--with-pdo-dblib=shared</td>
       <td>--with-pdo-dblib=shared</td>
-      <td>EXT_PDO_DBLIB_SHARED=ON</td>
+      <td>PHP_EXT_PDO_DBLIB_SHARED=ON</td>
       <td></td>
     </tr>
     <tr>
@@ -2543,14 +2543,14 @@ A list of Autoconf `configure` command-line configuration options, Windows
     <tr>
       <td>&emsp;--without-pdo-firebird</td>
       <td>--without-pdo-firebird</td>
-      <td>EXT_PDO_FIREBIRD=OFF</td>
+      <td>PHP_EXT_PDO_FIREBIRD=OFF</td>
       <td>default</td>
     </tr>
     <tr>
       <td>&emsp;--with-pdo-firebird[=DIR]</td>
       <td>--with-pdo-firebird</td>
       <td>
-        EXT_PDO_FIREBIRD=ON<br>
+        PHP_EXT_PDO_FIREBIRD=ON<br>
         [FIREBIRD_ROOT=DIR]
       </td>
       <td></td>
@@ -2558,39 +2558,39 @@ A list of Autoconf `configure` command-line configuration options, Windows
     <tr>
       <td>&emsp;--with-pdo-firebird=shared</td>
       <td>--with-pdo-firebird=shared</td>
-      <td>EXT_PDO_FIREBIRD_SHARED=ON</td>
+      <td>PHP_EXT_PDO_FIREBIRD_SHARED=ON</td>
       <td></td>
     </tr>
     <tr>
       <td>&emsp;--without-pdo-mysql</td>
       <td>--without-pdo-mysql</td>
-      <td>EXT_PDO_MYSQL=OFF</td>
+      <td>PHP_EXT_PDO_MYSQL=OFF</td>
       <td>default</td>
     </tr>
     <tr>
       <td>&emsp;--with-pdo-mysql</td>
       <td>--with-pdo-mysql</td>
-      <td>EXT_PDO_MYSQL=ON</td>
+      <td>PHP_EXT_PDO_MYSQL=ON</td>
       <td></td>
     </tr>
     <tr>
       <td>&emsp;--with-pdo-mysql=mysqlnd</td>
       <td>--with-pdo-mysql=mysqlnd</td>
-      <td>EXT_PDO_MYSQL=ON</td>
+      <td>PHP_EXT_PDO_MYSQL=ON</td>
       <td></td>
     </tr>
     <tr>
       <td>&emsp;--with-pdo-mysql=shared</td>
       <td>--with-pdo-mysql=shared</td>
-      <td>EXT_PDO_MYSQL_SHARED=ON</td>
+      <td>PHP_EXT_PDO_MYSQL_SHARED=ON</td>
       <td></td>
     </tr>
     <tr>
       <td>&emsp;--with-pdo-mysql=/usr</td>
       <td>--with-pdo-mysql=[DIR]</td>
       <td>
-        EXT_PDO_MYSQL=ON<br>
-        EXT_PDO_MYSQL_DRIVER=mysql
+        PHP_EXT_PDO_MYSQL=ON<br>
+        PHP_EXT_PDO_MYSQL_DRIVER=mysql
       </td>
       <td></td>
     </tr>
@@ -2598,8 +2598,8 @@ A list of Autoconf `configure` command-line configuration options, Windows
       <td>&emsp;--with-pdo-mysql=DIR</td>
       <td>--with-pdo-mysql=[DIR]</td>
       <td>
-        EXT_PDO_MYSQL=ON<br>
-        EXT_PDO_MYSQL_DRIVER=mysql<br>
+        PHP_EXT_PDO_MYSQL=ON<br>
+        PHP_EXT_PDO_MYSQL_DRIVER=mysql<br>
         MYSQL_ROOT=DIR
       </td>
       <td></td>
@@ -2608,8 +2608,8 @@ A list of Autoconf `configure` command-line configuration options, Windows
       <td>&emsp;--with-pdo-mysql=path/to/mysql_config</td>
       <td>N/A</td>
       <td>
-        EXT_PDO_MYSQL=ON<br>
-        EXT_PDO_MYSQL_DRIVER=mysql<br>
+        PHP_EXT_PDO_MYSQL=ON<br>
+        PHP_EXT_PDO_MYSQL_DRIVER=mysql<br>
         MySQL_CONFIG_EXECUTABLE=path/to/mysql_config
       </td>
       <td></td>
@@ -2617,14 +2617,14 @@ A list of Autoconf `configure` command-line configuration options, Windows
     <tr>
       <td>&emsp;--without-pdo-oci</td>
       <td>--without-pdo-oci</td>
-      <td>EXT_PDO_OCI=OFF</td>
+      <td>PHP_EXT_PDO_OCI=OFF</td>
       <td>default, PHP <= 8.3</td>
     </tr>
     <tr>
       <td>&emsp;--with-pdo-oci[=DIR]</td>
       <td>--with-pdo-oci[=DIR]</td>
       <td>
-        EXT_PDO_OCI=ON<br>
+        PHP_EXT_PDO_OCI=ON<br>
         [...]
       </td>
       <td></td>
@@ -2632,21 +2632,21 @@ A list of Autoconf `configure` command-line configuration options, Windows
     <tr>
       <td>&emsp;--with-pdo-oci=shared</td>
       <td>--with-pdo-oci=shared</td>
-      <td>EXT_PDO_OCI_SHARED=ON</td>
+      <td>PHP_EXT_PDO_OCI_SHARED=ON</td>
       <td></td>
     </tr>
     <tr>
       <td>&emsp;--without-pdo-odbc</td>
       <td>--without-pdo-odbc</td>
-      <td>EXT_PDO_ODBC=OFF</td>
+      <td>PHP_EXT_PDO_ODBC=OFF</td>
       <td>default</td>
     </tr>
     <tr>
       <td>&emsp;--with-pdo-odbc=type</td>
       <td>--with-pdo-odbc</td>
       <td>
-        EXT_PDO_ODBC=ON<br>
-        [EXT_PDO_ODBC_TYPE=type]
+        PHP_EXT_PDO_ODBC=ON<br>
+        [PHP_EXT_PDO_ODBC_TYPE=type]
       </td>
       <td>Default type: unixODBC (Autotools), auto (CMake)</td>
     </tr>
@@ -2654,8 +2654,8 @@ A list of Autoconf `configure` command-line configuration options, Windows
       <td>&emsp;--with-pdo-odbc=type,dir,libname,ldflags,cflags</td>
       <td>--with-pdo-odbc</td>
       <td>
-        EXT_PDO_ODBC=ON<br>
-        EXT_PDO_ODBC_TYPE=type<br>
+        PHP_EXT_PDO_ODBC=ON<br>
+        PHP_EXT_PDO_ODBC_TYPE=type<br>
         [ODBC_ROOT=dir]<br>
         ODBC_LIBRARY=libname<br>
         [ODBC_INCLUDE_DIR=includedir]<br>
@@ -2668,13 +2668,13 @@ A list of Autoconf `configure` command-line configuration options, Windows
     <tr>
       <td>&emsp;--with-pdo-odbc=shared</td>
       <td>--with-pdo-odbc=shared</td>
-      <td>EXT_PDO_ODBC_SHARED=ON</td>
+      <td>PHP_EXT_PDO_ODBC_SHARED=ON</td>
       <td></td>
     </tr>
     <tr>
       <td>&emsp;--without-pdo-pgsql</td>
       <td>--without-pdo-pgsql</td>
-      <td>EXT_PDO_PGSQL=OFF</td>
+      <td>PHP_EXT_PDO_PGSQL=OFF</td>
       <td>default</td>
     </tr>
     <tr>
@@ -2685,7 +2685,7 @@ A list of Autoconf `configure` command-line configuration options, Windows
       </td>
       <td>--with-pdo-pgsql</td>
       <td>
-        EXT_PDO_PGSQL=ON<br>
+        PHP_EXT_PDO_PGSQL=ON<br>
         [POSTGRESQL_ROOT=DIR]
       </td>
       <td>Autotools PGSQL_CFLAGS and PGSQL_LIBS available since PHP >= 8.4</td>
@@ -2693,7 +2693,7 @@ A list of Autoconf `configure` command-line configuration options, Windows
     <tr>
       <td>&emsp;--with-pdo-pgsql=shared</td>
       <td>--with-pdo-pgsql=shared</td>
-      <td>EXT_PDO_PGSQL_SHARED=ON</td>
+      <td>PHP_EXT_PDO_PGSQL_SHARED=ON</td>
       <td></td>
     </tr>
     <tr>
@@ -2704,7 +2704,7 @@ A list of Autoconf `configure` command-line configuration options, Windows
       </td>
       <td>--with-pdo-sqlite</td>
       <td>
-        EXT_PDO_SQLITE=ON<br>
+        PHP_EXT_PDO_SQLITE=ON<br>
         [SQLITE3_ROOT=DIR]
       </td>
       <td>default in *nix and CMake (on Windows disabled by default)</td>
@@ -2712,19 +2712,19 @@ A list of Autoconf `configure` command-line configuration options, Windows
     <tr>
       <td>&emsp;--with-pdo-sqlite=shared</td>
       <td>--with-pdo-sqlite=shared</td>
-      <td>EXT_PDO_SQLITE_SHARED=ON</td>
+      <td>PHP_EXT_PDO_SQLITE_SHARED=ON</td>
       <td></td>
     </tr>
     <tr>
       <td>&emsp;--without-pdo-sqlite</td>
       <td>--without-pdo-sqlite</td>
-      <td>EXT_PDO_SQLITE=OFF</td>
+      <td>PHP_EXT_PDO_SQLITE=OFF</td>
       <td></td>
     </tr>
     <tr>
       <td>--without-pgsql</td>
       <td>--without-pgsql</td>
-      <td>EXT_PGSQL=OFF</td>
+      <td>PHP_EXT_PGSQL=OFF</td>
       <td>default</td>
     </tr>
     <tr>
@@ -2735,7 +2735,7 @@ A list of Autoconf `configure` command-line configuration options, Windows
       </td>
       <td>--with-pgsql</td>
       <td>
-        EXT_PGSQL=ON<br>
+        PHP_EXT_PGSQL=ON<br>
         [POSTGRESQL_ROOT=DIR]
       </td>
       <td>Autotools PGSQL_CFLAGS and PGSQL_LIBS available since PHP >= 8.4</td>
@@ -2743,25 +2743,25 @@ A list of Autoconf `configure` command-line configuration options, Windows
     <tr>
       <td>&emsp;--with-pgsql=shared</td>
       <td>--with-pgsql=shared</td>
-      <td>EXT_PGSQL_SHARED=ON</td>
+      <td>PHP_EXT_PGSQL_SHARED=ON</td>
       <td></td>
     </tr>
     <tr>
       <td>--enable-phar</td>
       <td>--enable-phar</td>
-      <td>EXT_PHAR=ON</td>
+      <td>PHP_EXT_PHAR=ON</td>
       <td>default</td>
     </tr>
     <tr>
       <td>&emsp;--enable-phar=shared</td>
       <td>--enable-phar=shared</td>
-      <td>EXT_PHAR_SHARED=ON</td>
+      <td>PHP_EXT_PHAR_SHARED=ON</td>
       <td></td>
     </tr>
     <tr>
       <td>&emsp;--disable-phar</td>
       <td>--disable-phar</td>
-      <td>EXT_PHAR=OFF</td>
+      <td>PHP_EXT_PHAR=OFF</td>
       <td></td>
     </tr>
     <tr>
@@ -2785,32 +2785,32 @@ A list of Autoconf `configure` command-line configuration options, Windows
     <tr>
       <td>--enable-posix</td>
       <td>N/A</td>
-      <td>EXT_POSIX=ON</td>
+      <td>PHP_EXT_POSIX=ON</td>
       <td>default; for *nix platforms only</td>
     </tr>
     <tr>
       <td>&emsp;--enable-posix=shared</td>
       <td>N/A</td>
-      <td>EXT_POSIX_SHARED=ON</td>
+      <td>PHP_EXT_POSIX_SHARED=ON</td>
       <td>for *nix platforms only</td>
     </tr>
     <tr>
       <td>&emsp;--disable-posix</td>
       <td>N/A</td>
-      <td>EXT_POSIX=OFF</td>
+      <td>PHP_EXT_POSIX=OFF</td>
       <td>for *nix platforms only</td>
     </tr>
     <tr>
       <td>--without-pspell</td>
       <td>--without-pspell</td>
-      <td>EXT_PSPELL=OFF</td>
+      <td>PHP_EXT_PSPELL=OFF</td>
       <td>default, PHP <= 8.3</td>
     </tr>
     <tr>
       <td>&emsp;--with-pspell[=DIR]</td>
       <td>--with-pspell</td>
       <td>
-        EXT_PSPELL=ON<br>
+        PHP_EXT_PSPELL=ON<br>
         [ASPELL_ROOT=DIR]
       </td>
       <td></td>
@@ -2818,13 +2818,13 @@ A list of Autoconf `configure` command-line configuration options, Windows
     <tr>
       <td>&emsp;--with-pspell=shared</td>
       <td>--with-pspell=shared</td>
-      <td>EXT_PSPELL_SHARED=ON</td>
+      <td>PHP_EXT_PSPELL_SHARED=ON</td>
       <td></td>
     </tr>
     <tr>
       <td>--without-libedit</td>
       <td>--without-readline</td>
-      <td>EXT_READLINE=OFF</td>
+      <td>PHP_EXT_READLINE=OFF</td>
       <td>default</td>
     </tr>
     <tr>
@@ -2835,7 +2835,7 @@ A list of Autoconf `configure` command-line configuration options, Windows
       </td>
       <td>--with-readline</td>
       <td>
-        EXT_READLINE=ON<br>
+        PHP_EXT_READLINE=ON<br>
         [EDITLINE_ROOT=DIR]
       </td>
       <td></td>
@@ -2843,21 +2843,21 @@ A list of Autoconf `configure` command-line configuration options, Windows
     <tr>
       <td>&emsp;--with-libedit=shared</td>
       <td>--with-readline=shared</td>
-      <td>EXT_READLINE_SHARED=ON</td>
+      <td>PHP_EXT_READLINE_SHARED=ON</td>
       <td></td>
     </tr>
     <tr>
       <td>&emsp;--without-readline</td>
       <td>--without-readline</td>
-      <td>EXT_READLINE=OFF (PHP &lt;= 8.3)</td>
+      <td>PHP_EXT_READLINE=OFF (PHP &lt;= 8.3)</td>
       <td>default</td>
     </tr>
     <tr>
       <td>&emsp;--with-readline[=DIR]</td>
       <td>N/A</td>
       <td>
-        EXT_READLINE=ON<br>
-        EXT_READLINE_LIBREADLINE=ON <i>(PHP &lt;= 8.3)</i><br>
+        PHP_EXT_READLINE=ON<br>
+        PHP_EXT_READLINE_LIBREADLINE=ON <i>(PHP &lt;= 8.3)</i><br>
         [READLINE_ROOT=DIR] <i>(PHP &lt;= 8.3)</i>
       </td>
       <td></td>
@@ -2866,41 +2866,41 @@ A list of Autoconf `configure` command-line configuration options, Windows
       <td>&emsp;--with-readline=shared</td>
       <td>N/A</td>
       <td>
-        EXT_READLINE=ON<br>
-        EXT_READLINE_SHARED=ON<br>
-        EXT_READLINE_LIBREADLINE=ON (PHP &lt;= 8.3)
+        PHP_EXT_READLINE=ON<br>
+        PHP_EXT_READLINE_SHARED=ON<br>
+        PHP_EXT_READLINE_LIBREADLINE=ON (PHP &lt;= 8.3)
       </td>
       <td></td>
     </tr>
     <tr>
       <td>--enable-session</td>
       <td>--enable-session</td>
-      <td>EXT_SESSION=ON</td>
+      <td>PHP_EXT_SESSION=ON</td>
       <td>default</td>
     </tr>
     <tr>
       <td>&emsp;--enable-session=shared</td>
       <td>N/A</td>
-      <td>EXT_SESSION_SHARED=ON</td>
+      <td>PHP_EXT_SESSION_SHARED=ON</td>
       <td></td>
     </tr>
     <tr>
       <td>&emsp;--disable-session</td>
       <td>--disable-session</td>
-      <td>EXT_SESSION=OFF</td>
+      <td>PHP_EXT_SESSION=OFF</td>
       <td></td>
     </tr>
     <tr>
       <td>&emsp;--without-mm</td>
       <td>N/A</td>
-      <td>EXT_SESSION_MM=OFF</td>
+      <td>PHP_EXT_SESSION_MM=OFF</td>
       <td>default</td>
     </tr>
     <tr>
       <td>&emsp;--with-mm[=DIR]</td>
       <td>N/A</td>
       <td>
-        EXT_SESSION_MM=ON<br>
+        PHP_EXT_SESSION_MM=ON<br>
         [MM_ROOT=DIR]
       </td>
       <td></td>
@@ -2908,50 +2908,50 @@ A list of Autoconf `configure` command-line configuration options, Windows
     <tr>
       <td>--disable-shmop</td>
       <td>--disable-shmop</td>
-      <td>EXT_SHMOP=OFF</td>
+      <td>PHP_EXT_SHMOP=OFF</td>
       <td>default</td>
     </tr>
     <tr>
       <td>&emsp;--enable-shmop</td>
       <td>--enable-shmop</td>
-      <td>EXT_SHMOP=ON</td>
+      <td>PHP_EXT_SHMOP=ON</td>
       <td></td>
     </tr>
     <tr>
       <td>&emsp;--enable-shmop=shared</td>
       <td>--enable-shmop=shared</td>
-      <td>EXT_SHMOP_SHARED=ON</td>
+      <td>PHP_EXT_SHMOP_SHARED=ON</td>
       <td></td>
     </tr>
     <tr>
       <td>--enable-simplexml</td>
       <td>--with-simplexml</td>
-      <td>EXT_SIMPLEXML=ON</td>
+      <td>PHP_EXT_SIMPLEXML=ON</td>
       <td>default</td>
     </tr>
     <tr>
       <td>&emsp;--enable-simplexml=shared</td>
       <td>--with-simplexml=shared</td>
-      <td>EXT_SIMPLEXML_SHARED=ON</td>
+      <td>PHP_EXT_SIMPLEXML_SHARED=ON</td>
       <td></td>
     </tr>
     <tr>
       <td>&emsp;--disable-simplexml</td>
       <td>--without-simplexml</td>
-      <td>EXT_SIMPLEXML=OFF</td>
+      <td>PHP_EXT_SIMPLEXML=OFF</td>
       <td></td>
     </tr>
     <tr>
       <td>--without-snmp</td>
       <td>--without-snmp</td>
-      <td>EXT_SNMP=OFF</td>
+      <td>PHP_EXT_SNMP=OFF</td>
       <td>default</td>
     </tr>
     <tr>
       <td>&emsp;--with-snmp[=DIR]</td>
       <td>--with-snmp[=DIR]</td>
       <td>
-        EXT_SNMP=ON<br>
+        PHP_EXT_SNMP=ON<br>
         [NETSNMP_ROOT=DIR]
       </td>
       <td></td>
@@ -2959,49 +2959,49 @@ A list of Autoconf `configure` command-line configuration options, Windows
     <tr>
       <td>&emsp;--with-snmp=shared</td>
       <td>--with-snmp=shared</td>
-      <td>EXT_SNMP_SHARED=ON</td>
+      <td>PHP_EXT_SNMP_SHARED=ON</td>
       <td></td>
     </tr>
     <tr>
       <td>--disable-soap</td>
       <td>--disable-soap</td>
-      <td>EXT_SOAP=OFF</td>
+      <td>PHP_EXT_SOAP=OFF</td>
       <td>default</td>
     </tr>
     <tr>
       <td>&emsp;--enable-soap</td>
       <td>--enable-soap</td>
-      <td>EXT_SOAP=ON</td>
+      <td>PHP_EXT_SOAP=ON</td>
       <td></td>
     </tr>
     <tr>
       <td>&emsp;--enable-soap=shared</td>
       <td>--enable-soap=shared</td>
-      <td>EXT_SOAP_SHARED=ON</td>
+      <td>PHP_EXT_SOAP_SHARED=ON</td>
       <td></td>
     </tr>
     <tr>
       <td>--disable-sockets</td>
       <td>--disable-sockets</td>
-      <td>EXT_SOCKETS=OFF</td>
+      <td>PHP_EXT_SOCKETS=OFF</td>
       <td>default</td>
     </tr>
     <tr>
       <td>&emsp;--enable-sockets</td>
       <td>--enable-sockets</td>
-      <td>EXT_SOCKETS=ON</td>
+      <td>PHP_EXT_SOCKETS=ON</td>
       <td></td>
     </tr>
     <tr>
       <td>&emsp;--enable-sockets=shared</td>
       <td>--enable-sockets=shared</td>
-      <td>EXT_SOCKETS_SHARED=ON</td>
+      <td>PHP_EXT_SOCKETS_SHARED=ON</td>
       <td></td>
     </tr>
     <tr>
       <td>--without-sodium</td>
       <td>--without-sodium</td>
-      <td>EXT_SODIUM=OFF</td>
+      <td>PHP_EXT_SODIUM=OFF</td>
       <td>default</td>
     </tr>
     <tr>
@@ -3012,7 +3012,7 @@ A list of Autoconf `configure` command-line configuration options, Windows
       </td>
       <td>--with-sodium</td>
       <td>
-        EXT_SODIUM=ON<br>
+        PHP_EXT_SODIUM=ON<br>
         [SODIUM_ROOT=DIR]
       </td>
       <td></td>
@@ -3020,7 +3020,7 @@ A list of Autoconf `configure` command-line configuration options, Windows
     <tr>
       <td>&emsp;--with-sodium=shared</td>
       <td>--with-sodium=shared</td>
-      <td>EXT_SODIUM_SHARED=ON</td>
+      <td>PHP_EXT_SODIUM_SHARED=ON</td>
       <td></td>
     </tr>
     <tr>
@@ -3031,7 +3031,7 @@ A list of Autoconf `configure` command-line configuration options, Windows
       </td>
       <td>--with-sqlite3</td>
       <td>
-        EXT_SQLITE3=ON<br>
+        PHP_EXT_SQLITE3=ON<br>
         [SQLITE3_ROOT=DIR]
       </td>
       <td>default in *nix and CMake (on Windows disabled by default)</td>
@@ -3039,31 +3039,31 @@ A list of Autoconf `configure` command-line configuration options, Windows
     <tr>
       <td>&emsp;--with-sqlite3=shared</td>
       <td>--with-sqlite3=shared</td>
-      <td>EXT_SQLITE3_SHARED</td>
+      <td>PHP_EXT_SQLITE3_SHARED</td>
       <td></td>
     </tr>
     <tr>
       <td>&emsp;--without-sqlite3</td>
       <td>--without-sqlite3</td>
-      <td>EXT_SQLITE3=OFF</td>
+      <td>PHP_EXT_SQLITE3=OFF</td>
       <td></td>
     </tr>
     <tr>
       <td>--without-external-libcrypt</td>
       <td>N/A</td>
-      <td>EXT_STANDARD_CRYPT_EXTERNAL=OFF</td>
+      <td>PHP_EXT_STANDARD_CRYPT_EXTERNAL=OFF</td>
       <td>default</td>
     </tr>
     <tr>
       <td>&emsp;--with-external-libcrypt</td>
       <td>N/A</td>
-      <td>EXT_STANDARD_CRYPT_EXTERNAL=ON</td>
+      <td>PHP_EXT_STANDARD_CRYPT_EXTERNAL=ON</td>
       <td></td>
     </tr>
     <tr>
       <td>&emsp;--without-password-argon2</td>
       <td>--without-password-argon2</td>
-      <td>EXT_STANDARD_ARGON2=OFF</td>
+      <td>PHP_EXT_STANDARD_ARGON2=OFF</td>
       <td>default</td>
     </tr>
     <tr>
@@ -3074,7 +3074,7 @@ A list of Autoconf `configure` command-line configuration options, Windows
       </td>
       <td>--with-password-argon2</td>
       <td>
-        EXT_STANDARD_ARGON2=ON<br>
+        PHP_EXT_STANDARD_ARGON2=ON<br>
         [ARGON2_ROOT=DIR]
       </td>
       <td></td>
@@ -3082,68 +3082,68 @@ A list of Autoconf `configure` command-line configuration options, Windows
     <tr>
       <td>--disable-sysvmsg</td>
       <td>N/A</td>
-      <td>EXT_SYSVMSG=OFF</td>
+      <td>PHP_EXT_SYSVMSG=OFF</td>
       <td>default; for *nix platforms only</td>
     </tr>
     <tr>
       <td>&emsp;--enable-sysvmsg</td>
       <td>N/A</td>
-      <td>EXT_SYSVMSG=ON</td>
+      <td>PHP_EXT_SYSVMSG=ON</td>
       <td>for *nix platforms only</td>
     </tr>
     <tr>
       <td>&emsp;--enable-sysvmsg=shared</td>
       <td>N/A</td>
-      <td>EXT_SYSVMSG_SHARED=ON</td>
+      <td>PHP_EXT_SYSVMSG_SHARED=ON</td>
       <td>for *nix platforms only</td>
     </tr>
     <tr>
       <td>--disable-sysvsem</td>
       <td>N/A</td>
-      <td>EXT_SYSVSEM=OFF</td>
+      <td>PHP_EXT_SYSVSEM=OFF</td>
       <td>default; for *nix platforms only</td>
     </tr>
     <tr>
       <td>&emsp;--enable-sysvsem</td>
       <td>N/A</td>
-      <td>EXT_SYSVSEM=ON</td>
+      <td>PHP_EXT_SYSVSEM=ON</td>
       <td>for *nix platforms only</td>
     </tr>
     <tr>
       <td>&emsp;--enable-sysvsem=shared</td>
       <td>N/A</td>
-      <td>EXT_SYSVSEM_SHARED=ON</td>
+      <td>PHP_EXT_SYSVSEM_SHARED=ON</td>
       <td>for *nix platforms only</td>
     </tr>
     <tr>
       <td>--disable-sysvshm</td>
       <td>--disable-sysvshm</td>
-      <td>EXT_SYSVSHM=OFF</td>
+      <td>PHP_EXT_SYSVSHM=OFF</td>
       <td>default</td>
     </tr>
     <tr>
       <td>&emsp;--enable-sysvshm</td>
       <td>--enable-sysvshm</td>
-      <td>EXT_SYSVSHM=ON</td>
+      <td>PHP_EXT_SYSVSHM=ON</td>
       <td></td>
     </tr>
     <tr>
       <td>&emsp;--enable-sysvshm=shared</td>
       <td>--enable-sysvshm=shared</td>
-      <td>EXT_SYSVSHM_SHARED=ON</td>
+      <td>PHP_EXT_SYSVSHM_SHARED=ON</td>
       <td></td>
     </tr>
     <tr>
       <td>--without-tidy</td>
       <td>--without-tidy</td>
-      <td>EXT_TIDY=OFF</td>
+      <td>PHP_EXT_TIDY=OFF</td>
       <td>default</td>
     </tr>
     <tr>
       <td>&emsp;--with-tidy[=DIR]</td>
       <td>--with-tidy</td>
       <td>
-        EXT_TIDY=ON<br>
+        PHP_EXT_TIDY=ON<br>
         [TIDY_ROOT=DIR]
       </td>
       <td></td>
@@ -3151,49 +3151,49 @@ A list of Autoconf `configure` command-line configuration options, Windows
     <tr>
       <td>&emsp;--with-tidy=shared</td>
       <td>--with-tidy=shared</td>
-      <td>EXT_TIDY_SHARED=ON</td>
+      <td>PHP_EXT_TIDY_SHARED=ON</td>
       <td></td>
     </tr>
     <tr>
       <td>--enable-tokenizer</td>
       <td>--enable-tokenizer</td>
-      <td>EXT_TOKENIZER=ON</td>
+      <td>PHP_EXT_TOKENIZER=ON</td>
       <td>default</td>
     </tr>
     <tr>
       <td>&emsp;--enable-tokenizer=shared</td>
       <td>--enable-tokenizer=shared</td>
-      <td>EXT_TOKENIZER_SHARED=ON</td>
+      <td>PHP_EXT_TOKENIZER_SHARED=ON</td>
       <td></td>
     </tr>
     <tr>
       <td>&emsp;--disable-tokenizer</td>
       <td>--disable-tokenizer</td>
-      <td>EXT_TOKENIZER=OFF</td>
+      <td>PHP_EXT_TOKENIZER=OFF</td>
       <td></td>
     </tr>
     <tr>
       <td>--enable-xml</td>
       <td>--with-xml</td>
-      <td>EXT_XML=ON</td>
+      <td>PHP_EXT_XML=ON</td>
       <td>default</td>
     </tr>
     <tr>
       <td>&emsp;--enable-xml=shared</td>
       <td>--with-xml=shared</td>
-      <td>EXT_XML_SHARED=ON</td>
+      <td>PHP_EXT_XML_SHARED=ON</td>
       <td></td>
     </tr>
     <tr>
       <td>&emsp;--disable-xml</td>
       <td>--without-xml</td>
-      <td>EXT_XML=OFF</td>
+      <td>PHP_EXT_XML=OFF</td>
       <td></td>
     </tr>
     <tr>
       <td>&emsp;--without-expat</td>
       <td>N/A</td>
-      <td>EXT_XML_EXPAT=OFF</td>
+      <td>PHP_EXT_XML_EXPAT=OFF</td>
       <td>default</td>
     </tr>
     <tr>
@@ -3204,7 +3204,7 @@ A list of Autoconf `configure` command-line configuration options, Windows
       </td>
       <td>N/A</td>
       <td>
-        EXT_XML_EXPAT=ON<br>
+        PHP_EXT_XML_EXPAT=ON<br>
         [EXPAT_ROOT=DIR]
       </td>
       <td></td>
@@ -3212,43 +3212,43 @@ A list of Autoconf `configure` command-line configuration options, Windows
     <tr>
       <td>--enable-xmlreader</td>
       <td>--enable-xmlreader</td>
-      <td>EXT_XMLREADER=ON</td>
+      <td>PHP_EXT_XMLREADER=ON</td>
       <td>default</td>
     </tr>
     <tr>
       <td>&emsp;--enable-xmlreader=shared</td>
       <td>--enable-xmlreader=shared</td>
-      <td>EXT_XMLREADER_SHARED=ON</td>
+      <td>PHP_EXT_XMLREADER_SHARED=ON</td>
       <td></td>
     </tr>
     <tr>
       <td>&emsp;--disable-xmlreader</td>
       <td>--disable-xmlreader</td>
-      <td>EXT_XMLREADER=OFF</td>
+      <td>PHP_EXT_XMLREADER=OFF</td>
       <td></td>
     </tr>
     <tr>
       <td>--enable-xmlwriter</td>
       <td>--enable-xmlwriter</td>
-      <td>EXT_XMLWRITER=ON</td>
+      <td>PHP_EXT_XMLWRITER=ON</td>
       <td>default</td>
     </tr>
     <tr>
       <td>&emsp;--enable-xmlwriter=shared</td>
       <td>--enable-xmlwriter=shared</td>
-      <td>EXT_XMLWRITER_SHARED=ON</td>
+      <td>PHP_EXT_XMLWRITER_SHARED=ON</td>
       <td></td>
     </tr>
     <tr>
       <td>&emsp;--disable-xmlwriter</td>
       <td>--disable-xmlwriter</td>
-      <td>EXT_XMLWRITER=OFF</td>
+      <td>PHP_EXT_XMLWRITER=OFF</td>
       <td></td>
     </tr>
     <tr>
       <td>--without-xsl</td>
       <td>--without-xsl</td>
-      <td>EXT_XSL=OFF</td>
+      <td>PHP_EXT_XSL=OFF</td>
       <td>default</td>
     </tr>
     <tr>
@@ -3261,7 +3261,7 @@ A list of Autoconf `configure` command-line configuration options, Windows
       </td>
       <td>--with-xsl</td>
       <td>
-        EXT_XSL=ON<br>
+        PHP_EXT_XSL=ON<br>
         [LIBXSLT_ROOT=DIR]<br>
         [CMAKE_PREFIX_PATH=DIR]
       </td>
@@ -3270,31 +3270,31 @@ A list of Autoconf `configure` command-line configuration options, Windows
     <tr>
       <td>&emsp;--with-xsl=shared</td>
       <td>--with-xsl=shared</td>
-      <td>EXT_XSL_SHARED=ON</td>
+      <td>PHP_EXT_XSL_SHARED=ON</td>
       <td></td>
     </tr>
     <tr>
       <td>--disable-zend-test</td>
       <td>--disable-zend-test</td>
-      <td>EXT_ZEND_TEST=OFF</td>
+      <td>PHP_EXT_ZEND_TEST=OFF</td>
       <td>default</td>
     </tr>
     <tr>
       <td>&emsp;--enable-zend-test</td>
       <td>--enable-zend-test</td>
-      <td>EXT_ZEND_TEST=ON</td>
+      <td>PHP_EXT_ZEND_TEST=ON</td>
       <td></td>
     </tr>
     <tr>
       <td>&emsp;--enable-zend-test=shared</td>
       <td>--enable-zend-test=shared</td>
-      <td>EXT_ZEND_TEST_SHARED=ON</td>
+      <td>PHP_EXT_ZEND_TEST_SHARED=ON</td>
       <td></td>
     </tr>
     <tr>
       <td>--without-zip</td>
       <td>--disable-zip</td>
-      <td>EXT_ZIP=OFF</td>
+      <td>PHP_EXT_ZIP=OFF</td>
       <td>default in *nix and CMake (on Windows enabled and shared by default)</td>
     </tr>
     <tr>
@@ -3305,7 +3305,7 @@ A list of Autoconf `configure` command-line configuration options, Windows
       </td>
       <td>--enable-zip</td>
       <td>
-        EXT_ZIP=ON<br>
+        PHP_EXT_ZIP=ON<br>
         LIBZIP_ROOT=DIR
       </td>
       <td></td>
@@ -3313,13 +3313,13 @@ A list of Autoconf `configure` command-line configuration options, Windows
     <tr>
       <td>&emsp;--with-zip=shared</td>
       <td>--enable-zip=shared</td>
-      <td>EXT_ZIP_SHARED=ON</td>
+      <td>PHP_EXT_ZIP_SHARED=ON</td>
       <td></td>
     </tr>
     <tr>
       <td>--without-zlib</td>
       <td>--disable-zlib</td>
-      <td>EXT_ZLIB=OFF</td>
+      <td>PHP_EXT_ZLIB=OFF</td>
       <td>default in *nix and CMake (on Windows enabled by default)</td>
     </tr>
     <tr>
@@ -3330,7 +3330,7 @@ A list of Autoconf `configure` command-line configuration options, Windows
       </td>
       <td>--enable-zlib</td>
       <td>
-        EXT_ZLIB=ON<br>
+        PHP_EXT_ZLIB=ON<br>
         [ZLIB_ROOT=DIR]
       </td>
       <td></td>
@@ -3338,7 +3338,7 @@ A list of Autoconf `configure` command-line configuration options, Windows
     <tr>
       <td>&emsp;--with-zlib=shared</td>
       <td>--enable-zlib=shared</td>
-      <td>EXT_ZLIB_SHARED=ON</td>
+      <td>PHP_EXT_ZLIB_SHARED=ON</td>
       <td></td>
     </tr>
     <tr>

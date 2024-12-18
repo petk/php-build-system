@@ -5,28 +5,28 @@
 
 This extension enables the PHP OPcode caching engine.
 
-## EXT_OPCACHE
+## PHP_EXT_OPCACHE
 
 * Default: `ON`
 * Values: `ON|OFF`
 
 Enable the extension. This extension is always built as shared when enabled.
 
-## EXT_OPCACHE_HUGE_CODE_PAGES
+## PHP_EXT_OPCACHE_HUGE_CODE_PAGES
 
 * Default: `ON`
 * Values: `ON|OFF`
 
 Enable copying PHP CODE pages into HUGE PAGES.
 
-## EXT_OPCACHE_JIT
+## PHP_EXT_OPCACHE_JIT
 
 * Default: `ON`
 * Values: `ON|OFF`
 
 Enable JIT (just-in-time) compilation.
 
-## EXT_OPCACHE_CAPSTONE
+## PHP_EXT_OPCACHE_CAPSTONE
 
 * Default: `OFF`
 * Values: `ON|OFF`

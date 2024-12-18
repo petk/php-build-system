@@ -7,14 +7,14 @@ Configure the `simplexml` extension.
 
 This extension provides toolset for converting XML to a processable object.
 
-## EXT_SIMPLEXML
+## PHP_EXT_SIMPLEXML
 
 * Default: `ON`
 * Values: `ON|OFF`
 
 Enable the extension.
 
-## EXT_SIMPLEXML_SHARED
+## PHP_EXT_SIMPLEXML_SHARED
 
 * Default: `OFF`
 * Values: `ON|OFF`

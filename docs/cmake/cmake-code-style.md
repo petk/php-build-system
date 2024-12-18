@@ -273,46 +273,18 @@ using GUI, such as cmake-gui or ccmake. It is recommended to prefix them with
 `PHP_`, and similar to facilitate their grouping within the GUI or IDE.
 
 ```cmake
-set(PHP_FOO_BAR <value>... CACHE <BOOL|FILEPATH|PATH|STRING> "<help_text>")
 option(PHP_ENABLE_FOO "<help_text>" [value])
 cmake_dependent_option(PHP_ENABLE_BAR "<help_text>" <value> <depends> <force>)
+set(PHP_FOO_BAR <value>... CACHE <BOOL|FILEPATH|PATH|STRING> "<help_text>")
 
 # Zend Engine configuration variables
 option(ZEND_ENABLE_FOO "<help_text>" [value])
 
 # Configuration variables related to PHP extensions
-option(EXT_FOO "<help_text>" [value])
+option(PHP_EXT_FOO "<help_text>" [value])
 
 # Configuration variables related to PHP SAPI modules
 option(PHP_SAPI_FOO "<help_text>" [value])
-```
-
-While it's a good practice to consider grouping variables inside an extension by
-the extension name for clarity (for example, `EXT_<extension>`,
-`EXT_<extension>_FOO`, etc.), it's worth noting that GUI may group variables
-only up to the first underscore and may not distinguish such subgrouping.
-Therefore, the decision to additionally group them by the extension name beside
-the primary prefix `EXT_` can be optional and context-dependent, when the
-extension involves multiple options:
-
-```cmake
-# These will be grouped in the 'EXT' group
-option(EXT_GD "<help_text>" [value])
-cmake_dependent_option(EXT_GD_AVIF "<help_text>" OFF "EXT_GD" OFF)
-cmake_dependent_option(EXT_GD_WEBP "<help_text>" OFF "EXT_GD" OFF)
-
-# Here, the 'EXT_MYSQL_SOCKET' is used by both extensions - mysqli and pdo_mysql
-option(EXT_MYSQLI "<help_text>" [value])
-# ...
-option(EXT_PDO_MYSQL "<help_text>" [value])
-# ...
-cmake_dependent_option(
-  EXT_MYSQL_SOCKET
-  "<help_text>"
-  OFF
-  [[EXT_MYSQLI OR EXT_MYSQL_PDO]]
-  OFF
-)
 ```
 
 #### 3.2.2. Find module variables

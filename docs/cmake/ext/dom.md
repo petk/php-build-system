@@ -8,14 +8,14 @@ Configure the `dom` extension.
 This extension provides support for operations on XML and HTML through Document
 Object Model (DOM).
 
-## EXT_DOM
+## PHP_EXT_DOM
 
 * Default: `ON`
 * Values: `ON|OFF`
 
 Enable the extension.
 
-## EXT_DOM_SHARED
+## PHP_EXT_DOM_SHARED
 
 * Default: `OFF`
 * Values: `ON|OFF`

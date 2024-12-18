@@ -5,21 +5,21 @@ Configure the `mysqli` extension.
 
 This extension provides MySQL-compatible databases support.
 
-## EXT_MYSQLI
+## PHP_EXT_MYSQLI
 
 * Default: `OFF`
 * Values: `ON|OFF`
 
 Enable the extension.
 
-## EXT_MYSQLI_SHARED
+## PHP_EXT_MYSQLI_SHARED
 
 * Default: `OFF`
 * Values: `ON|OFF`
 
 Build extension as shared.
 
-## EXT_MYSQL_SOCKET
+## PHP_EXT_MYSQL_SOCKET
 
 * Default: `OFF`
 * Values: `ON|OFF`
@@ -29,7 +29,7 @@ mysqli/pdo_mysql: Use MySQL Unix socket pointer from default locations.
 > [!NOTE]
 > This option is not available when the target system is Windows.
 
-## EXT_MYSQL_SOCKET_PATH
+## PHP_EXT_MYSQL_SOCKET_PATH
 
 * Default: empty
 
@@ -49,48 +49,48 @@ include(CMakeDependentOption)
 include(FeatureSummary)
 include(PHP/Set)
 
-option(EXT_MYSQLI "Enable the mysqli extension")
+option(PHP_EXT_MYSQLI "Enable the mysqli extension")
 
 add_feature_info(
   "ext/mysqli"
-  EXT_MYSQLI
+  PHP_EXT_MYSQLI
   "MySQL-compatible databases support"
 )
 
 cmake_dependent_option(
-  EXT_MYSQLI_SHARED
+  PHP_EXT_MYSQLI_SHARED
   "Build the mysqli extension as a shared library"
   OFF
-  "EXT_MYSQLI;NOT BUILD_SHARED_LIBS"
+  "PHP_EXT_MYSQLI;NOT BUILD_SHARED_LIBS"
   OFF
 )
 
 # Common configuration option for mysqli and pdo_mysql extensions.
 cmake_dependent_option(
-  EXT_MYSQL_SOCKET
+  PHP_EXT_MYSQL_SOCKET
   "mysqli/pdo_mysql: Use MySQL Unix socket pointer from default locations"
   OFF
-  [[(EXT_MYSQLI OR EXT_PDO_MYSQL) AND NOT CMAKE_SYSTEM_NAME STREQUAL "Windows"]]
+  [[(PHP_EXT_MYSQLI OR PHP_EXT_PDO_MYSQL) AND NOT CMAKE_SYSTEM_NAME STREQUAL "Windows"]]
   OFF
 )
-mark_as_advanced(EXT_MYSQL_SOCKET)
+mark_as_advanced(PHP_EXT_MYSQL_SOCKET)
 
 php_set(
-  EXT_MYSQL_SOCKET_PATH
+  PHP_EXT_MYSQL_SOCKET_PATH
   TYPE FILEPATH
-  IF [[(EXT_MYSQLI OR EXT_PDO_MYSQL) AND EXT_MYSQL_SOCKET]]
+  IF [[(PHP_EXT_MYSQLI OR PHP_EXT_PDO_MYSQL) AND PHP_EXT_MYSQL_SOCKET]]
   VALUE ""
   DOC
     "mysqli/pdo_mysql: Specify path to the MySQL Unix socket pointer location. "
     "If unspecified, default locations are searched."
 )
-mark_as_advanced(EXT_MYSQL_SOCKET_PATH)
+mark_as_advanced(PHP_EXT_MYSQL_SOCKET_PATH)
 
-if(NOT EXT_MYSQLI)
+if(NOT PHP_EXT_MYSQLI)
   return()
 endif()
 
-if(EXT_MYSQLI_SHARED)
+if(PHP_EXT_MYSQLI_SHARED)
   add_library(php_ext_mysqli SHARED)
 else()
   add_library(php_ext_mysqli)
@@ -120,9 +120,9 @@ add_dependencies(php_ext_mysqli php_ext_mysqlnd php_ext_spl)
 
 target_compile_definitions(php_ext_mysqli PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE)
 
-if(EXT_MYSQL_SOCKET)
-  if(EXT_MYSQL_SOCKET_PATH)
-    set(MySQL_Socket_PATH "${EXT_MYSQL_SOCKET_PATH}")
+if(PHP_EXT_MYSQL_SOCKET)
+  if(PHP_EXT_MYSQL_SOCKET_PATH)
+    set(MySQL_Socket_PATH "${PHP_EXT_MYSQL_SOCKET_PATH}")
   endif()
 
   find_package(MySQL OPTIONAL_COMPONENTS Socket)

@@ -5,14 +5,14 @@ Configure the `bcmath` extension.
 
 This extension provides Basic Calculator (BC) style precision math support.
 
-## EXT_BCMATH
+## PHP_EXT_BCMATH
 
 * Default: `OFF`
 * Values: `ON|OFF`
 
 Enable the extension.
 
-## EXT_BCMATH_SHARED
+## PHP_EXT_BCMATH_SHARED
 
 * Default: `OFF`
 * Values: `ON|OFF`
@@ -28,27 +28,27 @@ project(
 include(CMakeDependentOption)
 include(FeatureSummary)
 
-option(EXT_BCMATH "Enable the bcmath extension")
+option(PHP_EXT_BCMATH "Enable the bcmath extension")
 
 add_feature_info(
   "ext/bcmath"
-  EXT_BCMATH
+  PHP_EXT_BCMATH
   "Basic Calculator (BC) style precision math support"
 )
 
 cmake_dependent_option(
-  EXT_BCMATH_SHARED
+  PHP_EXT_BCMATH_SHARED
   "Build the bcmath extension as a shared library"
   OFF
-  "EXT_BCMATH;NOT BUILD_SHARED_LIBS"
+  "PHP_EXT_BCMATH;NOT BUILD_SHARED_LIBS"
   OFF
 )
 
-if(NOT EXT_BCMATH)
+if(NOT PHP_EXT_BCMATH)
   return()
 endif()
 
-if(EXT_BCMATH_SHARED)
+if(PHP_EXT_BCMATH_SHARED)
   add_library(php_ext_bcmath SHARED)
 else()
   add_library(php_ext_bcmath)

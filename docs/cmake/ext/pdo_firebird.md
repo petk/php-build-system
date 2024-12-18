@@ -7,14 +7,14 @@ Configure the `pdo_firebird` extension.
 
 This extension provides PDO interface for using Firebird database.
 
-## EXT_PDO_FIREBIRD
+## PHP_EXT_PDO_FIREBIRD
 
 * Default: `OFF`
 * Values: `ON|OFF`
 
 Enable the extension.
 
-## EXT_PDO_FIREBIRD_SHARED
+## PHP_EXT_PDO_FIREBIRD_SHARED
 
 * Default: `OFF`
 * Values: `ON|OFF`

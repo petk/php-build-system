@@ -7,14 +7,14 @@ Configure the `filter` extension.
 
 This extension provides support for data filtering.
 
-## EXT_FILTER
+## PHP_EXT_FILTER
 
 * Default: `ON`
 * Values: `ON|OFF`
 
 Enable the extension.
 
-## EXT_FILTER_SHARED
+## PHP_EXT_FILTER_SHARED
 
 * Default: `OFF`
 * Values: `ON|OFF`

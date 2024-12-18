@@ -10,14 +10,14 @@ This extension provides the System V semaphore support.
 > [!NOTE]
 > This extension is available only on \*nix systems.
 
-## EXT_SYSVSEM
+## PHP_EXT_SYSVSEM
 
 * Default: `OFF`
 * Values: `ON|OFF`
 
 Enable the extension.
 
-## EXT_SYSVSEM_SHARED
+## PHP_EXT_SYSVSEM_SHARED
 
 * Default: `OFF`
 * Values: `ON|OFF`

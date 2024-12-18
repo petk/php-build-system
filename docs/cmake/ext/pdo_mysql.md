@@ -7,21 +7,21 @@ Configure the `pdo_mysql` extension.
 
 This extension provides PDO interface for using MySQL-compatible databases.
 
-## EXT_PDO_MYSQL
+## PHP_EXT_PDO_MYSQL
 
 * Default: `OFF`
 * Values: `ON|OFF`
 
 Enable the PHP `pdo_mysql` extension.
 
-## EXT_PDO_MYSQL_SHARED
+## PHP_EXT_PDO_MYSQL_SHARED
 
 * Default: `OFF`
 * Values: `ON|OFF`
 
 Build extension as shared library.
 
-## EXT_PDO_MYSQL_DRIVER
+## PHP_EXT_PDO_MYSQL_DRIVER
 
 * Default: `mysqlnd`
 * Values: `mysqlnd|mysql`

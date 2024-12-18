@@ -5,14 +5,14 @@ Configure the `shmop` extension.
 
 This extension provides support for shared memory segments operations.
 
-## EXT_SHMOP
+## PHP_EXT_SHMOP
 
 * Default: `OFF`
 * Values: `ON|OFF`
 
 Enable the extension.
 
-## EXT_SHMOP_SHARED
+## PHP_EXT_SHMOP_SHARED
 
 * Default: `OFF`
 * Values: `ON|OFF`
@@ -28,27 +28,27 @@ project(
 include(CMakeDependentOption)
 include(FeatureSummary)
 
-option(EXT_SHMOP "Enable the shmop extension")
+option(PHP_EXT_SHMOP "Enable the shmop extension")
 
 add_feature_info(
   "ext/shmop"
-  EXT_SHMOP
+  PHP_EXT_SHMOP
   "shared memory segments operations support"
 )
 
 cmake_dependent_option(
-  EXT_SHMOP_SHARED
+  PHP_EXT_SHMOP_SHARED
   "Build the shmop extension as a shared library"
   OFF
-  "EXT_SHMOP;NOT BUILD_SHARED_LIBS"
+  "PHP_EXT_SHMOP;NOT BUILD_SHARED_LIBS"
   OFF
 )
 
-if(NOT EXT_SHMOP)
+if(NOT PHP_EXT_SHMOP)
   return()
 endif()
 
-if(EXT_SHMOP_SHARED)
+if(PHP_EXT_SHMOP_SHARED)
   add_library(php_ext_shmop SHARED)
 else()
   add_library(php_ext_shmop)

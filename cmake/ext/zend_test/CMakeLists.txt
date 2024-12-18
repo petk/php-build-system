@@ -5,14 +5,14 @@ Configure the `zend_test` extension.
 
 This extension provides additional support for testing PHP itself.
 
-## EXT_ZEND_TEST
+## PHP_EXT_ZEND_TEST
 
 * Default: `OFF`
 * Values: `ON|OFF`
 
 Enable the extension.
 
-## EXT_ZEND_TEST_SHARED
+## PHP_EXT_ZEND_TEST_SHARED
 
 * Default: `OFF`
 * Values: `ON|OFF`
@@ -28,27 +28,27 @@ project(
 include(CMakeDependentOption)
 include(FeatureSummary)
 
-option(EXT_ZEND_TEST "Enable the zend_test extension")
+option(PHP_EXT_ZEND_TEST "Enable the zend_test extension")
 
 add_feature_info(
   "ext/zend_test"
-  EXT_ZEND_TEST
+  PHP_EXT_ZEND_TEST
   "additional PHP build testing support"
 )
 
 cmake_dependent_option(
-  EXT_ZEND_TEST_SHARED
+  PHP_EXT_ZEND_TEST_SHARED
   "Build the zend_test extension as a shared library"
   OFF
-  "EXT_ZEND_TEST;NOT BUILD_SHARED_LIBS"
+  "PHP_EXT_ZEND_TEST;NOT BUILD_SHARED_LIBS"
   OFF
 )
 
-if(NOT EXT_ZEND_TEST)
+if(NOT PHP_EXT_ZEND_TEST)
   return()
 endif()
 
-if(EXT_ZEND_TEST_SHARED)
+if(PHP_EXT_ZEND_TEST_SHARED)
   add_library(php_ext_zend_test SHARED)
 else()
   add_library(php_ext_zend_test)
@@ -79,7 +79,7 @@ target_compile_definitions(
 
 # If libxml extension is enabled, link libxml library as headers are used.
 # TODO: Reconfigure this for static/shared LibXml library on Windows.
-if(EXT_LIBXML)
+if(PHP_EXT_LIBXML)
   include(Packages/LibXml2)
 
   set_package_properties(

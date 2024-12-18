@@ -10,14 +10,14 @@ This extension provides support for POSIX-like functions.
 > [!NOTE]
 > This extension is available only on \*nix systems.
 
-## EXT_POSIX
+## PHP_EXT_POSIX
 
 * Default: `ON`
 * Values: `ON|OFF`
 
 Enable the extension.
 
-## EXT_POSIX_SHARED
+## PHP_EXT_POSIX_SHARED
 
 * Default: `OFF`
 * Values: `ON|OFF`
