@@ -3,7 +3,7 @@
 
 Configure the `embed` PHP SAPI.
 
-## SAPI_EMBED
+## PHP_SAPI_EMBED
 
 * Default: `OFF`
 * Values: `ON|OFF`
@@ -19,15 +19,15 @@ to use PHP.
 
 include(FeatureSummary)
 
-option(SAPI_EMBED "Enable the Embed SAPI module")
+option(PHP_SAPI_EMBED "Enable the Embed SAPI module")
 
 add_feature_info(
   "sapi/embed"
-  SAPI_EMBED
+  PHP_SAPI_EMBED
   "module for embedding PHP into application"
 )
 
-if(NOT SAPI_EMBED)
+if(NOT PHP_SAPI_EMBED)
   return()
 endif()
 
