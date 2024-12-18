@@ -36,10 +36,10 @@ Custom target:
   `find_package(RE2C)`. Options are prepended to additional options passed with
   `re2c_target()` arguments.
 
-* `RE2C_ENABLE_DOWNLOAD` - This module can also download and build re2c from its
-  Git repository using the `FetchContent` module. Set to `TRUE` to enable
-  downloading re2c, when not found on the system or system version is not
-  suitable.
+* `RE2C_DISABLE_DOWNLOAD` - This module can also download and build re2c from
+  its Git repository using the `ExternalProject` module. Set to `TRUE` to
+  disable downloading re2c, when it is not found on the system or system version
+  is not suitable.
 
 * `RE2C_USE_COMPUTED_GOTOS` - Set to `TRUE` before calling `find_package(RE2C)`
   to enable the re2c `--computed-gotos` option if the non-standard C
@@ -103,16 +103,16 @@ if(RE2C_EXECUTABLE)
   execute_process(
     COMMAND ${RE2C_EXECUTABLE} --vernum
     OUTPUT_VARIABLE RE2C_VERSION_NUM
-    ERROR_VARIABLE _re2c_version_error
-    RESULT_VARIABLE _re2c_version_result
+    ERROR_VARIABLE _re2cVersionError
+    RESULT_VARIABLE _re2cVersionResult
     OUTPUT_STRIP_TRAILING_WHITESPACE
   )
 
-  if(NOT _re2c_version_result EQUAL 0)
+  if(NOT _re2cVersionResult EQUAL 0)
     message(
       SEND_ERROR
       "Command \"${RE2C_EXECUTABLE} --vernum\" failed with output:\n"
-      "${_re2c_version_error}"
+      "${_re2cVersionError}"
     )
   elseif(RE2C_VERSION_NUM)
     math(
@@ -127,61 +127,75 @@ if(RE2C_EXECUTABLE)
 
     math(
       EXPR RE2C_VERSION_PATCH
-      "${RE2C_VERSION_NUM} - ${RE2C_VERSION_MAJOR} * 10000 - ${RE2C_VERSION_MINOR} * 100"
+      "${RE2C_VERSION_NUM} \
+      - ${RE2C_VERSION_MAJOR} * 10000 \
+      - ${RE2C_VERSION_MINOR} * 100"
     )
 
-    set(RE2C_VERSION "${RE2C_VERSION_MAJOR}.${RE2C_VERSION_MINOR}.${RE2C_VERSION_PATCH}")
+    set(
+      RE2C_VERSION
+      "${RE2C_VERSION_MAJOR}.${RE2C_VERSION_MINOR}.${RE2C_VERSION_PATCH}"
+    )
 
-    find_package_check_version("${RE2C_VERSION}" _re2c_version_valid)
+    find_package_check_version("${RE2C_VERSION}" _re2cVersionValid)
   endif()
 endif()
 
-if(RE2C_ENABLE_DOWNLOAD AND (NOT RE2C_EXECUTABLE OR NOT _re2c_version_valid))
-  include(FetchContent)
+set(_re2cRequiredVars RE2C_EXECUTABLE RE2C_VERSION)
 
+if(NOT RE2C_DISABLE_DOWNLOAD AND (NOT RE2C_EXECUTABLE OR NOT _re2cVersionValid))
   # Set the re2c version to download.
-  set(RE2C_VERSION 3.1)
+  set(RE2C_VERSION 4.0.2)
 
-  # Configure re2c.
-  set(RE2C_BUILD_RE2GO OFF CACHE INTERNAL "")
-  set(RE2C_BUILD_RE2RUST OFF CACHE INTERNAL "")
+  include(ExternalProject)
 
-  # Disable searching for Python as it is not needed in FetchContent build.
-  set(CMAKE_DISABLE_FIND_PACKAGE_Python3 TRUE)
-  set(Python3_VERSION 3.12)
-
-  set(FETCHCONTENT_QUIET FALSE)
-
-  FetchContent_Declare(
-    RE2C
-    URL https://github.com/skvadrik/re2c/archive/refs/tags/${RE2C_VERSION}.tar.gz
+  ExternalProject_Add(
+    re2c
+    URL
+      https://github.com/skvadrik/re2c/archive/refs/tags/${RE2C_VERSION}.tar.gz
+    CMAKE_ARGS
+      -DRE2C_BUILD_RE2D=OFF
+      -DRE2C_BUILD_RE2D=OFF
+      -DRE2C_BUILD_RE2GO=OFF
+      -DRE2C_BUILD_RE2HS=OFF
+      -DRE2C_BUILD_RE2JAVA=OFF
+      -DRE2C_BUILD_RE2JS=OFF
+      -DRE2C_BUILD_RE2OCAML=OFF
+      -DRE2C_BUILD_RE2PY=OFF
+      -DRE2C_BUILD_RE2RUST=OFF
+      -DRE2C_BUILD_RE2V=OFF
+      -DRE2C_BUILD_RE2ZIG=OFF
+      -DRE2C_BUILD_TESTS=OFF
+    INSTALL_COMMAND ""
   )
 
-  message(STATUS "Downloading RE2C")
-  FetchContent_MakeAvailable(RE2C)
+  # Set re2c executable.
+  ExternalProject_Get_property(re2c BINARY_DIR)
+  add_executable(RE2C::RE2C IMPORTED)
+  set_target_properties(
+    RE2C::RE2C
+    PROPERTIES IMPORTED_LOCATION ${BINARY_DIR}/re2c
+  )
+  add_dependencies(RE2C::RE2C re2c)
+  set_property(CACHE RE2C_EXECUTABLE PROPERTY VALUE RE2C::RE2C)
 
-  # Set executable to re2c target name.
-  set(RE2C_EXECUTABLE re2c)
-
-  # Unset temporary variables.
-  unset(CMAKE_DISABLE_FIND_PACKAGE_Python3)
-  unset(Python3_VERSION)
-  unset(FETCHCONTENT_QUIET)
+  list(PREPEND _re2cRequiredVars _re2cMsg)
+  set(_re2cMsg "downloading at build")
 endif()
 
 mark_as_advanced(RE2C_EXECUTABLE)
 
 find_package_handle_standard_args(
   RE2C
-  REQUIRED_VARS
-    RE2C_EXECUTABLE
-    RE2C_VERSION
+  REQUIRED_VARS ${_re2cRequiredVars}
   VERSION_VAR RE2C_VERSION
   HANDLE_VERSION_RANGE
   REASON_FAILURE_MESSAGE "re2c not found. Please install re2c."
 )
 
-unset(_re2c_version_valid)
+unset(_re2cMsg)
+unset(_re2cRequiredVars)
+unset(_re2cVersionValid)
 
 if(NOT RE2C_FOUND)
   return()
@@ -287,7 +301,7 @@ function(re2c_target)
       ${options}
       --output ${output}
       ${input}
-    DEPENDS ${input} ${parsed_DEPENDS}
+    DEPENDS ${input} ${parsed_DEPENDS} $<TARGET_NAME_IF_EXISTS:RE2C::RE2C>
     COMMENT "[RE2C][${ARGV0}] Building lexer with re2c ${RE2C_VERSION}"
     VERBATIM
     COMMAND_EXPAND_LISTS

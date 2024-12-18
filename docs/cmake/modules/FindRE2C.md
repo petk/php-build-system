@@ -38,10 +38,10 @@ Custom target:
   `find_package(RE2C)`. Options are prepended to additional options passed with
   `re2c_target()` arguments.
 
-* `RE2C_ENABLE_DOWNLOAD` - This module can also download and build re2c from its
-  Git repository using the `FetchContent` module. Set to `TRUE` to enable
-  downloading re2c, when not found on the system or system version is not
-  suitable.
+* `RE2C_DISABLE_DOWNLOAD` - This module can also download and build re2c from
+  its Git repository using the `ExternalProject` module. Set to `TRUE` to
+  disable downloading re2c, when it is not found on the system or system version
+  is not suitable.
 
 * `RE2C_USE_COMPUTED_GOTOS` - Set to `TRUE` before calling `find_package(RE2C)`
   to enable the re2c `--computed-gotos` option if the non-standard C
