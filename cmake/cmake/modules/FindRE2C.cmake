@@ -36,10 +36,10 @@ Custom target:
   `find_package(RE2C)`. Options are prepended to additional options passed with
   `re2c_target()` arguments.
 
-* `RE2C_ENABLE_DOWNLOAD` - This module can also download and build re2c from its
-  Git repository using the `FetchContent` module. Set to `TRUE` to enable
-  downloading re2c, when not found on the system or system version is not
-  suitable.
+* `RE2C_DISABLE_DOWNLOAD` - This module can also download and build re2c from
+  its Git repository using the `ExternalProject` module. Set to `TRUE` to
+  disable downloading re2c, when it is not found on the system or system version
+  is not suitable.
 
 * `RE2C_USE_COMPUTED_GOTOS` - Set to `TRUE` before calling `find_package(RE2C)`
   to enable the re2c `--computed-gotos` option if the non-standard C
@@ -136,63 +136,53 @@ if(RE2C_EXECUTABLE)
   endif()
 endif()
 
-if(RE2C_ENABLE_DOWNLOAD AND (NOT RE2C_EXECUTABLE OR NOT _re2c_version_valid))
-  include(FetchContent)
+set(_RE2C_REQUIRED_VARS RE2C_EXECUTABLE RE2C_VERSION)
 
+if(NOT RE2C_DISABLE_DOWNLOAD AND (NOT RE2C_EXECUTABLE OR NOT _re2c_version_valid))
   # Set the re2c version to download.
   set(RE2C_VERSION 4.0.2)
 
-  # Configure minimal re2c build. In older CMake versions, defined by the
-  # upstream project, only cache variables were possible to use. In recent CMake
-  # versions, also local variables would work. However, here the cache variables
-  # can provide customization if needed by this module in the future to enable
-  # other re2c executables.
-  foreach(
-    var IN ITEMS
-      RE2C_BUILD_BENCHMARKS
-      RE2C_BUILD_LIBS
-      RE2C_BUILD_RE2D
-      RE2C_BUILD_RE2GO
-      RE2C_BUILD_RE2HS
-      RE2C_BUILD_RE2JAVA
-      RE2C_BUILD_RE2JS
-      RE2C_BUILD_RE2OCAML
-      RE2C_BUILD_RE2PY
-      RE2C_BUILD_RE2RUST
-      RE2C_BUILD_RE2V
-      RE2C_BUILD_RE2ZIG
-      RE2C_BUILD_TESTS
-      RE2C_REBUILD_DOCS
-      RE2C_REBUILD_LEXERS
-      RE2C_REBUILD_PARSERS
-      RE2C_REBUILD_SYNTAX
-      RE2C_REGEN_BENCHMARKS
-  )
-    set(${var} OFF CACHE BOOL "")
-    mark_as_advanced(${var})
-  endforeach()
+  include(ExternalProject)
 
-  FetchContent_Declare(
-    RE2C
-    URL https://github.com/skvadrik/re2c/archive/refs/tags/${RE2C_VERSION}.tar.gz
+  ExternalProject_Add(
+    re2c
+    URL
+      https://github.com/skvadrik/re2c/archive/refs/tags/${RE2C_VERSION}.tar.gz
+    CMAKE_ARGS
+      -DRE2C_BUILD_RE2D=OFF
+      -DRE2C_BUILD_RE2D=OFF
+      -DRE2C_BUILD_RE2GO=OFF
+      -DRE2C_BUILD_RE2HS=OFF
+      -DRE2C_BUILD_RE2JAVA=OFF
+      -DRE2C_BUILD_RE2JS=OFF
+      -DRE2C_BUILD_RE2OCAML=OFF
+      -DRE2C_BUILD_RE2PY=OFF
+      -DRE2C_BUILD_RE2RUST=OFF
+      -DRE2C_BUILD_RE2V=OFF
+      -DRE2C_BUILD_RE2ZIG=OFF
+      -DRE2C_BUILD_TESTS=OFF
+    INSTALL_COMMAND ""
   )
 
-  message(STATUS "Downloading and configuring RE2C ${RE2C_VERSION}")
-  list(APPEND CMAKE_MESSAGE_INDENT "  ")
-  FetchContent_MakeAvailable(RE2C)
-  list(POP_BACK CMAKE_MESSAGE_INDENT)
+  # Set re2c executable.
+  ExternalProject_Get_property(re2c BINARY_DIR)
+  add_executable(RE2C::RE2C IMPORTED)
+  set_target_properties(
+    RE2C::RE2C
+    PROPERTIES IMPORTED_LOCATION ${BINARY_DIR}/re2c
+  )
+  add_dependencies(RE2C::RE2C re2c)
+  set_property(CACHE RE2C_EXECUTABLE PROPERTY VALUE RE2C::RE2C)
 
-  # Set executable to re2c target name.
-  set_property(CACHE RE2C_EXECUTABLE PROPERTY VALUE re2c)
+  list(PREPEND _RE2C_REQUIRED_VARS _RE2C_MSG)
+  set(_RE2C_MSG "downloading at build")
 endif()
 
 mark_as_advanced(RE2C_EXECUTABLE)
 
 find_package_handle_standard_args(
   RE2C
-  REQUIRED_VARS
-    RE2C_EXECUTABLE
-    RE2C_VERSION
+  REQUIRED_VARS ${_RE2C_REQUIRED_VARS}
   VERSION_VAR RE2C_VERSION
   HANDLE_VERSION_RANGE
   REASON_FAILURE_MESSAGE "re2c not found. Please install re2c."
@@ -304,7 +294,7 @@ function(re2c_target)
       ${options}
       --output ${output}
       ${input}
-    DEPENDS ${input} ${parsed_DEPENDS}
+    DEPENDS ${input} ${parsed_DEPENDS} $<TARGET_NAME_IF_EXISTS:RE2C::RE2C>
     COMMENT "[RE2C][${ARGV0}] Building lexer with re2c ${RE2C_VERSION}"
     VERBATIM
     COMMAND_EXPAND_LISTS
