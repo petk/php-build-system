@@ -28,8 +28,8 @@
         "EXT_XMLREADER": false,
         "EXT_XMLWRITER": false,
 
-        "SAPI_CGI": false,
-        "SAPI_PHPDBG": false
+        "PHP_SAPI_CGI": false,
+        "PHP_SAPI_PHPDBG": false
       }
     },
     {

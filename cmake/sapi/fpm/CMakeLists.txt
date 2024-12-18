@@ -6,27 +6,27 @@ Configure the `fpm` PHP SAPI.
 > [!NOTE]
 > PHP FPM is not available when the target system is Windows.
 
-## SAPI_FPM
+## PHP_SAPI_FPM
 
 * Default: `OFF`
 * Values: `ON|OFF`
 
 Enable the FastCGI Process Manager (FPM) SAPI module.
 
-## SAPI_FPM_USER
+## PHP_SAPI_FPM_USER
 
 * Default: `nobody`
 
 Set the user for running PHP FPM.
 
-## SAPI_FPM_GROUP
+## PHP_SAPI_FPM_GROUP
 
 * Default: `nobody`
 
 Set the group for running PHP FPM. For a system user, this should usually be set
 in a way to match the FPM username.
 
-## SAPI_FPM_ACL
+## PHP_SAPI_FPM_ACL
 
 * Default: `OFF`
 * Values: `ON|OFF`
@@ -40,7 +40,7 @@ Where to find ACL installation on the system, can be customized with the
 > This option is not available when the target system is Darwin (macOS) as this
 > system doesn't have ACL.
 
-## SAPI_FPM_APPARMOR
+## PHP_SAPI_FPM_APPARMOR
 
 * Default: `OFF`
 * Values: `ON|OFF`
@@ -54,7 +54,7 @@ Where to find AppArmor installation on the system, can be customized with the
 > This option is not available when the target system is Darwin (macOS) as this
 > system doesn't have AppArmor.
 
-## SAPI_FPM_SELINUX
+## PHP_SAPI_FPM_SELINUX
 
 * Default: `OFF`
 * Values: `ON|OFF`
@@ -68,7 +68,7 @@ Where to find SELinux installation on the system, can be customized with the
 > This option is not available when the target system is Darwin (macOS) as this
 > system doesn't have SELinux.
 
-## SAPI_FPM_SYSTEMD
+## PHP_SAPI_FPM_SYSTEMD
 
 * Default: `OFF`
 * Values: `ON|OFF`
@@ -102,25 +102,25 @@ include(PHP/Set)
 # FPM configuration.
 ################################################################################
 
-option(SAPI_FPM "Enable the FPM SAPI module")
+option(PHP_SAPI_FPM "Enable the FPM SAPI module")
 add_feature_info(
   "sapi/fpm"
-  SAPI_FPM
+  PHP_SAPI_FPM
   "FastCGI Process Manager"
 )
 
 php_set(
-  SAPI_FPM_USER
+  PHP_SAPI_FPM_USER
   TYPE STRING
-  IF SAPI_FPM
+  IF PHP_SAPI_FPM
   VALUE "nobody"
   DOC "Set the user for running PHP FPM (default: nobody)"
 )
 
 php_set(
-  SAPI_FPM_GROUP
+  PHP_SAPI_FPM_GROUP
   TYPE STRING
-  IF SAPI_FPM
+  IF PHP_SAPI_FPM
   VALUE "nobody"
   DOC
     "Set the group for running PHP FPM. For a system user, this should usually "
@@ -128,58 +128,58 @@ php_set(
 )
 
 php_set(
-  SAPI_FPM_ACL
+  PHP_SAPI_FPM_ACL
   TYPE BOOL
-  IF [[SAPI_FPM AND NOT CMAKE_SYSTEM_NAME STREQUAL "Darwin"]]
+  IF [[PHP_SAPI_FPM AND NOT CMAKE_SYSTEM_NAME STREQUAL "Darwin"]]
   VALUE OFF
   DOC "Use POSIX Access Control Lists"
 )
 add_feature_info(
   "sapi/fpm ACL"
-  SAPI_FPM_ACL
+  PHP_SAPI_FPM_ACL
   "POSIX Access Control Lists integration"
 )
 
 php_set(
-  SAPI_FPM_APPARMOR
+  PHP_SAPI_FPM_APPARMOR
   TYPE BOOL
-  IF [[SAPI_FPM AND NOT CMAKE_SYSTEM_NAME STREQUAL "Darwin"]]
+  IF [[PHP_SAPI_FPM AND NOT CMAKE_SYSTEM_NAME STREQUAL "Darwin"]]
   VALUE OFF
   DOC "Enable the AppArmor confinement through libapparmor"
 )
 add_feature_info(
   "sapi/fpm AppArmor"
-  SAPI_FPM_APPARMOR
+  PHP_SAPI_FPM_APPARMOR
   "application confinement integration"
 )
 
 php_set(
-  SAPI_FPM_SELINUX
+  PHP_SAPI_FPM_SELINUX
   TYPE BOOL
-  IF [[SAPI_FPM AND NOT CMAKE_SYSTEM_NAME STREQUAL "Darwin"]]
+  IF [[PHP_SAPI_FPM AND NOT CMAKE_SYSTEM_NAME STREQUAL "Darwin"]]
   VALUE OFF
   DOC "Enable the SELinux policy library support"
 )
 add_feature_info(
   "sapi/fpm SELinux"
-  SAPI_FPM_SELINUX
+  PHP_SAPI_FPM_SELINUX
   "security policy integration"
 )
 
 php_set(
-  SAPI_FPM_SYSTEMD
+  PHP_SAPI_FPM_SYSTEMD
   TYPE BOOL
-  IF [[SAPI_FPM AND NOT CMAKE_SYSTEM_NAME STREQUAL "Darwin"]]
+  IF [[PHP_SAPI_FPM AND NOT CMAKE_SYSTEM_NAME STREQUAL "Darwin"]]
   VALUE OFF
   DOC "Enable the systemd integration"
 )
 add_feature_info(
   "sapi/fpm systemd"
-  SAPI_FPM_SYSTEMD
+  PHP_SAPI_FPM_SYSTEMD
   "system and service manager integration"
 )
 
-if(NOT SAPI_FPM)
+if(NOT PHP_SAPI_FPM)
   return()
 endif()
 
@@ -427,7 +427,7 @@ endif()
 # Configure FPM from configuration options.
 ################################################################################
 
-if(SAPI_FPM_SYSTEMD)
+if(PHP_SAPI_FPM_SYSTEMD)
   find_package(Systemd 209)
   set_package_properties(
     Systemd
@@ -449,7 +449,7 @@ else()
   set(PHP_FPM_SYSTEMD "simple")
 endif()
 
-if(SAPI_FPM_ACL)
+if(PHP_SAPI_FPM_ACL)
   set(ACL_USE_USER_GROUP TRUE)
   find_package(ACL)
   set_package_properties(
@@ -471,7 +471,7 @@ if(SAPI_FPM_ACL)
   endif()
 endif()
 
-if(SAPI_FPM_APPARMOR)
+if(PHP_SAPI_FPM_APPARMOR)
   find_package(AppArmor)
   set_package_properties(
     AppArmor
@@ -487,7 +487,7 @@ if(SAPI_FPM_APPARMOR)
   endif()
 endif()
 
-if(SAPI_FPM_SELINUX)
+if(PHP_SAPI_FPM_SELINUX)
   find_package(SELinux)
   set_package_properties(
     SELinux
@@ -550,8 +550,8 @@ php_configure_file(
   VARIABLES
     prefix "$<INSTALL_PREFIX>"
     php_fpm_prefix "$<INSTALL_PREFIX>"
-    php_fpm_user "${SAPI_FPM_USER}"
-    php_fpm_group "${SAPI_FPM_GROUP}"
+    php_fpm_user "${PHP_SAPI_FPM_USER}"
+    php_fpm_group "${PHP_SAPI_FPM_GROUP}"
     EXPANDED_DATADIR "$<PATH:ABSOLUTE_PATH,NORMALIZE,${CMAKE_INSTALL_DATADIR},$<INSTALL_PREFIX>>"
 )
 

@@ -8,27 +8,27 @@ Configure the `fpm` PHP SAPI.
 > [!NOTE]
 > PHP FPM is not available when the target system is Windows.
 
-## SAPI_FPM
+## PHP_SAPI_FPM
 
 * Default: `OFF`
 * Values: `ON|OFF`
 
 Enable the FastCGI Process Manager (FPM) SAPI module.
 
-## SAPI_FPM_USER
+## PHP_SAPI_FPM_USER
 
 * Default: `nobody`
 
 Set the user for running PHP FPM.
 
-## SAPI_FPM_GROUP
+## PHP_SAPI_FPM_GROUP
 
 * Default: `nobody`
 
 Set the group for running PHP FPM. For a system user, this should usually be set
 in a way to match the FPM username.
 
-## SAPI_FPM_ACL
+## PHP_SAPI_FPM_ACL
 
 * Default: `OFF`
 * Values: `ON|OFF`
@@ -42,7 +42,7 @@ Where to find ACL installation on the system, can be customized with the
 > This option is not available when the target system is Darwin (macOS) as this
 > system doesn't have ACL.
 
-## SAPI_FPM_APPARMOR
+## PHP_SAPI_FPM_APPARMOR
 
 * Default: `OFF`
 * Values: `ON|OFF`
@@ -56,7 +56,7 @@ Where to find AppArmor installation on the system, can be customized with the
 > This option is not available when the target system is Darwin (macOS) as this
 > system doesn't have AppArmor.
 
-## SAPI_FPM_SELINUX
+## PHP_SAPI_FPM_SELINUX
 
 * Default: `OFF`
 * Values: `ON|OFF`
@@ -70,7 +70,7 @@ Where to find SELinux installation on the system, can be customized with the
 > This option is not available when the target system is Darwin (macOS) as this
 > system doesn't have SELinux.
 
-## SAPI_FPM_SYSTEMD
+## PHP_SAPI_FPM_SYSTEMD
 
 * Default: `OFF`
 * Values: `ON|OFF`

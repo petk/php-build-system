@@ -5,7 +5,7 @@
 
 Configure the `cgi` PHP SAPI.
 
-## SAPI_CGI
+## PHP_SAPI_CGI
 
 * Default: `ON`
 * Values: `ON|OFF`

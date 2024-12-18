@@ -5,20 +5,20 @@
 
 Configure the `cli` PHP SAPI.
 
-## SAPI_CLI
+## PHP_SAPI_CLI
 
 * Default: `ON`
 * Values: `ON|OFF`
 
 Enable the PHP CLI (Command-Line Interpreter/Interface) SAPI executable module.
 
-## SAPI_CLI_WIN_NO_CONSOLE
+## PHP_SAPI_CLI_WIN_NO_CONSOLE
 
 * Default: `OFF`
 * Values: `ON|OFF`
 
-Build console-less CLI SAPI. Same as the main CLI SAPI but without console (no
-output is given).
+Build additional console-less CLI SAPI executable (executable name `php-win`).
+Same as the main CLI SAPI (`php`) but without the console (no output is given).
 
 > [!NOTE]
 > This option is only available when the target system is Windows.

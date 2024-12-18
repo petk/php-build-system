@@ -741,7 +741,7 @@ A list of Autoconf `configure` command-line configuration options, Windows
         --disable-apache2handler or<br>
         --disable-apache2-4handler
       </td>
-      <td>SAPI_APACHE2HANDLER=OFF</td>
+      <td>PHP_SAPI_APACHE2HANDLER=OFF</td>
       <td>
         default, in PHP >= 8.4 <code>--disable-apache2handler</code> is for
         Apache 2.4 and not Apache 2.0 anymore
@@ -754,7 +754,7 @@ A list of Autoconf `configure` command-line configuration options, Windows
         --enable-apache2-4handler
       </td>
       <td>
-        SAPI_APACHE2HANDLER=ON<br>
+        PHP_SAPI_APACHE2HANDLER=ON<br>
         [APACHE_ROOT=PATH_TO_APACHE]<br>
         [Apache_APXS_EXECUTABLE=PATH_TO_APXS]
       </td>
@@ -787,57 +787,57 @@ A list of Autoconf `configure` command-line configuration options, Windows
     <tr>
       <td>--enable-cgi</td>
       <td>--enable-cgi</td>
-      <td>SAPI_CGI=ON</td>
+      <td>PHP_SAPI_CGI=ON</td>
       <td>default</td>
     </tr>
     <tr>
       <td>&emsp;--disable-cgi</td>
       <td>--disable-cgi</td>
-      <td>SAPI_CGI=OFF</td>
+      <td>PHP_SAPI_CGI=OFF</td>
       <td></td>
     </tr>
     <tr>
       <td>--enable-cli</td>
       <td>--enable-cli</td>
-      <td>SAPI_CLI=ON</td>
+      <td>PHP_SAPI_CLI=ON</td>
       <td>default</td>
     </tr>
     <tr>
       <td>&emsp;--disable-cli</td>
       <td>--disable-cli</td>
-      <td>SAPI_CLI=OFF</td>
+      <td>PHP_SAPI_CLI=OFF</td>
       <td></td>
     </tr>
     <tr>
       <td>&emsp;N/A</td>
       <td>--disable-cli-win32</td>
-      <td>SAPI_CLI_WIN_NO_CONSOLE=OFF</td>
+      <td>PHP_SAPI_CLI_WIN_NO_CONSOLE=OFF</td>
       <td>default; Windows only</td>
     </tr>
     <tr>
       <td>&emsp;N/A</td>
       <td>--enable-cli-win32</td>
-      <td>SAPI_CLI_WIN_NO_CONSOLE=ON</td>
+      <td>PHP_SAPI_CLI_WIN_NO_CONSOLE=ON</td>
       <td>Windows only</td>
     </tr>
     <tr>
       <td>--disable-embed</td>
       <td>--disable-embed</td>
-      <td>SAPI_EMBED=OFF</td>
+      <td>PHP_SAPI_EMBED=OFF</td>
       <td>default</td>
     </tr>
     <tr>
       <td>&emsp;--enable-embed</td>
       <td>--enable-embed</td>
-      <td>SAPI_EMBED=ON</td>
+      <td>PHP_SAPI_EMBED=ON</td>
       <td>will be build as shared</td>
     </tr>
     <tr>
       <td>&emsp;--enable-embed=shared</td>
       <td>N/A</td>
       <td>
-        SAPI_EMBED=ON<br>
-        SAPI_EMBED_SHARED=ON
+        PHP_SAPI_EMBED=ON<br>
+        PHP_SAPI_EMBED_SHARED=ON
       </td>
       <td>will be build as shared</td>
     </tr>
@@ -845,39 +845,39 @@ A list of Autoconf `configure` command-line configuration options, Windows
       <td>&emsp;--enable-embed=static</td>
       <td>--enable-embed</td>
       <td>
-        SAPI_EMBED=ON<br>
-        SAPI_EMBED_SHARED=OFF
+        PHP_SAPI_EMBED=ON<br>
+        PHP_SAPI_EMBED_SHARED=OFF
       </td>
       <td></td>
     </tr>
     <tr>
       <td>--disable-fpm</td>
       <td>N/A</td>
-      <td>SAPI_FPM=OFF</td>
+      <td>PHP_SAPI_FPM=OFF</td>
       <td>default</td>
     </tr>
     <tr>
       <td>&emsp;--enable-fpm</td>
       <td>N/A</td>
-      <td>SAPI_FPM=ON</td>
+      <td>PHP_SAPI_FPM=ON</td>
       <td></td>
     </tr>
     <tr>
       <td>&emsp;[--with-fpm-user=USER]</td>
       <td>N/A</td>
-      <td>[SAPI_FPM_USER=USER]</td>
+      <td>[PHP_SAPI_FPM_USER=USER]</td>
       <td>default: nobody</td>
     </tr>
     <tr>
       <td>&emsp;[--with-fpm-group=GROUP]</td>
       <td>N/A</td>
-      <td>[SAPI_FPM_GROUP=GROUP]</td>
+      <td>[PHP_SAPI_FPM_GROUP=GROUP]</td>
       <td>default: nobody</td>
     </tr>
     <tr>
       <td>&emsp;--without-fpm-systemd</td>
       <td>N/A</td>
-      <td>SAPI_FPM_SYSTEMD=OFF</td>
+      <td>PHP_SAPI_FPM_SYSTEMD=OFF</td>
       <td>default</td>
     </tr>
     <tr>
@@ -888,7 +888,7 @@ A list of Autoconf `configure` command-line configuration options, Windows
       </td>
       <td>N/A</td>
       <td>
-        SAPI_FPM_SYSTEMD=ON<br>
+        PHP_SAPI_FPM_SYSTEMD=ON<br>
         [SYSTEMD_ROOT=DIR]
       </td>
       <td></td>
@@ -896,14 +896,14 @@ A list of Autoconf `configure` command-line configuration options, Windows
     <tr>
       <td>&emsp;--without-fpm-acl</td>
       <td>N/A</td>
-      <td>SAPI_FPM_ACL=OFF</td>
+      <td>PHP_SAPI_FPM_ACL=OFF</td>
       <td>default</td>
     </tr>
     <tr>
       <td>&emsp;--with-fpm-acl</td>
       <td>N/A</td>
       <td>
-        SAPI_FPM_ACL=ON<br>
+        PHP_SAPI_FPM_ACL=ON<br>
         [ACL_ROOT=DIR]
       </td>
       <td></td>
@@ -911,14 +911,14 @@ A list of Autoconf `configure` command-line configuration options, Windows
     <tr>
       <td>&emsp;--without-fpm-apparmor</td>
       <td>N/A</td>
-      <td>SAPI_FPM_APPARMOR=OFF</td>
+      <td>PHP_SAPI_FPM_APPARMOR=OFF</td>
       <td>default</td>
     </tr>
     <tr>
       <td>&emsp;--with-fpm-apparmor</td>
       <td>N/A</td>
       <td>
-        SAPI_FPM_APPARMOR=ON<br>
+        PHP_SAPI_FPM_APPARMOR=ON<br>
         [APPARMOR_ROOT=DIR]
       </td>
       <td></td>
@@ -926,14 +926,14 @@ A list of Autoconf `configure` command-line configuration options, Windows
     <tr>
       <td>&emsp;--without-fpm-selinux</td>
       <td>N/A</td>
-      <td>SAPI_FPM_SELINUX=OFF</td>
+      <td>PHP_SAPI_FPM_SELINUX=OFF</td>
       <td>default</td>
     </tr>
     <tr>
       <td>&emsp;--with-fpm-selinux</td>
       <td>N/A</td>
       <td>
-        SAPI_FPM_SELINUX=ON<br>
+        PHP_SAPI_FPM_SELINUX=ON<br>
         [SELINUX_ROOT=DIR]
       </td>
       <td></td>
@@ -941,7 +941,7 @@ A list of Autoconf `configure` command-line configuration options, Windows
     <tr>
       <td>--disable-fuzzer</td>
       <td>N/A</td>
-      <td>SAPI_FUZZER=OFF</td>
+      <td>PHP_SAPI_FUZZER=OFF</td>
       <td>default</td>
     </tr>
     <tr>
@@ -950,67 +950,67 @@ A list of Autoconf `configure` command-line configuration options, Windows
         &emsp;[LIB_FUZZING_ENGINE=...]
       </td>
       <td>N/A</td>
-      <td>SAPI_FUZZER=ON</td>
+      <td>PHP_SAPI_FUZZER=ON</td>
       <td></td>
     </tr>
     <tr>
       <td>--disable-litespeed</td>
       <td>N/A</td>
-      <td>SAPI_LITESPEED=OFF</td>
+      <td>PHP_SAPI_LITESPEED=OFF</td>
       <td>default</td>
     </tr>
     <tr>
       <td>&emsp;--enable-litespeed</td>
       <td>N/A</td>
-      <td>SAPI_LITESPEED=ON</td>
+      <td>PHP_SAPI_LITESPEED=ON</td>
       <td></td>
     </tr>
     <tr>
       <td>--enable-phpdbg</td>
       <td>--enable-phpdbg</td>
-      <td>SAPI_PHPDBG=ON</td>
+      <td>PHP_SAPI_PHPDBG=ON</td>
       <td>default in *nix and CMake (on Windows disabled by default)</td>
     </tr>
     <tr>
       <td>&emsp;--disable-phpdbg</td>
       <td>--disable-phpdbg</td>
-      <td>SAPI_PHPDBG=OFF</td>
+      <td>PHP_SAPI_PHPDBG=OFF</td>
       <td></td>
     </tr>
     <tr>
       <td>&emsp;--disable-phpdbg-debug</td>
       <td>--disable-phpdbg-debug</td>
-      <td>SAPI_PHPDBG_DEBUG=OFF</td>
+      <td>PHP_SAPI_PHPDBG_DEBUG=OFF</td>
       <td>default (on Windows since PHP >= 8.4)</td>
     </tr>
     <tr>
       <td>&emsp;--enable-phpdbg-debug</td>
       <td>--enable-phpdbg-debug</td>
-      <td>SAPI_PHPDBG_DEBUG=ON</td>
+      <td>PHP_SAPI_PHPDBG_DEBUG=ON</td>
       <td>(on Windows since PHP >= 8.4)</td>
     </tr>
     <tr>
       <td>&emsp;--disable-phpdbg-readline</td>
       <td>N/A</td>
-      <td>SAPI_PHPDBG_READLINE=OFF</td>
+      <td>PHP_SAPI_PHPDBG_READLINE=OFF</td>
       <td>default</td>
     </tr>
     <tr>
       <td>&emsp;--enable-phpdbg-readline</td>
       <td>N/A</td>
-      <td>SAPI_PHPDBG_READLINE=ON</td>
+      <td>PHP_SAPI_PHPDBG_READLINE=ON</td>
       <td></td>
     </tr>
     <tr>
       <td>&emsp;N/A</td>
       <td>--disable-phpdbgs</td>
-      <td>SAPI_PHPDBG_SHARED=OFF</td>
+      <td>PHP_SAPI_PHPDBG_SHARED=OFF</td>
       <td>default</td>
     </tr>
     <tr>
       <td>&emsp;N/A</td>
       <td>--enable-phpdbgs</td>
-      <td>SAPI_PHPDBG_SHARED=ON</td>
+      <td>PHP_SAPI_PHPDBG_SHARED=ON</td>
       <td></td>
     </tr>
     <tr>

@@ -270,8 +270,7 @@ reserved for CMake's internal use.
 Configuration variables are cache variables designed to be adjusted by the user
 during the configuration phase, either through the presets, command line, or by
 using GUI, such as cmake-gui or ccmake. It is recommended to prefix them with
-`PHP_`, `ZEND_`, `EXT_`, `SAPI_`, and similar to facilitate their grouping
-within the GUI or IDE.
+`PHP_`, and similar to facilitate their grouping within the GUI or IDE.
 
 ```cmake
 set(PHP_FOO_BAR <value>... CACHE <BOOL|FILEPATH|PATH|STRING> "<help_text>")
@@ -285,7 +284,7 @@ option(ZEND_ENABLE_FOO "<help_text>" [value])
 option(EXT_FOO "<help_text>" [value])
 
 # Configuration variables related to PHP SAPI modules
-option(SAPI_FOO "<help_text>" [value])
+option(PHP_SAPI_FOO "<help_text>" [value])
 ```
 
 While it's a good practice to consider grouping variables inside an extension by

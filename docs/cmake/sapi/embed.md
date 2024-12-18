@@ -5,7 +5,7 @@
 
 Configure the `embed` PHP SAPI.
 
-## SAPI_EMBED
+## PHP_SAPI_EMBED
 
 * Default: `OFF`
 * Values: `ON|OFF`

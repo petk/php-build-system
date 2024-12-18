@@ -5,21 +5,21 @@
 
 Configure the `phpdbg` (interactive PHP debugger) PHP SAPI.
 
-## SAPI_PHPDBG
+## PHP_SAPI_PHPDBG
 
 * Default: `ON`
 * Values: `ON|OFF`
 
 Enable the phpdbg SAPI module as an executable.
 
-## SAPI_PHPDBG_SHARED
+## PHP_SAPI_PHPDBG_SHARED
 
 * Default: `OFF`
 * Values: `ON|OFF`
 
 Build phpdbg SAPI also as a shared module together with an executable.
 
-## SAPI_PHPDBG_DEBUG
+## PHP_SAPI_PHPDBG_DEBUG
 
 * Default: `OFF`
 * Values: `ON|OFF`
@@ -27,7 +27,7 @@ Build phpdbg SAPI also as a shared module together with an executable.
 Build phpdbg in debug mode to enable additional diagnostic output for developing
 and troubleshooting phpdbg itself.
 
-## SAPI_PHPDBG_READLINE
+## PHP_SAPI_PHPDBG_READLINE
 
 * Default: `OFF`
 * Values: `ON|OFF`

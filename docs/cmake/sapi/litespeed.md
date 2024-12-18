@@ -8,7 +8,7 @@ Configure the `litespeed` PHP SAPI.
 > [!NOTE]
 > The PHP Litespeed SAPI is not available when the target system is Windows.
 
-## SAPI_LITESPEED
+## PHP_SAPI_LITESPEED
 
 * Default: `OFF`
 * Values: `ON|OFF`

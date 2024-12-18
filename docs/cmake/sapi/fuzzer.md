@@ -8,7 +8,7 @@ Configure the `fuzzer` PHP SAPI.
 > [!NOTE]
 > This SAPI is not available when the target system is Windows.
 
-## SAPI_FUZZER
+## PHP_SAPI_FUZZER
 
 * Default: `OFF`
 * Values: `ON|OFF`

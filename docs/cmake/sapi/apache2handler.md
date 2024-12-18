@@ -5,7 +5,7 @@
 
 Configure the `apache2handler` PHP SAPI.
 
-## SAPI_APACHE2HANDLER
+## PHP_SAPI_APACHE2HANDLER
 
 * Default: `OFF`
 * Values: `ON|OFF`

@@ -3,7 +3,7 @@
 
 Configure the `apache2handler` PHP SAPI.
 
-## SAPI_APACHE2HANDLER
+## PHP_SAPI_APACHE2HANDLER
 
 * Default: `OFF`
 * Values: `ON|OFF`
@@ -30,15 +30,15 @@ cmake -B php-build -DAPACHE2HANDLER=ON -DApache_EXECUTABLE=/opt/apache2/bin/apxs
 
 include(FeatureSummary)
 
-option(SAPI_APACHE2HANDLER "Enable the shared Apache 2 handler SAPI module")
+option(PHP_SAPI_APACHE2HANDLER "Enable the shared Apache 2 handler SAPI module")
 
 add_feature_info(
   "sapi/apache2handler"
-  SAPI_APACHE2HANDLER
+  PHP_SAPI_APACHE2HANDLER
   "Apache HTTP server module"
 )
 
-if(NOT SAPI_APACHE2HANDLER)
+if(NOT PHP_SAPI_APACHE2HANDLER)
   return()
 endif()
 
@@ -88,9 +88,9 @@ if(CMAKE_SYSTEM_NAME STREQUAL "AIX" AND EXISTS ${Apache_LIBEXECDIR}/httpd.exp)
   check_linker_flag(
     C
     "LINKER:-brtl;LINKER:-bI${Apache_LIBEXECDIR}/httpd.exp"
-    _HAVE_BRTL_FLAG_C
+    _PHP_HAVE_BRTL_FLAG_C
   )
-  if(_HAVE_BRTL_FLAG_C)
+  if(_PHP_HAVE_BRTL_FLAG_C)
     target_link_options(
       php_sapi_apache2handler
       PRIVATE
