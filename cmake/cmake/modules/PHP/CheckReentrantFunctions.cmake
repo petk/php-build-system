@@ -10,41 +10,43 @@ functions on current systems and this module might be obsolete in the future.
 
 ## Cache variables
 
-* `HAVE_LOCALTIME_R`
-
-  Whether `localtime_r()` is available.
-
-* `MISSING_LOCALTIME_R_DECL`
-
-  Whether `localtime_r()` is not declared.
-
-* `HAVE_GMTIME_R`
-
-  Whether `gmtime_r()` is available.
-
-* `MISSING_GMTIME_R_DECL`
-
-  Whether `gmtime_r()` is not declared.
-
 * `HAVE_ASCTIME_R`
 
   Whether `asctime_r()` is available.
-
-* `MISSING_ASCTIME_R_DECL`
-
-  Whether `asctime_r()` is not declared.
 
 * `HAVE_CTIME_R`
 
   Whether `ctime_r()` is available.
 
-* `MISSING_CTIME_R_DECL`
+* `HAVE_GMTIME_R`
 
-  Whether `ctime_r()` is not declared.
+  Whether `gmtime_r()` is available.
+
+* `HAVE_LOCALTIME_R`
+
+  Whether `localtime_r()` is available.
 
 * `HAVE_STRTOK_R`
 
   Whether `strtok_r()` is available.
+
+## Result variables
+
+* `MISSING_ASCTIME_R_DECL`
+
+  Whether `asctime_r()` is not declared.
+
+* `MISSING_CTIME_R_DECL`
+
+  Whether `ctime_r()` is not declared.
+
+* `MISSING_GMTIME_R_DECL`
+
+  Whether `gmtime_r()` is not declared.
+
+* `MISSING_LOCALTIME_R_DECL`
+
+  Whether `localtime_r()` is not declared.
 
 * `MISSING_STRTOK_R_DECL`
 
@@ -69,23 +71,20 @@ function(_php_check_reentrant_function symbol header)
 
   cmake_push_check_state(RESET)
     set(CMAKE_REQUIRED_QUIET TRUE)
-    check_symbol_exists(${symbol} ${header} _have_${symbol})
+    check_symbol_exists(${symbol} ${header} PHP_HAVE_DECL_${const})
   cmake_pop_check_state()
 
-  if(NOT _have_${symbol})
+  if(NOT PHP_HAVE_DECL_${const})
     message(CHECK_FAIL "missing")
 
-    set(
-      MISSING_${const}_DECL TRUE
-      CACHE INTERNAL "Define if ${symbol} is not declared."
-    )
+    set(MISSING_${const}_DECL TRUE)
   else()
     message(CHECK_PASS "found")
   endif()
 endfunction()
 
-_php_check_reentrant_function(localtime_r time.h)
-_php_check_reentrant_function(gmtime_r time.h)
 _php_check_reentrant_function(asctime_r time.h)
 _php_check_reentrant_function(ctime_r time.h)
+_php_check_reentrant_function(gmtime_r time.h)
+_php_check_reentrant_function(localtime_r time.h)
 _php_check_reentrant_function(strtok_r string.h)
