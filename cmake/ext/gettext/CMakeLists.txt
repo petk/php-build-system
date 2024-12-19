@@ -90,6 +90,19 @@ if(TARGET Intl::Intl)
   check_library_exists(Intl::Intl dngettext "" HAVE_DNGETTEXT)
   check_library_exists(Intl::Intl dcngettext "" HAVE_DCNGETTEXT)
   check_library_exists(Intl::Intl bind_textdomain_codeset "" HAVE_BIND_TEXTDOMAIN_CODESET)
+
+  # Create a symbolic link when intl is built into musl C library. The gettext
+  # functions there ignore the codeset suffix on directories like 'en_US.UTF-8';
+  # instead they look only in 'en_US'.
+  if(Intl_IS_BUILT_IN AND PHP_C_STANDARD_LIBRARY STREQUAL "musl")
+    message(STATUS "Patching tests: symlinking en_US.UTF-8 messages")
+    file(
+      CREATE_LINK
+      en_US.UTF-8
+      ${CMAKE_CURRENT_SOURCE_DIR}/tests/locale/en_US
+      SYMBOLIC
+    )
+  endif()
 endif()
 
 configure_file(cmake/config.h.in config.h)
