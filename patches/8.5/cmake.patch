@@ -28,10 +28,10 @@ index 19be96087d..58a83dfb68 100644
  indent_style             = space
  
 diff --git a/.gitignore b/.gitignore
-index d54334f599..fed3639dfd 100644
+index 52dde98ed4..5783dd2285 100644
 --- a/.gitignore
 +++ b/.gitignore
-@@ -287,9 +287,58 @@ tmp-php.ini
+@@ -290,9 +290,58 @@ tmp-php.ini
  /junit.out.xml
  /.ccache/
  
