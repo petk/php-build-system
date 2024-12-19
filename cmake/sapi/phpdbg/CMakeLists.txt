@@ -100,7 +100,7 @@ endif()
 # Executable and library.
 ################################################################################
 
-set(php_phpdbg_sources
+set(phpdbgSources
   phpdbg_bp.c
   phpdbg_break.c
   phpdbg_btree.c
@@ -124,7 +124,7 @@ set(php_phpdbg_sources
   phpdbg.c
 )
 
-add_executable(php_sapi_phpdbg ${php_phpdbg_sources})
+add_executable(php_sapi_phpdbg ${phpdbgSources})
 add_executable(PHP::sapi::phpdbg ALIAS php_sapi_phpdbg)
 
 target_compile_definitions(
@@ -222,7 +222,7 @@ if(PHP_SAPI_PHPDBG_SHARED)
 
   set_target_properties(php_sapi_phpdbg_shared PROPERTIES OUTPUT_NAME phpdbg)
 
-  target_sources(php_sapi_phpdbg_shared PRIVATE ${php_phpdbg_sources})
+  target_sources(php_sapi_phpdbg_shared PRIVATE ${phpdbgSources})
 
   target_compile_definitions(
     php_sapi_phpdbg_shared

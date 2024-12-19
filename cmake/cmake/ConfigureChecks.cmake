@@ -399,11 +399,7 @@ endif()
 # Check getaddrinfo().
 include(PHP/CheckGetaddrinfo)
 if(TARGET PHP::CheckGetaddrinfoLibrary)
-  target_link_libraries(
-    php_config
-    INTERFACE
-      PHP::CheckGetaddrinfoLibrary
-  )
+  target_link_libraries(php_config INTERFACE PHP::CheckGetaddrinfoLibrary)
 endif()
 
 # Check copy_file_range().
@@ -766,17 +762,17 @@ block()
   if(PHP_LIBGCC)
     execute_process(
       COMMAND gcc --print-libgcc-file-name
-      OUTPUT_VARIABLE libgcc_path
+      OUTPUT_VARIABLE path
       OUTPUT_STRIP_TRAILING_WHITESPACE
     )
 
-    if(NOT EXISTS "${libgcc_path}")
-      message(FATAL_ERROR "Cannot locate libgcc.")
+    if(NOT EXISTS "${path}")
+      message(FATAL_ERROR "The libgcc path not found ${path}")
     endif()
 
-    message(STATUS "Explicitly linking against libgcc (${libgcc_path})")
+    message(STATUS "Explicitly linking against libgcc (${path})")
 
-    target_link_libraries(php_config INTERFACE ${libgcc_path})
+    target_link_libraries(php_config INTERFACE ${path})
   endif()
 endblock()
 
@@ -828,11 +824,9 @@ if(PHP_VALGRIND)
       PURPOSE "Necessary to enable Valgrind support."
   )
 
-  if(Valgrind_FOUND)
-    set(HAVE_VALGRIND TRUE)
-  endif()
-
   target_link_libraries(php_config INTERFACE Valgrind::Valgrind)
+
+  set(HAVE_VALGRIND TRUE)
 endif()
 add_feature_info(
   "Valgrind"
@@ -842,8 +836,6 @@ add_feature_info(
 
 # DTrace.
 if(PHP_DTRACE)
-  message(CHECK_START "Checking for DTrace support")
-
   find_package(DTrace)
   set_package_properties(
     DTrace
@@ -867,14 +859,11 @@ if(PHP_DTRACE)
       INCLUDES
         $<TARGET_PROPERTY:PHP::config,INTERFACE_INCLUDE_DIRECTORIES>
     )
+
     target_link_libraries(php_config INTERFACE DTrace::DTrace)
     target_link_libraries(php_sapi INTERFACE php_dtrace)
 
     set(HAVE_DTRACE TRUE)
-
-    message(CHECK_PASS "yes")
-  else()
-    message(CHECK_FAIL "no")
   endif()
 endif()
 add_feature_info(
@@ -885,8 +874,6 @@ add_feature_info(
 
 # Dmalloc.
 if(PHP_DMALLOC)
-  message(CHECK_START "Checking for Dmalloc support")
-
   find_package(Dmalloc)
   set_package_properties(
     Dmalloc
@@ -903,12 +890,7 @@ if(PHP_DMALLOC)
 
   target_link_libraries(php_config INTERFACE Dmalloc::Dmalloc)
 
-  if(Dmalloc_FOUND)
-    message(CHECK_PASS "yes")
-    set(HAVE_DMALLOC TRUE)
-  else()
-    message(CHECK_FAIL "no")
-  endif()
+  set(HAVE_DMALLOC TRUE)
 endif()
 add_feature_info(
   "Dmalloc"
