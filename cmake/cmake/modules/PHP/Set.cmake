@@ -115,6 +115,20 @@ php_set(
   VAR=auto
   ```
 
+  The following example sets variable `VAR` to value `OFF` and hides it in the
+  GUI on Windows. On other systems it sets it to `auto` by default.
+
+  ```cmake
+  include(PHP/Set)
+  php_set(
+    VAR
+    IF [[NOT CMAKE_SYSTEM_NAME STREQUAL "Windows"]]
+    CHOICES auto ON OFF
+    ELSE_VALUE OFF
+    DOC "Conditional choices"
+  )
+  ```
+
 * When `CHOICES_OPTIONAL` is given, the variable value will not be required to
   match one of the list items. By default, when using `CHOICES`, the variable
   value must match one of the list items; otherwise, a fatal error is thrown.

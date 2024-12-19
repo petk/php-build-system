@@ -29,6 +29,8 @@ https://www.gnu.org/software/autoconf-archive/ax_func_which_gethostbyname_r.html
 
   Whether `gethostbyname_r()` has 3 arguments.
 
+## Result variables
+
 * `HAVE_GETHOSTBYNAME_R`
 
   Whether `gethostbyname_r()` is available.
@@ -125,8 +127,5 @@ if(
   OR HAVE_FUNC_GETHOSTBYNAME_R_5
   OR HAVE_FUNC_GETHOSTBYNAME_R_3
 )
-  set(
-    HAVE_GETHOSTBYNAME_R TRUE
-    CACHE INTERNAL "Whether gethostbyname_r() is available."
-  )
+  set(HAVE_GETHOSTBYNAME_R TRUE)
 endif()

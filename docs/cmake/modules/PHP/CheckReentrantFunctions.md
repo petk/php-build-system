@@ -12,41 +12,43 @@ functions on current systems and this module might be obsolete in the future.
 
 ## Cache variables
 
-* `HAVE_LOCALTIME_R`
-
-  Whether `localtime_r()` is available.
-
-* `MISSING_LOCALTIME_R_DECL`
-
-  Whether `localtime_r()` is not declared.
-
-* `HAVE_GMTIME_R`
-
-  Whether `gmtime_r()` is available.
-
-* `MISSING_GMTIME_R_DECL`
-
-  Whether `gmtime_r()` is not declared.
-
 * `HAVE_ASCTIME_R`
 
   Whether `asctime_r()` is available.
-
-* `MISSING_ASCTIME_R_DECL`
-
-  Whether `asctime_r()` is not declared.
 
 * `HAVE_CTIME_R`
 
   Whether `ctime_r()` is available.
 
-* `MISSING_CTIME_R_DECL`
+* `HAVE_GMTIME_R`
 
-  Whether `ctime_r()` is not declared.
+  Whether `gmtime_r()` is available.
+
+* `HAVE_LOCALTIME_R`
+
+  Whether `localtime_r()` is available.
 
 * `HAVE_STRTOK_R`
 
   Whether `strtok_r()` is available.
+
+## Result variables
+
+* `MISSING_ASCTIME_R_DECL`
+
+  Whether `asctime_r()` is not declared.
+
+* `MISSING_CTIME_R_DECL`
+
+  Whether `ctime_r()` is not declared.
+
+* `MISSING_GMTIME_R_DECL`
+
+  Whether `gmtime_r()` is not declared.
+
+* `MISSING_LOCALTIME_R_DECL`
+
+  Whether `localtime_r()` is not declared.
 
 * `MISSING_STRTOK_R_DECL`
 

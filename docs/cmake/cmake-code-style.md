@@ -38,7 +38,6 @@ ecosystem.
     * [10.1.2. cmake-format (by cmakelang project)](#1012-cmake-format-by-cmakelang-project)
     * [10.1.3. cmake-lint (by cmakelang project)](#1013-cmake-lint-by-cmakelang-project)
     * [10.1.4. cmakelint](#1014-cmakelint)
-    * [10.1.5. bin/check-cmake.php](#1015-bincheck-cmakephp)
     * [10.1.6. cmake-format.json](#1016-cmake-formatjson)
   * [10.2. Further resources](#102-further-resources)
 
@@ -135,25 +134,27 @@ For example, do this:
 
 ```cmake
 if(foo)
-  some_command(...)
+  # ...
 else()
-  another_command(...)
+  # ...
 endif()
 ```
 
 and not this:
 
 ```cmake
-if(bar)
-  some_other_command(...)
-endif(bar)
+if(foo)
+  # ...
+else(foo)
+  # ...
+endif(foo)
 ```
 
 ### 2.2. Source and binary directories
 
-The variable `CMAKE_SOURCE_DIR` represents the project's root source code
+The variable `CMAKE_SOURCE_DIR` represents the top level project source code
 directory, housing C and CMake files. Conversely, `CMAKE_BINARY_DIR` signifies
-the binary (also called build) directory where build artifacts are output.
+the *binary* (also called *build*) directory where built artifacts are output.
 
 ```sh
 cmake -S <source-directory> -B <binary-directory>
@@ -429,11 +430,11 @@ prefix them contextually, for example `php_`. It is preferred to adhere to the
 *snake_case* style.
 
 ```cmake
-function(php_function_name argument_name)
+function(php_function_name argumentName)
   # Function body
 endfunction()
 
-macro(php_macro_name)
+macro(php_macro_name argumentName)
   # Macro body
 endmacro()
 ```
@@ -454,7 +455,7 @@ endfunction()
 CMake targets are defined with `add_library()`, `add_executable()`, and
 `add_custom_target()`. Target naming conventions in this repository are intended
 to prevent clashes with existing system library names, especially when dealing
-with libraries imported via `find_package()` or `FetchContent`.
+with libraries imported with `find_package()` command or `FetchContent` module.
 
 ### 7.1. Libraries and executables
 
@@ -462,21 +463,21 @@ Naming pattern when creating libraries and executables across the build system:
 
 * `php_ext_<extension_name>`
 
-  For targets associated with PHP extensions. Replace `<extension_name>` with
-  the name of the PHP extension.
+  Targets associated with PHP extensions. Replace `<extension_name>` with the
+  name of the PHP extension.
 
 * `php_sapi_<sapi_name>`
 
-  For targets associated with PHP SAPIs (Server APIs). Replace `<sapi_name>`
-  with the specific PHP SAPI name.
+  Targets associated with PHP SAPIs (PHP Server APIs). Replace `<sapi_name>`
+  with the name of the PHP SAPI.
 
 * `php_main`
 
   Target name of the PHP main binding.
 
-* `zend`:
+* `zend` and `zend_*`:
 
-  Target name for the Zend Engine.
+  Targets associated with the Zend Engine.
 
 Additionally, customizing the target output file name on the disk can be done by
 setting target property `OUTPUT_NAME`.
@@ -508,10 +509,15 @@ CMake targets only, unlike other naming patterns where CMake will search for
 link flags, paths, or library names as well.
 
 > [!TIP]
-> Some targets use nested namespaces for their distinct convenience. However,
-> CMake does not differentiate these from single-level namespaces.
+> PHP extensions and SAPIs use nested namespaces for their distinct convenience.
+> However, CMake does not differentiate these from single-level namespaces.
 >
 > ```cmake
+> # PHP extensions:
+> add_library(php_ext_bcmath)
+> add_library(PHP::ext::bcmath ALIAS php_ext_bcmath)
+>
+> PHP SAPIs:
 > add_executable(php_sapi_cli)
 > add_executable(PHP::sapi::cli ALIAS php_sapi_cli)
 > ```
@@ -522,7 +528,7 @@ Custom targets should be defined with clear names that indicate their purpose,
 such as `php_generate_something`. These targets can be customized to perform
 specific actions during the build process. They should be prefixed with the
 target context. For example, `php_`, `php_ext_<extension_name>_`,
-`php_sapi_<sapi_name>_`, or `zend_`.
+`php_sapi_<sapi_name>_`, `zend_`, or similar.
 
 ```cmake
 add_custom_target(php_generate_something ...)
@@ -629,6 +635,13 @@ This is primarily due to their varying levels of utility and a lack of updates
 to keep pace with new CMake versions. It's worth mentioning that this
 recommendation may evolve in the future as these tools continue to develop.
 
+For convenience there is a custom helper script added to this repository that
+checks CMake files using these tools:
+
+```sh
+./bin/check-cmake.php
+```
+
 #### 10.1.1. Gersemi
 
 The [`gersemi`](https://github.com/BlankSpruce/gersemi) tool can check and fix
@@ -687,15 +700,6 @@ and helps to better structure CMake files:
 
 ```sh
 cmakelint <cmake/CMakeLists.txt cmake/...>
-```
-
-#### 10.1.5. bin/check-cmake.php
-
-For convenience there is a custom helper script added to this repository that
-checks CMake files:
-
-```sh
-./bin/check-cmake.php
 ```
 
 #### 10.1.6. cmake-format.json

@@ -31,6 +31,8 @@ https://www.gnu.org/software/autoconf-archive/ax_func_which_gethostbyname_r.html
 
   Whether `gethostbyname_r()` has 3 arguments.
 
+## Result variables
+
 * `HAVE_GETHOSTBYNAME_R`
 
   Whether `gethostbyname_r()` is available.
