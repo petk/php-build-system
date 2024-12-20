@@ -15,7 +15,9 @@ syntax, e.g. 'find_package(RE2C 0.15.3)'.
 
 ## Cache variables
 
-* `RE2C_EXECUTABLE` - Path to the re2c program.
+* `RE2C_EXECUTABLE` - Path to the re2c program. When RE2C is downloaded and
+  built from source as part of the built (using below ExternalProject), this
+  path will not exist until the built phase.
 
 Custom target:
 
