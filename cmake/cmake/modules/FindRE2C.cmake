@@ -306,11 +306,11 @@ function(re2c_target)
 
   add_custom_command(
     OUTPUT ${outputs}
-    COMMAND $<IF:$<TARGET_EXISTS:RE2C::RE2C>,RE2C::RE2C,${RE2C_EXECUTABLE}>
+    COMMAND ${RE2C_EXECUTABLE}
       ${options}
       --output ${output}
       ${input}
-    DEPENDS ${input} ${parsed_DEPENDS}
+    DEPENDS ${input} ${parsed_DEPENDS} $<TARGET_NAME_IF_EXISTS:RE2C::RE2C>
     COMMENT "[RE2C][${ARGV0}] Building lexer with re2c ${RE2C_VERSION}"
     VERBATIM
     COMMAND_EXPAND_LISTS
