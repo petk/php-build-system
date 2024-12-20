@@ -13,7 +13,9 @@ syntax, e.g. 'find_package(RE2C 0.15.3)'.
 
 ## Cache variables
 
-* `RE2C_EXECUTABLE` - Path to the re2c program.
+* `RE2C_EXECUTABLE` - Path to the re2c program. When RE2C is downloaded and
+  built from source as part of the built (using below ExternalProject), this
+  path will not exist until the built phase.
 
 Custom target:
 
@@ -98,8 +100,15 @@ find_program(
   NAMES re2c
   DOC "The re2c executable path"
 )
+mark_as_advanced(RE2C_EXECUTABLE)
 
-if(RE2C_EXECUTABLE)
+if(CMAKE_VERSION VERSION_GREATER_EQUAL 3.29)
+  set(_re2cCondition IS_EXECUTABLE ${RE2C_EXECUTABLE})
+else()
+  set(_re2cCondition EXISTS ${RE2C_EXECUTABLE})
+endif()
+
+if(${_re2cCondition})
   execute_process(
     COMMAND ${RE2C_EXECUTABLE} --vernum
     OUTPUT_VARIABLE RE2C_VERSION_NUM
@@ -177,13 +186,12 @@ if(NOT RE2C_DISABLE_DOWNLOAD AND (NOT RE2C_EXECUTABLE OR NOT _re2cVersionValid))
     PROPERTIES IMPORTED_LOCATION ${BINARY_DIR}/re2c
   )
   add_dependencies(RE2C::RE2C re2c)
-  set_property(CACHE RE2C_EXECUTABLE PROPERTY VALUE RE2C::RE2C)
+  set_property(CACHE RE2C_EXECUTABLE PROPERTY VALUE ${BINARY_DIR}/re2c)
+  unset(BINARY_DIR)
 
   list(PREPEND _re2cRequiredVars _re2cMsg)
   set(_re2cMsg "downloading at build")
 endif()
-
-mark_as_advanced(RE2C_EXECUTABLE)
 
 find_package_handle_standard_args(
   RE2C
@@ -193,6 +201,7 @@ find_package_handle_standard_args(
   REASON_FAILURE_MESSAGE "re2c not found. Please install re2c."
 )
 
+unset(_re2cCondition)
 unset(_re2cMsg)
 unset(_re2cRequiredVars)
 unset(_re2cVersionValid)
@@ -297,11 +306,11 @@ function(re2c_target)
 
   add_custom_command(
     OUTPUT ${outputs}
-    COMMAND ${RE2C_EXECUTABLE}
+    COMMAND $<IF:$<TARGET_EXISTS:RE2C::RE2C>,RE2C::RE2C,${RE2C_EXECUTABLE}>
       ${options}
       --output ${output}
       ${input}
-    DEPENDS ${input} ${parsed_DEPENDS} $<TARGET_NAME_IF_EXISTS:RE2C::RE2C>
+    DEPENDS ${input} ${parsed_DEPENDS}
     COMMENT "[RE2C][${ARGV0}] Building lexer with re2c ${RE2C_VERSION}"
     VERBATIM
     COMMAND_EXPAND_LISTS
