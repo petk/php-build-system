@@ -14,22 +14,9 @@ syntax, e.g. 'find_package(RE2C 0.15.3)'.
 ## Cache variables
 
 * `RE2C_EXECUTABLE` - Path to the re2c program. When RE2C is downloaded and
-  built from source as part of the built (using below ExternalProject), this
-  path will not exist until the built phase.
-
-Custom target:
-
-* `re2c_generate_files` - A custom target for generating lexer files:
-
-  ```sh
-  cmake --build <dir> -t re2c_generate_files
-  ```
-
-  or to add it as a dependency to other targets:
-
-  ```cmake
-  add_dependencies(some_target re2c_generate_files)
-  ```
+  built from source as part of the built (using the `ExternalProject` CMake
+  module), this path will be autofilled to the built re2c and will not exist
+  until the build phase.
 
 ## Hints
 
@@ -61,22 +48,82 @@ re2c_target(
   [DEPENDS <depends>...]
   [NO_DEFAULT_OPTIONS]
   [NO_COMPUTED_GOTOS]
+  [CODEGEN]
 )
 ```
 
-* `<name>` - Target name.
-* `<input>` - The re2c template file input. Relative source file path is
-  interpreted as being relative to the current source directory.
-* `<output>` - The output file. Relative output file path is interpreted as
-  being relative to the current binary directory.
-* `HEADER` - Generate a <header> file. Relative header file path is interpreted
-  as being relative to the current binary directory.
-* `OPTIONS` - List of additional options to pass to re2c command-line tool.
-* `DEPENDS` - Optional list of dependent files to regenerate the output file.
+This will add a custom command and a custom target `<name>` that generates lexer
+file `<output>` from the given `<input>` re2c template file using the re2c
+utility. Relative source file path `<input> is interpreted as being relative to
+the current source directory. Relative `<output>` file path is interpreted as
+being relative to the current binary directory.
+
+### Options
+
+* `HEADER <header>` - Generate a given `<header>` file. Relative header file
+  path is interpreted as being relative to the current binary directory.
+
+* `OPTIONS <options>...` - List of additional options to pass to re2c
+  command-line tool.
+
+* `DEPENDS <depends>...` - Optional list of dependent files to regenerate the
+  output file.
+
 * `NO_DEFAULT_OPTIONS` - If specified, then the options from
   `RE2C_DEFAULT_OPTIONS` are not passed to the re2c invocation.
+
 * `NO_COMPUTED_GOTOS` - If specified when using the `RE2C_USE_COMPUTED_GOTOS`,
   then the computed gotos option is not passed to the re2c invocation.
+
+* `CODEGEN` - adds the `CODEGEN` option to the re2c's `add_custom_command()`
+  call. Works as of CMake 3.31 when policy `CMP0171` is set to `NEW`, which
+  provides a global CMake `codegen` target for convenience to call only the
+  code-generation-related targets and skips the majority of the build:
+
+  ```sh
+  cmake --build <dir> --target codegen
+  ```
+
+## Examples
+
+The `re2c_target()` also creates a custom target called `<name>` that can be
+used in more complex scenarios, like defining dependencies to other targets:
+
+```cmake
+# CMakeLists.txt
+
+find_package(RE2C)
+
+if(RE2C_FOUND)
+  re2c_target(foo_lexer lexer.re lexer.c)
+  add_dependencies(some_target foo_lexer)
+endif()
+```
+
+Or to run only the specific `foo_lexer` target, which generates the lexer.
+
+```sh
+cmake --build <dir> --target foo_lexer
+```
+
+When running in script mode:
+
+```sh
+cmake -P script.cmake
+```
+
+The generated file is created right away for convenience and custom target is
+not created:
+
+```cmake
+# script.cmake
+
+find_package(RE2C)
+
+if(RE2C_FOUND)
+  re2c_target(foo_lexer lexer.re lexer.c)
+endif()
+```
 #]=============================================================================]
 
 include(CheckSourceCompiles)
@@ -91,10 +138,6 @@ set_package_properties(
     DESCRIPTION "Free and open-source lexer generator"
 )
 
-if(NOT TARGET re2c_generate_files)
-  add_custom_target(re2c_generate_files)
-endif()
-
 find_program(
   RE2C_EXECUTABLE
   NAMES re2c
@@ -103,12 +146,12 @@ find_program(
 mark_as_advanced(RE2C_EXECUTABLE)
 
 if(CMAKE_VERSION VERSION_GREATER_EQUAL 3.29)
-  set(_re2cCondition IS_EXECUTABLE ${RE2C_EXECUTABLE})
+  set(_re2cTest IS_EXECUTABLE)
 else()
-  set(_re2cCondition EXISTS ${RE2C_EXECUTABLE})
+  set(_re2cTest EXISTS)
 endif()
 
-if(${_re2cCondition})
+if(${_re2cTest} ${RE2C_EXECUTABLE})
   execute_process(
     COMMAND ${RE2C_EXECUTABLE} --vernum
     OUTPUT_VARIABLE RE2C_VERSION_NUM
@@ -201,9 +244,9 @@ find_package_handle_standard_args(
   REASON_FAILURE_MESSAGE "re2c not found. Please install re2c."
 )
 
-unset(_re2cCondition)
 unset(_re2cMsg)
 unset(_re2cRequiredVars)
+unset(_re2cTest)
 unset(_re2cVersionValid)
 
 if(NOT RE2C_FOUND)
@@ -241,10 +284,10 @@ function(re2c_target)
   cmake_parse_arguments(
     PARSE_ARGV
     3
-    parsed                                 # prefix
-    "NO_DEFAULT_OPTIONS;NO_COMPUTED_GOTOS" # options
-    "HEADER"                               # one-value keywords
-    "OPTIONS;DEPENDS"                      # multi-value keywords
+    parsed # prefix
+    "NO_DEFAULT_OPTIONS;NO_COMPUTED_GOTOS;CODEGEN" # options
+    "HEADER" # one-value keywords
+    "OPTIONS;DEPENDS" # multi-value keywords
   )
 
   if(parsed_UNPARSED_ARGUMENTS)
@@ -289,14 +332,15 @@ function(re2c_target)
 
     list(APPEND outputs ${header})
 
-    # When header option is used before version 1.2, also the '-c' option is
-    # required. Before 1.1 -c long variant is '--start-conditions' and after 1.1
-    # '--conditions'.
+    # When header option is used before re2c version 1.2, also the '-c' option
+    # is required. Before 1.1 '-c' long variant is '--start-conditions' and
+    # after 1.1 '--conditions'.
     if(RE2C_VERSION VERSION_LESS_EQUAL 1.2)
       list(APPEND options -c)
     endif()
 
-    # Since version 3.0, --header is the new alias option for --type-header.
+    # Since re2c version 3.0, '--header' is the new alias option for the
+    # '--type-header' option.
     if(RE2C_VERSION VERSION_GREATER_EQUAL 3.0)
       list(APPEND options --header ${header})
     else()
@@ -304,16 +348,36 @@ function(re2c_target)
     endif()
   endif()
 
+  set(message "[RE2C][${ARGV0}] Generating lexer with re2c ${RE2C_VERSION}")
+  set(command ${RE2C_EXECUTABLE} ${options} --output ${output} ${input})
+
+  if(CMAKE_SCRIPT_MODE_FILE)
+    message(STATUS "${message}")
+    execute_process(COMMAND ${command})
+    return()
+  endif()
+
+  set(codegen "")
+  if(
+    parsed_CODEGEN
+    AND CMAKE_VERSION VERSION_GREATER_EQUAL 3.31
+    AND POLICY CMP0171
+  )
+    cmake_policy(GET CMP0171 cmp0171)
+
+    if(cmp0171 STREQUAL "NEW")
+      set(codegen CODEGEN)
+    endif()
+  endif()
+
   add_custom_command(
     OUTPUT ${outputs}
-    COMMAND ${RE2C_EXECUTABLE}
-      ${options}
-      --output ${output}
-      ${input}
+    COMMAND ${command}
     DEPENDS ${input} ${parsed_DEPENDS} $<TARGET_NAME_IF_EXISTS:RE2C::RE2C>
-    COMMENT "[RE2C][${ARGV0}] Building lexer with re2c ${RE2C_VERSION}"
+    COMMENT "${message}"
     VERBATIM
     COMMAND_EXPAND_LISTS
+    ${codegen}
   )
 
   add_custom_target(
@@ -322,6 +386,4 @@ function(re2c_target)
     DEPENDS ${outputs}
     COMMENT "[RE2C] Building lexer with re2c ${RE2C_VERSION}"
   )
-
-  add_dependencies(re2c_generate_files ${ARGV0})
 endfunction()

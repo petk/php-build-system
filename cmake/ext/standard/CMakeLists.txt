@@ -235,6 +235,7 @@ if(RE2C_FOUND)
     var_unserializer.re
     ${CMAKE_CURRENT_SOURCE_DIR}/var_unserializer.c
     OPTIONS -b
+    CODEGEN
   )
 
   re2c_target(
@@ -242,6 +243,7 @@ if(RE2C_FOUND)
     url_scanner_ex.re
     ${CMAKE_CURRENT_SOURCE_DIR}/url_scanner_ex.c
     OPTIONS -b
+    CODEGEN
   )
 endif()
 

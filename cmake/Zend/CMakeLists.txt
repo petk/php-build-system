@@ -536,9 +536,6 @@ if(BISON_FOUND)
     DEFINES_FILE ${CMAKE_CURRENT_SOURCE_DIR}/zend_ini_parser.h
   )
 
-  add_custom_target(zend_ini_parser DEPENDS ${BISON_TARGET_outputs})
-  add_dependencies(php_generate_files zend_ini_parser)
-
   bison_target(
     zend_language_parser
     zend_language_parser.y
@@ -605,7 +602,6 @@ if(BISON_FOUND)
   )
 
   add_dependencies(zend zend_patch_language_parser)
-  add_dependencies(php_generate_files zend_patch_language_parser)
 endif()
 
 if(RE2C_FOUND)
@@ -615,6 +611,7 @@ if(RE2C_FOUND)
     ${CMAKE_CURRENT_SOURCE_DIR}/zend_language_scanner.c
     HEADER ${CMAKE_CURRENT_SOURCE_DIR}/zend_language_scanner_defs.h
     OPTIONS --case-inverted -cbdF
+    CODEGEN
   )
 
   re2c_target(
@@ -623,6 +620,7 @@ if(RE2C_FOUND)
     ${CMAKE_CURRENT_SOURCE_DIR}/zend_ini_scanner.c
     HEADER ${CMAKE_CURRENT_SOURCE_DIR}/zend_ini_scanner_defs.h
     OPTIONS --case-inverted -cbdF
+    CODEGEN
   )
 endif()
 
