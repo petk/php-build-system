@@ -112,8 +112,6 @@ if(
       TYPE REQUIRED
       PURPOSE "Necessary to generate PHP lexer files."
   )
-
-  add_dependencies(php_generate_files re2c_generate_files)
 endif()
 
 ################################################################################

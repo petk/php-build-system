@@ -254,9 +254,6 @@ if(BISON_FOUND)
     VERBOSE REPORT_FILE phpdbg_parser.output
     DEFINES_FILE ${CMAKE_CURRENT_SOURCE_DIR}/phpdbg_parser.h
   )
-
-  add_custom_target(php_sapi_phpdbg_parser DEPENDS ${BISON_TARGET_outputs})
-  add_dependencies(php_generate_files php_sapi_phpdbg_parser)
 endif()
 
 if(RE2C_FOUND)
@@ -265,6 +262,7 @@ if(RE2C_FOUND)
     phpdbg_lexer.l
     ${CMAKE_CURRENT_SOURCE_DIR}/phpdbg_lexer.c
     OPTIONS -cbdF
+    CODEGEN
   )
 endif()
 

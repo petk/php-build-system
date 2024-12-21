@@ -214,13 +214,6 @@ set(PHP_BZIP2_MIN_VERSION 1.0.0)
 
 # Additional metadata for external packages to avoid duplication.
 set_package_properties(
-  BISON
-  PROPERTIES
-    URL "https://www.gnu.org/software/bison/"
-    DESCRIPTION "General-purpose parser generator"
-)
-
-set_package_properties(
   BZip2
   PROPERTIES
     URL "https://sourceware.org/bzip2/"

@@ -49,9 +49,6 @@ if(BISON_FOUND)
     VERBOSE REPORT_FILE json_parser.tab.output
     DEFINES_FILE ${CMAKE_CURRENT_SOURCE_DIR}/json_parser.tab.h
   )
-
-  add_custom_target(php_ext_json_parser DEPENDS ${BISON_TARGET_outputs})
-  add_dependencies(php_generate_files php_ext_json_parser)
 endif()
 
 if(RE2C_FOUND)
@@ -61,6 +58,7 @@ if(RE2C_FOUND)
     ${CMAKE_CURRENT_SOURCE_DIR}/json_scanner.c
     HEADER ${CMAKE_CURRENT_SOURCE_DIR}/php_json_scanner_defs.h
     OPTIONS -bc
+    CODEGEN
   )
 endif()
 

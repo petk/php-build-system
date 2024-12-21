@@ -94,6 +94,7 @@ if(RE2C_FOUND)
     phar_path_check.re
     ${CMAKE_CURRENT_SOURCE_DIR}/phar_path_check.c
     OPTIONS -b
+    CODEGEN
   )
 endif()
 
