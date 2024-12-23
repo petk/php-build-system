@@ -351,30 +351,29 @@ function(re2c_target)
   endif()
 
   set(message "[RE2C][${ARGV0}] Generating lexer with re2c ${RE2C_VERSION}")
-  set(command ${RE2C_EXECUTABLE} ${options} --output ${output} ${input})
+  set(commands COMMAND ${RE2C_EXECUTABLE} ${options} --output ${output} ${input})
 
   # RE2C cannot create output directories. Ensure any required directories
   # for the generated files are created if they don't already exist.
-  set(makeDirectoryCommand "")
+  set(directories "")
   foreach(output IN LISTS outputs)
     cmake_path(GET output PARENT_PATH dir)
     if(dir)
-      list(APPEND makeDirectoryCommand ${dir})
+      list(APPEND directories ${dir})
     endif()
-    unset(dir)
   endforeach()
-  if(makeDirectoryCommand)
-    list(REMOVE_DUPLICATES makeDirectoryCommand)
+  if(directories)
+    list(REMOVE_DUPLICATES directories)
     list(
       PREPEND
-      makeDirectoryCommand
-      COMMAND ${CMAKE_COMMAND} -E make_directory
+      commands
+      COMMAND ${CMAKE_COMMAND} -E make_directory ${directories}
     )
   endif()
 
   if(CMAKE_SCRIPT_MODE_FILE)
     message(STATUS "${message}")
-    execute_process(${makeDirectoryCommand} COMMAND ${command})
+    execute_process(${commands})
     return()
   endif()
 
@@ -393,8 +392,7 @@ function(re2c_target)
 
   add_custom_command(
     OUTPUT ${outputs}
-    ${makeDirectoryCommand}
-    COMMAND ${command}
+    ${commands}
     DEPENDS ${input} ${parsed_DEPENDS} $<TARGET_NAME_IF_EXISTS:RE2C::RE2C>
     COMMENT "${message}"
     VERBATIM
