@@ -3,7 +3,11 @@
 # Command-line script to generate the lexer and parser files using re2c and
 # bison.
 #
-# Run as: `cmake -P cmake/scripts/GenerateLexersParsers.cmake`
+# Run as:
+#
+# ```sh
+# [RE2C_EXECUTABLE=path/to/re2c] cmake -P cmake/scripts/GenerateLexersParsers.cmake`
+# ```
 #
 # re2c and bison options must be manually synced with those used in the
 # CMakeLists.txt files.

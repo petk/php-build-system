@@ -14,20 +14,20 @@ syntax, e.g. 'find_package(RE2C 0.15.3)'.
 ## Cache variables
 
 * `RE2C_EXECUTABLE` - Path to the re2c program. When RE2C is downloaded and
-  built from source as part of the built (using the `ExternalProject` CMake
-  module), this path will be autofilled to the built re2c and will not exist
-  until the build phase.
+  built from source as part of the build (using the `ExternalProject` CMake
+  module), this path will be autofilled to point to the built re2c. Note, that
+  re2c built from source will not exist until the build phase.
 
 ## Hints
 
-* `RE2C_DEFAULT_OPTIONS` - A `;-`list of default global options to pass to re2c
-  for all `re2c_target()` invocations. Set before calling the
-  `find_package(RE2C)`. Options are prepended to additional options passed with
-  `re2c_target()` arguments.
+* `RE2C_DEFAULT_OPTIONS` - A semicolon-separated list of default global options
+  to pass to re2c for all `re2c_target()` invocations. Set before calling the
+  `find_package(RE2C)`. These options are prepended to additional options passed
+  as `re2c_target()` arguments.
 
 * `RE2C_DISABLE_DOWNLOAD` - This module can also download and build re2c from
   its Git repository using the `ExternalProject` module. Set to `TRUE` to
-  disable downloading re2c, when it is not found on the system or system version
+  disable downloading re2c, when it is not found on the system or found version
   is not suitable.
 
 * `RE2C_USE_COMPUTED_GOTOS` - Set to `TRUE` before calling `find_package(RE2C)`
@@ -52,7 +52,7 @@ re2c_target(
 )
 ```
 
-This will add a custom command and a custom target `<name>` that generates lexer
+This adds a custom target `<name>` and a custom command that generates lexer
 file `<output>` from the given `<input>` re2c template file using the re2c
 utility. Relative source file path `<input> is interpreted as being relative to
 the current source directory. Relative `<output>` file path is interpreted as
@@ -63,19 +63,19 @@ being relative to the current binary directory.
 * `HEADER <header>` - Generate a given `<header>` file. Relative header file
   path is interpreted as being relative to the current binary directory.
 
-* `OPTIONS <options>...` - List of additional options to pass to re2c
-  command-line tool.
+* `OPTIONS <options>...` - Optional list of additional options to pass to the
+  re2c command-line tool.
 
 * `DEPENDS <depends>...` - Optional list of dependent files to regenerate the
   output file.
 
 * `NO_DEFAULT_OPTIONS` - If specified, then the options from
-  `RE2C_DEFAULT_OPTIONS` are not passed to the re2c invocation.
+  `RE2C_DEFAULT_OPTIONS` are not added to current re2c invocation.
 
 * `NO_COMPUTED_GOTOS` - If specified when using the `RE2C_USE_COMPUTED_GOTOS`,
-  then the computed gotos option is not passed to the re2c invocation.
+  then the computed gotos option is not added to the current re2c invocation.
 
-* `CODEGEN` - adds the `CODEGEN` option to the re2c's `add_custom_command()`
+* `CODEGEN` - Adds the `CODEGEN` option to the re2c's `add_custom_command()`
   call. Works as of CMake 3.31 when policy `CMP0171` is set to `NEW`, which
   provides a global CMake `codegen` target for convenience to call only the
   code-generation-related targets and skips the majority of the build:
@@ -87,7 +87,7 @@ being relative to the current binary directory.
 ## Examples
 
 The `re2c_target()` also creates a custom target called `<name>` that can be
-used in more complex scenarios, like defining dependencies to other targets:
+used in more complex scenarios, such as defining dependencies:
 
 ```cmake
 # CMakeLists.txt
@@ -247,6 +247,8 @@ find_package_handle_standard_args(
 unset(_re2cMsg)
 unset(_re2cRequiredVars)
 unset(_re2cTest)
+unset(_re2cVersionError)
+unset(_re2cVersionResult)
 unset(_re2cVersionValid)
 
 if(NOT RE2C_FOUND)
@@ -351,9 +353,28 @@ function(re2c_target)
   set(message "[RE2C][${ARGV0}] Generating lexer with re2c ${RE2C_VERSION}")
   set(command ${RE2C_EXECUTABLE} ${options} --output ${output} ${input})
 
+  # RE2C cannot create output directories. Ensure any required directories
+  # for the generated files are created if they don't already exist.
+  set(makeDirectoryCommand "")
+  foreach(output IN LISTS outputs)
+    cmake_path(GET output PARENT_PATH dir)
+    if(dir)
+      list(APPEND makeDirectoryCommand ${dir})
+    endif()
+    unset(dir)
+  endforeach()
+  if(makeDirectoryCommand)
+    list(REMOVE_DUPLICATES makeDirectoryCommand)
+    list(
+      PREPEND
+      makeDirectoryCommand
+      COMMAND ${CMAKE_COMMAND} -E make_directory
+    )
+  endif()
+
   if(CMAKE_SCRIPT_MODE_FILE)
     message(STATUS "${message}")
-    execute_process(COMMAND ${command})
+    execute_process(${makeDirectoryCommand} COMMAND ${command})
     return()
   endif()
 
@@ -372,6 +393,7 @@ function(re2c_target)
 
   add_custom_command(
     OUTPUT ${outputs}
+    ${makeDirectoryCommand}
     COMMAND ${command}
     DEPENDS ${input} ${parsed_DEPENDS} $<TARGET_NAME_IF_EXISTS:RE2C::RE2C>
     COMMENT "${message}"
