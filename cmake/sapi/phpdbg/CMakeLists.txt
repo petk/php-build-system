@@ -245,26 +245,7 @@ endif()
 # Generate lexers and parsers.
 ################################################################################
 
-if(BISON_FOUND)
-  bison_target(
-    php_sapi_phpdbg_parser
-    phpdbg_parser.y
-    ${CMAKE_CURRENT_SOURCE_DIR}/phpdbg_parser.c
-    COMPILE_FLAGS "${PHP_DEFAULT_BISON_FLAGS}"
-    VERBOSE REPORT_FILE phpdbg_parser.output
-    DEFINES_FILE ${CMAKE_CURRENT_SOURCE_DIR}/phpdbg_parser.h
-  )
-endif()
-
-if(RE2C_FOUND)
-  re2c_target(
-    php_sapi_phpdbg_lexer
-    phpdbg_lexer.l
-    ${CMAKE_CURRENT_SOURCE_DIR}/phpdbg_lexer.c
-    OPTIONS -cbdF
-    CODEGEN
-  )
-endif()
+include(cmake/GenerateGrammar.cmake)
 
 ################################################################################
 # Configuration checks.
