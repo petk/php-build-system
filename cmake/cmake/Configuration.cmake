@@ -92,9 +92,6 @@ mark_as_advanced(PHP_PROGRAM_PREFIX)
 set(PHP_PROGRAM_SUFFIX "" CACHE STRING "Append suffix to the program names")
 mark_as_advanced(PHP_PROGRAM_SUFFIX)
 
-option(PHP_RE2C_CGOTO "Enable computed goto GCC extension with re2c")
-mark_as_advanced(PHP_RE2C_CGOTO)
-
 option(PHP_THREAD_SAFETY "Enable thread safety (ZTS)")
 
 cmake_dependent_option(

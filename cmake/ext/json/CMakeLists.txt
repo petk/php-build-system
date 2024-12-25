@@ -40,27 +40,11 @@ target_sources(
 
 target_compile_definitions(php_ext_json PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE)
 
-if(BISON_FOUND)
-  bison_target(
-    php_ext_json_parser
-    json_parser.y
-    ${CMAKE_CURRENT_SOURCE_DIR}/json_parser.tab.c
-    COMPILE_FLAGS "${PHP_DEFAULT_BISON_FLAGS}"
-    VERBOSE REPORT_FILE json_parser.tab.output
-    DEFINES_FILE ${CMAKE_CURRENT_SOURCE_DIR}/json_parser.tab.h
-  )
-endif()
+################################################################################
+# Generate lexer and parser files.
+################################################################################
 
-if(RE2C_FOUND)
-  re2c_target(
-    php_ext_json_scanner
-    json_scanner.re
-    ${CMAKE_CURRENT_SOURCE_DIR}/json_scanner.c
-    HEADER ${CMAKE_CURRENT_SOURCE_DIR}/php_json_scanner_defs.h
-    OPTIONS -bc
-    CODEGEN
-  )
-endif()
+include(cmake/GenerateGrammar.cmake)
 
 if(NOT CMAKE_SYSTEM_NAME STREQUAL "Windows")
   set(HAVE_JSON TRUE)
