@@ -92,10 +92,12 @@ On the contrary, variable names are case-sensitive.
   a backslash character (`\`) followed by a new line:
 
   ```cmake
-  message("\
+  message(STATUS "\
   This string is concatenated \
   to a single line.\
   ")
+
+  # Output: This string is concatenated to a single line.
   ```
 
 * When defining path variables, exclude the trailing directory delimiter (`/`).

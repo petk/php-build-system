@@ -192,7 +192,7 @@ brackets `{}`.
 
 ```cmake
 set(foobar "value")
-message(STATUS ${foobar})
+message(STATUS "${foobar}")
 
 # Output: value
 ```
@@ -272,11 +272,20 @@ etc.) and passed as-is. No escaping of special characters is needed, but also
 variables are not expanded. They are most commonly used for passing strings of
 code or regular expressions.
 
+For example
+
 ```cmake
-message([=[
+message(STATUS [=[
 Inside bracket arguments the \-escape sequences and ${variable} references are
 not evaluated. Argument can also contain ; and other special ]] characters.
 ]=])
+```
+
+will output:
+
+```
+Inside bracket arguments the \-escape sequences and ${variable} references are
+not evaluated. Argument can also contain ; and other special ]] characters.
 ```
 
 ## 5. Targets
