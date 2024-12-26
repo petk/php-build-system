@@ -7,11 +7,12 @@
 #
 #   cmake -P cmake/scripts/GenerateLexersParsers.cmake
 #
-# bison and re2c executables can be also manually overridden:
+# To manually override bison and re2c executables:
 #
-#   [BISON_EXECUTABLE=path/to/bison] \
-#   [RE2C_EXECUTABLE=path/to/re2c] \
-#   cmake -P cmake/scripts/GenerateLexersParsers.cmake
+#   cmake \
+#     [-D BISON_EXECUTABLE=path/to/bison] \
+#     [-D RE2C_EXECUTABLE=path/to/re2c] \
+#     -P cmake/scripts/GenerateLexersParsers.cmake
 #
 # TODO: Fix CS and fine tune this.
 #

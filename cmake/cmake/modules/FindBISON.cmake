@@ -100,5 +100,8 @@ function(bison_execute)
     "[BISON][${ARGV0}] Generating parser with bison ${BISON_VERSION}"
   )
 
-  execute_process(${commands})
+  execute_process(
+    ${commands}
+    WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
+  )
 endfunction()
