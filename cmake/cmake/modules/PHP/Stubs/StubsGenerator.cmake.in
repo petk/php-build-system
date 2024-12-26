@@ -7,17 +7,15 @@ if(NOT CMAKE_SCRIPT_MODE_FILE)
 endif()
 
 set(sources "@PHP_SOURCES@")
+set(phpCommand "@PHP_COMMAND@")
+set(phpGenStubScriptSource "@PROJECT_SOURCE_DIR@/build/gen_stub.php")
 
 # Ensure sources include only *.stub.php files.
 list(FILTER sources INCLUDE REGEX [[\.stub\.php$]])
 
 # Create a list of sources that must be parsed by the generator.
-if(@PROJECT_SOURCE_DIR@/build/gen_stub.php IS_NEWER_THAN ${CMAKE_CURRENT_LIST_FILE})
-  file(
-    COPY
-    @PROJECT_SOURCE_DIR@/build/gen_stub.php
-    DESTINATION @PROJECT_BINARY_DIR@/CMakeFiles/php_stubs
-  )
+if(${phpGenStubScriptSource} IS_NEWER_THAN ${CMAKE_CURRENT_LIST_FILE})
+  file(COPY ${phpGenStubScriptSource} DESTINATION ${CMAKE_CURRENT_LIST_DIR})
   set(stubs ${sources})
   file(TOUCH ${CMAKE_CURRENT_LIST_FILE})
 else()
@@ -35,15 +33,10 @@ endif()
 
 execute_process(
   COMMAND
-    ${CMAKE_COMMAND}
-    -E cmake_echo_color --blue --bold
-    "Regenerating *_arginfo.h headers from *.stub.php sources"
-)
-
-execute_process(
+    ${CMAKE_COMMAND} -E cmake_echo_color --blue --bold
+      "Regenerating *_arginfo.h headers from *.stub.php sources"
   COMMAND
-    @PHP_COMMAND@ @PROJECT_BINARY_DIR@/CMakeFiles/php_stubs/gen_stub.php
-    ${stubs}
+    ${phpCommand} ${CMAKE_CURRENT_LIST_DIR}/gen_stub.php ${stubs}
 )
 
 # Ensure that *_arginfo.h headers are newer than their *.stub.php sources.
