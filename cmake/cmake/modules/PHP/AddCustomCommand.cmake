@@ -82,10 +82,10 @@ function(php_add_custom_command)
     set(verbatim "")
   endif()
 
-  if(PHPSystem_EXECUTABLE)
+  if(PHP_EXECUTABLE)
     add_custom_command(
       OUTPUT ${parsed_OUTPUT}
-      COMMAND ${PHPSystem_EXECUTABLE} ${parsed_PHP_COMMAND}
+      COMMAND ${PHP_EXECUTABLE} ${parsed_PHP_COMMAND}
       DEPENDS ${parsed_DEPENDS}
       COMMENT "${parsed_COMMENT}"
       ${verbatim}
@@ -99,9 +99,12 @@ function(php_add_custom_command)
   endif()
 
   if(NOT CMAKE_CROSSCOMPILING)
-    set(PHP_EXECUTABLE "$<TARGET_FILE:PHP::sapi::cli>")
+    set(phpExecutable "$<TARGET_FILE:PHP::sapi::cli>")
   elseif(CMAKE_CROSSCOMPILING AND CMAKE_CROSSCOMPILING_EMULATOR)
-    set(PHP_EXECUTABLE "${CMAKE_CROSSCOMPILING_EMULATOR};$<TARGET_FILE:PHP::sapi::cli>")
+    set(
+      phpExecutable
+      "${CMAKE_CROSSCOMPILING_EMULATOR};$<TARGET_FILE:PHP::sapi::cli>"
+    )
   else()
     return()
   endif()
@@ -111,7 +114,7 @@ function(php_add_custom_command)
   add_custom_target(
     ${targetName} ALL
     COMMAND ${CMAKE_COMMAND}
-      -D "PHP_EXECUTABLE=${PHP_EXECUTABLE}"
+      -D "PHP_EXECUTABLE=${phpExecutable}"
       -D "OUTPUT=${parsed_OUTPUT}"
       -D "PHP_COMMAND=${parsed_PHP_COMMAND}"
       -D "DEPENDS=${parsed_DEPENDS}"
