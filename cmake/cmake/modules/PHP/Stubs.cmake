@@ -93,7 +93,7 @@ endif()
 file(
   COPY
   ${PROJECT_SOURCE_DIR}/build/gen_stub.php
-  DESTINATION ${PROJECT_BINARY_DIR}/CMakeFiles/php_stubs
+  DESTINATION ${PROJECT_BINARY_DIR}/CMakeFiles/PHP/Stubs
 )
 
 block()
@@ -119,11 +119,11 @@ block()
   endforeach()
 
   set(PHP_SOURCES "$<JOIN:$<REMOVE_DUPLICATES:${stubs}>,$<SEMICOLON>>")
-  file(READ ${CMAKE_CURRENT_LIST_DIR}/Stubs/PHPStubsGenerator.cmake.in content)
+  file(READ ${CMAKE_CURRENT_LIST_DIR}/Stubs/StubsGenerator.cmake.in content)
   string(CONFIGURE "${content}" content @ONLY)
   file(
     GENERATE
-    OUTPUT ${PROJECT_BINARY_DIR}/CMakeFiles/php_stubs/PHPStubsGenerator.cmake
+    OUTPUT ${PROJECT_BINARY_DIR}/CMakeFiles/PHP/Stubs/StubsGenerator.cmake
     CONTENT "${content}"
   )
 
@@ -136,7 +136,8 @@ block()
     php_stubs ${targetOptions}
     COMMAND
       ${CMAKE_COMMAND}
-      -P ${PROJECT_BINARY_DIR}/CMakeFiles/php_stubs/PHPStubsGenerator.cmake
+      -P ${PROJECT_BINARY_DIR}/CMakeFiles/PHP/Stubs/StubsGenerator.cmake
     VERBATIM
+    COMMAND_EXPAND_LISTS
   )
 endblock()
