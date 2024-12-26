@@ -8,16 +8,14 @@ if(
 endif()
 include(PHP/BISON)
 
-if(BISON_FOUND)
-  php_bison(
-    php_sapi_phpdbg_parser
-    phpdbg_parser.y
-    ${CMAKE_CURRENT_SOURCE_DIR}/phpdbg_parser.c
-    COMPILE_FLAGS "${PHP_BISON_DEFAULT_OPTIONS}"
-    VERBOSE REPORT_FILE phpdbg_parser.output
-    DEFINES_FILE ${CMAKE_CURRENT_SOURCE_DIR}/phpdbg_parser.h
-  )
-endif()
+php_bison(
+  php_sapi_phpdbg_parser
+  phpdbg_parser.y
+  phpdbg_parser.c
+  COMPILE_FLAGS "${PHP_BISON_DEFAULT_OPTIONS}"
+  VERBOSE REPORT_FILE phpdbg_parser.output
+  DEFINES_FILE phpdbg_parser.h
+)
 
 if(EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/phpdbg_lexer.c)
   set(PHP_RE2C_OPTIONAL TRUE)

@@ -375,7 +375,7 @@ function(${RE2C_NAMESPACE}re2c)
 
   if(CMAKE_SCRIPT_MODE_FILE)
     message(STATUS "[RE2C] ${message}")
-    execute_process(${commands})
+    execute_process(${commands} WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR})
     return()
   endif()
 
@@ -400,6 +400,7 @@ function(${RE2C_NAMESPACE}re2c)
     VERBATIM
     COMMAND_EXPAND_LISTS
     ${codegen}
+    WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
   )
 endfunction()
 
@@ -423,7 +424,7 @@ function(${RE2C_NAMESPACE}re2c_execute)
   endif()
 
   message(STATUS "[RE2C] ${message}")
-  execute_process(${commands})
+  execute_process(${commands} WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR})
 endfunction()
 
 ################################################################################
