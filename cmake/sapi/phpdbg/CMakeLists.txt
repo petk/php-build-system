@@ -242,7 +242,7 @@ if(PHP_SAPI_PHPDBG_SHARED)
 endif()
 
 ################################################################################
-# Generate lexers and parsers.
+# Generate lexer and parser files.
 ################################################################################
 
 include(cmake/GenerateGrammar.cmake)

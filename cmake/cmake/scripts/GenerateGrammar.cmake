@@ -5,16 +5,14 @@
 #
 # Run as:
 #
-#   cmake -P cmake/scripts/GenerateLexersParsers.cmake
+#   cmake -P cmake/scripts/GenerateGrammar.cmake
 #
 # To manually override bison and re2c executables:
 #
 #   cmake \
 #     [-D BISON_EXECUTABLE=path/to/bison] \
 #     [-D RE2C_EXECUTABLE=path/to/re2c] \
-#     -P cmake/scripts/GenerateLexersParsers.cmake
-#
-# TODO: Fix CS and fine tune this.
+#     -P cmake/scripts/GenerateGrammar.cmake
 #
 # TODO: Should the Bison-generated report files (*.output) really be also
 # created by this script (the `VERBOSE REPORT_FILE <file>` options)? PHP still
@@ -32,10 +30,10 @@ endif()
 set(PHP_SOURCE_DIR ${CMAKE_CURRENT_LIST_DIR}/../..)
 
 if(NOT EXISTS ${PHP_SOURCE_DIR}/main/php_version.h)
-  message(FATAL_ERROR "This script should be run inside the php-src repository")
+  message(FATAL_ERROR "This script should be run in the php-src repository.")
 endif()
 
-list(APPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_LIST_DIR}/../modules)
+list(APPEND CMAKE_MODULE_PATH ${PHP_SOURCE_DIR}/cmake/modules)
 
 include(PHP/BISON)
 include(PHP/RE2C)
@@ -48,26 +46,16 @@ feature_summary(
   DEFAULT_DESCRIPTION
 )
 
-set(CMAKE_CURRENT_SOURCE_DIR ${PHP_SOURCE_DIR}/ext/json)
-set(CMAKE_CURRENT_BINARY_DIR ${PHP_SOURCE_DIR}/ext/json)
-include(${PHP_SOURCE_DIR}/ext/json/cmake/GenerateGrammar.cmake)
-
-set(CMAKE_CURRENT_SOURCE_DIR ${PHP_SOURCE_DIR}/ext/pdo)
-set(CMAKE_CURRENT_BINARY_DIR ${PHP_SOURCE_DIR}/ext/pdo)
-include(${PHP_SOURCE_DIR}/ext/pdo/cmake/GenerateGrammar.cmake)
-
-set(CMAKE_CURRENT_SOURCE_DIR ${PHP_SOURCE_DIR}/ext/phar)
-set(CMAKE_CURRENT_BINARY_DIR ${PHP_SOURCE_DIR}/ext/phar)
-include(${PHP_SOURCE_DIR}/ext/phar/cmake/GenerateGrammar.cmake)
-
-set(CMAKE_CURRENT_SOURCE_DIR ${PHP_SOURCE_DIR}/ext/standard)
-set(CMAKE_CURRENT_BINARY_DIR ${PHP_SOURCE_DIR}/ext/standard)
-include(${PHP_SOURCE_DIR}/ext/standard/cmake/GenerateGrammar.cmake)
-
-set(CMAKE_CURRENT_SOURCE_DIR ${PHP_SOURCE_DIR}/sapi/phpdbg)
-set(CMAKE_CURRENT_BINARY_DIR ${PHP_SOURCE_DIR}/sapi/phpdbg)
-include(${PHP_SOURCE_DIR}/sapi/phpdbg/cmake/GenerateGrammar.cmake)
-
-set(CMAKE_CURRENT_SOURCE_DIR ${PHP_SOURCE_DIR}/Zend)
-set(CMAKE_CURRENT_BINARY_DIR ${PHP_SOURCE_DIR}/Zend)
-include(${PHP_SOURCE_DIR}/Zend/cmake/GenerateGrammar.cmake)
+file(
+  GLOB_RECURSE scripts
+  ${PHP_SOURCE_DIR}/ext/*/cmake/GenerateGrammar.cmake
+  ${PHP_SOURCE_DIR}/sapi/*/cmake/GenerateGrammar.cmake
+  ${PHP_SOURCE_DIR}/Zend/cmake/GenerateGrammar.cmake
+)
+foreach(script IN LISTS scripts)
+  cmake_path(GET script PARENT_PATH path)
+  cmake_path(GET path PARENT_PATH path)
+  set(CMAKE_CURRENT_SOURCE_DIR ${path})
+  set(CMAKE_CURRENT_BINARY_DIR ${path})
+  include(${script})
+endforeach()

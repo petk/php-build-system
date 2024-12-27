@@ -1,6 +1,4 @@
-#[=============================================================================[
-Generate lexer and parser files for Zend Engine.
-#]=============================================================================]
+# Generate lexer and parser files.
 
 if(
   EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/zend_ini_parser.c

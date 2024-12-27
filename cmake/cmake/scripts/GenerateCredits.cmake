@@ -12,7 +12,7 @@ endif()
 set(PHP_SOURCE_DIR ${CMAKE_CURRENT_LIST_DIR}/../../)
 
 if(NOT EXISTS ${PHP_SOURCE_DIR}/ext/standard/credits.h)
-  message(FATAL_ERROR "This script should be run inside the php-src repository")
+  message(FATAL_ERROR "This script should be run in the php-src repository.")
 endif()
 
 set(template [[

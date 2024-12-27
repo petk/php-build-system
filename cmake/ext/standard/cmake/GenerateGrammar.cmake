@@ -1,4 +1,4 @@
-# Generate lexers.
+# Generate lexer files.
 
 if(
   EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/url_scanner_ex.c
