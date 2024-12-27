@@ -523,7 +523,7 @@ if(TARGET Zend::MaxExecutionTimers)
 endif()
 
 ################################################################################
-# Generate lexers and parsers.
+# Generate lexer and parser files.
 ################################################################################
 
 include(cmake/GenerateGrammar.cmake)

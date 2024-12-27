@@ -26,7 +26,7 @@ These variables can be set before calling the `find_package(RE2C)`:
 
 * `RE2C_DEFAULT_OPTIONS` - A semicolon-separated list of default global re2c
   options to be prepended to `re2c(OPTIONS)` argument for all re2c invocations
-  when generating lexers.
+  when generating lexer files.
 
 * `RE2C_DISABLE_DOWNLOAD` - Set to `TRUE` to disable downloading and building
   RE2C package from source, when it is not found on the system or found version

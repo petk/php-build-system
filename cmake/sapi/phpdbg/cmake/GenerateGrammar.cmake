@@ -1,4 +1,4 @@
-# Generate lexers and parsers.
+# Generate lexer and parser files.
 
 if(
   EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/phpdbg_parser.c
