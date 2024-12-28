@@ -13,11 +13,6 @@
 #     [-D BISON_EXECUTABLE=path/to/bison] \
 #     [-D RE2C_EXECUTABLE=path/to/re2c] \
 #     -P cmake/scripts/GenerateGrammar.cmake
-#
-# TODO: Should the Bison-generated report files (*.output) really be also
-# created by this script (the `VERBOSE REPORT_FILE <file>` options)? PHP still
-# packages these reports also in the archive release files?! Also, ext/json
-# doesn't produce the *.output file.
 
 cmake_minimum_required(VERSION 3.25...3.31)
 
