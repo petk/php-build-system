@@ -14,7 +14,7 @@ if(BISON_FOUND)
   if(CMAKE_SCRIPT_MODE_FILE)
     set(verbose "")
   else()
-    set(verbose VERBOSE REPORT_FILE zend_ini_parser.output)
+    set(verbose VERBOSE)
   endif()
 
   bison(
@@ -29,7 +29,7 @@ if(BISON_FOUND)
   if(CMAKE_SCRIPT_MODE_FILE)
     set(verbose "")
   else()
-    set(verbose VERBOSE REPORT_FILE zend_language_parser.output)
+    set(verbose VERBOSE)
   endif()
 
   bison(
@@ -94,12 +94,12 @@ if(BISON_FOUND)
     else()
       file(
         GENERATE
-        OUTPUT CMakeFiles/PatchLanguageParser.cmake
+        OUTPUT CMakeFiles/Zend/PatchLanguageParser.cmake
         CONTENT "${patch}"
       )
       add_custom_target(
         zend_language_parser_patch
-        COMMAND ${CMAKE_COMMAND} -P CMakeFiles/PatchLanguageParser.cmake
+        COMMAND ${CMAKE_COMMAND} -P CMakeFiles/Zend/PatchLanguageParser.cmake
         DEPENDS zend_language_parser
         VERBATIM
       )

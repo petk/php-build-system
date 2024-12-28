@@ -19,7 +19,7 @@ if(BISON_FOUND)
   if(CMAKE_SCRIPT_MODE_FILE)
     set(verbose "")
   else()
-    set(verbose VERBOSE REPORT_FILE phpdbg_parser.output)
+    set(verbose VERBOSE)
   endif()
 
   bison(

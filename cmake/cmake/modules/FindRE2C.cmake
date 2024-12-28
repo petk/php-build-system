@@ -247,7 +247,7 @@ endfunction()
 
 macro(_re2c_process)
   if(parsed_UNPARSED_ARGUMENTS)
-    message(FATAL_ERROR "Bad arguments: ${parsed_UNPARSED_ARGUMENTS}")
+    message(FATAL_ERROR "Unrecognized arguments: ${parsed_UNPARSED_ARGUMENTS}")
   endif()
 
   if(parsed_KEYWORDS_MISSING_VALUES)
@@ -470,11 +470,11 @@ block(PROPAGATE RE2C_VERSION _re2cVersionValid)
   endif()
 endblock()
 
-set(_re2cRequiredVars "")
-
 ################################################################################
 # Download and build the package.
 ################################################################################
+
+set(_re2cRequiredVars "")
 
 if(
   NOT CMAKE_SCRIPT_MODE_FILE
