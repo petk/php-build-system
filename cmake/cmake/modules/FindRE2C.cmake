@@ -35,9 +35,6 @@ These variables can be set before calling the `find_package(RE2C)`:
 * `RE2C_DOWNLOAD_VERSION` - Override the default `re2c` version to be downloaded
   when not found on the system.
 
-* `RE2C_NAMESPACE` - Optional namespace prepended to `re2c` CMake function
-  names.
-
 * `RE2C_USE_COMPUTED_GOTOS` - Set to `TRUE` to enable the re2c
   `--computed-gotos` (`-g`) option if the non-standard C `computed goto`
   extension is supported by the C compiler. When using it in command-line script
@@ -62,6 +59,7 @@ re2c(
   [NO_DEFAULT_OPTIONS]
   [NO_COMPUTED_GOTOS]
   [CODEGEN]
+  [WORKING_DIRECTORY <working-directory>]
 )
 ```
 
@@ -103,36 +101,14 @@ in various scenarios.
   cmake --build <dir> --target codegen
   ```
 
-### `re2c_execute()`
-
-```cmake
-re2c_execute(
-  <input>
-  <output>
-  [HEADER <header>]
-  [OPTIONS <options>...]
-  [NO_DEFAULT_OPTIONS]
-  [NO_COMPUTED_GOTOS]
-)
-```
-
-This generates `<output>` lexer file from the given `<input>` template using the
-`re2c` command-line lexer generator. Relative `<input>` source file path is
-interpreted as being relative to the current source directory. Relative
-`<output>` file path is interpreted as being relative to the current binary
-directory. If `re2c` is not a required package and it is not found, it will skip
-the lexer generation.
-
-This command can be used in scripts or if generated files need to be available
-in the configuration phase immediately without creating a CMake target.
-
-#### Options
-
-Options available in `re2c_execute` behave the same as in the `re2c()`.
+* `WORKING_DIRECTORY <working-directory>` - The path where the `re2c` command is
+  executed. By default, `re2c` is executed in the current binary directory
+  (`CMAKE_CURRENT_BINARY_DIR`). Relative `<working-directory>` path is
+  interpreted as being relative to the current binary directory.
 
 ## Examples
 
-### Basic usage
+### Minimum re2c version
 
 The minimum required `re2c` version can be specified using the standard CMake
 syntax, e.g.
@@ -143,9 +119,23 @@ syntax, e.g.
 find_package(RE2C 1.0.3)
 ```
 
+### Running re2c
+
+```cmake
+# CMakeLists.txt
+
+find_package(RE2C)
+
+# Commands provided by find modules must be called conditionally, because user
+# can also disable the find module with CMAKE_DISABLE_FIND_PACKAGE_RE2C.
+if(RE2C_FOUND)
+  re2c(...)
+endif()
+```
+
 ### Specifying options
 
-Setting default options for all `re2c()` calls in the scope of
+Setting default options for all `re2c()` calls in the scope of the
 `find_package(RE2C)`:
 
 ```cmake
@@ -159,21 +149,28 @@ find_package(RE2C)
 
 # This will execute re2c as:
 # re2c --no-generation-date --bit-vectors --conditions --output foo.c foo.re
-re2c(foo foo.re foo.c OPTIONS --bit-vectors --conditions)
+if(RE2C_FOUND)
+  re2c(foo foo.re foo.c OPTIONS --bit-vectors --conditions)
+endif()
 
 # This will execute re2c as:
 # re2c --no-generation-date --case-inverted --output bar.c bar.re
-re2c(bar bar.re bar.c OPTIONS --case-inverted)
+if(RE2C_FOUND)
+  re2c(bar bar.re bar.c OPTIONS --case-inverted)
+endif()
 ```
 
-Generator expressions are supported in `re2c(OPTIONS)`:
+Generator expressions are supported in `re2c(OPTIONS)` when using it in the
+`project()` mode:
 
 ```cmake
 # CMakeLists.txt
 
 find_package(RE2C)
 
-re2c(foo foo.re foo.c OPTIONS $<$<CONFIG:Debug>:--debug-output>)
+if(RE2C_FOUND)
+  re2c(foo foo.re foo.c OPTIONS $<$<CONFIG:Debug>:--debug-output>)
+endif()
 ```
 
 ### Custom target usage
@@ -185,8 +182,10 @@ To specify dependencies with the custom target created by `re2c()`:
 
 find_package(RE2C)
 
-re2c(foo_lexer lexer.re lexer.c)
-add_dependencies(some_target foo_lexer)
+if(RE2C_FOUND)
+  re2c(foo_lexer lexer.re lexer.c)
+  add_dependencies(some_target foo_lexer)
+endif()
 ```
 
 Or to run only the specific `foo_lexer` target, which generates the lexer.
@@ -197,7 +196,7 @@ cmake --build <dir> --target foo_lexer
 
 ### Script mode
 
-When running `re2c()`, for example, in script mode:
+When running `re2c()` in script mode:
 
 ```sh
 cmake -P script.cmake
@@ -210,19 +209,9 @@ the generated file is created right away:
 
 find_package(RE2C REQUIRED)
 
-re2c(foo_lexer lexer.re lexer.c)
-```
-
-### Namespace
-
-Setting namespace isolates the function definitions to specific namespace in
-case they can clash with some existing names.
-
-```cmake
-set(RE2C_NAMESPACE "foo_")
-find_package(RE2C REQUIRED)
-
-foo_re2c(foo_lexer lexer.re lexer.c)
+if(RE2C_FOUND)
+  re2c(lexer.re lexer.c)
+endif()
 ```
 #]=============================================================================]
 
@@ -235,12 +224,8 @@ include(FindPackageHandleStandardArgs)
 # Functions.
 ################################################################################
 
-if(NOT RE2C_NAMESPACE)
-  set(RE2C_NAMESPACE "")
-endif()
-
 # Process options.
-function(_${RE2C_NAMESPACE}re2c_process_options options result)
+function(_re2c_process_options options result)
   set(options ${${options}})
 
   if(
@@ -260,7 +245,7 @@ function(_${RE2C_NAMESPACE}re2c_process_options options result)
   return(PROPAGATE ${result})
 endfunction()
 
-macro(_${RE2C_NAMESPACE}re2c_process)
+macro(_re2c_process)
   if(parsed_UNPARSED_ARGUMENTS)
     message(FATAL_ERROR "Bad arguments: ${parsed_UNPARSED_ARGUMENTS}")
   endif()
@@ -283,11 +268,7 @@ macro(_${RE2C_NAMESPACE}re2c_process)
 
   set(outputs ${output})
 
-  cmake_language(
-    CALL _${RE2C_NAMESPACE}re2c_process_options
-    parsed_OPTIONS
-    options
-  )
+  _re2c_process_options(parsed_OPTIONS options)
 
   if(parsed_HEADER)
     set(header ${parsed_HEADER})
@@ -349,19 +330,30 @@ macro(_${RE2C_NAMESPACE}re2c_process)
   )
 
   set(message "Generating ${outputRelative} with re2c ${RE2C_VERSION}")
+
+  if(NOT parsed_WORKING_DIRECTORY)
+    set(parsed_WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR})
+  else()
+    if(NOT IS_ABSOLUTE "${parsed_WORKING_DIRECTORY}")
+      set(
+        parsed_WORKING_DIRECTORY
+        ${CMAKE_CURRENT_BINARY_DIR}/${parsed_WORKING_DIRECTORY}
+      )
+    endif()
+  endif()
 endmacro()
 
-function(${RE2C_NAMESPACE}re2c)
+function(re2c)
   cmake_parse_arguments(
     PARSE_ARGV
     3
     parsed # prefix
     "NO_DEFAULT_OPTIONS;NO_COMPUTED_GOTOS;CODEGEN" # options
-    "HEADER" # one-value keywords
+    "HEADER;WORKING_DIRECTORY" # one-value keywords
     "OPTIONS;DEPENDS" # multi-value keywords
   )
 
-  cmake_language(CALL _${RE2C_NAMESPACE}re2c_process ${ARGN})
+  _re2c_process(${ARGN})
 
   if(NOT CMAKE_SCRIPT_MODE_FILE)
     add_custom_target(${ARGV0} SOURCES ${input} DEPENDS ${outputs})
@@ -375,7 +367,7 @@ function(${RE2C_NAMESPACE}re2c)
 
   if(CMAKE_SCRIPT_MODE_FILE)
     message(STATUS "[RE2C] ${message}")
-    execute_process(${commands} WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR})
+    execute_process(${commands} WORKING_DIRECTORY ${parsed_WORKING_DIRECTORY})
     return()
   endif()
 
@@ -400,31 +392,8 @@ function(${RE2C_NAMESPACE}re2c)
     VERBATIM
     COMMAND_EXPAND_LISTS
     ${codegen}
-    WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
+    WORKING_DIRECTORY ${parsed_WORKING_DIRECTORY}
   )
-endfunction()
-
-function(${RE2C_NAMESPACE}re2c_execute)
-  cmake_parse_arguments(
-    PARSE_ARGV
-    2
-    parsed # prefix
-    "NO_DEFAULT_OPTIONS;NO_COMPUTED_GOTOS" # options
-    "HEADER" # one-value keywords
-    "OPTIONS" # multi-value keywords
-  )
-
-  # First argument enables using the same macro signature for both functions.
-  cmake_language(CALL _${RE2C_NAMESPACE}re2c_process ${ARGN})
-
-  # Skip generation, if generated files are provided by the release archive.
-  get_property(type GLOBAL PROPERTY _CMAKE_RE2C_TYPE)
-  if(NOT RE2C_FOUND AND NOT RE2C_FIND_REQUIRED AND NOT type STREQUAL "REQUIRED")
-    return()
-  endif()
-
-  message(STATUS "[RE2C] ${message}")
-  execute_process(${commands} WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR})
 endfunction()
 
 ################################################################################
@@ -465,53 +434,41 @@ find_program(
 )
 mark_as_advanced(RE2C_EXECUTABLE)
 
-if(CMAKE_VERSION VERSION_GREATER_EQUAL 3.29)
-  set(_re2cTest IS_EXECUTABLE)
-else()
-  set(_re2cTest EXISTS)
-endif()
-
-if(${_re2cTest} ${RE2C_EXECUTABLE})
-  execute_process(
-    COMMAND ${RE2C_EXECUTABLE} --vernum
-    OUTPUT_VARIABLE RE2C_VERSION_NUM
-    ERROR_VARIABLE _re2cVersionError
-    RESULT_VARIABLE _re2cVersionResult
-    OUTPUT_STRIP_TRAILING_WHITESPACE
-  )
-
-  if(NOT _re2cVersionResult EQUAL 0)
-    message(
-      SEND_ERROR
-      "Command \"${RE2C_EXECUTABLE} --vernum\" failed with output:\n"
-      "${_re2cVersionError}"
-    )
-  elseif(RE2C_VERSION_NUM)
-    math(
-      EXPR RE2C_VERSION_MAJOR
-      "${RE2C_VERSION_NUM} / 10000"
-    )
-
-    math(
-      EXPR RE2C_VERSION_MINOR
-      "(${RE2C_VERSION_NUM} - ${RE2C_VERSION_MAJOR} * 10000) / 100"
-    )
-
-    math(
-      EXPR RE2C_VERSION_PATCH
-      "${RE2C_VERSION_NUM} \
-      - ${RE2C_VERSION_MAJOR} * 10000 \
-      - ${RE2C_VERSION_MINOR} * 100"
-    )
-
-    set(
-      RE2C_VERSION
-      "${RE2C_VERSION_MAJOR}.${RE2C_VERSION_MINOR}.${RE2C_VERSION_PATCH}"
-    )
-
-    find_package_check_version("${RE2C_VERSION}" _re2cVersionValid)
+block(PROPAGATE RE2C_VERSION _re2cVersionValid)
+  if(CMAKE_VERSION VERSION_GREATER_EQUAL 3.29)
+    set(test IS_EXECUTABLE)
+  else()
+    set(test EXISTS)
   endif()
-endif()
+
+  if(${test} ${RE2C_EXECUTABLE})
+    execute_process(
+      COMMAND ${RE2C_EXECUTABLE} --vernum
+      OUTPUT_VARIABLE versionNumber
+      ERROR_VARIABLE error
+      RESULT_VARIABLE result
+      OUTPUT_STRIP_TRAILING_WHITESPACE
+    )
+
+    if(NOT result EQUAL 0)
+      message(
+        SEND_ERROR
+        "Command \"${RE2C_EXECUTABLE} --vernum\" failed with output:\n"
+        "${error}"
+      )
+    elseif(versionNumber)
+      math(EXPR major "${versionNumber} / 10000")
+
+      math(EXPR minor "(${versionNumber} - ${major} * 10000) / 100")
+
+      math(EXPR patch "${versionNumber} - ${major} * 10000 - ${minor} * 100")
+
+      set(RE2C_VERSION "${major}.${minor}.${patch}")
+
+      find_package_check_version("${RE2C_VERSION}" _re2cVersionValid)
+    endif()
+  endif()
+endblock()
 
 set(_re2cRequiredVars "")
 
@@ -554,6 +511,7 @@ if(
         -DPython3_VERSION=3.7
       )
     endif()
+
     ExternalProject_Add(
       re2c
       URL
@@ -592,9 +550,6 @@ find_package_handle_standard_args(
 unset(_re2cDownloadOptions)
 unset(_re2cMsg)
 unset(_re2cRequiredVars)
-unset(_re2cTest)
-unset(_re2cVersionError)
-unset(_re2cVersionResult)
 unset(_re2cVersionValid)
 
 if(NOT RE2C_FOUND)

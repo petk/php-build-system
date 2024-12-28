@@ -26,14 +26,9 @@ endif()
 # Include the module.
 include(PHP/RE2C)
 
-php_re2c(
-  php_ext_json_scanner
-  json_scanner.re
-  ${CMAKE_CURRENT_SOURCE_DIR}/json_scanner.c
-  HEADER ${CMAKE_CURRENT_SOURCE_DIR}/php_json_scanner_defs.h
-  OPTIONS -bc
-  CODEGEN
-)
+if(RE2C_FOUND)
+  re2c(...)
+endif()
 ```
 #]=============================================================================]
 
@@ -56,12 +51,8 @@ else()
   set(RE2C_DEFAULT_OPTIONS $<$<CONFIG:Release,MinSizeRel>:--no-debug-info>)
 endif()
 
-list(
-  APPEND RE2C_DEFAULT_OPTIONS
-  --no-generation-date # Suppress date output in the generated file.
-)
-
-set(RE2C_NAMESPACE "php_")
+# Suppress date output in the generated file.
+list(APPEND RE2C_DEFAULT_OPTIONS --no-generation-date)
 
 find_package(RE2C ${PHP_RE2C_MIN_VERSION} GLOBAL)
 

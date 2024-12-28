@@ -9,14 +9,22 @@ endif()
 
 include(PHP/BISON)
 
-php_bison(
-  php_ext_json_parser
-  json_parser.y
-  ${CMAKE_CURRENT_SOURCE_DIR}/json_parser.tab.c
-  COMPILE_FLAGS "${PHP_BISON_DEFAULT_OPTIONS}"
-  VERBOSE REPORT_FILE json_parser.tab.output
-  DEFINES_FILE ${CMAKE_CURRENT_SOURCE_DIR}/json_parser.tab.h
-)
+if(BISON_FOUND)
+  if(CMAKE_SCRIPT_MODE_FILE)
+    set(verbose "")
+  else()
+    set(verbose VERBOSE REPORT_FILE json_parser.output)
+  endif()
+
+  bison(
+    php_ext_json_parser
+    json_parser.y
+    ${CMAKE_CURRENT_SOURCE_DIR}/json_parser.tab.c
+    ${verbose}
+    HEADER
+    #HEADER_FILE ${CMAKE_CURRENT_SOURCE_DIR}/json_parser.tab.h
+  )
+endif()
 
 if(
   EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/json_scanner.c
@@ -27,11 +35,13 @@ endif()
 
 include(PHP/RE2C)
 
-php_re2c(
-  php_ext_json_scanner
-  json_scanner.re
-  ${CMAKE_CURRENT_SOURCE_DIR}/json_scanner.c
-  HEADER ${CMAKE_CURRENT_SOURCE_DIR}/php_json_scanner_defs.h
-  OPTIONS -bc
-  CODEGEN
-)
+if(RE2C_FOUND)
+  re2c(
+    php_ext_json_scanner
+    json_scanner.re
+    ${CMAKE_CURRENT_SOURCE_DIR}/json_scanner.c
+    HEADER ${CMAKE_CURRENT_SOURCE_DIR}/php_json_scanner_defs.h
+    OPTIONS -bc
+    CODEGEN
+  )
+endif()
