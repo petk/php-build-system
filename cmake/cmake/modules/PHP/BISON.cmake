@@ -23,14 +23,9 @@ if(EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/json_parser.tab.c)
 endif()
 include(PHP/BISON)
 
-php_bison(
-  php_ext_json_parser
-  json_parser.y
-  ${CMAKE_CURRENT_SOURCE_DIR}/json_parser.tab.c
-  COMPILE_FLAGS "${PHP_BISON_DEFAULT_OPTIONS}"
-  VERBOSE REPORT_FILE json_parser.tab.output
-  DEFINES_FILE ${CMAKE_CURRENT_SOURCE_DIR}/json_parser.tab.h
-)
+if(BISON_FOUND)
+  bison(...)
+endif()
 ```
 #]=============================================================================]
 
@@ -39,17 +34,16 @@ include(FeatureSummary)
 # Minimum required bison version.
 set(PHP_BISON_MIN_VERSION 3.0.0)
 
-# Add Bison options based on the build type.
-if(CMAKE_VERSION VERSION_GREATER_EQUAL 3.32)
-  # See: https://gitlab.kitware.com/cmake/cmake/-/merge_requests/9921
-  set(PHP_BISON_DEFAULT_OPTIONS "-Wall $<$<CONFIG:Release,MinSizeRel>:-l>")
+# Add Bison --no-lines (-l) option to not generate '#line' directives based on
+# this module usage and build type.
+if(CMAKE_SCRIPT_MODE_FILE)
+  set(BISON_DEFAULT_OPTIONS --no-lines)
 else()
-  set(PHP_BISON_DEFAULT_OPTIONS "$<IF:$<CONFIG:Release,MinSizeRel>,-lWall,-Wall>")
+  set(BISON_DEFAULT_OPTIONS $<$<CONFIG:Release,MinSizeRel>:--no-lines>)
 endif()
 
-if(CMAKE_SCRIPT_MODE_FILE)
-  set(PHP_BISON_DEFAULT_OPTIONS "-l -Wall")
-endif()
+# Report all warnings.
+list(PREPEND BISON_DEFAULT_OPTIONS -Wall)
 
 find_package(BISON ${PHP_BISON_MIN_VERSION} GLOBAL)
 
@@ -59,20 +53,5 @@ block()
     set(type TYPE REQUIRED)
   endif()
 
-  set_package_properties(
-    BISON
-    PROPERTIES
-      ${type}
-      PURPOSE "Necessary to generate PHP parser files."
-  )
+  set_package_properties(BISON PROPERTIES ${type})
 endblock()
-
-macro(php_bison)
-  if(BISON_FOUND)
-    if(CMAKE_SCRIPT_MODE_FILE)
-      bison_execute(${ARGN})
-    else()
-      bison_target(${ARGN})
-    endif()
-  endif()
-endmacro()

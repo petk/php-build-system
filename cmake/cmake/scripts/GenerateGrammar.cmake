@@ -18,8 +18,6 @@
 # created by this script (the `VERBOSE REPORT_FILE <file>` options)? PHP still
 # packages these reports also in the archive release files?! Also, ext/json
 # doesn't produce the *.output file.
-#
-# TODO: Add remaining missing features to FindBISON.cmake module.
 
 cmake_minimum_required(VERSION 3.25...3.31)
 
@@ -48,9 +46,8 @@ feature_summary(
 
 file(
   GLOB_RECURSE scripts
-  ${PHP_SOURCE_DIR}/ext/*/cmake/GenerateGrammar.cmake
-  ${PHP_SOURCE_DIR}/sapi/*/cmake/GenerateGrammar.cmake
-  ${PHP_SOURCE_DIR}/Zend/cmake/GenerateGrammar.cmake
+  ${PHP_SOURCE_DIR}/*/*/cmake/GenerateGrammar.cmake
+  ${PHP_SOURCE_DIR}/*/cmake/GenerateGrammar.cmake
 )
 foreach(script IN LISTS scripts)
   cmake_path(GET script PARENT_PATH path)
