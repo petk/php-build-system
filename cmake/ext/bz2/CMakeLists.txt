@@ -89,8 +89,7 @@ if(TARGET BZip2::BZip2)
     message(
       FATAL_ERROR
       "BZip2 package is not working as expected. The bz2 extension requires "
-      "BZip2 library (libbzip2) version ${PHP_BZIP2_MIN_VERSION} or later. "
-      "Please see the CMake logs."
+      "BZip2 library (libbzip2) version ${PHP_BZIP2_MIN_VERSION} or later."
     )
   endif()
 endif()

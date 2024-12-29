@@ -93,7 +93,7 @@ if(NOT PHP_EXT_LIBXML AND NOT PHP_EXT_XML_EXPAT)
   message(
     FATAL_ERROR
     "The xml extension requires either libxml extension or Expat library. Set "
-    "PHP_EXT_LIBXML=ON or PHP_EXT_XML_EXPAT=ON"
+    "'PHP_EXT_LIBXML' to 'ON', or 'PHP_EXT_XML_EXPAT' to 'ON'."
   )
 endif()
 

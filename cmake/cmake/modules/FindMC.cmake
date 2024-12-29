@@ -160,7 +160,7 @@ function(mc_target)
   )
 
   if(parsed_UNPARSED_ARGUMENTS)
-    message(FATAL_ERROR "Bad arguments: ${parsed_UNPARSED_ARGUMENTS}")
+    message(FATAL_ERROR "Unrecognized arguments: ${parsed_UNPARSED_ARGUMENTS}")
   endif()
 
   if(parsed_KEYWORDS_MISSING_VALUES)
@@ -168,15 +168,18 @@ function(mc_target)
   endif()
 
   if(NOT parsed_NAME)
-    message(FATAL_ERROR "mc_target expects a target name")
+    message(FATAL_ERROR "${CMAKE_CURRENT_FUNCTION} expects a target name.")
   endif()
 
   if(NOT parsed_INPUT)
-    message(FATAL_ERROR "mc_target expects an input filename")
+    message(FATAL_ERROR "${CMAKE_CURRENT_FUNCTION} expects an input filename.")
   endif()
 
   if(NOT MC_FOUND)
-    message(WARNING "[MC][${parsed_NAME}] Message compiler is missing. Skipping")
+    message(
+      WARNING
+      "[MC][${parsed_NAME}] Message compiler is missing. Skipping."
+    )
     return()
   endif()
 

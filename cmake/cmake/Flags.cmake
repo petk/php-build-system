@@ -182,7 +182,7 @@ endif()
 if(PHP_MEMORY_SANITIZER AND PHP_ADDRESS_SANITIZER)
   message(
     FATAL_ERROR
-    "MemorySanitizer and AddressSanitizer are mutually exclusive"
+    "MemorySanitizer and AddressSanitizer are mutually exclusive."
   )
 endif()
 
@@ -228,7 +228,7 @@ if(PHP_MEMORY_SANITIZER)
     message(CHECK_PASS "Success")
   else()
     message(CHECK_FAIL "Failed")
-    message(FATAL_ERROR "MemorySanitizer is not available")
+    message(FATAL_ERROR "MemorySanitizer is not available.")
   endif()
 endif()
 
@@ -276,7 +276,7 @@ if(PHP_ADDRESS_SANITIZER)
     message(CHECK_PASS "Success")
   else()
     message(CHECK_FAIL "Failed")
-    message(FATAL_ERROR "AddressSanitizer is not available")
+    message(FATAL_ERROR "AddressSanitizer is not available.")
   endif()
 endif()
 
@@ -411,7 +411,7 @@ if(PHP_UNDEFINED_SANITIZER)
     message(CHECK_PASS "Success")
   else()
     message(CHECK_FAIL "Failed")
-    message(FATAL_ERROR "UndefinedBehaviorSanitizer is not available")
+    message(FATAL_ERROR "UndefinedBehaviorSanitizer is not available.")
   endif()
 endif()
 

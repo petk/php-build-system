@@ -274,8 +274,8 @@ add_feature_info(
 if(PHP_EXT_DBA_QDBM AND PHP_EXT_DBA_DBM)
   message(
     FATAL_ERROR
-    "You cannot combine PHP_EXT_DBA_DBM with PHP_EXT_DBA_QDBM. Please select "
-    "either DBM or QDBM."
+    "You cannot combine 'PHP_EXT_DBA_DBM' with 'PHP_EXT_DBA_QDBM'. Please "
+    "select either DBM or QDBM."
   )
 endif()
 

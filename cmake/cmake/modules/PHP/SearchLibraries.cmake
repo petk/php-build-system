@@ -182,11 +182,11 @@ function(php_search_libraries)
   )
 
   if(parsed_UNPARSED_ARGUMENTS)
-    message(FATAL_ERROR "Bad arguments: ${parsed_UNPARSED_ARGUMENTS}")
+    message(FATAL_ERROR "Unrecognized arguments: ${parsed_UNPARSED_ARGUMENTS}")
   endif()
 
   if(NOT parsed_HEADERS)
-    message(FATAL_ERROR "php_search_libraries: missing HEADERS")
+    message(FATAL_ERROR "${CMAKE_CURRENT_FUNCTION}: missing HEADERS")
   endif()
 
   set(symbol ${ARGV0})
@@ -220,7 +220,7 @@ function(php_search_libraries)
     list(GET parsed_TARGET 0 target)
 
     if(NOT TARGET ${target})
-      message(FATAL_ERROR "Bad TARGET arguments: ${target} is not a target")
+      message(FATAL_ERROR "Bad TARGET arguments: ${target} is not a target.")
     endif()
 
     list(LENGTH parsed_TARGET length)

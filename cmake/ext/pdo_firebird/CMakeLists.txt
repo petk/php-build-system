@@ -104,7 +104,7 @@ if(TARGET Firebird::Firebird)
   if(NOT _php_ext_pdo_firebird_sanity_check)
     message(
       FATAL_ERROR
-      "Firebird sanity check failed: fb_get_master_interface() not found."
+      "Firebird sanity check failed: 'fb_get_master_interface()' not found."
     )
   endif()
 endif()

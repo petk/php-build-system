@@ -604,7 +604,7 @@ php_search_libraries(
   TARGET php_config INTERFACE
 )
 if(NOT _HAVE_INET_NTOP)
-  message(FATAL_ERROR "Required inet_ntop not found.")
+  message(FATAL_ERROR "Cannot find 'inet_ntop()' which is required.")
 endif()
 
 # The inet_pton() is mostly in C library (Solaris 11.4, illumos...)
@@ -760,7 +760,7 @@ endif()
 # Check GCOV.
 if(PHP_GCOV)
   if(NOT CMAKE_C_COMPILER_ID STREQUAL "GNU")
-    message(FATAL_ERROR "GCC is required for using PHP_GCOV='ON'")
+    message(FATAL_ERROR "GCC is required for using PHP_GCOV='ON'.")
   endif()
 
   if(CMAKE_C_COMPILER_LAUNCHER MATCHES "ccache")
