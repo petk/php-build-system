@@ -127,4 +127,4 @@ find_package(Sendmail)
 # it can be used. Otherwise the built cli sapi is used at the build phase.
 # Minimum supported version for gen_stub.php is PHP 7.4.
 ################################################################################
-find_package(PHPSystem 7.4)
+find_package(PHP 7.4 MODULE)
