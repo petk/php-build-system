@@ -247,7 +247,7 @@ function(php_download)
     if(NOT downloadUrl)
       message(
         FATAL_ERROR
-        "Download URL for PHP ${PHP_VERSION} could not be found"
+        "Download URL for PHP ${PHP_VERSION} could not be found."
       )
     endif()
 

@@ -79,7 +79,7 @@ if(NOT GIT_REF)
   )
 
   if(NOT GIT_REMOTE_HEADS)
-    message(FATAL_ERROR "PHP branch ${GIT_BRANCH} doesn't exist")
+    message(FATAL_ERROR "PHP branch ${GIT_BRANCH} doesn't exist.")
   endif()
 
   execute_process(
