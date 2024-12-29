@@ -415,7 +415,8 @@ block()
   if(NOT result)
     message(
       FATAL_ERROR
-      "Cannot use external crypt library as crypt_r() style could not be detected."
+      "Cannot use external crypt library as 'crypt_r()' style could not be "
+      "detected."
     )
   endif()
 

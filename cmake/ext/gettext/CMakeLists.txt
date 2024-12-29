@@ -78,10 +78,7 @@ if(TARGET Intl::Intl)
   check_library_exists(Intl::Intl bindtextdomain "" _HAVE_BINDTEXTDOMAIN)
 
   if(NOT _HAVE_BINDTEXTDOMAIN)
-    message(
-      FATAL_ERROR
-      "Unable to find required gettext library. Please check the logs."
-    )
+    message(FATAL_ERROR "Unable to find the required gettext library.")
   endif()
 
   set(HAVE_LIBINTL TRUE)

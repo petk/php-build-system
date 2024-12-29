@@ -57,13 +57,13 @@ function(_php_configure_file_parse_variables)
   )
 
   if(parsed_UNPARSED_ARGUMENTS)
-    message(FATAL_ERROR "Bad arguments: ${parsed_UNPARSED_ARGUMENTS}")
+    message(FATAL_ERROR "Unrecognized arguments: ${parsed_UNPARSED_ARGUMENTS}")
   endif()
 
   if(NOT ARGV0)
     message(
       FATAL_ERROR
-      "${CMAKE_CURRENT_FUNCTION} expects 1st argument"
+      "${CMAKE_CURRENT_FUNCTION} expects 1st argument."
     )
   endif()
 
@@ -153,7 +153,7 @@ function(php_configure_file)
   )
 
   if(parsed_UNPARSED_ARGUMENTS)
-    message(FATAL_ERROR "Bad arguments: ${parsed_UNPARSED_ARGUMENTS}")
+    message(FATAL_ERROR "Unrecognized arguments: ${parsed_UNPARSED_ARGUMENTS}")
   endif()
 
   if(NOT parsed_INPUT AND NOT parsed_CONTENT)

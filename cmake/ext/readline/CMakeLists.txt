@@ -178,7 +178,7 @@ else()
         FATAL_ERROR
         "Readline library check failed. Variable rl_pending_input missing. "
         "This version of Readline installation is not supported. Try using "
-        "libedit instead (set PHP_EXT_READLINE_LIBREADLINE to 'OFF')."
+        "libedit instead (set 'PHP_EXT_READLINE_LIBREADLINE' to 'OFF')."
       )
     endif()
 

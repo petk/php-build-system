@@ -244,8 +244,8 @@ if(
 )
   message(
     FATAL_ERROR
-    "When using PHP_EXT_ODBC_TYPE=${PHP_EXT_ODBC_TYPE}, please set also "
-    "ODBC_LIBRARY and optionally ODBC_INCLUDE_DIR to locate the ODBC "
+    "When using 'PHP_EXT_ODBC_TYPE=${PHP_EXT_ODBC_TYPE}', please set also "
+    "'ODBC_LIBRARY' and optionally 'ODBC_INCLUDE_DIR' to locate the ODBC "
     "installation."
   )
 endif()
@@ -317,7 +317,7 @@ if(PHP_EXT_ODBC_TYPE STREQUAL "ibm-db2" AND TARGET ODBC::ODBC)
     check_library_exists(ODBC::ODBC "" SQLExecute HAVE_SQLEXECUTE)
   cmake_pop_check_state()
   if(NOT HAVE_SQLCLI1_H)
-    message(FATAL_ERROR "Required <sqlcli1.h> header file not found")
+    message(FATAL_ERROR "Required <sqlcli1.h> header file not found.")
   endif()
   if(NOT HAVE_SQLEXECUTE)
     message(

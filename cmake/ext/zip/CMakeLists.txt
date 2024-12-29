@@ -84,7 +84,7 @@ endif()
 if(libzip_VERSION VERSION_EQUAL 1.3.1 OR libzip_VERSION VERSION_EQUAL 1.7.0)
   message(
     FATAL_ERROR
-    "ext/zip: libzip ${libzip_VERSION} is not supported. Try upgrading libzip"
+    "ext/zip: libzip ${libzip_VERSION} is not supported. Try upgrading libzip."
   )
 endif()
 

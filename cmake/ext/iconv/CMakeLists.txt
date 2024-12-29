@@ -111,7 +111,7 @@ if(TARGET Iconv::Iconv)
   if(NOT _HAVE_ICONV AND NOT HAVE_LIBICONV)
     message(
       FATAL_ERROR
-      "The iconv sanity check failed. Neither iconv() or libiconv() functions "
+      "Iconv sanity check failed: neither 'iconv()' nor 'libiconv()' function "
       "could be found."
     )
   endif()
@@ -205,10 +205,7 @@ if(TARGET Iconv::Iconv)
     message(CHECK_PASS "yes")
   else()
     message(CHECK_PASS "no")
-    message(
-      FATAL_ERROR
-      "The iconv errno sanity check failed. Please check logs for details."
-    )
+    message(FATAL_ERROR "The iconv 'errno' sanity check failed.")
   endif()
 
   message(CHECK_START "Checking if iconv supports //IGNORE")

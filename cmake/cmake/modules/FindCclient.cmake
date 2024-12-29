@@ -296,17 +296,15 @@ if(Cclient_INCLUDE_DIR AND Cclient_LIBRARY)
     string(
       APPEND
       _reason
-      "Sanity check failed: utf8_mime2text() has new signature, but "
-      "U8T_CANONICAL is missing. This should not happen. Check CMake logs for "
-      "additional information. "
+      "Sanity check failed: 'utf8_mime2text()' has new signature, but "
+      "'U8T_CANONICAL' is missing. This should not happen. "
     )
   elseif(NOT HAVE_NEW_MIME2TEXT AND _HAVE_U8T_DECOMPOSE)
     string(
       APPEND
       _reason
-      "Sanity check failed: utf8_mime2text() has old signature, but "
-      "U8T_CANONICAL is present. This should not happen. Check CMake logs for "
-      "additional information."
+      "Sanity check failed: 'utf8_mime2text()' has old signature, but "
+      "'U8T_CANONICAL' is present. This should not happen. "
     )
   else()
     set(_cclient_sanity_check_2 TRUE)
@@ -314,7 +312,7 @@ if(Cclient_INCLUDE_DIR AND Cclient_LIBRARY)
 endif()
 
 if(NOT _cclient_sanity_check_2)
-  string(APPEND _reason "Sanity check failed: mail_newbody() not found. ")
+  string(APPEND _reason "Sanity check failed: 'mail_newbody()' not found. ")
 endif()
 
 ################################################################################

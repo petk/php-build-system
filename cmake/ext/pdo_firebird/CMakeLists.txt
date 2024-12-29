@@ -92,7 +92,7 @@ if(TARGET Firebird::Firebird)
   if(NOT _php_ext_pdo_firebird_sanity_check)
     message(
       FATAL_ERROR
-      "Firebird sanity check failed: isc_detach_database() not found."
+      "Firebird sanity check failed: 'isc_detach_database()' not found."
     )
   endif()
 endif()

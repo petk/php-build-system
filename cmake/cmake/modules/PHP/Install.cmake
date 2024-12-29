@@ -59,7 +59,7 @@ function(_php_install_set_absolute_special var)
   else()
     message(
       FATAL_ERROR
-      "CMAKE_INSTALL_${var} is not a special-case GNU standard variable")
+      "CMAKE_INSTALL_${var} is not a special-case GNU standard variable.")
   endif()
 
   if(IS_ABSOLUTE "${CMAKE_INSTALL_${var}}")

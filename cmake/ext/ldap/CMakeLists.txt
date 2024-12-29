@@ -105,8 +105,8 @@ if(TARGET LDAP::LDAP)
     if(NOT _HAVE_LDAP_SASL_BIND_S AND NOT _HAVE_LDAP_SIMPLE_BIND_S)
       message(
         FATAL_ERROR
-        "LDAP sanity check failed: ldap_sasl_bind_s() or ldap_simple_bind_s() "
-        "not found. "
+        "LDAP sanity check failed: neither 'ldap_sasl_bind_s()' nor "
+        "'ldap_simple_bind_s()' function could be found."
       )
     endif()
 

@@ -138,7 +138,7 @@ function(dtrace_target)
   )
 
   if(parsed_UNPARSED_ARGUMENTS)
-    message(FATAL_ERROR "Bad arguments: ${parsed_UNPARSED_ARGUMENTS}")
+    message(FATAL_ERROR "Unrecognized arguments: ${parsed_UNPARSED_ARGUMENTS}")
   endif()
 
   if(parsed_KEYWORDS_MISSING_VALUES)
@@ -146,19 +146,19 @@ function(dtrace_target)
   endif()
 
   if(NOT ARGV0)
-    message(FATAL_ERROR "dtrace_target expects a target name")
+    message(FATAL_ERROR "${CMAKE_CURRENT_FUNCTION} expects a target name.")
   endif()
 
   if(NOT parsed_INPUT)
-    message(FATAL_ERROR "dtrace_target expects an input filename")
+    message(FATAL_ERROR "${CMAKE_CURRENT_FUNCTION} expects an input filename.")
   endif()
 
   if(NOT parsed_HEADER)
-    message(FATAL_ERROR "dtrace_target expects a header filename")
+    message(FATAL_ERROR "${CMAKE_CURRENT_FUNCTION} expects a header filename.")
   endif()
 
   if(NOT parsed_SOURCES)
-    message(FATAL_ERROR "dtrace_target expects a list of source files")
+    message(FATAL_ERROR "${CMAKE_CURRENT_FUNCTION} expects source files.")
   endif()
 
   if(NOT IS_ABSOLUTE "${parsed_INPUT}")

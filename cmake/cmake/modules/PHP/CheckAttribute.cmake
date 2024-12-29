@@ -92,11 +92,11 @@ function(_php_check_attribute what attribute result)
   )
 
   if(parsed_UNPARSED_ARGUMENTS)
-    message(FATAL_ERROR "Bad arguments: ${parsed_UNPARSED_ARGUMENTS}")
+    message(FATAL_ERROR "Unrecognized arguments: ${parsed_UNPARSED_ARGUMENTS}")
   endif()
 
   if(NOT ARGC EQUAL 3)
-    message(FATAL_ERROR "Missing arguments")
+    message(FATAL_ERROR "Missing arguments.")
   endif()
 
   if(NOT what MATCHES "^(function|variable)$")
@@ -118,7 +118,7 @@ function(_php_check_attribute what attribute result)
     cmake_language(CALL _php_check_attribute_get_${what}_code ${attribute} code)
 
     if(NOT code)
-      message(FATAL_ERROR "Unsupported attribute '${attribute}'")
+      message(FATAL_ERROR "Unsupported attribute '${attribute}'.")
     endif()
 
     check_source_compiles(C "${code}" ${result})

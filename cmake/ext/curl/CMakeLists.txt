@@ -172,11 +172,7 @@ if(TARGET CURL::libcurl)
   )
 
   if(NOT HAVE_CURL_EASY_PERFORM)
-    message(
-      FATAL_ERROR
-      "The curl_easy_perform() couldn't be found. Please check logs for more "
-      "information."
-    )
+    message(FATAL_ERROR "The 'curl_easy_perform()' couldn't be found.")
   endif()
 endif()
 

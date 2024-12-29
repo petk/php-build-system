@@ -67,8 +67,8 @@ function(_pkgconfig_parse_variables variables)
   if(NOT modulus EQUAL 0)
     message(
       FATAL_ERROR
-      "The keyword VARIABLES must be a list of pairs - variable-name and "
-      "value (it must contain an even number of items)."
+      "The keyword VARIABLES must be a list of pairs - variable-name and value "
+      "(it must contain an even number of items)."
     )
   endif()
 
@@ -138,19 +138,25 @@ function(pkgconfig_generate_pc)
   )
 
   if(parsed_UNPARSED_ARGUMENTS)
-    message(FATAL_ERROR "Bad arguments: ${parsed_UNPARSED_ARGUMENTS}")
+    message(FATAL_ERROR "Unrecognized arguments: ${parsed_UNPARSED_ARGUMENTS}")
   endif()
 
   if(parsed_TARGET AND NOT TARGET ${parsed_TARGET})
-    message(FATAL_ERROR "${parsed_TARGET} is not a target")
+    message(FATAL_ERROR "${parsed_TARGET} is not a target.")
   endif()
 
   if(NOT ARGV0)
-    message(FATAL_ERROR "pkgconfig_generate_pc expects a template file name")
+    message(
+      FATAL_ERROR
+      "${CMAKE_CURRENT_FUNCTION} expects a template file name."
+    )
   endif()
 
   if(NOT ARGV1)
-    message(FATAL_ERROR "pkgconfig_generate_pc expects an output file name")
+    message(
+      FATAL_ERROR
+      "${CMAKE_CURRENT_FUNCTION} expects an output file name."
+    )
   endif()
 
   set(template "${ARGV0}")

@@ -301,6 +301,6 @@ if(NOT HAVE_SHM_IPC AND NOT HAVE_SHM_MMAP_ANON AND NOT HAVE_SHM_MMAP_POSIX)
   message(
     FATAL_ERROR
     "No supported shared memory caching support was found when configuring "
-    "opcache. Please check CMake logs for any errors or missing dependencies."
+    "opcache extension."
   )
 endif()
