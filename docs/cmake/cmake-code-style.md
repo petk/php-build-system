@@ -38,7 +38,6 @@ ecosystem.
     * [10.1.2. cmake-format (by cmakelang project)](#1012-cmake-format-by-cmakelang-project)
     * [10.1.3. cmake-lint (by cmakelang project)](#1013-cmake-lint-by-cmakelang-project)
     * [10.1.4. cmakelint](#1014-cmakelint)
-    * [10.1.6. cmake-format.json](#1016-cmake-formatjson)
   * [10.2. Further resources](#102-further-resources)
 
 ## 1. Introduction
@@ -638,7 +637,7 @@ to keep pace with new CMake versions. It's worth mentioning that this
 recommendation may evolve in the future as these tools continue to develop.
 
 For convenience there is a custom helper script added to this repository that
-checks CMake files using these tools:
+checks CMake files:
 
 ```sh
 ./bin/check-cmake.php
@@ -659,14 +658,14 @@ The [`cmake-format`](https://cmake-format.readthedocs.io/en/latest/) tool can
 find formatting issues and sync the CMake code style:
 
 ```sh
-cmake-format --check <cmake/CMakeLists.txt cmake/...>
+cmake-format --check <CMakeLists.txt cmake/...>
 ```
 
 It can utilize the configuration file (default `cmake-format.[json|py|yaml]`) or
 by passing the `--config-files` or `-c` option:
 
 ```sh
-cmake-format -c path/to/cmake-format.json --check -- <cmake/CMakeLists.txt cmake/...>
+cmake-format -c path/to/cmake-format.json --check -- <CMakeLists.txt cmake/...>
 ```
 
 Default configuration in JSON format can be printed to stdout:
@@ -688,7 +687,7 @@ The [`cmake-lint`](https://cmake-format.readthedocs.io/en/latest/cmake-lint.html
 tool is part of the cmakelang project and can help with linting CMake files:
 
 ```sh
-cmake-lint <cmake/CMakeLists.txt cmake/...>
+cmake-lint <CMakeLists.txt cmake/...>
 ```
 
 This tool can also utilize the `cmake-format.[json|py|yaml]` file using the `-c`
@@ -703,27 +702,6 @@ and helps to better structure CMake files:
 ```sh
 cmakelint <cmake/CMakeLists.txt cmake/...>
 ```
-
-#### 10.1.6. cmake-format.json
-
-The `cmake-format.json` file is used to configure how `cmake-lint` and
-`cmake-format` tools work.
-
-There is `bin/cmake-format.json` added to this repository and is used by the
-custom `bin/check-cmake.php` script. It includes only changed configuration
-values from the upstream defaults.
-
-* `disabled_codes`
-
-  This option disables certain cmake-lint checks. This repository has simplified
-  code style by disabling the following codes:
-
-  * `C0111` - Missing docstring on function or macro declaration
-  * `C0301` - Line too long
-  * `C0307` - Bad indentation
-
-  The cmake-lint checks codes are specified at
-  [cmakelang documentation](https://cmake-format.readthedocs.io/en/latest/lint-implemented.html#)
 
 ### 10.2. Further resources
 
