@@ -30,13 +30,10 @@ function usage(string $script): string
     OPTIONS:
         -h, --help                Display this help and exit.
         --gersemi                 Run gersemi.
-        --cmakelint               Run cmakelint.
-        --cmakelang-cmake-format  Run cmake-format by cmakelang project.
-        --cmakelang-cmake-lint    Run cmake-lint by cmakelang project.
 
     FEATURES:
         - Reports missing and unused CMake find and utility modules
-        - Runs codespell, normalizator, gersemi, and cmakelang tools if found
+        - Runs codespell, normalizator, and gersemi tools if found
     EOL;
 }
 
@@ -66,9 +63,6 @@ function options(array $overrides = [], array $argv = []): array
     $longOptions = [
         'help',
         'gersemi',
-        'cmakelint',
-        'cmakelang-cmake-format',
-        'cmakelang-cmake-lint',
     ];
 
     $optionsIndex = null;
@@ -79,9 +73,6 @@ function options(array $overrides = [], array $argv = []): array
         'path' => null,
         'script' => pathinfo($argv[0], PATHINFO_BASENAME),
         'gersemi' => false,
-        'cmakelint' => false,
-        'cmakelang-cmake-format' => false,
-        'cmakelang-cmake-lint' => false,
     ];
 
     foreach ($cliOptions as $option => $value) {
@@ -92,15 +83,6 @@ function options(array $overrides = [], array $argv = []): array
                 break;
             case 'gersemi':
                 $options['gersemi'] = true;
-                break;
-            case 'cmakelint':
-                $options['cmakelint'] = true;
-                break;
-            case 'cmakelang-cmake-format':
-                $options['cmakelang-cmake-format'] = true;
-                break;
-            case 'cmakelang-cmake-lint':
-                $options['cmakelang-cmake-lint'] = true;
                 break;
         }
     }
@@ -635,105 +617,6 @@ function runGersemi(): int
 }
 
 /**
- * Check and run CMakeLint.
- */
-function runCMakeLint(Iterator $files): int
-{
-    if (!checkCommand('cmakelint')) {
-        output(<<<EOL
-
-            The 'cmakelint' tool not found.
-            For checking CMake code style, install cmakelint:
-            https://github.com/cmake-lint/cmake-lint
-
-        EOL);
-
-        return 0;
-    }
-
-    $argument = implode(' ', iterator_to_array($files));
-    exec(
-        'cmakelint --filter=-linelength,-whitespace/indent,-convention/filename,-package/stdargs ' . $argument,
-        $output,
-        $status,
-    );
-
-    $output = implode("\n", $output);
-    if ('' !== $output) {
-        output($output);
-        output();
-    }
-
-    return $status;
-}
-
-/**
- * Check and run cmake-format by cmakelang project.
- */
-function runCMakeLangCMakeFormat(Iterator $files): int
-{
-    if (!checkCommand('cmake-format')) {
-        output(<<<EOL
-
-            The 'cmake-format' tool not found.
-            For checking CMake code style, install cmakelang:
-            https://cmake-format.readthedocs.io
-
-        EOL);
-
-        return 0;
-    }
-
-    $argument = implode(' ', iterator_to_array($files));
-    exec(
-        'cmake-format --config-files bin/check-cmake/cmake-format.json --check -- ' . $argument,
-        $output,
-        $status,
-    );
-
-    $output = implode("\n", $output);
-    if ('' !== $output) {
-        output($output);
-        output();
-    }
-
-    return $status;
-}
-
-/**
- * Check and run cmake-lint by the cmakelang project.
- */
-function runCMakeLangCMakeLint(Iterator $files): int
-{
-    if (!checkCommand('cmake-lint')) {
-        output(<<<EOL
-
-            The 'cmake-lint' tool not found.
-            For checking CMake code style, install cmakelang:
-            https://cmake-format.readthedocs.io
-
-        EOL);
-
-        return 0;
-    }
-
-    $argument = implode(' ', iterator_to_array($files));
-    exec(
-        'cmake-lint --config-files bin/check-cmake/cmake-format.json --suppress-decorations -- ' . $argument,
-        $output,
-        $status,
-    );
-
-    $output = implode("\n", $output);
-    if ('' !== $output) {
-        output($output);
-        output();
-    }
-
-    return $status;
-}
-
-/**
  * Run all checks.
  */
 function checkAll(array $options): int
@@ -774,24 +657,6 @@ function checkAll(array $options): int
     if ($options['gersemi']) {
         output($options['script'] . ': Running gersemi');
         $newStatus = runGersemi();
-        $status = (0 === $status) ? $newStatus : $status;
-    }
-
-    if ($options['cmakelint']) {
-        output($options['script'] . ': Running cmakelint');
-        $newStatus = runCMakeLint($allCMakeFiles);
-        $status = (0 === $status) ? $newStatus : $status;
-    }
-
-    if ($options['cmakelang-cmake-format']) {
-        output($options['script'] . ': Running cmakelang\'s cmake-format');
-        $newStatus = runCMakeLangCMakeFormat($allCMakeFiles);
-        $status = (0 === $status) ? $newStatus : $status;
-    }
-
-    if ($options['cmakelang-cmake-lint']) {
-        output($options['script'] . ': Running cmakelang\'s cmake-lint');
-        $newStatus = runCMakeLangCMakeLint($allCMakeFiles);
         $status = (0 === $status) ? $newStatus : $status;
     }
 
