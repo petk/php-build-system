@@ -200,7 +200,7 @@ block()
       message(CHECK_FAIL "no")
       message(
         FATAL_ERROR
-        "Fibers are not available on this platform, ucontext.h not found"
+        "Fibers are not available on this platform, <ucontext.h> not found."
       )
     endif()
     message(CHECK_PASS "yes, ucontext")

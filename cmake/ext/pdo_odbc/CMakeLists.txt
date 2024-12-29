@@ -123,8 +123,8 @@ if(
 )
   message(
     FATAL_ERROR
-    "When using PHP_EXT_PDO_ODBC_TYPE=${PHP_EXT_PDO_ODBC_TYPE}, please set "
-    "also ODBC_LIBRARY and optionally ODBC_INCLUDE_DIR to find the ODBC "
+    "When using 'PHP_EXT_PDO_ODBC_TYPE=${PHP_EXT_PDO_ODBC_TYPE}', please set "
+    "also 'ODBC_LIBRARY' and optionally 'ODBC_INCLUDE_DIR' to find the ODBC "
     "installation."
   )
 endif()
@@ -212,7 +212,8 @@ if(TARGET ODBC::ODBC)
     if(NOT haveSomeHeaders)
       message(
         FATAL_ERROR
-        "Could not found any of the ODBC header files to build pdo_odbc extension"
+        "Could not find any of the ODBC header files to build pdo_odbc "
+        "extension."
       )
     endif()
   endblock()

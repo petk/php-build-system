@@ -434,10 +434,7 @@ if(NOT PHP_EXT_GD_EXTERNAL)
       cmake_pop_check_state()
 
       if(NOT _GD_SANITY_CHECK_COMPILES)
-        message(
-          FATAL_ERROR
-          "GD build test failed. Please check logs for details."
-        )
+        message(FATAL_ERROR "GD sanity check failed.")
       endif()
     endif()
   endblock()
@@ -461,8 +458,7 @@ else()
     if(NOT HAVE_LIBGD)
       message(
         FATAL_ERROR
-        "GD build test failed to find gdImageCreate in libgd. Please check the "
-        "logs for details."
+        "GD sanity check failed: 'gdImageCreate()' could not be found in libgd."
       )
     endif()
 

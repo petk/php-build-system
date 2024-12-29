@@ -95,7 +95,7 @@ if(TARGET PostgreSQL::PostgreSQL)
     message(
       FATAL_ERROR
       "PostgreSQL check failed: libpq ${PHP_POSTGRESQL_MIN_VERSION} or later "
-      "is required, please see CMake logs for details."
+      "is required."
     )
   endif()
 

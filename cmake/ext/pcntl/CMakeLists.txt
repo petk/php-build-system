@@ -94,7 +94,7 @@ block()
     if(NOT HAVE_${const})
       message(
         FATAL_ERROR
-        "ext/pcntl: required function ${function}() not found."
+        "ext/pcntl: required function '${function}()' not found."
       )
     endif()
   endforeach()

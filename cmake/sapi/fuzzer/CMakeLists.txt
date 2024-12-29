@@ -112,7 +112,7 @@ else()
       FATAL_ERROR
       "The fuzzer SAPI cannot be enabled. C++ compiler "
       "${CMAKE_CXX_COMPILER_ID} doesn't support the -fsanitize=fuzzer-no-link "
-      "option"
+      "option."
     )
   endif()
 

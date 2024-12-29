@@ -58,11 +58,11 @@ function(php_check_compiler_flag lang flag result)
   )
 
   if(parsed_UNPARSED_ARGUMENTS)
-    message(FATAL_ERROR "Bad arguments: ${parsed_UNPARSED_ARGUMENTS}")
+    message(FATAL_ERROR "Unrecognized arguments: ${parsed_UNPARSED_ARGUMENTS}")
   endif()
 
   if(NOT ARGC EQUAL 3)
-    message(FATAL_ERROR "Missing arguments")
+    message(FATAL_ERROR "Missing arguments.")
   endif()
 
   if(NOT CMAKE_REQUIRED_QUIET)

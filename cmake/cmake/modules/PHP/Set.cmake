@@ -323,14 +323,14 @@ endfunction()
 # Validate parsed arguments.
 function(_php_set_validate_arguments arguments)
   if(parsed_UNPARSED_ARGUMENTS)
-    message(FATAL_ERROR "Bad arguments: ${parsed_UNPARSED_ARGUMENTS}")
+    message(FATAL_ERROR "Unrecognized arguments: ${parsed_UNPARSED_ARGUMENTS}")
   endif()
 
   if(
     NOT DEFINED parsed_VALUE
     AND (NOT DEFINED parsed_CHOICES OR NOT parsed_TYPE STREQUAL "STRING")
   )
-    message(FATAL_ERROR "Missing VALUE argument")
+    message(FATAL_ERROR "Missing VALUE argument.")
   endif()
 
   if(NOT parsed_TYPE)
@@ -340,22 +340,22 @@ function(_php_set_validate_arguments arguments)
   endif()
 
   if(DEFINED parsed_CHOICES AND NOT parsed_TYPE STREQUAL "STRING")
-    message(FATAL_ERROR "CHOICES argument can be only used with TYPE STRING")
+    message(FATAL_ERROR "CHOICES argument can be only used with TYPE STRING.")
   endif()
 
   list(FIND arguments ELSE_VALUE elseValueIndex)
   if(NOT DEFINED parsed_IF AND NOT elseValueIndex EQUAL -1)
-    message(FATAL_ERROR "Redundant ELSE_VALUE argument without IF condition")
+    message(FATAL_ERROR "Redundant ELSE_VALUE argument without IF condition.")
   elseif(
     DEFINED parsed_IF
     AND NOT DEFINED parsed_ELSE_VALUE
     AND NOT elseValueIndex EQUAL -1
   )
-    message(FATAL_ERROR "Missing ELSE_VALUE argument")
+    message(FATAL_ERROR "Missing ELSE_VALUE argument.")
   endif()
 
   if(NOT DEFINED parsed_DOC)
-    message(FATAL_ERROR "Missing DOC argument")
+    message(FATAL_ERROR "Missing DOC argument.")
   endif()
 endfunction()
 

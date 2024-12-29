@@ -16,8 +16,8 @@ if(CMAKE_C_COMPILER_ID STREQUAL "SunPro")
     FATAL_ERROR
     "Using unsupported compiler: Oracle Developer Studio.\n"
     "Please, install a compatible C compiler such as GNU C or Clang. You can "
-    "set CMAKE_C_COMPILER (and CMAKE_CXX_COMPILER) to the compiler path on the "
-    "system."
+    "set 'CMAKE_C_COMPILER' (and 'CMAKE_CXX_COMPILER') variables to the "
+    "compiler path on the system."
   )
 elseif(CMAKE_C_COMPILER_ID STREQUAL "MSVC" AND MSVC_VERSION VERSION_LESS 1920)
   message(
@@ -57,7 +57,7 @@ cmake_pop_check_state()
 
 if(PHP_IS_EBCDIC)
   message(CHECK_FAIL "EBCDIC")
-  message(FATAL_ERROR "PHP does not support EBCDIC targets")
+  message(FATAL_ERROR "PHP does not support EBCDIC targets.")
 else()
   message(CHECK_PASS "ASCII")
 endif()
