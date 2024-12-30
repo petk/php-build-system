@@ -1,7 +1,7 @@
 #[=============================================================================[
 # FindBISON
 
-Find `bison` command-line parser generator.
+Find `bison`, the general-purpose parser generator, command-line executable.
 
 This is a standalone and customized find module for finding bison. It is synced
 with CMake FindBISON module, where possible.
@@ -31,6 +31,10 @@ These variables can be set before calling the `find_package(BISON)`:
 * `BISON_DOWNLOAD_VERSION` - Override the default `bison` version to be
   downloaded when not found on the system.
 
+* `BISON_WORKING_DIRECTORY` - Set the default global working directory
+  (`WORKING_DIRECTORY <dir>` option) for all `bison()` invocations in the scope
+  of `find_package(BISON)`.
+
 ## Functions provided by this module
 
 ### `bison()`
@@ -50,6 +54,7 @@ bison(
   [NO_DEFAULT_OPTIONS]
   [CODEGEN]
   [WORKING_DIRECTORY <working-directory>]
+  [ABSOLUTE_PATHS]
 )
 ```
 
@@ -102,10 +107,31 @@ in various scenarios.
   cmake --build <dir> --target codegen
   ```
 
+* `ABSOLUTE_PATHS` - Whether to use absolute file paths in the `bison`
+  command-line invocations. By default all file paths are added to `bison`
+  command-line relative to the working directory. Using relative paths is
+  convenient when line directives (`#line ...`) are generated in the output
+  parser files to not show the full path on the disk, when file is committed to
+  Git repository, where multiple people develop.
+
+  When this option is enabled:
+
+  ```c
+  #line 15 "/home/user/projects/php-src/sapi/phpdbg/phpdbg_parser.y"
+  ```
+
+  Without this option, relative paths will be generated:
+
+  ```c
+  #line 15 "sapi/phpdbg/phpdbg_parser.y"
+  ```
+
 * `WORKING_DIRECTORY <working-directory>` - The path where the `bison` command
-  is executed. By default, `bison` is executed in the current binary directory
-  (`CMAKE_CURRENT_BINARY_DIR`). Relative `<working-directory>` path is
-  interpreted as being relative to the current binary directory.
+  is executed. Relative `<working-directory>` path is interpreted as being
+  relative to the current binary directory. If not set, `bison` is by default
+  executed in the current binary directory (`CMAKE_CURRENT_BINARY_DIR`). If
+  variable `BISON_WORKING_DIRECTORY` is set before calling the
+  `find_package(BISON)`, it will set the default working directory.
 
 ## Examples
 
@@ -220,8 +246,179 @@ include(FeatureSummary)
 include(FindPackageHandleStandardArgs)
 
 ################################################################################
+# Configuration.
+################################################################################
+
+# If Bison is not found on the system, set which version to download.
+if(NOT BISON_DOWNLOAD_VERSION)
+  set(BISON_DOWNLOAD_VERSION 3.8.2)
+endif()
+
+################################################################################
 # Functions.
 ################################################################################
+
+function(bison)
+  cmake_parse_arguments(
+    PARSE_ARGV
+    3
+    parsed # prefix
+    "NO_DEFAULT_OPTIONS;CODEGEN;HEADER;VERBOSE;ABSOLUTE_PATHS" # options
+    "HEADER_FILE;WORKING_DIRECTORY;REPORT_FILE" # one-value keywords
+    "OPTIONS;DEPENDS" # multi-value keywords
+  )
+
+  _bison_process(${ARGN})
+
+  if(NOT CMAKE_SCRIPT_MODE_FILE)
+    add_custom_target(${ARGV0} SOURCES ${input} DEPENDS ${outputs})
+  endif()
+
+  # Skip generation, if generated files are provided by the release archive.
+  get_property(type GLOBAL PROPERTY _CMAKE_BISON_TYPE)
+  if(NOT BISON_FOUND AND NOT BISON_FIND_REQUIRED AND NOT type STREQUAL "REQUIRED")
+    return()
+  endif()
+
+  if(CMAKE_SCRIPT_MODE_FILE)
+    message(STATUS "[BISON] ${message}")
+    execute_process(${commands} WORKING_DIRECTORY ${parsed_WORKING_DIRECTORY})
+    return()
+  endif()
+
+  set(codegen "")
+  if(
+    parsed_CODEGEN
+    AND CMAKE_VERSION VERSION_GREATER_EQUAL 3.31
+    AND POLICY CMP0171
+  )
+    cmake_policy(GET CMP0171 cmp0171)
+
+    if(cmp0171 STREQUAL "NEW")
+      set(codegen CODEGEN)
+    endif()
+  endif()
+
+  add_custom_command(
+    OUTPUT ${outputs}
+    ${commands}
+    DEPENDS
+      ${input}
+      ${parsed_DEPENDS}
+      $<TARGET_NAME_IF_EXISTS:Bison::Bison>
+      $<TARGET_NAME_IF_EXISTS:bison>
+    COMMENT "[BISON][${ARGV0}] ${message}"
+    VERBATIM
+    COMMAND_EXPAND_LISTS
+    ${codegen}
+    WORKING_DIRECTORY ${parsed_WORKING_DIRECTORY}
+  )
+endfunction()
+
+# Process arguments.
+macro(_bison_process)
+  if(parsed_UNPARSED_ARGUMENTS)
+    message(FATAL_ERROR "Unrecognized arguments: ${parsed_UNPARSED_ARGUMENTS}")
+  endif()
+
+  if(parsed_KEYWORDS_MISSING_VALUES)
+    message(FATAL_ERROR "Missing values for: ${parsed_KEYWORDS_MISSING_VALUES}")
+  endif()
+
+  if(parsed_HEADER AND parsed_HEADER_FILE)
+    message(
+      AUTHOR_WARNING
+      "When 'HEADER_FILE' is specified, remove redundant 'HEADER' option."
+    )
+  endif()
+
+  if(parsed_REPORT_FILE AND NOT parsed_VERBOSE)
+    message(FATAL_ERROR "'REPORT_FILE' option requires also 'VERBOSE' option.")
+  endif()
+
+  set(input ${ARGV1})
+  if(NOT IS_ABSOLUTE "${input}")
+    set(input ${CMAKE_CURRENT_SOURCE_DIR}/${input})
+  endif()
+  cmake_path(SET input NORMALIZE "${input}")
+
+  set(output ${ARGV2})
+  if(NOT IS_ABSOLUTE "${output}")
+    cmake_path(
+      ABSOLUTE_PATH
+      output
+      BASE_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
+      NORMALIZE
+    )
+  endif()
+  cmake_path(SET output NORMALIZE "${output}")
+
+  set(outputs ${output})
+
+  _bison_set_working_directory()
+  _bison_process_options(parsed_OPTIONS options)
+  _bison_process_header_option()
+  _bison_process_verbose_option()
+
+  if(parsed_ABSOLUTE_PATHS)
+    set(inputArgument "${input}")
+    set(outputArgument "${output}")
+  else()
+    cmake_path(
+      RELATIVE_PATH
+      input
+      BASE_DIRECTORY ${parsed_WORKING_DIRECTORY}
+      OUTPUT_VARIABLE inputArgument
+    )
+    cmake_path(
+      RELATIVE_PATH
+      output
+      BASE_DIRECTORY ${parsed_WORKING_DIRECTORY}
+      OUTPUT_VARIABLE outputArgument
+    )
+  endif()
+
+  # Assemble commands for add_custom_command() and execute_process().
+  set(commands "")
+
+  # Bison cannot create output directories. Ensure any required directories for
+  # the generated files are created if they don't already exist.
+  set(directories "")
+  foreach(output IN LISTS outputs)
+    cmake_path(GET output PARENT_PATH dir)
+    if(dir)
+      list(APPEND directories ${dir})
+    endif()
+  endforeach()
+  if(directories)
+    list(REMOVE_DUPLICATES directories)
+    list(
+      APPEND
+      commands
+      COMMAND ${CMAKE_COMMAND} -E make_directory ${directories}
+    )
+  endif()
+
+  list(
+    APPEND
+    commands
+    COMMAND
+    ${BISON_EXECUTABLE}
+    ${options}
+    ${inputArgument}
+    --output ${outputArgument}
+  )
+
+  # Assemble status message.
+  cmake_path(
+    RELATIVE_PATH
+    output
+    BASE_DIRECTORY ${CMAKE_BINARY_DIR}
+    OUTPUT_VARIABLE outputRelative
+  )
+
+  set(message "Generating ${outputRelative} with bison ${BISON_VERSION}")
+endmacro()
 
 # Process options.
 function(_bison_process_options options result)
@@ -247,13 +444,29 @@ function(_bison_process_header_option)
   if(parsed_HEADER_FILE)
     set(header ${parsed_HEADER_FILE})
     if(NOT IS_ABSOLUTE "${header}")
-      set(header ${CMAKE_CURRENT_BINARY_DIR}/${header})
+      cmake_path(
+        ABSOLUTE_PATH
+        header
+        BASE_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
+        NORMALIZE
+      )
+    endif()
+
+    if(parsed_ABSOLUTE_PATHS)
+      set(headerArgument "${header}")
+    else()
+      cmake_path(
+        RELATIVE_PATH
+        header
+        BASE_DIRECTORY ${parsed_WORKING_DIRECTORY}
+        OUTPUT_VARIABLE headerArgument
+      )
     endif()
 
     if(BISON_VERSION VERSION_LESS 3.8)
-      list(APPEND options --defines=${header})
+      list(APPEND options --defines=${headerArgument})
     else()
-      list(APPEND options --header=${header})
+      list(APPEND options --header=${headerArgument})
     endif()
   else()
     if(BISON_VERSION VERSION_LESS 3.8)
@@ -275,7 +488,6 @@ function(_bison_process_header_option)
       "${extension}"
       OUTPUT_VARIABLE header
     )
-    # TODO: Add path if header is relative.
   endif()
 
   list(APPEND outputs ${header})
@@ -315,7 +527,12 @@ function(_bison_process_verbose_option)
   endif()
 
   if(NOT IS_ABSOLUTE "${reportFile}")
-    set(reportFile ${CMAKE_CURRENT_BINARY_DIR}/${reportFile})
+    cmake_path(
+      ABSOLUTE_PATH
+      reportFile
+      BASE_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
+      NORMALIZE
+    )
   endif()
 
   list(APPEND options --report-file=${reportFile})
@@ -323,144 +540,26 @@ function(_bison_process_verbose_option)
   return(PROPAGATE options)
 endfunction()
 
-macro(_bison_process)
-  if(parsed_UNPARSED_ARGUMENTS)
-    message(FATAL_ERROR "Unrecognized arguments: ${parsed_UNPARSED_ARGUMENTS}")
-  endif()
-
-  if(parsed_KEYWORDS_MISSING_VALUES)
-    message(FATAL_ERROR "Missing values for: ${parsed_KEYWORDS_MISSING_VALUES}")
-  endif()
-
-  if(parsed_HEADER AND parsed_HEADER_FILE)
-    message(
-      FATAL_ERROR
-      "When 'HEADER_FILE' is specified, remove redundant 'HEADER' option."
-    )
-  endif()
-
-  if(parsed_REPORT_FILE AND NOT parsed_VERBOSE)
-    message(FATAL_ERROR "'REPORT_FILE' option requires also 'VERBOSE' option.")
-  endif()
-
-  set(input ${ARGV1})
-  if(NOT IS_ABSOLUTE "${input}")
-    set(input ${CMAKE_CURRENT_SOURCE_DIR}/${input})
-  endif()
-  cmake_path(SET input NORMALIZE "${input}")
-
-  set(output ${ARGV2})
-  if(NOT IS_ABSOLUTE "${output}")
-    set(output ${CMAKE_CURRENT_BINARY_DIR}/${output})
-  endif()
-  cmake_path(SET output NORMALIZE "${output}")
-
-  set(outputs ${output})
-
-  _bison_process_options(parsed_OPTIONS options)
-  _bison_process_header_option()
-  _bison_process_verbose_option()
-
-  # Assemble commands for add_custom_command() and execute_process().
-  set(commands "")
-
-  # Bison cannot create output directories. Ensure any required directories for
-  # the generated files are created if they don't already exist.
-  set(directories "")
-  foreach(output IN LISTS outputs)
-    cmake_path(GET output PARENT_PATH dir)
-    if(dir)
-      list(APPEND directories ${dir})
-    endif()
-  endforeach()
-  if(directories)
-    list(REMOVE_DUPLICATES directories)
-    list(
-      APPEND
-      commands
-      COMMAND ${CMAKE_COMMAND} -E make_directory ${directories}
-    )
-  endif()
-
-  list(
-    APPEND
-    commands
-    COMMAND ${BISON_EXECUTABLE} ${options} ${input} --output ${output}
-  )
-
-  # Assemble status message.
-  cmake_path(
-    RELATIVE_PATH
-    output
-    BASE_DIRECTORY ${CMAKE_BINARY_DIR}
-    OUTPUT_VARIABLE outputRelative
-  )
-
-  set(message "Generating ${outputRelative} with bison ${BISON_VERSION}")
-
+# Set or adjust the parsed_WORKING_DIRECTORY.
+function(_bison_set_working_directory)
   if(NOT parsed_WORKING_DIRECTORY)
-    set(parsed_WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR})
-  else()
-    if(NOT IS_ABSOLUTE "${parsed_WORKING_DIRECTORY}")
-      set(
-        parsed_WORKING_DIRECTORY
-        ${CMAKE_CURRENT_BINARY_DIR}/${parsed_WORKING_DIRECTORY}
-      )
-    endif()
-  endif()
-endmacro()
-
-function(bison)
-  cmake_parse_arguments(
-    PARSE_ARGV
-    3
-    parsed # prefix
-    "NO_DEFAULT_OPTIONS;CODEGEN;HEADER;VERBOSE" # options
-    "HEADER_FILE;WORKING_DIRECTORY;REPORT_FILE" # one-value keywords
-    "OPTIONS;DEPENDS" # multi-value keywords
-  )
-
-  _bison_process(${ARGN})
-
-  if(NOT CMAKE_SCRIPT_MODE_FILE)
-    add_custom_target(${ARGV0} SOURCES ${input} DEPENDS ${outputs})
-  endif()
-
-  # Skip generation, if generated files are provided by the release archive.
-  get_property(type GLOBAL PROPERTY _CMAKE_BISON_TYPE)
-  if(NOT BISON_FOUND AND NOT BISON_FIND_REQUIRED AND NOT type STREQUAL "REQUIRED")
-    return()
-  endif()
-
-  if(CMAKE_SCRIPT_MODE_FILE)
-    message(STATUS "[BISON] ${message}")
-    execute_process(${commands} WORKING_DIRECTORY ${parsed_WORKING_DIRECTORY})
-    return()
-  endif()
-
-  set(codegen "")
-  if(
-    parsed_CODEGEN
-    AND CMAKE_VERSION VERSION_GREATER_EQUAL 3.31
-    AND POLICY CMP0171
-  )
-    cmake_policy(GET CMP0171 cmp0171)
-
-    if(cmp0171 STREQUAL "NEW")
-      set(codegen CODEGEN)
+    if(BISON_WORKING_DIRECTORY)
+      set(parsed_WORKING_DIRECTORY ${BISON_WORKING_DIRECTORY})
+    else()
+      set(parsed_WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR})
     endif()
   endif()
 
-  add_custom_command(
-    OUTPUT ${outputs}
-    ${commands}
-    DEPENDS ${input} ${parsed_DEPENDS} $<TARGET_NAME_IF_EXISTS:Bison::Bison>
-    COMMENT "[BISON][${ARGV0}] ${message}"
-    VERBATIM
-    COMMAND_EXPAND_LISTS
-    ${codegen}
-    WORKING_DIRECTORY ${parsed_WORKING_DIRECTORY}
-  )
+  if(NOT IS_ABSOLUTE "${parsed_WORKING_DIRECTORY}")
+    cmake_path(
+      ABSOLUTE_PATH
+      parsed_WORKING_DIRECTORY
+      BASE_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
+      NORMALIZE
+    )
+  endif()
+
+  return(PROPAGATE parsed_WORKING_DIRECTORY)
 endfunction()
 
 ################################################################################
@@ -496,8 +595,8 @@ endblock()
 
 find_program(
   BISON_EXECUTABLE
-  NAMES bison
-  DOC "The bison executable path"
+  NAMES bison win-bison win_bison
+  DOC "The path to the bison executable"
 )
 mark_as_advanced(BISON_EXECUTABLE)
 
@@ -553,26 +652,18 @@ if(
   NOT CMAKE_SCRIPT_MODE_FILE
   AND NOT BISON_DISABLE_DOWNLOAD
   AND (NOT BISON_EXECUTABLE OR NOT _bisonVersionValid)
+  AND FALSE # TODO: Integrate building Bison from source.
 )
-  # Set which bison version to download.
-  if(NOT BISON_DOWNLOAD_VERSION)
-    set(BISON_DOWNLOAD_VERSION 3.8.2)
-  endif()
   set(BISON_VERSION ${BISON_DOWNLOAD_VERSION})
 
-  if(NOT TARGET Bison::Bison)
+  if(NOT TARGET Bison::Bison AND NOT TARGET bison)
     include(ExternalProject)
-
-    # Configure bison build.
-    set(_bisonDownloadOptions "")
 
     ExternalProject_Add(
       bison
-      URL
-        # :( https://github.com/.../.../archive/refs/tags/${BISON_VERSION}.tar.gz
-      CMAKE_ARGS
-        -DBISON_TODO=OFF
-        ${_bisonDownloadOptions}
+      URL https://ftp.gnu.org/gnu/bison/bison-${BISON_VERSION}.tar.gz
+      CONFIGURE_COMMAND <SOURCE_DIR>/configure
+      BUILD_COMMAND make
       INSTALL_COMMAND ""
     )
 
@@ -597,10 +688,10 @@ find_package_handle_standard_args(
   REQUIRED_VARS ${_bisonRequiredVars} BISON_EXECUTABLE BISON_VERSION
   VERSION_VAR BISON_VERSION
   HANDLE_VERSION_RANGE
-  REASON_FAILURE_MESSAGE "bison not found. Please install bison."
+  REASON_FAILURE_MESSAGE
+    "The Bison executable not found. Please install Bison parser generator."
 )
 
-unset(_bisonDownloadOptions)
 unset(_bisonMsg)
 unset(_bisonRequiredVars)
 unset(_bisonVersionValid)

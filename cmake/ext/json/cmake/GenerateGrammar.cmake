@@ -1,13 +1,15 @@
 # Generate lexer and parser files.
 
-if(
-  EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/json_parser.tab.c
-  AND EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/json_parser.tab.h
-)
-  set(PHP_BISON_OPTIONAL TRUE)
-endif()
+include(FeatureSummary)
+include(PHP/Package/BISON)
+include(PHP/Package/RE2C)
 
-include(PHP/BISON)
+if(
+  NOT EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/json_parser.tab.c
+  OR NOT EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/json_parser.tab.h
+)
+  set_package_properties(BISON PROPERTIES TYPE REQUIRED)
+endif()
 
 if(BISON_FOUND)
   if(CMAKE_SCRIPT_MODE_FILE)
@@ -22,18 +24,16 @@ if(BISON_FOUND)
     ${CMAKE_CURRENT_SOURCE_DIR}/json_parser.tab.c
     ${verbose}
     HEADER
-    #HEADER_FILE ${CMAKE_CURRENT_SOURCE_DIR}/json_parser.tab.h
+    CODEGEN
   )
 endif()
 
 if(
-  EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/json_scanner.c
-  AND EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/php_json_scanner_defs.h
+  NOT EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/json_scanner.c
+  OR NOT EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/php_json_scanner_defs.h
 )
-  set(PHP_RE2C_OPTIONAL TRUE)
+  set_package_properties(RE2C PROPERTIES TYPE REQUIRED)
 endif()
-
-include(PHP/RE2C)
 
 if(RE2C_FOUND)
   re2c(

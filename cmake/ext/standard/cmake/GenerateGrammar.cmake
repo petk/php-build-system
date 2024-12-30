@@ -1,13 +1,14 @@
 # Generate lexer files.
 
-if(
-  EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/url_scanner_ex.c
-  AND EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/var_unserializer.c
-)
-  set(PHP_RE2C_OPTIONAL TRUE)
-endif()
+include(FeatureSummary)
+include(PHP/Package/RE2C)
 
-include(PHP/RE2C)
+if(
+  NOT EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/url_scanner_ex.c
+  OR NOT EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/var_unserializer.c
+)
+  set_package_properties(RE2C PROPERTIES TYPE REQUIRED)
+endif()
 
 if(RE2C_FOUND)
   re2c(

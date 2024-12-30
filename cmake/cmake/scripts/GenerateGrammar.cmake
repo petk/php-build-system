@@ -28,15 +28,19 @@ endif()
 
 list(APPEND CMAKE_MODULE_PATH ${PHP_SOURCE_DIR}/cmake/modules)
 
-include(PHP/BISON)
-include(PHP/RE2C)
-
 include(FeatureSummary)
+
+include(PHP/Package/BISON)
+set_package_properties(BISON PROPERTIES TYPE REQUIRED)
+
+include(PHP/Package/RE2C)
+set_package_properties(RE2C PROPERTIES TYPE REQUIRED)
+
 feature_summary(
-  FATAL_ON_MISSING_REQUIRED_PACKAGES
-  WHAT REQUIRED_PACKAGES_NOT_FOUND
-  QUIET_ON_EMPTY
   DEFAULT_DESCRIPTION
+  FATAL_ON_MISSING_REQUIRED_PACKAGES
+  QUIET_ON_EMPTY
+  WHAT REQUIRED_PACKAGES_NOT_FOUND
 )
 
 file(
@@ -49,5 +53,14 @@ foreach(script IN LISTS scripts)
   cmake_path(GET path PARENT_PATH path)
   set(CMAKE_CURRENT_SOURCE_DIR ${path})
   set(CMAKE_CURRENT_BINARY_DIR ${path})
+
+  cmake_path(
+    RELATIVE_PATH
+    path
+    BASE_DIRECTORY ${PHP_SOURCE_DIR}
+    OUTPUT_VARIABLE relativeDir
+  )
+  message(STATUS "Processing ${relativeDir} files")
+
   include(${script})
 endforeach()
