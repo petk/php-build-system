@@ -431,6 +431,19 @@ function(_re2c_process_options options result)
     list(PREPEND options ${RE2C_DEFAULT_OPTIONS})
   endif()
 
+  # Remove any generator expressions when running in script mode.
+  if(CMAKE_SCRIPT_MODE_FILE)
+    list(TRANSFORM options GENEX_STRIP)
+  endif()
+
+  # Sync long -c variants. The long --conditions option was introduced in re2c
+  # version 1.1 as a new alias for the legacy --start-conditions.
+  if(RE2C_VERSION VERSION_LESS 1.1)
+    list(TRANSFORM options REPLACE "^--conditions$" "--start-conditions")
+  else()
+    list(TRANSFORM options REPLACE "^--start-conditions$" "--conditions")
+  endif()
+
   set(${result} ${options})
 
   return(PROPAGATE ${result})

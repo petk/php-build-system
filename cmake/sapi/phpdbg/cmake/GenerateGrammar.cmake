@@ -37,7 +37,11 @@ if(RE2C_FOUND)
     php_sapi_phpdbg_lexer
     phpdbg_lexer.l
     ${CMAKE_CURRENT_SOURCE_DIR}/phpdbg_lexer.c
-    OPTIONS -cbdF
+    OPTIONS
+      --conditions
+      --debug-output
+      --bit-vectors
+      --flex-syntax
     CODEGEN
   )
 endif()
