@@ -161,12 +161,22 @@ function(pkgconfig_generate_pc)
 
   set(template "${ARGV0}")
   if(NOT IS_ABSOLUTE "${template}")
-    set(template "${CMAKE_CURRENT_SOURCE_DIR}/${template}")
+    cmake_path(
+      ABSOLUTE_PATH
+      template
+      BASE_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
+      NORMALIZE
+    )
   endif()
 
   set(output "${ARGV1}")
   if(NOT IS_ABSOLUTE "${output}")
-    set(output "${CMAKE_CURRENT_BINARY_DIR}/${output}")
+    cmake_path(
+      ABSOLUTE_PATH
+      output
+      BASE_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
+      NORMALIZE
+    )
   endif()
 
   file(

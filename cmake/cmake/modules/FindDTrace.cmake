@@ -162,17 +162,32 @@ function(dtrace_target)
   endif()
 
   if(NOT IS_ABSOLUTE "${parsed_INPUT}")
-    set(parsed_INPUT ${CMAKE_CURRENT_SOURCE_DIR}/${parsed_INPUT})
+    cmake_path(
+      ABSOLUTE_PATH
+      parsed_INPUT
+      BASE_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
+      NORMALIZE
+    )
   endif()
 
   if(NOT IS_ABSOLUTE "${parsed_HEADER}")
-    set(parsed_HEADER ${CMAKE_CURRENT_BINARY_DIR}/${parsed_HEADER})
+    cmake_path(
+      ABSOLUTE_PATH
+      parsed_HEADER
+      BASE_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
+      NORMALIZE
+    )
   endif()
 
   set(sources "")
   foreach(source IN LISTS parsed_SOURCES)
     if(NOT IS_ABSOLUTE ${source})
-      set(source ${CMAKE_CURRENT_SOURCE_DIR}/${source})
+      cmake_path(
+        ABSOLUTE_PATH
+        source
+        BASE_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
+        NORMALIZE
+      )
     endif()
     list(APPEND sources ${source})
   endforeach()

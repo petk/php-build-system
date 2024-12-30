@@ -24,7 +24,10 @@ module.
 
 These variables can be set before calling the `find_package(RE2C)`:
 
-* `RE2C_DEFAULT_OPTIONS` - A semicolon-separated list of default global re2c
+* `RE2C_COMPUTED_GOTOS` - Add the `COMPUTED_GOTOS TRUE` option to all `re2c()`
+  invocations in the scope of `find_package(RE2C)`.
+
+* `RE2C_DEFAULT_OPTIONS` - A semicolon-separated list of default global `re2c`
   options to be prepended to `re2c(OPTIONS)` argument for all re2c invocations
   when generating lexer files.
 
@@ -35,11 +38,9 @@ These variables can be set before calling the `find_package(RE2C)`:
 * `RE2C_DOWNLOAD_VERSION` - Override the default `re2c` version to be downloaded
   when not found on the system.
 
-* `RE2C_USE_COMPUTED_GOTOS` - Set to `TRUE` to enable the re2c
-  `--computed-gotos` (`-g`) option if the non-standard C `computed goto`
-  extension is supported by the C compiler. When using it in command-line script
-  mode, option is not checked, whether the compiler supports it and is added to
-  `re2c` options unconditionally.
+* `RE2C_WORKING_DIRECTORY` - Set the default global working directory
+  (`WORKING_DIRECTORY <dir>` option) for all `re2c()` invocations in the scope of
+  `find_package(RE2C)`.
 
 ## Functions provided by this module
 
@@ -57,9 +58,10 @@ re2c(
   [OPTIONS <options>...]
   [DEPENDS <depends>...]
   [NO_DEFAULT_OPTIONS]
-  [NO_COMPUTED_GOTOS]
+  [COMPUTED_GOTOS <TRUE|FALSE>]
   [CODEGEN]
   [WORKING_DIRECTORY <working-directory>]
+  [ABSOLUTE_PATHS]
 )
 ```
 
@@ -89,8 +91,12 @@ in various scenarios.
 * `NO_DEFAULT_OPTIONS` - If specified, the `RE2C_DEFAULT_OPTIONS` are not added
   to the current `re2c` invocation.
 
-* `NO_COMPUTED_GOTOS` - If specified, when using the `RE2C_USE_COMPUTED_GOTOS`,
-  the computed gotos option is not added to the current `re2c` invocation.
+* `COMPUTED_GOTOS <TRUE|FALSE>` - Set to `TRUE` to add the re2c
+  `--computed-gotos` (`-g`) command-line option if the non-standard C computed
+  goto extension is supported by the C compiler. When calling `re2c()` in the
+  command-line script mode (`CMAKE_SCRIPT_MODE`), option is not checked, whether
+  the compiler supports it and is added to `re2c` command-line options
+  unconditionally.
 
 * `CODEGEN` - Adds the `CODEGEN` option to the re2c's `add_custom_command()`
   call. Works as of CMake 3.31 when policy `CMP0171` is set to `NEW`, which
@@ -102,9 +108,30 @@ in various scenarios.
   ```
 
 * `WORKING_DIRECTORY <working-directory>` - The path where the `re2c` command is
-  executed. By default, `re2c` is executed in the current binary directory
-  (`CMAKE_CURRENT_BINARY_DIR`). Relative `<working-directory>` path is
-  interpreted as being relative to the current binary directory.
+  executed. Relative `<working-directory>` path is interpreted as being relative
+  to the current binary directory. If not set, `re2c` is by default executed in
+  the current binary directory (`CMAKE_CURRENT_BINARY_DIR`). If variable
+  `RE2C_WORKING_DIRECTORY` is set before calling the `find_package(RE2C)`, it
+  will set the default working directory.
+
+* `ABSOLUTE_PATHS` - Whether to use absolute file paths in the `re2c`
+  command-line invocations. By default all file paths are added to `re2c`
+  command-line relative to the working directory. Using relative paths is
+  convenient when line directives (`#line ...`) are generated in the output
+  lexer files to not show the full path on the disk, when file is committed to
+  Git repository, where multiple people develop.
+
+  When this option is enabled:
+
+  ```c
+  #line 108 "/home/user/projects/php-src/ext/phar/phar_path_check.c"
+  ```
+
+  Without this option, relative paths will be generated:
+
+  ```c
+  #line 108 "ext/phar/phar_path_check.c"
+  ```
 
 ## Examples
 
@@ -221,135 +248,25 @@ include(FeatureSummary)
 include(FindPackageHandleStandardArgs)
 
 ################################################################################
-# Functions.
+# Configuration.
 ################################################################################
 
-# Process options.
-function(_re2c_process_options options result)
-  set(options ${${options}})
+# If re2c is not found on the system, set which version to download.
+if(NOT RE2C_DOWNLOAD_VERSION)
+  set(RE2C_DOWNLOAD_VERSION 4.0.2)
+endif()
 
-  if(
-    RE2C_USE_COMPUTED_GOTOS
-    AND _RE2C_HAVE_COMPUTED_GOTOS
-    AND NOT parsed_NO_COMPUTED_GOTOS
-  )
-    list(PREPEND options "--computed-gotos")
-  endif()
-
-  if(RE2C_DEFAULT_OPTIONS AND NOT parsed_NO_DEFAULT_OPTIONS)
-    list(PREPEND options ${RE2C_DEFAULT_OPTIONS})
-  endif()
-
-  set(${result} ${options})
-
-  return(PROPAGATE ${result})
-endfunction()
-
-macro(_re2c_process)
-  if(parsed_UNPARSED_ARGUMENTS)
-    message(FATAL_ERROR "Unrecognized arguments: ${parsed_UNPARSED_ARGUMENTS}")
-  endif()
-
-  if(parsed_KEYWORDS_MISSING_VALUES)
-    message(FATAL_ERROR "Missing values for: ${parsed_KEYWORDS_MISSING_VALUES}")
-  endif()
-
-  set(input ${ARGV1})
-  if(NOT IS_ABSOLUTE "${input}")
-    set(input ${CMAKE_CURRENT_SOURCE_DIR}/${input})
-  endif()
-  cmake_path(SET input NORMALIZE "${input}")
-
-  set(output ${ARGV2})
-  if(NOT IS_ABSOLUTE "${output}")
-    set(output ${CMAKE_CURRENT_BINARY_DIR}/${output})
-  endif()
-  cmake_path(SET output NORMALIZE "${output}")
-
-  set(outputs ${output})
-
-  _re2c_process_options(parsed_OPTIONS options)
-
-  if(parsed_HEADER)
-    set(header ${parsed_HEADER})
-    if(NOT IS_ABSOLUTE "${header}")
-      set(header ${CMAKE_CURRENT_BINARY_DIR}/${header})
-    endif()
-
-    list(APPEND outputs ${header})
-
-    # When header option is used before re2c version 1.2, also the '-c' option
-    # is required. Before 1.1 '-c' long variant is '--start-conditions' and
-    # after 1.1 '--conditions'.
-    if(RE2C_VERSION VERSION_LESS_EQUAL 1.2)
-      list(APPEND options -c)
-    endif()
-
-    # Since re2c version 3.0, '--header' is the new alias option for the
-    # '--type-header' option.
-    if(RE2C_VERSION VERSION_GREATER_EQUAL 3.0)
-      list(APPEND options --header ${header})
-    else()
-      list(APPEND options --type-header ${header})
-    endif()
-  endif()
-
-  # Assemble commands for add_custom_command() and execute_process().
-  set(commands "")
-
-  # RE2C cannot create output directories. Ensure any required directories for
-  # the generated files are created if they don't already exist.
-  set(directories "")
-  foreach(output IN LISTS outputs)
-    cmake_path(GET output PARENT_PATH dir)
-    if(dir)
-      list(APPEND directories ${dir})
-    endif()
-  endforeach()
-  if(directories)
-    list(REMOVE_DUPLICATES directories)
-    list(
-      APPEND
-      commands
-      COMMAND ${CMAKE_COMMAND} -E make_directory ${directories}
-    )
-  endif()
-
-  list(
-    APPEND
-    commands
-    COMMAND ${RE2C_EXECUTABLE} ${options} --output ${output} ${input}
-  )
-
-  # Assemble status message.
-  cmake_path(
-    RELATIVE_PATH
-    output
-    BASE_DIRECTORY ${CMAKE_BINARY_DIR}
-    OUTPUT_VARIABLE outputRelative
-  )
-
-  set(message "Generating ${outputRelative} with re2c ${RE2C_VERSION}")
-
-  if(NOT parsed_WORKING_DIRECTORY)
-    set(parsed_WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR})
-  else()
-    if(NOT IS_ABSOLUTE "${parsed_WORKING_DIRECTORY}")
-      set(
-        parsed_WORKING_DIRECTORY
-        ${CMAKE_CURRENT_BINARY_DIR}/${parsed_WORKING_DIRECTORY}
-      )
-    endif()
-  endif()
-endmacro()
+################################################################################
+# Functions.
+################################################################################
 
 function(re2c)
   cmake_parse_arguments(
     PARSE_ARGV
     3
     parsed # prefix
-    "NO_DEFAULT_OPTIONS;NO_COMPUTED_GOTOS;CODEGEN" # options
-    "HEADER;WORKING_DIRECTORY" # one-value keywords
+    "NO_DEFAULT_OPTIONS;CODEGEN;ABSOLUTE_PATHS" # options
+    "HEADER;WORKING_DIRECTORY;COMPUTED_GOTOS" # one-value keywords
     "OPTIONS;DEPENDS" # multi-value keywords
   )
 
@@ -387,13 +304,232 @@ function(re2c)
   add_custom_command(
     OUTPUT ${outputs}
     ${commands}
-    DEPENDS ${input} ${parsed_DEPENDS} $<TARGET_NAME_IF_EXISTS:RE2C::RE2C>
+    DEPENDS
+      ${input}
+      ${parsed_DEPENDS}
+      $<TARGET_NAME_IF_EXISTS:RE2C::RE2C>
+      $<TARGET_NAME_IF_EXISTS:re2c>
     COMMENT "[RE2C][${ARGV0}] ${message}"
     VERBATIM
     COMMAND_EXPAND_LISTS
     ${codegen}
     WORKING_DIRECTORY ${parsed_WORKING_DIRECTORY}
   )
+endfunction()
+
+# Process arguments.
+macro(_re2c_process)
+  if(parsed_UNPARSED_ARGUMENTS)
+    message(FATAL_ERROR "Unrecognized arguments: ${parsed_UNPARSED_ARGUMENTS}")
+  endif()
+
+  if(parsed_KEYWORDS_MISSING_VALUES)
+    message(FATAL_ERROR "Missing values for: ${parsed_KEYWORDS_MISSING_VALUES}")
+  endif()
+
+  set(input ${ARGV1})
+  if(NOT IS_ABSOLUTE "${input}")
+    cmake_path(
+      ABSOLUTE_PATH
+      input
+      BASE_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
+      NORMALIZE
+    )
+  endif()
+  cmake_path(SET input NORMALIZE "${input}")
+
+  set(output ${ARGV2})
+  if(NOT IS_ABSOLUTE "${output}")
+    cmake_path(
+      ABSOLUTE_PATH
+      output
+      BASE_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
+      NORMALIZE
+    )
+  endif()
+  cmake_path(SET output NORMALIZE "${output}")
+
+  set(outputs ${output})
+
+  _re2c_process_options(parsed_OPTIONS options)
+  _re2c_process_header_option()
+
+  # Assemble commands for add_custom_command() and execute_process().
+  set(commands "")
+
+  # RE2C cannot create output directories. Ensure any required directories for
+  # the generated files are created if they don't already exist.
+  set(directories "")
+  foreach(output IN LISTS outputs)
+    cmake_path(GET output PARENT_PATH dir)
+    if(dir)
+      list(APPEND directories ${dir})
+    endif()
+  endforeach()
+  if(directories)
+    list(REMOVE_DUPLICATES directories)
+    list(
+      APPEND
+      commands
+      COMMAND ${CMAKE_COMMAND} -E make_directory ${directories}
+    )
+  endif()
+
+  _re2c_set_working_directory()
+
+  if(parsed_ABSOLUTE_PATHS)
+    set(inputArgument "${input}")
+    set(outputArgument "${output}")
+  else()
+    cmake_path(
+      RELATIVE_PATH
+      input
+      BASE_DIRECTORY ${parsed_WORKING_DIRECTORY}
+      OUTPUT_VARIABLE inputArgument
+    )
+    cmake_path(
+      RELATIVE_PATH
+      output
+      BASE_DIRECTORY ${parsed_WORKING_DIRECTORY}
+      OUTPUT_VARIABLE outputArgument
+    )
+  endif()
+
+  list(
+    APPEND
+    commands
+    COMMAND
+    ${RE2C_EXECUTABLE}
+    ${options}
+    --output ${outputArgument}
+    ${inputArgument}
+  )
+
+  # Assemble status message.
+  cmake_path(
+    RELATIVE_PATH
+    output
+    BASE_DIRECTORY ${CMAKE_BINARY_DIR}
+    OUTPUT_VARIABLE outputRelative
+  )
+
+  set(message "Generating ${outputRelative} with re2c ${RE2C_VERSION}")
+endmacro()
+
+# Process options.
+function(_re2c_process_options options result)
+  set(options ${${options}})
+
+  if(RE2C_COMPUTED_GOTOS OR parsed_COMPUTED_GOTOS)
+    _re2c_check_computed_gotos(result)
+    if(result)
+      list(PREPEND options --computed-gotos)
+    endif()
+  endif()
+
+  if(RE2C_DEFAULT_OPTIONS AND NOT parsed_NO_DEFAULT_OPTIONS)
+    list(PREPEND options ${RE2C_DEFAULT_OPTIONS})
+  endif()
+
+  set(${result} ${options})
+
+  return(PROPAGATE ${result})
+endfunction()
+
+# Process HEADER option.
+function(_re2c_process_header_option)
+  if(NOT parsed_HEADER)
+    return()
+  endif()
+
+  set(header ${parsed_HEADER})
+  if(NOT IS_ABSOLUTE "${header}")
+    cmake_path(
+      ABSOLUTE_PATH
+      header
+      BASE_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
+      NORMALIZE
+    )
+  endif()
+
+  list(APPEND outputs ${header})
+
+  # When header option is used before re2c version 1.2, also the '-c' option
+  # is required. Before 1.1 '-c' long variant is '--start-conditions' and
+  # after 1.1 '--conditions'.
+  if(RE2C_VERSION VERSION_LESS_EQUAL 1.2)
+    list(APPEND options -c)
+  endif()
+
+  # Since re2c version 3.0, '--header' is the new alias option for the
+  # '--type-header' option.
+  if(RE2C_VERSION VERSION_GREATER_EQUAL 3.0)
+    list(APPEND options --header ${header})
+  else()
+    list(APPEND options --type-header ${header})
+  endif()
+
+  return(PROPAGATE outputs options)
+endfunction()
+
+# Set or adjust the parsed_WORKING_DIRECTORY.
+function(_re2c_set_working_directory)
+  if(NOT parsed_WORKING_DIRECTORY)
+    if(RE2C_WORKING_DIRECTORY)
+      set(parsed_WORKING_DIRECTORY ${RE2C_WORKING_DIRECTORY})
+    else()
+      set(parsed_WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR})
+    endif()
+  endif()
+
+  if(NOT IS_ABSOLUTE "${parsed_WORKING_DIRECTORY}")
+    cmake_path(
+      ABSOLUTE_PATH
+      parsed_WORKING_DIRECTORY
+      BASE_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
+      NORMALIZE
+    )
+  endif()
+
+  return(PROPAGATE parsed_WORKING_DIRECTORY)
+endfunction()
+
+# Check for re2c --computed-gotos option.
+function(_re2c_check_computed_gotos result)
+  if(CMAKE_SCRIPT_MODE_FILE)
+    set(${result} TRUE)
+    return(PROPAGATE ${result})
+  endif()
+
+  if(DEFINED _FIND_RE2C_HAVE_COMPUTED_GOTOS)
+    set(${result} ${_FIND_RE2C_HAVE_COMPUTED_GOTOS})
+    return(PROPAGATE ${result})
+  endif()
+
+  message(CHECK_START "Checking for re2c --computed-gotos (-g) option support")
+  cmake_push_check_state(RESET)
+    set(CMAKE_REQUIRED_QUIET TRUE)
+    check_source_compiles(C [[
+      int main(void)
+      {
+      label1:
+        ;
+      label2:
+        ;
+        static void *adr[] = { &&label1, &&label2 };
+        goto *adr[0];
+        return 0;
+      }
+    ]] _FIND_RE2C_HAVE_COMPUTED_GOTOS)
+  cmake_pop_check_state()
+  if(_FIND_RE2C_HAVE_COMPUTED_GOTOS)
+    message(CHECK_PASS "yes")
+  else()
+    message(CHECK_FAIL "no")
+  endif()
+
+  set(${result} ${_FIND_RE2C_HAVE_COMPUTED_GOTOS})
+  return(PROPAGATE ${result})
 endfunction()
 
 ################################################################################
@@ -481,13 +617,9 @@ if(
   AND NOT RE2C_DISABLE_DOWNLOAD
   AND (NOT RE2C_EXECUTABLE OR NOT _re2cVersionValid)
 )
-  # Set which re2c version to download.
-  if(NOT RE2C_DOWNLOAD_VERSION)
-    set(RE2C_DOWNLOAD_VERSION 4.0.2)
-  endif()
   set(RE2C_VERSION ${RE2C_DOWNLOAD_VERSION})
 
-  if(NOT TARGET RE2C::RE2C)
+  if(NOT TARGET RE2C::RE2C AND NOT TARGET re2c)
     include(ExternalProject)
 
     # Configure re2c build.
@@ -554,33 +686,4 @@ unset(_re2cVersionValid)
 
 if(NOT RE2C_FOUND)
   return()
-endif()
-
-# Check for re2c --computed-gotos option.
-if(NOT CMAKE_SCRIPT_MODE_FILE AND RE2C_USE_COMPUTED_GOTOS)
-  message(CHECK_START "Checking for re2c --computed-gotos (-g) option support")
-
-  cmake_push_check_state(RESET)
-    set(CMAKE_REQUIRED_QUIET TRUE)
-    check_source_compiles(C [[
-      int main(void)
-      {
-      label1:
-        ;
-      label2:
-        ;
-        static void *adr[] = { &&label1, &&label2 };
-        goto *adr[0];
-        return 0;
-      }
-    ]] _RE2C_HAVE_COMPUTED_GOTOS)
-  cmake_pop_check_state()
-
-  if(_RE2C_HAVE_COMPUTED_GOTOS)
-    message(CHECK_PASS "yes")
-  else()
-    message(CHECK_FAIL "no")
-  endif()
-elseif(CMAKE_SCRIPT_MODE_FILE AND RE2C_USE_COMPUTED_GOTOS)
-  set(_RE2C_HAVE_COMPUTED_GOTOS TRUE)
 endif()

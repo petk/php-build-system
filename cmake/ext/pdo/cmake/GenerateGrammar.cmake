@@ -1,10 +1,11 @@
 # Generate lexer.
 
-if(EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/pdo_sql_parser.c)
-  set(PHP_RE2C_OPTIONAL TRUE)
-endif()
+include(FeatureSummary)
+include(PHP/Package/RE2C)
 
-include(PHP/RE2C)
+if(NOT EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/pdo_sql_parser.c)
+  set_package_properties(RE2C PROPERTIES TYPE REQUIRED)
+endif()
 
 if(RE2C_FOUND)
   re2c(

@@ -1,14 +1,17 @@
 # Generate lexer and parser files.
 
+include(FeatureSummary)
+include(PHP/Package/BISON)
+include(PHP/Package/RE2C)
+
 if(
-  EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/zend_ini_parser.c
-  AND EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/zend_ini_parser.h
-  AND EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/zend_language_parser.c
-  AND EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/zend_language_parser.h
+  NOT EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/zend_ini_parser.c
+  OR NOT EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/zend_ini_parser.h
+  OR NOT EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/zend_language_parser.c
+  OR NOT EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/zend_language_parser.h
 )
-  set(PHP_BISON_OPTIONAL TRUE)
+  set_package_properties(BISON PROPERTIES TYPE REQUIRED)
 endif()
-include(PHP/BISON)
 
 if(BISON_FOUND)
   if(CMAKE_SCRIPT_MODE_FILE)
@@ -22,7 +25,6 @@ if(BISON_FOUND)
     zend_ini_parser.y
     ${CMAKE_CURRENT_SOURCE_DIR}/zend_ini_parser.c
     HEADER
-    #HEADER_FILE ${CMAKE_CURRENT_SOURCE_DIR}/zend_ini_parser.h
     ${verbose}
   )
 
@@ -37,8 +39,8 @@ if(BISON_FOUND)
     zend_language_parser.y
     ${CMAKE_CURRENT_SOURCE_DIR}/zend_language_parser.c
     HEADER
-    #HEADER_FILE ${CMAKE_CURRENT_SOURCE_DIR}/zend_language_parser.h
     ${verbose}
+    CODEGEN
   )
 
   # Tweak zendparse to be exported through ZEND_API. This has to be revisited
@@ -109,14 +111,13 @@ if(BISON_FOUND)
 endif()
 
 if(
-  EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/zend_ini_scanner.c
-  AND EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/zend_ini_scanner_defs.h
-  AND EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/zend_language_scanner.c
-  AND EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/zend_language_scanner_defs.h
+  NOT EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/zend_ini_scanner.c
+  OR NOT EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/zend_ini_scanner_defs.h
+  OR NOT EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/zend_language_scanner.c
+  OR NOT EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/zend_language_scanner_defs.h
 )
-  set(PHP_RE2C_OPTIONAL TRUE)
+  set_package_properties(RE2C PROPERTIES TYPE REQUIRED)
 endif()
-include(PHP/RE2C)
 
 if(RE2C_FOUND)
   re2c(
