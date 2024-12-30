@@ -15,15 +15,15 @@ if(BISON_FOUND)
   if(CMAKE_SCRIPT_MODE_FILE)
     set(verbose "")
   else()
-    set(verbose VERBOSE) #REPORT_FILE json_parser.output)
+    set(verbose VERBOSE)
   endif()
 
   bison(
     php_ext_json_parser
     json_parser.y
     ${CMAKE_CURRENT_SOURCE_DIR}/json_parser.tab.c
-    ${verbose}
     HEADER
+    ${verbose}
     CODEGEN
   )
 endif()
@@ -41,7 +41,7 @@ if(RE2C_FOUND)
     json_scanner.re
     ${CMAKE_CURRENT_SOURCE_DIR}/json_scanner.c
     HEADER ${CMAKE_CURRENT_SOURCE_DIR}/php_json_scanner_defs.h
-    OPTIONS -bc
+    OPTIONS --bit-vectors --conditions
     CODEGEN
   )
 endif()

@@ -26,13 +26,8 @@ if(BISON_FOUND)
     ${CMAKE_CURRENT_SOURCE_DIR}/zend_ini_parser.c
     HEADER
     ${verbose}
+    CODEGEN
   )
-
-  if(CMAKE_SCRIPT_MODE_FILE)
-    set(verbose "")
-  else()
-    set(verbose VERBOSE)
-  endif()
 
   bison(
     zend_language_parser
@@ -125,7 +120,12 @@ if(RE2C_FOUND)
     zend_ini_scanner.l
     ${CMAKE_CURRENT_SOURCE_DIR}/zend_ini_scanner.c
     HEADER ${CMAKE_CURRENT_SOURCE_DIR}/zend_ini_scanner_defs.h
-    OPTIONS --case-inverted -cbdF
+    OPTIONS
+      --case-inverted
+      --conditions
+      --bit-vectors
+      --debug-output
+      --flex-syntax
     CODEGEN
   )
 
@@ -134,7 +134,12 @@ if(RE2C_FOUND)
     zend_language_scanner.l
     ${CMAKE_CURRENT_SOURCE_DIR}/zend_language_scanner.c
     HEADER ${CMAKE_CURRENT_SOURCE_DIR}/zend_language_scanner_defs.h
-    OPTIONS --case-inverted -cbdF
+    OPTIONS
+      --case-inverted
+      --conditions
+      --bit-vectors
+      --debug-output
+      --flex-syntax
     CODEGEN
   )
 endif()

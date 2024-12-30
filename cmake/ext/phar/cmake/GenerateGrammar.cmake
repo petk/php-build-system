@@ -12,7 +12,7 @@ if(RE2C_FOUND)
     php_ext_phar_path_check
     phar_path_check.re
     ${CMAKE_CURRENT_SOURCE_DIR}/phar_path_check.c
-    OPTIONS -b
+    OPTIONS --bit-vectors
     CODEGEN
   )
 endif()
