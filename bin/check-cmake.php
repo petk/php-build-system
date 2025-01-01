@@ -457,12 +457,19 @@ function checkModules(Iterator $modules, Iterator $allCMakeFiles): int
     $status = 0;
 
     foreach ($modules as $module) {
-        $moduleName = $module->getBasename('.cmake');
-        $prefix = pathinfo(dirname($module->getRealPath()), PATHINFO_FILENAME);
-        $prefix = (1 === preg_match('/cmake|modules/', $prefix)) ? '' : $prefix . '/';
-        $moduleNameEscaped = str_replace('/', '\/', $prefix . $moduleName);
-        $moduleBasename = $module->getBasename();
-        $moduleBasenameEscaped = str_replace('.', '\.', $moduleBasename);
+        $namespace = '';
+        $parent = dirname($module->getRealPath());
+        $prefix = pathinfo($parent, PATHINFO_FILENAME);
+        $counter = 0;
+        while ($counter < 10 && 0 === preg_match('/cmake|modules/', $prefix)) {
+            $namespace = $prefix . '/' . $namespace;
+            $parent = dirname($parent);
+            $prefix = pathinfo($parent, PATHINFO_FILENAME);
+            ++$counter;
+        }
+
+        $moduleNameEscaped = str_replace('/', '\/', $namespace . $module->getBasename('.cmake'));
+        $moduleBasenameEscaped = str_replace('.', '\.', $module->getBasename());
 
         $found = false;
         foreach ($allCMakeFiles as $file) {

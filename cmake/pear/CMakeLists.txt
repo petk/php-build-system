@@ -63,7 +63,7 @@ php_set(
   TYPE PATH
   IF PHP_PEAR
   VALUE "${CMAKE_INSTALL_DATADIR}/pear"
-  DOC "The PEAR installation directory."
+  DOC "The PEAR installation directory"
 )
 mark_as_advanced(PHP_PEAR_DIR)
 
@@ -77,7 +77,7 @@ php_set(
   TYPE PATH
   IF PHP_PEAR
   VALUE "${tmpDir}"
-  DOC "The PEAR temporary directory. Default: ${tmpDir}."
+  DOC "The PEAR temporary directory. Default: ${tmpDir}"
 )
 mark_as_advanced(PHP_PEAR_TEMP_DIR)
 
