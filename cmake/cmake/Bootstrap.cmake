@@ -48,10 +48,6 @@ add_library(php_sapi INTERFACE)
 add_library(PHP::sapi ALIAS php_sapi)
 target_link_libraries(php_sapi INTERFACE PHP::config)
 
-# Create a custom target for generating files (parsers, lexers, etc.) manually:
-#   cmake --build <dir> -t php_generate_files
-add_custom_target(php_generate_files)
-
 # Configure build types.
 include(cmake/BuildTypes.cmake)
 
