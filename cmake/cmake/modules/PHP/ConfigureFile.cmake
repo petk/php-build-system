@@ -192,9 +192,11 @@ function(php_configure_file)
   if(parsed_INPUT)
     set(___phpConfigureFileTemplate "${parsed_INPUT}")
     if(NOT IS_ABSOLUTE "${___phpConfigureFileTemplate}")
-      set(
+      cmake_path(
+        ABSOLUTE_PATH
         ___phpConfigureFileTemplate
-        "${CMAKE_CURRENT_SOURCE_DIR}/${___phpConfigureFileTemplate}"
+        BASE_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
+        NORMALIZE
       )
     endif()
   else()
@@ -208,9 +210,11 @@ function(php_configure_file)
 
   set(___phpConfigureFileOutput "${parsed_OUTPUT}")
   if(NOT IS_ABSOLUTE "${___phpConfigureFileOutput}")
-    set(
+    cmake_path(
+      ABSOLUTE_PATH
       ___phpConfigureFileOutput
-      "${CMAKE_CURRENT_BINARY_DIR}/${___phpConfigureFileOutput}"
+      BASE_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
+      NORMALIZE
     )
   endif()
 

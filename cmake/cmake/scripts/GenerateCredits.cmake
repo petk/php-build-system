@@ -12,7 +12,7 @@ endif()
 set(PHP_SOURCE_DIR ${CMAKE_CURRENT_LIST_DIR}/../../)
 
 if(NOT EXISTS ${PHP_SOURCE_DIR}/ext/standard/credits.h)
-  message(FATAL_ERROR "This script should be run inside the php-src repository")
+  message(FATAL_ERROR "This script should be run in the php-src repository.")
 endif()
 
 set(template [[
@@ -31,7 +31,7 @@ set(template [[
 ]])
 
 file(GLOB credits ${PHP_SOURCE_DIR}/*/*/CREDITS)
-# Case-sensitive filtering, GLOB on macOS/Windows is case-insensitive.
+# Case-sensitive filtering, GLOB on macOS/Windows/Cygwin is case-insensitive.
 list(FILTER credits INCLUDE REGEX ".*CREDITS$")
 
 foreach(credit IN LISTS credits)

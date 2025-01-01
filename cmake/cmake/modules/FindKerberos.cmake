@@ -25,7 +25,7 @@ Module defines the following `IMPORTED` target(s):
 * `Kerberos_INCLUDE_DIR` - Directory containing package library headers.
 * `Kerberos_LIBRARY` - The path to the package library.
 * `Kerberos_EXECUTABLE` - Path to the Kerberos command-line helper configuration
-  script, if found.
+  script.
 * `Kerberos_GSSAPI_INCLUDE_DIR` -Directory containing GSSAPI library headers.
 * `Kerberos_GSSAPI_LIBRARY` - The path to the GSSAPI library.
 #]=============================================================================]
@@ -78,7 +78,7 @@ endif()
 find_program(
   Kerberos_EXECUTABLE
   NAMES krb5-config
-  DOC "Path to the Kerberos command-line helper configuration script, if found."
+  DOC "Path to the Kerberos command-line helper configuration script"
 )
 
 # Get version.
