@@ -21,6 +21,8 @@ if(NOT CMAKE_SCRIPT_MODE_FILE)
 endif()
 
 set(PHP_SOURCE_DIR ${CMAKE_CURRENT_LIST_DIR}/../..)
+set(CMAKE_SOURCE_DIR ${PHP_SOURCE_DIR})
+set(CMAKE_BINARY_DIR ${PHP_SOURCE_DIR})
 
 if(NOT EXISTS ${PHP_SOURCE_DIR}/main/php_version.h)
   message(FATAL_ERROR "This script should be run in the php-src repository.")
@@ -30,10 +32,10 @@ list(APPEND CMAKE_MODULE_PATH ${PHP_SOURCE_DIR}/cmake/modules)
 
 include(FeatureSummary)
 
-include(PHP/Package/BISON)
+include(PHP/Bison)
 set_package_properties(BISON PROPERTIES TYPE REQUIRED)
 
-include(PHP/Package/RE2C)
+include(PHP/Re2c)
 set_package_properties(RE2C PROPERTIES TYPE REQUIRED)
 
 feature_summary(
@@ -60,7 +62,7 @@ foreach(script IN LISTS scripts)
     BASE_DIRECTORY ${PHP_SOURCE_DIR}
     OUTPUT_VARIABLE relativeDir
   )
-  message(STATUS "Processing ${relativeDir} files")
+  message(STATUS "Processing ${relativeDir} directory")
 
   include(${script})
 endforeach()
