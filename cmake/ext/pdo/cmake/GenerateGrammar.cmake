@@ -1,4 +1,4 @@
-# Generate lexer.
+# Generate lexer files.
 
 if(CMAKE_SCRIPT_MODE_FILE STREQUAL CMAKE_CURRENT_LIST_FILE)
   message(FATAL_ERROR "This file should be used with include().")

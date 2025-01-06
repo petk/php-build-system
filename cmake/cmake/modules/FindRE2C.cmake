@@ -28,7 +28,7 @@ set_package_properties(
 )
 
 ################################################################################
-# Find re2c.
+# Find the executable.
 ################################################################################
 
 set(_reason "")
@@ -59,25 +59,20 @@ block(PROPAGATE RE2C_VERSION _reason)
     execute_process(
       COMMAND ${RE2C_EXECUTABLE} --version
       OUTPUT_VARIABLE version
-      ERROR_VARIABLE error
       RESULT_VARIABLE result
+      ERROR_QUIET
       OUTPUT_STRIP_TRAILING_WHITESPACE
-      ERROR_STRIP_TRAILING_WHITESPACE
     )
 
     if(NOT result EQUAL 0)
-      string(
-        APPEND
-        _reason
-        "Command \"${RE2C_EXECUTABLE} --version\" failed:\n${error} "
-      )
+      string(APPEND _reason "Command \"${RE2C_EXECUTABLE} --version\" failed. ")
     elseif(version MATCHES "^re2c ([0-9.]+[^\n]+)")
       find_package_check_version("${CMAKE_MATCH_1}" valid)
       if(valid)
         set(RE2C_VERSION "${CMAKE_MATCH_1}")
       endif()
     else()
-      string(APPEND _reason "Invalid version format:\n${version} ")
+      string(APPEND _reason "Invalid version format. ")
     endif()
   endif()
 endblock()

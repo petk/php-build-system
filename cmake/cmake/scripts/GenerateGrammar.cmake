@@ -1,7 +1,7 @@
 #!/usr/bin/env -S cmake -P
 #
-# CMake-based command-line script to generate the parser files using bison and
-# lexer files using bison.
+# CMake-based command-line script to generate the parser files with bison and
+# lexer files with re2c.
 #
 # Run as:
 #
@@ -33,9 +33,13 @@ list(APPEND CMAKE_MODULE_PATH ${PHP_SOURCE_DIR}/cmake/modules)
 include(FeatureSummary)
 
 include(PHP/Bison)
+php_bison_config()
+find_package(BISON ${PHP_BISON_VERSION})
 set_package_properties(BISON PROPERTIES TYPE REQUIRED)
 
 include(PHP/Re2c)
+php_re2c_config()
+find_package(RE2C ${PHP_RE2C_VERSION})
 set_package_properties(RE2C PROPERTIES TYPE REQUIRED)
 
 feature_summary(

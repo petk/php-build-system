@@ -5,10 +5,6 @@ Generate parser-related files with Bison. This module includes common `bison`
 configuration with minimum required version and common settings across the
 PHP build.
 
-When `bison` cannot be found on the system or the found version is not suitable,
-this module can also download and build it from its Git repository sources
-release archive as part of the project build.
-
 ## Configuration variables
 
 These variables can be set before including this module
@@ -18,17 +14,15 @@ These variables can be set before including this module
   BISON package with `find_package(BISON <version-constraint> ...)` in this
   module.
 
+* `PHP_BISON_DOWNLOAD_VERSION` - When Bison cannot be found on the system or the
+  found version is not suitable, this module can also download and build it from
+  its release archive sources as part of the project build. Set which Bison
+  version should be downloaded.
+
 * `PHP_BISON_OPTIONS` - A semicolon-separated list of default Bison options.
   This module sets some sensible defaults. When `php_bison(APPEND)` is used, the
   options specified in the `php_bison(OPTIONS <options>...)` are appended to
   these default global options.
-
-* `PHP_BISON_DISABLE_DOWNLOAD` - Set to `TRUE` to disable downloading and
-  building bison package from source, when it is not found on the system or
-  found version is not suitable.
-
-* `PHP_BISON_DOWNLOAD_VERSION` - Override the default `bison` version to be
-  downloaded when not found on the system.
 
 * `PHP_BISON_WORKING_DIRECTORY` - Set the default global working directory
   (`WORKING_DIRECTORY <dir>` option) for all `php_bison()` invocations in the
@@ -266,14 +260,13 @@ php_bison(foo parser.y parser.c OPTIONS $<$<CONFIG:Debug>:--debug> --yacc)
 
 include_guard(GLOBAL)
 
-include(FetchContent)
 include(FeatureSummary)
 
 ################################################################################
 # Configuration.
 ################################################################################
 
-macro(_php_bison_config)
+macro(php_bison_config)
   # Minimum required bison version.
   if(NOT PHP_BISON_VERSION)
     set(PHP_BISON_VERSION 3.0.0)
@@ -365,7 +358,7 @@ function(php_bison name input output)
   set(outputs ${output})
   set(extraOutputs "")
 
-  _php_bison_config()
+  php_bison_config()
   _php_bison_process_header_file()
   _php_bison_set_package_properties()
 
@@ -375,12 +368,15 @@ function(php_bison name input output)
     set(quiet "QUIET")
   endif()
 
-  find_package(BISON ${PHP_BISON_VERSION} GLOBAL ${quiet})
+  if(NOT TARGET Bison::Bison)
+    find_package(BISON ${PHP_BISON_VERSION} GLOBAL ${quiet})
+  endif()
 
   if(
     NOT BISON_FOUND
-    AND NOT PHP_BISON_DISABLE_DOWNLOAD
+    AND PHP_BISON_DOWNLOAD_VERSION
     AND packageType STREQUAL "REQUIRED"
+    AND NOT CMAKE_SCRIPT_MODE_FILE
   )
     _php_bison_download()
   endif()
@@ -436,7 +432,6 @@ function(php_bison name input output)
       ${input}
       ${parsed_DEPENDS}
       $<TARGET_NAME_IF_EXISTS:Bison::Bison>
-      $<TARGET_NAME_IF_EXISTS:bison>
     COMMENT "${message}"
     VERBATIM
     COMMAND_EXPAND_LISTS
@@ -698,53 +693,49 @@ function(_php_bison_get_commands result)
   return(PROPAGATE ${result})
 endfunction()
 
-################################################################################
-# Download and build bison if not found.
-################################################################################
-
+# Download and build Bison if not found.
 function(_php_bison_download)
   set(BISON_VERSION ${PHP_BISON_DOWNLOAD_VERSION})
-
-  message(STATUS "Downloading bison ${BISON_VERSION}")
-  FetchContent_Populate(
-    BISON
-    URL https://ftp.gnu.org/gnu/bison/bison-${BISON_VERSION}.tar.gz
-    SOURCE_DIR ${CMAKE_BINARY_DIR}/_deps/bison
-  )
-
-  message(STATUS "Configuring Bison ${BISON_VERSION}")
-  execute_process(
-    COMMAND ./configure
-    OUTPUT_VARIABLE result
-    ECHO_OUTPUT_VARIABLE
-    WORKING_DIRECTORY ${CMAKE_BINARY_DIR}/_deps/bison
-  )
-
-  message(STATUS "Building Bison ${BISON_VERSION}")
-  include(ProcessorCount)
-  processorcount(processors)
-  execute_process(
-    COMMAND ${CMAKE_MAKE_PROGRAM} -j${processors}
-    OUTPUT_VARIABLE result
-    ECHO_OUTPUT_VARIABLE
-    WORKING_DIRECTORY ${CMAKE_BINARY_DIR}/_deps/bison
-  )
-
   set(BISON_FOUND TRUE)
 
-  set_property(
-    CACHE BISON_EXECUTABLE
-    PROPERTY VALUE ${CMAKE_BINARY_DIR}/_deps/bison/src/bison
+  if(TARGET Bison::Bison)
+    return(PROPAGATE BISON_FOUND BISON_VERSION)
+  endif()
+
+  message(STATUS "Bison ${BISON_VERSION} will be downloaded at build phase")
+
+  include(ExternalProject)
+
+  ExternalProject_Add(
+    bison
+    URL https://ftp.gnu.org/gnu/bison/bison-${BISON_VERSION}.tar.gz
+    DOWNLOAD_EXTRACT_TIMESTAMP TRUE
+    CONFIGURE_COMMAND
+      <SOURCE_DIR>/configure
+      --prefix=<INSTALL_DIR>
+      --enable-silent-rules
+      --disable-yacc
+      --disable-dependency-tracking
+    LOG_INSTALL TRUE
   )
 
+  # Set bison executable.
+  ExternalProject_Get_Property(bison INSTALL_DIR)
+  set_property(CACHE BISON_EXECUTABLE PROPERTY VALUE ${INSTALL_DIR}/bin/bison)
+
+  add_executable(Bison::Bison IMPORTED GLOBAL)
+  set_target_properties(
+    Bison::Bison
+    PROPERTIES IMPORTED_LOCATION ${BISON_EXECUTABLE}
+  )
+  add_dependencies(Bison::Bison bison)
+
   # Move dependency to PACKAGES_FOUND.
-  block()
-    get_property(packagesNotFound GLOBAL PROPERTY PACKAGES_NOT_FOUND)
-    list(REMOVE_ITEM packagesNotFound BISON)
-    set_property(GLOBAL PROPERTY PACKAGES_NOT_FOUND packagesNotFound)
-    get_property(packagesFound GLOBAL PROPERTY PACKAGES_FOUND)
-    set_property(GLOBAL APPEND PROPERTY PACKAGES_FOUND BISON)
-  endblock()
+  get_property(packagesNotFound GLOBAL PROPERTY PACKAGES_NOT_FOUND)
+  list(REMOVE_ITEM packagesNotFound BISON)
+  set_property(GLOBAL PROPERTY PACKAGES_NOT_FOUND packagesNotFound)
+  get_property(packagesFound GLOBAL PROPERTY PACKAGES_FOUND)
+  set_property(GLOBAL APPEND PROPERTY PACKAGES_FOUND BISON)
 
   return(PROPAGATE BISON_FOUND BISON_VERSION)
 endfunction()

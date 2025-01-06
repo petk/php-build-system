@@ -5,10 +5,6 @@ Generate lexer-related files with re2c. This module includes common `re2c`
 configuration with minimum required version and common settings across the
 PHP build.
 
-When `re2c` cannot be found on the system or the found version is not suitable,
-this module can also download and build it from its Git repository sources
-release archive as part of the project build.
-
 ## Configuration variables
 
 These variables can be set before including this module
@@ -17,6 +13,11 @@ These variables can be set before including this module
 * `PHP_RE2C_VERSION` - The re2c version constraint, when looking for RE2C
   package with `find_package(RE2C <version-constraint> ...)`.
 
+* `PHP_RE2C_DOWNLOAD_VERSION` - When re2c cannot be found on the system or the
+  found version is not suitable, this module can also download and build it from
+  its release archive sources as part of the project build. Set which re2c
+  version should be downloaded.
+
 * `PHP_RE2C_COMPUTED_GOTOS` - Add the `COMPUTED_GOTOS TRUE` option to all
   `php_re2c()` invocations in the scope of current directory.
 
@@ -24,13 +25,6 @@ These variables can be set before including this module
   This module sets some sensible defaults. When `php_re2c(APPEND)` is used, the
   options specified in the `php_re2c(OPTIONS <options>...)` are appended to
   these default global options.
-
-* `PHP_RE2C_DISABLE_DOWNLOAD` - Set to `TRUE` to disable downloading and
-  building RE2C package from source, when it is not found on the system or found
-  version is not suitable.
-
-* `PHP_RE2C_DOWNLOAD_VERSION` - Override the default `re2c` version to be
-  downloaded when not found on the system.
 
 * `PHP_RE2C_WORKING_DIRECTORY` - Set the default global working directory
   (`WORKING_DIRECTORY <dir>` option) for all `php_re2c()` invocations in the
@@ -266,7 +260,7 @@ include(FeatureSummary)
 option(PHP_RE2C_COMPUTED_GOTOS "Enable computed goto GCC extension with re2c")
 mark_as_advanced(PHP_RE2C_COMPUTED_GOTOS)
 
-macro(_php_re2c_config)
+macro(php_re2c_config)
   # Minimum required re2c version.
   if(NOT PHP_RE2C_VERSION)
     set(PHP_RE2C_VERSION 1.0.3)
@@ -326,13 +320,6 @@ function(php_re2c name input output)
     "OPTIONS;DEPENDS" # multi-value keywords
   )
 
-  _php_re2c_config()
-
-  find_package(RE2C ${PHP_RE2C_VERSION} GLOBAL)
-  if(NOT RE2C_FOUND AND NOT PHP_RE2C_DISABLE_DOWNLOAD)
-    _php_re2c_download()
-  endif()
-
   if(parsed_UNPARSED_ARGUMENTS)
     message(FATAL_ERROR "Unrecognized arguments: ${parsed_UNPARSED_ARGUMENTS}")
   endif()
@@ -365,10 +352,32 @@ function(php_re2c name input output)
 
   set(outputs ${output})
 
+  php_re2c_config()
+  _php_re2c_process_header_file()
+  _php_re2c_set_package_properties()
+
+  get_property(packageType GLOBAL PROPERTY _CMAKE_RE2C_TYPE)
+  set(quiet "")
+  if(NOT packageType STREQUAL "REQUIRED")
+    set(quiet "QUIET")
+  endif()
+
+  if(NOT TARGET RE2C::RE2C)
+    find_package(RE2C ${PHP_RE2C_VERSION} GLOBAL ${quiet})
+  endif()
+
+  if(
+    NOT RE2C_FOUND
+    AND PHP_RE2C_DOWNLOAD_VERSION
+    AND packageType STREQUAL "REQUIRED"
+    AND NOT CMAKE_SCRIPT_MODE_FILE
+  )
+    _php_re2c_download()
+  endif()
+
   _php_re2c_process_working_directory()
   _php_re2c_process_options()
   _php_re2c_process_header_option()
-  _php_re2c_set_package_properties()
 
   if(NOT CMAKE_SCRIPT_MODE_FILE)
     add_custom_target(${name} SOURCES ${input} DEPENDS ${outputs})
@@ -417,13 +426,64 @@ function(php_re2c name input output)
       ${input}
       ${parsed_DEPENDS}
       $<TARGET_NAME_IF_EXISTS:RE2C::RE2C>
-      $<TARGET_NAME_IF_EXISTS:re2c>
     COMMENT "${message}"
     VERBATIM
     COMMAND_EXPAND_LISTS
     ${codegen}
     WORKING_DIRECTORY ${parsed_WORKING_DIRECTORY}
   )
+endfunction()
+
+# Process header file.
+function(_php_re2c_process_header_file)
+  if(NOT parsed_HEADER)
+    return()
+  endif()
+
+  set(header ${parsed_HEADER})
+  if(NOT IS_ABSOLUTE "${header}")
+    cmake_path(
+      ABSOLUTE_PATH
+      header
+      BASE_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
+      NORMALIZE
+    )
+  else()
+    cmake_path(SET header NORMALIZE "${header}")
+  endif()
+
+  list(APPEND outputs ${header})
+
+  return(PROPAGATE header outputs)
+endfunction()
+
+# Set RE2C package properties TYPE and PURPOSE. If lexer-related output files
+# are already generated, for example, shipped with the released archive, then
+# RE2C package type is set to RECOMMENDED. If generated files are not
+# available, for example, when building from a Git repository, type is set to
+# REQUIRED to generate files during the build.
+function(_php_re2c_set_package_properties)
+  set_package_properties(RE2C PROPERTIES TYPE RECOMMENDED)
+  foreach(output IN LISTS outputs)
+    if(NOT EXISTS ${output})
+      set_package_properties(RE2C PROPERTIES TYPE REQUIRED)
+      break()
+    endif()
+  endforeach()
+
+  # Set package PURPOSE property.
+  cmake_path(
+    RELATIVE_PATH
+    output
+    BASE_DIRECTORY ${CMAKE_SOURCE_DIR}
+    OUTPUT_VARIABLE relativePath
+  )
+  if(relativePath STREQUAL ".")
+    set(purpose "Necessary to generate lexer files.")
+  else()
+    set(purpose "Necessary to generate ${relativePath} lexer files.")
+  endif()
+  set_package_properties(RE2C PROPERTIES PURPOSE "${purpose}")
 endfunction()
 
 # Process working directory.
@@ -492,20 +552,6 @@ function(_php_re2c_process_header_option)
     return()
   endif()
 
-  set(header ${parsed_HEADER})
-  if(NOT IS_ABSOLUTE "${header}")
-    cmake_path(
-      ABSOLUTE_PATH
-      header
-      BASE_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
-      NORMALIZE
-    )
-  else()
-    cmake_path(SET header NORMALIZE "${header}")
-  endif()
-
-  list(APPEND outputs ${header})
-
   # When header option is used before re2c version 1.2, also the '-c' option
   # is required. Before 1.1 '-c' long variant is '--start-conditions' and
   # after 1.1 '--conditions'.
@@ -521,7 +567,7 @@ function(_php_re2c_process_header_option)
     list(APPEND options --type-header ${header})
   endif()
 
-  return(PROPAGATE outputs options)
+  return(PROPAGATE options)
 endfunction()
 
 # Check for re2c --computed-gotos option.
@@ -562,36 +608,8 @@ function(_php_re2c_check_computed_gotos result)
   endif()
 
   set(${result} ${_PHP_RE2C_HAVE_COMPUTED_GOTOS})
+
   return(PROPAGATE ${result})
-endfunction()
-
-# Set RE2C package properties TYPE and PURPOSE. If lexer-related output files
-# are already generated, for example, shipped with the released archive, then
-# RE2C package type is set to RECOMMENDED. If generated files are not
-# available, for example, when building from a Git repository, type is set to
-# REQUIRED to generate files during the build.
-function(_php_re2c_set_package_properties)
-  set_package_properties(RE2C PROPERTIES TYPE RECOMMENDED)
-  foreach(output IN LISTS outputs)
-    if(NOT EXISTS ${output})
-      set_package_properties(RE2C PROPERTIES TYPE REQUIRED)
-      break()
-    endif()
-  endforeach()
-
-  # Set package PURPOSE property.
-  cmake_path(
-    RELATIVE_PATH
-    output
-    BASE_DIRECTORY ${CMAKE_SOURCE_DIR}
-    OUTPUT_VARIABLE relativePath
-  )
-  if(relativePath STREQUAL ".")
-    set(purpose "Necessary to generate lexer files.")
-  else()
-    set(purpose "Necessary to generate ${relativePath} lexer files.")
-  endif()
-  set_package_properties(RE2C PROPERTIES PURPOSE "${purpose}")
 endfunction()
 
 # Assemble commands for add_custom_command() and execute_process().
@@ -647,89 +665,62 @@ function(_php_re2c_get_commands result)
   return(PROPAGATE ${result})
 endfunction()
 
-################################################################################
 # Download and build re2c if not found.
-################################################################################
-
 function(_php_re2c_download)
   set(RE2C_VERSION ${PHP_RE2C_DOWNLOAD_VERSION})
+  set(RE2C_FOUND TRUE)
 
-  message(STATUS "Downloading re2c ${RE2C_VERSION}")
+  if(TARGET RE2C::RE2C)
+    return(PROPAGATE RE2C_FOUND RE2C_VERSION)
+  endif()
 
-  if(NOT CMAKE_SCRIPT_MODE_FILE AND NOT TARGET RE2C::RE2C AND NOT TARGET re2c)
-    include(ExternalProject)
+  message(STATUS "Re2c ${RE2C_VERSION} will be downloaded at build phase")
 
-    # Configure re2c build.
-    if(RE2C_VERSION VERSION_GREATER_EQUAL 4)
-      set(
-        _re2cDownloadOptions
-        -DRE2C_BUILD_RE2D=OFF
-        -DRE2C_BUILD_RE2HS=OFF
-        -DRE2C_BUILD_RE2JAVA=OFF
-        -DRE2C_BUILD_RE2JS=OFF
-        -DRE2C_BUILD_RE2OCAML=OFF
-        -DRE2C_BUILD_RE2PY=OFF
-        -DRE2C_BUILD_RE2V=OFF
-        -DRE2C_BUILD_RE2ZIG=OFF
-        -DRE2C_BUILD_TESTS=OFF
-      )
-    else()
-      set(
-        _re2cDownloadOptions
-        -DCMAKE_DISABLE_FIND_PACKAGE_Python3=TRUE
-        -DPython3_VERSION=3.7
-      )
-    endif()
+  include(ExternalProject)
 
-    ExternalProject_Add(
-      re2c
-      URL
-        https://github.com/skvadrik/re2c/archive/refs/tags/${RE2C_VERSION}.tar.gz
-      CMAKE_ARGS
-        -DRE2C_BUILD_RE2GO=OFF
-        -DRE2C_BUILD_RE2RUST=OFF
-        ${_re2cDownloadOptions}
-      INSTALL_COMMAND ""
+  # Configure re2c build.
+  if(RE2C_VERSION VERSION_GREATER_EQUAL 4)
+    set(
+      re2cOptions
+      -DRE2C_BUILD_RE2D=OFF
+      -DRE2C_BUILD_RE2HS=OFF
+      -DRE2C_BUILD_RE2JAVA=OFF
+      -DRE2C_BUILD_RE2JS=OFF
+      -DRE2C_BUILD_RE2OCAML=OFF
+      -DRE2C_BUILD_RE2PY=OFF
+      -DRE2C_BUILD_RE2V=OFF
+      -DRE2C_BUILD_RE2ZIG=OFF
+      -DRE2C_BUILD_TESTS=OFF
     )
-
-    # Set re2c executable.
-    ExternalProject_Get_property(re2c BINARY_DIR)
-    add_executable(RE2C::RE2C IMPORTED)
-    set_target_properties(
-      RE2C::RE2C
-      PROPERTIES IMPORTED_LOCATION ${BINARY_DIR}/re2c
-    )
-    add_dependencies(RE2C::RE2C re2c)
-    set_property(CACHE RE2C_EXECUTABLE PROPERTY VALUE ${BINARY_DIR}/re2c)
   else()
-    include(FetchContent)
-    FetchContent_Populate(
-      RE2C
-      URL https://github.com/skvadrik/re2c/archive/refs/tags/${RE2C_VERSION}.tar.gz
-      SOURCE_DIR ${CMAKE_BINARY_DIR}/_deps/re2c
-    )
-
-    message(STATUS "Configuring re2c ${RE2C_VERSION}")
-    execute_process(
-      COMMAND ${CMAKE_COMMAND} -B re2c-build
-      OUTPUT_VARIABLE result
-      ECHO_OUTPUT_VARIABLE
-      WORKING_DIRECTORY ${CMAKE_BINARY_DIR}/_deps/re2c
-    )
-
-    message(STATUS "Building re2c ${RE2C_VERSION}")
-    execute_process(
-      COMMAND ${CMAKE_COMMAND} --build re2c-build -j
-      OUTPUT_VARIABLE result
-      ECHO_OUTPUT_VARIABLE
-      WORKING_DIRECTORY ${CMAKE_BINARY_DIR}/_deps/re2c
-    )
-
-    set_property(
-      CACHE RE2C_EXECUTABLE
-      PROPERTY VALUE ${CMAKE_BINARY_DIR}/_deps/re2c/re2c-build/re2c
+    set(
+      re2cOptions
+      -DCMAKE_DISABLE_FIND_PACKAGE_Python3=TRUE
+      -DPython3_VERSION=3.7
     )
   endif()
+
+  ExternalProject_Add(
+    re2c
+    URL
+      https://github.com/skvadrik/re2c/archive/refs/tags/${RE2C_VERSION}.tar.gz
+    CMAKE_ARGS
+      -DRE2C_BUILD_RE2GO=OFF
+      -DRE2C_BUILD_RE2RUST=OFF
+      ${re2cOptions}
+    INSTALL_COMMAND ""
+  )
+
+  # Set re2c executable.
+  ExternalProject_Get_Property(re2c BINARY_DIR)
+  set_property(CACHE RE2C_EXECUTABLE PROPERTY VALUE ${BINARY_DIR}/re2c)
+
+  add_executable(RE2C::RE2C IMPORTED GLOBAL)
+  set_target_properties(
+    RE2C::RE2C
+    PROPERTIES IMPORTED_LOCATION ${RE2C_EXECUTABLE}
+  )
+  add_dependencies(RE2C::RE2C re2c)
 
   # Move dependency to PACKAGES_FOUND.
   get_property(packagesNotFound GLOBAL PROPERTY PACKAGES_NOT_FOUND)
@@ -737,8 +728,6 @@ function(_php_re2c_download)
   set_property(GLOBAL PROPERTY PACKAGES_NOT_FOUND packagesNotFound)
   get_property(packagesFound GLOBAL PROPERTY PACKAGES_FOUND)
   set_property(GLOBAL APPEND PROPERTY PACKAGES_FOUND RE2C)
-
-  set(RE2C_FOUND TRUE)
 
   return(PROPAGATE RE2C_FOUND RE2C_VERSION)
 endfunction()

@@ -76,7 +76,7 @@ target_sources(
 add_dependencies(php_ext_pdo php_ext_spl)
 
 ################################################################################
-# Generate lexer.
+# Generate lexer files.
 ################################################################################
 
 include(cmake/GenerateGrammar.cmake)
