@@ -1,13 +1,9 @@
 #!/usr/bin/env -S cmake -P
 #
-# CMake-based command-line script to generate the parser files with bison and
+# CMake-based command-line script to generate the parser files with Bison and
 # lexer files with re2c.
 #
 # Run as:
-#
-#   cmake -P cmake/scripts/GenerateGrammar.cmake
-#
-# To manually override bison and re2c executables:
 #
 #   cmake \
 #     [-D BISON_EXECUTABLE=path/to/bison] \

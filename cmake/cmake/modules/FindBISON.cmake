@@ -16,6 +16,6 @@ set_package_properties(
     DESCRIPTION "General-purpose parser generator"
 )
 
-# Include CMake find module. Absolute path prevents the maximum
-# nesting/recursion depth error on some systems, like macOS.
+# Find package with upstream CMake find module. Absolute path prevents the
+# maximum nesting/recursion depth error on some systems, like macOS.
 include(${CMAKE_ROOT}/Modules/FindBISON.cmake)

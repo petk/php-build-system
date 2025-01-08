@@ -31,6 +31,7 @@ set_package_properties(
 # Find the executable.
 ################################################################################
 
+set(_re2cRequiredVars RE2C_EXECUTABLE)
 set(_reason "")
 
 find_program(
@@ -48,7 +49,7 @@ endif()
 # Check version.
 ################################################################################
 
-block(PROPAGATE RE2C_VERSION _reason)
+block(PROPAGATE RE2C_VERSION _reason _re2cRequiredVars)
   if(CMAKE_VERSION VERSION_GREATER_EQUAL 3.29)
     set(test IS_EXECUTABLE)
   else()
@@ -56,6 +57,7 @@ block(PROPAGATE RE2C_VERSION _reason)
   endif()
 
   if(${test} ${RE2C_EXECUTABLE})
+    list(APPEND _re2cRequiredVars RE2C_VERSION)
     execute_process(
       COMMAND ${RE2C_EXECUTABLE} --version
       OUTPUT_VARIABLE version
@@ -65,12 +67,9 @@ block(PROPAGATE RE2C_VERSION _reason)
     )
 
     if(NOT result EQUAL 0)
-      string(APPEND _reason "Command \"${RE2C_EXECUTABLE} --version\" failed. ")
+      string(APPEND _reason "Command '${RE2C_EXECUTABLE} --version' failed. ")
     elseif(version MATCHES "^re2c ([0-9.]+[^\n]+)")
-      find_package_check_version("${CMAKE_MATCH_1}" valid)
-      if(valid)
-        set(RE2C_VERSION "${CMAKE_MATCH_1}")
-      endif()
+      set(RE2C_VERSION "${CMAKE_MATCH_1}")
     else()
       string(APPEND _reason "Invalid version format. ")
     endif()
@@ -79,10 +78,11 @@ endblock()
 
 find_package_handle_standard_args(
   RE2C
-  REQUIRED_VARS RE2C_EXECUTABLE RE2C_VERSION
+  REQUIRED_VARS ${_re2cRequiredVars}
   VERSION_VAR RE2C_VERSION
   HANDLE_VERSION_RANGE
   REASON_FAILURE_MESSAGE "${_reason}"
 )
 
+unset(_re2cRequiredVars)
 unset(_reason)

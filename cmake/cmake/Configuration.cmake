@@ -259,5 +259,7 @@ set_package_properties(
     DESCRIPTION "Compression library"
 )
 
-# Set base directory for the ExternalProject CMake module across the PHP.
-set_directory_properties(PROPERTIES EP_BASE ${PHP_BINARY_DIR}/_deps/EP)
+# Set base directory for ExternalProject CMake module.
+set_directory_properties(
+  PROPERTIES EP_BASE ${PHP_BINARY_DIR}/CMakeFiles/PHP/ExternalProject
+)

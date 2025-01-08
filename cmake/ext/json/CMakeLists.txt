@@ -41,7 +41,7 @@ target_sources(
 target_compile_definitions(php_ext_json PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE)
 
 ################################################################################
-# Generate lexer and parser files.
+# Generate parser and lexer files.
 ################################################################################
 
 include(cmake/GenerateGrammar.cmake)

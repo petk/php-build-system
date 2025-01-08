@@ -20,21 +20,20 @@ php_re2c(
   [DEPENDS <depends>...]
   [COMPUTED_GOTOS <TRUE|FALSE>]
   [CODEGEN]
-  [WORKING_DIRECTORY <working-directory>]
+  [WORKING_DIRECTORY <directory>]
   [ABSOLUTE_PATHS]
 )
 ```
 
-This creates a CMake target `<name>` and adds a command that generates lexer
-file `<output>` from the given `<input>` template file using the `re2c` lexer
+This creates a target `<name>` and adds a command that generates lexer file
+`<output>` from the given `<input>` template file using the re2c lexer
 generator. Relative source file path `<input>` is interpreted as being relative
 to the current source directory. Relative `<output>` file path is interpreted as
 being relative to the current binary directory. If generated files are already
 available (for example, shipped with the released archive), and re2c is not
-found, it will create a custom target but skip the `re2c` command-line
-execution.
+found, it will create a target but skip the `re2c` command-line execution.
 
-When used in CMake command-line script mode (see `CMAKE_SCRIPT_MODE_FILE`) it
+When used in command-line script mode (see `CMAKE_SCRIPT_MODE_FILE`) it
 generates the lexer right away without creating a target.
 
 #### Options
@@ -60,28 +59,27 @@ generates the lexer right away without creating a target.
   mode (`CMAKE_SCRIPT_MODE`), option is not checked, whether the compiler
   supports it and is added unconditionally.
 
-* `CODEGEN` - This adds the `CODEGEN` option to the `add_custom_command()` call.
-  Works as of CMake 3.31 when policy `CMP0171` is set to `NEW`, which provides a
-  global CMake `codegen` target for convenience to call only the
-  code-generation-related targets and skip the majority of the build:
+* `CODEGEN` - Adds the `CODEGEN` option to the `add_custom_command()` call. This
+  option is available starting with CMake 3.31 when the policy `CMP0171` is set
+  to `NEW`. It provides a `codegen` target for convenience, allowing to run only
+  code-generation-related targets while skipping the majority of the build:
 
   ```sh
   cmake --build <dir> --target codegen
   ```
 
-* `WORKING_DIRECTORY <working-directory>` - The path where the `re2c` is
-  executed. Relative `<working-directory>` path is interpreted as being relative
-  to the current binary directory. If not set, `re2c` is by default executed in
-  the `PHP_SOURCE_DIR` when building the php-src repository. Otherwise it is
+* `WORKING_DIRECTORY <directory>` - The path where the `re2c` is executed.
+  Relative `<directory>` path is interpreted as being relative to the current
+  binary directory. If not set, `re2c` is by default executed in the
+  `PHP_SOURCE_DIR` when building the php-src repository. Otherwise it is
   executed in the directory of the `<output>` file. If variable
   `PHP_RE2C_WORKING_DIRECTORY` is set before calling the `php_re2c()` without
   this option, it will set the default working directory to that instead.
 
 * `ABSOLUTE_PATHS` - Whether to use absolute file paths in the `re2c`
-  command-line invocations. By default all file paths are added to `re2c` as
-  relative to the working directory. Using relative paths is convenient when
-  line directives (`#line ...`) are generated in the output files to not show
-  the full path on the disk, if file is committed to Git repository.
+  command-line invocations. By default all file paths are added as relative to
+  the working directory. Using relative paths is convenient when line directives
+  (`#line ...`) are generated in the output files committed to Git repository.
 
   When this option is enabled:
 
@@ -115,7 +113,7 @@ These variables can be set before using this module to configure behavior:
 
 * `PHP_RE2C_WORKING_DIRECTORY` - Set the default global working directory
   for all `php_re2c()` invocations in the directory scope where the
-  `WORKING_DIRECTORY <dir>` option is not set.
+  `WORKING_DIRECTORY <directory>` option is not set.
 
 ## Examples
 
@@ -155,9 +153,9 @@ php_re2c(foo foo.re foo.c OPTIONS $<$<CONFIG:Debug>:--debug-output> -F)
 #   re2c -F --output foo.c foo.re
 ```
 
-### Custom target usage
+### Target usage
 
-To specify dependencies with the custom target created by `php_re2c()`:
+Target created by `php_re2c()` can be used to specify additional dependencies:
 
 ```cmake
 # CMakeLists.txt
@@ -168,8 +166,7 @@ php_re2c(foo_lexer lexer.re lexer.c)
 add_dependencies(some_target foo_lexer)
 ```
 
-Or to run only the specific `foo_lexer` target, which generates the
-lexer-related files:
+Running only the `foo_lexer` target to generate the lexer-related files:
 
 ```sh
 cmake --build <dir> --target foo_lexer
@@ -177,20 +174,12 @@ cmake --build <dir> --target foo_lexer
 
 ### Module configuration
 
-To specify minimum required re2c version other than the module's default,
-`find_package(RE2C)` can be called before the `php_re2c()`:
+To specify different minimum required re2c version than the module's default,
+the `find_package(RE2C)` can be called before `php_re2c()`:
 
 ```cmake
+include(PHP/Re2c)
 find_package(RE2C 3.1)
-include(PHP/Re2c)
-php_re2c(...)
-```
-
-Set `PHP_RE2C_*` variables to override module default configuration:
-
-```cmake
-set(PHP_RE2C_VERSION_DOWNLOAD 3.1)
-include(PHP/Re2c)
 php_re2c(...)
 ```
 #]=============================================================================]
@@ -633,7 +622,6 @@ function(_php_re2c_download)
     INSTALL_COMMAND ""
   )
 
-  # Set re2c executable.
   ExternalProject_Get_Property(re2c BINARY_DIR)
   set_property(CACHE RE2C_EXECUTABLE PROPERTY VALUE ${BINARY_DIR}/re2c)
 

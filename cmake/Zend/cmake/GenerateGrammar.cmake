@@ -1,4 +1,4 @@
-# Generate lexer and parser files.
+# Generate parser and lexer files.
 
 if(CMAKE_SCRIPT_MODE_FILE STREQUAL CMAKE_CURRENT_LIST_FILE)
   message(FATAL_ERROR "This file should be used with include().")
@@ -32,9 +32,9 @@ php_bison(
   CODEGEN
 )
 
-# Tweak zendparse to be exported through ZEND_API. This has to be revisited
-# once bison supports foreign skeletons and that bison version is used. Read
-# https://git.savannah.gnu.org/cgit/bison.git/tree/data/README.md for more.
+# Tweak zendparse to be exported through ZEND_API. This has to be revisited if
+# Bison will support foreign skeletons.
+# See: https://git.savannah.gnu.org/cgit/bison.git/tree/data/README.md
 block()
   string(
     CONCAT patch
@@ -79,7 +79,7 @@ block()
     endif()
   ]])
 
-  # Run patch based on whether building or running inside a CMake script.
+  # Run patch based on whether building or running inside a script.
   if(CMAKE_SCRIPT_MODE_FILE)
     cmake_language(EVAL CODE "${patch}")
   else()

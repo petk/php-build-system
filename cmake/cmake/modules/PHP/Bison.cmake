@@ -25,16 +25,15 @@ php_bison(
 )
 ```
 
-This creates a CMake target `<name>` and adds a command that generates parser
-file `<output>` from the given `<input>` template file using the `bison` parser
+This creates a target `<name>` and adds a command that generates parser file
+`<output>` from the given `<input>` template file using the Bison parser
 generator. Relative source file path `<input>` is interpreted as being relative
 to the current source directory. Relative `<output>` file path is interpreted as
 being relative to the current binary directory. If generated files are already
 available (for example, shipped with the released archive), and Bison is not
-found, it will create a custom target but skip the `bison` command-line
-execution.
+found, it will create a target but skip the `bison` command-line execution.
 
-When used in CMake command-line script mode (see `CMAKE_SCRIPT_MODE_FILE`) it
+When used in command-line script mode (see `CMAKE_SCRIPT_MODE_FILE`) it
 generates the parser right away without creating a target.
 
 #### Options
@@ -57,38 +56,36 @@ generates the parser right away without creating a target.
 * `DEPENDS <depends>...` - Optional list of dependent files to regenerate the
   output file.
 
-* `VERBOSE` - This adds the `--verbose` (`-v`) command-line option to and will
-  create extra output file `<parser-output-filename>.output` containing verbose
-  descriptions of the grammar and parser. File will be by default created in the
-  current binary directory.
+* `VERBOSE` - Adds the `--verbose` (`-v`) command-line option and creates extra
+  output file `<parser-output-filename>.output` in the current binary directory.
+  Report contains verbose grammar and parser descriptions.
 
-* `REPORT_FILE <file>` - This adds the `--report-file=<file>` command-line
-  option and will create verbose information report in the specified `<file>`.
-  This option must be used together with the `VERBOSE` option. Relative file
-  path is interpreted as being relative to the current binary directory.
+* `REPORT_FILE <file>` - Adds the `--report-file=<file>` command-line option and
+  creates verbose information report in the specified `<file>`. This option must
+  be used with the `VERBOSE` option. Relative file path is interpreted as being
+  relative to the current binary directory.
 
-* `CODEGEN` - This adds the `CODEGEN` option to the `add_custom_command()` call.
-  Works as of CMake 3.31 when policy `CMP0171` is set to `NEW`, which provides a
-  global CMake `codegen` target for convenience to call only the
-  code-generation-related targets and skip the majority of the build:
+* `CODEGEN` - Adds the `CODEGEN` option to the `add_custom_command()` call. This
+  option is available starting with CMake 3.31 when the policy `CMP0171` is set
+  to `NEW`. It provides a `codegen` target for convenience, allowing to run only
+  code-generation-related targets while skipping the majority of the build:
 
   ```sh
   cmake --build <dir> --target codegen
   ```
 
-* `WORKING_DIRECTORY <working-directory>` - The path where the `bison` is
-  executed. Relative `<working-directory>` path is interpreted as being relative
-  to the current binary directory. If not set, `bison` is by default executed in
-  the `PHP_SOURCE_DIR` when building the php-src repository. Otherwise it is
+* `WORKING_DIRECTORY <directory>` - The path where the `re2c` is executed.
+  Relative `<directory>` path is interpreted as being relative to the current
+  binary directory. If not set, `bison` is by default executed in the
+  `PHP_SOURCE_DIR` when building the php-src repository. Otherwise it is
   executed in the directory of the `<output>` file. If variable
   `PHP_BISON_WORKING_DIRECTORY` is set before calling the `php_bison()` without
   this option, it will set the default working directory to that instead.
 
 * `ABSOLUTE_PATHS` - Whether to use absolute file paths in the `bison`
-  command-line invocations. By default all file paths are added to `bison` as
-  relative to the working directory. Using relative paths is convenient when
-  line directives (`#line ...`) are generated in the output files to not show
-  the full path on the disk, if file is committed to Git repository.
+  command-line invocations. By default all file paths are added as relative to
+  the working directory. Using relative paths is convenient when line directives
+  (`#line ...`) are generated in the output files committed to Git repository.
 
   When this option is enabled:
 
@@ -119,7 +116,7 @@ These variables can be set before using this module to configure behavior:
 
 * `PHP_BISON_WORKING_DIRECTORY` - Set the default global working directory
   for all `php_bison()` invocations in the directory scope where the
-  `WORKING_DIRECTORY <dir>` option is not set.
+  `WORKING_DIRECTORY <directory>` option is not set.
 
 ## Examples
 
@@ -159,9 +156,9 @@ php_bison(foo foo.y foo.c OPTIONS $<$<CONFIG:Debug>:--debug> --yacc)
 #   bison --yacc foo.y --output foo.c
 ```
 
-### Custom target usage
+### Target usage
 
-To specify dependencies with the custom target created by `php_bison()`:
+Target created by `php_bison()` can be used to specify additional dependencies:
 
 ```cmake
 # CMakeLists.txt
@@ -172,8 +169,7 @@ php_bison(foo_parser parser.y parser.c)
 add_dependencies(some_target foo_parser)
 ```
 
-Or to run only the specific `foo_parser` target, which generates the
-parser-related files:
+Running only the `foo_parser` target to generate the parser-related files:
 
 ```sh
 cmake --build <dir> --target foo_parser
@@ -181,20 +177,12 @@ cmake --build <dir> --target foo_parser
 
 ### Module configuration
 
-To specify minimum required Bison version other than the module's default,
-`find_package(BISON)` can be called before the `php_bison()`:
+To specify different minimum required Bison version than the module's default,
+the `find_package(BISON)` can be called before `php_bison()`:
 
 ```cmake
+include(PHP/Bison)
 find_package(BISON 3.7)
-include(PHP/Bison)
-php_bison(...)
-```
-
-Set `PHP_BISON_*` variables to override module default configuration:
-
-```cmake
-set(PHP_BISON_VERSION_DOWNLOAD 3.7)
-include(PHP/Bison)
 php_bison(...)
 ```
 #]=============================================================================]
@@ -204,12 +192,12 @@ php_bison(...)
 ################################################################################
 
 macro(_php_bison_config)
-  # Minimum required bison version.
+  # Minimum required Bison version.
   if(NOT PHP_BISON_VERSION)
     set(PHP_BISON_VERSION 3.0.0)
   endif()
 
-  # If bison is not found on the system, set which version to download.
+  # If Bison is not found on the system, set which version to download.
   if(NOT PHP_BISON_VERSION_DOWNLOAD)
     set(PHP_BISON_VERSION_DOWNLOAD 3.8.2)
   endif()
@@ -354,7 +342,7 @@ function(php_bison name input output)
     BASE_DIRECTORY ${CMAKE_BINARY_DIR}
     OUTPUT_VARIABLE relativePath
   )
-  set(message "[bison] Generating ${relativePath} with Bison ${BISON_VERSION}")
+  set(message "[Bison] Generating ${relativePath} with Bison ${BISON_VERSION}")
 
   if(CMAKE_SCRIPT_MODE_FILE)
     message(STATUS "${message}")
@@ -632,7 +620,6 @@ function(_php_bison_download)
     LOG_INSTALL TRUE
   )
 
-  # Set bison executable.
   ExternalProject_Get_Property(bison INSTALL_DIR)
   set_property(CACHE BISON_EXECUTABLE PROPERTY VALUE ${INSTALL_DIR}/bin/bison)
 
