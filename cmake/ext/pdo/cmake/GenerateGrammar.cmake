@@ -10,5 +10,6 @@ php_re2c(
   php_ext_pdo_sql_parser
   pdo_sql_parser.re
   ${CMAKE_CURRENT_SOURCE_DIR}/pdo_sql_parser.c
+  ADD_DEFAULT_OPTIONS
   CODEGEN
 )

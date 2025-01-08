@@ -17,6 +17,7 @@ php_bison(
   zend_ini_parser.y
   ${CMAKE_CURRENT_SOURCE_DIR}/zend_ini_parser.c
   HEADER
+  ADD_DEFAULT_OPTIONS
   ${verbose}
   CODEGEN
 )
@@ -26,6 +27,7 @@ php_bison(
   zend_language_parser.y
   ${CMAKE_CURRENT_SOURCE_DIR}/zend_language_parser.c
   HEADER
+  ADD_DEFAULT_OPTIONS
   ${verbose}
   CODEGEN
 )
@@ -103,7 +105,7 @@ php_re2c(
   zend_ini_scanner.l
   ${CMAKE_CURRENT_SOURCE_DIR}/zend_ini_scanner.c
   HEADER ${CMAKE_CURRENT_SOURCE_DIR}/zend_ini_scanner_defs.h
-  APPEND
+  ADD_DEFAULT_OPTIONS
   OPTIONS
     --bit-vectors
     --case-inverted
@@ -118,7 +120,7 @@ php_re2c(
   zend_language_scanner.l
   ${CMAKE_CURRENT_SOURCE_DIR}/zend_language_scanner.c
   HEADER ${CMAKE_CURRENT_SOURCE_DIR}/zend_language_scanner_defs.h
-  APPEND
+  ADD_DEFAULT_OPTIONS
   OPTIONS
     --bit-vectors
     --case-inverted

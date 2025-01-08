@@ -20,7 +20,8 @@ if(NOT CMAKE_SCRIPT_MODE_FILE)
   message(FATAL_ERROR "This is a command-line script.")
 endif()
 
-set(PHP_SOURCE_DIR ${CMAKE_CURRENT_LIST_DIR}/../..)
+cmake_path(SET PHP_SOURCE_DIR NORMALIZE ${CMAKE_CURRENT_LIST_DIR}/../..)
+
 set(CMAKE_SOURCE_DIR ${PHP_SOURCE_DIR})
 set(CMAKE_BINARY_DIR ${PHP_SOURCE_DIR})
 
@@ -33,12 +34,10 @@ list(APPEND CMAKE_MODULE_PATH ${PHP_SOURCE_DIR}/cmake/modules)
 include(FeatureSummary)
 
 include(PHP/Bison)
-php_bison_config()
 find_package(BISON ${PHP_BISON_VERSION})
 set_package_properties(BISON PROPERTIES TYPE REQUIRED)
 
 include(PHP/Re2c)
-php_re2c_config()
 find_package(RE2C ${PHP_RE2C_VERSION})
 set_package_properties(RE2C PROPERTIES TYPE REQUIRED)
 
@@ -60,13 +59,8 @@ foreach(script IN LISTS scripts)
   set(CMAKE_CURRENT_SOURCE_DIR ${path})
   set(CMAKE_CURRENT_BINARY_DIR ${path})
 
-  cmake_path(
-    RELATIVE_PATH
-    path
-    BASE_DIRECTORY ${PHP_SOURCE_DIR}
-    OUTPUT_VARIABLE relativeDir
-  )
-  message(STATUS "Processing ${relativeDir} directory")
+  cmake_path(RELATIVE_PATH path BASE_DIRECTORY ${PHP_SOURCE_DIR})
+  message(STATUS "Processing ${path} directory")
 
   include(${script})
 endforeach()
