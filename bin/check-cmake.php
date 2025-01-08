@@ -191,6 +191,7 @@ function getProjectModules(): array
         'FindPackageMessage' => ['find_package_message'],
         'ProcessorCount' => ['processorcount'],
         'PHP/AddCustomCommand' => ['php_add_custom_command'],
+        'PHP/Bison' => ['php_bison', '/find_package\([\n ]*BISON/'],
         'PHP/CheckAttribute' => [
             'php_check_function_attribute',
             'php_check_variable_attribute',
@@ -199,6 +200,7 @@ function getProjectModules(): array
         'PHP/ConfigureFile' => ['php_configure_file'],
         'PHP/Install' => ['php_install'],
         'PHP/PkgConfigGenerator' => ['pkgconfig_generate_pc'],
+        'PHP/Re2c' => ['php_re2c', '/find_package\([\n ]*RE2C/'],
         'PHP/SearchLibraries' => ['php_search_libraries'],
         'PHP/Set' => ['php_set'],
         'PHP/SystemExtensions' => ['PHP::SystemExtensions'],
@@ -273,7 +275,7 @@ function checkCMakeInclude(Iterator $files, array $modules): int
         $content = getCMakeCode($file);
 
         // Check for redundant includes.
-        foreach ($modules as $module => $commands) {
+        foreach ($modules as $module => $patterns) {
             $hasModule = false;
             $moduleEscaped = str_replace('/', '\/', $module);
 
@@ -281,16 +283,21 @@ function checkCMakeInclude(Iterator $files, array $modules): int
                 $hasModule = true;
             }
 
-            $hasCommand = false;
-            foreach ($commands as $command) {
-                if (
+            $hasPattern = false;
+            foreach ($patterns as $pattern) {
+                if (isRegularExpression($pattern)) {
+                    if (1 === preg_match($pattern, $content)) {
+                        $hasPattern = true;
+                        break;
+                    }
+                } elseif (
                     (
-                        1 === preg_match('/::/', $command)
-                        && 1 === preg_match('/[^A-Za-z0-9_]' . $command . '[^A-Za-z0-9_]/m', $content)
+                        1 === preg_match('/::/', $pattern)
+                        && 1 === preg_match('/[^A-Za-z0-9_]' . $pattern . '[^A-Za-z0-9_]/m', $content)
                     )
-                    || 1 === preg_match('/^[ \t]*' . $command . '[ \t]*\(/m', $content)
+                    || 1 === preg_match('/^[ \t]*' . $pattern . '[ \t]*\(/m', $content)
                 ) {
-                    $hasCommand = true;
+                    $hasPattern = true;
                     break;
                 }
             }
@@ -304,12 +311,12 @@ function checkCMakeInclude(Iterator $files, array $modules): int
                 continue;
             }
 
-            if ($hasModule && !$hasCommand) {
+            if ($hasModule && !$hasPattern) {
                 $status = 1;
                 output("E: redundant include($module) in $file");
             }
 
-            if (!$hasModule && $hasCommand) {
+            if (!$hasModule && $hasPattern) {
                 $status = 1;
                 output("E: missing include($module) in $file");
             }
@@ -318,6 +325,18 @@ function checkCMakeInclude(Iterator $files, array $modules): int
 
     return $status;
 };
+
+/**
+ * Check if given string is regular expression.
+ */
+function isRegularExpression(string $string): bool
+{
+    set_error_handler(static function () {}, E_WARNING);
+    $isRegularExpression = false !== preg_match($string, '');
+    restore_error_handler();
+
+    return $isRegularExpression;
+}
 
 /**
  * Check for set(<variable>) usages with only one argument. These should be

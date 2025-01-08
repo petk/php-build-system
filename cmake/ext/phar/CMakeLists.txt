@@ -88,14 +88,11 @@ target_link_options(
 
 add_dependencies(php_ext_phar php_ext_hash php_ext_spl)
 
-if(RE2C_FOUND)
-  re2c_target(
-    php_ext_phar_path_check
-    phar_path_check.re
-    ${CMAKE_CURRENT_SOURCE_DIR}/phar_path_check.c
-    OPTIONS -b
-  )
-endif()
+################################################################################
+# Generate lexer files.
+################################################################################
+
+include(cmake/GenerateGrammar.cmake)
 
 ################################################################################
 # Man documentation.
