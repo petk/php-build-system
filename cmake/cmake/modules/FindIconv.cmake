@@ -49,10 +49,6 @@ if(CMAKE_PREFIX_PATH OR Iconv_ROOT OR ICONV_ROOT)
   endif()
 endif()
 
-# Find package with upstream CMake module; override CMAKE_MODULE_PATH to prevent
-# the maximum nesting/recursion depth error on some systems, like macOS.
-set(_php_cmake_module_path ${CMAKE_MODULE_PATH})
-unset(CMAKE_MODULE_PATH)
-include(FindIconv)
-set(CMAKE_MODULE_PATH ${_php_cmake_module_path})
-unset(_php_cmake_module_path)
+# Find package with upstream CMake find module. Absolute path prevents the
+# maximum nesting/recursion depth error on some systems, like macOS.
+include(${CMAKE_ROOT}/Modules/FindIconv.cmake)

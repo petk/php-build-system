@@ -21,13 +21,9 @@ set_package_properties(
     DESCRIPTION "XSLT processor library"
 )
 
-# Find package with upstream CMake module; override CMAKE_MODULE_PATH to prevent
-# the maximum nesting/recursion depth error on some systems, like macOS.
-set(_php_cmake_module_path ${CMAKE_MODULE_PATH})
-unset(CMAKE_MODULE_PATH)
-include(FindLibXslt)
-set(CMAKE_MODULE_PATH ${_php_cmake_module_path})
-unset(_php_cmake_module_path)
+# Find package with upstream CMake find module. Absolute path prevents the
+# maximum nesting/recursion depth error on some systems, like macOS.
+include(${CMAKE_ROOT}/Modules/FindLibXslt.cmake)
 
 # Upstream CMake module doesn't mark these as advanced variables.
 # https://gitlab.kitware.com/cmake/cmake/-/merge_requests/8807
