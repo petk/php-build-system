@@ -423,8 +423,8 @@ project(PHP)
 find_package(Iconv)
 ```
 
-Create a module with the same name in your local project CMake modules
-directory. For example:
+Create a module with the same name in local project CMake modules directory. For
+example:
 
 ```cmake
 # cmake/modules/FindIconv.cmake
@@ -433,26 +433,22 @@ directory. For example:
 # example, adding search paths, changing initial values of the find module,
 # adding pkgconf/pkg-config functionality, and similar.
 
-# Find package with upstream CMake module; override CMAKE_MODULE_PATH to prevent
-# the maximum nesting/recursion depth error on some systems, like macOS.
-set(_php_cmake_module_path ${CMAKE_MODULE_PATH})
-unset(CMAKE_MODULE_PATH)
-include(FindIconv)
-set(CMAKE_MODULE_PATH ${_php_cmake_module_path})
-unset(_php_cmake_module_path)
+# Find package with upstream CMake find module. Absolute path prevents the
+# maximum nesting/recursion depth error on some systems, like macOS.
+include(${CMAKE_ROOT}/Modules/FindIconv.cmake)
 
 # Here, find module can be customized after including the upstream module. For
 # example, adding new result variables.
 ```
 
-With this, when calling the find_package(Iconv), the local FindIconv module will
-be used and the upstream CMake module will be included in it, making it possible
-to adjust code before and after the inclusion.
+With this, when calling the `find_package(Iconv)`, the local `FindIconv` module
+will be used and the upstream CMake module will be included in it, making it
+possible to adjust code before and after the inclusion.
 
-Instead of calling `find_package()` inside a find module, the `include()` can be
-used and `CMAKE_MODULE_PATH` disabled. Otherwise, on some systems the maximum
-nesting/recursion depth error occurs because CMake will try to include the
-local FindIconv recursively.
+Instead of calling `find_package()` inside a find module, the `include()` is
+used with specific path to CMake modules. Otherwise, on some systems the maximum
+nesting/recursion depth error occurs because CMake will try to include the local
+`FindIconv` recursively.
 
 ### 4.2. FetchContent
 
