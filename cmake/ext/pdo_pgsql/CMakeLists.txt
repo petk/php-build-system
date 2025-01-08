@@ -115,13 +115,11 @@ if(TARGET PostgreSQL::PostgreSQL)
   endif()
 endif()
 
-if(RE2C_FOUND)
-  re2c_target(
-    php_ext_pdo_pgsql_sql_parser
-    pgsql_sql_parser.re
-    ${CMAKE_CURRENT_SOURCE_DIR}/pgsql_sql_parser.c
-  )
-endif()
+################################################################################
+# Generate lexer files.
+################################################################################
+
+include(cmake/GenerateGrammar.cmake)
 
 set(HAVE_PDO_PGSQL TRUE)
 

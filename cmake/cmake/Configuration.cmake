@@ -92,9 +92,6 @@ mark_as_advanced(PHP_PROGRAM_PREFIX)
 set(PHP_PROGRAM_SUFFIX "" CACHE STRING "Append suffix to the program names")
 mark_as_advanced(PHP_PROGRAM_SUFFIX)
 
-option(PHP_RE2C_CGOTO "Enable computed goto GCC extension with re2c")
-mark_as_advanced(PHP_RE2C_CGOTO)
-
 option(PHP_THREAD_SAFETY "Enable thread safety (ZTS)")
 
 cmake_dependent_option(
@@ -214,13 +211,6 @@ set(PHP_BZIP2_MIN_VERSION 1.0.0)
 
 # Additional metadata for external packages to avoid duplication.
 set_package_properties(
-  BISON
-  PROPERTIES
-    URL "https://www.gnu.org/software/bison/"
-    DESCRIPTION "General-purpose parser generator"
-)
-
-set_package_properties(
   BZip2
   PROPERTIES
     URL "https://sourceware.org/bzip2/"
@@ -267,4 +257,9 @@ set_package_properties(
   PROPERTIES
     URL "https://zlib.net/"
     DESCRIPTION "Compression library"
+)
+
+# Set base directory for ExternalProject CMake module.
+set_directory_properties(
+  PROPERTIES EP_BASE ${PHP_BINARY_DIR}/CMakeFiles/PHP/ExternalProject
 )

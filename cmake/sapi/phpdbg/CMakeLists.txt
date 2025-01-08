@@ -219,31 +219,10 @@ if(PHP_SAPI_PHPDBG_SHARED)
 endif()
 
 ################################################################################
-# Generate lexers and parsers.
+# Generate parser and lexer files.
 ################################################################################
 
-if(BISON_FOUND)
-  bison_target(
-    php_sapi_phpdbg_parser
-    phpdbg_parser.y
-    ${CMAKE_CURRENT_SOURCE_DIR}/phpdbg_parser.c
-    COMPILE_FLAGS "${PHP_DEFAULT_BISON_FLAGS}"
-    VERBOSE REPORT_FILE phpdbg_parser.output
-    DEFINES_FILE ${CMAKE_CURRENT_SOURCE_DIR}/phpdbg_parser.h
-  )
-
-  add_custom_target(php_sapi_phpdbg_parser DEPENDS ${BISON_TARGET_outputs})
-  add_dependencies(php_generate_files php_sapi_phpdbg_parser)
-endif()
-
-if(RE2C_FOUND)
-  re2c_target(
-    php_sapi_phpdbg_lexer
-    phpdbg_lexer.l
-    ${CMAKE_CURRENT_SOURCE_DIR}/phpdbg_lexer.c
-    OPTIONS -cbdF
-  )
-endif()
+include(cmake/GenerateGrammar.cmake)
 
 ################################################################################
 # Configuration checks.

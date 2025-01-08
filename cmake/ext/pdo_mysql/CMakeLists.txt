@@ -139,12 +139,10 @@ else()
   add_feature_info("ext/pdo_mysql mysql" TRUE "system MySQL library driver")
 endif()
 
-if(RE2C_FOUND)
-  re2c_target(
-    php_ext_pdo_mysql_sql_parser
-    mysql_sql_parser.re
-    ${CMAKE_CURRENT_SOURCE_DIR}/mysql_sql_parser.c
-  )
-endif()
+################################################################################
+# Generate lexer files.
+################################################################################
+
+include(cmake/GenerateGrammar.cmake)
 
 configure_file(cmake/config.h.in config.h)

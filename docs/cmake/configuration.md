@@ -190,7 +190,7 @@ documentation.
 * [`PHP_INCLUDE_PREFIX`](/docs/cmake/variables/PHP_INCLUDE_PREFIX.md)
 * [`PHP_IPV6`](/docs/cmake/variables/PHP_IPV6.md)
 * [`PHP_LIBGCC`](/docs/cmake/variables/PHP_LIBGCC.md)
-* [`PHP_RE2C_CGOTO`](/docs/cmake/variables/PHP_RE2C_CGOTO.md)
+* [`PHP_RE2C_COMPUTED_GOTOS`](/docs/cmake/variables/PHP_RE2C_COMPUTED_GOTOS.md)
 * [`PHP_SIGCHILD`](/docs/cmake/variables/PHP_SIGCHILD.md)
 * [`PHP_THREAD_SAFETY`](/docs/cmake/variables/PHP_THREAD_SAFETY.md)
 * [`PHP_UNDEFINED_SANITIZER`](/docs/variables/_PHP_UNDEFINED_SANITIZER.md)
@@ -378,13 +378,13 @@ A list of Autoconf `configure` command-line configuration options, Windows
     <tr>
       <td>--disable-re2c-cgoto</td>
       <td>N/A</td>
-      <td>PHP_RE2C_CGOTO=OFF</td>
+      <td>PHP_RE2C_COMPUTED_GOTOS=OFF</td>
       <td>default</td>
     </tr>
     <tr>
       <td>&emsp;--enable-re2c-cgoto</td>
       <td>N/A</td>
-      <td>PHP_RE2C_CGOTO=ON</td>
+      <td>PHP_RE2C_COMPUTED_GOTOS=ON</td>
       <td></td>
     </tr>
     <tr>

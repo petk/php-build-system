@@ -382,7 +382,7 @@ Autotools-based PHP build system files related to `bison` and `re2c`:
 ```sh
 📂 <php-src>
 └─📂 build
-  └─📄 php.m4               # Autoconf macros with re2c and bison macros
+  └─📄 php.m4               # Autoconf macros with Bison and re2c macros
 └─📂 ext
   └─📂 json
     └─📄 Makefile.frag      # Makefile fragment
@@ -406,7 +406,7 @@ Autotools-based PHP build system files related to `bison` and `re2c`:
     └─📄 genfiles           # Parser and lexer files generator helper
 └─📂 Zend
   └─📄 Makefile.frag        # Part of Makefile related to Zend files
-└─📄 configure.ac           # Minimum re2c and bison versions settings
+└─📄 configure.ac           # Minimum Bison and re2c versions settings
 ```
 
 ## 10. See more

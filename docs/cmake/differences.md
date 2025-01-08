@@ -93,6 +93,15 @@ build system:
     installation directory (INSTALL_ROOT/DESTDIR). PEAR temporary directory can
     be adjusted with the `PHP_PEAR_TEMP_DIR` CMake cache variable.
 
+* Parser and lexer files
+
+  * When generating parser (Bison) and lexer (re2c) files with command-line
+    script `cmake/scripts/GenerateGrammar.cmake`, Bison report files
+    (`*.output`) are not generated.
+
+  * For the `Release` and `MinSizeRel` CMake build types, the Bison `--no-lines`
+    (`-l`) and re2c `--no-debug-info` (`-i`) options are added.
+
 ## Bugs fixed
 
 * Building inside folder with spaces.

@@ -105,12 +105,10 @@ if(TARGET SQLite::SQLite3)
   endif()
 endif()
 
-if(RE2C_FOUND)
-  re2c_target(
-    php_ext_pdo_sqlite_sql_parser
-    sqlite_sql_parser.re
-    ${CMAKE_CURRENT_SOURCE_DIR}/sqlite_sql_parser.c
-  )
-endif()
+################################################################################
+# Generate lexer files.
+################################################################################
+
+include(cmake/GenerateGrammar.cmake)
 
 configure_file(cmake/config.h.in config.h)
