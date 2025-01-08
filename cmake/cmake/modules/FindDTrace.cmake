@@ -161,34 +161,28 @@ function(dtrace_target)
     message(FATAL_ERROR "${CMAKE_CURRENT_FUNCTION} expects source files.")
   endif()
 
-  if(NOT IS_ABSOLUTE "${parsed_INPUT}")
-    cmake_path(
-      ABSOLUTE_PATH
-      parsed_INPUT
-      BASE_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
-      NORMALIZE
-    )
-  endif()
+  cmake_path(
+    ABSOLUTE_PATH
+    parsed_INPUT
+    BASE_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
+    NORMALIZE
+  )
 
-  if(NOT IS_ABSOLUTE "${parsed_HEADER}")
-    cmake_path(
-      ABSOLUTE_PATH
-      parsed_HEADER
-      BASE_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
-      NORMALIZE
-    )
-  endif()
+  cmake_path(
+    ABSOLUTE_PATH
+    parsed_HEADER
+    BASE_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
+    NORMALIZE
+  )
 
   set(sources "")
   foreach(source IN LISTS parsed_SOURCES)
-    if(NOT IS_ABSOLUTE ${source})
-      cmake_path(
-        ABSOLUTE_PATH
-        source
-        BASE_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
-        NORMALIZE
-      )
-    endif()
+    cmake_path(
+      ABSOLUTE_PATH
+      source
+      BASE_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
+      NORMALIZE
+    )
     list(APPEND sources ${source})
   endforeach()
   set(parsed_SOURCES ${sources})
