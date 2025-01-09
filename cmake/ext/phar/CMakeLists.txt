@@ -122,9 +122,12 @@ if(NOT TARGET PHP::sapi::cli)
 endif()
 
 if(NOT CMAKE_CROSSCOMPILING)
-  set(PHP_EXECUTABLE "$<TARGET_FILE:PHP::sapi::cli>")
+  set(phpExecutable "$<TARGET_FILE:PHP::sapi::cli>")
 elseif(CMAKE_CROSSCOMPILING AND CMAKE_CROSSCOMPILING_EMULATOR)
-  set(PHP_EXECUTABLE "${CMAKE_CROSSCOMPILING_EMULATOR};$<TARGET_FILE:PHP::sapi::cli>")
+  set(
+    phpExecutable
+    "${CMAKE_CROSSCOMPILING_EMULATOR};$<TARGET_FILE:PHP::sapi::cli>"
+  )
 else()
   return()
 endif()
@@ -148,7 +151,7 @@ cmake_path(
 add_custom_command(
   OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/phar.php
   COMMAND
-    ${PHP_EXECUTABLE}
+    ${phpExecutable}
       -n
       ${pharSharedOptions}
       -d open_basedir=
@@ -164,7 +167,7 @@ add_custom_command(
 add_custom_command(
   OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/phar.phar
   COMMAND
-    ${PHP_EXECUTABLE}
+    ${phpExecutable}
       -n
       ${pharSharedOptions}
       -d open_basedir=
@@ -240,7 +243,7 @@ set_property(SOURCE php_ext_phar_generated_phar PROPERTY SYMBOLIC TRUE)
 install(CODE "
   execute_process(
     COMMAND
-      ${PHP_EXECUTABLE}
+      ${phpExecutable}
         -n
         ${pharSharedOptions}
         -d open_basedir=

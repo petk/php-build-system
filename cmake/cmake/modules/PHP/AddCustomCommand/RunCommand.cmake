@@ -4,14 +4,13 @@ dependent input source files and runs the command inside the execute_process().
 
 Expected variables:
 
-* PHP_EXECUTABLE
-* PHP_COMMAND
-* DEPENDS
-* OUTPUT
-* COMMENT
+* COMMENT - String printed in the build output log.
+* DEPENDS - A list of dependent files.
+* OUTPUT - A list of output files to be produced.
+* PHP_COMMAND - A list of command and its arguments.
 #]=============================================================================]
 
-if(NOT CMAKE_SCRIPT_MODE_FILE OR NOT PHP_EXECUTABLE OR NOT PHP_COMMAND)
+if(NOT CMAKE_SCRIPT_MODE_FILE OR NOT PHP_COMMAND)
   return()
 endif()
 
@@ -45,7 +44,16 @@ if(COMMENT)
   )
 endif()
 
-execute_process(COMMAND ${PHP_EXECUTABLE} ${PHP_COMMAND})
+execute_process(
+  COMMAND ${PHP_COMMAND}
+  RESULT_VARIABLE result
+  ERROR_VARIABLE error
+)
+
+if(NOT result EQUAL 0)
+  list(JOIN PHP_COMMAND " " command)
+  message(NOTICE "Command ended with non-zero status:\n  ${command}\n${error}")
+endif()
 
 # Update modification times of output files to not re-run the command on the
 # consecutive build runs.
