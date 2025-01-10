@@ -327,7 +327,7 @@ function checkCMakeInclude(Iterator $files, array $modules): int
 };
 
 /**
- * Check if given string is regular expression.
+ * Check if given string is a regular expression.
  */
 function isRegularExpression(string $string): bool
 {

@@ -23,7 +23,7 @@ include(PHP/SystemExtensions)
 # _GNU_SOURCE.
 target_link_libraries(php_config INTERFACE PHP::SystemExtensions)
 
-# Set installation directories.
+# Define GNU standard installation directories.
 include(GNUInstallDirs)
 
 # Detect C standard library implementation.

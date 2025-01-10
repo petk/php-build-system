@@ -483,6 +483,8 @@ function(php_extensions_configure_headers)
     get_target_property(type php_ext_${extension} TYPE)
     if(type MATCHES "^(MODULE|SHARED)_LIBRARY$")
       set(${macro} TRUE)
+    else()
+      set(${macro} FALSE)
     endif()
 
     # Prepare config.h template.
