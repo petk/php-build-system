@@ -9,10 +9,10 @@ Subject: Add CMake changes for PHP-8.5 branch
 ---
  .editorconfig              |  2 +-
  .gitignore                 | 50 ++++++++++++++++++++++++++++++++++++++
- ext/ext_skel.php           |  2 ++
+ ext/ext_skel.php           |  7 ++++++
  ext/skeleton/.gitignore.in | 23 ++++++++++++++++++
  run-tests.php              | 24 +++++++++++++-----
- 5 files changed, 94 insertions(+), 7 deletions(-)
+ 5 files changed, 99 insertions(+), 7 deletions(-)
 
 diff --git a/.editorconfig b/.editorconfig
 index 19be96087d..58a83dfb68 100644
@@ -99,10 +99,10 @@ index 52dde98ed4..d698b5a19c 100644
  !/ext/fileinfo/libmagic/config.h
  !/ext/fileinfo/libmagic.patch
 diff --git a/ext/ext_skel.php b/ext/ext_skel.php
-index cd82abb346..74ee94c7e2 100755
+index cd82abb346..19f55f4673 100755
 --- a/ext/ext_skel.php
 +++ b/ext/ext_skel.php
-@@ -289,6 +289,8 @@ function copy_config_scripts() {
+@@ -289,11 +289,18 @@ function copy_config_scripts() {
          $files[] = 'config.w32';
      }
  
@@ -111,6 +111,16 @@ index cd82abb346..74ee94c7e2 100755
      $files[] = '.gitignore';
  
      foreach($files as $config_script) {
+         $new_config_script = $options['dir'] . $options['ext'] . DIRECTORY_SEPARATOR . $config_script;
+ 
++        $directory = dirname($new_config_script);
++        if (!is_dir($directory) && !mkdir($directory, 0777, true)) {
++            error('Unable to create ' . $directory . ' directory in the output directory');
++        }
++
+         if (!copy($options['skel'] . $config_script . '.in', $new_config_script)) {
+             error('Unable to copy config script: ' . $config_script);
+         }
 diff --git a/ext/skeleton/.gitignore.in b/ext/skeleton/.gitignore.in
 index e691bd3964..191fcd70eb 100644
 --- a/ext/skeleton/.gitignore.in

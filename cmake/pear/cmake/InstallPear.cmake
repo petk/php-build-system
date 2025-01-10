@@ -141,8 +141,7 @@ file(
     ${phpPearStageTempDir}/temp
 )
 
-# Add options for PHP executable, when dependent extensions are shared, they
-# need to be loaded for the PHP_EXECUTABLE.
+# Add PHP command-line options for shared dependent extensions.
 set(phpPearOptions -d extension_dir=${PHP_BINARY_DIR}/modules)
 
 if(PHP_EXT_OPENSSL_SHARED)
