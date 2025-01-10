@@ -26,9 +26,15 @@ cmake_minimum_required(VERSION 3.25...3.31)
 # Add paths where include() and find_package() look for modules.
 list(APPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_LIST_DIR}/cmake/modules)
 
+# Automatically include current source or build tree for the current target.
+set(CMAKE_INCLUDE_CURRENT_DIR ON)
+
+# Put the source or build tree include directories before other includes.
+set(CMAKE_INCLUDE_DIRECTORIES_PROJECT_BEFORE ON)
+
 # Define the PHP extension project and its metadata.
 project(
-  %EXTNAME%
+  php_ext_%EXTNAME%
   VERSION 0.1.0
   DESCRIPTION "Describe the extension"
   HOMEPAGE_URL "https://example.org"
@@ -41,9 +47,12 @@ include(CMakeDependentOption)
 # Include CMake module to use add_feature_info() and set_package_properties().
 include(FeatureSummary)
 
+# Set GNU standard installation directories.
+include(GNUInstallDirs)
+
 # Boolean option that enables (ON) or disables (OFF) the extension. For example,
 # cmake -B <build-dir> -D PHP_EXT_%EXTNAMECAPS%=ON
-option(PHP_EXT_%EXTNAMECAPS% "Enable the %EXTNAME% extension")
+option(PHP_EXT_%EXTNAMECAPS% "Enable the %EXTNAME% extension" ${PROJECT_IS_TOP_LEVEL})
 
 # Extension features are visible in the configuration summary output.
 add_feature_info(
@@ -57,7 +66,7 @@ add_feature_info(
 cmake_dependent_option(
   PHP_EXT_%EXTNAMECAPS%_SHARED
   "Build the %EXTNAME% extension as a shared library"
-  OFF
+  ${PROJECT_IS_TOP_LEVEL}
   "PHP_EXT_%EXTNAMECAPS%;NOT BUILD_SHARED_LIBS"
   OFF
 )
@@ -105,12 +114,12 @@ target_compile_definitions(
     ZEND_ENABLE_STATIC_TSRMLS_CACHE
 )
 
-# Find PHP package on the system.
+# Find PHP on the system.
 find_package(PHP REQUIRED)
 
-# The PHP::PHP library contains INTERFACE include directories for the extension.
-# Link PHP and extension targets.
-target_link_libraries(php_ext_%EXTNAME% PRIVATE PHP::PHP)
+# Link the PHP::Development imported library which provides the PHP include
+# directories and configuration for the extension.
+target_link_libraries(php_ext_%EXTNAME% PRIVATE PHP::Development)
 
 # Install files to system destinations when running 'cmake --install'.
 install(

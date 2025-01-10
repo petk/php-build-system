@@ -56,6 +56,4 @@ find_package(Sendmail)
 # used at the build phase, where possible. The minimum version should match the
 # version required to run these PHP scripts.
 ################################################################################
-block(PROPAGATE PHP_FOUND)
-  find_package(PHP 7.4)
-endblock()
+find_package(PHP 7.4 COMPONENTS Interpreter)
