@@ -21,14 +21,12 @@ Build extension as shared.
 # CMakeLists.txt file for the %EXTNAME% extension.
 
 # Set minimum required CMake version.
-cmake_minimum_required(VERSION 3.25)
+cmake_minimum_required(VERSION 3.25...3.31)
 
-# Append extension's local CMake modules.
-if(NOT ${CMAKE_CURRENT_LIST_DIR}/cmake/modules IN_LIST CMAKE_MODULE_PATH)
-  list(APPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_LIST_DIR}/cmake/modules)
-endif()
+# Add paths where include() and find_package() look for modules.
+list(APPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_LIST_DIR}/cmake/modules)
 
-# Set the extension project metadata.
+# Define the PHP extension project and its metadata.
 project(
   %EXTNAME%
   VERSION 0.1.0

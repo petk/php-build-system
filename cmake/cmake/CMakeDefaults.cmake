@@ -7,10 +7,8 @@ https://cmake.org/cmake/help/latest/manual/cmake-variables.7.html
 
 include_guard(GLOBAL)
 
-# Set CMake module paths where include() and find_package() look for modules.
-if(NOT ${CMAKE_CURRENT_LIST_DIR}/modules IN_LIST CMAKE_MODULE_PATH)
-  list(APPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_LIST_DIR}/modules)
-endif()
+# Add paths where include() and find_package() look for modules.
+list(APPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_LIST_DIR}/modules)
 
 # Automatically include current source or build tree for the current target.
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
