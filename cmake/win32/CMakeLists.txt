@@ -37,6 +37,7 @@ target_sources(
   PUBLIC
     FILE_SET HEADERS
       FILES
+        charclass.h
         codepage.h
         console.h
         fnmatch.h
