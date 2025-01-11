@@ -37,47 +37,34 @@ php_bison(
 # See: https://git.savannah.gnu.org/cgit/bison.git/tree/data/README.md
 block()
   string(
-    CONCAT patch
-    "cmake_path(SET SOURCE_DIR NORMALIZE ${CMAKE_CURRENT_SOURCE_DIR})\n"
+    CONFIGURE
     [[
-    cmake_path(
-      RELATIVE_PATH
-      SOURCE_DIR
-      BASE_DIRECTORY ${CMAKE_SOURCE_DIR}
-      OUTPUT_VARIABLE relativeDir
-    )
-    file(READ "${SOURCE_DIR}/zend_language_parser.h" content)
-    string(
-      REPLACE
-      "int zendparse"
-      "ZEND_API int zendparse"
-      content_2
-      "${content}"
-    )
-    if(
-      NOT content MATCHES "ZEND_API int zendparse"
-      AND NOT content STREQUAL "${content_2}"
-    )
-      message(STATUS "Patching ${relativeDir}/zend_language_parser.h")
-      file(WRITE "${SOURCE_DIR}/zend_language_parser.h" "${content_2}")
-    endif()
-
-    file(READ "${SOURCE_DIR}/zend_language_parser.c" content)
-    string(
-      REPLACE
-      "int zendparse"
-      "ZEND_API int zendparse"
-      content_2
-      "${content}"
-    )
-    if(
-      NOT content MATCHES "ZEND_API int zendparse"
-      AND NOT content STREQUAL "${content_2}"
-    )
-      message(STATUS "Patching ${relativeDir}/zend_language_parser.c")
-      file(WRITE "${SOURCE_DIR}/zend_language_parser.c" "${content_2}")
-    endif()
-  ]])
+      foreach(
+        file IN ITEMS
+          @CMAKE_CURRENT_SOURCE_DIR@/zend_language_parser.h
+          @CMAKE_CURRENT_SOURCE_DIR@/zend_language_parser.c
+      )
+        file(READ "${file}" content)
+        string(
+          REPLACE
+          "int zendparse"
+          "ZEND_API int zendparse"
+          patchedContent
+          "${content}"
+        )
+        if(
+          NOT content MATCHES "ZEND_API int zendparse"
+          AND NOT content STREQUAL "${patchedContent}"
+        )
+          cmake_path(GET file FILENAME filename)
+          message(STATUS "[Zend] Patching ${filename}")
+          file(WRITE "${file}" "${patchedContent}")
+        endif()
+      endforeach()
+    ]]
+    patch
+    @ONLY
+  )
 
   # Run patch based on whether building or running inside a script.
   if(CMAKE_SCRIPT_MODE_FILE)
