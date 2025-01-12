@@ -2,8 +2,8 @@
 
 This is a collection of patches for various PHP versions in order to use CMake
 or due to upstream unresolved bugs. Each patch has a description attached in its
-header. They are automatically applied only when using the `bin/init.cmake`,
-`bin/init.sh`, or `bin/php.cmake` scripts.
+header. They are automatically applied when building PHP with CMake in this
+repository.
 
 To create a new patch:
 

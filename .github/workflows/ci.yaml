@@ -127,25 +127,22 @@ jobs:
 
       - name: Build and install
         run: |
-          ./bin/php.cmake ${{ matrix.php }}
-          cd php-${{ matrix.php }}
           cmake --preset all-enabled
           cmake --build --preset all-enabled -j
 
       - name: Setup SNMP agents
         run: |
-          cd php-${{ matrix.php }}
+          cd php-build/all-enabled/php/php-src
           sudo cp ext/snmp/tests/snmpd.conf /etc/snmp
           sudo cp ext/snmp/tests/bigtest /etc/snmp
           sudo systemctl restart snmpd
 
       - name: Setup Dovecot for testing imap extension
         run: |
-          cd php-${{ matrix.php }}
+          cd php-build/all-enabled/php/php-src/
           sudo sh ext/imap/tests/setup/setup.sh
           sudo systemctl restart dovecot
 
       - name: Run tests
         run: |
-          cd php-${{ matrix.php }}
           ctest --preset all-enabled
