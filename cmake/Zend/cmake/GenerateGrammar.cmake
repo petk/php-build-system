@@ -41,10 +41,10 @@ block()
     [[
       foreach(
         file IN ITEMS
-          @CMAKE_CURRENT_SOURCE_DIR@/zend_language_parser.h
-          @CMAKE_CURRENT_SOURCE_DIR@/zend_language_parser.c
+          zend_language_parser.h
+          zend_language_parser.c
       )
-        file(READ "${file}" content)
+        file(READ "@CMAKE_CURRENT_SOURCE_DIR@/${file}" content)
         string(
           REPLACE
           "int zendparse"
@@ -56,9 +56,8 @@ block()
           NOT content MATCHES "ZEND_API int zendparse"
           AND NOT content STREQUAL "${patchedContent}"
         )
-          cmake_path(GET file FILENAME filename)
-          message(STATUS "[Zend] Patching ${filename}")
-          file(WRITE "${file}" "${patchedContent}")
+          message(STATUS "[Zend] Patching ${file}")
+          file(WRITE "@CMAKE_CURRENT_SOURCE_DIR@/${file}" "${patchedContent}")
         endif()
       endforeach()
     ]]

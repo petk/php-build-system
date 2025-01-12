@@ -189,21 +189,22 @@ function(dtrace_target)
 
   # Generate DTrace header.
   file(
-    GENERATE
+    CONFIGURE
     OUTPUT CMakeFiles/GenerateDTraceHeader.cmake
     CONTENT [[
       execute_process(
-        COMMAND ${DTrace_EXECUTABLE}
-          -s "${parsed_INPUT}"
-          -h                    # Generate a SystemTap header file.
-          -C                    # Run the cpp preprocessor on the input file.
-          -o "${parsed_HEADER}" # Name of the output file.
+        COMMAND "@DTrace_EXECUTABLE@"
+          -s "@parsed_INPUT@"  # Input file.
+          -h                   # Generate a SystemTap header file.
+          -C                   # Run the C preprocessor (cpp) on the input file.
+          -o "@parsed_HEADER@" # Output file.
       )
       # Patch DTrace header.
-      file(READ "${parsed_HEADER}" content)
+      file(READ "@parsed_HEADER@" content)
       string(REPLACE "PHP_" "DTRACE_" content "${content}")
-      file(WRITE "${parsed_HEADER}" "${content}")
+      file(WRITE "@parsed_HEADER@" "${content}")
     ]]
+    @ONLY
   )
   cmake_path(
     RELATIVE_PATH
@@ -213,11 +214,7 @@ function(dtrace_target)
   )
   add_custom_command(
     OUTPUT ${parsed_HEADER}
-    COMMAND ${CMAKE_COMMAND}
-      -DDTrace_EXECUTABLE=${DTrace_EXECUTABLE}
-      -Dparsed_HEADER=${parsed_HEADER}
-      -Dparsed_INPUT=${parsed_INPUT}
-      -P CMakeFiles/GenerateDTraceHeader.cmake
+    COMMAND ${CMAKE_COMMAND} -P CMakeFiles/GenerateDTraceHeader.cmake
     DEPENDS "${parsed_INPUT}"
     COMMENT "[DTrace] Generating ${header}"
     VERBATIM
