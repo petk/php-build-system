@@ -9,7 +9,6 @@ This module overrides the upstream CMake `FindICU` module with few
 customizations:
 
 * Added pkg-config.
-* Marked `ICU_INCLUDE_DIR` as advanced variable (fixed upstream in CMake 3.29).
 #]=============================================================================]
 
 include(FeatureSummary)

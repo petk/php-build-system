@@ -1,15 +1,10 @@
 #[=============================================================================[
 # FindLibXslt
 
-Find the XSLT library (LibXslt).
+Find the XSLT library (LibXslt). This module overrides the upstream CMake
+`FindLibXslt` module.
 
 See: https://cmake.org/cmake/help/latest/module/FindLibXslt.html
-
-Module overrides the upstream CMake `FindLibXslt` module with few
-customizations:
-
-* Marked `LIBXSLT_EXSLT_INCLUDE_DIR` and `LIBXSLT_LIBRARY` as advanced variables
-  (fixed upstream in CMake 3.28).
 #]=============================================================================]
 
 include(FeatureSummary)
