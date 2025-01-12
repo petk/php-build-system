@@ -189,12 +189,12 @@ add_custom_command(
 
 # Set phar.phar permissions.
 file(
-  GENERATE
+  CONFIGURE
   OUTPUT CMakeFiles/PharPermissions.cmake
-  CONTENT "
+  CONTENT [[
     file(
       CHMOD
-      ${CMAKE_CURRENT_BINARY_DIR}/phar.phar
+      "@CMAKE_CURRENT_BINARY_DIR@/phar.phar"
       FILE_PERMISSIONS
         OWNER_READ
         OWNER_WRITE
@@ -205,15 +205,14 @@ file(
         WORLD_READ
         WORLD_EXECUTE
     )
-  "
+  ]]
+  @ONLY
 )
 
 add_custom_command(
   OUTPUT php_ext_phar_generated_phar
-  COMMAND
-    ${CMAKE_COMMAND} -P CMakeFiles/PharPermissions.cmake
-  DEPENDS
-    ${CMAKE_CURRENT_BINARY_DIR}/phar.phar
+  COMMAND ${CMAKE_COMMAND} -P CMakeFiles/PharPermissions.cmake
+  DEPENDS ${CMAKE_CURRENT_BINARY_DIR}/phar.phar
   COMMENT "[ext/phar] Generating ${relativeDir}/phar"
 )
 

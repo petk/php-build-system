@@ -40,9 +40,3 @@ endif()
 # Find package with upstream CMake find module. Absolute path prevents the
 # maximum nesting/recursion depth error on some systems, like macOS.
 include(${CMAKE_ROOT}/Modules/FindICU.cmake)
-
-# Upstream CMake module doesn't mark these as advanced variables.
-# https://gitlab.kitware.com/cmake/cmake/-/merge_requests/9199
-if(CMAKE_VERSION VERSION_LESS 3.29)
-  mark_as_advanced(ICU_INCLUDE_DIR)
-endif()

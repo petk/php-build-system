@@ -33,8 +33,9 @@ being relative to the current binary directory. If generated files are already
 available (for example, shipped with the released archive), and Bison is not
 found, it will create a target but skip the `bison` command-line execution.
 
-When used in command-line script mode (see `CMAKE_SCRIPT_MODE_FILE`) it
-generates the parser right away without creating a target.
+When the `CMAKE_ROLE` global property value is not `PROJECT` (running is some
+script mode) it generates the files right away without creating a target. For
+example, in command-line scripts.
 
 #### Options
 
@@ -49,9 +50,9 @@ generates the parser right away without creating a target.
   `bison` command-line invocation. This module provides some sensible defaults.
 
 * `OPTIONS <options>...` - List of additional options to pass to the `bison`
-  command-line tool. Supports generator expressions. In script mode
-  (`CMAKE_SCRIPT_MODE_FILE`) generator expressions are stripped as they can't be
-  determined.
+  command-line tool. Supports generator expressions. In script modes
+  (`CMAKE_ROLE` is not `PROJECT`) generator expressions are stripped as they
+  can't be determined.
 
 * `DEPENDS <depends>...` - Optional list of dependent files to regenerate the
   output file.
@@ -152,7 +153,7 @@ include(PHP/Bison)
 php_bison(foo foo.y foo.c OPTIONS $<$<CONFIG:Debug>:--debug> --yacc)
 # When build type is Debug, this will run:
 #   bison --debug --yacc foo.y --output foo.c
-# For other build types (including the script mode - CMAKE_SCRIPT_MODE_FILE):
+# For other build types, including the script modes (CMAKE_ROLE is not PROJECT):
 #   bison --yacc foo.y --output foo.c
 ```
 
@@ -211,13 +212,15 @@ include(FeatureSummary)
 
 # Configuration after find_package() in this module.
 macro(_php_bison_config_options)
-  # Add --no-lines (-l) option to not output '#line' directives.
   if(NOT PHP_BISON_OPTIONS)
-    if(CMAKE_SCRIPT_MODE_FILE)
-      set(PHP_BISON_OPTIONS --no-lines)
-    else()
+    # Add --no-lines (-l) option to not output '#line' directives.
+    get_property(_role GLOBAL PROPERTY CMAKE_ROLE)
+    if(_role STREQUAL "PROJECT")
       set(PHP_BISON_OPTIONS $<$<CONFIG:Release,MinSizeRel>:--no-lines>)
+    else()
+      set(PHP_BISON_OPTIONS --no-lines)
     endif()
+    unset(_role)
 
     # Report all warnings.
     list(APPEND PHP_BISON_OPTIONS -Wall)
@@ -290,11 +293,13 @@ function(php_bison name input output)
     find_package(BISON ${PHP_BISON_VERSION} ${quiet})
   endif()
 
+  get_property(role GLOBAL PROPERTY CMAKE_ROLE)
+
   if(
     NOT BISON_FOUND
     AND PHP_BISON_VERSION_DOWNLOAD
     AND packageType STREQUAL "REQUIRED"
-    AND NOT CMAKE_SCRIPT_MODE_FILE
+    AND role STREQUAL "PROJECT"
     # TODO: Support for other platforms.
     AND CMAKE_HOST_SYSTEM_NAME STREQUAL "Linux"
   )
@@ -324,7 +329,7 @@ function(php_bison name input output)
   _php_bison_process_header_option()
   _php_bison_process_verbose_option()
 
-  if(NOT CMAKE_SCRIPT_MODE_FILE)
+  if(role STREQUAL "PROJECT")
     add_custom_target(${name} SOURCES ${input} DEPENDS ${outputs})
   endif()
 
@@ -344,7 +349,7 @@ function(php_bison name input output)
   )
   set(message "[Bison] Generating ${relativePath} with Bison ${BISON_VERSION}")
 
-  if(CMAKE_SCRIPT_MODE_FILE)
+  if(NOT role STREQUAL "PROJECT")
     message(STATUS "${message}")
     execute_process(${commands} WORKING_DIRECTORY ${parsed_WORKING_DIRECTORY})
     return()
@@ -389,7 +394,8 @@ function(_php_bison_process_options)
   endif()
 
   # Remove any generator expressions when running in script mode.
-  if(CMAKE_SCRIPT_MODE_FILE)
+  get_property(role GLOBAL PROPERTY CMAKE_ROLE)
+  if(NOT role STREQUAL "PROJECT")
     list(TRANSFORM options GENEX_STRIP)
   endif()
 
