@@ -40,6 +40,10 @@ If the `COMPONENTS` are not specified, module by default searches for the
 find_package(PHP)
 ```
 
+The imported targets defined by components are only created when the
+`CMAKE_ROLE` global property is `PROJECT`, which enables finding PHP, for
+example, in command-line scripts.
+
 ### The `Interpreter` component
 
 When this component is found, it defines the following `IMPORTED` targets:
@@ -67,7 +71,7 @@ Cache variables of the `Development` component:
 
 * `PHP_CONFIG_EXECUTABLE` - Path to the `php-config` development command-line
   tool.
-* `PHP_INCLUDE_DIR` - Directory containing PHP headers.
+* `PHP_Development_INCLUDE_DIR` - Directory containing PHP headers.
 
 Result variables of the `Development` component:
 
@@ -437,16 +441,16 @@ endif()
 
 if("Development" IN_LIST PHP_FIND_COMPONENTS)
   find_path(
-    PHP_INCLUDE_DIR
+    PHP_Development_INCLUDE_DIR
     NAMES main/php.h
     HINTS
       ${PC_PHP_INCLUDE_DIRS}
       ${PHP_INCLUDE_DIRS}
     DOC "Directory containing PHP headers"
   )
-  mark_as_advanced(PHP_INCLUDE_DIR)
+  mark_as_advanced(PHP_Development_INCLUDE_DIR)
 
-  if(NOT PHP_INCLUDE_DIR)
+  if(NOT PHP_Development_INCLUDE_DIR)
     string(APPEND _reason "The <main/php.h> header file not found. ")
   endif()
 
@@ -465,9 +469,9 @@ if("Development" IN_LIST PHP_FIND_COMPONENTS)
 
   # Get PHP API version number.
   block(PROPAGATE PHP_API_VERSION)
-    if(EXISTS ${PHP_INCLUDE_DIR}/main/php.h)
+    if(EXISTS ${PHP_Development_INCLUDE_DIR}/main/php.h)
       set(regex "#[ \t]*define[ \t]+PHP_API_VERSION[ \t]+([0-9]+)")
-      file(STRINGS ${PHP_INCLUDE_DIR}/main/php.h _ REGEX "${regex}")
+      file(STRINGS ${PHP_Development_INCLUDE_DIR}/main/php.h _ REGEX "${regex}")
 
       if(CMAKE_VERSION VERSION_LESS 3.29)
         string(REGEX MATCH "${regex}" _ "${_}")
@@ -479,9 +483,9 @@ if("Development" IN_LIST PHP_FIND_COMPONENTS)
 
   # Get PHP extensions API version number.
   block(PROPAGATE PHP_ZEND_MODULE_API)
-    if(EXISTS ${PHP_INCLUDE_DIR}/Zend/zend_modules.h)
+    if(EXISTS ${PHP_Development_INCLUDE_DIR}/Zend/zend_modules.h)
       set(regex "#[ \t]*define[ \t]+ZEND_MODULE_API_NO[ \t]+([0-9]+)")
-      file(STRINGS ${PHP_INCLUDE_DIR}/Zend/zend_modules.h _ REGEX "${regex}")
+      file(STRINGS ${PHP_Development_INCLUDE_DIR}/Zend/zend_modules.h _ REGEX "${regex}")
 
       if(CMAKE_VERSION VERSION_LESS 3.29)
         string(REGEX MATCH "${regex}" _ "${_}")
@@ -493,9 +497,9 @@ if("Development" IN_LIST PHP_FIND_COMPONENTS)
 
   # Get Zend extensions API version number.
   block(PROPAGATE PHP_ZEND_EXTENSION_API)
-    if(EXISTS ${PHP_INCLUDE_DIR}/Zend/zend_extensions.h)
+    if(EXISTS ${PHP_Development_INCLUDE_DIR}/Zend/zend_extensions.h)
       set(regex "#[ \t]*define[ \t]+ZEND_EXTENSION_API_NO[ \t]+([0-9]+)")
-      file(STRINGS ${PHP_INCLUDE_DIR}/Zend/zend_extensions.h _ REGEX "${regex}")
+      file(STRINGS ${PHP_Development_INCLUDE_DIR}/Zend/zend_extensions.h _ REGEX "${regex}")
 
       if(CMAKE_VERSION VERSION_LESS 3.29)
         string(REGEX MATCH "${regex}" _ "${_}")
@@ -539,7 +543,7 @@ if("Development" IN_LIST PHP_FIND_COMPONENTS)
     var IN ITEMS
       PHP_API_VERSION
       PHP_EXTENSION_DIR
-      PHP_INCLUDE_DIR
+      PHP_Development_INCLUDE_DIR
       PHP_ZEND_EXTENSION_API
       PHP_ZEND_MODULE_API
   )
@@ -574,6 +578,7 @@ if("Embed" IN_LIST PHP_FIND_COMPONENTS)
     string(APPEND _reason "The <sapi/embed/php_embed.h> header file not found. ")
   endif()
 
+  # TODO: When CMAKE_ROLE is not PROJECT, CMake doesn't set search paths.
   find_library(
     PHP_EMBED_LIBRARY
     NAMES php
@@ -653,8 +658,8 @@ block(PROPAGATE PHP_FOUND_VERSION _reason)
   endif()
 
   set(includeDir "")
-  if(NOT PHP_FOUND_VERSION AND PHP_INCLUDE_DIR)
-    set(includeDir ${PHP_INCLUDE_DIR})
+  if(NOT PHP_FOUND_VERSION AND PHP_Development_INCLUDE_DIR)
+    set(includeDir ${PHP_Development_INCLUDE_DIR})
   elseif(NOT PHP_FOUND_VERSION AND PHP_EMBED_INCLUDE_DIR)
     set(includeDir ${PHP_EMBED_INCLUDE_DIR})
   endif()
@@ -732,11 +737,17 @@ if(NOT PHP_FOUND)
   return()
 endif()
 
+get_property(_phpRole GLOBAL PROPERTY CMAKE_ROLE)
+
 ################################################################################
 # Interpreter component configuration.
 ################################################################################
 
-if("Interpreter" IN_LIST PHP_FIND_COMPONENTS AND NOT TARGET PHP::Interpreter)
+if(
+  _phpRole STREQUAL "PROJECT"
+  AND "Interpreter" IN_LIST PHP_FIND_COMPONENTS
+  AND NOT TARGET PHP::Interpreter
+)
   add_executable(PHP::Interpreter IMPORTED)
   set_target_properties(
     PHP::Interpreter
@@ -749,7 +760,7 @@ endif()
 # Development component configuration.
 ################################################################################
 
-if("Development" IN_LIST PHP_FIND_COMPONENTS)
+if(_phpRole STREQUAL "PROJECT" AND "Development" IN_LIST PHP_FIND_COMPONENTS)
   if(NOT TARGET PHP::Development)
     add_library(PHP::Development INTERFACE IMPORTED)
 
@@ -848,7 +859,11 @@ endif()
 # Embed component configuration.
 ################################################################################
 
-if("Embed" IN_LIST PHP_FIND_COMPONENTS AND NOT TARGET PHP::Embed)
+if(
+  _phpRole STREQUAL "PROJECT"
+  AND "Embed" IN_LIST PHP_FIND_COMPONENTS
+  AND NOT TARGET PHP::Embed
+)
   if(IS_ABSOLUTE "${PHP_EMBED_LIBRARY}")
     add_library(PHP::Embed UNKNOWN IMPORTED)
     set_target_properties(
@@ -872,3 +887,5 @@ if("Embed" IN_LIST PHP_FIND_COMPONENTS AND NOT TARGET PHP::Embed)
       INTERFACE_INCLUDE_DIRECTORIES "${PHP_INCLUDE_DIRS}"
   )
 endif()
+
+unset(_phpRole)

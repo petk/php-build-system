@@ -47,7 +47,7 @@ include(CMakeDependentOption)
 # Include CMake module to use add_feature_info() and set_package_properties().
 include(FeatureSummary)
 
-# Set GNU standard installation directories.
+# Define GNU standard installation directories.
 include(GNUInstallDirs)
 
 # Boolean option that enables (ON) or disables (OFF) the extension. For example,
