@@ -35,8 +35,9 @@ being relative to the current binary directory. If generated files are already
 available (for example, shipped with the released archive), and re2c is not
 found, it will create a target but skip the `re2c` command-line execution.
 
-When used in command-line script mode (see `CMAKE_SCRIPT_MODE_FILE`) it
-generates the lexer right away without creating a target.
+When the `CMAKE_ROLE` global property value is not `PROJECT` (running is some
+script mode) it generates the files right away without creating a target. For
+example, in command-line scripts.
 
 #### Options
 
@@ -48,18 +49,18 @@ generates the lexer right away without creating a target.
   `re2c` command-line invocation. This module provides some sensible defaults.
 
 * `OPTIONS <options>...` - List of additional options to pass to the `re2c`
-  command-line tool. Supports generator expressions. In script mode
-  (`CMAKE_SCRIPT_MODE_FILE`) generator expressions are stripped as they can't be
-  determined.
+  command-line tool. Supports generator expressions. In script modes
+  (`CMAKE_ROLE` is not `PROJECT`) generator expressions are stripped as they
+  can't be determined.
 
 * `DEPENDS <depends>...` - Optional list of dependent files to regenerate the
   output file.
 
 * `COMPUTED_GOTOS <TRUE|FALSE>` - Set to `TRUE` to add the `--computed-gotos`
   (`-g`) command-line option if the non-standard C computed goto extension is
-  supported by the C compiler. When calling `re2c()` in the command-line script
-  mode (`CMAKE_SCRIPT_MODE`), option is not checked, whether the compiler
-  supports it and is added unconditionally.
+  supported by the C compiler. When calling `re2c()` in some script mode
+  (`CMAKE_ROLE` value other than `PROJECT`), compiler checking is skipped and
+  option is added unconditionally.
 
 * `CODEGEN` - Adds the `CODEGEN` option to the `add_custom_command()` call. This
   option is available starting with CMake 3.31 when the policy `CMP0171` is set
@@ -151,7 +152,7 @@ include(PHP/Re2c)
 php_re2c(foo foo.re foo.c OPTIONS $<$<CONFIG:Debug>:--debug-output> -F)
 # When build type is Debug, this will run:
 #   re2c --debug-output -F --output foo.c foo.re
-# For other build types (including the script mode - CMAKE_SCRIPT_MODE_FILE):
+# For other build types, including the script modes (CMAKE_ROLE is not PROJECT):
 #   re2c -F --output foo.c foo.re
 ```
 
