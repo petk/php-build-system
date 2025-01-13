@@ -144,5 +144,38 @@
       "name": "all-enabled-ninja",
       "configurePreset": "all-enabled-ninja"
     }
+  ],
+  "testPresets": [
+    {
+      "name": "all-enabled",
+      "configurePreset": "all-enabled",
+      "environment": {
+        "SKIP_IO_CAPTURE_TESTS": "1"
+      },
+      "output": {
+        "shortProgress": true,
+        "verbosity": "verbose"
+      }
+    },
+    {
+      "name": "all-enabled-shared",
+      "configurePreset": "all-enabled-shared",
+      "inherits": "all-enabled"
+    },
+    {
+      "name": "all-enabled-ts",
+      "configurePreset": "all-enabled-ts",
+      "inherits": "all-enabled"
+    },
+    {
+      "name": "all-enabled-2",
+      "configurePreset": "all-enabled-2",
+      "inherits": "all-enabled"
+    },
+    {
+      "name": "all-enabled-ninja",
+      "configurePreset": "all-enabled-ninja",
+      "inherits": "all-enabled"
+    }
   ]
 }
