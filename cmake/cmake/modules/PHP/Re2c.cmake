@@ -296,8 +296,15 @@ function(php_re2c name input output)
 
   _php_re2c_config()
 
-  # Skip consecutive calls if downloading or outer find_package() was called.
-  if(NOT TARGET RE2C::RE2C AND NOT DEFINED RE2C_FOUND)
+  if(
+    # Skip consecutive find_package() calls when:
+    # - project calls php_re2c() multiple times and re2c will be downloaded:
+    NOT TARGET RE2C::RE2C
+    # - the outer find_package() was called prior to php_re2c():
+    AND NOT DEFINED RE2C_FOUND
+    # - running consecutive configuration phases:
+    AND NOT RE2C_EXECUTABLE
+  )
     find_package(RE2C ${PHP_RE2C_VERSION} ${quiet})
   endif()
 

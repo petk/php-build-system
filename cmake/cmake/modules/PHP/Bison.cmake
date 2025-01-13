@@ -75,7 +75,7 @@ example, in command-line scripts.
   cmake --build <dir> --target codegen
   ```
 
-* `WORKING_DIRECTORY <directory>` - The path where the `re2c` is executed.
+* `WORKING_DIRECTORY <directory>` - The path where the `bison` is executed.
   Relative `<directory>` path is interpreted as being relative to the current
   binary directory. If not set, `bison` is by default executed in the
   `PHP_SOURCE_DIR` when building the php-src repository. Otherwise it is
@@ -288,8 +288,15 @@ function(php_bison name input output)
 
   _php_bison_config()
 
-  # Skip consecutive calls if downloading or outer find_package() was called.
-  if(NOT TARGET Bison::Bison AND NOT DEFINED BISON_FOUND)
+  if(
+    # Skip consecutive find_package() calls when:
+    # - project calls php_bison() multiple times and Bison will be downloaded:
+    NOT TARGET Bison::Bison
+    # - the outer find_package() was called prior to php_bison():
+    AND NOT DEFINED BISON_FOUND
+    # - running consecutive configuration phases:
+    AND NOT BISON_EXECUTABLE
+  )
     find_package(BISON ${PHP_BISON_VERSION} ${quiet})
   endif()
 
