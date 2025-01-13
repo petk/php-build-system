@@ -36,6 +36,7 @@ jobs:
       - name: Run checks
         run: ./bin/check-cmake.php
 
+      # TODO: Remove PHP_CS_FIXER_IGNORE_ENV once php-cs-fixer supports PHP 8.4.
       - name: Run PHP CS Fixer
         run: |
           PHP_CS_FIXER_IGNORE_ENV=1 php-cs-fixer check \

@@ -1,13 +1,14 @@
 #[=============================================================================[
 Wrapper for integrating PHP sources with CMake
 
-This file uses the FetchContent module to download the PHP source code (from a
-tarball), integrate CMake files, and apply necessary patches to enable building
-PHP with CMake.
+This file uses the FetchContent module to download the PHP source code tarball,
+integrate CMake files, and apply necessary patches to enable building PHP with
+CMake.
 
 While not part of the CMake-based build system itself, this file serves as a
 wrapper to bridge the upstream PHP source code with the CMake-based build system
-in this repository, streamlining the integration process.
+in this repository located at the cmake directory, streamlining the integration
+process.
 
 Basic usage:
 
@@ -18,19 +19,31 @@ Configuration variables:
   PHP_VERSION_DOWNLOAD
     PHP version to download. Format: <major>.<minor>[.<patch>][<extra>]
 
-  <OTHER_PHP_CONFIGURATION_VARIABLES>
-    See build system documentation.
-
 For example:
 
-  cmake -B <build-dir> -D PHP_VERSION_DOWNLOAD=8.3-dev
-    will download PHP-8.3 Git branch archive file from GitHub.
+  cmake -B <build-dir>
+    will download PHP-8.3 Git branch archive from GitHub. Same as:
+      cmake -B <build-dir> -D PHP_VERSION_DOWNLOAD=8.3-dev
 
   cmake -B <build-dir> -D PHP_VERSION_DOWNLOAD=8.3
     will download latest stable 8.3 release tarball from php.net.
 
   cmake -B <build-dir> -D PHP_VERSION_DOWNLOAD=8.3.15
     will download specific PHP version tarball from php.net.
+
+Other PHP-related configuration variables can be passed similarly. For example:
+
+  cmake -B <build-dir> -D PHP_VERSION_DOWNLOAD=8.3 -D PHP_THREAD_SAFETY=ON
+    will download latest PHP 8.3 tarball and enable PHP thread safety (ZTS).
+
+After configuration and generation phase is complete, PHP can be built by:
+
+  cmake --build <build-dir> -j
+    will build PHP in parallel and built PHP binary should be then ready to use:
+      <build-dir>/php/sapi/cli/php -v
+
+See build system documentation for available PHP configuration variables and
+further information.
 #]=============================================================================]
 
 cmake_minimum_required(VERSION 3.25...3.31)
@@ -59,7 +72,7 @@ project(
 
 block(PROPAGATE phpUrl)
   set(
-    PHP_VERSION_DOWNLOAD ${PROJECT_VERSION}
+    PHP_VERSION_DOWNLOAD "${PROJECT_VERSION}-dev"
     CACHE STRING "The PHP version to download"
   )
   mark_as_advanced(PHP_VERSION_DOWNLOAD)
