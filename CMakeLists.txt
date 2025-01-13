@@ -1,12 +1,37 @@
-# Wrapper for integrating PHP sources with CMake
-#
-# This file uses the FetchContent module to download the PHP source code (from
-# a tarball), integrate additional CMake files, and apply necessary patches to
-# enable building PHP with CMake.
-#
-# While not part of the CMake-based build system itself, this file serves as a
-# wrapper to bridge the upstream PHP source code with the CMake-based build
-# system in this repository, streamlining the integration process.
+#[=============================================================================[
+Wrapper for integrating PHP sources with CMake
+
+This file uses the FetchContent module to download the PHP source code (from a
+tarball), integrate CMake files, and apply necessary patches to enable building
+PHP with CMake.
+
+While not part of the CMake-based build system itself, this file serves as a
+wrapper to bridge the upstream PHP source code with the CMake-based build system
+in this repository, streamlining the integration process.
+
+Basic usage:
+
+  cmake -B <build-dir> [<options>...]
+
+Configuration variables:
+
+  PHP_VERSION_DOWNLOAD
+    PHP version to download. Format: <major>.<minor>[.<patch>][<extra>]
+
+  <OTHER_PHP_CONFIGURATION_VARIABLES>
+    See build system documentation.
+
+For example:
+
+  cmake -B <build-dir> -D PHP_VERSION_DOWNLOAD=8.3-dev
+    will download PHP-8.3 Git branch archive file from GitHub.
+
+  cmake -B <build-dir> -D PHP_VERSION_DOWNLOAD=8.3
+    will download latest stable 8.3 release tarball from php.net.
+
+  cmake -B <build-dir> -D PHP_VERSION_DOWNLOAD=8.3.15
+    will download specific PHP version tarball from php.net.
+#]=============================================================================]
 
 cmake_minimum_required(VERSION 3.25...3.31)
 
@@ -33,19 +58,6 @@ project(
 ################################################################################
 
 block(PROPAGATE phpUrl)
-  # The PHP_VERSION_DOWNLOAD format: <major>.<minor>[.<patch>][<extra>]
-  #
-  # For example:
-  #
-  #   cmake -B <build-dir> -D PHP_VERSION_DOWNLOAD=8.3-dev
-  #     will download PHP-8.3 Git branch archive file from GitHub.
-  #
-  #   cmake -B <build-dir> -D PHP_VERSION_DOWNLOAD=8.3.15
-  #     will download this specific PHP version tarball from php.net.
-  #
-  #   cmake -B <build-dir> -D PHP_VERSION_DOWNLOAD=8.3
-  #     will download latest stable 8.3 release tarball from php.net.
-  #
   set(
     PHP_VERSION_DOWNLOAD ${PROJECT_VERSION}
     CACHE STRING "The PHP version to download"
@@ -66,14 +78,24 @@ block(PROPAGATE phpUrl)
     string(REGEX MATCH [[^([0-9]+\.[0-9]+)]] _ "${PHP_VERSION_DOWNLOAD}")
     message(
       FATAL_ERROR
-      "Version ${PHP_VERSION_DOWNLOAD} is not supported by the current "
-      "php-build-system Git repository branch. "
-      "Please, checkout php-build-system Git branch if available:\n"
+      "Version ${PHP_VERSION_DOWNLOAD} is not supported by the current Git "
+      "branch of the php-build-system repository. Please checkout the "
+      "PHP-${CMAKE_MATCH_1} Git branch if it exists:\n"
       "  git checkout PHP-${CMAKE_MATCH_1}"
     )
   endif()
 
-  if(PHP_VERSION_DOWNLOAD STREQUAL phpDevelopmentBranch)
+  set(branch "")
+  set(version "")
+
+  if(PHP_VERSION_DOWNLOAD MATCHES "^${phpDevelopmentBranch}(-dev)?(.*)$")
+    if(CMAKE_MATCH_2)
+      message(
+        WARNING
+        "PHP ${phpDevelopmentBranch} is marked as development branch. Version "
+        "has been set to ${phpDevelopmentBranch}-dev"
+      )
+    endif()
     set(branch "master")
   elseif(PHP_VERSION_DOWNLOAD MATCHES [[^([0-9]+\.[0-9]+)-dev$]])
     set(branch "PHP-${CMAKE_MATCH_1}")
@@ -94,14 +116,13 @@ block(PROPAGATE phpUrl)
     if(error)
       message(
         WARNING
-        "Latest PHP version could not be determined. "
-        "Setting version to ${PROJECT_VERSION}-dev.\n${error}"
+        "Latest PHP version could not be determined. Setting version to "
+        "${PROJECT_VERSION}-dev.\n${error}"
       )
       set(version "")
       set(branch "PHP-${PROJECT_VERSION}")
     endif()
   else()
-    set(branch "")
     set(version ${PHP_VERSION_DOWNLOAD})
   endif()
 
