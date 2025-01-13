@@ -53,29 +53,22 @@ git clone https://github.com/petk/php-build-system
 cd php-build-system
 ```
 
-### Step 3 - Download PHP and add CMake files
+### Step 3 - Generate build system to a build directory
 
 ```sh
-cmake -P bin/php.cmake
+cmake -B php-build
 ```
 
-### Step 4 - Generate build system to a build directory
-
-```sh
-cmake -S php-8.5-dev -B php-build
-```
-
-### Step 5 - Build PHP in parallel
+### Step 4 - Build PHP in parallel
 
 ```sh
 cmake --build php-build -j
 ```
 
-After build is complete, you should have a PHP binary that can be run on the
-command line:
+After build is complete, a PHP binary should be available to run:
 
 ```sh
-./php-build/sapi/cli/php -v
+./php-build/php/sapi/cli/php -v
 ```
 
 ## Introduction
@@ -139,8 +132,8 @@ git clone https://github.com/php/php-src
 cd php-src
 ```
 
-you end up with a large monolithic repository consisting of C source code files,
-PHP tests and other associated files:
+there is a large monolithic repository consisting of C source code files, PHP
+tests and other associated files:
 
 ```sh
 📂 <php-src>

@@ -66,46 +66,6 @@
       "name": "default-ninja",
       "configurePreset": "default-ninja",
       "inherits": "default"
-    },
-    {
-      "name": "all-disabled",
-      "configurePreset": "all-disabled",
-      "inherits": "default"
-    },
-    {
-      "name": "all-disabled-ts",
-      "configurePreset": "all-disabled-ts",
-      "inherits": "default"
-    },
-    {
-      "name": "all-disabled-ninja",
-      "configurePreset": "all-disabled-ninja",
-      "inherits": "default"
-    },
-    {
-      "name": "all-enabled",
-      "configurePreset": "all-enabled",
-      "inherits": "default"
-    },
-    {
-      "name": "all-enabled-shared",
-      "configurePreset": "all-enabled-shared",
-      "inherits": "default"
-    },
-    {
-      "name": "all-enabled-ts",
-      "configurePreset": "all-enabled-ts",
-      "inherits": "default"
-    },
-    {
-      "name": "all-enabled-2",
-      "configurePreset": "all-enabled-2",
-      "inherits": "default"
-    },
-    {
-      "name": "all-enabled-ninja",
-      "configurePreset": "all-enabled-ninja",
-      "inherits": "default"
     }
   ]
 }
