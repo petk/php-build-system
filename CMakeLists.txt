@@ -39,7 +39,7 @@ Other PHP-related configuration variables can be passed similarly. For example:
 After configuration and generation phase is complete, PHP can be built by:
 
   cmake --build <build-dir> -j
-    will build PHP in parallel and built PHP binary should be then ready to use:
+    and the built PHP binary should be then ready to run:
       <build-dir>/php/sapi/cli/php -v
 
 See build system documentation for available PHP configuration variables and
@@ -66,10 +66,7 @@ project(
   LANGUAGES NONE
 )
 
-################################################################################
 # Configuration.
-################################################################################
-
 block(PROPAGATE phpUrl)
   set(
     PHP_VERSION_DOWNLOAD "${PROJECT_VERSION}-dev"
