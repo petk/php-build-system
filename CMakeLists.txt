@@ -112,7 +112,7 @@ block(PROPAGATE phpUrl)
     set(branch "master")
   elseif(PHP_VERSION_DOWNLOAD MATCHES [[^([0-9]+\.[0-9]+)-dev$]])
     set(branch "PHP-${CMAKE_MATCH_1}")
-  elseif(PHP_VERSION_DOWNLOAD MATCHES [[^[0-9]+\.[0-9]+$]])
+  else()
     # Get the latest PHP stable version from JSON API.
     string(TIMESTAMP timestamp %s)
     set(file "${CMAKE_CURRENT_BINARY_DIR}/CMakeFiles/php-${timestamp}.json")
@@ -126,17 +126,23 @@ block(PROPAGATE phpUrl)
 
     string(JSON version ERROR_VARIABLE error GET "${json}" version)
 
-    if(error)
+    if(PHP_VERSION_DOWNLOAD MATCHES [[^[0-9]+\.[0-9]+$]] AND error)
       message(
         WARNING
         "Latest PHP version could not be determined. Setting version to "
-        "${PROJECT_VERSION}-dev.\n${error}"
+        "${PROJECT_VERSION}-dev."
       )
       set(version "")
       set(branch "PHP-${PROJECT_VERSION}")
+    elseif(NOT version)
+      message(
+        FATAL_ERROR
+        "PHP version ${PHP_VERSION_DOWNLOAD} could not be found. Either this "
+        "version is not available for download or some error happened. "
+        "Available versions can be found at:\n"
+        "  https://www.php.net/downloads.php"
+      )
     endif()
-  else()
-    set(version ${PHP_VERSION_DOWNLOAD})
   endif()
 
   if(branch)
