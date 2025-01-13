@@ -37,4 +37,9 @@ jobs:
         run: ./bin/check-cmake.php
 
       - name: Run PHP CS Fixer
-        run: php-cs-fixer check --diff --rules=@Symfony,@PER-CS --using-cache=no -- bin
+        run: |
+          PHP_CS_FIXER_IGNORE_ENV=1 php-cs-fixer check \
+            --diff \
+            --rules=@Symfony,@PER-CS \
+            --using-cache=no \
+            -- bin
