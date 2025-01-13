@@ -32,8 +32,6 @@ jobs:
           - { name: LLVM15, CC: clang-15, CXX: clang++-15, packages: clang-15 libomp-15-dev llvm-15-dev libc++-15-dev libc++abi1-15 lld-15 clang-tools-15 mlir-15-tools libmlir-15-dev }
         build_type:
           - Release
-        target:
-          - build
         generator:
           - Unix Makefiles
         php:
@@ -41,12 +39,7 @@ jobs:
     env:
       CC: ${{ matrix.compiler.CC }}
       CXX: ${{ matrix.compiler.CXX }}
-      SRC_DIR: ${{ github.workspace }}/php-src
-      BINARY_DIR: ${{ github.workspace }}/php-src
-      INSTALL_PREFIX: ${{ github.workspace }}/php-src/install
       CMAKE_BUILD_TYPE: ${{ matrix.build_type }}
-      GENERATOR: ${{ matrix.generator }}
-      TARGET: ${{ matrix.target }}
     steps:
       - name: Install compiler ${{ matrix.compiler.name }}
         run: |
@@ -127,25 +120,21 @@ jobs:
 
       - name: Build and install
         run: |
-          ./bin/php.cmake ${{ matrix.php }}
-          cd php-${{ matrix.php }}
           cmake --preset all-enabled
           cmake --build --preset all-enabled -j
 
       - name: Setup SNMP agents
         run: |
-          cd php-${{ matrix.php }}
-          sudo cp ext/snmp/tests/snmpd.conf /etc/snmp
-          sudo cp ext/snmp/tests/bigtest /etc/snmp
+          cd php-build/all-enabled/php-src
+          sudo cp ext/snmp/tests/{snmpd.conf,bigtest} /etc/snmp
           sudo systemctl restart snmpd
 
       - name: Setup Dovecot for testing imap extension
         run: |
-          cd php-${{ matrix.php }}
+          cd php-build/all-enabled/php-src
           sudo sh ext/imap/tests/setup/setup.sh
           sudo systemctl restart dovecot
 
       - name: Run tests
         run: |
-          cd php-${{ matrix.php }}
           ctest --preset all-enabled
