@@ -114,8 +114,8 @@ block(PROPAGATE phpUrl)
     set(branch "PHP-${CMAKE_MATCH_1}")
   elseif(PHP_VERSION_DOWNLOAD MATCHES [[^[0-9]+\.[0-9]+$]])
     # Get the latest PHP stable version from JSON API.
-    string(TIMESTAMP t %s)
-    set(file "${CMAKE_CURRENT_BINARY_DIR}/CMakeFiles/php-${t}.json")
+    string(TIMESTAMP timestamp %s)
+    set(file "${CMAKE_CURRENT_BINARY_DIR}/CMakeFiles/php-${timestamp}.json")
     file(
       DOWNLOAD
       "https://www.php.net/releases/?json&version=${PHP_VERSION_DOWNLOAD}"

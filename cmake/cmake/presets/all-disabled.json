@@ -64,5 +64,28 @@
       "name": "all-disabled-ninja",
       "configurePreset": "all-disabled-ninja"
     }
+  ],
+  "testPresets": [
+    {
+      "name": "all-disabled",
+      "configurePreset": "all-disabled",
+      "environment": {
+        "SKIP_IO_CAPTURE_TESTS": "1"
+      },
+      "output": {
+        "shortProgress": true,
+        "verbosity": "verbose"
+      }
+    },
+    {
+      "name": "all-disabled-ts",
+      "configurePreset": "all-disabled-ts",
+      "inherits": "all-disabled"
+    },
+    {
+      "name": "all-disabled-ninja",
+      "configurePreset": "all-disabled-ninja",
+      "inherits": "all-disabled"
+    }
   ]
 }
