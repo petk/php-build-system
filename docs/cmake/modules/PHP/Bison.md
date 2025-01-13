@@ -77,7 +77,7 @@ example, in command-line scripts.
   cmake --build <dir> --target codegen
   ```
 
-* `WORKING_DIRECTORY <directory>` - The path where the `re2c` is executed.
+* `WORKING_DIRECTORY <directory>` - The path where the `bison` is executed.
   Relative `<directory>` path is interpreted as being relative to the current
   binary directory. If not set, `bison` is by default executed in the
   `PHP_SOURCE_DIR` when building the php-src repository. Otherwise it is
