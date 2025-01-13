@@ -141,16 +141,17 @@ jobs:
 
       - name: Install PHP
         run: |
-          cd php-${{ matrix.php }}
           cmake --install php-build/all-enabled
 
       - name: Setup shared standalone extension
         run: |
-          cd php-${{ matrix.php }}
-          php ext/ext_skel.php --ext phantom
-          mkdir ext/phantom/cmake/modules
-          cp cmake/modules/FindPHP.cmake ext/phantom/cmake/modules
-          cmake -S ext/phantom -B ext/phantom/cmake-build
-          cmake --build ext/phantom/cmake-build -j
-          cmake --install ext/phantom/cmake-build
-          #php -d extension=phantom -m | grep phantom
+          php php-build/all-enabled/php-src/ext/ext_skel.php --ext phantom
+          mkdir -p php-build/all-enabled/php-src/ext/phantom/cmake/modules
+          cp cmake/cmake/modules/FindPHP.cmake \
+            php-build/all-enabled/php-src/ext/phantom/cmake/modules
+          cmake \
+            -S php-build/all-enabled/php-src/ext/phantom \
+            -B php-build/all-enabled/php-src/ext/phantom/cmake-build
+          cmake --build php-build/all-enabled/php-src/ext/phantom/cmake-build -j
+          cmake --install php-build/all-enabled/php-src/ext/phantom/cmake-build
+          php -d extension=phantom -m | grep phantom
