@@ -15,6 +15,11 @@ See: https://gcc.gnu.org/bugzilla/show_bug.cgi?id=86914
 
 include_guard(GLOBAL)
 
+# Skip in consecutive configuration phases.
+if(DEFINED PHP_HAVE_BROKEN_OPTIMIZE_STRLEN)
+  return()
+endif()
+
 include(CheckSourceRuns)
 include(CMakePushCheckState)
 

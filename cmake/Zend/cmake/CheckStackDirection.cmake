@@ -12,6 +12,11 @@ Check whether the stack grows downwards. Assumes contiguous stack.
 
 include_guard(GLOBAL)
 
+# Skip in consecutive configuration phases.
+if(DEFINED ZEND_CHECK_STACK_LIMIT)
+  return()
+endif()
+
 include(CheckSourceRuns)
 include(CMakePushCheckState)
 

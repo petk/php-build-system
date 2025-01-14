@@ -47,6 +47,11 @@ if(NOT HAVE_FOPENCOOKIE)
   return()
 endif()
 
+# Skip in consecutive configuration phases.
+if(DEFINED COOKIE_SEEKER_USES_OFF64_T)
+  return()
+endif()
+
 # GNU C library can have a different seeker definition using off64_t.
 message(CHECK_START "Checking whether fopencookie seeker uses off64_t")
 

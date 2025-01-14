@@ -85,7 +85,11 @@ string(APPEND CMAKE_C_FLAGS " -D<extension>=1 ")`
 
 # Set configuration header code for consecutive module inclusions, if needed.
 if(NOT PHP_SYSTEM_EXTENSIONS_CODE)
-  get_property(PHP_SYSTEM_EXTENSIONS_CODE GLOBAL PROPERTY _PHP_SYSTEM_EXTENSIONS_CODE)
+  get_property(
+    PHP_SYSTEM_EXTENSIONS_CODE
+    GLOBAL
+    PROPERTY _PHP_SYSTEM_EXTENSIONS_CODE
+  )
 endif()
 
 include_guard(GLOBAL)

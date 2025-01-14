@@ -136,8 +136,10 @@ cmake_pop_check_state()
 check_type_size("gid_t" SIZEOF_GID_T)
 if(NOT HAVE_SIZEOF_GID_T)
   set(
-    gid_t int
-    CACHE INTERNAL "Define as 'int' if <sys/types.h> doesn't define."
+    gid_t
+    int
+    CACHE INTERNAL
+    "Define as 'int' if not defined in <sys/types.h>."
   )
 endif()
 
@@ -202,8 +204,10 @@ endif()
 check_type_size("uid_t" SIZEOF_UID_T)
 if(NOT HAVE_SIZEOF_UID_T)
   set(
-    uid_t int
-    CACHE INTERNAL "Define as 'int' if <sys/types.h> doesn't define."
+    uid_t
+    int
+    CACHE INTERNAL
+    "Define as 'int' if not defined in <sys/types.h>."
   )
 endif()
 
@@ -434,9 +438,7 @@ endif()
 include(PHP/CheckByteOrder)
 
 # Check for IPv6 support.
-if(PHP_IPV6)
-  include(PHP/CheckIPv6)
-endif()
+include(PHP/CheckIPv6)
 
 # Check how flush should be called.
 include(PHP/CheckFlushIo)

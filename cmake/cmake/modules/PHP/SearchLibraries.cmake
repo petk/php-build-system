@@ -325,8 +325,10 @@ function(php_search_libraries)
 
       # Store found library in a cache variable for internal purpose.
       set(
-        ${libraryInternalVariable} ${library}
-        CACHE INTERNAL "Library required to use '${symbol}'."
+        ${libraryInternalVariable}
+        ${library}
+        CACHE INTERNAL
+        "Library required to use '${symbol}'."
       )
 
       _php_search_libraries_populate()

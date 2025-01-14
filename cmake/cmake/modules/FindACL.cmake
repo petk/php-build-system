@@ -125,8 +125,10 @@ if(NOT DEFINED ACL_IS_BUILT_IN)
 
     if(_acl_works)
       set(
-        ACL_IS_BUILT_IN TRUE
-        CACHE INTERNAL "Whether ACL is a part of the C library"
+        ACL_IS_BUILT_IN
+        TRUE
+        CACHE INTERNAL
+        "Whether ACL is a part of the C library."
       )
     else()
       set(ACL_IS_BUILT_IN FALSE)

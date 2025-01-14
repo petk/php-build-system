@@ -20,6 +20,11 @@ TODO: Adjust checks for MSVC.
 
 include_guard(GLOBAL)
 
+# Skip in consecutive configuration phases.
+if(DEFINED PHP_HAVE_AVX512_SUPPORTS AND DEFINED PHP_HAVE_AVX512_VBMI_SUPPORTS)
+  return()
+endif()
+
 include(CheckSourceCompiles)
 include(CMakePushCheckState)
 
