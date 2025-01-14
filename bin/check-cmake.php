@@ -160,6 +160,12 @@ function getProjectModules(): array
         'CheckTypeSize' => ['check_type_size'],
         'CheckVariableExists' => ['check_variable_exists'],
         'CMakeDependentOption' => ['cmake_dependent_option'],
+        'CMakePackageConfigHelpers' => [
+            'configure_package_config_file',
+            'generate_apple_architecture_selection_file',
+            'generate_apple_platform_selection_file',
+            'write_basic_package_version_file',
+        ],
         'CMakePushCheckState' => [
             'cmake_pop_check_state',
             'cmake_push_check_state',
