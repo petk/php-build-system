@@ -17,6 +17,11 @@ POSIX.
 
 include_guard(GLOBAL)
 
+# Skip in consecutive configuration phases.
+if(DEFINED PHP_HPUX_TIME_R OR DEFINED PHP_IRIX_TIME_R)
+  return()
+endif()
+
 include(CheckSourceRuns)
 
 message(CHECK_START "Checking type of reentrant time-related functions")

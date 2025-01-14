@@ -6,11 +6,14 @@ Check if flush should be called explicitly after buffered io.
 ## Cache variables
 
 * `HAVE_FLUSHIO`
-
-  Whether flush should be called explicitly after a buffered io.
 #]=============================================================================]
 
 include_guard(GLOBAL)
+
+# Skip in consecutive configuration phases.
+if(DEFINED HAVE_FLUSHIO)
+  return()
+endif()
 
 include(CheckIncludeFile)
 include(CheckSourceRuns)
@@ -22,7 +25,12 @@ message(CHECK_START
 
 if(CMAKE_SYSTEM_NAME STREQUAL "Windows")
   message(CHECK_FAIL "no")
-  set(HAVE_FLUSHIO FALSE CACHE INTERNAL "")
+  set(
+    HAVE_FLUSHIO
+    FALSE
+    CACHE INTERNAL
+    "Whether flush should be called explicitly after a buffered io."
+  )
   return()
 endif()
 

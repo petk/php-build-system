@@ -103,6 +103,11 @@ function(_php_check_attribute what attribute result)
     message(FATAL_ERROR "Wrong argument passed: ${what}")
   endif()
 
+  # Skip in consecutive configuration phases.
+  if(DEFINED ${result})
+    return()
+  endif()
+
   message(CHECK_START "Checking for ${what} attribute ${attribute}")
 
   cmake_push_check_state(RESET)

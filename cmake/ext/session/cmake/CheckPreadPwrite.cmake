@@ -34,6 +34,11 @@ check_symbol_exists(<symbol> unistd.h HAVE_<SYMBOL>)
 
 include_guard(GLOBAL)
 
+# Skip in consecutive configuration phases.
+if(DEFINED _PHP_HAVE_PREAD AND DEFINED _PHP_HAVE_PWRITE)
+  return()
+endif()
+
 include(CheckFunctionExists)
 include(CheckSourceRuns)
 include(CMakePushCheckState)
@@ -49,10 +54,10 @@ function(_php_check_pread)
   # Check if linker sees the pread().
   cmake_push_check_state(RESET)
     set(CMAKE_REQUIRED_QUIET TRUE)
-    check_function_exists(pread _HAVE_PREAD)
+    check_function_exists(pread _PHP_HAVE_PREAD)
   cmake_pop_check_state()
 
-  if(NOT _HAVE_PREAD)
+  if(NOT _PHP_HAVE_PREAD)
     message(CHECK_FAIL "no (not found)")
     return()
   endif()
@@ -136,7 +141,7 @@ function(_php_check_pread)
     cmake_pop_check_state()
 
     if(PHP_PREAD_64)
-      set(HAVE_PREAD TRUE CACHE INTERNAL "Whether pread() works")
+      set(HAVE_PREAD TRUE CACHE INTERNAL "Whether pread() works.")
     endif()
   endif()
 
@@ -157,10 +162,10 @@ function(_php_check_pwrite)
   # Check if linker sees the pwrite().
   cmake_push_check_state(RESET)
     set(CMAKE_REQUIRED_QUIET TRUE)
-    check_function_exists(pwrite _HAVE_PWRITE)
+    check_function_exists(pwrite _PHP_HAVE_PWRITE)
   cmake_pop_check_state()
 
-  if(NOT _HAVE_PWRITE)
+  if(NOT _PHP_HAVE_PWRITE)
     message(CHECK_FAIL "no (not found)")
     return()
   endif()
@@ -243,7 +248,7 @@ function(_php_check_pwrite)
     cmake_pop_check_state()
 
     if(PHP_PWRITE_64)
-      set(HAVE_PWRITE TRUE CACHE INTERNAL "Whether pwrite() works")
+      set(HAVE_PWRITE TRUE CACHE INTERNAL "Whether pwrite() works.")
     endif()
   endif()
 

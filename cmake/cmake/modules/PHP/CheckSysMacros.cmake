@@ -64,6 +64,11 @@ int main(void)
 
 include_guard(GLOBAL)
 
+# Skip in consecutive configuration phases.
+if(DEFINED _PHP_HAVE_SYS_MACROS_CHECKED)
+  return()
+endif()
+
 include(CheckIncludeFile)
 include(CheckSymbolExists)
 
@@ -96,3 +101,10 @@ if(HAVE_MAKEDEV)
 else()
   message(CHECK_FAIL "not found")
 endif()
+
+set(
+  _PHP_HAVE_SYS_MACROS_CHECKED
+  TRUE
+  CACHE INTERNAL
+  "Internal marker whether 'major', 'minor' and 'makedev' have been checked."
+)

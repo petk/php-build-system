@@ -3,7 +3,7 @@
 
 Determine the C standard library used for the build.
 
-## Result variables
+## Cache variables
 
 * `PHP_C_STANDARD_LIBRARY`
 
@@ -16,13 +16,21 @@ Determine the C standard library used for the build.
     * `musl`
     * `uclibc`
 
-* `__MUSL__` - Whether C standard library is musl.
+  If library cannot be determined, it is set to empty string.
+
+* `__MUSL__` - Whether the C standard library is musl.
 #]=============================================================================]
 
 include_guard(GLOBAL)
 
+if(DEFINED PHP_C_STANDARD_LIBRARY)
+  return()
+endif()
+
 include(CheckSymbolExists)
 include(CMakePushCheckState)
+
+set(PHP_C_STANDARD_LIBRARY "" CACHE INTERNAL "The C standard library.")
 
 message(CHECK_START "Checking C standard library")
 
@@ -34,7 +42,7 @@ cmake_push_check_state(RESET)
   check_symbol_exists(__UCLIBC__ features.h _PHP_C_STANDARD_LIBRARY_UCLIBC)
 cmake_pop_check_state()
 if(_PHP_C_STANDARD_LIBRARY_UCLIBC)
-  set(PHP_C_STANDARD_LIBRARY "uclibc")
+  set_property(CACHE PHP_C_STANDARD_LIBRARY PROPERTY VALUE "uclibc")
   message(CHECK_PASS "uClibc")
   return()
 endif()
@@ -45,7 +53,7 @@ cmake_push_check_state(RESET)
   check_symbol_exists(__dietlibc__ features.h _PHP_C_STANDARD_LIBRARY_DIETLIBC)
 cmake_pop_check_state()
 if(_PHP_C_STANDARD_LIBRARY_DIETLIBC)
-  set(PHP_C_STANDARD_LIBRARY "dietlibc")
+  set_property(CACHE PHP_C_STANDARD_LIBRARY PROPERTY VALUE "dietlibc")
   message(CHECK_PASS "diet libc")
   return()
 endif()
@@ -57,7 +65,7 @@ cmake_push_check_state(RESET)
   check_symbol_exists(__GLIBC__ features.h _PHP_C_STANDARD_LIBRARY_GLIBC)
 cmake_pop_check_state()
 if(_PHP_C_STANDARD_LIBRARY_GLIBC)
-  set(PHP_C_STANDARD_LIBRARY "glibc")
+  set_property(CACHE PHP_C_STANDARD_LIBRARY PROPERTY VALUE "glibc")
   message(CHECK_PASS "GNU C (glibc)")
   return()
 endif()
@@ -68,7 +76,7 @@ cmake_push_check_state(RESET)
   check_symbol_exists(__LLVM_LIBC__ features.h _PHP_C_STANDARD_LIBRARY_LLVM)
 cmake_pop_check_state()
 if(_PHP_C_STANDARD_LIBRARY_LLVM)
-  set(PHP_C_STANDARD_LIBRARY "llvm")
+  set_property(CACHE PHP_C_STANDARD_LIBRARY PROPERTY VALUE "llvm")
   message(CHECK_PASS "LLVM libc")
   return()
 endif()
@@ -79,7 +87,7 @@ cmake_push_check_state(RESET)
   check_symbol_exists(_MSC_VER stdio.h _PHP_C_STANDARD_LIBRARY_MSCRT)
 cmake_pop_check_state()
 if(_PHP_C_STANDARD_LIBRARY_MSCRT)
-  set(PHP_C_STANDARD_LIBRARY "mscrt")
+  set_property(CACHE PHP_C_STANDARD_LIBRARY PROPERTY VALUE "mscrt")
   message(CHECK_PASS "MS C runtime library (CRT)")
   return()
 endif()
@@ -91,10 +99,10 @@ cmake_push_check_state(RESET)
   check_symbol_exists(__DEFINED_va_list stdarg.h _PHP_C_STANDARD_LIBRARY_MUSL)
 cmake_pop_check_state()
 if(_PHP_C_STANDARD_LIBRARY_MUSL)
-  set(PHP_C_STANDARD_LIBRARY "musl")
+  set_property(CACHE PHP_C_STANDARD_LIBRARY PROPERTY VALUE "musl")
 else()
   # Otherwise, try determining musl libc with ldd.
-  block(PROPAGATE PHP_C_STANDARD_LIBRARY)
+  block()
     execute_process(
       COMMAND ldd --version
       OUTPUT_VARIABLE version
@@ -103,12 +111,12 @@ else()
     )
 
     if(version MATCHES ".*musl libc.*")
-      set(PHP_C_STANDARD_LIBRARY "musl")
+      set_property(CACHE PHP_C_STANDARD_LIBRARY PROPERTY VALUE "musl")
     endif()
   endblock()
 endif()
 if(PHP_C_STANDARD_LIBRARY STREQUAL "musl")
-  set(__MUSL__ TRUE)
+  set(__MUSL__ TRUE CACHE INTERNAL "Whether the C standard library is musl.")
   message(CHECK_PASS "musl")
   return()
 endif()

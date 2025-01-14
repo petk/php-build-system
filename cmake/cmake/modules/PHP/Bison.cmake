@@ -288,14 +288,14 @@ function(php_bison name input output)
 
   _php_bison_config()
 
+  # Skip consecutive find_package() calls when:
+  # - project calls php_bison() multiple times and Bison will be downloaded
+  # - the outer find_package() was called prior to php_bison()
+  # - running consecutive configuration phases and Bison will be downloaded
   if(
-    # Skip consecutive find_package() calls when:
-    # - project calls php_bison() multiple times and Bison will be downloaded:
     NOT TARGET Bison::Bison
-    # - the outer find_package() was called prior to php_bison():
     AND NOT DEFINED BISON_FOUND
-    # - running consecutive configuration phases:
-    AND NOT BISON_EXECUTABLE
+    AND NOT _PHP_BISON_DOWNLOAD
   )
     find_package(BISON ${PHP_BISON_VERSION} ${quiet})
   endif()
@@ -649,6 +649,13 @@ function(_php_bison_download)
   set_property(GLOBAL PROPERTY PACKAGES_NOT_FOUND packagesNotFound)
   get_property(packagesFound GLOBAL PROPERTY PACKAGES_FOUND)
   set_property(GLOBAL APPEND PROPERTY PACKAGES_FOUND BISON)
+
+  set(
+    _PHP_BISON_DOWNLOAD
+    TRUE
+    CACHE INTERNAL
+    "Internal marker whether the Bison will be downloaded."
+  )
 
   return(PROPAGATE BISON_FOUND BISON_VERSION)
 endfunction()
