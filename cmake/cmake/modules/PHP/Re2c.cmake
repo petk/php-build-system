@@ -296,14 +296,14 @@ function(php_re2c name input output)
 
   _php_re2c_config()
 
+  # Skip consecutive find_package() calls when:
+  # - project calls php_re2c() multiple times and re2c will be downloaded
+  # - the outer find_package() was called prior to php_re2c()
+  # - running consecutive configuration phases and re2c will be downloaded
   if(
-    # Skip consecutive find_package() calls when:
-    # - project calls php_re2c() multiple times and re2c will be downloaded:
     NOT TARGET RE2C::RE2C
-    # - the outer find_package() was called prior to php_re2c():
     AND NOT DEFINED RE2C_FOUND
-    # - running consecutive configuration phases:
-    AND NOT RE2C_EXECUTABLE
+    AND NOT _PHP_RE2C_DOWNLOAD
   )
     find_package(RE2C ${PHP_RE2C_VERSION} ${quiet})
   endif()
@@ -652,6 +652,13 @@ function(_php_re2c_download)
   set_property(GLOBAL PROPERTY PACKAGES_NOT_FOUND packagesNotFound)
   get_property(packagesFound GLOBAL PROPERTY PACKAGES_FOUND)
   set_property(GLOBAL APPEND PROPERTY PACKAGES_FOUND RE2C)
+
+  set(
+    _PHP_RE2C_DOWNLOAD
+    TRUE
+    CACHE INTERNAL
+    "Internal marker whether the re2c will be downloaded."
+  )
 
   return(PROPAGATE RE2C_FOUND RE2C_VERSION)
 endfunction()

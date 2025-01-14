@@ -6,12 +6,15 @@ like SunOS has. This check is obsolete on current Solaris/illumos versions.
 
 ## Result variables
 
-* MISSING_FCLOSE_DECL
-
-  Whether `fclose` declaration is missing.
+* `MISSING_FCLOSE_DECL`
 #]=============================================================================]
 
 include_guard(GLOBAL)
+
+# Skip in consecutive configuration phases.
+if(DEFINED MISSING_FCLOSE_DECL)
+  return()
+endif()
 
 include(CheckSymbolExists)
 include(CMakePushCheckState)
@@ -21,12 +24,20 @@ message(CHECK_START "Checking fclose declaration")
 # Checking if symbol exists also checks if it is declared.
 cmake_push_check_state(RESET)
   set(CMAKE_REQUIRED_QUIET TRUE)
-  check_symbol_exists(fclose stdio.h _HAVE_FCLOSE)
+  check_symbol_exists(fclose stdio.h _PHP_HAVE_FCLOSE)
 cmake_pop_check_state()
 
-if(NOT _HAVE_FCLOSE)
-  message(CHECK_FAIL "missing")
-  set(MISSING_FCLOSE_DECL TRUE)
-else()
+set(
+  MISSING_FCLOSE_DECL
+  ""
+  CACHE INTERNAL
+  "Whether the 'fclose()' declaration is missing."
+)
+
+if(_PHP_HAVE_FCLOSE)
   message(CHECK_PASS "found")
+  set_property(CACHE MISSING_FCLOSE_DECL PROPERTY VALUE FALSE)
+else()
+  message(CHECK_FAIL "missing")
+  set_property(CACHE MISSING_FCLOSE_DECL PROPERTY VALUE TRUE)
 endif()

@@ -80,7 +80,7 @@ if(NOT INLINE_KEYWORD_DEFINITION)
     INLINE_KEYWORD_DEFINITION
     "${INLINE_STRING}"
     CACHE INTERNAL
-    "Compiler inline keyword definition"
+    "Compiler inline keyword definition."
   )
 
   unset(INLINE_STRING)

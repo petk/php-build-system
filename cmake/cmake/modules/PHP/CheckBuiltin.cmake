@@ -27,6 +27,11 @@ include(CheckSourceCompiles)
 include(CMakePushCheckState)
 
 function(php_check_builtin builtin result)
+  # Skip in consecutive configuration phases.
+  if(DEFINED ${result})
+    return()
+  endif()
+
   message(CHECK_START "Checking for ${builtin}")
 
   if(builtin STREQUAL "__builtin_clz")

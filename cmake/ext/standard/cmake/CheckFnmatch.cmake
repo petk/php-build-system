@@ -19,6 +19,11 @@ https://www.gnu.org/software/gnulib/MODULES.html#module=fnmatch
 
 include_guard(GLOBAL)
 
+# Skip in consecutive configuration phases.
+if(DEFINED HAVE_FNMATCH)
+  return()
+endif()
+
 include(CheckSourceRuns)
 include(CMakePushCheckState)
 
