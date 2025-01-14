@@ -7,14 +7,17 @@ Some non-ELF platforms, such as OpenBSD, FreeBSD, NetBSD, Mac OSX (~10.3),
 needed underscore character (`_`) prefix for symbols, when using `dlsym()`. This
 module is obsolete on current platforms.
 
-## Result variables
+## Cache variables
 
 * `DLSYM_NEEDS_UNDERSCORE`
-
-  Whether `dlsym()` requires a leading underscore in symbol names.
 #]=============================================================================]
 
 include_guard(GLOBAL)
+
+# Skip in consecutive configuration phases.
+if(DEFINED DLSYM_NEEDS_UNDERSCORE)
+  return()
+endif()
 
 include(CheckIncludeFile)
 
@@ -112,9 +115,17 @@ block()
   )
 endblock()
 
+set(
+  DLSYM_NEEDS_UNDERSCORE
+  ""
+  CACHE INTERNAL
+  "Whether 'dlsym()' requires a leading underscore in symbol names."
+)
+
 if(DLSYM_NEEDS_UNDERSCORE_COMPILED AND DLSYM_NEEDS_UNDERSCORE_EXITCODE EQUAL 2)
-  set(DLSYM_NEEDS_UNDERSCORE TRUE)
+  set_property(CACHE DLSYM_NEEDS_UNDERSCORE PROPERTY VALUE TRUE)
   message(CHECK_PASS "yes")
 else()
+  set_property(CACHE DLSYM_NEEDS_UNDERSCORE PROPERTY VALUE FALSE)
   message(CHECK_FAIL "no")
 endif()

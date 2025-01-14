@@ -12,6 +12,11 @@ Check whether writing to stdout works.
 
 include_guard(GLOBAL)
 
+# Skip in consecutive configuration phases.
+if(DEFINED PHP_WRITE_STDOUT)
+  return()
+endif()
+
 include(CheckIncludeFile)
 include(CheckSourceRuns)
 include(CMakePushCheckState)

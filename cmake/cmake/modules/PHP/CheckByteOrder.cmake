@@ -10,14 +10,30 @@ Check whether system byte ordering is big-endian.
 
 include_guard(GLOBAL)
 
+# Skip in consecutive configuration phases.
+if(DEFINED WORDS_BIGENDIAN)
+  return()
+endif()
+
 include(CheckSourceRuns)
 
 message(CHECK_START "Checking byte ordering")
 
 if(CMAKE_C_BYTE_ORDER STREQUAL "BIG_ENDIAN")
   message(CHECK_PASS "big-endian")
-  set(WORDS_BIGENDIAN TRUE CACHE INTERNAL "Whether byte ordering is big-endian.")
+  set(
+    WORDS_BIGENDIAN
+    TRUE
+    CACHE INTERNAL
+    "Whether byte ordering is big-endian."
+  )
 elseif(CMAKE_C_BYTE_ORDER STREQUAL "LITTLE_ENDIAN")
+  set(
+    WORDS_BIGENDIAN
+    FALSE
+    CACHE INTERNAL
+    "Whether byte ordering is big-endian."
+  )
   message(CHECK_PASS "little-endian")
 else()
   if(

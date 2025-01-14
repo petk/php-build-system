@@ -65,6 +65,11 @@ function(php_check_compiler_flag lang flag result)
     message(FATAL_ERROR "Missing arguments.")
   endif()
 
+  # Skip in consecutive configuration phases.
+  if(DEFINED ${result})
+    return()
+  endif()
+
   if(NOT CMAKE_REQUIRED_QUIET)
     message(CHECK_START "Checking whether the ${lang} compiler accepts ${flag}")
   endif()

@@ -16,6 +16,11 @@ See also: [GCC global register variables](https://gcc.gnu.org/onlinedocs/gcc/Glo
 
 include_guard(GLOBAL)
 
+# Skip in consecutive configuration phases.
+if(DEFINED HAVE_GCC_GLOBAL_REGS)
+  return()
+endif()
+
 include(CheckSourceCompiles)
 include(CMakePushCheckState)
 

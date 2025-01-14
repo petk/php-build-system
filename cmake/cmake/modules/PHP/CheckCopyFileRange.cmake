@@ -14,6 +14,11 @@ only on Linux.
 
 include_guard(GLOBAL)
 
+# Skip in consecutive configuration phases.
+if(DEFINED HAVE_COPY_FILE_RANGE)
+  return()
+endif()
+
 include(CheckSourceCompiles)
 include(CMakePushCheckState)
 

@@ -30,8 +30,6 @@ functions on current systems and this module might be obsolete in the future.
 
   Whether `strtok_r()` is available.
 
-## Result variables
-
 * `MISSING_ASCTIME_R_DECL`
 
   Whether `asctime_r()` is not declared.
@@ -64,6 +62,10 @@ include(CMakePushCheckState)
 function(_php_check_reentrant_function symbol header)
   string(TOUPPER "${symbol}" const)
 
+  if(DEFINED PHP_HAVE_DECL_${const})
+    return()
+  endif()
+
   # Check if linker sees the function.
   check_function_exists(${symbol} HAVE_${const})
 
@@ -76,11 +78,18 @@ function(_php_check_reentrant_function symbol header)
 
   if(NOT PHP_HAVE_DECL_${const})
     message(CHECK_FAIL "missing")
-
-    set(MISSING_${const}_DECL TRUE)
+    set(isMissing TRUE)
   else()
     message(CHECK_PASS "found")
+    set(isMissing FALSE)
   endif()
+
+  set(
+    MISSING_${const}_DECL
+    ${isMissing}
+    CACHE INTERNAL
+    "Whether the ${symbol}() is not declared."
+  )
 endfunction()
 
 _php_check_reentrant_function(asctime_r time.h)

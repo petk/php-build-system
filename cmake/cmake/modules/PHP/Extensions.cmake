@@ -503,10 +503,11 @@ function(php_extensions_configure_headers)
       file(READ ${binaryDir}/config.h current)
     endif()
 
-    string(STRIP "${template}\n${current}" config)
-
     # Finalize extension's config.h header file.
-    file(CONFIGURE OUTPUT ${binaryDir}/config.h CONTENT "${config}\n")
+    if(NOT current MATCHES "(#undef|#define) ${macro}")
+      string(STRIP "${template}\n${current}" config)
+      file(CONFIGURE OUTPUT ${binaryDir}/config.h CONTENT "${config}\n")
+    endif()
   endforeach()
 endfunction()
 

@@ -3,19 +3,24 @@
 
 Check for IPv6 support.
 
-## Cache variables
+## Result variables
 
 * `HAVE_IPV6`
 
-  Whether IPv6 support is enabled.
+  Whether IPv6 support is supported and enabled.
 #]=============================================================================]
-
-include_guard(GLOBAL)
 
 include(CheckSourceCompiles)
 include(CMakePushCheckState)
 
+set(HAVE_IPV6 FALSE)
+
 message(CHECK_START "Checking for IPv6 support")
+
+if(NOT PHP_IPV6)
+  message(CHECK_FAIL "no")
+  return()
+endif()
 
 cmake_push_check_state(RESET)
   set(CMAKE_REQUIRED_QUIET TRUE)
@@ -36,10 +41,11 @@ cmake_push_check_state(RESET)
 
       return 0;
     }
-  ]] HAVE_IPV6)
+  ]] _PHP_HAVE_IPV6)
 cmake_pop_check_state()
 
-if(HAVE_IPV6)
+if(_PHP_HAVE_IPV6)
+  set(HAVE_IPV6 TRUE)
   message(CHECK_PASS "yes")
 else()
   message(CHECK_FAIL "no")
