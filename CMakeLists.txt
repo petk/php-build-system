@@ -42,6 +42,15 @@ After configuration and generation phase is complete, PHP can be built by:
     and the built PHP binary should be then ready to run:
       <build-dir>/php/sapi/cli/php -v
 
+PHP configuration can be also specified with the CMake presets:
+
+  cmake --preset <preset>
+
+For example:
+
+  cmake --preset all-enabled
+  cmake --build --preset all-enabled -j
+
 See build system documentation for available PHP configuration variables and
 further information.
 #]=============================================================================]
