@@ -160,6 +160,7 @@ function getProjectModules(): array
         'CheckTypeSize' => ['check_type_size'],
         'CheckVariableExists' => ['check_variable_exists'],
         'CMakeDependentOption' => ['cmake_dependent_option'],
+        'CMakeFindDependencyMacro' => ['find_dependency'],
         'CMakePackageConfigHelpers' => [
             'configure_package_config_file',
             'generate_apple_architecture_selection_file',
@@ -195,6 +196,7 @@ function getProjectModules(): array
             'find_package_handle_standard_args',
         ],
         'FindPackageMessage' => ['find_package_message'],
+        'GenerateExportHeader' => ['generate_export_header'],
         'ProcessorCount' => ['processorcount'],
         'PHP/AddCustomCommand' => ['php_add_custom_command'],
         'PHP/Bison' => ['php_bison', '/find_package\([\n ]*BISON/'],
