@@ -45,6 +45,8 @@ Windows systems: extended SSL is enabled implicitly based on the Crypt32
 library regardless of this option.
 #]=============================================================================]
 
+cmake_minimum_required(VERSION 3.25...3.31)
+
 project(
   PhpExtensionMysqlnd
   LANGUAGES C

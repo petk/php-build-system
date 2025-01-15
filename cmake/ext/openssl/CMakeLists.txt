@@ -66,6 +66,8 @@ Note, that Kerberos support has been removed from the OpenSSL library as of
 OpenSSL 1.1.0.
 #]=============================================================================]
 
+cmake_minimum_required(VERSION 3.25...3.31)
+
 project(
   PhpExtensionOpenSsl
   LANGUAGES C

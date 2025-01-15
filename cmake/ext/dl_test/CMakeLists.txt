@@ -16,6 +16,8 @@ Enable the extension.
 This extension is always built as shared when enabled.
 #]=============================================================================]
 
+cmake_minimum_required(VERSION 3.25...3.31)
+
 project(
   PhpExtensionDlTest
   LANGUAGES C

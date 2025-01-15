@@ -111,6 +111,8 @@ Enable the QDBM (Quick Database Manager) handler
 Enable the Tokyo Cabinet abstract DB handler.
 #]=============================================================================]
 
+cmake_minimum_required(VERSION 3.25...3.31)
+
 project(
   PhpExtensionDba
   LANGUAGES C
