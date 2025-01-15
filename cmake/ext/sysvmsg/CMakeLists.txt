@@ -24,6 +24,8 @@ Enable the extension.
 Build extension as shared.
 #]=============================================================================]
 
+cmake_minimum_required(VERSION 3.25...3.31)
+
 project(
   PhpExtensionSysVmsg
   LANGUAGES C

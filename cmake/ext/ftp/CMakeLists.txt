@@ -30,6 +30,8 @@ enabled at the configure step (`PHP_EXT_OPENSSL=ON`), FTP-SSL is enabled
 implicitly regardless of this option.
 #]=============================================================================]
 
+cmake_minimum_required(VERSION 3.25...3.31)
+
 project(
   PhpExtensionFtp
   LANGUAGES C

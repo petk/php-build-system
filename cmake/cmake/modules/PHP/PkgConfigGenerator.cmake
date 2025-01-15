@@ -179,6 +179,8 @@ function(pkgconfig_generate_pc)
     GENERATE
     OUTPUT CMakeFiles/PkgConfigGeneratePc.cmake
     CONTENT [=[
+      cmake_minimum_required(VERSION 3.25...3.31)
+
       # TODO: Recheck this type of implementation.
       if(LINK_TXT)
         file(STRINGS ${LINK_TXT} content LIMIT_COUNT 1)

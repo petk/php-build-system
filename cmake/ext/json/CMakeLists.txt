@@ -7,6 +7,8 @@ This extension provides support for working with JavaScript Object Notation
 (JSON) and is always enabled.
 #]=============================================================================]
 
+cmake_minimum_required(VERSION 3.25...3.31)
+
 project(
   PhpExtensionJson
   LANGUAGES C

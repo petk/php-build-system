@@ -24,6 +24,8 @@ library, JIT support also depends on the target processor architecture and
 whether the PCRE library has it enabled.
 #]=============================================================================]
 
+cmake_minimum_required(VERSION 3.25...3.31)
+
 project(
   PhpExtensionPcre
   LANGUAGES C
