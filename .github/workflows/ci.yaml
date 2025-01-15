@@ -146,12 +146,8 @@ jobs:
       - name: Setup shared standalone extension
         run: |
           php php-build/all-enabled/php-src/ext/ext_skel.php --ext phantom
-          mkdir -p php-build/all-enabled/php-src/ext/phantom/cmake/modules
-          cp cmake/cmake/modules/FindPHP.cmake \
-            php-build/all-enabled/php-src/ext/phantom/cmake/modules
-          cmake \
-            -S php-build/all-enabled/php-src/ext/phantom \
-            -B php-build/all-enabled/php-src/ext/phantom/cmake-build
-          cmake --build php-build/all-enabled/php-src/ext/phantom/cmake-build -j
-          cmake --install php-build/all-enabled/php-src/ext/phantom/cmake-build
+          cd php-build/all-enabled/php-src/ext/phantom
+          cmake -B cmake-build
+          cmake --build cmake-build -j
+          cmake --install cmake-build
           php -d extension=phantom -m | grep phantom

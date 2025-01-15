@@ -57,3 +57,4 @@ find_package(Sendmail)
 # version required to run these PHP scripts.
 ################################################################################
 find_package(PHP 7.4 COMPONENTS Interpreter)
+set(CMAKE_DISABLE_FIND_PACKAGE_PHP TRUE)

@@ -52,6 +52,10 @@ if(NOT PHP_SAPI_CLI)
   return()
 endif()
 
+################################################################################
+# Configuration checks.
+################################################################################
+
 check_symbol_exists(setproctitle "unistd.h;stdlib.h" HAVE_SETPROCTITLE)
 check_include_file(sys/pstat.h HAVE_SYS_PSTAT_H)
 
@@ -73,6 +77,10 @@ if(HAVE_PS_STRINGS)
 else()
   message(CHECK_FAIL "no")
 endif()
+
+################################################################################
+# The cli SAPI.
+################################################################################
 
 add_executable(php_sapi_cli)
 add_executable(PHP::sapi::cli ALIAS php_sapi_cli)
@@ -102,7 +110,7 @@ target_compile_definitions(
 target_link_libraries(
   php_sapi_cli
   PRIVATE
-    PHP::sapi
+    $<BUILD_INTERFACE:PHP::sapi>
     $<$<PLATFORM_ID:Windows>:ws2_32;shell32>
 )
 
@@ -116,8 +124,8 @@ set_target_properties(
   php_sapi_cli
   PROPERTIES
     OUTPUT_NAME ${PHP_PROGRAM_PREFIX}php${PHP_PROGRAM_SUFFIX}
-    # TODO: Check if there's a better solution here:
-    ENABLE_EXPORTS TRUE
+    ENABLE_EXPORTS TRUE # TODO: Check if there's a better solution.
+    EXPORT_NAME Interpreter
     PHP_CLI TRUE
 )
 
@@ -129,6 +137,42 @@ if(CMAKE_SYSTEM_NAME STREQUAL "Windows")
       $<$<AND:$<TARGET_EXISTS:PHP::ext::readline>,$<NOT:$<IN_LIST:$<TARGET_PROPERTY:PHP::ext::readline,TYPE>,MODULE_LIBRARY;SHARED_LIBRARY>>>:$<TARGET_PROPERTY:PHP::ext::readline,IMPORTED_LINK_INTERFACE_LIBRARIES>>
   )
 endif()
+
+# Man documentation.
+block()
+  set(program_prefix "${PHP_PROGRAM_PREFIX}")
+  configure_file(php.1.in php.1 @ONLY)
+endblock()
+
+install(
+  TARGETS php_sapi_cli
+  EXPORT PHP::Interpreter
+  RUNTIME
+    DESTINATION ${CMAKE_INSTALL_BINDIR}
+    COMPONENT PHP::Interpreter
+  FILE_SET HEADERS
+    DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/${PHP_INCLUDE_PREFIX}/sapi/cli
+    COMPONENT PHP::Interpreter
+)
+
+install(
+  EXPORT PHP::Interpreter
+  FILE PHP_Interpreter.cmake
+  NAMESPACE PHP::
+  DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/PHP
+  COMPONENT PHP::Interpreter
+)
+
+install(
+  FILES ${CMAKE_CURRENT_BINARY_DIR}/php.1
+  RENAME ${PHP_PROGRAM_PREFIX}php${PHP_PROGRAM_SUFFIX}.1
+  DESTINATION ${CMAKE_INSTALL_MANDIR}/man1
+  COMPONENT PHP::Interpreter
+)
+
+################################################################################
+# The cli SAPI without console on Windows.
+################################################################################
 
 if(PHP_SAPI_CLI_WIN_NO_CONSOLE)
   add_executable(php_sapi_cli_win)
@@ -147,6 +191,7 @@ if(PHP_SAPI_CLI_WIN_NO_CONSOLE)
     php_sapi_cli_win
     PROPERTIES
       OUTPUT_NAME ${PHP_PROGRAM_PREFIX}php-win${PHP_PROGRAM_SUFFIX}
+      EXPORT_NAME InterpreterNoConsole
   )
 
   target_compile_definitions(
@@ -158,7 +203,7 @@ if(PHP_SAPI_CLI_WIN_NO_CONSOLE)
   target_link_libraries(
     php_sapi_cli_win
     PRIVATE
-      PHP::sapi
+      $<BUILD_INTERFACE:PHP::sapi>
       shell32
   )
 
@@ -167,26 +212,14 @@ if(PHP_SAPI_CLI_WIN_NO_CONSOLE)
     PRIVATE
       /stack:67108864
   )
+
+  install(
+    TARGETS php_sapi_cli_win
+    EXPORT PHP::Interpreter
+    RUNTIME
+      DESTINATION ${CMAKE_INSTALL_BINDIR}
+      COMPONENT PHP::Interpreter
+  )
 endif()
-
-# Man documentation.
-block()
-  set(program_prefix "${PHP_PROGRAM_PREFIX}")
-  configure_file(php.1.in php.1 @ONLY)
-endblock()
-
-install(
-  TARGETS php_sapi_cli
-  RUNTIME
-    DESTINATION ${CMAKE_INSTALL_BINDIR}
-  FILE_SET HEADERS
-    DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/${PHP_INCLUDE_PREFIX}/sapi/cli
-)
-
-install(
-  FILES ${CMAKE_CURRENT_BINARY_DIR}/php.1
-  RENAME ${PHP_PROGRAM_PREFIX}php${PHP_PROGRAM_SUFFIX}.1
-  DESTINATION ${CMAKE_INSTALL_MANDIR}/man1
-)
 
 configure_file(cmake/config.h.in config.h)

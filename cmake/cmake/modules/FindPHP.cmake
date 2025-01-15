@@ -349,6 +349,13 @@ Run application executable:
 
 cmake_minimum_required(VERSION 3.25...3.31)
 
+if(
+  CMAKE_PARENT_LIST_FILE STREQUAL "CMakeLists.txt"
+  AND PROJECT_NAME MATCHES "^php_ext_.+"
+)
+  list(APPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_LIST_DIR}/cmake/modules)
+endif()
+
 include(FeatureSummary)
 include(FindPackageHandleStandardArgs)
 
