@@ -61,8 +61,11 @@ block()
   endforeach()
 endblock()
 
+# Configure PHP installation.
+include(cmake/installation/Install.cmake)
+
 # Rebuild all targets as needed.
-if(NOT PHPSystem_EXECUTABLE)
+if(NOT PHP_FOUND)
   include(PHP/Rebuild)
 endif()
 

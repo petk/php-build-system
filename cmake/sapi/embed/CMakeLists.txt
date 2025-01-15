@@ -47,7 +47,7 @@ target_sources(
 target_link_libraries(
   php_sapi_embed
   PRIVATE
-    PHP::sapi
+    $<BUILD_INTERFACE:PHP::sapi>
 )
 
 target_compile_definitions(php_sapi_embed PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE)
@@ -56,8 +56,8 @@ set_target_properties(
   php_sapi_embed
   PROPERTIES
     OUTPUT_NAME libphp
-    # TODO: Check if there's a better solution here:
-    ENABLE_EXPORTS TRUE
+    ENABLE_EXPORTS TRUE # TODO: Check if there's a better solution.
+    EXPORT_NAME Embed
     PHP_CLI TRUE
 )
 
@@ -85,15 +85,27 @@ pkgconfig_generate_pc(
 
 install(
   TARGETS php_sapi_embed
+  EXPORT PHP::Embed
   RUNTIME
     DESTINATION ${CMAKE_INSTALL_LIBDIR}
+    COMPONENT PHP::Embed
   LIBRARY
     DESTINATION ${CMAKE_INSTALL_LIBDIR}
+    COMPONENT PHP::Embed
   FILE_SET HEADERS
     DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/${PHP_INCLUDE_PREFIX}/sapi/embed
 )
 
 install(
+  EXPORT PHP::Embed
+  FILE PHP_Embed.cmake
+  NAMESPACE PHP::
+  DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/PHP
+  COMPONENT PHP::Embed
+)
+
+install(
   FILES ${CMAKE_CURRENT_BINARY_DIR}/php-embed.pc
   DESTINATION ${CMAKE_INSTALL_LIBDIR}/pkgconfig
+  COMPONENT PHP::Embed
 )

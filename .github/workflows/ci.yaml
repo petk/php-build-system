@@ -138,3 +138,16 @@ jobs:
       - name: Run tests
         run: |
           ctest --preset all-enabled
+
+      - name: Install PHP
+        run: |
+          cmake --install php-build/all-enabled
+
+      - name: Setup shared standalone extension
+        run: |
+          php php-build/all-enabled/php-src/ext/ext_skel.php --ext phantom
+          cd php-build/all-enabled/php-src/ext/phantom
+          cmake -B cmake-build
+          cmake --build cmake-build -j
+          cmake --install cmake-build
+          php -d extension=phantom -m | grep phantom

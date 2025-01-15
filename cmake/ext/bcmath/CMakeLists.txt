@@ -20,10 +20,14 @@ Enable the extension.
 Build extension as shared.
 #]=============================================================================]
 
+cmake_minimum_required(VERSION 3.25...3.31)
+
 project(
   PhpExtensionBcMath
   LANGUAGES C
 )
+
+find_package(PHP COMPONENTS Development)
 
 include(CMakeDependentOption)
 include(FeatureSummary)
@@ -83,6 +87,8 @@ target_sources(
 )
 
 target_compile_definitions(php_ext_bcmath PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE)
+
+target_link_libraries(php_ext_bcmath PRIVATE PHP::Development)
 
 set(HAVE_BCMATH TRUE)
 
