@@ -28,6 +28,8 @@ Build extension as shared.
 Include libmm support for session storage (only for non-ZTS build).
 #]=============================================================================]
 
+cmake_minimum_required(VERSION 3.25...3.31)
+
 project(
   PhpExtensionSession
   LANGUAGES C

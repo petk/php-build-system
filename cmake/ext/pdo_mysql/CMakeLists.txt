@@ -33,6 +33,8 @@ installation on the system, can be customized with the `MYSQL_ROOT` and
 
 # TODO: Integrate zlib functionality.
 
+cmake_minimum_required(VERSION 3.25...3.31)
+
 project(
   PhpExtensionPdoMysql
   DESCRIPTION

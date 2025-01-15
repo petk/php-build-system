@@ -7,6 +7,8 @@ This extension provides support for random number generators and functions
 related to randomness. It is always enabled.
 #]=============================================================================]
 
+cmake_minimum_required(VERSION 3.25...3.31)
+
 project(
   PhpExtensionRandom
   LANGUAGES C
