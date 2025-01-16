@@ -5,11 +5,11 @@
 
 Check for IPv6 support.
 
-## Cache variables
+## Result variables
 
 * `HAVE_IPV6`
 
-  Whether IPv6 support is enabled.
+  Whether IPv6 support is supported and enabled.
 
 ## Basic usage
 

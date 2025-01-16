@@ -32,8 +32,6 @@ functions on current systems and this module might be obsolete in the future.
 
   Whether `strtok_r()` is available.
 
-## Result variables
-
 * `MISSING_ASCTIME_R_DECL`
 
   Whether `asctime_r()` is not declared.

@@ -9,8 +9,6 @@ Check if flush should be called explicitly after buffered io.
 
 * `HAVE_FLUSHIO`
 
-  Whether flush should be called explicitly after a buffered io.
-
 ## Basic usage
 
 ```cmake

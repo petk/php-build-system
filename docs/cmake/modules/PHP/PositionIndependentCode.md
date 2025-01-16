@@ -3,7 +3,8 @@
 
 # PHP/PositionIndependentCode
 
-Check whether to enable the `POSITION_INDEPENDENT_CODE` or not.
+Check whether to enable the `POSITION_INDEPENDENT_CODE` or not for all targets.
+The SHARED and MODULE targets have PIC enabled regardless of this option.
 
 https://cmake.org/cmake/help/latest/variable/CMAKE_POSITION_INDEPENDENT_CODE.html
 
