@@ -1,7 +1,8 @@
 #[=============================================================================[
 # PHP/PositionIndependentCode
 
-Check whether to enable the `POSITION_INDEPENDENT_CODE` or not.
+Check whether to enable the `POSITION_INDEPENDENT_CODE` or not for all targets.
+The SHARED and MODULE targets have PIC enabled regardless of this option.
 
 https://cmake.org/cmake/help/latest/variable/CMAKE_POSITION_INDEPENDENT_CODE.html
 #]=============================================================================]
@@ -13,7 +14,6 @@ if(CMAKE_C_COMPILER_ID STREQUAL "Clang" AND CMAKE_SIZEOF_VOID_P EQUAL 4)
   # required.
   set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 else()
-  # Disable PIC for all targets. PIC is enabled for shared extensions manually.
   set(CMAKE_POSITION_INDEPENDENT_CODE OFF)
 endif()
 
