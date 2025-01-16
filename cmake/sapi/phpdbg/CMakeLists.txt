@@ -138,7 +138,7 @@ target_compile_definitions(
 target_link_libraries(
   php_sapi_phpdbg
   PRIVATE
-    PHP::sapi
+    $<BUILD_INTERFACE:PHP::sapi>
     $<$<PLATFORM_ID:Windows>:ws2_32;user32>
 )
 
@@ -152,8 +152,7 @@ set_target_properties(
   php_sapi_phpdbg
   PROPERTIES
     OUTPUT_NAME ${PHP_PROGRAM_PREFIX}phpdbg${PHP_PROGRAM_SUFFIX}
-    # TODO: Check if there's a better solution here:
-    ENABLE_EXPORTS TRUE
+    ENABLE_EXPORTS TRUE # TODO: Check if there's a better solution.
     PHP_CLI TRUE
 )
 
@@ -193,6 +192,7 @@ add_feature_info(
 ################################################################################
 
 # TODO: Should readline support be also enabled like in the executable?
+# TODO: fix this better in the future (building with -fPIC etc).
 if(PHP_SAPI_PHPDBG_SHARED)
   add_library(php_sapi_phpdbg_shared SHARED)
   add_library(PHP::sapi::phpdbg_shared ALIAS php_sapi_phpdbg_shared)
@@ -212,8 +212,7 @@ if(PHP_SAPI_PHPDBG_SHARED)
   target_link_libraries(
     php_sapi_phpdbg_shared
     PRIVATE
-      # TODO: fix this better in the future (building with -fPIC etc).
-      PHP::sapi
+      $<BUILD_INTERFACE:PHP::sapi>
       $<$<PLATFORM_ID:Windows>:ws2_32;user32>
   )
 endif()
