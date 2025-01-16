@@ -41,7 +41,7 @@ target_compile_definitions(php_sapi_cgi PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE)
 target_link_libraries(
   php_sapi_cgi
   PRIVATE
-    PHP::sapi
+    $<BUILD_INTERFACE:PHP::sapi>
     $<$<PLATFORM_ID:Windows>:ws2_32;kernel32;advapi32>
 )
 
@@ -55,8 +55,7 @@ set_target_properties(
   php_sapi_cgi
   PROPERTIES
     OUTPUT_NAME ${PHP_PROGRAM_PREFIX}php-cgi${PHP_PROGRAM_SUFFIX}
-    # TODO: Check if there's a better solution here:
-    ENABLE_EXPORTS TRUE
+    ENABLE_EXPORTS TRUE # TODO: Check if there's a better solution.
     PHP_CLI TRUE
 )
 

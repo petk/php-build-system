@@ -56,8 +56,7 @@ set_target_properties(
   php_sapi_embed
   PROPERTIES
     OUTPUT_NAME libphp
-    # TODO: Check if there's a better solution here:
-    ENABLE_EXPORTS TRUE
+    ENABLE_EXPORTS TRUE # TODO: Check if there's a better solution.
     PHP_CLI TRUE
 )
 

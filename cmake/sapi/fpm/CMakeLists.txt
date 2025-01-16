@@ -235,15 +235,14 @@ target_compile_definitions(php_sapi_fpm PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE)
 target_link_libraries(
   php_sapi_fpm
   PRIVATE
-    PHP::sapi
+    $<BUILD_INTERFACE:PHP::sapi>
 )
 
 set_target_properties(
   php_sapi_fpm
   PROPERTIES
     OUTPUT_NAME ${PHP_PROGRAM_PREFIX}php-fpm${PHP_PROGRAM_SUFFIX}
-    # TODO: Check if there's a better solution here:
-    ENABLE_EXPORTS TRUE
+    ENABLE_EXPORTS TRUE # TODO: Check if there's a better solution.
 )
 
 ################################################################################
