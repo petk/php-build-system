@@ -284,6 +284,7 @@ version available on the operating system.
 * 3.27
   * `COMPILE_ONLY` generator expression
   * `INSTALL_PREFIX` generator expression in `install(CODE)`
+  * `$<LIST:FILTER,list,...>` generator expression
   * `$<LIST:SORT,list[,...]>` generator expression
   * `<PACKAGENAME>_ROOT` variables in addition to `<PackageName>_ROOT`
 * 3.29
