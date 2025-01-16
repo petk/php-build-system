@@ -453,12 +453,6 @@ function(php_extensions_postconfigure extension)
 
   target_compile_definitions(php_ext_${extension} PRIVATE ZEND_COMPILE_DL_EXT)
 
-  set_target_properties(
-    php_ext_${extension}
-    PROPERTIES
-      POSITION_INDEPENDENT_CODE ON
-  )
-
   # Set build-phase location for shared extensions.
   get_target_property(location php_ext_${extension} LIBRARY_OUTPUT_DIRECTORY)
   if(NOT location)

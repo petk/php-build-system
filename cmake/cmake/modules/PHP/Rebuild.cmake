@@ -27,32 +27,37 @@ function(_php_rebuild_get_all_targets result dir)
   set(${result} ${targets} PARENT_SCOPE)
 endfunction()
 
-_php_rebuild_get_all_targets(targets ${CMAKE_CURRENT_SOURCE_DIR})
+block()
+  _php_rebuild_get_all_targets(targets ${CMAKE_CURRENT_SOURCE_DIR})
 
-add_custom_command(
-  OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/CMakeFiles/php_rebuild.timestamp
-  COMMAND
-    ${CMAKE_COMMAND}
-      -E cmake_echo_color --magenta --bold "Updating targets"
-  COMMAND
-    ${CMAKE_COMMAND}
-      -E touch ${CMAKE_CURRENT_BINARY_DIR}/CMakeFiles/php_rebuild.timestamp
-  COMMAND
-    ${CMAKE_COMMAND}
-      --build . --target php_rebuild -j
-  WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
-  DEPENDS ${targets}
-)
+  include(ProcessorCount)
+  processorcount(processors)
 
-add_custom_target(
-  php_rebuild_update_targets ALL
-  DEPENDS ${CMAKE_CURRENT_BINARY_DIR}/CMakeFiles/php_rebuild.timestamp
-)
+  add_custom_command(
+    OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/CMakeFiles/php_rebuild.timestamp
+    COMMAND
+      ${CMAKE_COMMAND}
+        -E cmake_echo_color --magenta --bold "Updating targets"
+    COMMAND
+      ${CMAKE_COMMAND}
+        -E touch ${CMAKE_CURRENT_BINARY_DIR}/CMakeFiles/php_rebuild.timestamp
+    COMMAND
+      ${CMAKE_COMMAND}
+        --build . --target php_rebuild -j ${processors}
+    WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
+    DEPENDS ${targets}
+  )
 
-add_custom_target(
-  php_rebuild
-  COMMAND
-    ${CMAKE_COMMAND}
-      -E rm -f ${CMAKE_CURRENT_BINARY_DIR}/CMakeFiles/php_rebuild.timestamp
-  DEPENDS ${targets}
-)
+  add_custom_target(
+    php_rebuild_update_targets ALL
+    DEPENDS ${CMAKE_CURRENT_BINARY_DIR}/CMakeFiles/php_rebuild.timestamp
+  )
+
+  add_custom_target(
+    php_rebuild
+    COMMAND
+      ${CMAKE_COMMAND}
+        -E rm -f ${CMAKE_CURRENT_BINARY_DIR}/CMakeFiles/php_rebuild.timestamp
+    DEPENDS ${targets}
+  )
+endblock()
