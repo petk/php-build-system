@@ -139,7 +139,7 @@ set_target_properties(
 target_link_libraries(
   php_sapi_fuzzer
   PRIVATE
-    PHP::sapi
+    $<BUILD_INTERFACE:PHP::sapi>
 )
 
 install(TARGETS php_sapi_fuzzer RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR})

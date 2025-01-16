@@ -78,7 +78,7 @@ set_package_properties(
 target_link_libraries(
   php_sapi_apache2handler
   PRIVATE
-    PHP::sapi
+    $<BUILD_INTERFACE:PHP::sapi>
     Apache::Apache
 )
 
