@@ -27,9 +27,9 @@ A minimum simplistic example:
 
 ```cmake
 # CMakeLists.txt
-cmake_minimum_required(VERSION 3.25)
+cmake_minimum_required(VERSION 3.25...3.31)
 
-project(PHP LANGUAGES C)
+project(PHP C)
 
 include(CheckSourceRuns)
 
@@ -41,7 +41,7 @@ check_source_runs(C [[
     printf("Hello world");
     return 0;
   }
-]] HAVE_HELLO_WORLD)
+]] PHP_HAVE_HELLO_WORLD)
 ```
 
 Setting target system name puts CMake in the cross-compilation mode:
@@ -50,16 +50,16 @@ Setting target system name puts CMake in the cross-compilation mode:
 cmake -DCMAKE_SYSTEM_NAME=Linux -S . -B build
 ```
 
-CMake will emit error indicating that cache variable `HAVE_HELLO_WORLD_EXITCODE`
-should be set manually:
+CMake will emit error indicating that cache variable
+`PHP_HAVE_HELLO_WORLD_EXITCODE` should be set manually:
 
 ```txt
--- Performing Test HAVE_HELLO_WORLD
+-- Performing Test PHP_HAVE_HELLO_WORLD
 CMake Error: try_run() invoked in cross-compiling mode, please set the following
 cache variables appropriately:
-   HAVE_HELLO_WORLD_EXITCODE (advanced)
+   PHP_HAVE_HELLO_WORLD_EXITCODE (advanced)
 For details see .../TryRunResults.cmake
--- Performing Test HAVE_HELLO_WORLD - Failed
+-- Performing Test PHP_HAVE_HELLO_WORLD - Failed
 -- Configuring incomplete, errors occurred!
 ```
 
@@ -71,7 +71,7 @@ When certain check result is known for the target system, the cache variables
 can be set manually. For example:
 
 ```sh
-cmake -DCMAKE_SYSTEM_NAME=Linux -DHAVE_HELLO_WORLD_EXITCODE=0 -S . -B build
+cmake -DCMAKE_SYSTEM_NAME=Linux -DPHP_HAVE_HELLO_WORLD_EXITCODE=0 -S . -B build
 ```
 
 ### 2.2. CMAKE_CROSSCOMPILING variable
@@ -90,7 +90,7 @@ else()
       printf("Hello world");
       return 0;
     }
-  ]] HAVE_HELLO_WORLD)
+  ]] PHP_HAVE_HELLO_WORLD)
 endif()
 ```
 
@@ -115,7 +115,7 @@ if(CMAKE_CROSSCOMPILING_EMULATOR OR NOT CMAKE_CROSSCOMPILING)
       printf("Hello world");
       return 0;
     }
-  ]] HAVE_HELLO_WORLD)
+  ]] PHP_HAVE_HELLO_WORLD)
 else()
   message(STATUS "Cross-compiling: Certain checks may not be applicable.")
 endif()
@@ -187,7 +187,7 @@ AC_RUN_IFELSE([AC_LANG_SOURCE([
     }
   ])],
   [AC_MSG_RESULT([yes])
-    AC_DEFINE([HAVE_HELLO_WORLD], [1], [Define if hello world is working.])],
+    AC_DEFINE([PHP_HAVE_HELLO_WORLD], [1], [Define if hello world works.])],
   [AC_MSG_RESULT([no])],
   [AC_MSG_RESULT([no (cross-compiling)])])
 ```
@@ -216,7 +216,7 @@ AC_CACHE_CHECK([for working hello world], [php_cv_have_hello_world],
   [php_cv_have_hello_world=no])])
 
 AS_VAR_IF([php_cv_have_hello_world], [yes],
-  [AC_DEFINE([HAVE_HELLO_WORLD], [1], [Define if hello world is working.])])
+  [AC_DEFINE([PHP_HAVE_HELLO_WORLD], [1], [Define if hello world works.])])
 ```
 
 Cache variables can be then passed to configure script to override the check:

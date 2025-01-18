@@ -549,9 +549,9 @@ define_property(<scope> PROPERTY PHP_CUSTOM_PROPERTY_NAME [...])
 
 CMake provides variables such as `APPLE`, `LINUX`, `UNIX`, `WIN32`, etc, for the
 target systems, and `CMAKE_HOST_APPLE`, `CMAKE_HOST_LINUX`, etc, for the host
-systems. However, they some might be removed in the future CMake versions and
-they can be also ambiguous in certain cases. Better practice is to be specific
-and use:
+systems. However, they might be removed in the future CMake versions and they
+can be also ambiguous in certain cases. Better practice is to be specific and
+use:
 
 * `CMAKE_SYSTEM_NAME` in code or `PLATFORM_ID` in generator expressions to check
   the target platform (which is also the name used during cross-compilation).
@@ -587,9 +587,9 @@ toolchain file. When compiling on the machine for which the build is also
 targeted, the `CMAKE_SYSTEM_PROCESSOR` and `CMAKE_HOST_SYSTEM_PROCESSOR` will be
 the same.
 
-Processor is determined by various ways depending on the system. For example, on
-FreeBSD the `x86_64` is detected as `amd64`, on Windows it is `AMD64` (detected
-from the `PROCESSOR_ARCHITECTURE` environment variable):
+The method for determining the processor varies depending on the system. For
+example, on FreeBSD the `x86_64` is detected as `amd64`, on Windows it is
+`AMD64` (detected from the `PROCESSOR_ARCHITECTURE` environment variable):
 
 ```cmake
 if(CMAKE_SYSTEM_PROCESSOR MATCHES "^(x86_64|amd64|AMD64)$")
