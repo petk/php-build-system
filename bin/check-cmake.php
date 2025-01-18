@@ -135,7 +135,7 @@ function validateOptions(array $options): void
  */
 function getProjectModules(): array
 {
-    return  [
+    return [
         'CheckCCompilerFlag' => ['check_c_compiler_flag'],
         'CheckCompilerFlag' => ['check_compiler_flag'],
         'CheckCSourceCompiles' => ['check_c_source_compiles'],
@@ -166,6 +166,10 @@ function getProjectModules(): array
             'generate_apple_architecture_selection_file',
             'generate_apple_platform_selection_file',
             'write_basic_package_version_file',
+        ],
+        'CMakePrintHelpers' => [
+            'cmake_print_properties',
+            'cmake_print_variables',
         ],
         'CMakePushCheckState' => [
             'cmake_pop_check_state',

@@ -199,7 +199,7 @@ file(
     find_package(Git QUIET)
     if(NOT Git_FOUND)
       # See: https://gitlab.kitware.com/cmake/cmake/-/merge_requests/10164
-      if(CMAKE_VERSION VERSION_GREATER_EQUAL 3.32)
+      if(CMAKE_VERSION VERSION_GREATER_EQUAL 4.0)
         find_package(Patch QUIET)
       else()
         find_program(Patch_EXECUTABLE patch)
