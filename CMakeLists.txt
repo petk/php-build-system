@@ -57,7 +57,15 @@ further information.
 
 cmake_minimum_required(VERSION 3.25...3.31)
 
-if(CMAKE_SOURCE_DIR PATH_EQUAL CMAKE_BINARY_DIR)
+project(
+  PhpBuildSystem
+  VERSION 8.5
+  DESCRIPTION "CMake-based PHP build system"
+  HOMEPAGE_URL "https://github.com/petk/php-build-system"
+  LANGUAGES NONE
+)
+
+if(PROJECT_IS_TOP_LEVEL AND CMAKE_SOURCE_DIR PATH_EQUAL CMAKE_BINARY_DIR)
   message(
     FATAL_ERROR
     "In-source builds are disabled. Please, set the build directory.\n"
@@ -66,14 +74,6 @@ if(CMAKE_SOURCE_DIR PATH_EQUAL CMAKE_BINARY_DIR)
     "  cmake --build php-build -j"
   )
 endif()
-
-project(
-  PhpBuildSystem
-  VERSION 8.5
-  DESCRIPTION "CMake-based PHP build system"
-  HOMEPAGE_URL "https://github.com/petk/php-build-system"
-  LANGUAGES NONE
-)
 
 # Configuration.
 block(PROPAGATE phpUrl)
