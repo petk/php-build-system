@@ -27,8 +27,8 @@ if(CMAKE_VERSION VERSION_GREATER_EQUAL 3.29)
   endif()
 endif()
 
-# Check whether to enable interprocedural optimization.
-include(PHP/InterproceduralOptimization)
+# Check whether IPO/LTO can be enabled.
+include(PHP/Optimization)
 
 # Set CMAKE_POSITION_INDEPENDENT_CODE.
 include(PHP/PositionIndependentCode)
