@@ -47,7 +47,7 @@ target_sources(
 target_link_libraries(
   php_sapi_embed
   PRIVATE
-    PHP::sapi
+    $<BUILD_INTERFACE:PHP::sapi>
 )
 
 target_compile_definitions(php_sapi_embed PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE)
