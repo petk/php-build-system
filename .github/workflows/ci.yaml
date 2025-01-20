@@ -124,5 +124,7 @@ jobs:
           sudo systemctl restart snmpd
 
       - name: Run tests
-        run: |
-          ctest --preset all-enabled
+        run: ctest --preset all-enabled
+
+      - name: Install PHP
+        run: cmake --install php-build/all-enabled
