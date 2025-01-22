@@ -1,5 +1,3 @@
-include(PHP/ConfigureFile)
-
 # Man documentation.
 block()
   set(program_prefix "${PHP_PROGRAM_PREFIX}")
@@ -38,7 +36,9 @@ block()
     set(SED /usr/bin/sed)
   endif()
 
-  message(STATUS "Creating scripts/php-config")
+  ##############################################################################
+  # Install php-config script.
+  ##############################################################################
 
   get_property(sapis GLOBAL PROPERTY PHP_SAPIS)
   if(CMAKE_VERSION VERSION_GREATER_EQUAL 3.27)
@@ -57,43 +57,52 @@ block()
     content
     "${content}"
   )
+  file(WRITE "${CMAKE_CURRENT_BINARY_DIR}/CMakeFiles/PHP/php-config.in" "${content}")
 
-  php_configure_file(
-    CONTENT "${content}"
-    OUTPUT php-config
-    VARIABLES
-      SED "${SED}"
-      prefix "$<INSTALL_PREFIX>"
-      datarootdir "$<PATH:ABSOLUTE_PATH,NORMALIZE,${CMAKE_INSTALL_DATAROOTDIR},$<INSTALL_PREFIX>>"
-      exec_prefix "$<INSTALL_PREFIX>"
-      PHP_VERSION "${PHP_VERSION}"
-      PHP_VERSION_ID "${PHP_VERSION_ID}"
-      includedir "$<PATH:ABSOLUTE_PATH,NORMALIZE,${CMAKE_INSTALL_INCLUDEDIR}/${PHP_INCLUDE_PREFIX},$<INSTALL_PREFIX>>"
+  string(CONFIGURE [[
+    block()
+      set(SED "@SED@")
+      set(prefix "${CMAKE_INSTALL_PREFIX}")
+      set(datarootdir "${CMAKE_INSTALL_FULL_DATAROOTDIR}")
+      set(exec_prefix "${CMAKE_INSTALL_PREFIX}")
+      set(PHP_VERSION "@PHP_VERSION@")
+      set(PHP_VERSION_ID "@PHP_VERSION_ID@")
+      set(includedir "${CMAKE_INSTALL_FULL_INCLUDEDIR}/@PHP_INCLUDE_PREFIX@")
       # TODO:
-      PHP_LDFLAGS ""
+      set(PHP_LDFLAGS "")
       # TODO:
-      EXTRA_LIBS ""
-      EXTENSION_DIR "$<PATH:ABSOLUTE_PATH,NORMALIZE,${PHP_EXTENSION_DIR},$<INSTALL_PREFIX>>"
-      mandir "$<PATH:ABSOLUTE_PATH,NORMALIZE,${CMAKE_INSTALL_MANDIR},$<INSTALL_PREFIX>>"
-      program_prefix "${PHP_PROGRAM_PREFIX}"
-      program_suffix "${PHP_PROGRAM_SUFFIX}"
-      EXEEXT "${CMAKE_EXECUTABLE_SUFFIX}"
-      # TODO:
-      CONFIGURE_OPTIONS ""
-      PHP_INSTALLED_SAPIS "${sapis}"
-      EXPANDED_PHP_CONFIG_FILE_SCAN_DIR "$<PATH:ABSOLUTE_PATH,NORMALIZE,${PHP_CONFIG_FILE_SCAN_DIR},$<INSTALL_PREFIX>>"
-      EXPANDED_PHP_CONFIG_FILE_PATH "$<PATH:ABSOLUTE_PATH,NORMALIZE,${PHP_CONFIG_FILE_PATH},$<INSTALL_PREFIX>>"
-      bindir "$<PATH:ABSOLUTE_PATH,NORMALIZE,${CMAKE_INSTALL_BINDIR},$<INSTALL_PREFIX>>"
-  )
+      set(EXTRA_LIBS "")
+      set(EXTENSION_DIR "$<PATH:ABSOLUTE_PATH,NORMALIZE,@PHP_EXTENSION_DIR@,${CMAKE_INSTALL_PREFIX}>")
+      set(mandir "${CMAKE_INSTALL_FULL_MANDIR}")
+      set(program_prefix "@PHP_PROGRAM_PREFIX@")
+      set(program_suffix "@PHP_PROGRAM_SUFFIX@")
+      set(EXEEXT "@CMAKE_EXECUTABLE_SUFFIX@")
+      set(CONFIGURE_OPTIONS "")
+      set(PHP_INSTALLED_SAPIS "@sapis@")
+      set(EXPANDED_PHP_CONFIG_FILE_SCAN_DIR "$<PATH:ABSOLUTE_PATH,NORMALIZE,@PHP_CONFIG_FILE_SCAN_DIR@,${CMAKE_INSTALL_PREFIX}>")
+      set(EXPANDED_PHP_CONFIG_FILE_PATH "$<PATH:ABSOLUTE_PATH,NORMALIZE,@PHP_CONFIG_FILE_PATH@,${CMAKE_INSTALL_PREFIX}>")
+      set(bindir "${CMAKE_INSTALL_FULL_BINDIR}")
 
-  install(
-    PROGRAMS
-    ${CMAKE_CURRENT_BINARY_DIR}/php-config
-    DESTINATION ${CMAKE_INSTALL_BINDIR}
-    RENAME ${PHP_PROGRAM_PREFIX}php-config${PHP_PROGRAM_SUFFIX}
-  )
+      configure_file(
+        "@CMAKE_CURRENT_BINARY_DIR@/CMakeFiles/PHP/php-config.in"
+        "@CMAKE_CURRENT_BINARY_DIR@/php-config"
+        @ONLY
+      )
 
-  message(STATUS "Creating scripts/phpize")
+      file(
+        INSTALL
+        DESTINATION "${CMAKE_INSTALL_FULL_BINDIR}"
+        TYPE PROGRAM
+        RENAME "@PHP_PROGRAM_PREFIX@php-config@PHP_PROGRAM_SUFFIX@"
+        FILES "@CMAKE_CURRENT_BINARY_DIR@/php-config"
+      )
+    endblock()
+  ]] code @ONLY)
+  install(CODE "${code}")
+
+  ##############################################################################
+  # Install phpize script.
+  ##############################################################################
 
   # Replace the upstream phpize script hardcoded php include directory to a
   # template placeholder.
@@ -105,25 +114,33 @@ block()
     content
     "${content}"
   )
+  file(WRITE "${CMAKE_CURRENT_BINARY_DIR}/CMakeFiles/PHP/phpize.in" "${content}")
 
-  php_configure_file(
-    CONTENT "${content}"
-    OUTPUT phpize
-    VARIABLES
-      prefix "$<INSTALL_PREFIX>"
-      datarootdir "$<PATH:ABSOLUTE_PATH,NORMALIZE,${CMAKE_INSTALL_DATAROOTDIR},$<INSTALL_PREFIX>>"
-      exec_prefix "$<INSTALL_PREFIX>"
-      libdir "$<PATH:ABSOLUTE_PATH,NORMALIZE,${CMAKE_INSTALL_LIBDIR}/php,$<INSTALL_PREFIX>>"
-      includedir "$<PATH:ABSOLUTE_PATH,NORMALIZE,${CMAKE_INSTALL_INCLUDEDIR}/${PHP_INCLUDE_PREFIX},$<INSTALL_PREFIX>>"
-      SED "${SED}"
-  )
+  string(CONFIGURE [[
+    block()
+      set(prefix "${CMAKE_INSTALL_PREFIX}")
+      set(datarootdir "${CMAKE_INSTALL_FULL_DATAROOTDIR}")
+      set(exec_prefix "${CMAKE_INSTALL_PREFIX}")
+      set(libdir "${CMAKE_INSTALL_FULL_LIBDIR}/php")
+      set(includedir "${CMAKE_INSTALL_FULL_INCLUDEDIR}/@PHP_INCLUDE_PREFIX@")
+      set(SED "@SED@")
 
-  install(
-    PROGRAMS
-    ${CMAKE_CURRENT_BINARY_DIR}/phpize
-    DESTINATION ${CMAKE_INSTALL_BINDIR}
-    RENAME ${PHP_PROGRAM_PREFIX}phpize${PHP_PROGRAM_SUFFIX}
-  )
+      configure_file(
+        "@CMAKE_CURRENT_BINARY_DIR@/CMakeFiles/PHP/phpize.in"
+        "@CMAKE_CURRENT_BINARY_DIR@/phpize"
+        @ONLY
+      )
+
+      file(
+        INSTALL
+        DESTINATION "${CMAKE_INSTALL_FULL_BINDIR}"
+        TYPE PROGRAM
+        RENAME "@PHP_PROGRAM_PREFIX@phpize@PHP_PROGRAM_SUFFIX@"
+        FILES "@CMAKE_CURRENT_BINARY_DIR@/phpize"
+      )
+    endblock()
+  ]] code @ONLY)
+  install(CODE "${code}")
 endblock()
 
 # Configure pkg-config php.pc metadata file.
@@ -149,7 +166,7 @@ pkgconfig_generate_pc(
 
 install(
   FILES ${CMAKE_CURRENT_BINARY_DIR}/php.pc
-  DESTINATION ${CMAKE_INSTALL_LIBDIR}/pkgconfig
+  DESTINATION ${PHP_INSTALL_LIBDIR}/pkgconfig
 )
 
 # Install Autotools build files.
@@ -167,7 +184,7 @@ if(NOT CMAKE_SYSTEM_NAME STREQUAL "Windows")
       ${PHP_SOURCE_DIR}/build/pkg.m4
       ${PHP_SOURCE_DIR}/run-tests.php
       ${PHP_SOURCE_DIR}/scripts/phpize.m4
-    DESTINATION ${CMAKE_INSTALL_LIBDIR}/php/build
+    DESTINATION ${PHP_INSTALL_LIBDIR}/php/build
   )
 
   install(
@@ -175,6 +192,6 @@ if(NOT CMAKE_SYSTEM_NAME STREQUAL "Windows")
       ${PHP_SOURCE_DIR}/build/config.guess
       ${PHP_SOURCE_DIR}/build/config.sub
       ${PHP_SOURCE_DIR}/build/shtool
-    DESTINATION ${CMAKE_INSTALL_LIBDIR}/php/build
+    DESTINATION ${PHP_INSTALL_LIBDIR}/php/build
   )
 endif()

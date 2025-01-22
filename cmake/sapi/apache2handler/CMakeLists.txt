@@ -132,5 +132,5 @@ endif()
 
 install(
   TARGETS php_sapi_apache2handler
-  DESTINATION ${CMAKE_INSTALL_LIBDIR}
+  DESTINATION ${PHP_INSTALL_LIBDIR}
 )
