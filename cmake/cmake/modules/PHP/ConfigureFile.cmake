@@ -250,20 +250,21 @@ function(php_configure_file)
     )
   endblock()
 
-  install(CODE "
+  string(CONFIGURE [[
     block()
-      set(variables ${variables})
-      set(valuesInCode \"${valuesInCode}\")
+      set(variables @variables@)
+      set(valuesInCode "@valuesInCode@")
 
       foreach(var value IN ZIP_LISTS variables valuesInCode)
-        set(\${var} \"\${value}\")
+        set(${var} "${value}")
       endforeach()
 
       configure_file(
-        ${___phpConfigureFileTemplate}
-        ${___phpConfigureFileOutput}
+        "@___phpConfigureFileTemplate@"
+        "@___phpConfigureFileOutput@"
         @ONLY
       )
     endblock()
-  ")
+  ]] code @ONLY)
+  install(CODE "${code}")
 endfunction()
