@@ -649,7 +649,7 @@ function(_php_re2c_download)
   # Move dependency to PACKAGES_FOUND.
   get_property(packagesNotFound GLOBAL PROPERTY PACKAGES_NOT_FOUND)
   list(REMOVE_ITEM packagesNotFound RE2C)
-  set_property(GLOBAL PROPERTY PACKAGES_NOT_FOUND packagesNotFound)
+  set_property(GLOBAL PROPERTY PACKAGES_NOT_FOUND ${packagesNotFound})
   get_property(packagesFound GLOBAL PROPERTY PACKAGES_FOUND)
   set_property(GLOBAL APPEND PROPERTY PACKAGES_FOUND RE2C)
 
