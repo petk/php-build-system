@@ -245,20 +245,17 @@ function(pkgconfig_generate_pc)
     COMMENT "[PkgConfig] Generating ${outputRelativePath}"
   )
 
-  install(CODE "
+  string(CONFIGURE [[
     block()
-      set(resultVariables ${resultVariables})
-      set(resultValues \"${resultValues}\")
+      set(resultVariables @resultVariables@)
+      set(resultValues "@resultValues@")
 
       foreach(var value IN ZIP_LISTS resultVariables resultValues)
-        set(\${var} \"\${value}\")
+        set(${var} "${value}")
       endforeach()
 
-      configure_file(
-        ${template}
-        ${output}
-        @ONLY
-      )
+      configure_file("@template@" "@output@" @ONLY)
     endblock()
-  ")
+  ]] code @ONLY)
+  install(CODE "${code}")
 endfunction()
