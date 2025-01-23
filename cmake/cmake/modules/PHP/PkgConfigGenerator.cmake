@@ -51,13 +51,6 @@ template.
 
 include_guard(GLOBAL)
 
-find_program(
-  PKGCONFIG_OBJDUMP_EXECUTABLE
-  NAMES objdump
-  DOC "Path to the objdump executable"
-)
-mark_as_advanced(PKGCONFIG_OBJDUMP_EXECUTABLE)
-
 # Parse given variables and create a list of options or variables for passing to
 # add_custom_command and configure_file().
 function(_pkgconfig_parse_variables variables)
@@ -197,9 +190,9 @@ function(pkgconfig_generate_pc)
         list(REMOVE_DUPLICATES libs)
       endif()
 
-      if(PKGCONFIG_OBJDUMP_EXECUTABLE)
+      if(CMAKE_OBJDUMP)
         execute_process(
-          COMMAND objdump -p ${TARGET_FILE}
+          COMMAND ${CMAKE_OBJDUMP} -p ${TARGET_FILE}
           OUTPUT_VARIABLE result
           OUTPUT_STRIP_TRAILING_WHITESPACE
           ERROR_QUIET
@@ -243,7 +236,7 @@ function(pkgconfig_generate_pc)
     pkgconfig_${targetName}
     ALL
     COMMAND ${CMAKE_COMMAND}
-      -D PKGCONFIG_OBJDUMP_EXECUTABLE=${PKGCONFIG_OBJDUMP_EXECUTABLE}
+      -D CMAKE_OBJDUMP=${CMAKE_OBJDUMP}
       -D TEMPLATE=${template}
       -D OUTPUT=${output}
       ${targetOption}
