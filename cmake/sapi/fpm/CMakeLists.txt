@@ -93,8 +93,6 @@ include(CheckSourceRuns)
 include(CheckSymbolExists)
 include(CMakePushCheckState)
 include(FeatureSummary)
-include(PHP/ConfigureFile)
-include(PHP/Install)
 include(PHP/SearchLibraries)
 include(PHP/Set)
 
@@ -534,147 +532,13 @@ if(PHP_SAPI_FPM_SELINUX)
 endif()
 
 ################################################################################
-# Install files.
+# Configuration header.
 ################################################################################
 
-# Man documentation.
-
-# Replace the hardcoded runstatedir with a template placeholder.
-file(READ "${CMAKE_CURRENT_SOURCE_DIR}/php-fpm.8.in" content)
-string(
-  REPLACE
-  [[@php_fpm_localstatedir@/run/php-fpm.pid]]
-  [[@php_fpm_runstatedir@/php-fpm.pid]]
-  content
-  "${content}"
-)
-php_configure_file(
-  CONTENT "${content}"
-  OUTPUT php-fpm.8
-  VARIABLES
-    php_fpm_localstatedir "$<PATH:ABSOLUTE_PATH,NORMALIZE,${CMAKE_INSTALL_LOCALSTATEDIR},$<INSTALL_PREFIX>>"
-    # TODO: Fix the GNU standard adjustment issue with /etc, /var, and /var/run.
-    php_fpm_runstatedir "$<PATH:ABSOLUTE_PATH,NORMALIZE,${CMAKE_INSTALL_RUNSTATEDIR},$<INSTALL_PREFIX>>"
-    php_fpm_sysconfdir "$<PATH:ABSOLUTE_PATH,NORMALIZE,${CMAKE_INSTALL_SYSCONFDIR},$<INSTALL_PREFIX>>"
-    php_fpm_prefix "$<INSTALL_PREFIX>"
-    PHP_VERSION "${PHP_VERSION}"
-)
-install(
-  FILES ${CMAKE_CURRENT_BINARY_DIR}/php-fpm.8
-  RENAME ${PHP_PROGRAM_PREFIX}php-fpm${PHP_PROGRAM_SUFFIX}.8
-  DESTINATION ${CMAKE_INSTALL_MANDIR}/man8
-)
-
-php_configure_file(
-  INPUT php-fpm.conf.in
-  OUTPUT php-fpm.conf
-  VARIABLES
-    prefix "$<INSTALL_PREFIX>"
-    EXPANDED_LOCALSTATEDIR "$<PATH:ABSOLUTE_PATH,NORMALIZE,${CMAKE_INSTALL_LOCALSTATEDIR},$<INSTALL_PREFIX>>"
-    php_fpm_sysconfdir "$<PATH:ABSOLUTE_PATH,NORMALIZE,${CMAKE_INSTALL_SYSCONFDIR},$<INSTALL_PREFIX>>"
-)
-
-php_configure_file(
-  INPUT www.conf.in
-  OUTPUT www.conf
-  VARIABLES
-    prefix "$<INSTALL_PREFIX>"
-    php_fpm_prefix "$<INSTALL_PREFIX>"
-    php_fpm_user "${PHP_SAPI_FPM_USER}"
-    php_fpm_group "${PHP_SAPI_FPM_GROUP}"
-    EXPANDED_DATADIR "$<PATH:ABSOLUTE_PATH,NORMALIZE,${CMAKE_INSTALL_DATADIR},$<INSTALL_PREFIX>>"
-)
-
-# Replace the hardcoded runstatedir with a template placeholder.
-file(READ "${CMAKE_CURRENT_SOURCE_DIR}/init.d.php-fpm.in" content)
-string(
-  REPLACE
-  [[php_fpm_PID=@localstatedir@/run/php-fpm.pid]]
-  [[php_fpm_PID=@runstatedir@/php-fpm.pid]]
-  content
-  "${content}"
-)
-
-php_configure_file(
-  CONTENT "${content}"
-  OUTPUT init.d.php-fpm
-  VARIABLES
-    prefix "$<INSTALL_PREFIX>"
-    exec_prefix "$<INSTALL_PREFIX>"
-    sbindir "$<PATH:ABSOLUTE_PATH,NORMALIZE,${CMAKE_INSTALL_SBINDIR},$<INSTALL_PREFIX>>"
-    # TODO: Fix the GNU standard adjustment issue with /etc, /var, and /var/run.
-    sysconfdir "$<PATH:ABSOLUTE_PATH,NORMALIZE,${CMAKE_INSTALL_SYSCONFDIR},$<INSTALL_PREFIX>>"
-    runstatedir "$<PATH:ABSOLUTE_PATH,NORMALIZE,${CMAKE_INSTALL_RUNSTATEDIR},$<INSTALL_PREFIX>>"
-)
-
-# Replace the hardcoded runstatedir with a template placeholder.
-file(READ "${CMAKE_CURRENT_SOURCE_DIR}/php-fpm.service.in" content)
-string(
-  REPLACE
-  [[PIDFile=@EXPANDED_LOCALSTATEDIR@/run/php-fpm.pid]]
-  [[PIDFile=@EXPANDED_RUNSTATEDIR@/php-fpm.pid]]
-  content
-  "${content}"
-)
-
-php_configure_file(
-  CONTENT "${content}"
-  OUTPUT php-fpm.service
-  VARIABLES
-    php_fpm_systemd "${PHP_FPM_SYSTEMD}"
-    EXPANDED_RUNSTATEDIR "$<PATH:ABSOLUTE_PATH,NORMALIZE,${CMAKE_INSTALL_RUNSTATEDIR},$<INSTALL_PREFIX>>"
-    EXPANDED_SBINDIR "$<PATH:ABSOLUTE_PATH,NORMALIZE,${CMAKE_INSTALL_SBINDIR},$<INSTALL_PREFIX>>"
-    EXPANDED_SYSCONFDIR "$<PATH:ABSOLUTE_PATH,NORMALIZE,${CMAKE_INSTALL_SYSCONFDIR},$<INSTALL_PREFIX>>"
-)
-
-install(TARGETS php_sapi_fpm RUNTIME DESTINATION ${CMAKE_INSTALL_SBINDIR})
-
-php_install(CODE "
-  # Create log and run directories on installation.
-  file(
-    MAKE_DIRECTORY
-    \"\$ENV{DESTDIR}\${CMAKE_INSTALL_FULL_LOCALSTATEDIR}/log\"
-    \"\$ENV{DESTDIR}\${CMAKE_INSTALL_FULL_RUNSTATEDIR}\"
-  )
-
-  if(EXISTS \"\$ENV{DESTDIR}\${CMAKE_INSTALL_FULL_SYSCONFDIR}/php-fpm.conf\")
-    message(
-      STATUS
-      \"Skipping PHP FPM defconfig installation. Files already exist.\"
-    )
-  else()
-    message(
-      STATUS
-      \"Installing PHP FPM defconfig to \"
-      \"\$ENV{DESTDIR}\${CMAKE_INSTALL_FULL_SYSCONFDIR}\"
-    )
-
-    file(
-      MAKE_DIRECTORY
-      \"\$ENV{DESTDIR}\${CMAKE_INSTALL_FULL_SYSCONFDIR}/php-fpm.d\"
-    )
-
-    file(
-      COPY_FILE
-      \"${CMAKE_CURRENT_BINARY_DIR}/php-fpm.conf\"
-      \"\$ENV{DESTDIR}\${CMAKE_INSTALL_FULL_SYSCONFDIR}/php-fpm.conf.default\"
-    )
-
-    file(
-      COPY_FILE
-      \"${CMAKE_CURRENT_BINARY_DIR}/www.conf\"
-      \"\$ENV{DESTDIR}\${CMAKE_INSTALL_FULL_SYSCONFDIR}/php-fpm.d/www.conf.default\"
-    )
-  endif()
-")
-
-# FPM info status HTML page.
-configure_file(status.html.in status.html @ONLY)
-
-install(
-  FILES
-    ${CMAKE_CURRENT_BINARY_DIR}/status.html
-  DESTINATION ${CMAKE_INSTALL_DATADIR}/fpm
-)
-
 configure_file(cmake/config.h.in config.h)
+
+################################################################################
+# Installation.
+################################################################################
+
+include(cmake/Install.cmake)

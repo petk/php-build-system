@@ -42,7 +42,6 @@ the `EDITLINE_ROOT` variable.
 include(CheckSymbolExists)
 include(CMakeDependentOption)
 include(FeatureSummary)
-include(PHP/Install)
 
 ################################################################################
 # Configuration options.
@@ -304,13 +303,23 @@ install(
   DESTINATION ${CMAKE_INSTALL_MANDIR}/man1
 )
 
-# Create log and run directories on installation.
-php_install(CODE "
-  file(
-    MAKE_DIRECTORY
-    \"\$ENV{DESTDIR}\${CMAKE_INSTALL_FULL_LOCALSTATEDIR}/log\"
-    \"\$ENV{DESTDIR}\${CMAKE_INSTALL_FULL_RUNSTATEDIR}\"
-  )
-")
+# Create var/log, and [var/]run directories on installation.
+install(
+  CODE
+  [[
+    file(
+      INSTALL
+      DESTINATION "${CMAKE_INSTALL_FULL_LOCALSTATEDIR}/log"
+      TYPE DIRECTORY
+      FILES ""
+    )
+    file(
+      INSTALL
+      DESTINATION "${CMAKE_INSTALL_FULL_RUNSTATEDIR}"
+      TYPE DIRECTORY
+      FILES ""
+    )
+  ]]
+)
 
 configure_file(cmake/config.h.in config.h)
