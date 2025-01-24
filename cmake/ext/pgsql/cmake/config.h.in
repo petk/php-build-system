@@ -5,20 +5,20 @@
    later). */
 #cmakedefine HAVE_PG_CHANGE_PASSWORD 1
 
-/* Define to 1 if libpq has the 'PQclosePrepared' function (PostgreSQL 17 or
-   later). */
+/* Define to 1 if libpq has the 'PQclosePrepared', 'PQclosePortal', and other
+   functions (PostgreSQL 17 or later). */
 #cmakedefine HAVE_PG_CLOSE_STMT 1
 
 /* Define to 1 if libpq has the 'PQresultMemorySize' function (PostgreSQL 12
    or later). */
 #cmakedefine HAVE_PG_RESULT_MEMORY_SIZE 1
 
-/* Define to 1 if libpq has the 'PQsetChunkedRowsMode' function (PostgreSQL 17
-   or later). */
+/* Define to 1 if libpq has the 'PQsetChunkedRowsMode' function and
+   PGRES_TUPLES_CHUNK struct member (PostgreSQL 17 or later). */
 #cmakedefine HAVE_PG_SET_CHUNKED_ROWS_SIZE 1
 
-/* Define to 1 if libpq has the 'PQsocketPoll' function (PostgreSQL 17 or
-   later). */
+/* Define to 1 if libpq has the 'PQsocketPoll' and 'PQgetCurrentTimeUSec'
+   functions (PostgreSQL 17 or later). */
 #cmakedefine HAVE_PG_SOCKET_POLL 1
 
 /* Define to 1 if PGVerbosity enum has PQERRORS_SQLSTATE. */

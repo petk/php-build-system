@@ -27,8 +27,8 @@ project(
   LANGUAGES C
 )
 
-include(CheckLibraryExists)
 include(CheckSourceCompiles)
+include(CheckSymbolExists)
 include(CMakeDependentOption)
 include(CMakePushCheckState)
 include(FeatureSummary)
@@ -85,70 +85,110 @@ set_package_properties(
 
 target_link_libraries(php_ext_pgsql PUBLIC PostgreSQL::PostgreSQL)
 
+# Check features of PostgreSQL library (libpq). As of PostgreSQL (and libpq)
+# version 14 there are features macros available in the libpq-fe.h. Additional
+# checks for specific symbols below are done to avoid issues present on
+# platforms that might package libpq development headers and PostgreSQL server
+# development headers into a single all-in-one package (for example,
+# postgresql-devel on openSUSE Linux at least on version 15), where libpq
+# package contains the latest library, but the development package contains the
+# header files of different PostgreSQL version (for example, postgresql16-devel)
+# Which leads to unexpected behavior if libpq would be version 17, but
+# libpq-fe.h would belong to the package version 16. Otherwise, ideally only
+# feature macros checks (LIBPQ_HAS_CHUNK_MODE, etc.) should be sufficient for
+# most platforms.
+
 if(TARGET PostgreSQL::PostgreSQL)
-  # PostgreSQL library minimum version sanity check.
-  check_library_exists(
-    PostgreSQL::PostgreSQL
-    PQencryptPasswordConn
-    ""
-    _PHP_LIBPQ_CHECK
-  )
-  if(NOT _PHP_LIBPQ_CHECK)
-    message(
-      FATAL_ERROR
-      "PostgreSQL check failed: libpq ${PHP_POSTGRESQL_MIN_VERSION} or later "
-      "is required."
-    )
-  endif()
+  cmake_push_check_state(RESET)
+    set(CMAKE_REQUIRED_LIBRARIES PostgreSQL::PostgreSQL)
 
-  # Available since PostgreSQL 12.
-  if(PostgreSQL_VERSION_STRING VERSION_GREATER_EQUAL 12)
-    check_library_exists(
-      PostgreSQL::PostgreSQL
-      PQresultMemorySize
-      ""
-      HAVE_PG_RESULT_MEMORY_SIZE
-    )
+    # PostgreSQL library minimum version sanity check.
+    check_symbol_exists(PQencryptPasswordConn "libpq-fe.h" _PHP_LIBPQ_CHECK)
+    if(NOT _PHP_LIBPQ_CHECK)
+      message(
+        FATAL_ERROR
+        "PostgreSQL check failed: libpq ${PHP_POSTGRESQL_MIN_VERSION} or later "
+        "is required."
+      )
+    endif()
 
-    cmake_push_check_state(RESET)
-      set(CMAKE_REQUIRED_LIBRARIES PostgreSQL::PostgreSQL)
+    # Available since PostgreSQL 12.
+    if(PostgreSQL_VERSION_STRING VERSION_GREATER_EQUAL 12)
+      check_symbol_exists(
+        PQresultMemorySize
+        "libpq-fe.h"
+        HAVE_PG_RESULT_MEMORY_SIZE
+      )
+
       check_source_compiles(C [[
         #include <libpq-fe.h>
         int main(void) { PGVerbosity e = PQERRORS_SQLSTATE; (void)e; return 0; }
       ]] HAVE_PQERRORS_SQLSTATE)
-    cmake_pop_check_state()
-  endif()
+    endif()
 
-  # Available since PostgreSQL 17.
-  if(PostgreSQL_VERSION_STRING VERSION_GREATER_EQUAL 17)
-    check_library_exists(
-      PostgreSQL::PostgreSQL
-      PQchangePassword
-      ""
-      HAVE_PG_CHANGE_PASSWORD
-    )
+    # Available since PostgreSQL 17.
+    if(PostgreSQL_VERSION_STRING VERSION_GREATER_EQUAL 17)
+      # Indicates the presence of PQchangePassword.
+      check_symbol_exists(
+        LIBPQ_HAS_CHANGE_PASSWORD
+        "libpq-fe.h"
+        _PHP_HAVE_LIBPQ_HAS_CHANGE_PASSWORD
+      )
+      check_symbol_exists(
+        PQchangePassword
+        "libpq-fe.h"
+        _PHP_HAVE_PQCHANGEPASSWORD
+      )
+      if(_PHP_HAVE_LIBPQ_HAS_CHANGE_PASSWORD AND _PHP_HAVE_PQCHANGEPASSWORD)
+        set(HAVE_PG_CHANGE_PASSWORD TRUE)
+      endif()
 
-    check_library_exists(
-      PostgreSQL::PostgreSQL
-      PQsocketPoll
-      ""
-      HAVE_PG_SOCKET_POLL
-    )
+      # Indicates the presence of PQsocketPoll, PQgetCurrentTimeUSec.
+      check_symbol_exists(
+        LIBPQ_HAS_SOCKET_POLL
+        "libpq-fe.h"
+        _PHP_HAVE_LIBPQ_HAS_SOCKET_POLL
+      )
+      check_symbol_exists(
+        PQsocketPoll
+        "libpq-fe.h"
+        _PHP_HAVE_PQSOCKETPOLL
+      )
+      if(_PHP_HAVE_LIBPQ_HAS_SOCKET_POLL AND _PHP_HAVE_PQSOCKETPOLL)
+        set(HAVE_PG_SOCKET_POLL TRUE)
+      endif()
 
-    check_library_exists(
-      PostgreSQL::PostgreSQL
-      PQsetChunkedRowsMode
-      ""
-      HAVE_PG_SET_CHUNKED_ROWS_SIZE
-    )
+      # Indicates the presence of PQsetChunkedRowsMode and PGRES_TUPLES_CHUNK.
+      check_symbol_exists(
+        LIBPQ_HAS_CHUNK_MODE
+        "libpq-fe.h"
+        _PHP_HAVE_LIBPQ_HAS_CHUNK_MODE
+      )
+      check_symbol_exists(
+        PQsetChunkedRowsMode
+        "libpq-fe.h"
+        _PHP_HAVE_PQSETCHUNKEDROWSMODE
+      )
+      if(_PHP_HAVE_LIBPQ_HAS_CHUNK_MODE AND _PHP_HAVE_PQSETCHUNKEDROWSMODE)
+        set(HAVE_PG_SET_CHUNKED_ROWS_SIZE TRUE)
+      endif()
 
-    check_library_exists(
-      PostgreSQL::PostgreSQL
-      PQclosePrepared
-      ""
-      HAVE_PG_CLOSE_STMT
-    )
-  endif()
+      # Indicates the presence of PQclosePrepared, PQclosePortal, etc.
+      check_symbol_exists(
+        LIBPQ_HAS_CLOSE_PREPARED
+        "libpq-fe.h"
+        _PHP_HAVE_LIBPQ_HAS_CLOSE_PREPARED
+      )
+      check_symbol_exists(
+        PQclosePrepared
+        "libpq-fe.h"
+        _PHP_HAVE_PQCLOSEPREPARED
+      )
+      if(_PHP_HAVE_LIBPQ_HAS_CLOSE_PREPARED AND _PHP_HAVE_PQCLOSEPREPARED)
+        set(HAVE_PG_CLOSE_STMT TRUE)
+      endif()
+    endif()
+  cmake_pop_check_state()
 endif()
 
 set(HAVE_PGSQL TRUE)
