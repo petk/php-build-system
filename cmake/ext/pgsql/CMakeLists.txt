@@ -85,19 +85,7 @@ set_package_properties(
 
 target_link_libraries(php_ext_pgsql PUBLIC PostgreSQL::PostgreSQL)
 
-# Check features of PostgreSQL library (libpq). As of PostgreSQL (and libpq)
-# version 14 there are features macros available in the libpq-fe.h. Additional
-# checks for specific symbols below are done to avoid issues present on
-# platforms that might package libpq development headers and PostgreSQL server
-# development headers into a single all-in-one package (for example,
-# postgresql-devel on openSUSE Linux at least on version 15), where libpq
-# package contains the latest library, but the development package contains the
-# header files of different PostgreSQL version (for example, postgresql16-devel)
-# Which leads to unexpected behavior if libpq would be version 17, but
-# libpq-fe.h would belong to the package version 16. Otherwise, ideally only
-# feature macros checks (LIBPQ_HAS_CHUNK_MODE, etc.) should be sufficient for
-# most platforms.
-
+# Check PostgreSQL library (libpq) features.
 if(TARGET PostgreSQL::PostgreSQL)
   cmake_push_check_state(RESET)
     set(CMAKE_REQUIRED_LIBRARIES PostgreSQL::PostgreSQL)
