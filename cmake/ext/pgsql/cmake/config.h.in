@@ -4,8 +4,10 @@
 /* Define to 1 if libpq was compiled with the --enable-multibyte option. */
 #cmakedefine HAVE_PGSQL_WITH_MULTIBYTE_SUPPORT 1
 
-/* PostgreSQL 9.6 or later */
+/* Define to 1 if libpq has the 'PQsetErrorContextVisibility' function
+   (PostgreSQL 9.6 or later). */
 #cmakedefine HAVE_PG_CONTEXT_VISIBILITY 1
 
-/* PostgreSQL 9.3 or later */
+/* Define to 1 if libpq has the 'lo_truncate64' function (PostgreSQL 9.3 or
+   later). */
 #cmakedefine HAVE_PG_LO64 1

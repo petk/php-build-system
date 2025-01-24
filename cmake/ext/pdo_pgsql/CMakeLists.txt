@@ -27,8 +27,9 @@ project(
   LANGUAGES C
 )
 
-include(CheckLibraryExists)
+include(CheckSymbolExists)
 include(CMakeDependentOption)
+include(CMakePushCheckState)
 include(FeatureSummary)
 
 option(PHP_EXT_PDO_PGSQL "Enable the pdo_pgsql extension")
@@ -86,15 +87,19 @@ target_link_libraries(php_ext_pdo_pgsql PUBLIC PostgreSQL::PostgreSQL)
 
 # Sanity check.
 if(TARGET PostgreSQL::PostgreSQL)
-  # PostgreSQL library minimum version sanity check.
-  check_library_exists(PostgreSQL::PostgreSQL PQlibVersion "" _PHP_LIBPQ_CHECK)
-  if(NOT _PHP_LIBPQ_CHECK)
-    message(
-      FATAL_ERROR
-      "PostgreSQL check failed: libpq ${PHP_POSTGRESQL_MIN_VERSION} or later "
-      "is required."
-    )
-  endif()
+  cmake_push_check_state(RESET)
+    set(CMAKE_REQUIRED_LIBRARIES PostgreSQL::PostgreSQL)
+
+    # PostgreSQL library minimum version sanity check.
+    check_symbol_exists(PQlibVersion "libpq-fe.h" _PHP_LIBPQ_CHECK)
+    if(NOT _PHP_LIBPQ_CHECK)
+      message(
+        FATAL_ERROR
+        "PostgreSQL check failed: libpq ${PHP_POSTGRESQL_MIN_VERSION} or later "
+        "is required."
+      )
+    endif()
+  cmake_pop_check_state()
 endif()
 
 set(HAVE_PDO_PGSQL TRUE)

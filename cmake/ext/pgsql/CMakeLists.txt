@@ -27,8 +27,9 @@ project(
   LANGUAGES C
 )
 
-include(CheckLibraryExists)
+include(CheckSymbolExists)
 include(CMakeDependentOption)
+include(CMakePushCheckState)
 include(FeatureSummary)
 
 option(PHP_EXT_PGSQL "Enable the pgsql extension")
@@ -84,36 +85,37 @@ set_package_properties(
 target_link_libraries(php_ext_pgsql PUBLIC PostgreSQL::PostgreSQL)
 
 if(TARGET PostgreSQL::PostgreSQL)
-  # PostgreSQL library minimum version sanity check.
-  check_library_exists(PostgreSQL::PostgreSQL PQlibVersion "" _PHP_LIBPQ_CHECK)
-  if(NOT _PHP_LIBPQ_CHECK)
-    message(
-      FATAL_ERROR
-      "PostgreSQL check failed: libpq ${PHP_POSTGRESQL_MIN_VERSION} or later "
-      "is required."
+  cmake_push_check_state(RESET)
+    set(CMAKE_REQUIRED_LIBRARIES PostgreSQL::PostgreSQL)
+
+    # PostgreSQL library minimum version sanity check.
+    check_symbol_exists(PQlibVersion "libpq-fe.h" _PHP_LIBPQ_CHECK)
+    if(NOT _PHP_LIBPQ_CHECK)
+      message(
+        FATAL_ERROR
+        "PostgreSQL check failed: libpq ${PHP_POSTGRESQL_MIN_VERSION} or later "
+        "is required."
+      )
+    endif()
+
+    check_symbol_exists(
+      pg_encoding_to_char
+      "libpq-fe.h"
+      HAVE_PGSQL_WITH_MULTIBYTE_SUPPORT
     )
-  endif()
 
-  check_library_exists(
-    PostgreSQL::PostgreSQL
-    pg_encoding_to_char
-    ""
-    HAVE_PGSQL_WITH_MULTIBYTE_SUPPORT
-  )
+    check_symbol_exists(
+      lo_truncate64
+      "libpq-fe.h"
+      HAVE_PG_LO64
+    )
 
-  check_library_exists(
-    PostgreSQL::PostgreSQL
-    lo_truncate64
-    ""
-    HAVE_PG_LO64
-  )
-
-  check_library_exists(
-    PostgreSQL::PostgreSQL
-    PQsetErrorContextVisibility
-    ""
-    HAVE_PG_CONTEXT_VISIBILITY
-  )
+    check_symbol_exists(
+      PQsetErrorContextVisibility
+      "libpq-fe.h"
+      HAVE_PG_CONTEXT_VISIBILITY
+    )
+  cmake_pop_check_state()
 endif()
 
 set(HAVE_PGSQL TRUE)
