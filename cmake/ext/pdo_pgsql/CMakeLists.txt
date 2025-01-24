@@ -27,8 +27,9 @@ project(
   LANGUAGES C
 )
 
-include(CheckLibraryExists)
+include(CheckSymbolExists)
 include(CMakeDependentOption)
+include(CMakePushCheckState)
 include(FeatureSummary)
 
 option(PHP_EXT_PDO_PGSQL "Enable the pdo_pgsql extension")
@@ -82,39 +83,45 @@ target_link_libraries(php_ext_pdo_pgsql PUBLIC PostgreSQL::PostgreSQL)
 
 # Sanity check.
 if(TARGET PostgreSQL::PostgreSQL)
-  # PostgreSQL library minimum version sanity check.
-  check_library_exists(
-    PostgreSQL::PostgreSQL
-    PQencryptPasswordConn
-    ""
-    _PHP_LIBPQ_CHECK
-  )
-  if(NOT _PHP_LIBPQ_CHECK)
-    message(
-      FATAL_ERROR
-      "PostgreSQL check failed: libpq ${PHP_POSTGRESQL_MIN_VERSION} or later "
-      "is required."
-    )
-  endif()
+  cmake_push_check_state(RESET)
+    set(CMAKE_REQUIRED_LIBRARIES PostgreSQL::PostgreSQL)
 
-  if(PostgreSQL_VERSION_STRING VERSION_GREATER_EQUAL 12)
-    check_library_exists(
-      PostgreSQL::PostgreSQL
-      PQresultMemorySize
-      ""
-      HAVE_PG_RESULT_MEMORY_SIZE
-    )
-  endif()
+    # PostgreSQL library minimum version sanity check.
+    check_symbol_exists(PQencryptPasswordConn "libpq-fe.h" _PHP_LIBPQ_CHECK)
+    if(NOT _PHP_LIBPQ_CHECK)
+      message(
+        FATAL_ERROR
+        "PostgreSQL check failed: libpq ${PHP_POSTGRESQL_MIN_VERSION} or later "
+        "is required."
+      )
+    endif()
 
-  # Available since PostgreSQL 17.
-  if(PostgreSQL_VERSION_STRING VERSION_GREATER_EQUAL 17)
-    check_library_exists(
-      PostgreSQL::PostgreSQL
-      PQclosePrepared
-      ""
-      HAVE_PQCLOSEPREPARED
-    )
-  endif()
+    if(PostgreSQL_VERSION_STRING VERSION_GREATER_EQUAL 12)
+      check_symbol_exists(
+        PQresultMemorySize
+        "libpq-fe.h"
+        HAVE_PG_RESULT_MEMORY_SIZE
+      )
+    endif()
+
+    # Available since PostgreSQL 17.
+    if(PostgreSQL_VERSION_STRING VERSION_GREATER_EQUAL 17)
+      # Indicates the presence of PQclosePrepared, PQclosePortal, etc.
+      check_symbol_exists(
+        LIBPQ_HAS_CLOSE_PREPARED
+        "libpq-fe.h"
+        _PHP_HAVE_LIBPQ_HAS_CLOSE_PREPARED
+      )
+      check_symbol_exists(
+        PQclosePrepared
+        "libpq-fe.h"
+        _PHP_HAVE_PQCLOSEPREPARED
+      )
+      if(_PHP_HAVE_LIBPQ_HAS_CLOSE_PREPARED AND _PHP_HAVE_PQCLOSEPREPARED)
+        set(HAVE_PQCLOSEPREPARED TRUE)
+      endif()
+    endif()
+  cmake_pop_check_state()
 endif()
 
 ################################################################################

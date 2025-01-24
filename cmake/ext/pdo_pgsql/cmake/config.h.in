@@ -5,6 +5,6 @@
    or later). */
 #cmakedefine HAVE_PG_RESULT_MEMORY_SIZE 1
 
-/* Define to 1 if libpq has the 'PQclosePrepared' function (PostgreSQL 17 or
-   later). */
+/* Define to 1 if libpq has the 'PQclosePrepared', 'PQclosePortal', and other
+   functions (PostgreSQL 17 or later). */
 #cmakedefine HAVE_PQCLOSEPREPARED 1
