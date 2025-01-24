@@ -599,6 +599,18 @@ function(_php_re2c_download)
     return(PROPAGATE RE2C_FOUND RE2C_VERSION)
   endif()
 
+  # C++ is required when building re2c from source.
+  include(CheckLanguage)
+  check_language(CXX)
+  if(NOT CMAKE_CXX_COMPILER)
+    message(
+      FATAL_ERROR
+      "The re2c was not found on the system and will be downloaded at build "
+      "phase. To build re2c from source also C++ compiler is required. Please, "
+      "install missing C++ compiler or install re2c manually."
+    )
+  endif()
+
   message(STATUS "Re2c ${RE2C_VERSION} will be downloaded at build phase")
 
   include(ExternalProject)
