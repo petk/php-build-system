@@ -38,7 +38,7 @@ set(PHP_LIBXML2_DOWNLOAD_VERSION 2.12.7)
 
 FetchContent_Declare(
   LibXml2
-  URL https://gitlab.gnome.org/GNOME/libxml2/-/archive/v${PHP_LIBXML2_DOWNLOAD_VERSION}/libxml2-v${PHP_LIBXML2_DOWNLOAD_VERSION}.tar.gz
+  URL https://github.com/GNOME/libxml2/archive/refs/tags/v${PHP_LIBXML2_DOWNLOAD_VERSION}.tar.gz
   EXCLUDE_FROM_ALL
   SYSTEM
   FIND_PACKAGE_ARGS
