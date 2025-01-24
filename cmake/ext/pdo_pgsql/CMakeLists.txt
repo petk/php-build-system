@@ -81,7 +81,7 @@ set_package_properties(
 
 target_link_libraries(php_ext_pdo_pgsql PUBLIC PostgreSQL::PostgreSQL)
 
-# Sanity check.
+# Check PostgreSQL library (libpq) features.
 if(TARGET PostgreSQL::PostgreSQL)
   cmake_push_check_state(RESET)
     set(CMAKE_REQUIRED_LIBRARIES PostgreSQL::PostgreSQL)
