@@ -1,13 +1,17 @@
 <!-- This is auto-generated file. -->
-* Source code: [cmake/modules/PHP/PkgConfigGenerator.cmake](https://github.com/petk/php-build-system/blob/master/cmake/cmake/modules/PHP/PkgConfigGenerator.cmake)
+* Source code: [cmake/modules/PHP/PkgConfig.cmake](https://github.com/petk/php-build-system/blob/master/cmake/cmake/modules/PHP/PkgConfig.cmake)
 
-# PHP/PkgConfigGenerator
+# PHP/PkgConfig
 
 Generate pkg-config .pc file.
 
-CMake at the time of writing doesn't provide a solution to generate pkg-config
-pc files with getting clean linked libraries retrieved from the targets:
+CMake at the time of writing doesn't provide an out-of-the-box solution to
+generate pkg-config pc files with required libraries to link retrieved from the
+targets:
 https://gitlab.kitware.com/cmake/cmake/-/issues/22621
+
+Once pkg-config integration is added in CMake natively, this module will be
+replaced.
 
 Also there is a common issue with installation prefix not being applied when
 using `--prefix` command-line option at the installation phase:
@@ -16,10 +20,10 @@ using `--prefix` command-line option at the installation phase:
 cmake --install <build-dir> --prefix <prefix>
 ```
 
-The following function is exposed:
+This module provides the following function:
 
 ```cmake
-pkgconfig_generate_pc(
+php_pkgconfig_generate_pc(
   <pc-template-file>
   <pc-file-output>
   TARGET <target>
@@ -37,7 +41,7 @@ template.
   expressions. For example:
 
   ```cmake
-  pkgconfig_generate_pc(
+  php_pkgconfig_generate_pc(
     ...
     VARIABLES
       debug "$<IF:$<CONFIG:Debug>,yes,no>"
@@ -54,5 +58,5 @@ template.
 
 ```cmake
 # CMakeLists.txt
-include(PHP/PkgConfigGenerator)
+include(PHP/PkgConfig)
 ```

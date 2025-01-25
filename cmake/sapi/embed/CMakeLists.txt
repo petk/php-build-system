@@ -61,8 +61,8 @@ set_target_properties(
 )
 
 # Configure pkg-config php-embed.pc metadata file.
-include(PHP/PkgConfigGenerator)
-pkgconfig_generate_pc(
+include(PHP/PkgConfig)
+php_pkgconfig_generate_pc(
   php-embed.pc.in
   php-embed.pc
   TARGET PHP::sapi::embed

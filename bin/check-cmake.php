@@ -211,7 +211,7 @@ function getProjectModules(): array
         'PHP/CheckCompilerFlag' => ['php_check_compiler_flag'],
         'PHP/ConfigureFile' => ['php_configure_file'],
         'PHP/Install' => ['php_install'],
-        'PHP/PkgConfigGenerator' => ['pkgconfig_generate_pc'],
+        'PHP/PkgConfig' => ['php_pkgconfig_generate_pc'],
         'PHP/Re2c' => ['php_re2c', '/find_package\([\n ]*RE2C/'],
         'PHP/SearchLibraries' => ['php_search_libraries'],
         'PHP/Set' => ['php_set'],
