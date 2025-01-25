@@ -127,8 +127,8 @@ block()
 endblock()
 
 # Configure pkg-config php.pc metadata file.
-include(PHP/PkgConfigGenerator)
-pkgconfig_generate_pc(
+include(PHP/PkgConfig)
+php_pkgconfig_generate_pc(
   php.pc.in
   php.pc
   TARGET PHP::sapi::cli
