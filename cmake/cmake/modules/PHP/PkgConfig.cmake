@@ -1,11 +1,15 @@
 #[=============================================================================[
-# PHP/PkgConfigGenerator
+# PHP/PkgConfig
 
 Generate pkg-config .pc file.
 
-CMake at the time of writing doesn't provide a solution to generate pkg-config
-pc files with getting clean linked libraries retrieved from the targets:
+CMake at the time of writing doesn't provide an out-of-the-box solution to
+generate pkg-config pc files with required libraries to link retrieved from the
+targets:
 https://gitlab.kitware.com/cmake/cmake/-/issues/22621
+
+Once pkg-config integration is added in CMake natively, this module will be
+replaced.
 
 Also there is a common issue with installation prefix not being applied when
 using `--prefix` command-line option at the installation phase:
@@ -14,10 +18,10 @@ using `--prefix` command-line option at the installation phase:
 cmake --install <build-dir> --prefix <prefix>
 ```
 
-The following function is exposed:
+This module provides the following function:
 
 ```cmake
-pkgconfig_generate_pc(
+php_pkgconfig_generate_pc(
   <pc-template-file>
   <pc-file-output>
   TARGET <target>
@@ -35,7 +39,7 @@ template.
   expressions. For example:
 
   ```cmake
-  pkgconfig_generate_pc(
+  php_pkgconfig_generate_pc(
     ...
     VARIABLES
       debug "$<IF:$<CONFIG:Debug>,yes,no>"
@@ -53,7 +57,7 @@ include_guard(GLOBAL)
 
 # Parse given variables and create a list of options or variables for passing to
 # add_custom_command and configure_file().
-function(_pkgconfig_parse_variables variables)
+function(_php_pkgconfig_parse_variables variables)
   # Check for even number of keyword values.
   list(LENGTH variables length)
   math(EXPR modulus "${length} % 2")
@@ -120,7 +124,7 @@ function(_pkgconfig_parse_variables variables)
   set(resultValues "${resultValues}" PARENT_SCOPE)
 endfunction()
 
-function(pkgconfig_generate_pc)
+function(php_pkgconfig_generate_pc)
   cmake_parse_arguments(
     PARSE_ARGV
     2
@@ -134,7 +138,11 @@ function(pkgconfig_generate_pc)
     message(FATAL_ERROR "Unrecognized arguments: ${parsed_UNPARSED_ARGUMENTS}")
   endif()
 
-  if(parsed_TARGET AND NOT TARGET ${parsed_TARGET})
+  if(NOT DEFINED parsed_TARGET)
+    message(FATAL_ERROR "${CMAKE_CURRENT_FUNCTION} expects a TARGET.")
+  endif()
+
+  if(NOT TARGET ${parsed_TARGET})
     message(FATAL_ERROR "${parsed_TARGET} is not a target.")
   endif()
 
@@ -168,59 +176,8 @@ function(pkgconfig_generate_pc)
     NORMALIZE
   )
 
-  file(
-    GENERATE
-    OUTPUT CMakeFiles/PkgConfigGeneratePc.cmake
-    CONTENT [=[
-      cmake_minimum_required(VERSION 3.25...3.31)
-
-      # TODO: Recheck this type of implementation.
-      if(LINK_TXT)
-        file(STRINGS ${LINK_TXT} content LIMIT_COUNT 1)
-        string(REGEX REPLACE "^.*-o php " "" content "${content}")
-        string(REPLACE " " ";" content "${content}")
-        set(libs "")
-        foreach(item IN LISTS content)
-          if(IS_ABSOLUTE "${item}")
-            list(APPEND libs "${item}")
-          elseif(item MATCHES "^-l")
-            list(APPEND libs "${item}")
-          endif()
-        endforeach()
-        list(REMOVE_DUPLICATES libs)
-      endif()
-
-      if(CMAKE_OBJDUMP)
-        execute_process(
-          COMMAND ${CMAKE_OBJDUMP} -p ${TARGET_FILE}
-          OUTPUT_VARIABLE result
-          OUTPUT_STRIP_TRAILING_WHITESPACE
-          ERROR_QUIET
-        )
-        string(REGEX MATCHALL [[NEEDED[ ]+[A-Za-z0-9.]+]] matches "${result}")
-        set(libraries "")
-        foreach(library IN LISTS matches)
-          if(library MATCHES [[NEEDED[ ]+(.+)]])
-            string(STRIP "${CMAKE_MATCH_1}" library)
-            string(REGEX REPLACE "^lib(.*).so.*" [[\1]] library "${library}")
-            if(NOT library MATCHES "c|root")
-              list(APPEND libraries "-l${library}")
-            endif()
-          endif()
-        endforeach()
-      endif()
-
-      list(JOIN libraries " " PHP_LIBS_PRIVATE)
-      configure_file(${TEMPLATE} ${OUTPUT} @ONLY)
-    ]=]
-  )
-
-  if(parsed_TARGET)
-    set(targetOption -D TARGET_FILE="$<TARGET_FILE:${parsed_TARGET}>")
-  endif()
-
   if(parsed_VARIABLES)
-    _pkgconfig_parse_variables("${parsed_VARIABLES}")
+    _php_pkgconfig_parse_variables("${parsed_VARIABLES}")
   endif()
 
   cmake_path(
@@ -230,23 +187,38 @@ function(pkgconfig_generate_pc)
     OUTPUT_VARIABLE outputRelativePath
   )
 
-  string(MAKE_C_IDENTIFIER "${outputRelativePath}" targetName)
-
-  add_custom_target(
-    pkgconfig_${targetName}
-    ALL
-    COMMAND ${CMAKE_COMMAND}
-      -D CMAKE_OBJDUMP=${CMAKE_OBJDUMP}
-      -D TEMPLATE=${template}
-      -D OUTPUT=${output}
-      ${targetOption}
-      ${variablesOptions}
-      -P CMakeFiles/PkgConfigGeneratePc.cmake
-    COMMENT "[PkgConfig] Generating ${outputRelativePath}"
-  )
+  get_target_property(type ${parsed_TARGET} TYPE)
+  set(fileOption "")
+  if(type STREQUAL "EXECUTABLE")
+    set(fileOption "" EXECUTABLES "$<TARGET_FILE:${parsed_TARGET}>")
+  elseif(type MATCHES "^(MODULE|SHARED)_LIBRARY$")
+    set(fileOption LIBRARIES "$<TARGET_FILE:${parsed_TARGET}>")
+  elseif(type MATCHES "STATIC_LIBRARY")
+    set(fileOption "")
+  endif()
 
   string(CONFIGURE [[
     block()
+      file(
+        GET_RUNTIME_DEPENDENCIES
+        RESOLVED_DEPENDENCIES_VAR dependencies
+        PRE_EXCLUDE_REGEXES
+          libc\\.
+          libroot\\.
+          ld-linux
+          libgcc
+          libstdc\\+\\+
+        POST_INCLUDE_REGEXES lib[^/]+$
+        @fileOption@
+      )
+      set(libraries "")
+      foreach(dependency IN LISTS dependencies)
+        cmake_path(GET dependency STEM library)
+        list(APPEND libraries "${library}")
+      endforeach()
+      list(TRANSFORM libraries REPLACE "^lib" "-l")
+      list(JOIN libraries " " PHP_LIBS_PRIVATE)
+
       set(resultVariables @resultVariables@)
       set(resultValues "@resultValues@")
 
