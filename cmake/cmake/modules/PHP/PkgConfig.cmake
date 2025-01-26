@@ -202,6 +202,7 @@ function(php_pkgconfig_generate_pc)
       file(
         GET_RUNTIME_DEPENDENCIES
         RESOLVED_DEPENDENCIES_VAR dependencies
+        UNRESOLVED_DEPENDENCIES_VAR unresolvedDependencies
         PRE_EXCLUDE_REGEXES
           libc\\.
           libroot\\.
