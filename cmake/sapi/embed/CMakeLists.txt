@@ -34,38 +34,39 @@ endif()
 add_library(php_sapi_embed STATIC)
 add_library(PHP::sapi::embed ALIAS php_sapi_embed)
 
+add_library(php_sapi_embed_shared SHARED)
+add_library(PHP::sapi::embed_shared ALIAS php_sapi_embed_shared)
+
 target_sources(
   php_sapi_embed
-  PRIVATE
-    php_embed.c
   PUBLIC
     FILE_SET HEADERS
       FILES
         php_embed.h
 )
 
-target_link_libraries(
-  php_sapi_embed
-  PRIVATE
-    $<BUILD_INTERFACE:PHP::sapi>
-)
+foreach(target IN ITEMS php_sapi_embed php_sapi_embed_shared)
+  target_sources(${target} PRIVATE php_embed.c)
 
-target_compile_definitions(php_sapi_embed PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE)
+  target_link_libraries(${target} PRIVATE $<BUILD_INTERFACE:PHP::sapi>)
 
-set_target_properties(
-  php_sapi_embed
-  PROPERTIES
-    OUTPUT_NAME libphp
-    ENABLE_EXPORTS TRUE # TODO: Check if there's a better solution.
-    PHP_CLI TRUE
-)
+  target_compile_definitions(${target} PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE)
+
+  set_target_properties(
+    ${target}
+    PROPERTIES
+      OUTPUT_NAME libphp
+      ENABLE_EXPORTS TRUE # TODO: Check if there's a better solution.
+      PHP_CLI TRUE
+  )
+endforeach()
 
 # Configure pkg-config php-embed.pc metadata file.
 include(PHP/PkgConfig)
 php_pkgconfig_generate_pc(
   php-embed.pc.in
   php-embed.pc
-  TARGET PHP::sapi::embed
+  TARGET PHP::sapi::embed_shared
   VARIABLES
     prefix "$<INSTALL_PREFIX>"
     exec_prefix "$<INSTALL_PREFIX>"
@@ -83,7 +84,9 @@ php_pkgconfig_generate_pc(
 )
 
 install(
-  TARGETS php_sapi_embed
+  TARGETS php_sapi_embed php_sapi_embed_shared
+  ARCHIVE
+    DESTINATION ${CMAKE_INSTALL_LIBDIR}
   RUNTIME
     DESTINATION ${CMAKE_INSTALL_LIBDIR}
   LIBRARY

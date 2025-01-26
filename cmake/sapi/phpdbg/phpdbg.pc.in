@@ -1,0 +1,38 @@
+# The pkg-config .pc file for PHP Debugger SAPI.
+# https://en.wikipedia.org/wiki/Pkg-config
+#
+# Usage:
+#   pkg-config --cflags phpdbg
+#   pkg-config --cflags-only-I phpdbg
+#   pkg-config --libs phpdbg
+#   pkg-config --mod-version phpdbg
+#   pkg-config --print-variables phpdbg
+#   pkg-config --variable=php_vernum phpdbg
+
+prefix=@prefix@
+exec_prefix=@exec_prefix@
+includedir=@includedir@
+php_include_prefix=@php_include_prefix@
+libdir=@libdir@
+# The extension_dir PHP INI directive absolute path.
+extensiondir=@PHP_EXTENSION_DIR@
+# PHP version as integer.
+php_vernum=@PHP_VERSION_ID@
+# The path where to scan for additional INI configuration files.
+php_ini_dir=@PHP_CONFIG_FILE_SCAN_DIR@
+# The path in which to look for php.ini.
+php_ini_path=@PHP_CONFIG_FILE_PATH@
+# Whether PHP is built in debug mode (yes) or not (no).
+php_debug=@PHP_DEBUG@
+# Whether PHP is built with thread safety (yes) or not (no).
+php_zts=@PHP_THREAD_SAFETY@
+
+Name: PHP debugger
+Description: Interactive PHP debugger
+URL: https://www.php.net
+License: PHP
+Version: @PHP_VERSION@
+Cflags.private: @PHP_CFLAGS_PRIVATE@
+Cflags: -I${includedir}/${php_include_prefix} -I${includedir}/${php_include_prefix}/main -I${includedir}/${php_include_prefix}/TSRM -I${includedir}/${php_include_prefix}/Zend -I${includedir}/${php_include_prefix}/ext
+Libs.private: @PHP_LIBS_PRIVATE@
+Libs: -L${libdir} -lphpdbg
