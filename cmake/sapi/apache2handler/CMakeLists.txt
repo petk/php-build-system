@@ -58,7 +58,7 @@ target_sources(
 set_target_properties(
   php_sapi_apache2handler
   PROPERTIES
-    OUTPUT_NAME apache
+    OUTPUT_NAME mod_${PHP_PROGRAM_PREFIX}php${PHP_PROGRAM_SUFFIX}
 )
 
 target_compile_definitions(
@@ -132,5 +132,8 @@ endif()
 
 install(
   TARGETS php_sapi_apache2handler
-  DESTINATION ${CMAKE_INSTALL_LIBDIR}
+  LIBRARY
+    DESTINATION ${Apache_LIBEXECDIR}
+  RUNTIME
+    DESTINATION ${Apache_LIBEXECDIR}
 )

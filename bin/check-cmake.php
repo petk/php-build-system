@@ -152,6 +152,7 @@ function getProjectModules(): array
         'CheckLanguage' => ['check_language'],
         'CheckLibraryExists' => ['check_library_exists'],
         'CheckLinkerFlag' => ['check_linker_flag'],
+        'CheckPIESupported' => ['check_pie_supported'],
         'CheckPrototypeDefinition' => ['check_prototype_definition'],
         'CheckSourceCompiles' => ['check_source_compiles'],
         'CheckSourceRuns' => ['check_source_runs'],

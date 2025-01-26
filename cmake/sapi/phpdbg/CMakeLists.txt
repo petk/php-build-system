@@ -100,47 +100,68 @@ endif()
 # Executable and library.
 ################################################################################
 
-set(phpdbgSources
-  phpdbg_bp.c
-  phpdbg_break.c
-  phpdbg_btree.c
-  phpdbg_cmd.c
-  phpdbg_frame.c
-  phpdbg_help.c
-  phpdbg_info.c
-  phpdbg_io.c
-  phpdbg_lexer.c
-  phpdbg_list.c
-  phpdbg_out.c
-  phpdbg_parser.c
-  phpdbg_print.c
-  phpdbg.stub.php
-  phpdbg_prompt.c
-  phpdbg_set.c
-  phpdbg_sigsafe.c
-  phpdbg_utils.c
-  phpdbg_watch.c
-  $<$<PLATFORM_ID:Windows>:phpdbg_win.c>
-  phpdbg.c
-)
-
-add_executable(php_sapi_phpdbg ${phpdbgSources})
+add_executable(php_sapi_phpdbg)
 add_executable(PHP::sapi::phpdbg ALIAS php_sapi_phpdbg)
 
-target_compile_definitions(
-  php_sapi_phpdbg
-  PRIVATE
-    ZEND_ENABLE_STATIC_TSRMLS_CACHE
-    $<$<PLATFORM_ID:Windows>:YY_NO_UNISTD_H>
-    $<IF:$<BOOL:${PHP_SAPI_PHPDBG_DEBUG}>,PHPDBG_DEBUG=1,PHPDBG_DEBUG=0>
-)
+if(PHP_SAPI_PHPDBG_SHARED)
+  add_library(php_sapi_phpdbg_shared SHARED)
+  add_library(PHP::sapi::phpdbg_shared ALIAS php_sapi_phpdbg_shared)
+endif()
 
-target_link_libraries(
-  php_sapi_phpdbg
-  PRIVATE
-    $<BUILD_INTERFACE:PHP::sapi>
-    $<$<PLATFORM_ID:Windows>:ws2_32;user32>
-)
+foreach(target IN ITEMS php_sapi_phpdbg php_sapi_phpdbg_shared)
+  if(NOT TARGET ${target})
+    continue()
+  endif()
+
+  target_sources(
+    ${target}
+    PRIVATE
+      phpdbg_bp.c
+      phpdbg_break.c
+      phpdbg_btree.c
+      phpdbg_cmd.c
+      phpdbg_frame.c
+      phpdbg_help.c
+      phpdbg_info.c
+      phpdbg_io.c
+      phpdbg_lexer.c
+      phpdbg_list.c
+      phpdbg_out.c
+      phpdbg_parser.c
+      phpdbg_print.c
+      phpdbg.stub.php
+      phpdbg_prompt.c
+      phpdbg_set.c
+      phpdbg_sigsafe.c
+      phpdbg_utils.c
+      phpdbg_watch.c
+      $<$<PLATFORM_ID:Windows>:phpdbg_win.c>
+      phpdbg.c
+  )
+
+  target_compile_definitions(
+    ${target}
+    PRIVATE
+      ZEND_ENABLE_STATIC_TSRMLS_CACHE
+      $<$<PLATFORM_ID:Windows>:YY_NO_UNISTD_H>
+      $<IF:$<BOOL:${PHP_SAPI_PHPDBG_DEBUG}>,PHPDBG_DEBUG=1,PHPDBG_DEBUG=0>
+  )
+
+  target_link_libraries(
+    ${target}
+    PRIVATE
+      $<BUILD_INTERFACE:PHP::sapi>
+      $<$<PLATFORM_ID:Windows>:ws2_32;user32>
+  )
+
+  set_target_properties(
+    ${target}
+    PROPERTIES
+      OUTPUT_NAME ${PHP_PROGRAM_PREFIX}phpdbg${PHP_PROGRAM_SUFFIX}
+      ENABLE_EXPORTS TRUE # TODO: Check if there's a better solution.
+      PHP_CLI TRUE
+  )
+endforeach()
 
 target_link_options(
   php_sapi_phpdbg
@@ -152,9 +173,15 @@ set_target_properties(
   php_sapi_phpdbg
   PROPERTIES
     OUTPUT_NAME ${PHP_PROGRAM_PREFIX}phpdbg${PHP_PROGRAM_SUFFIX}
-    ENABLE_EXPORTS TRUE # TODO: Check if there's a better solution.
-    PHP_CLI TRUE
 )
+
+if(TARGET php_sapi_phpdbg_shared)
+  set_target_properties(
+    php_sapi_phpdbg_shared
+    PROPERTIES
+      OUTPUT_NAME libphpdbg
+  )
+endif()
 
 ################################################################################
 # Readline support.
@@ -183,6 +210,9 @@ if(PHP_SAPI_PHPDBG_READLINE OR PHP_EXT_READLINE)
     )
 
     target_link_libraries(php_sapi_phpdbg PRIVATE Readline::Readline)
+    if(TARGET php_sapi_phpdbg_shared)
+      target_link_libraries(php_sapi_phpdbg_shared PRIVATE Readline::Readline)
+    endif()
 
     set(HAVE_LIBREADLINE TRUE)
   else()
@@ -195,6 +225,9 @@ if(PHP_SAPI_PHPDBG_READLINE OR PHP_EXT_READLINE)
     )
 
     target_link_libraries(php_sapi_phpdbg PRIVATE Editline::Editline)
+    if(TARGET php_sapi_phpdbg_shared)
+      target_link_libraries(php_sapi_phpdbg_shared PRIVATE Editline::Editline)
+    endif()
 
     set(HAVE_LIBEDIT TRUE)
   endif()
@@ -209,36 +242,6 @@ add_feature_info(
   HAVE_PHPDBG_READLINE
   "enhanced command-line accessibility"
 )
-
-################################################################################
-# The phpdbg shared library.
-################################################################################
-
-# TODO: Should readline support be also enabled like in the executable?
-# TODO: fix this better in the future (building with -fPIC etc).
-if(PHP_SAPI_PHPDBG_SHARED)
-  add_library(php_sapi_phpdbg_shared SHARED)
-  add_library(PHP::sapi::phpdbg_shared ALIAS php_sapi_phpdbg_shared)
-
-  set_target_properties(php_sapi_phpdbg_shared PROPERTIES OUTPUT_NAME phpdbg)
-
-  target_sources(php_sapi_phpdbg_shared PRIVATE ${phpdbgSources})
-
-  target_compile_definitions(
-    php_sapi_phpdbg_shared
-    PRIVATE
-      ZEND_ENABLE_STATIC_TSRMLS_CACHE
-      $<$<PLATFORM_ID:Windows>:YY_NO_UNISTD_H>
-      $<IF:$<BOOL:${PHP_SAPI_PHPDBG_DEBUG}>,PHPDBG_DEBUG=1,PHPDBG_DEBUG=0>
-  )
-
-  target_link_libraries(
-    php_sapi_phpdbg_shared
-    PRIVATE
-      $<BUILD_INTERFACE:PHP::sapi>
-      $<$<PLATFORM_ID:Windows>:ws2_32;user32>
-  )
-endif()
 
 ################################################################################
 # Generate parser and lexer files.
@@ -267,6 +270,9 @@ if(HAVE_UFFDIO_WRITEPROTECT_MODE_WP)
     find_package(Threads)
     if(Threads_FOUND)
       target_link_libraries(php_sapi_phpdbg PRIVATE Threads::Threads)
+      if(TARGET php_sapi_phpdbg_shared)
+        target_link_libraries(php_sapi_phpdbg_shared PRIVATE Threads::Threads)
+      endif()
     else()
       message(WARNING "Threads not available.")
     endif()
@@ -312,5 +318,42 @@ php_install(CODE "
     \"\$ENV{DESTDIR}\${CMAKE_INSTALL_FULL_RUNSTATEDIR}\"
   )
 ")
+
+# Configure pkg-config phpdbg.pc metadata file and install shared phpdbg module.
+if(TARGET php_sapi_phpdbg_shared)
+  include(PHP/PkgConfig)
+  php_pkgconfig_generate_pc(
+    phpdbg.pc.in
+    phpdbg.pc
+    TARGET PHP::sapi::phpdbg_shared
+    VARIABLES
+      prefix "$<INSTALL_PREFIX>"
+      exec_prefix "$<INSTALL_PREFIX>"
+      includedir "$<PATH:ABSOLUTE_PATH,NORMALIZE,${CMAKE_INSTALL_INCLUDEDIR},$<INSTALL_PREFIX>>"
+      php_include_prefix "${PHP_INCLUDE_PREFIX}"
+      libdir "$<PATH:ABSOLUTE_PATH,NORMALIZE,${CMAKE_INSTALL_LIBDIR},$<INSTALL_PREFIX>>"
+      PHP_VERSION "${PHP_VERSION}"
+      PHP_VERSION_ID "${PHP_VERSION_ID}"
+      PHP_EXTENSION_DIR "$<PATH:ABSOLUTE_PATH,NORMALIZE,${PHP_EXTENSION_DIR},$<INSTALL_PREFIX>>"
+      # TODO: Fix this for cmake --install ... --prefix
+      PHP_CONFIG_FILE_SCAN_DIR "$<PATH:ABSOLUTE_PATH,NORMALIZE,${PHP_CONFIG_FILE_SCAN_DIR},$<INSTALL_PREFIX>>"
+      PHP_CONFIG_FILE_PATH "$<PATH:ABSOLUTE_PATH,NORMALIZE,${PHP_CONFIG_FILE_PATH},$<INSTALL_PREFIX>>"
+      PHP_DEBUG "$<IF:$<CONFIG:Debug,DebugAssertions>,yes,no>"
+      PHP_THREAD_SAFETY "$<IF:$<BOOL:$<TARGET_PROPERTY:PHP::config,PHP_THREAD_SAFETY>>,yes,no>"
+  )
+
+  install(
+    FILES ${CMAKE_CURRENT_BINARY_DIR}/phpdbg.pc
+    DESTINATION ${CMAKE_INSTALL_LIBDIR}/pkgconfig
+  )
+
+  install(
+    TARGETS php_sapi_phpdbg_shared
+    LIBRARY
+      DESTINATION ${CMAKE_INSTALL_LIBDIR}
+    RUNTIME
+      DESTINATION ${CMAKE_INSTALL_LIBDIR}
+  )
+endif()
 
 configure_file(cmake/config.h.in config.h)
