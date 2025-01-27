@@ -100,7 +100,7 @@ if(TARGET PostgreSQL::PostgreSQL)
       )
     endif()
 
-    # Available since PostgreSQL 12.
+    # Available since PostgreSQL library version 12.
     if(PostgreSQL_VERSION_STRING VERSION_GREATER_EQUAL 12)
       check_symbol_exists(
         PQresultMemorySize
@@ -114,7 +114,7 @@ if(TARGET PostgreSQL::PostgreSQL)
       ]] HAVE_PQERRORS_SQLSTATE)
     endif()
 
-    # Available since PostgreSQL 17.
+    # Available since PostgreSQL library version 17.
     if(PostgreSQL_VERSION_STRING VERSION_GREATER_EQUAL 17)
       # Indicates the presence of PQchangePassword.
       check_symbol_exists(
