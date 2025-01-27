@@ -69,6 +69,7 @@ target_compile_definitions(
   php_ext_pgsql
   PRIVATE
     ZEND_ENABLE_STATIC_TSRMLS_CACHE
+    HAVE_PQFREEMEM # PQfreemem is available since PostgreSQL library 7.4.
     $<$<PLATFORM_ID:Windows>:PGSQL_EXPORTS>
 )
 
