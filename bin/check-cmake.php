@@ -381,6 +381,52 @@ function checkCMakeSet(Iterator $files): int
 };
 
 /**
+ * Check for obsolete usages of:
+ *   else(<condition>)
+ *   endif(<condition>)
+ *   endforeach(<loop-var>)
+ *   endwhile(<condition>)
+ *   endfunction(<name>)
+ *   endmacro(<name>)
+ */
+function checkCMakeObsoleteEndCommands(Iterator $files): int
+{
+    $status = 0;
+
+    $commands = [
+        'else',
+        'endif',
+        'endforeach',
+        'endwhile',
+        'endfunction',
+        'endmacro',
+    ];
+
+    foreach ($files as $file) {
+        $content = getCMakeCode($file);
+
+        foreach ($commands as $command) {
+            preg_match_all(
+                '/^[ \t]*(' . $command . ')[ \t]*\((.+)\)/mi',
+                $content,
+                $matches,
+                PREG_SET_ORDER,
+            );
+
+            foreach ($matches as $match) {
+                $foundCommand = $match[1] ?? '';
+                $foundArgument = $match[2] ?? '';
+
+                $status = 1;
+                output("E: Replace $foundCommand($foundArgument) with $command()\n   in $file\n");
+            }
+        }
+    }
+
+    return $status;
+}
+
+/**
  * Find all local Find* modules in the project.
  */
 function getFindModules(string $path): Iterator
@@ -671,6 +717,9 @@ function checkAll(array $options): int
     $status = checkCMakeInclude($allCMakeFiles, $projectModules);
 
     $newStatus = checkCMakeSet($allCMakeFiles);
+    $status = (0 === $status) ? $newStatus : $status;
+
+    $newStatus = checkCMakeObsoleteEndCommands($allCMakeFiles);
     $status = (0 === $status) ? $newStatus : $status;
 
     $findModules = getFindModules($options['path'] . '/cmake/cmake/modules');
