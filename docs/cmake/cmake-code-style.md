@@ -126,10 +126,9 @@ On the contrary, variable names are case-sensitive.
 
 ### 2.1. End commands
 
-To make the code easier to read, use empty commands for `endif()`,
-`endfunction()`, `endforeach()`, `endmacro()`, `endwhile()`, `else()`, and
-similar end commands. The optional argument in end command is legacy CMake and
-not recommended anymore.
+To make the code easier to read, use empty commands for `else()`, `endif()`,
+`endforeach()`, `endwhile()`, `endfunction()`, and `endmacro()`. The optional
+legacy argument in these commands is not recommended anymore.
 
 For example, do this:
 
