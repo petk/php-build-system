@@ -35,7 +35,7 @@ endif()
 add_executable(php_sapi_litespeed)
 add_executable(PHP::sapi::litespeed ALIAS php_sapi_litespeed)
 
-target_sourceS(
+target_sources(
   php_sapi_litespeed
   PRIVATE
     lsapi_main.c

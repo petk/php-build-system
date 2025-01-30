@@ -622,11 +622,7 @@ function runCodespell(): int
         return 0;
     }
 
-    exec(
-        'codespell --config ' . __DIR__ . '/check-cmake/.codespellrc .',
-        $output,
-        $status,
-    );
+    exec('codespell', $output, $status);
 
     $output = implode("\n", $output);
     if ('' !== $output) {

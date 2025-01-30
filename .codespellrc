@@ -1,0 +1,21 @@
+# The codespell configuration.
+# https://github.com/codespell-project/codespell
+
+[codespell]
+builtin = clear,code,en-GB_to_en-US,informal,names,rare,usage
+check-filenames =
+check-hidden =
+ignore-words-list =
+    empress,
+    master,
+    musl,
+    nmake,
+    shs,
+    stdio,
+    thead,
+skip =
+    ./php-src,
+    ./.git,
+    *.patch,
+    *.svg,
+    ./docs/autotools/PHP-*.txt,
