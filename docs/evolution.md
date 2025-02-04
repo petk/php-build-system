@@ -945,7 +945,18 @@ PHP coding standards now use the C11 standard.
 * phpize builds now reflect the source tree in the build dir (like that already
   worked for in-tree builds); some extension builds (especially when using
   `Makefile.frag.w32`) may need adjustments.
-* `--enable-sanitzer` is now supported for MSVC builds. This enables ASan and
-  debug assertions, and is supported as of MSVC 16.10 and Windows 10.
+* `SAPI()` and `ADD_SOURCES()` commands now suport the optional
+  `duplicate_sources` parameter. If truthy, no rules to build the object files
+  are generated. This allows to build additional variants of SAPIs (e.g. a DLL
+  and EXE) without duplicate build rules. It is up to the SAPI maintainers to
+  ensure that appropriate build rules are created.
+
+##### Windows configure options
+
+* The `--enable-sanitzer` configure option is now supported for MSVC builds.
+  This enables ASan and debug assertions, and is supported as of MSVC 16.10 and
+  Windows 10.
+* The `--with-uncritical-warn-choke` configuration option for Clang builds has
+  been removed in favor of adding warning-suppressing flags via `CFLAGS`.
 
 </details>

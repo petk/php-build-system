@@ -164,9 +164,9 @@ parallel builds, taking advantage of multiple CPU cores.
 
 > [!NOTE]
 > On some systems, the `-j` option requires argument. Number of simultaneous
-> jobs is often the number of available processor threads of the build machine
-> and can be also automatically calculated using the `$(nproc)` on Linux, or
-> `$(sysctl -n hw.ncpu)` on macOS and BSD-based systems.
+> jobs is often the number of available logical CPU cores (a.k.a threads) of
+> the build machine and can be also automatically calculated using the
+> `$(nproc)` on Linux, or `$(sysctl -n hw.ncpu)` on macOS and BSD-based systems.
 >
 > ```sh
 > cmake --build <build-directory> -j $(nproc)

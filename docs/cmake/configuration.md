@@ -3523,7 +3523,13 @@ A list of Autoconf `configure` command-line configuration options, Windows
       <td>N/A</td>
       <td>--without-uncritical-warn-choke</td>
       <td></td>
+      <td>Removed since PHP >= 8.4</td>
+    </tr>
+    <tr>
+      <td>N/A</td>
+      <td>--with-uncritical-warn-choke</td>
       <td></td>
+      <td>Automatically enabled when using Clang. Removed since PHP >= 8.4</td>
     </tr>
     <tr>
       <td>N/A</td>
