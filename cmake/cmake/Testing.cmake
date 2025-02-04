@@ -9,10 +9,10 @@ endif()
 enable_testing()
 
 block()
-  include(ProcessorCount)
-  processorcount(processors)
+  cmake_host_system_information(RESULT processors QUERY NUMBER_OF_LOGICAL_CORES)
 
-  if(NOT processors EQUAL 0)
+  set(parallel "")
+  if(processors)
     set(parallel -j${processors})
   endif()
 

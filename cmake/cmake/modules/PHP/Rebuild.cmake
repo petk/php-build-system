@@ -30,8 +30,12 @@ endfunction()
 block()
   _php_rebuild_get_all_targets(targets ${CMAKE_CURRENT_SOURCE_DIR})
 
-  include(ProcessorCount)
-  processorcount(processors)
+  cmake_host_system_information(RESULT processors QUERY NUMBER_OF_LOGICAL_CORES)
+
+  set(parallel "")
+  if(processors)
+    set(parallel --parallel ${processors})
+  endif()
 
   add_custom_command(
     OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/CMakeFiles/php_rebuild.timestamp
@@ -43,7 +47,7 @@ block()
         -E touch ${CMAKE_CURRENT_BINARY_DIR}/CMakeFiles/php_rebuild.timestamp
     COMMAND
       ${CMAKE_COMMAND}
-        --build . --target php_rebuild -j ${processors}
+        --build . --target php_rebuild ${parallel}
     WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
     DEPENDS ${targets}
   )
