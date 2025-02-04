@@ -202,7 +202,7 @@ function getProjectModules(): array
         ],
         'FindPackageMessage' => ['find_package_message'],
         'GenerateExportHeader' => ['generate_export_header'],
-        'ProcessorCount' => ['processorcount'],
+        'ProcessorCount' => ['ProcessorCount'],
         'PHP/AddCustomCommand' => ['php_add_custom_command'],
         'PHP/Bison' => ['php_bison', '/find_package\([\n ]*BISON/'],
         'PHP/CheckAttribute' => [
