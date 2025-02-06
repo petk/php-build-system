@@ -73,39 +73,64 @@ function(php_feature_summary_preamble result)
     php_feature_summary_preamble_add_item("Zend module API number" "${zendModuleApi}" preamble)
   endif()
 
-  if(CMAKE_C_COMPILER_LOADED)
-    set(compiler "")
-    if(CMAKE_C_COMPILER_ID)
-      string(APPEND compiler "${CMAKE_C_COMPILER_ID}")
+  get_property(enabledLanguages GLOBAL PROPERTY ENABLED_LANGUAGES)
+  foreach(language IN ITEMS ${enabledLanguages})
+    # Add compiler info.
+    if(CMAKE_${language}_COMPILER_LOADED)
+      set(compiler "")
+      if(CMAKE_${language}_COMPILER_ID)
+        string(APPEND compiler "${CMAKE_${language}_COMPILER_ID}")
+      endif()
+      if(CMAKE_${language}_COMPILER_VERSION)
+        string(APPEND compiler " ${CMAKE_${language}_COMPILER_VERSION}")
+      endif()
+      string(STRIP "${compiler}" compiler)
+      if(compiler)
+        string(APPEND compiler " (${CMAKE_${language}_COMPILER})")
+      else()
+        string(APPEND compiler "${CMAKE_${language}_COMPILER}")
+      endif()
+      php_feature_summary_preamble_add_item(
+        "${language} compiler"
+        "${compiler}"
+        preamble
+      )
     endif()
-    if(CMAKE_C_COMPILER_VERSION)
-      string(APPEND compiler " ${CMAKE_C_COMPILER_VERSION}")
-    endif()
-    string(STRIP "${compiler}" compiler)
-    if(compiler)
-      string(APPEND compiler " (${CMAKE_C_COMPILER})")
-    else()
-      string(APPEND compiler "${CMAKE_C_COMPILER}")
-    endif()
-    php_feature_summary_preamble_add_item("C compiler" "${compiler}" preamble)
-  endif()
 
-  if(CMAKE_CXX_COMPILER_LOADED)
-    set(compiler "")
-    if(CMAKE_CXX_COMPILER_ID)
-      string(APPEND compiler "${CMAKE_CXX_COMPILER_ID}")
+    # Add linker info.
+    if(CMAKE_${language}_COMPILER_LINKER)
+      set(linker "")
+      if(CMAKE_${language}_COMPILER_LINKER_ID)
+        string(APPEND linker "${CMAKE_${language}_COMPILER_LINKER_ID}")
+      endif()
+      if(CMAKE_${language}_COMPILER_LINKER_VERSION)
+        string(APPEND linker " ${CMAKE_${language}_COMPILER_LINKER_VERSION}")
+      endif()
+      string(STRIP "${linker}" linker)
+      if(linker)
+        string(APPEND linker " (${CMAKE_${language}_COMPILER_LINKER})")
+      else()
+        string(APPEND linker "${CMAKE_${language}_COMPILER_LINKER}")
+      endif()
+      php_feature_summary_preamble_add_item(
+        "${language} linker"
+        "${linker}"
+        preamble
+      )
     endif()
-    if(CMAKE_CXX_COMPILER_VERSION)
-      string(APPEND compiler " ${CMAKE_CXX_COMPILER_VERSION}")
-    endif()
-    string(STRIP "${compiler}" compiler)
-    if(compiler)
-      string(APPEND compiler " (${CMAKE_CXX_COMPILER})")
-    else()
-      string(APPEND compiler "${CMAKE_CXX_COMPILER}")
-    endif()
-    php_feature_summary_preamble_add_item("CXX compiler" "${compiler}" preamble)
-  endif()
+  endforeach()
+
+  php_feature_summary_preamble_add_item(
+    "CMake version"
+    "${CMAKE_VERSION}"
+    preamble
+  )
+
+  php_feature_summary_preamble_add_item(
+    "CMake generator"
+    "${CMAKE_GENERATOR}"
+    preamble
+  )
 
   get_property(isMultiConfig GLOBAL PROPERTY GENERATOR_IS_MULTI_CONFIG)
   if(isMultiConfig)

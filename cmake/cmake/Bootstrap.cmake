@@ -17,16 +17,6 @@ if(CMAKE_CXX_COMPILER)
   enable_language(CXX)
 endif()
 
-# Output linker information.
-if(CMAKE_VERSION VERSION_GREATER_EQUAL 3.29)
-  if(CMAKE_C_COMPILER_LINKER)
-    message(STATUS "C linker: ${CMAKE_C_COMPILER_LINKER}")
-  endif()
-  if(CMAKE_CXX_COMPILER_LINKER)
-    message(STATUS "CXX linker: ${CMAKE_CXX_COMPILER_LINKER}")
-  endif()
-endif()
-
 # Check whether IPO/LTO can be enabled.
 include(PHP/Optimization)
 
