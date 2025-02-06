@@ -152,6 +152,9 @@ endif()
 target_sources(
   php_ext_openssl
   PRIVATE
+    openssl_backend_common.c
+    openssl_backend_v1.c
+    openssl_backend_v3.c
     openssl_pwhash.c
     openssl_pwhash.stub.php
     openssl.c
