@@ -69,12 +69,7 @@ target_sources(
     pdo_firebird.stub.php
 )
 
-set_target_properties(
-  php_ext_pdo_firebird
-  PROPERTIES
-    CXX_STANDARD 11
-    CXX_STANDARD_REQUIRED TRUE
-)
+target_compile_features(php_ext_pdo_firebird PRIVATE cxx_std_11)
 
 target_compile_options(
   php_ext_pdo_firebird
