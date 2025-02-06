@@ -199,19 +199,9 @@ set_package_properties(
 )
 
 if(ICU_VERSION VERSION_GREATER_EQUAL 74)
-  set_target_properties(
-    php_ext_intl
-    PROPERTIES
-      CXX_STANDARD 17
-      CXX_STANDARD_REQUIRED TRUE
-  )
+  target_compile_features(php_ext_intl PRIVATE cxx_std_17)
 else()
-  set_target_properties(
-    php_ext_intl
-    PROPERTIES
-      CXX_STANDARD 11
-      CXX_STANDARD_REQUIRED TRUE
-  )
+  target_compile_features(php_ext_intl PRIVATE cxx_std_11)
 endif()
 
 target_link_libraries(php_ext_intl PRIVATE ICU::io ICU::uc ICU::i18n)
