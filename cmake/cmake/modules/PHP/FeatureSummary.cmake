@@ -35,42 +35,63 @@ include(FeatureSummary)
 
 # Add new item to the summary preamble with dotted leader.
 function(php_feature_summary_preamble_add_item label value output)
-  # If preamble is already set, use it to calculate column width, otherwise use
-  # predefined helper template.
-  if(${output})
-    set(template "${${output}}")
-  else()
-    set(template " * <label> .................... : <value>")
-  endif()
+  # Template helper to calculate column width.
+  set(template " * <label> .................... : <value>")
+  string(REGEX MATCH "^ \\\* ([^ ]+ [.]+)" _ "${template}")
+  string(LENGTH "${CMAKE_MATCH_1}" columnWidth)
 
-  string(REGEX MATCH "^ \\\* ([^\r\n]+ [.]+) : " _ "${template}")
-  string(LENGTH "${CMAKE_MATCH_1}" width)
   string(LENGTH "${label}" length)
-  math(EXPR numberOfDots "${width} - ${length} - 1")
+  math(EXPR numberOfDots "${columnWidth} - ${length} - 1")
 
-  if(numberOfDots GREATER 0)
+  set(leader "")
+  if(numberOfDots GREATER_EQUAL 2)
     string(REPEAT "." ${numberOfDots} leader)
-    set(leader " ${leader} ")
-  else()
-    set(leader "")
+    set(leader " ${leader}")
+  elseif(numberOfDots EQUAL 1)
+    set(leader "  ")
+  elseif(numberOfDots EQUAL 0)
+    set(leader " ")
+  elseif(numberOfDots LESS 0)
+    string(SUBSTRING "${label}" 0 ${columnWidth} label)
   endif()
 
-  string(APPEND ${output} " * ${label}${leader}: ${value}\n")
-  set("${output}" "${${output}}" PARENT_SCOPE)
+  string(APPEND ${output} " * ${label}${leader} : ${value}\n")
+  return(PROPAGATE ${output})
 endfunction()
 
 # Get summary preamble.
 function(php_feature_summary_preamble result)
-  php_feature_summary_preamble_add_item("${PROJECT_NAME} version" "${PROJECT_VERSION}" preamble)
-  php_feature_summary_preamble_add_item("PHP API version" "${PHP_API_VERSION}" preamble)
+  php_feature_summary_preamble_add_item(
+    "${PROJECT_NAME} version"
+    "${${PROJECT_NAME}_VERSION}"
+    preamble
+  )
+
+  php_feature_summary_preamble_add_item(
+    "PHP API version"
+    "${PHP_API_VERSION}"
+    preamble
+  )
 
   if(TARGET Zend::Zend)
     get_target_property(zendVersion Zend::Zend VERSION)
     get_target_property(zendExtensionApi Zend::Zend ZEND_EXTENSION_API_NO)
     get_target_property(zendModuleApi Zend::Zend ZEND_MODULE_API_NO)
-    php_feature_summary_preamble_add_item("Zend Engine version" "${zendVersion}" preamble)
-    php_feature_summary_preamble_add_item("Zend extension API number" "${zendExtensionApi}" preamble)
-    php_feature_summary_preamble_add_item("Zend module API number" "${zendModuleApi}" preamble)
+    php_feature_summary_preamble_add_item(
+      "Zend Engine version"
+      "${zendVersion}"
+      preamble
+    )
+    php_feature_summary_preamble_add_item(
+      "Zend extension API number"
+      "${zendExtensionApi}"
+      preamble
+    )
+    php_feature_summary_preamble_add_item(
+      "Zend module API number"
+      "${zendModuleApi}"
+      preamble
+    )
   endif()
 
   get_property(enabledLanguages GLOBAL PROPERTY ENABLED_LANGUAGES)
@@ -119,6 +140,30 @@ function(php_feature_summary_preamble result)
       )
     endif()
   endforeach()
+
+  php_feature_summary_preamble_add_item(
+    "Building on (host system)"
+    "${CMAKE_HOST_SYSTEM}"
+    preamble
+  )
+
+  php_feature_summary_preamble_add_item(
+    "Host CPU"
+    "${CMAKE_HOST_SYSTEM_PROCESSOR}"
+    preamble
+  )
+
+  php_feature_summary_preamble_add_item(
+    "Building for (target system)"
+    "${CMAKE_SYSTEM}"
+    preamble
+  )
+
+  php_feature_summary_preamble_add_item(
+    "Target CPU"
+    "${CMAKE_SYSTEM_PROCESSOR}"
+    preamble
+  )
 
   php_feature_summary_preamble_add_item(
     "CMake version"
