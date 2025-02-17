@@ -147,6 +147,7 @@ else()
       pcre2lib/pcre2_auto_possess.c
       pcre2lib/pcre2_chartables.c
       pcre2lib/pcre2_chkdint.c
+      pcre2lib/pcre2_compile_class.c
       pcre2lib/pcre2_compile.c
       pcre2lib/pcre2_config.c
       pcre2lib/pcre2_context.c
@@ -181,11 +182,14 @@ else()
           # headers). It isn't required to use public headers. Perhaps more
           # could be filtered and synced with upstream PCRE installed headers.
           #pcre2lib/config.h
+          pcre2lib/pcre2_compile.h
           pcre2lib/pcre2_internal.h
           pcre2lib/pcre2_intmodedep.h
+          pcre2lib/pcre2_jit_char_inc.h
           pcre2lib/pcre2_jit_neon_inc.h
           pcre2lib/pcre2_jit_simd_inc.h
           pcre2lib/pcre2_ucp.h
+          pcre2lib/pcre2_util.h
           pcre2lib/pcre2.h
   )
 
