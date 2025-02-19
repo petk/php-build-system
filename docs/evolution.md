@@ -935,21 +935,22 @@ PHP coding standards now use the C11 standard.
 
 #### Abstract
 
-* ext/phar/php_phar.h is not installed anymore
+* ext/phar/php_phar.h is not installed anymore.
 * Minimum required ICU package version (for ext/intl) has been increased from
-  `50.1` to `57.1`.
+  50.1 to 57.1.
+* Bundled file library in ext/fileinfo upgraded to 5.46.
+* Bundled pcre2lib in ext/pcre upgraded from 10.44 to 10.45.
 
 #### Windows
 
-* ext/com_dotnet is built as shared by default
+* ext/com_dotnet is built as shared by default.
 * phpize builds now reflect the source tree in the build dir (like that already
   worked for in-tree builds); some extension builds (especially when using
   `Makefile.frag.w32`) may need adjustments.
 * `SAPI()` and `ADD_SOURCES()` commands now support the optional
   `duplicate_sources` parameter. If truthy, no rules to build the object files
   are generated. This allows to build additional variants of SAPIs (e.g. a DLL
-  and EXE) without duplicate build rules. It is up to the SAPI maintainers to
-  ensure that appropriate build rules are created.
+  and EXE) without duplicate build rules.
 
 ##### Windows configure options
 
