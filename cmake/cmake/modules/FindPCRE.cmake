@@ -66,14 +66,14 @@ block(PROPAGATE PCRE_VERSION)
       STRINGS
       ${PCRE_INCLUDE_DIR}/pcre2.h
       results
-      REGEX "^#[ \t]*define[ \t]+PCRE2_(MAJOR|MINOR)[ \t]+[0-9]+[^\r\n]*$"
+      REGEX "^#[ \t]*define[ \t]+PCRE2_(MAJOR|MINOR)[ \t]+[0-9]+[^\n]*$"
     )
 
     unset(PCRE_VERSION)
 
     foreach(item MAJOR MINOR)
       foreach(line ${results})
-        if(line MATCHES "^#[ \t]*define[ \t]+PCRE2_${item}[ \t]+([0-9]+)[^\r\n]*$")
+        if(line MATCHES "^#[ \t]*define[ \t]+PCRE2_${item}[ \t]+([0-9]+)[^\n]*$")
           if(DEFINED PCRE_VERSION)
             string(APPEND PCRE_VERSION ".${CMAKE_MATCH_1}")
           else()

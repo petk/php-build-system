@@ -47,7 +47,7 @@ block(PROPAGATE Ccache_VERSION)
       OUTPUT_STRIP_TRAILING_WHITESPACE
     )
 
-    if(version MATCHES "^ccache version ([^\r\n]+)")
+    if(version MATCHES "^ccache version ([^\n]+)")
       set(Ccache_VERSION "${CMAKE_MATCH_1}")
     endif()
   endif()
