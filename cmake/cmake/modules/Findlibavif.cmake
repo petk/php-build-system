@@ -69,14 +69,14 @@ block(PROPAGATE libavif_VERSION)
       ${libavif_INCLUDE_DIR}/avif/avif.h
       results
       REGEX
-      "^#[ \t]*define[ \t]+AVIF_VERSION_(MAJOR|MINOR|PATCH)[ \t]+[0-9]+[^\r\n]*$"
+      "^#[ \t]*define[ \t]+AVIF_VERSION_(MAJOR|MINOR|PATCH)[ \t]+[0-9]+[^\n]*$"
     )
 
     unset(libavif_VERSION)
 
     foreach(item MAJOR MINOR PATCH)
       foreach(line ${results})
-        if(line MATCHES "^#[ \t]*define[ \t]+AVIF_VERSION_${item}[ \t]+([0-9]+)[^\r\n]*$")
+        if(line MATCHES "^#[ \t]*define[ \t]+AVIF_VERSION_${item}[ \t]+([0-9]+)[^\n]*$")
           if(DEFINED libavif_VERSION)
             string(APPEND libavif_VERSION ".${CMAKE_MATCH_1}")
           else()

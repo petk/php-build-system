@@ -120,7 +120,7 @@ endif()
 # Get version.
 block(PROPAGATE NetSnmp_VERSION)
   if(NetSnmp_INCLUDE_DIR)
-    set(regex "^[ \t]*#[ \t]*define[ \t]+PACKAGE_VERSION[ \t]+\"([^\"]+)\"[^\r\n]*$")
+    set(regex "^[ \t]*#[ \t]*define[ \t]+PACKAGE_VERSION[ \t]+\"([^\"]+)\"[^\n]*$")
 
     file(
       STRINGS

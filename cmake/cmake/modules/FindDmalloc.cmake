@@ -59,14 +59,14 @@ block(PROPAGATE Dmalloc_VERSION)
       ${Dmalloc_INCLUDE_DIR}/dmalloc.h
       results
       REGEX
-      "^#[ \t]*define[ \t]+DMALLOC_VERSION_(MAJOR|MINOR|PATCH)[ \t]+[0-9]+[ \t]*[^\r\n]*$"
+      "^#[ \t]*define[ \t]+DMALLOC_VERSION_(MAJOR|MINOR|PATCH)[ \t]+[0-9]+[ \t]*[^\n]*$"
     )
 
     unset(Dmalloc_VERSION)
 
     foreach(item MAJOR MINOR PATCH)
       foreach(line ${results})
-        if(line MATCHES "^#[ \t]*define[ \t]+DMALLOC_VERSION_${item}[ \t]+([0-9]+)[ \t]*[^\r\n]*$")
+        if(line MATCHES "^#[ \t]*define[ \t]+DMALLOC_VERSION_${item}[ \t]+([0-9]+)[ \t]*[^\n]*$")
           if(DEFINED Dmalloc_VERSION)
             string(APPEND Dmalloc_VERSION ".${CMAKE_MATCH_1}")
           else()

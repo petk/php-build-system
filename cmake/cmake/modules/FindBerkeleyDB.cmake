@@ -124,14 +124,14 @@ block(PROPAGATE BerkeleyDB_VERSION)
       STRINGS
       ${BerkeleyDB_INCLUDE_DIR}/db.h
       results
-      REGEX "^[ \t]*#[ \t]*define[ \t]+DB_VERSION_(MAJOR|MINOR|PATCH)[ \t]+[0-9]+[^\r\n]*$"
+      REGEX "^[ \t]*#[ \t]*define[ \t]+DB_VERSION_(MAJOR|MINOR|PATCH)[ \t]+[0-9]+[^\n]*$"
     )
 
     unset(BerkeleyDB_VERSION)
 
     foreach(item MAJOR MINOR PATCH)
       foreach(line ${results})
-        if(line MATCHES "^[ \t]*#[ \t]*define[ \t]+DB_VERSION_${item}[ \t]+([0-9]+)[^\r\n]*$")
+        if(line MATCHES "^[ \t]*#[ \t]*define[ \t]+DB_VERSION_${item}[ \t]+([0-9]+)[^\n]*$")
           if(DEFINED BerkeleyDB_VERSION)
             string(APPEND BerkeleyDB_VERSION ".${CMAKE_MATCH_1}")
           else()
