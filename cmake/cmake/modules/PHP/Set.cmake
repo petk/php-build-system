@@ -242,7 +242,7 @@ function(php_set)
   if(DEFINED parsed_IF)
     # Make condition look nice in the possible output strings.
     string(STRIP "${parsed_IF}" parsed_IF)
-    string(REGEX REPLACE "[ \t]*[\r\n]+[ \t\r\n]*" "\n" parsed_IF "${parsed_IF}")
+    string(REGEX REPLACE "[ \t]*[\n]+[ \t\n]*" "\n" parsed_IF "${parsed_IF}")
     foreach(d ${parsed_IF})
       cmake_language(EVAL CODE "
         if(${d})

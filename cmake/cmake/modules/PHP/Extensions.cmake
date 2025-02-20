@@ -198,9 +198,9 @@ function(_php_extensions_parse_dependencies extension result)
     # Command invocation:
     "add_dependencies[ \t]*\\("
     # Target name:
-    "[ \t\r\n]*php_ext_${extension}[ \t\r\n]+"
+    "[ \t\n]*php_ext_${extension}[ \t\n]+"
     # Dependencies:
-    "[\"]?(php_ext_[a-zA-Z0-9_; \t\r\n]+)"
+    "[\"]?(php_ext_[a-zA-Z0-9_; \t\n]+)"
   )
 
   string(REGEX MATCHALL "${regex}" matches "${content}")
@@ -247,22 +247,22 @@ endfunction()
 function(_php_extensions_option_regex option result)
   string(CONCAT _
     # Start of the option command invocation:
-    "[ \t\r\n]?option[ \t]*\\([ \t\r\n]*"
+    "[ \t\n]?option[ \t]*\\([ \t\n]*"
     # Variable name:
-    "[ \t\r\n]*${option}[ \t\r\n]+"
+    "[ \t\n]*${option}[ \t\n]+"
     # Documentation string without escaped double quotes (\"):
     # TODO: should escaped quotes be also matched?
-    #"[ \t\r\n]*\"([^\"]|\\\")*\"[ \t\r\n]*"
-    "[ \t\r\n]*\"[^\"]*\"[ \t\r\n]*"
+    #"[ \t\n]*\"([^\"]|\\\")*\"[ \t\n]*"
+    "[ \t\n]*\"[^\"]*\"[ \t\n]*"
     # Optional boolean or variable value:
-    "([ \t\r\n]+("
+    "([ \t\n]+("
     "ON|on|TRUE|true|YES|yes|Y|y|"
     "OFF|off|FALSE|false|NO|no|N|n|"
     "[0-9.]+|"
     "\\\$\\{[^\\}]+\\}"
     "))?"
     # End of option invocation:
-    "[ \t\r\n]*\\)"
+    "[ \t\n]*\\)"
   )
 
   set(${result} "${_}" PARENT_SCOPE)
@@ -272,31 +272,31 @@ endfunction()
 function(_php_extensions_cmake_dependent_option_regex option result)
   string(CONCAT _
     # Start of the option command invocation:
-    "[ \t\r\n]?cmake_dependent_option[ \t]*\\([ \t\r\n]*"
+    "[ \t\n]?cmake_dependent_option[ \t]*\\([ \t\n]*"
     # Variable name:
-    "[ \t\r\n]*${option}[ \t\r\n]+"
+    "[ \t\n]*${option}[ \t\n]+"
     # Documentation string without escaped double quotes (\"):
     # TODO: should escaped quotes be also matched?
-    #"[ \t\r\n]*\"([^\"]|\\\")*\"[ \t\r\n]*"
-    "[ \t\r\n]*\"[^\"]*\"[ \t\r\n]*"
+    #"[ \t\n]*\"([^\"]|\\\")*\"[ \t\n]*"
+    "[ \t\n]*\"[^\"]*\"[ \t\n]*"
     # Boolean or variable value:
-    "[ \t\r\n]+("
+    "[ \t\n]+("
     "ON|on|TRUE|true|YES|yes|Y|y|"
     "OFF|off|FALSE|false|NO|no|N|n|"
     "[0-9.]+|"
     "\\\$\\{[^\\}]+\\}"
     ")"
     # Semicolon separated list of conditions:
-    "[ \t\r\n]*\"[^\"]*\"[ \t\r\n]*"
+    "[ \t\n]*\"[^\"]*\"[ \t\n]*"
     # Boolean or variable force value:
-    "[ \t\r\n]+("
+    "[ \t\n]+("
     "ON|on|TRUE|true|YES|yes|Y|y|"
     "OFF|off|FALSE|false|NO|no|N|n|"
     "[0-9.]+|"
     "\\\$\\{[^\\}]+\\}"
     ")"
     # End of option invocation:
-    "[ \t\r\n]*\\)"
+    "[ \t\n]*\\)"
   )
 
   set(${result} "${_}" PARENT_SCOPE)
@@ -361,7 +361,7 @@ endfunction()
 
 # Remove line comments from CMake code content.
 function(_php_extensions_remove_comments)
-  string(REGEX REPLACE "[ \t]*#[^\r\n]*" "" ${ARGV0} "${${ARGV0}}")
+  string(REGEX REPLACE "[ \t]*#[^\n]*" "" ${ARGV0} "${${ARGV0}}")
   set(${ARGV0} "${${ARGV0}}" PARENT_SCOPE)
 endfunction()
 
