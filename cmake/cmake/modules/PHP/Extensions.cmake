@@ -235,12 +235,14 @@ endfunction()
 
 # Get extension dependencies if found.
 function(_php_extensions_get_dependencies extension result)
-  set(${result} PARENT_SCOPE)
+  set(${result} "")
 
   get_property(deps GLOBAL PROPERTY PHP_EXTENSION_${extension}_DEPS)
   if(deps)
-    set(${result} "${deps}" PARENT_SCOPE)
+    set(${result} "${deps}")
   endif()
+
+  return(PROPAGATE ${result})
 endfunction()
 
 # Get a regex string to match option().
