@@ -635,13 +635,6 @@ This is primarily due to their varying levels of utility and a lack of updates
 to keep pace with new CMake versions. It's worth mentioning that this
 recommendation may evolve in the future as these tools continue to develop.
 
-For convenience there is a custom helper script added to this repository that
-checks CMake files:
-
-```sh
-./bin/check-cmake.php
-```
-
 #### 10.1.1. Gersemi
 
 The [`gersemi`](https://github.com/BlankSpruce/gersemi) tool can check and fix
