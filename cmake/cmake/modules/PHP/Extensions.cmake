@@ -373,8 +373,8 @@ function(php_extensions_postconfigure extension)
     return()
   endif()
 
-   # If extension is enabled, enable also all its dependencies.
-   get_target_property(
+  # If extension is enabled, enable also all its dependencies.
+  get_target_property(
     dependencies
     php_ext_${extension}
     MANUALLY_ADDED_DEPENDENCIES
