@@ -1,0 +1,54 @@
+name: Run code style checks
+
+on:
+  push:
+    branches: [PHP-8.3]
+  pull_request:
+    branches: [PHP-8.3]
+
+jobs:
+  check:
+    name: Check code style
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
+
+      - name: Install CMake
+        uses: lukka/get-cmake@latest
+
+      - name: Install PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: 8.4
+
+      - name: Install Python
+        uses: actions/setup-python@v5
+
+      - name: Install checking tools
+        run: |
+          pipx install codespell
+          curl -OL https://github.com/petk/normalizator/releases/latest/download/normalizator.phar
+          chmod +x normalizator.phar
+          mv normalizator.phar /usr/local/bin/normalizator
+          curl -OL https://github.com/petk/cmake-normalizer/releases/latest/download/normalizer.cmake
+          chmod +x normalizer.cmake
+          mv normalizer.cmake /usr/local/bin/normalizer.cmake
+
+      - name: Run Codespell
+        continue-on-error: true
+        run: codespell
+
+      - name: Run normalizator.phar
+        continue-on-error: true
+        run: normalizator check --not php-src --not .git .
+
+      - name: Run normalizer.cmake
+        continue-on-error: true
+        run: |
+          normalizer.cmake -- \
+            --set normalize_indent_style=false \
+            --set normalize_cmake_minimum_required=3.25...3.31 \
+            -j
