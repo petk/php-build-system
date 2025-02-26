@@ -28,7 +28,7 @@ index 7911bf8490..1d9b530947 100644
  indent_style             = space
  
 diff --git a/.gitignore b/.gitignore
-index 52dde98ed4..d698b5a19c 100644
+index d8cb25a1a1..9c58a3c847 100644
 --- a/.gitignore
 +++ b/.gitignore
 @@ -152,6 +152,7 @@ php
@@ -39,9 +39,9 @@ index 52dde98ed4..d698b5a19c 100644
  /sapi/phpdbg/phpdbg_parser.c
  /sapi/phpdbg/phpdbg_parser.h
  /sapi/phpdbg/phpdbg_parser.output
-@@ -290,9 +291,58 @@ tmp-php.ini
- /junit.out.xml
- /.ccache/
+@@ -295,9 +296,58 @@ tmp-php.ini
+ # ------------------------------------------------------------------------------
+ /ext/standard/tests/helpers/bad_cmd.exe
  
 +# ------------------------------------------------------------------------------
 +# CMake-based build system files
