@@ -30,7 +30,6 @@ project(
 
 include(CMakeDependentOption)
 include(FeatureSummary)
-include(PHP/AddCustomCommand)
 
 option(PHP_EXT_TOKENIZER "Enable the tokenizer extension" ON)
 
@@ -71,17 +70,17 @@ target_sources(
 add_dependencies(php_ext_tokenizer Zend::Zend)
 
 # Generate tokenizer data source files.
-if(PHP_SOURCE_DIR)
-  php_add_custom_command(
-    php_ext_tokenizer_generate_data
+if(EXISTS ${PHP_SOURCE_DIR}/Zend/zend_language_parser.y)
+  add_custom_command(
     OUTPUT
       ${CMAKE_CURRENT_SOURCE_DIR}/tokenizer_data.stub.php
       ${CMAKE_CURRENT_SOURCE_DIR}/tokenizer_data.c
     DEPENDS
-      ${CMAKE_CURRENT_SOURCE_DIR}/tokenizer_data_gen.php
       ${PHP_SOURCE_DIR}/Zend/zend_language_parser.y
-    PHP_COMMAND
-      ${CMAKE_CURRENT_SOURCE_DIR}/tokenizer_data_gen.php
+    COMMAND
+      ${CMAKE_COMMAND}
+      -D PHP_SOURCE_DIR=${PHP_SOURCE_DIR}
+      -P ${CMAKE_CURRENT_SOURCE_DIR}/cmake/GenerateTokenizerData.cmake
     COMMENT
       "[ext/tokenizer] Regenerating tokenizer_data.c and tokenizer_data.stub.php"
     VERBATIM
