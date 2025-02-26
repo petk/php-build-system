@@ -11,6 +11,13 @@ See: https://gcc.gnu.org/bugzilla/show_bug.cgi?id=86914
 * `PHP_HAVE_BROKEN_OPTIMIZE_STRLEN`
 
   Whether GCC has broken strlen() optimization.
+
+## Usage
+
+```cmake
+# CMakeLists.txt
+include(PHP/CheckBrokenGccStrlenOpt)
+```
 #]=============================================================================]
 
 include_guard(GLOBAL)

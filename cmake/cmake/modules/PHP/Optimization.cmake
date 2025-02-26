@@ -13,6 +13,13 @@ This module also checks whether IPO/LTO can be enabled based on the PHP
 configuration (due to global register variables) and compiler/platform.
 
 https://cmake.org/cmake/help/latest/prop_tgt/INTERPROCEDURAL_OPTIMIZATION.html
+
+## Usage
+
+```cmake
+# CMakeLists.txt
+include(PHP/Optimization)
+```
 #]=============================================================================]
 
 include_guard(GLOBAL)

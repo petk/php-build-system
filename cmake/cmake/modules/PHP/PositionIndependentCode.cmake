@@ -10,6 +10,13 @@ fine tuned in the future better but it can exponentially complicate the build
 system code or the build usability.
 
 https://cmake.org/cmake/help/latest/variable/CMAKE_POSITION_INDEPENDENT_CODE.html
+
+## Usage
+
+```cmake
+# CMakeLists.txt
+include(PHP/PositionIndependentCode)
+```
 #]=============================================================================]
 
 include_guard(GLOBAL)

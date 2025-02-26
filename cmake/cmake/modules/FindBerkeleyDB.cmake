@@ -25,6 +25,13 @@ Module defines the following `IMPORTED` target(s):
 
 * Set `BerkeleyDB_USE_DB1` to `TRUE` before calling `find_package(BerkeleyDB)`
   to enable the Berkeley DB 1.x support/emulation.
+
+## Usage
+
+```cmake
+# CMakeLists.txt
+find_package(BerkeleyDB)
+```
 #]=============================================================================]
 
 include(CheckSourceCompiles)

@@ -12,6 +12,13 @@ See also: [GCC global register variables](https://gcc.gnu.org/onlinedocs/gcc/Glo
 * `HAVE_GCC_GLOBAL_REGS`
 
   Whether global register variables are supported.
+
+## Usage
+
+```cmake
+# CMakeLists.txt
+include(cmake/CheckGlobalRegisterVariables.cmake)
+```
 #]=============================================================================]
 
 include_guard(GLOBAL)

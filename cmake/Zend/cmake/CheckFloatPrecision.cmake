@@ -26,6 +26,13 @@ See: https://wiki.php.net/rfc/rounding
 * `HAVE_FPU_INLINE_ASM_X86`
 
   Whether FPU control word can be manipulated by inline assembler.
+
+## Usage
+
+```cmake
+# CMakeLists.txt
+include(cmake/CheckFloatPrecision.cmake)
+```
 #]=============================================================================]
 
 include_guard(GLOBAL)

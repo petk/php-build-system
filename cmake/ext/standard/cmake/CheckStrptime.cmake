@@ -16,6 +16,13 @@ Note: This module is obsolete. PHP `strptime()` is deprecated as of PHP 8.1.0.
 * `HAVE_DECL_STRPTIME`
 
   Whether `strptime()` is declared.
+
+## Usage
+
+```cmake
+# CMakeLists.txt
+include(cmake/CheckStrptime.cmake)
+```
 #]=============================================================================]
 
 include_guard(GLOBAL)

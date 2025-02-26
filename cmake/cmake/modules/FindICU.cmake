@@ -9,6 +9,13 @@ This module overrides the upstream CMake `FindICU` module with few
 customizations:
 
 * Added pkg-config.
+
+## Usage
+
+```cmake
+# CMakeLists.txt
+find_package(ICU)
+```
 #]=============================================================================]
 
 include(FeatureSummary)

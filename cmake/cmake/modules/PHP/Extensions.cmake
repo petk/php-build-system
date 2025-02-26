@@ -52,6 +52,13 @@ https://bugs.php.net/53141
 
   Global property with a list of all dependencies of <extension> (name of the
   extension as named in ext directory).
+
+## Usage
+
+```cmake
+# CMakeLists.txt
+include(PHP/Extensions)
+```
 #]=============================================================================]
 
 include_guard(GLOBAL)

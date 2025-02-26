@@ -34,6 +34,13 @@ php_configure_file(
   which is replaced with installation prefix either set via the
   `CMAKE_INSTALL_PREFIX` variable at the configuration phase, or the `--prefix`
   option at the `cmake --install` phase.
+
+## Usage
+
+```cmake
+# CMakeLists.txt
+include(PHP/ConfigureFile)
+```
 #]=============================================================================]
 
 include_guard(GLOBAL)

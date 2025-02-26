@@ -6,6 +6,13 @@ Check whether system byte ordering is big-endian.
 ## Cache variables
 
 * `WORDS_BIGENDIAN`
+
+## Usage
+
+```cmake
+# CMakeLists.txt
+include(PHP/CheckByteOrder)
+```
 #]=============================================================================]
 
 include_guard(GLOBAL)

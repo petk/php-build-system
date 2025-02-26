@@ -24,6 +24,13 @@ IMPORTED target:
 * `PHP::CheckSHMLibrary`
 
   If there is additional library to be linked for using SHM POSIX functions.
+
+## Usage
+
+```cmake
+# CMakeLists.txt
+include(cmake/CheckSHM.cmake)
+```
 #]=============================================================================]
 
 include_guard(GLOBAL)

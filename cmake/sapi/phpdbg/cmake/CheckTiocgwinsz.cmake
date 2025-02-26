@@ -12,6 +12,13 @@ on Autoconf's `AC_HEADER_TIOCGWINSZ` macro approach.
 * `GWINSZ_IN_SYS_IOCTL`
 
   Whether `sys/ioctl.h` defines `TIOCGWINSZ`.
+
+## Usage
+
+```cmake
+# CMakeLists.txt
+include(cmake/CheckTiocgwinsz.cmake)
+```
 #]=============================================================================]
 
 include_guard(GLOBAL)

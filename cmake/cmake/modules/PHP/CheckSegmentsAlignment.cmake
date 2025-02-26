@@ -2,6 +2,13 @@
 # PHP/CheckSegmentsAlignment
 
 Check linker support for aligning segments on huge page boundary.
+
+## Usage
+
+```cmake
+# CMakeLists.txt
+include(PHP/CheckSegmentsAlignment)
+```
 #]=============================================================================]
 
 include_guard(GLOBAL)

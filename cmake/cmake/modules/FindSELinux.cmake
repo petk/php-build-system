@@ -18,6 +18,13 @@ Module defines the following `IMPORTED` target(s):
 
 * `SELinux_INCLUDE_DIR` - Directory containing package library headers.
 * `SELinux_LIBRARY` - The path to the package library.
+
+## Usage
+
+```cmake
+# CMakeLists.txt
+find_package(SELinux)
+```
 #]=============================================================================]
 
 include(CheckLibraryExists)

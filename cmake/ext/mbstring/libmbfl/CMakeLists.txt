@@ -5,7 +5,7 @@ Simplified CMake-based build system for the libmbfl library. Since libmbfl is
 closely integrated and intertwined with PHP sources, the `target_sources()`
 approach is used, with no alternative implementations provided at this stage.
 
-## Basic usage
+## Usage
 
 Adding libmbfl with `add_subdirectory()`:
 

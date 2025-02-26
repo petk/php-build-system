@@ -10,6 +10,13 @@ only on Linux.
 * `HAVE_COPY_FILE_RANGE`
 
   Whether `copy_file_range()` is supported.
+
+## Usage
+
+```cmake
+# CMakeLists.txt
+include(PHP/CheckCopyFileRange)
+```
 #]=============================================================================]
 
 include_guard(GLOBAL)

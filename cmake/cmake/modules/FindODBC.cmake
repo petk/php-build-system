@@ -58,6 +58,13 @@ enhancements and adjustments for the PHP build workflow.
 * Added package meta-data for FeatureSummary.
 
 * Fixed finding ODBC on Windows and MinGW.
+
+## Usage
+
+```cmake
+# CMakeLists.txt
+find_package(ODBC)
+```
 #]=============================================================================]
 
 include(FeatureSummary)

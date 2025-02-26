@@ -18,6 +18,13 @@ Module defines the following `IMPORTED` target(s):
 
 * `AppArmor_INCLUDE_DIR` - Directory containing package library headers.
 * `AppArmor_LIBRARY` - The path to the package library.
+
+## Usage
+
+```cmake
+# CMakeLists.txt
+find_package(AppArmor)
+```
 #]=============================================================================]
 
 include(CheckLibraryExists)

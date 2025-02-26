@@ -19,6 +19,13 @@ Module defines the following `IMPORTED` target(s):
 * `NetSnmp_INCLUDE_DIR` - Directory containing package library headers.
 * `NetSnmp_LIBRARY` - The path to the package library.
 * `NetSnmp_EXECUTABLE` - Path to net-snmp-config utility.
+
+## Usage
+
+```cmake
+# CMakeLists.txt
+find_package(NetSnmp)
+```
 #]=============================================================================]
 
 include(CheckLibraryExists)

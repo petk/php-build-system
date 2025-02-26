@@ -16,6 +16,13 @@ TODO: Adjust checks for MSVC.
 * `PHP_HAVE_AVX512_VBMI_SUPPORTS`
 
   Whether compiler supports AVX-512 VBMI.
+
+## Usage
+
+```cmake
+# CMakeLists.txt
+include(PHP/CheckAVX512)
+```
 #]=============================================================================]
 
 include_guard(GLOBAL)
