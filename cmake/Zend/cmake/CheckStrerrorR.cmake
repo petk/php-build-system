@@ -14,6 +14,13 @@ version.
 
   Whether `strerror_r()` returns a `char *` message, otherwise it returns an
   `int` error number.
+
+## Usage
+
+```cmake
+# CMakeLists.txt
+include(cmake/CheckStrerrorR.cmake)
+```
 #]=============================================================================]
 
 include_guard(GLOBAL)

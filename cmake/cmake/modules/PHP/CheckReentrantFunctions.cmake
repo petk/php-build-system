@@ -49,6 +49,13 @@ functions on current systems and this module might be obsolete in the future.
 * `MISSING_STRTOK_R_DECL`
 
   Whether `strtok_r()` is not declared.
+
+## Usage
+
+```cmake
+# CMakeLists.txt
+include(PHP/CheckReentrantFunctions)
+```
 #]=============================================================================]
 
 include_guard(GLOBAL)

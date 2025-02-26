@@ -6,6 +6,13 @@ Check if flush should be called explicitly after buffered io.
 ## Cache variables
 
 * `HAVE_FLUSHIO`
+
+## Usage
+
+```cmake
+# CMakeLists.txt
+include(PHP/CheckFlushIo)
+```
 #]=============================================================================]
 
 include_guard(GLOBAL)

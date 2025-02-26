@@ -12,7 +12,7 @@ php_check_builtin(<builtin> <result_var>)
 If builtin `<builtin>` is supported by the C compiler, store the check result in
 the cache variable `<result_var>`.
 
-## Basic usage
+## Usage
 
 ```cmake
 # CMakeLists.txt

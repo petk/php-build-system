@@ -15,6 +15,13 @@ Module defines the following `IMPORTED` target(s):
 ## Cache variables
 
 * `Valgrind_INCLUDE_DIR` - Directory containing package library headers.
+
+## Usage
+
+```cmake
+# CMakeLists.txt
+find_package(Valgrind)
+```
 #]=============================================================================]
 
 include(FeatureSummary)

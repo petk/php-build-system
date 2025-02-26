@@ -19,6 +19,13 @@ to use `off_t` only, check is left here when using glibc.
 * `COOKIE_SEEKER_USES_OFF64_T`
 
   Whether `fopencookie` seeker uses the `off64_t` type.
+
+## Usage
+
+```cmake
+# CMakeLists.txt
+include(PHP/CheckFopencookie)
+```
 #]=============================================================================]
 
 include_guard(GLOBAL)

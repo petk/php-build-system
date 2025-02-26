@@ -9,6 +9,13 @@ also does the logarithmic test.
 * `ZEND_MM_ALIGNMENT`
 * `ZEND_MM_ALIGNMENT_LOG2`
 * `ZEND_MM_NEED_EIGHT_BYTE_REALIGNMENT`
+
+## Usage
+
+```cmake
+# CMakeLists.txt
+include(cmake/CheckMMAlignment.cmake)
+```
 #]=============================================================================]
 
 include_guard(GLOBAL)

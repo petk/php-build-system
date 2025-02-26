@@ -15,6 +15,13 @@ either `sendmail` is used if found, or a general default value is set to
 ## Cache variables
 
 * `Sendmail_EXECUTABLE` - Path to the sendmail executable program, if found.
+
+## Usage
+
+```cmake
+# CMakeLists.txt
+find_package(Sendmail)
+```
 #]=============================================================================]
 
 include(FeatureSummary)

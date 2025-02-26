@@ -26,6 +26,13 @@ Module defines the following `IMPORTED` target(s):
 * Set `ACL_USE_USER_GROUP` to `TRUE` before calling `find_package(ACL)` to also
   check if the ACL library supports `ACL_USER` and `ACL_GROUP`. For example,
   macOS doesn't have support for user/group.
+
+## Usage
+
+```cmake
+# CMakeLists.txt
+find_package(ACL)
+```
 #]=============================================================================]
 
 include(CheckSourceCompiles)

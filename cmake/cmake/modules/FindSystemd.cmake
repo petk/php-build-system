@@ -19,6 +19,13 @@ Module defines the following `IMPORTED` target(s):
 * `Systemd_INCLUDE_DIR` - Directory containing package library headers.
 * `Systemd_LIBRARY` - The path to the package library.
 * `Systemd_EXECUTABLE` - A systemd command-line tool, if available.
+
+## Usage
+
+```cmake
+# CMakeLists.txt
+find_package(Systemd)
+```
 #]=============================================================================]
 
 include(FeatureSummary)

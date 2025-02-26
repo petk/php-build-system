@@ -118,7 +118,7 @@ These variables can be set before using this module to configure behavior:
 
 ## Examples
 
-### Basic usage
+### Usage
 
 ```cmake
 # CMakeLists.txt

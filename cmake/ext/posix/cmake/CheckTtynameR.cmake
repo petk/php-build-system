@@ -20,6 +20,13 @@ check_symbol_exists(ttyname_r unistd.h HAVE_TTYNAME_R)
 * `HAVE_TTYNAME_R`
 
   Whether `ttyname_r()` works as expected.
+
+## Usage
+
+```cmake
+# CMakeLists.txt
+include(cmake/CheckTtynameR.cmake)
+```
 #]=============================================================================]
 
 include_guard(GLOBAL)

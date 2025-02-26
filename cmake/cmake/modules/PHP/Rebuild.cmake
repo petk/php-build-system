@@ -10,6 +10,13 @@ cyclic dependencies among targets if custom commands depend on the
 practice, it ensures that all targets are kept up to date.
 
 TODO: This works only for a limited set of cases for now and will be refactored.
+
+## Usage
+
+```cmake
+# CMakeLists.txt
+include(PHP/Rebuild)
+```
 #]=============================================================================]
 
 include_guard(GLOBAL)

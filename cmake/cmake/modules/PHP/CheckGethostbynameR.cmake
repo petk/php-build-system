@@ -40,6 +40,13 @@ https://www.gnu.org/software/autoconf-archive/ax_func_which_gethostbyname_r.html
 * `PHP::CheckGethostbynameR`
 
   Created when additional system library needs to be linked.
+
+## Usage
+
+```cmake
+# CMakeLists.txt
+include(PHP/CheckGethostbynameR)
+```
 #]=============================================================================]
 
 include_guard(GLOBAL)

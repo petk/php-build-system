@@ -8,6 +8,13 @@ Module overrides the upstream CMake `FindIntl` module with few customizations.
 Enables finding Intl library with `INTL_ROOT` hint variable.
 
 See: https://cmake.org/cmake/help/latest/module/FindIntl.html
+
+## Usage
+
+```cmake
+# CMakeLists.txt
+find_package(Intl)
+```
 #]=============================================================================]
 
 include(FeatureSummary)

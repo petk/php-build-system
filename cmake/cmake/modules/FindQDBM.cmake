@@ -18,6 +18,13 @@ Module defines the following `IMPORTED` target(s):
 
 * `QDBM_INCLUDE_DIR` - Directory containing package library headers.
 * `QDBM_LIBRARY` - The path to the package library.
+
+## Usage
+
+```cmake
+# CMakeLists.txt
+find_package(QDBM)
+```
 #]=============================================================================]
 
 include(CheckLibraryExists)

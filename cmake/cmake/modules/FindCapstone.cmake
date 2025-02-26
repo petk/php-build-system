@@ -18,6 +18,13 @@ Module defines the following `IMPORTED` target(s):
 
 * `Capstone_INCLUDE_DIR` - Directory containing package library headers.
 * `Capstone_LIBRARY` - The path to the package library.
+
+## Usage
+
+```cmake
+# CMakeLists.txt
+find_package(Capstone)
+```
 #]=============================================================================]
 
 include(FeatureSummary)

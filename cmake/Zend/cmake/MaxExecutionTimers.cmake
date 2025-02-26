@@ -26,6 +26,13 @@ Check whether to enable Zend max execution timers.
 
   Includes possible additional library to be linked for using `timer_create()`
   and a compile definition.
+
+## Usage
+
+```cmake
+# CMakeLists.txt
+include(cmake/MaxExecutionTimers.cmake)
+```
 #]=============================================================================]
 
 include_guard(GLOBAL)

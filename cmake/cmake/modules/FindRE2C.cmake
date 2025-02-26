@@ -11,6 +11,13 @@ Find `re2c` command-line lexer generator.
 ## Cache variables
 
 * `RE2C_EXECUTABLE` - Path to the `re2c` executable.
+
+## Usage
+
+```cmake
+# CMakeLists.txt
+find_package(RE2C)
+```
 #]=============================================================================]
 
 include(FeatureSummary)

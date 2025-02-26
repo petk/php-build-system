@@ -85,7 +85,7 @@ If `<variable>` is given, check result is stored in an internal cache variable.
   checked elsewhere in the application using the `check_header_include()`. In
   most cases this won't be needed.
 
-## Basic usage
+## Usage
 
 In the following example, the library containing `dlopen` is linked to
 `php_config` target with the `INTERFACE` scope when needed to use the `dlopen`

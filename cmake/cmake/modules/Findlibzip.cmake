@@ -25,6 +25,13 @@ Module defines the following `IMPORTED` target(s):
 * `HAVE_SET_MTIME`
 * `HAVE_ENCRYPTION`
 * `HAVE_LIBZIP_VERSION`
+
+## Usage
+
+```cmake
+# CMakeLists.txt
+find_package(libzip)
+```
 #]=============================================================================]
 
 include(CheckLibraryExists)

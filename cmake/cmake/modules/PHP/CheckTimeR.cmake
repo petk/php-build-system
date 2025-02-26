@@ -13,6 +13,13 @@ POSIX.
 * `PHP_IRIX_TIME_R`
 
   Whether IRIX-style functions are used.
+
+## Usage
+
+```cmake
+# CMakeLists.txt
+include(PHP/CheckTimeR)
+```
 #]=============================================================================]
 
 include_guard(GLOBAL)

@@ -192,6 +192,13 @@ php_set(
 
   A fatal error will be thrown, if `VAR` is set to a case-sensitive value
   (`unixodbc`) that does not match any item in the `CHOICES` list.
+
+## Usage
+
+```cmake
+# CMakeLists.txt
+include(PHP/Set)
+```
 #]=============================================================================]
 
 include_guard(GLOBAL)

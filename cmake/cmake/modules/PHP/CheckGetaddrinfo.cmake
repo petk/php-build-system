@@ -14,6 +14,13 @@ IMPORTED target:
 * `PHP::CheckGetaddrinfoLibrary`
 
   If there is additional library to be linked for using `getaddrinfo()`.
+
+## Usage
+
+```cmake
+# CMakeLists.txt
+include(PHP/CheckGetaddrinfo)
+```
 #]=============================================================================]
 
 include_guard(GLOBAL)

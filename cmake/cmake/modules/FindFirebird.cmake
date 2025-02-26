@@ -22,6 +22,13 @@ Module defines the following `IMPORTED` target(s):
 * `Firebird_LIBRARY` - The path to the package library.
 * `Firebird_CONFIG_EXECUTABLE` - Path to the fb_config Firebird command-line
   utility.
+
+## Usage
+
+```cmake
+# CMakeLists.txt
+find_package(Firebird)
+```
 #]=============================================================================]
 
 include(FeatureSummary)

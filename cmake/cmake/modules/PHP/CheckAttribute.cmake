@@ -26,6 +26,13 @@ Supported function attributes:
 Supported variable attributes:
 
 * aligned
+
+## Usage
+
+```cmake
+# CMakeLists.txt
+include(PHP/CheckAttribute)
+```
 #]=============================================================================]
 
 include_guard(GLOBAL)

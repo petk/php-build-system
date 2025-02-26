@@ -21,7 +21,7 @@ Check for thread safety, a.k.a. ZTS (Zend thread safety) build.
   phase. For example, the `PHP_EXTENSION_DIR` configuration variable needs to be
   set depending on the thread safety.
 
-## Basic usage
+## Usage
 
 ```cmake
 # CMakeLists.txt
