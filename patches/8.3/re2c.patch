@@ -52,7 +52,7 @@ index 25e1ecbca6..3ea51fe7c9 100644
  }
  
 diff --git a/sapi/phpdbg/phpdbg_lexer.l b/sapi/phpdbg/phpdbg_lexer.l
-index 6245262a00..bcfefcba81 100644
+index 60d995526e..ba1423c5a4 100644
 --- a/sapi/phpdbg/phpdbg_lexer.l
 +++ b/sapi/phpdbg/phpdbg_lexer.l
 @@ -77,7 +77,7 @@ T_IF        'if'
