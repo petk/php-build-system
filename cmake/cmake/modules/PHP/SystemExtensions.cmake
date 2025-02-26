@@ -36,7 +36,7 @@ Conditionally defined preprocessor macros:
 
   Interface library target with all required compile definitions (`-D`).
 
-## Basic usage
+## Usage
 
 Targets that require some system extensions can link to `PHP::SystemExtensions`:
 

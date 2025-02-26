@@ -27,7 +27,7 @@ platform, otherwise it checks if ucontext can be used.
   Interface library using Boost fiber assembly files and compile options if
   available.
 
-## Basic usage
+## Usage
 
 ```cmake
 # CMakeLists.txt

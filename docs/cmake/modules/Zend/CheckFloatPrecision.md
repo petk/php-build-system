@@ -29,7 +29,7 @@ See: https://wiki.php.net/rfc/rounding
 
   Whether FPU control word can be manipulated by inline assembler.
 
-## Basic usage
+## Usage
 
 ```cmake
 # CMakeLists.txt

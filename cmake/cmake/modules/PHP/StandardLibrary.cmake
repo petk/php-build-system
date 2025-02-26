@@ -19,6 +19,13 @@ Determine the C standard library used for the build.
   If library cannot be determined, it is set to empty string.
 
 * `__MUSL__` - Whether the C standard library is musl.
+
+## Usage
+
+```cmake
+# CMakeLists.txt
+include(PHP/StandardLibrary)
+```
 #]=============================================================================]
 
 include_guard(GLOBAL)

@@ -12,7 +12,7 @@ also does the logarithmic test.
 * `ZEND_MM_ALIGNMENT_LOG2`
 * `ZEND_MM_NEED_EIGHT_BYTE_REALIGNMENT`
 
-## Basic usage
+## Usage
 
 ```cmake
 # CMakeLists.txt

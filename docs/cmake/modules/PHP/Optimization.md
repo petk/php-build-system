@@ -16,7 +16,7 @@ configuration (due to global register variables) and compiler/platform.
 
 https://cmake.org/cmake/help/latest/prop_tgt/INTERPROCEDURAL_OPTIMIZATION.html
 
-## Basic usage
+## Usage
 
 ```cmake
 # CMakeLists.txt

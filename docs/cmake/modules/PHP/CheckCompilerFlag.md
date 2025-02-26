@@ -43,7 +43,7 @@ include(PHP/CheckCompilerFlag)
 php_check_compiler_flag(C -Wno-clobbered PHP_HAVE_WNO_CLOBBERED)
 ```
 
-## Basic usage
+## Usage
 
 ```cmake
 # CMakeLists.txt

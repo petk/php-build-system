@@ -19,7 +19,7 @@ Find the Ccache compiler cache tool for faster compilation times.
 * The `CCACHE_DISABLE` regular or environment variable which disables ccache and
   doesn't adjust the C and CXX launcher. For more info see Ccache documentation.
 
-## Basic usage
+## Usage
 
 ```cmake
 # CMakeLists.txt

@@ -33,7 +33,7 @@ Module defines the following `IMPORTED` target(s):
 * `Dbm_INCLUDE_DIR` - Directory containing package library headers.
 * `Dbm_LIBRARY` - The path to the package library.
 
-## Basic usage
+## Usage
 
 ```cmake
 # CMakeLists.txt

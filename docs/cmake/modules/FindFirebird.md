@@ -25,7 +25,7 @@ Module defines the following `IMPORTED` target(s):
 * `Firebird_CONFIG_EXECUTABLE` - Path to the fb_config Firebird command-line
   utility.
 
-## Basic usage
+## Usage
 
 ```cmake
 # CMakeLists.txt

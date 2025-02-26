@@ -22,7 +22,7 @@ Check FPM trace implementation.
   If neither `ptrace()` or mach_vm_read()` works, the `/proc/pid/<file>`
   interface (`mem` or `as`) is set if found and works as expected.
 
-## Basic usage
+## Usage
 
 ```cmake
 # CMakeLists.txt

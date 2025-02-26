@@ -37,6 +37,13 @@ Module defines the following `IMPORTED` target(s):
 Hints:
 
 * The `MySQL_Socket_PATH` variable can be overridden.
+
+## Usage
+
+```cmake
+# CMakeLists.txt
+find_package(MySQL)
+```
 #]=============================================================================]
 
 include(FeatureSummary)

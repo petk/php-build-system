@@ -7,7 +7,7 @@ Generate *_arginfo.h headers from the *.stub.php sources
 
 The build/gen_stub.php script requires the PHP tokenizer extension.
 
-## Basic usage
+## Usage
 
 ```cmake
 # CMakeLists.txt

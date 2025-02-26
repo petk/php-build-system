@@ -15,7 +15,7 @@ PHP-specific checks.
 * `CRYPT_R_STRUCT_CRYPT_DATA`
 * `CRYPT_R_GNU_SOURCE`
 
-## Basic usage
+## Usage
 
 ```cmake
 # CMakeLists.txt

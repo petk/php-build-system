@@ -11,7 +11,7 @@ Check whether the stack grows downwards. Assumes contiguous stack.
 
   Whether checking the stack limit is supported.
 
-## Basic usage
+## Usage
 
 ```cmake
 # CMakeLists.txt

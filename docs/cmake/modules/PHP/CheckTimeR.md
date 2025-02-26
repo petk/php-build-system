@@ -16,7 +16,7 @@ POSIX.
 
   Whether IRIX-style functions are used.
 
-## Basic usage
+## Usage
 
 ```cmake
 # CMakeLists.txt

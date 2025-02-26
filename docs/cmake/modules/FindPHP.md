@@ -46,9 +46,11 @@ Module defines the following `IMPORTED` target(s):
 * `PHP_EMBED_LIBRARY` - The path to the PHP Embed library.
 * `PHP_EMBED_INCLUDE_DIR` - Directory containing PHP Embed header(s).
 
-Basic usage:
+## Usage
 
 ```cmake
+# CMakeLists.txt
+
 # Find PHP
 find_package(PHP)
 
@@ -57,13 +59,6 @@ find_package(PHP COMPONENTS embed)
 
 # Override where to find PHP
 set(PHP_ROOT /path/to/php/installation)
-find_package(PHP)
-```
-
-## Basic usage
-
-```cmake
-# CMakeLists.txt
 find_package(PHP)
 ```
 

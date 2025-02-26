@@ -8,6 +8,13 @@ Check whether writing to stdout works.
 * `PHP_WRITE_STDOUT`
 
   Whether `write(2)` works.
+
+## Usage
+
+```cmake
+# CMakeLists.txt
+include(PHP/CheckWrite)
+```
 #]=============================================================================]
 
 include_guard(GLOBAL)

@@ -13,7 +13,7 @@ practice, it ensures that all targets are kept up to date.
 
 TODO: This works only for a limited set of cases for now and will be refactored.
 
-## Basic usage
+## Usage
 
 ```cmake
 # CMakeLists.txt

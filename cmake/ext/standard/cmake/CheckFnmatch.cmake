@@ -15,6 +15,13 @@ https://www.gnu.org/software/gnulib/MODULES.html#module=fnmatch
 * `HAVE_FNMATCH`
 
   Whether `fnmatch` is a working POSIX variant.
+
+## Usage
+
+```cmake
+# CMakeLists.txt
+include(cmake/CheckFnmatch.cmake)
+```
 #]=============================================================================]
 
 include_guard(GLOBAL)

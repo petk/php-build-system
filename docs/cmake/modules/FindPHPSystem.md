@@ -14,13 +14,6 @@ Find external PHP on the system, if installed.
 
 * `PHPSystem_EXECUTABLE` - PHP command-line tool, if available.
 
-## Basic usage
-
-```cmake
-# CMakeLists.txt
-find_package(PHPSystem)
-```
-
 ## Customizing search locations
 
 To customize where to look for the PHPSystem package base

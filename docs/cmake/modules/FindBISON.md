@@ -8,7 +8,7 @@ Find `bison`, the general-purpose parser generator, command-line executable.
 This module extends the CMake `FindBISON` module.
 See: https://cmake.org/cmake/help/latest/module/FindBISON.html
 
-## Basic usage
+## Usage
 
 ```cmake
 # CMakeLists.txt

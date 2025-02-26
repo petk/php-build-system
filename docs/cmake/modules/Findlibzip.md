@@ -28,7 +28,7 @@ Module defines the following `IMPORTED` target(s):
 * `HAVE_ENCRYPTION`
 * `HAVE_LIBZIP_VERSION`
 
-## Basic usage
+## Usage
 
 ```cmake
 # CMakeLists.txt

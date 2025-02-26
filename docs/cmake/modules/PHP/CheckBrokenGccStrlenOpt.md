@@ -14,7 +14,7 @@ See: https://gcc.gnu.org/bugzilla/show_bug.cgi?id=86914
 
   Whether GCC has broken strlen() optimization.
 
-## Basic usage
+## Usage
 
 ```cmake
 # CMakeLists.txt

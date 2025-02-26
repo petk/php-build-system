@@ -9,7 +9,7 @@ Check if flush should be called explicitly after buffered io.
 
 * `HAVE_FLUSHIO`
 
-## Basic usage
+## Usage
 
 ```cmake
 # CMakeLists.txt

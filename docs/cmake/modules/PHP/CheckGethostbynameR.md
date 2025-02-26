@@ -43,7 +43,7 @@ https://www.gnu.org/software/autoconf-archive/ax_func_which_gethostbyname_r.html
 
   Created when additional system library needs to be linked.
 
-## Basic usage
+## Usage
 
 ```cmake
 # CMakeLists.txt

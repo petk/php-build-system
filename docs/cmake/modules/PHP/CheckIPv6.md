@@ -11,7 +11,7 @@ Check for IPv6 support.
 
   Whether IPv6 support is supported and enabled.
 
-## Basic usage
+## Usage
 
 ```cmake
 # CMakeLists.txt

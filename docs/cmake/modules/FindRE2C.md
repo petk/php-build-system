@@ -14,7 +14,7 @@ Find `re2c` command-line lexer generator.
 
 * `RE2C_EXECUTABLE` - Path to the `re2c` executable.
 
-## Basic usage
+## Usage
 
 ```cmake
 # CMakeLists.txt

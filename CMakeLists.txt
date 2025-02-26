@@ -10,7 +10,7 @@ wrapper to bridge the upstream PHP source code with the CMake-based build system
 in this repository located at the cmake directory, streamlining the integration
 process.
 
-Basic usage:
+Usage:
 
   cmake -B <build-dir> [<options>...]
 

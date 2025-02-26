@@ -17,7 +17,7 @@ version.
   Whether `strerror_r()` returns a `char *` message, otherwise it returns an
   `int` error number.
 
-## Basic usage
+## Usage
 
 ```cmake
 # CMakeLists.txt

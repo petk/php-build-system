@@ -44,7 +44,7 @@ mc_target(
 * `OPTIONS` - A list of additional options to pass to message compiler tool.
 * `DEPENDS` - Optional list of dependent files to recompile message file.
 
-## Basic usage
+## Usage
 
 ```cmake
 # CMakeLists.txt

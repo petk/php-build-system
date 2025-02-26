@@ -23,7 +23,7 @@ Module defines the following `IMPORTED` target(s):
 * `libavif_INCLUDE_DIR` - Directory containing package library headers.
 * `libavif_LIBRARY` - The path to the package library.
 
-## Basic usage
+## Usage
 
 ```cmake
 # CMakeLists.txt

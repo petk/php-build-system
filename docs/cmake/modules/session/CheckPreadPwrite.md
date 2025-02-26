@@ -33,7 +33,7 @@ check_symbol_exists(<symbol> unistd.h HAVE_<SYMBOL>)
 
   Whether pwrite64 is default.
 
-## Basic usage
+## Usage
 
 ```cmake
 # CMakeLists.txt

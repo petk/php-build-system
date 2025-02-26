@@ -62,29 +62,12 @@ function generateModuleDocs(
     $markdown .= "* Source code: [$relativeFilename]($url)\n\n";
     $markdown .= $content . "\n";
 
-    if ($namespace) {
-        $footer = <<<EOT
-            ## Basic usage
-
-            ```cmake
-            # CMakeLists.txt
-            include({$namespace}{$moduleName})
-            ```
-            EOT;
-    } elseif (1 === preg_match('/^Find(.+)$/', $moduleName, $matches)) {
+    if (1 === preg_match('/^Find(.+)$/', $moduleName, $matches)) {
         $findPackageName = $matches[1] ?? null;
         $findPackageUpper = strtoupper($findPackageName);
 
-        $footer = <<<EOT
-            ## Basic usage
+        $markdown .= <<<EOT
 
-            ```cmake
-            # CMakeLists.txt
-            find_package($findPackageName)
-            ```
-            EOT;
-
-        $footer_2 = <<<EOT
             ## Customizing search locations
 
             To customize where to look for the $findPackageName package base
@@ -102,24 +85,8 @@ function generateModuleDocs(
                   -D{$findPackageUpper}_ROOT=/opt/$findPackageName \
                   -DSOMEOTHERPACKAGE_ROOT=/opt/some-other-package
             ```
+
             EOT;
-    } else {
-        $footer = <<<EOT
-            ## Basic usage
-
-            ```cmake
-            # CMakeLists.txt
-            include(cmake/$moduleName.cmake)
-            ```
-            EOT;
-    }
-
-    if (1 !== preg_match('/## Basic usage[\r\n]/', $content, $matches)) {
-        $markdown .= "\n" . $footer . "\n";
-    }
-
-    if (isset($footer_2)) {
-        $markdown .= "\n" . $footer_2 . "\n";
     }
 
     if (!file_exists($destination)) {

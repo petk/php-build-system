@@ -22,7 +22,7 @@ Module defines the following `IMPORTED` target(s):
 * `NetSnmp_LIBRARY` - The path to the package library.
 * `NetSnmp_EXECUTABLE` - Path to net-snmp-config utility.
 
-## Basic usage
+## Usage
 
 ```cmake
 # CMakeLists.txt

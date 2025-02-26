@@ -17,7 +17,7 @@ IMPORTED target:
 
   If there is additional library to be linked for using `getaddrinfo()`.
 
-## Basic usage
+## Usage
 
 ```cmake
 # CMakeLists.txt

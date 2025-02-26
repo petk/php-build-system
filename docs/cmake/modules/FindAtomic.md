@@ -15,7 +15,7 @@ Module defines the following `IMPORTED` target(s):
 * `Atomic_LIBRARIES` - A list of libraries needed in order to use atomic
   functionality.
 
-## Basic usage
+## Usage
 
 ```cmake
 # CMakeLists.txt

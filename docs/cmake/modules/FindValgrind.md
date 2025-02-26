@@ -18,7 +18,7 @@ Module defines the following `IMPORTED` target(s):
 
 * `Valgrind_INCLUDE_DIR` - Directory containing package library headers.
 
-## Basic usage
+## Usage
 
 ```cmake
 # CMakeLists.txt

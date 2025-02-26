@@ -52,7 +52,7 @@ functions on current systems and this module might be obsolete in the future.
 
   Whether `strtok_r()` is not declared.
 
-## Basic usage
+## Usage
 
 ```cmake
 # CMakeLists.txt

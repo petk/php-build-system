@@ -40,7 +40,7 @@ Hints:
 
 * The `MySQL_Socket_PATH` variable can be overridden.
 
-## Basic usage
+## Usage
 
 ```cmake
 # CMakeLists.txt

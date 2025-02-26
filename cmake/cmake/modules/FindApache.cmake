@@ -36,6 +36,13 @@ Module defines the following `IMPORTED` target(s):
 * `Apache_INCLUDE_DIR` - Directory containing package library headers.
 * `Apache_APR_INCLUDE_DIR` - Directory containing `apr` library headers.
 * `Apache_APR_LIBRARY` - The path to the `apr` library.
+
+## Usage
+
+```cmake
+# CMakeLists.txt
+find_package(Apache)
+```
 #]=============================================================================]
 
 include(FeatureSummary)

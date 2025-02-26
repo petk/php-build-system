@@ -3,7 +3,7 @@
 
 Simplified CMake-based build system for the timelib library.
 
-## Basic usage
+## Usage
 
 Adding timelib with `add_subdirectory()`:
 

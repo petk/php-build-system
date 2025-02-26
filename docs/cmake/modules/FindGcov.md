@@ -27,7 +27,7 @@ Module exposes the following macro that generates HTML coverage report:
 gcov_generate_report()
 ```
 
-## Basic usage
+## Usage
 
 ```cmake
 # CMakeLists.txt

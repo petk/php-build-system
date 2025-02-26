@@ -50,7 +50,7 @@ Generates DTrace header `<header>` and creates `INTERFACE` library
   interpreted as being relative to the current source directory.
 * `INCLUDES` - A list of include directories for appending to DTrace object.
 
-## Basic usage
+## Usage
 
 ```cmake
 # CMakeLists.txt

@@ -29,6 +29,13 @@ php_install(CODE "
   message(STATUS \"CMAKE_INSTALL_SYSCONFDIR=\${CMAKE_INSTALL_SYSCONFDIR}\")
 ")
 ```
+
+## Usage
+
+```cmake
+# CMakeLists.txt
+include(PHP/Install)
+```
 #]=============================================================================]
 
 include_guard(GLOBAL)

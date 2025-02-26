@@ -8,6 +8,13 @@ Check whether the stack grows downwards. Assumes contiguous stack.
 * `ZEND_CHECK_STACK_LIMIT`
 
   Whether checking the stack limit is supported.
+
+## Usage
+
+```cmake
+# CMakeLists.txt
+include(cmake/CheckStackDirection.cmake)
+```
 #]=============================================================================]
 
 include_guard(GLOBAL)

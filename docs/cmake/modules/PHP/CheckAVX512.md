@@ -19,7 +19,7 @@ TODO: Adjust checks for MSVC.
 
   Whether compiler supports AVX-512 VBMI.
 
-## Basic usage
+## Usage
 
 ```cmake
 # CMakeLists.txt

@@ -22,7 +22,7 @@ Module defines the following `IMPORTED` target(s):
 * `Systemd_LIBRARY` - The path to the package library.
 * `Systemd_EXECUTABLE` - A systemd command-line tool, if available.
 
-## Basic usage
+## Usage
 
 ```cmake
 # CMakeLists.txt

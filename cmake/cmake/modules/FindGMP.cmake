@@ -18,6 +18,13 @@ Module defines the following `IMPORTED` target(s):
 
 * `GMP_INCLUDE_DIR` - Directory containing package library headers.
 * `GMP_LIBRARY` - The path to the package library.
+
+## Usage
+
+```cmake
+# CMakeLists.txt
+find_package(GMP)
+```
 #]=============================================================================]
 
 include(FeatureSummary)

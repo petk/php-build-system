@@ -22,7 +22,7 @@ to use `off_t` only, check is left here when using glibc.
 
   Whether `fopencookie` seeker uses the `off64_t` type.
 
-## Basic usage
+## Usage
 
 ```cmake
 # CMakeLists.txt

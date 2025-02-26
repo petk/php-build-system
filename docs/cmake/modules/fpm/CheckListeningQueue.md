@@ -20,7 +20,7 @@ Check FPM listening queue implementation.
   Whether `SO_LISTENQLEN` and `SO_LISTENQLIMIT` are available as alternative to
   `TCP_INFO` and `TCP_CONNECTION_INFO`.
 
-## Basic usage
+## Usage
 
 ```cmake
 # CMakeLists.txt

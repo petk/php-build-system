@@ -61,7 +61,7 @@ enhancements and adjustments for the PHP build workflow.
 
 * Fixed finding ODBC on Windows and MinGW.
 
-## Basic usage
+## Usage
 
 ```cmake
 # CMakeLists.txt

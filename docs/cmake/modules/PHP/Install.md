@@ -32,7 +32,7 @@ php_install(CODE "
 ")
 ```
 
-## Basic usage
+## Usage
 
 ```cmake
 # CMakeLists.txt

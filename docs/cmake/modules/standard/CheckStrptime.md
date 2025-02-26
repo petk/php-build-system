@@ -19,7 +19,7 @@ Note: This module is obsolete. PHP `strptime()` is deprecated as of PHP 8.1.0.
 
   Whether `strptime()` is declared.
 
-## Basic usage
+## Usage
 
 ```cmake
 # CMakeLists.txt

@@ -15,7 +15,7 @@ See also: [GCC global register variables](https://gcc.gnu.org/onlinedocs/gcc/Glo
 
   Whether global register variables are supported.
 
-## Basic usage
+## Usage
 
 ```cmake
 # CMakeLists.txt

@@ -26,7 +26,7 @@ Module defines the following `IMPORTED` target(s):
 * `HAVE_TIDYP_H` - If `tidy.h` is not available and whether the `tidyp.h` is
   available (tidy fork).
 
-## Basic usage
+## Usage
 
 ```cmake
 # CMakeLists.txt

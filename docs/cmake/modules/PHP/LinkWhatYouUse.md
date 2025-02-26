@@ -26,7 +26,7 @@ only if they are actually needed at the configuration time in the first place.
 TODO: Fix unused direct dependencies warnings and add `option()` for
 `CMAKE_LINK_WHAT_YOU_USE`.
 
-## Basic usage
+## Usage
 
 ```cmake
 # CMakeLists.txt

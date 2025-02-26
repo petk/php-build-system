@@ -22,7 +22,7 @@ Determine the C standard library used for the build.
 
 * `__MUSL__` - Whether the C standard library is musl.
 
-## Basic usage
+## Usage
 
 ```cmake
 # CMakeLists.txt

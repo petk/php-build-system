@@ -29,7 +29,7 @@ Module defines the following `IMPORTED` target(s):
   check if the ACL library supports `ACL_USER` and `ACL_GROUP`. For example,
   macOS doesn't have support for user/group.
 
-## Basic usage
+## Usage
 
 ```cmake
 # CMakeLists.txt

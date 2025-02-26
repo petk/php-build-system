@@ -60,6 +60,13 @@ int main(void)
 * `HAVE_MAKEDEV`
 
   Define to 1 if you have the `makedev` function.
+
+## Usage
+
+```cmake
+# CMakeLists.txt
+include(PHP/CheckSysMacros)
+```
 #]=============================================================================]
 
 include_guard(GLOBAL)

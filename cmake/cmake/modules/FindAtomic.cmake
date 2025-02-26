@@ -12,6 +12,13 @@ Module defines the following `IMPORTED` target(s):
 * `Atomic_FOUND` - Whether atomic instructions are available.
 * `Atomic_LIBRARIES` - A list of libraries needed in order to use atomic
   functionality.
+
+## Usage
+
+```cmake
+# CMakeLists.txt
+find_package(Atomic)
+```
 #]=============================================================================]
 
 include(CheckSourceCompiles)

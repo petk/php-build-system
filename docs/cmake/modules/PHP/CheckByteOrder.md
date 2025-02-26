@@ -9,7 +9,7 @@ Check whether system byte ordering is big-endian.
 
 * `WORDS_BIGENDIAN`
 
-## Basic usage
+## Usage
 
 ```cmake
 # CMakeLists.txt

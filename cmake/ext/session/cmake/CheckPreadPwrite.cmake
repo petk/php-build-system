@@ -30,6 +30,13 @@ check_symbol_exists(<symbol> unistd.h HAVE_<SYMBOL>)
 * `PHP_PWRITE_64`
 
   Whether pwrite64 is default.
+
+## Usage
+
+```cmake
+# CMakeLists.txt
+include(cmake/CheckPreadPwrite.cmake)
+```
 #]=============================================================================]
 
 include_guard(GLOBAL)

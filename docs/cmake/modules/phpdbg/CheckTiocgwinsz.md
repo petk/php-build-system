@@ -15,7 +15,7 @@ on Autoconf's `AC_HEADER_TIOCGWINSZ` macro approach.
 
   Whether `sys/ioctl.h` defines `TIOCGWINSZ`.
 
-## Basic usage
+## Usage
 
 ```cmake
 # CMakeLists.txt

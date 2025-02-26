@@ -27,7 +27,7 @@ IMPORTED target:
 
   If there is additional library to be linked for using SHM POSIX functions.
 
-## Basic usage
+## Usage
 
 ```cmake
 # CMakeLists.txt

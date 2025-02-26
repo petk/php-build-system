@@ -29,7 +29,7 @@ Supported variable attributes:
 
 * aligned
 
-## Basic usage
+## Usage
 
 ```cmake
 # CMakeLists.txt

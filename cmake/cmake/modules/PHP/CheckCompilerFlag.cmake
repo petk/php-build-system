@@ -40,6 +40,13 @@ include(PHP/CheckCompilerFlag)
 
 php_check_compiler_flag(C -Wno-clobbered PHP_HAVE_WNO_CLOBBERED)
 ```
+
+## Usage
+
+```cmake
+# CMakeLists.txt
+include(PHP/CheckCompilerFlag)
+```
 #]=============================================================================]
 
 include_guard(GLOBAL)

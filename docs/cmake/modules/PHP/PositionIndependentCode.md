@@ -13,7 +13,7 @@ system code or the build usability.
 
 https://cmake.org/cmake/help/latest/variable/CMAKE_POSITION_INDEPENDENT_CODE.html
 
-## Basic usage
+## Usage
 
 ```cmake
 # CMakeLists.txt

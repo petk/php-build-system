@@ -8,6 +8,13 @@ Check for IPv6 support.
 * `HAVE_IPV6`
 
   Whether IPv6 support is supported and enabled.
+
+## Usage
+
+```cmake
+# CMakeLists.txt
+include(PHP/CheckIPv6)
+```
 #]=============================================================================]
 
 include(CheckSourceCompiles)

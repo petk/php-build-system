@@ -12,6 +12,13 @@ PHP-specific checks.
 * `CRYPT_R_CRYPTD`
 * `CRYPT_R_STRUCT_CRYPT_DATA`
 * `CRYPT_R_GNU_SOURCE`
+
+## Usage
+
+```cmake
+# CMakeLists.txt
+include(cmake/CheckCrypt.cmake)
+```
 #]=============================================================================]
 
 include_guard(GLOBAL)

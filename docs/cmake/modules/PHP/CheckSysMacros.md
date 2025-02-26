@@ -63,7 +63,7 @@ int main(void)
 
   Define to 1 if you have the `makedev` function.
 
-## Basic usage
+## Usage
 
 ```cmake
 # CMakeLists.txt

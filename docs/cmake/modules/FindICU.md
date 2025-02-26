@@ -12,7 +12,7 @@ customizations:
 
 * Added pkg-config.
 
-## Basic usage
+## Usage
 
 ```cmake
 # CMakeLists.txt

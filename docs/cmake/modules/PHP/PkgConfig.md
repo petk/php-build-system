@@ -54,7 +54,7 @@ template.
   `CMAKE_INSTALL_PREFIX` variable at the configuration phase, or the `--prefix`
   option at the `cmake --install` phase.
 
-## Basic usage
+## Usage
 
 ```cmake
 # CMakeLists.txt

@@ -55,7 +55,7 @@ https://bugs.php.net/53141
   Global property with a list of all dependencies of <extension> (name of the
   extension as named in ext directory).
 
-## Basic usage
+## Usage
 
 ```cmake
 # CMakeLists.txt

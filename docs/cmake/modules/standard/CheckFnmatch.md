@@ -18,7 +18,7 @@ https://www.gnu.org/software/gnulib/MODULES.html#module=fnmatch
 
   Whether `fnmatch` is a working POSIX variant.
 
-## Basic usage
+## Usage
 
 ```cmake
 # CMakeLists.txt

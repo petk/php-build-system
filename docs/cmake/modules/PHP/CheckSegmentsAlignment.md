@@ -5,7 +5,7 @@
 
 Check linker support for aligning segments on huge page boundary.
 
-## Basic usage
+## Usage
 
 ```cmake
 # CMakeLists.txt

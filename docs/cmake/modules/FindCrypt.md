@@ -28,7 +28,7 @@ Module defines the following `IMPORTED` target(s):
 * `Crypt_INCLUDE_DIR` - Directory containing package library headers.
 * `Crypt_LIBRARY` - The path to the package library.
 
-## Basic usage
+## Usage
 
 ```cmake
 # CMakeLists.txt

@@ -31,12 +31,14 @@ Module defines the following `IMPORTED` target(s):
   found.
 * `LDAP_LBER_LIBRARY` - The path to the OpenLDAP LBER library, if found.
 
-## Basic usage
+## Usage
 
 When OpenLDAP is found, both LDAP and LBER libraries are linked in for
 convenience.
 
 ```cmake
+# CMakeLists.txt
+
 find_package(LDAP)
 target_link_library(some_project_target PRIVATE LDAP::LDAP)
 ```

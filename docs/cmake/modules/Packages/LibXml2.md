@@ -21,7 +21,7 @@ The `FetchContent` CMake module does things differently compared to the
 TODO: Improve this. This is for now only initial `FetchContent` integration for
 testing purposes and will be changed in the future.
 
-## Basic usage
+## Usage
 
 ```cmake
 # CMakeLists.txt

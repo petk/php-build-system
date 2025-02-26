@@ -13,7 +13,7 @@ only on Linux.
 
   Whether `copy_file_range()` is supported.
 
-## Basic usage
+## Usage
 
 ```cmake
 # CMakeLists.txt

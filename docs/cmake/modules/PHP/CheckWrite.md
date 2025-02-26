@@ -11,7 +11,7 @@ Check whether writing to stdout works.
 
   Whether `write(2)` works.
 
-## Basic usage
+## Usage
 
 ```cmake
 # CMakeLists.txt

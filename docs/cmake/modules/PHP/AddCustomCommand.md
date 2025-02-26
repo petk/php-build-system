@@ -34,7 +34,7 @@ php_add_custom_command(
 )
 ```
 
-## Basic usage
+## Usage
 
 It acts similar to `add_custom_command()` and `add_custom_target()`, except that
 when PHP is not found on the system, the DEPENDS argument doesn't add

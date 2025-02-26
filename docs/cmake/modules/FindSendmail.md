@@ -18,7 +18,7 @@ either `sendmail` is used if found, or a general default value is set to
 
 * `Sendmail_EXECUTABLE` - Path to the sendmail executable program, if found.
 
-## Basic usage
+## Usage
 
 ```cmake
 # CMakeLists.txt
