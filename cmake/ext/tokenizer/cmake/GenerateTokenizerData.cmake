@@ -1,7 +1,6 @@
-# This is CMake-based alternative of ext/tokenizer/tokenizer_data_gen.php
-#
+# This is CMake-based alternative of ext/tokenizer/tokenizer_data_gen.php.
 # Run as:
-#   cmake -D PHP_SOURCE_DIR=<php-src> -P GenerateTokenizerData.cmake
+#   cmake -P [...ext/tokenizer/cmake/]GenerateTokenizerData.cmake
 
 cmake_minimum_required(VERSION 3.25...3.31)
 
@@ -9,8 +8,10 @@ if(NOT CMAKE_SCRIPT_MODE_FILE)
   message(FATAL_ERROR "This is a command-line script.")
 endif()
 
-if(NOT PHP_SOURCE_DIR)
-  message(FATAL_ERROR "PHP_SOURCE_DIR variable is required.")
+set(PHP_SOURCE_DIR ${CMAKE_CURRENT_LIST_DIR}/../../..)
+
+if(NOT EXISTS ${PHP_SOURCE_DIR}/Zend/zend_language_parser.y)
+  message(FATAL_ERROR "Zend/zend_language_parser.y not found.")
 endif()
 
 set(regex "^%token [^T]*(T_[^ \n]+)")

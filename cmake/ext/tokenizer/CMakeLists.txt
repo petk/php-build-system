@@ -66,11 +66,11 @@ target_sources(
     tokenizer.stub.php
 )
 
-# The tokenizer extension depends on the generated Zend scanner and parser.
-add_dependencies(php_ext_tokenizer Zend::Zend)
-
 # Generate tokenizer data source files.
 if(EXISTS ${PHP_SOURCE_DIR}/Zend/zend_language_parser.y)
+  # The tokenizer extension depends on the generated Zend scanner and parser.
+  add_dependencies(php_ext_tokenizer Zend::Zend)
+
   add_custom_command(
     OUTPUT
       ${CMAKE_CURRENT_SOURCE_DIR}/tokenizer_data.stub.php
@@ -79,7 +79,6 @@ if(EXISTS ${PHP_SOURCE_DIR}/Zend/zend_language_parser.y)
       ${PHP_SOURCE_DIR}/Zend/zend_language_parser.y
     COMMAND
       ${CMAKE_COMMAND}
-      -D PHP_SOURCE_DIR=${PHP_SOURCE_DIR}
       -P ${CMAKE_CURRENT_SOURCE_DIR}/cmake/GenerateTokenizerData.cmake
     COMMENT
       "[ext/tokenizer] Regenerating tokenizer_data.c and tokenizer_data.stub.php"
