@@ -859,28 +859,28 @@ identical behavior.
 * TSRM/tsrm.m4 file and its `TSRM_CHECK_PTHREADS` macro have been removed.
 * Added pkg-config support to find libpq for the pdo_pgsql and pgsql
   extensions. The libpq paths can be customized with the `PGSQL_CFLAGS` and
-  PGSQL_LIBS environment variables. When a directory argument is provided to
+  `PGSQL_LIBS` environment variables. When a directory argument is provided to
   configure options (`--with-pgsql=DIR` or `--with-pdo-pgsql=DIR`), it will
   be used instead of the pkg-config search.
 * Added pkg-config support to find unixODBC and iODBC for the pdo_odbc
   extension.
-* Added pkg-config support to find GNU MP library. As a fallback default
-  system paths are searched. When a directory argument is provided
-  (`--with-gmp=DIR`), it will be used instead of the pkg-config.
+* Added pkg-config support to find GNU MP library for the gmp extension. As a
+  fallback default system paths are searched. When a directory argument is
+  provided (`--with-gmp=DIR`), it will be used instead of the pkg-config.
 * Added optional pkg-config support to find NET-SNMP library. As a fallback
   net-snmp-config utility is used like before.
-* Cache variables synced to php_cv_\* naming scheme. When used for
+* Cache variables synced to `php_cv_*` naming scheme. When used for
   advanced cross-compilation, these have been renamed:
-  * ac_cv_copy_file_range             -> php_cv_func_copy_file_range
-  * ac_cv_flush_io                    -> php_cv_have_flush_io
-  * ac_cv_func_getaddrinfo            -> php_cv_func_getaddrinfo
-  * ac_cv_have_broken_gcc_strlen_opt  -> php_cv_have_broken_gcc_strlen_opt
-  * ac_cv_have_pcre2_jit              -> php_cv_have_pcre2_jit
-  * ac_cv_pread                       -> php_cv_func_pread
-  * ac_cv_pwrite                      -> php_cv_func_pwrite
-  * ac_cv_syscall_shadow_stack_exists -> php_cv_have_shadow_stack_syscall
-  * ac_cv_time_r_type                 -> php_cv_time_r_type
-  * ac_cv_write_stdout                -> php_cv_have_write_stdout
+  * `ac_cv_copy_file_range`             -> `php_cv_func_copy_file_range`
+  * `ac_cv_flush_io`                    -> `php_cv_have_flush_io`
+  * `ac_cv_func_getaddrinfo`            -> `php_cv_func_getaddrinfo`
+  * `ac_cv_have_broken_gcc_strlen_opt`  -> `php_cv_have_broken_gcc_strlen_opt`
+  * `ac_cv_have_pcre2_jit`              -> `php_cv_have_pcre2_jit`
+  * `ac_cv_pread`                       -> `php_cv_func_pread`
+  * `ac_cv_pwrite`                      -> `php_cv_func_pwrite`
+  * `ac_cv_syscall_shadow_stack_exists` -> `php_cv_have_shadow_stack_syscall`
+  * `ac_cv_time_r_type`                 -> `php_cv_time_r_type`
+  * `ac_cv_write_stdout`                -> `php_cv_have_write_stdout`
   and all other checks wrapped with their belonging cache variables.
 * Backticks command substitutions in Autoconf code have been replaced with
   `$(...)`. Passing double escaped Makefile variables `\\$(VAR)` to some
@@ -940,6 +940,13 @@ PHP coding standards now use the C11 standard.
   50.1 to 57.1.
 * Bundled file library in ext/fileinfo upgraded to 5.46.
 * Bundled pcre2lib in ext/pcre upgraded from 10.44 to 10.45.
+
+#### Autotools
+
+* Added pkg-config support to find LDAP installation for the ldap extension.
+  The LDAP paths can be customized with the `LDAP_CFLAGS` and `LDAP_LIBS`
+  environment variables. When a directory argument is provided to configure
+  option (`--with-ldap=DIR`), it will be used instead of the pkg-config search.
 
 #### Windows
 
