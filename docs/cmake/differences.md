@@ -141,3 +141,23 @@ build system:
 
 * The libmbfl configuration header (`config.h`).
   See: https://github.com/php/php-src/pull/13713
+
+* Building with large number of CPU cores might emit errors.
+
+  When building PHP with Autotools in parallel with large number of CPU cores
+  (`make -j32`) there might happen error like this with very small
+  reproducibility:
+
+  ```
+  ...tokenizer_data.c:22:10: fatal error: zend_language_parser.h: No such file
+  or directory
+  ```
+
+  There might be some misconfigured dependencies between some files in Makefile.
+  For example, the `Zend/zend_language_parser.h` and all other Zend language
+  parser files must be generated before the `ext/tokenizer` files start to
+  build, otherwise error happens because Bison might generate header with slight
+  delay.
+
+  In CMake, this is bypassed by having entire extension dependent on the
+  `Zend::Zend` target (which also includes the parser and scanner).
