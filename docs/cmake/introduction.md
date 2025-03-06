@@ -147,6 +147,30 @@ This allows breaking down complex configurations into manageable components.
 
 ## 4. CMake syntax
 
+CMake syntax consists of the following 3 elements:
+
+* Comments (single and multi-line)
+* Commands (functions and macros defined in modules, and CMake built-in
+  commands)
+* Command arguments
+
+```cmake
+# This is a line comment.
+
+#[[
+  This is a multi-line comment.
+]]
+
+some_command()
+
+another_command(
+  "quoted argument"
+  [[bracket argument]]
+  unquoted_argument
+  ${variable}
+)
+```
+
 ### 4.1. Variables
 
 In CMake, variables are essential for storing and manipulating data throughout
