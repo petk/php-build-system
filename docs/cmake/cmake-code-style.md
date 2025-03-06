@@ -44,7 +44,7 @@ ecosystem.
 
 CMake is quite lenient regarding code style, but applying consistency for
 writing CMake files can enhance both code quality and comprehension of the build
-system, especially when multiple developers are involved. Following some naming
+system, especially when multiple developers are involved. Following some coding
 conventions can maintain a clear and organized CMake project structure while
 avoiding conflicts with external libraries and CMake scope.
 
@@ -195,8 +195,18 @@ these variables become distinct.
 
 ### 2.3. Check modules
 
-Use `check_compiler_flag()`, `check_source_compiles()`, `check_source_runs()`
-instead of language-specific `check_<LANG>_...()`.
+* Use `check_compiler_flag()`, `check_source_compiles()`, `check_source_runs()`
+  instead of language-specific `check_<LANG>_...()`.
+
+* For checking header files, use `CheckIncludeFiles` module instead of
+  `CheckIncludeFile` or `CheckIncludeFileCXX`. It simplifies and unifies
+  checking single or multiple headers into a common usage across the code.
+
+  ```cmake
+  include(CheckIncludeFiles)
+  check_include_files(sys/types.h HAVE_SYS_TYPES_H)
+  check_include_files("sys/socket.h;net/if.h" HAVE_NET_IF_H)
+  ```
 
 ## 3. Variables
 
