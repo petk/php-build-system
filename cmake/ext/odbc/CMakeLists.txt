@@ -177,7 +177,7 @@ project(
   LANGUAGES C
 )
 
-include(CheckIncludeFile)
+include(CheckIncludeFiles)
 include(CheckLibraryExists)
 include(CMakeDependentOption)
 include(CMakePushCheckState)
@@ -315,7 +315,7 @@ target_link_libraries(php_ext_odbc PRIVATE ODBC::ODBC)
 if(PHP_EXT_ODBC_TYPE STREQUAL "ibm-db2" AND TARGET ODBC::ODBC)
   cmake_push_check_state(RESET)
     set(CMAKE_REQUIRED_LIBRARIES ODBC::ODBC)
-    check_include_file(sqlcli1.h HAVE_SQLCLI1_H)
+    check_include_files(sqlcli1.h HAVE_SQLCLI1_H)
     check_library_exists(ODBC::ODBC "" SQLExecute HAVE_SQLEXECUTE)
   cmake_pop_check_state()
   if(NOT HAVE_SQLCLI1_H)

@@ -454,8 +454,8 @@ the respective verification commands:
 To verify if a header file is available:
 
 ```cmake
-include(CheckIncludeFile)
-check_include_file(sys/types.h HAVE_SYS_TYPES_H)
+include(CheckIncludeFiles)
+check_include_files(sys/types.h HAVE_SYS_TYPES_H)
 ```
 
 ### 6.2. C source compilation check

@@ -39,7 +39,7 @@ project(
 )
 
 include(CheckCompilerFlag)
-include(CheckIncludeFile)
+include(CheckIncludeFiles)
 
 if(NOT TIMELIB_TARGET)
   set(TIMELIB_TARGET timelib)
@@ -95,7 +95,7 @@ if(_HAVE_FWRAPV)
   )
 endif()
 
-check_include_file(io.h HAVE_IO_H)
+check_include_files(io.h HAVE_IO_H)
 
 cmake_path(
   RELATIVE_PATH

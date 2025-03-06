@@ -27,7 +27,7 @@ project(
   LANGUAGES C
 )
 
-include(CheckIncludeFile)
+include(CheckIncludeFiles)
 include(CheckStructHasMember)
 include(CheckSymbolExists)
 include(CheckTypeSize)
@@ -100,13 +100,13 @@ check_symbol_exists(if_nametoindex "net/if.h" HAVE_IF_NAMETOINDEX)
 check_symbol_exists(if_indextoname "net/if.h" HAVE_IF_INDEXTONAME)
 check_symbol_exists(sockatmark "sys/socket.h" HAVE_SOCKATMARK)
 
-check_include_file(sys/sockio.h HAVE_SYS_SOCKIO_H)
-check_include_file(linux/filter.h HAVE_LINUX_FILTER_H)
-check_include_file(linux/if_ether.h HAVE_LINUX_IF_ETHER_H)
-check_include_file(linux/if_packet.h HAVE_LINUX_IF_PACKET_H)
+check_include_files(sys/sockio.h HAVE_SYS_SOCKIO_H)
+check_include_files(linux/filter.h HAVE_LINUX_FILTER_H)
+check_include_files(linux/if_ether.h HAVE_LINUX_IF_ETHER_H)
+check_include_files(linux/if_packet.h HAVE_LINUX_IF_PACKET_H)
 
 if(CMAKE_SYSTEM_NAME STREQUAL "Windows")
-  check_include_file(winsock.h _HAVE_WINSOCK_H)
+  check_include_files(winsock.h _HAVE_WINSOCK_H)
   if(NOT _HAVE_WINSOCK_H)
     message(
       FATAL_ERROR

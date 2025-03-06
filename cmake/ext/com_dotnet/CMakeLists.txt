@@ -34,7 +34,7 @@ if(NOT CMAKE_SYSTEM_NAME STREQUAL "Windows")
   return()
 endif()
 
-include(CheckIncludeFile)
+include(CheckIncludeFiles)
 include(CMakeDependentOption)
 include(FeatureSummary)
 
@@ -91,7 +91,7 @@ target_compile_definitions(
 
 target_link_libraries(php_ext_com_dotnet PRIVATE oleaut32)
 
-check_include_file(mscoree.h HAVE_MSCOREE_H)
+check_include_files(mscoree.h HAVE_MSCOREE_H)
 
 set(HAVE_COM_DOTNET TRUE)
 

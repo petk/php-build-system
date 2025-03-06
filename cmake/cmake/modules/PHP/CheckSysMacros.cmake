@@ -76,14 +76,14 @@ if(DEFINED _PHP_HAVE_SYS_MACROS_CHECKED)
   return()
 endif()
 
-include(CheckIncludeFile)
+include(CheckIncludeFiles)
 include(CheckSymbolExists)
 
 message(CHECK_START "Checking for major, minor and makedev")
 
-check_include_file(sys/types.h HAVE_SYS_TYPES_H)
-check_include_file(sys/mkdev.h HAVE_SYS_MKDEV_H)
-check_include_file(sys/sysmacros.h HAVE_SYS_SYSMACROS_H)
+check_include_files(sys/types.h HAVE_SYS_TYPES_H)
+check_include_files(sys/mkdev.h HAVE_SYS_MKDEV_H)
+check_include_files(sys/sysmacros.h HAVE_SYS_SYSMACROS_H)
 
 block()
   set(headers "")
