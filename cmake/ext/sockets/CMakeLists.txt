@@ -27,7 +27,7 @@ project(
   LANGUAGES C
 )
 
-include(CheckIncludeFile)
+include(CheckIncludeFiles)
 include(CheckStructHasMember)
 include(CheckSymbolExists)
 include(CheckTypeSize)
@@ -107,11 +107,11 @@ cmake_push_check_state(RESET)
   check_symbol_exists(AI_IDN "netdb.h" HAVE_AI_IDN)
 cmake_pop_check_state()
 
-check_include_file(sys/sockio.h HAVE_SYS_SOCKIO_H)
-check_include_file(linux/filter.h HAVE_LINUX_FILTER_H)
+check_include_files(sys/sockio.h HAVE_SYS_SOCKIO_H)
+check_include_files(linux/filter.h HAVE_LINUX_FILTER_H)
 
 if(CMAKE_SYSTEM_NAME STREQUAL "Windows")
-  check_include_file(winsock.h _HAVE_WINSOCK_H)
+  check_include_files(winsock.h _HAVE_WINSOCK_H)
   if(NOT _HAVE_WINSOCK_H)
     message(
       FATAL_ERROR

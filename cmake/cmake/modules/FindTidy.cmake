@@ -32,7 +32,7 @@ find_package(Tidy)
 ```
 #]=============================================================================]
 
-include(CheckIncludeFile)
+include(CheckIncludeFiles)
 include(CMakePushCheckState)
 include(FeatureSummary)
 include(FindPackageHandleStandardArgs)
@@ -89,11 +89,11 @@ if(Tidy_INCLUDE_DIR)
     # Check for tidybuffio.h (as opposed to simply buffio.h) which indicates
     # that the found library is tidy-html5 and not the legacy htmltidy. The two
     # are compatible, except the legacy doesn't have this header.
-    check_include_file(tidybuffio.h HAVE_TIDYBUFFIO_H)
+    check_include_files(tidybuffio.h HAVE_TIDYBUFFIO_H)
 
-    check_include_file(tidy.h HAVE_TIDY_H)
+    check_include_files(tidy.h HAVE_TIDY_H)
     if(NOT HAVE_TIDY_H)
-      check_include_file(tidyp.h HAVE_TIDYP_H)
+      check_include_files(tidyp.h HAVE_TIDYP_H)
     endif()
   cmake_pop_check_state()
 endif()

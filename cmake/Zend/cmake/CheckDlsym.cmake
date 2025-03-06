@@ -19,7 +19,7 @@ if(DEFINED DLSYM_NEEDS_UNDERSCORE)
   return()
 endif()
 
-include(CheckIncludeFile)
+include(CheckIncludeFiles)
 
 message(
   CHECK_START
@@ -32,7 +32,7 @@ if(CMAKE_CROSSCOMPILING AND NOT CMAKE_CROSSCOMPILING_EMULATOR)
   set(DLSYM_NEEDS_UNDERSCORE_EXITCODE 0)
 endif()
 
-check_include_file(dlfcn.h HAVE_DLFCN_H)
+check_include_files(dlfcn.h HAVE_DLFCN_H)
 
 block()
   if(HAVE_DLFCN_H)

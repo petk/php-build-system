@@ -35,7 +35,7 @@ include(cmake/Fibers.cmake)
 
 include_guard(GLOBAL)
 
-include(CheckIncludeFile)
+include(CheckIncludeFiles)
 include(CheckSourceRuns)
 include(CMakePushCheckState)
 
@@ -194,7 +194,7 @@ block()
         )
       endif()
 
-      check_include_file(ucontext.h ZEND_FIBER_UCONTEXT)
+      check_include_files(ucontext.h ZEND_FIBER_UCONTEXT)
     cmake_pop_check_state()
 
     if(NOT ZEND_FIBER_UCONTEXT)

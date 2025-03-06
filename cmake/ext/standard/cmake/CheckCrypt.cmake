@@ -23,7 +23,7 @@ include(cmake/CheckCrypt.cmake)
 
 include_guard(GLOBAL)
 
-include(CheckIncludeFile)
+include(CheckIncludeFiles)
 include(CheckSourceCompiles)
 include(CheckSourceRuns)
 include(CheckSymbolExists)
@@ -41,8 +41,8 @@ function(_php_check_crypt)
     set(CMAKE_REQUIRED_LIBRARIES Crypt::Crypt)
     set(CMAKE_REQUIRED_QUIET TRUE)
 
-    check_include_file(unistd.h HAVE_UNISTD_H)
-    check_include_file(crypt.h HAVE_CRYPT_H)
+    check_include_files(unistd.h HAVE_UNISTD_H)
+    check_include_files(crypt.h HAVE_CRYPT_H)
 
     if(HAVE_UNISTD_H)
       list(APPEND headers "unistd.h")

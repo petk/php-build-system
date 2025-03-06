@@ -22,7 +22,7 @@ Same as the main CLI SAPI (`php`) but without the console (no output is given).
 > This option is only available when the target system is Windows.
 #]=============================================================================]
 
-include(CheckIncludeFile)
+include(CheckIncludeFiles)
 include(CheckSourceCompiles)
 include(CheckSymbolExists)
 include(CMakeDependentOption)
@@ -57,7 +57,7 @@ endif()
 ################################################################################
 
 check_symbol_exists(setproctitle "unistd.h;stdlib.h" HAVE_SETPROCTITLE)
-check_include_file(sys/pstat.h HAVE_SYS_PSTAT_H)
+check_include_files(sys/pstat.h HAVE_SYS_PSTAT_H)
 
 message(CHECK_START "Checking for PS_STRINGS")
 check_source_compiles(C [[
