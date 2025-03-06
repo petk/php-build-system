@@ -27,7 +27,6 @@ project(
   LANGUAGES C
 )
 
-include(CheckIncludeFile)
 include(CheckIncludeFiles)
 include(CheckSourceCompiles)
 include(CheckSymbolExists)
@@ -379,7 +378,7 @@ if(HAVE_SYS_SOCKET_H)
   # Darwin and BSD-like systems also need sys/socket.h to include net/if.h.
   check_include_files("sys/socket.h;net/if.h" HAVE_NET_IF_H)
 else()
-  check_include_file(net/if.h HAVE_NET_IF_H)
+  check_include_files(net/if.h HAVE_NET_IF_H)
 endif()
 
 # Detect library functions needed by PHP dns_xxx functions.

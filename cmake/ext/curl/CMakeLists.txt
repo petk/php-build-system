@@ -27,7 +27,7 @@ project(
   LANGUAGES C
 )
 
-include(CheckIncludeFile)
+include(CheckIncludeFiles)
 include(CheckLibraryExists)
 include(CheckSourceRuns)
 include(CMakeDependentOption)
@@ -158,7 +158,7 @@ if(PHP_THREAD_SAFETY AND CURL_SSL_FOUND)
     if(TARGET OpenSSL::Crypto)
       cmake_push_check_state(RESET)
         set(CMAKE_REQUIRED_LIBRARIES OpenSSL::Crypto)
-        check_include_file(openssl/crypto.h HAVE_OPENSSL_CRYPTO_H)
+        check_include_files(openssl/crypto.h HAVE_OPENSSL_CRYPTO_H)
       cmake_pop_check_state()
     endif()
   endif()

@@ -38,7 +38,7 @@ project(
   VERSION ${timelib_VERSION}
 )
 
-include(CheckIncludeFile)
+include(CheckIncludeFiles)
 
 if(NOT TIMELIB_TARGET)
   set(TIMELIB_TARGET timelib)
@@ -85,7 +85,7 @@ target_compile_definitions(
     HAVE_STRTOLL
 )
 
-check_include_file(io.h HAVE_IO_H)
+check_include_files(io.h HAVE_IO_H)
 
 cmake_path(
   RELATIVE_PATH

@@ -22,7 +22,7 @@ if(DEFINED HAVE_FLUSHIO)
   return()
 endif()
 
-include(CheckIncludeFile)
+include(CheckIncludeFiles)
 include(CheckSourceRuns)
 include(CMakePushCheckState)
 
@@ -44,7 +44,7 @@ endif()
 cmake_push_check_state(RESET)
   set(CMAKE_REQUIRED_QUIET TRUE)
 
-  check_include_file(unistd.h HAVE_UNISTD_H)
+  check_include_files(unistd.h HAVE_UNISTD_H)
 
   if(HAVE_UNISTD_H)
     set(CMAKE_REQUIRED_DEFINITIONS -DHAVE_UNISTD_H)

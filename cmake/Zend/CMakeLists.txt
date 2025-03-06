@@ -45,7 +45,7 @@ project(
   LANGUAGES C ASM
 )
 
-include(CheckIncludeFile)
+include(CheckIncludeFiles)
 include(CheckSourceCompiles)
 include(CheckSymbolExists)
 include(CMakeDependentOption)
@@ -393,8 +393,8 @@ install(
 # Configuration checks.
 ################################################################################
 
-check_include_file(cpuid.h HAVE_CPUID_H)
-check_include_file(libproc.h HAVE_LIBPROC_H)
+check_include_files(cpuid.h HAVE_CPUID_H)
+check_include_files(libproc.h HAVE_LIBPROC_H)
 
 check_symbol_exists(getpid "unistd.h" HAVE_GETPID)
 
@@ -413,7 +413,7 @@ cmake_pop_check_state()
 
 # BSD-based systems have pthread_attr_get_np in pthread_np.h.
 block()
-  check_include_file(pthread_np.h _HAVE_PTHREAD_NP_H)
+  check_include_files(pthread_np.h _HAVE_PTHREAD_NP_H)
 
   if(_HAVE_PTHREAD_NP_H)
     set(headers "pthread_np.h")
