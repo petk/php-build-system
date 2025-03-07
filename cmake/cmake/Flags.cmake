@@ -10,6 +10,15 @@ include(PHP/CheckCompilerFlag)
 
 get_property(enabledLanguages GLOBAL PROPERTY ENABLED_LANGUAGES)
 
+# See https://bugs.php.net/28605.
+if(CMAKE_SYSTEM_PROCESSOR MATCHES "^alpha")
+  if(CMAKE_C_COMPILER_ID MATCHES "^(.*Clang|GNU)$")
+    target_compile_options(php_config INTERFACE $<$<COMPILE_LANGUAGE:C>:-mieee>)
+  else()
+    target_compile_options(php_config INTERFACE $<$<COMPILE_LANGUAGE:C>:-ieee>)
+  endif()
+endif()
+
 # Check for broken GCC optimize-strlen.
 include(PHP/CheckBrokenGccStrlenOpt)
 if(PHP_HAVE_BROKEN_OPTIMIZE_STRLEN)

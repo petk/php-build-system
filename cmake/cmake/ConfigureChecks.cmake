@@ -760,8 +760,11 @@ endif()
 
 # Check GCOV.
 if(PHP_GCOV)
-  if(NOT CMAKE_C_COMPILER_ID STREQUAL "GNU")
-    message(FATAL_ERROR "GCC is required for using PHP_GCOV='ON'.")
+  if(NOT CMAKE_C_COMPILER_ID MATCHES "^(.*Clang|GNU)$")
+    message(
+      FATAL_ERROR
+      "GNU-compatible compiler is required for using PHP_GCOV='ON'."
+    )
   endif()
 
   if(CMAKE_C_COMPILER_LAUNCHER MATCHES "ccache")
