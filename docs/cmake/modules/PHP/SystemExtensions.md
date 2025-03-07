@@ -26,6 +26,16 @@ Conditionally defined preprocessor macros:
 
   Defined on HP-UX.
 
+* `_POSIX_PTHREAD_SEMANTICS`
+
+  Defined on Solaris and illumos-based systems.
+
+  As of Solaris 11.4, the `_POSIX_PTHREAD_SEMANTICS` is obsolete and according
+  to documentation no header utilizes this anymore. For illumos-based systems,
+  it's unclear where it is still needed, so at the time of writing, this is
+  enabled unconditionally for all Solaris and illumos-based systems as enabling
+  it doesn't cause issues. For other systems, this is irrelevant.
+
 ## Result variables
 
 * `PHP_SYSTEM_EXTENSIONS_CODE`
