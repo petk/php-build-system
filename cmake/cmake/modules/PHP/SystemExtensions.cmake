@@ -24,6 +24,16 @@ Conditionally defined preprocessor macros:
 
   Defined on HP-UX.
 
+* `_POSIX_PTHREAD_SEMANTICS`
+
+  Defined on Solaris and illumos-based systems.
+
+  As of Solaris 11.4, the `_POSIX_PTHREAD_SEMANTICS` is obsolete and according
+  to documentation no header utilizes this anymore. For illumos-based systems,
+  it's unclear where it is still needed, so at the time of writing, this is
+  enabled unconditionally for all Solaris and illumos-based systems as enabling
+  it doesn't cause issues. For other systems, this is irrelevant.
+
 ## Result variables
 
 * `PHP_SYSTEM_EXTENSIONS_CODE`
@@ -116,7 +126,6 @@ target_compile_definitions(
     _HPUX_ALT_XOPEN_SOCKET_API=1
     _NETBSD_SOURCE=1
     _OPENBSD_SOURCE=1
-    _POSIX_PTHREAD_SEMANTICS=1
     _TANDEM_SOURCE=1
     __STDC_WANT_IEC_60559_ATTRIBS_EXT__=1
     __STDC_WANT_IEC_60559_BFP_EXT__=1
@@ -202,13 +211,25 @@ if(CMAKE_SYSTEM_NAME STREQUAL "SunOS")
 endif()
 
 ################################################################################
+# Check whether to enable _POSIX_PTHREAD_SEMANTICS.
+################################################################################
+
+if(CMAKE_SYSTEM_NAME STREQUAL "SunOS")
+  target_compile_definitions(
+    PHP::SystemExtensions
+    INTERFACE $<$<COMPILE_LANGUAGE:ASM,C,CXX>:_POSIX_PTHREAD_SEMANTICS>
+  )
+
+  set(_POSIX_PTHREAD_SEMANTICS TRUE)
+endif()
+
+################################################################################
 # Check whether to enable _XOPEN_SOURCE.
 ################################################################################
 
 # HP-UX 11.11 didn't define mbstate_t without setting _XOPEN_SOURCE to 500. This
 # is set conditionally, because BSD-based systems might have issues with this.
 if(CMAKE_SYSTEM_NAME STREQUAL "HP-UX")
-  # Reset any possible previous value.
   unset(_XOPEN_SOURCE)
 
   cmake_push_check_state(RESET)
@@ -275,7 +296,7 @@ set(PHP_SYSTEM_EXTENSIONS_CODE [[
 #endif
 /* Enable POSIX-compatible threading on Solaris.  */
 #ifndef _POSIX_PTHREAD_SEMANTICS
-# define _POSIX_PTHREAD_SEMANTICS 1
+# cmakedefine _POSIX_PTHREAD_SEMANTICS
 #endif
 /* Enable extensions specified by ISO/IEC TS 18661-5:2014.  */
 #ifndef __STDC_WANT_IEC_60559_ATTRIBS_EXT__
