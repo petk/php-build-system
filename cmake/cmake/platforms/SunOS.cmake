@@ -15,10 +15,4 @@ if(CMAKE_SYSTEM_NAME STREQUAL "SunOS")
       "one of the illumos-based distributions."
     )
   endif()
-
-  target_compile_definitions(
-    php_config
-    INTERFACE
-      $<$<COMPILE_LANGUAGE:ASM,C,CXX>:_POSIX_PTHREAD_SEMANTICS>
-  )
 endif()
