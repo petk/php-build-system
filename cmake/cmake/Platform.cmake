@@ -24,31 +24,6 @@ include(GNUInstallDirs)
 # Detect C standard library implementation.
 include(PHP/StandardLibrary)
 
-# See https://bugs.php.net/28605.
-if(CMAKE_SYSTEM_PROCESSOR MATCHES "^alpha")
-  if(CMAKE_C_COMPILER_ID STREQUAL "GNU")
-    target_compile_options(
-      php_config
-      INTERFACE
-        $<$<COMPILE_LANGUAGE:ASM,C>:-mieee>
-    )
-  else()
-    target_compile_options(
-      php_config
-      INTERFACE
-        $<$<COMPILE_LANGUAGE:ASM,C>:-ieee>
-    )
-  endif()
-elseif(CMAKE_SYSTEM_PROCESSOR MATCHES "^sparc")
-  if(CMAKE_C_COMPILER_ID STREQUAL "SunPro")
-    target_compile_options(
-      php_config
-      INTERFACE
-        $<$<COMPILE_LANGUAGE:ASM,C>:-xmemalign=8s>
-    )
-  endif()
-endif()
-
 # Platform-specific configuration. When cross-compiling, the host and target can
 # be different values with different configurations.
 if(NOT CMAKE_HOST_SYSTEM_NAME EQUAL CMAKE_SYSTEM_NAME)
