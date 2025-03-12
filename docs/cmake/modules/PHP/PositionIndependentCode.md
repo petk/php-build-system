@@ -3,18 +3,24 @@
 
 # PHP/PositionIndependentCode
 
-Wrapper module for CMake's `CheckPIESupported` module and
-`CMAKE_POSITION_INDEPENDENT_CODE` variable.
+This module wraps the
+[CheckPIESupported](https://cmake.org/cmake/help/latest/module/CheckPIESupported.html)
+module and sets the `CMAKE_POSITION_INDEPENDENT_CODE` variable.
 
-This module checks whether to enable the `POSITION_INDEPENDENT_CODE` target
-property for all targets globally. The SHARED and MODULE targets have PIC always
-enabled by default regardless of this module.
+With this module, the position-independent code (PIC) and position-independent
+executable (PIE) compile-time and link-time options are globally enabled for all
+targets. This enables building shared apache2handler, embed, and phpdbg SAPI
+libraries without duplicating builds or targets for executables, static and
+shared libraries.
 
-Position independent code (PIC) and position independent executable (PIE)
-compile-time and link-time options are for now unconditionally added globally to
-all targets, to be able to build shared apache2handler, embed, and phpdbg SAPI
-libraries. This probably could be fine tuned in the future further but it can
-exponentially complicate the build system code or the build usability.
+While finer control over PIC/PIE settings may be possible, doing so
+significantly increases build system complexity (two types of library and
+extension objects should be built - ones with PIC enabled and those with PIC
+disabled - which increases build time) or reduce usability (doing two builds
+- one for executable and static SAPIs and one for shared SAPIs).
+
+SHARED and MODULE targets always have PIC enabled by default, regardless of
+this module.
 
 ## Usage
 
