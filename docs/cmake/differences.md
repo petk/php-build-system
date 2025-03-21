@@ -102,6 +102,8 @@ build system:
   * For the `Release` and `MinSizeRel` CMake build types, the Bison `--no-lines`
     (`-l`) and re2c `--no-debug-info` (`-i`) options are added.
 
+* HP-UX platform is not supported in CMake-based build system anymore.
+
 ## Bugs fixed
 
 * Building inside folder with spaces.

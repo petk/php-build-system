@@ -12,19 +12,17 @@ with some simplifications for the obsolete systems.
 
 Obsolete preprocessor macros that are not defined by this module:
 
+* `_HPUX_ALT_XOPEN_SOCKET_API`
 * `_MINIX`
-* `_POSIX_SOURCE`
 * `_POSIX_1_SOURCE`
+* `_POSIX_SOURCE`
+* `_XOPEN_SOURCE`
 
 Conditionally defined preprocessor macros:
 
 * `__EXTENSIONS__`
 
   Defined on Solaris and illumos-based systems.
-
-* `_XOPEN_SOURCE=500`
-
-  Defined on HP-UX.
 
 * `_POSIX_PTHREAD_SEMANTICS`
 
