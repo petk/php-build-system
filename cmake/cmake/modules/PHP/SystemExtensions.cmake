@@ -10,19 +10,17 @@ with some simplifications for the obsolete systems.
 
 Obsolete preprocessor macros that are not defined by this module:
 
+* `_HPUX_ALT_XOPEN_SOCKET_API`
 * `_MINIX`
-* `_POSIX_SOURCE`
 * `_POSIX_1_SOURCE`
+* `_POSIX_SOURCE`
+* `_XOPEN_SOURCE`
 
 Conditionally defined preprocessor macros:
 
 * `__EXTENSIONS__`
 
   Defined on Solaris and illumos-based systems.
-
-* `_XOPEN_SOURCE=500`
-
-  Defined on HP-UX.
 
 * `_POSIX_PTHREAD_SEMANTICS`
 
@@ -123,7 +121,6 @@ target_compile_definitions(
     _ALL_SOURCE=1
     _DARWIN_C_SOURCE=1
     _GNU_SOURCE
-    _HPUX_ALT_XOPEN_SOCKET_API=1
     _NETBSD_SOURCE=1
     _OPENBSD_SOURCE=1
     _TANDEM_SOURCE=1
@@ -224,41 +221,6 @@ if(CMAKE_SYSTEM_NAME STREQUAL "SunOS")
 endif()
 
 ################################################################################
-# Check whether to enable _XOPEN_SOURCE.
-################################################################################
-
-# HP-UX 11.11 didn't define mbstate_t without setting _XOPEN_SOURCE to 500. This
-# is set conditionally, because BSD-based systems might have issues with this.
-if(CMAKE_SYSTEM_NAME STREQUAL "HP-UX")
-  unset(_XOPEN_SOURCE)
-
-  cmake_push_check_state(RESET)
-    cmake_language(GET_MESSAGE_LOG_LEVEL log_level)
-    if(NOT log_level MATCHES "^(VERBOSE|DEBUG|TRACE)$")
-      set(CMAKE_REQUIRED_QUIET TRUE)
-    endif()
-
-    set(CMAKE_EXTRA_INCLUDE_FILES "wchar.h")
-    check_type_size(mbstate_t phpSystemExtensionsMbStateT)
-
-    if(NOT HAVE_phpSystemExtensionsMbStateT)
-      set(CMAKE_REQUIRED_DEFINITIONS -D_XOPEN_SOURCE=500)
-      check_type_size(mbstate_t phpSystemExtensionsMbStateTWithXOpenSource)
-
-      if(HAVE_phpSystemExtensionsMbStateTWithXOpenSource)
-        set(_XOPEN_SOURCE 500)
-
-        target_compile_definitions(
-          PHP::SystemExtensions
-          INTERFACE
-            _XOPEN_SOURCE=${_XOPEN_SOURCE}
-        )
-      endif()
-    endif()
-  cmake_pop_check_state()
-endif()
-
-################################################################################
 # Configuration header template.
 ################################################################################
 
@@ -278,11 +240,6 @@ set(PHP_SYSTEM_EXTENSIONS_CODE [[
 /* Enable GNU extensions on systems that have them.  */
 #ifndef _GNU_SOURCE
 # define _GNU_SOURCE
-#endif
-/* Enable X/Open compliant socket functions that do not require linking
-   with -lxnet on HP-UX 11.11.  */
-#ifndef _HPUX_ALT_XOPEN_SOCKET_API
-# define _HPUX_ALT_XOPEN_SOCKET_API 1
 #endif
 /* Enable general extensions on NetBSD.
    Enable NetBSD compatibility extensions on Minix.  */
@@ -333,11 +290,6 @@ set(PHP_SYSTEM_EXTENSIONS_CODE [[
 /* Enable extensions on HP NonStop.  */
 #ifndef _TANDEM_SOURCE
 # define _TANDEM_SOURCE 1
-#endif
-/* Enable X/Open extensions.  Define to 500 only if necessary
-   to make mbstate_t available.  */
-#ifndef _XOPEN_SOURCE
-# cmakedefine _XOPEN_SOURCE @_XOPEN_SOURCE@
 #endif]])
 
 string(CONFIGURE "${PHP_SYSTEM_EXTENSIONS_CODE}" PHP_SYSTEM_EXTENSIONS_CODE)
@@ -352,7 +304,5 @@ set_property(
   GLOBAL
   PROPERTY _PHP_SYSTEM_EXTENSIONS_CODE "${PHP_SYSTEM_EXTENSIONS_CODE}"
 )
-
-unset(_XOPEN_SOURCE)
 
 message(CHECK_PASS "done")
