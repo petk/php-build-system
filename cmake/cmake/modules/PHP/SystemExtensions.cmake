@@ -104,7 +104,6 @@ include_guard(GLOBAL)
 
 include(CheckIncludeFiles)
 include(CheckSourceCompiles)
-include(CheckTypeSize)
 include(CMakePushCheckState)
 
 message(CHECK_START "Enabling C and POSIX extensions")
