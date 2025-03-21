@@ -8,6 +8,19 @@ include(CheckSourceRuns)
 include(CMakePushCheckState)
 
 ################################################################################
+# Check for supported platforms.
+#
+# HP-UX: Recent compilers are not supported, EOL in December 2025/2028.
+################################################################################
+if(CMAKE_SYSTEM_NAME STREQUAL "HP-UX")
+  message(
+    FATAL_ERROR
+    "Unsupported platform detected: ${CMAKE_SYSTEM_NAME}.\n"
+    "Please, migrate or upgrade operating system."
+  )
+endif()
+
+################################################################################
 # Check whether some minimum supported compiler is used.
 ################################################################################
 if(CMAKE_C_COMPILER_ID STREQUAL "SunPro")
