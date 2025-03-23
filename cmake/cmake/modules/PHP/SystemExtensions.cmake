@@ -118,6 +118,7 @@ target_compile_definitions(
   PHP::SystemExtensions
   INTERFACE
     _ALL_SOURCE=1
+    _COSMO_SOURCE
     _DARWIN_C_SOURCE=1
     _GNU_SOURCE
     _NETBSD_SOURCE=1
@@ -227,6 +228,10 @@ set(PHP_SYSTEM_EXTENSIONS_CODE [[
 /* Enable extensions on AIX, Interix, z/OS.  */
 #ifndef _ALL_SOURCE
 # define _ALL_SOURCE 1
+#endif
+/* Enable extensions on Cosmopolitan Libc. */
+#ifndef _COSMO_SOURCE
+# define _COSMO_SOURCE
 #endif
 /* Enable general extensions on macOS.  */
 #ifndef _DARWIN_C_SOURCE

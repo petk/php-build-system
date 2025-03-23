@@ -9,6 +9,7 @@ Determine the C standard library used for the build.
 
   Lowercase name of the C standard library:
 
+    * `cosmopolitan`
     * `dietlibc`
     * `glibc`
     * `llvm`
@@ -62,6 +63,17 @@ cmake_pop_check_state()
 if(_PHP_C_STANDARD_LIBRARY_DIETLIBC)
   set_property(CACHE PHP_C_STANDARD_LIBRARY PROPERTY VALUE "dietlibc")
   message(CHECK_PASS "diet libc")
+  return()
+endif()
+
+# The Cosmopolitan Libc.
+cmake_push_check_state(RESET)
+  set(CMAKE_REQUIRED_QUIET TRUE)
+  check_symbol_exists(__COSMOPOLITAN__ "" _PHP_C_STANDARD_LIBRARY_COSMOPOLITAN)
+cmake_pop_check_state()
+if(_PHP_C_STANDARD_LIBRARY_COSMOPOLITAN)
+  set_property(CACHE PHP_C_STANDARD_LIBRARY PROPERTY VALUE "cosmopolitan")
+  message(CHECK_PASS "Cosmopolitan Libc")
   return()
 endif()
 
