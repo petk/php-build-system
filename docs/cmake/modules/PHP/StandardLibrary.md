@@ -11,6 +11,7 @@ Determine the C standard library used for the build.
 
   Lowercase name of the C standard library:
 
+    * `cosmopolitan`
     * `dietlibc`
     * `glibc`
     * `llvm`
