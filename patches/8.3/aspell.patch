@@ -32,7 +32,7 @@ See: https://github.com/php/php-src/pull/12017
  6 files changed, 114 insertions(+), 129 deletions(-)
 
 diff --git a/.github/actions/apt-x32/action.yml b/.github/actions/apt-x32/action.yml
-index 879300f992..de820684fb 100644
+index 879300f9927..de820684fb2 100644
 --- a/.github/actions/apt-x32/action.yml
 +++ b/.github/actions/apt-x32/action.yml
 @@ -31,7 +31,6 @@ runs:
@@ -44,7 +44,7 @@ index 879300f992..de820684fb 100644
            libsasl2-dev:i386 \
            libsodium-dev:i386 \
 diff --git a/.github/actions/apt-x64/action.yml b/.github/actions/apt-x64/action.yml
-index bc2aa00df2..739abf8fe5 100644
+index bc2aa00df20..739abf8fe50 100644
 --- a/.github/actions/apt-x64/action.yml
 +++ b/.github/actions/apt-x64/action.yml
 @@ -34,7 +34,6 @@ runs:
@@ -56,7 +56,7 @@ index bc2aa00df2..739abf8fe5 100644
            libxpm-dev \
            libzip-dev \
 diff --git a/.travis.yml b/.travis.yml
-index 817bef0003..39e4991e2f 100644
+index 817bef00036..39e4991e2fd 100644
 --- a/.travis.yml
 +++ b/.travis.yml
 @@ -24,7 +24,6 @@ addons:
@@ -68,7 +68,7 @@ index 817bef0003..39e4991e2f 100644
        - libsqlite3-dev
        - libsodium-dev
 diff --git a/ext/pspell/config.m4 b/ext/pspell/config.m4
-index db49b4fd86..2356ad7d51 100644
+index db49b4fd86b..2356ad7d51a 100644
 --- a/ext/pspell/config.m4
 +++ b/ext/pspell/config.m4
 @@ -1,7 +1,7 @@
@@ -108,7 +108,7 @@ index db49b4fd86..2356ad7d51 100644
  	dnl Add -laspell to LIBS if it exists
  	PHP_CHECK_LIBRARY(aspell,new_aspell_config,
 diff --git a/ext/pspell/config.w32 b/ext/pspell/config.w32
-index d88ea1d30c..83a8413846 100644
+index d88ea1d30c5..83a84138467 100644
 --- a/ext/pspell/config.w32
 +++ b/ext/pspell/config.w32
 @@ -1,10 +1,10 @@
@@ -125,7 +125,7 @@ index d88ea1d30c..83a8413846 100644
  		EXTENSION('pspell', 'pspell.c');
  		AC_DEFINE('HAVE_PSPELL', 1);
 diff --git a/ext/pspell/pspell.c b/ext/pspell/pspell.c
-index 7c15472ed0..6937dc7752 100644
+index 7c15472ed0e..6937dc77525 100644
 --- a/ext/pspell/pspell.c
 +++ b/ext/pspell/pspell.c
 @@ -25,12 +25,8 @@

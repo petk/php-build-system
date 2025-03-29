@@ -14,7 +14,7 @@ Subject: Fix ext/dba tests when ndbm and dbm handlers are enabled
  3 files changed, 30 insertions(+), 61 deletions(-)
 
 diff --git a/ext/dba/tests/dba_dbm.phpt b/ext/dba/tests/dba_dbm.phpt
-index 3840359343..79bb82a94b 100644
+index 38403593430..79bb82a94ba 100644
 --- a/ext/dba/tests/dba_dbm.phpt
 +++ b/ext/dba/tests/dba_dbm.phpt
 @@ -13,8 +13,8 @@
@@ -79,7 +79,7 @@ index 3840359343..79bb82a94b 100644
 +  string(16) "Content String 9"
  }
 diff --git a/ext/dba/tests/dba_ndbm.phpt b/ext/dba/tests/dba_ndbm.phpt
-index 730932966c..9cc4f3f481 100644
+index 730932966cf..9cc4f3f4816 100644
 --- a/ext/dba/tests/dba_ndbm.phpt
 +++ b/ext/dba/tests/dba_ndbm.phpt
 @@ -13,8 +13,7 @@
@@ -168,7 +168,7 @@ index 730932966c..9cc4f3f481 100644
 -Failed to create DB
 +SAME OUTPUT AS PREVIOUS RUN (modulo read during write due to no lock)
 diff --git a/ext/dba/tests/setup/setup_dba_tests.inc b/ext/dba/tests/setup/setup_dba_tests.inc
-index 2ffac29e69..f30bae5fdd 100644
+index 2ffac29e697..f30bae5fdd8 100644
 --- a/ext/dba/tests/setup/setup_dba_tests.inc
 +++ b/ext/dba/tests/setup/setup_dba_tests.inc
 @@ -309,4 +309,7 @@ function cleanup_standard_db(string $name): void {

@@ -22,7 +22,7 @@ which should be resolved in the future.
  8 files changed, 38 insertions(+), 61 deletions(-)
 
 diff --git a/Zend/asm/jump_s390x_sysv_elf_gas.S b/Zend/asm/jump_s390x_sysv_elf_gas.S
-index c2a578b266..fa71467756 100644
+index c2a578b2663..fa71467756d 100644
 --- a/Zend/asm/jump_s390x_sysv_elf_gas.S
 +++ b/Zend/asm/jump_s390x_sysv_elf_gas.S
 @@ -49,11 +49,12 @@
@@ -64,7 +64,7 @@ index c2a578b266..fa71467756 100644
  use_return_slot:
  	/* Save the two fields in transfer_t.  When calling a
 diff --git a/Zend/asm/jump_sparc64_sysv_elf_gas.S b/Zend/asm/jump_sparc64_sysv_elf_gas.S
-index 727687aad8..61101fb1f6 100644
+index 727687aad80..61101fb1f62 100644
 --- a/Zend/asm/jump_sparc64_sysv_elf_gas.S
 +++ b/Zend/asm/jump_sparc64_sysv_elf_gas.S
 @@ -6,12 +6,14 @@
@@ -88,7 +88,7 @@ index 727687aad8..61101fb1f6 100644
  #define CC64FSZ 176
  #define BIAS 2047
 diff --git a/Zend/asm/jump_x86_64_ms_pe_gas.S b/Zend/asm/jump_x86_64_ms_pe_gas.S
-index 5ebc46f364..ec4ecfe946 100644
+index 5ebc46f3640..ec4ecfe946d 100644
 --- a/Zend/asm/jump_x86_64_ms_pe_gas.S
 +++ b/Zend/asm/jump_x86_64_ms_pe_gas.S
 @@ -89,6 +89,7 @@
@@ -107,7 +107,7 @@ index 5ebc46f364..ec4ecfe946 100644
 +.section .drectve
 +.ascii " -export:\"jump_fcontext\""
 diff --git a/Zend/asm/jump_x86_64_sysv_elf_gas.S b/Zend/asm/jump_x86_64_sysv_elf_gas.S
-index be264bdc2e..ff303bfa0e 100644
+index be264bdc2e2..ff303bfa0e2 100644
 --- a/Zend/asm/jump_x86_64_sysv_elf_gas.S
 +++ b/Zend/asm/jump_x86_64_sysv_elf_gas.S
 @@ -67,14 +67,6 @@ jump_fcontext:
@@ -126,7 +126,7 @@ index be264bdc2e..ff303bfa0e 100644
      /* grow the stack to reserve space for shadow stack pointer(SSP) */
      leaq  -0x8(%rsp), %rsp
 diff --git a/Zend/asm/make_s390x_sysv_elf_gas.S b/Zend/asm/make_s390x_sysv_elf_gas.S
-index e7e2d5f6e0..4dd423e2a4 100644
+index e7e2d5f6e0c..4dd423e2a44 100644
 --- a/Zend/asm/make_s390x_sysv_elf_gas.S
 +++ b/Zend/asm/make_s390x_sysv_elf_gas.S
 @@ -49,12 +49,12 @@
@@ -158,7 +158,7 @@ index e7e2d5f6e0..4dd423e2a4 100644
  	/* Allocate stack space for the context.  */
  	aghi	%r2,-CONTEXT_SIZE
 diff --git a/Zend/asm/make_sparc64_sysv_elf_gas.S b/Zend/asm/make_sparc64_sysv_elf_gas.S
-index 52ff70b996..3e7ee809c9 100644
+index 52ff70b996b..3e7ee809c91 100644
 --- a/Zend/asm/make_sparc64_sysv_elf_gas.S
 +++ b/Zend/asm/make_sparc64_sysv_elf_gas.S
 @@ -6,7 +6,7 @@
@@ -180,7 +180,7 @@ index 52ff70b996..3e7ee809c9 100644
  	 nop
  
 diff --git a/Zend/asm/make_x86_64_ms_pe_gas.S b/Zend/asm/make_x86_64_ms_pe_gas.S
-index 66a9bb3953..958a2a7b6d 100644
+index 66a9bb39535..958a2a7b6d0 100644
 --- a/Zend/asm/make_x86_64_ms_pe_gas.S
 +++ b/Zend/asm/make_x86_64_ms_pe_gas.S
 @@ -89,6 +89,7 @@
@@ -199,7 +199,7 @@ index 66a9bb3953..958a2a7b6d 100644
 +.section .drectve
 +.ascii " -export:\"make_fcontext\""
 diff --git a/Zend/asm/make_x86_64_sysv_elf_gas.S b/Zend/asm/make_x86_64_sysv_elf_gas.S
-index b0d0c0341e..df9472433c 100644
+index b0d0c0341ef..df9472433cf 100644
 --- a/Zend/asm/make_x86_64_sysv_elf_gas.S
 +++ b/Zend/asm/make_x86_64_sysv_elf_gas.S
 @@ -91,35 +91,6 @@ make_fcontext:

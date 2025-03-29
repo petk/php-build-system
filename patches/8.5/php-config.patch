@@ -44,10 +44,10 @@ Changes:
  4 files changed, 54 insertions(+), 21 deletions(-)
 
 diff --git a/build/php.m4 b/build/php.m4
-index 53684cf011..cb01433aec 100644
+index 640f0100800..de89ceb45b1 100644
 --- a/build/php.m4
 +++ b/build/php.m4
-@@ -2105,7 +2105,8 @@ EOF
+@@ -2114,7 +2114,8 @@ EOF
    echo '"[$]@"' >> $1
    chmod +x $1
    CONFIGURE_COMMAND="$CONFIGURE_COMMAND $CONFIGURE_OPTIONS"
@@ -58,7 +58,7 @@ index 53684cf011..cb01433aec 100644
  ])
  
 diff --git a/configure.ac b/configure.ac
-index 01d9ded69b..6f683b4586 100644
+index 01d9ded69b9..6f683b45862 100644
 --- a/configure.ac
 +++ b/configure.ac
 @@ -1369,6 +1369,9 @@ exec_prefix=$old_exec_prefix
@@ -82,7 +82,7 @@ index 01d9ded69b..6f683b4586 100644
  PHP_UTILIZE_RPATHS
  
 diff --git a/scripts/man1/php-config.1.in b/scripts/man1/php-config.1.in
-index 9944ac91d7..d0c2b60bf8 100644
+index 9944ac91d79..d0c2b60bf87 100644
 --- a/scripts/man1/php-config.1.in
 +++ b/scripts/man1/php-config.1.in
 @@ -73,6 +73,24 @@ PHP version
@@ -111,7 +111,7 @@ index 9944ac91d7..d0c2b60bf8 100644
  .PD 1
  .P
 diff --git a/scripts/php-config.in b/scripts/php-config.in
-index 87c20089bb..fc5372d3e0 100644
+index 87c20089bb7..fc5372d3e0f 100644
 --- a/scripts/php-config.in
 +++ b/scripts/php-config.in
 @@ -1,6 +1,5 @@

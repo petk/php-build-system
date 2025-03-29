@@ -18,7 +18,7 @@ repository.
  7 files changed, 54 insertions(+), 66 deletions(-)
 
 diff --git a/Zend/asm/jump_i386_sysv_elf_gas.S b/Zend/asm/jump_i386_sysv_elf_gas.S
-index 47be9e7782..ed83717ce2 100644
+index 47be9e77822..ed83717ce2b 100644
 --- a/Zend/asm/jump_i386_sysv_elf_gas.S
 +++ b/Zend/asm/jump_i386_sysv_elf_gas.S
 @@ -24,6 +24,10 @@
@@ -39,7 +39,7 @@ index 47be9e7782..ed83717ce2 100644
 +
 +#endif
 diff --git a/Zend/asm/jump_s390x_sysv_elf_gas.S b/Zend/asm/jump_s390x_sysv_elf_gas.S
-index c2a578b266..fa71467756 100644
+index c2a578b2663..fa71467756d 100644
 --- a/Zend/asm/jump_s390x_sysv_elf_gas.S
 +++ b/Zend/asm/jump_s390x_sysv_elf_gas.S
 @@ -49,11 +49,12 @@
@@ -81,7 +81,7 @@ index c2a578b266..fa71467756 100644
  use_return_slot:
  	/* Save the two fields in transfer_t.  When calling a
 diff --git a/Zend/asm/jump_x86_64_sysv_elf_gas.S b/Zend/asm/jump_x86_64_sysv_elf_gas.S
-index 40f8734dae..ff303bfa0e 100644
+index 40f8734daee..ff303bfa0e2 100644
 --- a/Zend/asm/jump_x86_64_sysv_elf_gas.S
 +++ b/Zend/asm/jump_x86_64_sysv_elf_gas.S
 @@ -31,13 +31,16 @@
@@ -128,7 +128,7 @@ index 40f8734dae..ff303bfa0e 100644
  .section .note.GNU-stack,"",%progbits
 +# endif
 diff --git a/Zend/asm/make_i386_sysv_elf_gas.S b/Zend/asm/make_i386_sysv_elf_gas.S
-index 9261e566c0..c6e0b36558 100644
+index 9261e566c0d..c6e0b36558a 100644
 --- a/Zend/asm/make_i386_sysv_elf_gas.S
 +++ b/Zend/asm/make_i386_sysv_elf_gas.S
 @@ -24,6 +24,10 @@
@@ -149,7 +149,7 @@ index 9261e566c0..c6e0b36558 100644
 +
 +#endif
 diff --git a/Zend/asm/make_ppc64_sysv_macho_gas.S b/Zend/asm/make_ppc64_sysv_macho_gas.S
-index fb5cada265..dd7bf2c5c0 100644
+index fb5cada265a..dd7bf2c5c0c 100644
 --- a/Zend/asm/make_ppc64_sysv_macho_gas.S
 +++ b/Zend/asm/make_ppc64_sysv_macho_gas.S
 @@ -64,6 +64,7 @@
@@ -161,7 +161,7 @@ index fb5cada265..dd7bf2c5c0 100644
  .text
  .globl _make_fcontext
 diff --git a/Zend/asm/make_s390x_sysv_elf_gas.S b/Zend/asm/make_s390x_sysv_elf_gas.S
-index e7e2d5f6e0..4dd423e2a4 100644
+index e7e2d5f6e0c..4dd423e2a44 100644
 --- a/Zend/asm/make_s390x_sysv_elf_gas.S
 +++ b/Zend/asm/make_s390x_sysv_elf_gas.S
 @@ -49,12 +49,12 @@
@@ -193,7 +193,7 @@ index e7e2d5f6e0..4dd423e2a4 100644
  	/* Allocate stack space for the context.  */
  	aghi	%r2,-CONTEXT_SIZE
 diff --git a/Zend/asm/make_x86_64_sysv_elf_gas.S b/Zend/asm/make_x86_64_sysv_elf_gas.S
-index 3358a27d84..df9472433c 100644
+index 3358a27d844..df9472433cf 100644
 --- a/Zend/asm/make_x86_64_sysv_elf_gas.S
 +++ b/Zend/asm/make_x86_64_sysv_elf_gas.S
 @@ -31,13 +31,16 @@
