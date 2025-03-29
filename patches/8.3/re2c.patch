@@ -10,7 +10,7 @@ re2c version 4 enables some warnigns by default. This fixes the
  3 files changed, 6 insertions(+), 6 deletions(-)
 
 diff --git a/Zend/zend_ini_scanner.l b/Zend/zend_ini_scanner.l
-index 44159297a0..b87f4e33cc 100644
+index 44159297a04..b87f4e33cc8 100644
 --- a/Zend/zend_ini_scanner.l
 +++ b/Zend/zend_ini_scanner.l
 @@ -352,16 +352,16 @@ restart:
@@ -34,7 +34,7 @@ index 44159297a0..b87f4e33cc 100644
  DOLLAR_CURLY "${"
  
 diff --git a/Zend/zend_language_scanner.l b/Zend/zend_language_scanner.l
-index 25e1ecbca6..3ea51fe7c9 100644
+index 25e1ecbca6f..3ea51fe7c9d 100644
 --- a/Zend/zend_language_scanner.l
 +++ b/Zend/zend_language_scanner.l
 @@ -1801,11 +1801,11 @@ OPTIONAL_WHITESPACE_OR_COMMENTS ({WHITESPACE}|{MULTI_LINE_COMMENT}|{SINGLE_LINE_
@@ -52,7 +52,7 @@ index 25e1ecbca6..3ea51fe7c9 100644
  }
  
 diff --git a/sapi/phpdbg/phpdbg_lexer.l b/sapi/phpdbg/phpdbg_lexer.l
-index 60d995526e..ba1423c5a4 100644
+index 60d995526ea..ba1423c5a4e 100644
 --- a/sapi/phpdbg/phpdbg_lexer.l
 +++ b/sapi/phpdbg/phpdbg_lexer.l
 @@ -77,7 +77,7 @@ T_IF        'if'
