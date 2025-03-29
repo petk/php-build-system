@@ -15,7 +15,7 @@ Subject: Add CMake changes for PHP-8.4 branch
  5 files changed, 99 insertions(+), 7 deletions(-)
 
 diff --git a/.editorconfig b/.editorconfig
-index 7911bf8490..1d9b530947 100644
+index 7911bf8490b..1d9b530947e 100644
 --- a/.editorconfig
 +++ b/.editorconfig
 @@ -17,7 +17,7 @@ indent_style             = tab
@@ -28,10 +28,10 @@ index 7911bf8490..1d9b530947 100644
  indent_style             = space
  
 diff --git a/.gitignore b/.gitignore
-index d8cb25a1a1..9c58a3c847 100644
+index 91120a5fa6b..1af59c1eaac 100644
 --- a/.gitignore
 +++ b/.gitignore
-@@ -152,6 +152,7 @@ php
+@@ -155,6 +155,7 @@ php
  # ------------------------------------------------------------------------------
  /ext/json/json_parser.tab.h
  /ext/json/json_parser.tab.c
@@ -39,7 +39,7 @@ index d8cb25a1a1..9c58a3c847 100644
  /sapi/phpdbg/phpdbg_parser.c
  /sapi/phpdbg/phpdbg_parser.h
  /sapi/phpdbg/phpdbg_parser.output
-@@ -295,9 +296,58 @@ tmp-php.ini
+@@ -298,9 +299,58 @@ tmp-php.ini
  # ------------------------------------------------------------------------------
  /ext/standard/tests/helpers/bad_cmd.exe
  
@@ -99,7 +99,7 @@ index d8cb25a1a1..9c58a3c847 100644
  !/ext/fileinfo/libmagic/config.h
  !/ext/fileinfo/libmagic.patch
 diff --git a/ext/ext_skel.php b/ext/ext_skel.php
-index ae7a3a987c..a67901a2c9 100755
+index ae7a3a987c0..a67901a2c98 100755
 --- a/ext/ext_skel.php
 +++ b/ext/ext_skel.php
 @@ -302,11 +302,18 @@ function copy_config_scripts() {
@@ -122,7 +122,7 @@ index ae7a3a987c..a67901a2c9 100755
              error('Unable to copy config script: ' . $config_script);
          }
 diff --git a/ext/skeleton/.gitignore.in b/ext/skeleton/.gitignore.in
-index e691bd3964..191fcd70eb 100644
+index e691bd3964b..191fcd70eb5 100644
 --- a/ext/skeleton/.gitignore.in
 +++ b/ext/skeleton/.gitignore.in
 @@ -45,3 +45,26 @@ tests/**/*.db
@@ -153,7 +153,7 @@ index e691bd3964..191fcd70eb 100644
 +CMakeLists.txt.user
 +CMakeScripts/
 diff --git a/run-tests.php b/run-tests.php
-index 4654ead998..a36dbf0f24 100755
+index 4654ead998f..a36dbf0f24a 100755
 --- a/run-tests.php
 +++ b/run-tests.php
 @@ -865,10 +865,12 @@ function write_information(array $user_tests, $phpdbg): void
