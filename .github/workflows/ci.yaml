@@ -78,7 +78,6 @@ jobs:
             libsodium-dev \
             libicu-dev \
             libzip-dev \
-            libaspell-dev \
             libavif-dev \
             libwebp-dev \
             libxpm-dev \
