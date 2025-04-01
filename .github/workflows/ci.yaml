@@ -80,6 +80,7 @@ jobs:
             libsodium-dev \
             libicu-dev \
             libzip-dev \
+            aspell \
             libaspell-dev \
             libavif-dev \
             libwebp-dev \
