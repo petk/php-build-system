@@ -176,6 +176,19 @@ if(TARGET PostgreSQL::PostgreSQL)
         set(HAVE_PG_CLOSE_STMT TRUE)
       endif()
     endif()
+
+    # Available since PostgreSQL library version 18.
+    if(PostgreSQL_VERSION_STRING VERSION_GREATER_EQUAL 18)
+      # Indicates the presence of PQservice.
+      check_symbol_exists(
+        PQservice
+        "libpq-fe.h"
+        _PHP_HAVE_PQSERVICE
+      )
+      if(_PHP_HAVE_PQSERVICE)
+        set(HAVE_PG_SERVICE TRUE)
+      endif()
+    endif()
   cmake_pop_check_state()
 endif()
 
