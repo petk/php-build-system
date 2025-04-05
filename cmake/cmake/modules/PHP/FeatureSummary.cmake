@@ -96,6 +96,12 @@ function(php_feature_summary_preamble result)
 
   get_property(enabledLanguages GLOBAL PROPERTY ENABLED_LANGUAGES)
   foreach(language IN ITEMS ${enabledLanguages})
+    if(language STREQUAL "CXX")
+      set(languageLabel "C++")
+    else()
+      set(languageLabel "${language}")
+    endif()
+
     # Add compiler info.
     if(CMAKE_${language}_COMPILER_LOADED)
       set(compiler "")
@@ -112,7 +118,7 @@ function(php_feature_summary_preamble result)
         string(APPEND compiler "${CMAKE_${language}_COMPILER}")
       endif()
       php_feature_summary_preamble_add_item(
-        "${language} compiler"
+        "${languageLabel} compiler"
         "${compiler}"
         preamble
       )
@@ -134,7 +140,7 @@ function(php_feature_summary_preamble result)
         string(APPEND linker "${CMAKE_${language}_COMPILER_LINKER}")
       endif()
       php_feature_summary_preamble_add_item(
-        "${language} linker"
+        "${languageLabel} linker"
         "${linker}"
         preamble
       )

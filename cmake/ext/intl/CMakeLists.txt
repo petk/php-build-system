@@ -190,7 +190,12 @@ if(CMAKE_SYSTEM_NAME STREQUAL "CYGWIN")
   )
 endif()
 
-find_package(ICU 50.1 COMPONENTS io uc i18n)
+if(CMAKE_SYSTEM_NAME STREQUAL "Windows")
+  find_package(ICU 50.1 COMPONENTS io uc in)
+else()
+  find_package(ICU 50.1 COMPONENTS io uc i18n)
+endif()
+
 set_package_properties(
   ICU
   PROPERTIES
@@ -204,7 +209,10 @@ else()
   target_compile_features(php_ext_intl PRIVATE cxx_std_11)
 endif()
 
-target_link_libraries(php_ext_intl PRIVATE ICU::io ICU::uc ICU::i18n)
+target_link_libraries(
+  php_ext_intl
+  PRIVATE ICU::io ICU::uc $<IF:$<PLATFORM_ID:Windows>,ICU::in,ICU::i18n>
+)
 
 if(ICU_VERSION VERSION_GREATER_EQUAL 60)
   target_compile_definitions(php_ext_intl PRIVATE U_HIDE_OBSOLETE_UTF_OLD_H=1)
