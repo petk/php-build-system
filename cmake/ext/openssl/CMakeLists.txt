@@ -159,7 +159,7 @@ target_sources(
     xp_ssl.c
 )
 
-find_package(OpenSSL ${PHP_OPENSSL_MIN_VERSION})
+find_package(OpenSSL ${PHP_OPENSSL_MIN_VERSION} COMPONENTS SSL)
 set_package_properties(
   OpenSSL
   PROPERTIES
@@ -168,7 +168,7 @@ set_package_properties(
 )
 
 # Link publicly for internal_functions files.
-target_link_libraries(php_ext_openssl PUBLIC OpenSSL::SSL OpenSSL::Crypto)
+target_link_libraries(php_ext_openssl PRIVATE OpenSSL::SSL)
 
 if(TARGET OpenSSL::SSL)
   cmake_push_check_state(RESET)
