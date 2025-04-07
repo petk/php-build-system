@@ -152,7 +152,7 @@ set_package_properties(
 )
 
 # Link publicly for internal_functions files.
-target_link_libraries(php_ext_openssl PRIVATE OpenSSL::SSL)
+target_link_libraries(php_ext_openssl PUBLIC OpenSSL::SSL)
 
 block(PROPAGATE HAVE_OPENSSL_EXT_CODE)
   get_target_property(type php_ext_openssl TYPE)
