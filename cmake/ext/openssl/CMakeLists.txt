@@ -143,7 +143,7 @@ if(PHP_EXT_OPENSSL_KERBEROS)
   target_link_libraries(php_ext_openssl PRIVATE Kerberos::Krb5 Kerberos::GSSAPI)
 endif()
 
-find_package(OpenSSL ${PHP_OPENSSL_MIN_VERSION})
+find_package(OpenSSL ${PHP_OPENSSL_MIN_VERSION} COMPONENTS SSL)
 set_package_properties(
   OpenSSL
   PROPERTIES
@@ -152,7 +152,7 @@ set_package_properties(
 )
 
 # Link publicly for internal_functions files.
-target_link_libraries(php_ext_openssl PUBLIC OpenSSL::SSL OpenSSL::Crypto)
+target_link_libraries(php_ext_openssl PRIVATE OpenSSL::SSL)
 
 block(PROPAGATE HAVE_OPENSSL_EXT_CODE)
   get_target_property(type php_ext_openssl TYPE)
