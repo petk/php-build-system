@@ -171,7 +171,7 @@ set_package_properties(
 )
 
 # Link publicly for internal_functions files.
-target_link_libraries(php_ext_openssl PRIVATE OpenSSL::SSL)
+target_link_libraries(php_ext_openssl PUBLIC OpenSSL::SSL)
 
 if(TARGET OpenSSL::SSL)
   cmake_push_check_state(RESET)
