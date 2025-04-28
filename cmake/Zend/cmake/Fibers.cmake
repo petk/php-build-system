@@ -151,6 +151,14 @@ block()
       ${CMAKE_CURRENT_SOURCE_DIR}/asm/make_${asmFile}
     )
 
+    if(CMAKE_SYSTEM_NAME STREQUAL "Windows" AND CMAKE_SIZEOF_VOID_P EQUAL 8)
+      list(
+        APPEND
+        asmSources
+        ${CMAKE_CURRENT_SOURCE_DIR}/asm/save_xmm_x86_64_ms_masm.asm
+      )
+    endif()
+
     if(compileOptions)
       set_source_files_properties(
         ${asmSources}
