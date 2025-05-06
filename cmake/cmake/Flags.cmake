@@ -32,17 +32,6 @@ if(PHP_HAVE_BROKEN_OPTIMIZE_STRLEN)
   endif()
 endif()
 
-# Mark symbols hidden by default if the compiler (for example, GCC >= 4)
-# supports it. This can help reduce the binary size and startup time.
-php_check_compiler_flag(C -fvisibility=hidden HAVE_FVISIBILITY_HIDDEN_C)
-if(HAVE_FVISIBILITY_HIDDEN_C)
-  target_compile_options(
-    php_config
-    INTERFACE
-      $<$<COMPILE_LANGUAGE:ASM,C>:-fvisibility=hidden>
-  )
-endif()
-
 php_check_compiler_flag(C -Wno-sign-compare HAVE_WNO_SIGN_COMPARE_C)
 if(CXX IN_LIST enabledLanguages)
   php_check_compiler_flag(CXX -Wno-sign-compare HAVE_WNO_SIGN_COMPARE_CXX)
