@@ -53,3 +53,7 @@ option(
   "Treat all compile warnings as errors at the build phase"
 )
 mark_as_advanced(CMAKE_COMPILE_WARNING_AS_ERROR)
+
+# Set default visibility of all symbols to hidden if the compiler (for example,
+# GCC >= 4) supports it. This can help reduce the binary size and startup time.
+set(CMAKE_C_VISIBILITY_PRESET "hidden")
