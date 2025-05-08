@@ -53,7 +53,6 @@ if(NOT PHP_THREAD_SAFETY)
 endif()
 
 set(THREADS_PREFER_PTHREAD_FLAG TRUE)
-set(THREADS_ENABLE_SYSTEM_EXTENSIONS TRUE)
 find_package(Threads)
 set_package_properties(
   Threads
