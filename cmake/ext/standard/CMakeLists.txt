@@ -148,7 +148,6 @@ target_sources(
         crypt_blowfish.h
         crypt_freesec.h
         css.h
-        datetime.h
         dir_arginfo.h
         dl_arginfo.h
         dl.h
