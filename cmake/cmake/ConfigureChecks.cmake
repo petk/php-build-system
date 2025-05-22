@@ -303,6 +303,7 @@ check_symbol_exists(getgrnam_r "grp.h" HAVE_GETGRNAM_R)
 check_symbol_exists(getpwuid_r "pwd.h" HAVE_GETPWUID_R)
 check_symbol_exists(getwd "unistd.h" HAVE_GETWD)
 check_symbol_exists(glob "glob.h" HAVE_GLOB)
+check_symbol_exists(issetugid "unistd.h" HAVE_ISSETUGID)
 check_symbol_exists(lchown "unistd.h" HAVE_LCHOWN)
 check_symbol_exists(memcntl "sys/mman.h" HAVE_MEMCNTL)
 
@@ -324,6 +325,7 @@ check_symbol_exists(
   HAVE_PTHREAD_JIT_WRITE_PROTECT_NP
 )
 check_symbol_exists(putenv "stdlib.h" HAVE_PUTENV)
+check_symbol_exists(reallocarray "stdlib.h" HAVE_REALLOCARRAY)
 check_symbol_exists(scandir "dirent.h" HAVE_SCANDIR)
 check_symbol_exists(setitimer "sys/time.h" HAVE_SETITIMER)
 check_symbol_exists(setenv "stdlib.h" HAVE_SETENV)

@@ -222,6 +222,9 @@
 /* Define to 1 if IPv6 is enabled and supported. */
 #cmakedefine HAVE_IPV6 1
 
+/* Define to 1 if you have the 'issetugid' function. */
+#cmakedefine HAVE_ISSETUGID 1
+
 /* Define to 1 if you have the <langinfo.h> header file. */
 #cmakedefine HAVE_LANGINFO_H 1
 
@@ -299,6 +302,9 @@
 
 /* Define to 1 if you have the <pwd.h> header file. */
 #cmakedefine HAVE_PWD_H 1
+
+/* Define to 1 if you have the 'reallocarray' function. */
+#cmakedefine HAVE_REALLOCARRAY 1
 
 /* Define to 1 if you have the <resolv.h> header file. */
 #cmakedefine HAVE_RESOLV_H 1
@@ -596,6 +602,10 @@
 
 /* Define to 1 if PHP uses its own SIGCHLD handler, and to 0 if not. */
 #cmakedefine01 PHP_SIGCHILD
+
+/* Define to 1 if PHP uses the system glob() function instead of
+   php_glob(). */
+#cmakedefine PHP_SYSTEM_GLOB 1
 
 /* The 'uname -a' output. */
 #cmakedefine PHP_UNAME "@PHP_UNAME@"

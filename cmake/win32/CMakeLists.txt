@@ -21,7 +21,6 @@ target_sources(
     fnmatch.c
     ftok.c
     getrusage.c
-    glob.c
     globals.c
     ioutil.c
     nice.c
@@ -37,12 +36,10 @@ target_sources(
   PUBLIC
     FILE_SET HEADERS
       FILES
-        charclass.h
         codepage.h
         console.h
         fnmatch.h
         getrusage.h
-        glob.h
         ioutil.h
         ipc.h
         nice.h

@@ -192,6 +192,7 @@ documentation.
 * [`PHP_LIBGCC`](/docs/cmake/variables/PHP_LIBGCC.md)
 * [`PHP_RE2C_COMPUTED_GOTOS`](/docs/cmake/variables/PHP_RE2C_COMPUTED_GOTOS.md)
 * [`PHP_SIGCHILD`](/docs/cmake/variables/PHP_SIGCHILD.md)
+* [`PHP_SYSTEM_GLOB`](/docs/cmake/variables/PHP_SYSTEM_GLOB.md)
 * [`PHP_THREAD_SAFETY`](/docs/cmake/variables/PHP_THREAD_SAFETY.md)
 * [`PHP_UNDEFINED_SANITIZER`](/docs/variables/_PHP_UNDEFINED_SANITIZER.md)
 * [`PHP_USE_RTLD_NOW`](/docs/cmake/variables/PHP_USE_RTLD_NOW.md)
@@ -668,6 +669,18 @@ A list of Autoconf `configure` command-line configuration options, Windows
       <td>N/A</td>
       <td>PHP_LIBGCC=ON</td>
       <td></td>
+    </tr>
+    <tr>
+      <td>--disable-system-glob</td>
+      <td>N/A</td>
+      <td>PHP_SYSTEM_GLOB=OFF</td>
+      <td>default, PHP &gt;= 8.5</td>
+    </tr>
+    <tr>
+      <td>&emsp;--enable-system-glob</td>
+      <td>N/A</td>
+      <td>PHP_SYSTEM_GLOB=ON</td>
+      <td>PHP &gt;= 8.5</td>
     </tr>
     <tr>
       <td>--enable-all</td>

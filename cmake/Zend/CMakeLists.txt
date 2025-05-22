@@ -265,6 +265,7 @@ target_sources(
         zend_ptr_stack.h
         zend_range_check.h
         zend_signal.h
+        zend_simd.h
         zend_smart_str_public.h
         zend_smart_str.h
         zend_smart_string_public.h

@@ -27,6 +27,7 @@ target_sources(
     network.c
     output.c
     php_content_types.c
+    php_glob.c
     php_ini_builder.c
     php_ini.c
     php_odbc_utils.c
@@ -57,6 +58,7 @@ target_sources(
   PUBLIC
     FILE_SET HEADERS
       FILES
+        charclass.h
         fastcgi.h
         fopen_wrappers.h
         http_status_codes.h
@@ -64,6 +66,7 @@ target_sources(
         php_compat.h
         php_content_types.h
         php_getopt.h
+        php_glob.h
         php_globals.h
         php_ini_builder.h
         php_ini.h

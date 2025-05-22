@@ -6,7 +6,10 @@ repository.
 ## PHP 8.5
 
 * C11 standard
-* ...
+
+New configuration variables:
+
+* PHP_SYSTEM_GLOB
 
 ## PHP 8.4
 

@@ -948,6 +948,8 @@ PHP coding standards now use the C11 standard.
   The LDAP paths can be customized with the `LDAP_CFLAGS` and `LDAP_LIBS`
   environment variables. When a directory argument is provided to configure
   option (`--with-ldap=DIR`), it will be used instead of the pkg-config search.
+* Added new configure option `--enable-system-glob` to use system `glob()`
+  function instead of the PHP built-in implementation.
 
 #### Windows
 
@@ -962,7 +964,7 @@ PHP coding standards now use the C11 standard.
 
 ##### Windows configure options
 
-* The `--enable-sanitzer` configure option is now supported for MSVC builds.
+* The `--enable-sanitizer` configure option is now supported for MSVC builds.
   This enables ASan and debug assertions, and is supported as of MSVC 16.10 and
   Windows 10.
 * The `--with-uncritical-warn-choke` configuration option for Clang builds has
