@@ -63,11 +63,11 @@ endif()
 # TODO: Recheck this.
 get_target_property(type php_ext_intl TYPE)
 if(
-  type MATCHES "^(MODULE|SHARED)_LIBRARY$"
+  NOT type MATCHES "^(MODULE|SHARED)_LIBRARY$"
   AND CMAKE_SYSTEM_NAME STREQUAL "Windows"
 )
   message(
-    WARNING
+    AUTHOR_WARNING
     "TODO: Recheck if Windows still requires ext/intl to be always built as "
     "shared (zend_strtod.c/ICU type conflict)."
   )
