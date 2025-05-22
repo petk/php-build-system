@@ -9,11 +9,12 @@ build system:
 
 * Added pkg-config .pc files
 
-  Once installed, there are two .pc files available in system `pkgconfig`
+  Once installed, there are three .pc files available in system `pkgconfig`
   directory:
 
   * php.pc - for building PHP extensions
   * php-embed.pc - for embedding PHP into application
+  * phpdbg.pc - for PHP Debugger SAPI module library.
 
     These can be then used with the pkg-config (pkgconf) tool:
 
