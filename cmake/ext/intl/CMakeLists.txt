@@ -60,6 +60,19 @@ else()
   add_library(php_ext_intl)
 endif()
 
+# TODO: Recheck this.
+get_target_property(type php_ext_intl TYPE)
+if(
+  type MATCHES "^(MODULE|SHARED)_LIBRARY$"
+  AND CMAKE_SYSTEM_NAME STREQUAL "Windows"
+)
+  message(
+    WARNING
+    "TODO: Recheck if Windows still requires ext/intl to be always built as "
+    "shared (zend_strtod.c/ICU type conflict)."
+  )
+endif()
+
 target_sources(
   php_ext_intl
   PRIVATE
@@ -153,8 +166,8 @@ target_sources(
     uchar/uchar.stub.php
 )
 
-php_check_compiler_flag(C -Wno-write-strings HAVE_WNO_WRITE_STRINGS_C)
-if(HAVE_WNO_WRITE_STRINGS_C)
+php_check_compiler_flag(C -Wno-write-strings _PHP_HAVE_WNO_WRITE_STRINGS_C)
+if(_PHP_HAVE_WNO_WRITE_STRINGS_C)
   target_compile_options(
     php_ext_intl
     PRIVATE
@@ -162,8 +175,8 @@ if(HAVE_WNO_WRITE_STRINGS_C)
   )
 endif()
 
-php_check_compiler_flag(CXX -Wno-write-strings HAVE_WNO_WRITE_STRINGS_CXX)
-if(HAVE_WNO_WRITE_STRINGS_CXX)
+php_check_compiler_flag(CXX -Wno-write-strings _PHP_HAVE_WNO_WRITE_STRINGS_CXX)
+if(_PHP_HAVE_WNO_WRITE_STRINGS_CXX)
   target_compile_options(
     php_ext_intl
     PRIVATE
@@ -175,9 +188,12 @@ target_compile_definitions(
   php_ext_intl
   PRIVATE
     U_NO_DEFAULT_INCLUDE_UTF_HEADERS=1
+
+    # See: https://en.cppreference.com/w/cpp/types/integer
     __STDC_LIMIT_MACROS
     __STDC_CONSTANT_MACROS
     __STDC_FORMAT_MACROS
+
     ZEND_ENABLE_STATIC_TSRMLS_CACHE
     $<$<COMPILE_LANGUAGE:CXX>:UNISTR_FROM_CHAR_EXPLICIT=explicit;UNISTR_FROM_STRING_EXPLICIT=explicit>
 )
