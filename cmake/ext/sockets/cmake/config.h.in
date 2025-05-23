@@ -16,6 +16,9 @@
 /* Define to 1 if you have the <linux/if_packet.h> header file. */
 #cmakedefine HAVE_LINUX_IF_PACKET_H
 
+/* Define to 1 if you have the <linux/udp.h> header file. */
+#cmakedefine HAVE_LINUX_UDP_H 1
+
 /* Define to 1 if you have the 'sockatmark' function. */
 #cmakedefine HAVE_SOCKATMARK 1
 
