@@ -107,8 +107,8 @@ check_include_files(linux/if_packet.h HAVE_LINUX_IF_PACKET_H)
 check_include_files(linux/udp.h HAVE_LINUX_UDP_H)
 
 if(CMAKE_SYSTEM_NAME STREQUAL "Windows")
-  check_include_files(winsock.h _HAVE_WINSOCK_H)
-  if(NOT _HAVE_WINSOCK_H)
+  check_include_files(winsock.h _PHP_HAVE_WINSOCK_H)
+  if(NOT _PHP_HAVE_WINSOCK_H)
     message(
       FATAL_ERROR
       "Required file winsock.h is missing for the socket extension."
