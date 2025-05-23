@@ -111,8 +111,8 @@ check_include_files(sys/sockio.h HAVE_SYS_SOCKIO_H)
 check_include_files(linux/filter.h HAVE_LINUX_FILTER_H)
 
 if(CMAKE_SYSTEM_NAME STREQUAL "Windows")
-  check_include_files(winsock.h _HAVE_WINSOCK_H)
-  if(NOT _HAVE_WINSOCK_H)
+  check_include_files(winsock.h _PHP_HAVE_WINSOCK_H)
+  if(NOT _PHP_HAVE_WINSOCK_H)
     message(
       FATAL_ERROR
       "Required file winsock.h is missing for the socket extension."
