@@ -29,6 +29,7 @@ set_property(
       date
       hash
       json
+      lexbor
       pcre
       random
       reflection

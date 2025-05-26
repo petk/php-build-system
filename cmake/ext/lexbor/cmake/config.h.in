@@ -1,0 +1,5 @@
+/* Define to 1 if the PHP extension 'lexbor' is available. */
+#cmakedefine HAVE_LEXBOR 1
+
+/* Define the main Lexbor version. */
+#cmakedefine LEXBOR_VERSION "@LEXBOR_VERSION@"
