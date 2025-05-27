@@ -56,6 +56,10 @@ build system:
   PHP openssl extension:
   See: https://github.com/php/php-src/pull/15574
 
+* ext/ldap in CMake has configuration option (following Autotools) to explicitly
+  enable SASL support on both platform types (\*nix and Windows), while Windows
+  JScript build system has SASL support always unconditionally enabled.
+
 * The `_XOPEN_SOURCE` compile definition to use ucontext.h on macOS when needed
   is only defined for the Zend/zend_fibers.c file. Duplicate inconsistent
   `_XOPEN_SOURCE` definition in the php_config.h is also removed with this.
