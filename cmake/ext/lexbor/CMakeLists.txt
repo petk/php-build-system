@@ -38,6 +38,7 @@ target_sources(
     lexbor/core/hash.c
     lexbor/core/mem.c
     lexbor/core/mraw.c
+    lexbor/core/plog.c
     lexbor/core/print.c
     lexbor/core/serialize.c
     lexbor/core/shs.c
@@ -196,7 +197,11 @@ target_sources(
     lexbor/ns/ns.c
     $<$<NOT:$<PLATFORM_ID:Windows>>:lexbor/ports/posix/lexbor/core/memory.c>
     $<$<PLATFORM_ID:Windows>:lexbor/ports/windows_nt/lexbor/core/memory.c>
+    lexbor/punycode/punycode.c
     lexbor/tag/tag.c
+    lexbor/unicode/idna.c
+    lexbor/unicode/unicode.c
+    lexbor/url/url.c
   PUBLIC
     FILE_SET HEADERS
       FILES

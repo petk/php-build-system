@@ -941,6 +941,7 @@ PHP coding standards now use the C11 standard.
   50.1 to 57.1.
 * Bundled file library in ext/fileinfo upgraded to 5.46.
 * Bundled pcre2lib in ext/pcre upgraded from 10.44 to 10.45.
+* Added new extensions lexbor and uri as always enabled.
 
 #### Autotools
 

@@ -35,6 +35,7 @@ set_property(
       reflection
       spl
       standard
+      uri
 )
 
 define_property(
