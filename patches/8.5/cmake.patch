@@ -28,7 +28,7 @@ index 19be96087d9..58a83dfb688 100644
  indent_style             = space
  
 diff --git a/.gitignore b/.gitignore
-index 55c441323cf..090fae1e46b 100644
+index 3c4566ed663..0a41d8b54ed 100644
 --- a/.gitignore
 +++ b/.gitignore
 @@ -155,6 +155,7 @@ php
