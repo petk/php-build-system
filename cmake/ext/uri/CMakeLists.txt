@@ -47,18 +47,18 @@ target_sources(
     FILE_SET HEADERS
       FILES
         php_uri.h
-        $<$<PLATFORM_ID:Windows>:uriparser/include/uriparser/Uri.h>
-        $<$<PLATFORM_ID:Windows>:uriparser/include/uriparser/UriBase.h>
-        $<$<PLATFORM_ID:Windows>:uriparser/include/uriparser/UriDefsAnsi.h>
-        $<$<PLATFORM_ID:Windows>:uriparser/include/uriparser/UriDefsConfig.h>
-        $<$<PLATFORM_ID:Windows>:uriparser/include/uriparser/UriDefsUnicode.h>
-        $<$<PLATFORM_ID:Windows>:uriparser/include/uriparser/UriIp4.h>
-        $<$<PLATFORM_ID:Windows>:uriparser/src/UriCommon.h>
-        $<$<PLATFORM_ID:Windows>:uriparser/src/UriConfig.h>
-        $<$<PLATFORM_ID:Windows>:uriparser/src/UriIp4Base.h>
-        $<$<PLATFORM_ID:Windows>:uriparser/src/UriMemory.h>
-        $<$<PLATFORM_ID:Windows>:uriparser/src/UriNormalizeBase.h>
-        $<$<PLATFORM_ID:Windows>:uriparser/src/UriParseBase.h>
+        uriparser/include/uriparser/Uri.h
+        uriparser/include/uriparser/UriBase.h
+        uriparser/include/uriparser/UriDefsAnsi.h
+        uriparser/include/uriparser/UriDefsConfig.h
+        uriparser/include/uriparser/UriDefsUnicode.h
+        uriparser/include/uriparser/UriIp4.h
+        uriparser/src/UriCommon.h
+        uriparser/src/UriConfig.h
+        uriparser/src/UriIp4Base.h
+        uriparser/src/UriMemory.h
+        uriparser/src/UriNormalizeBase.h
+        uriparser/src/UriParseBase.h
 )
 
 target_compile_definitions(

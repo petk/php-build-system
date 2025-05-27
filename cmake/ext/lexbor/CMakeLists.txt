@@ -212,11 +212,8 @@ target_sources(
     FILE_SET HEADERS
       FILES
         php_lexbor.h
+        ${lexborHeaders}
 )
-
-if(CMAKE_SYSTEM_NAME STREQUAL "Windows")
-  target_sources(php_ext_lexbor PUBLIC FILE_SET HEADERS FILES ${lexborHeaders})
-endif()
 
 target_compile_definitions(
   php_ext_lexbor
