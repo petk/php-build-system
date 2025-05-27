@@ -66,6 +66,15 @@ block()
     content
     "${content}"
   )
+  # For consistency, add include directories that were specified as
+  # INSTALL_INTERFACE.
+  string(
+    REGEX REPLACE
+    "\nincludes=\"([^\"]+)\""
+    "\nincludes=\"\\1 -I$include_dir/ext/lexbor\""
+    content
+    "${content}"
+  )
 
   php_configure_file(
     CONTENT "${content}"

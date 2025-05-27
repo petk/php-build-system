@@ -23,6 +23,12 @@ add_feature_info(
 
 add_library(php_ext_lexbor OBJECT)
 
+file(
+  GLOB_RECURSE lexborHeaders
+  RELATIVE ${CMAKE_CURRENT_SOURCE_DIR}
+  ${CMAKE_CURRENT_SOURCE_DIR}/lexbor/*.h
+)
+
 target_sources(
   php_ext_lexbor
   PRIVATE
@@ -208,6 +214,10 @@ target_sources(
         php_lexbor.h
 )
 
+if(CMAKE_SYSTEM_NAME STREQUAL "Windows")
+  target_sources(php_ext_lexbor PUBLIC FILE_SET HEADERS FILES ${lexborHeaders})
+endif()
+
 target_compile_definitions(
   php_ext_lexbor
   PRIVATE
@@ -218,6 +228,13 @@ target_compile_definitions(
 target_compile_options(
   php_ext_lexbor
   PRIVATE $<$<COMPILE_LANG_AND_ID:C,MSVC>:/utf-8>
+)
+
+target_include_directories(
+  php_ext_lexbor
+  PUBLIC
+    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>
+    $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}/${PHP_INCLUDE_PREFIX}/ext/lexbor>
 )
 
 set(HAVE_LEXBOR TRUE)
