@@ -31,6 +31,9 @@ if(CMAKE_SYSTEM_NAME STREQUAL "Windows")
   # PHP defines getpid as _getpid on Windows.
   set(HAVE_GETPID TRUE)
 
+  # PHP has custom glob() implemented on Windows.
+  set(HAVE_GLOB TRUE)
+
   # PHP has custom nanosleep for Windows platform.
   set(HAVE_NANOSLEEP TRUE)
 
