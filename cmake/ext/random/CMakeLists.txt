@@ -48,8 +48,8 @@ target_sources(
 
 target_compile_definitions(php_ext_random PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE)
 
-check_symbol_exists(arc4random_buf "stdlib.h" HAVE_DECL_ARC4RANDOM_BUF)
-check_symbol_exists(getrandom "sys/random.h" HAVE_GETRANDOM)
+check_symbol_exists(arc4random_buf stdlib.h HAVE_DECL_ARC4RANDOM_BUF)
+check_symbol_exists(getrandom sys/random.h HAVE_GETRANDOM)
 
 # Check for CCRandomGenerateBytes. Header was absent in previous macOS releases.
 block()

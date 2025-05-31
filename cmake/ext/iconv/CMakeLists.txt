@@ -94,11 +94,11 @@ if(TARGET Iconv::Iconv)
   # Sanity and library type checks.
   if(Iconv_IS_BUILT_IN)
     # When iconv is built into C library, first check if iconv function exists.
-    check_symbol_exists(iconv "iconv.h" _HAVE_ICONV)
+    check_symbol_exists(iconv iconv.h _HAVE_ICONV)
 
     # And if not, then check for libiconv function.
     if(NOT _HAVE_ICONV)
-      check_symbol_exists(libiconv "iconv.h" HAVE_LIBICONV)
+      check_symbol_exists(libiconv iconv.h HAVE_LIBICONV)
     endif()
   else()
     check_library_exists(Iconv::Iconv libiconv "" HAVE_LIBICONV)
@@ -124,7 +124,7 @@ if(TARGET Iconv::Iconv)
   cmake_push_check_state(RESET)
     set(CMAKE_REQUIRED_LIBRARIES Iconv::Iconv)
     set(CMAKE_REQUIRED_QUIET TRUE)
-    check_symbol_exists(_libiconv_version "iconv.h" _have_gnu_libiconv)
+    check_symbol_exists(_libiconv_version iconv.h _have_gnu_libiconv)
   cmake_pop_check_state()
   if(_have_gnu_libiconv)
     message(CHECK_PASS "GNU libiconv")

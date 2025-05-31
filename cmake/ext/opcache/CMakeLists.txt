@@ -292,7 +292,7 @@ add_feature_info(
 # Configuration checks.
 ################################################################################
 
-check_symbol_exists(mprotect "sys/mman.h" HAVE_MPROTECT)
+check_symbol_exists(mprotect sys/mman.h HAVE_MPROTECT)
 
 # Check for shared memory support.
 include(cmake/CheckSHM.cmake)

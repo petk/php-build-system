@@ -103,7 +103,7 @@ target_compile_definitions(
 
 # The libmbfl configuration header.
 check_include_files(strings.h HAVE_STRINGS_H)
-check_symbol_exists(strcasecmp "strings.h" HAVE_STRCASECMP)
+check_symbol_exists(strcasecmp strings.h HAVE_STRCASECMP)
 
 cmake_path(
   RELATIVE_PATH

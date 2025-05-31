@@ -93,10 +93,10 @@ block()
   endif()
 
   if(HAVE_SYS_MKDEV_H)
-    check_symbol_exists(major "sys/mkdev.h" MAJOR_IN_MKDEV)
+    check_symbol_exists(major sys/mkdev.h MAJOR_IN_MKDEV)
     list(APPEND headers "sys/mkdev.h")
   elseif(HAVE_SYS_SYSMACROS_H)
-    check_symbol_exists(major "sys/sysmacros.h" MAJOR_IN_SYSMACROS)
+    check_symbol_exists(major sys/sysmacros.h MAJOR_IN_SYSMACROS)
     list(APPEND headers "sys/sysmacros.h")
   endif()
 

@@ -169,7 +169,7 @@ endblock()
 if(TARGET OpenSSL::SSL)
   cmake_push_check_state(RESET)
     set(CMAKE_REQUIRED_LIBRARIES OpenSSL::SSL)
-    check_symbol_exists(RAND_egd "openssl/rand.h" HAVE_RAND_EGD)
+    check_symbol_exists(RAND_egd openssl/rand.h HAVE_RAND_EGD)
   cmake_pop_check_state()
 
   if(PHP_EXT_OPENSSL_SYSTEM_CIPHERS)
