@@ -327,7 +327,7 @@ add_feature_info(
 # Configuration checks.
 ################################################################################
 
-check_symbol_exists(mprotect "sys/mman.h" HAVE_MPROTECT)
+check_symbol_exists(mprotect sys/mman.h HAVE_MPROTECT)
 
 # For FreeBSD.
 check_symbol_exists(shm_create_largepage "sys/mman.h" HAVE_SHM_CREATE_LARGEPAGE)
