@@ -30,7 +30,6 @@ project(
   LANGUAGES C
 )
 
-include(CheckLibraryExists)
 include(CheckSymbolExists)
 include(CMakeDependentOption)
 include(CMakePushCheckState)
@@ -74,8 +73,8 @@ target_sources(
 )
 
 # Add -Wno-strict-prototypes as depends on user libs.
-php_check_compiler_flag(C -Wno-strict-prototypes HAVE_WNO_STRICT_PROTOTYPES_C)
-if(HAVE_WNO_STRICT_PROTOTYPES_C)
+php_check_compiler_flag(C -Wno-strict-prototypes _PHP_HAVE_WNO_STRICT_PROTOTYPES)
+if(_PHP_HAVE_WNO_STRICT_PROTOTYPES)
   target_compile_options(
     php_ext_readline
     PRIVATE
@@ -94,41 +93,41 @@ set_package_properties(
 target_link_libraries(php_ext_readline PUBLIC Editline::Editline)
 
 if(TARGET Editline::Editline)
-  check_library_exists(
-    Editline::Editline
-    rl_callback_read_char
-    ""
-    HAVE_RL_CALLBACK_READ_CHAR
-  )
-  check_library_exists(
-    Editline::Editline
-    rl_on_new_line
-    ""
-    HAVE_RL_ON_NEW_LINE
-  )
-  check_library_exists(
-    Editline::Editline
-    rl_completion_matches
-    ""
-    HAVE_RL_COMPLETION_MATCHES
-  )
-  check_library_exists(
-    Editline::Editline
-    history_list
-    ""
-    HAVE_HISTORY_LIST
-  )
+  cmake_push_check_state(RESET)
+    set(CMAKE_REQUIRED_LIBRARIES Editline::Editline)
+
+    check_symbol_exists(
+      rl_callback_read_char
+      editline/readline.h
+      HAVE_RL_CALLBACK_READ_CHAR
+    )
+
+    check_symbol_exists(
+      rl_on_new_line
+      editline/readline.h
+      HAVE_RL_ON_NEW_LINE
+    )
+
+    check_symbol_exists(
+      rl_completion_matches
+      editline/readline.h
+      HAVE_RL_COMPLETION_MATCHES
+    )
+
+    check_symbol_exists(
+      history_list
+      editline/readline.h
+      HAVE_HISTORY_LIST
+    )
+
+    check_symbol_exists(
+      rl_erase_empty_line
+      editline/readline.h
+      HAVE_ERASE_EMPTY_LINE
+    )
+  cmake_pop_check_state()
 endif()
 
 set(HAVE_LIBEDIT TRUE)
-
-cmake_push_check_state(RESET)
-  set(CMAKE_REQUIRED_LIBRARIES Editline::Editline)
-  check_symbol_exists(
-    rl_erase_empty_line
-    editline/readline.h
-    HAVE_ERASE_EMPTY_LINE
-  )
-cmake_pop_check_state()
 
 configure_file(cmake/config.h.in config.h)
