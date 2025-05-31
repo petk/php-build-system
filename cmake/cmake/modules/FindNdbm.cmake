@@ -58,7 +58,7 @@ endif()
 if(NOT DEFINED Ndbm_IS_BUILT_IN)
   cmake_push_check_state(RESET)
     set(CMAKE_REQUIRED_QUIET TRUE)
-    check_symbol_exists(dbm_open "ndbm.h" Ndbm_IS_BUILT_IN)
+    check_symbol_exists(dbm_open ndbm.h Ndbm_IS_BUILT_IN)
   cmake_pop_check_state()
 endif()
 

@@ -63,7 +63,7 @@ function(_acl_check result)
     endif()
 
     if(NOT ACL_USE_USER_GROUP)
-      check_symbol_exists(acl_free "sys/acl.h" _acl_successful)
+      check_symbol_exists(acl_free sys/acl.h _acl_successful)
     else()
       check_source_compiles(C [[
         #include <sys/acl.h>

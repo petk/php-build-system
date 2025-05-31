@@ -173,7 +173,7 @@ target_link_libraries(php_ext_openssl PUBLIC OpenSSL::SSL)
 if(TARGET OpenSSL::SSL)
   cmake_push_check_state(RESET)
     set(CMAKE_REQUIRED_LIBRARIES OpenSSL::SSL)
-    check_symbol_exists(RAND_egd "openssl/rand.h" HAVE_RAND_EGD)
+    check_symbol_exists(RAND_egd openssl/rand.h HAVE_RAND_EGD)
   cmake_pop_check_state()
 
   if(OPENSSL_VERSION VERSION_LESS 3 AND PHP_EXT_OPENSSL_LEGACY_PROVIDER)
