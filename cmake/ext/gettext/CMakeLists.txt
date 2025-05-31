@@ -28,8 +28,9 @@ project(
   LANGUAGES C
 )
 
-include(CheckLibraryExists)
+include(CheckSymbolExists)
 include(CMakeDependentOption)
+include(CMakePushCheckState)
 include(FeatureSummary)
 
 option(PHP_EXT_GETTEXT "Enable the gettext extension")
@@ -76,19 +77,26 @@ set_package_properties(
 target_link_libraries(php_ext_gettext PRIVATE Intl::Intl)
 
 if(TARGET Intl::Intl)
-  # Sanity check.
-  check_library_exists(Intl::Intl bindtextdomain "" _HAVE_BINDTEXTDOMAIN)
-
-  if(NOT _HAVE_BINDTEXTDOMAIN)
-    message(FATAL_ERROR "Unable to find the required gettext library.")
-  endif()
-
   set(HAVE_LIBINTL TRUE)
 
-  check_library_exists(Intl::Intl ngettext "" HAVE_NGETTEXT)
-  check_library_exists(Intl::Intl dngettext "" HAVE_DNGETTEXT)
-  check_library_exists(Intl::Intl dcngettext "" HAVE_DCNGETTEXT)
-  check_library_exists(Intl::Intl bind_textdomain_codeset "" HAVE_BIND_TEXTDOMAIN_CODESET)
+  cmake_push_check_state(RESET)
+    set(CMAKE_REQUIRED_LIBRARIES Intl::Intl)
+
+    # Sanity check.
+    check_symbol_exists(bindtextdomain libintl.h _PHP_HAVE_BINDTEXTDOMAIN)
+    if(NOT _PHP_HAVE_BINDTEXTDOMAIN)
+      message(
+        FATAL_ERROR
+        "The ext/gettext sanity check for intl library failed: The "
+        "bindtextdomain() could not be found."
+      )
+    endif()
+
+    check_symbol_exists(bind_textdomain_codeset libintl.h HAVE_BIND_TEXTDOMAIN_CODESET)
+    check_symbol_exists(dcngettext libintl.h HAVE_DCNGETTEXT)
+    check_symbol_exists(dngettext libintl.h HAVE_DNGETTEXT)
+    check_symbol_exists(ngettext libintl.h HAVE_NGETTEXT)
+  cmake_pop_check_state()
 
   # Create a symbolic link when intl is built into musl C library. The gettext
   # functions there ignore the codeset suffix on directories like 'en_US.UTF-8';
