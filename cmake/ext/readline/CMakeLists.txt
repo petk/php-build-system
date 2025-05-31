@@ -21,15 +21,6 @@ Enable the extension.
 * Values: `ON|OFF`
 
 Build extension as shared.
-
-## PHP_EXT_READLINE_LIBREADLINE
-
-:red_circle: *Removed as of PHP 8.4.*
-
-* Default: `OFF`
-* Values: `ON|OFF`
-
-Use the GNU Readline library instead of Editline.
 #]=============================================================================]
 
 cmake_minimum_required(VERSION 3.25...3.31)
