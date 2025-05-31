@@ -4,9 +4,6 @@
 /* Define to 1 if PHP uses the 'libedit' library. */
 #cmakedefine HAVE_LIBEDIT 1
 
-/* Define to 1 if PHP uses the 'readline' library. */
-#cmakedefine HAVE_LIBREADLINE 1
-
 /* Define to 1 if the phpdbg SAPI has libedit/readline integration. */
 #cmakedefine HAVE_PHPDBG_READLINE 1
 

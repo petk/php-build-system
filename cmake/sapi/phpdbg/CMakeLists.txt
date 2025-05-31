@@ -192,46 +192,20 @@ message(CHECK_START "Checking for readline support in phpdbg")
 if(PHP_SAPI_PHPDBG_READLINE OR PHP_EXT_READLINE)
   message(CHECK_PASS "enabled")
 
-  if(PHP_EXT_READLINE_LIBREADLINE)
-    message(
-      WARNING
-      "The GNU Readline library is licensed under the GNU GPL 3, which is not "
-      "compatible with the PHP license. The recommended library for using and "
-      "distributing the phpdbg with readline support is libedit. To build with "
-      "libedit, remove the 'PHP_EXT_READLINE_LIBREADLINE', or set it to 'OFF'."
-    )
+  find_package(Editline)
+  set_package_properties(
+    Editline
+    PROPERTIES
+      TYPE REQUIRED
+      PURPOSE "Necessary for the phpdbg readline support."
+  )
 
-    find_package(Readline)
-    set_package_properties(
-      Readline
-      PROPERTIES
-        TYPE REQUIRED
-        PURPOSE "Necessary for the phpdbg readline support."
-    )
-
-    target_link_libraries(php_sapi_phpdbg PRIVATE Readline::Readline)
-    if(TARGET php_sapi_phpdbg_shared)
-      target_link_libraries(php_sapi_phpdbg_shared PRIVATE Readline::Readline)
-    endif()
-
-    set(HAVE_LIBREADLINE TRUE)
-  else()
-    find_package(Editline)
-    set_package_properties(
-      Editline
-      PROPERTIES
-        TYPE REQUIRED
-        PURPOSE "Necessary for the phpdbg readline support."
-    )
-
-    target_link_libraries(php_sapi_phpdbg PRIVATE Editline::Editline)
-    if(TARGET php_sapi_phpdbg_shared)
-      target_link_libraries(php_sapi_phpdbg_shared PRIVATE Editline::Editline)
-    endif()
-
-    set(HAVE_LIBEDIT TRUE)
+  target_link_libraries(php_sapi_phpdbg PRIVATE Editline::Editline)
+  if(TARGET php_sapi_phpdbg_shared)
+    target_link_libraries(php_sapi_phpdbg_shared PRIVATE Editline::Editline)
   endif()
 
+  set(HAVE_LIBEDIT TRUE)
   set(HAVE_PHPDBG_READLINE TRUE)
 else()
   message(CHECK_FAIL "disabled")

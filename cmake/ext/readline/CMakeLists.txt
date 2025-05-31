@@ -21,13 +21,6 @@ Enable the extension.
 * Values: `ON|OFF`
 
 Build extension as shared.
-
-## PHP_EXT_READLINE_LIBREADLINE
-
-* Default: `OFF`
-* Values: `ON|OFF`
-
-Use the GNU Readline library instead of Editline.
 #]=============================================================================]
 
 cmake_minimum_required(VERSION 3.25...3.31)
@@ -60,15 +53,6 @@ cmake_dependent_option(
   OFF
 )
 
-cmake_dependent_option(
-  PHP_EXT_READLINE_LIBREADLINE
-  "Use the GNU Readline library instead of Editline"
-  OFF
-  "PHP_EXT_READLINE"
-  OFF
-)
-mark_as_advanced(PHP_EXT_READLINE_LIBREADLINE)
-
 if(NOT PHP_EXT_READLINE)
   return()
 endif()
@@ -99,113 +83,43 @@ if(HAVE_WNO_STRICT_PROTOTYPES_C)
   )
 endif()
 
-if(NOT PHP_EXT_READLINE_LIBREADLINE)
-  find_package(Editline)
-  set_package_properties(
-    Editline
-    PROPERTIES
-      TYPE REQUIRED
-      PURPOSE "Necessary to enable the readline extension."
+find_package(Editline)
+set_package_properties(
+  Editline
+  PROPERTIES
+    TYPE REQUIRED
+    PURPOSE "Necessary to enable the readline extension."
+)
+
+target_link_libraries(php_ext_readline PUBLIC Editline::Editline)
+
+if(TARGET Editline::Editline)
+  check_library_exists(
+    Editline::Editline
+    rl_callback_read_char
+    ""
+    HAVE_RL_CALLBACK_READ_CHAR
   )
-
-  target_link_libraries(php_ext_readline PUBLIC Editline::Editline)
-
-  if(TARGET Editline::Editline)
-    check_library_exists(
-      Editline::Editline
-      rl_callback_read_char
-      ""
-      HAVE_RL_CALLBACK_READ_CHAR
-    )
-    check_library_exists(
-      Editline::Editline
-      rl_on_new_line
-      ""
-      HAVE_RL_ON_NEW_LINE
-    )
-    check_library_exists(
-      Editline::Editline
-      rl_completion_matches
-      ""
-      HAVE_RL_COMPLETION_MATCHES
-    )
-    check_library_exists(
-      Editline::Editline
-      history_list
-      ""
-      HAVE_HISTORY_LIST
-    )
-  endif()
-
-  set(HAVE_LIBEDIT TRUE)
-else()
-  message(
-    WARNING
-    "The GNU Readline library is licensed under the GNU GPL 3, which is not "
-    "compatible with the PHP license. The recommended library for using and "
-    "distributing the PHP 'readline' extension without limitations is libedit. "
-    "To build with libedit, remove the 'PHP_EXT_READLINE_LIBREADLINE', or set "
-    "it to 'OFF'."
+  check_library_exists(
+    Editline::Editline
+    rl_on_new_line
+    ""
+    HAVE_RL_ON_NEW_LINE
   )
-  find_package(Readline)
-  set_package_properties(
-    Readline
-    PROPERTIES
-      TYPE REQUIRED
-      PURPOSE "Necessary to enable the readline extension."
+  check_library_exists(
+    Editline::Editline
+    rl_completion_matches
+    ""
+    HAVE_RL_COMPLETION_MATCHES
   )
-
-  target_link_libraries(php_ext_readline PUBLIC Readline::Readline)
-
-  if(TARGET Readline::Readline)
-    # Sanity minimum version check if Readline library has the
-    # 'rl_pending_input' variable. The macOS systems might have an outdated
-    # forked Readline library installed on the system by default, which doesn't
-    # have this variable.
-    # See https://bugs.php.net/48608.
-    cmake_push_check_state(RESET)
-      set(CMAKE_REQUIRED_LIBRARIES Readline::Readline)
-
-      check_symbol_exists(
-        rl_pending_input
-        # The <readline/readline.h> is not self-contained header and some
-        # systems, like macOS, need <stdio.h> to have FILE type available.
-        "stdio.h;readline/readline.h"
-        _readline_have_rl_pending_input
-      )
-    cmake_pop_check_state()
-
-    if(NOT _readline_have_rl_pending_input)
-      message(
-        FATAL_ERROR
-        "Readline library check failed. Variable rl_pending_input missing. "
-        "This version of Readline installation is not supported. Try using "
-        "libedit instead (set 'PHP_EXT_READLINE_LIBREADLINE' to 'OFF')."
-      )
-    endif()
-
-    check_library_exists(
-      Readline::Readline
-      rl_callback_read_char
-      ""
-      HAVE_RL_CALLBACK_READ_CHAR
-    )
-    check_library_exists(
-      Readline::Readline
-      rl_on_new_line
-      ""
-      HAVE_RL_ON_NEW_LINE
-    )
-    check_library_exists(
-      Readline::Readline
-      rl_completion_matches
-      ""
-      HAVE_RL_COMPLETION_MATCHES
-    )
-  endif()
-
-  set(HAVE_HISTORY_LIST TRUE)
-  set(HAVE_LIBREADLINE TRUE)
+  check_library_exists(
+    Editline::Editline
+    history_list
+    ""
+    HAVE_HISTORY_LIST
+  )
 endif()
+
+set(HAVE_LIBEDIT TRUE)
 
 configure_file(cmake/config.h.in config.h)
