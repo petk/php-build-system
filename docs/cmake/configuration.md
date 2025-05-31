@@ -2862,27 +2862,19 @@ A list of Autoconf `configure` command-line configuration options, Windows
     <tr>
       <td>&emsp;--without-readline</td>
       <td>--without-readline</td>
-      <td>PHP_EXT_READLINE=OFF (PHP &lt;= 8.3)</td>
+      <td>PHP_EXT_READLINE=OFF</td>
       <td>default</td>
     </tr>
     <tr>
       <td>&emsp;--with-readline[=DIR]</td>
       <td>N/A</td>
-      <td>
-        PHP_EXT_READLINE=ON<br>
-        PHP_EXT_READLINE_LIBREADLINE=ON <i>(PHP &lt;= 8.3)</i><br>
-        [READLINE_ROOT=DIR] <i>(PHP &lt;= 8.3)</i>
-      </td>
+      <td>N/A</td>
       <td></td>
     </tr>
     <tr>
       <td>&emsp;--with-readline=shared</td>
       <td>N/A</td>
-      <td>
-        PHP_EXT_READLINE=ON<br>
-        PHP_EXT_READLINE_SHARED=ON<br>
-        PHP_EXT_READLINE_LIBREADLINE=ON (PHP &lt;= 8.3)
-      </td>
+      <td>N/A</td>
       <td></td>
     </tr>
     <tr>
