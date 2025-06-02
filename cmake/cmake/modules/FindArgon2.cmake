@@ -27,6 +27,8 @@ find_package(Argon2)
 ```
 #]=============================================================================]
 
+include(CheckSymbolExists)
+include(CMakePushCheckState)
 include(FeatureSummary)
 include(FindPackageHandleStandardArgs)
 
@@ -67,9 +69,50 @@ if(NOT Argon2_LIBRARY)
   string(APPEND _reason "Argon2 library (libargon2) not found. ")
 endif()
 
-# Argon2 headers don't provide version. Try pkg-config.
+# Argon2 headers don't provide version. Try pkg-config, or fallback to
+# heuristic version determination.
 if(PC_Argon2_VERSION AND Argon2_INCLUDE_DIR IN_LIST PC_Argon2_INCLUDE_DIRS)
   set(Argon2_VERSION ${PC_Argon2_VERSION})
+elseif(Argon2_LIBRARY AND Argon2_INCLUDE_DIR)
+  cmake_push_check_state(RESET)
+    set(CMAKE_REQUIRED_LIBRARIES "${Argon2_LIBRARY}")
+    set(CMAKE_REQUIRED_INCLUDES "${Argon2_INCLUDE_DIR}")
+    set(CMAKE_REQUIRED_QUIET TRUE)
+
+    check_symbol_exists(error_message argon2.h _Argon2_HAVE_ERROR_MESSAGE)
+
+    if(_Argon2_HAVE_ERROR_MESSAGE)
+      set(Argon2_VERSION 20151206)
+    else()
+      check_symbol_exists(
+        ARGON2_FLAG_CLEAR_MEMORY
+        argon2.h
+        _Argon2_HAVE_ARGON2_FLAG_CLEAR_MEMORY
+      )
+    endif()
+
+    if(_Argon2_HAVE_ARGON2_FLAG_CLEAR_MEMORY)
+      set(Argon2_VERSION 20160406)
+    else()
+      check_symbol_exists(argon2id_hash_raw argon2.h _Argon2_HAVE_ARGON2ID_HASH_RAW)
+    endif()
+
+    if(_Argon2_HAVE_ARGON2ID_HASH_RAW)
+      set(Argon2_VERSION 20161029)
+    endif()
+
+    check_symbol_exists(ARGON2_LOCAL argon2.h _Argon2_HAVE_ARGON2_LOCAL)
+    if(_Argon2_HAVE_ARGON2_LOCAL)
+      set(Argon2_VERSION 20171227)
+
+      file(STRINGS ${Argon2_INCLUDE_DIR}/argon2.h content REGEX " deafults ")
+
+      if(NOT content)
+        set(Argon2_VERSION 20190702)
+      endif()
+      unset(content)
+    endif()
+  cmake_pop_check_state()
 endif()
 
 mark_as_advanced(Argon2_INCLUDE_DIR Argon2_LIBRARY)
