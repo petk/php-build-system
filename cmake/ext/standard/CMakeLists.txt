@@ -234,7 +234,7 @@ include(cmake/GenerateGrammar.cmake)
 ################################################################################
 
 if(PHP_EXT_STANDARD_ARGON2)
-  find_package(Argon2 20171227)
+  find_package(Argon2 20161029)
   set_package_properties(
     Argon2
     PROPERTIES
@@ -319,9 +319,9 @@ endif()
 # Check if there is a support means of creating a new process and defining which
 # handles it receives.
 message(CHECK_START "Checking if OS can spawn processes with inherited handles")
-check_symbol_exists(fork "unistd.h" HAVE_FORK)
+check_symbol_exists(fork unistd.h HAVE_FORK)
 if(NOT HAVE_FORK)
-  check_symbol_exists(CreateProcess "windows.h" HAVE_CREATEPROCESS)
+  check_symbol_exists(CreateProcess windows.h HAVE_CREATEPROCESS)
 endif()
 if(HAVE_FORK OR HAVE_CREATEPROCESS)
   set(PHP_CAN_SUPPORT_PROC_OPEN TRUE)
@@ -338,12 +338,12 @@ php_search_libraries(
   LIBRARIES
     socket  # Solaris 11..11.3, illumos
     network # Haiku
-  VARIABLE _HAVE_GETIFADDRS
+  VARIABLE _PHP_HAVE_GETIFADDRS
   LIBRARY_VARIABLE libraryForGetifaddrs
   TARGET php_ext_standard PRIVATE
 )
 
-if(_HAVE_GETIFADDRS)
+if(_PHP_HAVE_GETIFADDRS)
   message(CHECK_START "Checking for usable getifaddrs")
   cmake_push_check_state(RESET)
     if(libraryForGetifaddrs)
@@ -465,7 +465,7 @@ php_search_libraries(
 
 check_symbol_exists(
   posix_spawn_file_actions_addchdir_np
-  "spawn.h"
+  spawn.h
   HAVE_POSIX_SPAWN_FILE_ACTIONS_ADDCHDIR_NP
 )
 
@@ -520,7 +520,7 @@ endblock()
 # See: https://github.com/php/php-src/issues/11984
 ################################################################################
 
-check_symbol_exists(chroot "unistd.h" HAVE_CHROOT)
+check_symbol_exists(chroot unistd.h HAVE_CHROOT)
 
 add_library(php_ext_standard_functions OBJECT)
 add_library(php_ext_standard_functions_cli OBJECT)

@@ -80,7 +80,7 @@ function(_php_check_reentrant_function symbol header)
 
   cmake_push_check_state(RESET)
     set(CMAKE_REQUIRED_QUIET TRUE)
-    check_symbol_exists(${symbol} ${header} PHP_HAVE_DECL_${const})
+    check_symbol_exists(${symbol} "${header}" PHP_HAVE_DECL_${const})
   cmake_pop_check_state()
 
   if(NOT PHP_HAVE_DECL_${const})
