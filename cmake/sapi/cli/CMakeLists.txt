@@ -128,13 +128,20 @@ set_target_properties(
     PHP_CLI TRUE
 )
 
+# Link editline library conditionally based on readline extension.
 if(CMAKE_SYSTEM_NAME STREQUAL "Windows")
-  # Link readline extension interface library if enabled and built statically.
-  target_link_libraries(
-    php_sapi_cli
-    PRIVATE
-      $<$<AND:$<TARGET_EXISTS:PHP::ext::readline>,$<NOT:$<IN_LIST:$<TARGET_PROPERTY:PHP::ext::readline,TYPE>,MODULE_LIBRARY;SHARED_LIBRARY>>>:$<TARGET_PROPERTY:PHP::ext::readline,IMPORTED_LINK_INTERFACE_LIBRARIES>>
-  )
+  set(type "")
+  if(PHP_EXT_READLINE)
+    get_target_property(type PHP::ext::readline TYPE)
+  endif()
+
+  if(NOT PHP_EXT_READLINE OR NOT type MATCHES "^(MODULE|SHARED)_LIBRARY$")
+    find_package(Editline)
+    if(Editline_FOUND)
+      target_link_libraries(php_sapi_cli PRIVATE Editline::Editline)
+      set(HAVE_LIBEDIT TRUE)
+    endif()
+  endif()
 endif()
 
 # Man documentation.
@@ -196,7 +203,7 @@ if(PHP_SAPI_CLI_WIN_NO_CONSOLE)
   target_link_options(
     php_sapi_cli_win
     PRIVATE
-      /stack:67108864
+      $<$<COMPILE_LANG_AND_ID:C,MSVC>:/stack:67108864>
   )
 endif()
 
