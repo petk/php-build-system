@@ -1,3 +1,6 @@
+/* Define to 1 if PHP uses the 'libedit' library. */
+#cmakedefine HAVE_LIBEDIT 1
+
 /* Define if the PS_STRINGS exists. */
 #cmakedefine HAVE_PS_STRINGS
 

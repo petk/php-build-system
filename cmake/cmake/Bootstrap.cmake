@@ -10,6 +10,12 @@ define_property(
   BRIEF_DOCS "Whether the PHP SAPI or extension is CLI-based"
 )
 
+define_property(
+  TARGET
+  PROPERTY PHP_SAPI_FASTCGI
+  BRIEF_DOCS "Whether the PHP SAPI is FastCGI-based"
+)
+
 # Optionally enable CXX for extensions.
 include(CheckLanguage)
 check_language(CXX)

@@ -424,6 +424,12 @@ A list of PHP CMake modules:
   configuration. Extensions are sorted by their dependencies (extensions added
   with CMake command `add_dependencies()`).
 
+* `PHP_SAPI_FASTCGI`
+
+  Target property that marks the selected PHP SAPI target as FastCGI-related.
+  These SAPIs get the `main/fastcgi.c` object linked in the binary. For example,
+  PHP CGI and PHP FPM SAPIs.
+
 * `PHP_SAPIS`
 
   Global property with a list of all enabled PHP SAPIs for the current
