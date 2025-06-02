@@ -514,6 +514,21 @@ block()
 endblock()
 
 ################################################################################
+# Create helper target for Windows.
+################################################################################
+
+if(CMAKE_SYSTEM_NAME STREQUAL "Windows")
+  add_executable(php_ext_standard_bad_cmd tests/helpers/bad_cmd.c)
+  target_compile_options(php_ext_standard_bad_cmd PRIVATE /nologo)
+  set_target_properties(
+    php_ext_standard_bad_cmd
+    PROPERTIES
+      RUNTIME_OUTPUT_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/tests/helpers
+      OUTPUT_NAME bad_cmd
+  )
+endif()
+
+################################################################################
 # Add chroot() based on the SAPI type. It should be enabled only for the
 # CLI-based SAPIs. This enables building all SAPIs in a single build invocation.
 # Here, a build-time solution is integrated, although this would be better
