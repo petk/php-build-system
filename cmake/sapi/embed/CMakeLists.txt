@@ -11,10 +11,13 @@ Configure the `embed` PHP SAPI.
 Enable the embedded PHP SAPI module for embedding PHP into application using C
 bindings.
 
-The embed library is then located in the `sapi/embed` directory as a shared
-library `libphp.so`, or a static library `libphp.a`, which can be further used
-in other applications. It exposes PHP API as C library object for other programs
-to use PHP.
+The embed library is then located in the `sapi/embed` directory:
+* as a shared library `libphp.so` (\*nix), or `libphp.dylib` (macOS), or
+  `phpembed.dll` (Windows)
+* and a static library `libphp.a` (\*nix), or `phpembed.lib` (Windows)
+
+which can be further used in other applications. It exposes PHP API as C library
+for other programs to use PHP.
 #]=============================================================================]
 
 include(FeatureSummary)
@@ -52,10 +55,25 @@ foreach(target IN ITEMS php_sapi_embed php_sapi_embed_shared)
 
   target_compile_definitions(${target} PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE)
 
+  if(CMAKE_SYSTEM_NAME STREQUAL "Windows")
+    set_target_properties(
+      ${target}
+      PROPERTIES
+        PREFIX ""
+        OUTPUT_NAME ${PHP_PROGRAM_PREFIX}phpembed${PHP_PROGRAM_SUFFIX}
+    )
+  else()
+    set_target_properties(
+      ${target}
+      PROPERTIES
+        PREFIX lib
+        OUTPUT_NAME ${PHP_PROGRAM_PREFIX}php${PHP_PROGRAM_SUFFIX}
+    )
+  endif()
+
   set_target_properties(
     ${target}
     PROPERTIES
-      OUTPUT_NAME libphp
       ENABLE_EXPORTS TRUE # TODO: Check if there's a better solution.
       PHP_CLI TRUE
   )
@@ -81,6 +99,7 @@ php_pkgconfig_generate_pc(
     PHP_CONFIG_FILE_PATH "$<PATH:ABSOLUTE_PATH,NORMALIZE,${PHP_CONFIG_FILE_PATH},$<INSTALL_PREFIX>>"
     PHP_DEBUG "$<IF:$<CONFIG:Debug,DebugAssertions>,yes,no>"
     PHP_THREAD_SAFETY "$<IF:$<BOOL:$<TARGET_PROPERTY:PHP::config,PHP_THREAD_SAFETY>>,yes,no>"
+    PHP_EMBED_SAPI_NAME "$<GENEX_EVAL:$<TARGET_PROPERTY:php_sapi_embed_shared,OUTPUT_NAME>>"
 )
 
 install(
