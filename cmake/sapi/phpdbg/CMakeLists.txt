@@ -235,7 +235,7 @@ message(
 )
 check_symbol_exists(
   UFFDIO_WRITEPROTECT_MODE_WP
-  "linux/userfaultfd.h"
+  linux/userfaultfd.h
   HAVE_UFFDIO_WRITEPROTECT_MODE_WP
 )
 if(HAVE_UFFDIO_WRITEPROTECT_MODE_WP)

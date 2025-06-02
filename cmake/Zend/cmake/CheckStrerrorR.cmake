@@ -29,7 +29,7 @@ include(CheckSourceCompiles)
 include(CheckSymbolExists)
 include(CMakePushCheckState)
 
-check_symbol_exists(strerror_r "string.h" HAVE_STRERROR_R)
+check_symbol_exists(strerror_r string.h HAVE_STRERROR_R)
 
 if(NOT HAVE_STRERROR_R)
   return()
