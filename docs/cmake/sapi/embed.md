@@ -13,7 +13,10 @@ Configure the `embed` PHP SAPI.
 Enable the embedded PHP SAPI module for embedding PHP into application using C
 bindings.
 
-The embed library is then located in the `sapi/embed` directory as a shared
-library `libphp.so`, or a static library `libphp.a`, which can be further used
-in other applications. It exposes PHP API as C library object for other programs
-to use PHP.
+The embed library is then located in the `sapi/embed` directory:
+* as a shared library `libphp.so` (\*nix), or `libphp.dylib` (macOS), or
+  `phpembed.dll` (Windows)
+* and a static library `libphp.a` (\*nix), or `phpembed.lib` (Windows)
+
+which can be further used in other applications. It exposes PHP API as C library
+for other programs to use PHP.
