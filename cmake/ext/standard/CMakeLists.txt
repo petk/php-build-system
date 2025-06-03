@@ -471,7 +471,7 @@ check_symbol_exists(
 
 check_symbol_exists(
   elf_aux_info
-  "sys/auxv.h"
+  sys/auxv.h
   HAVE_ELF_AUX_INFO
 )
 

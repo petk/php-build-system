@@ -91,7 +91,7 @@ if(TARGET PostgreSQL::PostgreSQL)
     set(CMAKE_REQUIRED_LIBRARIES PostgreSQL::PostgreSQL)
 
     # PostgreSQL library minimum version sanity check.
-    check_symbol_exists(PQencryptPasswordConn "libpq-fe.h" _PHP_LIBPQ_CHECK)
+    check_symbol_exists(PQencryptPasswordConn libpq-fe.h _PHP_LIBPQ_CHECK)
     if(NOT _PHP_LIBPQ_CHECK)
       message(
         FATAL_ERROR
@@ -104,7 +104,7 @@ if(TARGET PostgreSQL::PostgreSQL)
     if(PostgreSQL_VERSION_STRING VERSION_GREATER_EQUAL 12)
       check_symbol_exists(
         PQresultMemorySize
-        "libpq-fe.h"
+        libpq-fe.h
         HAVE_PG_RESULT_MEMORY_SIZE
       )
 
@@ -119,12 +119,12 @@ if(TARGET PostgreSQL::PostgreSQL)
       # Indicates the presence of PQchangePassword.
       check_symbol_exists(
         LIBPQ_HAS_CHANGE_PASSWORD
-        "libpq-fe.h"
+        libpq-fe.h
         _PHP_HAVE_LIBPQ_HAS_CHANGE_PASSWORD
       )
       check_symbol_exists(
         PQchangePassword
-        "libpq-fe.h"
+        libpq-fe.h
         _PHP_HAVE_PQCHANGEPASSWORD
       )
       if(_PHP_HAVE_LIBPQ_HAS_CHANGE_PASSWORD AND _PHP_HAVE_PQCHANGEPASSWORD)
@@ -134,12 +134,12 @@ if(TARGET PostgreSQL::PostgreSQL)
       # Indicates the presence of PQsocketPoll, PQgetCurrentTimeUSec.
       check_symbol_exists(
         LIBPQ_HAS_SOCKET_POLL
-        "libpq-fe.h"
+        libpq-fe.h
         _PHP_HAVE_LIBPQ_HAS_SOCKET_POLL
       )
       check_symbol_exists(
         PQsocketPoll
-        "libpq-fe.h"
+        libpq-fe.h
         _PHP_HAVE_PQSOCKETPOLL
       )
       if(_PHP_HAVE_LIBPQ_HAS_SOCKET_POLL AND _PHP_HAVE_PQSOCKETPOLL)
@@ -149,12 +149,12 @@ if(TARGET PostgreSQL::PostgreSQL)
       # Indicates the presence of PQsetChunkedRowsMode and PGRES_TUPLES_CHUNK.
       check_symbol_exists(
         LIBPQ_HAS_CHUNK_MODE
-        "libpq-fe.h"
+        libpq-fe.h
         _PHP_HAVE_LIBPQ_HAS_CHUNK_MODE
       )
       check_symbol_exists(
         PQsetChunkedRowsMode
-        "libpq-fe.h"
+        libpq-fe.h
         _PHP_HAVE_PQSETCHUNKEDROWSMODE
       )
       if(_PHP_HAVE_LIBPQ_HAS_CHUNK_MODE AND _PHP_HAVE_PQSETCHUNKEDROWSMODE)
