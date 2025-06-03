@@ -96,9 +96,9 @@ cmake_push_check_state(RESET)
   check_symbol_exists(hstrerror "netdb.h;sys/socket.h" HAVE_HSTRERROR)
 cmake_pop_check_state()
 
-check_symbol_exists(if_nametoindex "net/if.h" HAVE_IF_NAMETOINDEX)
-check_symbol_exists(if_indextoname "net/if.h" HAVE_IF_INDEXTONAME)
-check_symbol_exists(sockatmark "sys/socket.h" HAVE_SOCKATMARK)
+check_symbol_exists(if_nametoindex net/if.h HAVE_IF_NAMETOINDEX)
+check_symbol_exists(if_indextoname net/if.h HAVE_IF_INDEXTONAME)
+check_symbol_exists(sockatmark sys/socket.h HAVE_SOCKATMARK)
 
 check_include_files(sys/sockio.h HAVE_SYS_SOCKIO_H)
 check_include_files(linux/filter.h HAVE_LINUX_FILTER_H)

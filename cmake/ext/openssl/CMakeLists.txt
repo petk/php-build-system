@@ -208,7 +208,7 @@ if(TARGET OpenSSL::SSL)
       set(CMAKE_REQUIRED_LIBRARIES OpenSSL::SSL)
       check_symbol_exists(
         OSSL_set_max_threads
-        "openssl/thread.h"
+        openssl/thread.h
         HAVE_OPENSSL_ARGON2
       )
     cmake_pop_check_state()

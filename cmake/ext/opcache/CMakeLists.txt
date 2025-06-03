@@ -330,7 +330,7 @@ add_feature_info(
 check_symbol_exists(mprotect sys/mman.h HAVE_MPROTECT)
 
 # For FreeBSD.
-check_symbol_exists(shm_create_largepage "sys/mman.h" HAVE_SHM_CREATE_LARGEPAGE)
+check_symbol_exists(shm_create_largepage sys/mman.h HAVE_SHM_CREATE_LARGEPAGE)
 
 # Check for shared memory support.
 include(cmake/CheckSHM.cmake)
