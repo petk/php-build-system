@@ -388,18 +388,18 @@ install(
 
 check_include_files(cpuid.h HAVE_CPUID_H)
 
-check_symbol_exists(getpid "unistd.h" HAVE_GETPID)
+check_symbol_exists(getpid unistd.h HAVE_GETPID)
 
 cmake_push_check_state(RESET)
   set(CMAKE_REQUIRED_DEFINITIONS -D_GNU_SOURCE)
-  check_symbol_exists(gettid "unistd.h" HAVE_GETTID)
+  check_symbol_exists(gettid unistd.h HAVE_GETTID)
 cmake_pop_check_state()
 
-check_symbol_exists(kill "signal.h" HAVE_KILL)
+check_symbol_exists(kill signal.h HAVE_KILL)
 
 cmake_push_check_state(RESET)
   set(CMAKE_REQUIRED_DEFINITIONS -D_GNU_SOURCE)
-  check_symbol_exists(mremap "sys/mman.h" HAVE_MREMAP)
+  check_symbol_exists(mremap sys/mman.h HAVE_MREMAP)
 cmake_pop_check_state()
 
 # BSD-based systems have pthread_attr_get_np in pthread_np.h.
@@ -421,23 +421,23 @@ endblock()
 
 check_symbol_exists(
   pthread_attr_getstack
-  "pthread.h"
+  pthread.h
   HAVE_PTHREAD_ATTR_GETSTACK
 )
 
 check_symbol_exists(
   pthread_get_stackaddr_np
-  "pthread.h"
+  pthread.h
   HAVE_PTHREAD_GET_STACKADDR_NP
 )
 
 cmake_push_check_state(RESET)
   set(CMAKE_REQUIRED_DEFINITIONS -D_GNU_SOURCE)
-  check_symbol_exists(pthread_getattr_np "pthread.h" HAVE_PTHREAD_GETATTR_NP)
+  check_symbol_exists(pthread_getattr_np pthread.h HAVE_PTHREAD_GETATTR_NP)
 cmake_pop_check_state()
 
-check_symbol_exists(pthread_stackseg_np "pthread.h" HAVE_PTHREAD_STACKSEG_NP)
-check_symbol_exists(sigsetjmp "setjmp.h" HAVE_SIGSETJMP)
+check_symbol_exists(pthread_stackseg_np pthread.h HAVE_PTHREAD_STACKSEG_NP)
+check_symbol_exists(sigsetjmp setjmp.h HAVE_SIGSETJMP)
 
 message(CHECK_START "Checking for asm goto support")
 cmake_push_check_state(RESET)
@@ -496,7 +496,7 @@ include(cmake/CheckStrerrorR.cmake)
 ################################################################################
 
 message(CHECK_START "Checking whether to enable Zend signal handling")
-check_symbol_exists(sigaction "signal.h" HAVE_SIGACTION)
+check_symbol_exists(sigaction signal.h HAVE_SIGACTION)
 if(HAVE_SIGACTION AND ZEND_SIGNALS)
   message(CHECK_PASS "yes")
 

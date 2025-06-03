@@ -91,15 +91,15 @@ include(PHP/CheckSysMacros)
 # The strcasestr is missing on Windows and Solaris <= 10 (Solaris 11 has it).
 cmake_push_check_state(RESET)
   set(CMAKE_REQUIRED_DEFINITIONS -D_GNU_SOURCE)
-  check_symbol_exists(strcasestr "string.h" HAVE_STRCASESTR)
+  check_symbol_exists(strcasestr string.h HAVE_STRCASESTR)
 cmake_pop_check_state()
 if(NOT HAVE_STRCASESTR)
   message(STATUS "Using libmagic strcasestr implementation")
   target_sources(php_ext_fileinfo PRIVATE libmagic/strcasestr.c)
 endif()
 
-check_symbol_exists(strndup "string.h" HAVE_STRNDUP)
-check_symbol_exists(utimes "sys/time.h" HAVE_UTIMES)
+check_symbol_exists(strndup string.h HAVE_STRNDUP)
+check_symbol_exists(utimes sys/time.h HAVE_UTIMES)
 
 php_check_function_attribute(visibility HAVE_VISIBILITY)
 

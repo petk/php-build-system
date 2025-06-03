@@ -91,7 +91,7 @@ if(TARGET PostgreSQL::PostgreSQL)
     set(CMAKE_REQUIRED_LIBRARIES PostgreSQL::PostgreSQL)
 
     # PostgreSQL library minimum version sanity check.
-    check_symbol_exists(PQlibVersion "libpq-fe.h" _PHP_LIBPQ_CHECK)
+    check_symbol_exists(PQlibVersion libpq-fe.h _PHP_LIBPQ_CHECK)
     if(NOT _PHP_LIBPQ_CHECK)
       message(
         FATAL_ERROR
