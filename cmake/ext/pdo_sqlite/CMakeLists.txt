@@ -27,8 +27,9 @@ project(
   LANGUAGES C
 )
 
-include(CheckLibraryExists)
+include(CheckSymbolExists)
 include(CMakeDependentOption)
+include(CMakePushCheckState)
 include(FeatureSummary)
 
 option(PHP_EXT_PDO_SQLITE "Enable the pdo_sqlite extension" ON)
@@ -81,30 +82,17 @@ set_package_properties(
 target_link_libraries(php_ext_pdo_sqlite PRIVATE SQLite::SQLite3)
 
 if(TARGET SQLite::SQLite3)
-  check_library_exists(
-    SQLite::SQLite3
-    sqlite3_close_v2
-    ""
-    HAVE_SQLITE3_CLOSE_V2
-  )
+  cmake_push_check_state(RESET)
+    set(CMAKE_REQUIRED_LIBRARIES SQLite::SQLite3)
 
-  check_library_exists(
-    SQLite::SQLite3
-    sqlite3_column_table_name
-    ""
-    HAVE_SQLITE3_COLUMN_TABLE_NAME
-  )
+    check_symbol_exists(sqlite3_close_v2 sqlite3.h HAVE_SQLITE3_CLOSE_V2)
+    check_symbol_exists(sqlite3_column_table_name sqlite3.h HAVE_SQLITE3_COLUMN_TABLE_NAME)
+    check_symbol_exists(sqlite3_load_extension sqlite3.h HAVE_SQLITE3_LOAD_EXTENSION)
 
-  check_library_exists(
-    SQLite::SQLite3
-    sqlite3_load_extension
-    ""
-    HAVE_SQLITE3_LOAD_EXTENSION
-  )
-
-  if(NOT HAVE_SQLITE3_LOAD_EXTENSION)
-    set(PDO_SQLITE_OMIT_LOAD_EXTENSION TRUE)
-  endif()
+    if(NOT HAVE_SQLITE3_LOAD_EXTENSION)
+      set(PDO_SQLITE_OMIT_LOAD_EXTENSION TRUE)
+    endif()
+  cmake_pop_check_state()
 endif()
 
 ################################################################################
