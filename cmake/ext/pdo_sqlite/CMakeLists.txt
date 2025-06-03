@@ -87,9 +87,13 @@ if(TARGET SQLite::SQLite3)
 
     check_symbol_exists(sqlite3_close_v2 sqlite3.h HAVE_SQLITE3_CLOSE_V2)
     check_symbol_exists(sqlite3_column_table_name sqlite3.h HAVE_SQLITE3_COLUMN_TABLE_NAME)
-    check_symbol_exists(sqlite3_load_extension sqlite3.h HAVE_SQLITE3_LOAD_EXTENSION)
 
-    if(NOT HAVE_SQLITE3_LOAD_EXTENSION)
+    check_symbol_exists(
+      sqlite3_load_extension
+      sqlite3.h
+      _PHP_HAVE_SQLITE3_LOAD_EXTENSION
+    )
+    if(NOT _PHP_HAVE_SQLITE3_LOAD_EXTENSION)
       set(PDO_SQLITE_OMIT_LOAD_EXTENSION TRUE)
     endif()
   cmake_pop_check_state()
