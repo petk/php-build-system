@@ -27,8 +27,9 @@ project(
   LANGUAGES C
 )
 
-include(CheckLibraryExists)
+include(CheckSymbolExists)
 include(CMakeDependentOption)
+include(CMakePushCheckState)
 include(FeatureSummary)
 
 option(PHP_EXT_SQLITE3 "Enable the sqlite3 extension" ON)
@@ -77,30 +78,17 @@ set_package_properties(
 target_link_libraries(php_ext_sqlite3 PRIVATE SQLite::SQLite3)
 
 if(TARGET SQLite::SQLite3)
-  check_library_exists(
-    SQLite::SQLite3
-    sqlite3_errstr
-    ""
-    HAVE_SQLITE3_ERRSTR
-  )
+  cmake_push_check_state(RESET)
+    set(CMAKE_REQUIRED_LIBRARIES SQLite::SQLite3)
 
-  check_library_exists(
-    SQLite::SQLite3
-    sqlite3_expanded_sql
-    ""
-    HAVE_SQLITE3_EXPANDED_SQL
-  )
+    check_symbol_exists(sqlite3_errstr sqlite3.h HAVE_SQLITE3_ERRSTR)
+    check_symbol_exists(sqlite3_expanded_sql sqlite3.h HAVE_SQLITE3_EXPANDED_SQL)
+    check_symbol_exists(sqlite3_load_extension sqlite3.h HAVE_SQLITE3_LOAD_EXTENSION)
 
-  check_library_exists(
-    SQLite::SQLite3
-    sqlite3_load_extension
-    ""
-    HAVE_SQLITE3_LOAD_EXTENSION
-  )
-
-  if(NOT HAVE_SQLITE3_LOAD_EXTENSION)
-    set(SQLITE_OMIT_LOAD_EXTENSION TRUE)
-  endif()
+    if(NOT HAVE_SQLITE3_LOAD_EXTENSION)
+      set(SQLITE_OMIT_LOAD_EXTENSION TRUE)
+    endif()
+  cmake_pop_check_state()
 endif()
 
 set(HAVE_SQLITE3 TRUE)
