@@ -93,6 +93,7 @@ if(TARGET SQLite::SQLite3)
 
     check_symbol_exists(sqlite3_close_v2 sqlite3.h HAVE_SQLITE3_CLOSE_V2)
     check_symbol_exists(sqlite3_column_table_name sqlite3.h HAVE_SQLITE3_COLUMN_TABLE_NAME)
+  cmake_pop_check_state()
 endif()
 
 configure_file(cmake/config.h.in config.h)
