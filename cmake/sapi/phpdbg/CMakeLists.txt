@@ -17,6 +17,12 @@ Enable the phpdbg SAPI module as an executable.
 
 Build phpdbg SAPI also as a shared module together with an executable.
 
+The phpdbg shared library is after the build phase located in the `sapi/phpdbg`
+directory:
+
+* `libphpdbg.so` (\*nix), or `libphpdbg.dylib` (macOS), or `libphpdbg.dll`
+  (Windows)
+
 ## PHP_SAPI_PHPDBG_DEBUG
 
 * Default: `OFF`
@@ -179,7 +185,7 @@ if(TARGET php_sapi_phpdbg_shared)
   set_target_properties(
     php_sapi_phpdbg_shared
     PROPERTIES
-      OUTPUT_NAME libphpdbg
+      PREFIX lib
   )
 endif()
 
@@ -236,24 +242,20 @@ message(
 check_symbol_exists(
   UFFDIO_WRITEPROTECT_MODE_WP
   linux/userfaultfd.h
-  HAVE_UFFDIO_WRITEPROTECT_MODE_WP
+  _PHP_HAVE_UFFDIO_WRITEPROTECT_MODE_WP
 )
-if(HAVE_UFFDIO_WRITEPROTECT_MODE_WP)
-  if(NOT PHP_THREAD_SAFETY)
-    set(THREADS_PREFER_PTHREAD_FLAG TRUE)
-    find_package(Threads)
-    if(Threads_FOUND)
-      target_link_libraries(php_sapi_phpdbg PRIVATE Threads::Threads)
-      if(TARGET php_sapi_phpdbg_shared)
-        target_link_libraries(php_sapi_phpdbg_shared PRIVATE Threads::Threads)
-      endif()
-    else()
-      message(WARNING "Threads not available.")
+if(_PHP_HAVE_UFFDIO_WRITEPROTECT_MODE_WP)
+  set(THREADS_PREFER_PTHREAD_FLAG TRUE)
+  find_package(Threads)
+  if(Threads_FOUND)
+    target_link_libraries(php_sapi_phpdbg PRIVATE Threads::Threads)
+    if(TARGET php_sapi_phpdbg_shared)
+      target_link_libraries(php_sapi_phpdbg_shared PRIVATE Threads::Threads)
     endif()
-  endif()
 
-  if(PHP_THREAD_SAFETY OR Threads_FOUND)
     set(HAVE_USERFAULTFD_WRITEFAULT TRUE)
+  else()
+    message(WARNING "Threads are not available.")
   endif()
 endif()
 if(HAVE_USERFAULTFD_WRITEFAULT)
@@ -314,6 +316,7 @@ if(TARGET php_sapi_phpdbg_shared)
       PHP_CONFIG_FILE_PATH "$<PATH:ABSOLUTE_PATH,NORMALIZE,${PHP_CONFIG_FILE_PATH},$<INSTALL_PREFIX>>"
       PHP_DEBUG "$<IF:$<CONFIG:Debug,DebugAssertions>,yes,no>"
       PHP_THREAD_SAFETY "$<IF:$<BOOL:$<TARGET_PROPERTY:PHP::config,PHP_THREAD_SAFETY>>,yes,no>"
+      PHP_PHPDBG_SAPI_NAME "$<GENEX_EVAL:$<TARGET_PROPERTY:php_sapi_phpdbg_shared,OUTPUT_NAME>>"
   )
 
   install(

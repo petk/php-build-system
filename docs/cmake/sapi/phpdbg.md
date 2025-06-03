@@ -19,6 +19,12 @@ Enable the phpdbg SAPI module as an executable.
 
 Build phpdbg SAPI also as a shared module together with an executable.
 
+The phpdbg shared library is after the build phase located in the `sapi/phpdbg`
+directory:
+
+* `libphpdbg.so` (\*nix), or `libphpdbg.dylib` (macOS), or `libphpdbg.dll`
+  (Windows)
+
 ## PHP_SAPI_PHPDBG_DEBUG
 
 * Default: `OFF`

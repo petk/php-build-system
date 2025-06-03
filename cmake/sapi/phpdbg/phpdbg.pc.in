@@ -35,4 +35,4 @@ Version: @PHP_VERSION@
 Cflags.private: @PHP_CFLAGS_PRIVATE@
 Cflags: -I${includedir}/${php_include_prefix} -I${includedir}/${php_include_prefix}/main -I${includedir}/${php_include_prefix}/TSRM -I${includedir}/${php_include_prefix}/Zend -I${includedir}/${php_include_prefix}/ext -I${includedir}/${php_include_prefix}/ext/lexbor
 Libs.private: @PHP_LIBS_PRIVATE@
-Libs: -L${libdir} -lphpdbg
+Libs: -L${libdir} -l@PHP_PHPDBG_SAPI_NAME@

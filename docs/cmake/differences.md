@@ -43,6 +43,9 @@ build system:
 * sapi/phpdbg readline support works more intuitively regardless of the readline
   extension being enabled during the build.
 
+* sapi/phpdbg shared library name on Windows is synced with \*nix systems
+  (`libphpdbg`).
+
 * ext/session can be built as shared on Windows (in testing phase).
 
 * Obsolete check whether the `dlsym()` requires a leading underscore in symbol
