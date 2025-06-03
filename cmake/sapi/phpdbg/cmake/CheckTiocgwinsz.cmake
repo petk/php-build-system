@@ -29,10 +29,10 @@ include(CMakePushCheckState)
 message(CHECK_START "Checking whether termios.h defines TIOCGWINSZ")
 cmake_push_check_state(RESET)
   set(CMAKE_REQUIRED_QUIET TRUE)
-  check_symbol_exists(TIOCGWINSZ termios.h HAVE_TIOCGWINSZ_IN_TERMIOS_H)
+  check_symbol_exists(TIOCGWINSZ termios.h _PHP_HAVE_TIOCGWINSZ_IN_TERMIOS_H)
 cmake_pop_check_state()
 
-if(NOT HAVE_TIOCGWINSZ_IN_TERMIOS_H)
+if(NOT _PHP_HAVE_TIOCGWINSZ_IN_TERMIOS_H)
   message(CHECK_FAIL "no")
 
   message(CHECK_START "Checking whether sys/ioctl.h defines TIOCGWINSZ")
