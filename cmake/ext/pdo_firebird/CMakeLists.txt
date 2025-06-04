@@ -27,8 +27,9 @@ project(
   LANGUAGES C
 )
 
-include(CheckLibraryExists)
+include(CheckSymbolExists)
 include(CMakeDependentOption)
+include(CMakePushCheckState)
 include(FeatureSummary)
 
 option(PHP_EXT_PDO_FIREBIRD "Enable the pdo_firebird extension")
@@ -85,13 +86,16 @@ target_link_libraries(php_ext_pdo_firebird PRIVATE Firebird::Firebird)
 
 # Sanity check.
 if(TARGET Firebird::Firebird)
-  check_library_exists(
-    Firebird::Firebird
-    isc_detach_database
-    ""
-    _php_ext_pdo_firebird_sanity_check
-  )
-  if(NOT _php_ext_pdo_firebird_sanity_check)
+  cmake_push_check_state(RESET)
+    set(CMAKE_REQUIRED_LIBRARIES Firebird::Firebird)
+    check_symbol_exists(
+      isc_detach_database
+      ibase.h
+      _PHP_EXT_PDO_FIREBIRD_SANITY_CHECK
+    )
+  cmake_pop_check_state()
+
+  if(NOT _PHP_EXT_PDO_FIREBIRD_SANITY_CHECK)
     message(
       FATAL_ERROR
       "Firebird sanity check failed: 'isc_detach_database()' not found."
