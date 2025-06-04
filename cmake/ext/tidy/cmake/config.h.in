@@ -4,6 +4,9 @@
 /* Define to 1 if you have the <tidybuffio.h> header file. */
 #cmakedefine HAVE_TIDYBUFFIO_H 1
 
+/* Define to 1 if Tidy library has the 'tidyOptGetCategory' function. */
+#cmakedefine HAVE_TIDYOPTGETCATEGORY 1
+
 /* Define to 1 if Tidy library has the 'tidyOptGetDoc' function. */
 #cmakedefine HAVE_TIDYOPTGETDOC 1
 
