@@ -724,7 +724,7 @@ PHP Windows build system.
 
 * `PHP_EXTRA_VERSION` can be passed to configure script to control custom PHP
   build versions: `./configure PHP_EXTRA_VERSION="-acme"`
-* `LDFLAGS` are not unset anymore allowing them to be adjusted e.g.
+* `LDFLAGS` are not unset anymore allowing them to be adjusted, e.g.,
   `LDFLAGS="..." ./configure`
 * Removed the `HAVE_DEV_URANDOM` compile time check.
 * Added new configure option `--with-capstone`.
@@ -951,6 +951,10 @@ PHP coding standards now use the C11 standard.
   option (`--with-ldap=DIR`), it will be used instead of the pkg-config search.
 * Added new configure option `--enable-system-glob` to use system `glob()`
   function instead of the PHP built-in implementation.
+* Library directory (`libdir`) is adjusted when using `--libdir`, and
+  `--with-libdir` configure options (e.g.,
+  `--libdir=/usr/lib64 --with-libdir=lib64` will set `libdir` to
+  `/usr/lib64/php`).
 
 #### Windows
 
@@ -960,7 +964,7 @@ PHP coding standards now use the C11 standard.
   `Makefile.frag.w32`) may need adjustments.
 * `SAPI()` and `ADD_SOURCES()` commands now support the optional
   `duplicate_sources` parameter. If truthy, no rules to build the object files
-  are generated. This allows to build additional variants of SAPIs (e.g. a DLL
+  are generated. This allows to build additional variants of SAPIs (e.g., a DLL
   and EXE) without duplicate build rules.
 
 ##### Windows configure options

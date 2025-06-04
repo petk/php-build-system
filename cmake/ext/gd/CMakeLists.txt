@@ -77,9 +77,9 @@ project(
   LANGUAGES C
 )
 
-include(CheckLibraryExists)
 include(CheckSourceCompiles)
 include(CheckSourceRuns)
+include(CheckSymbolExists)
 include(CMakeDependentOption)
 include(CMakePushCheckState)
 include(FeatureSummary)
@@ -430,11 +430,11 @@ if(NOT PHP_EXT_GD_EXTERNAL)
         check_source_compiles(
           C
           [[int main(void) { return 0; }]]
-          _GD_SANITY_CHECK_COMPILES
+          _PHP_GD_SANITY_CHECK_COMPILES
         )
       cmake_pop_check_state()
 
-      if(NOT _GD_SANITY_CHECK_COMPILES)
+      if(NOT _PHP_GD_SANITY_CHECK_COMPILES)
         message(FATAL_ERROR "GD sanity check failed.")
       endif()
     endif()
@@ -454,7 +454,10 @@ else()
 
   if(TARGET GD::GD)
     # Sanity check.
-    check_library_exists(GD::GD gdImageCreate "" HAVE_LIBGD)
+    cmake_push_check_state(RESET)
+      set(CMAKE_REQUIRED_LIBRARIES GD::GD)
+      check_symbol_exists(gdImageCreate gd.h HAVE_LIBGD)
+    cmake_pop_check_state()
 
     if(NOT HAVE_LIBGD)
       message(
@@ -522,14 +525,17 @@ else()
     php_ext_gd_check_format(Bmp HAVE_GD_BMP)
     php_ext_gd_check_format(Tga HAVE_GD_TGA)
 
-    check_library_exists(GD::GD gdFontCacheShutdown "" HAVE_GD_FREETYPE)
-    check_library_exists(GD::GD gdVersionString "" HAVE_GD_LIBVERSION)
-    check_library_exists(
-      GD::GD
-      gdImageGetInterpolationMethod
-      ""
-      HAVE_GD_GET_INTERPOLATION
-    )
+    cmake_push_check_state(RESET)
+      set(CMAKE_REQUIRED_LIBRARIES GD::GD)
+
+      check_symbol_exists(gdFontCacheShutdown gd.h HAVE_GD_FREETYPE)
+      check_symbol_exists(gdVersionString gd.h HAVE_GD_LIBVERSION)
+      check_symbol_exists(
+        gdImageGetInterpolationMethod
+        gd.h
+        HAVE_GD_GET_INTERPOLATION
+      )
+    cmake_pop_check_state()
   endif()
 endif()
 

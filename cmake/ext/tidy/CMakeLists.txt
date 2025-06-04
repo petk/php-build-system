@@ -28,8 +28,9 @@ project(
   LANGUAGES C
 )
 
-include(CheckLibraryExists)
+include(CheckSymbolExists)
 include(CMakeDependentOption)
+include(CMakePushCheckState)
 include(FeatureSummary)
 include(PHP/CheckCompilerFlag)
 
@@ -62,7 +63,7 @@ endif()
 target_sources(
   php_ext_tidy
   PRIVATE
-    php_tidy.def
+    $<$<AND:$<PLATFORM_ID:Windows>,$<NOT:$<IN_LIST:$<TARGET_PROPERTY:TYPE>,MODULE_LIBRARY;SHARED_LIBRARY>>>:php_tidy.def>
     tidy.c
     tidy.stub.php
 )
@@ -73,9 +74,9 @@ if(Tidy_VERSION VERSION_LESS 5.7.20)
   php_check_compiler_flag(
     C
     -Wno-ignored-qualifiers
-    HAVE_WNO_IGNORED_QUALIFIERS_C
+    _PHP_HAVE_WNO_IGNORED_QUALIFIERS_C
   )
-  if(HAVE_WNO_IGNORED_QUALIFIERS_C)
+  if(_PHP_HAVE_WNO_IGNORED_QUALIFIERS_C)
     target_compile_options(php_ext_tidy PRIVATE -Wno-ignored-qualifiers)
   endif()
 endif()
@@ -93,8 +94,19 @@ set_package_properties(
 target_link_libraries(php_ext_tidy PRIVATE Tidy::Tidy)
 
 if(TARGET Tidy::Tidy)
-  check_library_exists(Tidy::Tidy tidyOptGetDoc "" HAVE_TIDYOPTGETDOC)
-  check_library_exists(Tidy::Tidy tidyReleaseDate "" HAVE_TIDYRELEASEDATE)
+  cmake_push_check_state(RESET)
+    set(CMAKE_REQUIRED_LIBRARIES Tidy::Tidy)
+
+    set(header "")
+    if(HAVE_TIDY_H)
+      set(header tidy.h)
+    elseif(HAVE_TIDYP_H)
+      set(header tidyp.h)
+    endif()
+
+    check_symbol_exists(tidyOptGetDoc "${header}" HAVE_TIDYOPTGETDOC)
+    check_symbol_exists(tidyReleaseDate "${header}" HAVE_TIDYRELEASEDATE)
+  cmake_pop_check_state()
 endif()
 
 set(HAVE_TIDY TRUE)

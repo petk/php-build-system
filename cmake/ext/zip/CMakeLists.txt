@@ -27,8 +27,9 @@ project(
   LANGUAGES C
 )
 
-include(CheckLibraryExists)
+include(CheckSymbolExists)
 include(CMakeDependentOption)
+include(CMakePushCheckState)
 include(FeatureSummary)
 
 option(PHP_EXT_ZIP "Enable the zip extension")
@@ -110,55 +111,53 @@ endif()
 # required.
 
 if(TARGET libzip::libzip)
-  check_library_exists(
-    libzip::libzip
-    zip_file_set_mtime
-    ""
-    HAVE_SET_MTIME
-  )
+  cmake_push_check_state(RESET)
+    set(CMAKE_REQUIRED_LIBRARIES libzip::libzip)
 
-  if(NOT HAVE_SET_MTIME)
-    message(WARNING "Libzip >= 1.0.0 needed for setting mtime")
-  endif()
+    check_symbol_exists(zip_file_set_mtime zip.h HAVE_SET_MTIME)
 
-  check_library_exists(
-    libzip::libzip
-    zip_file_set_encryption
-    ""
-    HAVE_ENCRYPTION
-  )
+    if(NOT HAVE_SET_MTIME)
+      message(
+        WARNING
+        "ext/zip will not have support for setting mtime "
+        "(Libzip >= 1.0.0 is needed for setting mtime)"
+      )
+    endif()
 
-  if(NOT HAVE_ENCRYPTION)
-    message(WARNING "Libzip >= 1.2.0 needed for encryption support")
-  endif()
+    check_symbol_exists(zip_file_set_encryption zip.h HAVE_ENCRYPTION)
 
-  check_library_exists(
-    libzip::libzip
-    zip_libzip_version
-    ""
-    HAVE_LIBZIP_VERSION
-  )
+    if(NOT HAVE_ENCRYPTION)
+      message(
+        WARNING
+        "ext/zip will not have encryption support "
+        "(Libzip >= 1.2.0 is needed for encryption support)"
+      )
+    endif()
 
-  check_library_exists(
-    libzip::libzip
-    zip_register_progress_callback_with_state
-    ""
-    HAVE_PROGRESS_CALLBACK
-  )
+    check_symbol_exists(
+      zip_libzip_version
+      zip.h
+      HAVE_LIBZIP_VERSION
+    )
 
-  check_library_exists(
-    libzip::libzip
-    zip_register_cancel_callback_with_state
-    ""
-    HAVE_CANCEL_CALLBACK
-  )
+    check_symbol_exists(
+      zip_register_progress_callback_with_state
+      zip.h
+      HAVE_PROGRESS_CALLBACK
+    )
 
-  check_library_exists(
-    libzip::libzip
-    zip_compression_method_supported
-    ""
-    HAVE_METHOD_SUPPORTED
-  )
+    check_symbol_exists(
+      zip_register_cancel_callback_with_state
+      zip.h
+      HAVE_CANCEL_CALLBACK
+    )
+
+    check_symbol_exists(
+      zip_compression_method_supported
+      zip.h
+      HAVE_METHOD_SUPPORTED
+    )
+  cmake_pop_check_state()
 endif()
 
 set(HAVE_ZIP TRUE)
