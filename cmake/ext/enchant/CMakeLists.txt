@@ -27,8 +27,9 @@ project(
   LANGUAGES C
 )
 
-include(CheckLibraryExists)
+include(CheckSymbolExists)
 include(CMakeDependentOption)
+include(CMakePushCheckState)
 include(FeatureSummary)
 
 option(PHP_EXT_ENCHANT "Enable the enchant extension")
@@ -73,21 +74,23 @@ set_package_properties(
 )
 
 if(TARGET Enchant::Enchant)
-  # The enchant_get_version() is available since 1.6.0.
-  check_library_exists(
-    Enchant::Enchant
-    enchant_get_version
-    ""
-    HAVE_ENCHANT_GET_VERSION
-  )
+  cmake_push_check_state(RESET)
+    set(CMAKE_REQUIRED_LIBRARIES Enchant::Enchant)
 
-  # The enchant_broker_set_param() is available since 1.5.0 and removed in 2.x.
-  check_library_exists(
-    Enchant::Enchant
-    enchant_broker_set_param
-    ""
-    HAVE_ENCHANT_BROKER_SET_PARAM
-  )
+    # The enchant_get_version() is available since 1.6.0.
+    check_symbol_exists(
+      enchant_get_version
+      enchant.h
+      HAVE_ENCHANT_GET_VERSION
+    )
+
+    # The enchant_broker_set_param() is available since 1.5.0 and removed in 2.x.
+    check_symbol_exists(
+      enchant_broker_set_param
+      enchant.h
+      HAVE_ENCHANT_BROKER_SET_PARAM
+    )
+  cmake_pop_check_state()
 endif()
 
 target_link_libraries(php_ext_enchant PRIVATE Enchant::Enchant)

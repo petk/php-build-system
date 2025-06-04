@@ -86,9 +86,9 @@ if(Tidy_INCLUDE_DIR)
   cmake_push_check_state(RESET)
     set(CMAKE_REQUIRED_INCLUDES ${Tidy_INCLUDE_DIR})
 
-    # Check for tidybuffio.h (as opposed to simply buffio.h) which indicates
+    # Check for tidybuffio.h (as opposed to the legacy buffio.h) which indicates
     # that the found library is tidy-html5 and not the legacy htmltidy. The two
-    # are compatible, except the legacy doesn't have this header.
+    # are compatible, except the legacy doesn't have the tidybuffio.h header.
     check_include_files(tidybuffio.h HAVE_TIDYBUFFIO_H)
 
     check_include_files(tidy.h HAVE_TIDY_H)
