@@ -28,7 +28,6 @@ project(
   LANGUAGES C
 )
 
-include(CheckLibraryExists)
 include(CheckSourceRuns)
 include(CheckSymbolExists)
 include(CMakeDependentOption)
@@ -66,7 +65,7 @@ target_sources(
   PRIVATE
     iconv.c
     iconv.stub.php
-    php_iconv.def
+    $<$<AND:$<PLATFORM_ID:Windows>,$<NOT:$<IN_LIST:$<TARGET_PROPERTY:TYPE>,MODULE_LIBRARY;SHARED_LIBRARY>>>:php_iconv.def>
   PUBLIC
     FILE_SET HEADERS
       FILES
@@ -94,27 +93,31 @@ if(TARGET Iconv::Iconv)
   # Sanity and library type checks.
   if(Iconv_IS_BUILT_IN)
     # When iconv is built into C library, first check if iconv function exists.
-    check_symbol_exists(iconv iconv.h _HAVE_ICONV)
+    check_symbol_exists(iconv iconv.h _PHP_HAVE_ICONV)
 
     # And if not, then check for libiconv function.
-    if(NOT _HAVE_ICONV)
+    if(NOT _PHP_HAVE_ICONV)
       check_symbol_exists(libiconv iconv.h HAVE_LIBICONV)
     endif()
   else()
-    check_library_exists(Iconv::Iconv libiconv "" HAVE_LIBICONV)
+    cmake_push_check_state(RESET)
+      set(CMAKE_REQUIRED_LIBRARIES Iconv::Iconv)
 
-    if(HAVE_LIBICONV)
-      set(ICONV_ALIASED_LIBICONV TRUE)
-    else()
-      check_library_exists(Iconv::Iconv iconv "" _HAVE_ICONV)
-    endif()
+      check_symbol_exists(libiconv iconv.h HAVE_LIBICONV)
+
+      if(HAVE_LIBICONV)
+        set(ICONV_ALIASED_LIBICONV TRUE)
+      else()
+        check_symbol_exists(iconv iconv.h _PHP_HAVE_ICONV)
+      endif()
+    cmake_pop_check_state()
   endif()
 
-  if(NOT _HAVE_ICONV AND NOT HAVE_LIBICONV)
+  if(NOT _PHP_HAVE_ICONV AND NOT HAVE_LIBICONV)
     message(
       FATAL_ERROR
-      "Iconv sanity check failed: neither 'iconv()' nor 'libiconv()' function "
-      "could be found."
+      "ext/iconv sanity check failed: neither 'iconv()' nor 'libiconv()' "
+      "function could be found."
     )
   endif()
 
@@ -124,16 +127,16 @@ if(TARGET Iconv::Iconv)
   cmake_push_check_state(RESET)
     set(CMAKE_REQUIRED_LIBRARIES Iconv::Iconv)
     set(CMAKE_REQUIRED_QUIET TRUE)
-    check_symbol_exists(_libiconv_version iconv.h _have_gnu_libiconv)
+    check_symbol_exists(_libiconv_version iconv.h _PHP_HAVE_GNU_LIBICONV)
   cmake_pop_check_state()
-  if(_have_gnu_libiconv)
+  if(_PHP_HAVE_GNU_LIBICONV)
     message(CHECK_PASS "GNU libiconv")
     set(HAVE_LIBICONV TRUE)
     set(PHP_ICONV_IMPL "libiconv")
   endif()
 
   # Check for glibc implementation.
-  if(NOT _have_gnu_libiconv)
+  if(NOT _PHP_HAVE_GNU_LIBICONV)
     cmake_push_check_state(RESET)
       set(CMAKE_REQUIRED_LIBRARIES Iconv::Iconv)
       set(CMAKE_REQUIRED_QUIET TRUE)
@@ -146,20 +149,20 @@ if(TARGET Iconv::Iconv)
   endif()
 
   # Check for Konstantin Chuguev's iconv implementation.
-  if(NOT _have_gnu_libiconv AND NOT HAVE_GLIBC_ICONV)
+  if(NOT _PHP_HAVE_GNU_LIBICONV AND NOT HAVE_GLIBC_ICONV)
     cmake_push_check_state(RESET)
       set(CMAKE_REQUIRED_LIBRARIES Iconv::Iconv)
       set(CMAKE_REQUIRED_QUIET TRUE)
-      check_symbol_exists(iconv_ccs_init iconv.h _have_bsd_iconv)
+      check_symbol_exists(iconv_ccs_init iconv.h _PHP_HAVE_BSD_ICONV)
     cmake_pop_check_state()
   endif()
-  if(_have_bsd_iconv)
+  if(_PHP_HAVE_BSD_ICONV)
     message(CHECK_PASS "BSD iconv")
     set(PHP_ICONV_IMPL "BSD iconv")
   endif()
 
   # Check for IBM iconv implementation.
-  if(NOT _have_gnu_libiconv AND NOT HAVE_GLIBC_ICONV AND NOT _have_bsd_iconv)
+  if(NOT _PHP_HAVE_GNU_LIBICONV AND NOT HAVE_GLIBC_ICONV AND NOT _PHP_HAVE_BSD_ICONV)
     cmake_push_check_state(RESET)
       set(CMAKE_REQUIRED_LIBRARIES Iconv::Iconv)
       set(CMAKE_REQUIRED_QUIET TRUE)

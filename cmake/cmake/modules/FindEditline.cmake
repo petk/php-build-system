@@ -27,7 +27,8 @@ find_package(Editline)
 ```
 #]=============================================================================]
 
-include(CheckLibraryExists)
+include(CheckSymbolExists)
+include(CMakePushCheckState)
 include(FeatureSummary)
 include(FindPackageHandleStandardArgs)
 
@@ -69,15 +70,16 @@ if(NOT Editline_LIBRARY)
 endif()
 
 # Sanity check.
-if(Editline_LIBRARY)
-  check_library_exists(
-    "${Editline_LIBRARY}"
-    readline
-    ""
-    _editline_sanity_check
-  )
+if(Editline_INCLUDE_DIR AND Editline_LIBRARY)
+  cmake_push_check_state(RESET)
+    set(CMAKE_REQUIRED_INCLUDES ${Editline_INCLUDE_DIR})
+    set(CMAKE_REQUIRED_LIBRARIES ${Editline_LIBRARY})
+    set(CMAKE_REQUIRED_QUIET TRUE)
 
-  if(NOT _editline_sanity_check)
+    check_symbol_exists(readline editline/readline.h _Editline_SANITY_CHECK)
+  cmake_pop_check_state()
+
+  if(NOT _Editline_SANITY_CHECK)
     string(APPEND _reason "Sanity check failed: readline() not found. ")
   endif()
 endif()
@@ -97,7 +99,7 @@ find_package_handle_standard_args(
   REQUIRED_VARS
     Editline_LIBRARY
     Editline_INCLUDE_DIR
-    _editline_sanity_check
+    _Editline_SANITY_CHECK
   VERSION_VAR Editline_VERSION
   HANDLE_VERSION_RANGE
   REASON_FAILURE_MESSAGE "${_reason}"
