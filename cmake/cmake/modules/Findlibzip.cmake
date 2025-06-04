@@ -34,7 +34,7 @@ find_package(libzip)
 ```
 #]=============================================================================]
 
-include(CheckLibraryExists)
+include(CheckSymbolExists)
 include(CMakePushCheckState)
 include(FeatureSummary)
 include(FindPackageHandleStandardArgs)
@@ -96,18 +96,15 @@ block(PROPAGATE libzip_VERSION)
     set(libzip_VERSION ${PC_libzip_VERSION})
   endif()
 
-  # Guess older version.
-  if(NOT libzip_VERSION AND libzip_LIBRARY)
+  # Determine libzip older version heuristically.
+  if(NOT libzip_VERSION AND libzip_INCLUDE_DIR AND libzip_LIBRARY)
     cmake_push_check_state(RESET)
+      set(CMAKE_REQUIRED_INCLUDES ${libzip_INCLUDE_DIR})
+      set(CMAKE_REQUIRED_LIBRARIES ${libzip_LIBRARY})
       set(CMAKE_REQUIRED_QUIET TRUE)
 
       # zip_file_set_mtime is available with libzip 1.0.0.
-      check_library_exists(
-        "${libzip_LIBRARY}"
-        zip_file_set_mtime
-        ""
-        HAVE_SET_MTIME
-      )
+      check_symbol_exists(zip_file_set_mtime zip.h HAVE_SET_MTIME)
 
       if(NOT HAVE_SET_MTIME)
         set(libzip_VERSION 0.11)
@@ -116,24 +113,14 @@ block(PROPAGATE libzip_VERSION)
       endif()
 
       # zip_file_set_encryption is available in libzip 1.2.0.
-      check_library_exists(
-        "${libzip_LIBRARY}"
-        zip_file_set_encryption
-        ""
-        HAVE_ENCRYPTION
-      )
+      check_symbol_exists(zip_file_set_encryption zip.h HAVE_ENCRYPTION)
 
       if(HAVE_ENCRYPTION)
         set(libzip_VERSION 1.2.0)
       endif()
 
       # zip_libzip_version is available in libzip 1.3.1.
-      check_library_exists(
-        "${libzip_LIBRARY}"
-        zip_libzip_version
-        ""
-        HAVE_LIBZIP_VERSION
-      )
+      check_symbol_exists(zip_libzip_version zip.h HAVE_LIBZIP_VERSION)
 
       if(HAVE_LIBZIP_VERSION)
         set(libzip_VERSION 1.3.1)

@@ -28,7 +28,8 @@ find_package(NetSnmp)
 ```
 #]=============================================================================]
 
-include(CheckLibraryExists)
+include(CheckSymbolExists)
+include(CMakePushCheckState)
 include(FeatureSummary)
 include(FindPackageHandleStandardArgs)
 
@@ -161,10 +162,20 @@ block(PROPAGATE NetSnmp_VERSION)
 endblock()
 
 # Sanity check.
-if(NetSnmp_LIBRARY)
-  check_library_exists("${NetSnmp_LIBRARY}" init_snmp "" _netsnmp_sanity_check)
+if(NetSnmp_INCLUDE_DIR AND NetSnmp_LIBRARY)
+  cmake_push_check_state(RESET)
+    set(CMAKE_REQUIRED_INCLUDES ${NetSnmp_INCLUDE_DIR})
+    set(CMAKE_REQUIRED_LIBRARIES ${NetSnmp_LIBRARY})
+    set(CMAKE_REQUIRED_QUIET TRUE)
 
-  if(NOT _netsnmp_sanity_check)
+    check_symbol_exists(
+      init_snmp
+      "net-snmp/net-snmp-config.h;net-snmp/net-snmp-includes.h"
+      _NetSnmp_SANITY_CHECK
+    )
+  cmake_pop_check_state()
+
+  if(NOT _NetSnmp_SANITY_CHECK)
     string(APPEND _reason "Sanity check failed: init_snmp not found. ")
   endif()
 endif()
@@ -176,7 +187,7 @@ find_package_handle_standard_args(
   REQUIRED_VARS
     NetSnmp_LIBRARY
     NetSnmp_INCLUDE_DIR
-    _netsnmp_sanity_check
+    _NetSnmp_SANITY_CHECK
   VERSION_VAR NetSnmp_VERSION
   HANDLE_VERSION_RANGE
   REASON_FAILURE_MESSAGE "${_reason}"
