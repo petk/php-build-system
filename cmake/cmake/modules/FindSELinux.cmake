@@ -27,7 +27,8 @@ find_package(SELinux)
 ```
 #]=============================================================================]
 
-include(CheckLibraryExists)
+include(CheckSymbolExists)
+include(CMakePushCheckState)
 include(FeatureSummary)
 include(FindPackageHandleStandardArgs)
 
@@ -69,15 +70,20 @@ if(NOT SELinux_LIBRARY)
 endif()
 
 # Sanity check.
-if(SELinux_LIBRARY)
-  check_library_exists(
-    "${SELinux_LIBRARY}"
-    security_setenforce
-    ""
-    _selinux_sanity_check
-  )
+if(SELinux_INCLUDE_DIR AND SELinux_LIBRARY)
+  cmake_push_check_state(RESET)
+    set(CMAKE_REQUIRED_INCLUDES ${SELinux_INCLUDE_DIR})
+    set(CMAKE_REQUIRED_LIBRARIES ${SELinux_LIBRARY})
+    set(CMAKE_REQUIRED_QUIET TRUE)
 
-  if(NOT _selinux_sanity_check)
+    check_symbol_exists(
+      security_setenforce
+      selinux/selinux.h
+      _SELinux_SANITY_CHECK
+    )
+  cmake_pop_check_state()
+
+  if(NOT _SELinux_SANITY_CHECK)
     string(APPEND _reason "Sanity check failed: security_setenforce() not found. ")
   endif()
 endif()
@@ -94,7 +100,7 @@ find_package_handle_standard_args(
   REQUIRED_VARS
     SELinux_LIBRARY
     SELinux_INCLUDE_DIR
-    _selinux_sanity_check
+    _SELinux_SANITY_CHECK
   VERSION_VAR SELinux_VERSION
   HANDLE_VERSION_RANGE
   REASON_FAILURE_MESSAGE "${_reason}"
