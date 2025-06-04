@@ -28,8 +28,9 @@ project(
   LANGUAGES C
 )
 
-include(CheckLibraryExists)
+include(CheckSymbolExists)
 include(CMakeDependentOption)
+include(CMakePushCheckState)
 include(FeatureSummary)
 
 option(PHP_EXT_BZ2 "Enable the bz2 extension")
@@ -83,17 +84,21 @@ set_package_properties(
 # Link with PUBLIC scope if include directories are on non-standard places.
 target_link_libraries(php_ext_bz2 PUBLIC BZip2::BZip2)
 
-# Sanity check.
+# Minimum version sanity check.
 if(TARGET BZip2::BZip2)
-  check_library_exists(BZip2::BZip2 BZ2_bzerror "" _HAVE_BZ2_BZERROR)
+  cmake_push_check_state(RESET)
+    set(CMAKE_REQUIRED_LIBRARIES BZip2::BZip2)
 
-  if(NOT _HAVE_BZ2_BZERROR)
-    message(
-      FATAL_ERROR
-      "BZip2 package is not working as expected. The bz2 extension requires "
-      "BZip2 library (libbzip2) version ${PHP_BZIP2_MIN_VERSION} or later."
-    )
-  endif()
+    check_symbol_exists(BZ2_bzerror bzlib.h _PHP_HAVE_BZ2_BZERROR)
+
+    if(NOT _PHP_HAVE_BZ2_BZERROR)
+      message(
+        FATAL_ERROR
+        "BZip2 package is not working as expected. The bz2 extension requires "
+        "BZip2 library (libbzip2) version ${PHP_BZIP2_MIN_VERSION} or later."
+      )
+    endif()
+  cmake_pop_check_state()
 endif()
 
 set(HAVE_BZ2 TRUE)

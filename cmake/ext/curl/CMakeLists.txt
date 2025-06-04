@@ -28,8 +28,8 @@ project(
 )
 
 include(CheckIncludeFiles)
-include(CheckLibraryExists)
 include(CheckSourceRuns)
+include(CheckSymbolExists)
 include(CMakeDependentOption)
 include(CMakePushCheckState)
 include(FeatureSummary)
@@ -166,15 +166,21 @@ endif()
 
 # Sanity check.
 if(TARGET CURL::libcurl)
-  check_library_exists(
-    CURL::libcurl
-    curl_easy_perform
-    ""
-    HAVE_CURL_EASY_PERFORM
-  )
+  cmake_push_check_state(RESET)
+    set(CMAKE_REQUIRED_LIBRARIES CURL::libcurl)
 
-  if(NOT HAVE_CURL_EASY_PERFORM)
-    message(FATAL_ERROR "The 'curl_easy_perform()' couldn't be found.")
+    check_symbol_exists(
+      curl_easy_perform
+      curl/curl.h
+      _PHP_HAVE_CURL_EASY_PERFORM
+    )
+  cmake_pop_check_state()
+
+  if(NOT _PHP_HAVE_CURL_EASY_PERFORM)
+    message(
+      FATAL_ERROR
+      "ext/curl sanity check failed: 'curl_easy_perform()' could not be found."
+    )
   endif()
 endif()
 
