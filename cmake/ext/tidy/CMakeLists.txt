@@ -104,6 +104,7 @@ if(TARGET Tidy::Tidy)
       set(header tidyp.h)
     endif()
 
+    check_symbol_exists(tidyOptGetCategory "${header}" HAVE_TIDYOPTGETCATEGORY)
     check_symbol_exists(tidyOptGetDoc "${header}" HAVE_TIDYOPTGETDOC)
     check_symbol_exists(tidyReleaseDate "${header}" HAVE_TIDYRELEASEDATE)
   cmake_pop_check_state()
