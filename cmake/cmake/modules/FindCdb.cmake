@@ -27,7 +27,8 @@ find_package(Cdb)
 ```
 #]=============================================================================]
 
-include(CheckLibraryExists)
+include(CheckSymbolExists)
+include(CMakePushCheckState)
 include(FeatureSummary)
 include(FindPackageHandleStandardArgs)
 
@@ -69,10 +70,16 @@ if(NOT Cdb_LIBRARY)
 endif()
 
 # Sanity check.
-if(Cdb_LIBRARY)
-  check_library_exists("${Cdb_LIBRARY}" cdb_read "" _cdb_sanity_check)
+if(Cdb_INCLUDE_DIR AND Cdb_LIBRARY)
+  cmake_push_check_state(RESET)
+    set(CMAKE_REQUIRED_INCLUDES ${Cdb_INCLUDE_DIR})
+    set(CMAKE_REQUIRED_LIBRARIES ${Cdb_LIBRARY})
+    set(CMAKE_REQUIRED_QUIET TRUE)
 
-  if(NOT _cdb_sanity_check)
+    check_symbol_exists(cdb_read cdb.h _Cdb_SANITY_CHECK)
+  cmake_pop_check_state()
+
+  if(NOT _Cdb_SANITY_CHECK)
     string(APPEND _reason "Sanity check failed: cdb_read not found. ")
   endif()
 endif()
@@ -97,7 +104,7 @@ find_package_handle_standard_args(
   REQUIRED_VARS
     Cdb_LIBRARY
     Cdb_INCLUDE_DIR
-    _cdb_sanity_check
+    _Cdb_SANITY_CHECK
   VERSION_VAR Cdb_VERSION
   HANDLE_VERSION_RANGE
   REASON_FAILURE_MESSAGE "${_reason}"

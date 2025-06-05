@@ -27,14 +27,15 @@ find_package(LMDB)
 ```
 #]=============================================================================]
 
-include(CheckLibraryExists)
+include(CheckSymbolExists)
+include(CMakePushCheckState)
 include(FeatureSummary)
 include(FindPackageHandleStandardArgs)
 
 set_package_properties(
   LMDB
   PROPERTIES
-    URL "https://www.symas.com/lmdb"
+    URL "https://www.symas.com/mdb"
     DESCRIPTION "Lightning Memory-Mapped Database library"
 )
 
@@ -69,10 +70,16 @@ if(NOT LMDB_LIBRARY)
 endif()
 
 # Sanity check.
-if(LMDB_LIBRARY)
-  check_library_exists("${LMDB_LIBRARY}" mdb_env_open "" _lmdb_sanity_check)
+if(LMDB_INCLUDE_DIR AND LMDB_LIBRARY)
+  cmake_push_check_state(RESET)
+    set(CMAKE_REQUIRED_INCLUDES ${LMDB_INCLUDE_DIR})
+    set(CMAKE_REQUIRED_LIBRARIES ${LMDB_LIBRARY})
+    set(CMAKE_REQUIRED_QUIET TRUE)
 
-  if(NOT _lmdb_sanity_check)
+    check_symbol_exists(mdb_env_open lmdb.h _LMDB_SANITY_CHECK)
+  cmake_pop_check_state()
+
+  if(NOT _LMDB_SANITY_CHECK)
     string(APPEND _reason "Sanity check failed: mdb_env_open not found. ")
   endif()
 endif()
@@ -111,7 +118,7 @@ find_package_handle_standard_args(
   REQUIRED_VARS
     LMDB_LIBRARY
     LMDB_INCLUDE_DIR
-    _lmdb_sanity_check
+    _LMDB_SANITY_CHECK
   VERSION_VAR LMDB_VERSION
   HANDLE_VERSION_RANGE
   REASON_FAILURE_MESSAGE "${_reason}"
