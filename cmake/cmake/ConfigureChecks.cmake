@@ -16,6 +16,23 @@ include(PHP/CheckAttribute)
 include(PHP/SearchLibraries)
 
 ################################################################################
+# General checks.
+################################################################################
+
+message(CHECK_START "Checking target system endianness (byte ordering)")
+if(CMAKE_C_BYTE_ORDER STREQUAL "BIG_ENDIAN")
+  message(CHECK_PASS "big-endian")
+  set(WORDS_BIGENDIAN TRUE)
+elseif(CMAKE_C_BYTE_ORDER STREQUAL "LITTLE_ENDIAN")
+  message(CHECK_PASS "little-endian")
+  set(WORDS_BIGENDIAN FALSE)
+else()
+  set(WORDS_BIGENDIAN FALSE)
+  message(CHECK_FAIL "unknown")
+  message(WARNING "Endianness could not be determined. Assuming little-endian.")
+endif()
+
+################################################################################
 # Check headers.
 ################################################################################
 
@@ -432,9 +449,6 @@ elseif(NOT PHP_FD_SETSIZE STREQUAL "")
 else()
   message(CHECK_PASS "using system default")
 endif()
-
-# Check target system byte order.
-include(PHP/CheckByteOrder)
 
 # Check for IPv6 support.
 include(PHP/CheckIPv6)
