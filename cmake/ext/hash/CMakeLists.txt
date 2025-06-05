@@ -105,9 +105,9 @@ target_sources(
         xxhash/xxhash.h
 )
 
-if(WORDS_BIGENDIAN)
+if(CMAKE_C_BYTE_ORDER STREQUAL "BIG_ENDIAN")
   set(HAVE_SLOW_HASH3 TRUE)
-  message(WARNING "Using slow SHA3 implementation on bigendian")
+  message(WARNING "Using slow SHA3 implementation on big-endian")
 else()
   block()
     if(CMAKE_SIZEOF_VOID_P EQUAL 4)
