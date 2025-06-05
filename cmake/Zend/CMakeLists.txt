@@ -504,7 +504,7 @@ if(HAVE_SIGACTION AND ZEND_SIGNALS)
   # files, therefore also compilation definition is added.
   target_compile_definitions(zend PUBLIC ZEND_SIGNALS)
 else()
-  set_property(CACHE ZEND_SIGNALS PROPERTY VALUE OFF)
+  set(ZEND_SIGNALS OFF)
   message(CHECK_FAIL "no")
 endif()
 add_feature_info(

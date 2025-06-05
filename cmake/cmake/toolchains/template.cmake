@@ -48,10 +48,6 @@ set(PHP_IRIX_TIME_R_EXITCODE 1)
 # Set the exit code for the writing to stdout check.
 set(PHP_WRITE_STDOUT_EXITCODE 0)
 
-# Set the exit code of the byte ordering fallback check. When targeting a
-# big-endian system, set it to 0, and for little-endian set it to 1.
-set(WORDS_BIGENDIAN_EXITCODE 1)
-
 ################################################################################
 # Zend Engine
 ################################################################################
