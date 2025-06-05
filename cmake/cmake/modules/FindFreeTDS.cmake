@@ -26,7 +26,8 @@ find_package(FreeTDS)
 ```
 #]=============================================================================]
 
-include(CheckLibraryExists)
+include(CheckSymbolExists)
+include(CMakePushCheckState)
 include(FeatureSummary)
 include(FindPackageHandleStandardArgs)
 
@@ -61,10 +62,16 @@ if(NOT FreeTDS_LIBRARY)
 endif()
 
 # Sanity check.
-if(FreeTDS_LIBRARY)
-  check_library_exists("${FreeTDS_LIBRARY}" dbsqlexec "" _freetds_sanity_check)
+if(FreeTDS_INCLUDE_DIR AND FreeTDS_LIBRARY)
+  cmake_push_check_state(RESET)
+    set(CMAKE_REQUIRED_INCLUDES ${FreeTDS_INCLUDE_DIR})
+    set(CMAKE_REQUIRED_LIBRARIES ${FreeTDS_LIBRARY})
+    set(CMAKE_REQUIRED_QUIET TRUE)
 
-  if(NOT _freetds_sanity_check)
+    check_symbol_exists(dbsqlexec sybdb.h _FreeTDS_SANITY_CHECK)
+  cmake_pop_check_state()
+
+  if(NOT _FreeTDS_SANITY_CHECK)
     string(APPEND _reason "Sanity check failed: dbsqlexec not found. ")
   endif()
 endif()
@@ -76,7 +83,7 @@ find_package_handle_standard_args(
   REQUIRED_VARS
     FreeTDS_LIBRARY
     FreeTDS_INCLUDE_DIR
-    _freetds_sanity_check
+    _FreeTDS_SANITY_CHECK
   REASON_FAILURE_MESSAGE "${_reason}"
 )
 
