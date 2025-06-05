@@ -27,7 +27,8 @@ find_package(TokyoCabinet)
 ```
 #]=============================================================================]
 
-include(CheckLibraryExists)
+include(CheckSymbolExists)
+include(CMakePushCheckState)
 include(FeatureSummary)
 include(FindPackageHandleStandardArgs)
 
@@ -69,15 +70,16 @@ if(NOT TokyoCabinet_LIBRARY)
 endif()
 
 # Sanity check.
-if(TokyoCabinet_LIBRARY)
-  check_library_exists(
-    "${TokyoCabinet_LIBRARY}"
-    tcadbopen
-    ""
-    _tokyocabinet_sanity_check
-  )
+if(TokyoCabinet_INCLUDE_DIR AND TokyoCabinet_LIBRARY)
+  cmake_push_check_state(RESET)
+    set(CMAKE_REQUIRED_INCLUDES ${TokyoCabinet_INCLUDE_DIR})
+    set(CMAKE_REQUIRED_LIBRARIES ${TokyoCabinet_LIBRARY})
+    set(CMAKE_REQUIRED_QUIET TRUE)
 
-  if(NOT _tokyocabinet_sanity_check)
+    check_symbol_exists(tcadbopen tcadb.h _TokyoCabinet_SANITY_CHECK)
+  cmake_pop_check_state()
+
+  if(NOT _TokyoCabinet_SANITY_CHECK)
     string(APPEND _reason "Sanity check failed: tcadbopen not found. ")
   endif()
 endif()
@@ -102,7 +104,7 @@ find_package_handle_standard_args(
   REQUIRED_VARS
     TokyoCabinet_LIBRARY
     TokyoCabinet_INCLUDE_DIR
-    _tokyocabinet_sanity_check
+    _TokyoCabinet_SANITY_CHECK
   VERSION_VAR TokyoCabinet_VERSION
   HANDLE_VERSION_RANGE
   REASON_FAILURE_MESSAGE "${_reason}"

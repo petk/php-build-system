@@ -192,9 +192,9 @@ else()
   php_check_compiler_flag(
     C
     -Wno-implicit-fallthrough
-    _HAVE_WNO_IMPLICIT_FALLTHROUGH_C
+    _PHP_HAVE_WNO_IMPLICIT_FALLTHROUGH_C
   )
-  if(_HAVE_WNO_IMPLICIT_FALLTHROUGH_C)
+  if(_PHP_HAVE_WNO_IMPLICIT_FALLTHROUGH_C)
     set_property(
       SOURCE pcre2lib/pcre2_jit_compile.c
       APPEND

@@ -105,6 +105,12 @@ target_sources(
 
 target_include_directories(php_ext_hash PRIVATE xxhash)
 
+target_compile_definitions(
+  php_ext_hash
+  PRIVATE
+    ZEND_ENABLE_STATIC_TSRMLS_CACHE
+)
+
 if(CMAKE_C_BYTE_ORDER STREQUAL "BIG_ENDIAN")
   set(HAVE_SLOW_HASH3 TRUE)
   message(WARNING "Using slow SHA3 implementation on big-endian")
@@ -118,9 +124,9 @@ else()
       php_check_compiler_flag(
         C
         -Wno-implicit-fallthrough
-        _HAVE_WNO_IMPLICIT_FALLTHROUGH_C
+        _PHP_HAVE_WNO_IMPLICIT_FALLTHROUGH_C
       )
-      if(_HAVE_WNO_IMPLICIT_FALLTHROUGH_C)
+      if(_PHP_HAVE_WNO_IMPLICIT_FALLTHROUGH_C)
         set_property(
           SOURCE ${sha3Dir}/KeccakP-1600-inplace32BI.c
           APPEND
@@ -153,7 +159,6 @@ else()
       KeccakP200_excluded
       KeccakP400_excluded
       KeccakP800_excluded
-      ZEND_ENABLE_STATIC_TSRMLS_CACHE
   )
 endif()
 

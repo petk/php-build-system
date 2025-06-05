@@ -252,9 +252,9 @@ if(PHP_EXT_OPCACHE_JIT)
   php_check_compiler_flag(
     C
     -Wno-implicit-fallthrough
-    _HAVE_WNO_IMPLICIT_FALLTHROUGH_C
+    _PHP_HAVE_WNO_IMPLICIT_FALLTHROUGH_C
   )
-  if(_HAVE_WNO_IMPLICIT_FALLTHROUGH_C)
+  if(_PHP_HAVE_WNO_IMPLICIT_FALLTHROUGH_C)
     target_compile_options(php_ext_opcache PRIVATE -Wno-implicit-fallthrough)
   endif()
 
