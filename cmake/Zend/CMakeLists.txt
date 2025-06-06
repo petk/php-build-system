@@ -413,15 +413,14 @@ cmake_push_check_state(RESET)
   check_symbol_exists(mremap sys/mman.h HAVE_MREMAP)
 cmake_pop_check_state()
 
-# BSD-based systems have pthread_attr_get_np in pthread_np.h.
 block()
-  check_include_files(pthread_np.h _HAVE_PTHREAD_NP_H)
+  set(headers pthread.h)
 
-  if(_HAVE_PTHREAD_NP_H)
-    set(headers "pthread_np.h")
+  # BSD-based systems have pthread_attr_get_np in pthread_np.h.
+  check_include_files(pthread_np.h _PHP_HAVE_PTHREAD_NP_H)
+  if(_PHP_HAVE_PTHREAD_NP_H)
+    list(APPEND headers "pthread_np.h")
   endif()
-
-  list(APPEND headers pthread.h)
 
   check_symbol_exists(
     pthread_attr_get_np

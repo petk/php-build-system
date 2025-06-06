@@ -216,11 +216,11 @@ php_search_libraries(
   HEADERS sys/mman.h
   LIBRARIES
     rt # Solaris <= 10, older Linux
-  VARIABLE _HAVE_SHM_OPEN
+  VARIABLE _PHP_HAVE_SHM_OPEN
   LIBRARY_VARIABLE libraryForShmOpen
 )
 
-if(_HAVE_SHM_OPEN)
+if(_PHP_HAVE_SHM_OPEN)
   cmake_push_check_state(RESET)
     if(libraryForShmOpen)
       set(CMAKE_REQUIRED_LIBRARIES ${libraryForShmOpen})

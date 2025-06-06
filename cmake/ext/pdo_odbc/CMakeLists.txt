@@ -221,9 +221,9 @@ if(TARGET ODBC::ODBC)
   endblock()
 
   # Check for an ODBC 1.0 function to assert that the libraries work.
-  check_library_exists(ODBC::ODBC SQLBindCol "" _HAVE_SQLBINDCOL)
+  check_library_exists(ODBC::ODBC SQLBindCol "" _PHP_HAVE_SQLBINDCOL)
 
-  if(NOT _HAVE_SQLBINDCOL)
+  if(NOT _PHP_HAVE_SQLBINDCOL)
     message(
       FATAL_ERROR
       "Could not find the SQLBindCol ODBC 1.0 function in the ODBC library."
@@ -231,9 +231,9 @@ if(TARGET ODBC::ODBC)
   endif()
 
   # Check for an ODBC 3.0 function to assert that the libraries work.
-  check_library_exists(ODBC::ODBC SQLAllocHandle "" _HAVE_SQLALLOCHANDLE)
+  check_library_exists(ODBC::ODBC SQLAllocHandle "" _PHP_HAVE_SQLALLOCHANDLE)
 
-  if(NOT _HAVE_SQLALLOCHANDLE)
+  if(NOT _PHP_HAVE_SQLALLOCHANDLE)
     message(
       FATAL_ERROR
       "The ODBC library does not appear to be ODBC 3 compatible (the ODBC 3.0 "
