@@ -1,0 +1,54 @@
+/* This file contains PHP build definitions. */
+
+/* Command used for configuring PHP at build phase. */
+#define CONFIGURE_COMMAND "@CONFIGURE_COMMAND@"
+
+/* The path to the sendmail program. */
+#define PHP_PROG_SENDMAIL "@PROG_SENDMAIL@"
+
+/* The path to the PEAR installation directory. */
+#define PEAR_INSTALLDIR "@EXPANDED_PEAR_INSTALLDIR@"
+
+/* The default PHP include_path INI directive configuration. */
+#define PHP_INCLUDE_PATH "@INCLUDE_PATH@"
+
+/* The path to the directory containing PHP extensions. */
+#define PHP_EXTENSION_DIR "@EXPANDED_EXTENSION_DIR@"
+
+/* The installation prefix used when installing PHP. */
+#define PHP_PREFIX "@prefix@"
+
+/* The path to the directory containing command-line executables (bin). */
+#define PHP_BINDIR "@EXPANDED_BINDIR@"
+
+/* The path to the directory containing system admin executables (sbin). */
+#define PHP_SBINDIR "@EXPANDED_SBINDIR@"
+
+/* The path to the directory containing man documentation. */
+#define PHP_MANDIR "@EXPANDED_MANDIR@"
+
+/* The path to the directory containing system libraries. */
+#define PHP_LIBDIR "@EXPANDED_LIBDIR@"
+
+/* The path to the directory containing architecture-independent data. */
+#define PHP_DATADIR "@EXPANDED_DATADIR@"
+
+/* The path to the directory containing read-only single-machine data. */
+#define PHP_SYSCONFDIR "@EXPANDED_SYSCONFDIR@"
+
+/* The path to the directory containing modifiable single-machine data. */
+#define PHP_LOCALSTATEDIR "@EXPANDED_LOCALSTATEDIR@"
+
+/* The path to the directory in which PHP looks for php.ini configuration
+   file. */
+#define PHP_CONFIG_FILE_PATH "@EXPANDED_PHP_CONFIG_FILE_PATH@"
+
+/* The path to the directory where PHP scans for additional INI configuration
+   files. */
+#define PHP_CONFIG_FILE_SCAN_DIR "@EXPANDED_PHP_CONFIG_FILE_SCAN_DIR@"
+
+/* The file extension of the shared PHP extensions (.so, .dll, etc.). */
+#define PHP_SHLIB_SUFFIX "@SHLIB_DL_SUFFIX_NAME@"
+
+/* The prefix for the shared library objects. */
+#define PHP_SHLIB_EXT_PREFIX ""

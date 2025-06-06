@@ -347,12 +347,8 @@ function(_php_main_create_files)
     set(PHP_CONFIG_H_WINDOWS 1)
     set(file config.w32.h)
   else()
-    set(ODBC_CFLAGS "${PHP_ODBC_CFLAGS}")
-    set(ODBC_LFLAGS "${PHP_ODBC_LFLAGS}")
-    set(ODBC_LIBS "${PHP_ODBC_LIBS}")
-    set(ODBC_TYPE "${PHP_ODBC_TYPE}")
     message(STATUS "Creating main/build-defs.h")
-    file(READ main/build-defs.h.in content)
+    file(READ main/cmake/build-defs.h.in content)
     string(CONFIGURE "${content}" content @ONLY)
 
     # To be able to evaluate the generator expressions.
@@ -370,14 +366,10 @@ function(_php_main_create_files)
     phase. Needs to be adjusted further to rebuild PHP at such case.
     include(PHP/ConfigureFile)
     php_configure_file(
-      INPUT ${PHP_SOURCE_DIR}/main/build-defs.h.in
+      INPUT ${PHP_SOURCE_DIR}/main/cmake/build-defs.h.in
       OUTPUT ${PHP_BINARY_DIR}/main/build-defs.h
       VARIABLES
         CONFIGURE_COMMAND "cmake"
-        ODBC_CFLAGS "${PHP_ODBC_CFLAGS}"
-        ODBC_LFLAGS "${PHP_ODBC_LFLAGS}"
-        ODBC_LIBS "${PHP_ODBC_LIBS}"
-        ODBC_TYPE "${PHP_ODBC_TYPE}"
         PROG_SENDMAIL "${PROG_SENDMAIL}"
         EXPANDED_PEAR_INSTALLDIR "${EXPANDED_PEAR_INSTALLDIR}"
         INCLUDE_PATH "${INCLUDE_PATH}"

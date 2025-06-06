@@ -273,11 +273,6 @@ if(PHP_EXT_ODBC_VERSION AND NOT PHP_EXT_ODBC_VERSION MATCHES "^0x[0-9A-Fa-f]+$")
   )
 endif()
 
-unset(PHP_ODBC_CFLAGS CACHE)
-unset(PHP_ODBC_LFLAGS CACHE)
-unset(PHP_ODBC_LIBS CACHE)
-unset(PHP_ODBC_TYPE CACHE)
-
 if(NOT PHP_EXT_ODBC)
   return()
 endif()
@@ -332,7 +327,7 @@ if(PHP_EXT_ODBC_TYPE STREQUAL "ibm-db2" AND TARGET ODBC::ODBC)
 endif()
 
 ################################################################################
-# Set variables for main/build-defs.h and config.h file.
+# Configure config.h file.
 ################################################################################
 
 # Set PHP_ODBC_TYPE for configuration header value.
@@ -430,15 +425,14 @@ if(TARGET ODBC::ODBC)
     list(JOIN ldflags " " ldflags)
     list(JOIN libs " " libs)
 
-    set(PHP_ODBC_CFLAGS "${cflags}" CACHE INTERNAL "ODBC CFLAGS")
-    set(PHP_ODBC_LFLAGS "${ldflags}" CACHE INTERNAL "ODBC linker flags")
-    set(PHP_ODBC_LIBS "${libs}" CACHE INTERNAL "ODBC libraries")
-    set(PHP_ODBC_TYPE "${PHP_ODBC_TYPE}" CACHE INTERNAL "ODBC type")
+    set(PHP_ODBC_CFLAGS "${cflags}")
+    set(PHP_ODBC_LFLAGS "${ldflags}")
+    set(PHP_ODBC_LIBS "${libs}")
+    set(PHP_ODBC_TYPE "${PHP_ODBC_TYPE}")
 
-    if(
-      NOT ODBC_DRIVER STREQUAL "Windows"
-      AND NOT EXISTS ${PHP_SOURCE_DIR}/main/build-defs.h.in
-    )
+    set(PHP_ODBC_BUILD_DEFINITIONS_CODE "")
+
+    if(NOT ODBC_DRIVER STREQUAL "Windows")
       set(
         PHP_ODBC_BUILD_DEFINITIONS_CODE
         [[
