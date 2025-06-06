@@ -86,8 +86,8 @@ target_compile_definitions(
     HAVE_STRTOLL
 )
 
-check_compiler_flag(C -fwrapv _HAVE_FWRAPV)
-if(_HAVE_FWRAPV)
+check_compiler_flag(C -fwrapv _timelib_HAVE_FWRAPV)
+if(_timelib_HAVE_FWRAPV)
   set_source_files_properties(
     ${timelibSources}
     TARGET_DIRECTORY ${TIMELIB_TARGET}
