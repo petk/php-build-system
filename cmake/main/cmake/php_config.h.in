@@ -745,7 +745,7 @@
 /* The prefix for the shared library objects. */
 # define PHP_SHLIB_EXT_PREFIX "php_"
 
-/* The shared library objects extension. */
+/* The file extension of the shared PHP extensions (.so, .dll, etc.). */
 # define PHP_SHLIB_SUFFIX "@SHLIB_DL_SUFFIX_NAME@"
 
 /* The path to the etc directory. */
