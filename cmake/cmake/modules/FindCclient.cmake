@@ -288,18 +288,18 @@ if(Cclient_INCLUDE_DIR AND Cclient_LIBRARY)
     cclient_check_symbol_exists(
       U8T_DECOMPOSE
       c-client.h
-      _HAVE_U8T_DECOMPOSE
+      _PHP_HAVE_U8T_DECOMPOSE
     )
   cmake_pop_check_state()
 
-  if(HAVE_NEW_MIME2TEXT AND NOT _HAVE_U8T_DECOMPOSE)
+  if(HAVE_NEW_MIME2TEXT AND NOT _PHP_HAVE_U8T_DECOMPOSE)
     string(
       APPEND
       _reason
       "Sanity check failed: 'utf8_mime2text()' has new signature, but "
       "'U8T_CANONICAL' is missing. This should not happen. "
     )
-  elseif(NOT HAVE_NEW_MIME2TEXT AND _HAVE_U8T_DECOMPOSE)
+  elseif(NOT HAVE_NEW_MIME2TEXT AND _PHP_HAVE_U8T_DECOMPOSE)
     string(
       APPEND
       _reason
