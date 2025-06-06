@@ -83,13 +83,13 @@ target_link_libraries(php_ext_sodium PRIVATE Sodium::Sodium)
 
 # Suppress some warnings on 32-bit with -Wno-type-limits and -Wno-logical-op.
 if(CMAKE_SIZEOF_VOID_P EQUAL 4)
-  php_check_compiler_flag(C -Wno-type-limits HAVE_WNO_TYPE_LIMITS_C)
-  if(HAVE_WNO_TYPE_LIMITS_C)
+  php_check_compiler_flag(C -Wno-type-limits _PHP_HAVE_WNO_TYPE_LIMITS_C)
+  if(_PHP_HAVE_WNO_TYPE_LIMITS_C)
     target_compile_options(php_ext_sodium PRIVATE -Wno-type-limits)
   endif()
 
-  php_check_compiler_flag(C -Wno-logical-op HAVE_WNO_LOGICAL_OP_C)
-  if(HAVE_WNO_LOGICAL_OP_C)
+  php_check_compiler_flag(C -Wno-logical-op _PHP_HAVE_WNO_LOGICAL_OP_C)
+  if(_PHP_HAVE_WNO_LOGICAL_OP_C)
     target_compile_options(php_ext_sodium PRIVATE -Wno-logical-op)
   endif()
 endif()

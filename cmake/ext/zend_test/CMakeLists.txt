@@ -79,6 +79,7 @@ target_compile_definitions(
     $<$<PLATFORM_ID:Windows>:PHP_ZEND_TEST_EXPORTS>
 )
 
+# TODO: Fix this better.
 # If libxml extension is enabled, link libxml library as headers are used.
 # TODO: Reconfigure this for static/shared LibXml library on Windows.
 if(PHP_EXT_LIBXML)

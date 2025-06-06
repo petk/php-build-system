@@ -34,6 +34,7 @@ if(CMAKE_SYSTEM_NAME STREQUAL "Windows")
   return()
 endif()
 
+include(CheckIncludeFiles)
 include(CheckStructHasMember)
 include(CheckSymbolExists)
 include(CMakeDependentOption)
@@ -86,14 +87,16 @@ check_symbol_exists(getpgid unistd.h HAVE_GETPGID)
 check_symbol_exists(getrlimit sys/resource.h HAVE_GETRLIMIT)
 check_symbol_exists(getsid unistd.h HAVE_GETSID)
 
-# BSD-based systems have initgroups in unistd.h but still have grp.h file.
+# BSD-based systems have initgroups in unistd.h, elsewhere it is in grp.h.
 block()
   set(headers "")
 
+  check_include_files(grp.h HAVE_GRP_H)
   if(HAVE_GRP_H)
     list(APPEND headers "grp.h")
   endif()
 
+  check_include_files(unistd.h HAVE_UNISTD_H)
   if(HAVE_UNISTD_H)
     list(APPEND headers "unistd.h")
   endif()

@@ -83,6 +83,14 @@ set_package_properties(
     PURPOSE "Necessary to enable the curl extension."
 )
 
+target_compile_options(
+  php_ext_curl
+  PRIVATE
+    $<$<PLATFORM_ID:Windows>:PHP_CURL_EXPORTS>
+    # TODO: Add CURL_STATICLIB when curl is static library on Windows:
+    $<$<AND:$<PLATFORM_ID:Windows>,$<BOOL:${TODO}>>:CURL_STATICLIB>
+)
+
 target_link_libraries(php_ext_curl PRIVATE CURL::libcurl)
 
 # Check whether to link against OpenSSL to have crypto locking callbacks when
