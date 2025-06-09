@@ -939,6 +939,8 @@ PHP coding standards now use the C11 standard.
 * ext/standard/datetime.h is not installed anymore.
 * Minimum required ICU package version (for ext/intl) has been increased from
   50.1 to 57.1.
+* Minimum required SQLite library version has been increased from 3.7.7 to
+  3.7.17.
 * Bundled file library in ext/fileinfo upgraded to 5.46.
 * Bundled pcre2lib in ext/pcre upgraded from 10.44 to 10.45.
 * Added new extensions lexbor and uri as always enabled.

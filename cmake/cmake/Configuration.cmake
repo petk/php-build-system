@@ -207,7 +207,7 @@ endblock()
 set(PHP_OPENSSL_MIN_VERSION 1.1.1)
 
 # Minimum required version for the SQLite dependency.
-set(PHP_SQLITE_MIN_VERSION 3.7.7)
+set(PHP_SQLITE_MIN_VERSION 3.7.17)
 
 # Minimum required version for the PostgreSQL dependency.
 set(PHP_POSTGRESQL_MIN_VERSION 10.0)
