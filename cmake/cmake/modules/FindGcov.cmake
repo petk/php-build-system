@@ -149,7 +149,7 @@ macro(gcov_generate_report)
       message(STATUS \"Generating gcovr HTML\")
       # Clean generated gcovr_html directory. Checks are done as safeguards.
       if(
-        EXISTS ${PROJECT_BINARY_DIR}/main/php_config.h
+        EXISTS ${PROJECT_BINARY_DIR}/main/internal_functions.c
         AND EXISTS ${PROJECT_BINARY_DIR}/gcovr_html
       )
         file(REMOVE_RECURSE ${PROJECT_BINARY_DIR}/gcovr_html)
@@ -173,7 +173,7 @@ macro(gcov_generate_report)
       message(STATUS \"Generating gcovr XML\")
       # Clean generated gcovr.xml file. Checks are done as safeguards.
       if(
-        EXISTS ${PROJECT_BINARY_DIR}/main/php_config.h
+        EXISTS ${PROJECT_BINARY_DIR}/main/internal_functions.c
         AND EXISTS ${PROJECT_BINARY_DIR}/gcovr.xml
       )
         file(REMOVE ${PROJECT_BINARY_DIR}/gcovr.xml)

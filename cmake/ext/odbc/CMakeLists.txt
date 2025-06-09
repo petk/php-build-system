@@ -273,11 +273,6 @@ if(PHP_EXT_ODBC_VERSION AND NOT PHP_EXT_ODBC_VERSION MATCHES "^0x[0-9A-Fa-f]+$")
   )
 endif()
 
-unset(PHP_ODBC_CFLAGS CACHE)
-unset(PHP_ODBC_LFLAGS CACHE)
-unset(PHP_ODBC_LIBS CACHE)
-unset(PHP_ODBC_TYPE CACHE)
-
 if(NOT PHP_EXT_ODBC)
   return()
 endif()
@@ -332,7 +327,7 @@ if(PHP_EXT_ODBC_TYPE STREQUAL "ibm-db2" AND TARGET ODBC::ODBC)
 endif()
 
 ################################################################################
-# Set variables for main/build-defs.h and config.h file.
+# Configure config.h file.
 ################################################################################
 
 # Set PHP_ODBC_TYPE for configuration header value.
@@ -394,7 +389,7 @@ if(NOT PHP_EXT_ODBC_TYPE MATCHES "^(dbmaker|solid)$")
   set(HAVE_SQLDATASOURCES TRUE)
 endif()
 
-if(TARGET ODBC::ODBC)
+if(TARGET ODBC::ODBC AND NOT ODBC_DRIVER STREQUAL "Windows")
   block(PROPAGATE PHP_ODBC_BUILD_DEFINITIONS_CODE)
     get_target_property(definitions ODBC::ODBC INTERFACE_COMPILE_DEFINITIONS)
     get_target_property(options ODBC::ODBC INTERFACE_COMPILE_OPTIONS)
@@ -430,37 +425,18 @@ if(TARGET ODBC::ODBC)
     list(JOIN ldflags " " ldflags)
     list(JOIN libs " " libs)
 
-    set(PHP_ODBC_CFLAGS "${cflags}" CACHE INTERNAL "ODBC CFLAGS")
-    set(PHP_ODBC_LFLAGS "${ldflags}" CACHE INTERNAL "ODBC linker flags")
-    set(PHP_ODBC_LIBS "${libs}" CACHE INTERNAL "ODBC libraries")
-    set(PHP_ODBC_TYPE "${PHP_ODBC_TYPE}" CACHE INTERNAL "ODBC type")
-
-    if(
-      NOT ODBC_DRIVER STREQUAL "Windows"
-      AND NOT EXISTS ${PHP_SOURCE_DIR}/main/build-defs.h.in
-    )
-      set(
-        PHP_ODBC_BUILD_DEFINITIONS_CODE
-        [[
+    string(CONFIGURE [[
 /* The compile options that PHP odbc extension was built with. */
-#define PHP_ODBC_CFLAGS "@PHP_ODBC_CFLAGS@"
+#define PHP_ODBC_CFLAGS "@cflags@"
 
 /* The linker flags that PHP odbc extension was built with. */
-#define PHP_ODBC_LFLAGS "@PHP_ODBC_LFLAGS@"
+#define PHP_ODBC_LFLAGS "@ldflags@"
 
 /* The libraries linker flags that PHP odbc extension was built with. */
-#define PHP_ODBC_LIBS "@PHP_ODBC_LIBS@"
+#define PHP_ODBC_LIBS "@libs@"
 
 /* The ODBC library used in the PHP odbc extension. */
-#define PHP_ODBC_TYPE "@PHP_ODBC_TYPE@"]]
-      )
-
-      string(
-        CONFIGURE
-        "${PHP_ODBC_BUILD_DEFINITIONS_CODE}"
-        PHP_ODBC_BUILD_DEFINITIONS_CODE
-      )
-    endif()
+#define PHP_ODBC_TYPE "@PHP_ODBC_TYPE@"]] PHP_ODBC_BUILD_DEFINITIONS_CODE)
   endblock()
 endif()
 
