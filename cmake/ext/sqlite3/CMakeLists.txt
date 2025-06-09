@@ -81,9 +81,6 @@ if(TARGET SQLite::SQLite3)
   cmake_push_check_state(RESET)
     set(CMAKE_REQUIRED_LIBRARIES SQLite::SQLite3)
 
-    check_symbol_exists(sqlite3_errstr sqlite3.h HAVE_SQLITE3_ERRSTR)
-    check_symbol_exists(sqlite3_expanded_sql sqlite3.h HAVE_SQLITE3_EXPANDED_SQL)
-
     check_symbol_exists(
       sqlite3_load_extension
       sqlite3.h
@@ -93,6 +90,9 @@ if(TARGET SQLite::SQLite3)
       set(SQLITE_OMIT_LOAD_EXTENSION TRUE)
     endif()
   cmake_pop_check_state()
+
+  set(HAVE_SQLITE3_ERRSTR TRUE)
+  set(HAVE_SQLITE3_EXPANDED_SQL TRUE)
 endif()
 
 set(HAVE_SQLITE3 TRUE)
