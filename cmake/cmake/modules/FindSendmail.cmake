@@ -9,8 +9,9 @@ either `sendmail` is used if found, or a general default value is set to
 ## Result variables
 
 * `Sendmail_FOUND` - Whether sendmail has been found.
-* `PROG_SENDMAIL` - Path to the sendmail executable program, either found by
-  the module or set to a sensible default value.
+* `Sendmail_PROGRAM` - Path to the sendmail executable program, either found by
+  the module or set to a sensible default value for usage in PHP. On Windows,
+  this is set to an empty string as PHP uses a built in mailer there.
 
 ## Cache variables
 
@@ -39,6 +40,7 @@ set(_reason "")
 if(CMAKE_SYSTEM_NAME STREQUAL "Windows")
   set(_sendmailIsBuiltInMsg "PHP built-in mailer (Windows)")
   set(_sendmailRequiredVars _sendmailIsBuiltInMsg)
+  set(Sendmail_PROGRAM "")
 else()
   find_program(
     Sendmail_EXECUTABLE
@@ -50,14 +52,14 @@ else()
   set(_sendmailRequiredVars Sendmail_EXECUTABLE)
 
   if(Sendmail_EXECUTABLE)
-    set(PROG_SENDMAIL ${Sendmail_EXECUTABLE})
+    set(Sendmail_PROGRAM "${Sendmail_EXECUTABLE}")
   else()
-    set(PROG_SENDMAIL "/usr/sbin/sendmail")
+    set(Sendmail_PROGRAM "/usr/sbin/sendmail")
   endif()
 
   set(
     _reason
-    "sendmail not found. Default set to ${PROG_SENDMAIL}.
+    "sendmail not found. Default set to ${Sendmail_PROGRAM}.
     It can be overridden with 'sendmail_path' php.ini directive."
   )
 endif()
