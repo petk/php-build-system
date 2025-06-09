@@ -610,7 +610,7 @@ if(NOT CMAKE_SYSTEM_NAME STREQUAL "Windows")
   file(
     CONFIGURE
     OUTPUT zend_config.h
-    CONTENT "#include <../main/php_config.h>\n"
+    CONTENT "#include <php_config.h>\n"
   )
 endif()
 

@@ -47,7 +47,9 @@ block()
     endif()
   endif()
 
+  ##############################################################################
   message(STATUS "Creating scripts/php-config")
+  ##############################################################################
 
   get_property(sapis GLOBAL PROPERTY PHP_SAPIS)
   if(CMAKE_VERSION VERSION_GREATER_EQUAL 3.27)
@@ -78,7 +80,7 @@ block()
 
   php_configure_file(
     CONTENT "${content}"
-    OUTPUT php-config
+    OUTPUT ${PHP_BINARY_DIR}/$<CONFIG>/scripts/php-config
     VARIABLES
       SED "${SED}"
       prefix "$<INSTALL_PREFIX>"
@@ -110,15 +112,17 @@ block()
 
   install(
     PROGRAMS
-    ${CMAKE_CURRENT_BINARY_DIR}/php-config
+    ${PHP_BINARY_DIR}/$<CONFIG>/scripts/php-config
     DESTINATION ${CMAKE_INSTALL_BINDIR}
     RENAME ${PHP_PROGRAM_PREFIX}php-config${PHP_PROGRAM_SUFFIX}
   )
 
+  ##############################################################################
   message(STATUS "Creating scripts/phpize")
+  ##############################################################################
 
-  # Replace the upstream phpize script hardcoded php include directory to a
-  # template placeholder.
+  # Patch phpize template: Replace the upstream phpize script hardcoded php
+  # include directory to a template placeholder.
   file(READ "${CMAKE_CURRENT_SOURCE_DIR}/phpize.in" content)
   string(
     REPLACE
@@ -127,18 +131,32 @@ block()
     content
     "${content}"
   )
+  file(WRITE "${CMAKE_CURRENT_BINARY_DIR}/CMakeFiles/PHP/phpize.in" "${content}")
 
-  php_configure_file(
-    CONTENT "${content}"
-    OUTPUT phpize
-    VARIABLES
-      prefix "$<INSTALL_PREFIX>"
-      datarootdir "$<PATH:ABSOLUTE_PATH,NORMALIZE,${CMAKE_INSTALL_DATAROOTDIR},$<INSTALL_PREFIX>>"
-      exec_prefix "$<INSTALL_PREFIX>"
-      libdir "$<PATH:ABSOLUTE_PATH,NORMALIZE,${CMAKE_INSTALL_LIBDIR}/php,$<INSTALL_PREFIX>>"
-      includedir "$<PATH:ABSOLUTE_PATH,NORMALIZE,${CMAKE_INSTALL_INCLUDEDIR}/${PHP_INCLUDE_PREFIX},$<INSTALL_PREFIX>>"
-      SED "${SED}"
-  )
+  string(CONFIGURE [[
+    set(prefix "${CMAKE_INSTALL_PREFIX}")
+    set(datarootdir "$<PATH:ABSOLUTE_PATH,NORMALIZE,@CMAKE_INSTALL_DATAROOTDIR@,${CMAKE_INSTALL_PREFIX}>")
+    set(exec_prefix "${CMAKE_INSTALL_PREFIX}")
+    set(libdir "$<PATH:ABSOLUTE_PATH,NORMALIZE,@CMAKE_INSTALL_LIBDIR@/php,${CMAKE_INSTALL_PREFIX}>")
+    set(includedir "$<PATH:ABSOLUTE_PATH,NORMALIZE,@CMAKE_INSTALL_INCLUDEDIR@/@PHP_INCLUDE_PREFIX@,${CMAKE_INSTALL_PREFIX}>")
+    set(SED "@SED@")
+  ]] code @ONLY)
+  cmake_language(EVAL CODE "${code}")
+  string(CONFIGURE "${content}" content @ONLY)
+  file(GENERATE OUTPUT phpize CONTENT "${content}")
+
+  # This regenerates the phpize file on the install step when using
+  # different install prefix at the install phase:
+  #   'cmake --install <build-dir> --prefix <prefix>'
+  string(CONFIGURE [[
+    @code@
+    configure_file(
+      "@CMAKE_CURRENT_BINARY_DIR@/CMakeFiles/PHP/phpize.in"
+      "@CMAKE_CURRENT_BINARY_DIR@/phpize"
+      @ONLY
+    )
+  ]] code @ONLY)
+  install(CODE "${code}")
 
   install(
     PROGRAMS

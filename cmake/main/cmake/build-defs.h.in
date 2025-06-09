@@ -1,0 +1,66 @@
+/* The following build system related configuration is in Autotools build system
+   defined in the main/build-defs.h header and in JScript Windows build system
+   in the main/config.w32.h header. These are provided as a separate header file
+   aiming to simplify the re-build phase when multiple configurations are used.
+   For example, using different installation prefixes for the stage and
+   production installation directories. */
+
+#ifndef _PHP_BUILD_DEFS_H
+#define _PHP_BUILD_DEFS_H
+
+/* Command used for configuring PHP at build phase. */
+#cmakedefine CONFIGURE_COMMAND "@CONFIGURE_COMMAND@"
+
+/* The path to the PEAR installation directory. */
+#define PEAR_INSTALLDIR "@PEAR_INSTALLDIR@"
+
+/* The path to the directory containing command-line executables (bin). */
+#define PHP_BINDIR "@PHP_BINDIR@"
+
+/* The path to the directory in which PHP looks for the php.ini configuration
+   file. On Windows this macro isn't utilized in the C code. */
+#define PHP_CONFIG_FILE_PATH "@EXPANDED_PHP_CONFIG_FILE_PATH@"
+
+/* The path to the directory where PHP scans for additional INI
+   configuration files. */
+#define PHP_CONFIG_FILE_SCAN_DIR "@EXPANDED_PHP_CONFIG_FILE_SCAN_DIR@"
+
+/* The path to the directory containing architecture-independent data
+   (share). */
+#define PHP_DATADIR "@PHP_DATADIR@"
+
+/* The default path to the directory containing dynamically loadable PHP
+   extensions. */
+#define PHP_EXTENSION_DIR "@EXPANDED_EXTENSION_DIR@"
+
+/* The default 'include_path' PHP INI directive. */
+#define PHP_INCLUDE_PATH "@PHP_INCLUDE_PATH@"
+
+/* The path to the directory containing system libraries (lib). */
+#define PHP_LIBDIR "@PHP_LIBDIR@"
+
+/* The path to the directory containing modifiable single-machine data (var). */
+#define PHP_LOCALSTATEDIR "@PHP_LOCALSTATEDIR@"
+
+/* The path to the directory containing man documentation. */
+#cmakedefine PHP_MANDIR "@PHP_MANDIR@"
+
+/* The PHP installation prefix. */
+#define PHP_PREFIX "@CMAKE_INSTALL_PREFIX@"
+
+/* The path to the sendmail program. PHP on Windows uses a built in mailer. */
+#cmakedefine PHP_PROG_SENDMAIL "@PHP_PROG_SENDMAIL@"
+
+/* The path to the directory containing system admin executables (sbin). */
+#define PHP_SBINDIR "@PHP_SBINDIR@"
+
+/* The filename prefix for the shared PHP extensions. */
+#define PHP_SHLIB_EXT_PREFIX "@PHP_SHLIB_EXT_PREFIX@"
+
+/* The file extension of the shared PHP extensions ('so', 'dll'). */
+#define PHP_SHLIB_SUFFIX "@PHP_SHLIB_SUFFIX@"
+
+/* The path to the directory containing read-only single-machine data (etc). */
+#define PHP_SYSCONFDIR "@PHP_SYSCONFDIR@"
+
+#endif

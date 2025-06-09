@@ -646,12 +646,8 @@
 /* Define if processor uses big-endian word. */
 #cmakedefine WORDS_BIGENDIAN
 
-/* Define to 1 if debugging is enabled, and to 0 if not.
-   TODO: This is still not good enough because multi-config generators would
-   then need separate php_config.h files for each build type. */
-#ifndef ZEND_DEBUG
-# define ZEND_DEBUG $<IF:$<CONFIG:Debug,DebugAssertions>,1,0>
-#endif
+/* Define to 1 if PHP debugging is enabled, and to 0 if not. */
+#define ZEND_DEBUG $<IF:$<CONFIG:Debug,DebugAssertions>,1,0>
 
 /* Define to 1 if thread safety (ZTS) is enabled. */
 #cmakedefine ZTS 1
@@ -678,56 +674,7 @@
 @ZEND_CONFIGURATION@
 
 #if @PHP_CONFIG_H_WINDOWS@
-/* The following build system related configuration values are on *nix
-   systems defined in the main/build-defs.h and JScript Windows build system
-   defines them in the configuration header file. */
-
-/* Configure line */
-# cmakedefine CONFIGURE_COMMAND "@CONFIGURE_COMMAND@"
-
-/* The PEAR installation directory. */
-# define PEAR_INSTALLDIR "@EXPANDED_PEAR_INSTALLDIR@"
-
-/* The path to the bin directory. */
-# define PHP_BINDIR "@EXPANDED_BINDIR@"
-
-/* The path in which to look for php.ini. On Windows this macro isn't
-   utilized in the C code. */
-# define PHP_CONFIG_FILE_PATH ""
-
-/* The path where to scan for additional INI configuration files. */
-# define PHP_CONFIG_FILE_SCAN_DIR "@EXPANDED_PHP_CONFIG_FILE_SCAN_DIR@"
-
-/* The path to the share directory. */
-# define PHP_DATADIR "@EXPANDED_DATADIR@"
-
-/* Default directory for dynamically loadable PHP extensions. */
-# define PHP_EXTENSION_DIR "@EXPANDED_EXTENSION_DIR@"
-
-/* The 'include_path' PHP INI directive. */
-# define PHP_INCLUDE_PATH "@INCLUDE_PATH@"
-
-/* The path containing system libraries (lib or lib64). */
-# define PHP_LIBDIR "@EXPANDED_LIBDIR@"
-
-/* The path to the var directory. */
-# define PHP_LOCALSTATEDIR "@EXPANDED_LOCALSTATEDIR@"
-
-/* The installation prefix. */
-# define PHP_PREFIX "@prefix@"
-
-/* The path to the sbin directory. */
-# define PHP_SBINDIR "@EXPANDED_SBINDIR@"
-
-/* The prefix for the shared library objects. */
-# define PHP_SHLIB_EXT_PREFIX "php_"
-
-/* The shared library objects extension. */
-# define PHP_SHLIB_SUFFIX "@SHLIB_DL_SUFFIX_NAME@"
-
-/* The path to the etc directory. */
-# define PHP_SYSCONFDIR "@EXPANDED_SYSCONFDIR@"
-
+# include "build-defs.h"
 # if __has_include("main/config.pickle.h")
 #  include "main/config.pickle.h"
 # endif

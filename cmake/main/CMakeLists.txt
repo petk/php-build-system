@@ -99,11 +99,11 @@ target_sources(
   PUBLIC
     FILE_SET generated
       TYPE HEADERS
-      BASE_DIRS ${CMAKE_CURRENT_BINARY_DIR}
+      BASE_DIRS ${PHP_BINARY_DIR}/$<CONFIG>/main
       FILES
-        $<$<PLATFORM_ID:Windows>:${CMAKE_CURRENT_BINARY_DIR}/config.w32.h>
-        $<$<NOT:$<PLATFORM_ID:Windows>>:${CMAKE_CURRENT_BINARY_DIR}/build-defs.h>
-        $<$<NOT:$<PLATFORM_ID:Windows>>:${CMAKE_CURRENT_BINARY_DIR}/php_config.h>
+        $<$<PLATFORM_ID:Windows>:${PHP_BINARY_DIR}/$<CONFIG>/main/config.w32.h>
+        ${PHP_BINARY_DIR}/$<CONFIG>/main/build-defs.h
+        $<$<NOT:$<PLATFORM_ID:Windows>>:${PHP_BINARY_DIR}/$<CONFIG>/main/php_config.h>
 )
 
 check_symbol_exists(__ELF__ "" _HAVE_ELF)
@@ -146,6 +146,8 @@ target_include_directories(
   php_config
   INTERFACE
     ${CMAKE_CURRENT_BINARY_DIR}
+    ${PHP_BINARY_DIR}/$<CONFIG>
+    ${PHP_BINARY_DIR}/$<CONFIG>/main
     ${CMAKE_CURRENT_SOURCE_DIR}
 )
 
@@ -259,82 +261,96 @@ file(CONFIGURE OUTPUT ${CMAKE_CURRENT_SOURCE_DIR}/php_version.h CONTENT [[
 # Generate configuration headers.
 ################################################################################
 
-# Run at the end of the configuration.
-cmake_language(DEFER DIRECTORY ${PHP_SOURCE_DIR} CALL _php_main_create_files)
-function(_php_main_create_files)
-  ##############################################################################
-  # Map CMake variable names to names in PHP configuration headers where needed.
-  ##############################################################################
+# Configure build system configuration header (build-defs.h).
+function(_php_main_configure_build_defs)
+  message(STATUS "Configuring build-defs.h")
 
-  # TODO: Set configure command string.
-  set(CONFIGURE_COMMAND "cmake")
+  string(CONFIGURE [[
+    set(CONFIGURE_COMMAND "cmake")
 
-  # TODO: Fix the installation prefixes below when passed via the '--prefix'
-  # option of the 'cmake --install ...' command. PHP is at the time of writing
-  # not a relocatable program.
+    if(NOT "@PHP_PEAR_DIR@" STREQUAL "")
+      set(PEAR_INSTALLDIR "$<PATH:ABSOLUTE_PATH,NORMALIZE,@PHP_PEAR_DIR@,${CMAKE_INSTALL_PREFIX}>")
+    endif()
 
-  if(PHP_PEAR_DIR)
-    set(
-      EXPANDED_PEAR_INSTALLDIR
-      "$<PATH:ABSOLUTE_PATH,NORMALIZE,${PHP_PEAR_DIR},${CMAKE_INSTALL_PREFIX}>"
+    set(PHP_BINDIR "$<PATH:ABSOLUTE_PATH,NORMALIZE,@CMAKE_INSTALL_BINDIR@,${CMAKE_INSTALL_PREFIX}>")
+
+    if("@CMAKE_SYSTEM_NAME@" STREQUAL "Windows")
+      set(EXPANDED_PHP_CONFIG_FILE_PATH "")
+    else()
+      set(EXPANDED_PHP_CONFIG_FILE_PATH "$<PATH:ABSOLUTE_PATH,NORMALIZE,@PHP_CONFIG_FILE_PATH@,${CMAKE_INSTALL_PREFIX}>")
+    endif()
+
+    set(EXPANDED_PHP_CONFIG_FILE_SCAN_DIR "$<PATH:ABSOLUTE_PATH,NORMALIZE,@PHP_CONFIG_FILE_SCAN_DIR@,${CMAKE_INSTALL_PREFIX}>")
+
+    set(PHP_DATADIR "$<PATH:ABSOLUTE_PATH,NORMALIZE,@CMAKE_INSTALL_DATADIR@,${CMAKE_INSTALL_PREFIX}>")
+
+    set(EXPANDED_EXTENSION_DIR "$<PATH:ABSOLUTE_PATH,NORMALIZE,@PHP_EXTENSION_DIR@,${CMAKE_INSTALL_PREFIX}>")
+
+    if("@CMAKE_SYSTEM_NAME@" STREQUAL "Windows")
+      set(PHP_INCLUDE_PATH ".;${PEAR_INSTALLDIR}")
+    else()
+      set(PHP_INCLUDE_PATH ".:${PEAR_INSTALLDIR}")
+    endif()
+
+    set(PHP_LIBDIR "$<PATH:ABSOLUTE_PATH,NORMALIZE,@CMAKE_INSTALL_LIBDIR@,${CMAKE_INSTALL_PREFIX}>")
+
+    set(PHP_LOCALSTATEDIR "$<PATH:ABSOLUTE_PATH,NORMALIZE,@CMAKE_INSTALL_LOCALSTATEDIR@,${CMAKE_INSTALL_PREFIX}>")
+
+    if("@CMAKE_SYSTEM_NAME@" STREQUAL "Windows")
+      set(PHP_MANDIR "")
+    else()
+      set(PHP_MANDIR "$<PATH:ABSOLUTE_PATH,NORMALIZE,@CMAKE_INSTALL_MANDIR@,${CMAKE_INSTALL_PREFIX}>")
+    endif()
+
+    set(PHP_PROG_SENDMAIL "@Sendmail_PROGRAM@")
+
+    set(PHP_SBINDIR "$<PATH:ABSOLUTE_PATH,NORMALIZE,@CMAKE_INSTALL_SBINDIR@,${CMAKE_INSTALL_PREFIX}>")
+
+    if("@CMAKE_SYSTEM_NAME@" STREQUAL "Windows")
+      set(PHP_SHLIB_EXT_PREFIX "php_")
+    else()
+      set(PHP_SHLIB_EXT_PREFIX "")
+    endif()
+
+    string(REPLACE "." "" PHP_SHLIB_SUFFIX "@CMAKE_SHARED_MODULE_SUFFIX@")
+
+    set(PHP_SYSCONFDIR "$<PATH:ABSOLUTE_PATH,NORMALIZE,@CMAKE_INSTALL_SYSCONFDIR@,${CMAKE_INSTALL_PREFIX}>")
+  ]] code @ONLY)
+  cmake_language(EVAL CODE "${code}")
+
+  file(READ main/cmake/build-defs.h.in content)
+  string(CONFIGURE "${content}" content @ONLY)
+  file(
+    GENERATE
+    OUTPUT ${PHP_BINARY_DIR}/$<CONFIG>/main/build-defs.h
+    CONTENT "${content}"
+  )
+
+  # Regenerate file on the install step when using different installation
+  # prefix at the 'cmake --install ... --prefix <install-prefix>' phase.
+  string(CONFIGURE [[
+    @code@
+    configure_file(
+      "@PHP_SOURCE_DIR@/main/cmake/build-defs.h.in"
+      "@PHP_BINARY_DIR@/$<CONFIG>/main/build-defs.h"
+      @ONLY
     )
+  ]] code @ONLY)
+  install(CODE "${code}")
+endfunction()
+
+# Configure main configuration header (php_config.h, config.w32.h).
+function(_php_main_configure_php_config)
+  if(CMAKE_SYSTEM_NAME STREQUAL "Windows")
+    set(PHP_CONFIG_H_WINDOWS 1)
+    set(file config.w32.h)
+  else()
+    set(PHP_CONFIG_H_WINDOWS 0)
+    set(file php_config.h)
+    set(HAVE_BUILD_DEFS_H TRUE)
   endif()
 
-  # Set the 'include_path' INI directive.
-  set(
-    INCLUDE_PATH
-    ".$<IF:$<PLATFORM_ID:Windows>,;,:>${EXPANDED_PEAR_INSTALLDIR}"
-  )
-
-  # Set the PHP extensions directory.
-  set(
-    EXPANDED_EXTENSION_DIR
-    "$<PATH:ABSOLUTE_PATH,NORMALIZE,${PHP_EXTENSION_DIR},${CMAKE_INSTALL_PREFIX}>"
-  )
-
-  # Set the directory where php.ini is looked for.
-  set(
-    EXPANDED_PHP_CONFIG_FILE_PATH
-    "$<PATH:ABSOLUTE_PATH,NORMALIZE,${PHP_CONFIG_FILE_PATH},${CMAKE_INSTALL_PREFIX}>"
-  )
-
-  # Set the directory where additional ini files are searched for.
-  set(
-    EXPANDED_PHP_CONFIG_FILE_SCAN_DIR
-    "$<PATH:ABSOLUTE_PATH,NORMALIZE,${PHP_CONFIG_FILE_SCAN_DIR},${CMAKE_INSTALL_PREFIX}>"
-  )
-
-  set(
-    EXPANDED_BINDIR
-    "$<PATH:ABSOLUTE_PATH,NORMALIZE,${CMAKE_INSTALL_BINDIR},${CMAKE_INSTALL_PREFIX}>"
-  )
-
-  set(
-    EXPANDED_SBINDIR
-    "$<PATH:ABSOLUTE_PATH,NORMALIZE,${CMAKE_INSTALL_SBINDIR},${CMAKE_INSTALL_PREFIX}>"
-  )
-
-  set(
-    EXPANDED_MANDIR
-    "$<PATH:ABSOLUTE_PATH,NORMALIZE,${CMAKE_INSTALL_MANDIR},${CMAKE_INSTALL_PREFIX}>"
-  )
-
-  set(
-    EXPANDED_LIBDIR
-    "$<PATH:ABSOLUTE_PATH,NORMALIZE,${CMAKE_INSTALL_LIBDIR},${CMAKE_INSTALL_PREFIX}>"
-  )
-
-  set(
-    EXPANDED_DATADIR
-    "$<PATH:ABSOLUTE_PATH,NORMALIZE,${CMAKE_INSTALL_DATADIR},${CMAKE_INSTALL_PREFIX}>"
-  )
-
-  set(EXPANDED_SYSCONFDIR "${CMAKE_INSTALL_FULL_SYSCONFDIR}")
-  set(EXPANDED_LOCALSTATEDIR "${CMAKE_INSTALL_FULL_LOCALSTATEDIR}")
-  set(prefix "${CMAKE_INSTALL_PREFIX}")
-
-  # Set shared library object extension.
-  string(REPLACE "." "" SHLIB_DL_SUFFIX_NAME ${CMAKE_SHARED_MODULE_SUFFIX})
+  message(STATUS "Configuring ${file}")
 
   if(PHP_DEFAULT_SHORT_OPEN_TAG)
     set(DEFAULT_SHORT_OPEN_TAG "1")
@@ -342,7 +358,7 @@ function(_php_main_create_files)
     set(DEFAULT_SHORT_OPEN_TAG "0")
   endif()
 
-  # Add sapis configuration.
+  # Add SAPIs configuration.
   set(config "")
   get_property(sapis GLOBAL PROPERTY PHP_SAPIS)
   list(SORT sapis COMPARE NATURAL)
@@ -374,88 +390,27 @@ function(_php_main_create_files)
   file(READ ${CMAKE_CURRENT_BINARY_DIR}/Zend/CMakeFiles/zend_config.h config)
   string(STRIP "${config}" ZEND_CONFIGURATION)
 
-  if(CMAKE_SYSTEM_NAME STREQUAL "Windows")
-    set(PHP_CONFIG_H_WINDOWS 1)
-    set(file config.w32.h)
-  else()
-    set(ODBC_CFLAGS "${PHP_ODBC_CFLAGS}")
-    set(ODBC_LFLAGS "${PHP_ODBC_LFLAGS}")
-    set(ODBC_LIBS "${PHP_ODBC_LIBS}")
-    set(ODBC_TYPE "${PHP_ODBC_TYPE}")
-    message(STATUS "Creating main/build-defs.h")
-    file(READ main/build-defs.h.in content)
-    string(CONFIGURE "${content}" content @ONLY)
-
-    # To be able to evaluate the generator expressions.
-    file(
-      GENERATE
-      # TODO: Multi-config generators need to write separate files.
-      #OUTPUT $<CONFIG>/main/build-defs.h
-      OUTPUT main/build-defs.h
-      CONTENT "${content}"
-    )
-
-    #[[
-    TODO: This enables regenerating the build-defs.h file on the install step
-    when using different install prefix at the 'cmake --install ... --prefix'
-    phase. Needs to be adjusted further to rebuild PHP at such case.
-    include(PHP/ConfigureFile)
-    php_configure_file(
-      INPUT ${PHP_SOURCE_DIR}/main/build-defs.h.in
-      OUTPUT ${PHP_BINARY_DIR}/main/build-defs.h
-      VARIABLES
-        CONFIGURE_COMMAND "cmake"
-        ODBC_CFLAGS "${PHP_ODBC_CFLAGS}"
-        ODBC_LFLAGS "${PHP_ODBC_LFLAGS}"
-        ODBC_LIBS "${PHP_ODBC_LIBS}"
-        ODBC_TYPE "${PHP_ODBC_TYPE}"
-        PROG_SENDMAIL "${PROG_SENDMAIL}"
-        EXPANDED_PEAR_INSTALLDIR "${EXPANDED_PEAR_INSTALLDIR}"
-        INCLUDE_PATH "${INCLUDE_PATH}"
-        EXPANDED_EXTENSION_DIR "${EXPANDED_EXTENSION_DIR}"
-        prefix "$<INSTALL_PREFIX>"
-        EXPANDED_BINDIR "$<PATH:ABSOLUTE_PATH,NORMALIZE,${CMAKE_INSTALL_BINDIR},$<INSTALL_PREFIX>>"
-        EXPANDED_SBINDIR "$<PATH:ABSOLUTE_PATH,NORMALIZE,${CMAKE_INSTALL_SBINDIR},$<INSTALL_PREFIX>>"
-        EXPANDED_MANDIR "$<PATH:ABSOLUTE_PATH,NORMALIZE,${CMAKE_INSTALL_MANDIR},$<INSTALL_PREFIX>>"
-        EXPANDED_LIBDIR "$<PATH:ABSOLUTE_PATH,NORMALIZE,${CMAKE_INSTALL_LIBDIR},$<INSTALL_PREFIX>>"
-        EXPANDED_DATADIR "$<PATH:ABSOLUTE_PATH,NORMALIZE,${CMAKE_INSTALL_DATADIR},$<INSTALL_PREFIX>>"
-        EXPANDED_SYSCONFDIR "$<PATH:ABSOLUTE_PATH,NORMALIZE,${CMAKE_INSTALL_SYSCONFDIR},$<INSTALL_PREFIX>>"
-        EXPANDED_LOCALSTATEDIR "$<PATH:ABSOLUTE_PATH,NORMALIZE,${CMAKE_INSTALL_LOCALSTATEDIR},$<INSTALL_PREFIX>>"
-        EXPANDED_PHP_CONFIG_FILE_PATH "$<PATH:ABSOLUTE_PATH,NORMALIZE,${PHP_CONFIG_FILE_PATH},$<INSTALL_PREFIX>>"
-        EXPANDED_PHP_CONFIG_FILE_SCAN_DIR "$<PATH:ABSOLUTE_PATH,NORMALIZE,${PHP_CONFIG_FILE_SCAN_DIR},$<INSTALL_PREFIX>>"
-        SHLIB_DL_SUFFIX_NAME "${SHLIB_DL_SUFFIX_NAME}"
-    )
-    add_custom_target(php_main_build_defs_h DEPENDS ${PHP_BINARY_DIR}/main/build-defs.h)
-    add_dependencies(php_main php_main_build_defs_h)
-    #]]
-
-    set(HAVE_BUILD_DEFS_H TRUE)
-    set(PHP_CONFIG_H_WINDOWS 0)
-    set(file php_config.h)
-  endif()
-
-  message(STATUS "Creating main/${file}")
   file(READ main/cmake/php_config.h.in content)
   string(CONFIGURE "${content}" content @ONLY)
-
   file(
     GENERATE
-    # TODO: Multi-config generators need to write separate files.
-    #OUTPUT $<CONFIG>/main/${file}
-    OUTPUT main/${file}
+    OUTPUT ${PHP_BINARY_DIR}/$<CONFIG>/main/${file}
     CONTENT "${content}"
   )
 endfunction()
 
-################################################################################
-# Configure installation.
-################################################################################
+# Run at the end of the configuration - configure headers and installation.
+cmake_language(DEFER DIRECTORY ${PHP_SOURCE_DIR} CALL _php_main_create_files)
+function(_php_main_create_files)
+  _php_main_configure_build_defs()
+  _php_main_configure_php_config()
 
-install(
-  TARGETS php_main
-  ARCHIVE EXCLUDE_FROM_ALL
-  FILE_SET HEADERS
-    DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/${PHP_INCLUDE_PREFIX}/main
-  FILE_SET generated
-    DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/${PHP_INCLUDE_PREFIX}/main
-)
+  install(
+    TARGETS php_main
+    ARCHIVE EXCLUDE_FROM_ALL
+    FILE_SET HEADERS
+      DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/${PHP_INCLUDE_PREFIX}/main
+    FILE_SET generated
+      DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/${PHP_INCLUDE_PREFIX}/main
+  )
+endfunction()
