@@ -1,7 +1,8 @@
 /* Define to 1 if the PHP extension 'pdo_sqlite' is available. */
 #cmakedefine HAVE_PDO_SQLITELIB 1
 
-/* Define to 1 if SQLite library has the 'sqlite3_close_v2' function. */
+/* Define to 1 if SQLite library has the 'sqlite3_close_v2' function. Available
+   since SQLite 3.7.14. */
 #cmakedefine HAVE_SQLITE3_CLOSE_V2 1
 
 /* Define to 1 if SQLite library was compiled with the
