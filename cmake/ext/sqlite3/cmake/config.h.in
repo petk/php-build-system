@@ -1,10 +1,12 @@
 /* Define to 1 if the PHP extension 'sqlite3' is available. */
 #cmakedefine HAVE_SQLITE3 1
 
-/* Define to 1 if SQLite library has the 'sqlite3_errstr' function. */
+/* Define to 1 if SQLite library has the 'sqlite3_errstr' function. Available
+   since SQLite 3.7.15. */
 #cmakedefine HAVE_SQLITE3_ERRSTR 1
 
-/* Define to 1 if SQLite library has the 'sqlite3_expanded_sql' function. */
+/* Define to 1 if SQLite library has the 'sqlite3_expanded_sql' function.
+   Available since SQLite 3.14.0. */
 #cmakedefine HAVE_SQLITE3_EXPANDED_SQL 1
 
 /* Define to 1 if SQLite library was compiled with the
