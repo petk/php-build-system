@@ -11,8 +11,9 @@ either `sendmail` is used if found, or a general default value is set to
 ## Result variables
 
 * `Sendmail_FOUND` - Whether sendmail has been found.
-* `PROG_SENDMAIL` - Path to the sendmail executable program, either found by
-  the module or set to a sensible default value.
+* `Sendmail_PROGRAM` - Path to the sendmail executable program, either found by
+  the module or set to a sensible default value for usage in PHP. On Windows,
+  this is set to an empty string as PHP uses a built in mailer there.
 
 ## Cache variables
 

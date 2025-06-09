@@ -112,6 +112,9 @@ build system:
 
 * HP-UX platform is not supported in CMake-based build system anymore.
 
+* On Windows, there is also `main/build-defs.h` header added and included in the
+  `main/config.w32.h` to be synced with \*nix configuration.
+
 ## Bugs fixed
 
 * Building inside folder with spaces.
