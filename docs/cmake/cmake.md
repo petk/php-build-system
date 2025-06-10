@@ -360,7 +360,6 @@ A list of PHP CMake modules:
 * [PHP/CheckAttribute](/docs/cmake/modules/PHP/CheckAttribute.md)
 * [PHP/CheckBuiltin](/docs/cmake/modules/PHP/CheckBuiltin.md)
 * [PHP/CheckCompilerFlag](/docs/cmake/modules/PHP/CheckCompilerFlag.md)
-* [PHP/ConfigureFile](/docs/cmake/modules/PHP/ConfigureFile.md)
 * [PHP/Install](/docs/cmake/modules/PHP/Install.md)
 * [PHP/SearchLibraries](/docs/cmake/modules/PHP/SearchLibraries.md)
 * [PHP/Set](/docs/cmake/modules/PHP/Set.md)
