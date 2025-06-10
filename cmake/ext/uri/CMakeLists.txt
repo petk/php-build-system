@@ -26,6 +26,8 @@ add_library(php_ext_uri OBJECT)
 target_sources(
   php_ext_uri
   PRIVATE
+    php_lexbor.c
+    php_uri_common.c
     php_uri.c
     php_uri.stub.php
     uriparser/src/UriCommon.c
@@ -46,6 +48,8 @@ target_sources(
   PUBLIC
     FILE_SET HEADERS
       FILES
+        php_lexbor.h
+        php_uri_common.h
         php_uri.h
         uriparser/include/uriparser/Uri.h
         uriparser/include/uriparser/UriBase.h
