@@ -101,7 +101,7 @@ target_sources(
     FILE_SET HEADERS
       FILES
         dom_ce.h
-        $<$<PLATFORM_ID:Windows>:lexbor/selectors-adapted/selectors.h>
+        $<$<PLATFORM_ID:Windows>:${CMAKE_CURRENT_SOURCE_DIR}/lexbor/selectors-adapted/selectors.h>
         namespace_compat.h
         xml_common.h
         xpath_callbacks.h
