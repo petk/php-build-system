@@ -295,8 +295,8 @@ function(_php_main_configure_build_defs)
     CONTENT "${content}"
   )
 
-  # Regenerate file on the install step when using different installation
-  # prefix at the 'cmake --install ... --prefix <install-prefix>' phase.
+  # Regenerate file on the install step when using different installation prefix
+  # at the 'cmake --install ... --prefix <install-prefix>' phase.
   string(CONFIGURE [[
     @code@
     configure_file(
