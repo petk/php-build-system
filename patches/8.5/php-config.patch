@@ -44,7 +44,7 @@ Changes:
  4 files changed, 54 insertions(+), 21 deletions(-)
 
 diff --git a/build/php.m4 b/build/php.m4
-index 640f0100800..de89ceb45b1 100644
+index aa49766fedd..5f001eaa46e 100644
 --- a/build/php.m4
 +++ b/build/php.m4
 @@ -2114,7 +2114,8 @@ EOF
