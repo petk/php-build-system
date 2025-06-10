@@ -199,7 +199,7 @@ target_sources(
         url_scanner_ex.h
         url.h
         user_filters_arginfo.h
-        $<$<PLATFORM_ID:Windows>:winver.h>
+        $<$<PLATFORM_ID:Windows>:${CMAKE_CURRENT_SOURCE_DIR}/winver.h>
 )
 
 # Check for ARM64 processor on Windows.
