@@ -93,7 +93,6 @@ include(CheckSourceRuns)
 include(CheckSymbolExists)
 include(CMakePushCheckState)
 include(FeatureSummary)
-include(PHP/ConfigureFile)
 include(PHP/Install)
 include(PHP/SearchLibraries)
 include(PHP/Set)
@@ -507,95 +506,184 @@ endif()
 # Install files.
 ################################################################################
 
-# Man documentation.
+# Configure man documentation.
+block()
+  # Replace the hardcoded runstatedir with a template placeholder.
+  file(READ "${CMAKE_CURRENT_SOURCE_DIR}/php-fpm.8.in" content)
+  string(
+    REPLACE
+    [[@php_fpm_localstatedir@/run/php-fpm.pid]]
+    [[@php_fpm_runstatedir@/php-fpm.pid]]
+    content
+    "${content}"
+  )
+  file(WRITE "${CMAKE_CURRENT_BINARY_DIR}/CMakeFiles/PHP/php-fpm.8.in" "${content}")
 
-# Replace the hardcoded runstatedir with a template placeholder.
-file(READ "${CMAKE_CURRENT_SOURCE_DIR}/php-fpm.8.in" content)
-string(
-  REPLACE
-  [[@php_fpm_localstatedir@/run/php-fpm.pid]]
-  [[@php_fpm_runstatedir@/php-fpm.pid]]
-  content
-  "${content}"
-)
-php_configure_file(
-  CONTENT "${content}"
-  OUTPUT php-fpm.8
-  VARIABLES
-    php_fpm_localstatedir "$<PATH:ABSOLUTE_PATH,NORMALIZE,${CMAKE_INSTALL_LOCALSTATEDIR},$<INSTALL_PREFIX>>"
+  string(CONFIGURE [[
+    set(php_fpm_localstatedir "$<PATH:ABSOLUTE_PATH,NORMALIZE,@CMAKE_INSTALL_LOCALSTATEDIR@,${CMAKE_INSTALL_PREFIX}>")
     # TODO: Fix the GNU standard adjustment issue with /etc, /var, and /var/run.
-    php_fpm_runstatedir "$<PATH:ABSOLUTE_PATH,NORMALIZE,${CMAKE_INSTALL_RUNSTATEDIR},$<INSTALL_PREFIX>>"
-    php_fpm_sysconfdir "$<PATH:ABSOLUTE_PATH,NORMALIZE,${CMAKE_INSTALL_SYSCONFDIR},$<INSTALL_PREFIX>>"
-    php_fpm_prefix "$<INSTALL_PREFIX>"
-    PHP_VERSION "${PHP_VERSION}"
-)
-install(
-  FILES ${CMAKE_CURRENT_BINARY_DIR}/php-fpm.8
-  RENAME ${PHP_PROGRAM_PREFIX}php-fpm${PHP_PROGRAM_SUFFIX}.8
-  DESTINATION ${CMAKE_INSTALL_MANDIR}/man8
-)
+    set(php_fpm_runstatedir "$<PATH:ABSOLUTE_PATH,NORMALIZE,@CMAKE_INSTALL_RUNSTATEDIR@,${CMAKE_INSTALL_PREFIX}>")
+    set(php_fpm_sysconfdir "$<PATH:ABSOLUTE_PATH,NORMALIZE,@CMAKE_INSTALL_SYSCONFDIR@,${CMAKE_INSTALL_PREFIX}>")
+    set(php_fpm_prefix "${CMAKE_INSTALL_PREFIX}")
+    set(PHP_VERSION "@PHP_VERSION@")
+  ]] code @ONLY)
+  cmake_language(EVAL CODE "${code}")
+  string(CONFIGURE "${content}" content @ONLY)
+  file(GENERATE OUTPUT php-fpm.8 CONTENT "${content}")
 
-php_configure_file(
-  INPUT php-fpm.conf.in
-  OUTPUT php-fpm.conf
-  VARIABLES
-    prefix "$<INSTALL_PREFIX>"
-    EXPANDED_LOCALSTATEDIR "$<PATH:ABSOLUTE_PATH,NORMALIZE,${CMAKE_INSTALL_LOCALSTATEDIR},$<INSTALL_PREFIX>>"
-    php_fpm_sysconfdir "$<PATH:ABSOLUTE_PATH,NORMALIZE,${CMAKE_INSTALL_SYSCONFDIR},$<INSTALL_PREFIX>>"
-)
+  # Regenerate file on the install step when using different installation prefix
+  # at the 'cmake --install ... --prefix <install-prefix>' phase.
+  string(CONFIGURE [[
+    @code@
+    configure_file(
+      "@CMAKE_CURRENT_BINARY_DIR@/CMakeFiles/PHP/php-fpm.8.in"
+      "@CMAKE_CURRENT_BINARY_DIR@/php-fpm.8"
+      @ONLY
+    )
+  ]] code @ONLY)
+  install(CODE "${code}")
 
-php_configure_file(
-  INPUT www.conf.in
-  OUTPUT www.conf
-  VARIABLES
-    prefix "$<INSTALL_PREFIX>"
-    php_fpm_prefix "$<INSTALL_PREFIX>"
-    php_fpm_user "${PHP_SAPI_FPM_USER}"
-    php_fpm_group "${PHP_SAPI_FPM_GROUP}"
-    EXPANDED_DATADIR "$<PATH:ABSOLUTE_PATH,NORMALIZE,${CMAKE_INSTALL_DATADIR},$<INSTALL_PREFIX>>"
-)
+  install(
+    FILES ${CMAKE_CURRENT_BINARY_DIR}/php-fpm.8
+    RENAME ${PHP_PROGRAM_PREFIX}php-fpm${PHP_PROGRAM_SUFFIX}.8
+    DESTINATION ${CMAKE_INSTALL_MANDIR}/man8
+  )
+endblock()
 
-# Replace the hardcoded runstatedir with a template placeholder.
-file(READ "${CMAKE_CURRENT_SOURCE_DIR}/init.d.php-fpm.in" content)
-string(
-  REPLACE
-  [[php_fpm_PID=@localstatedir@/run/php-fpm.pid]]
-  [[php_fpm_PID=@runstatedir@/php-fpm.pid]]
-  content
-  "${content}"
-)
+# Configure php-fpm.conf.
+block()
+  string(CONFIGURE [[
+    set(prefix "${CMAKE_INSTALL_PREFIX}")
+    set(EXPANDED_LOCALSTATEDIR "$<PATH:ABSOLUTE_PATH,NORMALIZE,@CMAKE_INSTALL_LOCALSTATEDIR@,${CMAKE_INSTALL_PREFIX}>")
+    set(php_fpm_sysconfdir "$<PATH:ABSOLUTE_PATH,NORMALIZE,@CMAKE_INSTALL_SYSCONFDIR@,${CMAKE_INSTALL_PREFIX}>")
+  ]] code @ONLY)
+  cmake_language(EVAL CODE "${code}")
 
-php_configure_file(
-  CONTENT "${content}"
-  OUTPUT init.d.php-fpm
-  VARIABLES
-    prefix "$<INSTALL_PREFIX>"
-    exec_prefix "$<INSTALL_PREFIX>"
-    sbindir "$<PATH:ABSOLUTE_PATH,NORMALIZE,${CMAKE_INSTALL_SBINDIR},$<INSTALL_PREFIX>>"
-    # TODO: Fix the GNU standard adjustment issue with /etc, /var, and /var/run.
-    sysconfdir "$<PATH:ABSOLUTE_PATH,NORMALIZE,${CMAKE_INSTALL_SYSCONFDIR},$<INSTALL_PREFIX>>"
-    runstatedir "$<PATH:ABSOLUTE_PATH,NORMALIZE,${CMAKE_INSTALL_RUNSTATEDIR},$<INSTALL_PREFIX>>"
-)
+  file(READ "${CMAKE_CURRENT_SOURCE_DIR}/php-fpm.conf.in" content)
+  string(CONFIGURE "${content}" content @ONLY)
+  file(GENERATE OUTPUT php-fpm.conf CONTENT "${content}")
 
-# Replace the hardcoded runstatedir with a template placeholder.
-file(READ "${CMAKE_CURRENT_SOURCE_DIR}/php-fpm.service.in" content)
-string(
-  REPLACE
-  [[PIDFile=@EXPANDED_LOCALSTATEDIR@/run/php-fpm.pid]]
-  [[PIDFile=@EXPANDED_RUNSTATEDIR@/php-fpm.pid]]
-  content
-  "${content}"
-)
+  # Regenerate file on the install step when using different installation prefix
+  # at the 'cmake --install ... --prefix <install-prefix>' phase.
+  string(CONFIGURE [[
+    @code@
+    configure_file(
+      "@CMAKE_CURRENT_SOURCE_DIR@/php-fpm.conf.in"
+      "@CMAKE_CURRENT_BINARY_DIR@/php-fpm.conf"
+      @ONLY
+    )
+  ]] code @ONLY)
+  install(CODE "${code}")
+endblock()
 
-php_configure_file(
-  CONTENT "${content}"
-  OUTPUT php-fpm.service
-  VARIABLES
-    php_fpm_systemd "${PHP_FPM_SYSTEMD}"
-    EXPANDED_RUNSTATEDIR "$<PATH:ABSOLUTE_PATH,NORMALIZE,${CMAKE_INSTALL_RUNSTATEDIR},$<INSTALL_PREFIX>>"
-    EXPANDED_SBINDIR "$<PATH:ABSOLUTE_PATH,NORMALIZE,${CMAKE_INSTALL_SBINDIR},$<INSTALL_PREFIX>>"
-    EXPANDED_SYSCONFDIR "$<PATH:ABSOLUTE_PATH,NORMALIZE,${CMAKE_INSTALL_SYSCONFDIR},$<INSTALL_PREFIX>>"
-)
+# Configure www.conf.
+block()
+  string(CONFIGURE [[
+    set(prefix "${CMAKE_INSTALL_PREFIX}")
+    set(php_fpm_prefix "${CMAKE_INSTALL_PREFIX}")
+    set(php_fpm_user "@PHP_SAPI_FPM_USER@")
+    set(php_fpm_group "@PHP_SAPI_FPM_GROUP@")
+    set(EXPANDED_DATADIR "$<PATH:ABSOLUTE_PATH,NORMALIZE,@CMAKE_INSTALL_DATADIR@,${CMAKE_INSTALL_PREFIX}>")
+  ]] code @ONLY)
+  cmake_language(EVAL CODE "${code}")
+
+  file(READ "${CMAKE_CURRENT_SOURCE_DIR}/www.conf.in" content)
+  string(CONFIGURE "${content}" content @ONLY)
+  file(GENERATE OUTPUT www.conf CONTENT "${content}")
+
+  # Regenerate file on the install step when using different installation prefix
+  # at the 'cmake --install ... --prefix <install-prefix>' phase.
+  string(CONFIGURE [[
+    @code@
+    configure_file(
+      "@CMAKE_CURRENT_SOURCE_DIR@/www.conf.in"
+      "@CMAKE_CURRENT_BINARY_DIR@/www.conf"
+      @ONLY
+    )
+  ]] code @ONLY)
+  install(CODE "${code}")
+endblock()
+
+# Configure init.d.php-fpm.
+block()
+  # Replace the hardcoded runstatedir with a template placeholder.
+  file(READ "${CMAKE_CURRENT_SOURCE_DIR}/init.d.php-fpm.in" content)
+  string(
+    REPLACE
+    [[php_fpm_PID=@localstatedir@/run/php-fpm.pid]]
+    [[php_fpm_PID=@runstatedir@/php-fpm.pid]]
+    content
+    "${content}"
+  )
+  file(
+    WRITE
+    "${CMAKE_CURRENT_BINARY_DIR}/CMakeFiles/PHP/init.d.php-fpm.in"
+    "${content}"
+  )
+
+  string(CONFIGURE [[
+    set(prefix "${CMAKE_INSTALL_PREFIX}")
+    set(exec_prefix "${CMAKE_INSTALL_PREFIX}")
+    set(sbindir "$<PATH:ABSOLUTE_PATH,NORMALIZE,@CMAKE_INSTALL_SBINDIR@,${CMAKE_INSTALL_PREFIX}>")
+    set(sysconfdir "$<PATH:ABSOLUTE_PATH,NORMALIZE,@CMAKE_INSTALL_SYSCONFDIR@,${CMAKE_INSTALL_PREFIX}>")
+    set(runstatedir "$<PATH:ABSOLUTE_PATH,NORMALIZE,@CMAKE_INSTALL_RUNSTATEDIR@,${CMAKE_INSTALL_PREFIX}>")
+  ]] code @ONLY)
+  cmake_language(EVAL CODE "${code}")
+  string(CONFIGURE "${content}" content @ONLY)
+  file(GENERATE OUTPUT init.d.php-fpm CONTENT "${content}")
+
+  # Regenerate file on the install step when using different installation prefix
+  # at the 'cmake --install ... --prefix <install-prefix>' phase.
+  string(CONFIGURE [[
+    @code@
+    configure_file(
+      "@CMAKE_CURRENT_BINARY_DIR@/CMakeFiles/PHP/init.d.php-fpm.in"
+      "@CMAKE_CURRENT_BINARY_DIR@/init.d.php-fpm"
+      @ONLY
+    )
+  ]] code @ONLY)
+  install(CODE "${code}")
+endblock()
+
+# Configure init.d.php-fpm.
+block()
+  # Replace the hardcoded runstatedir with a template placeholder.
+  file(READ "${CMAKE_CURRENT_SOURCE_DIR}/php-fpm.service.in" content)
+  string(
+    REPLACE
+    [[PIDFile=@EXPANDED_LOCALSTATEDIR@/run/php-fpm.pid]]
+    [[PIDFile=@EXPANDED_RUNSTATEDIR@/php-fpm.pid]]
+    content
+    "${content}"
+  )
+  file(
+    WRITE
+    "${CMAKE_CURRENT_BINARY_DIR}/CMakeFiles/PHP/php-fpm.service.in"
+    "${content}"
+  )
+
+  string(CONFIGURE [[
+    set(php_fpm_systemd "@PHP_FPM_SYSTEMD@")
+    set(EXPANDED_RUNSTATEDIR "$<PATH:ABSOLUTE_PATH,NORMALIZE,@CMAKE_INSTALL_RUNSTATEDIR@,${CMAKE_INSTALL_PREFIX}>")
+    set(EXPANDED_SBINDIR "$<PATH:ABSOLUTE_PATH,NORMALIZE,@CMAKE_INSTALL_SBINDIR@,${CMAKE_INSTALL_PREFIX}>")
+    set(EXPANDED_SYSCONFDIR "$<PATH:ABSOLUTE_PATH,NORMALIZE,@CMAKE_INSTALL_SYSCONFDIR@,${CMAKE_INSTALL_PREFIX}>")
+  ]] code @ONLY)
+  cmake_language(EVAL CODE "${code}")
+  string(CONFIGURE "${content}" content @ONLY)
+  file(GENERATE OUTPUT php-fpm.service CONTENT "${content}")
+
+  # Regenerate file on the install step when using different installation prefix
+  # at the 'cmake --install ... --prefix <install-prefix>' phase.
+  string(CONFIGURE [[
+    @code@
+    configure_file(
+      "@CMAKE_CURRENT_BINARY_DIR@/CMakeFiles/PHP/php-fpm.service.in"
+      "@CMAKE_CURRENT_BINARY_DIR@/php-fpm.service"
+      @ONLY
+    )
+  ]] code @ONLY)
+  install(CODE "${code}")
+endblock()
 
 install(TARGETS php_sapi_fpm RUNTIME DESTINATION ${CMAKE_INSTALL_SBINDIR})
 

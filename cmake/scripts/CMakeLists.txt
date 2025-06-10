@@ -1,5 +1,3 @@
-include(PHP/ConfigureFile)
-
 # Man documentation.
 block()
   set(program_prefix "${PHP_PROGRAM_PREFIX}")
@@ -38,15 +36,6 @@ block()
     set(SED /usr/bin/sed)
   endif()
 
-  if(TARGET PHP::sapi::embed)
-    get_target_property(embed_type PHP::sapi::embed TYPE)
-    if(embed_type MATCHES "^(MODULE|SHARED)_LIBRARY$")
-      set(PHP_EMBED_TYPE "shared")
-    else()
-      set(PHP_EMBED_TYPE "static")
-    endif()
-  endif()
-
   ##############################################################################
   message(STATUS "Creating scripts/php-config")
   ##############################################################################
@@ -78,37 +67,68 @@ block()
     "${content}"
   )
 
-  php_configure_file(
-    CONTENT "${content}"
-    OUTPUT ${PHP_BINARY_DIR}/$<CONFIG>/scripts/php-config
-    VARIABLES
-      SED "${SED}"
-      prefix "$<INSTALL_PREFIX>"
-      datarootdir "$<PATH:ABSOLUTE_PATH,NORMALIZE,${CMAKE_INSTALL_DATAROOTDIR},$<INSTALL_PREFIX>>"
-      exec_prefix "$<INSTALL_PREFIX>"
-      PHP_VERSION "${PHP_VERSION}"
-      PHP_VERSION_ID "${PHP_VERSION_ID}"
-      includedir "$<PATH:ABSOLUTE_PATH,NORMALIZE,${CMAKE_INSTALL_INCLUDEDIR}/${PHP_INCLUDE_PREFIX},$<INSTALL_PREFIX>>"
-      # TODO:
-      PHP_LDFLAGS ""
-      # TODO:
-      EXTRA_LIBS ""
-      EXTENSION_DIR "$<PATH:ABSOLUTE_PATH,NORMALIZE,${PHP_EXTENSION_DIR},$<INSTALL_PREFIX>>"
-      mandir "$<PATH:ABSOLUTE_PATH,NORMALIZE,${CMAKE_INSTALL_MANDIR},$<INSTALL_PREFIX>>"
-      program_prefix "${PHP_PROGRAM_PREFIX}"
-      program_suffix "${PHP_PROGRAM_SUFFIX}"
-      EXEEXT "${CMAKE_EXECUTABLE_SUFFIX}"
-      # TODO:
-      CONFIGURE_OPTIONS ""
-      PHP_INSTALLED_SAPIS "${sapis}"
-      EXPANDED_PHP_CONFIG_FILE_SCAN_DIR "$<PATH:ABSOLUTE_PATH,NORMALIZE,${PHP_CONFIG_FILE_SCAN_DIR},$<INSTALL_PREFIX>>"
-      EXPANDED_PHP_CONFIG_FILE_PATH "$<PATH:ABSOLUTE_PATH,NORMALIZE,${PHP_CONFIG_FILE_PATH},$<INSTALL_PREFIX>>"
-      bindir "$<PATH:ABSOLUTE_PATH,NORMALIZE,${CMAKE_INSTALL_BINDIR},$<INSTALL_PREFIX>>"
-      orig_libdir "$<PATH:ABSOLUTE_PATH,NORMALIZE,${CMAKE_INSTALL_LIBDIR},$<INSTALL_PREFIX>>"
-      SAPI_LIBNAME_SHARED "$<$<TARGET_EXISTS:php_sapi_embed_shared>:$<GENEX_EVAL:$<TARGET_FILE_NAME:php_sapi_embed_shared>>>"
-      SAPI_LIBNAME_STATIC "$<$<TARGET_EXISTS:php_sapi_embed>:$<GENEX_EVAL:$<TARGET_FILE_NAME:php_sapi_embed>>>"
-      PHP_EMBED_TYPE "${PHP_EMBED_TYPE}"
+  file(
+    WRITE
+    "${CMAKE_CURRENT_BINARY_DIR}/CMakeFiles/PHP/php-config.in"
+    "${content}"
   )
+
+  if(TARGET PHP::sapi::embed)
+    get_target_property(embed_type PHP::sapi::embed TYPE)
+    if(embed_type MATCHES "^(MODULE|SHARED)_LIBRARY$")
+      set(PHP_EMBED_TYPE "shared")
+    else()
+      set(PHP_EMBED_TYPE "static")
+    endif()
+  endif()
+
+  string(CONFIGURE [[
+    set(SED "@SED@")
+    set(prefix "${CMAKE_INSTALL_PREFIX}")
+    set(datarootdir "$<PATH:ABSOLUTE_PATH,NORMALIZE,@CMAKE_INSTALL_DATAROOTDIR@,${CMAKE_INSTALL_PREFIX}>")
+    set(exec_prefix "${CMAKE_INSTALL_PREFIX}")
+    set(PHP_VERSION "@PHP_VERSION@")
+    set(PHP_VERSION_ID "@PHP_VERSION_ID@")
+    set(includedir "$<PATH:ABSOLUTE_PATH,NORMALIZE,@CMAKE_INSTALL_INCLUDEDIR@/@PHP_INCLUDE_PREFIX@,${CMAKE_INSTALL_PREFIX}>")
+    # TODO:
+    set(PHP_LDFLAGS "")
+    # TODO:
+    set(EXTRA_LIBS "")
+    set(EXTENSION_DIR "$<PATH:ABSOLUTE_PATH,NORMALIZE,@PHP_EXTENSION_DIR@,${CMAKE_INSTALL_PREFIX}>")
+    set(mandir "$<PATH:ABSOLUTE_PATH,NORMALIZE,@CMAKE_INSTALL_MANDIR@,${CMAKE_INSTALL_PREFIX}>")
+    set(program_prefix "@PHP_PROGRAM_PREFIX@")
+    set(program_suffix "@PHP_PROGRAM_SUFFIX@")
+    set(EXEEXT "@CMAKE_EXECUTABLE_SUFFIX@")
+    # TODO:
+    set(CONFIGURE_OPTIONS "")
+    set(PHP_INSTALLED_SAPIS "@sapis@")
+    set(EXPANDED_PHP_CONFIG_FILE_SCAN_DIR "$<PATH:ABSOLUTE_PATH,NORMALIZE,@PHP_CONFIG_FILE_SCAN_DIR@,${CMAKE_INSTALL_PREFIX}>")
+    set(EXPANDED_PHP_CONFIG_FILE_PATH "$<PATH:ABSOLUTE_PATH,NORMALIZE,@PHP_CONFIG_FILE_PATH@,${CMAKE_INSTALL_PREFIX}>")
+    set(bindir "$<PATH:ABSOLUTE_PATH,NORMALIZE,@CMAKE_INSTALL_BINDIR@,${CMAKE_INSTALL_PREFIX}>")
+    set(orig_libdir "$<PATH:ABSOLUTE_PATH,NORMALIZE,@CMAKE_INSTALL_LIBDIR@,${CMAKE_INSTALL_PREFIX}>")
+    set(SAPI_LIBNAME_SHARED "$<$<TARGET_EXISTS:php_sapi_embed_shared>:$<GENEX_EVAL:$<TARGET_FILE_NAME:php_sapi_embed_shared>>>")
+    set(SAPI_LIBNAME_STATIC "$<$<TARGET_EXISTS:php_sapi_embed>:$<GENEX_EVAL:$<TARGET_FILE_NAME:php_sapi_embed>>>")
+    set(PHP_EMBED_TYPE "@PHP_EMBED_TYPE@")
+  ]] code @ONLY)
+  cmake_language(EVAL CODE "${code}")
+  string(CONFIGURE "${content}" content @ONLY)
+  file(
+    GENERATE
+    OUTPUT ${PHP_BINARY_DIR}/$<CONFIG>/scripts/php-config
+    CONTENT "${content}"
+  )
+
+  # Regenerate file on the install step when using different installation prefix
+  # at the 'cmake --install ... --prefix <install-prefix>' phase.
+  string(CONFIGURE [[
+    @code@
+    configure_file(
+      "@CMAKE_CURRENT_BINARY_DIR@/CMakeFiles/PHP/php-config.in"
+      "@PHP_BINARY_DIR@/$<CONFIG>/scripts/php-config"
+      @ONLY
+    )
+  ]] code @ONLY)
+  install(CODE "${code}")
 
   install(
     PROGRAMS
@@ -145,9 +165,8 @@ block()
   string(CONFIGURE "${content}" content @ONLY)
   file(GENERATE OUTPUT phpize CONTENT "${content}")
 
-  # This regenerates the phpize file on the install step when using
-  # different install prefix at the install phase:
-  #   'cmake --install <build-dir> --prefix <prefix>'
+  # Regenerate file on the install step when using different installation prefix
+  # at the 'cmake --install ... --prefix <install-prefix>' phase.
   string(CONFIGURE [[
     @code@
     configure_file(
