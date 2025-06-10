@@ -74,7 +74,7 @@ target_sources(
     FILE_SET HEADERS
       FILES
         php_sockets.h
-        $<$<PLATFORM_ID:Windows>:windows_common.h>
+        $<$<PLATFORM_ID:Windows>:${CMAKE_CURRENT_SOURCE_DIR}/windows_common.h>
 )
 
 target_compile_definitions(

@@ -205,7 +205,7 @@ target_sources(
         zend_closures_arginfo.h
         zend_closures.h
         zend_compile.h
-        $<$<PLATFORM_ID:Windows>:zend_config.w32.h>
+        $<$<PLATFORM_ID:Windows>:${CMAKE_CURRENT_SOURCE_DIR}/zend_config.w32.h>
         zend_constants_arginfo.h
         zend_constants.h
         zend_cpuinfo.h

@@ -132,7 +132,7 @@ target_sources(
   PUBLIC
     FILE_SET HEADERS
       FILES
-        $<$<PLATFORM_ID:Windows>:config-win.h>
+        $<$<PLATFORM_ID:Windows>:${CMAKE_CURRENT_SOURCE_DIR}/config-win.h>
         mysql_float_to_double.h
         mysqlnd_alloc.h
         mysqlnd_auth.h
