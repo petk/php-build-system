@@ -31,17 +31,17 @@ Enable compressed protocol support in mysqlnd.
 
 ## PHP_EXT_MYSQLND_SSL
 
-* Default: `OFF`
+* Default: `ON`
 * Values: `ON|OFF`
 
-Explicitly enable extended SSL support in the `mysqlnd` extension. On \*nix
-systems, extended SSL works through the OpenSSL library and on Windows through
-the Windows Crypt32 library. Beneficial when building without the `openssl`
-extension or when building with phpize.
+Explicitly enable or disable extended SSL support in the `mysqlnd` extension. On
+\*nix systems, the extended SSL works through the OpenSSL library and on Windows
+through the Windows Crypt32 library.
 
-\*nix systems: when building with the `openssl` extension (`PHP_EXT_OPENSSL=ON`)
-in the php-src tree, the extended SSL is enabled implicitly regardless of this
-option.
+For example, `mysqlnd` extension with disabled extended SSL support, would
+require in MySQL Server 8.0 and later versions to have the
+`default_authentication_plugin` configuration set to `mysql_native_password` in
+`my.cnf` (`caching_sha2_password` therefore wouldn't be supported).
 
-Windows systems: extended SSL is enabled implicitly based on the Crypt32
-library regardless of this option.
+This option is only provided to explicitly avoid requiring the OpenSSL
+dependency, otherwise recommended setting is `ON`.

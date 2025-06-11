@@ -2025,13 +2025,13 @@ A list of Autoconf `configure` command-line configuration options, Windows
       <td>--without-mysqlnd-ssl</td>
       <td>N/A</td>
       <td>PHP_EXT_MYSQLND_SSL=OFF</td>
-      <td>default, PHP >= 8.4</td>
+       <td>PHP >= 8.4 (default in Autotools)</td>
     </tr>
     <tr>
       <td>--with-mysqlnd-ssl</td>
       <td>N/A</td>
       <td>PHP_EXT_MYSQLND_SSL=ON</td>
-      <td>PHP >= 8.4</td>
+      <td>PHP >= 8.4 (default in CMake)</td>
     </tr>
     <tr>
       <td>--without-oci8</td>
