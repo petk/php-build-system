@@ -29,20 +29,20 @@ Enable compressed protocol support in mysqlnd.
 
 ## PHP_EXT_MYSQLND_SSL
 
-* Default: `OFF`
+* Default: `ON`
 * Values: `ON|OFF`
 
-Explicitly enable extended SSL support in the `mysqlnd` extension. On \*nix
-systems, extended SSL works through the OpenSSL library and on Windows through
-the Windows Crypt32 library. Beneficial when building without the `openssl`
-extension or when building with phpize.
+Explicitly enable or disable extended SSL support in the `mysqlnd` extension. On
+\*nix systems, the extended SSL works through the OpenSSL library and on Windows
+through the Windows Crypt32 library.
 
-\*nix systems: when building with the `openssl` extension (`PHP_EXT_OPENSSL=ON`)
-in the php-src tree, the extended SSL is enabled implicitly regardless of this
-option.
+For example, `mysqlnd` extension with disabled extended SSL support, would
+require in MySQL Server 8.0 and later versions to have the
+`default_authentication_plugin` configuration set to `mysql_native_password` in
+`my.cnf` (`caching_sha2_password` therefore wouldn't be supported).
 
-Windows systems: extended SSL is enabled implicitly based on the Crypt32
-library regardless of this option.
+This option is only provided to explicitly avoid requiring the OpenSSL
+dependency, otherwise recommended setting is `ON`.
 #]=============================================================================]
 
 cmake_minimum_required(VERSION 3.25...3.31)
@@ -89,8 +89,8 @@ cmake_dependent_option(
   PHP_EXT_MYSQLND_SSL
   "Explicitly enable extended SSL support in the mysqlnd extension through\
   OpenSSL system library (*nix) or Crypt32 (Windows)."
-  OFF
-  [[PHP_EXT_MYSQLND AND NOT PHP_EXT_OPENSSL AND NOT CMAKE_SYSTEM_NAME STREQUAL "Windows"]]
+  ON
+  "PHP_EXT_MYSQLND"
   OFF
 )
 
@@ -185,13 +185,7 @@ endif()
 
 set(MYSQLND_SSL_SUPPORTED TRUE)
 
-if(
-  (
-    NOT CMAKE_SYSTEM_NAME STREQUAL "Windows"
-    AND (PHP_EXT_MYSQLND_SSL OR PHP_EXT_OPENSSL)
-  )
-  OR CMAKE_SYSTEM_NAME STREQUAL "Windows"
-)
+if(PHP_EXT_MYSQLND_SSL)
   if(CMAKE_SYSTEM_NAME STREQUAL "Windows")
     target_link_libraries(php_ext_mysqlnd PRIVATE crypt32)
   else()
@@ -200,7 +194,7 @@ if(
       OpenSSL
       PROPERTIES
         TYPE REQUIRED
-        PURPOSE "Necessary to enable SSL in the mysqlnd extension."
+        PURPOSE "Necessary to enable extended SSL in the mysqlnd extension."
     )
     target_link_libraries(php_ext_mysqlnd PRIVATE OpenSSL::Crypto)
   endif()
