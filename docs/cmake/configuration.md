@@ -2025,7 +2025,7 @@ A list of Autoconf `configure` command-line configuration options, Windows
       <td>--without-mysqlnd-ssl</td>
       <td>N/A</td>
       <td>PHP_EXT_MYSQLND_SSL=OFF</td>
-       <td>PHP >= 8.4 (default in Autotools)</td>
+      <td>PHP >= 8.4 (default in Autotools)</td>
     </tr>
     <tr>
       <td>--with-mysqlnd-ssl</td>

@@ -87,6 +87,8 @@ build system:
     * ext/bcmath (Windows: enabled, Autotools: disabled, CMake: disabled)
     * ext/calendar (Windows: enabled, Autotools: disabled, CMake: disabled)
 
+  See [Configuration](/docs/cmake/configuration.md) documentation for more info.
+
 * Installation
 
   * The installation include directory (`/usr/local/include/php`) can be
