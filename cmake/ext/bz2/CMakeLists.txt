@@ -73,7 +73,7 @@ target_compile_definitions(
     $<$<AND:$<PLATFORM_ID:Windows>,$<IN_LIST:$<TARGET_PROPERTY:TYPE>,MODULE_LIBRARY;SHARED_LIBRARY>>:PHP_BZ2_EXPORTS>
 )
 
-find_package(BZip2 ${PHP_BZIP2_MIN_VERSION})
+find_package(BZip2 1.0.0)
 set_package_properties(
   BZip2
   PROPERTIES
@@ -81,25 +81,34 @@ set_package_properties(
     PURPOSE "Necessary to enable the bz2 extension."
 )
 
-# Link with PUBLIC scope if include directories are on non-standard places.
-target_link_libraries(php_ext_bz2 PUBLIC BZip2::BZip2)
-
 # Minimum version sanity check.
 if(TARGET BZip2::BZip2)
   cmake_push_check_state(RESET)
     set(CMAKE_REQUIRED_LIBRARIES BZip2::BZip2)
 
-    check_symbol_exists(BZ2_bzerror bzlib.h _PHP_HAVE_BZ2_BZERROR)
+    # bzip versions 1.0.1 and earlier required <stdio.h> to be included before
+    # bzlib.h, to have FILE definition. In 1.0.4, minor version (4) has been
+    # updated in the bzlib.h header. BZ2_bzerror() is available as of 1.0.0.
+    block()
+      set(headers "bzlib.h")
+      if(BZip2_VERSION VERSION_LESS 1.0.4)
+        list(PREPEND headers "stdio.h")
+      endif()
+      check_symbol_exists(BZ2_bzerror "${headers}" PHP_EXT_BZ2_SANITY_CHECK)
+    endblock()
 
-    if(NOT _PHP_HAVE_BZ2_BZERROR)
+    if(NOT PHP_EXT_BZ2_SANITY_CHECK)
       message(
         FATAL_ERROR
-        "BZip2 package is not working as expected. The bz2 extension requires "
-        "BZip2 library (libbzip2) version ${PHP_BZIP2_MIN_VERSION} or later."
+        "ext/bz2 sanity check failed: BZ2_bzerror() could not be found. "
+        "BZip2 library (libbzip2) version 1.0.0 or later is required."
       )
     endif()
   cmake_pop_check_state()
 endif()
+
+# Link with PUBLIC scope if include directories are on non-standard places.
+target_link_libraries(php_ext_bz2 PUBLIC BZip2::BZip2)
 
 set(HAVE_BZ2 TRUE)
 

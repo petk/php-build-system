@@ -206,9 +206,6 @@ set(PHP_POSTGRESQL_MIN_VERSION 9.1)
 # Minimum required version for the zlib dependency.
 set(PHP_ZLIB_MIN_VERSION 1.2.0.4)
 
-# Minimum required version for the BZip2 dependency.
-set(PHP_BZIP2_MIN_VERSION 1.0.0)
-
 # Additional metadata for external packages to avoid duplication.
 set_package_properties(
   BZip2
