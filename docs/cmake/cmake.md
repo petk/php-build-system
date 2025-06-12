@@ -287,6 +287,8 @@ version available on the operating system.
   * `$<LIST:FILTER,list,...>` generator expression
   * `$<LIST:SORT,list[,...]>` generator expression
   * `<PACKAGENAME>_ROOT` variables in addition to `<PackageName>_ROOT`
+* 3.26
+  * `BZIP2_VERSION`
 * 3.29
   * `CMAKE_LINKER_TYPE`
   * `if(IS_EXECUTABLE)`

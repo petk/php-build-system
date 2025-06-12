@@ -91,7 +91,7 @@ if(TARGET BZip2::BZip2)
     # updated in the bzlib.h header. BZ2_bzerror() is available as of 1.0.0.
     block()
       set(headers "bzlib.h")
-      if(BZip2_VERSION VERSION_LESS 1.0.4)
+      if(BZIP2_VERSION VERSION_LESS 1.0.4)
         list(PREPEND headers "stdio.h")
       endif()
       check_symbol_exists(BZ2_bzerror "${headers}" PHP_EXT_BZ2_SANITY_CHECK)
