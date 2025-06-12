@@ -15,7 +15,7 @@ Enable the extension.
 This extension cannot be built as shared.
 #]=============================================================================]
 
-cmake_minimum_required(VERSION 3.25...3.31)
+cmake_minimum_required(VERSION 3.27...4.0)
 
 project(
   PhpExtensionLibXml

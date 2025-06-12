@@ -27,7 +27,7 @@ Build extension as shared.
 Build xml extension with the Expat library support instead of the libxml2.
 #]=============================================================================]
 
-cmake_minimum_required(VERSION 3.25...3.31)
+cmake_minimum_required(VERSION 3.27...4.0)
 
 project(
   PhpExtensionXml

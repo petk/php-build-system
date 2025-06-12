@@ -88,25 +88,7 @@ function(_php_pkgconfig_parse_variables variables)
     list(POP_FRONT variables var value)
 
     list(APPEND resultVariables ${var})
-
-    # The resultValues are for the install(CODE) and generator expression
-    # $<INSTALL_PREFIX> works since CMake 3.27, for earlier versions the escaped
-    # variable CMAKE_INSTALL_PREFIX can be used.
-    if(
-      CMAKE_VERSION VERSION_LESS 3.27
-      AND value MATCHES [[.*\$<INSTALL_PREFIX>.*]]
-    )
-      string(
-        REPLACE
-        "$<INSTALL_PREFIX>"
-        "\${CMAKE_INSTALL_PREFIX}"
-        replacedValue
-        "${value}"
-      )
-      list(APPEND resultValues "${replacedValue}")
-    else()
-      list(APPEND resultValues "${value}")
-    endif()
+    list(APPEND resultValues "${value}")
 
     # Replace possible INSTALL_PREFIX in value for usage in add_custom_command,
     # in the resultValues above the intact genex is left for enabling the

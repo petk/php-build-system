@@ -28,7 +28,7 @@ Build extension as shared.
 Build ldap extension with Cyrus SASL support.
 #]=============================================================================]
 
-cmake_minimum_required(VERSION 3.25...3.31)
+cmake_minimum_required(VERSION 3.27...4.0)
 
 project(
   PhpExtensionLdap
