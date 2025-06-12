@@ -66,15 +66,6 @@ Enable the legacy (original) Berkeley DB style (Database Manager) handler.
 
 Enable the bundled flat-file DBA handler.
 
-## PHP_EXT_DBA_GDBM
-
-:red_circle: *Removed as of PHP 8.4.*
-
-* Default: `OFF`
-* Values: `ON|OFF`
-
-Enable the GNU dbm (GDBM) handler.
-
 ## PHP_EXT_DBA_INIFILE
 
 * Default: `ON`

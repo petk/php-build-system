@@ -1208,16 +1208,13 @@ A list of Autoconf `configure` command-line configuration options, Windows
     <tr>
       <td>&emsp;--without-gdbm</td>
       <td>N/A</td>
-      <td>PHP_EXT_DBA_GDBM=OFF (PHP &lt;= 8.3)</td>
+      <td>N/A</td>
       <td>default</td>
     </tr>
     <tr>
       <td>&emsp;--with-gdbm[=DIR]</td>
       <td>N/A</td>
-      <td>
-        PHP_EXT_DBA_GDBM=ON (PHP &lt;= 8.3)<br>
-        [GDBM_ROOT=DIR] (PHP &lt;= 8.3)
-      </td>
+      <td>N/A</td>
       <td></td>
     </tr>
     <tr>
