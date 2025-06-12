@@ -86,12 +86,11 @@ if(TARGET BZip2::BZip2)
   cmake_push_check_state(RESET)
     set(CMAKE_REQUIRED_LIBRARIES BZip2::BZip2)
 
-    # bzip versions 1.0.1 and earlier required <stdio.h> to be included before
-    # bzlib.h, to have FILE definition. In 1.0.4, minor version (4) has been
-    # updated in the bzlib.h header. BZ2_bzerror() is available as of 1.0.0.
+    # Versions before 1.0.2 required <stdio.h> to be included before bzlib.h for
+    # the FILE definition. BZ2_bzerror() is available as of 1.0.0.
     block()
       set(headers "bzlib.h")
-      if(BZIP2_VERSION VERSION_LESS 1.0.4)
+      if(BZIP2_VERSION VERSION_LESS 1.0.2)
         list(PREPEND headers "stdio.h")
       endif()
       check_symbol_exists(BZ2_bzerror "${headers}" PHP_EXT_BZ2_SANITY_CHECK)
