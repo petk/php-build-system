@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.25...3.31)
+cmake_minimum_required(VERSION 3.27...4.0)
 
 # Configure CMake behavior.
 include(cmake/CMakeDefaults.cmake)

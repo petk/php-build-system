@@ -293,7 +293,7 @@ version available on the operating system.
 * 3.31
   * `add_custom_command()` keyword `CODEGEN`
 
-Currently, the CMake minimum version is set to **3.25** without looking at CMake
+Currently, the CMake minimum version is set to **3.27** without looking at CMake
 available version on the current systems out there. This will be updated more
 properly in the future.
 

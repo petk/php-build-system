@@ -41,11 +41,7 @@ block()
   ##############################################################################
 
   get_property(sapis GLOBAL PROPERTY PHP_SAPIS)
-  if(CMAKE_VERSION VERSION_GREATER_EQUAL 3.27)
-    set(sapis "$<JOIN:$<LIST:SORT,${sapis}>, >")
-  else()
-    set(sapis "$<JOIN:${sapis}, >")
-  endif()
+  set(sapis "$<JOIN:$<LIST:SORT,${sapis}>, >")
 
   # Replace the upstream php-config script hardcoded php include directory to a
   # template placeholder.
