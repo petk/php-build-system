@@ -1526,25 +1526,25 @@ A list of Autoconf `configure` command-line configuration options, Windows
       <td>&emsp;--without-ftp-ssl</td>
       <td>N/A</td>
       <td>PHP_EXT_FTP_SSL=OFF</td>
-      <td>default, PHP >= 8.4</td>
+      <td>PHP >= 8.4 (default in Autotools)</td>
     </tr>
     <tr>
       <td>&emsp;--with-ftp-ssl</td>
       <td>N/A</td>
       <td>PHP_EXT_FTP_SSL=ON</td>
-      <td>PHP >= 8.4</td>
+      <td>PHP >= 8.4 (default in CMake)</td>
     </tr>
     <tr>
       <td>&emsp;--without-openssl-dir</td>
       <td>N/A</td>
       <td>PHP_EXT_FTP_SSL=OFF</td>
-      <td>default, PHP <= 8.3</td>
+      <td>PHP <= 8.3 (default in Autotools)</td>
     </tr>
     <tr>
       <td>&emsp;--with-openssl-dir</td>
       <td>N/A</td>
       <td>PHP_EXT_FTP_SSL=ON</td>
-      <td>PHP <= 8.3</td>
+      <td>PHP <= 8.3 (default in CMake)</td>
     </tr>
     <tr>
       <td>--disable-gd</td>

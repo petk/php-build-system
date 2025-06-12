@@ -1,4 +1,5 @@
-#if !defined(PHP_CONFIG_H) || @PHP_CONFIG_H_WINDOWS@
+#ifndef @PHP_CONFIG_HEADER_GUARD@
+#define @PHP_CONFIG_HEADER_GUARD@
 
 #if @PHP_CONFIG_H_WINDOWS@
 /* Define the minimum supported version */
@@ -28,8 +29,6 @@
 # define STDOUT_FILENO 1
 # define STDERR_FILENO 2
 #else
-# define PHP_CONFIG_H
-
 # if defined(__GNUC__) && __GNUC__ >= 4
 #  define ZEND_API __attribute__ ((visibility("default")))
 #  define ZEND_DLEXPORT __attribute__ ((visibility("default")))
@@ -698,4 +697,4 @@
 # include <string.h>
 #endif
 
-#endif /* PHP_CONFIG_H */
+#endif /* @PHP_CONFIG_HEADER_GUARD@ */

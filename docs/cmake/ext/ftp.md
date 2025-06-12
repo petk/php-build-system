@@ -23,10 +23,7 @@ Build extension as shared.
 
 ## PHP_EXT_FTP_SSL
 
-* Default: `OFF`
+* Default: `ON`
 * Values: `ON|OFF`
 
-Explicitly enable FTP over SSL support when building without openssl extension
-(`PHP_EXT_OPENSSL=OFF`) or when using `phpize`. If the `openssl` extension is
-enabled at the configure step (`PHP_EXT_OPENSSL=ON`), FTP-SSL is enabled
-implicitly regardless of this option.
+Explicitly enable or disable FTP over SSL support.

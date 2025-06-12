@@ -21,13 +21,10 @@ Build extension as shared.
 
 ## PHP_EXT_FTP_SSL
 
-* Default: `OFF`
+* Default: `ON`
 * Values: `ON|OFF`
 
-Explicitly enable FTP over SSL support when building without openssl extension
-(`PHP_EXT_OPENSSL=OFF`) or when using `phpize`. If the `openssl` extension is
-enabled at the configure step (`PHP_EXT_OPENSSL=ON`), FTP-SSL is enabled
-implicitly regardless of this option.
+Explicitly enable or disable FTP over SSL support.
 #]=============================================================================]
 
 cmake_minimum_required(VERSION 3.25...3.31)
@@ -58,10 +55,9 @@ cmake_dependent_option(
 
 cmake_dependent_option(
   PHP_EXT_FTP_SSL
-  "Explicitly enable FTP over SSL support when building without openssl\
-  extension (PHP_EXT_OPENSSL=OFF) or when using phpize."
-  OFF
-  "PHP_EXT_FTP;NOT PHP_EXT_OPENSSL"
+  "Explicitly enable FTP over SSL support."
+  ON
+  "PHP_EXT_FTP"
   OFF
 )
 
@@ -83,7 +79,7 @@ target_sources(
     php_ftp.c
 )
 
-if(PHP_EXT_FTP_SSL OR PHP_EXT_OPENSSL)
+if(PHP_EXT_FTP_SSL)
   find_package(OpenSSL ${PHP_OPENSSL_MIN_VERSION} COMPONENTS SSL)
   set_package_properties(
     OpenSSL
