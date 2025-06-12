@@ -66,13 +66,6 @@ Enable the legacy (original) Berkeley DB style (Database Manager) handler.
 
 Enable the bundled flat-file DBA handler.
 
-## PHP_EXT_DBA_GDBM
-
-* Default: `OFF`
-* Values: `ON|OFF`
-
-Enable the GNU dbm (GDBM) handler.
-
 ## PHP_EXT_DBA_INIFILE
 
 * Default: `ON`
@@ -219,20 +212,6 @@ add_feature_info(
 )
 
 cmake_dependent_option(
-  PHP_EXT_DBA_GDBM
-  "DBA: Enable the GNU dbm (GDBM) handler"
-  OFF
-  [[PHP_EXT_DBA AND NOT PHP_EXT_DBA_QDBM]]
-  OFF
-)
-mark_as_advanced(PHP_EXT_DBA_GDBM)
-add_feature_info(
-  "ext/dba GDBM"
-  PHP_EXT_DBA_GDBM
-  "GNU dbm handler"
-)
-
-cmake_dependent_option(
   PHP_EXT_DBA_INIFILE
   "DBA: Enable the bundled INI-file handler"
   ON
@@ -277,7 +256,7 @@ cmake_dependent_option(
   PHP_EXT_DBA_QDBM
   "DBA: Enable the Quick Database Manager (QDBM) handler"
   OFF
-  [[PHP_EXT_DBA AND NOT PHP_EXT_DBA_DBM AND NOT PHP_EXT_DBA_GDBM]]
+  [[PHP_EXT_DBA AND NOT PHP_EXT_DBA_DBM]]
   OFF
 )
 add_feature_info(
@@ -285,13 +264,7 @@ add_feature_info(
   PHP_EXT_DBA_QDBM
   "Quick Database Manager handler"
 )
-if(PHP_EXT_DBA_QDBM AND PHP_EXT_DBA_GDBM)
-  message(
-    FATAL_ERROR
-    "You cannot combine 'PHP_EXT_DBA_GDBM' with 'PHP_EXT_DBA_QDBM'. Please "
-    "select either GDBM or QDBM."
-  )
-elseif(PHP_EXT_DBA_QDBM AND PHP_EXT_DBA_DBM)
+if(PHP_EXT_DBA_QDBM AND PHP_EXT_DBA_DBM)
   message(
     FATAL_ERROR
     "You cannot combine 'PHP_EXT_DBA_DBM' with 'PHP_EXT_DBA_QDBM'. Please "
@@ -452,24 +425,13 @@ if(PHP_EXT_DBA_DBM)
       PURPOSE "Necessary to enable the DBM handler in the dba extension."
   )
 
-  if(Dbm_LIBRARY MATCHES "gdbm")
-    message(
-      WARNING
-      "The GNU dbm (GDBM) library is licensed under the GNU GPL 3, which is "
-      "not compatible with the PHP license. PHP then shouldn't be distributed. "
-      "The PHP_EXT_DBA_DBM is a legacy artifact for testing purposes. The "
-      "recommendation for using and distributing the PHP 'dba' extension is to "
-      "disable the PHP_EXT_DBA_DBM."
-    )
-  endif()
-
   target_link_libraries(php_ext_dba PRIVATE Dbm::Dbm)
 
   target_sources(php_ext_dba PRIVATE dba_dbm.c)
 
   set(DBM_INCLUDE_FILE "<dbm.h>")
   set(DBA_DBM TRUE)
-  set(DBM_VERSION "${Dbm_IMPLEMENTATION}")
+  set(DBM_VERSION "DBM")
 endif()
 
 ################################################################################
@@ -484,34 +446,6 @@ if(PHP_EXT_DBA_FLATFILE)
   )
 
   set(DBA_FLATFILE TRUE)
-endif()
-
-################################################################################
-# GDBM.
-################################################################################
-if(PHP_EXT_DBA_GDBM)
-  message(
-    WARNING
-    "The GNU dbm (GDBM) library is licensed under the GNU GPL 3, which is not "
-    "compatible with the PHP license. PHP then shouldn't be distributed. The "
-    "recommendation for using and distributing the PHP 'dba' extension is to "
-    "disable PHP_EXT_DBA_GDBM."
-  )
-
-  find_package(GDBM)
-  set_package_properties(
-    GDBM
-    PROPERTIES
-      TYPE REQUIRED
-      PURPOSE "Necessary to enable the GDBM handler in the dba extension."
-  )
-
-  target_link_libraries(php_ext_dba PRIVATE GDBM::GDBM)
-
-  target_sources(php_ext_dba PRIVATE dba_gdbm.c)
-
-  set(GDBM_INCLUDE_FILE "<gdbm.h>")
-  set(DBA_GDBM TRUE)
 endif()
 
 ################################################################################
@@ -560,17 +494,6 @@ if(PHP_EXT_DBA_NDBM)
       PURPOSE "Necessary to enable the ndbm handler in the dba extension."
   )
 
-  if(Ndbm_LIBRARY MATCHES "gdbm")
-    message(
-      WARNING
-      "The GNU dbm (GDBM) library is licensed under the GNU GPL 3, which is "
-      "not compatible with the PHP license. PHP then shouldn't be distributed. "
-      "The PHP_EXT_DBA_NDBM is a legacy artifact for testing purposes. The "
-      "recommendation for using and distributing the PHP 'dba' extension is to "
-      "disable the PHP_EXT_DBA_NDBM."
-    )
-  endif()
-
   target_link_libraries(php_ext_dba PRIVATE Ndbm::Ndbm)
 
   target_sources(php_ext_dba PRIVATE dba_ndbm.c)
@@ -582,7 +505,7 @@ endif()
 ################################################################################
 # QDBM.
 ################################################################################
-if(PHP_EXT_DBA_QDBM AND NOT PHP_EXT_DBA_DBM AND NOT PHP_EXT_DBA_GDBM)
+if(PHP_EXT_DBA_QDBM AND NOT PHP_EXT_DBA_DBM)
   find_package(QDBM)
   set_package_properties(
     QDBM
