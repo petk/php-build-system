@@ -91,11 +91,11 @@ if(TARGET Firebird::Firebird)
     check_symbol_exists(
       isc_detach_database
       ibase.h
-      _PHP_EXT_PDO_FIREBIRD_SANITY_CHECK
+      PHP_EXT_PDO_FIREBIRD_SANITY_CHECK
     )
   cmake_pop_check_state()
 
-  if(NOT _PHP_EXT_PDO_FIREBIRD_SANITY_CHECK)
+  if(NOT PHP_EXT_PDO_FIREBIRD_SANITY_CHECK)
     message(
       FATAL_ERROR
       "Firebird sanity check failed: 'isc_detach_database()' not found."

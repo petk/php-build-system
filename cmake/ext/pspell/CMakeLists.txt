@@ -104,10 +104,10 @@ endif()
 if(TARGET ASPELL::ASPELL)
   cmake_push_check_state(RESET)
     set(CMAKE_REQUIRED_LIBRARIES ASPELL::ASPELL)
-    check_symbol_exists(new_aspell_config aspell.h _PHP_EXT_PSPELL_CHECK)
+    check_symbol_exists(new_aspell_config aspell.h PHP_EXT_PSPELL_SANITY_CHECK)
   cmake_pop_check_state()
 
-  if(NOT _PHP_EXT_PSPELL_CHECK)
+  if(NOT PHP_EXT_PSPELL_SANITY_CHECK)
     message(
       FATAL_ERROR
       "Aspell sanity check failed: new_aspell_config() not found in aspell.h. "

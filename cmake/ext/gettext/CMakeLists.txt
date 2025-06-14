@@ -83,8 +83,8 @@ if(TARGET Intl::Intl)
     set(CMAKE_REQUIRED_LIBRARIES Intl::Intl)
 
     # Sanity check.
-    check_symbol_exists(bindtextdomain libintl.h _PHP_HAVE_BINDTEXTDOMAIN)
-    if(NOT _PHP_HAVE_BINDTEXTDOMAIN)
+    check_symbol_exists(bindtextdomain libintl.h PHP_EXT_GETTEXT_SANITY_CHECK)
+    if(NOT PHP_EXT_GETTEXT_SANITY_CHECK)
       message(
         FATAL_ERROR
         "The ext/gettext sanity check for intl library failed: The "

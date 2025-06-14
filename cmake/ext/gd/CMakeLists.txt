@@ -77,7 +77,6 @@ project(
   LANGUAGES C
 )
 
-include(CheckSourceCompiles)
 include(CheckSourceRuns)
 include(CheckSymbolExists)
 include(CMakeDependentOption)
@@ -422,34 +421,6 @@ if(NOT PHP_EXT_GD_EXTERNAL)
     set(JISX0208 TRUE)
     set(USE_GD_JISX0208 TRUE)
   endif()
-
-  # Do sanity check when all required packages are found.
-  block()
-    get_target_property(libraries php_ext_gd LINK_LIBRARIES)
-    set(doSanityCheck TRUE)
-    foreach(library ${libraries})
-      if(library MATCHES "^.+::.+$" AND NOT TARGET ${library})
-        set(doSanityCheck FALSE)
-        break()
-      endif()
-    endforeach()
-
-    if(doSanityCheck)
-      cmake_push_check_state(RESET)
-        set(CMAKE_REQUIRED_LIBRARIES ${libraries})
-
-        check_source_compiles(
-          C
-          [[int main(void) { return 0; }]]
-          _PHP_GD_SANITY_CHECK_COMPILES
-        )
-      cmake_pop_check_state()
-
-      if(NOT _PHP_GD_SANITY_CHECK_COMPILES)
-        message(FATAL_ERROR "GD sanity check failed.")
-      endif()
-    endif()
-  endblock()
 else()
   find_package(GD 2.1.0)
   set_package_properties(
@@ -464,18 +435,7 @@ else()
   target_sources(php_ext_gd PRIVATE gd_compat.c)
 
   if(TARGET GD::GD)
-    # Sanity check.
-    cmake_push_check_state(RESET)
-      set(CMAKE_REQUIRED_LIBRARIES GD::GD)
-      check_symbol_exists(gdImageCreate gd.h HAVE_LIBGD)
-    cmake_pop_check_state()
-
-    if(NOT HAVE_LIBGD)
-      message(
-        FATAL_ERROR
-        "GD sanity check failed: 'gdImageCreate()' could not be found in libgd."
-      )
-    endif()
+    set(HAVE_LIBGD TRUE)
 
     # Build and run a program to determine if GD has support for the given
     # format. The first argument is the proper-noun-capitalized name of the

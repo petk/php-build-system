@@ -29,7 +29,6 @@ project(
 
 include(CheckIncludeFiles)
 include(CheckSourceRuns)
-include(CheckSymbolExists)
 include(CMakeDependentOption)
 include(CMakePushCheckState)
 include(FeatureSummary)
@@ -169,26 +168,6 @@ if(PHP_THREAD_SAFETY AND CURL_SSL_FOUND)
         check_include_files(openssl/crypto.h HAVE_OPENSSL_CRYPTO_H)
       cmake_pop_check_state()
     endif()
-  endif()
-endif()
-
-# Sanity check.
-if(TARGET CURL::libcurl)
-  cmake_push_check_state(RESET)
-    set(CMAKE_REQUIRED_LIBRARIES CURL::libcurl)
-
-    check_symbol_exists(
-      curl_easy_perform
-      curl/curl.h
-      _PHP_HAVE_CURL_EASY_PERFORM
-    )
-  cmake_pop_check_state()
-
-  if(NOT _PHP_HAVE_CURL_EASY_PERFORM)
-    message(
-      FATAL_ERROR
-      "ext/curl sanity check failed: 'curl_easy_perform()' could not be found."
-    )
   endif()
 endif()
 

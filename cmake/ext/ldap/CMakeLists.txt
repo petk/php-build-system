@@ -99,12 +99,12 @@ if(TARGET LDAP::LDAP)
     set(CMAKE_REQUIRED_LIBRARIES LDAP::LDAP)
 
     # Sanity check.
-    check_symbol_exists(ldap_sasl_bind_s ldap.h _PHP_HAVE_LDAP_SASL_BIND_S)
-    if(NOT _PHP_HAVE_LDAP_SASL_BIND_S)
+    check_symbol_exists(ldap_sasl_bind_s ldap.h PHP_EXT_LDAP_HAS_LDAP_SASL_BIND_S)
+    if(NOT PHP_EXT_LDAP_HAS_LDAP_SASL_BIND_S)
       # Fallback to deprecated ldap_simple_bind_s().
-      check_symbol_exists(ldap_simple_bind_s ldap.h _PHP_HAVE_LDAP_SIMPLE_BIND_S)
+      check_symbol_exists(ldap_simple_bind_s ldap.h PHP_HAS_LDAP_SIMPLE_BIND_S)
     endif()
-    if(NOT _PHP_HAVE_LDAP_SASL_BIND_S AND NOT _PHP_HAVE_LDAP_SIMPLE_BIND_S)
+    if(NOT PHP_EXT_LDAP_HAS_LDAP_SASL_BIND_S AND NOT PHP_HAS_LDAP_SIMPLE_BIND_S)
       message(
         FATAL_ERROR
         "LDAP sanity check failed: neither 'ldap_sasl_bind_s()' nor "
