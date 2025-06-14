@@ -166,8 +166,8 @@ target_sources(
     uchar/uchar.stub.php
 )
 
-php_check_compiler_flag(C -Wno-write-strings _PHP_HAVE_WNO_WRITE_STRINGS_C)
-if(_PHP_HAVE_WNO_WRITE_STRINGS_C)
+php_check_compiler_flag(C -Wno-write-strings PHP_HAS_WNO_WRITE_STRINGS_C)
+if(PHP_HAS_WNO_WRITE_STRINGS_C)
   target_compile_options(
     php_ext_intl
     PRIVATE
@@ -175,8 +175,8 @@ if(_PHP_HAVE_WNO_WRITE_STRINGS_C)
   )
 endif()
 
-php_check_compiler_flag(CXX -Wno-write-strings _PHP_HAVE_WNO_WRITE_STRINGS_CXX)
-if(_PHP_HAVE_WNO_WRITE_STRINGS_CXX)
+php_check_compiler_flag(CXX -Wno-write-strings PHP_HAS_WNO_WRITE_STRINGS_CXX)
+if(PHP_HAS_WNO_WRITE_STRINGS_CXX)
   target_compile_options(
     php_ext_intl
     PRIVATE

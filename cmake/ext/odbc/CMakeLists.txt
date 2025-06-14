@@ -311,12 +311,15 @@ if(PHP_EXT_ODBC_TYPE STREQUAL "ibm-db2" AND TARGET ODBC::ODBC)
   cmake_push_check_state(RESET)
     set(CMAKE_REQUIRED_LIBRARIES ODBC::ODBC)
     check_include_files(sqlcli1.h HAVE_SQLCLI1_H)
-    check_library_exists(ODBC::ODBC "" SQLExecute HAVE_SQLEXECUTE)
   cmake_pop_check_state()
+
   if(NOT HAVE_SQLCLI1_H)
     message(FATAL_ERROR "Required <sqlcli1.h> header file not found.")
   endif()
-  if(NOT HAVE_SQLEXECUTE)
+
+  check_library_exists(ODBC::ODBC "" SQLExecute PHP_EXT_ODBC_HAS_SQLEXECUTE)
+
+  if(NOT PHP_EXT_ODBC_HAS_SQLEXECUTE)
     message(
       FATAL_ERROR
       "ODBC build test failed. SQLExecute not found. The DB2 environment "

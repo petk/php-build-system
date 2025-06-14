@@ -1,7 +1,11 @@
 #[=============================================================================[
 # FindMC
 
-Find Windows compatible message compiler (mc.exe or windmc) command-line tool.
+Finds Windows compatible message compiler (mc.exe or windmc) command-line tool:
+
+```cmake
+find_package(MC [...])
+```
 
 Message compiler is installed on Windows as part of the Visual Studio or Windows
 SDK. When cross-compiling for Windows, there is also a compatible alternative by
@@ -16,9 +20,9 @@ https://sourceware.org/binutils/docs/binutils.html#windmc.
 
 * `MC_EXECUTABLE` - Path to the message compiler if found.
 
-## Functions provided by this module
+## Commands
 
-Module exposes the following function:
+This module provides the following command:
 
 ```cmake
 mc_target(
@@ -33,20 +37,23 @@ mc_target(
 ```
 
 * `NAME` - Target name.
-* `INPUT` - Input message file to compile.
+* `INPUT` - Input message file to compile. Relative path is interpreted as being
+  relative to the current source directory.
 * `HEADER_DIR` - Set the export directory for headers, otherwise current binary
   directory will be used.
-* `RC_DIR` - Set the export directory for rc files.
+* `RC_DIR` - Set the export directory for rc files, otherwise current binary
+  directory will be used.
 * `XDBG_DIR` - Where to create the .dbg C include file that maps message IDs to
   their symbolic name.
 * `OPTIONS` - A list of additional options to pass to message compiler tool.
 * `DEPENDS` - Optional list of dependent files to recompile message file.
 
-## Usage
+## Examples
 
 ```cmake
 # CMakeLists.txt
 find_package(MC)
+mc_target(...)
 ```
 #]=============================================================================]
 
@@ -137,11 +144,12 @@ endblock()
 
 set(_reason "")
 
-if(NOT MC_EXECUTABLE OR NOT EXISTS ${MC_EXECUTABLE})
-  string(APPEND _reason "Message compiler command-line tool (mc) not found. ")
-else()
-  # If MC_EXECUTABLE was found or was set by the user and path exists.
+# Check whether MC_EXECUTABLE exists.
+if(EXISTS "${MC_EXECUTABLE}")
   set(_mc_exists TRUE)
+else()
+  set(_mc_exists FALSE)
+  string(APPEND _reason "Message compiler command-line tool (mc) not found. ")
 endif()
 
 mark_as_advanced(MC_EXECUTABLE)
@@ -189,6 +197,13 @@ function(mc_target)
     )
     return()
   endif()
+
+  cmake_path(
+    ABSOLUTE_PATH
+    parsed_INPUT
+    BASE_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
+    NORMALIZE
+  )
 
   # Set default header export directory if empty.
   if(NOT parsed_HEADER_DIR)

@@ -26,7 +26,6 @@ endif()
 # See: https://gcc.gnu.org/bugzilla/show_bug.cgi?id=86914
 if(
   CMAKE_C_COMPILER_ID STREQUAL "GNU"
-  AND DEFINED CMAKE_C_COMPILER_VERSION
   AND CMAKE_C_COMPILER_VERSION VERSION_GREATER_EQUAL 8
   AND CMAKE_C_COMPILER_VERSION VERSION_LESS 8.3
 )
@@ -64,21 +63,25 @@ target_compile_options(
     $<$<AND:$<BOOL:${PHP_HAS_WNO_UNUSED_PARAMETER_CXX}>,$<COMPILE_LANGUAGE:CXX>>:-Wno-unused-parameter>
 )
 
-if(MSVC)
-  target_compile_options(
-    php_config
-    BEFORE
-    INTERFACE
-      $<$<COMPILE_LANGUAGE:ASM,C,CXX>:/W4>
-  )
-else()
-  target_compile_options(
-    php_config
-    BEFORE
-    INTERFACE
-      $<$<COMPILE_LANGUAGE:ASM,C,CXX>:-Wall;-Wextra>
-  )
-endif()
+php_check_compiler_flag(C -Wextra PHP_HAS_WEXTRA_C)
+php_check_compiler_flag(CXX -Wextra PHP_HAS_WEXTRA_CXX)
+target_compile_options(
+  php_config
+  BEFORE
+  INTERFACE
+    $<$<AND:$<BOOL:${PHP_HAS_WEXTRA_C}>,$<COMPILE_LANGUAGE:ASM,C>>:-Wextra>
+    $<$<AND:$<BOOL:${PHP_HAS_WEXTRA_CXX}>,$<COMPILE_LANGUAGE:CXX>>:-Wextra>
+)
+
+php_check_compiler_flag(C -Wall PHP_HAS_WALL_C)
+php_check_compiler_flag(CXX -Wall PHP_HAS_WALL_CXX)
+target_compile_options(
+  php_config
+  BEFORE
+  INTERFACE
+    $<$<AND:$<BOOL:${PHP_HAS_WALL_C}>,$<COMPILE_LANGUAGE:ASM,C>>:-Wall>
+    $<$<AND:$<BOOL:${PHP_HAS_WALL_CXX}>,$<COMPILE_LANGUAGE:CXX>>:-Wall>
+)
 
 # Check if compiler supports -Wno-clobbered (only GCC).
 php_check_compiler_flag(C -Wno-clobbered PHP_HAS_WNO_CLOBBERED_C)

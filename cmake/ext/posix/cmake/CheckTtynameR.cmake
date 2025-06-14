@@ -54,10 +54,10 @@ cmake_push_check_state(RESET)
     "int ttyname_r(int fd, char *buf, size_t buflen)"
     "0"
     "unistd.h"
-    _PHP_HAVE_TTYNAME_R_PROTOTYPE
+    PHP_HAS_TTYNAME_R_PROTOTYPE
   )
 
-  if(NOT _PHP_HAVE_TTYNAME_R_PROTOTYPE)
+  if(NOT PHP_HAS_TTYNAME_R_PROTOTYPE)
     message(CHECK_FAIL "no (non-standard declaration)")
     cmake_pop_check_state()
     return()
