@@ -590,12 +590,6 @@
 /* Define to 1 you have IRIX-style reentrant time functions. */
 #cmakedefine PHP_IRIX_TIME_R 1
 
-/* Linker major version. */
-#cmakedefine PHP_LINKER_MAJOR @PHP_LINKER_MAJOR@
-
-/* Linker minor version. */
-#cmakedefine PHP_LINKER_MINOR @PHP_LINKER_MINOR@
-
 /* The 'uname' output. */
 #define PHP_OS "@CMAKE_SYSTEM_NAME@"
 
@@ -673,6 +667,7 @@
 @ZEND_CONFIGURATION@
 
 #if @PHP_CONFIG_H_WINDOWS@
+@WINDOWS_CONFIGURATION@
 # include "build-defs.h"
 # if __has_include("main/config.pickle.h")
 #  include "main/config.pickle.h"
