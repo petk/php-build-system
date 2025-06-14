@@ -67,8 +67,8 @@ target_sources(
 )
 
 # Add -Wno-strict-prototypes as depends on user libs.
-php_check_compiler_flag(C -Wno-strict-prototypes _PHP_HAVE_WNO_STRICT_PROTOTYPES)
-if(_PHP_HAVE_WNO_STRICT_PROTOTYPES)
+php_check_compiler_flag(C -Wno-strict-prototypes PHP_HAS_WNO_STRICT_PROTOTYPES)
+if(PHP_HAS_WNO_STRICT_PROTOTYPES)
   target_compile_options(
     php_ext_pspell
     PRIVATE
