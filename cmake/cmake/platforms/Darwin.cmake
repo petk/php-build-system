@@ -32,9 +32,9 @@ if(CMAKE_SYSTEM_NAME STREQUAL "Darwin")
   check_linker_flag(
     C
     "LINKER:-undefined,dynamic_lookup"
-    HAVE_UNDEFINED_DYNAMIC_LOOKUP_FLAG_C
+    PHP_HAS_UNDEFINED_DYNAMIC_LOOKUP_FLAG_C
   )
-  if(HAVE_UNDEFINED_DYNAMIC_LOOKUP_FLAG_C)
+  if(PHP_HAS_UNDEFINED_DYNAMIC_LOOKUP_FLAG_C)
     target_link_options(
       php_config
       INTERFACE

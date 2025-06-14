@@ -65,10 +65,10 @@ function(_php_check_gethostbyname_r)
     HEADERS netdb.h
     LIBRARIES
       nsl # Solaris <= 11.3, illumos
-    VARIABLE _PHP_HAVE_GETHOSTBYNAME_R
+    VARIABLE PHP_HAS_GETHOSTBYNAME_R
     LIBRARY_VARIABLE library
   )
-  if(NOT _PHP_HAVE_GETHOSTBYNAME_R)
+  if(NOT PHP_HAS_GETHOSTBYNAME_R)
     message(CHECK_FAIL "not found")
     return()
   endif()

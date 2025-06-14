@@ -89,17 +89,17 @@ else()
     php_check_compiler_flag(
       C
       -fsanitize=fuzzer-no-link
-      _PHP_HAVE_FSANITIZE_FUZZER_NO_LINK_C
+      PHP_HAS_FSANITIZE_FUZZER_NO_LINK_C
     )
 
     php_check_compiler_flag(
       CXX
       -fsanitize=fuzzer-no-link
-      _PHP_HAVE_FSANITIZE_FUZZER_NO_LINK_CXX
+      PHP_HAS_FSANITIZE_FUZZER_NO_LINK_CXX
     )
   cmake_pop_check_state()
 
-  if(NOT _PHP_HAVE_FSANITIZE_FUZZER_NO_LINK_C)
+  if(NOT PHP_HAS_FSANITIZE_FUZZER_NO_LINK_C)
     message(
       FATAL_ERROR
       "The fuzzer SAPI cannot be enabled. C compiler ${CMAKE_C_COMPILER_ID} "
@@ -107,7 +107,7 @@ else()
     )
   endif()
 
-  if(NOT _PHP_HAVE_FSANITIZE_FUZZER_NO_LINK_CXX)
+  if(NOT PHP_HAS_FSANITIZE_FUZZER_NO_LINK_CXX)
     message(
       FATAL_ERROR
       "The fuzzer SAPI cannot be enabled. C++ compiler "

@@ -37,10 +37,10 @@ include(CMakePushCheckState)
 
 cmake_push_check_state(RESET)
   set(CMAKE_REQUIRED_DEFINITIONS -D_GNU_SOURCE)
-  check_symbol_exists(fopencookie stdio.h _PHP_HAVE_FOPENCOOKIE)
+  check_symbol_exists(fopencookie stdio.h PHP_HAS_FOPENCOOKIE)
 cmake_pop_check_state()
 
-if(NOT _PHP_HAVE_FOPENCOOKIE)
+if(NOT PHP_HAS_FOPENCOOKIE)
   return()
 endif()
 

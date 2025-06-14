@@ -72,7 +72,7 @@ include(PHP/CheckSysMacros)
 include_guard(GLOBAL)
 
 # Skip in consecutive configuration phases.
-if(DEFINED _PHP_HAVE_SYS_MACROS_CHECKED)
+if(PHP_HAS_SYS_MACROS_CHECKED)
   return()
 endif()
 
@@ -110,7 +110,7 @@ else()
 endif()
 
 set(
-  _PHP_HAVE_SYS_MACROS_CHECKED
+  PHP_HAS_SYS_MACROS_CHECKED
   TRUE
   CACHE INTERNAL
   "Internal marker whether 'major', 'minor' and 'makedev' have been checked."

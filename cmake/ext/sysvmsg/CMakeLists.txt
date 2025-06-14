@@ -59,9 +59,9 @@ if(NOT PHP_EXT_SYSVMSG)
   return()
 endif()
 
-check_include_files(sys/msg.h _PHP_HAVE_SYS_MSG_H)
+check_include_files(sys/msg.h PHP_HAS_SYS_MSG_H)
 
-if(NOT _PHP_HAVE_SYS_MSG_H)
+if(NOT PHP_HAS_SYS_MSG_H)
   message(
     FATAL_ERROR
     "Cannot enable sysvmsg extension (System V IPC support). The sys/msg.h is "

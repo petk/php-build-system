@@ -24,7 +24,7 @@ message(CHECK_START "Checking fclose declaration")
 # Checking if symbol exists also checks if it is declared.
 cmake_push_check_state(RESET)
   set(CMAKE_REQUIRED_QUIET TRUE)
-  check_symbol_exists(fclose stdio.h _PHP_HAVE_FCLOSE)
+  check_symbol_exists(fclose stdio.h PHP_HAS_FCLOSE)
 cmake_pop_check_state()
 
 set(
@@ -34,7 +34,7 @@ set(
   "Whether the 'fclose()' declaration is missing."
 )
 
-if(_PHP_HAVE_FCLOSE)
+if(PHP_HAS_FCLOSE)
   message(CHECK_PASS "found")
   set_property(CACHE MISSING_FCLOSE_DECL PROPERTY VALUE FALSE)
 else()

@@ -385,8 +385,8 @@ block()
   set(headers pthread.h)
 
   # BSD-based systems have pthread_attr_get_np in pthread_np.h.
-  check_include_files(pthread_np.h _PHP_HAVE_PTHREAD_NP_H)
-  if(_PHP_HAVE_PTHREAD_NP_H)
+  check_include_files(pthread_np.h PHP_HAS_PTHREAD_NP_H)
+  if(PHP_HAS_PTHREAD_NP_H)
     list(APPEND headers "pthread_np.h")
   endif()
 

@@ -257,7 +257,7 @@ mark_as_advanced(Cclient_INCLUDE_DIR Cclient_LIBRARY)
 ################################################################################
 
 if(Cclient_INCLUDE_DIR AND Cclient_LIBRARY)
-  cclient_check_function_exists(mail_newbody _cclient_sanity_check_1)
+  cclient_check_function_exists(mail_newbody _Cclient_SANITY_CHECK_1)
 
   cmake_push_check_state(RESET)
     set(CMAKE_REQUIRED_INCLUDES ${Cclient_INCLUDE_DIR})
@@ -288,18 +288,18 @@ if(Cclient_INCLUDE_DIR AND Cclient_LIBRARY)
     cclient_check_symbol_exists(
       U8T_DECOMPOSE
       c-client.h
-      _PHP_HAVE_U8T_DECOMPOSE
+      _Cclient_HAS_U8T_DECOMPOSE
     )
   cmake_pop_check_state()
 
-  if(HAVE_NEW_MIME2TEXT AND NOT _PHP_HAVE_U8T_DECOMPOSE)
+  if(HAVE_NEW_MIME2TEXT AND NOT _Cclient_HAS_U8T_DECOMPOSE)
     string(
       APPEND
       _reason
       "Sanity check failed: 'utf8_mime2text()' has new signature, but "
       "'U8T_CANONICAL' is missing. This should not happen. "
     )
-  elseif(NOT HAVE_NEW_MIME2TEXT AND _PHP_HAVE_U8T_DECOMPOSE)
+  elseif(NOT HAVE_NEW_MIME2TEXT AND _Cclient_HAS_U8T_DECOMPOSE)
     string(
       APPEND
       _reason
@@ -307,11 +307,11 @@ if(Cclient_INCLUDE_DIR AND Cclient_LIBRARY)
       "'U8T_CANONICAL' is present. This should not happen. "
     )
   else()
-    set(_cclient_sanity_check_2 TRUE)
+    set(_Cclient_SANITY_CHECK_2 TRUE)
   endif()
 endif()
 
-if(NOT _cclient_sanity_check_2)
+if(NOT _Cclient_SANITY_CHECK_2)
   string(APPEND _reason "Sanity check failed: 'mail_newbody()' not found. ")
 endif()
 
@@ -324,8 +324,8 @@ find_package_handle_standard_args(
   REQUIRED_VARS
     Cclient_LIBRARY
     Cclient_INCLUDE_DIR
-    _cclient_sanity_check_1
-    _cclient_sanity_check_2
+    _Cclient_SANITY_CHECK_1
+    _Cclient_SANITY_CHECK_2
   REASON_FAILURE_MESSAGE "${_reason}"
 )
 
