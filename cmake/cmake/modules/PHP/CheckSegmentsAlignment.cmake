@@ -40,11 +40,11 @@ cmake_push_check_state(RESET)
   check_source_runs(
     C
     [[int main(void) { return 0; }]]
-    PHP_HAVE_ALIGNMENT_FLAGS_C
+    PHP_HAS_ALIGNMENT_FLAGS_C
   )
 cmake_pop_check_state()
 
-if(PHP_HAVE_ALIGNMENT_FLAGS_C)
+if(PHP_HAS_ALIGNMENT_FLAGS_C)
   target_link_options(
     php_config
     INTERFACE
@@ -61,11 +61,11 @@ else()
     check_source_runs(
       C
       [[int main(void) { return 0; }]]
-      PHP_HAVE_MAX_PAGE_SIZE_C
+      PHP_HAS_MAX_PAGE_SIZE_C
     )
   cmake_pop_check_state()
 
-  if(PHP_HAVE_MAX_PAGE_SIZE_C)
+  if(PHP_HAS_MAX_PAGE_SIZE_C)
     target_link_options(
       php_config
       INTERFACE
@@ -88,11 +88,11 @@ if(CXX IN_LIST enabledLanguages)
     check_source_runs(
       CXX
       [[int main(void) { return 0; }]]
-      PHP_HAVE_ALIGNMENT_FLAGS_CXX
+      PHP_HAS_ALIGNMENT_FLAGS_CXX
     )
   cmake_pop_check_state()
 
-  if(PHP_HAVE_ALIGNMENT_FLAGS_CXX)
+  if(PHP_HAS_ALIGNMENT_FLAGS_CXX)
     target_link_options(
       php_config
       INTERFACE
@@ -109,11 +109,11 @@ if(CXX IN_LIST enabledLanguages)
       check_source_runs(
         CXX
         [[int main(void) { return 0; }]]
-        PHP_HAVE_MAX_PAGE_SIZE_CXX
+        PHP_HAS_MAX_PAGE_SIZE_CXX
       )
     cmake_pop_check_state()
 
-    if(PHP_HAVE_MAX_PAGE_SIZE_CXX)
+    if(PHP_HAS_MAX_PAGE_SIZE_CXX)
       target_link_options(
         php_config
         INTERFACE
@@ -124,10 +124,10 @@ if(CXX IN_LIST enabledLanguages)
 endif()
 
 if(
-  PHP_HAVE_ALIGNMENT_FLAGS_C
-  OR PHP_HAVE_ALIGNMENT_FLAGS_CXX
-  OR PHP_HAVE_MAX_PAGE_SIZE_C
-  OR PHP_HAVE_MAX_PAGE_SIZE_CXX
+  PHP_HAS_ALIGNMENT_FLAGS_C
+  OR PHP_HAS_ALIGNMENT_FLAGS_CXX
+  OR PHP_HAS_MAX_PAGE_SIZE_C
+  OR PHP_HAS_MAX_PAGE_SIZE_CXX
 )
   message(CHECK_PASS "done")
 else()
