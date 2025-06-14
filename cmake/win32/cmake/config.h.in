@@ -1,0 +1,5 @@
+/* Linker major version. */
+#cmakedefine PHP_LINKER_MAJOR @PHP_LINKER_MAJOR@
+
+/* Linker minor version. */
+#cmakedefine PHP_LINKER_MINOR @PHP_LINKER_MINOR@

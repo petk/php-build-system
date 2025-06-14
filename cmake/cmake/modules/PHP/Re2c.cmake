@@ -197,7 +197,7 @@ macro(_php_re2c_config)
 
   # If re2c is not found on the system, set which version to download.
   if(NOT PHP_RE2C_VERSION_DOWNLOAD)
-    set(PHP_RE2C_VERSION_DOWNLOAD 4.0.2)
+    set(PHP_RE2C_VERSION_DOWNLOAD 4.2)
   endif()
 endmacro()
 
@@ -635,6 +635,10 @@ function(_php_re2c_download)
       -DCMAKE_DISABLE_FIND_PACKAGE_Python3=TRUE
       -DPython3_VERSION=3.7
     )
+  endif()
+
+  if(RE2C_VERSION VERSION_GREATER_EQUAL 4.2)
+    list(APPEND re2cOptions -DRE2C_BUILD_RE2SWIFT=OFF)
   endif()
 
   ExternalProject_Add(
