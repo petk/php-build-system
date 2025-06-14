@@ -24,18 +24,14 @@ set(HAVE_GETADDRINFO_EXITCODE 0)
 
 # Set the exit codes for the alignment segments checks.
 # See PHP/CheckSegmentsAlignment.cmake
-set(PHP_HAVE_ALIGNMENT_FLAGS_C_EXITCODE 0)
-set(PHP_HAVE_MAX_PAGE_SIZE_C_EXITCODE 0)
-set(PHP_HAVE_ALIGNMENT_FLAGS_CXX_EXITCODE 0)
-set(PHP_HAVE_MAX_PAGE_SIZE_CXX_EXITCODE 0)
-
-# Set the exit code for check of GNU C compiler with broken strlen optimization
-# (relevant only for GCC version 8.2).
-set(PHP_HAVE_BROKEN_OPTIMIZE_STRLEN_EXITCODE 1)
+set(PHP_HAS_ALIGNMENT_FLAGS_C_EXITCODE 0)
+set(PHP_HAS_MAX_PAGE_SIZE_C_EXITCODE 0)
+set(PHP_HAS_ALIGNMENT_FLAGS_CXX_EXITCODE 0)
+set(PHP_HAS_MAX_PAGE_SIZE_CXX_EXITCODE 0)
 
 # Set the exit code to 1 when using Clang 17 or later and -fno-sanitize=function
 # needs to be added for the PHP_UNDEFINED_SANITIZER option, otherwise set to 0.
-set(PHP_HAVE_UBSAN_EXITCODE 0)
+set(PHP_HAS_UBSAN_EXITCODE 0)
 
 # Set the exit code for the check of reentrant time-related functions being
 # HP-UX style.
