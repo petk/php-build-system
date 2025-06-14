@@ -361,6 +361,12 @@ function(_php_main_configure_php_config)
   file(READ ${CMAKE_CURRENT_BINARY_DIR}/Zend/CMakeFiles/zend_config.h config)
   string(STRIP "${config}" ZEND_CONFIGURATION)
 
+  # Add Windows configuration.
+  if(CMAKE_SYSTEM_NAME STREQUAL "Windows")
+    file(READ ${CMAKE_CURRENT_BINARY_DIR}/win32/config.h config)
+    string(STRIP "${config}" WINDOWS_CONFIGURATION)
+  endif()
+
   file(READ main/cmake/php_config.h.in content)
   string(CONFIGURE "${content}" content @ONLY)
   file(
