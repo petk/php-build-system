@@ -124,9 +124,9 @@ else()
       php_check_compiler_flag(
         C
         -Wno-implicit-fallthrough
-        _PHP_HAVE_WNO_IMPLICIT_FALLTHROUGH_C
+        PHP_HAS_WNO_IMPLICIT_FALLTHROUGH_C
       )
-      if(_PHP_HAVE_WNO_IMPLICIT_FALLTHROUGH_C)
+      if(PHP_HAS_WNO_IMPLICIT_FALLTHROUGH_C)
         set_property(
           SOURCE ${sha3Dir}/KeccakP-1600-inplace32BI.c
           APPEND

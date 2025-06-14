@@ -111,14 +111,14 @@ if(TARGET PostgreSQL::PostgreSQL)
       check_symbol_exists(
         LIBPQ_HAS_CLOSE_PREPARED
         libpq-fe.h
-        _PHP_HAVE_LIBPQ_HAS_CLOSE_PREPARED
+        PHP_HAS_LIBPQ_HAS_CLOSE_PREPARED
       )
       check_symbol_exists(
         PQclosePrepared
         libpq-fe.h
-        _PHP_HAVE_PQCLOSEPREPARED
+        PHP_HAS_PQCLOSEPREPARED
       )
-      if(_PHP_HAVE_LIBPQ_HAS_CLOSE_PREPARED AND _PHP_HAVE_PQCLOSEPREPARED)
+      if(PHP_HAS_LIBPQ_HAS_CLOSE_PREPARED AND PHP_HAS_PQCLOSEPREPARED)
         set(HAVE_PQCLOSEPREPARED TRUE)
       endif()
     endif()

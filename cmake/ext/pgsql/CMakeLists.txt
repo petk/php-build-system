@@ -120,14 +120,14 @@ if(TARGET PostgreSQL::PostgreSQL)
       check_symbol_exists(
         LIBPQ_HAS_CHANGE_PASSWORD
         libpq-fe.h
-        _PHP_HAVE_LIBPQ_HAS_CHANGE_PASSWORD
+        PHP_HAS_LIBPQ_HAS_CHANGE_PASSWORD
       )
       check_symbol_exists(
         PQchangePassword
         libpq-fe.h
-        _PHP_HAVE_PQCHANGEPASSWORD
+        PHP_HAS_PQCHANGEPASSWORD
       )
-      if(_PHP_HAVE_LIBPQ_HAS_CHANGE_PASSWORD AND _PHP_HAVE_PQCHANGEPASSWORD)
+      if(PHP_HAS_LIBPQ_HAS_CHANGE_PASSWORD AND PHP_HAS_PQCHANGEPASSWORD)
         set(HAVE_PG_CHANGE_PASSWORD TRUE)
       endif()
 
@@ -135,14 +135,14 @@ if(TARGET PostgreSQL::PostgreSQL)
       check_symbol_exists(
         LIBPQ_HAS_SOCKET_POLL
         libpq-fe.h
-        _PHP_HAVE_LIBPQ_HAS_SOCKET_POLL
+        PHP_HAS_LIBPQ_HAS_SOCKET_POLL
       )
       check_symbol_exists(
         PQsocketPoll
         libpq-fe.h
-        _PHP_HAVE_PQSOCKETPOLL
+        PHP_HAS_PQSOCKETPOLL
       )
-      if(_PHP_HAVE_LIBPQ_HAS_SOCKET_POLL AND _PHP_HAVE_PQSOCKETPOLL)
+      if(PHP_HAS_LIBPQ_HAS_SOCKET_POLL AND PHP_HAS_PQSOCKETPOLL)
         set(HAVE_PG_SOCKET_POLL TRUE)
       endif()
 
@@ -150,14 +150,14 @@ if(TARGET PostgreSQL::PostgreSQL)
       check_symbol_exists(
         LIBPQ_HAS_CHUNK_MODE
         libpq-fe.h
-        _PHP_HAVE_LIBPQ_HAS_CHUNK_MODE
+        PHP_HAS_LIBPQ_HAS_CHUNK_MODE
       )
       check_symbol_exists(
         PQsetChunkedRowsMode
         libpq-fe.h
-        _PHP_HAVE_PQSETCHUNKEDROWSMODE
+        PHP_HAS_PQSETCHUNKEDROWSMODE
       )
-      if(_PHP_HAVE_LIBPQ_HAS_CHUNK_MODE AND _PHP_HAVE_PQSETCHUNKEDROWSMODE)
+      if(PHP_HAS_LIBPQ_HAS_CHUNK_MODE AND PHP_HAS_PQSETCHUNKEDROWSMODE)
         set(HAVE_PG_SET_CHUNKED_ROWS_SIZE TRUE)
       endif()
     endif()

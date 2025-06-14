@@ -193,9 +193,9 @@ else()
   php_check_compiler_flag(
     C
     -Wno-implicit-fallthrough
-    _PHP_HAVE_WNO_IMPLICIT_FALLTHROUGH_C
+    PHP_HAS_WNO_IMPLICIT_FALLTHROUGH_C
   )
-  if(_PHP_HAVE_WNO_IMPLICIT_FALLTHROUGH_C)
+  if(PHP_HAS_WNO_IMPLICIT_FALLTHROUGH_C)
     set_property(
       SOURCE pcre2lib/pcre2_jit_compile.c
       APPEND
@@ -228,12 +228,12 @@ else()
     message(CHECK_START "Checking whether Intel CET is enabled")
     cmake_push_check_state(RESET)
       set(CMAKE_REQUIRED_QUIET TRUE)
-      check_symbol_exists(__CET__ "" _PHP_HAVE_PCRE2_INTEL_CET)
+      check_symbol_exists(__CET__ "" PHP_EXT_PCRE_HAS_CET)
     cmake_pop_check_state()
-    if(_PHP_HAVE_PCRE2_INTEL_CET)
+    if(PHP_EXT_PCRE_HAS_CET)
       message(CHECK_PASS "yes")
-      php_check_compiler_flag(C -mshstk _PHP_HAVE_MSHSTK_C)
-      if(_PHP_HAVE_MSHSTK_C)
+      php_check_compiler_flag(C -mshstk PHP_EXT_PCRE_HAS_MSHSTK_C)
+      if(PHP_EXT_PCRE_HAS_MSHSTK_C)
         target_compile_options(php_ext_pcre PRIVATE -mshstk)
       endif()
     else()
