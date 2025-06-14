@@ -34,7 +34,7 @@ index 44159297a04..b87f4e33cc8 100644
  DOLLAR_CURLY "${"
  
 diff --git a/Zend/zend_language_scanner.l b/Zend/zend_language_scanner.l
-index 4c883b81c5f..70f85e43068 100644
+index 5e377249422..1d122c2c726 100644
 --- a/Zend/zend_language_scanner.l
 +++ b/Zend/zend_language_scanner.l
 @@ -1817,11 +1817,11 @@ OPTIONAL_WHITESPACE_OR_COMMENTS ({WHITESPACE}|{MULTI_LINE_COMMENT}|{SINGLE_LINE_
