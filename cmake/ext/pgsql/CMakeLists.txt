@@ -165,14 +165,14 @@ if(TARGET PostgreSQL::PostgreSQL)
       check_symbol_exists(
         LIBPQ_HAS_CLOSE_PREPARED
         "libpq-fe.h"
-        _PHP_HAVE_LIBPQ_HAS_CLOSE_PREPARED
+        PHP_HAS_LIBPQ_HAS_CLOSE_PREPARED
       )
       check_symbol_exists(
         PQclosePrepared
         "libpq-fe.h"
-        _PHP_HAVE_PQCLOSEPREPARED
+        PHP_HAS_PQCLOSEPREPARED
       )
-      if(_PHP_HAVE_LIBPQ_HAS_CLOSE_PREPARED AND _PHP_HAVE_PQCLOSEPREPARED)
+      if(PHP_HAS_LIBPQ_HAS_CLOSE_PREPARED AND PHP_HAS_PQCLOSEPREPARED)
         set(HAVE_PG_CLOSE_STMT TRUE)
       endif()
     endif()
@@ -183,9 +183,9 @@ if(TARGET PostgreSQL::PostgreSQL)
       check_symbol_exists(
         PQservice
         "libpq-fe.h"
-        _PHP_HAVE_PQSERVICE
+        PHP_HAS_PQSERVICE
       )
-      if(_PHP_HAVE_PQSERVICE)
+      if(PHP_HAS_PQSERVICE)
         set(HAVE_PG_SERVICE TRUE)
       endif()
     endif()
