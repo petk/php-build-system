@@ -33,10 +33,6 @@ include(CMakePushCheckState)
 function(_php_check_crypt)
   message(CHECK_START "Checking basic crypt functionality")
 
-  unset(HAVE_CRYPT_H CACHE)
-  unset(HAVE_CRYPT CACHE)
-  unset(HAVE_CRYPT_R CACHE)
-
   cmake_push_check_state(RESET)
     set(CMAKE_REQUIRED_LIBRARIES Crypt::Crypt)
     set(CMAKE_REQUIRED_QUIET TRUE)
@@ -73,11 +69,6 @@ endfunction()
 # Detect the style of crypt_r() if any is available.
 function(_php_check_crypt_r result)
   set(${result} TRUE PARENT_SCOPE)
-
-  unset(CRYPT_R_CRYPTD CACHE)
-  unset(CRYPT_R_STRUCT_CRYPT_DATA CACHE)
-  unset(CRYPT_R_GNU_SOURCE CACHE)
-  unset(_CRYPT_R_STRUCT_CRYPT_DATA CACHE)
 
   message(CHECK_START "Checking crypt_r() data struct")
 
@@ -144,6 +135,7 @@ function(_php_check_crypt_r result)
         TRUE
         CACHE INTERNAL
         "Whether 'crypt_r()' uses 'struct crypt_data'."
+        FORCE
       )
 
       message(CHECK_PASS "GNU struct crypt_data")
@@ -162,14 +154,15 @@ function(_php_check_crypt_r result)
 
         return 0;
       }
-    ]] _CRYPT_R_STRUCT_CRYPT_DATA)
+    ]] PHP_HAS_CRYPT_R_STRUCT_CRYPT_DATA)
 
-    if(_CRYPT_R_STRUCT_CRYPT_DATA)
+    if(PHP_HAS_CRYPT_R_STRUCT_CRYPT_DATA)
       set(
         CRYPT_R_STRUCT_CRYPT_DATA
         TRUE
         CACHE INTERNAL
         "Whether 'crypt_r()' uses 'struct crypt_data'."
+        FORCE
       )
 
       message(CHECK_PASS "struct crypt_data")
@@ -186,13 +179,6 @@ endfunction()
 
 # Check if crypt library is usable.
 function(_php_check_crypt_is_usable)
-  unset(_crypt_des CACHE)
-  unset(_crypt_ext_des CACHE)
-  unset(_crypt_md5 CACHE)
-  unset(_crypt_blowfish CACHE)
-  unset(_crypt_sha512 CACHE)
-  unset(_crypt_sha256 CACHE)
-
   cmake_push_check_state(RESET)
     set(CMAKE_REQUIRED_QUIET TRUE)
 
@@ -209,7 +195,7 @@ function(_php_check_crypt_is_usable)
     message(CHECK_START "Checking for standard DES algo")
     if(CMAKE_CROSSCOMPILING AND NOT CMAKE_CROSSCOMPILING_EMULATOR)
       message(CHECK_PASS "yes (cross-compiling)")
-      set(_PHP_CRYPT_DES_EXITCODE 0)
+      set(PHP_HAS_CRYPT_DES_EXITCODE 0)
     endif()
     check_source_runs(C [[
       #include <string.h>
@@ -230,8 +216,8 @@ function(_php_check_crypt_is_usable)
         char *encrypted = crypt("rasmuslerdorf", "rl");
         return !encrypted || strcmp(encrypted, "rl.3StKT.4T8M");
       }
-    ]] _PHP_CRYPT_HAVE_DES)
-    if(_PHP_CRYPT_HAVE_DES)
+    ]] PHP_HAS_CRYPT_DES)
+    if(PHP_HAS_CRYPT_DES)
       message(CHECK_PASS "yes")
     else()
       message(CHECK_FAIL "no")
@@ -259,8 +245,8 @@ function(_php_check_crypt_is_usable)
         char *encrypted = crypt("rasmuslerdorf", "_J9..rasm");
         return !encrypted || strcmp(encrypted, "_J9..rasmBYk8r9AiWNc");
       }
-    ]] _PHP_CRYPT_HAVE_EXT_DES)
-    if(_PHP_CRYPT_HAVE_EXT_DES)
+    ]] PHP_HAS_CRYPT_EXT_DES)
+    if(PHP_HAS_CRYPT_EXT_DES)
       message(CHECK_PASS "yes")
     else()
       message(CHECK_FAIL "no")
@@ -298,8 +284,8 @@ function(_php_check_crypt_is_usable)
         encrypted = crypt("rasmuslerdorf", salt);
         return !encrypted || strcmp(encrypted, answer);
       }
-    ]] _PHP_CRYPT_HAVE_MD5)
-    if(_PHP_CRYPT_HAVE_MD5)
+    ]] PHP_HAS_CRYPT_MD5)
+    if(PHP_HAS_CRYPT_MD5)
       message(CHECK_PASS "yes")
     else()
       message(CHECK_FAIL "no")
@@ -335,8 +321,8 @@ function(_php_check_crypt_is_usable)
         encrypted = crypt("rasmuslerdorf", salt);
         return !encrypted || strcmp(encrypted, answer);
       }
-    ]] _PHP_CRYPT_HAVE_BLOWFISH)
-    if(_PHP_CRYPT_HAVE_BLOWFISH)
+    ]] PHP_HAS_CRYPT_BLOWFISH)
+    if(PHP_HAS_CRYPT_BLOWFISH)
       message(CHECK_PASS "yes")
     else()
       message(CHECK_FAIL "no")
@@ -370,8 +356,8 @@ function(_php_check_crypt_is_usable)
         encrypted = crypt("rasmuslerdorf", salt);
         return !encrypted || strcmp(encrypted, answer);
       }
-    ]] _PHP_CRYPT_HAVE_SHA256)
-    if(_PHP_CRYPT_HAVE_SHA256)
+    ]] PHP_HAS_CRYPT_SHA256)
+    if(PHP_HAS_CRYPT_SHA256)
       message(CHECK_PASS "yes")
     else()
       message(CHECK_FAIL "no")
@@ -405,9 +391,9 @@ function(_php_check_crypt_is_usable)
         encrypted = crypt("rasmuslerdorf", salt);
         return !encrypted || strcmp(encrypted, answer);
       }
-    ]] _PHP_CRYPT_HAVE_SHA512)
+    ]] PHP_HAS_CRYPT_SHA512)
 
-    if(_PHP_CRYPT_HAVE_SHA512)
+    if(PHP_HAS_CRYPT_SHA512)
       message(CHECK_PASS "yes")
     else()
       message(CHECK_FAIL "no")

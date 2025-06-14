@@ -272,7 +272,9 @@ else()
       PURPOSE "Necessary to use external crypt library."
   )
 
-  include(cmake/CheckCrypt.cmake)
+  if(TARGET Crypt::Crypt)
+    include(cmake/CheckCrypt.cmake)
+  endif()
 
   target_link_libraries(php_ext_standard PRIVATE Crypt::Crypt)
 endif()
