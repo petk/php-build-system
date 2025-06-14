@@ -74,9 +74,9 @@ if(Tidy_VERSION VERSION_LESS 5.7.20)
   php_check_compiler_flag(
     C
     -Wno-ignored-qualifiers
-    _PHP_HAVE_WNO_IGNORED_QUALIFIERS_C
+    PHP_HAS_WNO_IGNORED_QUALIFIERS_C
   )
-  if(_PHP_HAVE_WNO_IGNORED_QUALIFIERS_C)
+  if(PHP_HAS_WNO_IGNORED_QUALIFIERS_C)
     target_compile_options(php_ext_tidy PRIVATE -Wno-ignored-qualifiers)
   endif()
 endif()

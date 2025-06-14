@@ -3,7 +3,11 @@
 
 # FindMC
 
-Find Windows compatible message compiler (mc.exe or windmc) command-line tool.
+Finds Windows compatible message compiler (mc.exe or windmc) command-line tool:
+
+```cmake
+find_package(MC [...])
+```
 
 Message compiler is installed on Windows as part of the Visual Studio or Windows
 SDK. When cross-compiling for Windows, there is also a compatible alternative by
@@ -18,9 +22,9 @@ https://sourceware.org/binutils/docs/binutils.html#windmc.
 
 * `MC_EXECUTABLE` - Path to the message compiler if found.
 
-## Functions provided by this module
+## Commands
 
-Module exposes the following function:
+This module provides the following command:
 
 ```cmake
 mc_target(
@@ -35,20 +39,23 @@ mc_target(
 ```
 
 * `NAME` - Target name.
-* `INPUT` - Input message file to compile.
+* `INPUT` - Input message file to compile. Relative path is interpreted as being
+  relative to the current source directory.
 * `HEADER_DIR` - Set the export directory for headers, otherwise current binary
   directory will be used.
-* `RC_DIR` - Set the export directory for rc files.
+* `RC_DIR` - Set the export directory for rc files, otherwise current binary
+  directory will be used.
 * `XDBG_DIR` - Where to create the .dbg C include file that maps message IDs to
   their symbolic name.
 * `OPTIONS` - A list of additional options to pass to message compiler tool.
 * `DEPENDS` - Optional list of dependent files to recompile message file.
 
-## Usage
+## Examples
 
 ```cmake
 # CMakeLists.txt
 find_package(MC)
+mc_target(...)
 ```
 
 ## Customizing search locations

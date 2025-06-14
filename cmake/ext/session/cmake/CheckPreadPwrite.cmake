@@ -42,7 +42,7 @@ include(cmake/CheckPreadPwrite.cmake)
 include_guard(GLOBAL)
 
 # Skip in consecutive configuration phases.
-if(DEFINED _PHP_HAVE_PREAD AND DEFINED _PHP_HAVE_PWRITE)
+if(DEFINED PHP_HAS_PREAD AND DEFINED PHP_HAS_PWRITE)
   return()
 endif()
 
@@ -61,10 +61,10 @@ function(_php_check_pread)
   # Check if linker sees the pread().
   cmake_push_check_state(RESET)
     set(CMAKE_REQUIRED_QUIET TRUE)
-    check_function_exists(pread _PHP_HAVE_PREAD)
+    check_function_exists(pread PHP_HAS_PREAD)
   cmake_pop_check_state()
 
-  if(NOT _PHP_HAVE_PREAD)
+  if(NOT PHP_HAS_PREAD)
     message(CHECK_FAIL "no (not found)")
     return()
   endif()
@@ -169,10 +169,10 @@ function(_php_check_pwrite)
   # Check if linker sees the pwrite().
   cmake_push_check_state(RESET)
     set(CMAKE_REQUIRED_QUIET TRUE)
-    check_function_exists(pwrite _PHP_HAVE_PWRITE)
+    check_function_exists(pwrite PHP_HAS_PWRITE)
   cmake_pop_check_state()
 
-  if(NOT _PHP_HAVE_PWRITE)
+  if(NOT PHP_HAS_PWRITE)
     message(CHECK_FAIL "no (not found)")
     return()
   endif()

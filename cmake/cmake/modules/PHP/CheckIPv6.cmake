@@ -48,10 +48,10 @@ cmake_push_check_state(RESET)
 
       return 0;
     }
-  ]] _PHP_HAVE_IPV6)
+  ]] PHP_HAS_IPV6)
 cmake_pop_check_state()
 
-if(_PHP_HAVE_IPV6)
+if(PHP_HAS_IPV6)
   set(HAVE_IPV6 TRUE)
   message(CHECK_PASS "yes")
 else()

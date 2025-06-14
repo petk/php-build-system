@@ -338,12 +338,12 @@ php_search_libraries(
   LIBRARIES
     socket  # Solaris 11..11.3, illumos
     network # Haiku
-  VARIABLE _PHP_HAVE_GETIFADDRS
+  VARIABLE PHP_HAS_GETIFADDRS
   LIBRARY_VARIABLE libraryForGetifaddrs
   TARGET php_ext_standard PRIVATE
 )
 
-if(_PHP_HAVE_GETIFADDRS)
+if(PHP_HAS_GETIFADDRS)
   message(CHECK_START "Checking for usable getifaddrs")
   cmake_push_check_state(RESET)
     if(libraryForGetifaddrs)

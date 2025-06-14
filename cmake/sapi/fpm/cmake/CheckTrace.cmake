@@ -50,10 +50,10 @@ cmake_push_check_state(RESET)
       ptrace(0, 0, (void *) 0, 0);
       return 0;
     }
-  ]] _PHP_HAVE_PTRACE)
+  ]] PHP_HAS_PTRACE)
 cmake_pop_check_state()
 
-if(_PHP_HAVE_PTRACE)
+if(PHP_HAS_PTRACE)
   cmake_push_check_state(RESET)
     set(CMAKE_REQUIRED_QUIET TRUE)
     check_source_runs(C [[
@@ -178,10 +178,10 @@ if(NOT HAVE_PTRACE AND NOT HAVE_MACH_VM_READ)
             close(fd);
             return v1 != v2;
           }
-        " _PHP_HAVE_PROC_MEM_FILE)
+        " PHP_HAS_PROC_MEM_FILE)
       cmake_pop_check_state()
 
-      if(NOT _PHP_HAVE_PROC_MEM_FILE)
+      if(NOT PHP_HAS_PROC_MEM_FILE)
         unset(PROC_MEM_FILE)
       endif()
     endif()
