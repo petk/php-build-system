@@ -154,6 +154,13 @@ if(PHP_EXT_OPCACHE_JIT)
   endif()
 endif()
 
+target_include_directories(
+  php_ext_opcache
+  PRIVATE
+    ${CMAKE_CURRENT_SOURCE_DIR}
+    ${CMAKE_CURRENT_BINARY_DIR}
+)
+
 if(PHP_EXT_OPCACHE_JIT)
   # Find out which ABI to use.
   if(CMAKE_SYSTEM_PROCESSOR MATCHES "^(x86_64|amd64|AMD64|ARM64)$")

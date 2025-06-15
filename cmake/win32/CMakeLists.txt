@@ -67,6 +67,7 @@ target_sources(
         ${CMAKE_CURRENT_BINARY_DIR}/wsyslog.h
 )
 
+target_include_directories(php_windows PRIVATE ${CMAKE_CURRENT_BINARY_DIR})
 target_link_libraries(php_windows PRIVATE PHP::config)
 
 ################################################################################

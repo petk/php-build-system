@@ -10,9 +10,6 @@ include_guard(GLOBAL)
 # Add paths where include() and find_package() look for modules.
 list(APPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_LIST_DIR}/modules)
 
-# Automatically include current source or build tree for the current target.
-set(CMAKE_INCLUDE_CURRENT_DIR ON)
-
 # Put the source or build tree include directories before other includes.
 set(CMAKE_INCLUDE_DIRECTORIES_PROJECT_BEFORE ON)
 

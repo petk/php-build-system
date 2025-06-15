@@ -166,6 +166,8 @@ target_sources(
     uchar/uchar.stub.php
 )
 
+target_include_directories(php_ext_intl PRIVATE ${CMAKE_CURRENT_SOURCE_DIR})
+
 php_check_compiler_flag(C -Wno-write-strings PHP_HAS_WNO_WRITE_STRINGS_C)
 if(PHP_HAS_WNO_WRITE_STRINGS_C)
   target_compile_options(
