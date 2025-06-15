@@ -113,6 +113,8 @@ target_compile_definitions(
     HAVE_INTTYPES_H=1
 )
 
+target_include_directories(php_ext_fileinfo PRIVATE ${CMAKE_CURRENT_SOURCE_DIR})
+
 set_property(
   SOURCE libmagic/apprentice.c
   APPEND

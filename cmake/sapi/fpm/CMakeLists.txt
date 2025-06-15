@@ -225,6 +225,7 @@ target_sources(
 target_include_directories(
   php_sapi_fpm
   PRIVATE
+    ${CMAKE_CURRENT_SOURCE_DIR}
     ${CMAKE_CURRENT_SOURCE_DIR}/fpm
 )
 
