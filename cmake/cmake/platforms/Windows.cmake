@@ -59,9 +59,6 @@ if(CMAKE_SYSTEM_NAME STREQUAL "Windows")
   # Whether systems has setitimer().
   set(HAVE_SETITIMER FALSE)
 
-  # Windows has setjmp() in <setjmp.h> instead.
-  set(HAVE_SIGSETJMP FALSE)
-
   # PHP has socketpair() emulation implemented on Windows.
   set(HAVE_SOCKETPAIR TRUE)
 
