@@ -623,10 +623,10 @@ php_search_libraries(
     resolv  # Solaris 2.6..7
     network # Haiku
     ws2_32  # Windows
-  VARIABLE _HAVE_INET_NTOP
+  VARIABLE PHP_HAS_INET_NTOP
   TARGET php_config INTERFACE
 )
-if(NOT _HAVE_INET_NTOP)
+if(NOT PHP_HAS_INET_NTOP)
   message(FATAL_ERROR "Cannot find 'inet_ntop()' which is required.")
 endif()
 
@@ -641,10 +641,10 @@ php_search_libraries(
     resolv  # Solaris 2.6..7
     network # Haiku
     ws2_32  # Windows
-  VARIABLE _HAVE_INET_PTON
+  VARIABLE PHP_HAS_INET_PTON
   TARGET php_config INTERFACE
 )
-if(NOT _HAVE_INET_PTON)
+if(NOT PHP_HAS_INET_PTON)
   message(FATAL_ERROR "Required inet_pton not found.")
 endif()
 

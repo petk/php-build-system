@@ -1,0 +1,100 @@
+{
+  "version": 4,
+  "configurePresets": [
+    {
+      "name": "windows",
+      "displayName": "Windows configuration",
+      "description": "PHP configuration for Windows",
+      "binaryDir": "${sourceDir}/php-build/windows",
+      "installDir": "C:/temp",
+      "cacheVariables": {
+        "PHP_EXT_COM_DOTNET": false,
+        "PHP_EXT_CTYPE": false,
+        "PHP_EXT_DOM": false,
+        "PHP_EXT_FILEINFO": false,
+        "PHP_EXT_FILTER": false,
+        "PHP_EXT_ICONV": false,
+        "PHP_EXT_LIBXML": false,
+        "PHP_EXT_OPCACHE": false,
+        "PHP_EXT_PDO": false,
+        "PHP_EXT_PDO_SQLITE": false,
+        "PHP_EXT_PHAR": false,
+        "PHP_EXT_POSIX": false,
+        "PHP_EXT_SESSION": false,
+        "PHP_EXT_SIMPLEXML": false,
+        "PHP_EXT_SQLITE3": false,
+        "PHP_EXT_TOKENIZER": false,
+        "PHP_EXT_XML": false,
+        "PHP_EXT_XMLREADER": false,
+        "PHP_EXT_XMLWRITER": false,
+
+        "PHP_SAPI_CGI": false,
+        "PHP_SAPI_PHPDBG": false,
+
+        "CMAKE_INSTALL_BINDIR": "",
+        "CMAKE_INSTALL_DATADIR": "",
+        "CMAKE_INSTALL_LIBDIR": "",
+        "CMAKE_INSTALL_LOCALSTATEDIR": "",
+        "CMAKE_INSTALL_SBINDIR": "",
+        "CMAKE_INSTALL_SYSCONFDIR": "",
+
+        "PHP_EXTENSION_DIR": "ext"
+      }
+    },
+    {
+      "name": "all-disabled-ts",
+      "inherits": "all-disabled",
+      "displayName": "Thread safety (ZTS) with all extensions disabled",
+      "description": "PHP thread safe (ZTS) build with all PHP extensions and SAPIs disabled, only with CLI SAPI",
+      "binaryDir": "${sourceDir}/php-build/windows-ts",
+      "cacheVariables": {
+        "PHP_THREAD_SAFETY": true
+      }
+    },
+    {
+      "name": "all-disabled-ninja",
+      "inherits": "all-disabled",
+      "displayName": "Ninja generator with all extensions disabled",
+      "description": "PHP build using Ninja generator with all PHP extensions and SAPIs disabled, only with CLI SAPI",
+      "binaryDir": "${sourceDir}/php-build/windows-ninja",
+      "generator": "Ninja"
+    }
+  ],
+  "buildPresets": [
+    {
+      "name": "all-disabled",
+      "configurePreset": "all-disabled"
+    },
+    {
+      "name": "all-disabled-ts",
+      "configurePreset": "all-disabled-ts"
+    },
+    {
+      "name": "all-disabled-ninja",
+      "configurePreset": "all-disabled-ninja"
+    }
+  ],
+  "testPresets": [
+    {
+      "name": "all-disabled",
+      "configurePreset": "all-disabled",
+      "environment": {
+        "SKIP_IO_CAPTURE_TESTS": "1"
+      },
+      "output": {
+        "shortProgress": true,
+        "verbosity": "verbose"
+      }
+    },
+    {
+      "name": "all-disabled-ts",
+      "configurePreset": "all-disabled-ts",
+      "inherits": "all-disabled"
+    },
+    {
+      "name": "all-disabled-ninja",
+      "configurePreset": "all-disabled-ninja",
+      "inherits": "all-disabled"
+    }
+  ]
+}
