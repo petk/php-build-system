@@ -14,13 +14,38 @@ project(
   VERSION ${PHP_VERSION}
   DESCRIPTION "Widely-used general-purpose scripting language"
   HOMEPAGE_URL "https://www.php.net"
-  LANGUAGES C ASM
+  LANGUAGES C
 )
+
+################################################################################
+# Configure languages.
+################################################################################
+
+# Optionally enable C++ language for PHP extensions.
+include(CheckLanguage)
+check_language(CXX)
+if(CMAKE_CXX_COMPILER)
+  enable_language(CXX)
+endif()
+
+# Enable Assembly language dialect.
+if(CMAKE_SYSTEM_NAME STREQUAL "Windows")
+  if(CMAKE_SYSTEM_PROCESSOR MATCHES "^ARM")
+    enable_language(ASM_MARMASM)
+  else()
+    enable_language(ASM_MASM)
+  endif()
+else()
+  enable_language(ASM)
+endif()
 
 set(CMAKE_C_STANDARD 99)
 set(CMAKE_C_STANDARD_REQUIRED TRUE)
 
+################################################################################
 # Configure project.
+################################################################################
+
 include(cmake/Bootstrap.cmake)
 
 add_subdirectory(sapi)

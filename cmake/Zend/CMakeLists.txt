@@ -42,8 +42,19 @@ project(
   Zend
   VERSION ${Zend_VERSION}
   DESCRIPTION "Zend Engine library"
-  LANGUAGES C ASM
+  LANGUAGES C
 )
+
+# Enable Assembly language dialect.
+if(CMAKE_SYSTEM_NAME STREQUAL "Windows")
+  if(CMAKE_SYSTEM_PROCESSOR MATCHES "^ARM")
+    enable_language(ASM_MARMASM)
+  else()
+    enable_language(ASM_MASM)
+  endif()
+else()
+  enable_language(ASM)
+endif()
 
 include(CheckIncludeFiles)
 include(CheckSourceCompiles)
