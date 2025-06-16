@@ -144,24 +144,12 @@ if(CMAKE_SYSTEM_NAME STREQUAL "Windows")
   endif()
 endif()
 
-# Man documentation.
-block()
-  set(program_prefix "${PHP_PROGRAM_PREFIX}")
-  configure_file(php.1.in php.1 @ONLY)
-endblock()
-
 install(
   TARGETS php_sapi_cli
   RUNTIME
     DESTINATION ${CMAKE_INSTALL_BINDIR}
   FILE_SET HEADERS
     DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/${PHP_INCLUDE_PREFIX}/sapi/cli
-)
-
-install(
-  FILES ${CMAKE_CURRENT_BINARY_DIR}/php.1
-  RENAME ${PHP_PROGRAM_PREFIX}php${PHP_PROGRAM_SUFFIX}.1
-  DESTINATION ${CMAKE_INSTALL_MANDIR}/man1
 )
 
 ################################################################################
@@ -206,5 +194,25 @@ if(PHP_SAPI_CLI_WIN_NO_CONSOLE)
       $<$<COMPILE_LANG_AND_ID:C,MSVC>:/stack:67108864>
   )
 endif()
+
+################################################################################
+# Configure man documentation.
+################################################################################
+
+block()
+  if(NOT CMAKE_SYSTEM_NAME STREQUAL "Windows")
+    set(program_prefix "${PHP_PROGRAM_PREFIX}")
+    configure_file(php.1.in php.1 @ONLY)
+    install(
+      FILES ${CMAKE_CURRENT_BINARY_DIR}/php.1
+      RENAME ${PHP_PROGRAM_PREFIX}php${PHP_PROGRAM_SUFFIX}.1
+      DESTINATION ${CMAKE_INSTALL_MANDIR}/man1
+    )
+  endif()
+endblock()
+
+################################################################################
+# Configuration header.
+################################################################################
 
 configure_file(cmake/config.h.in config.h)

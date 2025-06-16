@@ -97,23 +97,25 @@ add_dependencies(php_ext_phar php_ext_hash php_ext_spl)
 include(cmake/GenerateGrammar.cmake)
 
 ################################################################################
-# Man documentation.
+# Configure man documentation.
 ################################################################################
 
-configure_file(phar.1.in phar.1 @ONLY)
-configure_file(phar.phar.1.in phar.phar.1 @ONLY)
+if(NOT CMAKE_SYSTEM_NAME STREQUAL "Windows")
+  configure_file(phar.1.in phar.1 @ONLY)
+  configure_file(phar.phar.1.in phar.phar.1 @ONLY)
 
-install(
-  FILES ${CMAKE_CURRENT_BINARY_DIR}/phar.1
-  RENAME ${PHP_PROGRAM_PREFIX}phar${PHP_PROGRAM_SUFFIX}.1
-  DESTINATION ${CMAKE_INSTALL_MANDIR}/man1
-)
+  install(
+    FILES ${CMAKE_CURRENT_BINARY_DIR}/phar.1
+    RENAME ${PHP_PROGRAM_PREFIX}phar${PHP_PROGRAM_SUFFIX}.1
+    DESTINATION ${CMAKE_INSTALL_MANDIR}/man1
+  )
 
-install(
-  FILES ${CMAKE_CURRENT_BINARY_DIR}/phar.phar.1
-  RENAME ${PHP_PROGRAM_PREFIX}phar${PHP_PROGRAM_SUFFIX}.phar.1
-  DESTINATION ${CMAKE_INSTALL_MANDIR}/man1
-)
+  install(
+    FILES ${CMAKE_CURRENT_BINARY_DIR}/phar.phar.1
+    RENAME ${PHP_PROGRAM_PREFIX}phar${PHP_PROGRAM_SUFFIX}.phar.1
+    DESTINATION ${CMAKE_INSTALL_MANDIR}/man1
+  )
+endif()
 
 ################################################################################
 # The phar command-line script.

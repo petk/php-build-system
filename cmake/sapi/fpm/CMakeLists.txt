@@ -535,10 +535,9 @@ if(PHP_SAPI_FPM_SELINUX)
 endif()
 
 ################################################################################
-# Install files.
+# Configure man documentation.
 ################################################################################
 
-# Configure man documentation.
 block()
   # Replace the hardcoded runstatedir with a template placeholder.
   file(READ "${CMAKE_CURRENT_SOURCE_DIR}/php-fpm.8.in" content)
@@ -549,7 +548,11 @@ block()
     content
     "${content}"
   )
-  file(WRITE "${CMAKE_CURRENT_BINARY_DIR}/CMakeFiles/PHP/php-fpm.8.in" "${content}")
+  file(
+    WRITE
+    "${CMAKE_CURRENT_BINARY_DIR}/CMakeFiles/PHP/php-fpm.8.in"
+    "${content}"
+  )
 
   string(CONFIGURE [[
     set(php_fpm_localstatedir "$<PATH:ABSOLUTE_PATH,NORMALIZE,@CMAKE_INSTALL_LOCALSTATEDIR@,${CMAKE_INSTALL_PREFIX}>")
@@ -582,7 +585,10 @@ block()
   )
 endblock()
 
+################################################################################
 # Configure php-fpm.conf.
+################################################################################
+
 block()
   string(CONFIGURE [[
     set(prefix "${CMAKE_INSTALL_PREFIX}")
@@ -608,7 +614,10 @@ block()
   install(CODE "${code}")
 endblock()
 
+################################################################################
 # Configure www.conf.
+################################################################################
+
 block()
   string(CONFIGURE [[
     set(prefix "${CMAKE_INSTALL_PREFIX}")
@@ -636,7 +645,10 @@ block()
   install(CODE "${code}")
 endblock()
 
+################################################################################
 # Configure init.d.php-fpm.
+################################################################################
+
 block()
   # Replace the hardcoded runstatedir with a template placeholder.
   file(READ "${CMAKE_CURRENT_SOURCE_DIR}/init.d.php-fpm.in" content)
@@ -677,7 +689,10 @@ block()
   install(CODE "${code}")
 endblock()
 
+################################################################################
 # Configure init.d.php-fpm.
+################################################################################
+
 block()
   # Replace the hardcoded runstatedir with a template placeholder.
   file(READ "${CMAKE_CURRENT_SOURCE_DIR}/php-fpm.service.in" content)
@@ -716,6 +731,10 @@ block()
   ]] code @ONLY)
   install(CODE "${code}")
 endblock()
+
+################################################################################
+# Installation.
+################################################################################
 
 install(TARGETS php_sapi_fpm RUNTIME DESTINATION ${CMAKE_INSTALL_SBINDIR})
 
@@ -758,7 +777,10 @@ php_install(CODE "
   endif()
 ")
 
+################################################################################
 # FPM info status HTML page.
+################################################################################
+
 configure_file(status.html.in status.html @ONLY)
 
 install(
@@ -766,5 +788,9 @@ install(
     ${CMAKE_CURRENT_BINARY_DIR}/status.html
   DESTINATION ${CMAKE_INSTALL_DATADIR}/fpm
 )
+
+################################################################################
+# Configuration header.
+################################################################################
 
 configure_file(cmake/config.h.in config.h)
