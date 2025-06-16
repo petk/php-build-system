@@ -289,6 +289,7 @@ version available on the operating system.
   * `<PACKAGENAME>_ROOT` variables in addition to `<PackageName>_ROOT`
 * 3.26
   * `BZIP2_VERSION`
+  * `ASM_MARMASM` language support
 * 3.29
   * `CMAKE_LINKER_TYPE`
   * `if(IS_EXECUTABLE)`
