@@ -5,49 +5,96 @@ Specific configuration for Windows platform.
 include_guard(GLOBAL)
 
 if(CMAKE_SYSTEM_NAME STREQUAL "Windows")
-  # Common compilation definitions.
-  target_compile_definitions(
-    php_config
-    INTERFACE
-      PHP_WIN32  # For PHP code
-      _WIN32     # Defined by all compilers when targeting Windows. Left here
-                 # to match the native PHP Windows build system.
-      WIN32      # Defined by Windows SDK and some compilers (GCC and Clang)
-                 # when targeting Windows. Left here for BC for possible PECL
-                 # extensions not being updated yet. In new code it is being
-                 # replaced with _WIN32.
-      ZEND_WIN32 # For Zend Engine
-  )
-
   # To speed up the Windows build experience with Visual Studio generators,
   # these are always known on Windows systems.
-  # TODO: Update and fix this better.
 
+  # Whether system has <alloca.h> header.
+  set(HAVE_ALLOCA_H FALSE)
+
+  # Whether system has <dirent.h> header.
+  set(HAVE_DIRENT_H FALSE)
+
+  # PHP has fnmatch() emulation implemented on Windows.
   set(HAVE_FNMATCH TRUE)
 
-  # PHP has unconditional getaddrinfo() support on Windows for now.
+  # Whether system has flock().
+  set(HAVE_FLOCK FALSE)
+
+  # PHP has ftok() emulation implemented on Windows.
+  set(HAVE_FTOK TRUE)
+
+  # PHP has unconditional getaddrinfo() support on Windows.
   set(HAVE_GETADDRINFO TRUE)
+
+  # PHP has unconditional support for getcwd() on Windows.
+  set(HAVE_GETCWD TRUE)
 
   # PHP defines getpid as _getpid on Windows.
   set(HAVE_GETPID TRUE)
 
-  # PHP has custom glob() implemented on Windows.
+  # PHP has getrusage() emulation implemented on Windows.
+  set(HAVE_GETRUSAGE TRUE)
+
+  # PHP has gettimeofday() emulation implemented on Windows.
+  set(HAVE_GETTIMEOFDAY TRUE)
+
+  # PHP has glob() emulation implemented on Windows.
   set(HAVE_GLOB TRUE)
 
-  # PHP has custom nanosleep for Windows platform.
+  # Whether system has <grp.h> header.
+  set(HAVE_GRP_H FALSE)
+
+  # Whether system has kill().
+  set(HAVE_KILL FALSE)
+
+  # Windows has LoadLibrary().
+  set(HAVE_LIBDL TRUE)
+
+  # PHP has nanosleep() emulation implemented on Windows.
   set(HAVE_NANOSLEEP TRUE)
 
+  # PHP has nice() emulation implemented on Windows.
   set(HAVE_NICE TRUE)
 
-  # PHP supports socketpair by the emulation in win32/sockets.c.
+  # Whether system has <pwd.h> header.
+  set(HAVE_PWD_H FALSE)
+
+  # Whether systems has setitimer().
+  set(HAVE_SETITIMER FALSE)
+
+  # PHP has socketpair() emulation implemented on Windows.
   set(HAVE_SOCKETPAIR TRUE)
 
-  # PHP defines strcasecmp in zend_config.w32.h.
+  # PHP defines strcasecmp in Zend/zend_config.w32.h.
   set(HAVE_STRCASECMP TRUE)
 
-  # PHP has custom syslog.h for Windows platform.
+  # Whether system has symlink().
+  set(HAVE_SYMLINK FALSE)
+
+  # Whether system has <sys/file.h> header.
+  set(HAVE_SYS_FILE_H FALSE)
+
+  # Whether system has <sys/socket.h> header.
+  set(HAVE_SYS_SOCKET_H FALSE)
+
+  # Whether system has <sys/time.h> header.
+  set(HAVE_SYS_TIME_H FALSE)
+
+  # Whether system has <sys/wait.h> header.
+  set(HAVE_SYS_WAIT_H FALSE)
+
+  # PHP has syslog.h emulation implemented on Windows.
   set(HAVE_SYSLOG_H TRUE)
 
-  # PHP has custom usleep for Windows platform.
+  # Whether 'st_blksize' is a member of 'struct stat'.
+  set(HAVE_STRUCT_STAT_ST_BLKSIZE FALSE)
+
+  # Whether 'st_blocks' is a member of 'struct stat'.
+  set(HAVE_STRUCT_STAT_ST_BLOCKS FALSE)
+
+  # Whether system has <unistd.h>.
+  set(HAVE_UNISTD_H FALSE)
+
+  # PHP has usleep() emulation implemented on Windows.
   set(HAVE_USLEEP TRUE)
 endif()

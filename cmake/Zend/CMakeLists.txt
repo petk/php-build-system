@@ -440,13 +440,16 @@ check_symbol_exists(pthread_stackseg_np pthread.h HAVE_PTHREAD_STACKSEG_NP)
 # POSIX.1-2001-compliant systems should have it. On Windows the setjmp() is
 # used instead.
 if(NOT CMAKE_SYSTEM_NAME STREQUAL "Windows")
-  check_symbol_exists(sigsetjmp setjmp.h _HAVE_SIGSETJMP)
-  if(NOT _HAVE_SIGSETJMP)
+  check_symbol_exists(sigsetjmp setjmp.h PHP_HAS_SIGSETJMP)
+  if(NOT PHP_HAS_SIGSETJMP)
+    check_symbol_exists(setjmp setjmp.h PHP_HAS_SETJMP)
+  endif()
+  if(NOT PHP_HAS_SIGSETJMP AND NOT PHP_HAS_SETJMP)
     message(
       FATAL_ERROR
-      "Required function sigsetjmp() not found in setjmp.h. Please ensure the "
-      "target system is compliant with POSIX.1-2001 standard or later and the "
-      "setjmp.h header is available on the system."
+      "Required function sigsetjmp()/setjmp() not found in <setjmp.h>. Please "
+      "ensure the target system is compliant with POSIX.1-2001 standard or "
+      "later and the <setjmp.h> header is available on the system."
     )
   endif()
 endif()
