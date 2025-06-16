@@ -16,13 +16,6 @@ define_property(
   BRIEF_DOCS "Whether the PHP SAPI is FastCGI-based"
 )
 
-# Optionally enable CXX for extensions.
-include(CheckLanguage)
-check_language(CXX)
-if(CMAKE_CXX_COMPILER)
-  enable_language(CXX)
-endif()
-
 # Check whether IPO/LTO can be enabled.
 include(PHP/Optimization)
 
