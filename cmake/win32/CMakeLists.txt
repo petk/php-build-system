@@ -74,9 +74,26 @@ target_link_libraries(php_windows PRIVATE PHP::config)
 target_compile_definitions(
   php_config
   INTERFACE
+    # Marks that target system is Windows. For PHP code.
+    PHP_WIN32
+
+    # This preprocessor macro is also defined by all compilers when targeting
+    # Windows. It is left here to match the native PHP Windows build system.
+    _WIN32
+
+    # This preprocessor macro is also defined by Windows SDK and some compilers
+    # (GCC and Clang) when targeting Windows. Left here for BC for possible PECL
+    # extensions not being updated yet. In new code it is being replaced with
+    # _WIN32.
+    WIN32
+
+    # For Zend Engine, same as PHP_WIN32.
+    ZEND_WIN32
+
     _MBCS
     _USE_MATH_DEFINES
     PHP_EXPORTS
+
     # The time_t defaults to 64-bit. Force 32-bit time_t on 32-bit architecture.
     # This was historically added to PHP as Visual Studio 2005 set 64-bit time_t
     # by default and it would break 3rdParty libs that were built with older

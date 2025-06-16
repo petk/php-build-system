@@ -2,7 +2,7 @@
 #define @PHP_CONFIG_HEADER_GUARD@
 
 #if @PHP_CONFIG_H_WINDOWS@
-/* Define the minimum supported version */
+/* Define the minimum supported version. */
 # undef _WIN32_WINNT
 # undef NTDDI_VERSION
 # define _WIN32_WINNT 0x0602
@@ -25,6 +25,8 @@
    <BaseTsd.h>. */
 # define ssize_t SSIZE_T
 
+/* On program startup, the integer file descriptors associated with the streams
+   stdin, stdout, and stderr are 0, 1, and 2. */
 # define STDIN_FILENO 0
 # define STDOUT_FILENO 1
 # define STDERR_FILENO 2
@@ -230,7 +232,9 @@
 /* Define to 1 if you have the 'lchown' function. */
 #cmakedefine HAVE_LCHOWN 1
 
-/* Define to 1 if you have the 'dl' library (-ldl). */
+/* Define to 1 if system has some form of loading functions, such as dlopen()
+   and other functions, for example, via the 'dl' library (-ldl), or
+   LoadLibrary(), for example, on Windows. */
 #cmakedefine HAVE_LIBDL 1
 
 /* Define to 1 if you have the <linux/sock_diag.h> header file. */
