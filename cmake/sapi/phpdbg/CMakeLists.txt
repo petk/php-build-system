@@ -268,22 +268,10 @@ endif()
 # Installation.
 ################################################################################
 
-# Man documentation.
-block()
-  set(program_prefix "${PHP_PROGRAM_PREFIX}")
-  configure_file(phpdbg.1.in phpdbg.1 @ONLY)
-endblock()
-
 install(
   TARGETS php_sapi_phpdbg
   RUNTIME
     DESTINATION ${CMAKE_INSTALL_BINDIR}
-)
-
-install(
-  FILES ${CMAKE_CURRENT_BINARY_DIR}/phpdbg.1
-  RENAME ${PHP_PROGRAM_PREFIX}phpdbg${PHP_PROGRAM_SUFFIX}.1
-  DESTINATION ${CMAKE_INSTALL_MANDIR}/man1
 )
 
 # Create log and run directories on installation.
@@ -332,5 +320,25 @@ if(TARGET php_sapi_phpdbg_shared)
       DESTINATION ${CMAKE_INSTALL_LIBDIR}
   )
 endif()
+
+################################################################################
+# Configure man documentation.
+################################################################################
+
+block()
+  if(NOT CMAKE_SYSTEM_NAME STREQUAL "Windows")
+    set(program_prefix "${PHP_PROGRAM_PREFIX}")
+    configure_file(phpdbg.1.in phpdbg.1 @ONLY)
+    install(
+      FILES ${CMAKE_CURRENT_BINARY_DIR}/phpdbg.1
+      RENAME ${PHP_PROGRAM_PREFIX}phpdbg${PHP_PROGRAM_SUFFIX}.1
+      DESTINATION ${CMAKE_INSTALL_MANDIR}/man1
+    )
+  endif()
+endblock()
+
+################################################################################
+# Configuration header.
+################################################################################
 
 configure_file(cmake/config.h.in config.h)

@@ -1,22 +1,27 @@
-# Man documentation.
+##############################################################################
+# Configure man documentation.
+##############################################################################
+
 block()
-  set(program_prefix "${PHP_PROGRAM_PREFIX}")
+  if(NOT CMAKE_SYSTEM_NAME STREQUAL "Windows")
+    set(program_prefix "${PHP_PROGRAM_PREFIX}")
 
-  message(STATUS "Creating scripts/man1/php-config.1")
-  configure_file(man1/php-config.1.in man1/php-config.1 @ONLY)
-  install(
-    FILES ${PROJECT_BINARY_DIR}/scripts/man1/php-config.1
-    RENAME ${PHP_PROGRAM_PREFIX}php-config${PHP_PROGRAM_SUFFIX}.1
-    DESTINATION ${CMAKE_INSTALL_MANDIR}/man1
-  )
+    message(STATUS "Creating scripts/man1/php-config.1")
+    configure_file(man1/php-config.1.in man1/php-config.1 @ONLY)
+    install(
+      FILES ${PROJECT_BINARY_DIR}/scripts/man1/php-config.1
+      RENAME ${PHP_PROGRAM_PREFIX}php-config${PHP_PROGRAM_SUFFIX}.1
+      DESTINATION ${CMAKE_INSTALL_MANDIR}/man1
+    )
 
-  message(STATUS "Creating scripts/man1/phpize.1")
-  configure_file(man1/phpize.1.in man1/phpize.1 @ONLY)
-  install(
-    FILES ${PROJECT_BINARY_DIR}/scripts/man1/phpize.1
-    RENAME ${PHP_PROGRAM_PREFIX}phpize${PHP_PROGRAM_SUFFIX}.1
-    DESTINATION ${CMAKE_INSTALL_MANDIR}/man1
-  )
+    message(STATUS "Creating scripts/man1/phpize.1")
+    configure_file(man1/phpize.1.in man1/phpize.1 @ONLY)
+    install(
+      FILES ${PROJECT_BINARY_DIR}/scripts/man1/phpize.1
+      RENAME ${PHP_PROGRAM_PREFIX}phpize${PHP_PROGRAM_SUFFIX}.1
+      DESTINATION ${CMAKE_INSTALL_MANDIR}/man1
+    )
+  endif()
 endblock()
 
 # The php-config and phpize scripts.
