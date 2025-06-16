@@ -177,11 +177,11 @@ cmake_push_check_state(RESET)
       HEADERS sched.h
       LIBRARIES
         gnu # Haiku
-      VARIABLE _HAVE_SCHED_GETCPU
+      VARIABLE PHP_EXT_PCNTL_HAS_SCHED_GETCPU
       LIBRARY_VARIABLE library
     )
 
-    if(_HAVE_SCHED_GETCPU)
+    if(PHP_EXT_PCNTL_HAS_SCHED_GETCPU)
       if(library)
         set(CMAKE_REQUIRED_LIBRARIES ${library})
       endif()

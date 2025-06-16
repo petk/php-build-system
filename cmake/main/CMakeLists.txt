@@ -106,8 +106,8 @@ target_sources(
         $<$<NOT:$<PLATFORM_ID:Windows>>:${PHP_BINARY_DIR}/$<CONFIG>/main/php_config.h>
 )
 
-check_symbol_exists(__ELF__ "" _HAVE_ELF)
-if(_HAVE_ELF)
+check_symbol_exists(__ELF__ "" PHP_HAS_ELF)
+if(PHP_HAS_ELF)
   target_sources(
     php_main
     PRIVATE
