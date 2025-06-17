@@ -392,7 +392,9 @@ A list of Autoconf `configure` command-line configuration options, Windows
       <td>--disable-debug</td>
       <td>--disable-debug</td>
       <td></td>
-      <td>default</td>
+      <td>
+        default in Autotools and JScript Windows, in CMake default build type is Debug
+      </td>
     </tr>
     <tr>
       <td>&emsp;--enable-debug</td>
@@ -3433,20 +3435,38 @@ A list of Autoconf `configure` command-line configuration options, Windows
     </tr>
     <tr>
       <td>N/A</td>
-      <td>--with-verbosity</td>
-      <td></td>
+      <td>--with-verbosity=1</td>
+      <td>CMAKE_VERBOSE_MAKEFILE=OFF</td>
+      <td>default</td>
+    </tr>
+    <tr>
+      <td>&emsp;N/A</td>
+      <td>--with-verbosity=2</td>
+      <td>CMAKE_VERBOSE_MAKEFILE=ON</td>
       <td></td>
     </tr>
     <tr>
-      <td>N/A</td>
+      <td>&emsp;N/A</td>
       <td>--without-verbosity</td>
-      <td></td>
+      <td>CMAKE_VERBOSE_MAKEFILE=OFF</td>
       <td></td>
     </tr>
     <tr>
       <td>N/A</td>
-      <td>--with-toolset</td>
+      <td>--with-toolset=vs</td>
       <td></td>
+      <td>default</td>
+    </tr>
+    <tr>
+      <td>N/A</td>
+      <td>--with-toolset=clang</td>
+      <td>cmake -G "Visual Studio 2022" -T ClangCL</td>
+      <td>default</td>
+    </tr>
+    <tr>
+      <td>N/A</td>
+      <td>--with-toolset=icc</td>
+      <td>cmake -G Ninja -DCMAKE_C_COMPILER=icx -DCMAKE_CXX_COMPILER=icpx</td>
       <td></td>
     </tr>
     <tr>
@@ -3457,14 +3477,26 @@ A list of Autoconf `configure` command-line configuration options, Windows
     </tr>
     <tr>
       <td>N/A</td>
-      <td>--with-cygwin</td>
-      <td></td>
-      <td></td>
+      <td>--with-cygwin[='\\cygwin']</td>
+      <td>N/A</td>
+      <td>default</td>
     </tr>
     <tr>
       <td>N/A</td>
-      <td>--enable-object-out-dir</td>
+      <td>--without-cygwin</td>
+      <td>N/A</td>
       <td></td>
+    </tr>
+    <tr>
+      <td>&emsp;N/A</td>
+      <td>--disable-object-out-dir</td>
+      <td>N/A</td>
+      <td>default</td>
+    </tr>
+    <tr>
+      <td>N/A</td>
+      <td>--enable-object-out-dir=DIR</td>
+      <td>N/A</td>
       <td></td>
     </tr>
     <tr>
