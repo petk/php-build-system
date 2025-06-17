@@ -4,6 +4,7 @@ Check and configure compilation options.
 
 include_guard(GLOBAL)
 
+include(CheckLinkerFlag)
 include(CheckSourceRuns)
 include(CMakePushCheckState)
 include(PHP/CheckCompilerFlag)
@@ -75,13 +76,23 @@ target_compile_options(
 
 php_check_compiler_flag(C -Wall PHP_HAS_WALL_C)
 php_check_compiler_flag(CXX -Wall PHP_HAS_WALL_CXX)
-target_compile_options(
-  php_config
-  BEFORE
-  INTERFACE
-    $<$<AND:$<BOOL:${PHP_HAS_WALL_C}>,$<COMPILE_LANGUAGE:ASM,C>>:-Wall>
-    $<$<AND:$<BOOL:${PHP_HAS_WALL_CXX}>,$<COMPILE_LANGUAGE:CXX>>:-Wall>
-)
+if(CMAKE_SYSTEM_NAME STREQUAL "Windows")
+  target_compile_options(
+    php_config
+    BEFORE
+    INTERFACE
+      $<$<AND:$<BOOL:${PHP_HAS_WALL_C}>,$<CONFIG:Debug>,$<COMPILE_LANGUAGE:ASM,C>>:-Wall>
+      $<$<AND:$<BOOL:${PHP_HAS_WALL_CXX}>,$<CONFIG:Debug>,$<COMPILE_LANGUAGE:CXX>>:-Wall>
+  )
+else()
+  target_compile_options(
+    php_config
+    BEFORE
+    INTERFACE
+      $<$<AND:$<BOOL:${PHP_HAS_WALL_C}>,$<COMPILE_LANGUAGE:ASM,C>>:-Wall>
+      $<$<AND:$<BOOL:${PHP_HAS_WALL_CXX}>,$<COMPILE_LANGUAGE:CXX>>:-Wall>
+  )
+endif()
 
 # Check if compiler supports -Wno-clobbered (only GCC).
 php_check_compiler_flag(C -Wno-clobbered PHP_HAS_WNO_CLOBBERED_C)
@@ -485,3 +496,19 @@ endif()
 
 # Align segments on huge page boundary.
 include(PHP/CheckSegmentsAlignment)
+
+check_linker_flag(C LINKER:/verbose PHP_HAS_VERBOSE_LINKER_FLAG_C)
+if(PHP_HAS_VERBOSE_LINKER_FLAG_C)
+  target_link_options(
+    php_config
+    INTERFACE $<$<AND:$<CONFIG:Debug>,$<LINK_LANGUAGE:C>>:LINKER:/verbose>
+  )
+endif()
+
+check_linker_flag(CXX LINKER:/verbose PHP_HAS_VERBOSE_LINKER_FLAG_CXX)
+if(PHP_HAS_VERBOSE_LINKER_FLAG_CXX)
+  target_link_options(
+    php_config
+    INTERFACE $<$<AND:$<CONFIG:Debug>,$<LINK_LANGUAGE:CXX>>:LINKER:/verbose>
+  )
+endif()
