@@ -102,6 +102,20 @@ target_compile_definitions(
     $<$<EQUAL:${CMAKE_SIZEOF_VOID_P},4>:_USE_32BIT_TIME_T=1>
 )
 
+# Enable signed functions in <intsafe.h>, while Clang uses __builtin_*().
+if(NOT CMAKE_C_COMPILER_ID MATCHES "Clang")
+  target_compile_definitions(
+    php_config
+    INTERFACE $<$<COMPILE_LANGUAGE:C>:ENABLE_INTSAFE_SIGNED_FUNCTIONS>
+  )
+endif()
+if(NOT CMAKE_CXX_COMPILER_ID MATCHES "Clang")
+  target_compile_definitions(
+    php_config
+    INTERFACE $<$<COMPILE_LANGUAGE:CXX>:ENABLE_INTSAFE_SIGNED_FUNCTIONS>
+  )
+endif()
+
 # MS deprecated ANSI stdio and similar functions. Disable warnings.
 target_compile_options(
   php_config
