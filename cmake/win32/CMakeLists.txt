@@ -179,21 +179,26 @@ set_source_files_properties(
 
 # Determine major and minor linker version.
 block(PROPAGATE PHP_LINKER_MAJOR PHP_LINKER_MINOR)
-  if(CMAKE_C_COMPILER_LINKER_VERSION)
-    set(version "${CMAKE_C_COMPILER_LINKER_VERSION}")
-  else()
-    set(version "")
+  if(
+    NOT DEFINED CMAKE_C_COMPILER_LINKER_VERSION
+    OR NOT CMAKE_C_COMPILER_LINKER_VERSION MATCHES "^[^0-9]*[0-9]"
+  )
+    message(
+      FATAL_ERROR
+      "The linker version could not be detected. Please ensure the linker "
+      "version can be determined, or set the 'CMAKE_C_COMPILER_LINKER_VERSION' "
+      "variable to the linker version of format '<major>.<minor>'."
+    )
   endif()
 
-  string(REGEX MATCH "^([0-9]+)\\.?" _ "${version}")
+  string(REGEX MATCH "^[^0-9]*([0-9]+)\\.?" _ "${CMAKE_C_COMPILER_LINKER_VERSION}")
   set(PHP_LINKER_MAJOR "${CMAKE_MATCH_1}")
-  string(REGEX MATCH "^[0-9]+\\.([0-9]+)\\.?" _ "${version}")
-  set(PHP_LINKER_MINOR "${CMAKE_MATCH_1}")
-
   if(NOT PHP_LINKER_MAJOR)
     set(PHP_LINKER_MAJOR 0)
   endif()
 
+  string(REGEX MATCH "^[^0-9]*[0-9]+\\.([0-9]+)\\.?" _ "${CMAKE_C_COMPILER_LINKER_VERSION}")
+  set(PHP_LINKER_MINOR "${CMAKE_MATCH_1}")
   if(NOT PHP_LINKER_MINOR)
     set(PHP_LINKER_MINOR 0)
   endif()

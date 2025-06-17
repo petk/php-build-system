@@ -703,7 +703,9 @@ php_search_libraries(
 # The gai_strerror() is mostly in C library (Solaris 11.4...)
 php_search_libraries(
   gai_strerror
-  HEADERS netdb.h
+  HEADERS
+    netdb.h
+    ws2tcpip.h
   LIBRARIES
     socket  # Solaris <= 11.3, illumos
     network # Haiku
