@@ -48,6 +48,18 @@ elseif(
     "GNU C compiler version ${CMAKE_C_COMPILER_VERSION} is not supported. "
     "Please upgrade GNU C compiler to at least 4.6 or newer."
   )
+elseif(
+  CMAKE_SYSTEM_NAME STREQUAL "Windows"
+  AND CMAKE_C_COMPILER_ID MATCHES "Clang"
+  AND CMAKE_C_COMPILER_VERSION VERSION_LESS 4
+)
+  # Clang on Windows has minimum required version:
+  # https://github.com/php/php-src/pull/15415
+  message(
+    FATAL_ERROR
+    "Clang C compiler version ${CMAKE_C_COMPILER_VERSION} is not supported. "
+    "Please upgrade Clang C compiler to at least 4.0 or newer."
+  )
 endif()
 
 ################################################################################
