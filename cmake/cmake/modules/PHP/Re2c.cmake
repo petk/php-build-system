@@ -653,7 +653,11 @@ function(_php_re2c_download)
   )
 
   ExternalProject_Get_Property(re2c BINARY_DIR)
-  set_property(CACHE RE2C_EXECUTABLE PROPERTY VALUE ${BINARY_DIR}/re2c)
+  set(re2c ${BINARY_DIR}/re2c)
+  if(CMAKE_SYSTEM_NAME STREQUAL "Windows")
+    string(APPEND re2c ".exe")
+  endif()
+  set_property(CACHE RE2C_EXECUTABLE PROPERTY VALUE ${re2c})
 
   add_executable(RE2C::RE2C IMPORTED GLOBAL)
   set_target_properties(
