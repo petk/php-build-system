@@ -1,0 +1,100 @@
+{
+  "version": 4,
+  "configurePresets": [
+    {
+      "name": "windows",
+      "displayName": "Windows configuration",
+      "description": "PHP configuration for Windows",
+      "binaryDir": "${sourceDir}/php-build/windows",
+      "installDir": "C:/temp",
+      "cacheVariables": {
+        "PHP_EXT_COM_DOTNET": true,
+        "PHP_EXT_CTYPE": true,
+        "PHP_EXT_DOM": false,
+        "PHP_EXT_FILEINFO": true,
+        "PHP_EXT_FILTER": true,
+        "PHP_EXT_ICONV": false,
+        "PHP_EXT_LIBXML": false,
+        "PHP_EXT_OPCACHE": true,
+        "PHP_EXT_PDO": true,
+        "PHP_EXT_PDO_SQLITE": false,
+        "PHP_EXT_PHAR": false,
+        "PHP_EXT_POSIX": false,
+        "PHP_EXT_SESSION": true,
+        "PHP_EXT_SIMPLEXML": false,
+        "PHP_EXT_SQLITE3": false,
+        "PHP_EXT_TOKENIZER": true,
+        "PHP_EXT_XML": false,
+        "PHP_EXT_XMLREADER": false,
+        "PHP_EXT_XMLWRITER": false,
+
+        "PHP_SAPI_CGI": true,
+        "PHP_SAPI_PHPDBG": true,
+
+        "CMAKE_INSTALL_BINDIR": ".",
+        "CMAKE_INSTALL_DATADIR": ".",
+        "CMAKE_INSTALL_LIBDIR": ".",
+        "CMAKE_INSTALL_LOCALSTATEDIR": ".",
+        "CMAKE_INSTALL_SBINDIR": ".",
+        "CMAKE_INSTALL_SYSCONFDIR": ".",
+
+        "PHP_EXTENSION_DIR": "ext"
+      }
+    },
+    {
+      "name": "windows-ts",
+      "inherits": "windows",
+      "displayName": "Thread safety (ZTS) with all extensions disabled",
+      "description": "PHP thread safe (ZTS) build with all PHP extensions and SAPIs disabled, only with CLI SAPI",
+      "binaryDir": "${sourceDir}/php-build/windows-ts",
+      "cacheVariables": {
+        "PHP_THREAD_SAFETY": true
+      }
+    },
+    {
+      "name": "windows-ninja",
+      "inherits": "windows",
+      "displayName": "Ninja generator with all extensions disabled",
+      "description": "PHP build using Ninja generator with all PHP extensions and SAPIs disabled, only with CLI SAPI",
+      "binaryDir": "${sourceDir}/php-build/windows-ninja",
+      "generator": "Ninja"
+    }
+  ],
+  "buildPresets": [
+    {
+      "name": "windows",
+      "configurePreset": "windows"
+    },
+    {
+      "name": "windows-ts",
+      "configurePreset": "windows-ts"
+    },
+    {
+      "name": "windows-ninja",
+      "configurePreset": "windows-ninja"
+    }
+  ],
+  "testPresets": [
+    {
+      "name": "windows",
+      "configurePreset": "windows",
+      "environment": {
+        "SKIP_IO_CAPTURE_TESTS": "1"
+      },
+      "output": {
+        "shortProgress": true,
+        "verbosity": "verbose"
+      }
+    },
+    {
+      "name": "windows-ts",
+      "configurePreset": "windows-ts",
+      "inherits": "windows"
+    },
+    {
+      "name": "windows-ninja",
+      "configurePreset": "windows-ninja",
+      "inherits": "windows"
+    }
+  ]
+}

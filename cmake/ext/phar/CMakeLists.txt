@@ -137,7 +137,7 @@ set(pharSharedOptions "")
 if(PHP_EXT_PHAR_SHARED OR BUILD_SHARED_LIBS)
   set(
     pharSharedOptions
-      -d extension_dir=${PHP_BINARY_DIR}/modules
+      -d extension_dir=${PHP_BINARY_DIR}/modules/$<CONFIG>
       -d extension=phar
   )
 endif()
