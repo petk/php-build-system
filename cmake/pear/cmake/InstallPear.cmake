@@ -144,7 +144,7 @@ file(
 )
 
 # Add PHP command-line options for shared dependent extensions.
-set(phpPearOptions -d extension_dir=${PHP_BINARY_DIR}/modules)
+set(phpPearOptions -d extension_dir=${PHP_BINARY_DIR}/modules/$<CONFIG>)
 
 if(PHP_EXT_OPENSSL_SHARED)
   list(APPEND phpPearOptions -d extension=openssl)

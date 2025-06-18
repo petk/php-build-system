@@ -59,7 +59,7 @@ function(_php_stubs_get_php_command result)
     list(
       APPEND
       command
-      -d extension_dir=${PROJECT_BINARY_DIR}/modules
+      -d extension_dir=${PROJECT_BINARY_DIR}/modules/$<CONFIG>
       -d extension=tokenizer
     )
   endif()
@@ -143,8 +143,8 @@ block()
     php_stubs ${targetOptions}
     COMMAND
       ${CMAKE_COMMAND}
+      -D "PHP_COMMAND=${PHP_COMMAND}"
       -P ${PROJECT_BINARY_DIR}/CMakeFiles/PHP/Stubs/StubsGenerator.cmake
     VERBATIM
-    COMMAND_EXPAND_LISTS
   )
 endblock()

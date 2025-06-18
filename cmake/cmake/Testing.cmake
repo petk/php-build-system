@@ -39,7 +39,7 @@ block()
         -d memory_limit=-1
         run-tests.php
           -n
-          -d extension_dir=${PHP_BINARY_DIR}/modules
+          -d extension_dir=${PHP_BINARY_DIR}/modules/$<CONFIG>
           --show-diff
           ${options}
           ${parallel}
