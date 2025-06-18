@@ -1,5 +1,9 @@
 #[=============================================================================[
 Script for processing PHP stub sources.
+
+Expected variables:
+
+* PHP_COMMAND
 #]=============================================================================]
 
 cmake_minimum_required(VERSION 3.27...4.0)
@@ -8,8 +12,12 @@ if(NOT CMAKE_SCRIPT_MODE_FILE)
   message(FATAL_ERROR "This is a command-line script.")
 endif()
 
+if(NOT PHP_COMMAND)
+  message(WARNING "StubsGenerator.cmake: No PHP command given.")
+  return()
+endif()
+
 set(sources "@PHP_SOURCES@")
-set(phpCommand "@PHP_COMMAND@")
 set(phpGenStubScriptSource "@PROJECT_SOURCE_DIR@/build/gen_stub.php")
 
 # Ensure sources include only *.stub.php files.
@@ -38,7 +46,7 @@ execute_process(
     ${CMAKE_COMMAND} -E cmake_echo_color --blue --bold
       "Regenerating *_arginfo.h headers from *.stub.php sources"
   COMMAND
-    ${phpCommand} ${CMAKE_CURRENT_LIST_DIR}/gen_stub.php ${stubs}
+    ${PHP_COMMAND} ${CMAKE_CURRENT_LIST_DIR}/gen_stub.php ${stubs}
 )
 
 # Ensure that *_arginfo.h headers are newer than their *.stub.php sources.

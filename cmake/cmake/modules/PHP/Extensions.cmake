@@ -465,10 +465,19 @@ function(php_extensions_postconfigure extension)
   # Set build-phase location for shared extensions.
   get_target_property(location php_ext_${extension} LIBRARY_OUTPUT_DIRECTORY)
   if(NOT location)
-    set_property(
-      TARGET php_ext_${extension}
-      PROPERTY LIBRARY_OUTPUT_DIRECTORY "${PROJECT_BINARY_DIR}/modules"
-    )
+    get_property(isMultiConfig GLOBAL PROPERTY GENERATOR_IS_MULTI_CONFIG)
+
+    if(isMultiConfig)
+      set_property(
+        TARGET php_ext_${extension}
+        PROPERTY LIBRARY_OUTPUT_DIRECTORY "${PROJECT_BINARY_DIR}/modules"
+      )
+    else()
+      set_property(
+        TARGET php_ext_${extension}
+        PROPERTY LIBRARY_OUTPUT_DIRECTORY "${PROJECT_BINARY_DIR}/modules/$<CONFIG>"
+      )
+    endif()
   endif()
 endfunction()
 
