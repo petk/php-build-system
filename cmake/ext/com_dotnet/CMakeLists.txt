@@ -96,3 +96,116 @@ check_include_files(mscoree.h HAVE_MSCOREE_H)
 set(HAVE_COM_DOTNET TRUE)
 
 configure_file(cmake/config.h.in config.h)
+
+################################################################################
+# Prepare tests
+################################################################################
+
+find_program(PHP_MIDL_EXECUTABLE midl)
+mark_as_advanced(PHP_MIDL_EXECUTABLE)
+
+if(PHP_MIDL_EXECUTABLE)
+  add_library(php_ext_com_dotnet_comtest MODULE)
+
+  target_sources(
+    php_ext_com_dotnet_comtest
+    PRIVATE
+      tests/comtest/comtest.cpp
+      tests/comtest/comtest.def
+      ${CMAKE_CURRENT_BINARY_DIR}/tests/comtest/comtest_i.c
+  )
+
+  target_include_directories(
+    php_ext_com_dotnet_comtest
+    PRIVATE ${CMAKE_CURRENT_BINARY_DIR}/tests/comtest
+  )
+
+  target_compile_options(php_ext_com_dotnet_comtest PRIVATE /nologo)
+  target_link_libraries(php_ext_com_dotnet_comtest PRIVATE oleaut32)
+
+  add_dependencies(php_ext_com_dotnet php_ext_com_dotnet_comtest)
+
+  add_custom_command(
+    OUTPUT
+      tests/comtest/comtest.h
+      tests/comtest/comtest_i.c
+      tests/comtest/comtest.tlb
+    COMMAND
+      ${PHP_MIDL_EXECUTABLE}
+      /nologo
+      /h ${CMAKE_CURRENT_BINARY_DIR}/tests/comtest/comtest.h
+      /iid ${CMAKE_CURRENT_BINARY_DIR}/tests/comtest/comtest_i.c
+      /tlb ${CMAKE_CURRENT_BINARY_DIR}/tests/comtest/comtest.tlb
+      ${CMAKE_CURRENT_SOURCE_DIR}/tests/comtest/comtest.idl
+    COMMENT "[ext/com_dotnet] Generating comtest library sources"
+    VERBATIM
+    COMMAND_EXPAND_LISTS
+  )
+
+  add_custom_target(
+    php_ext_com_dotnet_register_comtest
+    COMMENT "[ext/com_dotnet] Adding keys to Windows Registry for tests"
+    COMMAND
+      reg add
+        "HKCU\\SOFTWARE\\Classes\\TypeLib\\{AE8685BE-3758-4BDA-91DB-1459EBA24747}"
+        /f > NUL
+    COMMAND
+      reg add
+        "HKCU\\SOFTWARE\\Classes\\TypeLib\\{AE8685BE-3758-4BDA-91DB-1459EBA24747}\\1.0"
+        /d "PHP COM Test Library"
+        /f > NUL
+    COMMAND
+      reg add
+        "HKCU\\SOFTWARE\\Classes\\TypeLib\\{AE8685BE-3758-4BDA-91DB-1459EBA24747}\\1.0\\0"
+        /f > NUL
+    COMMAND
+      reg add
+        "HKCU\\SOFTWARE\\Classes\\TypeLib\\{AE8685BE-3758-4BDA-91DB-1459EBA24747}\\1.0\\0\\win32"
+        /d "${CMAKE_CURRENT_BINARY_DIR}/tests/comtest/comtest.tlb"
+        /f > NUL
+    COMMAND
+      reg add
+        "HKCU\\SOFTWARE\\Classes\\TypeLib\\{AE8685BE-3758-4BDA-91DB-1459EBA24747}\\1.0\\0\\win64"
+        /d "${CMAKE_CURRENT_BINARY_DIR}/tests/comtest/comtest.tlb"
+        /f > NUL
+    COMMAND
+      reg add
+        "HKCU\\SOFTWARE\\Classes\\TypeLib\\{AE8685BE-3758-4BDA-91DB-1459EBA24747}\\1.0\\FLAGS"
+        /d 0 /f > NUL
+    COMMAND
+      reg add
+        "HKCU\\SOFTWARE\\Classes\\TypeLib\\{AE8685BE-3758-4BDA-91DB-1459EBA24747}\\1.0\\HELPDIR"
+        /d "${CMAKE_CURRENT_BINARY_DIR}/tests/comtest"
+        /f > NUL
+    COMMAND
+      reg add
+        "HKCU\\SOFTWARE\\Classes\\CLSID\\{B13FE324-D595-44C7-97D7-82CE20EDF878}"
+        /d "PHP COM Test Document"
+        /f > NUL
+    COMMAND
+      reg add
+        "HKCU\\SOFTWARE\\Classes\\CLSID\\{B13FE324-D595-44C7-97D7-82CE20EDF878}\\InprocServer32"
+        /d "${CMAKE_CURRENT_BINARY_DIR}/tests/comtest/comtest.dll"
+        /f > NUL
+    COMMAND
+      reg add
+        "HKCU\\SOFTWARE\\Classes\\PHPTest.Document"
+        /d "PHP COM Test Document"
+        /f > NUL
+    COMMAND
+      reg add
+        "HKCU\\SOFTWARE\\Classes\\PHPTest.Document\\CLSID"
+        /d "{B13FE324-D595-44C7-97D7-82CE20EDF878}"
+        /f > NUL
+    VERBATIM
+  )
+
+  add_custom_target(
+    php_ext_com_dotnet_unregister_comtest
+    COMMENT "[ext/com_dotnet] Removing keys from Windows Registry for tests"
+    COMMAND reg delete "HKCU\\SOFTWARE\\Classes\\PHPTest.Document" /f > NUL
+    COMMAND reg delete "HKCU\\SOFTWARE\\Classes\\CLSID\\{B13FE324-D595-44C7-97D7-82CE20EDF878}" /f > NUL
+    COMMAND reg delete "HKCU\\SOFTWARE\\Classes\\TypeLib\\{AE8685BE-3758-4BDA-91DB-1459EBA24747}" /f > NUL
+    VERBATIM
+  )
+endif()
