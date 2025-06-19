@@ -124,9 +124,9 @@ set(HAVE_SHM_MMAP_POSIX_EXITCODE 0)
 # ext/pcre
 ################################################################################
 
-# Set the exit code for the check whether the bundled PCRE library has JIT
-# supported on the target architecture.
-set(HAVE_PCRE_JIT_SUPPORT_EXITCODE 0)
+# Set the exit code of the check when using an external PCRE library whether JIT
+# support is available for the target architecture.
+set(PHP_EXT_PCRE_HAS_JIT_EXITCODE 0)
 
 ################################################################################
 # ext/posix
