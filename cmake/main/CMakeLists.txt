@@ -2,7 +2,10 @@
 PHP main binding.
 #]=============================================================================]
 
-# Compile and link properties for all targets in this directory scope.
+################################################################################
+# Compile and link properties for all binary targets in this directory scope.
+################################################################################
+
 add_compile_definitions(ZEND_ENABLE_STATIC_TSRMLS_CACHE)
 link_libraries(PHP::config)
 

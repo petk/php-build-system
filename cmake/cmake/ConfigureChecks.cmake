@@ -450,7 +450,7 @@ if(PHP_FD_SETSIZE MATCHES "^[0-9]+$" AND PHP_FD_SETSIZE GREATER 0)
   target_compile_definitions(
     php_config
     INTERFACE
-      $<$<COMPILE_LANGUAGE:ASM,C,CXX>:FD_SETSIZE=${PHP_FD_SETSIZE}>
+      $<$<COMPILE_LANGUAGE:C,CXX>:FD_SETSIZE=${PHP_FD_SETSIZE}>
   )
 elseif(NOT PHP_FD_SETSIZE STREQUAL "")
   message(
@@ -913,7 +913,7 @@ if(PHP_DMALLOC)
   target_compile_definitions(
     php_config
     INTERFACE
-      $<$<COMPILE_LANGUAGE:ASM,C,CXX>:DMALLOC_FUNC_CHECK>
+      $<$<COMPILE_LANGUAGE:C,CXX>:DMALLOC_FUNC_CHECK>
   )
 
   target_link_libraries(php_config INTERFACE Dmalloc::Dmalloc)

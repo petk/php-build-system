@@ -195,6 +195,15 @@ if(PHP_HAS_FFP_CONTRACT_OFF_C)
   )
 endif()
 
+# Enable inline reader cache.
+# https://devblogs.microsoft.com/cppblog/visual-studio-2017-throughput-improvements-and-advice/
+if(MSVC AND MSVC_VERSION VERSION_GREATER_EQUAL 1914)
+  target_compile_options(
+    php_config
+    INTERFACE $<$<COMPILE_LANGUAGE:C,CXX>:/d2FuncCache1>
+  )
+endif()
+
 ################################################################################
 # Sanitizer flags.
 ################################################################################
