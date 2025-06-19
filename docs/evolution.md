@@ -957,6 +957,9 @@ PHP coding standards now use the C11 standard.
   `--with-libdir` configure options (e.g.,
   `--libdir=/usr/lib64 --with-libdir=lib64` will set `libdir` to
   `/usr/lib64/php`).
+* `PHP_ODBC_CFLAGS`, `PHP_ODBC_LFLAGS`, `PHP_ODBC_LIBS`, `PHP_ODBC_TYPE`
+  preprocessor macros defined by ext/odbc are now defined in `php_config.h`
+  instead of the `build-defs.h` header.
 
 #### Windows
 
