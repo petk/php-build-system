@@ -968,6 +968,8 @@ PHP coding standards now use the C11 standard.
   `duplicate_sources` parameter. If truthy, no rules to build the object files
   are generated. This allows to build additional variants of SAPIs (e.g., a DLL
   and EXE) without duplicate build rules.
+* `HAVE_GETLOGIN` preprocessor macro removed from configuration header
+  (`main/config.w32.h`).
 
 ##### Windows configure options
 

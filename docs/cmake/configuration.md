@@ -3525,14 +3525,26 @@ A list of Autoconf `configure` command-line configuration options, Windows
     </tr>
     <tr>
       <td>N/A</td>
+      <td>--without-extra-includes</td>
+      <td>N/A</td>
+      <td>default</td>
+    </tr>
+    <tr>
+      <td>&emsp;N/A</td>
       <td>--with-extra-includes</td>
-      <td></td>
+      <td>N/A</td>
       <td></td>
     </tr>
     <tr>
       <td>N/A</td>
+      <td>--without-extra-libs</td>
+      <td>N/A</td>
+      <td>default</td>
+    </tr>
+    <tr>
+      <td>&emsp;N/A</td>
       <td>--with-extra-libs</td>
-      <td></td>
+      <td>N/A</td>
       <td></td>
     </tr>
     <tr>

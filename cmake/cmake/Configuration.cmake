@@ -132,6 +132,8 @@ mark_as_advanced(PHP_DTRACE)
 
 set(PHP_FD_SETSIZE "" CACHE STRING "Size of file descriptor sets")
 if(CMAKE_SYSTEM_NAME STREQUAL "Windows" AND PHP_FD_SETSIZE STREQUAL "")
+  # This allows up to 256 sockets to be select()ed in a single call to select(),
+  # instead of the usual 64.
   set_property(CACHE PHP_FD_SETSIZE PROPERTY VALUE "256")
 endif()
 mark_as_advanced(PHP_FD_SETSIZE)
