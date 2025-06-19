@@ -118,13 +118,7 @@ block()
       set(asmFile "i386_ms_pe_masm.asm")
     elseif(CMAKE_SYSTEM_PROCESSOR MATCHES "^(arm64|ARM64)$")
       set(asmFile "arm64_aapcs_pe_armasm.asm")
-
-      set(
-        compileOptions
-        /nologo
-        # TODO: Recheck; "-machine" is a linker option.
-        -machine ARM64
-      )
+      set(compileOptions /nologo -machine ARM64)
     endif()
 
     if(asmFile AND NOT CMAKE_SYSTEM_PROCESSOR MATCHES "^(arm64|ARM64)$")
