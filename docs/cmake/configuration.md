@@ -2475,7 +2475,7 @@ A list of Autoconf `configure` command-line configuration options, Windows
       <td></td>
     </tr>
     <tr>
-      <td>&emsp;--without-external-pcre</td>
+      <td>--without-external-pcre</td>
       <td>N/A</td>
       <td>PHP_EXT_PCRE_EXTERNAL=OFF</td>
       <td>default</td>

@@ -70,16 +70,12 @@ target_sources(
   php_ext_pcre
   PRIVATE
     php_pcre.c
-    php_pcre.def
     php_pcre.stub.php
   PUBLIC
     FILE_SET HEADERS
       FILES
         php_pcre.h
 )
-
-# TODO: Fix this better for OBJECT libraries, which can't handle .def files.
-set_source_files_properties(php_pcre.def PROPERTIES HEADER_FILE_ONLY TRUE)
 
 target_compile_definitions(php_ext_pcre PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE)
 
@@ -100,13 +96,13 @@ if(PHP_EXT_PCRE_EXTERNAL)
     message(CHECK_START "Checking for PCRE JIT support")
 
     if(
-      NOT DEFINED HAVE_PCRE_JIT_SUPPORT_EXITCODE
+      NOT DEFINED PHP_EXT_PCRE_HAS_JIT_EXITCODE
       AND CMAKE_CROSSCOMPILING
       AND NOT CMAKE_CROSSCOMPILING_EMULATOR
       AND CMAKE_SYSTEM_PROCESSOR MATCHES
         "^(arm.*|i[34567]86|x86_64|amd64|mips.*|powerpc.*|sparc.*|X86|AMD64|ARM64)$"
     )
-      set(HAVE_PCRE_JIT_SUPPORT_EXITCODE 0)
+      set(PHP_EXT_PCRE_HAS_JIT_EXITCODE 0)
     endif()
 
     cmake_push_check_state(RESET)
@@ -129,10 +125,11 @@ if(PHP_EXT_PCRE_EXTERNAL)
 
           return !have_jit;
         }
-      ]] HAVE_PCRE_JIT_SUPPORT)
+      ]] PHP_EXT_PCRE_HAS_JIT)
     cmake_pop_check_state()
 
-    if(HAVE_PCRE_JIT_SUPPORT)
+    if(PHP_EXT_PCRE_HAS_JIT)
+      set(HAVE_PCRE_JIT_SUPPORT TRUE)
       message(CHECK_PASS "yes")
     else()
       message(CHECK_FAIL "no")
@@ -210,6 +207,10 @@ else()
 
   if(CMAKE_SYSTEM_NAME STREQUAL "Windows")
     set(PCRE2_STATIC TRUE)
+
+    if(TARGET php_sapi)
+      target_sources(php_sapi INTERFACE php_pcre.def)
+    endif()
   endif()
 
   target_compile_definitions(
