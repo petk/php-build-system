@@ -63,10 +63,18 @@ endif()
 target_sources(
   php_ext_tidy
   PRIVATE
-    $<$<AND:$<PLATFORM_ID:Windows>,$<NOT:$<IN_LIST:$<TARGET_PROPERTY:TYPE>,MODULE_LIBRARY;SHARED_LIBRARY>>>:php_tidy.def>
     tidy.c
     tidy.stub.php
 )
+
+get_target_property(type php_ext_tidy TYPE)
+if(
+  CMAKE_SYSTEM_NAME STREQUAL "Windows"
+  AND TARGET php_sapi
+  AND NOT type MATCHES "^(MODULE|SHARED)_LIBRARY$"
+)
+  target_sources(php_sapi INTERFACE php_tidy.def)
+endif()
 
 # Add -Wno-ignored-qualifiers as this is an issue upstream. Fixed in tidy-html5
 # 5.7.20. See: https://github.com/htacg/tidy-html5/issues/866

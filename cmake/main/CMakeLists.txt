@@ -269,27 +269,27 @@ function(_php_main_configure_build_defs)
     set(CONFIGURE_COMMAND "cmake")
 
     if(NOT "@PHP_PEAR_DIR@" STREQUAL "")
-      set(PEAR_INSTALLDIR "$<PATH:ABSOLUTE_PATH,NORMALIZE,@PHP_PEAR_DIR@,${CMAKE_INSTALL_PREFIX}>")
+      set(PHP_PEAR_INSTALLDIR "$<PATH:ABSOLUTE_PATH,NORMALIZE,@PHP_PEAR_DIR@,${CMAKE_INSTALL_PREFIX}>")
     endif()
 
     set(PHP_BINDIR "$<PATH:ABSOLUTE_PATH,NORMALIZE,@CMAKE_INSTALL_BINDIR@,${CMAKE_INSTALL_PREFIX}>")
 
     if("@CMAKE_SYSTEM_NAME@" STREQUAL "Windows")
-      set(EXPANDED_PHP_CONFIG_FILE_PATH "")
+      set(PHP_CONFIG_FILE_PATH "")
     else()
-      set(EXPANDED_PHP_CONFIG_FILE_PATH "$<PATH:ABSOLUTE_PATH,NORMALIZE,@PHP_CONFIG_FILE_PATH@,${CMAKE_INSTALL_PREFIX}>")
+      set(PHP_CONFIG_FILE_PATH "$<PATH:ABSOLUTE_PATH,NORMALIZE,@PHP_CONFIG_FILE_PATH@,${CMAKE_INSTALL_PREFIX}>")
     endif()
 
-    set(EXPANDED_PHP_CONFIG_FILE_SCAN_DIR "$<PATH:ABSOLUTE_PATH,NORMALIZE,@PHP_CONFIG_FILE_SCAN_DIR@,${CMAKE_INSTALL_PREFIX}>")
+    set(PHP_CONFIG_FILE_SCAN_DIR "$<PATH:ABSOLUTE_PATH,NORMALIZE,@PHP_CONFIG_FILE_SCAN_DIR@,${CMAKE_INSTALL_PREFIX}>")
 
     set(PHP_DATADIR "$<PATH:ABSOLUTE_PATH,NORMALIZE,@CMAKE_INSTALL_DATADIR@,${CMAKE_INSTALL_PREFIX}>")
 
-    set(EXPANDED_EXTENSION_DIR "$<PATH:ABSOLUTE_PATH,NORMALIZE,@PHP_EXTENSION_DIR@,${CMAKE_INSTALL_PREFIX}>")
+    set(PHP_EXTENSION_DIR "$<PATH:ABSOLUTE_PATH,NORMALIZE,@PHP_EXTENSION_DIR@,${CMAKE_INSTALL_PREFIX}>")
 
     if("@CMAKE_SYSTEM_NAME@" STREQUAL "Windows")
-      set(PHP_INCLUDE_PATH ".;${PEAR_INSTALLDIR}")
+      set(PHP_INCLUDE_PATH ".;${PHP_PEAR_INSTALLDIR}")
     else()
-      set(PHP_INCLUDE_PATH ".:${PEAR_INSTALLDIR}")
+      set(PHP_INCLUDE_PATH ".:${PHP_PEAR_INSTALLDIR}")
     endif()
 
     set(PHP_LIBDIR "$<PATH:ABSOLUTE_PATH,NORMALIZE,@CMAKE_INSTALL_LIBDIR@,${CMAKE_INSTALL_PREFIX}>")
@@ -329,12 +329,14 @@ function(_php_main_configure_build_defs)
   # Regenerate file on the install step when using different installation prefix
   # at the 'cmake --install ... --prefix <install-prefix>' phase.
   string(CONFIGURE [[
-    @code@
-    configure_file(
-      "@PHP_SOURCE_DIR@/main/cmake/build-defs.h.in"
-      "@PHP_BINARY_DIR@/$<CONFIG>/main/build-defs.h"
-      @ONLY
-    )
+    block()
+      @code@
+      configure_file(
+        "@PHP_SOURCE_DIR@/main/cmake/build-defs.h.in"
+        "@PHP_BINARY_DIR@/$<CONFIG>/main/build-defs.h"
+        @ONLY
+      )
+    endblock()
   ]] code @ONLY)
   install(CODE "${code}")
 endfunction()
