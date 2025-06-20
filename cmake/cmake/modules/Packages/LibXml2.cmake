@@ -58,21 +58,7 @@ if(NOT LibXml2_FOUND)
   set(LIBXML2_WITH_PYTHON OFF)
   set(LIBXML2_WITH_LZMA OFF)
 
-  # The above EXCLUDE_FROM_ALL was introduced in CMake 3.28.
-  if(CMAKE_VERSION VERSION_GREATER_EQUAL 3.28)
-    FetchContent_MakeAvailable(LibXml2)
-  else()
-    FetchContent_GetProperties(LibXml2)
-    if(NOT LibXml2_POPULATED)
-      FetchContent_Populate(LibXml2)
-
-      add_subdirectory(
-        ${libxml2_SOURCE_DIR}
-        ${libxml2_BINARY_DIR}
-        EXCLUDE_FROM_ALL
-      )
-    endif()
-  endif()
+  FetchContent_MakeAvailable(LibXml2)
 
   # Move dependency to PACKAGES_FOUND.
   block()

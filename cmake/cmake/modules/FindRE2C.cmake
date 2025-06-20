@@ -57,13 +57,7 @@ endif()
 ################################################################################
 
 block(PROPAGATE RE2C_VERSION _reason _re2cRequiredVars)
-  if(CMAKE_VERSION VERSION_GREATER_EQUAL 3.29)
-    set(test IS_EXECUTABLE)
-  else()
-    set(test EXISTS)
-  endif()
-
-  if(${test} ${RE2C_EXECUTABLE})
+  if(IS_EXECUTABLE "${RE2C_EXECUTABLE}")
     list(APPEND _re2cRequiredVars RE2C_VERSION)
     execute_process(
       COMMAND ${RE2C_EXECUTABLE} --version

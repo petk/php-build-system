@@ -2,7 +2,7 @@
 # Run as:
 #   cmake -P [...ext/tokenizer/cmake/]GenerateTokenizerData.cmake
 
-cmake_minimum_required(VERSION 3.27...4.0)
+cmake_minimum_required(VERSION 3.29...4.0)
 
 if(NOT CMAKE_SCRIPT_MODE_FILE)
   message(FATAL_ERROR "This is a command-line script.")
