@@ -292,6 +292,7 @@ version available on the operating system.
   * `ASM_MARMASM` language support
 * 3.29
   * `CMAKE_LINKER_TYPE`
+  * `CMAKE_<LANG>_COMPILER_LINKER_VERSION`
   * `if(IS_EXECUTABLE)`
 * 3.31
   * `add_custom_command()` keyword `CODEGEN`
