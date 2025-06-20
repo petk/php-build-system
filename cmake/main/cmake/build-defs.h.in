@@ -12,18 +12,18 @@
 #cmakedefine CONFIGURE_COMMAND "@CONFIGURE_COMMAND@"
 
 /* The path to the PEAR installation directory. */
-#define PEAR_INSTALLDIR "@PEAR_INSTALLDIR@"
+#define PEAR_INSTALLDIR "@PHP_PEAR_INSTALLDIR@"
 
 /* The path to the directory containing command-line executables (bin). */
 #define PHP_BINDIR "@PHP_BINDIR@"
 
 /* The path to the directory in which PHP looks for the php.ini configuration
    file. On Windows this macro isn't utilized in the C code. */
-#define PHP_CONFIG_FILE_PATH "@EXPANDED_PHP_CONFIG_FILE_PATH@"
+#define PHP_CONFIG_FILE_PATH "@PHP_CONFIG_FILE_PATH@"
 
 /* The path to the directory where PHP scans for additional INI
    configuration files. */
-#define PHP_CONFIG_FILE_SCAN_DIR "@EXPANDED_PHP_CONFIG_FILE_SCAN_DIR@"
+#define PHP_CONFIG_FILE_SCAN_DIR "@PHP_CONFIG_FILE_SCAN_DIR@"
 
 /* The path to the directory containing architecture-independent data
    (share). */
@@ -31,7 +31,7 @@
 
 /* The default path to the directory containing dynamically loadable PHP
    extensions. */
-#define PHP_EXTENSION_DIR "@EXPANDED_EXTENSION_DIR@"
+#define PHP_EXTENSION_DIR "@PHP_EXTENSION_DIR@"
 
 /* The default 'include_path' PHP INI directive. */
 #define PHP_INCLUDE_PATH "@PHP_INCLUDE_PATH@"

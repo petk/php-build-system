@@ -47,12 +47,15 @@ target_sources(
   PRIVATE
     libxml.c
     libxml.stub.php
-    php_libxml2.def
   PUBLIC
     FILE_SET HEADERS
       FILES
         php_libxml.h
 )
+
+if(CMAKE_SYSTEM_NAME STREQUAL "Windows" AND TARGET php_sapi)
+  target_sources(php_sapi INTERFACE php_libxml2.def)
+endif()
 
 target_compile_definitions(
   php_ext_libxml

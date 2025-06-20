@@ -65,12 +65,20 @@ target_sources(
   PRIVATE
     iconv.c
     iconv.stub.php
-    $<$<AND:$<PLATFORM_ID:Windows>,$<NOT:$<IN_LIST:$<TARGET_PROPERTY:TYPE>,MODULE_LIBRARY;SHARED_LIBRARY>>>:php_iconv.def>
   PUBLIC
     FILE_SET HEADERS
       FILES
         php_iconv.h
 )
+
+get_target_property(type php_ext_iconv TYPE)
+if(
+  CMAKE_SYSTEM_NAME STREQUAL "Windows"
+  AND TARGET php_sapi
+  AND NOT type MATCHES "^(MODULE|SHARED)_LIBRARY$"
+)
+  target_sources(php_sapi INTERFACE php_iconv.def)
+endif()
 
 target_compile_definitions(
   php_ext_iconv
