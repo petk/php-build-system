@@ -70,7 +70,7 @@ Enable JIS-mapped (Japanese Industrial Standards) Japanese font support (only
 for bundled libgd).
 #]=============================================================================]
 
-cmake_minimum_required(VERSION 3.27...4.0)
+cmake_minimum_required(VERSION 3.29...4.0)
 
 project(
   PhpExtensionGd

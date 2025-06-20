@@ -55,7 +55,7 @@ See build system documentation for available PHP configuration variables and
 further information.
 #]=============================================================================]
 
-cmake_minimum_required(VERSION 3.27...4.0)
+cmake_minimum_required(VERSION 3.29...4.0)
 
 if(CMAKE_BINARY_DIR PATH_EQUAL CMAKE_CURRENT_LIST_DIR)
   message(
