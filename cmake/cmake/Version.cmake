@@ -15,15 +15,8 @@ include_guard(GLOBAL)
 
 # Set the PHP_VERSION_* variables from configure.ac.
 block(PROPAGATE PHP_VERSION)
-  set(regex "^AC_INIT.+PHP\\],\\[([0-9.]+)([^]]*)")
-  file(STRINGS configure.ac _ REGEX "${regex}")
-
-  if(CMAKE_VERSION VERSION_LESS 3.29)
-    string(REGEX MATCH "${regex}" _ "${_}")
-  endif()
-
+  file(STRINGS configure.ac _ REGEX "^AC_INIT.+PHP\\],\\[([0-9.]+)([^]]*)")
   set(PHP_VERSION "${CMAKE_MATCH_1}")
-
   set(
     PHP_VERSION_LABEL "${CMAKE_MATCH_2}"
     CACHE STRING "Extra PHP version label suffix, e.g. '-dev', 'rc1', '-acme'"
@@ -51,13 +44,12 @@ function(_php_version_post_project)
   )
 
   # Get PHP API version.
-  set(regex "^[ \t]*#[ \t]*define[ \t]+PHP_API_VERSION[ \t]+([0-9]+)")
-  file(STRINGS main/php.h _ REGEX "${regex}")
-
-  if(CMAKE_VERSION VERSION_LESS 3.29)
-    string(REGEX MATCH "${regex}" _ "${_}")
-  endif()
-
+  file(
+    STRINGS
+    main/php.h
+    _
+    REGEX "^[ \t]*#[ \t]*define[ \t]+PHP_API_VERSION[ \t]+([0-9]+)"
+  )
   set(PHP_API_VERSION "${CMAKE_MATCH_1}")
 
   return(PROPAGATE PHP_VERSION PHP_VERSION_ID PHP_API_VERSION)

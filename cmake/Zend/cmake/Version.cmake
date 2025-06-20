@@ -13,13 +13,12 @@ include_guard(GLOBAL)
 
 # Set Zend Engine version variables.
 block(PROPAGATE Zend_VERSION Zend_VERSION_LABEL)
-  set(regex "^[ \t]*#[ \t]*define[ \t]+ZEND_VERSION[ \t]+\"([0-9.]+)([^\"]*)")
-  file(STRINGS zend.h _ REGEX "${regex}")
-
-  if(CMAKE_VERSION VERSION_LESS 3.29)
-    string(REGEX MATCH "${regex}" _ "${_}")
-  endif()
-
+  file(
+    STRINGS
+    zend.h
+    _
+    REGEX "^[ \t]*#[ \t]*define[ \t]+ZEND_VERSION[ \t]+\"([0-9.]+)([^\"]*)"
+  )
   set(Zend_VERSION "${CMAKE_MATCH_1}")
   set(Zend_VERSION_LABEL "${CMAKE_MATCH_2}")
 endblock()
@@ -35,19 +34,21 @@ function(_zend_version_post_project)
   message(STATUS "Zend Engine version: ${Zend_VERSION}")
 
   # Get extensions API number.
-  set(regex "^[ \t]*#[ \t]*define[ \t]+ZEND_EXTENSION_API_NO[ \t]+([0-9]+)")
-  file(STRINGS zend_extensions.h _ REGEX "${regex}")
-  if(CMAKE_VERSION VERSION_LESS 3.29)
-    string(REGEX MATCH "${regex}" _ "${_}")
-  endif()
+  file(
+    STRINGS
+    zend_extensions.h
+    _
+    REGEX "^[ \t]*#[ \t]*define[ \t]+ZEND_EXTENSION_API_NO[ \t]+([0-9]+)"
+  )
   set(Zend_VERSION_EXTENSION_API_NO "${CMAKE_MATCH_1}")
 
   # Get modules API number.
-  set(regex "^[ \t]*#[ \t]*define[ \t]+ZEND_MODULE_API_NO[ \t]+([0-9]+)")
-  file(STRINGS zend_modules.h _ REGEX "${regex}")
-  if(CMAKE_VERSION VERSION_LESS 3.29)
-    string(REGEX MATCH "${regex}" _ "${_}")
-  endif()
+  file(
+    STRINGS
+    zend_modules.h
+    _
+    REGEX "^[ \t]*#[ \t]*define[ \t]+ZEND_MODULE_API_NO[ \t]+([0-9]+)"
+  )
   set(Zend_VERSION_MODULE_API_NO "${CMAKE_MATCH_1}")
 
   return(

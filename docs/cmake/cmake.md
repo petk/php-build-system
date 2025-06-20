@@ -252,7 +252,8 @@ CMake presets JSON file using the `configuration` field:
 The minimum required version of CMake is defined in the top project file
 `CMakeLists.txt` using the `cmake_minimum_required()`. Picking the minimum
 required CMake version is a compromise between CMake functionalities and CMake
-version available on the operating system.
+version available on the operating system. The minimum required CMake version in
+this repository is **3.29**.
 
 * 3.17
   * `CMAKE_CURRENT_FUNCTION_LIST_DIR` variable
@@ -296,10 +297,6 @@ version available on the operating system.
   * `if(IS_EXECUTABLE)`
 * 3.31
   * `add_custom_command()` keyword `CODEGEN`
-
-Currently, the CMake minimum version is set to **3.27** without looking at CMake
-available version on the current systems out there. This will be updated more
-properly in the future.
 
 CMake versions scheme across the systems is available at
 [pkgs.org](https://pkgs.org/download/cmake).

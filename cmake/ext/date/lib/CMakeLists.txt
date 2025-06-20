@@ -13,19 +13,16 @@ add_subdirectory(lib)
 ```
 #]=============================================================================]
 
-cmake_minimum_required(VERSION 3.27...4.0)
+cmake_minimum_required(VERSION 3.29...4.0)
 
 # The timelib version.
 block(PROPAGATE timelib_VERSION)
-  set(
-    regex
-    "^[ \t]*#[ \t]*define[ \t]+TIMELIB_ASCII_VERSION[ \t]+\"([0-9.]+)([^\"]*)"
+  file(
+    STRINGS
+    timelib.h
+    _
+    REGEX "^[ \t]*#[ \t]*define[ \t]+TIMELIB_ASCII_VERSION[ \t]+\"([0-9.]+[^\"]*)"
   )
-  file(STRINGS timelib.h _ REGEX "${regex}")
-
-  if(CMAKE_VERSION VERSION_LESS 3.29)
-    string(REGEX MATCH "${regex}" _ "${_}")
-  endif()
 
   set(timelib_VERSION "${CMAKE_MATCH_1}")
 
