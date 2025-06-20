@@ -1,49 +1,83 @@
 ##############################################################################
+# Configure pkg-config php.pc metadata file.
+##############################################################################
+
+include(PHP/PkgConfig)
+php_pkgconfig_generate_pc(
+  php.pc.in
+  php.pc
+  TARGET PHP::sapi::cli
+  VARIABLES
+    prefix "$<INSTALL_PREFIX>"
+    exec_prefix "$<INSTALL_PREFIX>"
+    includedir "$<PATH:ABSOLUTE_PATH,NORMALIZE,${CMAKE_INSTALL_INCLUDEDIR},$<INSTALL_PREFIX>>"
+    php_include_prefix "${PHP_INCLUDE_PREFIX}"
+    libdir "$<PATH:ABSOLUTE_PATH,NORMALIZE,${CMAKE_INSTALL_LIBDIR},$<INSTALL_PREFIX>>"
+    PHP_VERSION "${PHP_VERSION}"
+    PHP_VERSION_ID "${PHP_VERSION_ID}"
+    PHP_EXTENSION_DIR "$<PATH:ABSOLUTE_PATH,NORMALIZE,${PHP_EXTENSION_DIR},$<INSTALL_PREFIX>>"
+    PHP_CONFIG_FILE_SCAN_DIR "$<PATH:ABSOLUTE_PATH,NORMALIZE,${PHP_CONFIG_FILE_SCAN_DIR},$<INSTALL_PREFIX>>"
+    PHP_CONFIG_FILE_PATH "$<PATH:ABSOLUTE_PATH,NORMALIZE,${PHP_CONFIG_FILE_PATH},$<INSTALL_PREFIX>>"
+    PHP_DEBUG "$<IF:$<CONFIG:Debug,DebugAssertions>,yes,no>"
+    PHP_THREAD_SAFETY "$<IF:$<BOOL:$<TARGET_PROPERTY:PHP::config,PHP_THREAD_SAFETY>>,yes,no>"
+)
+
+install(
+  FILES ${CMAKE_CURRENT_BINARY_DIR}/php.pc
+  DESTINATION ${CMAKE_INSTALL_LIBDIR}/pkgconfig
+)
+
+# The rest of the configuration here is for *nix systems.
+if(CMAKE_SYSTEM_NAME STREQUAL "Windows")
+  return()
+endif()
+
+##############################################################################
 # Configure man documentation.
 ##############################################################################
 
 block()
-  if(NOT CMAKE_SYSTEM_NAME STREQUAL "Windows")
-    set(program_prefix "${PHP_PROGRAM_PREFIX}")
+  set(program_prefix "${PHP_PROGRAM_PREFIX}")
 
-    message(STATUS "Creating scripts/man1/php-config.1")
-    configure_file(man1/php-config.1.in man1/php-config.1 @ONLY)
-    install(
-      FILES ${PROJECT_BINARY_DIR}/scripts/man1/php-config.1
-      RENAME ${PHP_PROGRAM_PREFIX}php-config${PHP_PROGRAM_SUFFIX}.1
-      DESTINATION ${CMAKE_INSTALL_MANDIR}/man1
-    )
+  message(STATUS "Creating scripts/man1/php-config.1")
+  configure_file(man1/php-config.1.in man1/php-config.1 @ONLY)
+  install(
+    FILES ${PROJECT_BINARY_DIR}/scripts/man1/php-config.1
+    RENAME ${PHP_PROGRAM_PREFIX}php-config${PHP_PROGRAM_SUFFIX}.1
+    DESTINATION ${CMAKE_INSTALL_MANDIR}/man1
+  )
 
-    message(STATUS "Creating scripts/man1/phpize.1")
-    configure_file(man1/phpize.1.in man1/phpize.1 @ONLY)
-    install(
-      FILES ${PROJECT_BINARY_DIR}/scripts/man1/phpize.1
-      RENAME ${PHP_PROGRAM_PREFIX}phpize${PHP_PROGRAM_SUFFIX}.1
-      DESTINATION ${CMAKE_INSTALL_MANDIR}/man1
-    )
-  endif()
+  message(STATUS "Creating scripts/man1/phpize.1")
+  configure_file(man1/phpize.1.in man1/phpize.1 @ONLY)
+  install(
+    FILES ${PROJECT_BINARY_DIR}/scripts/man1/phpize.1
+    RENAME ${PHP_PROGRAM_PREFIX}phpize${PHP_PROGRAM_SUFFIX}.1
+    DESTINATION ${CMAKE_INSTALL_MANDIR}/man1
+  )
 endblock()
 
-# The php-config and phpize scripts.
-block()
-  find_program(
-    SED_EXECUTABLE
-    NAMES
-      sed  # Default name available on most *nix systems
-      gsed # Brew gnu-sed package
-    DOC "Path to the stream editor (sed) for filtering and transforming text"
-  )
-  mark_as_advanced(SED_EXECUTABLE)
-  if(SED_EXECUTABLE)
-    set(SED "${SED_EXECUTABLE}")
-  else()
-    message(WARNING "sed not found, setting default to /usr/bin/sed")
-    set(SED /usr/bin/sed)
-  endif()
+################################################################################
+# Configure php-config script.
+################################################################################
 
-  ##############################################################################
+# Find sed for php-config and phpize scripts.
+find_program(
+  PHP_SED_EXECUTABLE
+  NAMES
+    sed  # Default name available on most *nix systems
+    gsed # Brew gnu-sed package
+  DOC "Path to the stream editor (sed) for filtering and transforming text"
+)
+mark_as_advanced(PHP_SED_EXECUTABLE)
+if(PHP_SED_EXECUTABLE)
+  set(PHP_SED "${PHP_SED_EXECUTABLE}")
+else()
+  message(WARNING "sed not found, setting default to /usr/bin/sed")
+  set(PHP_SED /usr/bin/sed)
+endif()
+
+block()
   message(STATUS "Creating scripts/php-config")
-  ##############################################################################
 
   get_property(sapis GLOBAL PROPERTY PHP_SAPIS)
   set(sapis "$<JOIN:$<LIST:SORT,${sapis}>, >")
@@ -65,7 +99,7 @@ block()
   )
 
   string(CONFIGURE [[
-    set(SED "@SED@")
+    set(SED "@PHP_SED@")
     set(prefix "${CMAKE_INSTALL_PREFIX}")
     set(datarootdir "$<PATH:ABSOLUTE_PATH,NORMALIZE,@CMAKE_INSTALL_DATAROOTDIR@,${CMAKE_INSTALL_PREFIX}>")
     set(exec_prefix "${CMAKE_INSTALL_PREFIX}")
@@ -81,7 +115,6 @@ block()
     set(program_prefix "@PHP_PROGRAM_PREFIX@")
     set(program_suffix "@PHP_PROGRAM_SUFFIX@")
     set(EXEEXT "@CMAKE_EXECUTABLE_SUFFIX@")
-    # TODO:
     set(CONFIGURE_OPTIONS "")
     set(PHP_INSTALLED_SAPIS "@sapis@")
     set(EXPANDED_PHP_CONFIG_FILE_SCAN_DIR "$<PATH:ABSOLUTE_PATH,NORMALIZE,@PHP_CONFIG_FILE_SCAN_DIR@,${CMAKE_INSTALL_PREFIX}>")
@@ -114,10 +147,14 @@ block()
     DESTINATION ${CMAKE_INSTALL_BINDIR}
     RENAME ${PHP_PROGRAM_PREFIX}php-config${PHP_PROGRAM_SUFFIX}
   )
+endblock()
 
-  ##############################################################################
+################################################################################
+# Configure phpize script.
+################################################################################
+
+block()
   message(STATUS "Creating scripts/phpize")
-  ##############################################################################
 
   # Patch phpize template: Replace the upstream phpize script hardcoded php
   # include directory to a template placeholder.
@@ -137,7 +174,7 @@ block()
     set(exec_prefix "${CMAKE_INSTALL_PREFIX}")
     set(libdir "$<PATH:ABSOLUTE_PATH,NORMALIZE,@CMAKE_INSTALL_LIBDIR@/php,${CMAKE_INSTALL_PREFIX}>")
     set(includedir "$<PATH:ABSOLUTE_PATH,NORMALIZE,@CMAKE_INSTALL_INCLUDEDIR@/@PHP_INCLUDE_PREFIX@,${CMAKE_INSTALL_PREFIX}>")
-    set(SED "@SED@")
+    set(SED "@PHP_SED@")
   ]] code @ONLY)
   cmake_language(EVAL CODE "${code}")
   string(CONFIGURE "${content}" content @ONLY)
@@ -163,55 +200,30 @@ block()
   )
 endblock()
 
-# Configure pkg-config php.pc metadata file.
-include(PHP/PkgConfig)
-php_pkgconfig_generate_pc(
-  php.pc.in
-  php.pc
-  TARGET PHP::sapi::cli
-  VARIABLES
-    prefix "$<INSTALL_PREFIX>"
-    exec_prefix "$<INSTALL_PREFIX>"
-    includedir "$<PATH:ABSOLUTE_PATH,NORMALIZE,${CMAKE_INSTALL_INCLUDEDIR},$<INSTALL_PREFIX>>"
-    php_include_prefix "${PHP_INCLUDE_PREFIX}"
-    libdir "$<PATH:ABSOLUTE_PATH,NORMALIZE,${CMAKE_INSTALL_LIBDIR},$<INSTALL_PREFIX>>"
-    PHP_VERSION "${PHP_VERSION}"
-    PHP_VERSION_ID "${PHP_VERSION_ID}"
-    PHP_EXTENSION_DIR "$<PATH:ABSOLUTE_PATH,NORMALIZE,${PHP_EXTENSION_DIR},$<INSTALL_PREFIX>>"
-    PHP_CONFIG_FILE_SCAN_DIR "$<PATH:ABSOLUTE_PATH,NORMALIZE,${PHP_CONFIG_FILE_SCAN_DIR},$<INSTALL_PREFIX>>"
-    PHP_CONFIG_FILE_PATH "$<PATH:ABSOLUTE_PATH,NORMALIZE,${PHP_CONFIG_FILE_PATH},$<INSTALL_PREFIX>>"
-    PHP_DEBUG "$<IF:$<CONFIG:Debug,DebugAssertions>,yes,no>"
-    PHP_THREAD_SAFETY "$<IF:$<BOOL:$<TARGET_PROPERTY:PHP::config,PHP_THREAD_SAFETY>>,yes,no>"
+################################################################################
+# Install Autotools build files.
+################################################################################
+
+install(
+  FILES
+    ${PHP_SOURCE_DIR}/build/ax_check_compile_flag.m4
+    ${PHP_SOURCE_DIR}/build/ax_gcc_func_attribute.m4
+    ${PHP_SOURCE_DIR}/build/gen_stub.php
+    ${PHP_SOURCE_DIR}/build/libtool.m4
+    ${PHP_SOURCE_DIR}/build/ltmain.sh
+    ${PHP_SOURCE_DIR}/build/Makefile.global
+    ${PHP_SOURCE_DIR}/build/php_cxx_compile_stdcxx.m4
+    ${PHP_SOURCE_DIR}/build/php.m4
+    ${PHP_SOURCE_DIR}/build/pkg.m4
+    ${PHP_SOURCE_DIR}/run-tests.php
+    ${PHP_SOURCE_DIR}/scripts/phpize.m4
+  DESTINATION ${CMAKE_INSTALL_LIBDIR}/php/build
 )
 
 install(
-  FILES ${CMAKE_CURRENT_BINARY_DIR}/php.pc
-  DESTINATION ${CMAKE_INSTALL_LIBDIR}/pkgconfig
+  PROGRAMS
+    ${PHP_SOURCE_DIR}/build/config.guess
+    ${PHP_SOURCE_DIR}/build/config.sub
+    ${PHP_SOURCE_DIR}/build/shtool
+  DESTINATION ${CMAKE_INSTALL_LIBDIR}/php/build
 )
-
-# Install Autotools build files.
-if(NOT CMAKE_SYSTEM_NAME STREQUAL "Windows")
-  install(
-    FILES
-      ${PHP_SOURCE_DIR}/build/ax_check_compile_flag.m4
-      ${PHP_SOURCE_DIR}/build/ax_gcc_func_attribute.m4
-      ${PHP_SOURCE_DIR}/build/gen_stub.php
-      ${PHP_SOURCE_DIR}/build/libtool.m4
-      ${PHP_SOURCE_DIR}/build/ltmain.sh
-      ${PHP_SOURCE_DIR}/build/Makefile.global
-      ${PHP_SOURCE_DIR}/build/php_cxx_compile_stdcxx.m4
-      ${PHP_SOURCE_DIR}/build/php.m4
-      ${PHP_SOURCE_DIR}/build/pkg.m4
-      ${PHP_SOURCE_DIR}/run-tests.php
-      ${PHP_SOURCE_DIR}/scripts/phpize.m4
-    DESTINATION ${CMAKE_INSTALL_LIBDIR}/php/build
-  )
-
-  install(
-    PROGRAMS
-      ${PHP_SOURCE_DIR}/build/config.guess
-      ${PHP_SOURCE_DIR}/build/config.sub
-      ${PHP_SOURCE_DIR}/build/shtool
-    DESTINATION ${CMAKE_INSTALL_LIBDIR}/php/build
-  )
-endif()
