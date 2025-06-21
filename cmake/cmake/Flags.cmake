@@ -219,12 +219,8 @@ endif()
 if(PHP_MEMORY_SANITIZER)
   message(CHECK_START "Checking memory sanitizer compiler options")
 
-  cmake_push_check_state(RESET)
-    set(
-      CMAKE_REQUIRED_LINK_OPTIONS
-      -fsanitize=memory
-      -fsanitize-memory-track-origins
-    )
+  block()
+    set(CMAKE_TRY_COMPILE_TARGET_TYPE "STATIC_LIBRARY")
 
     php_check_compiler_flag(
       C
@@ -239,19 +235,19 @@ if(PHP_MEMORY_SANITIZER)
         PHP_HAS_MEMORY_SANITIZER_CXX
       )
     endif()
-  cmake_pop_check_state()
+  endblock()
 
   if(PHP_HAS_MEMORY_SANITIZER_C OR PHP_HAS_MEMORY_SANITIZER_CXX)
     target_compile_options(
       php_config
       INTERFACE
-        $<$<COMPILE_LANGUAGE:ASM,C,CXX>:-fsanitize=memory;-fsanitize-memory-track-origins>
+        $<$<COMPILE_LANGUAGE:C,CXX>:-fsanitize=memory;-fsanitize-memory-track-origins>
     )
 
     target_link_options(
       php_config
       INTERFACE
-        $<$<COMPILE_LANGUAGE:ASM,C,CXX>:-fsanitize=memory;-fsanitize-memory-track-origins>
+        $<$<LINK_LANGUAGE:C,CXX>:-fsanitize=memory;-fsanitize-memory-track-origins>
     )
 
     message(CHECK_PASS "Success")
