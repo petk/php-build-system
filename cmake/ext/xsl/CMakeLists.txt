@@ -74,11 +74,13 @@ target_compile_definitions(
     $<$<PLATFORM_ID:Windows>:LIBXSLT_STATIC>
 )
 
-target_link_options(
-  php_ext_xsl
-  PRIVATE
-    $<$<AND:$<CONFIG:Debug,DebugAssertions>,$<C_COMPILER_ID:MSVC>>:LINKER:/nodefaultlib:msvcrt>
-)
+if(MSVC)
+  target_link_options(
+    php_ext_xsl
+    PRIVATE
+      $<$<CONFIG:Debug,DebugAssertions>:LINKER:/nodefaultlib:msvcrt>
+  )
+endif()
 
 include(Packages/LibXml2)
 

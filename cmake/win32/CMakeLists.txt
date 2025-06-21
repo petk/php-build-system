@@ -104,10 +104,10 @@ target_compile_definitions(
     $<$<EQUAL:${CMAKE_SIZEOF_VOID_P},4>:_USE_32BIT_TIME_T=1>
 )
 
-# MS deprecated ANSI stdio and similar functions. Disable warnings.
 target_compile_options(
   php_config
   INTERFACE
+    # MS deprecated ANSI stdio and similar functions. Disable warnings.
     $<$<COMPILE_LANG_AND_ID:C,MSVC>:/wd4996>
     $<$<COMPILE_LANG_AND_ID:CXX,MSVC>:/wd4996>
 )

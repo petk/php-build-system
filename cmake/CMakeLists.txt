@@ -43,10 +43,63 @@ set(CMAKE_C_STANDARD 99)
 set(CMAKE_C_STANDARD_REQUIRED TRUE)
 
 ################################################################################
+# Create interface targets providing usage requirements.
+################################################################################
+
+# Usage requirements for all PHP-related targets in the build.
+add_library(php_config INTERFACE)
+add_library(PHP::config ALIAS php_config)
+target_include_directories(
+  php_config
+  INTERFACE
+    ${PHP_BINARY_DIR}
+    ${PHP_SOURCE_DIR}
+)
+
+# Interface library that ties objects and configuration together for PHP SAPIs.
+add_library(php_sapi INTERFACE)
+add_library(PHP::sapi ALIAS php_sapi)
+target_link_libraries(php_sapi INTERFACE PHP::config)
+
+################################################################################
 # Configure project.
 ################################################################################
 
-include(cmake/Bootstrap.cmake)
+define_property(
+  TARGET
+  PROPERTY PHP_CLI
+  BRIEF_DOCS "Whether the PHP SAPI or extension is CLI-based"
+)
+
+define_property(
+  TARGET
+  PROPERTY PHP_SAPI_FASTCGI
+  BRIEF_DOCS "Whether the PHP SAPI is FastCGI-based"
+)
+
+# Check whether IPO/LTO can be enabled.
+include(PHP/Optimization)
+
+# Set CMAKE_POSITION_INDEPENDENT_CODE.
+include(PHP/PositionIndependentCode)
+
+# Configure build types.
+include(cmake/BuildTypes.cmake)
+
+# Set platform-specific configuration.
+include(cmake/Platform.cmake)
+
+# Set PHP configuration options and variables.
+include(cmake/Configuration.cmake)
+
+# Check requirements.
+include(cmake/Requirements.cmake)
+
+# Run PHP configuration checks.
+include(cmake/ConfigureChecks.cmake)
+
+# Check compilation options.
+include(cmake/Flags.cmake)
 
 add_subdirectory(sapi)
 add_subdirectory(ext)
@@ -69,9 +122,12 @@ include(PHP/Stubs)
 # Check thread safety.
 include(PHP/ThreadSafety)
 
+################################################################################
 # Execute all deferred calls. Calls are additionally sorted with natural
 # comparison method by their IDs. If call hasn't set any ID number, CMake
 # assigns it a default value of __<number>.
+################################################################################
+
 block()
   cmake_language(DEFER GET_CALL_IDS ids)
   list(SORT ids COMPARE NATURAL)
