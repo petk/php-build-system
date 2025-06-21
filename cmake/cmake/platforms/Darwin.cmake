@@ -27,8 +27,11 @@ endif()
 if(CMAKE_SYSTEM_NAME STREQUAL "Darwin")
   set(DARWIN TRUE)
 
-  # TODO: This is still needed for shared extensions on macOS, otherwise
-  # undefined symbol errors happen in the linking step when using Clang.
+  # Set -undefined <treatment> linker flag to "dynamic_lookup" (default
+  # <treatment> is "error"). This is needed for shared and module PHP targets on
+  # macOS, otherwise undefined symbol errors happen in the linking step.
+  # Autotools with libtool here uses older "suppress" treatment instead and
+  # "-flat_namespace" linker option.
   check_linker_flag(
     C
     "LINKER:-undefined,dynamic_lookup"
@@ -38,7 +41,20 @@ if(CMAKE_SYSTEM_NAME STREQUAL "Darwin")
     target_link_options(
       php_config
       INTERFACE
-        $<$<IN_LIST:$<TARGET_PROPERTY:TYPE>,MODULE_LIBRARY;SHARED_LIBRARY>:LINKER:-undefined,dynamic_lookup>
+        $<$<AND:$<LINK_LANGUAGE:C>,$<IN_LIST:$<TARGET_PROPERTY:TYPE>,MODULE_LIBRARY;SHARED_LIBRARY>>:LINKER:-undefined,dynamic_lookup>
+    )
+  endif()
+
+  check_linker_flag(
+    CXX
+    "LINKER:-undefined,dynamic_lookup"
+    PHP_HAS_UNDEFINED_DYNAMIC_LOOKUP_FLAG_CXX
+  )
+  if(PHP_HAS_UNDEFINED_DYNAMIC_LOOKUP_FLAG_CXX)
+    target_link_options(
+      php_config
+      INTERFACE
+        $<$<AND:$<LINK_LANGUAGE:CXX>,$<IN_LIST:$<TARGET_PROPERTY:TYPE>,MODULE_LIBRARY;SHARED_LIBRARY>>:LINKER:-undefined,dynamic_lookup>
     )
   endif()
 endif()

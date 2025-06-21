@@ -94,7 +94,20 @@ if(CMAKE_SYSTEM_NAME STREQUAL "AIX" AND EXISTS ${Apache_LIBEXECDIR}/httpd.exp)
     target_link_options(
       php_sapi_apache2handler
       PRIVATE
-        "$<$<PLATFORM_ID:AIX>LINKER:-brtl;LINKER:-bI${Apache_LIBEXECDIR}/httpd.exp>"
+        "$<$<LINKER_LANGUAGE:C>:LINKER:-brtl;LINKER:-bI${Apache_LIBEXECDIR}/httpd.exp>"
+    )
+  endif()
+
+  check_linker_flag(
+    CXX
+    "LINKER:-brtl;LINKER:-bI${Apache_LIBEXECDIR}/httpd.exp"
+    PHP_HAS_BRTL_FLAG_CXX
+  )
+  if(PHP_HAS_BRTL_FLAG_CXX)
+    target_link_options(
+      php_sapi_apache2handler
+      PRIVATE
+        "$<$<LINKER_LANGUAGE:CXX>:LINKER:-brtl;LINKER:-bI${Apache_LIBEXECDIR}/httpd.exp>"
     )
   endif()
 endif()

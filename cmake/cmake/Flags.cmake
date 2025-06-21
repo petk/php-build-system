@@ -289,7 +289,7 @@ if(PHP_ADDRESS_SANITIZER)
     target_link_options(
       php_config
       INTERFACE
-        $<$<COMPILE_LANGUAGE:ASM,C,CXX>:-fsanitize=address>
+        $<$<LINK_LANGUAGE:C,CXX>:-fsanitize=address>
     )
 
     target_compile_definitions(
@@ -336,7 +336,7 @@ if(PHP_UNDEFINED_SANITIZER)
     target_link_options(
       php_config
       INTERFACE
-        $<$<COMPILE_LANGUAGE:ASM,C,CXX>:-fsanitize=undefined;-fno-sanitize-recover=undefined>
+        $<$<LINK_LANGUAGE:C,CXX>:-fsanitize=undefined;-fno-sanitize-recover=undefined>
     )
 
     # Disable object-size sanitizer, because it is incompatible with the
@@ -368,7 +368,7 @@ if(PHP_UNDEFINED_SANITIZER)
       target_link_options(
         php_config
         INTERFACE
-          $<$<COMPILE_LANGUAGE:ASM,C,CXX>:-fno-sanitize=object-size>
+          $<$<LINK_LANGUAGE:C,CXX>:-fno-sanitize=object-size>
       )
     endif()
 
