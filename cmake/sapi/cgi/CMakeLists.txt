@@ -45,11 +45,9 @@ target_link_libraries(
     $<$<PLATFORM_ID:Windows>:ws2_32;kernel32;advapi32>
 )
 
-target_link_options(
-  php_sapi_cgi
-  PRIVATE
-    $<$<COMPILE_LANG_AND_ID:C,MSVC>:/stack:67108864>
-)
+if(MSVC)
+  target_link_options(php_sapi_cgi PRIVATE /stack:67108864)
+endif()
 
 set_target_properties(
   php_sapi_cgi

@@ -114,11 +114,9 @@ target_link_libraries(
     $<$<PLATFORM_ID:Windows>:ws2_32;shell32>
 )
 
-target_link_options(
-  php_sapi_cli
-  PRIVATE
-    $<$<COMPILE_LANG_AND_ID:C,MSVC>:/stack:67108864>
-)
+if(MSVC)
+  target_link_options(php_sapi_cli PRIVATE /stack:67108864)
+endif()
 
 set_target_properties(
   php_sapi_cli
@@ -188,11 +186,9 @@ if(PHP_SAPI_CLI_WIN_NO_CONSOLE)
       shell32
   )
 
-  target_link_options(
-    php_sapi_cli_win
-    PRIVATE
-      $<$<COMPILE_LANG_AND_ID:C,MSVC>:/stack:67108864>
-  )
+  if(MSVC)
+    target_link_options(php_sapi_cli_win PRIVATE /stack:67108864)
+  endif()
 endif()
 
 ################################################################################

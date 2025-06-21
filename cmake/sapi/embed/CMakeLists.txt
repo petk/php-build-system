@@ -102,6 +102,9 @@ php_pkgconfig_generate_pc(
     PHP_DEBUG "$<IF:$<CONFIG:Debug,DebugAssertions>,yes,no>"
     PHP_THREAD_SAFETY "$<IF:$<BOOL:$<TARGET_PROPERTY:PHP::config,PHP_THREAD_SAFETY>>,yes,no>"
     PHP_EMBED_SAPI_NAME "$<GENEX_EVAL:$<TARGET_PROPERTY:php_sapi_embed_shared,OUTPUT_NAME>>"
+    PHP_API_VERSION "${PHP_API_VERSION}"
+    PHP_ZEND_EXTENSION_API_NO "$<TARGET_PROPERTY:Zend::Zend,ZEND_EXTENSION_API_NO>"
+    PHP_ZEND_MODULE_API_NO "$<TARGET_PROPERTY:Zend::Zend,ZEND_MODULE_API_NO>"
 )
 
 install(

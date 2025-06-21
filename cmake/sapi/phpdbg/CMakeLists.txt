@@ -169,11 +169,9 @@ foreach(target IN ITEMS php_sapi_phpdbg php_sapi_phpdbg_shared)
   )
 endforeach()
 
-target_link_options(
-  php_sapi_phpdbg
-  PRIVATE
-    $<$<COMPILE_LANG_AND_ID:C,MSVC>:/stack:8388608>
-)
+if(MSVC)
+  target_link_options(php_sapi_phpdbg PRIVATE /stack:8388608)
+endif()
 
 set_target_properties(
   php_sapi_phpdbg
@@ -305,6 +303,9 @@ if(TARGET php_sapi_phpdbg_shared)
       PHP_DEBUG "$<IF:$<CONFIG:Debug,DebugAssertions>,yes,no>"
       PHP_THREAD_SAFETY "$<IF:$<BOOL:$<TARGET_PROPERTY:PHP::config,PHP_THREAD_SAFETY>>,yes,no>"
       PHP_PHPDBG_SAPI_NAME "$<GENEX_EVAL:$<TARGET_PROPERTY:php_sapi_phpdbg_shared,OUTPUT_NAME>>"
+      PHP_API_VERSION "${PHP_API_VERSION}"
+      PHP_ZEND_EXTENSION_API_NO "$<TARGET_PROPERTY:Zend::Zend,ZEND_EXTENSION_API_NO>"
+      PHP_ZEND_MODULE_API_NO "$<TARGET_PROPERTY:Zend::Zend,ZEND_MODULE_API_NO>"
   )
 
   install(
