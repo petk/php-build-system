@@ -85,6 +85,7 @@ target_sources(
     node.c
     nodelist.c
     notation.c
+    obj_map.c
     parentnode/css_selectors.c
     parentnode/tree.c
     php_dom.c
