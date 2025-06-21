@@ -27,25 +27,23 @@ Bypasses:
 Module exposes the following function:
 
 ```cmake
-php_check_compiler_flag(<lang> <flag> <result_var>)
+php_check_compiler_flag(<lang> <flags> <result_var>)
 ```
 
-Check that the <flag> is accepted by the <lang> compiler without issuing any
-diagnostic message. The result is stored in an internal cache entry named
-`<result_var>`. The language `<lang>` can be one of the supported languages by
-the CMake's `CheckCompilerFlag` module.
+Check that the given flag(s) specified in `<flags>` are accepted by the `<lang>`
+compiler without issuing any diagnostic message. The result is stored in an
+internal cache entry named `<result_var>`. The language `<lang>` can be one of
+the supported languages by the CMake's `CheckCompilerFlag` module. Multiple
+flags can be passed as a semicolon-separated list.
 
-For example:
+# Examples
 
-```cmake
-include(PHP/CheckCompilerFlag)
-
-php_check_compiler_flag(C -Wno-clobbered PHP_HAVE_WNO_CLOBBERED)
-```
-
-## Usage
+Usage example:
 
 ```cmake
 # CMakeLists.txt
+
 include(PHP/CheckCompilerFlag)
+
+php_check_compiler_flag(C -Wno-clobbered PHP_HAS_WNO_CLOBBERED)
 ```

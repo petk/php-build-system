@@ -25,27 +25,25 @@ Bypasses:
 Module exposes the following function:
 
 ```cmake
-php_check_compiler_flag(<lang> <flag> <result_var>)
+php_check_compiler_flag(<lang> <flags> <result_var>)
 ```
 
-Check that the <flag> is accepted by the <lang> compiler without issuing any
-diagnostic message. The result is stored in an internal cache entry named
-`<result_var>`. The language `<lang>` can be one of the supported languages by
-the CMake's `CheckCompilerFlag` module.
+Check that the given flag(s) specified in `<flags>` are accepted by the `<lang>`
+compiler without issuing any diagnostic message. The result is stored in an
+internal cache entry named `<result_var>`. The language `<lang>` can be one of
+the supported languages by the CMake's `CheckCompilerFlag` module. Multiple
+flags can be passed as a semicolon-separated list.
 
-For example:
+# Examples
 
-```cmake
-include(PHP/CheckCompilerFlag)
-
-php_check_compiler_flag(C -Wno-clobbered PHP_HAVE_WNO_CLOBBERED)
-```
-
-## Usage
+Usage example:
 
 ```cmake
 # CMakeLists.txt
+
 include(PHP/CheckCompilerFlag)
+
+php_check_compiler_flag(C -Wno-clobbered PHP_HAS_WNO_CLOBBERED)
 ```
 #]=============================================================================]
 
@@ -54,7 +52,7 @@ include_guard(GLOBAL)
 include(CheckCompilerFlag)
 include(CMakePushCheckState)
 
-function(php_check_compiler_flag lang flag result)
+function(php_check_compiler_flag lang flags result)
   cmake_parse_arguments(
     PARSE_ARGV
     3
@@ -78,7 +76,7 @@ function(php_check_compiler_flag lang flag result)
   endif()
 
   if(NOT CMAKE_REQUIRED_QUIET)
-    message(CHECK_START "Checking whether the ${lang} compiler accepts ${flag}")
+    message(CHECK_START "Checking whether the ${lang} compiler accepts ${flags}")
   endif()
 
   cmake_push_check_state()
@@ -86,19 +84,29 @@ function(php_check_compiler_flag lang flag result)
 
     # Bypass the '-Wno-*' compile options for all compilers except those known
     # to emit diagnostic messages for unknown -Wno-* flags.
-    if(
-      NOT CMAKE_${lang}_COMPILER_ID MATCHES "^(AppleClang|Clang|MSVC)$"
-      AND flag MATCHES "^-Wno-"
-      # Exclude the '-Wno-error' and '-Wno-attributes=*' flags.
-      AND NOT flag MATCHES "^-Wno-error(=|$)|^-Wno-attributes="
-    )
-      string(REGEX REPLACE "^-Wno-" "-W" flag ${flag})
-    endif()
+    set(processedFlags "")
+    foreach(flag IN LISTS flags)
+      if(
+        NOT CMAKE_${lang}_COMPILER_ID MATCHES "^(AppleClang|Clang|MSVC)$"
+        AND flag MATCHES "^-Wno-"
+        # Exclude the '-Wno-error' and '-Wno-attributes=*' flags.
+        AND NOT flag MATCHES "^-Wno-error(=|$)|^-Wno-attributes="
+      )
+        string(REGEX REPLACE "^-Wno-" "-W" flag "${flag}")
+      endif()
+
+      list(APPEND processedFlags "${flag}")
+    endforeach()
+    set(flags ${processedFlags})
 
     # Append -Wunknown-warning-option option if compiler supports it (Clang or
     # similar) and was by any chance configured with -Wno-unknown-warning-option
     # (via environment CFLAGS or CMAKE_C_FLAGS).
-    if(flag MATCHES "^-W")
+    foreach(flag IN LISTS flags)
+      if(NOT flag MATCHES "^-W")
+        continue()
+      endif()
+
       check_compiler_flag(
         ${lang}
         -Wunknown-warning-option
@@ -108,9 +116,11 @@ function(php_check_compiler_flag lang flag result)
       if(_php_check_compiler_flag_${lang}_unknown_warning_option)
         string(APPEND CMAKE_REQUIRED_FLAGS " -Wunknown-warning-option")
       endif()
-    endif()
 
-    check_compiler_flag(${lang} ${flag} ${result})
+      break()
+    endforeach()
+
+    check_compiler_flag(${lang} "${flags}" ${result})
   cmake_pop_check_state()
 
   if(NOT CMAKE_REQUIRED_QUIET)
