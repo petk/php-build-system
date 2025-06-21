@@ -77,12 +77,14 @@ target_sources(
 
 target_compile_definitions(php_ext_phar PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE)
 
-target_link_options(
-  php_ext_phar
-  PRIVATE
-    # Silence irrelevant-to-us warning in release builds.
-    $<$<AND:$<NOT:$<CONFIG:Debug,DebugAssertions>>,$<C_COMPILER_ID:MSVC>>:LINKER:/IGNORE:4089>
-)
+if(MSVC AND TODO)
+  target_link_options(
+    php_ext_phar
+    PRIVATE
+      # Silence irrelevant warning in release builds.
+      $<$<NOT:$<CONFIG:Debug,DebugAssertions>>:LINKER:/IGNORE:4089>
+  )
+endif()
 
 add_dependencies(php_ext_phar php_ext_hash php_ext_spl)
 

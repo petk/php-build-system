@@ -80,7 +80,7 @@ if(LIB_FUZZING_ENGINE OR DEFINED ENV{LIB_FUZZING_ENGINE})
   target_link_options(
     php_sapi_fuzzer
     INTERFACE
-      "$<$<COMPILE_LANGUAGE:ASM,C,CXX>:${libFuzzingEngine}>"
+      "$<$<LINK_LANGUAGE:C,CXX>:${libFuzzingEngine}>"
   )
 else()
   cmake_push_check_state(RESET)
@@ -124,7 +124,7 @@ else()
   target_link_options(
     php_sapi_fuzzer
     INTERFACE
-      $<$<COMPILE_LANGUAGE:ASM,C,CXX>:-fsanitize=fuzzer>
+      $<$<LINK_LANGUAGE:C,CXX>:-fsanitize=fuzzer>
   )
 endif()
 

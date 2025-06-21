@@ -48,7 +48,7 @@ if(PHP_HAS_ALIGNMENT_FLAGS_C)
   target_link_options(
     php_config
     INTERFACE
-      $<$<AND:$<STREQUAL:$<TARGET_PROPERTY:TYPE>,EXECUTABLE>,$<LINK_LANGUAGE:ASM,C>>:LINKER:-z,common-page-size=2097152;LINKER:-z,max-page-size=2097152>
+      $<$<AND:$<STREQUAL:$<TARGET_PROPERTY:TYPE>,EXECUTABLE>,$<LINK_LANGUAGE:C>>:LINKER:-z,common-page-size=2097152;LINKER:-z,max-page-size=2097152>
   )
 else()
   cmake_push_check_state(RESET)
@@ -69,7 +69,7 @@ else()
     target_link_options(
       php_config
       INTERFACE
-        $<$<AND:$<STREQUAL:$<TARGET_PROPERTY:TYPE>,EXECUTABLE>,$<LINK_LANGUAGE:ASM,C>>:LINKER:-z,max-page-size=2097152>
+        $<$<AND:$<STREQUAL:$<TARGET_PROPERTY:TYPE>,EXECUTABLE>,$<LINK_LANGUAGE:C>>:LINKER:-z,max-page-size=2097152>
     )
   endif()
 endif()

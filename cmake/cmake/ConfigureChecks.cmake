@@ -2,6 +2,12 @@
 Project-wide configuration checks.
 #]=============================================================================]
 
+message(STATUS "")
+message(STATUS "")
+message(STATUS "Running system checks")
+message(STATUS "=====================")
+message(STATUS "")
+
 include_guard(GLOBAL)
 
 include(CheckFunctionExists)
