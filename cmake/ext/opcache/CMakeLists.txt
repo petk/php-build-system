@@ -83,7 +83,7 @@ endif()
 # Add library.
 ################################################################################
 
-add_library(php_ext_opcache SHARED)
+add_library(php_ext_opcache MODULE)
 
 target_sources(
   php_ext_opcache

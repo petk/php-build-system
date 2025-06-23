@@ -51,7 +51,7 @@ if(NOT PHP_EXT_PDO)
 endif()
 
 if(PHP_EXT_PDO_SHARED)
-  add_library(php_ext_pdo SHARED)
+  add_library(php_ext_pdo MODULE)
 else()
   add_library(php_ext_pdo)
 endif()

@@ -144,7 +144,7 @@ if(NOT PHP_EXT_OPENSSL)
 endif()
 
 if(PHP_EXT_OPENSSL_SHARED)
-  add_library(php_ext_openssl SHARED)
+  add_library(php_ext_openssl MODULE)
 else()
   add_library(php_ext_openssl)
 endif()

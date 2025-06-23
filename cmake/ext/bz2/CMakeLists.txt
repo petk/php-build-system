@@ -54,7 +54,7 @@ if(NOT PHP_EXT_BZ2)
 endif()
 
 if(PHP_EXT_BZ2_SHARED)
-  add_library(php_ext_bz2 SHARED)
+  add_library(php_ext_bz2 MODULE)
 else()
   add_library(php_ext_bz2)
 endif()

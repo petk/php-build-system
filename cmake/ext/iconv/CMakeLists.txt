@@ -55,7 +55,7 @@ if(NOT PHP_EXT_ICONV)
 endif()
 
 if(PHP_EXT_ICONV_SHARED)
-  add_library(php_ext_iconv SHARED)
+  add_library(php_ext_iconv MODULE)
 else()
   add_library(php_ext_iconv)
 endif()

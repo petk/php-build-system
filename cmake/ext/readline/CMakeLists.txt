@@ -57,7 +57,7 @@ if(NOT PHP_EXT_READLINE)
 endif()
 
 if(PHP_EXT_READLINE_SHARED)
-  add_library(php_ext_readline SHARED)
+  add_library(php_ext_readline MODULE)
 else()
   add_library(php_ext_readline)
 endif()

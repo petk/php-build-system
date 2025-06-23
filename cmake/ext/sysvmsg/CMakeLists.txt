@@ -70,7 +70,7 @@ if(NOT PHP_HAS_SYS_MSG_H)
 endif()
 
 if(PHP_EXT_SYSVMSG_SHARED)
-  add_library(php_ext_sysvmsg SHARED)
+  add_library(php_ext_sysvmsg MODULE)
 else()
   add_library(php_ext_sysvmsg)
 endif()

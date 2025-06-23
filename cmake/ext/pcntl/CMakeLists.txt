@@ -68,7 +68,7 @@ if(NOT PHP_EXT_PCNTL)
 endif()
 
 if(PHP_EXT_PCNTL_SHARED)
-  add_library(php_ext_pcntl SHARED)
+  add_library(php_ext_pcntl MODULE)
 else()
   add_library(php_ext_pcntl)
 endif()

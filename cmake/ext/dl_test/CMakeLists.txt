@@ -38,7 +38,7 @@ if(NOT PHP_EXT_DL_TEST)
 endif()
 
 # The dl_test extension can be built only as a shared library.
-add_library(php_ext_dl_test SHARED)
+add_library(php_ext_dl_test MODULE)
 target_sources(
   php_ext_dl_test
   PRIVATE

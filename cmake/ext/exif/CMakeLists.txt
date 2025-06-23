@@ -51,7 +51,7 @@ if(NOT PHP_EXT_EXIF)
 endif()
 
 if(PHP_EXT_EXIF_SHARED)
-  add_library(php_ext_exif SHARED)
+  add_library(php_ext_exif MODULE)
 else()
   add_library(php_ext_exif)
 endif()

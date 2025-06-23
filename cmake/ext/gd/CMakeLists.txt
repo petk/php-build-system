@@ -204,7 +204,7 @@ if(NOT PHP_EXT_GD)
 endif()
 
 if(PHP_EXT_GD_SHARED)
-  add_library(php_ext_gd SHARED)
+  add_library(php_ext_gd MODULE)
 else()
   add_library(php_ext_gd)
 endif()

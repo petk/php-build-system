@@ -73,7 +73,7 @@ if(NOT PHP_EXT_SESSION)
 endif()
 
 if(PHP_EXT_SESSION_SHARED)
-  add_library(php_ext_session SHARED)
+  add_library(php_ext_session MODULE)
 else()
   add_library(php_ext_session)
 endif()

@@ -51,7 +51,7 @@ if(NOT PHP_EXT_XMLREADER)
 endif()
 
 if(PHP_EXT_XMLREADER_SHARED)
-  add_library(php_ext_xmlreader SHARED)
+  add_library(php_ext_xmlreader MODULE)
 else()
   add_library(php_ext_xmlreader)
 endif()

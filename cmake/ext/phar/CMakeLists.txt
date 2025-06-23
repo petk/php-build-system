@@ -55,7 +55,7 @@ endif()
 ################################################################################
 
 if(PHP_EXT_PHAR_SHARED)
-  add_library(php_ext_phar SHARED)
+  add_library(php_ext_phar MODULE)
 else()
   add_library(php_ext_phar)
 endif()

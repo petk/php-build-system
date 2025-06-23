@@ -60,7 +60,7 @@ if(NOT PHP_EXT_SYSVSEM)
 endif()
 
 if(PHP_EXT_SYSVSEM_SHARED)
-  add_library(php_ext_sysvsem SHARED)
+  add_library(php_ext_sysvsem MODULE)
 else()
   add_library(php_ext_sysvsem)
 endif()

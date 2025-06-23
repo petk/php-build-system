@@ -78,7 +78,7 @@ endif()
 ################################################################################
 
 if(PHP_EXT_MBSTRING_SHARED)
-  add_library(php_ext_mbstring SHARED)
+  add_library(php_ext_mbstring MODULE)
 else()
   add_library(php_ext_mbstring)
 endif()
