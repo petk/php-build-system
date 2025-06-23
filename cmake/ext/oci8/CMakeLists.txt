@@ -94,7 +94,7 @@ if(NOT PHP_EXT_OCI8)
 endif()
 
 if(PHP_EXT_OCI8_SHARED)
-  add_library(php_ext_oci8 SHARED)
+  add_library(php_ext_oci8 MODULE)
 else()
   add_library(php_ext_oci8)
 endif()

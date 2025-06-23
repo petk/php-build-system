@@ -52,7 +52,7 @@ if(NOT PHP_EXT_PDO_DBLIB)
 endif()
 
 if(PHP_EXT_PDO_DBLIB_SHARED)
-  add_library(php_ext_pdo_dblib SHARED)
+  add_library(php_ext_pdo_dblib MODULE)
 else()
   add_library(php_ext_pdo_dblib)
 endif()

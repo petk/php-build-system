@@ -53,7 +53,7 @@ if(NOT PHP_EXT_PDO_SQLITE)
 endif()
 
 if(PHP_EXT_PDO_SQLITE_SHARED)
-  add_library(php_ext_pdo_sqlite SHARED)
+  add_library(php_ext_pdo_sqlite MODULE)
 else()
   add_library(php_ext_pdo_sqlite)
 endif()

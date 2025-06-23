@@ -54,7 +54,7 @@ if(NOT PHP_EXT_PSPELL)
 endif()
 
 if(PHP_EXT_PSPELL_SHARED)
-  add_library(php_ext_pspell SHARED)
+  add_library(php_ext_pspell MODULE)
 else()
   add_library(php_ext_pspell)
 endif()

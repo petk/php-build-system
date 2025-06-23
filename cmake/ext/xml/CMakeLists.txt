@@ -72,7 +72,7 @@ if(NOT PHP_EXT_XML)
 endif()
 
 if(PHP_EXT_XML_SHARED)
-  add_library(php_ext_xml SHARED)
+  add_library(php_ext_xml MODULE)
 else()
   add_library(php_ext_xml)
 endif()

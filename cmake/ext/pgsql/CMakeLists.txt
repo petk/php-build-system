@@ -53,7 +53,7 @@ if(NOT PHP_EXT_PGSQL)
 endif()
 
 if(PHP_EXT_PGSQL_SHARED)
-  add_library(php_ext_pgsql SHARED)
+  add_library(php_ext_pgsql MODULE)
 else()
   add_library(php_ext_pgsql)
 endif()

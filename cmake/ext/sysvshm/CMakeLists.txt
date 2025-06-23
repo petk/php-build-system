@@ -51,7 +51,7 @@ if(NOT PHP_EXT_SYSVSHM)
 endif()
 
 if(PHP_EXT_SYSVSHM_SHARED)
-  add_library(php_ext_sysvshm SHARED)
+  add_library(php_ext_sysvshm MODULE)
 else()
   add_library(php_ext_sysvshm)
 endif()

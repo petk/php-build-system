@@ -93,7 +93,7 @@ if(NOT PHP_EXT_MYSQLI)
 endif()
 
 if(PHP_EXT_MYSQLI_SHARED)
-  add_library(php_ext_mysqli SHARED)
+  add_library(php_ext_mysqli MODULE)
 else()
   add_library(php_ext_mysqli)
 endif()

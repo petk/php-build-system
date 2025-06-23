@@ -51,7 +51,7 @@ if(NOT PHP_EXT_CALENDAR)
 endif()
 
 if(PHP_EXT_CALENDAR_SHARED)
-  add_library(php_ext_calendar SHARED)
+  add_library(php_ext_calendar MODULE)
 else()
   add_library(php_ext_calendar)
 endif()

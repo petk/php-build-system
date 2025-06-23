@@ -53,7 +53,7 @@ if(NOT PHP_EXT_SODIUM)
 endif()
 
 if(PHP_EXT_SODIUM_SHARED)
-  add_library(php_ext_sodium SHARED)
+  add_library(php_ext_sodium MODULE)
 else()
   add_library(php_ext_sodium)
 endif()

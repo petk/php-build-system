@@ -82,7 +82,7 @@ if(NOT PHP_EXT_IMAP)
 endif()
 
 if(PHP_EXT_IMAP_SHARED)
-  add_library(php_ext_imap SHARED)
+  add_library(php_ext_imap MODULE)
 else()
   add_library(php_ext_imap)
 endif()

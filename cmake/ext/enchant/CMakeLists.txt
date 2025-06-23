@@ -53,7 +53,7 @@ if(NOT PHP_EXT_ENCHANT)
 endif()
 
 if(PHP_EXT_ENCHANT_SHARED)
-  add_library(php_ext_enchant SHARED)
+  add_library(php_ext_enchant MODULE)
 else()
   add_library(php_ext_enchant)
 endif()

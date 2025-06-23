@@ -51,7 +51,7 @@ if(NOT PHP_EXT_SOAP)
 endif()
 
 if(PHP_EXT_SOAP_SHARED)
-  add_library(php_ext_soap SHARED)
+  add_library(php_ext_soap MODULE)
 else()
   add_library(php_ext_soap)
 endif()

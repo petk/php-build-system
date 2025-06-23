@@ -56,7 +56,7 @@ if(NOT PHP_EXT_SOCKETS)
 endif()
 
 if(PHP_EXT_SOCKETS_SHARED)
-  add_library(php_ext_sockets SHARED)
+  add_library(php_ext_sockets MODULE)
 else()
   add_library(php_ext_sockets)
 endif()

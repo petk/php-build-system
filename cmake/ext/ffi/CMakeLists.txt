@@ -55,7 +55,7 @@ if(NOT PHP_EXT_FFI)
 endif()
 
 if(PHP_EXT_FFI_SHARED)
-  add_library(php_ext_ffi SHARED)
+  add_library(php_ext_ffi MODULE)
 else()
   add_library(php_ext_ffi)
 endif()

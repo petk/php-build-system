@@ -62,7 +62,7 @@ if(NOT PHP_EXT_POSIX)
 endif()
 
 if(PHP_EXT_POSIX_SHARED)
-  add_library(php_ext_posix SHARED)
+  add_library(php_ext_posix MODULE)
 else()
   add_library(php_ext_posix)
 endif()

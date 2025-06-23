@@ -78,7 +78,7 @@ if(NOT PHP_EXT_PDO_MYSQL)
 endif()
 
 if(PHP_EXT_PDO_MYSQL_SHARED)
-  add_library(php_ext_pdo_mysql SHARED)
+  add_library(php_ext_pdo_mysql MODULE)
 else()
   add_library(php_ext_pdo_mysql)
 endif()

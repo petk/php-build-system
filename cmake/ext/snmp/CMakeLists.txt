@@ -53,7 +53,7 @@ if(NOT PHP_EXT_SNMP)
 endif()
 
 if(PHP_EXT_SNMP_SHARED)
-  add_library(php_ext_snmp SHARED)
+  add_library(php_ext_snmp MODULE)
 else()
   add_library(php_ext_snmp)
 endif()

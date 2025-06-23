@@ -53,7 +53,7 @@ if(NOT PHP_EXT_PDO_FIREBIRD)
 endif()
 
 if(PHP_EXT_PDO_FIREBIRD_SHARED)
-  add_library(php_ext_pdo_firebird SHARED)
+  add_library(php_ext_pdo_firebird MODULE)
 else()
   add_library(php_ext_pdo_firebird)
 endif()

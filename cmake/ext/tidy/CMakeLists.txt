@@ -55,7 +55,7 @@ if(NOT PHP_EXT_TIDY)
 endif()
 
 if(PHP_EXT_TIDY_SHARED)
-  add_library(php_ext_tidy SHARED)
+  add_library(php_ext_tidy MODULE)
 else()
   add_library(php_ext_tidy)
 endif()

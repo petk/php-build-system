@@ -54,7 +54,7 @@ if(NOT PHP_EXT_CURL)
 endif()
 
 if(PHP_EXT_CURL_SHARED)
-  add_library(php_ext_curl SHARED)
+  add_library(php_ext_curl MODULE)
 else()
   add_library(php_ext_curl)
 endif()

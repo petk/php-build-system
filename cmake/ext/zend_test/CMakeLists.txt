@@ -51,7 +51,7 @@ if(NOT PHP_EXT_ZEND_TEST)
 endif()
 
 if(PHP_EXT_ZEND_TEST_SHARED)
-  add_library(php_ext_zend_test SHARED)
+  add_library(php_ext_zend_test MODULE)
 else()
   add_library(php_ext_zend_test)
 endif()

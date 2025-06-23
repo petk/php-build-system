@@ -51,7 +51,7 @@ if(NOT PHP_EXT_PDO_OCI)
 endif()
 
 if(PHP_EXT_PDO_OCI_SHARED)
-  add_library(php_ext_pdo_oci SHARED)
+  add_library(php_ext_pdo_oci MODULE)
 else()
   add_library(php_ext_pdo_oci)
 endif()

@@ -52,7 +52,7 @@ if(NOT PHP_EXT_CTYPE)
 endif()
 
 if(PHP_EXT_CTYPE_SHARED)
-  add_library(php_ext_ctype SHARED)
+  add_library(php_ext_ctype MODULE)
 else()
   add_library(php_ext_ctype)
 endif()

@@ -52,7 +52,7 @@ if(NOT PHP_EXT_ZLIB)
 endif()
 
 if(PHP_EXT_ZLIB_SHARED)
-  add_library(php_ext_zlib SHARED)
+  add_library(php_ext_zlib MODULE)
 else()
   add_library(php_ext_zlib)
 endif()
