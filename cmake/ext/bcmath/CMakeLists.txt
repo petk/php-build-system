@@ -51,7 +51,7 @@ if(NOT PHP_EXT_BCMATH)
 endif()
 
 if(PHP_EXT_BCMATH_SHARED)
-  add_library(php_ext_bcmath SHARED)
+  add_library(php_ext_bcmath MODULE)
 else()
   add_library(php_ext_bcmath)
 endif()

@@ -55,7 +55,7 @@ endif()
 enable_language(CXX)
 
 if(PHP_EXT_PDO_FIREBIRD_SHARED)
-  add_library(php_ext_pdo_firebird SHARED)
+  add_library(php_ext_pdo_firebird MODULE)
 else()
   add_library(php_ext_pdo_firebird)
 endif()

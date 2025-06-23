@@ -53,7 +53,7 @@ if(NOT PHP_EXT_ZIP)
 endif()
 
 if(PHP_EXT_ZIP_SHARED)
-  add_library(php_ext_zip SHARED)
+  add_library(php_ext_zip MODULE)
 else()
   add_library(php_ext_zip)
 endif()

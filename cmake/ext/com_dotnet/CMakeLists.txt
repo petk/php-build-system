@@ -59,7 +59,7 @@ if(NOT PHP_EXT_COM_DOTNET)
 endif()
 
 if(PHP_EXT_COM_DOTNET_SHARED)
-  add_library(php_ext_com_dotnet SHARED)
+  add_library(php_ext_com_dotnet MODULE)
 else()
   add_library(php_ext_com_dotnet)
 endif()

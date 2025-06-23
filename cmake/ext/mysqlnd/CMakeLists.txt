@@ -99,7 +99,7 @@ if(NOT PHP_EXT_MYSQLND)
 endif()
 
 if(PHP_EXT_MYSQLND_SHARED)
-  add_library(php_ext_mysqlnd SHARED)
+  add_library(php_ext_mysqlnd MODULE)
 else()
   add_library(php_ext_mysqlnd)
 endif()

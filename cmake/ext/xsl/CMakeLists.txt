@@ -52,7 +52,7 @@ if(NOT PHP_EXT_XSL)
 endif()
 
 if(PHP_EXT_XSL_SHARED)
-  add_library(php_ext_xsl SHARED)
+  add_library(php_ext_xsl MODULE)
 else()
   add_library(php_ext_xsl)
 endif()

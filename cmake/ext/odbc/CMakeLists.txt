@@ -278,7 +278,7 @@ if(NOT PHP_EXT_ODBC)
 endif()
 
 if(PHP_EXT_ODBC_SHARED)
-  add_library(php_ext_odbc SHARED)
+  add_library(php_ext_odbc MODULE)
 else()
   add_library(php_ext_odbc)
 endif()

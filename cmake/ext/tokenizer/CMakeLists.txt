@@ -52,7 +52,7 @@ if(NOT PHP_EXT_TOKENIZER)
 endif()
 
 if(PHP_EXT_TOKENIZER_SHARED)
-  add_library(php_ext_tokenizer SHARED)
+  add_library(php_ext_tokenizer MODULE)
 else()
   add_library(php_ext_tokenizer)
 endif()

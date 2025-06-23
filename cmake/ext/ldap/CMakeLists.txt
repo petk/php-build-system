@@ -70,7 +70,7 @@ if(NOT PHP_EXT_LDAP)
 endif()
 
 if(PHP_EXT_LDAP_SHARED)
-  add_library(php_ext_ldap SHARED)
+  add_library(php_ext_ldap MODULE)
 else()
   add_library(php_ext_ldap)
 endif()

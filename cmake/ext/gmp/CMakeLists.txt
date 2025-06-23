@@ -51,7 +51,7 @@ if(NOT PHP_EXT_GMP)
 endif()
 
 if(PHP_EXT_GMP_SHARED)
-  add_library(php_ext_gmp SHARED)
+  add_library(php_ext_gmp MODULE)
 else()
   add_library(php_ext_gmp)
 endif()

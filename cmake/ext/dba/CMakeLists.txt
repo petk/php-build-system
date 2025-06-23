@@ -290,7 +290,7 @@ if(NOT PHP_EXT_DBA)
 endif()
 
 if(PHP_EXT_DBA_SHARED)
-  add_library(php_ext_dba SHARED)
+  add_library(php_ext_dba MODULE)
 else()
   add_library(php_ext_dba)
 endif()

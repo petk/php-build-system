@@ -51,7 +51,7 @@ if(NOT PHP_EXT_SIMPLEXML)
 endif()
 
 if(PHP_EXT_SIMPLEXML_SHARED)
-  add_library(php_ext_simplexml SHARED)
+  add_library(php_ext_simplexml MODULE)
 else()
   add_library(php_ext_simplexml)
 endif()

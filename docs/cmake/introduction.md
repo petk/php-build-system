@@ -322,13 +322,13 @@ project. There are primarily two types: libraries and executables.
 add_executable(php php.c php_2.c ...)
 
 # Create a library target
-add_library(extension extension.c src.c ...)
+add_library(extension library.c src.c ...)
 ```
 
 Library can also have a type specified. For example, a shared library:
 
 ```cmake
-add_library(extension SHARED extension.c src.c)
+add_library(extension SHARED library.c src.c)
 ```
 
 > [!IMPORTANT]
@@ -378,15 +378,15 @@ gcc -c -o src.o src.c
 ### 5.3. SHARED library
 
 CMake automatically adds sensible linker flags when building `SHARED` library.
-For example, `-shared`, `-Wl,-soname,extension.so`, position-independent code
+For example, `-shared`, `-Wl,-soname,library.so`, position-independent code
 flag `-fPIC`, and similar.
 
 ```sh
 # Compile each source file to a binary object file with the -fPIC
-gcc -fPIC -c -o extension.o extension.c
+gcc -fPIC -c -o library.o library.c
 gcc -fPIC -c -o src.o src.c
 # Generate shared object from object files
-gcc -fPIC -shared -Wl,-soname,extension.so -o extension.so extension.o src.o
+gcc -fPIC -shared -Wl,-soname,library.so -o library.so library.o src.o
 ```
 
 ### 5.4. MODULE library

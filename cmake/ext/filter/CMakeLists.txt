@@ -51,7 +51,7 @@ if(NOT PHP_EXT_FILTER)
 endif()
 
 if(PHP_EXT_FILTER_SHARED)
-  add_library(php_ext_filter SHARED)
+  add_library(php_ext_filter MODULE)
 else()
   add_library(php_ext_filter)
 endif()

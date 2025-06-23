@@ -67,9 +67,10 @@ if(NOT PHP_EXT_%EXTNAMECAPS%)
   return()
 endif()
 
-# Add a target to be built as a SHARED or STATIC library.
+# Add a target to be built as a dynamically loadable module (shared extension),
+# or statically.
 if(PHP_EXT_%EXTNAMECAPS%_SHARED)
-  add_library(php_ext_%EXTNAME% SHARED)
+  add_library(php_ext_%EXTNAME% MODULE)
 else()
   add_library(php_ext_%EXTNAME%)
 endif()

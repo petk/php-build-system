@@ -52,7 +52,7 @@ if(NOT PHP_EXT_DOM)
 endif()
 
 if(PHP_EXT_DOM_SHARED)
-  add_library(php_ext_dom SHARED)
+  add_library(php_ext_dom MODULE)
 else()
   add_library(php_ext_dom)
 endif()

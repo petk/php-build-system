@@ -136,7 +136,7 @@ if(NOT PHP_EXT_PDO_ODBC)
 endif()
 
 if(PHP_EXT_PDO_ODBC_SHARED)
-  add_library(php_ext_pdo_odbc SHARED)
+  add_library(php_ext_pdo_odbc MODULE)
 else()
   add_library(php_ext_pdo_odbc)
 endif()

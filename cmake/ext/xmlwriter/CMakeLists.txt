@@ -51,7 +51,7 @@ if(NOT PHP_EXT_XMLWRITER)
 endif()
 
 if(PHP_EXT_XMLWRITER_SHARED)
-  add_library(php_ext_xmlwriter SHARED)
+  add_library(php_ext_xmlwriter MODULE)
 else()
   add_library(php_ext_xmlwriter)
 endif()

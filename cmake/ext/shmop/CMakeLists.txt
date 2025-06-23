@@ -51,7 +51,7 @@ if(NOT PHP_EXT_SHMOP)
 endif()
 
 if(PHP_EXT_SHMOP_SHARED)
-  add_library(php_ext_shmop SHARED)
+  add_library(php_ext_shmop MODULE)
 else()
   add_library(php_ext_shmop)
 endif()

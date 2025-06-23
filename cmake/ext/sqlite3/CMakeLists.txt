@@ -53,7 +53,7 @@ if(NOT PHP_EXT_SQLITE3)
 endif()
 
 if(PHP_EXT_SQLITE3_SHARED)
-  add_library(php_ext_sqlite3 SHARED)
+  add_library(php_ext_sqlite3 MODULE)
 else()
   add_library(php_ext_sqlite3)
 endif()

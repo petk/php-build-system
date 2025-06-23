@@ -54,7 +54,7 @@ if(NOT PHP_EXT_GETTEXT)
 endif()
 
 if(PHP_EXT_GETTEXT_SHARED)
-  add_library(php_ext_gettext SHARED)
+  add_library(php_ext_gettext MODULE)
 else()
   add_library(php_ext_gettext)
 endif()

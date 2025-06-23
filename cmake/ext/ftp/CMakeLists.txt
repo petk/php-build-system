@@ -66,7 +66,7 @@ if(NOT PHP_EXT_FTP)
 endif()
 
 if(PHP_EXT_FTP_SHARED)
-  add_library(php_ext_ftp SHARED)
+  add_library(php_ext_ftp MODULE)
 else()
   add_library(php_ext_ftp)
 endif()

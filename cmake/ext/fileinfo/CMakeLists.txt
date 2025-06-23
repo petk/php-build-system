@@ -54,7 +54,7 @@ if(NOT PHP_EXT_FILEINFO)
 endif()
 
 if(PHP_EXT_FILEINFO_SHARED)
-  add_library(php_ext_fileinfo SHARED)
+  add_library(php_ext_fileinfo MODULE)
 else()
   add_library(php_ext_fileinfo)
 endif()
