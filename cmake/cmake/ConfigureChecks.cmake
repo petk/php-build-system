@@ -849,7 +849,7 @@ if(PHP_DTRACE)
     )
 
     target_link_libraries(php_config INTERFACE DTrace::DTrace)
-    target_link_libraries(php_sapi INTERFACE php_dtrace)
+    target_link_libraries(php_core_objects INTERFACE php_dtrace)
 
     set(HAVE_DTRACE TRUE)
   endif()

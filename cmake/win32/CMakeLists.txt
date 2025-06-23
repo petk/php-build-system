@@ -94,9 +94,13 @@ target_compile_definitions(
     # For Zend Engine, same as PHP_WIN32.
     ZEND_WIN32
 
+    # Obsolete in favor of PHP_WIN32.
+    WINDOWS
+
     _MBCS
     _USE_MATH_DEFINES
-    PHP_EXPORTS
+
+    $<$<AND:$<PLATFORM_ID:Windows>,$<IN_LIST:$<TARGET_PROPERTY:TYPE>,OBJECT_LIBRARY;STATIC_LIBRARY>>:PHP_EXPORTS>
 
     # The time_t defaults to 64-bit. Force 32-bit time_t on 32-bit architecture.
     # This was historically added to PHP as Visual Studio 2005 set 64-bit time_t
@@ -104,6 +108,10 @@ target_compile_definitions(
     # compilers. This and duplicate definition in the configuration header
     # should be removed at some point.
     $<$<EQUAL:${CMAKE_SIZEOF_VOID_P},4>:_USE_32BIT_TIME_T=1>
+
+    $<$<AND:$<PLATFORM_ID:Windows>,$<IN_LIST:$<TARGET_PROPERTY:TYPE>,OBJECT_LIBRARY;STATIC_LIBRARY>>:WINVER=0x0602>
+
+    $<$<AND:$<PLATFORM_ID:Windows>,$<IN_LIST:$<TARGET_PROPERTY:TYPE>,OBJECT_LIBRARY;STATIC_LIBRARY>>:_USRDLL>
 )
 
 target_compile_options(
@@ -112,6 +120,19 @@ target_compile_options(
     # MS deprecated ANSI stdio and similar functions. Disable warnings.
     $<$<COMPILE_LANG_AND_ID:C,MSVC>:/wd4996>
     $<$<COMPILE_LANG_AND_ID:CXX,MSVC>:/wd4996>
+
+    $<$<COMPILE_LANGUAGE:C,CXX>:/Zc:inline>
+    $<$<COMPILE_LANGUAGE:C,CXX>:/Zc:__cplusplus>
+    $<$<COMPILE_LANGUAGE:C,CXX>:/Zc:preprocessor>
+    $<$<COMPILE_LANGUAGE:C,CXX>:/Zc:wchar_t>
+
+    $<$<COMPILE_LANGUAGE:C,CXX>:/FD>
+)
+
+target_link_options(
+  php_config
+  INTERFACE
+    $<$<AND:$<PLATFORM_ID:Windows>,$<IN_LIST:$<TARGET_PROPERTY:TYPE>,MODULE_LIBRARY;SHARED_LIBRARY>,$<LINK_LANGUAGE:C,CXX>>:/dll>
 )
 
 target_link_libraries(
@@ -128,8 +149,8 @@ target_link_libraries(
     ws2_32
 )
 
-target_link_libraries(php_sapi INTERFACE PHP::windows)
-target_sources(php_sapi INTERFACE $<TARGET_OBJECTS:PHP::windows>)
+target_link_libraries(php_core_objects INTERFACE PHP::windows)
+target_sources(php_core_objects INTERFACE $<TARGET_OBJECTS:PHP::windows>)
 
 ################################################################################
 # Generate wsyslog.h file with message compiler (mc).

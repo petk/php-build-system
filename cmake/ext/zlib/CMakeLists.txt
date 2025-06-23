@@ -69,10 +69,10 @@ target_sources(
 get_target_property(type php_ext_zlib TYPE)
 if(
   CMAKE_SYSTEM_NAME STREQUAL "Windows"
-  AND TARGET php_sapi
+  AND TARGET php_core_library
   AND NOT type MATCHES "^(MODULE|SHARED)_LIBRARY$"
 )
-  target_sources(php_sapi INTERFACE php_zlib.def)
+  target_sources(php_core_library PRIVATE php_zlib.def)
 endif()
 
 target_compile_definitions(php_ext_zlib PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE)

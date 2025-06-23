@@ -74,10 +74,10 @@ target_sources(
 get_target_property(type php_ext_iconv TYPE)
 if(
   CMAKE_SYSTEM_NAME STREQUAL "Windows"
-  AND TARGET php_sapi
+  AND TARGET php_core_library
   AND NOT type MATCHES "^(MODULE|SHARED)_LIBRARY$"
 )
-  target_sources(php_sapi INTERFACE php_iconv.def)
+  target_sources(php_core_library PRIVATE php_iconv.def)
 endif()
 
 target_compile_definitions(

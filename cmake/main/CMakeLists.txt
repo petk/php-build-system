@@ -111,7 +111,7 @@ target_sources(
 target_compile_definitions(
   php_config
   INTERFACE
-    $<$<PLATFORM_ID:Windows>:SAPI_EXPORTS>
+    $<$<AND:$<PLATFORM_ID:Windows>,$<IN_LIST:$<TARGET_PROPERTY:TYPE>,OBJECT_LIBRARY;STATIC_LIBRARY>>:SAPI_EXPORTS>
 )
 
 target_include_directories(
@@ -123,8 +123,8 @@ target_include_directories(
     ${CMAKE_CURRENT_SOURCE_DIR}
 )
 
-target_link_libraries(php_sapi INTERFACE PHP::main)
-target_sources(php_sapi INTERFACE $<TARGET_OBJECTS:PHP::main>)
+target_link_libraries(php_core_objects INTERFACE PHP::main)
+target_sources(php_core_objects INTERFACE $<TARGET_OBJECTS:PHP::main>)
 
 ################################################################################
 # Add FastCGI target with objects for use in PHP SAPIs such as CGI and FPM.
@@ -132,7 +132,7 @@ target_sources(php_sapi INTERFACE $<TARGET_OBJECTS:PHP::main>)
 add_library(php_main_fastcgi OBJECT fastcgi.c)
 
 target_sources(
-  php_sapi
+  php_core
   INTERFACE
     $<$<BOOL:$<TARGET_PROPERTY:PHP_SAPI_FASTCGI>>:$<TARGET_OBJECTS:php_main_fastcgi>>
 )
@@ -146,7 +146,7 @@ add_library(php_main_internal_functions OBJECT internal_functions.c)
 add_library(php_main_internal_functions_cli OBJECT internal_functions_cli.c)
 
 target_sources(
-  php_sapi
+  php_core_objects
   INTERFACE
     $<IF:$<BOOL:$<TARGET_PROPERTY:PHP_CLI>>,$<TARGET_OBJECTS:php_main_internal_functions_cli>,$<TARGET_OBJECTS:php_main_internal_functions>>
 )

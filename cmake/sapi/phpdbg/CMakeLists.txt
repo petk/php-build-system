@@ -156,7 +156,7 @@ foreach(target IN ITEMS php_sapi_phpdbg php_sapi_phpdbg_shared)
   target_link_libraries(
     ${target}
     PRIVATE
-      $<BUILD_INTERFACE:PHP::sapi>
+      $<BUILD_INTERFACE:PHP::core>
       $<$<PLATFORM_ID:Windows>:ws2_32;user32>
   )
 
@@ -164,7 +164,6 @@ foreach(target IN ITEMS php_sapi_phpdbg php_sapi_phpdbg_shared)
     ${target}
     PROPERTIES
       OUTPUT_NAME ${PHP_PROGRAM_PREFIX}phpdbg${PHP_PROGRAM_SUFFIX}
-      ENABLE_EXPORTS TRUE # TODO: Check if there's a better solution.
       PHP_CLI TRUE
   )
 endforeach()

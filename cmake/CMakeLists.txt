@@ -56,10 +56,35 @@ target_include_directories(
     ${PHP_SOURCE_DIR}
 )
 
-# Interface library that ties objects and configuration together for PHP SAPIs.
-add_library(php_sapi INTERFACE)
-add_library(PHP::sapi ALIAS php_sapi)
-target_link_libraries(php_sapi INTERFACE PHP::config)
+# Create PHP core library that ties objects and configuration together for PHP
+# SAPIs and shared extensions. On Windows there is also a standalone shared DLL
+# created for shared extensions which need it linked to have symbols available.
+add_library(php_core INTERFACE)
+add_library(PHP::core ALIAS php_core)
+
+add_library(php_core_objects INTERFACE)
+add_library(PHP::core::objects ALIAS php_core_objects)
+
+if(CMAKE_SYSTEM_NAME STREQUAL "Windows")
+  add_library(php_core_library SHARED)
+  add_library(PHP::core::library ALIAS php_core_library)
+  target_link_libraries(
+    php_core_library
+    PRIVATE
+      PHP::config
+      PHP::core::objects
+  )
+  target_compile_options(
+    php_core_library
+    PRIVATE
+      /nodefaultlib:libcmt
+      /d2:-AllowCompatibleILVersions
+  )
+
+  target_link_libraries(php_core INTERFACE PHP::config PHP::core::library)
+else()
+  target_link_libraries(php_core INTERFACE PHP::config PHP::core::objects)
+endif()
 
 ################################################################################
 # Configure project.
