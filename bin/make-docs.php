@@ -154,7 +154,6 @@ $modules = [
     'ext/posix/cmake',
     'ext/session/cmake',
     'ext/skeleton/cmake/modules/FindPHP.cmake',
-    'ext/standard/cmake',
     'sapi/fpm/cmake',
     'sapi/phpdbg/cmake',
     'Zend/cmake',
