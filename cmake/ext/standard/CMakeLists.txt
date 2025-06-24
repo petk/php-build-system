@@ -284,40 +284,14 @@ endif()
 # Configuration checks.
 ################################################################################
 
+# Check for ARM CRC32 API.
+include(cmake/CheckArmCrc32.cmake)
+
 # Check for fnmatch() implementation.
 include(cmake/CheckFnmatch.cmake)
 
 # Check strptime().
 include(cmake/CheckStrptime.cmake)
-
-# Check for aarch64 CRC32 API.
-message(CHECK_START "Checking for aarch64 CRC32 API availability")
-cmake_push_check_state(RESET)
-  set(CMAKE_REQUIRED_QUIET TRUE)
-  check_source_compiles(C [[
-    #include <arm_acle.h>
-    #if defined(__GNUC__)
-    # if !defined(__clang__)
-    #  pragma GCC push_options
-    #  pragma GCC target ("+nothing+crc")
-    # elif defined(__APPLE__)
-    #  pragma clang attribute push(__attribute__((target("crc"))), apply_to=function)
-    # else
-    #  pragma clang attribute push(__attribute__((target("+nothing+crc"))), apply_to=function)
-    # endif
-    #endif
-    int main(void)
-    {
-      __crc32d(0, 0);
-      return 0;
-    }
-  ]] HAVE_AARCH64_CRC32)
-cmake_pop_check_state()
-if(HAVE_AARCH64_CRC32)
-  message(CHECK_PASS "yes")
-else()
-  message(CHECK_FAIL "no")
-endif()
 
 # Check if there is a support means of creating a new process and defining which
 # handles it receives.
