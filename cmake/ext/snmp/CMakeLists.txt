@@ -44,7 +44,7 @@ cmake_dependent_option(
   PHP_EXT_SNMP_SHARED
   "Build the snmp extension as a shared library"
   OFF
-  "PHP_EXT_SNMP;NOT BUILD_SHARED_LIBS"
+  PHP_EXT_SNMP
   OFF
 )
 
@@ -55,7 +55,7 @@ endif()
 if(PHP_EXT_SNMP_SHARED)
   add_library(php_ext_snmp MODULE)
 else()
-  add_library(php_ext_snmp)
+  add_library(php_ext_snmp OBJECT)
 endif()
 
 target_sources(

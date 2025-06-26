@@ -42,7 +42,7 @@ cmake_dependent_option(
   PHP_EXT_PDO_OCI_SHARED
   "Build the pdo_oci extension as a shared library"
   OFF
-  "PHP_EXT_PDO_OCI;NOT BUILD_SHARED_LIBS"
+  PHP_EXT_PDO_OCI
   OFF
 )
 
@@ -53,7 +53,7 @@ endif()
 if(PHP_EXT_PDO_OCI_SHARED)
   add_library(php_ext_pdo_oci MODULE)
 else()
-  add_library(php_ext_pdo_oci)
+  add_library(php_ext_pdo_oci OBJECT)
 endif()
 
 target_sources(

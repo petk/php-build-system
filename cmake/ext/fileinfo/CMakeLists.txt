@@ -45,7 +45,7 @@ cmake_dependent_option(
   PHP_EXT_FILEINFO_SHARED
   "Build the fileinfo extension as a shared library"
   OFF
-  "PHP_EXT_FILEINFO;NOT BUILD_SHARED_LIBS"
+  PHP_EXT_FILEINFO
   OFF
 )
 
@@ -56,7 +56,7 @@ endif()
 if(PHP_EXT_FILEINFO_SHARED)
   add_library(php_ext_fileinfo MODULE)
 else()
-  add_library(php_ext_fileinfo)
+  add_library(php_ext_fileinfo OBJECT)
 endif()
 
 target_sources(

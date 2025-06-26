@@ -48,7 +48,7 @@ cmake_dependent_option(
   PHP_EXT_READLINE_SHARED
   "Build the readline extension as a shared library"
   OFF
-  "PHP_EXT_READLINE;NOT BUILD_SHARED_LIBS"
+  PHP_EXT_READLINE
   OFF
 )
 
@@ -59,7 +59,7 @@ endif()
 if(PHP_EXT_READLINE_SHARED)
   add_library(php_ext_readline MODULE)
 else()
-  add_library(php_ext_readline)
+  add_library(php_ext_readline OBJECT)
 endif()
 
 set_target_properties(php_ext_readline PROPERTIES PHP_CLI TRUE)

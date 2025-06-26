@@ -44,7 +44,7 @@ cmake_dependent_option(
   PHP_EXT_ZIP_SHARED
   "Build the zip extension as a shared library"
   OFF
-  "PHP_EXT_ZIP;NOT BUILD_SHARED_LIBS"
+  PHP_EXT_ZIP
   OFF
 )
 
@@ -55,7 +55,7 @@ endif()
 if(PHP_EXT_ZIP_SHARED)
   add_library(php_ext_zip MODULE)
 else()
-  add_library(php_ext_zip)
+  add_library(php_ext_zip OBJECT)
 endif()
 
 target_sources(

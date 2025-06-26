@@ -42,7 +42,7 @@ cmake_dependent_option(
   PHP_EXT_EXIF_SHARED
   "Build the exif extension as a shared library"
   OFF
-  "PHP_EXT_EXIF;NOT BUILD_SHARED_LIBS"
+  PHP_EXT_EXIF
   OFF
 )
 
@@ -53,7 +53,7 @@ endif()
 if(PHP_EXT_EXIF_SHARED)
   add_library(php_ext_exif MODULE)
 else()
-  add_library(php_ext_exif)
+  add_library(php_ext_exif OBJECT)
 endif()
 
 target_sources(

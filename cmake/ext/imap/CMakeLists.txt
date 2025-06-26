@@ -57,7 +57,7 @@ cmake_dependent_option(
   PHP_EXT_IMAP_SHARED
   "Build the imap extension as a shared library"
   OFF
-  "PHP_EXT_IMAP;NOT BUILD_SHARED_LIBS"
+  PHP_EXT_IMAP
   OFF
 )
 
@@ -65,7 +65,7 @@ cmake_dependent_option(
   PHP_EXT_IMAP_KERBEROS
   "Explicitly include Kerberos support in the imap extension."
   OFF
-  "PHP_EXT_IMAP"
+  PHP_EXT_IMAP
   OFF
 )
 
@@ -73,7 +73,7 @@ cmake_dependent_option(
   PHP_EXT_IMAP_SSL
   "Explicitly enable SSL support in the imap extension"
   OFF
-  "PHP_EXT_IMAP"
+  PHP_EXT_IMAP
   OFF
 )
 
@@ -84,7 +84,7 @@ endif()
 if(PHP_EXT_IMAP_SHARED)
   add_library(php_ext_imap MODULE)
 else()
-  add_library(php_ext_imap)
+  add_library(php_ext_imap OBJECT)
 endif()
 
 target_sources(

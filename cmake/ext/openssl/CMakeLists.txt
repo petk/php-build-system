@@ -70,7 +70,7 @@ cmake_dependent_option(
   PHP_EXT_OPENSSL_SHARED
   "Build the openssl extension as a shared library"
   OFF
-  "PHP_EXT_OPENSSL;NOT BUILD_SHARED_LIBS"
+  PHP_EXT_OPENSSL
   OFF
 )
 
@@ -79,7 +79,7 @@ cmake_dependent_option(
   "Include Kerberos support for OpenSSL. Deprecated. Kerberos support has been\
   removed as of OpenSSL 1.1.0."
   OFF
-  "PHP_EXT_OPENSSL"
+  PHP_EXT_OPENSSL
   OFF
 )
 mark_as_advanced(PHP_EXT_OPENSSL_KERBEROS)
@@ -94,7 +94,7 @@ cmake_dependent_option(
   PHP_EXT_OPENSSL_SYSTEM_CIPHERS
   "Use system default cipher list instead of hardcoded value for OpenSSL"
   OFF
-  "PHP_EXT_OPENSSL"
+  PHP_EXT_OPENSSL
   OFF
 )
 mark_as_advanced(PHP_EXT_OPENSSL_SYSTEM_CIPHERS)
@@ -114,7 +114,7 @@ endif()
 if(PHP_EXT_OPENSSL_SHARED)
   add_library(php_ext_openssl MODULE)
 else()
-  add_library(php_ext_openssl)
+  add_library(php_ext_openssl OBJECT)
 endif()
 
 target_sources(

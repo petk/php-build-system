@@ -43,7 +43,7 @@ cmake_dependent_option(
   PHP_EXT_DOM_SHARED
   "Build the dom extension as a shared library"
   OFF
-  "PHP_EXT_DOM;NOT BUILD_SHARED_LIBS"
+  PHP_EXT_DOM
   OFF
 )
 
@@ -54,7 +54,7 @@ endif()
 if(PHP_EXT_DOM_SHARED)
   add_library(php_ext_dom MODULE)
 else()
-  add_library(php_ext_dom)
+  add_library(php_ext_dom OBJECT)
 endif()
 
 target_sources(

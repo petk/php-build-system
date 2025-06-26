@@ -44,7 +44,7 @@ cmake_dependent_option(
   PHP_EXT_SQLITE3_SHARED
   "Build the sqlite3 extension as a shared library"
   OFF
-  "PHP_EXT_SQLITE3;NOT BUILD_SHARED_LIBS"
+  PHP_EXT_SQLITE3
   OFF
 )
 
@@ -55,7 +55,7 @@ endif()
 if(PHP_EXT_SQLITE3_SHARED)
   add_library(php_ext_sqlite3 MODULE)
 else()
-  add_library(php_ext_sqlite3)
+  add_library(php_ext_sqlite3 OBJECT)
 endif()
 
 target_sources(

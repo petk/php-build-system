@@ -53,7 +53,7 @@ cmake_dependent_option(
   PHP_EXT_LDAP_SHARED
   "Build the ldap extension as a shared library"
   OFF
-  "PHP_EXT_LDAP;NOT BUILD_SHARED_LIBS"
+  PHP_EXT_LDAP
   OFF
 )
 
@@ -61,7 +61,7 @@ cmake_dependent_option(
   PHP_EXT_LDAP_SASL
   "Build ldap extension with Cyrus SASL support"
   OFF
-  "PHP_EXT_LDAP"
+  PHP_EXT_LDAP
   OFF
 )
 
@@ -72,7 +72,7 @@ endif()
 if(PHP_EXT_LDAP_SHARED)
   add_library(php_ext_ldap MODULE)
 else()
-  add_library(php_ext_ldap)
+  add_library(php_ext_ldap OBJECT)
 endif()
 
 target_sources(

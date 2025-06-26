@@ -44,7 +44,7 @@ cmake_dependent_option(
   PHP_EXT_SODIUM_SHARED
   "Build the sodium extension as a shared library"
   OFF
-  "PHP_EXT_SODIUM;NOT BUILD_SHARED_LIBS"
+  PHP_EXT_SODIUM
   OFF
 )
 
@@ -55,7 +55,7 @@ endif()
 if(PHP_EXT_SODIUM_SHARED)
   add_library(php_ext_sodium MODULE)
 else()
-  add_library(php_ext_sodium)
+  add_library(php_ext_sodium OBJECT)
 endif()
 
 target_sources(

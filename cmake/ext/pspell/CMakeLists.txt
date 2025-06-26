@@ -45,7 +45,7 @@ cmake_dependent_option(
   PHP_EXT_PSPELL_SHARED
   "Build the pspell extension as a shared library"
   OFF
-  "PHP_EXT_PSPELL;NOT BUILD_SHARED_LIBS"
+  PHP_EXT_PSPELL
   OFF
 )
 
@@ -56,7 +56,7 @@ endif()
 if(PHP_EXT_PSPELL_SHARED)
   add_library(php_ext_pspell MODULE)
 else()
-  add_library(php_ext_pspell)
+  add_library(php_ext_pspell OBJECT)
 endif()
 
 target_sources(

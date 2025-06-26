@@ -47,7 +47,7 @@ cmake_dependent_option(
   PHP_EXT_SOCKETS_SHARED
   "Build the sockets extension as a shared library"
   OFF
-  "PHP_EXT_SOCKETS;NOT BUILD_SHARED_LIBS"
+  PHP_EXT_SOCKETS
   OFF
 )
 
@@ -58,7 +58,7 @@ endif()
 if(PHP_EXT_SOCKETS_SHARED)
   add_library(php_ext_sockets MODULE)
 else()
-  add_library(php_ext_sockets)
+  add_library(php_ext_sockets OBJECT)
 endif()
 
 target_sources(

@@ -195,7 +195,7 @@ cmake_dependent_option(
   PHP_EXT_ODBC_SHARED
   "Build the odbc extension as a shared library"
   OFF
-  [[PHP_EXT_ODBC AND NOT BUILD_SHARED_LIBS]]
+  PHP_EXT_ODBC
   OFF
 )
 
@@ -280,7 +280,7 @@ endif()
 if(PHP_EXT_ODBC_SHARED)
   add_library(php_ext_odbc MODULE)
 else()
-  add_library(php_ext_odbc)
+  add_library(php_ext_odbc OBJECT)
 endif()
 
 target_sources(

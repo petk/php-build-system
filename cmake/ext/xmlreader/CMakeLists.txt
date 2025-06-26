@@ -42,7 +42,7 @@ cmake_dependent_option(
   PHP_EXT_XMLREADER_SHARED
   "Build the xmlreader extension as a shared library"
   OFF
-  "PHP_EXT_XMLREADER;NOT BUILD_SHARED_LIBS"
+  PHP_EXT_XMLREADER
   OFF
 )
 
@@ -53,7 +53,7 @@ endif()
 if(PHP_EXT_XMLREADER_SHARED)
   add_library(php_ext_xmlreader MODULE)
 else()
-  add_library(php_ext_xmlreader)
+  add_library(php_ext_xmlreader OBJECT)
 endif()
 
 target_sources(

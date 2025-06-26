@@ -44,7 +44,7 @@ cmake_dependent_option(
   PHP_EXT_PDO_SQLITE_SHARED
   "Build the pdo_sqlite extension as a shared library"
   OFF
-  "PHP_EXT_PDO_SQLITE;NOT BUILD_SHARED_LIBS"
+  PHP_EXT_PDO_SQLITE
   OFF
 )
 
@@ -55,7 +55,7 @@ endif()
 if(PHP_EXT_PDO_SQLITE_SHARED)
   add_library(php_ext_pdo_sqlite MODULE)
 else()
-  add_library(php_ext_pdo_sqlite)
+  add_library(php_ext_pdo_sqlite OBJECT)
 endif()
 
 target_sources(

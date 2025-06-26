@@ -42,7 +42,7 @@ cmake_dependent_option(
   PHP_EXT_SHMOP_SHARED
   "Build the shmop extension as a shared library"
   OFF
-  "PHP_EXT_SHMOP;NOT BUILD_SHARED_LIBS"
+  PHP_EXT_SHMOP
   OFF
 )
 
@@ -53,7 +53,7 @@ endif()
 if(PHP_EXT_SHMOP_SHARED)
   add_library(php_ext_shmop MODULE)
 else()
-  add_library(php_ext_shmop)
+  add_library(php_ext_shmop OBJECT)
 endif()
 
 target_sources(

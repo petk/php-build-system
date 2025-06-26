@@ -97,7 +97,7 @@ cmake_dependent_option(
   PHP_EXT_GD_SHARED
   "Build the gd extension as a shared library"
   OFF
-  "PHP_EXT_GD;NOT BUILD_SHARED_LIBS"
+  PHP_EXT_GD
   OFF
 )
 
@@ -105,7 +105,7 @@ cmake_dependent_option(
   PHP_EXT_GD_EXTERNAL
   "Use external (system) GD library instead of the bundled libgd from PHP sources"
   OFF
-  "PHP_EXT_GD"
+  PHP_EXT_GD
   OFF
 )
 
@@ -119,7 +119,7 @@ cmake_dependent_option(
   PHP_EXT_GD_AVIF
   "GD: Enable AVIF support (only for bundled libgd)"
   OFF
-  "PHP_EXT_GD;NOT PHP_EXT_GD_EXTERNAL"
+  [[PHP_EXT_GD AND NOT PHP_EXT_GD_EXTERNAL]]
   OFF
 )
 
@@ -133,7 +133,7 @@ cmake_dependent_option(
   PHP_EXT_GD_WEBP
   "GD: Enable WebP support (only for bundled libgd)"
   OFF
-  "PHP_EXT_GD;NOT PHP_EXT_GD_EXTERNAL"
+  [[PHP_EXT_GD AND NOT PHP_EXT_GD_EXTERNAL]]
   OFF
 )
 
@@ -147,7 +147,7 @@ cmake_dependent_option(
   PHP_EXT_GD_JPEG
   "GD: Enable JPEG support (only for bundled libgd)"
   OFF
-  "PHP_EXT_GD;NOT PHP_EXT_GD_EXTERNAL"
+  [[PHP_EXT_GD AND NOT PHP_EXT_GD_EXTERNAL]]
   OFF
 )
 
@@ -161,7 +161,7 @@ cmake_dependent_option(
   PHP_EXT_GD_XPM
   "GD: Enable XPM support (only for bundled libgd)"
   OFF
-  "PHP_EXT_GD;NOT PHP_EXT_GD_EXTERNAL"
+  [[PHP_EXT_GD AND NOT PHP_EXT_GD_EXTERNAL]]
   OFF
 )
 
@@ -175,7 +175,7 @@ cmake_dependent_option(
   PHP_EXT_GD_FREETYPE
   "GD: Enable FreeType 2 support (only for bundled libgd)"
   OFF
-  "PHP_EXT_GD;NOT PHP_EXT_GD_EXTERNAL"
+  [[PHP_EXT_GD AND NOT PHP_EXT_GD_EXTERNAL]]
   OFF
 )
 
@@ -189,7 +189,7 @@ cmake_dependent_option(
   PHP_EXT_GD_JIS
   "GD: Enable JIS-mapped Japanese font support (only for bundled libgd)"
   OFF
-  "PHP_EXT_GD;NOT PHP_EXT_GD_EXTERNAL"
+  [[PHP_EXT_GD AND NOT PHP_EXT_GD_EXTERNAL]]
   OFF
 )
 
@@ -206,7 +206,7 @@ endif()
 if(PHP_EXT_GD_SHARED)
   add_library(php_ext_gd MODULE)
 else()
-  add_library(php_ext_gd)
+  add_library(php_ext_gd OBJECT)
 endif()
 
 target_sources(

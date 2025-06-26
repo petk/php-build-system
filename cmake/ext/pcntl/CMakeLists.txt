@@ -55,7 +55,7 @@ cmake_dependent_option(
   PHP_EXT_PCNTL_SHARED
   "Build the pcntl extension as a shared library"
   OFF
-  "PHP_EXT_PCNTL;NOT BUILD_SHARED_LIBS"
+  PHP_EXT_PCNTL
   OFF
 )
 
@@ -66,7 +66,7 @@ endif()
 if(PHP_EXT_PCNTL_SHARED)
   add_library(php_ext_pcntl MODULE)
 else()
-  add_library(php_ext_pcntl)
+  add_library(php_ext_pcntl OBJECT)
 endif()
 
 set_target_properties(php_ext_pcntl PROPERTIES PHP_CLI TRUE)

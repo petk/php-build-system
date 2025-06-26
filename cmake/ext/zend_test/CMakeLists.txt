@@ -42,7 +42,7 @@ cmake_dependent_option(
   PHP_EXT_ZEND_TEST_SHARED
   "Build the zend_test extension as a shared library"
   OFF
-  "PHP_EXT_ZEND_TEST;NOT BUILD_SHARED_LIBS"
+  PHP_EXT_ZEND_TEST
   OFF
 )
 
@@ -53,7 +53,7 @@ endif()
 if(PHP_EXT_ZEND_TEST_SHARED)
   add_library(php_ext_zend_test MODULE)
 else()
-  add_library(php_ext_zend_test)
+  add_library(php_ext_zend_test OBJECT)
 endif()
 
 target_sources(

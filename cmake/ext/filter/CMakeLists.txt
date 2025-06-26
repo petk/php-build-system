@@ -42,7 +42,7 @@ cmake_dependent_option(
   PHP_EXT_FILTER_SHARED
   "Build the filter extension as a shared library"
   OFF
-  "PHP_EXT_FILTER;NOT BUILD_SHARED_LIBS"
+  PHP_EXT_FILTER
   OFF
 )
 
@@ -53,7 +53,7 @@ endif()
 if(PHP_EXT_FILTER_SHARED)
   add_library(php_ext_filter MODULE)
 else()
-  add_library(php_ext_filter)
+  add_library(php_ext_filter OBJECT)
 endif()
 
 target_sources(

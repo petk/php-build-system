@@ -42,7 +42,7 @@ cmake_dependent_option(
   PHP_EXT_BCMATH_SHARED
   "Build the bcmath extension as a shared library"
   OFF
-  "PHP_EXT_BCMATH;NOT BUILD_SHARED_LIBS"
+  PHP_EXT_BCMATH
   OFF
 )
 
@@ -53,7 +53,7 @@ endif()
 if(PHP_EXT_BCMATH_SHARED)
   add_library(php_ext_bcmath MODULE)
 else()
-  add_library(php_ext_bcmath)
+  add_library(php_ext_bcmath OBJECT)
 endif()
 
 target_sources(

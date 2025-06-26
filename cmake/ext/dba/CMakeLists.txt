@@ -123,7 +123,7 @@ cmake_dependent_option(
   PHP_EXT_DBA_SHARED
   "Build the dba extension as a shared library"
   OFF
-  [[PHP_EXT_DBA AND NOT BUILD_SHARED_LIBS]]
+  PHP_EXT_DBA
   OFF
 )
 
@@ -292,7 +292,7 @@ endif()
 if(PHP_EXT_DBA_SHARED)
   add_library(php_ext_dba MODULE)
 else()
-  add_library(php_ext_dba)
+  add_library(php_ext_dba OBJECT)
 endif()
 
 target_sources(
