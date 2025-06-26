@@ -43,7 +43,7 @@ cmake_dependent_option(
   PHP_EXT_TOKENIZER_SHARED
   "Build the tokenizer extension as a shared library"
   OFF
-  "PHP_EXT_TOKENIZER;NOT BUILD_SHARED_LIBS"
+  PHP_EXT_TOKENIZER
   OFF
 )
 
@@ -54,7 +54,7 @@ endif()
 if(PHP_EXT_TOKENIZER_SHARED)
   add_library(php_ext_tokenizer MODULE)
 else()
-  add_library(php_ext_tokenizer)
+  add_library(php_ext_tokenizer OBJECT)
 endif()
 
 target_sources(

@@ -44,7 +44,7 @@ cmake_dependent_option(
   PHP_EXT_PDO_FIREBIRD_SHARED
   "Build the pdo_firebird extension as a shared library"
   OFF
-  "PHP_EXT_PDO_FIREBIRD;NOT BUILD_SHARED_LIBS"
+  PHP_EXT_PDO_FIREBIRD
   OFF
 )
 
@@ -57,7 +57,7 @@ enable_language(CXX)
 if(PHP_EXT_PDO_FIREBIRD_SHARED)
   add_library(php_ext_pdo_firebird MODULE)
 else()
-  add_library(php_ext_pdo_firebird)
+  add_library(php_ext_pdo_firebird OBJECT)
 endif()
 
 target_sources(

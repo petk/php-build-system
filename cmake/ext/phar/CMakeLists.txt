@@ -42,7 +42,7 @@ cmake_dependent_option(
   PHP_EXT_PHAR_SHARED
   "Build the phar extension as a shared library"
   OFF
-  "PHP_EXT_PHAR;NOT BUILD_SHARED_LIBS"
+  PHP_EXT_PHAR
   OFF
 )
 
@@ -57,7 +57,7 @@ endif()
 if(PHP_EXT_PHAR_SHARED)
   add_library(php_ext_phar MODULE)
 else()
-  add_library(php_ext_phar)
+  add_library(php_ext_phar OBJECT)
 endif()
 
 target_sources(
@@ -136,7 +136,7 @@ else()
 endif()
 
 set(pharSharedOptions "")
-if(PHP_EXT_PHAR_SHARED OR BUILD_SHARED_LIBS)
+if(PHP_EXT_PHAR_SHARED)
   set(
     pharSharedOptions
       -d extension_dir=${PHP_BINARY_DIR}/modules/$<CONFIG>

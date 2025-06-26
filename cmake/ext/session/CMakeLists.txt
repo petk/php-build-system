@@ -50,7 +50,7 @@ cmake_dependent_option(
   PHP_EXT_SESSION_SHARED
   "Build the session extension as a shared library"
   OFF
-  "PHP_EXT_SESSION;NOT BUILD_SHARED_LIBS"
+  PHP_EXT_SESSION
   OFF
 )
 
@@ -58,7 +58,7 @@ cmake_dependent_option(
   PHP_EXT_SESSION_MM
   "Include libmm support for session storage (only for non-ZTS build)"
   OFF
-  "PHP_EXT_SESSION;NOT PHP_THREAD_SAFETY"
+  [[PHP_EXT_SESSION AND NOT PHP_THREAD_SAFETY]]
   OFF
 )
 mark_as_advanced(PHP_EXT_SESSION_MM)
@@ -75,7 +75,7 @@ endif()
 if(PHP_EXT_SESSION_SHARED)
   add_library(php_ext_session MODULE)
 else()
-  add_library(php_ext_session)
+  add_library(php_ext_session OBJECT)
 endif()
 
 target_sources(

@@ -49,7 +49,7 @@ cmake_dependent_option(
   PHP_EXT_XML_SHARED
   "Build the xml extension as a shared library"
   OFF
-  "PHP_EXT_XML;NOT BUILD_SHARED_LIBS"
+  PHP_EXT_XML
   OFF
 )
 
@@ -57,7 +57,7 @@ cmake_dependent_option(
   PHP_EXT_XML_EXPAT
   "Build xml extension with the Expat library support instead of the libxml2"
   OFF
-  "PHP_EXT_XML"
+  PHP_EXT_XML
   OFF
 )
 
@@ -74,7 +74,7 @@ endif()
 if(PHP_EXT_XML_SHARED)
   add_library(php_ext_xml MODULE)
 else()
-  add_library(php_ext_xml)
+  add_library(php_ext_xml OBJECT)
 endif()
 
 target_sources(

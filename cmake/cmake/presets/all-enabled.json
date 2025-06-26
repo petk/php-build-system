@@ -84,7 +84,7 @@
       "description": "PHP configuration with all PHP extensions shared and SAPIs enabled",
       "binaryDir": "${sourceDir}/php-build/all-enabled-shared",
       "cacheVariables": {
-        "BUILD_SHARED_LIBS": true
+        "TODO_PHP_BUILD_ALL_EXT_SHARED": true
       }
     },
     {

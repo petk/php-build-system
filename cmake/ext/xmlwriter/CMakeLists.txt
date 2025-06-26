@@ -42,7 +42,7 @@ cmake_dependent_option(
   PHP_EXT_XMLWRITER_SHARED
   "Build the xmlwriter extension as a shared library"
   OFF
-  "PHP_EXT_XMLWRITER;NOT BUILD_SHARED_LIBS"
+  PHP_EXT_XMLWRITER
   OFF
 )
 
@@ -53,7 +53,7 @@ endif()
 if(PHP_EXT_XMLWRITER_SHARED)
   add_library(php_ext_xmlwriter MODULE)
 else()
-  add_library(php_ext_xmlwriter)
+  add_library(php_ext_xmlwriter OBJECT)
 endif()
 
 target_sources(

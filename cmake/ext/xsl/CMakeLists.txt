@@ -43,7 +43,7 @@ cmake_dependent_option(
   PHP_EXT_XSL_SHARED
   "Build the xsl extension as a shared library"
   OFF
-  "PHP_EXT_XSL;NOT BUILD_SHARED_LIBS"
+  PHP_EXT_XSL
   OFF
 )
 
@@ -54,7 +54,7 @@ endif()
 if(PHP_EXT_XSL_SHARED)
   add_library(php_ext_xsl MODULE)
 else()
-  add_library(php_ext_xsl)
+  add_library(php_ext_xsl OBJECT)
 endif()
 
 target_sources(

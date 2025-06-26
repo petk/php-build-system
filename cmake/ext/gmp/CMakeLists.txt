@@ -42,7 +42,7 @@ cmake_dependent_option(
   PHP_EXT_GMP_SHARED
   "Build the gmp extension as a shared library"
   OFF
-  "PHP_EXT_GMP;NOT BUILD_SHARED_LIBS"
+  PHP_EXT_GMP
   OFF
 )
 
@@ -53,7 +53,7 @@ endif()
 if(PHP_EXT_GMP_SHARED)
   add_library(php_ext_gmp MODULE)
 else()
-  add_library(php_ext_gmp)
+  add_library(php_ext_gmp OBJECT)
 endif()
 
 target_sources(

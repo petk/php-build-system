@@ -45,7 +45,7 @@ cmake_dependent_option(
   PHP_EXT_BZ2_SHARED
   "Build the bz2 extension as a shared library"
   OFF
-  "PHP_EXT_BZ2;NOT BUILD_SHARED_LIBS"
+  PHP_EXT_BZ2
   OFF
 )
 
@@ -56,7 +56,7 @@ endif()
 if(PHP_EXT_BZ2_SHARED)
   add_library(php_ext_bz2 MODULE)
 else()
-  add_library(php_ext_bz2)
+  add_library(php_ext_bz2 OBJECT)
 endif()
 
 target_sources(

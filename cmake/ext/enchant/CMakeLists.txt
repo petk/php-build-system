@@ -44,7 +44,7 @@ cmake_dependent_option(
   PHP_EXT_ENCHANT_SHARED
   "Build the enchant extension as a shared library"
   OFF
-  "PHP_EXT_ENCHANT;NOT BUILD_SHARED_LIBS"
+  PHP_EXT_ENCHANT
   OFF
 )
 
@@ -55,7 +55,7 @@ endif()
 if(PHP_EXT_ENCHANT_SHARED)
   add_library(php_ext_enchant MODULE)
 else()
-  add_library(php_ext_enchant)
+  add_library(php_ext_enchant OBJECT)
 endif()
 
 target_sources(

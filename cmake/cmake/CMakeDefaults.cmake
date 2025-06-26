@@ -40,9 +40,6 @@ option(
 )
 mark_as_advanced(CMAKE_MESSAGE_CONTEXT_SHOW)
 
-# Whether to build all libraries as shared.
-option(BUILD_SHARED_LIBS "Build enabled PHP extensions as shared libraries")
-
 # Treat all compile warnings as errors at the build phase, if compiler supports
 # such compile option, like -Werror, /WX, or similar.
 option(

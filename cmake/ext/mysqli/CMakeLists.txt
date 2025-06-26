@@ -63,7 +63,7 @@ cmake_dependent_option(
   PHP_EXT_MYSQLI_SHARED
   "Build the mysqli extension as a shared library"
   OFF
-  "PHP_EXT_MYSQLI;NOT BUILD_SHARED_LIBS"
+  PHP_EXT_MYSQLI
   OFF
 )
 
@@ -95,7 +95,7 @@ endif()
 if(PHP_EXT_MYSQLI_SHARED)
   add_library(php_ext_mysqli MODULE)
 else()
-  add_library(php_ext_mysqli)
+  add_library(php_ext_mysqli OBJECT)
 endif()
 
 target_sources(

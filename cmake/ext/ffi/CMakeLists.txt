@@ -46,7 +46,7 @@ cmake_dependent_option(
   PHP_EXT_FFI_SHARED
   "Build the ffi extension as a shared library"
   OFF
-  "PHP_EXT_FFI;NOT BUILD_SHARED_LIBS"
+  PHP_EXT_FFI
   OFF
 )
 
@@ -57,7 +57,7 @@ endif()
 if(PHP_EXT_FFI_SHARED)
   add_library(php_ext_ffi MODULE)
 else()
-  add_library(php_ext_ffi)
+  add_library(php_ext_ffi OBJECT)
 endif()
 
 target_sources(

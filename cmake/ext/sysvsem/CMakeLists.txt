@@ -51,7 +51,7 @@ cmake_dependent_option(
   PHP_EXT_SYSVSEM_SHARED
   "Build the sysvsem extension as a shared library"
   OFF
-  "PHP_EXT_SYSVSEM;NOT BUILD_SHARED_LIBS"
+  PHP_EXT_SYSVSEM
   OFF
 )
 
@@ -62,7 +62,7 @@ endif()
 if(PHP_EXT_SYSVSEM_SHARED)
   add_library(php_ext_sysvsem MODULE)
 else()
-  add_library(php_ext_sysvsem)
+  add_library(php_ext_sysvsem OBJECT)
 endif()
 
 target_sources(

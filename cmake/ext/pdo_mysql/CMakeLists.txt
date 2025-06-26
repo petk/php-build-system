@@ -58,7 +58,7 @@ cmake_dependent_option(
   PHP_EXT_PDO_MYSQL_SHARED
   "Build the pdo_mysql extension as a shared library"
   OFF
-  "PHP_EXT_PDO_MYSQL;NOT BUILD_SHARED_LIBS"
+  PHP_EXT_PDO_MYSQL
   OFF
 )
 
@@ -80,7 +80,7 @@ endif()
 if(PHP_EXT_PDO_MYSQL_SHARED)
   add_library(php_ext_pdo_mysql MODULE)
 else()
-  add_library(php_ext_pdo_mysql)
+  add_library(php_ext_pdo_mysql OBJECT)
 endif()
 
 target_sources(

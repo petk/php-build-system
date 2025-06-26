@@ -42,7 +42,7 @@ cmake_dependent_option(
   PHP_EXT_SOAP_SHARED
   "Build the soap extension as a shared library"
   OFF
-  "PHP_EXT_SOAP;NOT BUILD_SHARED_LIBS"
+  PHP_EXT_SOAP
   OFF
 )
 
@@ -53,7 +53,7 @@ endif()
 if(PHP_EXT_SOAP_SHARED)
   add_library(php_ext_soap MODULE)
 else()
-  add_library(php_ext_soap)
+  add_library(php_ext_soap OBJECT)
 endif()
 
 target_sources(

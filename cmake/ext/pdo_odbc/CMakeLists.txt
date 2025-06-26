@@ -100,7 +100,7 @@ cmake_dependent_option(
   PHP_EXT_PDO_ODBC_SHARED
   "Build the pdo_odbc extension as a shared library"
   OFF
-  [[PHP_EXT_PDO_ODBC AND NOT BUILD_SHARED_LIBS]]
+  PHP_EXT_PDO_ODBC
   OFF
 )
 
@@ -138,7 +138,7 @@ endif()
 if(PHP_EXT_PDO_ODBC_SHARED)
   add_library(php_ext_pdo_odbc MODULE)
 else()
-  add_library(php_ext_pdo_odbc)
+  add_library(php_ext_pdo_odbc OBJECT)
 endif()
 
 target_sources(

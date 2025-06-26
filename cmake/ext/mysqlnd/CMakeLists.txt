@@ -67,7 +67,7 @@ cmake_dependent_option(
   PHP_EXT_MYSQLND_SHARED
   "Build the mysqlnd extension as a shared library"
   OFF
-  "PHP_EXT_MYSQLND;NOT BUILD_SHARED_LIBS"
+  PHP_EXT_MYSQLND
   OFF
 )
 
@@ -75,7 +75,7 @@ cmake_dependent_option(
   PHP_EXT_MYSQLND_COMPRESSION
   "Enable compressed protocol support in mysqlnd"
   ON
-  "PHP_EXT_MYSQLND"
+  PHP_EXT_MYSQLND
   OFF
 )
 
@@ -90,7 +90,7 @@ cmake_dependent_option(
   "Explicitly enable extended SSL support in the mysqlnd extension through\
   OpenSSL system library (*nix) or Crypt32 (Windows)."
   ON
-  "PHP_EXT_MYSQLND"
+  PHP_EXT_MYSQLND
   OFF
 )
 
@@ -101,7 +101,7 @@ endif()
 if(PHP_EXT_MYSQLND_SHARED)
   add_library(php_ext_mysqlnd MODULE)
 else()
-  add_library(php_ext_mysqlnd)
+  add_library(php_ext_mysqlnd OBJECT)
 endif()
 
 target_sources(

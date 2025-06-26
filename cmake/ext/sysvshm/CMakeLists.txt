@@ -42,7 +42,7 @@ cmake_dependent_option(
   PHP_EXT_SYSVSHM_SHARED
   "Build the sysvshm extension as a shared library"
   OFF
-  "PHP_EXT_SYSVSHM;NOT BUILD_SHARED_LIBS"
+  PHP_EXT_SYSVSHM
   OFF
 )
 
@@ -53,7 +53,7 @@ endif()
 if(PHP_EXT_SYSVSHM_SHARED)
   add_library(php_ext_sysvshm MODULE)
 else()
-  add_library(php_ext_sysvshm)
+  add_library(php_ext_sysvshm OBJECT)
 endif()
 
 target_sources(
