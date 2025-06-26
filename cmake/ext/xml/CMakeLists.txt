@@ -57,7 +57,7 @@ cmake_dependent_option(
   PHP_EXT_XML_EXPAT
   "Build xml extension with the Expat library support instead of the libxml2"
   OFF
-  [[PHP_EXT_XML]]
+  PHP_EXT_XML
   OFF
 )
 

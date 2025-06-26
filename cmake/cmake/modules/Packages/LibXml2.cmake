@@ -41,7 +41,7 @@ set_package_properties(
 set(PHP_LIBXML2_MIN_VERSION 2.9.0)
 
 # Download version when system dependency is not found.
-set(PHP_LIBXML2_DOWNLOAD_VERSION 2.12.7)
+set(PHP_LIBXML2_DOWNLOAD_VERSION 2.14.4)
 
 FetchContent_Declare(
   LibXml2
