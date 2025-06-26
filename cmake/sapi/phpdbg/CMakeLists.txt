@@ -65,7 +65,7 @@ cmake_dependent_option(
   PHP_SAPI_PHPDBG_SHARED
   "Build phpdbg SAPI as a shared module"
   OFF
-  "PHP_SAPI_PHPDBG"
+  PHP_SAPI_PHPDBG
   OFF
 )
 mark_as_advanced(PHP_SAPI_PHPDBG_SHARED)
@@ -79,7 +79,7 @@ cmake_dependent_option(
   PHP_SAPI_PHPDBG_DEBUG
   "Enable additional diagnostic output when developing phpdbg itself"
   OFF
-  "PHP_SAPI_PHPDBG"
+  PHP_SAPI_PHPDBG
   OFF
 )
 mark_as_advanced(PHP_SAPI_PHPDBG_DEBUG)
@@ -93,7 +93,7 @@ cmake_dependent_option(
   PHP_SAPI_PHPDBG_READLINE
   "Explicitly enable readline support in phpdbg"
   OFF
-  "PHP_SAPI_PHPDBG"
+  PHP_SAPI_PHPDBG
   OFF
 )
 mark_as_advanced(PHP_SAPI_PHPDBG_READLINE)

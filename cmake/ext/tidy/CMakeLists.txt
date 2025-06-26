@@ -46,7 +46,7 @@ cmake_dependent_option(
   PHP_EXT_TIDY_SHARED
   "Build the tidy extension as a shared library"
   OFF
-  "PHP_EXT_TIDY;NOT BUILD_SHARED_LIBS"
+  PHP_EXT_TIDY
   OFF
 )
 
@@ -57,7 +57,7 @@ endif()
 if(PHP_EXT_TIDY_SHARED)
   add_library(php_ext_tidy MODULE)
 else()
-  add_library(php_ext_tidy)
+  add_library(php_ext_tidy OBJECT)
 endif()
 
 target_sources(

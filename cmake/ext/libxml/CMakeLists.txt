@@ -40,7 +40,7 @@ if(NOT PHP_EXT_LIBXML)
   return()
 endif()
 
-add_library(php_ext_libxml STATIC)
+add_library(php_ext_libxml OBJECT)
 
 target_sources(
   php_ext_libxml

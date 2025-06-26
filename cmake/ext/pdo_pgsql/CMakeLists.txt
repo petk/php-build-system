@@ -44,7 +44,7 @@ cmake_dependent_option(
   PHP_EXT_PDO_PGSQL_SHARED
   "Build the pdo_pgsql extension as a shared library"
   OFF
-  "PHP_EXT_PDO_PGSQL;NOT BUILD_SHARED_LIBS"
+  PHP_EXT_PDO_PGSQL
   OFF
 )
 
@@ -55,7 +55,7 @@ endif()
 if(PHP_EXT_PDO_PGSQL_SHARED)
   add_library(php_ext_pdo_pgsql MODULE)
 else()
-  add_library(php_ext_pdo_pgsql)
+  add_library(php_ext_pdo_pgsql OBJECT)
 endif()
 
 target_sources(

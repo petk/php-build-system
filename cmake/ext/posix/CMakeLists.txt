@@ -53,7 +53,7 @@ cmake_dependent_option(
   PHP_EXT_POSIX_SHARED
   "Build the posix extension as a shared library"
   OFF
-  "PHP_EXT_POSIX;NOT BUILD_SHARED_LIBS"
+  PHP_EXT_POSIX
   OFF
 )
 
@@ -64,7 +64,7 @@ endif()
 if(PHP_EXT_POSIX_SHARED)
   add_library(php_ext_posix MODULE)
 else()
-  add_library(php_ext_posix)
+  add_library(php_ext_posix OBJECT)
 endif()
 
 target_sources(

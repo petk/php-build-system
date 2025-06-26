@@ -44,7 +44,7 @@ cmake_dependent_option(
   PHP_EXT_INTL_SHARED
   "Build the intl extension as a shared library"
   OFF
-  "PHP_EXT_INTL;NOT BUILD_SHARED_LIBS"
+  PHP_EXT_INTL
   OFF
 )
 
@@ -57,7 +57,7 @@ enable_language(CXX)
 if(PHP_EXT_INTL_SHARED)
   add_library(php_ext_intl MODULE)
 else()
-  add_library(php_ext_intl)
+  add_library(php_ext_intl OBJECT)
 endif()
 
 # TODO: Recheck this.

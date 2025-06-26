@@ -49,7 +49,7 @@ cmake_dependent_option(
   PHP_EXT_FTP_SHARED
   "Build the ftp extension as a shared library"
   OFF
-  "PHP_EXT_FTP;NOT BUILD_SHARED_LIBS"
+  PHP_EXT_FTP
   OFF
 )
 
@@ -57,7 +57,7 @@ cmake_dependent_option(
   PHP_EXT_FTP_SSL
   "Explicitly enable FTP over SSL support."
   ON
-  "PHP_EXT_FTP"
+  PHP_EXT_FTP
   OFF
 )
 
@@ -68,7 +68,7 @@ endif()
 if(PHP_EXT_FTP_SHARED)
   add_library(php_ext_ftp MODULE)
 else()
-  add_library(php_ext_ftp)
+  add_library(php_ext_ftp OBJECT)
 endif()
 
 target_sources(

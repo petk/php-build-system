@@ -90,7 +90,7 @@ cmake_dependent_option(
   PHP_EXT_OPENSSL_SHARED
   "Build the openssl extension as a shared library"
   OFF
-  "PHP_EXT_OPENSSL;NOT BUILD_SHARED_LIBS"
+  PHP_EXT_OPENSSL
   OFF
 )
 
@@ -98,7 +98,7 @@ cmake_dependent_option(
   PHP_EXT_OPENSSL_SYSTEM_CIPHERS
   "Use system default cipher list instead of hardcoded value for OpenSSL"
   OFF
-  "PHP_EXT_OPENSSL"
+  PHP_EXT_OPENSSL
   OFF
 )
 mark_as_advanced(PHP_EXT_OPENSSL_SYSTEM_CIPHERS)
@@ -113,7 +113,7 @@ cmake_dependent_option(
   PHP_EXT_OPENSSL_ARGON2
   "Enable OpenSSL Argon2 password hashing (requires OpenSSL >= 3.2)"
   OFF
-  "PHP_EXT_OPENSSL"
+  PHP_EXT_OPENSSL
   OFF
 )
 mark_as_advanced(PHP_EXT_OPENSSL_ARGON2)
@@ -128,7 +128,7 @@ cmake_dependent_option(
   PHP_EXT_OPENSSL_LEGACY_PROVIDER
   "OpenSSL >= 3: Load legacy algorithm provider in addition to default provider"
   OFF
-  "PHP_EXT_OPENSSL"
+  PHP_EXT_OPENSSL
   OFF
 )
 mark_as_advanced(PHP_EXT_OPENSSL_LEGACY_PROVIDER)
@@ -146,7 +146,7 @@ endif()
 if(PHP_EXT_OPENSSL_SHARED)
   add_library(php_ext_openssl MODULE)
 else()
-  add_library(php_ext_openssl)
+  add_library(php_ext_openssl OBJECT)
 endif()
 
 target_sources(

@@ -43,7 +43,7 @@ cmake_dependent_option(
   PHP_EXT_ZLIB_SHARED
   "Build the zlib extension as a shared library"
   OFF
-  "PHP_EXT_ZLIB;NOT BUILD_SHARED_LIBS"
+  PHP_EXT_ZLIB
   OFF
 )
 
@@ -54,7 +54,7 @@ endif()
 if(PHP_EXT_ZLIB_SHARED)
   add_library(php_ext_zlib MODULE)
 else()
-  add_library(php_ext_zlib)
+  add_library(php_ext_zlib OBJECT)
 endif()
 
 target_sources(

@@ -51,7 +51,7 @@ cmake_dependent_option(
   PHP_EXT_MBSTRING_SHARED
   "Build the mbstring extension as a shared library"
   OFF
-  "PHP_EXT_MBSTRING;NOT BUILD_SHARED_LIBS"
+  PHP_EXT_MBSTRING
   OFF
 )
 
@@ -59,7 +59,7 @@ cmake_dependent_option(
   PHP_EXT_MBSTRING_MBREGEX
   "Enable multibyte regex support (requires Oniguruma)"
   ON
-  "PHP_EXT_MBSTRING"
+  PHP_EXT_MBSTRING
   OFF
 )
 
@@ -80,7 +80,7 @@ endif()
 if(PHP_EXT_MBSTRING_SHARED)
   add_library(php_ext_mbstring MODULE)
 else()
-  add_library(php_ext_mbstring)
+  add_library(php_ext_mbstring OBJECT)
 endif()
 
 target_sources(

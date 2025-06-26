@@ -51,7 +51,7 @@ cmake_dependent_option(
   PHP_EXT_SYSVMSG_SHARED
   "Build the sysvmsg extension as a shared library"
   OFF
-  "PHP_EXT_SYSVMSG;NOT BUILD_SHARED_LIBS"
+  PHP_EXT_SYSVMSG
   OFF
 )
 
@@ -72,7 +72,7 @@ endif()
 if(PHP_EXT_SYSVMSG_SHARED)
   add_library(php_ext_sysvmsg MODULE)
 else()
-  add_library(php_ext_sysvmsg)
+  add_library(php_ext_sysvmsg OBJECT)
 endif()
 
 target_sources(

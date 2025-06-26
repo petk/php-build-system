@@ -42,7 +42,7 @@ cmake_dependent_option(
   PHP_EXT_PDO_SHARED
   "Build the pdo extension as a shared library"
   OFF
-  "PHP_EXT_PDO;NOT BUILD_SHARED_LIBS"
+  PHP_EXT_PDO
   OFF
 )
 
@@ -53,7 +53,7 @@ endif()
 if(PHP_EXT_PDO_SHARED)
   add_library(php_ext_pdo MODULE)
 else()
-  add_library(php_ext_pdo)
+  add_library(php_ext_pdo OBJECT)
 endif()
 
 target_sources(

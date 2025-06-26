@@ -45,7 +45,7 @@ cmake_dependent_option(
   PHP_EXT_GETTEXT_SHARED
   "Build the gettext extension as a shared library"
   OFF
-  "PHP_EXT_GETTEXT;NOT BUILD_SHARED_LIBS"
+  PHP_EXT_GETTEXT
   OFF
 )
 
@@ -56,7 +56,7 @@ endif()
 if(PHP_EXT_GETTEXT_SHARED)
   add_library(php_ext_gettext MODULE)
 else()
-  add_library(php_ext_gettext)
+  add_library(php_ext_gettext OBJECT)
 endif()
 
 target_sources(

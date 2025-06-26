@@ -90,8 +90,7 @@ used JSON scheme.
 ## 2. CMake configuration
 
 Some useful overridable configuration options built into CMake itself. All these
-`CMAKE_*` and `BUILD_SHARED_LIBS` variables are also documented in the CMake
-documentation.
+`CMAKE_*` variables are also documented in the CMake documentation.
 
 * `CMAKE_EXPORT_COMPILE_COMMANDS=ON|OFF`
 
@@ -137,12 +136,6 @@ documentation.
   Default: `OFF`
 
   Show/hide context in configuration log ([ext/foo] Checking for...).
-
-* `BUILD_SHARED_LIBS=ON|OFF`
-
-  Default: `OFF`
-
-  Build all enabled PHP extensions as shared libraries.
 
 * `CMAKE_SKIP_RPATH=ON|OFF`
 

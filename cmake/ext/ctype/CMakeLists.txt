@@ -43,7 +43,7 @@ cmake_dependent_option(
   PHP_EXT_CTYPE_SHARED
   "Build the ctype extension as a shared library"
   OFF
-  "PHP_EXT_CTYPE;NOT BUILD_SHARED_LIBS"
+  PHP_EXT_CTYPE
   OFF
 )
 
@@ -54,7 +54,7 @@ endif()
 if(PHP_EXT_CTYPE_SHARED)
   add_library(php_ext_ctype MODULE)
 else()
-  add_library(php_ext_ctype)
+  add_library(php_ext_ctype OBJECT)
 endif()
 
 target_sources(

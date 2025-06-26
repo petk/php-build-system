@@ -45,7 +45,7 @@ cmake_dependent_option(
   PHP_EXT_CURL_SHARED
   "Build the curl extension as a shared library"
   OFF
-  "PHP_EXT_CURL;NOT BUILD_SHARED_LIBS"
+  PHP_EXT_CURL
   OFF
 )
 
@@ -56,7 +56,7 @@ endif()
 if(PHP_EXT_CURL_SHARED)
   add_library(php_ext_curl MODULE)
 else()
-  add_library(php_ext_curl)
+  add_library(php_ext_curl OBJECT)
 endif()
 
 target_sources(

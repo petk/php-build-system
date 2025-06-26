@@ -42,7 +42,7 @@ cmake_dependent_option(
   PHP_EXT_CALENDAR_SHARED
   "Build the calendar extension as a shared library"
   OFF
-  "PHP_EXT_CALENDAR;NOT BUILD_SHARED_LIBS"
+  PHP_EXT_CALENDAR
   OFF
 )
 
@@ -53,7 +53,7 @@ endif()
 if(PHP_EXT_CALENDAR_SHARED)
   add_library(php_ext_calendar MODULE)
 else()
-  add_library(php_ext_calendar)
+  add_library(php_ext_calendar OBJECT)
 endif()
 
 target_sources(

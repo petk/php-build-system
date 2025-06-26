@@ -46,7 +46,7 @@ cmake_dependent_option(
   PHP_EXT_ICONV_SHARED
   "Build the iconv extension as a shared library"
   OFF
-  "PHP_EXT_ICONV;NOT BUILD_SHARED_LIBS"
+  PHP_EXT_ICONV
   OFF
 )
 
@@ -57,7 +57,7 @@ endif()
 if(PHP_EXT_ICONV_SHARED)
   add_library(php_ext_iconv MODULE)
 else()
-  add_library(php_ext_iconv)
+  add_library(php_ext_iconv OBJECT)
 endif()
 
 target_sources(
