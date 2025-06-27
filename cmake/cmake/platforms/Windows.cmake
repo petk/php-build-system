@@ -436,8 +436,6 @@ if(CMAKE_SYSTEM_NAME STREQUAL "Windows")
   set(HAVE_STRNDUP FALSE)
   #Have symbol strnlen
   set(HAVE_STRNLEN TRUE)
-  #Have function strptime
-  set(HAVE_STRPTIME FALSE)
   #Have function strtok_r
   set(HAVE_STRTOK_R FALSE)
   #Result of TRY_COMPILE
