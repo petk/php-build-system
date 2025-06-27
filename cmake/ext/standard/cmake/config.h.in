@@ -66,8 +66,9 @@
 #cmakedefine HAVE_STRPTIME_DECL_FAILS 1
 
 /* Define to 1 if 'fclose' declaration is missing, and to 0 if declaration is
-   available. */
-#cmakedefine01 MISSING_FCLOSE_DECL
+   available. Some systems (e.g., SunOS) once had broken headers. This issue is
+   obsolete on current Solaris/illumos versions. */
+#define MISSING_FCLOSE_DECL 0
 
 /* Define to 1 if your system has fork/vfork/CreateProcess. */
 #cmakedefine PHP_CAN_SUPPORT_PROC_OPEN 1
