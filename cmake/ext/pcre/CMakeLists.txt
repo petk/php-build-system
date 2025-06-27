@@ -203,8 +203,8 @@ else()
   if(CMAKE_SYSTEM_NAME STREQUAL "Windows")
     set(PCRE2_STATIC TRUE)
 
-    if(TARGET php_core_library)
-      target_sources(php_core_library PRIVATE php_pcre.def)
+    if(TARGET php_windows)
+      target_sources(php_windows PRIVATE php_pcre.def)
     endif()
   endif()
 

@@ -847,6 +847,7 @@ if(PHP_DTRACE)
       INCLUDES
         $<TARGET_PROPERTY:PHP::config,INTERFACE_INCLUDE_DIRECTORIES>
     )
+    set_target_properties(php_dtrace PROPERTIES PHP_CORE TRUE)
 
     target_link_libraries(php_config INTERFACE DTrace::DTrace)
     target_link_libraries(php_core_objects INTERFACE php_dtrace)

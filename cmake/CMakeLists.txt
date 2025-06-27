@@ -57,34 +57,23 @@ target_include_directories(
 )
 
 # Create PHP core library that ties objects and configuration together for PHP
-# SAPIs and shared extensions. On Windows there is also a standalone shared DLL
-# created for shared extensions which need it linked to have symbols available.
+# SAPIs and shared extensions. On Windows (win32 directory) there is also a
+# shared DLL created for shared extensions to have symbols available.
 add_library(php_core INTERFACE)
 add_library(PHP::core ALIAS php_core)
 
 add_library(php_core_objects INTERFACE)
 add_library(PHP::core::objects ALIAS php_core_objects)
+target_link_libraries(
+  php_core
+  INTERFACE
+    PHP::config
+    $<$<NOT:$<PLATFORM_ID:Windows>>:PHP::core::objects>
+)
 
-if(CMAKE_SYSTEM_NAME STREQUAL "Windows")
-  add_library(php_core_library SHARED)
-  add_library(PHP::core::library ALIAS php_core_library)
-  target_link_libraries(
-    php_core_library
-    PRIVATE
-      PHP::config
-      PHP::core::objects
-  )
-  target_compile_options(
-    php_core_library
-    PRIVATE
-      /nodefaultlib:libcmt
-      /d2:-AllowCompatibleILVersions
-  )
-
-  target_link_libraries(php_core INTERFACE PHP::config PHP::core::library)
-else()
-  target_link_libraries(php_core INTERFACE PHP::config PHP::core::objects)
-endif()
+target_compile_definitions(
+  php_config INTERFACE
+)
 
 ################################################################################
 # Configure project.
@@ -100,6 +89,14 @@ define_property(
   TARGET
   PROPERTY PHP_SAPI_FASTCGI
   BRIEF_DOCS "Whether the PHP SAPI is FastCGI-based"
+)
+
+define_property(
+  TARGET
+  PROPERTY PHP_CORE
+  BRIEF_DOCS
+    "Whether the target should get compile properties dedicated to PHP core "
+    "objects (e.g, *_EXPORTS compile definitions, etc.)."
 )
 
 # Check whether IPO/LTO can be enabled.
@@ -126,6 +123,7 @@ include(cmake/ConfigureChecks.cmake)
 # Check compilation options.
 include(cmake/Flags.cmake)
 
+add_subdirectory(win32)
 add_subdirectory(sapi)
 add_subdirectory(ext)
 add_subdirectory(Zend)
@@ -137,7 +135,6 @@ message(STATUS "===============")
 message(STATUS "")
 
 add_subdirectory(pear)
-add_subdirectory(win32)
 add_subdirectory(main)
 add_subdirectory(scripts)
 

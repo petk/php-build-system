@@ -81,6 +81,8 @@ foreach(extension IN LISTS extensions)
       PRIVATE $<$<PLATFORM_ID:Windows>:$<TARGET_NAME_IF_EXISTS:PHP::core>>
     )
   else()
+    set_target_properties(php_ext_${extension} PROPERTIES PHP_CORE)
+
     target_compile_definitions(
       php_config
       INTERFACE

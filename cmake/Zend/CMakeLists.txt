@@ -327,6 +327,7 @@ set_target_properties(
     VERSION ${Zend_VERSION}
     ZEND_EXTENSION_API_NO ${Zend_VERSION_EXTENSION_API_NO}
     ZEND_MODULE_API_NO ${Zend_VERSION_MODULE_API_NO}
+    PHP_CORE TRUE
 )
 
 ################################################################################

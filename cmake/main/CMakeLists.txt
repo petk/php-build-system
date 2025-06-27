@@ -104,6 +104,8 @@ target_sources(
         $<$<NOT:$<PLATFORM_ID:Windows>>:${PHP_BINARY_DIR}/$<CONFIG>/main/php_config.h>
 )
 
+set_target_properties(php_main PROPERTIES PHP_CORE TRUE)
+
 ################################################################################
 # Add usage requirements to PHP interface targets.
 ################################################################################
@@ -144,6 +146,11 @@ target_sources(
 
 add_library(php_main_internal_functions OBJECT internal_functions.c)
 add_library(php_main_internal_functions_cli OBJECT internal_functions_cli.c)
+set_target_properties(
+  php_main_internal_functions
+  php_main_internal_functions_cli
+  PROPERTIES PHP_CORE TRUE
+)
 
 target_sources(
   php_core_objects

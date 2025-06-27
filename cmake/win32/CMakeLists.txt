@@ -9,7 +9,7 @@ include(FeatureSummary)
 # Add library.
 ################################################################################
 
-add_library(php_windows OBJECT)
+add_library(php_windows SHARED)
 add_library(PHP::windows ALIAS php_windows)
 
 target_sources(
@@ -69,7 +69,22 @@ target_sources(
 )
 
 target_include_directories(php_windows PRIVATE ${CMAKE_CURRENT_BINARY_DIR})
-target_link_libraries(php_windows PRIVATE PHP::config)
+
+target_link_libraries(
+  php_windows
+  PRIVATE
+    PHP::config
+    PHP::core::objects
+)
+
+set_target_properties(php_windows PROPERTIES OUTPUT_NAME php)
+
+target_compile_options(
+  php_windows
+  PRIVATE
+    /nodefaultlib:libcmt
+    /d2:-AllowCompatibleILVersions
+)
 
 ################################################################################
 # Add usage requirements to PHP interface targets.
@@ -100,7 +115,7 @@ target_compile_definitions(
     _MBCS
     _USE_MATH_DEFINES
 
-    $<$<AND:$<PLATFORM_ID:Windows>,$<IN_LIST:$<TARGET_PROPERTY:TYPE>,OBJECT_LIBRARY;STATIC_LIBRARY>>:PHP_EXPORTS>
+    $<$<BOOL:$<TARGET_PROPERTY:PHP_CORE>>:PHP_EXPORTS>
 
     # The time_t defaults to 64-bit. Force 32-bit time_t on 32-bit architecture.
     # This was historically added to PHP as Visual Studio 2005 set 64-bit time_t
@@ -109,9 +124,9 @@ target_compile_definitions(
     # should be removed at some point.
     $<$<EQUAL:${CMAKE_SIZEOF_VOID_P},4>:_USE_32BIT_TIME_T=1>
 
-    $<$<AND:$<PLATFORM_ID:Windows>,$<IN_LIST:$<TARGET_PROPERTY:TYPE>,OBJECT_LIBRARY;STATIC_LIBRARY>>:WINVER=0x0602>
+    $<$<BOOL:$<TARGET_PROPERTY:PHP_CORE>>:_USRDLL>
 
-    $<$<AND:$<PLATFORM_ID:Windows>,$<IN_LIST:$<TARGET_PROPERTY:TYPE>,OBJECT_LIBRARY;STATIC_LIBRARY>>:_USRDLL>
+    $<$<BOOL:$<TARGET_PROPERTY:PHP_CORE>>:WINVER=0x0602>
 )
 
 target_compile_options(
@@ -129,12 +144,6 @@ target_compile_options(
     $<$<COMPILE_LANGUAGE:C,CXX>:/FD>
 )
 
-target_link_options(
-  php_config
-  INTERFACE
-    $<$<AND:$<PLATFORM_ID:Windows>,$<IN_LIST:$<TARGET_PROPERTY:TYPE>,MODULE_LIBRARY;SHARED_LIBRARY>,$<LINK_LANGUAGE:C,CXX>>:/dll>
-)
-
 target_link_libraries(
   php_config
   INTERFACE
@@ -149,8 +158,7 @@ target_link_libraries(
     ws2_32
 )
 
-target_link_libraries(php_core_objects INTERFACE PHP::windows)
-target_sources(php_core_objects INTERFACE $<TARGET_OBJECTS:PHP::windows>)
+target_link_libraries(php_core INTERFACE PHP::windows)
 
 ################################################################################
 # Generate wsyslog.h file with message compiler (mc).

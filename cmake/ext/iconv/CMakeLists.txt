@@ -72,12 +72,8 @@ target_sources(
 )
 
 get_target_property(type php_ext_iconv TYPE)
-if(
-  CMAKE_SYSTEM_NAME STREQUAL "Windows"
-  AND TARGET php_core_library
-  AND NOT type MATCHES "^(MODULE|SHARED)_LIBRARY$"
-)
-  target_sources(php_core_library PRIVATE php_iconv.def)
+if(TARGET php_windows AND type MATCHES "^(OBJECT|STATIC)_LIBRARY$")
+  target_sources(php_windows PRIVATE php_iconv.def)
 endif()
 
 target_compile_definitions(
