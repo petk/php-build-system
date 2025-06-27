@@ -77,9 +77,9 @@ target_link_libraries(
     PHP::core::objects
 )
 
-set_target_properties(php_windows PROPERTIES OUTPUT_NAME php)
+set_target_properties(php_windows PROPERTIES OUTPUT_NAME php PHP_CORE TRUE)
 
-target_compile_options(
+target_link_options(
   php_windows
   PRIVATE
     /nodefaultlib:libcmt

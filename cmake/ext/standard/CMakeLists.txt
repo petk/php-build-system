@@ -516,6 +516,7 @@ set_target_properties(
     INCLUDE_DIRECTORIES $<TARGET_PROPERTY:php_ext_standard,INCLUDE_DIRECTORIES>
     COMPILE_DEFINITIONS $<TARGET_PROPERTY:php_ext_standard,COMPILE_DEFINITIONS>
     LINK_LIBRARIES $<TARGET_PROPERTY:php_ext_standard,LINK_LIBRARIES>
+    PHP_CORE TRUE
 )
 
 target_compile_definitions(
