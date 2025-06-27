@@ -559,64 +559,53 @@
 /* Define to 1 if the compiler supports AVX-512 VBMI, and to 0 if not. */
 #cmakedefine01 PHP_HAVE_AVX512_VBMI_SUPPORTS
 
-/* Define to 1 if the compiler supports '__builtin_clz', and to 0 if not. */
-#cmakedefine01 PHP_HAVE_BUILTIN_CLZ
+/* Define to 1 if the compiler supports '__builtin_clz'. */
+#cmakedefine PHP_HAVE_BUILTIN_CLZ 1
 
-/* Define to 1 if the compiler supports '__builtin_clzl', and to 0 if not. */
-#cmakedefine01 PHP_HAVE_BUILTIN_CLZL
+/* Define to 1 if the compiler supports '__builtin_clzl'. */
+#cmakedefine PHP_HAVE_BUILTIN_CLZL 1
 
-/* Define to 1 if the compiler supports '__builtin_clzll', and to 0 if not. */
-#cmakedefine01 PHP_HAVE_BUILTIN_CLZLL
+/* Define to 1 if the compiler supports '__builtin_clzll'. */
+#cmakedefine PHP_HAVE_BUILTIN_CLZLL 1
 
-/* Define to 1 if the compiler supports '__builtin_cpu_init', and to 0 if not.
-   */
-#cmakedefine01 PHP_HAVE_BUILTIN_CPU_INIT
+/* Define to 1 if the compiler supports '__builtin_cpu_init'. */
+#cmakedefine PHP_HAVE_BUILTIN_CPU_INIT 1
 
-/* Define to 1 if the compiler supports '__builtin_cpu_supports', and to 0 if
-   not. */
-#cmakedefine01 PHP_HAVE_BUILTIN_CPU_SUPPORTS
+/* Define to 1 if the compiler supports '__builtin_cpu_supports'. */
+#cmakedefine PHP_HAVE_BUILTIN_CPU_SUPPORTS 1
 
-/* Define to 1 if the compiler supports '__builtin_ctzl', and to 0 if not. */
-#cmakedefine01 PHP_HAVE_BUILTIN_CTZL
+/* Define to 1 if the compiler supports '__builtin_ctzl'. */
+#cmakedefine PHP_HAVE_BUILTIN_CTZL
 
-/* Define to 1 if the compiler supports '__builtin_ctzll', and to 0 if not. */
-#cmakedefine01 PHP_HAVE_BUILTIN_CTZLL
+/* Define to 1 if the compiler supports '__builtin_ctzll'. */
+#cmakedefine PHP_HAVE_BUILTIN_CTZLL 1
 
-/* Define to 1 if the compiler supports '__builtin_expect', and to 0 if not.
-   */
-#cmakedefine01 PHP_HAVE_BUILTIN_EXPECT
+/* Define to 1 if the compiler supports '__builtin_expect'. */
+#cmakedefine PHP_HAVE_BUILTIN_EXPECT 1
 
-/* Define to 1 if the compiler supports '__builtin_frame_address', and to 0 if
-   not. */
-#cmakedefine01 PHP_HAVE_BUILTIN_FRAME_ADDRESS
+/* Define to 1 if the compiler supports '__builtin_frame_address'. */
+#cmakedefine PHP_HAVE_BUILTIN_FRAME_ADDRESS 1
 
-/* Define to 1 if the compiler supports '__builtin_saddll_overflow', and to 0
-   if not */
-#cmakedefine01 PHP_HAVE_BUILTIN_SADDLL_OVERFLOW
+/* Define to 1 if the compiler supports '__builtin_saddll_overflow'. */
+#cmakedefine PHP_HAVE_BUILTIN_SADDLL_OVERFLOW 1
 
-/* Define to 1 if the compiler supports '__builtin_saddl_overflow', and to 0
-   if not. */
-#cmakedefine01 PHP_HAVE_BUILTIN_SADDL_OVERFLOW
+/* Define to 1 if the compiler supports '__builtin_saddl_overflow'. */
+#cmakedefine PHP_HAVE_BUILTIN_SADDL_OVERFLOW 1
 
-/* Define to 1 if the compiler supports '__builtin_smulll_overflow', and to 0
-   if not. */
-#cmakedefine01 PHP_HAVE_BUILTIN_SMULLL_OVERFLOW
+/* Define to 1 if the compiler supports '__builtin_smulll_overflow'. */
+#cmakedefine PHP_HAVE_BUILTIN_SMULLL_OVERFLOW 1
 
-/* Define to 1 if the compiler supports '__builtin_smull_overflow', and to 0
-   if not. */
-#cmakedefine01 PHP_HAVE_BUILTIN_SMULL_OVERFLOW
+/* Define to 1 if the compiler supports '__builtin_smull_overflow'. */
+#cmakedefine PHP_HAVE_BUILTIN_SMULL_OVERFLOW 1
 
-/* Define to 1 if the compiler supports '__builtin_ssubll_overflow', and to 0
-   if not. */
-#cmakedefine01 PHP_HAVE_BUILTIN_SSUBLL_OVERFLOW
+/* Define to 1 if the compiler supports '__builtin_ssubll_overflow'. */
+#cmakedefine PHP_HAVE_BUILTIN_SSUBLL_OVERFLOW 1
 
-/* Define to 1 if the compiler supports '__builtin_ssubl_overflow', and to 0
-   if not. */
-#cmakedefine01 PHP_HAVE_BUILTIN_SSUBL_OVERFLOW
+/* Define to 1 if the compiler supports '__builtin_ssubl_overflow'. */
+#cmakedefine PHP_HAVE_BUILTIN_SSUBL_OVERFLOW 1
 
-/* Define to 1 if the compiler supports '__builtin_usub_overflow', and to 0 if
-   not. */
-#cmakedefine01 PHP_HAVE_BUILTIN_USUB_OVERFLOW
+/* Define to 1 if the compiler supports '__builtin_usub_overflow'. */
+#cmakedefine PHP_HAVE_BUILTIN_USUB_OVERFLOW 1
 
 /* Define to 1 if you have HP-UX 10.x.-style reentrant time functions. */
 #cmakedefine PHP_HPUX_TIME_R 1

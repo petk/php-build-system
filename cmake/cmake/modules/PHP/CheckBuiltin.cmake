@@ -73,6 +73,10 @@ function(php_check_builtin builtin result)
     set(call "${builtin}();")
   endif()
 
+  if(CMAKE_C_COMPILER_ID STREQUAL "MSVC")
+    set(${result} FALSE CACHE INTERNAL "Test ${result}")
+  endif()
+
   cmake_push_check_state(RESET)
     set(CMAKE_REQUIRED_QUIET TRUE)
 
