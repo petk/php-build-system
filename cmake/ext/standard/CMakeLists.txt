@@ -284,13 +284,8 @@ endif()
 # Configuration checks.
 ################################################################################
 
-# Check for ARM CRC32 API.
 include(cmake/CheckArmCrc32.cmake)
-
-# Check for fnmatch() implementation.
 include(cmake/CheckFnmatch.cmake)
-
-# Check strptime().
 include(cmake/CheckStrptime.cmake)
 
 # Check if there is a support means of creating a new process and defining which
@@ -308,7 +303,7 @@ else()
   message(CHECK_FAIL "no")
 endif()
 
-# The getifaddrs() is available in C library some systems (Solaris 11.4...)
+# The getifaddrs() is available in C library on some systems (Solaris 11.4...)
 php_search_libraries(
   getifaddrs
   HEADERS ifaddrs.h

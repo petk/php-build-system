@@ -1,24 +1,15 @@
 #[=============================================================================[
-# CheckCrypt
-
-Check whether the `crypt` library works as expected for PHP by running a set of
+Check whether the 'crypt' library works as expected for PHP by running a set of
 PHP-specific checks.
 
-## Cache variables
+Cache variables:
 
-* `HAVE_CRYPT_H`
-* `HAVE_CRYPT`
-* `HAVE_CRYPT_R`
-* `CRYPT_R_CRYPTD`
-* `CRYPT_R_STRUCT_CRYPT_DATA`
-* `CRYPT_R_GNU_SOURCE`
-
-## Usage
-
-```cmake
-# CMakeLists.txt
-include(cmake/CheckCrypt.cmake)
-```
+* HAVE_CRYPT_H
+* HAVE_CRYPT
+* HAVE_CRYPT_R
+* CRYPT_R_CRYPTD
+* CRYPT_R_STRUCT_CRYPT_DATA
+* CRYPT_R_GNU_SOURCE
 #]=============================================================================]
 
 include_guard(GLOBAL)
@@ -30,7 +21,7 @@ include(CheckSymbolExists)
 include(CMakePushCheckState)
 
 # Check whether crypt() and crypt_r() are available.
-function(_php_check_crypt)
+function(_php_ext_standard_check_crypt)
   message(CHECK_START "Checking basic crypt functionality")
 
   cmake_push_check_state(RESET)
@@ -67,7 +58,7 @@ function(_php_check_crypt)
 endfunction()
 
 # Detect the style of crypt_r() if any is available.
-function(_php_check_crypt_r result)
+function(_php_ext_standard_check_crypt_r result)
   set(${result} TRUE PARENT_SCOPE)
 
   message(CHECK_START "Checking crypt_r() data struct")
@@ -178,7 +169,7 @@ function(_php_check_crypt_r result)
 endfunction()
 
 # Check if crypt library is usable.
-function(_php_check_crypt_is_usable)
+function(_php_ext_standard_check_crypt_is_usable)
   cmake_push_check_state(RESET)
     set(CMAKE_REQUIRED_QUIET TRUE)
 
@@ -406,9 +397,9 @@ function(_php_check_crypt_is_usable)
 endfunction()
 
 block()
-  _php_check_crypt()
+  _php_ext_standard_check_crypt()
 
-  _php_check_crypt_r(result)
+  _php_ext_standard_check_crypt_r(result)
   if(NOT result)
     message(
       FATAL_ERROR
@@ -417,5 +408,5 @@ block()
     )
   endif()
 
-  _php_check_crypt_is_usable()
+  _php_ext_standard_check_crypt_is_usable()
 endblock()
