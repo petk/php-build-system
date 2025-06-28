@@ -172,12 +172,13 @@ if(SIZEOF_INT STREQUAL "")
   set(SIZEOF_INT_CODE "#define SIZEOF_INT 0")
 endif()
 
-# TODO: PHP on Windows sets the SIZEOF_INTMAX_T to 0 to skip certain checks,
-# otherwise the intmax_t type and its size are available. Windows-related C code
-# should probably be rechecked and fixed at some point.
-check_type_size("intmax_t" SIZEOF_INTMAX_T)
-if(SIZEOF_INTMAX_T STREQUAL "" OR CMAKE_SYSTEM_NAME STREQUAL "Windows")
+# The intmax_t is always available by C99 standard and its size varies between
+# 32-bit and 64-bit target platforms. PHP on Windows sets SIZEOF_INTMAX_T to 0,
+# otherwise the type and its size are available on Windows.
+if(CMAKE_SYSTEM_NAME STREQUAL "Windows")
   set(SIZEOF_INTMAX_T_CODE "#define SIZEOF_INTMAX_T 0")
+else()
+  check_type_size("intmax_t" SIZEOF_INTMAX_T)
 endif()
 
 check_type_size("long" SIZEOF_LONG)
@@ -195,25 +196,11 @@ if(SIZEOF_OFF_T STREQUAL "")
   set(SIZEOF_OFF_T_CODE "#define SIZEOF_OFF_T 0")
 endif()
 
-# TODO: The ptrdiff_t is always available by C89 standard and its size varies
-# between 32-bit and 64-bit target platforms. Checking whether the ptrdiff_t
-# exists is redundant and is left here as PHP still checks it conditionally in
-# the intl extension.
+# The ptrdiff_t is always available by C89 standard and its size varies between
+# 32-bit and 64-bit target platforms. Checking whether the ptrdiff_t exists is
+# redundant and is left here as PHP still checks it conditionally in the intl
+# extension and main/s{n,p}printf.{c,h}.
 check_type_size("ptrdiff_t" SIZEOF_PTRDIFF_T)
-if(SIZEOF_PTRDIFF_T STREQUAL "")
-  if(CMAKE_SIZEOF_VOID_P EQUAL 4)
-    set(SIZEOF_PTRDIFF_T 4)
-  else()
-    set(SIZEOF_PTRDIFF_T 8)
-  endif()
-  set(SIZEOF_PTRDIFF_T_CODE "#define SIZEOF_PTRDIFF_T ${SIZEOF_PTRDIFF_T}")
-
-  message(
-    WARNING
-    "Couldn't determine the ptrdiff_t size, setting it to ${SIZEOF_PTRDIFF_T}."
-  )
-endif()
-set(HAVE_PTRDIFF_T TRUE)
 
 check_type_size("size_t" SIZEOF_SIZE_T)
 if(SIZEOF_SIZE_T STREQUAL "")
