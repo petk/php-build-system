@@ -28,9 +28,9 @@ Conditionally defined preprocessor macros:
 
   As of Solaris 11.4, the `_POSIX_PTHREAD_SEMANTICS` is obsolete and according
   to documentation no header utilizes this anymore. For illumos-based systems,
-  it's unclear where it is still needed, so at the time of writing, this is
-  enabled unconditionally for all Solaris and illumos-based systems as enabling
-  it doesn't cause issues. For other systems, this is irrelevant.
+  it is still needed at the time of writing, so it is enabled unconditionally
+  for all Solaris and illumos-based systems as enabling it on Solaris 11.4
+  doesn't cause issues. For other systems, this is irrelevant.
 
 ## Result variables
 
@@ -255,7 +255,7 @@ set(PHP_SYSTEM_EXTENSIONS_CODE [[
 #ifndef _OPENBSD_SOURCE
 # define _OPENBSD_SOURCE 1
 #endif
-/* Enable POSIX-compatible threading on Solaris.  */
+/* Enable POSIX-compatible threading on Solaris <= 11.3 and illumos.  */
 #ifndef _POSIX_PTHREAD_SEMANTICS
 # cmakedefine _POSIX_PTHREAD_SEMANTICS
 #endif
