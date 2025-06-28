@@ -402,7 +402,7 @@ check_symbol_exists(strlcpy string.h HAVE_STRLCPY)
 check_symbol_exists(explicit_bzero string.h HAVE_EXPLICIT_BZERO)
 
 # Check reentrant functions.
-include(PHP/CheckReentrantFunctions)
+include(${CMAKE_CURRENT_LIST_DIR}/checks/CheckReentrantFunctions.cmake)
 
 # Check fopencookie.
 include(PHP/CheckFopencookie)
@@ -425,9 +425,6 @@ endif()
 
 # Check copy_file_range().
 include(PHP/CheckCopyFileRange)
-
-# Check type of reentrant time-related functions.
-include(PHP/CheckTimeR)
 
 # Check whether writing to stdout works.
 include(PHP/CheckWrite)

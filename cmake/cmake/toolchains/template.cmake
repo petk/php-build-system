@@ -33,14 +33,6 @@ set(PHP_HAS_MAX_PAGE_SIZE_CXX_EXITCODE 0)
 # needs to be added for the PHP_UNDEFINED_SANITIZER option, otherwise set to 0.
 set(PHP_HAS_UBSAN_EXITCODE 0)
 
-# Set the exit code for the check of reentrant time-related functions being
-# HP-UX style.
-set(PHP_HPUX_TIME_R_EXITCODE 1)
-
-# Set the exit code for the check of reentrant time-related functions being IRIX
-# style.
-set(PHP_IRIX_TIME_R_EXITCODE 1)
-
 # Set the exit code for the writing to stdout check.
 set(PHP_WRITE_STDOUT_EXITCODE 0)
 
