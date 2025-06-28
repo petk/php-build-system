@@ -944,6 +944,7 @@ PHP coding standards now use the C11 standard.
 * Bundled file library in ext/fileinfo upgraded to 5.46.
 * Bundled pcre2lib in ext/pcre upgraded from 10.44 to 10.45.
 * Added new extensions lexbor and uri as always enabled.
+* The `SIZEOF_PTRDIFF_T` preprocessor macro has been removed.
 
 #### Autotools
 
@@ -957,9 +958,13 @@ PHP coding standards now use the C11 standard.
   `--with-libdir` configure options (e.g.,
   `--libdir=/usr/lib64 --with-libdir=lib64` will set `libdir` to
   `/usr/lib64/php`).
-* `PHP_ODBC_CFLAGS`, `PHP_ODBC_LFLAGS`, `PHP_ODBC_LIBS`, `PHP_ODBC_TYPE`
+
+##### Changes to main/php_config.h
+
+* The `PHP_ODBC_CFLAGS`, `PHP_ODBC_LFLAGS`, `PHP_ODBC_LIBS`, and `PHP_ODBC_TYPE`
   preprocessor macros defined by ext/odbc are now defined in `php_config.h`
   instead of the `build-defs.h` header.
+* The `HAVE_PTRDIFF_T` preprocessor macro has been removed.
 
 #### Windows
 
@@ -971,8 +976,6 @@ PHP coding standards now use the C11 standard.
   `duplicate_sources` parameter. If truthy, no rules to build the object files
   are generated. This allows to build additional variants of SAPIs (e.g., a DLL
   and EXE) without duplicate build rules.
-* `HAVE_GETLOGIN` preprocessor macro removed from configuration header
-  (`main/config.w32.h`).
 
 ##### Windows configure options
 
@@ -981,5 +984,10 @@ PHP coding standards now use the C11 standard.
   Windows 10.
 * The `--with-uncritical-warn-choke` configuration option for Clang builds has
   been removed in favor of adding warning-suppressing flags via `CFLAGS`.
+
+##### Changes to main/config.w32.h
+
+* The `HAVE_GETLOGIN` preprocessor macro has been removed from configuration
+  header (`main/config.w32.h`).
 
 </details>
