@@ -1,32 +1,29 @@
 #[=============================================================================[
-# PHP/CheckWrite
+Check whether write(2) can successfully write to stdout.
 
-Check whether writing to stdout works.
+On Windows, _write() (and its deprecated alias write()) can also write to stdout
+but this PHP code uses this for POSIX targets only.
 
-## Cache variables
+Result/cache variables:
 
-* `PHP_WRITE_STDOUT`
-
-  Whether `write(2)` works.
-
-## Usage
-
-```cmake
-# CMakeLists.txt
-include(PHP/CheckWrite)
-```
+* PHP_WRITE_STDOUT - Whether 'write()' can write to stdout.
 #]=============================================================================]
 
 include_guard(GLOBAL)
+
+include(CheckIncludeFiles)
+include(CheckSourceRuns)
+include(CMakePushCheckState)
+
+if(CMAKE_SYSTEM_NAME STREQUAL "Windows")
+  set(PHP_WRITE_STDOUT FALSE)
+  return()
+endif()
 
 # Skip in consecutive configuration phases.
 if(DEFINED PHP_WRITE_STDOUT)
   return()
 endif()
-
-include(CheckIncludeFiles)
-include(CheckSourceRuns)
-include(CMakePushCheckState)
 
 message(CHECK_START "Checking whether writing to stdout works")
 

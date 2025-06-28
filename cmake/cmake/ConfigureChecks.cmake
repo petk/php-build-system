@@ -19,6 +19,7 @@ include(CheckTypeSize)
 include(CMakePushCheckState)
 include(FeatureSummary)
 include(PHP/CheckAttribute)
+include(PHP/CheckBuiltin)
 include(PHP/SearchLibraries)
 
 ################################################################################
@@ -229,9 +230,6 @@ cmake_pop_check_state()
 # Check builtins.
 ################################################################################
 
-# Import builtins checker function.
-include(PHP/CheckBuiltin)
-
 php_check_builtin(__builtin_clz PHP_HAVE_BUILTIN_CLZ)
 php_check_builtin(__builtin_clzl PHP_HAVE_BUILTIN_CLZL)
 php_check_builtin(__builtin_clzll PHP_HAVE_BUILTIN_CLZLL)
@@ -249,13 +247,6 @@ php_check_builtin(__builtin_ssubl_overflow PHP_HAVE_BUILTIN_SSUBL_OVERFLOW)
 php_check_builtin(__builtin_ssubll_overflow PHP_HAVE_BUILTIN_SSUBLL_OVERFLOW)
 php_check_builtin(__builtin_unreachable PHP_HAVE_BUILTIN_UNREACHABLE)
 php_check_builtin(__builtin_usub_overflow PHP_HAVE_BUILTIN_USUB_OVERFLOW)
-
-################################################################################
-# Check compiler characteristics.
-################################################################################
-
-# Check AVX-512 extensions.
-include(PHP/CheckAVX512)
 
 ################################################################################
 # Check functions.
@@ -393,12 +384,6 @@ check_symbol_exists(strlcat string.h HAVE_STRLCAT)
 check_symbol_exists(strlcpy string.h HAVE_STRLCPY)
 check_symbol_exists(explicit_bzero string.h HAVE_EXPLICIT_BZERO)
 
-# Check reentrant functions.
-include(${CMAKE_CURRENT_LIST_DIR}/checks/CheckReentrantFunctions.cmake)
-
-# Check fopencookie.
-include(PHP/CheckFopencookie)
-
 # Some systems, notably Solaris, cause getcwd() or realpath to fail if a
 # component of the path has execute but not read permissions.
 message(CHECK_START "Checking for broken getcwd()")
@@ -415,15 +400,17 @@ if(TARGET PHP::CheckGetaddrinfoLibrary)
   target_link_libraries(php_config INTERFACE PHP::CheckGetaddrinfoLibrary)
 endif()
 
-# Check copy_file_range().
-include(PHP/CheckCopyFileRange)
-
-# Check whether writing to stdout works.
-include(PHP/CheckWrite)
-
 ################################################################################
 # Miscellaneous checks.
 ################################################################################
+
+include(${CMAKE_CURRENT_LIST_DIR}/checks/CheckAVX512.cmake)
+include(${CMAKE_CURRENT_LIST_DIR}/checks/CheckCopyFileRange.cmake)
+include(${CMAKE_CURRENT_LIST_DIR}/checks/CheckFlushIo.cmake)
+include(${CMAKE_CURRENT_LIST_DIR}/checks/CheckFopencookie.cmake)
+include(${CMAKE_CURRENT_LIST_DIR}/checks/CheckIPv6.cmake)
+include(${CMAKE_CURRENT_LIST_DIR}/checks/CheckReentrantFunctions.cmake)
+include(${CMAKE_CURRENT_LIST_DIR}/checks/CheckWrite.cmake)
 
 # Checking file descriptor sets.
 message(CHECK_START "Checking file descriptor sets size")
@@ -443,12 +430,6 @@ elseif(NOT PHP_FD_SETSIZE STREQUAL "")
 else()
   message(CHECK_PASS "using system default")
 endif()
-
-# Check for IPv6 support.
-include(PHP/CheckIPv6)
-
-# Check how flush should be called.
-include(PHP/CheckFlushIo)
 
 if(HAVE_ALLOCA_H)
   # Most *.nix systems.
