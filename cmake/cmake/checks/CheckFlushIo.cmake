@@ -1,45 +1,36 @@
 #[=============================================================================[
-# PHP/CheckFlushIo
-
 Check if flush should be called explicitly after buffered io.
 
-## Cache variables
+Result variables:
 
-* `HAVE_FLUSHIO`
-
-## Usage
-
-```cmake
-# CMakeLists.txt
-include(PHP/CheckFlushIo)
-```
+* HAVE_FLUSHIO
 #]=============================================================================]
 
 include_guard(GLOBAL)
-
-# Skip in consecutive configuration phases.
-if(DEFINED HAVE_FLUSHIO)
-  return()
-endif()
 
 include(CheckIncludeFiles)
 include(CheckSourceRuns)
 include(CMakePushCheckState)
 
-message(CHECK_START
-  "Checking whether flush should be called explicitly after a buffered io"
-)
+set(HAVE_FLUSHIO FALSE)
 
 if(CMAKE_SYSTEM_NAME STREQUAL "Windows")
-  message(CHECK_FAIL "no")
-  set(
-    HAVE_FLUSHIO
-    FALSE
-    CACHE INTERNAL
-    "Whether flush should be called explicitly after a buffered io."
-  )
   return()
 endif()
+
+# Skip in consecutive configuration phases.
+if(DEFINED PHP_HAS_FLUSHIO)
+  if(PHP_HAS_FLUSHIO)
+    set(HAVE_FLUSHIO TRUE)
+  endif()
+
+  return()
+endif()
+
+message(
+  CHECK_START
+  "Checking whether flush should be called explicitly after a buffered io"
+)
 
 cmake_push_check_state(RESET)
   set(CMAKE_REQUIRED_QUIET TRUE)
@@ -108,10 +99,11 @@ cmake_push_check_state(RESET)
 
       return result;
     }
-  ]] HAVE_FLUSHIO)
+  ]] PHP_HAS_FLUSHIO)
 cmake_pop_check_state()
 
-if(HAVE_FLUSHIO)
+if(PHP_HAS_FLUSHIO)
+  set(HAVE_FLUSHIO TRUE)
   message(CHECK_PASS "yes")
 else()
   message(CHECK_FAIL "no")
