@@ -20,13 +20,15 @@ Result variables:
 * MISSING_LOCALTIME_R_DECL - Whether localtime_r() is not declared.
 * MISSING_STRTOK_R_DECL - Whether `strtok_r()` is not declared.
 
-Also the type of reentrant time-related functions are checked. Type can be irix,
-hpux or POSIX. This check is obsolete as it is relevant for obsolete systems.
+Also the type of reentrant time-related functions are checked. Type can be IRIX,
+HP-UX or POSIX style. This check is obsolete as it is relevant only for obsolete
+systems.
 
 Cache variables:
 
 * PHP_HPUX_TIME_R - Whether HP-UX 10.x is used.
-* PHP_IRIX_TIME_R - Whether IRIX-style functions are used.
+* PHP_IRIX_TIME_R - Whether IRIX-style functions are used (e.g., Solaris <= 11.3
+  and illumos without _POSIX_PTHREAD_SEMANTICS defined).
 #]=============================================================================]
 
 include_guard(GLOBAL)
@@ -34,6 +36,8 @@ include_guard(GLOBAL)
 include(CheckFunctionExists)
 include(CheckSourceRuns)
 include(CheckSymbolExists)
+include(CMakePushCheckState)
+include(PHP/SystemExtensions)
 
 # Define HAVE_<symbol> if linker sees the function, and MISSING_<symbol>_DECL if
 # function is not declared by checking the required header and test body.
@@ -95,46 +99,52 @@ endif()
 
 message(CHECK_START "Checking type of reentrant time-related functions")
 
-check_source_runs(C [[
-  #include <time.h>
+cmake_push_check_state(RESET)
+  # To get the POSIX standard conforming *_r functions declarations:
+  # - _POSIX_PTHREAD_SEMANTICS is needed on Solaris <= 11.3 and illumos
+  set(CMAKE_REQUIRED_LIBRARIES PHP::SystemExtensions)
 
-  int main(void)
-  {
-    char buf[27];
-    struct tm t;
-    time_t old = 0;
-    int r, s;
-
-    s = gmtime_r(&old, &t);
-    r = (int) asctime_r(&t, buf, 26);
-    if (r == s && s == 0) {
-      return 0;
-    }
-
-    return 1;
-  }
-]] PHP_HPUX_TIME_R)
-
-if(NOT PHP_HPUX_TIME_R)
   check_source_runs(C [[
     #include <time.h>
 
     int main(void)
     {
-      struct tm t, *s;
+      char buf[27];
+      struct tm t;
       time_t old = 0;
-      char buf[27], *p;
+      int r, s;
 
-      s = gmtime_r(&old, &t);
-      p = asctime_r(&t, buf, 26);
-      if (p == buf && s == &t) {
+      s = (int) gmtime_r(&old, &t);
+      r = (int) asctime_r(&t, buf, 26);
+      if (r == s && s == 0) {
         return 0;
       }
 
       return 1;
     }
-  ]] PHP_IRIX_TIME_R)
-endif()
+  ]] PHP_HPUX_TIME_R)
+
+  if(NOT PHP_HPUX_TIME_R)
+    check_source_runs(C [[
+      #include <time.h>
+
+      int main(void)
+      {
+        struct tm t, *s;
+        time_t old = 0;
+        char buf[27], *p;
+
+        s = gmtime_r(&old, &t);
+        p = asctime_r(&t, buf, 26);
+        if (p == buf && s == &t) {
+          return 0;
+        }
+
+        return 1;
+      }
+    ]] PHP_IRIX_TIME_R)
+  endif()
+cmake_pop_check_state()
 
 if(PHP_HPUX_TIME_R)
   message(CHECK_PASS "HP-UX")
