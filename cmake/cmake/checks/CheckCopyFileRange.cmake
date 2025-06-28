@@ -1,33 +1,34 @@
 #[=============================================================================[
-# PHP/CheckCopyFileRange
+Check copy_file_range().
 
-On FreeBSD, `copy_file_range()` works only with the undocumented flag
-`0x01000000`. Until the problem is fixed properly, `copy_file_range()` is used
+On FreeBSD, copy_file_range() works only with the undocumented flag
+'0x01000000'. Until the problem is fixed properly, 'copy_file_range()' is used
 only on Linux.
 
-## Cache variables
+Result variables:
 
-* `HAVE_COPY_FILE_RANGE`
-
-  Whether `copy_file_range()` is supported.
-
-## Usage
-
-```cmake
-# CMakeLists.txt
-include(PHP/CheckCopyFileRange)
-```
+* HAVE_COPY_FILE_RANGE - Whether 'copy_file_range()' is supported.
 #]=============================================================================]
 
 include_guard(GLOBAL)
 
-# Skip in consecutive configuration phases.
-if(DEFINED HAVE_COPY_FILE_RANGE)
+include(CheckSourceCompiles)
+include(CMakePushCheckState)
+
+set(HAVE_COPY_FILE_RANGE FALSE)
+
+if(CMAKE_SYSTEM_NAME STREQUAL "Windows")
   return()
 endif()
 
-include(CheckSourceCompiles)
-include(CMakePushCheckState)
+# Skip in consecutive configuration phases.
+if(DEFINED PHP_HAS_COPY_FILE_RANGE)
+  if(PHP_HAS_COPY_FILE_RANGE)
+    set(HAVE_COPY_FILE_RANGE TRUE)
+  endif()
+
+  return()
+endif()
 
 message(CHECK_START "Checking for copy_file_range")
 
@@ -53,10 +54,11 @@ cmake_push_check_state(RESET)
       (void)copy_file_range(-1, 0, -1, 0, 0, 0);
       return 0;
     }
-  ]] HAVE_COPY_FILE_RANGE)
+  ]] PHP_HAS_COPY_FILE_RANGE)
 cmake_pop_check_state()
 
-if(HAVE_COPY_FILE_RANGE)
+if(PHP_HAS_COPY_FILE_RANGE)
+  set(HAVE_COPY_FILE_RANGE TRUE)
   message(CHECK_PASS "yes")
 else()
   message(CHECK_FAIL "no")

@@ -1,21 +1,12 @@
 #[=============================================================================[
-# PHP/CheckIPv6
-
 Check for IPv6 support.
 
-## Result variables
+Result variables:
 
-* `HAVE_IPV6`
-
-  Whether IPv6 support is supported and enabled.
-
-## Usage
-
-```cmake
-# CMakeLists.txt
-include(PHP/CheckIPv6)
-```
+* HAVE_IPV6 - Whether IPv6 support is supported and enabled.
 #]=============================================================================]
+
+include_guard(GLOBAL)
 
 include(CheckSourceCompiles)
 include(CMakePushCheckState)
