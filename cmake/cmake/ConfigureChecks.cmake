@@ -171,15 +171,6 @@ if(SIZEOF_INT STREQUAL "")
   set(SIZEOF_INT_CODE "#define SIZEOF_INT 0")
 endif()
 
-# The intmax_t is always available by C99 standard and its size varies between
-# 32-bit and 64-bit target platforms. PHP on Windows sets SIZEOF_INTMAX_T to 0,
-# otherwise the type and its size are available on Windows.
-if(CMAKE_SYSTEM_NAME STREQUAL "Windows")
-  set(SIZEOF_INTMAX_T_CODE "#define SIZEOF_INTMAX_T 0")
-else()
-  check_type_size("intmax_t" SIZEOF_INTMAX_T)
-endif()
-
 check_type_size("long" SIZEOF_LONG)
 if(SIZEOF_LONG STREQUAL "")
   set(SIZEOF_LONG_CODE "#define SIZEOF_LONG 0")
@@ -309,6 +300,9 @@ cmake_push_check_state(RESET)
   set(CMAKE_REQUIRED_DEFINITIONS -D_GNU_SOURCE)
   check_symbol_exists(memfd_create sys/mman.h HAVE_MEMFD_CREATE)
 cmake_pop_check_state()
+
+# The memset_explicit() is available as of C23 standard.
+check_symbol_exists(memset_explicit string.h HAVE_MEMSET_EXPLICIT)
 
 check_symbol_exists(mkstemp stdlib.h HAVE_MKSTEMP)
 check_symbol_exists(mmap sys/mman.h HAVE_MMAP)

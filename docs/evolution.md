@@ -944,6 +944,7 @@ PHP coding standards now use the C11 standard.
 * Bundled file library in ext/fileinfo upgraded to 5.46.
 * Bundled pcre2lib in ext/pcre upgraded from 10.44 to 10.45.
 * Added new extensions lexbor and uri as always enabled.
+* The `SIZEOF_INTMAX_T` preprocessor macro has been removed.
 * The `SIZEOF_PTRDIFF_T` preprocessor macro has been removed.
 
 #### Autotools
@@ -964,6 +965,7 @@ PHP coding standards now use the C11 standard.
 * The `PHP_ODBC_CFLAGS`, `PHP_ODBC_LFLAGS`, `PHP_ODBC_LIBS`, and `PHP_ODBC_TYPE`
   preprocessor macros defined by ext/odbc are now defined in `php_config.h`
   instead of the `build-defs.h` header.
+* The `HAVE_INTMAX_T` preprocessor macro has been removed.
 * The `HAVE_PTRDIFF_T` preprocessor macro has been removed.
 
 #### Windows

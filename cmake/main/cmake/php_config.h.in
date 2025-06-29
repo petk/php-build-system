@@ -255,6 +255,9 @@
 /* Define to 1 if you have the 'memrchr' function. */
 #cmakedefine HAVE_MEMRCHR 1
 
+/* Define to 1 if you have the 'memset_explicit' function. */
+#cmakedefine HAVE_MEMSET_EXPLICIT 1
+
 /* Define to 1 if you have the 'mkstemp' function. */
 #cmakedefine HAVE_MKSTEMP 1
 
@@ -613,9 +616,6 @@
 
 /* The size of 'int', as computed by sizeof. */
 @SIZEOF_INT_CODE@
-
-/* The size of 'intmax_t', as computed by sizeof. */
-@SIZEOF_INTMAX_T_CODE@
 
 /* The size of 'long', as computed by sizeof. */
 @SIZEOF_LONG_CODE@
