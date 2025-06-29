@@ -23,9 +23,6 @@ if(CMAKE_SYSTEM_NAME STREQUAL "Windows")
   # PHP has ftok() emulation implemented on Windows.
   set(HAVE_FTOK TRUE)
 
-  # PHP has unconditional getaddrinfo() support on Windows.
-  set(HAVE_GETADDRINFO TRUE)
-
   # PHP has unconditional support for getcwd() on Windows.
   set(HAVE_GETCWD TRUE)
 

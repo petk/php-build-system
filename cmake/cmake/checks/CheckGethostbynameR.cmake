@@ -1,9 +1,7 @@
 #[=============================================================================[
-# PHP/CheckGethostbynameR
+Check 'gethostbyname_r()'.
 
-Check `gethostbyname_r()`.
-
-The non-standard `gethostbyname_r()` function has different signatures across
+The non-standard 'gethostbyname_r()' function has different signatures across
 systems:
 
 * Linux, BSD: 6 arguments
@@ -15,38 +13,12 @@ systems:
 See also:
 https://www.gnu.org/software/autoconf-archive/ax_func_which_gethostbyname_r.html
 
-## Cache variables
+Result variables:
 
-* `HAVE_FUNC_GETHOSTBYNAME_R_6`
-
-  Whether `gethostbyname_r()` has 6 arguments.
-
-* `HAVE_FUNC_GETHOSTBYNAME_R_5`
-
-  Whether `gethostbyname_r()` has 5 arguments.
-
-* `HAVE_FUNC_GETHOSTBYNAME_R_3`
-
-  Whether `gethostbyname_r()` has 3 arguments.
-
-## Result variables
-
-* `HAVE_GETHOSTBYNAME_R`
-
-  Whether `gethostbyname_r()` is available.
-
-## INTERFACE library
-
-* `PHP::CheckGethostbynameR`
-
-  Created when additional system library needs to be linked.
-
-## Usage
-
-```cmake
-# CMakeLists.txt
-include(PHP/CheckGethostbynameR)
-```
+* HAVE_FUNC_GETHOSTBYNAME_R_6 - Whether 'gethostbyname_r()' has 6 arguments.
+* HAVE_FUNC_GETHOSTBYNAME_R_5 - Whether 'gethostbyname_r()' has 5 arguments.
+* HAVE_FUNC_GETHOSTBYNAME_R_3 - Whether 'gethostbyname_r()' has 3 arguments.
+* HAVE_GETHOSTBYNAME_R - Whether 'gethostbyname_r()' is available.
 #]=============================================================================]
 
 include_guard(GLOBAL)
@@ -54,6 +26,15 @@ include_guard(GLOBAL)
 include(CheckPrototypeDefinition)
 include(CMakePushCheckState)
 include(PHP/SearchLibraries)
+
+set(HAVE_FUNC_GETHOSTBYNAME_R_6 FALSE)
+set(HAVE_FUNC_GETHOSTBYNAME_R_5 FALSE)
+set(HAVE_FUNC_GETHOSTBYNAME_R_3 FALSE)
+set(HAVE_GETHOSTBYNAME_R FALSE)
+
+if(CMAKE_SYSTEM_NAME STREQUAL "Windows")
+  return()
+endif()
 
 function(_php_check_gethostbyname_r)
   message(CHECK_START "Checking number of gethostbyname_r() arguments")
@@ -74,9 +55,7 @@ function(_php_check_gethostbyname_r)
   endif()
 
   if(library)
-    add_library(php_check_gethostbyname_r INTERFACE)
-    add_library(PHP::CheckGethostbynameR ALIAS php_check_gethostbyname_r)
-    target_link_libraries(php_check_gethostbyname_r INTERFACE ${library})
+    target_link_libraries(php_config INTERFACE ${library})
   endif()
 
   # Check for 6 arguments signature.
@@ -86,9 +65,9 @@ function(_php_check_gethostbyname_r)
       size_t buflen, struct hostent **result, int *h_errnop)"
     "0"
     netdb.h
-    HAVE_FUNC_GETHOSTBYNAME_R_6
+    PHP_HAS_GETHOSTBYNAME_R_6
   )
-  if(HAVE_FUNC_GETHOSTBYNAME_R_6)
+  if(PHP_HAS_GETHOSTBYNAME_R_6)
     message(CHECK_PASS "six")
     return()
   endif()
@@ -100,9 +79,9 @@ function(_php_check_gethostbyname_r)
       char *buffer, int buflen, int *h_errnop)"
     "0"
     netdb.h
-    HAVE_FUNC_GETHOSTBYNAME_R_5
+    PHP_HAS_GETHOSTBYNAME_R_5
   )
-  if(HAVE_FUNC_GETHOSTBYNAME_R_5)
+  if(PHP_HAS_GETHOSTBYNAME_R_5)
     message(CHECK_PASS "five")
     return()
   endif()
@@ -114,9 +93,9 @@ function(_php_check_gethostbyname_r)
       struct hostent_data *data)"
     "0"
     netdb.h
-    HAVE_FUNC_GETHOSTBYNAME_R_3
+    PHP_HAS_GETHOSTBYNAME_R_3
   )
-  if(HAVE_FUNC_GETHOSTBYNAME_R_3)
+  if(PHP_HAS_GETHOSTBYNAME_R_3)
     message(CHECK_PASS "three")
     return()
   endif()
@@ -128,6 +107,18 @@ cmake_push_check_state(RESET)
   set(CMAKE_REQUIRED_QUIET TRUE)
   _php_check_gethostbyname_r()
 cmake_pop_check_state()
+
+if(PHP_HAS_GETHOSTBYNAME_R_6)
+  set(HAVE_FUNC_GETHOSTBYNAME_R_6 TRUE)
+endif()
+
+if(PHP_HAS_GETHOSTBYNAME_R_5)
+  set(HAVE_FUNC_GETHOSTBYNAME_R_5 TRUE)
+endif()
+
+if(PHP_HAS_GETHOSTBYNAME_R_3)
+  set(HAVE_FUNC_GETHOSTBYNAME_R_3 TRUE)
+endif()
 
 if(
   HAVE_FUNC_GETHOSTBYNAME_R_6
