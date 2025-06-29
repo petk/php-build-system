@@ -124,9 +124,6 @@ if(CMAKE_SYSTEM_NAME STREQUAL "Windows")
   #Have includes sys/types.h;arpa/nameser.h
   set(HAVE_ARPA_NAMESER_H FALSE)
 
-  #Have function asctime_r
-  set(HAVE_ASCTIME_R FALSE)
-
   #Test HAVE_ASM_GOTO
   set(HAVE_ASM_GOTO TRUE)
 
@@ -145,17 +142,11 @@ if(CMAKE_SYSTEM_NAME STREQUAL "Windows")
   #Have includes sys/types.h;Availability.h;CommonCrypto/CommonCryptoError.h;CommonCrypto/CommonRandom.h
   set(HAVE_COMMONCRYPTO_COMMONRANDOM_H FALSE)
 
-  #Test HAVE_COPY_FILE_RANGE
-  set(HAVE_COPY_FILE_RANGE FALSE)
-
   #Test HAVE_CPUID_COUNT
   set(HAVE_CPUID_COUNT FALSE)
 
   #Have includes cpuid.h
   set(HAVE_CPUID_H FALSE)
-
-  #Have function ctime_r
-  set(HAVE_CTIME_R FALSE)
 
   #Have includes dlfcn.h
   set(HAVE_DLFCN_H FALSE)
@@ -186,9 +177,6 @@ if(CMAKE_SYSTEM_NAME STREQUAL "Windows")
 
   #Have function fdatasync
   set(HAVE_FDATASYNC FALSE)
-
-  #Whether flush should be called explicitly after a buffered io.
-  set(HAVE_FLUSHIO FALSE)
 
   #Have symbol fork
   set(HAVE_FORK FALSE)
@@ -256,9 +244,6 @@ if(CMAKE_SYSTEM_NAME STREQUAL "Windows")
   #Have symbol getwd
   set(HAVE_GETWD FALSE)
 
-  #Have function gmtime_r
-  set(HAVE_GMTIME_R FALSE)
-
   #Have symbol hstrerror
   set(HAVE_HSTRERROR FALSE)
 
@@ -298,8 +283,7 @@ if(CMAKE_SYSTEM_NAME STREQUAL "Windows")
   set(HAVE_LINUX_SOCK_DIAG_H FALSE)
   #Have includes linux/udp.h
   set(HAVE_LINUX_UDP_H FALSE)
-  #Have function localtime_r
-  set(HAVE_LOCALTIME_R FALSE)
+
   #Have symbol makedev
   set(HAVE_MAKEDEV FALSE)
   #Have include ;math.h
@@ -436,8 +420,7 @@ if(CMAKE_SYSTEM_NAME STREQUAL "Windows")
   set(HAVE_STRNDUP FALSE)
   #Have symbol strnlen
   set(HAVE_STRNLEN TRUE)
-  #Have function strtok_r
-  set(HAVE_STRTOK_R FALSE)
+
   #Result of TRY_COMPILE
   set(HAVE_STRUCT_CMSGCRED FALSE)
   #Result of TRY_COMPILE
@@ -541,12 +524,6 @@ if(CMAKE_SYSTEM_NAME STREQUAL "Windows")
   #Have symbol __ELF__
   set(PHP_HAS_ELF FALSE)
 
-  #Test PHP_HPUX_TIME_R
-  set(PHP_HPUX_TIME_R FALSE)
-
-  #Test PHP_IRIX_TIME_R
-  set(PHP_IRIX_TIME_R FALSE)
-
   #Test PHP_IS_EBCDIC
   set(PHP_IS_EBCDIC FALSE)
 
@@ -556,10 +533,6 @@ if(CMAKE_SYSTEM_NAME STREQUAL "Windows")
   set(PHP_HAS_FNO_COMMON_C FALSE)
   #Test PHP_HAS_FNO_COMMON_CXX
   set(PHP_HAS_FNO_COMMON_CXX FALSE)
-  #Have symbol fopencookie
-  set(PHP_HAS_FOPENCOOKIE FALSE)
-  #Have symbol gethostbyname_r
-  set(PHP_HAS_GETHOSTBYNAME_R FALSE)
   #Have symbol getifaddrs
   set(PHP_HAS_GETIFADDRS FALSE)
   #Have symbol inet_ntop
@@ -614,8 +587,4 @@ if(CMAKE_SYSTEM_NAME STREQUAL "Windows")
   set(PHP_HAS_WNO_UNUSED_PARAMETER_CXX FALSE)
   #Test PHP_HAS_WSTRICT_PROTOTYPES_C
   set(PHP_HAS_WSTRICT_PROTOTYPES_C FALSE)
-  #Test PHP_HAVE_AVX512_SUPPORTS
-  set(PHP_HAVE_AVX512_SUPPORTS TRUE)
-  #Test PHP_HAVE_AVX512_VBMI_SUPPORTS
-  set(PHP_HAVE_AVX512_VBMI_SUPPORTS TRUE)
 endif()
