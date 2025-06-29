@@ -256,13 +256,6 @@ php_check_builtin(__builtin_ssubll_overflow PHP_HAVE_BUILTIN_SSUBLL_OVERFLOW)
 php_check_builtin(__builtin_usub_overflow PHP_HAVE_BUILTIN_USUB_OVERFLOW)
 
 ################################################################################
-# Check compiler characteristics.
-################################################################################
-
-# Check compiler inline keyword.
-include(PHP/CheckInline)
-
-################################################################################
 # Check functions.
 ################################################################################
 
@@ -416,6 +409,7 @@ include(${CMAKE_CURRENT_LIST_DIR}/checks/CheckFlushIo.cmake)
 include(${CMAKE_CURRENT_LIST_DIR}/checks/CheckFopencookie.cmake)
 include(${CMAKE_CURRENT_LIST_DIR}/checks/CheckGetaddrinfo.cmake)
 include(${CMAKE_CURRENT_LIST_DIR}/checks/CheckGethostbynameR.cmake)
+include(${CMAKE_CURRENT_LIST_DIR}/checks/CheckInline.cmake)
 include(${CMAKE_CURRENT_LIST_DIR}/checks/CheckIPv6.cmake)
 include(${CMAKE_CURRENT_LIST_DIR}/checks/CheckReentrantFunctions.cmake)
 include(${CMAKE_CURRENT_LIST_DIR}/checks/CheckWrite.cmake)

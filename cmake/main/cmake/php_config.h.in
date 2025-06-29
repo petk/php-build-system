@@ -667,6 +667,12 @@
 /* Define to 1 when using musl libc. */
 #cmakedefine __MUSL__ 1
 
+/* Define to '__inline__' or '__inline' if that's what the C compiler
+   calls it, or to nothing if 'inline' is not supported under any name. */
+#ifndef __cplusplus
+@PHP_INLINE_KEYWORD_CODE@
+#endif
+
 /*****************************************************************************
   PHP SAPIs configuration
  ****************************************************************************/
@@ -694,12 +700,6 @@
 #else
 /* Define to 'int' if <sys/types.h> doesn't define. */
 # cmakedefine gid_t @gid_t@
-
-/* Define to '__inline__' or '__inline' if that's what the C compiler
-   calls it, or to nothing if 'inline' is not supported under any name.  */
-# ifndef __cplusplus
-@INLINE_KEYWORD_DEFINITION@
-# endif
 
 /* Define to 'int' if <sys/types.h> doesn't define. */
 # cmakedefine uid_t @uid_t@
