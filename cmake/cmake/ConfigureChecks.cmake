@@ -394,12 +394,6 @@ else()
   message(CHECK_FAIL "no")
 endif()
 
-# Check getaddrinfo().
-include(PHP/CheckGetaddrinfo)
-if(TARGET PHP::CheckGetaddrinfoLibrary)
-  target_link_libraries(php_config INTERFACE PHP::CheckGetaddrinfoLibrary)
-endif()
-
 ################################################################################
 # Miscellaneous checks.
 ################################################################################
@@ -408,6 +402,8 @@ include(${CMAKE_CURRENT_LIST_DIR}/checks/CheckAVX512.cmake)
 include(${CMAKE_CURRENT_LIST_DIR}/checks/CheckCopyFileRange.cmake)
 include(${CMAKE_CURRENT_LIST_DIR}/checks/CheckFlushIo.cmake)
 include(${CMAKE_CURRENT_LIST_DIR}/checks/CheckFopencookie.cmake)
+include(${CMAKE_CURRENT_LIST_DIR}/checks/CheckGetaddrinfo.cmake)
+include(${CMAKE_CURRENT_LIST_DIR}/checks/CheckGethostbynameR.cmake)
 include(${CMAKE_CURRENT_LIST_DIR}/checks/CheckIPv6.cmake)
 include(${CMAKE_CURRENT_LIST_DIR}/checks/CheckReentrantFunctions.cmake)
 include(${CMAKE_CURRENT_LIST_DIR}/checks/CheckWrite.cmake)
@@ -479,11 +475,6 @@ endif()
 
 # Check for variable __attribute__((aligned)) support in the compiler.
 php_check_variable_attribute(aligned HAVE_ATTRIBUTE_ALIGNED)
-
-include(PHP/CheckGethostbynameR)
-if(TARGET PHP::CheckGethostbynameR)
-  target_link_libraries(php_config INTERFACE PHP::CheckGethostbynameR)
-endif()
 
 ################################################################################
 # Check for required libraries.

@@ -1,26 +1,9 @@
 #[=============================================================================[
-# PHP/CheckGetaddrinfo
+Check whether getaddrinfo() function is working as expected.
 
-Check for working `getaddrinfo()`.
+Result variables:
 
-## Cache variables
-
-* `HAVE_GETADDRINFO`
-
-  Whether `getaddrinfo()` function is working as expected.
-
-IMPORTED target:
-
-* `PHP::CheckGetaddrinfoLibrary`
-
-  If there is additional library to be linked for using `getaddrinfo()`.
-
-## Usage
-
-```cmake
-# CMakeLists.txt
-include(PHP/CheckGetaddrinfo)
-```
+* HAVE_GETADDRINFO
 #]=============================================================================]
 
 include_guard(GLOBAL)
@@ -29,7 +12,13 @@ include(CheckSourceRuns)
 include(CMakePushCheckState)
 include(PHP/SearchLibraries)
 
-message(CHECK_START "Checking for getaddrinfo()")
+set(HAVE_GETADDRINFO FALSE)
+
+if(CMAKE_SYSTEM_NAME STREQUAL "Windows")
+  set(HAVE_GETADDRINFO TRUE)
+  target_link_libraries(php_config INTERFACE ws2_32)
+  return()
+endif()
 
 # The getaddrinfo() is mostly in C library (Solaris 11.4, illumos...)
 php_search_libraries(
@@ -41,38 +30,34 @@ php_search_libraries(
     socket  # Solaris <= 11.3
     network # Haiku
     ws2_32  # Windows
-  LIBRARY_VARIABLE libraryForGetaddrinfo
+  LIBRARY_VARIABLE library
 )
-if(libraryForGetaddrinfo)
-  add_library(PHP::CheckGetaddrinfoLibrary INTERFACE IMPORTED GLOBAL)
-
-  target_link_libraries(
-    PHP::CheckGetaddrinfoLibrary
-    INTERFACE
-      ${libraryForGetaddrinfo}
-  )
+if(library)
+  target_link_libraries(php_config INTERFACE ${library})
 endif()
 
-# If the variable HAVE_GETADDRINFO has been overridden the module stops here.
-# For example, on Windows.
-if(HAVE_GETADDRINFO)
-  message(CHECK_PASS "yes (cached)")
+if(DEFINED PHP_HAS_GETADDRINFO)
+  if(PHP_HAS_GETADDRINFO)
+    set(HAVE_GETADDRINFO TRUE)
+  endif()
   return()
 endif()
 
+message(CHECK_START "Checking whether getaddrinfo() works")
+
 cmake_push_check_state(RESET)
   set(CMAKE_REQUIRED_QUIET TRUE)
-  if(TARGET PHP::CheckGetaddrinfoLibrary)
-    set(CMAKE_REQUIRED_LIBRARIES PHP::CheckGetaddrinfoLibrary)
+  if(library)
+    set(CMAKE_REQUIRED_LIBRARIES ${library})
   endif()
 
   if(
-    NOT DEFINED HAVE_GETADDRINFO_EXITCODE
+    NOT DEFINED PHP_HAS_GETADDRINFO_EXITCODE
     AND CMAKE_CROSSCOMPILING
     AND NOT CMAKE_CROSSCOMPILING_EMULATOR
     AND CMAKE_SYSTEM_NAME MATCHES "^(Linux|Midipix)$"
   )
-    set(HAVE_GETADDRINFO_EXITCODE 0)
+    set(PHP_HAS_GETADDRINFO_EXITCODE 0)
   endif()
 
   check_source_runs(C [[
@@ -116,10 +101,11 @@ cmake_push_check_state(RESET)
 
       return 0;
     }
-  ]] HAVE_GETADDRINFO)
+  ]] PHP_HAS_GETADDRINFO)
 cmake_pop_check_state()
 
-if(HAVE_GETADDRINFO)
+if(PHP_HAS_GETADDRINFO)
+  set(HAVE_GETADDRINFO TRUE)
   message(CHECK_PASS "yes")
 else()
   message(CHECK_FAIL "no")
