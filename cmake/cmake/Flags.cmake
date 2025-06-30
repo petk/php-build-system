@@ -500,7 +500,7 @@ endif()
 ################################################################################
 
 # Align segments on huge page boundary.
-include(PHP/CheckSegmentsAlignment)
+include(${CMAKE_CURRENT_LIST_DIR}/checks/CheckSegmentsAlignment.cmake)
 
 check_linker_flag(C LINKER:/verbose PHP_HAS_VERBOSE_LINKER_FLAG_C)
 if(PHP_HAS_VERBOSE_LINKER_FLAG_C)
