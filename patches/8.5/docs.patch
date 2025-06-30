@@ -8,7 +8,7 @@ with PHP.
  1 file changed, 22 insertions(+)
 
 diff --git a/README.md b/README.md
-index c5376f67725..2675e91239f 100644
+index 39c6b89fbbd..d855768366f 100644
 --- a/README.md
 +++ b/README.md
 @@ -35,8 +35,30 @@ For other systems, see the [installation chapter](https://www.php.net/install).
