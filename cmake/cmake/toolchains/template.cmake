@@ -19,13 +19,6 @@ set(CMAKE_FIND_ROOT_PATH "")
 # Set the exit code for the fopencookie seeker using off64_t check.
 set(PHP_HAS_COOKIE_SEEKER_OFF64_T_EXITCODE 0)
 
-# Set the exit codes for the alignment segments checks.
-# See PHP/CheckSegmentsAlignment.cmake
-set(PHP_HAS_ALIGNMENT_FLAGS_C_EXITCODE 0)
-set(PHP_HAS_MAX_PAGE_SIZE_C_EXITCODE 0)
-set(PHP_HAS_ALIGNMENT_FLAGS_CXX_EXITCODE 0)
-set(PHP_HAS_MAX_PAGE_SIZE_CXX_EXITCODE 0)
-
 # Set the exit code if flush should be called explicitly after a buffered io.
 set(PHP_HAS_FLUSHIO_EXITCODE 1)
 
