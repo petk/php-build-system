@@ -1,0 +1,27 @@
+From: Peter Kokot <peterkokot@gmail.com>
+Subject: Fix tests
+
+- ext/dom
+  - When running tests from a directory located inside php-src, for
+    example, php-src/php-build relative paths need to be adjusted.
+---
+ ext/dom/tests/dom_xinclude.phpt | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/ext/dom/tests/dom_xinclude.phpt b/ext/dom/tests/dom_xinclude.phpt
+index 0dfeb2dfb4a..410431de877 100644
+--- a/ext/dom/tests/dom_xinclude.phpt
++++ b/ext/dom/tests/dom_xinclude.phpt
+@@ -48,10 +48,10 @@
+ #text
+ <?xml version="1.0" encoding="UTF-8"?>
+ <foo xmlns:xi="http://www.w3.org/2001/XInclude">
+-    <book xml:base="compress.zlib://./ext/dom/tests/book.xml">
++    <book xml:base="compress.zlib://%s/ext/dom/tests/book.xml">
+   <title>The Grapes of Wrath</title>
+   <author>John Steinbeck</author>
+- </book><book xml:base="compress.zlib://./ext/dom/tests/book.xml">
++ </book><book xml:base="compress.zlib://%s/ext/dom/tests/book.xml">
+   <title>The Pearl</title>
+   <author>John Steinbeck</author>
+  </book>
