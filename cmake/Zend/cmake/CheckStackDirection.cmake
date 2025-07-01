@@ -1,26 +1,20 @@
 #[=============================================================================[
-# CheckStackDirection
-
 Check whether the stack grows downwards. Assumes contiguous stack.
 
-## Cache variables
+Result/cache variables:
 
-* `ZEND_CHECK_STACK_LIMIT`
-
-  Whether checking the stack limit is supported.
-
-## Usage
-
-```cmake
-# CMakeLists.txt
-include(cmake/CheckStackDirection.cmake)
-```
+* ZEND_CHECK_STACK_LIMIT - Whether checking the stack limit is supported.
 #]=============================================================================]
 
 include_guard(GLOBAL)
 
 # Skip in consecutive configuration phases.
 if(DEFINED ZEND_CHECK_STACK_LIMIT)
+  return()
+endif()
+
+if(CMAKE_SYSTEM_NAME STREQUAL "Windows")
+  set(ZEND_CHECK_STACK_LIMIT TRUE)
   return()
 endif()
 

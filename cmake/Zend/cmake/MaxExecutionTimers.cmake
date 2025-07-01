@@ -1,38 +1,26 @@
 #[=============================================================================[
-# MaxExecutionTimers
-
 Check whether to enable Zend max execution timers.
 
-## Cache variables
+Cache variables:
 
-* `ZEND_MAX_EXECUTION_TIMERS`
+* ZEND_MAX_EXECUTION_TIMERS
+* HAVE_TIMER_CREATE - Whether the system has timer_create().
 
-* `HAVE_TIMER_CREATE`
+Result variables:
 
-  Whether the system has `timer_create()`.
-
-## Result variables
-
-* `ZEND_MAX_EXECUTION_TIMERS`
+* ZEND_MAX_EXECUTION_TIMERS
 
   A local variable based on the cache variable and thread safety to be able to
-  run consecutive configuration phases. When `ZEND_MAX_EXECUTION_TIMERS` cache
+  run consecutive configuration phases. When ZEND_MAX_EXECUTION_TIMERS cache
   variable is set to 'auto', local variable default value is set to the
-  `PHP_THREAD_SAFETY` value.
+  value of PHP_THREAD_SAFETY variable.
 
-## INTERFACE IMPORTED library
+Interface imported target:
 
-* `Zend::MaxExecutionTimers`
+* Zend::MaxExecutionTimers
 
-  Includes possible additional library to be linked for using `timer_create()`
+  Includes possible additional library to be linked for using timer_create()
   and a compile definition.
-
-## Usage
-
-```cmake
-# CMakeLists.txt
-include(cmake/MaxExecutionTimers.cmake)
-```
 #]=============================================================================]
 
 include_guard(GLOBAL)

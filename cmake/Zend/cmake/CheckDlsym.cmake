@@ -1,21 +1,29 @@
 #[=============================================================================[
-# CheckDlsym
-
-Check if `dlsym()` requires a leading underscore in symbol name.
+Check if dlsym() requires a leading underscore in symbol name.
 
 Some non-ELF platforms, such as OpenBSD, FreeBSD, NetBSD, Mac OSX (~10.3),
-needed underscore character (`_`) prefix for symbols, when using `dlsym()`. This
+needed to prefix symbols with underscore character (_), when using dlsym(). This
 module is obsolete on current platforms.
 
-## Cache variables
+Result variables:
 
-* `DLSYM_NEEDS_UNDERSCORE`
+* DLSYM_NEEDS_UNDERSCORE
 #]=============================================================================]
 
 include_guard(GLOBAL)
 
+set(DLSYM_NEEDS_UNDERSCORE FALSE)
+
+if(CMAKE_SYSTEM_NAME STREQUAL "Windows")
+  return()
+endif()
+
 # Skip in consecutive configuration phases.
-if(DEFINED DLSYM_NEEDS_UNDERSCORE)
+if(DEFINED PHP_ZEND_HAS_DLSYM_NEEDS_UNDERSCORE)
+  if(PHP_ZEND_HAS_DLSYM_NEEDS_UNDERSCORE)
+    set(DLSYM_NEEDS_UNDERSCORE TRUE)
+  endif()
+
   return()
 endif()
 
@@ -23,13 +31,13 @@ include(CheckIncludeFiles)
 
 message(
   CHECK_START
-  "Checking whether dlsym() requires a leading underscore in symbol names"
+  "Checking whether dlsym() needs to prefix symbols with underscore"
 )
 
+# When cross-compiling without emulator, assume that target platform is recent
+# enough so that dlsym doesn't need leading underscores.
 if(CMAKE_CROSSCOMPILING AND NOT CMAKE_CROSSCOMPILING_EMULATOR)
-  # When cross-compiling without emulator, assume that target platform is recent
-  # enough so that dlsym doesn't need leading underscores.
-  set(DLSYM_NEEDS_UNDERSCORE_EXITCODE 0)
+  set(PHP_ZEND_HAS_DLSYM_NEEDS_UNDERSCORE_EXITCODE 0)
 endif()
 
 check_include_files(dlfcn.h HAVE_DLFCN_H)
@@ -40,8 +48,8 @@ block()
   endif()
 
   try_run(
-    DLSYM_NEEDS_UNDERSCORE_EXITCODE
-    DLSYM_NEEDS_UNDERSCORE_COMPILED
+    PHP_ZEND_HAS_DLSYM_NEEDS_UNDERSCORE_EXITCODE
+    PHP_ZEND_HAS_DLSYM_NEEDS_UNDERSCORE_COMPILED
     SOURCE_FROM_CONTENT src.c [[
       #ifdef HAVE_DLFCN_H
       # include <dlfcn.h>
@@ -116,16 +124,20 @@ block()
 endblock()
 
 set(
-  DLSYM_NEEDS_UNDERSCORE
+  PHP_ZEND_HAS_DLSYM_NEEDS_UNDERSCORE
   ""
   CACHE INTERNAL
   "Whether 'dlsym()' requires a leading underscore in symbol names."
 )
 
-if(DLSYM_NEEDS_UNDERSCORE_COMPILED AND DLSYM_NEEDS_UNDERSCORE_EXITCODE EQUAL 2)
-  set_property(CACHE DLSYM_NEEDS_UNDERSCORE PROPERTY VALUE TRUE)
-  message(CHECK_PASS "yes")
+if(
+  PHP_ZEND_HAS_DLSYM_NEEDS_UNDERSCORE_COMPILED
+  AND PHP_ZEND_HAS_DLSYM_NEEDS_UNDERSCORE_EXITCODE EQUAL 2
+)
+  set_property(CACHE PHP_ZEND_HAS_DLSYM_NEEDS_UNDERSCORE PROPERTY VALUE TRUE)
+  set(DLSYM_NEEDS_UNDERSCORE TRUE)
+  message(CHECK_FAIL "yes")
 else()
-  set_property(CACHE DLSYM_NEEDS_UNDERSCORE PROPERTY VALUE FALSE)
-  message(CHECK_FAIL "no")
+  set_property(CACHE PHP_ZEND_HAS_DLSYM_NEEDS_UNDERSCORE PROPERTY VALUE FALSE)
+  message(CHECK_PASS "no")
 endif()

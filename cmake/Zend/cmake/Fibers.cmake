@@ -1,36 +1,24 @@
 #[=============================================================================[
-# Fibers
-
 Check if Fibers can be used.
 
 This module adds Boost fiber assembly files support if available for the
 platform, otherwise it checks if ucontext can be used.
 
-## Control variables
+Control variables:
 
-* `ZEND_FIBER_ASM`
+* ZEND_FIBER_ASM - Whether to use Boost fiber assembly files.
 
-  Whether to use Boost fiber assembly files.
+Cache variables:
 
-## Cache variables
+* ZEND_FIBER_UCONTEXT - Whether <ucontext.h> header file is available and should
+  be used.
 
-* `ZEND_FIBER_UCONTEXT`
+Interface library:
 
-  Whether `<ucontext.h>` header file is available and should be used.
-
-## Interface library
-
-* `Zend::Fibers`
+* Zend::Fibers
 
   Interface library using Boost fiber assembly files and compile options if
   available.
-
-## Usage
-
-```cmake
-# CMakeLists.txt
-include(cmake/Fibers.cmake)
-```
 #]=============================================================================]
 
 include_guard(GLOBAL)
