@@ -32,6 +32,7 @@ target_sources(
     php_uri.stub.php
     uriparser/src/UriCommon.c
     uriparser/src/UriCompare.c
+    uriparser/src/UriCopy.c
     uriparser/src/UriEscape.c
     uriparser/src/UriFile.c
     uriparser/src/UriIp4.c
@@ -59,8 +60,10 @@ target_sources(
         uriparser/include/uriparser/UriIp4.h
         uriparser/src/UriCommon.h
         uriparser/src/UriConfig.h
+        uriparser/src/UriCopy.h
         uriparser/src/UriIp4Base.h
         uriparser/src/UriMemory.h
+        uriparser/src/UriNormalize.h
         uriparser/src/UriNormalizeBase.h
         uriparser/src/UriParseBase.h
 )
