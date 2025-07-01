@@ -150,12 +150,7 @@ $modules = [
     'cmake/modules',
     'cmake/modules/Packages',
     'cmake/modules/PHP',
-    'ext/opcache/cmake',
-    'ext/posix/cmake',
-    'ext/session/cmake',
     'ext/skeleton/cmake/modules/FindPHP.cmake',
-    'sapi/fpm/cmake',
-    'sapi/phpdbg/cmake',
 ];
 
 $baseDir = __DIR__ . '/../cmake';

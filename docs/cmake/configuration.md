@@ -3676,8 +3676,10 @@ A list of Autoconf `configure` command-line configuration options, Windows
       <td>LDFLAGS=&quot;...&quot;</td>
       <td>LDFLAGS=&quot;...&quot;</td>
       <td>
-        CMAKE_EXE_LINKER_FLAGS=&quot;...&quot;<br>
-        CMAKE_SHARED_LINKER_FLAGS=&quot;...&quot;
+        CMAKE_EXE_LINKER_FLAGS_INIT=&quot;...&quot;<br>
+        CMAKE_MODULE_LINKER_FLAGS_INIT=&quot;...&quot;<br>
+        CMAKE_SHARED_LINKER_FLAGS_INIT=&quot;...&quot;<br>
+        CMAKE_STATIC_LINKER_FLAGS_INIT=&quot;...&quot;
       </td>
       <td>linker flags</td>
     </tr>
