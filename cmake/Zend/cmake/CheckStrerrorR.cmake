@@ -1,26 +1,12 @@
 #[=============================================================================[
-# CheckStrerrorR
-
-Check whether `strerror_r()` is the POSIX-compatible version or the GNU-specific
+Check whether strerror_r() is the POSIX-compatible version or the GNU-specific
 version.
 
-## Cache variables
+Result variables:
 
-* `HAVE_STRERROR_R`
-
-  Whether `strerror_r()` is available.
-
-* `STRERROR_R_CHAR_P`
-
-  Whether `strerror_r()` returns a `char *` message, otherwise it returns an
-  `int` error number.
-
-## Usage
-
-```cmake
-# CMakeLists.txt
-include(cmake/CheckStrerrorR.cmake)
-```
+* HAVE_STRERROR_R - Whether strerror_r() is available.
+* STRERROR_R_CHAR_P - Whether strerror_r() returns a 'char *' message, otherwise
+  it returns an 'int' error number.
 #]=============================================================================]
 
 include_guard(GLOBAL)
@@ -29,14 +15,35 @@ include(CheckSourceCompiles)
 include(CheckSymbolExists)
 include(CMakePushCheckState)
 
-check_symbol_exists(strerror_r string.h HAVE_STRERROR_R)
+set(HAVE_STRERROR_R FALSE)
+set(STRERROR_R_CHAR_P FALSE)
 
-if(NOT HAVE_STRERROR_R)
+if(CMAKE_SYSTEM_NAME STREQUAL "Windows")
   return()
 endif()
 
+check_symbol_exists(strerror_r string.h PHP_ZEND_HAS_STRERROR_R)
+
+if(NOT PHP_ZEND_HAS_STRERROR_R)
+  return()
+endif()
+
+set(HAVE_STRERROR_R TRUE)
+
+# Skip in consecutive configuration phases.
+if(DEFINED PHP_ZEND_HAS_STRERROR_R_CHAR_P)
+  if(PHP_ZEND_HAS_STRERROR_R_CHAR_P)
+    set(STRERROR_R_CHAR_P TRUE)
+    return()
+  endif()
+endif()
+
+message(CHECK_START "Checking strerror_r() return type")
+
 cmake_push_check_state(RESET)
   set(CMAKE_REQUIRED_DEFINITIONS -D_GNU_SOURCE)
+  set(CMAKE_REQUIRED_QUIET TRUE)
+
   check_source_compiles(C [[
     #include <string.h>
 
@@ -47,5 +54,12 @@ cmake_push_check_state(RESET)
       char *p = strerror_r (0, buf, sizeof buf);
       return !p || x;
     }
-  ]] STRERROR_R_CHAR_P)
+  ]] PHP_ZEND_HAS_STRERROR_R_CHAR_P)
 cmake_pop_check_state()
+
+if(PHP_ZEND_HAS_STRERROR_R_CHAR_P)
+  set(STRERROR_R_CHAR_P TRUE)
+  message(CHECK_PASS "char *")
+else()
+  message(CHECK_PASS "int")
+endif()

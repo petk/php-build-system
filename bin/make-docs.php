@@ -156,7 +156,6 @@ $modules = [
     'ext/skeleton/cmake/modules/FindPHP.cmake',
     'sapi/fpm/cmake',
     'sapi/phpdbg/cmake',
-    'Zend/cmake',
 ];
 
 $baseDir = __DIR__ . '/../cmake';
