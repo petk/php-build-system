@@ -197,7 +197,7 @@ macro(_php_re2c_config)
 
   # If re2c is not found on the system, set which version to download.
   if(NOT PHP_RE2C_VERSION_DOWNLOAD)
-    set(PHP_RE2C_VERSION_DOWNLOAD 4.2)
+    set(PHP_RE2C_VERSION_DOWNLOAD 4.3)
   endif()
 endmacro()
 

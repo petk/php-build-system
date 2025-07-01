@@ -34,9 +34,6 @@
 /* Define to 1 if you have the 'dns_search' function. */
 #cmakedefine HAVE_DNS_SEARCH 1
 
-/* Define to 1 if your system has a working POSIX 'fnmatch' function. */
-#cmakedefine HAVE_FNMATCH 1
-
 /* Define to 1 if you have the 'fork' function. */
 #cmakedefine HAVE_FORK 1
 

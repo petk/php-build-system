@@ -29,10 +29,6 @@ set(CMAKE_SHARED_LIBRARY_PREFIX_CXX "")
 set(CMAKE_SHARED_MODULE_PREFIX_CXX "")
 set(CMAKE_STATIC_LIBRARY_PREFIX_CXX "")
 
-# Whether to enable verbose output from Makefile builds.
-option(CMAKE_VERBOSE_MAKEFILE "Enable verbose output from Makefile builds")
-mark_as_advanced(CMAKE_VERBOSE_MAKEFILE)
-
 # Whether to show message context in configuration log.
 option(
   CMAKE_MESSAGE_CONTEXT_SHOW
