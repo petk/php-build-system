@@ -14,9 +14,6 @@ if(CMAKE_SYSTEM_NAME STREQUAL "Windows")
   # Whether system has <dirent.h> header.
   set(HAVE_DIRENT_H FALSE)
 
-  # PHP has fnmatch() emulation implemented on Windows.
-  set(HAVE_FNMATCH TRUE)
-
   # Whether system has flock().
   set(HAVE_FLOCK FALSE)
 
