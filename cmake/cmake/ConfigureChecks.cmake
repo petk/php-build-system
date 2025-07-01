@@ -191,11 +191,6 @@ if(SIZEOF_SIZE_T STREQUAL "")
   set(SIZEOF_SIZE_T_CODE "#define SIZEOF_SIZE_T 0")
 endif()
 
-check_type_size("ssize_t" SIZEOF_SSIZE_T)
-if(SIZEOF_SSIZE_T STREQUAL "")
-  set(SIZEOF_SSIZE_T_CODE "#define SIZEOF_SSIZE_T 0")
-endif()
-
 check_type_size("uid_t" SIZEOF_UID_T)
 if(NOT HAVE_SIZEOF_UID_T)
   set(

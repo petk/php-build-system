@@ -959,6 +959,13 @@ PHP coding standards now use the C11 standard.
   `--with-libdir` configure options (e.g.,
   `--libdir=/usr/lib64 --with-libdir=lib64` will set `libdir` to
   `/usr/lib64/php`).
+* Autoconf macro `PHP_AP_EXTRACT_VERSION` has been removed.
+* Autoconf macro `PHP_BUILD_THREAD_SAFE` has been removed (set `enable_zts`
+  variable manually).
+* Autoconf macro `PHP_CHECK_SIZEOF` is obsolete (use `AC_CHECK_SIZEOF`).
+* Autoconf macro `PHP_DEF_HAVE` has been removed (use `AC_DEFINE`).
+* Autoconf macro `PHP_OUTPUT` has been removed (use `AC_CONFIG_FILES`).
+* Autoconf macro `PHP_TEST_BUILD` has been removed (use `AC_*` macros).
 
 ##### Changes to main/php_config.h
 
@@ -967,6 +974,8 @@ PHP coding standards now use the C11 standard.
   instead of the `build-defs.h` header.
 * The `HAVE_INTMAX_T` preprocessor macro has been removed.
 * The `HAVE_PTRDIFF_T` preprocessor macro has been removed.
+* The `HAVE_SSIZE_T` preprocessor macro has been removed.
+* The `SIZEOF_SSIZE_T` preprocessor macro has been removed.
 
 #### Windows
 
