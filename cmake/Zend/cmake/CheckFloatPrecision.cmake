@@ -1,38 +1,16 @@
 #[=============================================================================[
-# CheckFloatPrecision
-
 Check for x87 floating point internal precision control.
 
 See: https://wiki.php.net/rfc/rounding
 
-## Cache variables
+Cache variables:
 
-* `HAVE__FPU_SETCW`
-
-  Whether `_FPU_SETCW` is present and usable.
-
-* `HAVE_FPSETPREC`
-
-  Whether `fpsetprec` is present and usable.
-
-* `HAVE__CONTROLFP`
-
-  Whether `_controlfp` is present and usable.
-
-* `HAVE__CONTROLFP_S`
-
-  Whether `_controlfp_s` is present and usable.
-
-* `HAVE_FPU_INLINE_ASM_X86`
-
-  Whether FPU control word can be manipulated by inline assembler.
-
-## Usage
-
-```cmake
-# CMakeLists.txt
-include(cmake/CheckFloatPrecision.cmake)
-```
+* HAVE__FPU_SETCW - Whether _FPU_SETCW is present and usable.
+* HAVE_FPSETPREC - Whether fpsetprec is present and usable.
+* HAVE__CONTROLFP - Whether _controlfp is present and usable.
+* HAVE__CONTROLFP_S - Whether _controlfp_s is present and usable.
+* HAVE_FPU_INLINE_ASM_X86 - Whether FPU control word can be manipulated by
+  inline assembler.
 #]=============================================================================]
 
 include_guard(GLOBAL)

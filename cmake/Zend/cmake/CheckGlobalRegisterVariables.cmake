@@ -1,30 +1,22 @@
 #[=============================================================================[
-# CheckGlobalRegisterVariables
-
 Check whether the compiler and target system support global register variables.
-
 Global register variables are relevant for the GNU C compatible compilers.
+See also https://gcc.gnu.org/onlinedocs/gcc/Global-Register-Variables.html
 
-See also: [GCC global register variables](https://gcc.gnu.org/onlinedocs/gcc/Global-Register-Variables.html)
+Result variables:
 
-## Cache variables
-
-* `HAVE_GCC_GLOBAL_REGS`
-
-  Whether global register variables are supported.
-
-## Usage
-
-```cmake
-# CMakeLists.txt
-include(cmake/CheckGlobalRegisterVariables.cmake)
-```
+* HAVE_GCC_GLOBAL_REGS - Whether global register variables are supported.
 #]=============================================================================]
 
 include_guard(GLOBAL)
 
+set(HAVE_GCC_GLOBAL_REGS FALSE)
+
 # Skip in consecutive configuration phases.
-if(DEFINED HAVE_GCC_GLOBAL_REGS)
+if(DEFINED PHP_ZEND_HAS_GCC_GLOBAL_REGS)
+  if(PHP_ZEND_HAS_GCC_GLOBAL_REGS)
+    set(HAVE_GCC_GLOBAL_REGS TRUE)
+  endif()
   return()
 endif()
 
@@ -83,10 +75,11 @@ cmake_push_check_state(RESET)
     {
       return 0;
     }
-  ]] HAVE_GCC_GLOBAL_REGS)
+  ]] PHP_ZEND_HAS_GCC_GLOBAL_REGS)
 cmake_pop_check_state()
 
-if(HAVE_GCC_GLOBAL_REGS)
+if(PHP_ZEND_HAS_GCC_GLOBAL_REGS)
+  set(HAVE_GCC_GLOBAL_REGS TRUE)
   message(CHECK_PASS "yes")
 else()
   message(CHECK_FAIL "no")
