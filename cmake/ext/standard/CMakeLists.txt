@@ -284,7 +284,6 @@ endif()
 ################################################################################
 
 include(cmake/CheckArmCrc32.cmake)
-include(cmake/CheckFnmatch.cmake)
 include(cmake/CheckStrptime.cmake)
 
 # Check if there is a support means of creating a new process and defining which

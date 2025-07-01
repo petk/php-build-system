@@ -22,6 +22,9 @@ set(PHP_HAS_COOKIE_SEEKER_OFF64_T_EXITCODE 0)
 # Set the exit code if flush should be called explicitly after a buffered io.
 set(PHP_HAS_FLUSHIO_EXITCODE 1)
 
+# Set the exit code whether the fnmatch() is available and POSIX-compatible.
+set(PHP_HAS_FNMATCH_EXITCODE 0)
+
 # Set the exit code for the getaddrinfo() check.
 set(PHP_HAS_GETADDRINFO_EXITCODE 0)
 
@@ -145,9 +148,6 @@ set(PHP_PWRITE_64_EXITCODE 0)
 ################################################################################
 # ext/standard
 ################################################################################
-
-# Set the exit code for the POSIX fnmatch() check.
-set(HAVE_FNMATCH_EXITCODE 0)
 
 # Set the exit codes for the algos checks when using external crypt library
 # (PHP_EXT_STANDARD_CRYPT_EXTERNAL).
