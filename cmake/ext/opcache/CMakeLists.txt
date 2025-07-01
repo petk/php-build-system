@@ -303,8 +303,5 @@ check_symbol_exists(mprotect sys/mman.h HAVE_MPROTECT)
 
 # Check for shared memory support.
 include(cmake/CheckSHM.cmake)
-if(TARGET PHP::CheckSHMLibrary)
-  target_link_libraries(php_ext_opcache PRIVATE PHP::CheckSHMLibrary)
-endif()
 
 configure_file(cmake/config.h.in config.h)
