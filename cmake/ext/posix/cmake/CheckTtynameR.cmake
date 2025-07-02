@@ -1,32 +1,19 @@
 #[=============================================================================[
-# CheckTtynameR
+Check ttyname_r().
 
-Check `ttyname_r()`.
-
-On Solaris/illumos `ttyname_r()` works only with larger buffers (>= 128),
-unlike, for example, on Linux and other systems, where buffer size can be any
-`size_t` size, also < 128. PHP code uses `ttyname_r()` with large buffers, so it
+On Solaris/illumos ttyname_r() works only with larger buffers (>= 128), unlike,
+for example, on Linux and other systems, where buffer size can be any
+'size_t' size, also < 128. PHP code uses ttyname_r() with large buffers, so it
 wouldn't be necessary to check small buffers but the run check below is kept for
 brevity.
 
 On modern systems a simpler check is sufficient in the future:
 
-```cmake
-check_symbol_exists(ttyname_r unistd.h HAVE_TTYNAME_R)
-```
+  check_symbol_exists(ttyname_r unistd.h HAVE_TTYNAME_R)
 
-## Cache variables
+Result variables:
 
-* `HAVE_TTYNAME_R`
-
-  Whether `ttyname_r()` works as expected.
-
-## Usage
-
-```cmake
-# CMakeLists.txt
-include(cmake/CheckTtynameR.cmake)
-```
+* HAVE_TTYNAME_R - Whether ttyname_r() works as expected.
 #]=============================================================================]
 
 include_guard(GLOBAL)
@@ -35,6 +22,20 @@ include(CheckPrototypeDefinition)
 include(CheckSourceRuns)
 include(CMakePushCheckState)
 include(PHP/SystemExtensions)
+
+set(HAVE_TTYNAME_R FALSE)
+
+# Skip in consecutive configuration phases.
+if(
+  DEFINED PHP_EXT_POSIX_HAS_TTYNAME_R_PROTOTYPE
+  OR DEFINED PHP_EXT_POSIX_HAS_TTYNAME_R
+)
+  if(PHP_EXT_POSIX_HAS_TTYNAME_R)
+    set(HAVE_TTYNAME_R TRUE)
+  endif()
+
+  return()
+endif()
 
 message(CHECK_START "Checking for working ttyname_r()")
 
@@ -54,21 +55,21 @@ cmake_push_check_state(RESET)
     "int ttyname_r(int fd, char *buf, size_t buflen)"
     "0"
     "unistd.h"
-    PHP_HAS_TTYNAME_R_PROTOTYPE
+    PHP_EXT_POSIX_HAS_TTYNAME_R_PROTOTYPE
   )
 
-  if(NOT PHP_HAS_TTYNAME_R_PROTOTYPE)
+  if(NOT PHP_EXT_POSIX_HAS_TTYNAME_R_PROTOTYPE)
     message(CHECK_FAIL "no (non-standard declaration)")
     cmake_pop_check_state()
     return()
   endif()
 
   if(
-    NOT DEFINED HAVE_TTYNAME_R_EXITCODE
-    AND CMAKE_CROSSCOMPILING
+    CMAKE_CROSSCOMPILING
     AND NOT CMAKE_CROSSCOMPILING_EMULATOR
+    AND NOT DEFINED PHP_EXT_POSIX_HAS_TTYNAME_R_EXITCODE
   )
-    set(HAVE_TTYNAME_R_EXITCODE 0)
+    set(PHP_EXT_POSIX_HAS_TTYNAME_R_EXITCODE 0)
   endif()
 
   # PHP Autotools-based build system check uses a different return below due
@@ -92,8 +93,9 @@ cmake_push_check_state(RESET)
 
       return ttyname_r(0, buf, buflen) ? 1 : 0;
     }
-  ]] HAVE_TTYNAME_R)
-  if(HAVE_TTYNAME_R)
+  ]] PHP_EXT_POSIX_HAS_TTYNAME_R)
+  if(PHP_EXT_POSIX_HAS_TTYNAME_R)
+    set(HAVE_TTYNAME_R TRUE)
     message(CHECK_PASS "yes")
   else()
     message(CHECK_FAIL "no (posix_ttyname() will be thread-unsafe)")
