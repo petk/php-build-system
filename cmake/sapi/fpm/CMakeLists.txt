@@ -88,8 +88,6 @@ if(CMAKE_SYSTEM_NAME STREQUAL "Windows")
 endif()
 
 include(CheckIncludeFiles)
-include(CheckSourceCompiles)
-include(CheckSourceRuns)
 include(CheckSymbolExists)
 include(CMakePushCheckState)
 include(FeatureSummary)
@@ -258,8 +256,13 @@ check_symbol_exists(setproctitle_fast unistd.h HAVE_SETPROCTITLE_FAST)
 check_symbol_exists(sysconf unistd.h HAVE_SYSCONF)
 check_symbol_exists(times sys/times.h HAVE_TIMES)
 
-# Check FPM listening queue implementation.
+include(cmake/CheckClockGetTime.cmake)
+include(cmake/CheckCompilerAtomicBuiltins.cmake)
+include(cmake/CheckDevPoll.cmake)
+include(cmake/CheckEpoll.cmake)
+include(cmake/CheckKqueue.cmake)
 include(cmake/CheckListeningQueue.cmake)
+include(cmake/CheckSelect.cmake)
 
 # Check FPM trace implementation.
 include(cmake/CheckTrace.cmake)
@@ -272,186 +275,6 @@ if(HAVE_PTRACE OR HAVE_MACH_VM_READ OR PROC_MEM_FILE)
   elseif(PROC_MEM_FILE)
     target_sources(php_sapi_fpm PRIVATE fpm/fpm_trace_pread.c)
   endif()
-endif()
-
-# Check for clock_get*time.
-php_search_libraries(
-  clock_gettime
-  HEADERS time.h
-  LIBRARIES
-    rt # Solaris 10
-  VARIABLE HAVE_CLOCK_GETTIME
-  TARGET php_sapi_fpm PRIVATE
-)
-if(NOT HAVE_CLOCK_GETTIME)
-  check_source_runs(C [[
-    #include <mach/mach.h>
-    #include <mach/clock.h>
-    #include <mach/mach_error.h>
-
-    int main(void)
-    {
-      kern_return_t ret;
-      clock_serv_t aClock;
-      mach_timespec_t aTime;
-
-      ret = host_get_clock_service(mach_host_self(), REALTIME_CLOCK, &aClock);
-      if (ret != KERN_SUCCESS) {
-        return 1;
-      }
-
-      ret = clock_get_time(aClock, &aTime);
-      if (ret != KERN_SUCCESS) {
-        return 2;
-      }
-
-      return 0;
-    }
-  ]] HAVE_CLOCK_GET_TIME)
-endif()
-
-# Check for compiler atomic builtins.
-message(CHECK_START "Checking if compiler has __sync_bool_compare_and_swap")
-check_source_compiles(C [[
-  int main(void)
-  {
-    int variable = 1;
-    return (__sync_bool_compare_and_swap(&variable, 1, 2)
-           && __sync_add_and_fetch(&variable, 1)) ? 1 : 0;
-  }
-]] HAVE_BUILTIN_ATOMIC)
-if(HAVE_BUILTIN_ATOMIC)
-  message(CHECK_PASS "yes")
-else()
-  message(CHECK_FAIL "no")
-endif()
-
-message(CHECK_START "Checking for kqueue")
-cmake_push_check_state(RESET)
-  set(CMAKE_REQUIRED_QUIET TRUE)
-  check_source_compiles(C [[
-    #include <sys/types.h>
-    #include <sys/event.h>
-    #include <sys/time.h>
-
-    int main(void)
-    {
-      int kfd;
-      struct kevent k;
-      kfd = kqueue();
-      /* 0 -> STDIN_FILENO */
-      EV_SET(&k, 0, EVFILT_READ , EV_ADD | EV_CLEAR, 0, 0, NULL);
-      (void)kfd;
-
-      return 0;
-    }
-  ]] HAVE_KQUEUE)
-cmake_pop_check_state()
-if(HAVE_KQUEUE)
-  message(CHECK_PASS "yes")
-else()
-  message(CHECK_FAIL "no")
-endif()
-
-# For Solaris < 10.
-message(CHECK_START "Checking for /dev/poll")
-cmake_push_check_state(RESET)
-  set(CMAKE_REQUIRED_QUIET TRUE)
-  check_source_compiles(C [[
-    #include <stdio.h>
-    #include <sys/devpoll.h>
-
-    int main(void)
-    {
-      int n, dp;
-      struct dvpoll dvp;
-      dp = 0;
-      dvp.dp_fds = NULL;
-      dvp.dp_nfds = 0;
-      dvp.dp_timeout = 0;
-      n = ioctl(dp, DP_POLL, &dvp);
-      (void)n;
-
-      return 0;
-    }
-  ]] HAVE_DEVPOLL)
-cmake_pop_check_state()
-if(HAVE_DEVPOLL)
-  message(CHECK_PASS "yes")
-else()
-  message(CHECK_FAIL "no")
-endif()
-
-message(CHECK_START "Checking for epoll")
-cmake_push_check_state(RESET)
-  set(CMAKE_REQUIRED_QUIET TRUE)
-  check_source_compiles(C [[
-    #include <sys/epoll.h>
-
-    int main(void)
-    {
-      int epollfd;
-      struct epoll_event e;
-
-      epollfd = epoll_create(1);
-      if (epollfd < 0) {
-        return 1;
-      }
-
-      e.events = EPOLLIN | EPOLLET;
-      e.data.fd = 0;
-
-      if (epoll_ctl(epollfd, EPOLL_CTL_ADD, 0, &e) == -1) {
-        return 1;
-      }
-
-      e.events = 0;
-      if (epoll_wait(epollfd, &e, 1, 1) < 0) {
-        return 1;
-      }
-
-      return 0;
-    }
-  ]] HAVE_EPOLL)
-cmake_pop_check_state()
-if(HAVE_EPOLL)
-  message(CHECK_PASS "yes")
-else()
-  message(CHECK_FAIL "no")
-endif()
-
-message(CHECK_START "Checking for select")
-cmake_push_check_state(RESET)
-  set(CMAKE_REQUIRED_QUIET TRUE)
-
-  check_source_compiles(C [[
-    /* According to POSIX.1-2001 */
-    #include <sys/select.h>
-
-    /* According to earlier standards */
-    #include <sys/time.h>
-    #include <sys/types.h>
-    #include <unistd.h>
-
-    int main(void)
-    {
-      fd_set fds;
-      struct timeval t;
-      t.tv_sec = 0;
-      t.tv_usec = 42;
-      FD_ZERO(&fds);
-      /* 0 -> STDIN_FILENO */
-      FD_SET(0, &fds);
-      select(FD_SETSIZE, &fds, NULL, NULL, &t);
-
-      return 0;
-    }
-  ]] HAVE_SELECT)
-cmake_pop_check_state()
-if(HAVE_SELECT)
-  message(CHECK_PASS "yes")
-else()
-  message(CHECK_FAIL "no")
 endif()
 
 ################################################################################
