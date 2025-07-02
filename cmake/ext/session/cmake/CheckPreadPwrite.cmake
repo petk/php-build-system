@@ -1,53 +1,37 @@
 #[=============================================================================[
-# CheckPreadPwrite
+This module checks whether functions pread() and pwrite() are available on the
+system, and then checks if they work as expected. The missing declaration checks
+are for obsolete systems, where function declarations for 64-bit variants
+(pread64 and pwrite64) with 'off64_t' type in the 3rd argument were missing in
+the system headers. On modern systems this module is obsolete in favor of a
+simpler:
 
-Check whether `pread()` and `pwrite()` work.
+  check_symbol_exists(<symbol> unistd.h <result>)
 
-Module first checks whether functions are available on the system, and then
-checks if they work as expected. The last checks are for some obsolete systems,
-where function declaration with `off64_t` type in the 3rd argument was missing
-in the system headers. On modern systems this module is obsolescent in favor of
-a simpler:
+When using pread() and pwrite() also '_GNU_SOURCE' is needed to enable the
+'_LARGEFILE64_SOURCE' for using 64-bit function variants. A better way would be
+to set the '_FILE_OFFSET_BITS=64' but this is skipped to match the current
+php-src code.
 
-```cmake
-check_symbol_exists(<symbol> unistd.h HAVE_<SYMBOL>)
-```
+Result/cache variables:
 
-## Cache variables
-
-* `HAVE_PREAD`
-
-  Whether `pread()` is available.
-
-* `PHP_PREAD_64`
-
-  Whether pread64 is default.
-
-* `HAVE_PWRITE`
-
-  Whether `pwrite()` is available.
-
-* `PHP_PWRITE_64`
-
-  Whether pwrite64 is default.
-
-## Usage
-
-```cmake
-# CMakeLists.txt
-include(cmake/CheckPreadPwrite.cmake)
-```
+* HAVE_PREAD - Whether pread() is available.
+* PHP_PREAD_64 - Whether pread() declaration with off64_t is missing (using
+  pread64).
+* HAVE_PWRITE - Whether pwrite() is available.
+* PHP_PWRITE_64 - Whether pwrite() declaration with off64_t is missing (using
+  pwrite64).
 #]=============================================================================]
 
 include_guard(GLOBAL)
 
-# Skip in consecutive configuration phases.
-if(DEFINED PHP_HAS_PREAD AND DEFINED PHP_HAS_PWRITE)
+if(CMAKE_SYSTEM_NAME STREQUAL "Windows")
   return()
 endif()
 
-include(CheckFunctionExists)
+include(CheckSourceCompiles)
 include(CheckSourceRuns)
+include(CheckSymbolExists)
 include(CMakePushCheckState)
 include(PHP/SystemExtensions)
 
@@ -55,216 +39,193 @@ include(PHP/SystemExtensions)
 # Check pread().
 ################################################################################
 
-function(_php_check_pread)
-  message(CHECK_START "Checking whether pread() works")
+function(_php_ext_session_check_pread result)
+  set(${result} FALSE)
 
-  # Check if linker sees the pread().
-  cmake_push_check_state(RESET)
-    set(CMAKE_REQUIRED_QUIET TRUE)
-    check_function_exists(pread PHP_HAS_PREAD)
-  cmake_pop_check_state()
-
-  if(NOT PHP_HAS_PREAD)
-    message(CHECK_FAIL "no (not found)")
-    return()
+  # Skip in consecutive configuration phases.
+  if(DEFINED PHP_EXT_SESSION_HAS_PREAD_SYMBOL)
+    if(PHP_EXT_SESSION_HAS_PREAD)
+      set(${result} TRUE)
+    endif()
+    return(PROPAGATE ${result})
   endif()
 
-  set(
-    temporaryFile
-    ${CMAKE_CURRENT_BINARY_DIR}/CMakeFiles/php_check_pread.tmp
-  )
+  set(code [[
+    #define xstr(s) str(s)
+    #define str(s) #s
 
-  file(WRITE "${temporaryFile}" "test\n")
+    #include <sys/types.h>
+    #include <sys/stat.h>
+    #include <fcntl.h>
+    #include <unistd.h>
+    #include <errno.h>
+    #include <stdlib.h>
 
-  cmake_push_check_state(RESET)
-    set(CMAKE_REQUIRED_QUIET TRUE)
-    set(CMAKE_REQUIRED_DEFINITIONS -DTMP_FILE=${temporaryFile})
+    /* Provide a missing declaration. */
+    #ifdef PHP_PREAD_64
+    ssize_t pread(int, void *, size_t, off64_t);
+    #endif
 
-    check_source_runs(C [[
-      #define xstr(s) str(s)
-      #define str(s) #s
+    int main(void)
+    {
+      char buf[3];
+      int fd = open(xstr(TMP_FILE), O_RDONLY);
 
-      #include <sys/types.h>
-      #include <sys/stat.h>
-      #include <fcntl.h>
-      #include <unistd.h>
-      #include <errno.h>
-      #include <stdlib.h>
+      if (fd < 0) return 1;
+      if (pread(fd, buf, 2, 0) != 2) return 1;
+      /* Linux glibc breakage until 2.2.5 */
+      if (pread(fd, buf, 2, -1) != -1 || errno != EINVAL) return 1;
 
-      int main(void)
-      {
-        char buf[3];
-        int fd = open(xstr(TMP_FILE), O_RDONLY);
+      return 0;
+    }
+  ]])
 
-        if (fd < 0) return 1;
-        if (pread(fd, buf, 2, 0) != 2) return 1;
-        /* Linux glibc breakage until 2.2.5 */
-        if (pread(fd, buf, 2, -1) != -1 || errno != EINVAL) return 1;
+  check_symbol_exists(pread unistd.h PHP_EXT_SESSION_HAS_PREAD_SYMBOL)
 
-        return 0;
-      }
-    ]] HAVE_PREAD)
-  cmake_pop_check_state()
+  set(file ${CMAKE_CURRENT_BINARY_DIR}/CMakeFiles/php_check_pread.tmp)
+  file(WRITE "${file}" "test\n")
 
-  # This check is obsolete. Some systems once had pread() available with 3rd
-  # argument of type 'off64_t', but didn't provide declaration in the headers.
-  if(NOT HAVE_PREAD)
+  # Check for missing declaration is obsolete. Some systems once didn't provide
+  # declaration in the headers when using 64-bit variant of pread() with 3rd
+  # argument of type 'off64_t'.
+  if(NOT PHP_EXT_SESSION_HAS_PREAD_SYMBOL)
     cmake_push_check_state(RESET)
-      set(CMAKE_REQUIRED_QUIET TRUE)
-      set(CMAKE_REQUIRED_DEFINITIONS -DTMP_FILE=${temporaryFile})
-
-      # Needs '_GNU_SOURCE' to enable '_LARGEFILE64_SOURCE' for using 'off64_t'.
-      # Default way would be the '_FILE_OFFSET_BITS=64' but this is skipped to
-      # match the current php-src code.
+      # Needs '_GNU_SOURCE' to enable 64-bit variant.
       set(CMAKE_REQUIRED_LIBRARIES PHP::SystemExtensions)
 
-      check_source_runs(C [[
-        #define xstr(s) str(s)
-        #define str(s) #s
+      set(CMAKE_REQUIRED_DEFINITIONS -DTMP_FILE=${file} -DPHP_PREAD_64)
 
-        #include <sys/types.h>
-        #include <sys/stat.h>
-        #include <fcntl.h>
-        #include <unistd.h>
-        #include <errno.h>
-        #include <stdlib.h>
-
-        /* Provide a missing declaration. */
-        ssize_t pread(int, void *, size_t, off64_t);
-
-        int main(void)
-        {
-          char buf[3];
-          int fd = open(xstr(TMP_FILE), O_RDONLY);
-
-          if (fd < 0) return 1;
-          if (pread(fd, buf, 2, 0) != 2) return 1;
-          /* Linux glibc breakage until 2.2.5 */
-          if (pread(fd, buf, 2, -1) != -1 || errno != EINVAL) return 1;
-
-          return 0;
-        }
-      ]] PHP_PREAD_64)
+      check_source_compiles(C "${code}" PHP_PREAD_64)
     cmake_pop_check_state()
 
-    if(PHP_PREAD_64)
-      set(HAVE_PREAD TRUE CACHE INTERNAL "Whether pread() works.")
+    if(NOT PHP_PREAD_64)
+      return(PROPAGATE ${result})
     endif()
   endif()
 
-  if(HAVE_PREAD)
+  message(CHECK_START "Checking whether pread() works")
+
+  cmake_push_check_state(RESET)
+    set(CMAKE_REQUIRED_QUIET TRUE)
+
+    # Needs '_GNU_SOURCE' to enable 64-bit variant.
+    set(CMAKE_REQUIRED_LIBRARIES PHP::SystemExtensions)
+
+    set(CMAKE_REQUIRED_DEFINITIONS -DTMP_FILE=${temporaryFile})
+    if(PHP_PREAD_64)
+      list(APPEND CMAKE_REQUIRED_DEFINITIONS -DPHP_PREAD_64)
+    endif()
+
+    check_source_runs(C "${code}" PHP_EXT_SESSION_HAS_PREAD)
+  cmake_pop_check_state()
+
+  if(PHP_EXT_SESSION_HAS_PREAD)
+    set(${result} TRUE)
     message(CHECK_PASS "yes")
   else()
     message(CHECK_FAIL "no")
   endif()
+
+  return(PROPAGATE ${result})
 endfunction()
 
 ################################################################################
 # Check pwrite().
 ################################################################################
 
-function(_php_check_pwrite)
-  message(CHECK_START "Checking whether pwrite() works")
+function(_php_ext_session_check_pwrite result)
+  set(${result} FALSE)
 
-  # Check if linker sees the pwrite().
-  cmake_push_check_state(RESET)
-    set(CMAKE_REQUIRED_QUIET TRUE)
-    check_function_exists(pwrite PHP_HAS_PWRITE)
-  cmake_pop_check_state()
-
-  if(NOT PHP_HAS_PWRITE)
-    message(CHECK_FAIL "no (not found)")
-    return()
+  # Skip in consecutive configuration phases.
+  if(DEFINED PHP_EXT_SESSION_HAS_PWRITE_SYMBOL)
+    if(PHP_EXT_SESSION_HAS_PWRITE)
+      set(${result} TRUE)
+    endif()
+    return(PROPAGATE ${result})
   endif()
 
+  set(code [[
+    #define xstr(s) str(s)
+    #define str(s) #s
+
+    #include <sys/types.h>
+    #include <sys/stat.h>
+    #include <fcntl.h>
+    #include <unistd.h>
+    #include <errno.h>
+    #include <stdlib.h>
+
+    /* Provide a missing declaration. */
+    #ifdef PHP_PWRITE_64
+    ssize_t pwrite(int, void *, size_t, off64_t);
+    #endif
+
+    int main(void)
+    {
+      int fd = open(xstr(TMP_FILE), O_WRONLY|O_CREAT, 0600);
+
+      if (fd < 0) return 1;
+      if (pwrite(fd, "text", 4, 0) != 4) return 1;
+      /* Linux glibc breakage until 2.2.5 */
+      if (pwrite(fd, "text", 4, -1) != -1 || errno != EINVAL) return 1;
+
+      return 0;
+    }
+  ]])
+
+  check_symbol_exists(pwrite unistd.h PHP_EXT_SESSION_HAS_PWRITE_SYMBOL)
+
+  # Check for missing declaration is obsolete. Some systems once didn't provide
+  # declaration in the headers for 64-bit pwrite() variant with 3rd argument of
+  # type 'off64_t'. Additional issue is that on current systems the 2nd argument
+  # of pwrite() should have the type 'const void*', otherwise compilation fails.
+  if(NOT PHP_EXT_SESSION_HAS_PWRITE_SYMBOL)
+    cmake_push_check_state(RESET)
+      # Needs '_GNU_SOURCE' to enable 64-bit variant.
+      set(CMAKE_REQUIRED_LIBRARIES PHP::SystemExtensions)
+
+      set(
+        CMAKE_REQUIRED_DEFINITIONS
+        -DTMP_FILE=${CMAKE_CURRENT_BINARY_DIR}/CMakeFiles/php_check_pwrite64.tmp
+        -DPHP_PWRITE_64
+      )
+
+      check_source_compiles(C "${code}" PHP_PWRITE_64)
+    cmake_pop_check_state()
+
+    if(NOT PHP_PWRITE_64)
+      return(PROPAGATE ${result})
+    endif()
+  endif()
+
+  message(CHECK_START "Checking whether pwrite() works")
+
   cmake_push_check_state(RESET)
     set(CMAKE_REQUIRED_QUIET TRUE)
+
+    # Needs '_GNU_SOURCE' to enable 64-bit variant.
+    set(CMAKE_REQUIRED_LIBRARIES PHP::SystemExtensions)
+
     set(
       CMAKE_REQUIRED_DEFINITIONS
       -DTMP_FILE=${CMAKE_CURRENT_BINARY_DIR}/CMakeFiles/php_check_pwrite.tmp
     )
+    if(PHP_PWRITE_64)
+      list(APPEND CMAKE_REQUIRED_DEFINITIONS -DPHP_PWRITE_64)
+    endif()
 
-    check_source_runs(C [[
-      #define xstr(s) str(s)
-      #define str(s) #s
-
-      #include <sys/types.h>
-      #include <sys/stat.h>
-      #include <fcntl.h>
-      #include <unistd.h>
-      #include <errno.h>
-      #include <stdlib.h>
-
-      int main(void)
-      {
-        int fd = open(xstr(TMP_FILE), O_WRONLY|O_CREAT, 0600);
-
-        if (fd < 0) return 1;
-        if (pwrite(fd, "text", 4, 0) != 4) return 1;
-        /* Linux glibc breakage until 2.2.5 */
-        if (pwrite(fd, "text", 4, -1) != -1 || errno != EINVAL) return 1;
-
-        return 0;
-      }
-    ]] HAVE_PWRITE)
+    check_source_runs(C "${code}" PHP_EXT_SESSION_HAS_PWRITE)
   cmake_pop_check_state()
 
-  # This check is obsolete. Some systems once had pwrite() available with 3rd
-  # argument of type 'off64_t', but didn't provide declaration in the headers.
-  # On later systems the 2nd argument of pwrite() should also have the 'const'
-  # keyword.
-  if(NOT HAVE_PWRITE)
-    cmake_push_check_state(RESET)
-      set(CMAKE_REQUIRED_QUIET TRUE)
-      set(
-        CMAKE_REQUIRED_DEFINITIONS
-        -DTMP_FILE=${CMAKE_CURRENT_BINARY_DIR}/CMakeFiles/php_check_pwrite64.tmp
-      )
-
-      # Needs '_GNU_SOURCE' to enable '_LARGEFILE64_SOURCE' for using 'off64_t'.
-      # Default way would be the '_FILE_OFFSET_BITS=64' but this is skipped to
-      # match the current php-src code.
-      set(CMAKE_REQUIRED_LIBRARIES PHP::SystemExtensions)
-
-      check_source_runs(C [[
-        #define xstr(s) str(s)
-        #define str(s) #s
-
-        #include <sys/types.h>
-        #include <sys/stat.h>
-        #include <fcntl.h>
-        #include <unistd.h>
-        #include <errno.h>
-        #include <stdlib.h>
-
-        /* Provide a missing declaration. */
-        ssize_t pwrite(int, void *, size_t, off64_t);
-
-        int main(void)
-        {
-          int fd = open(xstr(TMP_FILE), O_WRONLY|O_CREAT, 0600);
-
-          if (fd < 0) return 1;
-          if (pwrite(fd, "text", 4, 0) != 4) return 1;
-          /* Linux glibc breakage until 2.2.5 */
-          if (pwrite(fd, "text", 4, -1) != -1 || errno != EINVAL) return 1;
-
-          return 0;
-        }
-      ]] PHP_PWRITE_64)
-    cmake_pop_check_state()
-
-    if(PHP_PWRITE_64)
-      set(HAVE_PWRITE TRUE CACHE INTERNAL "Whether pwrite() works.")
-    endif()
-  endif()
-
-  if(HAVE_PWRITE)
+  if(PHP_EXT_SESSION_HAS_PWRITE)
+    set(${result} TRUE)
     message(CHECK_PASS "yes")
   else()
     message(CHECK_FAIL "no")
   endif()
+
+  return(PROPAGATE ${result})
 endfunction()
 
-_php_check_pread()
-_php_check_pwrite()
+_php_ext_session_check_pread(HAVE_PREAD)
+_php_ext_session_check_pwrite(HAVE_PWRITE)
