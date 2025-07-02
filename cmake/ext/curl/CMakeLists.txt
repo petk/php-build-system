@@ -95,7 +95,14 @@ target_link_libraries(php_ext_curl PRIVATE CURL::libcurl)
 # Check whether to link against OpenSSL to have crypto locking callbacks when
 # thread safety is enabled. If libcurl is linked against OpenSSL 1.1 or newer,
 # linking isn't needed anymore.
-if(PHP_THREAD_SAFETY AND CURL_SSL_FOUND)
+if(
+  PHP_THREAD_SAFETY
+  AND CURL_SSL_FOUND
+  AND (
+    NOT CMAKE_CROSSCOMPILING
+    OR (CMAKE_CROSSCOMPILING AND CMAKE_CROSSCOMPILING_EMULATOR)
+  )
+)
   message(CHECK_START "Checking if libcurl is linked against old OpenSSL < 1.1")
 
   cmake_push_check_state(RESET)
@@ -145,12 +152,13 @@ if(PHP_THREAD_SAFETY AND CURL_SSL_FOUND)
         /* No SSL support */
         return 1;
       }
-    ]] HAVE_CURL_OLD_OPENSSL)
+    ]] PHP_EXT_CURL_HAS_CURL_OLD_OPENSSL)
   cmake_pop_check_state()
 
-  if(NOT HAVE_CURL_OLD_OPENSSL)
+  if(NOT PHP_EXT_CURL_HAS_CURL_OLD_OPENSSL)
     message(CHECK_FAIL "no")
   else()
+    set(HAVE_CURL_OLD_OPENSSL TRUE)
     message(CHECK_PASS "yes")
     find_package(OpenSSL ${PHP_OPENSSL_MIN_VERSION})
     set_package_properties(
