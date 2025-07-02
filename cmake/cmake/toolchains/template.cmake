@@ -55,10 +55,10 @@ set(ZEND_MM_EXITCODE__TRYRUN_OUTPUT "(size_t)8 (size_t)3 0")
 ################################################################################
 
 # Set the exit code for the clock_get_time() check.
-set(HAVE_CLOCK_GET_TIME_EXITCODE 0)
+set(PHP_SAPI_FPM_HAS_CLOCK_GET_TIME_EXITCODE 0)
 
-# Set the exit code of the ptrace check for PHP FPM.
-set(HAVE_PTRACE_EXITCODE 0)
+# Set the exit code of the ptrace() check.
+set(PHP_SAPI_FPM_HAS_PTRACE_EXITCODE 0)
 
 # Set the process memory access file - 'mem' on Linux-alike or 'as' on
 # Solaris-alike target systems for the PHP FPM to use pread trace type.
@@ -126,23 +126,12 @@ set(HAVE_SCHED_GETCPU_EXITCODE 0)
 set(PHP_EXT_PCRE_HAS_JIT_EXITCODE 0)
 
 ################################################################################
-# ext/posix
-################################################################################
-
-# Set the exit code of the ttyname_r check.
-set(HAVE_TTYNAME_R_EXITCODE 0)
-
-################################################################################
 # ext/session
 ################################################################################
 
-# Set the exit code of the pread check.
-set(HAVE_PREAD_EXITCODE 0)
-set(PHP_PREAD_64_EXITCODE 0)
-
-# Set the exit code of the pwrite check.
-set(HAVE_PWRITE_EXITCODE 0)
-set(PHP_PWRITE_64_EXITCODE 0)
+# Set the exit codes for the pread()/pwrite() checks.
+set(PHP_EXT_SESSION_HAS_PREAD_EXITCODE 0)
+set(PHP_EXT_SESSION_HAS_PWRITE_EXITCODE 0)
 
 ################################################################################
 # ext/standard
