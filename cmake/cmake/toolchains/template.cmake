@@ -66,14 +66,6 @@ set(PHP_SAPI_FPM_HAS_PTRACE_EXITCODE 0)
 set(PROC_MEM_FILE mem)
 
 ################################################################################
-# ext/curl
-################################################################################
-
-# Set the exit code for the check whether the curl library is linked with
-# OpenSSL 1.1 or earlier.
-set(HAVE_CURL_OLD_OPENSSL_EXITCODE 4)
-
-################################################################################
 # ext/gd
 ################################################################################
 
