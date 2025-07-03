@@ -34,6 +34,10 @@ https://bugs.php.net/53141
 
 ## Custom CMake properties
 
+* `PHP_EXTENSION`
+
+  Target property that designates that the CMake target is a PHP extension.
+
 * `PHP_ZEND_EXTENSION`
 
   Extensions can utilize this custom target property, which designates the
@@ -66,6 +70,12 @@ include_guard(GLOBAL)
 ################################################################################
 # CMake custom properties.
 ################################################################################
+
+define_property(
+  TARGET
+  PROPERTY PHP_EXTENSION
+  BRIEF_DOCS "Whether the target is a PHP extension"
+)
 
 define_property(
   TARGET
@@ -424,6 +434,9 @@ function(php_extensions_postconfigure extension)
   if(NOT TARGET PHP::ext::${extension})
     add_library(PHP::ext::${extension} ALIAS php_ext_${extension})
   endif()
+
+  # Mark target as PHP extension.
+  set_property(TARGET php_ext_${extension} PROPERTY PHP_EXTENSION TRUE)
 
   # Set target output filename to "<extension>".
   get_target_property(output php_ext_${extension} OUTPUT_NAME)

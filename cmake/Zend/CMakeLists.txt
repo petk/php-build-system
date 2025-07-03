@@ -454,47 +454,6 @@ if(NOT CMAKE_SYSTEM_NAME STREQUAL "Windows")
   endif()
 endif()
 
-message(CHECK_START "Checking for asm goto support")
-cmake_push_check_state(RESET)
-  set(CMAKE_REQUIRED_QUIET TRUE)
-  check_source_compiles(C [[
-    int main(void)
-    {
-      #if defined(__x86_64__) || defined(__i386__)
-        __asm__ goto("jmp %l0\n" :::: end);
-      #elif defined(__aarch64__)
-        __asm__ goto("b %l0\n" :::: end);
-      #endif
-      end:
-        return 0;
-    }
-  ]] HAVE_ASM_GOTO)
-cmake_pop_check_state()
-if(HAVE_ASM_GOTO)
-  message(CHECK_PASS "yes")
-else()
-  message(CHECK_FAIL "no")
-endif()
-
-message(CHECK_START "Checking whether __cpuid_count is available")
-cmake_push_check_state(RESET)
-  set(CMAKE_REQUIRED_QUIET TRUE)
-  check_source_compiles(C [[
-    #include <cpuid.h>
-    int main(void)
-    {
-      unsigned eax, ebx, ecx, edx;
-      __cpuid_count(0, 0, eax, ebx, ecx, edx);
-      return 0;
-    }
-  ]] HAVE_CPUID_COUNT)
-cmake_pop_check_state()
-if(HAVE_CPUID_COUNT)
-  message(CHECK_PASS "yes")
-else()
-  message(CHECK_FAIL "no")
-endif()
-
 # Check for Solaris/illumos process mapping.
 php_search_libraries(
   Pgrab
@@ -503,6 +462,8 @@ php_search_libraries(
   TARGET zend PRIVATE
 )
 
+include(cmake/CheckAsmGoto.cmake)
+include(cmake/CheckCpuidCount.cmake)
 include(cmake/CheckFloatPrecision.cmake)
 
 if(ZEND_GLOBAL_REGISTER_VARIABLES)
@@ -540,9 +501,6 @@ add_feature_info(
 ################################################################################
 
 include(cmake/MaxExecutionTimers.cmake)
-if(TARGET Zend::MaxExecutionTimers)
-  target_link_libraries(zend PUBLIC Zend::MaxExecutionTimers)
-endif()
 
 ################################################################################
 # Generate parser and lexer files.

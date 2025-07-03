@@ -14,13 +14,6 @@ Result variables:
   run consecutive configuration phases. When ZEND_MAX_EXECUTION_TIMERS cache
   variable is set to 'auto', local variable default value is set to the
   value of PHP_THREAD_SAFETY variable.
-
-Interface imported target:
-
-* Zend::MaxExecutionTimers
-
-  Includes possible additional library to be linked for using timer_create()
-  and a compile definition.
 #]=============================================================================]
 
 include_guard(GLOBAL)
@@ -36,14 +29,13 @@ include(FeatureSummary)
 include(PHP/SearchLibraries)
 
 set(
-  ZEND_MAX_EXECUTION_TIMERS "auto"
-  CACHE STRING "Enable Zend max execution timers"
+  ZEND_MAX_EXECUTION_TIMERS
+  "auto"
+  CACHE STRING
+  "Enable Zend max execution timers"
 )
 mark_as_advanced(ZEND_MAX_EXECUTION_TIMERS)
-set_property(
-  CACHE ZEND_MAX_EXECUTION_TIMERS
-  PROPERTY STRINGS "auto" "ON" "OFF"
-)
+set_property(CACHE ZEND_MAX_EXECUTION_TIMERS PROPERTY STRINGS "auto" "ON" "OFF")
 
 # Set a local variable based on the cache variable.
 if(ZEND_MAX_EXECUTION_TIMERS STREQUAL "auto")
@@ -70,6 +62,14 @@ else()
 endif()
 
 if(ZEND_MAX_EXECUTION_TIMERS)
+  if(libraryForTimerCreate)
+    target_link_libraries(zend PUBLIC ${libraryForTimerCreate})
+  endif()
+
+  # zend_config.h (or its parent php_config.h) isn't included in some files,
+  # therefore also compilation definition is added.
+  target_compile_definitions(zend PUBLIC ZEND_MAX_EXECUTION_TIMERS)
+
   message(CHECK_PASS "yes")
 else()
   message(CHECK_FAIL "no")
@@ -80,22 +80,3 @@ add_feature_info(
   ZEND_MAX_EXECUTION_TIMERS
   "enhanced timeout and signal handling"
 )
-
-add_library(Zend::MaxExecutionTimers INTERFACE IMPORTED GLOBAL)
-if(libraryForTimerCreate)
-  target_link_libraries(
-    Zend::MaxExecutionTimers
-    INTERFACE
-      ${libraryForTimerCreate}
-  )
-endif()
-
-# zend_config.h (or its parent php_config.h) isn't included in some zend_*
-# files, therefore also compilation definition is added.
-if(ZEND_MAX_EXECUTION_TIMERS)
-  target_compile_definitions(
-    Zend::MaxExecutionTimers
-    INTERFACE
-      ZEND_MAX_EXECUTION_TIMERS
-  )
-endif()

@@ -1,7 +1,12 @@
 #[=============================================================================[
 # PHP/ThreadSafety
 
-Check for thread safety, a.k.a. ZTS (Zend thread safety) build.
+This module checks whether the PHP thread safety, a.k.a. ZTS (Zend thread
+safety) should be enabled:
+
+```cmake
+include(PHP/ThreadSafety)
+```
 
 ## Result variables
 
@@ -21,7 +26,9 @@ Check for thread safety, a.k.a. ZTS (Zend thread safety) build.
   phase. For example, the `PHP_EXTENSION_DIR` configuration variable needs to be
   set depending on the thread safety.
 
-## Usage
+## Examples
+
+Basic usage:
 
 ```cmake
 # CMakeLists.txt

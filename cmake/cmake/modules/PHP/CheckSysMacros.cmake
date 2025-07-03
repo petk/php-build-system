@@ -1,37 +1,22 @@
 #[=============================================================================[
 # PHP/CheckSysMacros
 
-Check for non-standard `major`, `minor` and `makedev`. They can be defined as
-macros. On Solaris/illumos they are in `sys/mkdev.h` (macro definition to a libc
-implementation) and in `sys/sysmacros.h` (macro definition using binary
-operators and bits shifting). On systems with musl and glibc 2.28 or later they
-are in the `sys/sysmacros.h`. Before glibc 2.28 they were in `sys/types.h` and
-with 2.25 glibc deprecated them in favor of the `sys/sysmacros.h`. On BSD-based
-systems and macOS they are still in `sys/types.h`.
+This module checks for non-standard `major()`, `minor()` and `makedev()`:
+
+```cmake
+include(PHP/CheckSysMacros)
+```
+
+These functions can be defined on some systems as macros. On Solaris/illumos
+they are in `<sys/mkdev.h>` (macro definitions to a libc implementation) and in
+`<sys/sysmacros.h>` (macro definitions using binary operators and bits
+shifting). On systems with musl and glibc 2.28 or later they are in the
+`<sys/sysmacros.h>`. Before glibc 2.28 they were in `<sys/types.h>` and
+glibc 2.25 version has deprecated them in favor of the `<sys/sysmacros.h>`. On
+BSD-based systems and macOS they are still in `<sys/types.h>`.
 
 This check is similar to the Autoconf's `AC_HEADER_MAJOR` since it is already
-widely used.
-
-These functions can be then used in the code like this:
-
-```c
-#ifdef HAVE_SYS_TYPES_H
-# include <sys/types.h>
-#endif
-#ifdef MAJOR_IN_MKDEV
-# include <sys/mkdev.h>
-#elif defined(MAJOR_IN_SYSMACROS)
-# include <sys/sysmacros.h>
-#endif
-int main(void)
-{
-  /* ... */
-  #ifdef HAVE_MAKEDEV
-  device = makedev(major, minor);
-  #endif
-  /* ... */
-}
-```
+used out there.
 
 ## Cache variables
 
@@ -61,18 +46,45 @@ int main(void)
 
   Define to 1 if you have the `makedev` function.
 
-## Usage
+## Examples
+
+Including this module will define the result variables that can be used
+in the configuration header:
 
 ```cmake
 # CMakeLists.txt
 include(PHP/CheckSysMacros)
+configure_file(config.h.in config.h)
+```
+
+These functions can be then used in the code like this:
+
+```c
+#include <config.h>
+
+#ifdef HAVE_SYS_TYPES_H
+# include <sys/types.h>
+#endif
+#ifdef MAJOR_IN_MKDEV
+# include <sys/mkdev.h>
+#elif defined(MAJOR_IN_SYSMACROS)
+# include <sys/sysmacros.h>
+#endif
+int main(void)
+{
+  /* ... */
+  #ifdef HAVE_MAKEDEV
+  device = makedev(major, minor);
+  #endif
+  /* ... */
+}
 ```
 #]=============================================================================]
 
 include_guard(GLOBAL)
 
-# Skip in consecutive configuration phases.
-if(PHP_HAS_SYS_MACROS_CHECKED)
+# Skip in consecutive configuration phases or when targeting Windows.
+if(PHP_HAS_SYS_MACROS_CHECKED OR CMAKE_SYSTEM_NAME STREQUAL "Windows")
   return()
 endif()
 
