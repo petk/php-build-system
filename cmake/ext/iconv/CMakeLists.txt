@@ -216,16 +216,18 @@ if(TARGET Iconv::Iconv)
         iconv_close(cd);
         return 2;
       }
-    ]] PHP_ICONV_ERRNO_WORKS)
+    ]] PHP_EXT_ICONV_HAS_ERRNO)
   cmake_pop_check_state()
-  if(PHP_ICONV_ERRNO_WORKS)
+  if(PHP_EXT_ICONV_HAS_ERRNO)
     message(CHECK_PASS "yes")
   else()
     message(CHECK_PASS "no")
     message(FATAL_ERROR "The iconv 'errno' sanity check failed.")
   endif()
 
-  message(CHECK_START "Checking if iconv supports //IGNORE")
+  # https://sourceware.org/bugzilla/show_bug.cgi?id=13541
+  # https://bugs.php.net/48147
+  message(CHECK_START "Checking if iconv has usable //IGNORE")
   cmake_push_check_state(RESET)
     set(CMAKE_REQUIRED_LIBRARIES Iconv::Iconv)
     set(CMAKE_REQUIRED_QUIET TRUE)
@@ -256,9 +258,10 @@ if(TARGET Iconv::Iconv)
         }
         return 1;
       }
-    ]] ICONV_BROKEN_IGNORE)
+    ]] PHP_EXT_ICONV_HAS_BROKEN_IGNORE)
   cmake_pop_check_state()
-  if(ICONV_BROKEN_IGNORE)
+  if(PHP_EXT_ICONV_HAS_BROKEN_IGNORE)
+    set(ICONV_BROKEN_IGNORE TRUE)
     message(CHECK_FAIL "no")
   else()
     message(CHECK_PASS "yes")
