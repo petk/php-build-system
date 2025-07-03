@@ -36,6 +36,10 @@ https://bugs.php.net/53141
 
 ## Custom CMake properties
 
+* `PHP_EXTENSION`
+
+  Target property that designates that the CMake target is a PHP extension.
+
 * `PHP_ZEND_EXTENSION`
 
   Extensions can utilize this custom target property, which designates the

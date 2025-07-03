@@ -13,6 +13,14 @@ include_guard(GLOBAL)
 
 message(CHECK_START "Checking for Zend memory manager alignment and log values")
 
+if(CMAKE_SYSTEM_NAME STREQUAL "Windows")
+  set(ZEND_MM_ALIGNMENT "(size_t)8")
+  set(ZEND_MM_ALIGNMENT_LOG2 "(size_t)3")
+  set(ZEND_MM_NEED_EIGHT_BYTE_REALIGNMENT 0)
+  message(CHECK_PASS "done")
+  return()
+endif()
+
 if(
   (NOT DEFINED ZEND_MM_EXITCODE OR NOT DEFINED ZEND_MM_EXITCODE__TRYRUN_OUTPUT)
   AND CMAKE_CROSSCOMPILING
@@ -72,7 +80,7 @@ block(
   )
 
   if(ZEND_MM_COMPILED AND ZEND_MM_EXITCODE EQUAL 0 AND ZEND_MM_OUTPUT)
-    message(CHECK_PASS "Success")
+    message(CHECK_PASS "done")
 
     string(STRIP "${ZEND_MM_OUTPUT}" ZEND_MM_OUTPUT)
     string(REPLACE " " ";" ZEND_MM_OUTPUT "${ZEND_MM_OUTPUT}")
@@ -81,7 +89,7 @@ block(
     list(GET ZEND_MM_OUTPUT 1 ZEND_MM_ALIGNMENT_LOG2)
     list(GET ZEND_MM_OUTPUT 2 ZEND_MM_NEED_EIGHT_BYTE_REALIGNMENT)
   else()
-    message(CHECK_FAIL "Failed")
+    message(CHECK_FAIL "failed")
     message(
       FATAL_ERROR
       "ZEND_MM alignment values couldn't be determined.")

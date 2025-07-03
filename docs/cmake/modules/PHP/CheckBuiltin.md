@@ -3,18 +3,27 @@
 
 # PHP/CheckBuiltin
 
-Check whether compiler supports one of the built-in functions `__builtin_*()`.
-
-Module exposes the following function:
+This module checks whether the C compiler supports one of the built-in functions
+`__builtin_*()`:
 
 ```cmake
-php_check_builtin(<builtin> <result_var>)
+include(PHP/CheckBuiltin)
+```
+
+## Commands
+
+This module provides the following command:
+
+```cmake
+php_check_builtin(<builtin> <result-var>)
 ```
 
 If builtin `<builtin>` is supported by the C compiler, store the check result in
-the cache variable `<result_var>`.
+the cache variable `<result-var>`.
 
-## Usage
+When C compiler is `MSVC`, all builtins are reported as not supported.
+
+## Examples
 
 ```cmake
 # CMakeLists.txt

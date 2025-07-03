@@ -3,20 +3,27 @@
 
 # PHP/CheckAttribute
 
-Check if GNU C function or variable attribute is supported by the compiler.
-
-Module exposes the following functions:
+This module checks if GNU C function or variable attribute is supported by the
+C compiler:
 
 ```cmake
-php_check_function_attribute(<attribute> <result>)
-php_check_variable_attribute(<attribute> <result>)
+include(PHP/CheckAttribute)
+```
+
+## Commands
+
+This module provides the following commands:
+
+```cmake
+php_check_function_attribute(<attribute> <result-var>)
+php_check_variable_attribute(<attribute> <result-var>)
 ```
 
 * `<attribute>`
   Name of the attribute to check.
 
-* `<result>`
-  Cache variable name to store the result of whether the compiler supports the
+* `<result-var>`
+  Cache variable name to store the result of whether the C compiler supports the
   attribute `<attribute>`.
 
 Supported function attributes:
@@ -29,9 +36,14 @@ Supported variable attributes:
 
 * aligned
 
-## Usage
+## Examples
+
+Basic usage:
 
 ```cmake
 # CMakeLists.txt
 include(PHP/CheckAttribute)
+
+php_check_function_attribute(ifunc HAVE_FUNC_ATTRIBUTE_IFUNC)
+php_check_variable_attribute(aligned HAVE_ATTRIBUTE_ALIGNED)
 ```
