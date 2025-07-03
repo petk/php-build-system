@@ -358,13 +358,18 @@ directories where needed:
 A list of PHP CMake modules:
 
 * [PHP/AddCustomCommand](/docs/cmake/modules/PHP/AddCustomCommand.md)
+* [PHP/Bison](/docs/cmake/modules/PHP/Bison.md)
 * [PHP/CheckAttribute](/docs/cmake/modules/PHP/CheckAttribute.md)
 * [PHP/CheckBuiltin](/docs/cmake/modules/PHP/CheckBuiltin.md)
 * [PHP/CheckCompilerFlag](/docs/cmake/modules/PHP/CheckCompilerFlag.md)
+* [PHP/CheckSysMacros](/docs/cmake/modules/PHP/CheckSysMacros.md)
 * [PHP/Install](/docs/cmake/modules/PHP/Install.md)
+* [PHP/Re2c](/docs/cmake/modules/PHP/Re2c.md)
 * [PHP/SearchLibraries](/docs/cmake/modules/PHP/SearchLibraries.md)
 * [PHP/Set](/docs/cmake/modules/PHP/Set.md)
+* [PHP/StandardLibrary](/docs/cmake/modules/PHP/StandardLibrary.md)
 * [PHP/SystemExtensions](/docs/cmake/modules/PHP/SystemExtensions.md)
+* [PHP/VerboseLink](/docs/cmake/modules/PHP/VerboseLink.md)
 
 ## 9. Custom CMake properties
 
