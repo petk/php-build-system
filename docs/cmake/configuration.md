@@ -190,6 +190,7 @@ Some useful overridable configuration options built into CMake itself. All these
 * [`PHP_UNDEFINED_SANITIZER`](/docs/variables/_PHP_UNDEFINED_SANITIZER.md)
 * [`PHP_USE_RTLD_NOW`](/docs/cmake/variables/PHP_USE_RTLD_NOW.md)
 * [`PHP_VALGRIND`](/docs/cmake/variables/PHP_VALGRIND.md)
+* [`PHP_VERBOSE_LINK`](/docs/cmake/variables/PHP_VERBOSE_LINK.md)
 * [`SED_EXECUTABLE`](/docs/cmake/variables/SED_EXECUTABLE.md)
 
 * [`PEAR`](/docs/cmake/pear.md)
