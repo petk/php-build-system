@@ -4,7 +4,6 @@ Check and configure compilation options.
 
 include_guard(GLOBAL)
 
-include(CheckLinkerFlag)
 include(CheckSourceRuns)
 include(CMakePushCheckState)
 include(PHP/CheckCompilerFlag)
@@ -499,21 +498,6 @@ endif()
 # Check linker flags.
 ################################################################################
 
-# Align segments on huge page boundary.
 include(${CMAKE_CURRENT_LIST_DIR}/checks/CheckSegmentsAlignment.cmake)
 
-check_linker_flag(C LINKER:/verbose PHP_HAS_VERBOSE_LINKER_FLAG_C)
-if(PHP_HAS_VERBOSE_LINKER_FLAG_C)
-  target_link_options(
-    php_config
-    INTERFACE $<$<AND:$<CONFIG:Debug>,$<LINK_LANGUAGE:C>>:LINKER:/verbose>
-  )
-endif()
-
-check_linker_flag(CXX LINKER:/verbose PHP_HAS_VERBOSE_LINKER_FLAG_CXX)
-if(PHP_HAS_VERBOSE_LINKER_FLAG_CXX)
-  target_link_options(
-    php_config
-    INTERFACE $<$<AND:$<CONFIG:Debug>,$<LINK_LANGUAGE:CXX>>:LINKER:/verbose>
-  )
-endif()
+include(PHP/VerboseLink)
