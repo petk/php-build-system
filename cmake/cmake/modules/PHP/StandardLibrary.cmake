@@ -42,6 +42,21 @@ set(PHP_C_STANDARD_LIBRARY "" CACHE INTERNAL "The C standard library.")
 
 message(CHECK_START "Checking C standard library")
 
+# The MS C runtime library (CRT).
+if(MSVC)
+  set(_PHP_C_STANDARD_LIBRARY_MSCRT TRUE)
+elseif(CMAKE_SYSTEM_NAME STREQUAL "Windows")
+  cmake_push_check_state(RESET)
+    set(CMAKE_REQUIRED_QUIET TRUE)
+    check_symbol_exists(_MSC_VER stdio.h _PHP_C_STANDARD_LIBRARY_MSCRT)
+  cmake_pop_check_state()
+endif()
+if(_PHP_C_STANDARD_LIBRARY_MSCRT)
+  set_property(CACHE PHP_C_STANDARD_LIBRARY PROPERTY VALUE "mscrt")
+  message(CHECK_PASS "MS C runtime library (CRT)")
+  return()
+endif()
+
 # The uClibc and its maintained fork uClibc-ng behave like minimalistic GNU C
 # library but have differences. They can be determined by the __UCLIBC__ symbol
 # and must be checked first because they also define the __GLIBC__ symbol.
@@ -97,17 +112,6 @@ cmake_pop_check_state()
 if(_PHP_C_STANDARD_LIBRARY_LLVM)
   set_property(CACHE PHP_C_STANDARD_LIBRARY PROPERTY VALUE "llvm")
   message(CHECK_PASS "LLVM libc")
-  return()
-endif()
-
-# The MS C runtime library (CRT).
-cmake_push_check_state(RESET)
-  set(CMAKE_REQUIRED_QUIET TRUE)
-  check_symbol_exists(_MSC_VER stdio.h _PHP_C_STANDARD_LIBRARY_MSCRT)
-cmake_pop_check_state()
-if(_PHP_C_STANDARD_LIBRARY_MSCRT)
-  set_property(CACHE PHP_C_STANDARD_LIBRARY PROPERTY VALUE "mscrt")
-  message(CHECK_PASS "MS C runtime library (CRT)")
   return()
 endif()
 
