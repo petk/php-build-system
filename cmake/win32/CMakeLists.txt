@@ -174,6 +174,21 @@ set_source_files_properties(
 )
 
 ################################################################################
+# Configure deplister - a command-line helper to list the DLL dependencies for a
+# PE (Portable Executable) module to stdout for use by distro/installer building
+# tools.
+################################################################################
+
+add_executable(php_windows_deplister build/deplister.c)
+
+set_target_properties(
+  php_windows_deplister
+  PROPERTIES OUTPUT_NAME deplister
+)
+
+target_link_libraries(php_windows_deplister PRIVATE imagehlp)
+
+################################################################################
 # Configure configuration header.
 ################################################################################
 

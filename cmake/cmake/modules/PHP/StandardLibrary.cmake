@@ -1,7 +1,11 @@
 #[=============================================================================[
 # PHP/StandardLibrary
 
-Determine the C standard library used for the build.
+This module determines the C standard library used for the build:
+
+```cmake
+include(PHP/StandardLibrary)
+```
 
 ## Cache variables
 
@@ -21,7 +25,9 @@ Determine the C standard library used for the build.
 
 * `__MUSL__` - Whether the C standard library is musl.
 
-## Usage
+## Examples
+
+Basic usage:
 
 ```cmake
 # CMakeLists.txt
