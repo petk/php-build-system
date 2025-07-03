@@ -101,7 +101,7 @@ endif()
 check_symbol_exists(strndup string.h HAVE_STRNDUP)
 check_symbol_exists(utimes sys/time.h HAVE_UTIMES)
 
-php_check_function_attribute(visibility HAVE_VISIBILITY)
+php_check_function_attribute(visibility HAVE_FUNC_ATTRIBUTE_VISIBILITY)
 
 target_compile_definitions(
   php_ext_fileinfo
@@ -110,7 +110,7 @@ target_compile_definitions(
     # The libmagic still includes them conditionally.
     HAVE_WCHAR_H=1
     HAVE_INTTYPES_H=1
-    $<IF:$<BOOL:${HAVE_VISIBILITY}>,HAVE_VISIBILITY=1,HAVE_VISIBILITY=0>
+    $<IF:$<BOOL:${HAVE_FUNC_ATTRIBUTE_VISIBILITY}>,HAVE_VISIBILITY=1,HAVE_VISIBILITY=0>
 )
 
 target_include_directories(php_ext_fileinfo PRIVATE ${CMAKE_CURRENT_SOURCE_DIR})
