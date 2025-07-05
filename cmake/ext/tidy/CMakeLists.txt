@@ -76,12 +76,8 @@ target_sources(
 )
 
 get_target_property(type php_ext_tidy TYPE)
-if(
-  CMAKE_SYSTEM_NAME STREQUAL "Windows"
-  AND TARGET php_sapi
-  AND NOT type STREQUAL "MODULE_LIBRARY"
-)
-  target_sources(php_sapi INTERFACE php_tidy.def)
+if(TARGET php_windows AND NOT type STREQUAL "MODULE_LIBRARY")
+  target_sources(php_windows PRIVATE php_tidy.def)
 endif()
 
 # Add -Wno-ignored-qualifiers as this is an issue upstream. Fixed in tidy-html5

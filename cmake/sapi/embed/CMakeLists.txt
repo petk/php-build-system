@@ -53,7 +53,7 @@ target_sources(
 foreach(target IN ITEMS php_sapi_embed php_sapi_embed_shared)
   target_sources(${target} PRIVATE php_embed.c)
 
-  target_link_libraries(${target} PRIVATE $<BUILD_INTERFACE:PHP::sapi>)
+  target_link_libraries(${target} PRIVATE $<BUILD_INTERFACE:PHP::core>)
 
   target_compile_definitions(${target} PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE)
 
