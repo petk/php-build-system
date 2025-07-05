@@ -142,12 +142,17 @@ cmake_pop_check_state()
 
 # Check for sockaddr_storage and sockaddr.sa_len.
 cmake_push_check_state(RESET)
-  set(CMAKE_EXTRA_INCLUDE_FILES "sys/socket.h")
+  if(HAVE_SYS_SOCKET_H)
+    list(APPEND CMAKE_EXTRA_INCLUDE_FILES "sys/socket.h")
+  endif()
+  if(CMAKE_SYSTEM_NAME STREQUAL "Windows")
+    list(APPEND CMAKE_EXTRA_INCLUDE_FILES "winsock2.h")
+  endif()
   check_type_size("struct sockaddr_storage" STRUCT_SOCKADDR_STORAGE)
   check_struct_has_member(
     "struct sockaddr"
     sa_len
-    "sys/socket.h"
+    "${CMAKE_EXTRA_INCLUDE_FILES}"
     HAVE_STRUCT_SOCKADDR_SA_LEN
   )
 cmake_pop_check_state()
@@ -520,7 +525,7 @@ php_search_libraries(
   socket
   HEADERS
     sys/socket.h
-    winsock.h
+    winsock2.h
   LIBRARIES
     socket  # Solaris <= 11.3, illumos
     network # Haiku
@@ -547,7 +552,7 @@ php_search_libraries(
   gethostname
   HEADERS
     unistd.h
-    winsock.h
+    winsock2.h
   LIBRARIES
     network # Haiku
     ws2_32  # Windows
@@ -563,7 +568,7 @@ php_search_libraries(
   HEADERS
     netdb.h
     sys/socket.h
-    winsock.h
+    winsock2.h
   LIBRARIES
     nsl     # Solaris <= 11.3, illumos
     network # Haiku
@@ -646,7 +651,7 @@ php_search_libraries(
   HEADERS
     sys/types.h
     sys/socket.h
-    winsock.h
+    winsock2.h
   LIBRARIES
     socket  # Solaris <= 11.3, illumos
     network # Haiku
@@ -675,7 +680,7 @@ php_search_libraries(
   getprotobyname
   HEADERS
     netdb.h
-    winsock.h
+    winsock2.h
   LIBRARIES
     socket  # Solaris <= 11.3, illumos
     network # Haiku
@@ -691,7 +696,7 @@ php_search_libraries(
   getprotobynumber
   HEADERS
     netdb.h
-    winsock.h
+    winsock2.h
   LIBRARIES
     socket  # Solaris <= 11.3, illumos
     network # Haiku
@@ -707,7 +712,7 @@ php_search_libraries(
   getservbyname
   HEADERS
     netdb.h
-    winsock.h
+    winsock2.h
   LIBRARIES
     socket  # Solaris <= 11.3, illumos
     network # Haiku
@@ -723,7 +728,7 @@ php_search_libraries(
   getservbyport
   HEADERS
     netdb.h
-    winsock.h
+    winsock2.h
   LIBRARIES
     socket  # Solaris <= 11.3, illumos
     network # Haiku
@@ -739,7 +744,7 @@ php_search_libraries(
   shutdown
   HEADERS
     sys/socket.h
-    winsock.h
+    winsock2.h
   LIBRARIES
     socket  # Solaris <= 11.3, illumos
     network # Haiku

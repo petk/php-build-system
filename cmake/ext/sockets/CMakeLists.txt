@@ -103,16 +103,6 @@ check_symbol_exists(sockatmark sys/socket.h HAVE_SOCKATMARK)
 check_include_files(sys/sockio.h HAVE_SYS_SOCKIO_H)
 check_include_files(linux/filter.h HAVE_LINUX_FILTER_H)
 
-if(CMAKE_SYSTEM_NAME STREQUAL "Windows")
-  check_include_files(winsock.h PHP_EXT_SOCKETS_HAS_WINSOCK_H)
-  if(NOT PHP_EXT_SOCKETS_HAS_WINSOCK_H)
-    message(
-      FATAL_ERROR
-      "Required file winsock.h is missing for the socket extension."
-    )
-  endif()
-endif()
-
 # Check for field ss_family in sockaddr_storage (missing in AIX until 5.3).
 check_struct_has_member(
   "struct sockaddr_storage"
