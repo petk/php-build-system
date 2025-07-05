@@ -64,12 +64,8 @@ target_sources(
 target_include_directories(php_ext_iconv PRIVATE ${CMAKE_CURRENT_BINARY_DIR})
 
 get_target_property(type php_ext_iconv TYPE)
-if(
-  CMAKE_SYSTEM_NAME STREQUAL "Windows"
-  AND TARGET php_sapi
-  AND NOT type STREQUAL "MODULE_LIBRARY"
-)
-  target_sources(php_sapi INTERFACE php_iconv.def)
+if(TARGET php_windows AND NOT type STREQUAL "MODULE_LIBRARY")
+  target_sources(php_windows PRIVATE php_iconv.def)
 endif()
 
 target_compile_definitions(
