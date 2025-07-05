@@ -117,7 +117,7 @@ target_compile_definitions(
 target_link_libraries(
   php_sapi_cli
   PRIVATE
-    $<BUILD_INTERFACE:PHP::sapi>
+    $<BUILD_INTERFACE:PHP::core>
     $<$<PLATFORM_ID:Windows>:ws2_32;shell32>
 )
 
@@ -129,7 +129,6 @@ set_target_properties(
   php_sapi_cli
   PROPERTIES
     OUTPUT_NAME ${PHP_PROGRAM_PREFIX}php${PHP_PROGRAM_SUFFIX}
-    ENABLE_EXPORTS TRUE # TODO: Check if there's a better solution.
     PHP_CLI TRUE
 )
 
@@ -189,7 +188,7 @@ if(PHP_SAPI_CLI_WIN_NO_CONSOLE)
   target_link_libraries(
     php_sapi_cli_win
     PRIVATE
-      $<BUILD_INTERFACE:PHP::sapi>
+      $<BUILD_INTERFACE:PHP::core>
       shell32
   )
 
