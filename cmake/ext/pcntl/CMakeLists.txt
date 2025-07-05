@@ -178,12 +178,12 @@ cmake_push_check_state(RESET)
       LIBRARIES
         gnu # Haiku
       VARIABLE PHP_EXT_PCNTL_HAS_SCHED_GETCPU_SYMBOL
-      LIBRARY_VARIABLE library
+      LIBRARY_VARIABLE PHP_EXT_PCNTL_HAS_SCHED_GETCPU_LIBRARY
     )
 
     if(PHP_EXT_PCNTL_HAS_SCHED_GETCPU_SYMBOL)
-      if(library)
-        set(CMAKE_REQUIRED_LIBRARIES ${library})
+      if(PHP_EXT_PCNTL_HAS_SCHED_GETCPU_LIBRARY)
+        set(CMAKE_REQUIRED_LIBRARIES ${PHP_EXT_PCNTL_HAS_SCHED_GETCPU_LIBRARY})
       endif()
       check_source_runs(C [[
         #include <sched.h>
@@ -198,8 +198,11 @@ cmake_push_check_state(RESET)
     endif()
 
     if(PHP_EXT_PCNTL_HAS_SCHED_GETCPU)
-      if(library)
-        target_link_libraries(php_ext_pcntl PRIVATE ${library})
+      if(PHP_EXT_PCNTL_HAS_SCHED_GETCPU_LIBRARY)
+        target_link_libraries(
+          php_ext_pcntl
+          PRIVATE ${PHP_EXT_PCNTL_HAS_SCHED_GETCPU_LIBRARY}
+        )
       endif()
 
       set(HAVE_SCHED_GETCPU TRUE)
