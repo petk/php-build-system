@@ -459,6 +459,7 @@ php_search_libraries(
   Pgrab
   HEADERS libproc.h
   LIBRARIES proc
+  VARIABLE PHP_ZEND_HAS_PGRAB
   TARGET zend PRIVATE
 )
 

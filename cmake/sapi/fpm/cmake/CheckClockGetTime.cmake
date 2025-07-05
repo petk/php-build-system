@@ -1,10 +1,5 @@
 #[=============================================================================[
 Check for clock_get*time.
-
-Result variables:
-
-* HAVE_CLOCK_GETTIME
-* HAVE_CLOCK_GET_TIME
 #]=============================================================================]
 
 include_guard(GLOBAL)
@@ -12,22 +7,6 @@ include_guard(GLOBAL)
 include(CheckSourceRuns)
 include(CMakePushCheckState)
 include(PHP/SearchLibraries)
-
-set(HAVE_CLOCK_GETTIME FALSE)
-set(HAVE_CLOCK_GET_TIME FALSE)
-
-# Skip in consecutive configuration phases.
-if(DEFINED PHP_SAPI_FPM_HAS_CLOCK_GETTIME)
-  if(PHP_SAPI_FPM_HAS_CLOCK_GETTIME)
-    set(HAVE_CLOCK_GETTIME TRUE)
-  endif()
-
-  if(PHP_SAPI_FPM_HAS_CLOCK_GET_TIME)
-    set(HAVE_CLOCK_GET_TIME TRUE)
-  endif()
-
-  return()
-endif()
 
 php_search_libraries(
   clock_gettime
@@ -37,10 +16,12 @@ php_search_libraries(
   VARIABLE PHP_SAPI_FPM_HAS_CLOCK_GETTIME
   TARGET php_sapi_fpm PRIVATE
 )
+set(HAVE_CLOCK_GETTIME ${PHP_SAPI_FPM_HAS_CLOCK_GETTIME})
 
-if(PHP_SAPI_FPM_HAS_CLOCK_GETTIME)
-  set(HAVE_CLOCK_GETTIME TRUE)
-else()
+if(
+  NOT PHP_SAPI_FPM_HAS_CLOCK_GETTIME
+  AND NOT DEFINED PHP_SAPI_FPM_HAS_CLOCK_GET_TIME
+)
   message(CHECK_START "Checking for clock_get_time()")
 
   cmake_push_check_state(RESET)
@@ -72,9 +53,10 @@ else()
   cmake_pop_check_state()
 
   if(PHP_SAPI_FPM_HAS_CLOCK_GET_TIME)
-    set(HAVE_CLOCK_GET_TIME TRUE)
     message(CHECK_PASS "yes")
   else()
     message(CHECK_FAIL "no")
   endif()
 endif()
+
+set(HAVE_CLOCK_GET_TIME ${PHP_SAPI_FPM_HAS_CLOCK_GET_TIME})
