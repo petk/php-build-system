@@ -179,6 +179,9 @@
 /* Define to 1 if you have the 'gethostname' function. */
 #cmakedefine HAVE_GETHOSTNAME 1
 
+/* Define to 1 if you have the 'getifaddrs' function. */
+#cmakedefine HAVE_GETIFADDRS 1
+
 /* Define to 1 if you have the 'getloadavg' function. */
 #cmakedefine HAVE_GETLOADAVG 1
 

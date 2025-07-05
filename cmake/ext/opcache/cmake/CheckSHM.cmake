@@ -224,11 +224,14 @@ function(_php_ext_opcache_check_shm_open result)
     LIBRARIES
       rt # Solaris <= 10, older Linux
     VARIABLE PHP_EXT_OPCACHE_HAS_SHM_OPEN
-    LIBRARY_VARIABLE libraryForShmOpen
+    LIBRARY_VARIABLE PHP_EXT_OPCACHE_HAS_SHM_OPEN_LIBRARY
   )
 
-  if(libraryForShmOpen)
-    target_link_libraries(php_ext_opcache PRIVATE ${libraryForShmOpen})
+  if(PHP_EXT_OPCACHE_HAS_SHM_OPEN_LIBRARY)
+    target_link_libraries(
+      php_ext_opcache
+      PRIVATE ${PHP_EXT_OPCACHE_HAS_SHM_OPEN_LIBRARY}
+    )
   endif()
 
   if(DEFINED PHP_EXT_OPCACHE_HAS_SHM_MMAP_POSIX)
