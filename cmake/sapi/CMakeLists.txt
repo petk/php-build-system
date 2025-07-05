@@ -22,6 +22,8 @@ define_property(
 
 list(APPEND CMAKE_MESSAGE_CONTEXT "sapi")
 
+set(CMAKE_ENABLE_EXPORTS TRUE)
+
 # Traverse CMakeLists.txt files of PHP SAPIs.
 file(GLOB sapis ${CMAKE_CURRENT_SOURCE_DIR}/*/CMakeLists.txt)
 list(TRANSFORM sapis REPLACE "${CMAKE_CURRENT_SOURCE_DIR}/|/CMakeLists.txt" "")
