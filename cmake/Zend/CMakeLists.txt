@@ -335,7 +335,7 @@ target_compile_definitions(
   PRIVATE
     ZEND_ENABLE_STATIC_TSRMLS_CACHE
   PUBLIC
-    $<$<PLATFORM_ID:Windows>:LIBZEND_EXPORTS>
+    $<$<AND:$<PLATFORM_ID:Windows>,$<BOOL:$<TARGET_PROPERTY:PHP_CORE>>>:LIBZEND_EXPORTS>
 )
 
 set_target_properties(
@@ -344,6 +344,7 @@ set_target_properties(
     VERSION ${PHP_ZEND_VERSION}
     ZEND_EXTENSION_API_NO ${PHP_ZEND_VERSION_EXTENSION_API_NO}
     ZEND_MODULE_API_NO ${PHP_ZEND_VERSION_MODULE_API_NO}
+    PHP_CORE TRUE
 )
 
 ################################################################################
@@ -351,8 +352,8 @@ set_target_properties(
 ################################################################################
 
 target_link_libraries(php_config INTERFACE $<COMPILE_ONLY:Zend::Zend>)
-target_link_libraries(php_sapi INTERFACE Zend::Zend)
-target_sources(php_sapi INTERFACE $<TARGET_OBJECTS:Zend::Zend>)
+target_link_libraries(php_core_objects INTERFACE Zend::Zend)
+target_sources(php_core_objects INTERFACE $<TARGET_OBJECTS:Zend::Zend>)
 
 ################################################################################
 # TSRM (Thread Safe Resource Manager) is a separate directory in php-src as it
@@ -381,7 +382,11 @@ target_include_directories(
     $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}/${PHP_INCLUDE_PREFIX}/TSRM>
 )
 
-target_compile_definitions(zend PUBLIC $<$<PLATFORM_ID:Windows>:TSRM_EXPORTS>)
+target_compile_definitions(
+  zend
+  PUBLIC
+    $<$<AND:$<PLATFORM_ID:Windows>,$<BOOL:$<TARGET_PROPERTY:PHP_CORE>>>:TSRM_EXPORTS>
+)
 
 install(
   TARGETS zend
