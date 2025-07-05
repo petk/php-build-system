@@ -116,7 +116,7 @@ target_compile_definitions(
 target_link_libraries(
   php_sapi_cli
   PRIVATE
-    $<BUILD_INTERFACE:PHP::sapi>
+    $<BUILD_INTERFACE:PHP::core>
     $<$<PLATFORM_ID:Windows>:ws2_32;shell32>
 )
 
@@ -218,7 +218,7 @@ if(PHP_SAPI_CLI_WIN_NO_CONSOLE)
   target_link_libraries(
     php_sapi_cli_win
     PRIVATE
-      $<BUILD_INTERFACE:PHP::sapi>
+      $<BUILD_INTERFACE:PHP::core>
       shell32
   )
 

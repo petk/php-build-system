@@ -155,7 +155,7 @@ foreach(target IN ITEMS php_sapi_phpdbg php_sapi_phpdbg_shared)
   target_link_libraries(
     ${target}
     PRIVATE
-      $<BUILD_INTERFACE:PHP::sapi>
+      $<BUILD_INTERFACE:PHP::core>
       $<$<PLATFORM_ID:Windows>:ws2_32;user32>
   )
 
