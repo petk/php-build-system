@@ -677,11 +677,11 @@ php_search_libraries(
     socket  # Solaris <= 11.3, illumos
     network # Haiku
     ws2_32  # Windows
-  VARIABLE PHP_HAS_GETPROBYNUMBER
-  LIBRARY_VARIABLE PHP_HAS_GETPROBYNUMBER_LIBRARY
+  VARIABLE PHP_HAS_GETPROTOBYNUMBER
+  LIBRARY_VARIABLE PHP_HAS_GETPROTOBYNUMBER_LIBRARY
   TARGET php_config INTERFACE
 )
-set(HAVE_GETPROTOBYNUMBER ${PHP_HAS_GETPROBYNUMBER})
+set(HAVE_GETPROTOBYNUMBER ${PHP_HAS_GETPROTOBYNUMBER})
 
 # The getservbyname() is mostly in C library (Solaris 11.4...)
 php_search_libraries(
