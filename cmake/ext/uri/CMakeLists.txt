@@ -30,6 +30,7 @@ target_sources(
     php_uri_common.c
     php_uri.c
     php_uri.stub.php
+    php_uriparser.c
     uriparser/src/UriCommon.c
     uriparser/src/UriCompare.c
     uriparser/src/UriCopy.c
@@ -52,6 +53,7 @@ target_sources(
         php_lexbor.h
         php_uri_common.h
         php_uri.h
+        php_uriparser.h
         uriparser/include/uriparser/Uri.h
         uriparser/include/uriparser/UriBase.h
         uriparser/include/uriparser/UriDefsAnsi.h
