@@ -106,16 +106,6 @@ check_include_files(linux/if_ether.h HAVE_LINUX_IF_ETHER_H)
 check_include_files(linux/if_packet.h HAVE_LINUX_IF_PACKET_H)
 check_include_files(linux/udp.h HAVE_LINUX_UDP_H)
 
-if(CMAKE_SYSTEM_NAME STREQUAL "Windows")
-  check_include_files(winsock.h PHP_EXT_SOCKETS_HAS_WINSOCK_H)
-  if(NOT PHP_EXT_SOCKETS_HAS_WINSOCK_H)
-    message(
-      FATAL_ERROR
-      "Required file winsock.h is missing for the socket extension."
-    )
-  endif()
-endif()
-
 # Check for field ss_family in sockaddr_storage (missing in AIX until 5.3).
 check_struct_has_member(
   "struct sockaddr_storage"
