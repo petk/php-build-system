@@ -4,7 +4,6 @@ Check whether to enable Zend max execution timers.
 Cache variables:
 
 * ZEND_MAX_EXECUTION_TIMERS
-* HAVE_TIMER_CREATE - Whether the system has timer_create().
 
 Result variables:
 
@@ -50,11 +49,11 @@ if(ZEND_MAX_EXECUTION_TIMERS AND CMAKE_SYSTEM_NAME MATCHES "^(Linux|FreeBSD)$")
     HEADERS time.h
     LIBRARIES
       rt # Solaris <= 10, older Linux
-    VARIABLE HAVE_TIMER_CREATE
-    LIBRARY_VARIABLE libraryForTimerCreate
+    VARIABLE PHP_ZEND_HAS_TIMER_CREATE
+    LIBRARY_VARIABLE PHP_ZEND_HAS_TIMER_CREATE_LIBRARY
   )
 
-  if(NOT HAVE_TIMER_CREATE)
+  if(NOT PHP_ZEND_HAS_TIMER_CREATE)
     set(ZEND_MAX_EXECUTION_TIMERS OFF)
   endif()
 else()
@@ -62,8 +61,8 @@ else()
 endif()
 
 if(ZEND_MAX_EXECUTION_TIMERS)
-  if(libraryForTimerCreate)
-    target_link_libraries(zend PUBLIC ${libraryForTimerCreate})
+  if(PHP_ZEND_HAS_TIMER_CREATE_LIBRARY)
+    target_link_libraries(zend PUBLIC ${PHP_ZEND_HAS_TIMER_CREATE_LIBRARY})
   endif()
 
   # zend_config.h (or its parent php_config.h) isn't included in some files,

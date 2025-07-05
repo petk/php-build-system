@@ -3,9 +3,14 @@
 
 # PHP/SearchLibraries
 
-Check if symbol exists in given header(s). If not found in default linked
-libraries (for example, C library), a given list of libraries is iterated and
-found library can be linked as needed.
+This module checks if symbol exists in given header(s) and libraries:
+
+```cmake
+include(PHP/SearchLibraries)
+```
+
+If symbol is not found in default linked libraries (for example, C library), a
+given list of libraries is iterated and found library can be linked as needed.
 
 Depending on the system, C functions can be located in one of the default linked
 libraries when using the compiler, or they can be in separate system libraries
@@ -21,34 +26,44 @@ similar.
 
 The logic in this module is somehow following the Autoconf's `AC_SEARCH_LIBS`.
 
-Module exposes the following function:
+## Commands
+
+This module provides the following commands:
+
+### `php_search_libraries()`
 
 ```cmake
 php_search_libraries(
   <symbol>
-  HEADERS <header>...
-  [LIBRARIES <library>...]
+  HEADERS <headers>...
+  [LIBRARIES <libraries>...]
   [VARIABLE <variable>]
-  [LIBRARY_VARIABLE <library_variable>]
+  [LIBRARY_VARIABLE <library-variable>]
   [TARGET <target> [<PRIVATE|PUBLIC|INTERFACE>]]
   [RECHECK_HEADERS]
 )
 ```
 
-Check that the `<symbol>` is available after including the `<header>` (or a list
-of `<headers>`), or if any library from the `LIBRARY` list needs to be linked.
-If `<variable>` is given, check result is stored in an internal cache variable.
+Checks that the `<symbol>` is available after including the `<headers>` (or a
+list of `<headers>`), or if any library from the `LIBRARIES` list needs to be
+linked.
 
-* `HEADERS`
+The arguments are:
 
-  A header (or a list of headers) where to look for the symbol declaration.
-  Headers are checked in iteration with `check_include_files()` and are appended
+* `<symbol>`
+
+  The name of the C symbol to check.
+
+* `HEADERS <headers>...`
+
+  One or more headers where to look for the symbol declaration. Headers are
+  checked in iteration with `check_include_files()` command and are appended
   to the list of found headers instead of a single header check. In some cases a
-  header might not be self-contained (it requires including prior additional
-  headers). For example, to be able to use `arpa/nameser.h` on Solaris, the
-  `<sys/types.h>` header must be included before.
+  header might not be self-contained (it requires additional prior headers to be
+  included). For example, to be able to use `<arpa/nameser.h>` header on
+  Solaris, the `<sys/types.h>` header must be included before.
 
-* `LIBRARIES`
+* `LIBRARIES <libraries>...`
 
   If symbol is not found in the default libraries (C library), then the
   `LIBRARIES` list is iterated. Instead of using the `check_function_exists()`,
@@ -56,22 +71,21 @@ If `<variable>` is given, check result is stored in an internal cache variable.
   a macro definition. It would not be found using the other two commands because
   they don't include required headers.
 
-* `VARIABLE`
+* `VARIABLE <variable>`
 
-  Name of a cache variable where the check result will be stored. Optional. If
-  not given, the result will be stored in an internal automatically defined
-  cache variable name.
+  Optional. Name of an internal cache variable where the result of the check is
+  stored. If not given, the result will be stored in an internal automatically
+  defined cache variable name.
 
-* `LIBRARY_VARIABLE`
+* `LIBRARY_VARIABLE <library-variable>`
 
   When symbol is not found in the default libraries, the resulting library that
-  contains the symbol is stored in this local variable name.
+  contains the symbol is stored in this internal cache variable name.
 
-* `TARGET`
+* `TARGET <target>`
 
-  If the `TARGET` is given, the resulting library is linked to a given
-  `<target>` with the scope of `PRIVATE`, `PUBLIC`, or `INTERFACE`. Behavior is
-  homogeneous to:
+  If specified, the resulting library is linked to a given `<target>` with the
+  scope of `PRIVATE`, `PUBLIC`, or `INTERFACE`. Behavior is homogeneous to:
 
   ```cmake
   target_link_libraries(<target> [PRIVATE|PUBLIC|INTERFACE] <library>)
@@ -79,39 +93,40 @@ If `<variable>` is given, check result is stored in an internal cache variable.
 
 * `RECHECK_HEADERS`
 
-  Enabling this option will recheck the header(s) by using specific
-  `_PHP_SEARCH_LIBRARIES_HEADER_<HEADER_NAMES_H...>` cache variable names
-  instead of the more common `HAVE_<HEADER_NAME>_H`. When checking headers in
-  iteration, by default, the `HAVE_<HEADER_NAME>_H` cache variables are defined,
-  so the entire check is slightly more performant if header(s) have already been
-  checked elsewhere in the application using the `check_header_include()`. In
-  most cases this won't be needed.
+  Enabling this option will recheck the headers by using automatically generated
+  unique cache variable names of format
+  `PHP_SEARCH_LIBRARIES_<SYMBOL>_<HEADER_NAME_H>` instead of the more common
+  `HAVE_<HEADER_NAME>_H`. When checking headers in iteration, by default, the
+  `HAVE_<HEADER_NAME>_H` cache variables are defined, so the entire check is
+  slightly more performant if headers have already been checked elsewhere in the
+  application using the `check_header_includes()`. In most cases this is not
+  needed.
 
-## Usage
+## Examples
 
-In the following example, the library containing `dlopen` is linked to
-`php_config` target with the `INTERFACE` scope when needed to use the `dlopen`
-symbol. Cache variable `HAVE_LIBDL` is set if `dlopen` is found either in the
+In the following example, the library containing `dlopen()` is linked to
+`php_config` target with the `INTERFACE` scope when needed to use the `dlopen()`
+symbol. Cache variable `PHP_HAS_DL` is set if `dlopen()` is found either in the
 default system libraries or in one of the libraries set in the `CMAKE_DL_LIBS`
 variable.
 
 ```cmake
 # CMakeLists.txt
 
-# Include the module
+# Include the module.
 include(PHP/SearchLibraries)
 
-# Search and link library containing dlopen and dlclose .
+# Search and link library containing dlopen() and dlclose().
 php_search_libraries(
   dlopen
   HEADERS dlfcn.h
   LIBRARIES ${CMAKE_DL_LIBS}
-  VARIABLE HAVE_LIBDL
+  VARIABLE PHP_HAS_DL
   TARGET php_config INTERFACE
 )
 ```
 
-The following variables may be set before calling this function to modify the
+The following variables may be set before calling this command to modify the
 way the check is run. See
 https://cmake.org/cmake/help/latest/module/CheckSymbolExists.html
 

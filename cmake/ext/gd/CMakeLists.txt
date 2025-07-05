@@ -294,6 +294,7 @@ if(NOT PHP_EXT_GD_EXTERNAL)
     floorf
     HEADERS math.h
     LIBRARIES m
+    VARIABLE PHP_EXT_GD_HAS_FLOORF
     TARGET php_ext_gd PRIVATE
   )
 
