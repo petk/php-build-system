@@ -3,13 +3,20 @@
 
 # PHP/Bison
 
-Generate parser files with Bison.
+Finds the Bison command-line parser generator and provides a command to generate
+parser files with Bison:
 
-## Functions
+```cmake
+include(PHP/Bison)
+```
+
+## Commands
+
+This module provides the following commands:
 
 ### `php_bison()`
 
-Generate parser file from the given template file using the Bison generator.
+Generates parser file from the given template file using the Bison generator:
 
 ```cmake
 php_bison(
@@ -27,8 +34,8 @@ php_bison(
 )
 ```
 
-This creates a target `<name>` and adds a command that generates parser file
-`<output>` from the given `<input>` template file using the Bison parser
+This command creates a target `<name>` and adds a command that generates parser
+file `<output>` from the given `<input>` template file using the Bison parser
 generator. Relative source file path `<input>` is interpreted as being relative
 to the current source directory. Relative `<output>` file path is interpreted as
 being relative to the current binary directory. If generated files are already
@@ -123,7 +130,7 @@ These variables can be set before using this module to configure behavior:
 
 ## Examples
 
-### Usage
+### Example: Basic usage
 
 ```cmake
 # CMakeLists.txt
@@ -147,7 +154,7 @@ php_bison(foo foo.y foo.c ADD_DEFAULT_OPTIONS OPTIONS --debug --yacc)
 #   bison -Wall --no-lines --debug --yacc foo.y --output foo.c
 ```
 
-### Generator expressions
+### Example: Generator expressions
 
 ```cmake
 include(PHP/Bison)
@@ -159,7 +166,7 @@ php_bison(foo foo.y foo.c OPTIONS $<$<CONFIG:Debug>:--debug> --yacc)
 #   bison --yacc foo.y --output foo.c
 ```
 
-### Target usage
+### Example: Target usage
 
 Target created by `php_bison()` can be used to specify additional dependencies:
 
@@ -178,7 +185,7 @@ Running only the `foo_parser` target to generate the parser-related files:
 cmake --build <dir> --target foo_parser
 ```
 
-### Module configuration
+### Example: Module configuration
 
 To specify different minimum required Bison version than the module's default,
 the `find_package(BISON)` can be called before `php_bison()`:

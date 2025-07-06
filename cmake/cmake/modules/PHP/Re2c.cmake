@@ -1,13 +1,20 @@
 #[=============================================================================[
 # PHP/Re2c
 
-Generate lexer files with re2c.
+Finds the re2c command-line lexer generator and provides command to generate
+lexer files with re2c:
 
-## Functions
+```cmake
+include(PHP/Re2c)
+```
+
+## Commands
+
+This module provides the following commands:
 
 ### `php_re2c()`
 
-Generate lexer file from the given template file using the re2c generator.
+Generates lexer file from the given template file using the re2c generator:
 
 ```cmake
 php_re2c(
@@ -25,8 +32,8 @@ php_re2c(
 )
 ```
 
-This creates a target `<name>` and adds a command that generates lexer file
-`<output>` from the given `<input>` template file using the re2c lexer
+This command creates a target `<name>` and adds a command that generates lexer
+file `<output>` from the given `<input>` template file using the re2c lexer
 generator. Relative source file path `<input>` is interpreted as being relative
 to the current source directory. Relative `<output>` file path is interpreted as
 being relative to the current binary directory. If generated files are already
@@ -118,7 +125,7 @@ These variables can be set before using this module to configure behavior:
 
 ## Examples
 
-### Usage
+### Example: Basic usage
 
 ```cmake
 # CMakeLists.txt
@@ -130,7 +137,7 @@ php_re2c(foo foo.re foo.c OPTIONS --bit-vectors --conditions)
 #   re2c --bit-vectors --conditions --output foo.c foo.re
 ```
 
-### Specifying options
+### Example: Specifying options
 
 This module provides some default options when using the `ADD_DEFAULT_OPTIONS`:
 
@@ -142,7 +149,7 @@ php_re2c(foo foo.re foo.c ADD_DEFAULT_OPTIONS OPTIONS --conditions)
 #   re2c --no-debug-info --no-generation-date --conditions --output foo.c foo.re
 ```
 
-### Generator expressions
+### Example: Generator expressions
 
 ```cmake
 include(PHP/Re2c)
@@ -154,7 +161,7 @@ php_re2c(foo foo.re foo.c OPTIONS $<$<CONFIG:Debug>:--debug-output> -F)
 #   re2c -F --output foo.c foo.re
 ```
 
-### Target usage
+### Example: Target usage
 
 Target created by `php_re2c()` can be used to specify additional dependencies:
 
@@ -173,7 +180,7 @@ Running only the `foo_lexer` target to generate the lexer-related files:
 cmake --build <dir> --target foo_lexer
 ```
 
-### Module configuration
+### Example: Module configuration
 
 To specify different minimum required re2c version than the module's default,
 the `find_package(RE2C)` can be called before `php_re2c()`:
