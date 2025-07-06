@@ -58,13 +58,14 @@ installation of a library, there are two main options to consider:
 
 ## 1. CMake presets
 
-Instead of manually passing variables on the command line with
-`cmake -DFOO=BAR ...`, configuration options can be simply stored and shared in
-a JSON file `CMakePresets.json` at the project root directory.
+CMake presets are a convenient way to save and share common build configurations
+in the project. Instead of typing long `cmake -DVAR=value` commands every time,
+presets can define reusable named setups in JSON files like
+[`CMakePresets.json`](/cmake/CMakePresets.json). This makes builds more
+consistent across machines and CI systems, and simplifies local development too.
 
-The [CMakePresets.json](/cmake/CMakePresets.json) file incorporates some common
-build configuration for development, continuous integration, bug reporting, etc.
-Additional configure presets are included from the `cmake/presets` directory.
+In this repository, additional configure presets are included from the
+[`cmake/presets`](/cmake/presets) directory.
 
 To use the CMake presets:
 
@@ -79,13 +80,33 @@ cmake --preset default
 cmake --build --preset default -j
 ```
 
-Custom local build configuration can be also stored in a Git-ignored file
-`CMakeUserPresets.json` intended to override the defaults in
-`CMakePresets.json`.
-
 CMake presets have been available since CMake 3.19, and depending on the
 `version` JSON field, the minimum required CMake version may vary based on the
 used JSON scheme.
+
+Custom local build configuration can be also stored in a Git-ignored file
+`CMakeUserPresets.json` intended to override the defaults in
+`CMakePresets.json`. For example, creating the following `CMakeUserPresets.json`
+file at the root of the repository, provides customizing the defaults:
+
+```json
+{
+  "version": 4,
+  "configurePresets": [
+    {
+      "name": "my-windows",
+      "inherits": "windows",
+      "displayName": "My Windows configuration",
+      "binaryDir": "${sourceDir}/php-build/default",
+      "installDir": "c:/tmp",
+      "cacheVariables": {
+        "PHP_EXT_FOO": true,
+        "PHP_...": true,
+      }
+    }
+  ]
+}
+```
 
 ## 2. CMake configuration
 
@@ -1099,6 +1120,18 @@ A list of Autoconf `configure` command-line configuration options, Windows
       <td>--disable-com-dotnet</td>
       <td>PHP_EXT_COM_DOTNET=OFF</td>
       <td>Windows only</td>
+    </tr>
+    <tr>
+      <td>&emsp;N/A</td>
+      <td>N/A</td>
+      <td>PHP_EXT_COM_DOTNET_ENABLE_DOTNET=ON</td>
+      <td>default; Windows only; enables the .NET Framework support</td>
+    </tr>
+    <tr>
+      <td>&emsp;N/A</td>
+      <td>N/A</td>
+      <td>PHP_EXT_COM_DOTNET_ENABLE_DOTNET=OFF</td>
+      <td>Windows only; disables the .NET Framework support</td>
     </tr>
     <tr>
       <td>--enable-ctype</td>
