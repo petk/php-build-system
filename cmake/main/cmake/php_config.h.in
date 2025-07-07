@@ -175,9 +175,6 @@
 /* Define to 1 if you have the 'getloadavg' function. */
 #cmakedefine HAVE_GETLOADAVG 1
 
-/* Define to 1 if you have the 'getlogin' function. */
-#cmakedefine HAVE_GETLOGIN 1
-
 /* Define to 1 if you have the 'getprotobyname' function. */
 #cmakedefine HAVE_GETPROTOBYNAME 1
 

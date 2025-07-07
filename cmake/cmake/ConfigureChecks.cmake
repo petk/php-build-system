@@ -308,7 +308,6 @@ block()
   check_symbol_exists(getloadavg "${headers}" HAVE_GETLOADAVG)
 endblock()
 
-check_symbol_exists(getlogin unistd.h HAVE_GETLOGIN)
 check_symbol_exists(getrusage sys/resource.h HAVE_GETRUSAGE)
 check_symbol_exists(gettimeofday sys/time.h HAVE_GETTIMEOFDAY)
 check_symbol_exists(getpwnam_r pwd.h HAVE_GETPWNAM_R)
