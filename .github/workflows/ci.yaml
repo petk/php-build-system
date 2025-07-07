@@ -141,3 +141,17 @@ jobs:
 
       - name: Install PHP
         run: cmake --install php-build/all-enabled
+
+  windows:
+    runs-on: windows-latest
+    name: Windows
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
+
+      - name: Build and install
+        run: |
+          cmake --preset windows
+          cmake --build --preset windows -j
