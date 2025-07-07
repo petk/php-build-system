@@ -3,8 +3,8 @@
 
 # PHP/Bison
 
-Finds the Bison command-line parser generator and provides a command to generate
-parser files with Bison:
+This module finds the Bison command-line parser generator and provides a command
+to generate parser files with Bison:
 
 ```cmake
 include(PHP/Bison)
@@ -119,10 +119,15 @@ These variables can be set before using this module to configure behavior:
 * `PHP_BISON_VERSION` - The version constraint, when looking for BISON package
   with `find_package(BISON <version-constraint> ...)` in this module.
 
-* `PHP_BISON_VERSION_DOWNLOAD` - When Bison cannot be found on the system or the
-  found version is not suitable, this module can also download and build it from
-  its release archive sources as part of the project build. Set which version
-  should be downloaded.
+* `PHP_BISON_GNU_VERSION_DOWNLOAD` - When Bison cannot be found on the system or
+  the found version is not suitable, this module can also download and build it
+  from its release archive sources as part of the project build. This variable
+  specifies which GNU Bison version should be downloaded.
+
+* `PHP_BISON_WIN_VERSION_DOWNLOAD` - When Bison cannot be found on the Windows
+  host system or the found version is not suitable, this module can also
+  download [`win_bison.exe`](https://github.com/lexxmark/winflexbison). This
+  variable specifies which `winflexbison` version should be downloaded.
 
 * `PHP_BISON_WORKING_DIRECTORY` - Set the default global working directory
   for all `php_bison()` invocations in the directory scope where the
