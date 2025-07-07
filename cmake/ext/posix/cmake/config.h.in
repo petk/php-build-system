@@ -13,6 +13,9 @@
 /* Define to 1 if you have the 'getgroups' function. */
 #cmakedefine HAVE_GETGROUPS 1
 
+/* Define to 1 if you have the 'getlogin' function. */
+#cmakedefine HAVE_GETLOGIN 1
+
 /* Define to 1 if you have the 'getpgid' function. */
 #cmakedefine HAVE_GETPGID 1
 
