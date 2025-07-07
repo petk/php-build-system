@@ -1,8 +1,8 @@
 #[=============================================================================[
 # PHP/Bison
 
-Finds the Bison command-line parser generator and provides a command to generate
-parser files with Bison:
+This module finds the Bison command-line parser generator and provides a command
+to generate parser files with Bison:
 
 ```cmake
 include(PHP/Bison)
@@ -117,10 +117,15 @@ These variables can be set before using this module to configure behavior:
 * `PHP_BISON_VERSION` - The version constraint, when looking for BISON package
   with `find_package(BISON <version-constraint> ...)` in this module.
 
-* `PHP_BISON_VERSION_DOWNLOAD` - When Bison cannot be found on the system or the
-  found version is not suitable, this module can also download and build it from
-  its release archive sources as part of the project build. Set which version
-  should be downloaded.
+* `PHP_BISON_GNU_VERSION_DOWNLOAD` - When Bison cannot be found on the system or
+  the found version is not suitable, this module can also download and build it
+  from its release archive sources as part of the project build. This variable
+  specifies which GNU Bison version should be downloaded.
+
+* `PHP_BISON_WIN_VERSION_DOWNLOAD` - When Bison cannot be found on the Windows
+  host system or the found version is not suitable, this module can also
+  download [`win_bison.exe`](https://github.com/lexxmark/winflexbison). This
+  variable specifies which `winflexbison` version should be downloaded.
 
 * `PHP_BISON_WORKING_DIRECTORY` - Set the default global working directory
   for all `php_bison()` invocations in the directory scope where the
@@ -205,9 +210,16 @@ macro(_php_bison_config)
     set(PHP_BISON_VERSION 3.0.0)
   endif()
 
-  # If Bison is not found on the system, set which version to download.
-  if(NOT PHP_BISON_VERSION_DOWNLOAD)
-    set(PHP_BISON_VERSION_DOWNLOAD 3.8.2)
+  # If Bison is not found on the system, set which version to download for
+  # POSIX platforms that might support GNU Bison.
+  if(NOT PHP_BISON_GNU_VERSION_DOWNLOAD)
+    set(PHP_BISON_GNU_VERSION_DOWNLOAD 3.8.2)
+  endif()
+
+  # If Bison is not found on the Windows host system, set which winflexbison
+  # version to download.
+  if(NOT PHP_BISON_WIN_VERSION_DOWNLOAD)
+    set(PHP_BISON_WIN_VERSION_DOWNLOAD 2.5.25)
   endif()
 endmacro()
 
@@ -311,11 +323,10 @@ function(php_bison name input output)
 
   if(
     NOT BISON_FOUND
-    AND PHP_BISON_VERSION_DOWNLOAD
+    AND PHP_BISON_GNU_VERSION_DOWNLOAD
+    AND PHP_BISON_WIN_VERSION_DOWNLOAD
     AND packageType STREQUAL "REQUIRED"
     AND role STREQUAL "PROJECT"
-    # TODO: Support for other platforms.
-    AND CMAKE_HOST_SYSTEM_NAME STREQUAL "Linux"
   )
     _php_bison_download()
   endif()
@@ -616,14 +627,58 @@ endfunction()
 
 # Download and build Bison if not found.
 function(_php_bison_download)
-  set(BISON_VERSION ${PHP_BISON_VERSION_DOWNLOAD})
+  set(BISON_VERSION ${PHP_BISON_GNU_VERSION_DOWNLOAD})
   set(BISON_FOUND TRUE)
 
   if(TARGET Bison::Bison)
     return(PROPAGATE BISON_FOUND BISON_VERSION)
   endif()
 
-  message(STATUS "Bison ${BISON_VERSION} will be downloaded at build phase")
+  if(CMAKE_HOST_SYSTEM_NAME STREQUAL "Windows")
+    _php_bison_download_windows()
+  elseif(CMAKE_HOST_SYSTEM_NAME STREQUAL "Linux")
+    _php_bison_download_gnu()
+  else()
+    # TODO: Add support for more platforms.
+    message(
+      WARNING
+      "Bison couldn't be downloaded. The current platform ${CMAKE_SYSTEM_NAME} "
+      "is not yet supported by PHP/Bison module. Please install Bison manually."
+    )
+    return()
+  endif()
+
+  add_executable(Bison::Bison IMPORTED GLOBAL)
+  set_target_properties(
+    Bison::Bison
+    PROPERTIES IMPORTED_LOCATION ${BISON_EXECUTABLE}
+  )
+
+  # Target created by ExternalProject:
+  if(TARGET bison)
+    add_dependencies(Bison::Bison bison)
+  endif()
+
+  # Move dependency to PACKAGES_FOUND.
+  get_property(packagesNotFound GLOBAL PROPERTY PACKAGES_NOT_FOUND)
+  list(REMOVE_ITEM packagesNotFound BISON)
+  set_property(GLOBAL PROPERTY PACKAGES_NOT_FOUND ${packagesNotFound})
+  get_property(packagesFound GLOBAL PROPERTY PACKAGES_FOUND)
+  set_property(GLOBAL APPEND PROPERTY PACKAGES_FOUND BISON)
+
+  set(
+    _PHP_BISON_DOWNLOAD
+    TRUE
+    CACHE INTERNAL
+    "Internal marker whether the Bison will be downloaded."
+  )
+
+  return(PROPAGATE BISON_FOUND BISON_VERSION)
+endfunction()
+
+# Downloads GNU Bison.
+function(_php_bison_download_gnu)
+  message(STATUS "GNU Bison ${BISON_VERSION} will be downloaded at build phase")
 
   include(ExternalProject)
 
@@ -641,28 +696,36 @@ function(_php_bison_download)
   )
 
   ExternalProject_Get_Property(bison INSTALL_DIR)
+
   set_property(CACHE BISON_EXECUTABLE PROPERTY VALUE ${INSTALL_DIR}/bin/bison)
+endfunction()
 
-  add_executable(Bison::Bison IMPORTED GLOBAL)
-  set_target_properties(
-    Bison::Bison
-    PROPERTIES IMPORTED_LOCATION ${BISON_EXECUTABLE}
-  )
-  add_dependencies(Bison::Bison bison)
-
-  # Move dependency to PACKAGES_FOUND.
-  get_property(packagesNotFound GLOBAL PROPERTY PACKAGES_NOT_FOUND)
-  list(REMOVE_ITEM packagesNotFound BISON)
-  set_property(GLOBAL PROPERTY PACKAGES_NOT_FOUND ${packagesNotFound})
-  get_property(packagesFound GLOBAL PROPERTY PACKAGES_FOUND)
-  set_property(GLOBAL APPEND PROPERTY PACKAGES_FOUND BISON)
-
-  set(
-    _PHP_BISON_DOWNLOAD
-    TRUE
-    CACHE INTERNAL
-    "Internal marker whether the Bison will be downloaded."
+# Downloads https://github.com/lexxmark/winflexbison.
+function(_php_bison_download_windows)
+  message(
+    STATUS
+    "Downloading win_bison ${BISON_VERSION} (${PHP_BISON_WIN_VERSION_DOWNLOAD})"
   )
 
-  return(PROPAGATE BISON_FOUND BISON_VERSION)
+  get_directory_property(dir EP_BASE)
+  if(NOT dir)
+    set(dir "${CMAKE_CURRENT_BINARY_DIR}/CMakeFiles")
+  endif()
+
+  set(file "${dir}/win_flex_bison.zip")
+
+  file(
+    DOWNLOAD
+    "https://github.com/lexxmark/winflexbison/releases/download/v${PHP_BISON_WIN_VERSION_DOWNLOAD}/win_flex_bison-${PHP_BISON_WIN_VERSION_DOWNLOAD}.zip"
+    ${file}
+    SHOW_PROGRESS
+  )
+
+  file(ARCHIVE_EXTRACT INPUT "${file}" DESTINATION "${dir}/win_flex_bison")
+
+  set_property(
+    CACHE
+    BISON_EXECUTABLE
+    PROPERTY VALUE "${dir}/win_flex_bison/win_bison.exe"
+  )
 endfunction()
