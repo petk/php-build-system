@@ -105,8 +105,6 @@ add_feature_info(
   "system default cipher list instead of hardcoded value"
 )
 
-set(HAVE_OPENSSL_EXT "/* #undef HAVE_OPENSSL_EXT */")
-
 if(NOT PHP_EXT_OPENSSL)
   return()
 endif()
