@@ -161,7 +161,6 @@ target_sources(
         html.h
         info.h
         md5.h
-        pack.h
         pageinfo.h
         password_arginfo.h
         php_array.h
