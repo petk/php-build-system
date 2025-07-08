@@ -3,7 +3,7 @@
 
 /* Define to 1 if SQLite library has the 'sqlite3_errstr' function. Available
    since SQLite 3.7.15. */
-#cmakedefine HAVE_SQLITE3_ERRSTR 1
+#define HAVE_SQLITE3_ERRSTR 1
 
 /* Define to 1 if SQLite library has the 'sqlite3_expanded_sql' function.
    Available since SQLite 3.14.0. */

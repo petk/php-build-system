@@ -92,8 +92,6 @@ if(TARGET SQLite::SQLite3)
       set(SQLITE_OMIT_LOAD_EXTENSION TRUE)
     endif()
   cmake_pop_check_state()
-
-  set(HAVE_SQLITE3_ERRSTR TRUE)
 endif()
 
 set(HAVE_SQLITE3 TRUE)

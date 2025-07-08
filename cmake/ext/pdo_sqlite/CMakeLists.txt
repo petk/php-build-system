@@ -100,8 +100,6 @@ if(TARGET SQLite::SQLite3)
       set(PDO_SQLITE_OMIT_LOAD_EXTENSION TRUE)
     endif()
   cmake_pop_check_state()
-
-  set(HAVE_SQLITE3_CLOSE_V2 TRUE)
 endif()
 
 ################################################################################
