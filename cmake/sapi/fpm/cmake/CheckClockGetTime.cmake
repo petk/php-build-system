@@ -2,8 +2,6 @@
 Check for clock_get*time.
 #]=============================================================================]
 
-include_guard(GLOBAL)
-
 include(CheckSourceRuns)
 include(CMakePushCheckState)
 include(PHP/SearchLibraries)
@@ -18,11 +16,23 @@ php_search_libraries(
 )
 set(HAVE_CLOCK_GETTIME ${PHP_SAPI_FPM_HAS_CLOCK_GETTIME})
 
+# Checking for working clock_get_time() on macOS systems is obsolete as of macOS
+# Sierra (10.12) where the clock_gettime() was added.
 if(
   NOT PHP_SAPI_FPM_HAS_CLOCK_GETTIME
   AND NOT DEFINED PHP_SAPI_FPM_HAS_CLOCK_GET_TIME
 )
   message(CHECK_START "Checking for clock_get_time()")
+
+  # When crosscompiling, check only whether the test code builds and assume it
+  # also runs.
+  if(
+    CMAKE_CROSSCOMPILING
+    AND NOT CMAKE_CROSSCOMPILING_EMULATOR
+    AND NOT DEFINED PHP_SAPI_FPM_HAS_CLOCK_GET_TIME_EXITCODE
+  )
+    set(PHP_SAPI_FPM_HAS_CLOCK_GET_TIME_EXITCODE 0)
+  endif()
 
   cmake_push_check_state(RESET)
     set(CMAKE_REQUIRED_QUIET TRUE)
@@ -59,4 +69,8 @@ if(
   endif()
 endif()
 
-set(HAVE_CLOCK_GET_TIME ${PHP_SAPI_FPM_HAS_CLOCK_GET_TIME})
+if(PHP_SAPI_FPM_HAS_CLOCK_GET_TIME)
+  set(HAVE_CLOCK_GET_TIME TRUE)
+else()
+  set(HAVE_CLOCK_GET_TIME FALSE)
+endif()
