@@ -54,9 +54,6 @@ set(ZEND_MM_EXITCODE__TRYRUN_OUTPUT "(size_t)8 (size_t)3 0")
 # sapi/fpm
 ################################################################################
 
-# Set the exit code for the clock_get_time() check.
-set(PHP_SAPI_FPM_HAS_CLOCK_GET_TIME_EXITCODE 0)
-
 # Set the exit code of the ptrace() check.
 set(PHP_SAPI_FPM_HAS_PTRACE_EXITCODE 0)
 
