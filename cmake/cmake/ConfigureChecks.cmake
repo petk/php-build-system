@@ -12,7 +12,6 @@ include_guard(GLOBAL)
 
 include(CheckFunctionExists)
 include(CheckIncludeFiles)
-include(CheckSourceCompiles)
 include(CheckStructHasMember)
 include(CheckSymbolExists)
 include(CheckTypeSize)
@@ -436,24 +435,6 @@ elseif(NOT PHP_FD_SETSIZE STREQUAL "")
   )
 else()
   message(CHECK_PASS "using system default")
-endif()
-
-message(CHECK_START "Checking whether the compiler supports __alignof__")
-cmake_push_check_state(RESET)
-  set(CMAKE_REQUIRED_QUIET TRUE)
-  check_source_compiles(C [[
-    int main(void)
-    {
-      int align = __alignof__(int);
-      (void)align;
-      return 0;
-    }
-  ]] HAVE_ALIGNOF)
-cmake_pop_check_state()
-if(HAVE_ALIGNOF)
-  message(CHECK_PASS "yes")
-else()
-  message(CHECK_FAIL "no")
 endif()
 
 # Check for GCC function attributes on all systems except ones without glibc.
