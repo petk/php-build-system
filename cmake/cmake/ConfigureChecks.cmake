@@ -43,7 +43,6 @@ endif()
 # Check headers.
 ################################################################################
 
-check_include_files(alloca.h HAVE_ALLOCA_H)
 check_include_files(arpa/inet.h HAVE_ARPA_INET_H)
 check_include_files(sys/types.h HAVE_SYS_TYPES_H)
 
@@ -407,20 +406,17 @@ else()
 endif()
 
 ################################################################################
-# Miscellaneous checks.
+# Run all checks from cmake/checks.
 ################################################################################
 
-include(${CMAKE_CURRENT_LIST_DIR}/checks/CheckAVX512.cmake)
-include(${CMAKE_CURRENT_LIST_DIR}/checks/CheckCopyFileRange.cmake)
-include(${CMAKE_CURRENT_LIST_DIR}/checks/CheckFlushIo.cmake)
-include(${CMAKE_CURRENT_LIST_DIR}/checks/CheckFnmatch.cmake)
-include(${CMAKE_CURRENT_LIST_DIR}/checks/CheckFopencookie.cmake)
-include(${CMAKE_CURRENT_LIST_DIR}/checks/CheckGetaddrinfo.cmake)
-include(${CMAKE_CURRENT_LIST_DIR}/checks/CheckGethostbynameR.cmake)
-include(${CMAKE_CURRENT_LIST_DIR}/checks/CheckGetifaddrs.cmake)
-include(${CMAKE_CURRENT_LIST_DIR}/checks/CheckIPv6.cmake)
-include(${CMAKE_CURRENT_LIST_DIR}/checks/CheckReentrantFunctions.cmake)
-include(${CMAKE_CURRENT_LIST_DIR}/checks/CheckWrite.cmake)
+file(GLOB checks ${CMAKE_CURRENT_LIST_DIR}/checks/Check*.cmake)
+foreach(check IN LISTS checks)
+  include(${check})
+endforeach()
+
+################################################################################
+# Miscellaneous checks.
+################################################################################
 
 # Checking file descriptor sets.
 message(CHECK_START "Checking file descriptor sets size")
@@ -439,16 +435,6 @@ elseif(NOT PHP_FD_SETSIZE STREQUAL "")
   )
 else()
   message(CHECK_PASS "using system default")
-endif()
-
-if(HAVE_ALLOCA_H)
-  # Most *.nix systems.
-  check_symbol_exists(alloca alloca.h HAVE_ALLOCA)
-elseif(CMAKE_SYSTEM_NAME STREQUAL "Windows")
-  check_symbol_exists(alloca malloc.h HAVE_ALLOCA)
-else()
-  # BSD-based systems.
-  check_symbol_exists(alloca stdlib.h HAVE_ALLOCA)
 endif()
 
 message(CHECK_START "Checking whether the compiler supports __alignof__")
