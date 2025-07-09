@@ -55,8 +55,6 @@ if(CMAKE_SYSTEM_NAME STREQUAL "Windows")
   ##############################################################################
 
   set(HAVE_ALIGNOF FALSE)
-  set(HAVE_ALLOCA TRUE)
-  set(HAVE_ALLOCA_H FALSE)
   set(HAVE_ALPHASORT FALSE)
   set(HAVE_ARPA_INET_H FALSE)
   set(HAVE_ARPA_NAMESER_H FALSE)
