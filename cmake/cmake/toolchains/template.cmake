@@ -16,9 +16,6 @@ set(CMAKE_FIND_ROOT_PATH "")
 # PHP
 ################################################################################
 
-# Set the exit code for the fopencookie seeker using off64_t check.
-set(PHP_HAS_COOKIE_SEEKER_OFF64_T_EXITCODE 0)
-
 # Set the exit code if flush should be called explicitly after a buffered io.
 set(PHP_HAS_FLUSHIO_EXITCODE 1)
 
