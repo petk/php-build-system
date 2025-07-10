@@ -6,24 +6,18 @@ Result variables:
 * HAVE_FLUSHIO
 #]=============================================================================]
 
-include_guard(GLOBAL)
-
 include(CheckIncludeFiles)
 include(CheckSourceRuns)
 include(CMakePushCheckState)
 
-set(HAVE_FLUSHIO FALSE)
-
 if(CMAKE_SYSTEM_NAME STREQUAL "Windows")
+  set(HAVE_FLUSHIO FALSE)
   return()
 endif()
 
 # Skip in consecutive configuration phases.
 if(DEFINED PHP_HAS_FLUSHIO)
-  if(PHP_HAS_FLUSHIO)
-    set(HAVE_FLUSHIO TRUE)
-  endif()
-
+  set(HAVE_FLUSHIO ${PHP_HAS_FLUSHIO})
   return()
 endif()
 
@@ -103,8 +97,9 @@ cmake_push_check_state(RESET)
 cmake_pop_check_state()
 
 if(PHP_HAS_FLUSHIO)
-  set(HAVE_FLUSHIO TRUE)
   message(CHECK_PASS "yes")
 else()
   message(CHECK_FAIL "no")
 endif()
+
+set(HAVE_FLUSHIO ${PHP_HAS_FLUSHIO})

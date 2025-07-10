@@ -2,8 +2,6 @@
 Check whether getaddrinfo() function is working as expected.
 #]=============================================================================]
 
-include_guard(GLOBAL)
-
 include(CheckSourceRuns)
 include(CMakePushCheckState)
 include(PHP/SearchLibraries)

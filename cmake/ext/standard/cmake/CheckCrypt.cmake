@@ -12,8 +12,6 @@ Cache variables:
 * CRYPT_R_GNU_SOURCE
 #]=============================================================================]
 
-include_guard(GLOBAL)
-
 include(CheckIncludeFiles)
 include(CheckSourceCompiles)
 include(CheckSourceRuns)

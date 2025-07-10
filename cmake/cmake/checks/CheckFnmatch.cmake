@@ -20,18 +20,11 @@ if(CMAKE_SYSTEM_NAME STREQUAL "Windows")
   return()
 endif()
 
-set(HAVE_FNMATCH FALSE)
-
 # Skip in consecutive configuration phases or if overridden.
 if(DEFINED PHP_HAS_FNMATCH)
-  if(PHP_HAS_FNMATCH)
-    set(HAVE_FNMATCH TRUE)
-  endif()
-
+  set(HAVE_FNMATCH ${PHP_HAS_FNMATCH})
   return()
 endif()
-
-include_guard(GLOBAL)
 
 include(CheckSourceRuns)
 include(CheckSymbolExists)
@@ -70,8 +63,9 @@ cmake_push_check_state(RESET)
 cmake_pop_check_state()
 
 if(PHP_HAS_FNMATCH)
-  set(HAVE_FNMATCH TRUE)
   message(CHECK_PASS "yes")
 else()
   message(CHECK_FAIL "no")
 endif()
+
+set(HAVE_FNMATCH ${PHP_HAS_FNMATCH})

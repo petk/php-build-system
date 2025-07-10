@@ -2,8 +2,6 @@
 Check for usable getifaddrs().
 #]=============================================================================]
 
-include_guard(GLOBAL)
-
 include(CheckSourceCompiles)
 include(CMakePushCheckState)
 include(PHP/SearchLibraries)

@@ -3,13 +3,11 @@ Check whether compiler supports AVX-512 extensions. Note that this is a compiler
 check, not a runtime check where further adjustments are done in the php-src C
 code to use these extensions.
 
-Cache variables:
+Result/cache variables:
 
-* PHP_HAVE_AVX512_SUPPORTS - Whether compiler supports AVX-512.
-* PHP_HAVE_AVX512_VBMI_SUPPORTS - Whether compiler supports AVX-512 VBMI.
+* PHP_HAVE_AVX512_SUPPORTS
+* PHP_HAVE_AVX512_VBMI_SUPPORTS
 #]=============================================================================]
-
-include_guard(GLOBAL)
 
 include(CheckSourceCompiles)
 include(CMakePushCheckState)

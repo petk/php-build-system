@@ -9,23 +9,11 @@ Result variables:
   as alternative to TCP_INFO and TCP_CONNECTION_INFO.
 #]=============================================================================]
 
-include_guard(GLOBAL)
-
 include(CheckSourceCompiles)
 include(CMakePushCheckState)
 include(PHP/SystemExtensions)
 
 function(_php_sapi_fpm_check_lq_tcp_info result)
-  set(${result} FALSE)
-
-  if(DEFINED PHP_SAPI_FPM_HAS_LQ_TCP_INFO)
-    if(PHP_SAPI_FPM_HAS_LQ_TCP_INFO)
-      set(${result} TRUE)
-    endif()
-
-    return(PROPAGATE ${result})
-  endif()
-
   cmake_push_check_state(RESET)
     # Requires _DEFAULT_SOURCE, which is enabled by _GNU_SOURCE.
     set(CMAKE_REQUIRED_LIBRARIES PHP::SystemExtensions)
@@ -46,25 +34,13 @@ function(_php_sapi_fpm_check_lq_tcp_info result)
     ]] PHP_SAPI_FPM_HAS_LQ_TCP_INFO)
   cmake_pop_check_state()
 
-  if(PHP_SAPI_FPM_HAS_LQ_TCP_INFO)
-    set(${result} TRUE)
-  endif()
+  set(${result} ${PHP_SAPI_FPM_HAS_LQ_TCP_INFO})
 
   return(PROPAGATE ${result})
 endfunction()
 
 # For macOS.
 function(_php_sapi_fpm_check_lq_tcp_connection_info result)
-  set(${result} FALSE)
-
-  if(DEFINED PHP_SAPI_FPM_HAS_LQ_TCP_CONNECTION_INFO)
-    if(PHP_SAPI_FPM_HAS_LQ_TCP_CONNECTION_INFO)
-      set(${result} TRUE)
-    endif()
-
-    return(PROPAGATE ${result})
-  endif()
-
   cmake_push_check_state(RESET)
     set(CMAKE_REQUIRED_QUIET TRUE)
 
@@ -83,25 +59,13 @@ function(_php_sapi_fpm_check_lq_tcp_connection_info result)
     ]] PHP_SAPI_FPM_HAS_LQ_TCP_CONNECTION_INFO)
   cmake_pop_check_state()
 
-  if(PHP_SAPI_FPM_HAS_LQ_TCP_CONNECTION_INFO)
-    set(${result} TRUE)
-  endif()
+  set(${result} ${PHP_SAPI_FPM_HAS_LQ_TCP_CONNECTION_INFO})
 
   return(PROPAGATE ${result})
 endfunction()
 
 # For FreeBSD.
 function(_php_sapi_fpm_check_lq_so_listenq result)
-  set(${result} FALSE)
-
-  if(DEFINED PHP_SAPI_FPM_HAS_LQ_SO_LISTENQ)
-    if(PHP_SAPI_FPM_HAS_LQ_SO_LISTENQ)
-      set(${result} TRUE)
-    endif()
-
-    return(PROPAGATE ${result})
-  endif()
-
   cmake_push_check_state(RESET)
     set(CMAKE_REQUIRED_QUIET TRUE)
 
@@ -120,9 +84,7 @@ function(_php_sapi_fpm_check_lq_so_listenq result)
     ]] PHP_SAPI_FPM_HAS_LQ_SO_LISTENQ)
   cmake_pop_check_state()
 
-  if(PHP_SAPI_FPM_HAS_LQ_SO_LISTENQ)
-    set(${result} TRUE)
-  endif()
+  set(${result} ${PHP_SAPI_FPM_HAS_LQ_SO_LISTENQ})
 
   return(PROPAGATE ${result})
 endfunction()

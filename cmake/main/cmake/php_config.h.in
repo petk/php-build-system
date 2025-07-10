@@ -614,7 +614,7 @@
    'RTLD_LAZY'. */
 #cmakedefine PHP_USE_RTLD_NOW 1
 
-/* Define to 1 if 'write(2)' works. */
+/* Define to 1 if 'write(2)' can write to stdout. */
 #cmakedefine PHP_WRITE_STDOUT 1
 
 /* The size of 'int', as computed by sizeof. */

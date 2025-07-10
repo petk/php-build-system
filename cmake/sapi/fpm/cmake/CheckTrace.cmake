@@ -11,8 +11,6 @@ Result variables:
   expected.
 #]=============================================================================]
 
-include_guard(GLOBAL)
-
 include(CheckSourceCompiles)
 include(CheckSourceRuns)
 include(CheckSymbolExists)

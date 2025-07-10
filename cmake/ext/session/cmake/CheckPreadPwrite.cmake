@@ -1,9 +1,9 @@
 #[=============================================================================[
-This module checks whether functions pread() and pwrite() are available on the
-system, and then checks if they work as expected. The missing declaration checks
-are for obsolete systems, where function declarations for 64-bit variants
+This check determines whether functions pread() and pwrite() are available on
+the system, and then checks if they work as expected. The missing declaration
+checks are for obsolete systems, where function declarations for 64-bit variants
 (pread64 and pwrite64) with 'off64_t' type in the 3rd argument were missing in
-the system headers. On modern systems this module is obsolete in favor of a
+the system headers. On modern systems this check is obsolete in favor of a
 simpler:
 
   check_symbol_exists(<symbol> unistd.h <result>)
@@ -22,8 +22,6 @@ Result/cache variables:
 * PHP_PWRITE_64 - Whether pwrite() declaration with off64_t is missing (using
   pwrite64).
 #]=============================================================================]
-
-include_guard(GLOBAL)
 
 if(CMAKE_SYSTEM_NAME STREQUAL "Windows")
   return()

@@ -14,8 +14,6 @@ See also:
 https://www.gnu.org/software/autoconf-archive/ax_func_which_gethostbyname_r.html
 #]=============================================================================]
 
-include_guard(GLOBAL)
-
 include(CheckPrototypeDefinition)
 include(CMakePushCheckState)
 include(PHP/SearchLibraries)

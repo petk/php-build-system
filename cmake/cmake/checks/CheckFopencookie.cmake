@@ -16,8 +16,6 @@ Result variables:
   type.
 #]=============================================================================]
 
-include_guard(GLOBAL)
-
 include(CheckSourceRuns)
 include(CheckSymbolExists)
 include(CheckTypeSize)
