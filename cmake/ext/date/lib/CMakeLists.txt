@@ -82,8 +82,8 @@ target_compile_definitions(
     HAVE_STRTOLL
 )
 
-check_compiler_flag(C -fwrapv _timelib_HAVE_FWRAPV)
-if(_timelib_HAVE_FWRAPV)
+check_compiler_flag(C -fwrapv PHP_EXT_DATE_HAS_FWRAP)
+if(PHP_EXT_DATE_HAS_FWRAP)
   set_source_files_properties(
     ${timelibSources}
     TARGET_DIRECTORY ${TIMELIB_TARGET}
