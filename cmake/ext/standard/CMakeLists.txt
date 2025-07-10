@@ -28,9 +28,7 @@ project(
 )
 
 include(CheckIncludeFiles)
-include(CheckSourceCompiles)
 include(CheckSymbolExists)
-include(CMakePushCheckState)
 include(FeatureSummary)
 include(PHP/SearchLibraries)
 

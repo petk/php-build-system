@@ -1,8 +1,7 @@
 #[=============================================================================[
-Check if Fibers can be used.
-
-This module adds Boost fiber assembly files support if available for the
-platform, otherwise it checks if ucontext can be used.
+Determine whether Fibers can be used and add Boost fiber assembly files support
+if available for the platform. As a Boost fallback alternative ucontext support
+is checked if it can be used.
 
 Control variables:
 
@@ -20,8 +19,6 @@ Interface library:
   Interface library using Boost fiber assembly files and compile options if
   available.
 #]=============================================================================]
-
-include_guard(GLOBAL)
 
 include(CheckIncludeFiles)
 include(CheckSourceRuns)

@@ -1,18 +1,18 @@
 #[=============================================================================[
 Check whether CRC32 API is supported on ARM architecture.
+
+Result variables:
+
+* HAVE_AARCH64_CRC32
 #]=============================================================================]
 
 include(CheckSourceCompiles)
 include(CMakePushCheckState)
 
 function(_php_ext_standard_check_arm_crc32 result)
-  set(${result} FALSE)
-
-  if(PHP_EXT_STANDARD_HAS_ARM_CRC32)
-    set(${result} TRUE)
-  endif()
-
+  # Skip in consecutive configuration phases.
   if(DEFINED PHP_EXT_STANDARD_HAS_ARM_CRC32)
+    set(${result} ${PHP_EXT_STANDARD_HAS_ARM_CRC32})
     return(PROPAGATE ${result})
   endif()
 
@@ -21,6 +21,8 @@ function(_php_ext_standard_check_arm_crc32 result)
   if(CMAKE_SYSTEM_NAME STREQUAL "Windows")
     if(CMAKE_SYSTEM_PROCESSOR STREQUAL "ARM64")
       set(${result} TRUE)
+    else()
+      set(${result} FALSE)
     endif()
 
     set(
@@ -56,10 +58,11 @@ function(_php_ext_standard_check_arm_crc32 result)
 
   if(PHP_EXT_STANDARD_HAS_ARM_CRC32)
     message(CHECK_PASS "yes")
-    set(${result} TRUE)
   else()
     message(CHECK_FAIL "no")
   endif()
+
+  set(${result} ${PHP_EXT_STANDARD_HAS_ARM_CRC32})
 
   return(PROPAGATE ${result})
 endfunction()

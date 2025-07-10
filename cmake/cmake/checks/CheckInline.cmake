@@ -13,8 +13,6 @@ Result/cache variables:
   'inline' keyword.
 #]=============================================================================]
 
-include_guard(GLOBAL)
-
 include(CheckSourceCompiles)
 include(CMakePushCheckState)
 

@@ -6,8 +6,6 @@ Result/cache variables:
 * ZEND_CHECK_STACK_LIMIT - Whether checking the stack limit is supported.
 #]=============================================================================]
 
-include_guard(GLOBAL)
-
 # Skip in consecutive configuration phases.
 if(DEFINED ZEND_CHECK_STACK_LIMIT)
   return()

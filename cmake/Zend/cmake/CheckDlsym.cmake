@@ -3,31 +3,25 @@ Check if dlsym() requires a leading underscore in symbol name.
 
 Some non-ELF platforms, such as OpenBSD, FreeBSD, NetBSD, Mac OSX (~10.3),
 needed to prefix symbols with underscore character (_), when using dlsym(). This
-module is obsolete on current platforms.
+check is obsolete on current platforms.
 
 Result variables:
 
 * DLSYM_NEEDS_UNDERSCORE
 #]=============================================================================]
 
-include_guard(GLOBAL)
-
-set(DLSYM_NEEDS_UNDERSCORE FALSE)
+include(CheckIncludeFiles)
 
 if(CMAKE_SYSTEM_NAME STREQUAL "Windows")
+  set(DLSYM_NEEDS_UNDERSCORE FALSE)
   return()
 endif()
 
 # Skip in consecutive configuration phases.
 if(DEFINED PHP_ZEND_HAS_DLSYM_NEEDS_UNDERSCORE)
-  if(PHP_ZEND_HAS_DLSYM_NEEDS_UNDERSCORE)
-    set(DLSYM_NEEDS_UNDERSCORE TRUE)
-  endif()
-
+  set(DLSYM_NEEDS_UNDERSCORE ${PHP_ZEND_HAS_DLSYM_NEEDS_UNDERSCORE})
   return()
 endif()
-
-include(CheckIncludeFiles)
 
 message(
   CHECK_START
@@ -36,7 +30,11 @@ message(
 
 # When cross-compiling without emulator, assume that target platform is recent
 # enough so that dlsym doesn't need leading underscores.
-if(CMAKE_CROSSCOMPILING AND NOT CMAKE_CROSSCOMPILING_EMULATOR)
+if(
+  CMAKE_CROSSCOMPILING
+  AND NOT CMAKE_CROSSCOMPILING_EMULATOR
+  AND NOT DEFINED PHP_ZEND_HAS_DLSYM_NEEDS_UNDERSCORE_EXITCODE
+)
   set(PHP_ZEND_HAS_DLSYM_NEEDS_UNDERSCORE_EXITCODE 0)
 endif()
 
@@ -135,9 +133,10 @@ if(
   AND PHP_ZEND_HAS_DLSYM_NEEDS_UNDERSCORE_EXITCODE EQUAL 2
 )
   set_property(CACHE PHP_ZEND_HAS_DLSYM_NEEDS_UNDERSCORE PROPERTY VALUE TRUE)
-  set(DLSYM_NEEDS_UNDERSCORE TRUE)
   message(CHECK_FAIL "yes")
 else()
   set_property(CACHE PHP_ZEND_HAS_DLSYM_NEEDS_UNDERSCORE PROPERTY VALUE FALSE)
   message(CHECK_PASS "no")
 endif()
+
+set(DLSYM_NEEDS_UNDERSCORE ${PHP_ZEND_HAS_DLSYM_NEEDS_UNDERSCORE})
