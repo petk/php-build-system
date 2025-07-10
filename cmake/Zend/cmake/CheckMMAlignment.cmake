@@ -9,8 +9,6 @@ Result variables:
 * ZEND_MM_NEED_EIGHT_BYTE_REALIGNMENT
 #]=============================================================================]
 
-include_guard(GLOBAL)
-
 message(CHECK_START "Checking for Zend memory manager alignment and log values")
 
 if(CMAKE_SYSTEM_NAME STREQUAL "Windows")

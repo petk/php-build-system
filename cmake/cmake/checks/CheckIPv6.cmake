@@ -6,8 +6,6 @@ Result variables:
 * HAVE_IPV6 - Whether IPv6 support is supported and enabled.
 #]=============================================================================]
 
-include_guard(GLOBAL)
-
 include(CheckSourceCompiles)
 include(CMakePushCheckState)
 

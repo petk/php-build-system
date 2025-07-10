@@ -1,6 +1,5 @@
 #[=============================================================================[
-This module checks linker support for aligning .text segments on huge page
-boundary.
+Check linker support for aligning .text segments on huge page boundary.
 
 Usually, the CheckLinkerFlag module is used to check linker flags, however due
 to the LLD bug present in versions before 18.1 the run check needs to be
@@ -13,8 +12,6 @@ See also:
 - https://bugs.php.net/79092
 - https://github.com/php/php-src/pull/5123
 #]=============================================================================]
-
-include_guard(GLOBAL)
 
 include(CheckLinkerFlag)
 include(CheckSourceRuns)

@@ -4,7 +4,9 @@
 /* Define to 1 if the PHP extension 'openssl' is available. */
 #cmakedefine HAVE_OPENSSL_EXT 1
 
-/* Define to 1 if OpenSSL crypto library has the 'RAND_egd' function. */
+/* Define to 1 if OpenSSL crypto library was built with Entropy Gathering
+   Daemon (EGD) support (see the no-egd option of OpenSSL Configure script)
+   and has the 'RAND_egd' function. */
 #cmakedefine HAVE_RAND_EGD 1
 
 /* Define to 1 to load the OpenSSL legacy algorithm provider in addition to

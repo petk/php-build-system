@@ -1,21 +1,21 @@
 #[=============================================================================[
-Checks for shared memory (SHM) operations functions and required libraries.
-If no SHM support is found, a FATAL error is thrown.
+Check for shared memory (SHM) operations functions and required libraries.
 
 Result variables:
 
-* HAVE_SHM_IPC - Whether SysV IPC SHM support is available.
-* HAVE_SHM_MMAP_ANON - Whether mmap(MAP_ANON) SHM support is found.
-* HAVE_SHM_MMAP_POSIX - Whether POSIX mmap() SHM support is found.
+* HAVE_SHM_IPC
+* HAVE_SHM_MMAP_ANON
+* HAVE_SHM_MMAP_POSIX
 #]=============================================================================]
-
-include_guard(GLOBAL)
 
 include(CheckSourceRuns)
 include(CMakePushCheckState)
 include(PHP/SearchLibraries)
 
 if(CMAKE_SYSTEM_NAME STREQUAL "Windows")
+  set(HAVE_SHM_IPC FALSE)
+  set(HAVE_SHM_MMAP_ANON FALSE)
+  set(HAVE_SHM_MMAP_POSIX FALSE)
   return()
 endif()
 
@@ -24,13 +24,8 @@ endif()
 ################################################################################
 
 function(_php_ext_opcache_check_shm_ipc result)
-  set(${result} FALSE)
-
   if(DEFINED PHP_EXT_OPCACHE_HAS_SHM_IPC)
-    if(PHP_EXT_OPCACHE_HAS_SHM_IPC)
-      set(${result} TRUE)
-    endif()
-
+    set(${result} ${PHP_EXT_OPCACHE_HAS_SHM_IPC})
     return(PROPAGATE ${result})
   endif()
 
@@ -108,11 +103,12 @@ function(_php_ext_opcache_check_shm_ipc result)
   cmake_pop_check_state()
 
   if(PHP_EXT_OPCACHE_HAS_SHM_IPC)
-    set(${result} TRUE)
     message(CHECK_PASS "yes")
   else()
     message(CHECK_FAIL "no")
   endif()
+
+  set(${result} ${PHP_EXT_OPCACHE_HAS_SHM_IPC})
 
   return(PROPAGATE ${result})
 endfunction()
@@ -122,13 +118,8 @@ endfunction()
 ################################################################################
 
 function(_php_ext_opcache_check_shm_mmap_anon result)
-  set(${result} FALSE)
-
   if(DEFINED PHP_EXT_OPCACHE_HAS_SHM_MMAP_ANON)
-    if(PHP_EXT_OPCACHE_HAS_SHM_MMAP_ANON)
-      set(${result} TRUE)
-    endif()
-
+    set(${result} ${PHP_EXT_OPCACHE_HAS_SHM_MMAP_ANON})
     return(PROPAGATE ${result})
   endif()
 
@@ -197,11 +188,12 @@ function(_php_ext_opcache_check_shm_mmap_anon result)
   cmake_pop_check_state()
 
   if(PHP_EXT_OPCACHE_HAS_SHM_MMAP_ANON)
-    set(${result} TRUE)
     message(CHECK_PASS "yes")
   else()
     message(CHECK_FAIL "no")
   endif()
+
+  set(${result} ${PHP_EXT_OPCACHE_HAS_SHM_MMAP_ANON})
 
   return(PROPAGATE ${result})
 endfunction()
@@ -211,8 +203,6 @@ endfunction()
 ################################################################################
 
 function(_php_ext_opcache_check_shm_open result)
-  set(${result} FALSE)
-
   # Check for POSIX shared memory functions (shm_open(), shm_unlink()...) and
   # link required library as needed. Most systems have them in the C library:
   # newer Linux, Solaris 11.4, illumos, macOS, BSD-based systems, etc. Haiku has
@@ -227,6 +217,11 @@ function(_php_ext_opcache_check_shm_open result)
     LIBRARY_VARIABLE PHP_EXT_OPCACHE_HAS_SHM_OPEN_LIBRARY
   )
 
+  if(NOT PHP_EXT_OPCACHE_HAS_SHM_OPEN)
+    set(${result} FALSE)
+    return(PROPAGATE ${result})
+  endif()
+
   if(PHP_EXT_OPCACHE_HAS_SHM_OPEN_LIBRARY)
     target_link_libraries(
       php_ext_opcache
@@ -234,95 +229,95 @@ function(_php_ext_opcache_check_shm_open result)
     )
   endif()
 
+  # Skip in consecutive configuration phases.
   if(DEFINED PHP_EXT_OPCACHE_HAS_SHM_MMAP_POSIX)
-    if(PHP_EXT_OPCACHE_HAS_SHM_MMAP_POSIX)
-      set(${result} TRUE)
-    endif()
-
+    set(${result} ${PHP_EXT_OPCACHE_HAS_SHM_MMAP_POSIX})
     return(PROPAGATE ${result})
   endif()
 
-  if(PHP_EXT_OPCACHE_HAS_SHM_OPEN)
-    message(CHECK_START "Checking for mmap() with shm_open() shared memory support")
-    cmake_push_check_state(RESET)
-      if(libraryForShmOpen)
-        set(CMAKE_REQUIRED_LIBRARIES ${libraryForShmOpen})
-      endif()
+  message(
+    CHECK_START
+    "Checking for mmap() with shm_open() shared memory support"
+  )
+  cmake_push_check_state(RESET)
+    if(PHP_EXT_OPCACHE_HAS_SHM_OPEN_LIBRARY)
+      set(CMAKE_REQUIRED_LIBRARIES ${PHP_EXT_OPCACHE_HAS_SHM_OPEN_LIBRARY})
+    endif()
 
-      check_source_runs(C [[
-        #include <sys/types.h>
-        #include <sys/wait.h>
-        #include <sys/mman.h>
-        #include <sys/stat.h>
-        #include <fcntl.h>
-        #include <unistd.h>
-        #include <string.h>
-        #include <stdlib.h>
-        #include <stdio.h>
+    check_source_runs(C [[
+      #include <sys/types.h>
+      #include <sys/wait.h>
+      #include <sys/mman.h>
+      #include <sys/stat.h>
+      #include <fcntl.h>
+      #include <unistd.h>
+      #include <string.h>
+      #include <stdlib.h>
+      #include <stdio.h>
 
-        #ifndef MAP_FAILED
-        # define MAP_FAILED ((void*)-1)
-        #endif
+      #ifndef MAP_FAILED
+      # define MAP_FAILED ((void*)-1)
+      #endif
 
-        int main(void)
-        {
-          pid_t pid;
-          int status;
-          int fd;
-          char *shm;
-          char tmpname[4096];
+      int main(void)
+      {
+        pid_t pid;
+        int status;
+        int fd;
+        char *shm;
+        char tmpname[4096];
 
-          sprintf(tmpname,"/opcache.test.shm.%dXXXXXX", getpid());
-          if (mktemp(tmpname) == NULL) {
-            return 1;
-          }
-          fd = shm_open(tmpname, O_RDWR | O_CREAT, S_IRUSR | S_IWUSR);
-          if (fd == -1) {
-            return 2;
-          }
-          if (ftruncate(fd, 4096) < 0) {
-            close(fd);
-            shm_unlink(tmpname);
-            return 3;
-          }
-
-          shm = mmap(NULL, 4096, PROT_READ | PROT_WRITE, MAP_SHARED, fd, 0);
-          if (shm == MAP_FAILED) {
-            return 4;
-          }
-          shm_unlink(tmpname);
-          close(fd);
-
-          strcpy(shm, "hello");
-
-          pid = fork();
-          if (pid < 0) {
-            return 5;
-          } else if (pid == 0) {
-            strcpy(shm, "bye");
-            return 6;
-          }
-          if (wait(&status) != pid) {
-            return 7;
-          }
-          if (!WIFEXITED(status) || WEXITSTATUS(status) != 6) {
-            return 8;
-          }
-          if (strcmp(shm, "bye") != 0) {
-            return 9;
-          }
-          return 0;
+        sprintf(tmpname,"/opcache.test.shm.%dXXXXXX", getpid());
+        if (mktemp(tmpname) == NULL) {
+          return 1;
         }
-      ]] PHP_EXT_OPCACHE_HAS_SHM_MMAP_POSIX)
-    cmake_pop_check_state()
-  endif()
+        fd = shm_open(tmpname, O_RDWR | O_CREAT, S_IRUSR | S_IWUSR);
+        if (fd == -1) {
+          return 2;
+        }
+        if (ftruncate(fd, 4096) < 0) {
+          close(fd);
+          shm_unlink(tmpname);
+          return 3;
+        }
+
+        shm = mmap(NULL, 4096, PROT_READ | PROT_WRITE, MAP_SHARED, fd, 0);
+        if (shm == MAP_FAILED) {
+          return 4;
+        }
+        shm_unlink(tmpname);
+        close(fd);
+
+        strcpy(shm, "hello");
+
+        pid = fork();
+        if (pid < 0) {
+          return 5;
+        } else if (pid == 0) {
+          strcpy(shm, "bye");
+          return 6;
+        }
+        if (wait(&status) != pid) {
+          return 7;
+        }
+        if (!WIFEXITED(status) || WEXITSTATUS(status) != 6) {
+          return 8;
+        }
+        if (strcmp(shm, "bye") != 0) {
+          return 9;
+        }
+        return 0;
+      }
+    ]] PHP_EXT_OPCACHE_HAS_SHM_MMAP_POSIX)
+  cmake_pop_check_state()
 
   if(PHP_EXT_OPCACHE_HAS_SHM_MMAP_POSIX)
-    set(${result} TRUE)
     message(CHECK_PASS "yes")
   else()
     message(CHECK_FAIL "no")
   endif()
+
+  set(${result} ${PHP_EXT_OPCACHE_HAS_SHM_MMAP_POSIX})
 
   return(PROPAGATE ${result})
 endfunction()

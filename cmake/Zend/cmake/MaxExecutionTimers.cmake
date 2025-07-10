@@ -15,8 +15,6 @@ Result variables:
   value of PHP_THREAD_SAFETY variable.
 #]=============================================================================]
 
-include_guard(GLOBAL)
-
 message(CHECK_START "Checking whether to enable Zend max execution timers")
 
 if(CMAKE_SYSTEM_NAME STREQUAL "Windows")

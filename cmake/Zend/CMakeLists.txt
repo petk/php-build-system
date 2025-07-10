@@ -78,9 +78,6 @@ cmake_dependent_option(
 )
 mark_as_advanced(ZEND_FIBER_ASM)
 
-option(ZEND_GLOBAL_REGISTER_VARIABLES "Enable global register variables" ON)
-mark_as_advanced(ZEND_GLOBAL_REGISTER_VARIABLES)
-
 cmake_dependent_option(
   ZEND_SIGNALS
   "Enable Zend signal handling"
@@ -466,14 +463,10 @@ php_search_libraries(
 include(cmake/CheckAsmGoto.cmake)
 include(cmake/CheckCpuidCount.cmake)
 include(cmake/CheckFloatPrecision.cmake)
-
-if(ZEND_GLOBAL_REGISTER_VARIABLES)
-  include(cmake/CheckGlobalRegisterVariables.cmake)
-endif()
-
 include(cmake/CheckMMAlignment.cmake)
 include(cmake/CheckStackDirection.cmake)
 include(cmake/CheckStrerrorR.cmake)
+include(cmake/GlobalRegisterVariables.cmake)
 
 ################################################################################
 # Zend signals.

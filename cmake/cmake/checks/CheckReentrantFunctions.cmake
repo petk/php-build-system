@@ -31,8 +31,6 @@ Cache variables:
   and illumos without _POSIX_PTHREAD_SEMANTICS defined).
 #]=============================================================================]
 
-include_guard(GLOBAL)
-
 include(CheckFunctionExists)
 include(CheckSourceRuns)
 include(CheckSymbolExists)

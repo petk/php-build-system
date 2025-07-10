@@ -9,12 +9,11 @@ Result/cache variables:
 * PHP_WRITE_STDOUT - Whether 'write()' can write to stdout.
 #]=============================================================================]
 
-include_guard(GLOBAL)
-
 include(CheckIncludeFiles)
 include(CheckSourceRuns)
 include(CMakePushCheckState)
 
+# On Windows below check succeeds, however PHP implementation has it disabled.
 if(CMAKE_SYSTEM_NAME STREQUAL "Windows")
   set(PHP_WRITE_STDOUT FALSE)
   return()
