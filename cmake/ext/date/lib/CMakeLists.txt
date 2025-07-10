@@ -36,7 +36,6 @@ project(
 )
 
 include(CheckCompilerFlag)
-include(CheckIncludeFiles)
 
 if(NOT TIMELIB_TARGET)
   set(TIMELIB_TARGET timelib)
@@ -92,7 +91,9 @@ if(_timelib_HAVE_FWRAPV)
   )
 endif()
 
-check_include_files(io.h HAVE_IO_H)
+if(CMAKE_SYSTEM_NAME STREQUAL "Windows")
+  set(HAVE_IO_H TRUE)
+endif()
 
 cmake_path(
   RELATIVE_PATH

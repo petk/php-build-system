@@ -1,19 +1,17 @@
 #[=============================================================================[
 Check whether write(2) can successfully write to stdout.
-
 On Windows, _write() (and its deprecated alias write()) can also write to stdout
-but this PHP code uses this for POSIX targets only.
+but PHP code uses this for POSIX targets only.
 
 Result/cache variables:
 
-* PHP_WRITE_STDOUT - Whether 'write()' can write to stdout.
+* PHP_WRITE_STDOUT
 #]=============================================================================]
 
 include(CheckIncludeFiles)
 include(CheckSourceRuns)
 include(CMakePushCheckState)
 
-# On Windows below check succeeds, however PHP implementation has it disabled.
 if(CMAKE_SYSTEM_NAME STREQUAL "Windows")
   set(PHP_WRITE_STDOUT FALSE)
   return()
@@ -49,12 +47,17 @@ cmake_push_check_state(RESET)
     # include <unistd.h>
     #endif
 
+    #ifdef _WIN32
+    # include <io.h>
+    # undef write
+    # define write _write
+    #endif
+
     #define TEXT "This is the test message -- "
 
     int main(void)
     {
       int n;
-
       n = write(1, TEXT, sizeof(TEXT)-1);
       return (!(n == sizeof(TEXT)-1));
     }
