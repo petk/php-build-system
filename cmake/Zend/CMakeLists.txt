@@ -65,19 +65,6 @@ include(PHP/AddCustomCommand)
 include(PHP/SearchLibraries)
 
 ################################################################################
-# Configuration.
-################################################################################
-
-cmake_dependent_option(
-  ZEND_SIGNALS
-  "Enable Zend signal handling"
-  ON
-  [[NOT CMAKE_SYSTEM_NAME STREQUAL "Windows"]]
-  OFF
-)
-mark_as_advanced(ZEND_SIGNALS)
-
-################################################################################
 # Add library.
 ################################################################################
 
@@ -460,28 +447,7 @@ include(cmake/Fibers.cmake)
 include(cmake/GenerateGrammar.cmake)
 include(cmake/GlobalRegisterVariables.cmake)
 include(cmake/MaxExecutionTimers.cmake)
-
-################################################################################
-# Zend signals.
-################################################################################
-
-message(CHECK_START "Checking whether to enable Zend signal handling")
-check_symbol_exists(sigaction signal.h HAVE_SIGACTION)
-if(HAVE_SIGACTION AND ZEND_SIGNALS)
-  message(CHECK_PASS "yes")
-
-  # zend_config.h (or its parent php_config.h) isn't included in some zend_*
-  # files, therefore also compilation definition is added.
-  target_compile_definitions(zend PUBLIC ZEND_SIGNALS)
-else()
-  set(ZEND_SIGNALS OFF)
-  message(CHECK_FAIL "no")
-endif()
-add_feature_info(
-  "Zend signals"
-  ZEND_SIGNALS
-  "signal handling for performance"
-)
+include(cmake/Signals.cmake)
 
 ################################################################################
 # Create files and set installation.
