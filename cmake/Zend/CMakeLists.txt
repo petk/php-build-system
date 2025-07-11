@@ -68,15 +68,6 @@ include(PHP/AddCustomCommand)
 ################################################################################
 
 cmake_dependent_option(
-  ZEND_FIBER_ASM
-  "Enable the use of Boost fiber assembly files"
-  ON
-  [[NOT CMAKE_SYSTEM_NAME STREQUAL "Windows"]]
-  ON
-)
-mark_as_advanced(ZEND_FIBER_ASM)
-
-cmake_dependent_option(
   ZEND_SIGNALS
   "Enable Zend signal handling"
   ON
@@ -431,7 +422,10 @@ include(cmake/CheckFloatPrecision.cmake)
 include(cmake/CheckMMAlignment.cmake)
 include(cmake/CheckStackDirection.cmake)
 include(cmake/CheckStrerrorR.cmake)
+include(cmake/Fibers.cmake)
+include(cmake/GenerateGrammar.cmake)
 include(cmake/GlobalRegisterVariables.cmake)
+include(cmake/MaxExecutionTimers.cmake)
 
 ################################################################################
 # Zend signals.
@@ -454,27 +448,6 @@ add_feature_info(
   ZEND_SIGNALS
   "signal handling for performance"
 )
-
-################################################################################
-# Zend max execution timers.
-################################################################################
-
-include(cmake/MaxExecutionTimers.cmake)
-
-################################################################################
-# Generate parser and lexer files.
-################################################################################
-
-include(cmake/GenerateGrammar.cmake)
-
-################################################################################
-# Configure fibers.
-################################################################################
-
-include(cmake/Fibers.cmake)
-if(TARGET Zend::Fibers)
-  target_link_libraries(zend PRIVATE Zend::Fibers)
-endif()
 
 ################################################################################
 # Create files and set installation.

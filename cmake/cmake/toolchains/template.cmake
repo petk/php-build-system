@@ -36,11 +36,11 @@ set(PHP_WRITE_STDOUT_EXITCODE 0)
 # Zend Engine
 ################################################################################
 
-# Set the exit code for the check if syscall to create shadow stack exists.
-set(SHADOW_STACK_SYSCALL_EXITCODE 1)
-
 # Set the exit code of the stack limit check.
-set(ZEND_CHECK_STACK_LIMIT_EXITCODE 1)
+set(PHP_ZEND_CHECK_STACK_LIMIT_EXITCODE 0)
+
+# Set the exit code of the check if syscall to create shadow stack exists.
+set(PHP_ZEND_SHADOW_STACK_SYSCALL_EXITCODE 1)
 
 # Set the exit code and the output of the ZEND_MM check.
 # See CheckMMAlignment.cmake.
