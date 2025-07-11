@@ -6,7 +6,7 @@ Configure the `uri` extension.
 This extension provides support for URI handling.
 #]=============================================================================]
 
-cmake_minimum_required(VERSION 3.29...4.0)
+cmake_minimum_required(VERSION 3.29...4.1)
 
 project(
   PhpExtensionUri

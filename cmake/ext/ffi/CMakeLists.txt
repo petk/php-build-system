@@ -21,7 +21,7 @@ Enable the extension.
 Build extension as shared.
 #]=============================================================================]
 
-cmake_minimum_required(VERSION 3.29...4.0)
+cmake_minimum_required(VERSION 3.29...4.1)
 
 project(
   PhpExtensionFfi
