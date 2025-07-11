@@ -249,7 +249,7 @@ set(VAR <value> CACHE <type> "<help_text>")
 option(FOO "<help_text>" [value])
 
 # Cache variables created by CMake command invocations. For example
-find_program(SED_EXECUTABLE sed)
+find_program(PHP_SED_EXECUTABLE sed)
 ```
 
 ### 3.2. Naming variables

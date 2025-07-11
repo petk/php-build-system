@@ -1,4 +1,4 @@
-# `SED_EXECUTABLE`
+# `PHP_SED_EXECUTABLE`
 
 Default path to the `sed` on the host system.
 

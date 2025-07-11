@@ -3,57 +3,85 @@ Determine whether Fibers can be used and add Boost fiber assembly files support
 if available for the platform. As a Boost fallback alternative ucontext support
 is checked if it can be used.
 
-Control variables:
+Configuration options:
 
-* ZEND_FIBER_ASM - Whether to use Boost fiber assembly files.
+* ZEND_FIBER_ASM
 
-Cache variables:
+Result variables:
 
-* ZEND_FIBER_UCONTEXT - Whether <ucontext.h> header file is available and should
-  be used.
-
-Interface library:
-
-* Zend::Fibers
-
-  Interface library using Boost fiber assembly files and compile options if
-  available.
+* ZEND_FIBER_UCONTEXT
 #]=============================================================================]
 
 include(CheckIncludeFiles)
 include(CheckSourceRuns)
+include(CMakeDependentOption)
 include(CMakePushCheckState)
 
+cmake_dependent_option(
+  ZEND_FIBER_ASM
+  "Enable the use of Boost fiber assembly files"
+  ON
+  [[NOT CMAKE_SYSTEM_NAME STREQUAL "Windows"]]
+  ON
+)
+mark_as_advanced(ZEND_FIBER_ASM)
+
+# Create interface library for using Boost fiber assembly files and compile
+# options if available.
 add_library(zend_fibers INTERFACE)
 add_library(Zend::Fibers ALIAS zend_fibers)
+target_link_libraries(zend PRIVATE Zend::Fibers)
 
-if(NOT DEFINED SHADOW_STACK_SYSCALL)
-  message(CHECK_START "Whether syscall to create shadow stack exists")
-  cmake_push_check_state(RESET)
-    set(CMAKE_REQUIRED_QUIET TRUE)
+################################################################################
+# Check shadow stack.
+################################################################################
 
-    check_source_runs(C [[
-      #include <unistd.h>
-      #include <sys/mman.h>
-      int main(void)
-      {
-        void* base = (void *)syscall(451, 0, 0x20000, 0x1);
-        if (base != (void*)-1) {
-          munmap(base, 0x20000);
-          return 0;
-        }
-        return 1;
-      }
-    ]] SHADOW_STACK_SYSCALL)
-  cmake_pop_check_state()
-  if(SHADOW_STACK_SYSCALL)
-    message(CHECK_PASS "yes")
-  else()
-    # If the syscall doesn't exist, we may block the final ELF from
-    # __PROPERTY_SHSTK via redefine macro as "-D__CET__=1".
-    message(CHECK_FAIL "no")
+function(_php_zend_fibers_shadow_stack_syscall)
+  if(CMAKE_SYSTEM_NAME STREQUAL "Windows")
+    set(PHP_ZEND_SHADOW_STACK_SYSCALL FALSE)
   endif()
-endif()
+
+  if(NOT DEFINED PHP_ZEND_SHADOW_STACK_SYSCALL)
+    message(CHECK_START "Whether syscall to create shadow stack exists")
+    cmake_push_check_state(RESET)
+      set(CMAKE_REQUIRED_QUIET TRUE)
+
+      check_source_runs(C [[
+        #include <unistd.h>
+        #include <sys/mman.h>
+        int main(void)
+        {
+          void* base = (void *)syscall(451, 0, 0x20000, 0x1);
+          if (base != (void*)-1) {
+            munmap(base, 0x20000);
+            return 0;
+          }
+          return 1;
+        }
+      ]] PHP_ZEND_SHADOW_STACK_SYSCALL)
+    cmake_pop_check_state()
+
+    if(PHP_ZEND_SHADOW_STACK_SYSCALL)
+      message(CHECK_PASS "yes")
+    else()
+      # If the syscall doesn't exist, we may block the final ELF from
+      # __PROPERTY_SHSTK via redefine macro as "-D__CET__=1".
+      message(CHECK_FAIL "no")
+    endif()
+  endif()
+
+  # Use compile definitions because ASM files can't see macro definitions from
+  # the PHP configuration header (php_config.h/config.w32.h).
+  target_compile_definitions(
+    zend_fibers
+    INTERFACE
+      $<IF:$<BOOL:${PHP_ZEND_SHADOW_STACK_SYSCALL}>,SHADOW_STACK_SYSCALL=1,SHADOW_STACK_SYSCALL=0>
+  )
+endfunction()
+
+################################################################################
+# Configure fibers.
+################################################################################
 
 block()
   set(cpu "")
@@ -162,13 +190,7 @@ block()
 
     target_sources(zend_fibers INTERFACE ${asmSources})
 
-    # Use compile definitions because ASM files can't see macro definitions from
-    # the PHP configuration header (php_config.h/config.w32.h).
-    target_compile_definitions(
-      zend_fibers
-      INTERFACE
-        $<IF:$<BOOL:${SHADOW_STACK_SYSCALL}>,SHADOW_STACK_SYSCALL=1,SHADOW_STACK_SYSCALL=0>
-    )
+    _php_zend_fibers_shadow_stack_syscall()
   else()
     cmake_push_check_state(RESET)
       # To use ucontext.h on macOS, the _XOPEN_SOURCE needs to be defined to any
@@ -189,10 +211,10 @@ block()
         )
       endif()
 
-      check_include_files(ucontext.h ZEND_FIBER_UCONTEXT)
+      check_include_files(ucontext.h PHP_ZEND_FIBER_UCONTEXT)
     cmake_pop_check_state()
 
-    if(NOT ZEND_FIBER_UCONTEXT)
+    if(NOT PHP_ZEND_FIBER_UCONTEXT)
       message(CHECK_FAIL "no")
       message(
         FATAL_ERROR
@@ -200,5 +222,6 @@ block()
       )
     endif()
     message(CHECK_PASS "yes, ucontext")
+    set(ZEND_FIBER_UCONTEXT TRUE PARENT_SCOPE)
   endif()
 endblock()

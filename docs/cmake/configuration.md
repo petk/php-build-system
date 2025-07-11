@@ -205,6 +205,7 @@ Some useful overridable configuration options built into CMake itself. All these
 * [`PHP_IPV6`](/docs/cmake/variables/PHP_IPV6.md)
 * [`PHP_LIBGCC`](/docs/cmake/variables/PHP_LIBGCC.md)
 * [`PHP_RE2C_COMPUTED_GOTOS`](/docs/cmake/variables/PHP_RE2C_COMPUTED_GOTOS.md)
+* [`PHP_SED_EXECUTABLE`](/docs/cmake/variables/PHP_SED_EXECUTABLE.md)
 * [`PHP_SIGCHILD`](/docs/cmake/variables/PHP_SIGCHILD.md)
 * [`PHP_SYSTEM_GLOB`](/docs/cmake/variables/PHP_SYSTEM_GLOB.md)
 * [`PHP_THREAD_SAFETY`](/docs/cmake/variables/PHP_THREAD_SAFETY.md)
@@ -212,7 +213,6 @@ Some useful overridable configuration options built into CMake itself. All these
 * [`PHP_USE_RTLD_NOW`](/docs/cmake/variables/PHP_USE_RTLD_NOW.md)
 * [`PHP_VALGRIND`](/docs/cmake/variables/PHP_VALGRIND.md)
 * [`PHP_VERBOSE_LINK`](/docs/cmake/variables/PHP_VERBOSE_LINK.md)
-* [`SED_EXECUTABLE`](/docs/cmake/variables/SED_EXECUTABLE.md)
 
 * [`PEAR`](/docs/cmake/pear.md)
 

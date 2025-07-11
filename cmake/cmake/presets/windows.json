@@ -12,6 +12,7 @@
         "PHP_EXT_CALENDAR": true,
         "PHP_EXT_DL_TEST": true,
         "PHP_EXT_DOM": false,
+        "PHP_EXT_EXIF": true,
         "PHP_EXT_FTP": true,
         "PHP_EXT_FTP_SSL": false,
         "PHP_EXT_ICONV": false,
