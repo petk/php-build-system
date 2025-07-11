@@ -57,7 +57,6 @@ else()
 endif()
 
 include(CheckIncludeFiles)
-include(CheckSourceCompiles)
 include(CheckSymbolExists)
 include(CMakeDependentOption)
 include(CMakePushCheckState)

@@ -11,7 +11,6 @@ Result variables:
   expected.
 #]=============================================================================]
 
-include(CheckSourceCompiles)
 include(CheckSourceRuns)
 include(CheckSymbolExists)
 include(CMakePushCheckState)
