@@ -444,6 +444,14 @@ function(php_extensions_postconfigure extension)
     set_property(TARGET php_ext_${extension} PROPERTY OUTPUT_NAME ${extension})
   endif()
 
+  # Set target output filename prefix "[<prefix>]<extension>".
+  if(CMAKE_SYSTEM_NAME STREQUAL "Windows")
+    get_target_property(prefix php_ext_${extension} PREFIX)
+    if(NOT prefix)
+      set_property(TARGET php_ext_${extension} PROPERTY PREFIX "php_")
+    endif()
+  endif()
+
   # Specify extension's default installation rules.
   get_target_property(sets php_ext_${extension} INTERFACE_HEADER_SETS)
   set(fileSets "")
