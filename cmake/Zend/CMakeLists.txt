@@ -401,6 +401,7 @@ cmake_pop_check_state()
 
 check_symbol_exists(pthread_stackseg_np pthread.h HAVE_PTHREAD_STACKSEG_NP)
 check_symbol_exists(sigsetjmp setjmp.h HAVE_SIGSETJMP)
+check_symbol_exists(strnlen string.h HAVE_STRNLEN)
 
 include(cmake/CheckAsmGoto.cmake)
 include(cmake/CheckCpuidCount.cmake)
