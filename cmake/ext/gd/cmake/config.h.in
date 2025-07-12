@@ -1,8 +1,9 @@
 /* Define to 1 if gd extension has AVIF support. */
 #cmakedefine HAVE_GD_AVIF 1
 
-/* Define to 1 if gd extension has BMP support. */
-#cmakedefine HAVE_GD_BMP 1
+/* Define to 1 if gd extension has BMP support (always available and built-in
+   as of libgd 2.1.0). */
+#define HAVE_GD_BMP 1
 
 /* Define to 1 if gd extension uses GD library bundled in PHP. */
 #cmakedefine HAVE_GD_BUNDLED 1
@@ -23,8 +24,9 @@
 /* Define to 1 if gd extension has PNG support. */
 #cmakedefine HAVE_GD_PNG 1
 
-/* Define to 1 if gd extension has TGA support. */
-#cmakedefine HAVE_GD_TGA 1
+/* Define to 1 if gd extension has TGA support (always available and built-in
+   as of libgd 2.1.0). */
+#define HAVE_GD_TGA 1
 
 /* Define to 1 if gd extension has WebP support. */
 #cmakedefine HAVE_GD_WEBP 1
