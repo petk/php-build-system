@@ -140,8 +140,8 @@ if(CMAKE_SYSTEM_NAME STREQUAL "Windows")
   set(HAVE_STATFS FALSE)
   set(HAVE_STATVFS FALSE)
   set(HAVE_STD_SYSLOG FALSE)
-  set(HAVE_STDDEF_H TRUE)
-  set(HAVE_STDINT_H TRUE)
+  set(HAVE_STDDEF_H TRUE) # Defined by check_type_size().
+  set(HAVE_STDINT_H TRUE) # Defined by check_type_size().
   set(HAVE_STRCASESTR FALSE)
   set(HAVE_STRINGS_H FALSE)
   set(HAVE_STRLCAT FALSE)

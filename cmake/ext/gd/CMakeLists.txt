@@ -285,11 +285,6 @@ if(NOT PHP_EXT_GD_EXTERNAL)
 
   set(HAVE_GD_BUNDLED TRUE)
 
-  # With bundled GD library these are always available.
-  set(HAVE_GD_PNG TRUE)
-  set(HAVE_GD_BMP TRUE)
-  set(HAVE_GD_TGA TRUE)
-
   php_search_libraries(
     floorf
     HEADERS math.h
@@ -331,6 +326,7 @@ if(NOT PHP_EXT_GD_EXTERNAL)
   target_link_libraries(php_ext_gd PRIVATE PNG::PNG)
 
   set(HAVE_LIBPNG TRUE)
+  set(HAVE_GD_PNG TRUE)
 
   if(PHP_EXT_GD_AVIF)
     find_package(libavif 0.8.2)
@@ -473,9 +469,11 @@ else()
             (void)p;
 
             return 0;
-          }" ${result})
-
+          }" PHP_EXT_GD_${result})
       cmake_pop_check_state()
+
+      set(${result} ${PHP_EXT_GD_${result}})
+      return(PROPAGATE ${result})
     endfunction()
 
     php_ext_gd_check_format(Png HAVE_GD_PNG)
@@ -483,8 +481,6 @@ else()
     php_ext_gd_check_format(Webp HAVE_GD_WEBP)
     php_ext_gd_check_format(Jpeg HAVE_GD_JPG)
     php_ext_gd_check_format(Xpm HAVE_GD_XPM)
-    php_ext_gd_check_format(Bmp HAVE_GD_BMP)
-    php_ext_gd_check_format(Tga HAVE_GD_TGA)
 
     cmake_push_check_state(RESET)
       set(CMAKE_REQUIRED_LIBRARIES GD::GD)

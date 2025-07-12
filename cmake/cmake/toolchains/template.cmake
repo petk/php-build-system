@@ -66,13 +66,11 @@ set(PHP_SAPI_FPM_PROC_MEM_FILE mem)
 
 # Set the exit code for the check whether the external gd library has support
 # for the given format.
-set(HAVE_GD_AVIF_EXITCODE 1)
-set(HAVE_GD_BMP_EXITCODE 1)
-set(HAVE_GD_JPG_EXITCODE 1)
-set(HAVE_GD_PNG_EXITCODE 1)
-set(HAVE_GD_TGA_EXITCODE 1)
-set(HAVE_GD_WEBP_EXITCODE 1)
-set(HAVE_GD_XPM_EXITCODE 1)
+set(PHP_EXT_GD_HAVE_GD_AVIF_EXITCODE 1)
+set(PHP_EXT_GD_HAVE_GD_JPG_EXITCODE 1)
+set(PHP_EXT_GD_HAVE_GD_PNG_EXITCODE 1)
+set(PHP_EXT_GD_HAVE_GD_WEBP_EXITCODE 1)
+set(PHP_EXT_GD_HAVE_GD_XPM_EXITCODE 1)
 
 ################################################################################
 # ext/iconv
