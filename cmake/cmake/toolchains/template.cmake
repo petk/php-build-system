@@ -55,9 +55,10 @@ set(ZEND_MM_EXITCODE__TRYRUN_OUTPUT "(size_t)8 (size_t)3 0")
 set(PHP_SAPI_FPM_HAS_PTRACE_EXITCODE 0)
 
 # Set the process memory access file - 'mem' on Linux-alike or 'as' on
-# Solaris-alike target systems for the PHP FPM to use pread trace type.
-# (/proc/<pid>/<mem-or-as>)
-set(PROC_MEM_FILE mem)
+# Solaris-alike target systems for the PHP FPM to use pread trace type
+# (/proc/<pid>/<mem-or-as>), when neither 'ptrace' nor 'mach_vm_read' functions
+# work.
+set(PHP_SAPI_FPM_PROC_MEM_FILE mem)
 
 ################################################################################
 # ext/gd
