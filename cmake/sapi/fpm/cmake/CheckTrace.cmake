@@ -3,12 +3,9 @@ Check FPM trace implementation.
 
 Result variables:
 
-* HAVE_PTRACE - Whether ptrace() is present and works as expected.
-* HAVE_MACH_VM_READ - Whether ptrace() didn't work and the mach_vm_read() is
-  present.
-* PROC_MEM_FILE - If neither ptrace() or mach_vm_read() works, the
-  /proc/pid/<file> interface ('mem' or 'as') is set if found and works as
-  expected.
+* HAVE_PTRACE
+* HAVE_MACH_VM_READ
+* PROC_MEM_FILE
 #]=============================================================================]
 
 include(CheckSourceRuns)
@@ -113,14 +110,15 @@ if(NOT PHP_SAPI_FPM_HAS_PTRACE AND NOT PHP_SAPI_FPM_HAS_MACH_VM_READ)
   message(CHECK_START "Checking for process memory access file")
 
   if(NOT CMAKE_CROSSCOMPILING)
-    set(PROC_MEM_FILE "")
-    if(EXISTS /proc/self/mem)
-      set(PROC_MEM_FILE "mem")
-    elseif(EXISTS /proc/self/as)
-      set(PROC_MEM_FILE "as")
+    if(NOT DEFINED PHP_SAPI_FPM_PROC_MEM_FILE)
+      if(EXISTS /proc/self/mem)
+        set(PHP_SAPI_FPM_PROC_MEM_FILE "mem")
+      elseif(EXISTS /proc/self/as)
+        set(PHP_SAPI_FPM_PROC_MEM_FILE "as")
+      endif()
     endif()
 
-    if(PROC_MEM_FILE)
+    if(PHP_SAPI_FPM_PROC_MEM_FILE)
       cmake_push_check_state(RESET)
         set(CMAKE_REQUIRED_DEFINITIONS -D_GNU_SOURCE)
         set(CMAKE_REQUIRED_QUIET TRUE)
@@ -138,7 +136,7 @@ if(NOT PHP_SAPI_FPM_HAS_PTRACE AND NOT PHP_SAPI_FPM_HAS_MACH_VM_READ)
             long v1 = (unsigned int) -1, v2 = 0;
             char buf[128];
             int fd;
-            sprintf(buf, \"/proc/%d/${PROC_MEM_FILE}\", getpid());
+            sprintf(buf, \"/proc/%d/${PHP_SAPI_FPM_PROC_MEM_FILE}\", getpid());
             fd = open(buf, O_RDONLY);
             if (0 > fd) {
               return 1;
@@ -154,13 +152,14 @@ if(NOT PHP_SAPI_FPM_HAS_PTRACE AND NOT PHP_SAPI_FPM_HAS_MACH_VM_READ)
       cmake_pop_check_state()
 
       if(NOT PHP_HAS_PROC_MEM_FILE)
-        unset(PROC_MEM_FILE)
+        unset(PHP_SAPI_FPM_PROC_MEM_FILE)
       endif()
     endif()
   endif()
 
-  if(PROC_MEM_FILE)
-    message(CHECK_PASS "yes (${PROC_MEM_FILE})")
+  if(PHP_SAPI_FPM_PROC_MEM_FILE)
+    message(CHECK_PASS "yes (${PHP_SAPI_FPM_PROC_MEM_FILE})")
+    set(PROC_MEM_FILE "${PHP_SAPI_FPM_PROC_MEM_FILE}")
   else()
     message(CHECK_FAIL "no")
   endif()
