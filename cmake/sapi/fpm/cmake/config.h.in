@@ -34,13 +34,14 @@
 /* Define to 1 if you have 'TCP_INFO'. */
 #cmakedefine HAVE_LQ_TCP_INFO 1
 
-/* Define to 1 if you have the 'mach_vm_read' function. */
+/* Define to 1 if the system has the 'mach_vm_read' function (used when the
+   'ptrace' function doesn't work). */
 #cmakedefine HAVE_MACH_VM_READ 1
 
 /* Define to 1 if you have the 'port_create' function. */
 #cmakedefine HAVE_PORT 1
 
-/* Define to 1 if you have the 'ptrace' function. */
+/* Define to 1 if the system has a working 'ptrace' function. */
 #cmakedefine HAVE_PTRACE 1
 
 /* Define to 1 if system has a working 'select' function. */
@@ -70,5 +71,8 @@
 /* Define to 1 if you have the 'times' function. */
 #cmakedefine HAVE_TIMES 1
 
-/* Define to the /proc/pid/mem interface filename value. */
+/* The process memory access filename - 'mem' on Linux-alike or 'as' on
+   Solaris-alike target systems for the PHP FPM to use pread trace type
+   (/proc/<pid>/<mem-or-as>), when neither 'ptrace' nor 'mach_vm_read'
+   functions work. */
 #cmakedefine PROC_MEM_FILE "@PROC_MEM_FILE@"
