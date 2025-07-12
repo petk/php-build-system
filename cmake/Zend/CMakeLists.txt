@@ -411,6 +411,7 @@ cmake_push_check_state(RESET)
 cmake_pop_check_state()
 
 check_symbol_exists(pthread_stackseg_np pthread.h HAVE_PTHREAD_STACKSEG_NP)
+check_symbol_exists(strnlen string.h HAVE_STRNLEN)
 
 # Check for sigsetjmp(). It can be a function or defined as a macro. Note, that
 # POSIX.1-2001-compliant systems should have it. On Windows the setjmp() is

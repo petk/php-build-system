@@ -68,6 +68,9 @@
 /* Define if you have 'strerror_r'. */
 #cmakedefine HAVE_STRERROR_R 1
 
+/* Define to 1 if you have the 'strnlen' function. */
+#cmakedefine HAVE_STRNLEN 1
+
 /* Define to 1 if strerror_r returns char *. */
 #cmakedefine STRERROR_R_CHAR_P 1
 
