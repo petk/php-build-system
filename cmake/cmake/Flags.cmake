@@ -474,6 +474,4 @@ endif()
 # Check linker flags.
 ################################################################################
 
-include(${CMAKE_CURRENT_LIST_DIR}/checks/CheckSegmentsAlignment.cmake)
-
 include(PHP/VerboseLink)
