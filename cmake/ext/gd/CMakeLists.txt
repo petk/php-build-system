@@ -463,7 +463,7 @@ else()
             ${definition};
 
             /* Override the default gd_error_method with one that actually
-                causes the program to return an error. */
+               causes the program to return an error. */
             gdSetErrorMethod(exit1);
 
             gdImagePtr p = gdImageCreateFrom${format}(f);
