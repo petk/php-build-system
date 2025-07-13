@@ -303,9 +303,10 @@ CMake versions scheme across the systems is available at
 
 > [!TIP]
 > While the CMake version on some systems may be outdated, there are various
-> options available to install the latest version. For instance, on Ubuntu, the
-> most recent CMake version can be installed using `snap` or through the
-> [APT repository](https://apt.kitware.com/).
+> options available to install the latest version. There are binary
+> [CMake](https://cmake.org/download/) downloads available for the most used
+> platforms, there is a [`snap`](https://snapcraft.io/cmake) package, and
+> [APT repository](https://apt.kitware.com/) for Debian-based distributions.
 
 ## 7. Interface libraries
 
