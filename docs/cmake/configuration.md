@@ -1669,11 +1669,14 @@ A list of Autoconf `configure` command-line configuration options, Windows
     <tr>
       <td>
         &emsp;[PNG_CFLAGS=...]<br>
-        &emsp;[PNG_LIBS=...]
+        &emsp;[PNG_LIBS=...]<br>
+        &emsp;[ZLIB_CFLAGS=...]<br>
+        &emsp;[ZLIB_LIBS=...]
       </td>
       <td>N/A</td>
       <td>
-        [PNG_ROOT=DIR]
+        [PNG_ROOT=DIR]<br>
+        [ZLIB_ROOT=DIR]
       </td>
       <td></td>
     </tr>
