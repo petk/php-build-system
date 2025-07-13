@@ -77,7 +77,7 @@ endif()
 
 target_compile_definitions(php_ext_zlib PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE)
 
-include(Packages/ZLIB)
+include(PHP/Package/ZLIB)
 set_package_properties(
   ZLIB
   PROPERTIES

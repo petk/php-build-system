@@ -54,7 +54,7 @@ FetchContent_Declare(
 find_package(LibXml2 ${PHP_LIBXML2_MIN_VERSION})
 
 if(NOT LibXml2_FOUND)
-  include(Packages/ZLIB)
+  include(PHP/Package/ZLIB)
 
   set(FETCHCONTENT_QUIET NO)
   set(LIBXML2_WITH_PYTHON OFF)

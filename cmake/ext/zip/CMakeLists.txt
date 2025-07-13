@@ -68,7 +68,7 @@ target_sources(
 
 add_dependencies(php_ext_zip php_ext_pcre)
 
-include(Packages/libzip)
+include(PHP/Package/libzip)
 set_package_properties(
   libzip
   PROPERTIES

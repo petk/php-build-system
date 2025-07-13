@@ -63,7 +63,6 @@ jobs:
             libcurl4-openssl-dev \
             libdb5.3++-dev \
             libenchant-2-dev \
-            libpng-dev \
             libgmp-dev \
             libc-client-dev \
             libkrb5-dev \

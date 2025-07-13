@@ -316,7 +316,7 @@ if(NOT PHP_EXT_GD_EXTERNAL)
     )
   endif()
 
-  include(Packages/ZLIB)
+  include(PHP/Package/ZLIB)
   set_package_properties(
     ZLIB
     PROPERTIES
@@ -326,7 +326,7 @@ if(NOT PHP_EXT_GD_EXTERNAL)
 
   target_link_libraries(php_ext_gd PRIVATE ZLIB::ZLIB)
 
-  include(Packages/PNG)
+  include(PHP/Package/PNG)
   set_package_properties(
     PNG
     PROPERTIES
