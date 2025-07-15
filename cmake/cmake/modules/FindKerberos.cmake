@@ -1,14 +1,20 @@
 #[=============================================================================[
 # FindKerberos
 
-Find the Kerberos library.
+Finds the Kerberos library:
+
+```cmake
+find_package(Kerberos)
+```
 
 ## Components
 
 * Krb5
 * GSSAPI
 
-Module defines the following `IMPORTED` target(s):
+## Imported targets
+
+This module defines the following imported targets:
 
 * `Kerberos::Krb5` - The Kerberos library, if found.
 * `Kerberos::GSSAPI` - The Kerberos GSSAPI component library, if found.
@@ -28,6 +34,15 @@ Module defines the following `IMPORTED` target(s):
   script.
 * `Kerberos_GSSAPI_INCLUDE_DIR` -Directory containing GSSAPI library headers.
 * `Kerberos_GSSAPI_LIBRARY` - The path to the GSSAPI library.
+
+## Examples
+
+Basic usage:
+
+```cmake
+find_package(Kerberos)
+target_link_libraries(example PRIVATE Kerberos::Kerberos)
+```
 #]=============================================================================]
 
 include(FeatureSummary)

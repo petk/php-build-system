@@ -1,9 +1,15 @@
 #[=============================================================================[
 # FindEditline
 
-Find the Editline library.
+Finds the Editline library:
 
-Module defines the following `IMPORTED` target(s):
+```cmake
+find_package(Editline)
+```
+
+## Imported targets
+
+This module defines the following imported targets:
 
 * `Editline::Editline` - The Editline library, if found.
 
@@ -19,11 +25,14 @@ Module defines the following `IMPORTED` target(s):
 * `Editline_INCLUDE_DIR` - Directory containing package library headers.
 * `Editline_LIBRARY` - The path to the package library.
 
-## Usage
+## Examples
+
+Basic usage:
 
 ```cmake
 # CMakeLists.txt
 find_package(Editline)
+target_link_libraries(example PRIVATE Editline::Editline)
 ```
 #]=============================================================================]
 

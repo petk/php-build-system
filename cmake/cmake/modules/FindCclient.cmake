@@ -1,13 +1,19 @@
 #[=============================================================================[
 # FindCclient
 
-Find the IMAP c-client library.
+Finds the IMAP c-client library:
+
+```cmake
+find_package(Cclient)
+```
 
 Also called UW-IMAP library was once maintained by the Washington University.
 Today it is obsolete and its usage is discouraged. The c-client is a component
 of the IMAP library that can be found as a standalone package on systems.
 
-Module defines the following `IMPORTED` target(s):
+## Imported targets
+
+This module defines the following imported targets:
 
 * `Cclient::Cclient` - The package library, if found.
 
@@ -61,6 +67,15 @@ cclient_check_symbol_exists(<symbol> <header> <result>)
 * `<symbol>` - Symbol name to check if it is available in the c-client.
 * `<header>` - Header file to include.
 * `<result>` - Cache variable name for storing the check result.
+
+## Examples
+
+Basic usage:
+
+```cmake
+find_package(Cclient)
+target_link_libraries(example PRIVATE Cclient::Cclient)
+```
 #]=============================================================================]
 
 include(CheckSourceCompiles)
