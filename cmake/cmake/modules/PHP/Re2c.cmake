@@ -674,11 +674,17 @@ function(_php_re2c_download)
   add_dependencies(RE2C::RE2C re2c)
 
   # Move dependency to PACKAGES_FOUND.
-  get_property(packagesNotFound GLOBAL PROPERTY PACKAGES_NOT_FOUND)
-  list(REMOVE_ITEM packagesNotFound RE2C)
-  set_property(GLOBAL PROPERTY PACKAGES_NOT_FOUND ${packagesNotFound})
-  get_property(packagesFound GLOBAL PROPERTY PACKAGES_FOUND)
-  set_property(GLOBAL APPEND PROPERTY PACKAGES_FOUND RE2C)
+  block()
+    set(package "RE2C")
+    get_property(packagesNotFound GLOBAL PROPERTY PACKAGES_NOT_FOUND)
+    list(REMOVE_ITEM packagesNotFound ${package})
+    set_property(GLOBAL PROPERTY PACKAGES_NOT_FOUND ${packagesNotFound})
+    get_property(packagesFound GLOBAL PROPERTY PACKAGES_FOUND)
+    list(FIND packagesFound ${package} found)
+    if(found EQUAL -1)
+      set_property(GLOBAL APPEND PROPERTY PACKAGES_FOUND ${package})
+    endif()
+  endblock()
 
   set(
     _PHP_RE2C_DOWNLOAD
