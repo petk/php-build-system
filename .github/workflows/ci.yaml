@@ -78,13 +78,11 @@ jobs:
             firebird-dev \
             libsodium-dev \
             libicu-dev \
-            libzip-dev \
             aspell \
             libaspell-dev \
             libavif-dev \
             libwebp-dev \
             libxpm-dev \
-            libonig-dev \
             libtidy-dev \
             libargon2-dev \
             libxslt1-dev \

@@ -103,7 +103,7 @@ if(NOT ZLIB_FOUND)
   define_property(
     GLOBAL
     PROPERTY _PHP_ZLIB_DOWNLOADED
-    BRIEF_DOCS "Configuration header code with system extensions definitions"
+    BRIEF_DOCS "Marker that zlib library will be downloaded"
   )
 
   set_property(GLOBAL PROPERTY _PHP_ZLIB_DOWNLOADED TRUE)
