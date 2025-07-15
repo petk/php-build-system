@@ -35,7 +35,7 @@ set_package_properties(
 set(PHP_libzip_MIN_VERSION 1.7.1)
 
 # Download version when system dependency is not found.
-set(PHP_libzip_DOWNLOAD_VERSION 1.11.2)
+set(PHP_libzip_DOWNLOAD_VERSION 1.11.4)
 
 find_package(libzip ${PHP_libzip_MIN_VERSION})
 
