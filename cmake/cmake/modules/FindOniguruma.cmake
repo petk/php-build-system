@@ -1,11 +1,17 @@
 #[=============================================================================[
 # FindOniguruma
 
-Find the Oniguruma library.
+Finds the Oniguruma library:
 
-Module defines the following `IMPORTED` target(s):
+```cmake
+find_package(Oniguruma)
+```
 
-* `Oniguruma::Oniguruma` - The package library, if found.
+## Imported targets
+
+This module defines the following imported targets:
+
+* `Oniguruma::Oniguruma` - The package library, if Oniguruma is found.
 
 ## Result variables
 
@@ -19,11 +25,14 @@ Module defines the following `IMPORTED` target(s):
 * `Oniguruma_INCLUDE_DIR` - Directory containing package library headers.
 * `Oniguruma_LIBRARY` - The path to the package library.
 
-## Usage
+## Examples
+
+Basic usage:
 
 ```cmake
 # CMakeLists.txt
 find_package(Oniguruma)
+target_link_libraries(example PRIVATE Oniguruma::Oniguruma)
 ```
 #]=============================================================================]
 

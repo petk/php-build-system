@@ -3,7 +3,11 @@
 
 # FindCrypt
 
-Find the crypt library and run a set of PHP-specific checks if library works.
+Finds the crypt library and run a set of PHP-specific checks if library works:
+
+```cmake
+find_package(Crypt)
+```
 
 The Crypt library can be on some systems part of the standard C library. The
 crypt() and crypt_r() functions are usually declared in the unistd.h or crypt.h.
@@ -11,7 +15,9 @@ The GNU C library removed the crypt library in version 2.39 and replaced it with
 the libxcrypt, at the time of writing, located at
 https://github.com/besser82/libxcrypt.
 
-Module defines the following `IMPORTED` target(s):
+## Imported targets
+
+This module defines the following imported targets:
 
 * `Crypt::Crypt` - The package library, if found.
 
@@ -28,11 +34,14 @@ Module defines the following `IMPORTED` target(s):
 * `Crypt_INCLUDE_DIR` - Directory containing package library headers.
 * `Crypt_LIBRARY` - The path to the package library.
 
-## Usage
+## Examples
+
+Basic usage:
 
 ```cmake
 # CMakeLists.txt
 find_package(Crypt)
+target_link_libraries(example PRIVATE Crypt::Crypt)
 ```
 
 ## Customizing search locations

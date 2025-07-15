@@ -3,9 +3,15 @@
 
 # FindGD
 
-Find the GD library.
+Finds the GD library:
 
-Module defines the following `IMPORTED` target(s):
+```cmake
+find_package(GD)
+```
+
+## Imported targets
+
+This module defines the following imported targets:
 
 * `GD::GD` - The package library, if found.
 
@@ -21,11 +27,14 @@ Module defines the following `IMPORTED` target(s):
 * `GD_INCLUDE_DIR` - Directory containing package library headers.
 * `GD_LIBRARY` - The path to the package library.
 
-## Usage
+## Examples
+
+Basic usage:
 
 ```cmake
 # CMakeLists.txt
 find_package(GD)
+target_link_libraries(example PRIVATE GD::GD)
 ```
 
 ## Customizing search locations

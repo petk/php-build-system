@@ -3,9 +3,15 @@
 
 # FindTokyoCabinet
 
-Find the Tokyo Cabinet library.
+Finds the Tokyo Cabinet library:
 
-Module defines the following `IMPORTED` target(s):
+```cmake
+find_package(TokyoCabinet)
+```
+
+## Imported targets
+
+This module defines the following imported targets:
 
 * `TokyoCabinet::TokyoCabinet` - The package library, if found.
 
@@ -21,11 +27,14 @@ Module defines the following `IMPORTED` target(s):
 * `TokyoCabinet_INCLUDE_DIR` - Directory containing package library headers.
 * `TokyoCabinet_LIBRARY` - The path to the package library.
 
-## Usage
+## Examples
+
+Basic usage:
 
 ```cmake
 # CMakeLists.txt
 find_package(TokyoCabinet)
+target_link_libraries(example PRIVATE TokyoCabinet::TokyoCabinet)
 ```
 
 ## Customizing search locations

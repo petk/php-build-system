@@ -1,7 +1,11 @@
 #[=============================================================================[
 # FindRE2C
 
-Find `re2c` command-line lexer generator.
+Finds the `re2c` command-line lexer generator:
+
+```cmake
+find_package(RE2C)
+```
 
 ## Result variables
 
@@ -12,7 +16,9 @@ Find `re2c` command-line lexer generator.
 
 * `RE2C_EXECUTABLE` - Path to the `re2c` executable.
 
-## Usage
+## Examples
+
+Basic usage:
 
 ```cmake
 # CMakeLists.txt

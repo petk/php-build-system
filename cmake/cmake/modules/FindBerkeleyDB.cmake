@@ -1,9 +1,15 @@
 #[=============================================================================[
 # FindBerkeleyDB
 
-Find the Berkeley DB library.
+Finds the Berkeley DB library:
 
-Module defines the following `IMPORTED` target(s):
+```cmake
+find_package(BerkeleyDB)
+```
+
+## Imported targets
+
+This module defines the following imported targets:
 
 * `BerkeleyDB::BerkeleyDB` - The package library, if found.
 
@@ -26,11 +32,14 @@ Module defines the following `IMPORTED` target(s):
 * Set `BerkeleyDB_USE_DB1` to `TRUE` before calling `find_package(BerkeleyDB)`
   to enable the Berkeley DB 1.x support/emulation.
 
-## Usage
+## Examples
+
+Basic usage:
 
 ```cmake
 # CMakeLists.txt
 find_package(BerkeleyDB)
+target_link_libraries(example PRIVATE BerkeleyDB::BerkeleyDB)
 ```
 #]=============================================================================]
 

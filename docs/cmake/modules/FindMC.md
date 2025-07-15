@@ -52,6 +52,8 @@ mc_target(
 
 ## Examples
 
+Basic usage:
+
 ```cmake
 # CMakeLists.txt
 find_package(MC)

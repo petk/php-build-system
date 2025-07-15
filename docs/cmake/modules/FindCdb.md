@@ -3,9 +3,15 @@
 
 # FindCdb
 
-Find the cdb library.
+Finds the cdb library:
 
-Module defines the following `IMPORTED` target(s):
+```cmake
+find_package(Cdb)
+```
+
+## Imported targets
+
+This module defines the following imported targets:
 
 * `Cdb::Cdb` - The package library, if found.
 
@@ -21,11 +27,14 @@ Module defines the following `IMPORTED` target(s):
 * `Cdb_INCLUDE_DIR` - Directory containing package library headers.
 * `Cdb_LIBRARY` - The path to the package library.
 
-## Usage
+## Examples
+
+Basic usage:
 
 ```cmake
 # CMakeLists.txt
 find_package(Cdb)
+target_link_libraries(example PRIVATE Cdb::Cdb)
 ```
 
 ## Customizing search locations

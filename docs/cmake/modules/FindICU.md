@@ -3,12 +3,12 @@
 
 # FindICU
 
-See: https://cmake.org/cmake/help/latest/module/FindICU.html
-
 This module overrides the upstream CMake `FindICU` module with few
 customizations:
 
 * Added pkg-config.
+
+See: https://cmake.org/cmake/help/latest/module/FindICU.html
 
 ## Customizing search locations
 

@@ -3,9 +3,15 @@
 
 # FindFreeTDS
 
-Find the FreeTDS set of libraries.
+Finds the FreeTDS set of libraries:
 
-Module defines the following `IMPORTED` target(s):
+```cmake
+find_package(FreeTDS)
+```
+
+## Imported targets
+
+This module defines the following imported targets:
 
 * `FreeTDS::FreeTDS` - The package library, if found.
 
@@ -20,11 +26,14 @@ Module defines the following `IMPORTED` target(s):
 * `FreeTDS_INCLUDE_DIR` - Directory containing package library headers.
 * `FreeTDS_LIBRARY` - The path to the package library.
 
-## Usage
+## Examples
+
+Basic usage:
 
 ```cmake
 # CMakeLists.txt
 find_package(FreeTDS)
+target_link_libraries(example PRIVATE FreeTDS::FreeTDS)
 ```
 
 ## Customizing search locations

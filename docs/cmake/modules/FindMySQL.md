@@ -3,7 +3,11 @@
 
 # FindMySQL
 
-Find MySQL-compatible (MySQL, MariaDB, Percona, etc.) database.
+Finds MySQL-compatible (MySQL, MariaDB, Percona, etc.) database:
+
+```cmake
+find_package(MySQL)
+```
 
 This is customized find module for PHP mysqli and pdo_mysql extensions. It
 searches for MySQL Unix socket pointer and can be extended more in the future.
@@ -13,7 +17,9 @@ searches for MySQL Unix socket pointer and can be extended more in the future.
 * `Socket` - The MySQL Unix socket pointer.
 * `Lib` - The MySQL library or client.
 
-Module defines the following `IMPORTED` target(s):
+## Imported targets
+
+This module defines the following imported targets:
 
 * `MySQL::MySQL` - The MySQL-compatible library, if found, when using the Lib
   component.
@@ -40,7 +46,9 @@ Hints:
 
 * The `MySQL_Socket_PATH` variable can be overridden.
 
-## Usage
+## Examples
+
+Basic usage:
 
 ```cmake
 # CMakeLists.txt

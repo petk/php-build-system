@@ -3,9 +3,15 @@
 
 # FindArgon2
 
-Find the Argon2 library.
+Finds the Argon2 library:
 
-Module defines the following `IMPORTED` target(s):
+```cmake
+find_package(Argon2)
+```
+
+## Imported targets
+
+This module defines the following imported targets:
 
 * `Argon2::Argon2` - The package library, if found.
 
@@ -21,11 +27,14 @@ Module defines the following `IMPORTED` target(s):
 * `Argon2_INCLUDE_DIR` - Directory containing package library headers.
 * `Argon2_LIBRARY` - The path to the package library.
 
-## Usage
+## Examples
+
+Basic usage:
 
 ```cmake
 # CMakeLists.txt
 find_package(Argon2)
+target_link_libraries(example PRIVATE Argon2::Argon2)
 ```
 
 ## Customizing search locations

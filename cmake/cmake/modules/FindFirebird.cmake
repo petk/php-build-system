@@ -1,9 +1,15 @@
 #[=============================================================================[
 # FindFirebird
 
-Find the Firebird library.
+Finds the Firebird library:
 
-Module defines the following `IMPORTED` target(s):
+```cmake
+find_package(Firebird)
+```
+
+## Imported targets
+
+This module defines the following imported targets:
 
 * `Firebird::Firebird` - The package library, if found.
 
@@ -23,11 +29,14 @@ Module defines the following `IMPORTED` target(s):
 * `Firebird_CONFIG_EXECUTABLE` - Path to the fb_config Firebird command-line
   utility.
 
-## Usage
+## Examples
+
+Basic usage:
 
 ```cmake
 # CMakeLists.txt
 find_package(Firebird)
+target_link_libraries(example PRIVATE Firebird::Firebird)
 ```
 #]=============================================================================]
 

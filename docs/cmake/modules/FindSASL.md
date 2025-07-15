@@ -3,9 +3,15 @@
 
 # FindSASL
 
-Find the SASL library.
+Finds the SASL library:
 
-Module defines the following `IMPORTED` target(s):
+```cmake
+find_package(SASL)
+```
+
+## Imported targets
+
+This module defines the following imported targets:
 
 * `SASL::SASL` - The package library, if found.
 
@@ -21,11 +27,14 @@ Module defines the following `IMPORTED` target(s):
 * `SASL_INCLUDE_DIR` - Directory containing package library headers.
 * `SASL_LIBRARY` - The path to the package library.
 
-## Usage
+## Examples
+
+Basic usage:
 
 ```cmake
 # CMakeLists.txt
 find_package(SASL)
+target_link_libraries(example PRIVATE SASL::SASL)
 ```
 
 ## Customizing search locations

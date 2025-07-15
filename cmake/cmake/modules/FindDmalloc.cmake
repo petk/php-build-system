@@ -1,9 +1,15 @@
 #[=============================================================================[
 # FindDmalloc
 
-Find the Dmalloc library.
+Finds the Dmalloc library:
 
-Module defines the following `IMPORTED` target(s):
+```cmake
+find_package(Dmalloc)
+```
+
+## Imported targets
+
+This module defines the following imported targets:
 
 * `Dmalloc::Dmalloc` - The package library, if found.
 
@@ -19,11 +25,14 @@ Module defines the following `IMPORTED` target(s):
 * `Dmalloc_INCLUDE_DIR` - Directory containing package library headers.
 * `Dmalloc_LIBRARY` - The path to the package library.
 
-## Usage
+## Examples
+
+Basic usage:
 
 ```cmake
 # CMakeLists.txt
 find_package(Dmalloc)
+target_link_libraries(example PRIVATE Dmalloc::Dmalloc)
 ```
 #]=============================================================================]
 

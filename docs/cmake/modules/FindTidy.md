@@ -3,10 +3,16 @@
 
 # FindTidy
 
-Find the Tidy library (tidy-html5, legacy htmltidy library, or the tidyp -
-obsolete fork).
+Finds the Tidy library (tidy-html5, legacy htmltidy library, or the tidyp -
+obsolete fork):
 
-Module defines the following `IMPORTED` target(s):
+```cmake
+find_package(Tidy)
+```
+
+## Imported targets
+
+This module defines the following imported targets:
 
 * `Tidy::Tidy` - The package library, if found.
 
@@ -26,11 +32,14 @@ Module defines the following `IMPORTED` target(s):
 * `HAVE_TIDYP_H` - If `tidy.h` is not available and whether the `tidyp.h` is
   available (tidy fork).
 
-## Usage
+## Examples
+
+Basic usage:
 
 ```cmake
 # CMakeLists.txt
 find_package(Tidy)
+target_link_libraries(example PRIVATE Tidy::Tidy)
 ```
 
 ## Customizing search locations

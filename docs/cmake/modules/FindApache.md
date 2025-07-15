@@ -3,13 +3,19 @@
 
 # FindApache
 
-Find the Apache packages and tools.
+Finds the Apache packages and tools:
+
+```cmake
+find_package(Apache)
+```
 
 The Apache development package usually contains Apache header files, the `apr`
 (Apache Portable Runtime) library and its headers, `apr` config command-line
 tool, and the `apxs` command-line tool.
 
-Module defines the following `IMPORTED` target(s):
+## Imported targets
+
+This module defines the following imported targets:
 
 * `Apache::Apache` - The package library, if found.
 
@@ -39,11 +45,14 @@ Module defines the following `IMPORTED` target(s):
 * `Apache_APR_INCLUDE_DIR` - Directory containing `apr` library headers.
 * `Apache_APR_LIBRARY` - The path to the `apr` library.
 
-## Usage
+## Examples
+
+Basic usage:
 
 ```cmake
 # CMakeLists.txt
 find_package(Apache)
+target_link_libraries(example PRIVATE Apache::Apache)
 ```
 
 ## Customizing search locations

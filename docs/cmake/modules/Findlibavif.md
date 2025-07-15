@@ -3,11 +3,17 @@
 
 # Findlibavif
 
-Find the libavif library.
+Finds the libavif library:
+
+```cmake
+find_package(libavif)
+```
 
 This is a helper in case system doesn't have the library's Config find module.
 
-Module defines the following `IMPORTED` target(s):
+## Imported targets
+
+This module defines the following imported targets:
 
 * `libavif::libavif` - The package library, if found.
 
@@ -23,11 +29,14 @@ Module defines the following `IMPORTED` target(s):
 * `libavif_INCLUDE_DIR` - Directory containing package library headers.
 * `libavif_LIBRARY` - The path to the package library.
 
-## Usage
+## Examples
+
+Basic usage:
 
 ```cmake
 # CMakeLists.txt
 find_package(libavif)
+target_link_libraries(example PRIVATE libavif::libavif)
 ```
 
 ## Customizing search locations

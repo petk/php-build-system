@@ -3,9 +3,15 @@
 
 # FindACL
 
-Find the ACL library.
+Finds the ACL library:
 
-Module defines the following `IMPORTED` target(s):
+```cmake
+find_package(ACL)
+```
+
+## Imported targets
+
+This module defines the following imported targets:
 
 * `ACL::ACL` - The package library, if found.
 
@@ -29,11 +35,14 @@ Module defines the following `IMPORTED` target(s):
   check if the ACL library supports `ACL_USER` and `ACL_GROUP`. For example,
   macOS doesn't have support for user/group.
 
-## Usage
+## Examples
+
+Basic usage:
 
 ```cmake
 # CMakeLists.txt
 find_package(ACL)
+target_link_libraries(example PRIVATE ACL::ACL)
 ```
 
 ## Customizing search locations

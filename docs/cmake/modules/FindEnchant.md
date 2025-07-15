@@ -3,12 +3,18 @@
 
 # FindEnchant
 
-Find the Enchant library.
+Finds the Enchant library:
+
+```cmake
+find_package(Enchant)
+```
 
 Enchant uses different library names based on the version - `enchant-2` for
 version 2.x and `enchant` for earlier versions < 2.0.
 
-Module defines the following `IMPORTED` target(s):
+## Imported targets
+
+This module defines the following imported targets:
 
 * `Enchant::Enchant` - The package library, if found.
 
@@ -24,11 +30,14 @@ Module defines the following `IMPORTED` target(s):
 * `Enchant_INCLUDE_DIR` - Directory containing package library headers.
 * `Enchant_LIBRARY` - The path to the package library.
 
-## Usage
+## Examples
+
+Basic usage:
 
 ```cmake
 # CMakeLists.txt
 find_package(Enchant)
+target_link_libraries(example PRIVATE Enchant::Enchant)
 ```
 
 ## Customizing search locations

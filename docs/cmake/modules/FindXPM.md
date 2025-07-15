@@ -3,9 +3,15 @@
 
 # FindXPM
 
-Find the libXpm library.
+Finds the libXpm library:
 
-Module defines the following `IMPORTED` target(s):
+```cmake
+find_package(XPM)
+```
+
+## Imported targets
+
+This module defines the following imported targets:
 
 * `XPM::XPM` - The libXpm library, if found.
 
@@ -21,11 +27,14 @@ Module defines the following `IMPORTED` target(s):
 * `XPM_INCLUDE_DIR` - Directory containing package library headers.
 * `XPM_LIBRARY` - The path to the package library.
 
-## Usage
+## Examples
+
+Basic usage:
 
 ```cmake
 # CMakeLists.txt
 find_package(XPM)
+target_link_libraries(example PRIVATE XPM::XPM)
 ```
 
 ## Customizing search locations

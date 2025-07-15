@@ -1,6 +1,12 @@
 #[=============================================================================[
 # FindDTrace
 
+Finds DTrace and provides command for using it in CMake:
+
+```cmake
+find_package(DTrace)
+```
+
 DTrace (Dynamic Tracing), a comprehensive tracing framework originally developed
 by Sun Microsystems for troubleshooting and performance analysis on Unix-like
 systems. While the name "DTrace" is associated with the original implementation
@@ -10,7 +16,9 @@ implementations such as SystemTap, which is widely used on Linux systems.
 This CMake module specifically detects and uses the SystemTap implementation of
 DTrace.
 
-Module defines the following `IMPORTED` target(s):
+## Imported targets
+
+This module defines the following imported targets:
 
 * `DTrace::DTrace` - The package library, if found.
 
@@ -50,7 +58,9 @@ Generates DTrace header `<header>` and creates `INTERFACE` library
   interpreted as being relative to the current source directory.
 * `INCLUDES` - A list of include directories for appending to DTrace object.
 
-## Usage
+## Examples
+
+Basic usage:
 
 ```cmake
 # CMakeLists.txt

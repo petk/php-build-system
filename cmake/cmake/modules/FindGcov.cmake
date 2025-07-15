@@ -1,9 +1,15 @@
 #[=============================================================================[
 # FindGcov
 
-Find the Gcov coverage programs and features.
+Finds the Gcov coverage programs and features:
 
-Module defines the following `IMPORTED` target(s):
+```cmake
+find_package(Gcov)
+```
+
+## Imported targets
+
+This module defines the following imported targets:
 
 * `Gcov::Gcov` - The package library, if found.
 
@@ -25,11 +31,14 @@ Module exposes the following macro that generates HTML coverage report:
 gcov_generate_report()
 ```
 
-## Usage
+## Examples
+
+Basic usage:
 
 ```cmake
 # CMakeLists.txt
 find_package(Gcov)
+target_link_libraries(example PRIVATE Gcov::Gcov)
 ```
 #]=============================================================================]
 

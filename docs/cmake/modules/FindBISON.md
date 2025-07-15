@@ -3,17 +3,10 @@
 
 # FindBISON
 
-Find `bison`, the general-purpose parser generator, command-line executable.
+This module extends the upstream CMake `FindBISON` module with few
+customizations.
 
-This module extends the CMake `FindBISON` module.
 See: https://cmake.org/cmake/help/latest/module/FindBISON.html
-
-## Usage
-
-```cmake
-# CMakeLists.txt
-find_package(BISON)
-```
 
 ## Customizing search locations
 

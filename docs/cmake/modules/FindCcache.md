@@ -3,7 +3,11 @@
 
 # FindCcache
 
-Find the Ccache compiler cache tool for faster compilation times.
+Finds the Ccache compiler cache tool for faster compilation times:
+
+```cmake
+find_package(Ccache)
+```
 
 ## Result variables
 
@@ -19,7 +23,9 @@ Find the Ccache compiler cache tool for faster compilation times.
 * The `CCACHE_DISABLE` regular or environment variable which disables ccache and
   doesn't adjust the C and CXX launcher. For more info see Ccache documentation.
 
-## Usage
+## Examples
+
+Basic usage:
 
 ```cmake
 # CMakeLists.txt

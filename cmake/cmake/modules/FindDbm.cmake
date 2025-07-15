@@ -1,7 +1,11 @@
 #[=============================================================================[
 # FindDbm
 
-Find the dbm library.
+Finds the dbm library:
+
+```cmake
+find_package(Dbm)
+```
 
 Depending on the system, the dbm library can be part of other libraries as an
 interface.
@@ -15,7 +19,9 @@ interface.
   package instead should be done without using this artifact. PHP in the past
   already used this and moved the db extension out of the php-src to PECL.
 
-Module defines the following `IMPORTED` target(s):
+## Imported targets
+
+This module defines the following imported targets:
 
 * `Dbm::Dbm` - The package library, if found.
 
@@ -31,11 +37,14 @@ Module defines the following `IMPORTED` target(s):
 * `Dbm_INCLUDE_DIR` - Directory containing package library headers.
 * `Dbm_LIBRARY` - The path to the package library.
 
-## Usage
+## Examples
+
+Basic usage:
 
 ```cmake
 # CMakeLists.txt
 find_package(Dbm)
+target_link_libraries(example PRIVATE Dbm::Dbm)
 ```
 #]=============================================================================]
 

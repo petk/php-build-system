@@ -1,8 +1,6 @@
 #[=============================================================================[
 # FindODBC
 
-Find the ODBC library.
-
 This module is based on the upstream
 [FindODBC](https://cmake.org/cmake/help/latest/module/FindODBC.html) with some
 enhancements and adjustments for the PHP build workflow.
@@ -58,13 +56,6 @@ enhancements and adjustments for the PHP build workflow.
 * Added package meta-data for FeatureSummary.
 
 * Fixed finding ODBC on Windows and MinGW.
-
-## Usage
-
-```cmake
-# CMakeLists.txt
-find_package(ODBC)
-```
 #]=============================================================================]
 
 include(FeatureSummary)

@@ -1,14 +1,20 @@
 #[=============================================================================[
 # FindLDAP
 
-Find the LDAP library.
+Finds the LDAP library:
+
+```cmake
+find_package(LDAP)
+```
 
 ## Components
 
 * `LDAP` - the main LDAP library
 * `LBER` - the OpenLDAP LBER (Lightweight Basic Encoding Rules) library
 
-Module defines the following `IMPORTED` target(s):
+## Imported targets
+
+This module defines the following imported targets:
 
 * `LDAP::LDAP` - The LDAP library, if found.
 * `LDAP::LBER` - OpenLDAP LBER Lightweight Basic Encoding Rules library, if
@@ -29,7 +35,7 @@ Module defines the following `IMPORTED` target(s):
   found.
 * `LDAP_LBER_LIBRARY` - The path to the OpenLDAP LBER library, if found.
 
-## Usage
+## Examples
 
 When OpenLDAP is found, both LDAP and LBER libraries are linked in for
 convenience.
@@ -38,21 +44,21 @@ convenience.
 # CMakeLists.txt
 
 find_package(LDAP)
-target_link_library(some_project_target PRIVATE LDAP::LDAP)
+target_link_library(example PRIVATE LDAP::LDAP)
 ```
 
 When working with specific components, LDAP and LBER are linked separately.
 
 ```cmake
 find_package(LDAP COMPONENTS LDAP LBER)
-target_link_library(some_project_target PRIVATE LDAP::LDAP LDAP::LBER)
+target_link_library(example PRIVATE LDAP::LDAP LDAP::LBER)
 ```
 
 To use only the LBER component:
 
 ```cmake
 find_package(LDAP COMPONENTS LBER)
-target_link_library(some_project_target PRIVATE LDAP::LBER)
+target_link_library(example PRIVATE LDAP::LBER)
 ```
 #]=============================================================================]
 

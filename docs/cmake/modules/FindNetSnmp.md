@@ -3,9 +3,15 @@
 
 # FindNetSnmp
 
-Find the Net-SNMP library.
+Finds the Net-SNMP library:
 
-Module defines the following `IMPORTED` target(s):
+```cmake
+find_package(NetSnmp)
+```
+
+## Imported targets
+
+This module defines the following imported targets:
 
 * `NetSnmp::NetSnmp` - The package library, if found.
 
@@ -22,11 +28,14 @@ Module defines the following `IMPORTED` target(s):
 * `NetSnmp_LIBRARY` - The path to the package library.
 * `NetSnmp_EXECUTABLE` - Path to net-snmp-config utility.
 
-## Usage
+## Examples
+
+Basic usage:
 
 ```cmake
 # CMakeLists.txt
 find_package(NetSnmp)
+target_link_libraries(example PRIVATE NetSnmp::NetSnmp)
 ```
 
 ## Customizing search locations

@@ -4,8 +4,14 @@
 # FindSendmail
 
 This module finds mailer program for PHP and sets sensible defaults based on the
-target system. On Windows, PHP has built-in mailer (sendmail.c), on *nix systems
-either `sendmail` is used if found, or a general default value is set to
+target system:
+
+```cmake
+find_package(Sendmail)
+```
+
+On Windows, PHP has built-in mailer (sendmail.c), on *nix systems either
+`sendmail` is used if found, or a general default value is set to
 `/usr/sbin/sendmail`.
 
 ## Result variables
@@ -19,7 +25,9 @@ either `sendmail` is used if found, or a general default value is set to
 
 * `Sendmail_EXECUTABLE` - Path to the sendmail executable program, if found.
 
-## Usage
+## Examples
+
+Basic usage:
 
 ```cmake
 # CMakeLists.txt

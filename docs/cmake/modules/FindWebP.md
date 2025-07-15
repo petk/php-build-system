@@ -3,9 +3,15 @@
 
 # FindWebP
 
-Find the libwebp library.
+Finds the libwebp library:
 
-Module defines the following `IMPORTED` target(s):
+```cmake
+find_package(WebP)
+```
+
+## Imported targets
+
+This module defines the following imported targets:
 
 * `WebP::WebP` - The package library, if found.
 
@@ -21,11 +27,14 @@ Module defines the following `IMPORTED` target(s):
 * `WebP_INCLUDE_DIR` - Directory containing package library headers.
 * `WebP_LIBRARY` - The path to the package library.
 
-## Usage
+## Examples
+
+Basic usage:
 
 ```cmake
 # CMakeLists.txt
 find_package(WebP)
+target_link_libraries(example PRIVATE WebP::WebP)
 ```
 
 ## Customizing search locations

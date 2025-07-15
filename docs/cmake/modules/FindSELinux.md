@@ -3,9 +3,15 @@
 
 # FindSELinux
 
-Find the SELinux library.
+Finds the SELinux library:
 
-Module defines the following `IMPORTED` target(s):
+```cmake
+find_package(SELinux)
+```
+
+## Imported targets
+
+This module defines the following imported targets:
 
 * `SELinux::SELinux` - The package library, if found.
 
@@ -21,11 +27,14 @@ Module defines the following `IMPORTED` target(s):
 * `SELinux_INCLUDE_DIR` - Directory containing package library headers.
 * `SELinux_LIBRARY` - The path to the package library.
 
-## Usage
+## Examples
+
+Basic usage:
 
 ```cmake
 # CMakeLists.txt
 find_package(SELinux)
+target_link_libraries(example PRIVATE SELinux::SELinux)
 ```
 
 ## Customizing search locations

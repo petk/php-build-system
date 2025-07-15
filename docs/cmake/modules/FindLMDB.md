@@ -3,9 +3,15 @@
 
 # FindLMDB
 
-Find the LMDB library.
+Finds the LMDB library:
 
-Module defines the following `IMPORTED` target(s):
+```cmake
+find_package(LMDB)
+```
+
+## Imported targets
+
+This module defines the following imported targets:
 
 * `LMDB::LMDB` - The package library, if found.
 
@@ -21,11 +27,14 @@ Module defines the following `IMPORTED` target(s):
 * `LMDB_INCLUDE_DIR` - Directory containing package library headers.
 * `LMDB_LIBRARY` - The path to the package library.
 
-## Usage
+## Examples
+
+Basic usage:
 
 ```cmake
 # CMakeLists.txt
 find_package(LMDB)
+target_link_libraries(example PRIVATE LMDB::LMDB)
 ```
 
 ## Customizing search locations

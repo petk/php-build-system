@@ -3,9 +3,15 @@
 
 # FindFFI
 
-Find the FFI library.
+Finds the FFI library:
 
-Module defines the following `IMPORTED` target(s):
+```cmake
+find_package(FFI)
+```
+
+## Imported targets
+
+This module defines the following imported targets:
 
 * `FFI::FFI` - The package library, if found.
 
@@ -21,11 +27,14 @@ Module defines the following `IMPORTED` target(s):
 * `FFI_INCLUDE_DIR` - Directory containing package library headers.
 * `FFI_LIBRARY` - The path to the package library.
 
-## Usage
+## Examples
+
+Basic usage:
 
 ```cmake
 # CMakeLists.txt
 find_package(FFI)
+target_link_libraries(example PRIVATE FFI::FFI)
 ```
 
 ## Customizing search locations
