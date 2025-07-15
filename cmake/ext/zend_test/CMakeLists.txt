@@ -82,7 +82,7 @@ target_compile_definitions(
 # If libxml extension is enabled, link libxml library as headers are used.
 # TODO: Reconfigure this for static/shared LibXml library on Windows.
 if(PHP_EXT_LIBXML)
-  include(Packages/LibXml2)
+  include(PHP/Package/LibXml2)
 
   set_package_properties(
     LibXml2
