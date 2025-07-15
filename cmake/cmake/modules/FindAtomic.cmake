@@ -1,9 +1,15 @@
 #[=============================================================================[
 # FindAtomic
 
-Find the atomic instructions.
+Finds the atomic instructions:
 
-Module defines the following `IMPORTED` target(s):
+```cmake
+find_package(Atomic)
+```
+
+## Imported targets
+
+This module defines the following imported targets:
 
 * `Atomic::Atomic` - The Atomic library, if found.
 
@@ -13,11 +19,14 @@ Module defines the following `IMPORTED` target(s):
 * `Atomic_LIBRARIES` - A list of libraries needed in order to use atomic
   functionality.
 
-## Usage
+## Examples
+
+Basic usage:
 
 ```cmake
 # CMakeLists.txt
 find_package(Atomic)
+target_link_libraries(example PRIVATE Atomic::Atomic)
 ```
 #]=============================================================================]
 

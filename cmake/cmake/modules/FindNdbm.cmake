@@ -1,7 +1,11 @@
 #[=============================================================================[
 # FindNdbm
 
-Find the ndbm library.
+Finds the ndbm library:
+
+```cmake
+find_package(Ndbm)
+```
 
 Depending on the system, the nbdm ("new" dbm) can be part of other libraries as
 an interface.
@@ -11,7 +15,9 @@ an interface.
   PHP.
 * Built into default libraries (C): BSD-based systems, macOS, Solaris.
 
-Module defines the following `IMPORTED` target(s):
+## Imported targets
+
+This module defines the following imported targets:
 
 * `Ndbm::Ndbm` - The package library, if found.
 
@@ -27,11 +33,14 @@ Module defines the following `IMPORTED` target(s):
 * `Ndbm_INCLUDE_DIR` - Directory containing package library headers.
 * `Ndbm_LIBRARY` - The path to the package library.
 
-## Usage
+## Examples
+
+Basic usage:
 
 ```cmake
 # CMakeLists.txt
 find_package(Ndbm)
+target_link_libraries(example PRIVATE Ndbm::Ndbm)
 ```
 #]=============================================================================]
 

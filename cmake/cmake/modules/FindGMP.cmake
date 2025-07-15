@@ -1,9 +1,15 @@
 #[=============================================================================[
 # FindGMP
 
-Find the GMP library.
+Finds the GMP library:
 
-Module defines the following `IMPORTED` target(s):
+```cmake
+find_package(GMP)
+```
+
+## Imported targets
+
+This module defines the following imported targets:
 
 * `GMP::GMP` - The package library, if found.
 
@@ -19,11 +25,14 @@ Module defines the following `IMPORTED` target(s):
 * `GMP_INCLUDE_DIR` - Directory containing package library headers.
 * `GMP_LIBRARY` - The path to the package library.
 
-## Usage
+## Examples
+
+Basic usage:
 
 ```cmake
 # CMakeLists.txt
 find_package(GMP)
+target_link_libraries(example PRIVATE GMP::GMP)
 ```
 #]=============================================================================]
 

@@ -1,9 +1,15 @@
 #[=============================================================================[
 # FindValgrind
 
-Find Valgrind.
+Finds Valgrind:
 
-Module defines the following `IMPORTED` target(s):
+```cmake
+find_package(Valgrind)
+```
+
+## Imported targets
+
+This module defines the following imported targets:
 
 * `Valgrind::Valgrind` - The package library, if found.
 
@@ -16,11 +22,14 @@ Module defines the following `IMPORTED` target(s):
 
 * `Valgrind_INCLUDE_DIR` - Directory containing package library headers.
 
-## Usage
+## Examples
+
+Basic usage:
 
 ```cmake
 # CMakeLists.txt
 find_package(Valgrind)
+target_link_libraries(example PRIVATE Valgrind::Valgrind)
 ```
 #]=============================================================================]
 

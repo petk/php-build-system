@@ -10,7 +10,9 @@ Components:
 * `embed` - The PHP Embed SAPI component - A lightweight SAPI to embed PHP into
   application using C bindings.
 
-Module defines the following `IMPORTED` target(s):
+## Imported targets
+
+This module defines the following imported targets:
 
 * `PHP::php` - The PHP package `IMPORTED` target, if found.
 * `PHP::embed` - The PHP embed SAPI, if found.

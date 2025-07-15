@@ -1,9 +1,15 @@
 #[=============================================================================[
 # FindPCRE
 
-Find the PCRE library.
+Finds the PCRE library:
 
-Module defines the following `IMPORTED` target(s):
+```cmake
+find_package(PCRE)
+```
+
+## Imported targets
+
+This module defines the following imported targets:
 
 * `PCRE::PCRE` - The package library, if found.
 
@@ -19,11 +25,14 @@ Module defines the following `IMPORTED` target(s):
 * `PCRE_INCLUDE_DIR` - Directory containing package library headers.
 * `PCRE_LIBRARY` - The path to the package library.
 
-## Usage
+## Examples
+
+Basic usage:
 
 ```cmake
 # CMakeLists.txt
 find_package(PCRE)
+target_link_libraries(example PRIVATE PCRE::PCRE)
 ```
 #]=============================================================================]
 

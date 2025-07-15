@@ -1,9 +1,15 @@
 #[=============================================================================[
 # FindSystemd
 
-Find the systemd library (libsystemd).
+Finds the systemd library (libsystemd):
 
-Module defines the following `IMPORTED` target(s):
+```cmake
+find_package(Systemd)
+```
+
+## Imported targets
+
+This module defines the following imported targets:
 
 * `Systemd::Systemd` - The package library, if found.
 
@@ -20,11 +26,14 @@ Module defines the following `IMPORTED` target(s):
 * `Systemd_LIBRARY` - The path to the package library.
 * `Systemd_EXECUTABLE` - A systemd command-line tool, if available.
 
-## Usage
+## Examples
+
+Basic usage:
 
 ```cmake
 # CMakeLists.txt
 find_package(Systemd)
+target_link_libraries(example PRIVATE Systemd::Systemd)
 ```
 #]=============================================================================]
 

@@ -1,13 +1,19 @@
 #[=============================================================================[
 # Findlibzip
 
-Find the libzip library.
+Finds the libzip library:
+
+```cmake
+find_package(libzip)
+```
 
 This is a helper in case system doesn't have the libzip's Config find module
 yet. It seems that libzip find module provided by the library requires also
 zip tools installed on the system.
 
-Module defines the following `IMPORTED` target(s):
+## Imported targets
+
+This module defines the following imported targets:
 
 * `libzip::libzip` - The package library, if found.
 
@@ -26,11 +32,14 @@ Module defines the following `IMPORTED` target(s):
 * `HAVE_ENCRYPTION`
 * `HAVE_LIBZIP_VERSION`
 
-## Usage
+## Examples
+
+Basic usage:
 
 ```cmake
 # CMakeLists.txt
 find_package(libzip)
+target_link_libraries(example PRIVATE libzip::libzip)
 ```
 #]=============================================================================]
 
