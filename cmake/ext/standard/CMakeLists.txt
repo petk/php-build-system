@@ -498,6 +498,16 @@ add_dependencies(php_ext_standard_functions php_ext_standard)
 add_dependencies(php_ext_standard_functions_cli php_ext_standard)
 
 ################################################################################
+# ext/standard depends on ext/zlib for SWC images and transitively depends on
+# the zlib library.
+# TODO: https://github.com/php/php-src/pull/4681
+################################################################################
+
+if(PHP_EXT_ZLIB)
+  add_dependencies(php_ext_standard php_ext_zlib)
+endif()
+
+################################################################################
 # Configuration header
 ################################################################################
 

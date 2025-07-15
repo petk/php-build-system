@@ -85,7 +85,8 @@ set_package_properties(
     PURPOSE "Necessary to enable the zlib extension."
 )
 
-target_link_libraries(php_ext_zlib PRIVATE ZLIB::ZLIB)
+# Link publicly for internal_functions files.
+target_link_libraries(php_ext_zlib PUBLIC ZLIB::ZLIB)
 
 set(HAVE_ZLIB TRUE)
 

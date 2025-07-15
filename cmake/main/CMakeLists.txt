@@ -130,6 +130,7 @@ target_sources(php_sapi INTERFACE $<TARGET_OBJECTS:PHP::main>)
 # Add FastCGI target with objects for use in PHP SAPIs such as CGI and FPM.
 ################################################################################
 add_library(php_main_fastcgi OBJECT fastcgi.c)
+add_dependencies(php_main_fastcgi php_main)
 
 target_sources(
   php_sapi
@@ -144,6 +145,8 @@ target_sources(
 
 add_library(php_main_internal_functions OBJECT internal_functions.c)
 add_library(php_main_internal_functions_cli OBJECT internal_functions_cli.c)
+add_dependencies(php_main_internal_functions php_main)
+add_dependencies(php_main_internal_functions_cli php_main)
 
 target_sources(
   php_sapi
@@ -228,6 +231,18 @@ file(CONFIGURE OUTPUT ${CMAKE_CURRENT_SOURCE_DIR}/php_version.h CONTENT [[
 #define PHP_VERSION "@PHP_VERSION@"
 #define PHP_VERSION_ID @PHP_VERSION_ID@
 ]])
+
+################################################################################
+# When building external libraries with ExternalProject module, the library (and
+# its accompanying extension) should be built before the main target so the
+# internal functions files have possible library headers available when used in
+# extension headers (for example, php_openssl.h, php_zlib.h, etc.).
+################################################################################
+
+get_property(extensions GLOBAL PROPERTY PHP_EXTENSIONS)
+foreach(extension IN LISTS extensions)
+  add_dependencies(php_main PHP::ext::${extension})
+endforeach()
 
 ################################################################################
 # Generate configuration headers.
