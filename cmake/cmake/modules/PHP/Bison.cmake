@@ -660,11 +660,17 @@ function(_php_bison_download)
   endif()
 
   # Move dependency to PACKAGES_FOUND.
-  get_property(packagesNotFound GLOBAL PROPERTY PACKAGES_NOT_FOUND)
-  list(REMOVE_ITEM packagesNotFound BISON)
-  set_property(GLOBAL PROPERTY PACKAGES_NOT_FOUND ${packagesNotFound})
-  get_property(packagesFound GLOBAL PROPERTY PACKAGES_FOUND)
-  set_property(GLOBAL APPEND PROPERTY PACKAGES_FOUND BISON)
+  block()
+    set(package "BISON")
+    get_property(packagesNotFound GLOBAL PROPERTY PACKAGES_NOT_FOUND)
+    list(REMOVE_ITEM packagesNotFound ${package})
+    set_property(GLOBAL PROPERTY PACKAGES_NOT_FOUND ${packagesNotFound})
+    get_property(packagesFound GLOBAL PROPERTY PACKAGES_FOUND)
+    list(FIND packagesFound ${package} found)
+    if(found EQUAL -1)
+      set_property(GLOBAL APPEND PROPERTY PACKAGES_FOUND ${package})
+    endif()
+  endblock()
 
   set(
     _PHP_BISON_DOWNLOAD
