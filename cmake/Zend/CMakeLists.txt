@@ -1,33 +1,30 @@
 #[=============================================================================[
 Zend Engine.
 
-## Targets
+Targets:
 
-* OBJECT library `zend` (ALIAS `Zend::Zend`) holds all Zend Engine objects
-  and compile properties.
+* OBJECT library 'zend' (ALIAS Zend::Zend) holds all Zend Engine objects and
+  compile properties.
 
-## Target properties
+Target properties:
 
-CMake target properties for the `Zend::Zend` target:
+CMake target properties for the Zend::Zend target:
 
-* `VERSION`
+* VERSION
+  Zend Engine version as defined in the Zend/zend.h file.
 
-  Zend Engine version as defined in the `Zend/zend.h` file.
-
-* `ZEND_EXTENSION_API_NO`
-
+* ZEND_EXTENSION_API_NO
   Custom target property with internal API version number for PHP extensions
-  (dynamically loaded with the `extension` INI directive). This is the
-  `ZEND_MODULE_API_NO` number from the `Zend/zend_modules.h` and ensures that
-  built extension is compatible with particular PHP build.
+  (dynamically loaded with the 'extension' INI directive). This is the
+  ZEND_MODULE_API_NO number from the Zend/zend_modules.h and ensures that built
+  extension is compatible with particular PHP build.
 
-* `ZEND_MODULE_API_NO`
-
+* ZEND_MODULE_API_NO
   Custom target property with internal API version number for Zend extensions in
-  PHP (dynamically loaded with the `zend_extension` INI directive), such as
-  opcache, debuggers, profilers, etc. This is the `ZEND_EXTENSION_API_NO` number
-  from the `Zend/zend_extensions.h` and ensures that built extension is
-  compatible with particular PHP build.
+  PHP (dynamically loaded with the 'zend_extension' INI directive), such as
+  opcache, debuggers, profilers, etc. This is the ZEND_EXTENSION_API_NO number
+  from the Zend/zend_extensions.h and ensures that built extension is compatible
+  with particular PHP build.
 #]=============================================================================]
 
 message(STATUS "")

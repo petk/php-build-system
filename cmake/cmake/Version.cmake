@@ -6,9 +6,9 @@ number from the php-src main/php.h header file.
 
 Variables:
 
-* `PHP_API_VERSION`
-* `PHP_VERSION`
-* `PHP_VERSION_LABEL`
+* PHP_API_VERSION
+* PHP_VERSION
+* PHP_VERSION_LABEL
 #]=============================================================================]
 
 include_guard(GLOBAL)
