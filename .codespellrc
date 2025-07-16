@@ -6,6 +6,7 @@ builtin = clear,code,en-GB_to_en-US,informal,names,rare,usage
 check-filenames =
 check-hidden =
 ignore-words-list =
+    deafults,
     empress,
     master,
     musl,
