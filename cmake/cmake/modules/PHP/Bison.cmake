@@ -145,7 +145,7 @@ php_bison(foo foo.y foo.c OPTIONS -Wall --debug)
 #   bison -Wall --debug foo.y --output foo.c
 ```
 
-### Specifying options
+### Example: Specifying options
 
 This module provides some default options when using the `ADD_DEFAULT_OPTIONS`:
 
@@ -227,7 +227,16 @@ _php_bison_config()
 
 include_guard(GLOBAL)
 
+include(ExternalProject)
 include(FeatureSummary)
+include(FetchContent)
+
+set_package_properties(
+  BISON
+  PROPERTIES
+    URL "https://www.gnu.org/software/bison/"
+    DESCRIPTION "General-purpose parser generator"
+)
 
 # Configuration after find_package() in this module.
 macro(_php_bison_config_options)
@@ -655,8 +664,8 @@ function(_php_bison_download)
   )
 
   # Target created by ExternalProject:
-  if(TARGET bison)
-    add_dependencies(Bison::Bison bison)
+  if(TARGET BISON-install)
+    add_dependencies(Bison::Bison BISON-install)
   endif()
 
   # Move dependency to PACKAGES_FOUND.
@@ -676,7 +685,7 @@ function(_php_bison_download)
     _PHP_BISON_DOWNLOAD
     TRUE
     CACHE INTERNAL
-    "Internal marker whether the Bison will be downloaded."
+    "Internal marker whether Bison is downloaded."
   )
 
   return(PROPAGATE BISON_FOUND BISON_VERSION)
@@ -684,14 +693,27 @@ endfunction()
 
 # Downloads GNU Bison.
 function(_php_bison_download_gnu)
-  message(STATUS "GNU Bison ${BISON_VERSION} will be downloaded at build phase")
+  message(
+    STATUS
+    "Downloading GNU Bison ${BISON_VERSION} from https://ftp.gnu.org/gnu/bison"
+  )
 
-  include(ExternalProject)
+  FetchContent_Declare(
+    BISON
+    URL https://ftp.gnu.org/gnu/bison/bison-${BISON_VERSION}.tar.gz
+    SOURCE_SUBDIR non-existing
+    DOWNLOAD_EXTRACT_TIMESTAMP TRUE
+    OVERRIDE_FIND_PACKAGE
+  )
+
+  FetchContent_MakeAvailable(BISON)
 
   ExternalProject_Add(
-    bison
-    URL https://ftp.gnu.org/gnu/bison/bison-${BISON_VERSION}.tar.gz
-    DOWNLOAD_EXTRACT_TIMESTAMP TRUE
+    BISON
+    STEP_TARGETS build install
+    SOURCE_DIR ${bison_SOURCE_DIR}
+    BINARY_DIR ${bison_BINARY_DIR}
+    INSTALL_DIR ${FETCHCONTENT_BASE_DIR}/bison-install
     CONFIGURE_COMMAND
       <SOURCE_DIR>/configure
       --disable-dependency-tracking
@@ -701,37 +723,32 @@ function(_php_bison_download_gnu)
     LOG_INSTALL TRUE
   )
 
-  ExternalProject_Get_Property(bison INSTALL_DIR)
+  ExternalProject_Get_Property(BISON INSTALL_DIR)
 
   set_property(CACHE BISON_EXECUTABLE PROPERTY VALUE ${INSTALL_DIR}/bin/bison)
 endfunction()
 
-# Downloads https://github.com/lexxmark/winflexbison.
+# Downloads winflexbison.
 function(_php_bison_download_windows)
   message(
     STATUS
-    "Downloading win_bison ${BISON_VERSION} (${PHP_BISON_WIN_VERSION_DOWNLOAD})"
+    "Downloading win_bison ${BISON_VERSION} from "
+    "https://github.com/lexxmark/winflexbison "
+    "(${PHP_BISON_WIN_VERSION_DOWNLOAD})"
   )
 
-  get_directory_property(dir EP_BASE)
-  if(NOT dir)
-    set(dir "${CMAKE_CURRENT_BINARY_DIR}/CMakeFiles")
-  endif()
-
-  set(file "${dir}/win_flex_bison.zip")
-
-  file(
-    DOWNLOAD
-    "https://github.com/lexxmark/winflexbison/releases/download/v${PHP_BISON_WIN_VERSION_DOWNLOAD}/win_flex_bison-${PHP_BISON_WIN_VERSION_DOWNLOAD}.zip"
-    ${file}
-    SHOW_PROGRESS
+  FetchContent_Declare(
+    BISON
+    URL https://github.com/lexxmark/winflexbison/releases/download/v${PHP_BISON_WIN_VERSION_DOWNLOAD}/win_flex_bison-${PHP_BISON_WIN_VERSION_DOWNLOAD}.zip
+    SOURCE_SUBDIR non-existing
+    OVERRIDE_FIND_PACKAGE
   )
 
-  file(ARCHIVE_EXTRACT INPUT "${file}" DESTINATION "${dir}/win_flex_bison")
+  FetchContent_MakeAvailable(BISON)
 
   set_property(
     CACHE
     BISON_EXECUTABLE
-    PROPERTY VALUE "${dir}/win_flex_bison/win_bison.exe"
+    PROPERTY VALUE "${bison_SOURCE_DIR}/win_bison.exe"
   )
 endfunction()
