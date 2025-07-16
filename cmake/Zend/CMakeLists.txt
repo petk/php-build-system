@@ -55,9 +55,7 @@ endif()
 
 include(CheckIncludeFiles)
 include(CheckSymbolExists)
-include(CMakeDependentOption)
 include(CMakePushCheckState)
-include(FeatureSummary)
 include(PHP/AddCustomCommand)
 
 ################################################################################
