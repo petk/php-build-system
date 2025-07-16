@@ -58,7 +58,6 @@ jobs:
             build-essential \
             libssl-dev \
             libpcre2-dev \
-            libsqlite3-dev \
             libbz2-dev \
             libcurl4-openssl-dev \
             libdb5.3++-dev \

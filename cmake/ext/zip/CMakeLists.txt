@@ -76,22 +76,8 @@ set_package_properties(
     PURPOSE "Necessary to enable the zip extension."
 )
 
-if(NOT libzip_FOUND)
-  find_package(libzip 1.3.2...1.6.999)
-endif()
-
-if(NOT libzip_FOUND)
-  find_package(libzip 0.11...1.3.0)
-endif()
-
-if(libzip_VERSION VERSION_EQUAL 1.3.1 OR libzip_VERSION VERSION_EQUAL 1.7.0)
-  message(
-    FATAL_ERROR
-    "ext/zip: libzip ${libzip_VERSION} is not supported. Try upgrading libzip."
-  )
-endif()
-
-target_link_libraries(php_ext_zip PRIVATE libzip::libzip)
+# Link publicly for internal_functions files.
+target_link_libraries(php_ext_zip PUBLIC libzip::libzip)
 
 # Note: ZIP_STATIC needs to be defined when using static libzip on Windows only
 # since version 1.0 to 1.3.2

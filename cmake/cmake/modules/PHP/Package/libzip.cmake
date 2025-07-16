@@ -26,16 +26,18 @@ include(FeatureSummary)
 include(FetchContent)
 
 # Minimum required version for the libzip dependency.
+# Also accepted libzip version ranges are from 0.11-1.7 with 1.3.1 and 1.7.0
+# excluded due to upstream bugs.
 set(PHP_libzip_MIN_VERSION 1.7.1)
 
 # Download version when system dependency is not found.
 set(PHP_libzip_DOWNLOAD_VERSION 1.11.4)
 
-
 macro(php_package_libzip_find)
   if(TARGET libzip::libzip)
     set(libzip_FOUND TRUE)
     get_property(libzip_DOWNLOADED GLOBAL PROPERTY _PHP_libzip_DOWNLOADED)
+    get_property(libzip_VERSION GLOBAL PROPERTY _PHP_libzip_VERSION)
   else()
     # libzip depends on ZLIB
     include(PHP/Package/ZLIB)
@@ -43,7 +45,19 @@ macro(php_package_libzip_find)
     find_package(libzip ${PHP_libzip_MIN_VERSION})
 
     if(NOT libzip_FOUND)
+      find_package(libzip 1.3.2...1.6.999)
+    endif()
+
+    if(NOT libzip_FOUND)
+      find_package(libzip 0.11...1.3.0)
+    endif()
+
+    if(NOT libzip_FOUND)
       _php_package_libzip_download()
+    else()
+      set_property(
+        GLOBAL PROPERTY _PHP_libzip_VERSION ${libzip_VERSION}
+      )
     endif()
   endif()
 endmacro()
@@ -61,6 +75,7 @@ macro(_php_package_libzip_download)
   FetchContent_MakeAvailable(libzip)
 
   set(options "-DCMAKE_INSTALL_PREFIX=<INSTALL_DIR>")
+  list(APPEND options -DBUILD_SHARED_LIBS=OFF)
 
   if(ZLIB_DOWNLOADED)
     ExternalProject_Get_Property(ZLIB INSTALL_DIR)
@@ -117,6 +132,15 @@ macro(_php_package_libzip_download)
 
   set_property(GLOBAL PROPERTY _PHP_libzip_DOWNLOADED TRUE)
   set(libzip_DOWNLOADED TRUE)
+
+  set_property(
+    GLOBAL PROPERTY _PHP_libzip_VERSION ${PHP_libzip_DOWNLOAD_VERSION}
+  )
+  set(libzip_VERSION ${PHP_libzip_DOWNLOAD_VERSION})
+endmacro()
+
+macro(_php_package_libzip_set_vars)
+
 endmacro()
 
 php_package_libzip_find()

@@ -37,7 +37,6 @@ set_package_properties(
 
 # Minimum required version for the zlib dependency.
 set(PHP_ZLIB_MIN_VERSION 1.2.0.4)
-set(PHP_ZLIB_MIN_VERSION 1.3.1)
 
 # Download version when system dependency is not found.
 set(PHP_ZLIB_DOWNLOAD_VERSION 1.3.1)
