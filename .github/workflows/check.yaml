@@ -38,15 +38,15 @@ jobs:
           mv normalizer.cmake /usr/local/bin/normalizer.cmake
 
       - name: Run Codespell
-        continue-on-error: true
+        if: ${{ always() }}
         run: codespell
 
       - name: Run normalizator.phar
-        continue-on-error: true
+        if: ${{ always() }}
         run: normalizator check --not php-src --not .git .
 
       - name: Run normalizer.cmake
-        continue-on-error: true
+        if: ${{ always() }}
         run: |
           normalizer.cmake -- \
             --set normalize_indent_style=false \
