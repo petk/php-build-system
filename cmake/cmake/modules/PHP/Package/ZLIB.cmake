@@ -9,8 +9,7 @@ include(PHP/Package/Zlib)
 
 This module is a wrapper for finding the `ZLIB` library. It first tries to find
 the `ZLIB` library on the system. If not successful it tries to download it from
-the upstream source with `ExternalProject` module and builds it together with
-the PHP build.
+the upstream source and builds it together with the PHP build.
 
 See: https://cmake.org/cmake/help/latest/module/FindZLIB.html
 
@@ -20,12 +19,14 @@ Basic usage:
 
 ```cmake
 include(PHP/Package/ZLIB)
+php_package_zlib_find()
 target_link_libraries(php_ext_foo PRIVATE ZLIB::ZLIB)
 ```
 #]=============================================================================]
 
-include(FeatureSummary)
 include(ExternalProject)
+include(FeatureSummary)
+include(FetchContent)
 
 set_package_properties(
   ZLIB
@@ -36,23 +37,35 @@ set_package_properties(
 
 # Minimum required version for the zlib dependency.
 set(PHP_ZLIB_MIN_VERSION 1.2.0.4)
+set(PHP_ZLIB_MIN_VERSION 1.3.1)
 
 # Download version when system dependency is not found.
 set(PHP_ZLIB_DOWNLOAD_VERSION 1.3.1)
 
-if(TARGET ZLIB::ZLIB)
-  set(ZLIB_FOUND TRUE)
-  get_property(ZLIB_DOWNLOADED GLOBAL PROPERTY _PHP_ZLIB_DOWNLOADED)
-  return()
-endif()
+macro(php_package_zlib_find)
+  if(TARGET ZLIB::ZLIB)
+    set(ZLIB_FOUND TRUE)
+    get_property(ZLIB_DOWNLOADED GLOBAL PROPERTY _PHP_ZLIB_DOWNLOADED)
+  else()
+    find_package(ZLIB ${PHP_ZLIB_MIN_VERSION})
 
-find_package(ZLIB ${PHP_ZLIB_MIN_VERSION})
+    if(NOT ZLIB_FOUND)
+      _php_package_zlib_download()
+    endif()
+  endif()
+endmacro()
 
-if(NOT ZLIB_FOUND)
-  message(
-    STATUS
-    "ZLIB ${PHP_ZLIB_DOWNLOAD_VERSION} will be downloaded at build phase"
+macro(_php_package_zlib_download)
+  message(STATUS "Downloading ZLIB ${PHP_ZLIB_DOWNLOAD_VERSION}")
+
+  FetchContent_Declare(
+    ZLIB
+    URL https://github.com/madler/zlib/archive/refs/tags/v${PHP_ZLIB_DOWNLOAD_VERSION}.tar.gz
+    SOURCE_SUBDIR non-existing
+    OVERRIDE_FIND_PACKAGE
   )
+
+  FetchContent_MakeAvailable(ZLIB)
 
   set(options "-DCMAKE_INSTALL_PREFIX=<INSTALL_DIR>")
 
@@ -67,11 +80,25 @@ if(NOT ZLIB_FOUND)
   ExternalProject_Add(
     ZLIB
     STEP_TARGETS build install
-    URL
-      https://github.com/madler/zlib/releases/download/v${PHP_ZLIB_DOWNLOAD_VERSION}/zlib-${PHP_ZLIB_DOWNLOAD_VERSION}.tar.gz
+    SOURCE_DIR ${zlib_SOURCE_DIR}
+    BINARY_DIR ${zlib_BINARY_DIR}
     CMAKE_ARGS ${options}
-    INSTALL_DIR ${CMAKE_CURRENT_BINARY_DIR}/zlib-installation
+    INSTALL_DIR ${FETCHCONTENT_BASE_DIR}/zlib-install
     INSTALL_BYPRODUCTS <INSTALL_DIR>/lib/libz${CMAKE_STATIC_LIBRARY_SUFFIX}
+  )
+
+  ExternalProject_Get_Property(ZLIB INSTALL_DIR)
+
+  # Bypass missing directory error for the imported target below.
+  file(MAKE_DIRECTORY ${INSTALL_DIR}/include)
+
+  add_library(ZLIB::ZLIB STATIC IMPORTED GLOBAL)
+  add_dependencies(ZLIB::ZLIB ZLIB-install)
+  set_target_properties(
+    ZLIB::ZLIB
+    PROPERTIES
+      INTERFACE_INCLUDE_DIRECTORIES ${INSTALL_DIR}/include
+      IMPORTED_LOCATION ${INSTALL_DIR}/lib/libz${CMAKE_STATIC_LIBRARY_SUFFIX}
   )
 
   # Move dependency to PACKAGES_FOUND.
@@ -87,20 +114,6 @@ if(NOT ZLIB_FOUND)
     endif()
   endblock()
 
-  ExternalProject_Get_Property(ZLIB INSTALL_DIR)
-
-  # Bypass issue with non-existing include directory for the imported target.
-  file(MAKE_DIRECTORY ${INSTALL_DIR}/include)
-
-  add_library(ZLIB::ZLIB STATIC IMPORTED GLOBAL)
-  set_target_properties(
-    ZLIB::ZLIB
-    PROPERTIES
-      IMPORTED_LOCATION "${INSTALL_DIR}/lib/libz${CMAKE_STATIC_LIBRARY_SUFFIX}"
-      INTERFACE_INCLUDE_DIRECTORIES "${INSTALL_DIR}/include"
-  )
-  add_dependencies(ZLIB::ZLIB ZLIB-install)
-
   # Mark package as found.
   set(ZLIB_FOUND TRUE)
 
@@ -112,4 +125,6 @@ if(NOT ZLIB_FOUND)
 
   set_property(GLOBAL PROPERTY _PHP_ZLIB_DOWNLOADED TRUE)
   set(ZLIB_DOWNLOADED TRUE)
-endif()
+endmacro()
+
+php_package_zlib_find()

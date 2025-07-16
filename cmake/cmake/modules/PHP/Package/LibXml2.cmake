@@ -8,8 +8,8 @@ include(PHP/Package/LibXml2)
 ```
 
 This module first tries to find the `libxml2` library on the system. If not
-successful it tries to download it from the upstream source with
-`ExternalProject` module and build it together with the PHP build.
+successful it tries to download it from the upstream source and builds it
+together with the PHP build.
 
 See: https://cmake.org/cmake/help/latest/module/FindLibXml2.html
 
@@ -24,8 +24,9 @@ target_link_libraries(example PRIVATE LibXml2::LibXml2)
 ```
 #]=============================================================================]
 
-include(FeatureSummary)
 include(ExternalProject)
+include(FeatureSummary)
+include(FetchContent)
 
 set_package_properties(
   LibXml2
@@ -40,36 +41,74 @@ set(PHP_LIBXML2_MIN_VERSION 2.9.0)
 # Download version when system dependency is not found.
 set(PHP_LIBXML2_DOWNLOAD_VERSION 2.14.4)
 
-if(TARGET LibXml2::LibXml2)
-  set(LibXml2_FOUND TRUE)
-  get_property(LibXml2_DOWNLOADED GLOBAL PROPERTY _PHP_LibXml2_DOWNLOADED)
-  return()
-endif()
+macro(php_package_libxml2_find)
+  if(TARGET LibXml2::LibXml2)
+    set(LibXml2_FOUND TRUE)
+    get_property(LibXml2_DOWNLOADED GLOBAL PROPERTY _PHP_LibXml2_DOWNLOADED)
+  else()
+    # LibXml2 depends on ZLIB.
+    include(PHP/Package/ZLIB)
 
-find_package(LibXml2 ${PHP_LIBXML2_MIN_VERSION})
+    find_package(LibXml2 ${PHP_LIBXML2_MIN_VERSION})
 
-if(NOT LibXml2_FOUND)
-  message(
-    STATUS
-    "LibXml2 ${PHP_LIBXML2_DOWNLOAD_VERSION} will be downloaded at build phase"
+    if(NOT LibXml2_FOUND)
+      _php_package_libxml2_download()
+    endif()
+  endif()
+endmacro()
+
+macro(_php_package_libxml2_download)
+  message(STATUS "Downloading LibXml2 ${PHP_LIBXML2_DOWNLOAD_VERSION}")
+
+  FetchContent_Declare(
+    LibXml2
+    URL https://github.com/GNOME/libxml2/archive/refs/tags/v${PHP_LIBXML2_DOWNLOAD_VERSION}.tar.gz
+    SOURCE_SUBDIR non-existing
+    OVERRIDE_FIND_PACKAGE
   )
 
-  include(PHP/Package/ZLIB)
+  FetchContent_MakeAvailable(LibXml2)
 
   set(options "-DCMAKE_INSTALL_PREFIX=<INSTALL_DIR>")
-  list(APPEND options -DLIBXML2_WITH_PYTHON=OFF -DLIBXML2_WITH_LZMA=OFF)
+  list(
+    APPEND
+    options
+      -DLIBXML2_WITH_PYTHON=OFF
+      -DLIBXML2_WITH_LZMA=OFF
+      -DBUILD_SHARED_LIBS=OFF
+  )
+
+  if(ZLIB_DOWNLOADED)
+    ExternalProject_Get_Property(ZLIB INSTALL_DIR)
+    list(APPEND options "-DZLIB_ROOT=${INSTALL_DIR}")
+  endif()
 
   ExternalProject_Add(
     LibXml2
-    STEP_TARGETS build install
-    URL
-      https://github.com/GNOME/libxml2/archive/refs/tags/v${PHP_LIBXML2_DOWNLOAD_VERSION}.tar.gz
+    STEP_TARGETS configure build install
+    SOURCE_DIR ${libxml2_SOURCE_DIR}
+    BINARY_DIR ${libxml2_BINARY_DIR}
     CMAKE_ARGS ${options}
-    INSTALL_DIR ${CMAKE_CURRENT_BINARY_DIR}/libxml2-installation
+    INSTALL_DIR ${FETCHCONTENT_BASE_DIR}/libxml2-install
     INSTALL_BYPRODUCTS <INSTALL_DIR>/lib/libxml2${CMAKE_STATIC_LIBRARY_SUFFIX}
   )
 
-  add_dependencies(LibXml2 ZLIB::ZLIB)
+  add_dependencies(LibXml2-configure ZLIB::ZLIB)
+
+  ExternalProject_Get_Property(LibXml2 INSTALL_DIR)
+
+  # Bypass missing directory error for the imported target below.
+  file(MAKE_DIRECTORY ${INSTALL_DIR}/include/libxml2)
+
+  add_library(LibXml2::LibXml2 STATIC IMPORTED GLOBAL)
+  add_dependencies(LibXml2::LibXml2 LibXml2-install)
+
+  set_target_properties(
+    LibXml2::LibXml2
+    PROPERTIES
+      INTERFACE_INCLUDE_DIRECTORIES ${INSTALL_DIR}/include/libxml2
+      IMPORTED_LOCATION ${INSTALL_DIR}/lib/libxml2${CMAKE_STATIC_LIBRARY_SUFFIX}
+  )
 
   # Move dependency to PACKAGES_FOUND.
   block()
@@ -84,20 +123,6 @@ if(NOT LibXml2_FOUND)
     endif()
   endblock()
 
-  ExternalProject_Get_Property(LibXml2 INSTALL_DIR)
-
-  # Bypass issue with non-existing include directory for the imported target.
-  file(MAKE_DIRECTORY ${INSTALL_DIR}/include)
-
-  add_library(LibXml2::LibXml2 STATIC IMPORTED GLOBAL)
-  set_target_properties(
-    LibXml2::LibXml2
-    PROPERTIES
-      IMPORTED_LOCATION "${INSTALL_DIR}/lib/libxml2${CMAKE_STATIC_LIBRARY_SUFFIX}"
-      INTERFACE_INCLUDE_DIRECTORIES "${INSTALL_DIR}/include"
-  )
-  add_dependencies(LibXml2::LibXml2 LibXml2-install)
-
   # Mark package as found.
   set(LibXml2_FOUND TRUE)
 
@@ -108,5 +133,7 @@ if(NOT LibXml2_FOUND)
   )
 
   set_property(GLOBAL PROPERTY _PHP_LibXml2_DOWNLOADED TRUE)
-  set(LibXml2_DOWNLOADED TRUE)
-endif()
+  set(Libxml2_DOWNLOADED TRUE)
+endmacro()
+
+php_package_libxml2_find()

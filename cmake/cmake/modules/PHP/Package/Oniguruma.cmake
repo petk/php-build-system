@@ -10,8 +10,8 @@ include(PHP/Package/Oniguruma)
 Wrapper for finding the `Oniguruma` library.
 
 Module first tries to find the `Oniguruma` library on the system. If not
-successful it tries to download it from the upstream source with
-`ExternalProject` module and build it together with the PHP build.
+successful it tries to download it from the upstream source and builds it
+together with the PHP build.
 
 ## Examples
 
@@ -32,39 +32,64 @@ include(FeatureSummary)
 # Download version when system dependency is not found.
 set(PHP_ONIGURUMA_DOWNLOAD_VERSION 6.9.10)
 
-if(TARGET Oniguruma::Oniguruma)
-  set(Oniguruma_FOUND TRUE)
-  get_property(Oniguruma_DOWNLOADED GLOBAL PROPERTY _PHP_Oniguruma_DOWNLOADED)
-  set(PHP_ONIG_KOI8 FALSE)
-  return()
-endif()
+macro(php_package_oniguruma_find)
+  if(TARGET Oniguruma::Oniguruma)
+    set(Oniguruma_FOUND TRUE)
+    get_property(Oniguruma_DOWNLOADED GLOBAL PROPERTY _PHP_Oniguruma_DOWNLOADED)
+    set(PHP_ONIG_KOI8 FALSE)
+  else()
+    find_package(Oniguruma ${PHP_ONIGURUMA_MIN_VERSION})
 
-find_package(Oniguruma ${PHP_ONIGURUMA_MIN_VERSION})
+    if(NOT Oniguruma_FOUND)
+      _php_package_oniguruma_download()
+    endif()
+  endif()
+endmacro()
 
-if(NOT Oniguruma_FOUND)
-  message(
-    STATUS
-    "Oniguruma ${PHP_ONIGURUMA_DOWNLOAD_VERSION} will be downloaded at build phase"
+macro(_php_package_oniguruma_download)
+  message(STATUS "Downloading Oniguruma ${PHP_ONIGURUMA_DOWNLOAD_VERSION}")
+
+  FetchContent_Declare(
+    Oniguruma
+    URL https://github.com/petk/oniguruma/archive/refs/tags/v${PHP_ONIGURUMA_DOWNLOAD_VERSION}.tar.gz
+    SOURCE_SUBDIR non-existing
+    OVERRIDE_FIND_PACKAGE
   )
+
+  FetchContent_MakeAvailable(Oniguruma)
 
   set(options "-DCMAKE_INSTALL_PREFIX=<INSTALL_DIR>")
 
   list(
     APPEND
     options
-    -DINSTALL_DOCUMENTATION=OFF
-    -DBUILD_TEST=OFF
-    -DBUILD_SHARED_LIBS=OFF
+      -DINSTALL_DOCUMENTATION=OFF
+      -DBUILD_TEST=OFF
+      -DBUILD_SHARED_LIBS=OFF
   )
 
   ExternalProject_Add(
     Oniguruma
     STEP_TARGETS build install
-    URL
-      https://github.com/petk/oniguruma/archive/refs/tags/v${PHP_ONIGURUMA_DOWNLOAD_VERSION}.tar.gz
+    SOURCE_DIR ${oniguruma_SOURCE_DIR}
+    BINARY_DIR ${oniguruma_BINARY_DIR}
     CMAKE_ARGS ${options}
-    INSTALL_DIR ${CMAKE_CURRENT_BINARY_DIR}/oniguruma-installation
+    INSTALL_DIR ${FETCHCONTENT_BASE_DIR}/oniguruma-install
     INSTALL_BYPRODUCTS <INSTALL_DIR>/lib/libonig${CMAKE_STATIC_LIBRARY_SUFFIX}
+  )
+
+  ExternalProject_Get_Property(Oniguruma INSTALL_DIR)
+
+  # Bypass missing directory error for the imported target below.
+  file(MAKE_DIRECTORY ${INSTALL_DIR}/include)
+
+  add_library(Oniguruma::Oniguruma STATIC IMPORTED GLOBAL)
+  add_dependencies(Oniguruma::Oniguruma Oniguruma-install)
+  set_target_properties(
+    Oniguruma::Oniguruma
+    PROPERTIES
+      INTERFACE_INCLUDE_DIRECTORIES ${INSTALL_DIR}/include
+      IMPORTED_LOCATION ${INSTALL_DIR}/lib/libonig${CMAKE_STATIC_LIBRARY_SUFFIX}
   )
 
   # Move dependency to PACKAGES_FOUND.
@@ -80,20 +105,6 @@ if(NOT Oniguruma_FOUND)
     endif()
   endblock()
 
-  ExternalProject_Get_Property(Oniguruma INSTALL_DIR)
-
-  # Bypass issue with non-existing include directory for the imported target.
-  file(MAKE_DIRECTORY ${INSTALL_DIR}/include)
-
-  add_library(Oniguruma::Oniguruma STATIC IMPORTED GLOBAL)
-  set_target_properties(
-    Oniguruma::Oniguruma
-    PROPERTIES
-      IMPORTED_LOCATION "${INSTALL_DIR}/lib/libonig${CMAKE_STATIC_LIBRARY_SUFFIX}"
-      INTERFACE_INCLUDE_DIRECTORIES "${INSTALL_DIR}/include"
-  )
-  add_dependencies(Oniguruma::Oniguruma Oniguruma-install)
-
   # Mark package as found.
   set(Oniguruma_FOUND TRUE)
 
@@ -107,4 +118,6 @@ if(NOT Oniguruma_FOUND)
   set(Oniguruma_DOWNLOADED TRUE)
 
   set(PHP_ONIG_KOI8 FALSE)
-endif()
+endmacro()
+
+php_package_oniguruma_find()

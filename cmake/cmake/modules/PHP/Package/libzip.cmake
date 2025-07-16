@@ -8,8 +8,8 @@ include(PHP/Package/libzip
 ```
 
 This module first tries to find the `libzip` library on the system. If not
-successful it tries to download it from the upstream source with
-`ExternalProject` module and build it together with the PHP build.
+successful it tries to download it from the upstream source and builds it
+together with the PHP build.
 
 ## Examples
 
@@ -21,15 +21,9 @@ target_link_libraries(php_ext_foo PRIVATE libzip::libzip)
 ```
 #]=============================================================================]
 
+include(ExternalProject)
 include(FeatureSummary)
 include(FetchContent)
-
-set_package_properties(
-  libzip
-  PROPERTIES
-    URL "https://libzip.org/"
-    DESCRIPTION "Library for reading and writing ZIP compressed archives"
-)
 
 # Minimum required version for the libzip dependency.
 set(PHP_libzip_MIN_VERSION 1.7.1)
@@ -37,29 +31,67 @@ set(PHP_libzip_MIN_VERSION 1.7.1)
 # Download version when system dependency is not found.
 set(PHP_libzip_DOWNLOAD_VERSION 1.11.4)
 
-find_package(libzip ${PHP_libzip_MIN_VERSION})
 
-if(NOT libzip_FOUND)
-  include(PHP/Package/ZLIB)
+macro(php_package_libzip_find)
+  if(TARGET libzip::libzip)
+    set(libzip_FOUND TRUE)
+    get_property(libzip_DOWNLOADED GLOBAL PROPERTY _PHP_libzip_DOWNLOADED)
+  else()
+    # libzip depends on ZLIB
+    include(PHP/Package/ZLIB)
+
+    find_package(libzip ${PHP_libzip_MIN_VERSION})
+
+    if(NOT libzip_FOUND)
+      _php_package_libzip_download()
+    endif()
+  endif()
+endmacro()
+
+macro(_php_package_libzip_download)
+  message(STATUS "Downloading libzip ${PHP_libzip_DOWNLOAD_VERSION}")
+
+  FetchContent_Declare(
+    libzip
+    URL https://github.com/nih-at/libzip/archive/refs/tags/v${PHP_libzip_DOWNLOAD_VERSION}.tar.gz
+    SOURCE_SUBDIR non-existing
+    OVERRIDE_FIND_PACKAGE
+  )
+
+  FetchContent_MakeAvailable(libzip)
 
   set(options "-DCMAKE_INSTALL_PREFIX=<INSTALL_DIR>")
 
   if(ZLIB_DOWNLOADED)
     ExternalProject_Get_Property(ZLIB INSTALL_DIR)
-    list(APPEND options "-DCMAKE_PREFIX_PATH=${INSTALL_DIR}")
+    list(APPEND options "-DZLIB_ROOT=${INSTALL_DIR}")
   endif()
 
   ExternalProject_Add(
     libzip
     STEP_TARGETS build install
-    URL
-      https://github.com/nih-at/libzip/releases/download/v${PHP_libzip_DOWNLOAD_VERSION}/libzip-${PHP_libzip_DOWNLOAD_VERSION}.tar.gz
+    SOURCE_DIR ${libzip_SOURCE_DIR}
+    BINARY_DIR ${libzip_BINARY_DIR}
     CMAKE_ARGS ${options}
-    INSTALL_DIR ${CMAKE_CURRENT_BINARY_DIR}/libzip-installation
+    INSTALL_DIR ${FETCHCONTENT_BASE_DIR}/libzip-install
     INSTALL_BYPRODUCTS <INSTALL_DIR>/lib/libzip${CMAKE_STATIC_LIBRARY_SUFFIX}
   )
 
   add_dependencies(libzip ZLIB::ZLIB)
+
+  ExternalProject_Get_Property(libzip INSTALL_DIR)
+
+  # Bypass missing directory error for the imported target below.
+  file(MAKE_DIRECTORY ${INSTALL_DIR}/include)
+
+  add_library(libzip::libzip STATIC IMPORTED GLOBAL)
+  add_dependencies(libzip::libzip libzip-install)
+  set_target_properties(
+    libzip::libzip
+    PROPERTIES
+      INTERFACE_INCLUDE_DIRECTORIES ${INSTALL_DIR}/include
+      IMPORTED_LOCATION ${INSTALL_DIR}/lib/libzip${CMAKE_STATIC_LIBRARY_SUFFIX}
+  )
 
   # Move dependency to PACKAGES_FOUND.
   block()
@@ -74,20 +106,17 @@ if(NOT libzip_FOUND)
     endif()
   endblock()
 
-  ExternalProject_Get_Property(libzip INSTALL_DIR)
-
-  # Bypass issue with non-existing include directory for the imported target.
-  file(MAKE_DIRECTORY ${INSTALL_DIR}/include)
-
-  add_library(libzip::libzip STATIC IMPORTED GLOBAL)
-  set_target_properties(
-    libzip::libzip
-    PROPERTIES
-      IMPORTED_LOCATION "${INSTALL_DIR}/lib/libzip${CMAKE_STATIC_LIBRARY_SUFFIX}"
-      INTERFACE_INCLUDE_DIRECTORIES "${INSTALL_DIR}/include"
-  )
-  add_dependencies(libzip::libzip libzip-install)
-
   # Mark package as found.
   set(libzip_FOUND TRUE)
-endif()
+
+  define_property(
+    GLOBAL
+    PROPERTY _PHP_libzip_DOWNLOADED
+    BRIEF_DOCS "Marker that libzip library will be downloaded"
+  )
+
+  set_property(GLOBAL PROPERTY _PHP_libzip_DOWNLOADED TRUE)
+  set(libzip_DOWNLOADED TRUE)
+endmacro()
+
+php_package_libzip_find()
