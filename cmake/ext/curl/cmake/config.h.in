@@ -1,8 +1,2 @@
 /* Define to 1 if the PHP extension 'curl' is available. */
 #cmakedefine HAVE_CURL 1
-
-/* Define to 1 if libcurl is linked against old OpenSSL < 1.1. */
-#cmakedefine HAVE_CURL_OLD_OPENSSL 1
-
-/* Define to 1 if you have the <openssl/crypto.h> header file. */
-#cmakedefine HAVE_OPENSSL_CRYPTO_H 1
