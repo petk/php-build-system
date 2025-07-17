@@ -147,7 +147,7 @@ php_bison(foo foo.y foo.c OPTIONS -Wall --debug)
 #   bison -Wall --debug foo.y --output foo.c
 ```
 
-### Specifying options
+### Example: Specifying options
 
 This module provides some default options when using the `ADD_DEFAULT_OPTIONS`:
 
