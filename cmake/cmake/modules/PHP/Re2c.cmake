@@ -212,7 +212,9 @@ _php_re2c_config()
 
 include_guard(GLOBAL)
 
+include(ExternalProject)
 include(FeatureSummary)
+include(FetchContent)
 
 option(PHP_RE2C_COMPUTED_GOTOS "Enable computed goto GCC extension with re2c")
 mark_as_advanced(PHP_RE2C_COMPUTED_GOTOS)
@@ -618,60 +620,70 @@ function(_php_re2c_download)
     )
   endif()
 
-  message(STATUS "Re2c ${RE2C_VERSION} will be downloaded at build phase")
+  message(
+    STATUS
+    "Downloading re2c ${RE2C_VERSION} from https://github.com/skvadrik/re2c"
+  )
 
-  include(ExternalProject)
+  FetchContent_Declare(
+    RE2C
+    URL https://github.com/skvadrik/re2c/archive/refs/tags/${RE2C_VERSION}.tar.gz
+    SOURCE_SUBDIR non-existing
+    OVERRIDE_FIND_PACKAGE
+  )
+
+  FetchContent_MakeAvailable(RE2C)
 
   # Configure re2c build.
+  set(options -DRE2C_BUILD_RE2GO=OFF -DRE2C_BUILD_RE2RUST=OFF)
+
   if(RE2C_VERSION VERSION_GREATER_EQUAL 4)
-    set(
-      re2cOptions
-      -DRE2C_BUILD_RE2D=OFF
-      -DRE2C_BUILD_RE2HS=OFF
-      -DRE2C_BUILD_RE2JAVA=OFF
-      -DRE2C_BUILD_RE2JS=OFF
-      -DRE2C_BUILD_RE2OCAML=OFF
-      -DRE2C_BUILD_RE2PY=OFF
-      -DRE2C_BUILD_RE2V=OFF
-      -DRE2C_BUILD_RE2ZIG=OFF
-      -DRE2C_BUILD_TESTS=OFF
+    list(
+      APPEND
+      options
+        -DRE2C_BUILD_RE2D=OFF
+        -DRE2C_BUILD_RE2HS=OFF
+        -DRE2C_BUILD_RE2JAVA=OFF
+        -DRE2C_BUILD_RE2JS=OFF
+        -DRE2C_BUILD_RE2OCAML=OFF
+        -DRE2C_BUILD_RE2PY=OFF
+        -DRE2C_BUILD_RE2V=OFF
+        -DRE2C_BUILD_RE2ZIG=OFF
+        -DRE2C_BUILD_TESTS=OFF
     )
   else()
-    set(
-      re2cOptions
-      -DCMAKE_DISABLE_FIND_PACKAGE_Python3=TRUE
-      -DPython3_VERSION=3.7
+    list(
+      APPEND
+      options
+        -DCMAKE_DISABLE_FIND_PACKAGE_Python3=TRUE
+        -DPython3_VERSION=3.7
     )
   endif()
 
   if(RE2C_VERSION VERSION_GREATER_EQUAL 4.2)
-    list(APPEND re2cOptions -DRE2C_BUILD_RE2SWIFT=OFF)
+    list(APPEND options -DRE2C_BUILD_RE2SWIFT=OFF)
   endif()
 
   ExternalProject_Add(
-    re2c
-    URL
-      https://github.com/skvadrik/re2c/archive/refs/tags/${RE2C_VERSION}.tar.gz
-    CMAKE_ARGS
-      -DRE2C_BUILD_RE2GO=OFF
-      -DRE2C_BUILD_RE2RUST=OFF
-      ${re2cOptions}
+    RE2C
+    STEP_TARGETS build
+    SOURCE_DIR ${re2c_SOURCE_DIR}
+    BINARY_DIR ${re2c_BINARY_DIR}
+    CMAKE_ARGS ${options}
     INSTALL_COMMAND ""
   )
 
-  ExternalProject_Get_Property(re2c BINARY_DIR)
-  set(re2c ${BINARY_DIR}/re2c)
-  if(CMAKE_SYSTEM_NAME STREQUAL "Windows")
-    string(APPEND re2c ".exe")
-  endif()
-  set_property(CACHE RE2C_EXECUTABLE PROPERTY VALUE ${re2c})
+  set_property(
+    CACHE RE2C_EXECUTABLE
+    PROPERTY VALUE ${re2c_BINARY_DIR}/re2c${CMAKE_EXECUTABLE_SUFFIX}
+  )
 
   add_executable(RE2C::RE2C IMPORTED GLOBAL)
   set_target_properties(
     RE2C::RE2C
     PROPERTIES IMPORTED_LOCATION ${RE2C_EXECUTABLE}
   )
-  add_dependencies(RE2C::RE2C re2c)
+  add_dependencies(RE2C::RE2C RE2C-build)
 
   # Move dependency to PACKAGES_FOUND.
   block()
@@ -690,7 +702,7 @@ function(_php_re2c_download)
     _PHP_RE2C_DOWNLOAD
     TRUE
     CACHE INTERNAL
-    "Internal marker whether the re2c will be downloaded."
+    "Internal marker whether the re2c is downloaded."
   )
 
   return(PROPAGATE RE2C_FOUND RE2C_VERSION)
