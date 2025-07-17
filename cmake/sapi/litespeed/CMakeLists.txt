@@ -46,14 +46,13 @@ target_sources(
 target_link_libraries(
   php_sapi_litespeed
   PRIVATE
-    $<BUILD_INTERFACE:PHP::sapi>
+    $<BUILD_INTERFACE:PHP::core>
 )
 
 set_target_properties(
   php_sapi_litespeed
   PROPERTIES
     OUTPUT_NAME ${PHP_PROGRAM_PREFIX}lsphp${PHP_PROGRAM_SUFFIX}
-    ENABLE_EXPORTS TRUE # TODO: Check if there's a better solution.
 )
 
 install(
