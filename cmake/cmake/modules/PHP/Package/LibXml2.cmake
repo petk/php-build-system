@@ -83,6 +83,13 @@ macro(_php_package_libxml2_download)
     list(APPEND options "-DZLIB_ROOT=${INSTALL_DIR}")
   endif()
 
+  # LibXml2 has hardcoded dl library check, while, for example, on Haiku
+  # dlopen is in root library.
+  # https://gitlab.gnome.org/GNOME/libxml2/-/merge_requests/331
+  if(CMAKE_SYSTEM_NAME STREQUAL "Haiku")
+    list(APPEND options "-DLIBXML2_WITH_MODULES=OFF")
+  endif()
+
   ExternalProject_Add(
     LibXml2
     STEP_TARGETS configure build install
