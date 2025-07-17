@@ -645,7 +645,7 @@ function(_php_bison_download)
 
   if(CMAKE_HOST_SYSTEM_NAME STREQUAL "Windows")
     _php_bison_download_windows()
-  elseif(CMAKE_HOST_SYSTEM_NAME STREQUAL "Linux")
+  elseif(CMAKE_HOST_SYSTEM_NAME MATCHES "^(Haiku|Linux)$")
     _php_bison_download_gnu()
   else()
     # TODO: Add support for more platforms.
