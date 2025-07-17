@@ -58,12 +58,10 @@ jobs:
             build-essential \
             libssl-dev \
             libpcre2-dev \
-            libsqlite3-dev \
             libbz2-dev \
             libcurl4-openssl-dev \
             libdb5.3++-dev \
             libenchant-2-dev \
-            libpng-dev \
             libgmp-dev \
             libc-client-dev \
             libkrb5-dev \
@@ -79,13 +77,11 @@ jobs:
             firebird-dev \
             libsodium-dev \
             libicu-dev \
-            libzip-dev \
             aspell \
             libaspell-dev \
             libavif-dev \
             libwebp-dev \
             libxpm-dev \
-            libonig-dev \
             libtidy-dev \
             libargon2-dev \
             libxslt1-dev \
@@ -107,7 +103,6 @@ jobs:
             libsasl2-dev \
             libpq-dev \
             libmm-dev \
-            zlib1g-dev \
             libdmalloc-dev \
             dovecot-core \
             dovecot-pop3d \

@@ -78,7 +78,7 @@ target_compile_definitions(
 
 add_dependencies(php_ext_simplexml php_ext_libxml php_ext_spl)
 
-include(Packages/LibXml2)
+include(PHP/Package/LibXml2)
 
 set_package_properties(
   LibXml2
