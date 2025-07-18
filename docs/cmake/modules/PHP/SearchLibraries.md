@@ -71,6 +71,9 @@ The arguments are:
   a macro definition. It would not be found using the other two commands because
   they don't include required headers.
 
+  Any `-l` strings prepended to the provided libraries are removed in the
+  results. For example, `-ldl` will be interpreted as `dl`.
+
 * `VARIABLE <variable>`
 
   Optional. Name of an internal cache variable where the result of the check is

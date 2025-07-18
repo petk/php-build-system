@@ -69,6 +69,9 @@ The arguments are:
   a macro definition. It would not be found using the other two commands because
   they don't include required headers.
 
+  Any `-l` strings prepended to the provided libraries are removed in the
+  results. For example, `-ldl` will be interpreted as `dl`.
+
 * `VARIABLE <variable>`
 
   Optional. Name of an internal cache variable where the result of the check is
@@ -273,6 +276,9 @@ function(php_search_libraries)
   # Now, check if linking any given library helps finding the symbol.
   foreach(library IN LISTS parsed_LIBRARIES)
     unset(${parsed_VARIABLE} CACHE)
+
+    # If library was given as -l<library-name>, remove the linker flag.
+    string(REGEX REPLACE "^-l" "" library "${library}")
 
     if(NOT CMAKE_REQUIRED_QUIET)
       message(CHECK_START "Looking for ${symbol} in ${library}")
