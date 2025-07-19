@@ -91,7 +91,7 @@ if(libzip_VERSION VERSION_EQUAL 1.3.1 OR libzip_VERSION VERSION_EQUAL 1.7.0)
   )
 endif()
 
-target_link_libraries(php_ext_zip PRIVATE libzip::libzip)
+target_link_libraries(php_ext_zip PRIVATE libzip::zip)
 
 # Note: ZIP_STATIC needs to be defined when using static libzip on Windows only
 # since version 1.0 to 1.3.2
@@ -110,9 +110,9 @@ endif()
 # TODO: When downloading and building libzip from source additional deps are
 # required.
 
-if(TARGET libzip::libzip)
+if(TARGET libzip::zip)
   cmake_push_check_state(RESET)
-    set(CMAKE_REQUIRED_LIBRARIES libzip::libzip)
+    set(CMAKE_REQUIRED_LIBRARIES libzip::zip)
 
     check_symbol_exists(zip_file_set_mtime zip.h HAVE_SET_MTIME)
 
