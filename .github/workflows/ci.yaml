@@ -63,12 +63,7 @@ jobs:
             libcurl4-openssl-dev \
             libdb5.3++-dev \
             libenchant-2-dev \
-            libpng-dev \
             libgmp-dev \
-            libjpeg-dev \
-            libxpm-dev \
-            libfreetype-dev \
-            libldap2-dev \
             unixodbc-dev \
             freetds-dev \
             apache2-dev \
@@ -77,6 +72,9 @@ jobs:
             libicu-dev \
             libzip-dev \
             libavif-dev \
+            libfreetype-dev \
+            libjpeg-dev \
+            libpng-dev \
             libwebp-dev \
             libxpm-dev \
             libonig-dev \
