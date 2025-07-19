@@ -15,7 +15,7 @@ zip tools installed on the system.
 
 This module defines the following imported targets:
 
-* `libzip::libzip` - The package library, if found.
+* `libzip::zip` - The package library, if found.
 
 ## Result variables
 
@@ -39,7 +39,7 @@ Basic usage:
 ```cmake
 # CMakeLists.txt
 find_package(libzip)
-target_link_libraries(example PRIVATE libzip::libzip)
+target_link_libraries(example PRIVATE libzip::zip)
 ```
 #]=============================================================================]
 
@@ -161,11 +161,11 @@ endif()
 set(libzip_INCLUDE_DIRS ${libzip_INCLUDE_DIR})
 set(libzip_LIBRARIES ${libzip_LIBRARY})
 
-if(NOT TARGET libzip::libzip)
-  add_library(libzip::libzip UNKNOWN IMPORTED)
+if(NOT TARGET libzip::zip)
+  add_library(libzip::zip UNKNOWN IMPORTED)
 
   set_target_properties(
-    libzip::libzip
+    libzip::zip
     PROPERTIES
       IMPORTED_LOCATION "${libzip_LIBRARY}"
       INTERFACE_INCLUDE_DIRECTORIES "${libzip_INCLUDE_DIRS}"
