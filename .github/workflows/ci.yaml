@@ -73,8 +73,6 @@ jobs:
             libldap2-dev \
             unixodbc-dev \
             freetds-dev \
-            libsnmp-dev \
-            snmp \
             apache2-dev \
             firebird-dev \
             libsodium-dev \
@@ -96,6 +94,7 @@ jobs:
             libqdbm-dev \
             libtokyocabinet-dev \
             libsnmp-dev \
+            snmp \
             snmpd \
             snmp-mibs-downloader \
             libexpat1-dev \
