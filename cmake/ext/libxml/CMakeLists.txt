@@ -45,6 +45,7 @@ add_library(php_ext_libxml OBJECT)
 target_sources(
   php_ext_libxml
   PRIVATE
+    image_svg.c
     libxml.c
     libxml.stub.php
     mime_sniff.c
