@@ -91,7 +91,8 @@ if(libzip_VERSION VERSION_EQUAL 1.3.1 OR libzip_VERSION VERSION_EQUAL 1.7.0)
   )
 endif()
 
-target_link_libraries(php_ext_zip PRIVATE libzip::zip)
+# Link publicly for internal_functions files.
+target_link_libraries(php_ext_zip PUBLIC libzip::zip)
 
 # Note: ZIP_STATIC needs to be defined when using static libzip on Windows only
 # since version 1.0 to 1.3.2
