@@ -26,6 +26,7 @@ include(CheckIncludeFiles)
 include(CheckSourceCompiles)
 include(CheckSymbolExists)
 include(CMakeDependentOption)
+include(CMakePushCheckState)
 include(FeatureSummary)
 
 option(PHP_SAPI_CLI "Enable the CLI SAPI module" ON)
@@ -59,24 +60,30 @@ endif()
 check_symbol_exists(setproctitle "unistd.h;stdlib.h" HAVE_SETPROCTITLE)
 check_include_files(sys/pstat.h HAVE_SYS_PSTAT_H)
 
+# For some BSD-based systems.
 message(CHECK_START "Checking for PS_STRINGS")
-check_source_compiles(C [[
-  #include <machine/vmparam.h>
-  #include <sys/exec.h>
+cmake_push_check_state(RESET)
+  set(CMAKE_REQUIRED_QUIET TRUE)
 
-  int main(void)
-  {
-    PS_STRINGS->ps_nargvstr = 1;
-    PS_STRINGS->ps_argvstr = "foo";
+  check_source_compiles(C [[
+    #include <machine/vmparam.h> // For old BSD.
+    #include <sys/exec.h>
 
-    return 0;
-  }
-]] HAVE_PS_STRINGS)
-if(HAVE_PS_STRINGS)
+    int main(void)
+    {
+      PS_STRINGS->ps_nargvstr = 1;
+      PS_STRINGS->ps_argvstr = "foo";
+
+      return 0;
+    }
+  ]] PHP_SAPI_CLI_HAVE_PS_STRINGS)
+cmake_pop_check_state()
+if(PHP_SAPI_CLI_HAVE_PS_STRINGS)
   message(CHECK_PASS "yes")
 else()
   message(CHECK_FAIL "no")
 endif()
+set(HAVE_PS_STRINGS ${PHP_SAPI_CLI_HAVE_PS_STRINGS})
 
 ################################################################################
 # The cli SAPI.

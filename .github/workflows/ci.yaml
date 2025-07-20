@@ -28,8 +28,8 @@ jobs:
         os:
           - { label: ubuntu-latest }
         compiler:
-          - { name: GNU13,  CC: gcc-13,   CXX: g++-13,     packages: gcc-13 g++-13 }
-          - { name: LLVM15, CC: clang-15, CXX: clang++-15, packages: clang-15 libomp-15-dev llvm-15-dev libc++-15-dev libc++abi1-15 lld-15 clang-tools-15 mlir-15-tools libmlir-15-dev }
+          - { name: GNU, CC: gcc, CXX: g++, packages: gcc g++ }
+          - { name: Clang, CC: clang, CXX: clang++, packages: clang llvm-dev }
         build_type:
           - Release
         generator:
@@ -43,19 +43,17 @@ jobs:
     steps:
       - name: Install compiler ${{ matrix.compiler.name }}
         run: |
-          # Remove azure mirror because it is unreliable and sometimes unpredictably leads to failed CI
-          sudo sed -i 's/azure\.//' /etc/apt/sources.list
-          sudo add-apt-repository ppa:ubuntu-toolchain-r/test
-          sudo add-apt-repository -y universe
-          sudo add-apt-repository -y multiverse
           sudo apt-get update
-          sudo apt-get -y install \
-            ${{ matrix.compiler.packages }}
+          sudo apt-get -y install ${{ matrix.compiler.packages }}
 
       - name: Install base dependencies
         run: |
+          sudo apt-get update
           sudo apt-get -y install \
             build-essential \
+            re2c \
+            bison \
+            libxml2-dev \
             libssl-dev \
             libpcre2-dev \
             libsqlite3-dev \
