@@ -244,6 +244,8 @@ function(_php_ext_opcache_check_shm_open result)
       set(CMAKE_REQUIRED_LIBRARIES ${PHP_EXT_OPCACHE_HAS_SHM_OPEN_LIBRARY})
     endif()
 
+    set(CMAKE_REQUIRED_QUIET TRUE)
+
     check_source_runs(C [[
       #include <sys/types.h>
       #include <sys/wait.h>
