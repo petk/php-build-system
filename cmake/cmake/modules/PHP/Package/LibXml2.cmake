@@ -20,6 +20,7 @@ Basic usage:
 ```cmake
 # CMakeLists.txt
 include(PHP/Package/LibXml2)
+php_package_libxml2()
 target_link_libraries(example PRIVATE LibXml2::LibXml2)
 ```
 #]=============================================================================]
@@ -27,6 +28,7 @@ target_link_libraries(example PRIVATE LibXml2::LibXml2)
 include(ExternalProject)
 include(FeatureSummary)
 include(FetchContent)
+include(PHP/Package/_Internal)
 
 set_package_properties(
   LibXml2
@@ -41,44 +43,50 @@ set(PHP_LIBXML2_MIN_VERSION 2.9.0)
 # Download version when system dependency is not found.
 set(PHP_LIBXML2_DOWNLOAD_VERSION 2.14.5)
 
-macro(php_package_libxml2_find)
-  if(TARGET LibXml2::LibXml2)
-    set(LibXml2_FOUND TRUE)
-    get_property(LibXml2_DOWNLOADED GLOBAL PROPERTY _PHP_LibXml2_DOWNLOADED)
-  else()
-    # LibXml2 depends on ZLIB.
-    include(PHP/Package/ZLIB)
+set(PHP_LIBXML2_URL https://github.com/GNOME/libxml2/archive/refs/tags/v${PHP_LIBXML2_DOWNLOAD_VERSION}.tar.gz)
 
-    find_package(LibXml2 ${PHP_LIBXML2_MIN_VERSION})
-
-    if(NOT LibXml2_FOUND)
-      _php_package_libxml2_download()
-    endif()
-  endif()
-endmacro()
-
-macro(_php_package_libxml2_download)
-  message(STATUS "Downloading LibXml2 ${PHP_LIBXML2_DOWNLOAD_VERSION}")
+macro(php_package_libxml2)
+  # LibXml2 depends on ZLIB.
+  include(PHP/Package/ZLIB)
 
   FetchContent_Declare(
     LibXml2
-    URL https://github.com/GNOME/libxml2/archive/refs/tags/v${PHP_LIBXML2_DOWNLOAD_VERSION}.tar.gz
+    URL ${PHP_LIBXML2_URL}
     SOURCE_SUBDIR non-existing
-    OVERRIDE_FIND_PACKAGE
+    FIND_PACKAGE_ARGS ${PHP_LIBXML2_MIN_VERSION}
   )
 
-  FetchContent_MakeAvailable(LibXml2)
+  find_package(LibXml2 ${PHP_LIBXML2_MIN_VERSION})
 
-  set(options "-DCMAKE_INSTALL_PREFIX=<INSTALL_DIR>")
-  list(
-    APPEND
+  if(PHP_USE_FETCHCONTENT)
+    if(NOT LibXml2_FOUND)
+      message(STATUS "Downloading ${PHP_LIBXML2_URL}")
+    endif()
+
+    FetchContent_MakeAvailable(LibXml2)
+
+    if(NOT LibXml2_FOUND)
+      _php_package_libxml2_init()
+    endif()
+  endif()
+
+  get_property(PHP_LIBXML2_DOWNLOADED GLOBAL PROPERTY _PHP_LIBXML2_DOWNLOADED)
+
+  if(PHP_LIBXML2_DOWNLOADED)
+    set(LibXml2_VERSION ${PHP_LIBXML2_DOWNLOAD_VERSION})
+  endif()
+endmacro()
+
+macro(_php_package_libxml2_init)
+  set(
     options
-      -DLIBXML2_WITH_PYTHON=OFF
-      -DLIBXML2_WITH_LZMA=OFF
       -DBUILD_SHARED_LIBS=OFF
+      -DCMAKE_INSTALL_PREFIX=<INSTALL_DIR>
+      -DLIBXML2_WITH_LZMA=OFF
+      -DLIBXML2_WITH_PYTHON=OFF
   )
 
-  if(ZLIB_DOWNLOADED)
+  if(PHP_ZLIB_DOWNLOADED)
     ExternalProject_Get_Property(ZLIB INSTALL_DIR)
     list(APPEND options "-DZLIB_ROOT=${INSTALL_DIR}")
   endif()
@@ -119,30 +127,15 @@ macro(_php_package_libxml2_download)
       IMPORTED_LOCATION ${INSTALL_DIR}/lib/libxml2${CMAKE_STATIC_LIBRARY_SUFFIX}
   )
 
-  # Move dependency to PACKAGES_FOUND.
-  block()
-    set(package "LibXml2")
-    get_property(packagesNotFound GLOBAL PROPERTY PACKAGES_NOT_FOUND)
-    list(REMOVE_ITEM packagesNotFound ${package})
-    set_property(GLOBAL PROPERTY PACKAGES_NOT_FOUND ${packagesNotFound})
-    get_property(packagesFound GLOBAL PROPERTY PACKAGES_FOUND)
-    list(FIND packagesFound ${package} found)
-    if(found EQUAL -1)
-      set_property(GLOBAL APPEND PROPERTY PACKAGES_FOUND ${package})
-    endif()
-  endblock()
-
-  # Mark package as found.
-  set(LibXml2_FOUND TRUE)
+  php_package_mark_as_found(LibXml2)
 
   define_property(
     GLOBAL
-    PROPERTY _PHP_LibXml2_DOWNLOADED
+    PROPERTY _PHP_LIBXML2_DOWNLOADED
     BRIEF_DOCS "Marker that LibXml2 library will be downloaded"
   )
 
-  set_property(GLOBAL PROPERTY _PHP_LibXml2_DOWNLOADED TRUE)
-  set(Libxml2_DOWNLOADED TRUE)
+  set_property(GLOBAL PROPERTY _PHP_LIBXML2_DOWNLOADED TRUE)
 endmacro()
 
-php_package_libxml2_find()
+php_package_libxml2()

@@ -21,6 +21,7 @@ Basic usage:
 
 ```cmake
 include(PHP/Package/Oniguruma)
+php_package_oniguruma()
 target_link_libraries(php_ext_foo PRIVATE Oniguruma::Oniguruma)
 ```
 #]=============================================================================]
@@ -28,6 +29,7 @@ target_link_libraries(php_ext_foo PRIVATE Oniguruma::Oniguruma)
 include(ExternalProject)
 include(FeatureSummary)
 include(FetchContent)
+include(PHP/Package/_Internal)
 
 # Minimum required version for the Oniguruma dependency.
 set(PHP_ONIGURUMA_MIN_VERSION 5.9.6) # This is the 1st tag available on GitHub.
@@ -35,20 +37,44 @@ set(PHP_ONIGURUMA_MIN_VERSION 5.9.6) # This is the 1st tag available on GitHub.
 # Download version when system dependency is not found.
 set(PHP_ONIGURUMA_DOWNLOAD_VERSION 6.9.10)
 
+set(
+  PHP_ONIGURUMA_URL
+  https://github.com/petk/oniguruma/archive/refs/tags/v${PHP_ONIGURUMA_DOWNLOAD_VERSION}.tar.gz
+)
+
 macro(php_package_oniguruma)
+  if(PHP_DOWNLOAD_FORCE)
+    set(args OVERRIDE_FIND_PACKAGE)
+  else()
+    set(args FIND_PACKAGE_ARGS ${PHP_ONIGURUMA_MIN_VERSION})
+  endif()
+
   FetchContent_Declare(
     Oniguruma
-    URL https://github.com/petk/oniguruma/archive/refs/tags/v${PHP_ONIGURUMA_DOWNLOAD_VERSION}.tar.gz
+    URL ${PHP_ONIGURUMA_URL}
     SOURCE_SUBDIR non-existing
-    FIND_PACKAGE_ARGS ${PHP_ONIGURUMA_MIN_VERSION}
+    ${args}
   )
 
-  #find_package(Oniguruma ${PHP_ONIGURUMA_MIN_VERSION})
+  find_package(Oniguruma ${PHP_ONIGURUMA_MIN_VERSION})
 
-  FetchContent_MakeAvailable(Oniguruma)
+  if(PHP_USE_FETCHCONTENT)
+    if(NOT Oniguruma_FOUND)
+      message(STATUS "Downloading ${PHP_ONIGURUMA_URL}")
+    endif()
 
-  if(NOT Oniguruma_FOUND)
-    _php_package_oniguruma_init()
+    FetchContent_MakeAvailable(Oniguruma)
+
+    if(NOT Oniguruma_FOUND)
+      _php_package_oniguruma_init()
+    endif()
+  endif()
+
+  get_property(PHP_ONIGURUMA_DOWNLOADED GLOBAL PROPERTY _PHP_ONIGURUMA_DOWNLOADED)
+
+  if(PHP_ONIGURUMA_DOWNLOADED)
+    set(PHP_ONIG_KOI8 FALSE)
+    set(Oniguruma_VERSION ${PHP_ONIGURUMA_DOWNLOAD_VERSION})
   endif()
 endmacro()
 
@@ -88,46 +114,15 @@ macro(_php_package_oniguruma_init)
       IMPORTED_LOCATION ${INSTALL_DIR}/lib/libonig${CMAKE_STATIC_LIBRARY_SUFFIX}
   )
 
-  # Move dependency to PACKAGES_FOUND.
-  block()
-    set(package "Oniguruma")
-    get_property(packagesNotFound GLOBAL PROPERTY PACKAGES_NOT_FOUND)
-    list(REMOVE_ITEM packagesNotFound ${package})
-    set_property(GLOBAL PROPERTY PACKAGES_NOT_FOUND ${packagesNotFound})
-    get_property(packagesFound GLOBAL PROPERTY PACKAGES_FOUND)
-    list(FIND packagesFound ${package} found)
-    if(found EQUAL -1)
-      set_property(GLOBAL APPEND PROPERTY PACKAGES_FOUND ${package})
-    endif()
-  endblock()
+  php_package_mark_as_found(Oniguruma)
 
   define_property(
     GLOBAL
-    PROPERTY _PHP_Oniguruma_DOWNLOADED
+    PROPERTY _PHP_ONIGURUMA_DOWNLOADED
     BRIEF_DOCS "Marker that Oniguruma library will be downloaded"
   )
 
-  set_property(GLOBAL PROPERTY _PHP_Oniguruma_DOWNLOADED TRUE)
-  set(Oniguruma_DOWNLOADED TRUE)
-
-  set(PHP_ONIG_KOI8 FALSE)
+  set_property(GLOBAL PROPERTY _PHP_ONIGURUMA_DOWNLOADED TRUE)
 endmacro()
 
 php_package_oniguruma()
-
-macro(php_package_oniguruma_find)
-  if(TARGET Oniguruma::Oniguruma)
-    get_property(Oniguruma_DOWNLOADED GLOBAL PROPERTY _PHP_Oniguruma_DOWNLOADED)
-    set(PHP_ONIG_KOI8 FALSE)
-  else()
-    find_package(Oniguruma ${PHP_ONIGURUMA_MIN_VERSION})
-
-    if(NOT Oniguruma_FOUND)
-      _php_package_oniguruma_download()
-    endif()
-  endif()
-endmacro()
-
-macro(_php_package_oniguruma_download)
-  message(STATUS "Downloading Oniguruma ${PHP_ONIGURUMA_DOWNLOAD_VERSION}")
-endmacro()

@@ -7,8 +7,8 @@ Finds or downloads the SQLite library:
 include(PHP/Package/SQLite3)
 ```
 
-This module is a wrapper for finding the `SQLite` library. It first tries to
-find the `SQLite` library on the system. If not successful it tries to download
+This module is a wrapper for finding the SQLite library. It first tries to
+find the SQLite library on the system. If not successful it tries to download
 it from the upstream source and builds it together with the PHP build.
 
 See: https://cmake.org/cmake/help/latest/module/FindSQLite3.html
@@ -19,7 +19,7 @@ Basic usage:
 
 ```cmake
 include(PHP/Package/SQLite3)
-php_package_sqlite3_find()
+php_package_sqlite3()
 target_link_libraries(php_ext_foo PRIVATE SQLite::SQLite3)
 ```
 #]=============================================================================]
@@ -27,6 +27,7 @@ target_link_libraries(php_ext_foo PRIVATE SQLite::SQLite3)
 include(ExternalProject)
 include(FeatureSummary)
 include(FetchContent)
+include(PHP/Package/_Internal)
 
 set_package_properties(
   SQLite3
@@ -41,31 +42,38 @@ set(PHP_SQLITE3_MIN_VERSION 3.7.7)
 # Download version when system dependency is not found.
 set(PHP_SQLITE3_DOWNLOAD_VERSION 3.50.2)
 
-macro(php_package_sqlite3_find)
-  if(TARGET SQLite::SQLite3)
-    set(SQLite3_FOUND TRUE)
-    get_property(SQLite3_DOWNLOADED GLOBAL PROPERTY _PHP_SQLite3_DOWNLOADED)
-  else()
-    find_package(SQLite3 ${PHP_SQLITE3_MIN_VERSION})
+set(PHP_SQLITE3_URL)
+
+macro(php_package_sqlite3)
+  FetchContent_Declare(
+    SQLite3
+    URL ${PHP_SQLITE3_URL}
+    SOURCE_SUBDIR non-existing
+    FIND_PACKAGE_ARGS ${PHP_SQLITE3_MIN_VERSION}
+  )
+
+  find_package(SQLite3 ${PHP_SQLITE3_MIN_VERSION})
+
+  if(PHP_USE_FETCHCONTENT)
+    if(NOT SQLite3_FOUND)
+      message(STATUS "Downloading ${PHP_SQLITE3_URL}")
+    endif()
+
+    FetchContent_MakeAvailable(SQLite3)
 
     if(NOT SQLite3_FOUND)
-      _php_package_sqlite3_download()
+      _php_package_sqlite3_init()
     endif()
+  endif()
+
+  get_property(PHP_SQLITE3_DOWNLOADED GLOBAL PROPERTY _PHP_SQLITE3_DOWNLOADED)
+
+  if(PHP_SQLITE3_DOWNLOADED)
+    set(SQLite3_VERSION ${PHP_SQLite3_DOWNLOAD_VERSION})
   endif()
 endmacro()
 
-macro(_php_package_sqlite3_download)
-  message(STATUS "Downloading SQLite ${PHP_SQLITE3_DOWNLOAD_VERSION}")
-
-  FetchContent_Declare(
-    SQLite3
-    URL https://github.com/sjinks/sqlite3-cmake/archive/refs/tags/v${PHP_SQLITE3_DOWNLOAD_VERSION}.tar.gz
-    SOURCE_SUBDIR non-existing
-    OVERRIDE_FIND_PACKAGE
-  )
-
-  FetchContent_MakeAvailable(SQLite3)
-
+macro(_php_package_sqlite3_init)
   set(options "-DCMAKE_INSTALL_PREFIX=<INSTALL_DIR>")
 
   ExternalProject_Add(
@@ -92,30 +100,15 @@ macro(_php_package_sqlite3_download)
       IMPORTED_LOCATION ${INSTALL_DIR}/lib/libsqlite3${CMAKE_STATIC_LIBRARY_SUFFIX}
   )
 
-  # Move dependency to PACKAGES_FOUND.
-  block()
-    set(package "SQLite3")
-    get_property(packagesNotFound GLOBAL PROPERTY PACKAGES_NOT_FOUND)
-    list(REMOVE_ITEM packagesNotFound ${package})
-    set_property(GLOBAL PROPERTY PACKAGES_NOT_FOUND ${packagesNotFound})
-    get_property(packagesFound GLOBAL PROPERTY PACKAGES_FOUND)
-    list(FIND packagesFound ${package} found)
-    if(found EQUAL -1)
-      set_property(GLOBAL APPEND PROPERTY PACKAGES_FOUND ${package})
-    endif()
-  endblock()
-
-  # Mark package as found.
-  set(SQLite3_FOUND TRUE)
+  php_package_mark_as_found(SQLite3)
 
   define_property(
     GLOBAL
-    PROPERTY _PHP_SQLite3_DOWNLOADED
+    PROPERTY _PHP_SQLITE3_DOWNLOADED
     BRIEF_DOCS "Marker that SQLite3 library will be downloaded"
   )
 
-  set_property(GLOBAL PROPERTY _PHP_SQLite3_DOWNLOADED TRUE)
-  set(SQLite3_DOWNLOADED TRUE)
+  set_property(GLOBAL PROPERTY _PHP_SQLITE3_DOWNLOADED TRUE)
 endmacro()
 
-php_package_sqlite3_find()
+php_package_sqlite3()

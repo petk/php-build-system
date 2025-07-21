@@ -143,7 +143,7 @@ jobs:
     steps:
       - name: Install base dependencies
         run: |
-          sudo apt-get update -y
+          sudo apt-get update
           sudo apt-get -y install \
             build-essential \
             libssl-dev \
@@ -170,7 +170,6 @@ jobs:
             libxpm-dev \
             libtidy-dev \
             libargon2-dev \
-            libxslt1-dev \
             libcapstone-dev \
             libedit-dev \
             libcdb-dev \
@@ -215,7 +214,7 @@ jobs:
     steps:
       - name: Install packages
         run: |
-          sudo apt-get update -y
+          sudo apt-get update
           sudo apt-get -y install \
             build-essential \
             freetds-dev \
@@ -267,6 +266,96 @@ jobs:
         run: |
           cmake --preset conan
           cmake --build --preset conan -j
+
+  linux-vcpkg:
+    runs-on: ubuntu-latest
+    name: Downloading dependencies with vcpkg on Linux
+    steps:
+      - name: Install base dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get -y install \
+            build-essential \
+            re2c \
+            bison \
+            libxml2-dev \
+            libssl-dev \
+            libpcre2-dev \
+            libsqlite3-dev \
+            libbz2-dev \
+            libcurl4-openssl-dev \
+            libdb5.3++-dev \
+            libenchant-2-dev \
+            libgmp-dev \
+            libc-client-dev \
+            libkrb5-dev \
+            unixodbc-dev \
+            freetds-dev \
+            apache2-dev \
+            firebird-dev \
+            libsodium-dev \
+            libicu-dev \
+            libzip-dev \
+            aspell \
+            libaspell-dev \
+            libavif-dev \
+            libfreetype-dev \
+            libjpeg-dev \
+            libpng-dev \
+            libwebp-dev \
+            libxpm-dev \
+            libonig-dev \
+            libtidy-dev \
+            libargon2-dev \
+            libcapstone-dev \
+            libedit-dev \
+            libcdb-dev \
+            liblmdb-dev \
+            libqdbm-dev \
+            libtokyocabinet-dev \
+            libsnmp-dev \
+            snmp \
+            snmpd \
+            snmp-mibs-downloader \
+            libexpat1-dev \
+            libacl1-dev \
+            libapparmor-dev \
+            libselinux1-dev \
+            libsystemd-dev \
+            libldap2-dev \
+            libsasl2-dev \
+            libpq-dev \
+            libmm-dev \
+            zlib1g-dev \
+            libdmalloc-dev \
+            dovecot-core \
+            dovecot-pop3d \
+            dovecot-imapd \
+            sendmail;
+
+      - name: Install CMake
+        uses: lukka/get-cmake@latest
+
+      - name: Install vcpkg
+        run: |
+          sudo apt update
+          sudo apt install -y curl zip git
+          curl --output vcpkg.tar.gz https://github.com/microsoft/vcpkg/archive/master.tar.gz
+          sudo mkdir -p /opt/vcpkg
+          sudo tar xf vcpkg.tar.gz --strip-components=1 -C /opt/vcpkg
+          sudo /opt/vcpkg/bootstrap-vcpkg.sh
+          sudo ln -s /opt/vcpkg/vcpkg /usr/local/bin/vcpkg
+          sudo chmod a+x /usr/local/bin/vcpkg
+
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
+
+      - name: Build and install
+        run: |
+          cmake --preset all-enabled
+          cmake --build --preset all-enabled -j
 
   windows:
     runs-on: windows-latest

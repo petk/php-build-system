@@ -7,7 +7,7 @@ Finds or downloads the zlib library:
 include(PHP/Package/Zlib)
 ```
 
-This module is a wrapper for finding the `ZLIB` library. It first tries to find
+This module is a wrapper for finding the ZLIB library. It first tries to find
 the `ZLIB` library on the system. If not successful it tries to download it from
 the upstream source and builds it together with the PHP build.
 
@@ -19,7 +19,7 @@ Basic usage:
 
 ```cmake
 include(PHP/Package/ZLIB)
-php_package_zlib_find()
+php_package_zlib()
 target_link_libraries(php_ext_foo PRIVATE ZLIB::ZLIB)
 ```
 #]=============================================================================]
@@ -27,6 +27,7 @@ target_link_libraries(php_ext_foo PRIVATE ZLIB::ZLIB)
 include(ExternalProject)
 include(FeatureSummary)
 include(FetchContent)
+include(PHP/Package/_Internal)
 
 set_package_properties(
   ZLIB
@@ -41,31 +42,41 @@ set(PHP_ZLIB_MIN_VERSION 1.2.0.4)
 # Download version when system dependency is not found.
 set(PHP_ZLIB_DOWNLOAD_VERSION 1.3.1)
 
-macro(php_package_zlib_find)
-  if(TARGET ZLIB::ZLIB)
-    set(ZLIB_FOUND TRUE)
-    get_property(ZLIB_DOWNLOADED GLOBAL PROPERTY _PHP_ZLIB_DOWNLOADED)
-  else()
-    find_package(ZLIB ${PHP_ZLIB_MIN_VERSION})
+set(
+  PHP_ZLIB_URL
+  https://github.com/madler/zlib/archive/refs/tags/v${PHP_ZLIB_DOWNLOAD_VERSION}.tar.gz
+)
+
+macro(php_package_zlib)
+  FetchContent_Declare(
+    ZLIB
+    URL ${PHP_ZLIB_URL}
+    SOURCE_SUBDIR non-existing
+    FIND_PACKAGE_ARGS ${PHP_ZLIB_MIN_VERSION}
+  )
+
+  find_package(ZLIB ${PHP_ZLIB_MIN_VERSION})
+
+  if(PHP_USE_FETCHCONTENT)
+    if(NOT ZLIB_FOUND)
+      message(STATUS "Downloading ${PHP_ZLIB_URL}")
+    endif()
+
+    FetchContent_MakeAvailable(ZLIB)
 
     if(NOT ZLIB_FOUND)
-      _php_package_zlib_download()
+      _php_package_zlib_init()
     endif()
+  endif()
+
+  get_property(PHP_ZLIB_DOWNLOADED GLOBAL PROPERTY _PHP_ZLIB_DOWNLOADED)
+
+  if(PHP_ZLIB_DOWNLOADED)
+    set(ZLIB_VERSION ${PHP_ZLIB_DOWNLOAD_VERSION})
   endif()
 endmacro()
 
-macro(_php_package_zlib_download)
-  message(STATUS "Downloading ZLIB ${PHP_ZLIB_DOWNLOAD_VERSION}")
-
-  FetchContent_Declare(
-    ZLIB
-    URL https://github.com/madler/zlib/archive/refs/tags/v${PHP_ZLIB_DOWNLOAD_VERSION}.tar.gz
-    SOURCE_SUBDIR non-existing
-    OVERRIDE_FIND_PACKAGE
-  )
-
-  FetchContent_MakeAvailable(ZLIB)
-
+macro(_php_package_zlib_init)
   set(options "-DCMAKE_INSTALL_PREFIX=<INSTALL_DIR>")
 
   if(PHP_ZLIB_DOWNLOAD_VERSION VERSION_LESS_EQUAL 1.3.1)
@@ -100,21 +111,7 @@ macro(_php_package_zlib_download)
       IMPORTED_LOCATION ${INSTALL_DIR}/lib/libz${CMAKE_STATIC_LIBRARY_SUFFIX}
   )
 
-  # Move dependency to PACKAGES_FOUND.
-  block()
-    set(package "ZLIB")
-    get_property(packagesNotFound GLOBAL PROPERTY PACKAGES_NOT_FOUND)
-    list(REMOVE_ITEM packagesNotFound ${package})
-    set_property(GLOBAL PROPERTY PACKAGES_NOT_FOUND ${packagesNotFound})
-    get_property(packagesFound GLOBAL PROPERTY PACKAGES_FOUND)
-    list(FIND packagesFound ${package} found)
-    if(found EQUAL -1)
-      set_property(GLOBAL APPEND PROPERTY PACKAGES_FOUND ${package})
-    endif()
-  endblock()
-
-  # Mark package as found.
-  set(ZLIB_FOUND TRUE)
+  php_package_mark_as_found(ZLIB)
 
   define_property(
     GLOBAL
@@ -123,7 +120,6 @@ macro(_php_package_zlib_download)
   )
 
   set_property(GLOBAL PROPERTY _PHP_ZLIB_DOWNLOADED TRUE)
-  set(ZLIB_DOWNLOADED TRUE)
 endmacro()
 
-php_package_zlib_find()
+php_package_zlib()

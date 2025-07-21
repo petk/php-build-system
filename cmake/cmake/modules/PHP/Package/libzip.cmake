@@ -15,7 +15,8 @@ it downloads it from the upstream source and builds it together with the build.
 Basic usage:
 
 ```cmake
-include(PHP/Package/libzip
+include(PHP/Package/libzip)
+php_package_libzip()
 target_link_libraries(php_ext_foo PRIVATE libzip::zip)
 ```
 #]=============================================================================]
@@ -23,60 +24,84 @@ target_link_libraries(php_ext_foo PRIVATE libzip::zip)
 include(ExternalProject)
 include(FeatureSummary)
 include(FetchContent)
+include(PHP/Package/_Internal)
 
 # Minimum required version for the libzip dependency.
 # Also accepted libzip version ranges are from 0.11-1.7 with 1.3.1 and 1.7.0
 # excluded due to upstream bugs.
-set(PHP_libzip_MIN_VERSION 1.7.1)
+set(PHP_LIBZIP_MIN_VERSION 1.7.1)
 
 # Download version when system dependency is not found.
-set(PHP_libzip_DOWNLOAD_VERSION 1.11.4)
+set(PHP_LIBZIP_DOWNLOAD_VERSION 1.11.4)
 
-macro(php_package_libzip_find)
-  if(TARGET libzip::zip)
-    set(libzip_FOUND TRUE)
-    get_property(libzip_DOWNLOADED GLOBAL PROPERTY _PHP_libzip_DOWNLOADED)
-    get_property(libzip_VERSION GLOBAL PROPERTY _PHP_libzip_VERSION)
-  else()
-    # libzip depends on ZLIB
-    include(PHP/Package/ZLIB)
+set(
+  PHP_LIBZIP_URL
+  https://github.com/nih-at/libzip/archive/refs/tags/v${PHP_libzip_DOWNLOAD_VERSION}.tar.gz
+)
 
-    find_package(libzip ${PHP_libzip_MIN_VERSION})
-
-    if(NOT libzip_FOUND)
-      find_package(libzip 1.3.2...1.6.999)
-    endif()
-
-    if(NOT libzip_FOUND)
-      find_package(libzip 0.11...1.3.0)
-    endif()
-
-    if(NOT libzip_FOUND)
-      _php_package_libzip_download()
-    else()
-      set_property(
-        GLOBAL PROPERTY _PHP_libzip_VERSION ${libzip_VERSION}
-      )
-    endif()
-  endif()
-endmacro()
-
-macro(_php_package_libzip_download)
-  message(STATUS "Downloading libzip ${PHP_libzip_DOWNLOAD_VERSION}")
+macro(php_package_libzip)
+  # libzip depends on ZLIB
+  include(PHP/Package/ZLIB)
 
   FetchContent_Declare(
     libzip
-    URL https://github.com/nih-at/libzip/archive/refs/tags/v${PHP_libzip_DOWNLOAD_VERSION}.tar.gz
+    URL ${PHP_LIBZIP_URL}
     SOURCE_SUBDIR non-existing
-    OVERRIDE_FIND_PACKAGE
+    FIND_PACKAGE_ARGS ${PHP_LIBZIP_MIN_VERSION}
   )
 
-  FetchContent_MakeAvailable(libzip)
+  find_package(libzip ${PHP_LIBZIP_MIN_VERSION})
 
-  set(options "-DCMAKE_INSTALL_PREFIX=<INSTALL_DIR>")
-  list(APPEND options -DBUILD_SHARED_LIBS=OFF)
+  if(NOT libzip_FOUND)
+    find_package(libzip 1.3.2...1.6.999)
+  endif()
 
-  if(ZLIB_DOWNLOADED)
+  if(NOT libzip_FOUND)
+    find_package(libzip 0.11...1.3.0)
+  endif()
+
+  if(PHP_USE_FETCHCONTENT)
+    if(NOT libzip_FOUND)
+      message(STATUS "Downloading ${PHP_LIBZIP_URL}")
+    endif()
+
+    FetchContent_MakeAvailable(libzip)
+
+    if(NOT libzip_FOUND)
+      _php_package_libzip_init()
+    endif()
+  endif()
+
+  get_property(PHP_LIBZIP_DOWNLOADED GLOBAL PROPERTY _PHP_LIBZIP_DOWNLOADED)
+
+  if(PHP_LIBZIP_DOWNLOADED)
+    set(libzip_VERSION ${PHP_libzip_DOWNLOAD_VERSION})
+  endif()
+endmacro()
+
+macro(_php_package_libzip_init)
+  set(
+    options
+      -DCMAKE_INSTALL_PREFIX=<INSTALL_DIR>
+      -DBUILD_DOC=OFF
+      -DBUILD_EXAMPLES=OFF
+      -DBUILD_REGRESS=OFF
+      -DBUILD_SHARED_LIBS=OFF
+      -DBUILD_TOOLS=OFF
+  )
+
+  if(
+    PHP_LIBZIP_DOWNLOAD_VERSION VERSION_GREATER_EQUAL 1.10
+    AND CMAKE_SYSTEM_NAME STREQUAL "Windows"
+  )
+    list(APPEND options -DENABLE_FDOPEN=OFF)
+  endif()
+
+  if(PHP_LIBZIP_DOWNLOAD_VERSION VERSION_GREATER_EQUAL 1.11)
+    list(APPEND options -DBUILD_OSSFUZZ=OFF)
+  endif()
+
+  if(PHP_ZLIB_DOWNLOADED)
     ExternalProject_Get_Property(ZLIB INSTALL_DIR)
     list(APPEND options "-DZLIB_ROOT=${INSTALL_DIR}")
   endif()
@@ -107,39 +132,15 @@ macro(_php_package_libzip_download)
       IMPORTED_LOCATION ${INSTALL_DIR}/lib/libzip${CMAKE_STATIC_LIBRARY_SUFFIX}
   )
 
-  # Move dependency to PACKAGES_FOUND.
-  block()
-    set(package "libzip")
-    get_property(packagesNotFound GLOBAL PROPERTY PACKAGES_NOT_FOUND)
-    list(REMOVE_ITEM packagesNotFound ${package})
-    set_property(GLOBAL PROPERTY PACKAGES_NOT_FOUND ${packagesNotFound})
-    get_property(packagesFound GLOBAL PROPERTY PACKAGES_FOUND)
-    list(FIND packagesFound ${package} found)
-    if(found EQUAL -1)
-      set_property(GLOBAL APPEND PROPERTY PACKAGES_FOUND ${package})
-    endif()
-  endblock()
-
-  # Mark package as found.
-  set(libzip_FOUND TRUE)
+  php_package_mark_as_found(libzip)
 
   define_property(
     GLOBAL
-    PROPERTY _PHP_libzip_DOWNLOADED
+    PROPERTY _PHP_LIBZIP_DOWNLOADED
     BRIEF_DOCS "Marker that libzip library will be downloaded"
   )
 
-  set_property(GLOBAL PROPERTY _PHP_libzip_DOWNLOADED TRUE)
-  set(libzip_DOWNLOADED TRUE)
-
-  set_property(
-    GLOBAL PROPERTY _PHP_libzip_VERSION ${PHP_libzip_DOWNLOAD_VERSION}
-  )
-  set(libzip_VERSION ${PHP_libzip_DOWNLOAD_VERSION})
+  set_property(GLOBAL PROPERTY _PHP_LIBZIP_DOWNLOADED TRUE)
 endmacro()
 
-macro(_php_package_libzip_set_vars)
-
-endmacro()
-
-php_package_libzip_find()
+php_package_libzip()
