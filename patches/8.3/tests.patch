@@ -1,37 +1,15 @@
 From: Peter Kokot <peterkokot@gmail.com>
 Subject: Fix tests
 
-- ext/dom
-  When running tests from a directory located inside php-src, for
-  example, php-src/php-build relative paths need to be adjusted.
-
 - ext/zip
   When PHP is compiled and built agains libzip that doesn't have AES
   support enabled (if all encryption options are set to OFF in CMake),
   ZipArchive::EM_AES_256 and ZipArchive::EM_AES_192 aren't supported.
 ---
- ext/dom/tests/dom_xinclude.phpt  | 4 ++--
  ext/zip/tests/oo_addglob2.phpt   | 6 ++++++
  ext/zip/tests/oo_encryption.phpt | 6 ++++++
- 3 files changed, 14 insertions(+), 2 deletions(-)
+ 2 files changed, 12 insertions(+)
 
-diff --git a/ext/dom/tests/dom_xinclude.phpt b/ext/dom/tests/dom_xinclude.phpt
-index 0dfeb2dfb4a..410431de877 100644
---- a/ext/dom/tests/dom_xinclude.phpt
-+++ b/ext/dom/tests/dom_xinclude.phpt
-@@ -48,10 +48,10 @@
- #text
- <?xml version="1.0" encoding="UTF-8"?>
- <foo xmlns:xi="http://www.w3.org/2001/XInclude">
--    <book xml:base="compress.zlib://./ext/dom/tests/book.xml">
-+    <book xml:base="compress.zlib://%s/ext/dom/tests/book.xml">
-   <title>The Grapes of Wrath</title>
-   <author>John Steinbeck</author>
-- </book><book xml:base="compress.zlib://./ext/dom/tests/book.xml">
-+ </book><book xml:base="compress.zlib://%s/ext/dom/tests/book.xml">
-   <title>The Pearl</title>
-   <author>John Steinbeck</author>
-  </book>
 diff --git a/ext/zip/tests/oo_addglob2.phpt b/ext/zip/tests/oo_addglob2.phpt
 index 517c0b7fd7f..1432d704de5 100644
 --- a/ext/zip/tests/oo_addglob2.phpt
