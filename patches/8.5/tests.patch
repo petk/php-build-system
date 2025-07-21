@@ -2,11 +2,18 @@ From: Peter Kokot <peterkokot@gmail.com>
 Subject: Fix tests
 
 - ext/dom
-  - When running tests from a directory located inside php-src, for
-    example, php-src/php-build relative paths need to be adjusted.
+  When running tests from a directory located inside php-src, for
+  example, php-src/php-build relative paths need to be adjusted.
+
+- ext/zip
+  When PHP is compiled and built agains libzip that doesn't have AES
+  support enabled (if all encryption options are set to OFF in CMake),
+  ZipArchive::EM_AES_256 and ZipArchive::EM_AES_192 aren't supported.
 ---
- ext/dom/tests/dom_xinclude.phpt | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ ext/dom/tests/dom_xinclude.phpt  | 4 ++--
+ ext/zip/tests/oo_addglob2.phpt   | 6 ++++++
+ ext/zip/tests/oo_encryption.phpt | 6 ++++++
+ 3 files changed, 14 insertions(+), 2 deletions(-)
 
 diff --git a/ext/dom/tests/dom_xinclude.phpt b/ext/dom/tests/dom_xinclude.phpt
 index 0dfeb2dfb4a..410431de877 100644
@@ -25,3 +32,37 @@ index 0dfeb2dfb4a..410431de877 100644
    <title>The Pearl</title>
    <author>John Steinbeck</author>
   </book>
+diff --git a/ext/zip/tests/oo_addglob2.phpt b/ext/zip/tests/oo_addglob2.phpt
+index 517c0b7fd7f..1432d704de5 100644
+--- a/ext/zip/tests/oo_addglob2.phpt
++++ b/ext/zip/tests/oo_addglob2.phpt
+@@ -6,6 +6,12 @@
+ <?php
+ if (!method_exists('ZipArchive', 'setEncryptionName')) die('skip encrytion not supported');
+ if(!defined("GLOB_BRACE")) die ('skip requires GLOB_BRACE');
++if (
++    method_exists('ZipArchive', 'isEncryptionMethodSupported')
++    && !ZipArchive::isEncryptionMethodSupported(ZipArchive::EM_AES_256)
++) {
++    die('skip EM_AES_256 encryption not supported');
++}
+ ?>
+ --FILE--
+ <?php
+diff --git a/ext/zip/tests/oo_encryption.phpt b/ext/zip/tests/oo_encryption.phpt
+index f5207e30759..ccc0a04b8f1 100644
+--- a/ext/zip/tests/oo_encryption.phpt
++++ b/ext/zip/tests/oo_encryption.phpt
+@@ -5,6 +5,12 @@
+ --SKIPIF--
+ <?php
+ if (!method_exists('ZipArchive', 'setEncryptionName')) die('skip encryption not supported');
++if (
++    method_exists('ZipArchive', 'isEncryptionMethodSupported')
++    && !ZipArchive::isEncryptionMethodSupported(ZipArchive::EM_AES_256)
++) {
++    die('skip EM_AES_256 encryption not supported');
++}
+ ?>
+ --FILE--
+ <?php
