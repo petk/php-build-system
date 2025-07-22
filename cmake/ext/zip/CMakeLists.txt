@@ -68,28 +68,13 @@ target_sources(
 
 add_dependencies(php_ext_zip php_ext_pcre)
 
-find_package(libzip 1.7.1)
+include(PHP/Package/libzip)
 set_package_properties(
   libzip
   PROPERTIES
     TYPE REQUIRED
     PURPOSE "Necessary to enable the zip extension."
 )
-
-if(NOT libzip_FOUND)
-  find_package(libzip 1.3.2...1.6.999)
-endif()
-
-if(NOT libzip_FOUND)
-  find_package(libzip 0.11...1.3.0)
-endif()
-
-if(libzip_VERSION VERSION_EQUAL 1.3.1 OR libzip_VERSION VERSION_EQUAL 1.7.0)
-  message(
-    FATAL_ERROR
-    "ext/zip: libzip ${libzip_VERSION} is not supported. Try upgrading libzip."
-  )
-endif()
 
 # Link publicly for internal_functions files.
 target_link_libraries(php_ext_zip PUBLIC libzip::zip)

@@ -3,6 +3,7 @@
   "include": [
     "cmake/presets/all-disabled.json",
     "cmake/presets/all-enabled.json",
+    "cmake/presets/conan.json",
     "cmake/presets/windows.json"
   ],
   "configurePresets": [

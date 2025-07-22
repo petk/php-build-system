@@ -1,0 +1,11 @@
+{
+  "$schema": "https://raw.githubusercontent.com/microsoft/vcpkg-tool/main/docs/vcpkg.schema.json",
+  "name": "php",
+  "version": "8.3-dev",
+  "dependencies": [
+    "libxml2",
+    "libxslt",
+    "oniguruma",
+    "zlib"
+  ]
+}

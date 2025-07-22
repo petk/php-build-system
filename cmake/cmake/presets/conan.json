@@ -1,0 +1,36 @@
+{
+  "version": 4,
+  "include": [
+    "all-enabled.json"
+  ],
+  "configurePresets": [
+    {
+      "name": "conan",
+      "inherits": "all-enabled",
+      "displayName": "All extensions enabled",
+      "description": "PHP configuration with all PHP extensions and SAPIs enabled",
+      "binaryDir": "${sourceDir}/php-build",
+      "installDir": "/tmp",
+      "toolchainFile": "${sourceDir}/php-build/php/build/Release/generators/conan_toolchain.cmake"
+    }
+  ],
+  "buildPresets": [
+    {
+      "name": "conan",
+      "configurePreset": "conan"
+    }
+  ],
+  "testPresets": [
+    {
+      "name": "conan",
+      "configurePreset": "conan",
+      "environment": {
+        "SKIP_IO_CAPTURE_TESTS": "1"
+      },
+      "output": {
+        "shortProgress": true,
+        "verbosity": "verbose"
+      }
+    }
+  ]
+}
