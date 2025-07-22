@@ -645,16 +645,8 @@ function(_php_bison_download)
 
   if(CMAKE_HOST_SYSTEM_NAME STREQUAL "Windows")
     _php_bison_download_windows()
-  elseif(CMAKE_HOST_SYSTEM_NAME MATCHES "^(Haiku|Linux)$")
-    _php_bison_download_gnu()
   else()
-    # TODO: Add support for more platforms.
-    message(
-      WARNING
-      "Bison couldn't be downloaded. The current platform ${CMAKE_SYSTEM_NAME} "
-      "is not yet supported by PHP/Bison module. Please install Bison manually."
-    )
-    return()
+    _php_bison_download_gnu()
   endif()
 
   add_executable(Bison::Bison IMPORTED GLOBAL)
@@ -693,14 +685,13 @@ endfunction()
 
 # Downloads GNU Bison.
 function(_php_bison_download_gnu)
-  message(
-    STATUS
-    "Downloading GNU Bison ${BISON_VERSION} from https://ftp.gnu.org/gnu/bison"
-  )
+  set(url https://mirrors.dotsrc.org/gnu/bison/bison-${BISON_VERSION}.tar.gz)
+
+  message(STATUS "Downloading ${url}")
 
   FetchContent_Declare(
     BISON
-    URL https://ftp.gnu.org/gnu/bison/bison-${BISON_VERSION}.tar.gz
+    URL ${url}
     SOURCE_SUBDIR non-existing
     DOWNLOAD_EXTRACT_TIMESTAMP TRUE
     OVERRIDE_FIND_PACKAGE
@@ -708,9 +699,16 @@ function(_php_bison_download_gnu)
 
   FetchContent_MakeAvailable(BISON)
 
+  # GNU Bison depends on m4 program.
+  find_program(PHP_BISON_M4_EXECUTABLE m4)
+  mark_as_advanced(PHP_BISON_M4_EXECUTABLE)
+  if(NOT PHP_BISON_M4_EXECUTABLE)
+    _php_bison_download_m4()
+  endif()
+
   ExternalProject_Add(
     BISON
-    STEP_TARGETS build install
+    STEP_TARGETS configure build install
     SOURCE_DIR ${bison_SOURCE_DIR}
     BINARY_DIR ${bison_BINARY_DIR}
     INSTALL_DIR ${FETCHCONTENT_BASE_DIR}/bison-install
@@ -720,26 +718,28 @@ function(_php_bison_download_gnu)
       --disable-yacc
       --enable-silent-rules
       --prefix=<INSTALL_DIR>
+      M4=${PHP_BISON_M4_EXECUTABLE}
     LOG_INSTALL TRUE
   )
 
   ExternalProject_Get_Property(BISON INSTALL_DIR)
 
   set_property(CACHE BISON_EXECUTABLE PROPERTY VALUE ${INSTALL_DIR}/bin/bison)
+
+  if(TARGET M4-install)
+    add_dependencies(BISON-configure M4-install)
+  endif()
 endfunction()
 
 # Downloads winflexbison.
 function(_php_bison_download_windows)
-  message(
-    STATUS
-    "Downloading win_bison ${BISON_VERSION} from "
-    "https://github.com/lexxmark/winflexbison "
-    "(${PHP_BISON_WIN_VERSION_DOWNLOAD})"
-  )
+  set(url https://github.com/lexxmark/winflexbison/releases/download/v${PHP_BISON_WIN_VERSION_DOWNLOAD}/win_flex_bison-${PHP_BISON_WIN_VERSION_DOWNLOAD}.zip)
+
+  message(STATUS "Downloading ${url}")
 
   FetchContent_Declare(
     BISON
-    URL https://github.com/lexxmark/winflexbison/releases/download/v${PHP_BISON_WIN_VERSION_DOWNLOAD}/win_flex_bison-${PHP_BISON_WIN_VERSION_DOWNLOAD}.zip
+    URL ${url}
     SOURCE_SUBDIR non-existing
     OVERRIDE_FIND_PACKAGE
   )
@@ -751,4 +751,37 @@ function(_php_bison_download_windows)
     BISON_EXECUTABLE
     PROPERTY VALUE "${bison_SOURCE_DIR}/win_bison.exe"
   )
+endfunction()
+
+function(_php_bison_download_m4)
+  set(url https://mirrors.dotsrc.org/gnu/m4/m4-1.4.20.tar.gz)
+
+  message(STATUS "Downloading ${url}")
+
+  FetchContent_Declare(
+    M4
+    URL ${url}
+    SOURCE_SUBDIR non-existing
+    DOWNLOAD_EXTRACT_TIMESTAMP TRUE
+  )
+
+  FetchContent_MakeAvailable(M4)
+
+  ExternalProject_Add(
+    M4
+    STEP_TARGETS build install
+    SOURCE_DIR ${m4_SOURCE_DIR}
+    BINARY_DIR ${m4_BINARY_DIR}
+    INSTALL_DIR ${FETCHCONTENT_BASE_DIR}/m4-install
+    CONFIGURE_COMMAND
+      <SOURCE_DIR>/configure
+      --disable-dependency-tracking
+      --enable-silent-rules
+      --prefix=<INSTALL_DIR>
+    LOG_INSTALL TRUE
+  )
+
+  ExternalProject_Get_Property(M4 INSTALL_DIR)
+
+  set_property(CACHE PHP_BISON_M4_EXECUTABLE PROPERTY VALUE ${INSTALL_DIR}/bin/m4)
 endfunction()
