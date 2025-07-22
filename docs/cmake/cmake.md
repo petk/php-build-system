@@ -111,11 +111,12 @@ Required:
 * g++
 * libsqlite3
 
-Optional (if not found on the system, build system tries to download it):
+Optional (if not found on the system, build system tries to download them):
 
 * libxml2
 
-Optional when building from Git repository source code:
+Optional when building from Git repository source code (if not found on the
+system, build system tries to download them):
 
 * Bison
 * re2c
