@@ -161,35 +161,45 @@ target_include_directories(
 )
 
 if(PHP_EXT_OPCACHE_JIT)
+  set(dasm_arch "")
+  set(dasm_flags "")
+  set(ir_target "")
+  set(tls_target "")
+
   # Find out which ABI to use.
   if(CMAKE_SYSTEM_PROCESSOR MATCHES "^(x86_64|amd64|AMD64|ARM64)$")
-    set(IR_TARGET "IR_TARGET_X64")
-    set(DASM_FLAGS -D X64=1)
-    set(DASM_ARCH "x86")
+    set(dasm_arch "x86")
+    set(dasm_flags -D X64=1)
+    set(ir_target "IR_TARGET_X64")
+    set(tls_target "x86_64")
   elseif(CMAKE_SYSTEM_PROCESSOR MATCHES "^(i[34567]86.*|x86.*|X86)$")
-    set(IR_TARGET "IR_TARGET_X86")
-    set(DASM_ARCH "x86")
+    set(dasm_arch "x86")
+    set(ir_target "IR_TARGET_X86")
+    set(tls_target "x86")
   elseif(CMAKE_SYSTEM_PROCESSOR MATCHES "^aarch64.*")
-    set(IR_TARGET "IR_TARGET_AARCH64")
-    set(DASM_ARCH "aarch64")
+    set(dasm_arch "aarch64")
+    set(ir_target "IR_TARGET_AARCH64")
+    set(tls_target "aarch64")
   endif()
 
   if(
     CMAKE_SYSTEM_PROCESSOR STREQUAL "x86_64"
     AND CMAKE_SYSTEM_NAME STREQUAL "Darwin"
   )
-    list(APPEND DASM_FLAGS -D X64APPLE=1)
+    list(APPEND dasm_flags -D X64APPLE=1)
+    set(tls_target "darwin")
   endif()
 
   if(CMAKE_SYSTEM_NAME STREQUAL "Windows")
-    list(APPEND DASM_FLAGS -D WIN=1)
+    list(APPEND dasm_flags -D WIN=1)
+    set(tls_target "win")
   endif()
 
   if(
     CMAKE_SYSTEM_PROCESSOR MATCHES "^(AMD64|ARM64)$"
     AND CMAKE_SYSTEM_NAME STREQUAL "Windows"
   )
-    list(APPEND DASM_FLAGS -D X64WIN=1)
+    list(APPEND dasm_flags -D X64WIN=1)
   endif()
 
   # Generate ir_emit_<arch>.h file.
@@ -221,16 +231,16 @@ if(PHP_EXT_OPCACHE_JIT)
 
   # Generate native code generator for selected architecture.
   add_custom_command(
-    OUTPUT jit/ir/ir_emit_${DASM_ARCH}.h
+    OUTPUT jit/ir/ir_emit_${dasm_arch}.h
     COMMAND
       php_ext_opcache_jit_minilua ${CMAKE_CURRENT_SOURCE_DIR}/jit/ir/dynasm/dynasm.lua
-        ${DASM_FLAGS}
-        -o ${CMAKE_CURRENT_BINARY_DIR}/jit/ir/ir_emit_${DASM_ARCH}.h
-        ${CMAKE_CURRENT_SOURCE_DIR}/jit/ir/ir_${DASM_ARCH}.dasc
-    COMMENT "[ext/opcache] Generating native code generator ${relativeDir}/jit/ir/ir_emit_${DASM_ARCH}.h"
+        ${dasm_flags}
+        -o ${CMAKE_CURRENT_BINARY_DIR}/jit/ir/ir_emit_${dasm_arch}.h
+        ${CMAKE_CURRENT_SOURCE_DIR}/jit/ir/ir_${dasm_arch}.dasc
+    COMMENT "[ext/opcache] Generating native code generator ${relativeDir}/jit/ir/ir_emit_${dasm_arch}.h"
     DEPENDS
       jit/ir/dynasm/dynasm.lua
-      jit/ir/ir_${DASM_ARCH}.dasc
+      jit/ir/ir_${dasm_arch}.dasc
     VERBATIM
     COMMAND_EXPAND_LISTS
   )
@@ -240,7 +250,7 @@ if(PHP_EXT_OPCACHE_JIT)
   target_compile_definitions(
     php_ext_opcache_jit_generator
     PRIVATE
-      ${IR_TARGET}
+      ${ir_target}
       IR_PHP
       IR_PHP_MM=0
   )
@@ -281,9 +291,13 @@ if(PHP_EXT_OPCACHE_JIT)
       jit/ir/ir.c
       jit/zend_jit_vm_helpers.c
       jit/zend_jit.c
-      ${CMAKE_CURRENT_BINARY_DIR}/jit/ir/ir_emit_${DASM_ARCH}.h
+      ${CMAKE_CURRENT_BINARY_DIR}/jit/ir/ir_emit_${dasm_arch}.h
       ${CMAKE_CURRENT_BINARY_DIR}/jit/ir/ir_fold_hash.h
   )
+
+  if(tls_target AND PHP_THREAD_SAFETY)
+    target_sources(php_ext_opcache PRIVATE jit/tls/zend_jit_tls_${tls_target}.c)
+  endif()
 
   target_include_directories(
     php_ext_opcache
@@ -295,7 +309,7 @@ if(PHP_EXT_OPCACHE_JIT)
     php_ext_opcache
     PRIVATE
       IR_PHP
-      ${IR_TARGET}
+      ${ir_target}
       $<$<CONFIG:Debug,DebugAssertions>:IR_DEBUG>
   )
 
