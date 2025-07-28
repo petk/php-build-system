@@ -2337,19 +2337,19 @@ A list of Autoconf `configure` command-line configuration options, Windows
       <td>--enable-opcache</td>
       <td>--enable-opcache</td>
       <td>PHP_EXT_OPCACHE=ON</td>
-      <td>default, will be shared</td>
+      <td>default, will be shared; removed since PHP >= 8.5</td>
     </tr>
     <tr>
       <td>&emsp;--enable-opcache=shared</td>
       <td>--enable-opcache=shared</td>
       <td>PHP_EXT_OPCACHE=ON</td>
-      <td>will be shared</td>
+      <td>will be shared; removed since PHP >= 8.5</td>
     </tr>
     <tr>
       <td>&emsp;--disable-opcache</td>
       <td>--disable-opcache</td>
       <td>PHP_EXT_OPCACHE=OFF</td>
-      <td></td>
+      <td>removed since PHP >= 8.5</td>
     </tr>
     <tr>
       <td>&emsp;--enable-huge-code-pages</td>

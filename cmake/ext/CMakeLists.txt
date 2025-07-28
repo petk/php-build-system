@@ -30,6 +30,7 @@ set_property(
       hash
       json
       lexbor
+      opcache
       pcre
       random
       reflection

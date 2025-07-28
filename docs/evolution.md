@@ -941,11 +941,14 @@ PHP coding standards now use the C11 standard.
   50.1 to 57.1.
 * Minimum required SQLite library version has been increased from 3.7.7 to
   3.7.17.
-* Bundled file library in ext/fileinfo upgraded to 5.46.
+* Bundled file library in ext/fileinfo has been upgraded from 5.45 to 5.46.
 * Bundled pcre2lib in ext/pcre upgraded from 10.44 to 10.45.
 * Added new extensions lexbor and uri as always enabled.
 * The `SIZEOF_INTMAX_T` preprocessor macro has been removed.
 * The `SIZEOF_PTRDIFF_T` preprocessor macro has been removed.
+* The Opcache extension (ext/opcache) is now always built into the PHP binary
+  and is always loaded. The `--enable-opcache`/`--disable-opcache` configure
+  options have been removed.
 
 #### Autotools
 

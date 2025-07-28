@@ -1,3 +1,6 @@
+/* Define to 1 if you have the 'accept4' function. */
+#cmakedefine HAVE_ACCEPT4 1
+
 /* Define to 1 if you have the 'hstrerror' function. */
 #cmakedefine HAVE_HSTRERROR 1
 

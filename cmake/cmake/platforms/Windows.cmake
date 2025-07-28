@@ -51,6 +51,7 @@ if(CMAKE_SYSTEM_NAME STREQUAL "Windows")
   # known on Windows targets.
   ##############################################################################
 
+  set(HAVE_ACCEPT4 FALSE)
   set(HAVE_ALPHASORT FALSE)
   set(HAVE_ARC4RANDOM_BUF FALSE)
   set(HAVE_ARPA_INET_H FALSE)

@@ -7,9 +7,13 @@ repository.
 
 * C11 standard
 
-New configuration variables:
+New configuration options:
 
 * PHP_SYSTEM_GLOB
+
+Removed configuration options:
+
+* PHP_EXT_OPCACHE
 
 ## PHP 8.4
 

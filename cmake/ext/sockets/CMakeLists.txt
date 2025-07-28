@@ -93,6 +93,11 @@ target_link_libraries(
 
 cmake_push_check_state(RESET)
   set(CMAKE_REQUIRED_DEFINITIONS -D_GNU_SOURCE)
+  check_symbol_exists(accept4 "sys/types.h;sys/socket.h" HAVE_ACCEPT4)
+cmake_pop_check_state()
+
+cmake_push_check_state(RESET)
+  set(CMAKE_REQUIRED_DEFINITIONS -D_GNU_SOURCE)
   check_symbol_exists(hstrerror "netdb.h;sys/socket.h" HAVE_HSTRERROR)
 cmake_pop_check_state()
 

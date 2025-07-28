@@ -7,10 +7,13 @@ This extension enables the PHP OPcode caching engine.
 
 ## PHP_EXT_OPCACHE
 
+:red_circle: *Removed as of PHP 8.5.*
+
 * Default: `ON`
 * Values: `ON|OFF`
 
-Enable the extension. This extension is always built as shared when enabled.
+Enable the extension. This extension is always built as shared when enabled. As
+of PHP 8.5, this extension is always enabled and cannot be disabled.
 
 ## PHP_EXT_OPCACHE_HUGE_CODE_PAGES
 

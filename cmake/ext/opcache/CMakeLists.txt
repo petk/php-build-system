@@ -5,10 +5,13 @@ This extension enables the PHP OPcode caching engine.
 
 ## PHP_EXT_OPCACHE
 
+:red_circle: *Removed as of PHP 8.5.*
+
 * Default: `ON`
 * Values: `ON|OFF`
 
-Enable the extension. This extension is always built as shared when enabled.
+Enable the extension. This extension is always built as shared when enabled. As
+of PHP 8.5, this extension is always enabled and cannot be disabled.
 
 ## PHP_EXT_OPCACHE_HUGE_CODE_PAGES
 
@@ -44,10 +47,9 @@ include(CMakeDependentOption)
 include(FeatureSummary)
 include(PHP/SearchLibraries)
 
-option(PHP_EXT_OPCACHE "Enable the Zend OPcache extension" ON)
 add_feature_info(
   "ext/opcache"
-  PHP_EXT_OPCACHE
+  TRUE
   "PHP OPcode caching engine"
 )
 
@@ -55,35 +57,22 @@ cmake_dependent_option(
   PHP_EXT_OPCACHE_HUGE_CODE_PAGES
   "Enable copying PHP CODE pages into HUGE PAGES"
   ON
-  [[PHP_EXT_OPCACHE AND NOT CMAKE_SYSTEM_NAME STREQUAL "Windows"]]
+  [[NOT CMAKE_SYSTEM_NAME STREQUAL "Windows"]]
   OFF
 )
 
-cmake_dependent_option(
-  PHP_EXT_OPCACHE_JIT
-  "Enable JIT (just-in-time) compilation"
-  ON
-  PHP_EXT_OPCACHE
-  OFF
-)
+option(PHP_EXT_OPCACHE_JIT "Enable JIT (just-in-time) compilation" ON)
 
-cmake_dependent_option(
+option(
   PHP_EXT_OPCACHE_CAPSTONE
   "Support OPcache JIT disassembly through Capstone engine"
-  OFF
-  PHP_EXT_OPCACHE
-  OFF
 )
-
-if(NOT PHP_EXT_OPCACHE)
-  return()
-endif()
 
 ################################################################################
 # Add library.
 ################################################################################
 
-add_library(php_ext_opcache MODULE)
+add_library(php_ext_opcache OBJECT)
 
 target_sources(
   php_ext_opcache

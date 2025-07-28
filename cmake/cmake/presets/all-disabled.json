@@ -15,7 +15,6 @@
         "PHP_EXT_FILTER": false,
         "PHP_EXT_ICONV": false,
         "PHP_EXT_LIBXML": false,
-        "PHP_EXT_OPCACHE": false,
         "PHP_EXT_PDO": false,
         "PHP_EXT_PDO_SQLITE": false,
         "PHP_EXT_PHAR": false,
