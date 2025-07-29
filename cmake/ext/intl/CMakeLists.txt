@@ -127,15 +127,15 @@ target_sources(
     formatter/formatter.stub.php
     grapheme/grapheme_string.c
     grapheme/grapheme_util.c
-    idn/idn.c
+    idn/idn.cpp
     intl_convert.c
     intl_convertcpp.cpp
     intl_error.c
     listformatter/listformatter_class.c
     listformatter/listformatter.stub.php
-    locale/locale_class.c
-    locale/locale_methods.c
-    locale/locale.c
+    locale/locale_class.cpp
+    locale/locale_methods.cpp
+    locale/locale.cpp
     locale/locale.stub.php
     msgformat/msgformat_attr.c
     msgformat/msgformat_class.c
@@ -164,7 +164,7 @@ target_sources(
     transliterator/transliterator_class.c
     transliterator/transliterator_methods.c
     transliterator/transliterator.stub.php
-    uchar/uchar.c
+    uchar/uchar.cpp
     uchar/uchar.stub.php
 )
 

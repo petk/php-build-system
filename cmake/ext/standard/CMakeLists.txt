@@ -180,8 +180,6 @@ target_sources(
         php_math.h
         php_net.h
         php_password.h
-        php_smart_string_public.h
-        php_smart_string.h
         php_standard.h
         php_string.h
         php_uuencode.h

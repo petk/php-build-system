@@ -936,7 +936,8 @@ PHP coding standards now use the C11 standard.
 #### Abstract
 
 * ext/phar/php_phar.h is not installed anymore.
-* ext/standard/datetime.h is not installed anymore.
+* ext/standard/datetime.h, ext/standard/php_smart_string.h and
+  ext/standard/php_smart_string_public.h are not installed anymore.
 * Minimum required ICU package version (for ext/intl) has been increased from
   50.1 to 57.1.
 * Minimum required SQLite library version has been increased from 3.7.7 to
