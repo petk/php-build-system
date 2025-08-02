@@ -4,7 +4,7 @@
 Finds Valgrind:
 
 ```cmake
-find_package(Valgrind)
+find_package(Valgrind [<version>] [...])
 ```
 
 ## Imported targets
@@ -15,8 +15,8 @@ This module defines the following imported targets:
 
 ## Result variables
 
-* `Valgrind_FOUND` - Whether the package has been found.
-* `Valgrind_INCLUDE_DIRS` - Include directories needed to use this package.
+* `Valgrind_FOUND` - Boolean indicating whether the package is found.
+* `Valgrind_VERSION` - The version of package found.
 
 ## Cache variables
 
@@ -114,18 +114,13 @@ if(NOT Valgrind_FOUND)
   return()
 endif()
 
-set(
-  Valgrind_INCLUDE_DIRS
-  ${Valgrind_INCLUDE_DIR}
-  ${Valgrind_INCLUDE_DIR}/valgrind # See above note about the parent includedir.
-)
-
 if(NOT TARGET Valgrind::Valgrind)
   add_library(Valgrind::Valgrind INTERFACE IMPORTED)
 
-  set_target_properties(
-    Valgrind::Valgrind
-    PROPERTIES
-      INTERFACE_INCLUDE_DIRECTORIES "${Valgrind_INCLUDE_DIRS}"
+  set_property(
+    TARGET Valgrind::Valgrind
+    PROPERTY INTERFACE_INCLUDE_DIRECTORIES
+      ${Valgrind_INCLUDE_DIR}
+      ${Valgrind_INCLUDE_DIR}/valgrind # See above note about the parent includedir.
   )
 endif()

@@ -4,7 +4,7 @@
 Finds the GMP library:
 
 ```cmake
-find_package(GMP)
+find_package(GMP [<version>] [...])
 ```
 
 ## Imported targets
@@ -15,10 +15,8 @@ This module defines the following imported targets:
 
 ## Result variables
 
-* `GMP_FOUND` - Whether the package has been found.
-* `GMP_INCLUDE_DIRS` - Include directories needed to use this package.
-* `GMP_LIBRARIES` - Libraries needed to link to the package library.
-* `GMP_VERSION` - Package version, if found.
+* `GMP_FOUND` - Boolean indicating whether the package is found.
+* `GMP_VERSION` - The version of package found.
 
 ## Cache variables
 
@@ -121,9 +119,6 @@ if(NOT GMP_FOUND)
   return()
 endif()
 
-set(GMP_INCLUDE_DIRS ${GMP_INCLUDE_DIR})
-set(GMP_LIBRARIES ${GMP_LIBRARY})
-
 if(NOT TARGET GMP::GMP)
   add_library(GMP::GMP UNKNOWN IMPORTED)
 
@@ -131,6 +126,6 @@ if(NOT TARGET GMP::GMP)
     GMP::GMP
     PROPERTIES
       IMPORTED_LOCATION "${GMP_LIBRARY}"
-      INTERFACE_INCLUDE_DIRECTORIES "${GMP_INCLUDE_DIRS}"
+      INTERFACE_INCLUDE_DIRECTORIES "${GMP_INCLUDE_DIR}"
   )
 endif()

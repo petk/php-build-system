@@ -15,9 +15,7 @@ This module defines the following imported targets:
 
 ## Result variables
 
-* `FreeTDS_FOUND` - Whether the package has been found.
-* `FreeTDS_INCLUDE_DIRS` - Include directories needed to use this package.
-* `FreeTDS_LIBRARIES` - Libraries needed to link to the package library.
+* `FreeTDS_FOUND` - Boolean indicating whether the package is found.
 
 ## Cache variables
 
@@ -102,9 +100,6 @@ if(NOT FreeTDS_FOUND)
   return()
 endif()
 
-set(FreeTDS_INCLUDE_DIRS ${FreeTDS_INCLUDE_DIR})
-set(FreeTDS_LIBRARIES ${FreeTDS_LIBRARY})
-
 if(FreeTDS_FOUND AND NOT TARGET FreeTDS::FreeTDS)
   add_library(FreeTDS::FreeTDS UNKNOWN IMPORTED)
 
@@ -112,6 +107,6 @@ if(FreeTDS_FOUND AND NOT TARGET FreeTDS::FreeTDS)
     FreeTDS::FreeTDS
     PROPERTIES
       IMPORTED_LOCATION "${FreeTDS_LIBRARY}"
-      INTERFACE_INCLUDE_DIRECTORIES "${FreeTDS_INCLUDE_DIRS}"
+      INTERFACE_INCLUDE_DIRECTORIES "${FreeTDS_INCLUDE_DIR}"
   )
 endif()

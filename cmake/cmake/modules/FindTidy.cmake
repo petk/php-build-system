@@ -5,7 +5,7 @@ Finds the Tidy library (tidy-html5, legacy htmltidy library, or the tidyp -
 obsolete fork):
 
 ```cmake
-find_package(Tidy)
+find_package(Tidy [<version>] [...])
 ```
 
 ## Imported targets
@@ -16,10 +16,8 @@ This module defines the following imported targets:
 
 ## Result variables
 
-* `Tidy_FOUND` - Whether the package has been found.
-* `Tidy_INCLUDE_DIRS` - Include directories needed to use this package.
-* `Tidy_LIBRARIES` - Libraries needed to link to the package library.
-* `Tidy_VERSION` - Package version, if found.
+* `Tidy_FOUND` - Boolean indicating whether the package is found.
+* `Tidy_VERSION` - The version of package found.
 
 ## Cache variables
 
@@ -130,9 +128,6 @@ if(NOT Tidy_FOUND)
   return()
 endif()
 
-set(Tidy_INCLUDE_DIRS ${Tidy_INCLUDE_DIR})
-set(Tidy_LIBRARIES ${Tidy_LIBRARY})
-
 if(NOT TARGET Tidy::Tidy)
   add_library(Tidy::Tidy UNKNOWN IMPORTED)
 
@@ -140,6 +135,6 @@ if(NOT TARGET Tidy::Tidy)
     Tidy::Tidy
     PROPERTIES
       IMPORTED_LOCATION "${Tidy_LIBRARY}"
-      INTERFACE_INCLUDE_DIRECTORIES "${Tidy_INCLUDE_DIRS}"
+      INTERFACE_INCLUDE_DIRECTORIES "${Tidy_INCLUDE_DIR}"
   )
 endif()

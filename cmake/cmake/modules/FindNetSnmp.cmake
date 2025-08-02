@@ -4,7 +4,7 @@
 Finds the Net-SNMP library:
 
 ```cmake
-find_package(NetSnmp)
+find_package(NetSnmp [<version>] [...])
 ```
 
 ## Imported targets
@@ -15,10 +15,8 @@ This module defines the following imported targets:
 
 ## Result variables
 
-* `NetSnmp_FOUND` - Whether the package has been found.
-*` NetSnmp_INCLUDE_DIRS` - Include directories needed to use this package.
-*` NetSnmp_LIBRARIES` - Libraries needed to link to the package library.
-* `NetSnmp_VERSION` - Package version, if found.
+* `NetSnmp_FOUND` - Boolean indicating whether the package is found.
+* `NetSnmp_VERSION` - The version of package found.
 
 ## Cache variables
 
@@ -208,9 +206,6 @@ if(NOT NetSnmp_FOUND)
   return()
 endif()
 
-set(NetSnmp_INCLUDE_DIRS ${NetSnmp_INCLUDE_DIR})
-set(NetSnmp_LIBRARIES ${NetSnmp_LIBRARY})
-
 if(NOT TARGET NetSnmp::NetSnmp)
   add_library(NetSnmp::NetSnmp UNKNOWN IMPORTED)
 
@@ -218,6 +213,6 @@ if(NOT TARGET NetSnmp::NetSnmp)
     NetSnmp::NetSnmp
     PROPERTIES
       IMPORTED_LOCATION "${NetSnmp_LIBRARY}"
-      INTERFACE_INCLUDE_DIRECTORIES "${NetSnmp_INCLUDE_DIRS}"
+      INTERFACE_INCLUDE_DIRECTORIES "${NetSnmp_INCLUDE_DIR}"
   )
 endif()

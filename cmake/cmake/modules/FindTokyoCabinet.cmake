@@ -4,7 +4,7 @@
 Finds the Tokyo Cabinet library:
 
 ```cmake
-find_package(TokyoCabinet)
+find_package(TokyoCabinet [<version>] [...])
 ```
 
 ## Imported targets
@@ -15,10 +15,8 @@ This module defines the following imported targets:
 
 ## Result variables
 
-* `TokyoCabinet_FOUND` - Whether the package has been found.
-* `TokyoCabinet_INCLUDE_DIRS` - Include directories needed to use this package.
-* `TokyoCabinet_LIBRARIES` - Libraries needed to link to the package library.
-* `TokyoCabinet_VERSION` - Package version, if found.
+* `TokyoCabinet_FOUND` - Boolean indicating whether the package is found.
+* `TokyoCabinet_VERSION` - The version of package found.
 
 ## Cache variables
 
@@ -125,9 +123,6 @@ if(NOT TokyoCabinet_FOUND)
   return()
 endif()
 
-set(TokyoCabinet_INCLUDE_DIRS ${TokyoCabinet_INCLUDE_DIR})
-set(TokyoCabinet_LIBRARIES ${TokyoCabinet_LIBRARY})
-
 if(NOT TARGET TokyoCabinet::TokyoCabinet)
   add_library(TokyoCabinet::TokyoCabinet UNKNOWN IMPORTED)
 
@@ -135,6 +130,6 @@ if(NOT TARGET TokyoCabinet::TokyoCabinet)
     TokyoCabinet::TokyoCabinet
     PROPERTIES
       IMPORTED_LOCATION "${TokyoCabinet_LIBRARY}"
-      INTERFACE_INCLUDE_DIRECTORIES "${TokyoCabinet_INCLUDE_DIRS}"
+      INTERFACE_INCLUDE_DIRECTORIES "${TokyoCabinet_INCLUDE_DIR}"
   )
 endif()

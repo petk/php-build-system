@@ -4,7 +4,7 @@
 Finds the `re2c` command-line lexer generator:
 
 ```cmake
-find_package(RE2C)
+find_package(RE2C [<version>] [...])
 ```
 
 ## Result variables

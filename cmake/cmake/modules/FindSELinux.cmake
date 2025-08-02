@@ -4,7 +4,7 @@
 Finds the SELinux library:
 
 ```cmake
-find_package(SELinux)
+find_package(SELinux [<version>] [...])
 ```
 
 ## Imported targets
@@ -15,10 +15,8 @@ This module defines the following imported targets:
 
 ## Result variables
 
-* `SELinux_FOUND` - Whether the package has been found.
-* `SELinux_INCLUDE_DIRS` - Include directories needed to use this package.
-* `SELinux_LIBRARIES` - Libraries needed to link to the package library.
-* `SELinux_VERSION` - Package version, if found.
+* `SELinux_FOUND` - Boolean indicating whether the package is found.
+* `SELinux_VERSION` - The version of package found.
 
 ## Cache variables
 
@@ -121,9 +119,6 @@ if(NOT SELinux_FOUND)
   return()
 endif()
 
-set(SELinux_INCLUDE_DIRS ${SELinux_INCLUDE_DIR})
-set(SELinux_LIBRARIES ${SELinux_LIBRARY})
-
 if(NOT TARGET SELinux::SELinux)
   add_library(SELinux::SELinux UNKNOWN IMPORTED)
 
@@ -131,6 +126,6 @@ if(NOT TARGET SELinux::SELinux)
     SELinux::SELinux
     PROPERTIES
       IMPORTED_LOCATION "${SELinux_LIBRARY}"
-      INTERFACE_INCLUDE_DIRECTORIES "${SELinux_INCLUDE_DIRS}"
+      INTERFACE_INCLUDE_DIRECTORIES "${SELinux_INCLUDE_DIR}"
   )
 endif()

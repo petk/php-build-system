@@ -24,14 +24,12 @@ This module defines the following imported targets:
 
 ## Result variables
 
+* `MySQL_FOUND` - Whether the package with requested components has been found.
 * `MySQL_Socket_FOUND` - Whether the MySQL Unix socket pointer has been
   determined.
 * `MySQL_Socket_PATH` - Path to the MySQL Unix socket if one has been found in
   the predefined default locations.
 * `MySQL_Lib_FOUND` - Whether the Lib component has been found.
-* `MySQL_FOUND` - Whether the package with requested components has been found.
-* `MySQL_INCLUDE_DIRS` - MySQL include directories.
-* `MySQL_LIBRARIES` - MySQL libraries.
 
 ## Cache variables
 
@@ -183,14 +181,6 @@ if(NOT MySQL_FOUND)
   return()
 endif()
 
-if(MySQL_INCLUDE_DIR)
-  set(MySQL_INCLUDE_DIRS ${MySQL_INCLUDE_DIR})
-endif()
-
-if(MySQL_LIBRARY)
-  set(MySQL_LIBRARIES ${MySQL_LIBRARY})
-endif()
-
 if(MySQL_Lib_FOUND AND NOT TARGET MySQL::MySQL)
   add_library(MySQL::MySQL UNKNOWN IMPORTED)
 
@@ -198,6 +188,6 @@ if(MySQL_Lib_FOUND AND NOT TARGET MySQL::MySQL)
     MySQL::MySQL
     PROPERTIES
       IMPORTED_LOCATION "${MySQL_LIBRARY}"
-      INTERFACE_INCLUDE_DIRECTORIES "${MySQL_INCLUDE_DIRS}"
+      INTERFACE_INCLUDE_DIRECTORIES "${MySQL_INCLUDE_DIR}"
   )
 endif()

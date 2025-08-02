@@ -4,7 +4,7 @@
 Finds the Enchant library:
 
 ```cmake
-find_package(Enchant)
+find_package(Enchant [<version>] [...])
 ```
 
 Enchant uses different library names based on the version - `enchant-2` for
@@ -18,10 +18,8 @@ This module defines the following imported targets:
 
 ## Result variables
 
-* `Enchant_FOUND` - Whether the package has been found.
-* `Enchant_INCLUDE_DIRS` - Include directories needed to use this package.
-* `Enchant_LIBRARIES` - Libraries needed to link to the package library.
-* `Enchant_VERSION` - Package version, if found.
+* `Enchant_FOUND` - Boolean indicating whether the package is found.
+* `Enchant_VERSION` - The version of package found.
 
 ## Cache variables
 
@@ -103,9 +101,6 @@ if(NOT Enchant_FOUND)
   return()
 endif()
 
-set(Enchant_INCLUDE_DIRS ${Enchant_INCLUDE_DIR})
-set(Enchant_LIBRARIES ${Enchant_LIBRARY})
-
 if(NOT TARGET Enchant::Enchant)
   add_library(Enchant::Enchant UNKNOWN IMPORTED)
 
@@ -113,6 +108,6 @@ if(NOT TARGET Enchant::Enchant)
     Enchant::Enchant
     PROPERTIES
       IMPORTED_LOCATION "${Enchant_LIBRARY}"
-      INTERFACE_INCLUDE_DIRECTORIES "${Enchant_INCLUDE_DIRS}"
+      INTERFACE_INCLUDE_DIRECTORIES "${Enchant_INCLUDE_DIR}"
   )
 endif()
