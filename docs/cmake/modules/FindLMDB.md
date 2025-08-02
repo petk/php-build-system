@@ -6,7 +6,7 @@
 Finds the LMDB library:
 
 ```cmake
-find_package(LMDB)
+find_package(LMDB [<version>] [...])
 ```
 
 ## Imported targets
@@ -17,10 +17,8 @@ This module defines the following imported targets:
 
 ## Result variables
 
-* `LMDB_FOUND` - Whether the package has been found.
-* `LMDB_INCLUDE_DIRS` - Include directories needed to use this package.
-* `LMDB_LIBRARIES` - Libraries needed to link to the package library.
-* `LMDB_VERSION` - Package version, if found.
+* `LMDB_FOUND` - Boolean indicating whether the package is found.
+* `LMDB_VERSION` - The version of package found.
 
 ## Cache variables
 

@@ -6,7 +6,7 @@
 Finds the libavif library:
 
 ```cmake
-find_package(libavif)
+find_package(libavif [<version>] [...])
 ```
 
 This is a helper in case system doesn't have the library's Config find module.
@@ -19,10 +19,8 @@ This module defines the following imported targets:
 
 ## Result variables
 
-* `libavif_FOUND` - Whether the package has been found.
-* `libavif_INCLUDE_DIRS` - Include directories needed to use this package.
-* `libavif_LIBRARIES` - Libraries needed to link to the package library.
-* `libavif_VERSION` - Package version, if found.
+* `libavif_FOUND` - Boolean indicating whether the package is found.
+* `libavif_VERSION` - The version of package found.
 
 ## Cache variables
 

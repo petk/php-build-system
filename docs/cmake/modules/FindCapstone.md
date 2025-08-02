@@ -6,7 +6,7 @@
 Finds the Capstone library:
 
 ```cmake
-find_package(Capstone)
+find_package(Capstone [<version>] [...])
 ```
 
 ## Imported targets
@@ -17,10 +17,8 @@ This module defines the following imported targets:
 
 ## Result variables
 
-* `Capstone_FOUND` - Whether the package has been found.
-* `Capstone_INCLUDE_DIRS` - Include directories needed to use this package.
-* `Capstone_LIBRARIES` - Libraries needed to link to the package library.
-* `Capstone_VERSION` - Package version, if found.
+* `Capstone_FOUND` - Boolean indicating whether the package is found.
+* `Capstone_VERSION` - The version of package found.
 
 ## Cache variables
 

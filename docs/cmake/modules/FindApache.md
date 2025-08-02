@@ -6,7 +6,7 @@
 Finds the Apache packages and tools:
 
 ```cmake
-find_package(Apache)
+find_package(Apache [<version>] [...])
 ```
 
 The Apache development package usually contains Apache header files, the `apr`
@@ -21,10 +21,8 @@ This module defines the following imported targets:
 
 ## Result variables
 
-* `Apache_FOUND` - Whether the package has been found.
-* `Apache_INCLUDE_DIRS` - Include directories needed to use this package.
-* `Apache_LIBRARIES` - Libraries needed to link to the package library.
-* `Apache_VERSION` - Package version, if found.
+* `Apache_FOUND` - Boolean indicating whether the package is found.
+* `Apache_VERSION` - The version of package found.
 * `Apache_THREADED` - Whether Apache requires thread safety.
 * `Apache_LIBEXECDIR` - Path to the directory containing all Apache modules and
   `httpd.exp` file (list of exported symbols).

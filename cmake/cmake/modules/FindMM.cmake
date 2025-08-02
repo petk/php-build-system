@@ -15,9 +15,7 @@ This module defines the following imported targets:
 
 ## Result variables
 
-* `MM_FOUND` - Whether the package has been found.
-* `MM_INCLUDE_DIRS` - Include directories needed to use this package.
-* `MM_LIBRARIES` - Libraries needed to link to the package library.
+* `MM_FOUND` - Boolean indicating whether the package is found.
 
 ## Cache variables
 
@@ -83,9 +81,6 @@ if(NOT MM_FOUND)
   return()
 endif()
 
-set(MM_INCLUDE_DIRS ${MM_INCLUDE_DIR})
-set(MM_LIBRARIES ${MM_LIBRARY})
-
 if(NOT TARGET MM::MM)
   add_library(MM::MM UNKNOWN IMPORTED)
 
@@ -93,6 +88,6 @@ if(NOT TARGET MM::MM)
     MM::MM
     PROPERTIES
       IMPORTED_LOCATION "${MM_LIBRARY}"
-      INTERFACE_INCLUDE_DIRECTORIES "${MM_INCLUDE_DIRS}"
+      INTERFACE_INCLUDE_DIRECTORIES "${MM_INCLUDE_DIR}"
   )
 endif()

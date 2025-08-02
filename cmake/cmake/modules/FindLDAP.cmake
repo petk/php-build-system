@@ -4,7 +4,7 @@
 Finds the LDAP library:
 
 ```cmake
-find_package(LDAP)
+find_package(LDAP [<version>] [COMPONENTS <components>...] [...])
 ```
 
 ## Components
@@ -22,10 +22,8 @@ This module defines the following imported targets:
 
 ## Result variables
 
-* `LDAP_FOUND` - Whether the package has been found.
-* `LDAP_INCLUDE_DIRS` - Include directories needed to use this package.
-* `LDAP_LIBRARIES` - Libraries needed to link to the package library.
-* `LDAP_VERSION` - Package version, if found.
+* `LDAP_FOUND` - Boolean indicating whether the package is found.
+* `LDAP_VERSION` - The version of package found.
 
 ## Cache variables
 
@@ -184,11 +182,6 @@ if(NOT LDAP_FOUND)
   return()
 endif()
 
-set(LDAP_INCLUDE_DIRS ${LDAP_INCLUDE_DIR})
-set(LDAP_LIBRARIES ${LDAP_LIBRARY})
-set(LDAP_LBER_INCLUDE_DIRS ${LDAP_LBER_INCLUDE_DIR})
-set(LDAP_LBER_LIBRARIES ${LDAP_LBER_LIBRARY})
-
 if(LDAP_LBER_LIBRARY AND NOT TARGET LDAP::LBER)
   if(IS_ABSOLUTE "${LDAP_LBER_LIBRARY}")
     add_library(LDAP::LBER UNKNOWN IMPORTED)
@@ -210,7 +203,7 @@ if(LDAP_LBER_LIBRARY AND NOT TARGET LDAP::LBER)
   set_target_properties(
     LDAP::LBER
     PROPERTIES
-      INTERFACE_INCLUDE_DIRECTORIES "${LDAP_LBER_INCLUDE_DIRS}"
+      INTERFACE_INCLUDE_DIRECTORIES "${LDAP_LBER_INCLUDE_DIR}"
   )
 endif()
 
@@ -236,7 +229,7 @@ if(NOT TARGET LDAP::LDAP)
     LDAP::LDAP
     PROPERTIES
       IMPORTED_LOCATION "${LDAP_LIBRARY}"
-      INTERFACE_INCLUDE_DIRECTORIES "${LDAP_INCLUDE_DIRS}"
+      INTERFACE_INCLUDE_DIRECTORIES "${LDAP_INCLUDE_DIR}"
   )
 
   if(NOT LDAP_FIND_COMPONENTS AND TARGET LDAP::LBER)

@@ -23,10 +23,8 @@ This module defines the following imported targets:
 
 ## Result variables
 
-* `Ndbm_FOUND` - Whether the package has been found.
+* `Ndbm_FOUND` - Boolean indicating whether the package is found.
 * `Ndbm_IS_BUILT_IN` - Whether ndbm is a part of the C library.
-* `Ndbm_INCLUDE_DIRS` - Include directories needed to use this package.
-* `Ndbm_LIBRARIES` - Libraries needed to link to the package library.
 
 ## Cache variables
 
@@ -126,14 +124,6 @@ if(NOT Ndbm_FOUND)
   return()
 endif()
 
-if(Ndbm_IS_BUILT_IN)
-  set(Ndbm_INCLUDE_DIRS "")
-  set(Ndbm_LIBRARIES "")
-else()
-  set(Ndbm_INCLUDE_DIRS ${Ndbm_INCLUDE_DIR})
-  set(Ndbm_LIBRARIES ${Ndbm_LIBRARY})
-endif()
-
 if(NOT TARGET Ndbm::Ndbm)
   add_library(Ndbm::Ndbm UNKNOWN IMPORTED)
 
@@ -141,7 +131,7 @@ if(NOT TARGET Ndbm::Ndbm)
     set_target_properties(
       Ndbm::Ndbm
       PROPERTIES
-        INTERFACE_INCLUDE_DIRECTORIES "${Ndbm_INCLUDE_DIRS}"
+        INTERFACE_INCLUDE_DIRECTORIES "${Ndbm_INCLUDE_DIR}"
     )
   endif()
 

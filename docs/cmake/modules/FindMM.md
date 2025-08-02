@@ -17,9 +17,7 @@ This module defines the following imported targets:
 
 ## Result variables
 
-* `MM_FOUND` - Whether the package has been found.
-* `MM_INCLUDE_DIRS` - Include directories needed to use this package.
-* `MM_LIBRARIES` - Libraries needed to link to the package library.
+* `MM_FOUND` - Boolean indicating whether the package is found.
 
 ## Cache variables
 

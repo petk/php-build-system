@@ -6,7 +6,7 @@
 Finds Valgrind:
 
 ```cmake
-find_package(Valgrind)
+find_package(Valgrind [<version>] [...])
 ```
 
 ## Imported targets
@@ -17,8 +17,8 @@ This module defines the following imported targets:
 
 ## Result variables
 
-* `Valgrind_FOUND` - Whether the package has been found.
-* `Valgrind_INCLUDE_DIRS` - Include directories needed to use this package.
+* `Valgrind_FOUND` - Boolean indicating whether the package is found.
+* `Valgrind_VERSION` - The version of package found.
 
 ## Cache variables
 

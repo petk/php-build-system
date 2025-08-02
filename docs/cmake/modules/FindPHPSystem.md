@@ -7,8 +7,8 @@ Find external PHP on the system, if installed.
 
 ## Result variables
 
-* `PHPSystem_FOUND` - Whether the package has been found.
-* `PHPSystem_VERSION` - Package version, if found.
+* `PHPSystem_FOUND` - Boolean indicating whether the package is found.
+* `PHPSystem_VERSION` - The version of package found.
 
 ## Cache variables
 

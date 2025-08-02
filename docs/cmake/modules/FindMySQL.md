@@ -26,14 +26,12 @@ This module defines the following imported targets:
 
 ## Result variables
 
+* `MySQL_FOUND` - Whether the package with requested components has been found.
 * `MySQL_Socket_FOUND` - Whether the MySQL Unix socket pointer has been
   determined.
 * `MySQL_Socket_PATH` - Path to the MySQL Unix socket if one has been found in
   the predefined default locations.
 * `MySQL_Lib_FOUND` - Whether the Lib component has been found.
-* `MySQL_FOUND` - Whether the package with requested components has been found.
-* `MySQL_INCLUDE_DIRS` - MySQL include directories.
-* `MySQL_LIBRARIES` - MySQL libraries.
 
 ## Cache variables
 

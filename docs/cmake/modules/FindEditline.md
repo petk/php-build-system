@@ -17,10 +17,8 @@ This module defines the following imported targets:
 
 ## Result variables
 
-* `Editline_FOUND` - Whether the package has been found.
-* `Editline_INCLUDE_DIRS` - Include directories needed to use this package.
-* `Editline_LIBRARIES` - Libraries needed to link to the package library.
-* `Editline_VERSION` - Package version, if found.
+* `Editline_FOUND` - Boolean indicating whether the package is found.
+* `Editline_VERSION` - The version of package found.
 
 ## Cache variables
 

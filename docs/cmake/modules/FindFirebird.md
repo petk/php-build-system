@@ -6,7 +6,7 @@
 Finds the Firebird library:
 
 ```cmake
-find_package(Firebird)
+find_package(Firebird [<version>] [...])
 ```
 
 ## Imported targets
@@ -17,11 +17,7 @@ This module defines the following imported targets:
 
 ## Result variables
 
-* `Firebird_CFLAGS` - A list of CFLAGS as given by the fb_config Firebird
-  command-line utility.
-* `Firebird_FOUND` - Whether the package has been found.
-* `Firebird_INCLUDE_DIRS` - Include directories needed to use this package.
-* `Firebird_LIBRARIES` - Libraries needed to link to the package library.
+* `Firebird_FOUND` - Boolean indicating whether the package is found.
 * `Firebird_VERSION` - Version of Firebird if fb-config utility is available.
 
 ## Cache variables

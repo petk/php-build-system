@@ -17,10 +17,8 @@ This module defines the following imported targets:
 
 ## Result variables
 
-* `FFI_FOUND` - Whether the package has been found.
-* `FFI_INCLUDE_DIRS` - Include directories needed to use this package.
-* `FFI_LIBRARIES` - Libraries needed to link to the package library.
-* `FFI_VERSION` - Package version, if found.
+* `FFI_FOUND` - Boolean indicating whether the package is found.
+* `FFI_VERSION` - The version of package found.
 
 ## Cache variables
 

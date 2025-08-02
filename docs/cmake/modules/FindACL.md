@@ -6,7 +6,7 @@
 Finds the ACL library:
 
 ```cmake
-find_package(ACL)
+find_package(ACL [<version>] [...])
 ```
 
 ## Imported targets
@@ -17,10 +17,8 @@ This module defines the following imported targets:
 
 ## Result variables
 
-* `ACL_FOUND` - Whether the package has been found.
-* `ACL_INCLUDE_DIRS` - Include directories needed to use this package.
-* `ACL_LIBRARIES` - Libraries needed to link to the package library.
-* `ACL_VERSION` - Package version, if found.
+* `ACL_FOUND` - Boolean indicating whether the package is found.
+* `ACL_VERSION` - The version of package found.
 
 ## Cache variables
 

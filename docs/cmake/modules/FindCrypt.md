@@ -6,7 +6,7 @@
 Finds the crypt library and run a set of PHP-specific checks if library works:
 
 ```cmake
-find_package(Crypt)
+find_package(Crypt [<version>] [...])
 ```
 
 The Crypt library can be on some systems part of the standard C library. The
@@ -23,10 +23,8 @@ This module defines the following imported targets:
 
 ## Result variables
 
-* `Crypt_FOUND` - Whether the package has been found.
-* `Crypt_INCLUDE_DIRS` - Include directories needed to use this package.
-* `Crypt_LIBRARIES` - Libraries needed to link to the package library.
-* `Crypt_VERSION` - Package version, if found.
+* `Crypt_FOUND` - Boolean indicating whether the package is found.
+* `Crypt_VERSION` - The version of package found.
 
 ## Cache variables
 

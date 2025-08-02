@@ -6,7 +6,7 @@
 Finds the libzip library:
 
 ```cmake
-find_package(libzip)
+find_package(libzip [<version>] [...])
 ```
 
 This is a helper in case system doesn't have the libzip's Config find module
@@ -21,10 +21,8 @@ This module defines the following imported targets:
 
 ## Result variables
 
-* `libzip_FOUND` - Whether the package has been found.
-* `libzip_INCLUDE_DIRS` - Include directories needed to use this package.
-* `libzip_LIBRARIES` - Libraries needed to link to the package library.
-* `libzip_VERSION` - Package version, if found.
+* `libzip_FOUND` - Boolean indicating whether the package is found.
+* `libzip_VERSION` - The version of package found.
 
 ## Cache variables
 

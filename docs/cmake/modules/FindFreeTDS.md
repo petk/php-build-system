@@ -17,9 +17,7 @@ This module defines the following imported targets:
 
 ## Result variables
 
-* `FreeTDS_FOUND` - Whether the package has been found.
-* `FreeTDS_INCLUDE_DIRS` - Include directories needed to use this package.
-* `FreeTDS_LIBRARIES` - Libraries needed to link to the package library.
+* `FreeTDS_FOUND` - Boolean indicating whether the package is found.
 
 ## Cache variables
 

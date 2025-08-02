@@ -6,7 +6,7 @@
 Finds the QDBM library:
 
 ```cmake
-find_package(QDBM)
+find_package(QDBM [<version>] [...])
 ```
 
 ## Imported targets
@@ -17,10 +17,8 @@ This module defines the following imported targets:
 
 ## Result variables
 
-* `QDBM_FOUND` - Whether the package has been found.
-* `QDBM_INCLUDE_DIRS` - Include directories needed to use this package.
-* `QDBM_LIBRARIES` - Libraries needed to link to the package library.
-* `QDBM_VERSION` - Package version, if found.
+* `QDBM_FOUND` - Boolean indicating whether the package is found.
+* `QDBM_VERSION` - The version of package found.
 
 ## Cache variables
 

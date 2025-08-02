@@ -16,8 +16,6 @@ This module defines the following imported targets:
 ## Result variables
 
 * `Atomic_FOUND` - Whether atomic instructions are available.
-* `Atomic_LIBRARIES` - A list of libraries needed in order to use atomic
-  functionality.
 
 ## Examples
 
@@ -66,7 +64,7 @@ if(_atomic_found OR _atomic_found_in_library)
 endif()
 
 if(_atomic_found_in_library)
-  list(APPEND ATOMIC_LIBRARIES atomic)
+  set(Atomic_LIBRARY atomic)
 endif()
 
 find_package_handle_standard_args(
@@ -86,6 +84,6 @@ if(NOT TARGET Atomic::Atomic)
   set_target_properties(
     Atomic::Atomic
     PROPERTIES
-      INTERFACE_LINK_LIBRARIES "${Atomic_LIBRARIES}"
+      INTERFACE_LINK_LIBRARIES "${Atomic_LIBRARY}"
   )
 endif()

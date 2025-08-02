@@ -6,7 +6,7 @@
 Finds the Berkeley DB library:
 
 ```cmake
-find_package(BerkeleyDB)
+find_package(BerkeleyDB [<version>] [...])
 ```
 
 ## Imported targets
@@ -17,10 +17,8 @@ This module defines the following imported targets:
 
 ## Result variables
 
-* `BerkeleyDB_FOUND` - Whether the package has been found.
-* `BerkeleyDB_INCLUDE_DIRS` - Include directories needed to use this package.
-* `BerkeleyDB_LIBRARIES` - Libraries needed to link to the package library.
-* `BerkeleyDB_VERSION` - Package version, if found.
+* `BerkeleyDB_FOUND` - Boolean indicating whether the package is found.
+* `BerkeleyDB_VERSION` - The version of package found.
 
 ## Cache variables
 

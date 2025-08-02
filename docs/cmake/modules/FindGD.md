@@ -6,7 +6,7 @@
 Finds the GD library:
 
 ```cmake
-find_package(GD)
+find_package(GD [<version>] [...])
 ```
 
 ## Imported targets
@@ -17,10 +17,8 @@ This module defines the following imported targets:
 
 ## Result variables
 
-* `GD_FOUND` - Whether the package has been found.
-* `GD_INCLUDE_DIRS` - Include directories needed to use this package.
-* `GD_LIBRARIES` - Libraries needed to link to the package library.
-* `GD_VERSION` - Package version, if found.
+* `GD_FOUND` - Boolean indicating whether the package is found.
+* `GD_VERSION` - The version of package found.
 
 ## Cache variables
 

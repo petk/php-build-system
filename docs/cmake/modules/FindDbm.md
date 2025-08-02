@@ -29,10 +29,8 @@ This module defines the following imported targets:
 
 ## Result variables
 
-* `Dbm_FOUND` - Whether the package has been found.
+* `Dbm_FOUND` - Boolean indicating whether the package is found.
 * `Dbm_IS_BUILT_IN` - Whether dbm is a part of the C library.
-* `Dbm_INCLUDE_DIRS` - Include directories needed to use this package.
-* `Dbm_LIBRARIES` - Libraries needed to link to the package library.
 
 ## Cache variables
 

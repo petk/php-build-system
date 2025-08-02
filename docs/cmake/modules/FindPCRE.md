@@ -6,7 +6,7 @@
 Finds the PCRE library:
 
 ```cmake
-find_package(PCRE)
+find_package(PCRE [<version>] [...])
 ```
 
 ## Imported targets
@@ -17,10 +17,8 @@ This module defines the following imported targets:
 
 ## Result variables
 
-* `PCRE_FOUND` - Whether the package has been found.
-* `PCRE_INCLUDE_DIRS` - Include directories needed to use this package.
-* `PCRE_LIBRARIES` - Libraries needed to link to the package library.
-* `PCRE_VERSION` - Package version, if found.
+* `PCRE_FOUND` - Boolean indicating whether the package is found.
+* `PCRE_VERSION` - The version of package found.
 
 ## Cache variables
 

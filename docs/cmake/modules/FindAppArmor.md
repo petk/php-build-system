@@ -6,7 +6,7 @@
 Finds the AppArmor library:
 
 ```cmake
-find_package(AppArmor)
+find_package(AppArmor [<version>] [...])
 ```
 
 ## Imported targets
@@ -17,10 +17,8 @@ This module defines the following imported targets:
 
 ## Result variables
 
-* `AppArmor_FOUND` - Whether the package has been found.
-* `AppArmor_INCLUDE_DIRS` - Include directories needed to use this package.
-* `AppArmor_LIBRARIES` - Libraries needed to link to the package library.
-* `AppArmor_VERSION` - Package version, if found.
+* `AppArmor_FOUND` - Boolean indicating whether the package is found.
+* `AppArmor_VERSION` - The version of package found.
 
 ## Cache variables
 

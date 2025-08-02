@@ -25,10 +25,8 @@ This module defines the following imported targets:
 
 ## Result variables
 
-* `Ndbm_FOUND` - Whether the package has been found.
+* `Ndbm_FOUND` - Boolean indicating whether the package is found.
 * `Ndbm_IS_BUILT_IN` - Whether ndbm is a part of the C library.
-* `Ndbm_INCLUDE_DIRS` - Include directories needed to use this package.
-* `Ndbm_LIBRARIES` - Libraries needed to link to the package library.
 
 ## Cache variables
 

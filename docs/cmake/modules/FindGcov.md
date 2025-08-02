@@ -17,7 +17,7 @@ This module defines the following imported targets:
 
 ## Result variables
 
-* `Gcov_FOUND` - Whether the package has been found.
+* `Gcov_FOUND` - Boolean indicating whether the package is found.
 
 ## Cache variables
 

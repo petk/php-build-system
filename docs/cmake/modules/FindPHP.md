@@ -21,10 +21,10 @@ This module defines the following imported targets:
 
 ## Result variables
 
-* `PHP_FOUND` - Whether the package has been found.
+* `PHP_FOUND` - Boolean indicating whether the package is found.
 * `PHP_INCLUDE_DIRS` - Include directories needed to use this package.
 * `PHP_LIBRARIES` - Libraries needed to link to the package library.
-* `PHP_VERSION` - Package version, if found.
+* `PHP_VERSION` - The version of package found.
 * `PHP_INSTALL_INCLUDEDIR` - Relative path to the `CMAKE_PREFIX_INSTALL`
   containing PHP headers.
 * `PHP_EXTENSION_DIR` - Path to the directory where shared extensions are

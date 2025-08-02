@@ -4,7 +4,7 @@
 Finds the Sodium library (libsodium):
 
 ```cmake
-find_package(Sodium)
+find_package(Sodium [<version>] [...])
 ```
 
 ## Imported targets
@@ -15,10 +15,8 @@ This module defines the following imported targets:
 
 ## Result variables
 
-* `Sodium_FOUND` - Whether the package has been found.
-* `Sodium_INCLUDE_DIRS` - Include directories needed to use this package.
-* `Sodium_LIBRARIES` - Libraries needed to link to the package library.
-* `Sodium_VERSION` - Package version, if found.
+* `Sodium_FOUND` - Boolean indicating whether the package is found.
+* `Sodium_VERSION` - The version of package found.
 
 ## Cache variables
 
@@ -107,9 +105,6 @@ if(NOT Sodium_FOUND)
   return()
 endif()
 
-set(Sodium_INCLUDE_DIRS ${Sodium_INCLUDE_DIR})
-set(Sodium_LIBRARIES ${Sodium_LIBRARY})
-
 if(NOT TARGET Sodium::Sodium)
   add_library(Sodium::Sodium UNKNOWN IMPORTED)
 
@@ -117,6 +112,6 @@ if(NOT TARGET Sodium::Sodium)
     Sodium::Sodium
     PROPERTIES
       IMPORTED_LOCATION "${Sodium_LIBRARY}"
-      INTERFACE_INCLUDE_DIRECTORIES "${Sodium_INCLUDE_DIRS}"
+      INTERFACE_INCLUDE_DIRECTORIES "${Sodium_INCLUDE_DIR}"
   )
 endif()

@@ -6,13 +6,13 @@
 Finds the Ccache compiler cache tool for faster compilation times:
 
 ```cmake
-find_package(Ccache)
+find_package(Ccache [<version>] [...])
 ```
 
 ## Result variables
 
-* `Ccache_FOUND` - Whether the package has been found.
-* `Ccache_VERSION` - Package version, if found.
+* `Ccache_FOUND` - Boolean indicating whether the package is found.
+* `Ccache_VERSION` - The version of package found.
 
 ## Cache variables
 

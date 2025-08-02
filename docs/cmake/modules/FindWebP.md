@@ -6,7 +6,7 @@
 Finds the libwebp library:
 
 ```cmake
-find_package(WebP)
+find_package(WebP [<version>] [...])
 ```
 
 ## Imported targets
@@ -17,10 +17,8 @@ This module defines the following imported targets:
 
 ## Result variables
 
-* `WebP_FOUND` - Whether the package has been found.
-* `WebP_INCLUDE_DIRS` - Include directories needed to use this package.
-* `WebP_LIBRARIES` - Libraries needed to link to the package library.
-* `WebP_VERSION` - Package version, if found.
+* `WebP_FOUND` - Boolean indicating whether the package is found.
+* `WebP_VERSION` - The version of package found.
 
 ## Cache variables
 
