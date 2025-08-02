@@ -15,10 +15,8 @@ This module defines the following imported targets:
 
 ## Result variables
 
-* `Editline_FOUND` - Whether the package has been found.
-* `Editline_INCLUDE_DIRS` - Include directories needed to use this package.
-* `Editline_LIBRARIES` - Libraries needed to link to the package library.
-* `Editline_VERSION` - Package version, if found.
+* `Editline_FOUND` - Boolean indicating whether the package is found.
+* `Editline_VERSION` - The version of package found.
 
 ## Cache variables
 
@@ -120,9 +118,6 @@ if(NOT Editline_FOUND)
   return()
 endif()
 
-set(Editline_INCLUDE_DIRS ${Editline_INCLUDE_DIR})
-set(Editline_LIBRARIES ${Editline_LIBRARY})
-
 if(NOT TARGET Editline::Editline)
   add_library(Editline::Editline UNKNOWN IMPORTED)
 
@@ -130,6 +125,6 @@ if(NOT TARGET Editline::Editline)
     Editline::Editline
     PROPERTIES
       IMPORTED_LOCATION "${Editline_LIBRARY}"
-      INTERFACE_INCLUDE_DIRECTORIES "${Editline_INCLUDE_DIRS}"
+      INTERFACE_INCLUDE_DIRECTORIES "${Editline_INCLUDE_DIR}"
   )
 endif()

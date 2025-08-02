@@ -4,7 +4,7 @@
 Finds the Berkeley DB library:
 
 ```cmake
-find_package(BerkeleyDB)
+find_package(BerkeleyDB [<version>] [...])
 ```
 
 ## Imported targets
@@ -15,10 +15,8 @@ This module defines the following imported targets:
 
 ## Result variables
 
-* `BerkeleyDB_FOUND` - Whether the package has been found.
-* `BerkeleyDB_INCLUDE_DIRS` - Include directories needed to use this package.
-* `BerkeleyDB_LIBRARIES` - Libraries needed to link to the package library.
-* `BerkeleyDB_VERSION` - Package version, if found.
+* `BerkeleyDB_FOUND` - Boolean indicating whether the package is found.
+* `BerkeleyDB_VERSION` - The version of package found.
 
 ## Cache variables
 
@@ -182,14 +180,6 @@ if(NOT BerkeleyDB_FOUND)
   return()
 endif()
 
-set(
-  BerkeleyDB_INCLUDE_DIRS
-  ${BerkeleyDB_INCLUDE_DIR}
-  ${BerkeleyDB_DB1_INCLUDE_DIR}
-)
-list(REMOVE_DUPLICATES BerkeleyDB_INCLUDE_DIRS)
-set(BerkeleyDB_LIBRARIES ${BerkeleyDB_LIBRARY})
-
 if(NOT TARGET BerkeleyDB::BerkeleyDB)
   if(IS_ABSOLUTE "${BerkeleyDB_LIBRARY}")
     add_library(BerkeleyDB::BerkeleyDB UNKNOWN IMPORTED)
@@ -208,9 +198,10 @@ if(NOT TARGET BerkeleyDB::BerkeleyDB)
     )
   endif()
 
-  set_target_properties(
-    BerkeleyDB::BerkeleyDB
-    PROPERTIES
-      INTERFACE_INCLUDE_DIRECTORIES "${BerkeleyDB_INCLUDE_DIRS}"
+  set_property(
+    TARGET BerkeleyDB::BerkeleyDB
+    PROPERTY INTERFACE_INCLUDE_DIRECTORIES
+      ${BerkeleyDB_INCLUDE_DIR}
+      ${BerkeleyDB_DB1_INCLUDE_DIR}
   )
 endif()

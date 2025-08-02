@@ -4,7 +4,7 @@
 Finds the Argon2 library:
 
 ```cmake
-find_package(Argon2)
+find_package(Argon2 [<version>] [...])
 ```
 
 ## Imported targets
@@ -15,10 +15,8 @@ This module defines the following imported targets:
 
 ## Result variables
 
-* `Argon2_FOUND` - Whether the package has been found.
-* `Argon2_INCLUDE_DIRS` - Include directories needed to use this package.
-* `Argon2_LIBRARIES` - Libraries needed to link to the package library.
-* `Argon2_VERSION` - Package version, if found.
+* `Argon2_FOUND` - Boolean indicating whether the package is found.
+* `Argon2_VERSION` - The version of package found.
 
 ## Cache variables
 
@@ -142,9 +140,6 @@ if(NOT Argon2_FOUND)
   return()
 endif()
 
-set(Argon2_INCLUDE_DIRS ${Argon2_INCLUDE_DIR})
-set(Argon2_LIBRARIES ${Argon2_LIBRARY})
-
 if(NOT TARGET Argon2::Argon2)
   if(IS_ABSOLUTE "${Argon2_LIBRARY}")
     add_library(Argon2::Argon2 UNKNOWN IMPORTED)
@@ -166,6 +161,6 @@ if(NOT TARGET Argon2::Argon2)
   set_target_properties(
     Argon2::Argon2
     PROPERTIES
-      INTERFACE_INCLUDE_DIRECTORIES "${Argon2_INCLUDE_DIRS}"
+      INTERFACE_INCLUDE_DIRECTORIES "${Argon2_INCLUDE_DIR}"
   )
 endif()

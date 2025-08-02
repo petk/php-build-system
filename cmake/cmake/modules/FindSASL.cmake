@@ -4,7 +4,7 @@
 Finds the SASL library:
 
 ```cmake
-find_package(SASL)
+find_package(SASL [<version>] [...])
 ```
 
 ## Imported targets
@@ -15,10 +15,8 @@ This module defines the following imported targets:
 
 ## Result variables
 
-* `SASL_FOUND` - Whether the package has been found.
-* `SASL_INCLUDE_DIRS` - Include directories needed to use this package.
-* `SASL_LIBRARIES` - Libraries needed to link to the package library.
-* `SASL_VERSION` - Package version, if found.
+* `SASL_FOUND` - Boolean indicating whether the package is found.
+* `SASL_VERSION` - The version of package found.
 
 ## Cache variables
 
@@ -121,9 +119,6 @@ if(NOT SASL_FOUND)
   return()
 endif()
 
-set(SASL_INCLUDE_DIRS ${SASL_INCLUDE_DIR})
-set(SASL_LIBRARIES ${SASL_LIBRARY})
-
 if(NOT TARGET SASL::SASL)
   add_library(SASL::SASL UNKNOWN IMPORTED)
 
@@ -131,6 +126,6 @@ if(NOT TARGET SASL::SASL)
     SASL::SASL
     PROPERTIES
       IMPORTED_LOCATION "${SASL_LIBRARY}"
-      INTERFACE_INCLUDE_DIRECTORIES "${SASL_INCLUDE_DIRS}"
+      INTERFACE_INCLUDE_DIRECTORIES "${SASL_INCLUDE_DIR}"
   )
 endif()

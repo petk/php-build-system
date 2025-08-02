@@ -4,7 +4,7 @@
 Finds the cdb library:
 
 ```cmake
-find_package(Cdb)
+find_package(Cdb [<version>] [...])
 ```
 
 ## Imported targets
@@ -15,10 +15,8 @@ This module defines the following imported targets:
 
 ## Result variables
 
-* `Cdb_FOUND` - Whether the package has been found.
-* `Cdb_INCLUDE_DIRS` - Include directories needed to use this package.
-* `Cdb_LIBRARIES` - Libraries needed to link to the package library.
-* `Cdb_VERSION` - Package version, if found.
+* `Cdb_FOUND` - Boolean indicating whether the package is found.
+* `Cdb_VERSION` - The version of package found.
 
 ## Cache variables
 
@@ -125,9 +123,6 @@ if(NOT Cdb_FOUND)
   return()
 endif()
 
-set(Cdb_INCLUDE_DIRS ${Cdb_INCLUDE_DIR})
-set(Cdb_LIBRARIES ${Cdb_LIBRARY})
-
 if(NOT TARGET Cdb::Cdb)
   add_library(Cdb::Cdb UNKNOWN IMPORTED)
 
@@ -135,6 +130,6 @@ if(NOT TARGET Cdb::Cdb)
     Cdb::Cdb
     PROPERTIES
       IMPORTED_LOCATION "${Cdb_LIBRARY}"
-      INTERFACE_INCLUDE_DIRECTORIES "${Cdb_INCLUDE_DIRS}"
+      INTERFACE_INCLUDE_DIRECTORIES "${Cdb_INCLUDE_DIR}"
   )
 endif()

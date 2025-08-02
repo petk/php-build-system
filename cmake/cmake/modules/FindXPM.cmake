@@ -4,7 +4,7 @@
 Finds the libXpm library:
 
 ```cmake
-find_package(XPM)
+find_package(XPM [<version>] [...])
 ```
 
 ## Imported targets
@@ -15,10 +15,8 @@ This module defines the following imported targets:
 
 ## Result variables
 
-* `XPM_FOUND` - Whether the package has been found.
-* `XPM_INCLUDE_DIRS` - Include directories needed to use this package.
-* `XPM_LIBRARIES` - Libraries needed to link to the package library.
-* `XPM_VERSION` - Package version, if found.
+* `XPM_FOUND` - Boolean indicating whether the package is found.
+* `XPM_VERSION` - The version of package found.
 
 ## Cache variables
 
@@ -99,9 +97,6 @@ if(NOT XPM_FOUND)
   return()
 endif()
 
-set(XPM_INCLUDE_DIRS ${XPM_INCLUDE_DIR})
-set(XPM_LIBRARIES ${XPM_LIBRARY})
-
 if(NOT TARGET XPM::XPM)
   add_library(XPM::XPM UNKNOWN IMPORTED)
 
@@ -109,6 +104,6 @@ if(NOT TARGET XPM::XPM)
     XPM::XPM
     PROPERTIES
       IMPORTED_LOCATION "${XPM_LIBRARY}"
-      INTERFACE_INCLUDE_DIRECTORIES "${XPM_INCLUDE_DIRS}"
+      INTERFACE_INCLUDE_DIRECTORIES "${XPM_INCLUDE_DIR}"
   )
 endif()

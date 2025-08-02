@@ -4,7 +4,7 @@
 Finds the Capstone library:
 
 ```cmake
-find_package(Capstone)
+find_package(Capstone [<version>] [...])
 ```
 
 ## Imported targets
@@ -15,10 +15,8 @@ This module defines the following imported targets:
 
 ## Result variables
 
-* `Capstone_FOUND` - Whether the package has been found.
-* `Capstone_INCLUDE_DIRS` - Include directories needed to use this package.
-* `Capstone_LIBRARIES` - Libraries needed to link to the package library.
-* `Capstone_VERSION` - Package version, if found.
+* `Capstone_FOUND` - Boolean indicating whether the package is found.
+* `Capstone_VERSION` - The version of package found.
 
 ## Cache variables
 
@@ -128,17 +126,6 @@ if(NOT Capstone_FOUND)
   return()
 endif()
 
-# Capstone might be included with <capstone.h> instead of the recommended
-# <capstone/capstone.h>. Here both include directories are added so the code can
-# work with both includes. The "subdir" can be removed and simplified in the
-# future. See: https://github.com/capstone-engine/capstone/issues/1982
-set(
-  Capstone_INCLUDE_DIRS
-  ${Capstone_INCLUDE_DIR}
-  ${Capstone_INCLUDE_DIR}/capstone
-)
-set(Capstone_LIBRARIES ${Capstone_LIBRARY})
-
 if(NOT TARGET Capstone::Capstone)
   if(IS_ABSOLUTE "${Capstone_LIBRARY}")
     add_library(Capstone::Capstone UNKNOWN IMPORTED)
@@ -157,9 +144,15 @@ if(NOT TARGET Capstone::Capstone)
     )
   endif()
 
-  set_target_properties(
-    Capstone::Capstone
-    PROPERTIES
-      INTERFACE_INCLUDE_DIRECTORIES "${Capstone_INCLUDE_DIRS}"
+  set_property(
+    TARGET Capstone::Capstone
+    PROPERTY INTERFACE_INCLUDE_DIRECTORIES
+      ${Capstone_INCLUDE_DIR}
+      # Capstone might be included with <capstone.h> instead of the recommended
+      # <capstone/capstone.h>. Here both include directories are added so the
+      # code can work with both includes. The following "subdir" can be removed
+      # and simplified in the future.
+      # See: https://github.com/capstone-engine/capstone/issues/1982
+      ${Capstone_INCLUDE_DIR}/capstone
   )
 endif()

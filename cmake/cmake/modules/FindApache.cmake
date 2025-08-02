@@ -4,7 +4,7 @@
 Finds the Apache packages and tools:
 
 ```cmake
-find_package(Apache)
+find_package(Apache [<version>] [...])
 ```
 
 The Apache development package usually contains Apache header files, the `apr`
@@ -19,10 +19,8 @@ This module defines the following imported targets:
 
 ## Result variables
 
-* `Apache_FOUND` - Whether the package has been found.
-* `Apache_INCLUDE_DIRS` - Include directories needed to use this package.
-* `Apache_LIBRARIES` - Libraries needed to link to the package library.
-* `Apache_VERSION` - Package version, if found.
+* `Apache_FOUND` - Boolean indicating whether the package is found.
+* `Apache_VERSION` - The version of package found.
 * `Apache_THREADED` - Whether Apache requires thread safety.
 * `Apache_LIBEXECDIR` - Path to the directory containing all Apache modules and
   `httpd.exp` file (list of exported symbols).
@@ -410,17 +408,14 @@ if(NOT Apache_FOUND)
   return()
 endif()
 
-set(Apache_INCLUDE_DIRS ${Apache_INCLUDE_DIR} ${Apache_APR_INCLUDE_DIR})
-set(Apache_LIBRARIES ${Apache_APR_LIBRARY})
-
 if(NOT TARGET Apache::Apache)
   add_library(Apache::Apache INTERFACE IMPORTED)
 
   set_target_properties(
     Apache::Apache
     PROPERTIES
-      INTERFACE_LINK_LIBRARIES "${Apache_LIBRARIES}"
-      INTERFACE_INCLUDE_DIRECTORIES "${Apache_INCLUDE_DIRS}"
+      INTERFACE_LINK_LIBRARIES "${Apache_APR_LIBRARY}"
+      INTERFACE_INCLUDE_DIRECTORIES "${Apache_INCLUDE_DIR};${Apache_APR_INCLUDE_DIR}"
   )
 
   target_compile_definitions(

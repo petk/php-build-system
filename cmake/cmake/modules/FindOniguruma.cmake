@@ -4,7 +4,7 @@
 Finds the Oniguruma library:
 
 ```cmake
-find_package(Oniguruma)
+find_package(Oniguruma [<version>] [...])
 ```
 
 ## Imported targets
@@ -15,10 +15,8 @@ This module defines the following imported targets:
 
 ## Result variables
 
-* `Oniguruma_FOUND` - Whether the package has been found.
-* `Oniguruma_INCLUDE_DIRS` - Include directories needed to use this package.
-* `Oniguruma_LIBRARIES` - Libraries needed to link to the package library.
-* `Oniguruma_VERSION` - Package version, if found.
+* `Oniguruma_FOUND` - Boolean indicating whether the package is found.
+* `Oniguruma_VERSION` - The version of package found.
 
 ## Cache variables
 
@@ -120,9 +118,6 @@ if(NOT Oniguruma_FOUND)
   return()
 endif()
 
-set(Oniguruma_INCLUDE_DIRS ${Oniguruma_INCLUDE_DIR})
-set(Oniguruma_LIBRARIES ${Oniguruma_LIBRARY})
-
 if(NOT TARGET Oniguruma::Oniguruma)
   add_library(Oniguruma::Oniguruma UNKNOWN IMPORTED)
 
@@ -130,6 +125,6 @@ if(NOT TARGET Oniguruma::Oniguruma)
     Oniguruma::Oniguruma
     PROPERTIES
       IMPORTED_LOCATION "${Oniguruma_LIBRARY}"
-      INTERFACE_INCLUDE_DIRECTORIES "${Oniguruma_INCLUDE_DIRS}"
+      INTERFACE_INCLUDE_DIRECTORIES "${Oniguruma_INCLUDE_DIR}"
   )
 endif()

@@ -4,7 +4,7 @@
 Finds the Kerberos library:
 
 ```cmake
-find_package(Kerberos)
+find_package(Kerberos [<version>] [COMPONENTS <components>...] [...])
 ```
 
 ## Components
@@ -21,10 +21,8 @@ This module defines the following imported targets:
 
 ## Result variables
 
-* `Kerberos_FOUND` - Whether the package has been found.
-* `Kerberos_INCLUDE_DIRS` - Include directories needed to use this package.
-* `Kerberos_LIBRARIES` - Libraries needed to link to the package library.
-* `Kerberos_VERSION` - Package version, if found.
+* `Kerberos_FOUND` - Boolean indicating whether the package is found.
+* `Kerberos_VERSION` - The version of package found.
 
 ## Cache variables
 
@@ -172,18 +170,6 @@ unset(_reason)
 
 if(NOT Kerberos_FOUND)
   return()
-endif()
-
-set(Kerberos_INCLUDE_DIRS ${Kerberos_INCLUDE_DIR})
-
-if(Kerberos_GSSAPI_INCLUDE_DIR)
-  list(APPEND Kerberos_INCLUDE_DIRS ${Kerberos_GSSAPI_INCLUDE_DIR})
-endif()
-
-set(Kerberos_LIBRARIES ${Kerberos_LIBRARY})
-
-if(Kerberos_GSSAPI_LIBRARY)
-  list(APPEND Kerberos_LIBRARIES ${Kerberos_GSSAPI_LIBRARY})
 endif()
 
 if(NOT TARGET Kerberos::Krb5)

@@ -19,9 +19,7 @@ This module defines the following imported targets:
 
 ## Result variables
 
-* `Cclient_FOUND` - Whether the package has been found.
-* `Cclient_INCLUDE_DIRS` - Include directories needed to use this package.
-* `Cclient_LIBRARIES` - Libraries needed to link to the package library.
+* `Cclient_FOUND` - Boolean indicating whether the package is found.
 * `HAVE_IMAP2000` - Whether c-client version is 2000 or newer. If true,
   c-client.h should be included instead of only rfc822.h on prior versions.
 * `HAVE_IMAP2001` - Whether c-client version is 2001 to 2004.
@@ -354,9 +352,6 @@ endif()
 # Post-find configuration.
 ################################################################################
 
-set(Cclient_INCLUDE_DIRS ${Cclient_INCLUDE_DIR})
-set(Cclient_LIBRARIES ${Cclient_LIBRARY})
-
 if(NOT TARGET Cclient::Cclient)
   add_library(Cclient::Cclient UNKNOWN IMPORTED)
 
@@ -364,7 +359,7 @@ if(NOT TARGET Cclient::Cclient)
     Cclient::Cclient
     PROPERTIES
       IMPORTED_LOCATION "${Cclient_LIBRARY}"
-      INTERFACE_INCLUDE_DIRECTORIES "${Cclient_INCLUDE_DIRS}"
+      INTERFACE_INCLUDE_DIRECTORIES "${Cclient_INCLUDE_DIR}"
   )
 endif()
 

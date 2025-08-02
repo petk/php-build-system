@@ -15,10 +15,8 @@ This module defines the following imported targets:
 
 ## Result variables
 
-* `FFI_FOUND` - Whether the package has been found.
-* `FFI_INCLUDE_DIRS` - Include directories needed to use this package.
-* `FFI_LIBRARIES` - Libraries needed to link to the package library.
-* `FFI_VERSION` - Package version, if found.
+* `FFI_FOUND` - Boolean indicating whether the package is found.
+* `FFI_VERSION` - The version of package found.
 
 ## Cache variables
 
@@ -113,9 +111,6 @@ if(NOT FFI_FOUND)
   return()
 endif()
 
-set(FFI_INCLUDE_DIRS ${FFI_INCLUDE_DIR})
-set(FFI_LIBRARIES ${FFI_LIBRARY})
-
 if(NOT TARGET FFI::FFI)
   add_library(FFI::FFI UNKNOWN IMPORTED)
 
@@ -123,6 +118,6 @@ if(NOT TARGET FFI::FFI)
     FFI::FFI
     PROPERTIES
       IMPORTED_LOCATION "${FFI_LIBRARY}"
-      INTERFACE_INCLUDE_DIRECTORIES "${FFI_INCLUDE_DIRS}"
+      INTERFACE_INCLUDE_DIRECTORIES "${FFI_INCLUDE_DIR}"
   )
 endif()

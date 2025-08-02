@@ -4,7 +4,7 @@
 Finds the systemd library (libsystemd):
 
 ```cmake
-find_package(Systemd)
+find_package(Systemd [<version>] [...])
 ```
 
 ## Imported targets
@@ -15,10 +15,8 @@ This module defines the following imported targets:
 
 ## Result variables
 
-* `Systemd_FOUND` - Whether the package has been found.
-* `Systemd_INCLUDE_DIRS` - Include directories needed to use this package.
-* `Systemd_LIBRARIES` - Libraries needed to link to the package library.
-* `Systemd_VERSION` - Package version, if found.
+* `Systemd_FOUND` - Boolean indicating whether the package is found.
+* `Systemd_VERSION` - The version of package found.
 
 ## Cache variables
 
@@ -127,9 +125,6 @@ if(NOT Systemd_FOUND)
   return()
 endif()
 
-set(Systemd_INCLUDE_DIRS ${Systemd_INCLUDE_DIR})
-set(Systemd_LIBRARIES ${Systemd_LIBRARY})
-
 if(NOT TARGET Systemd::Systemd)
   add_library(Systemd::Systemd UNKNOWN IMPORTED)
 
@@ -137,6 +132,6 @@ if(NOT TARGET Systemd::Systemd)
     Systemd::Systemd
     PROPERTIES
       IMPORTED_LOCATION "${Systemd_LIBRARY}"
-      INTERFACE_INCLUDE_DIRECTORIES "${Systemd_INCLUDE_DIRS}"
+      INTERFACE_INCLUDE_DIRECTORIES "${Systemd_INCLUDE_DIR}"
   )
 endif()

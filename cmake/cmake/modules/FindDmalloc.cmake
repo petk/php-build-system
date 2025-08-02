@@ -15,10 +15,8 @@ This module defines the following imported targets:
 
 ## Result variables
 
-* `Dmalloc_FOUND` - Whether the package has been found.
-* `Dmalloc_INCLUDE_DIRS` - Include directories needed to use this package.
-* `Dmalloc_LIBRARIES` - Libraries needed to link to the package library.
-* `Dmalloc_VERSION` - Package version, if found.
+* `Dmalloc_FOUND` - Boolean indicating whether the package is found.
+* `Dmalloc_VERSION` - The version of package found.
 
 ## Cache variables
 
@@ -111,9 +109,6 @@ unset(_reason)
 if(NOT Dmalloc_FOUND)
   return()
 endif()
-
-set(Dmalloc_INCLUDE_DIRS ${Dmalloc_INCLUDE_DIR})
-set(Dmalloc_LIBRARIES ${Dmalloc_LIBRARY})
 
 if(NOT TARGET Dmalloc::Dmalloc)
   add_library(Dmalloc::Dmalloc UNKNOWN IMPORTED)

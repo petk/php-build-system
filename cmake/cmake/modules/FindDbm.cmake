@@ -27,10 +27,8 @@ This module defines the following imported targets:
 
 ## Result variables
 
-* `Dbm_FOUND` - Whether the package has been found.
+* `Dbm_FOUND` - Boolean indicating whether the package is found.
 * `Dbm_IS_BUILT_IN` - Whether dbm is a part of the C library.
-* `Dbm_INCLUDE_DIRS` - Include directories needed to use this package.
-* `Dbm_LIBRARIES` - Libraries needed to link to the package library.
 
 ## Cache variables
 
@@ -127,22 +125,14 @@ if(NOT Dbm_FOUND)
   return()
 endif()
 
-if(Dbm_IS_BUILT_IN)
-  set(Dbm_INCLUDE_DIRS "")
-  set(Dbm_LIBRARIES "")
-else()
-  set(Dbm_INCLUDE_DIRS ${Dbm_INCLUDE_DIR})
-  set(Dbm_LIBRARIES ${Dbm_LIBRARY})
-endif()
-
 if(NOT TARGET Dbm::Dbm)
   add_library(Dbm::Dbm UNKNOWN IMPORTED)
 
-  if(Dbm_INCLUDE_DIRS)
+  if(Dbm_INCLUDE_DIR)
     set_target_properties(
       Dbm::Dbm
       PROPERTIES
-        INTERFACE_INCLUDE_DIRECTORIES "${Dbm_INCLUDE_DIRS}"
+        INTERFACE_INCLUDE_DIRECTORIES "${Dbm_INCLUDE_DIR}"
     )
   endif()
 
