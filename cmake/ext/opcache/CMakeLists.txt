@@ -82,6 +82,7 @@ target_sources(
     $<$<NOT:$<PLATFORM_ID:Windows>>:shared_alloc_posix.c>
     $<$<NOT:$<PLATFORM_ID:Windows>>:shared_alloc_shm.c>
     $<$<PLATFORM_ID:Windows>:shared_alloc_win32.c>
+    zend_accelerator_api.c
     zend_accelerator_blacklist.c
     zend_accelerator_debug.c
     zend_accelerator_hash.c
@@ -92,6 +93,10 @@ target_sources(
     zend_persist.c
     zend_shared_alloc.c
     ZendAccelerator.c
+    PUBLIC
+    FILE_SET HEADERS
+      FILES
+        zend_accelerator_api.h
 )
 
 add_dependencies(php_ext_opcache php_ext_date php_ext_pcre)
