@@ -80,8 +80,8 @@ define_property(
 # Check whether IPO/LTO can be enabled.
 include(PHP/Optimization)
 
-# Set CMAKE_POSITION_INDEPENDENT_CODE.
-include(PHP/PositionIndependentCode)
+include(CheckPIESupported)
+check_pie_supported()
 
 # Configure build types.
 include(cmake/BuildTypes.cmake)
