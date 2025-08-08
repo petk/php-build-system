@@ -101,7 +101,7 @@ if(TARGET PostgreSQL::PostgreSQL)
     endif()
 
     # Available since PostgreSQL library version 12.
-    if(PostgreSQL_VERSION_STRING VERSION_GREATER_EQUAL 12)
+    if(PostgreSQL_VERSION VERSION_GREATER_EQUAL 12)
       check_symbol_exists(
         PQresultMemorySize
         libpq-fe.h
@@ -115,7 +115,7 @@ if(TARGET PostgreSQL::PostgreSQL)
     endif()
 
     # Available since PostgreSQL library version 17.
-    if(PostgreSQL_VERSION_STRING VERSION_GREATER_EQUAL 17)
+    if(PostgreSQL_VERSION VERSION_GREATER_EQUAL 17)
       # Indicates the presence of PQchangePassword.
       check_symbol_exists(
         LIBPQ_HAS_CHANGE_PASSWORD
@@ -178,7 +178,7 @@ if(TARGET PostgreSQL::PostgreSQL)
     endif()
 
     # Available since PostgreSQL library version 18.
-    if(PostgreSQL_VERSION_STRING VERSION_GREATER_EQUAL 18)
+    if(PostgreSQL_VERSION VERSION_GREATER_EQUAL 18)
       # Indicates the presence of PQservice.
       check_symbol_exists(
         PQservice
