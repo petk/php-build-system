@@ -45,7 +45,7 @@ This option is only provided to explicitly avoid requiring the OpenSSL
 dependency, otherwise recommended setting is `ON`.
 #]=============================================================================]
 
-cmake_minimum_required(VERSION 3.29...4.1)
+cmake_minimum_required(VERSION 3.29...4.2)
 
 project(
   PhpExtensionMysqlnd

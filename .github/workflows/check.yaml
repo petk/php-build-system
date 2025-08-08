@@ -50,5 +50,5 @@ jobs:
         run: |
           normalizer.cmake -- \
             --set normalize_indent_style=false \
-            --set normalize_cmake_minimum_required=3.29...4.1 \
+            --set normalize_cmake_minimum_required=3.29...4.2 \
             -j

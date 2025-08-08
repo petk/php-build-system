@@ -7,7 +7,7 @@ This extension provides support for Reflection API to introspect PHP code and is
 always enabled.
 #]=============================================================================]
 
-cmake_minimum_required(VERSION 3.29...4.1)
+cmake_minimum_required(VERSION 3.29...4.2)
 
 project(
   php_ext_reflection
