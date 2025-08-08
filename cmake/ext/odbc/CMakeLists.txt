@@ -170,7 +170,7 @@ the configuration header.
 > `dbmaker` ODBC types.
 #]=============================================================================]
 
-cmake_minimum_required(VERSION 3.29...4.1)
+cmake_minimum_required(VERSION 3.29...4.2)
 
 project(
   PhpExtensionOdbc

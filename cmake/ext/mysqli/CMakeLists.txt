@@ -40,7 +40,7 @@ unspecified, default locations are searched.
 > This option is not available when the target system is Windows.
 #]=============================================================================]
 
-cmake_minimum_required(VERSION 3.29...4.1)
+cmake_minimum_required(VERSION 3.29...4.2)
 
 project(
   PhpExtensionMysqli

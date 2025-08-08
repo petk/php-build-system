@@ -6,7 +6,7 @@ Configure the `spl` extension.
 This extension includes Standard PHP Library (SPL) and is always enabled.
 #]=============================================================================]
 
-cmake_minimum_required(VERSION 3.29...4.1)
+cmake_minimum_required(VERSION 3.29...4.2)
 
 project(
   php_ext_spl

@@ -27,7 +27,7 @@ Build extension as shared.
 Enable multibyte regex support (requires Oniguruma).
 #]=============================================================================]
 
-cmake_minimum_required(VERSION 3.29...4.1)
+cmake_minimum_required(VERSION 3.29...4.2)
 
 project(
   PhpExtensionMbString
