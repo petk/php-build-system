@@ -97,7 +97,7 @@ if(TARGET PostgreSQL::PostgreSQL)
     endif()
 
     # Available since PostgreSQL library version 12.
-    if(PostgreSQL_VERSION_STRING VERSION_GREATER_EQUAL 12)
+    if(PostgreSQL_VERSION VERSION_GREATER_EQUAL 12)
       check_symbol_exists(
         PQresultMemorySize
         libpq-fe.h
@@ -106,7 +106,7 @@ if(TARGET PostgreSQL::PostgreSQL)
     endif()
 
     # Available since PostgreSQL library version 17.
-    if(PostgreSQL_VERSION_STRING VERSION_GREATER_EQUAL 17)
+    if(PostgreSQL_VERSION VERSION_GREATER_EQUAL 17)
       # Indicates the presence of PQclosePrepared, PQclosePortal, etc.
       check_symbol_exists(
         LIBPQ_HAS_CLOSE_PREPARED
