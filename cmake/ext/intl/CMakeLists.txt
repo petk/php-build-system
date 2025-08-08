@@ -137,16 +137,16 @@ target_sources(
     locale/locale_methods.cpp
     locale/locale.cpp
     locale/locale.stub.php
-    msgformat/msgformat_attr.c
-    msgformat/msgformat_class.c
-    msgformat/msgformat_data.c
-    msgformat/msgformat_format.c
+    msgformat/msgformat_attr.cpp
+    msgformat/msgformat_class.cpp
+    msgformat/msgformat_data.cpp
+    msgformat/msgformat_format.cpp
     msgformat/msgformat_helpers.cpp
-    msgformat/msgformat_parse.c
-    msgformat/msgformat.c
+    msgformat/msgformat_parse.cpp
+    msgformat/msgformat.cpp
     msgformat/msgformat.stub.php
-    normalizer/normalizer_class.c
-    normalizer/normalizer_normalize.c
+    normalizer/normalizer_class.cpp
+    normalizer/normalizer_normalize.cpp
     normalizer/normalizer.stub.php
     php_intl.c
     php_intl.stub.php

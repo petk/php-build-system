@@ -330,8 +330,8 @@ _php_ext_opcache_check_shm_open(HAVE_SHM_MMAP_POSIX)
 
 if(NOT HAVE_SHM_IPC AND NOT HAVE_SHM_MMAP_ANON AND NOT HAVE_SHM_MMAP_POSIX)
   message(
-    FATAL_ERROR
+    WARNING
     "No supported shared memory caching support was found when configuring "
-    "opcache extension."
+    "opcache extension. Opcache will be disabled."
   )
 endif()
