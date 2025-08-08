@@ -73,9 +73,8 @@ set_package_properties(
 
 set(_reason "")
 
-# Try pkg-config.
 find_package(PkgConfig QUIET)
-if(PKG_CONFIG_FOUND)
+if(PkgConfig_FOUND)
   pkg_check_modules(PC_LDAP QUIET ldap)
 endif()
 
@@ -106,7 +105,7 @@ if(LDAP_LIBRARY AND LDAP_INCLUDE_DIR)
 endif()
 
 if(LDAP_LIBRARY)
-  if(PKG_CONFIG_FOUND)
+  if(PkgConfig_FOUND)
     pkg_check_modules(PC_LDAP_LBER QUIET lber)
   endif()
 

@@ -46,9 +46,8 @@ set_package_properties(
 
 set(_reason "")
 
-# Try pkg-config.
 find_package(PkgConfig QUIET)
-if(PKG_CONFIG_FOUND)
+if(PkgConfig_FOUND)
   pkg_check_modules(PC_Valgrind QUIET valgrind)
 
   # At the time of writing, valgrind.pc sets includedir, for example, as

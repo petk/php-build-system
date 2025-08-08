@@ -198,9 +198,8 @@ if(Apache_APR_CONFIG_EXECUTABLE)
   )
 endif()
 
-# Try pkg-config.
 find_package(PkgConfig QUIET)
-if(PKG_CONFIG_FOUND)
+if(PkgConfig_FOUND)
   pkg_check_modules(PC_Apache_APR QUIET apr-1)
 endif()
 

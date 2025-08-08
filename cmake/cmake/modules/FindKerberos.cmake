@@ -55,9 +55,8 @@ set_package_properties(
 
 set(_reason "")
 
-# Try pkg-config.
 find_package(PkgConfig QUIET)
-if(PKG_CONFIG_FOUND)
+if(PkgConfig_FOUND)
   pkg_check_modules(PC_Kerberos QUIET krb5)
 endif()
 
@@ -121,7 +120,7 @@ block(PROPAGATE Kerberos_VERSION)
 endblock()
 
 # Find Kerberos GSSAPI component.
-if(PKG_CONFIG_FOUND)
+if(PkgConfig_FOUND)
   pkg_check_modules(PC_Kerberos_GSSAPI QUIET krb5-gssapi)
 endif()
 
