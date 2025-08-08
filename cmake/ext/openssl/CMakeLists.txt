@@ -176,14 +176,14 @@ if(TARGET OpenSSL::SSL)
     check_symbol_exists(RAND_egd openssl/rand.h HAVE_RAND_EGD)
   cmake_pop_check_state()
 
-  if(OPENSSL_VERSION VERSION_LESS 3 AND PHP_EXT_OPENSSL_LEGACY_PROVIDER)
+  if(OpenSSL_VERSION VERSION_LESS 3 AND PHP_EXT_OPENSSL_LEGACY_PROVIDER)
     message(
       WARNING
       "PHP_EXT_OPENSSL_LEGACY_PROVIDER is not available for OpenSSL version "
-      "${OPENSSL_VERSION} and won't be enabled."
+      "${OpenSSL_VERSION} and won't be enabled."
     )
   elseif(
-    OPENSSL_VERSION VERSION_GREATER_EQUAL 3
+    OpenSSL_VERSION VERSION_GREATER_EQUAL 3
     AND PHP_EXT_OPENSSL_LEGACY_PROVIDER
   )
     set(LOAD_OPENSSL_LEGACY_PROVIDER TRUE)
@@ -213,7 +213,7 @@ if(TARGET OpenSSL::SSL)
       )
     cmake_pop_check_state()
 
-    if(OPENSSL_VERSION VERSION_LESS 3.2 OR NOT HAVE_OPENSSL_ARGON2)
+    if(OpenSSL_VERSION VERSION_LESS 3.2 OR NOT HAVE_OPENSSL_ARGON2)
       message(
         FATAL_ERROR
         "The OpenSSL Argon2 password hashing requires OpenSSL 3.2 or newer."
