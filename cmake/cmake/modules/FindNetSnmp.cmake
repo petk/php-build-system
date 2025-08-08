@@ -49,9 +49,8 @@ set_package_properties(
 
 set(_reason "")
 
-# Try pkg-config.
 find_package(PkgConfig QUIET)
-if(PKG_CONFIG_FOUND)
+if(PkgConfig_FOUND)
   pkg_check_modules(PC_NetSnmp QUIET netsnmp)
 endif()
 
@@ -150,7 +149,6 @@ block(PROPAGATE NetSnmp_VERSION)
     endif()
   endif()
 
-  # Try pkg-config.
   if(
     NOT NetSnmp_VERSION
     AND PC_NetSNMP_VERSION

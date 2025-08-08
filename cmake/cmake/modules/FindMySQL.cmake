@@ -127,9 +127,8 @@ if("Lib" IN_LIST MySQL_FIND_COMPONENTS)
       ERROR_QUIET
     )
   else()
-    # Try pkg-config.
     find_package(PkgConfig QUIET)
-    if(PKG_CONFIG_FOUND)
+    if(PkgConfig_FOUND)
       pkg_check_modules(PC_MySQL QUIET mysqlclient)
     endif()
   endif()

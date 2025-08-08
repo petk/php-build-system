@@ -96,9 +96,8 @@ if(Crypt_IS_BUILT_IN)
 else()
   set(_Crypt_REQUIRED_VARS Crypt_LIBRARY Crypt_INCLUDE_DIR _Crypt_SANITY_CHECK)
 
-  # Try pkg-config.
   find_package(PkgConfig QUIET)
-  if(PKG_CONFIG_FOUND)
+  if(PkgConfig_FOUND)
     pkg_search_module(PC_Crypt QUIET libcrypt libxcrypt)
   endif()
 

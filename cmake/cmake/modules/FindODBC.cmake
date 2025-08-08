@@ -106,7 +106,7 @@ mark_as_advanced(ODBC_CONFIG)
 ### Try pkg-config. ###########################################################
 if(NOT ODBC_CONFIG)
   find_package(PkgConfig QUIET)
-  if(PKG_CONFIG_FOUND)
+  if(PkgConfig_FOUND)
     if(ODBC_USE_DRIVER STREQUAL "unixODBC")
       pkg_check_modules(PC_ODBC QUIET odbc)
     elseif(ODBC_USE_DRIVER STREQUAL "iODBC")
