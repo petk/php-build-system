@@ -20,7 +20,7 @@ set_package_properties(
 
 # Try pkg-config and append paths to the internal icu_roots variable.
 find_package(PkgConfig QUIET)
-if(PKG_CONFIG_FOUND)
+if(PkgConfig_FOUND)
   foreach(component ${ICU_FIND_COMPONENTS})
     string(TOUPPER ${component} component_upper)
     pkg_check_modules(PC_ICU_${component_upper} QUIET icu-${component})
