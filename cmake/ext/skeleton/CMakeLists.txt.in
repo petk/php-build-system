@@ -21,7 +21,7 @@ Build extension as shared.
 # CMakeLists.txt file for the %EXTNAME% extension.
 
 # Set minimum required CMake version.
-cmake_minimum_required(VERSION 3.29...4.1)
+cmake_minimum_required(VERSION 3.29...4.2)
 
 # Add paths where include() and find_package() look for modules.
 list(APPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_LIST_DIR}/cmake/modules)

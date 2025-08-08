@@ -6,7 +6,7 @@ Configure the `lexbor` extension.
 This extension provides support for Lexbor library.
 #]=============================================================================]
 
-cmake_minimum_required(VERSION 3.29...4.1)
+cmake_minimum_required(VERSION 3.29...4.2)
 
 project(
   PhpExtensionLexbor
