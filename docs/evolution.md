@@ -963,6 +963,7 @@ PHP coding standards now use the C11 standard.
   `--with-libdir` configure options (e.g.,
   `--libdir=/usr/lib64 --with-libdir=lib64` will set `libdir` to
   `/usr/lib64/php`).
+* Autoconf macro `AX_CHECK_COMPILE_FLAG` updated to serial 11.
 * Autoconf macro `PHP_AP_EXTRACT_VERSION` has been removed.
 * Autoconf macro `PHP_BUILD_THREAD_SAFE` has been removed (set `enable_zts`
   variable manually).
