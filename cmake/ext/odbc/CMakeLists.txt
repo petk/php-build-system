@@ -160,6 +160,8 @@ cmake -S php-src -B php-build \
 
 ## PHP_EXT_ODBC_VERSION
 
+:red_circle: *Removed as of PHP 8.5.*
+
 Hex number to force support for the ODBC specification version. By default, it
 is set to the highest supported ODBC specification version by PHP. A special
 value `0` (zero) or empty value prevents an explicit `ODBCVER` to be defined in
@@ -249,27 +251,6 @@ if(
     "When using 'PHP_EXT_ODBC_TYPE=${PHP_EXT_ODBC_TYPE}', please set also "
     "'ODBC_LIBRARY' and optionally 'ODBC_INCLUDE_DIR' to locate the ODBC "
     "installation."
-  )
-endif()
-
-php_set(
-  PHP_EXT_ODBC_VERSION
-  TYPE STRING
-  IF [[PHP_EXT_ODBC AND NOT PHP_EXT_ODBC_TYPE MATCHES "^(unixODBC|dbmaker)$"]]
-  VALUE "0x0350"
-  ELSE_VALUE "0x0350"
-  DOC
-    "Hex number to force support for the ODBC specification version. Default: "
-    "0x0350. Set to special value 0 (zero) or empty to not define explicit "
-    "ODBCVER in the configuration header."
-)
-mark_as_advanced(PHP_EXT_ODBC_VERSION)
-# Validate hexadecimal version.
-if(PHP_EXT_ODBC_VERSION AND NOT PHP_EXT_ODBC_VERSION MATCHES "^0x[0-9A-Fa-f]+$")
-  message(
-    FATAL_ERROR
-    "The value 'PHP_EXT_ODBC_VERSION=${PHP_EXT_ODBC_VERSION}' is NOT valid "
-    "hexadecimal number."
   )
 endif()
 
@@ -441,10 +422,6 @@ if(TARGET ODBC::ODBC AND NOT ODBC_DRIVER STREQUAL "Windows")
 /* The ODBC library used in the PHP odbc extension. */
 #define PHP_ODBC_TYPE "@PHP_ODBC_TYPE@"]] PHP_ODBC_BUILD_DEFINITIONS_CODE)
   endblock()
-endif()
-
-if(PHP_EXT_ODBC_VERSION)
-  set(ODBCVER "${PHP_EXT_ODBC_VERSION}")
 endif()
 
 set(HAVE_UODBC TRUE)

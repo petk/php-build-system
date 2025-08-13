@@ -162,6 +162,8 @@ cmake -S php-src -B php-build \
 
 ## PHP_EXT_ODBC_VERSION
 
+:red_circle: *Removed as of PHP 8.5.*
+
 Hex number to force support for the ODBC specification version. By default, it
 is set to the highest supported ODBC specification version by PHP. A special
 value `0` (zero) or empty value prevents an explicit `ODBCVER` to be defined in

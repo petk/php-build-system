@@ -2141,13 +2141,13 @@ A list of Autoconf `configure` command-line configuration options, Windows
       <td>&emsp;--without-odbcver</td>
       <td>--without-odbcver</td>
       <td>PHP_EXT_ODBC_VERSION="0x0350"</td>
-      <td>default: 0x0350</td>
+      <td>default: 0x0350; removed since PHP >= 8.5</td>
     </tr>
     <tr>
       <td>&emsp;--with-odbcver[=HEX]</td>
       <td>--with-odbcver[=HEX]</td>
       <td>PHP_EXT_ODBC_VERSION=HEX</td>
-      <td>default: 0x0350</td>
+      <td>default: 0x0350; removed since PHP >= 8.5</td>
     </tr>
     <tr>
       <td>&emsp;--without-adabas</td>

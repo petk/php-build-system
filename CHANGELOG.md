@@ -13,6 +13,7 @@ New configuration options:
 
 Removed configuration options:
 
+* PHP_EXT_ODBC_VERSION
 * PHP_EXT_OPCACHE
 
 ## PHP 8.4

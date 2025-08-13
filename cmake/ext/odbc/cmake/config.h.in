@@ -41,9 +41,6 @@
 /* Define to 1 if the PHP extension 'odbc' is available. */
 #cmakedefine HAVE_UODBC 1
 
-/* The highest supported ODBC version. */
-#cmakedefine ODBCVER @ODBCVER@
-
 /* Define to 1 to be able to use the wchar defs in the obsolete <sqlunix.h>
    header file on some FreeBSD systems. */
 #cmakedefine SS_FBX 1

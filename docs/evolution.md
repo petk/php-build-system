@@ -947,6 +947,9 @@ PHP coding standards now use the C11 standard.
 * Added new extensions lexbor and uri as always enabled.
 * The `SIZEOF_INTMAX_T` preprocessor macro has been removed.
 * The `SIZEOF_PTRDIFF_T` preprocessor macro has been removed.
+* The `ODBCVER` preprocessor macro has been removed.
+* The `--with-odbcver[=HEX]`/`--without-odbcver` configure options have
+  been removed.
 * The Opcache extension (ext/opcache) is now always built into the PHP binary
   and is always loaded. The `--enable-opcache`/`--disable-opcache` configure
   options have been removed.
