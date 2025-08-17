@@ -18,15 +18,12 @@ This module defines the following imported targets:
 
 * `Tidy_FOUND` - Boolean indicating whether the package is found.
 * `Tidy_VERSION` - The version of package found.
+* `Tidy_HEADER` - Name of the Tidy header (`tidy.h`, or `tidyp.h`).
 
 ## Cache variables
 
 * `Tidy_INCLUDE_DIR` - Directory containing package library headers.
 * `Tidy_LIBRARY` - The path to the package library.
-* `HAVE_TIDYBUFFIO_H` - Whether tidybuffio.h is available.
-* `HAVE_TIDY_H` - Whether `tidy.h` is available.
-* `HAVE_TIDYP_H` - If `tidy.h` is not available and whether the `tidyp.h` is
-  available (tidy fork).
 
 ## Examples
 
@@ -39,8 +36,6 @@ target_link_libraries(example PRIVATE Tidy::Tidy)
 ```
 #]=============================================================================]
 
-include(CheckIncludeFiles)
-include(CMakePushCheckState)
 include(FeatureSummary)
 include(FindPackageHandleStandardArgs)
 
@@ -52,7 +47,6 @@ set_package_properties(
 )
 
 set(_reason "")
-set(_tidy_include_names "tidy.h")
 
 find_package(PkgConfig QUIET)
 if(PkgConfig_FOUND)
@@ -70,19 +64,21 @@ find_library(
   DOC "The path to the Tidy library"
 )
 
+set(Tidy_HEADER "tidy.h")
+
 if(NOT Tidy_LIBRARY)
   string(APPEND _reason "Tidy library not found. ")
 else()
   cmake_path(GET Tidy_LIBRARY FILENAME name)
   if(name MATCHES "tidyp")
-    set(_tidy_include_names "tidyp.h")
+    set(Tidy_HEADER "tidyp.h")
   endif()
   unset(name)
 endif()
 
 find_path(
   Tidy_INCLUDE_DIR
-  NAMES ${_tidy_include_names}
+  NAMES ${Tidy_HEADER}
   HINTS ${PC_Tidy_INCLUDE_DIRS}
   PATH_SUFFIXES
     tidy
@@ -91,23 +87,7 @@ find_path(
 )
 
 if(NOT Tidy_INCLUDE_DIR)
-  string(APPEND _reason "tidy.h not found. ")
-endif()
-
-if(Tidy_INCLUDE_DIR)
-  cmake_push_check_state(RESET)
-    set(CMAKE_REQUIRED_INCLUDES ${Tidy_INCLUDE_DIR})
-
-    # Check for tidybuffio.h (as opposed to the legacy buffio.h) which indicates
-    # that the found library is tidy-html5 and not the legacy htmltidy. The two
-    # are compatible, except the legacy doesn't have the tidybuffio.h header.
-    check_include_files(tidybuffio.h HAVE_TIDYBUFFIO_H)
-
-    check_include_files(tidy.h HAVE_TIDY_H)
-    if(NOT HAVE_TIDY_H)
-      check_include_files(tidyp.h HAVE_TIDYP_H)
-    endif()
-  cmake_pop_check_state()
+  string(APPEND _reason "${Tidy_HEADER} not found. ")
 endif()
 
 # Tidy headers don't provide version. Try pkg-config.
@@ -128,7 +108,6 @@ find_package_handle_standard_args(
 )
 
 unset(_reason)
-unset(_tidy_include_names)
 
 if(NOT Tidy_FOUND)
   return()

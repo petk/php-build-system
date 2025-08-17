@@ -28,6 +28,7 @@ project(
   LANGUAGES C
 )
 
+include(CheckIncludeFiles)
 include(CheckSourceCompiles)
 include(CheckSymbolExists)
 include(CMakeDependentOption)
@@ -106,32 +107,51 @@ if(TARGET Tidy::Tidy)
   cmake_push_check_state(RESET)
     set(CMAKE_REQUIRED_LIBRARIES Tidy::Tidy)
 
-    set(header "")
-    if(HAVE_TIDY_H)
-      set(header tidy.h)
-    elseif(HAVE_TIDYP_H)
-      set(header tidyp.h)
-    endif()
+    # Check for <tidybuffio.h> (as opposed to the legacy <buffio.h>), which
+    # indicates that the found library is tidy-html5 and not the legacy
+    # htmltidy. The two are compatible, except the legacy doesn't have the
+    # <tidybuffio.h> header.
+    check_include_files(tidybuffio.h PHP_EXT_TIDY_HAVE_TIDYBUFFIO_H)
+    set(HAVE_TIDYBUFFIO_H ${PHP_EXT_TIDY_HAVE_TIDYBUFFIO_H})
+
+    check_symbol_exists(
+      tidyOptGetDoc
+      "${Tidy_HEADER}"
+      PHP_EXT_TIDY_HAVE_TIDYOPTGETDOC
+    )
+    set(HAVE_TIDYOPTGETDOC ${PHP_EXT_TIDY_HAVE_TIDYOPTGETDOC})
+
+    check_symbol_exists(
+      tidyReleaseDate
+      "${Tidy_HEADER}"
+      PHP_EXT_TIDY_HAVE_TIDYRELEASEDATE
+    )
+    set(HAVE_TIDYRELEASEDATE ${PHP_EXT_TIDY_HAVE_TIDYRELEASEDATE})
 
     # The tidyOptGetCategory() function (added in tidy-html5 5.4.0) is only
-    # usable in PHP at the time of writing due to unconditional usage of
-    # internal TidyInternalCategory option (added in tidy-html5 5.6.0).
-    # The tidyp fork, doesn't have tidyOptGetCategory().
-    check_source_compiles(C "
-      #include <${header}>
+    # usable in PHP at the time of writing due to unconditional usage of the
+    # TidyInternalCategory enumeration (added in tidy-html5 5.6.0). The tidyp
+    # fork, doesn't have tidyOptGetCategory().
+    check_source_compiles(C [[
+      #include <tidy.h>
       int main(void)
       {
         TidyDoc doc = tidyCreate();
-        TidyOption badopt = tidyGetOptionByName(doc, \"<bad>\");
-        Bool v = (tidyOptGetCategory(badopt) == TidyInternalCategory);
+        TidyOption option = tidyGetOptionByName(doc, "<bad>");
+        Bool v = (tidyOptGetCategory(option) == TidyInternalCategory);
         (void)v;
         tidyRelease(doc);
         return 0;
       }
-    " HAVE_TIDYOPTGETCATEGORY)
-    check_symbol_exists(tidyOptGetDoc "${header}" HAVE_TIDYOPTGETDOC)
-    check_symbol_exists(tidyReleaseDate "${header}" HAVE_TIDYRELEASEDATE)
+    ]] PHP_EXT_TIDY_HAVE_TIDYOPTGETCATEGORY)
+    set(HAVE_TIDYOPTGETCATEGORY ${PHP_EXT_TIDY_HAVE_TIDYOPTGETCATEGORY})
   cmake_pop_check_state()
+
+  if(Tidy_HEADER STREQUAL "tidy.h")
+    set(HAVE_TIDY_H TRUE)
+  elseif(Tidy_HEADER STREQUAL "tidyp.h")
+    set(HAVE_TIDYP_H TRUE)
+  endif()
 endif()
 
 set(HAVE_TIDY TRUE)
