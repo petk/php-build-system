@@ -20,15 +20,12 @@ This module defines the following imported targets:
 
 * `Tidy_FOUND` - Boolean indicating whether the package is found.
 * `Tidy_VERSION` - The version of package found.
+* `Tidy_HEADER` - Name of the Tidy header (`tidy.h`, or `tidyp.h`).
 
 ## Cache variables
 
 * `Tidy_INCLUDE_DIR` - Directory containing package library headers.
 * `Tidy_LIBRARY` - The path to the package library.
-* `HAVE_TIDYBUFFIO_H` - Whether tidybuffio.h is available.
-* `HAVE_TIDY_H` - Whether `tidy.h` is available.
-* `HAVE_TIDYP_H` - If `tidy.h` is not available and whether the `tidyp.h` is
-  available (tidy fork).
 
 ## Examples
 
