@@ -112,7 +112,11 @@ if(TARGET Tidy::Tidy)
       set(header tidyp.h)
     endif()
 
-    check_symbol_exists(tidyOptGetCategory "${header}" HAVE_TIDYOPTGETCATEGORY)
+    # The tidyOptGetCategory() function (added in tidy-html5 5.4.0) is only
+    # useable if tidyInternalCategory() (added in tidy-html5 5.6.0) is also
+    # present. The tidyp fork, doesn't have tidyInternalCategory(), nor
+    # tidyOptGetCategory().
+    check_symbol_exists(tidyInternalCategory "${header}" HAVE_TIDYOPTGETCATEGORY)
     check_symbol_exists(tidyOptGetDoc "${header}" HAVE_TIDYOPTGETDOC)
     check_symbol_exists(tidyReleaseDate "${header}" HAVE_TIDYRELEASEDATE)
   cmake_pop_check_state()

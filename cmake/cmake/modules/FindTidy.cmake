@@ -52,17 +52,37 @@ set_package_properties(
 )
 
 set(_reason "")
+set(_tidy_include_names "tidy.h")
 
 find_package(PkgConfig QUIET)
 if(PkgConfig_FOUND)
   pkg_check_modules(PC_Tidy QUIET tidy)
 endif()
 
+find_library(
+  Tidy_LIBRARY
+  NAMES
+    tidy
+    tidy5 # tidy-html5 on FreeBSD
+    tidyp # Tidy library fork (obsolete)
+  NAMES_PER_DIR
+  HINTS ${PC_Tidy_LIBRARY_DIRS}
+  DOC "The path to the Tidy library"
+)
+
+if(NOT Tidy_LIBRARY)
+  string(APPEND _reason "Tidy library not found. ")
+else()
+  cmake_path(GET Tidy_LIBRARY FILENAME name)
+  if(name MATCHES "tidyp")
+    set(_tidy_include_names "tidyp.h")
+  endif()
+  unset(name)
+endif()
+
 find_path(
   Tidy_INCLUDE_DIR
-  NAMES
-    tidy.h
-    tidyp.h # Tidy library fork (obsolete)
+  NAMES ${_tidy_include_names}
   HINTS ${PC_Tidy_INCLUDE_DIRS}
   PATH_SUFFIXES
     tidy
@@ -72,20 +92,6 @@ find_path(
 
 if(NOT Tidy_INCLUDE_DIR)
   string(APPEND _reason "tidy.h not found. ")
-endif()
-
-find_library(
-  Tidy_LIBRARY
-  NAMES
-    tidy
-    tidy5 # tidy-html5 on FreeBSD
-    tidyp
-  HINTS ${PC_Tidy_LIBRARY_DIRS}
-  DOC "The path to the Tidy library"
-)
-
-if(NOT Tidy_LIBRARY)
-  string(APPEND _reason "Tidy library not found. ")
 endif()
 
 if(Tidy_INCLUDE_DIR)
@@ -114,14 +120,15 @@ mark_as_advanced(Tidy_INCLUDE_DIR Tidy_LIBRARY)
 find_package_handle_standard_args(
   Tidy
   REQUIRED_VARS
-    Tidy_INCLUDE_DIR
     Tidy_LIBRARY
+    Tidy_INCLUDE_DIR
   VERSION_VAR Tidy_VERSION
   HANDLE_VERSION_RANGE
   REASON_FAILURE_MESSAGE "${_reason}"
 )
 
 unset(_reason)
+unset(_tidy_include_names)
 
 if(NOT Tidy_FOUND)
   return()
