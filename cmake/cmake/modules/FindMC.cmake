@@ -69,10 +69,12 @@ set_package_properties(
     DESCRIPTION "Compiler for instrumentation manifests and message text files"
 )
 
+set(_reason "")
+
 # Query Windows registry. Message compiler (mc.exe) is not in PATH by default.
 block()
   # Windows development terminals set environment variable.
-  list(APPEND hints $ENV{WindowsSdkVerBinPath})
+  set(hints "$ENV{WindowsSdkVerBinPath}")
 
   # Windows < 8.
   cmake_host_system_information(
@@ -112,6 +114,8 @@ block()
     endif()
   endforeach()
 
+  set(names "")
+
   # Adjustments for architecture whether target is 64-bit or 32-bit.
   if(CMAKE_SIZEOF_VOID_P EQUAL 8)
     if(CMAKE_SYSTEM_PROCESSOR STREQUAL "ARM64")
@@ -139,33 +143,24 @@ block()
       # When cross-compiling for Windows target, binutils package might not
       # provide link to windmc executable but might have names like this:
       ${names}
+    NAMES_PER_DIR
     HINTS ${hints}
     DOC "Path to the message compiler (mc)"
   )
+  mark_as_advanced(MC_EXECUTABLE)
 endblock()
 
-set(_reason "")
-
-# Check whether MC_EXECUTABLE exists.
-if(EXISTS "${MC_EXECUTABLE}")
-  set(_mc_exists TRUE)
-else()
-  set(_mc_exists FALSE)
+if(NOT MC_EXECUTABLE)
   string(APPEND _reason "Message compiler command-line tool (mc) not found. ")
 endif()
 
-mark_as_advanced(MC_EXECUTABLE)
-
 find_package_handle_standard_args(
   MC
-  REQUIRED_VARS
-    MC_EXECUTABLE
-    _mc_exists
+  REQUIRED_VARS MC_EXECUTABLE
   REASON_FAILURE_MESSAGE "${_reason}"
 )
 
 unset(_reason)
-unset(_mc_exists)
 
 function(mc_target)
   cmake_parse_arguments(

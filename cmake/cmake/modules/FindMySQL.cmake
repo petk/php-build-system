@@ -146,6 +146,7 @@ if("Lib" IN_LIST MySQL_FIND_COMPONENTS)
   find_library(
     MySQL_LIBRARY
     NAMES mysqlclient mysql
+    NAMES_PER_DIR
     HINTS
       ${_mysql_library_dir}
       ${PC_MySQL_LIBRARY_DIRS}

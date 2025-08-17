@@ -63,6 +63,7 @@ if(Firebird_CONFIG_EXECUTABLE)
     ERROR_QUIET
   )
   separate_arguments(Firebird_CFLAGS NATIVE_COMMAND "${Firebird_CFLAGS}")
+  set(Firebird_CONFIG_INCLUDE_DIRS "")
   foreach(flag ${Firebird_CFLAGS})
     if(flag MATCHES "^-I")
       list(APPEND Firebird_CONFIG_INCLUDE_DIRS ${flag})
@@ -78,6 +79,7 @@ if(Firebird_CONFIG_EXECUTABLE)
     ERROR_QUIET
   )
   separate_arguments(Firebird_LIBS NATIVE_COMMAND "${Firebird_LIBS}")
+  set(Firebird_CONFIG_LIBRARY_NAMES "")
   foreach(lib ${Firebird_LIBS})
     if(lib MATCHES "^-l")
       list(APPEND Firebird_CONFIG_LIBRARY_NAMES ${lib})
@@ -101,6 +103,7 @@ find_library(
   Firebird_LIBRARY
   # Libraries providing the API were once also gds and ib_util (interbase).
   NAMES ${Firebird_CONFIG_LIBRARY_NAMES} fbclient gds ib_util
+  NAMES_PER_DIR
   DOC "The path to the Firebird library"
 )
 
@@ -135,6 +138,8 @@ find_package_handle_standard_args(
 )
 
 unset(_reason)
+unset(Firebird_CONFIG_INCLUDE_DIRS)
+unset(Firebird_CONFIG_LIBRARY_NAMES)
 
 if(NOT Firebird_FOUND)
   return()

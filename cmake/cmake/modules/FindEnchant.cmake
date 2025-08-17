@@ -69,6 +69,7 @@ endif()
 find_library(
   Enchant_LIBRARY
   NAMES enchant-2 enchant
+  NAMES_PER_DIR
   HINTS ${PC_Enchant_LIBRARY_DIRS}
   DOC "The path to the Enchant library"
 )
