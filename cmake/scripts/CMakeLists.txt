@@ -69,6 +69,7 @@ find_program(
   NAMES
     sed  # Default name available on most *nix systems
     gsed # Brew gnu-sed package
+  NAMES_PER_DIR
   DOC "Path to the stream editor (sed) for filtering and transforming text"
 )
 mark_as_advanced(PHP_SED_EXECUTABLE)

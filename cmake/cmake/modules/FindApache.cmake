@@ -71,6 +71,7 @@ set(_reason "")
 find_program(
   Apache_APXS_EXECUTABLE
   NAMES apxs apxs2
+  NAMES_PER_DIR
   DOC "Path to the APache eXtenSion tool"
 )
 mark_as_advanced(Apache_APXS_EXECUTABLE)
@@ -157,6 +158,7 @@ endif()
 find_program(
   Apache_APR_CONFIG_EXECUTABLE
   NAMES apr-config apr-1-config
+  NAMES_PER_DIR
   HINTS ${_Apache_APR_BINDIR}
   DOC "Path to the apr library command-line tool for retrieving metainformation"
 )
@@ -237,6 +239,7 @@ endif()
 find_program(
   Apache_APU_CONFIG_EXECUTABLE
   NAMES apu-config apu-1-config
+  NAMES_PER_DIR
   HINTS ${_Apache_APU_BINDIR}
   DOC "Path to the Apache Portable Runtime Utilities config command-line tool"
 )
@@ -272,6 +275,7 @@ endif()
 find_program(
   Apache_EXECUTABLE
   NAMES ${_Apache_NAME} apache2
+  NAMES_PER_DIR
   HINTS ${_Apache_SBINDIR}
   DOC "Path to the Apache HTTP server command-line utility"
 )

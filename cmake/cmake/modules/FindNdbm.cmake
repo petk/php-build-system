@@ -92,6 +92,7 @@ else()
     NAMES
       ndbm
       db1
+    NAMES_PER_DIR
     DOC "The path to the ndbm library"
   )
 

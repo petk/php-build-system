@@ -100,6 +100,7 @@ endif()
 
 find_program(ODBC_CONFIG
   NAMES ${_odbc_config_names}
+  NAMES_PER_DIR
   DOC "Path to unixODBC or iODBC config program")
 mark_as_advanced(ODBC_CONFIG)
 
@@ -199,6 +200,7 @@ endif()
 if(NOT ODBC_LIBRARY)
   find_library(ODBC_LIBRARY
     NAMES ${_odbc_lib_names}
+    NAMES_PER_DIR
     HINTS ${_odbc_lib_paths}
     PATH_SUFFIXES odbc
     HINTS ${PC_ODBC_LIBRARY_DIRS})
