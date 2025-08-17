@@ -33,7 +33,7 @@ This module defines the following imported targets:
 * `HAVE_RFC822_OUTPUT_ADDRESS_LIST` - Whether function
   `rfc822_output_address_list()` exists.
 * `HAVE_IMAP_AUTH_GSS` - Whether `auth_gss` exists.
-* HAVE_IMAP_MUTF7 - Whether `utf8_to_mutf7()` function exists.
+* `HAVE_IMAP_MUTF7` - Whether `utf8_to_mutf7()` function exists.
 
 ## Functions provided by this module
 
@@ -256,6 +256,7 @@ endif()
 find_library(
   Cclient_LIBRARY
   NAMES c-client c-client4 imap
+  NAMES_PER_DIR
   DOC "The path to the c-client library"
 )
 

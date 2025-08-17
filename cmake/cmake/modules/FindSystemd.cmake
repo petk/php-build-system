@@ -88,6 +88,7 @@ if(Systemd_INCLUDE_DIR AND Systemd_LIBRARY)
       find_program(
         Systemd_EXECUTABLE
         NAMES systemd systemctl
+        NAMES_PER_DIR
         DOC "Path to the systemd executable"
       )
 
