@@ -28,6 +28,7 @@ project(
   LANGUAGES C
 )
 
+include(CheckSourceCompiles)
 include(CheckSymbolExists)
 include(CMakeDependentOption)
 include(CMakePushCheckState)
@@ -113,10 +114,21 @@ if(TARGET Tidy::Tidy)
     endif()
 
     # The tidyOptGetCategory() function (added in tidy-html5 5.4.0) is only
-    # usable if tidyInternalCategory() (added in tidy-html5 5.6.0) is also
-    # present. The tidyp fork, doesn't have tidyInternalCategory(), nor
-    # tidyOptGetCategory().
-    check_symbol_exists(tidyInternalCategory "${header}" HAVE_TIDYOPTGETCATEGORY)
+    # usable in PHP at the time of writing due to unconditional usage of
+    # internal TidyInternalCategory option (added in tidy-html5 5.6.0).
+    # The tidyp fork, doesn't have tidyOptGetCategory().
+    check_source_compiles(C "
+      #include <${header}>
+      int main(void)
+      {
+        TidyDoc doc = tidyCreate();
+        TidyOption badopt = tidyGetOptionByName(doc, \"<bad>\");
+        Bool v = (tidyOptGetCategory(badopt) == TidyInternalCategory);
+        (void)v;
+        tidyRelease(doc);
+        return 0;
+      }
+    " HAVE_TIDYOPTGETCATEGORY)
     check_symbol_exists(tidyOptGetDoc "${header}" HAVE_TIDYOPTGETDOC)
     check_symbol_exists(tidyReleaseDate "${header}" HAVE_TIDYRELEASEDATE)
   cmake_pop_check_state()
