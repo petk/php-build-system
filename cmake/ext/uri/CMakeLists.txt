@@ -26,11 +26,11 @@ add_library(php_ext_uri OBJECT)
 target_sources(
   php_ext_uri
   PRIVATE
-    php_lexbor.c
     php_uri_common.c
     php_uri.c
     php_uri.stub.php
-    php_uriparser.c
+    uri_parser_rfc3986.c
+    uri_parser_whatwg.c
     uriparser/src/UriCommon.c
     uriparser/src/UriCompare.c
     uriparser/src/UriCopy.c
@@ -50,10 +50,10 @@ target_sources(
   PUBLIC
     FILE_SET HEADERS
       FILES
-        php_lexbor.h
         php_uri_common.h
         php_uri.h
-        php_uriparser.h
+        uri_parser_rfc3986.h
+        uri_parser_whatwg.h
         uriparser/include/uriparser/Uri.h
         uriparser/include/uriparser/UriBase.h
         uriparser/include/uriparser/UriDefsAnsi.h
