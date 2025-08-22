@@ -39,6 +39,9 @@ set(PHP_WRITE_STDOUT_EXITCODE 0)
 # Set the exit code of the stack limit check.
 set(PHP_ZEND_CHECK_STACK_LIMIT_EXITCODE 0)
 
+# Set the exit code of the preserve_none check.
+set(PHP_ZEND_HAVE_PRESERVE_NONE_EXITCODE 0)
+
 # Set the exit code of the check if syscall to create shadow stack exists.
 set(PHP_ZEND_SHADOW_STACK_SYSCALL_EXITCODE 1)
 

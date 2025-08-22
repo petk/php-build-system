@@ -47,6 +47,9 @@
 /* Define to 1 if you have the 'mremap' function. */
 #cmakedefine HAVE_MREMAP 1
 
+/* Define to 1 if the 'preserve_none' calling convention is supported. */
+#cmakedefine HAVE_PRESERVE_NONE 1
+
 /* Define to 1 if you have the 'pthread_attr_get_np' function. */
 #cmakedefine HAVE_PTHREAD_ATTR_GET_NP 1
 
