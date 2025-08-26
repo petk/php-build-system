@@ -29,6 +29,7 @@ target_sources(
     php_uri_common.c
     php_uri.c
     php_uri.stub.php
+    uri_parser_php_parse_url.c
     uri_parser_rfc3986.c
     uri_parser_whatwg.c
     uriparser/src/UriCommon.c
@@ -52,6 +53,7 @@ target_sources(
       FILES
         php_uri_common.h
         php_uri.h
+        uri_parser_php_parse_url.h
         uri_parser_rfc3986.h
         uri_parser_whatwg.h
         uriparser/include/uriparser/Uri.h
