@@ -124,15 +124,10 @@ target_sources(
     lexbor/lexbor/dom/interfaces/processing_instruction.c
     lexbor/lexbor/dom/interfaces/shadow_root.c
     lexbor/lexbor/dom/interfaces/text.c
-    lexbor/lexbor/encoding/big5.c
     lexbor/lexbor/encoding/decode.c
     lexbor/lexbor/encoding/encode.c
     lexbor/lexbor/encoding/encoding.c
-    lexbor/lexbor/encoding/euc_kr.c
-    lexbor/lexbor/encoding/gb18030.c
-    lexbor/lexbor/encoding/iso_2022_jp_katakana.c
-    lexbor/lexbor/encoding/jis0208.c
-    lexbor/lexbor/encoding/jis0212.c
+    lexbor/lexbor/encoding/multi.c
     lexbor/lexbor/encoding/range.c
     lexbor/lexbor/encoding/res.c
     lexbor/lexbor/encoding/single.c
