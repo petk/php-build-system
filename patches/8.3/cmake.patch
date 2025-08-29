@@ -28,10 +28,10 @@ index 7911bf8490b..1d9b530947e 100644
  indent_style             = space
  
 diff --git a/.gitignore b/.gitignore
-index 4e95d9a9da3..c109a4296a5 100644
+index cd9ba81306f..a7f1e921dff 100644
 --- a/.gitignore
 +++ b/.gitignore
-@@ -156,6 +156,7 @@ php
+@@ -157,6 +157,7 @@ php
  # ------------------------------------------------------------------------------
  /ext/json/json_parser.tab.h
  /ext/json/json_parser.tab.c
@@ -39,7 +39,7 @@ index 4e95d9a9da3..c109a4296a5 100644
  /sapi/phpdbg/phpdbg_parser.c
  /sapi/phpdbg/phpdbg_parser.h
  /sapi/phpdbg/phpdbg_parser.output
-@@ -299,9 +300,58 @@ tmp-php.ini
+@@ -300,9 +301,58 @@ tmp-php.ini
  # ------------------------------------------------------------------------------
  /ext/standard/tests/helpers/bad_cmd.exe
  
