@@ -32,10 +32,10 @@ See: https://github.com/php/php-src/pull/12017
  6 files changed, 114 insertions(+), 129 deletions(-)
 
 diff --git a/.github/actions/apt-x32/action.yml b/.github/actions/apt-x32/action.yml
-index 879300f9927..de820684fb2 100644
+index 0147b15cfcf..e12dfefbb9e 100644
 --- a/.github/actions/apt-x32/action.yml
 +++ b/.github/actions/apt-x32/action.yml
-@@ -31,7 +31,6 @@ runs:
+@@ -33,7 +33,6 @@ runs:
            libonig-dev:i386 \
            libpng-dev:i386 \
            libpq-dev:i386 \
@@ -44,10 +44,10 @@ index 879300f9927..de820684fb2 100644
            libsasl2-dev:i386 \
            libsodium-dev:i386 \
 diff --git a/.github/actions/apt-x64/action.yml b/.github/actions/apt-x64/action.yml
-index bc2aa00df20..739abf8fe50 100644
+index 98c7003175d..145d9484465 100644
 --- a/.github/actions/apt-x64/action.yml
 +++ b/.github/actions/apt-x64/action.yml
-@@ -34,7 +34,6 @@ runs:
+@@ -36,7 +36,6 @@ runs:
            libenchant-2-dev \
            libaspell-dev \
            libbz2-dev \
