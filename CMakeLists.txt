@@ -72,8 +72,30 @@ project(
   VERSION 8.4
   DESCRIPTION "CMake-based PHP build system"
   HOMEPAGE_URL "https://github.com/petk/php-build-system"
-  LANGUAGES NONE
+  LANGUAGES C
 )
+
+################################################################################
+# Configure languages.
+################################################################################
+
+# Optionally enable C++ language for PHP extensions.
+include(CheckLanguage)
+check_language(CXX)
+if(CMAKE_CXX_COMPILER)
+  enable_language(CXX)
+endif()
+
+# Enable Assembly language dialect.
+if(CMAKE_SYSTEM_NAME STREQUAL "Windows")
+  if(CMAKE_SYSTEM_PROCESSOR MATCHES "^ARM")
+    enable_language(ASM_MARMASM)
+  else()
+    enable_language(ASM_MASM)
+  endif()
+else()
+  enable_language(ASM)
+endif()
 
 # Configuration.
 block(PROPAGATE phpUrl)
