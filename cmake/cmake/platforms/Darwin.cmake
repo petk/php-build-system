@@ -1,5 +1,6 @@
 #[=============================================================================[
-Specific configuration for Darwin platform (macOS, OS X, etc.).
+Configuration specific to Apple stationary operating systems (macOS, OS X,
+etc.).
 #]=============================================================================]
 
 include_guard(GLOBAL)
