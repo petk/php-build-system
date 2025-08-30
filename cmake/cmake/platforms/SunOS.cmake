@@ -1,5 +1,5 @@
 #[=============================================================================[
-Specific configuration for SunOS patform (Solaris, illumos, etc.).
+Configuration specific to SunOS operating systems (Solaris, illumos, etc.).
 #]=============================================================================]
 
 include_guard(GLOBAL)
