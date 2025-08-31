@@ -300,7 +300,8 @@ add_feature_info(
 # Configuration checks.
 ################################################################################
 
-check_symbol_exists(mprotect sys/mman.h HAVE_MPROTECT)
+check_symbol_exists(mprotect sys/mman.h PHP_EXT_OPCACHE_HAVE_MPROTECT)
+set(HAVE_MPROTECT ${PHP_EXT_OPCACHE_HAVE_MPROTECT})
 
 # Check for shared memory support.
 include(cmake/CheckSHM.cmake)
