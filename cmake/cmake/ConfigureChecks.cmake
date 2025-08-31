@@ -56,7 +56,10 @@ check_include_files(dirent.h HAVE_DIRENT_H)
 check_include_files(dlfcn.h HAVE_DLFCN_H)
 check_include_files(dns.h HAVE_DNS_H)
 check_include_files(fcntl.h HAVE_FCNTL_H)
-check_include_files(grp.h HAVE_GRP_H)
+
+check_include_files(grp.h PHP_HAVE_GRP_H)
+set(HAVE_GRP_H ${PHP_HAVE_GRP_H})
+
 check_include_files(ieeefp.h HAVE_IEEEFP_H)
 check_include_files(langinfo.h HAVE_LANGINFO_H)
 check_include_files(linux/sock_diag.h HAVE_LINUX_SOCK_DIAG_H)
@@ -99,7 +102,10 @@ check_include_files(sys/vfs.h HAVE_SYS_VFS_H)
 check_include_files(sys/wait.h HAVE_SYS_WAIT_H)
 check_include_files(sysexits.h HAVE_SYSEXITS_H)
 check_include_files(syslog.h HAVE_SYSLOG_H)
-check_include_files(unistd.h HAVE_UNISTD_H)
+
+check_include_files(unistd.h PHP_HAVE_UNISTD_H)
+set(HAVE_UNISTD_H ${PHP_HAVE_UNISTD_H})
+
 # QNX requires unix.h to allow functions in libunix to work properly.
 check_include_files(unix.h HAVE_UNIX_H)
 check_include_files(utime.h HAVE_UTIME_H)
