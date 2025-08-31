@@ -3,35 +3,28 @@ Check whether to enable Zend signals.
 #]=============================================================================]
 
 include(CheckSymbolExists)
-include(CMakeDependentOption)
 include(FeatureSummary)
 
-cmake_dependent_option(
-  ZEND_SIGNALS
-  "Enable Zend signal handling"
-  ON
-  [[NOT CMAKE_SYSTEM_NAME STREQUAL "Windows"]]
-  OFF
-)
-mark_as_advanced(ZEND_SIGNALS)
+set(ZEND_SIGNALS FALSE)
+
+if(CMAKE_SYSTEM_NAME STREQUAL "Windows")
+  return()
+endif()
 
 message(CHECK_START "Checking whether to enable Zend signal handling")
 
-if(CMAKE_SYSTEM_NAME STREQUAL "Windows")
-  set(HAVE_SIGACTION FALSE)
-endif()
-
 check_symbol_exists(sigaction signal.h HAVE_SIGACTION)
 
-if(HAVE_SIGACTION AND ZEND_SIGNALS)
+if(HAVE_SIGACTION AND PHP_ZEND_SIGNALS)
   message(CHECK_PASS "yes")
+  set(ZEND_SIGNALS TRUE)
 
   # zend_config.h (or its wrapper php_config.h) isn't included in some zend_*
   # files, therefore also compilation definition is added.
   target_compile_definitions(zend PUBLIC ZEND_SIGNALS)
 else()
-  set(ZEND_SIGNALS OFF)
   message(CHECK_FAIL "no")
+  set(ZEND_SIGNALS FALSE)
 endif()
 
 add_feature_info(

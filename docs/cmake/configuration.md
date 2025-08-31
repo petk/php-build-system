@@ -218,10 +218,10 @@ Some useful overridable configuration options built into CMake itself. All these
 
 ## 4. Zend Engine configuration
 
-* [`ZEND_FIBER_ASM`](/docs/cmake/variables/ZEND_FIBER_ASM.md)
-* [`ZEND_GLOBAL_REGISTER_VARIABLES`](/docs/cmake/variables/ZEND_GLOBAL_REGISTER_VARIABLES.md)
-* [`ZEND_MAX_EXECUTION_TIMERS`](/docs/cmake/variables/ZEND_MAX_EXECUTION_TIMERS.md)
-* [`ZEND_SIGNALS`](/docs/cmake/variables/ZEND_SIGNALS.md)
+* [`PHP_ZEND_FIBER_ASM`](/docs/cmake/variables/PHP_ZEND_FIBER_ASM.md)
+* [`PHP_ZEND_GLOBAL_REGISTER_VARIABLES`](/docs/cmake/variables/PHP_ZEND_GLOBAL_REGISTER_VARIABLES.md)
+* [`PHP_ZEND_MAX_EXECUTION_TIMERS`](/docs/cmake/variables/PHP_ZEND_MAX_EXECUTION_TIMERS.md)
+* [`PHP_ZEND_SIGNALS`](/docs/cmake/variables/PHP_ZEND_SIGNALS.md)
 
 ## 5. PHP SAPI modules configuration
 
@@ -717,49 +717,49 @@ A list of Autoconf `configure` command-line configuration options, Windows
     <tr>
       <td>--enable-gcc-global-regs</td>
       <td>N/A</td>
-      <td>ZEND_GLOBAL_REGISTER_VARIABLES=ON</td>
+      <td>PHP_ZEND_GLOBAL_REGISTER_VARIABLES=ON</td>
       <td>default</td>
     </tr>
     <tr>
       <td>&emsp;--disable-gcc-global-regs</td>
       <td>N/A</td>
-      <td>ZEND_GLOBAL_REGISTER_VARIABLES=OFF</td>
+      <td>PHP_ZEND_GLOBAL_REGISTER_VARIABLES=OFF</td>
       <td></td>
     </tr>
     <tr>
       <td>--enable-fiber-asm</td>
       <td>N/A</td>
-      <td>ZEND_FIBER_ASM=ON</td>
+      <td>PHP_ZEND_FIBER_ASM=ON</td>
       <td>default, *nix only</td>
     </tr>
     <tr>
       <td>&emsp;--disable-fiber-asm</td>
       <td>N/A</td>
-      <td>ZEND_FIBER_ASM=OFF</td>
+      <td>PHP_ZEND_FIBER_ASM=OFF</td>
       <td>*nix only</td>
     </tr>
     <tr>
       <td>--enable-zend-signals</td>
       <td>N/A</td>
-      <td>ZEND_SIGNALS=ON</td>
+      <td>PHP_ZEND_SIGNALS=ON</td>
       <td>default, *nix only</td>
     </tr>
     <tr>
       <td>&emsp;--disable-zend-signals</td>
       <td>N/A</td>
-      <td>ZEND_SIGNALS=OFF</td>
+      <td>PHP_ZEND_SIGNALS=OFF</td>
       <td>*nix only</td>
     </tr>
     <tr>
       <td>--disable-zend-max-execution-timers</td>
       <td>N/A</td>
-      <td>ZEND_MAX_EXECUTION_TIMERS=OFF</td>
+      <td>PHP_ZEND_MAX_EXECUTION_TIMERS=OFF</td>
       <td>default, *nix only</td>
     </tr>
     <tr>
       <td>&emsp;--enable-zend-max-execution-timers</td>
       <td>N/A</td>
-      <td>ZEND_MAX_EXECUTION_TIMERS=ON</td>
+      <td>PHP_ZEND_MAX_EXECUTION_TIMERS=ON</td>
       <td>*nix only</td>
     </tr>
     <tr>

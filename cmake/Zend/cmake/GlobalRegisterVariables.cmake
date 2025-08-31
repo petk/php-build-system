@@ -17,10 +17,7 @@ if(CMAKE_SYSTEM_NAME STREQUAL "Windows")
   return()
 endif()
 
-option(ZEND_GLOBAL_REGISTER_VARIABLES "Enable global register variables" ON)
-mark_as_advanced(ZEND_GLOBAL_REGISTER_VARIABLES)
-
-if(NOT ZEND_GLOBAL_REGISTER_VARIABLES)
+if(NOT PHP_ZEND_GLOBAL_REGISTER_VARIABLES)
   return()
 endif()
 

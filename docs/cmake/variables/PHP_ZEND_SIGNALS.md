@@ -1,4 +1,4 @@
-# `ZEND_SIGNALS`
+# `PHP_ZEND_SIGNALS`
 
 * Default: `ON`
 * Values: `ON|OFF`

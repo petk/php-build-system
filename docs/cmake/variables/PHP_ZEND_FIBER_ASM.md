@@ -1,4 +1,4 @@
-# `ZEND_FIBER_ASM`
+# `PHP_ZEND_FIBER_ASM`
 
 * Default: `ON`
 * Values: `ON|OFF`

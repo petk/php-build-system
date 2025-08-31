@@ -1,4 +1,4 @@
-# `ZEND_MAX_EXECUTION_TIMERS`
+# `PHP_ZEND_MAX_EXECUTION_TIMERS`
 
 * Default: `auto`
 * Values: `auto|ON|OFF`

@@ -3,10 +3,6 @@ Determine whether Fibers can be used and add Boost fiber assembly files support
 if available for the platform. As a Boost fallback alternative ucontext support
 is checked if it can be used.
 
-Configuration options:
-
-* ZEND_FIBER_ASM
-
 Result variables:
 
 * ZEND_FIBER_UCONTEXT
@@ -14,17 +10,7 @@ Result variables:
 
 include(CheckIncludeFiles)
 include(CheckSourceRuns)
-include(CMakeDependentOption)
 include(CMakePushCheckState)
-
-cmake_dependent_option(
-  ZEND_FIBER_ASM
-  "Enable the use of Boost fiber assembly files"
-  ON
-  [[NOT CMAKE_SYSTEM_NAME STREQUAL "Windows"]]
-  ON
-)
-mark_as_advanced(ZEND_FIBER_ASM)
 
 # Create interface library for using Boost fiber assembly files and compile
 # options if available.
@@ -185,7 +171,7 @@ block()
 
   message(CHECK_START "Checking for fibers switching context support")
 
-  if(ZEND_FIBER_ASM AND asmFile)
+  if(PHP_ZEND_FIBER_ASM AND asmFile)
     message(CHECK_PASS "yes, Zend/asm/*.${asmFile}")
 
     target_sources(zend_fibers INTERFACE ${asmSources})
