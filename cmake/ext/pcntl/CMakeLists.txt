@@ -93,7 +93,7 @@ block()
 
   foreach(function fork sigaction waitpid)
     string(TOUPPER ${function} const)
-    if(NOT HAVE_${const})
+    if(NOT PHP_HAVE_${const})
       message(
         FATAL_ERROR
         "ext/pcntl: required function '${function}()' not found."
