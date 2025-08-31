@@ -55,8 +55,54 @@ endif()
 
 include(CheckIncludeFiles)
 include(CheckSymbolExists)
+include(CMakeDependentOption)
 include(CMakePushCheckState)
 include(PHP/AddCustomCommand)
+
+################################################################################
+# Configuration.
+################################################################################
+
+cmake_dependent_option(
+  PHP_ZEND_FIBER_ASM
+  "Enable the use of Boost fiber assembly files"
+  ON
+  [[NOT CMAKE_SYSTEM_NAME STREQUAL "Windows"]]
+  ON
+)
+mark_as_advanced(PHP_ZEND_FIBER_ASM)
+
+cmake_dependent_option(
+  PHP_ZEND_GLOBAL_REGISTER_VARIABLES
+  "Enable global register variables"
+  ON
+  [[NOT CMAKE_SYSTEM_NAME STREQUAL "Windows"]]
+  OFF
+)
+mark_as_advanced(PHP_ZEND_GLOBAL_REGISTER_VARIABLES)
+
+if(NOT CMAKE_SYSTEM_NAME STREQUAL "Windows")
+  set(
+    PHP_ZEND_MAX_EXECUTION_TIMERS
+    "auto"
+    CACHE STRING
+    "Enable Zend max execution timers"
+  )
+  mark_as_advanced(PHP_ZEND_MAX_EXECUTION_TIMERS)
+  set_property(
+    CACHE PHP_ZEND_MAX_EXECUTION_TIMERS
+    PROPERTY STRINGS "auto" "ON" "OFF"
+  )
+endif()
+
+cmake_dependent_option(
+  PHP_ZEND_SIGNALS
+  "Enable Zend signal handling"
+  ON
+  [[NOT CMAKE_SYSTEM_NAME STREQUAL "Windows"]]
+  OFF
+)
+mark_as_advanced(PHP_ZEND_SIGNALS)
 
 ################################################################################
 # Add library.
