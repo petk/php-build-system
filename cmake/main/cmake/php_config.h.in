@@ -188,9 +188,6 @@
 /* Define to 1 if you have the 'getpwuid_r' function. */
 #cmakedefine HAVE_GETPWUID_R 1
 
-/* Define to 1 if you have the 'getrlimit' function. */
-#cmakedefine HAVE_GETRLIMIT 1
-
 /* Define to 1 if you have the 'getrusage' function. */
 #cmakedefine HAVE_GETRUSAGE 1
 
@@ -199,9 +196,6 @@
 
 /* Define to 1 if you have the 'getservbyport' function. */
 #cmakedefine HAVE_GETSERVBYPORT 1
-
-/* Define to 1 if you have the 'getsid' function. */
-#cmakedefine HAVE_GETSID 1
 
 /* Define to 1 if you have the 'gettimeofday' function. */
 #cmakedefine HAVE_GETTIMEOFDAY 1

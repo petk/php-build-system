@@ -76,49 +76,78 @@ target_sources(
 
 target_compile_definitions(php_ext_posix PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE)
 
-check_symbol_exists(ctermid stdio.h HAVE_CTERMID)
+check_symbol_exists(ctermid stdio.h PHP_EXT_POSIX_HAVE_CTERMID)
+set(HAVE_CTERMID ${PHP_EXT_POSIX_HAVE_CTERMID})
+
 cmake_push_check_state(RESET)
   set(CMAKE_REQUIRED_DEFINITIONS -D_GNU_SOURCE)
-  check_symbol_exists(eaccess unistd.h HAVE_EACCESS)
+  check_symbol_exists(eaccess unistd.h PHP_EXT_POSIX_HAVE_EACCESS)
+  set(HAVE_EACCESS ${PHP_EXT_POSIX_HAVE_EACCESS})
 cmake_pop_check_state()
-check_symbol_exists(getgrgid_r grp.h HAVE_GETGRGID_R)
-check_symbol_exists(getgroups unistd.h HAVE_GETGROUPS)
-check_symbol_exists(getlogin unistd.h HAVE_GETLOGIN)
-check_symbol_exists(getpgid unistd.h HAVE_GETPGID)
-check_symbol_exists(getrlimit sys/resource.h HAVE_GETRLIMIT)
-check_symbol_exists(getsid unistd.h HAVE_GETSID)
+
+check_symbol_exists(getgrgid_r grp.h PHP_EXT_POSIX_HAVE_GETGRGID_R)
+set(HAVE_GETGRGID_R ${PHP_EXT_POSIX_HAVE_GETGRGID_R})
+
+check_symbol_exists(getgroups unistd.h PHP_EXT_POSIX_HAVE_GETGROUPS)
+set(HAVE_GETGROUPS ${PHP_EXT_POSIX_HAVE_GETGROUPS})
+
+check_symbol_exists(getlogin unistd.h PHP_EXT_POSIX_HAVE_GETLOGIN)
+set(HAVE_GETLOGIN ${PHP_EXT_POSIX_HAVE_GETLOGIN})
+
+check_symbol_exists(getpgid unistd.h PHP_EXT_POSIX_HAVE_GETPGID)
+set(HAVE_GETPGID ${PHP_EXT_POSIX_HAVE_GETPGID})
+
+check_symbol_exists(getrlimit sys/resource.h PHP_EXT_POSIX_HAVE_GETRLIMIT)
+set(HAVE_GETRLIMIT ${PHP_EXT_POSIX_HAVE_GETRLIMIT})
+
+check_symbol_exists(getsid unistd.h PHP_EXT_POSIX_HAVE_GETSID)
+set(HAVE_GETSID ${PHP_EXT_POSIX_HAVE_GETSID})
 
 # BSD-based systems have initgroups in unistd.h, elsewhere it is in grp.h.
 block()
   set(headers "")
 
-  check_include_files(grp.h HAVE_GRP_H)
-  if(HAVE_GRP_H)
+  check_include_files(grp.h PHP_HAVE_GRP_H)
+  if(PHP_HAVE_GRP_H)
     list(APPEND headers "grp.h")
   endif()
 
-  check_include_files(unistd.h HAVE_UNISTD_H)
-  if(HAVE_UNISTD_H)
+  check_include_files(unistd.h PHP_HAVE_UNISTD_H)
+  if(PHP_HAVE_UNISTD_H)
     list(APPEND headers "unistd.h")
   endif()
 
-  check_symbol_exists(initgroups "${headers}" HAVE_INITGROUPS)
+  check_symbol_exists(initgroups "${headers}" PHP_EXT_POSIX_HAVE_INITGROUPS)
+  set(HAVE_INITGROUPS ${PHP_EXT_POSIX_HAVE_INITGROUPS})
 endblock()
 
-check_symbol_exists(mkfifo sys/stat.h HAVE_MKFIFO)
-check_symbol_exists(mknod sys/stat.h HAVE_MKNOD)
+check_symbol_exists(mkfifo sys/stat.h PHP_EXT_POSIX_HAVE_MKFIFO)
+set(HAVE_MKFIFO ${PHP_EXT_POSIX_HAVE_MKFIFO})
+
+check_symbol_exists(mknod sys/stat.h PHP_EXT_POSIX_HAVE_MKNOD)
+set(HAVE_MKNOD ${PHP_EXT_POSIX_HAVE_MKNOD})
 
 # Skip pathconf and fpathconf check on musl libc due to limited implementation
 # (first argument is not validated and has different error).
 if(NOT PHP_C_STANDARD_LIBRARY STREQUAL "musl")
-  check_symbol_exists(pathconf unistd.h HAVE_PATHCONF)
-  check_symbol_exists(fpathconf unistd.h HAVE_FPATHCONF)
+  check_symbol_exists(pathconf unistd.h PHP_EXT_POSIX_HAVE_PATHCONF)
+  set(HAVE_PATHCONF ${PHP_EXT_POSIX_HAVE_PATHCONF})
+
+  check_symbol_exists(fpathconf unistd.h PHP_EXT_POSIX_HAVE_FPATHCONF)
+  set(HAVE_FPATHCONF ${PHP_EXT_POSIX_HAVE_FPATHCONF})
 endif()
 
-check_symbol_exists(setegid unistd.h HAVE_SETEGID)
-check_symbol_exists(seteuid unistd.h HAVE_SETEUID)
-check_symbol_exists(setrlimit sys/resource.h HAVE_SETRLIMIT)
-check_symbol_exists(setsid unistd.h HAVE_SETSID)
+check_symbol_exists(setegid unistd.h PHP_EXT_POSIX_HAVE_SETEGID)
+set(HAVE_SETEGID ${PHP_EXT_POSIX_HAVE_SETEGID})
+
+check_symbol_exists(seteuid unistd.h PHP_EXT_POSIX_HAVE_SETEUID)
+set(HAVE_SETEUID ${PHP_EXT_POSIX_HAVE_SETEUID})
+
+check_symbol_exists(setrlimit sys/resource.h PHP_EXT_POSIX_HAVE_SETRLIMIT)
+set(HAVE_SETRLIMIT ${PHP_EXT_POSIX_HAVE_SETRLIMIT})
+
+check_symbol_exists(setsid unistd.h PHP_EXT_POSIX_HAVE_SETSID)
+set(HAVE_SETSID ${PHP_EXT_POSIX_HAVE_SETSID})
 
 # Check for major, minor, and makedev.
 include(PHP/CheckSysMacros)
@@ -131,7 +160,11 @@ cmake_push_check_state(RESET)
     "struct utsname"
     domainname
     sys/utsname.h
+    PHP_EXT_POSIX_HAVE_STRUCT_UTSNAME_DOMAINNAME
+  )
+  set(
     HAVE_STRUCT_UTSNAME_DOMAINNAME
+    ${PHP_EXT_POSIX_HAVE_STRUCT_UTSNAME_DOMAINNAME}
   )
 cmake_pop_check_state()
 

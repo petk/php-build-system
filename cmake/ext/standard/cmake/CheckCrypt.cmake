@@ -26,10 +26,10 @@ function(_php_ext_standard_check_crypt)
     set(CMAKE_REQUIRED_LIBRARIES Crypt::Crypt)
     set(CMAKE_REQUIRED_QUIET TRUE)
 
-    check_include_files(unistd.h HAVE_UNISTD_H)
+    check_include_files(unistd.h PHP_HAVE_UNISTD_H)
     check_include_files(crypt.h HAVE_CRYPT_H)
 
-    if(HAVE_UNISTD_H)
+    if(PHP_HAVE_UNISTD_H)
       list(APPEND headers "unistd.h")
     endif()
     if(HAVE_CRYPT_H)
@@ -171,7 +171,7 @@ function(_php_ext_standard_check_crypt_is_usable)
   cmake_push_check_state(RESET)
     set(CMAKE_REQUIRED_QUIET TRUE)
 
-    if(HAVE_UNISTD_H)
+    if(PHP_HAVE_UNISTD_H)
       list(APPEND CMAKE_REQUIRED_DEFINITIONS -DHAVE_UNISTD_H)
     endif()
 
