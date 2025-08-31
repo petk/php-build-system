@@ -80,22 +80,41 @@ set_package_properties(
 
 target_link_libraries(php_ext_ffi PRIVATE FFI::FFI)
 
-check_type_size("long double" LONG_DOUBLE)
+check_type_size("long double" PHP_EXT_FFI_LONG_DOUBLE)
+set(HAVE_LONG_DOUBLE ${HAVE_PHP_EXT_FFI_LONG_DOUBLE})
 
 if(TARGET FFI::FFI)
   cmake_push_check_state(RESET)
     set(CMAKE_REQUIRED_LIBRARIES FFI::FFI)
 
-    check_symbol_exists(FFI_FASTCALL ffi.h HAVE_FFI_FASTCALL)
-    check_symbol_exists(FFI_MS_CDECL ffi.h HAVE_FFI_MS_CDECL)
-    check_symbol_exists(FFI_PASCAL ffi.h HAVE_FFI_PASCAL)
-    check_symbol_exists(FFI_REGISTER ffi.h HAVE_FFI_REGISTER)
-    check_symbol_exists(FFI_STDCALL ffi.h HAVE_FFI_STDCALL)
-    check_symbol_exists(FFI_SYSV ffi.h HAVE_FFI_SYSV)
-    check_symbol_exists(FFI_THISCALL ffi.h HAVE_FFI_THISCALL)
+    check_symbol_exists(FFI_FASTCALL ffi.h PHP_EXT_FFI_HAVE_FFI_FASTCALL)
+    set(HAVE_FFI_FASTCALL ${PHP_EXT_FFI_HAVE_FFI_FASTCALL})
+
+    check_symbol_exists(FFI_MS_CDECL ffi.h PHP_EXT_FFI_HAVE_FFI_MS_CDECL)
+    set(HAVE_FFI_MS_CDECL ${PHP_EXT_FFI_HAVE_FFI_MS_CDECL})
+
+    check_symbol_exists(FFI_PASCAL ffi.h PHP_EXT_FFI_HAVE_FFI_PASCAL)
+    set(HAVE_FFI_PASCAL ${PHP_EXT_FFI_HAVE_FFI_PASCAL})
+
+    check_symbol_exists(FFI_REGISTER ffi.h PHP_EXT_FFI_HAVE_FFI_REGISTER)
+    set(HAVE_FFI_REGISTER ${PHP_EXT_FFI_HAVE_FFI_REGISTER})
+
+    check_symbol_exists(FFI_STDCALL ffi.h PHP_EXT_FFI_HAVE_FFI_STDCALL)
+    set(HAVE_FFI_STDCALL ${PHP_EXT_FFI_HAVE_FFI_STDCALL})
+
+    check_symbol_exists(FFI_SYSV ffi.h PHP_EXT_FFI_HAVE_FFI_SYSV)
+    set(HAVE_FFI_SYSV ${PHP_EXT_FFI_HAVE_FFI_SYSV})
+
+    check_symbol_exists(FFI_THISCALL ffi.h PHP_EXT_FFI_HAVE_FFI_THISCALL)
+    set(HAVE_FFI_THISCALL ${PHP_EXT_FFI_HAVE_FFI_THISCALL})
 
     # Available only in https://github.com/winlibs/libffi fork.
-    check_symbol_exists(FFI_VECTORCALL_PARTIAL ffi.h HAVE_FFI_VECTORCALL_PARTIAL)
+    check_symbol_exists(
+      FFI_VECTORCALL_PARTIAL
+      ffi.h
+      PHP_EXT_FFI_HAVE_FFI_VECTORCALL_PARTIAL
+    )
+    set(HAVE_FFI_VECTORCALL_PARTIAL ${PHP_EXT_FFI_HAVE_FFI_VECTORCALL_PARTIAL})
   cmake_pop_check_state()
 endif()
 

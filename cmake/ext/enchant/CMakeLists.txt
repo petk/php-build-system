@@ -81,14 +81,19 @@ if(TARGET Enchant::Enchant)
     check_symbol_exists(
       enchant_get_version
       enchant.h
-      HAVE_ENCHANT_GET_VERSION
+      PHP_EXT_ENCHANT_HAVE_ENCHANT_GET_VERSION
     )
+    set(HAVE_ENCHANT_GET_VERSION ${PHP_EXT_ENCHANT_HAVE_ENCHANT_GET_VERSION})
 
     # The enchant_broker_set_param() is available since 1.5.0 and removed in 2.x.
     check_symbol_exists(
       enchant_broker_set_param
       enchant.h
+      PHP_EXT_ENCHANT_HAVE_ENCHANT_BROKER_SET_PARAM
+    )
+    set(
       HAVE_ENCHANT_BROKER_SET_PARAM
+      ${PHP_EXT_ENCHANT_HAVE_ENCHANT_BROKER_SET_PARAM}
     )
   cmake_pop_check_state()
 endif()
