@@ -47,8 +47,3 @@ mark_as_advanced(CMAKE_COMPILE_WARNING_AS_ERROR)
 # Set default visibility of all symbols to hidden if the compiler (for example,
 # GCC >= 4) supports it. This can help reduce the binary size and startup time.
 set(CMAKE_C_VISIBILITY_PRESET "hidden")
-
-# Enable position-independent code (PIC) for all targets.
-if(NOT DEFINED CMAKE_POSITION_INDEPENDENT_CODE)
-  set(CMAKE_POSITION_INDEPENDENT_CODE ON)
-endif()
