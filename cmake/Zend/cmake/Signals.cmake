@@ -13,9 +13,10 @@ endif()
 
 message(CHECK_START "Checking whether to enable Zend signal handling")
 
-check_symbol_exists(sigaction signal.h HAVE_SIGACTION)
+check_symbol_exists(sigaction signal.h PHP_HAVE_SIGACTION)
+set(HAVE_SIGACTION ${PHP_HAVE_SIGACTION})
 
-if(HAVE_SIGACTION AND PHP_ZEND_SIGNALS)
+if(PHP_HAVE_SIGACTION AND PHP_ZEND_SIGNALS)
   message(CHECK_PASS "yes")
   set(ZEND_SIGNALS TRUE)
 

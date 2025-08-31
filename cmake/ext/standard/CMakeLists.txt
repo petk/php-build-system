@@ -288,11 +288,12 @@ include(cmake/CheckStrptime.cmake)
 # Check if there is a support means of creating a new process and defining which
 # handles it receives.
 message(CHECK_START "Checking if OS can spawn processes with inherited handles")
-check_symbol_exists(fork unistd.h HAVE_FORK)
-if(NOT HAVE_FORK)
-  check_symbol_exists(CreateProcess windows.h PHP_HAS_CREATEPROCESS)
+check_symbol_exists(fork unistd.h PHP_HAVE_FORK)
+set(HAVE_FORK ${PHP_HAVE_FORK})
+if(NOT PHP_HAVE_FORK)
+  check_symbol_exists(CreateProcess windows.h PHP_HAVE_CREATEPROCESS)
 endif()
-if(HAVE_FORK OR PHP_HAS_CREATEPROCESS)
+if(PHP_HAVE_FORK OR PHP_HAVE_CREATEPROCESS)
   set(PHP_CAN_SUPPORT_PROC_OPEN TRUE)
 
   message(CHECK_PASS "yes")

@@ -100,7 +100,7 @@ set(PHP_EXT_OPCACHE_HAS_SHM_MMAP_POSIX_EXITCODE 0)
 ################################################################################
 
 # Set the exit code of the sched_getcpu() check.
-set(PHP_EXT_PCNTL_HAS_SCHED_GETCPU_EXITCODE 0)
+set(PHP_EXT_PCNTL_HAVE_SCHED_GETCPU_EXITCODE 0)
 
 ################################################################################
 # ext/pcre
