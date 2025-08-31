@@ -83,13 +83,13 @@ target_compile_definitions(php_ext_pcntl PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE
 
 # Check for required functions.
 block()
-  check_symbol_exists(fork unistd.h HAVE_FORK)
-  check_symbol_exists(sigaction signal.h HAVE_SIGACTION)
-  check_symbol_exists(waitpid sys/wait.h HAVE_WAITPID)
+  check_symbol_exists(fork unistd.h PHP_HAVE_FORK)
+  check_symbol_exists(sigaction signal.h PHP_HAVE_SIGACTION)
+  check_symbol_exists(waitpid sys/wait.h PHP_HAVE_WAITPID)
 
   foreach(function fork sigaction waitpid)
     string(TOUPPER ${function} const)
-    if(NOT HAVE_${const})
+    if(NOT PHP_HAVE_${const})
       message(
         FATAL_ERROR
         "ext/pcntl: required function '${function}()' not found."
@@ -98,25 +98,42 @@ block()
   endforeach()
 endblock()
 
-check_symbol_exists(forkx sys/fork.h HAVE_FORKX)
-check_symbol_exists(getpriority sys/resource.h HAVE_GETPRIORITY)
-check_symbol_exists(rfork unistd.h HAVE_RFORK)
-check_symbol_exists(setpriority sys/resource.h HAVE_SETPRIORITY)
-check_symbol_exists(sigtimedwait signal.h HAVE_SIGTIMEDWAIT)
-check_symbol_exists(sigwaitinfo signal.h HAVE_SIGWAITINFO)
+check_symbol_exists(forkx sys/fork.h PHP_EXT_PCNTL_HAVE_FORKX)
+set(HAVE_FORKX ${PHP_EXT_PCNTL_HAVE_FORKX})
+
+check_symbol_exists(getpriority sys/resource.h PHP_EXT_PCNTL_HAVE_GETPRIORITY)
+set(HAVE_GETPRIORITY ${PHP_EXT_PCNTL_HAVE_GETPRIORITY})
+
+check_symbol_exists(rfork unistd.h PHP_EXT_PCNTL_HAVE_RFORK)
+set(HAVE_RFORK ${PHP_EXT_PCNTL_HAVE_RFORK})
+
+check_symbol_exists(setpriority sys/resource.h PHP_EXT_PCNTL_HAVE_SETPRIORITY)
+set(HAVE_SETPRIORITY ${PHP_EXT_PCNTL_HAVE_SETPRIORITY})
+
+check_symbol_exists(sigtimedwait signal.h PHP_EXT_PCNTL_HAVE_SIGTIMEDWAIT)
+set(HAVE_SIGTIMEDWAIT ${PHP_EXT_PCNTL_HAVE_SIGTIMEDWAIT})
+
+check_symbol_exists(sigwaitinfo signal.h PHP_EXT_PCNTL_HAVE_SIGWAITINFO)
+set(HAVE_SIGWAITINFO ${PHP_EXT_PCNTL_HAVE_SIGWAITINFO})
+
 cmake_push_check_state(RESET)
   set(CMAKE_REQUIRED_DEFINITIONS -D_GNU_SOURCE)
-  check_symbol_exists(unshare sched.h HAVE_UNSHARE)
+  check_symbol_exists(unshare sched.h PHP_EXT_PCNTL_HAVE_UNSHARE)
+  set(HAVE_UNSHARE ${PHP_EXT_PCNTL_HAVE_UNSHARE})
 cmake_pop_check_state()
-check_symbol_exists(wait3 sys/wait.h HAVE_WAIT3)
-check_symbol_exists(wait4 sys/wait.h HAVE_WAIT4)
+
+check_symbol_exists(wait3 sys/wait.h PHP_EXT_PCNTL_HAVE_WAIT3)
+set(HAVE_WAIT3 ${PHP_EXT_PCNTL_HAVE_WAIT3})
+
+check_symbol_exists(wait4 sys/wait.h PHP_EXT_PCNTL_HAVE_WAIT4)
+set(HAVE_WAIT4 ${PHP_EXT_PCNTL_HAVE_WAIT4})
 
 cmake_push_check_state(RESET)
   set(CMAKE_EXTRA_INCLUDE_FILES "signal.h")
-  check_type_size(siginfo_t STRUCT_SIGINFO_T)
+  check_type_size(siginfo_t PHP_EXT_PCNTL_STRUCT_SIGINFO_T)
 cmake_pop_check_state()
 
-if(HAVE_STRUCT_SIGINFO_T)
+if(HAVE_PHP_EXT_PCNTL_STRUCT_SIGINFO_T)
   target_compile_definitions(php_ext_pcntl PRIVATE HAVE_STRUCT_SIGINFO_T)
 endif()
 
