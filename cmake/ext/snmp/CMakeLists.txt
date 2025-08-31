@@ -84,20 +84,23 @@ if(TARGET NetSnmp::NetSnmp)
     check_symbol_exists(
       shutdown_snmp_logging
       "net-snmp/net-snmp-config.h;net-snmp/net-snmp-includes.h"
-      HAVE_SHUTDOWN_SNMP_LOGGING
+      PHP_EXT_SNMP_HAVE_SHUTDOWN_SNMP_LOGGING
     )
+    set(HAVE_SHUTDOWN_SNMP_LOGGING ${PHP_EXT_SNMP_HAVE_SHUTDOWN_SNMP_LOGGING})
 
     check_symbol_exists(
       usmHMAC192SHA256AuthProtocol
       "net-snmp/net-snmp-config.h;net-snmp/net-snmp-includes.h"
-      HAVE_SNMP_SHA256
+      PHP_EXT_SNMP_HAVE_SNMP_SHA256
     )
+    set(HAVE_SNMP_SHA256 ${PHP_EXT_SNMP_HAVE_SNMP_SHA256})
 
     check_symbol_exists(
       usmHMAC384SHA512AuthProtocol
       "net-snmp/net-snmp-config.h;net-snmp/net-snmp-includes.h"
-      HAVE_SNMP_SHA512
+      PHP_EXT_SNMP_HAVE_SNMP_SHA512
     )
+    set(HAVE_SNMP_SHA512 ${PHP_EXT_SNMP_HAVE_SNMP_SHA512})
   cmake_pop_check_state()
 endif()
 

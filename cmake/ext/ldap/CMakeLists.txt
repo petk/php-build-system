@@ -121,25 +121,94 @@ if(TARGET LDAP::LDAP)
         ldap_set_rebind_proc(0, 0, 0);
         return 0;
       }
-    ]] HAVE_3ARG_SETREBINDPROC)
-    if(HAVE_3ARG_SETREBINDPROC)
+    ]] PHP_EXT_LDAP_HAVE_3ARG_SETREBINDPROC)
+    if(PHP_EXT_LDAP_HAVE_3ARG_SETREBINDPROC)
       message(CHECK_PASS "yes")
     else()
       message(CHECK_PASS "no")
     endif()
+    set(HAVE_3ARG_SETREBINDPROC ${PHP_EXT_LDAP_HAVE_3ARG_SETREBINDPROC})
 
     # Solaris 2.8 claims to be 2004 API, but doesn't have ldap_parse_reference()
     # nor ldap_start_tls_s().
-    check_symbol_exists(ldap_control_find ldap.h HAVE_LDAP_CONTROL_FIND)
-    check_symbol_exists(ldap_extended_operation ldap.h HAVE_LDAP_EXTENDED_OPERATION)
-    check_symbol_exists(ldap_extended_operation_s ldap.h HAVE_LDAP_EXTENDED_OPERATION_S)
-    check_symbol_exists(ldap_parse_extended_result ldap.h HAVE_LDAP_PARSE_EXTENDED_RESULT)
-    check_symbol_exists(ldap_parse_reference ldap.h HAVE_LDAP_PARSE_REFERENCE)
-    check_symbol_exists(ldap_parse_result ldap.h HAVE_LDAP_PARSE_RESULT)
-    check_symbol_exists(ldap_passwd ldap.h HAVE_LDAP_PASSWD)
-    check_symbol_exists(ldap_refresh_s ldap.h HAVE_LDAP_REFRESH_S)
-    check_symbol_exists(ldap_start_tls_s ldap.h HAVE_LDAP_START_TLS_S)
-    check_symbol_exists(ldap_whoami_s ldap.h HAVE_LDAP_WHOAMI_S)
+    check_symbol_exists(
+      ldap_control_find
+      ldap.h
+      PHP_EXT_LDAP_HAVE_LDAP_CONTROL_FIND
+    )
+    set(HAVE_LDAP_CONTROL_FIND ${PHP_EXT_LDAP_HAVE_LDAP_CONTROL_FIND})
+
+    check_symbol_exists(
+      ldap_extended_operation
+      ldap.h
+      PHP_EXT_LDAP_HAVE_LDAP_EXTENDED_OPERATION
+    )
+    set(
+      HAVE_LDAP_EXTENDED_OPERATION
+      ${PHP_EXT_LDAP_HAVE_LDAP_EXTENDED_OPERATION}
+    )
+
+    check_symbol_exists(
+      ldap_extended_operation_s
+      ldap.h
+      PHP_EXT_LDAP_HAVE_LDAP_EXTENDED_OPERATION_S
+    )
+    set(
+      HAVE_LDAP_EXTENDED_OPERATION_S
+      ${PHP_EXT_LDAP_HAVE_LDAP_EXTENDED_OPERATION_S}
+    )
+
+    check_symbol_exists(
+      ldap_parse_extended_result
+      ldap.h
+      PHP_EXT_LDAP_HAVE_LDAP_PARSE_EXTENDED_RESULT
+    )
+    set(
+      HAVE_LDAP_PARSE_EXTENDED_RESULT
+      ${PHP_EXT_LDAP_HAVE_LDAP_PARSE_EXTENDED_RESULT}
+    )
+
+    check_symbol_exists(
+      ldap_parse_reference
+      ldap.h
+      PHP_EXT_LDAP_HAVE_LDAP_PARSE_REFERENCE
+    )
+    set(HAVE_LDAP_PARSE_REFERENCE ${PHP_EXT_LDAP_HAVE_LDAP_PARSE_REFERENCE})
+
+    check_symbol_exists(
+      ldap_parse_result
+      ldap.h
+      PHP_EXT_LDAP_HAVE_LDAP_PARSE_RESULT
+    )
+    set(HAVE_LDAP_PARSE_RESULT ${PHP_EXT_LDAP_HAVE_LDAP_PARSE_RESULT})
+
+    check_symbol_exists(
+      ldap_passwd
+      ldap.h
+      PHP_EXT_LDAP_HAVE_LDAP_PASSWD
+    )
+    set(HAVE_LDAP_PASSWD ${PHP_EXT_LDAP_HAVE_LDAP_PASSWD})
+
+    check_symbol_exists(
+      ldap_refresh_s
+      ldap.h
+      PHP_EXT_LDAP_HAVE_LDAP_REFRESH_S
+    )
+    set(HAVE_LDAP_REFRESH_S ${PHP_EXT_LDAP_HAVE_LDAP_REFRESH_S})
+
+    check_symbol_exists(
+      ldap_start_tls_s
+      ldap.h
+      PHP_EXT_LDAP_HAVE_LDAP_START_TLS_S
+    )
+    set(HAVE_LDAP_START_TLS_S ${PHP_EXT_LDAP_HAVE_LDAP_START_TLS_S})
+
+    check_symbol_exists(
+      ldap_whoami_s
+      ldap.h
+      PHP_EXT_LDAP_HAVE_LDAP_WHOAMI_S
+    )
+    set(HAVE_LDAP_WHOAMI_S ${PHP_EXT_LDAP_HAVE_LDAP_WHOAMI_S})
   cmake_pop_check_state()
 endif()
 

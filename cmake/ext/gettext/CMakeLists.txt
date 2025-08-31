@@ -92,10 +92,36 @@ if(TARGET Intl::Intl)
       )
     endif()
 
-    check_symbol_exists(bind_textdomain_codeset libintl.h HAVE_BIND_TEXTDOMAIN_CODESET)
-    check_symbol_exists(dcngettext libintl.h HAVE_DCNGETTEXT)
-    check_symbol_exists(dngettext libintl.h HAVE_DNGETTEXT)
-    check_symbol_exists(ngettext libintl.h HAVE_NGETTEXT)
+    check_symbol_exists(
+      bind_textdomain_codeset
+      libintl.h
+      PHP_EXT_GETTEXT_HAVE_BIND_TEXTDOMAIN_CODESET
+    )
+    set(
+      HAVE_BIND_TEXTDOMAIN_CODESET
+      ${PHP_EXT_GETTEXT_HAVE_BIND_TEXTDOMAIN_CODESET}
+    )
+
+    check_symbol_exists(
+      dcngettext
+      libintl.h
+      PHP_EXT_GETTEXT_HAVE_DCNGETTEXT
+    )
+    set(HAVE_DCNGETTEXT ${PHP_EXT_GETTEXT_HAVE_DCNGETTEXT})
+
+    check_symbol_exists(
+      dngettext
+      libintl.h
+      PHP_EXT_GETTEXT_HAVE_DNGETTEXT
+    )
+    set(HAVE_DNGETTEXT ${PHP_EXT_GETTEXT_HAVE_DNGETTEXT})
+
+    check_symbol_exists(
+      ngettext
+      libintl.h
+      PHP_EXT_GETTEXT_HAVE_NGETTEXT
+    )
+    set(HAVE_NGETTEXT ${PHP_EXT_GETTEXT_HAVE_NGETTEXT})
   cmake_pop_check_state()
 
   # Create a symbolic link when intl is built into musl C library. The gettext
