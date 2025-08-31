@@ -48,21 +48,39 @@ target_sources(
         php_random.h
 )
 
-target_compile_definitions(php_ext_random PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE)
+target_compile_definitions(
+  php_ext_random
+  PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE
+)
 
-check_symbol_exists(arc4random_buf stdlib.h HAVE_ARC4RANDOM_BUF)
-check_symbol_exists(getrandom sys/random.h HAVE_GETRANDOM)
+check_symbol_exists(
+  arc4random_buf
+  stdlib.h
+  PHP_EXT_RANDOM_HAVE_ARC4RANDOM_BUF
+)
+set(HAVE_ARC4RANDOM_BUF ${PHP_EXT_RANDOM_HAVE_ARC4RANDOM_BUF})
+
+check_symbol_exists(getrandom sys/random.h PHP_EXT_RANDOM_HAVE_GETRANDOM)
+set(HAVE_GETRANDOM ${PHP_EXT_RANDOM_HAVE_GETRANDOM})
 
 # Check for CCRandomGenerateBytes. Header was absent in previous macOS releases.
 block()
-  set(headers
-    sys/types.h
-    Availability.h
-    CommonCrypto/CommonCryptoError.h
-    CommonCrypto/CommonRandom.h
+  set(
+    headers
+      sys/types.h
+      Availability.h
+      CommonCrypto/CommonCryptoError.h
+      CommonCrypto/CommonRandom.h
   )
 
-  check_include_files("${headers}" HAVE_COMMONCRYPTO_COMMONRANDOM_H)
+  check_include_files(
+    "${headers}"
+    PHP_EXT_RANDOM_HAVE_COMMONCRYPTO_COMMONRANDOM_H
+  )
+  set(
+    HAVE_COMMONCRYPTO_COMMONRANDOM_H
+    ${PHP_EXT_RANDOM_HAVE_COMMONCRYPTO_COMMONRANDOM_H}
+  )
 endblock()
 
 configure_file(cmake/config.h.in config.h)
