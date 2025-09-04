@@ -76,7 +76,9 @@ else()
   check_include_files(resolv.h HAVE_RESOLV_H)
 endif()
 
-check_include_files(strings.h HAVE_STRINGS_H)
+check_include_files(strings.h PHP_HAVE_STRINGS_H)
+set(HAVE_STRINGS_H ${PHP_HAVE_STRINGS_H})
+
 check_include_files(sys/file.h HAVE_SYS_FILE_H)
 check_include_files(sys/ioctl.h HAVE_SYS_IOCTL_H)
 check_include_files(sys/ipc.h HAVE_SYS_IPC_H)
@@ -363,7 +365,10 @@ endblock()
 
 check_symbol_exists(statvfs sys/statvfs.h HAVE_STATVFS)
 check_symbol_exists(std_syslog sys/syslog.h HAVE_STD_SYSLOG)
-check_symbol_exists(strcasecmp strings.h HAVE_STRCASECMP)
+
+check_symbol_exists(strcasecmp strings.h PHP_HAVE_STRCASECMP)
+set(HAVE_STRCASECMP ${PHP_HAVE_STRCASECMP})
+
 check_symbol_exists(symlink unistd.h HAVE_SYMLINK)
 check_symbol_exists(tzset time.h HAVE_TZSET)
 check_symbol_exists(unsetenv stdlib.h HAVE_UNSETENV)

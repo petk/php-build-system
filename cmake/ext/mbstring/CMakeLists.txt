@@ -154,9 +154,9 @@ if(PHP_EXT_MBSTRING_MBREGEX)
         {
           return (intptr_t)(ONIG_ENCODING_KOI8 + 1);
         }
-      ]] PHP_ONIG_KOI8)
+      ]] PHP_EXT_MBSTRING_ONIG_KOI8)
     cmake_pop_check_state()
-    if(PHP_ONIG_KOI8)
+    if(PHP_EXT_MBSTRING_ONIG_KOI8)
       message(CHECK_PASS "no")
     else()
       message(CHECK_FAIL "yes")
