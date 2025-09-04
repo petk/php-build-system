@@ -152,13 +152,13 @@ if(
         /* No SSL support */
         return 1;
       }
-    ]] PHP_EXT_CURL_HAS_CURL_OLD_OPENSSL)
+    ]] PHP_EXT_CURL_HAVE_CURL_OLD_OPENSSL)
   cmake_pop_check_state()
+  set(HAVE_CURL_OLD_OPENSSL ${PHP_EXT_CURL_HAVE_CURL_OLD_OPENSSL})
 
-  if(NOT PHP_EXT_CURL_HAS_CURL_OLD_OPENSSL)
+  if(NOT PHP_EXT_CURL_HAVE_CURL_OLD_OPENSSL)
     message(CHECK_FAIL "no")
   else()
-    set(HAVE_CURL_OLD_OPENSSL TRUE)
     message(CHECK_PASS "yes")
     find_package(OpenSSL ${PHP_OPENSSL_MIN_VERSION})
     set_package_properties(
@@ -173,7 +173,8 @@ if(
     if(TARGET OpenSSL::Crypto)
       cmake_push_check_state(RESET)
         set(CMAKE_REQUIRED_LIBRARIES OpenSSL::Crypto)
-        check_include_files(openssl/crypto.h HAVE_OPENSSL_CRYPTO_H)
+        check_include_files(openssl/crypto.h PHP_EXT_CURL_HAVE_OPENSSL_CRYPTO_H)
+        set(HAVE_OPENSSL_CRYPTO_H ${PHP_EXT_CURL_HAVE_OPENSSL_CRYPTO_H})
       cmake_pop_check_state()
     endif()
   endif()

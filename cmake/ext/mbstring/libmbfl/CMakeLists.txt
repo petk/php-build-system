@@ -102,8 +102,11 @@ target_compile_definitions(
 )
 
 # The libmbfl configuration header.
-check_include_files(strings.h HAVE_STRINGS_H)
-check_symbol_exists(strcasecmp strings.h HAVE_STRCASECMP)
+check_include_files(strings.h PHP_HAVE_STRINGS_H)
+set(HAVE_STRINGS ${PHP_HAVE_STRINGS_H})
+
+check_symbol_exists(strcasecmp strings.h PHP_HAVE_STRCASECMP)
+set(HAVE_STRCASECMP ${PHP_HAVE_STRCASECMP})
 
 cmake_path(
   RELATIVE_PATH

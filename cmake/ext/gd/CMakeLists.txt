@@ -338,6 +338,7 @@ if(NOT PHP_EXT_GD_EXTERNAL)
 
   set(HAVE_LIBPNG TRUE)
   set(HAVE_GD_PNG TRUE)
+  set(HAVE_GD_GET_INTERPOLATION TRUE)
 
   if(PHP_EXT_GD_AVIF)
     find_package(libavif 0.8.2)
@@ -496,13 +497,18 @@ else()
     cmake_push_check_state(RESET)
       set(CMAKE_REQUIRED_LIBRARIES GD::GD)
 
-      check_symbol_exists(gdFontCacheShutdown gd.h HAVE_GD_FREETYPE)
-      check_symbol_exists(gdVersionString gd.h HAVE_GD_LIBVERSION)
+      check_symbol_exists(gdFontCacheShutdown gd.h PHP_EXT_GD_HAVE_GD_FREETYPE)
+      set(HAVE_GD_FREETYPE ${PHP_EXT_GD_HAVE_GD_FREETYPE})
+
+      check_symbol_exists(gdVersionString gd.h PHP_EXT_GD_HAVE_GD_LIBVERSION)
+      set(HAVE_GD_LIBVERSION ${PHP_EXT_GD_HAVE_GD_LIBVERSION})
+
       check_symbol_exists(
         gdImageGetInterpolationMethod
         gd.h
-        HAVE_GD_GET_INTERPOLATION
+        PHP_EXT_GD_HAVE_GD_GET_INTERPOLATION
       )
+      set(HAVE_GD_GET_INTERPOLATION ${PHP_EXT_GD_HAVE_GD_GET_INTERPOLATION})
     cmake_pop_check_state()
   endif()
 endif()
