@@ -27,9 +27,6 @@ if(CMAKE_SYSTEM_NAME STREQUAL "Windows")
   # PHP has nice() emulation implemented on Windows.
   set(HAVE_NICE TRUE)
 
-  # PHP defines strcasecmp in Zend/zend_config.w32.h.
-  set(HAVE_STRCASECMP TRUE)
-
   # PHP has syslog.h emulation implemented on Windows.
   set(HAVE_SYSLOG_H TRUE)
 
@@ -44,6 +41,9 @@ if(CMAKE_SYSTEM_NAME STREQUAL "Windows")
 
   # PHP has socketpair() emulation implemented on Windows.
   set(PHP_HAS_SOCKETPAIR TRUE)
+
+  # PHP defines strcasecmp in Zend/zend_config.w32.h.
+  set(PHP_HAVE_STRCASECMP TRUE)
 
   ##############################################################################
   # To speed up the Windows build experience where configuration phase takes
@@ -136,7 +136,6 @@ if(CMAKE_SYSTEM_NAME STREQUAL "Windows")
   set(HAVE_STD_SYSLOG FALSE)
   set(HAVE_STDDEF_H TRUE) # Defined by check_type_size().
   set(HAVE_STDINT_H TRUE) # Defined by check_type_size().
-  set(HAVE_STRINGS_H FALSE)
   set(HAVE_STRLCAT FALSE)
   set(HAVE_STRLCPY FALSE)
   set(HAVE_STRNLEN TRUE)
@@ -262,6 +261,7 @@ if(CMAKE_SYSTEM_NAME STREQUAL "Windows")
   set(PHP_HAVE_CREATEPROCESS TRUE)
   set(PHP_HAVE_FORK FALSE)
   set(PHP_HAVE_GRP_H FALSE)
+  set(PHP_HAVE_STRINGS_H FALSE)
   set(PHP_HAVE_UNISTD_H FALSE)
   set(PHP_SAPI_CLI_HAVE_PS_STRINGS FALSE)
   set(PHP_SAPI_PHPDBG_HAS_UFFDIO_WRITEPROTECT_MODE_WP FALSE)

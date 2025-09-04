@@ -154,10 +154,10 @@ if(
         /* No SSL support */
         return 1;
       }
-    ]] PHP_EXT_CURL_HAS_CURL_OLD_OPENSSL)
+    ]] PHP_EXT_CURL_HAVE_CURL_OLD_OPENSSL)
   cmake_pop_check_state()
 
-  if(PHP_EXT_CURL_HAS_CURL_OLD_OPENSSL)
+  if(PHP_EXT_CURL_HAVE_CURL_OLD_OPENSSL)
     message(CHECK_FAIL "no")
     message(
       FATAL_ERROR
