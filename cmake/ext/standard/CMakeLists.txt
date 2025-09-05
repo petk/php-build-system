@@ -302,12 +302,13 @@ else()
 endif()
 
 # Check net/if.h for PHP net_get_interfaces().
-if(HAVE_SYS_SOCKET_H)
+if(PHP_HAVE_SYS_SOCKET_H)
   # Darwin and BSD-like systems also need sys/socket.h to include net/if.h.
-  check_include_files("sys/socket.h;net/if.h" HAVE_NET_IF_H)
+  check_include_files("sys/socket.h;net/if.h" PHP_HAVE_NET_IF_H)
 else()
-  check_include_files(net/if.h HAVE_NET_IF_H)
+  check_include_files(net/if.h PHP_HAVE_NET_IF_H)
 endif()
+set(HAVE_NET_IF_H ${PHP_HAVE_NET_IF_H})
 
 # Detect library functions needed by PHP dns_xxx functions.
 # ext/standard/php_dns.h will collect these in a single define
@@ -319,10 +320,10 @@ php_search_libraries(
     resolv.h
   LIBRARIES
     resolv # Solaris/illumos
-  VARIABLE PHP_HAS_DN_EXPAND
+  VARIABLE PHP_HAVE_DN_EXPAND
   TARGET php_ext_standard PRIVATE
 )
-set(HAVE_DN_EXPAND ${PHP_HAS_DN_EXPAND})
+set(HAVE_DN_EXPAND ${PHP_HAVE_DN_EXPAND})
 
 php_search_libraries(
   dn_skipname
@@ -331,10 +332,10 @@ php_search_libraries(
     resolv.h
   LIBRARIES
     resolv # Solaris/illumos
-  VARIABLE PHP_HAS_DN_SKIPNAME
+  VARIABLE PHP_HAVE_DN_SKIPNAME
   TARGET php_ext_standard PRIVATE
 )
-set(HAVE_DN_SKIPNAME ${PHP_HAS_DN_SKIPNAME})
+set(HAVE_DN_SKIPNAME ${PHP_HAVE_DN_SKIPNAME})
 
 # On macos the dn_skipname is defined as a macro but also requires resolv
 # library to work. For consistency, this is additional check whether the resolv
@@ -345,7 +346,7 @@ php_search_libraries(
     resolv.h
   LIBRARIES
     resolv # macOS
-  VARIABLE PHP_HAS_RES_9_DN_SKIPNAME
+  VARIABLE PHP_HAVE_RES_9_DN_SKIPNAME
   TARGET php_ext_standard PRIVATE
 )
 
@@ -357,10 +358,10 @@ php_search_libraries(
     dns.h        # macOS
   LIBRARIES
     resolv # Solaris/illumos, macOS
-  VARIABLE PHP_HAS_DNS_SEARCH
+  VARIABLE PHP_HAVE_DNS_SEARCH
   TARGET php_ext_standard PRIVATE
 )
-set(HAVE_DNS_SEARCH ${PHP_HAS_DNS_SEARCH})
+set(HAVE_DNS_SEARCH ${PHP_HAVE_DNS_SEARCH})
 
 php_search_libraries(
   res_ndestroy
@@ -369,10 +370,10 @@ php_search_libraries(
     resolv.h
   LIBRARIES
     resolv # Solaris/illumos
-  VARIABLE PHP_HAS_RES_NDESTROY
+  VARIABLE PHP_HAVE_RES_NDESTROY
   TARGET php_ext_standard PRIVATE
 )
-set(HAVE_RES_NDESTROY ${PHP_HAS_RES_NDESTROY})
+set(HAVE_RES_NDESTROY ${PHP_HAVE_RES_NDESTROY})
 
 php_search_libraries(
   res_nsearch
@@ -381,10 +382,10 @@ php_search_libraries(
     resolv.h
   LIBRARIES
     resolv # Solaris/illumos
-  VARIABLE PHP_HAS_RES_NSEARCH
+  VARIABLE PHP_HAVE_RES_NSEARCH
   TARGET php_ext_standard PRIVATE
 )
-set(HAVE_RES_NSEARCH ${PHP_HAS_RES_NSEARCH})
+set(HAVE_RES_NSEARCH ${PHP_HAVE_RES_NSEARCH})
 
 # res_search() is deprecated and should be replaced with res_nsearch().
 php_search_libraries(
@@ -394,15 +395,19 @@ php_search_libraries(
     resolv.h
   LIBRARIES
     resolv # Solaris/illumos
-  VARIABLE PHP_HAS_RES_SEARCH
+  VARIABLE PHP_HAVE_RES_SEARCH
   TARGET php_ext_standard PRIVATE
 )
-set(HAVE_RES_SEARCH ${PHP_HAS_RES_SEARCH})
+set(HAVE_RES_SEARCH ${PHP_HAVE_RES_SEARCH})
 
 check_symbol_exists(
   posix_spawn_file_actions_addchdir_np
   spawn.h
+  PHP_HAVE_POSIX_SPAWN_FILE_ACTIONS_ADDCHDIR_NP
+)
+set(
   HAVE_POSIX_SPAWN_FILE_ACTIONS_ADDCHDIR_NP
+  ${PHP_HAVE_POSIX_SPAWN_FILE_ACTIONS_ADDCHDIR_NP}
 )
 
 ################################################################################
@@ -465,7 +470,8 @@ endif()
 # See: https://github.com/php/php-src/issues/11984
 ################################################################################
 
-check_symbol_exists(chroot unistd.h HAVE_CHROOT)
+check_symbol_exists(chroot unistd.h PHP_HAVE_CHROOT)
+set(HAVE_CHROOT ${PHP_HAVE_CHROOT})
 
 add_library(php_ext_standard_functions OBJECT)
 add_library(php_ext_standard_functions_cli OBJECT)
