@@ -77,10 +77,10 @@ set(PHP_EXT_GD_HAVE_GD_XPM_EXITCODE 1)
 ################################################################################
 
 # Set the exit code of the iconv //IGNORE check.
-set(PHP_EXT_ICONV_HAS_BROKEN_IGNORE_EXITCODE 0)
+set(PHP_EXT_ICONV_BROKEN_IGNORE_EXITCODE 0)
 
 # Set the exit code of the iconv errno check.
-set(PHP_EXT_ICONV_HAS_ERRNO_EXITCODE 0)
+set(PHP_EXT_ICONV_HAVE_ERRNO_EXITCODE 0)
 
 ################################################################################
 # ext/opcache
