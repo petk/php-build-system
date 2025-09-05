@@ -231,10 +231,10 @@ if(TARGET ODBC::ODBC)
     ODBC::ODBC
     SQLBindCol
     ""
-    PHP_EXT_PDO_ODBC_HAS_SQLBINDCOL
+    PHP_EXT_PDO_ODBC_HAVE_SQLBINDCOL
   )
 
-  if(NOT PHP_EXT_PDO_ODBC_HAS_SQLBINDCOL)
+  if(NOT PHP_EXT_PDO_ODBC_HAVE_SQLBINDCOL)
     message(
       FATAL_ERROR
       "Could not find the SQLBindCol ODBC 1.0 function in the ODBC library."
@@ -246,10 +246,10 @@ if(TARGET ODBC::ODBC)
     ODBC::ODBC
     SQLAllocHandle
     ""
-    PHP_EXT_PDO_ODBC_HAS_SQLALLOCHANDLE
+    PHP_EXT_PDO_ODBC_HAVE_SQLALLOCHANDLE
   )
 
-  if(NOT PHP_EXT_PDO_ODBC_HAS_SQLALLOCHANDLE)
+  if(NOT PHP_EXT_PDO_ODBC_HAVE_SQLALLOCHANDLE)
     message(
       FATAL_ERROR
       "The ODBC library does not appear to be ODBC 3 compatible (the ODBC 3.0 "
