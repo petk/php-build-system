@@ -21,8 +21,8 @@ if(CMAKE_SYSTEM_NAME STREQUAL "Windows")
 endif()
 
 # Skip in consecutive configuration phases or if overridden.
-if(DEFINED PHP_HAS_FNMATCH)
-  set(HAVE_FNMATCH ${PHP_HAS_FNMATCH})
+if(DEFINED PHP_HAVE_FNMATCH)
+  set(HAVE_FNMATCH ${PHP_HAVE_FNMATCH})
   return()
 endif()
 
@@ -38,9 +38,9 @@ cmake_push_check_state(RESET)
   if(
     CMAKE_CROSSCOMPILING
     AND NOT CMAKE_CROSSCOMPILING_EMULATOR
-    AND NOT DEFINED PHP_HAS_FNMATCH_EXITCODE
+    AND NOT DEFINED PHP_HAVE_FNMATCH_EXITCODE
   )
-    check_symbol_exists(fnmatch fnmatch.h PHP_HAS_FNMATCH)
+    check_symbol_exists(fnmatch fnmatch.h PHP_HAVE_FNMATCH)
   endif()
 
   check_source_runs(C [[
@@ -59,13 +59,13 @@ cmake_push_check_state(RESET)
           && n ("*x", ".x", FNM_PERIOD)
           && 1));
     }
-  ]] PHP_HAS_FNMATCH)
+  ]] PHP_HAVE_FNMATCH)
 cmake_pop_check_state()
 
-if(PHP_HAS_FNMATCH)
+if(PHP_HAVE_FNMATCH)
   message(CHECK_PASS "yes")
 else()
   message(CHECK_FAIL "no")
 endif()
 
-set(HAVE_FNMATCH ${PHP_HAS_FNMATCH})
+set(HAVE_FNMATCH ${PHP_HAVE_FNMATCH})
