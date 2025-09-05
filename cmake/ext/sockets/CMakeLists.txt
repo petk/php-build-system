@@ -93,36 +93,55 @@ target_link_libraries(
 
 cmake_push_check_state(RESET)
   set(CMAKE_REQUIRED_DEFINITIONS -D_GNU_SOURCE)
-  check_symbol_exists(hstrerror "netdb.h;sys/socket.h" HAVE_HSTRERROR)
+  check_symbol_exists(
+    hstrerror
+    "netdb.h;sys/socket.h"
+    PHP_EXT_SOCKETS_HAVE_HSTRERROR
+  )
+  set(HAVE_HSTRERROR ${PHP_EXT_SOCKETS_HAVE_HSTRERROR})
 cmake_pop_check_state()
 
-check_symbol_exists(if_nametoindex net/if.h HAVE_IF_NAMETOINDEX)
-check_symbol_exists(if_indextoname net/if.h HAVE_IF_INDEXTONAME)
-check_symbol_exists(sockatmark sys/socket.h HAVE_SOCKATMARK)
+check_symbol_exists(if_nametoindex net/if.h PHP_EXT_SOCKETS_HAVE_IF_NAMETOINDEX)
+set(HAVE_IF_NAMETOINDEX ${PHP_EXT_SOCKETS_HAVE_IF_NAMETOINDEX})
 
-check_include_files(sys/sockio.h HAVE_SYS_SOCKIO_H)
-check_include_files(linux/filter.h HAVE_LINUX_FILTER_H)
+check_symbol_exists(if_indextoname net/if.h PHP_EXT_SOCKETS_HAVE_IF_INDEXTONAME)
+set(HAVE_IF_INDEXTONAME ${PHP_EXT_SOCKETS_HAVE_IF_INDEXTONAME})
+
+check_symbol_exists(sockatmark sys/socket.h PHP_EXT_SOCKETS_HAVE_SOCKATMARK)
+set(HAVE_SOCKATMARK ${PHP_EXT_SOCKETS_HAVE_SOCKATMARK})
+
+check_include_files(sys/sockio.h PHP_EXT_SOCKETS_HAVE_SYS_SOCKIO_H)
+set(HAVE_SYS_SOCKIO_H ${PHP_EXT_SOCKETS_HAVE_SYS_SOCKIO_H})
+
+check_include_files(linux/filter.h PHP_EXT_SOCKETS_HAVE_LINUX_FILTER_H)
+set(HAVE_LINUX_FILTER_H ${PHP_EXT_SOCKETS_HAVE_LINUX_FILTER_H})
 
 # Check for field ss_family in sockaddr_storage (missing in AIX until 5.3).
 check_struct_has_member(
   "struct sockaddr_storage"
   ss_family
   sys/socket.h
+  PHP_EXT_SOCKETS_HAVE_STRUCT_SOCKADDR_STORAGE_SS_FAMILY
+)
+set(
   HAVE_STRUCT_SOCKADDR_STORAGE_SS_FAMILY
+  ${PHP_EXT_SOCKETS_HAVE_STRUCT_SOCKADDR_STORAGE_SS_FAMILY}
 )
 
 # Check for struct ucred. Checking the header is not enough. E.g. DragonFlyBSD.
 cmake_push_check_state(RESET)
   set(CMAKE_REQUIRED_DEFINITIONS -D_GNU_SOURCE)
   set(CMAKE_EXTRA_INCLUDE_FILES "sys/socket.h")
-  check_type_size("struct ucred" STRUCT_UCRED)
+  check_type_size("struct ucred" PHP_EXT_SOCKETS_STRUCT_UCRED)
 cmake_pop_check_state()
+set(HAVE_STRUCT_UCRED ${HAVE_PHP_EXT_SOCKETS_STRUCT_UCRED})
 
 # Check for struct cmsgcred.
 cmake_push_check_state(RESET)
   set(CMAKE_EXTRA_INCLUDE_FILES "sys/socket.h")
-  check_type_size("struct cmsgcred" STRUCT_CMSGCRED)
+  check_type_size("struct cmsgcred" PHP_EXT_SOCKETS_STRUCT_CMSGCRED)
 cmake_pop_check_state()
+set(HAVE_STRUCT_CMSGCRED ${HAVE_PHP_EXT_SOCKETS_STRUCT_CMSGCRED})
 
 set(HAVE_SOCKETS TRUE)
 
