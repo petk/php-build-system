@@ -16,8 +16,8 @@ if(CMAKE_SYSTEM_NAME STREQUAL "Windows")
 endif()
 
 # Skip in consecutive configuration phases.
-if(DEFINED PHP_HAS_FLUSHIO)
-  set(HAVE_FLUSHIO ${PHP_HAS_FLUSHIO})
+if(DEFINED PHP_HAVE_FLUSHIO)
+  set(HAVE_FLUSHIO ${PHP_HAVE_FLUSHIO})
   return()
 endif()
 
@@ -93,13 +93,13 @@ cmake_push_check_state(RESET)
 
       return result;
     }
-  ]] PHP_HAS_FLUSHIO)
+  ]] PHP_HAVE_FLUSHIO)
 cmake_pop_check_state()
 
-if(PHP_HAS_FLUSHIO)
+if(PHP_HAVE_FLUSHIO)
   message(CHECK_PASS "yes")
 else()
   message(CHECK_FAIL "no")
 endif()
 
-set(HAVE_FLUSHIO ${PHP_HAS_FLUSHIO})
+set(HAVE_FLUSHIO ${PHP_HAVE_FLUSHIO})
