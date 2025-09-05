@@ -26,9 +26,9 @@ This module defines the following imported targets:
 
 * `libzip_INCLUDE_DIR` - Directory containing package library headers.
 * `libzip_LIBRARY` - The path to the package library.
-* `HAVE_SET_MTIME`
-* `HAVE_ENCRYPTION`
-* `HAVE_LIBZIP_VERSION`
+* `libzip_HAVE_ENCRYPTION`
+* `libzip_HAVE_LIBZIP_VERSION`
+* `libzip_HAVE_SET_MTIME`
 
 ## Examples
 
@@ -110,25 +110,25 @@ block(PROPAGATE libzip_VERSION)
       set(CMAKE_REQUIRED_QUIET TRUE)
 
       # zip_file_set_mtime is available with libzip 1.0.0.
-      check_symbol_exists(zip_file_set_mtime zip.h HAVE_SET_MTIME)
+      check_symbol_exists(zip_file_set_mtime zip.h libzip_HAVE_SET_MTIME)
 
-      if(NOT HAVE_SET_MTIME)
+      if(NOT libzip_HAVE_SET_MTIME)
         set(libzip_VERSION 0.11)
       else()
         set(libzip_VERSION 1.0)
       endif()
 
       # zip_file_set_encryption is available in libzip 1.2.0.
-      check_symbol_exists(zip_file_set_encryption zip.h HAVE_ENCRYPTION)
+      check_symbol_exists(zip_file_set_encryption zip.h libzip_HAVE_ENCRYPTION)
 
-      if(HAVE_ENCRYPTION)
+      if(libzip_HAVE_ENCRYPTION)
         set(libzip_VERSION 1.2.0)
       endif()
 
       # zip_libzip_version is available in libzip 1.3.1.
-      check_symbol_exists(zip_libzip_version zip.h HAVE_LIBZIP_VERSION)
+      check_symbol_exists(zip_libzip_version zip.h libzip_HAVE_LIBZIP_VERSION)
 
-      if(HAVE_LIBZIP_VERSION)
+      if(libzip_HAVE_LIBZIP_VERSION)
         set(libzip_VERSION 1.3.1)
       endif()
     cmake_pop_check_state()
