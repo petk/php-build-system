@@ -99,26 +99,36 @@ if(TARGET Editline::Editline)
     check_symbol_exists(
       rl_callback_read_char
       editline/readline.h
+      PHP_EXT_READLINE_HAVE_RL_CALLBACK_READ_CHAR
+    )
+    set(
       HAVE_RL_CALLBACK_READ_CHAR
+      ${PHP_EXT_READLINE_HAVE_RL_CALLBACK_READ_CHAR}
     )
 
     check_symbol_exists(
       rl_on_new_line
       editline/readline.h
-      HAVE_RL_ON_NEW_LINE
+      PHP_EXT_READLINE_HAVE_RL_ON_NEW_LINE
     )
+    set(HAVE_RL_ON_NEW_LINE ${PHP_EXT_READLINE_HAVE_RL_ON_NEW_LINE})
 
     check_symbol_exists(
       rl_completion_matches
       editline/readline.h
+      PHP_EXT_READLINE_HAVE_RL_COMPLETION_MATCHES
+    )
+    set(
       HAVE_RL_COMPLETION_MATCHES
+      ${PHP_EXT_READLINE_HAVE_RL_COMPLETION_MATCHES}
     )
 
     check_symbol_exists(
       history_list
       editline/readline.h
-      HAVE_HISTORY_LIST
+      PHP_EXT_READLINE_HAVE_HISTORY_LIST
     )
+    set(HAVE_HISTORY_LIST ${PHP_EXT_READLINE_HAVE_HISTORY_LIST})
   cmake_pop_check_state()
 endif()
 
