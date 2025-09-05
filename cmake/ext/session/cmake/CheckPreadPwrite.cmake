@@ -13,12 +13,14 @@ When using pread() and pwrite() also '_GNU_SOURCE' is needed to enable the
 to set the '_FILE_OFFSET_BITS=64' but this is skipped to match the current
 php-src code.
 
-Result/cache variables:
+Result variables:
 
 * HAVE_PREAD - Whether pread() is available.
+* HAVE_PWRITE - Whether pwrite() is available.
+
+Cache variables:
 * PHP_PREAD_64 - Whether pread() declaration with off64_t is missing (using
   pread64).
-* HAVE_PWRITE - Whether pwrite() is available.
 * PHP_PWRITE_64 - Whether pwrite() declaration with off64_t is missing (using
   pwrite64).
 #]=============================================================================]
@@ -41,8 +43,8 @@ function(_php_ext_session_check_pread result)
   set(${result} FALSE)
 
   # Skip in consecutive configuration phases.
-  if(DEFINED PHP_EXT_SESSION_HAS_PREAD_SYMBOL)
-    if(PHP_EXT_SESSION_HAS_PREAD)
+  if(DEFINED PHP_EXT_SESSION_HAVE_PREAD_SYMBOL)
+    if(PHP_EXT_SESSION_HAVE_PREAD)
       set(${result} TRUE)
     endif()
     return(PROPAGATE ${result})
@@ -78,7 +80,7 @@ function(_php_ext_session_check_pread result)
     }
   ]])
 
-  check_symbol_exists(pread unistd.h PHP_EXT_SESSION_HAS_PREAD_SYMBOL)
+  check_symbol_exists(pread unistd.h PHP_EXT_SESSION_HAVE_PREAD_SYMBOL)
 
   set(file ${CMAKE_CURRENT_BINARY_DIR}/CMakeFiles/php_check_pread.tmp)
   file(WRITE "${file}" "test\n")
@@ -86,7 +88,7 @@ function(_php_ext_session_check_pread result)
   # Check for missing declaration is obsolete. Some systems once didn't provide
   # declaration in the headers when using 64-bit variant of pread() with 3rd
   # argument of type 'off64_t'.
-  if(NOT PHP_EXT_SESSION_HAS_PREAD_SYMBOL)
+  if(NOT PHP_EXT_SESSION_HAVE_PREAD_SYMBOL)
     cmake_push_check_state(RESET)
       # Needs '_GNU_SOURCE' to enable 64-bit variant.
       set(CMAKE_REQUIRED_LIBRARIES PHP::SystemExtensions)
@@ -114,10 +116,10 @@ function(_php_ext_session_check_pread result)
       list(APPEND CMAKE_REQUIRED_DEFINITIONS -DPHP_PREAD_64)
     endif()
 
-    check_source_runs(C "${code}" PHP_EXT_SESSION_HAS_PREAD)
+    check_source_runs(C "${code}" PHP_EXT_SESSION_HAVE_PREAD)
   cmake_pop_check_state()
 
-  if(PHP_EXT_SESSION_HAS_PREAD)
+  if(PHP_EXT_SESSION_HAVE_PREAD)
     set(${result} TRUE)
     message(CHECK_PASS "yes")
   else()
@@ -135,8 +137,8 @@ function(_php_ext_session_check_pwrite result)
   set(${result} FALSE)
 
   # Skip in consecutive configuration phases.
-  if(DEFINED PHP_EXT_SESSION_HAS_PWRITE_SYMBOL)
-    if(PHP_EXT_SESSION_HAS_PWRITE)
+  if(DEFINED PHP_EXT_SESSION_HAVE_PWRITE_SYMBOL)
+    if(PHP_EXT_SESSION_HAVE_PWRITE)
       set(${result} TRUE)
     endif()
     return(PROPAGATE ${result})
@@ -171,13 +173,13 @@ function(_php_ext_session_check_pwrite result)
     }
   ]])
 
-  check_symbol_exists(pwrite unistd.h PHP_EXT_SESSION_HAS_PWRITE_SYMBOL)
+  check_symbol_exists(pwrite unistd.h PHP_EXT_SESSION_HAVE_PWRITE_SYMBOL)
 
   # Check for missing declaration is obsolete. Some systems once didn't provide
   # declaration in the headers for 64-bit pwrite() variant with 3rd argument of
   # type 'off64_t'. Additional issue is that on current systems the 2nd argument
   # of pwrite() should have the type 'const void*', otherwise compilation fails.
-  if(NOT PHP_EXT_SESSION_HAS_PWRITE_SYMBOL)
+  if(NOT PHP_EXT_SESSION_HAVE_PWRITE_SYMBOL)
     cmake_push_check_state(RESET)
       # Needs '_GNU_SOURCE' to enable 64-bit variant.
       set(CMAKE_REQUIRED_LIBRARIES PHP::SystemExtensions)
@@ -212,10 +214,10 @@ function(_php_ext_session_check_pwrite result)
       list(APPEND CMAKE_REQUIRED_DEFINITIONS -DPHP_PWRITE_64)
     endif()
 
-    check_source_runs(C "${code}" PHP_EXT_SESSION_HAS_PWRITE)
+    check_source_runs(C "${code}" PHP_EXT_SESSION_HAVE_PWRITE)
   cmake_pop_check_state()
 
-  if(PHP_EXT_SESSION_HAS_PWRITE)
+  if(PHP_EXT_SESSION_HAVE_PWRITE)
     set(${result} TRUE)
     message(CHECK_PASS "yes")
   else()

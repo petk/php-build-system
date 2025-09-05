@@ -17,13 +17,13 @@ set(CMAKE_FIND_ROOT_PATH "")
 ################################################################################
 
 # Set the exit code if flush should be called explicitly after a buffered io.
-set(PHP_HAS_FLUSHIO_EXITCODE 1)
+set(PHP_HAVE_FLUSHIO_EXITCODE 1)
 
 # Set the exit code whether the fnmatch() is available and POSIX-compatible.
-set(PHP_HAS_FNMATCH_EXITCODE 0)
+set(PHP_HAVE_FNMATCH_EXITCODE 0)
 
 # Set the exit code for the getaddrinfo() check.
-set(PHP_HAS_GETADDRINFO_EXITCODE 0)
+set(PHP_HAVE_GETADDRINFO_EXITCODE 0)
 
 # Set the exit code to 1 when using Clang 17 or later and -fno-sanitize=function
 # needs to be added for the PHP_UNDEFINED_SANITIZER option, otherwise set to 0.
@@ -118,8 +118,8 @@ set(PHP_EXT_PCRE_HAS_JIT_EXITCODE 0)
 ################################################################################
 
 # Set the exit codes for the pread()/pwrite() checks.
-set(PHP_EXT_SESSION_HAS_PREAD_EXITCODE 0)
-set(PHP_EXT_SESSION_HAS_PWRITE_EXITCODE 0)
+set(PHP_EXT_SESSION_HAVE_PREAD_EXITCODE 0)
+set(PHP_EXT_SESSION_HAVE_PWRITE_EXITCODE 0)
 
 ################################################################################
 # ext/standard
