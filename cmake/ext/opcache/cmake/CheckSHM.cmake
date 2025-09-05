@@ -24,8 +24,8 @@ endif()
 ################################################################################
 
 function(_php_ext_opcache_check_shm_ipc result)
-  if(DEFINED PHP_EXT_OPCACHE_HAS_SHM_IPC)
-    set(${result} ${PHP_EXT_OPCACHE_HAS_SHM_IPC})
+  if(DEFINED PHP_EXT_OPCACHE_${result})
+    set(${result} ${PHP_EXT_OPCACHE_${result}})
     return(PROPAGATE ${result})
   endif()
 
@@ -99,16 +99,16 @@ function(_php_ext_opcache_check_shm_ipc result)
         }
         return 0;
       }
-    ]] PHP_EXT_OPCACHE_HAS_SHM_IPC)
+    ]] PHP_EXT_OPCACHE_${result})
   cmake_pop_check_state()
 
-  if(PHP_EXT_OPCACHE_HAS_SHM_IPC)
+  if(PHP_EXT_OPCACHE_${result})
     message(CHECK_PASS "yes")
   else()
     message(CHECK_FAIL "no")
   endif()
 
-  set(${result} ${PHP_EXT_OPCACHE_HAS_SHM_IPC})
+  set(${result} ${PHP_EXT_OPCACHE_${result}})
 
   return(PROPAGATE ${result})
 endfunction()
@@ -118,8 +118,8 @@ endfunction()
 ################################################################################
 
 function(_php_ext_opcache_check_shm_mmap_anon result)
-  if(DEFINED PHP_EXT_OPCACHE_HAS_SHM_MMAP_ANON)
-    set(${result} ${PHP_EXT_OPCACHE_HAS_SHM_MMAP_ANON})
+  if(DEFINED PHP_EXT_OPCACHE_${result})
+    set(${result} ${PHP_EXT_OPCACHE_${result}})
     return(PROPAGATE ${result})
   endif()
 
@@ -128,10 +128,10 @@ function(_php_ext_opcache_check_shm_mmap_anon result)
   if(
     CMAKE_CROSSCOMPILING
     AND NOT CMAKE_CROSSCOMPILING_EMULATOR
-    AND NOT DEFINED PHP_EXT_OPCACHE_HAS_SHM_MMAP_ANON_EXITCODE
+    AND NOT DEFINED PHP_EXT_OPCACHE_${result}_EXITCODE
     AND CMAKE_SYSTEM_NAME MATCHES "^(Linux|Midipix)$"
   )
-    set(PHP_EXT_OPCACHE_HAS_SHM_MMAP_ANON_EXITCODE 0)
+    set(PHP_EXT_OPCACHE_${result}_EXITCODE 0)
   endif()
 
   cmake_push_check_state(RESET)
@@ -184,16 +184,16 @@ function(_php_ext_opcache_check_shm_mmap_anon result)
         }
         return 0;
       }
-    ]] PHP_EXT_OPCACHE_HAS_SHM_MMAP_ANON)
+    ]] PHP_EXT_OPCACHE_${result})
   cmake_pop_check_state()
 
-  if(PHP_EXT_OPCACHE_HAS_SHM_MMAP_ANON)
+  if(PHP_EXT_OPCACHE_${result})
     message(CHECK_PASS "yes")
   else()
     message(CHECK_FAIL "no")
   endif()
 
-  set(${result} ${PHP_EXT_OPCACHE_HAS_SHM_MMAP_ANON})
+  set(${result} ${PHP_EXT_OPCACHE_${result}})
 
   return(PROPAGATE ${result})
 endfunction()
@@ -213,25 +213,25 @@ function(_php_ext_opcache_check_shm_open result)
     HEADERS sys/mman.h
     LIBRARIES
       rt # Solaris <= 10, older Linux
-    VARIABLE PHP_EXT_OPCACHE_HAS_SHM_OPEN
-    LIBRARY_VARIABLE PHP_EXT_OPCACHE_HAS_SHM_OPEN_LIBRARY
+    VARIABLE PHP_EXT_OPCACHE_HAVE_SHM_OPEN
+    LIBRARY_VARIABLE PHP_EXT_OPCACHE_HAVE_SHM_OPEN_LIBRARY
   )
 
-  if(NOT PHP_EXT_OPCACHE_HAS_SHM_OPEN)
+  if(NOT PHP_EXT_OPCACHE_HAVE_SHM_OPEN)
     set(${result} FALSE)
     return(PROPAGATE ${result})
   endif()
 
-  if(PHP_EXT_OPCACHE_HAS_SHM_OPEN_LIBRARY)
+  if(PHP_EXT_OPCACHE_HAVE_SHM_OPEN_LIBRARY)
     target_link_libraries(
       php_ext_opcache
-      PRIVATE ${PHP_EXT_OPCACHE_HAS_SHM_OPEN_LIBRARY}
+      PRIVATE ${PHP_EXT_OPCACHE_HAVE_SHM_OPEN_LIBRARY}
     )
   endif()
 
   # Skip in consecutive configuration phases.
-  if(DEFINED PHP_EXT_OPCACHE_HAS_SHM_MMAP_POSIX)
-    set(${result} ${PHP_EXT_OPCACHE_HAS_SHM_MMAP_POSIX})
+  if(DEFINED PHP_EXT_OPCACHE_${result})
+    set(${result} ${PHP_EXT_OPCACHE_${result}})
     return(PROPAGATE ${result})
   endif()
 
@@ -240,8 +240,8 @@ function(_php_ext_opcache_check_shm_open result)
     "Checking for mmap() with shm_open() shared memory support"
   )
   cmake_push_check_state(RESET)
-    if(PHP_EXT_OPCACHE_HAS_SHM_OPEN_LIBRARY)
-      set(CMAKE_REQUIRED_LIBRARIES ${PHP_EXT_OPCACHE_HAS_SHM_OPEN_LIBRARY})
+    if(PHP_EXT_OPCACHE_HAVE_SHM_OPEN_LIBRARY)
+      set(CMAKE_REQUIRED_LIBRARIES ${PHP_EXT_OPCACHE_HAVE_SHM_OPEN_LIBRARY})
     endif()
 
     set(CMAKE_REQUIRED_QUIET TRUE)
@@ -310,16 +310,16 @@ function(_php_ext_opcache_check_shm_open result)
         }
         return 0;
       }
-    ]] PHP_EXT_OPCACHE_HAS_SHM_MMAP_POSIX)
+    ]] PHP_EXT_OPCACHE_${result})
   cmake_pop_check_state()
 
-  if(PHP_EXT_OPCACHE_HAS_SHM_MMAP_POSIX)
+  if(PHP_EXT_OPCACHE_${result})
     message(CHECK_PASS "yes")
   else()
     message(CHECK_FAIL "no")
   endif()
 
-  set(${result} ${PHP_EXT_OPCACHE_HAS_SHM_MMAP_POSIX})
+  set(${result} ${PHP_EXT_OPCACHE_${result}})
 
   return(PROPAGATE ${result})
 endfunction()

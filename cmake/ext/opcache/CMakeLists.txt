@@ -205,7 +205,7 @@ if(PHP_EXT_OPCACHE_JIT)
     floor
     HEADERS math.h
     LIBRARIES m
-    VARIABLE PHP_EXT_OPCACHE_HAS_FLOOR
+    VARIABLE PHP_EXT_OPCACHE_HAVE_FLOOR
     TARGET php_ext_opcache_jit_minilua PRIVATE
   )
 
@@ -339,7 +339,12 @@ check_symbol_exists(mprotect sys/mman.h PHP_EXT_OPCACHE_HAVE_MPROTECT)
 set(HAVE_MPROTECT ${PHP_EXT_OPCACHE_HAVE_MPROTECT})
 
 # For FreeBSD.
-check_symbol_exists(shm_create_largepage sys/mman.h HAVE_SHM_CREATE_LARGEPAGE)
+check_symbol_exists(
+  shm_create_largepage
+  sys/mman.h
+  PHP_EXT_OPCACHE_HAVE_SHM_CREATE_LARGEPAGE
+)
+set(HAVE_SHM_CREATE_LARGEPAGE ${PHP_EXT_OPCACHE_HAVE_SHM_CREATE_LARGEPAGE})
 
 # Check for shared memory support.
 include(cmake/CheckSHM.cmake)
