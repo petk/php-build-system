@@ -90,13 +90,13 @@ set(PHP_EXT_ICONV_HAS_ERRNO_EXITCODE 0)
 ################################################################################
 
 # Set the exit code of SysV IPC shared memory check.
-set(PHP_EXT_OPCACHE_HAS_SHM_IPC_EXITCODE 0)
+set(PHP_EXT_OPCACHE_HAVE_SHM_IPC_EXITCODE 0)
 
 # Set the exit code of the mmap() using MAP_ANON shared memory check.
-set(PHP_EXT_OPCACHE_HAS_SHM_MMAP_ANON_EXITCODE 0)
+set(PHP_EXT_OPCACHE_HAVE_SHM_MMAP_ANON_EXITCODE 0)
 
 # Set the exit code of the shm_open() shared memory check.
-set(PHP_EXT_OPCACHE_HAS_SHM_MMAP_POSIX_EXITCODE 0)
+set(PHP_EXT_OPCACHE_HAVE_SHM_MMAP_POSIX_EXITCODE 0)
 
 ################################################################################
 # ext/pcntl
