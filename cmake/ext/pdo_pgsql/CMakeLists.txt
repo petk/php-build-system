@@ -87,8 +87,12 @@ if(TARGET PostgreSQL::PostgreSQL)
     set(CMAKE_REQUIRED_LIBRARIES PostgreSQL::PostgreSQL)
 
     # PostgreSQL library minimum version sanity check.
-    check_symbol_exists(PQencryptPasswordConn libpq-fe.h PHP_HAS_LIBPQ_SANITY_CHECK)
-    if(NOT PHP_HAS_LIBPQ_SANITY_CHECK)
+    check_symbol_exists(
+      PQencryptPasswordConn
+      libpq-fe.h
+      PHP_EXT_HAVE_LIBPQ_SANITY_CHECK
+    )
+    if(NOT PHP_EXT_HAVE_LIBPQ_SANITY_CHECK)
       message(
         FATAL_ERROR
         "PostgreSQL check failed: libpq ${PHP_POSTGRESQL_MIN_VERSION} or later "
@@ -101,8 +105,9 @@ if(TARGET PostgreSQL::PostgreSQL)
       check_symbol_exists(
         PQresultMemorySize
         libpq-fe.h
-        HAVE_PG_RESULT_MEMORY_SIZE
+        PHP_EXT_HAVE_PG_RESULT_MEMORY_SIZE
       )
+      set(HAVE_PG_RESULT_MEMORY_SIZE ${PHP_EXT_HAVE_PG_RESULT_MEMORY_SIZE})
     endif()
 
     # Available since PostgreSQL library version 17.
@@ -111,14 +116,14 @@ if(TARGET PostgreSQL::PostgreSQL)
       check_symbol_exists(
         LIBPQ_HAS_CLOSE_PREPARED
         libpq-fe.h
-        PHP_HAS_LIBPQ_HAS_CLOSE_PREPARED
+        PHP_EXT_HAVE_LIBPQ_HAS_CLOSE_PREPARED
       )
       check_symbol_exists(
         PQclosePrepared
         libpq-fe.h
-        PHP_HAS_PQCLOSEPREPARED
+        PHP_EXT_HAVE_PQCLOSEPREPARED
       )
-      if(PHP_HAS_LIBPQ_HAS_CLOSE_PREPARED AND PHP_HAS_PQCLOSEPREPARED)
+      if(PHP_EXT_HAVE_LIBPQ_HAS_CLOSE_PREPARED AND PHP_EXT_HAVE_PQCLOSEPREPARED)
         set(HAVE_PQCLOSEPREPARED TRUE)
       endif()
     endif()
