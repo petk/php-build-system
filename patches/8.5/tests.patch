@@ -6,14 +6,17 @@ Subject: Fix tests
   example, php-src/php-build relative paths need to be adjusted.
 
 - ext/zip
-  When PHP is compiled and built agains libzip that doesn't have AES
+  When PHP is compiled and built against libzip that doesn't have AES
   support enabled (if all encryption options are set to OFF in CMake),
   ZipArchive::EM_AES_256 and ZipArchive::EM_AES_192 aren't supported.
+  ZipArchive::registerProgressCallback() is only available when using
+  libzip 1.3.0 or newer.
 ---
  ext/dom/tests/dom_xinclude.phpt  | 4 ++--
+ ext/zip/tests/gh18431.phpt       | 4 ++++
  ext/zip/tests/oo_addglob2.phpt   | 6 ++++++
  ext/zip/tests/oo_encryption.phpt | 6 ++++++
- 3 files changed, 14 insertions(+), 2 deletions(-)
+ 4 files changed, 18 insertions(+), 2 deletions(-)
 
 diff --git a/ext/dom/tests/dom_xinclude.phpt b/ext/dom/tests/dom_xinclude.phpt
 index 0dfeb2dfb4a..410431de877 100644
@@ -32,6 +35,21 @@ index 0dfeb2dfb4a..410431de877 100644
    <title>The Pearl</title>
    <author>John Steinbeck</author>
   </book>
+diff --git a/ext/zip/tests/gh18431.phpt b/ext/zip/tests/gh18431.phpt
+index d4eb89c36c6..dcd7db6f400 100644
+--- a/ext/zip/tests/gh18431.phpt
++++ b/ext/zip/tests/gh18431.phpt
+@@ -2,6 +2,10 @@
+ GH-18431 (Registering ZIP progress callback twice doesn't work)
+ --EXTENSIONS--
+ zip
++--SKIPIF--
++<?php
++if (!method_exists('ZipArchive', 'registerProgressCallback')) die('skip libzip too old');
++?>
+ --FILE--
+ <?php
+ $file = __DIR__ . '/gh18431.zip';
 diff --git a/ext/zip/tests/oo_addglob2.phpt b/ext/zip/tests/oo_addglob2.phpt
 index 517c0b7fd7f..1432d704de5 100644
 --- a/ext/zip/tests/oo_addglob2.phpt
