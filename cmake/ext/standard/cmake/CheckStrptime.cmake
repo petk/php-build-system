@@ -32,18 +32,18 @@ endif()
 
 cmake_push_check_state(RESET)
   set(CMAKE_REQUIRED_DEFINITIONS -D_GNU_SOURCE)
-  check_symbol_exists(strptime time.h PHP_HAS_STRPTIME)
+  check_symbol_exists(strptime time.h PHP_HAVE_STRPTIME)
 cmake_pop_check_state()
 
-if(PHP_HAS_STRPTIME)
+if(PHP_HAVE_STRPTIME)
   set(HAVE_STRPTIME TRUE)
   set(HAVE_DECL_STRPTIME TRUE)
   return()
 endif()
 
 # Check if linker sees the function.
-check_function_exists(strptime PHP_HAS_STRPTIME_FUNCTION)
+check_function_exists(strptime PHP_HAVE_STRPTIME_FUNCTION)
 
-if(PHP_HAS_STRPTIME_FUNCTION)
+if(PHP_HAVE_STRPTIME_FUNCTION)
   set(HAVE_STRPTIME TRUE)
 endif()

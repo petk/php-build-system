@@ -89,7 +89,10 @@ check_include_files(sys/param.h HAVE_SYS_PARAM_H)
 check_include_files(sys/poll.h HAVE_SYS_POLL_H)
 check_include_files(sys/resource.h HAVE_SYS_RESOURCE_H)
 check_include_files(sys/select.h HAVE_SYS_SELECT_H)
-check_include_files(sys/socket.h HAVE_SYS_SOCKET_H)
+
+check_include_files(sys/socket.h PHP_HAVE_SYS_SOCKET_H)
+set(HAVE_SYS_SOCKET_H ${PHP_HAVE_SYS_SOCKET_H})
+
 check_include_files(sys/stat.h HAVE_SYS_STAT_H)
 check_include_files(sys/statfs.h HAVE_SYS_STATFS_H)
 check_include_files(sys/statvfs.h HAVE_SYS_STATVFS_H)
@@ -148,7 +151,7 @@ cmake_pop_check_state()
 
 # Check for sockaddr_storage and sockaddr.sa_len.
 cmake_push_check_state(RESET)
-  if(HAVE_SYS_SOCKET_H)
+  if(PHP_HAVE_SYS_SOCKET_H)
     list(APPEND CMAKE_EXTRA_INCLUDE_FILES "sys/socket.h")
   endif()
   if(CMAKE_SYSTEM_NAME STREQUAL "Windows")
@@ -238,7 +241,7 @@ endif()
 
 # Check for socklen_t type.
 cmake_push_check_state(RESET)
-  if(HAVE_SYS_SOCKET_H)
+  if(PHP_HAVE_SYS_SOCKET_H)
     list(APPEND CMAKE_EXTRA_INCLUDE_FILES sys/socket.h)
   endif()
   if(CMAKE_SYSTEM_NAME STREQUAL "Windows")

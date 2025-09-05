@@ -2,7 +2,7 @@
 Check whether the 'crypt' library works as expected for PHP by running a set of
 PHP-specific checks.
 
-Cache variables:
+Result variables:
 
 * HAVE_CRYPT_H
 * HAVE_CRYPT
@@ -27,38 +27,43 @@ function(_php_ext_standard_check_crypt)
     set(CMAKE_REQUIRED_QUIET TRUE)
 
     check_include_files(unistd.h PHP_HAVE_UNISTD_H)
-    check_include_files(crypt.h HAVE_CRYPT_H)
+
+    check_include_files(crypt.h PHP_HAVE_CRYPT_H)
+    set(HAVE_CRYPT_H ${PHP_HAVE_CRYPT_H})
 
     if(PHP_HAVE_UNISTD_H)
       list(APPEND headers "unistd.h")
     endif()
-    if(HAVE_CRYPT_H)
+    if(PHP_HAVE_CRYPT_H)
       list(APPEND headers "crypt.h")
     endif()
 
-    check_symbol_exists(crypt "${headers}" HAVE_CRYPT)
-    check_symbol_exists(crypt_r "${headers}" HAVE_CRYPT_R)
+    check_symbol_exists(crypt "${headers}" PHP_HAVE_CRYPT)
+    set(HAVE_CRYPT ${PHP_HAVE_CRYPT})
+
+    check_symbol_exists(crypt_r "${headers}" PHP_HAVE_CRYPT_R)
+    set(HAVE_CRYPT_R ${PHP_HAVE_CRYPT_R})
   cmake_pop_check_state()
 
-  if(NOT HAVE_CRYPT)
+  if(NOT PHP_HAVE_CRYPT)
     message(
       FATAL_ERROR
       "Cannot use external crypt library as crypt() is missing."
     )
   endif()
 
-  if(NOT HAVE_CRYPT_R)
+  if(NOT PHP_HAVE_CRYPT_R)
     message(
       FATAL_ERROR
       "Cannot use external crypt library as crypt_r() is missing."
     )
   endif()
+
+  return(PROPAGATE HAVE_CRYPT_H HAVE_CRYPT HAVE_CRYPT_R)
 endfunction()
 
 # Detect the style of crypt_r() if any is available.
-function(_php_ext_standard_check_crypt_r result)
-  set(${result} TRUE PARENT_SCOPE)
-
+function(_php_ext_standard_check_crypt_r)
   message(CHECK_START "Checking crypt_r() data struct")
 
   cmake_push_check_state(RESET)
@@ -75,9 +80,10 @@ function(_php_ext_standard_check_crypt_r result)
 
         return 0;
       }
-    ]] CRYPT_R_CRYPTD)
+    ]] PHP_CRYPT_R_CRYPTD)
+    set(CRYPT_R_CRYPTD ${PHP_CRYPT_R_CRYPTD} PARENT_SCOPE)
 
-    if(CRYPT_R_CRYPTD)
+    if(PHP_CRYPT_R_CRYPTD)
       message(CHECK_PASS "cryptd")
       cmake_pop_check_state()
       return()
@@ -94,9 +100,10 @@ function(_php_ext_standard_check_crypt_r result)
 
         return 0;
       }
-    ]] CRYPT_R_STRUCT_CRYPT_DATA)
+    ]] PHP_CRYPT_R_STRUCT_CRYPT_DATA)
+    set(CRYPT_R_STRUCT_CRYPT_DATA ${PHP_CRYPT_R_STRUCT_CRYPT_DATA} PARENT_SCOPE)
 
-    if(CRYPT_R_STRUCT_CRYPT_DATA)
+    if(PHP_CRYPT_R_STRUCT_CRYPT_DATA)
       message(CHECK_PASS "struct crypt_data")
       cmake_pop_check_state()
       return()
@@ -115,18 +122,12 @@ function(_php_ext_standard_check_crypt_r result)
 
           return 0;
         }
-      ]] CRYPT_R_GNU_SOURCE)
+      ]] PHP_CRYPT_R_GNU_SOURCE)
+      set(CRYPT_R_GNU_SOURCE ${PHP_CRYPT_R_GNU_SOURCE} PARENT_SCOPE)
     cmake_pop_check_state()
 
-    if(CRYPT_R_GNU_SOURCE)
-      set(
-        CRYPT_R_STRUCT_CRYPT_DATA
-        TRUE
-        CACHE INTERNAL
-        "Whether 'crypt_r()' uses 'struct crypt_data'."
-        FORCE
-      )
-
+    if(PHP_CRYPT_R_GNU_SOURCE)
+      set(CRYPT_R_STRUCT_CRYPT_DATA TRUE PARENT_SCOPE)
       message(CHECK_PASS "GNU struct crypt_data")
       cmake_pop_check_state()
       return()
@@ -143,27 +144,23 @@ function(_php_ext_standard_check_crypt_r result)
 
         return 0;
       }
-    ]] PHP_HAS_CRYPT_R_STRUCT_CRYPT_DATA)
+    ]] PHP_HAVE_CRYPT_R_STRUCT_CRYPT_DATA)
 
-    if(PHP_HAS_CRYPT_R_STRUCT_CRYPT_DATA)
-      set(
-        CRYPT_R_STRUCT_CRYPT_DATA
-        TRUE
-        CACHE INTERNAL
-        "Whether 'crypt_r()' uses 'struct crypt_data'."
-        FORCE
-      )
-
+    if(PHP_HAVE_CRYPT_R_STRUCT_CRYPT_DATA)
+      set(CRYPT_R_STRUCT_CRYPT_DATA TRUE PARENT_SCOPE)
       message(CHECK_PASS "struct crypt_data")
       cmake_pop_check_state()
       return()
     endif()
-
   cmake_pop_check_state()
 
   message(CHECK_FAIL "none")
 
-  set(${result} FALSE PARENT_SCOPE)
+  message(
+    FATAL_ERROR
+    "Cannot use external crypt library as 'crypt_r()' style could not be "
+    "detected."
+  )
 endfunction()
 
 # Check if crypt library is usable.
@@ -175,7 +172,7 @@ function(_php_ext_standard_check_crypt_is_usable)
       list(APPEND CMAKE_REQUIRED_DEFINITIONS -DHAVE_UNISTD_H)
     endif()
 
-    if(HAVE_CRYPT_H)
+    if(PHP_HAVE_CRYPT_H)
       list(APPEND CMAKE_REQUIRED_DEFINITIONS -DHAVE_CRYPT_H)
     endif()
 
@@ -184,7 +181,7 @@ function(_php_ext_standard_check_crypt_is_usable)
     message(CHECK_START "Checking for standard DES algo")
     if(CMAKE_CROSSCOMPILING AND NOT CMAKE_CROSSCOMPILING_EMULATOR)
       message(CHECK_PASS "yes (cross-compiling)")
-      set(PHP_HAS_CRYPT_DES_EXITCODE 0)
+      set(PHP_HAVE_CRYPT_DES_EXITCODE 0)
     endif()
     check_source_runs(C [[
       #include <string.h>
@@ -205,8 +202,8 @@ function(_php_ext_standard_check_crypt_is_usable)
         char *encrypted = crypt("rasmuslerdorf", "rl");
         return !encrypted || strcmp(encrypted, "rl.3StKT.4T8M");
       }
-    ]] PHP_HAS_CRYPT_DES)
-    if(PHP_HAS_CRYPT_DES)
+    ]] PHP_HAVE_CRYPT_DES)
+    if(PHP_HAVE_CRYPT_DES)
       message(CHECK_PASS "yes")
     else()
       message(CHECK_FAIL "no")
@@ -234,8 +231,8 @@ function(_php_ext_standard_check_crypt_is_usable)
         char *encrypted = crypt("rasmuslerdorf", "_J9..rasm");
         return !encrypted || strcmp(encrypted, "_J9..rasmBYk8r9AiWNc");
       }
-    ]] PHP_HAS_CRYPT_EXT_DES)
-    if(PHP_HAS_CRYPT_EXT_DES)
+    ]] PHP_HAVE_CRYPT_EXT_DES)
+    if(PHP_HAVE_CRYPT_EXT_DES)
       message(CHECK_PASS "yes")
     else()
       message(CHECK_FAIL "no")
@@ -273,8 +270,8 @@ function(_php_ext_standard_check_crypt_is_usable)
         encrypted = crypt("rasmuslerdorf", salt);
         return !encrypted || strcmp(encrypted, answer);
       }
-    ]] PHP_HAS_CRYPT_MD5)
-    if(PHP_HAS_CRYPT_MD5)
+    ]] PHP_HAVE_CRYPT_MD5)
+    if(PHP_HAVE_CRYPT_MD5)
       message(CHECK_PASS "yes")
     else()
       message(CHECK_FAIL "no")
@@ -310,8 +307,8 @@ function(_php_ext_standard_check_crypt_is_usable)
         encrypted = crypt("rasmuslerdorf", salt);
         return !encrypted || strcmp(encrypted, answer);
       }
-    ]] PHP_HAS_CRYPT_BLOWFISH)
-    if(PHP_HAS_CRYPT_BLOWFISH)
+    ]] PHP_HAVE_CRYPT_BLOWFISH)
+    if(PHP_HAVE_CRYPT_BLOWFISH)
       message(CHECK_PASS "yes")
     else()
       message(CHECK_FAIL "no")
@@ -345,8 +342,8 @@ function(_php_ext_standard_check_crypt_is_usable)
         encrypted = crypt("rasmuslerdorf", salt);
         return !encrypted || strcmp(encrypted, answer);
       }
-    ]] PHP_HAS_CRYPT_SHA256)
-    if(PHP_HAS_CRYPT_SHA256)
+    ]] PHP_HAVE_CRYPT_SHA256)
+    if(PHP_HAVE_CRYPT_SHA256)
       message(CHECK_PASS "yes")
     else()
       message(CHECK_FAIL "no")
@@ -380,9 +377,9 @@ function(_php_ext_standard_check_crypt_is_usable)
         encrypted = crypt("rasmuslerdorf", salt);
         return !encrypted || strcmp(encrypted, answer);
       }
-    ]] PHP_HAS_CRYPT_SHA512)
+    ]] PHP_HAVE_CRYPT_SHA512)
 
-    if(PHP_HAS_CRYPT_SHA512)
+    if(PHP_HAVE_CRYPT_SHA512)
       message(CHECK_PASS "yes")
     else()
       message(CHECK_FAIL "no")
@@ -394,17 +391,6 @@ function(_php_ext_standard_check_crypt_is_usable)
   cmake_pop_check_state()
 endfunction()
 
-block()
-  _php_ext_standard_check_crypt()
-
-  _php_ext_standard_check_crypt_r(result)
-  if(NOT result)
-    message(
-      FATAL_ERROR
-      "Cannot use external crypt library as 'crypt_r()' style could not be "
-      "detected."
-    )
-  endif()
-
-  _php_ext_standard_check_crypt_is_usable()
-endblock()
+_php_ext_standard_check_crypt()
+_php_ext_standard_check_crypt_r()
+_php_ext_standard_check_crypt_is_usable()

@@ -11,8 +11,8 @@ include(CMakePushCheckState)
 
 function(_php_ext_standard_check_arm_crc32 result)
   # Skip in consecutive configuration phases.
-  if(DEFINED PHP_EXT_STANDARD_HAS_ARM_CRC32)
-    set(${result} ${PHP_EXT_STANDARD_HAS_ARM_CRC32})
+  if(DEFINED PHP_${result})
+    set(${result} ${PHP_${result}})
     return(PROPAGATE ${result})
   endif()
 
@@ -26,7 +26,7 @@ function(_php_ext_standard_check_arm_crc32 result)
     endif()
 
     set(
-      PHP_EXT_STANDARD_HAS_ARM_CRC32
+      PHP_${result}
       ${${result}}
       CACHE INTERNAL
       "Whether ARM has CRC32."
@@ -53,16 +53,16 @@ function(_php_ext_standard_check_arm_crc32 result)
         __crc32d(0, 0);
         return 0;
       }
-    ]] PHP_EXT_STANDARD_HAS_ARM_CRC32)
+    ]] PHP_${result})
   cmake_pop_check_state()
 
-  if(PHP_EXT_STANDARD_HAS_ARM_CRC32)
+  if(PHP_${result})
     message(CHECK_PASS "yes")
   else()
     message(CHECK_FAIL "no")
   endif()
 
-  set(${result} ${PHP_EXT_STANDARD_HAS_ARM_CRC32})
+  set(${result} ${PHP_${result}})
 
   return(PROPAGATE ${result})
 endfunction()
