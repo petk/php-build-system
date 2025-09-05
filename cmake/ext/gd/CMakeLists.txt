@@ -338,7 +338,6 @@ if(NOT PHP_EXT_GD_EXTERNAL)
 
   set(HAVE_LIBPNG TRUE)
   set(HAVE_GD_PNG TRUE)
-  set(HAVE_GD_GET_INTERPOLATION TRUE)
 
   if(PHP_EXT_GD_AVIF)
     find_package(libavif 0.8.2)
