@@ -114,7 +114,7 @@ target_link_libraries(
 )
 
 if(TARGET Cclient::Cclient)
-  block()
+  block(PROPAGATE HAVE_IMAP_KRB)
     message(CHECK_START "Checking for Kerberos support in imap extension")
 
     file(
@@ -158,7 +158,7 @@ if(TARGET Cclient::Cclient)
     endif()
   endblock()
 
-  block()
+  block(PROPAGATE HAVE_IMAP_SSL)
     message(CHECK_START "Checking for SSL support in imap extension")
 
     file(

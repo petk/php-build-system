@@ -23,5 +23,8 @@
 /* Define to 1 if c-client version is 2004 or newer.*/
 #cmakedefine HAVE_IMAP2004 1
 
+/* Define to 1 if utf8_mime2text() function has a new signature. */
+#cmakedefine HAVE_NEW_MIME2TEXT 1
+
 /* Define to 1 if c-client has the 'rfc822_output_address_list()' function.*/
 #cmakedefine HAVE_RFC822_OUTPUT_ADDRESS_LIST 1

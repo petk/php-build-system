@@ -208,7 +208,7 @@ if(PHP_EXT_OPCACHE_JIT)
     floor
     HEADERS math.h
     LIBRARIES m
-    VARIABLE PHP_EXT_OPCACHE_HAS_FLOOR
+    VARIABLE PHP_EXT_OPCACHE_HAVE_FLOOR
     TARGET php_ext_opcache_jit_minilua PRIVATE
   )
 

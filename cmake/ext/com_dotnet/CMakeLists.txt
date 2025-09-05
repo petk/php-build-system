@@ -127,9 +127,9 @@ target_compile_definitions(
 target_link_libraries(php_ext_com_dotnet PRIVATE oleaut32)
 
 if(PHP_EXT_COM_DOTNET_ENABLE_DOTNET)
-  check_include_files(mscoree.h PHP_EXT_COM_DOTNET_HAS_MSCOREE_H)
+  check_include_files(mscoree.h PHP_EXT_COM_DOTNET_HAVE_MSCOREE_H)
 
-  if(NOT PHP_EXT_COM_DOTNET_HAS_MSCOREE_H)
+  if(NOT PHP_EXT_COM_DOTNET_HAVE_MSCOREE_H)
     message(
       FATAL_ERROR
       "<mscoree.h> not found. Please install the .NET Framework or disable the "

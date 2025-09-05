@@ -23,17 +23,17 @@ This module defines the following imported targets:
 * `HAVE_IMAP2000` - Whether c-client version is 2000 or newer. If true,
   c-client.h should be included instead of only rfc822.h on prior versions.
 * `HAVE_IMAP2001` - Whether c-client version is 2001 to 2004.
+* `HAVE_IMAP2004` - Whether c-client version is 2004 or newer.
+* `HAVE_IMAP_AUTH_GSS` - Whether `auth_gss` exists.
+* `HAVE_IMAP_MUTF7` - Whether `utf8_to_mutf7()` function exists.
+* `HAVE_NEW_MIME2TEXT` - Whether utf8_mime2text() has new signature.
+* `HAVE_RFC822_OUTPUT_ADDRESS_LIST` - Whether function
+  `rfc822_output_address_list()` exists.
 
 ## Cache variables
 
 * `Cclient_INCLUDE_DIR` - Directory containing package library headers.
 * `Cclient_LIBRARY` - The path to the package library.
-* `HAVE_IMAP2004` - Whether c-client version is 2004 or newer.
-* `HAVE_NEW_MIME2TEXT` - Whether utf8_mime2text() has new signature.
-* `HAVE_RFC822_OUTPUT_ADDRESS_LIST` - Whether function
-  `rfc822_output_address_list()` exists.
-* `HAVE_IMAP_AUTH_GSS` - Whether `auth_gss` exists.
-* `HAVE_IMAP_MUTF7` - Whether `utf8_to_mutf7()` function exists.
 
 ## Functions provided by this module
 
@@ -85,7 +85,7 @@ include(FindPackageHandleStandardArgs)
 # Helpers.
 ################################################################################
 
-set(_CCLIENT_DEFINITIONS [[
+set(Cclient_DEFINITIONS [[
 #if defined(__GNUC__) && __GNUC__ >= 4
 # define IMAP_CCLIENT_EXPORT __attribute__ ((visibility("default")))
 #else
@@ -199,7 +199,7 @@ function(cclient_check_symbol_exists symbol header result)
     check_source_compiles(C "
       #include <${header}>
 
-      ${_CCLIENT_DEFINITIONS}
+      ${Cclient_DEFINITIONS}
 
       int main(int argc, char** argv)
       {
@@ -271,7 +271,7 @@ mark_as_advanced(Cclient_INCLUDE_DIR Cclient_LIBRARY)
 ################################################################################
 
 if(Cclient_INCLUDE_DIR AND Cclient_LIBRARY)
-  cclient_check_function_exists(mail_newbody _Cclient_SANITY_CHECK_1)
+  cclient_check_function_exists(mail_newbody Cclient_SANITY_CHECK_1)
 
   cmake_push_check_state(RESET)
     set(CMAKE_REQUIRED_INCLUDES ${Cclient_INCLUDE_DIR})
@@ -284,7 +284,7 @@ if(Cclient_INCLUDE_DIR AND Cclient_LIBRARY)
     message(CHECK_START "Checking for new utf8_mime2text signature")
     check_source_compiles(C "
       #include <c-client.h>
-      ${_CCLIENT_DEFINITIONS}
+      ${Cclient_DEFINITIONS}
       int main(void)
       {
         SIZEDTEXT *src, *dst;
@@ -292,8 +292,9 @@ if(Cclient_INCLUDE_DIR AND Cclient_LIBRARY)
         utf8_mime2text(src, dst, flags);
         return 0;
       }
-    " HAVE_NEW_MIME2TEXT)
-    if(HAVE_NEW_MIME2TEXT)
+    " Cclient_HAVE_NEW_MIME2TEXT)
+    set(HAVE_NEW_MIME2TEXT ${Cclient_HAVE_NEW_MIME2TEXT})
+    if(Cclient_HAVE_NEW_MIME2TEXT)
       message(CHECK_PASS "yes")
     else()
       message(CHECK_FAIL "no")
@@ -302,18 +303,18 @@ if(Cclient_INCLUDE_DIR AND Cclient_LIBRARY)
     cclient_check_symbol_exists(
       U8T_DECOMPOSE
       c-client.h
-      _Cclient_HAS_U8T_DECOMPOSE
+      Cclient_HAVE_U8T_DECOMPOSE
     )
   cmake_pop_check_state()
 
-  if(HAVE_NEW_MIME2TEXT AND NOT _Cclient_HAS_U8T_DECOMPOSE)
+  if(Cclient_HAVE_NEW_MIME2TEXT AND NOT Cclient_HAVE_U8T_DECOMPOSE)
     string(
       APPEND
       _reason
       "Sanity check failed: 'utf8_mime2text()' has new signature, but "
       "'U8T_CANONICAL' is missing. This should not happen. "
     )
-  elseif(NOT HAVE_NEW_MIME2TEXT AND _Cclient_HAS_U8T_DECOMPOSE)
+  elseif(NOT Cclient_HAVE_NEW_MIME2TEXT AND Cclient_HAVE_U8T_DECOMPOSE)
     string(
       APPEND
       _reason
@@ -321,11 +322,11 @@ if(Cclient_INCLUDE_DIR AND Cclient_LIBRARY)
       "'U8T_CANONICAL' is present. This should not happen. "
     )
   else()
-    set(_Cclient_SANITY_CHECK_2 TRUE)
+    set(Cclient_SANITY_CHECK_2 TRUE)
   endif()
 endif()
 
-if(NOT _Cclient_SANITY_CHECK_2)
+if(NOT Cclient_SANITY_CHECK_2)
   string(APPEND _reason "Sanity check failed: 'mail_newbody()' not found. ")
 endif()
 
@@ -338,8 +339,8 @@ find_package_handle_standard_args(
   REQUIRED_VARS
     Cclient_LIBRARY
     Cclient_INCLUDE_DIR
-    _Cclient_SANITY_CHECK_1
-    _Cclient_SANITY_CHECK_2
+    Cclient_SANITY_CHECK_1
+    Cclient_SANITY_CHECK_2
   REASON_FAILURE_MESSAGE "${_reason}"
 )
 
@@ -394,9 +395,10 @@ message(CHECK_START "Checking for c-client version 2004")
 cclient_check_symbol_exists(
   mail_fetch_overview_sequence
   c-client.h
-  HAVE_IMAP2004
+  Cclient_HAVE_IMAP2004
 )
-if(HAVE_IMAP2004)
+set(HAVE_IMAP2004 ${Cclient_HAVE_IMAP2004})
+if(Cclient_HAVE_IMAP2004)
   message(CHECK_PASS "yes")
 else()
   message(CHECK_FAIL "no")
@@ -405,7 +407,12 @@ endif()
 cclient_check_symbol_exists(
   rfc822_output_address_list
   c-client.h
-  HAVE_RFC822_OUTPUT_ADDRESS_LIST
+  Cclient_HAVE_RFC822_OUTPUT_ADDRESS_LIST
 )
-cclient_check_function_exists(auth_gssapi_valid HAVE_IMAP_AUTH_GSS)
-cclient_check_symbol_exists(utf8_to_mutf7 c-client.h HAVE_IMAP_MUTF7)
+set(HAVE_RFC822_OUTPUT_ADDRESS_LIST ${Cclient_HAVE_RFC822_OUTPUT_ADDRESS_LIST})
+
+cclient_check_function_exists(auth_gssapi_valid Cclient_HAVE_IMAP_AUTH_GSS)
+set(HAVE_IMAP_AUTH_GSS ${Cclient_HAVE_IMAP_AUTH_GSS})
+
+cclient_check_symbol_exists(utf8_to_mutf7 c-client.h Cclient_HAVE_IMAP_MUTF7)
+set(HAVE_IMAP_MUTF7 ${Cclient_HAVE_IMAP_MUTF7})
