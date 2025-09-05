@@ -111,7 +111,7 @@ set(PHP_EXT_PCNTL_HAVE_SCHED_GETCPU_EXITCODE 0)
 
 # Set the exit code of the check when using an external PCRE library whether JIT
 # support is available for the target architecture.
-set(PHP_EXT_PCRE_HAS_JIT_EXITCODE 0)
+set(PHP_EXT_PCRE_HAVE_PCRE_JIT_SUPPORT_EXITCODE 0)
 
 ################################################################################
 # ext/session

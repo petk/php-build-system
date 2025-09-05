@@ -91,8 +91,12 @@ if(TARGET PostgreSQL::PostgreSQL)
     set(CMAKE_REQUIRED_LIBRARIES PostgreSQL::PostgreSQL)
 
     # PostgreSQL library minimum version sanity check.
-    check_symbol_exists(PQencryptPasswordConn libpq-fe.h PHP_HAS_LIBPQ_SANITY_CHECK)
-    if(NOT PHP_HAS_LIBPQ_SANITY_CHECK)
+    check_symbol_exists(
+      PQencryptPasswordConn
+      libpq-fe.h
+      PHP_EXT_HAVE_LIBPQ_SANITY_CHECK
+    )
+    if(NOT PHP_EXT_HAVE_LIBPQ_SANITY_CHECK)
       message(
         FATAL_ERROR
         "PostgreSQL check failed: libpq ${PHP_POSTGRESQL_MIN_VERSION} or later "
@@ -105,13 +109,15 @@ if(TARGET PostgreSQL::PostgreSQL)
       check_symbol_exists(
         PQresultMemorySize
         libpq-fe.h
-        HAVE_PG_RESULT_MEMORY_SIZE
+        PHP_EXT_HAVE_PG_RESULT_MEMORY_SIZE
       )
+      set(HAVE_PG_RESULT_MEMORY_SIZE ${PHP_EXT_HAVE_PG_RESULT_MEMORY_SIZE})
 
       check_source_compiles(C [[
         #include <libpq-fe.h>
         int main(void) { PGVerbosity e = PQERRORS_SQLSTATE; (void)e; return 0; }
-      ]] HAVE_PQERRORS_SQLSTATE)
+      ]] PHP_EXT_PGSQL_HAVE_PQERRORS_SQLSTATE)
+      set(HAVE_PQERRORS_SQLSTATE ${PHP_EXT_PGSQL_HAVE_PQERRORS_SQLSTATE})
     endif()
 
     # Available since PostgreSQL library version 17.
@@ -120,14 +126,17 @@ if(TARGET PostgreSQL::PostgreSQL)
       check_symbol_exists(
         LIBPQ_HAS_CHANGE_PASSWORD
         libpq-fe.h
-        PHP_HAS_LIBPQ_HAS_CHANGE_PASSWORD
+        PHP_EXT_PGSQL_HAVE_LIBPQ_HAS_CHANGE_PASSWORD
       )
       check_symbol_exists(
         PQchangePassword
         libpq-fe.h
-        PHP_HAS_PQCHANGEPASSWORD
+        PHP_EXT_PGSQL_HAVE_PQCHANGEPASSWORD
       )
-      if(PHP_HAS_LIBPQ_HAS_CHANGE_PASSWORD AND PHP_HAS_PQCHANGEPASSWORD)
+      if(
+        PHP_EXT_PGSQL_HAVE_LIBPQ_HAS_CHANGE_PASSWORD
+        AND PHP_EXT_PGSQL_HAVE_PQCHANGEPASSWORD
+      )
         set(HAVE_PG_CHANGE_PASSWORD TRUE)
       endif()
 
@@ -135,14 +144,17 @@ if(TARGET PostgreSQL::PostgreSQL)
       check_symbol_exists(
         LIBPQ_HAS_SOCKET_POLL
         libpq-fe.h
-        PHP_HAS_LIBPQ_HAS_SOCKET_POLL
+        PHP_EXT_PGSQL_HAVE_LIBPQ_HAS_SOCKET_POLL
       )
       check_symbol_exists(
         PQsocketPoll
         libpq-fe.h
-        PHP_HAS_PQSOCKETPOLL
+        PHP_EXT_PGSQL_HAVE_PQSOCKETPOLL
       )
-      if(PHP_HAS_LIBPQ_HAS_SOCKET_POLL AND PHP_HAS_PQSOCKETPOLL)
+      if(
+        PHP_EXT_PGSQL_HAVE_LIBPQ_HAS_SOCKET_POLL
+        AND PHP_EXT_PGSQL_HAVE_PQSOCKETPOLL
+      )
         set(HAVE_PG_SOCKET_POLL TRUE)
       endif()
 
@@ -150,14 +162,17 @@ if(TARGET PostgreSQL::PostgreSQL)
       check_symbol_exists(
         LIBPQ_HAS_CHUNK_MODE
         libpq-fe.h
-        PHP_HAS_LIBPQ_HAS_CHUNK_MODE
+        PHP_EXT_PGSQL_HAVE_LIBPQ_HAS_CHUNK_MODE
       )
       check_symbol_exists(
         PQsetChunkedRowsMode
         libpq-fe.h
-        PHP_HAS_PQSETCHUNKEDROWSMODE
+        PHP_EXT_PGSQL_HAVE_PQSETCHUNKEDROWSMODE
       )
-      if(PHP_HAS_LIBPQ_HAS_CHUNK_MODE AND PHP_HAS_PQSETCHUNKEDROWSMODE)
+      if(
+        PHP_EXT_PGSQL_HAVE_LIBPQ_HAS_CHUNK_MODE
+        AND PHP_EXT_PGSQL_HAVE_PQSETCHUNKEDROWSMODE
+      )
         set(HAVE_PG_SET_CHUNKED_ROWS_SIZE TRUE)
       endif()
 
@@ -165,14 +180,14 @@ if(TARGET PostgreSQL::PostgreSQL)
       check_symbol_exists(
         LIBPQ_HAS_CLOSE_PREPARED
         "libpq-fe.h"
-        PHP_HAS_LIBPQ_HAS_CLOSE_PREPARED
+        PHP_EXT_HAVE_LIBPQ_HAS_CLOSE_PREPARED
       )
       check_symbol_exists(
         PQclosePrepared
         "libpq-fe.h"
-        PHP_HAS_PQCLOSEPREPARED
+        PHP_EXT_HAVE_PQCLOSEPREPARED
       )
-      if(PHP_HAS_LIBPQ_HAS_CLOSE_PREPARED AND PHP_HAS_PQCLOSEPREPARED)
+      if(PHP_EXT_HAVE_LIBPQ_HAS_CLOSE_PREPARED AND PHP_EXT_HAVE_PQCLOSEPREPARED)
         set(HAVE_PG_CLOSE_STMT TRUE)
       endif()
     endif()
@@ -183,11 +198,9 @@ if(TARGET PostgreSQL::PostgreSQL)
       check_symbol_exists(
         PQservice
         "libpq-fe.h"
-        PHP_HAS_PQSERVICE
+        PHP_EXT_PGSQL_HAVE_PG_SERVICE
       )
-      if(PHP_HAS_PQSERVICE)
-        set(HAVE_PG_SERVICE TRUE)
-      endif()
+      set(HAVE_PG_SERVICE ${PHP_EXT_PGSQL_HAVE_PG_SERVICE})
     endif()
   cmake_pop_check_state()
 endif()
