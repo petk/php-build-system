@@ -91,8 +91,8 @@ if(TARGET PostgreSQL::PostgreSQL)
     set(CMAKE_REQUIRED_LIBRARIES PostgreSQL::PostgreSQL)
 
     # PostgreSQL library minimum version sanity check.
-    check_symbol_exists(PQlibVersion libpq-fe.h PHP_HAS_LIBPQ_SANITY_CHECK)
-    if(NOT PHP_HAS_LIBPQ_SANITY_CHECK)
+    check_symbol_exists(PQlibVersion libpq-fe.h PHP_EXT_HAVE_LIBPQ_SANITY_CHECK)
+    if(NOT PHP_EXT_HAVE_LIBPQ_SANITY_CHECK)
       message(
         FATAL_ERROR
         "PostgreSQL check failed: libpq ${PHP_POSTGRESQL_MIN_VERSION} or later "

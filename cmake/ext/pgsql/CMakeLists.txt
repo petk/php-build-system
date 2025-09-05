@@ -91,8 +91,8 @@ if(TARGET PostgreSQL::PostgreSQL)
     set(CMAKE_REQUIRED_LIBRARIES PostgreSQL::PostgreSQL)
 
     # PostgreSQL library minimum version sanity check.
-    check_symbol_exists(PQlibVersion libpq-fe.h PHP_HAS_LIBPQ_SANITY_CHECK)
-    if(NOT PHP_HAS_LIBPQ_SANITY_CHECK)
+    check_symbol_exists(PQlibVersion libpq-fe.h PHP_EXT_HAVE_LIBPQ_SANITY_CHECK)
+    if(NOT PHP_EXT_HAVE_LIBPQ_SANITY_CHECK)
       message(
         FATAL_ERROR
         "PostgreSQL check failed: libpq ${PHP_POSTGRESQL_MIN_VERSION} or later "
@@ -103,20 +103,26 @@ if(TARGET PostgreSQL::PostgreSQL)
     check_symbol_exists(
       pg_encoding_to_char
       libpq-fe.h
+      PHP_EXT_PGSQL_HAVE_PGSQL_WITH_MULTIBYTE_SUPPORT
+    )
+    set(
       HAVE_PGSQL_WITH_MULTIBYTE_SUPPORT
+      ${PHP_EXT_PGSQL_HAVE_PGSQL_WITH_MULTIBYTE_SUPPORT}
     )
 
     check_symbol_exists(
       lo_truncate64
       libpq-fe.h
-      HAVE_PG_LO64
+      PHP_EXT_PGSQL_HAVE_PG_LO64
     )
+    set(HAVE_PG_LO64 ${PHP_EXT_PGSQL_HAVE_PG_LO64})
 
     check_symbol_exists(
       PQsetErrorContextVisibility
       libpq-fe.h
-      HAVE_PG_CONTEXT_VISIBILITY
+      PHP_EXT_PGSQL_HAVE_PG_CONTEXT_VISIBILITY
     )
+    set(HAVE_PG_CONTEXT_VISIBILITY ${PHP_EXT_PGSQL_HAVE_PG_CONTEXT_VISIBILITY})
   cmake_pop_check_state()
 endif()
 

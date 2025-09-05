@@ -91,12 +91,21 @@ if(TARGET SQLite::SQLite3)
   cmake_push_check_state(RESET)
     set(CMAKE_REQUIRED_LIBRARIES SQLite::SQLite3)
 
-    check_symbol_exists(sqlite3_close_v2 sqlite3.h HAVE_SQLITE3_CLOSE_V2)
+    check_symbol_exists(
+      sqlite3_close_v2
+      sqlite3.h
+      PHP_EXT_PDO_SQLITE_HAVE_SQLITE3_CLOSE_V2
+    )
+    set(HAVE_SQLITE3_CLOSE_V2 ${PHP_EXT_PDO_SQLITE_HAVE_SQLITE3_CLOSE_V2})
 
     check_symbol_exists(
       sqlite3_column_table_name
       sqlite3.h
+      PHP_EXT_PDO_SQLITE_HAVE_SQLITE3_COLUMN_TABLE_NAME
+    )
+    set(
       HAVE_SQLITE3_COLUMN_TABLE_NAME
+      ${PHP_EXT_PDO_SQLITE_HAVE_SQLITE3_COLUMN_TABLE_NAME}
     )
   cmake_pop_check_state()
 endif()

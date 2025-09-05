@@ -96,13 +96,13 @@ if(PHP_EXT_PCRE_EXTERNAL)
     message(CHECK_START "Checking for PCRE JIT support")
 
     if(
-      NOT DEFINED PHP_EXT_PCRE_HAS_JIT_EXITCODE
+      NOT DEFINED PHP_EXT_PCRE_HAVE_PCRE_JIT_SUPPORT_EXITCODE
       AND CMAKE_CROSSCOMPILING
       AND NOT CMAKE_CROSSCOMPILING_EMULATOR
       AND CMAKE_SYSTEM_PROCESSOR MATCHES
         "^(arm.*|i[34567]86|x86_64|amd64|mips.*|powerpc.*|sparc.*|X86|AMD64|ARM64)$"
     )
-      set(PHP_EXT_PCRE_HAS_JIT_EXITCODE 0)
+      set(PHP_EXT_PCRE_HAVE_PCRE_JIT_SUPPORT_EXITCODE 0)
     endif()
 
     cmake_push_check_state(RESET)
@@ -125,11 +125,10 @@ if(PHP_EXT_PCRE_EXTERNAL)
 
           return !have_jit;
         }
-      ]] PHP_EXT_PCRE_HAS_JIT)
+      ]] PHP_EXT_PCRE_HAVE_PCRE_JIT_SUPPORT)
     cmake_pop_check_state()
-
-    if(PHP_EXT_PCRE_HAS_JIT)
-      set(HAVE_PCRE_JIT_SUPPORT TRUE)
+    set(HAVE_PCRE_JIT_SUPPORT ${PHP_EXT_PCRE_HAVE_PCRE_JIT_SUPPORT})
+    if(PHP_EXT_PCRE_HAVE_PCRE_JIT_SUPPORT)
       message(CHECK_PASS "yes")
     else()
       message(CHECK_FAIL "no")
@@ -228,12 +227,12 @@ else()
     message(CHECK_START "Checking whether Intel CET is enabled")
     cmake_push_check_state(RESET)
       set(CMAKE_REQUIRED_QUIET TRUE)
-      check_symbol_exists(__CET__ "" PHP_EXT_PCRE_HAS_CET)
+      check_symbol_exists(__CET__ "" PHP_EXT_PCRE_HAVE_CET)
     cmake_pop_check_state()
-    if(PHP_EXT_PCRE_HAS_CET)
+    if(PHP_EXT_PCRE_HAVE_CET)
       message(CHECK_PASS "yes")
-      php_check_compiler_flag(C -mshstk PHP_EXT_PCRE_HAS_MSHSTK_C)
-      if(PHP_EXT_PCRE_HAS_MSHSTK_C)
+      php_check_compiler_flag(C -mshstk PHP_EXT_PCRE_HAVE_MSHSTK_C)
+      if(PHP_EXT_PCRE_HAVE_MSHSTK_C)
         target_compile_options(php_ext_pcre PRIVATE -mshstk)
       endif()
     else()
