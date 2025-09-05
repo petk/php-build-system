@@ -27,9 +27,7 @@ project(
   LANGUAGES C
 )
 
-include(CheckSymbolExists)
 include(CMakeDependentOption)
-include(CMakePushCheckState)
 include(FeatureSummary)
 
 option(PHP_EXT_ZIP "Enable the zip extension")
@@ -111,54 +109,42 @@ endif()
 # TODO: When downloading and building libzip from source additional deps are
 # required.
 
-if(TARGET libzip::zip)
-  cmake_push_check_state(RESET)
-    set(CMAKE_REQUIRED_LIBRARIES libzip::zip)
-
-    check_symbol_exists(zip_file_set_mtime zip.h HAVE_SET_MTIME)
-
-    if(NOT HAVE_SET_MTIME)
-      message(
-        WARNING
-        "ext/zip will not have support for setting mtime "
-        "(Libzip >= 1.0.0 is needed for setting mtime)"
-      )
-    endif()
-
-    check_symbol_exists(zip_file_set_encryption zip.h HAVE_ENCRYPTION)
-
-    if(NOT HAVE_ENCRYPTION)
-      message(
-        WARNING
-        "ext/zip will not have encryption support "
-        "(Libzip >= 1.2.0 is needed for encryption support)"
-      )
-    endif()
-
-    check_symbol_exists(
-      zip_libzip_version
-      zip.h
-      HAVE_LIBZIP_VERSION
+if(libzip_FOUND)
+  if(libzip_VERSION VERSION_GREATER_EQUAL 1.0.0)
+    set(HAVE_SET_MTIME TRUE)
+  else()
+    message(
+      WARNING
+      "ext/zip will not have support for setting mtime "
+      "(Libzip >= 1.0.0 is needed for setting mtime)"
     )
+  endif()
 
-    check_symbol_exists(
-      zip_register_progress_callback_with_state
-      zip.h
-      HAVE_PROGRESS_CALLBACK
+  if(libzip_VERSION VERSION_GREATER_EQUAL 1.2.0)
+    set(HAVE_ENCRYPTION TRUE)
+  else()
+    message(
+      WARNING
+      "ext/zip will not have encryption support "
+      "(Libzip >= 1.2.0 is needed for encryption support)"
     )
+  endif()
 
-    check_symbol_exists(
-      zip_register_cancel_callback_with_state
-      zip.h
-      HAVE_CANCEL_CALLBACK
-    )
+  if(libzip_VERSION VERSION_GREATER_EQUAL 1.3.0)
+    set(HAVE_PROGRESS_CALLBACK TRUE)
+  endif()
 
-    check_symbol_exists(
-      zip_compression_method_supported
-      zip.h
-      HAVE_METHOD_SUPPORTED
-    )
-  cmake_pop_check_state()
+  if(libzip_VERSION VERSION_GREATER_EQUAL 1.3.1)
+    set(HAVE_LIBZIP_VERSION TRUE)
+  endif()
+
+  if(libzip_VERSION VERSION_GREATER_EQUAL 1.6.0)
+    set(HAVE_CANCEL_CALLBACK TRUE)
+  endif()
+
+  if(libzip_VERSION VERSION_GREATER_EQUAL 1.7.0)
+    set(HAVE_METHOD_SUPPORTED TRUE)
+  endif()
 endif()
 
 set(HAVE_ZIP TRUE)
