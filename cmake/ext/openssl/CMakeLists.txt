@@ -176,7 +176,8 @@ target_link_libraries(php_ext_openssl PUBLIC OpenSSL::SSL)
 if(TARGET OpenSSL::SSL)
   cmake_push_check_state(RESET)
     set(CMAKE_REQUIRED_LIBRARIES OpenSSL::SSL)
-    check_symbol_exists(RAND_egd openssl/rand.h HAVE_RAND_EGD)
+    check_symbol_exists(RAND_egd openssl/rand.h PHP_EXT_OPENSSL_HAVE_RAND_EGD)
+    set(HAVE_RAND_EGD ${PHP_EXT_OPENSSL_HAVE_RAND_EGD})
   cmake_pop_check_state()
 
   if(OpenSSL_VERSION VERSION_LESS 3 AND PHP_EXT_OPENSSL_LEGACY_PROVIDER)
@@ -202,11 +203,15 @@ if(TARGET OpenSSL::SSL)
       check_symbol_exists(
         OSSL_set_max_threads
         openssl/thread.h
-        HAVE_OPENSSL_ARGON2
+        PHP_EXT_OPENSSL_HAVE_OPENSSL_ARGON2
       )
+      set(HAVE_OPENSSL_ARGON2 ${PHP_EXT_OPENSSL_HAVE_OPENSSL_ARGON2})
     cmake_pop_check_state()
 
-    if(OpenSSL_VERSION VERSION_LESS 3.2 OR NOT HAVE_OPENSSL_ARGON2)
+    if(
+      OpenSSL_VERSION VERSION_LESS 3.2
+      OR NOT PHP_EXT_OPENSSL_HAVE_OPENSSL_ARGON2
+    )
       message(
         FATAL_ERROR
         "The OpenSSL Argon2 password hashing requires OpenSSL 3.2 or newer."
