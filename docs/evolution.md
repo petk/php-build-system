@@ -40,6 +40,7 @@ PHP coding standards now use the C11 standard.
   option (`--with-ldap=DIR`), it will be used instead of the pkg-config search.
 * Added new configure option `--enable-system-glob` to use system `glob()`
   function instead of the PHP built-in implementation.
+* Added new configure option `--with-external-uriparser`.
 * Library directory (`libdir`) is adjusted when using `--libdir`, and
   `--with-libdir` configure options (e.g.,
   `--libdir=/usr/lib64 --with-libdir=lib64` will set `libdir` to

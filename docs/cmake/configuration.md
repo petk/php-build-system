@@ -3207,6 +3207,25 @@ A list of Autoconf `configure` command-line configuration options, Windows
       <td></td>
     </tr>
     <tr>
+      <td>--without-external-uriparser</td>
+      <td>N/A</td>
+      <td>PHP_EXT_URI_EXTERNAL=OFF</td>
+      <td>default; PHP &gt;= 8.5</td>
+    </tr>
+    <tr>
+      <td>
+        &emsp;--with-external-uriparser<br>
+        &emsp;[LIBURIPARSER_CFLAGS=...]<br>
+        &emsp;[LIBURIPARSER_LIBS=...]
+      </td>
+      <td>N/A</td>
+      <td>
+        PHP_EXT_URI_EXTERNAL=ON<br>
+        [URIPARSER_ROOT=...]
+      </td>
+      <td>PHP &gt;= 8.5</td>
+    </tr>
+    <tr>
       <td>--enable-xml</td>
       <td>--with-xml</td>
       <td>PHP_EXT_XML=ON</td>

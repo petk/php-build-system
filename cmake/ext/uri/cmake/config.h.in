@@ -1,5 +1,5 @@
 /* Define to 1 for enabling ANSI support of uriparser. */
-#cmakedefine URI_ENABLE_ANSI 1
+#define URI_ENABLE_ANSI 1
 
 /* Define to 1 for disabling unicode support of uriparser. */
-#cmakedefine URI_NO_UNICODE 1
+#define URI_NO_UNICODE 1

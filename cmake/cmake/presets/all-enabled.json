@@ -113,6 +113,7 @@
         "PHP_EXT_PDO_MYSQL_DRIVER": "mysql",
         "PHP_EXT_SESSION_MM": true,
         "PHP_EXT_STANDARD_CRYPT_EXTERNAL": true,
+        "PHP_EXT_URI_EXTERNAL": true,
         "PHP_EXT_XML_EXPAT": true
       }
     },
