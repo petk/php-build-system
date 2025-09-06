@@ -23,7 +23,7 @@ endif()
 # Obsolete in favor of C99 <fenv.h> functions to control FPU rounding modes.
 function(_php_zend_check_fpu_setcw result)
   # Skip in consecutive configuration phases.
-  if(NOT DEFINED PHP_ZEND_HAS_FPU_SETCW)
+  if(NOT DEFINED PHP_ZEND_${result})
     message(CHECK_START "Checking for usable _FPU_SETCW")
 
     cmake_push_check_state(RESET)
@@ -48,24 +48,24 @@ function(_php_zend_check_fpu_setcw result)
 
           return 0;
         }
-      ]] PHP_ZEND_HAS_FPU_SETCW)
+      ]] PHP_ZEND_${result})
     cmake_pop_check_state()
 
-    if(PHP_ZEND_HAS_FPU_SETCW)
+    if(PHP_ZEND_${result})
       message(CHECK_PASS "yes")
     else()
       message(CHECK_FAIL "no")
     endif()
   endif()
 
-  set(${result} ${PHP_ZEND_HAS_FPU_SETCW})
+  set(${result} ${PHP_ZEND_${result}})
 
   return(PROPAGATE ${result})
 endfunction()
 
 function(_php_zend_check_fpsetprec result)
   # Skip in consecutive configuration phases.
-  if(NOT DEFINED PHP_ZEND_HAS_FPSETPREC)
+  if(NOT DEFINED PHP_ZEND_${result})
     message(CHECK_START "Checking for usable fpsetprec")
 
     cmake_push_check_state(RESET)
@@ -89,24 +89,24 @@ function(_php_zend_check_fpsetprec result)
 
           return 0;
         }
-      ]] PHP_ZEND_HAS_FPSETPREC)
+      ]] PHP_ZEND_${result})
     cmake_pop_check_state()
 
-    if(PHP_ZEND_HAS_FPSETPREC)
+    if(PHP_ZEND_${result})
       message(CHECK_PASS "yes")
     else()
       message(CHECK_FAIL "no")
     endif()
   endif()
 
-  set(${result} ${PHP_ZEND_HAS_FPSETPREC})
+  set(${result} ${PHP_ZEND_${result}})
 
   return(PROPAGATE ${result})
 endfunction()
 
 function(_php_zend_check_controlfp result)
   # Skip in consecutive configuration phases.
-  if(NOT DEFINED PHP_ZEND_HAS_CONTROLFP)
+  if(NOT DEFINED PHP_ZEND_${result})
     message(CHECK_START "Checking for usable _controlfp")
 
     cmake_push_check_state(RESET)
@@ -130,24 +130,24 @@ function(_php_zend_check_controlfp result)
 
           return 0;
         }
-      ]] PHP_ZEND_HAS_CONTROLFP)
+      ]] PHP_ZEND_${result})
     cmake_pop_check_state()
 
-    if(PHP_ZEND_HAS_CONTROLFP)
+    if(PHP_ZEND_${result})
       message(CHECK_PASS "yes")
     else()
       message(CHECK_FAIL "no")
     endif()
   endif()
 
-  set(${result} ${PHP_ZEND_HAS_CONTROLFP})
+  set(${result} ${PHP_ZEND_${result}})
 
   return(PROPAGATE ${result})
 endfunction()
 
 function(_php_zend_check_controlfp_s result)
   # Skip in consecutive configuration phases.
-  if(NOT DEFINED PHP_ZEND_HAS_CONTROLFP_S)
+  if(NOT DEFINED PHP_ZEND_${result})
     message(CHECK_START "Checking for usable _controlfp_s")
 
     cmake_push_check_state(RESET)
@@ -172,24 +172,24 @@ function(_php_zend_check_controlfp_s result)
 
           return 0;
         }
-      ]] PHP_ZEND_HAS_CONTROLFP_S)
+      ]] PHP_ZEND_${result})
     cmake_pop_check_state()
 
-    if(PHP_ZEND_HAS_CONTROLFP_S)
+    if(PHP_ZEND_${result})
       message(CHECK_PASS "yes")
     else()
       message(CHECK_FAIL "no")
     endif()
   endif()
 
-  set(${result} ${PHP_ZEND_HAS_CONTROLFP_S})
+  set(${result} ${PHP_ZEND_${result}})
 
   return(PROPAGATE ${result})
 endfunction()
 
 function(_php_zend_check_fpu_inline_asm_x86 result)
   # Skip in consecutive configuration phases.
-  if(NOT DEFINED PHP_ZEND_HAS_FPU_INLINE_ASM_X86)
+  if(NOT DEFINED PHP_ZEND_${result})
     message(
       CHECK_START
       "Checking whether FPU control word can be manipulated by inline assembler"
@@ -215,17 +215,17 @@ function(_php_zend_check_fpu_inline_asm_x86 result)
 
           return 0;
         }
-      ]] PHP_ZEND_HAS_FPU_INLINE_ASM_X86)
+      ]] PHP_ZEND_${result})
     cmake_pop_check_state()
 
-    if(PHP_ZEND_HAS_FPU_INLINE_ASM_X86)
+    if(PHP_ZEND_${result})
       message(CHECK_PASS "yes")
     else()
       message(CHECK_FAIL "no")
     endif()
   endif()
 
-  set(${result} ${PHP_ZEND_HAS_FPU_INLINE_ASM_X86})
+  set(${result} ${PHP_ZEND_${result}})
 
   return(PROPAGATE ${result})
 endfunction()
