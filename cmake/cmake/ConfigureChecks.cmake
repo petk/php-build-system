@@ -351,16 +351,21 @@ php_check_builtin(__builtin_usub_overflow PHP_HAVE_BUILTIN_USUB_OVERFLOW)
 # Check functions.
 ################################################################################
 
-check_symbol_exists(alphasort dirent.h HAVE_ALPHASORT)
-check_symbol_exists(explicit_memset string.h HAVE_EXPLICIT_MEMSET)
-check_symbol_exists(fdatasync unistd.h HAVE_FDATASYNC)
-# The fdatasync declaration on macOS is missing in headers, yet is in C library.
-if(NOT HAVE_FDATASYNC)
-  unset(HAVE_FDATASYNC CACHE)
-  check_function_exists(fdatasync HAVE_FDATASYNC)
-endif()
+check_symbol_exists(alphasort dirent.h PHP_HAVE_ALPHASORT)
+set(HAVE_ALPHASORT ${PHP_HAVE_ALPHASORT})
 
-block()
+check_symbol_exists(explicit_memset string.h PHP_HAVE_EXPLICIT_MEMSET)
+set(HAVE_EXPLICIT_MEMSET ${PHP_HAVE_EXPLICIT_MEMSET})
+
+check_symbol_exists(fdatasync unistd.h PHP_HAVE_FDATASYNC)
+# The fdatasync declaration on macOS is missing in headers, yet is in C library.
+if(NOT PHP_HAVE_FDATASYNC)
+  unset(PHP_HAVE_FDATASYNC CACHE)
+  check_function_exists(fdatasync PHP_HAVE_FDATASYNC)
+endif()
+set(HAVE_FDATASYNC ${PHP_HAVE_FDATASYNC})
+
+block(PROPAGATE HAVE_FLOCK)
   if(PHP_HAVE_FCNTL_H)
     list(APPEND headers "fcntl.h")
   endif()
@@ -369,14 +374,20 @@ block()
     list(APPEND headers "sys/file.h")
   endif()
 
-  check_symbol_exists(flock "${headers}" HAVE_FLOCK)
+  check_symbol_exists(flock "${headers}" PHP_HAVE_FLOCK)
+  set(HAVE_FLOCK ${PHP_HAVE_FLOCK})
 endblock()
 
-check_symbol_exists(ftok sys/ipc.h HAVE_FTOK)
-check_symbol_exists(funopen stdio.h HAVE_FUNOPEN)
-check_symbol_exists(getcwd unistd.h HAVE_GETCWD)
+check_symbol_exists(ftok sys/ipc.h PHP_HAVE_FTOK)
+set(HAVE_FTOK ${PHP_HAVE_FTOK})
 
-block()
+check_symbol_exists(funopen stdio.h PHP_HAVE_FUNOPEN)
+set(HAVE_FUNOPEN ${PHP_HAVE_FUNOPEN})
+
+check_symbol_exists(getcwd unistd.h PHP_HAVE_GETCWD)
+set(HAVE_GETCWD ${PHP_HAVE_GETCWD})
+
+block(PROPAGATE HAVE_GETLOADAVG)
   set(headers stdlib.h)
 
   # illumos: https://www.illumos.org/issues/9021
@@ -389,41 +400,85 @@ block()
     list(APPEND headers sys/loadavg.h)
   endif()
 
-  check_symbol_exists(getloadavg "${headers}" HAVE_GETLOADAVG)
+  check_symbol_exists(getloadavg "${headers}" PHP_HAVE_GETLOADAVG)
+  set(HAVE_GETLOADAVG ${PHP_HAVE_GETLOADAVG})
 endblock()
 
-check_symbol_exists(getrusage sys/resource.h HAVE_GETRUSAGE)
-check_symbol_exists(gettimeofday sys/time.h HAVE_GETTIMEOFDAY)
-check_symbol_exists(getpwnam_r pwd.h HAVE_GETPWNAM_R)
-check_symbol_exists(getgrnam_r grp.h HAVE_GETGRNAM_R)
-check_symbol_exists(getpwuid_r pwd.h HAVE_GETPWUID_R)
-check_symbol_exists(getwd unistd.h HAVE_GETWD)
-check_symbol_exists(glob glob.h HAVE_GLOB)
-check_symbol_exists(lchown unistd.h HAVE_LCHOWN)
-check_symbol_exists(memcntl sys/mman.h HAVE_MEMCNTL)
+check_symbol_exists(getrusage sys/resource.h PHP_HAVE_GETRUSAGE)
+set(HAVE_GETRUSAGE ${PHP_HAVE_GETRUSAGE})
+
+check_symbol_exists(gettimeofday sys/time.h PHP_HAVE_GETTIMEOFDAY)
+set(HAVE_GETTIMEOFDAY ${PHP_HAVE_GETTIMEOFDAY})
+
+check_symbol_exists(getpwnam_r pwd.h PHP_HAVE_GETPWNAM_R)
+set(HAVE_GETPWNAM_R ${PHP_HAVE_GETPWNAM_R})
+
+check_symbol_exists(getgrnam_r grp.h PHP_HAVE_GETGRNAM_R)
+set(HAVE_GETGRNAM_R ${PHP_HAVE_GETGRNAM_R})
+
+check_symbol_exists(getpwuid_r pwd.h PHP_HAVE_GETPWUID_R)
+set(HAVE_GETPWUID_R ${PHP_HAVE_GETPWUID_R})
+
+check_symbol_exists(getwd unistd.h PHP_HAVE_GETWD)
+set(HAVE_GETWD ${PHP_HAVE_GETWD})
+
+check_symbol_exists(glob glob.h PHP_HAVE_GLOB)
+set(HAVE_GLOB ${PHP_HAVE_GLOB})
+
+check_symbol_exists(lchown unistd.h PHP_HAVE_LCHOWN)
+set(HAVE_LCHOWN ${PHP_HAVE_LCHOWN})
+
+check_symbol_exists(memcntl sys/mman.h PHP_HAVE_MEMCNTL)
+set(HAVE_MEMCNTL ${PHP_HAVE_MEMCNTL})
 
 cmake_push_check_state(RESET)
   set(CMAKE_REQUIRED_DEFINITIONS -D_GNU_SOURCE)
-  check_symbol_exists(memfd_create sys/mman.h HAVE_MEMFD_CREATE)
+  check_symbol_exists(memfd_create sys/mman.h PHP_HAVE_MEMFD_CREATE)
+  set(HAVE_MEMFD_CREATE ${PHP_HAVE_MEMFD_CREATE})
 cmake_pop_check_state()
 
-check_symbol_exists(mkstemp stdlib.h HAVE_MKSTEMP)
-check_symbol_exists(mmap sys/mman.h HAVE_MMAP)
-check_symbol_exists(nice unistd.h HAVE_NICE)
-check_symbol_exists(nl_langinfo langinfo.h HAVE_NL_LANGINFO)
-check_symbol_exists(prctl sys/prctl.h HAVE_PRCTL)
-check_symbol_exists(procctl sys/procctl.h HAVE_PROCCTL)
-check_symbol_exists(poll poll.h HAVE_POLL)
+check_symbol_exists(mkstemp stdlib.h PHP_HAVE_MKSTEMP)
+set(HAVE_MKSTEMP ${PHP_HAVE_MKSTEMP})
+
+check_symbol_exists(mmap sys/mman.h PHP_HAVE_MMAP)
+set(HAVE_MMAP ${PHP_HAVE_MMAP})
+
+check_symbol_exists(nice unistd.h PHP_HAVE_NICE)
+set(HAVE_NICE ${PHP_HAVE_NICE})
+
+check_symbol_exists(nl_langinfo langinfo.h PHP_HAVE_NL_LANGINFO)
+set(HAVE_NL_LANGINFO ${PHP_HAVE_NL_LANGINFO})
+
+check_symbol_exists(prctl sys/prctl.h PHP_HAVE_PRCTL)
+set(HAVE_PRCTL ${PHP_HAVE_PRCTL})
+
+check_symbol_exists(procctl sys/procctl.h PHP_HAVE_PROCCTL)
+set(HAVE_PROCCTL ${PHP_HAVE_PROCCTL})
+
+check_symbol_exists(poll poll.h PHP_HAVE_POLL)
+set(HAVE_POLL ${PHP_HAVE_POLL})
+
 check_symbol_exists(
   pthread_jit_write_protect_np
   pthread.h
-  HAVE_PTHREAD_JIT_WRITE_PROTECT_NP
+  PHP_HAVE_PTHREAD_JIT_WRITE_PROTECT_NP
 )
-check_symbol_exists(putenv stdlib.h HAVE_PUTENV)
-check_symbol_exists(scandir dirent.h HAVE_SCANDIR)
-check_symbol_exists(setitimer sys/time.h HAVE_SETITIMER)
-check_symbol_exists(setenv stdlib.h HAVE_SETENV)
-check_symbol_exists(sigprocmask signal.h HAVE_SIGPROCMASK)
+set(HAVE_PTHREAD_JIT_WRITE_PROTECT_NP ${PHP_HAVE_PTHREAD_JIT_WRITE_PROTECT_NP})
+
+check_symbol_exists(putenv stdlib.h PHP_HAVE_PUTENV)
+set(HAVE_PUTENV ${PHP_HAVE_PUTENV})
+
+check_symbol_exists(scandir dirent.h PHP_HAVE_SCANDIR)
+set(HAVE_SCANDIR ${PHP_HAVE_SCANDIR})
+
+check_symbol_exists(setitimer sys/time.h PHP_HAVE_SETITIMER)
+set(HAVE_SETITIMER ${PHP_HAVE_SETITIMER})
+
+check_symbol_exists(setenv stdlib.h PHP_HAVE_SETENV)
+set(HAVE_SETENV ${PHP_HAVE_SETENV})
+
+check_symbol_exists(sigprocmask signal.h PHP_HAVE_SIGPROCMASK)
+set(HAVE_SIGPROCMASK ${PHP_HAVE_SIGPROCMASK})
 
 # Check for statfs().
 block(PROPAGATE HAVE_STATFS)
@@ -442,46 +497,66 @@ block(PROPAGATE HAVE_STATFS)
   set(HAVE_STATFS ${PHP_HAVE_STATFS})
 endblock()
 
-check_symbol_exists(statvfs sys/statvfs.h HAVE_STATVFS)
-check_symbol_exists(std_syslog sys/syslog.h HAVE_STD_SYSLOG)
+check_symbol_exists(statvfs sys/statvfs.h PHP_HAVE_STATVFS)
+set(HAVE_STATVFS ${PHP_HAVE_STATVFS})
+
+check_symbol_exists(std_syslog sys/syslog.h PHP_HAVE_STD_SYSLOG)
+set(HAVE_STD_SYSLOG ${PHP_HAVE_STD_SYSLOG})
 
 check_symbol_exists(strcasecmp strings.h PHP_HAVE_STRCASECMP)
 set(HAVE_STRCASECMP ${PHP_HAVE_STRCASECMP})
 
-check_symbol_exists(symlink unistd.h HAVE_SYMLINK)
-check_symbol_exists(tzset time.h HAVE_TZSET)
-check_symbol_exists(unsetenv stdlib.h HAVE_UNSETENV)
-check_symbol_exists(usleep unistd.h HAVE_USLEEP)
+check_symbol_exists(symlink unistd.h PHP_HAVE_SYMLINK)
+set(HAVE_SYMLINK ${PHP_HAVE_SYMLINK})
+
+check_symbol_exists(tzset time.h PHP_HAVE_TZSET)
+set(HAVE_TZSET ${PHP_HAVE_TZSET})
+
+check_symbol_exists(unsetenv stdlib.h PHP_HAVE_UNSETENV)
+set(HAVE_UNSETENV ${PHP_HAVE_UNSETENV})
+
+check_symbol_exists(usleep unistd.h PHP_HAVE_USLEEP)
+set(HAVE_USLEEP ${PHP_HAVE_USLEEP})
 
 if(CMAKE_SYSTEM_NAME STREQUAL "Windows")
-  check_symbol_exists(utime sys/utime.h HAVE_UTIME)
+  check_symbol_exists(utime sys/utime.h PHP_HAVE_UTIME)
 else()
-  check_symbol_exists(utime utime.h HAVE_UTIME)
+  check_symbol_exists(utime utime.h PHP_HAVE_UTIME)
 endif()
+set(HAVE_UTIME ${PHP_HAVE_UTIME})
 
 cmake_push_check_state(RESET)
   set(CMAKE_REQUIRED_DEFINITIONS -D_GNU_SOURCE)
-  check_symbol_exists(vasprintf stdio.h HAVE_VASPRINTF)
+  check_symbol_exists(vasprintf stdio.h PHP_HAVE_VASPRINTF)
+  set(HAVE_VASPRINTF ${PHP_HAVE_VASPRINTF})
 cmake_pop_check_state()
 
 cmake_push_check_state(RESET)
   set(CMAKE_REQUIRED_DEFINITIONS -D_GNU_SOURCE)
-  check_symbol_exists(asprintf stdio.h HAVE_ASPRINTF)
+  check_symbol_exists(asprintf stdio.h PHP_HAVE_ASPRINTF)
+  set(HAVE_ASPRINTF ${PHP_HAVE_ASPRINTF})
 cmake_pop_check_state()
 
 cmake_push_check_state(RESET)
   set(CMAKE_REQUIRED_DEFINITIONS -D_GNU_SOURCE)
-  check_symbol_exists(memmem string.h HAVE_MEMMEM)
+  check_symbol_exists(memmem string.h PHP_HAVE_MEMMEM)
+  set(HAVE_MEMMEM ${PHP_HAVE_MEMMEM})
 cmake_pop_check_state()
 
 cmake_push_check_state(RESET)
   set(CMAKE_REQUIRED_DEFINITIONS -D_GNU_SOURCE)
-  check_symbol_exists(memrchr string.h HAVE_MEMRCHR)
+  check_symbol_exists(memrchr string.h PHP_HAVE_MEMRCHR)
+  set(HAVE_MEMRCHR ${PHP_HAVE_MEMRCHR})
 cmake_pop_check_state()
 
-check_symbol_exists(strlcat string.h HAVE_STRLCAT)
-check_symbol_exists(strlcpy string.h HAVE_STRLCPY)
-check_symbol_exists(explicit_bzero string.h HAVE_EXPLICIT_BZERO)
+check_symbol_exists(strlcat string.h PHP_HAVE_STRLCAT)
+set(HAVE_STRLCAT ${PHP_HAVE_STRLCAT})
+
+check_symbol_exists(strlcpy string.h PHP_HAVE_STRLCPY)
+set(HAVE_STRLCPY ${PHP_HAVE_STRLCPY})
+
+check_symbol_exists(explicit_bzero string.h PHP_HAVE_EXPLICIT_BZERO)
+set(HAVE_EXPLICIT_BZERO ${PHP_HAVE_EXPLICIT_BZERO})
 
 # Some systems, notably Solaris, cause getcwd() or realpath to fail if a
 # component of the path has execute but not read permissions.
@@ -554,10 +629,10 @@ php_search_libraries(
   dlopen
   HEADERS dlfcn.h
   LIBRARIES ${CMAKE_DL_LIBS}
-  VARIABLE PHP_HAS_DYNAMIC_LOADING
+  VARIABLE PHP_HAVE_LIBDL
   TARGET php_config INTERFACE
 )
-set(HAVE_LIBDL ${PHP_HAS_DYNAMIC_LOADING})
+set(HAVE_LIBDL ${PHP_HAVE_LIBDL})
 
 php_search_libraries(
   sin
@@ -597,10 +672,10 @@ php_search_libraries(
   LIBRARIES
     socket  # Solaris <= 11.3, illumos
     network # Haiku
-  VARIABLE PHP_HAS_SOCKETPAIR
+  VARIABLE PHP_HAVE_SOCKETPAIR
   TARGET php_config INTERFACE
 )
-set(HAVE_SOCKETPAIR ${PHP_HAS_SOCKETPAIR})
+set(HAVE_SOCKETPAIR ${PHP_HAVE_SOCKETPAIR})
 
 # The gethostname() is mostly in C library (Solaris/illumos...)
 php_search_libraries(
@@ -695,10 +770,10 @@ php_search_libraries(
     time.h
   LIBRARIES
     rt # Solaris <= 10
-  VARIABLE PHP_HAS_NANOSLEEP
+  VARIABLE PHP_HAVE_NANOSLEEP
   TARGET php_config INTERFACE
 )
-set(HAVE_NANOSLEEP ${PHP_HAS_NANOSLEEP})
+set(HAVE_NANOSLEEP ${PHP_HAVE_NANOSLEEP})
 
 # The setsockopt() is mostly in C library (Solaris 11.4...)
 php_search_libraries(
