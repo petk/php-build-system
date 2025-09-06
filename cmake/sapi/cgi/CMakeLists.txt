@@ -63,8 +63,9 @@ check_struct_has_member(
   "struct sockaddr_un"
   sun_len
   sys/un.h
-  HAVE_STRUCT_SOCKADDR_UN_SUN_LEN
+  PHP_SAPI_CGI_HAVE_STRUCT_SOCKADDR_UN_SUN_LEN
 )
+set(HAVE_STRUCT_SOCKADDR_UN_SUN_LEN ${PHP_SAPI_CGI_HAVE_STRUCT_SOCKADDR_UN_SUN_LEN})
 
 message(CHECK_START "Checking whether accept() requires cross-process locking")
 if(CMAKE_SYSTEM_NAME STREQUAL "SunOS")

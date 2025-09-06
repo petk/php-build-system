@@ -88,10 +88,10 @@ cmake_push_check_state(RESET)
         return 0;
       }
     }
-  ]] PHP_SAPI_FPM_HAS_PTRACE)
+  ]] PHP_SAPI_FPM_HAVE_PTRACE)
 cmake_pop_check_state()
 
-if(PHP_SAPI_FPM_HAS_PTRACE)
+if(PHP_SAPI_FPM_HAVE_PTRACE)
   message(CHECK_PASS "yes")
   set(HAVE_PTRACE TRUE)
 else()
@@ -99,14 +99,12 @@ else()
   check_symbol_exists(
     mach_vm_read
     "mach/mach.h;mach/mach_vm.h"
-    PHP_SAPI_FPM_HAS_MACH_VM_READ
+    PHP_SAPI_FPM_HAVE_MACH_VM_READ
   )
-  if(PHP_SAPI_FPM_HAS_MACH_VM_READ)
-    set(HAVE_MACH_VM_READ TRUE)
-  endif()
+  set(HAVE_MACH_VM_READ ${PHP_SAPI_FPM_HAVE_MACH_VM_READ})
 endif()
 
-if(NOT PHP_SAPI_FPM_HAS_PTRACE AND NOT PHP_SAPI_FPM_HAS_MACH_VM_READ)
+if(NOT PHP_SAPI_FPM_HAVE_PTRACE AND NOT PHP_SAPI_FPM_HAVE_MACH_VM_READ)
   message(CHECK_START "Checking for process memory access file")
 
   if(NOT CMAKE_CROSSCOMPILING)
@@ -148,10 +146,10 @@ if(NOT PHP_SAPI_FPM_HAS_PTRACE AND NOT PHP_SAPI_FPM_HAS_MACH_VM_READ)
             close(fd);
             return v1 != v2;
           }
-        " PHP_HAS_PROC_MEM_FILE)
+        " PHP_SAPI_FPM_HAVE_PROC_MEM_FILE)
       cmake_pop_check_state()
 
-      if(NOT PHP_HAS_PROC_MEM_FILE)
+      if(NOT PHP_SAPI_FPM_HAVE_PROC_MEM_FILE)
         unset(PHP_SAPI_FPM_PROC_MEM_FILE)
       endif()
     endif()

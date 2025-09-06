@@ -52,7 +52,7 @@ set(ZEND_MM_EXITCODE__TRYRUN_OUTPUT "(size_t)8 (size_t)3 0")
 ################################################################################
 
 # Set the exit code of the ptrace() check.
-set(PHP_SAPI_FPM_HAS_PTRACE_EXITCODE 0)
+set(PHP_SAPI_FPM_HAVE_PTRACE_EXITCODE 0)
 
 # Set the process memory access file - 'mem' on Linux-alike or 'as' on
 # Solaris-alike target systems for the PHP FPM to use pread trace type
