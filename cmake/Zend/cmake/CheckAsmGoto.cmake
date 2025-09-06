@@ -16,7 +16,7 @@ if(CMAKE_SYSTEM_NAME STREQUAL "Windows")
 endif()
 
 # Skip in consecutive configuration phases.
-if(NOT DEFINED PHP_ZEND_HAS_ASM_GOTO)
+if(NOT DEFINED PHP_ZEND_HAVE_ASM_GOTO)
   message(CHECK_START "Checking for the inline assembly __asm__ goto support")
 
   cmake_push_check_state(RESET)
@@ -32,14 +32,14 @@ if(NOT DEFINED PHP_ZEND_HAS_ASM_GOTO)
         end:
           return 0;
       }
-    ]] PHP_ZEND_HAS_ASM_GOTO)
+    ]] PHP_ZEND_HAVE_ASM_GOTO)
   cmake_pop_check_state()
 
-  if(PHP_ZEND_HAS_ASM_GOTO)
+  if(PHP_ZEND_HAVE_ASM_GOTO)
     message(CHECK_PASS "yes")
   else()
     message(CHECK_FAIL "no")
   endif()
 endif()
 
-set(HAVE_ASM_GOTO ${PHP_ZEND_HAS_ASM_GOTO})
+set(HAVE_ASM_GOTO ${PHP_ZEND_HAVE_ASM_GOTO})

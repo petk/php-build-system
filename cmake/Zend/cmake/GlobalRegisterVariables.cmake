@@ -22,7 +22,7 @@ if(NOT PHP_ZEND_GLOBAL_REGISTER_VARIABLES)
 endif()
 
 # Skip in consecutive configuration phases.
-if(NOT DEFINED PHP_ZEND_HAS_GCC_GLOBAL_REGS)
+if(NOT DEFINED PHP_ZEND_HAVE_GCC_GLOBAL_REGS)
   message(CHECK_START "Checking for global register variables support")
 
   cmake_push_check_state(RESET)
@@ -75,14 +75,14 @@ if(NOT DEFINED PHP_ZEND_HAS_GCC_GLOBAL_REGS)
       {
         return 0;
       }
-    ]] PHP_ZEND_HAS_GCC_GLOBAL_REGS)
+    ]] PHP_ZEND_HAVE_GCC_GLOBAL_REGS)
   cmake_pop_check_state()
 
-  if(PHP_ZEND_HAS_GCC_GLOBAL_REGS)
+  if(PHP_ZEND_HAVE_GCC_GLOBAL_REGS)
     message(CHECK_PASS "yes")
   else()
     message(CHECK_FAIL "no")
   endif()
 endif()
 
-set(HAVE_GCC_GLOBAL_REGS ${PHP_ZEND_HAS_GCC_GLOBAL_REGS})
+set(HAVE_GCC_GLOBAL_REGS ${PHP_ZEND_HAVE_GCC_GLOBAL_REGS})
