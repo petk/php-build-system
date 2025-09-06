@@ -11,12 +11,14 @@ Subject: Fix tests
   ZipArchive::EM_AES_256 and ZipArchive::EM_AES_192 aren't supported.
   ZipArchive::registerProgressCallback() is only available when using
   libzip 1.3.0 or newer.
+  ZipArchive::RDONLY is available only with libzip >= 1.0.0
 ---
- ext/dom/tests/dom_xinclude.phpt  | 4 ++--
- ext/zip/tests/gh18431.phpt       | 4 ++++
- ext/zip/tests/oo_addglob2.phpt   | 6 ++++++
- ext/zip/tests/oo_encryption.phpt | 6 ++++++
- 4 files changed, 18 insertions(+), 2 deletions(-)
+ ext/dom/tests/dom_xinclude.phpt         | 4 ++--
+ ext/zip/tests/gh18431.phpt              | 4 ++++
+ ext/zip/tests/oo_addemptydir_error.phpt | 2 +-
+ ext/zip/tests/oo_addglob2.phpt          | 6 ++++++
+ ext/zip/tests/oo_encryption.phpt        | 6 ++++++
+ 5 files changed, 19 insertions(+), 3 deletions(-)
 
 diff --git a/ext/dom/tests/dom_xinclude.phpt b/ext/dom/tests/dom_xinclude.phpt
 index 0dfeb2dfb4a..410431de877 100644
@@ -50,6 +52,19 @@ index d4eb89c36c6..dcd7db6f400 100644
  --FILE--
  <?php
  $file = __DIR__ . '/gh18431.zip';
+diff --git a/ext/zip/tests/oo_addemptydir_error.phpt b/ext/zip/tests/oo_addemptydir_error.phpt
+index 595c7d9ea23..bd7507a51e3 100644
+--- a/ext/zip/tests/oo_addemptydir_error.phpt
++++ b/ext/zip/tests/oo_addemptydir_error.phpt
+@@ -4,7 +4,7 @@
+ zip
+ --SKIPIF--
+ <?php
+-/* $Id$ */
++if (version_compare(ZipArchive::LIBZIP_VERSION, '1.0.0', '<')) die('skip libzip < 1.0.0');
+ ?>
+ --FILE--
+ <?php
 diff --git a/ext/zip/tests/oo_addglob2.phpt b/ext/zip/tests/oo_addglob2.phpt
 index 517c0b7fd7f..1432d704de5 100644
 --- a/ext/zip/tests/oo_addglob2.phpt

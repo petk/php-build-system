@@ -89,32 +89,33 @@ else()
     php_check_compiler_flag(
       C
       -fsanitize=fuzzer-no-link
-      PHP_HAS_FSANITIZE_FUZZER_NO_LINK_C
+      PHP_SAPI_FUZZER_HAS_FSANITIZE_FLAG_C
     )
+    if(NOT PHP_SAPI_FUZZER_HAS_FSANITIZE_FLAG_C)
+      message(
+        FATAL_ERROR
+        "The fuzzer SAPI cannot be enabled. C compiler ${CMAKE_C_COMPILER_ID} "
+        "doesn't support the -fsanitize=fuzzer-no-link option."
+      )
+    endif()
 
-    php_check_compiler_flag(
-      CXX
-      -fsanitize=fuzzer-no-link
-      PHP_HAS_FSANITIZE_FUZZER_NO_LINK_CXX
-    )
+    get_property(enabledLanguages GLOBAL PROPERTY ENABLED_LANGUAGES)
+    if(CXX IN_LIST enabledLanguages)
+      php_check_compiler_flag(
+        CXX
+        -fsanitize=fuzzer-no-link
+        PHP_SAPI_FUZZER_HAS_FSANITIZE_FLAG_CXX
+      )
+      if(NOT PHP_SAPI_FUZZER_HAS_FSANITIZE_FLAG_CXX)
+        message(
+          FATAL_ERROR
+          "The fuzzer SAPI cannot be enabled. C++ compiler "
+          "${CMAKE_CXX_COMPILER_ID} doesn't support the "
+          "-fsanitize=fuzzer-no-link option."
+        )
+      endif()
+    endif()
   cmake_pop_check_state()
-
-  if(NOT PHP_HAS_FSANITIZE_FUZZER_NO_LINK_C)
-    message(
-      FATAL_ERROR
-      "The fuzzer SAPI cannot be enabled. C compiler ${CMAKE_C_COMPILER_ID} "
-      "doesn't support the -fsanitize=fuzzer-no-link option."
-    )
-  endif()
-
-  if(NOT PHP_HAS_FSANITIZE_FUZZER_NO_LINK_CXX)
-    message(
-      FATAL_ERROR
-      "The fuzzer SAPI cannot be enabled. C++ compiler "
-      "${CMAKE_CXX_COMPILER_ID} doesn't support the -fsanitize=fuzzer-no-link "
-      "option."
-    )
-  endif()
 
   target_compile_options(
     php_config
@@ -123,8 +124,7 @@ else()
 
   target_link_options(
     php_sapi_fuzzer
-    INTERFACE
-      $<$<LINK_LANGUAGE:C,CXX>:-fsanitize=fuzzer>
+    PRIVATE $<$<LINK_LANGUAGE:C,CXX>:-fsanitize=fuzzer>
   )
 endif()
 

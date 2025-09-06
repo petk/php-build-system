@@ -10,7 +10,7 @@ include(CheckSourceCompiles)
 include(CMakePushCheckState)
 
 # Skip in consecutive configuration phases.
-if(NOT DEFINED PHP_SAPI_FPM_HAS_EPOLL)
+if(NOT DEFINED PHP_SAPI_FPM_HAVE_EPOLL)
   message(CHECK_START "Checking for epoll")
   cmake_push_check_state(RESET)
     set(CMAKE_REQUIRED_QUIET TRUE)
@@ -41,14 +41,14 @@ if(NOT DEFINED PHP_SAPI_FPM_HAS_EPOLL)
 
         return 0;
       }
-    ]] PHP_SAPI_FPM_HAS_EPOLL)
+    ]] PHP_SAPI_FPM_HAVE_EPOLL)
   cmake_pop_check_state()
 
-  if(PHP_SAPI_FPM_HAS_EPOLL)
+  if(PHP_SAPI_FPM_HAVE_EPOLL)
     message(CHECK_PASS "yes")
   else()
     message(CHECK_FAIL "no")
   endif()
 endif()
 
-set(HAVE_EPOLL ${PHP_SAPI_FPM_HAS_EPOLL})
+set(HAVE_EPOLL ${PHP_SAPI_FPM_HAVE_EPOLL})

@@ -10,7 +10,7 @@ include(CheckSourceCompiles)
 include(CMakePushCheckState)
 
 # Skip in consecutive configuration phases.
-if(NOT DEFINED PHP_SAPI_FPM_HAS_SELECT)
+if(NOT DEFINED PHP_SAPI_FPM_HAVE_SELECT)
   message(CHECK_START "Checking for select")
 
   cmake_push_check_state(RESET)
@@ -38,14 +38,14 @@ if(NOT DEFINED PHP_SAPI_FPM_HAS_SELECT)
 
         return 0;
       }
-    ]] PHP_SAPI_FPM_HAS_SELECT)
+    ]] PHP_SAPI_FPM_HAVE_SELECT)
   cmake_pop_check_state()
 
-  if(PHP_SAPI_FPM_HAS_SELECT)
+  if(PHP_SAPI_FPM_HAVE_SELECT)
     message(CHECK_PASS "yes")
   else()
     message(CHECK_FAIL "no")
   endif()
 endif()
 
-set(HAVE_SELECT ${PHP_SAPI_FPM_HAS_SELECT})
+set(HAVE_SELECT ${PHP_SAPI_FPM_HAVE_SELECT})
