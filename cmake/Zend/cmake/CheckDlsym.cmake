@@ -38,10 +38,10 @@ if(
   set(PHP_ZEND_DLSYM_NEEDS_UNDERSCORE_EXITCODE 0)
 endif()
 
-check_include_files(dlfcn.h HAVE_DLFCN_H)
+check_include_files(dlfcn.h PHP_HAVE_DLFCN_H)
 
 block()
-  if(HAVE_DLFCN_H)
+  if(PHP_HAVE_DLFCN_H)
     set(definitions "-DHAVE_DLFCN_H")
   endif()
 

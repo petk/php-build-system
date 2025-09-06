@@ -42,84 +42,163 @@ endif()
 # Check headers.
 ################################################################################
 
-check_include_files(arpa/inet.h HAVE_ARPA_INET_H)
-check_include_files(sys/types.h HAVE_SYS_TYPES_H)
+check_include_files(arpa/inet.h PHP_HAVE_ARPA_INET_H)
+set(HAVE_ARPA_INET_H ${PHP_HAVE_ARPA_INET_H})
 
-if(HAVE_SYS_TYPES_H)
+check_include_files(sys/types.h PHP_HAVE_SYS_TYPES_H)
+set(HAVE_SYS_TYPES_H ${PHP_HAVE_SYS_TYPES_H})
+
+if(PHP_HAVE_SYS_TYPES_H)
   # On Solaris/illumos arpa/nameser.h depends on sys/types.h.
-  check_include_files("sys/types.h;arpa/nameser.h" HAVE_ARPA_NAMESER_H)
+  check_include_files("sys/types.h;arpa/nameser.h" PHP_HAVE_ARPA_NAMESER_H)
 else()
-  check_include_files(arpa/nameser.h HAVE_ARPA_NAMESER_H)
+  check_include_files(arpa/nameser.h PHP_HAVE_ARPA_NAMESER_H)
 endif()
+set(HAVE_ARPA_NAMESER_H ${PHP_HAVE_ARPA_NAMESER_H})
 
-check_include_files(dirent.h HAVE_DIRENT_H)
-check_include_files(dlfcn.h HAVE_DLFCN_H)
-check_include_files(dns.h HAVE_DNS_H)
-check_include_files(fcntl.h HAVE_FCNTL_H)
+check_include_files(dirent.h PHP_HAVE_DIRENT_H)
+set(HAVE_DIRENT_H ${PHP_HAVE_DIRENT_H})
+
+check_include_files(dlfcn.h PHP_HAVE_DLFCN_H)
+set(HAVE_DLFCN_H ${PHP_HAVE_DLFCN_H})
+
+check_include_files(dns.h PHP_HAVE_DNS_H)
+set(HAVE_DNS_H ${PHP_HAVE_DNS_H})
+
+check_include_files(fcntl.h PHP_HAVE_FCNTL_H)
+set(HAVE_FCNTL_H ${PHP_HAVE_FCNTL_H})
 
 check_include_files(grp.h PHP_HAVE_GRP_H)
 set(HAVE_GRP_H ${PHP_HAVE_GRP_H})
 
-check_include_files(ieeefp.h HAVE_IEEEFP_H)
-check_include_files(langinfo.h HAVE_LANGINFO_H)
-check_include_files(linux/sock_diag.h HAVE_LINUX_SOCK_DIAG_H)
-check_include_files(netinet/in.h HAVE_NETINET_IN_H)
-check_include_files(os/signpost.h HAVE_OS_SIGNPOST_H)
-check_include_files(poll.h HAVE_POLL_H)
-check_include_files(pty.h HAVE_PTY_H)
-check_include_files(pwd.h HAVE_PWD_H)
+check_include_files(ieeefp.h PHP_HAVE_IEEEFP_H)
+set(HAVE_IEEEFP_H ${PHP_HAVE_IEEEFP_H})
+
+check_include_files(langinfo.h PHP_HAVE_LANGINFO_H)
+set(HAVE_LANGINFO_H ${PHP_HAVE_LANGINFO_H})
+
+check_include_files(linux/sock_diag.h PHP_HAVE_LINUX_SOCK_DIAG_H)
+set(HAVE_LINUX_SOCK_DIAG_H ${PHP_HAVE_LINUX_SOCK_DIAG_H})
+
+check_include_files(netinet/in.h PHP_HAVE_NETINET_IN_H)
+set(HAVE_NETINET_IN_H ${PHP_HAVE_NETINET_IN_H})
+
+check_include_files(os/signpost.h PHP_HAVE_OS_SIGNPOST_H)
+set(HAVE_OS_SIGNPOST_H ${PHP_HAVE_OS_SIGNPOST_H})
+
+check_include_files(poll.h PHP_HAVE_POLL_H)
+set(HAVE_POLL_H ${PHP_HAVE_POLL_H})
+
+check_include_files(pty.h PHP_HAVE_PTY_H)
+set(HAVE_PTY_H ${PHP_HAVE_PTY_H})
+
+check_include_files(pwd.h PHP_HAVE_PWD_H)
+set(HAVE_PWD_H ${PHP_HAVE_PWD_H})
 
 # BSD-based systems (FreeBSD<=13) need also netinet/in.h for resolv.h to work.
 # https://bugs.freebsd.org/bugzilla/show_bug.cgi?id=182466
-if(HAVE_NETINET_IN_H)
-  check_include_files("netinet/in.h;resolv.h" HAVE_RESOLV_H)
+if(PHP_HAVE_NETINET_IN_H)
+  check_include_files("netinet/in.h;resolv.h" PHP_HAVE_RESOLV_H)
 else()
-  check_include_files(resolv.h HAVE_RESOLV_H)
+  check_include_files(resolv.h PHP_HAVE_RESOLV_H)
 endif()
+set(HAVE_RESOLV_H ${PHP_HAVE_RESOLV_H})
 
 check_include_files(strings.h PHP_HAVE_STRINGS_H)
 set(HAVE_STRINGS_H ${PHP_HAVE_STRINGS_H})
 
-check_include_files(sys/file.h HAVE_SYS_FILE_H)
-check_include_files(sys/ioctl.h HAVE_SYS_IOCTL_H)
-check_include_files(sys/ipc.h HAVE_SYS_IPC_H)
-check_include_files(sys/loadavg.h HAVE_SYS_LOADAVG_H)
-check_include_files(sys/mman.h HAVE_SYS_MMAN_H)
-check_include_files(sys/mount.h HAVE_SYS_MOUNT_H)
-check_include_files(sys/param.h HAVE_SYS_PARAM_H)
-check_include_files(sys/poll.h HAVE_SYS_POLL_H)
-check_include_files(sys/procctl.h HAVE_SYS_PROCCTL_H)
-check_include_files(sys/resource.h HAVE_SYS_RESOURCE_H)
-check_include_files(sys/select.h HAVE_SYS_SELECT_H)
+check_include_files(sys/file.h PHP_HAVE_SYS_FILE_H)
+set(HAVE_SYS_FILE_H ${PHP_HAVE_SYS_FILE_H})
+
+check_include_files(sys/ioctl.h PHP_HAVE_SYS_IOCTL_H)
+set(HAVE_SYS_IOCTL_H ${PHP_HAVE_SYS_IOCTL_H})
+
+check_include_files(sys/ipc.h PHP_HAVE_SYS_IPC_H)
+set(HAVE_SYS_IPC_H ${PHP_HAVE_SYS_IPC_H})
+
+check_include_files(sys/loadavg.h PHP_HAVE_SYS_LOADAVG_H)
+set(HAVE_SYS_LOADAVG_H ${PHP_HAVE_SYS_LOADAVG_H})
+
+check_include_files(sys/mman.h PHP_HAVE_SYS_MMAN_H)
+set(HAVE_SYS_MMAN_H ${PHP_HAVE_SYS_MMAN_H})
+
+check_include_files(sys/mount.h PHP_HAVE_SYS_MOUNT_H)
+set(HAVE_SYS_MOUNT_H ${PHP_HAVE_SYS_MOUNT_H})
+
+check_include_files(sys/param.h PHP_HAVE_SYS_PARAM_H)
+set(HAVE_SYS_PARAM_H ${PHP_HAVE_SYS_PARAM_H})
+
+check_include_files(sys/poll.h PHP_HAVE_SYS_POLL_H)
+set(HAVE_SYS_POLL_H ${PHP_HAVE_SYS_POLL_H})
+
+check_include_files(sys/procctl.h PHP_HAVE_SYS_PROCCTL_H)
+set(HAVE_SYS_PROCCTL_H ${PHP_HAVE_SYS_PROCCTL_H})
+
+check_include_files(sys/resource.h PHP_HAVE_SYS_RESOURCE_H)
+set(HAVE_SYS_RESOURCE_H ${PHP_HAVE_SYS_RESOURCE_H})
+
+check_include_files(sys/select.h PHP_HAVE_SYS_SELECT_H)
+set(HAVE_SYS_SELECT_H ${PHP_HAVE_SYS_SELECT_H})
 
 check_include_files(sys/socket.h PHP_HAVE_SYS_SOCKET_H)
 set(HAVE_SYS_SOCKET_H ${PHP_HAVE_SYS_SOCKET_H})
 
-check_include_files(sys/stat.h HAVE_SYS_STAT_H)
-check_include_files(sys/statfs.h HAVE_SYS_STATFS_H)
-check_include_files(sys/statvfs.h HAVE_SYS_STATVFS_H)
-check_include_files(sys/sysexits.h HAVE_SYS_SYSEXITS_H)
-check_include_files(sys/time.h HAVE_SYS_TIME_H)
-check_include_files(sys/uio.h HAVE_SYS_UIO_H)
-check_include_files(sys/utsname.h HAVE_SYS_UTSNAME_H)
+check_include_files(sys/stat.h PHP_HAVE_SYS_STAT_H)
+set(HAVE_SYS_STAT_H ${PHP_HAVE_SYS_STAT_H})
+
+check_include_files(sys/statfs.h PHP_HAVE_SYS_STATFS_H)
+set(HAVE_SYS_STATFS_H ${PHP_HAVE_SYS_STATFS_H})
+
+check_include_files(sys/statvfs.h PHP_HAVE_SYS_STATVFS_H)
+set(HAVE_SYS_STATVFS_H ${PHP_HAVE_SYS_STATVFS_H})
+
+check_include_files(sys/sysexits.h PHP_HAVE_SYS_SYSEXITS_H)
+set(HAVE_SYS_SYSEXITS_H ${PHP_HAVE_SYS_SYSEXITS_H})
+
+check_include_files(sys/time.h PHP_HAVE_SYS_TIME_H)
+set(HAVE_SYS_TIME_H ${PHP_HAVE_SYS_TIME_H})
+
+check_include_files(sys/uio.h PHP_HAVE_SYS_UIO_H)
+set(HAVE_SYS_UIO_H ${PHP_HAVE_SYS_UIO_H})
+
+check_include_files(sys/utsname.h PHP_HAVE_SYS_UTSNAME_H)
+set(HAVE_SYS_UTSNAME_H ${PHP_HAVE_SYS_UTSNAME_H})
+
 # Solaris <= 10, other systems have sys/statvfs.h.
-check_include_files(sys/vfs.h HAVE_SYS_VFS_H)
-check_include_files(sys/wait.h HAVE_SYS_WAIT_H)
-check_include_files(sysexits.h HAVE_SYSEXITS_H)
-check_include_files(syslog.h HAVE_SYSLOG_H)
+check_include_files(sys/vfs.h PHP_HAVE_SYS_VFS_H)
+set(HAVE_SYS_VFS_H ${PHP_HAVE_SYS_VFS_H})
+
+check_include_files(sys/wait.h PHP_HAVE_SYS_WAIT_H)
+set(HAVE_SYS_WAIT_H ${PHP_HAVE_SYS_WAIT_H})
+
+check_include_files(sysexits.h PHP_HAVE_SYSEXITS_H)
+set(HAVE_SYSEXITS_H ${PHP_HAVE_SYSEXITS_H})
+
+check_include_files(syslog.h PHP_HAVE_SYSLOG_H)
+set(HAVE_SYSLOG_H ${PHP_HAVE_SYSLOG_H})
 
 check_include_files(unistd.h PHP_HAVE_UNISTD_H)
 set(HAVE_UNISTD_H ${PHP_HAVE_UNISTD_H})
 
 # QNX requires unix.h to allow functions in libunix to work properly.
-check_include_files(unix.h HAVE_UNIX_H)
-check_include_files(utime.h HAVE_UTIME_H)
+check_include_files(unix.h PHP_HAVE_UNIX_H)
+set(HAVE_UNIX_H ${PHP_HAVE_UNIX_H})
+
+check_include_files(utime.h PHP_HAVE_UTIME_H)
+set(HAVE_UTIME_H ${PHP_HAVE_UTIME_H})
 
 # Intel Intrinsics headers.
-check_include_files(tmmintrin.h HAVE_TMMINTRIN_H)
-check_include_files(nmmintrin.h HAVE_NMMINTRIN_H)
-check_include_files(wmmintrin.h HAVE_WMMINTRIN_H)
-check_include_files(immintrin.h HAVE_IMMINTRIN_H)
+check_include_files(tmmintrin.h PHP_HAVE_TMMINTRIN_H)
+set(HAVE_TMMINTRIN_H ${PHP_HAVE_TMMINTRIN_H})
+
+check_include_files(nmmintrin.h PHP_HAVE_NMMINTRIN_H)
+set(HAVE_NMMINTRIN_H ${PHP_HAVE_NMMINTRIN_H})
+
+check_include_files(wmmintrin.h PHP_HAVE_WMMINTRIN_H)
+set(HAVE_WMMINTRIN_H ${PHP_HAVE_WMMINTRIN_H})
+
+check_include_files(immintrin.h PHP_HAVE_IMMINTRIN_H)
+set(HAVE_IMMINTRIN_H ${PHP_HAVE_IMMINTRIN_H})
 
 ################################################################################
 # Check structs.
@@ -287,11 +366,11 @@ if(NOT HAVE_FDATASYNC)
 endif()
 
 block()
-  if(HAVE_FCNTL_H)
+  if(PHP_HAVE_FCNTL_H)
     list(APPEND headers "fcntl.h")
   endif()
 
-  if(HAVE_SYS_FILE_H)
+  if(PHP_HAVE_SYS_FILE_H)
     list(APPEND headers "sys/file.h")
   endif()
 
@@ -306,12 +385,12 @@ block()
   set(headers stdlib.h)
 
   # illumos: https://www.illumos.org/issues/9021
-  if(HAVE_SYS_TYPES_H)
+  if(PHP_HAVE_SYS_TYPES_H)
     list(APPEND headers sys/types.h)
   endif()
 
   # Solaris, illumos.
-  if(HAVE_SYS_LOADAVG_H)
+  if(PHP_HAVE_SYS_LOADAVG_H)
     list(APPEND headers sys/loadavg.h)
   endif()
 
@@ -352,19 +431,20 @@ check_symbol_exists(setenv stdlib.h HAVE_SETENV)
 check_symbol_exists(sigprocmask signal.h HAVE_SIGPROCMASK)
 
 # Check for statfs().
-block()
+block(PROPAGATE HAVE_STATFS)
   set(headers "")
 
   # BSD-based systems have statfs in sys/mount.h.
-  if(HAVE_SYS_MOUNT_H)
+  if(PHP_HAVE_SYS_MOUNT_H)
     list(APPEND headers "sys/mount.h")
   endif()
 
-  if(HAVE_SYS_STATFS_H)
+  if(PHP_HAVE_SYS_STATFS_H)
     list(APPEND headers "sys/statfs.h")
   endif()
 
-  check_symbol_exists(statfs "${headers}" HAVE_STATFS)
+  check_symbol_exists(statfs "${headers}" PHP_HAVE_STATFS)
+  set(HAVE_STATFS ${PHP_HAVE_STATFS})
 endblock()
 
 check_symbol_exists(statvfs sys/statvfs.h HAVE_STATVFS)
