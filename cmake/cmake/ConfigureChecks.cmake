@@ -198,31 +198,48 @@ set(HAVE_IMMINTRIN_H ${PHP_HAVE_IMMINTRIN_H})
 # Check structs.
 ################################################################################
 
-check_struct_has_member("struct tm" tm_gmtoff time.h HAVE_STRUCT_TM_TM_GMTOFF)
-check_struct_has_member("struct tm" tm_zone time.h HAVE_STRUCT_TM_TM_ZONE)
+check_struct_has_member(
+  "struct tm"
+  tm_gmtoff
+  time.h
+  PHP_HAVE_STRUCT_TM_TM_GMTOFF
+)
+set(HAVE_STRUCT_TM_TM_GMTOFF ${PHP_HAVE_STRUCT_TM_TM_GMTOFF})
+
+check_struct_has_member("struct tm" tm_zone time.h PHP_HAVE_STRUCT_TM_TM_ZONE)
+set(HAVE_STRUCT_TM_TM_ZONE ${PHP_HAVE_STRUCT_TM_TM_ZONE})
+
 check_struct_has_member(
   "struct stat"
   st_blksize
   sys/stat.h
-  HAVE_STRUCT_STAT_ST_BLKSIZE
+  PHP_HAVE_STRUCT_STAT_ST_BLKSIZE
 )
+set(HAVE_STRUCT_STAT_ST_BLKSIZE ${PHP_HAVE_STRUCT_STAT_ST_BLKSIZE})
+
 check_struct_has_member(
   "struct stat"
   st_blocks
   sys/stat.h
-  HAVE_STRUCT_STAT_ST_BLOCKS
+  PHP_HAVE_STRUCT_STAT_ST_BLOCKS
 )
+set(HAVE_STRUCT_STAT_ST_BLOCKS ${PHP_HAVE_STRUCT_STAT_ST_BLOCKS})
+
 check_struct_has_member(
   "struct stat"
   st_rdev
   sys/stat.h
-  HAVE_STRUCT_STAT_ST_RDEV
+  PHP_HAVE_STRUCT_STAT_ST_RDEV
 )
+set(HAVE_STRUCT_STAT_ST_RDEV ${PHP_HAVE_STRUCT_STAT_ST_RDEV})
 
-cmake_push_check_state(RESET)
-  set(CMAKE_EXTRA_INCLUDE_FILES "fcntl.h")
-  check_type_size("struct flock" STRUCT_FLOCK)
-cmake_pop_check_state()
+check_struct_has_member(
+  "struct flock"
+  l_type
+  fcntl.h
+  PHP_HAVE_STRUCT_FLOCK
+)
+set(HAVE_STRUCT_FLOCK ${PHP_HAVE_STRUCT_FLOCK})
 
 # Check for sockaddr_storage and sockaddr.sa_len.
 cmake_push_check_state(RESET)
@@ -232,13 +249,17 @@ cmake_push_check_state(RESET)
   if(CMAKE_SYSTEM_NAME STREQUAL "Windows")
     list(APPEND CMAKE_EXTRA_INCLUDE_FILES "winsock2.h")
   endif()
-  check_type_size("struct sockaddr_storage" STRUCT_SOCKADDR_STORAGE)
+
+  check_type_size("struct sockaddr_storage" PHP_STRUCT_SOCKADDR_STORAGE)
+  set(HAVE_STRUCT_SOCKADDR_STORAGE ${HAVE_PHP_STRUCT_SOCKADDR_STORAGE})
+
   check_struct_has_member(
     "struct sockaddr"
     sa_len
     "${CMAKE_EXTRA_INCLUDE_FILES}"
-    HAVE_STRUCT_SOCKADDR_SA_LEN
+    PHP_HAVE_STRUCT_SOCKADDR_SA_LEN
   )
+  set(HAVE_STRUCT_SOCKADDR_SA_LEN ${PHP_HAVE_STRUCT_SOCKADDR_SA_LEN})
 cmake_pop_check_state()
 
 ################################################################################
@@ -672,11 +693,11 @@ php_search_libraries(
   LIBRARIES
     network # Haiku
     ws2_32  # Windows
-  VARIABLE PHP_HAS_GETHOSTNAME
-  LIBRARY_VARIABLE PHP_HAS_GETHOSTNAME_LIBRARY
+  VARIABLE PHP_HAVE_GETHOSTNAME
+  LIBRARY_VARIABLE PHP_HAVE_GETHOSTNAME_LIBRARY
   TARGET php_config INTERFACE
 )
-set(HAVE_GETHOSTNAME ${PHP_HAS_GETHOSTNAME})
+set(HAVE_GETHOSTNAME ${PHP_HAVE_GETHOSTNAME})
 
 # The gethostbyaddr() is mostly in C library (Solaris 11.4...)
 php_search_libraries(
@@ -706,10 +727,10 @@ php_search_libraries(
   LIBRARIES
     util # Some BSD-based systems
     bsd  # Haiku
-  VARIABLE PHP_HAS_OPENPTY
+  VARIABLE PHP_HAVE_OPENPTY
   TARGET php_config INTERFACE
 )
-set(HAVE_OPENPTY ${PHP_HAS_OPENPTY})
+set(HAVE_OPENPTY ${PHP_HAVE_OPENPTY})
 
 # The inet_ntop() is mostly in C library (Solaris 11.4, illumos, BSD*, Linux...)
 php_search_libraries(
@@ -786,10 +807,10 @@ php_search_libraries(
   LIBRARIES
     socket  # Solaris <= 11.3, illumos
     network # Haiku
-  VARIABLE PHP_HAS_GAI_STRERROR
+  VARIABLE PHP_HAVE_GAI_STRERROR
   TARGET php_config INTERFACE
 )
-set(HAVE_GAI_STRERROR ${PHP_HAS_GAI_STRERROR})
+set(HAVE_GAI_STRERROR ${PHP_HAVE_GAI_STRERROR})
 
 # The getprotobyname() is mostly in C library (Solaris 11.4...)
 php_search_libraries(
@@ -801,11 +822,11 @@ php_search_libraries(
     socket  # Solaris <= 11.3, illumos
     network # Haiku
     ws2_32  # Windows
-  VARIABLE PHP_HAS_GETPROTOBYNAME
-  LIBRARY_VARIABLE PHP_HAS_GETPROTOBYNAME_LIBRARY
+  VARIABLE PHP_HAVE_GETPROTOBYNAME
+  LIBRARY_VARIABLE PHP_HAVE_GETPROTOBYNAME_LIBRARY
   TARGET php_config INTERFACE
 )
-set(HAVE_GETPROTOBYNAME ${PHP_HAS_GETPROTOBYNAME})
+set(HAVE_GETPROTOBYNAME ${PHP_HAVE_GETPROTOBYNAME})
 
 # The getprotobynumber() is mostly in C library (Solaris 11.4...)
 php_search_libraries(
@@ -817,11 +838,11 @@ php_search_libraries(
     socket  # Solaris <= 11.3, illumos
     network # Haiku
     ws2_32  # Windows
-  VARIABLE PHP_HAS_GETPROTOBYNUMBER
-  LIBRARY_VARIABLE PHP_HAS_GETPROTOBYNUMBER_LIBRARY
+  VARIABLE PHP_HAVE_GETPROTOBYNUMBER
+  LIBRARY_VARIABLE PHP_HAVE_GETPROTOBYNUMBER_LIBRARY
   TARGET php_config INTERFACE
 )
-set(HAVE_GETPROTOBYNUMBER ${PHP_HAS_GETPROTOBYNUMBER})
+set(HAVE_GETPROTOBYNUMBER ${PHP_HAVE_GETPROTOBYNUMBER})
 
 # The getservbyname() is mostly in C library (Solaris 11.4...)
 php_search_libraries(
@@ -833,11 +854,11 @@ php_search_libraries(
     socket  # Solaris <= 11.3, illumos
     network # Haiku
     ws2_32  # Windows
-  VARIABLE PHP_HAS_GETSERVBYNAME
-  LIBRARY_VARIABLE PHP_HAS_GETSERVBYNAME_LIBRARY
+  VARIABLE PHP_HAVE_GETSERVBYNAME
+  LIBRARY_VARIABLE PHP_HAVE_GETSERVBYNAME_LIBRARY
   TARGET php_config INTERFACE
 )
-set(HAVE_GETSERVBYNAME ${PHP_HAS_GETSERVBYNAME})
+set(HAVE_GETSERVBYNAME ${PHP_HAVE_GETSERVBYNAME})
 
 # The getservbyport() is mostly in C library (Solaris 11.4...)
 php_search_libraries(
@@ -849,11 +870,11 @@ php_search_libraries(
     socket  # Solaris <= 11.3, illumos
     network # Haiku
     ws2_32  # Windows
-  VARIABLE PHP_HAS_GETSERVBYPORT
-  LIBRARY_VARIABLE PHP_HAS_GETSERVBYPORT_LIBRARY
+  VARIABLE PHP_HAVE_GETSERVBYPORT
+  LIBRARY_VARIABLE PHP_HAVE_GETSERVBYPORT_LIBRARY
   TARGET php_config INTERFACE
 )
-set(HAVE_GETSERVBYPORT ${PHP_HAS_GETSERVBYPORT})
+set(HAVE_GETSERVBYPORT ${PHP_HAVE_GETSERVBYPORT})
 
 # The shutdown() is mostly in C library (Solaris 11.4...)
 php_search_libraries(
@@ -865,11 +886,11 @@ php_search_libraries(
     socket  # Solaris <= 11.3, illumos
     network # Haiku
     ws2_32  # Windows
-  VARIABLE PHP_HAS_SHUTDOWN
-  LIBRARY_VARIABLE PHP_HAS_SHUTDOWN_LIBRARY
+  VARIABLE PHP_HAVE_SHUTDOWN
+  LIBRARY_VARIABLE PHP_HAVE_SHUTDOWN_LIBRARY
   TARGET php_config INTERFACE
 )
-set(HAVE_SHUTDOWN ${PHP_HAS_SHUTDOWN})
+set(HAVE_SHUTDOWN ${PHP_HAVE_SHUTDOWN})
 
 block()
   if(PHP_LIBGCC)
