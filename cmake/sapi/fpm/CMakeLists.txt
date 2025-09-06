@@ -248,13 +248,26 @@ set_target_properties(
 # Configuration checks.
 ################################################################################
 
-check_symbol_exists(clearenv stdlib.h HAVE_CLEARENV)
-check_symbol_exists(port_create port.h HAVE_PORT)
-check_symbol_exists(setpflags priv.h HAVE_SETPFLAGS)
-check_symbol_exists(setproctitle "unistd.h;stdlib.h" HAVE_SETPROCTITLE)
-check_symbol_exists(setproctitle_fast unistd.h HAVE_SETPROCTITLE_FAST)
-check_symbol_exists(sysconf unistd.h HAVE_SYSCONF)
-check_symbol_exists(times sys/times.h HAVE_TIMES)
+check_symbol_exists(clearenv stdlib.h PHP_SAPI_FPM_HAVE_CLEARENV)
+set(HAVE_CLEARENV ${PHP_SAPI_FPM_HAVE_CLEARENV})
+
+check_symbol_exists(port_create port.h PHP_SAPI_FPM_HAVE_PORT_CREATE)
+set(HAVE_PORT ${PHP_SAPI_FPM_HAVE_PORT_CREATE})
+
+check_symbol_exists(setpflags priv.h PHP_SAPI_FPM_HAVE_SETPFLAGS)
+set(HAVE_SETPFLAGS ${PHP_SAPI_FPM_HAVE_SETPFLAGS})
+
+check_symbol_exists(setproctitle "unistd.h;stdlib.h" PHP_SAPI_HAVE_SETPROCTITLE)
+set(HAVE_SETPROCTITLE ${PHP_SAPI_HAVE_SETPROCTITLE})
+
+check_symbol_exists(setproctitle_fast unistd.h PHP_SAPI_FPM_HAVE_SETPROCTITLE_FAST)
+set(HAVE_SETPROCTITLE_FAST ${PHP_SAPI_FPM_HAVE_SETPROCTITLE_FAST})
+
+check_symbol_exists(sysconf unistd.h PHP_SAPI_FPM_HAVE_SYSCONF)
+set(HAVE_SYSCONF ${PHP_SAPI_FPM_HAVE_SYSCONF})
+
+check_symbol_exists(times sys/times.h PHP_SAPI_FPM_HAVE_TIMES)
+set(HAVE_TIMES ${PHP_SAPI_FPM_HAVE_TIMES})
 
 include(cmake/CheckClockGetTime.cmake)
 include(cmake/CheckCompilerAtomicBuiltins.cmake)

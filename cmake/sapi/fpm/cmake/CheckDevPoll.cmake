@@ -10,7 +10,7 @@ include(CheckSourceCompiles)
 include(CMakePushCheckState)
 
 # Skip in consecutive configuration phases.
-if(NOT DEFINED PHP_SAPI_FPM_HAS_DEVPOLL)
+if(NOT DEFINED PHP_SAPI_FPM_HAVE_DEVPOLL)
   message(CHECK_START "Checking for /dev/poll")
 
   cmake_push_check_state(RESET)
@@ -32,14 +32,14 @@ if(NOT DEFINED PHP_SAPI_FPM_HAS_DEVPOLL)
 
         return 0;
       }
-    ]] PHP_SAPI_FPM_HAS_DEVPOLL)
+    ]] PHP_SAPI_FPM_HAVE_DEVPOLL)
   cmake_pop_check_state()
 
-  if(PHP_SAPI_FPM_HAS_DEVPOLL)
+  if(PHP_SAPI_FPM_HAVE_DEVPOLL)
     message(CHECK_PASS "yes")
   else()
     message(CHECK_FAIL "no")
   endif()
 endif()
 
-set(HAVE_DEVPOLL ${PHP_SAPI_FPM_HAS_DEVPOLL})
+set(HAVE_DEVPOLL ${PHP_SAPI_FPM_HAVE_DEVPOLL})

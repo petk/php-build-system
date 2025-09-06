@@ -26,9 +26,6 @@ This module defines the following imported targets:
 
 * `libzip_INCLUDE_DIR` - Directory containing package library headers.
 * `libzip_LIBRARY` - The path to the package library.
-* `libzip_HAVE_ENCRYPTION`
-* `libzip_HAVE_LIBZIP_VERSION`
-* `libzip_HAVE_SET_MTIME`
 
 ## Examples
 
@@ -41,8 +38,6 @@ target_link_libraries(example PRIVATE libzip::zip)
 ```
 #]=============================================================================]
 
-include(CheckSymbolExists)
-include(CMakePushCheckState)
 include(FeatureSummary)
 include(FindPackageHandleStandardArgs)
 
@@ -83,15 +78,15 @@ if(NOT libzip_LIBRARY)
 endif()
 
 block(PROPAGATE libzip_VERSION)
-  # Version in zipconf.h is available since libzip 1.4.0.
   if(EXISTS ${libzip_INCLUDE_DIR}/zipconf.h)
-    set(regex "^[ \t]*#[ \t]*define[ \t]+LIBZIP_VERSION[ \t]+\"?([^\"]+)\"?[ \t]*$")
-
-    file(STRINGS ${libzip_INCLUDE_DIR}/zipconf.h result REGEX "${regex}")
-
-    if(result MATCHES "${regex}")
-      set(libzip_VERSION "${CMAKE_MATCH_1}")
-    endif()
+    file(
+      STRINGS
+      ${libzip_INCLUDE_DIR}/zipconf.h
+      _
+      REGEX
+      "^[ \t]*#[ \t]*define[ \t]+LIBZIP_VERSION[ \t]+\"?([^\"]+)\"?[ \t]*$"
+    )
+    set(libzip_VERSION "${CMAKE_MATCH_1}")
   endif()
 
   if(
@@ -100,40 +95,6 @@ block(PROPAGATE libzip_VERSION)
     AND libzip_INCLUDE_DIR IN_LIST PC_libzip_INCLUDE_DIRS
   )
     set(libzip_VERSION ${PC_libzip_VERSION})
-  endif()
-
-  # Determine libzip older version heuristically.
-  if(NOT libzip_VERSION AND libzip_INCLUDE_DIR AND libzip_LIBRARY)
-    cmake_push_check_state(RESET)
-      set(CMAKE_REQUIRED_INCLUDES ${libzip_INCLUDE_DIR})
-      set(CMAKE_REQUIRED_LIBRARIES ${libzip_LIBRARY})
-      set(CMAKE_REQUIRED_QUIET TRUE)
-
-      # zip_file_set_mtime is available with libzip 1.0.0.
-      check_symbol_exists(zip_file_set_mtime zip.h libzip_HAVE_SET_MTIME)
-
-      if(NOT libzip_HAVE_SET_MTIME)
-        set(libzip_VERSION 0.11)
-      else()
-        set(libzip_VERSION 1.0)
-      endif()
-
-      # zip_file_set_encryption is available in libzip 1.2.0.
-      check_symbol_exists(zip_file_set_encryption zip.h libzip_HAVE_ENCRYPTION)
-
-      if(libzip_HAVE_ENCRYPTION)
-        set(libzip_VERSION 1.2.0)
-      endif()
-
-      # zip_libzip_version is available in libzip 1.3.1.
-      check_symbol_exists(zip_libzip_version zip.h libzip_HAVE_LIBZIP_VERSION)
-
-      if(libzip_HAVE_LIBZIP_VERSION)
-        set(libzip_VERSION 1.3.1)
-      endif()
-    cmake_pop_check_state()
-
-    message(WARNING "The libzip version might not be correctly determined")
   endif()
 endblock()
 

@@ -31,10 +31,10 @@ function(_php_sapi_fpm_check_lq_tcp_info result)
 
         return 0;
       }
-    ]] PHP_SAPI_FPM_HAS_LQ_TCP_INFO)
+    ]] PHP_SAPI_FPM_${result})
   cmake_pop_check_state()
 
-  set(${result} ${PHP_SAPI_FPM_HAS_LQ_TCP_INFO})
+  set(${result} ${PHP_SAPI_FPM_${result}})
 
   return(PROPAGATE ${result})
 endfunction()
@@ -56,10 +56,10 @@ function(_php_sapi_fpm_check_lq_tcp_connection_info result)
 
         return 0;
       }
-    ]] PHP_SAPI_FPM_HAS_LQ_TCP_CONNECTION_INFO)
+    ]] PHP_SAPI_FPM_${result})
   cmake_pop_check_state()
 
-  set(${result} ${PHP_SAPI_FPM_HAS_LQ_TCP_CONNECTION_INFO})
+  set(${result} ${PHP_SAPI_FPM_${result}})
 
   return(PROPAGATE ${result})
 endfunction()
@@ -81,10 +81,10 @@ function(_php_sapi_fpm_check_lq_so_listenq result)
 
         return 0;
       }
-    ]] PHP_SAPI_FPM_HAS_LQ_SO_LISTENQ)
+    ]] PHP_SAPI_FPM_${result})
   cmake_pop_check_state()
 
-  set(${result} ${PHP_SAPI_FPM_HAS_LQ_SO_LISTENQ})
+  set(${result} ${PHP_SAPI_FPM_${result}})
 
   return(PROPAGATE ${result})
 endfunction()

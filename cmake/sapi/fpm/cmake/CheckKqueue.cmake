@@ -10,7 +10,7 @@ include(CheckSourceCompiles)
 include(CMakePushCheckState)
 
 # Skip in consecutive configuration phases.
-if(NOT DEFINED PHP_SAPI_FPM_HAS_KQUEUE)
+if(NOT DEFINED PHP_SAPI_FPM_HAVE_KQUEUE)
   message(CHECK_START "Checking for kqueue")
 
   cmake_push_check_state(RESET)
@@ -31,14 +31,14 @@ if(NOT DEFINED PHP_SAPI_FPM_HAS_KQUEUE)
 
         return 0;
       }
-    ]] PHP_SAPI_FPM_HAS_KQUEUE)
+    ]] PHP_SAPI_FPM_HAVE_KQUEUE)
   cmake_pop_check_state()
 
-  if(PHP_SAPI_FPM_HAS_KQUEUE)
+  if(PHP_SAPI_FPM_HAVE_KQUEUE)
     message(CHECK_PASS "yes")
   else()
     message(CHECK_FAIL "no")
   endif()
 endif()
 
-set(HAVE_KQUEUE ${PHP_SAPI_FPM_HAS_KQUEUE})
+set(HAVE_KQUEUE ${PHP_SAPI_FPM_HAVE_KQUEUE})

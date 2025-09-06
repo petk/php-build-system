@@ -79,7 +79,7 @@ if(NOT libzip_FOUND)
 endif()
 
 if(NOT libzip_FOUND)
-  find_package(libzip 0.11...1.3.0)
+  find_package(libzip 0.11.2...1.3.0)
 endif()
 
 if(libzip_VERSION VERSION_EQUAL 1.3.1 OR libzip_VERSION VERSION_EQUAL 1.7.0)
