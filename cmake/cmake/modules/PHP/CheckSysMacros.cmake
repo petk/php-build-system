@@ -18,33 +18,35 @@ BSD-based systems and macOS they are still in `<sys/types.h>`.
 This check is similar to the Autoconf's `AC_HEADER_MAJOR` since it is already
 used out there.
 
-## Cache variables
+## Result variables
+
+This module defines the following regular variables:
 
 * `HAVE_SYS_TYPES_H`
 
-  Define to 1 if you have the `<sys/types.h>` header file.
+  Defined to 1 if the `<sys/types.h>` header file is available.
 
 * `HAVE_SYS_MKDEV_H`
 
-  Define to 1 if you have the `<sys/mkdev.h>` header file.
+  Defined to 1 if the `<sys/mkdev.h>` header file is available.
 
 * `HAVE_SYS_SYSMACROS_H`
 
-  Define to 1 if you have the `<sys/sysmacros.h>` header file.
+  Defined to 1 if the `<sys/sysmacros.h>` header file is available.
 
 * `MAJOR_IN_MKDEV`
 
-  Define to 1 if `major`, `minor`, and `makedev` are declared in
+  Defined to 1 if `major`, `minor`, and `makedev` are declared in
   `<sys/mkdev.h>`.
 
 * `MAJOR_IN_SYSMACROS`
 
-  Define to 1 if `major`, `minor`, and `makedev` are declared in
+  Defined to 1 if `major`, `minor`, and `makedev` are declared in
   `<sysmacros.h>`.
 
 * `HAVE_MAKEDEV`
 
-  Define to 1 if you have the `makedev` function.
+  Defined to 1 if the `makedev` function is available.
 
 ## Examples
 
@@ -81,6 +83,22 @@ int main(void)
 ```
 #]=============================================================================]
 
+foreach(
+  var IN ITEMS
+    HAVE_SYS_TYPES_H
+    HAVE_SYS_MKDEV_H
+    HAVE_SYS_SYSMACROS_H
+    MAJOR_IN_MKDEV
+    MAJOR_IN_SYSMACROS
+    HAVE_MAKEDEV
+)
+  set(${var} FALSE)
+
+  if(DEFINED PHP_${var})
+    set(${var} ${PHP_${var}})
+  endif()
+endforeach()
+
 include_guard(GLOBAL)
 
 # Skip in consecutive configuration phases or when targeting Windows.
@@ -93,29 +111,37 @@ include(CheckSymbolExists)
 
 message(CHECK_START "Checking for major, minor and makedev")
 
-check_include_files(sys/types.h HAVE_SYS_TYPES_H)
-check_include_files(sys/mkdev.h HAVE_SYS_MKDEV_H)
-check_include_files(sys/sysmacros.h HAVE_SYS_SYSMACROS_H)
+check_include_files(sys/types.h PHP_HAVE_SYS_TYPES_H)
+set(HAVE_SYS_TYPES_H ${PHP_HAVE_SYS_TYPES_H})
 
-block()
+check_include_files(sys/mkdev.h PHP_HAVE_SYS_MKDEV_H)
+set(HAVE_SYS_MKDEV_H ${PHP_HAVE_SYS_MKDEV_H})
+
+check_include_files(sys/sysmacros.h PHP_HAVE_SYS_SYSMACROS_H)
+set(HAVE_SYS_SYSMACROS_H ${PHP_HAVE_SYS_SYSMACROS_H})
+
+block(PROPAGATE MAJOR_IN_MKDEV MAJOR_IN_SYSMACROS HAVE_MAKEDEV)
   set(headers "")
 
-  if(HAVE_SYS_TYPES_H)
+  if(PHP_HAVE_SYS_TYPES_H)
     list(APPEND headers "sys/types.h")
   endif()
 
-  if(HAVE_SYS_MKDEV_H)
-    check_symbol_exists(major sys/mkdev.h MAJOR_IN_MKDEV)
+  if(PHP_HAVE_SYS_MKDEV_H)
+    check_symbol_exists(major sys/mkdev.h PHP_MAJOR_IN_MKDEV)
+    set(MAJOR_IN_MKDEV ${PHP_MAJOR_IN_MKDEV})
     list(APPEND headers "sys/mkdev.h")
-  elseif(HAVE_SYS_SYSMACROS_H)
-    check_symbol_exists(major sys/sysmacros.h MAJOR_IN_SYSMACROS)
+  elseif(PHP_HAVE_SYS_SYSMACROS_H)
+    check_symbol_exists(major sys/sysmacros.h PHP_MAJOR_IN_SYSMACROS)
+    set(MAJOR_IN_SYSMACROS ${PHP_MAJOR_IN_SYSMACROS})
     list(APPEND headers "sys/sysmacros.h")
   endif()
 
-  check_symbol_exists(makedev "${headers}" HAVE_MAKEDEV)
+  check_symbol_exists(makedev "${headers}" PHP_HAVE_MAKEDEV)
+  set(HAVE_MAKEDEV ${PHP_HAVE_MAKEDEV})
 endblock()
 
-if(HAVE_MAKEDEV)
+if(PHP_HAVE_MAKEDEV)
   message(CHECK_PASS "found")
 else()
   message(CHECK_FAIL "not found")
