@@ -28,9 +28,6 @@ This module defines the following imported targets:
 
 * `libzip_INCLUDE_DIR` - Directory containing package library headers.
 * `libzip_LIBRARY` - The path to the package library.
-* `HAVE_SET_MTIME`
-* `HAVE_ENCRYPTION`
-* `HAVE_LIBZIP_VERSION`
 
 ## Examples
 
