@@ -391,58 +391,80 @@ install(
 # Configuration checks.
 ################################################################################
 
-check_include_files(cpuid.h HAVE_CPUID_H)
+check_include_files(cpuid.h PHP_ZEND_HAVE_CPUID_H)
+set(HAVE_CPUID_H ${PHP_ZEND_HAVE_CPUID_H})
 
-check_symbol_exists(getpid unistd.h HAVE_GETPID)
+check_symbol_exists(getpid unistd.h PHP_ZEND_HAVE_GETPID)
+set(HAVE_GETPID ${PHP_ZEND_HAVE_GETPID})
 
 cmake_push_check_state(RESET)
   set(CMAKE_REQUIRED_DEFINITIONS -D_GNU_SOURCE)
-  check_symbol_exists(gettid unistd.h HAVE_GETTID)
+  check_symbol_exists(gettid unistd.h PHP_ZEND_HAVE_GETTID)
+  set(HAVE_GETTID ${PHP_ZEND_HAVE_GETTID})
 cmake_pop_check_state()
 
-check_symbol_exists(kill signal.h HAVE_KILL)
+check_symbol_exists(kill signal.h PHP_ZEND_HAVE_KILL)
+set(HAVE_KILL ${PHP_ZEND_HAVE_KILL})
 
 cmake_push_check_state(RESET)
   set(CMAKE_REQUIRED_DEFINITIONS -D_GNU_SOURCE)
-  check_symbol_exists(mremap sys/mman.h HAVE_MREMAP)
+  check_symbol_exists(mremap sys/mman.h PHP_ZEND_HAVE_MREMAP)
+  set(HAVE_MREMAP ${PHP_ZEND_HAVE_MREMAP})
 cmake_pop_check_state()
 
 block()
   set(headers pthread.h)
 
   # BSD-based systems have pthread_attr_get_np in pthread_np.h.
-  check_include_files(pthread_np.h PHP_HAS_PTHREAD_NP_H)
-  if(PHP_HAS_PTHREAD_NP_H)
+  check_include_files(pthread_np.h PHP_ZEND_HAVE_PTHREAD_NP_H)
+  if(PHP_ZEND_HAVE_PTHREAD_NP_H)
     list(APPEND headers "pthread_np.h")
   endif()
 
   check_symbol_exists(
     pthread_attr_get_np
     "${headers}"
-    HAVE_PTHREAD_ATTR_GET_NP
+    PHP_ZEND_HAVE_PTHREAD_ATTR_GET_NP
   )
+  set(HAVE_PTHREAD_ATTR_GET_NP ${PHP_ZEND_HAVE_PTHREAD_ATTR_GET_NP})
 endblock()
 
 check_symbol_exists(
   pthread_attr_getstack
   pthread.h
-  HAVE_PTHREAD_ATTR_GETSTACK
+  PHP_ZEND_HAVE_PTHREAD_ATTR_GETSTACK
 )
+set(HAVE_PTHREAD_ATTR_GETSTACK ${PHP_ZEND_HAVE_PTHREAD_ATTR_GETSTACK})
 
 check_symbol_exists(
   pthread_get_stackaddr_np
   pthread.h
-  HAVE_PTHREAD_GET_STACKADDR_NP
+  PHP_ZEND_HAVE_PTHREAD_GET_STACKADDR_NP
 )
+set(HAVE_PTHREAD_GET_STACKADDR_NP ${PHP_ZEND_HAVE_PTHREAD_GET_STACKADDR_NP})
 
 cmake_push_check_state(RESET)
   set(CMAKE_REQUIRED_DEFINITIONS -D_GNU_SOURCE)
-  check_symbol_exists(pthread_getattr_np pthread.h HAVE_PTHREAD_GETATTR_NP)
+  check_symbol_exists(
+    pthread_getattr_np
+    pthread.h
+    PHP_ZEND_HAVE_PTHREAD_GETATTR_NP
+  )
+  set(HAVE_PTHREAD_GETATTR_NP ${PHP_ZEND_HAVE_PTHREAD_GETATTR_NP})
 cmake_pop_check_state()
 
-check_symbol_exists(pthread_stackseg_np pthread.h HAVE_PTHREAD_STACKSEG_NP)
-check_symbol_exists(sigsetjmp setjmp.h HAVE_SIGSETJMP)
-check_symbol_exists(strnlen string.h HAVE_STRNLEN)
+check_symbol_exists(
+  pthread_stackseg_np
+  pthread.h
+  PHP_ZEND_HAVE_PTHREAD_STACKSEG_NP
+)
+set(HAVE_PTHREAD_STACKSEG_NP ${PHP_ZEND_HAVE_PTHREAD_STACKSEG_NP})
+
+check_symbol_exists(sigsetjmp setjmp.h PHP_ZEND_HAVE_SIGSETJMP)
+set(HAVE_SIGSETJMP ${PHP_ZEND_HAVE_SIGSETJMP})
+
+check_symbol_exists(strnlen string.h PHP_ZEND_HAVE_STRNLEN)
+set(HAVE_STRNLEN ${PHP_ZEND_HAVE_STRNLEN})
 
 include(cmake/CheckAsmGoto.cmake)
 include(cmake/CheckCpuidCount.cmake)
