@@ -20,33 +20,35 @@ BSD-based systems and macOS they are still in `<sys/types.h>`.
 This check is similar to the Autoconf's `AC_HEADER_MAJOR` since it is already
 used out there.
 
-## Cache variables
+## Result variables
+
+This module defines the following regular variables:
 
 * `HAVE_SYS_TYPES_H`
 
-  Define to 1 if you have the `<sys/types.h>` header file.
+  Defined to 1 if the `<sys/types.h>` header file is available.
 
 * `HAVE_SYS_MKDEV_H`
 
-  Define to 1 if you have the `<sys/mkdev.h>` header file.
+  Defined to 1 if the `<sys/mkdev.h>` header file is available.
 
 * `HAVE_SYS_SYSMACROS_H`
 
-  Define to 1 if you have the `<sys/sysmacros.h>` header file.
+  Defined to 1 if the `<sys/sysmacros.h>` header file is available.
 
 * `MAJOR_IN_MKDEV`
 
-  Define to 1 if `major`, `minor`, and `makedev` are declared in
+  Defined to 1 if `major`, `minor`, and `makedev` are declared in
   `<sys/mkdev.h>`.
 
 * `MAJOR_IN_SYSMACROS`
 
-  Define to 1 if `major`, `minor`, and `makedev` are declared in
+  Defined to 1 if `major`, `minor`, and `makedev` are declared in
   `<sysmacros.h>`.
 
 * `HAVE_MAKEDEV`
 
-  Define to 1 if you have the `makedev` function.
+  Defined to 1 if the `makedev` function is available.
 
 ## Examples
 
