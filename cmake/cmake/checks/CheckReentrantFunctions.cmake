@@ -18,7 +18,7 @@ Result variables:
 * MISSING_CTIME_R_DECL - Whether ctime_r() is not declared.
 * MISSING_GMTIME_R_DECL - Whether gmtime_r() is not declared.
 * MISSING_LOCALTIME_R_DECL - Whether localtime_r() is not declared.
-* MISSING_STRTOK_R_DECL - Whether `strtok_r()` is not declared.
+* MISSING_STRTOK_R_DECL - Whether strtok_r() is not declared.
 
 Also the type of reentrant time-related functions are checked. Type can be IRIX,
 HP-UX or POSIX style. This check is obsolete as it is relevant only for obsolete
