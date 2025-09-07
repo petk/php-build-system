@@ -233,13 +233,10 @@ check_struct_has_member(
 )
 set(HAVE_STRUCT_STAT_ST_RDEV ${PHP_HAVE_STRUCT_STAT_ST_RDEV})
 
-check_struct_has_member(
-  "struct flock"
-  l_type
-  fcntl.h
-  PHP_HAVE_STRUCT_FLOCK
-)
-set(HAVE_STRUCT_FLOCK ${PHP_HAVE_STRUCT_FLOCK})
+cmake_push_check_state(RESET)
+  set(CMAKE_EXTRA_INCLUDE_FILES "fcntl.h")
+  check_type_size("struct flock" STRUCT_FLOCK) # Defines HAVE_STRUCT_FLOCK
+cmake_pop_check_state()
 
 # Check for sockaddr_storage and sockaddr.sa_len.
 cmake_push_check_state(RESET)
@@ -343,7 +340,7 @@ cmake_push_check_state(RESET)
   if(CMAKE_SYSTEM_NAME STREQUAL "Windows")
     list(APPEND CMAKE_EXTRA_INCLUDE_FILES ws2tcpip.h)
   endif()
-  check_type_size("socklen_t" SOCKLEN_T)
+  check_type_size("socklen_t" SOCKLEN_T) # Defines HAVE_SOCKLEN_T
 cmake_pop_check_state()
 
 ################################################################################
