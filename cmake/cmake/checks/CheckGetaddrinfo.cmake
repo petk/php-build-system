@@ -8,7 +8,7 @@ include(PHP/SearchLibraries)
 
 # The getaddrinfo() is mostly in C library (Solaris 11.4, illumos...)
 php_search_libraries(
-  getaddrinfo
+  SYMBOL getaddrinfo
   HEADERS
     netdb.h
     ws2tcpip.h
@@ -16,7 +16,7 @@ php_search_libraries(
     socket  # Solaris <= 11.3
     network # Haiku
     ws2_32  # Windows
-  VARIABLE PHP_HAVE_GETADDRINFO_SYMBOL
+  RESULT_VARIABLE PHP_HAVE_GETADDRINFO_SYMBOL
   LIBRARY_VARIABLE PHP_HAVE_GETADDRINFO_LIBRARY
 )
 

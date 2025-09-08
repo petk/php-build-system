@@ -424,7 +424,7 @@ cmake_pop_check_state()
 check_symbol_exists(kill signal.h PHP_ZEND_HAVE_KILL)
 set(HAVE_KILL ${PHP_ZEND_HAVE_KILL})
 
-check_symbol_exists(mempcpy string.h HAVE_MEMPCPY)
+check_symbol_exists(mempcpy string.h PHP_ZEND_HAVE_MEMPCPY)
 set(HAVE_MEMPCPY ${PHP_ZEND_HAVE_MEMPCPY})
 
 cmake_push_check_state(RESET)
@@ -504,10 +504,10 @@ endif()
 
 # Check for Solaris/illumos process mapping.
 php_search_libraries(
-  Pgrab
+  SYMBOL Pgrab
   HEADERS libproc.h
   LIBRARIES proc
-  VARIABLE PHP_ZEND_HAVE_PGRAB
+  RESULT_VARIABLE PHP_ZEND_HAVE_PGRAB
   TARGET zend PRIVATE
 )
 

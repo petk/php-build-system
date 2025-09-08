@@ -239,11 +239,11 @@ cmake_push_check_state(RESET)
   # Check if sched_getcpu() is supported. Value -1 means ENOSYS in this context.
   block(PROPAGATE HAVE_SCHED_GETCPU)
     php_search_libraries(
-      sched_getcpu
+      SYMBOL sched_getcpu
       HEADERS sched.h
       LIBRARIES
         gnu # Haiku
-      VARIABLE PHP_EXT_PCNTL_HAVE_SCHED_GETCPU_SYMBOL
+      RESULT_VARIABLE PHP_EXT_PCNTL_HAVE_SCHED_GETCPU_SYMBOL
       LIBRARY_VARIABLE PHP_EXT_PCNTL_HAVE_SCHED_GETCPU_LIBRARY
     )
 
