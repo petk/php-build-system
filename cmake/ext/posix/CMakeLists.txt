@@ -104,7 +104,7 @@ check_symbol_exists(getsid unistd.h PHP_EXT_POSIX_HAVE_GETSID)
 set(HAVE_GETSID ${PHP_EXT_POSIX_HAVE_GETSID})
 
 # BSD-based systems have initgroups in unistd.h, elsewhere it is in grp.h.
-block()
+block(PROPAGATE HAVE_INITGROUPS)
   set(headers "")
 
   check_include_files(grp.h PHP_HAVE_GRP_H)

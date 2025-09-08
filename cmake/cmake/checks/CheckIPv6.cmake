@@ -8,6 +8,7 @@ Result variables:
 
 include(CheckSourceCompiles)
 include(CMakePushCheckState)
+include(PHP/SearchLibraries)
 
 set(HAVE_IPV6 FALSE)
 
@@ -27,6 +28,24 @@ endif()
 cmake_push_check_state(RESET)
   set(CMAKE_REQUIRED_QUIET TRUE)
 
+  # This check requires additional system library on some systems to link and
+  # use struct sockaddr_in6. Mostly, C library is sufficient (Solaris 11.4...).
+  php_search_libraries(
+    socket
+    HEADERS
+      sys/socket.h
+      winsock2.h
+    LIBRARIES
+      socket  # Solaris <= 11.3, illumos
+      network # Haiku
+      ws2_32  # Windows
+    VARIABLE PHP_HAVE_SOCKET
+    LIBRARY_VARIABLE PHP_HAVE_SOCKET_LIBRARY
+    TARGET php_config INTERFACE
+  )
+
+  list(APPEND CMAKE_REQUIRED_LIBRARIES ${PHP_HAVE_SOCKET_LIBRARY})
+
   check_source_compiles(C [[
     #include <sys/types.h>
     #include <sys/socket.h>
@@ -43,11 +62,11 @@ cmake_push_check_state(RESET)
 
       return 0;
     }
-  ]] PHP_HAS_IPV6)
+  ]] PHP_HAVE_IPV6)
 cmake_pop_check_state()
+set(HAVE_IPV6 ${PHP_HAVE_IPV6})
 
-if(PHP_HAS_IPV6)
-  set(HAVE_IPV6 TRUE)
+if(PHP_HAVE_IPV6)
   message(CHECK_PASS "yes")
 else()
   message(CHECK_FAIL "no")

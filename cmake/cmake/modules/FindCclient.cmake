@@ -370,7 +370,7 @@ if(EXISTS ${Cclient_INCLUDE_DIR}/c-client.h)
   set(HAVE_IMAP2000 TRUE)
 endif()
 
-block()
+block(PROPAGATE HAVE_IMAP2001)
   message(CHECK_START "Checking for c-client version 2001")
 
   if(EXISTS ${Cclient_INCLUDE_DIR}/imap4r1.h)
