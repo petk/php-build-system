@@ -49,7 +49,7 @@ check_include_files(sys/types.h PHP_HAVE_SYS_TYPES_H)
 set(HAVE_SYS_TYPES_H ${PHP_HAVE_SYS_TYPES_H})
 
 if(PHP_HAVE_SYS_TYPES_H)
-  # On Solaris/illumos arpa/nameser.h depends on sys/types.h.
+  # On Solaris/illumos <arpa/nameser.h> header is not self-contained.
   check_include_files("sys/types.h;arpa/nameser.h" PHP_HAVE_ARPA_NAMESER_H)
 else()
   check_include_files(arpa/nameser.h PHP_HAVE_ARPA_NAMESER_H)
@@ -92,7 +92,7 @@ set(HAVE_PTY_H ${PHP_HAVE_PTY_H})
 check_include_files(pwd.h PHP_HAVE_PWD_H)
 set(HAVE_PWD_H ${PHP_HAVE_PWD_H})
 
-# BSD-based systems (FreeBSD<=13) need also netinet/in.h for resolv.h to work.
+# On BSD-based systems (FreeBSD<=13) <resolv.h> header is not self-contained.
 # https://bugs.freebsd.org/bugzilla/show_bug.cgi?id=182466
 if(PHP_HAVE_NETINET_IN_H)
   check_include_files("netinet/in.h;resolv.h" PHP_HAVE_RESOLV_H)
@@ -140,7 +140,12 @@ set(HAVE_SYS_SOCKET_H ${PHP_HAVE_SYS_SOCKET_H})
 check_include_files(sys/stat.h PHP_HAVE_SYS_STAT_H)
 set(HAVE_SYS_STAT_H ${PHP_HAVE_SYS_STAT_H})
 
-check_include_files(sys/statfs.h PHP_HAVE_SYS_STATFS_H)
+if(PHP_HAVE_SYS_TYPES_H)
+  # On Solaris 10 <sys/statfs.h> header is not self-contained.
+  check_include_files("sys/types.h;sys/statfs.h" PHP_HAVE_SYS_STATFS_H)
+else()
+  check_include_files(sys/statfs.h PHP_HAVE_SYS_STATFS_H)
+endif()
 set(HAVE_SYS_STATFS_H ${PHP_HAVE_SYS_STATFS_H})
 
 check_include_files(sys/statvfs.h PHP_HAVE_SYS_STATVFS_H)
@@ -488,6 +493,11 @@ set(HAVE_SIGPROCMASK ${PHP_HAVE_SIGPROCMASK})
 block(PROPAGATE HAVE_STATFS)
   set(headers "")
 
+  # Some systems need to explicitly include this header (e.g., Solaris 10).
+  if(PHP_HAVE_SYS_TYPES_H)
+    list(APPEND headers "sys/types.h")
+  endif()
+
   # BSD-based systems have statfs in sys/mount.h.
   if(PHP_HAVE_SYS_MOUNT_H)
     list(APPEND headers "sys/mount.h")
@@ -573,59 +583,6 @@ else()
 endif()
 
 ################################################################################
-# Run all checks from cmake/checks.
-################################################################################
-
-file(GLOB checks ${CMAKE_CURRENT_LIST_DIR}/checks/Check*.cmake)
-foreach(check IN LISTS checks)
-  include(${check})
-endforeach()
-
-################################################################################
-# Miscellaneous checks.
-################################################################################
-
-# Checking file descriptor sets.
-message(CHECK_START "Checking file descriptor sets size")
-if(PHP_FD_SETSIZE MATCHES "^[0-9]+$" AND PHP_FD_SETSIZE GREATER 0)
-  message(CHECK_PASS "using FD_SETSIZE=${PHP_FD_SETSIZE}")
-  target_compile_definitions(
-    php_config
-    INTERFACE
-      $<$<COMPILE_LANGUAGE:C,CXX>:FD_SETSIZE=${PHP_FD_SETSIZE}>
-  )
-elseif(NOT PHP_FD_SETSIZE STREQUAL "")
-  message(
-    FATAL_ERROR
-    "Invalid value of PHP_FD_SETSIZE=${PHP_FD_SETSIZE}. Pass integer greater "
-    "than 0."
-  )
-else()
-  message(CHECK_PASS "using system default")
-endif()
-
-# Check for GCC function attributes on all systems except ones without glibc.
-# Fix for these systems is already included in GCC 7, but not on GCC 6. At least
-# some versions of FreeBSD seem to have buggy ifunc support, see
-# https://bugs.php.net/77284. Conservatively don't use ifuncs on FreeBSD prior
-# to version 12.
-if(
-  (
-    NOT CMAKE_SYSTEM_NAME MATCHES "^(Android|FreeBSD|OpenBSD)$"
-    AND NOT PHP_C_STANDARD_LIBRARY MATCHES "^(musl|uclibc)$"
-  ) OR (
-    CMAKE_SYSTEM_NAME STREQUAL "FreeBSD"
-    AND CMAKE_SYSTEM_VERSION VERSION_GREATER_EQUAL 12
-  )
-)
-  php_check_function_attribute(ifunc HAVE_FUNC_ATTRIBUTE_IFUNC)
-  php_check_function_attribute(target HAVE_FUNC_ATTRIBUTE_TARGET)
-endif()
-
-# Check for variable __attribute__((aligned)) support in the compiler.
-php_check_variable_attribute(aligned HAVE_ATTRIBUTE_ALIGNED)
-
-################################################################################
 # Check for required libraries.
 ################################################################################
 
@@ -664,8 +621,8 @@ php_search_libraries(
     socket  # Solaris <= 11.3, illumos
     network # Haiku
     ws2_32  # Windows
-  VARIABLE PHP_HAS_SOCKET
-  LIBRARY_VARIABLE PHP_HAS_SOCKET_LIBRARY
+  VARIABLE PHP_HAVE_SOCKET
+  LIBRARY_VARIABLE PHP_HAVE_SOCKET_LIBRARY
   TARGET php_config INTERFACE
 )
 
@@ -790,8 +747,8 @@ php_search_libraries(
     socket  # Solaris <= 11.3, illumos
     network # Haiku
     ws2_32  # Windows
-  VARIABLE PHP_HAS_SETSOCKOPT
-  LIBRARY_VARIABLE PHP_HAS_SETSOCKOPT_LIBRARY
+  VARIABLE PHP_HAVE_SETSOCKOPT
+  LIBRARY_VARIABLE PHP_HAVE_SETSOCKOPT_LIBRARY
   TARGET php_config INTERFACE
 )
 
@@ -906,6 +863,59 @@ block()
     target_link_libraries(php_config INTERFACE ${path})
   endif()
 endblock()
+
+################################################################################
+# Run all checks from cmake/checks.
+################################################################################
+
+file(GLOB checks ${CMAKE_CURRENT_LIST_DIR}/checks/Check*.cmake)
+foreach(check IN LISTS checks)
+  include(${check})
+endforeach()
+
+################################################################################
+# Miscellaneous checks.
+################################################################################
+
+# Checking file descriptor sets.
+message(CHECK_START "Checking file descriptor sets size")
+if(PHP_FD_SETSIZE MATCHES "^[0-9]+$" AND PHP_FD_SETSIZE GREATER 0)
+  message(CHECK_PASS "using FD_SETSIZE=${PHP_FD_SETSIZE}")
+  target_compile_definitions(
+    php_config
+    INTERFACE
+      $<$<COMPILE_LANGUAGE:C,CXX>:FD_SETSIZE=${PHP_FD_SETSIZE}>
+  )
+elseif(NOT PHP_FD_SETSIZE STREQUAL "")
+  message(
+    FATAL_ERROR
+    "Invalid value of PHP_FD_SETSIZE=${PHP_FD_SETSIZE}. Pass integer greater "
+    "than 0."
+  )
+else()
+  message(CHECK_PASS "using system default")
+endif()
+
+# Check for GCC function attributes on all systems except ones without glibc.
+# Fix for these systems is already included in GCC 7, but not on GCC 6. At least
+# some versions of FreeBSD seem to have buggy ifunc support, see
+# https://bugs.php.net/77284. Conservatively don't use ifuncs on FreeBSD prior
+# to version 12.
+if(
+  (
+    NOT CMAKE_SYSTEM_NAME MATCHES "^(Android|FreeBSD|OpenBSD)$"
+    AND NOT PHP_C_STANDARD_LIBRARY MATCHES "^(musl|uclibc)$"
+  ) OR (
+    CMAKE_SYSTEM_NAME STREQUAL "FreeBSD"
+    AND CMAKE_SYSTEM_VERSION VERSION_GREATER_EQUAL 12
+  )
+)
+  php_check_function_attribute(ifunc HAVE_FUNC_ATTRIBUTE_IFUNC)
+  php_check_function_attribute(target HAVE_FUNC_ATTRIBUTE_TARGET)
+endif()
+
+# Check for variable __attribute__((aligned)) support in the compiler.
+php_check_variable_attribute(aligned HAVE_ATTRIBUTE_ALIGNED)
 
 ################################################################################
 # Check for additional tools.

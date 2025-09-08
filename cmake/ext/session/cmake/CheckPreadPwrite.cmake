@@ -111,7 +111,7 @@ function(_php_ext_session_check_pread result)
     # Needs '_GNU_SOURCE' to enable 64-bit variant.
     set(CMAKE_REQUIRED_LIBRARIES PHP::SystemExtensions)
 
-    set(CMAKE_REQUIRED_DEFINITIONS -DTMP_FILE=${temporaryFile})
+    set(CMAKE_REQUIRED_DEFINITIONS -DTMP_FILE=${file})
     if(PHP_PREAD_64)
       list(APPEND CMAKE_REQUIRED_DEFINITIONS -DPHP_PREAD_64)
     endif()

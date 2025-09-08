@@ -433,7 +433,7 @@ cmake_push_check_state(RESET)
   set(HAVE_MREMAP ${PHP_ZEND_HAVE_MREMAP})
 cmake_pop_check_state()
 
-block()
+block(PROPAGATE HAVE_PTHREAD_ATTR_GET_NP)
   set(headers pthread.h)
 
   # BSD-based systems have pthread_attr_get_np in pthread_np.h.

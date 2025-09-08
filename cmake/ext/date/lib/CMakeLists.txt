@@ -78,8 +78,10 @@ target_compile_definitions(
   ${TIMELIB_TARGET}
   PRIVATE
     HAVE_TIMELIB_CONFIG_H
-    # The timelib uses C99 strtoll() function conditionally.
+    # timelib uses C99 strtoll() function conditionally.
     HAVE_STRTOLL
+    # timelib includes C99 <stdint.h> header conditionally.
+    HAVE_STDINT_H
 )
 
 check_compiler_flag(C -fwrapv PHP_EXT_DATE_HAS_FWRAP)

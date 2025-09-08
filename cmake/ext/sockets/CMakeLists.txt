@@ -34,6 +34,7 @@ include(CheckTypeSize)
 include(CMakeDependentOption)
 include(CMakePushCheckState)
 include(FeatureSummary)
+include(PHP/SearchLibraries)
 
 option(PHP_EXT_SOCKETS "Enable the sockets extension")
 
@@ -93,20 +94,22 @@ target_link_libraries(
 
 cmake_push_check_state(RESET)
   set(CMAKE_REQUIRED_DEFINITIONS -D_GNU_SOURCE)
+
   check_symbol_exists(
     accept4
     "sys/types.h;sys/socket.h"
     PHP_EXT_SOCKETS_HAVE_ACCEPT4
   )
   set(HAVE_ACCEPT4 ${PHP_EXT_SOCKETS_HAVE_ACCEPT4})
-cmake_pop_check_state()
 
-cmake_push_check_state(RESET)
-  set(CMAKE_REQUIRED_DEFINITIONS -D_GNU_SOURCE)
-  check_symbol_exists(
+  php_search_libraries(
     hstrerror
-    "netdb.h;sys/socket.h"
-    PHP_EXT_SOCKETS_HAVE_HSTRERROR
+    HEADERS netdb.h
+    LIBRARIES
+      resolv  # Solaris/illumos
+      network # Haiku
+    VARIABLE PHP_EXT_SOCKETS_HAVE_HSTRERROR
+    TARGET php_ext_sockets PRIVATE
   )
   set(HAVE_HSTRERROR ${PHP_EXT_SOCKETS_HAVE_HSTRERROR})
 cmake_pop_check_state()
