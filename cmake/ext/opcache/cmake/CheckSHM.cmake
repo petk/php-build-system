@@ -209,11 +209,11 @@ function(_php_ext_opcache_check_shm_open result)
   # them in the C library called root, which is linked by default when using
   # compilers on Haiku.
   php_search_libraries(
-    shm_open
+    SYMBOL shm_open
     HEADERS sys/mman.h
     LIBRARIES
       rt # Solaris <= 10, older Linux
-    VARIABLE PHP_EXT_OPCACHE_HAVE_SHM_OPEN
+    RESULT_VARIABLE PHP_EXT_OPCACHE_HAVE_SHM_OPEN
     LIBRARY_VARIABLE PHP_EXT_OPCACHE_HAVE_SHM_OPEN_LIBRARY
   )
 

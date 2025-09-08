@@ -95,12 +95,12 @@ target_link_libraries(
 cmake_push_check_state(RESET)
   set(CMAKE_REQUIRED_DEFINITIONS -D_GNU_SOURCE)
   php_search_libraries(
-    hstrerror
+    SYMBOL hstrerror
     HEADERS netdb.h
     LIBRARIES
       resolv  # Solaris/illumos
       network # Haiku
-    VARIABLE PHP_EXT_SOCKETS_HAVE_HSTRERROR
+    RESULT_VARIABLE PHP_EXT_SOCKETS_HAVE_HSTRERROR
     TARGET php_ext_sockets PRIVATE
   )
   set(HAVE_HSTRERROR ${PHP_EXT_SOCKETS_HAVE_HSTRERROR})

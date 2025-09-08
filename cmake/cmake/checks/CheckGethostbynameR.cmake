@@ -22,11 +22,11 @@ function(_php_check_gethostbyname_r)
   # Check whether gethostname_r() is available. On systems that have it, it is
   # mostly in the default libraries (C library) - Linux, Solaris 11.4...
   php_search_libraries(
-    gethostbyname_r
+    SYMBOL gethostbyname_r
     HEADERS netdb.h
     LIBRARIES
       nsl # Solaris <= 11.3, illumos
-    VARIABLE PHP_HAS_GETHOSTBYNAME_R
+    RESULT_VARIABLE PHP_HAS_GETHOSTBYNAME_R
     LIBRARY_VARIABLE PHP_HAS_GETHOSTBYNAME_R_LIBRARY
   )
   if(NOT PHP_HAS_GETHOSTBYNAME_R)
