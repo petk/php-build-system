@@ -64,7 +64,7 @@ check_symbol_exists(getrandom sys/random.h PHP_EXT_RANDOM_HAVE_GETRANDOM)
 set(HAVE_GETRANDOM ${PHP_EXT_RANDOM_HAVE_GETRANDOM})
 
 # Check for CCRandomGenerateBytes. Header was absent in previous macOS releases.
-block()
+block(PROPAGATE HAVE_COMMONCRYPTO_COMMONRANDOM_H)
   set(
     headers
       sys/types.h

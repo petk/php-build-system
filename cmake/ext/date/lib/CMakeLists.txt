@@ -76,8 +76,10 @@ target_compile_definitions(
   ${TIMELIB_TARGET}
   PRIVATE
     HAVE_TIMELIB_CONFIG_H
-    # The timelib uses C99 strtoll() function conditionally.
+    # timelib uses C99 strtoll() function conditionally.
     HAVE_STRTOLL
+    # timelib includes C99 <stdint.h> header conditionally.
+    HAVE_STDINT_H
 )
 
 if(CMAKE_SYSTEM_NAME STREQUAL "Windows")
