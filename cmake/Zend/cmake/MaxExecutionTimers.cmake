@@ -32,11 +32,11 @@ endif()
 
 if(ZEND_MAX_EXECUTION_TIMERS AND CMAKE_SYSTEM_NAME STREQUAL "Linux")
   php_search_libraries(
-    timer_create
+    SYMBOL timer_create
     HEADERS time.h
     LIBRARIES
       rt # Solaris <= 10, older Linux
-    VARIABLE PHP_ZEND_HAVE_TIMER_CREATE
+    RESULT_VARIABLE PHP_ZEND_HAVE_TIMER_CREATE
     LIBRARY_VARIABLE PHP_ZEND_HAVE_TIMER_CREATE_LIBRARY
   )
 

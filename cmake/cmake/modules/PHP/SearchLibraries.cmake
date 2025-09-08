@@ -1,28 +1,31 @@
 #[=============================================================================[
 # PHP/SearchLibraries
 
-This module checks if symbol exists in given header(s) and libraries:
+This module provides a command for detecting C symbols in specified headers and
+for testing whether C source snippet can be compiled. It also determines whether
+additional libraries are required.
+
+Load this module in a CMake project with:
 
 ```cmake
 include(PHP/SearchLibraries)
 ```
 
-If symbol is not found in default linked libraries (for example, C library), a
-given list of libraries is iterated and found library can be linked as needed.
+Depending on the system, C functions and variables may reside in the default
+libraries linked by the compiler, or they may be located in separate system
+libraries that need to be passed to the linker manually. The standard CMake
+`check_symbol_exists()` and `check_source_compiles()` commands don't find them
+unless the `CMAKE_REQUIRED_LIBRARIES` variable is set.
 
-Depending on the system, C functions can be located in one of the default linked
-libraries when using the compiler, or they can be in separate system libraries
-that need to be manually passed to the linker. The usual `check_symbol_exists()`
-doesn't find them unless `CMAKE_REQUIRED_LIBRARIES` is specified.
+For example, C standard math functions (`<math.h>`) are provided by the math
+library (`m`) on many systems. However, on others, such as macOS, Windows, and
+Haiku, they are part of the C library (or the math library is already linked by
+default). In those cases, linking the math library (`-lm`) is unnecessary.
+Similarly, some systems are in the process of moving functions from dedicated
+libraries into the C library. For instance, illumos-based systems have been
+consolidating functionality previously provided by libraries, such as `-lnsl`.
 
-For example, math functions (`math.h`) can be in the math library (`m`);
-however, some systems, like macOS, Windows, and Haiku, have them in the C
-library. Linking the math library (`-lm`) there isn't necessary. Additionally,
-some systems might be in the process of moving functions from their dedicated
-libraries to the C library. For example, illumos-based systems (`-lnsl`...), and
-similar.
-
-The logic in this module is somehow following the Autoconf's `AC_SEARCH_LIBS`.
+The logic in this module loosely follows the Autoconf's macro `AC_SEARCH_LIBS`.
 
 ## Commands
 
@@ -30,60 +33,72 @@ This module provides the following commands:
 
 ### `php_search_libraries()`
 
+Checks whether a specified C symbol or source snippet can be compiled with the
+given headers, and determines if additional libraries need to be linked:
+
 ```cmake
 php_search_libraries(
-  <symbol>
-  HEADERS <headers>...
+  SYMBOL <symbol> | SOURCE <code>
+  [HEADERS <headers>...]
   [LIBRARIES <libraries>...]
-  [VARIABLE <variable>]
-  [LIBRARY_VARIABLE <library-variable>]
+  [RESULT_VARIABLE <var>]
+  [LIBRARY_VARIABLE <library-var>]
   [TARGET <target> [<PRIVATE|PUBLIC|INTERFACE>]]
   [RECHECK_HEADERS]
 )
 ```
 
-Checks that the `<symbol>` is available after including the `<headers>` (or a
-list of `<headers>`), or if any library from the `LIBRARIES` list needs to be
-linked.
+This command first checks whether the symbol exists in the given headers, or
+whether the source code can be compiled and linked with the default libraries
+(for example, the C library). If not, it iterates over the specified list of
+libraries and links the first one in which the symbol is found.
 
-The arguments are:
+#### The arguments are:
 
-* `<symbol>`
+* `SYMBOL <symbol>`
 
   The name of the C symbol to check.
 
+* `SOURCE <code>`
+
+  This argument can be used to check whether the specified C source `<code>` can
+  be compiled and linked, instead of a `SYMBOL <symbol>` argument.
+
 * `HEADERS <headers>...`
 
-  One or more headers where to look for the symbol declaration. Headers are
-  checked in iteration with `check_include_files()` command and are appended
-  to the list of found headers instead of a single header check. In some cases a
-  header might not be self-contained (it requires additional prior headers to be
-  included). For example, to be able to use `<arpa/nameser.h>` header on
-  Solaris, the `<sys/types.h>` header must be included before.
+  A list of one or more headers where to look for the symbol declaration.
+  Headers are checked in iteration and are appended to the list of found headers
+  instead of a single header check. In some cases a header might not be
+  self-contained (it requires additional prior headers to be included). For
+  example, to be able to use `<arpa/nameser.h>` header on Solaris, the
+  `<sys/types.h>` header must be included before.
+
+  When using `SOURCE <code>` argument, `<headers>` are prepended to the C source
+  `<code>` using `#include <header>...`.
 
 * `LIBRARIES <libraries>...`
 
   If symbol is not found in the default libraries (C library), then the
-  `LIBRARIES` list is iterated. Instead of using the `check_function_exists()`,
-  the `check_symbol_exists()` is used, since it also works when symbol might be
-  a macro definition. It would not be found using the other two commands because
-  they don't include required headers.
+  `LIBRARIES` list is iterated. Command also supports symbols that might be
+  macro definitions.
 
   Any `-l` strings prepended to the provided libraries are removed in the
   results. For example, `-ldl` will be interpreted as `dl`.
 
-* `VARIABLE <variable>`
+* `RESULT_VARIABLE <var>`
 
-  Optional. Name of an internal cache variable where the result of the check is
-  stored. If not given, the result will be stored in an internal automatically
-  defined cache variable name.
+  The name of an internal cache variable where the result of the check is
+  stored. If this argument is not given, the result will be stored in an
+  internal cache variable with automatically defined name.
 
-* `LIBRARY_VARIABLE <library-variable>`
+* `LIBRARY_VARIABLE <library-var>`
 
-  When symbol is not found in the default libraries, the resulting library that
-  contains the symbol is stored in this internal cache variable name.
+  When symbol is not found in the default libraries, the resulting library name
+  that contains the symbol is stored in this internal cache variable name. If
+  this argument is not given, the resulting library name (if any), will be
+  stored in the internal cache variable named `<var>_LIBRARY`.
 
-* `TARGET <target>`
+* `TARGET <target> [<PRIVATE|PUBLIC|INTERFACE>]`
 
   If specified, the resulting library is linked to a given `<target>` with the
   scope of `PRIVATE`, `PUBLIC`, or `INTERFACE`. Behavior is homogeneous to:
@@ -95,15 +110,53 @@ The arguments are:
 * `RECHECK_HEADERS`
 
   Enabling this option will recheck the headers by using automatically generated
-  unique cache variable names of format
-  `PHP_SEARCH_LIBRARIES_<SYMBOL>_<HEADER_NAME_H>` instead of the more common
-  `HAVE_<HEADER_NAME>_H`. When checking headers in iteration, by default, the
-  `HAVE_<HEADER_NAME>_H` cache variables are defined, so the entire check is
-  slightly more performant if headers have already been checked elsewhere in the
-  application using the `check_header_includes()`. In most cases this is not
-  needed.
+  unique cache variable names of format `PHP_SEARCH_LIBRARIES_<HEADER_NAME_H>`
+  instead of the `PHP_HAVE_<HEADER_NAME>_H`. When checking headers in iteration,
+  by default, the `PHP_HAVE_<HEADER_NAME>_H` cache variables are defined by this
+  command, so the entire check is slightly more performant if headers have
+  already been checked elsewhere in the application with PHP build system using
+  the `check_header_includes()` command. In most cases this is not needed.
+
+#### Variables Affecting the Check
+
+The following variables may be set before calling this command to modify the way
+the check is run:
+
+* `CMAKE_REQUIRED_FLAGS`
+* `CMAKE_REQUIRED_DEFINITIONS`
+* `CMAKE_REQUIRED_INCLUDES`
+* `CMAKE_REQUIRED_LINK_OPTIONS`
+* `CMAKE_REQUIRED_LIBRARIES`
+* `CMAKE_REQUIRED_LINK_DIRECTORIES`
+* `CMAKE_REQUIRED_QUIET`
+
+See https://cmake.org/cmake/help/latest/module/CheckSymbolExists.html for more
+info about these variables.
+
+## Caveats
+
+* When checking for symbol and if symbol declaration is missing in its belonging
+  headers, it won't be found with this module. There are still rare cases of
+  such functions on some systems (for example, `fdatasync()` on macOS). In such
+  cases it is better to use other approaches, such as CMake's
+  `check_function_exists()`.
+
+* When checking for symbol and if symbol is defined as a macro to a function
+  that requires additional libraries linked, this module will find the symbol
+  but won't find the required library. For example, the `dn_skipname()` on macOS
+  is defined as a macro in `<resolv.h>` and resolves to a function
+  `res_9_dn_skipname()` that requires the `resolv` library linked to work:
+
+  ```c
+  #define dn_skipname res9_dn_skipname
+  ```
+
+  As this is considered an architectural bug from this module point of view, in
+  such cases it is better to use additional library check.
 
 ## Examples
+
+### Example: Basic Usage
 
 In the following example, the library containing `dlopen()` is linked to
 `php_config` target with the `INTERFACE` scope when needed to use the `dlopen()`
@@ -119,50 +172,58 @@ include(PHP/SearchLibraries)
 
 # Search and link library containing dlopen() and dlclose().
 php_search_libraries(
-  dlopen
+  SYMBOL dlopen
   HEADERS dlfcn.h
   LIBRARIES ${CMAKE_DL_LIBS}
-  VARIABLE PHP_HAS_DL
+  RESULT_VARIABLE PHP_HAS_DL
   TARGET php_config INTERFACE
 )
 ```
 
-The following variables may be set before calling this command to modify the
-way the check is run. See
-https://cmake.org/cmake/help/latest/module/CheckSymbolExists.html
+### Example: Checking Source Code
 
-* `CMAKE_REQUIRED_FLAGS`
-* `CMAKE_REQUIRED_DEFINITIONS`
-* `CMAKE_REQUIRED_INCLUDES`
-* `CMAKE_REQUIRED_LINK_OPTIONS`
-* `CMAKE_REQUIRED_LIBRARIES`
-* `CMAKE_REQUIRED_LINK_DIRECTORIES`
-* `CMAKE_REQUIRED_QUIET`
+In the following example, this module is used to check whether the source code
+can be compiled and linked, and if additional library is required to use the
+`in6addr_any` variable from `<netinet/in.h>`. The boolean result of the check
+is stored in the `PHP_HAVE_IPV6` internal cache variable, and the name of the
+additional required library, if any, is stored in the `PHP_HAVE_IPV6_LIBRARY`
+internal cache variable.
 
-## Caveats
+```cmake
+include(PHP/SearchLibraries)
 
-* If symbol declaration is missing in its belonging headers, it won't be found
-  with this module. There are still rare cases of such functions on some systems
-  (for example, `fdatasync()` on macOS). In such cases it is better to use other
-  approaches, such as CMake's `check_function_exists()`.
+php_search_libraries(
+  SOURCE [[
+    #include <sys/types.h>
+    #include <sys/socket.h>
+    #include <netinet/in.h>
 
-* If symbol is defined as a macro to a function that requires additional
-  libraries linked, this module will find the symbol but won't find the required
-  library. For example, the `dn_skipname()` on macOS is defined as a macro in
-  `<resolv.h>` and resolves to a function `res_9_dn_skipname()` that requires
-  the `resolv` library linked to work:
+    int main(void)
+    {
+      struct sockaddr_in6 s;
+      struct in6_addr t = in6addr_any;
+      int i = AF_INET6;
+      t.s6_addr[0] = 0;
+      (void)s;
+      (void)t;
+      (void)i;
 
-  ```c
-  #define dn_skipname res9_dn_skipname
-  ```
-
-  As this is considered an architectural bug from this module point of view, in
-  such cases it is better to use additional library check.
+      return 0;
+    }
+  ]]
+  LIBRARIES
+    socket  # Solaris <= 11.3, illumos
+    network # Haiku
+  RESULT_VARIABLE PHP_HAVE_IPV6
+  LIBRARY_VARIABLE PHP_HAVE_IPV6_LIBRARY
+)
+```
 #]=============================================================================]
 
 include_guard(GLOBAL)
 
 include(CheckIncludeFiles)
+include(CheckSourceCompiles)
 include(CheckSymbolExists)
 include(CMakePushCheckState)
 
@@ -173,13 +234,21 @@ macro(_php_search_libraries_populate)
   endif()
 endmacro()
 
+function(_php_search_libraries_check_source source headers result)
+  foreach(header IN LISTS headers)
+    string(PREPEND source "#include <${header}>\n")
+  endforeach()
+
+  check_source_compiles(C "${source}" ${result})
+endfunction()
+
 function(php_search_libraries)
   cmake_parse_arguments(
     PARSE_ARGV
-    1
+    0
     parsed # prefix
     "RECHECK_HEADERS" # options
-    "VARIABLE;LIBRARY_VARIABLE" # one-value keywords
+    "SYMBOL;SOURCE;RESULT_VARIABLE;LIBRARY_VARIABLE" # one-value keywords
     "HEADERS;LIBRARIES;TARGET" # multi-value keywords
   )
 
@@ -187,19 +256,25 @@ function(php_search_libraries)
     message(FATAL_ERROR "Unrecognized arguments: ${parsed_UNPARSED_ARGUMENTS}")
   endif()
 
-  if(NOT parsed_HEADERS)
-    message(FATAL_ERROR "${CMAKE_CURRENT_FUNCTION}: missing HEADERS")
+  if(NOT DEFINED parsed_SYMBOL AND NOT DEFINED parsed_SOURCE)
+    message(FATAL_ERROR "Missing SYMBOL or SOURCE argument")
+  elseif(DEFINED parsed_SYMBOL AND DEFINED parsed_SOURCE)
+    message(FATAL_ERROR "Use either SYMBOL or SOURCE argument. Not both.")
   endif()
 
-  set(symbol ${ARGV0})
+  if(NOT parsed_RESULT_VARIABLE OR NOT parsed_LIBRARY_VARIABLE)
+    if(DEFINED parsed_SYMBOL)
+      set(id "${parsed_SYMBOL}")
+    elseif(DEFINED parsed_SOURCE)
+      set(id "${parsed_SOURCE}")
+    endif()
 
-  if(NOT parsed_VARIABLE OR NOT parsed_LIBRARY_VARIABLE)
-    string(MD5 hash "${symbol}_${parsed_HEADERS}_${parsed_LIBRARIES}")
-    string(MAKE_C_IDENTIFIER "PHP_SEARCH_LIBRARIES_${symbol}_${hash}" prefix)
+    string(MD5 hash "${id}_${parsed_HEADERS}_${parsed_LIBRARIES}")
+    string(MAKE_C_IDENTIFIER "PHP_SEARCH_LIBRARIES_${hash}" prefix)
     string(TOUPPER "${prefix}" prefix)
 
-    if(NOT parsed_VARIABLE)
-      set(parsed_VARIABLE "${prefix}")
+    if(NOT parsed_RESULT_VARIABLE)
+      set(parsed_RESULT_VARIABLE "${prefix}")
     endif()
 
     if(NOT parsed_LIBRARY_VARIABLE)
@@ -231,7 +306,7 @@ function(php_search_libraries)
   endif()
 
   # Check if there is cached value stored from any previous run.
-  if(DEFINED ${parsed_VARIABLE})
+  if(DEFINED ${parsed_RESULT_VARIABLE})
     _php_search_libraries_populate()
     return()
   endif()
@@ -240,9 +315,9 @@ function(php_search_libraries)
   set(headersFound "")
   foreach(header IN LISTS parsed_HEADERS)
     if(parsed_RECHECK_HEADERS)
-      string(MAKE_C_IDENTIFIER "PHP_SEARCH_LIBRARIES_${symbol}_${header}" id)
+      string(MAKE_C_IDENTIFIER "PHP_SEARCH_LIBRARIES_${header}" id)
     else()
-      string(MAKE_C_IDENTIFIER "HAVE_${header}" id)
+      string(MAKE_C_IDENTIFIER "PHP_HAVE_${header}" id)
     endif()
     string(TOUPPER "${id}" id)
 
@@ -263,25 +338,47 @@ function(php_search_libraries)
   endforeach()
 
   # Check if symbol exists without linking additional libraries.
-  check_symbol_exists(${symbol} "${headersFound}" ${parsed_VARIABLE})
+  if(DEFINED parsed_SYMBOL)
+    check_symbol_exists(
+      ${parsed_SYMBOL}
+      "${headersFound}"
+      ${parsed_RESULT_VARIABLE}
+    )
+  elseif(DEFINED parsed_SOURCE)
+    _php_search_libraries_check_source(
+      "${parsed_SOURCE}"
+      "${headersFound}"
+      ${parsed_RESULT_VARIABLE}
+    )
+  endif()
 
-  if(${parsed_VARIABLE})
+  if(${parsed_RESULT_VARIABLE})
     return()
   endif()
 
-  # Clear any cached library value if running consecutively and symbol result
-  # variable has been unset in the code after the check.
+  # Clear any cached library value if running consecutively and result variable
+  # has been unset in the code after the check.
   unset(${parsed_LIBRARY_VARIABLE} CACHE)
 
-  # Now, check if linking any given library helps finding the symbol.
+  # Now, check if linking any given library helps making the check successful.
   foreach(library IN LISTS parsed_LIBRARIES)
-    unset(${parsed_VARIABLE} CACHE)
+    unset(${parsed_RESULT_VARIABLE} CACHE)
 
     # If library was given as -l<library-name>, remove the linker flag.
     string(REGEX REPLACE "^-l" "" library "${library}")
 
     if(NOT CMAKE_REQUIRED_QUIET)
-      message(CHECK_START "Looking for ${symbol} in ${library}")
+      if(DEFINED parsed_SYMBOL)
+        message(
+          CHECK_START
+          "Looking for ${parsed_SYMBOL} in library ${library}"
+        )
+      elseif(DEFINED parsed_SOURCE)
+        message(
+          CHECK_START
+          "Performing test ${parsed_RESULT_VARIABLE} with library ${library}"
+        )
+      endif()
     endif()
 
     cmake_push_check_state()
@@ -296,21 +393,33 @@ function(php_search_libraries)
 
       set(CMAKE_REQUIRED_QUIET TRUE)
 
-      check_symbol_exists(${symbol} "${headersFound}" ${parsed_VARIABLE})
+      if(DEFINED parsed_SYMBOL)
+        check_symbol_exists(
+          ${parsed_SYMBOL}
+          "${headersFound}"
+          ${parsed_RESULT_VARIABLE}
+        )
+      elseif(DEFINED parsed_SOURCE)
+        _php_search_libraries_check_source(
+          "${parsed_SOURCE}"
+          "${headersFound}"
+          ${parsed_RESULT_VARIABLE}
+        )
+      endif()
     cmake_pop_check_state()
 
-    if(${parsed_VARIABLE})
+    if(${parsed_RESULT_VARIABLE})
       if(NOT CMAKE_REQUIRED_QUIET)
         message(CHECK_PASS "found")
       endif()
 
       # Store found library in a cache variable for internal purpose.
-      set(
-        ${parsed_LIBRARY_VARIABLE}
-        ${library}
-        CACHE INTERNAL
-        "Library required to use symbol '${symbol}'."
-      )
+      if(DEFINED parsed_SYMBOL)
+        set(help "Library required to use the '${parsed_SYMBOL}' symbol.")
+      elseif(DEFINED parsed_SOURCE)
+        set(help "Library required for the '${parsed_RESULT_VARIABLE}' test.")
+      endif()
+      set(${parsed_LIBRARY_VARIABLE} ${library} CACHE INTERNAL "${help}")
 
       _php_search_libraries_populate()
 

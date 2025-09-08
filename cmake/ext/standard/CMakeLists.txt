@@ -314,25 +314,25 @@ set(HAVE_NET_IF_H ${PHP_HAVE_NET_IF_H})
 # ext/standard/php_dns.h will collect these in a single define
 # HAVE_FULL_DNS_FUNCS.
 php_search_libraries(
-  dn_expand
+  SYMBOL dn_expand
   HEADERS
     netinet/in.h # BSD-based systems (FreeBSD<=13) need it for resolv.h to work.
     resolv.h
   LIBRARIES
     resolv # Solaris/illumos
-  VARIABLE PHP_HAVE_DN_EXPAND
+  RESULT_VARIABLE PHP_HAVE_DN_EXPAND
   TARGET php_ext_standard PRIVATE
 )
 set(HAVE_DN_EXPAND ${PHP_HAVE_DN_EXPAND})
 
 php_search_libraries(
-  dn_skipname
+  SYMBOL dn_skipname
   HEADERS
     netinet/in.h # BSD-based systems (FreeBSD<=13) need it for resolv.h to work.
     resolv.h
   LIBRARIES
     resolv # Solaris/illumos
-  VARIABLE PHP_HAVE_DN_SKIPNAME
+  RESULT_VARIABLE PHP_HAVE_DN_SKIPNAME
   TARGET php_ext_standard PRIVATE
 )
 set(HAVE_DN_SKIPNAME ${PHP_HAVE_DN_SKIPNAME})
@@ -341,61 +341,61 @@ set(HAVE_DN_SKIPNAME ${PHP_HAVE_DN_SKIPNAME})
 # library to work. For consistency, this is additional check whether the resolv
 # library needs to be linked on macOS.
 php_search_libraries(
-  res_9_dn_skipname
+  SYMBOL res_9_dn_skipname
   HEADERS
     resolv.h
   LIBRARIES
     resolv # macOS
-  VARIABLE PHP_HAVE_RES_9_DN_SKIPNAME
+  RESULT_VARIABLE PHP_HAVE_RES_9_DN_SKIPNAME
   TARGET php_ext_standard PRIVATE
 )
 
 php_search_libraries(
-  dns_search
+  SYMBOL dns_search
   HEADERS
     netinet/in.h # BSD-based systems (FreeBSD<=13) need it for resolv.h to work.
     resolv.h
     dns.h        # macOS
   LIBRARIES
     resolv # Solaris/illumos, macOS
-  VARIABLE PHP_HAVE_DNS_SEARCH
+  RESULT_VARIABLE PHP_HAVE_DNS_SEARCH
   TARGET php_ext_standard PRIVATE
 )
 set(HAVE_DNS_SEARCH ${PHP_HAVE_DNS_SEARCH})
 
 php_search_libraries(
-  res_ndestroy
+  SYMBOL res_ndestroy
   HEADERS
     netinet/in.h # BSD-based systems (FreeBSD<=13) need it for resolv.h to work.
     resolv.h
   LIBRARIES
     resolv # Solaris/illumos
-  VARIABLE PHP_HAVE_RES_NDESTROY
+  RESULT_VARIABLE PHP_HAVE_RES_NDESTROY
   TARGET php_ext_standard PRIVATE
 )
 set(HAVE_RES_NDESTROY ${PHP_HAVE_RES_NDESTROY})
 
 php_search_libraries(
-  res_nsearch
+  SYMBOL res_nsearch
   HEADERS
     netinet/in.h # BSD-based systems (FreeBSD<=13) need it for resolv.h to work.
     resolv.h
   LIBRARIES
     resolv # Solaris/illumos
-  VARIABLE PHP_HAVE_RES_NSEARCH
+  RESULT_VARIABLE PHP_HAVE_RES_NSEARCH
   TARGET php_ext_standard PRIVATE
 )
 set(HAVE_RES_NSEARCH ${PHP_HAVE_RES_NSEARCH})
 
 # res_search() is deprecated and should be replaced with res_nsearch().
 php_search_libraries(
-  res_search
+  SYMBOL res_search
   HEADERS
     netinet/in.h # BSD-based systems (FreeBSD<=13) need it for resolv.h to work.
     resolv.h
   LIBRARIES
     resolv # Solaris/illumos
-  VARIABLE PHP_HAVE_RES_SEARCH
+  RESULT_VARIABLE PHP_HAVE_RES_SEARCH
   TARGET php_ext_standard PRIVATE
 )
 set(HAVE_RES_SEARCH ${PHP_HAVE_RES_SEARCH})

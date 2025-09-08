@@ -7,11 +7,11 @@ include(CMakePushCheckState)
 include(PHP/SearchLibraries)
 
 php_search_libraries(
-  clock_gettime
+  SYMBOL clock_gettime
   HEADERS time.h
   LIBRARIES
     rt # Solaris 10
-  VARIABLE PHP_SAPI_FPM_HAVE_CLOCK_GETTIME
+  RESULT_VARIABLE PHP_SAPI_FPM_HAVE_CLOCK_GETTIME
   TARGET php_sapi_fpm PRIVATE
 )
 set(HAVE_CLOCK_GETTIME ${PHP_SAPI_FPM_HAVE_CLOCK_GETTIME})
