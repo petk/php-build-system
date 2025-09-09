@@ -1,8 +1,10 @@
 #[=============================================================================[
 # PHP/Re2c
 
-This module finds the re2c command-line lexer generator and provides command to
-generate lexer files with re2c:
+This module provides a command to find the re2c command-line lexer generator and
+generate lexer files with re2c.
+
+Load this module in CMake with:
 
 ```cmake
 include(PHP/Re2c)
@@ -212,7 +214,6 @@ _php_re2c_config()
 
 include_guard(GLOBAL)
 
-include(ExternalProject)
 include(FeatureSummary)
 include(FetchContent)
 
@@ -350,8 +351,11 @@ function(php_re2c name input output)
   _php_re2c_process_options()
   _php_re2c_process_header_option()
 
+  # Generate name for the symbolic file for the custom command below.
+  string(MAKE_C_IDENTIFIER "${name}_${input}" symbolicName)
+
   if(role STREQUAL "PROJECT")
-    add_custom_target(${name} SOURCES ${input} DEPENDS ${outputs})
+    add_custom_target(${name} SOURCES ${input} DEPENDS ${symbolicName})
   endif()
 
   # Skip generation, if generated files are provided by the release archive.
@@ -390,8 +394,11 @@ function(php_re2c name input output)
     endif()
   endif()
 
+  # Two commands and dependency on custom target avoids race conditions if
+  # the same generated source file is used by multiple project
+  # libraries/targets.
   add_custom_command(
-    OUTPUT ${outputs}
+    OUTPUT ${symbolicName}
     ${commands}
     DEPENDS
       ${input}
@@ -403,6 +410,9 @@ function(php_re2c name input output)
     ${codegen}
     WORKING_DIRECTORY ${parsed_WORKING_DIRECTORY}
   )
+  set_source_files_properties(${symbolicName} PROPERTIES SYMBOLIC TRUE)
+
+  add_custom_command(OUTPUT ${outputs} DEPENDS ${name} ${codegen})
 endfunction()
 
 # Set RE2C package properties TYPE and PURPOSE. If lexer-related output files
@@ -607,6 +617,9 @@ function(_php_re2c_download)
   if(TARGET RE2C::RE2C)
     return(PROPAGATE RE2C_FOUND RE2C_VERSION)
   endif()
+
+  # ExternalProject can be included only in project mode.
+  include(ExternalProject)
 
   # C++ is required when building re2c from source.
   include(CheckLanguage)
