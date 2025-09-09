@@ -1,8 +1,10 @@
 #[=============================================================================[
 # PHP/Bison
 
-This module finds the Bison command-line parser generator and provides a command
-to generate parser files with Bison:
+This module provides a command to find the Bison command-line parser generator
+and generate parser files with Bison.
+
+Load this module in CMake with:
 
 ```cmake
 include(PHP/Bison)
@@ -227,7 +229,6 @@ _php_bison_config()
 
 include_guard(GLOBAL)
 
-include(ExternalProject)
 include(FeatureSummary)
 include(FetchContent)
 
@@ -363,8 +364,11 @@ function(php_bison name input output)
   _php_bison_process_header_option()
   _php_bison_process_verbose_option()
 
+  # Generate name for the symbolic file for the custom command below.
+  string(MAKE_C_IDENTIFIER "${name}_${input}" symbolicName)
+
   if(role STREQUAL "PROJECT")
-    add_custom_target(${name} SOURCES ${input} DEPENDS ${outputs})
+    add_custom_target(${name} SOURCES ${input} DEPENDS ${symbolicName})
   endif()
 
   # Skip generation, if generated files are provided by the release archive.
@@ -402,8 +406,11 @@ function(php_bison name input output)
     endif()
   endif()
 
+  # Two commands and dependency on custom target avoids race conditions if
+  # the same generated source file is used by multiple project
+  # libraries/targets.
   add_custom_command(
-    OUTPUT ${outputs}
+    OUTPUT ${symbolicName}
     ${commands}
     DEPENDS
       ${input}
@@ -412,9 +419,11 @@ function(php_bison name input output)
     COMMENT "${message}"
     VERBATIM
     COMMAND_EXPAND_LISTS
-    ${codegen}
     WORKING_DIRECTORY ${parsed_WORKING_DIRECTORY}
   )
+  set_source_files_properties(${symbolicName} PROPERTIES SYMBOLIC TRUE)
+
+  add_custom_command(OUTPUT ${outputs} DEPENDS ${name} ${codegen})
 endfunction()
 
 # Process options.
@@ -642,6 +651,9 @@ function(_php_bison_download)
   if(TARGET Bison::Bison)
     return(PROPAGATE BISON_FOUND BISON_VERSION)
   endif()
+
+  # ExternalProject can be included only in project mode.
+  include(ExternalProject)
 
   if(CMAKE_HOST_SYSTEM_NAME STREQUAL "Windows")
     _php_bison_download_windows()

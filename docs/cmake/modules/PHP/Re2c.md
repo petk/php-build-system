@@ -3,8 +3,10 @@
 
 # PHP/Re2c
 
-This module finds the re2c command-line lexer generator and provides command to
-generate lexer files with re2c:
+This module provides a command to find the re2c command-line lexer generator and
+generate lexer files with re2c.
+
+Load this module in CMake with:
 
 ```cmake
 include(PHP/Re2c)

@@ -31,21 +31,23 @@ Default: `auto`
 Values:
   * `auto` - Use this type to find Windows ODBC implementation, unixODBC, iODBC,
     or similar automatically. First found library will be used.
-  * `adabas` - When using Adabas database management system.
-  * `dbmaker` - When using [DBMaker](https://www.dbmaker.com/).
-  * `empress-bcs` - Empress Local Access support, required Empress version is
-    8.60 or newer.
-  * `empress` - Empress support, required Empress version is 8.60 or newer.
-  * `esoob` - Easysoft ODBC-ODBC Bridge support
   * `ibm-db2` - IBM DB2 support.
   * `iODBC` - Independent Open Database Connectivity library
-  * `sapdb` - SAP DB support.
-  * `solid` - Solid DB support.
   * `unixODBC` - Open Database Connectivity library for *nix systems
   * `custom` - Use this type when using a custom ODBC implementation that cannot
     be found automatically and to manually adjust the compilation options.
     Unlike other special types, PHP code here expects ODBC implementation with
     `<odbc.h>` header.
+
+  * The following values were available until PHP 8.4 and removed in PHP 8.5:
+    * `adabas` - When using Adabas database management system.
+    * `dbmaker` - When using [DBMaker](https://www.dbmaker.com/).
+    * `empress-bcs` - Empress Local Access support, required Empress version is
+      8.60 or newer.
+    * `empress` - Empress support, required Empress version is 8.60 or newer.
+    * `esoob` - Easysoft ODBC-ODBC Bridge support.
+    * `sapdb` - SAP DB support.
+    * `solid` - Solid DB support.
 
 When using type other than `auto`, `iODBC`, or `unixODBC`, the `ODBC_LIBRARY`
 needs to be set manually to find the ODBC library.
@@ -82,7 +84,17 @@ cmake -S php-src -B php-build \
   -D ODBC_LINK_OPTIONS="-lunix -ldblib"
 ```
 
-For Adabas:
+For IBM DB2:
+
+```sh
+cmake -S php-src -B php-build \
+  -D PHP_EXT_ODBC=ON \
+  -D PHP_EXT_ODBC_TYPE=ibm-db2 \
+  -D ODBC_ROOT=/home/db2inst1/sqllib \
+  -D ODBC_LIBRARY=db2
+```
+
+For Adabas (available until PHP 8.4 and removed in PHP 8.5):
 
 ```sh
 cmake -S php-src -B php-build \
@@ -94,7 +106,7 @@ cmake -S php-src -B php-build \
   -D ODBC_LINK_OPTIONS="-lsqlptc -lsqlrte"
 ```
 
-For DBMaker:
+For DBMaker (available until PHP 8.4 and removed in PHP 8.5):
 
 ```sh
 cmake -S php-src -B php-build \
@@ -104,17 +116,7 @@ cmake -S php-src -B php-build \
   -D ODBC_LIBRARY=dmapic \
 ```
 
-For Easysoft OOB support:
-
-```sh
-cmake -S php-src -B php-build \
-  -D PHP_EXT_ODBC=ON \
-  -D PHP_EXT_ODBC_TYPE=esoob \
-  -D ODBC_ROOT=/usr/local/easysoft/oob/client \
-  -D ODBC_LIBRARY=esoobclient \
-```
-
-For Empress:
+For Empress (available until PHP 8.4 and removed in PHP 8.5):
 
 ```sh
 cmake -S php-src -B php-build \
@@ -124,7 +126,7 @@ cmake -S php-src -B php-build \
   -D ODBC_LIBRARY=empodbccl
 ```
 
-For Empress Local Access:
+For Empress Local Access (available until PHP 8.4 and removed in PHP 8.5):
 
 ```sh
 cmake -S php-src -B php-build \
@@ -135,17 +137,17 @@ cmake -S php-src -B php-build \
   -D ODBC_LINK_OPTIONS="-lempphpbcs -lms -lmscfg -lbasic -lbasic_os -lnlscstab -lnlsmsgtab -lm -ldl -lcrypt"
 ```
 
-For IBM DB2:
+For Easysoft OOB support (available until PHP 8.4 and removed in PHP 8.5):
 
 ```sh
 cmake -S php-src -B php-build \
   -D PHP_EXT_ODBC=ON \
-  -D PHP_EXT_ODBC_TYPE=ibm-db2 \
-  -D ODBC_ROOT=/home/db2inst1/sqllib \
-  -D ODBC_LIBRARY=db2
+  -D PHP_EXT_ODBC_TYPE=esoob \
+  -D ODBC_ROOT=/usr/local/easysoft/oob/client \
+  -D ODBC_LIBRARY=esoobclient \
 ```
 
-For Solid DB:
+For Solid DB (available until PHP 8.4 and removed in PHP 8.5):
 
 ```sh
 cmake -S php-src -B php-build \

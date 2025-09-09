@@ -3,8 +3,10 @@
 
 # PHP/Bison
 
-This module finds the Bison command-line parser generator and provides a command
-to generate parser files with Bison:
+This module provides a command to find the Bison command-line parser generator
+and generate parser files with Bison.
+
+Load this module in CMake with:
 
 ```cmake
 include(PHP/Bison)
