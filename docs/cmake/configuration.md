@@ -2153,7 +2153,7 @@ A list of Autoconf `configure` command-line configuration options, Windows
       <td>&emsp;--without-adabas</td>
       <td>N/A</td>
       <td></td>
-      <td>default</td>
+      <td>default; removed since PHP >= 8.5</td>
     </tr>
     <tr>
       <td>&emsp;--with-adabas</td>
@@ -2163,13 +2163,13 @@ A list of Autoconf `configure` command-line configuration options, Windows
         PHP_EXT_ODBC_TYPE=adabas<br>
         ODBC_LIBRARY=...
       </td>
-      <td></td>
+      <td>removed since PHP >= 8.5</td>
     </tr>
     <tr>
       <td>&emsp;--without-sapdb</td>
       <td>N/A</td>
       <td></td>
-      <td>default</td>
+      <td>default; removed since PHP >= 8.5</td>
     </tr>
     <tr>
       <td>&emsp;--with-sapdb</td>
@@ -2179,13 +2179,13 @@ A list of Autoconf `configure` command-line configuration options, Windows
         PHP_EXT_ODBC_TYPE=sapdb<br>
         ODBC_LIBRARY=...
       </td>
-      <td></td>
+      <td>removed since PHP >= 8.5</td>
     </tr>
     <tr>
       <td>&emsp;--without-solid</td>
       <td>N/A</td>
       <td></td>
-      <td>default</td>
+      <td>default; removed since PHP >= 8.5</td>
     </tr>
     <tr>
       <td>&emsp;--with-solid</td>
@@ -2195,7 +2195,7 @@ A list of Autoconf `configure` command-line configuration options, Windows
         PHP_EXT_ODBC_TYPE=solid<br>
         ODBC_LIBRARY=...
       </td>
-      <td></td>
+      <td>removed since PHP >= 8.5</td>
     </tr>
     <tr>
       <td>&emsp;--without-ibm-db2</td>
@@ -2217,7 +2217,7 @@ A list of Autoconf `configure` command-line configuration options, Windows
       <td>&emsp;--without-empress</td>
       <td>N/A</td>
       <td></td>
-      <td>default</td>
+      <td>default; removed since PHP >= 8.5</td>
     </tr>
     <tr>
       <td>&emsp;--with-empress</td>
@@ -2227,13 +2227,13 @@ A list of Autoconf `configure` command-line configuration options, Windows
         PHP_EXT_ODBC_TYPE=empress<br>
         ODBC_LIBRARY=...
       </td>
-      <td></td>
+      <td>removed since PHP >= 8.5</td>
     </tr>
     <tr>
       <td>&emsp;--without-empress-bcs</td>
       <td>N/A</td>
       <td></td>
-      <td>default</td>
+      <td>default; removed since PHP >= 8.5</td>
     </tr>
     <tr>
       <td>&emsp;--with-empress-bcs</td>
@@ -2243,7 +2243,7 @@ A list of Autoconf `configure` command-line configuration options, Windows
         PHP_EXT_ODBC_TYPE=empress-bcs<br>
         ODBC_LIBRARY=...
       </td>
-      <td></td>
+      <td>removed since PHP >= 8.5</td>
     </tr>
     <tr>
       <td>&emsp;--without-custom-odbc</td>
@@ -2285,7 +2285,7 @@ A list of Autoconf `configure` command-line configuration options, Windows
       <td>&emsp;--without-esoob</td>
       <td>N/A</td>
       <td></td>
-      <td>default</td>
+      <td>default; removed since PHP >= 8.5</td>
     </tr>
     <tr>
       <td>&emsp;--with-esoob</td>
@@ -2295,7 +2295,7 @@ A list of Autoconf `configure` command-line configuration options, Windows
         PHP_EXT_ODBC_TYPE=esoob<br>
         ODBC_LIBRARY=...
       </td>
-      <td></td>
+      <td>removed since PHP >= 8.5</td>
     </tr>
     <tr>
       <td>&emsp;--without-unixODBC</td>
@@ -2321,7 +2321,7 @@ A list of Autoconf `configure` command-line configuration options, Windows
       <td>&emsp;--without-dbmaker</td>
       <td>N/A</td>
       <td></td>
-      <td>default</td>
+      <td>default; removed since PHP >= 8.5</td>
     </tr>
     <tr>
       <td>&emsp;--with-dbmaker[=DIR]</td>
@@ -2331,7 +2331,7 @@ A list of Autoconf `configure` command-line configuration options, Windows
         PHP_EXT_ODBC_TYPE=dbmaker<br>
         ODBC_LIBRARY=...
       </td>
-      <td></td>
+      <td>removed since PHP >= 8.5</td>
     </tr>
     <tr>
       <td>--enable-opcache</td>

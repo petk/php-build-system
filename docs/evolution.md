@@ -38,13 +38,6 @@ PHP coding standards now use the C11 standard.
   The LDAP paths can be customized with the `LDAP_CFLAGS` and `LDAP_LIBS`
   environment variables. When a directory argument is provided to configure
   option (`--with-ldap=DIR`), it will be used instead of the pkg-config search.
-* Added new configure option `--enable-system-glob` to use system `glob()`
-  function instead of the PHP built-in implementation.
-* Added new configure option `--with-external-uriparser`.
-* Library directory (`libdir`) is adjusted when using `--libdir`, and
-  `--with-libdir` configure options (e.g.,
-  `--libdir=/usr/lib64 --with-libdir=lib64` will set `libdir` to
-  `/usr/lib64/php`).
 * Autoconf macro `AX_CHECK_COMPILE_FLAG` updated to serial 11.
 * Autoconf macro `PHP_AP_EXTRACT_VERSION` has been removed.
 * Autoconf macro `PHP_BUILD_THREAD_SAFE` has been removed (set `enable_zts`
@@ -53,6 +46,22 @@ PHP coding standards now use the C11 standard.
 * Autoconf macro `PHP_DEF_HAVE` has been removed (use `AC_DEFINE`).
 * Autoconf macro `PHP_OUTPUT` has been removed (use `AC_CONFIG_FILES`).
 * Autoconf macro `PHP_TEST_BUILD` has been removed (use `AC_*` macros).
+
+##### Autotools configure options
+
+* Added new configure option `--with-external-uriparser`.
+* Added new configure option `--enable-system-glob` to use system `glob()`
+  function instead of the PHP built-in implementation.
+* Library directory (`libdir`) is adjusted when using `--libdir`, and
+  `--with-libdir` configure options (e.g.,
+  `--libdir=/usr/lib64 --with-libdir=lib64` will set `libdir` to
+  `/usr/lib64/php`).
+* Removed ext/odbc configure options to build against specific drivers (except
+  for DB2) and removed special cases for those drivers. It is strongly
+  recommended to use a driver manager like iODBC or unixODBC on non-Windows.
+  The following configure options have been removed:
+  * `--with-adabas`, `--with-dbmaker`, `--with-empress`, `--with-empress-bcs`,
+    `--with-sapdb`, and `--with-solid`.
 
 ##### Changes to main/php_config.h
 
