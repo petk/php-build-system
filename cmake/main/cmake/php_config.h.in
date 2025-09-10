@@ -625,8 +625,7 @@
 /* Define to 1 if thread safety (ZTS) is enabled. */
 #cmakedefine ZTS 1
 
-/* Define to 1 when using musl libc. */
-#cmakedefine __MUSL__ 1
+@PHP_C_STANDARD_LIBRARY_CODE@
 
 /*****************************************************************************
   PHP SAPIs configuration

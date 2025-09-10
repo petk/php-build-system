@@ -89,6 +89,9 @@ check_pie_supported()
 # Configure build types.
 include(cmake/BuildTypes.cmake)
 
+# Detect C standard library implementation.
+include(PHP/StandardLibrary)
+
 # Set platform-specific configuration.
 include(cmake/Platform.cmake)
 

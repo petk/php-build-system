@@ -127,6 +127,7 @@ if(TARGET Intl::Intl)
   # Create a symbolic link when intl is built into musl C library. The gettext
   # functions there ignore the codeset suffix on directories like 'en_US.UTF-8';
   # instead they look only in 'en_US'.
+  include(PHP/StandardLibrary)
   if(Intl_IS_BUILT_IN AND PHP_C_STANDARD_LIBRARY STREQUAL "musl")
     message(STATUS "Patching tests: symlinking en_US.UTF-8 messages")
     file(

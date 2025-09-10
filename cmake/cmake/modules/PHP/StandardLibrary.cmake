@@ -1,17 +1,24 @@
 #[=============================================================================[
 # PHP/StandardLibrary
 
-This module determines the C standard library used for the build:
+This module determines the C standard library used for the build.
+
+Load this module in a CMake project with:
 
 ```cmake
 include(PHP/StandardLibrary)
 ```
 
-## Cache variables
+## Variables
+
+Including this module will define the following variables:
+
+### Cache variables
 
 * `PHP_C_STANDARD_LIBRARY`
 
-  Lowercase name of the C standard library:
+  Lowercase name of the C standard library. This internal cache variable will be
+  set to one of the following values:
 
     * `cosmopolitan`
     * `dietlibc`
@@ -20,10 +27,24 @@ include(PHP/StandardLibrary)
     * `mscrt`
     * `musl`
     * `uclibc`
+    * "" (empty string)
 
-  If library cannot be determined, it is set to empty string.
+      If C standard library cannot be determined, it is set to empty string.
 
-* `__MUSL__` - Whether the C standard library is musl.
+### Result variables:
+
+* `PHP_C_STANDARD_LIBRARY_CODE`
+
+  CMake variable containing some helper code for use in the C configuration
+  header.
+
+  For example, when C standard library implementation is musl, the value of this
+  variable will contain:
+
+  ```c
+  /* Define to 1 when using musl libc. */
+  #define __MUSL__ 1
+  ```
 
 ## Examples
 
@@ -31,124 +52,176 @@ Basic usage:
 
 ```cmake
 # CMakeLists.txt
+
 include(PHP/StandardLibrary)
+
+message(STATUS "PHP_C_STANDARD_LIBRARY=${PHP_C_STANDARD_LIBRARY}")
+
+file(CONFIGURE OUTPUT config.h CONTENT [[
+@PHP_C_STANDARD_LIBRARY_CODE@
+]])
 ```
 #]=============================================================================]
 
-include_guard(GLOBAL)
-
-if(DEFINED PHP_C_STANDARD_LIBRARY)
+# Skip in consecutive configuration phases and set configuration header code for
+# consecutive module inclusions, if needed.
+if(COMMAND _php_standard_library_get_code)
+  _php_standard_library_get_code(PHP_C_STANDARD_LIBRARY_CODE)
   return()
 endif()
+
+include_guard(GLOBAL)
 
 include(CheckSymbolExists)
 include(CMakePushCheckState)
 
-set(PHP_C_STANDARD_LIBRARY "" CACHE INTERNAL "The C standard library.")
+function(_php_standard_library_get_code result)
+  string(
+    CONCAT
+    ${result}
+    "/* Define to 1 when using musl libc. */\n"
+    "#cmakedefine __MUSL__ 1\n"
+  )
 
-message(CHECK_START "Checking C standard library")
+  if(PHP_C_STANDARD_LIBRARY STREQUAL "musl")
+    set(__MUSL__ TRUE)
+  else()
+    set(__MUSL__ FALSE)
+  endif()
 
-# The MS C runtime library (CRT).
-if(MSVC)
-  set(_PHP_C_STANDARD_LIBRARY_MSCRT TRUE)
-elseif(CMAKE_SYSTEM_NAME STREQUAL "Windows")
+  string(CONFIGURE "${${result}}" ${result} @ONLY)
+
+  return(PROPAGATE ${result})
+endfunction()
+
+function(_php_standard_library_check)
+  unset(PHP_C_STANDARD_LIBRARY)
+  unset(PHP_C_STANDARD_LIBRARY CACHE)
+
+  # The MS C runtime library (CRT).
+  if(MSVC)
+    set(PHP_C_STANDARD_LIBRARY "mscrt")
+  elseif(CMAKE_SYSTEM_NAME STREQUAL "Windows")
+    check_symbol_exists(_MSC_VER stdio.h PHP_C_STANDARD_LIBRARY)
+  endif()
+  if(PHP_C_STANDARD_LIBRARY)
+    set_property(CACHE PHP_C_STANDARD_LIBRARY PROPERTY VALUE "mscrt")
+    return()
+  endif()
+
+  unset(PHP_C_STANDARD_LIBRARY CACHE)
+
+  # The uClibc and its maintained fork uClibc-ng behave like minimalistic GNU C
+  # library but have differences. They can be determined by the __UCLIBC__
+  # symbol and must be checked first because they also define the __GLIBC__
+  # symbol.
+  check_symbol_exists(__UCLIBC__ features.h PHP_C_STANDARD_LIBRARY)
+  if(PHP_C_STANDARD_LIBRARY)
+    set_property(CACHE PHP_C_STANDARD_LIBRARY PROPERTY VALUE "uclibc")
+    return()
+  endif()
+
+  unset(PHP_C_STANDARD_LIBRARY CACHE)
+
+  # The diet libc.
+  check_symbol_exists(__dietlibc__ features.h PHP_C_STANDARD_LIBRARY)
+  if(PHP_C_STANDARD_LIBRARY)
+    set_property(CACHE PHP_C_STANDARD_LIBRARY PROPERTY VALUE "dietlibc")
+    return()
+  endif()
+
+  unset(PHP_C_STANDARD_LIBRARY CACHE)
+
+  # The Cosmopolitan Libc.
+  check_symbol_exists(__COSMOPOLITAN__ "" PHP_C_STANDARD_LIBRARY)
+  if(PHP_C_STANDARD_LIBRARY)
+    set_property(CACHE PHP_C_STANDARD_LIBRARY PROPERTY VALUE "cosmopolitan")
+    return()
+  endif()
+
+  unset(PHP_C_STANDARD_LIBRARY CACHE)
+
+  # The GNU C standard library has __GLIBC__ and __GLIBC_MINOR__ symbols since
+  # the very early version 2.0.
+  check_symbol_exists(__GLIBC__ features.h PHP_C_STANDARD_LIBRARY)
+  if(PHP_C_STANDARD_LIBRARY)
+    set_property(CACHE PHP_C_STANDARD_LIBRARY PROPERTY VALUE "glibc")
+    return()
+  endif()
+
+  unset(PHP_C_STANDARD_LIBRARY CACHE)
+
+  # The LLVM libc.
+  check_symbol_exists(__LLVM_LIBC__ features.h PHP_C_STANDARD_LIBRARY)
+  if(PHP_C_STANDARD_LIBRARY)
+    set_property(CACHE PHP_C_STANDARD_LIBRARY PROPERTY VALUE "llvm")
+    return()
+  endif()
+
+  unset(PHP_C_STANDARD_LIBRARY CACHE)
+
+  # The musl libc doesn't advertise itself with symbols, so it must be
+  # determined heuristically.
+  check_symbol_exists(__DEFINED_va_list stdarg.h PHP_C_STANDARD_LIBRARY)
+  if(PHP_C_STANDARD_LIBRARY)
+    set_property(CACHE PHP_C_STANDARD_LIBRARY PROPERTY VALUE "musl")
+    return()
+  endif()
+
+  unset(PHP_C_STANDARD_LIBRARY CACHE)
+
+  # Otherwise, try determining musl libc with ldd.
+  execute_process(
+    COMMAND ldd --version
+    OUTPUT_VARIABLE version
+    ERROR_QUIET
+    OUTPUT_STRIP_TRAILING_WHITESPACE
+  )
+
+  if(version MATCHES ".*musl libc.*")
+    set_property(CACHE PHP_C_STANDARD_LIBRARY PROPERTY VALUE "musl")
+    return()
+  endif()
+
+  set(PHP_C_STANDARD_LIBRARY "" CACHE INTERNAL "")
+endfunction()
+
+function(_php_standard_library)
+  # Skip in consecutive runs.
+  if(DEFINED PHP_C_STANDARD_LIBRARY)
+    return()
+  endif()
+
+  message(CHECK_START "Checking C standard library")
   cmake_push_check_state(RESET)
     set(CMAKE_REQUIRED_QUIET TRUE)
-    check_symbol_exists(_MSC_VER stdio.h _PHP_C_STANDARD_LIBRARY_MSCRT)
+    _php_standard_library_check()
   cmake_pop_check_state()
-endif()
-if(_PHP_C_STANDARD_LIBRARY_MSCRT)
-  set_property(CACHE PHP_C_STANDARD_LIBRARY PROPERTY VALUE "mscrt")
-  message(CHECK_PASS "MS C runtime library (CRT)")
-  return()
-endif()
 
-# The uClibc and its maintained fork uClibc-ng behave like minimalistic GNU C
-# library but have differences. They can be determined by the __UCLIBC__ symbol
-# and must be checked first because they also define the __GLIBC__ symbol.
-cmake_push_check_state(RESET)
-  set(CMAKE_REQUIRED_QUIET TRUE)
-  check_symbol_exists(__UCLIBC__ features.h _PHP_C_STANDARD_LIBRARY_UCLIBC)
-cmake_pop_check_state()
-if(_PHP_C_STANDARD_LIBRARY_UCLIBC)
-  set_property(CACHE PHP_C_STANDARD_LIBRARY PROPERTY VALUE "uclibc")
-  message(CHECK_PASS "uClibc")
-  return()
-endif()
+  if(PHP_C_STANDARD_LIBRARY STREQUAL "mscrt")
+    message(CHECK_PASS "MS C runtime library (CRT)")
+  elseif(PHP_C_STANDARD_LIBRARY STREQUAL "uclibc")
+    message(CHECK_PASS "uClibc")
+  elseif(PHP_C_STANDARD_LIBRARY STREQUAL "dietlibc")
+    message(CHECK_PASS "diet libc")
+  elseif(PHP_C_STANDARD_LIBRARY STREQUAL "cosmopolitan")
+    message(CHECK_PASS "Cosmopolitan Libc")
+  elseif(PHP_C_STANDARD_LIBRARY STREQUAL "glibc")
+    message(CHECK_PASS "GNU C (glibc)")
+  elseif(PHP_C_STANDARD_LIBRARY STREQUAL "llvm")
+    message(CHECK_PASS "LLVM libc")
+  elseif(PHP_C_STANDARD_LIBRARY STREQUAL "musl")
+    message(CHECK_PASS "musl libc")
+  else()
+    # Instead of an "unknown", output a common "libc" result message.
+    message(CHECK_FAIL "libc")
+  endif()
 
-# The diet libc.
-cmake_push_check_state(RESET)
-  set(CMAKE_REQUIRED_QUIET TRUE)
-  check_symbol_exists(__dietlibc__ features.h _PHP_C_STANDARD_LIBRARY_DIETLIBC)
-cmake_pop_check_state()
-if(_PHP_C_STANDARD_LIBRARY_DIETLIBC)
-  set_property(CACHE PHP_C_STANDARD_LIBRARY PROPERTY VALUE "dietlibc")
-  message(CHECK_PASS "diet libc")
-  return()
-endif()
+  set_property(
+    CACHE PHP_C_STANDARD_LIBRARY
+    PROPERTY HELPSTRING "The C standard library."
+  )
+endfunction()
 
-# The Cosmopolitan Libc.
-cmake_push_check_state(RESET)
-  set(CMAKE_REQUIRED_QUIET TRUE)
-  check_symbol_exists(__COSMOPOLITAN__ "" _PHP_C_STANDARD_LIBRARY_COSMOPOLITAN)
-cmake_pop_check_state()
-if(_PHP_C_STANDARD_LIBRARY_COSMOPOLITAN)
-  set_property(CACHE PHP_C_STANDARD_LIBRARY PROPERTY VALUE "cosmopolitan")
-  message(CHECK_PASS "Cosmopolitan Libc")
-  return()
-endif()
-
-# The GNU C standard library has __GLIBC__ and __GLIBC_MINOR__ symbols since the
-# very early version 2.0.
-cmake_push_check_state(RESET)
-  set(CMAKE_REQUIRED_QUIET TRUE)
-  check_symbol_exists(__GLIBC__ features.h _PHP_C_STANDARD_LIBRARY_GLIBC)
-cmake_pop_check_state()
-if(_PHP_C_STANDARD_LIBRARY_GLIBC)
-  set_property(CACHE PHP_C_STANDARD_LIBRARY PROPERTY VALUE "glibc")
-  message(CHECK_PASS "GNU C (glibc)")
-  return()
-endif()
-
-# The LLVM libc.
-cmake_push_check_state(RESET)
-  set(CMAKE_REQUIRED_QUIET TRUE)
-  check_symbol_exists(__LLVM_LIBC__ features.h _PHP_C_STANDARD_LIBRARY_LLVM)
-cmake_pop_check_state()
-if(_PHP_C_STANDARD_LIBRARY_LLVM)
-  set_property(CACHE PHP_C_STANDARD_LIBRARY PROPERTY VALUE "llvm")
-  message(CHECK_PASS "LLVM libc")
-  return()
-endif()
-
-# The musl libc doesn't advertise itself with symbols, so it must be determined
-# heuristically.
-cmake_push_check_state(RESET)
-  set(CMAKE_REQUIRED_QUIET TRUE)
-  check_symbol_exists(__DEFINED_va_list stdarg.h _PHP_C_STANDARD_LIBRARY_MUSL)
-cmake_pop_check_state()
-if(_PHP_C_STANDARD_LIBRARY_MUSL)
-  set_property(CACHE PHP_C_STANDARD_LIBRARY PROPERTY VALUE "musl")
-else()
-  # Otherwise, try determining musl libc with ldd.
-  block()
-    execute_process(
-      COMMAND ldd --version
-      OUTPUT_VARIABLE version
-      ERROR_QUIET
-      OUTPUT_STRIP_TRAILING_WHITESPACE
-    )
-
-    if(version MATCHES ".*musl libc.*")
-      set_property(CACHE PHP_C_STANDARD_LIBRARY PROPERTY VALUE "musl")
-    endif()
-  endblock()
-endif()
-if(PHP_C_STANDARD_LIBRARY STREQUAL "musl")
-  set(__MUSL__ TRUE CACHE INTERNAL "Whether the C standard library is musl.")
-  message(CHECK_PASS "musl")
-  return()
-endif()
-
-# Instead of an "unknown", output a common "libc" result.
-message(CHECK_FAIL "libc")
+_php_standard_library()
+_php_standard_library_get_code(PHP_C_STANDARD_LIBRARY_CODE)
