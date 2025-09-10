@@ -129,6 +129,7 @@ set(HAVE_MKNOD ${PHP_EXT_POSIX_HAVE_MKNOD})
 
 # Skip pathconf and fpathconf check on musl libc due to limited implementation
 # (first argument is not validated and has different error).
+include(PHP/StandardLibrary)
 if(NOT PHP_C_STANDARD_LIBRARY STREQUAL "musl")
   check_symbol_exists(pathconf unistd.h PHP_EXT_POSIX_HAVE_PATHCONF)
   set(HAVE_PATHCONF ${PHP_EXT_POSIX_HAVE_PATHCONF})
