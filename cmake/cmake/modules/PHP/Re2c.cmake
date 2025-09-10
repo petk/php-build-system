@@ -52,7 +52,7 @@ scripts (script mode).
 
 * `<input>`
 
-  A template file from wich the re2c lexer generator generates output files.
+  A template file from which the re2c lexer generator generates output files.
   Relative source file path `<input>` is interpreted as being relative to the
   current source directory (`CMAKE_CURRENT_SOURCE_DIR`).
 
