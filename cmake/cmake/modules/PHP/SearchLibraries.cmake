@@ -29,7 +29,7 @@ The logic in this module loosely follows the Autoconf's macro `AC_SEARCH_LIBS`.
 
 ## Commands
 
-This module provides the following commands:
+This module provides the following command:
 
 ### `php_search_libraries()`
 
@@ -117,7 +117,7 @@ libraries and links the first one in which the symbol is found.
   already been checked elsewhere in the application with PHP build system using
   the `check_header_includes()` command. In most cases this is not needed.
 
-#### Variables Affecting the Check
+#### Variables affecting the check
 
 The following variables may be set before calling this command to modify the way
 the check is run:
@@ -156,7 +156,7 @@ info about these variables.
 
 ## Examples
 
-### Example: Basic Usage
+### Example: Basic usage
 
 In the following example, the library containing `dlopen()` is linked to
 `php_config` target with the `INTERFACE` scope when needed to use the `dlopen()`
@@ -180,7 +180,7 @@ php_search_libraries(
 )
 ```
 
-### Example: Checking Source Code
+### Example: Checking source code
 
 In the following example, this module is used to check whether the source code
 can be compiled and linked, and if additional library is required to use the

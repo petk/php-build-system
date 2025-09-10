@@ -3,18 +3,21 @@
 
 # PHP/CheckSysMacros
 
-This module checks for non-standard `major()`, `minor()` and `makedev()`:
+This module checks for non-standard C functions `major()`, `minor()` and
+`makedev()`.
+
+Load this module in a CMake project with:
 
 ```cmake
 include(PHP/CheckSysMacros)
 ```
 
-These functions can be defined on some systems as macros. On Solaris/illumos
+These C functions can be defined on some systems as macros. On Solaris/illumos
 they are in `<sys/mkdev.h>` (macro definitions to a libc implementation) and in
 `<sys/sysmacros.h>` (macro definitions using binary operators and bits
 shifting). On systems with musl and glibc 2.28 or later they are in the
-`<sys/sysmacros.h>`. Before glibc 2.28 they were in `<sys/types.h>` and
-glibc 2.25 version has deprecated them in favor of the `<sys/sysmacros.h>`. On
+`<sys/sysmacros.h>`. Before glibc 2.28 they were in `<sys/types.h>` and glibc
+2.25 version has deprecated them in favor of the `<sys/sysmacros.h>`. On
 BSD-based systems and macOS they are still in `<sys/types.h>`.
 
 This check is similar to the Autoconf's `AC_HEADER_MAJOR` since it is already
@@ -22,7 +25,7 @@ used out there.
 
 ## Result variables
 
-This module defines the following regular variables:
+Including this module defines the following regular variables:
 
 * `HAVE_SYS_TYPES_H`
 
