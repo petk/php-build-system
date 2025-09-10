@@ -2,7 +2,9 @@
 # PHP/SystemExtensions
 
 This module enables extensions to C or POSIX on systems that by default disable
-them to conform to standards or namespace issues:
+them to conform to standards or namespace issues.
+
+Load this module in a CMake project with:
 
 ```cmake
 include(PHP/SystemExtensions)
@@ -54,7 +56,7 @@ Conditionally defined feature test preprocessor macros:
 
 ## Result variables
 
-This module defines the following variables:
+Including this module defines the following variables:
 
 * `PHP_SYSTEM_EXTENSIONS_CODE`
 
@@ -62,7 +64,7 @@ This module defines the following variables:
 
 ## Imported target
 
-This module defines the following imported targets:
+Including this module defines the following imported targets:
 
 * `PHP::SystemExtensions`
 
@@ -91,7 +93,9 @@ For example:
 
 ```cmake
 # CMakeLists.txt
+
 include(PHP/SystemExtensions)
+
 target_link_libraries(<target> PHP::SystemExtensions)
 ```
 
