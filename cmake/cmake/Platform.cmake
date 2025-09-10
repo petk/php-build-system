@@ -21,9 +21,6 @@ target_link_libraries(php_config INTERFACE PHP::SystemExtensions)
 # Define GNU standard installation directories.
 include(GNUInstallDirs)
 
-# Detect C standard library implementation.
-include(PHP/StandardLibrary)
-
 # Platform-specific configuration. When cross-compiling, the host and target can
 # be different values with different configurations.
 if(NOT CMAKE_HOST_SYSTEM_NAME EQUAL CMAKE_SYSTEM_NAME)

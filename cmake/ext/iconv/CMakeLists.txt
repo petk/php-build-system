@@ -199,6 +199,7 @@ if(TARGET Iconv::Iconv)
   endif()
 
   if(NOT PHP_ICONV_IMPL AND Iconv_IS_BUILT_IN)
+    include(PHP/StandardLibrary)
     message(CHECK_PASS "built in C library ${PHP_C_STANDARD_LIBRARY}")
   elseif(NOT PHP_ICONV_IMPL)
     message(CHECK_FAIL "not found, unknown")
