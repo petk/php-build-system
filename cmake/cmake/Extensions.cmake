@@ -32,27 +32,8 @@ https://bugs.php.net/53141
 Custom CMake properties:
 
 * PHP_EXTENSION
-
-  Target property that designates that the CMake target is a PHP extension.
-
 * PHP_ZEND_EXTENSION
-
-  Extensions can utilize this custom target property, which designates the
-  extension as a Zend extension rather than a standard PHP extension. Zend
-  extensions function similarly to regular PHP extensions, but they are loaded
-  using the 'zend_extension' INI directive and possess an internally distinct
-  structure with additional hooks. Typically employed for advanced
-  functionalities like debuggers and profilers, Zend extensions offer enhanced
-  capabilities.
-
-  ```cmake
-  set_target_properties(php_ext_<extension_name> PROPERTIES PHP_ZEND_EXTENSION TRUE)
-  ```
-
 * PHP_EXTENSION_<extension>_DEPS
-
-  Global property with a list of all dependencies of <extension> (name of the
-  extension as named in ext directory).
 #]=============================================================================]
 
 include_guard(GLOBAL)

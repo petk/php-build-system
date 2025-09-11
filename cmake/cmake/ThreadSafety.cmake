@@ -8,13 +8,7 @@ Result variables:
 
 Custom CMake properties:
 
-* PHP_THREAD_SAFETY - A custom target property. When thread safety is enabled
-  (either by the configuration variable PHP_THREAD_SAFETY or automatically by
-  the apache2handler PHP SAPI, also a custom target property PHP_THREAD_SAFETY
-  is added to the PHP::config target, which can be then used in generator
-  expressions during the generation phase to determine thread safety enabled
-  from the configuration phase. For example, the PHP_EXTENSION_DIR configuration
-  variable needs to be set depending on the thread safety.
+* PHP_THREAD_SAFETY
 
 Including this internal module/file will also add some compile definitions to
 achieve POSIX threads conformance. These definitions are today obsolete on all
