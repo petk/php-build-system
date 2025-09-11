@@ -9,7 +9,6 @@ Result variables:
 * HAVE_CRYPT_R
 * CRYPT_R_CRYPTD
 * CRYPT_R_STRUCT_CRYPT_DATA
-* CRYPT_R_GNU_SOURCE
 #]=============================================================================]
 
 include(CheckIncludeFiles)
@@ -20,6 +19,15 @@ include(CMakePushCheckState)
 
 # Check whether crypt() and crypt_r() are available.
 function(_php_ext_standard_check_crypt)
+  # Skip in consecutive configuration phases.
+  if(PHP_HAVE_CRYPT_H AND PHP_HAVE_CRYPT AND PHP_HAVE_CRYPT_R)
+    set(HAVE_CRYPT_H ${PHP_HAVE_CRYPT_H})
+    set(HAVE_CRYPT ${PHP_HAVE_CRYPT})
+    set(HAVE_CRYPT_R ${PHP_HAVE_CRYPT_R})
+
+    return(PROPAGATE HAVE_CRYPT_H HAVE_CRYPT HAVE_CRYPT_R)
+  endif()
+
   message(CHECK_START "Checking basic crypt functionality")
 
   cmake_push_check_state(RESET)
@@ -64,6 +72,21 @@ endfunction()
 
 # Detect the style of crypt_r() if any is available.
 function(_php_ext_standard_check_crypt_r)
+  # Skip in consecutive configuration phases.
+  if(DEFINED PHP_CRYPT_R_CRYPTD)
+    set(CRYPT_R_CRYPTD ${PHP_CRYPT_R_CRYPTD} PARENT_SCOPE)
+
+    if(DEFINED PHP_CRYPT_R_STRUCT_CRYPT_DATA)
+      set(
+        CRYPT_R_STRUCT_CRYPT_DATA
+        ${PHP_CRYPT_R_STRUCT_CRYPT_DATA}
+        PARENT_SCOPE
+      )
+    endif()
+
+    return()
+  endif()
+
   message(CHECK_START "Checking crypt_r() data struct")
 
   cmake_push_check_state(RESET)
@@ -89,26 +112,6 @@ function(_php_ext_standard_check_crypt_r)
       return()
     endif()
 
-    check_source_compiles(C [[
-      #define _REENTRANT 1
-      #include <crypt.h>
-
-      int main(void)
-      {
-        struct crypt_data buffer;
-        crypt_r("passwd", "hash", &buffer);
-
-        return 0;
-      }
-    ]] PHP_CRYPT_R_STRUCT_CRYPT_DATA)
-    set(CRYPT_R_STRUCT_CRYPT_DATA ${PHP_CRYPT_R_STRUCT_CRYPT_DATA} PARENT_SCOPE)
-
-    if(PHP_CRYPT_R_STRUCT_CRYPT_DATA)
-      message(CHECK_PASS "struct crypt_data")
-      cmake_pop_check_state()
-      return()
-    endif()
-
     cmake_push_check_state()
       list(APPEND CMAKE_REQUIRED_DEFINITIONS -D_GNU_SOURCE)
       check_source_compiles(C [[
@@ -122,37 +125,33 @@ function(_php_ext_standard_check_crypt_r)
 
           return 0;
         }
-      ]] PHP_CRYPT_R_GNU_SOURCE)
-      set(CRYPT_R_GNU_SOURCE ${PHP_CRYPT_R_GNU_SOURCE} PARENT_SCOPE)
+      ]] PHP_CRYPT_R_STRUCT_CRYPT_DATA)
     cmake_pop_check_state()
 
-    if(PHP_CRYPT_R_GNU_SOURCE)
-      set(CRYPT_R_STRUCT_CRYPT_DATA TRUE PARENT_SCOPE)
-      message(CHECK_PASS "GNU struct crypt_data")
-      cmake_pop_check_state()
-      return()
-    endif()
+    if(NOT PHP_CRYPT_R_STRUCT_CRYPT_DATA)
+      unset(PHP_CRYPT_R_STRUCT_CRYPT_DATA CACHE)
 
-    check_source_compiles(C [[
-      #include <stdlib.h>
-      #include <unistd.h>
+      check_source_compiles(C [[
+        #include <stdlib.h>
+        #include <unistd.h>
 
-      int main(void)
-      {
-        struct crypt_data buffer;
-        crypt_r("passwd", "hash", &buffer);
+        int main(void)
+        {
+          struct crypt_data buffer;
+          crypt_r("passwd", "hash", &buffer);
 
-        return 0;
-      }
-    ]] PHP_HAVE_CRYPT_R_STRUCT_CRYPT_DATA)
-
-    if(PHP_HAVE_CRYPT_R_STRUCT_CRYPT_DATA)
-      set(CRYPT_R_STRUCT_CRYPT_DATA TRUE PARENT_SCOPE)
-      message(CHECK_PASS "struct crypt_data")
-      cmake_pop_check_state()
-      return()
+          return 0;
+        }
+      ]] PHP_CRYPT_R_STRUCT_CRYPT_DATA)
     endif()
   cmake_pop_check_state()
+
+  set(CRYPT_R_STRUCT_CRYPT_DATA ${PHP_CRYPT_R_STRUCT_CRYPT_DATA} PARENT_SCOPE)
+
+  if(PHP_CRYPT_R_STRUCT_CRYPT_DATA)
+    message(CHECK_PASS "struct crypt_data")
+    return()
+  endif()
 
   message(CHECK_FAIL "none")
 
@@ -165,6 +164,17 @@ endfunction()
 
 # Check if crypt library is usable.
 function(_php_ext_standard_check_crypt_is_usable)
+  # Skip in consecutive configuration phases.
+  if(
+    PHP_HAVE_CRYPT_BLOWFISH
+    AND PHP_HAVE_CRYPT_EXT_DES
+    AND PHP_HAVE_CRYPT_MD5
+    AND PHP_HAVE_CRYPT_SHA256
+    AND PHP_HAVE_CRYPT_SHA512
+  )
+    return()
+  endif()
+
   cmake_push_check_state(RESET)
     set(CMAKE_REQUIRED_QUIET TRUE)
 

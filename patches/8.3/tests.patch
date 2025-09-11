@@ -8,13 +8,32 @@ Subject: Fix tests
   ZipArchive::registerProgressCallback() is only available when using
   libzip 1.3.0 or newer.
   ZipArchive::RDONLY is available only with libzip >= 1.0.0
+
+- ext/standard
+  The tempnam() needs some existing directory, otherwise it emits a
+  notice (e.g., when running tests from out-of-source build and running
+  run-tests.php script from a directory not in the php-src).
 ---
+ ext/standard/tests/file/002.phpt        | 2 +-
  ext/zip/tests/gh18431.phpt              | 4 ++++
  ext/zip/tests/oo_addemptydir_error.phpt | 2 +-
  ext/zip/tests/oo_addglob2.phpt          | 6 ++++++
  ext/zip/tests/oo_encryption.phpt        | 6 ++++++
- 4 files changed, 17 insertions(+), 1 deletion(-)
+ 5 files changed, 18 insertions(+), 2 deletions(-)
 
+diff --git a/ext/standard/tests/file/002.phpt b/ext/standard/tests/file/002.phpt
+index 134f5416fc4..0eb882dc397 100644
+--- a/ext/standard/tests/file/002.phpt
++++ b/ext/standard/tests/file/002.phpt
+@@ -22,7 +22,7 @@
+ blah blah blah blah blah blah blah
+ EOD;
+ 
+-$name = tempnam("./ext/standard/tests/file/", "php");
++$name = tempnam(__DIR__, "php");
+ $fp = fopen($name, "w");
+ fwrite($fp, $data);
+ fclose($fp);
 diff --git a/ext/zip/tests/gh18431.phpt b/ext/zip/tests/gh18431.phpt
 index d4eb89c36c6..dcd7db6f400 100644
 --- a/ext/zip/tests/gh18431.phpt
