@@ -89,8 +89,24 @@ check_pie_supported()
 # Configure build types.
 include(cmake/BuildTypes.cmake)
 
+# Check unused linked libraries on executable and shared/module library targets.
+include(PHP/LinkWhatYouUse)
+
+# Enable C and POSIX extensions. The system extensions configuration will be
+# defined in the configuration header main/php_config.h. The php-src code at the
+# time of writing doesn't include this header in order to utilize them
+# everywhere properly. The main/php_config.h should be the first inclusion
+# before including any system header. Perhaps in php.h file. Until then, the
+# compile definitions also need to be added when compiling and using PHP API.
+# Mainly the _GNU_SOURCE.
+include(PHP/SystemExtensions)
+target_link_libraries(php_config INTERFACE PHP::SystemExtensions)
+
 # Detect C standard library implementation.
 include(PHP/StandardLibrary)
+
+# Define GNU standard installation directories.
+include(GNUInstallDirs)
 
 # Set platform-specific configuration.
 include(cmake/Platform.cmake)
@@ -125,8 +141,8 @@ add_subdirectory(scripts)
 # Generate *_arginfo.h headers from *.stub.php sources.
 include(PHP/Stubs)
 
-# Check thread safety.
-include(PHP/ThreadSafety)
+# Configure PHP thread safety.
+include(cmake/ThreadSafety.cmake)
 
 ################################################################################
 # Execute all deferred calls. Calls are additionally sorted with natural
@@ -148,7 +164,7 @@ endblock()
 
 # Rebuild all targets as needed.
 if(NOT PHPSystem_EXECUTABLE)
-  include(PHP/Rebuild)
+  include(cmake/Rebuild.cmake)
 endif()
 
 # Enable testing and configure test settings.
@@ -157,8 +173,8 @@ include(cmake/Testing.cmake)
 # Enable and configure CPack module.
 include(cmake/CPack.cmake)
 
-include(PHP/FeatureSummary)
-php_feature_summary()
+# Print build configuration summary.
+include(cmake/Summary.cmake)
 
 message(
   STATUS
