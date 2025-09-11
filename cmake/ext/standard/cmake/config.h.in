@@ -1,9 +1,6 @@
 /* Define to 1 if crypt_r uses CRYPTD. */
 #cmakedefine CRYPT_R_CRYPTD 1
 
-/* Define to 1 if struct crypt_data requires _GNU_SOURCE. */
-#cmakedefine CRYPT_R_GNU_SOURCE 1
-
 /* Define to 1 if crypt_r uses struct crypt_data. */
 #cmakedefine CRYPT_R_STRUCT_CRYPT_DATA 1
 
