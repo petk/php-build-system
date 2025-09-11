@@ -1,32 +1,10 @@
 #[=============================================================================[
-# PHP/FeatureSummary
-
-Print summary of enabled/disabled features.
-
-This is built on top of the CMake's `FeatureSummary` module. It sorts feature
+This is built on top of the CMake's FeatureSummary module. It sorts feature
 summary alphabetically and categorizes enabled features into SAPIs, extensions,
 and other global PHP features. Common misconfiguration issues are summarized
 together with missing required system packages.
 
 See also: https://cmake.org/cmake/help/latest/module/FeatureSummary.html
-
-## Functions
-
-Output PHP configuration summary:
-
-```cmake
-php_feature_summary()
-```
-
-## Usage
-
-```cmake
-# CMakeLists.txt
-
-# Include module and output configuration summary
-include(PHP/FeatureSummary)
-php_feature_summary()
-```
 #]=============================================================================]
 
 include_guard(GLOBAL)
@@ -34,7 +12,7 @@ include_guard(GLOBAL)
 include(FeatureSummary)
 
 # Add new item to the summary preamble with dotted leader.
-function(php_feature_summary_preamble_add_item label value output)
+function(_php_summary_preamble_add_item label value output)
   # Template helper to calculate column width.
   set(template " * <label> .................... : <value>")
   string(REGEX MATCH "^ \\\* ([^ ]+ [.]+)" _ "${template}")
@@ -60,14 +38,14 @@ function(php_feature_summary_preamble_add_item label value output)
 endfunction()
 
 # Get summary preamble.
-function(php_feature_summary_preamble result)
-  php_feature_summary_preamble_add_item(
+function(_php_summary_preamble result)
+  _php_summary_preamble_add_item(
     "${PROJECT_NAME} version"
     "${${PROJECT_NAME}_VERSION}"
     preamble
   )
 
-  php_feature_summary_preamble_add_item(
+  _php_summary_preamble_add_item(
     "PHP API version"
     "${PHP_API_VERSION}"
     preamble
@@ -77,17 +55,17 @@ function(php_feature_summary_preamble result)
     get_target_property(zendVersion Zend::Zend VERSION)
     get_target_property(zendExtensionApi Zend::Zend ZEND_EXTENSION_API_NO)
     get_target_property(zendModuleApi Zend::Zend ZEND_MODULE_API_NO)
-    php_feature_summary_preamble_add_item(
+    _php_summary_preamble_add_item(
       "Zend Engine version"
       "${zendVersion}"
       preamble
     )
-    php_feature_summary_preamble_add_item(
+    _php_summary_preamble_add_item(
       "Zend extension API number"
       "${zendExtensionApi}"
       preamble
     )
-    php_feature_summary_preamble_add_item(
+    _php_summary_preamble_add_item(
       "Zend module API number"
       "${zendModuleApi}"
       preamble
@@ -117,7 +95,7 @@ function(php_feature_summary_preamble result)
       else()
         string(APPEND compiler "${CMAKE_${language}_COMPILER}")
       endif()
-      php_feature_summary_preamble_add_item(
+      _php_summary_preamble_add_item(
         "${languageLabel} compiler"
         "${compiler}"
         preamble
@@ -139,7 +117,7 @@ function(php_feature_summary_preamble result)
       else()
         string(APPEND linker "${CMAKE_${language}_COMPILER_LINKER}")
       endif()
-      php_feature_summary_preamble_add_item(
+      _php_summary_preamble_add_item(
         "${languageLabel} linker"
         "${linker}"
         preamble
@@ -147,37 +125,37 @@ function(php_feature_summary_preamble result)
     endif()
   endforeach()
 
-  php_feature_summary_preamble_add_item(
+  _php_summary_preamble_add_item(
     "Building on (host system)"
     "${CMAKE_HOST_SYSTEM}"
     preamble
   )
 
-  php_feature_summary_preamble_add_item(
+  _php_summary_preamble_add_item(
     "Host CPU"
     "${CMAKE_HOST_SYSTEM_PROCESSOR}"
     preamble
   )
 
-  php_feature_summary_preamble_add_item(
+  _php_summary_preamble_add_item(
     "Building for (target system)"
     "${CMAKE_SYSTEM}"
     preamble
   )
 
-  php_feature_summary_preamble_add_item(
+  _php_summary_preamble_add_item(
     "Target CPU"
     "${CMAKE_SYSTEM_PROCESSOR}"
     preamble
   )
 
-  php_feature_summary_preamble_add_item(
+  _php_summary_preamble_add_item(
     "CMake version"
     "${CMAKE_VERSION}"
     preamble
   )
 
-  php_feature_summary_preamble_add_item(
+  _php_summary_preamble_add_item(
     "CMake generator"
     "${CMAKE_GENERATOR}"
     preamble
@@ -192,15 +170,15 @@ function(php_feature_summary_preamble result)
     set(buildType "N/A")
   endif()
 
-  php_feature_summary_preamble_add_item("Build type" "${buildType}" preamble)
-  php_feature_summary_preamble_add_item("Install prefix" "${CMAKE_INSTALL_PREFIX}" preamble)
+  _php_summary_preamble_add_item("Build type" "${buildType}" preamble)
+  _php_summary_preamble_add_item("Install prefix" "${CMAKE_INSTALL_PREFIX}" preamble)
 
   set(${result} "${preamble}" PARENT_SCOPE)
 endfunction()
 
 # Output configuration summary.
-function(php_feature_summary)
-  php_feature_summary_preamble(preamble)
+function(_php_summary_print)
+  _php_summary_preamble(preamble)
 
   message(STATUS "")
   message(STATUS "")
@@ -374,3 +352,5 @@ function(php_feature_summary)
     DESCRIPTION "The following REQUIRED packages have not been found:\n"
   )
 endfunction()
+
+_php_summary_print()
