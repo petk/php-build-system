@@ -420,10 +420,14 @@ A list of PHP CMake modules:
   )
   ```
 
+* PHP_EXTENSION
+
+  Target property that designates that the CMake target is a PHP extension.
+
 * `PHP_EXTENSION_<extension>_DEPS`
 
-  Global property set by the [`PHP/Extensions`](/docs/cmake/modules/PHP/Extensions.md)
-  module.
+  Global property with a list of all dependencies of PHP `<extension>` (the name of
+  the extension as named in `php-src/ext` directory).
 
 * `PHP_EXTENSIONS`
 
@@ -444,13 +448,27 @@ A list of PHP CMake modules:
 
 * `PHP_THREAD_SAFETY`
 
-  Target property set by the
-  [`PHP/ThreadSafety`](/docs/cmake/modules/PHP/ThreadSafety.md) module on the
-  `PHP::config` target, when thread safety is enabled.
+  A custom target property. When thread safety is enabled (either by the
+  configuration variable `PHP_THREAD_SAFETY` or automatically by the
+  `apache2handler` PHP SAPI), also a custom target property `PHP_THREAD_SAFETY`
+  is added to the `PHP::config` target, which can be then used in generator
+  expressions during the generation phase to determine thread safety enabled
+  from the configuration phase. For example, the `PHP_EXTENSION_DIR`
+  configuration variable needs to be set depending on the thread safety.
 
 * `PHP_ZEND_EXTENSION`
 
-  See the [`PHP/Extensions`](/docs/cmake/modules/PHP/Extensions.md) module.
+  PHP extensions can utilize this custom target property, which designates the
+  extension as a Zend extension rather than a standard PHP extension. Zend
+  extensions function similarly to regular PHP extensions, but they are loaded
+  using the `zend_extension` INI directive and possess an internally distinct
+  structure with additional hooks. Typically employed for advanced
+  functionalities like debuggers and profilers, Zend extensions offer enhanced
+  capabilities.
+
+  ```cmake
+  set_target_properties(php_ext_<extension_name> PROPERTIES PHP_ZEND_EXTENSION TRUE)
+  ```
 
 ## 10. PHP extensions
 

@@ -2,7 +2,7 @@
 Add subdirectories of PHP extensions.
 #]=============================================================================]
 
-include(PHP/Extensions)
+include(${CMAKE_CURRENT_SOURCE_DIR}/../cmake/Extensions.cmake)
 
 message(STATUS "")
 message(STATUS "")
