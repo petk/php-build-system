@@ -12,13 +12,20 @@ Subject: Fix tests
   ZipArchive::registerProgressCallback() is only available when using
   libzip 1.3.0 or newer.
   ZipArchive::RDONLY is available only with libzip >= 1.0.0
+
+  On Solaris 10, unlink() removes entire ext/standard/tests/file
+  directory, as the system unlink functionality is different. This bug
+  is not documented and should be probably resolved in a system-agnostic
+  way at some point. On Solaris 11.4 unlink() works as expected,
+  otherwise.
 ---
- ext/dom/tests/dom_xinclude.phpt         | 4 ++--
- ext/zip/tests/gh18431.phpt              | 4 ++++
- ext/zip/tests/oo_addemptydir_error.phpt | 2 +-
- ext/zip/tests/oo_addglob2.phpt          | 6 ++++++
- ext/zip/tests/oo_encryption.phpt        | 6 ++++++
- 5 files changed, 19 insertions(+), 3 deletions(-)
+ ext/dom/tests/dom_xinclude.phpt              |  4 ++--
+ ext/standard/tests/file/copy_variation4.phpt | 12 +++++++++---
+ ext/zip/tests/gh18431.phpt                   |  4 ++++
+ ext/zip/tests/oo_addemptydir_error.phpt      |  2 +-
+ ext/zip/tests/oo_addglob2.phpt               |  6 ++++++
+ ext/zip/tests/oo_encryption.phpt             |  6 ++++++
+ 6 files changed, 28 insertions(+), 6 deletions(-)
 
 diff --git a/ext/dom/tests/dom_xinclude.phpt b/ext/dom/tests/dom_xinclude.phpt
 index 0dfeb2dfb4a..410431de877 100644
@@ -37,6 +44,29 @@ index 0dfeb2dfb4a..410431de877 100644
    <title>The Pearl</title>
    <author>John Steinbeck</author>
   </book>
+diff --git a/ext/standard/tests/file/copy_variation4.phpt b/ext/standard/tests/file/copy_variation4.phpt
+index d467cb4ce9a..f31a1ddb117 100644
+--- a/ext/standard/tests/file/copy_variation4.phpt
++++ b/ext/standard/tests/file/copy_variation4.phpt
+@@ -5,9 +5,15 @@
+ if(substr(PHP_OS, 0, 3) == "WIN")
+   die("skip Do not run on Windows");
+ 
+-if(substr(PHP_OS, 0, 3) == "AIX")
+-  die("skip Do not run on AIX");
+-?>
++// unlink() removes entire ext/standard/tests/file directory on these systems:
++if(substr(PHP_OS, 0, 3) == "AIX") {
++    die("skip Do not run on AIX");
++}
++
++// unlink() removes entire directory on Solaris 10 (on Solaris 11.4 it's ok):
++if(substr(PHP_OS, 0, 5) == "SunOS") {
++    die("skip Do not run on Solaris/illumos");
++}
+ --FILE--
+ <?php
+ /* Test copy() function: In creation of destination file names with empty string, nulls & bools
 diff --git a/ext/zip/tests/gh18431.phpt b/ext/zip/tests/gh18431.phpt
 index d4eb89c36c6..dcd7db6f400 100644
 --- a/ext/zip/tests/gh18431.phpt
