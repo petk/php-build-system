@@ -13,13 +13,20 @@ Subject: Fix tests
   The tempnam() needs some existing directory, otherwise it emits a
   notice (e.g., when running tests from out-of-source build and running
   run-tests.php script from a directory not in the php-src).
+
+  On Solaris 10, unlink() removes entire ext/standard/tests/file
+  directory, as the system unlink functionality is different. This bug
+  is not documented and should be probably resolved in a system-agnostic
+  way at some point. On Solaris 11.4 unlink() works as expected,
+  otherwise.
 ---
- ext/standard/tests/file/002.phpt        | 2 +-
- ext/zip/tests/gh18431.phpt              | 4 ++++
- ext/zip/tests/oo_addemptydir_error.phpt | 2 +-
- ext/zip/tests/oo_addglob2.phpt          | 6 ++++++
- ext/zip/tests/oo_encryption.phpt        | 6 ++++++
- 5 files changed, 18 insertions(+), 2 deletions(-)
+ ext/standard/tests/file/002.phpt             |  2 +-
+ ext/standard/tests/file/copy_variation4.phpt | 11 +++++++++--
+ ext/zip/tests/gh18431.phpt                   |  4 ++++
+ ext/zip/tests/oo_addemptydir_error.phpt      |  2 +-
+ ext/zip/tests/oo_addglob2.phpt               |  6 ++++++
+ ext/zip/tests/oo_encryption.phpt             |  6 ++++++
+ 6 files changed, 27 insertions(+), 4 deletions(-)
 
 diff --git a/ext/standard/tests/file/002.phpt b/ext/standard/tests/file/002.phpt
 index 134f5416fc4..0eb882dc397 100644
@@ -34,6 +41,28 @@ index 134f5416fc4..0eb882dc397 100644
  $fp = fopen($name, "w");
  fwrite($fp, $data);
  fclose($fp);
+diff --git a/ext/standard/tests/file/copy_variation4.phpt b/ext/standard/tests/file/copy_variation4.phpt
+index d467cb4ce9a..99e7ab2ebd6 100644
+--- a/ext/standard/tests/file/copy_variation4.phpt
++++ b/ext/standard/tests/file/copy_variation4.phpt
+@@ -5,8 +5,15 @@
+ if(substr(PHP_OS, 0, 3) == "WIN")
+   die("skip Do not run on Windows");
+ 
+-if(substr(PHP_OS, 0, 3) == "AIX")
+-  die("skip Do not run on AIX");
++// unlink() removes entire ext/standard/tests/file directory on these systems:
++if(substr(PHP_OS, 0, 3) == "AIX") {
++    die("skip Do not run on AIX");
++}
++
++// unlink() removes entire directory on Solaris 10 (on Solaris 11.4 it's ok):
++if(substr(PHP_OS, 0, 5) == "SunOS") {
++    die("skip Do not run on Solaris/illumos");
++}
+ ?>
+ --FILE--
+ <?php
 diff --git a/ext/zip/tests/gh18431.phpt b/ext/zip/tests/gh18431.phpt
 index d4eb89c36c6..dcd7db6f400 100644
 --- a/ext/zip/tests/gh18431.phpt
