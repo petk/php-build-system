@@ -1,7 +1,10 @@
 #[=============================================================================[
 # FindPHP
 
-Find PHP.
+Finds PHP:
+
+```cmake
+find_package(PHP [<version>] [...])
 
 Components:
 
@@ -12,17 +15,18 @@ Components:
 
 ## Imported targets
 
-This module defines the following imported targets:
+This module provides the following imported targets:
 
 * `PHP::php` - The PHP package `IMPORTED` target, if found.
 * `PHP::embed` - The PHP embed SAPI, if found.
 
 ## Result variables
 
-* `PHP_FOUND` - Boolean indicating whether the package is found.
+* `PHP_FOUND` - Boolean indicating whether (the requested version of) package
+  was found.
+* `PHP_VERSION` - The version of package found.
 * `PHP_INCLUDE_DIRS` - Include directories needed to use this package.
 * `PHP_LIBRARIES` - Libraries needed to link to the package library.
-* `PHP_VERSION` - The version of package found.
 * `PHP_INSTALL_INCLUDEDIR` - Relative path to the `CMAKE_PREFIX_INSTALL`
   containing PHP headers.
 * `PHP_EXTENSION_DIR` - Path to the directory where shared extensions are

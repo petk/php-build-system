@@ -9,13 +9,14 @@ find_package(SASL [<version>] [...])
 
 ## Imported targets
 
-This module defines the following imported targets:
+This module provides the following imported targets:
 
 * `SASL::SASL` - The package library, if found.
 
 ## Result variables
 
-* `SASL_FOUND` - Boolean indicating whether the package is found.
+* `SASL_FOUND` - Boolean indicating whether (the requested version of) package
+  was found.
 * `SASL_VERSION` - The version of package found.
 
 ## Cache variables

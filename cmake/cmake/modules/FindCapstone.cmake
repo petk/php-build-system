@@ -9,13 +9,14 @@ find_package(Capstone [<version>] [...])
 
 ## Imported targets
 
-This module defines the following imported targets:
+This module provides the following imported targets:
 
 * `Capstone::Capstone` - The package library, if found.
 
 ## Result variables
 
-* `Capstone_FOUND` - Boolean indicating whether the package is found.
+* `Capstone_FOUND` - Boolean indicating whether (the requested version of)
+  package was found.
 * `Capstone_VERSION` - The version of package found.
 
 ## Cache variables

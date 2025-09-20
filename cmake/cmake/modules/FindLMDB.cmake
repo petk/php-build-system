@@ -9,13 +9,14 @@ find_package(LMDB [<version>] [...])
 
 ## Imported targets
 
-This module defines the following imported targets:
+This module provides the following imported targets:
 
 * `LMDB::LMDB` - The package library, if found.
 
 ## Result variables
 
-* `LMDB_FOUND` - Boolean indicating whether the package is found.
+* `LMDB_FOUND` - Boolean indicating whether (the requested version of) package
+  was found.
 * `LMDB_VERSION` - The version of package found.
 
 ## Cache variables
@@ -82,10 +83,10 @@ if(LMDB_INCLUDE_DIR AND LMDB_LIBRARY)
     set(CMAKE_REQUIRED_LIBRARIES ${LMDB_LIBRARY})
     set(CMAKE_REQUIRED_QUIET TRUE)
 
-    check_symbol_exists(mdb_env_open lmdb.h _LMDB_SANITY_CHECK)
+    check_symbol_exists(mdb_env_open lmdb.h LMDB_SANITY_CHECK)
   cmake_pop_check_state()
 
-  if(NOT _LMDB_SANITY_CHECK)
+  if(NOT LMDB_SANITY_CHECK)
     string(APPEND _reason "Sanity check failed: mdb_env_open not found. ")
   endif()
 endif()
@@ -124,7 +125,7 @@ find_package_handle_standard_args(
   REQUIRED_VARS
     LMDB_LIBRARY
     LMDB_INCLUDE_DIR
-    _LMDB_SANITY_CHECK
+    LMDB_SANITY_CHECK
   VERSION_VAR LMDB_VERSION
   HANDLE_VERSION_RANGE
   REASON_FAILURE_MESSAGE "${_reason}"

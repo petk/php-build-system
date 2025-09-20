@@ -9,13 +9,14 @@ find_package(QDBM [<version>] [...])
 
 ## Imported targets
 
-This module defines the following imported targets:
+This module provides the following imported targets:
 
 * `QDBM::QDBM` - The package library, if found.
 
 ## Result variables
 
-* `QDBM_FOUND` - Boolean indicating whether the package is found.
+* `QDBM_FOUND` - Boolean indicating whether (the requested version of) package
+  was found.
 * `QDBM_VERSION` - The version of package found.
 
 ## Cache variables
@@ -77,9 +78,9 @@ endif()
 
 # Sanity check.
 if(QDBM_LIBRARY)
-  check_library_exists("${QDBM_LIBRARY}" dpopen "" _qdbm_sanity_check)
+  check_library_exists("${QDBM_LIBRARY}" dpopen "" QDBM_SANITY_CHECK)
 
-  if(NOT _qdbm_sanity_check)
+  if(NOT QDBM_SANITY_CHECK)
     string(APPEND _reason "Sanity check failed: dpopen not found. ")
   endif()
 endif()
@@ -103,7 +104,7 @@ find_package_handle_standard_args(
   REQUIRED_VARS
     QDBM_LIBRARY
     QDBM_INCLUDE_DIR
-    _qdbm_sanity_check
+    QDBM_SANITY_CHECK
   VERSION_VAR QDBM_VERSION
   HANDLE_VERSION_RANGE
   REASON_FAILURE_MESSAGE "${_reason}"

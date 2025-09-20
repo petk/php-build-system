@@ -9,13 +9,14 @@ find_package(Cdb [<version>] [...])
 
 ## Imported targets
 
-This module defines the following imported targets:
+This module provides the following imported targets:
 
 * `Cdb::Cdb` - The package library, if found.
 
 ## Result variables
 
-* `Cdb_FOUND` - Boolean indicating whether the package is found.
+* `Cdb_FOUND` - Boolean indicating whether (the requested version of) package
+  was found.
 * `Cdb_VERSION` - The version of package found.
 
 ## Cache variables
@@ -82,10 +83,10 @@ if(Cdb_INCLUDE_DIR AND Cdb_LIBRARY)
     set(CMAKE_REQUIRED_LIBRARIES ${Cdb_LIBRARY})
     set(CMAKE_REQUIRED_QUIET TRUE)
 
-    check_symbol_exists(cdb_read cdb.h _Cdb_SANITY_CHECK)
+    check_symbol_exists(cdb_read cdb.h Cdb_SANITY_CHECK)
   cmake_pop_check_state()
 
-  if(NOT _Cdb_SANITY_CHECK)
+  if(NOT Cdb_SANITY_CHECK)
     string(APPEND _reason "Sanity check failed: cdb_read not found. ")
   endif()
 endif()
@@ -110,7 +111,7 @@ find_package_handle_standard_args(
   REQUIRED_VARS
     Cdb_LIBRARY
     Cdb_INCLUDE_DIR
-    _Cdb_SANITY_CHECK
+    Cdb_SANITY_CHECK
   VERSION_VAR Cdb_VERSION
   HANDLE_VERSION_RANGE
   REASON_FAILURE_MESSAGE "${_reason}"

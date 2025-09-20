@@ -9,13 +9,14 @@ find_package(Dmalloc)
 
 ## Imported targets
 
-This module defines the following imported targets:
+This module provides the following imported targets:
 
 * `Dmalloc::Dmalloc` - The package library, if found.
 
 ## Result variables
 
-* `Dmalloc_FOUND` - Boolean indicating whether the package is found.
+* `Dmalloc_FOUND` - Boolean indicating whether (the requested version of)
+  package was found.
 * `Dmalloc_VERSION` - The version of package found.
 
 ## Cache variables

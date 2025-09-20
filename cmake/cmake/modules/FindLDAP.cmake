@@ -14,7 +14,7 @@ find_package(LDAP [<version>] [COMPONENTS <components>...] [...])
 
 ## Imported targets
 
-This module defines the following imported targets:
+This module provides the following imported targets:
 
 * `LDAP::LDAP` - The LDAP library, if found.
 * `LDAP::LBER` - OpenLDAP LBER Lightweight Basic Encoding Rules library, if
@@ -22,7 +22,8 @@ This module defines the following imported targets:
 
 ## Result variables
 
-* `LDAP_FOUND` - Boolean indicating whether the package is found.
+* `LDAP_FOUND` - Boolean indicating whether (the requested version of) package
+  was found.
 * `LDAP_VERSION` - The version of package found.
 
 ## Cache variables

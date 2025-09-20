@@ -9,13 +9,13 @@ find_package(FreeTDS)
 
 ## Imported targets
 
-This module defines the following imported targets:
+This module provides the following imported targets:
 
 * `FreeTDS::FreeTDS` - The package library, if found.
 
 ## Result variables
 
-* `FreeTDS_FOUND` - Boolean indicating whether the package is found.
+* `FreeTDS_FOUND` - Boolean indicating whether the package was found.
 
 ## Cache variables
 
@@ -75,10 +75,10 @@ if(FreeTDS_INCLUDE_DIR AND FreeTDS_LIBRARY)
     set(CMAKE_REQUIRED_LIBRARIES ${FreeTDS_LIBRARY})
     set(CMAKE_REQUIRED_QUIET TRUE)
 
-    check_symbol_exists(dbsqlexec sybdb.h _FreeTDS_SANITY_CHECK)
+    check_symbol_exists(dbsqlexec sybdb.h FreeTDS_SANITY_CHECK)
   cmake_pop_check_state()
 
-  if(NOT _FreeTDS_SANITY_CHECK)
+  if(NOT FreeTDS_SANITY_CHECK)
     string(APPEND _reason "Sanity check failed: dbsqlexec not found. ")
   endif()
 endif()
@@ -90,7 +90,7 @@ find_package_handle_standard_args(
   REQUIRED_VARS
     FreeTDS_LIBRARY
     FreeTDS_INCLUDE_DIR
-    _FreeTDS_SANITY_CHECK
+    FreeTDS_SANITY_CHECK
   REASON_FAILURE_MESSAGE "${_reason}"
 )
 

@@ -9,13 +9,14 @@ find_package(NetSnmp [<version>] [...])
 
 ## Imported targets
 
-This module defines the following imported targets:
+This module provides the following imported targets:
 
 * `NetSnmp::NetSnmp` - The package library, if found.
 
 ## Result variables
 
-* `NetSnmp_FOUND` - Boolean indicating whether the package is found.
+* `NetSnmp_FOUND` - Boolean indicating whether (the requested version of)
+  package was found.
 * `NetSnmp_VERSION` - The version of package found.
 
 ## Cache variables
@@ -176,11 +177,11 @@ if(NetSnmp_INCLUDE_DIR AND NetSnmp_LIBRARY)
     check_symbol_exists(
       init_snmp
       "net-snmp/net-snmp-config.h;net-snmp/net-snmp-includes.h"
-      _NetSnmp_SANITY_CHECK
+      NetSnmp_SANITY_CHECK
     )
   cmake_pop_check_state()
 
-  if(NOT _NetSnmp_SANITY_CHECK)
+  if(NOT NetSnmp_SANITY_CHECK)
     string(APPEND _reason "Sanity check failed: init_snmp not found. ")
   endif()
 endif()
@@ -192,7 +193,7 @@ find_package_handle_standard_args(
   REQUIRED_VARS
     NetSnmp_LIBRARY
     NetSnmp_INCLUDE_DIR
-    _NetSnmp_SANITY_CHECK
+    NetSnmp_SANITY_CHECK
   VERSION_VAR NetSnmp_VERSION
   HANDLE_VERSION_RANGE
   REASON_FAILURE_MESSAGE "${_reason}"

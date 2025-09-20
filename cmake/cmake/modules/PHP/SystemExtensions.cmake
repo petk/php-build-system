@@ -64,7 +64,7 @@ Including this module defines the following variables:
 
 ## Imported target
 
-Including this module defines the following imported targets:
+Including this module provides the following imported targets:
 
 * `PHP::SystemExtensions`
 

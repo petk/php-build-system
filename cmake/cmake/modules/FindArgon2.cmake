@@ -9,13 +9,14 @@ find_package(Argon2 [<version>] [...])
 
 ## Imported targets
 
-This module defines the following imported targets:
+This module provides the following imported targets:
 
 * `Argon2::Argon2` - The package library, if found.
 
 ## Result variables
 
-* `Argon2_FOUND` - Boolean indicating whether the package is found.
+* `Argon2_FOUND` - Boolean indicating whether (the requested version of) package
+  was found.
 * `Argon2_VERSION` - The version of package found.
 
 ## Cache variables

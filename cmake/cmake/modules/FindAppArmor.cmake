@@ -9,13 +9,14 @@ find_package(AppArmor [<version>] [...])
 
 ## Imported targets
 
-This module defines the following imported targets:
+This module provides the following imported targets:
 
 * `AppArmor::AppArmor` - The package library, if found.
 
 ## Result variables
 
-* `AppArmor_FOUND` - Boolean indicating whether the package is found.
+* `AppArmor_FOUND` - Boolean indicating whether (the requested version of)
+  package was found.
 * `AppArmor_VERSION` - The version of package found.
 
 ## Cache variables
@@ -34,8 +35,6 @@ target_link_libraries(example PRIVATE AppArmor::AppArmor)
 ```
 #]=============================================================================]
 
-include(CheckSymbolExists)
-include(CMakePushCheckState)
 include(FeatureSummary)
 include(FindPackageHandleStandardArgs)
 
@@ -75,21 +74,6 @@ if(NOT AppArmor_LIBRARY)
   string(APPEND _reason "AppArmor library not found. ")
 endif()
 
-# Sanity check.
-if(AppArmor_INCLUDE_DIR AND AppArmor_LIBRARY)
-  cmake_push_check_state(RESET)
-    set(CMAKE_REQUIRED_INCLUDES ${AppArmor_INCLUDE_DIR})
-    set(CMAKE_REQUIRED_LIBRARIES ${AppArmor_LIBRARY})
-    set(CMAKE_REQUIRED_QUIET TRUE)
-
-    check_symbol_exists(aa_change_profile sys/apparmor.h _AppArmor_SANITY_CHECK)
-  cmake_pop_check_state()
-endif()
-
-if(NOT _AppArmor_SANITY_CHECK)
-  string(APPEND _reason "Sanity check failed: aa_change_profile not found. ")
-endif()
-
 # AppArmor headers don't provide version. Try pkg-config.
 if(
   PC_AppArmor_VERSION
@@ -105,7 +89,6 @@ find_package_handle_standard_args(
   REQUIRED_VARS
     AppArmor_LIBRARY
     AppArmor_INCLUDE_DIR
-    _AppArmor_SANITY_CHECK
   VERSION_VAR AppArmor_VERSION
   HANDLE_VERSION_RANGE
   REASON_FAILURE_MESSAGE "${_reason}"

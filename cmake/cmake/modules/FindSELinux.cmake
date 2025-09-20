@@ -9,13 +9,14 @@ find_package(SELinux [<version>] [...])
 
 ## Imported targets
 
-This module defines the following imported targets:
+This module provides the following imported targets:
 
 * `SELinux::SELinux` - The package library, if found.
 
 ## Result variables
 
-* `SELinux_FOUND` - Boolean indicating whether the package is found.
+* `SELinux_FOUND` - Boolean indicating whether (the requested version of)
+  package was found.
 * `SELinux_VERSION` - The version of package found.
 
 ## Cache variables
@@ -34,8 +35,6 @@ target_link_libraries(example PRIVATE SELinux::SELinux)
 ```
 #]=============================================================================]
 
-include(CheckSymbolExists)
-include(CMakePushCheckState)
 include(FeatureSummary)
 include(FindPackageHandleStandardArgs)
 
@@ -75,25 +74,6 @@ if(NOT SELinux_LIBRARY)
   string(APPEND _reason "SELinux library (libselinux) not found. ")
 endif()
 
-# Sanity check.
-if(SELinux_INCLUDE_DIR AND SELinux_LIBRARY)
-  cmake_push_check_state(RESET)
-    set(CMAKE_REQUIRED_INCLUDES ${SELinux_INCLUDE_DIR})
-    set(CMAKE_REQUIRED_LIBRARIES ${SELinux_LIBRARY})
-    set(CMAKE_REQUIRED_QUIET TRUE)
-
-    check_symbol_exists(
-      security_setenforce
-      selinux/selinux.h
-      _SELinux_SANITY_CHECK
-    )
-  cmake_pop_check_state()
-
-  if(NOT _SELinux_SANITY_CHECK)
-    string(APPEND _reason "Sanity check failed: security_setenforce() not found. ")
-  endif()
-endif()
-
 # SELinux headers don't provide version. Try pkg-config.
 if(PC_SELinux_VERSION AND SELinux_INCLUDE_DIR IN_LIST PC_SELinux_INCLUDE_DIRS)
   set(SELinux_VERSION ${PC_SELinux_VERSION})
@@ -106,7 +86,6 @@ find_package_handle_standard_args(
   REQUIRED_VARS
     SELinux_LIBRARY
     SELinux_INCLUDE_DIR
-    _SELinux_SANITY_CHECK
   VERSION_VAR SELinux_VERSION
   HANDLE_VERSION_RANGE
   REASON_FAILURE_MESSAGE "${_reason}"
