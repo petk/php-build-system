@@ -15,13 +15,14 @@ https://github.com/besser82/libxcrypt.
 
 ## Imported targets
 
-This module defines the following imported targets:
+This module provides the following imported targets:
 
 * `Crypt::Crypt` - The package library, if found.
 
 ## Result variables
 
-* `Crypt_FOUND` - Boolean indicating whether the package is found.
+* `Crypt_FOUND` - Boolean indicating whether (the requested version of) package
+  was found.
 * `Crypt_VERSION` - The version of package found.
 
 ## Cache variables
@@ -94,7 +95,7 @@ if(Crypt_IS_BUILT_IN)
   set(_Crypt_REQUIRED_VARS _Crypt_IS_BUILT_IN_MSG)
   set(_Crypt_IS_BUILT_IN_MSG "built in to C library")
 else()
-  set(_Crypt_REQUIRED_VARS Crypt_LIBRARY Crypt_INCLUDE_DIR _Crypt_SANITY_CHECK)
+  set(_Crypt_REQUIRED_VARS Crypt_LIBRARY Crypt_INCLUDE_DIR Crypt_SANITY_CHECK)
 
   find_package(PkgConfig QUIET)
   if(PkgConfig_FOUND)
@@ -128,7 +129,7 @@ else()
     set(CMAKE_REQUIRED_INCLUDES ${Crypt_INCLUDE_DIR})
     set(CMAKE_REQUIRED_LIBRARIES ${Crypt_LIBRARY})
     set(CMAKE_REQUIRED_QUIET TRUE)
-    check_symbol_exists(crypt unistd.h _Crypt_SANITY_CHECK)
+    check_symbol_exists(crypt unistd.h Crypt_SANITY_CHECK)
   cmake_pop_check_state()
 
   mark_as_advanced(Crypt_INCLUDE_DIR Crypt_LIBRARY)
@@ -161,8 +162,7 @@ endblock()
 
 find_package_handle_standard_args(
   Crypt
-  REQUIRED_VARS
-    ${_Crypt_REQUIRED_VARS}
+  REQUIRED_VARS ${_Crypt_REQUIRED_VARS}
   VERSION_VAR Crypt_VERSION
   HANDLE_VERSION_RANGE
   REASON_FAILURE_MESSAGE "${_reason}"

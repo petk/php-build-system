@@ -9,13 +9,14 @@ find_package(GMP [<version>] [...])
 
 ## Imported targets
 
-This module defines the following imported targets:
+This module provides the following imported targets:
 
 * `GMP::GMP` - The package library, if found.
 
 ## Result variables
 
-* `GMP_FOUND` - Boolean indicating whether the package is found.
+* `GMP_FOUND` - Boolean indicating whether (the requested version of) package
+  was found.
 * `GMP_VERSION` - The version of package found.
 
 ## Cache variables

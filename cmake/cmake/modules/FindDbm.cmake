@@ -21,13 +21,14 @@ interface.
 
 ## Imported targets
 
-This module defines the following imported targets:
+This module provides the following imported targets:
 
 * `Dbm::Dbm` - The package library, if found.
 
 ## Result variables
 
-* `Dbm_FOUND` - Boolean indicating whether the package is found.
+* `Dbm_FOUND` - Boolean indicating whether (the requested version of) package
+  was found.
 * `Dbm_IS_BUILT_IN` - Whether dbm is a part of the C library.
 
 ## Cache variables
@@ -78,7 +79,7 @@ if(Dbm_IS_BUILT_IN)
   set(_Dbm_REQUIRED_VARS _Dbm_IS_BUILT_IN_MSG)
   set(_Dbm_IS_BUILT_IN_MSG "built in to C library")
 else()
-  set(_Dbm_REQUIRED_VARS Dbm_INCLUDE_DIR Dbm_LIBRARY _Dbm_SANITY_CHECK)
+  set(_Dbm_REQUIRED_VARS Dbm_INCLUDE_DIR Dbm_LIBRARY Dbm_SANITY_CHECK)
 
   find_path(
     Dbm_INCLUDE_DIR
@@ -102,9 +103,9 @@ else()
 
   # Sanity check.
   if(Dbm_LIBRARY)
-    check_library_exists("${Dbm_LIBRARY}" dbminit "" _Dbm_SANITY_CHECK)
+    check_library_exists("${Dbm_LIBRARY}" dbminit "" Dbm_SANITY_CHECK)
 
-    if(NOT _dbm_sanity_check)
+    if(NOT Dbm_SANITY_CHECK)
       string(APPEND _reason "Sanity check failed: dbminit not found. ")
     endif()
   endif()
@@ -114,8 +115,7 @@ endif()
 
 find_package_handle_standard_args(
   Dbm
-  REQUIRED_VARS
-    ${_Dbm_REQUIRED_VARS}
+  REQUIRED_VARS ${_Dbm_REQUIRED_VARS}
   REASON_FAILURE_MESSAGE "${_reason}"
 )
 

@@ -9,13 +9,14 @@ find_package(XPM [<version>] [...])
 
 ## Imported targets
 
-This module defines the following imported targets:
+This module provides the following imported targets:
 
 * `XPM::XPM` - The libXpm library, if found.
 
 ## Result variables
 
-* `XPM_FOUND` - Boolean indicating whether the package is found.
+* `XPM_FOUND` - Boolean indicating whether (the requested version of) package
+  was found.
 * `XPM_VERSION` - The version of package found.
 
 ## Cache variables

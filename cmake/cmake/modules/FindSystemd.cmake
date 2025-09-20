@@ -9,13 +9,14 @@ find_package(Systemd [<version>] [...])
 
 ## Imported targets
 
-This module defines the following imported targets:
+This module provides the following imported targets:
 
 * `Systemd::Systemd` - The package library, if found.
 
 ## Result variables
 
-* `Systemd_FOUND` - Boolean indicating whether the package is found.
+* `Systemd_FOUND` - Boolean indicating whether (the requested version of)
+  package was found.
 * `Systemd_VERSION` - The version of package found.
 
 ## Cache variables

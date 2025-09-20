@@ -17,13 +17,13 @@ an interface.
 
 ## Imported targets
 
-This module defines the following imported targets:
+This module provides the following imported targets:
 
 * `Ndbm::Ndbm` - The package library, if found.
 
 ## Result variables
 
-* `Ndbm_FOUND` - Boolean indicating whether the package is found.
+* `Ndbm_FOUND` - Boolean indicating whether the package was found.
 * `Ndbm_IS_BUILT_IN` - Whether ndbm is a part of the C library.
 
 ## Cache variables
@@ -74,7 +74,7 @@ if(Ndbm_IS_BUILT_IN)
   set(_Ndbm_REQUIRED_VARS _Ndbm_IS_BUILT_IN_MSG)
   set(_Ndbm_IS_BUILT_IN_MSG "built in to C library")
 else()
-  set(_Ndbm_REQUIRED_VARS Ndbm_INCLUDE_DIR Ndbm_LIBRARY _Ndbm_SANITY_CHECK)
+  set(_Ndbm_REQUIRED_VARS Ndbm_INCLUDE_DIR Ndbm_LIBRARY Ndbm_SANITY_CHECK)
 
   find_path(
     Ndbm_INCLUDE_DIR
@@ -102,9 +102,9 @@ else()
 
   # Sanity check.
   if(Ndbm_LIBRARY)
-    check_library_exists("${Ndbm_LIBRARY}" dbm_open "" _Ndbm_SANITY_CHECK)
+    check_library_exists("${Ndbm_LIBRARY}" dbm_open "" Ndbm_SANITY_CHECK)
 
-    if(NOT _Ndbm_SANITY_CHECK)
+    if(NOT Ndbm_SANITY_CHECK)
       string(APPEND _reason "Sanity check failed: dbm_open not found. ")
     endif()
   endif()
@@ -114,8 +114,7 @@ endif()
 
 find_package_handle_standard_args(
   Ndbm
-  REQUIRED_VARS
-    ${_Ndbm_REQUIRED_VARS}
+  REQUIRED_VARS ${_Ndbm_REQUIRED_VARS}
   REASON_FAILURE_MESSAGE "${_reason}"
 )
 

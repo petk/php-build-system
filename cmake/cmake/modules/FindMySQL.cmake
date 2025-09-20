@@ -17,19 +17,20 @@ searches for MySQL Unix socket pointer and can be extended more in the future.
 
 ## Imported targets
 
-This module defines the following imported targets:
+This module provides the following imported targets:
 
 * `MySQL::MySQL` - The MySQL-compatible library, if found, when using the Lib
   component.
 
 ## Result variables
 
-* `MySQL_FOUND` - Whether the package with requested components has been found.
-* `MySQL_Socket_FOUND` - Whether the MySQL Unix socket pointer has been
-  determined.
+* `MySQL_FOUND` - Boolean indicating whether the package with requested
+  components was found.
+* `MySQL_Socket_FOUND` - Boolean indicating whether the MySQL Unix socket
+  pointer has been determined.
 * `MySQL_Socket_PATH` - Path to the MySQL Unix socket if one has been found in
   the predefined default locations.
-* `MySQL_Lib_FOUND` - Whether the Lib component has been found.
+* `MySQL_Lib_FOUND` - Whether the Lib component was found.
 
 ## Cache variables
 

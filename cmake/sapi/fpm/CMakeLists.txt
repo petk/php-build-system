@@ -340,7 +340,7 @@ if(PHP_SAPI_FPM_ACL)
 endif()
 
 if(PHP_SAPI_FPM_APPARMOR)
-  find_package(AppArmor)
+  find_package(AppArmor 2.7.0) # 2.7.0 for aa_getcon().
   set_package_properties(
     AppArmor
     PROPERTIES
@@ -356,7 +356,7 @@ if(PHP_SAPI_FPM_APPARMOR)
 endif()
 
 if(PHP_SAPI_FPM_SELINUX)
-  find_package(SELinux)
+  find_package(SELinux 2.0.89) # ~2.0.89 version that contains pkg-config.
   set_package_properties(
     SELinux
     PROPERTIES

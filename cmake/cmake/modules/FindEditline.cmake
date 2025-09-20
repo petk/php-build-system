@@ -9,13 +9,14 @@ find_package(Editline)
 
 ## Imported targets
 
-This module defines the following imported targets:
+This module provides the following imported targets:
 
 * `Editline::Editline` - The Editline library, if found.
 
 ## Result variables
 
-* `Editline_FOUND` - Boolean indicating whether the package is found.
+* `Editline_FOUND` - Boolean indicating whether (the requested version of)
+  package was found.
 * `Editline_VERSION` - The version of package found.
 
 ## Cache variables
@@ -82,10 +83,10 @@ if(Editline_INCLUDE_DIR AND Editline_LIBRARY)
     set(CMAKE_REQUIRED_LIBRARIES ${Editline_LIBRARY})
     set(CMAKE_REQUIRED_QUIET TRUE)
 
-    check_symbol_exists(readline editline/readline.h _Editline_SANITY_CHECK)
+    check_symbol_exists(readline editline/readline.h Editline_SANITY_CHECK)
   cmake_pop_check_state()
 
-  if(NOT _Editline_SANITY_CHECK)
+  if(NOT Editline_SANITY_CHECK)
     string(APPEND _reason "Sanity check failed: readline() not found. ")
   endif()
 endif()
@@ -105,7 +106,7 @@ find_package_handle_standard_args(
   REQUIRED_VARS
     Editline_LIBRARY
     Editline_INCLUDE_DIR
-    _Editline_SANITY_CHECK
+    Editline_SANITY_CHECK
   VERSION_VAR Editline_VERSION
   HANDLE_VERSION_RANGE
   REASON_FAILURE_MESSAGE "${_reason}"

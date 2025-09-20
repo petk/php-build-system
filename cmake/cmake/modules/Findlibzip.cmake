@@ -13,13 +13,14 @@ zip tools installed on the system.
 
 ## Imported targets
 
-This module defines the following imported targets:
+This module provides the following imported targets:
 
 * `libzip::zip` - The package library, if found.
 
 ## Result variables
 
-* `libzip_FOUND` - Boolean indicating whether the package is found.
+* `libzip_FOUND` - Boolean indicating whether (the requested version of) package
+  was found.
 * `libzip_VERSION` - The version of package found.
 
 ## Cache variables

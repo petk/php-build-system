@@ -14,14 +14,15 @@ find_package(Kerberos [<version>] [COMPONENTS <components>...] [...])
 
 ## Imported targets
 
-This module defines the following imported targets:
+This module provides the following imported targets:
 
 * `Kerberos::Krb5` - The Kerberos library, if found.
 * `Kerberos::GSSAPI` - The Kerberos GSSAPI component library, if found.
 
 ## Result variables
 
-* `Kerberos_FOUND` - Boolean indicating whether the package is found.
+* `Kerberos_FOUND` - Boolean indicating whether (the requested version of)
+  package was found.
 * `Kerberos_VERSION` - The version of package found.
 
 ## Cache variables

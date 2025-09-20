@@ -13,13 +13,13 @@ of the IMAP library that can be found as a standalone package on systems.
 
 ## Imported targets
 
-This module defines the following imported targets:
+This module provides the following imported targets:
 
 * `Cclient::Cclient` - The package library, if found.
 
 ## Result variables
 
-* `Cclient_FOUND` - Boolean indicating whether the package is found.
+* `Cclient_FOUND` - Boolean indicating whether the package was found.
 * `HAVE_IMAP2000` - Whether c-client version is 2000 or newer. If true,
   c-client.h should be included instead of only rfc822.h on prior versions.
 * `HAVE_IMAP2001` - Whether c-client version is 2001 to 2004.
