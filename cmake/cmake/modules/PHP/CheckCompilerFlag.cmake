@@ -117,10 +117,10 @@ function(php_check_compiler_flag lang flags result)
       check_compiler_flag(
         ${lang}
         -Wunknown-warning-option
-        _php_check_compiler_flag_${lang}_unknown_warning_option
+        PHP_CHECK_COMPILER_FLAG_HAS_${lang}_UNKNOWN_WARNING_OPTION
       )
 
-      if(_php_check_compiler_flag_${lang}_unknown_warning_option)
+      if(PHP_CHECK_COMPILER_FLAG_HAS_${lang}_UNKNOWN_WARNING_OPTION)
         string(APPEND CMAKE_REQUIRED_FLAGS " -Wunknown-warning-option")
       endif()
 

@@ -19,13 +19,13 @@ an interface.
 
 ## Imported targets
 
-This module defines the following imported targets:
+This module provides the following imported targets:
 
 * `Ndbm::Ndbm` - The package library, if found.
 
 ## Result variables
 
-* `Ndbm_FOUND` - Boolean indicating whether the package is found.
+* `Ndbm_FOUND` - Boolean indicating whether the package was found.
 * `Ndbm_IS_BUILT_IN` - Whether ndbm is a part of the C library.
 
 ## Cache variables

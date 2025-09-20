@@ -11,13 +11,14 @@ find_package(Editline)
 
 ## Imported targets
 
-This module defines the following imported targets:
+This module provides the following imported targets:
 
 * `Editline::Editline` - The Editline library, if found.
 
 ## Result variables
 
-* `Editline_FOUND` - Boolean indicating whether the package is found.
+* `Editline_FOUND` - Boolean indicating whether (the requested version of)
+  package was found.
 * `Editline_VERSION` - The version of package found.
 
 ## Cache variables

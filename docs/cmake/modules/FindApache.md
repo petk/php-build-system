@@ -15,13 +15,14 @@ tool, and the `apxs` command-line tool.
 
 ## Imported targets
 
-This module defines the following imported targets:
+This module provides the following imported targets:
 
 * `Apache::Apache` - The package library, if found.
 
 ## Result variables
 
-* `Apache_FOUND` - Boolean indicating whether the package is found.
+* `Apache_FOUND` - Boolean indicating whether (the requested version of) package
+  was found.
 * `Apache_VERSION` - The version of package found.
 * `Apache_THREADED` - Whether Apache requires thread safety.
 * `Apache_LIBEXECDIR` - Path to the directory containing all Apache modules and

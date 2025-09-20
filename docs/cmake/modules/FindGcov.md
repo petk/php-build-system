@@ -11,13 +11,13 @@ find_package(Gcov)
 
 ## Imported targets
 
-This module defines the following imported targets:
+This module provides the following imported targets:
 
 * `Gcov::Gcov` - The package library, if found.
 
 ## Result variables
 
-* `Gcov_FOUND` - Boolean indicating whether the package is found.
+* `Gcov_FOUND` - Boolean indicating whether the package was found.
 
 ## Cache variables
 

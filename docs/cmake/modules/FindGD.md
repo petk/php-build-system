@@ -11,13 +11,14 @@ find_package(GD [<version>] [...])
 
 ## Imported targets
 
-This module defines the following imported targets:
+This module provides the following imported targets:
 
 * `GD::GD` - The package library, if found.
 
 ## Result variables
 
-* `GD_FOUND` - Boolean indicating whether the package is found.
+* `GD_FOUND` - Boolean indicating whether (the requested version of) package was
+  found.
 * `GD_VERSION` - The version of package found.
 
 ## Cache variables

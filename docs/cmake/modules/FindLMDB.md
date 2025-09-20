@@ -11,13 +11,14 @@ find_package(LMDB [<version>] [...])
 
 ## Imported targets
 
-This module defines the following imported targets:
+This module provides the following imported targets:
 
 * `LMDB::LMDB` - The package library, if found.
 
 ## Result variables
 
-* `LMDB_FOUND` - Boolean indicating whether the package is found.
+* `LMDB_FOUND` - Boolean indicating whether (the requested version of) package
+  was found.
 * `LMDB_VERSION` - The version of package found.
 
 ## Cache variables

@@ -14,13 +14,14 @@ version 2.x and `enchant` for earlier versions < 2.0.
 
 ## Imported targets
 
-This module defines the following imported targets:
+This module provides the following imported targets:
 
 * `Enchant::Enchant` - The package library, if found.
 
 ## Result variables
 
-* `Enchant_FOUND` - Boolean indicating whether the package is found.
+* `Enchant_FOUND` - Boolean indicating whether (the requested version of)
+  package was found.
 * `Enchant_VERSION` - The version of package found.
 
 ## Cache variables

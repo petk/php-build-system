@@ -11,7 +11,7 @@ find_package(MM)
 
 ## Imported targets
 
-This module defines the following imported targets:
+This module provides the following imported targets:
 
 * `MM::MM` - The package library, if found.
 

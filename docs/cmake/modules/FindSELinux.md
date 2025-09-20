@@ -11,13 +11,14 @@ find_package(SELinux [<version>] [...])
 
 ## Imported targets
 
-This module defines the following imported targets:
+This module provides the following imported targets:
 
 * `SELinux::SELinux` - The package library, if found.
 
 ## Result variables
 
-* `SELinux_FOUND` - Boolean indicating whether the package is found.
+* `SELinux_FOUND` - Boolean indicating whether (the requested version of)
+  package was found.
 * `SELinux_VERSION` - The version of package found.
 
 ## Cache variables

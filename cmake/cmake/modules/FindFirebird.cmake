@@ -9,13 +9,14 @@ find_package(Firebird [<version>] [...])
 
 ## Imported targets
 
-This module defines the following imported targets:
+This module provides the following imported targets:
 
 * `Firebird::Firebird` - The package library, if found.
 
 ## Result variables
 
-* `Firebird_FOUND` - Boolean indicating whether the package is found.
+* `Firebird_FOUND` - Boolean indicating whether (the requested version of)
+  package was found.
 * `Firebird_VERSION` - Version of Firebird if fb-config utility is available.
 
 ## Cache variables

@@ -20,13 +20,13 @@ DTrace.
 
 ## Imported targets
 
-This module defines the following imported targets:
+This module provides the following imported targets:
 
 * `DTrace::DTrace` - The package library, if found.
 
 ## Result variables
 
-* `DTrace_FOUND` - Whether DTrace library is found.
+* `DTrace_FOUND` - Boolean indicating whether DTrace library was found.
 
 ## Cache variables
 

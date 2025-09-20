@@ -11,7 +11,7 @@ find_package(Atomic)
 
 ## Imported targets
 
-This module defines the following imported targets:
+This module provides the following imported targets:
 
 * `Atomic::Atomic` - The Atomic library, if found.
 

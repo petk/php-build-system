@@ -9,13 +9,14 @@ find_package(TokyoCabinet [<version>] [...])
 
 ## Imported targets
 
-This module defines the following imported targets:
+This module provides the following imported targets:
 
 * `TokyoCabinet::TokyoCabinet` - The package library, if found.
 
 ## Result variables
 
-* `TokyoCabinet_FOUND` - Boolean indicating whether the package is found.
+* `TokyoCabinet_FOUND` - Boolean indicating whether (the requested version of)
+  package was found.
 * `TokyoCabinet_VERSION` - The version of package found.
 
 ## Cache variables
@@ -82,10 +83,10 @@ if(TokyoCabinet_INCLUDE_DIR AND TokyoCabinet_LIBRARY)
     set(CMAKE_REQUIRED_LIBRARIES ${TokyoCabinet_LIBRARY})
     set(CMAKE_REQUIRED_QUIET TRUE)
 
-    check_symbol_exists(tcadbopen tcadb.h _TokyoCabinet_SANITY_CHECK)
+    check_symbol_exists(tcadbopen tcadb.h TokyoCabinet_SANITY_CHECK)
   cmake_pop_check_state()
 
-  if(NOT _TokyoCabinet_SANITY_CHECK)
+  if(NOT TokyoCabinet_SANITY_CHECK)
     string(APPEND _reason "Sanity check failed: tcadbopen not found. ")
   endif()
 endif()
@@ -110,7 +111,7 @@ find_package_handle_standard_args(
   REQUIRED_VARS
     TokyoCabinet_LIBRARY
     TokyoCabinet_INCLUDE_DIR
-    _TokyoCabinet_SANITY_CHECK
+    TokyoCabinet_SANITY_CHECK
   VERSION_VAR TokyoCabinet_VERSION
   HANDLE_VERSION_RANGE
   REASON_FAILURE_MESSAGE "${_reason}"

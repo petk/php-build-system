@@ -11,13 +11,14 @@ find_package(Oniguruma [<version>] [...])
 
 ## Imported targets
 
-This module defines the following imported targets:
+This module provides the following imported targets:
 
 * `Oniguruma::Oniguruma` - The package library, if Oniguruma is found.
 
 ## Result variables
 
-* `Oniguruma_FOUND` - Boolean indicating whether the package is found.
+* `Oniguruma_FOUND` - Boolean indicating whether (the requested version of)
+  package was found.
 * `Oniguruma_VERSION` - The version of package found.
 
 ## Cache variables

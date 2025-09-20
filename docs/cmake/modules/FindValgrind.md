@@ -11,13 +11,14 @@ find_package(Valgrind [<version>] [...])
 
 ## Imported targets
 
-This module defines the following imported targets:
+This module provides the following imported targets:
 
 * `Valgrind::Valgrind` - The package library, if found.
 
 ## Result variables
 
-* `Valgrind_FOUND` - Boolean indicating whether the package is found.
+* `Valgrind_FOUND` - Boolean indicating whether (the requested version of)
+  package was found.
 * `Valgrind_VERSION` - The version of package found.
 
 ## Cache variables

@@ -17,13 +17,14 @@ https://github.com/besser82/libxcrypt.
 
 ## Imported targets
 
-This module defines the following imported targets:
+This module provides the following imported targets:
 
 * `Crypt::Crypt` - The package library, if found.
 
 ## Result variables
 
-* `Crypt_FOUND` - Boolean indicating whether the package is found.
+* `Crypt_FOUND` - Boolean indicating whether (the requested version of) package
+  was found.
 * `Crypt_VERSION` - The version of package found.
 
 ## Cache variables

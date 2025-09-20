@@ -11,8 +11,9 @@ find_package(RE2C [<version>] [...])
 
 ## Result variables
 
-* `RE2C_FOUND` - Whether the `re2c` was found.
-* `RE2C_VERSION` - The `re2c` version.
+* `RE2C_FOUND` - Boolean indicating whether (the requested version of) `re2c`
+  was found.
+* `RE2C_VERSION` - The version of `re2c` found.
 
 ## Cache variables
 

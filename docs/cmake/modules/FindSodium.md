@@ -11,13 +11,14 @@ find_package(Sodium [<version>] [...])
 
 ## Imported targets
 
-This module defines the following imported targets:
+This module provides the following imported targets:
 
 * `Sodium::Sodium` - The package library, if found.
 
 ## Result variables
 
-* `Sodium_FOUND` - Boolean indicating whether the package is found.
+* `Sodium_FOUND` - Boolean indicating whether (the requested version of) package
+  was found.
 * `Sodium_VERSION` - The version of package found.
 
 ## Cache variables

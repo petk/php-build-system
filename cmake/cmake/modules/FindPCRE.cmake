@@ -9,13 +9,14 @@ find_package(PCRE [<version>] [...])
 
 ## Imported targets
 
-This module defines the following imported targets:
+This module provides the following imported targets:
 
 * `PCRE::PCRE` - The package library, if found.
 
 ## Result variables
 
-* `PCRE_FOUND` - Boolean indicating whether the package is found.
+* `PCRE_FOUND` - Boolean indicating whether (the requested version of) package
+  was found.
 * `PCRE_VERSION` - The version of package found.
 
 ## Cache variables

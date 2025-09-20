@@ -16,7 +16,7 @@ On Windows, PHP has built-in mailer (sendmail.c), on *nix systems either
 
 ## Result variables
 
-* `Sendmail_FOUND` - Whether sendmail has been found.
+* `Sendmail_FOUND` - Boolean indicating whether sendmail was found.
 * `Sendmail_PROGRAM` - Path to the sendmail executable program, either found by
   the module or set to a sensible default value for usage in PHP. On Windows,
   this is set to an empty string as PHP uses a built in mailer there.

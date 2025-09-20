@@ -11,13 +11,14 @@ find_package(Cdb [<version>] [...])
 
 ## Imported targets
 
-This module defines the following imported targets:
+This module provides the following imported targets:
 
 * `Cdb::Cdb` - The package library, if found.
 
 ## Result variables
 
-* `Cdb_FOUND` - Boolean indicating whether the package is found.
+* `Cdb_FOUND` - Boolean indicating whether (the requested version of) package
+  was found.
 * `Cdb_VERSION` - The version of package found.
 
 ## Cache variables

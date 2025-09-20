@@ -11,13 +11,14 @@ find_package(WebP [<version>] [...])
 
 ## Imported targets
 
-This module defines the following imported targets:
+This module provides the following imported targets:
 
 * `WebP::WebP` - The package library, if found.
 
 ## Result variables
 
-* `WebP_FOUND` - Boolean indicating whether the package is found.
+* `WebP_FOUND` - Boolean indicating whether (the requested version of) package
+  was found.
 * `WebP_VERSION` - The version of package found.
 
 ## Cache variables

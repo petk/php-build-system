@@ -9,13 +9,14 @@ find_package(BerkeleyDB [<version>] [...])
 
 ## Imported targets
 
-This module defines the following imported targets:
+This module provides the following imported targets:
 
 * `BerkeleyDB::BerkeleyDB` - The package library, if found.
 
 ## Result variables
 
-* `BerkeleyDB_FOUND` - Boolean indicating whether the package is found.
+* `BerkeleyDB_FOUND` - Boolean indicating whether (the requested version of)
+  package was found.
 * `BerkeleyDB_VERSION` - The version of package found.
 
 ## Cache variables
@@ -123,10 +124,10 @@ if(BerkeleyDB_LIBRARY)
         (void)db_create((DB**)0, (DB_ENV*)0, 0);
         return 0;
       }
-    ]] _berkeleydb_sanity_check)
+    ]] BerkeleyDB_SANITY_CHECK)
   cmake_pop_check_state()
 
-  if(NOT _berkeleydb_sanity_check)
+  if(NOT BerkeleyDB_SANITY_CHECK)
     string(APPEND _reason "Sanity check failed: db_create not found. ")
   endif()
 endif()
@@ -168,7 +169,7 @@ find_package_handle_standard_args(
   REQUIRED_VARS
     BerkeleyDB_LIBRARY
     BerkeleyDB_INCLUDE_DIR
-    _berkeleydb_sanity_check
+    BerkeleyDB_SANITY_CHECK
   VERSION_VAR BerkeleyDB_VERSION
   HANDLE_VERSION_RANGE
   REASON_FAILURE_MESSAGE "${_reason}"

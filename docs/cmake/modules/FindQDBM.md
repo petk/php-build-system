@@ -11,13 +11,14 @@ find_package(QDBM [<version>] [...])
 
 ## Imported targets
 
-This module defines the following imported targets:
+This module provides the following imported targets:
 
 * `QDBM::QDBM` - The package library, if found.
 
 ## Result variables
 
-* `QDBM_FOUND` - Boolean indicating whether the package is found.
+* `QDBM_FOUND` - Boolean indicating whether (the requested version of) package
+  was found.
 * `QDBM_VERSION` - The version of package found.
 
 ## Cache variables

@@ -11,13 +11,13 @@ find_package(FreeTDS)
 
 ## Imported targets
 
-This module defines the following imported targets:
+This module provides the following imported targets:
 
 * `FreeTDS::FreeTDS` - The package library, if found.
 
 ## Result variables
 
-* `FreeTDS_FOUND` - Boolean indicating whether the package is found.
+* `FreeTDS_FOUND` - Boolean indicating whether the package was found.
 
 ## Cache variables
 

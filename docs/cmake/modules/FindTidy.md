@@ -12,13 +12,14 @@ find_package(Tidy [<version>] [...])
 
 ## Imported targets
 
-This module defines the following imported targets:
+This module provides the following imported targets:
 
 * `Tidy::Tidy` - The package library, if found.
 
 ## Result variables
 
-* `Tidy_FOUND` - Boolean indicating whether the package is found.
+* `Tidy_FOUND` - Boolean indicating whether (the requested version of) package
+  was found.
 * `Tidy_VERSION` - The version of package found.
 * `Tidy_HEADER` - Name of the Tidy header (`tidy.h`, or `tidyp.h`).
 
