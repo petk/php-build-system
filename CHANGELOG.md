@@ -3,6 +3,10 @@
 This document lists all notable changes across the main Git branches of this
 repository.
 
+## PHP 8.6
+
+* ...
+
 ## PHP 8.5
 
 * C11 standard

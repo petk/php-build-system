@@ -22,19 +22,19 @@ Configuration variables:
 For example:
 
   cmake -B <build-dir>
-    will download PHP-8.5 Git branch archive from GitHub. Same as:
-      cmake -B <build-dir> -D PHP_VERSION_DOWNLOAD=8.5-dev
+    will download PHP-8.6 Git branch archive from GitHub. Same as:
+      cmake -B <build-dir> -D PHP_VERSION_DOWNLOAD=8.6-dev
 
-  cmake -B <build-dir> -D PHP_VERSION_DOWNLOAD=8.5
-    will download latest stable 8.5 release tarball from php.net.
+  cmake -B <build-dir> -D PHP_VERSION_DOWNLOAD=8.6
+    will download latest stable 8.6 release tarball from php.net.
 
-  cmake -B <build-dir> -D PHP_VERSION_DOWNLOAD=8.5.0
+  cmake -B <build-dir> -D PHP_VERSION_DOWNLOAD=8.6.0
     will download specific PHP version tarball from php.net.
 
 Other PHP-related configuration variables can be passed similarly. For example:
 
-  cmake -B <build-dir> -D PHP_VERSION_DOWNLOAD=8.5 -D PHP_THREAD_SAFETY=ON
-    will download latest PHP 8.5 tarball and enable PHP thread safety (ZTS).
+  cmake -B <build-dir> -D PHP_VERSION_DOWNLOAD=8.6 -D PHP_THREAD_SAFETY=ON
+    will download latest PHP 8.6 tarball and enable PHP thread safety (ZTS).
 
 After configuration and generation phase is complete, PHP can be built by:
 

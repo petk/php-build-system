@@ -2,6 +2,19 @@
 
 This document describes how the PHP build system evolved through time.
 
+## PHP 8.6 (in development)
+
+...
+
+<details>
+<summary>Changelog</summary>
+
+### PHP 8.6 build system changes
+
+* ...
+
+</details>
+
 ## PHP 8.5 (in development)
 
 PHP coding standards now use the C11 standard.
