@@ -84,7 +84,7 @@ block(PROPAGATE phpUrl)
   mark_as_advanced(PHP_VERSION_DOWNLOAD)
 
   # PHP <major>.<minor> version currently in development (the master branch).
-  set(phpDevelopmentBranch 8.5)
+  set(phpDevelopmentBranch 8.6)
 
   # Validate PHP version.
   if(NOT PHP_VERSION_DOWNLOAD MATCHES [[^[0-9]+\.[0-9]+(\.[0-9]+|-dev|$)]])

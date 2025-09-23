@@ -1,5 +1,5 @@
 From: Peter Kokot <peterkokot@gmail.com>
-Subject: Add CMake changes for PHP-8.5 branch
+Subject: Add CMake changes for PHP-8.6 branch
 
 - EditorConfig adjustments for code style support in editors and IDEs
 - CMake build system files added to .gitignore

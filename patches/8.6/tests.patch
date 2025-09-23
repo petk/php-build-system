@@ -1,0 +1,195 @@
+From: Peter Kokot <peterkokot@gmail.com>
+Subject: Fix tests
+
+- ext/dom
+  When running tests from a directory located inside php-src, for
+  example, php-src/php-build relative paths need to be adjusted.
+
+- ext/zip
+  When PHP is compiled and built against libzip that doesn't have AES
+  support enabled (if all encryption options are set to OFF in CMake),
+  ZipArchive::EM_AES_256 and ZipArchive::EM_AES_192 aren't supported.
+  ZipArchive::registerProgressCallback() is only available when using
+  libzip 1.3.0 or newer.
+  ZipArchive::RDONLY is available only with libzip >= 1.0.0
+
+  On Solaris 10, unlink() removes entire ext/standard/tests/file
+  directory, as the system unlink functionality is different. This bug
+  is not documented and should be probably resolved in a system-agnostic
+  way at some point. On Solaris 11.4 unlink() works as expected,
+  otherwise.
+
+  Added helper function to get relative path to fix some tests as they
+  are creating directories and files all over the place on the system,
+  when test fails.
+---
+ ext/dom/tests/dom_xinclude.phpt               |  4 ++--
+ ext/standard/tests/file/copy_variation4.phpt  | 12 ++++++++---
+ ext/standard/tests/file/file.inc              | 21 +++++++++++++++++++
+ .../tests/file/unlink_variation10.phpt        | 12 ++++++++---
+ ext/zip/tests/gh18431.phpt                    |  4 ++++
+ ext/zip/tests/oo_addemptydir_error.phpt       |  2 +-
+ ext/zip/tests/oo_addglob2.phpt                |  6 ++++++
+ ext/zip/tests/oo_encryption.phpt              |  6 ++++++
+ 8 files changed, 58 insertions(+), 9 deletions(-)
+
+diff --git a/ext/dom/tests/dom_xinclude.phpt b/ext/dom/tests/dom_xinclude.phpt
+index 0dfeb2dfb4a..410431de877 100644
+--- a/ext/dom/tests/dom_xinclude.phpt
++++ b/ext/dom/tests/dom_xinclude.phpt
+@@ -48,10 +48,10 @@
+ #text
+ <?xml version="1.0" encoding="UTF-8"?>
+ <foo xmlns:xi="http://www.w3.org/2001/XInclude">
+-    <book xml:base="compress.zlib://./ext/dom/tests/book.xml">
++    <book xml:base="compress.zlib://%s/ext/dom/tests/book.xml">
+   <title>The Grapes of Wrath</title>
+   <author>John Steinbeck</author>
+- </book><book xml:base="compress.zlib://./ext/dom/tests/book.xml">
++ </book><book xml:base="compress.zlib://%s/ext/dom/tests/book.xml">
+   <title>The Pearl</title>
+   <author>John Steinbeck</author>
+  </book>
+diff --git a/ext/standard/tests/file/copy_variation4.phpt b/ext/standard/tests/file/copy_variation4.phpt
+index d467cb4ce9a..f31a1ddb117 100644
+--- a/ext/standard/tests/file/copy_variation4.phpt
++++ b/ext/standard/tests/file/copy_variation4.phpt
+@@ -5,9 +5,15 @@
+ if(substr(PHP_OS, 0, 3) == "WIN")
+   die("skip Do not run on Windows");
+ 
+-if(substr(PHP_OS, 0, 3) == "AIX")
+-  die("skip Do not run on AIX");
+-?>
++// unlink() removes entire ext/standard/tests/file directory on these systems:
++if(substr(PHP_OS, 0, 3) == "AIX") {
++    die("skip Do not run on AIX");
++}
++
++// unlink() removes entire directory on Solaris 10 (on Solaris 11.4 it's ok):
++if(substr(PHP_OS, 0, 5) == "SunOS") {
++    die("skip Do not run on Solaris/illumos");
++}
+ --FILE--
+ <?php
+ /* Test copy() function: In creation of destination file names with empty string, nulls & bools
+diff --git a/ext/standard/tests/file/file.inc b/ext/standard/tests/file/file.inc
+index c972784f9da..c7665d2846d 100644
+--- a/ext/standard/tests/file/file.inc
++++ b/ext/standard/tests/file/file.inc
+@@ -654,4 +654,25 @@ function compare_stats($stat1, $stat2, $fields, $op = "==", $flag = false ) {
+   return $result;
+ }
+ 
++/**
++ * Get a relative path.
++ */
++function relativePath($from, $to)
++{
++    $from = str_replace(['/', '\\'], DIRECTORY_SEPARATOR, $from);
++    $to = str_replace(['/', '\\'], DIRECTORY_SEPARATOR, $to);
++
++    $fromArray = explode(DIRECTORY_SEPARATOR, rtrim($from, DIRECTORY_SEPARATOR));
++    $toArray = explode(DIRECTORY_SEPARATOR, rtrim($to, DIRECTORY_SEPARATOR));
++
++    while (count($fromArray) && count($toArray) && ($fromArray[0] == $toArray[0])) {
++        array_shift($fromArray);
++        array_shift($toArray);
++    }
++
++    $relativePath = str_pad('', count($fromArray) * 3, '..' . DIRECTORY_SEPARATOR) . implode(DIRECTORY_SEPARATOR, $toArray);
++
++    return ($relativePath === '') ? '.' : $relativePath;
++}
++
+ ?>
+diff --git a/ext/standard/tests/file/unlink_variation10.phpt b/ext/standard/tests/file/unlink_variation10.phpt
+index 127b070d23a..a3355a99560 100644
+--- a/ext/standard/tests/file/unlink_variation10.phpt
++++ b/ext/standard/tests/file/unlink_variation10.phpt
+@@ -10,14 +10,20 @@
+ ?>
+ --FILE--
+ <?php
++
++// include the file.inc for function relativePath().
++include(__DIR__ . '/file.inc');
++
+ echo "*** Testing unlink() : variation ***\n";
+ 
+-$workDir = "unlinkVar10.tmp";
+-$tmpDir = "subDir.tmp";
++$cwd = getcwd();
++$relativePath = relativePath($cwd, __DIR__);
++
++$workDir = $relativePath . '/unlinkVar10.tmp';
++$tmpDir = $relativePath . '/subDir.tmp';
+ $dirToLinkTo = $workDir.'/'."linkme.tmp";
+ 
+ mkdir($workDir);
+-$cwd = getcwd();
+ mkdir($dirToLinkTo);
+ 
+ $dirs = array(
+diff --git a/ext/zip/tests/gh18431.phpt b/ext/zip/tests/gh18431.phpt
+index d4eb89c36c6..dcd7db6f400 100644
+--- a/ext/zip/tests/gh18431.phpt
++++ b/ext/zip/tests/gh18431.phpt
+@@ -2,6 +2,10 @@
+ GH-18431 (Registering ZIP progress callback twice doesn't work)
+ --EXTENSIONS--
+ zip
++--SKIPIF--
++<?php
++if (!method_exists('ZipArchive', 'registerProgressCallback')) die('skip libzip too old');
++?>
+ --FILE--
+ <?php
+ $file = __DIR__ . '/gh18431.zip';
+diff --git a/ext/zip/tests/oo_addemptydir_error.phpt b/ext/zip/tests/oo_addemptydir_error.phpt
+index 595c7d9ea23..bd7507a51e3 100644
+--- a/ext/zip/tests/oo_addemptydir_error.phpt
++++ b/ext/zip/tests/oo_addemptydir_error.phpt
+@@ -4,7 +4,7 @@
+ zip
+ --SKIPIF--
+ <?php
+-/* $Id$ */
++if (version_compare(ZipArchive::LIBZIP_VERSION, '1.0.0', '<')) die('skip libzip < 1.0.0');
+ ?>
+ --FILE--
+ <?php
+diff --git a/ext/zip/tests/oo_addglob2.phpt b/ext/zip/tests/oo_addglob2.phpt
+index 517c0b7fd7f..1432d704de5 100644
+--- a/ext/zip/tests/oo_addglob2.phpt
++++ b/ext/zip/tests/oo_addglob2.phpt
+@@ -6,6 +6,12 @@
+ <?php
+ if (!method_exists('ZipArchive', 'setEncryptionName')) die('skip encrytion not supported');
+ if(!defined("GLOB_BRACE")) die ('skip requires GLOB_BRACE');
++if (
++    method_exists('ZipArchive', 'isEncryptionMethodSupported')
++    && !ZipArchive::isEncryptionMethodSupported(ZipArchive::EM_AES_256)
++) {
++    die('skip EM_AES_256 encryption not supported');
++}
+ ?>
+ --FILE--
+ <?php
+diff --git a/ext/zip/tests/oo_encryption.phpt b/ext/zip/tests/oo_encryption.phpt
+index f5207e30759..ccc0a04b8f1 100644
+--- a/ext/zip/tests/oo_encryption.phpt
++++ b/ext/zip/tests/oo_encryption.phpt
+@@ -5,6 +5,12 @@
+ --SKIPIF--
+ <?php
+ if (!method_exists('ZipArchive', 'setEncryptionName')) die('skip encryption not supported');
++if (
++    method_exists('ZipArchive', 'isEncryptionMethodSupported')
++    && !ZipArchive::isEncryptionMethodSupported(ZipArchive::EM_AES_256)
++) {
++    die('skip EM_AES_256 encryption not supported');
++}
+ ?>
+ --FILE--
+ <?php

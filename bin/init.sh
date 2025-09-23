@@ -11,7 +11,7 @@ branch=""
 debug=0
 
 # The PHP MAJOR.MINOR version currently in development (the master branch).
-phpVersionDev="8.5"
+phpVersionDev="8.6"
 
 # Go to project root.
 cd "$(CDPATH='' cd -- "$(dirname -- "$0")/.." && pwd -P)" || exit

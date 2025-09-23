@@ -1,0 +1,240 @@
+From: Peter Kokot <peterkokot@gmail.com>
+Subject: Sync boost.context ASM files with upstream
+
+This fixes build errors on Solaris/illumos systems where system is
+32-bit ('uname -p' gives i386) but compiler supports 64-bit
+architecture.
+
+Fixes are ported from the upstream https://github.com/boostorg/context
+repository.
+
+There are some PHP specific adjustments only in php-src and not upstream
+which should be resolved in the future.
+---
+ Zend/asm/jump_s390x_sysv_elf_gas.S   | 24 +++++++++++++----------
+ Zend/asm/jump_sparc64_sysv_elf_gas.S | 12 +++++++-----
+ Zend/asm/jump_x86_64_ms_pe_gas.S     |  4 ++++
+ Zend/asm/jump_x86_64_sysv_elf_gas.S  |  8 --------
+ Zend/asm/make_s390x_sysv_elf_gas.S   | 14 +++++++-------
+ Zend/asm/make_sparc64_sysv_elf_gas.S |  4 ++--
+ Zend/asm/make_x86_64_ms_pe_gas.S     |  4 ++++
+ Zend/asm/make_x86_64_sysv_elf_gas.S  | 29 ----------------------------
+ 8 files changed, 38 insertions(+), 61 deletions(-)
+
+diff --git a/Zend/asm/jump_s390x_sysv_elf_gas.S b/Zend/asm/jump_s390x_sysv_elf_gas.S
+index c2a578b2663..fa71467756d 100644
+--- a/Zend/asm/jump_s390x_sysv_elf_gas.S
++++ b/Zend/asm/jump_s390x_sysv_elf_gas.S
+@@ -49,11 +49,12 @@
+ .type	jump_fcontext, @function
+ 
+ #define ARG_OFFSET         0
+-#define GR_OFFSET	   16
+-#define FP_OFFSET	   96
+-#define FPC_OFFSET	   160
+-#define PC_OFFSET	   168
+-#define CONTEXT_SIZE	   176
++#define GR_OFFSET          16
++#define R14_OFFSET         88
++#define FP_OFFSET          96
++#define FPC_OFFSET         160
++#define PC_OFFSET          168
++#define CONTEXT_SIZE       176
+ 
+ #define REG_SAVE_AREA_SIZE 160
+ 
+@@ -131,11 +132,14 @@ jump_fcontext:
+ 	ltg	%r2,GR_OFFSET(%r15)
+ 	jnz	use_return_slot
+ 
+-	/* We restore a make_fcontext context.  Use the function
+-	   argument slot in the context we just saved and allocate the
+-	   register save area for the target function.  */
+-	la	%r2,ARG_OFFSET(%r1)
+-	aghi	%r15,-REG_SAVE_AREA_SIZE
++	/* We're restoring a context created by make_fcontext.
++	   This is going to be the argument of the entry point
++	   of the fiber. We're placing it on top of the ABI
++	   defined register save area of the fiber's own stack. */
++	la	%r2,REG_SAVE_AREA_SIZE(%r15)
++
++	/* REG_SAVE_AREA_SIZE + sizeof(transfer_t) */
++	aghi	%r15,-(REG_SAVE_AREA_SIZE+16)
+ 
+ use_return_slot:
+ 	/* Save the two fields in transfer_t.  When calling a
+diff --git a/Zend/asm/jump_sparc64_sysv_elf_gas.S b/Zend/asm/jump_sparc64_sysv_elf_gas.S
+index 727687aad80..61101fb1f62 100644
+--- a/Zend/asm/jump_sparc64_sysv_elf_gas.S
++++ b/Zend/asm/jump_sparc64_sysv_elf_gas.S
+@@ -6,12 +6,14 @@
+ */
+ 
+ /*
+- * typedef struct {
+- *	void *handle;
+- *	zend_fiber_transfer *transfer;
+- * } boost_context_data;
++ * typedef void*	fcontext_t;
+  *
+- * boost_context_data jump_fcontext(void *to, zend_fiber_transfer *transfer);
++ * struct transfer_t {
++ *	fcontext_t	fctx;
++ *	void	*	data;
++ * };
++ *
++ * transfer_t jump_fcontext(fcontext_t const to, void *vp);
+  */
+ #define CC64FSZ 176
+ #define BIAS 2047
+diff --git a/Zend/asm/jump_x86_64_ms_pe_gas.S b/Zend/asm/jump_x86_64_ms_pe_gas.S
+index 5ebc46f3640..ec4ecfe946d 100644
+--- a/Zend/asm/jump_x86_64_ms_pe_gas.S
++++ b/Zend/asm/jump_x86_64_ms_pe_gas.S
+@@ -89,6 +89,7 @@
+ .file	"jump_x86_64_ms_pe_gas.asm"
+ .text
+ .p2align 4,,15
++.globl	jump_fcontext
+ .def	jump_fcontext;	.scl	2;	.type	32;	.endef
+ .seh_proc	jump_fcontext
+ jump_fcontext:
+@@ -203,3 +204,6 @@ jump_fcontext:
+     /* indirect jump to context */
+     jmp  *%r10
+ .seh_endproc
++
++.section .drectve
++.ascii " -export:\"jump_fcontext\""
+diff --git a/Zend/asm/jump_x86_64_sysv_elf_gas.S b/Zend/asm/jump_x86_64_sysv_elf_gas.S
+index be264bdc2e2..ff303bfa0e2 100644
+--- a/Zend/asm/jump_x86_64_sysv_elf_gas.S
++++ b/Zend/asm/jump_x86_64_sysv_elf_gas.S
+@@ -67,14 +67,6 @@ jump_fcontext:
+     movq  %rbx, 0x30(%rsp)  /* save RBX */
+     movq  %rbp, 0x38(%rsp)  /* save RBP */
+ 
+-#if BOOST_CONTEXT_SHADOW_STACK
+-    /* grow the stack to reserve space for shadow stack pointer(SSP) */
+-    leaq  -0x8(%rsp), %rsp
+-    /* read the current SSP and store it */
+-    rdsspq  %rcx
+-    movq  %rcx, (%rsp)
+-#endif
+-
+ #if BOOST_CONTEXT_SHADOW_STACK
+     /* grow the stack to reserve space for shadow stack pointer(SSP) */
+     leaq  -0x8(%rsp), %rsp
+diff --git a/Zend/asm/make_s390x_sysv_elf_gas.S b/Zend/asm/make_s390x_sysv_elf_gas.S
+index e7e2d5f6e0c..4dd423e2a44 100644
+--- a/Zend/asm/make_s390x_sysv_elf_gas.S
++++ b/Zend/asm/make_s390x_sysv_elf_gas.S
+@@ -49,12 +49,12 @@
+ .type	make_fcontext, @function
+ 
+ #define ARG_OFFSET         0
+-#define GR_OFFSET	   16
+-#define R14_OFFSET	   88
+-#define FP_OFFSET	   96
+-#define FPC_OFFSET	   160
+-#define PC_OFFSET	   168
+-#define CONTEXT_SIZE	   176
++#define GR_OFFSET          16
++#define R14_OFFSET         88
++#define FP_OFFSET          96
++#define FPC_OFFSET         160
++#define PC_OFFSET          168
++#define CONTEXT_SIZE       176
+ 
+ /*
+ 
+@@ -72,7 +72,7 @@ r4 - The address of the context function
+ make_fcontext:
+ 	.machine "z10"
+ 	/* Align the stack to an 8 byte boundary.  */
+-	nill    %r2,0xfff0
++	nill    %r2,0xfff8
+ 
+ 	/* Allocate stack space for the context.  */
+ 	aghi	%r2,-CONTEXT_SIZE
+diff --git a/Zend/asm/make_sparc64_sysv_elf_gas.S b/Zend/asm/make_sparc64_sysv_elf_gas.S
+index 52ff70b996b..3e7ee809c91 100644
+--- a/Zend/asm/make_sparc64_sysv_elf_gas.S
++++ b/Zend/asm/make_sparc64_sysv_elf_gas.S
+@@ -6,7 +6,7 @@
+ */
+ 
+ /*
+- * void *make_fcontext(void *sp, size_t size, void (*fn)(boost_context_data));
++ * fcontext_t *make_fcontext(void *sp, size_t size, void (*fn)(transfer_t));
+  */
+ #define CC64FSZ 176
+ #define BIAS 2047
+@@ -56,7 +56,7 @@ make_fcontext:
+ trampoline:
+ 	ldx	[%sp + BIAS + I7], %l0
+ 
+-	# no need to setup boost_context_data, already in %o0 and %o1
++	# no need to setup transfer_t, already in %o0 and %o1
+ 	jmpl	%l0, %o7
+ 	 nop
+ 
+diff --git a/Zend/asm/make_x86_64_ms_pe_gas.S b/Zend/asm/make_x86_64_ms_pe_gas.S
+index 66a9bb39535..958a2a7b6d0 100644
+--- a/Zend/asm/make_x86_64_ms_pe_gas.S
++++ b/Zend/asm/make_x86_64_ms_pe_gas.S
+@@ -89,6 +89,7 @@
+ .file	"make_x86_64_ms_pe_gas.asm"
+ .text
+ .p2align 4,,15
++.globl	make_fcontext
+ .def	make_fcontext;	.scl	2;	.type	32;	.endef
+ .seh_proc	make_fcontext
+ make_fcontext:
+@@ -168,3 +169,6 @@ finish:
+ .seh_endproc
+ 
+ .def	_exit;	.scl	2;	.type	32;	.endef  /* standard C library function */
++
++.section .drectve
++.ascii " -export:\"make_fcontext\""
+diff --git a/Zend/asm/make_x86_64_sysv_elf_gas.S b/Zend/asm/make_x86_64_sysv_elf_gas.S
+index b0d0c0341ef..df9472433cf 100644
+--- a/Zend/asm/make_x86_64_sysv_elf_gas.S
++++ b/Zend/asm/make_x86_64_sysv_elf_gas.S
+@@ -91,35 +91,6 @@ make_fcontext:
+     /* will be entered after context-function returns */
+     movq  %rcx, 0x38(%rax)
+ 
+-#if BOOST_CONTEXT_SHADOW_STACK
+-    /* Populate the shadow stack and normal stack */
+-    /* get original SSP */
+-    rdsspq  %r8
+-    /* restore new shadow stack */
+-    rstorssp  -0x8(%r9)
+-    /* save the restore token on the original shadow stack */
+-    saveprevssp
+-    /* push the address of "jmp trampoline" to the new shadow stack */
+-    /* as well as the stack */
+-    call  1f
+-    jmp  trampoline
+-1:
+-    /* save address of "jmp trampoline" as return-address */
+-    /* for context-function */
+-    pop 0x38(%rax)
+-    /* Get the new SSP.  */
+-    rdsspq  %r9
+-    /* restore original shadow stack */
+-    rstorssp  -0x8(%r8)
+-    /* save the restore token on the new shadow stack.  */
+-    saveprevssp
+-
+-    /* reserve space for the new SSP */
+-    leaq  -0x8(%rax), %rax
+-    /* save the new SSP to this fcontext */
+-    movq  %r9, (%rax)
+-#endif
+-
+ #if BOOST_CONTEXT_SHADOW_STACK
+     /* Populate the shadow stack */
+ 
