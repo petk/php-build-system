@@ -1,4 +1,4 @@
-PHP Version: 8.3.14-dev
+PHP Version: 8.3.27-dev
 
 Options that enable extensions and SAPI will accept 'yes' or 'no' as a
 parameter. They also accept 'shared' as a synonym for 'yes' and request a

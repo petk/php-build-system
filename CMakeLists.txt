@@ -69,7 +69,7 @@ endif()
 
 project(
   PhpBuildSystem
-  VERSION 8.5
+  VERSION 8.6
   DESCRIPTION "CMake-based PHP build system"
   HOMEPAGE_URL "https://github.com/petk/php-build-system"
   LANGUAGES NONE

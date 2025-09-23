@@ -1,4 +1,4 @@
-PHP Version: 8.4.0-dev
+PHP Version: 8.4.14-dev
 
 Options that enable extensions and SAPI will accept 'yes' or 'no' as a
 parameter. They also accept 'shared' as a synonym for 'yes' and request a
@@ -145,7 +145,8 @@ way.
   --without-mysqlnd                 Mysql Native Client Driver
   --with-mysqli                     MySQLi support
   --disable-opcache                 whether to enable Zend OPcache support
-  --disable-opcache-jit             whether to enable JIT
+  --disable-opcache-jit             whether to enable JIT (not supported for
+                                    ARM64)
   --enable-pdo                      Enable PHP Data Objects support
   --with-pdo-dblib                  freetds dblib (Sybase, MS-SQL) support for
                                     PDO
