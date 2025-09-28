@@ -150,6 +150,8 @@ target_sources(
     normalizer/normalizer.stub.php
     php_intl.c
     php_intl.stub.php
+    rangeformatter/rangeformatter_class.cpp
+    rangeformatter/rangeformatter.stub.php
     resourcebundle/resourcebundle_class.c
     resourcebundle/resourcebundle_iterator.c
     resourcebundle/resourcebundle.c
