@@ -276,12 +276,9 @@ cmake_pop_check_state()
 
 check_type_size("gid_t" SIZEOF_GID_T)
 if(NOT HAVE_SIZEOF_GID_T)
-  set(
-    gid_t
-    int
-    CACHE INTERNAL
-    "Define as 'int' if not defined in <sys/types.h>."
-  )
+  set(PHP_GID_T_CODE "#define gid_t int")
+else()
+  set(PHP_GID_T_CODE "/* #undef gid_t */")
 endif()
 
 check_type_size("int" SIZEOF_INT)
@@ -335,12 +332,9 @@ endif()
 
 check_type_size("uid_t" SIZEOF_UID_T)
 if(NOT HAVE_SIZEOF_UID_T)
-  set(
-    uid_t
-    int
-    CACHE INTERNAL
-    "Define as 'int' if not defined in <sys/types.h>."
-  )
+  set(PHP_UID_T_CODE "#define uid_t int")
+else()
+  set(PHP_UID_T_CODE "/* #undef uid_t */")
 endif()
 
 # Check for socklen_t type.

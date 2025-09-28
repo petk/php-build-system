@@ -681,10 +681,10 @@
 # endif
 #else
 /* Define to 'int' if <sys/types.h> doesn't define. */
-# cmakedefine gid_t @gid_t@
+@PHP_GID_T_CODE@
 
 /* Define to 'int' if <sys/types.h> doesn't define. */
-# cmakedefine uid_t @uid_t@
+@PHP_UID_T_CODE@
 
 # include <stdlib.h>
 
