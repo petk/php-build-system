@@ -25,14 +25,14 @@ Subject: Fix tests
   when test fails.
 ---
  ext/standard/tests/file/002.phpt              |  2 +-
- ext/standard/tests/file/copy_variation4.phpt  | 11 ++++++++--
- ext/standard/tests/file/file.inc              | 21 +++++++++++++++++++
- .../tests/file/unlink_variation10.phpt        | 12 ++++++++---
- ext/zip/tests/gh18431.phpt                    |  4 ++++
+ ext/standard/tests/file/copy_variation4.phpt  | 11 +++++--
+ ext/standard/tests/file/file.inc              | 21 +++++++++++++
+ .../tests/file/unlink_variation10.phpt        | 31 ++++++++++++-------
+ ext/zip/tests/gh18431.phpt                    |  4 +++
  ext/zip/tests/oo_addemptydir_error.phpt       |  2 +-
- ext/zip/tests/oo_addglob2.phpt                |  6 ++++++
- ext/zip/tests/oo_encryption.phpt              |  6 ++++++
- 8 files changed, 57 insertions(+), 7 deletions(-)
+ ext/zip/tests/oo_addglob2.phpt                |  6 ++++
+ ext/zip/tests/oo_encryption.phpt              |  6 ++++
+ 8 files changed, 67 insertions(+), 16 deletions(-)
 
 diff --git a/ext/standard/tests/file/002.phpt b/ext/standard/tests/file/002.phpt
 index 134f5416fc4..0eb882dc397 100644
@@ -100,10 +100,10 @@ index c972784f9da..c7665d2846d 100644
 +
  ?>
 diff --git a/ext/standard/tests/file/unlink_variation10.phpt b/ext/standard/tests/file/unlink_variation10.phpt
-index 127b070d23a..a3355a99560 100644
+index 127b070d23a..5894ab0b91a 100644
 --- a/ext/standard/tests/file/unlink_variation10.phpt
 +++ b/ext/standard/tests/file/unlink_variation10.phpt
-@@ -10,14 +10,20 @@
+@@ -10,26 +10,33 @@
  ?>
  --FILE--
  <?php
@@ -118,8 +118,9 @@ index 127b070d23a..a3355a99560 100644
 +$cwd = getcwd();
 +$relativePath = relativePath($cwd, __DIR__);
 +
-+$workDir = $relativePath . '/unlinkVar10.tmp';
-+$tmpDir = $relativePath . '/subDir.tmp';
++$workDirName = 'unlinkVar10.tmp';
++$workDir = $relativePath . '/' . $workDirName;
++$tmpDir = 'subDir.tmp';
  $dirToLinkTo = $workDir.'/'."linkme.tmp";
  
  mkdir($workDir);
@@ -127,6 +128,51 @@ index 127b070d23a..a3355a99560 100644
  mkdir($dirToLinkTo);
  
  $dirs = array(
+              // relative
+              $workDir.'/'.$tmpDir,
+              './'.$workDir.'/'.$tmpDir,
+-             $workDir.'/../'.$workDir.'/'.$tmpDir,
++             $workDir.'/../'.$workDirName.'/'.$tmpDir,
+ 
+              //absolute
+              $cwd.'/'.$workDir.'/'.$tmpDir,
+              $cwd.'/./'.$workDir.'/'.$tmpDir,
+-             $cwd.'/'.$workDir.'/../'.$workDir.'/'.$tmpDir,
++             $cwd.'/'.$workDir.'/../'.$workDirName.'/'.$tmpDir,
+ 
+              // multiple separators
+              $workDir.'//'.$tmpDir,
+@@ -76,23 +83,23 @@ function test_link($linkedDir, $toLinkTo, $tounlink, $softlink) {
+ ?>
+ --EXPECTF--
+ *** Testing unlink() : variation ***
+--- unlinking soft link unlinkVar10.tmp/subDir.tmp --
++-- unlinking soft link %SunlinkVar10.tmp/subDir.tmp --
+ directory unlinked
+--- unlinking soft link ./unlinkVar10.tmp/subDir.tmp --
++-- unlinking soft link ./%SunlinkVar10.tmp/subDir.tmp --
+ directory unlinked
+--- unlinking soft link unlinkVar10.tmp/../unlinkVar10.tmp/subDir.tmp --
++-- unlinking soft link %SunlinkVar10.tmp/../unlinkVar10.tmp/subDir.tmp --
+ directory unlinked
+ -- unlinking soft link /%s/unlinkVar10.tmp/subDir.tmp --
+ directory unlinked
+--- unlinking soft link /%s/./unlinkVar10.tmp/subDir.tmp --
++-- unlinking soft link /%s/./%SunlinkVar10.tmp/subDir.tmp --
+ directory unlinked
+ -- unlinking soft link /%s/unlinkVar10.tmp/../unlinkVar10.tmp/subDir.tmp --
+ directory unlinked
+--- unlinking soft link unlinkVar10.tmp//subDir.tmp --
++-- unlinking soft link %SunlinkVar10.tmp//subDir.tmp --
+ directory unlinked
+--- unlinking soft link /%s//unlinkVar10.tmp//subDir.tmp --
++-- unlinking soft link /%s//%SunlinkVar10.tmp//subDir.tmp --
+ directory unlinked
+ 
+ --- try to unlink a directory ---
+ 
+-Warning: unlink(unlinkVar10.tmp/linkme.tmp): %s in %s on line %d
++Warning: unlink(%SunlinkVar10.tmp/linkme.tmp): %s in %s on line %d
 diff --git a/ext/zip/tests/gh18431.phpt b/ext/zip/tests/gh18431.phpt
 index d4eb89c36c6..dcd7db6f400 100644
 --- a/ext/zip/tests/gh18431.phpt
