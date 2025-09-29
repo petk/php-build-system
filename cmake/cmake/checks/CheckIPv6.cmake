@@ -30,7 +30,7 @@ cmake_push_check_state(RESET)
   # On some systems, additional library is needed for the in6addr_any variable
   # (from <netinet/in.h>).
   php_search_libraries(
-    SOURCE [[
+    SOURCE_COMPILES [[
       #include <sys/types.h>
       #include <sys/socket.h>
       #include <netinet/in.h>

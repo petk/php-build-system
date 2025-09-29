@@ -199,54 +199,16 @@ function(_php_ext_opcache_check_shm_mmap_anon result)
 endfunction()
 
 ################################################################################
-# Check for mmap() using shm_open() SHM.
+# Check for mmap() using shm_open() SHM - This checks for POSIX shared memory
+# functions (shm_open(), shm_unlink()...) and links required library as needed.
+# Most systems have them in the C library: newer Linux, Solaris 11.4, illumos,
+# macOS, BSD-based systems, etc. Haiku has them in the C library called root,
+# which is linked by default when using compilers on Haiku.
 ################################################################################
 
 function(_php_ext_opcache_check_shm_open result)
-  # Check for POSIX shared memory functions (shm_open(), shm_unlink()...) and
-  # link required library as needed. Most systems have them in the C library:
-  # newer Linux, Solaris 11.4, illumos, macOS, BSD-based systems, etc. Haiku has
-  # them in the C library called root, which is linked by default when using
-  # compilers on Haiku.
   php_search_libraries(
-    SYMBOL shm_open
-    HEADERS sys/mman.h
-    LIBRARIES
-      rt # Solaris <= 10, older Linux
-    RESULT_VARIABLE PHP_EXT_OPCACHE_HAVE_SHM_OPEN
-    LIBRARY_VARIABLE PHP_EXT_OPCACHE_HAVE_SHM_OPEN_LIBRARY
-  )
-
-  if(NOT PHP_EXT_OPCACHE_HAVE_SHM_OPEN)
-    set(${result} FALSE)
-    return(PROPAGATE ${result})
-  endif()
-
-  if(PHP_EXT_OPCACHE_HAVE_SHM_OPEN_LIBRARY)
-    target_link_libraries(
-      php_ext_opcache
-      PRIVATE ${PHP_EXT_OPCACHE_HAVE_SHM_OPEN_LIBRARY}
-    )
-  endif()
-
-  # Skip in consecutive configuration phases.
-  if(DEFINED PHP_EXT_OPCACHE_${result})
-    set(${result} ${PHP_EXT_OPCACHE_${result}})
-    return(PROPAGATE ${result})
-  endif()
-
-  message(
-    CHECK_START
-    "Checking for mmap() with shm_open() shared memory support"
-  )
-  cmake_push_check_state(RESET)
-    if(PHP_EXT_OPCACHE_HAVE_SHM_OPEN_LIBRARY)
-      set(CMAKE_REQUIRED_LIBRARIES ${PHP_EXT_OPCACHE_HAVE_SHM_OPEN_LIBRARY})
-    endif()
-
-    set(CMAKE_REQUIRED_QUIET TRUE)
-
-    check_source_runs(C [[
+    SOURCE_RUNS [[
       #include <sys/types.h>
       #include <sys/wait.h>
       #include <sys/mman.h>
@@ -310,14 +272,14 @@ function(_php_ext_opcache_check_shm_open result)
         }
         return 0;
       }
-    ]] PHP_EXT_OPCACHE_${result})
-  cmake_pop_check_state()
-
-  if(PHP_EXT_OPCACHE_${result})
-    message(CHECK_PASS "yes")
-  else()
-    message(CHECK_FAIL "no")
-  endif()
+    ]]
+    HEADERS sys/mman.h
+    LIBRARIES
+      rt # Solaris <= 10, older Linux
+    RESULT_VARIABLE PHP_EXT_OPCACHE_${result}
+    LIBRARY_VARIABLE PHP_EXT_OPCACHE_${result}_LIBRARY
+    TARGET php_ext_opcache PRIVATE
+  )
 
   set(${result} ${PHP_EXT_OPCACHE_${result}})
 

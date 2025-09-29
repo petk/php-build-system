@@ -12,7 +12,7 @@ few noted exceptions below. Some systems also need <sys/types.h> header
 include(PHP/SearchLibraries)
 
 php_search_libraries(
-  SOURCE [[
+  SOURCE_COMPILES [[
     #include <sys/types.h>
     #include <ifaddrs.h>
 
