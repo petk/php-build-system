@@ -38,7 +38,6 @@ if(CMAKE_SYSTEM_NAME STREQUAL "Windows")
 endif()
 
 include(CheckSourceCompiles)
-include(CheckSourceRuns)
 include(CheckSymbolExists)
 include(CheckTypeSize)
 include(CMakeDependentOption)
@@ -217,47 +216,30 @@ if(HAVE_PHP_EXT_PCNTL_STRUCT_SIGINFO_T)
   target_compile_definitions(php_ext_pcntl PRIVATE HAVE_STRUCT_SIGINFO_T)
 endif()
 
+# Check if sched_getcpu() is supported. Value -1 means ENOSYS in this context.
 cmake_push_check_state(RESET)
   set(CMAKE_REQUIRED_DEFINITIONS -D_GNU_SOURCE)
 
-  # Check if sched_getcpu() is supported. Value -1 means ENOSYS in this context.
-  block(PROPAGATE HAVE_SCHED_GETCPU)
-    php_search_libraries(
-      SYMBOL sched_getcpu
-      HEADERS sched.h
-      LIBRARIES
-        gnu # Haiku
-      RESULT_VARIABLE PHP_EXT_PCNTL_HAVE_SCHED_GETCPU_SYMBOL
-      LIBRARY_VARIABLE PHP_EXT_PCNTL_HAVE_SCHED_GETCPU_LIBRARY
-    )
-
-    if(PHP_EXT_PCNTL_HAVE_SCHED_GETCPU_SYMBOL)
-      if(PHP_EXT_PCNTL_HAVE_SCHED_GETCPU_LIBRARY)
-        set(CMAKE_REQUIRED_LIBRARIES ${PHP_EXT_PCNTL_HAVE_SCHED_GETCPU_LIBRARY})
-      endif()
-      check_source_runs(C [[
-        #include <sched.h>
-        int main(void)
-        {
-          if (sched_getcpu() == -1) {
-              return 1;
-          }
-          return 0;
+  php_search_libraries(
+    SOURCE_RUNS [[
+      #include <sched.h>
+      int main(void)
+      {
+        if (sched_getcpu() == -1) {
+          return 1;
         }
-      ]] PHP_EXT_PCNTL_HAVE_SCHED_GETCPU)
-    endif()
+        return 0;
+      }
+    ]]
+    HEADERS sched.h
+    LIBRARIES
+      gnu # Haiku
+    RESULT_VARIABLE PHP_EXT_PCNTL_HAVE_SCHED_GETCPU
+    LIBRARY_VARIABLE PHP_EXT_PCNTL_HAVE_SCHED_GETCPU_LIBRARY
+    TARGET php_ext_pcntl PRIVATE
+  )
 
-    if(PHP_EXT_PCNTL_HAVE_SCHED_GETCPU)
-      if(PHP_EXT_PCNTL_HAVE_SCHED_GETCPU_LIBRARY)
-        target_link_libraries(
-          php_ext_pcntl
-          PRIVATE ${PHP_EXT_PCNTL_HAVE_SCHED_GETCPU_LIBRARY}
-        )
-      endif()
-
-      set(HAVE_SCHED_GETCPU TRUE)
-    endif()
-  endblock()
+  set(HAVE_SCHED_GETCPU ${PHP_EXT_PCNTL_HAVE_SCHED_GETCPU})
 cmake_pop_check_state()
 
 configure_file(cmake/config.h.in config.h)
