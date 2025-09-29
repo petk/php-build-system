@@ -38,7 +38,7 @@ given headers, and determines if additional libraries need to be linked:
 
 ```cmake
 php_search_libraries(
-  SYMBOL <symbol> | SOURCE <code>
+  SYMBOL <symbol> | SOURCE_COMPILES <code> | SOURCE_RUNS <code>
   [HEADERS <headers>...]
   [LIBRARIES <libraries>...]
   [RESULT_VARIABLE <var>]
@@ -59,10 +59,16 @@ libraries and links the first one in which the symbol is found.
 
   The name of the C symbol to check.
 
-* `SOURCE <code>`
+* `SOURCE_COMPILES <code>`
 
   This argument can be used to check whether the specified C source `<code>` can
-  be compiled and linked, instead of a `SYMBOL <symbol>` argument.
+  be compiled and linked, instead of a `SYMBOL`, or `SOURCE_RUNS` argument.
+
+* `SOURCE_RUNS <code>`
+
+  This argument can be used to check whether the specified C source `<code>` can
+  be compiled, linked, and run, instead of a `SYMBOL`, or `SOURCE_COMPILES`
+  argument.
 
 * `HEADERS <headers>...`
 
@@ -73,8 +79,8 @@ libraries and links the first one in which the symbol is found.
   example, to be able to use `<arpa/nameser.h>` header on Solaris, the
   `<sys/types.h>` header must be included before.
 
-  When using `SOURCE <code>` argument, `<headers>` are prepended to the C source
-  `<code>` using `#include <header>...`.
+  When using `SOURCE_COMPILES`, or `SOURCE_RUNS` argument, `<headers>` are
+  prepended to the C source `<code>` using `#include <header>...`.
 
 * `LIBRARIES <libraries>...`
 
@@ -193,7 +199,7 @@ internal cache variable.
 include(PHP/SearchLibraries)
 
 php_search_libraries(
-  SOURCE [[
+  SOURCE_COMPILES [[
     #include <sys/types.h>
     #include <sys/socket.h>
     #include <netinet/in.h>
@@ -224,6 +230,7 @@ include_guard(GLOBAL)
 
 include(CheckIncludeFiles)
 include(CheckSourceCompiles)
+include(CheckSourceRuns)
 include(CheckSymbolExists)
 include(CMakePushCheckState)
 
@@ -234,12 +241,20 @@ macro(_php_search_libraries_populate)
   endif()
 endmacro()
 
-function(_php_search_libraries_check_source source headers result)
+function(_php_search_libraries_check_source_compiles source headers result)
   foreach(header IN LISTS headers)
     string(PREPEND source "#include <${header}>\n")
   endforeach()
 
   check_source_compiles(C "${source}" ${result})
+endfunction()
+
+function(_php_search_libraries_check_source_runs source headers result)
+  foreach(header IN LISTS headers)
+    string(PREPEND source "#include <${header}>\n")
+  endforeach()
+
+  check_source_runs(C "${source}" ${result})
 endfunction()
 
 function(php_search_libraries)
@@ -248,7 +263,7 @@ function(php_search_libraries)
     0
     parsed # prefix
     "RECHECK_HEADERS" # options
-    "SYMBOL;SOURCE;RESULT_VARIABLE;LIBRARY_VARIABLE" # one-value keywords
+    "SYMBOL;SOURCE_COMPILES;SOURCE_RUNS;RESULT_VARIABLE;LIBRARY_VARIABLE" # one-value keywords
     "HEADERS;LIBRARIES;TARGET" # multi-value keywords
   )
 
@@ -256,17 +271,34 @@ function(php_search_libraries)
     message(FATAL_ERROR "Unrecognized arguments: ${parsed_UNPARSED_ARGUMENTS}")
   endif()
 
-  if(NOT DEFINED parsed_SYMBOL AND NOT DEFINED parsed_SOURCE)
-    message(FATAL_ERROR "Missing SYMBOL or SOURCE argument")
-  elseif(DEFINED parsed_SYMBOL AND DEFINED parsed_SOURCE)
-    message(FATAL_ERROR "Use either SYMBOL or SOURCE argument. Not both.")
+  if(
+    NOT DEFINED parsed_SYMBOL
+    AND NOT DEFINED parsed_SOURCE_COMPILES
+    AND NOT DEFINED parsed_SOURCE_RUNS
+  )
+    message(
+      FATAL_ERROR
+      "Missing SYMBOL, SOURCE_COMPILES, or SOURCE_RUNS argument"
+    )
+  elseif(
+    (DEFINED parsed_SYMBOL AND DEFINED parsed_SOURCE_COMPILES)
+    OR (DEFINED parsed_SYMBOL AND DEFINED parsed_SOURCE_RUNS)
+    OR (DEFINED parsed_SOURCE_COMPILES AND DEFINED parsed_SOURCE_RUNS)
+  )
+    message(
+      FATAL_ERROR
+      "Use either SYMBOL, SOURCE_COMPILES, or SOURCE_RUNS argument. "
+      "Not multiple ones."
+    )
   endif()
 
   if(NOT parsed_RESULT_VARIABLE OR NOT parsed_LIBRARY_VARIABLE)
     if(DEFINED parsed_SYMBOL)
       set(id "${parsed_SYMBOL}")
-    elseif(DEFINED parsed_SOURCE)
-      set(id "${parsed_SOURCE}")
+    elseif(DEFINED parsed_SOURCE_COMPILES)
+      set(id "${parsed_SOURCE_COMPILES}")
+    elseif(DEFINED parsed_SOURCE_RUNS)
+      set(id "${parsed_SOURCE_RUNS}")
     endif()
 
     string(MD5 hash "${id}_${parsed_HEADERS}_${parsed_LIBRARIES}")
@@ -344,9 +376,15 @@ function(php_search_libraries)
       "${headersFound}"
       ${parsed_RESULT_VARIABLE}
     )
-  elseif(DEFINED parsed_SOURCE)
-    _php_search_libraries_check_source(
-      "${parsed_SOURCE}"
+  elseif(DEFINED parsed_SOURCE_COMPILES)
+    _php_search_libraries_check_source_compiles(
+      "${parsed_SOURCE_COMPILES}"
+      "${headersFound}"
+      ${parsed_RESULT_VARIABLE}
+    )
+  elseif(DEFINED parsed_SOURCE_RUNS)
+    _php_search_libraries_check_source_runs(
+      "${parsed_SOURCE_RUNS}"
       "${headersFound}"
       ${parsed_RESULT_VARIABLE}
     )
@@ -373,7 +411,7 @@ function(php_search_libraries)
           CHECK_START
           "Looking for ${parsed_SYMBOL} in library ${library}"
         )
-      elseif(DEFINED parsed_SOURCE)
+      elseif(DEFINED parsed_SOURCE_COMPILES OR DEFINED parsed_SOURCE_RUNS)
         message(
           CHECK_START
           "Performing test ${parsed_RESULT_VARIABLE} with library ${library}"
@@ -399,9 +437,15 @@ function(php_search_libraries)
           "${headersFound}"
           ${parsed_RESULT_VARIABLE}
         )
-      elseif(DEFINED parsed_SOURCE)
-        _php_search_libraries_check_source(
-          "${parsed_SOURCE}"
+      elseif(DEFINED parsed_SOURCE_COMPILES)
+        _php_search_libraries_check_source_compiles(
+          "${parsed_SOURCE_COMPILES}"
+          "${headersFound}"
+          ${parsed_RESULT_VARIABLE}
+        )
+      elseif(DEFINED parsed_SOURCE_RUNS)
+        _php_search_libraries_check_source_runs(
+          "${parsed_SOURCE_RUNS}"
           "${headersFound}"
           ${parsed_RESULT_VARIABLE}
         )
@@ -416,7 +460,7 @@ function(php_search_libraries)
       # Store found library in a cache variable for internal purpose.
       if(DEFINED parsed_SYMBOL)
         set(help "Library required to use the '${parsed_SYMBOL}' symbol.")
-      elseif(DEFINED parsed_SOURCE)
+      elseif(DEFINED parsed_SOURCE_COMPILES OR DEFINED parsed_SOURCE_RUNS)
         set(help "Library required for the '${parsed_RESULT_VARIABLE}' test.")
       endif()
       set(${parsed_LIBRARY_VARIABLE} ${library} CACHE INTERNAL "${help}")
