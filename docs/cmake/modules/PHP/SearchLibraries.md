@@ -40,7 +40,7 @@ given headers, and determines if additional libraries need to be linked:
 
 ```cmake
 php_search_libraries(
-  SYMBOL <symbol> | SOURCE <code>
+  SYMBOL <symbol> | SOURCE_COMPILES <code> | SOURCE_RUNS <code>
   [HEADERS <headers>...]
   [LIBRARIES <libraries>...]
   [RESULT_VARIABLE <var>]
@@ -61,10 +61,16 @@ libraries and links the first one in which the symbol is found.
 
   The name of the C symbol to check.
 
-* `SOURCE <code>`
+* `SOURCE_COMPILES <code>`
 
   This argument can be used to check whether the specified C source `<code>` can
-  be compiled and linked, instead of a `SYMBOL <symbol>` argument.
+  be compiled and linked, instead of a `SYMBOL`, or `SOURCE_RUNS` argument.
+
+* `SOURCE_RUNS <code>`
+
+  This argument can be used to check whether the specified C source `<code>` can
+  be compiled, linked, and run, instead of a `SYMBOL`, or `SOURCE_COMPILES`
+  argument.
 
 * `HEADERS <headers>...`
 
@@ -75,8 +81,8 @@ libraries and links the first one in which the symbol is found.
   example, to be able to use `<arpa/nameser.h>` header on Solaris, the
   `<sys/types.h>` header must be included before.
 
-  When using `SOURCE <code>` argument, `<headers>` are prepended to the C source
-  `<code>` using `#include <header>...`.
+  When using `SOURCE_COMPILES`, or `SOURCE_RUNS` argument, `<headers>` are
+  prepended to the C source `<code>` using `#include <header>...`.
 
 * `LIBRARIES <libraries>...`
 
@@ -195,7 +201,7 @@ internal cache variable.
 include(PHP/SearchLibraries)
 
 php_search_libraries(
-  SOURCE [[
+  SOURCE_COMPILES [[
     #include <sys/types.h>
     #include <sys/socket.h>
     #include <netinet/in.h>
