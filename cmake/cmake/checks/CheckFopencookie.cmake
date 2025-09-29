@@ -28,10 +28,10 @@ endif()
 
 cmake_push_check_state(RESET)
   set(CMAKE_REQUIRED_DEFINITIONS -D_GNU_SOURCE)
-  check_symbol_exists(fopencookie stdio.h PHP_HAS_FOPENCOOKIE)
+  check_symbol_exists(fopencookie stdio.h PHP_HAVE_FOPENCOOKIE)
 cmake_pop_check_state()
 
-if(NOT PHP_HAS_FOPENCOOKIE)
+if(NOT PHP_HAVE_FOPENCOOKIE)
   return()
 endif()
 
@@ -48,8 +48,8 @@ endif()
 set(HAVE_FOPENCOOKIE TRUE)
 
 # Skip in consecutive configuration phases.
-if(DEFINED PHP_HAS_COOKIE_SEEKER_OFF64_T)
-  set(COOKIE_SEEKER_USES_OFF64_T ${PHP_HAS_COOKIE_SEEKER_OFF64_T})
+if(DEFINED PHP_COOKIE_SEEKER_USES_OFF64_T)
+  set(COOKIE_SEEKER_USES_OFF64_T ${PHP_COOKIE_SEEKER_USES_OFF64_T})
   return()
 endif()
 
@@ -108,13 +108,13 @@ cmake_push_check_state(RESET)
 
       return 1;
     }
-  ]] PHP_HAS_COOKIE_SEEKER_OFF64_T)
+  ]] PHP_COOKIE_SEEKER_USES_OFF64_T)
 cmake_pop_check_state()
 
-if(PHP_HAS_COOKIE_SEEKER_OFF64_T)
+if(PHP_COOKIE_SEEKER_USES_OFF64_T)
   message(CHECK_PASS "yes")
 else()
   message(CHECK_FAIL "no")
 endif()
 
-set(COOKIE_SEEKER_USES_OFF64_T ${PHP_HAS_COOKIE_SEEKER_OFF64_T})
+set(COOKIE_SEEKER_USES_OFF64_T ${PHP_COOKIE_SEEKER_USES_OFF64_T})
