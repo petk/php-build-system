@@ -17,7 +17,7 @@ if(CMAKE_SYSTEM_NAME STREQUAL "Windows")
 endif()
 
 # Skip in consecutive configuration phases.
-if(NOT DEFINED PHP_HAS_COPY_FILE_RANGE)
+if(NOT DEFINED PHP_HAVE_COPY_FILE_RANGE)
   message(CHECK_START "Checking for copy_file_range")
 
   cmake_push_check_state(RESET)
@@ -42,14 +42,14 @@ if(NOT DEFINED PHP_HAS_COPY_FILE_RANGE)
         (void)copy_file_range(-1, 0, -1, 0, 0, 0);
         return 0;
       }
-    ]] PHP_HAS_COPY_FILE_RANGE)
+    ]] PHP_HAVE_COPY_FILE_RANGE)
   cmake_pop_check_state()
 
-  if(PHP_HAS_COPY_FILE_RANGE)
+  if(PHP_HAVE_COPY_FILE_RANGE)
     message(CHECK_PASS "yes")
   else()
     message(CHECK_FAIL "no")
   endif()
 endif()
 
-set(HAVE_COPY_FILE_RANGE ${PHP_HAS_COPY_FILE_RANGE})
+set(HAVE_COPY_FILE_RANGE ${PHP_HAVE_COPY_FILE_RANGE})
