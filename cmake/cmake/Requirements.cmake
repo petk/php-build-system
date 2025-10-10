@@ -40,17 +40,17 @@ message(CHECK_START "Checking system character set")
 if(CMAKE_CROSSCOMPILING AND NOT CMAKE_CROSSCOMPILING_EMULATOR)
   # EBCDIC targets are obsolete, assume that target uses ASCII when
   # cross-compiling without emulator.
-  set(PHP_HAS_EBCDIC_EXITCODE 1)
+  set(PHP_EBCDIC_EXITCODE 1)
 endif()
 
 cmake_push_check_state(RESET)
   set(CMAKE_REQUIRED_QUIET TRUE)
   check_source_runs(C [[
     int main(void) { return (unsigned char)'A' != (unsigned char)0xC1; }
-  ]] PHP_HAS_EBCDIC)
+  ]] PHP_EBCDIC)
 cmake_pop_check_state()
 
-if(PHP_HAS_EBCDIC)
+if(PHP_EBCDIC)
   message(CHECK_FAIL "EBCDIC")
   message(FATAL_ERROR "PHP does not support EBCDIC targets.")
 else()

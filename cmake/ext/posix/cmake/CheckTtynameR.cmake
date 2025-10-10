@@ -18,12 +18,12 @@ include(PHP/SystemExtensions)
 function(_php_ext_posix_check_ttyname_r result)
   set(${result} FALSE)
 
-  if(PHP_EXT_POSIX_HAS_TTYNAME_R)
+  if(PHP_EXT_POSIX_HAVE_TTYNAME_R)
     set(${result} TRUE)
     return(PROPAGATE ${result})
   endif()
 
-  if(DEFINED PHP_EXT_POSIX_HAS_TTYNAME_R_SYMBOL)
+  if(DEFINED PHP_EXT_POSIX_HAVE_TTYNAME_R_SYMBOL)
     return(PROPAGATE ${result})
   endif()
 
@@ -46,10 +46,10 @@ function(_php_ext_posix_check_ttyname_r result)
       "int ttyname_r(int fd, char *buf, size_t buflen)"
       "0"
       "unistd.h"
-      PHP_EXT_POSIX_HAS_TTYNAME_R_SYMBOL
+      PHP_EXT_POSIX_HAVE_TTYNAME_R_SYMBOL
     )
 
-    if(NOT PHP_EXT_POSIX_HAS_TTYNAME_R_SYMBOL)
+    if(NOT PHP_EXT_POSIX_HAVE_TTYNAME_R_SYMBOL)
       message(CHECK_FAIL "no (non-standard declaration)")
       cmake_pop_check_state()
       return(PROPAGATE ${result})
@@ -58,9 +58,9 @@ function(_php_ext_posix_check_ttyname_r result)
     if(
       CMAKE_CROSSCOMPILING
       AND NOT CMAKE_CROSSCOMPILING_EMULATOR
-      AND NOT DEFINED PHP_EXT_POSIX_HAS_TTYNAME_R_EXITCODE
+      AND NOT DEFINED PHP_EXT_POSIX_HAVE_TTYNAME_R_EXITCODE
     )
-      set(PHP_EXT_POSIX_HAS_TTYNAME_R_EXITCODE 0)
+      set(PHP_EXT_POSIX_HAVE_TTYNAME_R_EXITCODE 0)
     endif()
 
     # PHP Autotools-based build system check uses a different return below due
@@ -84,10 +84,10 @@ function(_php_ext_posix_check_ttyname_r result)
 
         return ttyname_r(0, buf, buflen) ? 1 : 0;
       }
-    ]] PHP_EXT_POSIX_HAS_TTYNAME_R)
+    ]] PHP_EXT_POSIX_HAVE_TTYNAME_R)
   cmake_pop_check_state()
 
-  if(PHP_EXT_POSIX_HAS_TTYNAME_R)
+  if(PHP_EXT_POSIX_HAVE_TTYNAME_R)
     set(${result} TRUE)
     message(CHECK_PASS "yes")
   else()
