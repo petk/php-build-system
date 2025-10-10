@@ -10,6 +10,13 @@ systems:
 * Haiku: network library has it for internal purposes, not intended for usage
   from the system headers.
 
+Result variables:
+
+* HAVE_FUNC_GETHOSTBYNAME_R_6
+* HAVE_FUNC_GETHOSTBYNAME_R_5
+* HAVE_FUNC_GETHOSTBYNAME_R_3
+* HAVE_GETHOSTBYNAME_R
+
 See also:
 https://www.gnu.org/software/autoconf-archive/ax_func_which_gethostbyname_r.html
 #]=============================================================================]
@@ -17,6 +24,15 @@ https://www.gnu.org/software/autoconf-archive/ax_func_which_gethostbyname_r.html
 include(CheckPrototypeDefinition)
 include(CMakePushCheckState)
 include(PHP/SearchLibraries)
+
+set(HAVE_FUNC_GETHOSTBYNAME_R_6 FALSE)
+set(HAVE_FUNC_GETHOSTBYNAME_R_5 FALSE)
+set(HAVE_FUNC_GETHOSTBYNAME_R_3 FALSE)
+set(HAVE_GETHOSTBYNAME_R FALSE)
+
+if(CMAKE_SYSTEM_NAME STREQUAL "Windows")
+  return()
+endif()
 
 function(_php_check_gethostbyname_r)
   # Check whether gethostname_r() is available. On systems that have it, it is
@@ -26,18 +42,16 @@ function(_php_check_gethostbyname_r)
     HEADERS netdb.h
     LIBRARIES
       nsl # Solaris <= 11.3, illumos
-    RESULT_VARIABLE PHP_HAS_GETHOSTBYNAME_R
-    LIBRARY_VARIABLE PHP_HAS_GETHOSTBYNAME_R_LIBRARY
+    RESULT_VARIABLE PHP_HAVE_GETHOSTBYNAME_R
+    LIBRARY_VARIABLE PHP_HAVE_GETHOSTBYNAME_R_LIBRARY
   )
-  if(NOT PHP_HAS_GETHOSTBYNAME_R)
+
+  if(NOT PHP_HAVE_GETHOSTBYNAME_R)
     return()
   endif()
 
-  if(
-    DEFINED PHP_HAS_GETHOSTBYNAME_R_6
-    OR DEFINED PHP_HAS_GETHOSTBYNAME_R_5
-    OR DEFINED PHP_HAS_GETHOSTBYNAME_R_3
-  )
+  # Skip in consecutive configuration phases.
+  if(DEFINED PHP_HAVE_FUNC_GETHOSTBYNAME_R_6)
     return()
   endif()
 
@@ -53,9 +67,9 @@ function(_php_check_gethostbyname_r)
         size_t buflen, struct hostent **result, int *h_errnop)"
       "0"
       netdb.h
-      PHP_HAS_GETHOSTBYNAME_R_6
+      PHP_HAVE_FUNC_GETHOSTBYNAME_R_6
     )
-    if(PHP_HAS_GETHOSTBYNAME_R_6)
+    if(PHP_HAVE_FUNC_GETHOSTBYNAME_R_6)
       cmake_pop_check_state()
       message(CHECK_PASS "six")
       return()
@@ -68,9 +82,9 @@ function(_php_check_gethostbyname_r)
         char *buffer, int buflen, int *h_errnop)"
       "0"
       netdb.h
-      PHP_HAS_GETHOSTBYNAME_R_5
+      PHP_HAVE_FUNC_GETHOSTBYNAME_R_5
     )
-    if(PHP_HAS_GETHOSTBYNAME_R_5)
+    if(PHP_HAVE_FUNC_GETHOSTBYNAME_R_5)
       cmake_pop_check_state()
       message(CHECK_PASS "five")
       return()
@@ -83,9 +97,9 @@ function(_php_check_gethostbyname_r)
         struct hostent_data *data)"
       "0"
       netdb.h
-      PHP_HAS_GETHOSTBYNAME_R_3
+      PHP_HAVE_FUNC_GETHOSTBYNAME_R_3
     )
-    if(PHP_HAS_GETHOSTBYNAME_R_3)
+    if(PHP_HAVE_FUNC_GETHOSTBYNAME_R_3)
       cmake_pop_check_state()
       message(CHECK_PASS "three")
       return()
@@ -97,9 +111,9 @@ endfunction()
 
 _php_check_gethostbyname_r()
 
-set(HAVE_FUNC_GETHOSTBYNAME_R_6 "${PHP_HAS_GETHOSTBYNAME_R_6}")
-set(HAVE_FUNC_GETHOSTBYNAME_R_5 "${PHP_HAS_GETHOSTBYNAME_R_5}")
-set(HAVE_FUNC_GETHOSTBYNAME_R_3 "${PHP_HAS_GETHOSTBYNAME_R_3}")
+set(HAVE_FUNC_GETHOSTBYNAME_R_6 "${PHP_HAVE_FUNC_GETHOSTBYNAME_R_6}")
+set(HAVE_FUNC_GETHOSTBYNAME_R_5 "${PHP_HAVE_FUNC_GETHOSTBYNAME_R_5}")
+set(HAVE_FUNC_GETHOSTBYNAME_R_3 "${PHP_HAVE_FUNC_GETHOSTBYNAME_R_3}")
 
 if(
   HAVE_FUNC_GETHOSTBYNAME_R_6
@@ -107,9 +121,11 @@ if(
   OR HAVE_FUNC_GETHOSTBYNAME_R_3
 )
   set(HAVE_GETHOSTBYNAME_R TRUE)
-  if(PHP_HAS_GETHOSTBYNAME_R_LIBRARY)
-    target_link_libraries(php_config INTERFACE ${PHP_HAS_GETHOSTBYNAME_R_LIBRARY})
+
+  if(PHP_HAVE_GETHOSTBYNAME_R_LIBRARY)
+    target_link_libraries(
+      php_config
+      INTERFACE ${PHP_HAVE_GETHOSTBYNAME_R_LIBRARY}
+    )
   endif()
-else()
-  set(HAVE_GETHOSTBYNAME_R FALSE)
 endif()
