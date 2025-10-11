@@ -102,28 +102,28 @@ target_sources(
     common/common_enum.cpp
     common/common_error.c
     common/common.stub.php
-    converter/converter.c
+    converter/converter.cpp
     converter/converter.stub.php
-    dateformat/dateformat_attr.c
+    dateformat/dateformat_attr.cpp
     dateformat/dateformat_attrcpp.cpp
     dateformat/dateformat_class.c
     dateformat/dateformat_create.cpp
-    dateformat/dateformat_data.c
+    dateformat/dateformat_data.cpp
     dateformat/dateformat_format_object.cpp
-    dateformat/dateformat_format.c
+    dateformat/dateformat_format.cpp
     dateformat/dateformat_helpers.cpp
-    dateformat/dateformat_parse.c
-    dateformat/dateformat.c
+    dateformat/dateformat_parse.cpp
+    dateformat/dateformat.cpp
     dateformat/dateformat.stub.php
     dateformat/datepatterngenerator_class.cpp
     dateformat/datepatterngenerator_methods.cpp
     dateformat/datepatterngenerator.stub.php
-    formatter/formatter_attr.c
+    formatter/formatter_attr.cpp
     formatter/formatter_class.c
-    formatter/formatter_data.c
-    formatter/formatter_format.c
-    formatter/formatter_main.c
-    formatter/formatter_parse.c
+    formatter/formatter_data.cpp
+    formatter/formatter_format.cpp
+    formatter/formatter_main.cpp
+    formatter/formatter_parse.cpp
     formatter/formatter.stub.php
     grapheme/grapheme_string.c
     grapheme/grapheme_util.c
