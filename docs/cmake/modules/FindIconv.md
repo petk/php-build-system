@@ -10,6 +10,9 @@ customizations:
   `/usr/include/gnu-libiconv` (fixed in CMake 3.31):
   https://gitlab.kitware.com/cmake/cmake/-/merge_requests/9774
 
+* Added adjustment when the iconv library installation path is manually set,
+  otherwise Iconv is first searched in the C library.
+
 See: https://cmake.org/cmake/help/latest/module/FindIconv.html
 
 ## Customizing search locations

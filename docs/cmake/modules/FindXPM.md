@@ -17,11 +17,15 @@ This module provides the following imported targets:
 
 ## Result variables
 
+This module defines the following variables:
+
 * `XPM_FOUND` - Boolean indicating whether (the requested version of) package
   was found.
 * `XPM_VERSION` - The version of package found.
 
 ## Cache variables
+
+The following cache variables may also be set:
 
 * `XPM_INCLUDE_DIR` - Directory containing package library headers.
 * `XPM_LIBRARY` - The path to the package library.

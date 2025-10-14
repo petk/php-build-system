@@ -29,11 +29,15 @@ This module provides the following imported targets:
 
 ## Result variables
 
+This module defines the following variables:
+
 * `Dbm_FOUND` - Boolean indicating whether (the requested version of) package
   was found.
 * `Dbm_IS_BUILT_IN` - Whether dbm is a part of the C library.
 
 ## Cache variables
+
+The following cache variables may also be set:
 
 * `Dbm_INCLUDE_DIR` - Directory containing package library headers.
 * `Dbm_LIBRARY` - The path to the package library.

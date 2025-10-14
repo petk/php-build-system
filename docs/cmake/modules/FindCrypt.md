@@ -23,11 +23,15 @@ This module provides the following imported targets:
 
 ## Result variables
 
+This module defines the following variables:
+
 * `Crypt_FOUND` - Boolean indicating whether (the requested version of) package
   was found.
 * `Crypt_VERSION` - The version of package found.
 
 ## Cache variables
+
+The following cache variables may also be set:
 
 * `Crypt_IS_BUILT_IN` - Whether crypt is a part of the C library.
 * `Crypt_INCLUDE_DIR` - Directory containing package library headers.

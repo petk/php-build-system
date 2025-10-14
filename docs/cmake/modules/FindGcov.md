@@ -17,9 +17,13 @@ This module provides the following imported targets:
 
 ## Result variables
 
+This module defines the following variables:
+
 * `Gcov_FOUND` - Boolean indicating whether the package was found.
 
 ## Cache variables
+
+The following cache variables may also be set:
 
 * `Gcov_GCOVR_EXECUTABLE` - The gcovr program executable.
 * `Gcov_GENHTML_EXECUTABLE` - The genhtml program executable.

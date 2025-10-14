@@ -14,9 +14,13 @@ https://sourceware.org/binutils/docs/binutils.html#windmc.
 
 ## Result variables
 
+This module defines the following variables:
+
 * `MC_FOUND` - Whether message compiler is found.
 
 ## Cache variables
+
+The following cache variables may also be set:
 
 * `MC_EXECUTABLE` - Path to the message compiler if found.
 

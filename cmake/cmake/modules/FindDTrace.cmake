@@ -24,9 +24,13 @@ This module provides the following imported targets:
 
 ## Result variables
 
+This module defines the following variables:
+
 * `DTrace_FOUND` - Boolean indicating whether DTrace library was found.
 
 ## Cache variables
+
+The following cache variables may also be set:
 
 * `DTrace_INCLUDE_DIR` - Directory containing DTrace library headers.
 * `DTrace_EXECUTABLE` - Path to the DTrace command-line utility.

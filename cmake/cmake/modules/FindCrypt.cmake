@@ -21,11 +21,15 @@ This module provides the following imported targets:
 
 ## Result variables
 
+This module defines the following variables:
+
 * `Crypt_FOUND` - Boolean indicating whether (the requested version of) package
   was found.
 * `Crypt_VERSION` - The version of package found.
 
 ## Cache variables
+
+The following cache variables may also be set:
 
 * `Crypt_IS_BUILT_IN` - Whether crypt is a part of the C library.
 * `Crypt_INCLUDE_DIR` - Directory containing package library headers.
@@ -53,30 +57,49 @@ set_package_properties(
     DESCRIPTION "Crypt library"
 )
 
-################################################################################
-# Disable built-in Crypt when overriding search paths in FindCrypt.
-################################################################################
-if(CMAKE_PREFIX_PATH OR Crypt_ROOT OR CRYPT_ROOT)
+# Disable searching for built-in crypt when overriding search paths.
+if(
+  NOT DEFINED Crypt_IS_BUILT_IN
+  AND NOT DEFINED Crypt_INCLUDE_DIR
+  AND NOT DEFINED Crypt_LIBRARY
+  AND (
+    CMAKE_PREFIX_PATH
+    OR Crypt_ROOT
+    OR CRYPT_ROOT
+    OR DEFINED ENV{Crypt_ROOT}
+    OR DEFINED ENV{CRYPT_ROOT}
+  )
+)
   find_path(
-    _Crypt_INCLUDE_DIR
-    NAMES
-      crypt.h unistd.h
-    PATHS
-      ${CMAKE_PREFIX_PATH}
-      ${Crypt_ROOT}
-      ${CRYPT_ROOT}
-    PATH_SUFFIXES
-      include
-    NO_DEFAULT_PATH
+    Crypt_INCLUDE_DIR
+    NAMES crypt.h unistd.h
+    DOC "Directory containing Crypt library headers"
+    NO_CMAKE_ENVIRONMENT_PATH
+    NO_SYSTEM_ENVIRONMENT_PATH
+    NO_CMAKE_INSTALL_PREFIX
+    NO_CMAKE_SYSTEM_PATH
   )
 
-  if(_Crypt_INCLUDE_DIR)
-    set(Crypt_INCLUDE_DIR ${_Crypt_INCLUDE_DIR})
+  find_library(
+    Crypt_LIBRARY
+    NAMES crypt
+    DOC "The path to the crypt library"
+    NO_CMAKE_ENVIRONMENT_PATH
+    NO_SYSTEM_ENVIRONMENT_PATH
+    NO_CMAKE_INSTALL_PREFIX
+    NO_CMAKE_SYSTEM_PATH
+  )
+
+  if(Crypt_INCLUDE_DIR AND Crypt_LIBRARY)
     set(Crypt_IS_BUILT_IN FALSE)
+  else()
+    unset(Crypt_INCLUDE_DIR CACHE)
+    unset(Crypt_LIBRARY CACHE)
   endif()
 endif()
 
 set(_reason "")
+set(_Crypt_REQUIRED_VARS "")
 
 # If no compiler is loaded C library can't be checked anyway.
 if(NOT CMAKE_C_COMPILER_LOADED AND NOT CMAKE_CXX_COMPILER_LOADED)
@@ -90,7 +113,6 @@ if(NOT DEFINED Crypt_IS_BUILT_IN)
   cmake_pop_check_state()
 endif()
 
-set(_Crypt_REQUIRED_VARS "")
 if(Crypt_IS_BUILT_IN)
   set(_Crypt_REQUIRED_VARS _Crypt_IS_BUILT_IN_MSG)
   set(_Crypt_IS_BUILT_IN_MSG "built in to C library")
@@ -156,10 +178,6 @@ block(PROPAGATE Crypt_VERSION)
   endif()
 endblock()
 
-################################################################################
-# Handle find_package arguments.
-################################################################################
-
 find_package_handle_standard_args(
   Crypt
   REQUIRED_VARS ${_Crypt_REQUIRED_VARS}
@@ -169,8 +187,8 @@ find_package_handle_standard_args(
 )
 
 unset(_reason)
-unset(_Crypt_REQUIRED_VARS)
 unset(_Crypt_IS_BUILT_IN_MSG)
+unset(_Crypt_REQUIRED_VARS)
 
 if(NOT Crypt_FOUND)
   return()

@@ -17,26 +17,34 @@ This module provides the following imported targets:
 
 ## Result variables
 
+This module defines the following variables:
+
 * `ACL_FOUND` - Boolean indicating whether (the requested version of) package
   was found.
 * `ACL_VERSION` - The version of package found.
 
 ## Cache variables
 
-* `ACL_IS_BUILT_IN` - Whether ACL is a part of the C library (BSD-based
-  systems).
+The following cache variables may also be set:
+
+* `ACL_IS_BUILT_IN` - Whether ACL is a part of the C library (for example, on
+  BSD-based systems).
 * `ACL_INCLUDE_DIR` - Directory containing package library headers.
 * `ACL_LIBRARY` - The path to the package library.
 
 ## Hints
 
-* Set `ACL_USE_USER_GROUP` to `TRUE` before calling `find_package(ACL)` to also
-  check if the ACL library supports `ACL_USER` and `ACL_GROUP`. For example,
-  macOS doesn't have support for user/group.
+This module accepts the following variables before calling `find_package(ACL)`:
+
+* `ACL_USE_USER_GROUP` - When set to boolean true a check is performed whether
+  the ACL library supports `ACL_USER` and `ACL_GROUP`. For example, macOS
+  doesn't have support for user/group.
 
 ## Examples
 
-Basic usage:
+### Example: Basic usage
+
+Finding ACL library and linking its imported target to the project target:
 
 ```cmake
 # CMakeLists.txt
