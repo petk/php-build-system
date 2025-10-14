@@ -19,6 +19,8 @@ This module provides the following imported targets:
 
 ## Result variables
 
+This module defines the following variables:
+
 * `Cclient_FOUND` - Boolean indicating whether the package was found.
 * `HAVE_IMAP2000` - Whether c-client version is 2000 or newer. If true,
   c-client.h should be included instead of only rfc822.h on prior versions.
@@ -31,6 +33,8 @@ This module provides the following imported targets:
   `rfc822_output_address_list()` exists.
 
 ## Cache variables
+
+The following cache variables may also be set:
 
 * `Cclient_INCLUDE_DIR` - Directory containing package library headers.
 * `Cclient_LIBRARY` - The path to the package library.
@@ -329,10 +333,6 @@ endif()
 if(NOT Cclient_SANITY_CHECK_2)
   string(APPEND _reason "Sanity check failed: 'mail_newbody()' not found. ")
 endif()
-
-################################################################################
-# Handle package arguments.
-################################################################################
 
 find_package_handle_standard_args(
   Cclient

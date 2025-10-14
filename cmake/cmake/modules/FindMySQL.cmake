@@ -24,6 +24,8 @@ This module provides the following imported targets:
 
 ## Result variables
 
+This module defines the following variables:
+
 * `MySQL_FOUND` - Boolean indicating whether the package with requested
   components was found.
 * `MySQL_Socket_FOUND` - Boolean indicating whether the MySQL Unix socket
@@ -33,6 +35,8 @@ This module provides the following imported targets:
 * `MySQL_Lib_FOUND` - Whether the Lib component was found.
 
 ## Cache variables
+
+The following cache variables may also be set:
 
 * `MySQL_CONFIG_EXECUTABLE` - The mysql_config command-line tool for getting
   MySQL installation info.

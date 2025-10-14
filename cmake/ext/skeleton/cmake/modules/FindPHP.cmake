@@ -4,9 +4,19 @@
 Finds PHP:
 
 ```cmake
-find_package(PHP [<version>] [...])
+find_package(PHP [<version>] [COMPONENTS <component>...] [...])
+```
 
-Components:
+## Components
+
+This module supports optional components which can be specified with the
+`find_package()` command:
+
+```cmake
+find_package(PHP [COMPONENTS <component>...])
+```
+
+Supported components include:
 
 * `php` - The PHP, general-purpose scripting language, component for building
   extensions.
@@ -21,6 +31,8 @@ This module provides the following imported targets:
 * `PHP::embed` - The PHP embed SAPI, if found.
 
 ## Result variables
+
+This module defines the following variables:
 
 * `PHP_FOUND` - Boolean indicating whether (the requested version of) package
   was found.
@@ -45,12 +57,18 @@ This module provides the following imported targets:
 
 ## Cache variables
 
+The following cache variables may also be set:
+
 * `PHP_CONFIG_EXECUTABLE` - Path to the php-config development helper tool.
 * `PHP_INCLUDE_DIR` - Directory containing PHP headers.
 * `PHP_EMBED_LIBRARY` - The path to the PHP Embed library.
 * `PHP_EMBED_INCLUDE_DIR` - Directory containing PHP Embed header(s).
 
-## Usage
+## Examples
+
+### Example: Basic usage
+
+Finding PHP:
 
 ```cmake
 # CMakeLists.txt
@@ -255,10 +273,6 @@ mark_as_advanced(
   PHP_EMBED_LIBRARY
   PHP_EMBED_INCLUDE_DIR
 )
-
-################################################################################
-# Handle package standard arguments.
-################################################################################
 
 find_package_handle_standard_args(
   PHP

@@ -15,9 +15,13 @@ This module provides the following imported targets:
 
 ## Result variables
 
+This module defines the following variables:
+
 * `FreeTDS_FOUND` - Boolean indicating whether the package was found.
 
 ## Cache variables
+
+The following cache variables may also be set:
 
 * `FreeTDS_INCLUDE_DIR` - Directory containing package library headers.
 * `FreeTDS_LIBRARY` - The path to the package library.

@@ -15,11 +15,15 @@ This module provides the following imported targets:
 
 ## Result variables
 
+This module defines the following variables:
+
 * `Capstone_FOUND` - Boolean indicating whether (the requested version of)
   package was found.
 * `Capstone_VERSION` - The version of package found.
 
 ## Cache variables
+
+The following cache variables may also be set:
 
 * `Capstone_INCLUDE_DIR` - Directory containing package library headers.
 * `Capstone_LIBRARY` - The path to the package library.

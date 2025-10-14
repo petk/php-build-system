@@ -15,11 +15,15 @@ This module provides the following imported targets:
 
 ## Result variables
 
+This module defines the following variables:
+
 * `Argon2_FOUND` - Boolean indicating whether (the requested version of) package
   was found.
 * `Argon2_VERSION` - The version of package found.
 
 ## Cache variables
+
+The following cache variables may also be set:
 
 * `Argon2_INCLUDE_DIR` - Directory containing package library headers.
 * `Argon2_LIBRARY` - The path to the package library.
