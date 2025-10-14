@@ -9,11 +9,15 @@ find_package(RE2C [<version>] [...])
 
 ## Result variables
 
+This module defines the following variables:
+
 * `RE2C_FOUND` - Boolean indicating whether (the requested version of) `re2c`
   was found.
 * `RE2C_VERSION` - The version of `re2c` found.
 
 ## Cache variables
+
+The following cache variables may also be set:
 
 * `RE2C_EXECUTABLE` - Path to the `re2c` executable.
 

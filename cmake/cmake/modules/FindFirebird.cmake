@@ -15,11 +15,15 @@ This module provides the following imported targets:
 
 ## Result variables
 
+This module defines the following variables:
+
 * `Firebird_FOUND` - Boolean indicating whether (the requested version of)
   package was found.
 * `Firebird_VERSION` - Version of Firebird if fb-config utility is available.
 
 ## Cache variables
+
+The following cache variables may also be set:
 
 * `Firebird_INCLUDE_DIR` - Directory containing package library headers.
 * `Firebird_LIBRARY` - The path to the package library.

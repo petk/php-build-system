@@ -16,12 +16,16 @@ This module provides the following imported targets:
 
 ## Result variables
 
+This module defines the following variables:
+
 * `Tidy_FOUND` - Boolean indicating whether (the requested version of) package
   was found.
 * `Tidy_VERSION` - The version of package found.
 * `Tidy_HEADER` - Name of the Tidy header (`tidy.h`, or `tidyp.h`).
 
 ## Cache variables
+
+The following cache variables may also be set:
 
 * `Tidy_INCLUDE_DIR` - Directory containing package library headers.
 * `Tidy_LIBRARY` - The path to the package library.

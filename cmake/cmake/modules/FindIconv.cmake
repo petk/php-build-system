@@ -8,6 +8,9 @@ customizations:
   `/usr/include/gnu-libiconv` (fixed in CMake 3.31):
   https://gitlab.kitware.com/cmake/cmake/-/merge_requests/9774
 
+* Added adjustment when the iconv library installation path is manually set,
+  otherwise Iconv is first searched in the C library.
+
 See: https://cmake.org/cmake/help/latest/module/FindIconv.html
 #]=============================================================================]
 
@@ -19,32 +22,47 @@ set_package_properties(
     DESCRIPTION "Internationalization conversion library"
 )
 
-# Adjustment when overriding the iconv library path, otherwise Iconv is first
-# searched in C library.
-if(CMAKE_PREFIX_PATH OR Iconv_ROOT OR ICONV_ROOT)
-  if(CMAKE_VERSION VERSION_GREATER_EQUAL 3.31)
+# Disable searching for built-in iconv when overriding search paths.
+if(
+  NOT DEFINED Iconv_IS_BUILT_IN
+  AND NOT DEFINED Iconv_INCLUDE_DIR
+  AND NOT DEFINED Iconv_LIBRARY
+  AND (
+    CMAKE_PREFIX_PATH
+    OR Iconv_ROOT
+    OR ICONV_ROOT
+    OR DEFINED ENV{Iconv_ROOT}
+    OR DEFINED ENV{ICONV_ROOT}
+  )
+)
+  find_path(
+    Iconv_INCLUDE_DIR
+    NAMES iconv.h
+    PATH_SUFFIXES
+      gnu-libiconv # GNU libiconv on Alpine Linux has header in a subdirectory.
+    DOC "iconv include directory"
+    NO_CMAKE_ENVIRONMENT_PATH
+    NO_SYSTEM_ENVIRONMENT_PATH
+    NO_CMAKE_INSTALL_PREFIX
+    NO_CMAKE_SYSTEM_PATH
+  )
+
+  find_library(
+    Iconv_LIBRARY
+    NAMES iconv libiconv
+    NAMES_PER_DIR
+    DOC "iconv library (if not in the C library)"
+    NO_CMAKE_ENVIRONMENT_PATH
+    NO_SYSTEM_ENVIRONMENT_PATH
+    NO_CMAKE_INSTALL_PREFIX
+    NO_CMAKE_SYSTEM_PATH
+  )
+
+  if(Iconv_INCLUDE_DIR AND Iconv_LIBRARY)
     set(Iconv_IS_BUILT_IN FALSE)
   else()
-    find_path(
-      php_iconv_INCLUDE_DIR
-      NAMES iconv.h
-      PATHS
-        ${CMAKE_PREFIX_PATH}
-        ${Iconv_ROOT}
-        ${ICONV_ROOT}
-      PATH_SUFFIXES
-        # GNU libiconv on Alpine Linux has header located on a special location:
-        include/gnu-libiconv
-        # For other paths try with the standard suffix:
-        include
-      NO_DEFAULT_PATH
-    )
-
-    if(php_iconv_INCLUDE_DIR)
-      set(Iconv_INCLUDE_DIR ${php_iconv_INCLUDE_DIR})
-      # Disable built-in iconv when overriding search paths in CMake's FindIconv.
-      set(Iconv_IS_BUILT_IN FALSE)
-    endif()
+    unset(Iconv_INCLUDE_DIR CACHE)
+    unset(Iconv_LIBRARY CACHE)
   endif()
 endif()
 
