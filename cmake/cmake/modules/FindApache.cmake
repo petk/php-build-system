@@ -19,6 +19,8 @@ This module provides the following imported targets:
 
 ## Result variables
 
+This module defines the following variables:
+
 * `Apache_FOUND` - Boolean indicating whether (the requested version of) package
   was found.
 * `Apache_VERSION` - The version of package found.
@@ -27,6 +29,8 @@ This module provides the following imported targets:
   `httpd.exp` file (list of exported symbols).
 
 ## Cache variables
+
+The following cache variables may also be set:
 
 * `Apache_APXS_EXECUTABLE` - Path to the APache eXtenSion tool command-line tool
   (`apxs`).
@@ -44,7 +48,9 @@ This module provides the following imported targets:
 
 ## Examples
 
-Basic usage:
+### Example: Basic usage
+
+Finding Apache and linking its imported target to a project target:
 
 ```cmake
 # CMakeLists.txt
@@ -376,10 +382,6 @@ block(PROPAGATE Apache_THREADED)
     endif()
   endif()
 endblock()
-
-################################################################################
-# Handle package arguments.
-################################################################################
 
 find_package_handle_standard_args(
   Apache

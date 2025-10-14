@@ -15,26 +15,34 @@ This module provides the following imported targets:
 
 ## Result variables
 
+This module defines the following variables:
+
 * `ACL_FOUND` - Boolean indicating whether (the requested version of) package
   was found.
 * `ACL_VERSION` - The version of package found.
 
 ## Cache variables
 
-* `ACL_IS_BUILT_IN` - Whether ACL is a part of the C library (BSD-based
-  systems).
+The following cache variables may also be set:
+
+* `ACL_IS_BUILT_IN` - Whether ACL is a part of the C library (for example, on
+  BSD-based systems).
 * `ACL_INCLUDE_DIR` - Directory containing package library headers.
 * `ACL_LIBRARY` - The path to the package library.
 
 ## Hints
 
-* Set `ACL_USE_USER_GROUP` to `TRUE` before calling `find_package(ACL)` to also
-  check if the ACL library supports `ACL_USER` and `ACL_GROUP`. For example,
-  macOS doesn't have support for user/group.
+This module accepts the following variables before calling `find_package(ACL)`:
+
+* `ACL_USE_USER_GROUP` - When set to boolean true a check is performed whether
+  the ACL library supports `ACL_USER` and `ACL_GROUP`. For example, macOS
+  doesn't have support for user/group.
 
 ## Examples
 
-Basic usage:
+### Example: Basic usage
+
+Finding ACL library and linking its imported target to the project target:
 
 ```cmake
 # CMakeLists.txt
@@ -63,15 +71,17 @@ set_package_properties(
 function(_acl_check result)
   cmake_push_check_state(RESET)
     set(CMAKE_REQUIRED_QUIET TRUE)
+
     if(ACL_INCLUDE_DIR)
       set(CMAKE_REQUIRED_INCLUDES ${ACL_INCLUDE_DIR})
     endif()
+
     if(ACL_LIBRARY)
       set(CMAKE_REQUIRED_LIBRARIES ${ACL_LIBRARY})
     endif()
 
     if(NOT ACL_USE_USER_GROUP)
-      check_symbol_exists(acl_free sys/acl.h _acl_successful)
+      check_symbol_exists(acl_free sys/acl.h ${result})
     else()
       check_source_compiles(C [[
         #include <sys/acl.h>
@@ -88,46 +98,56 @@ function(_acl_check result)
           acl_free(acl);
           return 0;
         }
-      ]] _acl_successful)
+      ]] ${result})
     endif()
   cmake_pop_check_state()
-
-  if(_acl_successful)
-    set(${result} TRUE PARENT_SCOPE)
-  else()
-    set(${result} FALSE PARENT_SCOPE)
-  endif()
-
-  unset(_acl_successful CACHE)
 endfunction()
-
-################################################################################
-# Disable built-in ACL when overriding search paths in FindACL.
-################################################################################
-if(CMAKE_PREFIX_PATH OR ACL_ROOT)
-  find_path(
-    _acl_INCLUDE_DIR
-    NAMES
-      sys/acl.h
-    PATHS
-      ${CMAKE_PREFIX_PATH}
-      ${ACL_ROOT}
-    PATH_SUFFIXES
-      include
-    NO_DEFAULT_PATH
-  )
-
-  if(_acl_INCLUDE_DIR)
-    set(ACL_INCLUDE_DIR ${_acl_INCLUDE_DIR})
-    set(ACL_IS_BUILT_IN FALSE)
-  endif()
-endif()
 
 ################################################################################
 # Find package.
 ################################################################################
 
+# Disable searching for built-in ACL when overriding search paths.
+if(
+  NOT DEFINED ACL_IS_BUILT_IN
+  AND NOT DEFINED ACL_INCLUDE_DIR
+  AND NOT DEFINED ACL_LIBRARY
+  AND (
+    CMAKE_PREFIX_PATH
+    OR ACL_ROOT
+    OR DEFINED ENV{ACL_ROOT}
+  )
+)
+  find_path(
+    ACL_INCLUDE_DIR
+    NAMES sys/acl.h
+    DOC "Directory containing ACL library headers"
+    NO_CMAKE_ENVIRONMENT_PATH
+    NO_SYSTEM_ENVIRONMENT_PATH
+    NO_CMAKE_INSTALL_PREFIX
+    NO_CMAKE_SYSTEM_PATH
+  )
+
+  find_library(
+    ACL_LIBRARY
+    NAMES acl
+    DOC "The path to the ACL library"
+    NO_CMAKE_ENVIRONMENT_PATH
+    NO_SYSTEM_ENVIRONMENT_PATH
+    NO_CMAKE_INSTALL_PREFIX
+    NO_CMAKE_SYSTEM_PATH
+  )
+
+  if(ACL_INCLUDE_DIR AND ACL_LIBRARY)
+    set(ACL_IS_BUILT_IN FALSE)
+  else()
+    unset(ACL_INCLUDE_DIR CACHE)
+    unset(ACL_LIBRARY CACHE)
+  endif()
+endif()
+
 set(_reason "")
+set(_ACL_REQUIRED_VARS "")
 
 # If no compiler is loaded C library can't be checked anyway.
 if(NOT CMAKE_C_COMPILER_LOADED AND NOT CMAKE_CXX_COMPILER_LOADED)
@@ -135,24 +155,16 @@ if(NOT CMAKE_C_COMPILER_LOADED AND NOT CMAKE_CXX_COMPILER_LOADED)
 endif()
 
 if(NOT DEFINED ACL_IS_BUILT_IN)
-  block(PROPAGATE ACL_IS_BUILT_IN _acl_works)
-    _acl_check(_acl_works)
+  _acl_check(ACL_IS_BUILT_IN)
 
-    if(_acl_works)
-      set(
-        ACL_IS_BUILT_IN
-        TRUE
-        CACHE INTERNAL
-        "Whether ACL is a part of the C library."
-      )
-    else()
-      set(ACL_IS_BUILT_IN FALSE)
-    endif()
-  endblock()
+  if(ACL_IS_BUILT_IN)
+    set(ACL_SANITY_CHECK TRUE)
+  endif()
 endif()
 
-set(_ACL_REQUIRED_VARS "")
 if(ACL_IS_BUILT_IN)
+  _acl_check(ACL_SANITY_CHECK)
+
   set(_ACL_REQUIRED_VARS _ACL_IS_BUILT_IN_MSG)
   set(_ACL_IS_BUILT_IN_MSG "built in to C library")
 else()
@@ -169,9 +181,10 @@ else()
     HINTS ${PC_ACL_INCLUDE_DIRS}
     DOC "Directory containing ACL library headers"
   )
+  mark_as_advanced(ACL_INCLUDE_DIR)
 
   if(NOT ACL_INCLUDE_DIR)
-    string(APPEND _reason "sys/acl.h not found. ")
+    string(APPEND _reason "<sys/acl.h> not found. ")
   endif()
 
   find_library(
@@ -180,6 +193,7 @@ else()
     HINTS ${PC_ACL_LIBRARY_DIRS}
     DOC "The path to the ACL library"
   )
+  mark_as_advanced(ACL_LIBRARY)
 
   if(NOT ACL_LIBRARY)
     string(APPEND _reason "ACL library not found. ")
@@ -190,35 +204,26 @@ else()
     set(ACL_VERSION ${PC_ACL_VERSION})
   endif()
 
-  _acl_check(_acl_works)
-
-  mark_as_advanced(ACL_INCLUDE_DIR ACL_LIBRARY)
+  _acl_check(ACL_SANITY_CHECK)
 endif()
 
-if(NOT _acl_works)
+if(NOT ACL_SANITY_CHECK)
   if(ACL_USE_USER_GROUP)
-    string(APPEND _reason "ACL_USER and ACL_GROUP check failed. ")
+    string(APPEND _reason "ACL_USER and ACL_GROUP sanity check failed. ")
   else()
-    string(APPEND _reason "acl_free check failed. ")
+    string(APPEND _reason "ACL sanity check failed. ")
   endif()
 endif()
 
-################################################################################
-# Handle find_package arguments.
-################################################################################
-
 find_package_handle_standard_args(
   ACL
-  REQUIRED_VARS
-    ${_ACL_REQUIRED_VARS}
-    _acl_works
+  REQUIRED_VARS ${_ACL_REQUIRED_VARS} ACL_SANITY_CHECK
   VERSION_VAR ACL_VERSION
   HANDLE_VERSION_RANGE
   REASON_FAILURE_MESSAGE "${_reason}"
 )
 
 unset(_reason)
-unset(_acl_works)
 unset(_ACL_REQUIRED_VARS)
 unset(_ACL_IS_BUILT_IN_MSG)
 

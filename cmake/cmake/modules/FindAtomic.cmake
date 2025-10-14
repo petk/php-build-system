@@ -15,6 +15,8 @@ This module provides the following imported targets:
 
 ## Result variables
 
+This module defines the following variables:
+
 * `Atomic_FOUND` - Whether atomic instructions are available.
 
 ## Examples
