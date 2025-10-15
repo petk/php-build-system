@@ -28,7 +28,7 @@ project(
   LANGUAGES C
 )
 
-include(CheckPrototypeDefinition)
+include(CheckSourceCompiles)
 include(CheckSourceRuns)
 include(CheckSymbolExists)
 include(CMakeDependentOption)
@@ -288,14 +288,17 @@ if(TARGET Iconv::Iconv)
   cmake_push_check_state(RESET)
     set(CMAKE_REQUIRED_LIBRARIES Iconv::Iconv)
 
-    check_prototype_definition(
-      iconv
-      "size_t iconv(iconv_t cd, const char **src, size_t *srcleft, char **dst, \
-        size_t *dstleft)"
-      "0"
-      "iconv.h"
-      PHP_EXT_ICONV_CONST
-    )
+    check_source_compiles(C [[
+      #include <iconv.h>
+      size_t iconv(
+        iconv_t cd,
+        const char **src,
+        size_t *srcleft,
+        char **dst,
+        size_t *dstleft
+      );
+      int main(void) { return 0; }
+    ]] PHP_EXT_ICONV_CONST)
   cmake_pop_check_state()
 
   if(PHP_EXT_ICONV_CONST)

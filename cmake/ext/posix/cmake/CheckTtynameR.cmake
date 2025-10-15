@@ -10,7 +10,7 @@ On modern systems a simpler check is sufficient in the future:
   check_symbol_exists(ttyname_r unistd.h <result-var>)
 #]=============================================================================]
 
-include(CheckPrototypeDefinition)
+include(CheckSourceCompiles)
 include(CheckSourceRuns)
 include(CMakePushCheckState)
 include(PHP/SystemExtensions)
@@ -41,13 +41,11 @@ function(_php_ext_posix_check_ttyname_r result)
     # - _DARWIN_C_SOURCE on older Mac OS X 10.4
     set(CMAKE_REQUIRED_LIBRARIES PHP::SystemExtensions)
 
-    check_prototype_definition(
-      ttyname_r
-      "int ttyname_r(int fd, char *buf, size_t buflen)"
-      "0"
-      "unistd.h"
-      PHP_EXT_POSIX_HAVE_TTYNAME_R_SYMBOL
-    )
+    check_source_compiles(C [[
+      #include <unistd.h>
+      int ttyname_r(int fd, char *buf, size_t buflen);
+      int main(void) { return 0; }
+    ]] PHP_EXT_POSIX_HAVE_TTYNAME_R_SYMBOL)
 
     if(NOT PHP_EXT_POSIX_HAVE_TTYNAME_R_SYMBOL)
       message(CHECK_FAIL "no (non-standard declaration)")
