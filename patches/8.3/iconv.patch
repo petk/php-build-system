@@ -1,0 +1,31 @@
+From: Peter Kokot <peterkokot@gmail.com>
+Subject: ext/iconv: Fix iconv prototype
+
+See:
+* https://github.com/php/php-src/issues/20089
+* https://github.com/php/php-src/pull/18933
+* https://github.com/php/php-src/pull/16847
+---
+ ext/iconv/iconv.c | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/ext/iconv/iconv.c b/ext/iconv/iconv.c
+index 8ac3bc9b3c4..f11b8d74c63 100644
+--- a/ext/iconv/iconv.c
++++ b/ext/iconv/iconv.c
+@@ -44,6 +44,7 @@
+ #undef iconv
+ #endif
+ 
++#ifndef ICONV_CONST
+ #if defined(__NetBSD__)
+ // unfortunately, netbsd has still the old non posix conformant signature
+ // libiconv tends to match the eventual system's iconv too.
+@@ -51,6 +52,7 @@
+ #else
+ #define ICONV_CONST
+ #endif
++#endif
+ 
+ #include "zend_smart_str.h"
+ #include "ext/standard/base64.h"
