@@ -282,9 +282,9 @@ if(TARGET Iconv::Iconv)
   endif()
 
   # POSIX once had a bug in its specification and documented that iconv() has a
-  # const input parameter. Therefore, some platforms, such as NetBSD < 10 and
-  # Solaris/illumos, may have a non-standard iconv declaration. libiconv may
-  # imitate this on those platforms.
+  # const input parameter. Therefore, some platforms, such as NetBSD < 10,
+  # Solaris < 11.4, illumos, may have a non-standard iconv declaration. libiconv
+  # may imitate this on those platforms.
   cmake_push_check_state(RESET)
     set(CMAKE_REQUIRED_LIBRARIES Iconv::Iconv)
 
