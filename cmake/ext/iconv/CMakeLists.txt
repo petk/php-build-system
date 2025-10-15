@@ -28,6 +28,7 @@ project(
   LANGUAGES C
 )
 
+include(CheckPrototypeDefinition)
 include(CheckSourceRuns)
 include(CheckSymbolExists)
 include(CMakeDependentOption)
@@ -278,6 +279,26 @@ if(TARGET Iconv::Iconv)
     message(CHECK_FAIL "no")
   else()
     message(CHECK_PASS "yes")
+  endif()
+
+  # POSIX once had a bug in its specification and documented that iconv() has a
+  # const input parameter. Therefore, some platforms, such as NetBSD < 10 and
+  # Solaris/illumos, may have a non-standard iconv declaration. libiconv may
+  # imitate this on those platforms.
+  cmake_push_check_state(RESET)
+    set(CMAKE_REQUIRED_LIBRARIES Iconv::Iconv)
+
+    check_prototype_definition(
+      iconv
+      "size_t iconv(iconv_t cd, const char **src, size_t *srcleft, char **dst, size_t *dstleft)"
+      "0"
+      "iconv.h"
+      PHP_EXT_ICONV_CONST
+    )
+  cmake_pop_check_state()
+
+  if(PHP_EXT_ICONV_CONST)
+    target_compile_definitions(php_ext_iconv PRIVATE ICONV_CONST=const)
   endif()
 endif()
 
