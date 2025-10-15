@@ -290,7 +290,8 @@ if(TARGET Iconv::Iconv)
 
     check_prototype_definition(
       iconv
-      "size_t iconv(iconv_t cd, const char **src, size_t *srcleft, char **dst, size_t *dstleft)"
+      "size_t iconv(iconv_t cd, const char **src, size_t *srcleft, char **dst, \
+        size_t *dstleft)"
       "0"
       "iconv.h"
       PHP_EXT_ICONV_CONST
@@ -299,6 +300,8 @@ if(TARGET Iconv::Iconv)
 
   if(PHP_EXT_ICONV_CONST)
     target_compile_definitions(php_ext_iconv PRIVATE ICONV_CONST=const)
+  else()
+    target_compile_definitions(php_ext_iconv PRIVATE ICONV_CONST=)
   endif()
 endif()
 
