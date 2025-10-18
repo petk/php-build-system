@@ -6,26 +6,23 @@ See:
 * https://github.com/php/php-src/pull/18933
 * https://github.com/php/php-src/pull/16847
 ---
- ext/iconv/iconv.c | 2 ++
- 1 file changed, 2 insertions(+)
+ ext/iconv/iconv.c | 6 +-----
+ 1 file changed, 1 insertion(+), 5 deletions(-)
 
 diff --git a/ext/iconv/iconv.c b/ext/iconv/iconv.c
-index b61d253c5d4..53423e9ce49 100644
+index b61d253c5d4..64cf3e4d5dd 100644
 --- a/ext/iconv/iconv.c
 +++ b/ext/iconv/iconv.c
-@@ -43,6 +43,7 @@
+@@ -43,11 +43,7 @@
  #undef iconv
  #endif
  
+-#if defined(__NetBSD__)
+-// unfortunately, netbsd has still the old non posix conformant signature
+-// libiconv tends to match the eventual system's iconv too.
+-#define ICONV_CONST const
+-#else
 +#ifndef ICONV_CONST
- #if defined(__NetBSD__)
- // unfortunately, netbsd has still the old non posix conformant signature
- // libiconv tends to match the eventual system's iconv too.
-@@ -50,6 +51,7 @@
- #else
  #define ICONV_CONST
  #endif
-+#endif
  
- #include "zend_smart_str.h"
- #include "ext/standard/base64.h"
