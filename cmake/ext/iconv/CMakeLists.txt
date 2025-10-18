@@ -300,8 +300,6 @@ if(TARGET Iconv::Iconv)
 
   if(PHP_EXT_ICONV_CONST)
     target_compile_definitions(php_ext_iconv PRIVATE ICONV_CONST=const)
-  else()
-    target_compile_definitions(php_ext_iconv PRIVATE ICONV_CONST=)
   endif()
 endif()
 
