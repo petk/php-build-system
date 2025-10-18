@@ -21,7 +21,7 @@ See also:
 https://www.gnu.org/software/autoconf-archive/ax_func_which_gethostbyname_r.html
 #]=============================================================================]
 
-include(CheckSourceCompiles)
+include(CheckPrototypeDefinition)
 include(CMakePushCheckState)
 include(PHP/SearchLibraries)
 
@@ -61,19 +61,14 @@ function(_php_check_gethostbyname_r)
     set(CMAKE_REQUIRED_QUIET TRUE)
 
     # Check for 6 arguments signature.
-    check_source_compiles(C [[
-      #include <netdb.h>
-      int gethostbyname_r(
-        const char *name,
-        struct hostent *ret,
-        char *buf,
-        size_t buflen,
-        struct hostent **result,
-        int *h_errnop
-      );
-      int main(void) { return 0; }
-    ]] PHP_HAVE_FUNC_GETHOSTBYNAME_R_6)
-
+    check_prototype_definition(
+      gethostbyname_r
+      "int gethostbyname_r(const char *name, struct hostent *ret, char *buf, \
+        size_t buflen, struct hostent **result, int *h_errnop)"
+      "0"
+      netdb.h
+      PHP_HAVE_FUNC_GETHOSTBYNAME_R_6
+    )
     if(PHP_HAVE_FUNC_GETHOSTBYNAME_R_6)
       cmake_pop_check_state()
       message(CHECK_PASS "six")
@@ -81,17 +76,14 @@ function(_php_check_gethostbyname_r)
     endif()
 
     # Check for 5 arguments signature.
-    check_source_compiles(C [[
-      #include <netdb.h>
-      struct hostent *gethostbyname_r(
-        const char *name,
-        struct hostent *result,
-        char *buffer,
-        int buflen,
-        int *h_errnop
-      );
-      int main(void) { return 0; }
-    ]] PHP_HAVE_FUNC_GETHOSTBYNAME_R_5)
+    check_prototype_definition(
+      gethostbyname_r
+      "struct hostent *gethostbyname_r(const char *name, struct hostent *result, \
+        char *buffer, int buflen, int *h_errnop)"
+      "0"
+      netdb.h
+      PHP_HAVE_FUNC_GETHOSTBYNAME_R_5
+    )
     if(PHP_HAVE_FUNC_GETHOSTBYNAME_R_5)
       cmake_pop_check_state()
       message(CHECK_PASS "five")
@@ -99,15 +91,14 @@ function(_php_check_gethostbyname_r)
     endif()
 
     # Check for 3 arguments signature.
-    check_source_compiles(C [[
-      #include <netdb.h>
-      int gethostbyname_r(
-        const char *name,
-        struct hostent *htent,
-        struct hostent_data *data
-      );
-      int main(void) { return 0; }
-    ]] PHP_HAVE_FUNC_GETHOSTBYNAME_R_3)
+    check_prototype_definition(
+      gethostbyname_r
+      "int gethostbyname_r(const char *name, struct hostent *htent, \
+        struct hostent_data *data)"
+      "0"
+      netdb.h
+      PHP_HAVE_FUNC_GETHOSTBYNAME_R_3
+    )
     if(PHP_HAVE_FUNC_GETHOSTBYNAME_R_3)
       cmake_pop_check_state()
       message(CHECK_PASS "three")
