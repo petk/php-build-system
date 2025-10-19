@@ -105,6 +105,9 @@ nmake /nologo run ARGS=-v
 
 # To run tests:
 nmake test
+
+# Or to run only specific set of tests:
+nmake test TESTS="ext/calendar ext/standard"
 ```
 
 ## 4. The configure.bat command-line options
