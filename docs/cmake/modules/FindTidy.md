@@ -32,6 +32,13 @@ The following cache variables may also be set:
 * `Tidy_INCLUDE_DIR` - Directory containing package library headers.
 * `Tidy_LIBRARY` - The path to the package library.
 
+## Hints
+
+This module accepts the following variables before calling `find_package(Tidy)`:
+
+* `Tidy_USE_STATIC_LIBS` - Set this variable to boolean true to search for
+  static libraries.
+
 ## Examples
 
 Basic usage:
