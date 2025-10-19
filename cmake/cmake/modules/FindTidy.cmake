@@ -30,6 +30,13 @@ The following cache variables may also be set:
 * `Tidy_INCLUDE_DIR` - Directory containing package library headers.
 * `Tidy_LIBRARY` - The path to the package library.
 
+## Hints
+
+This module accepts the following variables before calling `find_package(Tidy)`:
+
+* `Tidy_USE_STATIC_LIBS` - Set this variable to boolean true to search for
+  static libraries.
+
 ## Examples
 
 Basic usage:
@@ -58,12 +65,24 @@ if(PkgConfig_FOUND)
   pkg_check_modules(PC_Tidy QUIET tidy)
 endif()
 
+if(Tidy_USE_STATIC_LIBS)
+  set(
+    _Tidy_NAMES
+      tidys  # Some Unix-like systems.
+      tidy_a # Windows.
+  )
+else()
+  set(
+    _Tidy_NAMES
+      tidy
+      tidy5 # tidy-html5 on FreeBSD
+      tidyp # Tidy library fork (obsolete)
+  )
+endif()
+
 find_library(
   Tidy_LIBRARY
-  NAMES
-    tidy
-    tidy5 # tidy-html5 on FreeBSD
-    tidyp # Tidy library fork (obsolete)
+  NAMES ${_Tidy_NAMES}
   NAMES_PER_DIR
   HINTS ${PC_Tidy_LIBRARY_DIRS}
   DOC "The path to the Tidy library"
@@ -113,6 +132,7 @@ find_package_handle_standard_args(
 )
 
 unset(_reason)
+unset(_Tidy_NAMES)
 
 if(NOT Tidy_FOUND)
   return()
@@ -127,4 +147,12 @@ if(NOT TARGET Tidy::Tidy)
       IMPORTED_LOCATION "${Tidy_LIBRARY}"
       INTERFACE_INCLUDE_DIRECTORIES "${Tidy_INCLUDE_DIR}"
   )
+
+  if(Tidy_USE_STATIC_LIBS AND CMAKE_SYSTEM_NAME STREQUAL "Windows")
+    set_target_properties(
+      Tidy::Tidy
+      PROPERTIES
+        INTERFACE_COMPILE_DEFINITIONS "TIDY_STATIC"
+    )
+  endif()
 endif()
