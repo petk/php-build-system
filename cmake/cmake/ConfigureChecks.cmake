@@ -597,7 +597,7 @@ php_search_libraries(
   TARGET php_config INTERFACE
 )
 
-if(CMAKE_SYSTEM_PROCESSOR MATCHES "^riscv64.*")
+if(CMAKE_C_COMPILER_ARCHITECTURE_ID MATCHES "(riscv64|RISCV)")
   find_package(Atomic)
 
   if(Atomic_FOUND)

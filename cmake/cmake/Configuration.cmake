@@ -34,7 +34,7 @@ set(PHP_BUILD_SYSTEM "${PHP_UNAME}" CACHE STRING "Build system uname")
 mark_as_advanced(PHP_BUILD_SYSTEM)
 
 set(
-  PHP_BUILD_ARCH "${CMAKE_SYSTEM_PROCESSOR}"
+  PHP_BUILD_ARCH "${CMAKE_C_COMPILER_ARCHITECTURE_ID}"
   CACHE STRING "Build target architecture displayed in phpinfo"
 )
 mark_as_advanced(PHP_BUILD_ARCH)
