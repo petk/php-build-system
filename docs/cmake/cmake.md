@@ -298,6 +298,8 @@ this repository is **3.29**.
   * `if(IS_EXECUTABLE)`
 * 3.31
   * `add_custom_command()` keyword `CODEGEN`
+* 4.1
+  * `CMAKE_<LANG>_COMPILER_ARCHITECTURE_ID` variable.
 
 CMake versions scheme across the systems is available at
 [pkgs.org](https://pkgs.org/download/cmake).
