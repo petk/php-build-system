@@ -129,20 +129,16 @@ endif()
 
 # Check if JIT is supported by the target architecture.
 if(PHP_EXT_OPCACHE_JIT)
-  if(
-    # *nix:
-    NOT CMAKE_SYSTEM_PROCESSOR MATCHES "^(i[34567]86.*|x86.*|amd64|aarch64.*)$"
-    # Windows:
-    AND NOT CMAKE_SYSTEM_PROCESSOR MATCHES "^(X86|AMD64)$"
-  )
+  if(NOT CMAKE_C_COMPILER_ARCHITECTURE_ID MATCHES "(i[3456]86|x86_64|aarch64|arm64|x64|X86)")
     message(
       WARNING
-      "JIT is not supported by target architecture ${CMAKE_SYSTEM_PROCESSOR}"
+      "JIT is not supported by target architecture "
+      "${CMAKE_C_COMPILER_ARCHITECTURE_ID}"
     )
     set_property(CACHE PHP_EXT_OPCACHE_JIT PROPERTY VALUE OFF)
   elseif(
     CMAKE_SYSTEM_NAME STREQUAL "Darwin"
-    AND CMAKE_SYSTEM_PROCESSOR MATCHES "^aarch64.*$"
+    AND CMAKE_C_COMPILER_ARCHITECTURE_ID MATCHES "arm64"
     AND PHP_THREAD_SAFETY
   )
     message(
@@ -162,20 +158,20 @@ target_include_directories(
 
 if(PHP_EXT_OPCACHE_JIT)
   # Find out which ABI to use.
-  if(CMAKE_SYSTEM_PROCESSOR MATCHES "^(x86_64|amd64|AMD64|ARM64)$")
+  if(CMAKE_C_COMPILER_ARCHITECTURE_ID MATCHES "(x86_64|x64)")
     set(IR_TARGET "IR_TARGET_X64")
     set(DASM_FLAGS -D X64=1)
     set(DASM_ARCH "x86")
-  elseif(CMAKE_SYSTEM_PROCESSOR MATCHES "^(i[34567]86.*|x86.*|X86)$")
+  elseif(CMAKE_C_COMPILER_ARCHITECTURE_ID MATCHES "(i[34567]86|X86)")
     set(IR_TARGET "IR_TARGET_X86")
     set(DASM_ARCH "x86")
-  elseif(CMAKE_SYSTEM_PROCESSOR MATCHES "^aarch64.*")
+  elseif(CMAKE_C_COMPILER_ARCHITECTURE_ID MATCHES "(arm64|ARM64|aarch64)")
     set(IR_TARGET "IR_TARGET_AARCH64")
     set(DASM_ARCH "aarch64")
   endif()
 
   if(
-    CMAKE_SYSTEM_PROCESSOR STREQUAL "x86_64"
+    CMAKE_C_COMPILER_ARCHITECTURE_ID MATCHES "x86_64"
     AND CMAKE_SYSTEM_NAME STREQUAL "Darwin"
   )
     list(APPEND DASM_FLAGS -D X64APPLE=1)
@@ -186,7 +182,7 @@ if(PHP_EXT_OPCACHE_JIT)
   endif()
 
   if(
-    CMAKE_SYSTEM_PROCESSOR MATCHES "^(AMD64|ARM64)$"
+    CMAKE_C_COMPILER_ARCHITECTURE_ID MATCHES "(x86_64|x64|ARM64|aarch64)"
     AND CMAKE_SYSTEM_NAME STREQUAL "Windows"
   )
     list(APPEND DASM_FLAGS -D X64WIN=1)

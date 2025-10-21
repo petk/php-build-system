@@ -14,7 +14,7 @@ include(FeatureSummary)
 # Add new item to the summary preamble with dotted leader.
 function(_php_summary_preamble_add_item label value output)
   # Template helper to calculate column width.
-  set(template " * <label> .................... : <value>")
+  set(template " * <label> ........................... : <value>")
   string(REGEX MATCH "^ \\\* ([^ ]+ [.]+)" _ "${template}")
   string(LENGTH "${CMAKE_MATCH_1}" columnWidth)
 
@@ -146,6 +146,12 @@ function(_php_summary_preamble result)
   _php_summary_preamble_add_item(
     "Target CPU"
     "${CMAKE_SYSTEM_PROCESSOR}"
+    preamble
+  )
+
+  _php_summary_preamble_add_item(
+    "CMAKE_C_COMPILER_ARCHITECTURE_ID"
+    "${CMAKE_C_COMPILER_ARCHITECTURE_ID}"
     preamble
   )
 

@@ -200,8 +200,13 @@ target_sources(
         $<$<PLATFORM_ID:Windows>:${CMAKE_CURRENT_SOURCE_DIR}/winver.h>
 )
 
-# Check for ARM64 processor on Windows.
-if(NOT CMAKE_SYSTEM_PROCESSOR STREQUAL "ARM64")
+if(
+  NOT CMAKE_SYSTEM_NAME STREQUAL "Windows"
+  OR (
+    CMAKE_SYSTEM_NAME STREQUAL "Windows"
+    AND NOT CMAKE_C_COMPILER_ARCHITECTURE_ID MATCHES "(ARM|arm|aarch64)"
+  )
+)
   target_sources(php_ext_standard PRIVATE crc32_x86.c)
 endif()
 
