@@ -19,7 +19,7 @@ function(_php_ext_standard_check_arm_crc32 result)
   message(CHECK_START "Checking for ARM CRC32 API availability")
 
   if(CMAKE_SYSTEM_NAME STREQUAL "Windows")
-    if(CMAKE_SYSTEM_PROCESSOR STREQUAL "ARM64")
+    if(CMAKE_C_COMPILER_ARCHITECTURE_ID MATCHES "(ARM64|aarch64)")
       set(${result} TRUE)
     else()
       set(${result} FALSE)

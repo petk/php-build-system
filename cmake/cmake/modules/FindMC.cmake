@@ -122,7 +122,7 @@ block()
 
   # Adjustments for architecture whether target is 64-bit or 32-bit.
   if(CMAKE_SIZEOF_VOID_P EQUAL 8)
-    if(CMAKE_SYSTEM_PROCESSOR STREQUAL "ARM64")
+    if(CMAKE_C_COMPILER_ARCHITECTURE_ID MATCHES "(ARM64|aarch64)")
       list(TRANSFORM hints APPEND /arm64)
     else()
       list(TRANSFORM hints APPEND /x64)

@@ -30,7 +30,7 @@ endif()
 
 # Enable Assembly language dialect.
 if(CMAKE_SYSTEM_NAME STREQUAL "Windows")
-  if(CMAKE_SYSTEM_PROCESSOR MATCHES "^ARM")
+  if(CMAKE_C_COMPILER_ARCHITECTURE_ID MATCHES "(ARM|arm|aarch64)")
     enable_language(ASM_MARMASM)
   else()
     enable_language(ASM_MASM)
