@@ -104,7 +104,7 @@ code should be built into libraries and executables.
 # CMakeLists.txt
 
 # Require a minimum CMake version to build the project
-cmake_minimum_required(VERSION 3.29)
+cmake_minimum_required(VERSION 4.2)
 
 # Set the project name and metadata
 project(SomeProjectName VERSION 1.0.0 LANGUAGES C)

@@ -7,7 +7,7 @@ This extension provides support for random number generators and functions
 related to randomness. It is always enabled.
 #]=============================================================================]
 
-cmake_minimum_required(VERSION 3.29...4.2)
+cmake_minimum_required(VERSION 4.2...4.3)
 
 project(
   PhpExtensionRandom

@@ -10,7 +10,7 @@
 #     [-D RE2C_EXECUTABLE=path/to/re2c] \
 #     -P cmake/scripts/GenerateGrammar.cmake
 
-cmake_minimum_required(VERSION 3.29...4.2)
+cmake_minimum_required(VERSION 4.2...4.3)
 
 if(NOT CMAKE_SCRIPT_MODE_FILE)
   message(FATAL_ERROR "This is a command-line script.")

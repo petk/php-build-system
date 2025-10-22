@@ -254,7 +254,7 @@ The minimum required version of CMake is defined in the top project file
 `CMakeLists.txt` using the `cmake_minimum_required()`. Picking the minimum
 required CMake version is a compromise between CMake functionalities and CMake
 version available on the operating system. The minimum required CMake version in
-this repository is **3.29**.
+this repository is **4.2**.
 
 * 3.17
   * `CMAKE_CURRENT_FUNCTION_LIST_DIR` variable
@@ -300,6 +300,10 @@ this repository is **3.29**.
   * `add_custom_command()` keyword `CODEGEN`
 * 4.1
   * `CMAKE_<LANG>_COMPILER_ARCHITECTURE_ID` variable.
+* 4.2
+  * New argument: `check_type_size(RESULT_VARIABLE)`.
+  * Some CMake's find modules now provide `<PackageName>_VERSION` result
+    variables.
 
 CMake versions scheme across the systems is available at
 [pkgs.org](https://pkgs.org/download/cmake).

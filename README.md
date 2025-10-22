@@ -1,7 +1,7 @@
 # PHP build system
 
 [![PHP version](https://img.shields.io/badge/PHP-8.6-777BB4?logo=php&labelColor=17181B)](https://www.php.net/)
-[![CMake version](https://img.shields.io/badge/CMake-3.29-064F8C?logo=cmake&labelColor=17181B)](https://cmake.org)
+[![CMake version](https://img.shields.io/badge/CMake-4.2-064F8C?logo=cmake&labelColor=17181B)](https://cmake.org)
 [![C11](https://img.shields.io/badge/standard-C11-A8B9CC?logo=C&labelColor=17181B)](https://www.open-std.org/jtc1/sc22/wg14/www/docs/n1570.pdf)
 
 This repository delves into the core of the PHP build system, elucidating the

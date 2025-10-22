@@ -2,11 +2,7 @@
 # FindIconv
 
 This module overrides the upstream CMake `FindIconv` module with few
-customizations:
-
-* Included a customization for Alpine where GNU libiconv headers are located in
-  `/usr/include/gnu-libiconv` (fixed in CMake 3.31):
-  https://gitlab.kitware.com/cmake/cmake/-/merge_requests/9774
+customizations.
 
 * Added adjustment when the iconv library installation path is manually set,
   otherwise Iconv is first searched in the C library.

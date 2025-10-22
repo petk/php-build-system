@@ -16,7 +16,7 @@ Use external/system uriparser library instead of the bundled uriparser library
 that comes with PHP.
 #]=============================================================================]
 
-cmake_minimum_required(VERSION 3.29...4.2)
+cmake_minimum_required(VERSION 4.2...4.3)
 
 project(
   PhpExtensionUri
