@@ -38,10 +38,14 @@ endif()
 cmake_push_check_state(RESET)
   set(CMAKE_REQUIRED_DEFINITIONS -D_GNU_SOURCE)
   set(CMAKE_EXTRA_INCLUDE_FILES "stdio.h")
-  check_type_size("cookie_io_functions_t" PHP_COOKIE_IO_FUNCTIONS_T)
+  check_type_size(
+    "cookie_io_functions_t"
+    PHP_SIZEOF_COOKIE_IO_FUNCTIONS_T
+    RESULT_VARIABLE PHP_HAVE_COOKIE_IO_FUNCTIONS_T
+  )
 cmake_pop_check_state()
 
-if(NOT HAVE_PHP_COOKIE_IO_FUNCTIONS_T)
+if(NOT PHP_HAVE_COOKIE_IO_FUNCTIONS_T)
   return()
 endif()
 

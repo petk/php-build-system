@@ -240,7 +240,12 @@ set(HAVE_STRUCT_STAT_ST_RDEV ${PHP_HAVE_STRUCT_STAT_ST_RDEV})
 
 cmake_push_check_state(RESET)
   set(CMAKE_EXTRA_INCLUDE_FILES "fcntl.h")
-  check_type_size("struct flock" STRUCT_FLOCK) # Defines HAVE_STRUCT_FLOCK
+  check_type_size(
+    "struct flock"
+    PHP_SIZEOF_STRUCT_FLOCK
+    RESULT_VARIABLE PHP_HAVE_STRUCT_FLOCK
+  )
+  set(HAVE_STRUCT_FLOCK ${PHP_HAVE_STRUCT_FLOCK})
 cmake_pop_check_state()
 
 # Check for sockaddr_storage and sockaddr.sa_len.
@@ -252,8 +257,12 @@ cmake_push_check_state(RESET)
     list(APPEND CMAKE_EXTRA_INCLUDE_FILES "winsock2.h")
   endif()
 
-  check_type_size("struct sockaddr_storage" PHP_STRUCT_SOCKADDR_STORAGE)
-  set(HAVE_STRUCT_SOCKADDR_STORAGE ${HAVE_PHP_STRUCT_SOCKADDR_STORAGE})
+  check_type_size(
+    "struct sockaddr_storage"
+    PHP_SIZEOF_STRUCT_SOCKADDR_STORAGE
+    RESULT_VARIABLE PHP_HAVE_STRUCT_SOCKADDR_STORAGE
+  )
+  set(HAVE_STRUCT_SOCKADDR_STORAGE ${PHP_HAVE_STRUCT_SOCKADDR_STORAGE})
 
   check_struct_has_member(
     "struct sockaddr"
@@ -268,40 +277,40 @@ cmake_pop_check_state()
 # Check types.
 ################################################################################
 
-check_type_size("gid_t" SIZEOF_GID_T)
-if(NOT HAVE_SIZEOF_GID_T)
+check_type_size("gid_t" PHP_SIZEOF_GID_T RESULT_VARIABLE PHP_HAVE_GID_T)
+if(NOT PHP_HAVE_GID_T)
   set(PHP_GID_T_CODE "#define gid_t int")
 else()
   set(PHP_GID_T_CODE "/* #undef gid_t */")
 endif()
 
-check_type_size("int" SIZEOF_INT)
+check_type_size("int" SIZEOF_INT RESULT_VARIABLE PHP_HAVE_INT)
 if(SIZEOF_INT STREQUAL "")
   set(SIZEOF_INT_CODE "#define SIZEOF_INT 0")
 endif()
 
-check_type_size("long" SIZEOF_LONG)
-if(SIZEOF_LONG STREQUAL "")
+check_type_size("long" SIZEOF_LONG RESULT_VARIABLE PHP_HAVE_LONG)
+if(NOT PHP_HAVE_LONG)
   set(SIZEOF_LONG_CODE "#define SIZEOF_LONG 0")
 endif()
 
-check_type_size("long long" SIZEOF_LONG_LONG)
-if(SIZEOF_LONG_LONG STREQUAL "")
+check_type_size("long long" SIZEOF_LONG_LONG RESULT_VARIABLE PHP_HAVE_LONG_LONG)
+if(NOT PHP_HAVE_LONG_LONG)
   set(SIZEOF_LONG_LONG_CODE "#define SIZEOF_LONG_LONG 0")
 endif()
 
-check_type_size("off_t" SIZEOF_OFF_T)
-if(SIZEOF_OFF_T STREQUAL "")
+check_type_size("off_t" SIZEOF_OFF_T RESULT_VARIABLE PHP_HAVE_OFF_T)
+if(NOT PHP_HAVE_OFF_T)
   set(SIZEOF_OFF_T_CODE "#define SIZEOF_OFF_T 0")
 endif()
 
-check_type_size("size_t" SIZEOF_SIZE_T)
-if(SIZEOF_SIZE_T STREQUAL "")
+check_type_size("size_t" SIZEOF_SIZE_T RESULT_VARIABLE PHP_HAVE_SIZE_T)
+if(NOT PHP_HAVE_SIZE_T)
   set(SIZEOF_SIZE_T_CODE "#define SIZEOF_SIZE_T 0")
 endif()
 
-check_type_size("uid_t" SIZEOF_UID_T)
-if(NOT HAVE_SIZEOF_UID_T)
+check_type_size("uid_t" PHP_SIZEOF_UID_T RESULT_VARIABLE PHP_HAVE_UID_T)
+if(NOT PHP_HAVE_UID_T)
   set(PHP_UID_T_CODE "#define uid_t int")
 else()
   set(PHP_UID_T_CODE "/* #undef uid_t */")
@@ -315,7 +324,12 @@ cmake_push_check_state(RESET)
   if(CMAKE_SYSTEM_NAME STREQUAL "Windows")
     list(APPEND CMAKE_EXTRA_INCLUDE_FILES ws2tcpip.h)
   endif()
-  check_type_size("socklen_t" SOCKLEN_T) # Defines HAVE_SOCKLEN_T
+  check_type_size(
+    "socklen_t"
+    PHP_SIZEOF_SOCKLEN_T
+    RESULT_VARIABLE PHP_HAVE_SOCKLEN_T
+  )
+  set(HAVE_SOCKLEN_T ${PHP_HAVE_SOCKLEN_T})
 cmake_pop_check_state()
 
 ################################################################################

@@ -225,10 +225,14 @@ cmake_pop_check_state()
 
 cmake_push_check_state(RESET)
   set(CMAKE_EXTRA_INCLUDE_FILES "signal.h")
-  check_type_size(siginfo_t PHP_EXT_PCNTL_STRUCT_SIGINFO_T)
+  check_type_size(
+    siginfo_t
+    PHP_EXT_PCNTL_SIZEOF_STRUCT_SIGINFO_T
+    RESULT_VARIABLE PHP_EXT_PCNTL_HAVE_STRUCT_SIGINFO_T
+  )
 cmake_pop_check_state()
 
-if(HAVE_PHP_EXT_PCNTL_STRUCT_SIGINFO_T)
+if(PHP_EXT_PCNTL_HAVE_STRUCT_SIGINFO_T)
   target_compile_definitions(php_ext_pcntl PRIVATE HAVE_STRUCT_SIGINFO_T)
 endif()
 

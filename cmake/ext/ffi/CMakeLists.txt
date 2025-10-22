@@ -80,8 +80,12 @@ set_package_properties(
 
 target_link_libraries(php_ext_ffi PRIVATE FFI::FFI)
 
-check_type_size("long double" PHP_EXT_FFI_LONG_DOUBLE)
-set(HAVE_LONG_DOUBLE ${HAVE_PHP_EXT_FFI_LONG_DOUBLE})
+check_type_size(
+  "long double"
+  PHP_EXT_FFI_SIZEOF_LONG_DOUBLE
+  RESULT_VARIABLE PHP_EXT_FFI_HAVE_LONG_DOUBLE
+)
+set(HAVE_LONG_DOUBLE ${PHP_EXT_FFI_HAVE_LONG_DOUBLE})
 
 if(TARGET FFI::FFI)
   cmake_push_check_state(RESET)
