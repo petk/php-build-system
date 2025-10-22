@@ -932,12 +932,16 @@ if(
     AND CMAKE_SYSTEM_VERSION VERSION_GREATER_EQUAL 12
   )
 )
-  php_check_function_attribute(ifunc HAVE_FUNC_ATTRIBUTE_IFUNC)
-  php_check_function_attribute(target HAVE_FUNC_ATTRIBUTE_TARGET)
+  php_check_function_attribute(ifunc PHP_HAVE_FUNC_ATTRIBUTE_IFUNC)
+  set(HAVE_FUNC_ATTRIBUTE_IFUNC ${PHP_HAVE_FUNC_ATTRIBUTE_IFUNC})
+
+  php_check_function_attribute(target PHP_HAVE_FUNC_ATTRIBUTE_TARGET)
+  set(HAVE_FUNC_ATTRIBUTE_TARGET ${PHP_HAVE_FUNC_ATTRIBUTE_TARGET})
 endif()
 
 # Check for variable __attribute__((aligned)) support in the compiler.
-php_check_variable_attribute(aligned HAVE_ATTRIBUTE_ALIGNED)
+php_check_variable_attribute(aligned PHP_HAVE_ATTRIBUTE_ALIGNED)
+set(HAVE_ATTRIBUTE_ALIGNED ${PHP_HAVE_ATTRIBUTE_ALIGNED})
 
 ################################################################################
 # Check for additional tools.
