@@ -16,7 +16,7 @@ PHP.
 Enable the mhash emulation support.
 #]=============================================================================]
 
-cmake_minimum_required(VERSION 3.29...4.2)
+cmake_minimum_required(VERSION 4.2...4.3)
 
 project(
   PhpExtensionHash

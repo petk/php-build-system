@@ -431,16 +431,8 @@ function(php_bison name input output)
   endif()
 
   set(codegen "")
-  if(
-    parsed_CODEGEN
-    AND CMAKE_VERSION VERSION_GREATER_EQUAL 3.31
-    AND POLICY CMP0171
-  )
-    cmake_policy(GET CMP0171 cmp0171)
-
-    if(cmp0171 STREQUAL "NEW")
-      set(codegen CODEGEN)
-    endif()
+  if(parsed_CODEGEN)
+    set(codegen CODEGEN)
   endif()
 
   # Two commands and dependency on custom target avoids race conditions if

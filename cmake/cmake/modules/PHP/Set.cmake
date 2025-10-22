@@ -213,26 +213,6 @@ function(php_set)
     "CHOICES;DOC" # multi-value keywords
   )
 
-  # The cmake_parse_arguments() before 3.31 didn't define one-value keywords
-  # with empty value of "". This fills the gap and behaves the same until it can
-  # be removed. See: https://cmake.org/cmake/help/latest/policy/CMP0174.html
-  if(CMAKE_VERSION VERSION_LESS 3.31)
-    set(i 0)
-    foreach(arg IN LISTS ARGN)
-      math(EXPR i "${i}+1")
-      foreach(keyword VALUE ELSE_VALUE)
-        if(
-          arg STREQUAL "${keyword}"
-          AND NOT DEFINED parsed_${keyword}
-          AND DEFINED ARGV${i}
-          AND "${ARGV${i}}" STREQUAL ""
-        )
-          set(parsed_${keyword} "")
-        endif()
-      endforeach()
-    endforeach()
-  endif()
-
   # Set default TYPE if not set when using CHOICES argument.
   if(DEFINED parsed_CHOICES AND NOT DEFINED parsed_TYPE)
     set(parsed_TYPE "STRING")

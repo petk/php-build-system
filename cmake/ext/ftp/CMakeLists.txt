@@ -27,7 +27,7 @@ Build extension as shared.
 Explicitly enable or disable FTP over SSL support.
 #]=============================================================================]
 
-cmake_minimum_required(VERSION 3.29...4.2)
+cmake_minimum_required(VERSION 4.2...4.3)
 
 project(
   PhpExtensionFtp
