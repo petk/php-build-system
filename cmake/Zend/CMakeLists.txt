@@ -36,9 +36,11 @@ message(STATUS "")
 include(cmake/Version.cmake)
 
 project(
-  Zend
-  VERSION ${Zend_VERSION}
+  PHP_ZEND
+  VERSION ${PHP_ZEND_VERSION}
+  #SPDX_LICENSE "Zend-2.0"
   DESCRIPTION "Zend Engine library"
+  HOMEPAGE_URL "https://www.php.net"
   LANGUAGES C
 )
 
@@ -339,9 +341,9 @@ target_compile_definitions(
 set_target_properties(
   zend
   PROPERTIES
-    VERSION ${Zend_VERSION}
-    ZEND_EXTENSION_API_NO ${Zend_VERSION_EXTENSION_API_NO}
-    ZEND_MODULE_API_NO ${Zend_VERSION_MODULE_API_NO}
+    VERSION ${PHP_ZEND_VERSION}
+    ZEND_EXTENSION_API_NO ${PHP_ZEND_VERSION_EXTENSION_API_NO}
+    ZEND_MODULE_API_NO ${PHP_ZEND_VERSION_MODULE_API_NO}
 )
 
 ################################################################################

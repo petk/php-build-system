@@ -31,8 +31,11 @@ endblock()
 
 project(
   timelib
-  LANGUAGES C
   VERSION ${timelib_VERSION}
+  #SPDX_LICENSE "MIT"
+  DESCRIPTION "Timezone and date/time library"
+  HOMEPAGE_URL "https://github.com/derickr/timelib"
+  LANGUAGES C
 )
 
 if(NOT TIMELIB_TARGET)
