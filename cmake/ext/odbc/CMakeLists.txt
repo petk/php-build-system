@@ -177,7 +177,7 @@ the configuration header.
 cmake_minimum_required(VERSION 4.2...4.3)
 
 project(
-  PhpExtensionOdbc
+  PHP_EXT_ODBC
   LANGUAGES C
 )
 

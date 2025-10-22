@@ -19,7 +19,7 @@ that comes with PHP.
 cmake_minimum_required(VERSION 4.2...4.3)
 
 project(
-  PhpExtensionUri
+  PHP_EXT_URI
   LANGUAGES C
 )
 

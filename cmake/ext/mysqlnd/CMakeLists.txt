@@ -48,7 +48,7 @@ dependency, otherwise recommended setting is `ON`.
 cmake_minimum_required(VERSION 4.2...4.3)
 
 project(
-  PhpExtensionMysqlnd
+  PHP_EXT_MYSQLND
   LANGUAGES C
 )
 

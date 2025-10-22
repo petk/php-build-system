@@ -31,7 +31,7 @@ Include libmm support for session storage (only for non-ZTS build).
 cmake_minimum_required(VERSION 4.2...4.3)
 
 project(
-  PhpExtensionSession
+  PHP_EXT_SESSION
   LANGUAGES C
 )
 

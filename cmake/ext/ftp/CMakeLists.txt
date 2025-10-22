@@ -30,7 +30,7 @@ Explicitly enable or disable FTP over SSL support.
 cmake_minimum_required(VERSION 4.2...4.3)
 
 project(
-  PhpExtensionFtp
+  PHP_EXT_FTP
   LANGUAGES C
 )
 

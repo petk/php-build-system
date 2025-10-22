@@ -23,7 +23,7 @@ Build extension as shared.
 cmake_minimum_required(VERSION 4.2...4.3)
 
 project(
-  PhpExtensionSockets
+  PHP_EXT_SOCKETS
   LANGUAGES C
 )
 

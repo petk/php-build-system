@@ -23,7 +23,7 @@ bundled PHP crypt.
 #]=============================================================================]
 
 project(
-  PhpExtensionStandard
+  PHP_EXT_STANDARD
   LANGUAGES C
 )
 
