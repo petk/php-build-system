@@ -42,13 +42,13 @@ set(PHP_ZEND_CHECK_STACK_LIMIT_EXITCODE 0)
 # Set the exit code of the preserve_none check.
 set(PHP_ZEND_HAVE_PRESERVE_NONE_EXITCODE 0)
 
-# Set the exit code of the check if syscall to create shadow stack exists.
-set(PHP_ZEND_SHADOW_STACK_SYSCALL_EXITCODE 1)
-
 # Set the exit code and the output of the ZEND_MM check.
 # See CheckMMAlignment.cmake.
 set(PHP_ZEND_MM_EXITCODE 0)
 set(PHP_ZEND_MM_EXITCODE__TRYRUN_OUTPUT "(size_t)8 (size_t)3 0")
+
+# Set the exit code of the check if syscall to create shadow stack exists.
+set(PHP_ZEND_SHADOW_STACK_SYSCALL_EXITCODE 1)
 
 ################################################################################
 # sapi/fpm
