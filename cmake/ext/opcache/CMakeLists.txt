@@ -20,6 +20,9 @@ of PHP 8.5, this extension is always enabled and cannot be disabled.
 
 Enable copying PHP CODE pages into HUGE PAGES.
 
+> [!NOTE]
+> This option is not available when the target system is Windows.
+
 ## PHP_EXT_OPCACHE_JIT
 
 * Default: `ON`
@@ -59,6 +62,11 @@ cmake_dependent_option(
   ON
   [[NOT CMAKE_SYSTEM_NAME STREQUAL "Windows"]]
   OFF
+)
+add_feature_info(
+  "ext/opcache HUGE PAGES"
+  PHP_EXT_OPCACHE_HUGE_CODE_PAGES
+  "PHP CODE pages are copied into HUGE PAGES"
 )
 
 option(PHP_EXT_OPCACHE_JIT "Enable JIT (just-in-time) compilation" ON)
@@ -123,7 +131,10 @@ endif()
 
 # Check if JIT is supported by the target architecture.
 if(PHP_EXT_OPCACHE_JIT)
-  if(NOT CMAKE_C_COMPILER_ARCHITECTURE_ID MATCHES "(i[3456]86|x86_64|aarch64|arm64|x64|X86)")
+  if(
+    NOT CMAKE_C_COMPILER_ARCHITECTURE_ID
+    MATCHES "(i[3456]86|x86_64|aarch64|arm64|x64|X86)"
+  )
     message(
       WARNING
       "JIT is not supported by target architecture "
@@ -302,6 +313,14 @@ if(PHP_EXT_OPCACHE_JIT)
       ${ir_target}
       $<$<CONFIG:Debug,DebugAssertions>:IR_DEBUG>
   )
+
+  foreach(
+    file IN ITEMS
+      ${CMAKE_CURRENT_SOURCE_DIR}/jit/zend_jit_helpers.c
+      ${CMAKE_CURRENT_SOURCE_DIR}/jit/zend_jit_ir.c
+  )
+    set_property(SOURCE jit/zend_jit.c APPEND PROPERTY OBJECT_DEPENDS "${file}")
+  endforeach()
 
   # Check for Capstone.
   if(PHP_EXT_OPCACHE_CAPSTONE)

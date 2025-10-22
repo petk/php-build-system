@@ -22,6 +22,9 @@ of PHP 8.5, this extension is always enabled and cannot be disabled.
 
 Enable copying PHP CODE pages into HUGE PAGES.
 
+> [!NOTE]
+> This option is not available when the target system is Windows.
+
 ## PHP_EXT_OPCACHE_JIT
 
 * Default: `ON`
