@@ -43,7 +43,7 @@ unspecified, default locations are searched.
 cmake_minimum_required(VERSION 4.2...4.3)
 
 project(
-  PhpExtensionMysqli
+  PHP_EXT_MYSQLI
   LANGUAGES C
 )
 

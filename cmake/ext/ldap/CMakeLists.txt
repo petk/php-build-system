@@ -31,7 +31,7 @@ Build ldap extension with Cyrus SASL support.
 cmake_minimum_required(VERSION 4.2...4.3)
 
 project(
-  PhpExtensionLdap
+  PHP_EXT_LDAP
   LANGUAGES C
 )
 

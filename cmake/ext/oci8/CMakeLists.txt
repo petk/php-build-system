@@ -42,7 +42,7 @@ Enable OCI8 support using Oracle Database 19 Instant Client.
 cmake_minimum_required(VERSION 4.2...4.3)
 
 project(
-  PhpExtensionOci8
+  PHP_EXT_OCI8
   LANGUAGES C
 )
 

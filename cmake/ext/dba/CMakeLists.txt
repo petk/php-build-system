@@ -105,7 +105,7 @@ Enable the Tokyo Cabinet abstract DB handler.
 cmake_minimum_required(VERSION 4.2...4.3)
 
 project(
-  PhpExtensionDba
+  PHP_EXT_DBA
   LANGUAGES C
 )
 

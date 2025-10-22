@@ -10,7 +10,7 @@ related to randomness. It is always enabled.
 cmake_minimum_required(VERSION 4.2...4.3)
 
 project(
-  PhpExtensionRandom
+  PHP_EXT_RANDOM
   LANGUAGES C
 )
 

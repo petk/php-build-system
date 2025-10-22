@@ -10,7 +10,7 @@ always enabled.
 cmake_minimum_required(VERSION 4.2...4.3)
 
 project(
-  php_ext_reflection
+  PHP_EXT_REFLECTION
   LANGUAGES C
 )
 

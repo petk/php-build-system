@@ -30,7 +30,7 @@ Enable multibyte regex support (requires Oniguruma).
 cmake_minimum_required(VERSION 4.2...4.3)
 
 project(
-  PhpExtensionMbString
+  PHP_EXT_MBSTRING
   LANGUAGES C
 )
 

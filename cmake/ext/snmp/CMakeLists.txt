@@ -23,7 +23,7 @@ Build extension as shared.
 cmake_minimum_required(VERSION 4.2...4.3)
 
 project(
-  PhpExtensionSnmp
+  PHP_EXT_SNMP
   LANGUAGES C
 )
 

@@ -9,7 +9,7 @@ This extension includes Standard PHP Library (SPL) and is always enabled.
 cmake_minimum_required(VERSION 4.2...4.3)
 
 project(
-  php_ext_spl
+  PHP_EXT_SPL
   LANGUAGES C
 )
 

@@ -38,7 +38,7 @@ built with SSL support, this option will be automatically enabled.
 cmake_minimum_required(VERSION 4.2...4.3)
 
 project(
-  PhpExtensionImap
+  PHP_EXT_IMAP
   LANGUAGES C
 )
 

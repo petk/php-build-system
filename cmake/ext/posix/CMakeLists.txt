@@ -26,7 +26,7 @@ Build extension as shared.
 cmake_minimum_required(VERSION 4.2...4.3)
 
 project(
-  PhpExtensionPosix
+  PHP_EXT_POSIX
   LANGUAGES C
 )
 

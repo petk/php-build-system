@@ -49,7 +49,7 @@ this option deprecated.
 cmake_minimum_required(VERSION 4.2...4.3)
 
 project(
-  PhpExtensionOpenSsl
+  PHP_EXT_OPENSSL
   LANGUAGES C
 )
 
