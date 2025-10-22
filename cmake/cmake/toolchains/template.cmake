@@ -47,8 +47,8 @@ set(PHP_ZEND_SHADOW_STACK_SYSCALL_EXITCODE 1)
 
 # Set the exit code and the output of the ZEND_MM check.
 # See CheckMMAlignment.cmake.
-set(ZEND_MM_EXITCODE 0)
-set(ZEND_MM_EXITCODE__TRYRUN_OUTPUT "(size_t)8 (size_t)3 0")
+set(PHP_ZEND_MM_EXITCODE 0)
+set(PHP_ZEND_MM_EXITCODE__TRYRUN_OUTPUT "(size_t)8 (size_t)3 0")
 
 ################################################################################
 # sapi/fpm
