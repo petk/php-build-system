@@ -46,7 +46,7 @@ Note, that Kerberos support has been removed as of OpenSSL 1.1.0, which makes
 this option deprecated.
 #]=============================================================================]
 
-cmake_minimum_required(VERSION 3.29...4.2)
+cmake_minimum_required(VERSION 4.2...4.3)
 
 project(
   PhpExtensionOpenSsl

@@ -39,7 +39,7 @@ Enable OCI8 support using Oracle Database 12c Instant Client.
 Enable OCI8 support using Oracle Database 19 Instant Client.
 #]=============================================================================]
 
-cmake_minimum_required(VERSION 3.29...4.2)
+cmake_minimum_required(VERSION 4.2...4.3)
 
 project(
   PhpExtensionOci8

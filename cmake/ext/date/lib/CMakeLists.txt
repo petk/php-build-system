@@ -13,7 +13,7 @@ add_subdirectory(lib)
 ```
 #]=============================================================================]
 
-cmake_minimum_required(VERSION 3.29...4.2)
+cmake_minimum_required(VERSION 4.2...4.3)
 
 # The timelib version.
 block(PROPAGATE timelib_VERSION)

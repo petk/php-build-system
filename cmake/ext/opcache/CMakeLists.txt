@@ -35,7 +35,7 @@ Enable JIT (just-in-time) compilation.
 Enable OPcache JIT disassembly through Capstone engine.
 #]=============================================================================]
 
-cmake_minimum_required(VERSION 3.29...4.2)
+cmake_minimum_required(VERSION 4.2...4.3)
 
 project(
   PhpExtensionOpCache

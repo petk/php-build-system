@@ -35,7 +35,7 @@ Explicitly enable SSL support in the imap extension. If c-client dependency is
 built with SSL support, this option will be automatically enabled.
 #]=============================================================================]
 
-cmake_minimum_required(VERSION 3.29...4.2)
+cmake_minimum_required(VERSION 4.2...4.3)
 
 project(
   PhpExtensionImap

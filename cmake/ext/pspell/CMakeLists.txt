@@ -20,7 +20,7 @@ Enable the extension.
 Build extension as shared.
 #]=============================================================================]
 
-cmake_minimum_required(VERSION 3.29...4.2)
+cmake_minimum_required(VERSION 4.2...4.3)
 
 project(
   PhpExtensionPspell
@@ -85,20 +85,6 @@ set_package_properties(
     DESCRIPTION "GNU Aspell spell checker library"
     PURPOSE "Necessary to enable the pspell extension."
 )
-
-if(
-  CMAKE_VERSION VERSION_LESS 4.1
-  AND ASPELL_FOUND
-  AND NOT TARGET ASPELL::ASPELL
-)
-  add_library(ASPELL::ASPELL INTERFACE IMPORTED)
-  set_target_properties(
-    ASPELL::ASPELL
-    PROPERTIES
-      INTERFACE_LINK_LIBRARIES "${ASPELL_LIBRARIES}"
-      INTERFACE_INCLUDE_DIRECTORIES "${ASPELL_INCLUDE_DIR}"
-  )
-endif()
 
 # Sanity check for Aspell minimum version.
 if(TARGET ASPELL::ASPELL)
