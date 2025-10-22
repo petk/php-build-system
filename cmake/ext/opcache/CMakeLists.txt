@@ -138,6 +138,16 @@ endif()
 # Check if JIT is supported by the target architecture.
 if(PHP_EXT_OPCACHE_JIT)
   if(
+    CMAKE_SYSTEM_NAME STREQUAL "Windows"
+    AND CMAKE_C_COMPILER_ARCHITECTURE_ID MATCHES "(arm|aarch64|ARM)"
+  )
+    message(
+      WARNING
+      "JIT is not supported by target architecture "
+      "${CMAKE_C_COMPILER_ARCHITECTURE_ID}"
+    )
+    set_property(CACHE PHP_EXT_OPCACHE_JIT PROPERTY VALUE OFF)
+  elseif(
     NOT CMAKE_C_COMPILER_ARCHITECTURE_ID
     MATCHES "(i[3456]86|x86_64|aarch64|arm64|x64|X86)"
   )
