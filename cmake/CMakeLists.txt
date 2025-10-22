@@ -12,6 +12,7 @@ include(cmake/Version.cmake)
 project(
   PHP
   VERSION ${PHP_VERSION}
+  #SPDX_LICENSE "PHP-3.01"
   DESCRIPTION "Widely-used general-purpose scripting language"
   HOMEPAGE_URL "https://www.php.net"
   LANGUAGES C
