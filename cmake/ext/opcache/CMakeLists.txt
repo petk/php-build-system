@@ -17,6 +17,9 @@ Enable the extension. This extension is always built as shared when enabled.
 
 Enable copying PHP CODE pages into HUGE PAGES.
 
+> [!NOTE]
+> This option is not available when the target system is Windows.
+
 ## PHP_EXT_OPCACHE_JIT
 
 * Default: `ON`
@@ -57,6 +60,11 @@ cmake_dependent_option(
   ON
   [[PHP_EXT_OPCACHE AND NOT CMAKE_SYSTEM_NAME STREQUAL "Windows"]]
   OFF
+)
+add_feature_info(
+  "ext/opcache HUGE PAGES"
+  PHP_EXT_OPCACHE_HUGE_CODE_PAGES
+  "PHP CODE pages are copied into HUGE PAGES"
 )
 
 cmake_dependent_option(
@@ -129,7 +137,10 @@ endif()
 
 # Check if JIT is supported by the target architecture.
 if(PHP_EXT_OPCACHE_JIT)
-  if(NOT CMAKE_C_COMPILER_ARCHITECTURE_ID MATCHES "(i[3456]86|x86_64|aarch64|arm64|x64|X86)")
+  if(
+    NOT CMAKE_C_COMPILER_ARCHITECTURE_ID
+    MATCHES "(i[3456]86|x86_64|aarch64|arm64|x64|X86)"
+  )
     message(
       WARNING
       "JIT is not supported by target architecture "
@@ -159,33 +170,33 @@ target_include_directories(
 if(PHP_EXT_OPCACHE_JIT)
   # Find out which ABI to use.
   if(CMAKE_C_COMPILER_ARCHITECTURE_ID MATCHES "(x86_64|x64)")
-    set(IR_TARGET "IR_TARGET_X64")
-    set(DASM_FLAGS -D X64=1)
-    set(DASM_ARCH "x86")
+    set(ir_target "IR_TARGET_X64")
+    set(dasm_flags -D X64=1)
+    set(dasm_arch "x86")
   elseif(CMAKE_C_COMPILER_ARCHITECTURE_ID MATCHES "(i[34567]86|X86)")
-    set(IR_TARGET "IR_TARGET_X86")
-    set(DASM_ARCH "x86")
+    set(ir_target "IR_TARGET_X86")
+    set(dasm_arch "x86")
   elseif(CMAKE_C_COMPILER_ARCHITECTURE_ID MATCHES "(arm64|ARM64|aarch64)")
-    set(IR_TARGET "IR_TARGET_AARCH64")
-    set(DASM_ARCH "aarch64")
+    set(ir_target "IR_TARGET_AARCH64")
+    set(dasm_arch "aarch64")
   endif()
 
   if(
     CMAKE_C_COMPILER_ARCHITECTURE_ID MATCHES "x86_64"
     AND CMAKE_SYSTEM_NAME STREQUAL "Darwin"
   )
-    list(APPEND DASM_FLAGS -D X64APPLE=1)
+    list(APPEND dasm_flags -D X64APPLE=1)
   endif()
 
   if(CMAKE_SYSTEM_NAME STREQUAL "Windows")
-    list(APPEND DASM_FLAGS -D WIN=1)
+    list(APPEND dasm_flags -D WIN=1)
   endif()
 
   if(
     CMAKE_C_COMPILER_ARCHITECTURE_ID MATCHES "(x86_64|x64|ARM64|aarch64)"
     AND CMAKE_SYSTEM_NAME STREQUAL "Windows"
   )
-    list(APPEND DASM_FLAGS -D X64WIN=1)
+    list(APPEND dasm_flags -D X64WIN=1)
   endif()
 
   # Generate ir_emit_<arch>.h file.
@@ -217,16 +228,16 @@ if(PHP_EXT_OPCACHE_JIT)
 
   # Generate native code generator for selected architecture.
   add_custom_command(
-    OUTPUT jit/ir/ir_emit_${DASM_ARCH}.h
+    OUTPUT jit/ir/ir_emit_${dasm_arch}.h
     COMMAND
       php_ext_opcache_jit_minilua ${CMAKE_CURRENT_SOURCE_DIR}/jit/ir/dynasm/dynasm.lua
-        ${DASM_FLAGS}
-        -o ${CMAKE_CURRENT_BINARY_DIR}/jit/ir/ir_emit_${DASM_ARCH}.h
-        ${CMAKE_CURRENT_SOURCE_DIR}/jit/ir/ir_${DASM_ARCH}.dasc
-    COMMENT "[ext/opcache] Generating native code generator ${relativeDir}/jit/ir/ir_emit_${DASM_ARCH}.h"
+        ${dasm_flags}
+        -o ${CMAKE_CURRENT_BINARY_DIR}/jit/ir/ir_emit_${dasm_arch}.h
+        ${CMAKE_CURRENT_SOURCE_DIR}/jit/ir/ir_${dasm_arch}.dasc
+    COMMENT "[ext/opcache] Generating native code generator ${relativeDir}/jit/ir/ir_emit_${dasm_arch}.h"
     DEPENDS
       jit/ir/dynasm/dynasm.lua
-      jit/ir/ir_${DASM_ARCH}.dasc
+      jit/ir/ir_${dasm_arch}.dasc
     VERBATIM
     COMMAND_EXPAND_LISTS
   )
@@ -236,7 +247,7 @@ if(PHP_EXT_OPCACHE_JIT)
   target_compile_definitions(
     php_ext_opcache_jit_generator
     PRIVATE
-      ${IR_TARGET}
+      ${ir_target}
       IR_PHP
       IR_PHP_MM=0
   )
@@ -277,7 +288,7 @@ if(PHP_EXT_OPCACHE_JIT)
       jit/ir/ir.c
       jit/zend_jit_vm_helpers.c
       jit/zend_jit.c
-      ${CMAKE_CURRENT_BINARY_DIR}/jit/ir/ir_emit_${DASM_ARCH}.h
+      ${CMAKE_CURRENT_BINARY_DIR}/jit/ir/ir_emit_${dasm_arch}.h
       ${CMAKE_CURRENT_BINARY_DIR}/jit/ir/ir_fold_hash.h
   )
 
@@ -291,9 +302,17 @@ if(PHP_EXT_OPCACHE_JIT)
     php_ext_opcache
     PRIVATE
       IR_PHP
-      ${IR_TARGET}
+      ${ir_target}
       $<$<CONFIG:Debug,DebugAssertions>:IR_DEBUG>
   )
+
+  foreach(
+    file IN ITEMS
+      ${CMAKE_CURRENT_SOURCE_DIR}/jit/zend_jit_helpers.c
+      ${CMAKE_CURRENT_SOURCE_DIR}/jit/zend_jit_ir.c
+  )
+    set_property(SOURCE jit/zend_jit.c APPEND PROPERTY OBJECT_DEPENDS "${file}")
+  endforeach()
 
   # Check for Capstone.
   if(PHP_EXT_OPCACHE_CAPSTONE)
