@@ -17,6 +17,9 @@ Enable the extension. This extension is always built as shared when enabled.
 
 Enable copying PHP CODE pages into HUGE PAGES.
 
+> [!NOTE]
+> This option is not available when the target system is Windows.
+
 ## PHP_EXT_OPCACHE_JIT
 
 * Default: `ON`
@@ -58,6 +61,11 @@ cmake_dependent_option(
   ON
   [[PHP_EXT_OPCACHE AND NOT CMAKE_SYSTEM_NAME STREQUAL "Windows"]]
   OFF
+)
+add_feature_info(
+  "ext/opcache HUGE PAGES"
+  PHP_EXT_OPCACHE_HUGE_CODE_PAGES
+  "PHP CODE pages are copied into HUGE PAGES"
 )
 
 cmake_dependent_option(
@@ -130,7 +138,10 @@ endif()
 
 # Check if JIT is supported by the target architecture.
 if(PHP_EXT_OPCACHE_JIT)
-  if(NOT CMAKE_C_COMPILER_ARCHITECTURE_ID MATCHES "(i[3456]86|x86_64|aarch64|arm64|x64|X86|ARM64)")
+  if(
+    NOT CMAKE_C_COMPILER_ARCHITECTURE_ID
+    MATCHES "(i[3456]86|x86_64|aarch64|arm64|x64|X86|ARM64)"
+  )
     message(
       WARNING
       "JIT is not supported by target architecture "
@@ -160,35 +171,35 @@ target_include_directories(
 if(PHP_EXT_OPCACHE_JIT)
   # Find out which ABI to use.
   if(CMAKE_C_COMPILER_ARCHITECTURE_ID MATCHES "(x86_64|x64)")
-    set(DASM_FLAGS -D X64=1)
-    set(DASM_ARCH "x86")
+    set(dasm_flags -D X64=1)
+    set(dasm_arch "x86")
   elseif(CMAKE_C_COMPILER_ARCHITECTURE_ID MATCHES "(i[34567]86|X86)")
-    set(DASM_ARCH "x86")
+    set(dasm_arch "x86")
   elseif(CMAKE_C_COMPILER_ARCHITECTURE_ID MATCHES "(arm64|ARM64|aarch64)")
-    set(DASM_FLAGS -D ARM64=1)
-    set(DASM_ARCH "arm64")
+    set(dasm_flags -D ARM64=1)
+    set(dasm_arch "arm64")
   endif()
 
   if(
     CMAKE_C_COMPILER_ARCHITECTURE_ID MATCHES "x86_64"
     AND CMAKE_SYSTEM_NAME STREQUAL "Darwin"
   )
-    list(APPEND DASM_FLAGS -D X64APPLE=1)
+    list(APPEND dasm_flags -D X64APPLE=1)
   endif()
 
   if(CMAKE_SYSTEM_NAME STREQUAL "Windows")
-    list(APPEND DASM_FLAGS -D WIN=1)
+    list(APPEND dasm_flags -D WIN=1)
   endif()
 
   if(
     CMAKE_C_COMPILER_ARCHITECTURE_ID MATCHES "(x86_64|x64|ARM64|aarch64)"
     AND CMAKE_SYSTEM_NAME STREQUAL "Windows"
   )
-    list(APPEND DASM_FLAGS -D X64WIN=1)
+    list(APPEND dasm_flags -D X64WIN=1)
   endif()
 
   if(PHP_THREAD_SAFETY)
-    list(APPEND DASM_FLAGS -D ZTS=1)
+    list(APPEND dasm_flags -D ZTS=1)
   endif()
 
   # Generate zend_jit_<arch>.c file.
@@ -220,16 +231,16 @@ if(PHP_EXT_OPCACHE_JIT)
 
   # Generate Jit for architecture.
   add_custom_command(
-    OUTPUT jit/zend_jit_${DASM_ARCH}.c
+    OUTPUT jit/zend_jit_${dasm_arch}.c
     COMMAND
       php_ext_opcache_jit_minilua ${CMAKE_CURRENT_SOURCE_DIR}/jit/dynasm/dynasm.lua
-        ${DASM_FLAGS}
-        -o ${CMAKE_CURRENT_BINARY_DIR}/jit/zend_jit_${DASM_ARCH}.c
-        ${CMAKE_CURRENT_SOURCE_DIR}/jit/zend_jit_${DASM_ARCH}.dasc
-    COMMENT "[ext/opcache] Generating ${relativeDir}/jit/zend_jit_${DASM_ARCH}.c"
+        ${dasm_flags}
+        -o ${CMAKE_CURRENT_BINARY_DIR}/jit/zend_jit_${dasm_arch}.c
+        ${CMAKE_CURRENT_SOURCE_DIR}/jit/zend_jit_${dasm_arch}.dasc
+    COMMENT "[ext/opcache] Generating ${relativeDir}/jit/zend_jit_${dasm_arch}.c"
     DEPENDS
       jit/dynasm/dynasm.lua
-      jit/zend_jit_${DASM_ARCH}.dasc
+      jit/zend_jit_${dasm_arch}.dasc
     VERBATIM
     COMMAND_EXPAND_LISTS
   )
@@ -240,14 +251,36 @@ if(PHP_EXT_OPCACHE_JIT)
       $<$<NOT:$<PLATFORM_ID:Windows>>:jit/zend_jit_gdb.c>
       jit/zend_jit_vm_helpers.c
       jit/zend_jit.c
-      ${CMAKE_CURRENT_BINARY_DIR}/jit/zend_jit_${DASM_ARCH}.c
+      ${CMAKE_CURRENT_BINARY_DIR}/jit/zend_jit_${dasm_arch}.c
   )
 
   # Mark generated file as "header" to not get compiled into its own object.
   set_source_files_properties(
-    ${CMAKE_CURRENT_BINARY_DIR}/jit/zend_jit_${DASM_ARCH}.c
+    ${CMAKE_CURRENT_BINARY_DIR}/jit/zend_jit_${dasm_arch}.c
     PROPERTIES HEADER_FILE_ONLY ON
   )
+
+  foreach(
+    file IN ITEMS
+      ${CMAKE_CURRENT_BINARY_DIR}/jit/zend_jit_${dasm_arch}.c
+      ${CMAKE_CURRENT_SOURCE_DIR}/jit/zend_jit_disasm.c
+      ${CMAKE_CURRENT_SOURCE_DIR}/jit/zend_jit_gdb.c
+      ${CMAKE_CURRENT_SOURCE_DIR}/jit/zend_jit_helpers.c
+      ${CMAKE_CURRENT_SOURCE_DIR}/jit/zend_jit_perf_dump.c
+      ${CMAKE_CURRENT_SOURCE_DIR}/jit/zend_jit_trace.c
+      ${CMAKE_CURRENT_SOURCE_DIR}/jit/zend_jit_vtune.c
+  )
+    set_property(SOURCE jit/zend_jit.c APPEND PROPERTY OBJECT_DEPENDS "${file}")
+  endforeach()
+
+  if(NOT CMAKE_SYSTEM_NAME STREQUAL "Windows")
+    set_property(
+      SOURCE jit/zend_jit.c
+      APPEND
+      PROPERTY
+        OBJECT_DEPENDS ${CMAKE_CURRENT_SOURCE_DIR}/jit/zend_elf.c
+    )
+  endif()
 
   # The string.h header is always available with C89 standard. The bundled
   # ext/opcache/jit/libudis86 still includes it conditionally.
