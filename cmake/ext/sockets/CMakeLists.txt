@@ -137,16 +137,24 @@ set(
 cmake_push_check_state(RESET)
   set(CMAKE_REQUIRED_DEFINITIONS -D_GNU_SOURCE)
   set(CMAKE_EXTRA_INCLUDE_FILES "sys/socket.h")
-  check_type_size("struct ucred" PHP_EXT_SOCKETS_STRUCT_UCRED)
+  check_type_size(
+    "struct ucred"
+    PHP_EXT_SOCKETS_SIZEOF_STRUCT_UCRED
+    RESULT_VARIABLE PHP_EXT_SOCKETS_HAVE_STRUCT_UCRED
+  )
 cmake_pop_check_state()
-set(HAVE_STRUCT_UCRED ${HAVE_PHP_EXT_SOCKETS_STRUCT_UCRED})
+set(HAVE_STRUCT_UCRED ${PHP_EXT_SOCKETS_HAVE_STRUCT_UCRED})
 
 # Check for struct cmsgcred.
 cmake_push_check_state(RESET)
   set(CMAKE_EXTRA_INCLUDE_FILES "sys/socket.h")
-  check_type_size("struct cmsgcred" PHP_EXT_SOCKETS_STRUCT_CMSGCRED)
+  check_type_size(
+    "struct cmsgcred"
+    PHP_EXT_SOCKETS_SIZEOF_STRUCT_CMSGCRED
+    RESULT_VARIABLE PHP_EXT_SOCKETS_HAVE_STRUCT_CMSGCRED
+  )
 cmake_pop_check_state()
-set(HAVE_STRUCT_CMSGCRED ${HAVE_PHP_EXT_SOCKETS_STRUCT_CMSGCRED})
+set(HAVE_STRUCT_CMSGCRED ${PHP_EXT_SOCKETS_HAVE_STRUCT_CMSGCRED})
 
 set(HAVE_SOCKETS TRUE)
 
