@@ -23,7 +23,7 @@ Build extension as shared.
 cmake_minimum_required(VERSION 4.2...4.3)
 
 project(
-  PhpExtensionPdoFirebird
+  PHP_EXT_PDO_FIREBIRD
   LANGUAGES C
 )
 

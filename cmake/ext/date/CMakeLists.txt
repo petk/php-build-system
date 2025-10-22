@@ -11,7 +11,7 @@ This extension is always enabled.
 cmake_minimum_required(VERSION 4.2...4.3)
 
 project(
-  PhpExtensionDate
+  PHP_EXT_DATE
   LANGUAGES C
 )
 

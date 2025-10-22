@@ -24,7 +24,7 @@ Build extension as shared.
 cmake_minimum_required(VERSION 4.2...4.3)
 
 project(
-  PhpExtensionGettext
+  PHP_EXT_GETTEXT
   LANGUAGES C
 )
 

@@ -9,7 +9,7 @@ This extension provides support for Lexbor library.
 cmake_minimum_required(VERSION 4.2...4.3)
 
 project(
-  PhpExtensionLexbor
+  PHP_EXT_LEXBOR
   LANGUAGES C
 )
 

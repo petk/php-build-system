@@ -41,7 +41,7 @@ Enable OPcache JIT disassembly through Capstone engine.
 cmake_minimum_required(VERSION 4.2...4.3)
 
 project(
-  PhpExtensionOpCache
+  PHP_EXT_OPCACHE
   LANGUAGES C
 )
 

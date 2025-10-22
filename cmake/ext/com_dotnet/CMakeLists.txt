@@ -53,7 +53,7 @@ Enables the .NET Framework support.
 cmake_minimum_required(VERSION 4.2...4.3)
 
 project(
-  PhpExtensionComDotnet
+  PHP_EXT_COM_DOTNET
   LANGUAGES C
 )
 

@@ -36,7 +36,7 @@ installation on the system, can be customized with the `MYSQL_ROOT` and
 cmake_minimum_required(VERSION 4.2...4.3)
 
 project(
-  PhpExtensionPdoMysql
+  PHP_EXT_PDO_MYSQL
   DESCRIPTION
     "MySQL-compatible databases support in PDO (PHP Data Objects) interface"
   LANGUAGES C

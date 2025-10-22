@@ -19,7 +19,7 @@ Enable the mhash emulation support.
 cmake_minimum_required(VERSION 4.2...4.3)
 
 project(
-  PhpExtensionHash
+  PHP_EXT_HASH
   LANGUAGES C
 )
 

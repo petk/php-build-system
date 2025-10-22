@@ -19,7 +19,7 @@ This extension is always built as shared when enabled.
 cmake_minimum_required(VERSION 4.2...4.3)
 
 project(
-  PhpExtensionDlTest
+  PHP_EXT_DL_TEST
   LANGUAGES C
 )
 

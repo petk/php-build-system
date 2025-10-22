@@ -28,7 +28,7 @@ list(APPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_LIST_DIR}/cmake/modules)
 
 # Define the PHP extension project and its metadata.
 project(
-  %EXTNAME%
+  PHP_EXT_%EXTNAMECAPS%
   VERSION 0.1.0
   DESCRIPTION "Describe the extension"
   HOMEPAGE_URL "https://example.org"
