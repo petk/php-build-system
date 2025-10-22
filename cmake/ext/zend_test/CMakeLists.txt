@@ -23,7 +23,7 @@ Build extension as shared.
 cmake_minimum_required(VERSION 4.2...4.3)
 
 project(
-  PhpExtensionZendTest
+  PHP_EXT_ZEND_TEST
   LANGUAGES C
 )
 

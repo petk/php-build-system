@@ -23,7 +23,7 @@ Build extension as shared.
 cmake_minimum_required(VERSION 4.2...4.3)
 
 project(
-  php_ext_pgsql
+  PHP_EXT_PGSQL
   LANGUAGES C
 )
 

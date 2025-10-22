@@ -24,7 +24,7 @@ Build extension as shared.
 cmake_minimum_required(VERSION 4.2...4.3)
 
 project(
-  PhpExtensionBz2
+  PHP_EXT_BZ2
   LANGUAGES C
 )
 

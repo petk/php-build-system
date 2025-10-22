@@ -23,7 +23,7 @@ Build extension as shared.
 cmake_minimum_required(VERSION 4.2...4.3)
 
 project(
-  PhpExtensionSqlite3
+  PHP_EXT_SQLITE3
   LANGUAGES C
 )
 

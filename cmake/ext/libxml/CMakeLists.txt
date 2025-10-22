@@ -18,7 +18,7 @@ This extension cannot be built as shared.
 cmake_minimum_required(VERSION 4.2...4.3)
 
 project(
-  PhpExtensionLibXml
+  PHP_EXT_LIBXML
   LANGUAGES C
 )
 

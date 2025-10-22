@@ -27,7 +27,7 @@ whether the PCRE library has it enabled.
 cmake_minimum_required(VERSION 4.2...4.3)
 
 project(
-  PhpExtensionPcre
+  PHP_EXT_PCRE
   LANGUAGES C
 )
 
