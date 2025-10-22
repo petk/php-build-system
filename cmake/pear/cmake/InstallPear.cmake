@@ -6,7 +6,7 @@ executable to system directory structure. Some variables need to be set before
 running it via the install(CODE) as done in the PEAR's CMakeLists.txt.
 #]=============================================================================]
 
-cmake_minimum_required(VERSION 3.29...4.2)
+cmake_minimum_required(VERSION 4.2...4.3)
 
 set(phpPearInstallerUrl "https://pear.php.net/install-pear-nozlib.phar")
 

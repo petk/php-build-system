@@ -8,7 +8,7 @@ This extension provides date and time support.
 This extension is always enabled.
 #]=============================================================================]
 
-cmake_minimum_required(VERSION 3.29...4.2)
+cmake_minimum_required(VERSION 4.2...4.3)
 
 project(
   PhpExtensionDate

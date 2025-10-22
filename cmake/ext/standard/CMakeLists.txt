@@ -427,12 +427,6 @@ block()
   # Case-sensitive filtering, GLOB on macOS/Windows/Cygwin is case-insensitive.
   list(FILTER credits INCLUDE REGEX ".*CREDITS$")
 
-  # The CODEGEN keyword adds the custom command to a global 'codegen' target.
-  set(codegen "")
-  if(CMAKE_VERSION VERSION_GREATER_EQUAL 3.31)
-    set(codegen CODEGEN)
-  endif()
-
   add_custom_command(
     OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/CMakeFiles/php_credits.timestamp
     DEPENDS ${credits}
@@ -443,7 +437,7 @@ block()
       ${CMAKE_COMMAND} -P ${PHP_SOURCE_DIR}/cmake/scripts/GenerateCredits.cmake
     COMMENT "Regenerating ext/standard/credits_*.h"
     VERBATIM
-    ${codegen}
+    CODEGEN
   )
 
   add_custom_target(

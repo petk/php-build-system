@@ -55,7 +55,7 @@ See build system documentation for available PHP configuration variables and
 further information.
 #]=============================================================================]
 
-cmake_minimum_required(VERSION 3.29...4.2)
+cmake_minimum_required(VERSION 4.2...4.3)
 
 if(CMAKE_BINARY_DIR PATH_EQUAL CMAKE_CURRENT_LIST_DIR)
   message(
@@ -198,15 +198,7 @@ file(
 
     find_package(Git QUIET)
     if(NOT Git_FOUND)
-      # See: https://gitlab.kitware.com/cmake/cmake/-/merge_requests/10164
-      if(CMAKE_VERSION VERSION_GREATER_EQUAL 4.0)
-        find_package(Patch QUIET)
-      else()
-        find_program(Patch_EXECUTABLE patch)
-        if(Patch_EXECUTABLE)
-          set(Patch_FOUND TRUE)
-        endif()
-      endif()
+      find_package(Patch QUIET)
     endif()
 
     if(NOT Git_FOUND AND NOT Patch_FOUND)
