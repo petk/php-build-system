@@ -74,8 +74,12 @@ target_sources(
 
 cmake_push_check_state(RESET)
   set(CMAKE_EXTRA_INCLUDE_FILES "sys/types.h;sys/ipc.h;sys/sem.h")
-  check_type_size("union semun" PHP_EXT_SYSVSEM_UNION_SEMUN)
-  set(HAVE_SEMUN ${HAVE_PHP_EXT_SYSVSEM_UNION_SEMUN})
+  check_type_size(
+    "union semun"
+    PHP_EXT_SYSVSEM_SIZEOF_UNION_SEMUN
+    RESULT_VARIABLE PHP_EXT_SYSVSEM_HAVE_UNION_SEMUN
+  )
+  set(HAVE_SEMUN ${PHP_EXT_SYSVSEM_HAVE_UNION_SEMUN})
 cmake_pop_check_state()
 
 set(HAVE_SYSVSEM TRUE)
