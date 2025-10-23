@@ -214,8 +214,8 @@ done
 if test "x$use_cmake" = "x0"; then
   echo
   echo "PHP sources are ready to be built. Inside php-src, you can now run:
-    cmake .
-    cmake --build .
+    cmake -B php-build
+    cmake --build php-build
   "
   exit
 fi
