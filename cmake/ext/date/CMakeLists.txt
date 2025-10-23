@@ -50,6 +50,7 @@ target_compile_options(
 )
 
 # Configure timelib.
+set(TIMELIB_NAMESPACE "PHP_EXT_DATE_TIMELIB")
 set(TIMELIB_TARGET php_ext_date)
 add_subdirectory(lib)
 

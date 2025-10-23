@@ -3,11 +3,27 @@
 
 Simplified CMake-based build system for the timelib library.
 
-## Usage
+## Configuration variables
+
+* `TIMELIB_NAMESPACE`
+
+  Namespace string used as the project name and variables prefix. If not
+  specified, default value is `TIMELIB`.
+
+  * `<TIMELIB_NAMESPACE>_VERSION`.
+
+* `TIMELIB_TARGET`
+
+  If specified, this target will be used to add timelib source files to it and
+  compile properties. If not specified, a library target named `timelib` will be
+  created.
+
+## Examples
 
 Adding timelib with `add_subdirectory()`:
 
 ```cmake
+set(TIMELIB_NAMESPACE "PHP_EXT_DATE_TIMELIB")
 set(TIMELIB_TARGET php_ext_date)
 add_subdirectory(lib)
 ```
@@ -15,8 +31,12 @@ add_subdirectory(lib)
 
 cmake_minimum_required(VERSION 4.2...4.3)
 
+if(NOT TIMELIB_NAMESPACE)
+  set(TIMELIB_NAMESPACE "TIMELIB")
+endif()
+
 # The timelib version.
-block(PROPAGATE timelib_VERSION)
+block(PROPAGATE ${TIMELIB_NAMESPACE}_VERSION)
   file(
     STRINGS
     timelib.h
@@ -24,14 +44,14 @@ block(PROPAGATE timelib_VERSION)
     REGEX "^[ \t]*#[ \t]*define[ \t]+TIMELIB_ASCII_VERSION[ \t]+\"([0-9.]+[^\"]*)"
   )
 
-  set(timelib_VERSION "${CMAKE_MATCH_1}")
+  set(${TIMELIB_NAMESPACE}_VERSION "${CMAKE_MATCH_1}")
 
-  message(STATUS "Configuring timelib ${timelib_VERSION}")
+  message(STATUS "Configuring timelib ${${TIMELIB_NAMESPACE}_VERSION}")
 endblock()
 
 project(
-  timelib
-  VERSION ${timelib_VERSION}
+  ${TIMELIB_NAMESPACE}
+  VERSION ${${TIMELIB_NAMESPACE}_VERSION}
   #SPDX_LICENSE "MIT"
   DESCRIPTION "Timezone and date/time library"
   HOMEPAGE_URL "https://github.com/derickr/timelib"
