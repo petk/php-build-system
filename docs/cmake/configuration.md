@@ -352,9 +352,6 @@ straightforward manner.
 ```sh
 # Run ccmake:
 ccmake -S source-directory -B build-directory
-
-# For in-source builds:
-ccmake .
 ```
 
 ![The ccmake GUI](/docs/images/ccmake.png)

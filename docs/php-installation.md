@@ -257,28 +257,28 @@ Installing PHP with CMake can be done in a similar way:
 
 ```sh
 # Configuration and generation of build system files:
-cmake -DCMAKE_INSTALL_PREFIX="/usr" .
+cmake -DCMAKE_INSTALL_PREFIX="/usr" -B php-build
 
 # Build PHP in parallel:
-cmake --build . -j
+cmake --build php-build -j
 
 # Run tests using ctest utility:
-ctest --progress -V
+ctest --progress -V --test-dir php-build
 
 # Finally, copy built files to their system locations:
-DESTDIR=/stage cmake --install .
+DESTDIR=/stage cmake --install php-build
 
 # Or
-cmake --install-prefix /usr .
-cmake --build . -j
-ctest --progress -V
-DESTDIR=/stage cmake --install .
+cmake --install-prefix /usr -B php-build
+cmake --build php-build -j
+ctest --progress -V --test-dir php-build
+DESTDIR=/stage cmake --install php-build
 
 # Or
-cmake .
-cmake --build . -j
-ctest --progress -V
-DESTDIR=/stage cmake --install . --prefix /usr
+cmake -B php-build
+cmake --build php-build -j
+ctest --progress -V --test-dir php-build
+DESTDIR=/stage cmake --install php-build --prefix /usr
 ```
 
 > [!NOTE]
