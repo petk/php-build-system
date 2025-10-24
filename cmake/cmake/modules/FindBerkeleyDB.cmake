@@ -106,7 +106,7 @@ if(BerkeleyDB_USE_DB1)
   cmake_pop_check_state()
 
   if(NOT _berkeleydb_db1_sanity_check)
-    unset(BerkeleyDB_DB1_INCLUDE_DIR CACHE)
+    unset(CACHE{BerkeleyDB_DB1_INCLUDE_DIR})
     message(CHECK_FAIL "disabled, not found")
   else()
     message(CHECK_PASS "enabled")

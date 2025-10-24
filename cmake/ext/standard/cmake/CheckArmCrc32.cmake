@@ -26,10 +26,10 @@ function(_php_ext_standard_check_arm_crc32 result)
     endif()
 
     set(
-      PHP_${result}
-      ${${result}}
-      CACHE INTERNAL
-      "Whether ARM has CRC32."
+      CACHE{PHP_${result}}
+      TYPE INTERNAL
+      HELP "Whether ARM has CRC32."
+      VALUE ${${result}}
     )
   endif()
 

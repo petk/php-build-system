@@ -78,8 +78,10 @@ project(
 # Configuration.
 block(PROPAGATE phpUrl)
   set(
-    PHP_VERSION_DOWNLOAD "${PROJECT_VERSION}-dev"
-    CACHE STRING "The PHP version to download"
+    CACHE{PHP_VERSION_DOWNLOAD}
+    TYPE STRING
+    HELP "The PHP version to download"
+    VALUE "${PROJECT_VERSION}-dev"
   )
   mark_as_advanced(PHP_VERSION_DOWNLOAD)
 

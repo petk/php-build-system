@@ -391,7 +391,7 @@ set(HAVE_EXPLICIT_MEMSET ${PHP_HAVE_EXPLICIT_MEMSET})
 check_symbol_exists(fdatasync unistd.h PHP_HAVE_FDATASYNC)
 # The fdatasync declaration on macOS is missing in headers, yet is in C library.
 if(NOT PHP_HAVE_FDATASYNC)
-  unset(PHP_HAVE_FDATASYNC CACHE)
+  unset(CACHE{PHP_HAVE_FDATASYNC})
   check_function_exists(fdatasync PHP_HAVE_FDATASYNC)
 endif()
 set(HAVE_FDATASYNC ${PHP_HAVE_FDATASYNC})
