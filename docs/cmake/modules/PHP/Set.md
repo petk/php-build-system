@@ -161,7 +161,7 @@ php_set(
 
 * When `CHOICES_CASE_SENSITIVE` is given, the variable value will need to match
   the case of item defined in the `CHOICES` list. By default, choices are
-  case-insensitive.
+  case insensitive.
 
   For example:
 

@@ -15,7 +15,7 @@ ecosystem.
     * [3.1.2. Directory variables](#312-directory-variables)
     * [3.1.3. Cache variables](#313-cache-variables)
   * [3.2. Naming variables](#32-naming-variables)
-    * [3.2.1. Configuration variables](#321-configuration-variables)
+    * [3.2.1. Cache variables](#321-cache-variables)
     * [3.2.2. Find module variables](#322-find-module-variables)
     * [3.2.3. Temporary variables](#323-temporary-variables)
   * [3.3. Setting and unsetting variables](#33-setting-and-unsetting-variables)
@@ -47,8 +47,8 @@ system, especially when multiple developers are involved. Following some coding
 conventions can maintain a clear and organized CMake project structure while
 avoiding conflicts with external libraries and CMake scope.
 
-For instance, it's important to note that CMake functions, macros, and commands
-are not case-sensitive. In other words, the following two expressions are
+For instance, it's important to note that CMake commands (functions, macros) are
+not case sensitive. In other words, the following two expressions are
 equivalent:
 
 ```cmake
@@ -59,18 +59,26 @@ add_library(foo src.c)
 ADD_LIBRARY(foo src.c)
 ```
 
-On the contrary, variable names are case-sensitive.
+On the contrary, variable names are case sensitive:
+
+```cmake
+set(variable_name "value")
+```
+
+```cmake
+set(VARIABLE_NAME "value")
+```
 
 ## 2. General guidelines
 
 * In most cases, the preferred style is to use **all lowercase letters**.
 
   ```cmake
-  add_library(foo src.c)
+  add_library(php_foo src.c)
 
-  function(bar argument)
-    if(argument)
-      set(var "value")
+  function(php_function_name argument_name another_argument)
+    if(argument_name)
+      set(variable_name "value")
     endif()
 
     # ...
@@ -102,8 +110,8 @@ On the contrary, variable names are case-sensitive.
   This practice facilitates concatenation of such variables:
 
   ```cmake
-  set(parentDir "foo/bar")
-  set(childDir "${parentDir}/baz")
+  set(parent_dir "foo/bar")
+  set(child_dir "${parentDir}/baz")
   ```
 
 > [!TIP]
@@ -166,15 +174,15 @@ and `PROJECT_BINARY_DIR`, or `<ProjectName>_SOURCE_DIR` and
 For example, instead of:
 
 ```cmake
-set(somePath ${CMAKE_SOURCE_DIR}/main/php_config.h)
+set(some_path ${CMAKE_SOURCE_DIR}/main/php_config.h)
 ```
 
 use:
 
 ```cmake
-set(somePath ${PROJECT_SOURCE_DIR}/file.h)
+set(some_path ${PROJECT_SOURCE_DIR}/file.h)
 # and
-set(somePath ${PHP_SOURCE_DIR}/main/php_config.h)
+set(some_path ${PHP_SOURCE_DIR}/main/php_config.h)
 ```
 
 These variables succinctly define the root directories of the project, ensuring
@@ -202,11 +210,11 @@ and manage them effectively within the project.
 #### 3.1.1. Local variables
 
 Variables with a scope inside functions and blocks. These should preferably be
-in *camelCase*.
+in *snake_case*.
 
 ```cmake
 function(foo)
-  set(variableName <value>)
+  set(variable_name <value>)
   # ...
 endfunction()
 ```
@@ -230,7 +238,7 @@ child directories. To distinguish them, these variables should be in
 *UPPER_CASE*.
 
 ```cmake
-set(VAR <value>)
+set(VARIABLE_NAME <value>)
 ```
 
 This naming convention helps identify the variables that pertain to the current
@@ -243,13 +251,13 @@ should be *UPPER_CASE*.
 
 ```cmake
 # Cache variable
-set(CACHE{VAR} TYPE <type> HELP <help> VALUE <value>)
+set(CACHE{PHP_VAR} TYPE <type> HELP <help> VALUE <value>)
 
 # Cache variable as a boolean option
-option(FOO "<help_text>" [value])
+option(PHP_FOO "<help>" [value])
 
 # Cache variables created by CMake command invocations. For example
-find_program(PHP_SED_EXECUTABLE sed)
+find_program(PHP_SED_EXECUTABLE NAMES sed)
 ```
 
 ### 3.2. Naming variables
@@ -260,26 +268,28 @@ alphanumeric characters and underscores, enhancing readability.
 Variables prefixed with `CMAKE_`, `_CMAKE_`, and `_<any-cmake-command-name>` are
 reserved for CMake's internal use.
 
-#### 3.2.1. Configuration variables
+#### 3.2.1. Cache variables
 
-Configuration variables are cache variables designed to be adjusted by the user
-during the configuration phase, either through the presets, command line, or by
-using GUI, such as cmake-gui or ccmake. It is recommended to prefix them with
-`PHP_`, and similar to facilitate their grouping within the GUI or IDE.
+Cache variables, either internal ones, or those designed to be adjusted by the
+user during the configuration phase, for example, through the presets, command
+line, or by using GUI, such as `cmake-gui` or `ccmake`, are recommended to be
+prefixed with `PHP_` to facilitate their grouping within the GUI or IDE.
 
 ```cmake
-option(PHP_ENABLE_FOO "<help_text>" [value])
-cmake_dependent_option(PHP_ENABLE_BAR "<help_text>" <value> <depends> <force>)
-set(CACHE{PHP_FOO_BAR} TYPE <BOOL|FILEPATH|PATH|STRING> HELP <help> VALUE <value>)
+option(PHP_ENABLE_FOO "<help>" [value])
+
+cmake_dependent_option(PHP_ENABLE_BAR "<help>" <value> <depends> <force>)
+
+set(CACHE{PHP_FOO_BAR} TYPE <type> HELP <help> VALUE <value>)
 
 # Zend Engine configuration variables
-option(PHP_ZEND_ENABLE_FOO "<help_text>" [value])
+option(PHP_ZEND_ENABLE_FOO "<help>" [value])
 
 # Configuration variables related to PHP extensions
-option(PHP_EXT_FOO "<help_text>" [value])
+option(PHP_EXT_FOO "<help>" [value])
 
 # Configuration variables related to PHP SAPI modules
-option(PHP_SAPI_FOO "<help_text>" [value])
+option(PHP_SAPI_FOO "<help>" [value])
 ```
 
 #### 3.2.2. Find module variables
@@ -297,13 +307,14 @@ that these variables are meant exclusively for internal use within the current
 CMake file and should not be accessed outside of that context.
 
 ```cmake
-set(_temporaryVariable <value>)
+set(_temporary_variable <value>)
 ```
 
 > [!TIP]
 > Variables named `_` can be used for values that are not important for code.
 > For example, here only the matched value of variable `CMAKE_MATCH_1` is
-> important:
+> important, while variable `_` is used as a container for `string()` command
+> argument and not used in the code later on:
 >
 > ```cmake
 > string(REGEX MATCH "foo\\(([0-9]+)\\)" _ "${content}")
@@ -317,23 +328,25 @@ scope to avoid unintended use of previous values. When ensuring a variable is
 empty before use, explicitly set it to an empty string:
 
 ```cmake
-set(someVariable "")
+set(some_variable "")
 ```
 
 Avoid this approach:
 
 ```cmake
-set(someVariable)
+set(some_variable)
+# or
+unset(some_variable)
 ```
 
-The latter is equivalent to `unset(someVariable)`, which can unintentionally
+The latter is equivalent to `unset(some_variable)`, which can unintentionally
 expose a cache variable with the same name if it exists. For example:
 
 ```cmake
-set(someVariable "Foo" CACHE INTERNAL "Some cache variable")
+set(CACHE{some_variable} TYPE INTERNAL HELP "Some cache variable" VALUE "Foo")
 # ...
-set(someVariable)
-message(STATUS "${someVariable}")
+set(some_variable)
+message(STATUS "${some_variable}")
 # Outputs: Foo
 ```
 
@@ -365,8 +378,8 @@ find_package(PackageName)
 target_link_libraries(php PRIVATE PackageName::PackageName)
 ```
 
-`PackageName` can be in any case (a-zA-Z0-9), with *PascalCase* or package
-original name case preferred.
+`PackageName` can be in any case (a-zA-Z0-9_), with *PascalCase* or package
+upstream name case preferred.
 
 ### 4.2. Utility modules
 
@@ -391,7 +404,7 @@ upstream CMake modules.
 CMake interprets `1`, `ON`, `YES`, `TRUE`, and `Y` as representing boolean true
 values, while `0`, `OFF`, `NO`, `FALSE`, `N`, `IGNORE`, `NOTFOUND`, an empty
 string, or any value ending with the suffix `-NOTFOUND` are considered boolean
-false values. Named boolean constants are case-insensitive (e.g., `on`, `Off`,
+false values. Named boolean constants are case insensitive (e.g., `on`, `Off`,
 `True`).
 
 A general convention is to use `ON` and `OFF` for boolean values that can be
@@ -400,11 +413,11 @@ should not be modified externally. For example:
 
 ```cmake
 # Boolean variables that can be modified by the user use ON/OFF values
-option(FOO "<help_text>" ON)
+option(PHP_FOO "<help>" ON)
 
 # The IMPORTED property is set to TRUE and cannot be modified after being set
-add_library(foo UNKNOWN IMPORTED)
-get_target_property(value foo IMPORTED)
+add_library(php_foo UNKNOWN IMPORTED)
+get_target_property(value php_foo IMPORTED)
 message(STATUS "value=${value}")
 # Outputs: value=TRUE
 
@@ -424,11 +437,11 @@ prefix them contextually, for example `php_`. It is preferred to adhere to the
 *snake_case* style.
 
 ```cmake
-function(php_function_name argumentName)
+function(php_function_name argument_name)
   # Function body
 endfunction()
 
-macro(php_macro_name argumentName)
+macro(php_macro_name argument_name)
   # Macro body
 endmacro()
 ```

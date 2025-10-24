@@ -176,7 +176,7 @@ another_command(
 In CMake, variables are essential for storing and manipulating data throughout
 the project's configuration and build processes. They play a pivotal role in
 customizing builds and managing project-specific settings. Variable names are
-case-sensitive.
+case sensitive.
 
 #### 4.1.1. Setting variables
 
