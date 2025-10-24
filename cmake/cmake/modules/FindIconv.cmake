@@ -57,8 +57,8 @@ if(
   if(Iconv_INCLUDE_DIR AND Iconv_LIBRARY)
     set(Iconv_IS_BUILT_IN FALSE)
   else()
-    unset(Iconv_INCLUDE_DIR CACHE)
-    unset(Iconv_LIBRARY CACHE)
+    unset(CACHE{Iconv_INCLUDE_DIR})
+    unset(CACHE{Iconv_LIBRARY})
   endif()
 endif()
 

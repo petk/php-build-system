@@ -243,7 +243,7 @@ should be *UPPER_CASE*.
 
 ```cmake
 # Cache variable
-set(VAR <value> CACHE <type> "<help_text>")
+set(CACHE{VAR} TYPE <type> HELP <help> VALUE <value>)
 
 # Cache variable as a boolean option
 option(FOO "<help_text>" [value])
@@ -270,10 +270,10 @@ using GUI, such as cmake-gui or ccmake. It is recommended to prefix them with
 ```cmake
 option(PHP_ENABLE_FOO "<help_text>" [value])
 cmake_dependent_option(PHP_ENABLE_BAR "<help_text>" <value> <depends> <force>)
-set(PHP_FOO_BAR <value>... CACHE <BOOL|FILEPATH|PATH|STRING> "<help_text>")
+set(CACHE{PHP_FOO_BAR} TYPE <BOOL|FILEPATH|PATH|STRING> HELP <help> VALUE <value>)
 
 # Zend Engine configuration variables
-option(ZEND_ENABLE_FOO "<help_text>" [value])
+option(PHP_ZEND_ENABLE_FOO "<help_text>" [value])
 
 # Configuration variables related to PHP extensions
 option(PHP_EXT_FOO "<help_text>" [value])

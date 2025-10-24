@@ -10,7 +10,7 @@ non-internal cache variables that can also be customized externally via the `-D`
 command-line option, CMake presets, or similar:
 
 * `option()`
-* `set(<variable> <value> CACHE <type> <docstring>)`
+* `set(CACHE{<variable>} TYPE <type> HELP <docstring> VALUE <value>)`
 * `cmake_dependent_option()`
 
 Ideally, these are the recommended methods to set configuration variables.
@@ -55,7 +55,7 @@ This function sets a cache `<variable>` of `<type>` to a `<value>`.
     which is equivalent to writing:
 
     ```cmake
-    set(<variable> <value> CACHE <type> <docstring>)
+    set(CACHE{<variable>} TYPE <type> HELP <docstring> VALUE <value>)
     ```
 
 * `DOC` is a short help text for the variable, visible in GUIs. Multiple strings

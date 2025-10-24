@@ -93,8 +93,8 @@ if(
   if(Crypt_INCLUDE_DIR AND Crypt_LIBRARY)
     set(Crypt_IS_BUILT_IN FALSE)
   else()
-    unset(Crypt_INCLUDE_DIR CACHE)
-    unset(Crypt_LIBRARY CACHE)
+    unset(CACHE{Crypt_INCLUDE_DIR})
+    unset(CACHE{Crypt_LIBRARY})
   endif()
 endif()
 

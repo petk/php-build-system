@@ -396,11 +396,11 @@ function(php_search_libraries)
 
   # Clear any cached library value if running consecutively and result variable
   # has been unset in the code after the check.
-  unset(${parsed_LIBRARY_VARIABLE} CACHE)
+  unset(CACHE{${parsed_LIBRARY_VARIABLE}})
 
   # Now, check if linking any given library helps making the check successful.
   foreach(library IN LISTS parsed_LIBRARIES)
-    unset(${parsed_RESULT_VARIABLE} CACHE)
+    unset(CACHE{${parsed_RESULT_VARIABLE}})
 
     # If library was given as -l<library-name>, remove the linker flag.
     string(REGEX REPLACE "^-l" "" library "${library}")
@@ -463,7 +463,13 @@ function(php_search_libraries)
       elseif(DEFINED parsed_SOURCE_COMPILES OR DEFINED parsed_SOURCE_RUNS)
         set(help "Library required for the '${parsed_RESULT_VARIABLE}' test.")
       endif()
-      set(${parsed_LIBRARY_VARIABLE} ${library} CACHE INTERNAL "${help}")
+
+      set(
+        CACHE{${parsed_LIBRARY_VARIABLE}}
+        TYPE INTERNAL
+        HELP "${help}"
+        VALUE ${library}
+      )
 
       _php_search_libraries_populate()
 

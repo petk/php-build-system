@@ -188,7 +188,7 @@ variable:
 set(foobar "value")
 
 # Cache variables are stored and persist across the entire build system
-set(FOOBAR "value" CACHE STRING "Documentation for this variable")
+set(CACHE{FOOBAR} TYPE STRING HELP "Variable documentation" VALUE "value")
 ```
 
 Cache variables, in particular, are noteworthy because they offer a means to
