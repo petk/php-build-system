@@ -73,9 +73,9 @@ if(NOT DEFINED PHP_INLINE_KEYWORD_CODE)
   _php_check_inline(PHP_INLINE_KEYWORD_CODE)
 
   set(
-    PHP_INLINE_KEYWORD_CODE
-    "${PHP_INLINE_KEYWORD_CODE}"
-    CACHE INTERNAL
-    "Compiler inline keyword definition."
+    CACHE{PHP_INLINE_KEYWORD_CODE}
+    TYPE INTERNAL
+    HELP "Compiler inline keyword definition."
+    VALUE "${PHP_INLINE_KEYWORD_CODE}"
   )
 endif()

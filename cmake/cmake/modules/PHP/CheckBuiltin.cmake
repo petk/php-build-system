@@ -100,7 +100,7 @@ function(php_check_builtin builtin result)
   endif()
 
   if(CMAKE_C_COMPILER_ID STREQUAL "MSVC")
-    set(${result} FALSE CACHE INTERNAL "Test ${result}")
+    set(CACHE{${result}} TYPE INTERNAL HELP "Test ${result}" VALUE FALSE)
   endif()
 
   cmake_push_check_state(RESET)

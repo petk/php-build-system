@@ -85,10 +85,10 @@ mark_as_advanced(PHP_ZEND_GLOBAL_REGISTER_VARIABLES)
 
 if(NOT CMAKE_SYSTEM_NAME STREQUAL "Windows")
   set(
-    PHP_ZEND_MAX_EXECUTION_TIMERS
-    "auto"
-    CACHE STRING
-    "Enable Zend max execution timers"
+    CACHE{PHP_ZEND_MAX_EXECUTION_TIMERS}
+    TYPE STRING
+    HELP "Enable Zend max execution timers"
+    VALUE "auto"
   )
   mark_as_advanced(PHP_ZEND_MAX_EXECUTION_TIMERS)
   set_property(

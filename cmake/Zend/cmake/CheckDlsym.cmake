@@ -122,10 +122,10 @@ block()
 endblock()
 
 set(
-  PHP_ZEND_DLSYM_NEEDS_UNDERSCORE
-  ""
-  CACHE INTERNAL
-  "Whether 'dlsym()' requires a leading underscore in symbol names."
+  CACHE{PHP_ZEND_DLSYM_NEEDS_UNDERSCORE}
+  TYPE INTERNAL
+  HELP "Whether 'dlsym()' requires a leading underscore in symbol names."
+  VALUE ""
 )
 
 if(

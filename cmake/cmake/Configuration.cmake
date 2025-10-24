@@ -16,65 +16,97 @@ include_guard(GLOBAL)
 include(CMakeDependentOption)
 include(FeatureSummary)
 
-set(PHP_UNAME "" CACHE STRING "Build system uname")
-mark_as_advanced(PHP_UNAME)
+block()
+  set(CACHE{PHP_UNAME} TYPE STRING HELP "Build system uname" VALUE "")
+  mark_as_advanced(PHP_UNAME)
 
-if(CMAKE_UNAME AND NOT PHP_UNAME)
-  execute_process(
-    COMMAND ${CMAKE_UNAME} -a
-    OUTPUT_VARIABLE PHP_UNAME
-    OUTPUT_STRIP_TRAILING_WHITESPACE
-    ERROR_QUIET
+  find_program(
+    PHP_UNAME_EXECUTABLE
+    NAMES uname
+    DOC "Path to the uname command-line executable"
   )
-elseif(NOT PHP_UNAME AND CMAKE_HOST_SYSTEM)
-  set_property(CACHE PHP_UNAME PROPERTY VALUE "${CMAKE_HOST_SYSTEM}")
-endif()
+  mark_as_advanced(PHP_UNAME_EXECUTABLE)
 
-set(PHP_BUILD_SYSTEM "${PHP_UNAME}" CACHE STRING "Build system uname")
+  if(NOT PHP_UNAME AND PHP_UNAME_EXECUTABLE)
+    execute_process(
+      COMMAND ${PHP_UNAME_EXECUTABLE} -a
+      OUTPUT_VARIABLE output
+      OUTPUT_STRIP_TRAILING_WHITESPACE
+      ERROR_QUIET
+    )
+    set_property(CACHE PHP_UNAME PROPERTY VALUE "${output}")
+  elseif(NOT PHP_UNAME AND CMAKE_HOST_SYSTEM)
+    set_property(CACHE PHP_UNAME PROPERTY VALUE "${CMAKE_HOST_SYSTEM}")
+  endif()
+endblock()
+
+set(
+  CACHE{PHP_BUILD_SYSTEM}
+  TYPE STRING
+  HELP "Build system uname"
+  VALUE "${PHP_UNAME}"
+)
 mark_as_advanced(PHP_BUILD_SYSTEM)
 
 set(
-  PHP_BUILD_ARCH "${CMAKE_C_COMPILER_ARCHITECTURE_ID}"
-  CACHE STRING "Build target architecture displayed in phpinfo"
+  CACHE{PHP_BUILD_ARCH}
+  TYPE STRING
+  HELP "Build target architecture displayed in phpinfo"
+  VALUE "${CMAKE_C_COMPILER_ARCHITECTURE_ID}"
 )
 mark_as_advanced(PHP_BUILD_ARCH)
 
 set(
-  PHP_BUILD_COMPILER "${CMAKE_C_COMPILER_ID} ${CMAKE_C_COMPILER_VERSION}"
-  CACHE STRING "Compiler used for build displayed in phpinfo"
+  CACHE{PHP_BUILD_COMPILER}
+  TYPE STRING
+  HELP "Compiler used for build displayed in phpinfo"
+  VALUE "${CMAKE_C_COMPILER_ID} ${CMAKE_C_COMPILER_VERSION}"
 )
 mark_as_advanced(PHP_BUILD_COMPILER)
 
-set(PHP_BUILD_PROVIDER "" CACHE STRING "Build provider displayed in phpinfo")
+set(
+  CACHE{PHP_BUILD_PROVIDER}
+  TYPE STRING
+  HELP "Build provider displayed in phpinfo"
+  VALUE ""
+)
 mark_as_advanced(PHP_BUILD_PROVIDER)
 
 set(
-  PHP_INCLUDE_PREFIX "php"
-  CACHE STRING
-  "The relative directory inside the CMAKE_INSTALL_INCLUDEDIR, where to install\
-  PHP headers. For example, 'php/${PHP_VERSION}' to specify version or other\
-  build-related characteristics and have multiple PHP versions installed.\
-  Absolute paths are treated as relative; set CMAKE_INSTALL_INCLUDEDIR if\
-  absolute path needs to be set."
+  CACHE{PHP_INCLUDE_PREFIX}
+  TYPE STRING
+  HELP
+    "The relative directory inside the CMAKE_INSTALL_INCLUDEDIR, where to "
+    "install PHP headers. For example, 'php/${PHP_VERSION}' to specify version "
+    "or other build-related characteristics and have multiple PHP versions "
+    "installed. Absolute paths are treated as relative; set "
+    "CMAKE_INSTALL_INCLUDEDIR if absolute path needs to be set."
+  VALUE "php"
 )
 mark_as_advanced(PHP_INCLUDE_PREFIX)
 
 set(
-  PHP_CONFIG_FILE_SCAN_DIR ""
-  CACHE PATH "The path where to scan for additional INI configuration files; By\
-  default it is empty value; Pass it as a relative path inside the install\
-  prefix, which will be automatically prepended; If given as an absolute path,\
-  install prefix is not prepended."
+  CACHE{PHP_CONFIG_FILE_SCAN_DIR}
+  TYPE PATH
+  HELP
+    "The path where to scan for additional INI configuration files; By default "
+    "it is empty value; Pass it as a relative path inside the install prefix, "
+    "which will be automatically prepended; If given as an absolute path, "
+    "install prefix is not prepended."
+  VALUE ""
 )
 mark_as_advanced(PHP_CONFIG_FILE_SCAN_DIR)
 
 if(NOT CMAKE_SYSTEM_NAME STREQUAL "Windows")
   set(
-    PHP_CONFIG_FILE_PATH ""
-    CACHE FILEPATH "The path in which to look for php.ini; By default, it is\
-    set to SYSCONFDIR (etc); Relative path gets the CMAKE_INSTALL_PREFIX\
-    automatically prepended; If given as an absolute path, install prefix is\
-    not appended."
+    CACHE{PHP_CONFIG_FILE_PATH}
+    TYPE FILEPATH
+    HELP
+      "The path in which to look for php.ini; By default, it is set to "
+      "SYSCONFDIR (etc); Relative path gets the CMAKE_INSTALL_PREFIX "
+      "automatically prepended; If given as an absolute path, install prefix "
+      "is not appended."
+    VALUE ""
   )
   mark_as_advanced(PHP_CONFIG_FILE_PATH)
   if(NOT PHP_CONFIG_FILE_PATH)
@@ -86,10 +118,20 @@ if(NOT CMAKE_SYSTEM_NAME STREQUAL "Windows")
   endif()
 endif()
 
-set(PHP_PROGRAM_PREFIX "" CACHE STRING "Prepend prefix to the program names")
+set(
+  CACHE{PHP_PROGRAM_PREFIX}
+  TYPE STRING
+  HELP "Prepend prefix to the program names"
+  VALUE ""
+)
 mark_as_advanced(PHP_PROGRAM_PREFIX)
 
-set(PHP_PROGRAM_SUFFIX "" CACHE STRING "Append suffix to the program names")
+set(
+  CACHE{PHP_PROGRAM_SUFFIX}
+  TYPE STRING
+  HELP "Append suffix to the program names"
+  VALUE ""
+)
 mark_as_advanced(PHP_PROGRAM_SUFFIX)
 
 option(PHP_THREAD_SAFETY "Enable thread safety (ZTS)")
@@ -130,13 +172,18 @@ mark_as_advanced(PHP_DMALLOC)
 option(PHP_DTRACE "Enable DTrace support")
 mark_as_advanced(PHP_DTRACE)
 
-set(PHP_FD_SETSIZE "" CACHE STRING "Size of file descriptor sets")
+set(
+  CACHE{PHP_FD_SETSIZE}
+  TYPE STRING
+  HELP "Size of file descriptor sets"
+  VALUE ""
+)
+mark_as_advanced(PHP_FD_SETSIZE)
 if(CMAKE_SYSTEM_NAME STREQUAL "Windows" AND PHP_FD_SETSIZE STREQUAL "")
   # This allows up to 256 sockets to be select()ed in a single call to select(),
   # instead of the usual 64.
   set_property(CACHE PHP_FD_SETSIZE PROPERTY VALUE "256")
 endif()
-mark_as_advanced(PHP_FD_SETSIZE)
 
 option(PHP_VALGRIND "Enable the Valgrind support")
 mark_as_advanced(PHP_VALGRIND)
@@ -167,30 +214,30 @@ mark_as_advanced(PHP_CCACHE)
 ################################################################################
 
 set(
-  PHP_EXTENSION_DIR ""
-  CACHE PATH
-  "Default directory for dynamically loadable PHP extensions. If left empty, it\
-  is determined automatically. Can be overridden using the PHP 'extension_dir'\
-  INI directive."
+  CACHE{PHP_EXTENSION_DIR}
+  TYPE PATH
+  HELP
+    "Default directory for dynamically loadable PHP extensions. If left empty, "
+    "it is determined automatically. Can be overridden using the PHP "
+    "'extension_dir' INI directive."
+  VALUE ""
 )
 mark_as_advanced(PHP_EXTENSION_DIR)
 
 # Assemble the PHP_EXTENSION_DIR default value.
-block()
-  if(NOT PHP_EXTENSION_DIR)
-    set(
-      extensionDir
-      "${CMAKE_INSTALL_LIBDIR}/php/$<TARGET_PROPERTY:Zend::Zend,ZEND_MODULE_API_NO>$<$<BOOL:$<TARGET_PROPERTY:PHP::config,PHP_THREAD_SAFETY>>:-zts>$<$<BOOL:$<CONFIG>>:-$<CONFIG>>"
-    )
+if(NOT PHP_EXTENSION_DIR)
+  set_property(
+    CACHE PHP_EXTENSION_DIR
+    PROPERTY
+      VALUE
+        "${CMAKE_INSTALL_LIBDIR}/php/$<TARGET_PROPERTY:Zend::Zend,ZEND_MODULE_API_NO>$<$<BOOL:$<TARGET_PROPERTY:PHP::config,PHP_THREAD_SAFETY>>:-zts>$<$<BOOL:$<CONFIG>>:-$<CONFIG>>"
+  )
 
-    # This would resemble the PHP Autotools --with-layout=GNU:
-    #set(extensionDir "${CMAKE_INSTALL_LIBDIR}/php/$<TARGET_PROPERTY:Zend::Zend,ZEND_MODULE_API_NO>$<$<BOOL:$<TARGET_PROPERTY:PHP::config,PHP_THREAD_SAFETY>>:-zts>$<$<CONFIG:Debug,DebugAssertions>:-debug>")
-    # This would resemble the PHP Autotools --with-layout=PHP (default):
-    #set(extensionDir "${CMAKE_INSTALL_LIBDIR}/php/extensions/$<IF:$<CONFIG:Debug,DebugAssertions>,debug,no-debug>$<IF:$<BOOL:$<TARGET_PROPERTY:PHP::config,PHP_THREAD_SAFETY>>,-zts,-non-zts>-$<TARGET_PROPERTY:Zend::Zend,ZEND_MODULE_API_NO>")
-
-    set_property(CACHE PHP_EXTENSION_DIR PROPERTY VALUE "${extensionDir}")
-  endif()
-endblock()
+  # This would resemble the PHP Autotools --with-layout=GNU:
+  #set(extension_dir "${CMAKE_INSTALL_LIBDIR}/php/$<TARGET_PROPERTY:Zend::Zend,ZEND_MODULE_API_NO>$<$<BOOL:$<TARGET_PROPERTY:PHP::config,PHP_THREAD_SAFETY>>:-zts>$<$<CONFIG:Debug,DebugAssertions>:-debug>")
+  # This would resemble the PHP Autotools --with-layout=PHP (default):
+  #set(extension_dir "${CMAKE_INSTALL_LIBDIR}/php/extensions/$<IF:$<CONFIG:Debug,DebugAssertions>,debug,no-debug>$<IF:$<BOOL:$<TARGET_PROPERTY:PHP::config,PHP_THREAD_SAFETY>>,-zts,-non-zts>-$<TARGET_PROPERTY:Zend::Zend,ZEND_MODULE_API_NO>")
+endif()
 
 ################################################################################
 # Various global internal configuration.

@@ -151,8 +151,9 @@ else()
 endif()
 
 set(
-  PHP_HAS_SYS_MACROS_CHECKED
-  TRUE
-  CACHE INTERNAL
-  "Internal marker whether 'major', 'minor' and 'makedev' have been checked."
+  CACHE{PHP_HAS_SYS_MACROS_CHECKED}
+  TYPE INTERNAL
+  HELP
+    "Internal marker whether 'major', 'minor' and 'makedev' have been checked."
+  VALUE TRUE
 )

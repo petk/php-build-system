@@ -96,11 +96,11 @@ function(php_extensions_preprocess)
         )
 
         set(
-          PHP_EXT_${extensionUpper}_SHARED
-          ON
-          CACHE BOOL
-          "Build the ${extension} extension as a shared library"
+          CACHE{PHP_EXT_${extensionUpper}_SHARED}
+          TYPE BOOL
+          HELP "Build the ${extension} extension as a shared library"
           FORCE
+          VALUE ON
         )
 
         break()
@@ -393,11 +393,11 @@ function(php_extensions_postconfigure extension)
       set_property(CACHE PHP_EXT_${dependencyUpper} PROPERTY VALUE ON)
     else()
       set(
-        PHP_EXT_${dependencyUpper}
-        ON
-        CACHE BOOL
-        "Enable the ${dependency} extension"
+        CACHE{PHP_EXT_${dependencyUpper}}
+        TYPE BOOL
+        HELP "Enable the ${dependency} extension"
         FORCE
+        VALUE ON
       )
     endif()
   endforeach()

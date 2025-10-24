@@ -8,7 +8,7 @@ non-internal cache variables that can also be customized externally via the `-D`
 command-line option, CMake presets, or similar:
 
 * `option()`
-* `set(<variable> <value> CACHE <type> <docstring>)`
+* `set(CACHE{<variable>} TYPE <type> HELP <docstring> VALUE <value>)`
 * `cmake_dependent_option()`
 
 Ideally, these are the recommended methods to set configuration variables.
@@ -53,7 +53,7 @@ This function sets a cache `<variable>` of `<type>` to a `<value>`.
     which is equivalent to writing:
 
     ```cmake
-    set(<variable> <value> CACHE <type> <docstring>)
+    set(CACHE{<variable>} TYPE <type> HELP <docstring> VALUE <value>)
     ```
 
 * `DOC` is a short help text for the variable, visible in GUIs. Multiple strings
@@ -246,7 +246,12 @@ function(php_set)
 
   if(NOT DEFINED ${bufferVarName} AND DEFINED ${varName})
     # Initial configuration phase with variable set externally.
-    set(${bufferVarName} "${${varName}}" CACHE INTERNAL "${bufferDoc}")
+    set(
+      CACHE{${bufferVarName}}
+      TYPE INTERNAL
+      HELP "${bufferDoc}"
+      VALUE "${${varName}}"
+    )
   elseif(NOT DEFINED ${bufferVarName})
     # Initial configuration phase without variable set externally.
 
@@ -261,7 +266,12 @@ function(php_set)
       set(parsed_VALUE "${value}")
       unset(value)
     endif()
-    set(${bufferVarName} "${parsed_VALUE}" CACHE INTERNAL "${bufferDoc}")
+    set(
+      CACHE{${bufferVarName}}
+      TYPE INTERNAL
+      HELP "${bufferDoc}"
+      VALUE "${parsed_VALUE}"
+    )
   elseif(
     DEFINED ${bufferVarName}
     AND ${bufferVarName}_OVERRIDDEN
@@ -269,14 +279,30 @@ function(php_set)
   )
     # Consecutive configuration phase that changes the variable after being
     # re-enabled.
-    set(${bufferVarName} "${${varName}}" CACHE INTERNAL "${bufferDoc}")
+    set(
+      CACHE{${bufferVarName}}
+      TYPE INTERNAL
+      HELP "${bufferDoc}"
+      VALUE "${${varName}}"
+    )
   elseif(DEFINED ${bufferVarName} AND NOT ${bufferVarName}_OVERRIDDEN)
     # Consecutive configuration phase.
-    set(${bufferVarName} "${${varName}}" CACHE INTERNAL "${bufferDoc}")
+    set(
+      CACHE{${bufferVarName}}
+      TYPE INTERNAL
+      HELP "${bufferDoc}"
+      VALUE "${${varName}}"
+    )
   endif()
 
   if(condition)
-    set(${varName} "${${bufferVarName}}" CACHE ${parsed_TYPE} "${doc}" FORCE)
+    set(
+      CACHE{${varName}}
+      TYPE ${parsed_TYPE}
+      HELP "${doc}"
+      FORCE
+      VALUE "${${bufferVarName}}"
+    )
 
     if(parsed_TYPE STREQUAL "STRING" AND parsed_CHOICES)
       set_property(CACHE ${varName} PROPERTY STRINGS "${parsed_CHOICES}")
@@ -288,21 +314,27 @@ function(php_set)
       endif()
     endif()
 
-    unset(${bufferVarName} CACHE)
-    unset(${bufferVarName}_OVERRIDDEN CACHE)
+    unset(CACHE{${bufferVarName}})
+    unset(CACHE{${bufferVarName}_OVERRIDDEN})
   else()
     _php_set_validate_input(${varName})
 
     if(DEFINED parsed_ELSE_VALUE)
-      set(${varName} "${parsed_ELSE_VALUE}" CACHE INTERNAL "${doc}" FORCE)
+      set(
+        CACHE{${varName}}
+        TYPE INTERNAL
+        HELP "${doc}"
+        FORCE
+        VALUE "${parsed_ELSE_VALUE}"
+      )
     else()
-      unset(${varName} CACHE)
+      unset(CACHE{${varName}})
     endif()
     set(
-      ${bufferVarName}_OVERRIDDEN
-      TRUE
-      CACHE INTERNAL
-      "Internal marker that ${varName} is overridden."
+      CACHE{${bufferVarName}_OVERRIDDEN}
+      TYPE INTERNAL
+      HELP "Internal marker that ${varName} is overridden."
+      VALUE TRUE
     )
   endif()
 endfunction()

@@ -45,11 +45,12 @@ add_feature_info(
 
 if(PHP_SAPI_FUZZER)
   set(
-    LIB_FUZZING_ENGINE
-    ""
-    CACHE STRING
-    "OSS-Fuzz: Compiler argument to link fuzz target against the prebuilt\
-    engine library (e.g. libFuzzer)"
+    CACHE{LIB_FUZZING_ENGINE}
+    TYPE STRING
+    HELP
+      "OSS-Fuzz: Compiler argument to link fuzz target against the prebuilt "
+      "engine library (e.g. libFuzzer)"
+    VALUE ""
   )
   mark_as_advanced(LIB_FUZZING_ENGINE)
 endif()
