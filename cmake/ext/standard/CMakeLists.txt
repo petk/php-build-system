@@ -421,7 +421,7 @@ set(
 
 block()
   file(GLOB credits ${PHP_SOURCE_DIR}/*/*/CREDITS)
-  # Case-sensitive filtering, GLOB on macOS/Windows/Cygwin is case-insensitive.
+  # Case-sensitive filtering, GLOB on macOS/Windows/Cygwin is case insensitive.
   list(FILTER credits INCLUDE REGEX ".*CREDITS$")
 
   add_custom_command(

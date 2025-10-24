@@ -46,7 +46,7 @@ enhancements and adjustments for the PHP build workflow.
     Windows implementation only. On Windows in MinGW environment, there is at
     the time of writing `unixODBC` implementation available in the default
     MinGW installation and as a standalone package. The driver name is
-    case-insensitive and if supported it will be adjusted to the expected case.
+    case insensitive and if supported it will be adjusted to the expected case.
 
 * Added pkg-config integration.
 
