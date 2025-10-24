@@ -96,7 +96,7 @@ endfunction()
 
 function(_php_standard_library_check)
   unset(PHP_C_STANDARD_LIBRARY)
-  unset(PHP_C_STANDARD_LIBRARY CACHE)
+  unset(CACHE{PHP_C_STANDARD_LIBRARY})
 
   # The MS C runtime library (CRT).
   if(MSVC)
@@ -109,7 +109,7 @@ function(_php_standard_library_check)
     return()
   endif()
 
-  unset(PHP_C_STANDARD_LIBRARY CACHE)
+  unset(CACHE{PHP_C_STANDARD_LIBRARY})
 
   # The uClibc and its maintained fork uClibc-ng behave like minimalistic GNU C
   # library but have differences. They can be determined by the __UCLIBC__
@@ -121,7 +121,7 @@ function(_php_standard_library_check)
     return()
   endif()
 
-  unset(PHP_C_STANDARD_LIBRARY CACHE)
+  unset(CACHE{PHP_C_STANDARD_LIBRARY})
 
   # The diet libc.
   check_symbol_exists(__dietlibc__ features.h PHP_C_STANDARD_LIBRARY)
@@ -130,7 +130,7 @@ function(_php_standard_library_check)
     return()
   endif()
 
-  unset(PHP_C_STANDARD_LIBRARY CACHE)
+  unset(CACHE{PHP_C_STANDARD_LIBRARY})
 
   # The Cosmopolitan Libc.
   check_symbol_exists(__COSMOPOLITAN__ "" PHP_C_STANDARD_LIBRARY)
@@ -139,7 +139,7 @@ function(_php_standard_library_check)
     return()
   endif()
 
-  unset(PHP_C_STANDARD_LIBRARY CACHE)
+  unset(CACHE{PHP_C_STANDARD_LIBRARY})
 
   # The GNU C standard library has __GLIBC__ and __GLIBC_MINOR__ symbols since
   # the very early version 2.0.
@@ -149,7 +149,7 @@ function(_php_standard_library_check)
     return()
   endif()
 
-  unset(PHP_C_STANDARD_LIBRARY CACHE)
+  unset(CACHE{PHP_C_STANDARD_LIBRARY})
 
   # The LLVM libc.
   check_symbol_exists(__LLVM_LIBC__ features.h PHP_C_STANDARD_LIBRARY)
@@ -158,7 +158,7 @@ function(_php_standard_library_check)
     return()
   endif()
 
-  unset(PHP_C_STANDARD_LIBRARY CACHE)
+  unset(CACHE{PHP_C_STANDARD_LIBRARY})
 
   # The musl libc doesn't advertise itself with symbols, so it must be
   # determined heuristically.
@@ -168,7 +168,7 @@ function(_php_standard_library_check)
     return()
   endif()
 
-  unset(PHP_C_STANDARD_LIBRARY CACHE)
+  unset(CACHE{PHP_C_STANDARD_LIBRARY})
 
   # Otherwise, try determining musl libc with ldd.
   execute_process(
@@ -183,7 +183,7 @@ function(_php_standard_library_check)
     return()
   endif()
 
-  set(PHP_C_STANDARD_LIBRARY "" CACHE INTERNAL "")
+  set(CACHE{PHP_C_STANDARD_LIBRARY} TYPE INTERNAL HELP "" VALUE "")
 endfunction()
 
 function(_php_standard_library)

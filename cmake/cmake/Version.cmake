@@ -18,8 +18,10 @@ block(PROPAGATE PHP_VERSION)
   file(STRINGS configure.ac _ REGEX "^AC_INIT.+PHP\\],\\[([0-9.]+)([^]]*)")
   set(PHP_VERSION "${CMAKE_MATCH_1}")
   set(
-    PHP_VERSION_LABEL "${CMAKE_MATCH_2}"
-    CACHE STRING "Extra PHP version label suffix, e.g. '-dev', 'rc1', '-acme'"
+    CACHE{PHP_VERSION_LABEL}
+    TYPE STRING
+    HELP "Extra PHP version label suffix, e.g. '-dev', 'rc1', '-acme'"
+    VALUE "${CMAKE_MATCH_2}"
   )
   mark_as_advanced(PHP_VERSION_LABEL)
 endblock()

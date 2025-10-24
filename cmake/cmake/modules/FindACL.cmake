@@ -141,8 +141,8 @@ if(
   if(ACL_INCLUDE_DIR AND ACL_LIBRARY)
     set(ACL_IS_BUILT_IN FALSE)
   else()
-    unset(ACL_INCLUDE_DIR CACHE)
-    unset(ACL_LIBRARY CACHE)
+    unset(CACHE{ACL_INCLUDE_DIR})
+    unset(CACHE{ACL_LIBRARY})
   endif()
 endif()
 

@@ -715,10 +715,10 @@ function(_php_bison_download)
   endblock()
 
   set(
-    _PHP_BISON_DOWNLOAD
-    TRUE
-    CACHE INTERNAL
-    "Internal marker whether Bison is downloaded."
+    CACHE{_PHP_BISON_DOWNLOAD}
+    TYPE INTERNAL
+    HELP "Internal marker whether Bison is downloaded."
+    VALUE TRUE
   )
 
   return(PROPAGATE BISON_FOUND BISON_VERSION)

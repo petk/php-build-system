@@ -55,8 +55,8 @@ if(
   if(Intl_INCLUDE_DIR AND Intl_LIBRARY)
     set(Intl_IS_BUILT_IN FALSE)
   else()
-    unset(Intl_INCLUDE_DIR CACHE)
-    unset(Intl_LIBRARY CACHE)
+    unset(CACHE{Intl_INCLUDE_DIR})
+    unset(CACHE{Intl_LIBRARY})
   endif()
 endif()
 

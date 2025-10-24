@@ -69,9 +69,24 @@ set(_odbc_config_names "")
 set(_reason "")
 
 ### To manually override build options of the ODBC library ####################
-set(ODBC_COMPILE_DEFINITIONS "" CACHE STRING "ODBC library compile definitions")
-set(ODBC_COMPILE_OPTIONS "" CACHE STRING "ODBC library compile options")
-set(ODBC_LINK_OPTIONS "" CACHE STRING "ODBC library linker flags")
+set(
+  CACHE{ODBC_COMPILE_DEFINITIONS}
+  TYPE STRING
+  HELP "ODBC library compile definitions"
+  VALUE ""
+)
+set(
+  CACHE{ODBC_COMPILE_OPTIONS}
+  TYPE STRING
+  HELP "ODBC library compile options"
+  VALUE ""
+)
+set(
+  CACHE{ODBC_LINK_OPTIONS}
+  TYPE STRING
+  HELP "ODBC library linker flags"
+  VALUE ""
+)
 mark_as_advanced(
   ODBC_COMPILE_DEFINITIONS
   ODBC_COMPILE_OPTIONS
@@ -213,7 +228,7 @@ if(NOT ODBC_LIBRARY)
     if(_lib_path)
       list(APPEND _odbc_required_libs_paths ${_lib_path})
     endif()
-    unset(_lib_path CACHE)
+    unset(CACHE{_lib_path})
   endforeach()
 endif()
 

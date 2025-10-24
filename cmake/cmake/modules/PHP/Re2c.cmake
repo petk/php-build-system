@@ -739,10 +739,10 @@ function(_php_re2c_download)
   endblock()
 
   set(
-    _PHP_RE2C_DOWNLOAD
-    TRUE
-    CACHE INTERNAL
-    "Internal marker whether the re2c is downloaded."
+    CACHE{_PHP_RE2C_DOWNLOAD}
+    TYPE INTERNAL
+    HELP "Internal marker whether re2c is downloaded."
+    VALUE TRUE
   )
 
   return(PROPAGATE RE2C_FOUND RE2C_VERSION)

@@ -129,7 +129,7 @@ function(_php_ext_standard_check_crypt_r)
     cmake_pop_check_state()
 
     if(NOT PHP_CRYPT_R_STRUCT_CRYPT_DATA)
-      unset(PHP_CRYPT_R_STRUCT_CRYPT_DATA CACHE)
+      unset(CACHE{PHP_CRYPT_R_STRUCT_CRYPT_DATA})
 
       check_source_compiles(C [[
         #include <stdlib.h>
