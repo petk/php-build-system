@@ -244,13 +244,13 @@ function(mc_target)
     RELATIVE_PATH
     output
     BASE_DIRECTORY ${CMAKE_BINARY_DIR}
-    OUTPUT_VARIABLE relativePath
+    OUTPUT_VARIABLE relative_path
   )
 
   add_custom_target(
     ${parsed_NAME}
     SOURCES "${parsed_INPUT}"
     DEPENDS "${output}"
-    COMMENT "[MC][${parsed_NAME}] Generating ${relativePath}"
+    COMMENT "[MC][${parsed_NAME}] Generating ${relative_path}"
   )
 endfunction()

@@ -20,8 +20,12 @@ block()
   foreach(extension IN LISTS extensions)
     get_target_property(type PHP::ext::${extension} TYPE)
     if(type MATCHES "^(MODULE|SHARED)_LIBRARY$")
-      get_target_property(isZendExtension PHP::ext::${extension} PHP_ZEND_EXTENSION)
-      if(isZendExtension)
+      get_target_property(
+        is_zend_extension
+        PHP::ext::${extension}
+        PHP_ZEND_EXTENSION
+      )
+      if(is_zend_extension)
         list(APPEND options -d zend_extension=${extension})
       elseif(NOT extension STREQUAL "dl_test")
         list(APPEND options -d extension=${extension})

@@ -16,21 +16,21 @@ function(_php_summary_preamble_add_item label value output)
   # Template helper to calculate column width.
   set(template " * <label> ........................... : <value>")
   string(REGEX MATCH "^ \\\* ([^ ]+ [.]+)" _ "${template}")
-  string(LENGTH "${CMAKE_MATCH_1}" columnWidth)
+  string(LENGTH "${CMAKE_MATCH_1}" width)
 
   string(LENGTH "${label}" length)
-  math(EXPR numberOfDots "${columnWidth} - ${length} - 1")
+  math(EXPR dots "${width} - ${length} - 1")
 
   set(leader "")
-  if(numberOfDots GREATER_EQUAL 2)
-    string(REPEAT "." ${numberOfDots} leader)
+  if(dots GREATER_EQUAL 2)
+    string(REPEAT "." ${dots} leader)
     set(leader " ${leader}")
-  elseif(numberOfDots EQUAL 1)
+  elseif(dots EQUAL 1)
     set(leader "  ")
-  elseif(numberOfDots EQUAL 0)
+  elseif(dots EQUAL 0)
     set(leader " ")
-  elseif(numberOfDots LESS 0)
-    string(SUBSTRING "${label}" 0 ${columnWidth} label)
+  elseif(dots LESS 0)
+    string(SUBSTRING "${label}" 0 ${width} label)
   endif()
 
   string(APPEND ${output} " * ${label}${leader} : ${value}\n")
@@ -52,32 +52,32 @@ function(_php_summary_preamble result)
   )
 
   if(TARGET Zend::Zend)
-    get_target_property(zendVersion Zend::Zend VERSION)
-    get_target_property(zendExtensionApi Zend::Zend ZEND_EXTENSION_API_NO)
-    get_target_property(zendModuleApi Zend::Zend ZEND_MODULE_API_NO)
+    get_target_property(zend_version Zend::Zend VERSION)
+    get_target_property(zend_extension_api Zend::Zend ZEND_EXTENSION_API_NO)
+    get_target_property(zend_module_api Zend::Zend ZEND_MODULE_API_NO)
     _php_summary_preamble_add_item(
       "Zend Engine version"
-      "${zendVersion}"
+      "${zend_version}"
       preamble
     )
     _php_summary_preamble_add_item(
       "Zend extension API number"
-      "${zendExtensionApi}"
+      "${zend_extension_api}"
       preamble
     )
     _php_summary_preamble_add_item(
       "Zend module API number"
-      "${zendModuleApi}"
+      "${zend_module_api}"
       preamble
     )
   endif()
 
-  get_property(enabledLanguages GLOBAL PROPERTY ENABLED_LANGUAGES)
-  foreach(language IN ITEMS ${enabledLanguages})
+  get_property(languages GLOBAL PROPERTY ENABLED_LANGUAGES)
+  foreach(language IN ITEMS ${languages})
     if(language STREQUAL "CXX")
-      set(languageLabel "C++")
+      set(language_label "C++")
     else()
-      set(languageLabel "${language}")
+      set(language_label "${language}")
     endif()
 
     # Add compiler info.
@@ -96,7 +96,7 @@ function(_php_summary_preamble result)
         string(APPEND compiler "${CMAKE_${language}_COMPILER}")
       endif()
       _php_summary_preamble_add_item(
-        "${languageLabel} compiler"
+        "${language_label} compiler"
         "${compiler}"
         preamble
       )
@@ -118,7 +118,7 @@ function(_php_summary_preamble result)
         string(APPEND linker "${CMAKE_${language}_COMPILER_LINKER}")
       endif()
       _php_summary_preamble_add_item(
-        "${languageLabel} linker"
+        "${language_label} linker"
         "${linker}"
         preamble
       )
@@ -167,16 +167,16 @@ function(_php_summary_preamble result)
     preamble
   )
 
-  get_property(isMultiConfig GLOBAL PROPERTY GENERATOR_IS_MULTI_CONFIG)
-  if(isMultiConfig)
-    set(buildType "Multi-config generator")
+  get_property(is_multi_config GLOBAL PROPERTY GENERATOR_IS_MULTI_CONFIG)
+  if(is_multi_config)
+    set(build_type "Multi-config generator")
   elseif(CMAKE_BUILD_TYPE)
-    set(buildType "${CMAKE_BUILD_TYPE}")
+    set(build_type "${CMAKE_BUILD_TYPE}")
   else()
-    set(buildType "N/A")
+    set(build_type "N/A")
   endif()
 
-  _php_summary_preamble_add_item("Build type" "${buildType}" preamble)
+  _php_summary_preamble_add_item("Build type" "${build_type}" preamble)
   _php_summary_preamble_add_item("Install prefix" "${CMAKE_INSTALL_PREFIX}" preamble)
 
   set(${result} "${preamble}" PARENT_SCOPE)
@@ -192,15 +192,15 @@ function(_php_summary_print)
   message(STATUS "=========================\n\n${preamble}")
 
   # Output enabled features.
-  get_property(enabledFeatures GLOBAL PROPERTY ENABLED_FEATURES)
-  list(REMOVE_DUPLICATES enabledFeatures)
-  list(SORT enabledFeatures COMPARE NATURAL CASE INSENSITIVE)
+  get_property(enabled_features GLOBAL PROPERTY ENABLED_FEATURES)
+  list(REMOVE_DUPLICATES enabled_features)
+  list(SORT enabled_features COMPARE NATURAL CASE INSENSITIVE)
 
   set(php "")
   set(sapis "")
   set(extensions "")
 
-  foreach(feature IN LISTS enabledFeatures)
+  foreach(feature IN LISTS enabled_features)
     if(parent AND feature MATCHES "^${parent} ")
       string(REGEX REPLACE "^${parent}[ ]+" "" item "${feature}")
 
@@ -261,8 +261,8 @@ function(_php_summary_print)
   endif()
 
   # Get missing extensions.
-  set(missingExtensions "")
-  set(sharedExtensionsSummary "")
+  set(missing_extensions "")
+  set(shared_extensions_summary "")
 
   get_property(extensions GLOBAL PROPERTY PHP_EXTENSIONS)
 
@@ -283,66 +283,66 @@ function(_php_summary_print)
 
     list(TRANSFORM dependencies REPLACE "^php_ext_" "")
 
-    get_property(allExtensions GLOBAL PROPERTY PHP_ALL_EXTENSIONS)
+    get_property(all_extensions GLOBAL PROPERTY PHP_ALL_EXTENSIONS)
 
     foreach(dependency IN LISTS dependencies)
       # Skip dependencies that are not inside the current project.
-      if(NOT dependency IN_LIST allExtensions)
+      if(NOT dependency IN_LIST all_extensions)
         continue()
       endif()
 
       if(NOT TARGET php_ext_${dependency} OR NOT dependency IN_LIST extensions)
-        list(APPEND missingExtensions ${dependency})
-        list(APPEND _phpFeatureSummaryReason_${dependency} ${extension})
+        list(APPEND missing_extensions ${dependency})
+        list(APPEND _php_summary_reasons_${dependency} ${extension})
         continue()
       endif()
 
-      get_target_property(dependencyType PHP::ext::${dependency} TYPE)
-      get_target_property(extensionType PHP::ext::${extension} TYPE)
+      get_target_property(dependency_type PHP::ext::${dependency} TYPE)
+      get_target_property(extension_type PHP::ext::${extension} TYPE)
 
       if(
-        dependencyType MATCHES "^(MODULE|SHARED)_LIBRARY$"
-        AND NOT extensionType MATCHES "^(MODULE|SHARED)_LIBRARY$"
+        dependency_type MATCHES "^(MODULE|SHARED)_LIBRARY$"
+        AND NOT extension_type MATCHES "^(MODULE|SHARED)_LIBRARY$"
       )
-        string(TOUPPER "${extension}" extensionUpper)
+        string(TOUPPER "${extension}" extension_upper)
         string(
           APPEND
-          sharedExtensionsSummary
+          shared_extensions_summary
           " * ${extension}\n"
-          "   Set 'PHP_EXT_${extensionUpper}_SHARED' to 'ON' (its dependency "
+          "   Set 'PHP_EXT_${extension_upper}_SHARED' to 'ON' (its dependency "
           "${dependency} extension will be built as shared)\n"
         )
       endif()
     endforeach()
   endforeach()
 
-  if(missingExtensions)
-    list(REMOVE_DUPLICATES missingExtensions)
+  if(missing_extensions)
+    list(REMOVE_DUPLICATES missing_extensions)
     set(message "The following missing PHP extensions must be enabled:\n\n")
 
-    foreach(extension IN LISTS missingExtensions)
-      string(TOUPPER "${extension}" extensionUpper)
+    foreach(extension IN LISTS missing_extensions)
+      string(TOUPPER "${extension}" extension_upper)
       string(
         APPEND
         message
         " * ${extension}\n"
-        "   Set 'PHP_EXT_${extensionUpper}' to 'ON'\n"
+        "   Set 'PHP_EXT_${extension_upper}' to 'ON'\n"
       )
-      list(JOIN _phpFeatureSummaryReason_${extension} ", " reasons)
+      list(JOIN _php_summary_reasons_${extension} ", " reasons)
       string(APPEND message "   (Required by ${reasons})\n")
     endforeach()
 
     message(STATUS "${message}")
   endif()
 
-  if(sharedExtensionsSummary)
+  if(shared_extensions_summary)
     set(message "The following PHP extensions must be reconfigured:\n\n")
-    string(APPEND message "${sharedExtensionsSummary}")
+    string(APPEND message "${shared_extensions_summary}")
 
     message(STATUS "${message}")
   endif()
 
-  if(missingExtensions OR sharedExtensionsSummary)
+  if(missing_extensions OR shared_extensions_summary)
     message(
       SEND_ERROR
       "PHP/FeatureSummary error: Please reconfigure PHP extensions, aborting "

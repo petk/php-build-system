@@ -75,18 +75,18 @@ function(_php_stubs_get_binary_targets result dir)
   get_property(subdirs DIRECTORY ${dir} PROPERTY SUBDIRECTORIES)
 
   # Filter only binary targets.
-  set(binaryTargets "")
+  set(binary_targets "")
   foreach(target ${targets})
     get_target_property(type ${target} TYPE)
     if(type MATCHES "^((STATIC|MODULE|SHARED|OBJECT)_LIBRARY|EXECUTABLE)$")
-      list(APPEND binaryTargets ${target})
+      list(APPEND binary_targets ${target})
     endif()
   endforeach()
-  set(targets ${binaryTargets})
+  set(targets ${binary_targets})
 
   foreach(subdir ${subdirs})
-    cmake_language(CALL ${CMAKE_CURRENT_FUNCTION} subdirTargets ${subdir})
-    list(APPEND targets ${subdirTargets})
+    cmake_language(CALL ${CMAKE_CURRENT_FUNCTION} sub_dir_targets ${subdir})
+    list(APPEND targets ${sub_dir_targets})
   endforeach()
 
   set(${result} ${targets})
@@ -134,13 +134,13 @@ block()
     CONTENT "${content}"
   )
 
-  set(targetOptions "")
+  set(target_options "")
   if(NOT PHPSystem_EXECUTABLE)
-    set(targetOptions ALL DEPENDS ${targets})
+    set(target_options ALL DEPENDS ${targets})
   endif()
 
   add_custom_target(
-    php_stubs ${targetOptions}
+    php_stubs ${target_options}
     COMMAND
       ${CMAKE_COMMAND}
       -D "PHP_COMMAND=${PHP_COMMAND}"

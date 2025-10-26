@@ -17,7 +17,7 @@ if(NOT CMAKE_SCRIPT_MODE_FILE OR NOT PHP_EXECUTABLE OR NOT PHP_COMMAND)
   return()
 endif()
 
-set(needsUpdate FALSE)
+set(needs_update FALSE)
 
 foreach(input ${DEPENDS})
   if(NOT EXISTS ${input})
@@ -26,17 +26,17 @@ foreach(input ${DEPENDS})
 
   foreach(output ${OUTPUT})
     if("${input}" IS_NEWER_THAN "${output}")
-      set(needsUpdate TRUE)
+      set(needs_update TRUE)
       break()
     endif()
   endforeach()
 
-  if(needsUpdate)
+  if(needs_update)
     break()
   endif()
 endforeach()
 
-if(NOT needsUpdate)
+if(NOT needs_update)
   return()
 endif()
 

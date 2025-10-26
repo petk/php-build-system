@@ -333,9 +333,9 @@ function(php_re2c name input output)
 
   _php_re2c_set_package_properties()
 
-  get_property(packageType GLOBAL PROPERTY _CMAKE_RE2C_TYPE)
+  get_property(package_type GLOBAL PROPERTY _CMAKE_RE2C_TYPE)
   set(quiet "")
-  if(NOT packageType STREQUAL "REQUIRED")
+  if(NOT package_type STREQUAL "REQUIRED")
     set(quiet "QUIET")
   endif()
 
@@ -358,7 +358,7 @@ function(php_re2c name input output)
   if(
     NOT RE2C_FOUND
     AND PHP_RE2C_VERSION_DOWNLOAD
-    AND packageType STREQUAL "REQUIRED"
+    AND package_type STREQUAL "REQUIRED"
     AND role STREQUAL "PROJECT"
   )
     _php_re2c_download()
@@ -387,10 +387,10 @@ function(php_re2c name input output)
   _php_re2c_process_header_option()
 
   # Generate name for the symbolic file for the custom command below.
-  string(MAKE_C_IDENTIFIER "${name}_${input}" symbolicName)
+  string(MAKE_C_IDENTIFIER "${name}_${input}" symbolic_name)
 
   if(role STREQUAL "PROJECT")
-    add_custom_target(${name} SOURCES ${input} DEPENDS ${symbolicName})
+    add_custom_target(${name} SOURCES ${input} DEPENDS ${symbolic_name})
   endif()
 
   # Skip generation, if generated files are provided by the release archive.
@@ -406,9 +406,9 @@ function(php_re2c name input output)
     RELATIVE_PATH
     output
     BASE_DIRECTORY ${CMAKE_BINARY_DIR}
-    OUTPUT_VARIABLE relativePath
+    OUTPUT_VARIABLE relative_path
   )
-  set(message "[re2c] Generating ${relativePath} with re2c ${RE2C_VERSION}")
+  set(message "[re2c] Generating ${relative_path} with re2c ${RE2C_VERSION}")
 
   if(NOT role STREQUAL "PROJECT")
     message(STATUS "${message}")
@@ -425,7 +425,7 @@ function(php_re2c name input output)
   # the same generated source file is used by multiple project
   # libraries/targets.
   add_custom_command(
-    OUTPUT ${symbolicName}
+    OUTPUT ${symbolic_name}
     ${commands}
     DEPENDS
       ${input}
@@ -437,7 +437,7 @@ function(php_re2c name input output)
     ${codegen}
     WORKING_DIRECTORY ${parsed_WORKING_DIRECTORY}
   )
-  set_source_files_properties(${symbolicName} PROPERTIES SYMBOLIC TRUE)
+  set_source_files_properties(${symbolic_name} PROPERTIES SYMBOLIC TRUE)
 
   add_custom_command(OUTPUT ${outputs} DEPENDS ${name} ${codegen})
 endfunction()
@@ -461,12 +461,12 @@ function(_php_re2c_set_package_properties)
     RELATIVE_PATH
     output
     BASE_DIRECTORY ${CMAKE_SOURCE_DIR}
-    OUTPUT_VARIABLE relativePath
+    OUTPUT_VARIABLE relative_path
   )
-  if(relativePath STREQUAL ".")
+  if(relative_path STREQUAL ".")
     set(purpose "Necessary to generate lexer files.")
   else()
-    set(purpose "Necessary to generate ${relativePath} lexer files.")
+    set(purpose "Necessary to generate ${relative_path} lexer files.")
   endif()
   set_package_properties(RE2C PROPERTIES PURPOSE "${purpose}")
 endfunction()
@@ -512,13 +512,13 @@ function(_php_re2c_process_header_option)
   endif()
 
   if(parsed_ABSOLUTE_PATHS)
-    set(headerArgument "${parsed_HEADER}")
+    set(header_argument "${parsed_HEADER}")
   else()
     cmake_path(
       RELATIVE_PATH
       parsed_HEADER
       BASE_DIRECTORY ${parsed_WORKING_DIRECTORY}
-      OUTPUT_VARIABLE headerArgument
+      OUTPUT_VARIABLE header_argument
     )
   endif()
 
@@ -532,9 +532,9 @@ function(_php_re2c_process_header_option)
   # Since re2c version 3.0, '--header' is the new alias option for the
   # '--type-header' option.
   if(RE2C_VERSION VERSION_GREATER_EQUAL 3.0)
-    list(APPEND options --header ${headerArgument})
+    list(APPEND options --header ${header_argument})
   else()
-    list(APPEND options --type-header ${headerArgument})
+    list(APPEND options --type-header ${header_argument})
   endif()
 
   return(PROPAGATE options)
@@ -588,20 +588,20 @@ function(_php_re2c_get_commands result)
   set(${result} "")
 
   if(parsed_ABSOLUTE_PATHS)
-    set(inputArgument "${input}")
-    set(outputArgument "${output}")
+    set(input_argument "${input}")
+    set(output_argument "${output}")
   else()
     cmake_path(
       RELATIVE_PATH
       input
       BASE_DIRECTORY ${parsed_WORKING_DIRECTORY}
-      OUTPUT_VARIABLE inputArgument
+      OUTPUT_VARIABLE input_argument
     )
     cmake_path(
       RELATIVE_PATH
       output
       BASE_DIRECTORY ${parsed_WORKING_DIRECTORY}
-      OUTPUT_VARIABLE outputArgument
+      OUTPUT_VARIABLE output_argument
     )
   endif()
 
@@ -629,8 +629,8 @@ function(_php_re2c_get_commands result)
     COMMAND
     ${RE2C_EXECUTABLE}
     ${options}
-    --output ${outputArgument}
-    ${inputArgument}
+    --output ${output_argument}
+    ${input_argument}
   )
 
   return(PROPAGATE ${result})
@@ -728,11 +728,11 @@ function(_php_re2c_download)
   # Move dependency to PACKAGES_FOUND.
   block()
     set(package "RE2C")
-    get_property(packagesNotFound GLOBAL PROPERTY PACKAGES_NOT_FOUND)
-    list(REMOVE_ITEM packagesNotFound ${package})
-    set_property(GLOBAL PROPERTY PACKAGES_NOT_FOUND ${packagesNotFound})
-    get_property(packagesFound GLOBAL PROPERTY PACKAGES_FOUND)
-    list(FIND packagesFound ${package} found)
+    get_property(packages_not_found GLOBAL PROPERTY PACKAGES_NOT_FOUND)
+    list(REMOVE_ITEM packages_not_found ${package})
+    set_property(GLOBAL PROPERTY PACKAGES_NOT_FOUND ${packages_not_found})
+    get_property(packages_found GLOBAL PROPERTY PACKAGES_FOUND)
+    list(FIND packages_found ${package} found)
     if(found EQUAL -1)
       set_property(GLOBAL APPEND PROPERTY PACKAGES_FOUND ${package})
     endif()

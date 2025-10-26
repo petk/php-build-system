@@ -233,18 +233,20 @@ if(PHP_EXT_OPCACHE_JIT)
     RELATIVE_PATH
     CMAKE_CURRENT_BINARY_DIR
     BASE_DIRECTORY ${CMAKE_BINARY_DIR}
-    OUTPUT_VARIABLE relativeDir
+    OUTPUT_VARIABLE relative_dir
   )
 
   # Generate native code generator for selected architecture.
   add_custom_command(
     OUTPUT jit/ir/ir_emit_${dasm_arch}.h
     COMMAND
-      php_ext_opcache_jit_minilua ${CMAKE_CURRENT_SOURCE_DIR}/jit/ir/dynasm/dynasm.lua
+      php_ext_opcache_jit_minilua
+        ${CMAKE_CURRENT_SOURCE_DIR}/jit/ir/dynasm/dynasm.lua
         ${dasm_flags}
         -o ${CMAKE_CURRENT_BINARY_DIR}/jit/ir/ir_emit_${dasm_arch}.h
         ${CMAKE_CURRENT_SOURCE_DIR}/jit/ir/ir_${dasm_arch}.dasc
-    COMMENT "[ext/opcache] Generating native code generator ${relativeDir}/jit/ir/ir_emit_${dasm_arch}.h"
+    COMMENT
+      "[ext/opcache] Generating native code generator ${relative_dir}/jit/ir/ir_emit_${dasm_arch}.h"
     DEPENDS
       jit/ir/dynasm/dynasm.lua
       jit/ir/ir_${dasm_arch}.dasc
@@ -270,10 +272,12 @@ if(PHP_EXT_OPCACHE_JIT)
   # Generate IR folding engine rules header.
   add_custom_command(
     OUTPUT jit/ir/ir_fold_hash.h
-    COMMAND php_ext_opcache_jit_generator
+    COMMAND
+      php_ext_opcache_jit_generator
       < ${CMAKE_CURRENT_SOURCE_DIR}/jit/ir/ir_fold.h
       > ${CMAKE_CURRENT_BINARY_DIR}/jit/ir/ir_fold_hash.h
-    COMMENT "[ext/opcache] Generating folding engine rules ${relativeDir}/jit/ir/ir_fold_hash.h"
+    COMMENT
+      "[ext/opcache] Generating folding engine rules ${relative_dir}/jit/ir/ir_fold_hash.h"
     DEPENDS
       jit/ir/ir_fold.h
     VERBATIM

@@ -135,10 +135,10 @@ else()
   return()
 endif()
 
-set(pharSharedOptions "")
+set(phar_shared_options "")
 if(PHP_EXT_PHAR_SHARED)
   set(
-    pharSharedOptions
+    phar_shared_options
       -d extension_dir=${PHP_BINARY_DIR}/modules/$<CONFIG>
       -d extension=phar
   )
@@ -148,7 +148,7 @@ cmake_path(
   RELATIVE_PATH
   CMAKE_CURRENT_BINARY_DIR
   BASE_DIRECTORY ${CMAKE_BINARY_DIR}
-  OUTPUT_VARIABLE relativeDir
+  OUTPUT_VARIABLE relative_dir
 )
 
 add_custom_command(
@@ -156,14 +156,14 @@ add_custom_command(
   COMMAND
     ${PHP_EXECUTABLE}
       -n
-      ${pharSharedOptions}
+      ${phar_shared_options}
       -d open_basedir=
       -d output_buffering=0
       -d memory_limit=-1
       -d phar.readonly=0
       ${CMAKE_CURRENT_SOURCE_DIR}/build_precommand.php
       > ${CMAKE_CURRENT_BINARY_DIR}/phar.php
-  COMMENT "[ext/phar] Generating ${relativeDir}/phar.php"
+  COMMENT "[ext/phar] Generating ${relative_dir}/phar.php"
   VERBATIM
 )
 
@@ -172,7 +172,7 @@ add_custom_command(
   COMMAND
     ${PHP_EXECUTABLE}
       -n
-      ${pharSharedOptions}
+      ${phar_shared_options}
       -d open_basedir=
       -d output_buffering=0
       -d memory_limit=-1
@@ -189,7 +189,7 @@ add_custom_command(
         ${CMAKE_CURRENT_SOURCE_DIR}/phar
   DEPENDS
     ${CMAKE_CURRENT_BINARY_DIR}/phar.php
-  COMMENT "[ext/phar] Generating ${relativeDir}/phar.phar"
+  COMMENT "[ext/phar] Generating ${relative_dir}/phar.phar"
   VERBATIM
 )
 
@@ -219,12 +219,12 @@ add_custom_command(
   OUTPUT php_ext_phar_generated_phar
   COMMAND ${CMAKE_COMMAND} -P CMakeFiles/PharPermissions.cmake
   DEPENDS ${CMAKE_CURRENT_BINARY_DIR}/phar.phar
-  COMMENT "[ext/phar] Generating ${relativeDir}/phar"
+  COMMENT "[ext/phar] Generating ${relative_dir}/phar"
 )
 
 file(
   GLOB_RECURSE
-  dependentFiles
+  dependent_files
   ${CMAKE_CURRENT_SOURCE_DIR}/phar/*.inc
   ${CMAKE_CURRENT_SOURCE_DIR}/phar/*.php
 )
@@ -235,7 +235,7 @@ add_custom_target(
   DEPENDS
     PHP::sapi::cli
     php_ext_phar
-    ${dependentFiles}
+    ${dependent_files}
     php_ext_phar_generated_phar
 )
 set_property(SOURCE php_ext_phar_generated_phar PROPERTY SYMBOLIC TRUE)
@@ -248,7 +248,7 @@ install(CODE "
     COMMAND
       ${PHP_EXECUTABLE}
         -n
-        ${pharSharedOptions}
+        ${phar_shared_options}
         -d open_basedir=
         -d output_buffering=0
         -d memory_limit=-1

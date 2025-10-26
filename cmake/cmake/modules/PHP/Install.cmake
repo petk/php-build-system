@@ -58,11 +58,11 @@ endfunction()
 
 function(_php_install_set_absolute_special var)
   if(var STREQUAL "RUNSTATEDIR")
-    set(directoryName "var/run")
+    set(directory_name "var/run")
   elseif(var STREQUAL "LOCALSTATEDIR")
-    set(directoryName "var")
+    set(directory_name "var")
   elseif(var STREQUAL "SYSCONFDIR")
-    set(directoryName "etc")
+    set(directory_name "etc")
   else()
     message(
       FATAL_ERROR
@@ -84,7 +84,7 @@ function(_php_install_set_absolute_special var)
     AND CMAKE_INSTALL_PREFIX MATCHES "^/opt/(.*)"
   )
     set(dir "${CMAKE_INSTALL_${var}}")
-    set(fulldir "/${directoryName}/opt/${CMAKE_MATCH_1}")
+    set(fulldir "/${directory_name}/opt/${CMAKE_MATCH_1}")
   else()
     set(dir "${CMAKE_INSTALL_${var}}")
     set(fulldir "${CMAKE_INSTALL_PREFIX}/${CMAKE_INSTALL_${var}}")
