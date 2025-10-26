@@ -25,12 +25,12 @@ add_feature_info(
 
 add_library(php_ext_date OBJECT)
 
-set(phpDateSources php_date.c)
+set(sources php_date.c)
 
 target_sources(
   php_ext_date
   PRIVATE
-    ${phpDateSources}
+    ${sources}
     php_date.stub.php
   PUBLIC
     FILE_SET HEADERS
@@ -39,7 +39,7 @@ target_sources(
 )
 
 set_source_files_properties(
-  ${phpDateSources}
+  ${sources}
   PROPERTIES COMPILE_DEFINITIONS ZEND_ENABLE_STATIC_TSRMLS_CACHE
 )
 

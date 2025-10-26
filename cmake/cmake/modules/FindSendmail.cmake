@@ -50,8 +50,8 @@ set_package_properties(
 set(_reason "")
 
 if(CMAKE_SYSTEM_NAME STREQUAL "Windows")
-  set(_sendmailIsBuiltInMsg "PHP built-in mailer (Windows)")
-  set(_sendmailRequiredVars _sendmailIsBuiltInMsg)
+  set(_Sendmail_is_built_in_msg "PHP built-in mailer (Windows)")
+  set(_Sendmail_required_vars _Sendmail_is_built_in_msg)
   set(Sendmail_PROGRAM "")
 else()
   find_program(
@@ -61,7 +61,7 @@ else()
   )
   mark_as_advanced(Sendmail_EXECUTABLE)
 
-  set(_sendmailRequiredVars Sendmail_EXECUTABLE)
+  set(_Sendmail_required_vars Sendmail_EXECUTABLE)
 
   if(Sendmail_EXECUTABLE)
     set(Sendmail_PROGRAM "${Sendmail_EXECUTABLE}")
@@ -78,10 +78,10 @@ endif()
 
 find_package_handle_standard_args(
   Sendmail
-  REQUIRED_VARS ${_sendmailRequiredVars}
+  REQUIRED_VARS ${_Sendmail_required_vars}
   REASON_FAILURE_MESSAGE "${_reason}"
 )
 
 unset(_reason)
-unset(_sendmailIsBuiltInMsg)
-unset(_sendmailRequiredVars)
+unset(_Sendmail_is_built_in_msg)
+unset(_Sendmail_required_vars)

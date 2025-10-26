@@ -18,8 +18,8 @@ function(_php_rebuild_get_all_targets result dir)
   get_property(subdirs DIRECTORY ${dir} PROPERTY SUBDIRECTORIES)
 
   foreach(subdir IN LISTS subdirs)
-    cmake_language(CALL ${CMAKE_CURRENT_FUNCTION} subdirTargets ${subdir})
-    list(APPEND targets ${subdirTargets})
+    cmake_language(CALL ${CMAKE_CURRENT_FUNCTION} sub_dir_targets ${subdir})
+    list(APPEND targets ${sub_dir_targets})
   endforeach()
 
   set(${result} ${targets} PARENT_SCOPE)

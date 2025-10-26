@@ -237,7 +237,11 @@ include(CMakePushCheckState)
 # Populates target by linking found library to the optional target.
 macro(_php_search_libraries_populate)
   if(target AND ${parsed_LIBRARY_VARIABLE})
-    target_link_libraries(${target} ${targetScope} ${${parsed_LIBRARY_VARIABLE}})
+    target_link_libraries(
+      ${target}
+      ${target_scope}
+      ${${parsed_LIBRARY_VARIABLE}}
+    )
   endif()
 endmacro()
 
@@ -323,15 +327,15 @@ function(php_search_libraries)
     endif()
 
     list(LENGTH parsed_TARGET length)
-    set(targetScope "")
+    set(target_scope "")
     if(length GREATER 1)
-      list(GET parsed_TARGET 1 targetScope)
+      list(GET parsed_TARGET 1 target_scope)
     endif()
 
-    if(targetScope AND NOT targetScope MATCHES "^(PRIVATE|PUBLIC|INTERFACE)$")
+    if(target_scope AND NOT target_scope MATCHES "^(PRIVATE|PUBLIC|INTERFACE)$")
       message(
         FATAL_ERROR
-        "Bad TARGET arguments: ${targetScope} is not a target scope. Use one "
+        "Bad TARGET arguments: ${target_scope} is not a target scope. Use one "
         "of PRIVATE|PUBLIC|INTERFACE."
       )
     endif()
@@ -344,7 +348,7 @@ function(php_search_libraries)
   endif()
 
   # Check if given header(s) can be included.
-  set(headersFound "")
+  set(headers_found "")
   foreach(header IN LISTS parsed_HEADERS)
     if(parsed_RECHECK_HEADERS)
       string(MAKE_C_IDENTIFIER "PHP_SEARCH_LIBRARIES_${header}" id)
@@ -361,11 +365,11 @@ function(php_search_libraries)
 
       # Check multiple headers appended with each iteration. If a header is not
       # self-contained, it may require including prior additional headers.
-      check_include_files("${headersFound};${header}" ${id})
+      check_include_files("${headers_found};${header}" ${id})
     cmake_pop_check_state()
 
     if(${id})
-      list(APPEND headersFound ${header})
+      list(APPEND headers_found ${header})
     endif()
   endforeach()
 
@@ -373,19 +377,19 @@ function(php_search_libraries)
   if(DEFINED parsed_SYMBOL)
     check_symbol_exists(
       ${parsed_SYMBOL}
-      "${headersFound}"
+      "${headers_found}"
       ${parsed_RESULT_VARIABLE}
     )
   elseif(DEFINED parsed_SOURCE_COMPILES)
     _php_search_libraries_check_source_compiles(
       "${parsed_SOURCE_COMPILES}"
-      "${headersFound}"
+      "${headers_found}"
       ${parsed_RESULT_VARIABLE}
     )
   elseif(DEFINED parsed_SOURCE_RUNS)
     _php_search_libraries_check_source_runs(
       "${parsed_SOURCE_RUNS}"
-      "${headersFound}"
+      "${headers_found}"
       ${parsed_RESULT_VARIABLE}
     )
   endif()
@@ -434,19 +438,19 @@ function(php_search_libraries)
       if(DEFINED parsed_SYMBOL)
         check_symbol_exists(
           ${parsed_SYMBOL}
-          "${headersFound}"
+          "${headers_found}"
           ${parsed_RESULT_VARIABLE}
         )
       elseif(DEFINED parsed_SOURCE_COMPILES)
         _php_search_libraries_check_source_compiles(
           "${parsed_SOURCE_COMPILES}"
-          "${headersFound}"
+          "${headers_found}"
           ${parsed_RESULT_VARIABLE}
         )
       elseif(DEFINED parsed_SOURCE_RUNS)
         _php_search_libraries_check_source_runs(
           "${parsed_SOURCE_RUNS}"
-          "${headersFound}"
+          "${headers_found}"
           ${parsed_RESULT_VARIABLE}
         )
       endif()

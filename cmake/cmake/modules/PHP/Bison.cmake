@@ -341,14 +341,14 @@ function(php_bison name input output)
   )
 
   set(outputs ${output})
-  set(extraOutputs "")
+  set(extra_outputs "")
 
   _php_bison_process_header_file()
   _php_bison_set_package_properties()
 
-  get_property(packageType GLOBAL PROPERTY _CMAKE_BISON_TYPE)
+  get_property(package_type GLOBAL PROPERTY _CMAKE_BISON_TYPE)
   set(quiet "")
-  if(NOT packageType STREQUAL "REQUIRED")
+  if(NOT package_type STREQUAL "REQUIRED")
     set(quiet "QUIET")
   endif()
 
@@ -372,7 +372,7 @@ function(php_bison name input output)
     NOT BISON_FOUND
     AND PHP_BISON_GNU_VERSION_DOWNLOAD
     AND PHP_BISON_WIN_VERSION_DOWNLOAD
-    AND packageType STREQUAL "REQUIRED"
+    AND package_type STREQUAL "REQUIRED"
     AND role STREQUAL "PROJECT"
   )
     _php_bison_download()
@@ -402,14 +402,14 @@ function(php_bison name input output)
   _php_bison_process_verbose_option()
 
   # Generate name for the symbolic file for the custom command below.
-  string(MAKE_C_IDENTIFIER "${name}_${input}" symbolicName)
+  string(MAKE_C_IDENTIFIER "${name}_${input}" symbolic_name)
 
   if(role STREQUAL "PROJECT")
-    add_custom_target(${name} SOURCES ${input} DEPENDS ${symbolicName})
+    add_custom_target(${name} SOURCES ${input} DEPENDS ${symbolic_name})
   endif()
 
   # Skip generation, if generated files are provided by the release archive.
-  if(NOT BISON_FOUND AND NOT packageType STREQUAL "REQUIRED")
+  if(NOT BISON_FOUND AND NOT package_type STREQUAL "REQUIRED")
     return()
   endif()
 
@@ -420,9 +420,9 @@ function(php_bison name input output)
     RELATIVE_PATH
     output
     BASE_DIRECTORY ${CMAKE_BINARY_DIR}
-    OUTPUT_VARIABLE relativePath
+    OUTPUT_VARIABLE relative_path
   )
-  set(message "[Bison] Generating ${relativePath} with Bison ${BISON_VERSION}")
+  set(message "[Bison] Generating ${relative_path} with Bison ${BISON_VERSION}")
 
   if(NOT role STREQUAL "PROJECT")
     message(STATUS "${message}")
@@ -439,7 +439,7 @@ function(php_bison name input output)
   # the same generated source file is used by multiple project
   # libraries/targets.
   add_custom_command(
-    OUTPUT ${symbolicName}
+    OUTPUT ${symbolic_name}
     ${commands}
     DEPENDS
       ${input}
@@ -450,7 +450,7 @@ function(php_bison name input output)
     COMMAND_EXPAND_LISTS
     WORKING_DIRECTORY ${parsed_WORKING_DIRECTORY}
   )
-  set_source_files_properties(${symbolicName} PROPERTIES SYMBOLIC TRUE)
+  set_source_files_properties(${symbolic_name} PROPERTIES SYMBOLIC TRUE)
 
   add_custom_command(OUTPUT ${outputs} DEPENDS ${name} ${codegen})
 endfunction()
@@ -519,20 +519,20 @@ function(_php_bison_process_header_option)
   # For prior versions the --defines=[FILE] (-d) option can be used.
   if(parsed_HEADER_FILE)
     if(parsed_ABSOLUTE_PATHS)
-      set(headerArgument "${header}")
+      set(header_argument "${header}")
     else()
       cmake_path(
         RELATIVE_PATH
         header
         BASE_DIRECTORY ${parsed_WORKING_DIRECTORY}
-        OUTPUT_VARIABLE headerArgument
+        OUTPUT_VARIABLE header_argument
       )
     endif()
 
     if(BISON_VERSION VERSION_LESS 3.8)
-      list(APPEND options --defines=${headerArgument})
+      list(APPEND options --defines=${header_argument})
     else()
-      list(APPEND options --header=${headerArgument})
+      list(APPEND options --header=${header_argument})
     endif()
   else()
     if(BISON_VERSION VERSION_LESS 3.8)
@@ -554,7 +554,7 @@ function(_php_bison_process_verbose_option)
   list(APPEND options --verbose)
 
   if(NOT parsed_REPORT_FILE)
-    cmake_path(GET output FILENAME reportFile)
+    cmake_path(GET output FILENAME report_file)
     cmake_path(GET output EXTENSION extension)
 
     # Bison treats output files <parser-output-filename>.tab.<last-extension>
@@ -566,27 +566,27 @@ function(_php_bison_process_verbose_option)
         REGEX REPLACE
         "\\.tab\\.${CMAKE_MATCH_1}$"
         ".output"
-        reportFile
-        "${reportFile}"
+        report_file
+        "${report_file}"
       )
     else()
-      cmake_path(REPLACE_EXTENSION reportFile LAST_ONLY "output")
+      cmake_path(REPLACE_EXTENSION report_file LAST_ONLY "output")
     endif()
   else()
-    set(reportFile ${parsed_REPORT_FILE})
+    set(report_file ${parsed_REPORT_FILE})
   endif()
 
   cmake_path(
     ABSOLUTE_PATH
-    reportFile
+    report_file
     BASE_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
     NORMALIZE
   )
 
-  list(APPEND extraOutputs "${reportFile}")
-  list(APPEND options --report-file=${reportFile})
+  list(APPEND extra_outputs "${report_file}")
+  list(APPEND options --report-file=${report_file})
 
-  return(PROPAGATE options extraOutputs)
+  return(PROPAGATE options extra_outputs)
 endfunction()
 
 # Set BISON package properties TYPE and PURPOSE. If parser-related output files
@@ -609,12 +609,12 @@ function(_php_bison_set_package_properties)
     RELATIVE_PATH
     output
     BASE_DIRECTORY ${CMAKE_SOURCE_DIR}
-    OUTPUT_VARIABLE relativePath
+    OUTPUT_VARIABLE relative_path
   )
-  if(relativePath STREQUAL ".")
+  if(relative_path STREQUAL ".")
     set(purpose "Necessary to generate parser files.")
   else()
-    set(purpose "Necessary to generate ${relativePath} parser files.")
+    set(purpose "Necessary to generate ${relative_path} parser files.")
   endif()
   set_package_properties(BISON PROPERTIES PURPOSE "${purpose}")
 endfunction()
@@ -624,27 +624,27 @@ function(_php_bison_get_commands result)
   set(${result} "")
 
   if(parsed_ABSOLUTE_PATHS)
-    set(inputArgument "${input}")
-    set(outputArgument "${output}")
+    set(input_argument "${input}")
+    set(output_argument "${output}")
   else()
     cmake_path(
       RELATIVE_PATH
       input
       BASE_DIRECTORY ${parsed_WORKING_DIRECTORY}
-      OUTPUT_VARIABLE inputArgument
+      OUTPUT_VARIABLE input_argument
     )
     cmake_path(
       RELATIVE_PATH
       output
       BASE_DIRECTORY ${parsed_WORKING_DIRECTORY}
-      OUTPUT_VARIABLE outputArgument
+      OUTPUT_VARIABLE output_argument
     )
   endif()
 
   # Bison cannot create output directories. Ensure any required directories for
   # the generated files are created if they don't already exist.
   set(directories "")
-  foreach(output IN LISTS outputs extraOutputs)
+  foreach(output IN LISTS outputs extra_outputs)
     cmake_path(GET output PARENT_PATH dir)
     if(dir)
       list(APPEND directories ${dir})
@@ -665,8 +665,8 @@ function(_php_bison_get_commands result)
     COMMAND
     ${BISON_EXECUTABLE}
     ${options}
-    ${inputArgument}
-    --output ${outputArgument}
+    ${input_argument}
+    --output ${output_argument}
   )
 
   return(PROPAGATE ${result})
@@ -704,11 +704,11 @@ function(_php_bison_download)
   # Move dependency to PACKAGES_FOUND.
   block()
     set(package "BISON")
-    get_property(packagesNotFound GLOBAL PROPERTY PACKAGES_NOT_FOUND)
-    list(REMOVE_ITEM packagesNotFound ${package})
-    set_property(GLOBAL PROPERTY PACKAGES_NOT_FOUND ${packagesNotFound})
-    get_property(packagesFound GLOBAL PROPERTY PACKAGES_FOUND)
-    list(FIND packagesFound ${package} found)
+    get_property(packages_not_found GLOBAL PROPERTY PACKAGES_NOT_FOUND)
+    list(REMOVE_ITEM packages_not_found ${package})
+    set_property(GLOBAL PROPERTY PACKAGES_NOT_FOUND ${packages_not_found})
+    get_property(packages_found GLOBAL PROPERTY PACKAGES_FOUND)
+    list(FIND packages_found ${package} found)
     if(found EQUAL -1)
       set_property(GLOBAL APPEND PROPERTY PACKAGES_FOUND ${package})
     endif()

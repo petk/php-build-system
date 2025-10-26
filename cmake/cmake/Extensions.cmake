@@ -62,18 +62,16 @@ function(php_extensions_preprocess)
   _php_extensions_sort(extensions)
   _php_extensions_eval_options("${extensions}")
 
-  get_property(alwaysEnabledExtensions GLOBAL PROPERTY PHP_ALWAYS_ENABLED_EXTENSIONS)
-
   foreach(extension IN LISTS extensions)
-    string(TOUPPER "${extension}" extensionUpper)
+    string(TOUPPER "${extension}" extension_upper)
 
-    if(NOT PHP_EXT_${extensionUpper})
+    if(NOT PHP_EXT_${extension_upper})
       continue()
     endif()
 
     # Mark shared option variable as advanced.
-    if(DEFINED PHP_EXT_${extensionUpper}_SHARED)
-      mark_as_advanced(PHP_EXT_${extensionUpper}_SHARED)
+    if(DEFINED PHP_EXT_${extension_upper}_SHARED)
+      mark_as_advanced(PHP_EXT_${extension_upper}_SHARED)
     endif()
 
     _php_extensions_get_dependencies("${extension}" dependencies)
@@ -81,22 +79,22 @@ function(php_extensions_preprocess)
     # If extension is enabled and one of its dependencies is built as a shared
     # library, configure extension also as a shared library.
     foreach(dependency IN LISTS dependencies)
-      string(TOUPPER "${dependency}" dependencyUpper)
+      string(TOUPPER "${dependency}" dependency_upper)
 
       if(
-        PHP_EXT_${dependencyUpper}_SHARED
-        AND NOT PHP_EXT_${extensionUpper}_SHARED
+        PHP_EXT_${dependency_upper}_SHARED
+        AND NOT PHP_EXT_${extension_upper}_SHARED
       )
         message(
           WARNING
           "The '${extension}' extension must be built as a shared library as "
           "its dependency '${dependency}' extension is configured as shared. "
-          "The 'PHP_EXT_${extensionUpper}_SHARED' option has been "
+          "The 'PHP_EXT_${extension_upper}_SHARED' option has been "
           "automatically set to 'ON'."
         )
 
         set(
-          CACHE{PHP_EXT_${extensionUpper}_SHARED}
+          CACHE{PHP_EXT_${extension_upper}_SHARED}
           TYPE BOOL
           HELP "Build the ${extension} extension as a shared library"
           FORCE
@@ -135,8 +133,8 @@ function(_php_extensions_sort)
 
   set(result ${ARGV0})
   set(extensions ${${ARGV0}})
-  set(extensionsBefore "")
-  set(extensionsMiddle "")
+  set(extensions_before "")
+  set(extensions_middle "")
 
   foreach(extension IN LISTS extensions)
     _php_extensions_parse_dependencies("${extension}" dependencies)
@@ -149,25 +147,25 @@ function(_php_extensions_sort)
 
     if(dependencies)
       foreach(dependency IN LISTS dependencies)
-        list(REMOVE_ITEM extensionsMiddle ${dependency})
+        list(REMOVE_ITEM extensions_middle ${dependency})
 
-        if(NOT dependency IN_LIST extensionsBefore)
-          list(APPEND extensionsBefore ${dependency})
+        if(NOT dependency IN_LIST extensions_before)
+          list(APPEND extensions_before ${dependency})
         endif()
       endforeach()
     endif()
 
-    if(NOT extension IN_LIST extensionsBefore)
-      list(REMOVE_ITEM extensionsMiddle ${extension})
-      list(APPEND extensionsMiddle ${extension})
+    if(NOT extension IN_LIST extensions_before)
+      list(REMOVE_ITEM extensions_middle ${extension})
+      list(APPEND extensions_middle ${extension})
     endif()
   endforeach()
 
-  list(APPEND extensionsSorted ${extensionsBefore} ${extensionsMiddle})
-  list(REMOVE_DUPLICATES extensionsSorted)
-  list(REVERSE extensionsSorted)
+  list(APPEND extensions_sorted ${extensions_before} ${extensions_middle})
+  list(REMOVE_DUPLICATES extensions_sorted)
+  list(REVERSE extensions_sorted)
 
-  set(${result} ${extensionsSorted} PARENT_SCOPE)
+  set(${result} ${extensions_sorted} PARENT_SCOPE)
 endfunction()
 
 # Get extension dependencies from the add_dependencies().
@@ -193,7 +191,7 @@ function(_php_extensions_parse_dependencies extension result)
 
   string(REGEX MATCHALL "${regex}" matches "${content}")
 
-  set(allDependencies "")
+  set(all_dependencies "")
 
   foreach(match IN LISTS matches)
     if(match MATCHES "${regex}")
@@ -201,23 +199,23 @@ function(_php_extensions_parse_dependencies extension result)
         string(STRIP "${CMAKE_MATCH_1}" dependencies)
         string(REPLACE " " ";" dependencies "${dependencies}")
         list(TRANSFORM dependencies REPLACE "^php_ext_" "")
-        list(APPEND allDependencies ${dependencies})
+        list(APPEND all_dependencies ${dependencies})
       endif()
     endif()
   endforeach()
 
-  if(allDependencies)
-    list(REMOVE_DUPLICATES allDependencies)
+  if(all_dependencies)
+    list(REMOVE_DUPLICATES all_dependencies)
 
-    get_property(allExtensions GLOBAL PROPERTY PHP_ALL_EXTENSIONS)
+    get_property(all_extensions GLOBAL PROPERTY PHP_ALL_EXTENSIONS)
 
-    foreach(dependency IN LISTS allDependencies)
-      if(NOT "${dependency}" IN_LIST allExtensions)
-        list(REMOVE_ITEM allDependencies ${dependency})
+    foreach(dependency IN LISTS all_dependencies)
+      if(NOT "${dependency}" IN_LIST all_extensions)
+        list(REMOVE_ITEM all_dependencies ${dependency})
       endif()
     endforeach()
 
-    set(${result} "${allDependencies}" PARENT_SCOPE)
+    set(${result} "${all_dependencies}" PARENT_SCOPE)
   endif()
 endfunction()
 
@@ -295,24 +293,24 @@ endfunction()
 # Parse and evaluate options of extensions.
 function(_php_extensions_eval_options directories)
   set(code "")
-  get_property(alwaysEnabledExtensions GLOBAL PROPERTY PHP_ALWAYS_ENABLED_EXTENSIONS)
-  get_property(allExtensions GLOBAL PROPERTY PHP_ALL_EXTENSIONS)
+  get_property(always_enabled_extensions GLOBAL PROPERTY PHP_ALWAYS_ENABLED_EXTENSIONS)
+  get_property(all_extensions GLOBAL PROPERTY PHP_ALL_EXTENSIONS)
 
   foreach(extension IN LISTS extensions)
     # Skip if extension is always enabled or if dependency is not extension.
     if(
-      extension IN_LIST alwaysEnabledExtensions
-      OR NOT extension IN_LIST allExtensions
+      extension IN_LIST always_enabled_extensions
+      OR NOT extension IN_LIST all_extensions
     )
       continue()
     endif()
 
     file(READ ${CMAKE_CURRENT_SOURCE_DIR}/${extension}/CMakeLists.txt content)
-    string(TOUPPER "${extension}" extensionUpper)
+    string(TOUPPER "${extension}" extension_upper)
 
     # Check if extension has option(PHP_EXT_<extension> ...).
     _php_extensions_remove_comments(content)
-    _php_extensions_option_regex("PHP_EXT_${extensionUpper}" regex)
+    _php_extensions_option_regex("PHP_EXT_${extension_upper}" regex)
     string(REGEX MATCH "${regex}" code "${content}")
 
     if(code)
@@ -322,7 +320,7 @@ function(_php_extensions_eval_options directories)
 
     # If extension has cmake_dependent_option(PHP_EXT_<extension> ...).
     _php_extensions_cmake_dependent_option_regex(
-      "PHP_EXT_${extensionUpper}"
+      "PHP_EXT_${extension_upper}"
       regex
     )
     string(REGEX MATCH "${regex}" code "${content}")
@@ -335,7 +333,7 @@ function(_php_extensions_eval_options directories)
 
     # If extension has cmake_dependent_option(PHP_EXT_<extension>_SHARED ...).
     _php_extensions_cmake_dependent_option_regex(
-      "PHP_EXT_${extensionUpper}_SHARED"
+      "PHP_EXT_${extension_upper}_SHARED"
       regex
     )
 
@@ -368,16 +366,16 @@ function(php_extensions_postconfigure extension)
     MANUALLY_ADDED_DEPENDENCIES
   )
   list(TRANSFORM dependencies REPLACE "^php_ext_" "")
-  get_property(alwaysEnabledExtensions GLOBAL PROPERTY PHP_ALWAYS_ENABLED_EXTENSIONS)
-  get_property(allExtensions GLOBAL PROPERTY PHP_ALL_EXTENSIONS)
+  get_property(always_enabled_extensions GLOBAL PROPERTY PHP_ALWAYS_ENABLED_EXTENSIONS)
+  get_property(all_extensions GLOBAL PROPERTY PHP_ALL_EXTENSIONS)
 
   foreach(dependency IN LISTS dependencies)
-    string(TOUPPER "${dependency}" dependencyUpper)
+    string(TOUPPER "${dependency}" dependency_upper)
 
     if(
-      PHP_EXT_${dependencyUpper}
-      OR dependency IN_LIST alwaysEnabledExtensions
-      OR NOT dependency IN_LIST allExtensions
+      PHP_EXT_${dependency_upper}
+      OR dependency IN_LIST always_enabled_extensions
+      OR NOT dependency IN_LIST all_extensions
     )
       continue()
     endif()
@@ -385,15 +383,15 @@ function(php_extensions_postconfigure extension)
     message(
       WARNING
       "The '${extension}' extension requires the '${dependency}' extension. "
-      "The 'PHP_EXT_${dependencyUpper}' option has been automatically set to "
+      "The 'PHP_EXT_${dependency_upper}' option has been automatically set to "
       "'ON'."
     )
 
-    if(DEFINED CACHE{PHP_EXT_${dependencyUpper}})
-      set_property(CACHE PHP_EXT_${dependencyUpper} PROPERTY VALUE ON)
+    if(DEFINED CACHE{PHP_EXT_${dependency_upper}})
+      set_property(CACHE PHP_EXT_${dependency_upper} PROPERTY VALUE ON)
     else()
       set(
-        CACHE{PHP_EXT_${dependencyUpper}}
+        CACHE{PHP_EXT_${dependency_upper}}
         TYPE BOOL
         HELP "Enable the ${dependency} extension"
         FORCE
@@ -417,11 +415,11 @@ function(php_extensions_postconfigure extension)
 
   # Specify extension's default installation rules.
   get_target_property(sets php_ext_${extension} INTERFACE_HEADER_SETS)
-  set(fileSets "")
+  set(file_sets "")
   foreach(set IN LISTS sets)
     list(
       APPEND
-      fileSets
+      file_sets
       FILE_SET
       ${set}
       DESTINATION
@@ -435,7 +433,7 @@ function(php_extensions_postconfigure extension)
       DESTINATION ${PHP_EXTENSION_DIR}
     LIBRARY
       DESTINATION ${PHP_EXTENSION_DIR}
-    ${fileSets}
+    ${file_sets}
   )
 
   # Configure shared extension.
@@ -449,9 +447,9 @@ function(php_extensions_postconfigure extension)
   # Set build-phase location for shared extensions.
   get_target_property(location php_ext_${extension} LIBRARY_OUTPUT_DIRECTORY)
   if(NOT location)
-    get_property(isMultiConfig GLOBAL PROPERTY GENERATOR_IS_MULTI_CONFIG)
+    get_property(is_multi_config GLOBAL PROPERTY GENERATOR_IS_MULTI_CONFIG)
 
-    if(isMultiConfig)
+    if(is_multi_config)
       set_property(
         TARGET php_ext_${extension}
         PROPERTY LIBRARY_OUTPUT_DIRECTORY "${PROJECT_BINARY_DIR}/modules"
@@ -493,16 +491,16 @@ function(php_extensions_configure_headers)
       "#cmakedefine ${macro} 1\n"
     )
 
-    get_target_property(binaryDir php_ext_${extension} BINARY_DIR)
+    get_target_property(binary_dir php_ext_${extension} BINARY_DIR)
     set(current "")
-    if(EXISTS ${binaryDir}/config.h)
-      file(READ ${binaryDir}/config.h current)
+    if(EXISTS ${binary_dir}/config.h)
+      file(READ ${binary_dir}/config.h current)
     endif()
 
     # Finalize extension's config.h header file.
     if(NOT current MATCHES "(#undef|#define) ${macro}")
       string(STRIP "${template}\n${current}" config)
-      file(CONFIGURE OUTPUT ${binaryDir}/config.h CONTENT "${config}\n")
+      file(CONFIGURE OUTPUT ${binary_dir}/config.h CONTENT "${config}\n")
     endif()
   endforeach()
 endfunction()
@@ -529,31 +527,31 @@ function(_php_extensions_validate)
 
     list(TRANSFORM dependencies REPLACE "^php_ext_" "")
 
-    get_property(allExtensions GLOBAL PROPERTY PHP_ALL_EXTENSIONS)
+    get_property(all_extensions GLOBAL PROPERTY PHP_ALL_EXTENSIONS)
 
     foreach(dependency IN LISTS dependencies)
       # Skip dependencies that are not PHP extensions.
-      if(NOT dependency IN_LIST allExtensions)
+      if(NOT dependency IN_LIST all_extensions)
         continue()
       endif()
 
       if(NOT TARGET php_ext_${dependency} OR NOT dependency IN_LIST extensions)
-        string(TOUPPER "${dependency}" dependencyUpper)
+        string(TOUPPER "${dependency}" dependency_upper)
         message(
           SEND_ERROR
           "You've enabled the '${extension}' extension, which depends on the "
           "'${dependency}' extension, but you've either not enabled "
           "'${dependency}', or have disabled it. Please set "
-          "'PHP_EXT_${dependencyUpper}' to 'ON' if available."
+          "'PHP_EXT_${dependency_upper}' to 'ON' if available."
         )
       endif()
 
-      get_target_property(dependencyType php_ext_${dependency} TYPE)
-      get_target_property(extensionType php_ext_${extension} TYPE)
+      get_target_property(dependency_type php_ext_${dependency} TYPE)
+      get_target_property(extension_type php_ext_${extension} TYPE)
 
       if(
-        dependencyType MATCHES "^(MODULE|SHARED)_LIBRARY$"
-        AND NOT extensionType MATCHES "^(MODULE|SHARED)_LIBRARY$"
+        dependency_type MATCHES "^(MODULE|SHARED)_LIBRARY$"
+        AND NOT extension_type MATCHES "^(MODULE|SHARED)_LIBRARY$"
       )
         message(
           SEND_ERROR

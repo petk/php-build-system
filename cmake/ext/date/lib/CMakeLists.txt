@@ -66,7 +66,7 @@ if(NOT TIMELIB_TARGET)
 endif()
 
 set(
-  timelibSources
+  timelib_sources
     astro.c
     dow.c
     interval.c
@@ -82,7 +82,7 @@ set(
 target_sources(
   ${TIMELIB_TARGET}
   PRIVATE
-    ${timelibSources}
+    ${timelib_sources}
   PUBLIC
     FILE_SET HEADERS
       FILES
@@ -124,9 +124,9 @@ cmake_path(
   RELATIVE_PATH
   CMAKE_CURRENT_BINARY_DIR
   BASE_DIRECTORY ${CMAKE_BINARY_DIR}
-  OUTPUT_VARIABLE relativeDir
+  OUTPUT_VARIABLE relative_dir
 )
-message(STATUS "Creating ${relativeDir}/timelib_config.h")
+message(STATUS "Creating ${relative_dir}/timelib_config.h")
 file(CONFIGURE OUTPUT timelib_config.h CONTENT [[
 /* Define to 1 if you have the <io.h> header file. */
 #cmakedefine HAVE_IO_H 1
