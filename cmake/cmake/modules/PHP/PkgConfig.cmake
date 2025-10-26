@@ -76,22 +76,22 @@ function(_php_pkgconfig_parse_variables variables)
     )
   endif()
 
-  set(isValue FALSE)
-  set(variablesOptions "")
-  set(resultVariables "")
-  set(resultValues "")
+  set(is_value FALSE)
+  set(variables_options "")
+  set(result_variables "")
+  set(result_values "")
   foreach(variable IN LISTS variables)
-    if(isValue)
-      set(isValue FALSE)
+    if(is_value)
+      set(is_value FALSE)
       continue()
     endif()
     list(POP_FRONT variables var value)
 
-    list(APPEND resultVariables ${var})
-    list(APPEND resultValues "${value}")
+    list(APPEND result_variables ${var})
+    list(APPEND result_values "${value}")
 
     # Replace possible INSTALL_PREFIX in value for usage in add_custom_command,
-    # in the resultValues above the intact genex is left for enabling the
+    # in the result_values above the intact genex is left for enabling the
     # possible 'cmake --install --prefix ...' override.
     if(value MATCHES [[.*\$<INSTALL_PREFIX>.*]])
       string(
@@ -103,14 +103,14 @@ function(_php_pkgconfig_parse_variables variables)
       )
     endif()
 
-    list(APPEND variablesOptions -D ${var}="${value}")
+    list(APPEND variables_options -D ${var}="${value}")
 
-    set(isValue TRUE)
+    set(is_value TRUE)
   endforeach()
 
-  set(variablesOptions "${variablesOptions}" PARENT_SCOPE)
-  set(resultVariables "${resultVariables}" PARENT_SCOPE)
-  set(resultValues "${resultValues}" PARENT_SCOPE)
+  set(variables_options "${variables_options}" PARENT_SCOPE)
+  set(result_variables "${result_variables}" PARENT_SCOPE)
+  set(result_values "${result_values}" PARENT_SCOPE)
 endfunction()
 
 function(php_pkgconfig_generate_pc)
@@ -169,21 +169,14 @@ function(php_pkgconfig_generate_pc)
     _php_pkgconfig_parse_variables("${parsed_VARIABLES}")
   endif()
 
-  cmake_path(
-    RELATIVE_PATH
-    output
-    BASE_DIRECTORY ${CMAKE_BINARY_DIR}
-    OUTPUT_VARIABLE outputRelativePath
-  )
-
   get_target_property(type ${parsed_TARGET} TYPE)
-  set(fileOption "")
+  set(file_option "")
   if(type STREQUAL "EXECUTABLE")
-    set(fileOption "" EXECUTABLES "$<TARGET_FILE:${parsed_TARGET}>")
+    set(file_option "" EXECUTABLES "$<TARGET_FILE:${parsed_TARGET}>")
   elseif(type MATCHES "^(MODULE|SHARED)_LIBRARY$")
-    set(fileOption LIBRARIES "$<TARGET_FILE:${parsed_TARGET}>")
+    set(file_option LIBRARIES "$<TARGET_FILE:${parsed_TARGET}>")
   elseif(type MATCHES "STATIC_LIBRARY")
-    set(fileOption "")
+    set(file_option "")
   endif()
 
   string(CONFIGURE [[
@@ -191,7 +184,7 @@ function(php_pkgconfig_generate_pc)
       file(
         GET_RUNTIME_DEPENDENCIES
         RESOLVED_DEPENDENCIES_VAR dependencies
-        UNRESOLVED_DEPENDENCIES_VAR unresolvedDependencies
+        UNRESOLVED_DEPENDENCIES_VAR unresolved_dependencies
         PRE_EXCLUDE_REGEXES
           libc\\.
           libroot\\.
@@ -199,7 +192,7 @@ function(php_pkgconfig_generate_pc)
           libgcc
           libstdc\\+\\+
         POST_INCLUDE_REGEXES lib[^/]+$
-        @fileOption@
+        @file_option@
       )
       set(libraries "")
       foreach(dependency IN LISTS dependencies)
@@ -209,10 +202,10 @@ function(php_pkgconfig_generate_pc)
       list(TRANSFORM libraries REPLACE "^lib" "-l")
       list(JOIN libraries " " PHP_LIBS_PRIVATE)
 
-      set(resultVariables @resultVariables@)
-      set(resultValues "@resultValues@")
+      set(result_variables @result_variables@)
+      set(result_values "@result_values@")
 
-      foreach(var value IN ZIP_LISTS resultVariables resultValues)
+      foreach(var value IN ZIP_LISTS result_variables result_values)
         set(${var} "${value}")
       endforeach()
 

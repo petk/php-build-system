@@ -517,9 +517,9 @@ if(NOT CMAKE_SYSTEM_NAME STREQUAL "Windows")
     RELATIVE_PATH
     CMAKE_CURRENT_BINARY_DIR
     BASE_DIRECTORY ${CMAKE_BINARY_DIR}
-    OUTPUT_VARIABLE relativeDir
+    OUTPUT_VARIABLE relative_dir
   )
-  message(STATUS "Creating ${relativeDir}/zend_config.h")
+  message(STATUS "Creating ${relative_dir}/zend_config.h")
   file(
     CONFIGURE
     OUTPUT zend_config.h

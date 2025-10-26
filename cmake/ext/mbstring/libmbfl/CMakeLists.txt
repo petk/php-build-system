@@ -112,9 +112,9 @@ cmake_path(
   RELATIVE_PATH
   CMAKE_CURRENT_BINARY_DIR
   BASE_DIRECTORY ${CMAKE_BINARY_DIR}
-  OUTPUT_VARIABLE relativeDir
+  OUTPUT_VARIABLE relative_dir
 )
-message(STATUS "Creating ${relativeDir}/config.h")
+message(STATUS "Creating ${relative_dir}/config.h")
 file(CONFIGURE OUTPUT config.h CONTENT [[
 /* Define to 1 if you have the 'strcasecmp' function. */
 #cmakedefine HAVE_STRCASECMP 1

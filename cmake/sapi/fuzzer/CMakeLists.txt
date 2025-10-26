@@ -73,15 +73,15 @@ add_executable(PHP::sapi::fuzzer ALIAS php_sapi_fuzzer)
 
 if(LIB_FUZZING_ENGINE OR DEFINED ENV{LIB_FUZZING_ENGINE})
   if(LIB_FUZZING_ENGINE)
-    set(libFuzzingEngine "${LIB_FUZZING_ENGINE}")
+    set(lib_fuzzing_engine "${LIB_FUZZING_ENGINE}")
   else()
-    set(libFuzzingEngine "$ENV{LIB_FUZZING_ENGINE}")
+    set(lib_fuzzing_engine "$ENV{LIB_FUZZING_ENGINE}")
   endif()
-  message(STATUS "LIB_FUZZING_ENGINE=${libFuzzingEngine}")
+  message(STATUS "LIB_FUZZING_ENGINE=${lib_fuzzing_engine}")
   target_link_options(
     php_sapi_fuzzer
     INTERFACE
-      "$<$<LINK_LANGUAGE:C,CXX>:${libFuzzingEngine}>"
+      "$<$<LINK_LANGUAGE:C,CXX>:${lib_fuzzing_engine}>"
   )
 else()
   cmake_push_check_state(RESET)
@@ -100,8 +100,8 @@ else()
       )
     endif()
 
-    get_property(enabledLanguages GLOBAL PROPERTY ENABLED_LANGUAGES)
-    if(CXX IN_LIST enabledLanguages)
+    get_property(languages GLOBAL PROPERTY ENABLED_LANGUAGES)
+    if(CXX IN_LIST languages)
       php_check_compiler_flag(
         CXX
         -fsanitize=fuzzer-no-link

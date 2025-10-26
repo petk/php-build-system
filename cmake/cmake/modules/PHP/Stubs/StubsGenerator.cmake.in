@@ -18,14 +18,14 @@ if(NOT PHP_COMMAND)
 endif()
 
 set(sources "@PHP_SOURCES@")
-set(phpGenStubScriptSource "@PROJECT_SOURCE_DIR@/build/gen_stub.php")
+set(php_gen_stub_script_source "@PROJECT_SOURCE_DIR@/build/gen_stub.php")
 
 # Ensure sources include only *.stub.php files.
 list(FILTER sources INCLUDE REGEX [[\.stub\.php$]])
 
 # Create a list of sources that must be parsed by the generator.
-if(${phpGenStubScriptSource} IS_NEWER_THAN ${CMAKE_CURRENT_LIST_FILE})
-  file(COPY ${phpGenStubScriptSource} DESTINATION ${CMAKE_CURRENT_LIST_DIR})
+if(${php_gen_stub_script_source} IS_NEWER_THAN ${CMAKE_CURRENT_LIST_FILE})
+  file(COPY ${php_gen_stub_script_source} DESTINATION ${CMAKE_CURRENT_LIST_DIR})
   set(stubs ${sources})
   file(TOUCH ${CMAKE_CURRENT_LIST_FILE})
 else()

@@ -76,7 +76,7 @@ project(
 )
 
 # Configuration.
-block(PROPAGATE phpUrl)
+block(PROPAGATE php_url)
   set(
     CACHE{PHP_VERSION_DOWNLOAD}
     TYPE STRING
@@ -86,7 +86,7 @@ block(PROPAGATE phpUrl)
   mark_as_advanced(PHP_VERSION_DOWNLOAD)
 
   # PHP <major>.<minor> version currently in development (the master branch).
-  set(phpDevelopmentBranch 8.6)
+  set(php_development_branch 8.6)
 
   # Validate PHP version.
   if(NOT PHP_VERSION_DOWNLOAD MATCHES [[^[0-9]+\.[0-9]+(\.[0-9]+|-dev|$)]])
@@ -109,12 +109,12 @@ block(PROPAGATE phpUrl)
   set(branch "")
   set(version "")
 
-  if(PHP_VERSION_DOWNLOAD MATCHES "^${phpDevelopmentBranch}(-dev)?(.*)$")
+  if(PHP_VERSION_DOWNLOAD MATCHES "^${php_development_branch}(-dev)?(.*)$")
     if(CMAKE_MATCH_2)
       message(
         WARNING
-        "PHP ${phpDevelopmentBranch} is marked as development branch. Version "
-        "has been set to ${phpDevelopmentBranch}-dev"
+        "PHP ${php_development_branch} is marked as development branch. "
+        "Version has been set to ${php_development_branch}-dev"
       )
     endif()
     set(branch "master")
@@ -154,9 +154,12 @@ block(PROPAGATE phpUrl)
   endif()
 
   if(branch)
-    set(phpUrl https://github.com/php/php-src/archive/refs/heads/${branch}.tar.gz)
+    set(
+      php_url
+      https://github.com/php/php-src/archive/refs/heads/${branch}.tar.gz
+    )
   elseif(version)
-    set(phpUrl https://www.php.net/distributions/php-${version}.tar.gz)
+    set(php_url https://www.php.net/distributions/php-${version}.tar.gz)
   else()
     message(FATAL_ERROR "Something went wrong.")
   endif()
@@ -166,7 +169,7 @@ include(FetchContent)
 
 FetchContent_Declare(
   php
-  URL ${phpUrl}
+  URL ${php_url}
   SOURCE_DIR ${CMAKE_CURRENT_BINARY_DIR}/php-src
   BINARY_DIR ${CMAKE_CURRENT_BINARY_DIR}/php
   PATCH_COMMAND
@@ -271,9 +274,9 @@ cmake_path(
   RELATIVE_PATH
   CMAKE_CURRENT_BINARY_DIR
   BASE_DIRECTORY ${CMAKE_SOURCE_DIR}
-  OUTPUT_VARIABLE relativeDir
+  OUTPUT_VARIABLE relative_dir
 )
-message(STATUS "Downloading ${phpUrl} to ${relativeDir}")
+message(STATUS "Downloading ${php_url} to ${relative_dir}")
 FetchContent_MakeAvailable(php)
 
 enable_testing()

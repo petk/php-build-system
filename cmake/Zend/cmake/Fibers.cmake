@@ -71,10 +71,10 @@ endfunction()
 
 block()
   set(cpu "")
-  set(asmFile "")
+  set(asm_file "")
   set(prefix "")
-  set(compileOptions "")
-  set(compileDefinitions "")
+  set(compile_options "")
+  set(compile_definitions "")
 
   # Determine files based on the architecture and platform.
   if(CMAKE_C_COMPILER_ARCHITECTURE_ID MATCHES "x86_64")
@@ -101,64 +101,64 @@ block()
   endif()
 
   if(CMAKE_SYSTEM_NAME STREQUAL "Darwin")
-    set(asmFile "combined_sysv_macho_gas.S")
+    set(asm_file "combined_sysv_macho_gas.S")
   elseif(CMAKE_SYSTEM_NAME STREQUAL "AIX")
     # AIX uses a different calling convention (shared with non-_CALL_ELF Linux).
     # The AIX assembler isn't GNU, but the file is compatible.
-    set(asmFile "${prefix}_xcoff_gas.S")
+    set(asm_file "${prefix}_xcoff_gas.S")
   elseif(CMAKE_SYSTEM_NAME STREQUAL "FreeBSD")
     if(NOT cpu STREQUAL "i386")
-      set(asmFile "${prefix}_elf_gas.S")
+      set(asm_file "${prefix}_elf_gas.S")
     endif()
   elseif(CMAKE_SYSTEM_NAME STREQUAL "Windows")
     if(CMAKE_C_COMPILER_ARCHITECTURE_ID MATCHES "(x86_64|x64)")
-      set(asmFile "x86_64_ms_pe_masm.asm")
+      set(asm_file "x86_64_ms_pe_masm.asm")
     elseif(CMAKE_C_COMPILER_ARCHITECTURE_ID MATCHES "(X86|i[3456]86)")
-      set(asmFile "i386_ms_pe_masm.asm")
+      set(asm_file "i386_ms_pe_masm.asm")
     elseif(CMAKE_C_COMPILER_ARCHITECTURE_ID MATCHES "(ARM64|aarch64)")
-      set(asmFile "arm64_aapcs_pe_armasm.asm")
-      set(compileOptions /nologo -machine ARM64)
+      set(asm_file "arm64_aapcs_pe_armasm.asm")
+      set(compile_options /nologo -machine ARM64)
     endif()
 
-    if(asmFile AND NOT CMAKE_C_COMPILER_ARCHITECTURE_ID MATCHES "(ARM64|aarch64)")
-      set(compileOptions /nologo)
+    if(asm_file AND NOT CMAKE_C_COMPILER_ARCHITECTURE_ID MATCHES "(ARM64|aarch64)")
+      set(compile_options /nologo)
 
-      set(compileDefinitions "BOOST_CONTEXT_EXPORT=EXPORT")
+      set(compile_definitions "BOOST_CONTEXT_EXPORT=EXPORT")
     endif()
   elseif(prefix)
-    set(asmFile "${prefix}_elf_gas.S")
+    set(asm_file "${prefix}_elf_gas.S")
   endif()
 
-  if(asmFile)
+  if(asm_file)
     set(
-      asmSources
-      ${CMAKE_CURRENT_SOURCE_DIR}/asm/jump_${asmFile}
-      ${CMAKE_CURRENT_SOURCE_DIR}/asm/make_${asmFile}
+      asm_sources
+      ${CMAKE_CURRENT_SOURCE_DIR}/asm/jump_${asm_file}
+      ${CMAKE_CURRENT_SOURCE_DIR}/asm/make_${asm_file}
     )
 
-    if(compileOptions)
+    if(compile_options)
       set_source_files_properties(
-        ${asmSources}
+        ${asm_sources}
         PROPERTIES
-          COMPILE_OPTIONS ${compileOptions}
+          COMPILE_OPTIONS ${compile_options}
       )
     endif()
 
-    if(compileDefinitions)
+    if(compile_definitions)
       set_source_files_properties(
-        ${asmSources}
+        ${asm_sources}
         PROPERTIES
-          COMPILE_DEFINITIONS ${compileDefinitions}
+          COMPILE_DEFINITIONS ${compile_definitions}
       )
     endif()
   endif()
 
   message(CHECK_START "Checking for fibers switching context support")
 
-  if(PHP_ZEND_FIBER_ASM AND asmFile)
-    message(CHECK_PASS "yes, Zend/asm/*.${asmFile}")
+  if(PHP_ZEND_FIBER_ASM AND asm_file)
+    message(CHECK_PASS "yes, Zend/asm/*.${asm_file}")
 
-    target_sources(zend_fibers INTERFACE ${asmSources})
+    target_sources(zend_fibers INTERFACE ${asm_sources})
 
     _php_zend_fibers_shadow_stack_syscall()
   else()

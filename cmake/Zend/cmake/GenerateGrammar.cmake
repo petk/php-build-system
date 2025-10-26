@@ -49,15 +49,15 @@ block()
           REPLACE
           "int zendparse"
           "ZEND_API int zendparse"
-          patchedContent
+          patched_content
           "${content}"
         )
         if(
           NOT content MATCHES "ZEND_API int zendparse"
-          AND NOT content STREQUAL "${patchedContent}"
+          AND NOT content STREQUAL "${patched_content}"
         )
           message(STATUS "[Zend] Patching ${file}")
-          file(WRITE "@CMAKE_CURRENT_SOURCE_DIR@/${file}" "${patchedContent}")
+          file(WRITE "@CMAKE_CURRENT_SOURCE_DIR@/${file}" "${patched_content}")
         endif()
       endforeach()
     ]]

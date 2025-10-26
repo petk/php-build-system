@@ -8,7 +8,7 @@ include(CheckSourceRuns)
 include(CMakePushCheckState)
 include(PHP/CheckCompilerFlag)
 
-get_property(enabledLanguages GLOBAL PROPERTY ENABLED_LANGUAGES)
+get_property(languages GLOBAL PROPERTY ENABLED_LANGUAGES)
 
 # See https://bugs.php.net/28605.
 if(CMAKE_C_COMPILER_ARCHITECTURE_ID MATCHES "alpha")
@@ -40,7 +40,7 @@ if(
 endif()
 
 php_check_compiler_flag(C -Wno-sign-compare PHP_HAS_WNO_SIGN_COMPARE_C)
-if(CXX IN_LIST enabledLanguages)
+if(CXX IN_LIST languages)
   php_check_compiler_flag(CXX -Wno-sign-compare PHP_HAS_WNO_SIGN_COMPARE_CXX)
 endif()
 target_compile_options(
@@ -52,7 +52,7 @@ target_compile_options(
 )
 
 php_check_compiler_flag(C -Wno-unused-parameter PHP_HAS_WNO_UNUSED_PARAMETER_C)
-if(CXX IN_LIST enabledLanguages)
+if(CXX IN_LIST languages)
   php_check_compiler_flag(CXX -Wno-unused-parameter PHP_HAS_WNO_UNUSED_PARAMETER_CXX)
 endif()
 target_compile_options(
@@ -95,7 +95,7 @@ endif()
 
 # Check if compiler supports -Wno-clobbered (only GCC).
 php_check_compiler_flag(C -Wno-clobbered PHP_HAS_WNO_CLOBBERED_C)
-if(CXX IN_LIST enabledLanguages)
+if(CXX IN_LIST languages)
   php_check_compiler_flag(CXX -Wno-clobbered PHP_HAS_WNO_CLOBBERED_CXX)
 endif()
 target_compile_options(
@@ -113,7 +113,7 @@ php_check_compiler_flag(
   -Wimplicit-fallthrough=1
   PHP_HAS_WIMPLICIT_FALLTHROUGH_1_C
 )
-if(CXX IN_LIST enabledLanguages)
+if(CXX IN_LIST languages)
   php_check_compiler_flag(
     CXX
     -Wimplicit-fallthrough=1
@@ -128,7 +128,7 @@ target_compile_options(
 )
 
 php_check_compiler_flag(C -Wduplicated-cond PHP_HAS_WDUPLICATED_COND_C)
-if(CXX IN_LIST enabledLanguages)
+if(CXX IN_LIST languages)
   php_check_compiler_flag(CXX -Wduplicated-cond PHP_HAS_WDUPLICATED_COND_CXX)
 endif()
 target_compile_options(
@@ -140,7 +140,7 @@ target_compile_options(
 )
 
 php_check_compiler_flag(C -Wlogical-op PHP_HAS_WLOGICAL_OP_C)
-if(CXX IN_LIST enabledLanguages)
+if(CXX IN_LIST languages)
   php_check_compiler_flag(CXX -Wlogical-op PHP_HAS_WLOGICAL_OP_CXX)
 endif()
 target_compile_options(
@@ -152,7 +152,7 @@ target_compile_options(
 )
 
 php_check_compiler_flag(C -Wformat-truncation PHP_HAS_WFORMAT_TRUNCATION_C)
-if(CXX IN_LIST enabledLanguages)
+if(CXX IN_LIST languages)
   php_check_compiler_flag(CXX -Wformat-truncation PHP_HAS_WFORMAT_TRUNCATION_CXX)
 endif()
 target_compile_options(
@@ -172,7 +172,7 @@ target_compile_options(
 )
 
 php_check_compiler_flag(C -fno-common PHP_HAS_FNO_COMMON_C)
-if(CXX IN_LIST enabledLanguages)
+if(CXX IN_LIST languages)
   php_check_compiler_flag(CXX -fno-common PHP_HAS_FNO_COMMON_CXX)
 endif()
 target_compile_options(
@@ -227,7 +227,7 @@ if(PHP_MEMORY_SANITIZER)
       PHP_HAS_MEMORY_SANITIZER_C
     )
 
-    if(CXX IN_LIST enabledLanguages)
+    if(CXX IN_LIST languages)
       php_check_compiler_flag(
         CXX
         "-fsanitize=memory;-fsanitize-memory-track-origins"
@@ -273,7 +273,7 @@ if(PHP_ADDRESS_SANITIZER)
     set(CMAKE_REQUIRED_LINK_OPTIONS "-fsanitize=address")
 
     php_check_compiler_flag(C -fsanitize=address PHP_HAS_ADDRESS_SANITIZER_C)
-    if(CXX IN_LIST enabledLanguages)
+    if(CXX IN_LIST languages)
       php_check_compiler_flag(CXX -fsanitize=address PHP_HAS_ADDRESS_SANITIZER_CXX)
     endif()
   cmake_pop_check_state()
@@ -316,7 +316,7 @@ if(PHP_UNDEFINED_SANITIZER)
       -fsanitize=undefined
       PHP_HAS_UNDEFINED_SANITIZER_C
     )
-    if(CXX IN_LIST enabledLanguages)
+    if(CXX IN_LIST languages)
       php_check_compiler_flag(
         CXX
         -fsanitize=undefined
@@ -348,7 +348,7 @@ if(PHP_UNDEFINED_SANITIZER)
         -fno-sanitize=object-size
         PHP_HAS_OBJECT_SIZE_SANITIZER_C
       )
-      if(CXX IN_LIST enabledLanguages)
+      if(CXX IN_LIST languages)
         php_check_compiler_flag(
           CXX
           -fno-sanitize=object-size
@@ -407,7 +407,7 @@ if(PHP_UNDEFINED_SANITIZER)
         -fno-sanitize=function
         PHP_HAS_FNO_SANITIZE_FUNCTION_C
       )
-      if(CXX IN_LIST enabledLanguages)
+      if(CXX IN_LIST languages)
         php_check_compiler_flag(
           CXX
           -fno-sanitize=function
@@ -445,7 +445,7 @@ if(PHP_MEMORY_SANITIZER OR PHP_ADDRESS_SANITIZER OR PHP_UNDEFINED_SANITIZER)
     -fno-omit-frame-pointer
     PHP_HAS_FNO_OMIT_FRAME_POINTER_C
   )
-  if(CXX IN_LIST enabledLanguages)
+  if(CXX IN_LIST languages)
     php_check_compiler_flag(
       CXX
       -fno-omit-frame-pointer

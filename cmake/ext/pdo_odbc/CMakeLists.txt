@@ -181,7 +181,7 @@ endif()
 
 if(TARGET ODBC::ODBC)
   block()
-    set(haveSomeHeaders FALSE)
+    set(have_some_headers FALSE)
 
     foreach(
       header
@@ -210,14 +210,14 @@ if(TARGET ODBC::ODBC)
       message(CHECK_START "Looking for ${header}")
       if(EXISTS ${ODBC_INCLUDE_DIR}/${header})
         message(CHECK_PASS "found")
-        set(haveSomeHeaders TRUE)
+        set(have_some_headers TRUE)
         set(${const} TRUE PARENT_SCOPE)
       else()
         message(CHECK_FAIL "not found")
       endif()
     endforeach()
 
-    if(NOT haveSomeHeaders)
+    if(NOT have_some_headers)
       message(
         FATAL_ERROR
         "Could not find any of the ODBC header files to build pdo_odbc "

@@ -31,11 +31,11 @@ option(PHP_LTO "Build PHP with link time optimization (LTO) if supported")
 mark_as_advanced(PHP_LTO)
 
 block(PROPAGATE CMAKE_INTERPROCEDURAL_OPTIMIZATION)
-  set(enableIpo ${PHP_LTO})
+  set(enable_ipo ${PHP_LTO})
   set(reason "")
 
   if(NOT PHP_LTO)
-    set(enableIpo FALSE)
+    set(enable_ipo FALSE)
     # Disabled.
   elseif(
     CMAKE_C_COMPILER_ID STREQUAL "GNU"
@@ -48,29 +48,29 @@ block(PROPAGATE CMAKE_INTERPROCEDURAL_OPTIMIZATION)
     # disabled when using GNU C compiler due to a bug:
     # https://gcc.gnu.org/bugzilla/show_bug.cgi?id=68384
     set(reason "GCC global register variables")
-    set(enableIpo FALSE)
+    set(enable_ipo FALSE)
   elseif(CMAKE_C_COMPILER_ID STREQUAL "AppleClang")
     # See: https://gitlab.kitware.com/cmake/cmake/-/issues/25202
     set(reason "AppleClang")
-    set(enableIpo FALSE)
+    set(enable_ipo FALSE)
   elseif(CMAKE_C_COMPILER_ID STREQUAL "Clang" AND CMAKE_SIZEOF_VOID_P EQUAL 4)
     # On 32-bit Linux machine, this produced undefined references linker errors.
     set(reason "Clang on 32-bit")
-    set(enableIpo FALSE)
+    set(enable_ipo FALSE)
   endif()
 
-  if(enableIpo)
+  if(enable_ipo)
     include(CheckIPOSupported)
     check_ipo_supported(RESULT supported OUTPUT reason)
     if(NOT supported)
-      set(enableIpo FALSE)
+      set(enable_ipo FALSE)
       if(NOT reason)
         set(reason "unsupported")
       endif()
     endif()
   endif()
 
-  if(enableIpo)
+  if(enable_ipo)
     message(STATUS "Interprocedural optimization (IPO/LTO) enabled")
     set(CMAKE_INTERPROCEDURAL_OPTIMIZATION TRUE)
   else()

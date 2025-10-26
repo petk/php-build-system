@@ -226,18 +226,20 @@ if(PHP_EXT_OPCACHE_JIT)
     RELATIVE_PATH
     CMAKE_CURRENT_BINARY_DIR
     BASE_DIRECTORY ${CMAKE_BINARY_DIR}
-    OUTPUT_VARIABLE relativeDir
+    OUTPUT_VARIABLE relative_dir
   )
 
   # Generate Jit for architecture.
   add_custom_command(
     OUTPUT jit/zend_jit_${dasm_arch}.c
     COMMAND
-      php_ext_opcache_jit_minilua ${CMAKE_CURRENT_SOURCE_DIR}/jit/dynasm/dynasm.lua
+      php_ext_opcache_jit_minilua
+        ${CMAKE_CURRENT_SOURCE_DIR}/jit/dynasm/dynasm.lua
         ${dasm_flags}
         -o ${CMAKE_CURRENT_BINARY_DIR}/jit/zend_jit_${dasm_arch}.c
         ${CMAKE_CURRENT_SOURCE_DIR}/jit/zend_jit_${dasm_arch}.dasc
-    COMMENT "[ext/opcache] Generating ${relativeDir}/jit/zend_jit_${dasm_arch}.c"
+    COMMENT
+      "[ext/opcache] Generating ${relative_dir}/jit/zend_jit_${dasm_arch}.c"
     DEPENDS
       jit/dynasm/dynasm.lua
       jit/zend_jit_${dasm_arch}.dasc

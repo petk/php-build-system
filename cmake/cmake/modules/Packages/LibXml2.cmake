@@ -62,11 +62,15 @@ if(NOT LibXml2_FOUND)
 
   # Move dependency to PACKAGES_FOUND.
   block()
-    get_property(packagesNotFound GLOBAL PROPERTY PACKAGES_NOT_FOUND)
-    list(REMOVE_ITEM packagesNotFound LibXml2)
-    set_property(GLOBAL PROPERTY PACKAGES_NOT_FOUND ${packagesNotFound})
-    get_property(packagesFound GLOBAL PROPERTY PACKAGES_FOUND)
-    set_property(GLOBAL APPEND PROPERTY PACKAGES_FOUND LibXml2)
+    set(package "LibXml2")
+    get_property(packages_not_found GLOBAL PROPERTY PACKAGES_NOT_FOUND)
+    list(REMOVE_ITEM packages_not_found ${package})
+    set_property(GLOBAL PROPERTY PACKAGES_NOT_FOUND ${packages_not_found})
+    get_property(packages_found GLOBAL PROPERTY PACKAGES_FOUND)
+    list(FIND packages_found ${package} found)
+    if(found EQUAL -1)
+      set_property(GLOBAL APPEND PROPERTY PACKAGES_FOUND ${package})
+    endif()
   endblock()
 
   # Mark package as found.
