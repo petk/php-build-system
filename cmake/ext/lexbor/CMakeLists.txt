@@ -24,7 +24,7 @@ add_feature_info(
 add_library(php_ext_lexbor OBJECT)
 
 file(
-  GLOB_RECURSE lexborHeaders
+  GLOB_RECURSE lexbor_headers
   RELATIVE ${CMAKE_CURRENT_SOURCE_DIR}
   ${CMAKE_CURRENT_SOURCE_DIR}/lexbor/*.h
 )
@@ -212,7 +212,7 @@ target_sources(
     FILE_SET HEADERS
       FILES
         php_lexbor.h
-        ${lexborHeaders}
+        ${lexbor_headers}
 )
 
 target_compile_definitions(

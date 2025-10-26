@@ -34,10 +34,10 @@ if(NOT PHP_VERBOSE_LINK)
 endif()
 
 block()
-  get_property(enabledLanguages GLOBAL PROPERTY ENABLED_LANGUAGES)
+  get_property(languages GLOBAL PROPERTY ENABLED_LANGUAGES)
 
   foreach(lang IN ITEMS C CXX)
-    if(NOT lang IN_LIST enabledLanguages)
+    if(NOT lang IN_LIST languages)
       continue()
     endif()
 

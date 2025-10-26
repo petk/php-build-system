@@ -83,7 +83,10 @@ function(php_check_compiler_flag lang flags result)
   endif()
 
   if(NOT CMAKE_REQUIRED_QUIET)
-    message(CHECK_START "Checking whether the ${lang} compiler accepts ${flags}")
+    message(
+      CHECK_START
+      "Checking whether the ${lang} compiler accepts ${flags}"
+    )
   endif()
 
   cmake_push_check_state()
@@ -91,7 +94,7 @@ function(php_check_compiler_flag lang flags result)
 
     # Bypass the '-Wno-*' compile options for all compilers except those known
     # to emit diagnostic messages for unknown -Wno-* flags.
-    set(processedFlags "")
+    set(processed_flags "")
     foreach(flag IN LISTS flags)
       if(
         NOT CMAKE_${lang}_COMPILER_ID MATCHES "^(AppleClang|Clang|MSVC)$"
@@ -102,9 +105,9 @@ function(php_check_compiler_flag lang flags result)
         string(REGEX REPLACE "^-Wno-" "-W" flag "${flag}")
       endif()
 
-      list(APPEND processedFlags "${flag}")
+      list(APPEND processed_flags "${flag}")
     endforeach()
-    set(flags ${processedFlags})
+    set(flags ${processed_flags})
 
     # Append -Wunknown-warning-option option if compiler supports it (Clang or
     # similar) and was by any chance configured with -Wno-unknown-warning-option

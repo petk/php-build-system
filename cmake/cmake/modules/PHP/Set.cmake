@@ -240,19 +240,19 @@ function(php_set)
     endforeach()
   endif()
 
-  set(varName "${ARGV0}")
-  set(bufferVarName ___PHP_SET_${varName})
-  set(bufferDoc "Internal storage for ${varName} variable")
+  set(var_name "${ARGV0}")
+  set(buffer_var_name ___PHP_SET_${var_name})
+  set(buffer_doc "Internal storage for ${var_name} variable")
 
-  if(NOT DEFINED ${bufferVarName} AND DEFINED ${varName})
+  if(NOT DEFINED ${buffer_var_name} AND DEFINED ${var_name})
     # Initial configuration phase with variable set externally.
     set(
-      CACHE{${bufferVarName}}
+      CACHE{${buffer_var_name}}
       TYPE INTERNAL
-      HELP "${bufferDoc}"
-      VALUE "${${varName}}"
+      HELP "${buffer_doc}"
+      VALUE "${${var_name}}"
     )
-  elseif(NOT DEFINED ${bufferVarName})
+  elseif(NOT DEFINED ${buffer_var_name})
     # Initial configuration phase without variable set externally.
 
     # When using CHOICES and VALUE is not set, set the variable value to the
@@ -267,73 +267,73 @@ function(php_set)
       unset(value)
     endif()
     set(
-      CACHE{${bufferVarName}}
+      CACHE{${buffer_var_name}}
       TYPE INTERNAL
-      HELP "${bufferDoc}"
+      HELP "${buffer_doc}"
       VALUE "${parsed_VALUE}"
     )
   elseif(
-    DEFINED ${bufferVarName}
-    AND ${bufferVarName}_OVERRIDDEN
-    AND NOT ${varName} STREQUAL "${parsed_ELSE_VALUE}"
+    DEFINED ${buffer_var_name}
+    AND ${buffer_var_name}_OVERRIDDEN
+    AND NOT ${var_name} STREQUAL "${parsed_ELSE_VALUE}"
   )
     # Consecutive configuration phase that changes the variable after being
     # re-enabled.
     set(
-      CACHE{${bufferVarName}}
+      CACHE{${buffer_var_name}}
       TYPE INTERNAL
-      HELP "${bufferDoc}"
-      VALUE "${${varName}}"
+      HELP "${buffer_doc}"
+      VALUE "${${var_name}}"
     )
-  elseif(DEFINED ${bufferVarName} AND NOT ${bufferVarName}_OVERRIDDEN)
+  elseif(DEFINED ${buffer_var_name} AND NOT ${buffer_var_name}_OVERRIDDEN)
     # Consecutive configuration phase.
     set(
-      CACHE{${bufferVarName}}
+      CACHE{${buffer_var_name}}
       TYPE INTERNAL
-      HELP "${bufferDoc}"
-      VALUE "${${varName}}"
+      HELP "${buffer_doc}"
+      VALUE "${${var_name}}"
     )
   endif()
 
   if(condition)
     set(
-      CACHE{${varName}}
+      CACHE{${var_name}}
       TYPE ${parsed_TYPE}
       HELP "${doc}"
       FORCE
-      VALUE "${${bufferVarName}}"
+      VALUE "${${buffer_var_name}}"
     )
 
     if(parsed_TYPE STREQUAL "STRING" AND parsed_CHOICES)
-      set_property(CACHE ${varName} PROPERTY STRINGS "${parsed_CHOICES}")
+      set_property(CACHE ${var_name} PROPERTY STRINGS "${parsed_CHOICES}")
       if(NOT parsed_CHOICES_CASE_SENSITIVE)
-        _php_set_adjust_case_sensitivity_value(${varName})
+        _php_set_adjust_case_sensitivity_value(${var_name})
       endif()
       if(NOT parsed_CHOICES_OPTIONAL)
-        _php_set_validate_choices(${varName} ${parsed_CHOICES_CASE_SENSITIVE})
+        _php_set_validate_choices(${var_name} ${parsed_CHOICES_CASE_SENSITIVE})
       endif()
     endif()
 
-    unset(CACHE{${bufferVarName}})
-    unset(CACHE{${bufferVarName}_OVERRIDDEN})
+    unset(CACHE{${buffer_var_name}})
+    unset(CACHE{${buffer_var_name}_OVERRIDDEN})
   else()
-    _php_set_validate_input(${varName})
+    _php_set_validate_input(${var_name})
 
     if(DEFINED parsed_ELSE_VALUE)
       set(
-        CACHE{${varName}}
+        CACHE{${var_name}}
         TYPE INTERNAL
         HELP "${doc}"
         FORCE
         VALUE "${parsed_ELSE_VALUE}"
       )
     else()
-      unset(CACHE{${varName}})
+      unset(CACHE{${var_name}})
     endif()
     set(
-      CACHE{${bufferVarName}_OVERRIDDEN}
+      CACHE{${buffer_var_name}_OVERRIDDEN}
       TYPE INTERNAL
-      HELP "Internal marker that ${varName} is overridden."
+      HELP "Internal marker that ${var_name} is overridden."
       VALUE TRUE
     )
   endif()
@@ -362,13 +362,13 @@ function(_php_set_validate_arguments arguments)
     message(FATAL_ERROR "CHOICES argument can be only used with TYPE STRING.")
   endif()
 
-  list(FIND arguments ELSE_VALUE elseValueIndex)
-  if(NOT DEFINED parsed_IF AND NOT elseValueIndex EQUAL -1)
+  list(FIND arguments ELSE_VALUE else_value_index)
+  if(NOT DEFINED parsed_IF AND NOT else_value_index EQUAL -1)
     message(FATAL_ERROR "Redundant ELSE_VALUE argument without IF condition.")
   elseif(
     DEFINED parsed_IF
     AND NOT DEFINED parsed_ELSE_VALUE
-    AND NOT elseValueIndex EQUAL -1
+    AND NOT else_value_index EQUAL -1
   )
     message(FATAL_ERROR "Missing ELSE_VALUE argument.")
   endif()
@@ -382,8 +382,8 @@ endfunction()
 # externally and the condition is not met. This is for diagnostic purpose for
 # user to be aware that some configuration value was not taken into account.
 function(_php_set_validate_input var)
-  get_property(helpString CACHE ${var} PROPERTY HELPSTRING)
-  if(NOT helpString STREQUAL "No help, variable specified on the command line.")
+  get_property(help CACHE ${var} PROPERTY HELPSTRING)
+  if(NOT help STREQUAL "No help, variable specified on the command line.")
     return()
   endif()
 
@@ -415,15 +415,15 @@ function(_php_set_adjust_case_sensitivity_value var)
   get_property(value CACHE ${var} PROPERTY VALUE)
   get_property(choices CACHE ${var} PROPERTY STRINGS)
 
-  string(TOLOWER "${value}" valueLower)
-  list(TRANSFORM choices TOLOWER OUTPUT_VARIABLE choicesLower)
+  string(TOLOWER "${value}" value_lower)
+  list(TRANSFORM choices TOLOWER OUTPUT_VARIABLE choices_lower)
 
   set(index 0)
-  foreach(item IN LISTS choicesLower)
-    if(valueLower STREQUAL "${item}")
-      list(GET choices ${index} itemOriginal)
-      if(NOT value STREQUAL "${itemOriginal}")
-        set_property(CACHE ${var} PROPERTY VALUE ${itemOriginal})
+  foreach(item IN LISTS choices_lower)
+    if(value_lower STREQUAL "${item}")
+      list(GET choices ${index} item_original)
+      if(NOT value STREQUAL "${item_original}")
+        set_property(CACHE ${var} PROPERTY VALUE ${item_original})
         break()
       endif()
     endif()
@@ -432,11 +432,11 @@ function(_php_set_adjust_case_sensitivity_value var)
 endfunction()
 
 # Validate variable value to match with one of the items from the CHOICES list.
-function(_php_set_validate_choices var caseSensitive)
+function(_php_set_validate_choices var is_case_sensitive)
   get_property(value CACHE ${var} PROPERTY VALUE)
   get_property(choices CACHE ${var} PROPERTY STRINGS)
 
-  if(NOT caseSensitive)
+  if(NOT is_case_sensitive)
     string(TOLOWER "${value}" value)
     list(TRANSFORM choices TOLOWER)
   endif()

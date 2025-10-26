@@ -80,9 +80,9 @@ if(NOT PHP_HAS_ALIGNMENT_FLAGS_C)
   _php_check_segments_alignment(C "${flags}" PHP_HAS_MAX_PAGE_SIZE_C)
 endif()
 
-get_property(enabledLanguages GLOBAL PROPERTY ENABLED_LANGUAGES)
+get_property(languages GLOBAL PROPERTY ENABLED_LANGUAGES)
 
-if(CXX IN_LIST enabledLanguages)
+if(CXX IN_LIST languages)
   set(flags LINKER:-z,common-page-size=2097152 LINKER:-z,max-page-size=2097152)
   _php_check_segments_alignment(CXX "${flags}" PHP_HAS_ALIGNMENT_FLAGS_CXX)
 

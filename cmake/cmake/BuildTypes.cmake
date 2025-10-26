@@ -5,42 +5,43 @@ Configure CMake build types.
 include_guard(GLOBAL)
 
 block()
-  get_property(isMultiConfig GLOBAL PROPERTY GENERATOR_IS_MULTI_CONFIG)
+  get_property(is_multi_config GLOBAL PROPERTY GENERATOR_IS_MULTI_CONFIG)
 
   # Set default build type for single-config generators.
-  if(NOT isMultiConfig AND NOT CMAKE_BUILD_TYPE)
+  if(NOT is_multi_config AND NOT CMAKE_BUILD_TYPE)
     set_property(CACHE CMAKE_BUILD_TYPE PROPERTY VALUE "Debug")
   endif()
 
   if(PROJECT_IS_TOP_LEVEL)
-    if(isMultiConfig)
+    if(is_multi_config)
       if(NOT "DebugAssertions" IN_LIST CMAKE_CONFIGURATION_TYPES)
         list(APPEND CMAKE_CONFIGURATION_TYPES DebugAssertions)
       endif()
     else()
       set(
-        allowedBuildTypes
-          Debug           # Not optimized, debug info, assertions.
-          DebugAssertions # Custom PHP debug build type based on RelWithDebInfo:
-                          # optimized, debug info, assertions.
-          MinSizeRel      # Same as Release but optimized for size rather than
-                          # speed.
-          Release         # Optimized, no debug info, no assertions.
-          RelWithDebInfo  # Optimized, debug info, no assertions.
+        allowed_build_types
+        Debug           # Not optimized, debug info, assertions.
+        DebugAssertions # Custom PHP debug build type based on RelWithDebInfo:
+                        # optimized, debug info, assertions.
+        MinSizeRel      # Same as Release but optimized for size rather than
+                        # speed.
+        Release         # Optimized, no debug info, no assertions.
+        RelWithDebInfo  # Optimized, debug info, no assertions.
       )
 
       set_property(
         CACHE CMAKE_BUILD_TYPE
-        PROPERTY STRINGS "${allowedBuildTypes}"
+        PROPERTY STRINGS "${allowed_build_types}"
       )
 
       set_property(
         CACHE CMAKE_BUILD_TYPE
-        PROPERTY HELPSTRING
-        "Choose the type of build, options are: ${allowedBuildTypes}"
+        PROPERTY
+          HELPSTRING
+            "Choose the type of build, options are: ${allowed_build_types}"
       )
 
-      if(NOT CMAKE_BUILD_TYPE IN_LIST allowedBuildTypes)
+      if(NOT CMAKE_BUILD_TYPE IN_LIST allowed_build_types)
         message(FATAL_ERROR "Unknown build type: ${CMAKE_BUILD_TYPE}")
       endif()
     endif()
@@ -63,6 +64,5 @@ endforeach()
 
 target_compile_definitions(
   php_config
-  INTERFACE
-    $<IF:$<CONFIG:Debug,DebugAssertions>,ZEND_DEBUG=1,ZEND_DEBUG=0>
+  INTERFACE $<IF:$<CONFIG:Debug,DebugAssertions>,ZEND_DEBUG=1,ZEND_DEBUG=0>
 )
