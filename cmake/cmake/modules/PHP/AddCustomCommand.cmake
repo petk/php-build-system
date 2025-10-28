@@ -106,11 +106,11 @@ function(php_add_custom_command)
     return()
   endif()
 
-  set(target_name ${ARGV0})
-
   add_custom_target(
-    ${target_name} ALL
-    COMMAND ${CMAKE_COMMAND}
+    ${ARGV0}
+    ALL
+    COMMAND
+      ${CMAKE_COMMAND}
       -D "PHP_EXECUTABLE=${PHP_EXECUTABLE}"
       -D "OUTPUT=${parsed_OUTPUT}"
       -D "PHP_COMMAND=${parsed_PHP_COMMAND}"
