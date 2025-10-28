@@ -48,7 +48,6 @@ the `EDITLINE_ROOT` variable.
 include(CheckSymbolExists)
 include(CMakeDependentOption)
 include(FeatureSummary)
-include(PHP/Install)
 
 ################################################################################
 # Configuration options.
@@ -273,13 +272,8 @@ install(
 )
 
 # Create log and run directories on installation.
-php_install(CODE "
-  file(
-    MAKE_DIRECTORY
-    \"\$ENV{DESTDIR}\${CMAKE_INSTALL_FULL_LOCALSTATEDIR}/log\"
-    \"\$ENV{DESTDIR}\${CMAKE_INSTALL_FULL_RUNSTATEDIR}\"
-  )
-")
+install(DIRECTORY DESTINATION ${CMAKE_INSTALL_LOCALSTATEDIR}/log)
+install(DIRECTORY DESTINATION ${CMAKE_INSTALL_RUNSTATEDIR})
 
 # Configure pkg-config phpdbg.pc metadata file and install shared phpdbg module.
 if(TARGET php_sapi_phpdbg_shared)
