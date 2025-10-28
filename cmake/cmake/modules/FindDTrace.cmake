@@ -207,7 +207,8 @@ function(dtrace_target)
     OUTPUT CMakeFiles/GenerateDTraceHeader.cmake
     CONTENT [[
       execute_process(
-        COMMAND "@DTrace_EXECUTABLE@"
+        COMMAND
+          "@DTrace_EXECUTABLE@"
           -s "@parsed_INPUT@"  # Input file.
           -h                   # Generate a SystemTap header file.
           -C                   # Run the C preprocessor (cpp) on the input file.
