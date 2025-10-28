@@ -127,7 +127,8 @@ macro(gcov_generate_report)
     CONTENT "
       message(STATUS \"Generating lcov data for php_lcov.info\")
       execute_process(
-        COMMAND ${Gcov_LCOV_EXECUTABLE}
+        COMMAND
+          ${Gcov_LCOV_EXECUTABLE}
           --capture
           --no-external
           --directory ${PROJECT_BINARY_DIR}
@@ -136,7 +137,8 @@ macro(gcov_generate_report)
 
       message(STATUS \"Stripping bundled libraries from php_lcov.info\")
       execute_process(
-        COMMAND ${Gcov_LCOV_EXECUTABLE}
+        COMMAND
+          ${Gcov_LCOV_EXECUTABLE}
           --output-file ${PROJECT_BINARY_DIR}/php_lcov.info
           --remove ${PROJECT_BINARY_DIR}/php_lcov.info */<stdout>
             ${PROJECT_BINARY_DIR}/ext/bcmath/libbcmath/*
@@ -152,7 +154,8 @@ macro(gcov_generate_report)
 
       message(STATUS \"Generating lcov HTML\")
       execute_process(
-        COMMAND ${Gcov_GENHTML_EXECUTABLE}
+        COMMAND
+          ${Gcov_GENHTML_EXECUTABLE}
           --legend
           --output-directory ${PROJECT_BINARY_DIR}/lcov_html
           --title \"PHP Code Coverage\"
@@ -169,7 +172,8 @@ macro(gcov_generate_report)
       endif()
       file(MAKE_DIRECTORY ${PROJECT_BINARY_DIR}/gcovr_html)
       execute_process(
-        COMMAND ${Gcov_GCOVR_EXECUTABLE}
+        COMMAND
+          ${Gcov_GCOVR_EXECUTABLE}
           -sr ${PROJECT_BINARY_DIR}
           -o ${PROJECT_BINARY_DIR}/gcovr_html/index.html
           --html
@@ -192,7 +196,8 @@ macro(gcov_generate_report)
         file(REMOVE ${PROJECT_BINARY_DIR}/gcovr.xml)
       endif()
       execute_process(
-        COMMAND ${Gcov_GCOVR_EXECUTABLE}
+        COMMAND
+          ${Gcov_GCOVR_EXECUTABLE}
           -sr ${PROJECT_BINARY_DIR}
           -o ${PROJECT_BINARY_DIR}/gcovr.xml
           --xml

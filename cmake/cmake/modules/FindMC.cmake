@@ -227,7 +227,8 @@ function(mc_target)
 
   add_custom_command(
     OUTPUT "${output}"
-    COMMAND ${MC_EXECUTABLE}
+    COMMAND
+      ${MC_EXECUTABLE}
       # Header export directory:
       -h "${parsed_HEADER_DIR}"
       # Export directory for rc files:
