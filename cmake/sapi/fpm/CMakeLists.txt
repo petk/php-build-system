@@ -91,7 +91,6 @@ include(CheckIncludeFiles)
 include(CheckSymbolExists)
 include(CMakePushCheckState)
 include(FeatureSummary)
-include(PHP/Install)
 include(PHP/SearchLibraries)
 include(PHP/Set)
 
@@ -570,41 +569,37 @@ endblock()
 
 install(TARGETS php_sapi_fpm RUNTIME DESTINATION ${CMAKE_INSTALL_SBINDIR})
 
-php_install(CODE "
-  # Create log and run directories on installation.
-  file(
-    MAKE_DIRECTORY
-    \"\$ENV{DESTDIR}\${CMAKE_INSTALL_FULL_LOCALSTATEDIR}/log\"
-    \"\$ENV{DESTDIR}\${CMAKE_INSTALL_FULL_RUNSTATEDIR}\"
-  )
+# Create log and run directories on installation.
+install(DIRECTORY DESTINATION ${CMAKE_INSTALL_LOCALSTATEDIR}/log)
+install(DIRECTORY DESTINATION ${CMAKE_INSTALL_RUNSTATEDIR})
 
-  if(EXISTS \"\$ENV{DESTDIR}\${CMAKE_INSTALL_FULL_SYSCONFDIR}/php-fpm.conf\")
+install(CODE "
+  if(NOT IS_ABSOLUTE \"${CMAKE_INSTALL_SYSCONFDIR}\")
+    set(sysconf_dir \"\$ENV{DESTDIR}\${CMAKE_INSTALL_PREFIX}/${CMAKE_INSTALL_SYSCONFDIR}\")
+  else()
+    set(sysconf_dir \"\$ENV{DESTDIR}${CMAKE_INSTALL_SYSCONFDIR}\")
+  endif()
+
+  if(EXISTS \"\${sysconf_dir}/php-fpm.conf\")
     message(
       STATUS
       \"Skipping PHP FPM defconfig installation. Files already exist.\"
     )
   else()
-    message(
-      STATUS
-      \"Installing PHP FPM defconfig to \"
-      \"\$ENV{DESTDIR}\${CMAKE_INSTALL_FULL_SYSCONFDIR}\"
-    )
+    message(STATUS \"Installing PHP FPM defconfig to \${sysconf_dir}\")
 
-    file(
-      MAKE_DIRECTORY
-      \"\$ENV{DESTDIR}\${CMAKE_INSTALL_FULL_SYSCONFDIR}/php-fpm.d\"
-    )
+    file(MAKE_DIRECTORY \"\${sysconf_dir}/php-fpm.d\")
 
     file(
       COPY_FILE
       \"${CMAKE_CURRENT_BINARY_DIR}/php-fpm.conf\"
-      \"\$ENV{DESTDIR}\${CMAKE_INSTALL_FULL_SYSCONFDIR}/php-fpm.conf.default\"
+      \"\${sysconf_dir}/php-fpm.conf.default\"
     )
 
     file(
       COPY_FILE
       \"${CMAKE_CURRENT_BINARY_DIR}/www.conf\"
-      \"\$ENV{DESTDIR}\${CMAKE_INSTALL_FULL_SYSCONFDIR}/php-fpm.d/www.conf.default\"
+      \"\${sysconf_dir}/php-fpm.d/www.conf.default\"
     )
   endif()
 ")
