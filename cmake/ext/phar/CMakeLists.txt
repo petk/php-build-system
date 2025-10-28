@@ -243,31 +243,31 @@ set_property(SOURCE php_ext_phar_generated_phar PROPERTY SYMBOLIC TRUE)
 # Install phar.phar file to destination. Here a duplicate phar.phar generation
 # step is used to generate it to a destination directory because of the install
 # prefix used in shebang (when using 'cmake --install --prefix ...').
-install(CODE "
+string(CONFIGURE [[
   execute_process(
     COMMAND
-      ${PHP_EXECUTABLE}
+      "@PHP_EXECUTABLE@"
         -n
-        ${phar_shared_options}
+        @phar_shared_options@
         -d open_basedir=
         -d output_buffering=0
         -d memory_limit=-1
         -d phar.readonly=0
-        ${CMAKE_CURRENT_BINARY_DIR}/phar.php
+        "@CMAKE_CURRENT_BINARY_DIR@/phar.php"
           pack
-          -f ${CMAKE_CURRENT_BINARY_DIR}/CMakeFiles/phar.phar
+          -f "@CMAKE_CURRENT_BINARY_DIR@/CMakeFiles/phar.phar"
           -a pharcommand
           -c auto
           -p 0
-          -s ${CMAKE_CURRENT_SOURCE_DIR}/phar/phar.php
+          -s "@CMAKE_CURRENT_SOURCE_DIR@/phar/phar.php"
           -h sha1
-          -b $<PATH:ABSOLUTE_PATH,NORMALIZE,${CMAKE_INSTALL_BINDIR},\${CMAKE_INSTALL_PREFIX}>/$<TARGET_FILE_NAME:PHP::sapi::cli>
-          ${CMAKE_CURRENT_SOURCE_DIR}/phar
+          -b "$<PATH:ABSOLUTE_PATH,NORMALIZE,@CMAKE_INSTALL_BINDIR@,${CMAKE_INSTALL_PREFIX}>/$<TARGET_FILE_NAME:PHP::sapi::cli>"
+          "@CMAKE_CURRENT_SOURCE_DIR@/phar"
   )
 
   file(
     CHMOD
-    ${CMAKE_CURRENT_BINARY_DIR}/CMakeFiles/phar.phar
+    "@CMAKE_CURRENT_BINARY_DIR@/CMakeFiles/phar.phar"
     FILE_PERMISSIONS
       OWNER_READ
       OWNER_WRITE
@@ -280,14 +280,15 @@ install(CODE "
 
   file(
     COPY_FILE
-    ${CMAKE_CURRENT_BINARY_DIR}/CMakeFiles/phar.phar
-    \$ENV{DESTDIR}$<PATH:ABSOLUTE_PATH,NORMALIZE,${CMAKE_INSTALL_BINDIR},\${CMAKE_INSTALL_PREFIX}>/${PHP_PROGRAM_PREFIX}phar${PHP_PROGRAM_SUFFIX}.phar
+    "@CMAKE_CURRENT_BINARY_DIR@/CMakeFiles/phar.phar"
+    $ENV{DESTDIR}$<PATH:ABSOLUTE_PATH,NORMALIZE,@CMAKE_INSTALL_BINDIR@,${CMAKE_INSTALL_PREFIX}>/@PHP_PROGRAM_PREFIX@phar@PHP_PROGRAM_SUFFIX@.phar
   )
 
   file(
     CREATE_LINK
-    ${PHP_PROGRAM_PREFIX}phar${PHP_PROGRAM_SUFFIX}.phar
-    \$ENV{DESTDIR}$<PATH:ABSOLUTE_PATH,NORMALIZE,${CMAKE_INSTALL_BINDIR},\${CMAKE_INSTALL_PREFIX}>/${PHP_PROGRAM_PREFIX}phar${PHP_PROGRAM_SUFFIX}
+    @PHP_PROGRAM_PREFIX@phar@PHP_PROGRAM_SUFFIX@.phar
+    $ENV{DESTDIR}$<PATH:ABSOLUTE_PATH,NORMALIZE,@CMAKE_INSTALL_BINDIR@,${CMAKE_INSTALL_PREFIX}>/@PHP_PROGRAM_PREFIX@phar@PHP_PROGRAM_SUFFIX@
     SYMBOLIC
   )
-")
+]] code @ONLY)
+install(CODE "${code}")
