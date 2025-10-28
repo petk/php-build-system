@@ -22,9 +22,9 @@ with the `APACHE_ROOT` and `Apache_APXS_EXECUTABLE` variables.
 For example:
 
 ```cmake
-cmake -B php-build -DAPACHE2HANDLER=ON -DAPACHE_ROOT=/opt/apache2
+cmake -B php-build -DPHP_SAPI_APACHE2HANDLER=ON -DAPACHE_ROOT=/opt/apache2
 # or
-cmake -B php-build -DAPACHE2HANDLER=ON -DApache_EXECUTABLE=/opt/apache2/bin/apxs
+cmake -B php-build -DPHP_SAPI_APACHE2HANDLER=ON -DApache_EXECUTABLE=/opt/apache2/bin/apxs
 ```
 #]=============================================================================]
 

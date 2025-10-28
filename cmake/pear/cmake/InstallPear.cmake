@@ -71,7 +71,8 @@ if(NOT EXISTS ${php_pear_current_binary_dir}/install-pear-nozlib.phar)
   if(php_pear_php_executable AND NOT download_status)
     # Download using fetch.php.
     execute_process(
-      COMMAND ${php_pear_php_executable}
+      COMMAND
+        ${php_pear_php_executable}
         -n
         ${php_pear_current_source_dir}/fetch.php
         ${php_pear_installer_url}
@@ -156,24 +157,25 @@ endif()
 
 # Run the PEAR installer.
 execute_process(
-  COMMAND ${php_pear_php_executable}
-  -n
-  -dshort_open_tag=0
-  -dopen_basedir=
-  -derror_reporting=1803
-  -dmemory_limit=-1
-  ${php_pear_options}
-  ${php_pear_current_binary_dir}/install-pear-nozlib.phar
-    --dir "${php_pear_install_dir}"
-    --bin "${php_pear_install_bin_dir}"
-    --metadata "${php_pear_install_dir}"
-    --data "${php_pear_install_dir}"
-    --temp "${php_pear_stage_temp_dir}"
-    --cache "${php_pear_temp_dir}/cache"
-    --download "${php_pear_temp_dir}/download"
-    --php ${php_pear_installed_php_bin}
-    -dp a${php_pear_php_program_prefix}
-    -ds a${php_pear_php_program_suffix}
+  COMMAND
+    ${php_pear_php_executable}
+    -n
+    -dshort_open_tag=0
+    -dopen_basedir=
+    -derror_reporting=1803
+    -dmemory_limit=-1
+    ${php_pear_options}
+    ${php_pear_current_binary_dir}/install-pear-nozlib.phar
+      --dir "${php_pear_install_dir}"
+      --bin "${php_pear_install_bin_dir}"
+      --metadata "${php_pear_install_dir}"
+      --data "${php_pear_install_dir}"
+      --temp "${php_pear_stage_temp_dir}"
+      --cache "${php_pear_temp_dir}/cache"
+      --download "${php_pear_temp_dir}/download"
+      --php ${php_pear_installed_php_bin}
+      -dp a${php_pear_php_program_prefix}
+      -ds a${php_pear_php_program_suffix}
   OUTPUT_VARIABLE output
   ERROR_VARIABLE output
   RESULT_VARIABLE result
