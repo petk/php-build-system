@@ -268,17 +268,18 @@ ctest --progress -V --test-dir php-build
 # Finally, copy built files to their system locations:
 DESTDIR=/stage cmake --install php-build
 
-# Or
+# Or by using the --install-prefix configuration-phase option:
 cmake --install-prefix /usr -B php-build
 cmake --build php-build -j
 ctest --progress -V --test-dir php-build
 DESTDIR=/stage cmake --install php-build
 
-# Or
+# Alternatively, the --prefix installation-phase option can be used in certain
+# packaging and installation workflows:
 cmake -B php-build
 cmake --build php-build -j
 ctest --progress -V --test-dir php-build
-DESTDIR=/stage cmake --install php-build --prefix /usr
+DESTDIR=/stage cmake --install php-build --prefix /custom-location
 ```
 
 > [!NOTE]

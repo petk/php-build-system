@@ -3677,7 +3677,7 @@ A list of Autoconf `configure` command-line configuration options, Windows
     <tr>
       <td>--prefix=PREFIX</td>
       <td>--with-prefix=PREFIX</td>
-      <td>CMAKE_INSTALL_PREFIX</td>
+      <td>CMAKE_INSTALL_PREFIX=PREFIX</td>
       <td></td>
     </tr>
     <tr>
