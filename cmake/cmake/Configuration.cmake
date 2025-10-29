@@ -110,10 +110,9 @@ if(NOT CMAKE_SYSTEM_NAME STREQUAL "Windows")
   )
   mark_as_advanced(PHP_CONFIG_FILE_PATH)
   if(NOT PHP_CONFIG_FILE_PATH)
-    # TODO: Fix this for the 'cmake --install ... --prefix' case.
     set_property(
       CACHE PHP_CONFIG_FILE_PATH
-      PROPERTY VALUE "${CMAKE_INSTALL_FULL_SYSCONFDIR}"
+      PROPERTY VALUE "${CMAKE_INSTALL_SYSCONFDIR}"
     )
   endif()
 endif()
