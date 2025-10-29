@@ -6,6 +6,7 @@ ignore-hidden = false
 ignore-dot = false
 extend-exclude = [
   ".git/",
+  "*.svg",
   "patches/",
 ]
 
@@ -24,6 +25,7 @@ extend-ignore-identifiers-re = [
 ]
 extend-ignore-words-re = [
   "deafults",
+  "flavour",
   "gost",
   "shs",
 ]
