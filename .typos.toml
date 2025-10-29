@@ -1,0 +1,27 @@
+# The typos-cli configuration.
+# https://github.com/crate-ci/typos
+
+[files]
+ignore-hidden = false
+ignore-dot = false
+extend-exclude = [
+  ".git/",
+  "patches/",
+]
+
+[default]
+binary = false
+check-filename = true
+check-file = true
+unicode=true
+locale = "en-us"
+extend-ignore-re = []
+extend-ignore-identifiers-re = [
+  "PDO_DBLIB_FLAVOUR",
+  "secur32",
+]
+extend-ignore-words-re = [
+  "deafults",
+  "gost",
+  "shs",
+]
