@@ -423,7 +423,7 @@ PHP installation directory structure when using CMake:
 > adjustments are done when install prefix is `/` or `/opt/...`. See
 > [GNUInstallDirs](https://cmake.org/cmake/help/latest/module/GNUInstallDirs.html#special-cases)
 > for more info. The [PHP/Install](/docs/cmake/modules/PHP/Install.md) bypasses
-> some of these adjustmens inside the `install()` command for convenience.
+> some of these adjustemens inside the `install()` command for convenience.
 
 Instead of setting the installation prefix at the configuration phase using
 `CMAKE_INSTALL_PREFIX` variable or `--install-prefix` option, there is

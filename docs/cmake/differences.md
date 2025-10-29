@@ -70,7 +70,7 @@ build system:
 * In CMake the install prefix can be also changed during the installation phase
   using the `cmake --install <build-dir> --prefix <install-prefix>`. In PHP
   native Autotools-based build system, installation prefix can be only set at
-  the configure phase using the `./configure --prefix=<installl-prefix>`, which
+  the configure phase using the `./configure --prefix=<install-prefix>`, which
   is a regression for the `main/build-defs.h` and `main/php_config.h` files,
   where the installation prefix in PHP is hardcoded during the build phase and
   cannot be changed during the installation phase. For the generated files

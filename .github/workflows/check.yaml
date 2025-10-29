@@ -30,6 +30,7 @@ jobs:
       - name: Install checking tools
         run: |
           pipx install codespell
+          cargo install typos-cli --locked
           curl -OL https://github.com/petk/normalizator/releases/latest/download/normalizator.phar
           chmod +x normalizator.phar
           mv normalizator.phar /usr/local/bin/normalizator
@@ -40,6 +41,10 @@ jobs:
       - name: Run Codespell
         if: ${{ always() }}
         run: codespell
+
+      - name: Run typos
+        if: ${{ always() }}
+        run: typos
 
       - name: Run normalizator.phar
         if: ${{ always() }}
