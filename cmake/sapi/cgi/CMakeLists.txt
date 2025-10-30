@@ -53,7 +53,6 @@ set_target_properties(
   php_sapi_cgi
   PROPERTIES
     OUTPUT_NAME ${PHP_PROGRAM_PREFIX}php-cgi${PHP_PROGRAM_SUFFIX}
-    ENABLE_EXPORTS TRUE # TODO: Check if there's a better solution.
     PHP_CLI TRUE
     PHP_SAPI_FASTCGI TRUE
 )

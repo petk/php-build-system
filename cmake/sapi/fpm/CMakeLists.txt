@@ -239,7 +239,6 @@ set_target_properties(
   php_sapi_fpm
   PROPERTIES
     OUTPUT_NAME ${PHP_PROGRAM_PREFIX}php-fpm${PHP_PROGRAM_SUFFIX}
-    ENABLE_EXPORTS TRUE # TODO: Check if there's a better solution.
     PHP_SAPI_FASTCGI TRUE
 )
 
