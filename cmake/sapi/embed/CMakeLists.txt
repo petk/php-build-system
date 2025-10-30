@@ -76,7 +76,6 @@ foreach(target IN ITEMS php_sapi_embed php_sapi_embed_shared)
   set_target_properties(
     ${target}
     PROPERTIES
-      ENABLE_EXPORTS TRUE # TODO: Check if there's a better solution.
       PHP_CLI TRUE
   )
 endforeach()

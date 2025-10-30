@@ -22,6 +22,10 @@ define_property(
 
 list(APPEND CMAKE_MESSAGE_CONTEXT "sapi")
 
+# Enable symbols exporting for executable and shared SAPIs.
+set(CMAKE_EXECUTABLE_ENABLE_EXPORTS TRUE)
+set(CMAKE_SHARED_LIBRARY_ENABLE_EXPORTS TRUE)
+
 # Traverse CMakeLists.txt files of PHP SAPIs.
 file(GLOB sapis ${CMAKE_CURRENT_SOURCE_DIR}/*/CMakeLists.txt)
 list(TRANSFORM sapis REPLACE "${CMAKE_CURRENT_SOURCE_DIR}/|/CMakeLists.txt" "")
