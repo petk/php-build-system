@@ -287,9 +287,8 @@ DESTDIR=/stage cmake --install php-build --prefix /custom-location
 > environment variable behaves like the `INSTALL_ROOT` in PHP native
 > Autotools-based build system.
 
-* `CMAKE_INSTALL_PREFIX` - absolute path where to install the application;
-  \*nix default: `/usr/local`, Windows default:
-  `C:/Program Files/${PROJECT_NAME}`
+* The [`CMAKE_INSTALL_PREFIX`](https://cmake.org/cmake/help/latest/variable/CMAKE_INSTALL_PREFIX.html)
+  variable is absolute path where to install the application.
 
 To adjust the installation locations, the
 [GNUInstallDirs](https://cmake.org/cmake/help/latest/module/GNUInstallDirs.html)
@@ -414,16 +413,10 @@ PHP installation directory structure when using CMake:
 > for more info.
 
 > [!NOTE]
-> The CMake `GNUInstallDirs` module also adjusts GNU-related variables according
-> to various standards, so there are some special cases.
->
-> When the `CMAKE_INSTALL_PREFIX` is set to `/usr`, the `SYSCONFDIR`,
-> `LOCALSTATEDIR`, and `RUNSTATEDIR` become `/etc`, `/var`, and
-> `/var/run` instead of `/usr/etc`, and `/usr/var`, and `/usr/var/run`. Similar
-> adjustments are done when install prefix is `/` or `/opt/...`. See
-> [GNUInstallDirs](https://cmake.org/cmake/help/latest/module/GNUInstallDirs.html#special-cases)
-> for more info. The [PHP/Install](/docs/cmake/modules/PHP/Install.md) bypasses
-> some of these adjustemens inside the `install()` command for convenience.
+> The CMake [GNUInstallDirs](https://cmake.org/cmake/help/latest/module/GNUInstallDirs.html#special-cases)
+> module also adjusts some `CMAKE_INSTALL_*` variables in
+> [special cases](https://cmake.org/cmake/help/latest/module/GNUInstallDirs.html#special-cases)
+> according to GNU standards.
 
 Instead of setting the installation prefix at the configuration phase using
 `CMAKE_INSTALL_PREFIX` variable or `--install-prefix` option, there is
