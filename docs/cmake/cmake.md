@@ -509,11 +509,14 @@ engine source code:
 * `ext/date`
 * `ext/hash`
 * `ext/json`
+* `ext/lexbor`
+* `ext/opcache`
 * `ext/pcre`
 * `ext/random`
 * `ext/reflection`
 * `ext/spl`
 * `ext/standard`
+* `ext/uri`
 
 PHP extensions ecosystem also consists of the [PECL](https://pecl.php.net)
 extensions. These can be installed with a separate tool `pecl`:
@@ -548,7 +551,7 @@ When running PHP on the command line, the cli SAPI module is used:
 
 There are other SAPI modules located in the ecosystem:
 
-* [frankenphp](https://github.com/dunglas/frankenphp)
+* [frankenphp](https://github.com/php/frankenphp)
 * [ngx-php](https://github.com/rryqszq4/ngx-php)
 * ...
 
