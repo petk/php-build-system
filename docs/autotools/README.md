@@ -19,7 +19,8 @@ system.
   * [7.2. Functions](#72-functions)
 * [8. GNU Autoconf Archive](#8-gnu-autoconf-archive)
 * [9. Parser and lexer files](#9-parser-and-lexer-files)
-* [10. See more](#10-see-more)
+* [10. PHP installation](#10-php-installation)
+* [11. See more](#11-see-more)
 
 ## 1. Introduction
 
@@ -191,7 +192,7 @@ specific features during the build process.
 
 See `./configure --help` for all available configuration options and variables.
 Configure options for all PHP versions are listed also in the
-[Autotools directory](/docs/autotools/).
+[Autotools directory](/docs/autotools/configure-help/).
 
 Some common arguments can be passed to command-line options:
 
@@ -410,7 +411,196 @@ Autotools-based PHP build system files related to `bison` and `re2c`:
 └─📄 configure.ac           # Minimum Bison and re2c versions settings
 ```
 
-## 10. See more
+## 10. PHP installation
+
+> [!CAUTION]
+> **Before running the `make install` command, be aware that files will be
+> copied outside of the current build directory.**
+
+The default way to install PHP using Autotools across the system directories can
+be done like this:
+
+```sh
+# Build configure script:
+./buildconf
+
+# Configure PHP build:
+./configure --prefix=/usr
+
+# Build PHP in parallel:
+make -j$(nproc)
+
+# Run tests in parallel:
+make TEST_PHP_ARGS=-j$(nproc) test
+
+# Finally, copy built files to their system locations:
+make INSTALL_ROOT=/stage install
+```
+
+The optional `--prefix` configure option sets the location where the built files
+layout is put. Default prefix is `/usr/local`. The optional `INSTALL_ROOT`
+environment variable can set the parent location where the prefixed built files
+layout will be put. By default, it is empty and it is usually used to set the
+stage directory to perform additional tasks on the built files before being
+packaged or distributed.
+
+> [!NOTE]
+> The `INSTALL_ROOT` variable name is used in PHP from the early Autotools days.
+> GNU standards, CMake, and other build systems use a more common name
+> [`DESTDIR`](https://www.gnu.org/prep/standards/html_node/DESTDIR.html).
+
+The files are then copied to a predefined directory structure. PHP Autotools has
+another optional configure option `--with-layout=[GNU|PHP]` (GNU or PHP layout).
+It defines the installation directory structure. By default, it is set to a PHP
+style directory structure.
+
+Directory locations can be adjusted with several Autoconf default options. Here
+only those relevant to PHP are listed:
+
+* `--prefix=PREFIX` - install architecture-independent files in PREFIX;
+  Default: `/usr/local`
+* `--exec-prefix=EPREFIX` - install architecture-dependent files in EPREFIX;
+  Default: `<PREFIX>`
+* `--bindir=DIR` - set the user executables location;
+  Default: `EXPREFIX/bin`
+* `--sbindir=DIR` - set the system root executables location;
+  Default: `EPREFIX/sbin`
+* `--sysconfdir=DIR` - set the read-only single-machine data location;
+  Default: `PREFIX/etc`
+* `--localstatedir=DIR` - set the modifiable single-machine data location;
+  Default: `PREFIX/var`
+* `--runstatedir=DIR` - set the modifiable per-process data location;
+  Default: `LOCALSTATEDIR/run`; (Autoconf 2.70+)
+* `--libdir=DIR` - set the object code libraries location;
+  Default: `EPREFIX/lib`
+* `--includedir=DIR` - set the project C header files location;
+  Default: `PREFIX/include`
+* `--datarootdir=DIR` - set read-only architecture-independent data root;
+  Default: `PREFIX/share`
+* `--datadir=DIR` - set read-only architecture-independent data location;
+  Default: `DATAROOTDIR`
+* `--mandir=DIR` - set the man documentation location;
+  Default: `DATAROOTDIR/man`
+
+When packaging the PHP built files for certain system, additional environment
+variables can help customize the installation locations and PHP package
+information:
+
+* `EXTENSION_DIR` - absolute path that overrides path to extensions shared
+  objects (`.so`, `.dll`... files). By default, it is set to
+  `/usr/local/lib/php/extensions/no-debug-non-zts-20230901` or
+  `/usr/local/lib/php/20230901`, when using the `--with-layout=GNU`. To override
+  it in the context of the prefix, it can be also set like this:
+
+  ```sh
+  ./configure --prefix=/usr EXTENSION_DIR=\${prefix}/lib/php/extensions
+  ```
+
+Common practice is to also add program prefix and suffix (for example, to have
+`php84` and similar):
+
+* `--program-prefix=PREFIX` - prepends built binaries with given prefix.
+* `--program-suffix=SUFFIX` - appends suffix to binaries.
+
+```sh
+./configure \
+  PHP_BUILD_SYSTEM="Acme Linux" \
+  PHP_BUILD_PROVIDER="Acme" \
+  PHP_BUILD_COMPILER="GCC" \
+  PHP_BUILD_ARCH="x86_64" \
+  PHP_EXTRA_VERSION="-acme" \
+  EXTENSION_DIR=/path/to/php/extensions \
+  --with-layout=GNU \
+  --with-pear=\${datadir}/pear \
+  --localstatedir=/var \
+  --sysconfdir=/etc \
+  --program-suffix=84 \
+  # ...
+```
+
+See `./configure --help` for more information on how to adjust these locations.
+
+Default PHP Autotools directory structure with GNU layout (`--with-layout=GNU`):
+
+```sh
+📦 <INSTALL_ROOT>                # 📦                             # Stage directory
+└─📂 ${prefix}                   # └─📂 /usr/local                # Installation prefix
+  ├─📂 ${bindir}                 #   ├─📂 bin                     # Executable binary directory
+  └─📂 ${sysconfdir}             #   └─📂 etc                     # System configuration directory
+    ├─📂 php-fpm.d               #     ├─📂 php-fpm.d             # PHP FPM configuration directory
+    ├─📄 pear.conf               #     ├─📄 pear.conf             # PEAR configuration file
+    └─📄 php-fpm.conf.default    #     └─📄 php-fpm.conf.default  # PHP FPM configuration
+  └─📂 ${includedir}             #   └─📂 include                 # System include directory
+    └─📂 php                     #     └─📂 php                   # PHP headers
+      ├─📂 ext                   #       ├─📂 ext                 # PHP extensions header files
+      ├─📂 main                  #       ├─📂 main                # PHP main binding header files
+      ├─📂 sapi                  #       ├─📂 sapi                # PHP SAPI header files
+      ├─📂 TSRM                  #       ├─📂 TSRM                # TSRM header files
+      └─📂 Zend                  #       └─📂 Zend                # Zend Engine header files
+  └─📂 ${libdir}                 #   └─📂 lib
+    └─📂 php                     #     └─📂 php                   # PHP shared libraries, build files, PEAR
+      ├─📂 20230901-zts-debug    #       ├─📂 20230901-zts-debug  # PHP shared extensions (*.so files)
+      └─📂 build                 #       └─📂 build               # Various PHP development and build files
+  ├─📂 ${sbindir}                #   ├─📂 sbin                    # Executable binaries for root privileges
+  └─📂 ${datarootdir}            #   └─📂 share                   # Directory with shareable files
+    └─📂 ${mandir}               #     └─📂 man
+      ├─📂 man1                  #       ├─📂 man1                # PHP man section 1 pages for *nix systems
+      └─📂 man8                  #       └─📂 man8                # PHP man section 8 pages for *nix systems
+    ├─📂 ${PHP_PEAR}             #     ├─📂 pear                  # PEAR installation directory
+    └─📂 php                     #     └─📂 php
+      └─📂 fpm                   #       └─📂 fpm                 # Additional FPM static HTML files
+  └─📂 ${localstatedir}          #   └─📂 var                     # The Linux var directory
+    └─📂 log                     #     └─📂 log                   # Directory for PHP logs
+  └─📂 ${runstatedir}            #   └─📂 var/run                 # Runtime data directory
+📦 /                             # 📦 /                           # System top level root directory
+└─📂 tmp                         # └─📂 tmp                       # System temporary directory
+  └─📂 pear                      #   └─📂 pear                    # PEAR temporary directory
+    ├─📂 cache                   #     ├─📂 cache
+    ├─📂 download                #     ├─📂 download
+    └─📂 temp                    #     └─📂 temp
+```
+
+This is how the default PHP layout directory structure looks like
+(`--with-layout=PHP`). Notice the difference of the shared extensions directory
+and the `share` directory being named `php`:
+
+```sh
+📦 <INSTALL_ROOT>
+└─📂 /usr/local
+  ├─📂 bin
+  └─📂 etc
+    ├─📂 php-fpm.d
+    ├─📄 pear.conf
+    └─📄 php-fpm.conf.default
+  └─📂 include
+    └─📂 php
+      ├─📂 ext
+      ├─📂 main
+      ├─📂 sapi
+      ├─📂 TSRM
+      └─📂 Zend
+  └─📂 lib
+    └─📂 php
+      ├─📂 build
+      └─📂 extensions
+        └─📂 no-debug-non-zts-20230901  # PHP shared extensions (*.so files)
+  └─📂 php                              # Directory with shareable files
+    └─📂 man
+      ├─📂 man1
+      └─📂 man8
+    └─📂 php
+      └─📂 fpm
+  ├─📂 sbin
+  └─📂 var
+    ├─📂 log
+    └─📂 run
+📦 /
+└─📂 tmp
+  └─📂 pear
+    └─📂 temp
+```
+
+## 11. See more
 
 Useful resources to learn more about Autoconf and Autotools in general:
 

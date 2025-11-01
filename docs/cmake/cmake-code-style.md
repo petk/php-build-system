@@ -9,6 +9,7 @@ ecosystem.
 * [2. General guidelines](#2-general-guidelines)
   * [2.1. End commands](#21-end-commands)
   * [2.2. Source and binary directories](#22-source-and-binary-directories)
+  * [2.3. Determining platform](#23-determining-platform)
 * [3. Variables](#3-variables)
   * [3.1. Variable scope](#31-variable-scope)
     * [3.1.1. Local variables](#311-local-variables)
@@ -29,8 +30,7 @@ ecosystem.
   * [7.2. Alias targets](#72-alias-targets)
   * [7.3. Custom targets](#73-custom-targets)
 * [8. Properties](#8-properties)
-* [9. Determining platform](#9-determining-platform)
-  * [9.1. Determining processor](#91-determining-processor)
+* [9. Installation components](#9-installation-components)
 * [10. See also](#10-see-also)
   * [10.1. Tools](#101-tools)
     * [10.1.1. Gersemi](#1011-gersemi)
@@ -199,6 +199,51 @@ these variables become distinct.
 * `<ProjectName>_SOURCE_DIR` and `<ProjectName>_BINARY_DIR` represent the
   project source and build directories from the most recent
   `project(ProjectName ...)` call.
+
+### 2.3. Determining platform
+
+CMake provides variables such as `APPLE`, `LINUX`, `UNIX`, `WIN32`, etc, for the
+target systems, and `CMAKE_HOST_APPLE`, `CMAKE_HOST_LINUX`, etc, for the host
+systems. However, they might be removed in the future CMake versions and they
+can be also ambiguous in certain cases. Better practice is to be specific and
+use:
+
+* `CMAKE_SYSTEM_NAME` in code or `PLATFORM_ID` in generator expressions to check
+  the target platform (which is also the name used during cross-compilation).
+* And the `CMAKE_HOST_SYSTEM_NAME` to identify the platform where CMake is
+  performing the build.
+
+When building on the platform for which the build is targeted,
+`CMAKE_SYSTEM_NAME` and `CMAKE_HOST_SYSTEM_NAME` are equivalent.
+
+For example, detecting Linux target system:
+
+```cmake
+if(CMAKE_SYSTEM_NAME STREQUAL "Linux")
+  # ...
+endif()
+```
+
+In generator expressions, `PLATFORM_ID` can be used to detect target platforms:
+
+```cmake
+target_compile_definitions(php PRIVATE $<$<PLATFORM_ID:Linux,FreeBSD>:FOOBAR>)
+```
+
+> [!NOTE]
+> All values known to CMake for `CMAKE_SYSTEM_NAME`, `CMAKE_HOST_SYSTEM_NAME`,
+> and `PLATFORM_ID` are listed in the
+> [CMake documentation](https://cmake.org/cmake/help/latest/variable/CMAKE_SYSTEM_NAME.html).
+
+To determine the target processor use the
+[`CMAKE_C_COMPILER_ARCHITECTURE_ID`](https://cmake.org/cmake/help/latest/variable/CMAKE_LANG_COMPILER_ARCHITECTURE_ID.html)
+variable. For example:
+
+```cmake
+if(CMAKE_C_COMPILER_ARCHITECTURE_ID MATCHES "(x86_64|x64)")
+  # Target CPU is 64-bit x86.
+endif()
+```
 
 ## 3. Variables
 
@@ -551,50 +596,17 @@ such as `PHP_`.
 define_property(<scope> PROPERTY PHP_CUSTOM_PROPERTY_NAME [...])
 ```
 
-## 9. Determining platform
+## 9. Installation components
 
-CMake provides variables such as `APPLE`, `LINUX`, `UNIX`, `WIN32`, etc, for the
-target systems, and `CMAKE_HOST_APPLE`, `CMAKE_HOST_LINUX`, etc, for the host
-systems. However, they might be removed in the future CMake versions and they
-can be also ambiguous in certain cases. Better practice is to be specific and
-use:
-
-* `CMAKE_SYSTEM_NAME` in code or `PLATFORM_ID` in generator expressions to check
-  the target platform (which is also the name used during cross-compilation).
-* And the `CMAKE_HOST_SYSTEM_NAME` to identify the platform where CMake is
-  performing the build.
-
-When building on the platform for which the build is targeted,
-`CMAKE_SYSTEM_NAME` and `CMAKE_HOST_SYSTEM_NAME` are equivalent.
-
-For example, detecting Linux target system:
+Installation components should follow the *kebab-case* naming convention and
+they should be prefixed with `php-`:
 
 ```cmake
-if(CMAKE_SYSTEM_NAME STREQUAL "Linux")
+install(
+  TARGETS php_foo_bar
   # ...
-endif()
-```
-
-In generator expressions, `PLATFORM_ID` can be used to detect target platforms:
-
-```cmake
-target_compile_definitions(php PRIVATE $<$<PLATFORM_ID:Linux,FreeBSD>:FOOBAR>)
-```
-
-> [!NOTE]
-> All values known to CMake for `CMAKE_SYSTEM_NAME`, `CMAKE_HOST_SYSTEM_NAME`,
-> and `PLATFORM_ID` are listed in the
-> [CMake documentation](https://cmake.org/cmake/help/latest/variable/CMAKE_SYSTEM_NAME.html).
-
-### 9.1. Determining processor
-
-Use the [`CMAKE_C_COMPILER_ARCHITECTURE_ID`](https://cmake.org/cmake/help/latest/variable/CMAKE_LANG_COMPILER_ARCHITECTURE_ID.html)
-variable to determine the target processor.
-
-```cmake
-if(CMAKE_C_COMPILER_ARCHITECTURE_ID MATCHES "(x86_64|x64)")
-  # Target CPU is 64-bit x86.
-endif()
+  COMPONENT php-foo-bar
+)
 ```
 
 ## 10. See also

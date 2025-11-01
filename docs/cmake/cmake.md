@@ -24,6 +24,10 @@ works and how it can be used.
 * [14. Testing](#14-testing)
 * [15. Windows notes](#15-windows-notes)
   * [15.1. Module-definition (.def) files](#151-module-definition-def-files)
+* [16. PHP installation](#16-php-installation)
+  * [16.1. Installing PHP with CMake](#161-installing-php-with-cmake)
+  * [16.2. Installation directory structure](#162-installation-directory-structure)
+  * [16.3. Installation components](#163-installation-components)
 
 ## 1. Directory structure
 
@@ -756,4 +760,252 @@ In CMake they can be simply added to the target sources:
 
 ```cmake
 target_sources(php_extension_name php_extension_name.def)
+```
+
+## 16. PHP installation
+
+> [!CAUTION]
+> **Before running the `cmake --install` command, be aware that files will be
+> copied outside of the current build directory.**
+
+When thinking about installing software, we often imagine downloading a package
+and setting it up on the system, ready for immediate use.
+
+PHP can be installed through various methods. On \*nix systems, this typically
+involves using package managers (`apt install`, `dnf install`, `apk install`,
+`pkg install`, `brew install`), or running all-in-one installers that provide a
+preconfigured stack.
+
+However, in the context of a build system, *installation* refers to the process
+of preparing a directory structure with compiled files, making them ready for
+direct use or for packaging.
+
+During the installation phase, compiled binaries, dynamic libraries, header
+files, \*nix man documentation pages, and other related files are copied into a
+predefined directory structure. Some files may also be generated or modified
+according to the final installation location, known as the
+*installation prefix*.
+
+It's important to note that this type of PHP installation is usually managed by
+package managers, that handle this process through automated scripts.
+Additionally, applying patches to tailor the PHP package to suit the specific
+requirements of the target system is a common practice.
+
+### 16.1. Installing PHP with CMake
+
+Installing PHP with CMake can be done in the following way:
+
+```sh
+# Configuration and generation of build system files:
+cmake -DCMAKE_INSTALL_PREFIX="/usr" -B php-build
+
+# Build PHP in parallel:
+cmake --build php-build -j
+
+# Run tests using ctest utility:
+ctest --progress -V --test-dir php-build
+
+# Finally, copy built files to their system locations:
+DESTDIR=/stage cmake --install php-build
+
+# Or by using the --install-prefix configuration-phase option:
+cmake --install-prefix /usr -B php-build
+cmake --build php-build -j
+ctest --progress -V --test-dir php-build
+DESTDIR=/stage cmake --install php-build
+
+# Alternatively, the --prefix installation-phase option can be used in certain
+# packaging and installation workflows:
+cmake -B php-build
+cmake --build php-build -j
+ctest --progress -V --test-dir php-build
+DESTDIR=/stage cmake --install php-build --prefix /custom-location
+```
+
+> [!NOTE]
+> The CMake [`DESTDIR`](https://cmake.org/cmake/help/latest/envvar/DESTDIR.html)
+> environment variable behaves like the `INSTALL_ROOT` in PHP native
+> Autotools-based build system.
+
+* The [`CMAKE_INSTALL_PREFIX`](https://cmake.org/cmake/help/latest/variable/CMAKE_INSTALL_PREFIX.html)
+  variable is absolute path where to install the application.
+
+To adjust the installation locations, the
+[GNUInstallDirs](https://cmake.org/cmake/help/latest/module/GNUInstallDirs.html)
+module is used to set additional `CMAKE_INSTALL_*` variables. These variables
+are by default relative paths. When customized, they can be either relative or
+absolute. When changed to absolute values the installation prefix will not be
+taken into account. Here only those relevant to PHP are listed:
+
+* `CMAKE_INSTALL_BINDIR`
+* `CMAKE_INSTALL_SBINDIR`
+* `CMAKE_INSTALL_SYSCONFDIR`
+* `CMAKE_INSTALL_LOCALSTATEDIR`
+* `CMAKE_INSTALL_RUNSTATEDIR`
+* `CMAKE_INSTALL_LIBDIR`
+* `CMAKE_INSTALL_INCLUDEDIR`
+* `CMAKE_INSTALL_DATAROOTDIR`
+* `CMAKE_INSTALL_DATADIR`
+* `CMAKE_INSTALL_DOCDIR`
+* `CMAKE_INSTALL_MANDIR`
+
+PHP CMake-based build system specific installation cache variables:
+
+* [`PHP_EXTENSION_DIR`](/docs/cmake/variables/PHP_EXTENSION_DIR.md)
+
+  Path containing shared PHP extensions.
+
+* [`PHP_INCLUDE_PREFIX`](/docs/cmake/variables/PHP_INCLUDE_PREFIX.md)
+
+  The PHP include directory inside the `CMAKE_INSTALL_INCLUDEDIR`.
+  Default: `php`
+
+* [`PHP_PEAR_DIR`](/docs/cmake/variables/PHP_PEAR.md)
+
+  The path where PEAR will be installed to.
+
+* [`PHP_PEAR_TEMP_DIR`](/docs/cmake/variables/PHP_PEAR.md)
+
+  Path where PEAR writes temporary files. Default: `/tmp/pear` on \*nix,
+  `C:/temp/pear` on Windows.
+
+### 16.2. Installation directory structure
+
+PHP installation directory structure when using CMake:
+
+```sh
+📦 $ENV{DESTDIR}                      # 📦
+└─📂 ${CMAKE_INSTALL_PREFIX}          # └─📂 /usr/local (Windows: C:/Program Files/${PROJECT_NAME})
+  ├─📂 ${CMAKE_INSTALL_BINDIR}        #   ├─📂 bin
+  └─📂 ${CMAKE_INSTALL_SYSCONFDIR}    #   └─📂 etc
+    ├─📂 php-fpm.d                    #     ├─📂 php-fpm.d
+    ├─📄 pear.conf                    #     ├─📄 pear.conf
+    └─📄 php-fpm.conf.default         #     └─📄 php-fpm.conf.default
+  └─📂 ${CMAKE_INSTALL_INCLUDEDIR}    #   └─📂 include
+    └─📂 ${PHP_INCLUDE_PREFIX}        #     └─📂 php
+      ├─📂 ext                        #       ├─📂 ext
+      ├─📂 main                       #       ├─📂 main
+      ├─📂 sapi                       #       ├─📂 sapi
+      ├─📂 TSRM                       #       ├─📂 TSRM
+      └─📂 Zend                       #       └─📂 Zend
+  └─📂 ${CMAKE_INSTALL_LIBDIR}        #   └─📂 lib
+    └─📂 php                          #     └─📂 php
+      └─📂 build                      #       ├─📂 build
+  └─📂 ${PHP_EXTENSION_DIR}           #       └─📂 20230901-zts-Debug...
+    └─📂 pkgconfig                    #     └─📂 pkgconfig
+      ├─📄 php-embed.pc               #       ├─📄 php-embed.pc
+      └─📄 php.pc                     #       └─📄 php.pc
+  ├─📂 ${CMAKE_INSTALL_SBINDIR}       #   ├─📂 sbin
+  └─📂 ${CMAKE_INSTALL_DATAROOTDIR}   #   └─📂 share
+    └─📂 ${CMAKE_INSTALL_DOCDIR}      #     └─📂 doc
+      └─📂 PHP                        #       └─📂 PHP
+    └─📂 ${CMAKE_INSTALL_MANDIR}      #     └─📂 man
+      ├─📂 man1                       #       ├─📂 man1
+      └─📂 man8                       #       └─📂 man8
+  └─📂 ${CMAKE_INSTALL_DATADIR}       #   └─📂 (share)
+    └─📂 php                          #     └─📂 php
+      └─📂 fpm                        #       └─📂 fpm
+  ├─📂 ${PHP_PEAR_DIR}                #     └─📂 pear (default: share/pear)
+  └─📂 ${CMAKE_INSTALL_LOCALSTATEDIR} #   └─📂 var
+    └─📂 log                          #     └─📂 log
+  └─📂 ${CMAKE_INSTALL_RUNSTATEDIR}   #   └─📂 var/run
+└─📂 ${PHP_PEAR_TEMP_DIR}             # └─📂 /tmp/pear (Windows: C:/temp/pear)
+  ├─📂 cache                          #   ├─📂 cache
+  ├─📂 download                       #   ├─📂 download
+  └─📂 temp                           #   └─📂 temp
+```
+
+> [!NOTE]
+> The CMake [GNUInstallDirs](https://cmake.org/cmake/help/latest/module/GNUInstallDirs.html#special-cases)
+> module also adjusts some `CMAKE_INSTALL_*` variables in
+> [special cases](https://cmake.org/cmake/help/latest/module/GNUInstallDirs.html#special-cases)
+> according to GNU standards. See also
+> [GNU directory variables](https://www.gnu.org/prep/standards/html_node/Directory-Variables.html)
+> for more info.
+
+Instead of setting the installation prefix at the configuration phase using
+`CMAKE_INSTALL_PREFIX` variable or `--install-prefix` option, there is
+also `installDir` field which can be set in the `CMakePresets.json` or
+`CMakeUserPresets.json` file.
+
+Example `CMakeUserPresets.json` file, which can be added to the PHP source code
+root directory:
+
+```json
+{
+  "version": 4,
+  "configurePresets": [
+    {
+      "name": "acme-php",
+      "inherits": "all-enabled",
+      "displayName": "Acme PHP configuration",
+      "description": "Customized PHP build",
+      "installDir": "/usr",
+      "cacheVariables": {
+        "CMAKE_INSTALL_BINDIR": "home/user/.local/bin",
+        "PHP_BUILD_SYSTEM": "Acme Linux",
+        "PHP_BUILD_PROVIDER": "Acme",
+        "PHP_BUILD_COMPILER": "GCC",
+        "PHP_BUILD_ARCH": "x86_64",
+        "PHP_VERSION_LABEL": "-acme"
+      }
+    }
+  ],
+  "buildPresets": [
+    {
+      "name": "acme-php",
+      "configurePreset": "acme-php"
+    }
+  ],
+  "testPresets": [
+    {
+      "name": "acme-php",
+      "configurePreset": "acme-php",
+      "output": {"verbosity": "verbose"}
+    }
+  ]
+}
+```
+
+Above file *inherits* from the `all-enabled` configuration preset of the default
+`CMakePresets.json` file and adjusts the PHP installation.
+
+To build and install using the new preset:
+
+```sh
+cmake --preset acme-php
+cmake --build --preset acme-php -j
+ctest --preset acme-php
+cmake --install .
+```
+
+### 16.3. Installation components
+
+Installation components are groups of CMake's `install()` commands, where
+`COMPONENT` argument is specified. They provide installing only certain parts of
+the project. For example:
+
+```cmake
+# CMakeLists.txt
+
+install(
+  FILES
+    ${CMAKE_CURRENT_BINARY_DIR}/PHPConfig.cmake
+    ${CMAKE_CURRENT_BINARY_DIR}/PHPConfigVersion.cmake
+  DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/PHP
+  COMPONENT php-development
+)
+```
+
+Available installation components can be listed after project is configured
+with:
+
+```sh
+cmake --build <build-dir> --target list_install_components
+```
+
+To install only specific component:
+
+```sh
+cmake --install <build-dir> --component php-development
 ```

@@ -1,14 +1,14 @@
-# Windows build system for PHP
+# JScript-based Windows build system for PHP
 
 ## Index
 
-* [Index](#index)
 * [1. Directory structure](#1-directory-structure)
 * [2. Windows prerequisites](#2-windows-prerequisites)
 * [3. Building PHP on Windows](#3-building-php-on-windows)
 * [4. The configure.bat command-line options](#4-the-configurebat-command-line-options)
 * [5. Dependencies](#5-dependencies)
-* [6. See more](#6-see-more)
+* [6. PHP installation](#6-php-installation)
+* [7. See more](#7-see-more)
 
 Windows build system in PHP is a separate collection of
 [JScript](https://en.wikipedia.org/wiki/JScript) files and command-line scripts.
@@ -142,7 +142,7 @@ specific features during the build process.
 
 See `.\configure.bat --help` for all available configuration options and
 variables. Configure options for all PHP versions are listed also in the
-[Windows directory](/docs/windows/).
+[Windows directory](/docs/windows/configure-help/).
 
 Some common arguments can be passed to command-line options:
 
@@ -153,6 +153,39 @@ Some common arguments can be passed to command-line options:
 PHP Windows build uses forks for some dependencies. Sources are available at
 [github.com/winlibs](https://github.com/winlibs).
 
-## 6. See more
+## 6. PHP installation
+
+> [!CAUTION]
+> **Before running the `nmake install` command, be aware that files will be
+> copied outside of the current build directory.**
+
+Inside a Windows PowerShell:
+
+```sh
+# Clone SDK binary tools Git repository
+git clone https://github.com/php/php-sdk-binary-tools C:\php-sdk
+cd C:\php-sdk
+
+.\phpsdk-vs17-x64.bat
+phpsdk_buildtree phpmaster
+
+git clone https://github.com/php/php-src
+cd php-src
+phpsdk_deps --update --branch master
+
+# Create Windows configure.bat script
+.\buildconf.bat
+
+# Configure PHP build and create Makefile
+.\configure.bat --with-prefix=<installation-prefix>
+
+# Build PHP
+nmake
+
+# Install built files
+nmake install
+```
+
+## 7. See more
 
 * [PHP Wiki: Build PHP on Windows](https://wiki.php.net/internals/windows/stepbystepbuild_sdk_2)
