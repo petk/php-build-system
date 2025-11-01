@@ -21,4 +21,4 @@ skip =
     ./.git,
     *.patch,
     *.svg,
-    ./docs/autotools/PHP-*.txt,
+    ./docs/autotools/configure-help/PHP-*.txt,
