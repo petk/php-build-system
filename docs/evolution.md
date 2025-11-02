@@ -11,6 +11,17 @@ This document describes how the PHP build system evolved through time.
 
 ### PHP 8.6 build system changes
 
+#### Abstract
+
+* Minimum required libzip library version has been increased from 0.11.2 to
+  1.0.0.
+
+#### Autotools
+
+* ...
+
+#### Windows
+
 * ...
 
 </details>

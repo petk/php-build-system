@@ -79,7 +79,7 @@ if(NOT libzip_FOUND)
 endif()
 
 if(NOT libzip_FOUND)
-  find_package(libzip 0.11.2...1.3.0)
+  find_package(libzip 1.0.0...1.3.0)
 endif()
 
 if(libzip_VERSION VERSION_EQUAL 1.3.1 OR libzip_VERSION VERSION_EQUAL 1.7.0)
@@ -96,7 +96,6 @@ target_link_libraries(php_ext_zip PUBLIC libzip::zip)
 # since version 1.0 to 1.3.2
 if(
   CMAKE_SYSTEM_NAME STREQUAL "Windows"
-  AND libzip_VERSION VERSION_GREATER_EQUAL 1.0
   AND libzip_VERSION VERSION_LESS 1.4.0
 )
   # TODO: Adjust this if the libzip is a static library.
@@ -110,16 +109,6 @@ endif()
 # required.
 
 if(libzip_FOUND)
-  if(libzip_VERSION VERSION_GREATER_EQUAL 1.0.0)
-    set(HAVE_SET_MTIME TRUE)
-  else()
-    message(
-      WARNING
-      "ext/zip will not have support for setting mtime "
-      "(Libzip >= 1.0.0 is needed for setting mtime)"
-    )
-  endif()
-
   if(libzip_VERSION VERSION_GREATER_EQUAL 1.2.0)
     set(HAVE_ENCRYPTION TRUE)
   else()

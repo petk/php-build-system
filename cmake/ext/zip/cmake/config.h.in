@@ -20,10 +20,6 @@
    1.3.0). */
 #cmakedefine HAVE_PROGRESS_CALLBACK 1
 
-/* Define to 1 if libzip library has the 'zip_file_set_mtime' function
-   (available since 1.0.0). */
-#cmakedefine HAVE_SET_MTIME 1
-
 /* Define to 1 if the PHP extension 'zip' is available. */
 #cmakedefine HAVE_ZIP 1
 
