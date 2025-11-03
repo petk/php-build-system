@@ -88,15 +88,15 @@ target_sources(
     calendar/calendar_methods.cpp
     calendar/calendar.stub.php
     calendar/gregoriancalendar_methods.cpp
-    collator/collator_attr.c
-    collator/collator_class.c
-    collator/collator_compare.c
-    collator/collator_convert.c
-    collator/collator_create.c
-    collator/collator_error.c
-    collator/collator_is_numeric.c
-    collator/collator_locale.c
-    collator/collator_sort.c
+    collator/collator_attr.cpp
+    collator/collator_class.cpp
+    collator/collator_compare.cpp
+    collator/collator_convert.cpp
+    collator/collator_create.cpp
+    collator/collator_error.cpp
+    collator/collator_is_numeric.cpp
+    collator/collator_locale.cpp
+    collator/collator_sort.cpp
     collator/collator.stub.php
     common/common_date.cpp
     common/common_enum.cpp
@@ -125,13 +125,13 @@ target_sources(
     formatter/formatter_main.cpp
     formatter/formatter_parse.cpp
     formatter/formatter.stub.php
-    grapheme/grapheme_string.c
-    grapheme/grapheme_util.c
+    grapheme/grapheme_string.cpp
+    grapheme/grapheme_util.cpp
     idn/idn.cpp
     intl_convert.c
     intl_convertcpp.cpp
     intl_error.c
-    listformatter/listformatter_class.c
+    listformatter/listformatter_class.cpp
     listformatter/listformatter.stub.php
     locale/locale_class.cpp
     locale/locale_methods.cpp
@@ -163,8 +163,8 @@ target_sources(
     timezone/timezone_class.cpp
     timezone/timezone_methods.cpp
     timezone/timezone.stub.php
-    transliterator/transliterator_class.c
-    transliterator/transliterator_methods.c
+    transliterator/transliterator_class.cpp
+    transliterator/transliterator_methods.cpp
     transliterator/transliterator.stub.php
     uchar/uchar.cpp
     uchar/uchar.stub.php
