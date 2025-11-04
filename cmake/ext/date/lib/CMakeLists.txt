@@ -100,7 +100,7 @@ target_compile_definitions(
   PRIVATE
     HAVE_TIMELIB_CONFIG_H
     # timelib uses C99 strtoll() function conditionally.
-    HAVE_STRTOLL
+    $<$<NOT:$<PLATFORM_ID:Windows>>:HAVE_STRTOLL>
     # timelib includes C99 <stdint.h> header conditionally.
     HAVE_STDINT_H
 )

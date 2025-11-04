@@ -45,8 +45,7 @@ set_source_files_properties(
 
 target_compile_options(
   php_ext_date
-  PRIVATE
-    $<$<COMPILE_LANG_AND_ID:C,MSVC>:/wd4244>
+  PRIVATE $<$<AND:$<PLATFORM_ID:Windows>,$<COMPILE_LANGUAGE:C>>:/wd4244>
 )
 
 # Configure timelib.
