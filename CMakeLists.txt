@@ -67,6 +67,14 @@ if(CMAKE_BINARY_DIR PATH_EQUAL CMAKE_CURRENT_LIST_DIR)
   )
 endif()
 
+# Ignore build directory in Git repository.
+block()
+  file(GLOB files "${CMAKE_CURRENT_BINARY_DIR}/*")
+  if(files PATH_EQUAL ${CMAKE_CURRENT_BINARY_DIR}/CMakeFiles)
+    file(WRITE ${CMAKE_CURRENT_BINARY_DIR}/.gitignore "*\n")
+  endif()
+endblock()
+
 project(
   PhpBuildSystem
   VERSION 8.3
