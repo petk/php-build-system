@@ -387,10 +387,15 @@ function(php_re2c name input output)
   _php_re2c_process_header_option()
 
   # Generate name for the symbolic file for the custom command below.
-  string(MAKE_C_IDENTIFIER "${name}_${input}" symbolic_name)
+  string(MAKE_C_IDENTIFIER "${name}_${input}" id)
+  set(
+    timestamp
+    ${CMAKE_CURRENT_BINARY_DIR}/CMakeFiles/PHP/Re2c/${id}.timestamp
+  )
+  file(MAKE_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/CMakeFiles/PHP/Re2c)
 
   if(role STREQUAL "PROJECT")
-    add_custom_target(${name} SOURCES ${input} DEPENDS ${symbolic_name})
+    add_custom_target(${name} SOURCES ${input} DEPENDS ${timestamp})
   endif()
 
   # Skip generation, if generated files are provided by the release archive.
@@ -425,7 +430,8 @@ function(php_re2c name input output)
   # the same generated source file is used by multiple project
   # libraries/targets.
   add_custom_command(
-    OUTPUT ${symbolic_name}
+    OUTPUT ${timestamp}
+    COMMAND ${CMAKE_COMMAND} -E touch ${timestamp}
     ${commands}
     DEPENDS
       ${input}
@@ -437,7 +443,6 @@ function(php_re2c name input output)
     ${codegen}
     WORKING_DIRECTORY ${parsed_WORKING_DIRECTORY}
   )
-  set_source_files_properties(${symbolic_name} PROPERTIES SYMBOLIC TRUE)
 
   add_custom_command(OUTPUT ${outputs} DEPENDS ${name} ${codegen})
 endfunction()
