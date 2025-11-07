@@ -13,18 +13,18 @@ CMake target properties for the PHP::Zend target:
 * VERSION
   Zend Engine version as defined in the Zend/zend.h file.
 
-* ZEND_EXTENSION_API_NO
+* PHP_ZEND_EXTENSION_API_NO
   Custom target property with internal API version number for PHP extensions
   (dynamically loaded with the 'extension' INI directive). This is the
-  ZEND_MODULE_API_NO number from the Zend/zend_modules.h and ensures that built
-  extension is compatible with particular PHP build.
+  ZEND_EXTENSION_API_NO number from the Zend/zend_extensions.h and ensures that
+  built extension is compatible with particular PHP build.
 
-* ZEND_MODULE_API_NO
+* PHP_ZEND_MODULE_API_NO
   Custom target property with internal API version number for Zend extensions in
   PHP (dynamically loaded with the 'zend_extension' INI directive), such as
-  opcache, debuggers, profilers, etc. This is the ZEND_EXTENSION_API_NO number
-  from the Zend/zend_extensions.h and ensures that built extension is compatible
-  with particular PHP build.
+  opcache, debuggers, profilers, etc. This is the ZEND_MODULE_API_NO number from
+  the Zend/zend_modules.h and ensures that built extension is compatible with
+  particular PHP build.
 #]=============================================================================]
 
 message(STATUS "")
@@ -342,8 +342,8 @@ set_target_properties(
   php_zend
   PROPERTIES
     VERSION ${PHP_ZEND_VERSION}
-    ZEND_EXTENSION_API_NO ${PHP_ZEND_VERSION_EXTENSION_API_NO}
-    ZEND_MODULE_API_NO ${PHP_ZEND_VERSION_MODULE_API_NO}
+    PHP_ZEND_EXTENSION_API_NO ${PHP_ZEND_VERSION_EXTENSION_API_NO}
+    PHP_ZEND_MODULE_API_NO ${PHP_ZEND_VERSION_MODULE_API_NO}
 )
 
 ################################################################################
