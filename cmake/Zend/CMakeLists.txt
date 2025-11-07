@@ -3,12 +3,12 @@ Zend Engine.
 
 Targets:
 
-* OBJECT library 'zend' (ALIAS Zend::Zend) holds all Zend Engine objects and
+* OBJECT library 'php_zend' (ALIAS PHP::Zend) holds all Zend Engine objects and
   compile properties.
 
 Target properties:
 
-CMake target properties for the Zend::Zend target:
+CMake target properties for the PHP::Zend target:
 
 * VERSION
   Zend Engine version as defined in the Zend/zend.h file.
@@ -110,11 +110,11 @@ mark_as_advanced(PHP_ZEND_SIGNALS)
 # Add library.
 ################################################################################
 
-add_library(zend OBJECT)
-add_library(Zend::Zend ALIAS zend)
+add_library(php_zend OBJECT)
+add_library(PHP::Zend ALIAS php_zend)
 
 target_sources(
-  zend
+  php_zend
   PRIVATE
     Optimizer/block_pass.c
     Optimizer/compact_literals.c
@@ -321,17 +321,17 @@ target_sources(
         $<$<NOT:$<PLATFORM_ID:Windows>>:${CMAKE_CURRENT_BINARY_DIR}/zend_config.h>
 )
 
-target_link_libraries(zend PRIVATE PHP::config)
+target_link_libraries(php_zend PRIVATE PHP::config)
 
 target_include_directories(
-  zend
+  php_zend
   INTERFACE
     ${CMAKE_CURRENT_BINARY_DIR}
     ${CMAKE_CURRENT_SOURCE_DIR}
 )
 
 target_compile_definitions(
-  zend
+  php_zend
   PRIVATE
     ZEND_ENABLE_STATIC_TSRMLS_CACHE
   PUBLIC
@@ -339,7 +339,7 @@ target_compile_definitions(
 )
 
 set_target_properties(
-  zend
+  php_zend
   PROPERTIES
     VERSION ${PHP_ZEND_VERSION}
     ZEND_EXTENSION_API_NO ${PHP_ZEND_VERSION_EXTENSION_API_NO}
@@ -350,9 +350,9 @@ set_target_properties(
 # Add usage requirements to PHP interface targets.
 ################################################################################
 
-target_link_libraries(php_config INTERFACE $<COMPILE_ONLY:Zend::Zend>)
-target_link_libraries(php_sapi INTERFACE Zend::Zend)
-target_sources(php_sapi INTERFACE $<TARGET_OBJECTS:Zend::Zend>)
+target_link_libraries(php_config INTERFACE $<COMPILE_ONLY:PHP::Zend>)
+target_link_libraries(php_sapi INTERFACE PHP::Zend)
+target_sources(php_sapi INTERFACE $<TARGET_OBJECTS:PHP::Zend>)
 
 ################################################################################
 # TSRM (Thread Safe Resource Manager) is a separate directory in php-src as it
@@ -361,7 +361,7 @@ target_sources(php_sapi INTERFACE $<TARGET_OBJECTS:Zend::Zend>)
 ################################################################################
 
 target_sources(
-  zend
+  php_zend
   PRIVATE
     $<$<PLATFORM_ID:Windows>:${CMAKE_CURRENT_SOURCE_DIR}/../TSRM/tsrm_win32.c>
     ${CMAKE_CURRENT_SOURCE_DIR}/../TSRM/TSRM.c
@@ -375,16 +375,19 @@ target_sources(
 )
 
 target_include_directories(
-  zend
+  php_zend
   INTERFACE
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/../TSRM>
     $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}/${PHP_INCLUDE_PREFIX}/TSRM>
 )
 
-target_compile_definitions(zend PUBLIC $<$<PLATFORM_ID:Windows>:TSRM_EXPORTS>)
+target_compile_definitions(
+  php_zend
+  PUBLIC $<$<PLATFORM_ID:Windows>:TSRM_EXPORTS>
+)
 
 install(
-  TARGETS zend
+  TARGETS php_zend
   FILE_SET tsrm
     DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/${PHP_INCLUDE_PREFIX}/TSRM
 )
@@ -528,7 +531,7 @@ if(NOT CMAKE_SYSTEM_NAME STREQUAL "Windows")
 endif()
 
 install(
-  TARGETS zend
+  TARGETS php_zend
   ARCHIVE EXCLUDE_FROM_ALL
   FILE_SET HEADERS
     DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/${PHP_INCLUDE_PREFIX}/Zend

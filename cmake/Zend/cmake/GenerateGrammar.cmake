@@ -13,7 +13,7 @@ else()
 endif()
 
 php_bison(
-  zend_ini_parser
+  php_zend_ini_parser
   zend_ini_parser.y
   ${CMAKE_CURRENT_SOURCE_DIR}/zend_ini_parser.c
   HEADER
@@ -23,7 +23,7 @@ php_bison(
 )
 
 php_bison(
-  zend_language_parser
+  php_zend_language_parser
   zend_language_parser.y
   ${CMAKE_CURRENT_SOURCE_DIR}/zend_language_parser.c
   HEADER
@@ -75,19 +75,19 @@ block()
       CONTENT "${patch}"
     )
     add_custom_target(
-      zend_language_parser_patch
+      php_zend_language_parser_patch
       COMMAND ${CMAKE_COMMAND} -P CMakeFiles/Zend/PatchLanguageParser.cmake
-      DEPENDS zend_language_parser
+      DEPENDS php_zend_language_parser
       VERBATIM
     )
-    add_dependencies(zend zend_language_parser_patch)
+    add_dependencies(php_zend php_zend_language_parser_patch)
   endif()
 endblock()
 
 include(PHP/Re2c)
 
 php_re2c(
-  zend_ini_scanner
+  php_zend_ini_scanner
   zend_ini_scanner.l
   ${CMAKE_CURRENT_SOURCE_DIR}/zend_ini_scanner.c
   HEADER ${CMAKE_CURRENT_SOURCE_DIR}/zend_ini_scanner_defs.h
@@ -102,7 +102,7 @@ php_re2c(
 )
 
 php_re2c(
-  zend_language_scanner
+  php_zend_language_scanner
   zend_language_scanner.l
   ${CMAKE_CURRENT_SOURCE_DIR}/zend_language_scanner.c
   HEADER ${CMAKE_CURRENT_SOURCE_DIR}/zend_language_scanner_defs.h

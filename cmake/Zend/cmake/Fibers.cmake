@@ -14,9 +14,9 @@ include(CMakePushCheckState)
 
 # Create interface library for using Boost fiber assembly files and compile
 # options if available.
-add_library(zend_fibers INTERFACE)
-add_library(Zend::Fibers ALIAS zend_fibers)
-target_link_libraries(zend PRIVATE Zend::Fibers)
+add_library(php_zend_fibers INTERFACE)
+add_library(PHP::Zend::Fibers ALIAS php_zend_fibers)
+target_link_libraries(php_zend PRIVATE PHP::Zend::Fibers)
 
 ################################################################################
 # Check shadow stack.
@@ -59,7 +59,7 @@ function(_php_zend_fibers_shadow_stack_syscall)
   # Use compile definitions because ASM files can't see macro definitions from
   # the PHP configuration header (php_config.h/config.w32.h).
   target_compile_definitions(
-    zend_fibers
+    php_zend_fibers
     INTERFACE
       $<IF:$<BOOL:${PHP_ZEND_SHADOW_STACK_SYSCALL}>,SHADOW_STACK_SYSCALL=1,SHADOW_STACK_SYSCALL=0>
   )
@@ -158,7 +158,7 @@ block()
   if(PHP_ZEND_FIBER_ASM AND asm_file)
     message(CHECK_PASS "yes, Zend/asm/*.${asm_file}")
 
-    target_sources(zend_fibers INTERFACE ${asm_sources})
+    target_sources(php_zend_fibers INTERFACE ${asm_sources})
 
     _php_zend_fibers_shadow_stack_syscall()
   else()

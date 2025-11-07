@@ -51,10 +51,10 @@ function(_php_summary_preamble result)
     preamble
   )
 
-  if(TARGET Zend::Zend)
-    get_target_property(zend_version Zend::Zend VERSION)
-    get_target_property(zend_extension_api Zend::Zend ZEND_EXTENSION_API_NO)
-    get_target_property(zend_module_api Zend::Zend ZEND_MODULE_API_NO)
+  if(TARGET PHP::Zend)
+    get_target_property(zend_version PHP::Zend VERSION)
+    get_target_property(zend_extension_api PHP::Zend ZEND_EXTENSION_API_NO)
+    get_target_property(zend_module_api PHP::Zend ZEND_MODULE_API_NO)
     _php_summary_preamble_add_item(
       "Zend Engine version"
       "${zend_version}"

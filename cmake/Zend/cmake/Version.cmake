@@ -24,7 +24,7 @@ block(PROPAGATE PHP_ZEND_VERSION PHP_ZEND_VERSION_LABEL)
 endblock()
 
 # This is automatically executed with the project(Zend...) invocation.
-function(_zend_version_post_project)
+function(_php_zend_version_post_project)
   if(DEFINED PHP_ZEND_VERSION_MODULE_API_NO)
     return()
   endif()
@@ -58,4 +58,4 @@ function(_zend_version_post_project)
       PHP_ZEND_VERSION_MODULE_API_NO
   )
 endfunction()
-variable_watch(PHP_ZEND_DESCRIPTION _zend_version_post_project)
+variable_watch(PHP_ZEND_DESCRIPTION _php_zend_version_post_project)
