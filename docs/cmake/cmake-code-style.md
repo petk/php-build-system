@@ -527,7 +527,7 @@ Naming pattern when creating libraries and executables across the build system:
 
   Target name of the PHP main binding.
 
-* `zend` and `zend_*`:
+* `php_zend` and `php_zend_*`:
 
   Targets associated with the Zend Engine.
 
@@ -580,7 +580,7 @@ Custom targets should be defined with clear names that indicate their purpose,
 such as `php_generate_something`. These targets can be customized to perform
 specific actions during the build process. They should be prefixed with the
 target context. For example, `php_`, `php_ext_<extension_name>_`,
-`php_sapi_<sapi_name>_`, `zend_`, or similar.
+`php_sapi_<sapi_name>_`, `php_zend_`, or similar.
 
 ```cmake
 add_custom_target(php_generate_something ...)

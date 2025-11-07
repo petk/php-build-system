@@ -175,4 +175,4 @@ build system:
   delay.
 
   In CMake, this is bypassed by having entire extension dependent on the
-  `Zend::Zend` target (which also includes the parser and scanner).
+  `PHP::Zend` target (which also includes the parser and scanner).

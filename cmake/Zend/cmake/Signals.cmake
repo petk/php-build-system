@@ -22,7 +22,7 @@ if(PHP_HAVE_SIGACTION AND PHP_ZEND_SIGNALS)
 
   # zend_config.h (or its wrapper php_config.h) isn't included in some zend_*
   # files, therefore also compilation definition is added.
-  target_compile_definitions(zend PUBLIC ZEND_SIGNALS)
+  target_compile_definitions(php_zend PUBLIC ZEND_SIGNALS)
 else()
   message(CHECK_FAIL "no")
   set(ZEND_SIGNALS FALSE)
