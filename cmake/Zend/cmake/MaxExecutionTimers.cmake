@@ -49,12 +49,12 @@ endif()
 
 if(ZEND_MAX_EXECUTION_TIMERS)
   if(PHP_ZEND_HAVE_TIMER_CREATE_LIBRARY)
-    target_link_libraries(zend PUBLIC ${PHP_ZEND_HAVE_TIMER_CREATE_LIBRARY})
+    target_link_libraries(php_zend PUBLIC ${PHP_ZEND_HAVE_TIMER_CREATE_LIBRARY})
   endif()
 
   # zend_config.h (or its parent php_config.h) isn't included in some files,
   # therefore also compilation definition is added.
-  target_compile_definitions(zend PUBLIC ZEND_MAX_EXECUTION_TIMERS)
+  target_compile_definitions(php_zend PUBLIC ZEND_MAX_EXECUTION_TIMERS)
 
   message(CHECK_PASS "yes")
 else()

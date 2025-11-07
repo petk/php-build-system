@@ -229,13 +229,13 @@ if(NOT PHP_EXTENSION_DIR)
     CACHE PHP_EXTENSION_DIR
     PROPERTY
       VALUE
-        "${CMAKE_INSTALL_LIBDIR}/php/$<TARGET_PROPERTY:Zend::Zend,ZEND_MODULE_API_NO>$<$<BOOL:$<TARGET_PROPERTY:PHP::config,PHP_THREAD_SAFETY>>:-zts>$<$<BOOL:$<CONFIG>>:-$<CONFIG>>"
+        "${CMAKE_INSTALL_LIBDIR}/php/$<TARGET_PROPERTY:PHP::Zend,ZEND_MODULE_API_NO>$<$<BOOL:$<TARGET_PROPERTY:PHP::config,PHP_THREAD_SAFETY>>:-zts>$<$<BOOL:$<CONFIG>>:-$<CONFIG>>"
   )
 
   # This would resemble the PHP Autotools --with-layout=GNU:
-  #set(extension_dir "${CMAKE_INSTALL_LIBDIR}/php/$<TARGET_PROPERTY:Zend::Zend,ZEND_MODULE_API_NO>$<$<BOOL:$<TARGET_PROPERTY:PHP::config,PHP_THREAD_SAFETY>>:-zts>$<$<CONFIG:Debug,DebugAssertions>:-debug>")
+  #set(extension_dir "${CMAKE_INSTALL_LIBDIR}/php/$<TARGET_PROPERTY:PHP::Zend,ZEND_MODULE_API_NO>$<$<BOOL:$<TARGET_PROPERTY:PHP::config,PHP_THREAD_SAFETY>>:-zts>$<$<CONFIG:Debug,DebugAssertions>:-debug>")
   # This would resemble the PHP Autotools --with-layout=PHP (default):
-  #set(extension_dir "${CMAKE_INSTALL_LIBDIR}/php/extensions/$<IF:$<CONFIG:Debug,DebugAssertions>,debug,no-debug>$<IF:$<BOOL:$<TARGET_PROPERTY:PHP::config,PHP_THREAD_SAFETY>>,-zts,-non-zts>-$<TARGET_PROPERTY:Zend::Zend,ZEND_MODULE_API_NO>")
+  #set(extension_dir "${CMAKE_INSTALL_LIBDIR}/php/extensions/$<IF:$<CONFIG:Debug,DebugAssertions>,debug,no-debug>$<IF:$<BOOL:$<TARGET_PROPERTY:PHP::config,PHP_THREAD_SAFETY>>,-zts,-non-zts>-$<TARGET_PROPERTY:PHP::Zend,ZEND_MODULE_API_NO>")
 endif()
 
 ################################################################################
