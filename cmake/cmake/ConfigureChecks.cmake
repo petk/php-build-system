@@ -402,6 +402,8 @@ endif()
 set(HAVE_FDATASYNC ${PHP_HAVE_FDATASYNC})
 
 block(PROPAGATE HAVE_FLOCK)
+  set(headers "")
+
   if(PHP_HAVE_FCNTL_H)
     list(APPEND headers "fcntl.h")
   endif()

@@ -117,8 +117,11 @@ if(CMAKE_C_BYTE_ORDER STREQUAL "BIG_ENDIAN")
 else()
   block()
     if(CMAKE_SIZEOF_VOID_P EQUAL 4)
-      set(sha3Dir "sha3/generic32lc")
-      target_sources(php_ext_hash PRIVATE ${sha3Dir}/KeccakP-1600-inplace32BI.c)
+      set(sha3_dir "sha3/generic32lc")
+      target_sources(
+        php_ext_hash
+        PRIVATE ${sha3_dir}/KeccakP-1600-inplace32BI.c
+      )
 
       # Add -Wno-implicit-fallthrough flag due to warnings on 32-bit builds.
       php_check_compiler_flag(
@@ -128,28 +131,27 @@ else()
       )
       if(PHP_HAS_WNO_IMPLICIT_FALLTHROUGH_C)
         set_property(
-          SOURCE ${sha3Dir}/KeccakP-1600-inplace32BI.c
+          SOURCE ${sha3_dir}/KeccakP-1600-inplace32BI.c
           APPEND
           PROPERTY
             COMPILE_OPTIONS -Wno-implicit-fallthrough
         )
       endif()
     else()
-      set(sha3Dir "sha3/generic64lc")
-      target_sources(php_ext_hash PRIVATE ${sha3Dir}/KeccakP-1600-opt64.c)
+      set(sha3_dir "sha3/generic64lc")
+      target_sources(php_ext_hash PRIVATE ${sha3_dir}/KeccakP-1600-opt64.c)
     endif()
 
     target_sources(
       php_ext_hash
       PRIVATE
-        ${sha3Dir}/KeccakHash.c
-        ${sha3Dir}/KeccakSponge.c
+        ${sha3_dir}/KeccakHash.c
+        ${sha3_dir}/KeccakSponge.c
     )
 
     target_include_directories(
       php_ext_hash
-      PRIVATE
-        ${CMAKE_CURRENT_SOURCE_DIR}/${sha3Dir}
+      PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/${sha3_dir}
     )
   endblock()
 
