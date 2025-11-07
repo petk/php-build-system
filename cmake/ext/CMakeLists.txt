@@ -73,7 +73,7 @@ foreach(extension IN LISTS extensions)
 
   set_property(GLOBAL APPEND PROPERTY PHP_EXTENSIONS ${extension})
 
-  add_dependencies(php_ext_${extension} Zend::Zend)
+  add_dependencies(php_ext_${extension} PHP::Zend)
 
   # Add usage requirements to PHP interface targets.
   # TODO: Should PHP_CLI extensions pass properties only to PHP_CLI SAPIs?

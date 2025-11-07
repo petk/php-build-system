@@ -69,7 +69,7 @@ target_sources(
 # Generate tokenizer data source files.
 if(EXISTS ${PHP_SOURCE_DIR}/Zend/zend_language_parser.y)
   # The tokenizer extension depends on the generated Zend scanner and parser.
-  add_dependencies(php_ext_tokenizer Zend::Zend)
+  add_dependencies(php_ext_tokenizer PHP::Zend)
 
   add_custom_command(
     OUTPUT
