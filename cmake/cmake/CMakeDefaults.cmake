@@ -20,8 +20,8 @@ endif()
 
 # Ignore build directory in Git repository.
 block()
-  file(GLOB files "${CMAKE_CURRENT_BINARY_DIR}/*")
-  if(files PATH_EQUAL ${CMAKE_CURRENT_BINARY_DIR}/CMakeFiles)
+  file(GLOB path ${CMAKE_CURRENT_BINARY_DIR}/*)
+  if(path PATH_EQUAL ${CMAKE_CURRENT_BINARY_DIR}/CMakeFiles)
     file(WRITE ${CMAKE_CURRENT_BINARY_DIR}/.gitignore "*\n")
   endif()
 endblock()
