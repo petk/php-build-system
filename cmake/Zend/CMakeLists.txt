@@ -532,7 +532,7 @@ include(cmake/Signals.cmake)
 # See: https://github.com/php/php-src/issues/15899
 if(NOT CMAKE_SIZEOF_VOID_P EQUAL 4)
   php_add_custom_command(
-    zend_generate_vm
+    php_zend_generate_vm
     OUTPUT
       ${CMAKE_CURRENT_SOURCE_DIR}/zend_vm_execute.h
       ${CMAKE_CURRENT_SOURCE_DIR}/zend_vm_handlers.h
