@@ -82,7 +82,7 @@ function(php_add_custom_command)
     set(verbatim "")
   endif()
 
-  if(PHPSystem_EXECUTABLE)
+  if(PHPSystem_FOUND)
     add_custom_command(
       OUTPUT ${parsed_OUTPUT}
       COMMAND ${PHPSystem_EXECUTABLE} ${parsed_PHP_COMMAND}
