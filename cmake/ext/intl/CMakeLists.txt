@@ -100,13 +100,13 @@ target_sources(
     collator/collator.stub.php
     common/common_date.cpp
     common/common_enum.cpp
-    common/common_error.c
+    common/common_error.cpp
     common/common.stub.php
     converter/converter.cpp
     converter/converter.stub.php
     dateformat/dateformat_attr.cpp
     dateformat/dateformat_attrcpp.cpp
-    dateformat/dateformat_class.c
+    dateformat/dateformat_class.cpp
     dateformat/dateformat_create.cpp
     dateformat/dateformat_data.cpp
     dateformat/dateformat_format_object.cpp
@@ -119,7 +119,7 @@ target_sources(
     dateformat/datepatterngenerator_methods.cpp
     dateformat/datepatterngenerator.stub.php
     formatter/formatter_attr.cpp
-    formatter/formatter_class.c
+    formatter/formatter_class.cpp
     formatter/formatter_data.cpp
     formatter/formatter_format.cpp
     formatter/formatter_main.cpp
@@ -152,13 +152,13 @@ target_sources(
     php_intl.stub.php
     rangeformatter/rangeformatter_class.cpp
     rangeformatter/rangeformatter.stub.php
-    resourcebundle/resourcebundle_class.c
-    resourcebundle/resourcebundle_iterator.c
-    resourcebundle/resourcebundle.c
+    resourcebundle/resourcebundle_class.cpp
+    resourcebundle/resourcebundle_iterator.cpp
+    resourcebundle/resourcebundle.cpp
     resourcebundle/resourcebundle.stub.php
-    spoofchecker/spoofchecker_class.c
-    spoofchecker/spoofchecker_create.c
-    spoofchecker/spoofchecker_main.c
+    spoofchecker/spoofchecker_class.cpp
+    spoofchecker/spoofchecker_create.cpp
+    spoofchecker/spoofchecker_main.cpp
     spoofchecker/spoofchecker.stub.php
     timezone/timezone_class.cpp
     timezone/timezone_methods.cpp
