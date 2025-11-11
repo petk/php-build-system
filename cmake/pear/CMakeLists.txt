@@ -120,11 +120,11 @@ block()
   endforeach()
 endblock()
 
-set(PHP_EXECUTABLE "")
+set(php_executable "")
 if(NOT CMAKE_CROSSCOMPILING)
-  set(PHP_EXECUTABLE "$<TARGET_FILE:PHP::sapi::cli>")
+  set(php_executable "$<TARGET_FILE:PHP::sapi::cli>")
 elseif(CMAKE_CROSSCOMPILING AND CMAKE_CROSSCOMPILING_EMULATOR)
-  set(PHP_EXECUTABLE "${CMAKE_CROSSCOMPILING_EMULATOR};$<TARGET_FILE:PHP::sapi::cli>")
+  set(php_executable "${CMAKE_CROSSCOMPILING_EMULATOR};$<TARGET_FILE:PHP::sapi::cli>")
 endif()
 
 string(CONFIGURE [[
@@ -132,7 +132,7 @@ string(CONFIGURE [[
   set(php_pear_install_bin_dir "$<PATH:ABSOLUTE_PATH,NORMALIZE,@CMAKE_INSTALL_BINDIR@,${CMAKE_INSTALL_PREFIX}>")
   set(php_pear_current_source_dir "@CMAKE_CURRENT_SOURCE_DIR@")
   set(php_pear_current_binary_dir "@CMAKE_CURRENT_BINARY_DIR@")
-  set(php_pear_php_executable "@PHP_EXECUTABLE@")
+  set(php_pear_php_executable "@php_executable@")
   set(php_pear_extension_dir "$<PATH:ABSOLUTE_PATH,NORMALIZE,@PHP_EXTENSION_DIR@,${CMAKE_INSTALL_PREFIX}>")
   set(PHP_EXT_OPENSSL_SHARED "@PHP_EXT_OPENSSL_SHARED@")
   set(PHP_EXT_XML_SHARED "@PHP_EXT_XML_SHARED@")
