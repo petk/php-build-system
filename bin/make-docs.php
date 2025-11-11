@@ -150,7 +150,6 @@ $modules = [
     'cmake/modules',
     'cmake/modules/Packages',
     'cmake/modules/PHP',
-    'ext/skeleton/cmake/modules/FindPHP.cmake',
 ];
 
 $baseDir = __DIR__ . '/../cmake';
@@ -172,11 +171,7 @@ foreach ($files as $file) {
         $subdir = $namespace;
     } else {
         $namespace = '';
-        if ('FindPHP.cmake' === basename($file)) {
-            $subdir = '';
-        } else {
-            $subdir = basename(dirname($file, 2));
-        }
+        $subdir = basename(dirname($file, 2));
     }
 
     generateModuleDocs(

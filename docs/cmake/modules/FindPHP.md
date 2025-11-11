@@ -1,36 +1,13 @@
 <!-- This is auto-generated file. -->
-* Source code: [ext/skeleton/cmake/modules/FindPHP.cmake](https://github.com/petk/php-build-system/blob/master/cmake/ext/skeleton/cmake/modules/FindPHP.cmake)
+* Source code: [cmake/modules/FindPHP.cmake](https://github.com/petk/php-build-system/blob/master/cmake/cmake/modules/FindPHP.cmake)
 
 # FindPHP
 
-Finds PHP:
+Finds PHP, the general-purpose scripting language:
 
 ```cmake
-find_package(PHP [<version>] [COMPONENTS <component>...] [...])
+find_package(PHP [<version>] [...])
 ```
-
-## Components
-
-This module supports optional components which can be specified with the
-`find_package()` command:
-
-```cmake
-find_package(PHP [COMPONENTS <component>...])
-```
-
-Supported components include:
-
-* `php` - The PHP, general-purpose scripting language, component for building
-  extensions.
-* `embed` - The PHP Embed SAPI component - A lightweight SAPI to embed PHP into
-  application using C bindings.
-
-## Imported targets
-
-This module provides the following imported targets:
-
-* `PHP::php` - The PHP package `IMPORTED` target, if found.
-* `PHP::embed` - The PHP embed SAPI, if found.
 
 ## Result variables
 
@@ -39,51 +16,49 @@ This module defines the following variables:
 * `PHP_FOUND` - Boolean indicating whether (the requested version of) package
   was found.
 * `PHP_VERSION` - The version of package found.
-* `PHP_INCLUDE_DIRS` - Include directories needed to use this package.
-* `PHP_LIBRARIES` - Libraries needed to link to the package library.
-* `PHP_INSTALL_INCLUDEDIR` - Relative path to the `CMAKE_PREFIX_INSTALL`
-  containing PHP headers.
-* `PHP_EXTENSION_DIR` - Path to the directory where shared extensions are
-  installed.
-* `PHP_API_VERSION` - Internal PHP API version number (`PHP_API_VERSION` in
-  `<main/php.h>`).
-* `PHP_ZEND_MODULE_API` - Internal API version number for PHP extensions
-  (`ZEND_MODULE_API_NO` in `<Zend/zend_modules.h>`). These are most common PHP
-  extensions either built-in or loaded dynamically with the `extension` INI
-  directive.
-* `PHP_ZEND_EXTENSION_API` - Internal API version number for Zend extensions
-  (`ZEND_EXTENSION_API_NO` in `<Zend/zend_extensions.h>`). Zend extensions are,
-  for example, opcache, debuggers, profilers and similar advanced extensions.
-  They are either built-in or dynamically loaded with the `zend_extension` INI
-  directive.
 
 ## Cache variables
 
 The following cache variables may also be set:
 
-* `PHP_CONFIG_EXECUTABLE` - Path to the php-config development helper tool.
-* `PHP_INCLUDE_DIR` - Directory containing PHP headers.
-* `PHP_EMBED_LIBRARY` - The path to the PHP Embed library.
-* `PHP_EMBED_INCLUDE_DIR` - Directory containing PHP Embed header(s).
+* `PHP_EXECUTABLE` - PHP command-line tool, if available.
+
+## Hints
+
+* `PHP_ARTIFACTS_PREFIX` - A prefix that will be used for all result and cache
+  variables.
+
+  To comply with standard find modules, the `PHP_FOUND` result variable is also
+  defined, even if prefix has been specified.
 
 ## Examples
 
-### Example: Basic usage
-
-Finding PHP:
+### Example: Finding PHP
 
 ```cmake
 # CMakeLists.txt
 
-# Find PHP
 find_package(PHP)
 
-# Find PHP embed component
-find_package(PHP COMPONENTS embed)
+if(PHP_FOUND)
+  message(STATUS "PHP_EXECUTABLE=${PHP_EXECUTABLE}")
+  message(STATUS "PHP_VERSION=${PHP_VERSION}")
+endif()
+```
 
-# Override where to find PHP
-set(PHP_ROOT /path/to/php/installation)
+### Example: Using hint variables
+
+Finding PHP on the host and prefixing the module result/cache variables:
+
+```cmake
+set(PHP_ARTIFACTS_PREFIX "_HOST")
 find_package(PHP)
+unset(PHP_ARTIFACTS_PREFIX)
+
+if(PHP_HOST_FOUND)
+  message(STATUS "PHP_HOST_EXECUTABLE=${PHP_HOST_EXECUTABLE}")
+  message(STATUS "PHP_HOST_VERSION=${PHP_HOST_VERSION}")
+endif()
 ```
 
 ## Customizing search locations

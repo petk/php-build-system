@@ -164,7 +164,7 @@ block()
 endblock()
 
 # Rebuild all targets as needed.
-if(NOT PHPSystem_FOUND)
+if(NOT PHP_HOST_FOUND)
   include(cmake/Rebuild.cmake)
 endif()
 
