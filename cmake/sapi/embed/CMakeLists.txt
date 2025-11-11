@@ -110,15 +110,20 @@ install(
   TARGETS php_sapi_embed php_sapi_embed_shared
   ARCHIVE
     DESTINATION ${CMAKE_INSTALL_LIBDIR}
+    COMPONENT php-sapi-embed
   RUNTIME
     DESTINATION ${CMAKE_INSTALL_LIBDIR}
+    COMPONENT php-sapi-embed
   LIBRARY
     DESTINATION ${CMAKE_INSTALL_LIBDIR}
+    COMPONENT php-sapi-embed
   FILE_SET HEADERS
     DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/${PHP_INCLUDE_PREFIX}/sapi/embed
+    COMPONENT php-development
 )
 
 install(
   FILES ${CMAKE_CURRENT_BINARY_DIR}/php-embed.pc
   DESTINATION ${CMAKE_INSTALL_LIBDIR}/pkgconfig
+  COMPONENT php-development
 )

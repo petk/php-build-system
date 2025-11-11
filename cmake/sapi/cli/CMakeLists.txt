@@ -155,8 +155,10 @@ install(
   TARGETS php_sapi_cli
   RUNTIME
     DESTINATION ${CMAKE_INSTALL_BINDIR}
+    COMPONENT php-sapi-cli
   FILE_SET HEADERS
     DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/${PHP_INCLUDE_PREFIX}/sapi/cli
+    COMPONENT php-development
 )
 
 ################################################################################
@@ -198,6 +200,13 @@ if(PHP_SAPI_CLI_WIN_NO_CONSOLE)
   if(MSVC)
     target_link_options(php_sapi_cli_win PRIVATE /stack:67108864)
   endif()
+
+  install(
+    TARGETS php_sapi_cli_win
+    RUNTIME
+      DESTINATION ${CMAKE_INSTALL_BINDIR}
+      COMPONENT php-sapi-cli
+  )
 endif()
 
 ################################################################################
@@ -212,6 +221,7 @@ block()
       FILES ${CMAKE_CURRENT_BINARY_DIR}/php.1
       RENAME ${PHP_PROGRAM_PREFIX}php${PHP_PROGRAM_SUFFIX}.1
       DESTINATION ${CMAKE_INSTALL_MANDIR}/man1
+      COMPONENT php-doc
     )
   endif()
 endblock()

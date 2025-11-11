@@ -356,7 +356,7 @@ function(_php_main_configure_build_defs)
       )
     endblock()
   ]] code @ONLY)
-  install(CODE "${code}")
+  install(CODE "${code}" COMPONENT php-development)
 endfunction()
 
 # Configure main configuration header (php_config.h, config.w32.h).
@@ -438,7 +438,9 @@ function(_php_main_create_files)
     ARCHIVE EXCLUDE_FROM_ALL
     FILE_SET HEADERS
       DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/${PHP_INCLUDE_PREFIX}/main
+      COMPONENT php-development
     FILE_SET generated
       DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/${PHP_INCLUDE_PREFIX}/main
+      COMPONENT php-development
   )
 endfunction()

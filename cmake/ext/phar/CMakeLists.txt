@@ -106,12 +106,14 @@ if(NOT CMAKE_SYSTEM_NAME STREQUAL "Windows")
     FILES ${CMAKE_CURRENT_BINARY_DIR}/phar.1
     RENAME ${PHP_PROGRAM_PREFIX}phar${PHP_PROGRAM_SUFFIX}.1
     DESTINATION ${CMAKE_INSTALL_MANDIR}/man1
+    COMPONENT php-doc
   )
 
   install(
     FILES ${CMAKE_CURRENT_BINARY_DIR}/phar.phar.1
     RENAME ${PHP_PROGRAM_PREFIX}phar${PHP_PROGRAM_SUFFIX}.phar.1
     DESTINATION ${CMAKE_INSTALL_MANDIR}/man1
+    COMPONENT php-doc
   )
 endif()
 
@@ -239,6 +241,7 @@ set_property(SOURCE php_ext_phar_generated_phar PROPERTY SYMBOLIC TRUE)
 # Install phar.phar file to destination. Here a duplicate phar.phar generation
 # step is used to generate it to a destination directory because of the install
 # prefix used in shebang (when using 'cmake --install --prefix ...').
+install(DIRECTORY DESTINATION ${CMAKE_INSTALL_BINDIR} COMPONENT php)
 string(CONFIGURE [[
   execute_process(
     COMMAND
@@ -287,4 +290,4 @@ string(CONFIGURE [[
     SYMBOLIC
   )
 ]] code @ONLY)
-install(CODE "${code}")
+install(CODE "${code}" COMPONENT php)
