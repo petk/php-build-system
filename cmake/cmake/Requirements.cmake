@@ -63,9 +63,12 @@ endif()
 find_package(Sendmail)
 
 ################################################################################
-# Find PHP installed on the system for generating stub files (*_arginfo.h),
-# Zend/zend_vm_gen.php, and similar where it can be used. Otherwise the built
-# cli SAPI is used at the build phase. Minimum supported version for
-# gen_stub.php is PHP 7.4.
+# Find PHP installed on the system and set PHP_HOST_EXECUTABLE for development
+# such as generating stubs (*_arginfo.h) with build/gen_stub.php, running PHP
+# scripts Zend/zend_vm_gen.php and similar. Otherwise the sapi/cli executable
+# will be used at the build phase, where possible. The minimum version should
+# match the version required to run these PHP scripts.
 ################################################################################
-find_package(PHPSystem 7.4)
+set(PHP_ARTIFACTS_PREFIX "_HOST")
+find_package(PHP 7.4)
+unset(PHP_ARTIFACTS_PREFIX)
