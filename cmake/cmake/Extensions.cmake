@@ -424,6 +424,7 @@ function(php_extensions_postconfigure extension)
       ${set}
       DESTINATION
       ${CMAKE_INSTALL_INCLUDEDIR}/${PHP_INCLUDE_PREFIX}/ext/${extension}
+      COMPONENT php-development
     )
   endforeach()
   install(
@@ -431,8 +432,10 @@ function(php_extensions_postconfigure extension)
     ARCHIVE EXCLUDE_FROM_ALL
     RUNTIME
       DESTINATION ${PHP_EXTENSION_DIR}
+      COMPONENT php
     LIBRARY
       DESTINATION ${PHP_EXTENSION_DIR}
+      COMPONENT php
     ${file_sets}
   )
 

@@ -268,11 +268,21 @@ install(
   TARGETS php_sapi_phpdbg
   RUNTIME
     DESTINATION ${CMAKE_INSTALL_BINDIR}
+    COMPONENT php-sapi-phpdbg
 )
 
 # Create log and run directories on installation.
-install(DIRECTORY DESTINATION ${CMAKE_INSTALL_LOCALSTATEDIR}/log)
-install(DIRECTORY DESTINATION ${CMAKE_INSTALL_RUNSTATEDIR})
+install(
+  DIRECTORY
+  DESTINATION ${CMAKE_INSTALL_LOCALSTATEDIR}/log
+  COMPONENT php-sapi-phpdbg
+)
+
+install(
+  DIRECTORY
+  DESTINATION ${CMAKE_INSTALL_RUNSTATEDIR}
+  COMPONENT php-sapi-phpdbg
+)
 
 # Configure pkg-config phpdbg.pc metadata file and install shared phpdbg module.
 if(TARGET php_sapi_phpdbg_shared)
@@ -304,14 +314,17 @@ if(TARGET php_sapi_phpdbg_shared)
   install(
     FILES ${CMAKE_CURRENT_BINARY_DIR}/phpdbg.pc
     DESTINATION ${CMAKE_INSTALL_LIBDIR}/pkgconfig
+    COMPONENT php-development
   )
 
   install(
     TARGETS php_sapi_phpdbg_shared
     LIBRARY
       DESTINATION ${CMAKE_INSTALL_LIBDIR}
+      COMPONENT php-sapi-phpdbg
     RUNTIME
       DESTINATION ${CMAKE_INSTALL_LIBDIR}
+      COMPONENT php-sapi-phpdbg
   )
 endif()
 
@@ -327,6 +340,7 @@ block()
       FILES ${CMAKE_CURRENT_BINARY_DIR}/phpdbg.1
       RENAME ${PHP_PROGRAM_PREFIX}phpdbg${PHP_PROGRAM_SUFFIX}.1
       DESTINATION ${CMAKE_INSTALL_MANDIR}/man1
+      COMPONENT php-doc
     )
   endif()
 endblock()

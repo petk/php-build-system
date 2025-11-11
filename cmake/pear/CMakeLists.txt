@@ -144,5 +144,5 @@ string(CONFIGURE [[
   set(php_pear_php_program_suffix "@PHP_PROGRAM_SUFFIX@")
   set(php_pear_install_sysconf_dir "$<PATH:ABSOLUTE_PATH,NORMALIZE,@CMAKE_INSTALL_SYSCONFDIR@,${CMAKE_INSTALL_PREFIX}>")
 ]] code @ONLY)
-install(CODE "${code}")
-install(SCRIPT cmake/InstallPear.cmake)
+install(CODE "${code}" COMPONENT php-pear)
+install(SCRIPT cmake/InstallPear.cmake COMPONENT php-pear)

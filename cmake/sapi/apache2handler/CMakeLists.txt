@@ -147,6 +147,8 @@ install(
   TARGETS php_sapi_apache2handler
   LIBRARY
     DESTINATION ${Apache_LIBEXECDIR}
+    COMPONENT php-sapi-apache2handler
   RUNTIME
     DESTINATION ${Apache_LIBEXECDIR}
+    COMPONENT php-sapi-apache2handler
 )

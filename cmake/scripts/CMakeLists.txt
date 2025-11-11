@@ -28,6 +28,7 @@ php_pkgconfig_generate_pc(
 install(
   FILES ${CMAKE_CURRENT_BINARY_DIR}/php.pc
   DESTINATION ${CMAKE_INSTALL_LIBDIR}/pkgconfig
+  COMPONENT php-development
 )
 
 # The rest of the configuration here is for *nix systems.
@@ -48,6 +49,7 @@ block()
     FILES ${PROJECT_BINARY_DIR}/scripts/man1/php-config.1
     RENAME ${PHP_PROGRAM_PREFIX}php-config${PHP_PROGRAM_SUFFIX}.1
     DESTINATION ${CMAKE_INSTALL_MANDIR}/man1
+    COMPONENT php-doc
   )
 
   message(STATUS "Creating scripts/man1/phpize.1")
@@ -56,6 +58,7 @@ block()
     FILES ${PROJECT_BINARY_DIR}/scripts/man1/phpize.1
     RENAME ${PHP_PROGRAM_PREFIX}phpize${PHP_PROGRAM_SUFFIX}.1
     DESTINATION ${CMAKE_INSTALL_MANDIR}/man1
+    COMPONENT php-doc
   )
 endblock()
 
@@ -143,13 +146,14 @@ block()
       @ONLY
     )
   ]] code @ONLY)
-  install(CODE "${code}")
+  install(CODE "${code}" COMPONENT php-development)
 
   install(
     PROGRAMS
     ${PHP_BINARY_DIR}/$<CONFIG>/scripts/php-config
     DESTINATION ${CMAKE_INSTALL_BINDIR}
     RENAME ${PHP_PROGRAM_PREFIX}php-config${PHP_PROGRAM_SUFFIX}
+    COMPONENT php-development
   )
 endblock()
 
@@ -194,13 +198,14 @@ block()
       @ONLY
     )
   ]] code @ONLY)
-  install(CODE "${code}")
+  install(CODE "${code}" COMPONENT php-development)
 
   install(
     PROGRAMS
     ${CMAKE_CURRENT_BINARY_DIR}/phpize
     DESTINATION ${CMAKE_INSTALL_BINDIR}
     RENAME ${PHP_PROGRAM_PREFIX}phpize${PHP_PROGRAM_SUFFIX}
+    COMPONENT php-development
   )
 endblock()
 
@@ -222,6 +227,7 @@ install(
     ${PHP_SOURCE_DIR}/run-tests.php
     ${PHP_SOURCE_DIR}/scripts/phpize.m4
   DESTINATION ${CMAKE_INSTALL_LIBDIR}/php/build
+  COMPONENT php-development
 )
 
 install(
@@ -230,4 +236,5 @@ install(
     ${PHP_SOURCE_DIR}/build/config.sub
     ${PHP_SOURCE_DIR}/build/shtool
   DESTINATION ${CMAKE_INSTALL_LIBDIR}/php/build
+  COMPONENT php-development
 )
