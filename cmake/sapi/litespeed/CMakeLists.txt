@@ -59,4 +59,5 @@ install(
   TARGETS php_sapi_litespeed
   RUNTIME
     DESTINATION ${CMAKE_INSTALL_BINDIR}
+    COMPONENT php-sapi-litespeed
 )

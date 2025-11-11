@@ -397,6 +397,7 @@ install(
   TARGETS php_zend
   FILE_SET tsrm
     DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/${PHP_INCLUDE_PREFIX}/TSRM
+    COMPONENT php-development
 )
 
 ################################################################################
@@ -571,6 +572,8 @@ install(
   ARCHIVE EXCLUDE_FROM_ALL
   FILE_SET HEADERS
     DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/${PHP_INCLUDE_PREFIX}/Zend
+    COMPONENT php-development
   FILE_SET generated
     DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/${PHP_INCLUDE_PREFIX}/Zend
+    COMPONENT php-development
 )
