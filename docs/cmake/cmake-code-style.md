@@ -412,11 +412,11 @@ by:
 find_package(PackageName)
 ```
 
-It sets variable `<PackageName>_FOUND` and other optional variables, such as
-`<PackageName>_VERSION`, `<PackageName>_INCLUDE_DIRS`, which are managed by
-CMake's `FindPackageHandleStandardArgs`. Recommendation for find modules is that
-they should expose imported targets, such as `PackageName::PackageName` which
-can be then linked to a target in the project:
+This sets variable `<PackageName>_FOUND` variable, which is managed by the
+CMake's
+[FindPackageHandleStandardArgs](https://cmake.org/cmake/help/latest/module/FindPackageHandleStandardArgs.html)
+module. Find modules should expose imported targets, such as
+`PackageName::PackageName` which can be then linked to a target in the project:
 
 ```cmake
 find_package(PackageName)
