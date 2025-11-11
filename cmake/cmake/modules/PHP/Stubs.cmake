@@ -22,7 +22,7 @@ function(_php_stubs_get_php_command result)
   # If PHP is not found on the system, the PHP cli SAPI will be used with the
   # tokenizer extension.
   if(
-    NOT PHPSystem_FOUND
+    NOT PHP_HOST_FOUND
     AND (
       NOT TARGET PHP::sapi::cli
       OR (TARGET PHP::sapi::cli AND NOT TARGET PHP::ext::tokenizer)
@@ -32,16 +32,16 @@ function(_php_stubs_get_php_command result)
   endif()
 
   # If external PHP is available, check for the required tokenizer extension.
-  if(PHPSystem_FOUND)
+  if(PHP_HOST_FOUND)
     execute_process(
-      COMMAND ${PHPSystem_EXECUTABLE} --ri tokenizer
+      COMMAND ${PHP_HOST_EXECUTABLE} --ri tokenizer
       RESULT_VARIABLE code
       OUTPUT_QUIET
       ERROR_QUIET
     )
 
     if(code EQUAL 0)
-      set(${result} ${PHPSystem_EXECUTABLE})
+      set(${result} ${PHP_HOST_EXECUTABLE})
       return(PROPAGATE ${result})
     endif()
   endif()
@@ -120,7 +120,7 @@ block()
       $<PATH:ABSOLUTE_PATH,NORMALIZE,$<LIST:FILTER,$<TARGET_PROPERTY:${target},SOURCES>,INCLUDE,\.stub\.php$>,$<TARGET_PROPERTY:${target},SOURCE_DIR>>
     )
 
-    if(PHPSystem_FOUND)
+    if(PHP_HOST_FOUND)
       add_dependencies(${target} php_stubs)
     endif()
   endforeach()
@@ -135,7 +135,7 @@ block()
   )
 
   set(target_options "")
-  if(NOT PHPSystem_FOUND)
+  if(NOT PHP_HOST_FOUND)
     set(target_options ALL DEPENDS ${targets})
   endif()
 
