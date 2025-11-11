@@ -143,4 +143,9 @@ target_link_libraries(
     $<BUILD_INTERFACE:PHP::sapi>
 )
 
-install(TARGETS php_sapi_fuzzer RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR})
+install(
+  TARGETS php_sapi_fuzzer
+  RUNTIME
+    DESTINATION ${CMAKE_INSTALL_BINDIR}
+    COMPONENT php-sapi-fuzzer
+)

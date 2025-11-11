@@ -406,12 +406,13 @@ block()
       @ONLY
     )
   ]] code @ONLY)
-  install(CODE "${code}")
+  install(CODE "${code}" COMPONENT php-doc)
 
   install(
     FILES ${CMAKE_CURRENT_BINARY_DIR}/php-fpm.8
     RENAME ${PHP_PROGRAM_PREFIX}php-fpm${PHP_PROGRAM_SUFFIX}.8
     DESTINATION ${CMAKE_INSTALL_MANDIR}/man8
+    COMPONENT php-doc
   )
 endblock()
 
@@ -441,7 +442,7 @@ block()
       @ONLY
     )
   ]] code @ONLY)
-  install(CODE "${code}")
+  install(CODE "${code}" COMPONENT php-sapi-fpm)
 endblock()
 
 ################################################################################
@@ -472,7 +473,7 @@ block()
       @ONLY
     )
   ]] code @ONLY)
-  install(CODE "${code}")
+  install(CODE "${code}" COMPONENT php-sapi-fpm)
 endblock()
 
 ################################################################################
@@ -516,7 +517,7 @@ block()
       @ONLY
     )
   ]] code @ONLY)
-  install(CODE "${code}")
+  install(CODE "${code}" COMPONENT php-sapi-fpm)
 endblock()
 
 ################################################################################
@@ -559,22 +560,40 @@ block()
       @ONLY
     )
   ]] code @ONLY)
-  install(CODE "${code}")
+  install(CODE "${code}" COMPONENT php-sapi-fpm)
 endblock()
 
 ################################################################################
 # Installation.
 ################################################################################
 
-install(TARGETS php_sapi_fpm RUNTIME DESTINATION ${CMAKE_INSTALL_SBINDIR})
+install(
+  TARGETS php_sapi_fpm
+  RUNTIME
+    DESTINATION ${CMAKE_INSTALL_SBINDIR}
+    COMPONENT php-sapi-fpm
+)
 
 # Create log and run directories on installation.
-install(DIRECTORY DESTINATION ${CMAKE_INSTALL_LOCALSTATEDIR}/log)
-install(DIRECTORY DESTINATION ${CMAKE_INSTALL_RUNSTATEDIR})
+install(
+  DIRECTORY
+  DESTINATION ${CMAKE_INSTALL_LOCALSTATEDIR}/log
+  COMPONENT php-sapi-fpm
+)
 
-install(CODE "
+install(
+  DIRECTORY
+  DESTINATION ${CMAKE_INSTALL_RUNSTATEDIR}
+  COMPONENT php-sapi-fpm
+)
+
+install(
+  CODE "
   if(NOT IS_ABSOLUTE \"${CMAKE_INSTALL_SYSCONFDIR}\")
-    set(sysconf_dir \"\$ENV{DESTDIR}\${CMAKE_INSTALL_PREFIX}/${CMAKE_INSTALL_SYSCONFDIR}\")
+    set(
+      sysconf_dir
+      \"\$ENV{DESTDIR}\${CMAKE_INSTALL_PREFIX}/${CMAKE_INSTALL_SYSCONFDIR}\"
+    )
   else()
     set(sysconf_dir \"\$ENV{DESTDIR}${CMAKE_INSTALL_SYSCONFDIR}\")
   endif()
@@ -600,8 +619,9 @@ install(CODE "
       \"${CMAKE_CURRENT_BINARY_DIR}/www.conf\"
       \"\${sysconf_dir}/php-fpm.d/www.conf.default\"
     )
-  endif()
-")
+  endif()"
+  COMPONENT php-sapi-fpm
+)
 
 ################################################################################
 # FPM info status HTML page.
@@ -613,6 +633,7 @@ install(
   FILES
     ${CMAKE_CURRENT_BINARY_DIR}/status.html
   DESTINATION ${CMAKE_INSTALL_DATADIR}/fpm
+  COMPONENT php-sapi-fpm
 )
 
 ################################################################################
