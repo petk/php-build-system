@@ -206,7 +206,7 @@ index 595c7d9ea23..bd7507a51e3 100644
  --FILE--
  <?php
 diff --git a/ext/zip/tests/oo_addglob2.phpt b/ext/zip/tests/oo_addglob2.phpt
-index 517c0b7fd7f..1432d704de5 100644
+index a98a2227120..14feac6b24d 100644
 --- a/ext/zip/tests/oo_addglob2.phpt
 +++ b/ext/zip/tests/oo_addglob2.phpt
 @@ -6,6 +6,12 @@
