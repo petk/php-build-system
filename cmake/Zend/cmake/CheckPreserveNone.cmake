@@ -55,7 +55,11 @@ if(NOT DEFINED PHP_ZEND_HAVE_PRESERVE_NONE)
           "movq %2, %%r13\n"
           "xorq %3, %%r13\n"
           "xorq %%rax, %%rax\n"
+      #if defined(__APPLE__)
+          "call _fun\n"
+      #else
           "call fun\n"
+      #endif
           : "=a" (ret)
           : "r" (const1), "r" (const2), "r" (key)
           : "r12", "r13"
@@ -66,7 +70,11 @@ if(NOT DEFINED PHP_ZEND_HAVE_PRESERVE_NONE)
           "eor    x20, %1, %3\n"
           "eor    x21, %2, %3\n"
           "eor    x0, x0, x0\n"
+      #if defined(__APPLE__)
+          "bl     _fun\n"
+      #else
           "bl     fun\n"
+      #endif
           "mov    %0, x0\n"
           "=r" (ret)
           "r" (const1), "r" (const2), "r" (key)
