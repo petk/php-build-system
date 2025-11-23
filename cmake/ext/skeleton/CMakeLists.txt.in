@@ -121,7 +121,7 @@ install(
     COMPONENT php-development
 )
 
-set(PHP_EXTENSION_%EXTNAMECAPS% TRUE)
+set(PHP_EXT_%EXTNAMECAPS%_ENABLED TRUE)
 
 # Create configuration header.
 configure_file(cmake/config.h.in config.h)
