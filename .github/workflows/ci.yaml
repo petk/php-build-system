@@ -113,6 +113,9 @@ jobs:
         with:
           fetch-depth: 2
 
+      - name: Install CMake
+        uses: lukka/get-cmake@latest
+
       - name: Build and install
         run: |
           cmake --preset all-enabled
