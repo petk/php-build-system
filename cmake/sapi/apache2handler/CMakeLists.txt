@@ -41,7 +41,7 @@ cmake -B php-build -DPHP_SAPI_APACHE2HANDLER=ON -DApache_EXECUTABLE=/opt/apache2
 
 The path, where to install the PHP Apache module, can be overridden with the
 `PHP_SAPI_APACHE2HANDLER_INSTALL_DIR` variable. This might be used in edge cases
-where some specific custom installation prefix is used to avoid insuficcient
+where some specific custom installation prefix is used to avoid insufficient
 permissions of the default location on the host, or when developing the PHP
 build system.
 
