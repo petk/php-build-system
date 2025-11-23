@@ -812,6 +812,12 @@ A list of Autoconf `configure` command-line configuration options, Windows
       <td>removed since PHP >= 8.4</td>
     </tr>
     <tr>
+      <td>&emsp;N/A</td>
+      <td>&emsp;N/A</td>
+      <td></td>
+      <td>PHP_SAPI_APACHE2HANDLER_INSTALL_DIR=&lt;dir&gt;</td>
+    </tr>
+    <tr>
       <td>--enable-cgi</td>
       <td>--enable-cgi</td>
       <td>PHP_SAPI_CGI=ON</td>
