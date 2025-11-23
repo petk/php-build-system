@@ -814,8 +814,8 @@ A list of Autoconf `configure` command-line configuration options, Windows
     <tr>
       <td>&emsp;N/A</td>
       <td>&emsp;N/A</td>
-      <td></td>
       <td>PHP_SAPI_APACHE2HANDLER_INSTALL_DIR=&lt;dir&gt;</td>
+      <td></td>
     </tr>
     <tr>
       <td>--enable-cgi</td>

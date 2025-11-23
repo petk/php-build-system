@@ -12,7 +12,7 @@ Configure the `apache2handler` PHP SAPI.
 
 Enable the shared Apache 2 handler SAPI module.
 
-## PHP_SAPI_APACHE2HANDLER_INSTALL_DIR
+### PHP_SAPI_APACHE2HANDLER_INSTALL_DIR
 
 * Default: The path to the Apache modules directory of the host system
   (`Apache_LIBEXEC`).
