@@ -1,2 +1,2 @@
 /* Define to 1 if the PHP extension '%EXTNAME%' is available. */
-#cmakedefine PHP_EXTENSION_%EXTNAMECAPS% 1
+#cmakedefine PHP_EXT_%EXTNAMECAPS%_ENABLED 1
