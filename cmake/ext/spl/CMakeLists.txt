@@ -13,6 +13,14 @@ project(
   LANGUAGES C
 )
 
+if(PROJECT_IS_TOP_LEVEL)
+  message(
+    FATAL_ERROR
+    "The PHP spl extension is intended to be built only within the "
+    "top-level PHP source tree (php-src)."
+  )
+endif()
+
 include(FeatureSummary)
 
 add_feature_info(
