@@ -235,21 +235,12 @@ tests and other associated files:
 
 ## Why CMake?
 
-At the time of writing, CMake is actively developed, and many developers may
-already be familiar with it, making C code more appealing to new contributors.
-Numerous IDEs offer excellent CMake integration for C/C++ projects.
-
-CMake shares many similarities with Autotools, which simplifies the learning
-curve for those already accustomed to building C code using existing systems.
-
-Notably, CMake features better out-of-the-box support on Windows systems, where
-Autotools may encounter issues without additional adaptations and adjustments in
-the build process.
-
-Despite Autotools potentially seeming complex and arcane to new developers,
-unfamiliar with it, it remains a robust and solid build system option for C/C++
-projects on \*nix systems. Many large open-source projects use Autotools, and
-some even incorporate it alongside CMake.
+At the time of writing, CMake is actively maintained, with new features being
+introduced slowly and conservatively. Despite its limitations, it remains one of
+the most widely adopted build systems, offering solid support across all major
+platforms. Many developers are already familiar with CMake, which can help lower
+the barrier for contributors working with the PHP codebase. IDEs and editors
+provide reasonably good CMake integration for C/C++ projects.
 
 ## Documentation
 
