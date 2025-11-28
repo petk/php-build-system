@@ -252,18 +252,20 @@ if(
   )
 endif()
 
-php_set(
-  PHP_EXT_ODBC_VERSION
-  TYPE STRING
-  IF [[PHP_EXT_ODBC AND NOT PHP_EXT_ODBC_TYPE MATCHES "^(unixODBC|dbmaker)$"]]
-  VALUE "0x0350"
-  ELSE_VALUE "0x0350"
-  DOC
-    "Hex number to force support for the ODBC specification version. Default: "
-    "0x0350. Set to special value 0 (zero) or empty to not define explicit "
-    "ODBCVER in the configuration header."
-)
-mark_as_advanced(PHP_EXT_ODBC_VERSION)
+if(PHP_EXT_ODBC_TYPE MATCHES "^(unixODBC|dbmaker)$")
+  set(PHP_EXT_ODBC_VERSION "0x0350")
+else()
+  set(
+    CACHE{PHP_EXT_ODBC_VERSION}
+    TYPE STRING
+    HELP
+      "Hex number to force support for the ODBC specification version. Default: "
+      "0x0350. Set to special value 0 (zero) or empty to not define explicit "
+      "ODBCVER in the configuration header."
+    VALUE "0x0350"
+  )
+  mark_as_advanced(PHP_EXT_ODBC_VERSION)
+endif()
 # Validate hexadecimal version.
 if(PHP_EXT_ODBC_VERSION AND NOT PHP_EXT_ODBC_VERSION MATCHES "^0x[0-9A-Fa-f]+$")
   message(
