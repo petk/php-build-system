@@ -44,7 +44,6 @@ project(
 
 include(CMakeDependentOption)
 include(FeatureSummary)
-include(PHP/Set)
 
 option(PHP_EXT_PDO_MYSQL "Enable the pdo_mysql extension")
 
@@ -63,14 +62,15 @@ cmake_dependent_option(
 )
 
 # Driver selection option.
-php_set(
-  PHP_EXT_PDO_MYSQL_DRIVER
-  CHOICES "mysqlnd" "mysql"
-  IF PHP_EXT_PDO_MYSQL
-  DOC
+set(
+  CACHE{PHP_EXT_PDO_MYSQL_DRIVER}
+  TYPE STRING
+  HELP
     "Select MySQL driver: mysqlnd (MySQL Native Driver, recommended) or mysql "
     "(system MySQL)"
+  VALUE "mysqlnd"
 )
+set_property(CACHE PHP_EXT_PDO_MYSQL_DRIVER PROPERTY STRINGS "mysqlnd" "mysql")
 mark_as_advanced(PHP_EXT_PDO_MYSQL_DRIVER)
 
 if(NOT PHP_EXT_PDO_MYSQL)
