@@ -863,7 +863,7 @@ PHP CMake-based build system specific installation cache variables:
   The PHP include directory inside the `CMAKE_INSTALL_INCLUDEDIR`.
   Default: `php`
 
-* [`PHP_PEAR_DIR`](/docs/cmake/variables/PHP_PEAR.md)
+* [`PHP_PEAR_INSTALL_DIR`](/docs/cmake/variables/PHP_PEAR.md)
 
   The path where PEAR will be installed to.
 
@@ -908,7 +908,7 @@ PHP installation directory structure when using CMake:
   └─📂 ${CMAKE_INSTALL_DATADIR}       #   └─📂 (share)
     └─📂 php                          #     └─📂 php
       └─📂 fpm                        #       └─📂 fpm
-  ├─📂 ${PHP_PEAR_DIR}                #     └─📂 pear (default: share/pear)
+  ├─📂 ${PHP_PEAR_INSTALL_DIR}        #     └─📂 pear (default: share/pear)
   └─📂 ${CMAKE_INSTALL_LOCALSTATEDIR} #   └─📂 var
     └─📂 log                          #     └─📂 log
   └─📂 ${CMAKE_INSTALL_RUNSTATEDIR}   #   └─📂 var/run

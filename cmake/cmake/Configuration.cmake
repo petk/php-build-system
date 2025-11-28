@@ -87,7 +87,7 @@ mark_as_advanced(PHP_INCLUDE_PREFIX)
 
 set(
   CACHE{PHP_CONFIG_FILE_SCAN_DIR}
-  TYPE PATH
+  TYPE STRING
   HELP
     "The path where to scan for additional INI configuration files; By default "
     "it is empty value; Pass it as a relative path inside the install prefix, "
@@ -100,7 +100,7 @@ mark_as_advanced(PHP_CONFIG_FILE_SCAN_DIR)
 if(NOT CMAKE_SYSTEM_NAME STREQUAL "Windows")
   set(
     CACHE{PHP_CONFIG_FILE_PATH}
-    TYPE FILEPATH
+    TYPE STRING
     HELP
       "The path in which to look for php.ini; By default, it is set to "
       "SYSCONFDIR (etc); Relative path gets the CMAKE_INSTALL_PREFIX "
@@ -223,7 +223,7 @@ mark_as_advanced(PHP_SYSTEM_GLOB)
 
 set(
   CACHE{PHP_EXTENSION_DIR}
-  TYPE PATH
+  TYPE STRING
   HELP
     "Default directory for dynamically loadable PHP extensions. If left empty, "
     "it is determined automatically. Can be overridden using the PHP "

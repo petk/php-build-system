@@ -12,7 +12,7 @@
 #cmakedefine CONFIGURE_COMMAND "@CONFIGURE_COMMAND@"
 
 /* The path to the PEAR installation directory. */
-#define PEAR_INSTALLDIR "@PHP_PEAR_INSTALLDIR@"
+#define PEAR_INSTALLDIR "@PHP_PEAR_INSTALL_DIR_VALUE@"
 
 /* The path to the directory containing command-line executables (bin). */
 #define PHP_BINDIR "@PHP_BINDIR@"

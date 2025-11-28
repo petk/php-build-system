@@ -3411,7 +3411,7 @@ A list of Autoconf `configure` command-line configuration options, Windows
       <td>N/A</td>
       <td>
         PHP_PEAR=ON<br>
-        [PHP_PEAR_DIR=DIR]<br>
+        [PHP_PEAR_INSTALL_DIR=DIR]<br>
         [PHP_PEAR_TEMP_DIR=DIR]<br>
       </td>
       <td></td>
