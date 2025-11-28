@@ -92,7 +92,6 @@ include(CheckSymbolExists)
 include(CMakePushCheckState)
 include(FeatureSummary)
 include(PHP/SearchLibraries)
-include(PHP/Set)
 
 ################################################################################
 # FPM configuration.
@@ -105,70 +104,63 @@ add_feature_info(
   "FastCGI Process Manager"
 )
 
-php_set(
-  PHP_SAPI_FPM_USER
+set(
+  CACHE{PHP_SAPI_FPM_USER}
   TYPE STRING
-  IF PHP_SAPI_FPM
+  HELP "Set the user for running PHP FPM (default: nobody)"
   VALUE "nobody"
-  DOC "Set the user for running PHP FPM (default: nobody)"
 )
 
-php_set(
-  PHP_SAPI_FPM_GROUP
+set(
+  CACHE{PHP_SAPI_FPM_GROUP}
   TYPE STRING
-  IF PHP_SAPI_FPM
-  VALUE "nobody"
-  DOC
+  HELP
     "Set the group for running PHP FPM. For a system user, this should usually "
     "be set to match the FPM username (default: nobody)"
+  VALUE "nobody"
 )
 
-php_set(
-  PHP_SAPI_FPM_ACL
-  TYPE BOOL
-  IF [[PHP_SAPI_FPM AND NOT CMAKE_SYSTEM_NAME STREQUAL "Darwin"]]
-  VALUE OFF
-  DOC "Use POSIX Access Control Lists"
-)
+if(CMAKE_SYSTEM_NAME STREQUAL "Darwin")
+  set(PHP_SAPI_FPM_ACL FALSE)
+else()
+  option(PHP_SAPI_FPM_ACL "Use POSIX Access Control Lists")
+endif()
 add_feature_info(
   "sapi/fpm ACL"
   PHP_SAPI_FPM_ACL
   "POSIX Access Control Lists integration"
 )
 
-php_set(
-  PHP_SAPI_FPM_APPARMOR
-  TYPE BOOL
-  IF [[PHP_SAPI_FPM AND NOT CMAKE_SYSTEM_NAME STREQUAL "Darwin"]]
-  VALUE OFF
-  DOC "Enable the AppArmor confinement through libapparmor"
-)
+if(CMAKE_SYSTEM_NAME STREQUAL "Darwin")
+  set(PHP_SAPI_FPM_APPARMOR FALSE)
+else()
+  option(
+    PHP_SAPI_FPM_APPARMOR
+    "Enable the AppArmor confinement through libapparmor"
+  )
+endif()
 add_feature_info(
   "sapi/fpm AppArmor"
   PHP_SAPI_FPM_APPARMOR
   "application confinement integration"
 )
 
-php_set(
-  PHP_SAPI_FPM_SELINUX
-  TYPE BOOL
-  IF [[PHP_SAPI_FPM AND NOT CMAKE_SYSTEM_NAME STREQUAL "Darwin"]]
-  VALUE OFF
-  DOC "Enable the SELinux policy library support"
-)
+if(CMAKE_SYSTEM_NAME STREQUAL "Darwin")
+  set(PHP_SAPI_FPM_SELINUX FALSE)
+else()
+  option(PHP_SAPI_FPM_SELINUX "Enable the SELinux policy library support")
+endif()
 add_feature_info(
   "sapi/fpm SELinux"
   PHP_SAPI_FPM_SELINUX
   "security policy integration"
 )
 
-php_set(
-  PHP_SAPI_FPM_SYSTEMD
-  TYPE BOOL
-  IF [[PHP_SAPI_FPM AND NOT CMAKE_SYSTEM_NAME STREQUAL "Darwin"]]
-  VALUE OFF
-  DOC "Enable the systemd integration"
-)
+if(CMAKE_SYSTEM_NAME STREQUAL "Darwin")
+  set(PHP_SAPI_FPM_SYSTEMD FALSE)
+else()
+  option(PHP_SAPI_FPM_SYSTEMD "Enable the systemd integration")
+endif()
 add_feature_info(
   "sapi/fpm systemd"
   PHP_SAPI_FPM_SYSTEMD
