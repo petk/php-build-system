@@ -17,14 +17,14 @@ Configure PEAR as part of the PHP installation.
 
 Install PEAR, PHP Extension and Application Repository package manager.
 
-## PHP_PEAR_DIR
+## PHP_PEAR_INSTALL_DIR
 
 :orange_circle: *Deprecated as of PHP 7.4.*
 
 * Default: `DATADIR/pear`
 
-The path where PEAR will be installed to. `CMAKE_INSTALL_PREFIX` is
-automatically prepended when given as a relative path.
+The path where PEAR will be installed to. Relative path is interpreted as being
+relative to the `CMAKE_INSTALL_PREFIX`.
 
 ## PHP_PEAR_TEMP_DIR
 
@@ -33,18 +33,15 @@ automatically prepended when given as a relative path.
 * Default: `tmp/pear` on \*nix and `temp/pear` on Windows
 
 The PEAR temporary directory where PEAR writes temporary files, such as cache,
-downloaded packages artifacts and similar. Pass it as a relative path inside the
-top level system directory, which will be automatically prepended. If given as
-an absolute path, top level directory is not prepended. Relative path is added
-to the top root system directory (`/` on \*nix, or `C:/` on Windows).
+downloaded packages artifacts and similar. Relative path is interpreted as being
+relative to the top root system directory (`/` on \*nix, or `C:/` on Windows).
 
 For example, default PEAR temporary directory after the top level system
-directory is prepended becomes `/tmp/pear` on \*nix and `C:/temp/pear` on
-Windows.
+directory is prepended becomes `/tmp/pear` on Unix-like systems and
+`C:/temp/pear` on Windows.
 #]=============================================================================]
 
 include(FeatureSummary)
-include(PHP/Set)
 
 option(
   PHP_PEAR
@@ -57,26 +54,39 @@ add_feature_info(
   "PHP Extension and Application Repository"
 )
 
-php_set(
-  PHP_PEAR_DIR
-  TYPE PATH
-  IF PHP_PEAR
+set(
+  CACHE{PHP_PEAR_INSTALL_DIR}
+  TYPE STRING
+  HELP "The PEAR installation directory"
   VALUE "${CMAKE_INSTALL_DATADIR}/pear"
-  DOC "The PEAR installation directory"
 )
-mark_as_advanced(PHP_PEAR_DIR)
+mark_as_advanced(PHP_PEAR_INSTALL_DIR)
+
+block()
+  if(NOT PHP_PEAR)
+    set(value "")
+  else()
+    set(value "${PHP_PEAR_INSTALL_DIR}")
+  endif()
+
+  set(
+    CACHE{PHP_PEAR_INSTALL_DIR_VALUE}
+    TYPE INTERNAL
+    HELP "Internal storage buffer for the PEAR installation directory value"
+    VALUE ${value}
+  )
+endblock()
 
 if(CMAKE_SYSTEM_NAME STREQUAL "Windows")
   set(tmp_dir "temp/pear")
 else()
   set(tmp_dir "tmp/pear")
 endif()
-php_set(
-  PHP_PEAR_TEMP_DIR
-  TYPE PATH
-  IF PHP_PEAR
+set(
+  CACHE{PHP_PEAR_TEMP_DIR}
+  TYPE STRING
+  HELP "The PEAR temporary directory. Default: ${tmp_dir}"
   VALUE "${tmp_dir}"
-  DOC "The PEAR temporary directory. Default: ${tmp_dir}"
 )
 mark_as_advanced(PHP_PEAR_TEMP_DIR)
 
@@ -128,7 +138,7 @@ elseif(CMAKE_CROSSCOMPILING AND CMAKE_CROSSCOMPILING_EMULATOR)
 endif()
 
 string(CONFIGURE [[
-  set(php_pear_install_dir "$<PATH:ABSOLUTE_PATH,NORMALIZE,@PHP_PEAR_DIR@,${CMAKE_INSTALL_PREFIX}>")
+  set(php_pear_install_dir "$<PATH:ABSOLUTE_PATH,NORMALIZE,@PHP_PEAR_INSTALL_DIR_VALUE@,${CMAKE_INSTALL_PREFIX}>")
   set(php_pear_install_bin_dir "$<PATH:ABSOLUTE_PATH,NORMALIZE,@CMAKE_INSTALL_BINDIR@,${CMAKE_INSTALL_PREFIX}>")
   set(php_pear_current_source_dir "@CMAKE_CURRENT_SOURCE_DIR@")
   set(php_pear_current_binary_dir "@CMAKE_CURRENT_BINARY_DIR@")

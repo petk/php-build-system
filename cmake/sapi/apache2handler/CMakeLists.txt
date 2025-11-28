@@ -69,7 +69,6 @@ set(
   HELP "The path to the Apache modules directory to install PHP Apache module"
   VALUE ""
 )
-set_property(CACHE PHP_SAPI_APACHE2HANDLER_INSTALL_DIR PROPERTY TYPE PATH)
 mark_as_advanced(PHP_SAPI_APACHE2HANDLER_INSTALL_DIR)
 
 if(NOT PHP_SAPI_APACHE2HANDLER)
