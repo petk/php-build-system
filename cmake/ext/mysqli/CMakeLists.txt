@@ -49,7 +49,6 @@ project(
 
 include(CMakeDependentOption)
 include(FeatureSummary)
-include(PHP/Set)
 
 option(PHP_EXT_MYSQLI "Enable the mysqli extension")
 
@@ -68,25 +67,39 @@ cmake_dependent_option(
 )
 
 # Common configuration option for mysqli and pdo_mysql extensions.
-cmake_dependent_option(
-  PHP_EXT_MYSQL_SOCKET
-  "mysqli/pdo_mysql: Use MySQL Unix socket pointer from default locations"
-  OFF
-  [[(PHP_EXT_MYSQLI OR PHP_EXT_PDO_MYSQL) AND NOT CMAKE_SYSTEM_NAME STREQUAL "Windows"]]
-  OFF
-)
-mark_as_advanced(PHP_EXT_MYSQL_SOCKET)
+if(CMAKE_SYSTEM_NAME STREQUAL "Windows")
+  set(
+    CACHE{PHP_EXT_MYSQL_SOCKET}
+    TYPE INTERNAL
+    HELP "mysqli/pdo_mysql: Use MySQL Unix socket pointer from default location"
+    VALUE FALSE
+  )
 
-php_set(
-  PHP_EXT_MYSQL_SOCKET_PATH
-  TYPE STRING
-  IF [[(PHP_EXT_MYSQLI OR PHP_EXT_PDO_MYSQL) AND PHP_EXT_MYSQL_SOCKET]]
-  VALUE ""
-  DOC
-    "mysqli/pdo_mysql: Specify path to the MySQL Unix socket pointer location. "
-    "If unspecified, default locations are searched."
-)
-mark_as_advanced(PHP_EXT_MYSQL_SOCKET_PATH)
+  set(
+    CACHE{PHP_EXT_MYSQL_SOCKET_PATH}
+    TYPE INTERNAL
+    HELP
+      "mysqli/pdo_mysql: Path to the MySQL Unix socket pointer. "
+      "If unspecified, default locations are searched."
+    VALUE ""
+  )
+else()
+  option(
+    PHP_EXT_MYSQL_SOCKET
+    "mysqli/pdo_mysql: Use MySQL Unix socket pointer from default location"
+  )
+  mark_as_advanced(PHP_EXT_MYSQL_SOCKET)
+
+  set(
+    PHP_EXT_MYSQL_SOCKET_PATH
+    TYPE STRING
+    HELP
+      "mysqli/pdo_mysql: Path to the MySQL Unix socket pointer. "
+      "If unspecified, default locations are searched."
+    VALUE ""
+  )
+  mark_as_advanced(PHP_EXT_MYSQL_SOCKET_PATH)
+endif()
 
 if(NOT PHP_EXT_MYSQLI)
   return()
