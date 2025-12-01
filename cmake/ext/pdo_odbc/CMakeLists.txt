@@ -111,7 +111,7 @@ set(
   VALUE "auto"
 )
 set_property(
-  CACHE PHP_EXT_ODBC_TYPE
+  CACHE PHP_EXT_PDO_ODBC_TYPE
   PROPERTY STRINGS
     "auto"
     "ibm-db2"
