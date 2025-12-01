@@ -91,7 +91,7 @@ else()
   mark_as_advanced(PHP_EXT_MYSQL_SOCKET)
 
   set(
-    PHP_EXT_MYSQL_SOCKET_PATH
+    CACHE{PHP_EXT_MYSQL_SOCKET_PATH}
     TYPE STRING
     HELP
       "mysqli/pdo_mysql: Path to the MySQL Unix socket pointer. "
