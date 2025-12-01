@@ -377,7 +377,6 @@ A list of PHP CMake modules:
 * [PHP/CheckSysMacros](/docs/cmake/modules/PHP/CheckSysMacros.md)
 * [PHP/Re2c](/docs/cmake/modules/PHP/Re2c.md)
 * [PHP/SearchLibraries](/docs/cmake/modules/PHP/SearchLibraries.md)
-* [PHP/Set](/docs/cmake/modules/PHP/Set.md)
 * [PHP/StandardLibrary](/docs/cmake/modules/PHP/StandardLibrary.md)
 * [PHP/SystemExtensions](/docs/cmake/modules/PHP/SystemExtensions.md)
 * [PHP/VerboseLink](/docs/cmake/modules/PHP/VerboseLink.md)
