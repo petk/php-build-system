@@ -87,7 +87,6 @@ project(
 include(CheckLibraryExists)
 include(CMakeDependentOption)
 include(FeatureSummary)
-include(PHP/Set)
 
 option(PHP_EXT_PDO_ODBC "Enable the pdo_odbc extension")
 add_feature_info(
@@ -104,16 +103,21 @@ cmake_dependent_option(
   OFF
 )
 
-php_set(
-  PHP_EXT_PDO_ODBC_TYPE
-  CHOICES
+set(
+  CACHE{PHP_EXT_PDO_ODBC_TYPE}
+  TYPE STRING
+  HELP "The ODBC implementation type (library driving the ODBC)"
+
+  VALUE "auto"
+)
+set_property(
+  CACHE PHP_EXT_ODBC_TYPE
+  PROPERTY STRINGS
     "auto"
     "ibm-db2"
     "iODBC"
     "unixODBC"
     "custom"
-  IF PHP_EXT_PDO_ODBC
-  DOC "The ODBC implementation type (library driving the ODBC)"
 )
 mark_as_advanced(PHP_EXT_PDO_ODBC_TYPE)
 
