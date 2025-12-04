@@ -69,6 +69,11 @@ if(NOT PHP_EXT_LDAP)
   return()
 endif()
 
+find_package(PHP REQUIRED)
+
+include(PHP/Extension)
+php_extension(ldap)
+
 if(PHP_EXT_LDAP_SHARED)
   add_library(php_ext_ldap MODULE)
 else()

@@ -55,6 +55,11 @@ if(NOT PHP_EXT_ICONV)
   return()
 endif()
 
+find_package(PHP REQUIRED)
+
+include(PHP/Extension)
+php_extension(iconv)
+
 if(PHP_EXT_ICONV_SHARED)
   add_library(php_ext_iconv MODULE)
 else()

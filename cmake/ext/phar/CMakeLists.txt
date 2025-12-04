@@ -50,6 +50,11 @@ if(NOT PHP_EXT_PHAR)
   return()
 endif()
 
+find_package(PHP REQUIRED)
+
+include(PHP/Extension)
+php_extension(phar)
+
 ################################################################################
 # Add library.
 ################################################################################

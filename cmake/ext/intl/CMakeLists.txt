@@ -54,6 +54,11 @@ endif()
 
 enable_language(CXX)
 
+find_package(PHP REQUIRED)
+
+include(PHP/Extension)
+php_extension(intl)
+
 if(PHP_EXT_INTL_SHARED)
   add_library(php_ext_intl MODULE)
 else()

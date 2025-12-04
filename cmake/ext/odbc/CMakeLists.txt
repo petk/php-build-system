@@ -282,6 +282,11 @@ if(NOT PHP_EXT_ODBC)
   return()
 endif()
 
+find_package(PHP REQUIRED)
+
+include(PHP/Extension)
+php_extension(odbc)
+
 if(PHP_EXT_ODBC_SHARED)
   add_library(php_ext_odbc MODULE)
 else()

@@ -50,6 +50,11 @@ if(NOT PHP_EXT_SHMOP)
   return()
 endif()
 
+find_package(PHP REQUIRED)
+
+include(PHP/Extension)
+php_extension(shmop)
+
 if(PHP_EXT_SHMOP_SHARED)
   add_library(php_ext_shmop MODULE)
 else()

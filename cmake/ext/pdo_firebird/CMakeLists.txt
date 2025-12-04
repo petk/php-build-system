@@ -54,6 +54,11 @@ endif()
 
 enable_language(CXX)
 
+find_package(PHP REQUIRED)
+
+include(PHP/Extension)
+php_extension(pdo_firebird)
+
 if(PHP_EXT_PDO_FIREBIRD_SHARED)
   add_library(php_ext_pdo_firebird MODULE)
 else()

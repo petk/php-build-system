@@ -50,6 +50,11 @@ if(NOT PHP_EXT_XMLWRITER)
   return()
 endif()
 
+find_package(PHP REQUIRED)
+
+include(PHP/Extension)
+php_extension(xmlwriter)
+
 if(PHP_EXT_XMLWRITER_SHARED)
   add_library(php_ext_xmlwriter MODULE)
 else()

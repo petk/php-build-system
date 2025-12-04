@@ -289,6 +289,11 @@ if(NOT PHP_EXT_DBA)
   return()
 endif()
 
+find_package(PHP REQUIRED)
+
+include(PHP/Extension)
+php_extension(dba)
+
 if(PHP_EXT_DBA_SHARED)
   add_library(php_ext_dba MODULE)
 else()

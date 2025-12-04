@@ -53,6 +53,11 @@ if(NOT PHP_EXT_BZ2)
   return()
 endif()
 
+find_package(PHP REQUIRED)
+
+include(PHP/Extension)
+php_extension(bz2)
+
 if(PHP_EXT_BZ2_SHARED)
   add_library(php_ext_bz2 MODULE)
 else()

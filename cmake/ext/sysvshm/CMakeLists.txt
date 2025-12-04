@@ -50,6 +50,11 @@ if(NOT PHP_EXT_SYSVSHM)
   return()
 endif()
 
+find_package(PHP REQUIRED)
+
+include(PHP/Extension)
+php_extension(sysvshm)
+
 if(PHP_EXT_SYSVSHM_SHARED)
   add_library(php_ext_sysvshm MODULE)
 else()

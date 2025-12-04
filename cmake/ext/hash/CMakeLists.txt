@@ -65,6 +65,9 @@ else()
   message(CHECK_FAIL "no")
 endif()
 
+include(PHP/Extension)
+php_extension(hash)
+
 add_library(php_ext_hash OBJECT)
 
 target_sources(

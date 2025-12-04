@@ -66,6 +66,11 @@ if(NOT PHP_EXT_PCNTL)
   return()
 endif()
 
+find_package(PHP REQUIRED)
+
+include(PHP/Extension)
+php_extension(pcntl)
+
 if(PHP_EXT_PCNTL_SHARED)
   add_library(php_ext_pcntl MODULE)
 else()

@@ -87,6 +87,11 @@ if(NOT PHP_EXT_OPCACHE)
   return()
 endif()
 
+find_package(PHP REQUIRED)
+
+include(PHP/Extension)
+php_extension(opcache)
+
 ################################################################################
 # Add library.
 ################################################################################

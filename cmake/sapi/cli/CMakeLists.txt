@@ -131,6 +131,7 @@ endif()
 set_target_properties(
   php_sapi_cli
   PROPERTIES
+    EXPORT_NAME Interpreter
     OUTPUT_NAME ${PHP_PROGRAM_PREFIX}php${PHP_PROGRAM_SUFFIX}
     PHP_CLI TRUE
 )
@@ -152,13 +153,23 @@ if(CMAKE_SYSTEM_NAME STREQUAL "Windows")
 endif()
 
 install(
-  TARGETS php_sapi_cli
+  TARGETS
+    php_sapi_cli
+  EXPORT php_sapi_cli_export
   RUNTIME
     DESTINATION ${CMAKE_INSTALL_BINDIR}
     COMPONENT php-sapi-cli
   FILE_SET HEADERS
-    DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/${PHP_INCLUDE_PREFIX}/sapi/cli
+    DESTINATION ${PHP_INSTALL_INCLUDEDIR}/sapi/cli
     COMPONENT php-development
+)
+
+install(
+  EXPORT php_sapi_cli_export
+  NAMESPACE PHP::
+  FILE PHPInterpreterTargets.cmake
+  DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/PHP/targets
+  COMPONENT php-development
 )
 
 ################################################################################
@@ -181,6 +192,7 @@ if(PHP_SAPI_CLI_WIN_NO_CONSOLE)
   set_target_properties(
     php_sapi_cli_win
     PROPERTIES
+      EXPORT_NAME Sapi::CliNoConsole
       OUTPUT_NAME ${PHP_PROGRAM_PREFIX}php-win${PHP_PROGRAM_SUFFIX}
   )
 
@@ -203,6 +215,7 @@ if(PHP_SAPI_CLI_WIN_NO_CONSOLE)
 
   install(
     TARGETS php_sapi_cli_win
+    EXPORT php_sapi_cli_export
     RUNTIME
       DESTINATION ${CMAKE_INSTALL_BINDIR}
       COMPONENT php-sapi-cli

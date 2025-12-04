@@ -30,6 +30,9 @@ add_feature_info(
   "JavaScript Object Notation"
 )
 
+include(PHP/Extension)
+php_extension(json)
+
 add_library(php_ext_json OBJECT)
 
 target_sources(

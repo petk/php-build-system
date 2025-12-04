@@ -1,0 +1,165 @@
+#[=============================================================================[
+# PHP package configuration file
+
+Finds PHP, the general purpose scripting language:
+
+```cmake
+find_package(PHP [<version>] [COMPONENTS <components>...])
+```
+
+## Components
+
+The following components are available:
+
+* `Interpreter`
+* `Development`
+* `Embed`
+
+If no components are specified, by default, the `Interpreter` and `Development`
+components are searched.
+
+## Imported targets
+
+The following imported targets are provided:
+
+* `PHP::Interpreter`
+
+  Interface imported target encapsulating usage requirements for the PHP
+  command-line interpreter (PHP CLI SAPI) . Available when the `Interpreter`
+  component is found.
+
+* `PHP::Extension`
+
+  Interface imported target encapsulating usage requirements for building PHP
+  extensions. Available when the `Development` component is found.
+
+* `PHP::Embed`
+  * `PHP::EmbedShared`
+  * `PHP::EmbedStatic`
+
+## Result variables
+
+The following variables are set:
+
+* `PHP_EXTENSION_DIR` - The path where PHP shared extensions are located.
+* `PHP_CMAKE_MODULE_PATH` - The path where include() and find_package() look for
+  PHP CMake utility and find modules. This path is also automatically appended
+  to the `CMAKE_MODULE_PATH` when `find_package(PHP)` is called and PHP is
+  found.
+
+## Hints
+
+The following variables can be set before calling the `find_package(PHP)` to
+influence the search behavior:
+
+* `PHP_USE_STATIC_LIBS`
+
+  Boolean indicating whether to pick static PHP library. This can be used, for
+  example, when using PHP Embed SAPI to choose static or shared PHP embed
+  library variant in the `PHP::Embed` interface imported target.
+
+## Examples
+
+Finding PHP:
+
+```cmake
+# CMakeLists.txt
+
+find_package(PHP)
+```
+#]=============================================================================]
+
+################################################################################
+# Create a user-friendly not-found message for unsupported CMake versions.
+################################################################################
+
+if(CMAKE_VERSION VERSION_LESS 4.2)
+  string(
+    CONCAT
+    ${CMAKE_FIND_PACKAGE_NAME}_NOT_FOUND_MESSAGE
+    "${CMAKE_FIND_PACKAGE_NAME} ${${CMAKE_FIND_PACKAGE_NAME}_VERSION} requires "
+    "CMake 4.2 or higher.\n"
+    "You are running CMake version ${CMAKE_VERSION}"
+  )
+
+  set(${CMAKE_FIND_PACKAGE_NAME}_FOUND FALSE)
+
+  return()
+endif()
+
+cmake_minimum_required(VERSION 4.2...4.3)
+
+################################################################################
+# Generated initialization code.
+################################################################################
+
+@PACKAGE_INIT@
+
+################################################################################
+# Load and configure requested components.
+################################################################################
+
+# No components given, look for default components.
+if(NOT ${CMAKE_FIND_PACKAGE_NAME}_FIND_COMPONENTS)
+  set(${CMAKE_FIND_PACKAGE_NAME}_FIND_COMPONENTS Interpreter Development)
+endif()
+
+set(${CMAKE_FIND_PACKAGE_NAME}_NOT_FOUND_MESSAGE "")
+
+foreach(component IN LISTS ${CMAKE_FIND_PACKAGE_NAME}_FIND_COMPONENTS)
+  if(EXISTS ${CMAKE_CURRENT_LIST_DIR}/targets/PHP${component}Targets.cmake)
+    include(${CMAKE_CURRENT_LIST_DIR}/targets/PHP${component}Targets.cmake)
+    set(${CMAKE_FIND_PACKAGE_NAME}_${component}_FOUND TRUE)
+  else()
+    set(${CMAKE_FIND_PACKAGE_NAME}_${component}_FOUND FALSE)
+
+    if(${CMAKE_FIND_PACKAGE_NAME}_FIND_REQUIRED_${component})
+      string(
+        APPEND
+        ${CMAKE_FIND_PACKAGE_NAME}_NOT_FOUND_MESSAGE
+        " ${component}"
+      )
+    endif()
+  endif()
+
+  # Create the PHP::Embed wrapper target based on the hint variable.
+  if(
+    component STREQUAL "Embed"
+    AND (TARGET PHP::EmbedShared OR TARGET PHP::EmbedStatic)
+  )
+    add_library(PHP::Embed INTERFACE IMPORTED)
+
+    if(TARGET PHP::EmbedShared AND NOT PHP_USE_STATIC_LIBS)
+      target_link_libraries(PHP::Embed INTERFACE PHP::EmbedShared)
+    else()
+      target_link_libraries(PHP::Embed INTERFACE PHP::EmbedStatic)
+    endif()
+  endif()
+endforeach()
+
+if(${CMAKE_FIND_PACKAGE_NAME}_NOT_FOUND_MESSAGE)
+  string(
+    PREPEND
+    ${CMAKE_FIND_PACKAGE_NAME}_NOT_FOUND_MESSAGE
+    "PHP: Missing required components: "
+  )
+endif()
+
+################################################################################
+# Set result variables.
+################################################################################
+
+# TODO: Value of this variable contains generator expressions which aren't
+# evaluated here.
+set_and_check(PHP_EXTENSION_DIR "@PACKAGE_PHP_EXTENSION_DIR@")
+set_and_check(PHP_INSTALL_INCLUDEDIR "@PACKAGE_PHP_INSTALL_INCLUDEDIR@")
+
+# Set path where additional PHP CMake modules are installed:
+set(PHP_CMAKE_MODULE_PATH "${CMAKE_CURRENT_LIST_DIR}/modules")
+list(APPEND CMAKE_MODULE_PATH ${PHP_CMAKE_MODULE_PATH})
+
+################################################################################
+# Check required components.
+################################################################################
+
+check_required_components(${CMAKE_FIND_PACKAGE_NAME})

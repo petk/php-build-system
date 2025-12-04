@@ -56,6 +56,11 @@ if(NOT PHP_EXT_TIDY)
   return()
 endif()
 
+find_package(PHP REQUIRED)
+
+include(PHP/Extension)
+php_extension(tidy)
+
 if(PHP_EXT_TIDY_SHARED)
   add_library(php_ext_tidy MODULE)
 else()

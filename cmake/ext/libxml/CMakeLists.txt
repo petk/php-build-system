@@ -40,6 +40,11 @@ if(NOT PHP_EXT_LIBXML)
   return()
 endif()
 
+find_package(PHP REQUIRED)
+
+include(PHP/Extension)
+php_extension(libxml)
+
 add_library(php_ext_libxml OBJECT)
 
 target_sources(
