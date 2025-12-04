@@ -197,6 +197,7 @@ Some useful overridable configuration options built into CMake itself. All these
 * [`PHP_DEFAULT_SHORT_OPEN_TAG`](/docs/cmake/variables/PHP_DEFAULT_SHORT_OPEN_TAG.md)
 * [`PHP_DMALLOC`](/docs/cmake/variables/PHP_DMALLOC.md)
 * [`PHP_DTRACE`](/docs/cmake/variables/PHP_DTRACE.md)
+* [`PHP_ENABLE_CMAKE_EXPERIMENTAL_FEATURES`](/docs/cmake/variables/PHP_ENABLE_CMAKE_EXPERIMENTAL_FEATURES.md)
 * [`PHP_GCOV`](/docs/cmake/variables/PHP_GCOV.md)
 * [`PHP_MEMORY_SANITIZER`](/docs/cmake/variables/_PHP_MEMORY_SANITIZER.md)
 * [`PHP_EXTENSION_DIR`](/docs/cmake/variables/PHP_EXTENSION_DIR.md)

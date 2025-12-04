@@ -253,12 +253,14 @@ install(
   PATTERN "FindPHP.cmake" EXCLUDE
 )
 
-set(CMAKE_EXPERIMENTAL_EXPORT_PACKAGE_INFO "b80be207-778e-46ba-8080-b23bba22639e")
+if(PHP_ENABLE_CMAKE_EXPERIMENTAL_FEATURES)
+  set(CMAKE_EXPERIMENTAL_EXPORT_PACKAGE_INFO "b80be207-778e-46ba-8080-b23bba22639e")
 
-install(
-  PACKAGE_INFO PHP
-  EXPORT php_development_export
-)
+  install(
+    PACKAGE_INFO PHP
+    EXPORT php_development_export
+  )
+endif()
 
 ################################################################################
 # Enable testing and configure test settings.

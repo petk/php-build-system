@@ -8,6 +8,7 @@
       "binaryDir": "${sourceDir}/php-build/all-enabled",
       "installDir": "/tmp",
       "cacheVariables": {
+        "PHP_ENABLE_CMAKE_EXPERIMENTAL_FEATURES": true,
         "PHP_PEAR": true,
 
         "PHP_EXT_BCMATH": true,
