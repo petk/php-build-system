@@ -29,6 +29,11 @@ add_feature_info(
   "support for Lexbor library"
 )
 
+find_package(PHP REQUIRED)
+
+include(PHP/Extension)
+php_extension(lexbor)
+
 add_library(php_ext_lexbor OBJECT)
 
 file(

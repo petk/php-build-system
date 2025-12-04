@@ -61,6 +61,11 @@ if(NOT PHP_EXT_POSIX)
   return()
 endif()
 
+find_package(PHP REQUIRED)
+
+include(PHP/Extension)
+php_extension(posix)
+
 if(PHP_EXT_POSIX_SHARED)
   add_library(php_ext_posix MODULE)
 else()

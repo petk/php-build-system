@@ -52,6 +52,11 @@ if(NOT PHP_EXT_SQLITE3)
   return()
 endif()
 
+find_package(PHP REQUIRED)
+
+include(PHP/Extension)
+php_extension(sqlite3)
+
 if(PHP_EXT_SQLITE3_SHARED)
   add_library(php_ext_sqlite3 MODULE)
 else()

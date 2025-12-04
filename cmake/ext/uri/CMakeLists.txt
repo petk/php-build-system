@@ -50,6 +50,11 @@ add_feature_info(
   "system uriparser library instead of bundled"
 )
 
+find_package(PHP REQUIRED)
+
+include(PHP/Extension)
+php_extension(uri)
+
 add_library(php_ext_uri OBJECT)
 
 target_sources(

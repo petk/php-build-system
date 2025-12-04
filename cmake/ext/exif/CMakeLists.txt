@@ -50,6 +50,11 @@ if(NOT PHP_EXT_EXIF)
   return()
 endif()
 
+find_package(PHP REQUIRED)
+
+include(PHP/Extension)
+php_extension(exif)
+
 if(PHP_EXT_EXIF_SHARED)
   add_library(php_ext_exif MODULE)
 else()

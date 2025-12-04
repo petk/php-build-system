@@ -50,6 +50,11 @@ if(NOT PHP_EXT_XMLREADER)
   return()
 endif()
 
+find_package(PHP REQUIRED)
+
+include(PHP/Extension)
+php_extension(xmlreader)
+
 if(PHP_EXT_XMLREADER_SHARED)
   add_library(php_ext_xmlreader MODULE)
 else()

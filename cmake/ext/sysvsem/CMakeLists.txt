@@ -59,6 +59,11 @@ if(NOT PHP_EXT_SYSVSEM)
   return()
 endif()
 
+find_package(PHP REQUIRED)
+
+include(PHP/Extension)
+php_extension(sysvsem)
+
 if(PHP_EXT_SYSVSEM_SHARED)
   add_library(php_ext_sysvsem MODULE)
 else()

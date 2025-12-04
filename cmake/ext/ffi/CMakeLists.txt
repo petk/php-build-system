@@ -54,6 +54,11 @@ if(NOT PHP_EXT_FFI)
   return()
 endif()
 
+find_package(PHP REQUIRED)
+
+include(PHP/Extension)
+php_extension(ffi)
+
 if(PHP_EXT_FFI_SHARED)
   add_library(php_ext_ffi MODULE)
 else()

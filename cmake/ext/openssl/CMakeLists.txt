@@ -143,6 +143,11 @@ if(NOT PHP_EXT_OPENSSL)
   return()
 endif()
 
+find_package(PHP REQUIRED)
+
+include(PHP/Extension)
+php_extension(openssl)
+
 if(PHP_EXT_OPENSSL_SHARED)
   add_library(php_ext_openssl MODULE)
 else()

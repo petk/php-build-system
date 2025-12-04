@@ -72,6 +72,11 @@ if(NOT PHP_EXT_SESSION)
   return()
 endif()
 
+find_package(PHP REQUIRED)
+
+include(PHP/Extension)
+php_extension(session)
+
 if(PHP_EXT_SESSION_SHARED)
   add_library(php_ext_session MODULE)
 else()

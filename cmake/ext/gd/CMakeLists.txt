@@ -203,6 +203,11 @@ if(NOT PHP_EXT_GD)
   return()
 endif()
 
+find_package(PHP REQUIRED)
+
+include(PHP/Extension)
+php_extension(gd)
+
 if(PHP_EXT_GD_SHARED)
   add_library(php_ext_gd MODULE)
 else()

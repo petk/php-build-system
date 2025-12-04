@@ -51,6 +51,11 @@ if(NOT PHP_EXT_XSL)
   return()
 endif()
 
+find_package(PHP REQUIRED)
+
+include(PHP/Extension)
+php_extension(xsl)
+
 if(PHP_EXT_XSL_SHARED)
   add_library(php_ext_xsl MODULE)
 else()

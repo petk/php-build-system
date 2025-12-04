@@ -84,6 +84,11 @@ option(
   "Support OPcache JIT disassembly through Capstone engine"
 )
 
+find_package(PHP REQUIRED)
+
+include(PHP/Extension)
+php_extension(opcache)
+
 ################################################################################
 # Add library.
 ################################################################################

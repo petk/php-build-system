@@ -887,6 +887,14 @@ PHP installation directory structure when using CMake:
       ├─📂 TSRM                       #       ├─📂 TSRM
       └─📂 Zend                       #       └─📂 Zend
   └─📂 ${CMAKE_INSTALL_LIBDIR}        #   └─📂 lib
+    └─📂 cmake                        #     └─📂 cmake
+      └─📂 PHP                        #       └─📂 PHP
+        ├─📂 modules                  #         ├─📂 modules
+        ├─📄 PHPConfig.cmake          #         ├─📄 PHPConfig.cmake
+        └─📄 PHPConfigVersion.cmake   #         └─📄 PHPConfigVersion.cmake
+    └─📂 cps                          #     └─📂 cps
+      └─📂 PHP                        #       └─📂 PHP
+        └─📄 PHP.cps                  #         └─📄 PHP.cps
     └─📂 php                          #     └─📂 php
       └─📂 build                      #       ├─📂 build
   └─📂 ${PHP_EXTENSION_DIR}           #       └─📂 20230901-zts-Debug...

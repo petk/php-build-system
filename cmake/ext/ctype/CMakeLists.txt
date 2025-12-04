@@ -51,6 +51,11 @@ if(NOT PHP_EXT_CTYPE)
   return()
 endif()
 
+find_package(PHP REQUIRED)
+
+include(PHP/Extension)
+php_extension(ctype)
+
 if(PHP_EXT_CTYPE_SHARED)
   add_library(php_ext_ctype MODULE)
 else()

@@ -50,6 +50,11 @@ if(NOT PHP_EXT_GMP)
   return()
 endif()
 
+find_package(PHP REQUIRED)
+
+include(PHP/Extension)
+php_extension(gmp)
+
 if(PHP_EXT_GMP_SHARED)
   add_library(php_ext_gmp MODULE)
 else()

@@ -65,6 +65,11 @@ if(NOT PHP_EXT_FTP)
   return()
 endif()
 
+find_package(PHP REQUIRED)
+
+include(PHP/Extension)
+php_extension(ftp)
+
 if(PHP_EXT_FTP_SHARED)
   add_library(php_ext_ftp MODULE)
 else()

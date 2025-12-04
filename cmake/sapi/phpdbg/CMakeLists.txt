@@ -174,6 +174,7 @@ endif()
 set_target_properties(
   php_sapi_phpdbg
   PROPERTIES
+    EXPORT_NAME Sapi::PhpDbg
     OUTPUT_NAME ${PHP_PROGRAM_PREFIX}phpdbg${PHP_PROGRAM_SUFFIX}
 )
 
@@ -181,6 +182,7 @@ if(TARGET php_sapi_phpdbg_shared)
   set_target_properties(
     php_sapi_phpdbg_shared
     PROPERTIES
+      EXPORT_NAME Sapi::PhpDbgShared
       PREFIX lib
   )
 endif()

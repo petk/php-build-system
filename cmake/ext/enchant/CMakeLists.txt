@@ -52,6 +52,11 @@ if(NOT PHP_EXT_ENCHANT)
   return()
 endif()
 
+find_package(PHP REQUIRED)
+
+include(PHP/Extension)
+php_extension(enchant)
+
 if(PHP_EXT_ENCHANT_SHARED)
   add_library(php_ext_enchant MODULE)
 else()

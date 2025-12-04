@@ -53,6 +53,11 @@ if(NOT PHP_EXT_PGSQL)
   return()
 endif()
 
+find_package(PHP REQUIRED)
+
+include(PHP/Extension)
+php_extension(pgsql)
+
 if(PHP_EXT_PGSQL_SHARED)
   add_library(php_ext_pgsql MODULE)
 else()

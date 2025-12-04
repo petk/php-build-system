@@ -56,6 +56,11 @@ if(NOT PHP_EXT_SOCKETS)
   return()
 endif()
 
+find_package(PHP REQUIRED)
+
+include(PHP/Extension)
+php_extension(sockets)
+
 if(PHP_EXT_SOCKETS_SHARED)
   add_library(php_ext_sockets MODULE)
 else()

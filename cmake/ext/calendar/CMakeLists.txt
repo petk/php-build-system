@@ -50,6 +50,11 @@ if(NOT PHP_EXT_CALENDAR)
   return()
 endif()
 
+find_package(PHP REQUIRED)
+
+include(PHP/Extension)
+php_extension(calendar)
+
 if(PHP_EXT_CALENDAR_SHARED)
   add_library(php_ext_calendar MODULE)
 else()

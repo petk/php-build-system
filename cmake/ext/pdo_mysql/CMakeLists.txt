@@ -77,6 +77,11 @@ if(NOT PHP_EXT_PDO_MYSQL)
   return()
 endif()
 
+find_package(PHP REQUIRED)
+
+include(PHP/Extension)
+php_extension(pdo_mysql)
+
 if(PHP_EXT_PDO_MYSQL_SHARED)
   add_library(php_ext_pdo_mysql MODULE)
 else()

@@ -51,6 +51,11 @@ if(NOT PHP_EXT_PDO_DBLIB)
   return()
 endif()
 
+find_package(PHP REQUIRED)
+
+include(PHP/Extension)
+php_extension(pdo_dblib)
+
 if(PHP_EXT_PDO_DBLIB_SHARED)
   add_library(php_ext_pdo_dblib MODULE)
 else()

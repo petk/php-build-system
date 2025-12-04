@@ -80,6 +80,18 @@ foreach(target IN ITEMS php_sapi_embed php_sapi_embed_shared)
   )
 endforeach()
 
+set_target_properties(
+  php_sapi_embed
+  PROPERTIES
+    EXPORT_NAME EmbedStatic
+)
+
+set_target_properties(
+  php_sapi_embed_shared
+  PROPERTIES
+    EXPORT_NAME EmbedShared
+)
+
 # Configure pkg-config php-embed.pc metadata file.
 include(PHP/PkgConfig)
 php_pkgconfig_generate_pc(
@@ -108,6 +120,7 @@ php_pkgconfig_generate_pc(
 
 install(
   TARGETS php_sapi_embed php_sapi_embed_shared
+  EXPORT php_sapi_embed_export
   ARCHIVE
     DESTINATION ${CMAKE_INSTALL_LIBDIR}
     COMPONENT php-sapi-embed
@@ -118,8 +131,16 @@ install(
     DESTINATION ${CMAKE_INSTALL_LIBDIR}
     COMPONENT php-sapi-embed
   FILE_SET HEADERS
-    DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/${PHP_INCLUDE_PREFIX}/sapi/embed
+    DESTINATION ${PHP_INSTALL_INCLUDEDIR}/sapi/embed
     COMPONENT php-development
+)
+
+install(
+  EXPORT php_sapi_embed_export
+  NAMESPACE PHP::
+  FILE PHPEmbedTargets.cmake
+  DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/PHP/targets
+  COMPONENT php-development
 )
 
 install(

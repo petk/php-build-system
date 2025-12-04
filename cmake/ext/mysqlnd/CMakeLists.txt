@@ -98,6 +98,11 @@ if(NOT PHP_EXT_MYSQLND)
   return()
 endif()
 
+find_package(PHP REQUIRED)
+
+include(PHP/Extension)
+php_extension(mysqlnd)
+
 if(PHP_EXT_MYSQLND_SHARED)
   add_library(php_ext_mysqlnd MODULE)
 else()

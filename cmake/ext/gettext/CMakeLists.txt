@@ -53,6 +53,11 @@ if(NOT PHP_EXT_GETTEXT)
   return()
 endif()
 
+find_package(PHP REQUIRED)
+
+include(PHP/Extension)
+php_extension(gettext)
+
 if(PHP_EXT_GETTEXT_SHARED)
   add_library(php_ext_gettext MODULE)
 else()

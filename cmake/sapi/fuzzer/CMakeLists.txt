@@ -134,6 +134,7 @@ target_sources(php_sapi_fuzzer PRIVATE fuzzer-sapi.c)
 set_target_properties(
   php_sapi_fuzzer
   PROPERTIES
+    EXPORT_NAME Sapi::Fuzzer
     OUTPUT_NAME ${PHP_PROGRAM_PREFIX}fuzzer${PHP_PROGRAM_SUFFIX}
 )
 

@@ -52,6 +52,11 @@ if(NOT PHP_EXT_SODIUM)
   return()
 endif()
 
+find_package(PHP REQUIRED)
+
+include(PHP/Extension)
+php_extension(sodium)
+
 if(PHP_EXT_SODIUM_SHARED)
   add_library(php_ext_sodium MODULE)
 else()

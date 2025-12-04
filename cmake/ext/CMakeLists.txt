@@ -133,6 +133,3 @@ endforeach()
 get_property(extensions GLOBAL PROPERTY PHP_EXTENSIONS)
 list(REVERSE extensions)
 set_property(GLOBAL PROPERTY PHP_EXTENSIONS ${extensions})
-
-# Reconfigure all enabled extensions at the end of the configuration phase.
-cmake_language(DEFER DIRECTORY ${PHP_SOURCE_DIR} CALL php_extensions_configure_headers)

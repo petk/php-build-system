@@ -51,6 +51,11 @@ if(NOT PHP_EXT_ZLIB)
   return()
 endif()
 
+find_package(PHP REQUIRED)
+
+include(PHP/Extension)
+php_extension(zlib)
+
 if(PHP_EXT_ZLIB_SHARED)
   add_library(php_ext_zlib MODULE)
 else()
