@@ -428,10 +428,6 @@ A list of PHP CMake modules:
   )
   ```
 
-* PHP_EXTENSION
-
-  Target property that designates that the CMake target is a PHP extension.
-
 * `PHP_EXTENSION_<extension>_DEPS`
 
   Global property with a list of all dependencies of PHP `<extension>` (the name of
