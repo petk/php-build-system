@@ -12,6 +12,7 @@ include(CMakePushCheckState)
 #
 # HP-UX: Recent compilers are not supported, EOL in December 2025/2028.
 ################################################################################
+
 if(CMAKE_SYSTEM_NAME STREQUAL "HP-UX")
   message(
     FATAL_ERROR
@@ -23,6 +24,7 @@ endif()
 ################################################################################
 # Check whether some minimum supported compiler is used.
 ################################################################################
+
 if(CMAKE_C_COMPILER_ID STREQUAL "SunPro")
   message(
     FATAL_ERROR
@@ -36,6 +38,7 @@ endif()
 ################################################################################
 # Check whether the system uses EBCDIC (not ASCII) as its native character set.
 ################################################################################
+
 message(CHECK_START "Checking system character set")
 if(CMAKE_CROSSCOMPILING AND NOT CMAKE_CROSSCOMPILING_EMULATOR)
   # EBCDIC targets are obsolete, assume that target uses ASCII when
@@ -60,6 +63,7 @@ endif()
 ################################################################################
 # Find mailer.
 ################################################################################
+
 find_package(Sendmail)
 
 ################################################################################
@@ -69,6 +73,10 @@ find_package(Sendmail)
 # will be used at the build phase, where possible. The minimum version should
 # match the version required to run these PHP scripts.
 ################################################################################
+
 set(PHP_ARTIFACTS_PREFIX "_HOST")
-find_package(PHP 7.4)
+find_package(PHP 7.4 COMPONENTS Interpreter)
 unset(PHP_ARTIFACTS_PREFIX)
+
+# Force further find_package(PHP REQUIRED) calls in php-src as found.
+set(PHP_FORCE_AS_FOUND TRUE)

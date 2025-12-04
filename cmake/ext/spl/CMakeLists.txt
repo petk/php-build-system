@@ -29,6 +29,9 @@ add_feature_info(
   "Standard PHP library (SPL)"
 )
 
+include(PHP/Extension)
+php_extension(spl)
+
 add_library(php_ext_spl OBJECT)
 
 target_sources(

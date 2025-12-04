@@ -50,6 +50,11 @@ if(NOT PHP_EXT_PDO_OCI)
   return()
 endif()
 
+find_package(PHP REQUIRED)
+
+include(PHP/Extension)
+php_extension(pdo_oci)
+
 if(PHP_EXT_PDO_OCI_SHARED)
   add_library(php_ext_pdo_oci MODULE)
 else()

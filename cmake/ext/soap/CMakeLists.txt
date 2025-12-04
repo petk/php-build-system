@@ -50,6 +50,11 @@ if(NOT PHP_EXT_SOAP)
   return()
 endif()
 
+find_package(PHP REQUIRED)
+
+include(PHP/Extension)
+php_extension(soap)
+
 if(PHP_EXT_SOAP_SHARED)
   add_library(php_ext_soap MODULE)
 else()

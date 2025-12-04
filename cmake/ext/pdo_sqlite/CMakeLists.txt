@@ -52,6 +52,11 @@ if(NOT PHP_EXT_PDO_SQLITE)
   return()
 endif()
 
+find_package(PHP REQUIRED)
+
+include(PHP/Extension)
+php_extension(pdo_sqlite)
+
 if(PHP_EXT_PDO_SQLITE_SHARED)
   add_library(php_ext_pdo_sqlite MODULE)
 else()

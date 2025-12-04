@@ -230,6 +230,7 @@ target_link_libraries(
 set_target_properties(
   php_sapi_fpm
   PROPERTIES
+    EXPORT_NAME Sapi::Fpm
     OUTPUT_NAME ${PHP_PROGRAM_PREFIX}php-fpm${PHP_PROGRAM_SUFFIX}
     PHP_SAPI_FASTCGI TRUE
 )

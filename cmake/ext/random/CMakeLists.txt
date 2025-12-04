@@ -32,6 +32,9 @@ add_feature_info(
   "randomness-related generators and functions"
 )
 
+include(PHP/Extension)
+php_extension(random)
+
 add_library(php_ext_random OBJECT)
 
 target_sources(

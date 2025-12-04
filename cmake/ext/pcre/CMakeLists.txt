@@ -72,6 +72,9 @@ option(
 )
 mark_as_advanced(PHP_EXT_PCRE_JIT)
 
+include(PHP/Extension)
+php_extension(pcre)
+
 add_library(php_ext_pcre OBJECT)
 
 target_sources(

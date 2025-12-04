@@ -406,10 +406,10 @@ function(_php_main_create_files)
     TARGETS php_main
     ARCHIVE EXCLUDE_FROM_ALL
     FILE_SET HEADERS
-      DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/${PHP_INCLUDE_PREFIX}/main
+      DESTINATION ${PHP_INSTALL_INCLUDEDIR}/main
       COMPONENT php-development
     FILE_SET generated
-      DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/${PHP_INCLUDE_PREFIX}/main
+      DESTINATION ${PHP_INSTALL_INCLUDEDIR}/main
       COMPONENT php-development
   )
 endfunction()

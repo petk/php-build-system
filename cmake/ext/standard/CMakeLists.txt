@@ -64,6 +64,9 @@ add_feature_info(
   "system crypt library instead of bundled"
 )
 
+include(PHP/Extension)
+php_extension(standard)
+
 ################################################################################
 # Add library.
 ################################################################################

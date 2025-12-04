@@ -30,6 +30,9 @@ add_feature_info(
   "PHP code introspection API"
 )
 
+include(PHP/Extension)
+php_extension(reflection)
+
 add_library(php_ext_reflection OBJECT)
 target_sources(
   php_ext_reflection

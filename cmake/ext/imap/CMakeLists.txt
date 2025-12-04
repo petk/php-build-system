@@ -81,6 +81,11 @@ if(NOT PHP_EXT_IMAP)
   return()
 endif()
 
+find_package(PHP REQUIRED)
+
+include(PHP/Extension)
+php_extension(imap)
+
 if(PHP_EXT_IMAP_SHARED)
   add_library(php_ext_imap MODULE)
 else()

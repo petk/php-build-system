@@ -50,6 +50,11 @@ if(NOT PHP_EXT_BCMATH)
   return()
 endif()
 
+find_package(PHP REQUIRED)
+
+include(PHP/Extension)
+php_extension(bcmath)
+
 if(PHP_EXT_BCMATH_SHARED)
   add_library(php_ext_bcmath MODULE)
 else()

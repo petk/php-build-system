@@ -105,6 +105,11 @@ if(NOT PHP_EXT_MYSQLI)
   return()
 endif()
 
+find_package(PHP REQUIRED)
+
+include(PHP/Extension)
+php_extension(mysqli)
+
 if(PHP_EXT_MYSQLI_SHARED)
   add_library(php_ext_mysqli MODULE)
 else()

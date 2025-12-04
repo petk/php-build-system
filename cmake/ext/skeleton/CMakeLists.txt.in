@@ -1,16 +1,18 @@
 #[=============================================================================[
-# The %EXTNAME% extension
+# PHP %EXTNAME% extension
 
-Configure the `%EXTNAME%` extension.
+Configure the PHP `%EXTNAME%` extension.
 
-## PHP_EXT_%EXTNAMECAPS%
+## Configuration options
+
+### PHP_EXT_%EXTNAMECAPS%
 
 * Default: `OFF`
 * Values: `ON|OFF`
 
 Enable the extension.
 
-## PHP_EXT_%EXTNAMECAPS%_SHARED
+### PHP_EXT_%EXTNAMECAPS%_SHARED
 
 * Default: `OFF`
 * Values: `ON|OFF`
@@ -22,9 +24,6 @@ Build extension as shared.
 
 # Set minimum required CMake version.
 cmake_minimum_required(VERSION 4.2...4.3)
-
-# Add paths where include() and find_package() look for modules.
-list(APPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_LIST_DIR}/cmake/modules)
 
 # Define the PHP extension project and its metadata.
 project(
@@ -43,7 +42,11 @@ include(FeatureSummary)
 
 # Boolean option that enables (ON) or disables (OFF) the extension. For example,
 # cmake -B <build-dir> -D PHP_EXT_%EXTNAMECAPS%=ON
-option(PHP_EXT_%EXTNAMECAPS% "Enable the %EXTNAME% extension")
+option(
+  PHP_EXT_%EXTNAMECAPS%
+  "Enable the %EXTNAME% extension"
+  ${PROJECT_IS_TOP_LEVEL}
+)
 
 # Extension features are visible in the configuration summary output.
 add_feature_info(
@@ -56,7 +59,7 @@ add_feature_info(
 cmake_dependent_option(
   PHP_EXT_%EXTNAMECAPS%_SHARED
   "Build the %EXTNAME% extension as a shared library"
-  OFF
+  ${PROJECT_IS_TOP_LEVEL}
   PHP_EXT_%EXTNAMECAPS%
   OFF
 )
@@ -65,6 +68,18 @@ cmake_dependent_option(
 if(NOT PHP_EXT_%EXTNAMECAPS%)
   return()
 endif()
+
+set(CMAKE_C_STANDARD 99)
+set(CMAKE_C_STANDARD_REQUIRED TRUE)
+
+set(CMAKE_C_VISIBILITY_PRESET "hidden")
+
+# Find PHP package on the host.
+find_package(PHP REQUIRED)
+
+# Configure PHP extension.
+include(PHP/Extension)
+php_extension(%EXTNAME%)
 
 # Add a target to be built as a dynamically loadable module (shared extension),
 # or statically.
@@ -105,20 +120,30 @@ target_compile_definitions(
     ZEND_ENABLE_STATIC_TSRMLS_CACHE
 )
 
-# Find PHP package on the system.
-find_package(PHP REQUIRED)
+include(PHP/SystemExtensions)
+target_link_libraries(php_ext_%EXTNAME% PRIVATE PHP::SystemExtensions)
 
-# The PHP::PHP library contains INTERFACE include directories for the extension.
-# Link PHP and extension targets.
-target_link_libraries(php_ext_%EXTNAME% PRIVATE PHP::PHP)
+target_compile_options(
+  php_ext_%EXTNAME%
+  PRIVATE
+    -g
+    -fdiagnostics-color=always
+    -fno-common
+    -Wstrict-prototypes
+    -Wformat-truncation
+    -Wlogical-op
+    -Wduplicated-cond
+    -Wno-clobbered
+    -Wall
+    -Wextra
+    -Wno-unused-parameter
+    -Wno-sign-compare
+    -Wimplicit-fallthrough=1
+)
 
-# Install files to system destinations when running 'cmake --install'.
-install(
-  TARGETS php_ext_%EXTNAME%
-  ARCHIVE EXCLUDE_FROM_ALL
-  FILE_SET HEADERS
-    DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/${PHP_INCLUDE_PREFIX}/ext/%EXTNAME%
-    COMPONENT php-development
+target_include_directories(
+  php_ext_%EXTNAME%
+  PRIVATE ${CMAKE_CURRENT_BINARY_DIR}
 )
 
 set(PHP_EXT_%EXTNAMECAPS%_ENABLED TRUE)

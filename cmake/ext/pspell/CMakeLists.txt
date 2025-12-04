@@ -53,6 +53,11 @@ if(NOT PHP_EXT_PSPELL)
   return()
 endif()
 
+find_package(PHP REQUIRED)
+
+include(PHP/Extension)
+php_extension(pspell)
+
 if(PHP_EXT_PSPELL_SHARED)
   add_library(php_ext_pspell MODULE)
 else()

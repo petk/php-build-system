@@ -93,6 +93,11 @@ if(NOT PHP_EXT_COM_DOTNET)
   return()
 endif()
 
+find_package(PHP REQUIRED)
+
+include(PHP/Extension)
+php_extension(com_dotnet)
+
 if(PHP_EXT_COM_DOTNET_SHARED)
   add_library(php_ext_com_dotnet MODULE)
 else()

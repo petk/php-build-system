@@ -53,6 +53,11 @@ if(NOT PHP_EXT_CURL)
   return()
 endif()
 
+find_package(PHP REQUIRED)
+
+include(PHP/Extension)
+php_extension(curl)
+
 if(PHP_EXT_CURL_SHARED)
   add_library(php_ext_curl MODULE)
 else()

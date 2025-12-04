@@ -37,6 +37,11 @@ if(NOT PHP_EXT_DL_TEST)
   return()
 endif()
 
+find_package(PHP REQUIRED)
+
+include(PHP/Extension)
+php_extension(dl_test)
+
 # The dl_test extension can be built only as a shared library.
 add_library(php_ext_dl_test MODULE)
 target_sources(

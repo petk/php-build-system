@@ -50,6 +50,11 @@ if(NOT PHP_EXT_ZIP)
   return()
 endif()
 
+find_package(PHP REQUIRED)
+
+include(PHP/Extension)
+php_extension(zip)
+
 if(PHP_EXT_ZIP_SHARED)
   add_library(php_ext_zip MODULE)
 else()

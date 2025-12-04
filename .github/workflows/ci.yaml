@@ -139,6 +139,18 @@ jobs:
       - name: Install PHP
         run: cmake --install php-build/all-enabled
 
+      - name: Setup shared standalone extension
+        run: |
+          php php-src/ext/ext_skel.php --ext phantom
+          cd php-src/ext/phantom
+          cmake \
+            -B cmake-build \
+            -DPHP_EXT_PHANTOM=ON \
+            -DPHP_EXT_PHANTOM_SHARED=ON
+          cmake --build cmake-build -j
+          cmake --install cmake-build
+          php -d extension=phantom -m | grep phantom
+
   windows:
     runs-on: windows-latest
     name: Windows

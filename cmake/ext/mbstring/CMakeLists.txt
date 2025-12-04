@@ -77,6 +77,11 @@ endif()
 # Configure mbstring extension.
 ################################################################################
 
+find_package(PHP REQUIRED)
+
+include(PHP/Extension)
+php_extension(mbstring)
+
 if(PHP_EXT_MBSTRING_SHARED)
   add_library(php_ext_mbstring MODULE)
 else()

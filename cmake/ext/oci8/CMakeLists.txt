@@ -93,6 +93,11 @@ if(NOT PHP_EXT_OCI8)
   return()
 endif()
 
+find_package(PHP REQUIRED)
+
+include(PHP/Extension)
+php_extension(oci8)
+
 if(PHP_EXT_OCI8_SHARED)
   add_library(php_ext_oci8 MODULE)
 else()

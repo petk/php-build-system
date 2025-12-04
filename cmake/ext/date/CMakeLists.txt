@@ -31,6 +31,9 @@ add_feature_info(
   "date and time"
 )
 
+include(PHP/Extension)
+php_extension(date)
+
 add_library(php_ext_date OBJECT)
 
 set(sources php_date.c)
