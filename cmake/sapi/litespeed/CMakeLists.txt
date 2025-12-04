@@ -52,6 +52,7 @@ target_link_libraries(
 set_target_properties(
   php_sapi_litespeed
   PROPERTIES
+    EXPORT_NAME Sapi::Litespeed
     OUTPUT_NAME ${PHP_PROGRAM_PREFIX}lsphp${PHP_PROGRAM_SUFFIX}
 )
 

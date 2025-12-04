@@ -51,6 +51,11 @@ if(NOT PHP_EXT_DOM)
   return()
 endif()
 
+find_package(PHP REQUIRED)
+
+include(PHP/Extension)
+php_extension(dom)
+
 if(PHP_EXT_DOM_SHARED)
   add_library(php_ext_dom MODULE)
 else()

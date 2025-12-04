@@ -139,6 +139,11 @@ if(NOT PHP_EXT_PDO_ODBC)
   return()
 endif()
 
+find_package(PHP REQUIRED)
+
+include(PHP/Extension)
+php_extension(pdo_odbc)
+
 if(PHP_EXT_PDO_ODBC_SHARED)
   add_library(php_ext_pdo_odbc MODULE)
 else()

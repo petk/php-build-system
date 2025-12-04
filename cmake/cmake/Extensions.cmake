@@ -393,49 +393,11 @@ function(php_extensions_postconfigure extension)
     endif()
   endforeach()
 
-  if(NOT TARGET PHP::ext::${extension})
-    add_library(PHP::ext::${extension} ALIAS php_ext_${extension})
-  endif()
-
-  # Set target output filename to "<extension>".
-  get_target_property(output php_ext_${extension} OUTPUT_NAME)
-  if(NOT output)
-    set_property(TARGET php_ext_${extension} PROPERTY OUTPUT_NAME ${extension})
-  endif()
-
-  # Specify extension's default installation rules.
-  get_target_property(sets php_ext_${extension} INTERFACE_HEADER_SETS)
-  set(file_sets "")
-  foreach(set IN LISTS sets)
-    list(
-      APPEND
-      file_sets
-      FILE_SET
-      ${set}
-      DESTINATION
-      ${CMAKE_INSTALL_INCLUDEDIR}/${PHP_INCLUDE_PREFIX}/ext/${extension}
-      COMPONENT php-development
-    )
-  endforeach()
-  install(
-    TARGETS php_ext_${extension}
-    ARCHIVE EXCLUDE_FROM_ALL
-    RUNTIME
-      DESTINATION ${PHP_EXTENSION_DIR}
-      COMPONENT php
-    LIBRARY
-      DESTINATION ${PHP_EXTENSION_DIR}
-      COMPONENT php
-    ${file_sets}
-  )
-
   # Configure shared extension.
   get_target_property(type php_ext_${extension} TYPE)
   if(NOT type MATCHES "^(MODULE|SHARED)_LIBRARY$")
     return()
   endif()
-
-  target_compile_definitions(php_ext_${extension} PRIVATE ZEND_COMPILE_DL_EXT)
 
   # Set build-phase location for shared extensions.
   get_target_property(location php_ext_${extension} LIBRARY_OUTPUT_DIRECTORY)
@@ -454,48 +416,6 @@ function(php_extensions_postconfigure extension)
       )
     endif()
   endif()
-endfunction()
-
-# Prepend COMPILE_DL_<EXTENSION> macros to extensions configuration headers and
-# define them for shared extensions.
-function(php_extensions_configure_headers)
-  get_property(extensions GLOBAL PROPERTY PHP_EXTENSIONS)
-  foreach(extension IN LISTS extensions)
-    if(NOT TARGET php_ext_${extension})
-      continue()
-    endif()
-
-    string(TOUPPER "COMPILE_DL_${extension}" macro)
-
-    get_target_property(type php_ext_${extension} TYPE)
-    if(type MATCHES "^(MODULE|SHARED)_LIBRARY$")
-      set(${macro} TRUE)
-    else()
-      set(${macro} FALSE)
-    endif()
-
-    # Prepare config.h template.
-    string(
-      JOIN
-      ""
-      template
-      "/* Define to 1 if the PHP extension '@extension@' is built as a dynamic "
-      "module. */\n"
-      "#cmakedefine ${macro} 1\n"
-    )
-
-    get_target_property(binary_dir php_ext_${extension} BINARY_DIR)
-    set(current "")
-    if(EXISTS ${binary_dir}/config.h)
-      file(READ ${binary_dir}/config.h current)
-    endif()
-
-    # Finalize extension's config.h header file.
-    if(NOT current MATCHES "(#undef|#define) ${macro}")
-      string(STRIP "${template}\n${current}" config)
-      file(CONFIGURE OUTPUT ${binary_dir}/config.h CONTENT "${config}\n")
-    endif()
-  endforeach()
 endfunction()
 
 # Validate extensions and their dependencies defined via add_dependencies().

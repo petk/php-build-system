@@ -71,6 +71,11 @@ if(NOT PHP_EXT_XML)
   return()
 endif()
 
+find_package(PHP REQUIRED)
+
+include(PHP/Extension)
+php_extension(xml)
+
 if(PHP_EXT_XML_SHARED)
   add_library(php_ext_xml MODULE)
 else()

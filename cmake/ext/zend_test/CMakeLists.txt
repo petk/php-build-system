@@ -50,6 +50,11 @@ if(NOT PHP_EXT_ZEND_TEST)
   return()
 endif()
 
+find_package(PHP REQUIRED)
+
+include(PHP/Extension)
+php_extension(zend_test)
+
 if(PHP_EXT_ZEND_TEST_SHARED)
   add_library(php_ext_zend_test MODULE)
 else()

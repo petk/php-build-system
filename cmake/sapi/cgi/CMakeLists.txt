@@ -52,6 +52,7 @@ endif()
 set_target_properties(
   php_sapi_cgi
   PROPERTIES
+    EXPORT_NAME Sapi::Cgi
     OUTPUT_NAME ${PHP_PROGRAM_PREFIX}php-cgi${PHP_PROGRAM_SUFFIX}
     PHP_CLI TRUE
     PHP_SAPI_FASTCGI TRUE

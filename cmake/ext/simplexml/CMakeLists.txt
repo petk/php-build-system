@@ -50,6 +50,11 @@ if(NOT PHP_EXT_SIMPLEXML)
   return()
 endif()
 
+find_package(PHP REQUIRED)
+
+include(PHP/Extension)
+php_extension(simplexml)
+
 if(PHP_EXT_SIMPLEXML_SHARED)
   add_library(php_ext_simplexml MODULE)
 else()

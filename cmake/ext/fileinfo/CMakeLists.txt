@@ -53,6 +53,11 @@ if(NOT PHP_EXT_FILEINFO)
   return()
 endif()
 
+find_package(PHP REQUIRED)
+
+include(PHP/Extension)
+php_extension(fileinfo)
+
 if(PHP_EXT_FILEINFO_SHARED)
   add_library(php_ext_fileinfo MODULE)
 else()

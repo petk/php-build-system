@@ -50,6 +50,11 @@ if(NOT PHP_EXT_FILTER)
   return()
 endif()
 
+find_package(PHP REQUIRED)
+
+include(PHP/Extension)
+php_extension(filter)
+
 if(PHP_EXT_FILTER_SHARED)
   add_library(php_ext_filter MODULE)
 else()

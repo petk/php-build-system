@@ -29,6 +29,12 @@ The following cache variables may also be set:
   To comply with standard find modules, the `PHP_FOUND` result variable is also
   defined, even if prefix has been specified.
 
+* `PHP_FORCE_AS_FOUND` - If set to a boolean true, it disables finding PHP and
+  considers it as found. This module will then not provide further results or
+  outputs. This is used when building PHP extensions as bundled inside the
+  php-src repository, where the host PHP installation isn't required for a
+  successful build as a whole.
+
 ## Examples
 
 ### Example: Finding PHP
@@ -88,6 +94,12 @@ block(
     PHP${_php_prefix}_FOUND
     PHP${_php_prefix}_VERSION
 )
+  if(PHP_FORCE_AS_FOUND)
+    set(PHP_FOUND TRUE)
+    set(PHP${_php_prefix}_FOUND TRUE)
+    return()
+  endif()
+
   set(reason "")
 
   ##############################################################################

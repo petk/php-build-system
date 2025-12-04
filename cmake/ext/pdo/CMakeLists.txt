@@ -50,6 +50,11 @@ if(NOT PHP_EXT_PDO)
   return()
 endif()
 
+find_package(PHP REQUIRED)
+
+include(PHP/Extension)
+php_extension(pdo)
+
 if(PHP_EXT_PDO_SHARED)
   add_library(php_ext_pdo MODULE)
 else()

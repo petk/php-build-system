@@ -59,6 +59,11 @@ if(NOT PHP_EXT_SYSVMSG)
   return()
 endif()
 
+find_package(PHP REQUIRED)
+
+include(PHP/Extension)
+php_extension(sysvmsg)
+
 check_include_files(sys/msg.h PHP_EXT_SYSVMSG_HAVE_SYS_MSG_H)
 
 if(NOT PHP_EXT_SYSVMSG_HAVE_SYS_MSG_H)

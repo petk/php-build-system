@@ -51,6 +51,11 @@ if(NOT PHP_EXT_TOKENIZER)
   return()
 endif()
 
+find_package(PHP REQUIRED)
+
+include(PHP/Extension)
+php_extension(tokenizer)
+
 if(PHP_EXT_TOKENIZER_SHARED)
   add_library(php_ext_tokenizer MODULE)
 else()

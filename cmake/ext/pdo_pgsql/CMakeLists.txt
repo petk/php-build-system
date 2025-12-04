@@ -52,6 +52,11 @@ if(NOT PHP_EXT_PDO_PGSQL)
   return()
 endif()
 
+find_package(PHP REQUIRED)
+
+include(PHP/Extension)
+php_extension(pdo_pgsql)
+
 if(PHP_EXT_PDO_PGSQL_SHARED)
   add_library(php_ext_pdo_pgsql MODULE)
 else()

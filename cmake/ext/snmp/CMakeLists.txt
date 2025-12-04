@@ -52,6 +52,11 @@ if(NOT PHP_EXT_SNMP)
   return()
 endif()
 
+find_package(PHP REQUIRED)
+
+include(PHP/Extension)
+php_extension(snmp)
+
 if(PHP_EXT_SNMP_SHARED)
   add_library(php_ext_snmp MODULE)
 else()
