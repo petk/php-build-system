@@ -72,6 +72,12 @@ set(
 )
 mark_as_advanced(PHP_BUILD_PROVIDER)
 
+option(
+  PHP_ENABLE_CMAKE_EXPERIMENTAL_FEATURES
+  "Enable CMake experimental features"
+)
+mark_as_advanced(PHP_ENABLE_CMAKE_EXPERIMENTAL_FEATURES)
+
 set(
   CACHE{PHP_INCLUDE_PREFIX}
   TYPE STRING
