@@ -139,7 +139,7 @@ jobs:
 
       - name: Install PHP
         if: ${{ always() }}
-        run: cmake --install php-build/all-enabled/php
+        run: sudo cmake --install php-build/all-enabled/php -j $(nproc)
 
       - name: Setup shared standalone extension
         if: ${{ always() }}
@@ -151,7 +151,7 @@ jobs:
             -DPHP_EXT_PHANTOM=ON \
             -DPHP_EXT_PHANTOM_SHARED=ON
           cmake --build cmake-build -j
-          cmake --install cmake-build
+          sudo cmake --install cmake-build
           php -d extension=phantom -m | grep phantom
 
   windows:
