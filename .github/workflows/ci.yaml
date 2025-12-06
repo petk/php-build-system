@@ -109,7 +109,12 @@ jobs:
       - name: Install CMake
         uses: lukka/get-cmake@latest
 
-      - name: Build and install
+      - name: Capture CMake path
+        id: cmake_path
+        shell: bash
+        run: echo "cmakePath=$(command -v cmake)" >> "$GITHUB_OUTPUT"
+
+      - name: Configure and build PHP
         run: |
           cmake --preset all-enabled -DCMAKE_INSTALL_PREFIX=/usr
           cmake --build --preset all-enabled -j
@@ -126,7 +131,7 @@ jobs:
 
       - name: Install PHP
         if: ${{ always() }}
-        run: sudo -E cmake --install php-build/all-enabled/php -j $(nproc)
+        run: sudo "${{ steps.cmake_path.outputs.cmakePath }}" --install php-build/all-enabled/php -j $(nproc)
 
       - name: Setup shared standalone extension
         if: ${{ always() }}
@@ -140,7 +145,7 @@ jobs:
             -DPHP_EXT_PHANTOM=ON \
             -DPHP_EXT_PHANTOM_SHARED=ON
           cmake --build cmake-build -j
-          sudo -E cmake --install cmake-build
+          sudo "${{ steps.cmake_path.outputs.cmakePath }}" --install cmake-build
           php -d extension=phantom -m | grep phantom
 
   windows:
