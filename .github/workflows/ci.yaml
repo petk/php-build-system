@@ -131,7 +131,9 @@ jobs:
       - name: Setup shared standalone extension
         if: ${{ always() }}
         run: |
-          php php-build/all-enabled/php-src/ext/ext_skel.php --ext phantom
+          php php-build/all-enabled/php-src/ext/ext_skel.php \
+            --ext phantom \
+            --vendor petk
           cd php-build/all-enabled/php-src/ext/phantom
           cmake \
             -B cmake-build \
