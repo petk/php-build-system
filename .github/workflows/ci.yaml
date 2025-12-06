@@ -121,15 +121,18 @@ jobs:
           sudo systemctl restart snmpd
 
       - name: Run tests
+        if: ${{ always() }}
         run: ctest --preset all-enabled
 
       - name: Install PHP
-        run: cmake --install php-build/all-enabled
+        if: ${{ always() }}
+        run: cmake --install php-build/all-enabled/php
 
       - name: Setup shared standalone extension
+        if: ${{ always() }}
         run: |
-          php php-src/ext/ext_skel.php --ext phantom
-          cd php-src/ext/phantom
+          php php-build/all-enabled/php-src/ext/ext_skel.php --ext phantom
+          cd php-build/all-enabled/php-src/ext/phantom
           cmake \
             -B cmake-build \
             -DPHP_EXT_PHANTOM=ON \
