@@ -66,3 +66,6 @@ mark_as_advanced(CMAKE_COMPILE_WARNING_AS_ERROR)
 # Set default visibility of all symbols to hidden if the compiler (for example,
 # GCC >= 4) supports it. This can help reduce the binary size and startup time.
 set(CMAKE_C_VISIBILITY_PRESET "hidden")
+
+# Enable parallel installation (cmake --install <build-dir> -j <jobs>).
+set_property(GLOBAL PROPERTY INSTALL_PARALLEL TRUE)
