@@ -118,7 +118,7 @@ jobs:
 
       - name: Build and install
         run: |
-          cmake --preset all-enabled
+          cmake --preset all-enabled -DCMAKE_INSTALL_PREFIX=/usr
           cmake --build --preset all-enabled -j
 
       - name: Setup SNMP agents
