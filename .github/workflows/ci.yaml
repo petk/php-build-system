@@ -106,13 +106,9 @@ jobs:
         with:
           fetch-depth: 2
 
-      - name: Install CMake
+      - name: Install CMake and Ninja
         uses: lukka/get-cmake@latest
-
-      - name: Capture CMake path
-        id: cmake_path
-        shell: bash
-        run: echo "cmakePath=$(command -v cmake)" >> "$GITHUB_OUTPUT"
+        id: cmake-and-ninja
 
       - name: Configure and build PHP
         run: |
@@ -131,7 +127,7 @@ jobs:
 
       - name: Install PHP
         if: ${{ always() }}
-        run: sudo "${{ steps.cmake_path.outputs.cmakePath }}" --install php-build/all-enabled/php -j $(nproc)
+        run: sudo "${{ steps.cmake-and-ninja.outputs.cmake-path }}/cmake" --install php-build/all-enabled/php -j $(nproc)
 
       - name: Setup shared standalone extension
         if: ${{ always() }}
@@ -143,7 +139,7 @@ jobs:
             -DPHP_EXT_PHANTOM=ON \
             -DPHP_EXT_PHANTOM_SHARED=ON
           cmake --build cmake-build -j
-          sudo "${{ steps.cmake_path.outputs.cmakePath }}" --install cmake-build
+          sudo "${{ steps.cmake-and-ninja.outputs.cmake-path }}/cmake" --install cmake-build
           php -d extension=phantom -m | grep phantom
 
   windows:
