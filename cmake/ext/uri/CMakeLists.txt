@@ -127,16 +127,6 @@ else()
           uriparser/include/uriparser/UriDefsConfig.h
           uriparser/include/uriparser/UriDefsUnicode.h
           uriparser/include/uriparser/UriIp4.h
-          uriparser/src/UriCommon.h
-          uriparser/src/UriConfig.h
-          uriparser/src/UriCopy.h
-          uriparser/src/UriIp4Base.h
-          uriparser/src/UriMemory.h
-          uriparser/src/UriNormalize.h
-          uriparser/src/UriNormalizeBase.h
-          uriparser/src/UriParseBase.h
-          uriparser/src/UriSetHostBase.h
-          uriparser/src/UriSetHostCommon.h
   )
 
   target_compile_definitions(php_ext_uri PRIVATE URI_STATIC_BUILD)
