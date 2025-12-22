@@ -73,6 +73,7 @@ target_sources(
     observer.c
     test.c
     test.stub.php
+    tmp_methods.stub.php
     zend_mm_custom_handlers.c
 )
 
