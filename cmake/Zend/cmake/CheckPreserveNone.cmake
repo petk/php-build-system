@@ -36,7 +36,7 @@ if(NOT DEFINED PHP_ZEND_HAVE_PRESERVE_NONE)
       uintptr_t _a = 0;
       uintptr_t _b = 0;
 
-      uintptr_t __attribute__((preserve_none)) fun(uintptr_t a, uintptr_t b)
+      uintptr_t __attribute__((preserve_none,noinline,used)) fun(uintptr_t a, uintptr_t b)
       {
         _a = a;
         _b = b;
