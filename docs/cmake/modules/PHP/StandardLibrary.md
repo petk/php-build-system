@@ -28,6 +28,7 @@ Including this module will define the following variables:
     * `llvm`
     * `mscrt`
     * `musl`
+    * `picolibc`
     * `uclibc`
     * "" (empty string)
 

@@ -26,6 +26,7 @@ Including this module will define the following variables:
     * `llvm`
     * `mscrt`
     * `musl`
+    * `picolibc`
     * `uclibc`
     * "" (empty string)
 
@@ -136,6 +137,15 @@ function(_php_standard_library_check)
   check_symbol_exists(__COSMOPOLITAN__ "" PHP_C_STANDARD_LIBRARY)
   if(PHP_C_STANDARD_LIBRARY)
     set_property(CACHE PHP_C_STANDARD_LIBRARY PROPERTY VALUE "cosmopolitan")
+    return()
+  endif()
+
+  unset(CACHE{PHP_C_STANDARD_LIBRARY})
+
+  # The picolibc.
+  check_symbol_exists(__PICOLIBC__ "string.h" PHP_C_STANDARD_LIBRARY)
+  if(PHP_C_STANDARD_LIBRARY)
+    set_property(CACHE PHP_C_STANDARD_LIBRARY PROPERTY VALUE "picolibc")
     return()
   endif()
 
