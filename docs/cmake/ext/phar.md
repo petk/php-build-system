@@ -3,20 +3,20 @@
 
 # The phar extension
 
-Configure the `phar` extension.
+The PHP `phar` extension provides support for PHP archives (phar).
 
-This extension provides support for PHP archives (phar).
+## Configuration options
 
-## PHP_EXT_PHAR
+### PHP_EXT_PHAR
 
 * Default: `ON`
 * Values: `ON|OFF`
 
-Enable the extension.
+Enables the extension.
 
-## PHP_EXT_PHAR_SHARED
+### PHP_EXT_PHAR_SHARED
 
 * Default: `OFF`
 * Values: `ON|OFF`
 
-Build extension as shared.
+Builds extension as shared.
