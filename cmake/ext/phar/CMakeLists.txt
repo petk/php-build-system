@@ -1,23 +1,23 @@
 #[=============================================================================[
 # The phar extension
 
-Configure the `phar` extension.
+The PHP `phar` extension provides support for PHP archives (phar).
 
-This extension provides support for PHP archives (phar).
+## Configuration options
 
-## PHP_EXT_PHAR
+### PHP_EXT_PHAR
 
 * Default: `ON`
 * Values: `ON|OFF`
 
-Enable the extension.
+Enables the extension.
 
-## PHP_EXT_PHAR_SHARED
+### PHP_EXT_PHAR_SHARED
 
 * Default: `OFF`
 * Values: `ON|OFF`
 
-Build extension as shared.
+Builds extension as shared.
 #]=============================================================================]
 
 cmake_minimum_required(VERSION 4.2...4.3)
@@ -142,12 +142,35 @@ else()
   return()
 endif()
 
-set(phar_shared_options "")
-if(PHP_EXT_PHAR_SHARED)
-  set(
-    phar_shared_options
-      -d extension_dir=${PHP_BINARY_DIR}/modules/$<CONFIG>
-      -d extension=phar
+set(
+  php_options
+  -n
+  -d open_basedir=
+  -d output_buffering=0
+  -d memory_limit=-1
+  -d phar.readonly=0
+)
+
+if(PHP_EXT_PHAR_SHARED OR PHP_EXT_ZLIB_SHARED OR PHP_EXT_BZ2_SHARED)
+  list(APPEND php_options -d extension_dir=${PHP_BINARY_DIR}/modules/$<CONFIG>)
+endif()
+
+foreach(extension IN ITEMS bz2 phar zlib)
+  string(TOUPPER "PHP_EXT_${extension}_SHARED" option)
+  if(${option})
+    list(APPEND php_options -d extension=${extension})
+  endif()
+endforeach()
+
+# The phar.inc is loaded in the phar/pharcommand.inc file based on the
+# execution. However, it's unclear how to reproduce its usage from the build
+# directory. This is here only to be synced with the upstream build system.
+if(NOT CMAKE_CURRENT_BINARY_DIR PATH_EQUAL CMAKE_CURRENT_SOURCE_DIR)
+  file(MAKE_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/phar)
+  file(
+    COPY_FILE
+    ${CMAKE_CURRENT_SOURCE_DIR}/phar/phar.inc
+    ${CMAKE_CURRENT_BINARY_DIR}/phar/phar.inc
   )
 endif()
 
@@ -162,12 +185,7 @@ add_custom_command(
   OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/phar.php
   COMMAND
     ${php_executable}
-      -n
-      ${phar_shared_options}
-      -d open_basedir=
-      -d output_buffering=0
-      -d memory_limit=-1
-      -d phar.readonly=0
+      ${php_options}
       ${CMAKE_CURRENT_SOURCE_DIR}/build_precommand.php
       > ${CMAKE_CURRENT_BINARY_DIR}/phar.php
   COMMENT "[ext/phar] Generating ${relative_dir}/phar.php"
@@ -178,12 +196,7 @@ add_custom_command(
   OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/phar.phar
   COMMAND
     ${php_executable}
-      -n
-      ${phar_shared_options}
-      -d open_basedir=
-      -d output_buffering=0
-      -d memory_limit=-1
-      -d phar.readonly=0
+      ${php_options}
       ${CMAKE_CURRENT_BINARY_DIR}/phar.php
         pack
         -f ${CMAKE_CURRENT_BINARY_DIR}/phar.phar
@@ -228,6 +241,7 @@ add_custom_command(
   DEPENDS ${CMAKE_CURRENT_BINARY_DIR}/phar.phar
   COMMENT "[ext/phar] Generating ${relative_dir}/phar"
 )
+set_property(SOURCE php_ext_phar_generated_phar PROPERTY SYMBOLIC TRUE)
 
 file(
   GLOB_RECURSE
@@ -245,7 +259,6 @@ add_custom_target(
     ${dependent_files}
     php_ext_phar_generated_phar
 )
-set_property(SOURCE php_ext_phar_generated_phar PROPERTY SYMBOLIC TRUE)
 
 # Install phar.phar file to destination. Here a duplicate phar.phar generation
 # step is used to generate it to a destination directory because of the install
@@ -255,15 +268,10 @@ string(CONFIGURE [[
   execute_process(
     COMMAND
       "@php_executable@"
-        -n
-        @phar_shared_options@
-        -d open_basedir=
-        -d output_buffering=0
-        -d memory_limit=-1
-        -d phar.readonly=0
+        @php_options@
         "@CMAKE_CURRENT_BINARY_DIR@/phar.php"
           pack
-          -f "@CMAKE_CURRENT_BINARY_DIR@/CMakeFiles/phar.phar"
+          -f "@CMAKE_CURRENT_BINARY_DIR@/CMakeFiles/@PHP_PROGRAM_PREFIX@phar@PHP_PROGRAM_SUFFIX@.phar"
           -a pharcommand
           -c auto
           -p 0
@@ -274,8 +282,17 @@ string(CONFIGURE [[
   )
 
   file(
-    CHMOD
-    "@CMAKE_CURRENT_BINARY_DIR@/CMakeFiles/phar.phar"
+    CREATE_LINK
+    @PHP_PROGRAM_PREFIX@phar@PHP_PROGRAM_SUFFIX@.phar
+    "@CMAKE_CURRENT_BINARY_DIR@/CMakeFiles/@PHP_PROGRAM_PREFIX@phar@PHP_PROGRAM_SUFFIX@"
+    SYMBOLIC
+  )
+
+  file(
+    INSTALL
+      "@CMAKE_CURRENT_BINARY_DIR@/CMakeFiles/@PHP_PROGRAM_PREFIX@phar@PHP_PROGRAM_SUFFIX@.phar"
+      "@CMAKE_CURRENT_BINARY_DIR@/CMakeFiles/@PHP_PROGRAM_PREFIX@phar@PHP_PROGRAM_SUFFIX@"
+    DESTINATION $<PATH:ABSOLUTE_PATH,NORMALIZE,@CMAKE_INSTALL_BINDIR@,${CMAKE_INSTALL_PREFIX}>
     FILE_PERMISSIONS
       OWNER_READ
       OWNER_WRITE
@@ -284,19 +301,6 @@ string(CONFIGURE [[
       GROUP_EXECUTE
       WORLD_READ
       WORLD_EXECUTE
-  )
-
-  file(
-    COPY_FILE
-    "@CMAKE_CURRENT_BINARY_DIR@/CMakeFiles/phar.phar"
-    $ENV{DESTDIR}$<PATH:ABSOLUTE_PATH,NORMALIZE,@CMAKE_INSTALL_BINDIR@,${CMAKE_INSTALL_PREFIX}>/@PHP_PROGRAM_PREFIX@phar@PHP_PROGRAM_SUFFIX@.phar
-  )
-
-  file(
-    CREATE_LINK
-    @PHP_PROGRAM_PREFIX@phar@PHP_PROGRAM_SUFFIX@.phar
-    $ENV{DESTDIR}$<PATH:ABSOLUTE_PATH,NORMALIZE,@CMAKE_INSTALL_BINDIR@,${CMAKE_INSTALL_PREFIX}>/@PHP_PROGRAM_PREFIX@phar@PHP_PROGRAM_SUFFIX@
-    SYMBOLIC
   )
 ]] code @ONLY)
 install(CODE "${code}" COMPONENT php)
