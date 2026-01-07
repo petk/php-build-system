@@ -519,7 +519,7 @@ add_dependencies(php_ext_standard_functions_cli php_ext_standard)
 # TODO: https://github.com/php/php-src/pull/4681
 ################################################################################
 
-if(PHP_EXT_ZLIB)
+if(PHP_EXT_ZLIB AND NOT PHP_EXT_ZLIB_SHARED)
   add_dependencies(php_ext_standard php_ext_zlib)
 endif()
 
