@@ -514,13 +514,16 @@ add_dependencies(php_ext_standard_functions php_ext_standard)
 add_dependencies(php_ext_standard_functions_cli php_ext_standard)
 
 ################################################################################
-# ext/standard depends on ext/zlib for SWC images and transitively depends on
-# the zlib library.
-# TODO: https://github.com/php/php-src/pull/4681
+# Link zlib library for SWC images.
+# See: https://github.com/php/php-src/issues/20868
 ################################################################################
 
-if(PHP_EXT_ZLIB AND NOT PHP_EXT_ZLIB_SHARED)
-  add_dependencies(php_ext_standard php_ext_zlib)
+find_package(ZLIB ${PHP_ZLIB_MIN_VERSION})
+set_package_properties(ZLIB PROPERTIES PURPOSE "Enables support for SWC files.")
+
+if(TARGET ZLIB::ZLIB)
+  target_link_libraries(php_ext_standard PRIVATE ZLIB::ZLIB)
+  set(PHP_HAVE_ZLIB_LIBRARY TRUE)
 endif()
 
 ################################################################################
