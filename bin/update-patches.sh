@@ -47,6 +47,7 @@ done
 # Check requirements.
 which=$(which which 2>/dev/null)
 git=$(which git 2>/dev/null)
+phpExecutable=$(which php 2>/dev/null)
 
 if test -z "$which"; then
   echo "update-patches.sh: The 'which' command not found." >&2
@@ -58,6 +59,13 @@ if test -z "$git"; then
   echo "update-patches.sh: The 'git' command not found." >&2
   echo "                   Please install Git:" >&2
   echo "                   https://git-scm.com" >&2
+  exit 1
+fi
+
+if test -z "$phpExecutable"; then
+  echo "update-patches.sh: The 'php' command not found." >&2
+  echo "                   Please install PHP:" >&2
+  echo "                   https://www.php.net" >&2
   exit 1
 fi
 
@@ -122,7 +130,14 @@ for php in $phpVersions; do
       exit 1
     fi
 
-    "$git" --no-pager format-patch -1 ${temporaryBranch} \
+    # Update stub files if any.
+    "$phpExecutable" build/get_stub.php
+    if test -n "$($git status --porcelain)"; then
+      "$git" add .
+      "$git" commit --amend --no-edit
+    fi
+
+    "$git" --no-pager format-patch --text -1 ${temporaryBranch} \
       --stdout \
       --no-signature \
       --subject-prefix="" \

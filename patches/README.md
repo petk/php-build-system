@@ -8,7 +8,7 @@ repository.
 To create a new patch:
 
 ```sh
-git --no-pager format-patch -1 HEAD --stdout > some.patch
+git --no-pager format-patch --text -1 HEAD --stdout > some.patch
 ```
 
 To modify existing patches:
@@ -23,7 +23,7 @@ git am -3 some.patch
 # ... Make and commit changes
 
 # Update some.patch file
-git --no-pager format-patch -1 HEAD --stdout > some.patch
+git --no-pager format-patch --text -1 HEAD --stdout > some.patch
 ```
 
 To update patches against the latest upstream tracking Git branches:
