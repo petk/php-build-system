@@ -1,0 +1,166 @@
+From: Peter Kokot <peterkokot@gmail.com>
+Subject: Enable linking with zlib for SWC files
+
+See https://github.com/php/php-src/issues/20868
+---
+ ext/standard/basic_functions.stub.php         |   2 +-
+ ext/standard/basic_functions_arginfo.h        | Bin 174099 -> 174080 bytes
+ ext/standard/config.m4                        |   5 +++++
+ ext/standard/config.w32                       |   7 +++++++
+ ext/standard/image.c                          |   8 ++++----
+ .../tests/image/getimagesize_swc.phpt         |   2 --
+ .../tests/image/getimagesize_variation4.phpt  |   2 --
+ .../image/getimagesize_variation_005.phpt     |   2 --
+ .../image_type_to_mime_type_variation4.phpt   |   2 --
+ 9 files changed, 17 insertions(+), 13 deletions(-)
+
+diff --git a/ext/standard/basic_functions.stub.php b/ext/standard/basic_functions.stub.php
+index 7913ca0e001..a75c5692a1e 100644
+--- a/ext/standard/basic_functions.stub.php
++++ b/ext/standard/basic_functions.stub.php
+@@ -580,7 +580,7 @@
+  * @cvalue IMAGE_FILETYPE_JB2
+  */
+ const IMAGETYPE_JB2 = UNKNOWN;
+-#if (defined(HAVE_ZLIB) && !defined(COMPILE_DL_ZLIB))
++#ifdef PHP_HAVE_ZLIB_LIBRARY
+ /**
+  * @var int
+  * @cvalue IMAGE_FILETYPE_SWC
+diff --git a/ext/standard/basic_functions_arginfo.h b/ext/standard/basic_functions_arginfo.h
+index 668eca9aadc..a8e081fde3f 100644
+--- a/ext/standard/basic_functions_arginfo.h
++++ b/ext/standard/basic_functions_arginfo.h
+@@ -1,5 +1,5 @@
+ /* This is a generated file, edit the .stub.php file instead.
+- * Stub hash: f6bf6cdd07080c01d3a0cb08d71409d05b1084f9 */
++ * Stub hash: 01b739faf2b274afacdc8d36f59aa944566222c3 */
+ 
+ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_set_time_limit, 0, 1, _IS_BOOL, 0)
+ 	ZEND_ARG_TYPE_INFO(0, seconds, IS_LONG, 0)
+@@ -3635,7 +3635,7 @@ static void register_basic_functions_symbols(int module_number)
+ 	REGISTER_LONG_CONSTANT("IMAGETYPE_JP2", IMAGE_FILETYPE_JP2, CONST_PERSISTENT);
+ 	REGISTER_LONG_CONSTANT("IMAGETYPE_JPX", IMAGE_FILETYPE_JPX, CONST_PERSISTENT);
+ 	REGISTER_LONG_CONSTANT("IMAGETYPE_JB2", IMAGE_FILETYPE_JB2, CONST_PERSISTENT);
+-#if (defined(HAVE_ZLIB) && !defined(COMPILE_DL_ZLIB))
++#if defined(PHP_HAVE_ZLIB_LIBRARY)
+ 	REGISTER_LONG_CONSTANT("IMAGETYPE_SWC", IMAGE_FILETYPE_SWC, CONST_PERSISTENT);
+ #endif
+ 	REGISTER_LONG_CONSTANT("IMAGETYPE_IFF", IMAGE_FILETYPE_IFF, CONST_PERSISTENT);
+diff --git a/ext/standard/config.m4 b/ext/standard/config.m4
+index ef6b3c5a010..b66678d39ad 100644
+--- a/ext/standard/config.m4
++++ b/ext/standard/config.m4
+@@ -383,6 +383,11 @@ AS_VAR_IF([php_cv_func_getifaddrs], [yes],
+   [AC_DEFINE([HAVE_GETIFADDRS], [1],
+     [Define to 1 if you have the 'getifaddrs' function.])])
+ 
++dnl Optionally check for zlib (needed for SWC files support in PHP).
++PHP_SETUP_ZLIB([], [AC_DEFINE([PHP_HAVE_ZLIB_LIBRARY], [1],
++  [Define to 1 if the system has the zlib library.])],
++  [:])
++
+ dnl
+ dnl Setup extension sources
+ dnl
+diff --git a/ext/standard/config.w32 b/ext/standard/config.w32
+index c7c14b8705c..d762292b7e8 100644
+--- a/ext/standard/config.w32
++++ b/ext/standard/config.w32
+@@ -21,6 +21,13 @@ AC_DEFINE("PHP_USE_PHP_CRYPT_R", 1, "Define to 1 if PHP uses its own crypt_r, an
+ 
+ CHECK_HEADER_ADD_INCLUDE("timelib_config.h", "CFLAGS_STANDARD", "ext/date/lib");
+ 
++// Optionally check for zlib (needed for SWC files support in PHP).
++if (SETUP_ZLIB_LIB(null, PHP_ZLIB) &&
++	CHECK_HEADER_ADD_INCLUDE("zlib.h", "CFLAGS_STANDARD", "..\\zlib;" + php_usual_include_suspects)
++) {
++	AC_DEFINE("PHP_HAVE_ZLIB_LIBRARY", 1, "Define to 1 if the system has the zlib library.");
++}
++
+ ADD_FLAG("LIBS_STANDARD", "iphlpapi.lib");
+ 
+ EXTENSION("standard", "array.c base64.c basic_functions.c browscap.c \
+diff --git a/ext/standard/image.c b/ext/standard/image.c
+index 08cf8983d02..056448bcb67 100644
+--- a/ext/standard/image.c
++++ b/ext/standard/image.c
+@@ -28,7 +28,7 @@
+ #endif
+ #include "php_image.h"
+ 
+-#if defined(HAVE_ZLIB) && !defined(COMPILE_DL_ZLIB)
++#ifdef PHP_HAVE_ZLIB_LIBRARY
+ #include "zlib.h"
+ #endif
+ 
+@@ -154,7 +154,7 @@ static unsigned long int php_swf_get_bits (unsigned char* buffer, unsigned int p
+ }
+ /* }}} */
+ 
+-#if defined(HAVE_ZLIB) && !defined(COMPILE_DL_ZLIB)
++#ifdef PHP_HAVE_ZLIB_LIBRARY
+ /* {{{ php_handle_swc */
+ static struct php_gfxinfo *php_handle_swc(php_stream * stream)
+ {
+@@ -1503,10 +1503,10 @@ static void php_getimagesize_from_stream(php_stream *stream, char *input, zval *
+ 			break;
+ 		case IMAGE_FILETYPE_SWC:
+ 			/* TODO: with the new php_image_register_handler() APIs, this restriction could be solved */
+-#if defined(HAVE_ZLIB) && !defined(COMPILE_DL_ZLIB)
++#ifdef PHP_HAVE_ZLIB_LIBRARY
+ 			result = php_handle_swc(stream);
+ #else
+-			php_error_docref(NULL, E_NOTICE, "The image is a compressed SWF file, but you do not have a static version of the zlib extension enabled");
++			php_error_docref(NULL, E_NOTICE, "The image is a compressed SWF file, but PHP was compiled without zlib support");
+ #endif
+ 			break;
+ 		case IMAGE_FILETYPE_PSD:
+diff --git a/ext/standard/tests/image/getimagesize_swc.phpt b/ext/standard/tests/image/getimagesize_swc.phpt
+index f5031e7a223..0f524777fa0 100644
+--- a/ext/standard/tests/image/getimagesize_swc.phpt
++++ b/ext/standard/tests/image/getimagesize_swc.phpt
+@@ -1,7 +1,5 @@
+ --TEST--
+ GetImageSize() for compressed swf files
+---EXTENSIONS--
+-zlib
+ --SKIPIF--
+ <?php
+ if (!defined("IMAGETYPE_SWC")) {
+diff --git a/ext/standard/tests/image/getimagesize_variation4.phpt b/ext/standard/tests/image/getimagesize_variation4.phpt
+index 49b924ffe77..87977cb90be 100644
+--- a/ext/standard/tests/image/getimagesize_variation4.phpt
++++ b/ext/standard/tests/image/getimagesize_variation4.phpt
+@@ -1,7 +1,5 @@
+ --TEST--
+ Test getimagesize() function : variation - For shockwave-flash format
+---EXTENSIONS--
+-zlib
+ --SKIPIF--
+ <?php
+ if (!defined("IMAGETYPE_SWC")) {
+diff --git a/ext/standard/tests/image/getimagesize_variation_005.phpt b/ext/standard/tests/image/getimagesize_variation_005.phpt
+index c6d083b23b5..20cf6d94b6e 100644
+--- a/ext/standard/tests/image/getimagesize_variation_005.phpt
++++ b/ext/standard/tests/image/getimagesize_variation_005.phpt
+@@ -1,7 +1,5 @@
+ --TEST--
+ Test getimagesize() function : basic functionality for shockwave-flash
+---EXTENSIONS--
+-zlib
+ --SKIPIF--
+ <?php
+ if (!defined("IMAGETYPE_SWC")) {
+diff --git a/ext/standard/tests/image/image_type_to_mime_type_variation4.phpt b/ext/standard/tests/image/image_type_to_mime_type_variation4.phpt
+index 10c51466cd6..ac89b0fd74e 100644
+--- a/ext/standard/tests/image/image_type_to_mime_type_variation4.phpt
++++ b/ext/standard/tests/image/image_type_to_mime_type_variation4.phpt
+@@ -1,7 +1,5 @@
+ --TEST--
+ Test image_type_to_mime_type() function : usage variations - Passing IMAGETYPE_ICO and IMAGETYPE_SWC
+---EXTENSIONS--
+-zlib
+ --SKIPIF--
+ <?php
+ if (!defined("IMAGETYPE_SWC")) {

@@ -176,3 +176,6 @@ build system:
 
   In CMake, this is bypassed by having entire extension dependent on the
   `PHP::Zend` target (which also includes the parser and scanner).
+
+* The zlib extension can be built as shared and SWC files are supported.
+  See: https://github.com/php/php-src/issues/20868
