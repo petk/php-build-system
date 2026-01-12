@@ -379,7 +379,6 @@ block()
 
   string(CONFIGURE [[
     set(php_fpm_localstatedir "$<PATH:ABSOLUTE_PATH,NORMALIZE,@CMAKE_INSTALL_LOCALSTATEDIR@,${CMAKE_INSTALL_PREFIX}>")
-    # TODO: Fix the GNU standard adjustment issue with /etc, /var, and /var/run.
     set(php_fpm_runstatedir "$<PATH:ABSOLUTE_PATH,NORMALIZE,@CMAKE_INSTALL_RUNSTATEDIR@,${CMAKE_INSTALL_PREFIX}>")
     set(php_fpm_sysconfdir "$<PATH:ABSOLUTE_PATH,NORMALIZE,@CMAKE_INSTALL_SYSCONFDIR@,${CMAKE_INSTALL_PREFIX}>")
     set(php_fpm_prefix "${CMAKE_INSTALL_PREFIX}")
