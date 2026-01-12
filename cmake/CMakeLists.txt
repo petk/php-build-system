@@ -1,10 +1,10 @@
 cmake_minimum_required(VERSION 4.2...4.3)
 
-# Configure CMake behavior.
-include(cmake/CMakeDefaults.cmake)
-
 message(STATUS "Initializing PHP build system")
 message(STATUS "=============================")
+
+# Configure CMake behavior.
+include(cmake/CMakeDefaults.cmake)
 
 # Set the PHP_VERSION_* variables from configure.ac.
 include(cmake/Version.cmake)
