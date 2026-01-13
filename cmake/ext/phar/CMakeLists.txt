@@ -75,6 +75,7 @@ target_sources(
     phar_path_check.c
     phar.c
     stream.c
+    stub.h
     tar.c
     util.c
     zip.c
@@ -121,6 +122,24 @@ if(NOT CMAKE_SYSTEM_NAME STREQUAL "Windows")
     COMPONENT php-doc
   )
 endif()
+
+################################################################################
+# Generate ext/phar/stub.h.
+################################################################################
+
+include(PHP/AddCustomCommand)
+php_add_custom_command(
+  php_ext_phar_generate_stub_h
+  OUTPUT
+    ${CMAKE_CURRENT_SOURCE_DIR}/stub.h
+  DEPENDS
+    ${CMAKE_CURRENT_SOURCE_DIR}/makestub.php
+    ${CMAKE_CURRENT_SOURCE_DIR}/shortarc.php
+  PHP_COMMAND
+    ${CMAKE_CURRENT_SOURCE_DIR}/makestub.php
+  COMMENT "[ext/phar] Regenerating stub.h"
+  VERBATIM
+)
 
 ################################################################################
 # The phar command-line script.
