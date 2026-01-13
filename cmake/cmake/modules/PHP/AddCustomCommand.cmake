@@ -41,6 +41,7 @@ php_add_custom_command(
   <unique-symbolic-target-name>
   OUTPUT <output-files>...
   DEPENDS <dependent-files>...
+  PHP_EXTENSIONS <extensions>...
   PHP_COMMAND <arguments>...
   [COMMENT <comment>]
   [VERBATIM]
@@ -49,11 +50,14 @@ php_add_custom_command(
 
 The arguments are:
 
-* `<uniquie-symbolic-target-name>` - The target name providing the custom
+* `<unique-symbolic-target-name>` - The target name providing the custom
   command.
 * `OUTPUT <output-files>...` - A list of files the command is expected to
   produce.
 * `DEPENDS <dependent-files>...` - A list of files on which the command depends.
+* `PHP_EXTENSIONS <extensions>...` - A list of required PHP extensions for the
+  PHP command. Extensions are listed by their name, e.g., `tokenizer`, `phar`,
+  etc.
 * `PHP_COMMAND <arguments>...` - A list of arguments passed to the PHP
   executable command.
 * `COMMENT <comment>` - Optional comment that is displayed before the command is
@@ -68,7 +72,8 @@ timestamps manually and executes the `PHP_COMMAND` only when needed.
 ## Examples
 
 In the following example, this module is used to generate a source file with
-PHP:
+PHP. The `generate-something.php` PHP script requires the `tokenizer` extension
+to be enabled.
 
 ```cmake
 # CMakeLists.txt
@@ -81,8 +86,8 @@ php_add_custom_command(
     ${CMAKE_CURRENT_SOURCE_DIR}/generated_source.c
   DEPENDS
     ${CMAKE_CURRENT_SOURCE_DIR}/data.php
+  PHP_EXTENSIONS tokenizer
   PHP_COMMAND
-    -n
     ${CMAKE_CURRENT_SOURCE_DIR}/generate-something.php
   COMMENT "Generate something"
   VERBATIM
@@ -98,10 +103,10 @@ function(php_add_custom_command)
   cmake_parse_arguments(
     PARSE_ARGV
     1
-    parsed                       # prefix
-    "VERBATIM"                   # options
-    "COMMENT"                    # one-value keywords
-    "OUTPUT;DEPENDS;PHP_COMMAND" # multi-value keywords
+    parsed # prefix
+    "VERBATIM" # options
+    "COMMENT" # one-value keywords
+    "OUTPUT;DEPENDS;PHP_EXTENSIONS;PHP_COMMAND" # multi-value keywords
   )
 
   if(parsed_UNPARSED_ARGUMENTS)
@@ -119,19 +124,67 @@ function(php_add_custom_command)
   endif()
 
   if(PHP_HOST_FOUND)
-    add_custom_command(
-      OUTPUT ${parsed_OUTPUT}
-      COMMAND ${PHP_HOST_EXECUTABLE} ${parsed_PHP_COMMAND}
-      DEPENDS ${parsed_DEPENDS}
-      COMMENT "${parsed_COMMENT}"
-      ${verbatim}
-    )
+    set(extensions_found TRUE)
 
-    return()
+    if(parsed_PHP_EXTENSIONS)
+      foreach(extension IN LISTS parsed_PHP_EXTENSIONS)
+        execute_process(
+          COMMAND ${PHP_HOST_EXECUTABLE} --ri ${extension}
+          RESULT_VARIABLE code
+          OUTPUT_QUIET
+          ERROR_QUIET
+        )
+
+        if(NOT code EQUAL 0)
+          set(extensions_found FALSE)
+          break()
+        endif()
+      endforeach()
+    endif()
+
+    if(extensions_found)
+      add_custom_command(
+        OUTPUT ${parsed_OUTPUT}
+        COMMAND ${PHP_HOST_EXECUTABLE} ${parsed_PHP_COMMAND}
+        DEPENDS ${parsed_DEPENDS}
+        COMMENT "${parsed_COMMENT}"
+        ${verbatim}
+      )
+
+      return()
+    endif()
   endif()
 
   if(NOT TARGET PHP::sapi::cli)
     return()
+  endif()
+
+  # Check enabled extensions and set php options.
+  set(shared_extensions "")
+  foreach(extension IN LISTS parsed_PHP_EXTENSIONS)
+    string(TOUPPER "PHP_EXT_${extension}" option)
+    if(NOT ${option} OR NOT TARGET PHP::ext::${extension})
+      return()
+    endif()
+
+    if(TARGET PHP::ext::${extension})
+      get_target_property(type PHP::ext::${extension} TYPE)
+      if(type MATCHES "^(MODULE|SHARED)_LIBRARY$")
+        list(APPEND shared_extensions "${extension}")
+      endif()
+    elseif(${option}_SHARED)
+      list(APPEND shared_extensions "${extension}")
+    endif()
+  endforeach()
+
+  set(php_options "")
+
+  if(shared_extensions)
+    list(APPEND php_options -d extension_dir=${PHP_BINARY_DIR}/modules/$<CONFIG>)
+
+    foreach(extension IN LISTS shared_extensions)
+      list(APPEND php_options -d extension=${extension})
+    endforeach()
   endif()
 
   if(NOT CMAKE_CROSSCOMPILING)
@@ -148,6 +201,7 @@ function(php_add_custom_command)
     COMMAND
       ${CMAKE_COMMAND}
       -D "PHP_EXECUTABLE=${php_executable}"
+      -D "PHP_OPTIONS=${php_options}"
       -D "OUTPUT=${parsed_OUTPUT}"
       -D "PHP_COMMAND=${parsed_PHP_COMMAND}"
       -D "DEPENDS=${parsed_DEPENDS}"

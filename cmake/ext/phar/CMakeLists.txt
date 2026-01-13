@@ -135,6 +135,7 @@ php_add_custom_command(
   DEPENDS
     ${CMAKE_CURRENT_SOURCE_DIR}/makestub.php
     ${CMAKE_CURRENT_SOURCE_DIR}/shortarc.php
+  PHP_EXTENSIONS tokenizer
   PHP_COMMAND
     ${CMAKE_CURRENT_SOURCE_DIR}/makestub.php
   COMMENT "[ext/phar] Regenerating stub.h"

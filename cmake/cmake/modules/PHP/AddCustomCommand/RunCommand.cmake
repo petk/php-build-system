@@ -5,6 +5,7 @@ dependent input source files and runs the command inside the execute_process().
 Expected variables:
 
 * PHP_EXECUTABLE
+* PHP_OPTIONS
 * PHP_COMMAND
 * DEPENDS
 * OUTPUT
@@ -47,7 +48,7 @@ if(COMMENT)
   )
 endif()
 
-execute_process(COMMAND ${PHP_EXECUTABLE} ${PHP_COMMAND})
+execute_process(COMMAND ${PHP_EXECUTABLE} ${PHP_OPTIONS} ${PHP_COMMAND})
 
 # Update modification times of output files to not re-run the command on the
 # consecutive build runs.

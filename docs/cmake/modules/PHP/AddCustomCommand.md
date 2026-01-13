@@ -43,6 +43,7 @@ php_add_custom_command(
   <unique-symbolic-target-name>
   OUTPUT <output-files>...
   DEPENDS <dependent-files>...
+  PHP_EXTENSIONS <extensions>...
   PHP_COMMAND <arguments>...
   [COMMENT <comment>]
   [VERBATIM]
@@ -51,11 +52,14 @@ php_add_custom_command(
 
 The arguments are:
 
-* `<uniquie-symbolic-target-name>` - The target name providing the custom
+* `<unique-symbolic-target-name>` - The target name providing the custom
   command.
 * `OUTPUT <output-files>...` - A list of files the command is expected to
   produce.
 * `DEPENDS <dependent-files>...` - A list of files on which the command depends.
+* `PHP_EXTENSIONS <extensions>...` - A list of required PHP extensions for the
+  PHP command. Extensions are listed by their name, e.g., `tokenizer`, `phar`,
+  etc.
 * `PHP_COMMAND <arguments>...` - A list of arguments passed to the PHP
   executable command.
 * `COMMENT <comment>` - Optional comment that is displayed before the command is
@@ -70,7 +74,8 @@ timestamps manually and executes the `PHP_COMMAND` only when needed.
 ## Examples
 
 In the following example, this module is used to generate a source file with
-PHP:
+PHP. The `generate-something.php` PHP script requires the `tokenizer` extension
+to be enabled.
 
 ```cmake
 # CMakeLists.txt
@@ -83,8 +88,8 @@ php_add_custom_command(
     ${CMAKE_CURRENT_SOURCE_DIR}/generated_source.c
   DEPENDS
     ${CMAKE_CURRENT_SOURCE_DIR}/data.php
+  PHP_EXTENSIONS tokenizer
   PHP_COMMAND
-    -n
     ${CMAKE_CURRENT_SOURCE_DIR}/generate-something.php
   COMMENT "Generate something"
   VERBATIM
