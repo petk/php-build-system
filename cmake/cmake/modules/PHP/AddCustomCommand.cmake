@@ -135,7 +135,7 @@ function(php_add_custom_command)
 
     if(
       parsed_MIN_PHP_HOST_VERSION
-      AND PHP_HOST_VERSION VERSION_LESS PHP_HOST_VERSION
+      AND PHP_HOST_VERSION VERSION_LESS parsed_MIN_PHP_HOST_VERSION
     )
       set(use_host_php FALSE)
     endif()
