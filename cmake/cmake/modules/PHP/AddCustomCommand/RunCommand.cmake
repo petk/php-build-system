@@ -2,14 +2,14 @@
 Script for PHP/AddCustomCommand module that loops over output files and their
 dependent input source files and runs the command inside the execute_process().
 
-Expected variables:
+Expected input variables:
 
+* PHP_COMMAND
+* PHP_COMMENT
+* PHP_DEPENDS
 * PHP_EXECUTABLE
 * PHP_OPTIONS
-* PHP_COMMAND
-* DEPENDS
-* OUTPUT
-* COMMENT
+* PHP_OUTPUT
 #]=============================================================================]
 
 cmake_minimum_required(VERSION 4.2...4.3)
@@ -20,12 +20,12 @@ endif()
 
 set(needs_update FALSE)
 
-foreach(input ${DEPENDS})
+foreach(input ${PHP_DEPENDS})
   if(NOT EXISTS ${input})
     continue()
   endif()
 
-  foreach(output ${OUTPUT})
+  foreach(output ${PHP_OUTPUT})
     if("${input}" IS_NEWER_THAN "${output}")
       set(needs_update TRUE)
       break()
@@ -41,10 +41,10 @@ if(NOT needs_update)
   return()
 endif()
 
-if(COMMENT)
+if(PHP_COMMENT)
   execute_process(
     COMMAND
-      ${CMAKE_COMMAND} -E cmake_echo_color --blue --bold "       ${COMMENT}"
+      ${CMAKE_COMMAND} -E cmake_echo_color --blue --bold "       ${PHP_COMMENT}"
   )
 endif()
 
@@ -52,4 +52,4 @@ execute_process(COMMAND ${PHP_EXECUTABLE} ${PHP_OPTIONS} ${PHP_COMMAND})
 
 # Update modification times of output files to not re-run the command on the
 # consecutive build runs.
-file(TOUCH_NOCREATE ${OUTPUT})
+file(TOUCH_NOCREATE ${PHP_OUTPUT})

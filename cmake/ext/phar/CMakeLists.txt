@@ -235,7 +235,7 @@ add_custom_command(
   OUTPUT php_ext_phar_generated_phar
   COMMAND ${CMAKE_COMMAND} -P CMakeFiles/PharPermissions.cmake
   DEPENDS ${CMAKE_CURRENT_BINARY_DIR}/phar.phar
-  COMMENT "[ext/phar] Generating ${relative_dir}/phar"
+  COMMENT ""
 )
 set_property(SOURCE php_ext_phar_generated_phar PROPERTY SYMBOLIC TRUE)
 
