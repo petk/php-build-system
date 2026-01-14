@@ -104,7 +104,7 @@ find_package(Sendmail)
 ################################################################################
 
 set(PHP_ARTIFACTS_PREFIX "_HOST")
-find_package(PHP 7.4 COMPONENTS Interpreter)
+find_package(PHP 8.0 COMPONENTS Interpreter)
 unset(PHP_ARTIFACTS_PREFIX)
 
 # Force further find_package(PHP REQUIRED) calls in php-src as found.
