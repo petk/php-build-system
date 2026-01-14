@@ -41,8 +41,9 @@ php_add_custom_command(
   <unique-symbolic-target-name>
   OUTPUT <output-files>...
   DEPENDS <dependent-files>...
-  PHP_EXTENSIONS <extensions>...
   PHP_COMMAND <arguments>...
+  [PHP_EXTENSIONS <extensions>...]
+  [MIN_PHP_HOST_VERSION <version>]
   [COMMENT <comment>]
   [VERBATIM]
 )
@@ -55,11 +56,17 @@ The arguments are:
 * `OUTPUT <output-files>...` - A list of files the command is expected to
   produce.
 * `DEPENDS <dependent-files>...` - A list of files on which the command depends.
-* `PHP_EXTENSIONS <extensions>...` - A list of required PHP extensions for the
-  PHP command. Extensions are listed by their name, e.g., `tokenizer`, `phar`,
-  etc.
 * `PHP_COMMAND <arguments>...` - A list of arguments passed to the PHP
   executable command.
+* `PHP_EXTENSIONS <extensions>...` - Optional list of required PHP extensions
+  for the PHP command. Extensions are listed by their name, e.g., `tokenizer`,
+  `zlib`, etc.
+* `MIN_PHP_HOST_VERSION <version>` - Optional minimum required PHP version when
+  PHP is found on the host system for using PHP command. If insufficient version
+  is found, PHP CLI target from the current build will be used instead of the
+  PHP executable from the host system. If this argument is not provided, the
+  minimum required PHP version is specified by the `find_package(PHP <version>)`
+  requirement when finding PHP on the host.
 * `COMMENT <comment>` - Optional comment that is displayed before the command is
   executed.
 * `VERBATIM` - Option that properly escapes all arguments to the command.
@@ -86,9 +93,9 @@ php_add_custom_command(
     ${CMAKE_CURRENT_SOURCE_DIR}/generated_source.c
   DEPENDS
     ${CMAKE_CURRENT_SOURCE_DIR}/data.php
-  PHP_EXTENSIONS tokenizer
   PHP_COMMAND
     ${CMAKE_CURRENT_SOURCE_DIR}/generate-something.php
+  PHP_EXTENSIONS tokenizer
   COMMENT "Generate something"
   VERBATIM
 )
@@ -105,7 +112,7 @@ function(php_add_custom_command)
     1
     parsed # prefix
     "VERBATIM" # options
-    "COMMENT" # one-value keywords
+    "MIN_PHP_HOST_VERSION;COMMENT" # one-value keywords
     "OUTPUT;DEPENDS;PHP_EXTENSIONS;PHP_COMMAND" # multi-value keywords
   )
 
@@ -124,9 +131,16 @@ function(php_add_custom_command)
   endif()
 
   if(PHP_HOST_FOUND)
-    set(extensions_found TRUE)
+    set(use_host_php TRUE)
 
-    if(parsed_PHP_EXTENSIONS)
+    if(
+      parsed_MIN_PHP_HOST_VERSION
+      AND PHP_HOST_VERSION VERSION_LESS PHP_HOST_VERSION
+    )
+      set(use_host_php FALSE)
+    endif()
+
+    if(use_host_php AND parsed_PHP_EXTENSIONS)
       foreach(extension IN LISTS parsed_PHP_EXTENSIONS)
         execute_process(
           COMMAND ${PHP_HOST_EXECUTABLE} --ri ${extension}
@@ -136,13 +150,13 @@ function(php_add_custom_command)
         )
 
         if(NOT code EQUAL 0)
-          set(extensions_found FALSE)
+          set(use_host_php FALSE)
           break()
         endif()
       endforeach()
     endif()
 
-    if(extensions_found)
+    if(use_host_php)
       add_custom_command(
         OUTPUT ${parsed_OUTPUT}
         COMMAND ${PHP_HOST_EXECUTABLE} ${parsed_PHP_COMMAND}
@@ -202,10 +216,10 @@ function(php_add_custom_command)
       ${CMAKE_COMMAND}
       -D "PHP_EXECUTABLE=${php_executable}"
       -D "PHP_OPTIONS=${php_options}"
-      -D "OUTPUT=${parsed_OUTPUT}"
+      -D "PHP_OUTPUT=${parsed_OUTPUT}"
       -D "PHP_COMMAND=${parsed_PHP_COMMAND}"
-      -D "DEPENDS=${parsed_DEPENDS}"
-      -D "COMMENT=${parsed_COMMENT}"
+      -D "PHP_DEPENDS=${parsed_DEPENDS}"
+      -D "PHP_COMMENT=${parsed_COMMENT}"
       -P ${CMAKE_CURRENT_FUNCTION_LIST_DIR}/AddCustomCommand/RunCommand.cmake
     ${verbatim}
   )
