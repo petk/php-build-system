@@ -52,7 +52,7 @@ if(PHP_COMMENT)
 endif()
 
 if(PHP_WORKING_DIRECTORY)
-  set(working_directory "WORKING_DIRECTORY ${PHP_WORKING_DIRECTORY}")
+  set(working_directory WORKING_DIRECTORY ${PHP_WORKING_DIRECTORY})
 else()
   set(working_directory "")
 endif()
