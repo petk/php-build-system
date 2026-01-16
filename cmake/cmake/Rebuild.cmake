@@ -26,7 +26,16 @@ function(_php_rebuild_get_all_targets result dir)
 endfunction()
 
 block()
-  _php_rebuild_get_all_targets(targets ${CMAKE_CURRENT_SOURCE_DIR})
+  _php_rebuild_get_all_targets(all_targets ${CMAKE_CURRENT_SOURCE_DIR})
+
+  # Filter targets that have EXCLUDE_FROM_ALL property enabled.
+  set(targets "")
+  foreach(target IN LISTS all_targets)
+    get_target_property(exclude ${target} EXCLUDE_FROM_ALL)
+    if(NOT exclude)
+      list(APPEND targets ${target})
+    endif()
+  endforeach()
 
   cmake_host_system_information(RESULT processors QUERY NUMBER_OF_LOGICAL_CORES)
 

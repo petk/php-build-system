@@ -266,7 +266,7 @@ function(php_add_command)
   set(shared_extensions "")
   foreach(extension IN LISTS parsed_PHP_EXTENSIONS)
     string(TOUPPER "PHP_EXT_${extension}" option)
-    if(NOT ${option} OR NOT TARGET PHP::ext::${extension})
+    if(NOT ${option} AND NOT TARGET PHP::ext::${extension})
       return()
     endif()
 
@@ -290,6 +290,12 @@ function(php_add_command)
     endforeach()
   endif()
 
+  if(parsed_OUTPUT)
+    set(all "ALL")
+  else()
+    set(all "")
+  endif()
+
   if(NOT CMAKE_CROSSCOMPILING)
     set(php_executable "$<TARGET_FILE:PHP::sapi::cli>")
   elseif(CMAKE_CROSSCOMPILING AND CMAKE_CROSSCOMPILING_EMULATOR)
@@ -300,7 +306,7 @@ function(php_add_command)
 
   add_custom_target(
     ${ARGV0}
-    ALL
+    ${all}
     COMMAND
       ${CMAKE_COMMAND}
       -D "PHP_EXECUTABLE=${php_executable}"
