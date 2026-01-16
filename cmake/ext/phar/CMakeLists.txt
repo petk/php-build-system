@@ -127,17 +127,17 @@ endif()
 # Generate ext/phar/stub.h.
 ################################################################################
 
-include(PHP/AddCustomCommand)
-php_add_custom_command(
+include(PHP/AddCommand)
+php_add_command(
   php_ext_phar_generate_stub_h
+  PHP_COMMAND
+    ${CMAKE_CURRENT_SOURCE_DIR}/makestub.php
+  PHP_EXTENSIONS tokenizer
   OUTPUT
     ${CMAKE_CURRENT_SOURCE_DIR}/stub.h
   DEPENDS
     ${CMAKE_CURRENT_SOURCE_DIR}/makestub.php
     ${CMAKE_CURRENT_SOURCE_DIR}/shortarc.php
-  PHP_EXTENSIONS tokenizer
-  PHP_COMMAND
-    ${CMAKE_CURRENT_SOURCE_DIR}/makestub.php
   COMMENT "[ext/phar] Regenerating stub.h"
   VERBATIM
 )

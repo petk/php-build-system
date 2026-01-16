@@ -369,7 +369,7 @@ directories where needed:
 
 A list of PHP CMake modules:
 
-* [PHP/AddCustomCommand](/docs/cmake/modules/PHP/AddCustomCommand.md)
+* [PHP/AddCommand](/docs/cmake/modules/PHP/AddCommand.md)
 * [PHP/Bison](/docs/cmake/modules/PHP/Bison.md)
 * [PHP/CheckAttribute](/docs/cmake/modules/PHP/CheckAttribute.md)
 * [PHP/CheckBuiltin](/docs/cmake/modules/PHP/CheckBuiltin.md)
