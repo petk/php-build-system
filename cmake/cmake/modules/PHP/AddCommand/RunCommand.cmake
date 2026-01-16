@@ -1,5 +1,5 @@
 #[=============================================================================[
-Script for PHP/AddCustomCommand module that loops over output files and their
+Script for PHP/AddCommand module that loops over output files and their
 dependent input source files and runs the command inside the execute_process().
 
 Expected input variables:
@@ -10,6 +10,7 @@ Expected input variables:
 * PHP_EXECUTABLE
 * PHP_OPTIONS
 * PHP_OUTPUT
+* PHP_WORKING_DIRECTORY
 #]=============================================================================]
 
 cmake_minimum_required(VERSION 4.2...4.3)
@@ -18,27 +19,29 @@ if(NOT CMAKE_SCRIPT_MODE_FILE OR NOT PHP_EXECUTABLE OR NOT PHP_COMMAND)
   return()
 endif()
 
-set(needs_update FALSE)
+if(PHP_OUTPUT)
+  set(needs_update FALSE)
 
-foreach(input ${PHP_DEPENDS})
-  if(NOT EXISTS ${input})
-    continue()
-  endif()
+  foreach(input ${PHP_DEPENDS})
+    if(NOT EXISTS ${input})
+      continue()
+    endif()
 
-  foreach(output ${PHP_OUTPUT})
-    if("${input}" IS_NEWER_THAN "${output}")
-      set(needs_update TRUE)
+    foreach(output ${PHP_OUTPUT})
+      if("${input}" IS_NEWER_THAN "${output}")
+        set(needs_update TRUE)
+        break()
+      endif()
+    endforeach()
+
+    if(needs_update)
       break()
     endif()
   endforeach()
 
-  if(needs_update)
-    break()
+  if(NOT needs_update)
+    return()
   endif()
-endforeach()
-
-if(NOT needs_update)
-  return()
 endif()
 
 if(PHP_COMMENT)
@@ -48,8 +51,19 @@ if(PHP_COMMENT)
   )
 endif()
 
-execute_process(COMMAND ${PHP_EXECUTABLE} ${PHP_OPTIONS} ${PHP_COMMAND})
+if(PHP_WORKING_DIRECTORY)
+  set(working_directory "WORKING_DIRECTORY ${PHP_WORKING_DIRECTORY}")
+else()
+  set(working_directory "")
+endif()
+
+execute_process(
+  COMMAND ${PHP_EXECUTABLE} ${PHP_OPTIONS} ${PHP_COMMAND}
+  ${working_directory}
+)
 
 # Update modification times of output files to not re-run the command on the
 # consecutive build runs.
-file(TOUCH_NOCREATE ${PHP_OUTPUT})
+if(PHP_OUTPUT)
+  file(TOUCH_NOCREATE ${PHP_OUTPUT})
+endif()

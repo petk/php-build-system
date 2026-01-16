@@ -115,19 +115,18 @@ if(PHP_HAS_ELF)
   )
 
   # Regenerate main/debug_gdb_scripts.c after PHP cli SAPI has been built.
-  include(PHP/AddCustomCommand)
-  php_add_custom_command(
+  include(PHP/AddCommand)
+  php_add_command(
     php_main_generate_debug_gdb_scripts
+    PHP_COMMAND
+      ${PHP_SOURCE_DIR}/scripts/gdb/debug_gdb_scripts_gen.php
     OUTPUT
       ${CMAKE_CURRENT_SOURCE_DIR}/debug_gdb_scripts.c
     DEPENDS
       ${PHP_SOURCE_DIR}/scripts/gdb/debug_gdb_scripts_gen.php
       ${PHP_SOURCE_DIR}/scripts/gdb/php_gdb.py
       ${PHP_SOURCE_DIR}/.gdbinit
-    PHP_COMMAND
-      ${PHP_SOURCE_DIR}/scripts/gdb/debug_gdb_scripts_gen.php
-    COMMENT
-      "[main] Regenerating main/debug_gdb_scripts.c"
+    COMMENT "[main] Regenerating main/debug_gdb_scripts.c"
     VERBATIM
   )
 endif()

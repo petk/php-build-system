@@ -59,7 +59,7 @@ include(CheckIncludeFiles)
 include(CheckSymbolExists)
 include(CMakeDependentOption)
 include(CMakePushCheckState)
-include(PHP/AddCustomCommand)
+include(PHP/AddCommand)
 include(PHP/SearchLibraries)
 
 ################################################################################
@@ -532,8 +532,10 @@ include(cmake/Signals.cmake)
 # files need to be regenerated, executing this script is skipped.
 # See: https://github.com/php/php-src/issues/15899
 if(NOT CMAKE_SIZEOF_VOID_P EQUAL 4)
-  php_add_custom_command(
+  php_add_command(
     php_zend_generate_vm
+    PHP_COMMAND
+      ${CMAKE_CURRENT_SOURCE_DIR}/zend_vm_gen.php
     OUTPUT
       ${CMAKE_CURRENT_SOURCE_DIR}/zend_vm_execute.h
       ${CMAKE_CURRENT_SOURCE_DIR}/zend_vm_handlers.h
@@ -542,8 +544,6 @@ if(NOT CMAKE_SIZEOF_VOID_P EQUAL 4)
     DEPENDS
       ${CMAKE_CURRENT_SOURCE_DIR}/zend_vm_def.h
       ${CMAKE_CURRENT_SOURCE_DIR}/zend_vm_execute.skl
-      ${CMAKE_CURRENT_SOURCE_DIR}/zend_vm_gen.php
-    PHP_COMMAND
       ${CMAKE_CURRENT_SOURCE_DIR}/zend_vm_gen.php
     COMMENT "[Zend] Regenerating zend_vm_execute.h, zend_vm_handlers.h and zend_vm_opcodes.{h,c}"
     VERBATIM
