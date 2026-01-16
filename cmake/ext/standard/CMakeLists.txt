@@ -517,6 +517,24 @@ add_dependencies(php_ext_standard_functions php_ext_standard)
 add_dependencies(php_ext_standard_functions_cli php_ext_standard)
 
 ################################################################################
+# Generate ext/standard/html_tables.h.
+# Run cmake --build <build-dir> -t php_generate_html_tables
+################################################################################
+
+include(PHP/AddCommand)
+
+php_add_command(
+  php_generate_html_tables
+  PHP_COMMAND
+    ${CMAKE_CURRENT_SOURCE_DIR}/html_tables/html_table_gen.php
+    > ${CMAKE_CURRENT_SOURCE_DIR}/html_tables.h
+  PHP_EXTENSIONS mbstring
+  COMMENT "[ext/standard] Regenerating html_tables.h"
+  WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/html_tables
+  VERBATIM
+)
+
+################################################################################
 # Link zlib library for SWC images.
 # See: https://github.com/php/php-src/issues/20868
 ################################################################################

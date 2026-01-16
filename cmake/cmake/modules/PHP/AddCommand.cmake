@@ -195,7 +195,7 @@ function(php_add_command)
   endif()
 
   if(parsed_WORKING_DIRECTORY)
-    set(working_directory "WORKING_DIRECTORY ${parsed_WORKING_DIRECTORY}")
+    set(working_directory WORKING_DIRECTORY ${parsed_WORKING_DIRECTORY})
   else()
     set(working_directory "")
   endif()
