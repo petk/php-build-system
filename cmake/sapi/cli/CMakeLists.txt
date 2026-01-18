@@ -136,23 +136,6 @@ set_target_properties(
     PHP_CLI TRUE
 )
 
-################################################################################
-# Generate sapi/cli/mime_type_map.h.
-# Run cmake --build <build-dir> -t php_sapi_cli_generate_mime_type_map
-################################################################################
-
-include(PHP/AddCommand)
-
-php_add_command(
-  php_sapi_cli_generate_mime_type_map
-  PHP_COMMAND
-    ${CMAKE_CURRENT_SOURCE_DIR}/generate_mime_type_map.php
-    > ${CMAKE_CURRENT_SOURCE_DIR}/mime_type_map.h
-  PHP_EXTENSIONS openssl
-  COMMENT "[sapi/cli] Regenerating mime_type_map.h"
-  VERBATIM
-)
-
 # Link editline library conditionally based on readline extension.
 if(CMAKE_SYSTEM_NAME STREQUAL "Windows")
   set(type "")
@@ -187,6 +170,23 @@ install(
   FILE PHPInterpreterTargets.cmake
   DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/PHP/targets
   COMPONENT php-development
+)
+
+################################################################################
+# Provide command to generate sapi/cli/mime_type_map.h manually with:
+# cmake --build <build-dir> -t php_sapi_cli_generate_mime_type_map
+################################################################################
+
+include(PHP/AddCommand)
+
+php_add_command(
+  php_sapi_cli_generate_mime_type_map
+  PHP_COMMAND
+    ${CMAKE_CURRENT_SOURCE_DIR}/generate_mime_type_map.php
+    > ${CMAKE_CURRENT_SOURCE_DIR}/mime_type_map.h
+  PHP_EXTENSIONS openssl
+  COMMENT "[sapi/cli] Regenerating mime_type_map.h"
+  VERBATIM
 )
 
 ################################################################################

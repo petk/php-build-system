@@ -521,14 +521,14 @@ add_dependencies(php_ext_standard_functions php_ext_standard)
 add_dependencies(php_ext_standard_functions_cli php_ext_standard)
 
 ################################################################################
-# Generate ext/standard/html_tables.h.
-# Run cmake --build <build-dir> -t php_generate_html_tables
+# Provide command to generate ext/standard/html_tables.h with:
+# cmake --build <build-dir> -t php_ext_standard_generate_html_tables
 ################################################################################
 
 include(PHP/AddCommand)
 
 php_add_command(
-  php_generate_html_tables
+  php_ext_standard_generate_html_tables
   PHP_COMMAND
     ${CMAKE_CURRENT_SOURCE_DIR}/html_tables/html_table_gen.php
     > ${CMAKE_CURRENT_SOURCE_DIR}/html_tables.h
