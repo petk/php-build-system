@@ -119,6 +119,7 @@ if(PHP_HAS_ELF)
 
   # Regenerate main/debug_gdb_scripts.c after PHP cli SAPI has been built.
   include(PHP/AddCommand)
+
   php_add_command(
     php_main_generate_debug_gdb_scripts
     PHP_COMMAND
