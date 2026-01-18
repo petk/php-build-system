@@ -3,31 +3,32 @@
 
 # The pdo_mysql extension
 
-Configure the `pdo_mysql` extension.
+The `pdo_mysql` extension provides PDO interface for using MySQL-compatible
+databases.
 
-This extension provides PDO interface for using MySQL-compatible databases.
+## Configuration options
 
-## PHP_EXT_PDO_MYSQL
-
-* Default: `OFF`
-* Values: `ON|OFF`
-
-Enable the PHP `pdo_mysql` extension.
-
-## PHP_EXT_PDO_MYSQL_SHARED
+### PHP_EXT_PDO_MYSQL
 
 * Default: `OFF`
 * Values: `ON|OFF`
 
-Build extension as shared library.
+Enables the PHP `pdo_mysql` extension.
 
-## PHP_EXT_PDO_MYSQL_DRIVER
+### PHP_EXT_PDO_MYSQL_SHARED
+
+* Default: `OFF`
+* Values: `ON|OFF`
+
+Builds extension as shared library.
+
+### PHP_EXT_PDO_MYSQL_DRIVER
 
 * Default: `mysqlnd`
 * Values: `mysqlnd|mysql`
 
-Select the MySQL driver for the `pdo_mysql` extension.
+Selects the MySQL driver for the `pdo_mysql` extension.
 
-The `mysql` driver uses system MySQL library. Where to find the MySQL library
-installation on the system, can be customized with the `MYSQL_ROOT` and
-`MySQL_CONFIG_EXECUTABLE` variables.
+The `mysql` driver uses system MySQL client library (libmysqlclient). Where to
+find the MySQL library installation on the system, can be customized with the
+`MySQL_ROOT` and `MySQL_CONFIG_EXECUTABLE` variables.

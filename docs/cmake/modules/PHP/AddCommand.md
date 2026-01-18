@@ -25,7 +25,7 @@ program executable. In PHP there are two main cases:
   dependencies between the target at hand, PHP CLI and the generated files. This
   module provides a fallback to the PHP CLI SAPI executable in this case without
   introducing cyclic dependencies. In such case, inconvenience is that two build
-  steps might need to be done in order to generate the entire project once th
+  steps might need to be done in order to generate the entire project once the
   files have been regenerated.
 
 This module is a wrapper around the CMake

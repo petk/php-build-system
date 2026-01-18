@@ -128,6 +128,7 @@ endif()
 ################################################################################
 
 include(PHP/AddCommand)
+
 php_add_command(
   php_ext_phar_generate_stub_h
   PHP_COMMAND
