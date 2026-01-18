@@ -1,37 +1,36 @@
 #[=============================================================================[
 # The pdo_mysql extension
 
-Configure the `pdo_mysql` extension.
+The `pdo_mysql` extension provides PDO interface for using MySQL-compatible
+databases.
 
-This extension provides PDO interface for using MySQL-compatible databases.
+## Configuration options
 
-## PHP_EXT_PDO_MYSQL
-
-* Default: `OFF`
-* Values: `ON|OFF`
-
-Enable the PHP `pdo_mysql` extension.
-
-## PHP_EXT_PDO_MYSQL_SHARED
+### PHP_EXT_PDO_MYSQL
 
 * Default: `OFF`
 * Values: `ON|OFF`
 
-Build extension as shared library.
+Enables the PHP `pdo_mysql` extension.
 
-## PHP_EXT_PDO_MYSQL_DRIVER
+### PHP_EXT_PDO_MYSQL_SHARED
+
+* Default: `OFF`
+* Values: `ON|OFF`
+
+Builds extension as shared library.
+
+### PHP_EXT_PDO_MYSQL_DRIVER
 
 * Default: `mysqlnd`
 * Values: `mysqlnd|mysql`
 
-Select the MySQL driver for the `pdo_mysql` extension.
+Selects the MySQL driver for the `pdo_mysql` extension.
 
-The `mysql` driver uses system MySQL library. Where to find the MySQL library
-installation on the system, can be customized with the `MYSQL_ROOT` and
-`MySQL_CONFIG_EXECUTABLE` variables.
+The `mysql` driver uses system MySQL client library (libmysqlclient). Where to
+find the MySQL library installation on the system, can be customized with the
+`MySQL_ROOT` and `MySQL_CONFIG_EXECUTABLE` variables.
 #]=============================================================================]
-
-# TODO: Integrate zlib functionality.
 
 cmake_minimum_required(VERSION 4.2...4.3)
 
@@ -67,7 +66,7 @@ set(
   TYPE STRING
   HELP
     "Select MySQL driver: mysqlnd (MySQL Native Driver, recommended) or mysql "
-    "(system MySQL)"
+    "(MySQL client library - libmysqlclient)"
   VALUE "mysqlnd"
 )
 set_property(CACHE PHP_EXT_PDO_MYSQL_DRIVER PROPERTY STRINGS "mysqlnd" "mysql")
@@ -147,7 +146,11 @@ else()
     set(PDO_MYSQL_UNIX_ADDR "${MySQL_Socket_PATH}")
   endif()
 
-  add_feature_info("ext/pdo_mysql mysql" TRUE "system MySQL library driver")
+  add_feature_info(
+    "ext/pdo_mysql mysql"
+    TRUE
+    "MySQL client library driver - libmysqlclient"
+  )
 endif()
 
 configure_file(cmake/config.h.in config.h)
