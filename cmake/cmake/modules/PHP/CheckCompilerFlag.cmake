@@ -1,17 +1,20 @@
 #[=============================================================================[
 # PHP/CheckCompilerFlag
 
-This module checks whether the compiler supports given compile option:
+This module provides a command to check whether the compiler supports given
+compile option.
+
+Load this module in a CMake project with:
 
 ```cmake
 include(PHP/CheckCompilerFlag)
 ```
 
-CMake's `CheckCompilerFlag` module and its `check_compiler_flag()` command, at
-the time of writing, do not support certain edge cases for certain compilers.
-This module aims to address these issues to make checking compile options easier
-and more intuitive, while still providing similar functionality on top of
-CMake's `CheckCompilerFlag`.
+CMake's [`CheckCompilerFlag`](https://cmake.org/cmake/help/latest/module/CheckCompilerFlag.html)
+module, at the time of writing, does not support certain edge cases for certain
+compilers. This module aims to address these issues to make checking compile
+options easier and more intuitive, while still providing similar functionality
+on top of CMake's `CheckCompilerFlag` module.
 
 Additional functionality of this module:
 
@@ -31,17 +34,27 @@ Additional functionality of this module:
 
 This module provides the following command:
 
+### `php_check_compiler_flag()`
+
+Check that the given flag(s) are accepted by the specified language compiler
+without issuing any diagnostic message:
+
 ```cmake
 php_check_compiler_flag(<lang> <flags> <result-var>)
 ```
 
-Check that the given flag(s) specified in `<flags>` are accepted by the `<lang>`
-compiler without issuing any diagnostic message. The result is stored in an
-internal cache entry named `<result-var>`. The language `<lang>` can be one of
-the supported languages by the CMake's `CheckCompilerFlag` module. Multiple
-flags can be passed as a semicolon-separated list.
+The arguments are:
 
-# Examples
+* `<lang>` - The language of the compiler to use for the check. The language can
+  be one of the supported languages by the CMake's `CheckCompilerFlag` module.
+
+* `<flags>` - One or more compiler options being checked. Pass multiple flags
+  as a semicolon-separated list.
+
+* `<result-var>` - The name of the internal cache entry where the result is
+  stored in.
+
+## Examples
 
 Usage example:
 

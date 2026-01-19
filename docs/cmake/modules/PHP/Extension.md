@@ -5,7 +5,7 @@
 
 This module provides commands to configure PHP extensions.
 
-Load this module in PHP extension's project:
+Load this module in a PHP extension's project with:
 
 ```cmake
 include(PHP/Extension)

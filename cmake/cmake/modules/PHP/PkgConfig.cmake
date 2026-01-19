@@ -1,7 +1,13 @@
 #[=============================================================================[
 # PHP/PkgConfig
 
-Generate pkg-config .pc file.
+This module provides commands to generate pkg-config `.pc` files.
+
+Load this module in a CMake project with:
+
+```cmake
+include(PHP/PkgConfig)
+```
 
 CMake at the time of writing doesn't provide an out-of-the-box solution to
 generate pkg-config pc files with required libraries to link retrieved from the
@@ -11,14 +17,20 @@ https://gitlab.kitware.com/cmake/cmake/-/issues/22621
 Once pkg-config integration is added in CMake natively, this module will be
 replaced.
 
-Also there is a common issue with installation prefix not being applied when
+Also, there is a common issue with installation prefix not being applied when
 using `--prefix` command-line option at the installation phase:
 
 ```sh
 cmake --install <build-dir> --prefix <prefix>
 ```
 
-This module provides the following function:
+## Commands
+
+This module provides the following commands:
+
+### `php_pkgconfig_generate_pc()`
+
+Generates pkg-config `.pc` file from the given pc template:
 
 ```cmake
 php_pkgconfig_generate_pc(
@@ -29,14 +41,12 @@ php_pkgconfig_generate_pc(
 )
 ```
 
-Generate pkg-config `<pc-file-output>` from the given pc `<pc-template-file>`
-template.
+The arguments are:
 
-* `TARGET`
-  Name of the target for getting libraries.
-* `VARIABLES`
-  Pairs of variable names and values. Variable values support generator
-  expressions. For example:
+* `<pc-file-output>` - The generated pc file.
+* `TARGET <target>` - The name of the target for getting libraries.
+* `VARIABLES` - A list of pairs containing variable names and values. Variable
+  values support generator expressions. For example:
 
   ```cmake
   php_pkgconfig_generate_pc(
@@ -52,11 +62,17 @@ template.
   `CMAKE_INSTALL_PREFIX` variable at the configuration phase, or the `--prefix`
   option at the `cmake --install` phase.
 
-## Usage
+## Examples
+
+### Basic usage:
+
+In the following example this module is used to generate the PHP `.pc` file:
 
 ```cmake
 # CMakeLists.txt
 include(PHP/PkgConfig)
+
+php_pkg_config_generate_pc(...)
 ```
 #]=============================================================================]
 
