@@ -119,7 +119,7 @@ endif()
 target_link_libraries(
   php_sapi_apache2handler
   PRIVATE
-    $<BUILD_INTERFACE:PHP::sapi>
+    $<BUILD_INTERFACE:PHP::core>
     Apache::Apache
 )
 

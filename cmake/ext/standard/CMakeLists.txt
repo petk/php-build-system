@@ -495,6 +495,7 @@ set_target_properties(
   PROPERTIES
     INCLUDE_DIRECTORIES $<TARGET_PROPERTY:php_ext_standard,INCLUDE_DIRECTORIES>
     COMPILE_DEFINITIONS $<TARGET_PROPERTY:php_ext_standard,COMPILE_DEFINITIONS>
+    PHP_CORE TRUE
 )
 
 target_compile_definitions(

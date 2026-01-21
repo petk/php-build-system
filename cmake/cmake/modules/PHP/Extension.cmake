@@ -64,9 +64,14 @@ function(_php_extension_post_configure)
     set_property(TARGET php_ext_${extension} PROPERTY OUTPUT_NAME ${extension})
   endif()
 
+  # Set target output filename prefix "[<prefix>]<extension>".
   get_target_property(prefix php_ext_${extension} PREFIX)
   if(NOT prefix)
-    set_property(TARGET php_ext_${extension} PROPERTY PREFIX "")
+    if(CMAKE_SYSTEM_NAME STREQUAL "Windows")
+      set_property(TARGET php_ext_${extension} PROPERTY PREFIX "php_")
+    else()
+      set_property(TARGET php_ext_${extension} PROPERTY PREFIX "")
+    endif()
   endif()
 
   ##############################################################################
