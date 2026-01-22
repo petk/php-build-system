@@ -4,7 +4,7 @@ Subject: Enable linking with zlib for SWC files
 See https://github.com/php/php-src/issues/20868
 ---
  ext/standard/basic_functions.stub.php         |   2 +-
- ext/standard/basic_functions_arginfo.h        | Bin 174645 -> 174626 bytes
+ ext/standard/basic_functions_arginfo.h        | Bin 174651 -> 174632 bytes
  ext/standard/config.m4                        |   5 +++++
  ext/standard/config.w32                       |   7 +++++++
  ext/standard/image.c                          |   8 ++++----
@@ -28,11 +28,11 @@ index e27dca069c5..e7672c47b40 100644
   * @var int
   * @cvalue IMAGE_FILETYPE_SWC
 diff --git a/ext/standard/basic_functions_arginfo.h b/ext/standard/basic_functions_arginfo.h
-index 6f202c01463..db853ceba2a 100644
+index 9f5d89991da..2614de69c4b 100644
 --- a/ext/standard/basic_functions_arginfo.h
 +++ b/ext/standard/basic_functions_arginfo.h
 @@ -1,5 +1,5 @@
- /* This is a generated file, edit the .stub.php file instead.
+ /* This is a generated file, edit basic_functions.stub.php instead.
 - * Stub hash: 1a1667a5c59111f096a758d5bb4aa7cf3ec09cfe */
 + * Stub hash: 47f502cc6f7f6315be55c86d34d10b28c5c5676a */
  
