@@ -63,6 +63,16 @@ build system:
   enable SASL support on both platform types (\*nix and Windows), while Windows
   JScript build system has SASL support always unconditionally enabled.
 
+* ext/mysqli and ext/pdo_mysql have each separate configuration options for
+  setting the Unix socket pointer. In Autotools, there is a single
+  `--with-mysql-socket` configure option that is used by both extensions. This
+  is done on the expense of more complex configuration while being more
+  intuitive and logical configuration similar to the PHP INI directives of
+  `mysqli.default_socket` and `pdo_mysql.default_socket`. In Autotools, default
+  socket paths are in some cases defined in a hacky way. The `pdo_mysql`
+  extension has default set to `/tmp/mysql.sock`, without possibility to be set
+  to `NULL`.
+
 * The `_XOPEN_SOURCE` compile definition to use ucontext.h on macOS when needed
   is only defined for the Zend/zend_fibers.c file. Duplicate inconsistent
   `_XOPEN_SOURCE` definition in the php_config.h is also removed with this.

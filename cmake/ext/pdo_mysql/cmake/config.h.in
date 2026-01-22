@@ -1,9 +1,10 @@
-/* The MySQL Unix socket location as defined by 'mysql_config' for use with
-   the pdo_mysql extension. */
+/* The MySQL Unix socket location for use with the pdo_mysql extension. */
 #cmakedefine PDO_MYSQL_UNIX_ADDR "@PDO_MYSQL_UNIX_ADDR@"
+
+/* If PDO_MYSQL_UNIX_ADDR is not defined, define it to NULL. */
+#ifndef PDO_MYSQL_UNIX_ADDR
+# define PDO_MYSQL_UNIX_ADDR NULL
+#endif
 
 /* Define to 1 if the pdo_mysql extension uses mysqlnd. */
 #cmakedefine PDO_USE_MYSQLND 1
-
-/* The MySQL Unix socket location. */
-#cmakedefine PHP_MYSQL_UNIX_SOCK_ADDR "@PHP_MYSQL_UNIX_SOCK_ADDR@"

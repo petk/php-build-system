@@ -2006,22 +2006,19 @@ A list of Autoconf `configure` command-line configuration options, Windows
     <tr>
       <td>--without-mysql-sock</td>
       <td>N/A</td>
-      <td>PHP_EXT_MYSQL_SOCKET=OFF</td>
+      <td>PHP_EXT_MYSQLI_SOCKET=OFF</td>
       <td>default, not available on Windows</td>
     </tr>
     <tr>
       <td>&emsp;--with-mysql-sock</td>
       <td>N/A</td>
-      <td>PHP_EXT_MYSQL_SOCKET=ON</td>
+      <td>PHP_EXT_MYSQLI_SOCKET=ON</td>
       <td>Not available on Windows</td>
     </tr>
     <tr>
       <td>&emsp;--with-mysql-sock=SOCKET</td>
       <td>N/A</td>
-      <td>
-        PHP_EXT_MYSQL_SOCKET=ON<br>
-        PHP_EXT_MYSQL_SOCKET_PATH=/path/to/mysql.sock
-      </td>
+      <td>PHP_EXT_MYSQLI_SOCKET_PATH=/path/to/mysql.sock</td>
       <td>Not available on Windows</td>
     </tr>
     <tr>
@@ -2659,6 +2656,24 @@ A list of Autoconf `configure` command-line configuration options, Windows
         MySQL_CONFIG_EXECUTABLE=path/to/mysql_config
       </td>
       <td></td>
+    </tr>
+    <tr>
+      <td>N/A</td>
+      <td>N/A</td>
+      <td>PHP_EXT_PDO_MYSQL_SOCKET=OFF</td>
+      <td>default, not available on Windows</td>
+    </tr>
+    <tr>
+      <td>N/A</td>
+      <td>N/A</td>
+      <td>PHP_EXT_PDO_MYSQL_SOCKET=ON</td>
+      <td>Not available on Windows</td>
+    </tr>
+    <tr>
+      <td>N/A</td>
+      <td>N/A</td>
+      <td>PHP_EXT_PDO_MYSQL_SOCKET_PATH=/path/to/mysql.sock</td>
+      <td>Not available on Windows</td>
     </tr>
     <tr>
       <td>&emsp;--without-pdo-oci</td>

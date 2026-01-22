@@ -3,59 +3,85 @@
 
 # FindMySQL
 
-Finds MySQL-compatible (MySQL, MariaDB, Percona, etc.) database:
+Finds MySQL-compatible (MySQL, MariaDB, Percona, etc.) database server (MySQL
+Unix socket pointer) and MySQL client library:
 
 ```cmake
-find_package(MySQL)
+find_package(MySQL [<version>] [COMPONENTS <components>...] [...])
 ```
-
-This is customized find module for PHP mysqli and pdo_mysql extensions. It
-searches for MySQL Unix socket pointer and can be extended more in the future.
 
 ## Components
 
-* `Socket` - The MySQL Unix socket pointer.
-* `Lib` - The MySQL library or client.
+This module supports optional components, which can be specified with:
+
+```cmake
+find_package(
+  MySQL
+  [COMPONENTS <components>...]
+  [OPTIONAL_COMPONENTS <components>...]
+)
+```
+
+Supported components are:
+
+* `Client` - The MySQL client library (libmysqlclient).
+* `Server` - The MySQL-compatible database server (provides the Unix socket
+  pointer).
+
+If no components are specified, the module searches for the `Server` component
+by default.
 
 ## Imported targets
 
 This module provides the following imported targets:
 
-* `MySQL::MySQL` - The MySQL-compatible library, if found, when using the Lib
-  component.
+* `MySQL::MySQL` - The interface target encapsulating the MySQL-compatible
+  client library. This target is available only when the `Client` component was
+  found.
 
 ## Result variables
 
 This module defines the following variables:
 
-* `MySQL_FOUND` - Boolean indicating whether the package with requested
-  components was found.
-* `MySQL_Socket_FOUND` - Boolean indicating whether the MySQL Unix socket
-  pointer has been determined.
-* `MySQL_Socket_PATH` - Path to the MySQL Unix socket if one has been found in
-  the predefined default locations.
-* `MySQL_Lib_FOUND` - Whether the Lib component was found.
+* `MySQL_FOUND` - Boolean indicating whether the (requested version of) package
+  with requested components was found.
+* `MySQL_VERSION` -  The version of package found.
+* `MySQL_Server_FOUND` - Boolean indicating whether the MySQL Unix socket
+  pointer has been found.
+* `MySQL_SOCKET_PATH` - Path to the MySQL Unix socket as defined by the
+  `mysql_config --socket`, or if one was found in the predefined default
+  locations. This variable is defined when the `Server` component is specified.
+* `MySQL_Client_FOUND` - Boolean indicating whether the `Client` component was
+  found.
 
 ## Cache variables
 
 The following cache variables may also be set:
 
-* `MySQL_CONFIG_EXECUTABLE` - The mysql_config command-line tool for getting
+* `MySQL_CONFIG_EXECUTABLE` - The `mysql_config` command-line tool for getting
   MySQL installation info.
-* `Mysql_INCLUDE_DIR` - Directory containing package library headers.
-* `Mysql_LIBRARY` - The path to the package library.
+* `MySQL_INCLUDE_DIR` - Directory containing package library headers.
+* `MySQL_LIBRARY` - The path to the MySQL client library.
 
-Hints:
+## Hints
 
-* The `MySQL_Socket_PATH` variable can be overridden.
+This module accepts the following variables before calling
+`find_package(MySQL)`:
+
+* `MySQL_SOCKET_PATH` - This variable can be also overridden from outside the
+  module.
 
 ## Examples
 
-Basic usage:
+In the following example, this module is used to find the MySQL client library
+and then the imported target is linked to the project target:
 
 ```cmake
 # CMakeLists.txt
-find_package(MySQL)
+
+find_package(MySQL COMPONENTS Client)
+
+target_link_libraries(php_foo PRIVATE MySQL::MySQL)
 ```
 
 ## Customizing search locations
