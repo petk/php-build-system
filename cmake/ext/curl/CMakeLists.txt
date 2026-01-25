@@ -91,11 +91,9 @@ target_compile_options(
   php_ext_curl
   PRIVATE
     $<$<PLATFORM_ID:Windows>:PHP_CURL_EXPORTS>
-    # TODO: Add CURL_STATICLIB when curl is static library on Windows:
-    $<$<AND:$<PLATFORM_ID:Windows>,$<BOOL:${TODO}>>:CURL_STATICLIB>
 )
 
-target_link_libraries(php_ext_curl PRIVATE CURL::libcurl)
+target_link_libraries(php_ext_curl PRIVATE CURL::CURL)
 
 # Check whether to link against OpenSSL to have crypto locking callbacks when
 # thread safety is enabled. If libcurl is linked against OpenSSL 1.1 or newer,
@@ -111,7 +109,7 @@ if(
   message(CHECK_START "Checking if libcurl is linked against old OpenSSL < 1.1")
 
   cmake_push_check_state(RESET)
-    set(CMAKE_REQUIRED_LIBRARIES CURL::libcurl)
+    set(CMAKE_REQUIRED_LIBRARIES CURL::CURL)
     set(CMAKE_REQUIRED_QUIET TRUE)
 
     check_source_runs(C [[
