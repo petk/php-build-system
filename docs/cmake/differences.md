@@ -189,3 +189,8 @@ build system:
 
 * The zlib extension can be built as shared and SWC files are supported.
   See: https://github.com/php/php-src/issues/20868
+
+* The intl extension can be built with undefined sanitizer enabled. CMake picks
+  C or C++ linker for SAPIs based on the objects being linked. Autotools would
+  need a workaround using libtool tags.
+  See: https://github.com/php/php-src/issues/20992
