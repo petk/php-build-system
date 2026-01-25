@@ -189,6 +189,13 @@ configure_package_config_file(
     PHP_INSTALL_INCLUDEDIR
 )
 
+# Evaluate hardcoded generator expressions inside variable values.
+file(
+  GENERATE
+  OUTPUT PHPConfig.cmake
+  INPUT ${CMAKE_CURRENT_BINARY_DIR}/PHPConfig.cmake
+)
+
 add_library(php_extension INTERFACE)
 add_library(PHP::Extension ALIAS php_extension)
 set_target_properties(php_extension PROPERTIES EXPORT_NAME Extension)

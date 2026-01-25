@@ -149,8 +149,6 @@ endif()
 # Set result variables.
 ################################################################################
 
-# TODO: Value of this variable contains generator expressions which aren't
-# evaluated here.
 set_and_check(PHP_EXTENSION_DIR "@PACKAGE_PHP_EXTENSION_DIR@")
 set_and_check(PHP_INSTALL_INCLUDEDIR "@PACKAGE_PHP_INSTALL_INCLUDEDIR@")
 
