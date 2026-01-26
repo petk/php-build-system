@@ -224,10 +224,7 @@ cmake_dependent_option(
 )
 mark_as_advanced(PHP_SYSTEM_GLOB)
 
-################################################################################
 # Set PHP_EXTENSION_DIR.
-################################################################################
-
 set(
   CACHE{PHP_EXTENSION_DIR}
   TYPE STRING
@@ -253,6 +250,13 @@ if(NOT PHP_EXTENSION_DIR)
   # This would resemble the PHP Autotools --with-layout=PHP (default):
   #set(extension_dir "${CMAKE_INSTALL_LIBDIR}/php/extensions/$<IF:$<CONFIG:Debug,DebugAssertions>,debug,no-debug>$<IF:$<BOOL:$<TARGET_PROPERTY:PHP::config,PHP_THREAD_SAFETY>>,-zts,-non-zts>-$<TARGET_PROPERTY:PHP::Zend,PHP_ZEND_MODULE_API_NO>")
 endif()
+
+option(
+  PHP_ENABLE_TESTING
+  "Whether to enable and configure tests"
+  ${PROJECT_IS_TOP_LEVEL}
+)
+mark_as_advanced(PHP_ENABLE_TESTING)
 
 ################################################################################
 # Various global internal configuration.

@@ -2,13 +2,19 @@
 Enable and configure tests.
 #]=============================================================================]
 
-if(NOT TARGET PHP::sapi::cli)
+if(NOT PHP_ENABLE_TESTING)
   return()
 endif()
 
 enable_testing()
 
-block()
+cmake_language(DEFER CALL _php_testing)
+
+function(_php_testing)
+  if(NOT TARGET PHP::sapi::cli)
+    return()
+  endif()
+
   cmake_host_system_information(RESULT processors QUERY NUMBER_OF_LOGICAL_CORES)
 
   set(parallel "")
@@ -50,4 +56,4 @@ block()
           -q
     WORKING_DIRECTORY ${PHP_SOURCE_DIR}
   )
-endblock()
+endfunction()
