@@ -124,6 +124,9 @@ include(cmake/ConfigureChecks.cmake)
 # Check compilation options.
 include(cmake/Flags.cmake)
 
+# Configure testing.
+include(cmake/Testing.cmake)
+
 add_subdirectory(sapi)
 add_subdirectory(ext)
 add_subdirectory(Zend)
@@ -268,12 +271,6 @@ if(PHP_ENABLE_CMAKE_EXPERIMENTAL_FEATURES)
     EXPORT php_development_export
   )
 endif()
-
-################################################################################
-# Enable testing and configure test settings.
-################################################################################
-
-include(cmake/Testing.cmake)
 
 ################################################################################
 # Enable and configure CPack module.

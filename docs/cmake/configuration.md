@@ -200,6 +200,7 @@ Some useful overridable configuration options built into CMake itself. All these
 * [`PHP_ENABLE_CMAKE_EXPERIMENTAL_FEATURES`](/docs/cmake/variables/PHP_ENABLE_CMAKE_EXPERIMENTAL_FEATURES.md)
 * [`PHP_GCOV`](/docs/cmake/variables/PHP_GCOV.md)
 * [`PHP_MEMORY_SANITIZER`](/docs/cmake/variables/_PHP_MEMORY_SANITIZER.md)
+* [`PHP_ENABLE_TESTING`](/docs/cmake/variables/PHP_ENABLE_TESTING.md)
 * [`PHP_EXTENSION_DIR`](/docs/cmake/variables/PHP_EXTENSION_DIR.md)
 * [`PHP_FD_SETSIZE`](/docs/cmake/variables/PHP_FD_SETSIZE.md)
 * [`PHP_INCLUDE_PREFIX`](/docs/cmake/variables/PHP_INCLUDE_PREFIX.md)
