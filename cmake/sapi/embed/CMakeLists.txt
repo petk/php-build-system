@@ -147,3 +147,5 @@ install(
   DESTINATION ${CMAKE_INSTALL_LIBDIR}/pkgconfig
   COMPONENT php-development
 )
+
+add_subdirectory(tests)
