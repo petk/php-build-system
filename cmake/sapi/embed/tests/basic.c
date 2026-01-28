@@ -5,7 +5,7 @@ int main(int argc, char **argv)
 	/* Invoke the Zend Engine initialization phase: SAPI (SINIT), modules
 	 * (MINIT), and request (RINIT). It also opens a 'zend_try' block to catch a
 	 * zend_bailout().
-	*/
+	 */
 	PHP_EMBED_START_BLOCK(argc, argv)
 
 	php_printf(
