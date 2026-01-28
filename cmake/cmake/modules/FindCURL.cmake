@@ -54,7 +54,7 @@ else()
   # Support preference of static libs by adjusting CMAKE_FIND_LIBRARY_SUFFIXES.
   set(_curl_cmake_find_library_suffixes ${CMAKE_FIND_LIBRARY_SUFFIXES})
   if(WIN32)
-    list(INSERT CMAKE_FIND_LIBRARY_SUFFIXES 0 .lib .a)
+    list(PREPEND CMAKE_FIND_LIBRARY_SUFFIXES .lib .a)
   else()
     set(CMAKE_FIND_LIBRARY_SUFFIXES .a)
   endif()

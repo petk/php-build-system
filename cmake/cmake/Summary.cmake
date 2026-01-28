@@ -353,9 +353,10 @@ function(_php_summary_print)
   # Output missing required packages.
   feature_summary(
     FATAL_ON_MISSING_REQUIRED_PACKAGES
-    WHAT REQUIRED_PACKAGES_NOT_FOUND
+    WHAT
+      RECOMMENDED_PACKAGES_NOT_FOUND
+      REQUIRED_PACKAGES_NOT_FOUND
     QUIET_ON_EMPTY
-    DESCRIPTION "The following REQUIRED packages have not been found:\n"
   )
 endfunction()
 
