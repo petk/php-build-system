@@ -144,6 +144,7 @@ target_sources(
     zend_atomic.c
     zend_attributes.c
     zend_attributes.stub.php
+    zend_autoload.c
     zend_builtin_functions.c
     zend_builtin_functions.stub.php
     zend_call_stack.c
@@ -229,6 +230,7 @@ target_sources(
         zend_atomic.h
         zend_attributes_arginfo.h
         zend_attributes.h
+        zend_autoload.h
         zend_bitset.h
         zend_build.h
         zend_builtin_functions_arginfo.h

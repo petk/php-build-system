@@ -142,7 +142,10 @@ function(_php_extension_post_configure)
 
   if(PROJECT_IS_TOP_LEVEL)
     feature_summary(
-      WHAT ENABLED_FEATURES REQUIRED_PACKAGES_NOT_FOUND
+      WHAT
+        ENABLED_FEATURES
+        RECOMMENDED_PACKAGES_NOT_FOUND
+        REQUIRED_PACKAGES_NOT_FOUND
       DESCRIPTION "PHP extension ${extension} summary:"
       QUIET_ON_EMPTY
       FATAL_ON_MISSING_REQUIRED_PACKAGES

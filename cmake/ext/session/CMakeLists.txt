@@ -109,7 +109,6 @@ add_dependencies(
   php_ext_session
   php_ext_date
   php_ext_random
-  php_ext_spl # Optional dependency for spl autoloading https://bugs.php.net/53141
 )
 
 # Check whether pread() and pwrite() work.
