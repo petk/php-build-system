@@ -75,6 +75,8 @@ repository:
     └─📄 CMakeLists.txt        # CMake file for PHP SAPI module
 └─📂 scripts
   └─📄 CMakeLists.txt          # CMake file for creating scripts
+└─📂 tests
+  └─📄 CMakeLists.txt          # CMake file for configuring PHP tests
 └─📂 win32                     # Windows build files
   └─📂 build                   # Windows build files
     └─📄 wsyslog.mc            # Message template file for win32/wsyslog.h
