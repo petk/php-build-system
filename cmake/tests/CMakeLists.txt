@@ -1,20 +1,12 @@
-#[=============================================================================[
-Enable and configure tests.
-#]=============================================================================]
-
 if(NOT PHP_ENABLE_TESTING)
   return()
 endif()
 
-enable_testing()
+include(CheckLinkerFlag)
+include(FeatureSummary)
 
-cmake_language(DEFER CALL _php_testing)
-
-function(_php_testing)
-  if(NOT TARGET PHP::sapi::cli)
-    return()
-  endif()
-
+# Add test for all *.phpt files.
+if(TARGET PHP::sapi::cli)
   cmake_host_system_information(RESULT processors QUERY NUMBER_OF_LOGICAL_CORES)
 
   set(parallel "")
@@ -56,4 +48,50 @@ function(_php_testing)
           -q
     WORKING_DIRECTORY ${PHP_SOURCE_DIR}
   )
-endfunction()
+endif()
+
+if(NOT TARGET PHP::sapi::embed)
+  return()
+endif()
+
+find_package(cmocka 1.1.0)
+set_package_properties(
+  cmocka
+  PROPERTIES
+    TYPE RECOMMENDED
+    PURPOSE "Necessary to run PHP unit tests."
+)
+
+if(NOT cmocka_FOUND)
+  return()
+endif()
+
+add_executable(
+  php_unit_test_network
+  unit/main/test_network.c
+)
+
+target_link_libraries(
+  php_unit_test_network
+  PRIVATE
+    PHP::sapi::embed
+    PHP::config
+    cmocka::cmocka
+)
+
+check_linker_flag(C LINKER:--wrap=connect PHP_HAS_C_FLAG_WRAP)
+if(PHP_HAS_C_FLAG_WRAP)
+  target_link_options(
+    php_unit_test_network
+    PRIVATE
+      $<$<LINK_LANGUAGE:C>:LINKER:--wrap=connect>
+      $<$<LINK_LANGUAGE:C>:LINKER:--wrap=poll>
+      $<$<LINK_LANGUAGE:C>:LINKER:--wrap=getsockopt>
+      $<$<LINK_LANGUAGE:C>:LINKER:--wrap=gettimeofday>
+  )
+endif()
+
+add_test(
+  NAME php_unit_test_network
+  COMMAND php_unit_test_network
+)

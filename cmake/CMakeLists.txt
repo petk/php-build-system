@@ -124,8 +124,10 @@ include(cmake/ConfigureChecks.cmake)
 # Check compilation options.
 include(cmake/Flags.cmake)
 
-# Configure testing.
-include(cmake/Testing.cmake)
+# Enable testing.
+if(PHP_ENABLE_TESTING)
+  enable_testing()
+endif()
 
 add_subdirectory(sapi)
 add_subdirectory(ext)
@@ -141,6 +143,7 @@ add_subdirectory(pear)
 add_subdirectory(win32)
 add_subdirectory(main)
 add_subdirectory(scripts)
+add_subdirectory(tests)
 
 # Generate *_arginfo.h headers from *.stub.php sources.
 include(PHP/Stubs)
