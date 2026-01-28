@@ -544,7 +544,12 @@ php_add_command(
 ################################################################################
 
 find_package(ZLIB ${PHP_ZLIB_MIN_VERSION})
-set_package_properties(ZLIB PROPERTIES PURPOSE "Enables support for SWC files.")
+set_package_properties(
+  ZLIB
+  PROPERTIES
+    TYPE RECOMMENDED
+    PURPOSE "Enables support for SWC files."
+)
 
 if(TARGET ZLIB::ZLIB)
   target_link_libraries(php_ext_standard PRIVATE ZLIB::ZLIB)
