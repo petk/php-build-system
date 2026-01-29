@@ -134,6 +134,7 @@ php_add_command(
   PHP_COMMAND
     ${CMAKE_CURRENT_SOURCE_DIR}/makestub.php
   PHP_EXTENSIONS tokenizer
+  MIN_PHP_HOST_VERSION 8.0
   OUTPUT
     ${CMAKE_CURRENT_SOURCE_DIR}/stub.h
   DEPENDS

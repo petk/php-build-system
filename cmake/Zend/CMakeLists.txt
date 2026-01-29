@@ -547,6 +547,7 @@ if(NOT CMAKE_SIZEOF_VOID_P EQUAL 4)
     php_zend_generate_vm
     PHP_COMMAND
       ${CMAKE_CURRENT_SOURCE_DIR}/zend_vm_gen.php
+    MIN_PHP_HOST_VERSION 8.0
     OUTPUT
       ${CMAKE_CURRENT_SOURCE_DIR}/zend_vm_execute.h
       ${CMAKE_CURRENT_SOURCE_DIR}/zend_vm_handlers.h
