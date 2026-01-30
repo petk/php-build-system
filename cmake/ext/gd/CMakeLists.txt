@@ -301,6 +301,11 @@ target_sources(
         php_gd.h
 )
 
+target_compile_definitions(
+  php_ext_gd
+  PRIVATE $<$<AND:$<PLATFORM_ID:Windows>,$<IN_LIST:$<TARGET_PROPERTY:TYPE>,MODULE_LIBRARY;SHARED_LIBRARY>>:PHP_GD_EXPORTS>
+)
+
 if(NOT PHP_EXT_GD_EXTERNAL)
   target_sources(
     php_ext_gd
