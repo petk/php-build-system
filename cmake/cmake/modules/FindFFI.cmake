@@ -78,6 +78,8 @@ if(NOT FFI_INCLUDE_DIR)
 endif()
 
 block()
+  set(names "")
+
   # Support preference of static libs by adjusting CMAKE_FIND_LIBRARY_SUFFIXES.
   if(FFI_USE_STATIC_LIBS)
     if(WIN32)
@@ -85,12 +87,15 @@ block()
     else()
       set(CMAKE_FIND_LIBRARY_SUFFIXES .a)
     endif()
+
+    # Name of the static library with PIC enabled on Debian-based distributions.
+    set(names ffi_pic)
   endif()
 
   find_library(
     FFI_LIBRARY
     NAMES
-      ffi_pic # Static library with PIC enabled on Debian-based distributions
+      ${names}
       ffi
     NAMES_PER_DIR
     HINTS ${PC_FFI_LIBRARY_DIRS}
