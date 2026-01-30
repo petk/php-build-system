@@ -51,20 +51,17 @@ endif()
 if(TARGET CURL::libcurl_static)
   add_library(CURL::CURL ALIAS CURL::libcurl_static)
 else()
-  # Support preference of static libs by adjusting CMAKE_FIND_LIBRARY_SUFFIXES.
-  set(_curl_cmake_find_library_suffixes ${CMAKE_FIND_LIBRARY_SUFFIXES})
-  if(WIN32)
-    list(PREPEND CMAKE_FIND_LIBRARY_SUFFIXES .lib .a)
-  else()
-    set(CMAKE_FIND_LIBRARY_SUFFIXES .a)
-  endif()
+  block()
+    # Support preference of static libs by adjusting CMAKE_FIND_LIBRARY_SUFFIXES.
+    if(WIN32)
+      list(PREPEND CMAKE_FIND_LIBRARY_SUFFIXES .lib .a)
+    else()
+      set(CMAKE_FIND_LIBRARY_SUFFIXES .a)
+    endif()
 
-  find_library(CURL_LIBRARY_STATIC NAMES curl)
-  mark_as_advanced(CURL_LIBRARY_STATIC)
-
-  # Restore the original find library ordering.
-  set(CMAKE_FIND_LIBRARY_SUFFIXES ${_curl_cmake_find_library_suffixes})
-  unset(_curl_cmake_find_library_suffixes)
+    find_library(CURL_LIBRARY_STATIC NAMES curl)
+    mark_as_advanced(CURL_LIBRARY_STATIC)
+  endblock()
 
   if(CURL_LIBRARY_STATIC)
     add_library(CURL::CURL UNKNOWN IMPORTED)

@@ -6,14 +6,15 @@
 Finds the FFI library:
 
 ```cmake
-find_package(FFI)
+find_package(FFI [<version>] [...])
 ```
 
 ## Imported targets
 
 This module provides the following imported targets:
 
-* `FFI::FFI` - The package library, if found.
+* `FFI::FFI` - Target encapsulating the FFI library usage requirements,
+  available only if FFI was found.
 
 ## Result variables
 
@@ -29,6 +30,14 @@ The following cache variables may also be set:
 
 * `FFI_INCLUDE_DIR` - Directory containing package library headers.
 * `FFI_LIBRARY` - The path to the package library.
+
+## Hints
+
+This module accepts the following variables before calling
+`find_package(FFI)`:
+
+* `FFI_USE_STATIC_LIBS` - Set this variable to boolean true to search for static
+  libraries.
 
 ## Examples
 
