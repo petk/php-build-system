@@ -4,14 +4,15 @@
 Finds the FFI library:
 
 ```cmake
-find_package(FFI)
+find_package(FFI [<version>] [...])
 ```
 
 ## Imported targets
 
 This module provides the following imported targets:
 
-* `FFI::FFI` - The package library, if found.
+* `FFI::FFI` - Target encapsulating the FFI library usage requirements,
+  available only if FFI was found.
 
 ## Result variables
 
@@ -27,6 +28,14 @@ The following cache variables may also be set:
 
 * `FFI_INCLUDE_DIR` - Directory containing package library headers.
 * `FFI_LIBRARY` - The path to the package library.
+
+## Hints
+
+This module accepts the following variables before calling
+`find_package(FFI)`:
+
+* `FFI_USE_STATIC_LIBS` - Set this variable to boolean true to search for static
+  libraries.
 
 ## Examples
 
@@ -62,17 +71,33 @@ find_path(
   HINTS ${PC_FFI_INCLUDE_DIRS}
   DOC "Directory containing FFI library headers"
 )
+mark_as_advanced(FFI_INCLUDE_DIR)
 
 if(NOT FFI_INCLUDE_DIR)
   string(APPEND _reason "ffi.h not found. ")
 endif()
 
-find_library(
-  FFI_LIBRARY
-  NAMES ffi
-  HINTS ${PC_FFI_LIBRARY_DIRS}
-  DOC "The path to the FFI library"
-)
+block()
+  # Support preference of static libs by adjusting CMAKE_FIND_LIBRARY_SUFFIXES.
+  if(FFI_USE_STATIC_LIBS)
+    if(WIN32)
+      list(PREPEND CMAKE_FIND_LIBRARY_SUFFIXES .lib .a)
+    else()
+      set(CMAKE_FIND_LIBRARY_SUFFIXES .a)
+    endif()
+  endif()
+
+  find_library(
+    FFI_LIBRARY
+    NAMES
+      ffi_pic # Static library with PIC enabled on Debian-based distributions
+      ffi
+    NAMES_PER_DIR
+    HINTS ${PC_FFI_LIBRARY_DIRS}
+    DOC "The path to the FFI library"
+  )
+  mark_as_advanced(FFI_LIBRARY)
+endblock()
 
 if(NOT FFI_LIBRARY)
   string(APPEND _reason "FFI library (libffi) not found. ")
@@ -96,8 +121,6 @@ block(PROPAGATE FFI_VERSION)
     set(FFI_VERSION ${PC_FFI_VERSION})
   endif()
 endblock()
-
-mark_as_advanced(FFI_INCLUDE_DIR FFI_LIBRARY)
 
 find_package_handle_standard_args(
   FFI
