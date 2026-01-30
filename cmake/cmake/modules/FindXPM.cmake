@@ -11,7 +11,8 @@ find_package(XPM [<version>] [...])
 
 This module provides the following imported targets:
 
-* `XPM::XPM` - The libXpm library, if found.
+* `XPM::XPM` - Target encapsulating the libXpm library usage requirements,
+  available only if libXpm was found.
 
 ## Result variables
 
@@ -27,6 +28,14 @@ The following cache variables may also be set:
 
 * `XPM_INCLUDE_DIR` - Directory containing package library headers.
 * `XPM_LIBRARY` - The path to the package library.
+
+## Hints
+
+This module accepts the following variables before calling
+`find_package(XPM)`:
+
+* `XPM_USE_STATIC_LIBS` - Set this variable to boolean true to search for static
+  libraries.
 
 ## Examples
 
@@ -64,15 +73,32 @@ find_path(
 )
 
 if(NOT XPM_INCLUDE_DIR)
-  string(APPEND _reason "X11/xpm.h not found. ")
+  string(APPEND _reason "<X11/xpm.h> not found. ")
+endif()
+
+# Support preference of static libs by adjusting CMAKE_FIND_LIBRARY_SUFFIXES.
+if(XPM_USE_STATIC_LIBS)
+  set(_xpm_cmake_find_library_suffixes ${CMAKE_FIND_LIBRARY_SUFFIXES})
+  if(WIN32)
+    list(PREPEND CMAKE_FIND_LIBRARY_SUFFIXES .lib .a)
+  else()
+    set(CMAKE_FIND_LIBRARY_SUFFIXES .a)
+  endif()
 endif()
 
 find_library(
   XPM_LIBRARY
-  NAMES Xpm
+  NAMES
+    Xpm
+    Xpm_a # Winlibs builds it as libXpm_a.lib
   HINTS ${PC_XPM_LIBRARY_DIRS}
   DOC "The path to the XPM library"
 )
+
+# Restore the original find library ordering.
+if(XPM_USE_STATIC_LIBS)
+  set(CMAKE_FIND_LIBRARY_SUFFIXES ${_xpm_cmake_find_library_suffixes})
+endif()
 
 if(NOT XPM_LIBRARY)
   string(APPEND _reason "libXpm library not found. ")
@@ -96,6 +122,7 @@ find_package_handle_standard_args(
 )
 
 unset(_reason)
+unset(_xpm_cmake_find_library_suffixes)
 
 if(NOT XPM_FOUND)
   return()
@@ -110,4 +137,17 @@ if(NOT TARGET XPM::XPM)
       IMPORTED_LOCATION "${XPM_LIBRARY}"
       INTERFACE_INCLUDE_DIRECTORIES "${XPM_INCLUDE_DIR}"
   )
+
+  if(XPM_USE_STATIC_LIBS)
+    # TODO: X11 libraries are linked as shared but should be linked statically.
+    find_package(X11 QUIET)
+
+    if(TARGET X11::X11)
+      set_target_properties(
+        XPM::XPM
+        PROPERTIES
+          INTERFACE_LINK_LIBRARIES X11::X11
+      )
+    endif()
+  endif()
 endif()
