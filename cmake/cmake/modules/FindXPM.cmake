@@ -71,34 +71,33 @@ find_path(
   HINTS ${PC_XPM_INCLUDE_DIRS}
   DOC "Directory containing XPM library headers"
 )
+mark_as_advanced(XPM_INCLUDE_DIR)
 
 if(NOT XPM_INCLUDE_DIR)
   string(APPEND _reason "<X11/xpm.h> not found. ")
 endif()
 
-# Support preference of static libs by adjusting CMAKE_FIND_LIBRARY_SUFFIXES.
-if(XPM_USE_STATIC_LIBS)
-  set(_xpm_cmake_find_library_suffixes ${CMAKE_FIND_LIBRARY_SUFFIXES})
-  if(WIN32)
-    list(PREPEND CMAKE_FIND_LIBRARY_SUFFIXES .lib .a)
-  else()
-    set(CMAKE_FIND_LIBRARY_SUFFIXES .a)
+block()
+  # Support preference of static libs by adjusting CMAKE_FIND_LIBRARY_SUFFIXES.
+  if(XPM_USE_STATIC_LIBS)
+    if(WIN32)
+      list(PREPEND CMAKE_FIND_LIBRARY_SUFFIXES .lib .a)
+    else()
+      set(CMAKE_FIND_LIBRARY_SUFFIXES .a)
+    endif()
   endif()
-endif()
 
-find_library(
-  XPM_LIBRARY
-  NAMES
-    Xpm
-    Xpm_a # Winlibs builds it as libXpm_a.lib
-  HINTS ${PC_XPM_LIBRARY_DIRS}
-  DOC "The path to the XPM library"
-)
-
-# Restore the original find library ordering.
-if(XPM_USE_STATIC_LIBS)
-  set(CMAKE_FIND_LIBRARY_SUFFIXES ${_xpm_cmake_find_library_suffixes})
-endif()
+  find_library(
+    XPM_LIBRARY
+    NAMES
+      Xpm
+      Xpm_a # Winlibs builds it as libXpm_a.lib
+    NAMES_PER_DIR
+    HINTS ${PC_XPM_LIBRARY_DIRS}
+    DOC "The path to the XPM library"
+  )
+  mark_as_advanced(XPM_LIBRARY)
+endblock()
 
 if(NOT XPM_LIBRARY)
   string(APPEND _reason "libXpm library not found. ")
@@ -108,8 +107,6 @@ endif()
 if(PC_XPM_VERSION AND XPM_INCLUDE_DIR IN_LIST PC_XPM_INCLUDE_DIRS)
   set(XPM_VERSION ${PC_XPM_VERSION})
 endif()
-
-mark_as_advanced(XPM_INCLUDE_DIR XPM_LIBRARY)
 
 find_package_handle_standard_args(
   XPM
@@ -122,7 +119,6 @@ find_package_handle_standard_args(
 )
 
 unset(_reason)
-unset(_xpm_cmake_find_library_suffixes)
 
 if(NOT XPM_FOUND)
   return()

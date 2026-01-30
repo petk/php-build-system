@@ -123,33 +123,29 @@ if(NOT NetSnmp_INCLUDE_DIR)
   string(APPEND _reason "net-snmp/net-snmp-config.h not found. ")
 endif()
 
-# Support preference of static libs by adjusting CMAKE_FIND_LIBRARY_SUFFIXES.
-if(NetSnmp_USE_STATIC_LIBS)
-  set(_netsnmp_cmake_find_library_suffixes ${CMAKE_FIND_LIBRARY_SUFFIXES})
-  if(WIN32)
-    list(PREPEND CMAKE_FIND_LIBRARY_SUFFIXES .lib .a)
-  else()
-    set(CMAKE_FIND_LIBRARY_SUFFIXES .a)
+block()
+  # Support preference of static libs by adjusting CMAKE_FIND_LIBRARY_SUFFIXES.
+  if(NetSnmp_USE_STATIC_LIBS)
+    if(WIN32)
+      list(PREPEND CMAKE_FIND_LIBRARY_SUFFIXES .lib .a)
+    else()
+      set(CMAKE_FIND_LIBRARY_SUFFIXES .a)
+    endif()
   endif()
-endif()
 
-find_library(
-  NetSnmp_LIBRARY
-  NAMES netsnmp
-  HINTS
-    ${PC_NetSnmp_LIBRARY_DIRS}
-    ${_netsnmp_config_libdir}
-  DOC "The path to the Net-SNMP library"
-)
-mark_as_advanced(NetSnmp_LIBRARY)
+  find_library(
+    NetSnmp_LIBRARY
+    NAMES netsnmp
+    HINTS
+      ${PC_NetSnmp_LIBRARY_DIRS}
+      ${_netsnmp_config_libdir}
+    DOC "The path to the Net-SNMP library"
+  )
+  mark_as_advanced(NetSnmp_LIBRARY)
+endblock()
 
 if(NOT NetSnmp_LIBRARY)
   string(APPEND _reason "Net-SNMP library not found. ")
-endif()
-
-# Restore the original find library ordering.
-if(NetSnmp_USE_STATIC_LIBS)
-  set(CMAKE_FIND_LIBRARY_SUFFIXES ${_netsnmp_cmake_find_library_suffixes})
 endif()
 
 # Ensure NetSnmp_CONFIG_EXECUTABLE belongs to the found Net-SNMP package.
@@ -237,7 +233,6 @@ find_package_handle_standard_args(
   REASON_FAILURE_MESSAGE "${_reason}"
 )
 
-unset(_netsnmp_cmake_find_library_suffixes)
 unset(_netsnmp_config_include_dir)
 unset(_netsnmp_config_libdir)
 unset(_reason)
