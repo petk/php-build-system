@@ -148,7 +148,7 @@ for php in $phpVersions; do
     sed -i '/^Date: /d' "${patch}"
 
     # Replace email if needed.
-    #sed -i 's/^From: .*/From: ElePHPant <elephpant@example.com>/' ${patch}
+    #sed -i 's/^From: .*/From: ElePHPant <elephpant@example.com>/' "${patch}"
 
     "$git" checkout "${branch}"
     "$git" branch -D ${temporaryBranch}

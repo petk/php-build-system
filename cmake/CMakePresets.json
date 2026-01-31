@@ -1,5 +1,13 @@
 {
-  "version": 4,
+  "$schema": "https://cmake.org/cmake/help/latest/_downloads/3e2d73bff478d88a7de0de736ba5e361/schema.json",
+  "version": 10,
+  "$comment": [
+    "CMake presets provided by the PHP build system",
+    "Basic usage: cmake --list-presets",
+    "             cmake --preset <name> [<options>...]",
+    "             cmake --build --preset <name> [<options>...]",
+    "             ctest --preset <name> [<options>...]"
+  ],
   "include": [
     "cmake/presets/all-disabled.json",
     "cmake/presets/all-enabled.json",
@@ -11,7 +19,10 @@
       "displayName": "Default PHP configuration",
       "description": "Configuration with the most commonly used PHP extensions enabled",
       "binaryDir": "${sourceDir}/php-build/default",
-      "installDir": "/tmp"
+      "installDir": "/tmp",
+      "cacheVariables": {
+        "PHP_ENABLE_TESTING": true
+      }
     },
     {
       "name": "default-ts",
