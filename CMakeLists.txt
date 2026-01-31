@@ -176,7 +176,13 @@ endblock()
 include(FetchContent)
 
 # Configure PHP project.
-set(PHP_ENABLE_TESTING "${PROJECT_IS_TOP_LEVEL}")
+if(NOT DEFINED PHP_ENABLE_TESTING)
+  set(PHP_ENABLE_TESTING "${PROJECT_IS_TOP_LEVEL}")
+endif()
+
+if(PHP_ENABLE_TESTING)
+  enable_testing()
+endif()
 
 FetchContent_Declare(
   php
@@ -289,5 +295,3 @@ cmake_path(
 )
 message(STATUS "Downloading ${php_url} to ${relative_dir}")
 FetchContent_MakeAvailable(php)
-
-enable_testing()
