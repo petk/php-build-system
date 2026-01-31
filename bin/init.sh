@@ -123,7 +123,7 @@ fi
 if test ! -d "php-src"; then
   echo "To use this tool you need php-src Git repository."
   printf "Do you want to clone it now (y/N)?"
-  read answer
+  read -r answer
 
   if test "$answer" != "${answer#[Yy]}"; then
     echo "Cloning github.com/php/php-src. This will take a little while."
@@ -151,7 +151,7 @@ if test -z "$branch"; then
 fi
 
 # Make sure we're in the php-src repository.
-cd php-src
+cd php-src || exit
 
 if test ! -f "main/php_version.h" \
   || test ! -f "php.ini-development"
@@ -161,20 +161,20 @@ then
 fi
 
 # Check if given branch is available.
-if test -z "`"$git" show-ref refs/heads/${branch}`"; then
-  if test -z "`"$git" ls-remote --heads origin refs/heads/${branch}`"; then
+if test -z "$("$git" show-ref refs/heads/"${branch}")"; then
+  if test -z "$("$git" ls-remote --heads origin refs/heads/"${branch}")"; then
     echo "PHP branch ${branch} is missing." >&2
     exit 1
   fi
 
-  "$git" checkout --track origin/${branch}
+  "$git" checkout --track origin/"${branch}"
 fi
 
 # Reset php-src repository and fetch latest changes.
 if test "$update" = "1"; then
   "$git" reset --hard
   "$git" clean -dffx
-  "$git" checkout ${branch}
+  "$git" checkout "${branch}"
   "$git" pull --rebase
   echo
 fi
@@ -184,13 +184,13 @@ cd ..
 cp -r cmake/* php-src/
 
 # Apply patches to php-src from the patches directory.
-if test ${branch} = "master"; then
+if test "${branch}" = "master"; then
   php_version=$phpVersionDev
 else
-  php_version=$(echo $branch | sed 's/PHP-\([0-9.]*\).*$/\1/')
+  php_version=$(echo "$branch" | sed 's/PHP-\([0-9.]*\).*$/\1/')
 fi
 
-patches=$(find ./patches/${php_version} -type f -name "*.patch" -prune 2>/dev/null)
+patches=$(find ./patches/"${php_version}" -type f -name "*.patch" -prune 2>/dev/null)
 
 if test -z "$patches"; then
   echo "No patches found."
@@ -202,16 +202,16 @@ for file in $patches; do
   case $file in
     *.patch)
       if test -n "$patch"; then
-        "$patch" -p1 -d php-src < $file
+        "$patch" -p1 -d php-src < "$file"
       else
-        "$git" apply $file --directory php-src
+        "$git" apply "$file" --directory php-src
       fi
     ;;
   esac
 done
 
 # Only copy CMake files.
-if test "x$use_cmake" = "x0"; then
+if test "$use_cmake" = "0"; then
   echo
   echo "PHP sources are ready to be built. Inside php-src, you can now run:
     cmake -B php-build
@@ -249,7 +249,7 @@ else
   esac
 fi
 
-cd php-src
+cd php-src || exit
 
 # Run CMake preset configuration.
 eval "'$cmake' --preset $preset $cmake_debug_options $options $generator_option"

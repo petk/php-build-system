@@ -73,18 +73,18 @@ fi
 if test ! -d "${REPO}"; then
   echo "To use this tool you need php-src Git repository."
   printf "Do you want to clone it now (y/N)?"
-  read answer
+  read -r answer
 
   if test "$answer" != "${answer#[Yy]}"; then
     echo "Cloning github.com/php/php-src. This will take a little while."
-    "$git" clone https://github.com/php/php-src ${REPO}
+    "$git" clone https://github.com/php/php-src "${REPO}"
   else
     exit 1
   fi
 fi
 
 # Make sure we're in the php-src repository.
-cd ${REPO}
+cd "${REPO}" || exit
 if test ! -f "main/php_version.h" \
   || test ! -f "php.ini-development"
 then
@@ -107,14 +107,14 @@ for php in $phpVersions; do
   fi
 
   # Check if php-src branch exists.
-  if test -z "$(git show-ref refs/heads/${branch})"; then
+  if test -z "$(git show-ref refs/heads/"${branch}")"; then
     echo "E: Branch ${branch} is missing." >&2
     exit 1
   fi
 
   "$git" reset --hard
   "$git" clean -dffx
-  "$git" checkout ${branch}
+  "$git" checkout "${branch}"
   "$git" pull --rebase
 
   for patch in "$PWD/../patches/$php"/*.patch; do
@@ -122,9 +122,9 @@ for php in $phpVersions; do
     echo "-> Updating $fileName"
 
     "$git" checkout -b ${temporaryBranch}
-    "$git" am -3 $patch
+    "$git" am -3 "$patch"
 
-    if test "x$?" != "x0"; then
+    if test "$?" != "0"; then
       echo "E: Patch ${patch} needs manual resolution." >&2
       echo "   Go to php-src and resolve conflicts manually." >&2
       exit 1
@@ -141,16 +141,16 @@ for php in $phpVersions; do
       --stdout \
       --no-signature \
       --subject-prefix="" \
-    > ${patch}
+    > "${patch}"
 
     # Remove redundant patch header information.
-    sed -i '/^From /d' ${patch}
-    sed -i '/^Date: /d' ${patch}
+    sed -i '/^From /d' "${patch}"
+    sed -i '/^Date: /d' "${patch}"
 
     # Replace email if needed.
     #sed -i 's/^From: .*/From: ElePHPant <elephpant@example.com>/' ${patch}
 
-    "$git" checkout ${branch}
+    "$git" checkout "${branch}"
     "$git" branch -D ${temporaryBranch}
   done
 done
