@@ -57,3 +57,8 @@ jobs:
             --set normalize_indent_style=false \
             --set normalize_cmake_minimum_required=4.2...4.3 \
             -j
+
+      - name: Run ShellCheck
+        if: ${{ always() }}
+        run: |
+          docker run --rm -v "$PWD:/mnt" koalaman/shellcheck:stable bin/*.sh
