@@ -175,6 +175,9 @@ endblock()
 
 include(FetchContent)
 
+# Configure PHP project.
+set(PHP_ENABLE_TESTING "${PROJECT_IS_TOP_LEVEL}")
+
 FetchContent_Declare(
   php
   URL ${php_url}
