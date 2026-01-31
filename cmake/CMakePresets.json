@@ -19,10 +19,7 @@
       "displayName": "Default PHP configuration",
       "description": "Configuration with the most commonly used PHP extensions enabled",
       "binaryDir": "${sourceDir}/php-build/default",
-      "installDir": "/tmp",
-      "cacheVariables": {
-        "PHP_ENABLE_TESTING": true
-      }
+      "installDir": "/tmp"
     },
     {
       "name": "default-ts",
