@@ -81,8 +81,6 @@ target_compile_definitions(
   php_ext_zend_test
   PRIVATE
     ZEND_ENABLE_STATIC_TSRMLS_CACHE
-    # TODO: PHP_ZEND_TEST_EXPORTS is currently unused.
-    $<$<PLATFORM_ID:Windows>:PHP_ZEND_TEST_EXPORTS>
 )
 
 # TODO: Fix this better.
