@@ -1,24 +1,54 @@
 #[=============================================================================[
 # The zlib extension
 
-Configure the `zlib` extension.
+The PHP `zlib` extension provides support for reading and writing gzip (.gz)
+compressed files.
 
-This extension provides support for reading and writing gzip (.gz) compressed
-files.
+## Configuration options
 
-## PHP_EXT_ZLIB
-
-* Default: `OFF`
-* Values: `ON|OFF`
-
-Enable the extension.
-
-## PHP_EXT_ZLIB_SHARED
+### PHP_EXT_ZLIB
 
 * Default: `OFF`
 * Values: `ON|OFF`
 
-Build extension as shared.
+Enables the extension.
+
+### PHP_EXT_ZLIB_SHARED
+
+* Default: `OFF`
+* Values: `ON|OFF`
+
+Builds extension as shared.
+
+## Examples
+
+Enabling the zlib extension:
+
+```sh
+cmake -B <build-dir> -DPHP_EXT_ZLIB=ON
+```
+
+Customizing where to find dependencies can be done by setting the
+`CMAKE_PREFIX_PATH` variable or by setting the individual `<PackageName>_ROOT`
+variables.
+
+For example, to specify custom installations of zlib library:
+
+```sh
+cmake \
+  -B <build-dir> \
+  -DPHP_EXT_ZLIB=ON \
+  -DCMAKE_PREFIX_PATH="/path/to/zlib-installation"
+```
+
+Or:
+
+```sh
+cmake \
+  -B <build-dir> \
+  -DPHP_EXT_ZLIB=ON \
+  -DZLIB_ROOT="/path/to/zlib-installation
+```
 #]=============================================================================]
 
 cmake_minimum_required(VERSION 4.2...4.3)
