@@ -55,6 +55,4 @@ target_compile_definitions(
   php_ext_dl_test
   PRIVATE
     ZEND_ENABLE_STATIC_TSRMLS_CACHE
-    # TODO: PHP_DL_TEST_EXPORTS is currently unused.
-    $<$<AND:$<PLATFORM_ID:Windows>,$<IN_LIST:$<TARGET_PROPERTY:TYPE>,MODULE_LIBRARY;SHARED_LIBRARY>>:PHP_DL_TEST_EXPORTS>
 )
