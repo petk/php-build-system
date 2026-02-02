@@ -1,23 +1,23 @@
 #[=============================================================================[
 # The pdo_oci extension
 
-Configure the `pdo_oci` extension.
-
 This extension provides PDO interface for using Oracle database.
 
-## PHP_EXT_PDO_OCI
+## Configuration options
+
+### PHP_EXT_PDO_OCI
 
 * Default: `OFF`
 * Values: `ON|OFF`
 
-Enable the extension.
+Enables the extension.
 
-## PHP_EXT_PDO_OCI_SHARED
+### PHP_EXT_PDO_OCI_SHARED
 
 * Default: `OFF`
 * Values: `ON|OFF`
 
-Build extension as shared.
+Builds extension as shared.
 #]=============================================================================]
 
 cmake_minimum_required(VERSION 4.2...4.3)

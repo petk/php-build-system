@@ -1,42 +1,44 @@
 #[=============================================================================[
 # The oci8 extension
 
-Configure the `oci8` extension.
+This extension provides support for Oracle Database.
 
-## PHP_EXT_OCI8
+## Configuration options
 
-* Default: `OFF`
-* Values: `ON|OFF`
-
-Enable the extension.
-
-## PHP_EXT_GMP_SHARED
+### PHP_EXT_OCI8
 
 * Default: `OFF`
 * Values: `ON|OFF`
 
-Build extension as shared.
+Enables the extension.
 
-## PHP_EXT_OCI8_11G
-
-* Default: `OFF`
-* Values: `ON|OFF`
-
-Enable OCI8 support using Oracle 11g Instant Client.
-
-## PHP_EXT_OCI8_12C
+### PHP_EXT_GMP_SHARED
 
 * Default: `OFF`
 * Values: `ON|OFF`
 
-Enable OCI8 support using Oracle Database 12c Instant Client.
+Builds extension as shared.
 
-## PHP_EXT_OCI8_19
+### PHP_EXT_OCI8_11G
 
 * Default: `OFF`
 * Values: `ON|OFF`
 
-Enable OCI8 support using Oracle Database 19 Instant Client.
+Enables OCI8 support using Oracle 11g Instant Client.
+
+### PHP_EXT_OCI8_12C
+
+* Default: `OFF`
+* Values: `ON|OFF`
+
+Enables OCI8 support using Oracle Database 12c Instant Client.
+
+### PHP_EXT_OCI8_19
+
+* Default: `OFF`
+* Values: `ON|OFF`
+
+Enables OCI8 support using Oracle Database 19 Instant Client.
 #]=============================================================================]
 
 cmake_minimum_required(VERSION 4.2...4.3)

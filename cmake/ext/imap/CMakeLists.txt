@@ -1,37 +1,37 @@
 #[=============================================================================[
 # The imap extension
 
-Configure the `imap` extension.
-
 This extension provides support for operating with the IMAP protocol.
 
-## PHP_EXT_IMAP
+## Configuration options
+
+### PHP_EXT_IMAP
 
 * Default: `OFF`
 * Values: `ON|OFF`
 
-Enable the extension.
+Enables the extension.
 
-## PHP_EXT_IMAP_SHARED
-
-* Default: `OFF`
-* Values: `ON|OFF`
-
-Build extension as shared.
-
-## PHP_EXT_IMAP_KERBEROS
+### PHP_EXT_IMAP_SHARED
 
 * Default: `OFF`
 * Values: `ON|OFF`
 
-Explicitly include Kerberos support in the imap extension.
+Builds extension as shared.
 
-## PHP_EXT_IMAP_SSL
+### PHP_EXT_IMAP_KERBEROS
 
 * Default: `OFF`
 * Values: `ON|OFF`
 
-Explicitly enable SSL support in the imap extension. If c-client dependency is
+Explicitly includes Kerberos support in the imap extension.
+
+### PHP_EXT_IMAP_SSL
+
+* Default: `OFF`
+* Values: `ON|OFF`
+
+Explicitly enables SSL support in the imap extension. If c-client dependency is
 built with SSL support, this option will be automatically enabled.
 #]=============================================================================]
 

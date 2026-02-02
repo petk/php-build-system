@@ -1,8 +1,7 @@
 #[=============================================================================[
 # The pdo_mysql extension
 
-The `pdo_mysql` extension provides PDO interface for using MySQL-compatible
-databases.
+This extension provides PDO interface for using MySQL-compatible databases.
 
 ## Configuration options
 

@@ -1,8 +1,6 @@
 #[=============================================================================[
 # PHP %EXTNAME% extension
 
-Configure the PHP `%EXTNAME%` extension.
-
 ## Configuration options
 
 ### PHP_EXT_%EXTNAMECAPS%
@@ -10,14 +8,14 @@ Configure the PHP `%EXTNAME%` extension.
 * Default: `OFF`
 * Values: `ON|OFF`
 
-Enable the extension.
+Enables the extension.
 
 ### PHP_EXT_%EXTNAMECAPS%_SHARED
 
 * Default: `OFF`
 * Values: `ON|OFF`
 
-Build extension as shared.
+Builds extension as shared.
 #]=============================================================================]
 
 # CMakeLists.txt file for the %EXTNAME% extension.

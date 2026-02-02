@@ -1,23 +1,23 @@
 #[=============================================================================[
 # The pdo extension
 
-Configure the `pdo` extension.
-
 This extension provides support for PHP Data Objects (PDO).
 
-## PHP_EXT_PDO
+## Configuration options
+
+### PHP_EXT_PDO
 
 * Default: `ON`
 * Values: `ON|OFF`
 
-Enable the extension.
+Enables the extension.
 
-## PHP_EXT_PDO_SHARED
+### PHP_EXT_PDO_SHARED
 
 * Default: `OFF`
 * Values: `ON|OFF`
 
-Build extension as shared.
+Builds extension as shared.
 #]=============================================================================]
 
 cmake_minimum_required(VERSION 4.2...4.3)

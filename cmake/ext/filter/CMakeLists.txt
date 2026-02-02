@@ -1,23 +1,23 @@
 #[=============================================================================[
 # The filter extension
 
-Configure the `filter` extension.
-
 This extension provides support for data filtering.
 
-## PHP_EXT_FILTER
+## Configuration options
+
+### PHP_EXT_FILTER
 
 * Default: `ON`
 * Values: `ON|OFF`
 
-Enable the extension.
+Enables the extension.
 
-## PHP_EXT_FILTER_SHARED
+### PHP_EXT_FILTER_SHARED
 
 * Default: `OFF`
 * Values: `ON|OFF`
 
-Build extension as shared.
+Builds extension as shared.
 #]=============================================================================]
 
 cmake_minimum_required(VERSION 4.2...4.3)

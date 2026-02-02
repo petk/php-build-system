@@ -1,23 +1,23 @@
 #[=============================================================================[
 # The zend_test extension
 
-Configure the `zend_test` extension.
-
 This extension provides additional support for testing PHP itself.
 
-## PHP_EXT_ZEND_TEST
+## Configuration options
+
+### PHP_EXT_ZEND_TEST
 
 * Default: `OFF`
 * Values: `ON|OFF`
 
-Enable the extension.
+Enables the extension.
 
-## PHP_EXT_ZEND_TEST_SHARED
+### PHP_EXT_ZEND_TEST_SHARED
 
 * Default: `OFF`
 * Values: `ON|OFF`
 
-Build extension as shared.
+Builds extension as shared.
 #]=============================================================================]
 
 cmake_minimum_required(VERSION 4.2...4.3)
@@ -83,8 +83,8 @@ target_compile_definitions(
 
 # TODO: Fix this better.
 # If libxml extension is enabled, link libxml library as headers are used.
-# TODO: Reconfigure this for static/shared LibXml library on Windows.
-if(PHP_EXT_LIBXML)
+return()
+if(PHP_EXT_LIBXML AND NOT CMAKE_SYSTEM_NAME STREQUAL "Windows")
   include(Packages/LibXml2)
 
   set_package_properties(

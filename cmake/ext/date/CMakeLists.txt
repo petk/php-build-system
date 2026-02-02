@@ -1,8 +1,6 @@
 #[=============================================================================[
 # The date extension
 
-Configure the `date` extension.
-
 This extension provides date and time support.
 
 This extension is always enabled.

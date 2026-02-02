@@ -1,8 +1,6 @@
 #[=============================================================================[
 # The apache2handler SAPI
 
-Configure the `apache2handler` PHP SAPI.
-
 ## Configuration options
 
 ### PHP_SAPI_APACHE2HANDLER
@@ -10,7 +8,7 @@ Configure the `apache2handler` PHP SAPI.
 * Default: `OFF`
 * Values: `ON|OFF`
 
-Enable the shared Apache 2 handler SAPI module.
+Enables the shared Apache 2 handler SAPI module.
 
 ### PHP_SAPI_APACHE2HANDLER_INSTALL_DIR
 

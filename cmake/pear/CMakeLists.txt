@@ -1,23 +1,25 @@
 #[=============================================================================[
 # PEAR
 
-Configure PEAR as part of the PHP installation.
+PEAR is a PHP Extension and Application Repository package manager.
 
 > [!WARNING]
 > PEAR installation as part of PHP is deprecated as of PHP 7.4 and will be
 > removed in future PHP versions. PEAR can also be installed manually from the
 > pear.php.net website.
 
-## PHP_PEAR
+## Configuration options
+
+### PHP_PEAR
 
 :orange_circle: *Deprecated as of PHP 7.4.*
 
 * Default: `OFF`
 * Values: `ON|OFF`
 
-Install PEAR, PHP Extension and Application Repository package manager.
+Installs PEAR, PHP Extension and Application Repository package manager.
 
-## PHP_PEAR_INSTALL_DIR
+### PHP_PEAR_INSTALL_DIR
 
 :orange_circle: *Deprecated as of PHP 7.4.*
 
@@ -26,7 +28,7 @@ Install PEAR, PHP Extension and Application Repository package manager.
 The path where PEAR will be installed to. Relative path is interpreted as being
 relative to the `CMAKE_INSTALL_PREFIX`.
 
-## PHP_PEAR_TEMP_DIR
+### PHP_PEAR_TEMP_DIR
 
 :orange_circle: *Deprecated as of PHP 7.4.*
 

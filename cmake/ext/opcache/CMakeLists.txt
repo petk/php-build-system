@@ -3,36 +3,38 @@
 
 This extension enables the PHP OPcode caching engine.
 
-## PHP_EXT_OPCACHE
+## Configuration options
+
+### PHP_EXT_OPCACHE
 
 * Default: `ON`
 * Values: `ON|OFF`
 
-Enable the extension. This extension is always built as shared when enabled.
+Enables the extension. This extension is always built as shared when enabled.
 
-## PHP_EXT_OPCACHE_HUGE_CODE_PAGES
+### PHP_EXT_OPCACHE_HUGE_CODE_PAGES
 
 * Default: `ON`
 * Values: `ON|OFF`
 
-Enable copying PHP CODE pages into HUGE PAGES.
+Enables copying PHP CODE pages into HUGE PAGES.
 
 > [!NOTE]
 > This option is not available when the target system is Windows.
 
-## PHP_EXT_OPCACHE_JIT
+### PHP_EXT_OPCACHE_JIT
 
 * Default: `ON`
 * Values: `ON|OFF`
 
-Enable JIT (just-in-time) compilation.
+Enables JIT (just-in-time) compilation.
 
-## PHP_EXT_OPCACHE_CAPSTONE
+### PHP_EXT_OPCACHE_CAPSTONE
 
 * Default: `OFF`
 * Values: `ON|OFF`
 
-Enable OPcache JIT disassembly through Capstone engine.
+Enables OPcache JIT disassembly through Capstone engine.
 #]=============================================================================]
 
 cmake_minimum_required(VERSION 4.2...4.3)

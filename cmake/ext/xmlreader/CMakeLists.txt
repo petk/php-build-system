@@ -1,23 +1,21 @@
 #[=============================================================================[
 # The xmlreader extension
 
-Configure the `xmlreader` extension.
-
 This extension provides support for for XML pull parser.
 
-## PHP_EXT_XMLREADER
+### PHP_EXT_XMLREADER
 
 * Default: `ON`
 * Values: `ON|OFF`
 
-Enable the extension.
+Enables the extension.
 
-## PHP_EXT_XMLREADER_SHARED
+### PHP_EXT_XMLREADER_SHARED
 
 * Default: `OFF`
 * Values: `ON|OFF`
 
-Build extension as shared.
+Builds extension as shared.
 #]=============================================================================]
 
 cmake_minimum_required(VERSION 4.2...4.3)

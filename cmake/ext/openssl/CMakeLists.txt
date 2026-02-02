@@ -1,49 +1,50 @@
 #[=============================================================================[
 # The openssl extension
 
-Configure the `openssl` extension.
-
 This extension enables encryption and decryption support using the OpenSSL
 library.
 
-## PHP_EXT_OPENSSL
+## Configuration options
+
+### PHP_EXT_OPENSSL
 
 * Default: `OFF`
 * Values: `ON|OFF`
 
-Enable the PHP `openssl` extension.
+Enables the PHP `openssl` extension.
 
 Where to find OpenSSL installation on the system, can be customized with the
 `OPENSSL_ROOT_DIR` variable.
 
-## PHP_EXT_OPENSSL_SHARED
+### PHP_EXT_OPENSSL_SHARED
 
 * Default: `OFF`
 * Values: `ON|OFF`
 
-Build extension as shared library.
+Builds extension as shared library.
 
-## PHP_EXT_OPENSSL_SYSTEM_CIPHERS
+### PHP_EXT_OPENSSL_SYSTEM_CIPHERS
 
 * Default: `OFF`
 * Values: `ON|OFF`
 
-Use system default cipher list instead of the hardcoded value for OpenSSL.
+Uses system default cipher list instead of the hardcoded value for OpenSSL.
 
-## PHP_EXT_OPENSSL_KERBEROS
+### PHP_EXT_OPENSSL_KERBEROS
 
 :orange_circle: *Deprecated as of PHP 8.3.*
 
 * Default: `OFF`
 * Values: `ON|OFF`
 
-Include Kerberos support for OpenSSL.
+Includes Kerberos support for OpenSSL.
 
 Where to find Kerberos installation on the system, can be customized with the
 `KERBEROS_ROOT` variable.
 
-Note, that Kerberos support has been removed as of OpenSSL 1.1.0, which makes
-this option deprecated.
+> [!NOTE]
+> Note, that Kerberos support has been removed as of OpenSSL 1.1.0, which makes
+> this option deprecated.
 #]=============================================================================]
 
 cmake_minimum_required(VERSION 4.2...4.3)

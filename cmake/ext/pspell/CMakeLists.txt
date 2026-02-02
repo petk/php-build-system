@@ -1,23 +1,23 @@
 #[=============================================================================[
 # The pspell extension
 
-Configure the `pspell` extension.
-
 This extension provides spellchecking support.
 
-## PHP_EXT_PSPELL
+## Configuration options
+
+### PHP_EXT_PSPELL
 
 * Default: `OFF`
 * Values: `ON|OFF`
 
-Enable the extension.
+Enables the extension.
 
-## PHP_EXT_PSPELL_SHARED
+### PHP_EXT_PSPELL_SHARED
 
 * Default: `OFF`
 * Values: `ON|OFF`
 
-Build extension as shared.
+Builds extension as shared.
 #]=============================================================================]
 
 cmake_minimum_required(VERSION 4.2...4.3)
