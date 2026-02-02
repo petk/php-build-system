@@ -1,24 +1,24 @@
 #[=============================================================================[
 # The gettext extension
 
-Configure the `gettext` extension.
-
 This extension provides support for GNU gettext using NLS (Native Language
 Support) API.
 
-## PHP_EXT_GETTEXT
+## Configuration options
+
+### PHP_EXT_GETTEXT
 
 * Default: `OFF`
 * Values: `ON|OFF`
 
-Enable the extension.
+Enables the extension.
 
-## PHP_EXT_GETTEXT_SHARED
+### PHP_EXT_GETTEXT_SHARED
 
 * Default: `OFF`
 * Values: `ON|OFF`
 
-Build extension as shared.
+Builds extension as shared.
 #]=============================================================================]
 
 cmake_minimum_required(VERSION 4.2...4.3)

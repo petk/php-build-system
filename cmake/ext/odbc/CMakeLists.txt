@@ -1,28 +1,28 @@
 #[=============================================================================[
 # The odbc extension
 
-Configure the `odbc` extension.
-
 This extension provides support for Unified Open Database Connectivity (ODBC)
 databases.
 
-## PHP_EXT_ODBC
+## Configuration options
+
+### PHP_EXT_ODBC
 
 * Default: `OFF`
 * Values: `ON|OFF`
 
-Enable the PHP `odbc` extension.
+Enables the PHP `odbc` extension.
 
-## PHP_EXT_ODBC_SHARED
+### PHP_EXT_ODBC_SHARED
 
 * Default: `OFF`
 * Values: `ON|OFF`
 
-Build extension as shared library.
+Builds extension as shared library.
 
-## PHP_EXT_ODBC_TYPE
+### PHP_EXT_ODBC_TYPE
 
-Select the ODBC type.
+Selects the ODBC type.
 
 Default: `auto`
 
@@ -160,7 +160,7 @@ cmake -S php-src -B php-build \
 > These examples might need to be adjusted and updated for the current ODBC
 > versions and implementations.
 
-## PHP_EXT_ODBC_VERSION
+### PHP_EXT_ODBC_VERSION
 
 :red_circle: *Removed as of PHP 8.5.*
 

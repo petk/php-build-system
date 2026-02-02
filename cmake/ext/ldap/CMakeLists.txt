@@ -1,31 +1,31 @@
 #[=============================================================================[
 # The ldap extension
 
-Configure the `ldap` extension.
-
 This extension provides support for LDAP (Lightweight Directory Access
 Protocol).
 
-## PHP_EXT_LDAP
+## Configuration options
+
+### PHP_EXT_LDAP
 
 * Default: `OFF`
 * Values: `ON|OFF`
 
-Enable the extension.
+Enables the extension.
 
-## PHP_EXT_LDAP_SHARED
-
-* Default: `OFF`
-* Values: `ON|OFF`
-
-Build extension as shared.
-
-## PHP_EXT_LDAP_SASL
+### PHP_EXT_LDAP_SHARED
 
 * Default: `OFF`
 * Values: `ON|OFF`
 
-Build ldap extension with Cyrus SASL support.
+Builds extension as shared.
+
+### PHP_EXT_LDAP_SASL
+
+* Default: `OFF`
+* Values: `ON|OFF`
+
+Builds ldap extension with Cyrus SASL support.
 #]=============================================================================]
 
 cmake_minimum_required(VERSION 4.2...4.3)

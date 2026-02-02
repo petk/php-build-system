@@ -1,16 +1,16 @@
 #[=============================================================================[
 # The libxml extension
 
-Configure the `libxml` extension.
-
 This extension provides XML parser and toolkit support using libxml2 library.
 
-## PHP_EXT_LIBXML
+## Configuration options
+
+### PHP_EXT_LIBXML
 
 * Default: `ON`
 * Values: `ON|OFF`
 
-Enable the extension.
+Enables the extension.
 
 This extension cannot be built as shared.
 #]=============================================================================]
