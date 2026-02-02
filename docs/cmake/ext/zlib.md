@@ -3,8 +3,8 @@
 
 # The zlib extension
 
-The PHP `zlib` extension provides support for reading and writing gzip (.gz)
-compressed files.
+This extension provides support for reading and writing gzip (.gz) compressed
+files.
 
 ## Configuration options
 

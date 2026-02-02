@@ -1,24 +1,24 @@
 #[=============================================================================[
 # The tidy extension
 
-Configure the `tidy` extension.
-
 This extension provides support for Tidy HTML utility support to handle HTML,
 XHTML and XML documents.
 
-## PHP_EXT_TIDY
+## Configuration options
+
+### PHP_EXT_TIDY
 
 * Default: `OFF`
 * Values: `ON|OFF`
 
-Enable the extension.
+Enables the extension.
 
-## PHP_EXT_TIDY_SHARED
+### PHP_EXT_TIDY_SHARED
 
 * Default: `OFF`
 * Values: `ON|OFF`
 
-Build extension as shared.
+Builds extension as shared.
 #]=============================================================================]
 
 cmake_minimum_required(VERSION 4.2...4.3)

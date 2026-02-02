@@ -3,8 +3,6 @@
 
 # The pcntl extension
 
-Configure the `pcntl` extension.
-
 This extension provides support for process control support.
 
 > [!NOTE]
@@ -13,16 +11,18 @@ This extension provides support for process control support.
 > [!IMPORTANT]
 > This extension should be used only with CLI-based PHP SAPIs.
 
-## PHP_EXT_PCNTL
+## Configuration options
+
+### PHP_EXT_PCNTL
 
 * Default: `OFF`
 * Values: `ON|OFF`
 
-Enable the extension.
+Enables the extension.
 
-## PHP_EXT_PCNTL_SHARED
+### PHP_EXT_PCNTL_SHARED
 
 * Default: `OFF`
 * Values: `ON|OFF`
 
-Build extension as shared.
+Builds extension as shared.

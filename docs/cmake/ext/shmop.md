@@ -3,20 +3,20 @@
 
 # The shmop extension
 
-Configure the `shmop` extension.
-
 This extension provides support for shared memory segments operations.
 
-## PHP_EXT_SHMOP
+## Configuration options
+
+### PHP_EXT_SHMOP
 
 * Default: `OFF`
 * Values: `ON|OFF`
 
-Enable the extension.
+Enables the extension.
 
-## PHP_EXT_SHMOP_SHARED
+### PHP_EXT_SHMOP_SHARED
 
 * Default: `OFF`
 * Values: `ON|OFF`
 
-Build extension as shared.
+Builds extension as shared.

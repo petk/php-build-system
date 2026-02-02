@@ -1,7 +1,7 @@
 #[=============================================================================[
 # The phar extension
 
-The PHP `phar` extension provides support for PHP archives (phar).
+This extension provides support for PHP archives (phar).
 
 ## Configuration options
 

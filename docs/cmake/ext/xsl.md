@@ -3,21 +3,21 @@
 
 # The xsl extension
 
-Configure the `xsl` extension.
-
 This extension provides XSL standard support for performing XSLT
 transformations.
 
-## PHP_EXT_XSL
+## Configuration options
+
+### PHP_EXT_XSL
 
 * Default: `OFF`
 * Values: `ON|OFF`
 
-Enable the extension.
+Enables the extension.
 
-## PHP_EXT_XSL_SHARED
+### PHP_EXT_XSL_SHARED
 
 * Default: `OFF`
 * Values: `ON|OFF`
 
-Build extension as shared.
+Builds extension as shared.

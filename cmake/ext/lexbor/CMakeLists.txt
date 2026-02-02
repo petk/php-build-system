@@ -1,8 +1,6 @@
 #[=============================================================================[
 # The lexbor extension
 
-Configure the `lexbor` extension.
-
 This extension provides support for Lexbor library.
 #]=============================================================================]
 

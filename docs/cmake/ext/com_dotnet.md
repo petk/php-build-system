@@ -3,8 +3,6 @@
 
 # The com_dotnet extension
 
-Configure the `com_dotnet` extension.
-
 This extension provides the Component Object Model (COM) and .NET support.
 
 > [!NOTE]

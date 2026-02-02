@@ -3,16 +3,16 @@
 
 # The hash extension
 
-Configure the `hash` extension.
-
 This extension provides HASH message digest framework and is always enabled in
 PHP.
 
-## PHP_EXT_HASH_MHASH
+## Configuration options
+
+### PHP_EXT_HASH_MHASH
 
 :orange_circle: *Deprecated as of PHP 8.1.*
 
 * Default: `OFF`
 * Values: `ON|OFF`
 
-Enable the mhash emulation support.
+Enables the mhash emulation support.

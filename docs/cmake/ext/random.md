@@ -3,7 +3,5 @@
 
 # The random extension
 
-Configure the `random` extension.
-
 This extension provides support for random number generators and functions
 related to randomness. It is always enabled.

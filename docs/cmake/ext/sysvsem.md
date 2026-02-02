@@ -3,23 +3,23 @@
 
 # The sysvsem extension
 
-Configure the `sysvsem` extension.
-
 This extension provides the System V semaphore support.
 
 > [!NOTE]
 > This extension is available only on \*nix systems.
 
-## PHP_EXT_SYSVSEM
+## Configuration options
+
+### PHP_EXT_SYSVSEM
 
 * Default: `OFF`
 * Values: `ON|OFF`
 
-Enable the extension.
+Enables the extension.
 
-## PHP_EXT_SYSVSEM_SHARED
+### PHP_EXT_SYSVSEM_SHARED
 
 * Default: `OFF`
 * Values: `ON|OFF`
 
-Build extension as shared.
+Builds extension as shared.

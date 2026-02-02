@@ -1,23 +1,23 @@
 #[=============================================================================[
 # The gmp extension
 
-Configure the `gmp` extension.
-
 This extension provides GNU Multiple Precision Arithmetic support.
 
-## PHP_EXT_GMP
+## Configuration options
+
+### PHP_EXT_GMP
 
 * Default: `OFF`
 * Values: `ON|OFF`
 
-Enable the extension.
+Enables the extension.
 
-## PHP_EXT_GMP_SHARED
+### PHP_EXT_GMP_SHARED
 
 * Default: `OFF`
 * Values: `ON|OFF`
 
-Build extension as shared.
+Builds extension as shared.
 #]=============================================================================]
 
 cmake_minimum_required(VERSION 4.2...4.3)

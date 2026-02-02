@@ -1,37 +1,37 @@
 #[=============================================================================[
 # The fpm SAPI
 
-Configure the `fpm` PHP SAPI.
-
 > [!NOTE]
 > PHP FPM is not available when the target system is Windows.
 
-## PHP_SAPI_FPM
+## Configuration options
+
+### PHP_SAPI_FPM
 
 * Default: `OFF`
 * Values: `ON|OFF`
 
-Enable the FastCGI Process Manager (FPM) SAPI module.
+Enables the FastCGI Process Manager (FPM) SAPI module.
 
-## PHP_SAPI_FPM_USER
-
-* Default: `nobody`
-
-Set the user for running PHP FPM.
-
-## PHP_SAPI_FPM_GROUP
+### PHP_SAPI_FPM_USER
 
 * Default: `nobody`
 
-Set the group for running PHP FPM. For a system user, this should usually be set
-in a way to match the FPM username.
+Sets the user for running PHP FPM.
 
-## PHP_SAPI_FPM_ACL
+### PHP_SAPI_FPM_GROUP
+
+* Default: `nobody`
+
+Sets the group for running PHP FPM. For a system user, this should usually be
+set in a way to match the FPM username.
+
+### PHP_SAPI_FPM_ACL
 
 * Default: `OFF`
 * Values: `ON|OFF`
 
-Use POSIX Access Control Lists.
+Uses POSIX Access Control Lists.
 
 Where to find ACL installation on the system, can be customized with the
 `ACL_ROOT` variable.
@@ -40,12 +40,12 @@ Where to find ACL installation on the system, can be customized with the
 > This option is not available when the target system is Darwin (macOS) as this
 > system doesn't have ACL.
 
-## PHP_SAPI_FPM_APPARMOR
+### PHP_SAPI_FPM_APPARMOR
 
 * Default: `OFF`
 * Values: `ON|OFF`
 
-Enable the AppArmor confinement through libapparmor.
+Enables the AppArmor confinement through libapparmor.
 
 Where to find AppArmor installation on the system, can be customized with the
 `APPARMOR_ROOT` variable.
@@ -54,12 +54,12 @@ Where to find AppArmor installation on the system, can be customized with the
 > This option is not available when the target system is Darwin (macOS) as this
 > system doesn't have AppArmor.
 
-## PHP_SAPI_FPM_SELINUX
+### PHP_SAPI_FPM_SELINUX
 
 * Default: `OFF`
 * Values: `ON|OFF`
 
-Enable the SELinux policy library support.
+Enables the SELinux policy library support.
 
 Where to find SELinux installation on the system, can be customized with the
 `SELINUX_ROOT` variable.
@@ -68,12 +68,12 @@ Where to find SELinux installation on the system, can be customized with the
 > This option is not available when the target system is Darwin (macOS) as this
 > system doesn't have SELinux.
 
-## PHP_SAPI_FPM_SYSTEMD
+### PHP_SAPI_FPM_SYSTEMD
 
 * Default: `OFF`
 * Values: `ON|OFF`
 
-Enable the systemd integration.
+Enables the systemd integration.
 
 Where to find systemd installation on the system, can be customized with the
 `SYSTEMD_ROOT` variable.

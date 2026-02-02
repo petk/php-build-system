@@ -3,28 +3,28 @@
 
 # The session extension
 
-Configure the `session` extension.
-
 This extension provides support for sessions to preserve data across subsequent
 accesses.
 
-## PHP_EXT_SESSION
+## Configuration options
+
+### PHP_EXT_SESSION
 
 * Default: `ON`
 * Values: `ON|OFF`
 
-Enable the extension.
+Enables the extension.
 
-## PHP_EXT_SESSION_SHARED
-
-* Default: `OFF`
-* Values: `ON|OFF`
-
-Build extension as shared.
-
-## PHP_EXT_SESSION_MM
+### PHP_EXT_SESSION_SHARED
 
 * Default: `OFF`
 * Values: `ON|OFF`
 
-Include libmm support for session storage (only for non-ZTS build).
+Builds extension as shared.
+
+### PHP_EXT_SESSION_MM
+
+* Default: `OFF`
+* Values: `ON|OFF`
+
+Includes libmm support for session storage (only for non-ZTS build).

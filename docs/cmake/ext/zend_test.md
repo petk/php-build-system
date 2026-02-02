@@ -3,20 +3,20 @@
 
 # The zend_test extension
 
-Configure the `zend_test` extension.
-
 This extension provides additional support for testing PHP itself.
 
-## PHP_EXT_ZEND_TEST
+## Configuration options
+
+### PHP_EXT_ZEND_TEST
 
 * Default: `OFF`
 * Values: `ON|OFF`
 
-Enable the extension.
+Enables the extension.
 
-## PHP_EXT_ZEND_TEST_SHARED
+### PHP_EXT_ZEND_TEST_SHARED
 
 * Default: `OFF`
 * Values: `ON|OFF`
 
-Build extension as shared.
+Builds extension as shared.

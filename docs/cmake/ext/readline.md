@@ -3,23 +3,23 @@
 
 # The readline extension
 
-Configure the `readline` extension.
-
 This extension provides interface for using Editline library.
 
 > [!IMPORTANT]
 > This extension should be used only with CLI-based PHP SAPIs.
 
-## PHP_EXT_READLINE
+## Configuration options
+
+### PHP_EXT_READLINE
 
 * Default: `OFF`
 * Values: `ON|OFF`
 
-Enable the extension.
+Enables the extension.
 
-## PHP_EXT_READLINE_SHARED
+### PHP_EXT_READLINE_SHARED
 
 * Default: `OFF`
 * Values: `ON|OFF`
 
-Build extension as shared.
+Builds extension as shared.

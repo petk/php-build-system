@@ -3,14 +3,14 @@
 
 # The litespeed SAPI
 
-Configure the `litespeed` PHP SAPI.
-
 > [!NOTE]
 > The PHP Litespeed SAPI is not available when the target system is Windows.
 
-## PHP_SAPI_LITESPEED
+## Configuration options
+
+### PHP_SAPI_LITESPEED
 
 * Default: `OFF`
 * Values: `ON|OFF`
 
-Enable the LiteSpeed SAPI module.
+Enables the LiteSpeed SAPI module.

@@ -3,20 +3,20 @@
 
 # The bcmath extension
 
-Configure the `bcmath` extension.
-
 This extension provides Basic Calculator (BC) style precision math support.
 
-## PHP_EXT_BCMATH
+## Configuration options
+
+### PHP_EXT_BCMATH
 
 * Default: `OFF`
 * Values: `ON|OFF`
 
-Enable the extension.
+Enables the extension.
 
-## PHP_EXT_BCMATH_SHARED
+### PHP_EXT_BCMATH_SHARED
 
 * Default: `OFF`
 * Values: `ON|OFF`
 
-Build extension as shared.
+Builds extension as shared.

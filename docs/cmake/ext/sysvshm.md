@@ -3,20 +3,20 @@
 
 # The sysvshm extension
 
-Configure the `sysvshm` extension.
-
 This extension provides the System V shared memory support.
 
-## PHP_EXT_SYSVSHM
+## Configuration options
+
+### PHP_EXT_SYSVSHM
 
 * Default: `OFF`
 * Values: `ON|OFF`
 
-Enable the extension.
+Enables the extension.
 
-## PHP_EXT_SYSVSHM_SHARED
+### PHP_EXT_SYSVSHM_SHARED
 
 * Default: `OFF`
 * Values: `ON|OFF`
 
-Build extension as shared.
+Builds extension as shared.

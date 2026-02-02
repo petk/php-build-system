@@ -3,8 +3,6 @@
 
 # The uri extension
 
-Configure the `uri` extension.
-
 This extension provides support for URI handling.
 
 ## Configuration options
@@ -14,5 +12,5 @@ This extension provides support for URI handling.
 * Default: `OFF`
 * Values: `ON|OFF`
 
-Use external/system uriparser library instead of the bundled uriparser library
+Uses external/system uriparser library instead of the bundled uriparser library
 that comes with PHP.

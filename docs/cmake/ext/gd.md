@@ -3,7 +3,7 @@
 
 # The gd extension
 
-The PHP `gd` extension provides image processing and graphics draw (GD) support.
+This extension provides image processing and graphics draw (GD) support.
 
 ## Configuration options
 

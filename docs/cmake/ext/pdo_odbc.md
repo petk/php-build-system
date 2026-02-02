@@ -3,31 +3,31 @@
 
 # The pdo_odbc extension
 
-Configure the `pdo_odbc` extension.
-
 This extension provides PDO interface for using Unified Open Database
 Connectivity (ODBC) databases.
 
-## PHP_EXT_PDO_ODBC
+## Configuration options
+
+### PHP_EXT_PDO_ODBC
 
 * Default: `OFF`
 * Values: `ON|OFF`
 
-Enable the PHP `pdo-odbc` extension.
+Enables the PHP `pdo-odbc` extension.
 
-## PHP_EXT_PDO_ODBC_SHARED
+### PHP_EXT_PDO_ODBC_SHARED
 
 * Default: `OFF`
 * Values: `ON|OFF`
 
-Build extension as shared library.
+Builds extension as shared library.
 
-## PHP_EXT_PDO_ODBC_TYPE
+### PHP_EXT_PDO_ODBC_TYPE
 
 * Default: `auto`
 * Values: `auto`, `ibm-db2`, `iODBC`, `unixODBC`, or `custom`
 
-Select the ODBC type.
+Selects the ODBC type.
 
 When using `auto`, ODBC will be searched automatically and first found library
 will be used.

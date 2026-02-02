@@ -3,20 +3,20 @@
 
 # The sqlite3 extension
 
-Configure the `sqlite3` extension.
-
 This extension provides support for using SQLite database.
 
-## PHP_EXT_SQLITE3
+## Configuration options
+
+### PHP_EXT_SQLITE3
 
 * Default: `ON`
 * Values: `ON|OFF`
 
-Enable the extension.
+Enables the extension.
 
-## PHP_EXT_SQLITE3_SHARED
+### PHP_EXT_SQLITE3_SHARED
 
 * Default: `OFF`
 * Values: `ON|OFF`
 
-Build extension as shared.
+Builds extension as shared.

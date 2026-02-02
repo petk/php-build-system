@@ -1,24 +1,24 @@
 #[=============================================================================[
 # The bz2 extension
 
-Configure the `bz2` extension.
-
 This extension provides support for reading and writing BZip2 (.bz2) compressed
 files.
 
-## PHP_EXT_BZ2
+## Configuration options
+
+### PHP_EXT_BZ2
 
 * Default: `OFF`
 * Values: `ON|OFF`
 
-Enable the extension.
+Enables the extension.
 
-## PHP_EXT_BZ2_SHARED
+### PHP_EXT_BZ2_SHARED
 
 * Default: `OFF`
 * Values: `ON|OFF`
 
-Build extension as shared.
+Builds extension as shared.
 #]=============================================================================]
 
 cmake_minimum_required(VERSION 4.2...4.3)

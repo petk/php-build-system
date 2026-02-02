@@ -3,27 +3,27 @@
 
 # The ftp extension
 
-Configure the `ftp` extension.
-
 This extension provides support for File Transfer Protocol (FTP).
 
-## PHP_EXT_FTP
+## Configuration options
+
+### PHP_EXT_FTP
 
 * Default: `OFF`
 * Values: `ON|OFF`
 
-Enable the extension.
+Enables the extension.
 
-## PHP_EXT_FTP_SHARED
+### PHP_EXT_FTP_SHARED
 
 * Default: `OFF`
 * Values: `ON|OFF`
 
-Build extension as shared.
+Builds extension as shared.
 
-## PHP_EXT_FTP_SSL
+### PHP_EXT_FTP_SSL
 
 * Default: `ON`
 * Values: `ON|OFF`
 
-Explicitly enable or disable FTP over SSL support.
+Explicitly enables or disables FTP over SSL support.

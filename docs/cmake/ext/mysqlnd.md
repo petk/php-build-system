@@ -3,10 +3,8 @@
 
 # The mysqlnd extension
 
-Configure the `mysqlnd` extension.
-
-The `mysqlnd` extension contains MySQL Native Driver for using MySQL-compatible
-databases in PHP extensions.
+This extension contains MySQL Native Driver for using MySQL-compatible databases
+in PHP extensions.
 
 ## Configuration options
 

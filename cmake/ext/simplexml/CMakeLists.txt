@@ -1,23 +1,23 @@
 #[=============================================================================[
 # The simplexml extension
 
-Configure the `simplexml` extension.
-
 This extension provides toolset for converting XML to a processable object.
 
-## PHP_EXT_SIMPLEXML
+## Configuration options
+
+### PHP_EXT_SIMPLEXML
 
 * Default: `ON`
 * Values: `ON|OFF`
 
-Enable the extension.
+Enables the extension.
 
-## PHP_EXT_SIMPLEXML_SHARED
+### PHP_EXT_SIMPLEXML_SHARED
 
 * Default: `OFF`
 * Values: `ON|OFF`
 
-Build extension as shared.
+Builds extension as shared.
 #]=============================================================================]
 
 cmake_minimum_required(VERSION 4.2...4.3)

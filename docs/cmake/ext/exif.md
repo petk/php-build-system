@@ -3,20 +3,20 @@
 
 # The exif extension
 
-Configure the `exif` extension.
-
 This extension provides support for working with exchangeable image metadata.
 
-## PHP_EXT_EXIF
+## Configuration options
+
+### PHP_EXT_EXIF
 
 * Default: `OFF`
 * Values: `ON|OFF`
 
-Enable the extension.
+Enables the extension.
 
-## PHP_EXT_EXIF_SHARED
+### PHP_EXT_EXIF_SHARED
 
 * Default: `OFF`
 * Values: `ON|OFF`
 
-Build extension as shared.
+Builds extension as shared.

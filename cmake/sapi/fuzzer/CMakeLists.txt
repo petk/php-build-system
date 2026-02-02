@@ -1,21 +1,21 @@
 #[=============================================================================[
 # The fuzzer SAPI
 
-Configure the `fuzzer` PHP SAPI.
-
 > [!NOTE]
 > This SAPI is not available when the target system is Windows.
 
-## PHP_SAPI_FUZZER
+## Configuration options
+
+### PHP_SAPI_FUZZER
 
 * Default: `OFF`
 * Values: `ON|OFF`
 
-Enable the fuzzer SAPI module - PHP as Clang fuzzing test module (for
+Enables the fuzzer SAPI module - PHP as Clang fuzzing test module (for
 developers). For relevant flags on newer Clang versions see
 https://llvm.org/docs/LibFuzzer.html#fuzzer-usage
 
-## LIB_FUZZING_ENGINE
+### LIB_FUZZING_ENGINE
 
 * Default: empty
 

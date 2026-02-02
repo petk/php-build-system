@@ -3,20 +3,20 @@
 
 # The calendar extension
 
-Configure the `calendar` extension.
-
 This extension provides support for calendar conversion.
 
-## PHP_EXT_CALENDAR
+## Configuration options
+
+### PHP_EXT_CALENDAR
 
 * Default: `OFF`
 * Values: `ON|OFF`
 
-Enable the extension.
+Enables the extension.
 
-## PHP_EXT_CALENDAR_SHARED
+### PHP_EXT_CALENDAR_SHARED
 
 * Default: `OFF`
 * Values: `ON|OFF`
 
-Build extension as shared.
+Builds extension as shared.

@@ -3,21 +3,21 @@
 
 # The phpdbg SAPI
 
-Configure the `phpdbg` (interactive PHP debugger) PHP SAPI.
+## Configuration options
 
-## PHP_SAPI_PHPDBG
+### PHP_SAPI_PHPDBG
 
 * Default: `ON`
 * Values: `ON|OFF`
 
-Enable the phpdbg SAPI module as an executable.
+Enables the phpdbg SAPI module as an executable.
 
-## PHP_SAPI_PHPDBG_SHARED
+### PHP_SAPI_PHPDBG_SHARED
 
 * Default: `OFF`
 * Values: `ON|OFF`
 
-Build phpdbg SAPI also as a shared module together with an executable.
+Builds phpdbg SAPI also as a shared module together with an executable.
 
 The phpdbg shared library is after the build phase located in the `sapi/phpdbg`
 directory:
@@ -25,20 +25,20 @@ directory:
 * `libphpdbg.so` (\*nix), or `libphpdbg.dylib` (macOS), or `libphpdbg.dll`
   (Windows)
 
-## PHP_SAPI_PHPDBG_DEBUG
+### PHP_SAPI_PHPDBG_DEBUG
 
 * Default: `OFF`
 * Values: `ON|OFF`
 
-Build phpdbg in debug mode to enable additional diagnostic output for developing
-and troubleshooting phpdbg itself.
+Builds phpdbg in debug mode to enable additional diagnostic output for
+developing and troubleshooting phpdbg itself.
 
-## PHP_SAPI_PHPDBG_READLINE
+### PHP_SAPI_PHPDBG_READLINE
 
 * Default: `OFF`
 * Values: `ON|OFF`
 
-Explicitly enable readline support in phpdbg for command history accessible
+Explicitly enables readline support in phpdbg for command history accessible
 through arrow keys. Requires the Editline library. If the PHP extension
 `readline` is enabled during the build process, the phpdbg readline support is
 automatically enabled regardless of this option.

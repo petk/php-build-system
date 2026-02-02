@@ -3,7 +3,5 @@
 
 # The reflection extension
 
-Configure the `reflection` extension.
-
 This extension provides support for Reflection API to introspect PHP code and is
 always enabled.

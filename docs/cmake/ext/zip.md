@@ -3,20 +3,20 @@
 
 # The zip extension
 
-Configure the `zip` extension.
-
 This extension provides support for reading and writing ZIP compressed archives.
 
-## PHP_EXT_ZIP
+## Configuration options
+
+### PHP_EXT_ZIP
 
 * Default: `OFF`
 * Values: `ON|OFF`
 
-Enable the extension.
+Enables the extension.
 
-## PHP_EXT_ZIP_SHARED
+### PHP_EXT_ZIP_SHARED
 
 * Default: `OFF`
 * Values: `ON|OFF`
 
-Build extension as shared.
+Builds extension as shared.

@@ -1,14 +1,14 @@
 #[=============================================================================[
 # The embed SAPI
 
-Configure the `embed` PHP SAPI.
+## Configuration options
 
-## PHP_SAPI_EMBED
+### PHP_SAPI_EMBED
 
 * Default: `OFF`
 * Values: `ON|OFF`
 
-Enable the embedded PHP SAPI module for embedding PHP into application using C
+Enables the embedded PHP SAPI module for embedding PHP into application using C
 bindings.
 
 The embed library is after the build phase located in the `sapi/embed`

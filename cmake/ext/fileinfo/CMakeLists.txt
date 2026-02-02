@@ -1,23 +1,23 @@
 #[=============================================================================[
 # The fileinfo extension
 
-Configure the `fileinfo` extension.
-
 This extension provides support for file content type and encoding.
 
-## PHP_EXT_FILEINFO
+## Configuration options
+
+### PHP_EXT_FILEINFO
 
 * Default: `ON`
 * Values: `ON|OFF`
 
-Enable the extension.
+Enables the extension.
 
-## PHP_EXT_FILEINFO_SHARED
+### PHP_EXT_FILEINFO_SHARED
 
 * Default: `OFF`
 * Values: `ON|OFF`
 
-Build extension as shared.
+Builds extension as shared.
 #]=============================================================================]
 
 cmake_minimum_required(VERSION 4.2...4.3)
