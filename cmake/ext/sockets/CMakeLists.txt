@@ -1,23 +1,23 @@
 #[=============================================================================[
 # The sockets extension
 
-Configure the `sockets` extension.
-
 This extension provides support for a low-level socket communication interface.
 
-## PHP_EXT_SOCKETS
+## Configuration options
+
+### PHP_EXT_SOCKETS
 
 * Default: `OFF`
 * Values: `ON|OFF`
 
-Enable the extension.
+Enables the extension.
 
-## PHP_EXT_SOCKETS_SHARED
+### PHP_EXT_SOCKETS_SHARED
 
 * Default: `OFF`
 * Values: `ON|OFF`
 
-Build extension as shared.
+Builds extension as shared.
 #]=============================================================================]
 
 cmake_minimum_required(VERSION 4.2...4.3)

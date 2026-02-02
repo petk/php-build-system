@@ -1,23 +1,23 @@
 #[=============================================================================[
 # The curl extension
 
-Configure the `curl` extension.
-
 This extension provides support for using CURL - Client URL Library.
 
-## PHP_EXT_CURL
+## Configuration options
+
+### PHP_EXT_CURL
 
 * Default: `OFF`
 * Values: `ON|OFF`
 
-Enable the extension.
+Enables the extension.
 
-## PHP_EXT_CURL_SHARED
+### PHP_EXT_CURL_SHARED
 
 * Default: `OFF`
 * Values: `ON|OFF`
 
-Build extension as shared.
+Builds extension as shared.
 #]=============================================================================]
 
 cmake_minimum_required(VERSION 4.2...4.3)

@@ -1,26 +1,26 @@
 #[=============================================================================[
 # The posix extension
 
-Configure the `posix` extension.
-
 This extension provides support for POSIX-like functions.
 
 > [!NOTE]
 > This extension is available only on \*nix systems.
 
-## PHP_EXT_POSIX
+## Configuration options
+
+### PHP_EXT_POSIX
 
 * Default: `ON`
 * Values: `ON|OFF`
 
-Enable the extension.
+Enables the extension.
 
-## PHP_EXT_POSIX_SHARED
+### PHP_EXT_POSIX_SHARED
 
 * Default: `OFF`
 * Values: `ON|OFF`
 
-Build extension as shared.
+Builds extension as shared.
 #]=============================================================================]
 
 cmake_minimum_required(VERSION 4.2...4.3)

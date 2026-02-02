@@ -1,14 +1,14 @@
 #[=============================================================================[
 # The cgi SAPI
 
-Configure the `cgi` PHP SAPI.
+## Configuration options
 
-## PHP_SAPI_CGI
+### PHP_SAPI_CGI
 
 * Default: `ON`
 * Values: `ON|OFF`
 
-Enable the PHP CGI (Common Gateway Interface) SAPI executable module.
+Enables the PHP CGI (Common Gateway Interface) SAPI executable module.
 #]=============================================================================]
 
 include(CheckStructHasMember)

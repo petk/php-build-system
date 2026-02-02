@@ -1,23 +1,23 @@
 #[=============================================================================[
 # The pgsql extension
 
-Configure the `pgsql` extension.
-
 This extension provides support for using PostgreSQL database.
 
-## PHP_EXT_PGSQL
+## Configuration options
+
+### PHP_EXT_PGSQL
 
 * Default: `OFF`
 * Values: `ON|OFF`
 
-Enable the extension.
+Enables the extension.
 
-## PHP_EXT_PGSQL_SHARED
+### PHP_EXT_PGSQL_SHARED
 
 * Default: `OFF`
 * Values: `ON|OFF`
 
-Build extension as shared.
+Builds extension as shared.
 #]=============================================================================]
 
 cmake_minimum_required(VERSION 4.2...4.3)

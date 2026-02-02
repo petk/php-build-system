@@ -1,8 +1,6 @@
 #[=============================================================================[
 # The json extension
 
-Configure the `json` extension.
-
 This extension provides support for working with JavaScript Object Notation
 (JSON) and is always enabled.
 #]=============================================================================]

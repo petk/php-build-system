@@ -1,24 +1,24 @@
 #[=============================================================================[
 # The sodium extension
 
-Configure the `sodium` extension.
-
 This extension provides support for encryption, decryption, signatures and
 password hashing.
 
-## PHP_EXT_SODIUM
+## Configuration options
+
+### PHP_EXT_SODIUM
 
 * Default: `OFF`
 * Values: `ON|OFF`
 
-Enable the extension.
+Enables the extension.
 
-## PHP_EXT_SODIUM_SHARED
+### PHP_EXT_SODIUM_SHARED
 
 * Default: `OFF`
 * Values: `ON|OFF`
 
-Build extension as shared.
+Builds extension as shared.
 #]=============================================================================]
 
 cmake_minimum_required(VERSION 4.2...4.3)

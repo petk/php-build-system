@@ -1,7 +1,7 @@
 #[=============================================================================[
 # The mysqli extension
 
-The `mysqli` extension provides MySQL-compatible databases support.
+This extension provides MySQL-compatible databases support.
 
 ## Configuration options
 

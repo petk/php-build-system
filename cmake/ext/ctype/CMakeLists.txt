@@ -1,24 +1,24 @@
 #[=============================================================================[
 # The ctype extension
 
-Configure the `ctype` extension.
-
 This extension provides support for character type checking according to the
 locale.
 
-## PHP_EXT_CTYPE
+## Configuration options
+
+### PHP_EXT_CTYPE
 
 * Default: `ON`
 * Values: `ON|OFF`
 
-Enable the extension.
+Enables the extension.
 
-## PHP_EXT_CTYPE_SHARED
+### PHP_EXT_CTYPE_SHARED
 
 * Default: `OFF`
 * Values: `ON|OFF`
 
-Build extension as shared.
+Builds extension as shared.
 #]=============================================================================]
 
 cmake_minimum_required(VERSION 4.2...4.3)
