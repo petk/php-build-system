@@ -4,7 +4,8 @@ Subject: Enable linking with zlib for SWC files
 See https://github.com/php/php-src/issues/20868
 ---
  ext/standard/basic_functions.stub.php         |   2 +-
- ext/standard/basic_functions_arginfo.h        | Bin 174744 -> 174725 bytes
+ ext/standard/basic_functions_arginfo.h        | Bin 174787 -> 174768 bytes
+ ext/standard/basic_functions_decl.h           | Bin 770 -> 770 bytes
  ext/standard/config.m4                        |   5 +++++
  ext/standard/config.w32                       |   7 +++++++
  ext/standard/image.c                          |   8 ++++----
@@ -12,13 +13,13 @@ See https://github.com/php/php-src/issues/20868
  .../tests/image/getimagesize_variation4.phpt  |   2 --
  .../image/getimagesize_variation_005.phpt     |   2 --
  .../image_type_to_mime_type_variation4.phpt   |   2 --
- 9 files changed, 17 insertions(+), 13 deletions(-)
+ 10 files changed, 17 insertions(+), 13 deletions(-)
 
 diff --git a/ext/standard/basic_functions.stub.php b/ext/standard/basic_functions.stub.php
-index 4ad26063a67..0138c6323f1 100644
+index 6fa0d47c7bd..6ce93b84933 100644
 --- a/ext/standard/basic_functions.stub.php
 +++ b/ext/standard/basic_functions.stub.php
-@@ -585,7 +585,7 @@
+@@ -588,7 +588,7 @@
   * @cvalue IMAGE_FILETYPE_JB2
   */
  const IMAGETYPE_JB2 = UNKNOWN;
@@ -28,17 +29,17 @@ index 4ad26063a67..0138c6323f1 100644
   * @var int
   * @cvalue IMAGE_FILETYPE_SWC
 diff --git a/ext/standard/basic_functions_arginfo.h b/ext/standard/basic_functions_arginfo.h
-index 2a1aa634fcd..ac998ef7003 100644
+index e467710f72f..a0d21cd352a 100644
 --- a/ext/standard/basic_functions_arginfo.h
 +++ b/ext/standard/basic_functions_arginfo.h
 @@ -1,5 +1,5 @@
  /* This is a generated file, edit basic_functions.stub.php instead.
-- * Stub hash: a4324854949e2df355625c18a4e26d066c8f7a17 */
-+ * Stub hash: 4adfbbd707788a632229d276df04a95316406df0 */
+- * Stub hash: 8d1c2a735f412f8571675c6b025c3a418b68fb65
++ * Stub hash: 35361db3621e8944dd294901ea61424c791e2e2f
+  * Has decl header: yes */
  
  ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_set_time_limit, 0, 1, _IS_BOOL, 0)
- 	ZEND_ARG_TYPE_INFO(0, seconds, IS_LONG, 0)
-@@ -3650,7 +3650,7 @@ static void register_basic_functions_symbols(int module_number)
+@@ -3651,7 +3651,7 @@ static void register_basic_functions_symbols(int module_number)
  	REGISTER_LONG_CONSTANT("IMAGETYPE_JP2", IMAGE_FILETYPE_JP2, CONST_PERSISTENT);
  	REGISTER_LONG_CONSTANT("IMAGETYPE_JPX", IMAGE_FILETYPE_JPX, CONST_PERSISTENT);
  	REGISTER_LONG_CONSTANT("IMAGETYPE_JB2", IMAGE_FILETYPE_JB2, CONST_PERSISTENT);
@@ -47,6 +48,28 @@ index 2a1aa634fcd..ac998ef7003 100644
  	REGISTER_LONG_CONSTANT("IMAGETYPE_SWC", IMAGE_FILETYPE_SWC, CONST_PERSISTENT);
  #endif
  	REGISTER_LONG_CONSTANT("IMAGETYPE_IFF", IMAGE_FILETYPE_IFF, CONST_PERSISTENT);
+diff --git a/ext/standard/basic_functions_decl.h b/ext/standard/basic_functions_decl.h
+index 9e6fb0def44..9a804edf3c4 100644
+--- a/ext/standard/basic_functions_decl.h
++++ b/ext/standard/basic_functions_decl.h
+@@ -1,8 +1,8 @@
+ /* This is a generated file, edit basic_functions.stub.php instead.
+- * Stub hash: 8d1c2a735f412f8571675c6b025c3a418b68fb65 */
++ * Stub hash: 35361db3621e8944dd294901ea61424c791e2e2f */
+ 
+-#ifndef ZEND_BASIC_FUNCTIONS_DECL_8d1c2a735f412f8571675c6b025c3a418b68fb65_H
+-#define ZEND_BASIC_FUNCTIONS_DECL_8d1c2a735f412f8571675c6b025c3a418b68fb65_H
++#ifndef ZEND_BASIC_FUNCTIONS_DECL_35361db3621e8944dd294901ea61424c791e2e2f_H
++#define ZEND_BASIC_FUNCTIONS_DECL_35361db3621e8944dd294901ea61424c791e2e2f_H
+ 
+ typedef enum zend_enum_RoundingMode {
+ 	ZEND_ENUM_RoundingMode_HalfAwayFromZero = 1,
+@@ -15,4 +15,4 @@ typedef enum zend_enum_RoundingMode {
+ 	ZEND_ENUM_RoundingMode_PositiveInfinity = 8,
+ } zend_enum_RoundingMode;
+ 
+-#endif /* ZEND_BASIC_FUNCTIONS_DECL_8d1c2a735f412f8571675c6b025c3a418b68fb65_H */
++#endif /* ZEND_BASIC_FUNCTIONS_DECL_35361db3621e8944dd294901ea61424c791e2e2f_H */
 diff --git a/ext/standard/config.m4 b/ext/standard/config.m4
 index ef6b3c5a010..b66678d39ad 100644
 --- a/ext/standard/config.m4
