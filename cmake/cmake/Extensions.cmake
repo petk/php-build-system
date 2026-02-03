@@ -392,30 +392,6 @@ function(php_extensions_postconfigure extension)
       )
     endif()
   endforeach()
-
-  # Configure shared extension.
-  get_target_property(type php_ext_${extension} TYPE)
-  if(NOT type MATCHES "^(MODULE|SHARED)_LIBRARY$")
-    return()
-  endif()
-
-  # Set build-phase location for shared extensions.
-  get_target_property(location php_ext_${extension} LIBRARY_OUTPUT_DIRECTORY)
-  if(NOT location)
-    get_property(is_multi_config GLOBAL PROPERTY GENERATOR_IS_MULTI_CONFIG)
-
-    if(is_multi_config)
-      set_property(
-        TARGET php_ext_${extension}
-        PROPERTY LIBRARY_OUTPUT_DIRECTORY "${PROJECT_BINARY_DIR}/modules"
-      )
-    else()
-      set_property(
-        TARGET php_ext_${extension}
-        PROPERTY LIBRARY_OUTPUT_DIRECTORY "${PROJECT_BINARY_DIR}/modules/$<CONFIG>"
-      )
-    endif()
-  endif()
 endfunction()
 
 # Validate extensions and their dependencies defined via add_dependencies().

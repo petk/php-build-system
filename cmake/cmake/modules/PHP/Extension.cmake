@@ -40,12 +40,18 @@ php_extension(foo)
 
 include_guard(GLOBAL)
 
-function(php_extension)
+# Configures the PHP extension. This is implemented as a macro instead of a
+# function for the enable_testing() to work.
+macro(php_extension)
+  if(PROJECT_IS_TOP_LEVEL)
+    enable_testing()
+  endif()
+
   cmake_language(
     EVAL CODE
     "cmake_language(DEFER CALL _php_extension_post_configure \"${ARGV0}\")"
   )
-endfunction()
+endmacro()
 
 function(_php_extension_post_configure)
   set(extension ${ARGV0})
@@ -69,6 +75,32 @@ function(_php_extension_post_configure)
     set_property(TARGET php_ext_${extension} PROPERTY PREFIX "")
   endif()
 
+  get_target_property(type php_ext_${extension} TYPE)
+
+  # Set build-phase location for shared extensions.
+  if(type MATCHES "^(MODULE|SHARED)_LIBRARY$")
+    get_target_property(location php_ext_${extension} LIBRARY_OUTPUT_DIRECTORY)
+    if(NOT location)
+      # Check whether extension is built as standalone or inside php-src.
+      if(PHP_BINARY_DIR)
+        set(library_output_dir "${PHP_BINARY_DIR}/modules")
+      else()
+        set(library_output_dir "${CMAKE_CURRENT_BINARY_DIR}/modules")
+      endif()
+
+      get_property(is_multi_config GLOBAL PROPERTY GENERATOR_IS_MULTI_CONFIG)
+
+      if(NOT is_multi_config)
+        string(APPEND library_output_dir "/$<CONFIG>")
+      endif()
+
+      set_property(
+        TARGET php_ext_${extension}
+        PROPERTY LIBRARY_OUTPUT_DIRECTORY "${library_output_dir}"
+      )
+    endif()
+  endif()
+
   ##############################################################################
   # Prepend COMPILE_DL_<EXTENSION> macro to extension's configuration header
   # (config.h) and define it for shared extensions.
@@ -76,7 +108,6 @@ function(_php_extension_post_configure)
 
   string(TOUPPER "COMPILE_DL_${extension}" macro)
 
-  get_target_property(type php_ext_${extension} TYPE)
   if(type MATCHES "^(MODULE|SHARED)_LIBRARY$")
     set(${macro} TRUE)
   else()
@@ -135,6 +166,16 @@ function(_php_extension_post_configure)
       COMPONENT php
     ${file_sets}
   )
+
+  ##############################################################################
+  # Configure testing.
+  ##############################################################################
+
+  # Check if extension is being configured as standalone.
+  if(PROJECT_IS_TOP_LEVEL AND TARGET PHP::Interpreter)
+    include(PHP/Internal/Testing)
+    _php_testing_add_test("${extension}")
+  endif()
 
   ##############################################################################
   # Output configuration summary.

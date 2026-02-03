@@ -139,6 +139,7 @@ jobs:
             -DPHP_EXT_PHANTOM=ON \
             -DPHP_EXT_PHANTOM_SHARED=ON
           cmake --build cmake-build -j
+          ctest --test-dir cmake-build -j --verbose
           sudo "${{ steps.cmake-and-ninja.outputs.cmake-path }}/cmake" --install cmake-build
           php -d extension=phantom -m | grep phantom
 

@@ -93,6 +93,19 @@ mark_as_advanced(PHP_INCLUDE_PREFIX)
 set(PHP_INSTALL_INCLUDEDIR ${CMAKE_INSTALL_INCLUDEDIR}/${PHP_INCLUDE_PREFIX})
 
 set(
+  CACHE{PHP_LIB_PREFIX}
+  TYPE STRING
+  HELP
+    "The relative directory inside the CMAKE_INSTALL_LIBDIR, where PHP build "
+    "files are installed. For example, 'php/${PHP_VERSION}' to specify version "
+    "or other build-related characteristics and have multiple PHP versions "
+    "installed. Absolute paths are treated as relative; set "
+    "CMAKE_INSTALL_LIBDIR if absolute path needs to be set."
+  VALUE "php"
+)
+set(PHP_INSTALL_LIBDIR ${CMAKE_INSTALL_LIBDIR}/${PHP_LIB_PREFIX})
+
+set(
   CACHE{PHP_CONFIG_FILE_SCAN_DIR}
   TYPE STRING
   HELP

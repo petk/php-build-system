@@ -193,6 +193,7 @@ configure_package_config_file(
   PATH_VARS
     PHP_EXTENSION_DIR
     PHP_INSTALL_INCLUDEDIR
+    PHP_INSTALL_LIBDIR
 )
 
 # Evaluate hardcoded generator expressions inside variable values.
