@@ -226,7 +226,7 @@ install(
     ${PHP_SOURCE_DIR}/build/pkg.m4
     ${PHP_SOURCE_DIR}/run-tests.php
     ${PHP_SOURCE_DIR}/scripts/phpize.m4
-  DESTINATION ${CMAKE_INSTALL_LIBDIR}/php/build
+  DESTINATION ${PHP_INSTALL_LIBDIR}/build
   COMPONENT php-development
 )
 
@@ -235,6 +235,6 @@ install(
     ${PHP_SOURCE_DIR}/build/config.guess
     ${PHP_SOURCE_DIR}/build/config.sub
     ${PHP_SOURCE_DIR}/build/shtool
-  DESTINATION ${CMAKE_INSTALL_LIBDIR}/php/build
+  DESTINATION ${PHP_INSTALL_LIBDIR}/build
   COMPONENT php-development
 )
