@@ -205,6 +205,7 @@ Some useful overridable configuration options built into CMake itself. All these
 * [`PHP_FD_SETSIZE`](/docs/cmake/variables/PHP_FD_SETSIZE.md)
 * [`PHP_INCLUDE_PREFIX`](/docs/cmake/variables/PHP_INCLUDE_PREFIX.md)
 * [`PHP_IPV6`](/docs/cmake/variables/PHP_IPV6.md)
+* [`PHP_LIB_PREFIX`](/docs/cmake/variables/PHP_LIB_PREFIX.md)
 * [`PHP_LIBGCC`](/docs/cmake/variables/PHP_LIBGCC.md)
 * [`PHP_RE2C_COMPUTED_GOTOS`](/docs/cmake/variables/PHP_RE2C_COMPUTED_GOTOS.md)
 * [`PHP_SED_EXECUTABLE`](/docs/cmake/variables/PHP_SED_EXECUTABLE.md)

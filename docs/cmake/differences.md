@@ -103,7 +103,11 @@ build system:
 
   * The installation include directory (`/usr/local/include/php`) can be
     adjusted with the `PHP_INCLUDE_PREFIX` CMake cache variable to support
-    multiple PHP versions. For example, `/usr/local/include/php/8.4`.
+    multiple PHP versions. For example, `/usr/local/include/php/8.6`.
+
+  * The installation lib directory (`/usr/local/lib/php`) can be
+    adjusted with the `PHP_LIB_PREFIX` CMake cache variable to support
+    multiple PHP versions. For example, `/usr/local/lib/php/8.6`.
 
   * The PHP Autotools layout configuration option `--with-layout=[PHP|GNU]` is
     in CMake removed and not implemented in favor of the GNU standard directory

@@ -38,7 +38,9 @@ repository:
 📂 <php-src>
 └─📂 cmake                     # CMake-based PHP build system files
   └─📂 modules                 # Project-specific CMake modules
-    ├─📂 PHP                   # PHP utility CMake modules
+    └─📂 PHP                   # PHP utility CMake modules
+      ├─📂 Internal            # Internal PHP utility CMake modules
+      └─📄 ...
     └─📄 Find*.cmake           # Find modules that support the find_package()
   ├─📂 platforms               # Platform-specific configuration
   ├─📂 presets                 # Presets included in CMakePresets.json
@@ -860,6 +862,11 @@ PHP CMake-based build system specific installation cache variables:
   The PHP include directory inside the `CMAKE_INSTALL_INCLUDEDIR`.
   Default: `php`
 
+* [`PHP_LIB_PREFIX`](/docs/cmake/variables/PHP_LIB_PREFIX.md)
+
+  The PHP directory inside the `CMAKE_INSTALL_LIBDIR`.
+  Default: `php`
+
 * [`PHP_PEAR_INSTALL_DIR`](/docs/cmake/variables/PHP_PEAR.md)
 
   The path where PEAR will be installed to.
@@ -897,7 +904,7 @@ PHP installation directory structure when using CMake:
     └─📂 cps                          #     └─📂 cps
       └─📂 PHP                        #       └─📂 PHP
         └─📄 PHP.cps                  #         └─📄 PHP.cps
-    └─📂 php                          #     └─📂 php
+    └─📂 ${PHP_LIB_PREFIX}            #     └─📂 php
       └─📂 build                      #       ├─📂 build
   └─📂 ${PHP_EXTENSION_DIR}           #       └─📂 20230901-zts-Debug...
     └─📂 pkgconfig                    #     └─📂 pkgconfig
