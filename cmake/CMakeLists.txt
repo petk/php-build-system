@@ -267,6 +267,17 @@ install(
   PATTERN "FindPHP.cmake" EXCLUDE
 )
 
+# Ensure extension directory is created in case no shared extensions are
+# installed. See also: https://gitlab.kitware.com/cmake/cmake/-/issues/27568
+install(
+  CODE
+    "file(
+      MAKE_DIRECTORY
+      \"\$ENV{DESTDIR}\$<INSTALL_PREFIX>/${PHP_EXTENSION_DIR}\"
+    )"
+  COMPONENT php-development
+)
+
 if(PHP_ENABLE_CMAKE_EXPERIMENTAL_FEATURES)
   set(CMAKE_EXPERIMENTAL_EXPORT_PACKAGE_INFO "b80be207-778e-46ba-8080-b23bba22639e")
 
