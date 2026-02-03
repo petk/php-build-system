@@ -55,6 +55,7 @@ target_sources(
         php_random_csprng.h
         php_random_uint128.h
         php_random.h
+        random_decl.h
 )
 
 target_compile_definitions(

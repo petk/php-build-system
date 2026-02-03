@@ -68,6 +68,7 @@ target_sources(
     FILE_SET HEADERS
       FILES
         php_uri_common.h
+        php_uri_decl.h
         php_uri.h
         uri_parser_php_parse_url.h
         uri_parser_rfc3986.h

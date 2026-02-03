@@ -148,6 +148,7 @@ target_sources(
       FILES
         base64.h
         basic_functions_arginfo.h
+        basic_functions_decl.h
         basic_functions.h
         crc32_x86.h
         crc32.h

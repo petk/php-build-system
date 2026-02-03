@@ -30,8 +30,11 @@ if(${php_gen_stub_script_source} IS_NEWER_THAN ${CMAKE_CURRENT_LIST_FILE})
   file(TOUCH ${CMAKE_CURRENT_LIST_FILE})
 else()
   foreach(stub ${sources})
-    string(REGEX REPLACE [[\.stub\.php$]] [[_arginfo.h]] header "${stub}")
-    if("${stub}" IS_NEWER_THAN "${header}")
+    string(REGEX REPLACE [[\.stub\.php$]] [[_arginfo.h]] arginfo_header "${stub}")
+    string(REGEX REPLACE [[\.stub\.php$]] [[_decl.h]] decl_header "${stub}")
+    if("${stub}" IS_NEWER_THAN "${arginfo_header}")
+      list(APPEND stubs ${stub})
+    elseif(EXISTS "${decl_header}" AND "${stub}" IS_NEWER_THAN "${decl_header}")
       list(APPEND stubs ${stub})
     endif()
   endforeach()
@@ -44,15 +47,19 @@ endif()
 execute_process(
   COMMAND
     ${CMAKE_COMMAND} -E cmake_echo_color --blue --bold
-      "Regenerating *_arginfo.h headers from *.stub.php sources"
+      "Regenerating *_{arginfo,decl}.h headers from *.stub.php sources"
   COMMAND
     ${PHP_COMMAND} ${CMAKE_CURRENT_LIST_DIR}/gen_stub.php ${stubs}
 )
 
-# Ensure that *_arginfo.h headers are newer than their *.stub.php sources.
+# Ensure that *_{arginfo,decl}.h headers are newer than their *.stub.php sources.
 foreach(stub ${stubs})
-  string(REGEX REPLACE [[\.stub\.php$]] [[_arginfo.h]] header "${stub}")
-  if("${stub}" IS_NEWER_THAN "${header}")
-    file(TOUCH "${header}")
+  string(REGEX REPLACE [[\.stub\.php$]] [[_arginfo.h]] arginfo_header "${stub}")
+  string(REGEX REPLACE [[\.stub\.php$]] [[_decl.h]] decl_header "${stub}")
+  if("${stub}" IS_NEWER_THAN "${arginfo_header}")
+    file(TOUCH "${arginfo_header}")
+  endif()
+  if(EXISTS "${decl_header}" AND "${stub}" IS_NEWER_THAN "${decl_header}")
+    file(TOUCH "${decl_header}")
   endif()
 endforeach()
