@@ -97,7 +97,7 @@ Or:
 cmake \
   -B <build-dir> \
   -DPHP_EXT_GD=ON \
-  -DPNG_ROOT="/path/to/libpng-installation \
+  -DPNG_ROOT=/path/to/libpng-installation \
   -DWebP_ROOT=/path/to/webp-installation
 ```
 
