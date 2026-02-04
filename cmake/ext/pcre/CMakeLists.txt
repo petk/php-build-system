@@ -22,6 +22,46 @@ PCRE library that comes with PHP sources.
 Enables PCRE JIT (just-in-time) compilation. When using the external PCRE
 library, JIT support also depends on the target processor architecture and
 whether the PCRE library has it enabled.
+
+## Examples
+
+Configuring pcre extension with external PCRE library:
+
+```sh
+cmake -B <build-dir> -DPHP_EXT_PCRE_EXTERNAL=ON
+```
+
+When using external PCRE library, finding PCRE library installation can be
+configured by setting the `CMAKE_PREFIX_PATH` variable or by setting the
+individual `<PackageName>_ROOT` variable.
+
+For example, to specify custom installation of PCRE library:
+
+```sh
+cmake \
+  -B <build-dir> \
+  -DPHP_EXT_PCRE_EXTERNAL=ON \
+  -DCMAKE_PREFIX_PATH="/path/to/pcre2-installation"
+```
+
+Or:
+
+```sh
+cmake \
+  -B <build-dir> \
+  -DPHP_EXT_PCRE_EXTERNAL=ON \
+  -DPCRE2_ROOT="/path/to/pcre2-installation"
+```
+
+External static PCRE library can be found with:
+
+```sh
+cmake \
+  -B <build-dir> \
+  -DPHP_EXT_PCRE_EXTERNAL=ON \
+  -DCMAKE_PREFIX_PATH="/path/to/pcre2-installation" \
+  -DPCRE2_USE_STATIC_LIBS=ON
+```
 #]=============================================================================]
 
 cmake_minimum_required(VERSION 4.2...4.3)
@@ -93,7 +133,7 @@ target_compile_definitions(php_ext_pcre PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE)
 set(PCRE2_CODE_UNIT_WIDTH 8)
 
 if(PHP_EXT_PCRE_EXTERNAL)
-  find_package(PCRE 10.30)
+  find_package(PCRE2 10.30)
   set_package_properties(
     PCRE
     PROPERTIES
@@ -101,9 +141,9 @@ if(PHP_EXT_PCRE_EXTERNAL)
       PURPOSE "Necessary to use external PCRE library in the pcre extension."
   )
 
-  target_link_libraries(php_ext_pcre PRIVATE PCRE::PCRE)
+  target_link_libraries(php_ext_pcre PRIVATE PCRE2::8BIT)
 
-  if(TARGET PCRE::PCRE AND PHP_EXT_PCRE_JIT)
+  if(TARGET PCRE2::8BIT AND PHP_EXT_PCRE_JIT)
     message(CHECK_START "Checking for PCRE JIT support")
 
     if(
@@ -117,7 +157,7 @@ if(PHP_EXT_PCRE_EXTERNAL)
     endif()
 
     cmake_push_check_state(RESET)
-      set(CMAKE_REQUIRED_LIBRARIES PCRE::PCRE)
+      set(CMAKE_REQUIRED_LIBRARIES PCRE2::8BIT)
       # Before including pcre2.h, the PCRE2_CODE_UNIT_WIDTH must be set.
       set(
         CMAKE_REQUIRED_DEFINITIONS
@@ -145,6 +185,15 @@ if(PHP_EXT_PCRE_EXTERNAL)
       message(CHECK_FAIL "no")
     endif()
   endif()
+
+  block(PROPAGATE PCRE2_STATIC)
+    if(TARGET PCRE2::8BIT AND CMAKE_SYSTEM_NAME STREQUAL "Windows")
+      get_target_property(definitions PCRE2::8BIT INTERFACE_COMPILE_DEFINITIONS)
+      if("PCRE2_STATIC" IN_LIST definitions)
+        set(PCRE2_STATIC TRUE)
+      endif()
+    endif()
+  endblock()
 else()
   message(STATUS "Using bundled PCRE library")
 
@@ -213,7 +262,12 @@ else()
   if(CMAKE_SYSTEM_NAME STREQUAL "Windows")
     set(PCRE2_STATIC TRUE)
 
-    if(TARGET php_sapi)
+    get_target_property(type php_ext_pcre TYPE)
+    if(
+      CMAKE_SYSTEM_NAME STREQUAL "Windows"
+      AND TARGET php_sapi
+      AND NOT type MATCHES "^(MODULE|SHARED)_LIBRARY$"
+    )
       target_sources(php_sapi INTERFACE php_pcre.def)
     endif()
   endif()
@@ -222,6 +276,8 @@ else()
     php_ext_pcre
     PRIVATE
       # PCRE2 library uses C99 memmove() function conditionally in some files.
+      # This definition can be removed when bundled PCRE library is updated to
+      # 10.47 or newer.
       HAVE_MEMMOVE
       HAVE_CONFIG_H
   )
