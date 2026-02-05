@@ -11,7 +11,8 @@ find_package(Sodium [<version>] [...])
 
 This module provides the following imported targets:
 
-* `Sodium::Sodium` - The package library, if found.
+* `Sodium::Sodium` - Target encapsulating the package usage requirements,
+  available if package was found.
 
 ## Result variables
 
@@ -27,6 +28,14 @@ The following cache variables may also be set:
 
 * `Sodium_INCLUDE_DIR` - Directory containing package library headers.
 * `Sodium_LIBRARY` - The path to the package library.
+
+## Hints
+
+This module accepts the following variables before calling
+`find_package(Sodium)`:
+
+* `Sodium_USE_STATIC_LIBS` - - Set this variable to boolean true to search for
+  static libraries.
 
 ## Examples
 
@@ -62,17 +71,30 @@ find_path(
   HINTS ${PC_Sodium_INCLUDE_DIRS}
   DOC "Directory containing Sodium library headers"
 )
+mark_as_advanced(Sodium_INCLUDE_DIR)
 
 if(NOT Sodium_INCLUDE_DIR)
   string(APPEND _reason "sodium.h not found. ")
 endif()
 
-find_library(
-  Sodium_LIBRARY
-  NAMES sodium
-  HINTS ${PC_Sodium_LIBRARY_DIRS}
-  DOC "The path to the Sodium library"
-)
+block()
+  # Support preference of static libs by adjusting CMAKE_FIND_LIBRARY_SUFFIXES.
+  if(Sodium_USE_STATIC_LIBS)
+    if(WIN32)
+      list(PREPEND CMAKE_FIND_LIBRARY_SUFFIXES .lib .a)
+    else()
+      set(CMAKE_FIND_LIBRARY_SUFFIXES .a)
+    endif()
+  endif()
+
+  find_library(
+    Sodium_LIBRARY
+    NAMES sodium
+    HINTS ${PC_Sodium_LIBRARY_DIRS}
+    DOC "The path to the Sodium library"
+  )
+  mark_as_advanced(Sodium_LIBRARY)
+endblock()
 
 if(NOT Sodium_LIBRARY)
   string(APPEND _reason "Sodium library (libsodium) not found. ")
@@ -90,8 +112,6 @@ block(PROPAGATE Sodium_VERSION)
     endif()
   endif()
 endblock()
-
-mark_as_advanced(Sodium_INCLUDE_DIR Sodium_LIBRARY)
 
 find_package_handle_standard_args(
   Sodium
