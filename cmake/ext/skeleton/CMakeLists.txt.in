@@ -121,24 +121,6 @@ target_compile_definitions(
 include(PHP/SystemExtensions)
 target_link_libraries(php_ext_%EXTNAME% PRIVATE PHP::SystemExtensions)
 
-target_compile_options(
-  php_ext_%EXTNAME%
-  PRIVATE
-    -g
-    -fdiagnostics-color=always
-    -fno-common
-    -Wstrict-prototypes
-    -Wformat-truncation
-    -Wlogical-op
-    -Wduplicated-cond
-    -Wno-clobbered
-    -Wall
-    -Wextra
-    -Wno-unused-parameter
-    -Wno-sign-compare
-    -Wimplicit-fallthrough=1
-)
-
 target_include_directories(
   php_ext_%EXTNAME%
   PRIVATE ${CMAKE_CURRENT_BINARY_DIR}
