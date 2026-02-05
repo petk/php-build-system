@@ -103,4 +103,6 @@ function(_php_testing_add_test extensions)
           -q
     WORKING_DIRECTORY ${working_dir}
   )
+
+  set_tests_properties(PHP PROPERTIES RUN_SERIAL TRUE)
 endfunction()
