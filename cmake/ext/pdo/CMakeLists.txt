@@ -75,9 +75,9 @@ target_sources(
   PUBLIC
     FILE_SET HEADERS
       FILES
-        php_pdo.h
         php_pdo_driver.h
         php_pdo_error.h
+        php_pdo.h
 )
 
 add_dependencies(php_ext_pdo php_ext_spl)
