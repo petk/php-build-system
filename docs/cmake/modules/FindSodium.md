@@ -36,7 +36,7 @@ The following cache variables may also be set:
 This module accepts the following variables before calling
 `find_package(Sodium)`:
 
-* `Sodium_USE_STATIC_LIBS` - - Set this variable to boolean true to search for
+* `Sodium_USE_STATIC_LIBS` - Set this variable to boolean true to search for
   static libraries.
 
 ## Examples
