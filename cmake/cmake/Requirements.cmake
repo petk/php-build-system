@@ -9,16 +9,29 @@ include(CMakePushCheckState)
 
 ################################################################################
 # Check for supported platforms.
-#
-# HP-UX: Recent compilers are not supported, EOL in December 2025/2028.
 ################################################################################
 
+# HP-UX: Recent compilers are not supported, EOL in December 2025/2028.
 if(CMAKE_SYSTEM_NAME STREQUAL "HP-UX")
   message(
     FATAL_ERROR
     "Unsupported platform detected: ${CMAKE_SYSTEM_NAME}.\n"
     "Please, migrate or upgrade operating system."
   )
+endif()
+
+# Emit a warning on Solaris 10 due to too many compile warnings and issues with
+# outdated dependencies.
+if(
+  CMAKE_SYSTEM_NAME STREQUAL "SunOS"
+  AND CMAKE_SYSTEM_VERSION VERSION_LESS 5.11
+)
+    message(
+      WARNING
+      "Solaris 10 with support from 2005 to 2027 might have a limited "
+      "functionality. Upgrade to Solaris 11.4 or illumos-based distribution."
+    )
+  endif()
 endif()
 
 ################################################################################
