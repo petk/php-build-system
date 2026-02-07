@@ -5,31 +5,120 @@ works and how it can be used.
 
 ## Index
 
-* [1. Directory structure](#1-directory-structure)
-* [2. Build system diagram](#2-build-system-diagram)
-* [3. Build requirements](#3-build-requirements)
-* [4. CMake generators for building PHP](#4-cmake-generators-for-building-php)
-  * [4.1. Unix Makefiles (default)](#41-unix-makefiles-default)
-  * [4.2. Ninja](#42-ninja)
-* [5. Build types](#5-build-types)
-* [6. CMake minimum version for PHP](#6-cmake-minimum-version-for-php)
-* [7. Interface libraries](#7-interface-libraries)
-* [8. PHP CMake modules](#8-php-cmake-modules)
-* [9. Custom CMake properties](#9-custom-cmake-properties)
-* [10. PHP extensions](#10-php-extensions)
-* [11. PHP SAPI (Server API) modules](#11-php-sapi-server-api-modules)
-* [12. Generated files](#12-generated-files)
-  * [12.1. Parser and lexer files](#121-parser-and-lexer-files)
-* [13. Performance](#13-performance)
-* [14. Testing](#14-testing)
-* [15. Windows notes](#15-windows-notes)
-  * [15.1. Module-definition (.def) files](#151-module-definition-def-files)
-* [16. PHP installation](#16-php-installation)
-  * [16.1. Installing PHP with CMake](#161-installing-php-with-cmake)
-  * [16.2. Installation directory structure](#162-installation-directory-structure)
-  * [16.3. Installation components](#163-installation-components)
+* [1. Introduction](#1-introduction)
+  * [1.1. Configuration and generation phase](#11-configuration-and-generation-phase)
+  * [1.2. Build phase](#12-build-phase)
+  * [1.3. CMake syntax](#13-cmake-syntax)
+* [2. Directory structure](#2-directory-structure)
+* [3. Build system diagram](#3-build-system-diagram)
+* [4. Build requirements](#4-build-requirements)
+* [5. CMake generators for building PHP](#5-cmake-generators-for-building-php)
+  * [5.1. Unix Makefiles (default)](#51-unix-makefiles-default)
+  * [5.2. Ninja](#52-ninja)
+* [6. Build types](#6-build-types)
+* [7. CMake minimum version for PHP](#7-cmake-minimum-version-for-php)
+* [8. Interface libraries](#8-interface-libraries)
+* [9. PHP CMake modules](#9-php-cmake-modules)
+* [10. Custom CMake properties](#10-custom-cmake-properties)
+* [11. PHP extensions](#11-php-extensions)
+* [12. PHP SAPI (Server API) modules](#12-php-sapi-server-api-modules)
+* [13. Generated files](#13-generated-files)
+  * [13.1. Parser and lexer files](#131-parser-and-lexer-files)
+* [14. Performance](#14-performance)
+* [15. Testing](#15-testing)
+* [16. Windows notes](#16-windows-notes)
+  * [16.1. Module-definition (.def) files](#161-module-definition-def-files)
+* [17. PHP installation](#17-php-installation)
+  * [17.1. Installing PHP with CMake](#171-installing-php-with-cmake)
+  * [17.2. Installation directory structure](#172-installation-directory-structure)
+  * [17.3. Installation components](#173-installation-components)
 
-## 1. Directory structure
+## 1. Introduction
+
+[CMake](https://cmake.org/) is an open-source, cross-platform meta build system
+created by Kitware and contributors. It's not a build system *per se*, but
+rather a build system generator that produces configuration files for specific
+build systems, such as Unix Makefiles, Visual Studio projects, or Ninja build
+files.
+
+CMake is typically invoked from the command line using the `cmake` command. When
+working with CMake, there are two primary phases: the configuration and
+generation phase, where CMake sets up the project's build files, and the build
+phase, where the target build system compiles the project.
+
+### 1.1. Configuration and generation phase
+
+In this phase, CMake performs essential tasks to set up a build environment. It
+reads source files (`CMakeLists.txt`) from the source directory, configures the
+build system, and generates the necessary build system files, such as Makefiles,
+into a build directory.
+
+```sh
+# Generate build system from a source directory to a build directory
+cmake -S source-dir -B build-dir
+```
+
+### 1.2. Build phase
+
+The build phase involves transforming project C/C++ source files into libraries
+and executables. During this phase, the project undergoes compilation and
+assembly, preparing it for execution. The `--parallel` option (or short `-j`)
+enables concurrent build processes for faster compilation.
+
+```sh
+# Build the project from the specified build directory
+cmake --build build-dir --parallel
+```
+
+> [!NOTE]
+> So-called **in-source builds** are a simplification when building inside a
+> source directory (when source and build directories are the same):
+>
+> ```sh
+> cmake .  # Same as: cmake -S . -B .
+> cmake --build . --parallel
+> ```
+>
+> The build system generates multiple files not intended to be tracked by Git.
+> Therefore, it is recommended to establish a distinct build directory right
+> from the start. For instance, a build directory can be also created within the
+> source directory:
+>
+> ```sh
+> cmake -B build-dir
+> cmake --build build-dir --parallel
+> ```
+
+### 1.3. CMake syntax
+
+CMake syntax consists of the following 3 elements:
+
+* Comments (single and multi-line)
+* Commands (functions and macros defined in modules, and CMake built-in
+  commands)
+* Command arguments
+
+```cmake
+# This is a line comment.
+
+#[[
+  This is a multi-line comment.
+]]
+
+some_command()
+
+another_command(
+  "quoted argument"
+  [[bracket argument]]
+  unquoted_argument
+  ${variable}
+)
+```
+
+To learn CMake and its syntax, it is highly recommended to start with the
+[step-by-step tutorial](https://cmake.org/cmake/help/latest/guide/tutorial/index.html).
+
+## 2. Directory structure
 
 CMake-based PHP build system is a collection of various files across the php-src
 repository:
@@ -97,11 +186,11 @@ system) are linked together:
 
 ![Diagram how PHP libraries are linked together](/docs/images/links.svg)
 
-## 2. Build system diagram
+## 3. Build system diagram
 
 ![CMake-based PHP build system diagram](/docs/images/cmake.svg)
 
-## 3. Build requirements
+## 4. Build requirements
 
 Before you can build PHP using CMake, you must first install certain third-party
 requirements. It's important to note that the names of these requirements may
@@ -134,14 +223,14 @@ installed and only libraries without development files are needed to run newly
 built PHP. In example of `ext/libxml` extension, the `libxml2` package is needed
 without the `libxml2-dev` and so on.
 
-## 4. CMake generators for building PHP
+## 5. CMake generators for building PHP
 
 When using CMake to build PHP, you have the flexibility to choose from various
 build systems through the concept of _generators_. CMake generators determine
 the type of project files or build scripts that CMake generates from the
 `CMakeLists.txt` files.
 
-### 4.1. Unix Makefiles (default)
+### 5.1. Unix Makefiles (default)
 
 The Unix Makefiles generator is the most commonly used for building projects on
 Unix-like systems. It generates traditional `Makefile` that can be processed by
@@ -165,7 +254,7 @@ After the Makefiles are generated, you can build PHP binaries and libraries by
 running:
 
 ```sh
-cmake --build <build-directory> -j
+cmake --build build-dir -j
 ```
 
 If you want to speed up the build process, you can use the `-j` option to enable
@@ -178,7 +267,7 @@ parallel builds, taking advantage of multiple CPU cores.
 > `$(nproc)` on Linux, or `$(sysctl -n hw.ncpu)` on macOS and BSD-based systems.
 >
 > ```sh
-> cmake --build <build-directory> -j $(nproc)
+> cmake --build build-dir -j $(nproc)
 > ```
 
 The `cmake --build` is equivalent to running the `make` command:
@@ -187,7 +276,7 @@ The `cmake --build` is equivalent to running the `make` command:
 make -j $(nproc) # Number of CPUs you want to utilize.
 ```
 
-### 4.2. Ninja
+### 5.2. Ninja
 
 [Ninja](https://ninja-build.org/) is another build system supported by CMake and
 is known for its fast build times due to its minimalistic design. To use the
@@ -207,14 +296,14 @@ CMake will generate the Ninja build files in the current directory.
 To build PHP with Ninja, execute the following command:
 
 ```sh
-cmake --build <build-directory>
+cmake --build build-dir
 ```
 
 Which is equivalent to running `ninja` command. Ninja will then handle the build
 process based on the CMake configuration. Ninja by default enables parallel
 build.
 
-## 5. Build types
+## 6. Build types
 
 CMake build types dictate compiler and linker flags, as well as the behavior
 governing the compilation of source code based on the targeted deployment type.
@@ -233,15 +322,15 @@ build type is designated during the configuration phase using the cache variable
 `CMAKE_BUILD_TYPE`:
 
 ```sh
-cmake -DCMAKE_BUILD_TYPE=Debug -S ../php-src -B build-directory
+cmake -DCMAKE_BUILD_TYPE=Debug -S ../php-src -B build-dir
 ```
 
 Multi configuration generators, like `Ninja Multi-Config` and Visual Studio,
 employ the `--config` build option during the build phase:
 
 ```sh
-cmake -G "Ninja Multi-Config" -S ../php-src -B build-directory
-cmake --build build-directory --config Debug -j
+cmake -G "Ninja Multi-Config" -S ../php-src -B build-dir
+cmake --build build-dir --config Debug -j
 ```
 
 Alternatively, multi configuration generators can specify build type in the
@@ -256,7 +345,7 @@ CMake presets JSON file using the `configuration` field:
 ],
 ```
 
-## 6. CMake minimum version for PHP
+## 7. CMake minimum version for PHP
 
 The minimum required version of CMake is defined in the top project file
 `CMakeLists.txt` using the `cmake_minimum_required()`. Picking the minimum
@@ -323,7 +412,7 @@ CMake versions scheme across the systems is available at
 > platforms, there is a [`snap`](https://snapcraft.io/cmake) package, and
 > [APT repository](https://apt.kitware.com/) for Debian-based distributions.
 
-## 7. Interface libraries
+## 8. Interface libraries
 
 * The `php_config` (aliased `PHP::config`) holds compilation and link
   properties, such as flags, definitions, libraries and include directories. All
@@ -350,7 +439,7 @@ CMake versions scheme across the systems is available at
 See also https://cmake.org/cmake/help/latest/manual/cmake-buildsystem.7.html
 for a high-level overview of the CMake build system concepts.
 
-## 8. PHP CMake modules
+## 9. PHP CMake modules
 
 All PHP global CMake utility modules are located in the `cmake/modules/PHP`
 directory.
@@ -385,7 +474,7 @@ A list of PHP CMake modules:
 * [PHP/SystemExtensions](/docs/cmake/modules/PHP/SystemExtensions.md)
 * [PHP/VerboseLink](/docs/cmake/modules/PHP/VerboseLink.md)
 
-## 9. Custom CMake properties
+## 10. Custom CMake properties
 
 * `PHP_ALL_EXTENSIONS`
 
@@ -478,7 +567,7 @@ A list of PHP CMake modules:
   set_target_properties(php_ext_<extension_name> PROPERTIES PHP_ZEND_EXTENSION TRUE)
   ```
 
-## 10. PHP extensions
+## 11. PHP extensions
 
 PHP has several ways to install PHP extensions:
 
@@ -538,7 +627,7 @@ the extension's source directory.
 Example of `CMakeLists.txt` for PHP extensions can be found in the
 `ext/skeleton` directory.
 
-## 11. PHP SAPI (Server API) modules
+## 12. PHP SAPI (Server API) modules
 
 PHP works through the concept of SAPI modules located in the `sapi` directory.
 
@@ -554,7 +643,7 @@ There are other SAPI modules located in the ecosystem:
 * [ngx-php](https://github.com/rryqszq4/ngx-php)
 * ...
 
-## 12. Generated files
+## 13. Generated files
 
 During the build process, there are several files generated, some of which are
 also tracked in the Git repository for a smoother workflow:
@@ -591,7 +680,7 @@ also tracked in the Git repository for a smoother workflow:
   └─📄 zend_vm_opcodes.h         # Generated by `Zend/zend_vm_gen.php`
 ```
 
-### 12.1. Parser and lexer files
+### 13.1. Parser and lexer files
 
 So-called parser files are generated with
 [Bison](https://www.gnu.org/software/bison/) tool from `*.y` source files to C
@@ -708,7 +797,7 @@ To generate these files manually apart from the main build:
 cmake -P cmake/scripts/GenerateGrammar.cmake
 ```
 
-## 13. Performance
+## 14. Performance
 
 When CMake is doing configuration phase, the profiling options can be used to do
 build system performance analysis of CMake files.
@@ -719,7 +808,7 @@ cmake --profiling-output ./profile.json --profiling-format google-trace ../php-s
 
 ![CMake profiling](/docs/images/cmake-profiling.png)
 
-## 14. Testing
+## 15. Testing
 
 PHP source code tests (`*.phpt` files) are written in PHP and are executed with
 `run-tests.php` script from the very beginning of the PHP development. When
@@ -751,9 +840,9 @@ using the `CMakePresets.json` file and its `testPresets` field.
 ctest --preset all-enabled
 ```
 
-## 15. Windows notes
+## 16. Windows notes
 
-### 15.1. Module-definition (.def) files
+### 16.1. Module-definition (.def) files
 
 [Module-definition (.def) files](https://learn.microsoft.com/en-us/cpp/build/reference/module-definition-dot-def-files)
 are added to certain php-src folders where linker needs them when building DLL.
@@ -764,7 +853,7 @@ In CMake they can be simply added to the target sources:
 target_sources(php_extension_name php_extension_name.def)
 ```
 
-## 16. PHP installation
+## 17. PHP installation
 
 > [!CAUTION]
 > **Before running the `cmake --install` command, be aware that files will be
@@ -793,7 +882,7 @@ package managers, that handle this process through automated scripts.
 Additionally, applying patches to tailor the PHP package to suit the specific
 requirements of the target system is a common practice.
 
-### 16.1. Installing PHP with CMake
+### 17.1. Installing PHP with CMake
 
 Installing PHP with CMake can be done in the following way:
 
@@ -876,7 +965,7 @@ PHP CMake-based build system specific installation cache variables:
   Path where PEAR writes temporary files. Default: `/tmp/pear` on \*nix,
   `C:/temp/pear` on Windows.
 
-### 16.2. Installation directory structure
+### 17.2. Installation directory structure
 
 PHP installation directory structure when using CMake:
 
@@ -994,7 +1083,7 @@ ctest --preset acme-php
 cmake --install .
 ```
 
-### 16.3. Installation components
+### 17.3. Installation components
 
 Installation components are groups of CMake's `install()` commands, where
 `COMPONENT` argument is specified. They provide installing only certain parts of
@@ -1016,11 +1105,11 @@ Available installation components can be listed after project is configured
 with:
 
 ```sh
-cmake --build <build-dir> --target list_install_components
+cmake --build build-dir --target list_install_components
 ```
 
 To install only specific component:
 
 ```sh
-cmake --install <build-dir> --component php-development
+cmake --install build-dir --component php-development
 ```

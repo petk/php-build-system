@@ -3,7 +3,6 @@
 ![ElePHPant](images/elephpant.jpg)
 
 * CMake
-  * [Introduction to CMake](/docs/cmake/introduction.md)
   * [CMake-based PHP build system](/docs/cmake/cmake.md)
   * [Configuration](/docs/cmake/configuration.md)
   * [CMake code style](/docs/cmake/cmake-code-style.md)

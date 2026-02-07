@@ -248,7 +248,6 @@ provide reasonably good CMake integration for C/C++ projects.
 ## Documentation
 
 * CMake
-  * [Introduction to CMake](/docs/cmake/introduction.md)
   * [CMake-based PHP build system](/docs/cmake/cmake.md)
   * [Configuration](/docs/cmake/configuration.md)
   * [CMake code style](/docs/cmake/cmake-code-style.md)
