@@ -269,14 +269,22 @@ install(
 
 # Ensure extension directory is created in case no shared extensions are
 # installed. See also: https://gitlab.kitware.com/cmake/cmake/-/issues/27568
-install(
-  CODE
-    "file(
-      MAKE_DIRECTORY
-      \"\$ENV{DESTDIR}\$<INSTALL_PREFIX>/${PHP_EXTENSION_DIR}\"
-    )"
-  COMPONENT php-development
-)
+if(CMAKE_VERSION VERSION_LESS 4.3)
+  install(
+    CODE
+      "file(
+        MAKE_DIRECTORY
+        \"\$ENV{DESTDIR}\$<INSTALL_PREFIX>/${PHP_EXTENSION_DIR}\"
+      )"
+    COMPONENT php-development
+  )
+else()
+  install(
+    DIRECTORY
+    DESTINATION ${PHP_EXTENSION_DIR}
+    COMPONENT php-development
+  )
+endif()
 
 if(PHP_ENABLE_CMAKE_EXPERIMENTAL_FEATURES)
   set(CMAKE_EXPERIMENTAL_EXPORT_PACKAGE_INFO "b80be207-778e-46ba-8080-b23bba22639e")
