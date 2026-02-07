@@ -40,9 +40,6 @@ else()
   enable_language(ASM)
 endif()
 
-set(CMAKE_C_STANDARD 99)
-set(CMAKE_C_STANDARD_REQUIRED TRUE)
-
 ################################################################################
 # Create interface targets providing usage requirements.
 ################################################################################
@@ -61,6 +58,25 @@ target_include_directories(
 add_library(php_sapi INTERFACE)
 add_library(PHP::sapi ALIAS php_sapi)
 target_link_libraries(php_sapi INTERFACE PHP::config)
+
+# Interface library encapsulating the usage requirements for PHP extensions.
+add_library(php_extension INTERFACE)
+add_library(PHP::Extension ALIAS php_extension)
+set_target_properties(php_extension PROPERTIES EXPORT_NAME Extension)
+target_include_directories(
+  php_extension
+  INTERFACE
+    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>
+    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/main>
+    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/TSRM>
+    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/Zend>
+)
+target_compile_definitions(
+  php_extension
+  INTERFACE
+  $<INSTALL_INTERFACE:HAVE_CONFIG_H;ZEND_COMPILE_DL_EXT>
+  $<BUILD_INTERFACE:$<$<IN_LIST:$<TARGET_PROPERTY:TYPE>,MODULE_LIBRARY;SHARED_LIBRARY>:ZEND_COMPILE_DL_EXT>>
+)
 
 ################################################################################
 # Configure project.
@@ -103,9 +119,6 @@ include(PHP/LinkWhatYouUse)
 include(PHP/SystemExtensions)
 target_link_libraries(php_config INTERFACE PHP::SystemExtensions)
 
-# Detect C standard library implementation.
-include(PHP/StandardLibrary)
-
 # Define GNU standard installation directories.
 include(GNUInstallDirs)
 
@@ -117,6 +130,9 @@ include(cmake/Configuration.cmake)
 
 # Check requirements.
 include(cmake/Requirements.cmake)
+
+# Detect C standard library implementation.
+include(PHP/StandardLibrary)
 
 # Run PHP configuration checks.
 include(cmake/ConfigureChecks.cmake)
@@ -203,26 +219,13 @@ file(
   INPUT ${CMAKE_CURRENT_BINARY_DIR}/PHPConfig.cmake
 )
 
-add_library(php_extension INTERFACE)
-add_library(PHP::Extension ALIAS php_extension)
-set_target_properties(php_extension PROPERTIES EXPORT_NAME Extension)
 target_include_directories(
   php_extension
   INTERFACE
-    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>
-    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/main>
-    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/TSRM>
-    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/Zend>
     $<INSTALL_INTERFACE:${PHP_INSTALL_INCLUDEDIR}>
     $<INSTALL_INTERFACE:${PHP_INSTALL_INCLUDEDIR}/main>
     $<INSTALL_INTERFACE:${PHP_INSTALL_INCLUDEDIR}/TSRM>
     $<INSTALL_INTERFACE:${PHP_INSTALL_INCLUDEDIR}/Zend>
-)
-target_compile_definitions(
-  php_extension
-  INTERFACE
-  $<INSTALL_INTERFACE:HAVE_CONFIG_H;ZEND_COMPILE_DL_EXT>
-  $<BUILD_INTERFACE:$<$<IN_LIST:$<TARGET_PROPERTY:TYPE>,MODULE_LIBRARY;SHARED_LIBRARY>:ZEND_COMPILE_DL_EXT>>
 )
 
 install(
