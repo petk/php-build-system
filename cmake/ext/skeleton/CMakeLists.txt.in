@@ -67,7 +67,7 @@ if(NOT PHP_EXT_%EXTNAMECAPS%)
   return()
 endif()
 
-set(CMAKE_C_STANDARD 99)
+# TODO: Configure this differently.
 set(CMAKE_C_STANDARD_REQUIRED TRUE)
 
 set(CMAKE_C_VISIBILITY_PRESET "hidden")
