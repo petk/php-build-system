@@ -353,55 +353,6 @@ required CMake version is a compromise between CMake functionalities and CMake
 version available on the operating system. The minimum required CMake version in
 this repository is **4.2**.
 
-* 3.17
-  * `CMAKE_CURRENT_FUNCTION_LIST_DIR` variable
-* 3.19
-  * `check_compiler_flag()`, `check_source_compiles()`, `check_source_runs()` to
-    generalize the `check_<LANG>_...()`
-  * `CMakePresets.json` for sharing build configurations
-* 3.20
-  * `CMAKE_C_BYTE_ORDER`, otherwise manual check should be done
-  * `"version": 2` in `CMakePresets.json`
-  * `Intl::Intl` IMPORTED target with CMake's FindIntl module
-* 3.21
-  * `"version": 3` in `CMakePresets.json` (for the `installDir` field)
-* 3.22
-  * Full condition syntax in `cmake_dependent_option()`
-* 3.23
-  * `target_sources(FILE_SET)`, otherwise `install(FILES)` should be used when
-    installing files to their destinations
-  * `"version": 4` in `CMakePresets.json` (for the `include` field)
-* 3.24
-  * `CMAKE_COLOR_DIAGNOSTICS`
-  * `CMAKE_COMPILE_WARNING_AS_ERROR`, otherwise INTERFACE library should be used
-  * `if(PATH_EQUAL)`
-* 3.25
-  * `block()` command
-  * New `try_run` signature
-  * `cmake_language()` keyword `GET_MESSAGE_LOG_LEVEL`
-  * `return()` keyword `PROPAGATE`
-* 3.27
-  * `COMPILE_ONLY` generator expression
-  * `INSTALL_PREFIX` generator expression in `install(CODE)`
-  * `$<LIST:FILTER,list,...>` generator expression
-  * `$<LIST:SORT,list[,...]>` generator expression
-  * `<PACKAGENAME>_ROOT` variables in addition to `<PackageName>_ROOT`
-* 3.26
-  * `BZIP2_VERSION`
-  * `ASM_MARMASM` language support
-* 3.29
-  * `CMAKE_LINKER_TYPE`
-  * `CMAKE_<LANG>_COMPILER_LINKER_VERSION`
-  * `if(IS_EXECUTABLE)`
-* 3.31
-  * `add_custom_command()` keyword `CODEGEN`
-* 4.1
-  * `CMAKE_<LANG>_COMPILER_ARCHITECTURE_ID` variable.
-* 4.2
-  * New argument: `check_type_size(RESULT_VARIABLE)`.
-  * Some CMake's find modules now provide `<PackageName>_VERSION` result
-    variables.
-
 CMake versions scheme across the systems is available at
 [pkgs.org](https://pkgs.org/download/cmake).
 
