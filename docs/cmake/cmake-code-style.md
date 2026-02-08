@@ -31,13 +31,14 @@ ecosystem.
   * [7.3. Custom targets](#73-custom-targets)
 * [8. Properties](#8-properties)
 * [9. Installation components](#9-installation-components)
-* [10. See also](#10-see-also)
-  * [10.1. Tools](#101-tools)
-    * [10.1.1. Gersemi](#1011-gersemi)
-    * [10.1.2. cmake-format (by cmakelang project)](#1012-cmake-format-by-cmakelang-project)
-    * [10.1.3. cmake-lint (by cmakelang project)](#1013-cmake-lint-by-cmakelang-project)
-    * [10.1.4. cmakelint](#1014-cmakelint)
-  * [10.2. Further resources](#102-further-resources)
+* [10. Tests](#10-tests)
+* [11. See also](#11-see-also)
+  * [11.1. Tools](#111-tools)
+    * [11.1.1. Gersemi](#1111-gersemi)
+    * [11.1.2. cmake-format (by cmakelang project)](#1112-cmake-format-by-cmakelang-project)
+    * [11.1.3. cmake-lint (by cmakelang project)](#1113-cmake-lint-by-cmakelang-project)
+    * [11.1.4. cmakelint](#1114-cmakelint)
+  * [11.2. Further resources](#112-further-resources)
 
 ## 1. Introduction
 
@@ -609,9 +610,20 @@ install(
 )
 ```
 
-## 10. See also
+## 10. Tests
 
-### 10.1. Tools
+Test names added with `add_test()` command should follow the *PascalCase* naming
+convention and should be prefixed with `Php`:
+
+```cmake
+add_test(NAME Php COMMAND ...)
+add_test(NAME PhpUnitTest COMMAND ...)
+add_test(NAME PhpSapiEmbedSharedBasic COMMAND ...)
+```
+
+## 11. See also
+
+### 11.1. Tools
 
 There are some tools available for formatting and linting CMake files. While
 these tools can offer valuable assistance, it's worth emphasizing that the
@@ -620,7 +632,7 @@ This is primarily due to their varying levels of utility and a lack of updates
 to keep pace with new CMake versions. It's worth mentioning that this
 recommendation may evolve in the future as these tools continue to develop.
 
-#### 10.1.1. Gersemi
+#### 11.1.1. Gersemi
 
 The [`gersemi`](https://github.com/BlankSpruce/gersemi) tool can check and fix
 CMake code style:
@@ -629,7 +641,7 @@ CMake code style:
 gersemi --check --indent 2 --diff --definitions cmake -- cmake
 ```
 
-#### 10.1.2. cmake-format (by cmakelang project)
+#### 11.1.2. cmake-format (by cmakelang project)
 
 The [`cmake-format`](https://cmake-format.readthedocs.io/en/latest/) tool can
 find formatting issues and sync the CMake code style:
@@ -658,7 +670,7 @@ dumping the formatted content to stdout:
 cmake-format -i path/to/cmake/file
 ```
 
-#### 10.1.3. cmake-lint (by cmakelang project)
+#### 11.1.3. cmake-lint (by cmakelang project)
 
 The [`cmake-lint`](https://cmake-format.readthedocs.io/en/latest/cmake-lint.html)
 tool is part of the cmakelang project and can help with linting CMake files:
@@ -670,7 +682,7 @@ cmake-lint <CMakeLists.txt cmake/...>
 This tool can also utilize the `cmake-format.[json|py|yaml]` file using the `-c`
 option.
 
-#### 10.1.4. cmakelint
+#### 11.1.4. cmakelint
 
 For linting there is also a separate and useful
 [cmakelint](https://github.com/cmake-lint/cmake-lint) tool which similarly lints
@@ -680,7 +692,7 @@ and helps to better structure CMake files:
 cmakelint <cmake/CMakeLists.txt cmake/...>
 ```
 
-### 10.2. Further resources
+### 11.2. Further resources
 
 * [CMake developers docs](https://cmake.org/cmake/help/latest/manual/cmake-developer.7.html)
 * [CMake documentation guide](https://gitlab.kitware.com/cmake/cmake/-/blob/master/Help/dev/documentation.rst)

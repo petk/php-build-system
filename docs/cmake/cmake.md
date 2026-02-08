@@ -134,6 +134,7 @@ repository:
   ├─📂 platforms               # Platform-specific configuration
   ├─📂 presets                 # Presets included in CMakePresets.json
   ├─📂 scripts                 # Various CMake command-line scripts
+  ├─📂 tests                   # Tests for testing PHP CMake code itself
   ├─📂 toolchains              # CMake toolchain files
   └─📄 *.cmake                 # Various CMake configurations and files
 └─📂 ext
@@ -762,33 +763,33 @@ cmake --profiling-output ./profile.json --profiling-format google-trace ../php-s
 ## 15. Testing
 
 PHP source code tests (`*.phpt` files) are written in PHP and are executed with
-`run-tests.php` script from the very beginning of the PHP development. When
-building PHP with Autotools the tests are usually run by:
+the `run-tests.php` script. CMake ships with a `ctest` utility that can run PHP
+tests in a similar way.
+
+To run all tests using CMake on the command line:
 
 ```sh
-make TEST_PHP_ARGS=-j10 test
+ctest --test-dir build-dir -j --progress --verbose
 ```
 
-CMake ships with a `ctest` utility that can run PHP tests in a similar way.
+The optional `--progress` option displays a progress, `-j` option enables
+running tests in parallel, and `--verbose` option outputs additional info to the
+stdout. In PHP case the `--verbose` is added so the output of the
+`run-tests.php` script is displayed.
 
-To enable testing the `enable_testing()` is added to the `CMakeLists.txt` file
-and the tests are added with `add_test()`.
-
-To run the tests using CMake on the command line:
-
-```sh
-ctest --progress --verbose
-```
-
-The `--progress` option displays a progress if there are more tests, and
-`--verbose` option outputs additional info to the stdout. In PHP case the
-`--verbose` is needed so the output of the `run-tests.php` script is displayed.
-
-CMake testing also supports presets so configuration can be coded and shared
-using the `CMakePresets.json` file and its `testPresets` field.
+Testing can be also specified in CMake presets so configuration can be coded and
+shared using the `CMakePresets.json` file and its `testPresets` field.
 
 ```sh
 ctest --preset all-enabled
+```
+
+Tests can be disabled with the
+[`PHP_ENABLE_TESTING`](/docs/cmake/variables/PHP_ENABLE_TESTING.md)
+configuration option:
+
+```sh
+cmake -B build-dir -DPHP_ENABLE_TESTING=OFF
 ```
 
 ## 16. Windows notes
