@@ -133,13 +133,23 @@ if(TARGET Intl::Intl)
   # functions there ignore the codeset suffix on directories like 'en_US.UTF-8';
   # instead they look only in 'en_US'.
   include(PHP/StandardLibrary)
-  if(Intl_IS_BUILT_IN AND PHP_C_STANDARD_LIBRARY STREQUAL "musl")
+  if(
+    PHP_ENABLE_TESTING
+    AND Intl_IS_BUILT_IN
+    AND PHP_C_STANDARD_LIBRARY STREQUAL "musl"
+  )
     message(STATUS "Patching tests: symlinking en_US.UTF-8 messages")
     file(
       CREATE_LINK
       en_US.UTF-8
       ${CMAKE_CURRENT_SOURCE_DIR}/tests/locale/en_US
       SYMBOLIC
+    )
+    set_property(
+      DIRECTORY
+      APPEND
+      PROPERTY
+      ADDITIONAL_CLEAN_FILES ${CMAKE_CURRENT_SOURCE_DIR}/tests/locale/en_US
     )
   endif()
 endif()

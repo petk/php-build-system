@@ -1,18 +1,7 @@
 include(CheckLinkerFlag)
 include(FeatureSummary)
 
-################################################################################
-# Add test for all *.phpt files.
-################################################################################
-
-include(PHP/Internal/Testing)
-get_property(extensions GLOBAL PROPERTY PHP_EXTENSIONS)
-_php_testing_add_test("${extensions}")
-
-################################################################################
 # PHP unit tests using PHP embed SAPI.
-################################################################################
-
 if(NOT TARGET PHP::sapi::embed)
   return()
 endif()
