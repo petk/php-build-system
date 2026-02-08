@@ -162,3 +162,11 @@ list(APPEND CMAKE_MODULE_PATH ${PHP_CMAKE_MODULE_PATH})
 ################################################################################
 
 check_required_components(${CMAKE_FIND_PACKAGE_NAME})
+
+################################################################################
+# Include internal common modules when working with PHP.
+################################################################################
+
+if("Development" IN_LIST ${CMAKE_FIND_PACKAGE_NAME}_FIND_COMPONENTS)
+  include(PHP/Internal/Configuration)
+endif()

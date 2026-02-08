@@ -43,7 +43,7 @@ include_guard(GLOBAL)
 # Configures the PHP extension. This is implemented as a macro instead of a
 # function for the enable_testing() to work.
 macro(php_extension)
-  if(PROJECT_IS_TOP_LEVEL)
+  if(PHP_ENABLE_TESTING)
     enable_testing()
   endif()
 
@@ -172,7 +172,7 @@ function(_php_extension_post_configure)
   ##############################################################################
 
   # Check if extension is being configured as standalone.
-  if(PROJECT_IS_TOP_LEVEL AND TARGET PHP::Interpreter)
+  if(PHP_ENABLE_TESTING AND TARGET PHP::Interpreter)
     include(PHP/Internal/Testing)
     _php_testing_add_test("${extension}")
   endif()
