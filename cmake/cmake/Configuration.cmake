@@ -16,6 +16,9 @@ include_guard(GLOBAL)
 include(CMakeDependentOption)
 include(FeatureSummary)
 
+# Include common PHP configuration options.
+include(PHP/Internal/Configuration)
+
 block()
   set(CACHE{PHP_UNAME} TYPE STRING HELP "Build system uname" VALUE "")
   mark_as_advanced(PHP_UNAME)
@@ -263,13 +266,6 @@ if(NOT PHP_EXTENSION_DIR)
   # This would resemble the PHP Autotools --with-layout=PHP (default):
   #set(extension_dir "${CMAKE_INSTALL_LIBDIR}/php/extensions/$<IF:$<CONFIG:Debug,DebugAssertions>,debug,no-debug>$<IF:$<BOOL:$<TARGET_PROPERTY:PHP::config,PHP_THREAD_SAFETY>>,-zts,-non-zts>-$<TARGET_PROPERTY:PHP::Zend,PHP_ZEND_MODULE_API_NO>")
 endif()
-
-option(
-  PHP_ENABLE_TESTING
-  "Whether to enable and configure tests"
-  ${PROJECT_IS_TOP_LEVEL}
-)
-mark_as_advanced(PHP_ENABLE_TESTING)
 
 ################################################################################
 # Various global internal configuration.

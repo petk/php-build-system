@@ -161,6 +161,11 @@ add_subdirectory(main)
 add_subdirectory(scripts)
 
 if(PHP_ENABLE_TESTING)
+  # Add test for all *.phpt files.
+  include(PHP/Internal/Testing)
+  get_property(extensions GLOBAL PROPERTY PHP_EXTENSIONS)
+  _php_testing_add_test("${extensions}")
+
   add_subdirectory(cmake/tests)
   add_subdirectory(tests)
 endif()
