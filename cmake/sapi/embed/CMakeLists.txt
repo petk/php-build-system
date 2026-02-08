@@ -148,4 +148,6 @@ install(
   COMPONENT php-development
 )
 
-add_subdirectory(tests)
+if(PHP_ENABLE_TESTING)
+  add_subdirectory(tests)
+endif()
