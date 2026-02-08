@@ -26,12 +26,11 @@ if(
   CMAKE_SYSTEM_NAME STREQUAL "SunOS"
   AND CMAKE_SYSTEM_VERSION VERSION_LESS 5.11
 )
-    message(
-      WARNING
-      "Solaris 10 with support from 2005 to 2027 might have a limited "
-      "functionality. Upgrade to Solaris 11.4 or illumos-based distribution."
-    )
-  endif()
+  message(
+    WARNING
+    "Solaris 10 with support from 2005 to 2027 might have a limited "
+    "functionality. Upgrade to Solaris 11.4 or illumos-based distribution."
+  )
 endif()
 
 ################################################################################
