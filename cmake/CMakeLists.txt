@@ -159,7 +159,11 @@ add_subdirectory(pear)
 add_subdirectory(win32)
 add_subdirectory(main)
 add_subdirectory(scripts)
-add_subdirectory(tests)
+
+if(PHP_ENABLE_TESTING)
+  add_subdirectory(cmake/tests)
+  add_subdirectory(tests)
+endif()
 
 # Generate *_arginfo.h headers from *.stub.php sources.
 include(PHP/Stubs)
