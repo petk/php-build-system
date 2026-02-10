@@ -80,11 +80,11 @@ set_package_properties(
     PURPOSE "Necessary to enable the sqlite3 extension."
 )
 
-target_link_libraries(php_ext_sqlite3 PRIVATE SQLite::SQLite3)
+target_link_libraries(php_ext_sqlite3 PRIVATE SQLite3::SQLite3)
 
-if(TARGET SQLite::SQLite3)
+if(TARGET SQLite3::SQLite3)
   cmake_push_check_state(RESET)
-    set(CMAKE_REQUIRED_LIBRARIES SQLite::SQLite3)
+    set(CMAKE_REQUIRED_LIBRARIES SQLite3::SQLite3)
 
     check_symbol_exists(
       sqlite3_expanded_sql
