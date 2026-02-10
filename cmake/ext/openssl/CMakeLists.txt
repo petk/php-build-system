@@ -204,6 +204,16 @@ if(TARGET OpenSSL::SSL)
   endif()
 
   if(PHP_EXT_OPENSSL_ARGON2)
+    if(CMAKE_SYSTEM_NAME STREQUAL "Windows" AND PHP_THREAD_SAFETY)
+      message(
+        FATAL_ERROR
+        "The OpenSSL Argon2 password hashing is not supported in thread-safe "
+        "mode for now. Please, disable thread safety (set 'PHP_THREAD_SAFETY' "
+        "to 'OFF'), or build without OpenSSL Argon2 (set "
+        "'PHP_EXT_OPENSSL_ARGON2' to 'OFF')."
+      )
+    endif()
+
     cmake_push_check_state(RESET)
       set(CMAKE_REQUIRED_LIBRARIES OpenSSL::SSL)
       check_symbol_exists(
