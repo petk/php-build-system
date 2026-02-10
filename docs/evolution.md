@@ -15,6 +15,12 @@ This document describes how the PHP build system evolved through time.
 
 * Minimum required libzip library version has been increased from 0.11.2 to
   1.0.0.
+* Minimum required PHP version found on the host system for running scripts like
+  `build/gen_stub.php` during development has been updated from 7.4 to 8.1.
+* `build/gen_stub.php` may now generate a `_decl.h` file in addition to the
+  `_arginfo.h` file, if the stub declares enums and is annotated with
+  `@generate-c-enums`. For each enum the file will contain a C enum. Enum values
+  can be compared to the result of `zend_enum_fetch_case_id(zend_object*)`.
 
 #### Autotools
 
