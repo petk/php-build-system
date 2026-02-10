@@ -24,7 +24,8 @@ This document describes how the PHP build system evolved through time.
 
 #### Autotools
 
-* ...
+* Symbol `HAVE_ST_BLOCKS` has been removed from `php_config.h` (use
+  `HAVE_STRUCT_STAT_ST_BLOCKS`).
 
 #### Windows
 
