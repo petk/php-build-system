@@ -43,6 +43,17 @@ function(php_pear_path_with_destdir)
   set(${ARGV1} "${path}" PARENT_SCOPE)
 endfunction()
 
+# Add PHP command-line options for shared dependent extensions.
+set(php_pear_options -d extension_dir=${PHP_BINARY_DIR}/modules/$<CONFIG>)
+
+if(PHP_EXT_OPENSSL_SHARED)
+  list(APPEND php_pear_options -d extension=openssl)
+endif()
+
+if(PHP_EXT_XML_SHARED)
+  list(APPEND php_pear_options -d extension=xml)
+endif()
+
 php_pear_path_with_destdir(${php_pear_install_dir} php_pear_install_stage_dir)
 message(STATUS "Installing PEAR to ${php_pear_install_stage_dir}")
 
@@ -74,15 +85,11 @@ if(NOT EXISTS ${php_pear_current_binary_dir}/install-pear-nozlib.phar)
       COMMAND
         ${php_pear_php_executable}
         -n
+        ${php_pear_options}
         ${php_pear_current_source_dir}/fetch.php
         ${php_pear_installer_url}
         ${php_pear_current_binary_dir}/install-pear-nozlib.phar
-      OUTPUT_VARIABLE output
-      ERROR_VARIABLE output
     )
-    if(output)
-      message(STATUS "${output}")
-    endif()
   endif()
 endif()
 
@@ -143,17 +150,6 @@ file(
     ${php_pear_stage_temp_dir}/download
     ${php_pear_stage_temp_dir}/temp
 )
-
-# Add PHP command-line options for shared dependent extensions.
-set(php_pear_options -d extension_dir=${PHP_BINARY_DIR}/modules/$<CONFIG>)
-
-if(PHP_EXT_OPENSSL_SHARED)
-  list(APPEND php_pear_options -d extension=openssl)
-endif()
-
-if(PHP_EXT_XML_SHARED)
-  list(APPEND php_pear_options -d extension=xml)
-endif()
 
 # Run the PEAR installer.
 execute_process(
