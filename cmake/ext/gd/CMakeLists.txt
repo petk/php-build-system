@@ -425,6 +425,19 @@ if(NOT PHP_EXT_GD_EXTERNAL)
   set(HAVE_LIBPNG TRUE)
   set(HAVE_GD_PNG TRUE)
 
+  # GD library uses iconv if available when converting Kanji.
+  find_package(Iconv)
+  set_package_properties(
+    Iconv
+    PROPERTIES
+      TYPE RECOMMENDED
+      PURPOSE "Enables iconv support in GD library."
+  )
+  if(Iconv_FOUND)
+    target_link_libraries(php_ext_gd PRIVATE Iconv::Iconv)
+    set(HAVE_ICONV_H TRUE)
+  endif()
+
   if(PHP_EXT_GD_AVIF)
     find_package(libavif 0.8.2)
     set_package_properties(
@@ -503,6 +516,10 @@ if(NOT PHP_EXT_GD_EXTERNAL)
   if(PHP_EXT_GD_JIS)
     set(JISX0208 TRUE)
     set(USE_GD_JISX0208 TRUE)
+  endif()
+
+  if(CMAKE_SYSTEM_NAME STREQUAL "Windows")
+    target_link_libraries(php_ext_gd PRIVATE Gdi32)
   endif()
 else()
   find_package(GD 2.1.0)
