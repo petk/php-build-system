@@ -35,6 +35,9 @@
 /* Define to 1 if gd extension has XPM support. */
 #cmakedefine HAVE_GD_XPM 1
 
+/* Define to 1 if you have the <iconv.h> header. */
+#cmakedefine HAVE_ICONV_H 1
+
 /* Define to 1 if you have the libavif library. */
 #cmakedefine HAVE_LIBAVIF 1
 
