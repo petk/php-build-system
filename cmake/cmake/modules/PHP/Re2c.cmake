@@ -268,18 +268,7 @@ macro(_php_re2c_config_options)
     unset(_role)
 
     # Suppress date output in the generated file.
-    list(APPEND PHP_RE2C_OPTIONS --no-generation-date)
-
-    # TODO: https://github.com/php/php-src/issues/17204
-    if(RE2C_VERSION VERSION_GREATER_EQUAL 4)
-      list(
-        APPEND
-        PHP_RE2C_OPTIONS
-        -Wno-unreachable-rules
-        -Wno-condition-order
-        -Wno-undefined-control-flow
-      )
-    endif()
+    list(APPEND PHP_RE2C_OPTIONS --no-generation-date -W)
   endif()
 endmacro()
 
