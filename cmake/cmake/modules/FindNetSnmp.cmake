@@ -64,9 +64,21 @@ set(_reason "")
 
 find_package(PkgConfig QUIET)
 if(PkgConfig_FOUND)
-  if(NetSnmp_ROOT OR NETSNMP_ROOT)
+  if(
+    NetSnmp_ROOT
+    OR NETSNMP_ROOT
+    OR DEFINED ENV{NetSnmp_ROOT}
+    OR DEFINED ENV{NETSNMP_ROOT}
+  )
     set(saved "${CMAKE_PREFIX_PATH}")
-    list(PREPEND CMAKE_PREFIX_PATH ${NetSnmp_ROOT} ${NETSNMP_ROOT})
+    list(
+      PREPEND
+      CMAKE_PREFIX_PATH
+      ${NetSnmp_ROOT}
+      ${NETSNMP_ROOT}
+      $ENV{NetSnmp_ROOT}
+      $ENV{NETSNMP_ROOT}
+    )
   endif()
 
   pkg_check_modules(PC_NetSnmp QUIET netsnmp)
