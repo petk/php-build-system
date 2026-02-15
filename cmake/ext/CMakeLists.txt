@@ -1,14 +1,21 @@
-#[=============================================================================[
-Add subdirectories of PHP extensions.
-#]=============================================================================]
-
-include(${CMAKE_CURRENT_SOURCE_DIR}/../cmake/Extensions.cmake)
 
 message(STATUS "")
 message(STATUS "")
 message(STATUS "Configuring PHP extensions")
 message(STATUS "==========================")
 message(STATUS "")
+
+include(PHP/Internal/Extensions)
+
+################################################################################
+# CMake custom properties.
+################################################################################
+
+define_property(
+  TARGET
+  PROPERTY PHP_ZEND_EXTENSION
+  BRIEF_DOCS "Whether the PHP extension target is Zend extension"
+)
 
 define_property(
   GLOBAL
@@ -41,6 +48,10 @@ define_property(
   PROPERTY PHP_EXTENSIONS
   BRIEF_DOCS "A list of enabled PHP extensions"
 )
+
+################################################################################
+# Configuration.
+################################################################################
 
 list(APPEND CMAKE_MESSAGE_CONTEXT "ext")
 
