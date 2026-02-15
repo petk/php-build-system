@@ -141,8 +141,12 @@ include(cmake/ConfigureChecks.cmake)
 include(cmake/Flags.cmake)
 
 # Enable testing.
-if(PHP_ENABLE_TESTING)
+if(PHP_TESTING)
   enable_testing()
+
+  # Add test to execute run-tests.php for all *.phpt files.
+  include(PHP/Internal/Testing)
+  php_testing_add()
 endif()
 
 add_subdirectory(sapi)
@@ -160,12 +164,7 @@ add_subdirectory(win32)
 add_subdirectory(main)
 add_subdirectory(scripts)
 
-if(PHP_ENABLE_TESTING)
-  # Add test for all *.phpt files.
-  include(PHP/Internal/Testing)
-  get_property(extensions GLOBAL PROPERTY PHP_EXTENSIONS)
-  _php_testing_add_test("${extensions}")
-
+if(PHP_TESTING)
   add_subdirectory(cmake/tests)
   add_subdirectory(tests)
 endif()

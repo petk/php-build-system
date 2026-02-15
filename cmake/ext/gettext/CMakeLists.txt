@@ -134,22 +134,51 @@ if(TARGET Intl::Intl)
   # instead they look only in 'en_US'.
   include(PHP/StandardLibrary)
   if(
-    PHP_ENABLE_TESTING
+    PHP_TESTING
     AND Intl_IS_BUILT_IN
     AND PHP_C_STANDARD_LIBRARY STREQUAL "musl"
   )
-    message(STATUS "Patching tests: symlinking en_US.UTF-8 messages")
-    file(
-      CREATE_LINK
-      en_US.UTF-8
-      ${CMAKE_CURRENT_SOURCE_DIR}/tests/locale/en_US
-      SYMBOLIC
+    add_test(
+      NAME PhpExtGettextAddSymlink
+      COMMAND
+        ${CMAKE_COMMAND}
+        -E
+        create_symlink
+        en_US.UTF-8
+        ${CMAKE_CURRENT_SOURCE_DIR}/tests/locale/en_US
     )
+    set_tests_properties(
+      PhpExtGettextAddSymlink
+      PROPERTIES
+        FIXTURES_SETUP PhpExtGettextFixtures
+    )
+
+    add_test(
+      NAME PhpExtGettextRemoveSymlink
+      COMMAND
+        ${CMAKE_COMMAND}
+        -E
+        remove
+        ${CMAKE_CURRENT_SOURCE_DIR}/tests/locale/en_US
+    )
+    set_tests_properties(
+      PhpExtGettextRemoveSymlink
+      PROPERTIES
+        FIXTURES_CLEANUP PhpExtGettextFixtures
+    )
+
+    if(PHP_SOURCE_DIR)
+      set(dir "${PHP_SOURCE_DIR}")
+    else()
+      set(dir "${CMAKE_CURRENT_SOURCE_DIR}")
+    endif()
+
     set_property(
-      DIRECTORY
+      TEST PhpRunTests
+      DIRECTORY ${dir}
       APPEND
       PROPERTY
-      ADDITIONAL_CLEAN_FILES ${CMAKE_CURRENT_SOURCE_DIR}/tests/locale/en_US
+      FIXTURES_REQUIRED PhpExtGettextFixtures
     )
   endif()
 endif()

@@ -9,14 +9,14 @@ Load this module in a PHP CMake project or inside a module with:
 
 This module provides the following cache variables:
 
-* PHP_ENABLE_TESTING
+* PHP_TESTING
 #]=============================================================================]
 
 include_guard(GLOBAL)
 
 option(
-  PHP_ENABLE_TESTING
+  PHP_TESTING
   "Whether to enable and configure tests"
   ${PROJECT_IS_TOP_LEVEL}
 )
-mark_as_advanced(PHP_ENABLE_TESTING)
+mark_as_advanced(PHP_TESTING)
