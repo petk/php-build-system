@@ -148,6 +148,6 @@ set(HAVE_COM_DOTNET TRUE)
 
 configure_file(cmake/config.h.in config.h)
 
-if(PHP_ENABLE_TESTING)
+if(PHP_TESTING)
   add_subdirectory(tests)
 endif()

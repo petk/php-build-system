@@ -139,12 +139,10 @@ else()
   set(dir "${CMAKE_CURRENT_SOURCE_DIR}")
 endif()
 
-cmake_language(DEFER DIRECTORY ${dir} CALL _php_ext_com_dotnet_test_fixtures)
-function(_php_ext_com_dotnet_test_fixtures)
-  set_property(
-    TEST Php
-    APPEND
-    PROPERTY
-    FIXTURES_REQUIRED PhpExtComDotNetFixtures
-  )
-endfunction()
+set_property(
+  TEST PhpRunTests
+  DIRECTORY ${dir}
+  APPEND
+  PROPERTY
+  FIXTURES_REQUIRED PhpExtComDotNetFixtures
+)

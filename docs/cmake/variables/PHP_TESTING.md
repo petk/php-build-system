@@ -1,4 +1,4 @@
-# `PHP_ENABLE_TESTING`
+# `PHP_TESTING`
 
 * Default: `ON`
 * Values: `ON|OFF`

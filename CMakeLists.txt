@@ -176,11 +176,11 @@ endblock()
 include(FetchContent)
 
 # Configure PHP project.
-if(NOT DEFINED PHP_ENABLE_TESTING)
-  set(PHP_ENABLE_TESTING "${PROJECT_IS_TOP_LEVEL}")
+if(NOT DEFINED PHP_TESTING)
+  set(PHP_TESTING "${PROJECT_IS_TOP_LEVEL}")
 endif()
 
-if(PHP_ENABLE_TESTING)
+if(PHP_TESTING)
   enable_testing()
 endif()
 

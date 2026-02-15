@@ -616,9 +616,9 @@ Test names added with `add_test()` command should follow the *PascalCase* naming
 convention and should be prefixed with `Php`:
 
 ```cmake
-add_test(NAME Php COMMAND ...)
-add_test(NAME PhpUnitTest COMMAND ...)
+add_test(NAME PhpRunTests COMMAND ...)
 add_test(NAME PhpSapiEmbedSharedBasic COMMAND ...)
+add_test(NAME PhpUnitTest COMMAND ...)
 ```
 
 ## 11. See also

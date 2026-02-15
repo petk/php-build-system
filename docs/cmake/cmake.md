@@ -785,11 +785,11 @@ ctest --preset all-enabled
 ```
 
 Tests can be disabled with the
-[`PHP_ENABLE_TESTING`](/docs/cmake/variables/PHP_ENABLE_TESTING.md)
+[`PHP_TESTING`](/docs/cmake/variables/PHP_TESTING.md)
 configuration option:
 
 ```sh
-cmake -B build-dir -DPHP_ENABLE_TESTING=OFF
+cmake -B build-dir -DPHP_TESTING=OFF
 ```
 
 ## 16. Windows notes
