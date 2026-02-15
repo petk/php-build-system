@@ -128,8 +128,9 @@ repository:
 └─📂 cmake                     # CMake-based PHP build system files
   └─📂 modules                 # Project-specific CMake modules
     └─📂 PHP                   # PHP utility CMake modules
-      ├─📂 Internal            # Internal PHP utility CMake modules
-      └─📄 ...
+      ├─📂 Core                # Modules for php-src
+      ├─📂 Internal            # Internal modules
+      └─📄 ...                 # Modules for php-src and extensions
     └─📄 Find*.cmake           # Find modules that support the find_package()
   ├─📂 platforms               # Platform-specific configuration
   ├─📂 presets                 # Presets included in CMakePresets.json
