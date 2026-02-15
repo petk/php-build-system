@@ -5,7 +5,7 @@ message(STATUS "Configuring PHP extensions")
 message(STATUS "==========================")
 message(STATUS "")
 
-include(PHP/Internal/Extensions)
+include(PHP/Core/Extensions)
 
 ################################################################################
 # CMake custom properties.

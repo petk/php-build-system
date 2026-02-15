@@ -276,6 +276,7 @@ install(
   DIRECTORY cmake/modules
   DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/PHP
   COMPONENT php-development
+  PATTERN "PHP/Core" EXCLUDE
   PATTERN "FindPHP.cmake" EXCLUDE
 )
 
