@@ -10,11 +10,11 @@ Commands
 
 This module provides the following commands:
 
-_php_testing_add_test()
+php_testing_add()
 
   Adds CMake test via add_test() for running run-tests.php script:
 
-    _php_testing_add_test(<extensions>)
+    php_testing_add(<extensions>)
 
   The arguments are:
 
@@ -23,12 +23,26 @@ _php_testing_add_test()
 
 include_guard(GLOBAL)
 
-function(_php_testing_add_test extensions)
+function(php_testing_add)
+  add_test(
+    NAME PhpRunTests
+    COMMAND
+      ${CMAKE_COMMAND} -P ${CMAKE_CURRENT_BINARY_DIR}/CMakeFiles/run-tests.cmake
+  )
+
+  set_tests_properties(PhpRunTests PROPERTIES RUN_SERIAL TRUE)
+
+  cmake_language(
+    EVAL CODE
+    "cmake_language(DEFER CALL _php_testing_post_configure \"${ARGV0}\")"
+  )
+endfunction()
+
+function(_php_testing_post_configure)
   if(TARGET PHP::sapi::cli)
     set(php_executable "PHP::sapi::cli")
     set(run_tests "run-tests.php")
-    set(extension_dir "${PHP_BINARY_DIR}/modules")
-    set(working_dir "${PHP_SOURCE_DIR}")
+    get_property(extensions GLOBAL PROPERTY PHP_EXTENSIONS)
   elseif(TARGET PHP::Interpreter)
     set(php_executable "PHP::Interpreter")
 
@@ -38,6 +52,9 @@ function(_php_testing_add_test extensions)
         "'${PHP_INSTALL_LIBDIR}/build/run-tests.php' is missing. "
         "Default tests for the ${extension} extension are not configured."
       )
+
+      set_tests_properties(PhpRunTests PROPERTIES DISABLED TRUE)
+
       return()
     endif()
 
@@ -51,12 +68,14 @@ function(_php_testing_add_test extensions)
     )
 
     set(run_tests "${CMAKE_CURRENT_BINARY_DIR}/CMakeFiles/PHP/run-tests.php")
-    set(extension_dir "${CMAKE_CURRENT_BINARY_DIR}/modules")
-    set(working_dir "${CMAKE_CURRENT_SOURCE_DIR}")
+
+    set(extensions "${ARGV0}")
   else()
+    set_tests_properties(PhpRunTests PROPERTIES DISABLED TRUE)
     return()
   endif()
 
+  set(extension_dir "${CMAKE_CURRENT_BINARY_DIR}/modules")
   get_property(is_multi_config GLOBAL PROPERTY GENERATOR_IS_MULTI_CONFIG)
   if(NOT is_multi_config)
     string(APPEND extension_dir "/$<CONFIG>")
@@ -86,23 +105,36 @@ function(_php_testing_add_test extensions)
     endif()
   endforeach()
 
-  add_test(
-    NAME Php
-    COMMAND
-      ${php_executable}
-        -n
-        -d open_basedir=
-        -d output_buffering=0
-        -d memory_limit=-1
-        ${run_tests}
-          -n
-          -d extension_dir=${extension_dir}
-          --show-diff
-          ${options}
-          ${parallel}
-          -q
-    WORKING_DIRECTORY ${working_dir}
-  )
+  file(
+    CONFIGURE
+    OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/CMakeFiles/run-tests.cmake
+    CONTENT [[
+      cmake_minimum_required(VERSION 4.2...4.3)
 
-  set_tests_properties(Php PROPERTIES RUN_SERIAL TRUE)
+      execute_process(
+        COMMAND
+          "$<TARGET_FILE:@php_executable@>"
+            -n
+            -d open_basedir=
+            -d output_buffering=0
+            -d memory_limit=-1
+            "@run_tests@"
+              -n
+              -d extension_dir="@extension_dir@"
+              --show-diff
+              @options@
+              @parallel@
+              -q
+              $ENV{PHP_TESTS}
+        WORKING_DIRECTORY "@CMAKE_CURRENT_SOURCE_DIR@"
+        COMMAND_ERROR_IS_FATAL ANY
+      )
+    ]]
+    @ONLY
+  )
+  file(
+    GENERATE
+    OUTPUT CMakeFiles/run-tests.cmake
+    INPUT ${CMAKE_CURRENT_BINARY_DIR}/CMakeFiles/run-tests.cmake
+  )
 endfunction()

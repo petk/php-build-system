@@ -1,11 +1,11 @@
 #[=============================================================================[
-This is an internal module and is not intended for direct usage inside projects.
+This is an internal module and is intended for usage only within the php-src.
 It provides commands for parsing CMakeLists.txt files of PHP extensions and
 sorting extensions based on the dependencies listed in the add_dependencies().
 
 Load this module in a CMake project with:
 
-  include(PHP/Internal/Extensions)
+  include(PHP/Core/Extensions)
 
 If an extension has specified dependencies, it ensures that all dependencies are
 automatically enabled. If any of the dependencies are built as MODULE libraries,
