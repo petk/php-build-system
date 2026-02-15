@@ -1,21 +1,25 @@
 #[=============================================================================[
-Configure PHP extensions.
+This is an internal module and is not intended for direct usage inside projects.
+It provides commands for parsing CMakeLists.txt files of PHP extensions and
+sorting extensions based on the dependencies listed in the add_dependencies().
 
-This internal module is responsible for parsing CMakeLists.txt files of PHP
-extensions and sorting extensions based on the dependencies listed in the
-add_dependencies(). If an extension has specified dependencies, it ensures that
-all dependencies are automatically enabled. If any of the dependencies are built
-as SHARED libraries, the extension must also be built as a SHARED library.
+Load this module in a CMake project with:
+
+  include(PHP/Internal/Extensions)
+
+If an extension has specified dependencies, it ensures that all dependencies are
+automatically enabled. If any of the dependencies are built as MODULE libraries,
+the extension must also be built as a MODULE library.
 
 Dependencies can be specified on top of the CMake's built-in command
 add_dependencies(), which builds target dependencies before the target itself.
-This internal module reads the add_dependencies() invocations in extensions
-CMakeLists.txt files and automatically enables and configures them as SHARED
-depending on the configuration if they haven't been explicitly configured. If it
-fails to configure extension dependencies automatically it will result in a
+Commands defined here read the add_dependencies() invocations in extensions
+CMakeLists.txt files and automatically enable and configure them as MODULE
+depending on the configuration if they haven't been explicitly configured. If
+extension dependencies can't be automatically configured it will result in a
 fatal error at the end of the configuration phase.
 
-Order of the extensions is then also important in the generated
+The order of the extensions is important in the generated
 'main/internal_functions*.c' files (for the list of 'phpext_<extension>_ptr' in
 the 'zend_module_entry php_builtin_extensions'). This is the order of how the
 PHP modules are registered into the Zend hash table.
@@ -28,26 +32,11 @@ shouldn't be taken for granted and is mostly used for php-src builds.
 
 Example why setting dependencies with 'ZEND_MOD_REQUIRED' might matter:
 https://bugs.php.net/53141
-
-Custom CMake properties:
-
-* PHP_ZEND_EXTENSION
-* PHP_EXTENSION_<extension>_DEPS
 #]=============================================================================]
 
 include_guard(GLOBAL)
 
-################################################################################
-# CMake custom properties.
-################################################################################
-
-define_property(
-  TARGET
-  PROPERTY PHP_ZEND_EXTENSION
-  BRIEF_DOCS "Whether the PHP extension target is Zend extension"
-)
-
-# Sort extensions by dependencies and evaluate their configuration options.
+# Sorts extensions by dependencies and evaluate their configuration options.
 function(php_extensions_preprocess)
   set(result ${ARGV0})
   set(extensions ${${ARGV0}})
@@ -105,11 +94,7 @@ function(php_extensions_preprocess)
   set(${result} ${${result}} PARENT_SCOPE)
 endfunction()
 
-################################################################################
-# Module internal helper functions.
-################################################################################
-
-# Sort extensions by their dependencies.
+# Sorts extensions by their dependencies.
 function(_php_extensions_sort)
   cmake_parse_arguments(
     PARSE_ARGV
@@ -161,7 +146,7 @@ function(_php_extensions_sort)
   set(${result} ${extensions_sorted} PARENT_SCOPE)
 endfunction()
 
-# Get extension dependencies from the add_dependencies().
+# Gets extension dependencies from the add_dependencies().
 function(_php_extensions_parse_dependencies extension result)
   unset(${result} PARENT_SCOPE)
 
@@ -212,7 +197,7 @@ function(_php_extensions_parse_dependencies extension result)
   endif()
 endfunction()
 
-# Get extension dependencies if found.
+# Gets extension dependencies if found.
 function(_php_extensions_get_dependencies extension result)
   set(${result} "")
 
@@ -224,7 +209,7 @@ function(_php_extensions_get_dependencies extension result)
   return(PROPAGATE ${result})
 endfunction()
 
-# Get a regex string to match option().
+# Gets a regex string to match option().
 function(_php_extensions_option_regex option result)
   string(CONCAT _
     # Start of the option command invocation:
@@ -249,7 +234,7 @@ function(_php_extensions_option_regex option result)
   set(${result} "${_}" PARENT_SCOPE)
 endfunction()
 
-# Get a regex string to match cmake_dependent_option().
+# Gets a regex string to match cmake_dependent_option().
 function(_php_extensions_cmake_dependent_option_regex option result)
   string(CONCAT _
     # Start of the option command invocation:
@@ -283,10 +268,14 @@ function(_php_extensions_cmake_dependent_option_regex option result)
   set(${result} "${_}" PARENT_SCOPE)
 endfunction()
 
-# Parse and evaluate options of extensions.
+# Parses and evaluates options of extensions.
 function(_php_extensions_eval_options directories)
   set(code "")
-  get_property(always_enabled_extensions GLOBAL PROPERTY PHP_ALWAYS_ENABLED_EXTENSIONS)
+  get_property(
+    always_enabled_extensions
+    GLOBAL
+    PROPERTY PHP_ALWAYS_ENABLED_EXTENSIONS
+  )
   get_property(all_extensions GLOBAL PROPERTY PHP_ALL_EXTENSIONS)
 
   foreach(extension IN LISTS extensions)
@@ -340,13 +329,13 @@ function(_php_extensions_eval_options directories)
   endforeach()
 endfunction()
 
-# Remove line comments from CMake code content.
+# Removes line comments from CMake code content.
 function(_php_extensions_remove_comments)
   string(REGEX REPLACE "[ \t]*#[^\n]*" "" ${ARGV0} "${${ARGV0}}")
   set(${ARGV0} "${${ARGV0}}" PARENT_SCOPE)
 endfunction()
 
-# Postconfigure extension right after it has been configured.
+# Postconfigures extension right after it has been configured.
 function(php_extensions_postconfigure extension)
   if(NOT TARGET php_ext_${extension})
     return()
@@ -359,7 +348,11 @@ function(php_extensions_postconfigure extension)
     MANUALLY_ADDED_DEPENDENCIES
   )
   list(TRANSFORM dependencies REPLACE "^php_ext_" "")
-  get_property(always_enabled_extensions GLOBAL PROPERTY PHP_ALWAYS_ENABLED_EXTENSIONS)
+  get_property(
+    always_enabled_extensions
+    GLOBAL
+    PROPERTY PHP_ALWAYS_ENABLED_EXTENSIONS
+  )
   get_property(all_extensions GLOBAL PROPERTY PHP_ALL_EXTENSIONS)
 
   foreach(dependency IN LISTS dependencies)
@@ -394,7 +387,7 @@ function(php_extensions_postconfigure extension)
   endforeach()
 endfunction()
 
-# Validate extensions and their dependencies defined via add_dependencies().
+# Validates extensions and their dependencies defined via add_dependencies().
 function(_php_extensions_validate)
   get_directory_property(extensions SUBDIRECTORIES)
   list(TRANSFORM extensions REPLACE "${CMAKE_CURRENT_SOURCE_DIR}/" "")
