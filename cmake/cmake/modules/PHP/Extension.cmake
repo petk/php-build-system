@@ -43,14 +43,21 @@ include_guard(GLOBAL)
 # Configures the PHP extension. This is implemented as a macro instead of a
 # function for the enable_testing() to work.
 macro(php_extension)
-  if(PHP_ENABLE_TESTING)
-    enable_testing()
-  endif()
-
   cmake_language(
     EVAL CODE
     "cmake_language(DEFER CALL _php_extension_post_configure \"${ARGV0}\")"
   )
+
+  if(PHP_TESTING)
+    enable_testing()
+
+    # Add test to execute run-tests.php for all *.phpt files when extension is
+    # built as standalone.
+    if(TARGET PHP::Interpreter)
+      include(PHP/Internal/Testing)
+      php_testing_add("${ARGV0}")
+    endif()
+  endif()
 endmacro()
 
 function(_php_extension_post_configure)
@@ -166,16 +173,6 @@ function(_php_extension_post_configure)
       COMPONENT php
     ${file_sets}
   )
-
-  ##############################################################################
-  # Configure testing.
-  ##############################################################################
-
-  # Check if extension is being configured as standalone.
-  if(PHP_ENABLE_TESTING AND TARGET PHP::Interpreter)
-    include(PHP/Internal/Testing)
-    _php_testing_add_test("${extension}")
-  endif()
 
   ##############################################################################
   # Output configuration summary.
