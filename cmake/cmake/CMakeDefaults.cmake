@@ -7,27 +7,10 @@ https://cmake.org/cmake/help/latest/manual/cmake-variables.7.html
 
 include_guard(GLOBAL)
 
-# Disable in-source builds.
-if(CMAKE_BINARY_DIR PATH_EQUAL CMAKE_CURRENT_SOURCE_DIR)
-  message(
-    FATAL_ERROR
-    "In-source builds are disabled. Please, set the build directory.\n"
-    "For example:\n"
-    "  cmake -B php-build\n"
-    "  cmake --build php-build -j"
-  )
-endif()
-
-# Ignore build directory in Git repository.
-block()
-  file(GLOB path ${CMAKE_CURRENT_BINARY_DIR}/*)
-  if(path PATH_EQUAL ${CMAKE_CURRENT_BINARY_DIR}/CMakeFiles)
-    file(WRITE ${CMAKE_CURRENT_BINARY_DIR}/.gitignore "*\n")
-  endif()
-endblock()
-
 # Add paths where include() and find_package() look for modules.
 list(APPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_LIST_DIR}/modules)
+
+include(PHP/Internal/DisableInSourceBuild)
 
 # Put the source or build tree include directories before other includes.
 set(CMAKE_INCLUDE_DIRECTORIES_PROJECT_BEFORE ON)
