@@ -91,7 +91,15 @@ target_sources(
     libbcmath/src/zero.c
 )
 
-target_compile_definitions(php_ext_bcmath PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE)
+target_compile_definitions(
+  php_ext_bcmath
+  PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE
+)
+
+target_include_directories(
+  php_ext_bcmath
+  PRIVATE ${CMAKE_CURRENT_BINARY_DIR}
+)
 
 set(HAVE_BCMATH TRUE)
 
