@@ -71,6 +71,11 @@ target_sources(
     gettext.stub.php
 )
 
+target_include_directories(
+  php_ext_gettext
+  PRIVATE ${CMAKE_CURRENT_BINARY_DIR}
+)
+
 find_package(Intl)
 set_package_properties(
   Intl

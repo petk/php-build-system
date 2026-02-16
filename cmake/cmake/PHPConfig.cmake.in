@@ -169,4 +169,9 @@ check_required_components(${CMAKE_FIND_PACKAGE_NAME})
 
 if("Development" IN_LIST ${CMAKE_FIND_PACKAGE_NAME}_FIND_COMPONENTS)
   include(PHP/Internal/Configuration)
+
+  if(TARGET PHP::Extension)
+    include(PHP/SystemExtensions)
+    target_link_libraries(PHP::Extension INTERFACE PHP::SystemExtensions)
+  endif()
 endif()
