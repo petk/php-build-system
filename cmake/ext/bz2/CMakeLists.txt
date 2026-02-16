@@ -78,6 +78,11 @@ target_compile_definitions(
     $<$<AND:$<PLATFORM_ID:Windows>,$<IN_LIST:$<TARGET_PROPERTY:TYPE>,MODULE_LIBRARY;SHARED_LIBRARY>>:PHP_BZ2_EXPORTS>
 )
 
+target_include_directories(
+  php_ext_bz2
+  PRIVATE ${CMAKE_CURRENT_BINARY_DIR}
+)
+
 find_package(BZip2 1.0.0)
 set_package_properties(
   BZip2

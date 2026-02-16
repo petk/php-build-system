@@ -75,6 +75,11 @@ target_sources(
     julian.c
 )
 
+target_include_directories(
+  php_ext_calendar
+  PRIVATE ${CMAKE_CURRENT_BINARY_DIR}
+)
+
 set(HAVE_CALENDAR TRUE)
 
 configure_file(cmake/config.h.in config.h)

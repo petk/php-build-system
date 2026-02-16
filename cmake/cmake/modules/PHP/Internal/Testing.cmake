@@ -2,7 +2,7 @@
 This is an internal module and is not intended for direct usage inside projects.
 It provides PHP testing configuration.
 
-Load this module in a PHP CMake project or inside a module with:
+Load this module in a CMake project with:
 
   include(PHP/Internal/Testing)
 
@@ -14,11 +14,13 @@ php_testing_add()
 
   Adds CMake test via add_test() for running run-tests.php script:
 
-    php_testing_add(<extensions>)
+    php_testing_add([<extension>])
 
   The arguments are:
 
-  * <extensions> - A semicolon-separated list of one or more PHP extensions.
+  * <extension> - Optional name of the PHP extension being configured. If this
+    argument is not given it defaults to all enabled extensions in the current
+    configuration (when building php-src).
 #]=============================================================================]
 
 include_guard(GLOBAL)
@@ -27,7 +29,9 @@ function(php_testing_add)
   add_test(
     NAME PhpRunTests
     COMMAND
-      ${CMAKE_COMMAND} -P ${CMAKE_CURRENT_BINARY_DIR}/CMakeFiles/run-tests.cmake
+      ${CMAKE_COMMAND}
+      -P
+      ${CMAKE_CURRENT_BINARY_DIR}/CMakeFiles/PHP/run-tests.cmake
   )
 
   set_tests_properties(PhpRunTests PROPERTIES RUN_SERIAL TRUE)
@@ -107,7 +111,7 @@ function(_php_testing_post_configure)
 
   file(
     CONFIGURE
-    OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/CMakeFiles/run-tests.cmake
+    OUTPUT CMakeFiles/PHP/run-tests.cmake
     CONTENT [[
       cmake_minimum_required(VERSION 4.2...4.3)
 
@@ -125,7 +129,6 @@ function(_php_testing_post_configure)
               @options@
               @parallel@
               -q
-              $ENV{PHP_TESTS}
         WORKING_DIRECTORY "@CMAKE_CURRENT_SOURCE_DIR@"
         COMMAND_ERROR_IS_FATAL ANY
       )
@@ -134,7 +137,7 @@ function(_php_testing_post_configure)
   )
   file(
     GENERATE
-    OUTPUT CMakeFiles/run-tests.cmake
-    INPUT ${CMAKE_CURRENT_BINARY_DIR}/CMakeFiles/run-tests.cmake
+    OUTPUT CMakeFiles/PHP/run-tests.cmake
+    INPUT ${CMAKE_CURRENT_BINARY_DIR}/CMakeFiles/PHP/run-tests.cmake
   )
 endfunction()
