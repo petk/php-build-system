@@ -3,11 +3,17 @@ cmake_minimum_required(VERSION 4.2...4.3)
 message(STATUS "Initializing PHP build system")
 message(STATUS "=============================")
 
+# Add paths where include() and find_package() look for modules.
+list(APPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_LIST_DIR}/cmake/modules)
+
+# Disable in-source builds.
+include(PHP/Internal/DisableInSourceBuilds)
+
 # Configure CMake behavior.
-include(cmake/CMakeDefaults.cmake)
+include(PHP/Internal/CMakeDefaults)
 
 # Set the PHP_VERSION_* variables from configure.ac.
-include(cmake/Version.cmake)
+include(PHP/Core/Version)
 
 project(
   PHP
