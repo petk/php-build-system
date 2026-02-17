@@ -1,5 +1,10 @@
 #[=============================================================================[
-Set PHP version variables.
+This is an internal module and is intended for usage only within the php-src.
+It sets PHP version variables.
+
+Load this module in a CMake project with:
+
+  include(PHP/Core/Version)
 
 PHP version is read from the php-src configure.ac file, and PHP_VERSION_API
 number from the php-src main/php.h header file.

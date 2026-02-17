@@ -1,4 +1,3 @@
-
 message(STATUS "")
 message(STATUS "")
 message(STATUS "Configuring PHP extensions")
