@@ -57,7 +57,7 @@ further information.
 
 cmake_minimum_required(VERSION 4.2...4.3)
 
-include(cmake/cmake/modules/PHP/Internal/DisableInSourceBuild.cmake)
+include(cmake/cmake/modules/PHP/Internal/DisableInSourceBuilds.cmake)
 
 project(
   PhpBuildSystem

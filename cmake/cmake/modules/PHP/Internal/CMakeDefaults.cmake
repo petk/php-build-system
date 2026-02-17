@@ -1,16 +1,14 @@
 #[=============================================================================[
-Setting CMake defaults to manage how CMake works. These can be set before
-calling the project().
+This is an internal module and is not intended for direct usage inside projects.
+It sets CMake default configuration to manage how CMake works. These can be also
+set before calling the project().
 
-https://cmake.org/cmake/help/latest/manual/cmake-variables.7.html
+Load this module in a CMake project with:
+
+  include(PHP/Internal/CMakeDefaults)
 #]=============================================================================]
 
 include_guard(GLOBAL)
-
-# Add paths where include() and find_package() look for modules.
-list(APPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_LIST_DIR}/modules)
-
-include(PHP/Internal/DisableInSourceBuild)
 
 # Put the source or build tree include directories before other includes.
 set(CMAKE_INCLUDE_DIRECTORIES_PROJECT_BEFORE ON)
@@ -22,14 +20,6 @@ if(
 )
   set(CMAKE_COLOR_DIAGNOSTICS ON)
 endif()
-
-# Set empty prefix for targets instead of default "lib".
-set(CMAKE_SHARED_LIBRARY_PREFIX_C "")
-set(CMAKE_SHARED_MODULE_PREFIX_C "")
-set(CMAKE_STATIC_LIBRARY_PREFIX_C "")
-set(CMAKE_SHARED_LIBRARY_PREFIX_CXX "")
-set(CMAKE_SHARED_MODULE_PREFIX_CXX "")
-set(CMAKE_STATIC_LIBRARY_PREFIX_CXX "")
 
 # Whether to show message context in configuration log.
 option(

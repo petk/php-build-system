@@ -70,8 +70,6 @@ endif()
 # TODO: Configure this differently.
 set(CMAKE_C_STANDARD_REQUIRED TRUE)
 
-set(CMAKE_C_VISIBILITY_PRESET "hidden")
-
 # Find PHP package on the host.
 find_package(PHP REQUIRED)
 
@@ -88,12 +86,12 @@ else()
 endif()
 
 # Configure extension as CLI-based. Such extensions are only meant to be used
-# and enabled on CLI-based PHP SAPIs, such as cgi, cli, phpdbg, embed, etc.
+# and enabled on CLI-based PHP SAPIs, such as cgi, cli, embed, phpdbg, etc.
 #set_target_properties(php_ext_%EXTNAME% PROPERTIES PHP_CLI TRUE)
 
 # Configure extension as Zend extension. Zend extensions are loaded with the
 # 'zend_extension' INI directive and include additional advanced hooks. Use only
-# when building advanced extensions, such as debuggers, profilers, caching, etc.
+# when building advanced extension, such as debugger, profiler, caching, etc.
 #set_target_properties(php_ext_%EXTNAME% PROPERTIES PHP_ZEND_EXTENSION TRUE)
 
 # Add library target sources.

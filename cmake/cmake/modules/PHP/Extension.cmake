@@ -43,7 +43,8 @@ include_guard(GLOBAL)
 # Configures the PHP extension. This is implemented as a macro instead of a
 # function for the enable_testing() to work.
 macro(php_extension)
-  include(PHP/Internal/DisableInSourceBuild)
+  include(PHP/Internal/DisableInSourceBuilds)
+  include(PHP/Internal/CMakeDefaults)
 
   cmake_language(
     EVAL CODE
