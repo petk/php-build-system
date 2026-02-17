@@ -1,13 +1,16 @@
 #[=============================================================================[
-Ensure all project targets are rebuilt as needed.
+This is an internal module and is intended for usage only within the php-src.
+It ensures all project targets are rebuilt as needed.
+
+Load this module in a CMake project with:
+
+  include(PHP/Core/Rebuild)
 
 When PHP executable is not found on the system, the 'php_sapi_cli' (aliased
 'PHP::sapi::cli') target is used to generate certain files during development.
 This can lead to cyclic dependencies among targets if custom commands depend on
 the 'PHP::sapi::cli' target. While such automatic rebuilding is not considered
 good practice, it ensures that all targets are kept up to date.
-
-TODO: This works only for a limited set of cases for now and will be refactored.
 #]=============================================================================]
 
 include_guard(GLOBAL)
