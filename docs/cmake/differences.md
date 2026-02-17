@@ -99,6 +99,10 @@ build system:
 
   See [Configuration](/docs/cmake/configuration.md) documentation for more info.
 
+* In CMake, shared extensions built in php-src and as standalone (a.k.a. in the
+  phpize mode) are built in both ways with the hidden visibility preset.
+  See: https://github.com/php/php-src/pull/21238
+
 * Installation
 
   * The installation include directory (`/usr/local/include/php`) can be
