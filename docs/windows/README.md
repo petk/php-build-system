@@ -8,7 +8,8 @@
 * [4. The configure.bat command-line options](#4-the-configurebat-command-line-options)
 * [5. Dependencies](#5-dependencies)
 * [6. PHP installation](#6-php-installation)
-* [7. See more](#7-see-more)
+* [7. Building extensions with phpize](#7-building-extensions-with-phpize)
+* [8. See more](#8-see-more)
 
 Windows build system in PHP is a separate collection of
 [JScript](https://en.wikipedia.org/wiki/JScript) files and command-line scripts.
@@ -70,7 +71,7 @@ To build PHP on Windows using provided JScript build system files, a separate
 repository [php-sdk-binary-tools](https://github.com/php/php-sdk-binary-tools)
 provides required scripts, files, and helpers to simplify the build process:
 
-```sh
+```pwsh
 # Clone SDK binary tools Git repository
 git clone https://github.com/php/php-sdk-binary-tools C:\php-sdk
 cd C:\php-sdk
@@ -114,7 +115,7 @@ nmake test TESTS="ext/calendar ext/standard"
 
 Configuration can be passed on the command line at the configuration phase:
 
-```sh
+```pwsh
 .\configure.bat VAR=VALUE --enable-FEATURE --with-PACKAGE
 ```
 
@@ -161,7 +162,7 @@ PHP Windows build uses forks for some dependencies. Sources are available at
 
 Inside a Windows PowerShell:
 
-```sh
+```pwsh
 # Clone SDK binary tools Git repository
 git clone https://github.com/php/php-sdk-binary-tools C:\php-sdk
 cd C:\php-sdk
@@ -186,6 +187,20 @@ nmake
 nmake install
 ```
 
-## 7. See more
+## 7. Building extensions with phpize
+
+Community extensions are under the hood built in so-called `phpize` mode:
+
+```pwsh
+cd path\to\<extension>
+c:\php-sdk\phpsdk-vs17-x64.bat
+c:\php\SDK\phpize.bat
+configure.bat --enable-<extension>
+nmake
+nmake test
+nmake install
+```
+
+## 8. See more
 
 * [PHP Wiki: Build PHP on Windows](https://wiki.php.net/internals/windows/stepbystepbuild_sdk_2)
