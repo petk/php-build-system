@@ -106,37 +106,7 @@ endif()
 # C compiler supports it.
 ################################################################################
 
-block(PROPAGATE CMAKE_C_STANDARD)
-  set(php_standard 11)
-  set(unsupported_standards 90 99)
-
-  if(CMAKE_C_STANDARD_LATEST IN_LIST unsupported_standards)
-    message(
-      FATAL_ERROR
-      "PHP source code requires C${php_standard} standard or newer. Current C "
-      "compiler ${CMAKE_C_COMPILER} supports only C${CMAKE_C_STANDARD_LATEST}."
-    )
-  endif()
-
-  # Set required C standard and allow parent project to override to newer.
-  if(NOT DEFINED CMAKE_C_STANDARD)
-    set(CMAKE_C_STANDARD ${php_standard})
-  endif()
-
-  if(CMAKE_C_STANDARD IN_LIST unsupported_standards)
-    message(
-      WARNING
-      "PHP source code requires C${php_standard} standard or newer. "
-      "CMAKE_C_STANDARD has been set to '${php_standard}'."
-    )
-    set(CMAKE_C_STANDARD ${php_standard})
-  endif()
-
-  target_compile_features(php_config INTERFACE c_std_${php_standard})
-  target_compile_features(php_extension INTERFACE c_std_${php_standard})
-endblock()
-
-set(CMAKE_C_STANDARD_REQUIRED TRUE)
+include(PHP/Internal/Standard)
 
 ################################################################################
 # Find mailer.
