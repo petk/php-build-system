@@ -470,30 +470,6 @@ if(PHP_MEMORY_SANITIZER OR PHP_ADDRESS_SANITIZER OR PHP_UNDEFINED_SANITIZER)
   endif()
 endif()
 
-# Check if compiler supports the -Wno-typedef-redefinition compile option. PHP
-# is written with C99 standard in mind, yet there is a possibility that typedef
-# redefinitions could happened in the source code. Since PHP CMake-based build
-# system also uses the CMAKE_C_STANDARD_REQUIRED (which adds the -std=...
-# compilation option), GCC recent versions usually ignore this and don't emit
-# the warnings, however Clang emits warnings that redeclaring typedef is a C11
-# feature. Clang has this option to turn off these warnings. As of C11, the
-# typedef redefinitions are valid programming, and this can be removed once a
-# required CMAKE_C_STANDARD 11 will be used.
-if(CMAKE_C_STANDARD EQUAL 99)
-  php_check_compiler_flag(
-    C
-    -Wno-typedef-redefinition
-    PHP_HAS_WNO_TYPEDEF_REDEFINITION
-  )
-  if(PHP_HAS_WNO_TYPEDEF_REDEFINITION)
-    target_compile_options(
-      php_config
-      INTERFACE
-        $<$<COMPILE_LANGUAGE:C>:-Wno-typedef-redefinition>
-    )
-  endif()
-endif()
-
 ################################################################################
 # Check linker flags.
 ################################################################################
