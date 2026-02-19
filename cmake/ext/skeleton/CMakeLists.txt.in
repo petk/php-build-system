@@ -18,7 +18,7 @@ Enables the extension.
 Builds extension as shared.
 #]=============================================================================]
 
-# CMakeLists.txt file for the %EXTNAME% extension.
+# CMakeLists.txt file for the PHP %EXTNAME% extension.
 
 # Set minimum required CMake version.
 cmake_minimum_required(VERSION 4.2...4.3)

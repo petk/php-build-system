@@ -46,6 +46,10 @@ The following variables are set:
   PHP CMake utility and find modules. This path is also automatically appended
   to the `CMAKE_MODULE_PATH` when `find_package(PHP)` is called and PHP is
   found.
+* `PHP_API_VERSION` - The PHP API version.
+* `PHP_ZEND_VERSION` - The version of the Zend Engine.
+* `PHP_ZEND_MODULE_API_NO` - The API number for PHP extensions.
+* `PHP_ZEND_EXTENSION_API_NO` - The API number for Zend extensions.
 
 ## Hints
 
@@ -156,6 +160,11 @@ set_and_check(PHP_INSTALL_LIBDIR "@PACKAGE_PHP_INSTALL_LIBDIR@")
 # Set path where additional PHP CMake modules are installed:
 set(PHP_CMAKE_MODULE_PATH "${CMAKE_CURRENT_LIST_DIR}/modules")
 list(APPEND CMAKE_MODULE_PATH ${PHP_CMAKE_MODULE_PATH})
+
+set(PHP_API_VERSION "@PHP_API_VERSION@")
+set(PHP_ZEND_VERSION "$<TARGET_PROPERTY:PHP::Zend,VERSION>")
+set(PHP_ZEND_MODULE_API_NO "$<TARGET_PROPERTY:PHP::Zend,PHP_ZEND_MODULE_API_NO>")
+set(PHP_ZEND_EXTENSION_API_NO "$<TARGET_PROPERTY:PHP::Zend,PHP_ZEND_EXTENSION_API_NO>")
 
 ################################################################################
 # Check required components.
