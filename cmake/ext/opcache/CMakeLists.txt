@@ -286,6 +286,7 @@ if(PHP_EXT_OPCACHE_JIT)
     php_ext_opcache_jit_generator
     PROPERTIES
       RUNTIME_OUTPUT_DIRECTORY CMakeFiles
+      COMPILE_OPTIONS $<TARGET_PROPERTY:php_ext_opcache,COMPILE_OPTIONS>
   )
 
   # Generate IR folding engine rules header.
