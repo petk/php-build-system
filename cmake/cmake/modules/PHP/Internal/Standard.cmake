@@ -77,12 +77,16 @@ block()
         set(target "php_config")
       elseif(TARGET PHP::Extension)
         set(target "PHP::Extension")
+      else()
+        set(target "")
       endif()
 
-      target_compile_options(
-        ${target}
-        INTERFACE $<$<COMPILE_LANGUAGE:C>:-Wno-typedef-redefinition>
-      )
+      if(target)
+        target_compile_options(
+          ${target}
+          INTERFACE $<$<COMPILE_LANGUAGE:C>:-Wno-typedef-redefinition>
+        )
+      endif()
     endif()
   endif()
 endblock()
