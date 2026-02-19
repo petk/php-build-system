@@ -67,9 +67,6 @@ if(NOT PHP_EXT_%EXTNAMECAPS%)
   return()
 endif()
 
-# TODO: Configure this differently.
-set(CMAKE_C_STANDARD_REQUIRED TRUE)
-
 # Find PHP package on the host.
 find_package(PHP REQUIRED)
 

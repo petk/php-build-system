@@ -45,6 +45,7 @@ include_guard(GLOBAL)
 macro(php_extension)
   include(PHP/Internal/DisableInSourceBuilds)
   include(PHP/Internal/CMakeDefaults)
+  include(PHP/Internal/Standard)
 
   cmake_language(
     EVAL CODE
