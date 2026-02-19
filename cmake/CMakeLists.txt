@@ -128,8 +128,12 @@ target_link_libraries(php_config INTERFACE PHP::SystemExtensions)
 # Define GNU standard installation directories.
 include(GNUInstallDirs)
 
-# Set platform-specific configuration.
-include(cmake/Platform.cmake)
+# Set platform-specific configuration. When cross-compiling, the host and target
+# can be different values with different configurations.
+if(NOT CMAKE_HOST_SYSTEM_NAME EQUAL CMAKE_SYSTEM_NAME)
+  include(cmake/platforms/${CMAKE_HOST_SYSTEM_NAME}.cmake OPTIONAL)
+endif()
+include(cmake/platforms/${CMAKE_SYSTEM_NAME}.cmake OPTIONAL)
 
 # Set PHP configuration options and variables.
 include(cmake/Configuration.cmake)
