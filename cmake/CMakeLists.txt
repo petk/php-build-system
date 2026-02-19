@@ -323,7 +323,8 @@ include(cmake/CPack.cmake)
 # Print build configuration summary.
 ################################################################################
 
-include(cmake/Summary.cmake)
+include(PHP/Internal/Summary)
+php_summary_print()
 
 message(
   STATUS
