@@ -6,12 +6,10 @@ Load this module in a CMake project with:
 
   include(PHP/Internal/Summary)
 
-This module built on top of the CMake's FeatureSummary module. It sorts feature
-summary alphabetically and categorizes enabled features into SAPIs, extensions,
-and other global PHP features. Common misconfiguration issues are summarized
-together with missing required system packages.
-
-See also: https://cmake.org/cmake/help/latest/module/FeatureSummary.html
+This module is built on top of the CMake's FeatureSummary module. It sorts
+feature summary alphabetically and categorizes enabled features into SAPIs,
+extensions, and other global PHP features. Common misconfiguration issues are
+summarized together with missing required system packages.
 #]=============================================================================]
 
 include_guard(GLOBAL)
