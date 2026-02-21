@@ -421,6 +421,7 @@ A list of PHP CMake modules:
 * [PHP/CheckBuiltin](/docs/cmake/modules/PHP/CheckBuiltin.md)
 * [PHP/CheckCompilerFlag](/docs/cmake/modules/PHP/CheckCompilerFlag.md)
 * [PHP/CheckSysMacros](/docs/cmake/modules/PHP/CheckSysMacros.md)
+* [PHP/Extension](/docs/cmake/modules/PHP/Extension.md)
 * [PHP/Re2c](/docs/cmake/modules/PHP/Re2c.md)
 * [PHP/SearchLibraries](/docs/cmake/modules/PHP/SearchLibraries.md)
 * [PHP/StandardLibrary](/docs/cmake/modules/PHP/StandardLibrary.md)
