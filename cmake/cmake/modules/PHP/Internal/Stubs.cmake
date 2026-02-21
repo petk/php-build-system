@@ -1,16 +1,14 @@
 #[=============================================================================[
-# PHP/Stubs
+This is an internal module and is not intended for direct usage inside projects.
+It generates *_arginfo.h headers from the *.stub.php sources.
 
-Generate *_arginfo.h headers from the *.stub.php sources
+Load this module in a CMake project with:
 
-The build/gen_stub.php script requires the PHP tokenizer extension.
+  include(PHP/Internal/Stubs)
 
-## Usage
-
-```cmake
-# CMakeLists.txt
-include(PHP/Stubs)
-```
+The build/gen_stub.php script requires the PHP tokenizer extension. The
+PHP-Parser additionally requires the PHP ctype extension but it is not needed
+to generate the stubs.
 #]=============================================================================]
 
 include_guard(GLOBAL)
@@ -27,21 +25,28 @@ function(_php_stubs_get_php_command result)
       NOT TARGET PHP::sapi::cli
       OR (TARGET PHP::sapi::cli AND NOT TARGET PHP::ext::tokenizer)
     )
+    AND NOT TARGET PHP::Interpreter
   )
     return(PROPAGATE ${result})
   endif()
 
   # If external PHP is available, check for the required tokenizer extension.
-  if(PHP_HOST_FOUND)
+  if(PHP_HOST_FOUND OR TARGET PHP::Interpreter)
+    if(TARGET PHP::Interpreter)
+      get_target_property(php_executable PHP::Interpreter LOCATION)
+    else()
+      set(php_executable "${PHP_HOST_EXECUTABLE}")
+    endif()
+
     execute_process(
-      COMMAND ${PHP_HOST_EXECUTABLE} --ri tokenizer
+      COMMAND ${php_executable} --ri tokenizer
       RESULT_VARIABLE code
       OUTPUT_QUIET
       ERROR_QUIET
     )
 
     if(code EQUAL 0)
-      set(${result} ${PHP_HOST_EXECUTABLE})
+      set(${result} ${php_executable})
       return(PROPAGATE ${result})
     endif()
   endif()
@@ -93,17 +98,33 @@ function(_php_stubs_get_binary_targets result dir)
   return(PROPAGATE ${result})
 endfunction()
 
-if(NOT EXISTS ${PROJECT_SOURCE_DIR}/build/gen_stub.php)
+# When building standalone PHP extension or php-src.
+if(
+  (
+    TARGET PHP::Interpreter
+    AND NOT EXISTS ${PHP_INSTALL_LIBDIR}/build/gen_stub.php
+  )
+  OR (
+    NOT TARGET PHP::Interpreter
+    AND NOT EXISTS ${PROJECT_SOURCE_DIR}/build/gen_stub.php
+  )
+)
   return()
 endif()
 
-file(
-  COPY
-  ${PROJECT_SOURCE_DIR}/build/gen_stub.php
-  DESTINATION ${PROJECT_BINARY_DIR}/CMakeFiles/PHP/Stubs
-)
-
 block()
+  if(TARGET PHP::Interpreter)
+    set(php_gen_stub_script_source ${PHP_INSTALL_LIBDIR}/build/gen_stub.php)
+  else()
+    set(php_gen_stub_script_source ${PROJECT_SOURCE_DIR}/build/gen_stub.php)
+  endif()
+
+  file(
+    COPY
+    ${php_gen_stub_script_source}
+    DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/CMakeFiles/PHP/Stubs
+  )
+
   _php_stubs_get_php_command(PHP_COMMAND)
 
   if(NOT PHP_COMMAND)
@@ -125,9 +146,63 @@ block()
     endif()
   endforeach()
 
-  set(PHP_SOURCES "$<JOIN:$<REMOVE_DUPLICATES:${stubs}>,$<SEMICOLON>>")
-  file(READ ${CMAKE_CURRENT_LIST_DIR}/Stubs/StubsGenerator.cmake.in content)
-  string(CONFIGURE "${content}" content @ONLY)
+  # Create a script for processing PHP stub sources.
+  string(CONFIGURE [=[
+    cmake_minimum_required(VERSION 4.2...4.3)
+
+    if(NOT CMAKE_SCRIPT_MODE_FILE)
+      message(FATAL_ERROR "This is a command-line script.")
+    endif()
+
+    if(NOT PHP_COMMAND)
+      message(WARNING "StubsGenerator.cmake: No PHP command given.")
+      return()
+    endif()
+
+    set(sources "$<JOIN:$<REMOVE_DUPLICATES:@stubs@>,$<SEMICOLON>>")
+
+    # Ensure sources include only *.stub.php files.
+    list(FILTER sources INCLUDE REGEX [[\.stub\.php$]])
+
+    # Create a list of sources that must be parsed by the generator.
+    if("@php_gen_stub_script_source@" IS_NEWER_THAN ${CMAKE_CURRENT_LIST_FILE})
+      file(
+        COPY
+        "@php_gen_stub_script_source@"
+        DESTINATION ${CMAKE_CURRENT_LIST_DIR}
+      )
+      set(stubs ${sources})
+      file(TOUCH ${CMAKE_CURRENT_LIST_FILE})
+    else()
+      foreach(stub ${sources})
+        string(REGEX REPLACE [[\.stub\.php$]] [[_arginfo.h]] header "${stub}")
+        if("${stub}" IS_NEWER_THAN "${header}")
+          list(APPEND stubs ${stub})
+        endif()
+      endforeach()
+    endif()
+
+    if(NOT stubs)
+      return()
+    endif()
+
+    execute_process(
+      COMMAND
+        ${CMAKE_COMMAND} -E cmake_echo_color --blue --bold
+          "Regenerating *_arginfo.h headers from *.stub.php sources"
+      COMMAND
+        ${PHP_COMMAND} ${CMAKE_CURRENT_LIST_DIR}/gen_stub.php ${stubs}
+    )
+
+    # Ensure that *_arginfo.h headers are newer than their *.stub.php sources.
+    foreach(stub ${stubs})
+      string(REGEX REPLACE [[\.stub\.php$]] [[_arginfo.h]] header "${stub}")
+      if("${stub}" IS_NEWER_THAN "${header}")
+        file(TOUCH "${header}")
+      endif()
+    endforeach()
+
+  ]=] content @ONLY)
   file(
     GENERATE
     OUTPUT ${PROJECT_BINARY_DIR}/CMakeFiles/PHP/Stubs/StubsGenerator.cmake

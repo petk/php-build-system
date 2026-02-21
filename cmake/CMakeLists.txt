@@ -180,7 +180,7 @@ if(PHP_TESTING)
 endif()
 
 # Generate *_arginfo.h headers from *.stub.php sources.
-include(PHP/Stubs)
+include(PHP/Internal/Stubs)
 
 # Configure PHP thread safety.
 include(cmake/ThreadSafety.cmake)
