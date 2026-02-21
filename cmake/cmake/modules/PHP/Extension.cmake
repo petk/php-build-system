@@ -57,7 +57,7 @@ macro(php_extension)
 
     # Add test to execute run-tests.php for all *.phpt files when extension is
     # built as standalone.
-    if(TARGET PHP::Interpreter)
+    if(PROJECT_IS_TOP_LEVEL AND TARGET PHP::Interpreter)
       include(PHP/Internal/Testing)
       php_testing_add("${ARGV0}")
     endif()
@@ -145,6 +145,14 @@ function(_php_extension_post_configure)
   if(NOT current MATCHES "(#undef|#define) ${macro}")
     string(STRIP "${template}\n${current}" config)
     file(CONFIGURE OUTPUT ${binary_dir}/config.h CONTENT "${config}\n")
+  endif()
+
+  ##############################################################################
+  # Generate *_arginfo.h headers from *.stub.php sources.
+  ##############################################################################
+
+  if(PROJECT_IS_TOP_LEVEL)
+    include(PHP/Internal/Stubs)
   endif()
 
   ##############################################################################
