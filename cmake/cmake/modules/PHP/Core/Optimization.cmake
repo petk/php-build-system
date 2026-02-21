@@ -1,31 +1,27 @@
 #[=============================================================================[
-# PHP/Optimization
+This is an internal module and is intended for usage only within the php-src.
+It enables interprocedural optimization (IPO/LTO) on all targets, if supported.
 
-Enable interprocedural optimization (IPO/LTO) on all targets, if supported.
+Load this module in a CMake project with:
 
-This adds linker flag `-flto` if it is supported by the compiler to run standard
-link-time optimizer.
+  include(PHP/Core/Optimization)
+
+This module adds linker flag `-flto` if it is supported by the compiler to run
+standard link-time optimizer.
 
 It can be also controlled more granular with the
-`CMAKE_INTERPROCEDURAL_OPTIMIZATION_<CONFIG>` variables based on the build type.
+CMAKE_INTERPROCEDURAL_OPTIMIZATION_<CONFIG> variables based on the build type.
 
 This module also checks whether IPO/LTO can be enabled based on the PHP
 configuration (due to global register variables) and compiler/platform.
 
 https://cmake.org/cmake/help/latest/prop_tgt/INTERPROCEDURAL_OPTIMIZATION.html
 
-## Usage
-
-```cmake
-# CMakeLists.txt
-include(PHP/Optimization)
-```
+TODO: Recheck Clang errors as OBJECT libraries doesn't seem to work.
+TODO: Recheck and add PHP_LTO option to docs.
 #]=============================================================================]
 
 include_guard(GLOBAL)
-
-# TODO: Recheck Clang errors as OBJECT libraries doesn't seem to work.
-# TODO: Recheck and add PHP_LTO option to docs.
 
 option(PHP_LTO "Build PHP with link time optimization (LTO) if supported")
 mark_as_advanced(PHP_LTO)

@@ -101,7 +101,7 @@ define_property(
 )
 
 # Check whether IPO/LTO can be enabled.
-include(PHP/Optimization)
+include(PHP/Core/Optimization)
 
 # Enable position-independent code (PIC) for all targets and
 # position-independent executables (PIE) for executable targets.
