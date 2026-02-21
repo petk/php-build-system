@@ -6,8 +6,29 @@
 Finds PHP, the general-purpose scripting language:
 
 ```cmake
-find_package(PHP [<version>] [...])
+find_package(PHP [<version>] [COMPONENTS <components>...] [...])
 ```
+
+## Components
+
+This module supports optional components which can be specified using the
+find_package() command:
+
+```cmake
+find_package(PHP [COMPONENTS <components>...])
+```
+
+Supported components include:
+
+* `Interpreter` - Finds the PHP command-line interpreter executable.
+
+## Imported targets
+
+This module provides the following imported targets when `CMAKE_ROLE` is
+`PROJECT`:
+
+* `PHP::Interpreter` - Imported executable target encapsulating the PHP
+  command-line interpreter usage requirements.
 
 ## Result variables
 
@@ -64,6 +85,7 @@ unset(PHP_ARTIFACTS_PREFIX)
 if(PHP_HOST_FOUND)
   message(STATUS "PHP_HOST_EXECUTABLE=${PHP_HOST_EXECUTABLE}")
   message(STATUS "PHP_HOST_VERSION=${PHP_HOST_VERSION}")
+  message(STATUS "Imported target: PHP_HOST::Interpreter")
 endif()
 ```
 
