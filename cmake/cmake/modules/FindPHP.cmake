@@ -4,8 +4,29 @@
 Finds PHP, the general-purpose scripting language:
 
 ```cmake
-find_package(PHP [<version>] [...])
+find_package(PHP [<version>] [COMPONENTS <components>...] [...])
 ```
+
+## Components
+
+This module supports optional components which can be specified using the
+find_package() command:
+
+```cmake
+find_package(PHP [COMPONENTS <components>...])
+```
+
+Supported components include:
+
+* `Interpreter` - Finds the PHP command-line interpreter executable.
+
+## Imported targets
+
+This module provides the following imported targets when `CMAKE_ROLE` is
+`PROJECT`:
+
+* `PHP::Interpreter` - Imported executable target encapsulating the PHP
+  command-line interpreter usage requirements.
 
 ## Result variables
 
@@ -62,6 +83,7 @@ unset(PHP_ARTIFACTS_PREFIX)
 if(PHP_HOST_FOUND)
   message(STATUS "PHP_HOST_EXECUTABLE=${PHP_HOST_EXECUTABLE}")
   message(STATUS "PHP_HOST_VERSION=${PHP_HOST_VERSION}")
+  message(STATUS "Imported target: PHP_HOST::Interpreter")
 endif()
 ```
 #]=============================================================================]
@@ -102,19 +124,33 @@ block(
 
   set(reason "")
 
+  # Set default components.
+  if(NOT PHP_FIND_COMPONENTS)
+    set(PHP_FIND_COMPONENTS Interpreter)
+  endif()
+
+  set(required_vars "")
+
   ##############################################################################
   # Find the PHP executable.
   ##############################################################################
 
-  find_program(
-    PHP${_php_prefix}_EXECUTABLE
-    NAMES php
-    DOC "Path to the PHP executable"
-  )
-  mark_as_advanced(PHP${_php_prefix}_EXECUTABLE)
+  if("Interpreter" IN_LIST PHP_FIND_COMPONENTS)
+    list(APPEND required_vars PHP${_php_prefix}_EXECUTABLE)
 
-  if(NOT PHP${_php_prefix}_EXECUTABLE)
-    string(APPEND reason "The php command-line executable not found. ")
+    find_program(
+      PHP${_php_prefix}_EXECUTABLE
+      NAMES php
+      DOC "Path to the PHP executable"
+    )
+    mark_as_advanced(PHP${_php_prefix}_EXECUTABLE)
+
+    if(IS_EXECUTABLE "${PHP${_php_prefix}_EXECUTABLE}")
+      set(PHP_Interpreter_FOUND TRUE)
+    else()
+      set(PHP_Interpreter_FOUND FALSE)
+      string(APPEND reason "The php command-line executable not found. ")
+    endif()
   endif()
 
   ##############################################################################
@@ -149,14 +185,35 @@ block(
 
   find_package_handle_standard_args(
     PHP
-    REQUIRED_VARS
-      PHP${_php_prefix}_EXECUTABLE
+    REQUIRED_VARS ${required_vars}
     VERSION_VAR PHP${_php_prefix}_VERSION
     HANDLE_VERSION_RANGE
+    HANDLE_COMPONENTS
     REASON_FAILURE_MESSAGE "${reason}"
   )
 
   set(PHP${_php_prefix}_FOUND ${PHP_FOUND})
+
+  ##############################################################################
+  # Create imported targets.
+  ##############################################################################
+
+  get_property(role GLOBAL PROPERTY CMAKE_ROLE)
+
+  if(
+    "Interpreter" IN_LIST PHP_FIND_COMPONENTS
+    AND PHP${_php_prefix}_FOUND
+    AND PHP_Interpreter_FOUND
+    AND role STREQUAL "PROJECT"
+    AND NOT TARGET PHP${_php_prefix}::Interpreter
+  )
+    add_executable(PHP${_php_prefix}::Interpreter IMPORTED)
+    set_target_properties(
+      PHP${_php_prefix}::Interpreter
+      PROPERTIES
+        IMPORTED_LOCATION "${PHP${_php_prefix}_EXECUTABLE}"
+    )
+  endif()
 endblock()
 
 unset(_php_prefix)
