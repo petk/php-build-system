@@ -197,7 +197,8 @@ block()
         ${PHP_COMMAND} ${CMAKE_CURRENT_LIST_DIR}/gen_stub.php ${stubs}
     )
 
-    Ensure that *_{arginfo,decl}.h headers are newer than their *.stub.php sources.
+    # Ensure that *_{arginfo,decl}.h headers are newer than their *.stub.php
+    # sources.
     foreach(stub ${stubs})
       string(REGEX REPLACE [[\.stub\.php$]] [[_arginfo.h]] arginfo_header "${stub}")
       string(REGEX REPLACE [[\.stub\.php$]] [[_decl.h]] decl_header "${stub}")
