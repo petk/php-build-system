@@ -21,12 +21,11 @@ Result variables:
 * MISSING_STRTOK_R_DECL - Whether strtok_r() is not declared.
 
 Also the type of reentrant time-related functions are checked. Type can be IRIX,
-HP-UX or POSIX style. This check is obsolete as it is relevant only for obsolete
+or POSIX style. This check is obsolete as it is relevant only for obsolete
 systems.
 
 Cache variables:
 
-* PHP_HPUX_TIME_R - Whether HP-UX 10.x is used.
 * PHP_IRIX_TIME_R - Whether IRIX-style functions are used (e.g., Solaris <= 11.3
   and illumos without _POSIX_PTHREAD_SEMANTICS defined).
 #]=============================================================================]
@@ -85,13 +84,12 @@ if(NOT HAVE_ASCTIME_R OR NOT HAVE_GMTIME_R)
 endif()
 
 # Skip in consecutive configuration phases.
-if(DEFINED PHP_HPUX_TIME_R OR DEFINED PHP_IRIX_TIME_R)
+if(DEFINED PHP_IRIX_TIME_R)
   return()
 endif()
 
 # When cross-compiling, assume POSIX style.
 if(CMAKE_CROSSCOMPILING AND NOT CMAKE_CROSSCOMPILING_EMULATOR)
-  set(PHP_HPUX_TIME_R_EXITCODE 1)
   set(PHP_IRIX_TIME_R_EXITCODE 1)
 endif()
 
@@ -107,46 +105,22 @@ cmake_push_check_state(RESET)
 
     int main(void)
     {
-      char buf[27];
-      struct tm t;
+      struct tm t, *s;
       time_t old = 0;
-      int r, s;
+      char buf[27], *p;
 
-      s = (int) gmtime_r(&old, &t);
-      r = (int) asctime_r(&t, buf, 26);
-      if (r == s && s == 0) {
+      s = gmtime_r(&old, &t);
+      p = asctime_r(&t, buf, 26);
+      if (p == buf && s == &t) {
         return 0;
       }
 
       return 1;
     }
-  ]] PHP_HPUX_TIME_R)
-
-  if(NOT PHP_HPUX_TIME_R)
-    check_source_runs(C [[
-      #include <time.h>
-
-      int main(void)
-      {
-        struct tm t, *s;
-        time_t old = 0;
-        char buf[27], *p;
-
-        s = gmtime_r(&old, &t);
-        p = asctime_r(&t, buf, 26);
-        if (p == buf && s == &t) {
-          return 0;
-        }
-
-        return 1;
-      }
-    ]] PHP_IRIX_TIME_R)
-  endif()
+  ]] PHP_IRIX_TIME_R)
 cmake_pop_check_state()
 
-if(PHP_HPUX_TIME_R)
-  message(CHECK_PASS "HP-UX")
-elseif(PHP_IRIX_TIME_R)
+if(PHP_IRIX_TIME_R)
   message(CHECK_PASS "IRIX")
 else()
   message(CHECK_PASS "POSIX")
