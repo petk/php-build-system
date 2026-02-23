@@ -568,9 +568,6 @@
 /* Define to 1 if the compiler supports '__builtin_usub_overflow'. */
 #cmakedefine PHP_HAVE_BUILTIN_USUB_OVERFLOW 1
 
-/* Define to 1 if you have HP-UX 10.x.-style reentrant time functions. */
-#cmakedefine PHP_HPUX_TIME_R 1
-
 /* Define to 1 you have IRIX-style reentrant time functions. */
 #cmakedefine PHP_IRIX_TIME_R 1
 
