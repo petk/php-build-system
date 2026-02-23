@@ -6,7 +6,6 @@
   * [CMake-based PHP build system](/docs/cmake/cmake.md)
   * [Configuration](/docs/cmake/configuration.md)
   * [CMake code style](/docs/cmake/cmake-code-style.md)
-  * [PHP native and CMake-based build system differences](/docs/cmake/differences.md)
 * [Dependencies in C/C++ projects](/docs/dependencies.md)
 * [Autotools-based PHP build system](/docs/autotools/README.md)
 * [Windows build system for PHP](/docs/windows/README.md)
