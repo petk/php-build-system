@@ -258,6 +258,17 @@ if(NOT PHP_EXTENSION_DIR)
   #set(extension_dir "${CMAKE_INSTALL_LIBDIR}/php/extensions/$<IF:$<CONFIG:Debug,DebugAssertions>,debug,no-debug>$<IF:$<BOOL:$<TARGET_PROPERTY:PHP::config,PHP_THREAD_SAFETY>>,-zts,-non-zts>-$<TARGET_PROPERTY:PHP::Zend,PHP_ZEND_MODULE_API_NO>")
 endif()
 
+set(
+  CACHE{PHP_CONFIGURE_COMMAND}
+  TYPE STRING
+  HELP
+    "Whether to display configure command info in the phpinfo output. Set to a "
+    "boolean false value to hide the configure command in the phpinfo, or pass "
+    "a custom string value that overrides it in the phpinfo output."
+  VALUE "cmake"
+)
+mark_as_advanced(PHP_CONFIGURE_COMMAND)
+
 ################################################################################
 # Various global internal configuration.
 ################################################################################
