@@ -195,6 +195,7 @@ Some useful overridable configuration options built into CMake itself. All these
 * [`PHP_CCACHE`](/docs/cmake/variables/PHP_CCACHE.md)
 * [`PHP_CONFIG_FILE_PATH`](/docs/cmake/variables/PHP_CONFIG_FILE_PATH.md)
 * [`PHP_CONFIG_FILE_SCAN_DIR`](/docs/cmake/variables/PHP_CONFIG_FILE_SCAN_DIR.md)
+* [`PHP_CONFIGURE_COMMAND`](/docs/cmake/variables/PHP_CONFIGURE_COMMAND.md)
 * [`PHP_DEFAULT_SHORT_OPEN_TAG`](/docs/cmake/variables/PHP_DEFAULT_SHORT_OPEN_TAG.md)
 * [`PHP_DMALLOC`](/docs/cmake/variables/PHP_DMALLOC.md)
 * [`PHP_DTRACE`](/docs/cmake/variables/PHP_DTRACE.md)

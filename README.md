@@ -287,6 +287,10 @@ The following features are only available in CMake:
 * Better cross-compiling support with CMake toolchain files and ability to set
   the cross-compiling emulator.
 
+* Additional configuration options:
+
+  * `PHP_CONFIGURE_COMMAND`
+
 ### Behavior differences
 
 * sapi/phpdbg readline support works more intuitively regardless of the readline
