@@ -283,14 +283,12 @@ endforeach()
 function(_php_main_configure_build_defs)
   message(STATUS "Configuring build-defs.h")
 
-  if(PHP_CONFIGURE_COMMAND)
-    set(CONFIGURE_COMMAND "${PHP_CONFIGURE_COMMAND}")
-  else()
-    set(CONFIGURE_COMMAND "")
-  endif()
-
   string(CONFIGURE [[
-    set(CONFIGURE_COMMAND "${CONFIGURE_COMMAND}")
+    if(PHP_CONFIGURE_COMMAND)
+      set(CONFIGURE_COMMAND "${PHP_CONFIGURE_COMMAND}")
+    else()
+      set(CONFIGURE_COMMAND "")
+    endif()
 
     if(NOT "@PHP_PEAR_INSTALL_DIR_VALUE@" STREQUAL "")
       set(PHP_PEAR_INSTALL_DIR_VALUE "$<PATH:ABSOLUTE_PATH,NORMALIZE,@PHP_PEAR_INSTALL_DIR_VALUE@,${CMAKE_INSTALL_PREFIX}>")
