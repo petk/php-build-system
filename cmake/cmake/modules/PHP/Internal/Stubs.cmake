@@ -141,7 +141,7 @@ block()
       $<PATH:ABSOLUTE_PATH,NORMALIZE,$<LIST:FILTER,$<TARGET_PROPERTY:${target},SOURCES>,INCLUDE,\.stub\.php$>,$<TARGET_PROPERTY:${target},SOURCE_DIR>>
     )
 
-    if(PHP_HOST_FOUND)
+    if(PHP_HOST_FOUND OR TARGET PHP::Interpreter)
       add_dependencies(${target} php_stubs)
     endif()
   endforeach()
@@ -201,8 +201,8 @@ block()
         file(TOUCH "${header}")
       endif()
     endforeach()
-
   ]=] content @ONLY)
+
   file(
     GENERATE
     OUTPUT ${PROJECT_BINARY_DIR}/CMakeFiles/PHP/Stubs/StubsGenerator.cmake
@@ -210,7 +210,7 @@ block()
   )
 
   set(target_options "")
-  if(NOT PHP_HOST_FOUND)
+  if(NOT PHP_HOST_FOUND AND NOT TARGET PHP::Interpreter)
     set(target_options ALL DEPENDS ${targets})
   endif()
 
