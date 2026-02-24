@@ -541,9 +541,11 @@ PHP has several ways to install PHP extensions:
   ```
 
   This will load the PHP extension module file (shared object) located in the
-  extension directory (the `extension_dir` INI directive). File can have `.so`
-  extension on *nix systems, `.dll` on Windows, and possibly other extensions
-  such as `.sl` on certain HP-UX systems, or `.dylib` on macOS.
+  extension directory (the `extension_dir` INI directive). PHP extension file
+  has most commonly the `.so` extension on Unix-like systems, or `.dll` on
+  Windows (the one specified by the
+  [`CMAKE_SHARED_MODULE_SUFFIX`](https://cmake.org/cmake/help/latest/variable/CMAKE_SHARED_MODULE_SUFFIX.html)
+  variable).
 
 The following extensions are always enabled and are part of the overall PHP
 engine source code:

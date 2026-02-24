@@ -487,7 +487,7 @@ variables can help customize the installation locations and PHP package
 information:
 
 * `EXTENSION_DIR` - absolute path that overrides path to extensions shared
-  objects (`.so`, `.dll`... files). By default, it is set to
+  objects (`.so`, or `.dll` files). By default, it is set to
   `/usr/local/lib/php/extensions/no-debug-non-zts-20230901` or
   `/usr/local/lib/php/20230901`, when using the `--with-layout=GNU`. To override
   it in the context of the prefix, it can be also set like this:
