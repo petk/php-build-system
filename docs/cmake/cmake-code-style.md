@@ -205,13 +205,13 @@ these variables become distinct.
 
 CMake provides variables such as `APPLE`, `LINUX`, `UNIX`, `WIN32`, etc, for the
 target systems, and `CMAKE_HOST_APPLE`, `CMAKE_HOST_LINUX`, etc, for the host
-systems. However, they might be removed in the future CMake versions and they
-can be also ambiguous in certain cases. Better practice is to be specific and
-use:
+systems. To be more specific, the target and host platform can be also
+determined by the:
 
-* `CMAKE_SYSTEM_NAME` in code or `PLATFORM_ID` in generator expressions to check
-  the target platform (which is also the name used during cross-compilation).
-* And the `CMAKE_HOST_SYSTEM_NAME` to identify the platform where CMake is
+* `CMAKE_SYSTEM_NAME` variable or the `PLATFORM_ID` generator expression to
+  identify the target platform (which is also the name used during
+  cross-compilation).
+* `CMAKE_HOST_SYSTEM_NAME` variable to identify the platform where CMake is
   performing the build.
 
 When building on the platform for which the build is targeted,
