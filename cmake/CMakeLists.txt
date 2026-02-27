@@ -309,10 +309,34 @@ else()
 endif()
 
 if(PHP_ENABLE_CMAKE_EXPERIMENTAL_FEATURES)
-  set(CMAKE_EXPERIMENTAL_EXPORT_PACKAGE_INFO "b80be207-778e-46ba-8080-b23bba22639e")
+  if(CMAKE_VERSION VERSION_LESS 4.3)
+    set(
+      CMAKE_EXPERIMENTAL_EXPORT_PACKAGE_INFO
+      "b80be207-778e-46ba-8080-b23bba22639e"
+    )
+  endif()
 
+  if(CMAKE_VERSION VERSION_GREATER_EQUAL 4.3)
+    set(
+      CMAKE_EXPERIMENTAL_GENERATE_SBOM
+      "ca494ed3-b261-4205-a01f-603c95e4cae0"
+    )
+  endif()
+endif()
+
+if(
+  CMAKE_VERSION VERSION_GREATER_EQUAL 4.2
+  OR CMAKE_EXPERIMENTAL_EXPORT_PACKAGE_INFO
+)
   install(
     PACKAGE_INFO PHP
+    EXPORT php_development_export
+  )
+endif()
+
+if(CMAKE_EXPERIMENTAL_GENERATE_SBOM)
+  install(
+    SBOM PHP
     EXPORT php_development_export
   )
 endif()
