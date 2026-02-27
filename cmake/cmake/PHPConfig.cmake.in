@@ -77,12 +77,12 @@ find_package(PHP)
 # Create a user-friendly not-found message for unsupported CMake versions.
 ################################################################################
 
-if(CMAKE_VERSION VERSION_LESS 4.2)
+if(CMAKE_VERSION VERSION_LESS @CMAKE_MINIMUM_REQUIRED_VERSION@)
   string(
     CONCAT
     ${CMAKE_FIND_PACKAGE_NAME}_NOT_FOUND_MESSAGE
     "${CMAKE_FIND_PACKAGE_NAME} ${${CMAKE_FIND_PACKAGE_NAME}_VERSION} requires "
-    "CMake 4.2 or higher.\n"
+    "CMake @CMAKE_MINIMUM_REQUIRED_VERSION@ or higher.\n"
     "You are running CMake version ${CMAKE_VERSION}"
   )
 
