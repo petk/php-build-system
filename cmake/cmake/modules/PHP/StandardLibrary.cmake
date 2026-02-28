@@ -101,7 +101,7 @@ function(_php_standard_library_check)
 
   # The MS C runtime library (CRT).
   if(MSVC)
-    set(PHP_C_STANDARD_LIBRARY "mscrt")
+    set(CACHE{PHP_C_STANDARD_LIBRARY} TYPE INTERNAL HELP "" VALUE "mscrt")
   elseif(CMAKE_SYSTEM_NAME STREQUAL "Windows")
     check_symbol_exists(_MSC_VER stdio.h PHP_C_STANDARD_LIBRARY)
   endif()
