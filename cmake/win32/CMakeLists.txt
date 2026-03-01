@@ -94,6 +94,9 @@ target_compile_definitions(
     # For Zend Engine, same as PHP_WIN32.
     ZEND_WIN32
 
+    # Obsolete in favor of PHP_WIN32.
+    WINDOWS
+
     _MBCS
     _USE_MATH_DEFINES
     PHP_EXPORTS

@@ -108,14 +108,14 @@ jobs:
             dovecot-imapd \
             sendmail;
 
+      - name: Install CMake and Ninja
+        uses: lukka/get-cmake@latest
+        id: cmake-and-ninja
+
       - name: Checkout
         uses: actions/checkout@v6
         with:
           fetch-depth: 2
-
-      - name: Install CMake and Ninja
-        uses: lukka/get-cmake@latest
-        id: cmake-and-ninja
 
       - name: Configure and build PHP
         run: |
@@ -160,6 +160,10 @@ jobs:
     runs-on: windows-latest
     name: Windows
     steps:
+      - name: Install CMake and Ninja
+        uses: lukka/get-cmake@latest
+        id: cmake-and-ninja
+
       - name: Checkout
         uses: actions/checkout@v6
         with:
@@ -167,5 +171,5 @@ jobs:
 
       - name: Build and install
         run: |
-          cmake --preset windows
-          cmake --build --preset windows -j
+          ${{ steps.cmake-and-ninja.outputs.cmake-path }}/cmake --preset windows
+          ${{ steps.cmake-and-ninja.outputs.cmake-path }}/cmake --build --preset windows -j
