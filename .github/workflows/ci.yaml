@@ -150,7 +150,11 @@ jobs:
 
       - name: Install PHP
         if: ${{ always() }}
-        run: sudo "${{ steps.cmake-and-ninja.outputs.cmake-path }}/cmake" --install php-build/all-enabled/php -j $(nproc) ${{ matrix.generator.install_options }}
+        run: |
+          sudo "${{ steps.cmake-and-ninja.outputs.cmake-path }}/cmake" \
+            --install php-build/all-enabled/php \
+            -j $(nproc) \
+            ${{ matrix.generator.install_options }}
 
       - name: Setup shared standalone extension
         if: ${{ always() }}
@@ -159,12 +163,13 @@ jobs:
           cd php-build/all-enabled/php-src/ext/phantom
           cmake \
             -B cmake-build \
-            -DPHP_EXT_PHANTOM=ON \
-            -DPHP_EXT_PHANTOM_SHARED=ON
             -G "${{ matrix.generator.name }}"
           cmake --build cmake-build -j ${{ matrix.generator.build_options }}
           ctest --test-dir cmake-build -j --verbose ${{ matrix.generator.test_options }}
-          sudo "${{ steps.cmake-and-ninja.outputs.cmake-path }}/cmake" --install cmake-build -j $(nproc) ${{ matrix.generator.install_options }}
+          sudo "${{ steps.cmake-and-ninja.outputs.cmake-path }}/cmake" \
+            --install cmake-build \
+            -j $(nproc) \
+            ${{ matrix.generator.install_options }}
           php -d extension=phantom -m | grep phantom
 
   windows:
