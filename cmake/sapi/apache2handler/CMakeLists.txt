@@ -90,6 +90,7 @@ set_target_properties(
   php_sapi_apache2handler
   PROPERTIES
     EXPORT_NAME Apache2Handler
+    PREFIX ""
     OUTPUT_NAME mod_${PHP_PROGRAM_PREFIX}php${PHP_PROGRAM_SUFFIX}
 )
 

@@ -31,6 +31,9 @@ target_link_libraries(
     cmocka::cmocka
 )
 
+# TODO: Fix this.
+set_target_properties(php_unit_test_network PROPERTIES PHP_CLI TRUE)
+
 check_linker_flag(C LINKER:--wrap=connect PHP_HAS_C_FLAG_WRAP)
 if(PHP_HAS_C_FLAG_WRAP)
   target_link_options(
