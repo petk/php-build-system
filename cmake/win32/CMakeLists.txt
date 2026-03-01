@@ -9,7 +9,7 @@ include(FeatureSummary)
 # Add library.
 ################################################################################
 
-add_library(php_windows OBJECT)
+add_library(php_windows SHARED)
 add_library(PHP::windows ALIAS php_windows)
 
 target_sources(
@@ -69,7 +69,35 @@ target_sources(
 )
 
 target_include_directories(php_windows PRIVATE ${CMAKE_CURRENT_BINARY_DIR})
-target_link_libraries(php_windows PRIVATE PHP::config)
+
+target_link_libraries(
+  php_windows
+  PRIVATE
+    PHP::config
+    PHP::core::objects
+)
+
+set_target_properties(php_windows PROPERTIES OUTPUT_NAME php PHP_CORE TRUE)
+
+get_property(isMultiConfig GLOBAL PROPERTY GENERATOR_IS_MULTI_CONFIG)
+if(isMultiConfig)
+  set_target_properties(
+    php_windows
+    PROPERTIES RUNTIME_OUTPUT_DIRECTORY ${PHP_BINARY_DIR}
+  )
+else()
+  set_target_properties(
+    php_windows
+    PROPERTIES RUNTIME_OUTPUT_DIRECTORY ${PHP_BINARY_DIR}/$<CONFIG>
+  )
+endif()
+
+target_link_options(
+  php_windows
+  PRIVATE
+    /nodefaultlib:libcmt
+    /d2:-AllowCompatibleILVersions
+)
 
 ################################################################################
 # Add usage requirements to PHP interface targets.
@@ -99,7 +127,8 @@ target_compile_definitions(
 
     _MBCS
     _USE_MATH_DEFINES
-    PHP_EXPORTS
+
+    $<$<BOOL:$<TARGET_PROPERTY:PHP_CORE>>:PHP_EXPORTS>
 
     # The time_t defaults to 64-bit. Force 32-bit time_t on 32-bit architecture.
     # This was historically added to PHP as Visual Studio 2005 set 64-bit time_t
@@ -107,6 +136,10 @@ target_compile_definitions(
     # compilers. This and duplicate definition in the configuration header
     # should be removed at some point.
     $<$<EQUAL:${CMAKE_SIZEOF_VOID_P},4>:_USE_32BIT_TIME_T=1>
+
+    $<$<BOOL:$<TARGET_PROPERTY:PHP_CORE>>:_USRDLL>
+
+    $<$<BOOL:$<TARGET_PROPERTY:PHP_CORE>>:WINVER=0x0602>
 )
 
 target_compile_options(
@@ -115,10 +148,20 @@ target_compile_options(
     # MS deprecated ANSI stdio and similar functions. Disable warnings.
     $<$<COMPILE_LANG_AND_ID:C,MSVC>:/wd4996>
     $<$<COMPILE_LANG_AND_ID:CXX,MSVC>:/wd4996>
+
+    $<$<COMPILE_LANGUAGE:C,CXX>:/Zc:inline>
+    $<$<COMPILE_LANGUAGE:C,CXX>:/Zc:__cplusplus>
+    $<$<COMPILE_LANGUAGE:C,CXX>:/Zc:preprocessor>
+    $<$<COMPILE_LANGUAGE:C,CXX>:/Zc:wchar_t>
+
+    $<$<COMPILE_LANGUAGE:C,CXX>:/FD>
 )
 
+# Add common libraries to PHP Windows core DLL library and shared extensions.
+add_library(php_windows_common_libs INTERFACE IMPORTED GLOBAL)
+
 target_link_libraries(
-  php_config
+  php_windows_common_libs
   INTERFACE
     advapi32
     bcrypt
@@ -131,8 +174,16 @@ target_link_libraries(
     ws2_32
 )
 
-target_link_libraries(php_sapi INTERFACE PHP::windows)
-target_sources(php_sapi INTERFACE $<TARGET_OBJECTS:PHP::windows>)
+target_link_libraries(
+  php_extension
+  INTERFACE
+    $<INSTALL_INTERFACE:php_windows_common_libs>
+    $<BUILD_INTERFACE:$<$<IN_LIST:$<TARGET_PROPERTY:TYPE>,MODULE_LIBRARY;SHARED_LIBRARY>:php_windows_common_libs>>
+)
+
+target_link_libraries(php_windows PRIVATE php_windows_common_libs)
+
+target_link_libraries(php_core INTERFACE PHP::windows)
 
 target_compile_definitions(
   php_extension

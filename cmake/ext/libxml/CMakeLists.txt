@@ -58,8 +58,8 @@ target_sources(
         php_libxml.h
 )
 
-if(CMAKE_SYSTEM_NAME STREQUAL "Windows" AND TARGET php_sapi)
-  target_sources(php_sapi INTERFACE php_libxml2.def)
+if(TARGET php_windows)
+  target_sources(php_windows PRIVATE php_libxml2.def)
 endif()
 
 target_compile_definitions(

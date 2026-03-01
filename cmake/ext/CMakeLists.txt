@@ -85,7 +85,14 @@ foreach(extension IN LISTS extensions)
   # Add usage requirements to PHP interface targets.
   # TODO: Should PHP_CLI extensions pass properties only to PHP_CLI SAPIs?
   get_target_property(type PHP::ext::${extension} TYPE)
-  if(NOT type MATCHES "^(MODULE|SHARED)_LIBRARY$")
+  if(type MATCHES "^(MODULE|SHARED)_LIBRARY$")
+    target_link_libraries(
+      php_ext_${extension}
+      PRIVATE $<$<PLATFORM_ID:Windows>:$<TARGET_NAME_IF_EXISTS:PHP::core>>
+    )
+  else()
+    set_target_properties(php_ext_${extension} PROPERTIES PHP_CORE TRUE)
+
     target_compile_definitions(
       php_config
       INTERFACE
@@ -112,13 +119,13 @@ foreach(extension IN LISTS extensions)
     )
 
     target_link_libraries(
-      php_sapi
+      php_core_objects
       INTERFACE
         $<IF:$<BOOL:$<TARGET_GENEX_EVAL:PHP::ext::${extension},$<TARGET_PROPERTY:PHP::ext::${extension},PHP_CLI>>>,$<$<BOOL:$<TARGET_PROPERTY:PHP_CLI>>:PHP::ext::${extension}>,PHP::ext::${extension}>
     )
 
     target_sources(
-      php_sapi
+      php_core_objects
       INTERFACE
         $<IF:$<BOOL:$<TARGET_GENEX_EVAL:PHP::ext::${extension},$<TARGET_PROPERTY:PHP::ext::${extension},PHP_CLI>>>,$<$<BOOL:$<TARGET_PROPERTY:PHP_CLI>>:$<TARGET_OBJECTS:PHP::ext::${extension}>>,$<TARGET_OBJECTS:PHP::ext::${extension}>>
     )

@@ -263,12 +263,8 @@ else()
     set(PCRE2_STATIC TRUE)
 
     get_target_property(type php_ext_pcre TYPE)
-    if(
-      CMAKE_SYSTEM_NAME STREQUAL "Windows"
-      AND TARGET php_sapi
-      AND NOT type MATCHES "^(MODULE|SHARED)_LIBRARY$"
-    )
-      target_sources(php_sapi INTERFACE php_pcre.def)
+    if(TARGET php_windows AND type MATCHES "^(OBJECT|STATIC)_LIBRARY$")
+      target_sources(php_windows PRIVATE php_pcre.def)
     endif()
   endif()
 
