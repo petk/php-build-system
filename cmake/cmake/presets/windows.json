@@ -60,14 +60,6 @@
       "cacheVariables": {
         "PHP_THREAD_SAFETY": true
       }
-    },
-    {
-      "name": "windows-ninja",
-      "inherits": "windows",
-      "displayName": "Ninja generator with all extensions disabled",
-      "description": "PHP build using Ninja generator with all PHP extensions and SAPIs disabled, only with CLI SAPI",
-      "binaryDir": "${sourceDir}/php-build/windows-ninja",
-      "generator": "Ninja"
     }
   ],
   "buildPresets": [
@@ -78,10 +70,6 @@
     {
       "name": "windows-ts",
       "configurePreset": "windows-ts"
-    },
-    {
-      "name": "windows-ninja",
-      "configurePreset": "windows-ninja"
     }
   ],
   "testPresets": [
@@ -99,11 +87,6 @@
     {
       "name": "windows-ts",
       "configurePreset": "windows-ts",
-      "inherits": "windows"
-    },
-    {
-      "name": "windows-ninja",
-      "configurePreset": "windows-ninja",
       "inherits": "windows"
     }
   ]

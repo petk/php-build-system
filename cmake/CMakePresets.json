@@ -30,14 +30,6 @@
       "cacheVariables": {
         "PHP_THREAD_SAFETY": true
       }
-    },
-    {
-      "name": "default-ninja",
-      "inherits": "default",
-      "displayName": "Ninja generator with default PHP configuration",
-      "description": "Ninja generator with default PHP configuration",
-      "binaryDir": "${sourceDir}/php-build/default-ninja",
-      "generator": "Ninja"
     }
   ],
   "buildPresets": [
@@ -48,10 +40,6 @@
     {
       "name": "default-ts",
       "configurePreset": "default-ts"
-    },
-    {
-      "name": "default-ninja",
-      "configurePreset": "default-ninja"
     }
   ],
   "testPresets": [
@@ -69,11 +57,6 @@
     {
       "name": "default-ts",
       "configurePreset": "default-ts",
-      "inherits": "default"
-    },
-    {
-      "name": "default-ninja",
-      "configurePreset": "default-ninja",
       "inherits": "default"
     }
   ]

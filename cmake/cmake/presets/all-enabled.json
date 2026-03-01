@@ -124,14 +124,6 @@
         "PHP_EXT_STANDARD_CRYPT_EXTERNAL": true,
         "PHP_EXT_XML_EXPAT": true
       }
-    },
-    {
-      "name": "all-enabled-ninja",
-      "inherits": "all-enabled",
-      "displayName": "Ninja generator with all extensions enabled",
-      "description": "PHP build using Ninja generator with all PHP extensions and SAPIs enabled",
-      "binaryDir": "${sourceDir}/php-build/all-enabled-ninja",
-      "generator": "Ninja"
     }
   ],
   "buildPresets": [
@@ -150,10 +142,6 @@
     {
       "name": "all-enabled-2",
       "configurePreset": "all-enabled-2"
-    },
-    {
-      "name": "all-enabled-ninja",
-      "configurePreset": "all-enabled-ninja"
     }
   ],
   "testPresets": [
@@ -181,11 +169,6 @@
     {
       "name": "all-enabled-2",
       "configurePreset": "all-enabled-2",
-      "inherits": "all-enabled"
-    },
-    {
-      "name": "all-enabled-ninja",
-      "configurePreset": "all-enabled-ninja",
       "inherits": "all-enabled"
     }
   ]

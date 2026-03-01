@@ -20,7 +20,7 @@ on:
 
 jobs:
   linux:
-    name: Linux.${{ matrix.os.label }}.${{ matrix.compiler.name }}.${{ matrix.generator }}
+    name: Linux ${{ matrix.os.label }} ${{ matrix.compiler.name }} ${{ matrix.generator.name }}
     runs-on: ${{ matrix.os.label }}
     strategy:
       fail-fast: false
@@ -28,29 +28,37 @@ jobs:
         os:
           - { label: ubuntu-latest }
         compiler:
-          - { name: GNU, CC: gcc, CXX: g++, packages: gcc g++ }
-          - { name: Clang, CC: clang, CXX: clang++, packages: clang llvm-dev }
-        build_type:
-          - Release
+          - { name: GNU, CC: gcc, CXX: g++ }
+          - { name: Clang, CC: clang, CXX: clang++ }
         generator:
-          - Unix Makefiles
+          - {
+              name: "Unix Makefiles",
+              build_options: "",
+              test_options: "",
+              install_options: ""
+            }
+          - {
+              name: "Ninja Multi-Config",
+              build_options: "--config Release",
+              test_options: "--build-config Release",
+              install_options: "--config Release"
+            }
         php:
           - 8.3-dev
     env:
       CC: ${{ matrix.compiler.CC }}
       CXX: ${{ matrix.compiler.CXX }}
-      CMAKE_BUILD_TYPE: ${{ matrix.build_type }}
+      CMAKE_BUILD_TYPE: Release
     steps:
-      - name: Install compiler ${{ matrix.compiler.name }}
-        run: |
-          sudo apt-get update
-          sudo apt-get -y install ${{ matrix.compiler.packages }}
-
       - name: Install base dependencies
         run: |
           sudo apt-get update
           sudo apt-get -y install \
             build-essential \
+            gcc \
+            g++ \
+            clang \
+            llvm-dev \
             re2c \
             bison \
             libxml2-dev \
@@ -119,8 +127,10 @@ jobs:
 
       - name: Configure and build PHP
         run: |
-          cmake --preset all-enabled -DCMAKE_INSTALL_PREFIX=/usr
-          cmake --build --preset all-enabled -j
+          cmake --preset all-enabled \
+            -DCMAKE_INSTALL_PREFIX=/usr \
+            -G "${{ matrix.generator.name }}"
+          cmake --build --preset all-enabled -j ${{ matrix.generator.build_options }}
 
       - name: Setup SNMP agents
         run: |
@@ -136,11 +146,14 @@ jobs:
 
       - name: Run tests
         if: ${{ always() }}
-        run: ctest --preset all-enabled
+        run: ctest --preset all-enabled -j ${{ matrix.generator.test_options }}
 
       - name: Install PHP
         if: ${{ always() }}
-        run: sudo "${{ steps.cmake-and-ninja.outputs.cmake-path }}/cmake" --install php-build/all-enabled/php -j $(nproc)
+        run: sudo "${{ steps.cmake-and-ninja.outputs.cmake-path }}/cmake" \
+          --install php-build/all-enabled/php \
+          -j $(nproc) \
+          ${{ matrix.generator.install_options }}
 
       - name: Setup shared standalone extension
         if: ${{ always() }}
@@ -151,9 +164,13 @@ jobs:
             -B cmake-build \
             -DPHP_EXT_PHANTOM=ON \
             -DPHP_EXT_PHANTOM_SHARED=ON
-          cmake --build cmake-build -j
-          ctest --test-dir cmake-build -j --verbose
-          sudo "${{ steps.cmake-and-ninja.outputs.cmake-path }}/cmake" --install cmake-build
+            -G "${{ matrix.generator.name }}"
+          cmake --build cmake-build -j ${{ matrix.generator.build_options }}
+          ctest --test-dir cmake-build -j --verbose ${{ matrix.generator.test_options }}
+          sudo "${{ steps.cmake-and-ninja.outputs.cmake-path }}/cmake" \
+            --install cmake-build \
+            -j $(nproc) \
+            ${{ matrix.generator.install_options }}
           php -d extension=phantom -m | grep phantom
 
   windows:
