@@ -134,6 +134,11 @@ target_link_libraries(
 target_link_libraries(php_sapi INTERFACE PHP::windows)
 target_sources(php_sapi INTERFACE $<TARGET_OBJECTS:PHP::windows>)
 
+target_compile_definitions(
+  php_extension
+  INTERFACE $<INSTALL_INTERFACE:WINDOWS;_WINDOWS>
+)
+
 ################################################################################
 # Generate wsyslog.h file with message compiler (mc).
 ################################################################################
