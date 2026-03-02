@@ -52,13 +52,22 @@ target_link_libraries(
 set_target_properties(
   php_sapi_litespeed
   PROPERTIES
-    EXPORT_NAME Sapi::Litespeed
+    EXPORT_NAME litespeed
     OUTPUT_NAME ${PHP_PROGRAM_PREFIX}lsphp${PHP_PROGRAM_SUFFIX}
 )
 
 install(
   TARGETS php_sapi_litespeed
+  EXPORT php_sapi_litespeed_export
   RUNTIME
     DESTINATION ${CMAKE_INSTALL_BINDIR}
     COMPONENT php-sapi-litespeed
+)
+
+install(
+  EXPORT php_sapi_litespeed_export
+  NAMESPACE PHP::sapi::
+  FILE PHPSapiLitespeedTargets.cmake
+  DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/PHP/targets
+  COMPONENT php-development
 )

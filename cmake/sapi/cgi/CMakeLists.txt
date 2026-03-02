@@ -52,7 +52,7 @@ endif()
 set_target_properties(
   php_sapi_cgi
   PROPERTIES
-    EXPORT_NAME Sapi::Cgi
+    EXPORT_NAME cgi
     OUTPUT_NAME ${PHP_PROGRAM_PREFIX}php-cgi${PHP_PROGRAM_SUFFIX}
     PHP_CLI TRUE
     PHP_SAPI_FASTCGI TRUE
@@ -77,9 +77,18 @@ endif()
 
 install(
   TARGETS php_sapi_cgi
+  EXPORT php_sapi_cgi_export
   RUNTIME
     DESTINATION ${CMAKE_INSTALL_BINDIR}
     COMPONENT php-sapi-cgi
+)
+
+install(
+  EXPORT php_sapi_cgi_export
+  NAMESPACE PHP::sapi::
+  FILE PHPSapiCgiTargets.cmake
+  DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/PHP/targets
+  COMPONENT php-development
 )
 
 ################################################################################

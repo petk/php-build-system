@@ -31,7 +31,7 @@ function(php_testing_add)
     COMMAND
       ${CMAKE_COMMAND}
       -P
-      ${CMAKE_CURRENT_BINARY_DIR}/CMakeFiles/PHP/run-tests.cmake
+      ${CMAKE_CURRENT_BINARY_DIR}/CMakeFiles/PHP/$<CONFIG>/run-tests.cmake
   )
 
   set_tests_properties(PhpRunTests PROPERTIES RUN_SERIAL TRUE)
@@ -79,12 +79,6 @@ function(_php_testing_post_configure)
     return()
   endif()
 
-  set(extension_dir "${CMAKE_CURRENT_BINARY_DIR}/modules")
-  get_property(is_multi_config GLOBAL PROPERTY GENERATOR_IS_MULTI_CONFIG)
-  if(NOT is_multi_config)
-    string(APPEND extension_dir "/$<CONFIG>")
-  endif()
-
   cmake_host_system_information(RESULT processors QUERY NUMBER_OF_LOGICAL_CORES)
 
   set(parallel "")
@@ -109,11 +103,43 @@ function(_php_testing_post_configure)
     endif()
   endforeach()
 
-  file(
+  if(TARGET PHP::sapi::cgi)
+    set(php_cgi "$<TARGET_FILE:PHP::sapi::cgi>")
+  else()
+    set(php_cgi "")
+  endif()
+
+  if(TARGET PHP::sapi::phpdbg)
+    set(php_phpdbg "$<TARGET_FILE:PHP::sapi::phpdbg>")
+  else()
+    set(php_phpdbg "")
+  endif()
+
+  if(TARGET PHP::sapi::fpm)
+    set(php_fpm "$<TARGET_FILE:PHP::sapi::fpm>")
+  else()
+    set(php_fpm "")
+  endif()
+
+  string(
     CONFIGURE
-    OUTPUT CMakeFiles/PHP/run-tests.cmake
-    CONTENT [[
+    [[
       cmake_minimum_required(VERSION 4.2...4.3)
+
+      # Configure PHP CGI SAPI that some tests require.
+      if(NOT DEFINED ENV{TEST_PHP_CGI_EXECUTABLE} AND EXISTS "@php_cgi@")
+        set(ENV{TEST_PHP_CGI_EXECUTABLE} "@php_cgi@")
+      endif()
+
+      # Configure PHP Debugger SAPI that some tests require.
+      if(NOT DEFINED ENV{TEST_PHPDBG_EXECUTABLE} AND EXISTS "@php_phpdbg@")
+        set(ENV{TEST_PHPDBG_EXECUTABLE} "@php_phpdbg@")
+      endif()
+
+      # Configure PHP FPM SAPI that some tests require.
+      if(NOT DEFINED ENV{TEST_PHP_FPM_EXECUTABLE} AND EXISTS "@php_fpm@")
+        set(ENV{TEST_PHP_FPM_EXECUTABLE} "@php_fpm@")
+      endif()
 
       execute_process(
         COMMAND
@@ -124,7 +150,7 @@ function(_php_testing_post_configure)
             -d memory_limit=-1
             "@run_tests@"
               -n
-              -d extension_dir="@extension_dir@"
+              -d extension_dir="@CMAKE_CURRENT_BINARY_DIR@/modules/$<CONFIG>"
               --show-diff
               @options@
               @parallel@
@@ -133,11 +159,12 @@ function(_php_testing_post_configure)
         COMMAND_ERROR_IS_FATAL ANY
       )
     ]]
+    content
     @ONLY
   )
   file(
     GENERATE
-    OUTPUT CMakeFiles/PHP/run-tests.cmake
-    INPUT ${CMAKE_CURRENT_BINARY_DIR}/CMakeFiles/PHP/run-tests.cmake
+    OUTPUT CMakeFiles/PHP/$<CONFIG>/run-tests.cmake
+    CONTENT "${content}"
   )
 endfunction()

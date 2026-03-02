@@ -124,36 +124,28 @@
         "PHP_EXT_STANDARD_CRYPT_EXTERNAL": true,
         "PHP_EXT_XML_EXPAT": true
       }
-    },
-    {
-      "name": "all-enabled-ninja",
-      "inherits": "all-enabled",
-      "displayName": "Ninja generator with all extensions enabled",
-      "description": "PHP build using Ninja generator with all PHP extensions and SAPIs enabled",
-      "binaryDir": "${sourceDir}/php-build/all-enabled-ninja",
-      "generator": "Ninja"
     }
   ],
   "buildPresets": [
     {
       "name": "all-enabled",
-      "configurePreset": "all-enabled"
+      "configurePreset": "all-enabled",
+      "jobs": 0
     },
     {
       "name": "all-enabled-shared",
+      "inherits": "all-enabled",
       "configurePreset": "all-enabled-shared"
     },
     {
       "name": "all-enabled-ts",
+      "inherits": "all-enabled",
       "configurePreset": "all-enabled-ts"
     },
     {
       "name": "all-enabled-2",
+      "inherits": "all-enabled",
       "configurePreset": "all-enabled-2"
-    },
-    {
-      "name": "all-enabled-ninja",
-      "configurePreset": "all-enabled-ninja"
     }
   ],
   "testPresets": [
@@ -170,23 +162,50 @@
     },
     {
       "name": "all-enabled-shared",
-      "configurePreset": "all-enabled-shared",
-      "inherits": "all-enabled"
+      "inherits": "all-enabled",
+      "configurePreset": "all-enabled-shared"
     },
     {
       "name": "all-enabled-ts",
-      "configurePreset": "all-enabled-ts",
-      "inherits": "all-enabled"
+      "inherits": "all-enabled",
+      "configurePreset": "all-enabled-ts"
     },
     {
       "name": "all-enabled-2",
-      "configurePreset": "all-enabled-2",
-      "inherits": "all-enabled"
+      "inherits": "all-enabled",
+      "configurePreset": "all-enabled-2"
+    }
+  ],
+   "workflowPresets": [
+    {
+      "name": "all-enabled",
+      "steps": [
+        {
+          "type": "configure",
+          "name": "all-enabled"
+        },
+        {
+          "type": "build",
+          "name": "all-enabled"
+        }
+      ]
     },
     {
-      "name": "all-enabled-ninja",
-      "configurePreset": "all-enabled-ninja",
-      "inherits": "all-enabled"
+      "name": "all-enabled-with-tests",
+      "steps": [
+        {
+          "type": "configure",
+          "name": "all-enabled"
+        },
+        {
+          "type": "build",
+          "name": "all-enabled"
+        },
+        {
+          "type": "test",
+          "name": "all-enabled"
+        }
+      ]
     }
   ]
 }

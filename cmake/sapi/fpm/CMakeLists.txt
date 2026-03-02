@@ -230,7 +230,7 @@ target_link_libraries(
 set_target_properties(
   php_sapi_fpm
   PROPERTIES
-    EXPORT_NAME Sapi::Fpm
+    EXPORT_NAME fpm
     OUTPUT_NAME ${PHP_PROGRAM_PREFIX}php-fpm${PHP_PROGRAM_SUFFIX}
     PHP_SAPI_FASTCGI TRUE
 )
@@ -566,9 +566,18 @@ endblock()
 
 install(
   TARGETS php_sapi_fpm
+  EXPORT php_sapi_fpm_export
   RUNTIME
     DESTINATION ${CMAKE_INSTALL_SBINDIR}
     COMPONENT php-sapi-fpm
+)
+
+install(
+  EXPORT php_sapi_fpm_export
+  NAMESPACE PHP::sapi::
+  FILE PHPSapiFpmTargets.cmake
+  DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/PHP/targets
+  COMPONENT php-development
 )
 
 # Create log and run directories on installation.

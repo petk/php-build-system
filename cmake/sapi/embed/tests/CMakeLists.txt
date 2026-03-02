@@ -26,6 +26,9 @@ target_link_libraries(
     PHP::config
 )
 
+# TODO: Fix this.
+set_target_properties(php_sapi_embed_static_test_basic PROPERTIES PHP_CLI TRUE)
+
 add_test(
   NAME PhpSapiEmbedStaticBasic
   COMMAND php_sapi_embed_static_test_basic
