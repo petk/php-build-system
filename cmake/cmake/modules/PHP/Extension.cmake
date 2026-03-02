@@ -104,15 +104,9 @@ function(_php_extension_post_configure)
         set(library_output_dir "${CMAKE_CURRENT_BINARY_DIR}/modules")
       endif()
 
-      get_property(is_multi_config GLOBAL PROPERTY GENERATOR_IS_MULTI_CONFIG)
-
-      if(NOT is_multi_config)
-        string(APPEND library_output_dir "/$<CONFIG>")
-      endif()
-
       set_property(
         TARGET php_ext_${extension}
-        PROPERTY LIBRARY_OUTPUT_DIRECTORY "${library_output_dir}"
+        PROPERTY LIBRARY_OUTPUT_DIRECTORY "${library_output_dir}/$<CONFIG>"
       )
     endif()
   endif()
