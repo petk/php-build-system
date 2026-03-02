@@ -451,6 +451,10 @@ The following features are only available in CMake:
   need a workaround using libtool tags.
   See: https://github.com/php/php-src/issues/20992
 
+* Empty PHP extensions directory is installed when no shared extensions are
+  built and installed.
+  See: https://github.com/php/php-src/issues/19477
+
 ## Documentation
 
 * CMake
