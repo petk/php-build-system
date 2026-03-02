@@ -42,28 +42,18 @@
       "cacheVariables": {
         "PHP_THREAD_SAFETY": true
       }
-    },
-    {
-      "name": "all-disabled-ninja",
-      "inherits": "all-disabled",
-      "displayName": "Ninja generator with all extensions disabled",
-      "description": "PHP build using Ninja generator with all PHP extensions and SAPIs disabled, only with CLI SAPI",
-      "binaryDir": "${sourceDir}/php-build/all-disabled-ninja",
-      "generator": "Ninja"
     }
   ],
   "buildPresets": [
     {
       "name": "all-disabled",
-      "configurePreset": "all-disabled"
+      "configurePreset": "all-disabled",
+      "jobs": 0
     },
     {
       "name": "all-disabled-ts",
+      "inherits": "all-disabled",
       "configurePreset": "all-disabled-ts"
-    },
-    {
-      "name": "all-disabled-ninja",
-      "configurePreset": "all-disabled-ninja"
     }
   ],
   "testPresets": [
@@ -76,17 +66,15 @@
       "output": {
         "shortProgress": true,
         "verbosity": "verbose"
+      },
+      "execution": {
+        "jobs": 0
       }
     },
     {
       "name": "all-disabled-ts",
-      "configurePreset": "all-disabled-ts",
-      "inherits": "all-disabled"
-    },
-    {
-      "name": "all-disabled-ninja",
-      "configurePreset": "all-disabled-ninja",
-      "inherits": "all-disabled"
+      "inherits": "all-disabled",
+      "configurePreset": "all-disabled-ts"
     }
   ]
 }
