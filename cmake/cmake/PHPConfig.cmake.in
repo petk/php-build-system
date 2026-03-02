@@ -11,9 +11,15 @@ find_package(PHP [<version>] [COMPONENTS <components>...])
 
 The following components are available:
 
-* `Interpreter`
-* `Development`
-* `Embed`
+* `Interpreter` - finds the PHP command-line interpreter executable.
+* `Development` - finds PHP headers required to build PHP extensions or
+  applications.
+* `Embed` - finds the PHP embed SAPI library.
+* `SapiCgi` - finds the PHP CGI SAPI command-line executable.
+* `SapiFpm` - finds the PHP FPM SAPI executable.
+* `SapiLitespeed` - finds the PHP LiteSpeed SAPI command line executable.
+* `SapiPhpdbg` - finds the PHP Debugger SAPI command line executable.
+* `SapiPhpdbgLib` - finds the PHP Debugger SAPI library.
 
 If no components are specified, by default, the `Interpreter` and `Development`
 components are searched.
@@ -36,6 +42,32 @@ The following imported targets are provided:
 * `PHP::Embed`
   * `PHP::EmbedShared`
   * `PHP::EmbedStatic`
+
+* `PHP::sapi::cgi`
+
+  Interface imported target encapsulating usage requirements for the PHP CGI
+  SAPI executable. Available when the `SapiCgi` component is found.
+
+* `PHP::sapi::fpm`
+
+  Interface imported target encapsulating the usage requirements for the PHP
+  FPM SAPI executable. Available when the `SapiFpm` component is found.
+
+* `PHP::sapi::litespeed`
+
+  Interface imported target encapsulating the usage requirements for the PHP
+  LiteSpeed SAPI executable. Available when the `SapiLitespeed` component is
+  found.
+
+* `PHP::sapi::phpdbg`
+
+  Interface imported target encapsulating usage requirements for the PHP
+  Debugger SAPI executable. Available when the `SapiPhpdbg` component is found.
+
+* `PHP::sapi::phpdbglib`
+
+  Interface imported target encapsulating the usage requirements for the PHP
+  Debugger SAPI library. Available when the `SapiPhpdbgLib` component is found.
 
 ## Result variables
 

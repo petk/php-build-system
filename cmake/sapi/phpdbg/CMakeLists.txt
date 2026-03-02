@@ -174,7 +174,7 @@ endif()
 set_target_properties(
   php_sapi_phpdbg
   PROPERTIES
-    EXPORT_NAME Sapi::PhpDbg
+    EXPORT_NAME phpdbg
     OUTPUT_NAME ${PHP_PROGRAM_PREFIX}phpdbg${PHP_PROGRAM_SUFFIX}
 )
 
@@ -182,7 +182,7 @@ if(TARGET php_sapi_phpdbg_shared)
   set_target_properties(
     php_sapi_phpdbg_shared
     PROPERTIES
-      EXPORT_NAME Sapi::PhpDbgShared
+      EXPORT_NAME phpdbg_lib
       PREFIX lib
   )
 endif()
@@ -268,9 +268,18 @@ endif()
 
 install(
   TARGETS php_sapi_phpdbg
+  EXPORT php_sapi_phpdbg_export
   RUNTIME
     DESTINATION ${CMAKE_INSTALL_BINDIR}
     COMPONENT php-sapi-phpdbg
+)
+
+install(
+  EXPORT php_sapi_phpdbg_export
+  NAMESPACE PHP::sapi::
+  FILE PHPSapiPhpdbgTargets.cmake
+  DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/PHP/targets
+  COMPONENT php-development
 )
 
 # Create log and run directories on installation.
@@ -320,12 +329,21 @@ if(TARGET php_sapi_phpdbg_shared)
 
   install(
     TARGETS php_sapi_phpdbg_shared
+    EXPORT php_sapi_phpdbg_lib_export
     LIBRARY
       DESTINATION ${CMAKE_INSTALL_LIBDIR}
       COMPONENT php-sapi-phpdbg
     RUNTIME
       DESTINATION ${CMAKE_INSTALL_LIBDIR}
       COMPONENT php-sapi-phpdbg
+  )
+
+  install(
+    EXPORT php_sapi_phpdbg_lib_export
+    NAMESPACE PHP::sapi::
+    FILE PHPSapiPhpdbgLibTargets.cmake
+    DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/PHP/targets
+    COMPONENT php-development
   )
 endif()
 

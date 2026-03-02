@@ -51,22 +51,16 @@ git clone https://github.com/petk/php-build-system
 cd php-build-system
 ```
 
-### Step 3 - Generate build system to a build directory
+### Step 3 - Configure and build PHP
 
 ```sh
-cmake -B php-build
-```
-
-### Step 4 - Build PHP in parallel
-
-```sh
-cmake --build php-build -j
+cmake --workflow default
 ```
 
 After build is complete, a PHP binary should be available to run:
 
 ```sh
-./php-build/php/sapi/cli/php -v
+./php-build/default/php/sapi/cli/php -v
 ```
 
 ## Introduction
