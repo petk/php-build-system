@@ -33,10 +33,11 @@ OPTIONS:
                        used (see CMakePresets.json).
   -G <generator-name>  Specify a CMake build system generator.
   -b, --branch VALUE   By default, the php-src Git repository branch to checkout
-                       is automatically determined from the current
-                       php-build-system Git repository branch name (e.g.
-                       PHP-8.3). Defaults to "master", if can't be determined.
-                       This option overrides the php-src branch name.
+                       is automatically determined from the root CMakeLists.txt
+                       file or the current php-build-system Git repository
+                       branch name (e.g. PHP-8.3). Defaults to "master", if
+                       can't be determined. This option overrides the php-src
+                       branch name.
   -d, --debug          Debug mode. Here CMake profiling is enabled and debug
                        info displayed.
   -h, --help           Display this help and exit.
@@ -131,6 +132,19 @@ if test ! -d "php-src"; then
   else
     exit 1
   fi
+fi
+
+# Determine PHP branch from the root CMakeLists.txt file.
+if test -z "$branch"; then
+  version=$(sed -n 's/^  VERSION[[:space:]]\+//p' CMakeLists.txt)
+  case "$version" in
+    $phpVersionDev)
+      branch=master
+      ;;
+    [0-9].[0-9])
+      branch="PHP-$version"
+      ;;
+  esac
 fi
 
 # Determine PHP branch from the current php-build-system repository branch.
