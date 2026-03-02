@@ -17,8 +17,8 @@ The following components are available:
 * `Embed` - finds the PHP embed SAPI library.
 * `SapiCgi` - finds the PHP CGI SAPI command-line executable.
 * `SapiFpm` - finds the PHP FPM SAPI executable.
-* `SapiLitespeed` - finds the PHP LiteSpeed SAPI command line executable.
-* `SapiPhpdbg` - finds the PHP Debugger SAPI command line executable.
+* `SapiLitespeed` - finds the PHP LiteSpeed SAPI executable.
+* `SapiPhpdbg` - finds the PHP Debugger SAPI command-line executable.
 * `SapiPhpdbgLib` - finds the PHP Debugger SAPI library.
 
 If no components are specified, by default, the `Interpreter` and `Development`
