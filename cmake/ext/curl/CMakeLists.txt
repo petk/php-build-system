@@ -114,7 +114,7 @@ if(
 
     check_source_runs(C [[
       #include <stdio.h>
-      #include <strings.h>
+      #include <string.h>
       #include <curl/curl.h>
 
       int main(void)
@@ -144,7 +144,7 @@ if(
           }
 
           /* OpenSSL < 1.1 */
-          if (strncasecmp(ptr, "OpenSSL", sizeof("OpenSSL")-1) == 0) {
+          if (strncmp(ptr, "OpenSSL", sizeof("OpenSSL") - 1) == 0) {
             return 0;
           }
 
