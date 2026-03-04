@@ -116,7 +116,7 @@ if(
 
     check_source_runs(C [[
       #include <stdio.h>
-      #include <strings.h>
+      #include <string.h>
       #include <curl/curl.h>
 
       int main(void)
@@ -136,7 +136,8 @@ if(
             /* Check for 1.1.1+ (including 1.1.1a, 1.1.1b, etc.) */
             if (
               (major > 1)
-              || (major == 1 && minor == 1 && strncmp(ptr + 12, "1", 1) == 0)) {
+              || (major == 1 && minor == 1 && strncmp(ptr + 12, "1", 1) == 0)
+            ) {
               /* OpenSSL 1.1.1+ - supported */
               return 3;
             }
@@ -145,7 +146,7 @@ if(
             return 0;
           }
 
-          if (strncasecmp(ptr, "OpenSSL", sizeof("OpenSSL")-1) == 0) {
+          if (strncmp(ptr, "OpenSSL", sizeof("OpenSSL") - 1) == 0) {
             /* Old OpenSSL version */
             return 0;
           }
