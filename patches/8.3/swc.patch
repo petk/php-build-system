@@ -4,7 +4,7 @@ Subject: Enable linking with zlib for SWC files
 See https://github.com/php/php-src/issues/20868
 ---
  ext/standard/basic_functions.stub.php         |   2 +-
- ext/standard/basic_functions_arginfo.h        | Bin 159957 -> 159938 bytes
+ ext/standard/basic_functions_arginfo.h        | Bin 159957 -> 159991 bytes
  ext/standard/config.m4                        |   8 ++++++++
  ext/standard/config.w32                       |   7 +++++++
  ext/standard/image.c                          |   8 ++++----
@@ -15,7 +15,7 @@ See https://github.com/php/php-src/issues/20868
  9 files changed, 20 insertions(+), 13 deletions(-)
 
 diff --git a/ext/standard/basic_functions.stub.php b/ext/standard/basic_functions.stub.php
-index 0bbdeeb72a2..0dfd70aa41d 100755
+index 0bbdeeb72a2..41d219a611f 100755
 --- a/ext/standard/basic_functions.stub.php
 +++ b/ext/standard/basic_functions.stub.php
 @@ -603,7 +603,7 @@
@@ -23,18 +23,18 @@ index 0bbdeeb72a2..0dfd70aa41d 100755
   */
  const IMAGETYPE_JB2 = UNKNOWN;
 -#if (defined(HAVE_ZLIB) && !defined(COMPILE_DL_ZLIB))
-+#ifdef PHP_HAVE_ZLIB_LIBRARY
++#if (defined(HAVE_ZLIB) && !defined(COMPILE_DL_ZLIB)) || defined(PHP_HAVE_ZLIB_LIBRARY)
  /**
   * @var int
   * @cvalue IMAGE_FILETYPE_SWC
 diff --git a/ext/standard/basic_functions_arginfo.h b/ext/standard/basic_functions_arginfo.h
-index 23ee75fe18d..47dfde69f86 100644
+index 23ee75fe18d..9c1f21f7a08 100644
 --- a/ext/standard/basic_functions_arginfo.h
 +++ b/ext/standard/basic_functions_arginfo.h
 @@ -1,5 +1,5 @@
  /* This is a generated file, edit the .stub.php file instead.
 - * Stub hash: 60960e59f6310521a958b6fb0917650854d19612 */
-+ * Stub hash: cae45c089e92eab5d8afa61c128bf26b766dbfa1 */
++ * Stub hash: 25a1eb664f60f5298a3cfdc3a81fa7870ea6c851 */
  
  ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_set_time_limit, 0, 1, _IS_BOOL, 0)
  	ZEND_ARG_TYPE_INFO(0, seconds, IS_LONG, 0)
@@ -43,7 +43,7 @@ index 23ee75fe18d..47dfde69f86 100644
  	REGISTER_LONG_CONSTANT("IMAGETYPE_JPX", IMAGE_FILETYPE_JPX, CONST_PERSISTENT);
  	REGISTER_LONG_CONSTANT("IMAGETYPE_JB2", IMAGE_FILETYPE_JB2, CONST_PERSISTENT);
 -#if (defined(HAVE_ZLIB) && !defined(COMPILE_DL_ZLIB))
-+#if defined(PHP_HAVE_ZLIB_LIBRARY)
++#if (defined(HAVE_ZLIB) && !defined(COMPILE_DL_ZLIB)) || defined(PHP_HAVE_ZLIB_LIBRARY)
  	REGISTER_LONG_CONSTANT("IMAGETYPE_SWC", IMAGE_FILETYPE_SWC, CONST_PERSISTENT);
  #endif
  	REGISTER_LONG_CONSTANT("IMAGETYPE_IFF", IMAGE_FILETYPE_IFF, CONST_PERSISTENT);
@@ -85,7 +85,7 @@ index 282189c52da..a8d1a329ebd 100644
  
  EXTENSION("standard", "array.c base64.c basic_functions.c browscap.c \
 diff --git a/ext/standard/image.c b/ext/standard/image.c
-index 15761364c34..a6cf68bb905 100644
+index 15761364c34..a857366e903 100644
 --- a/ext/standard/image.c
 +++ b/ext/standard/image.c
 @@ -28,7 +28,7 @@
@@ -93,7 +93,7 @@ index 15761364c34..a6cf68bb905 100644
  #include "php_image.h"
  
 -#if defined(HAVE_ZLIB) && !defined(COMPILE_DL_ZLIB)
-+#ifdef PHP_HAVE_ZLIB_LIBRARY
++#if (defined(HAVE_ZLIB) && !defined(COMPILE_DL_ZLIB)) || defined(PHP_HAVE_ZLIB_LIBRARY)
  #include "zlib.h"
  #endif
  
@@ -102,7 +102,7 @@ index 15761364c34..a6cf68bb905 100644
  /* }}} */
  
 -#if defined(HAVE_ZLIB) && !defined(COMPILE_DL_ZLIB)
-+#ifdef PHP_HAVE_ZLIB_LIBRARY
++#if (defined(HAVE_ZLIB) && !defined(COMPILE_DL_ZLIB)) || defined(PHP_HAVE_ZLIB_LIBRARY)
  /* {{{ php_handle_swc */
  static struct gfxinfo *php_handle_swc(php_stream * stream)
  {
@@ -111,7 +111,7 @@ index 15761364c34..a6cf68bb905 100644
  			break;
  		case IMAGE_FILETYPE_SWC:
 -#if defined(HAVE_ZLIB) && !defined(COMPILE_DL_ZLIB)
-+#ifdef PHP_HAVE_ZLIB_LIBRARY
++#if (defined(HAVE_ZLIB) && !defined(COMPILE_DL_ZLIB)) || defined(PHP_HAVE_ZLIB_LIBRARY)
  			result = php_handle_swc(stream);
  #else
 -			php_error_docref(NULL, E_NOTICE, "The image is a compressed SWF file, but you do not have a static version of the zlib extension enabled");
