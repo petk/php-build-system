@@ -115,7 +115,9 @@ set(HAVE_MBSTRING TRUE)
 # Configure libmbfl.
 ################################################################################
 
-set(LIBMBFL_TARGET php_ext_mbstring)
+set(libmbfl_PROJECT_NAME "PHP_EXT_MBSTRING_LIBMBFL")
+set(libmbfl_NAMESPACE "PHP")
+set(libmbfl_TARGET php_ext_mbstring)
 add_subdirectory(libmbfl)
 
 file(APPEND ${CMAKE_CURRENT_BINARY_DIR}/libmbfl/config.h "\n" [[
