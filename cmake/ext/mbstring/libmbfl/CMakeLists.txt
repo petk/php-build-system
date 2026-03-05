@@ -1,30 +1,56 @@
 #[=============================================================================[
-# libmbfl
+libmbfl
 
 Simplified CMake-based build system for the libmbfl library. Since libmbfl is
-closely integrated and intertwined with PHP sources, the `target_sources()`
+closely integrated and intertwined with PHP sources, the target_sources()
 approach is used, with no alternative implementations provided at this stage.
 
-## Usage
+Example
 
-Adding libmbfl with `add_subdirectory()`:
+Adding libmbfl with add_subdirectory():
 
-```cmake
-set(LIBMBFL_TARGET php_ext_mbstring)
-add_subdirectory(libmbfl)
-```
+  # CMakeLists.txt
+
+  # Override libmbfl project name (optional)
+  set(libmbfl_PROJECT_NAME "PHP_EXT_MBSTRING")
+
+  # Set namespace for cache variables
+  set(libmbfl_NAMESPACE "PHP")
+
+  # Set the project target to which libmbfl sources are added
+  set(libmbfl_TARGET php_ext_mbstring)
+
+  add_subdirectory(libmbfl)
 #]=============================================================================]
+
+cmake_minimum_required(VERSION 4.2...4.3)
+
+if(NOT libmbfl_NAMESPACE)
+  set(libmbfl_NAMESPACE "libmbfl")
+endif()
+
+if(NOT libmbfl_PROJECT_NAME)
+  set(libmbfl_PROJECT_NAME "libmbfl")
+endif()
+
+project(
+  ${libmbfl_PROJECT_NAME}
+  #SPDX_LICENSE "LGPL-2.1-only"
+  DESCRIPTION "Streamable multibyte character code filter and converter library"
+  HOMEPAGE_URL "https://github.com/moriyoshi/libmbfl"
+  LANGUAGES C
+)
 
 include(CheckIncludeFiles)
 include(CheckSymbolExists)
 
-if(NOT LIBMBFL_TARGET)
-  set(LIBMBFL_TARGET libmbfl)
-  add_library(${LIBMBFL_TARGET})
+if(NOT libmbfl_TARGET)
+  set(libmbfl_TARGET libmbfl)
+  add_library(${libmbfl_TARGET})
 endif()
 
 target_sources(
-  ${LIBMBFL_TARGET}
+  ${libmbfl_TARGET}
   PRIVATE
     filters/html_entities.c
     filters/mbfilter_7bit.c
@@ -82,13 +108,13 @@ target_sources(
   PUBLIC
     FILE_SET generated
       TYPE HEADERS
-      BASE_DIRS $<TARGET_PROPERTY:${LIBMBFL_TARGET},BINARY_DIR>
+      BASE_DIRS $<TARGET_PROPERTY:${libmbfl_TARGET},BINARY_DIR>
       FILES
         ${CMAKE_CURRENT_BINARY_DIR}/config.h
 )
 
 target_include_directories(
-  ${LIBMBFL_TARGET}
+  ${libmbfl_TARGET}
   PRIVATE
     ${CMAKE_CURRENT_BINARY_DIR}
     ${CMAKE_CURRENT_SOURCE_DIR}
@@ -96,17 +122,17 @@ target_include_directories(
 )
 
 target_compile_definitions(
-  ${LIBMBFL_TARGET}
+  ${libmbfl_TARGET}
   PRIVATE
-    $<$<AND:$<PLATFORM_ID:Windows>,$<IN_LIST:$<TARGET_PROPERTY:${LIBMBFL_TARGET},TYPE>,MODULE_LIBRARY$<SEMICOLON>SHARED_LIBRARY>>:MBFL_DLL_EXPORT>
+    $<$<AND:$<PLATFORM_ID:Windows>,$<IN_LIST:$<TARGET_PROPERTY:${libmbfl_TARGET},TYPE>,MODULE_LIBRARY$<SEMICOLON>SHARED_LIBRARY>>:MBFL_DLL_EXPORT>
 )
 
 # The libmbfl configuration header.
-check_include_files(strings.h PHP_HAVE_STRINGS_H)
-set(HAVE_STRINGS ${PHP_HAVE_STRINGS_H})
+check_include_files(strings.h ${libmbfl_NAMESPACE}_HAVE_STRINGS_H)
+set(HAVE_STRINGS ${${libmbfl_NAMESPACE}_HAVE_STRINGS_H})
 
-check_symbol_exists(strcasecmp strings.h PHP_HAVE_STRCASECMP)
-set(HAVE_STRCASECMP ${PHP_HAVE_STRCASECMP})
+check_symbol_exists(strcasecmp strings.h ${libmbfl_NAMESPACE}_HAVE_STRCASECMP)
+set(HAVE_STRCASECMP ${${libmbfl_NAMESPACE}_HAVE_STRCASECMP})
 
 cmake_path(
   RELATIVE_PATH
