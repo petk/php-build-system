@@ -87,12 +87,12 @@ index ef6b3c5a010..b66678d39ad 100644
  dnl Setup extension sources
  dnl
 diff --git a/ext/standard/config.w32 b/ext/standard/config.w32
-index c7c14b8705c..d762292b7e8 100644
+index bb88e0931d2..36e1542db22 100644
 --- a/ext/standard/config.w32
 +++ b/ext/standard/config.w32
 @@ -21,6 +21,13 @@ AC_DEFINE("PHP_USE_PHP_CRYPT_R", 1, "Define to 1 if PHP uses its own crypt_r, an
  
- CHECK_HEADER_ADD_INCLUDE("timelib_config.h", "CFLAGS_STANDARD", "ext/date/lib");
+ CHECK_HEADER("timelib_config.h", "CFLAGS_STANDARD", "ext/date/lib");
  
 +// Optionally check for zlib (needed for SWC files support in PHP).
 +if (SETUP_ZLIB_LIB(null, PHP_ZLIB) &&
