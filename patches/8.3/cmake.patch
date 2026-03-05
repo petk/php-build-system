@@ -14,14 +14,18 @@ Subject: Add CMake changes for PHP-8.3 branch
   isn't available in usual locations. For example, in case of the CMake
   multi-config generators, such as Ninja Multi-Config
   ('sapi/fpm/Debug/php-fpm', 'sapi/fpm/Release/php-fpm', etc.).
+- Adjusted code comments.
+- Added some basic documentation related to CMake-based build system.
 ---
  .editorconfig              |  2 +-
  .gitignore                 | 14 ++++++++++++++
+ README.md                  | 22 ++++++++++++++++++++++
  ext/ext_skel.php           |  7 +++++++
+ ext/iconv/iconv.c          |  2 +-
  ext/skeleton/.gitignore.in | 15 +++++++++++++++
  run-tests.php              | 24 ++++++++++++++++++------
  sapi/fpm/tests/tester.inc  |  4 ++++
- 6 files changed, 59 insertions(+), 7 deletions(-)
+ 8 files changed, 82 insertions(+), 8 deletions(-)
 
 diff --git a/.editorconfig b/.editorconfig
 index 7911bf8490b..1d9b530947e 100644
@@ -71,6 +75,41 @@ index cd9ba81306f..6ee80170008 100644
  !/ext/bcmath/libbcmath/src/config.h
  !/ext/fileinfo/libmagic/config.h
  !/ext/fileinfo/libmagic.patch
+diff --git a/README.md b/README.md
+index 5c1bfc6890d..e5e66002b9e 100644
+--- a/README.md
++++ b/README.md
+@@ -36,8 +36,30 @@ For other systems, see the [installation chapter](https://php.net/install).
+ 
+ ### Building PHP source code
+ 
++#### CMake
++
++On Debian-based systems:
++
++    sudo apt install -y cmake gcc g++ libsqlite3-dev
++
++On Fedora-based systems:
++
++    sudo dnf install cmake gcc gcc-c++ sqlite-devel
++
++Generate build system:
++
++    cmake -B php-build
++
++Build PHP:
++
++    cmake --build php-build -j
++
++#### Windows using JScript
++
+ *For Windows, see [Build your own PHP on Windows](https://wiki.php.net/internals/windows/stepbystepbuild_sdk_2).*
+ 
++#### Autotools
++
+ For a minimal PHP build from Git, you will need autoconf, bison, and re2c. For
+ a default build, you will additionally need libxml2 and libsqlite3.
+ 
 diff --git a/ext/ext_skel.php b/ext/ext_skel.php
 index ae7a3a987c0..a67901a2c98 100755
 --- a/ext/ext_skel.php
@@ -94,6 +133,19 @@ index ae7a3a987c0..a67901a2c98 100755
          if (!copy($options['skel'] . $config_script . '.in', $new_config_script)) {
              error('Unable to copy config script: ' . $config_script);
          }
+diff --git a/ext/iconv/iconv.c b/ext/iconv/iconv.c
+index ae93e0573e2..0b7aec88a4a 100644
+--- a/ext/iconv/iconv.c
++++ b/ext/iconv/iconv.c
+@@ -45,7 +45,7 @@
+ #endif
+ 
+ /* iconv can have different constiness for src on some platforms;
+- * this is explained in config.m4. On Windows, it's always non-const,
++ * this is explained in CMakeLists.txt. On Windows, it's always non-const,
+  * but it can be awkward to set that on the command line. Do it here.
+  */
+ #ifndef ICONV_CONST
 diff --git a/ext/skeleton/.gitignore.in b/ext/skeleton/.gitignore.in
 index ae434fef976..f1d45a4aee2 100644
 --- a/ext/skeleton/.gitignore.in
