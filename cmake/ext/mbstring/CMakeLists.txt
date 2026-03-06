@@ -197,4 +197,23 @@ if(PHP_EXT_MBSTRING_MBREGEX)
   set(HAVE_MBREGEX TRUE)
 endif()
 
+################################################################################
+# Provide command to generate ext/mbstring/rare_cp_bitvec.h with:
+# cmake --build <build-dir> -t php_ext_mbstring_generate_codepoints
+################################################################################
+
+include(PHP/AddCommand)
+
+php_add_command(
+  php_ext_mbstring_generate_codepoints
+  PHP_COMMAND
+    ${CMAKE_CURRENT_SOURCE_DIR}/gen_rare_cp_bitvec.php
+    ${CMAKE_CURRENT_SOURCE_DIR}/common_codepoints.txt
+  DEPENDS
+    ${CMAKE_CURRENT_SOURCE_DIR}/gen_rare_cp_bitvec.php
+    ${CMAKE_CURRENT_SOURCE_DIR}/common_codepoints.txt
+  COMMENT "[ext/mbstring] Regenerating rare_cp_bitvec.h"
+  VERBATIM
+)
+
 configure_file(cmake/config.h.in config.h)
