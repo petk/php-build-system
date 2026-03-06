@@ -47,7 +47,6 @@ project(
 include(CheckSymbolExists)
 include(CMakeDependentOption)
 include(FeatureSummary)
-include(PHP/SearchLibraries)
 
 option(PHP_EXT_OPCACHE "Enable the Zend OPcache extension" ON)
 add_feature_info(
@@ -223,6 +222,8 @@ if(PHP_EXT_OPCACHE_JIT)
     PROPERTIES
       RUNTIME_OUTPUT_DIRECTORY CMakeFiles
   )
+
+  include(PHP/SearchLibraries)
 
   # Link math library as needed.
   php_search_libraries(

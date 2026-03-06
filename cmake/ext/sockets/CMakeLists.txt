@@ -34,7 +34,6 @@ include(CheckTypeSize)
 include(CMakeDependentOption)
 include(CMakePushCheckState)
 include(FeatureSummary)
-include(PHP/SearchLibraries)
 
 option(PHP_EXT_SOCKETS "Enable the sockets extension")
 
@@ -96,6 +95,8 @@ target_link_libraries(
   PRIVATE
     $<$<PLATFORM_ID:Windows>:ws2_32;iphlpapi>
 )
+
+include(PHP/SearchLibraries)
 
 cmake_push_check_state(RESET)
   set(CMAKE_REQUIRED_DEFINITIONS -D_GNU_SOURCE)

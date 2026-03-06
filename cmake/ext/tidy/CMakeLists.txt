@@ -34,7 +34,6 @@ include(CheckSymbolExists)
 include(CMakeDependentOption)
 include(CMakePushCheckState)
 include(FeatureSummary)
-include(PHP/CheckCompilerFlag)
 
 option(PHP_EXT_TIDY "Enable the tidy extension")
 
@@ -57,6 +56,8 @@ if(NOT PHP_EXT_TIDY)
 endif()
 
 find_package(PHP REQUIRED)
+
+include(PHP/CheckCompilerFlag)
 
 include(PHP/Extension)
 php_extension(tidy)

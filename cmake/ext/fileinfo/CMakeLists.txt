@@ -31,7 +31,6 @@ include(CheckSymbolExists)
 include(CMakeDependentOption)
 include(CMakePushCheckState)
 include(FeatureSummary)
-include(PHP/CheckAttribute)
 
 option(PHP_EXT_FILEINFO "Enable the fileinfo extension" ON)
 
@@ -110,6 +109,8 @@ set(HAVE_STRNDUP ${PHP_EXT_FILEINFO_HAVE_STRNDUP})
 
 check_symbol_exists(utimes sys/time.h PHP_EXT_FILEINFO_HAVE_UTIMES)
 set(HAVE_UTIMES ${PHP_EXT_FILEINFO_HAVE_UTIMES})
+
+include(PHP/CheckAttribute)
 
 php_check_function_attribute(
   visibility

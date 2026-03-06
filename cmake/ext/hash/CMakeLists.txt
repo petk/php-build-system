@@ -32,7 +32,6 @@ if(PROJECT_IS_TOP_LEVEL)
 endif()
 
 include(FeatureSummary)
-include(PHP/CheckCompilerFlag)
 
 add_feature_info(
   "ext/hash"
@@ -133,6 +132,8 @@ else()
         php_ext_hash
         PRIVATE ${sha3_dir}/KeccakP-1600-inplace32BI.c
       )
+
+      include(PHP/CheckCompilerFlag)
 
       # Add -Wno-implicit-fallthrough flag due to warnings on 32-bit builds.
       php_check_compiler_flag(
