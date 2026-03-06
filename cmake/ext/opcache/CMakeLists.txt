@@ -58,7 +58,6 @@ endif()
 include(CheckSymbolExists)
 include(CMakeDependentOption)
 include(FeatureSummary)
-include(PHP/SearchLibraries)
 
 add_feature_info(
   "ext/opcache"
@@ -235,6 +234,8 @@ if(PHP_EXT_OPCACHE_JIT)
     PROPERTIES
       RUNTIME_OUTPUT_DIRECTORY CMakeFiles
   )
+
+  include(PHP/SearchLibraries)
 
   # Link math library as needed.
   php_search_libraries(

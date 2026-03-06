@@ -30,7 +30,6 @@ project(
 
 include(CMakeDependentOption)
 include(FeatureSummary)
-include(PHP/CheckCompilerFlag)
 
 option(PHP_EXT_INTL "Enable the intl extension")
 
@@ -176,6 +175,8 @@ target_sources(
 )
 
 target_include_directories(php_ext_intl PRIVATE ${CMAKE_CURRENT_SOURCE_DIR})
+
+include(PHP/CheckCompilerFlag)
 
 php_check_compiler_flag(C -Wno-write-strings PHP_HAS_WNO_WRITE_STRINGS_C)
 if(PHP_HAS_WNO_WRITE_STRINGS_C)

@@ -43,8 +43,6 @@ include(CheckTypeSize)
 include(CMakeDependentOption)
 include(CMakePushCheckState)
 include(FeatureSummary)
-include(PHP/SearchLibraries)
-include(PHP/SystemExtensions)
 
 option(PHP_EXT_PCNTL "Enable the pcntl extension (only for CLI-based SAPIs)")
 
@@ -67,6 +65,9 @@ if(NOT PHP_EXT_PCNTL)
 endif()
 
 find_package(PHP REQUIRED)
+
+include(PHP/SearchLibraries)
+include(PHP/SystemExtensions)
 
 include(PHP/Extension)
 php_extension(pcntl)
