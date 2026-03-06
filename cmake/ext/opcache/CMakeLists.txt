@@ -47,8 +47,6 @@ project(
 include(CheckSymbolExists)
 include(CMakeDependentOption)
 include(FeatureSummary)
-include(PHP/CheckCompilerFlag)
-include(PHP/SearchLibraries)
 
 option(PHP_EXT_OPCACHE "Enable the Zend OPcache extension" ON)
 add_feature_info(
@@ -91,6 +89,9 @@ if(NOT PHP_EXT_OPCACHE)
 endif()
 
 find_package(PHP REQUIRED)
+
+include(PHP/CheckCompilerFlag)
+include(PHP/SearchLibraries)
 
 include(PHP/Extension)
 php_extension(opcache)

@@ -158,8 +158,6 @@ include(CheckSymbolExists)
 include(CMakeDependentOption)
 include(CMakePushCheckState)
 include(FeatureSummary)
-include(PHP/CheckCompilerFlag)
-include(PHP/SearchLibraries)
 
 option(PHP_EXT_GD "Enable the gd extension")
 
@@ -382,6 +380,8 @@ if(NOT PHP_EXT_GD_EXTERNAL)
       HAVE_FLOORF=1
   )
 
+  include(PHP/SearchLibraries)
+
   php_search_libraries(
     SYMBOL floorf
     HEADERS math.h
@@ -391,6 +391,8 @@ if(NOT PHP_EXT_GD_EXTERNAL)
   )
 
   target_include_directories(php_ext_gd PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/libgd)
+
+  include(PHP/CheckCompilerFlag)
 
   # Add -Wno-strict-prototypes C flag: https://github.com/php/php-src/pull/10803
   php_check_compiler_flag(C -Wno-strict-prototypes PHP_HAS_WNO_STRICT_PROTOTYPES)

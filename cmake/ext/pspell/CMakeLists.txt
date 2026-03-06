@@ -31,7 +31,6 @@ include(CheckSymbolExists)
 include(CMakeDependentOption)
 include(CMakePushCheckState)
 include(FeatureSummary)
-include(PHP/CheckCompilerFlag)
 
 option(PHP_EXT_PSPELL "Enable the pspell extension")
 
@@ -54,6 +53,8 @@ if(NOT PHP_EXT_PSPELL)
 endif()
 
 find_package(PHP REQUIRED)
+
+include(PHP/CheckCompilerFlag)
 
 include(PHP/Extension)
 php_extension(pspell)

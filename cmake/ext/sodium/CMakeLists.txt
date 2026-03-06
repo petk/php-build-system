@@ -30,7 +30,6 @@ project(
 
 include(CMakeDependentOption)
 include(FeatureSummary)
-include(PHP/CheckCompilerFlag)
 
 option(PHP_EXT_SODIUM "Enable the sodium extension")
 
@@ -53,6 +52,8 @@ if(NOT PHP_EXT_SODIUM)
 endif()
 
 find_package(PHP REQUIRED)
+
+include(PHP/CheckCompilerFlag)
 
 include(PHP/Extension)
 php_extension(sodium)
