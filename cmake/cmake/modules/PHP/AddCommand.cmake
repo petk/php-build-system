@@ -206,12 +206,21 @@ function(php_add_command)
     set(verbatim "")
   endif()
 
-  if(PHP_HOST_FOUND)
+  if(PHP_HOST_FOUND OR TARGET PHP::Interpreter)
+    # Check whether building a standalone PHP extension or in php-src.
+    if(TARGET PHP::Interpreter)
+      set(php_host_version "${PHP_VERSION}")
+      get_target_property(php_host_executable PHP::Interpreter LOCATION)
+    else()
+      set(php_host_version "${PHP_HOST_VERSION}")
+      set(php_host_executable "${PHP_HOST_EXECUTABLE}")
+    endif()
+
     set(use_host_php TRUE)
 
     if(
       parsed_MIN_PHP_HOST_VERSION
-      AND PHP_HOST_VERSION VERSION_LESS parsed_MIN_PHP_HOST_VERSION
+      AND php_host_version VERSION_LESS parsed_MIN_PHP_HOST_VERSION
     )
       set(use_host_php FALSE)
     endif()
@@ -219,7 +228,7 @@ function(php_add_command)
     if(use_host_php AND parsed_PHP_EXTENSIONS)
       foreach(extension IN LISTS parsed_PHP_EXTENSIONS)
         execute_process(
-          COMMAND ${PHP_HOST_EXECUTABLE} --ri ${extension}
+          COMMAND ${php_host_executable} --ri ${extension}
           RESULT_VARIABLE code
           OUTPUT_QUIET
           ERROR_QUIET
@@ -236,7 +245,7 @@ function(php_add_command)
       if(parsed_OUTPUT)
         add_custom_command(
           OUTPUT ${parsed_OUTPUT}
-          COMMAND ${PHP_HOST_EXECUTABLE} ${parsed_PHP_COMMAND}
+          COMMAND ${php_host_executable} ${parsed_PHP_COMMAND}
           DEPENDS ${parsed_DEPENDS}
           COMMENT "${parsed_COMMENT}"
           ${working_directory}
@@ -247,7 +256,7 @@ function(php_add_command)
       else()
         add_custom_target(
           ${ARGV0}
-          COMMAND ${PHP_HOST_EXECUTABLE} ${parsed_PHP_COMMAND}
+          COMMAND ${php_host_executable} ${parsed_PHP_COMMAND}
           COMMENT "${parsed_COMMENT}"
           ${working_directory}
           ${verbatim}
