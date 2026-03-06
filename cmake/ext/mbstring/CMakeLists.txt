@@ -103,6 +103,8 @@ target_sources(
 
 target_compile_definitions(php_ext_mbstring PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE)
 
+target_include_directories(php_ext_mbstring PRIVATE ${CMAKE_CURRENT_BINARY_DIR})
+
 # The mbstring extension doesn't seem to support interprocedural optimization
 # (IPO).
 set_target_properties(php_ext_mbstring PROPERTIES INTERPROCEDURAL_OPTIMIZATION OFF)
