@@ -104,12 +104,6 @@ target_sources(
         mbfl/mbfl_language.h
         mbfl/mbfl_memory_device.h
         mbfl/mbfl_string.h
-  PUBLIC
-    FILE_SET generated
-      TYPE HEADERS
-      BASE_DIRS $<TARGET_PROPERTY:${libmbfl_TARGET},BINARY_DIR>
-      FILES
-        ${CMAKE_CURRENT_BINARY_DIR}/config.h
 )
 
 target_include_directories(
