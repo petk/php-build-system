@@ -1,6 +1,15 @@
 include(CheckLinkerFlag)
 include(FeatureSummary)
 
+# Run extra tests.
+if(TARGET PHP::sapi::cli AND NOT CMAKE_SYSTEM_NAME STREQUAL "Windows")
+  add_test(
+    NAME PhpRunExtraTests
+    COMMAND PHP::sapi::cli ${CMAKE_CURRENT_SOURCE_DIR}/../run-extra-tests.php
+    WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/..
+  )
+endif()
+
 # PHP unit tests using PHP embed SAPI.
 if(NOT TARGET PHP::sapi::embed)
   return()
