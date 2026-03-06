@@ -41,7 +41,7 @@ target_compile_definitions(php_sapi_cgi PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE)
 target_link_libraries(
   php_sapi_cgi
   PRIVATE
-    $<BUILD_INTERFACE:PHP::sapi>
+    $<BUILD_INTERFACE:PHP::core>
     $<$<PLATFORM_ID:Windows>:ws2_32;kernel32;advapi32>
 )
 
