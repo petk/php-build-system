@@ -27,6 +27,7 @@ cmake_minimum_required(VERSION 4.2...4.3)
 project(
   PHP_EXT_%EXTNAMECAPS%
   VERSION 0.1.0
+  #SPDX_LICENSE ""
   DESCRIPTION "Describe the extension"
   HOMEPAGE_URL "https://example.org"
   LANGUAGES C

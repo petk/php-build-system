@@ -87,7 +87,7 @@ index ef6b3c5a010..b66678d39ad 100644
  dnl Setup extension sources
  dnl
 diff --git a/ext/standard/config.w32 b/ext/standard/config.w32
-index bb88e0931d2..9f65128844e 100644
+index 589929027f6..4bebd74393e 100644
 --- a/ext/standard/config.w32
 +++ b/ext/standard/config.w32
 @@ -21,6 +21,13 @@ AC_DEFINE("PHP_USE_PHP_CRYPT_R", 1, "Define to 1 if PHP uses its own crypt_r, an
