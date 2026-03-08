@@ -176,9 +176,6 @@ function(_php_extension_post_configure)
   install(
     TARGETS php_ext_${extension}
     ARCHIVE EXCLUDE_FROM_ALL
-    RUNTIME
-      DESTINATION ${PHP_EXTENSION_DIR}
-      COMPONENT php
     LIBRARY
       DESTINATION ${PHP_EXTENSION_DIR}
       COMPONENT php

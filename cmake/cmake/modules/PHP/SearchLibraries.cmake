@@ -135,8 +135,9 @@ the check is run:
 * `CMAKE_REQUIRED_LIBRARIES`
 * `CMAKE_REQUIRED_LINK_DIRECTORIES`
 * `CMAKE_REQUIRED_QUIET`
+* `CMAKE_EXTRA_INCLUDE_FILES`
 
-See https://cmake.org/cmake/help/latest/module/CheckSymbolExists.html for more
+See https://cmake.org/cmake/help/latest/module/CMakePushCheckState.html for more
 info about these variables.
 
 ## Caveats
@@ -372,6 +373,10 @@ function(php_search_libraries)
       list(APPEND headers_found ${header})
     endif()
   endforeach()
+
+  if(DEFINED CMAKE_EXTRA_INCLUDE_FILES)
+    list(APPEND headers_found ${CMAKE_EXTRA_INCLUDE_FILES})
+  endif()
 
   # Check if symbol exists without linking additional libraries.
   if(DEFINED parsed_SYMBOL)

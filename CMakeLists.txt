@@ -62,6 +62,7 @@ include(cmake/cmake/modules/PHP/Internal/DisableInSourceBuilds.cmake)
 project(
   PhpBuildSystem
   VERSION 8.3
+  #SPDX_LICENSE ""
   DESCRIPTION "CMake-based PHP build system"
   HOMEPAGE_URL "https://github.com/petk/php-build-system"
   LANGUAGES NONE
