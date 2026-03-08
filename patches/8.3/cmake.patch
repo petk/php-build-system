@@ -23,9 +23,10 @@ Subject: Add CMake changes for PHP-8.3 branch
  ext/ext_skel.php           | 44 ++++++++++++++------------------------
  ext/iconv/iconv.c          |  2 +-
  ext/skeleton/.gitignore.in | 15 +++++++++++++
+ ext/standard/proc_open.c   |  2 +-
  run-tests.php              | 24 +++++++++++++++------
  sapi/fpm/tests/tester.inc  |  4 ++++
- 8 files changed, 91 insertions(+), 36 deletions(-)
+ 9 files changed, 92 insertions(+), 37 deletions(-)
 
 diff --git a/.editorconfig b/.editorconfig
 index 7911bf8490b..1d9b530947e 100644
@@ -238,6 +239,19 @@ index ae434fef976..f1d45a4aee2 100644
 +
 +# Local user presets
 +/CMakeUserPresets.json
+diff --git a/ext/standard/proc_open.c b/ext/standard/proc_open.c
+index 96e5a4ced99..0f117159508 100644
+--- a/ext/standard/proc_open.c
++++ b/ext/standard/proc_open.c
+@@ -48,7 +48,7 @@
+ #define USE_POSIX_SPAWN
+ #endif
+ 
+-/* This symbol is defined in ext/standard/config.m4.
++/* This symbol is defined in ext/standard/CMakeLists.txt.
+  * Essentially, it is set if you HAVE_FORK || PHP_WIN32
+  * Other platforms may modify that configure check and add suitable #ifdefs
+  * around the alternate code. */
 diff --git a/run-tests.php b/run-tests.php
 index 266d3522602..bc90c405946 100755
 --- a/run-tests.php
