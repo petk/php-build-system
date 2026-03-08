@@ -1,31 +1,31 @@
 From: Peter Kokot <peterkokot@gmail.com>
 Subject: Add CMake changes for PHP-8.6 branch
 
-- EditorConfig adjustments for code style support in editors and IDEs;
-- Minimal CMake build system generated files added to root '.gitignore'
+* EditorConfig adjustments for code style support in editors and IDEs;
+* Minimal CMake build system generated files added to root '.gitignore'
   file and 'ext/skeleton/.gitignore.in' (for out-of-source builds only,
   PHP CMake-based system is configured to disable the in-source builds);
-- CMake adjustments added to run-tests.php for info about failing tests
+* CMake adjustments added to run-tests.php for info about failing tests
   and checks;
-- CMake-related modifications added to 'ext/skeleton' template directory
+* CMake-related modifications added to 'ext/skeleton' template directory
   and 'ext/ext_skel.php' script;
-- Added 'TEST_PHP_FPM_EXECUTABLE' environment variable to sapi/fpm to
+* Added 'TEST_PHP_FPM_EXECUTABLE' environment variable to sapi/fpm to
   enable setting the location of the php-fpm executable in case it
   isn't available in usual locations. For example, in case of the CMake
   multi-config generators, such as Ninja Multi-Config
   ('sapi/fpm/Debug/php-fpm', 'sapi/fpm/Release/php-fpm', etc.).
-- Adjusted code comments.
-- Added some basic documentation related to CMake-based build system.
+* Adjusted code comments.
+* Added some basic documentation related to CMake-based build system.
 ---
  .editorconfig              |  2 +-
- .gitignore                 | 14 ++++++++++++++
- README.md                  | 22 ++++++++++++++++++++++
- ext/ext_skel.php           |  7 +++++++
+ .gitignore                 | 14 ++++++++++++
+ README.md                  | 22 +++++++++++++++++++
+ ext/ext_skel.php           | 44 ++++++++++++++------------------------
  ext/iconv/iconv.c          |  2 +-
- ext/skeleton/.gitignore.in | 15 +++++++++++++++
- run-tests.php              | 24 ++++++++++++++++++------
+ ext/skeleton/.gitignore.in | 15 +++++++++++++
+ run-tests.php              | 24 +++++++++++++++------
  sapi/fpm/tests/tester.inc  |  4 ++++
- 8 files changed, 82 insertions(+), 8 deletions(-)
+ 8 files changed, 91 insertions(+), 36 deletions(-)
 
 diff --git a/.editorconfig b/.editorconfig
 index 19be96087d9..58a83dfb688 100644
@@ -111,10 +111,79 @@ index 5b8ec6f0d7d..6bc2f0ad42f 100644
  a default build, you will additionally need libxml2 and libsqlite3.
  
 diff --git a/ext/ext_skel.php b/ext/ext_skel.php
-index d396dfa3da7..6ac580580c4 100755
+index d396dfa3da7..ee7ae3f8975 100755
 --- a/ext/ext_skel.php
 +++ b/ext/ext_skel.php
-@@ -301,12 +301,19 @@ function copy_config_scripts() {
+@@ -24,14 +24,6 @@ function error($message) {
+ }
+ 
+ function print_help() {
+-    if (PHP_OS_FAMILY != 'Windows') {
+-        $file_prefix = './';
+-        $make_prefix = '';
+-    } else {
+-        $file_prefix = '';
+-        $make_prefix = 'n';
+-    }
+-
+     echo <<<HELP
+ WHAT IT IS
+ 
+@@ -51,21 +43,19 @@ function print_help() {
+   To compile the extension run the following:
+ 
+     cd extension_name
+-    phpize
+-    {$file_prefix}configure
+-    {$make_prefix}make
++    cmake -B php-build
++    cmake --build php-build -j
+ 
+   Don't forget to run tests once the compilation is done:
+ 
+-    {$make_prefix}make test
++    ctest --test-dir php-build -j --verbose
+ 
+   Alternatively, to compile extension in the PHP:
+ 
+     cd /path/to/php-src
+-    {$file_prefix}buildconf
+-    {$file_prefix}configure --enable-extension_name
+-    {$make_prefix}make
+-    {$make_prefix}make test TESTS=ext/extension_name/tests
++    cmake -B php-build -DPHP_EXT_EXTENSION_NAME=ON
++    cmake --build php-build -j
++    cmake -E env TEST_PHP_ARGS=ext/extension_name ctest --test-dir php-build -j -V
+ 
+   The definition of PHP_extension_NAME_VERSION will be present in the
+   php_extension_name.h and injected into the zend_extension_entry definition.
+@@ -124,22 +114,13 @@ function task($label, $callback) {
+ function print_success() {
+     global $options;
+ 
+-    if (PHP_OS_FAMILY != 'Windows') {
+-        $file_prefix = './';
+-        $make_prefix = '';
+-    } else {
+-        $file_prefix = '';
+-        $make_prefix = 'n';
+-    }
+-
+     printf('%1$sSuccess. The extension is now ready to be compiled. To do so, use the%s', PHP_EOL);
+     printf('following steps:%1$s%1$s', PHP_EOL);
+     printf('cd %s%s%s', $options['dir'], $options['ext'], PHP_EOL);
+-    printf('phpize%s', PHP_EOL);
+-    printf('%sconfigure%s', $file_prefix, PHP_EOL);
+-    printf('%smake%2$s%2$s', $make_prefix, PHP_EOL);
++    printf('cmake -B php-build%s', PHP_EOL);
++    printf('cmake --build php-build -j%s', PHP_EOL);
+     printf('Don\'t forget to run tests once the compilation is done:%s', PHP_EOL);
+-    printf('%smake test%2$s%2$s', $make_prefix, PHP_EOL);
++    printf('ctest --test-dir php-build -j --verbose%s', PHP_EOL);
+     printf('Thank you for using PHP!%s', PHP_EOL);
+ }
+ 
+@@ -301,12 +282,19 @@ function copy_config_scripts() {
          $files[] = 'config.w32';
      }
  
