@@ -73,6 +73,9 @@ The following imported targets are provided:
 
 The following variables are set:
 
+* `PHP_FOUND` - Boolean indicating whether (the requested version of) package
+  was found.
+* `PHP_VERSION` - The version of package found.
 * `PHP_EXTENSION_DIR` - The path where PHP shared extensions are located.
 * `PHP_CMAKE_MODULE_PATH` - The path where include() and find_package() look for
   PHP CMake utility and find modules. This path is also automatically appended
