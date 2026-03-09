@@ -126,6 +126,7 @@ repository:
 ```sh
 📂 <php-src>
 └─📂 cmake                     # CMake-based PHP build system files
+  ├─📂 autotools               # Package configuration file for Autotools
   └─📂 modules                 # Project-specific CMake modules
     └─📂 PHP                   # PHP utility CMake modules
       ├─📂 Core                # Modules for php-src
