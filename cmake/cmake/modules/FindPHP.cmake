@@ -35,12 +35,18 @@ This module defines the following variables:
 * `PHP_FOUND` - Boolean indicating whether (the requested version of) package
   was found.
 * `PHP_VERSION` - The version of package found.
+* `PHP_EXTENSION_DIR` - The path where PHP shared extensions are located.
+* `PHP_API_VERSION` - The PHP API version.
+* `PHP_ZEND_VERSION` - The version of the Zend Engine.
+* `PHP_ZEND_MODULE_API_NO` - The API number for PHP extensions.
+* `PHP_ZEND_EXTENSION_API_NO` - The API number for Zend extensions.
 
 ## Cache variables
 
 The following cache variables may also be set:
 
 * `PHP_EXECUTABLE` - PHP command-line tool, if available.
+* `PHP_CONFIG_EXECUTABLE` - PHP config command-line helper script.
 
 ## Hints
 
@@ -113,8 +119,15 @@ endif()
 block(
   PROPAGATE
     PHP_FOUND
+    PHP${_php_prefix}_API_VERSION
+    PHP${_php_prefix}_EXTENSION_DIR
     PHP${_php_prefix}_FOUND
+    PHP${_php_prefix}_INSTALL_INCLUDEDIR
+    PHP${_php_prefix}_INSTALL_LIBDIR
     PHP${_php_prefix}_VERSION
+    PHP${_php_prefix}_ZEND_EXTENSION_API_NO
+    PHP${_php_prefix}_ZEND_MODULE_API_NO
+    PHP${_php_prefix}_ZEND_VERSION
 )
   if(PHP_FORCE_AS_FOUND)
     set(PHP_FOUND TRUE)
@@ -126,7 +139,7 @@ block(
 
   # Set default components.
   if(NOT PHP_FIND_COMPONENTS)
-    set(PHP_FIND_COMPONENTS Interpreter)
+    set(PHP_FIND_COMPONENTS Interpreter Development)
   endif()
 
   set(required_vars "")
@@ -180,6 +193,162 @@ block(
   endif()
 
   ##############################################################################
+  # Find PHP development-related files.
+  ##############################################################################
+
+  if("Development" IN_LIST PHP_FIND_COMPONENTS)
+    find_program(
+      PHP${_php_prefix}_CONFIG_EXECUTABLE
+      NAMES php-config
+      DOC "Path to the php-config command-line helper"
+    )
+
+    if(IS_EXECUTABLE "${PHP${_php_prefix}_CONFIG_EXECUTABLE}")
+      execute_process(
+        COMMAND "${PHP${_php_prefix}_CONFIG_EXECUTABLE}" --extension-dir
+        OUTPUT_VARIABLE PHP${_php_prefix}_EXTENSION_DIR
+        RESULT_VARIABLE result
+        ERROR_QUIET
+        OUTPUT_STRIP_TRAILING_WHITESPACE
+      )
+
+      if(NOT result EQUAL 0)
+        string(
+          APPEND
+          reason
+          "Command '${PHP${_php_prefix}_CONFIG_EXECUTABLE}' failed. "
+        )
+
+        unset(PHP${_php_prefix}_EXTENSION_DIR)
+      endif()
+
+      execute_process(
+        COMMAND "${PHP${_php_prefix}_CONFIG_EXECUTABLE}" --include-dir
+        OUTPUT_VARIABLE PHP${_php_prefix}_INSTALL_INCLUDEDIR
+        RESULT_VARIABLE result
+        ERROR_QUIET
+        OUTPUT_STRIP_TRAILING_WHITESPACE
+      )
+
+      if(NOT result EQUAL 0)
+        string(
+          APPEND
+          reason
+          "Command '${PHP${_php_prefix}_CONFIG_EXECUTABLE}' failed. "
+        )
+
+        unset(PHP${_php_prefix}_INSTALL_INCLUDEDIR)
+        set(PHP_Development_FOUND FALSE)
+      else()
+        set(PHP_Development_FOUND TRUE)
+      endif()
+
+      execute_process(
+        COMMAND "${PHP${_php_prefix}_CONFIG_EXECUTABLE}" --prefix
+        OUTPUT_VARIABLE php_install_prefix
+        RESULT_VARIABLE result
+        ERROR_QUIET
+        OUTPUT_STRIP_TRAILING_WHITESPACE
+      )
+
+      if(PHP${_php_prefix}_VERSION VERSION_GREATER_EQUAL 8.4)
+        execute_process(
+          COMMAND "${PHP${_php_prefix}_CONFIG_EXECUTABLE}" --lib-dir
+          OUTPUT_VARIABLE PHP${_php_prefix}_INSTALL_LIBDIR
+          RESULT_VARIABLE result
+          ERROR_QUIET
+          OUTPUT_STRIP_TRAILING_WHITESPACE
+        )
+
+        if(NOT result EQUAL 0)
+          string(
+            APPEND
+            reason
+            "Command '${PHP${_php_prefix}_CONFIG_EXECUTABLE}' failed. "
+          )
+
+          unset(PHP${_php_prefix}_INSTALL_LIBDIR)
+        else()
+          string(
+            REPLACE
+            "\${prefix}"
+            "${php_install_prefix}"
+            PHP${_php_prefix}_INSTALL_LIBDIR
+            "${PHP${_php_prefix}_INSTALL_LIBDIR}"
+          )
+        endif()
+      elseif(EXISTS "${PHP${_php_prefix}_INSTALL_INCLUDEDIR}/main/build-defs.h")
+        file(
+          STRINGS
+          ${PHP${_php_prefix}_INSTALL_INCLUDEDIR}/main/build-defs.h
+          _
+          REGEX
+          "^[ \t]*#[ \t]*define[ \t]+PHP_LIBDIR[ \t]+\\\"([^\"]+)\\\"[ \t]*$"
+          LIMIT_COUNT 1
+        )
+
+        set(PHP${_php_prefix}_INSTALL_LIBDIR "${CMAKE_MATCH_1}")
+      endif()
+    endif()
+  endif()
+
+  ##############################################################################
+  # Get PHP version variables.
+  ##############################################################################
+
+  if(EXISTS "${PHP${_php_prefix}_INSTALL_INCLUDEDIR}/main/php.h")
+    file(
+      STRINGS
+      ${PHP${_php_prefix}_INSTALL_INCLUDEDIR}/main/php.h
+      _
+      REGEX
+      "^[ \t]*#[ \t]*define[ \t]+PHP_API_VERSION[ \t]+([0-9]+)[ \t]*$"
+      LIMIT_COUNT 1
+    )
+
+    set(PHP${_php_prefix}_API_VERSION "${CMAKE_MATCH_1}")
+  endif()
+
+  if(EXISTS "${PHP${_php_prefix}_INSTALL_INCLUDEDIR}/Zend/zend.h")
+    file(
+      STRINGS
+      ${PHP${_php_prefix}_INSTALL_INCLUDEDIR}/Zend/zend.h
+      _
+      REGEX
+      "^[ \t]*#[ \t]*define[ \t]+ZEND_VERSION[ \t]+([0-9]+)[ \t]*$"
+      LIMIT_COUNT 1
+    )
+
+    set(PHP${_php_prefix}_ZEND_VERSION "${CMAKE_MATCH_1}")
+  endif()
+
+  if(EXISTS "${PHP${_php_prefix}_INSTALL_INCLUDEDIR}/Zend/zend_modules.h")
+    file(
+      STRINGS
+      ${PHP${_php_prefix}_INSTALL_INCLUDEDIR}/Zend/zend_modules.h
+      _
+      REGEX
+      "^[ \t]*#[ \t]*define[ \t]+ZEND_MODULE_API_NO[ \t]+([0-9]+)[ \t]*$"
+      LIMIT_COUNT 1
+    )
+
+    set(PHP${_php_prefix}_ZEND_MODULE_API_NO "${CMAKE_MATCH_1}")
+  endif()
+
+  if(EXISTS "${PHP${_php_prefix}_INSTALL_INCLUDEDIR}/Zend/zend_extensions.h")
+    file(
+      STRINGS
+      ${PHP${_php_prefix}_INSTALL_INCLUDEDIR}/Zend/zend_extensions.h
+      _
+      REGEX
+      "^[ \t]*#[ \t]*define[ \t]+ZEND_EXTENSION_API_NO[ \t]+([0-9]+)[ \t]*$"
+      LIMIT_COUNT 1
+    )
+
+    set(PHP${_php_prefix}_ZEND_EXTENSION_API_NO "${CMAKE_MATCH_1}")
+  endif()
+
+  ##############################################################################
   # Handle result.
   ##############################################################################
 
@@ -212,6 +381,30 @@ block(
       PHP${_php_prefix}::Interpreter
       PROPERTIES
         IMPORTED_LOCATION "${PHP${_php_prefix}_EXECUTABLE}"
+    )
+  endif()
+
+  if(
+    "Development" IN_LIST PHP_FIND_COMPONENTS
+    AND PHP${_php_prefix}_FOUND
+    AND PHP_Development_FOUND
+    AND role STREQUAL "PROJECT"
+    AND NOT TARGET PHP${_php_prefix}::Extension
+  )
+    add_library(PHP${_php_prefix}::Extension INTERFACE IMPORTED GLOBAL)
+
+    target_include_directories(
+      PHP${_php_prefix}::Extension
+      INTERFACE
+        ${PHP${_php_prefix}_INSTALL_INCLUDEDIR}
+        ${PHP${_php_prefix}_INSTALL_INCLUDEDIR}/main
+        ${PHP${_php_prefix}_INSTALL_INCLUDEDIR}/TSRM
+        ${PHP${_php_prefix}_INSTALL_INCLUDEDIR}/Zend
+    )
+
+    target_compile_definitions(
+      PHP${_php_prefix}::Extension
+      INTERFACE HAVE_CONFIG_H ZEND_COMPILE_DL_EXT
     )
   endif()
 endblock()

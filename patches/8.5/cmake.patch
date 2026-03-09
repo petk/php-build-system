@@ -16,17 +16,22 @@ Subject: Add CMake changes for PHP-8.5 branch
   ('sapi/fpm/Debug/php-fpm', 'sapi/fpm/Release/php-fpm', etc.).
 * Adjusted code comments.
 * Added some basic documentation related to CMake-based build system.
+* Added PHP CMake package config file and PHP CMake modules to Autotools
+  installation for building PHP extensions with CMake when PHP is built
+  and installed on the host with Autotools.
 ---
  .editorconfig              |  2 +-
  .gitignore                 | 14 ++++++++++++
  README.md                  | 22 +++++++++++++++++++
+ configure.ac               |  2 +-
  ext/ext_skel.php           | 44 ++++++++++++++------------------------
  ext/iconv/iconv.c          |  2 +-
  ext/skeleton/.gitignore.in | 15 +++++++++++++
  ext/standard/proc_open.c   |  2 +-
  run-tests.php              | 24 +++++++++++++++------
  sapi/fpm/tests/tester.inc  |  4 ++++
- 9 files changed, 92 insertions(+), 37 deletions(-)
+ scripts/Makefile.frag      | 15 +++++++++++++
+ 11 files changed, 108 insertions(+), 38 deletions(-)
 
 diff --git a/.editorconfig b/.editorconfig
 index 19be96087d9..58a83dfb688 100644
@@ -111,6 +116,19 @@ index 5b8ec6f0d7d..6bc2f0ad42f 100644
  For a minimal PHP build from Git, you will need autoconf, bison, and re2c. For
  a default build, you will additionally need libxml2 and libsqlite3.
  
+diff --git a/configure.ac b/configure.ac
+index e4a477dae30..c4a211ccc9a 100644
+--- a/configure.ac
++++ b/configure.ac
+@@ -1622,7 +1622,7 @@ else
+ fi;
+ 
+ all_targets="\$(OVERALL_TARGET) \$(PHP_MODULES) \$(PHP_ZEND_EX) \$(PHP_BINARIES) $pharcmd"
+-install_targets="$install_sapi $install_modules $install_binaries install-build install-headers install-programs $install_pear $pharcmd_install"
++install_targets="$install_sapi $install_modules $install_binaries install-build install-headers install-programs $install_pear $pharcmd_install install-cmake"
+ 
+ PHP_SUBST([all_targets])
+ PHP_SUBST([install_targets])
 diff --git a/ext/ext_skel.php b/ext/ext_skel.php
 index d396dfa3da7..ee7ae3f8975 100755
 --- a/ext/ext_skel.php
@@ -327,3 +345,26 @@ index 90798865433..87814cab898 100644
          $phpPath = getenv("TEST_PHP_EXECUTABLE");
          for ($i = 0; $i < 2; $i++) {
              $slashPosition = strrpos($phpPath, "/");
+diff --git a/scripts/Makefile.frag b/scripts/Makefile.frag
+index cf56852c2b1..06600ba5206 100644
+--- a/scripts/Makefile.frag
++++ b/scripts/Makefile.frag
+@@ -46,3 +46,18 @@ install-programs:
+ 		echo "  page: $(program_prefix)$${page}$(program_suffix).1"; \
+ 		$(INSTALL_DATA) $(builddir)/man1/$${page}.1 $(INSTALL_ROOT)$(mandir)/man1/$(program_prefix)$${page}$(program_suffix).1; \
+ 	done
++
++install-cmake:
++	@echo "Installing CMake files:           $(INSTALL_ROOT)$(orig_libdir)/cmake/PHP/"
++	@$(mkinstalldirs) $(INSTALL_ROOT)$(orig_libdir)/cmake/PHP/modules/PHP/Internal
++	@cd $(top_srcdir)/cmake/modules && \
++	for i in `ls Find*.cmake`; do \
++		if test "$$i" != "FindPHP.cmake"; then \
++			$(INSTALL_DATA) $$i $(INSTALL_ROOT)$(orig_libdir)/cmake/PHP/modules; \
++		fi; \
++	done
++	@cd $(top_srcdir) && \
++	$(INSTALL_DATA) cmake/autotools/PHPConfig.cmake $(INSTALL_ROOT)$(orig_libdir)/cmake/PHP && \
++	$(INSTALL_DATA) cmake/modules/FindPHP.cmake $(INSTALL_ROOT)$(orig_libdir)/cmake/PHP && \
++	$(INSTALL_DATA) cmake/modules/PHP/Internal/* $(INSTALL_ROOT)$(orig_libdir)/cmake/PHP/modules/PHP/Internal && \
++	$(INSTALL_DATA) cmake/modules/PHP/*.cmake $(INSTALL_ROOT)$(orig_libdir)/cmake/PHP/modules/PHP
