@@ -29,7 +29,12 @@ This document describes how the PHP build system evolved through time.
 
 #### Windows
 
-* ...
+* Function `SETUP_OPENSSL()` doesn't accept 6th argument anymore and doesn't
+  define the `HAVE_OPENSSL_SSL_H` preprocessor macro anymore.
+* Function `SETUP_SQLITE3()` doesn't define `HAVE_SQLITE3_H` and
+  `HAVE_SQLITE3EXT_H` preprocessor macros anymore.
+* Added a new function `CHECK_HEADER()` which is intended to be used instead of
+  the `CHECK_HEADER_ADD_INCLUDE()`.
 
 </details>
 
