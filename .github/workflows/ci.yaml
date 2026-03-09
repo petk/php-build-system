@@ -176,3 +176,52 @@ jobs:
         run: |
           ${{ steps.cmake-and-ninja.outputs.cmake-path }}/cmake --preset windows
           ${{ steps.cmake-and-ninja.outputs.cmake-path }}/cmake --build --preset windows
+
+  autotools:
+    runs-on: ubuntu-latest
+    name: Autotools build and PHP extension CMake build
+    steps:
+      - name: Install base dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get -y install \
+            build-essential \
+            gcc \
+            g++ \
+            re2c \
+            bison \
+            libxml2-dev \
+            libsqlite3-dev
+
+      - name: Install CMake and Ninja
+        uses: lukka/get-cmake@latest
+        id: cmake-and-ninja
+
+      - name: Checkout
+        uses: actions/checkout@v6
+        with:
+          fetch-depth: 2
+
+      - name: Build and install
+        run: |
+          cmake --preset all-disabled -DCMAKE_INSTALL_PREFIX=/usr
+          cd php-build/all-disabled/php-src
+          mkdir autotools-build
+          cd autotools-build
+          ../buildconf
+          ../configure --disable-all --enable-tokenizer
+          make -j $(nproc)
+          sudo make install
+
+      - name: Setup shared standalone extension
+        if: ${{ always() }}
+        run: |
+          php php-build/all-disabled/php-src/ext/ext_skel.php --ext phantom
+          cd php-build/all-disabled/php-src/ext/phantom
+          cmake -B cmake-build
+          cmake --build cmake-build -j
+          ctest --test-dir cmake-build -j --verbose
+          sudo "${{ steps.cmake-and-ninja.outputs.cmake-path }}/cmake" \
+            --install cmake-build \
+            -j $(nproc)
+          php -d extension=phantom -m | grep phantom
