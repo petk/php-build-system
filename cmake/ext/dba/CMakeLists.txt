@@ -379,7 +379,7 @@ if(PHP_EXT_DBA_DB)
       "versions are earlier than 4.1 or 4.1.25 and newer."
     )
   elseif(
-    type MATCHES "^(MODULE|SHARED)_LIBRARY$"
+    type STREQUAL "MODULE_LIBRARY"
     AND BerkeleyDB_VERSION VERSION_LESS 3.3
   )
     message(

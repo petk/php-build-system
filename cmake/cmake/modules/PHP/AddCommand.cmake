@@ -281,7 +281,7 @@ function(php_add_command)
 
     if(TARGET PHP::ext::${extension})
       get_target_property(type PHP::ext::${extension} TYPE)
-      if(type MATCHES "^(MODULE|SHARED)_LIBRARY$")
+      if(type STREQUAL "MODULE_LIBRARY")
         list(APPEND shared_extensions "${extension}")
       endif()
     elseif(${option}_SHARED)

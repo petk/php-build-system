@@ -72,7 +72,7 @@ target_compile_definitions(
   php_ext_xmlwriter
   PRIVATE
     # TODO: Fix LIBXML_STATIC usage based on the static/shared libxml2 package.
-    $<$<AND:$<PLATFORM_ID:Windows>,$<NOT:$<IN_LIST:$<TARGET_PROPERTY:TYPE>,MODULE_LIBRARY;SHARED_LIBRARY>>>:LIBXML_STATIC>
+    $<$<AND:$<PLATFORM_ID:Windows>,$<NOT:$<STREQUAL:$<TARGET_PROPERTY:TYPE>,MODULE_LIBRARY>>>:LIBXML_STATIC>
 )
 
 include(Packages/LibXml2)

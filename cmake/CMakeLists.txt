@@ -81,7 +81,7 @@ target_compile_definitions(
   php_extension
   INTERFACE
   $<INSTALL_INTERFACE:HAVE_CONFIG_H;ZEND_COMPILE_DL_EXT>
-  $<BUILD_INTERFACE:$<$<IN_LIST:$<TARGET_PROPERTY:TYPE>,MODULE_LIBRARY;SHARED_LIBRARY>:ZEND_COMPILE_DL_EXT>>
+  $<BUILD_INTERFACE:$<$<STREQUAL:$<TARGET_PROPERTY:TYPE>,MODULE_LIBRARY>:ZEND_COMPILE_DL_EXT>>
 )
 
 ################################################################################

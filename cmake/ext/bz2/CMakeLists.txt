@@ -75,7 +75,7 @@ target_sources(
 target_compile_definitions(
   php_ext_bz2
   PRIVATE
-    $<$<AND:$<PLATFORM_ID:Windows>,$<IN_LIST:$<TARGET_PROPERTY:TYPE>,MODULE_LIBRARY;SHARED_LIBRARY>>:PHP_BZ2_EXPORTS>
+    $<$<AND:$<PLATFORM_ID:Windows>,$<STREQUAL:$<TARGET_PROPERTY:TYPE>,MODULE_LIBRARY>>:PHP_BZ2_EXPORTS>
 )
 
 target_include_directories(

@@ -267,7 +267,7 @@ else()
     if(
       CMAKE_SYSTEM_NAME STREQUAL "Windows"
       AND TARGET php_sapi
-      AND NOT type MATCHES "^(MODULE|SHARED)_LIBRARY$"
+      AND NOT type STREQUAL "MODULE_LIBRARY"
     )
       target_sources(php_sapi INTERFACE php_pcre.def)
     endif()
