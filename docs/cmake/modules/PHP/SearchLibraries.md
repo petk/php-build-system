@@ -137,8 +137,9 @@ the check is run:
 * `CMAKE_REQUIRED_LIBRARIES`
 * `CMAKE_REQUIRED_LINK_DIRECTORIES`
 * `CMAKE_REQUIRED_QUIET`
+* `CMAKE_EXTRA_INCLUDE_FILES`
 
-See https://cmake.org/cmake/help/latest/module/CheckSymbolExists.html for more
+See https://cmake.org/cmake/help/latest/module/CMakePushCheckState.html for more
 info about these variables.
 
 ## Caveats
