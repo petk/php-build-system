@@ -30,8 +30,8 @@ Subject: Add CMake changes for PHP-8.6 branch
  ext/standard/proc_open.c   |  2 +-
  run-tests.php              | 24 +++++++++++++++------
  sapi/fpm/tests/tester.inc  |  4 ++++
- scripts/Makefile.frag      | 15 +++++++++++++
- 11 files changed, 108 insertions(+), 38 deletions(-)
+ scripts/Makefile.frag      | 13 +++++++++++
+ 11 files changed, 106 insertions(+), 38 deletions(-)
 
 diff --git a/.editorconfig b/.editorconfig
 index 19be96087d9..58a83dfb688 100644
@@ -346,10 +346,10 @@ index 90798865433..87814cab898 100644
          for ($i = 0; $i < 2; $i++) {
              $slashPosition = strrpos($phpPath, "/");
 diff --git a/scripts/Makefile.frag b/scripts/Makefile.frag
-index 00010d6711a..a39722988c6 100644
+index 00010d6711a..a51087633c7 100644
 --- a/scripts/Makefile.frag
 +++ b/scripts/Makefile.frag
-@@ -50,3 +50,18 @@ install-programs:
+@@ -50,3 +50,16 @@ install-programs:
  		echo "  page: $(program_prefix)$${page}$(program_suffix).1"; \
  		$(INSTALL_DATA) $(builddir)/man1/$${page}.1 $(INSTALL_ROOT)$(mandir)/man1/$(program_prefix)$${page}$(program_suffix).1; \
  	done
@@ -358,10 +358,8 @@ index 00010d6711a..a39722988c6 100644
 +	@echo "Installing CMake files:           $(INSTALL_ROOT)$(orig_libdir)/cmake/PHP/"
 +	@$(mkinstalldirs) $(INSTALL_ROOT)$(orig_libdir)/cmake/PHP/modules/PHP/Internal
 +	@cd $(top_srcdir)/cmake/modules && \
-+	for i in `ls Find*.cmake`; do \
-+		if test "$$i" != "FindPHP.cmake"; then \
-+			$(INSTALL_DATA) $$i $(INSTALL_ROOT)$(orig_libdir)/cmake/PHP/modules; \
-+		fi; \
++	for i in `find . -type f -name 'Find*.cmake' ! -name 'FindPHP.cmake'`; do \
++		$(INSTALL_DATA) $$i $(INSTALL_ROOT)$(orig_libdir)/cmake/PHP/modules; \
 +	done
 +	@cd $(top_srcdir) && \
 +	$(INSTALL_DATA) cmake/autotools/PHPConfig.cmake $(INSTALL_ROOT)$(orig_libdir)/cmake/PHP && \
