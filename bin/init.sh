@@ -138,7 +138,7 @@ fi
 if test -z "$branch"; then
   version=$(sed -n 's/^  VERSION[[:space:]]\+//p' CMakeLists.txt)
   case "$version" in
-    $phpVersionDev)
+    "$phpVersionDev")
       branch=master
       ;;
     [0-9].[0-9])
