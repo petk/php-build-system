@@ -345,7 +345,7 @@ index c22af549ece..037c4420f4b 100644
          for ($i = 0; $i < 2; $i++) {
              $slashPosition = strrpos($phpPath, "/");
 diff --git a/scripts/Makefile.frag b/scripts/Makefile.frag
-index 10498321454..41473a10437 100644
+index 10498321454..16eeab634c2 100644
 --- a/scripts/Makefile.frag
 +++ b/scripts/Makefile.frag
 @@ -52,3 +52,18 @@ $(builddir)/phpize: $(srcdir)/phpize.in $(top_builddir)/config.status
@@ -354,7 +354,7 @@ index 10498321454..41473a10437 100644
  	(CONFIG_FILES=$@ CONFIG_HEADERS= $(top_builddir)/config.status)
 +
 +install-cmake:
-+	@echo "Installing CMake files:           $(INSTALL_ROOT)$(libdir)/cmake/PHP/"
++	@echo "Installing CMake files:           $(INSTALL_ROOT)$(prefix)/lib/cmake/PHP/"
 +	@$(mkinstalldirs) $(INSTALL_ROOT)$(prefix)/lib/cmake/PHP/modules/PHP/Internal
 +	@cd $(top_srcdir)/cmake/modules && \
 +	for i in `ls Find*.cmake`; do \
