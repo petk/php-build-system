@@ -82,7 +82,7 @@ index b76b5a787ca..76a4a3635ac 100644
  !/ext/fileinfo/libmagic/config.h
  !/ext/fileinfo/libmagic.patch
 diff --git a/README.md b/README.md
-index 5b8ec6f0d7d..6bc2f0ad42f 100644
+index 9a058bb942e..172e0034fa0 100644
 --- a/README.md
 +++ b/README.md
 @@ -35,8 +35,30 @@ For other systems, see the [installation chapter](https://www.php.net/install).
@@ -117,10 +117,10 @@ index 5b8ec6f0d7d..6bc2f0ad42f 100644
  a default build, you will additionally need libxml2 and libsqlite3.
  
 diff --git a/configure.ac b/configure.ac
-index 07d64902ebf..dd74d914d0a 100644
+index 214c0ab91b2..5f5bf5f6f27 100644
 --- a/configure.ac
 +++ b/configure.ac
-@@ -1622,7 +1622,7 @@ else
+@@ -1616,7 +1616,7 @@ else
  fi;
  
  all_targets="\$(OVERALL_TARGET) \$(PHP_MODULES) \$(PHP_ZEND_EX) \$(PHP_BINARIES) $pharcmd"
@@ -346,10 +346,10 @@ index 90798865433..87814cab898 100644
          for ($i = 0; $i < 2; $i++) {
              $slashPosition = strrpos($phpPath, "/");
 diff --git a/scripts/Makefile.frag b/scripts/Makefile.frag
-index cf56852c2b1..06600ba5206 100644
+index 00010d6711a..a39722988c6 100644
 --- a/scripts/Makefile.frag
 +++ b/scripts/Makefile.frag
-@@ -46,3 +46,18 @@ install-programs:
+@@ -50,3 +50,18 @@ install-programs:
  		echo "  page: $(program_prefix)$${page}$(program_suffix).1"; \
  		$(INSTALL_DATA) $(builddir)/man1/$${page}.1 $(INSTALL_ROOT)$(mandir)/man1/$(program_prefix)$${page}$(program_suffix).1; \
  	done
