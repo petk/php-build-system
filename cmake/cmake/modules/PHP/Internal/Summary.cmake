@@ -241,7 +241,7 @@ function(php_summary_print)
       if(feature MATCHES "^ext/([^ ]+)$")
         if(CMAKE_MATCH_1)
           get_target_property(type PHP::ext::${CMAKE_MATCH_1} TYPE)
-          if(type MATCHES "^(MODULE|SHARED)_LIBRARY$")
+          if(type STREQUAL "MODULE_LIBRARY")
             string(APPEND item " (shared)")
           endif()
         endif()
@@ -320,8 +320,8 @@ function(php_summary_print)
       get_target_property(extension_type PHP::ext::${extension} TYPE)
 
       if(
-        dependency_type MATCHES "^(MODULE|SHARED)_LIBRARY$"
-        AND NOT extension_type MATCHES "^(MODULE|SHARED)_LIBRARY$"
+        dependency_type STREQUAL "MODULE_LIBRARY"
+        AND NOT extension_type STREQUAL "MODULE_LIBRARY"
       )
         string(TOUPPER "${extension}" extension_upper)
         string(

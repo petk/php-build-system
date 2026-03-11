@@ -74,7 +74,7 @@ target_compile_definitions(
   php_ext_xsl
   PRIVATE
     # TODO: Fix LIBXML_STATIC usage based on the static/shared libxml2 package.
-    $<$<AND:$<PLATFORM_ID:Windows>,$<NOT:$<IN_LIST:$<TARGET_PROPERTY:TYPE>,MODULE_LIBRARY;SHARED_LIBRARY>>>:DOM_EXPORTS;LIBXML_STATIC>
+    $<$<AND:$<PLATFORM_ID:Windows>,$<NOT:$<STREQUAL:$<TARGET_PROPERTY:TYPE>,MODULE_LIBRARY>>>:DOM_EXPORTS;LIBXML_STATIC>
     # TODO: Fix based on the static/shared xslt package.
     $<$<PLATFORM_ID:Windows>:LIBXSLT_STATIC>
 )

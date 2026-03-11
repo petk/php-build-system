@@ -94,7 +94,7 @@ function(_php_extension_post_configure)
   get_target_property(type php_ext_${extension} TYPE)
 
   # Set build-phase location for shared extensions.
-  if(type MATCHES "^(MODULE|SHARED)_LIBRARY$")
+  if(type STREQUAL "MODULE_LIBRARY")
     get_target_property(location php_ext_${extension} LIBRARY_OUTPUT_DIRECTORY)
     if(NOT location)
       # Check whether extension is built as standalone or inside php-src.
@@ -118,7 +118,7 @@ function(_php_extension_post_configure)
 
   string(TOUPPER "COMPILE_DL_${extension}" macro)
 
-  if(type MATCHES "^(MODULE|SHARED)_LIBRARY$")
+  if(type STREQUAL "MODULE_LIBRARY")
     set(${macro} TRUE)
   else()
     set(${macro} FALSE)
