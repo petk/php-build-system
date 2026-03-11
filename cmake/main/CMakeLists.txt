@@ -164,7 +164,7 @@ block()
   foreach(extension IN LISTS extensions)
     # Skip if extension is shared.
     get_target_property(type PHP::ext::${extension} TYPE)
-    if(type MATCHES "^(MODULE|SHARED)_LIBRARY$")
+    if(type STREQUAL "MODULE_LIBRARY")
       continue()
     endif()
 

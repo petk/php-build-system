@@ -432,8 +432,8 @@ function(_php_extensions_validate)
       get_target_property(extension_type php_ext_${extension} TYPE)
 
       if(
-        dependency_type MATCHES "^(MODULE|SHARED)_LIBRARY$"
-        AND NOT extension_type MATCHES "^(MODULE|SHARED)_LIBRARY$"
+        dependency_type STREQUAL "MODULE_LIBRARY"
+        AND NOT extension_type STREQUAL "MODULE_LIBRARY"
       )
         message(
           SEND_ERROR
