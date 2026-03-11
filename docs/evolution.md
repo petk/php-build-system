@@ -24,6 +24,14 @@ This document describes how the PHP build system evolved through time.
 
 #### Autotools
 
+* `scripts/dev/update-autoconf.sh` has been added to update `config.*/libtool`.
+* libtool has been upgraded to 2.5.4 (serial 63), which fixes many bugs. As part
+  of the upgrade to the new libtool:
+  * libtool is now spread across multiple files. phpize has been updated to
+    handle this.
+  * On macOS, libtool now uses `-undefined dynamic_lookup` for shared objects,
+    instead of `-undefined suppress -flat_namespace`.
+  * `--with-pic` is now `--enable-pic`. The old flag will result in an error.
 * Symbol `HAVE_ST_BLOCKS` has been removed from `php_config.h` (use
   `HAVE_STRUCT_STAT_ST_BLOCKS`).
 

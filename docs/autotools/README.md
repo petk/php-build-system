@@ -91,8 +91,9 @@ PHP build system is a collection of various files across the php-src repository:
   ├─📄 config.guess      # https://git.savannah.gnu.org/cgit/config.git
   ├─📄 config.sub        # https://git.savannah.gnu.org/cgit/config.git
   ├─📄 genif.sh          # Generator for the internal_functions* files
-  ├─📄 libtool.m4        # Forked https://git.savannah.gnu.org/cgit/libtool.git
-  ├─📄 ltmain.sh         # Forked https://git.savannah.gnu.org/cgit/libtool.git
+  ├─📄 libtool.m4        # https://git.savannah.gnu.org/cgit/libtool.git
+  ├─📄 ltmain.sh         # https://git.savannah.gnu.org/cgit/libtool.git
+  ├─📄 lt*.m4            # https://git.savannah.gnu.org/cgit/libtool.git
   ├─📄 Makefile.global   # Root Makefile template when configure is run
   ├─📄 order_by_dep.awk  # Used by genif.sh
   ├─📄 php.m4            # PHP Autoconf macros

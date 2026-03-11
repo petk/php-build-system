@@ -243,7 +243,11 @@ install(
     ${PHP_SOURCE_DIR}/build/ax_gcc_func_attribute.m4
     ${PHP_SOURCE_DIR}/build/gen_stub.php
     ${PHP_SOURCE_DIR}/build/libtool.m4
+    ${PHP_SOURCE_DIR}/build/lt~obsolete.m4
     ${PHP_SOURCE_DIR}/build/ltmain.sh
+    ${PHP_SOURCE_DIR}/build/ltoptions.m4
+    ${PHP_SOURCE_DIR}/build/ltsugar.m4
+    ${PHP_SOURCE_DIR}/build/ltversion.m4
     ${PHP_SOURCE_DIR}/build/Makefile.global
     ${PHP_SOURCE_DIR}/build/php_cxx_compile_stdcxx.m4
     ${PHP_SOURCE_DIR}/build/php.m4

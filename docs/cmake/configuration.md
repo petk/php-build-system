@@ -3491,10 +3491,28 @@ A list of Autoconf `configure` command-line configuration options, Windows
       <td></td>
     </tr>
     <tr>
+      <td>--enable-pic</td>
+      <td>N/A</td>
+      <td>N/A</td>
+      <td>PHP >= 8.6</td>
+    </tr>
+    <tr>
+      <td>--disable-pic</td>
+      <td>N/A</td>
+      <td>N/A</td>
+      <td>PHP >= 8.6</td>
+    </tr>
+    <tr>
       <td>--with-pic</td>
       <td>N/A</td>
-      <td></td>
-      <td></td>
+      <td>N/A</td>
+      <td>removed since PHP >= 8.6 (replaced with --enable-pic)</td>
+    </tr>
+    <tr>
+      <td>--without-pic</td>
+      <td>N/A</td>
+      <td>N/A</td>
+      <td>removed since PHP >= 8.6 (replaced with --disable-pic)</td>
     </tr>
     <tr>
       <td>--with-tags=TAGS</td>
