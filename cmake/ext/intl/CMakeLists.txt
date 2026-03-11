@@ -67,7 +67,7 @@ endif()
 # TODO: Recheck this.
 get_target_property(type php_ext_intl TYPE)
 if(
-  NOT type MATCHES "^(MODULE|SHARED)_LIBRARY$"
+  NOT type STREQUAL "MODULE_LIBRARY"
   AND CMAKE_SYSTEM_NAME STREQUAL "Windows"
 )
   message(

@@ -139,7 +139,7 @@ if(CMAKE_SYSTEM_NAME STREQUAL "Windows")
     get_target_property(type PHP::ext::readline TYPE)
   endif()
 
-  if(NOT PHP_EXT_READLINE OR NOT type MATCHES "^(MODULE|SHARED)_LIBRARY$")
+  if(NOT PHP_EXT_READLINE OR NOT type STREQUAL "MODULE_LIBRARY")
     find_package(Editline)
     if(Editline_FOUND)
       target_link_libraries(php_sapi_cli PRIVATE Editline::Editline)

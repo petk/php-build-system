@@ -89,7 +89,7 @@ function(_php_testing_post_configure)
   set(options "")
   foreach(extension IN LISTS extensions)
     get_target_property(type PHP::ext::${extension} TYPE)
-    if(type MATCHES "^(MODULE|SHARED)_LIBRARY$")
+    if(type STREQUAL "MODULE_LIBRARY")
       get_target_property(
         is_zend_extension
         PHP::ext::${extension}

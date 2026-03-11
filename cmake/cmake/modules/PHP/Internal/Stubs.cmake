@@ -60,7 +60,7 @@ function(_php_stubs_get_php_command result)
   endif()
 
   get_target_property(type PHP::ext::tokenizer TYPE)
-  if(type MATCHES "^(MODULE|SHARED)_LIBRARY$")
+  if(type STREQUAL "MODULE_LIBRARY")
     list(
       APPEND
       command

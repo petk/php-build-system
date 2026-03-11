@@ -116,7 +116,7 @@ target_sources(
 target_compile_definitions(
   php_ext_dom
   PRIVATE
-    $<$<AND:$<PLATFORM_ID:Windows>,$<NOT:$<IN_LIST:$<TARGET_PROPERTY:TYPE>,MODULE_LIBRARY;SHARED_LIBRARY>>>:LIBXML_STATIC;LEXBOR_STATIC>
+    $<$<AND:$<PLATFORM_ID:Windows>,$<NOT:$<STREQUAL:$<TARGET_PROPERTY:TYPE>,MODULE_LIBRARY>>>:LIBXML_STATIC;LEXBOR_STATIC>
 )
 
 include(Packages/LibXml2)
