@@ -223,7 +223,7 @@ write_basic_package_version_file(
 configure_package_config_file(
   cmake/PHPConfig.cmake.in
   PHPConfig.cmake
-  INSTALL_DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/PHP
+  INSTALL_DESTINATION ${PHP_INSTALL_CMAKE_CONFIG_FILE_DIR}
   PATH_VARS
     PHP_EXTENSION_DIR
     PHP_INSTALL_INCLUDEDIR
@@ -255,7 +255,7 @@ install(
   EXPORT php_development_export
   NAMESPACE PHP::
   FILE PHPDevelopmentTargets.cmake
-  DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/PHP/targets
+  DESTINATION ${PHP_INSTALL_CMAKE_CONFIG_FILE_DIR}/targets
   COMPONENT php-development
 )
 
@@ -263,7 +263,7 @@ install(
   FILES
     ${CMAKE_CURRENT_BINARY_DIR}/PHPConfig.cmake
     ${CMAKE_CURRENT_BINARY_DIR}/PHPConfigVersion.cmake
-  DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/PHP
+  DESTINATION ${PHP_INSTALL_CMAKE_CONFIG_FILE_DIR}
   COMPONENT php-development
 )
 
@@ -283,7 +283,7 @@ install(
 
 install(
   DIRECTORY cmake/modules
-  DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/PHP
+  DESTINATION ${PHP_INSTALL_CMAKE_CONFIG_FILE_DIR}
   COMPONENT php-development
   PATTERN "PHP/Core" EXCLUDE
   PATTERN "FindPHP.cmake" EXCLUDE

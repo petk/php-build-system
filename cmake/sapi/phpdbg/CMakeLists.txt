@@ -278,7 +278,7 @@ install(
   EXPORT php_sapi_phpdbg_export
   NAMESPACE PHP::sapi::
   FILE PHPSapiPhpdbgTargets.cmake
-  DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/PHP/targets
+  DESTINATION ${PHP_INSTALL_CMAKE_CONFIG_FILE_DIR}/targets
   COMPONENT php-development
 )
 
@@ -342,7 +342,7 @@ if(TARGET php_sapi_phpdbg_shared)
     EXPORT php_sapi_phpdbg_lib_export
     NAMESPACE PHP::sapi::
     FILE PHPSapiPhpdbgLibTargets.cmake
-    DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/PHP/targets
+    DESTINATION ${PHP_INSTALL_CMAKE_CONFIG_FILE_DIR}/targets
     COMPONENT php-development
   )
 endif()

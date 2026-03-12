@@ -87,7 +87,7 @@ install(
   EXPORT php_sapi_cgi_export
   NAMESPACE PHP::sapi::
   FILE PHPSapiCgiTargets.cmake
-  DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/PHP/targets
+  DESTINATION ${PHP_INSTALL_CMAKE_CONFIG_FILE_DIR}/targets
   COMPONENT php-development
 )
 
