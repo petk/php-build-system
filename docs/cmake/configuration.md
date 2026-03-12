@@ -193,6 +193,7 @@ Some useful overridable configuration options built into CMake itself. All these
 * [`PHP_BUILD_COMPILER`](/docs/cmake/variables/PHP_BUILD_COMPILER.md)
 * [`PHP_BUILD_PROVIDER`](/docs/cmake/variables/PHP_BUILD_PROVIDER.md)
 * [`PHP_CCACHE`](/docs/cmake/variables/PHP_CCACHE.md)
+* [`PHP_CMAKE_CONFIG_FILE_PREFIX`](/docs/cmake/variables/PHP_CMAKE_CONFIG_FILE_PREFIX.md)
 * [`PHP_CONFIG_FILE_PATH`](/docs/cmake/variables/PHP_CONFIG_FILE_PATH.md)
 * [`PHP_CONFIG_FILE_SCAN_DIR`](/docs/cmake/variables/PHP_CONFIG_FILE_SCAN_DIR.md)
 * [`PHP_CONFIGURE_COMMAND`](/docs/cmake/variables/PHP_CONFIGURE_COMMAND.md)

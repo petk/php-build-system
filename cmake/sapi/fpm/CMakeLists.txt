@@ -571,7 +571,7 @@ install(
   EXPORT php_sapi_fpm_export
   NAMESPACE PHP::sapi::
   FILE PHPSapiFpmTargets.cmake
-  DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/PHP/targets
+  DESTINATION ${PHP_INSTALL_CMAKE_CONFIG_FILE_DIR}/targets
   COMPONENT php-development
 )
 

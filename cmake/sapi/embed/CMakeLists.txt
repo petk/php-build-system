@@ -138,7 +138,7 @@ install(
   EXPORT php_sapi_embed_export
   NAMESPACE PHP::
   FILE PHPEmbedTargets.cmake
-  DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/PHP/targets
+  DESTINATION ${PHP_INSTALL_CMAKE_CONFIG_FILE_DIR}/targets
   COMPONENT php-development
 )
 
