@@ -99,15 +99,15 @@ cmake_minimum_required(VERSION 4.2...4.3)
 include(FeatureSummary)
 include(FindPackageHandleStandardArgs)
 
-##############################################################################
+################################################################################
 # Configuration.
-##############################################################################
+################################################################################
 
 set_package_properties(
   PHP
   PROPERTIES
     URL "https://www.php.net"
-    DESCRIPTION "PHP: Hypertext Preprocessor"
+    DESCRIPTION "Widely-used general-purpose scripting language"
 )
 
 if(PHP_ARTIFACTS_PREFIX)
@@ -115,6 +115,75 @@ if(PHP_ARTIFACTS_PREFIX)
 else()
   set(_php_prefix "")
 endif()
+
+################################################################################
+# Internal helpers.
+################################################################################
+
+# Determine PHP library directory where build-system files are installed. PHP
+# built with Autotools currently doesn't provide any useful option to retrieve
+# where the build-related files are installed. For example, gen_stub.php and
+# run-tests.php. This reads the hardcoded path from the phpize script for now.
+function(_php_find_php_get_lib_dir)
+  find_program(
+    PHP${_php_prefix}_PHPIZE_EXECUTABLE
+    NAMES phpize
+    DOC "Path to the PHP script that prepares a PHP extension for compiling"
+  )
+  mark_as_advanced(PHP${_php_prefix}_PHPIZE_EXECUTABLE)
+
+  if(NOT IS_EXECUTABLE ${PHP${_php_prefix}_PHPIZE_EXECUTABLE})
+    return()
+  endif()
+
+  file(
+    STRINGS
+    ${PHP${_php_prefix}_PHPIZE_EXECUTABLE}
+    _
+    REGEX "^phpdir=\\\"([^\"]+)\\\""
+    LIMIT_COUNT 1
+  )
+
+  set(PHP${_php_prefix}_INSTALL_LIBDIR "${CMAKE_MATCH_1}")
+
+  string(
+    REPLACE
+    "`"
+    ""
+    PHP${_php_prefix}_INSTALL_LIBDIR
+    "${PHP${_php_prefix}_INSTALL_LIBDIR}"
+  )
+
+  string(
+    REGEX REPLACE
+    "^[ ]*eval[ ]+echo[ ]+"
+    ""
+    PHP${_php_prefix}_INSTALL_LIBDIR
+    "${PHP${_php_prefix}_INSTALL_LIBDIR}"
+  )
+
+  string(
+    REGEX REPLACE
+    "build$"
+    ""
+    PHP${_php_prefix}_INSTALL_LIBDIR
+    "${PHP${_php_prefix}_INSTALL_LIBDIR}"
+  )
+
+  string(
+    REGEX REPLACE
+    "\\\${?(exec_)?prefix}?"
+    "${php_install_prefix}"
+    PHP${_php_prefix}_INSTALL_LIBDIR
+    "${PHP${_php_prefix}_INSTALL_LIBDIR}"
+  )
+
+  return(PROPAGATE PHP${_php_prefix}_INSTALL_LIBDIR)
+endfunction()
+
+################################################################################
+# Find PHP.
+################################################################################
 
 block(
   PROPAGATE
@@ -202,6 +271,7 @@ block(
       NAMES php-config
       DOC "Path to the php-config command-line helper"
     )
+    mark_as_advanced(PHP${_php_prefix}_CONFIG_EXECUTABLE)
 
     if(IS_EXECUTABLE "${PHP${_php_prefix}_CONFIG_EXECUTABLE}")
       execute_process(
@@ -250,46 +320,9 @@ block(
         ERROR_QUIET
         OUTPUT_STRIP_TRAILING_WHITESPACE
       )
-
-      if(PHP${_php_prefix}_VERSION VERSION_GREATER_EQUAL 8.4)
-        execute_process(
-          COMMAND "${PHP${_php_prefix}_CONFIG_EXECUTABLE}" --lib-dir
-          OUTPUT_VARIABLE PHP${_php_prefix}_INSTALL_LIBDIR
-          RESULT_VARIABLE result
-          ERROR_QUIET
-          OUTPUT_STRIP_TRAILING_WHITESPACE
-        )
-
-        if(NOT result EQUAL 0)
-          string(
-            APPEND
-            reason
-            "Command '${PHP${_php_prefix}_CONFIG_EXECUTABLE}' failed. "
-          )
-
-          unset(PHP${_php_prefix}_INSTALL_LIBDIR)
-        else()
-          string(
-            REPLACE
-            "\${prefix}"
-            "${php_install_prefix}"
-            PHP${_php_prefix}_INSTALL_LIBDIR
-            "${PHP${_php_prefix}_INSTALL_LIBDIR}"
-          )
-        endif()
-      elseif(EXISTS "${PHP${_php_prefix}_INSTALL_INCLUDEDIR}/main/build-defs.h")
-        file(
-          STRINGS
-          ${PHP${_php_prefix}_INSTALL_INCLUDEDIR}/main/build-defs.h
-          _
-          REGEX
-          "^[ \t]*#[ \t]*define[ \t]+PHP_LIBDIR[ \t]+\\\"([^\"]+)\\\"[ \t]*$"
-          LIMIT_COUNT 1
-        )
-
-        set(PHP${_php_prefix}_INSTALL_LIBDIR "${CMAKE_MATCH_1}")
-      endif()
     endif()
+
+    _php_find_php_get_lib_dir()
   endif()
 
   ##############################################################################

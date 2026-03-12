@@ -97,6 +97,12 @@ influence the search behavior:
   example, when using PHP Embed SAPI to choose static or shared PHP embed
   library variant in the `PHP::Embed` interface imported target.
 
+* `PHP_DIR`
+
+  The path to the directory containing PHP CMake package configuration files
+  (`PHPConfig.cmake`, etc.). If specified, `find_package(PHP)` will look for the
+  PHP CMake package configuration file in this path.
+
 ## Examples
 
 Finding PHP:
@@ -107,6 +113,15 @@ Finding PHP:
 find_package(PHP)
 ```
 #]=============================================================================]
+
+include(FeatureSummary)
+
+set_package_properties(
+  PHP
+  PROPERTIES
+    URL "@PHP_HOMEPAGE_URL@"
+    DESCRIPTION "@PHP_DESCRIPTION@"
+)
 
 ################################################################################
 # Create a user-friendly not-found message for unsupported CMake versions.
