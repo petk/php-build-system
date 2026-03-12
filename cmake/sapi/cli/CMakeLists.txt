@@ -164,7 +164,7 @@ install(
   EXPORT php_sapi_cli_export
   NAMESPACE PHP::
   FILE PHPInterpreterTargets.cmake
-  DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/PHP/targets
+  DESTINATION ${PHP_INSTALL_CMAKE_CONFIG_FILE_DIR}/targets
   COMPONENT php-development
 )
 

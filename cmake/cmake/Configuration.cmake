@@ -109,6 +109,20 @@ set(
 set(PHP_INSTALL_LIBDIR ${CMAKE_INSTALL_LIBDIR}/${PHP_LIB_PREFIX})
 
 set(
+  CACHE{PHP_CMAKE_CONFIG_FILE_PREFIX}
+  TYPE STRING
+  HELP
+    "The name of the directory inside the lib/cmake/ where to install PHP "
+    "CMake package config files (PHPConfig.cmake). For example, "
+    "'PHP-${PHP_VERSION}' to specify version or other build-related "
+    "characteristics and have multiple PHP versions installed. If absolute "
+    "path needs to be set, configure CMAKE_INSTALL_LIBDIR instead."
+  VALUE "PHP"
+)
+mark_as_advanced(PHP_CMAKE_CONFIG_FILE_PREFIX)
+set(PHP_INSTALL_CMAKE_CONFIG_FILE_DIR "${CMAKE_INSTALL_LIBDIR}/cmake/${PHP_CMAKE_CONFIG_FILE_PREFIX}")
+
+set(
   CACHE{PHP_CONFIG_FILE_SCAN_DIR}
   TYPE STRING
   HELP
@@ -249,13 +263,8 @@ if(NOT PHP_EXTENSION_DIR)
     CACHE PHP_EXTENSION_DIR
     PROPERTY
       VALUE
-        "${CMAKE_INSTALL_LIBDIR}/php/$<TARGET_PROPERTY:PHP::Zend,PHP_ZEND_MODULE_API_NO>$<$<BOOL:$<TARGET_PROPERTY:PHP::config,PHP_THREAD_SAFETY>>:-zts>"
+        "${PHP_INSTALL_LIBDIR}/$<TARGET_PROPERTY:PHP::Zend,PHP_ZEND_MODULE_API_NO>$<$<BOOL:$<TARGET_PROPERTY:PHP::config,PHP_THREAD_SAFETY>>:-zts>"
   )
-
-  # This would resemble the PHP Autotools --with-layout=GNU:
-  #set(extension_dir "${CMAKE_INSTALL_LIBDIR}/php/$<TARGET_PROPERTY:PHP::Zend,PHP_ZEND_MODULE_API_NO>$<$<BOOL:$<TARGET_PROPERTY:PHP::config,PHP_THREAD_SAFETY>>:-zts>$<$<CONFIG:Debug,DebugAssertions>:-debug>")
-  # This would resemble the PHP Autotools --with-layout=PHP (default):
-  #set(extension_dir "${CMAKE_INSTALL_LIBDIR}/php/extensions/$<IF:$<CONFIG:Debug,DebugAssertions>,debug,no-debug>$<IF:$<BOOL:$<TARGET_PROPERTY:PHP::config,PHP_THREAD_SAFETY>>,-zts,-non-zts>-$<TARGET_PROPERTY:PHP::Zend,PHP_ZEND_MODULE_API_NO>")
 endif()
 
 set(
