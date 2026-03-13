@@ -60,10 +60,20 @@ target_include_directories(
     ${PHP_SOURCE_DIR}
 )
 
-# Interface library that ties objects and configuration together for PHP SAPIs.
-add_library(php_sapi INTERFACE)
-add_library(PHP::sapi ALIAS php_sapi)
-target_link_libraries(php_sapi INTERFACE PHP::config)
+# Create PHP core library that ties objects and configuration together for PHP
+# SAPIs and shared extensions. On Windows (win32 directory) there is also a
+# shared DLL created for shared extensions to have symbols available.
+add_library(php_core INTERFACE)
+add_library(PHP::core ALIAS php_core)
+
+add_library(php_core_objects INTERFACE)
+add_library(PHP::core::objects ALIAS php_core_objects)
+target_link_libraries(
+  php_core
+  INTERFACE
+    PHP::config
+    $<$<NOT:$<PLATFORM_ID:Windows>>:PHP::core::objects>
+)
 
 # Interface library encapsulating the usage requirements for PHP extensions.
 add_library(php_extension INTERFACE)
@@ -125,6 +135,14 @@ define_property(
   BRIEF_DOCS "Whether the PHP SAPI is FastCGI-based"
 )
 
+define_property(
+  TARGET
+  PROPERTY PHP_CORE
+  BRIEF_DOCS
+    "Whether the target should get compile properties dedicated to PHP core "
+    "objects (e.g, *_EXPORTS compile definitions, etc.)."
+)
+
 # Check whether IPO/LTO can be enabled.
 include(PHP/Core/Optimization)
 
@@ -184,6 +202,7 @@ if(PHP_TESTING)
   php_testing_add()
 endif()
 
+add_subdirectory(win32)
 add_subdirectory(sapi)
 add_subdirectory(ext)
 add_subdirectory(Zend)
@@ -195,7 +214,6 @@ message(STATUS "===============")
 message(STATUS "")
 
 add_subdirectory(pear)
-add_subdirectory(win32)
 add_subdirectory(main)
 add_subdirectory(scripts)
 
