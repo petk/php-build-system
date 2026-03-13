@@ -88,6 +88,31 @@ target_compile_definitions(
 # Configure project.
 ################################################################################
 
+# Warn about the '--prefix' option at the 'cmake --install' phase.
+string(CONFIGURE [[
+  cmake_minimum_required(VERSION 4.2...4.3)
+
+  if(NOT "@CMAKE_INSTALL_PREFIX@" PATH_EQUAL "$<INSTALL_PREFIX>")
+    message(
+      WARNING
+      "\n"
+      "************************************************************************"
+      "\nWARNING:\n"
+      "The installation prefix (CMAKE_INSTALL_PREFIX) configured at the "
+      "configure phase '@CMAKE_INSTALL_PREFIX@' differs from the prefix set at "
+      "the install phase '$<INSTALL_PREFIX>'.\n"
+      "PHP is not relocatable software as it has absolute paths hardcoded in "
+      "the <main/build-defs.h> header and cannot utilize relative paths yet. "
+      "For now, please configure the installation prefix only at the confgure "
+      "phase. The '--prefix' option at the install phase "
+      "'cmake --install <build-dir>', won't be properly utilized."
+      "\n"
+      "************************************************************************"
+    )
+  endif()
+]] code)
+install(CODE "${code}" ALL_COMPONENTS)
+
 define_property(
   TARGET
   PROPERTY PHP_CLI
