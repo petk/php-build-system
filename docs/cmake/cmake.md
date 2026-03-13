@@ -927,53 +927,54 @@ PHP CMake-based build system specific installation cache variables:
 PHP installation directory structure when using CMake:
 
 ```sh
-📦 $ENV{DESTDIR}                      # 📦
-└─📂 ${CMAKE_INSTALL_PREFIX}          # └─📂 /usr/local (Windows: C:/Program Files/${PROJECT_NAME})
-  ├─📂 ${CMAKE_INSTALL_BINDIR}        #   ├─📂 bin
-  └─📂 ${CMAKE_INSTALL_SYSCONFDIR}    #   └─📂 etc
-    ├─📂 php-fpm.d                    #     ├─📂 php-fpm.d
-    ├─📄 pear.conf                    #     ├─📄 pear.conf
-    └─📄 php-fpm.conf.default         #     └─📄 php-fpm.conf.default
-  └─📂 ${CMAKE_INSTALL_INCLUDEDIR}    #   └─📂 include
-    └─📂 ${PHP_INCLUDE_PREFIX}        #     └─📂 php
-      ├─📂 ext                        #       ├─📂 ext
-      ├─📂 main                       #       ├─📂 main
-      ├─📂 sapi                       #       ├─📂 sapi
-      ├─📂 TSRM                       #       ├─📂 TSRM
-      └─📂 Zend                       #       └─📂 Zend
-  └─📂 ${CMAKE_INSTALL_LIBDIR}        #   └─📂 lib
-    └─📂 cmake                        #     └─📂 cmake
-      └─📂 PHP                        #       └─📂 PHP
-        ├─📂 modules                  #         ├─📂 modules
-        ├─📄 PHPConfig.cmake          #         ├─📄 PHPConfig.cmake
-        └─📄 PHPConfigVersion.cmake   #         └─📄 PHPConfigVersion.cmake
-    └─📂 cps                          #     └─📂 cps
-      └─📂 PHP                        #       └─📂 PHP
-        └─📄 PHP.cps                  #         └─📄 PHP.cps
-    └─📂 ${PHP_LIB_PREFIX}            #     └─📂 php
-      └─📂 build                      #       ├─📂 build
-  └─📂 ${PHP_EXTENSION_DIR}           #       └─📂 20230901-zts-Debug...
-    └─📂 pkgconfig                    #     └─📂 pkgconfig
-      ├─📄 php-embed.pc               #       ├─📄 php-embed.pc
-      └─📄 php.pc                     #       └─📄 php.pc
-  ├─📂 ${CMAKE_INSTALL_SBINDIR}       #   ├─📂 sbin
-  └─📂 ${CMAKE_INSTALL_DATAROOTDIR}   #   └─📂 share
-    └─📂 ${CMAKE_INSTALL_DOCDIR}      #     └─📂 doc
-      └─📂 PHP                        #       └─📂 PHP
-    └─📂 ${CMAKE_INSTALL_MANDIR}      #     └─📂 man
-      ├─📂 man1                       #       ├─📂 man1
-      └─📂 man8                       #       └─📂 man8
-  └─📂 ${CMAKE_INSTALL_DATADIR}       #   └─📂 (share)
-    └─📂 php                          #     └─📂 php
-      └─📂 fpm                        #       └─📂 fpm
-  ├─📂 ${PHP_PEAR_INSTALL_DIR}        #     └─📂 pear (default: share/pear)
-  └─📂 ${CMAKE_INSTALL_LOCALSTATEDIR} #   └─📂 var
-    └─📂 log                          #     └─📂 log
-  └─📂 ${CMAKE_INSTALL_RUNSTATEDIR}   #   └─📂 var/run
-└─📂 ${PHP_PEAR_TEMP_DIR}             # └─📂 /tmp/pear (Windows: C:/temp/pear)
-  ├─📂 cache                          #   ├─📂 cache
-  ├─📂 download                       #   ├─📂 download
-  └─📂 temp                           #   └─📂 temp
+📦 $ENV{DESTDIR}                           # 📦
+└─📂 ${CMAKE_INSTALL_PREFIX}               # └─📂 /usr/local (Windows: C:/Program Files/${PROJECT_NAME})
+  ├─📂 ${CMAKE_INSTALL_BINDIR}             #   ├─📂 bin
+  └─📂 ${CMAKE_INSTALL_SYSCONFDIR}         #   └─📂 etc
+    ├─📂 php-fpm.d                         #     ├─📂 php-fpm.d
+    ├─📄 pear.conf                         #     ├─📄 pear.conf
+    └─📄 php-fpm.conf.default              #     └─📄 php-fpm.conf.default
+  └─📂 ${CMAKE_INSTALL_INCLUDEDIR}         #   └─📂 include
+    └─📂 ${PHP_INCLUDE_PREFIX}             #     └─📂 php
+      ├─📂 ext                             #       ├─📂 ext
+      ├─📂 main                            #       ├─📂 main
+      ├─📂 sapi                            #       ├─📂 sapi
+      ├─📂 TSRM                            #       ├─📂 TSRM
+      └─📂 Zend                            #       └─📂 Zend
+  └─📂 ${CMAKE_INSTALL_LIBDIR}             #   └─📂 lib
+    └─📂 cmake                             #     └─📂 cmake
+      └─📂 ${PHP_CMAKE_CONFIG_FILE_PREFIX} #       └─📂 PHP
+        ├─📂 modules                       #         ├─📂 modules
+        ├─📂 targets                       #         ├─📂 targets
+        ├─📄 PHPConfig.cmake               #         ├─📄 PHPConfig.cmake
+        └─📄 PHPConfigVersion.cmake        #         └─📄 PHPConfigVersion.cmake
+    └─📂 cps                               #     └─📂 cps
+      └─📂 PHP                             #       └─📂 PHP
+        └─📄 PHP.cps                       #         └─📄 PHP.cps
+    └─📂 pkgconfig                         #     └─📂 pkgconfig
+      ├─📄 php-embed.pc                    #       ├─📄 php-embed.pc
+      └─📄 php.pc                          #       └─📄 php.pc
+    └─📂 ${PHP_LIB_PREFIX}                 #     └─📂 php
+      └─📂 build                           #       ├─📂 build
+  ├─📂 ${PHP_EXTENSION_DIR}                #       └─📂 20250926-zts
+  ├─📂 ${CMAKE_INSTALL_SBINDIR}            #   ├─📂 sbin
+  └─📂 ${CMAKE_INSTALL_DATAROOTDIR}        #   └─📂 share
+    └─📂 ${CMAKE_INSTALL_DOCDIR}           #     └─📂 doc
+      └─📂 PHP                             #       └─📂 PHP
+    └─📂 ${CMAKE_INSTALL_MANDIR}           #     └─📂 man
+      ├─📂 man1                            #       ├─📂 man1
+      └─📂 man8                            #       └─📂 man8
+  └─📂 ${CMAKE_INSTALL_DATADIR}            #   └─📂 (share)
+    └─📂 php                               #     └─📂 php
+      └─📂 fpm                             #       └─📂 fpm
+  ├─📂 ${PHP_PEAR_INSTALL_DIR}             #     └─📂 pear (default: share/pear)
+  └─📂 ${CMAKE_INSTALL_LOCALSTATEDIR}      #   └─📂 var
+    └─📂 log                               #     └─📂 log
+  └─📂 ${CMAKE_INSTALL_RUNSTATEDIR}        #   └─📂 var/run
+└─📂 ${PHP_PEAR_TEMP_DIR}                  # └─📂 /tmp/pear (Windows: C:/temp/pear)
+  ├─📂 cache                               #   ├─📂 cache
+  ├─📂 download                            #   ├─📂 download
+  └─📂 temp                                #   └─📂 temp
 ```
 
 > [!NOTE]
