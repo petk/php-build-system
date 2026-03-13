@@ -954,6 +954,9 @@ PHP installation directory structure when using CMake:
     └─📂 pkgconfig                         #     └─📂 pkgconfig
       ├─📄 php-embed.pc                    #       ├─📄 php-embed.pc
       └─📄 php.pc                          #       └─📄 php.pc
+    └─📂 sbom                              #     └─📂 sbom
+      └─📂 PHP                             #       └─📂 PHP
+        └─📄 PHP.spdx.json                 #         └─📄 PHP.spdx.json
     └─📂 ${PHP_LIB_PREFIX}                 #     └─📂 php
       └─📂 build                           #       ├─📂 build
   ├─📂 ${PHP_EXTENSION_DIR}                #       └─📂 20250926-zts
