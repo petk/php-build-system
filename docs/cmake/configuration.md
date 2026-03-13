@@ -869,24 +869,18 @@ A list of Autoconf `configure` command-line configuration options, Windows
       <td>&emsp;--enable-embed</td>
       <td>--enable-embed</td>
       <td>PHP_SAPI_EMBED=ON</td>
-      <td>will be build as shared</td>
+      <td>In Autotools will be build as shared, in CMake shared and static</td>
     </tr>
     <tr>
       <td>&emsp;--enable-embed=shared</td>
       <td>N/A</td>
-      <td>
-        PHP_SAPI_EMBED=ON<br>
-        PHP_SAPI_EMBED_SHARED=ON
-      </td>
-      <td>will be build as shared</td>
+      <td>PHP_SAPI_EMBED=ON</td>
+      <td></td>
     </tr>
     <tr>
       <td>&emsp;--enable-embed=static</td>
       <td>--enable-embed</td>
-      <td>
-        PHP_SAPI_EMBED=ON<br>
-        PHP_SAPI_EMBED_SHARED=OFF
-      </td>
+      <td>PHP_SAPI_EMBED=ON</td>
       <td></td>
     </tr>
     <tr>
