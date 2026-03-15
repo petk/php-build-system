@@ -12,11 +12,13 @@
 prefix=@prefix@
 exec_prefix=@exec_prefix@
 includedir=@includedir@
-php_includedir_suffix=@php_includedir_suffix@
 libdir=@libdir@
 
+# The PHP subdirectory inside the include directory.
+php_includedir_suffix=@PHP_INSTALL_INCLUDEDIR_SUFFIX@
+
 # The extension_dir PHP INI directive absolute path.
-extensiondir=@PHP_EXTENSION_DIR@
+php_extension_dir=@PHP_EXTENSION_DIR@
 
 # PHP version as integer.
 php_vernum=@PHP_VERSION_ID@
