@@ -154,7 +154,7 @@ string(CONFIGURE [[
   set(php_pear_installed_php_bin "${php_pear_install_bin_dir}/$<TARGET_FILE_NAME:PHP::sapi::cli>")
   set(php_pear_php_program_prefix "@PHP_PROGRAM_PREFIX@")
   set(php_pear_php_program_suffix "@PHP_PROGRAM_SUFFIX@")
-  set(php_pear_install_sysconf_dir "$<PATH:ABSOLUTE_PATH,NORMALIZE,@CMAKE_INSTALL_SYSCONFDIR@,${CMAKE_INSTALL_PREFIX}>")
+  set(php_pear_install_sysconf_dir "$<PATH:ABSOLUTE_PATH,NORMALIZE,@CMAKE_INSTALL_SYSCONFDIR@/pear,${CMAKE_INSTALL_PREFIX}>")
 ]] code @ONLY)
 install(CODE "${code}" COMPONENT php-pear)
 install(SCRIPT cmake/InstallPear.cmake COMPONENT php-pear)
