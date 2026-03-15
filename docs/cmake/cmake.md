@@ -897,30 +897,14 @@ taken into account. Here only those relevant to PHP are listed:
 * `CMAKE_INSTALL_DOCDIR`
 * `CMAKE_INSTALL_MANDIR`
 
-PHP CMake-based build system specific installation cache variables:
+See also installation-specific cache variables:
 
+* [`PHP_INSTALL_MULTI_VERSION`](/docs/cmake/variables/PHP_INSTALL_MULTI_VERSION.md)
+* [`PHP_INSTALL_MULTI_VERSION_SUFFIX`](/docs/cmake/variables/PHP_INSTALL_MULTI_VERSION_SUFFIX.md)
 * [`PHP_EXTENSION_DIR`](/docs/cmake/variables/PHP_EXTENSION_DIR.md)
-
-  Path containing shared PHP extensions.
-
-* [`PHP_INCLUDE_PREFIX`](/docs/cmake/variables/PHP_INCLUDE_PREFIX.md)
-
-  The PHP include directory inside the `CMAKE_INSTALL_INCLUDEDIR`.
-  Default: `php`
-
-* [`PHP_LIB_PREFIX`](/docs/cmake/variables/PHP_LIB_PREFIX.md)
-
-  The PHP directory inside the `CMAKE_INSTALL_LIBDIR`.
-  Default: `php`
-
 * [`PHP_PEAR_INSTALL_DIR`](/docs/cmake/variables/PHP_PEAR.md)
-
-  The path where PEAR will be installed to.
-
 * [`PHP_PEAR_TEMP_DIR`](/docs/cmake/variables/PHP_PEAR.md)
-
-  Path where PEAR writes temporary files. Default: `/tmp/pear` on \*nix,
-  `C:/temp/pear` on Windows.
+* And other [`PHP_INSTALL_*`](/docs/cmake/variables/) variables
 
 ### 17.2. Installation directory structure
 
@@ -931,11 +915,13 @@ PHP installation directory structure when using CMake:
 └─📂 ${CMAKE_INSTALL_PREFIX}               # └─📂 /usr/local (Windows: C:/Program Files/${PROJECT_NAME})
   ├─📂 ${CMAKE_INSTALL_BINDIR}             #   ├─📂 bin
   └─📂 ${CMAKE_INSTALL_SYSCONFDIR}         #   └─📂 etc
-    ├─📂 php-fpm.d                         #     ├─📂 php-fpm.d
-    ├─📄 pear.conf                         #     ├─📄 pear.conf
-    └─📄 php-fpm.conf.default              #     └─📄 php-fpm.conf.default
+    └─📂 ${PHP_INSTALL_SYSCONFDIR_SUFFIX}  #     └─📂 php
+      ├─📂 php-fpm.d                       #       ├─📂 php-fpm.d
+      └─📄 php-fpm.conf.default            #       └─📄 php-fpm.conf.default
+    └─📂 pear                              #     └─📂 pear
+      └─📄 pear.conf                       #       └─📄 pear.conf
   └─📂 ${CMAKE_INSTALL_INCLUDEDIR}         #   └─📂 include
-    └─📂 ${PHP_INCLUDE_PREFIX}             #     └─📂 php
+    └─📂 ${PHP_INSTALL_INCLUDEDIR_SUFFIX}  #     └─📂 php
       ├─📂 ext                             #       ├─📂 ext
       ├─📂 main                            #       ├─📂 main
       ├─📂 sapi                            #       ├─📂 sapi
@@ -943,32 +929,32 @@ PHP installation directory structure when using CMake:
       └─📂 Zend                            #       └─📂 Zend
   └─📂 ${CMAKE_INSTALL_LIBDIR}             #   └─📂 lib
     └─📂 cmake                             #     └─📂 cmake
-      └─📂 ${PHP_CMAKE_CONFIG_FILE_PREFIX} #       └─📂 PHP
-        ├─📂 modules                       #         ├─📂 modules
-        ├─📂 targets                       #         ├─📂 targets
-        ├─📄 PHPConfig.cmake               #         ├─📄 PHPConfig.cmake
-        └─📄 PHPConfigVersion.cmake        #         └─📄 PHPConfigVersion.cmake
+      └─📂 ${PHP_INSTALL_CMAKE_CONFIG_FILE_DIR_SUFFIX} # └─📂 PHP
+        ├─📂 modules                       #               ├─📂 modules
+        ├─📂 targets                       #               ├─📂 targets
+        ├─📄 PHPConfig.cmake               #               ├─📄 PHPConfig.cmake
+        └─📄 PHPConfigVersion.cmake        #               └─📄 PHPConfigVersion.cmake
     └─📂 cps                               #     └─📂 cps
-      └─📂 PHP                             #       └─📂 PHP
+      └─📂 ${PHP_INSTALL_CPS_DIR_SUFFIX}   #       └─📂 PHP
         └─📄 PHP.cps                       #         └─📄 PHP.cps
     └─📂 pkgconfig                         #     └─📂 pkgconfig
       ├─📄 php-embed.pc                    #       ├─📄 php-embed.pc
       └─📄 php.pc                          #       └─📄 php.pc
     └─📂 sbom                              #     └─📂 sbom
-      └─📂 PHP                             #       └─📂 PHP
+      └─📂 ${PHP_INSTALL_SBOM_DIR_SUFFIX}  #       └─📂 PHP
         └─📄 PHP.spdx.json                 #         └─📄 PHP.spdx.json
-    └─📂 ${PHP_LIB_PREFIX}                 #     └─📂 php
+    └─📂 ${PHP_INSTALL_LIBDIR_SUFFIX}      #     └─📂 php
       └─📂 build                           #       ├─📂 build
   ├─📂 ${PHP_EXTENSION_DIR}                #       └─📂 20250926-zts
   ├─📂 ${CMAKE_INSTALL_SBINDIR}            #   ├─📂 sbin
   └─📂 ${CMAKE_INSTALL_DATAROOTDIR}        #   └─📂 share
     └─📂 ${CMAKE_INSTALL_DOCDIR}           #     └─📂 doc
-      └─📂 PHP                             #       └─📂 PHP
+      └─📂 ${PHP_INSTALL_DOCDIR_SUFFIX}    #       └─📂 PHP
     └─📂 ${CMAKE_INSTALL_MANDIR}           #     └─📂 man
       ├─📂 man1                            #       ├─📂 man1
       └─📂 man8                            #       └─📂 man8
   └─📂 ${CMAKE_INSTALL_DATADIR}            #   └─📂 (share)
-    └─📂 php                               #     └─📂 php
+    └─📂 ${PHP_INSTALL_DATADIR_SUFFIX}     #     └─📂 php
       └─📂 fpm                             #       └─📂 fpm
   ├─📂 ${PHP_PEAR_INSTALL_DIR}             #     └─📂 pear (default: share/pear)
   └─📂 ${CMAKE_INSTALL_LOCALSTATEDIR}      #   └─📂 var

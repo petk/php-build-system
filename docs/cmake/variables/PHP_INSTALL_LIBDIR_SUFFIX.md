@@ -1,4 +1,4 @@
-# `PHP_LIB_PREFIX`
+# `PHP_INSTALL_LIBDIR_SUFFIX`
 
 * Default: `php`
 
@@ -9,5 +9,5 @@ treated as relative; set `CMAKE_INSTALL_LIBDIR` if absolute path needs to be
 set.
 
 With default install prefix, on *nix systems
-`/usr/local/lib/${PHP_LIB_PREFIX}/`, on Windows
-`C:/Program Files/PHP/lib/${PHP_LIB_PREFIX}/`.
+`/usr/local/lib/${PHP_INSTALL_LIBDIR_SUFFIX}/`, on Windows
+`C:/Program Files/PHP/lib/${PHP_INSTALL_LIBDIR_SUFFIX}/`.

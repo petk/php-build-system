@@ -11,7 +11,7 @@ php_pkgconfig_generate_pc(
     prefix "$<INSTALL_PREFIX>"
     exec_prefix "$<INSTALL_PREFIX>"
     includedir "$<PATH:ABSOLUTE_PATH,NORMALIZE,${CMAKE_INSTALL_INCLUDEDIR},$<INSTALL_PREFIX>>"
-    php_include_prefix "${PHP_INCLUDE_PREFIX}"
+    php_includedir_suffix "${PHP_INSTALL_INCLUDEDIR_SUFFIX}"
     libdir "$<PATH:ABSOLUTE_PATH,NORMALIZE,${CMAKE_INSTALL_LIBDIR},$<INSTALL_PREFIX>>"
     PHP_VERSION "${PHP_VERSION}"
     PHP_VERSION_ID "${PHP_VERSION_ID}"
@@ -27,6 +27,7 @@ php_pkgconfig_generate_pc(
 
 install(
   FILES ${CMAKE_CURRENT_BINARY_DIR}/php.pc
+  RENAME php${PHP_INSTALL_MULTI_VERSION_SUFFIX_PART}.pc
   DESTINATION ${CMAKE_INSTALL_LIBDIR}/pkgconfig
   COMPONENT php-development
 )

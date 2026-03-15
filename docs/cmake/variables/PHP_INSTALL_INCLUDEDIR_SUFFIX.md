@@ -1,4 +1,4 @@
-# `PHP_INCLUDE_PREFIX`
+# `PHP_INSTALL_INCLUDEDIR_SUFFIX`
 
 * Default: `php`
 
@@ -9,5 +9,5 @@ treated as relative. Set `CMAKE_INSTALL_INCLUDEDIR` if absolute path needs to be
 set.
 
 With default install prefix, on *nix systems
-`/usr/local/include/${PHP_INCLUDE_PREFIX}/`, on Windows
-`C:/Program Files/PHP/include/${PHP_INCLUDE_PREFIX}/`.
+`/usr/local/include/${PHP_INSTALL_INCLUDEDIR_SUFFIX}/`, on Windows
+`C:/Program Files/PHP/include/${PHP_INSTALL_INCLUDEDIR_SUFFIX}/`.

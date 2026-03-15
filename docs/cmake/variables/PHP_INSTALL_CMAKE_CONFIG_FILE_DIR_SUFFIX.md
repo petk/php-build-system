@@ -1,4 +1,4 @@
-# `PHP_CMAKE_CONFIG_FILE_PREFIX`
+# `PHP_INSTALL_CMAKE_CONFIG_FILE_DIR_SUFFIX`
 
 * Default: `PHP`
 
@@ -9,5 +9,5 @@ installed. If absolute path needs to be set, configure `CMAKE_INSTALL_LIBDIR`
 instead.
 
 With default install prefix, on *nix systems
-`/usr/local/lib/cmake/${PHP_CMAKE_CONFIG_FILE_PREFIX}/`, on Windows
-`C:/Program Files/PHP/lib/cmake/${PHP_CMAKE_CONFIG_FILE_PREFIX}/`.
+`/usr/local/lib/cmake/${PHP_INSTALL_CMAKE_CONFIG_FILE_DIR_SUFFIX}/`, on Windows
+`C:/Program Files/PHP/lib/cmake/${PHP_INSTALL_CMAKE_CONFIG_FILE_DIR_SUFFIX}/`.
