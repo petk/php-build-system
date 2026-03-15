@@ -242,7 +242,7 @@ target_include_directories(
   php_ext_lexbor
   PUBLIC
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>
-    $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}/${PHP_INCLUDE_PREFIX}/ext/lexbor>
+    $<INSTALL_INTERFACE:${PHP_INSTALL_INCLUDEDIR}/ext/lexbor>
 )
 
 set(HAVE_LEXBOR TRUE)
