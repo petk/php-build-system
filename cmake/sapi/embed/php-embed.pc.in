@@ -12,7 +12,7 @@
 prefix=@prefix@
 exec_prefix=@exec_prefix@
 includedir=@includedir@
-php_include_prefix=@php_include_prefix@
+php_includedir_suffix=@php_includedir_suffix@
 libdir=@libdir@
 
 # The extension_dir PHP INI directive absolute path.
@@ -54,6 +54,6 @@ URL: https://www.php.net
 License: PHP
 Version: @PHP_VERSION@
 Cflags.private: @PHP_CFLAGS_PRIVATE@
-Cflags: -I${includedir}/${php_include_prefix} -I${includedir}/${php_include_prefix}/main -I${includedir}/${php_include_prefix}/TSRM -I${includedir}/${php_include_prefix}/Zend -I${includedir}/${php_include_prefix}/ext
+Cflags: -I${includedir}/${php_includedir_suffix} -I${includedir}/${php_includedir_suffix}/main -I${includedir}/${php_includedir_suffix}/TSRM -I${includedir}/${php_includedir_suffix}/Zend -I${includedir}/${php_includedir_suffix}/ext
 Libs.private: @PHP_LIBS_PRIVATE@
 Libs: -L${libdir} -l@PHP_EMBED_SAPI_NAME@

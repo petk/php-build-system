@@ -81,8 +81,37 @@ option(
 )
 mark_as_advanced(PHP_ENABLE_CMAKE_EXPERIMENTAL_FEATURES)
 
+option(PHP_INSTALL_MULTI_VERSION "Enable multi-version installation")
+mark_as_advanced(PHP_INSTALL_MULTI_VERSION)
+
 set(
-  CACHE{PHP_INCLUDE_PREFIX}
+  CACHE{PHP_INSTALL_MULTI_VERSION_SUFFIX}
+  TYPE STRING
+  HELP
+    "The relative suffix appended to directories and programs when installing "
+    "PHP with multiple versions. For example, "
+    "'${PHP_VERSION_MAJOR}.${PHP_VERSION_MINOR}' to specify version or other "
+    "build-related characteristics and have multiple PHP versions installed."
+  VALUE ""
+)
+mark_as_advanced(PHP_INSTALL_MULTI_VERSION_SUFFIX)
+
+if(PHP_INSTALL_MULTI_VERSION OR NOT PHP_INSTALL_MULTI_VERSION_SUFFIX STREQUAL "")
+  if(PHP_INSTALL_MULTI_VERSION_SUFFIX STREQUAL "")
+    set(PHP_INSTALL_MULTI_VERSION_SUFFIX_PART "-${PHP_VERSION_MAJOR}.${PHP_VERSION_MINOR}")
+    set(PHP_INSTALL_MULTI_VERSION_SUFFIX_PATH "/${PHP_VERSION_MAJOR}.${PHP_VERSION_MINOR}")
+    set(PHP_INSTALL_MULTI_VERSION_SUFFIX "${PHP_VERSION_MAJOR}.${PHP_VERSION_MINOR}")
+  else()
+    set(PHP_INSTALL_MULTI_VERSION_SUFFIX_PART "-${PHP_INSTALL_MULTI_VERSION_SUFFIX}")
+    set(PHP_INSTALL_MULTI_VERSION_SUFFIX_PATH "/${PHP_INSTALL_MULTI_VERSION_SUFFIX}")
+  endif()
+else()
+  set(PHP_INSTALL_MULTI_VERSION_SUFFIX_PART "")
+  set(PHP_INSTALL_MULTI_VERSION_SUFFIX_PATH "")
+endif()
+
+set(
+  CACHE{PHP_INSTALL_INCLUDEDIR_SUFFIX}
   TYPE STRING
   HELP
     "The relative directory inside the CMAKE_INSTALL_INCLUDEDIR, where to "
@@ -90,13 +119,13 @@ set(
     "or other build-related characteristics and have multiple PHP versions "
     "installed. Absolute paths are treated as relative; set "
     "CMAKE_INSTALL_INCLUDEDIR if absolute path needs to be set."
-  VALUE "php"
+  VALUE "php${PHP_INSTALL_MULTI_VERSION_SUFFIX_PATH}"
 )
-mark_as_advanced(PHP_INCLUDE_PREFIX)
-set(PHP_INSTALL_INCLUDEDIR ${CMAKE_INSTALL_INCLUDEDIR}/${PHP_INCLUDE_PREFIX})
+mark_as_advanced(PHP_INSTALL_INCLUDEDIR_SUFFIX)
+set(PHP_INSTALL_INCLUDEDIR ${CMAKE_INSTALL_INCLUDEDIR}/${PHP_INSTALL_INCLUDEDIR_SUFFIX})
 
 set(
-  CACHE{PHP_LIB_PREFIX}
+  CACHE{PHP_INSTALL_LIBDIR_SUFFIX}
   TYPE STRING
   HELP
     "The relative directory inside the CMAKE_INSTALL_LIBDIR, where PHP build "
@@ -104,12 +133,33 @@ set(
     "or other build-related characteristics and have multiple PHP versions "
     "installed. Absolute paths are treated as relative; set "
     "CMAKE_INSTALL_LIBDIR if absolute path needs to be set."
-  VALUE "php"
+  VALUE "php${PHP_INSTALL_MULTI_VERSION_SUFFIX_PATH}"
 )
-set(PHP_INSTALL_LIBDIR ${CMAKE_INSTALL_LIBDIR}/${PHP_LIB_PREFIX})
+mark_as_advanced(PHP_INSTALL_LIBDIR_SUFFIX)
+set(PHP_INSTALL_LIBDIR ${CMAKE_INSTALL_LIBDIR}/${PHP_INSTALL_LIBDIR_SUFFIX})
 
 set(
-  CACHE{PHP_CMAKE_CONFIG_FILE_PREFIX}
+  CACHE{PHP_INSTALL_DOCDIR_SUFFIX}
+  TYPE STRING
+  HELP
+    "The name of the directory inside the share/doc/ where to install PHP "
+    "documentation-related files. For example, "
+    "'PHP-${PHP_VERSION_MAJOR}.${PHP_VERSION_MINOR}' to specify version or "
+    "other build-related characteristics and have multiple PHP versions "
+    "installed. If absolute path needs to be set, configure "
+    "CMAKE_INSTALL_DOCDIR instead."
+  VALUE "PHP${PHP_INSTALL_MULTI_VERSION_SUFFIX_PART}"
+)
+mark_as_advanced(PHP_INSTALL_DOCDIR_SUFFIX)
+
+if(CMAKE_INSTALL_DOCDIR MATCHES "(.+/doc)/PHP$")
+  set(PHP_INSTALL_DOCDIR "${CMAKE_MATCH_1}/${PHP_INSTALL_DOCDIR_SUFFIX}")
+else()
+  set(PHP_INSTALL_DOCDIR "${CMAKE_INSTALL_DOCDIR}")
+endif()
+
+set(
+  CACHE{PHP_INSTALL_CMAKE_CONFIG_FILE_DIR_SUFFIX}
   TYPE STRING
   HELP
     "The name of the directory inside the lib/cmake/ where to install PHP "
@@ -117,10 +167,70 @@ set(
     "'PHP-${PHP_VERSION}' to specify version or other build-related "
     "characteristics and have multiple PHP versions installed. If absolute "
     "path needs to be set, configure CMAKE_INSTALL_LIBDIR instead."
-  VALUE "PHP"
+  VALUE "PHP${PHP_INSTALL_MULTI_VERSION_SUFFIX_PART}"
 )
-mark_as_advanced(PHP_CMAKE_CONFIG_FILE_PREFIX)
-set(PHP_INSTALL_CMAKE_CONFIG_FILE_DIR "${CMAKE_INSTALL_LIBDIR}/cmake/${PHP_CMAKE_CONFIG_FILE_PREFIX}")
+mark_as_advanced(PHP_INSTALL_CMAKE_CONFIG_FILE_DIR_SUFFIX)
+set(PHP_INSTALL_CMAKE_CONFIG_FILE_DIR "${CMAKE_INSTALL_LIBDIR}/cmake/${PHP_INSTALL_CMAKE_CONFIG_FILE_DIR_SUFFIX}")
+
+set(
+  CACHE{PHP_INSTALL_CPS_DIR_SUFFIX}
+  TYPE STRING
+  HELP
+    "The name of the directory inside the lib/cps/PHP/ where to install PHP "
+    "CPS files (PHP.cps). For example, "
+    "'PHP/${PHP_VERSION_MAJOR}.${PHP_VERSION_MINOR}' to specify version or "
+    "other build-related characteristics and have multiple PHP versions "
+    "installed. If absolute path needs to be set, configure "
+    "CMAKE_INSTALL_LIBDIR instead."
+  VALUE "PHP${PHP_INSTALL_MULTI_VERSION_SUFFIX_PATH}"
+)
+mark_as_advanced(PHP_INSTALL_CPS_DIR_SUFFIX)
+set(PHP_INSTALL_CPS_DIR "${CMAKE_INSTALL_LIBDIR}/cps/${PHP_INSTALL_CPS_DIR_SUFFIX}")
+
+set(
+  CACHE{PHP_INSTALL_SBOM_DIR_SUFFIX}
+  TYPE STRING
+  HELP
+    "The name of the directory inside the lib/sbom/PHP/ where to install PHP "
+    "SBOM files (PHP.spdx.json). For example, "
+    "'PHP/${PHP_VERSION_MAJOR}.${PHP_VERSION_MINOR}' to specify version or "
+    "other build-related characteristics and have multiple PHP versions "
+    "installed. If absolute path needs to be set, configure "
+    "CMAKE_INSTALL_LIBDIR instead."
+  VALUE "PHP${PHP_INSTALL_MULTI_VERSION_SUFFIX_PATH}"
+)
+mark_as_advanced(PHP_INSTALL_SBOM_DIR_SUFFIX)
+set(PHP_INSTALL_SBOM_DIR "${CMAKE_INSTALL_LIBDIR}/sbom/${PHP_INSTALL_SBOM_DIR_SUFFIX}")
+
+set(
+  CACHE{PHP_INSTALL_SYSCONFDIR_SUFFIX}
+  TYPE STRING
+  HELP
+    "The name of the directory inside the etc/php/ where to install PHP "
+    "configuration files. For example, "
+    "'php/${PHP_VERSION_MAJOR}.${PHP_VERSION_MINOR}' to specify version or "
+    "other build-related characteristics and have multiple PHP versions "
+    "installed. If absolute path needs to be set, configure "
+    "CMAKE_INSTALL_SYSCONFDIR instead."
+  VALUE "php${PHP_INSTALL_MULTI_VERSION_SUFFIX_PATH}"
+)
+mark_as_advanced(PHP_INSTALL_SYSCONFDIR_SUFFIX)
+set(PHP_INSTALL_SYSCONFDIR "${CMAKE_INSTALL_SYSCONFDIR}/${PHP_INSTALL_SYSCONFDIR_SUFFIX}")
+
+set(
+  CACHE{PHP_INSTALL_DATADIR_SUFFIX}
+  TYPE STRING
+  HELP
+    "The name of the directory inside the CMAKE_INSTALL_DATADIR where to "
+    "install PHP read-only architecture-independent data. For example, "
+    "'php/${PHP_VERSION_MAJOR}.${PHP_VERSION_MINOR}' to specify version or "
+    "other build-related characteristics and have multiple PHP versions "
+    "installed. If absolute path needs to be set, configure "
+    "CMAKE_INSTALL_DATADIR instead."
+  VALUE "php${PHP_INSTALL_MULTI_VERSION_SUFFIX_PATH}"
+)
+mark_as_advanced(PHP_INSTALL_DATADIR_SUFFIX)
+set(PHP_INSTALL_DATADIR "${CMAKE_INSTALL_DATADIR}/${PHP_INSTALL_DATADIR_SUFFIX}")
 
 set(
   CACHE{PHP_CONFIG_FILE_SCAN_DIR}
@@ -149,7 +259,7 @@ if(NOT CMAKE_SYSTEM_NAME STREQUAL "Windows")
   if(NOT PHP_CONFIG_FILE_PATH)
     set_property(
       CACHE PHP_CONFIG_FILE_PATH
-      PROPERTY VALUE "${CMAKE_INSTALL_SYSCONFDIR}"
+      PROPERTY VALUE "${PHP_INSTALL_SYSCONFDIR}"
     )
   endif()
 endif()
@@ -166,7 +276,7 @@ set(
   CACHE{PHP_PROGRAM_SUFFIX}
   TYPE STRING
   HELP "Append suffix to the program names"
-  VALUE ""
+  VALUE "${PHP_INSTALL_MULTI_VERSION_SUFFIX}"
 )
 mark_as_advanced(PHP_PROGRAM_SUFFIX)
 

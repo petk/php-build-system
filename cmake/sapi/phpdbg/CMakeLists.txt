@@ -306,7 +306,7 @@ if(TARGET php_sapi_phpdbg_shared)
       prefix "$<INSTALL_PREFIX>"
       exec_prefix "$<INSTALL_PREFIX>"
       includedir "$<PATH:ABSOLUTE_PATH,NORMALIZE,${CMAKE_INSTALL_INCLUDEDIR},$<INSTALL_PREFIX>>"
-      php_include_prefix "${PHP_INCLUDE_PREFIX}"
+      php_includedir_suffix "${PHP_INSTALL_INCLUDEDIR_SUFFIX}"
       libdir "$<PATH:ABSOLUTE_PATH,NORMALIZE,${CMAKE_INSTALL_LIBDIR},$<INSTALL_PREFIX>>"
       PHP_VERSION "${PHP_VERSION}"
       PHP_VERSION_ID "${PHP_VERSION_ID}"
@@ -323,6 +323,7 @@ if(TARGET php_sapi_phpdbg_shared)
 
   install(
     FILES ${CMAKE_CURRENT_BINARY_DIR}/phpdbg.pc
+    RENAME phpdbg${PHP_INSTALL_MULTI_VERSION_SUFFIX_PART}.pc
     DESTINATION ${CMAKE_INSTALL_LIBDIR}/pkgconfig
     COMPONENT php-development
   )
