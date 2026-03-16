@@ -1,5 +1,5 @@
 #[=============================================================================[
-# Packages/LibXml2
+# PHP/Package/LibXml2
 
 Wrapper for finding the `libxml2` library.
 
@@ -38,20 +38,20 @@ set_package_properties(
 )
 
 # Minimum required version for the libxml2 dependency.
-set(PHP_LIBXML2_MIN_VERSION 2.9.4)
+set(PHP_PACKAGE_LIBXML2_MIN_VERSION 2.9.4)
 
 # Download version when system dependency is not found.
-set(PHP_LIBXML2_DOWNLOAD_VERSION 2.14.4)
+set(PHP_PACKAGE_LIBXML2_DOWNLOAD_VERSION 2.14.4)
 
 FetchContent_Declare(
   LibXml2
-  URL https://github.com/GNOME/libxml2/archive/refs/tags/v${PHP_LIBXML2_DOWNLOAD_VERSION}.tar.gz
+  URL https://github.com/GNOME/libxml2/archive/refs/tags/v${PHP_PACKAGE_LIBXML2_DOWNLOAD_VERSION}.tar.gz
   EXCLUDE_FROM_ALL
   SYSTEM
   FIND_PACKAGE_ARGS
 )
 
-find_package(LibXml2 ${PHP_LIBXML2_MIN_VERSION})
+find_package(LibXml2 ${PHP_PACKAGE_LIBXML2_MIN_VERSION})
 
 if(NOT LibXml2_FOUND)
   set(FETCHCONTENT_QUIET NO)

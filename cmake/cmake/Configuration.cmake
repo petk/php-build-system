@@ -14,7 +14,6 @@ For the preferred configuration customization, opt for CMake presets:
 include_guard(GLOBAL)
 
 include(CMakeDependentOption)
-include(FeatureSummary)
 
 # Include common PHP configuration options.
 include(PHP/Internal/Configuration)
@@ -387,74 +386,3 @@ set(
   VALUE "cmake"
 )
 mark_as_advanced(PHP_CONFIGURE_COMMAND)
-
-################################################################################
-# Various global internal configuration.
-################################################################################
-
-# Minimum required version for the OpenSSL dependency.
-set(PHP_OPENSSL_MIN_VERSION 1.1.1)
-
-# Minimum required version for the SQLite dependency.
-set(PHP_SQLITE_MIN_VERSION 3.7.7)
-
-# Minimum required version for the PostgreSQL dependency.
-set(PHP_POSTGRESQL_MIN_VERSION 10.0)
-
-# Minimum required version for the zlib dependency.
-set(PHP_ZLIB_MIN_VERSION 1.2.11)
-
-# Additional metadata for external packages to avoid duplication.
-set_package_properties(
-  BZip2
-  PROPERTIES
-    URL "https://sourceware.org/bzip2/"
-    DESCRIPTION "Block-sorting file compressor library"
-)
-
-set_package_properties(
-  CURL
-  PROPERTIES
-    URL "https://curl.se/"
-    DESCRIPTION "Library for transferring data with URLs"
-)
-
-set_package_properties(
-  EXPAT
-  PROPERTIES
-    URL "https://libexpat.github.io/"
-    DESCRIPTION "Stream-oriented XML parser library"
-)
-
-set_package_properties(
-  OpenSSL
-  PROPERTIES
-    URL "https://www.openssl.org/"
-    DESCRIPTION "General-purpose cryptography and secure communication"
-)
-
-set_package_properties(
-  PostgreSQL
-  PROPERTIES
-    URL "https://www.postgresql.org/"
-    DESCRIPTION "PostgreSQL database library"
-)
-
-set_package_properties(
-  SQLite3
-  PROPERTIES
-    URL "https://www.sqlite.org/"
-    DESCRIPTION "SQL database engine library"
-)
-
-set_package_properties(
-  ZLIB
-  PROPERTIES
-    URL "https://zlib.net/"
-    DESCRIPTION "Compression library"
-)
-
-# Set base directory for ExternalProject CMake module.
-set_directory_properties(
-  PROPERTIES EP_BASE ${PHP_BINARY_DIR}/CMakeFiles/PHP/ExternalProject
-)

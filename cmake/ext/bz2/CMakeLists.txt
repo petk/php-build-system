@@ -83,6 +83,7 @@ target_include_directories(
   PRIVATE ${CMAKE_CURRENT_BINARY_DIR}
 )
 
+include(PHP/Package/BZip2)
 find_package(BZip2 1.0.0)
 set_package_properties(
   BZip2

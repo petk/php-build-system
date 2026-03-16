@@ -76,7 +76,8 @@ target_sources(
 
 add_dependencies(php_ext_pdo_sqlite php_ext_pdo)
 
-find_package(SQLite3 ${PHP_SQLITE_MIN_VERSION})
+include(PHP/Package/SQLite3)
+find_package(SQLite3 ${PHP_PACKAGE_SQLITE3_MIN_VERSION})
 set_package_properties(
   SQLite3
   PROPERTIES

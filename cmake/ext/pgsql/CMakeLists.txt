@@ -80,7 +80,8 @@ target_compile_definitions(
 
 add_dependencies(php_ext_pgsql php_ext_pcre)
 
-find_package(PostgreSQL ${PHP_POSTGRESQL_MIN_VERSION})
+include(PHP/Package/PostgreSQL)
+find_package(PostgreSQL ${PHP_PACKAGE_POSTGRESQL_MIN_VERSION})
 set_package_properties(
   PostgreSQL
   PROPERTIES
@@ -104,8 +105,8 @@ if(TARGET PostgreSQL::PostgreSQL)
     if(NOT PHP_EXT_HAVE_LIBPQ_SANITY_CHECK)
       message(
         FATAL_ERROR
-        "PostgreSQL check failed: libpq ${PHP_POSTGRESQL_MIN_VERSION} or later "
-        "is required."
+        "PostgreSQL check failed: libpq ${PHP_PACKAGE_POSTGRESQL_MIN_VERSION} "
+        "or later is required."
       )
     endif()
 
