@@ -79,6 +79,8 @@ target_sources(
         php_curl.h
 )
 
+target_include_directories(php_ext_curl PRIVATE ${CMAKE_CURRENT_BINARY_DIR})
+
 include(PHP/Package/CURL)
 find_package(CURL 7.29.0 OPTIONAL_COMPONENTS SSL)
 set_package_properties(
