@@ -175,7 +175,8 @@ if(TARGET Cclient::Cclient)
     )
 
     if((NOT PHP_EXT_IMAP_SSL AND ssl_onceonlyinit_results) OR PHP_EXT_IMAP_SSL)
-      find_package(OpenSSL ${PHP_OPENSSL_MIN_VERSION} COMPONENTS SSL)
+      include(PHP/Package/OpenSSL)
+      find_package(OpenSSL ${PHP_PACKAGE_OPENSSL_MIN_VERSION} COMPONENTS SSL)
       set_package_properties(
         OpenSSL
         PROPERTIES

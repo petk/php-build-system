@@ -72,7 +72,8 @@ target_sources(
 
 target_compile_definitions(php_ext_sqlite3 PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE)
 
-find_package(SQLite3 ${PHP_SQLITE_MIN_VERSION})
+include(PHP/Package/SQLite3)
+find_package(SQLite3 ${PHP_PACKAGE_SQLITE3_MIN_VERSION})
 set_package_properties(
   SQLite3
   PROPERTIES

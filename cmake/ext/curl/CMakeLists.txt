@@ -79,6 +79,7 @@ target_sources(
         php_curl.h
 )
 
+include(PHP/Package/CURL)
 find_package(CURL 7.29.0 OPTIONAL_COMPONENTS SSL)
 set_package_properties(
   CURL
@@ -163,7 +164,9 @@ if(
     message(CHECK_FAIL "no")
   else()
     message(CHECK_PASS "yes")
-    find_package(OpenSSL ${PHP_OPENSSL_MIN_VERSION})
+
+    include(PHP/Package/OpenSSL)
+    find_package(OpenSSL ${PHP_PACKAGE_OPENSSL_MIN_VERSION})
     set_package_properties(
       OpenSSL
       PROPERTIES

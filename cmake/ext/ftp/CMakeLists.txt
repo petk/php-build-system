@@ -85,7 +85,8 @@ target_sources(
 )
 
 if(PHP_EXT_FTP_SSL)
-  find_package(OpenSSL ${PHP_OPENSSL_MIN_VERSION} COMPONENTS SSL)
+  include(PHP/Package/OpenSSL)
+  find_package(OpenSSL ${PHP_PACKAGE_OPENSSL_MIN_VERSION} COMPONENTS SSL)
   set_package_properties(
     OpenSSL
     PROPERTIES

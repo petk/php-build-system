@@ -114,7 +114,7 @@ if(NOT PHP_EXT_XML_EXPAT)
       $<$<AND:$<PLATFORM_ID:Windows>,$<NOT:$<STREQUAL:$<TARGET_PROPERTY:TYPE>,MODULE_LIBRARY>>>:LIBXML_STATIC>
   )
 
-  include(Packages/LibXml2)
+  include(PHP/Package/LibXml2)
 
   set_package_properties(
     LibXml2
@@ -127,6 +127,7 @@ if(NOT PHP_EXT_XML_EXPAT)
 
   add_dependencies(php_ext_xml php_ext_libxml)
 else()
+  include(PHP/Package/EXPAT)
   find_package(EXPAT)
   set_package_properties(
     EXPAT

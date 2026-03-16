@@ -20,3 +20,8 @@ option(
   ${PROJECT_IS_TOP_LEVEL}
 )
 mark_as_advanced(PHP_TESTING)
+
+# Set base directory for ExternalProject CMake module.
+set_directory_properties(
+  PROPERTIES EP_BASE ${CMAKE_CURRENT_BINARY_DIR}/CMakeFiles/PHP/ExternalProject
+)

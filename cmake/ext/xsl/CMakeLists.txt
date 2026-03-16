@@ -87,7 +87,7 @@ if(MSVC)
   )
 endif()
 
-include(Packages/LibXml2)
+include(PHP/Package/LibXml2)
 
 set_package_properties(
   LibXml2
