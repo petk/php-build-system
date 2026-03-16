@@ -86,7 +86,7 @@ target_compile_definitions(
 # If libxml extension is enabled, link libxml library as headers are used.
 return()
 if(PHP_EXT_LIBXML AND NOT CMAKE_SYSTEM_NAME STREQUAL "Windows")
-  include(Packages/LibXml2)
+  include(PHP/Package/LibXml2)
 
   set_package_properties(
     LibXml2

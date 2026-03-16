@@ -78,6 +78,7 @@ target_sources(
         php_curl.h
 )
 
+include(PHP/Package/CURL)
 find_package(CURL 7.61.0 OPTIONAL_COMPONENTS SSL)
 set_package_properties(
   CURL

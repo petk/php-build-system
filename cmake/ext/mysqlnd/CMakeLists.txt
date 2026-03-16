@@ -175,7 +175,8 @@ target_link_libraries(
 )
 
 if(PHP_EXT_MYSQLND_COMPRESSION)
-  find_package(ZLIB ${PHP_ZLIB_MIN_VERSION})
+  include(PHP/Package/ZLIB)
+  find_package(ZLIB ${PHP_PACKAGE_ZLIB_MIN_VERSION})
   set_package_properties(
     ZLIB
     PROPERTIES
@@ -194,7 +195,8 @@ if(PHP_EXT_MYSQLND_SSL)
   if(CMAKE_SYSTEM_NAME STREQUAL "Windows")
     target_link_libraries(php_ext_mysqlnd PRIVATE crypt32)
   else()
-    find_package(OpenSSL ${PHP_OPENSSL_MIN_VERSION})
+    include(PHP/Package/OpenSSL)
+    find_package(OpenSSL ${PHP_PACKAGE_OPENSSL_MIN_VERSION})
     set_package_properties(
       OpenSSL
       PROPERTIES
