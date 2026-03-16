@@ -131,6 +131,7 @@ repository:
     └─📂 PHP                   # PHP utility CMake modules
       ├─📂 Core                # Modules for php-src
       ├─📂 Internal            # Internal modules
+      ├─📂 Package             # Modules with common packages configuration
       └─📄 ...                 # Modules for php-src and extensions
     └─📄 Find*.cmake           # Find modules that support the find_package()
   ├─📂 platforms               # Platform-specific configuration
