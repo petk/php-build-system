@@ -70,6 +70,8 @@ target_sources(
     pgsql.stub.php
 )
 
+target_include_directories(php_ext_pgsql PRIVATE ${CMAKE_CURRENT_BINARY_DIR})
+
 target_compile_definitions(
   php_ext_pgsql
   PRIVATE

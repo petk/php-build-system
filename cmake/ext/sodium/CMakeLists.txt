@@ -76,6 +76,8 @@ target_sources(
         php_libsodium.h
 )
 
+target_include_directories(php_ext_sodium PRIVATE ${CMAKE_CURRENT_BINARY_DIR})
+
 find_package(Sodium 1.0.8)
 set_package_properties(
   Sodium

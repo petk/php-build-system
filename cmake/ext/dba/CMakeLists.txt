@@ -307,6 +307,8 @@ target_sources(
     dba.stub.php
 )
 
+target_include_directories(php_ext_dba PRIVATE ${CMAKE_CURRENT_BINARY_DIR})
+
 target_compile_definitions(php_ext_dba PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE)
 
 ################################################################################

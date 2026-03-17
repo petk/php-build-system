@@ -118,6 +118,8 @@ target_sources(
     oci8.stub.php
 )
 
+target_include_directories(php_ext_oci8 PRIVATE ${CMAKE_CURRENT_BINARY_DIR})
+
 set(PHP_OCI8_INSTANT_CLIENT "")
 
 # Run at the end of the configuration: Warn about Apache if oci8 extension is

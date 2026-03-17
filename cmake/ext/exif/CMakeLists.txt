@@ -68,6 +68,8 @@ target_sources(
     exif.stub.php
 )
 
+target_include_directories(php_ext_exif PRIVATE ${CMAKE_CURRENT_BINARY_DIR})
+
 target_compile_definitions(php_ext_exif PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE)
 
 # Exif extension optionally depends on the mbstring extension when decoding

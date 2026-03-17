@@ -69,6 +69,8 @@ target_sources(
     zip_stream.c
 )
 
+target_include_directories(php_ext_zip PRIVATE ${CMAKE_CURRENT_BINARY_DIR})
+
 add_dependencies(php_ext_zip php_ext_pcre)
 
 find_package(libzip 1.7.1)

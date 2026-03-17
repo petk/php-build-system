@@ -50,80 +50,7 @@ jobs:
       CXX: ${{ matrix.compiler.CXX }}
       CMAKE_BUILD_TYPE: Release
     steps:
-      - name: Install base dependencies
-        run: |
-          sudo apt-get update
-          sudo apt-get -y install \
-            build-essential \
-            gcc \
-            g++ \
-            clang \
-            llvm-dev \
-            re2c \
-            bison \
-            libxml2-dev \
-            libssl-dev \
-            libpcre2-dev \
-            libsqlite3-dev \
-            libbz2-dev \
-            libcurl4-openssl-dev \
-            libdb5.3++-dev \
-            libenchant-2-dev \
-            libgmp-dev \
-            libc-client-dev \
-            libkrb5-dev \
-            unixodbc-dev \
-            freetds-dev \
-            apache2-dev \
-            firebird-dev \
-            libsodium-dev \
-            libicu-dev \
-            libzip-dev \
-            libaspell-dev \
-            libavif-dev \
-            libfreetype-dev \
-            libjpeg-dev \
-            libpng-dev \
-            libwebp-dev \
-            libxpm-dev \
-            libonig-dev \
-            libtidy-dev \
-            libargon2-dev \
-            libxslt1-dev \
-            libcapstone-dev \
-            libedit-dev \
-            libcdb-dev \
-            liblmdb-dev \
-            libqdbm-dev \
-            libtokyocabinet-dev \
-            libsnmp-dev \
-            snmp \
-            snmpd \
-            snmp-mibs-downloader \
-            libexpat1-dev \
-            libacl1-dev \
-            libapparmor-dev \
-            libselinux1-dev \
-            libsystemd-dev \
-            libldap2-dev \
-            libsasl2-dev \
-            libpq-dev \
-            libmm-dev \
-            zlib1g-dev \
-            libdmalloc-dev \
-            dovecot-core \
-            dovecot-pop3d \
-            dovecot-imapd \
-            sendmail;
-
-      - name: Install CMake and Ninja
-        uses: lukka/get-cmake@latest
-        id: cmake-and-ninja
-
-      - name: Checkout
-        uses: actions/checkout@v6
-        with:
-          fetch-depth: 2
+      - uses: ./.github/actions/setup
 
       - name: Configure and build PHP
         run: |
@@ -238,3 +165,52 @@ jobs:
             --install cmake-build \
             -j $(nproc)
           php -d extension=phantom -m | grep phantom
+
+  standalone-extensions:
+    runs-on: ubuntu-latest
+    name: Building PHP extensions as standalone
+    steps:
+      - uses: ./.github/actions/setup
+
+      - name: Prepare php-src
+        run: |
+          cmake --preset all-disabled -DCMAKE_INSTALL_PREFIX=/usr
+          cmake --build --preset all-enabled
+          sudo "${{ steps.cmake-and-ninja.outputs.cmake-path }}/cmake" \
+            --install php-build/all-disabled/php \
+            -j $(nproc)
+
+          cd php-build/all-disabled/php-src/ext
+
+          extensions="tokenizer libxml"
+          for extension in $extensions; do
+            cd "$extension"
+            cmake -B cmake-build
+            cmake --build cmake-build -j
+            ctest --test-dir cmake-build -j --verbose
+            sudo "${{ steps.cmake-and-ninja.outputs.cmake-path }}/cmake" \
+              --install cmake-build \
+              -j $(nproc)
+            echo "extension=${extension}" >> /etc/php/php.ini
+            cd ..
+          done
+
+          for extension in *; do
+            for skip in $extensions; do
+              if [ "$extension" = "$skip" ]; then
+                continue 2
+              fi
+            done
+
+            [ -d "$extension" ] || continue
+
+            cd "$extension"
+            cmake -B cmake-build
+            cmake --build cmake-build -j
+            ctest --test-dir cmake-build -j --verbose
+            sudo "${{ steps.cmake-and-ninja.outputs.cmake-path }}/cmake" \
+              --install cmake-build \
+              -j $(nproc)
+            echo "extension=${extension}" >> /etc/php/php.ini
+            cd ..
+          done

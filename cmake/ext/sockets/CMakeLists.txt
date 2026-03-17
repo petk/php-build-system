@@ -82,6 +82,8 @@ target_sources(
         $<$<PLATFORM_ID:Windows>:${CMAKE_CURRENT_SOURCE_DIR}/windows_common.h>
 )
 
+target_include_directories(php_ext_sockets PRIVATE ${CMAKE_CURRENT_BINARY_DIR})
+
 target_compile_definitions(
   php_ext_sockets
   PRIVATE

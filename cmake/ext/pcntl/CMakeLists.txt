@@ -84,6 +84,8 @@ target_sources(
     php_signal.c
 )
 
+target_include_directories(php_ext_pcntl PRIVATE ${CMAKE_CURRENT_BINARY_DIR})
+
 target_compile_definitions(php_ext_pcntl PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE)
 
 # Check for required functions.

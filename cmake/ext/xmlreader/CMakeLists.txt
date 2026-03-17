@@ -66,6 +66,8 @@ target_sources(
     php_xmlreader.stub.php
 )
 
+target_include_directories(php_ext_xmlreader PRIVATE ${CMAKE_CURRENT_BINARY_DIR})
+
 target_compile_definitions(
   php_ext_xmlreader
   PRIVATE

@@ -126,7 +126,12 @@ target_compile_definitions(
     $<IF:$<BOOL:${PHP_EXT_FILEINFO_HAVE_FUNC_ATTRIBUTE_VISIBILITY}>,HAVE_VISIBILITY=1,HAVE_VISIBILITY=0>
 )
 
-target_include_directories(php_ext_fileinfo PRIVATE ${CMAKE_CURRENT_SOURCE_DIR})
+target_include_directories(
+  php_ext_fileinfo
+  PRIVATE
+    ${CMAKE_CURRENT_BINARY_DIR}
+    ${CMAKE_CURRENT_SOURCE_DIR}
+)
 
 set_property(
   SOURCE libmagic/apprentice.c

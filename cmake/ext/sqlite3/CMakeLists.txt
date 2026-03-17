@@ -70,6 +70,8 @@ target_sources(
     sqlite3.stub.php
 )
 
+target_include_directories(php_ext_sqlite3 PRIVATE ${CMAKE_CURRENT_BINARY_DIR})
+
 target_compile_definitions(php_ext_sqlite3 PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE)
 
 include(PHP/Package/SQLite3)

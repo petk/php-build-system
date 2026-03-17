@@ -75,6 +75,8 @@ target_sources(
     tidy.stub.php
 )
 
+target_include_directories(php_ext_tidy PRIVATE ${CMAKE_CURRENT_BINARY_DIR})
+
 get_target_property(type php_ext_tidy TYPE)
 if(
   CMAKE_SYSTEM_NAME STREQUAL "Windows"

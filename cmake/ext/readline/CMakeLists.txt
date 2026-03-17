@@ -78,6 +78,8 @@ target_sources(
     readline.stub.php
 )
 
+target_include_directories(php_ext_readline PRIVATE ${CMAKE_CURRENT_BINARY_DIR})
+
 # Add -Wno-strict-prototypes as depends on user libs.
 php_check_compiler_flag(C -Wno-strict-prototypes PHP_HAS_WNO_STRICT_PROTOTYPES)
 if(PHP_HAS_WNO_STRICT_PROTOTYPES)

@@ -70,6 +70,8 @@ target_sources(
     xsltprocessor.c
 )
 
+target_include_directories(php_ext_xsl PRIVATE ${CMAKE_CURRENT_BINARY_DIR})
+
 target_compile_definitions(
   php_ext_xsl
   PRIVATE

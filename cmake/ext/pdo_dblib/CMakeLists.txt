@@ -82,6 +82,7 @@ target_compile_definitions(
 target_include_directories(
   php_ext_pdo_dblib
   PRIVATE
+    ${CMAKE_CURRENT_BINARY_DIR}
     ${CMAKE_CURRENT_SOURCE_DIR}/..
 )
 

@@ -73,6 +73,8 @@ target_sources(
         php_simplexml.h
 )
 
+target_include_directories(php_ext_simplexml PRIVATE ${CMAKE_CURRENT_BINARY_DIR})
+
 target_compile_definitions(
   php_ext_simplexml
   PRIVATE

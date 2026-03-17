@@ -94,6 +94,8 @@ target_sources(
         php_xml.h
 )
 
+target_include_directories(php_ext_xml PRIVATE ${CMAKE_CURRENT_BINARY_DIR})
+
 target_compile_definitions(php_ext_xml PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE)
 
 if(NOT PHP_EXT_LIBXML AND NOT PHP_EXT_XML_EXPAT)

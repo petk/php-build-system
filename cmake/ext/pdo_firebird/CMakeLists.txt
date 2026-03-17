@@ -76,6 +76,7 @@ add_dependencies(php_ext_pdo_firebird php_ext_pdo)
 target_include_directories(
   php_ext_pdo_firebird
   PRIVATE
+    ${CMAKE_CURRENT_BINARY_DIR}
     ${CMAKE_CURRENT_SOURCE_DIR}/..
 )
 

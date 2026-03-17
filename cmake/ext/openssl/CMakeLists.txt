@@ -129,6 +129,8 @@ target_sources(
     xp_ssl.c
 )
 
+target_include_directories(php_ext_openssl PRIVATE ${CMAKE_CURRENT_BINARY_DIR})
+
 if(PHP_EXT_OPENSSL_KERBEROS)
   message(
     DEPRECATION

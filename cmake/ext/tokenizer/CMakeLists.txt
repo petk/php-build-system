@@ -42,7 +42,7 @@ add_feature_info(
 cmake_dependent_option(
   PHP_EXT_TOKENIZER_SHARED
   "Build the tokenizer extension as a shared library"
-  OFF
+  ${PROJECT_IS_TOP_LEVEL}
   PHP_EXT_TOKENIZER
   OFF
 )
@@ -70,6 +70,8 @@ target_sources(
     tokenizer.c
     tokenizer.stub.php
 )
+
+target_include_directories(php_ext_tokenizer PRIVATE ${CMAKE_CURRENT_BINARY_DIR})
 
 # Generate tokenizer data source files.
 if(EXISTS ${PHP_SOURCE_DIR}/Zend/zend_language_parser.y)

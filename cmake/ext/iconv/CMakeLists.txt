@@ -77,6 +77,8 @@ target_sources(
         php_iconv.h
 )
 
+target_include_directories(php_ext_iconv PRIVATE ${CMAKE_CURRENT_BINARY_DIR})
+
 get_target_property(type php_ext_iconv TYPE)
 if(
   CMAKE_SYSTEM_NAME STREQUAL "Windows"

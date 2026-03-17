@@ -99,6 +99,8 @@ target_sources(
     php_imap.stub.php
 )
 
+target_include_directories(php_ext_imap PRIVATE ${CMAKE_CURRENT_BINARY_DIR})
+
 target_compile_definitions(php_ext_imap PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE)
 
 find_package(Cclient)

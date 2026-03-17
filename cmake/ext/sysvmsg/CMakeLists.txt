@@ -87,6 +87,8 @@ target_sources(
     sysvmsg.stub.php
 )
 
+target_include_directories(php_ext_sysvmsg PRIVATE ${CMAKE_CURRENT_BINARY_DIR})
+
 set(HAVE_SYSVMSG TRUE)
 
 configure_file(cmake/config.h.in config.h)

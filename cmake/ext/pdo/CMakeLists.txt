@@ -80,6 +80,8 @@ target_sources(
         php_pdo.h
 )
 
+target_include_directories(php_ext_pdo PRIVATE ${CMAKE_CURRENT_BINARY_DIR})
+
 add_dependencies(php_ext_pdo php_ext_spl)
 
 ################################################################################

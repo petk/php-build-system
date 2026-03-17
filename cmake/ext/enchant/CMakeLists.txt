@@ -70,6 +70,8 @@ target_sources(
     enchant.stub.php
 )
 
+target_include_directories(php_ext_enchant PRIVATE ${CMAKE_CURRENT_BINARY_DIR})
+
 find_package(Enchant 1.4.2)
 set_package_properties(
   Enchant

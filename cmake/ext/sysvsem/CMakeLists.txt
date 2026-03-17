@@ -77,6 +77,8 @@ target_sources(
     sysvsem.stub.php
 )
 
+target_include_directories(php_ext_sysvsem PRIVATE ${CMAKE_CURRENT_BINARY_DIR})
+
 cmake_push_check_state(RESET)
   set(CMAKE_EXTRA_INCLUDE_FILES "sys/types.h;sys/ipc.h;sys/sem.h")
   check_type_size(

@@ -301,6 +301,8 @@ target_sources(
     php_odbc.c
 )
 
+target_include_directories(php_ext_odbc PRIVATE ${CMAKE_CURRENT_BINARY_DIR})
+
 target_compile_definitions(php_ext_odbc PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE)
 
 if(NOT PHP_EXT_ODBC_TYPE STREQUAL "auto")

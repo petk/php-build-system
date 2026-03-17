@@ -68,6 +68,8 @@ target_sources(
     shmop.stub.php
 )
 
+target_include_directories(php_ext_shmop PRIVATE ${CMAKE_CURRENT_BINARY_DIR})
+
 set(HAVE_SHMOP TRUE)
 
 configure_file(cmake/config.h.in config.h)

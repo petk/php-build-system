@@ -72,6 +72,8 @@ target_sources(
         php_gmp_int.h
 )
 
+target_include_directories(php_ext_gmp PRIVATE ${CMAKE_CURRENT_BINARY_DIR})
+
 target_compile_definitions(php_ext_gmp PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE)
 
 find_package(GMP 4.2)

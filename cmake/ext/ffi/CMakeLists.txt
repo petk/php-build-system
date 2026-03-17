@@ -73,6 +73,8 @@ target_sources(
     ffi.stub.php
 )
 
+target_include_directories(php_ext_ffi PRIVATE ${CMAKE_CURRENT_BINARY_DIR})
+
 target_compile_definitions(php_ext_ffi PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE)
 
 find_package(FFI 3.0.11)

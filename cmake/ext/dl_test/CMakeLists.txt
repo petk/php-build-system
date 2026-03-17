@@ -52,6 +52,8 @@ target_sources(
     dl_test.stub.php
 )
 
+target_include_directories(php_ext_dl_test PRIVATE ${CMAKE_CURRENT_BINARY_DIR})
+
 target_compile_definitions(
   php_ext_dl_test
   PRIVATE

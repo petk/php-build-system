@@ -170,7 +170,12 @@ target_sources(
     uchar/uchar.stub.php
 )
 
-target_include_directories(php_ext_intl PRIVATE ${CMAKE_CURRENT_SOURCE_DIR})
+target_include_directories(
+  php_ext_intl
+  PRIVATE
+    ${CMAKE_CURRENT_BINARY_DIR}
+    ${CMAKE_CURRENT_SOURCE_DIR}
+)
 
 include(PHP/CheckCompilerFlag)
 

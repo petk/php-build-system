@@ -84,6 +84,8 @@ target_sources(
         php_phar.h
 )
 
+target_include_directories(php_ext_phar PRIVATE ${CMAKE_CURRENT_BINARY_DIR})
+
 target_compile_definitions(php_ext_phar PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE)
 
 if(MSVC AND TODO)

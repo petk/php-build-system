@@ -79,6 +79,8 @@ target_sources(
     posix.stub.php
 )
 
+target_include_directories(php_ext_posix PRIVATE ${CMAKE_CURRENT_BINARY_DIR})
+
 target_compile_definitions(php_ext_posix PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE)
 
 check_symbol_exists(ctermid stdio.h PHP_EXT_POSIX_HAVE_CTERMID)

@@ -70,6 +70,8 @@ target_sources(
     snmp.stub.php
 )
 
+target_include_directories(php_ext_snmp PRIVATE ${CMAKE_CURRENT_BINARY_DIR})
+
 add_dependencies(php_ext_snmp php_ext_spl)
 
 find_package(NetSnmp 5.3)

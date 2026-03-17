@@ -68,6 +68,8 @@ target_sources(
     sysvshm.stub.php
 )
 
+target_include_directories(php_ext_sysvshm PRIVATE ${CMAKE_CURRENT_BINARY_DIR})
+
 set(HAVE_SYSVSHM TRUE)
 
 configure_file(cmake/config.h.in config.h)

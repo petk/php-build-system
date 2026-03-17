@@ -84,6 +84,8 @@ target_sources(
     php_ftp.c
 )
 
+target_include_directories(php_ext_ftp PRIVATE ${CMAKE_CURRENT_BINARY_DIR})
+
 if(PHP_EXT_FTP_SSL)
   include(PHP/Package/OpenSSL)
   find_package(OpenSSL ${PHP_PACKAGE_OPENSSL_MIN_VERSION} COMPONENTS SSL)

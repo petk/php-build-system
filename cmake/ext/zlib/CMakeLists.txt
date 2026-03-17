@@ -101,6 +101,8 @@ target_sources(
     zlib.stub.php
 )
 
+target_include_directories(php_ext_zlib PRIVATE ${CMAKE_CURRENT_BINARY_DIR})
+
 get_target_property(type php_ext_zlib TYPE)
 if(
   CMAKE_SYSTEM_NAME STREQUAL "Windows"

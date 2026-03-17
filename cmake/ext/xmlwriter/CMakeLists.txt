@@ -68,6 +68,8 @@ target_sources(
     php_xmlwriter.stub.php
 )
 
+target_include_directories(php_ext_xmlwriter PRIVATE ${CMAKE_CURRENT_BINARY_DIR})
+
 target_compile_definitions(
   php_ext_xmlwriter
   PRIVATE

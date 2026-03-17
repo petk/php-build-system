@@ -87,6 +87,8 @@ target_sources(
     ldap.stub.php
 )
 
+target_include_directories(php_ext_ldap PRIVATE ${CMAKE_CURRENT_BINARY_DIR})
+
 target_compile_definitions(php_ext_ldap PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE)
 
 find_package(LDAP)

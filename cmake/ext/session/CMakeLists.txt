@@ -99,6 +99,8 @@ target_sources(
         php_session.h
 )
 
+target_include_directories(php_ext_session PRIVATE ${CMAKE_CURRENT_BINARY_DIR})
+
 target_compile_definitions(
   php_ext_session
   PRIVATE

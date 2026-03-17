@@ -301,6 +301,8 @@ target_sources(
         php_gd.h
 )
 
+target_include_directories(php_ext_gd PRIVATE ${CMAKE_CURRENT_BINARY_DIR})
+
 target_compile_definitions(
   php_ext_gd
   PRIVATE $<$<AND:$<PLATFORM_ID:Windows>,$<STREQUAL:$<TARGET_PROPERTY:TYPE>,MODULE_LIBRARY>>:PHP_GD_EXPORTS>

@@ -42,7 +42,7 @@ add_feature_info(
 cmake_dependent_option(
   PHP_EXT_CTYPE_SHARED
   "Build the ctype extension as a shared library"
-  OFF
+  ${PROJECT_IS_TOP_LEVEL}
   PHP_EXT_CTYPE
   OFF
 )
@@ -68,6 +68,8 @@ target_sources(
     ctype.c
     ctype.stub.php
 )
+
+target_include_directories(php_ext_ctype PRIVATE ${CMAKE_CURRENT_BINARY_DIR})
 
 set(HAVE_CTYPE TRUE)
 
