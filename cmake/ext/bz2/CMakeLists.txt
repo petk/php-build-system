@@ -33,7 +33,7 @@ include(CMakeDependentOption)
 include(CMakePushCheckState)
 include(FeatureSummary)
 
-option(PHP_EXT_BZ2 "Enable the bz2 extension")
+option(PHP_EXT_BZ2 "Enable the bz2 extension" ${PROJECT_IS_TOP_LEVEL})
 
 add_feature_info(
   "ext/bz2"
@@ -44,7 +44,7 @@ add_feature_info(
 cmake_dependent_option(
   PHP_EXT_BZ2_SHARED
   "Build the bz2 extension as a shared library"
-  OFF
+  ${PROJECT_IS_TOP_LEVEL}
   PHP_EXT_BZ2
   OFF
 )

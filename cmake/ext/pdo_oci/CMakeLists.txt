@@ -30,7 +30,7 @@ project(
 include(CMakeDependentOption)
 include(FeatureSummary)
 
-option(PHP_EXT_PDO_OCI "Enable the pdo_oci extension")
+option(PHP_EXT_PDO_OCI "Enable the pdo_oci extension" ${PROJECT_IS_TOP_LEVEL})
 
 add_feature_info(
   "ext/pdo_oci"
@@ -41,7 +41,7 @@ add_feature_info(
 cmake_dependent_option(
   PHP_EXT_PDO_OCI_SHARED
   "Build the pdo_oci extension as a shared library"
-  OFF
+  ${PROJECT_IS_TOP_LEVEL}
   PHP_EXT_PDO_OCI
   OFF
 )

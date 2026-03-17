@@ -30,7 +30,7 @@ project(
 include(CMakeDependentOption)
 include(FeatureSummary)
 
-option(PHP_EXT_SYSVSHM "Enable the sysvshm extension")
+option(PHP_EXT_SYSVSHM "Enable the sysvshm extension" ${PROJECT_IS_TOP_LEVEL})
 
 add_feature_info(
   "ext/sysvshm"
@@ -41,7 +41,7 @@ add_feature_info(
 cmake_dependent_option(
   PHP_EXT_SYSVSHM_SHARED
   "Build the sysvshm extension as a shared library"
-  OFF
+  ${PROJECT_IS_TOP_LEVEL}
   PHP_EXT_SYSVSHM
   OFF
 )

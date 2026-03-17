@@ -112,7 +112,7 @@ project(
 include(CMakeDependentOption)
 include(FeatureSummary)
 
-option(PHP_EXT_DBA "Enable the dba extension")
+option(PHP_EXT_DBA "Enable the dba extension" ${PROJECT_IS_TOP_LEVEL})
 add_feature_info(
   "ext/dba"
   PHP_EXT_DBA
@@ -122,7 +122,7 @@ add_feature_info(
 cmake_dependent_option(
   PHP_EXT_DBA_SHARED
   "Build the dba extension as a shared library"
-  OFF
+  ${PROJECT_IS_TOP_LEVEL}
   PHP_EXT_DBA
   OFF
 )

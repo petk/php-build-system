@@ -31,7 +31,7 @@ project(
 include(CMakeDependentOption)
 include(FeatureSummary)
 
-option(PHP_EXT_INTL "Enable the intl extension")
+option(PHP_EXT_INTL "Enable the intl extension" ${PROJECT_IS_TOP_LEVEL})
 
 add_feature_info(
   "ext/intl"
@@ -42,7 +42,7 @@ add_feature_info(
 cmake_dependent_option(
   PHP_EXT_INTL_SHARED
   "Build the intl extension as a shared library"
-  OFF
+  ${PROJECT_IS_TOP_LEVEL}
   PHP_EXT_INTL
   OFF
 )

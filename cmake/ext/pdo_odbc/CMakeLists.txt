@@ -88,7 +88,7 @@ include(CheckLibraryExists)
 include(CMakeDependentOption)
 include(FeatureSummary)
 
-option(PHP_EXT_PDO_ODBC "Enable the pdo_odbc extension")
+option(PHP_EXT_PDO_ODBC "Enable the pdo_odbc extension" ${PROJECT_IS_TOP_LEVEL})
 add_feature_info(
   "ext/pdo_odbc"
   PHP_EXT_PDO_ODBC
@@ -98,7 +98,7 @@ add_feature_info(
 cmake_dependent_option(
   PHP_EXT_PDO_ODBC_SHARED
   "Build the pdo_odbc extension as a shared library"
-  OFF
+  ${PROJECT_IS_TOP_LEVEL}
   PHP_EXT_PDO_ODBC
   OFF
 )

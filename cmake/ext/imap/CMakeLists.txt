@@ -45,7 +45,7 @@ project(
 include(CMakeDependentOption)
 include(FeatureSummary)
 
-option(PHP_EXT_IMAP "Enable the imap extension")
+option(PHP_EXT_IMAP "Enable the imap extension" ${PROJECT_IS_TOP_LEVEL})
 
 add_feature_info(
   "ext/imap"
@@ -56,7 +56,7 @@ add_feature_info(
 cmake_dependent_option(
   PHP_EXT_IMAP_SHARED
   "Build the imap extension as a shared library"
-  OFF
+  ${PROJECT_IS_TOP_LEVEL}
   PHP_EXT_IMAP
   OFF
 )

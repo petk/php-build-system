@@ -55,7 +55,7 @@ project(
 include(CMakeDependentOption)
 include(FeatureSummary)
 
-option(PHP_EXT_MYSQLND "Enable the mysqlnd extension")
+option(PHP_EXT_MYSQLND "Enable the mysqlnd extension" ${PROJECT_IS_TOP_LEVEL})
 
 add_feature_info(
   "ext/mysqlnd"
@@ -66,7 +66,7 @@ add_feature_info(
 cmake_dependent_option(
   PHP_EXT_MYSQLND_SHARED
   "Build the mysqlnd extension as a shared library"
-  OFF
+  ${PROJECT_IS_TOP_LEVEL}
   PHP_EXT_MYSQLND
   OFF
 )

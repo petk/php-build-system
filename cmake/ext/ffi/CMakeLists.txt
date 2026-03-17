@@ -34,7 +34,7 @@ include(CMakeDependentOption)
 include(CMakePushCheckState)
 include(FeatureSummary)
 
-option(PHP_EXT_FFI "Enable the ffi extension")
+option(PHP_EXT_FFI "Enable the ffi extension" ${PROJECT_IS_TOP_LEVEL})
 
 add_feature_info(
   "ext/ffi"
@@ -45,7 +45,7 @@ add_feature_info(
 cmake_dependent_option(
   PHP_EXT_FFI_SHARED
   "Build the ffi extension as a shared library"
-  OFF
+  ${PROJECT_IS_TOP_LEVEL}
   PHP_EXT_FFI
   OFF
 )

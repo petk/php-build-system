@@ -84,7 +84,11 @@ project(
 include(CMakeDependentOption)
 include(FeatureSummary)
 
-option(PHP_EXT_PDO_MYSQL "Enable the pdo_mysql extension")
+option(
+  PHP_EXT_PDO_MYSQL
+  "Enable the pdo_mysql extension"
+  ${PROJECT_IS_TOP_LEVEL}
+)
 
 add_feature_info(
   "ext/pdo_mysql"
@@ -95,7 +99,7 @@ add_feature_info(
 cmake_dependent_option(
   PHP_EXT_PDO_MYSQL_SHARED
   "Build the pdo_mysql extension as a shared library"
-  OFF
+  ${PROJECT_IS_TOP_LEVEL}
   PHP_EXT_PDO_MYSQL
   OFF
 )

@@ -30,7 +30,7 @@ project(
 include(CMakeDependentOption)
 include(FeatureSummary)
 
-option(PHP_EXT_ZEND_TEST "Enable the zend_test extension")
+option(PHP_EXT_ZEND_TEST "Enable the zend_test extension" ${PROJECT_IS_TOP_LEVEL})
 
 add_feature_info(
   "ext/zend_test"
@@ -41,7 +41,7 @@ add_feature_info(
 cmake_dependent_option(
   PHP_EXT_ZEND_TEST_SHARED
   "Build the zend_test extension as a shared library"
-  OFF
+  ${PROJECT_IS_TOP_LEVEL}
   PHP_EXT_ZEND_TEST
   OFF
 )

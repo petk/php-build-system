@@ -39,7 +39,7 @@ include(CMakeDependentOption)
 include(CMakePushCheckState)
 include(FeatureSummary)
 
-option(PHP_EXT_SYSVSEM "Enable the sysvsem extension")
+option(PHP_EXT_SYSVSEM "Enable the sysvsem extension" ${PROJECT_IS_TOP_LEVEL})
 
 add_feature_info(
   "ext/sysvsem"
@@ -50,7 +50,7 @@ add_feature_info(
 cmake_dependent_option(
   PHP_EXT_SYSVSEM_SHARED
   "Build the sysvsem extension as a shared library"
-  OFF
+  ${PROJECT_IS_TOP_LEVEL}
   PHP_EXT_SYSVSEM
   OFF
 )

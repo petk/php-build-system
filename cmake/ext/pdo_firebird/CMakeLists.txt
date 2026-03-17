@@ -32,7 +32,11 @@ include(CMakeDependentOption)
 include(CMakePushCheckState)
 include(FeatureSummary)
 
-option(PHP_EXT_PDO_FIREBIRD "Enable the pdo_firebird extension")
+option(
+  PHP_EXT_PDO_FIREBIRD
+  "Enable the pdo_firebird extension"
+  ${PROJECT_IS_TOP_LEVEL}
+)
 
 add_feature_info(
   "ext/pdo_firebird"
@@ -43,7 +47,7 @@ add_feature_info(
 cmake_dependent_option(
   PHP_EXT_PDO_FIREBIRD_SHARED
   "Build the pdo_firebird extension as a shared library"
-  OFF
+  ${PROJECT_IS_TOP_LEVEL}
   PHP_EXT_PDO_FIREBIRD
   OFF
 )

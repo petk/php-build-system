@@ -32,7 +32,7 @@ include(CMakeDependentOption)
 include(CMakePushCheckState)
 include(FeatureSummary)
 
-option(PHP_EXT_ENCHANT "Enable the enchant extension")
+option(PHP_EXT_ENCHANT "Enable the enchant extension" ${PROJECT_IS_TOP_LEVEL})
 
 add_feature_info(
   "ext/enchant"
@@ -43,7 +43,7 @@ add_feature_info(
 cmake_dependent_option(
   PHP_EXT_ENCHANT_SHARED
   "Build the enchant extension as a shared library"
-  OFF
+  ${PROJECT_IS_TOP_LEVEL}
   PHP_EXT_ENCHANT
   OFF
 )

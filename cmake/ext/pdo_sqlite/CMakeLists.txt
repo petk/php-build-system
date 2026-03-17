@@ -43,7 +43,7 @@ add_feature_info(
 cmake_dependent_option(
   PHP_EXT_PDO_SQLITE_SHARED
   "Build the pdo_sqlite extension as a shared library"
-  OFF
+  ${PROJECT_IS_TOP_LEVEL}
   PHP_EXT_PDO_SQLITE
   OFF
 )

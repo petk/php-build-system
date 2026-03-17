@@ -31,7 +31,7 @@ project(
 include(CMakeDependentOption)
 include(FeatureSummary)
 
-option(PHP_EXT_XSL "Enable the xsl extension")
+option(PHP_EXT_XSL "Enable the xsl extension" ${PROJECT_IS_TOP_LEVEL})
 
 add_feature_info(
   "ext/xsl"
@@ -42,7 +42,7 @@ add_feature_info(
 cmake_dependent_option(
   PHP_EXT_XSL_SHARED
   "Build the xsl extension as a shared library"
-  OFF
+  ${PROJECT_IS_TOP_LEVEL}
   PHP_EXT_XSL
   OFF
 )

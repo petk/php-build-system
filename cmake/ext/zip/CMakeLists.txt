@@ -30,7 +30,7 @@ project(
 include(CMakeDependentOption)
 include(FeatureSummary)
 
-option(PHP_EXT_ZIP "Enable the zip extension")
+option(PHP_EXT_ZIP "Enable the zip extension" ${PROJECT_IS_TOP_LEVEL})
 
 add_feature_info(
   "ext/zip"
@@ -41,7 +41,7 @@ add_feature_info(
 cmake_dependent_option(
   PHP_EXT_ZIP_SHARED
   "Build the zip extension as a shared library"
-  OFF
+  ${PROJECT_IS_TOP_LEVEL}
   PHP_EXT_ZIP
   OFF
 )

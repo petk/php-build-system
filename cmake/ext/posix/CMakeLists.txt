@@ -52,7 +52,7 @@ add_feature_info(
 cmake_dependent_option(
   PHP_EXT_POSIX_SHARED
   "Build the posix extension as a shared library"
-  OFF
+  ${PROJECT_IS_TOP_LEVEL}
   PHP_EXT_POSIX
   OFF
 )

@@ -46,7 +46,7 @@ add_feature_info(
 cmake_dependent_option(
   PHP_EXT_ICONV_SHARED
   "Build the iconv extension as a shared library"
-  OFF
+  ${PROJECT_IS_TOP_LEVEL}
   PHP_EXT_ICONV
   OFF
 )

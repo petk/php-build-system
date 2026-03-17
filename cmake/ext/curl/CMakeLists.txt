@@ -33,7 +33,7 @@ include(CMakeDependentOption)
 include(CMakePushCheckState)
 include(FeatureSummary)
 
-option(PHP_EXT_CURL "Enable the curl extension")
+option(PHP_EXT_CURL "Enable the curl extension" ${PROJECT_IS_TOP_LEVEL})
 
 add_feature_info(
   "ext/curl"
@@ -44,7 +44,7 @@ add_feature_info(
 cmake_dependent_option(
   PHP_EXT_CURL_SHARED
   "Build the curl extension as a shared library"
-  OFF
+  ${PROJECT_IS_TOP_LEVEL}
   PHP_EXT_CURL
   OFF
 )

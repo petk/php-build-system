@@ -32,7 +32,7 @@ include(CMakeDependentOption)
 include(CMakePushCheckState)
 include(FeatureSummary)
 
-option(PHP_EXT_PSPELL "Enable the pspell extension")
+option(PHP_EXT_PSPELL "Enable the pspell extension" ${PROJECT_IS_TOP_LEVEL})
 
 add_feature_info(
   "ext/pspell"
@@ -43,7 +43,7 @@ add_feature_info(
 cmake_dependent_option(
   PHP_EXT_PSPELL_SHARED
   "Build the pspell extension as a shared library"
-  OFF
+  ${PROJECT_IS_TOP_LEVEL}
   PHP_EXT_PSPELL
   OFF
 )

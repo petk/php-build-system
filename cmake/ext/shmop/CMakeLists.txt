@@ -30,7 +30,7 @@ project(
 include(CMakeDependentOption)
 include(FeatureSummary)
 
-option(PHP_EXT_SHMOP "Enable the shmop extension")
+option(PHP_EXT_SHMOP "Enable the shmop extension" ${PROJECT_IS_TOP_LEVEL})
 
 add_feature_info(
   "ext/shmop"
@@ -41,7 +41,7 @@ add_feature_info(
 cmake_dependent_option(
   PHP_EXT_SHMOP_SHARED
   "Build the shmop extension as a shared library"
-  OFF
+  ${PROJECT_IS_TOP_LEVEL}
   PHP_EXT_SHMOP
   OFF
 )

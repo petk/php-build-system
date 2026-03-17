@@ -35,7 +35,11 @@ include(CMakeDependentOption)
 include(CMakePushCheckState)
 include(FeatureSummary)
 
-option(PHP_EXT_READLINE "Enable the readline extension (only for CLI-based SAPIs)")
+option(
+  PHP_EXT_READLINE
+  "Enable the readline extension (only for CLI-based SAPIs)"
+  ${PROJECT_IS_TOP_LEVEL}
+)
 
 add_feature_info(
   "ext/readline"
@@ -46,7 +50,7 @@ add_feature_info(
 cmake_dependent_option(
   PHP_EXT_READLINE_SHARED
   "Build the readline extension as a shared library"
-  OFF
+  ${PROJECT_IS_TOP_LEVEL}
   PHP_EXT_READLINE
   OFF
 )

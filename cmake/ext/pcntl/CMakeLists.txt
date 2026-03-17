@@ -43,7 +43,11 @@ include(CMakeDependentOption)
 include(CMakePushCheckState)
 include(FeatureSummary)
 
-option(PHP_EXT_PCNTL "Enable the pcntl extension (only for CLI-based SAPIs)")
+option(
+  PHP_EXT_PCNTL
+  "Enable the pcntl extension (only for CLI-based SAPIs)"
+  ${PROJECT_IS_TOP_LEVEL}
+)
 
 add_feature_info(
   "ext/pcntl"
@@ -54,7 +58,7 @@ add_feature_info(
 cmake_dependent_option(
   PHP_EXT_PCNTL_SHARED
   "Build the pcntl extension as a shared library"
-  OFF
+  ${PROJECT_IS_TOP_LEVEL}
   PHP_EXT_PCNTL
   OFF
 )

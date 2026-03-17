@@ -25,7 +25,7 @@ project(
 
 include(FeatureSummary)
 
-option(PHP_EXT_DL_TEST "Enable the dl_test extension")
+option(PHP_EXT_DL_TEST "Enable the dl_test extension" ${PROJECT_IS_TOP_LEVEL})
 
 add_feature_info(
   "ext/dl_test"

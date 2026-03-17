@@ -177,7 +177,7 @@ jobs:
 
   standalone-extensions:
     runs-on: ubuntu-latest
-    name: Building PHP extensions as standalone
+    name: Build php-src extensions as standalone
     steps:
       - name: Checkout
         uses: actions/checkout@v6
@@ -190,7 +190,7 @@ jobs:
         uses: lukka/get-cmake@latest
         id: cmake-and-ninja
 
-      - name: Prepare php-src
+      - name: Build and install PHP
         run: |
           cmake --preset all-disabled -DCMAKE_INSTALL_PREFIX=/usr
           cmake --build --preset all-disabled -DPHP_EXT_LIBXML=ON
@@ -198,11 +198,11 @@ jobs:
             --install php-build/all-disabled/php \
             -j $(nproc)
 
-      - name: Build php-src extensions
+      - name: Build extensions
         run: |
           cd php-build/all-disabled/php-src/ext
 
-          extensions="tokenizer"
+          extensions="tokenizer mysqlnd pdo"
           for extension in $extensions; do
             cd "$extension"
             cmake -B cmake-build
@@ -215,7 +215,7 @@ jobs:
             cd ..
           done
 
-          skips="tokenizer libxml date hash json pcre random reflection spl standard"
+          skips="tokenizer mysqlnd pdo libxml date hash json pcre random reflection spl standard com_dotnet"
           for extension in *; do
             for skip in $skips; do
               if [ "$extension" = "$skip" ]; then

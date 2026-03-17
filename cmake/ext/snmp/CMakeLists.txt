@@ -32,7 +32,7 @@ include(CMakeDependentOption)
 include(CMakePushCheckState)
 include(FeatureSummary)
 
-option(PHP_EXT_SNMP "Enable the snmp extension")
+option(PHP_EXT_SNMP "Enable the snmp extension" ${PROJECT_IS_TOP_LEVEL})
 
 add_feature_info(
   "ext/snmp"
@@ -43,7 +43,7 @@ add_feature_info(
 cmake_dependent_option(
   PHP_EXT_SNMP_SHARED
   "Build the snmp extension as a shared library"
-  OFF
+  ${PROJECT_IS_TOP_LEVEL}
   PHP_EXT_SNMP
   OFF
 )

@@ -32,7 +32,7 @@ include(CMakeDependentOption)
 include(CMakePushCheckState)
 include(FeatureSummary)
 
-option(PHP_EXT_PDO_PGSQL "Enable the pdo_pgsql extension")
+option(PHP_EXT_PDO_PGSQL "Enable the pdo_pgsql extension" ${PROJECT_IS_TOP_LEVEL})
 
 add_feature_info(
   "ext/pdo_pgsql"
@@ -43,7 +43,7 @@ add_feature_info(
 cmake_dependent_option(
   PHP_EXT_PDO_PGSQL_SHARED
   "Build the pdo_pgsql extension as a shared library"
-  OFF
+  ${PROJECT_IS_TOP_LEVEL}
   PHP_EXT_PDO_PGSQL
   OFF
 )

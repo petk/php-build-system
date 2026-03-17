@@ -59,7 +59,7 @@ include(CMakeDependentOption)
 include(CMakePushCheckState)
 include(FeatureSummary)
 
-option(PHP_EXT_OPENSSL "Enable the openssl extension")
+option(PHP_EXT_OPENSSL "Enable the openssl extension" ${PROJECT_IS_TOP_LEVEL})
 
 add_feature_info(
   "ext/openssl"
@@ -70,7 +70,7 @@ add_feature_info(
 cmake_dependent_option(
   PHP_EXT_OPENSSL_SHARED
   "Build the openssl extension as a shared library"
-  OFF
+  ${PROJECT_IS_TOP_LEVEL}
   PHP_EXT_OPENSSL
   OFF
 )

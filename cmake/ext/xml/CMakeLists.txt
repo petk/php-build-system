@@ -48,7 +48,7 @@ add_feature_info(
 cmake_dependent_option(
   PHP_EXT_XML_SHARED
   "Build the xml extension as a shared library"
-  OFF
+  ${PROJECT_IS_TOP_LEVEL}
   PHP_EXT_XML
   OFF
 )

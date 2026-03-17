@@ -30,7 +30,7 @@ project(
 include(CMakeDependentOption)
 include(FeatureSummary)
 
-option(PHP_EXT_SOAP "Enable the soap extension")
+option(PHP_EXT_SOAP "Enable the soap extension" ${PROJECT_IS_TOP_LEVEL})
 
 add_feature_info(
   "ext/soap"
@@ -41,7 +41,7 @@ add_feature_info(
 cmake_dependent_option(
   PHP_EXT_SOAP_SHARED
   "Build the soap extension as a shared library"
-  OFF
+  ${PROJECT_IS_TOP_LEVEL}
   PHP_EXT_SOAP
   OFF
 )

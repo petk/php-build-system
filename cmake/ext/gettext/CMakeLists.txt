@@ -33,7 +33,7 @@ include(CMakeDependentOption)
 include(CMakePushCheckState)
 include(FeatureSummary)
 
-option(PHP_EXT_GETTEXT "Enable the gettext extension")
+option(PHP_EXT_GETTEXT "Enable the gettext extension" ${PROJECT_IS_TOP_LEVEL})
 
 add_feature_info(
   "ext/gettext"
@@ -44,7 +44,7 @@ add_feature_info(
 cmake_dependent_option(
   PHP_EXT_GETTEXT_SHARED
   "Build the gettext extension as a shared library"
-  OFF
+  ${PROJECT_IS_TOP_LEVEL}
   PHP_EXT_GETTEXT
   OFF
 )

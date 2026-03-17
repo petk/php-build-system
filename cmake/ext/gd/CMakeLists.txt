@@ -159,7 +159,7 @@ include(CMakeDependentOption)
 include(CMakePushCheckState)
 include(FeatureSummary)
 
-option(PHP_EXT_GD "Enable the gd extension")
+option(PHP_EXT_GD "Enable the gd extension" ${PROJECT_IS_TOP_LEVEL})
 
 add_feature_info(
   "ext/gd"
@@ -170,7 +170,7 @@ add_feature_info(
 cmake_dependent_option(
   PHP_EXT_GD_SHARED
   "Build the gd extension as a shared library"
-  OFF
+  ${PROJECT_IS_TOP_LEVEL}
   PHP_EXT_GD
   OFF
 )

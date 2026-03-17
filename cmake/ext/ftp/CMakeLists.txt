@@ -37,7 +37,7 @@ project(
 include(CMakeDependentOption)
 include(FeatureSummary)
 
-option(PHP_EXT_FTP "Enable the ftp extension")
+option(PHP_EXT_FTP "Enable the ftp extension" ${PROJECT_IS_TOP_LEVEL})
 
 add_feature_info(
   "ext/ftp"
@@ -48,7 +48,7 @@ add_feature_info(
 cmake_dependent_option(
   PHP_EXT_FTP_SHARED
   "Build the ftp extension as a shared library"
-  OFF
+  ${PROJECT_IS_TOP_LEVEL}
   PHP_EXT_FTP
   OFF
 )

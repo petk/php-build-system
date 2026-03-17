@@ -30,7 +30,7 @@ project(
 include(CMakeDependentOption)
 include(FeatureSummary)
 
-option(PHP_EXT_GMP "Enable the gmp extension")
+option(PHP_EXT_GMP "Enable the gmp extension" ${PROJECT_IS_TOP_LEVEL})
 
 add_feature_info(
   "ext/gmp"
@@ -41,7 +41,7 @@ add_feature_info(
 cmake_dependent_option(
   PHP_EXT_GMP_SHARED
   "Build the gmp extension as a shared library"
-  OFF
+  ${PROJECT_IS_TOP_LEVEL}
   PHP_EXT_GMP
   OFF
 )
