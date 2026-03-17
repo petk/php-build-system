@@ -72,8 +72,3 @@ runs:
           dovecot-pop3d \
           dovecot-imapd \
           sendmail;
-
-    - name: Checkout
-      uses: actions/checkout@v6
-      with:
-        fetch-depth: 2

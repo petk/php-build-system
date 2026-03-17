@@ -50,6 +50,11 @@ jobs:
       CXX: ${{ matrix.compiler.CXX }}
       CMAKE_BUILD_TYPE: Release
     steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+        with:
+          fetch-depth: 2
+
       - uses: ./.github/actions/setup
 
       - name: Configure and build PHP
@@ -121,6 +126,11 @@ jobs:
     runs-on: ubuntu-latest
     name: Autotools build and PHP extension CMake build
     steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+        with:
+          fetch-depth: 2
+
       - name: Install base dependencies
         run: |
           sudo apt-get update
@@ -136,11 +146,6 @@ jobs:
       - name: Install CMake and Ninja
         uses: lukka/get-cmake@latest
         id: cmake-and-ninja
-
-      - name: Checkout
-        uses: actions/checkout@v6
-        with:
-          fetch-depth: 2
 
       - name: Build and install
         run: |
@@ -170,6 +175,11 @@ jobs:
     runs-on: ubuntu-latest
     name: Building PHP extensions as standalone
     steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+        with:
+          fetch-depth: 2
+
       - uses: ./.github/actions/setup
 
       - name: Prepare php-src
