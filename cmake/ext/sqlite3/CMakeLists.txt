@@ -43,7 +43,7 @@ add_feature_info(
 cmake_dependent_option(
   PHP_EXT_SQLITE3_SHARED
   "Build the sqlite3 extension as a shared library"
-  OFF
+  ${PROJECT_IS_TOP_LEVEL}
   PHP_EXT_SQLITE3
   OFF
 )
@@ -57,7 +57,7 @@ find_package(PHP REQUIRED)
 include(PHP/Extension)
 php_extension(sqlite3)
 
-if(PHP_EXT_SQLITE3_SHARED)
+if(PHP_EXT_SQLITE3_SHARED OR PROJECT_IS_TOP_LEVEL)
   add_library(php_ext_sqlite3 MODULE)
 else()
   add_library(php_ext_sqlite3 OBJECT)
@@ -69,6 +69,8 @@ target_sources(
     sqlite3.c
     sqlite3.stub.php
 )
+
+target_include_directories(php_ext_sqlite3 PRIVATE ${CMAKE_CURRENT_BINARY_DIR})
 
 target_compile_definitions(php_ext_sqlite3 PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE)
 

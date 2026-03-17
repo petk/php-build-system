@@ -43,7 +43,7 @@ add_feature_info(
 cmake_dependent_option(
   PHP_EXT_PDO_SQLITE_SHARED
   "Build the pdo_sqlite extension as a shared library"
-  OFF
+  ${PROJECT_IS_TOP_LEVEL}
   PHP_EXT_PDO_SQLITE
   OFF
 )
@@ -57,7 +57,7 @@ find_package(PHP REQUIRED)
 include(PHP/Extension)
 php_extension(pdo_sqlite)
 
-if(PHP_EXT_PDO_SQLITE_SHARED)
+if(PHP_EXT_PDO_SQLITE_SHARED OR PROJECT_IS_TOP_LEVEL)
   add_library(php_ext_pdo_sqlite MODULE)
 else()
   add_library(php_ext_pdo_sqlite OBJECT)
@@ -75,6 +75,11 @@ target_sources(
 )
 
 add_dependencies(php_ext_pdo_sqlite php_ext_pdo)
+
+target_include_directories(
+  php_ext_pdo_sqlite
+  PRIVATE ${CMAKE_CURRENT_BINARY_DIR}
+)
 
 include(PHP/Package/SQLite3)
 find_package(SQLite3 ${PHP_PACKAGE_SQLITE3_MIN_VERSION})

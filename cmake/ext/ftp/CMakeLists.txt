@@ -37,7 +37,7 @@ project(
 include(CMakeDependentOption)
 include(FeatureSummary)
 
-option(PHP_EXT_FTP "Enable the ftp extension")
+option(PHP_EXT_FTP "Enable the ftp extension" ${PROJECT_IS_TOP_LEVEL})
 
 add_feature_info(
   "ext/ftp"
@@ -48,7 +48,7 @@ add_feature_info(
 cmake_dependent_option(
   PHP_EXT_FTP_SHARED
   "Build the ftp extension as a shared library"
-  OFF
+  ${PROJECT_IS_TOP_LEVEL}
   PHP_EXT_FTP
   OFF
 )
@@ -70,7 +70,7 @@ find_package(PHP REQUIRED)
 include(PHP/Extension)
 php_extension(ftp)
 
-if(PHP_EXT_FTP_SHARED)
+if(PHP_EXT_FTP_SHARED OR PROJECT_IS_TOP_LEVEL)
   add_library(php_ext_ftp MODULE)
 else()
   add_library(php_ext_ftp OBJECT)
@@ -83,6 +83,8 @@ target_sources(
     ftp.stub.php
     php_ftp.c
 )
+
+target_include_directories(php_ext_ftp PRIVATE ${CMAKE_CURRENT_BINARY_DIR})
 
 if(PHP_EXT_FTP_SSL)
   include(PHP/Package/OpenSSL)

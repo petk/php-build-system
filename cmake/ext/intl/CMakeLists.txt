@@ -31,7 +31,7 @@ project(
 include(CMakeDependentOption)
 include(FeatureSummary)
 
-option(PHP_EXT_INTL "Enable the intl extension")
+option(PHP_EXT_INTL "Enable the intl extension" ${PROJECT_IS_TOP_LEVEL})
 
 add_feature_info(
   "ext/intl"
@@ -42,7 +42,7 @@ add_feature_info(
 cmake_dependent_option(
   PHP_EXT_INTL_SHARED
   "Build the intl extension as a shared library"
-  OFF
+  ${PROJECT_IS_TOP_LEVEL}
   PHP_EXT_INTL
   OFF
 )
@@ -58,7 +58,7 @@ find_package(PHP REQUIRED)
 include(PHP/Extension)
 php_extension(intl)
 
-if(PHP_EXT_INTL_SHARED)
+if(PHP_EXT_INTL_SHARED OR PROJECT_IS_TOP_LEVEL)
   add_library(php_ext_intl MODULE)
 else()
   add_library(php_ext_intl OBJECT)
@@ -170,7 +170,12 @@ target_sources(
     uchar/uchar.stub.php
 )
 
-target_include_directories(php_ext_intl PRIVATE ${CMAKE_CURRENT_SOURCE_DIR})
+target_include_directories(
+  php_ext_intl
+  PRIVATE
+    ${CMAKE_CURRENT_BINARY_DIR}
+    ${CMAKE_CURRENT_SOURCE_DIR}
+)
 
 include(PHP/CheckCompilerFlag)
 

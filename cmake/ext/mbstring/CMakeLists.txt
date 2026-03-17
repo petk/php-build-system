@@ -39,7 +39,7 @@ include(CMakeDependentOption)
 include(CMakePushCheckState)
 include(FeatureSummary)
 
-option(PHP_EXT_MBSTRING "Enable the mbstring extension")
+option(PHP_EXT_MBSTRING "Enable the mbstring extension" ${PROJECT_IS_TOP_LEVEL})
 
 add_feature_info(
   "ext/mbstring"
@@ -50,7 +50,7 @@ add_feature_info(
 cmake_dependent_option(
   PHP_EXT_MBSTRING_SHARED
   "Build the mbstring extension as a shared library"
-  OFF
+  ${PROJECT_IS_TOP_LEVEL}
   PHP_EXT_MBSTRING
   OFF
 )
@@ -82,7 +82,7 @@ find_package(PHP REQUIRED)
 include(PHP/Extension)
 php_extension(mbstring)
 
-if(PHP_EXT_MBSTRING_SHARED)
+if(PHP_EXT_MBSTRING_SHARED OR PROJECT_IS_TOP_LEVEL)
   add_library(php_ext_mbstring MODULE)
 else()
   add_library(php_ext_mbstring OBJECT)
