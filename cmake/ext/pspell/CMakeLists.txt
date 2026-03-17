@@ -32,7 +32,7 @@ include(CMakeDependentOption)
 include(CMakePushCheckState)
 include(FeatureSummary)
 
-option(PHP_EXT_PSPELL "Enable the pspell extension")
+option(PHP_EXT_PSPELL "Enable the pspell extension" ${PROJECT_IS_TOP_LEVEL})
 
 add_feature_info(
   "ext/pspell"
@@ -43,7 +43,7 @@ add_feature_info(
 cmake_dependent_option(
   PHP_EXT_PSPELL_SHARED
   "Build the pspell extension as a shared library"
-  OFF
+  ${PROJECT_IS_TOP_LEVEL}
   PHP_EXT_PSPELL
   OFF
 )
@@ -59,7 +59,7 @@ include(PHP/CheckCompilerFlag)
 include(PHP/Extension)
 php_extension(pspell)
 
-if(PHP_EXT_PSPELL_SHARED)
+if(PHP_EXT_PSPELL_SHARED OR PROJECT_IS_TOP_LEVEL)
   add_library(php_ext_pspell MODULE)
 else()
   add_library(php_ext_pspell OBJECT)
@@ -71,6 +71,8 @@ target_sources(
     pspell.c
     pspell.stub.php
 )
+
+target_include_directories(php_ext_pspell PRIVATE ${CMAKE_CURRENT_BINARY_DIR})
 
 # Add -Wno-strict-prototypes as depends on user libs.
 php_check_compiler_flag(C -Wno-strict-prototypes PHP_HAS_WNO_STRICT_PROTOTYPES)

@@ -30,7 +30,7 @@ project(
 include(CMakeDependentOption)
 include(FeatureSummary)
 
-option(PHP_EXT_GMP "Enable the gmp extension")
+option(PHP_EXT_GMP "Enable the gmp extension" ${PROJECT_IS_TOP_LEVEL})
 
 add_feature_info(
   "ext/gmp"
@@ -41,7 +41,7 @@ add_feature_info(
 cmake_dependent_option(
   PHP_EXT_GMP_SHARED
   "Build the gmp extension as a shared library"
-  OFF
+  ${PROJECT_IS_TOP_LEVEL}
   PHP_EXT_GMP
   OFF
 )
@@ -55,7 +55,7 @@ find_package(PHP REQUIRED)
 include(PHP/Extension)
 php_extension(gmp)
 
-if(PHP_EXT_GMP_SHARED)
+if(PHP_EXT_GMP_SHARED OR PROJECT_IS_TOP_LEVEL)
   add_library(php_ext_gmp MODULE)
 else()
   add_library(php_ext_gmp OBJECT)
@@ -71,6 +71,8 @@ target_sources(
       FILES
         php_gmp_int.h
 )
+
+target_include_directories(php_ext_gmp PRIVATE ${CMAKE_CURRENT_BINARY_DIR})
 
 target_compile_definitions(php_ext_gmp PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE)
 

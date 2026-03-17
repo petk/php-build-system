@@ -52,7 +52,7 @@ add_feature_info(
 cmake_dependent_option(
   PHP_EXT_POSIX_SHARED
   "Build the posix extension as a shared library"
-  OFF
+  ${PROJECT_IS_TOP_LEVEL}
   PHP_EXT_POSIX
   OFF
 )
@@ -66,7 +66,7 @@ find_package(PHP REQUIRED)
 include(PHP/Extension)
 php_extension(posix)
 
-if(PHP_EXT_POSIX_SHARED)
+if(PHP_EXT_POSIX_SHARED OR PROJECT_IS_TOP_LEVEL)
   add_library(php_ext_posix MODULE)
 else()
   add_library(php_ext_posix OBJECT)
@@ -78,6 +78,8 @@ target_sources(
     posix.c
     posix.stub.php
 )
+
+target_include_directories(php_ext_posix PRIVATE ${CMAKE_CURRENT_BINARY_DIR})
 
 target_compile_definitions(php_ext_posix PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE)
 

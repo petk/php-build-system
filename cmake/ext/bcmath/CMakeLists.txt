@@ -30,7 +30,7 @@ project(
 include(CMakeDependentOption)
 include(FeatureSummary)
 
-option(PHP_EXT_BCMATH "Enable the bcmath extension")
+option(PHP_EXT_BCMATH "Enable the bcmath extension" ${PROJECT_IS_TOP_LEVEL})
 
 add_feature_info(
   "ext/bcmath"
@@ -41,7 +41,7 @@ add_feature_info(
 cmake_dependent_option(
   PHP_EXT_BCMATH_SHARED
   "Build the bcmath extension as a shared library"
-  OFF
+  ${PROJECT_IS_TOP_LEVEL}
   PHP_EXT_BCMATH
   OFF
 )
@@ -55,7 +55,7 @@ find_package(PHP REQUIRED)
 include(PHP/Extension)
 php_extension(bcmath)
 
-if(PHP_EXT_BCMATH_SHARED)
+if(PHP_EXT_BCMATH_SHARED OR PROJECT_IS_TOP_LEVEL)
   add_library(php_ext_bcmath MODULE)
 else()
   add_library(php_ext_bcmath OBJECT)

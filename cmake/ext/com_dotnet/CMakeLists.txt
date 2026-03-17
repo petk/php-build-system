@@ -74,7 +74,7 @@ add_feature_info(
 cmake_dependent_option(
   PHP_EXT_COM_DOTNET_SHARED
   "Build the com_dotnet extension as a shared library"
-  OFF
+  ${PROJECT_IS_TOP_LEVEL}
   PHP_EXT_COM_DOTNET
   OFF
 )
@@ -96,7 +96,7 @@ find_package(PHP REQUIRED)
 include(PHP/Extension)
 php_extension(com_dotnet)
 
-if(PHP_EXT_COM_DOTNET_SHARED)
+if(PHP_EXT_COM_DOTNET_SHARED OR PROJECT_IS_TOP_LEVEL)
   add_library(php_ext_com_dotnet MODULE)
 else()
   add_library(php_ext_com_dotnet OBJECT)

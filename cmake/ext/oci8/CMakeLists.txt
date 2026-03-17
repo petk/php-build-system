@@ -51,7 +51,7 @@ project(
 include(CMakeDependentOption)
 include(FeatureSummary)
 
-option(PHP_EXT_OCI8 "Enable the oci8 extension")
+option(PHP_EXT_OCI8 "Enable the oci8 extension" ${PROJECT_IS_TOP_LEVEL})
 
 add_feature_info(
   "ext/oci8"
@@ -62,7 +62,7 @@ add_feature_info(
 cmake_dependent_option(
   PHP_EXT_OCI8_SHARED
   "Build the oci8 extension as a shared library"
-  OFF
+  ${PROJECT_IS_TOP_LEVEL}
   PHP_EXT_OCI8
   OFF
 )
@@ -100,7 +100,7 @@ find_package(PHP REQUIRED)
 include(PHP/Extension)
 php_extension(oci8)
 
-if(PHP_EXT_OCI8_SHARED)
+if(PHP_EXT_OCI8_SHARED OR PROJECT_IS_TOP_LEVEL)
   add_library(php_ext_oci8 MODULE)
 else()
   add_library(php_ext_oci8 OBJECT)
@@ -117,6 +117,8 @@ target_sources(
     oci8.c
     oci8.stub.php
 )
+
+target_include_directories(php_ext_oci8 PRIVATE ${CMAKE_CURRENT_BINARY_DIR})
 
 set(PHP_OCI8_INSTANT_CLIENT "")
 

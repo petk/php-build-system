@@ -41,7 +41,7 @@ add_feature_info(
 cmake_dependent_option(
   PHP_EXT_PDO_SHARED
   "Build the pdo extension as a shared library"
-  OFF
+  ${PROJECT_IS_TOP_LEVEL}
   PHP_EXT_PDO
   OFF
 )
@@ -55,7 +55,7 @@ find_package(PHP REQUIRED)
 include(PHP/Extension)
 php_extension(pdo)
 
-if(PHP_EXT_PDO_SHARED)
+if(PHP_EXT_PDO_SHARED OR PROJECT_IS_TOP_LEVEL)
   add_library(php_ext_pdo MODULE)
 else()
   add_library(php_ext_pdo OBJECT)
@@ -79,6 +79,8 @@ target_sources(
         php_pdo_error.h
         php_pdo.h
 )
+
+target_include_directories(php_ext_pdo PRIVATE ${CMAKE_CURRENT_BINARY_DIR})
 
 add_dependencies(php_ext_pdo php_ext_spl)
 

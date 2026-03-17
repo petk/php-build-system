@@ -45,7 +45,7 @@ project(
 include(CMakeDependentOption)
 include(FeatureSummary)
 
-option(PHP_EXT_IMAP "Enable the imap extension")
+option(PHP_EXT_IMAP "Enable the imap extension" ${PROJECT_IS_TOP_LEVEL})
 
 add_feature_info(
   "ext/imap"
@@ -56,7 +56,7 @@ add_feature_info(
 cmake_dependent_option(
   PHP_EXT_IMAP_SHARED
   "Build the imap extension as a shared library"
-  OFF
+  ${PROJECT_IS_TOP_LEVEL}
   PHP_EXT_IMAP
   OFF
 )
@@ -86,7 +86,7 @@ find_package(PHP REQUIRED)
 include(PHP/Extension)
 php_extension(imap)
 
-if(PHP_EXT_IMAP_SHARED)
+if(PHP_EXT_IMAP_SHARED OR PROJECT_IS_TOP_LEVEL)
   add_library(php_ext_imap MODULE)
 else()
   add_library(php_ext_imap OBJECT)
@@ -98,6 +98,8 @@ target_sources(
     php_imap.c
     php_imap.stub.php
 )
+
+target_include_directories(php_ext_imap PRIVATE ${CMAKE_CURRENT_BINARY_DIR})
 
 target_compile_definitions(php_ext_imap PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE)
 

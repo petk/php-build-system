@@ -35,7 +35,11 @@ include(CMakeDependentOption)
 include(CMakePushCheckState)
 include(FeatureSummary)
 
-option(PHP_EXT_READLINE "Enable the readline extension (only for CLI-based SAPIs)")
+option(
+  PHP_EXT_READLINE
+  "Enable the readline extension (only for CLI-based SAPIs)"
+  ${PROJECT_IS_TOP_LEVEL}
+)
 
 add_feature_info(
   "ext/readline"
@@ -46,7 +50,7 @@ add_feature_info(
 cmake_dependent_option(
   PHP_EXT_READLINE_SHARED
   "Build the readline extension as a shared library"
-  OFF
+  ${PROJECT_IS_TOP_LEVEL}
   PHP_EXT_READLINE
   OFF
 )
@@ -62,7 +66,7 @@ include(PHP/CheckCompilerFlag)
 include(PHP/Extension)
 php_extension(readline)
 
-if(PHP_EXT_READLINE_SHARED)
+if(PHP_EXT_READLINE_SHARED OR PROJECT_IS_TOP_LEVEL)
   add_library(php_ext_readline MODULE)
 else()
   add_library(php_ext_readline OBJECT)
@@ -77,6 +81,8 @@ target_sources(
     readline.c
     readline.stub.php
 )
+
+target_include_directories(php_ext_readline PRIVATE ${CMAKE_CURRENT_BINARY_DIR})
 
 # Add -Wno-strict-prototypes as depends on user libs.
 php_check_compiler_flag(C -Wno-strict-prototypes PHP_HAS_WNO_STRICT_PROTOTYPES)

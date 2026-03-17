@@ -32,7 +32,7 @@ include(CMakeDependentOption)
 include(CMakePushCheckState)
 include(FeatureSummary)
 
-option(PHP_EXT_PGSQL "Enable the pgsql extension")
+option(PHP_EXT_PGSQL "Enable the pgsql extension" ${PROJECT_IS_TOP_LEVEL})
 
 add_feature_info(
   "ext/pgsql"
@@ -43,7 +43,7 @@ add_feature_info(
 cmake_dependent_option(
   PHP_EXT_PGSQL_SHARED
   "Build the pgsql extension as a shared library"
-  OFF
+  ${PROJECT_IS_TOP_LEVEL}
   PHP_EXT_PGSQL
   OFF
 )
@@ -57,7 +57,7 @@ find_package(PHP REQUIRED)
 include(PHP/Extension)
 php_extension(pgsql)
 
-if(PHP_EXT_PGSQL_SHARED)
+if(PHP_EXT_PGSQL_SHARED OR PROJECT_IS_TOP_LEVEL)
   add_library(php_ext_pgsql MODULE)
 else()
   add_library(php_ext_pgsql OBJECT)
@@ -69,6 +69,8 @@ target_sources(
     pgsql.c
     pgsql.stub.php
 )
+
+target_include_directories(php_ext_pgsql PRIVATE ${CMAKE_CURRENT_BINARY_DIR})
 
 target_compile_definitions(
   php_ext_pgsql

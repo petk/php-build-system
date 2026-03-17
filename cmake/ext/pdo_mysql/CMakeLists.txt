@@ -84,7 +84,11 @@ project(
 include(CMakeDependentOption)
 include(FeatureSummary)
 
-option(PHP_EXT_PDO_MYSQL "Enable the pdo_mysql extension")
+option(
+  PHP_EXT_PDO_MYSQL
+  "Enable the pdo_mysql extension"
+  ${PROJECT_IS_TOP_LEVEL}
+)
 
 add_feature_info(
   "ext/pdo_mysql"
@@ -95,7 +99,7 @@ add_feature_info(
 cmake_dependent_option(
   PHP_EXT_PDO_MYSQL_SHARED
   "Build the pdo_mysql extension as a shared library"
-  OFF
+  ${PROJECT_IS_TOP_LEVEL}
   PHP_EXT_PDO_MYSQL
   OFF
 )
@@ -155,7 +159,7 @@ find_package(PHP REQUIRED)
 include(PHP/Extension)
 php_extension(pdo_mysql)
 
-if(PHP_EXT_PDO_MYSQL_SHARED)
+if(PHP_EXT_PDO_MYSQL_SHARED OR PROJECT_IS_TOP_LEVEL)
   add_library(php_ext_pdo_mysql MODULE)
 else()
   add_library(php_ext_pdo_mysql OBJECT)
@@ -180,6 +184,7 @@ target_compile_definitions(
 target_include_directories(
   php_ext_pdo_mysql
   PRIVATE
+    ${CMAKE_CURRENT_BINARY_DIR}
     ${CMAKE_CURRENT_SOURCE_DIR}/..
 )
 

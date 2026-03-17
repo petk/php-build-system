@@ -34,7 +34,7 @@ include(CMakeDependentOption)
 include(CMakePushCheckState)
 include(FeatureSummary)
 
-option(PHP_EXT_FFI "Enable the ffi extension")
+option(PHP_EXT_FFI "Enable the ffi extension" ${PROJECT_IS_TOP_LEVEL})
 
 add_feature_info(
   "ext/ffi"
@@ -45,7 +45,7 @@ add_feature_info(
 cmake_dependent_option(
   PHP_EXT_FFI_SHARED
   "Build the ffi extension as a shared library"
-  OFF
+  ${PROJECT_IS_TOP_LEVEL}
   PHP_EXT_FFI
   OFF
 )
@@ -59,7 +59,7 @@ find_package(PHP REQUIRED)
 include(PHP/Extension)
 php_extension(ffi)
 
-if(PHP_EXT_FFI_SHARED)
+if(PHP_EXT_FFI_SHARED OR PROJECT_IS_TOP_LEVEL)
   add_library(php_ext_ffi MODULE)
 else()
   add_library(php_ext_ffi OBJECT)
@@ -72,6 +72,8 @@ target_sources(
     ffi.c
     ffi.stub.php
 )
+
+target_include_directories(php_ext_ffi PRIVATE ${CMAKE_CURRENT_BINARY_DIR})
 
 target_compile_definitions(php_ext_ffi PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE)
 

@@ -46,7 +46,7 @@ add_feature_info(
 cmake_dependent_option(
   PHP_EXT_ICONV_SHARED
   "Build the iconv extension as a shared library"
-  OFF
+  ${PROJECT_IS_TOP_LEVEL}
   PHP_EXT_ICONV
   OFF
 )
@@ -60,7 +60,7 @@ find_package(PHP REQUIRED)
 include(PHP/Extension)
 php_extension(iconv)
 
-if(PHP_EXT_ICONV_SHARED)
+if(PHP_EXT_ICONV_SHARED OR PROJECT_IS_TOP_LEVEL)
   add_library(php_ext_iconv MODULE)
 else()
   add_library(php_ext_iconv OBJECT)
@@ -76,6 +76,8 @@ target_sources(
       FILES
         php_iconv.h
 )
+
+target_include_directories(php_ext_iconv PRIVATE ${CMAKE_CURRENT_BINARY_DIR})
 
 get_target_property(type php_ext_iconv TYPE)
 if(

@@ -43,7 +43,7 @@ add_feature_info(
 cmake_dependent_option(
   PHP_EXT_FILEINFO_SHARED
   "Build the fileinfo extension as a shared library"
-  OFF
+  ${PROJECT_IS_TOP_LEVEL}
   PHP_EXT_FILEINFO
   OFF
 )
@@ -57,7 +57,7 @@ find_package(PHP REQUIRED)
 include(PHP/Extension)
 php_extension(fileinfo)
 
-if(PHP_EXT_FILEINFO_SHARED)
+if(PHP_EXT_FILEINFO_SHARED OR PROJECT_IS_TOP_LEVEL)
   add_library(php_ext_fileinfo MODULE)
 else()
   add_library(php_ext_fileinfo OBJECT)
@@ -126,7 +126,12 @@ target_compile_definitions(
     $<IF:$<BOOL:${PHP_EXT_FILEINFO_HAVE_FUNC_ATTRIBUTE_VISIBILITY}>,HAVE_VISIBILITY=1,HAVE_VISIBILITY=0>
 )
 
-target_include_directories(php_ext_fileinfo PRIVATE ${CMAKE_CURRENT_SOURCE_DIR})
+target_include_directories(
+  php_ext_fileinfo
+  PRIVATE
+    ${CMAKE_CURRENT_BINARY_DIR}
+    ${CMAKE_CURRENT_SOURCE_DIR}
+)
 
 set_property(
   SOURCE libmagic/apprentice.c

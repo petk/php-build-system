@@ -31,7 +31,7 @@ project(
 include(CMakeDependentOption)
 include(FeatureSummary)
 
-option(PHP_EXT_SODIUM "Enable the sodium extension")
+option(PHP_EXT_SODIUM "Enable the sodium extension" ${PROJECT_IS_TOP_LEVEL})
 
 add_feature_info(
   "ext/sodium"
@@ -42,7 +42,7 @@ add_feature_info(
 cmake_dependent_option(
   PHP_EXT_SODIUM_SHARED
   "Build the sodium extension as a shared library"
-  OFF
+  ${PROJECT_IS_TOP_LEVEL}
   PHP_EXT_SODIUM
   OFF
 )
@@ -58,7 +58,7 @@ include(PHP/CheckCompilerFlag)
 include(PHP/Extension)
 php_extension(sodium)
 
-if(PHP_EXT_SODIUM_SHARED)
+if(PHP_EXT_SODIUM_SHARED OR PROJECT_IS_TOP_LEVEL)
   add_library(php_ext_sodium MODULE)
 else()
   add_library(php_ext_sodium OBJECT)
@@ -75,6 +75,8 @@ target_sources(
       FILES
         php_libsodium.h
 )
+
+target_include_directories(php_ext_sodium PRIVATE ${CMAKE_CURRENT_BINARY_DIR})
 
 find_package(Sodium 1.0.8)
 set_package_properties(

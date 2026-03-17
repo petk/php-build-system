@@ -22,6 +22,14 @@ project(
   LANGUAGES C
 )
 
+if(PROJECT_IS_TOP_LEVEL)
+  message(
+    FATAL_ERROR
+    "The PHP libxml extension is intended to be built only within the "
+    "top-level PHP source tree (php-src)."
+  )
+endif()
+
 include(FeatureSummary)
 
 option(
@@ -57,6 +65,8 @@ target_sources(
       FILES
         php_libxml.h
 )
+
+target_include_directories(php_ext_libxml PRIVATE ${CMAKE_CURRENT_BINARY_DIR})
 
 if(CMAKE_SYSTEM_NAME STREQUAL "Windows" AND TARGET php_sapi)
   target_sources(php_sapi INTERFACE php_libxml2.def)

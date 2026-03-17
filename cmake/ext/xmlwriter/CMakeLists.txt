@@ -41,7 +41,7 @@ add_feature_info(
 cmake_dependent_option(
   PHP_EXT_XMLWRITER_SHARED
   "Build the xmlwriter extension as a shared library"
-  OFF
+  ${PROJECT_IS_TOP_LEVEL}
   PHP_EXT_XMLWRITER
   OFF
 )
@@ -55,7 +55,7 @@ find_package(PHP REQUIRED)
 include(PHP/Extension)
 php_extension(xmlwriter)
 
-if(PHP_EXT_XMLWRITER_SHARED)
+if(PHP_EXT_XMLWRITER_SHARED OR PROJECT_IS_TOP_LEVEL)
   add_library(php_ext_xmlwriter MODULE)
 else()
   add_library(php_ext_xmlwriter OBJECT)
@@ -67,6 +67,8 @@ target_sources(
     php_xmlwriter.c
     php_xmlwriter.stub.php
 )
+
+target_include_directories(php_ext_xmlwriter PRIVATE ${CMAKE_CURRENT_BINARY_DIR})
 
 target_compile_definitions(
   php_ext_xmlwriter

@@ -77,7 +77,7 @@ php_extension(%EXTNAME%)
 
 # Add a target to be built as a dynamically loadable module (shared extension),
 # or statically.
-if(PHP_EXT_%EXTNAMECAPS%_SHARED)
+if(PHP_EXT_%EXTNAMECAPS%_SHARED OR PROJECT_IS_TOP_LEVEL)
   add_library(php_ext_%EXTNAME% MODULE)
 else()
   add_library(php_ext_%EXTNAME% OBJECT)
@@ -106,17 +106,18 @@ target_sources(
         php_%EXTNAME%.h
 )
 
+# Add include directories for the extension's generated <config.h> header.
+target_include_directories(
+  php_ext_%EXTNAME%
+  PRIVATE ${CMAKE_CURRENT_BINARY_DIR}
+)
+
 # Add compile definitions.
 target_compile_definitions(
   php_ext_%EXTNAME%
   PRIVATE
     # Enable "Thread Safety Resource Manager Local Storage" static cache.
     ZEND_ENABLE_STATIC_TSRMLS_CACHE
-)
-
-target_include_directories(
-  php_ext_%EXTNAME%
-  PRIVATE ${CMAKE_CURRENT_BINARY_DIR}
 )
 
 set(PHP_EXT_%EXTNAMECAPS%_ENABLED TRUE)

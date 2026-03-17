@@ -30,7 +30,7 @@ project(
 include(CMakeDependentOption)
 include(FeatureSummary)
 
-option(PHP_EXT_PDO_OCI "Enable the pdo_oci extension")
+option(PHP_EXT_PDO_OCI "Enable the pdo_oci extension" ${PROJECT_IS_TOP_LEVEL})
 
 add_feature_info(
   "ext/pdo_oci"
@@ -41,7 +41,7 @@ add_feature_info(
 cmake_dependent_option(
   PHP_EXT_PDO_OCI_SHARED
   "Build the pdo_oci extension as a shared library"
-  OFF
+  ${PROJECT_IS_TOP_LEVEL}
   PHP_EXT_PDO_OCI
   OFF
 )
@@ -55,7 +55,7 @@ find_package(PHP REQUIRED)
 include(PHP/Extension)
 php_extension(pdo_oci)
 
-if(PHP_EXT_PDO_OCI_SHARED)
+if(PHP_EXT_PDO_OCI_SHARED OR PROJECT_IS_TOP_LEVEL)
   add_library(php_ext_pdo_oci MODULE)
 else()
   add_library(php_ext_pdo_oci OBJECT)
@@ -74,6 +74,7 @@ add_dependencies(php_ext_pdo_oci php_ext_pdo)
 target_include_directories(
   php_ext_pdo_oci
   PRIVATE
+    ${CMAKE_CURRENT_BINARY_DIR}
     ${CMAKE_CURRENT_SOURCE_DIR}/..
 )
 

@@ -32,7 +32,7 @@ include(CMakeDependentOption)
 include(CMakePushCheckState)
 include(FeatureSummary)
 
-option(PHP_EXT_PDO_PGSQL "Enable the pdo_pgsql extension")
+option(PHP_EXT_PDO_PGSQL "Enable the pdo_pgsql extension" ${PROJECT_IS_TOP_LEVEL})
 
 add_feature_info(
   "ext/pdo_pgsql"
@@ -43,7 +43,7 @@ add_feature_info(
 cmake_dependent_option(
   PHP_EXT_PDO_PGSQL_SHARED
   "Build the pdo_pgsql extension as a shared library"
-  OFF
+  ${PROJECT_IS_TOP_LEVEL}
   PHP_EXT_PDO_PGSQL
   OFF
 )
@@ -57,7 +57,7 @@ find_package(PHP REQUIRED)
 include(PHP/Extension)
 php_extension(pdo_pgsql)
 
-if(PHP_EXT_PDO_PGSQL_SHARED)
+if(PHP_EXT_PDO_PGSQL_SHARED OR PROJECT_IS_TOP_LEVEL)
   add_library(php_ext_pdo_pgsql MODULE)
 else()
   add_library(php_ext_pdo_pgsql OBJECT)
@@ -77,6 +77,7 @@ add_dependencies(php_ext_pdo_pgsql php_ext_pdo)
 target_include_directories(
   php_ext_pdo_pgsql
   PRIVATE
+    ${CMAKE_CURRENT_BINARY_DIR}
     ${CMAKE_CURRENT_SOURCE_DIR}/..
 )
 

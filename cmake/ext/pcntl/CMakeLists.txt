@@ -43,7 +43,11 @@ include(CMakeDependentOption)
 include(CMakePushCheckState)
 include(FeatureSummary)
 
-option(PHP_EXT_PCNTL "Enable the pcntl extension (only for CLI-based SAPIs)")
+option(
+  PHP_EXT_PCNTL
+  "Enable the pcntl extension (only for CLI-based SAPIs)"
+  ${PROJECT_IS_TOP_LEVEL}
+)
 
 add_feature_info(
   "ext/pcntl"
@@ -54,7 +58,7 @@ add_feature_info(
 cmake_dependent_option(
   PHP_EXT_PCNTL_SHARED
   "Build the pcntl extension as a shared library"
-  OFF
+  ${PROJECT_IS_TOP_LEVEL}
   PHP_EXT_PCNTL
   OFF
 )
@@ -68,7 +72,7 @@ find_package(PHP REQUIRED)
 include(PHP/Extension)
 php_extension(pcntl)
 
-if(PHP_EXT_PCNTL_SHARED)
+if(PHP_EXT_PCNTL_SHARED OR PROJECT_IS_TOP_LEVEL)
   add_library(php_ext_pcntl MODULE)
 else()
   add_library(php_ext_pcntl OBJECT)
@@ -83,6 +87,8 @@ target_sources(
     pcntl.stub.php
     php_signal.c
 )
+
+target_include_directories(php_ext_pcntl PRIVATE ${CMAKE_CURRENT_BINARY_DIR})
 
 target_compile_definitions(php_ext_pcntl PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE)
 

@@ -1,0 +1,71 @@
+name: Install base dependencies
+description: Common setup steps
+
+runs:
+  using: "composite"
+  steps:
+    - shell: bash
+      run: |
+        sudo apt-get update
+        sudo apt-get -y install \
+          build-essential \
+          gcc \
+          g++ \
+          clang \
+          llvm-dev \
+          re2c \
+          bison \
+          libxml2-dev \
+          libssl-dev \
+          libpcre2-dev \
+          libsqlite3-dev \
+          libbz2-dev \
+          libcurl4-openssl-dev \
+          libdb5.3++-dev \
+          libenchant-2-dev \
+          libgmp-dev \
+          libc-client-dev \
+          libkrb5-dev \
+          unixodbc-dev \
+          freetds-dev \
+          apache2-dev \
+          firebird-dev \
+          libsodium-dev \
+          libicu-dev \
+          libzip-dev \
+          libaspell-dev \
+          libavif-dev \
+          libfreetype-dev \
+          libjpeg-dev \
+          libpng-dev \
+          libwebp-dev \
+          libxpm-dev \
+          libonig-dev \
+          libtidy-dev \
+          libargon2-dev \
+          libxslt1-dev \
+          libcapstone-dev \
+          libedit-dev \
+          libcdb-dev \
+          liblmdb-dev \
+          libqdbm-dev \
+          libtokyocabinet-dev \
+          libsnmp-dev \
+          snmp \
+          snmpd \
+          snmp-mibs-downloader \
+          libexpat1-dev \
+          libacl1-dev \
+          libapparmor-dev \
+          libselinux1-dev \
+          libsystemd-dev \
+          libldap2-dev \
+          libsasl2-dev \
+          libpq-dev \
+          libmm-dev \
+          zlib1g-dev \
+          libdmalloc-dev \
+          dovecot-core \
+          dovecot-pop3d \
+          dovecot-imapd \
+          sendmail;

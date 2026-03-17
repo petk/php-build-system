@@ -32,7 +32,7 @@ include(CMakeDependentOption)
 include(CMakePushCheckState)
 include(FeatureSummary)
 
-option(PHP_EXT_ENCHANT "Enable the enchant extension")
+option(PHP_EXT_ENCHANT "Enable the enchant extension" ${PROJECT_IS_TOP_LEVEL})
 
 add_feature_info(
   "ext/enchant"
@@ -43,7 +43,7 @@ add_feature_info(
 cmake_dependent_option(
   PHP_EXT_ENCHANT_SHARED
   "Build the enchant extension as a shared library"
-  OFF
+  ${PROJECT_IS_TOP_LEVEL}
   PHP_EXT_ENCHANT
   OFF
 )
@@ -57,7 +57,7 @@ find_package(PHP REQUIRED)
 include(PHP/Extension)
 php_extension(enchant)
 
-if(PHP_EXT_ENCHANT_SHARED)
+if(PHP_EXT_ENCHANT_SHARED OR PROJECT_IS_TOP_LEVEL)
   add_library(php_ext_enchant MODULE)
 else()
   add_library(php_ext_enchant OBJECT)
@@ -69,6 +69,8 @@ target_sources(
     enchant.c
     enchant.stub.php
 )
+
+target_include_directories(php_ext_enchant PRIVATE ${CMAKE_CURRENT_BINARY_DIR})
 
 find_package(Enchant 1.4.2)
 set_package_properties(

@@ -41,7 +41,7 @@ add_feature_info(
 cmake_dependent_option(
   PHP_EXT_PHAR_SHARED
   "Build the phar extension as a shared library"
-  OFF
+  ${PROJECT_IS_TOP_LEVEL}
   PHP_EXT_PHAR
   OFF
 )
@@ -59,7 +59,7 @@ php_extension(phar)
 # Add library.
 ################################################################################
 
-if(PHP_EXT_PHAR_SHARED)
+if(PHP_EXT_PHAR_SHARED OR PROJECT_IS_TOP_LEVEL)
   add_library(php_ext_phar MODULE)
 else()
   add_library(php_ext_phar OBJECT)
@@ -83,6 +83,8 @@ target_sources(
       FILES
         php_phar.h
 )
+
+target_include_directories(php_ext_phar PRIVATE ${CMAKE_CURRENT_BINARY_DIR})
 
 target_compile_definitions(php_ext_phar PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE)
 
