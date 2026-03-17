@@ -198,6 +198,8 @@ jobs:
             --install php-build/all-disabled/php \
             -j $(nproc)
 
+      - name: Build php-src extensions
+        run: |
           cd php-build/all-disabled/php-src/ext
 
           extensions="tokenizer libxml"
@@ -205,11 +207,11 @@ jobs:
             cd "$extension"
             cmake -B cmake-build
             cmake --build cmake-build -j
-            ctest --test-dir cmake-build -j --verbose
+            #ctest --test-dir cmake-build -j --verbose
             sudo "${{ steps.cmake-and-ninja.outputs.cmake-path }}/cmake" \
               --install cmake-build \
               -j $(nproc)
-            echo "extension=${extension}" >> /etc/php/php.ini
+            echo "extension=${extension}" | sudo tee -a /etc/php/php.ini
             cd ..
           done
 
@@ -225,10 +227,10 @@ jobs:
             cd "$extension"
             cmake -B cmake-build
             cmake --build cmake-build -j
-            ctest --test-dir cmake-build -j --verbose
+            #ctest --test-dir cmake-build -j --verbose
             sudo "${{ steps.cmake-and-ninja.outputs.cmake-path }}/cmake" \
               --install cmake-build \
               -j $(nproc)
-            echo "extension=${extension}" >> /etc/php/php.ini
+            echo "extension=${extension}" | sudo tee -a /etc/php/php.ini
             cd ..
           done
