@@ -58,6 +58,8 @@ target_sources(
         php_libxml.h
 )
 
+target_include_directories(php_ext_libxml PRIVATE ${CMAKE_CURRENT_BINARY_DIR})
+
 if(CMAKE_SYSTEM_NAME STREQUAL "Windows" AND TARGET php_sapi)
   target_sources(php_sapi INTERFACE php_libxml2.def)
 endif()

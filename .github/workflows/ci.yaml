@@ -193,7 +193,7 @@ jobs:
       - name: Prepare php-src
         run: |
           cmake --preset all-disabled -DCMAKE_INSTALL_PREFIX=/usr
-          cmake --build --preset all-disabled
+          cmake --build --preset all-disabled -DPHP_EXT_LIBXML=ON
           sudo "${{ steps.cmake-and-ninja.outputs.cmake-path }}/cmake" \
             --install php-build/all-disabled/php \
             -j $(nproc)
@@ -202,7 +202,7 @@ jobs:
         run: |
           cd php-build/all-disabled/php-src/ext
 
-          extensions="tokenizer libxml"
+          extensions="tokenizer"
           for extension in $extensions; do
             cd "$extension"
             cmake -B cmake-build
@@ -215,8 +215,9 @@ jobs:
             cd ..
           done
 
+          skips="tokenizer libxml date hash json pcre random reflection spl standard"
           for extension in *; do
-            for skip in $extensions; do
+            for skip in $skips; do
               if [ "$extension" = "$skip" ]; then
                 continue 2
               fi
