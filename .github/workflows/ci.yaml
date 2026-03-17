@@ -57,6 +57,10 @@ jobs:
 
       - uses: ./.github/actions/setup
 
+      - name: Install CMake and Ninja
+        uses: lukka/get-cmake@latest
+        id: cmake-and-ninja
+
       - name: Configure and build PHP
         run: |
           cmake --preset all-enabled \
@@ -181,6 +185,10 @@ jobs:
           fetch-depth: 2
 
       - uses: ./.github/actions/setup
+
+      - name: Install CMake and Ninja
+        uses: lukka/get-cmake@latest
+        id: cmake-and-ninja
 
       - name: Prepare php-src
         run: |

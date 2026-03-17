@@ -4,10 +4,6 @@ description: Common setup steps
 runs:
   using: "composite"
   steps:
-    - name: Install CMake and Ninja
-      uses: lukka/get-cmake@latest
-      id: cmake-and-ninja
-
     - shell: bash
       run: |
         sudo apt-get update
