@@ -55,7 +55,7 @@ find_package(PHP REQUIRED)
 include(PHP/Extension)
 php_extension(gmp)
 
-if(PHP_EXT_GMP_SHARED)
+if(PHP_EXT_GMP_SHARED OR PROJECT_IS_TOP_LEVEL)
   add_library(php_ext_gmp MODULE)
 else()
   add_library(php_ext_gmp OBJECT)

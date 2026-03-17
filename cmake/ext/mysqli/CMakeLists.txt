@@ -133,7 +133,7 @@ find_package(PHP REQUIRED)
 include(PHP/Extension)
 php_extension(mysqli)
 
-if(PHP_EXT_MYSQLI_SHARED)
+if(PHP_EXT_MYSQLI_SHARED OR PROJECT_IS_TOP_LEVEL)
   add_library(php_ext_mysqli MODULE)
 else()
   add_library(php_ext_mysqli OBJECT)

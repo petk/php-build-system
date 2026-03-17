@@ -62,7 +62,7 @@ include(PHP/CheckCompilerFlag)
 include(PHP/Extension)
 php_extension(tidy)
 
-if(PHP_EXT_TIDY_SHARED)
+if(PHP_EXT_TIDY_SHARED OR PROJECT_IS_TOP_LEVEL)
   add_library(php_ext_tidy MODULE)
 else()
   add_library(php_ext_tidy OBJECT)

@@ -59,7 +59,7 @@ include(PHP/CheckCompilerFlag)
 include(PHP/Extension)
 php_extension(pspell)
 
-if(PHP_EXT_PSPELL_SHARED)
+if(PHP_EXT_PSPELL_SHARED OR PROJECT_IS_TOP_LEVEL)
   add_library(php_ext_pspell MODULE)
 else()
   add_library(php_ext_pspell OBJECT)

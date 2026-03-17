@@ -60,7 +60,7 @@ find_package(PHP REQUIRED)
 include(PHP/Extension)
 php_extension(pdo_dblib)
 
-if(PHP_EXT_PDO_DBLIB_SHARED)
+if(PHP_EXT_PDO_DBLIB_SHARED OR PROJECT_IS_TOP_LEVEL)
   add_library(php_ext_pdo_dblib MODULE)
 else()
   add_library(php_ext_pdo_dblib OBJECT)

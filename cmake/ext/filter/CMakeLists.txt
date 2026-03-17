@@ -55,7 +55,7 @@ find_package(PHP REQUIRED)
 include(PHP/Extension)
 php_extension(filter)
 
-if(PHP_EXT_FILTER_SHARED)
+if(PHP_EXT_FILTER_SHARED OR PROJECT_IS_TOP_LEVEL)
   add_library(php_ext_filter MODULE)
 else()
   add_library(php_ext_filter OBJECT)

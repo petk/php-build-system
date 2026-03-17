@@ -55,7 +55,7 @@ find_package(PHP REQUIRED)
 include(PHP/Extension)
 php_extension(bcmath)
 
-if(PHP_EXT_BCMATH_SHARED)
+if(PHP_EXT_BCMATH_SHARED OR PROJECT_IS_TOP_LEVEL)
   add_library(php_ext_bcmath MODULE)
 else()
   add_library(php_ext_bcmath OBJECT)

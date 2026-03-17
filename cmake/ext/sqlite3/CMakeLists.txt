@@ -57,7 +57,7 @@ find_package(PHP REQUIRED)
 include(PHP/Extension)
 php_extension(sqlite3)
 
-if(PHP_EXT_SQLITE3_SHARED)
+if(PHP_EXT_SQLITE3_SHARED OR PROJECT_IS_TOP_LEVEL)
   add_library(php_ext_sqlite3 MODULE)
 else()
   add_library(php_ext_sqlite3 OBJECT)

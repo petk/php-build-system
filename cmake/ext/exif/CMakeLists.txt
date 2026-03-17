@@ -55,7 +55,7 @@ find_package(PHP REQUIRED)
 include(PHP/Extension)
 php_extension(exif)
 
-if(PHP_EXT_EXIF_SHARED)
+if(PHP_EXT_EXIF_SHARED OR PROJECT_IS_TOP_LEVEL)
   add_library(php_ext_exif MODULE)
 else()
   add_library(php_ext_exif OBJECT)

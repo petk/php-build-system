@@ -55,7 +55,7 @@ find_package(PHP REQUIRED)
 include(PHP/Extension)
 php_extension(soap)
 
-if(PHP_EXT_SOAP_SHARED)
+if(PHP_EXT_SOAP_SHARED OR PROJECT_IS_TOP_LEVEL)
   add_library(php_ext_soap MODULE)
 else()
   add_library(php_ext_soap OBJECT)

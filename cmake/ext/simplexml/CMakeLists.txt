@@ -55,7 +55,7 @@ find_package(PHP REQUIRED)
 include(PHP/Extension)
 php_extension(simplexml)
 
-if(PHP_EXT_SIMPLEXML_SHARED)
+if(PHP_EXT_SIMPLEXML_SHARED OR PROJECT_IS_TOP_LEVEL)
   add_library(php_ext_simplexml MODULE)
 else()
   add_library(php_ext_simplexml OBJECT)

@@ -86,7 +86,7 @@ find_package(PHP REQUIRED)
 include(PHP/Extension)
 php_extension(imap)
 
-if(PHP_EXT_IMAP_SHARED)
+if(PHP_EXT_IMAP_SHARED OR PROJECT_IS_TOP_LEVEL)
   add_library(php_ext_imap MODULE)
 else()
   add_library(php_ext_imap OBJECT)

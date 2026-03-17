@@ -74,7 +74,7 @@ find_package(PHP REQUIRED)
 include(PHP/Extension)
 php_extension(ldap)
 
-if(PHP_EXT_LDAP_SHARED)
+if(PHP_EXT_LDAP_SHARED OR PROJECT_IS_TOP_LEVEL)
   add_library(php_ext_ldap MODULE)
 else()
   add_library(php_ext_ldap OBJECT)

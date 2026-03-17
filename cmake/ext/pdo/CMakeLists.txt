@@ -55,7 +55,7 @@ find_package(PHP REQUIRED)
 include(PHP/Extension)
 php_extension(pdo)
 
-if(PHP_EXT_PDO_SHARED)
+if(PHP_EXT_PDO_SHARED OR PROJECT_IS_TOP_LEVEL)
   add_library(php_ext_pdo MODULE)
 else()
   add_library(php_ext_pdo OBJECT)

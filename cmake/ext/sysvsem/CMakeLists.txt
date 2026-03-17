@@ -64,7 +64,7 @@ find_package(PHP REQUIRED)
 include(PHP/Extension)
 php_extension(sysvsem)
 
-if(PHP_EXT_SYSVSEM_SHARED)
+if(PHP_EXT_SYSVSEM_SHARED OR PROJECT_IS_TOP_LEVEL)
   add_library(php_ext_sysvsem MODULE)
 else()
   add_library(php_ext_sysvsem OBJECT)

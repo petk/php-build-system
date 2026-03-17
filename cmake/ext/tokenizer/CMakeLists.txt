@@ -56,7 +56,7 @@ find_package(PHP REQUIRED)
 include(PHP/Extension)
 php_extension(tokenizer)
 
-if(PHP_EXT_TOKENIZER_SHARED)
+if(PHP_EXT_TOKENIZER_SHARED OR PROJECT_IS_TOP_LEVEL)
   add_library(php_ext_tokenizer MODULE)
 else()
   add_library(php_ext_tokenizer OBJECT)

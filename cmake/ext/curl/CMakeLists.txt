@@ -58,7 +58,7 @@ find_package(PHP REQUIRED)
 include(PHP/Extension)
 php_extension(curl)
 
-if(PHP_EXT_CURL_SHARED)
+if(PHP_EXT_CURL_SHARED OR PROJECT_IS_TOP_LEVEL)
   add_library(php_ext_curl MODULE)
 else()
   add_library(php_ext_curl OBJECT)

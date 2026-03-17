@@ -287,7 +287,7 @@ find_package(PHP REQUIRED)
 include(PHP/Extension)
 php_extension(odbc)
 
-if(PHP_EXT_ODBC_SHARED)
+if(PHP_EXT_ODBC_SHARED OR PROJECT_IS_TOP_LEVEL)
   add_library(php_ext_odbc MODULE)
 else()
   add_library(php_ext_odbc OBJECT)

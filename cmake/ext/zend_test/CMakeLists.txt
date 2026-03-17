@@ -55,7 +55,7 @@ find_package(PHP REQUIRED)
 include(PHP/Extension)
 php_extension(zend_test)
 
-if(PHP_EXT_ZEND_TEST_SHARED)
+if(PHP_EXT_ZEND_TEST_SHARED OR PROJECT_IS_TOP_LEVEL)
   add_library(php_ext_zend_test MODULE)
 else()
   add_library(php_ext_zend_test OBJECT)

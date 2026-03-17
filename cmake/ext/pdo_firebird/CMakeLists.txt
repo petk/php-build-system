@@ -61,7 +61,7 @@ find_package(PHP REQUIRED)
 include(PHP/Extension)
 php_extension(pdo_firebird)
 
-if(PHP_EXT_PDO_FIREBIRD_SHARED)
+if(PHP_EXT_PDO_FIREBIRD_SHARED OR PROJECT_IS_TOP_LEVEL)
   add_library(php_ext_pdo_firebird MODULE)
 else()
   add_library(php_ext_pdo_firebird OBJECT)

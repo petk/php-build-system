@@ -55,7 +55,7 @@ find_package(PHP REQUIRED)
 include(PHP/Extension)
 php_extension(shmop)
 
-if(PHP_EXT_SHMOP_SHARED)
+if(PHP_EXT_SHMOP_SHARED OR PROJECT_IS_TOP_LEVEL)
   add_library(php_ext_shmop MODULE)
 else()
   add_library(php_ext_shmop OBJECT)

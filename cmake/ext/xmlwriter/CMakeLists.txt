@@ -55,7 +55,7 @@ find_package(PHP REQUIRED)
 include(PHP/Extension)
 php_extension(xmlwriter)
 
-if(PHP_EXT_XMLWRITER_SHARED)
+if(PHP_EXT_XMLWRITER_SHARED OR PROJECT_IS_TOP_LEVEL)
   add_library(php_ext_xmlwriter MODULE)
 else()
   add_library(php_ext_xmlwriter OBJECT)

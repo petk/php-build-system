@@ -159,7 +159,7 @@ find_package(PHP REQUIRED)
 include(PHP/Extension)
 php_extension(pdo_mysql)
 
-if(PHP_EXT_PDO_MYSQL_SHARED)
+if(PHP_EXT_PDO_MYSQL_SHARED OR PROJECT_IS_TOP_LEVEL)
   add_library(php_ext_pdo_mysql MODULE)
 else()
   add_library(php_ext_pdo_mysql OBJECT)

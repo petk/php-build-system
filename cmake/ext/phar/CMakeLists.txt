@@ -59,7 +59,7 @@ php_extension(phar)
 # Add library.
 ################################################################################
 
-if(PHP_EXT_PHAR_SHARED)
+if(PHP_EXT_PHAR_SHARED OR PROJECT_IS_TOP_LEVEL)
   add_library(php_ext_phar MODULE)
 else()
   add_library(php_ext_phar OBJECT)

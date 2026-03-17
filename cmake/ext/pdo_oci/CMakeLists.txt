@@ -55,7 +55,7 @@ find_package(PHP REQUIRED)
 include(PHP/Extension)
 php_extension(pdo_oci)
 
-if(PHP_EXT_PDO_OCI_SHARED)
+if(PHP_EXT_PDO_OCI_SHARED OR PROJECT_IS_TOP_LEVEL)
   add_library(php_ext_pdo_oci MODULE)
 else()
   add_library(php_ext_pdo_oci OBJECT)

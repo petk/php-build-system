@@ -282,7 +282,7 @@ find_package(PHP REQUIRED)
 include(PHP/Extension)
 php_extension(gd)
 
-if(PHP_EXT_GD_SHARED)
+if(PHP_EXT_GD_SHARED OR PROJECT_IS_TOP_LEVEL)
   add_library(php_ext_gd MODULE)
 else()
   add_library(php_ext_gd OBJECT)

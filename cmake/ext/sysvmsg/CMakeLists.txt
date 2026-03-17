@@ -74,7 +74,7 @@ if(NOT PHP_EXT_SYSVMSG_HAVE_SYS_MSG_H)
   )
 endif()
 
-if(PHP_EXT_SYSVMSG_SHARED)
+if(PHP_EXT_SYSVMSG_SHARED OR PROJECT_IS_TOP_LEVEL)
   add_library(php_ext_sysvmsg MODULE)
 else()
   add_library(php_ext_sysvmsg OBJECT)

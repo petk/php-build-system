@@ -66,7 +66,7 @@ include(PHP/CheckCompilerFlag)
 include(PHP/Extension)
 php_extension(readline)
 
-if(PHP_EXT_READLINE_SHARED)
+if(PHP_EXT_READLINE_SHARED OR PROJECT_IS_TOP_LEVEL)
   add_library(php_ext_readline MODULE)
 else()
   add_library(php_ext_readline OBJECT)

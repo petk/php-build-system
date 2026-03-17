@@ -58,7 +58,7 @@ find_package(PHP REQUIRED)
 include(PHP/Extension)
 php_extension(bz2)
 
-if(PHP_EXT_BZ2_SHARED)
+if(PHP_EXT_BZ2_SHARED OR PROJECT_IS_TOP_LEVEL)
   add_library(php_ext_bz2 MODULE)
 else()
   add_library(php_ext_bz2 OBJECT)

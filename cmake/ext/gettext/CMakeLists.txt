@@ -58,7 +58,7 @@ find_package(PHP REQUIRED)
 include(PHP/Extension)
 php_extension(gettext)
 
-if(PHP_EXT_GETTEXT_SHARED)
+if(PHP_EXT_GETTEXT_SHARED OR PROJECT_IS_TOP_LEVEL)
   add_library(php_ext_gettext MODULE)
 else()
   add_library(php_ext_gettext OBJECT)

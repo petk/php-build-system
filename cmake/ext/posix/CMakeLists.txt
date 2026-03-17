@@ -66,7 +66,7 @@ find_package(PHP REQUIRED)
 include(PHP/Extension)
 php_extension(posix)
 
-if(PHP_EXT_POSIX_SHARED)
+if(PHP_EXT_POSIX_SHARED OR PROJECT_IS_TOP_LEVEL)
   add_library(php_ext_posix MODULE)
 else()
   add_library(php_ext_posix OBJECT)

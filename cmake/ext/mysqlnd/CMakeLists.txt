@@ -103,7 +103,7 @@ find_package(PHP REQUIRED)
 include(PHP/Extension)
 php_extension(mysqlnd)
 
-if(PHP_EXT_MYSQLND_SHARED)
+if(PHP_EXT_MYSQLND_SHARED OR PROJECT_IS_TOP_LEVEL)
   add_library(php_ext_mysqlnd MODULE)
 else()
   add_library(php_ext_mysqlnd OBJECT)

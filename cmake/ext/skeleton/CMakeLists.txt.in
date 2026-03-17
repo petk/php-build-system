@@ -77,7 +77,7 @@ php_extension(%EXTNAME%)
 
 # Add a target to be built as a dynamically loadable module (shared extension),
 # or statically.
-if(PHP_EXT_%EXTNAMECAPS%_SHARED)
+if(PHP_EXT_%EXTNAMECAPS%_SHARED OR PROJECT_IS_TOP_LEVEL)
   add_library(php_ext_%EXTNAME% MODULE)
 else()
   add_library(php_ext_%EXTNAME% OBJECT)

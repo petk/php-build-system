@@ -72,7 +72,7 @@ find_package(PHP REQUIRED)
 include(PHP/Extension)
 php_extension(pcntl)
 
-if(PHP_EXT_PCNTL_SHARED)
+if(PHP_EXT_PCNTL_SHARED OR PROJECT_IS_TOP_LEVEL)
   add_library(php_ext_pcntl MODULE)
 else()
   add_library(php_ext_pcntl OBJECT)

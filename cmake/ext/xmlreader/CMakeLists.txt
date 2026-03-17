@@ -53,7 +53,7 @@ find_package(PHP REQUIRED)
 include(PHP/Extension)
 php_extension(xmlreader)
 
-if(PHP_EXT_XMLREADER_SHARED)
+if(PHP_EXT_XMLREADER_SHARED OR PROJECT_IS_TOP_LEVEL)
   add_library(php_ext_xmlreader MODULE)
 else()
   add_library(php_ext_xmlreader OBJECT)

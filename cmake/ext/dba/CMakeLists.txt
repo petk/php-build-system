@@ -294,7 +294,7 @@ find_package(PHP REQUIRED)
 include(PHP/Extension)
 php_extension(dba)
 
-if(PHP_EXT_DBA_SHARED)
+if(PHP_EXT_DBA_SHARED OR PROJECT_IS_TOP_LEVEL)
   add_library(php_ext_dba MODULE)
 else()
   add_library(php_ext_dba OBJECT)

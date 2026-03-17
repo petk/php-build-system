@@ -57,7 +57,7 @@ find_package(PHP REQUIRED)
 include(PHP/Extension)
 php_extension(pdo_pgsql)
 
-if(PHP_EXT_PDO_PGSQL_SHARED)
+if(PHP_EXT_PDO_PGSQL_SHARED OR PROJECT_IS_TOP_LEVEL)
   add_library(php_ext_pdo_pgsql MODULE)
 else()
   add_library(php_ext_pdo_pgsql OBJECT)

@@ -57,7 +57,7 @@ find_package(PHP REQUIRED)
 include(PHP/Extension)
 php_extension(enchant)
 
-if(PHP_EXT_ENCHANT_SHARED)
+if(PHP_EXT_ENCHANT_SHARED OR PROJECT_IS_TOP_LEVEL)
   add_library(php_ext_enchant MODULE)
 else()
   add_library(php_ext_enchant OBJECT)

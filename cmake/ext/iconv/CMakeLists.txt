@@ -60,7 +60,7 @@ find_package(PHP REQUIRED)
 include(PHP/Extension)
 php_extension(iconv)
 
-if(PHP_EXT_ICONV_SHARED)
+if(PHP_EXT_ICONV_SHARED OR PROJECT_IS_TOP_LEVEL)
   add_library(php_ext_iconv MODULE)
 else()
   add_library(php_ext_iconv OBJECT)

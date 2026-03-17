@@ -55,7 +55,7 @@ find_package(PHP REQUIRED)
 include(PHP/Extension)
 php_extension(zip)
 
-if(PHP_EXT_ZIP_SHARED)
+if(PHP_EXT_ZIP_SHARED OR PROJECT_IS_TOP_LEVEL)
   add_library(php_ext_zip MODULE)
 else()
   add_library(php_ext_zip OBJECT)

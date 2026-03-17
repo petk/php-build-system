@@ -55,7 +55,7 @@ find_package(PHP REQUIRED)
 include(PHP/Extension)
 php_extension(sysvshm)
 
-if(PHP_EXT_SYSVSHM_SHARED)
+if(PHP_EXT_SYSVSHM_SHARED OR PROJECT_IS_TOP_LEVEL)
   add_library(php_ext_sysvshm MODULE)
 else()
   add_library(php_ext_sysvshm OBJECT)

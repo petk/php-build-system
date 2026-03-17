@@ -58,7 +58,7 @@ include(PHP/CheckCompilerFlag)
 include(PHP/Extension)
 php_extension(sodium)
 
-if(PHP_EXT_SODIUM_SHARED)
+if(PHP_EXT_SODIUM_SHARED OR PROJECT_IS_TOP_LEVEL)
   add_library(php_ext_sodium MODULE)
 else()
   add_library(php_ext_sodium OBJECT)
