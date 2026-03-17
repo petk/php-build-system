@@ -8,7 +8,8 @@ runs:
       uses: lukka/get-cmake@latest
       id: cmake-and-ninja
 
-    - run: |
+    - shell: bash
+      run: |
         sudo apt-get update
         sudo apt-get -y install \
           build-essential \
