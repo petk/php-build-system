@@ -185,7 +185,7 @@ jobs:
       - name: Prepare php-src
         run: |
           cmake --preset all-disabled -DCMAKE_INSTALL_PREFIX=/usr
-          cmake --build --preset all-enabled
+          cmake --build --preset all-disabled
           sudo "${{ steps.cmake-and-ninja.outputs.cmake-path }}/cmake" \
             --install php-build/all-disabled/php \
             -j $(nproc)
