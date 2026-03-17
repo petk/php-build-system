@@ -39,7 +39,7 @@ include(CheckIncludeFiles)
 include(CMakeDependentOption)
 include(FeatureSummary)
 
-option(PHP_EXT_SYSVMSG "Enable the sysvmsg extension")
+option(PHP_EXT_SYSVMSG "Enable the sysvmsg extension" ${PROJECT_IS_TOP_LEVEL})
 
 add_feature_info(
   "ext/sysvmsg"
@@ -50,7 +50,7 @@ add_feature_info(
 cmake_dependent_option(
   PHP_EXT_SYSVMSG_SHARED
   "Build the sysvmsg extension as a shared library"
-  OFF
+  ${PROJECT_IS_TOP_LEVEL}
   PHP_EXT_SYSVMSG
   OFF
 )
@@ -74,7 +74,7 @@ if(NOT PHP_EXT_SYSVMSG_HAVE_SYS_MSG_H)
   )
 endif()
 
-if(PHP_EXT_SYSVMSG_SHARED)
+if(PHP_EXT_SYSVMSG_SHARED OR PROJECT_IS_TOP_LEVEL)
   add_library(php_ext_sysvmsg MODULE)
 else()
   add_library(php_ext_sysvmsg OBJECT)
@@ -86,6 +86,8 @@ target_sources(
     sysvmsg.c
     sysvmsg.stub.php
 )
+
+target_include_directories(php_ext_sysvmsg PRIVATE ${CMAKE_CURRENT_BINARY_DIR})
 
 set(HAVE_SYSVMSG TRUE)
 

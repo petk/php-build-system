@@ -35,7 +35,7 @@ include(CMakeDependentOption)
 include(CMakePushCheckState)
 include(FeatureSummary)
 
-option(PHP_EXT_TIDY "Enable the tidy extension")
+option(PHP_EXT_TIDY "Enable the tidy extension" ${PROJECT_IS_TOP_LEVEL})
 
 add_feature_info(
   "ext/tidy"
@@ -46,7 +46,7 @@ add_feature_info(
 cmake_dependent_option(
   PHP_EXT_TIDY_SHARED
   "Build the tidy extension as a shared library"
-  OFF
+  ${PROJECT_IS_TOP_LEVEL}
   PHP_EXT_TIDY
   OFF
 )
@@ -62,7 +62,7 @@ include(PHP/CheckCompilerFlag)
 include(PHP/Extension)
 php_extension(tidy)
 
-if(PHP_EXT_TIDY_SHARED)
+if(PHP_EXT_TIDY_SHARED OR PROJECT_IS_TOP_LEVEL)
   add_library(php_ext_tidy MODULE)
 else()
   add_library(php_ext_tidy OBJECT)
@@ -74,6 +74,8 @@ target_sources(
     tidy.c
     tidy.stub.php
 )
+
+target_include_directories(php_ext_tidy PRIVATE ${CMAKE_CURRENT_BINARY_DIR})
 
 get_target_property(type php_ext_tidy TYPE)
 if(

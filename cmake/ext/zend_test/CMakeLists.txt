@@ -30,7 +30,7 @@ project(
 include(CMakeDependentOption)
 include(FeatureSummary)
 
-option(PHP_EXT_ZEND_TEST "Enable the zend_test extension")
+option(PHP_EXT_ZEND_TEST "Enable the zend_test extension" ${PROJECT_IS_TOP_LEVEL})
 
 add_feature_info(
   "ext/zend_test"
@@ -41,7 +41,7 @@ add_feature_info(
 cmake_dependent_option(
   PHP_EXT_ZEND_TEST_SHARED
   "Build the zend_test extension as a shared library"
-  OFF
+  ${PROJECT_IS_TOP_LEVEL}
   PHP_EXT_ZEND_TEST
   OFF
 )
@@ -55,7 +55,7 @@ find_package(PHP REQUIRED)
 include(PHP/Extension)
 php_extension(zend_test)
 
-if(PHP_EXT_ZEND_TEST_SHARED)
+if(PHP_EXT_ZEND_TEST_SHARED OR PROJECT_IS_TOP_LEVEL)
   add_library(php_ext_zend_test MODULE)
 else()
   add_library(php_ext_zend_test OBJECT)
@@ -76,6 +76,8 @@ target_sources(
     tmp_methods.stub.php
     zend_mm_custom_handlers.c
 )
+
+target_include_directories(php_ext_zend_test PRIVATE ${CMAKE_CURRENT_BINARY_DIR})
 
 target_compile_definitions(
   php_ext_zend_test

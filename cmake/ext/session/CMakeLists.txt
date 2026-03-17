@@ -49,7 +49,7 @@ add_feature_info(
 cmake_dependent_option(
   PHP_EXT_SESSION_SHARED
   "Build the session extension as a shared library"
-  OFF
+  ${PROJECT_IS_TOP_LEVEL}
   PHP_EXT_SESSION
   OFF
 )
@@ -77,7 +77,7 @@ find_package(PHP REQUIRED)
 include(PHP/Extension)
 php_extension(session)
 
-if(PHP_EXT_SESSION_SHARED)
+if(PHP_EXT_SESSION_SHARED OR PROJECT_IS_TOP_LEVEL)
   add_library(php_ext_session MODULE)
 else()
   add_library(php_ext_session OBJECT)
@@ -98,6 +98,8 @@ target_sources(
         mod_user.h
         php_session.h
 )
+
+target_include_directories(php_ext_session PRIVATE ${CMAKE_CURRENT_BINARY_DIR})
 
 target_compile_definitions(
   php_ext_session

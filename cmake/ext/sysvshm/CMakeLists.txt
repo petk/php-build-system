@@ -30,7 +30,7 @@ project(
 include(CMakeDependentOption)
 include(FeatureSummary)
 
-option(PHP_EXT_SYSVSHM "Enable the sysvshm extension")
+option(PHP_EXT_SYSVSHM "Enable the sysvshm extension" ${PROJECT_IS_TOP_LEVEL})
 
 add_feature_info(
   "ext/sysvshm"
@@ -41,7 +41,7 @@ add_feature_info(
 cmake_dependent_option(
   PHP_EXT_SYSVSHM_SHARED
   "Build the sysvshm extension as a shared library"
-  OFF
+  ${PROJECT_IS_TOP_LEVEL}
   PHP_EXT_SYSVSHM
   OFF
 )
@@ -55,7 +55,7 @@ find_package(PHP REQUIRED)
 include(PHP/Extension)
 php_extension(sysvshm)
 
-if(PHP_EXT_SYSVSHM_SHARED)
+if(PHP_EXT_SYSVSHM_SHARED OR PROJECT_IS_TOP_LEVEL)
   add_library(php_ext_sysvshm MODULE)
 else()
   add_library(php_ext_sysvshm OBJECT)
@@ -67,6 +67,8 @@ target_sources(
     sysvshm.c
     sysvshm.stub.php
 )
+
+target_include_directories(php_ext_sysvshm PRIVATE ${CMAKE_CURRENT_BINARY_DIR})
 
 set(HAVE_SYSVSHM TRUE)
 

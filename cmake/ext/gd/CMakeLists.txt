@@ -159,7 +159,7 @@ include(CMakeDependentOption)
 include(CMakePushCheckState)
 include(FeatureSummary)
 
-option(PHP_EXT_GD "Enable the gd extension")
+option(PHP_EXT_GD "Enable the gd extension" ${PROJECT_IS_TOP_LEVEL})
 
 add_feature_info(
   "ext/gd"
@@ -170,7 +170,7 @@ add_feature_info(
 cmake_dependent_option(
   PHP_EXT_GD_SHARED
   "Build the gd extension as a shared library"
-  OFF
+  ${PROJECT_IS_TOP_LEVEL}
   PHP_EXT_GD
   OFF
 )
@@ -282,7 +282,7 @@ find_package(PHP REQUIRED)
 include(PHP/Extension)
 php_extension(gd)
 
-if(PHP_EXT_GD_SHARED)
+if(PHP_EXT_GD_SHARED OR PROJECT_IS_TOP_LEVEL)
   add_library(php_ext_gd MODULE)
 else()
   add_library(php_ext_gd OBJECT)
@@ -298,6 +298,8 @@ target_sources(
       FILES
         php_gd.h
 )
+
+target_include_directories(php_ext_gd PRIVATE ${CMAKE_CURRENT_BINARY_DIR})
 
 target_compile_definitions(
   php_ext_gd

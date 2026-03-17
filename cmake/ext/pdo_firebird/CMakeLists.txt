@@ -32,7 +32,11 @@ include(CMakeDependentOption)
 include(CMakePushCheckState)
 include(FeatureSummary)
 
-option(PHP_EXT_PDO_FIREBIRD "Enable the pdo_firebird extension")
+option(
+  PHP_EXT_PDO_FIREBIRD
+  "Enable the pdo_firebird extension"
+  ${PROJECT_IS_TOP_LEVEL}
+)
 
 add_feature_info(
   "ext/pdo_firebird"
@@ -43,7 +47,7 @@ add_feature_info(
 cmake_dependent_option(
   PHP_EXT_PDO_FIREBIRD_SHARED
   "Build the pdo_firebird extension as a shared library"
-  OFF
+  ${PROJECT_IS_TOP_LEVEL}
   PHP_EXT_PDO_FIREBIRD
   OFF
 )
@@ -59,7 +63,7 @@ find_package(PHP REQUIRED)
 include(PHP/Extension)
 php_extension(pdo_firebird)
 
-if(PHP_EXT_PDO_FIREBIRD_SHARED)
+if(PHP_EXT_PDO_FIREBIRD_SHARED OR PROJECT_IS_TOP_LEVEL)
   add_library(php_ext_pdo_firebird MODULE)
 else()
   add_library(php_ext_pdo_firebird OBJECT)
@@ -85,6 +89,11 @@ target_compile_options(
 )
 
 add_dependencies(php_ext_pdo_firebird php_ext_pdo)
+
+target_include_directories(
+  php_ext_pdo_firebird
+  PRIVATE ${CMAKE_CURRENT_BINARY_DIR}
+)
 
 find_package(Firebird 3.0)
 set_package_properties(

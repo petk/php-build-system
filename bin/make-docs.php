@@ -148,7 +148,6 @@ emptyDirectory(__DIR__ . '/../docs/cmake/modules');
 
 $modules = [
     'cmake/modules',
-    'cmake/modules/Packages',
     'cmake/modules/PHP',
 ];
 

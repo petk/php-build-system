@@ -30,7 +30,7 @@ project(
 include(CMakeDependentOption)
 include(FeatureSummary)
 
-option(PHP_EXT_ZIP "Enable the zip extension")
+option(PHP_EXT_ZIP "Enable the zip extension" ${PROJECT_IS_TOP_LEVEL})
 
 add_feature_info(
   "ext/zip"
@@ -41,7 +41,7 @@ add_feature_info(
 cmake_dependent_option(
   PHP_EXT_ZIP_SHARED
   "Build the zip extension as a shared library"
-  OFF
+  ${PROJECT_IS_TOP_LEVEL}
   PHP_EXT_ZIP
   OFF
 )
@@ -55,7 +55,7 @@ find_package(PHP REQUIRED)
 include(PHP/Extension)
 php_extension(zip)
 
-if(PHP_EXT_ZIP_SHARED)
+if(PHP_EXT_ZIP_SHARED OR PROJECT_IS_TOP_LEVEL)
   add_library(php_ext_zip MODULE)
 else()
   add_library(php_ext_zip OBJECT)
@@ -68,6 +68,8 @@ target_sources(
     php_zip.stub.php
     zip_stream.c
 )
+
+target_include_directories(php_ext_zip PRIVATE ${CMAKE_CURRENT_BINARY_DIR})
 
 add_dependencies(php_ext_zip php_ext_pcre)
 

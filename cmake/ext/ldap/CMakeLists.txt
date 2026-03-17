@@ -41,7 +41,7 @@ include(CMakeDependentOption)
 include(CMakePushCheckState)
 include(FeatureSummary)
 
-option(PHP_EXT_LDAP "Enable the ldap extension")
+option(PHP_EXT_LDAP "Enable the ldap extension" ${PROJECT_IS_TOP_LEVEL})
 
 add_feature_info(
   "ext/ldap"
@@ -52,7 +52,7 @@ add_feature_info(
 cmake_dependent_option(
   PHP_EXT_LDAP_SHARED
   "Build the ldap extension as a shared library"
-  OFF
+  ${PROJECT_IS_TOP_LEVEL}
   PHP_EXT_LDAP
   OFF
 )
@@ -74,7 +74,7 @@ find_package(PHP REQUIRED)
 include(PHP/Extension)
 php_extension(ldap)
 
-if(PHP_EXT_LDAP_SHARED)
+if(PHP_EXT_LDAP_SHARED OR PROJECT_IS_TOP_LEVEL)
   add_library(php_ext_ldap MODULE)
 else()
   add_library(php_ext_ldap OBJECT)
@@ -86,6 +86,8 @@ target_sources(
     ldap.c
     ldap.stub.php
 )
+
+target_include_directories(php_ext_ldap PRIVATE ${CMAKE_CURRENT_BINARY_DIR})
 
 target_compile_definitions(php_ext_ldap PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE)
 

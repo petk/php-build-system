@@ -39,7 +39,7 @@ include(CMakeDependentOption)
 include(CMakePushCheckState)
 include(FeatureSummary)
 
-option(PHP_EXT_SYSVSEM "Enable the sysvsem extension")
+option(PHP_EXT_SYSVSEM "Enable the sysvsem extension" ${PROJECT_IS_TOP_LEVEL})
 
 add_feature_info(
   "ext/sysvsem"
@@ -50,7 +50,7 @@ add_feature_info(
 cmake_dependent_option(
   PHP_EXT_SYSVSEM_SHARED
   "Build the sysvsem extension as a shared library"
-  OFF
+  ${PROJECT_IS_TOP_LEVEL}
   PHP_EXT_SYSVSEM
   OFF
 )
@@ -64,7 +64,7 @@ find_package(PHP REQUIRED)
 include(PHP/Extension)
 php_extension(sysvsem)
 
-if(PHP_EXT_SYSVSEM_SHARED)
+if(PHP_EXT_SYSVSEM_SHARED OR PROJECT_IS_TOP_LEVEL)
   add_library(php_ext_sysvsem MODULE)
 else()
   add_library(php_ext_sysvsem OBJECT)
@@ -76,6 +76,8 @@ target_sources(
     sysvsem.c
     sysvsem.stub.php
 )
+
+target_include_directories(php_ext_sysvsem PRIVATE ${CMAKE_CURRENT_BINARY_DIR})
 
 cmake_push_check_state(RESET)
   set(CMAKE_EXTRA_INCLUDE_FILES "sys/types.h;sys/ipc.h;sys/sem.h")
