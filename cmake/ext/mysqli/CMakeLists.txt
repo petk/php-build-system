@@ -74,7 +74,7 @@ project(
 include(CMakeDependentOption)
 include(FeatureSummary)
 
-option(PHP_EXT_MYSQLI "Enable the mysqli extension")
+option(PHP_EXT_MYSQLI "Enable the mysqli extension" ${PROJECT_IS_TOP_LEVEL})
 
 add_feature_info(
   "ext/mysqli"
@@ -85,7 +85,7 @@ add_feature_info(
 cmake_dependent_option(
   PHP_EXT_MYSQLI_SHARED
   "Build the mysqli extension as a shared library"
-  OFF
+  ${PROJECT_IS_TOP_LEVEL}
   PHP_EXT_MYSQLI
   OFF
 )
@@ -133,7 +133,7 @@ find_package(PHP REQUIRED)
 include(PHP/Extension)
 php_extension(mysqli)
 
-if(PHP_EXT_MYSQLI_SHARED)
+if(PHP_EXT_MYSQLI_SHARED OR PROJECT_IS_TOP_LEVEL)
   add_library(php_ext_mysqli MODULE)
 else()
   add_library(php_ext_mysqli OBJECT)
@@ -158,6 +158,8 @@ target_sources(
         mysqli_mysqlnd.h
         php_mysqli_structs.h
 )
+
+target_include_directories(php_ext_mysqli PRIVATE ${CMAKE_CURRENT_BINARY_DIR})
 
 add_dependencies(php_ext_mysqli php_ext_mysqlnd php_ext_spl)
 

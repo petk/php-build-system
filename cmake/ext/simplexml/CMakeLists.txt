@@ -41,7 +41,7 @@ add_feature_info(
 cmake_dependent_option(
   PHP_EXT_SIMPLEXML_SHARED
   "Build the simplexml extension as a shared library"
-  OFF
+  ${PROJECT_IS_TOP_LEVEL}
   PHP_EXT_SIMPLEXML
   OFF
 )
@@ -55,7 +55,7 @@ find_package(PHP REQUIRED)
 include(PHP/Extension)
 php_extension(simplexml)
 
-if(PHP_EXT_SIMPLEXML_SHARED)
+if(PHP_EXT_SIMPLEXML_SHARED OR PROJECT_IS_TOP_LEVEL)
   add_library(php_ext_simplexml MODULE)
 else()
   add_library(php_ext_simplexml OBJECT)
@@ -72,6 +72,8 @@ target_sources(
         php_simplexml_exports.h
         php_simplexml.h
 )
+
+target_include_directories(php_ext_simplexml PRIVATE ${CMAKE_CURRENT_BINARY_DIR})
 
 target_compile_definitions(
   php_ext_simplexml

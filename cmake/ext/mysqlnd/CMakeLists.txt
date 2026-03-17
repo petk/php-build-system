@@ -55,7 +55,7 @@ project(
 include(CMakeDependentOption)
 include(FeatureSummary)
 
-option(PHP_EXT_MYSQLND "Enable the mysqlnd extension")
+option(PHP_EXT_MYSQLND "Enable the mysqlnd extension" ${PROJECT_IS_TOP_LEVEL})
 
 add_feature_info(
   "ext/mysqlnd"
@@ -66,7 +66,7 @@ add_feature_info(
 cmake_dependent_option(
   PHP_EXT_MYSQLND_SHARED
   "Build the mysqlnd extension as a shared library"
-  OFF
+  ${PROJECT_IS_TOP_LEVEL}
   PHP_EXT_MYSQLND
   OFF
 )
@@ -103,7 +103,7 @@ find_package(PHP REQUIRED)
 include(PHP/Extension)
 php_extension(mysqlnd)
 
-if(PHP_EXT_MYSQLND_SHARED)
+if(PHP_EXT_MYSQLND_SHARED OR PROJECT_IS_TOP_LEVEL)
   add_library(php_ext_mysqlnd MODULE)
 else()
   add_library(php_ext_mysqlnd OBJECT)
@@ -165,6 +165,8 @@ target_sources(
         mysqlnd.h
         php_mysqlnd.h
 )
+
+target_include_directories(php_ext_mysqlnd PRIVATE ${CMAKE_CURRENT_BINARY_DIR})
 
 target_compile_definitions(php_ext_mysqlnd PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE)
 

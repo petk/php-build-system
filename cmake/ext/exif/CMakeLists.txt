@@ -30,7 +30,7 @@ project(
 include(CMakeDependentOption)
 include(FeatureSummary)
 
-option(PHP_EXT_EXIF "Enable the exif extension")
+option(PHP_EXT_EXIF "Enable the exif extension" ${PROJECT_IS_TOP_LEVEL})
 
 add_feature_info(
   "ext/exif"
@@ -41,7 +41,7 @@ add_feature_info(
 cmake_dependent_option(
   PHP_EXT_EXIF_SHARED
   "Build the exif extension as a shared library"
-  OFF
+  ${PROJECT_IS_TOP_LEVEL}
   PHP_EXT_EXIF
   OFF
 )
@@ -55,7 +55,7 @@ find_package(PHP REQUIRED)
 include(PHP/Extension)
 php_extension(exif)
 
-if(PHP_EXT_EXIF_SHARED)
+if(PHP_EXT_EXIF_SHARED OR PROJECT_IS_TOP_LEVEL)
   add_library(php_ext_exif MODULE)
 else()
   add_library(php_ext_exif OBJECT)
@@ -67,6 +67,8 @@ target_sources(
     exif.c
     exif.stub.php
 )
+
+target_include_directories(php_ext_exif PRIVATE ${CMAKE_CURRENT_BINARY_DIR})
 
 target_compile_definitions(php_ext_exif PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE)
 

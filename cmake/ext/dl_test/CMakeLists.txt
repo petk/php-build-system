@@ -25,7 +25,7 @@ project(
 
 include(FeatureSummary)
 
-option(PHP_EXT_DL_TEST "Enable the dl_test extension")
+option(PHP_EXT_DL_TEST "Enable the dl_test extension" ${PROJECT_IS_TOP_LEVEL})
 
 add_feature_info(
   "ext/dl_test"
@@ -51,6 +51,8 @@ target_sources(
     dl_test.c
     dl_test.stub.php
 )
+
+target_include_directories(php_ext_dl_test PRIVATE ${CMAKE_CURRENT_BINARY_DIR})
 
 target_compile_definitions(
   php_ext_dl_test

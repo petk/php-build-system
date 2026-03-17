@@ -187,7 +187,7 @@ include(CMakeDependentOption)
 include(CMakePushCheckState)
 include(FeatureSummary)
 
-option(PHP_EXT_ODBC "Enable the odbc extension")
+option(PHP_EXT_ODBC "Enable the odbc extension" ${PROJECT_IS_TOP_LEVEL})
 add_feature_info(
   "ext/odbc"
   PHP_EXT_ODBC
@@ -197,7 +197,7 @@ add_feature_info(
 cmake_dependent_option(
   PHP_EXT_ODBC_SHARED
   "Build the odbc extension as a shared library"
-  OFF
+  ${PROJECT_IS_TOP_LEVEL}
   PHP_EXT_ODBC
   OFF
 )
@@ -261,7 +261,7 @@ find_package(PHP REQUIRED)
 include(PHP/Extension)
 php_extension(odbc)
 
-if(PHP_EXT_ODBC_SHARED)
+if(PHP_EXT_ODBC_SHARED OR PROJECT_IS_TOP_LEVEL)
   add_library(php_ext_odbc MODULE)
 else()
   add_library(php_ext_odbc OBJECT)
@@ -274,6 +274,8 @@ target_sources(
     odbc.stub.php
     php_odbc.c
 )
+
+target_include_directories(php_ext_odbc PRIVATE ${CMAKE_CURRENT_BINARY_DIR})
 
 target_compile_definitions(php_ext_odbc PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE)
 

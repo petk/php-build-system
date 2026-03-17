@@ -48,7 +48,7 @@ add_feature_info(
 cmake_dependent_option(
   PHP_EXT_XML_SHARED
   "Build the xml extension as a shared library"
-  OFF
+  ${PROJECT_IS_TOP_LEVEL}
   PHP_EXT_XML
   OFF
 )
@@ -76,7 +76,7 @@ find_package(PHP REQUIRED)
 include(PHP/Extension)
 php_extension(xml)
 
-if(PHP_EXT_XML_SHARED)
+if(PHP_EXT_XML_SHARED OR PROJECT_IS_TOP_LEVEL)
   add_library(php_ext_xml MODULE)
 else()
   add_library(php_ext_xml OBJECT)
@@ -93,6 +93,8 @@ target_sources(
         expat_compat.h
         php_xml.h
 )
+
+target_include_directories(php_ext_xml PRIVATE ${CMAKE_CURRENT_BINARY_DIR})
 
 target_compile_definitions(php_ext_xml PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE)
 

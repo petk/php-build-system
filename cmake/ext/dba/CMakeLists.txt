@@ -112,7 +112,7 @@ project(
 include(CMakeDependentOption)
 include(FeatureSummary)
 
-option(PHP_EXT_DBA "Enable the dba extension")
+option(PHP_EXT_DBA "Enable the dba extension" ${PROJECT_IS_TOP_LEVEL})
 add_feature_info(
   "ext/dba"
   PHP_EXT_DBA
@@ -122,7 +122,7 @@ add_feature_info(
 cmake_dependent_option(
   PHP_EXT_DBA_SHARED
   "Build the dba extension as a shared library"
-  OFF
+  ${PROJECT_IS_TOP_LEVEL}
   PHP_EXT_DBA
   OFF
 )
@@ -294,7 +294,7 @@ find_package(PHP REQUIRED)
 include(PHP/Extension)
 php_extension(dba)
 
-if(PHP_EXT_DBA_SHARED)
+if(PHP_EXT_DBA_SHARED OR PROJECT_IS_TOP_LEVEL)
   add_library(php_ext_dba MODULE)
 else()
   add_library(php_ext_dba OBJECT)
@@ -306,6 +306,8 @@ target_sources(
     dba.c
     dba.stub.php
 )
+
+target_include_directories(php_ext_dba PRIVATE ${CMAKE_CURRENT_BINARY_DIR})
 
 target_compile_definitions(php_ext_dba PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE)
 

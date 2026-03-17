@@ -39,7 +39,7 @@ add_feature_info(
 cmake_dependent_option(
   PHP_EXT_XMLREADER_SHARED
   "Build the xmlreader extension as a shared library"
-  OFF
+  ${PROJECT_IS_TOP_LEVEL}
   PHP_EXT_XMLREADER
   OFF
 )
@@ -53,7 +53,7 @@ find_package(PHP REQUIRED)
 include(PHP/Extension)
 php_extension(xmlreader)
 
-if(PHP_EXT_XMLREADER_SHARED)
+if(PHP_EXT_XMLREADER_SHARED OR PROJECT_IS_TOP_LEVEL)
   add_library(php_ext_xmlreader MODULE)
 else()
   add_library(php_ext_xmlreader OBJECT)
@@ -65,6 +65,8 @@ target_sources(
     php_xmlreader.c
     php_xmlreader.stub.php
 )
+
+target_include_directories(php_ext_xmlreader PRIVATE ${CMAKE_CURRENT_BINARY_DIR})
 
 target_compile_definitions(
   php_ext_xmlreader

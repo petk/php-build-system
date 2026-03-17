@@ -41,7 +41,7 @@ add_feature_info(
 cmake_dependent_option(
   PHP_EXT_FILTER_SHARED
   "Build the filter extension as a shared library"
-  OFF
+  ${PROJECT_IS_TOP_LEVEL}
   PHP_EXT_FILTER
   OFF
 )
@@ -55,7 +55,7 @@ find_package(PHP REQUIRED)
 include(PHP/Extension)
 php_extension(filter)
 
-if(PHP_EXT_FILTER_SHARED)
+if(PHP_EXT_FILTER_SHARED OR PROJECT_IS_TOP_LEVEL)
   add_library(php_ext_filter MODULE)
 else()
   add_library(php_ext_filter OBJECT)
@@ -74,6 +74,8 @@ target_sources(
       FILES
         php_filter.h
 )
+
+target_include_directories(php_ext_filter PRIVATE ${CMAKE_CURRENT_BINARY_DIR})
 
 target_compile_definitions(php_ext_filter PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE)
 

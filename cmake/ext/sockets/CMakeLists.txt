@@ -35,7 +35,7 @@ include(CMakeDependentOption)
 include(CMakePushCheckState)
 include(FeatureSummary)
 
-option(PHP_EXT_SOCKETS "Enable the sockets extension")
+option(PHP_EXT_SOCKETS "Enable the sockets extension" ${PROJECT_IS_TOP_LEVEL})
 
 add_feature_info(
   "ext/sockets"
@@ -46,7 +46,7 @@ add_feature_info(
 cmake_dependent_option(
   PHP_EXT_SOCKETS_SHARED
   "Build the sockets extension as a shared library"
-  OFF
+  ${PROJECT_IS_TOP_LEVEL}
   PHP_EXT_SOCKETS
   OFF
 )
@@ -60,7 +60,7 @@ find_package(PHP REQUIRED)
 include(PHP/Extension)
 php_extension(sockets)
 
-if(PHP_EXT_SOCKETS_SHARED)
+if(PHP_EXT_SOCKETS_SHARED OR PROJECT_IS_TOP_LEVEL)
   add_library(php_ext_sockets MODULE)
 else()
   add_library(php_ext_sockets OBJECT)
@@ -81,6 +81,8 @@ target_sources(
         php_sockets.h
         $<$<PLATFORM_ID:Windows>:${CMAKE_CURRENT_SOURCE_DIR}/windows_common.h>
 )
+
+target_include_directories(php_ext_sockets PRIVATE ${CMAKE_CURRENT_BINARY_DIR})
 
 target_compile_definitions(
   php_ext_sockets

@@ -42,7 +42,7 @@ add_feature_info(
 cmake_dependent_option(
   PHP_EXT_DOM_SHARED
   "Build the dom extension as a shared library"
-  OFF
+  ${PROJECT_IS_TOP_LEVEL}
   PHP_EXT_DOM
   OFF
 )
@@ -56,7 +56,7 @@ find_package(PHP REQUIRED)
 include(PHP/Extension)
 php_extension(dom)
 
-if(PHP_EXT_DOM_SHARED)
+if(PHP_EXT_DOM_SHARED OR PROJECT_IS_TOP_LEVEL)
   add_library(php_ext_dom MODULE)
 else()
   add_library(php_ext_dom OBJECT)

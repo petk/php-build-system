@@ -49,6 +49,11 @@ function(_php_stubs_get_php_command result)
       set(${result} ${php_executable})
       return(PROPAGATE ${result})
     endif()
+
+    # When building standalone extension and tokenizer is missing stop here.
+    if(TARGET PHP::Interpreter)
+      return(PROPAGATE ${result})
+    endif()
   endif()
 
   if(NOT CMAKE_CROSSCOMPILING)

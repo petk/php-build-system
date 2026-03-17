@@ -61,7 +61,7 @@ project(
 include(CMakeDependentOption)
 include(FeatureSummary)
 
-option(PHP_EXT_ZLIB "Enable the zlib extension")
+option(PHP_EXT_ZLIB "Enable the zlib extension" ${PROJECT_IS_TOP_LEVEL})
 
 add_feature_info(
   "ext/zlib"
@@ -72,7 +72,7 @@ add_feature_info(
 cmake_dependent_option(
   PHP_EXT_ZLIB_SHARED
   "Build the zlib extension as a shared library"
-  OFF
+  ${PROJECT_IS_TOP_LEVEL}
   PHP_EXT_ZLIB
   OFF
 )
@@ -86,7 +86,7 @@ find_package(PHP REQUIRED)
 include(PHP/Extension)
 php_extension(zlib)
 
-if(PHP_EXT_ZLIB_SHARED)
+if(PHP_EXT_ZLIB_SHARED OR PROJECT_IS_TOP_LEVEL)
   add_library(php_ext_zlib MODULE)
 else()
   add_library(php_ext_zlib OBJECT)
@@ -100,6 +100,8 @@ target_sources(
     zlib.c
     zlib.stub.php
 )
+
+target_include_directories(php_ext_zlib PRIVATE ${CMAKE_CURRENT_BINARY_DIR})
 
 get_target_property(type php_ext_zlib TYPE)
 if(
