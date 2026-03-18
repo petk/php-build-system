@@ -57,7 +57,7 @@ jobs:
         run: |
           normalizer.cmake -- \
             --set normalize_indent_style=false \
-            --set normalize_cmake_minimum_required=4.2...4.3 \
+            --set normalize_cmake_minimum_required=4.3...4.4 \
             -j
 
       - name: Run ShellCheck

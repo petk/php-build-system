@@ -124,7 +124,7 @@ function(_php_testing_post_configure)
   string(
     CONFIGURE
     [[
-      cmake_minimum_required(VERSION 4.2...4.3)
+      cmake_minimum_required(VERSION 4.3...4.4)
 
       # Configure PHP CGI SAPI that some tests require.
       if(NOT DEFINED ENV{TEST_PHP_CGI_EXECUTABLE} AND EXISTS "@php_cgi@")

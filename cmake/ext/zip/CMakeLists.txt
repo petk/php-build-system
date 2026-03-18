@@ -20,7 +20,7 @@ Enables the extension.
 Builds extension as shared.
 #]=============================================================================]
 
-cmake_minimum_required(VERSION 4.2...4.3)
+cmake_minimum_required(VERSION 4.3...4.4)
 
 project(
   PHP_EXT_ZIP

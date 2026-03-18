@@ -55,14 +55,14 @@ See build system documentation for available PHP configuration variables and
 further information.
 #]=============================================================================]
 
-cmake_minimum_required(VERSION 4.2...4.3)
+cmake_minimum_required(VERSION 4.3...4.4)
 
 include(cmake/cmake/modules/PHP/Internal/DisableInSourceBuilds.cmake)
 
 project(
   PhpBuildSystem
   VERSION 8.5
-  #SPDX_LICENSE ""
+  SPDX_LICENSE ""
   DESCRIPTION "CMake-based PHP build system"
   HOMEPAGE_URL "https://github.com/petk/php-build-system"
   LANGUAGES NONE
