@@ -23,7 +23,7 @@ Adding libmbfl with add_subdirectory():
   add_subdirectory(libmbfl)
 #]=============================================================================]
 
-cmake_minimum_required(VERSION 4.2...4.3)
+cmake_minimum_required(VERSION 4.3...4.4)
 
 if(NOT libmbfl_NAMESPACE)
   set(libmbfl_NAMESPACE "libmbfl")
@@ -35,7 +35,7 @@ endif()
 
 project(
   ${libmbfl_PROJECT_NAME}
-  #SPDX_LICENSE "LGPL-2.1-only"
+  SPDX_LICENSE "LGPL-2.1-only"
   DESCRIPTION "Streamable multibyte character code filter and converter library"
   HOMEPAGE_URL "https://github.com/moriyoshi/libmbfl"
   LANGUAGES C

@@ -328,7 +328,7 @@ function(php_add_command)
     CONFIGURE
     OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/CMakeFiles/PHP/AddCommand/RunCommand.cmake
     CONTENT [=[
-      cmake_minimum_required(VERSION 4.2...4.3)
+      cmake_minimum_required(VERSION 4.3...4.4)
 
       if(NOT CMAKE_SCRIPT_MODE_FILE OR NOT PHP_EXECUTABLE OR NOT PHP_COMMAND)
         return()

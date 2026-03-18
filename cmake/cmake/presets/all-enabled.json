@@ -1,6 +1,6 @@
 {
   "$schema": "https://cmake.org/cmake/help/latest/_downloads/3e2d73bff478d88a7de0de736ba5e361/schema.json",
-  "version": 10,
+  "version": 11,
   "$comment": "Configurations with all PHP extensions and SAPIs enabled",
   "configurePresets": [
     {
@@ -10,7 +10,6 @@
       "binaryDir": "${sourceDir}/php-build/all-enabled",
       "installDir": "/tmp",
       "cacheVariables": {
-        "PHP_ENABLE_CMAKE_EXPERIMENTAL_FEATURES": true,
         "PHP_PEAR": true,
 
         "PHP_EXT_BCMATH": true,
@@ -153,6 +152,9 @@
       "output": {
         "shortProgress": true,
         "verbosity": "verbose"
+      },
+      "execution": {
+          "jobs": 0
       }
     },
     {

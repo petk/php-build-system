@@ -21,13 +21,13 @@ Builds extension as shared.
 # CMakeLists.txt file for the PHP %EXTNAME% extension.
 
 # Set minimum required CMake version.
-cmake_minimum_required(VERSION 4.2...4.3)
+cmake_minimum_required(VERSION 4.3...4.4)
 
 # Define the PHP extension project and its metadata.
 project(
   PHP_EXT_%EXTNAMECAPS%
   VERSION 0.1.0
-  #SPDX_LICENSE ""
+  SPDX_LICENSE ""
   DESCRIPTION "Describe the extension"
   HOMEPAGE_URL "https://example.org"
   LANGUAGES C
