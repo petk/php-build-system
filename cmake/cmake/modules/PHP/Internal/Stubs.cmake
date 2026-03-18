@@ -153,7 +153,7 @@ block()
 
   # Create a script for processing PHP stub sources.
   string(CONFIGURE [=[
-    cmake_minimum_required(VERSION 4.2...4.3)
+    cmake_minimum_required(VERSION 4.3...4.4)
 
     if(NOT CMAKE_SCRIPT_MODE_FILE)
       message(FATAL_ERROR "This is a command-line script.")
