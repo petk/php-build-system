@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 4.2...4.3)
+cmake_minimum_required(VERSION 4.3...4.4)
 
 message(STATUS "Initializing PHP build system")
 message(STATUS "=============================")
@@ -18,7 +18,7 @@ include(PHP/Core/Version)
 project(
   PHP
   VERSION ${PHP_VERSION}
-  #SPDX_LICENSE "PHP-3.01"
+  SPDX_LICENSE "PHP-3.01"
   DESCRIPTION "Widely-used general-purpose scripting language"
   HOMEPAGE_URL "https://www.php.net"
   LANGUAGES C
@@ -90,7 +90,7 @@ target_compile_definitions(
 
 # Warn about the '--prefix' option at the 'cmake --install' phase.
 string(CONFIGURE [[
-  cmake_minimum_required(VERSION 4.2...4.3)
+  cmake_minimum_required(VERSION 4.3...4.4)
 
   if(NOT "@CMAKE_INSTALL_PREFIX@" PATH_EQUAL "$<INSTALL_PREFIX>")
     message(
@@ -314,53 +314,31 @@ install(
   PATTERN "FindPHP.cmake" EXCLUDE
 )
 
-# Ensure extension directory is created in case no shared extensions are
-# installed. See also: https://gitlab.kitware.com/cmake/cmake/-/issues/27568
-if(CMAKE_VERSION VERSION_LESS 4.3)
-  install(
-    CODE
-      "file(
-        MAKE_DIRECTORY
-        \"\$ENV{DESTDIR}\$<INSTALL_PREFIX>/${PHP_EXTENSION_DIR}\"
-      )"
-    COMPONENT php-development
-  )
-else()
-  install(
-    DIRECTORY
-    DESTINATION ${PHP_EXTENSION_DIR}
-    COMPONENT php-development
-  )
-endif()
+# Ensure empty extension directory is created even when no shared extensions are
+# installed.
+install(
+  DIRECTORY
+  DESTINATION ${PHP_EXTENSION_DIR}
+  COMPONENT php-development
+)
+
+# Ensure empty sysconf directory is created even when no configuration files are
+# installed.
+install(
+  DIRECTORY
+  DESTINATION ${PHP_INSTALL_SYSCONFDIR}
+  COMPONENT php-development
+)
 
 if(PHP_ENABLE_CMAKE_EXPERIMENTAL_FEATURES)
-  if(CMAKE_VERSION VERSION_LESS 4.3)
-    set(
-      CMAKE_EXPERIMENTAL_EXPORT_PACKAGE_INFO
-      "b80be207-778e-46ba-8080-b23bba22639e"
-    )
-  endif()
-
-  if(CMAKE_VERSION VERSION_GREATER_EQUAL 4.3)
-    set(
-      CMAKE_EXPERIMENTAL_GENERATE_SBOM
-      "ca494ed3-b261-4205-a01f-603c95e4cae0"
-    )
-  endif()
-endif()
-
-if(
-  CMAKE_VERSION VERSION_GREATER_EQUAL 4.3
-  OR CMAKE_EXPERIMENTAL_EXPORT_PACKAGE_INFO
-)
   install(
     PACKAGE_INFO PHP
     EXPORT php_development_export
     DESTINATION ${PHP_INSTALL_CPS_DIR}
   )
-endif()
 
-if(CMAKE_EXPERIMENTAL_GENERATE_SBOM)
+  set(CMAKE_EXPERIMENTAL_GENERATE_SBOM "ca494ed3-b261-4205-a01f-603c95e4cae0")
+
   install(
     SBOM PHP
     EXPORT php_development_export

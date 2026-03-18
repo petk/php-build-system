@@ -141,7 +141,7 @@ if(CMAKE_VERSION VERSION_LESS @CMAKE_MINIMUM_REQUIRED_VERSION@)
   return()
 endif()
 
-cmake_minimum_required(VERSION 4.2...4.3)
+cmake_minimum_required(VERSION 4.3...4.4)
 
 ################################################################################
 # Generated initialization code.

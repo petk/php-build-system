@@ -13,12 +13,12 @@ info.
 # Create a user-friendly not-found message for unsupported CMake versions.
 ################################################################################
 
-if(CMAKE_VERSION VERSION_LESS 4.2)
+if(CMAKE_VERSION VERSION_LESS 4.3)
   string(
     CONCAT
     ${CMAKE_FIND_PACKAGE_NAME}_NOT_FOUND_MESSAGE
     "${CMAKE_FIND_PACKAGE_NAME} ${${CMAKE_FIND_PACKAGE_NAME}_VERSION} requires "
-    "CMake 4.2 or higher.\n"
+    "CMake 4.3 or higher.\n"
     "You are running CMake version ${CMAKE_VERSION}"
   )
 
@@ -27,7 +27,7 @@ if(CMAKE_VERSION VERSION_LESS 4.2)
   return()
 endif()
 
-cmake_minimum_required(VERSION 4.2...4.3)
+cmake_minimum_required(VERSION 4.3...4.4)
 
 # No components given, look for default components.
 if(NOT ${CMAKE_FIND_PACKAGE_NAME}_FIND_COMPONENTS)

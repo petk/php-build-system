@@ -29,7 +29,7 @@ add_subdirectory(lib)
 ```
 #]=============================================================================]
 
-cmake_minimum_required(VERSION 4.2...4.3)
+cmake_minimum_required(VERSION 4.3...4.4)
 
 if(NOT TIMELIB_NAMESPACE)
   set(TIMELIB_NAMESPACE "TIMELIB")
@@ -52,7 +52,7 @@ endblock()
 project(
   ${TIMELIB_NAMESPACE}
   VERSION ${${TIMELIB_NAMESPACE}_VERSION}
-  #SPDX_LICENSE "MIT"
+  SPDX_LICENSE "MIT"
   DESCRIPTION "Timezone and date/time library"
   HOMEPAGE_URL "https://github.com/derickr/timelib"
   LANGUAGES C
