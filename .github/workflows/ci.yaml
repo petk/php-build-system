@@ -235,3 +235,24 @@ jobs:
             echo "extension=${extension}" | sudo tee -a /etc/php/php.ini
             cd ..
           done
+
+  configure-command:
+    runs-on: ubuntu-latest
+    name: PHP without configure command in phpinfo
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+        with:
+          fetch-depth: 2
+
+      - uses: ./.github/actions/setup
+
+      - name: Install CMake and Ninja
+        uses: lukka/get-cmake@latest
+        id: cmake-and-ninja
+
+      - name: Build and test PHP
+        run: |
+          cmake --preset all-disabled -DPHP_CONFIGURE_COMMAND=OFF
+          cmake --build --preset all-disabled
+          ctest --preset all-disabled -R PhpTestConfigureCommand
