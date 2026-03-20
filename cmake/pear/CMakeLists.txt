@@ -106,8 +106,11 @@ message(
   "pear.php.net website."
 )
 
+# Add PHP command-line options for shared dependent extensions.
+set(php_pear_options -d extension_dir=${PHP_BINARY_DIR}/modules/$<CONFIG>)
+
 # Check PEAR dependencies.
-block()
+block(PROPAGATE php_pear_options)
   if(NOT TARGET PHP::sapi::cli)
     message(
       FATAL_ERROR
@@ -122,12 +125,18 @@ block()
       xml     # For installer, pear and pecl commands to work
   )
     string(TOUPPER ${extension} extension_upper)
-    if(NOT PHP_EXT_${extension_upper})
+    if(NOT TARGET PHP::ext::${extension})
       message(
         FATAL_ERROR
         "The 'PHP_PEAR' option requires PHP extension ${extension}. Please, "
         "set 'PHP_EXT_${extension_upper}' to 'ON'."
       )
+    endif()
+
+    get_target_property(type PHP::ext::${extension} TYPE)
+
+    if(type STREQUAL "MODULE_LIBRARY")
+      list(APPEND php_pear_options -d extension=${extension})
     endif()
   endforeach()
 endblock()
@@ -146,9 +155,7 @@ string(CONFIGURE [[
   set(php_pear_current_binary_dir "@CMAKE_CURRENT_BINARY_DIR@")
   set(php_pear_php_executable "@php_executable@")
   set(php_pear_extension_dir "$<PATH:ABSOLUTE_PATH,NORMALIZE,@PHP_EXTENSION_DIR@,${CMAKE_INSTALL_PREFIX}>")
-  set(PHP_EXT_OPENSSL_SHARED "@PHP_EXT_OPENSSL_SHARED@")
-  set(PHP_EXT_XML_SHARED "@PHP_EXT_XML_SHARED@")
-  set(PHP_BINARY_DIR @PHP_BINARY_DIR@)
+  set(php_pear_options "@php_pear_options@")
   set(CMAKE_SYSTEM_NAME "@CMAKE_SYSTEM_NAME@")
   set(PHP_PEAR_TEMP_DIR "@PHP_PEAR_TEMP_DIR@")
   set(php_pear_installed_php_bin "${php_pear_install_bin_dir}/$<TARGET_FILE_NAME:PHP::sapi::cli>")

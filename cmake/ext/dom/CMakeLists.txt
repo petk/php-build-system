@@ -94,6 +94,8 @@ target_sources(
         xml_common.h
 )
 
+target_include_directories(php_ext_dom PRIVATE ${CMAKE_CURRENT_BINARY_DIR})
+
 target_compile_definitions(
   php_ext_dom
   PRIVATE
@@ -111,7 +113,11 @@ set_package_properties(
 
 target_link_libraries(php_ext_dom PRIVATE LibXml2::LibXml2)
 
-add_dependencies(php_ext_dom php_ext_libxml php_ext_random)
+set_property(
+  TARGET php_ext_dom
+  APPEND
+  PROPERTY PHP_REQUIRED_EXTENSIONS libxml random
+)
 
 set(HAVE_DOM TRUE)
 

@@ -159,7 +159,11 @@ target_sources(
     pdo_odbc.stub.php
 )
 
-add_dependencies(php_ext_pdo_odbc php_ext_pdo)
+set_property(
+  TARGET php_ext_pdo_odbc
+  APPEND
+  PROPERTY PHP_REQUIRED_EXTENSIONS pdo
+)
 
 target_include_directories(
   php_ext_pdo_odbc

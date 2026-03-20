@@ -107,11 +107,17 @@ target_compile_definitions(
     ZEND_ENABLE_STATIC_TSRMLS_CACHE
 )
 
-add_dependencies(
-  php_ext_session
-  php_ext_date
-  php_ext_random
-  php_ext_spl # Optional dependency for spl autoloading https://bugs.php.net/53141
+set_property(
+  TARGET php_ext_session
+  APPEND
+  PROPERTY PHP_REQUIRED_EXTENSIONS date random
+)
+
+# Optional dependency for spl autoloading https://bugs.php.net/53141.
+set_property(
+  TARGET php_ext_session
+  APPEND
+  PROPERTY PHP_OPTIONAL_EXTENSIONS spl
 )
 
 # Check whether pread() and pwrite() work.

@@ -74,9 +74,11 @@ target_compile_definitions(php_ext_exif PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE)
 
 # Exif extension optionally depends on the mbstring extension when decoding
 # multibyte data in EXIF tags.
-if(PHP_EXT_MBSTRING)
-  add_dependencies(php_ext_exif php_ext_mbstring)
-endif()
+set_property(
+  TARGET php_ext_exif
+  APPEND
+  PROPERTY PHP_OPTIONAL_EXTENSIONS mbstring
+)
 
 set(HAVE_EXIF TRUE)
 

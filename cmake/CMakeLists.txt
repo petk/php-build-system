@@ -115,12 +115,6 @@ install(CODE "${code}" ALL_COMPONENTS)
 
 define_property(
   TARGET
-  PROPERTY PHP_CLI
-  BRIEF_DOCS "Whether the PHP SAPI or extension is CLI-based"
-)
-
-define_property(
-  TARGET
   PROPERTY PHP_SAPI_FASTCGI
   BRIEF_DOCS "Whether the PHP SAPI is FastCGI-based"
 )

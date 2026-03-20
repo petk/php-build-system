@@ -94,11 +94,17 @@ set_package_properties(
 
 target_link_libraries(php_ext_soap PRIVATE LibXml2::LibXml2)
 
-add_dependencies(php_ext_soap php_ext_hash php_ext_libxml php_ext_random)
+set_property(
+  TARGET php_ext_soap
+  APPEND
+  PROPERTY PHP_REQUIRED_EXTENSIONS hash libxml random
+)
 
-if(PHP_EXT_SESSION)
-  add_dependencies(php_ext_soap php_ext_session)
-endif()
+set_property(
+  TARGET php_ext_soap
+  APPEND
+  PROPERTY PHP_OPTIONAL_EXTENSIONS session
+)
 
 set(HAVE_PHP_SOAP TRUE)
 set(HAVE_SOAP TRUE)

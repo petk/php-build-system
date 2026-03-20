@@ -75,7 +75,11 @@ target_sources(
     pdo_firebird.c
 )
 
-add_dependencies(php_ext_pdo_firebird php_ext_pdo)
+set_property(
+  TARGET php_ext_pdo_firebird
+  APPEND
+  PROPERTY PHP_REQUIRED_EXTENSIONS pdo
+)
 
 target_include_directories(
   php_ext_pdo_firebird
